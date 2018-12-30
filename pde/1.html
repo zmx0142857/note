@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>方程的导出</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>引入</h2>
+
+<p>	全书主要围绕三个方程:
+	<span class="formula">
+		波动方程 (弦振动方程) `(del^2 u)/(del t^2) - a^2 Delta u = f`<br/>
+		扩散方程 (热传导方程) `(del u)/(del t) - a^2 Delta u = f`<br/>
+		位势方程 `-Delta u = f`
+	</span>
+</p>
+
+<h2>弦振动方程——动量守恒</h2>
+
+<h3>物理模型</h3>
+<p>一均匀细弦在拉紧后离开平衡位置,
+在垂直于弦线的外力作用下作微小横振动, 求不同时刻弦线的形状.</p>
+
+<h3>解释</h3>
+
+<table>
+	<tr>
+		<td>弦</td>
+		<td>要充分柔软, 只抗伸长, 不抗弯曲</td>
+	</tr>
+	<tr>
+		<td>均匀</td>
+		<td>线密度为常数</td>
+	</tr>
+	<tr>
+		<td>细</td>
+		<td>长度远大于直径</td>
+	</tr>
+	<tr>
+		<td>横振动</td>
+		<td>运动发生在同一平面内, 各点位移与平衡位置垂直</td>
+	</tr>
+	<tr>
+		<td>微小</td>
+		<td>弦上一点切线与平衡位置的夹角 `alpha &#8810; 1`, `sin alpha ~
+			tan alpha`. 沿弦张力为常数.
+		</td>
+	</tr>
+</table>
+
+<h3>记号</h3>
+
+<table>
+	<tr>
+		<td>时刻</td>
+		<td>`t in [t_1, t_2]`</td>
+	</tr>
+	<tr>
+		<td>弦上一点</td>
+		<td>`x in [a, b]`</td>
+	</tr>
+	<tr>
+		<td>位移</td>
+		<td>`u(x,t), x in (0, l), t in (0, +oo)`</td>
+	</tr>
+	<tr>
+		<td>线密度</td>
+		<td>`rho = "const"`</td>
+	</tr>
+	<tr>
+		<td>垂直强迫外力密度</td>
+		<td>`f_0(x, t)`</td>
+	</tr>
+	<tr>
+		<td>沿弦张力</td>
+		<td>`T_0 = "const"`</td>
+	</tr>
+</table>
+
+<h3>动量守恒</h3>
+
+<span class="formula">
+	动量`{::}_(t_2)`  - 动量`{::}_(t_1)` = 冲量`{::}_("["t_1, t_2"]")`
+</span>
+
+<h3>推导</h3>
+<p>	利用垂直平衡位置方向上的动量守恒, 有
+	<span class="formula">
+		`int_a^b [rho (del u)/(del t)]_(t_1)^(t_2) dx`
+		`- int_(t_1)^(t_2) [T_0 (del u)/(del x)]_a^b dt`
+		`= int_(t_1)^(t_2) dt int_a^b f_0 dx`.
+		(积分形式)
+	</span>
+	若在 `(0, l) times (0, +oo)` 上, `(del^2 u)/(del t^2)` 和 `(del^2
+	u)/(del x^2)` 存在且连续, 则由被积函数的连续性与积分区域的任意性,
+	积分方程化为
+	<span class="formula">
+		`rho (del^2 u)/(del t^2) - T_0 (del^2 u)/(del x^2) = f_0`,
+	</span>
+	即
+	<span class="formula">
+		`(del^2 u)/(del t^2) - a^2 (del^2 u)/(del x^2) = f(x, t)`,<br/>
+		`x in (0, l)`, `t in (0, +oo)`
+		(微分形式)
+	</span>
+</p>
+
+<h3>定解条件</h3>
+
+<h4>初始条件</h4>
+
+<p>	
+	<span class="formula">
+		`{
+			(u|_(t=0) = varphi(x)),
+			(u_t|_(t=0) = psi(x))
+		:}, x in [0, l]`.
+	</span>
+</p>
+
+<h4>边界条件</h4>
+
+<ol>
+	<li>Dirichlet 条件 `{
+		(u|_(x=0) = g_1(t)),
+		(u|_(x=l) = g_2(t))
+		:}`, `t in [0, +oo)`.<br/>
+		`g_1(t) = g_2(t) = 0` 时, 称弦线具有<b>固定端</b>.
+	</li>
+	<li>Newmann 条件 `{
+		(u_x|_(x=0) = g_1(t)),
+		(u_x|_(x=l) = g_2(t))
+		:}`, `t in [0, +oo)`.<br/>
+		`g_1(t) = g_2(t) = 0` 时, 称弦线具有<b>自由端</b>.
+	</li>
+	<li>Robin 条件 `{
+		([beta_1 u_x + alpha_1 u]_(x=0) = g_1(t)),
+		([beta_2 u_x + alpha_2 u]_(x=l) = g_2(t))
+		:}`, `t in [0, +oo)`.
+	</li>
+</ol>
+
+<p>	由初始条件和任一边界条件连同微分方程, 组成一个<b>混合问题</b>.
+	若边界的影响忽略不计, 则可以认为弦长无穷, 这时 `x in (-oo, +oo)`, 
+	由初始条件和微分方程组成一个<b>初值问题</b> (<b>Cauchy 问题</b>).
+	类似可定义<b>半无界问题</b> (`x in [0, +oo)`).
+</p>
+
+<h2>热传导方程——能量守恒</h2>
+
+<h3>物理模型</h3>
+
+<p>	考虑三维空间中一均匀, 各向同性的物体, 假定它内部有热源,
+	并与周围发生热交换, 研究物体内部温度的分布与变化.
+</p>
+
+<h3>记号</h3>
+
+<table>
+	<tr>
+		<td>时刻</td>
+		<td>`t in [t_1, t_2]`</td>
+	</tr>
+	<tr>
+		<td>小块物体</td>
+		<td>`D sube Omega`</td>
+	</tr>
+	<tr>
+		<td>温度</td>
+		<td>`u(x, y, z, t)`</td>
+	</tr>
+	<tr>
+		<td>比热容 `("J"*"kg"^-1*"K"^-1)`</td>
+		<td>`c = "const"`</td>
+	</tr>
+	<tr>
+		<td>密度</td>
+		<td>`rho = "const"`</td>
+	</tr>
+	<tr>
+		<td>热流密度 `("W"*"m"^-2)`</td>
+		<td>`bm q = -k grad u` (Fourier's law)</td>
+	</tr>
+	<tr>
+		<td>热源强度 `("J"*"kg"^-1*"s"^-1)`</td>
+		<td>`f_0(x, y, z, t)`</td>
+	</tr>
+	<tr>
+		<td>`del D` 上的小块面积</td>
+		<td>`"d" sigma`</td>
+	</tr>
+	<tr>
+		<td>`del D` 的单位外法向量</td>
+		<td>`bm n`</td>
+	</tr>
+</table>
+
+<h3>能量守恒</h3>
+
+<span class="formula">
+	能量`{::}_(t_2)`  - 能量`{::}_(t_1)` = 通过边界 `del D`
+	流入的热量`{::}_("["t_1, t_2"]")` + `D` 中热源生成的热量`{::}_("["t_1,
+	t_2"]")`.
+</span>
+
+<h3>推导</h3>
+
+<p>	由能量守恒有
+	<span class="formula">
+		` iiint_D [c rho u]_(t_1)^(t_2) dx dy dz
+		= -int_(t_1)^(t_2) dt oiint_(del D) bm q * bm n "d" sigma
+		  +int_(t_1)^(t_2) dt iiint_D rho f_0 dx dy dz`,
+	</span>
+	(负号表示与外法向 `bm n` 相反),
+	再由 `bm q = -k grad u` 得
+	`-bm q * bm n = k grad u * bm n = k (del u)/(del bm n)`, 即
+	<span class="formula">
+		` iiint_D [c rho u]_(t_1)^(t_2) dx dy dz
+		- int_(t_1)^(t_2) dt oiint_(del D) k (del u)/(del bm n) "d"sigma
+		= int_(t_1)^(t_2) dt iiint_D rho f_0 dx dy dz`. (积分形式)
+	</span>
+	设在 `Omega xx (0,+oo)` 内 `(del u)/(del t)`, `(del^2 u)/{:del x:}^2`,
+	`(del^2 u)/{:del y:}^2`, `(del^2 u)/{:del z:}^2` 存在且连续, 则由
+	Gauss 公式
+	<span class="formula">
+		`oiint_(del D) (del u)/(del bm n) "d"sigma = iiint_D Delta u dx dy
+		dz`
+	</span>
+	以及被积函数连续性与积分区域的任意性, 方程化为 `c rho (del u)/(del t)
+	- k Delta u = rho f_0`, 即
+	<span class="formula">
+		`(del u)/(del t) - a^2 Delta u = f(x, y, z, t)` (微分形式)
+	</span>
+</p>
+
+<h3>定解条件</h3>
+
+<h4>初始条件</h4>
+
+<span class="formula">
+	`u|_(t=0) = varphi(x, y, z)`, `(x, y, z) in bar Omega`.
+</span>
+
+<h4>边界条件</h4>
+
+<ol>
+	<li>`u|_((x,y,z) in del Omega) = g(x,y,z,t)`<br/>
+		`g` 为常数时, 称边界<b>恒温</b>.
+	</li>
+	<li>`k (del u)/(del bm n)|_((x,y,z) in del Omega) = g(x,y,z,t)`<br/>
+		`g ge 0` 为流入, `g le 0` 为流出, `g -= 0` 表示物体<b>绝热</b>.
+	</li>
+	<li>`(del u)/(del bm n) + alpha u|_((x,y,z) in del Omega) =
+		g(x,y,z,t)`.
+	</li>
+</ol>
+
+<h2>连续性方程——质量守恒</h2>
+
+<h3>物理模型: 流体的运动 (满足质量守恒)</h3>
+
+<h3>记号</h3>
+
+<table>
+	<tr>
+		<td>小块区域</td>
+		<td>`D sube Omega`</td>
+	</tr>
+	<tr>
+		<td>时刻</td>
+		<td>`t in [t_1, t_2]`</td>
+	</tr>
+	<tr>
+		<td>密度</td>
+		<td>`rho`</td>
+	</tr>
+	<tr>
+		<td>速度</td>
+		<td>`bm v`</td>
+	</tr>
+	<tr>
+		<td>表面小块</td>
+		<td>`"d"sigma sube del D`</td>
+	</tr>
+	<tr>
+		<td>单位外法向量</td>
+		<td>`bm n`</td>
+	</tr>
+</table>
+
+<h3>质量守恒定律</h3>
+
+<span class="formula">
+	质量`{::}_(t_2)`  - 质量`{::}_(t_1)` = 流入质量 `{::}_("["t_1,
+	t_2"]")` + 生成质量`{::}_("["t_1, t_2"]")`.
+</span>
+
+<h3>推导</h3>
+
+<p>	假设流体在 `Omega` 内无源 (汇), 则右端第二项为 0. 由质量守恒定律:
+	<span class="formula">
+		` iiint_D [rho]_(t_1)^(t_2) dx dy dz
+		= -int_(t_1)^(t_2) dt oiint_(del D) rho bm v * bm n "d"sigma`
+	</span>
+	(负号表示与 `bm n` 反向). 设 `rho, bm v` 连续可微, 由 Gauss 公式,
+	<span class="formula">
+		` int_(t_1)^(t_2) dt iiint_D (del rho)/(del t) dx dy dz
+		= -int_(t_1)^(t_2) dt iiint_D grad * (rho bm v) dx dy dz`,
+	</span>
+	即
+	<span class="formula">
+		`int_(t_1)^(t_2) dt iiint_D ((del rho)/(del t) + grad * (rho bm
+		v)) dx dy dz = 0`. (积分形式)
+	</span>
+	由被积函数在 `Omega` 内连续和积分区域的任意性, 得
+	<span class="formula">
+		`(del rho)/(del t) + grad * (rho bm v) = 0`,
+		`Omega xx (0, oo)`. (微分形式)
+	</span>
+</p>
+
+<h3>定解条件</h3>
+
+<p>	将在第 4 章讨论.</p>
+
+<h2>方程的特例</h2>
+
+<ol class="enum">
+	<li>波动方程中, 考虑外力作用下处于平衡状态 (与时间 `t` 无关) 的膜,
+		由惯性力 `rho (del^2 u)/({:del t:}^2 = 0` 得
+		<span class="formula">
+			`-a^2 Delta u = f(x_1, x_2)`.
+		</span>
+		称为 <b>Poisson 方程</b>. 当 `f -= 0` 时称为 <b>Laplace 方程</b>.
+	</li>
+	<li>热传导方程中, 如果物体内部的温度趋于稳定, 即 `(del u)/(del t) =
+		0`, 此时温度场 `u(x,y,z)` 与 `t` 无关:
+		<span class="formula">
+			`-a^2 Delta u = f(x,y,z)`, `(x,y,z) in Omega`.
+		</span>
+		仍得到 Poisson 方程.
+	</li>
+	<li>连续性方程中
+		<ol>
+			<li>`bm v` 为常向量时, 得到一阶 pde:
+				<span class="formula">
+					`(del rho)/(del t) + bm v * grad rho = 0`.
+				</span>
+			</li>
+			<li>流体不可压缩, 即 `rho` 为常数时:
+				<span class="formula">
+					`grad * bm v = 0`.
+				</span>
+				此方程反映了流体无源.
+			</li>
+			<li>流体不可压缩且无旋时, 存在势函数 `varphi`, 使 `bm v = grad
+				varphi`, 从而
+				<span class="formula">
+					`Delta varphi = grad * grad varphi = grad * bm v = 0`,
+				</span>
+				即 `varphi` 适合 Laplace 方程.
+			</li>
+		</ol>
+	</li>
+</ol>
+
+<h2>变分问题: 泛函数的极值问题</h2>
+
+<p>	设 `Omega sube RR^2`, 定义
+	<span class="formula">
+		`C_0^oo(Omega) = { f in C^oo(Omega): f|_(del Omega) = 0}`.
+	</span>
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

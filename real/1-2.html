@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>集合的运算</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>基本运算</h2>
+
+<p> 无穷并/交
+	<span class="formula">
+		`uuu_(alpha in I) A_alpha := {x: EE alpha in I, x in A_alpha}`
+		<br/>
+		`nnn_(alpha in I) A_alpha := {x: AA alpha in I, x in A_alpha}`
+	</span>
+	分配律
+	<span class="formula">
+		`A nn (uuu_(alpha in I) B_alpha) = uuu_(alpha in I)(A nn B_alpha)`
+		<br/>
+		`A uu (nnn_(alpha in I) B_alpha) = nnn_(alpha in I)(A uu B_alpha)`
+	</span>
+	蕴含式
+	<span class="formula">
+		`AA alpha in I, A_alpha sube B
+		iff uuu_(alpha in I) A_alpha sube B`<br/>
+		`AA alpha in I, B sube A_alpha
+		iff B sube nnn_(alpha in I) A_alpha`<br/>
+	</span>
+</p>
+
+<p>	补集: 若 `A, B sube X`, 这时简记 `X \\ A` 为 `A^C`
+	<span class="formula">
+		`(A^C)^C = A`<br/>
+		`A \\ B = A nn B^C`<br/>
+		`A = (A nn B) uu (A \\ B)`<br/>
+		`A sube B rArr B^C sube A^C`<br/>
+		`A nn B = O/ iff A sube B^C`<br/>
+		`A \\ B = O/ iff A sube B`
+	</span>
+	De. Morgan 法则
+	<span class="formula">
+		`(uuu_(alpha in I) A_alpha)^C = nnn_(alpha in I) A_alpha^C`,`quad`
+		`(nnn_(alpha in I) A_alpha)^C = uuu_(alpha in I) A_alpha^C`;<br/>
+		`E\\(uuu_(alpha in I) A_alpha) = nnn_(alpha in I) (E\\A_alpha)`,
+		`quad`
+		`E\\(nnn_(alpha in I) A_alpha) = uuu_(alpha in I) (E\\A_alpha)`.
+	</span>
+	对称差
+	<span class="formula">
+		`A triangle B := (A \\ B) uu (B \\ A) = (A uu B) \\ (A nn B)`<br/>
+		`A triangle C = B triangle C iff A = B`<br/>
+		`A nn C = B nn C and A uu C = B uu C iff A = B`
+	</span>
+</p>
+
+<p>	集合的基数 (势): `|X|`.<br/>
+	对有限集合而言, 基数就是集合中元素的个数. 无限集的基数详见
+	<a href="1-2.html">映射与基数</a>.
+</p>
+
+<p>	幂集: 由 `X` 的一切子集形成的集合
+	<span class="formula">
+		`cc"P"(X) = 2^X = {A: A sube X}`.
+	</span>
+	`A in cc"P"(X) iff A sube X`. 注意区分幂集与 `uuu_(A in X) A`.
+	采用 `2^X` 这样的记号是因为, 若 `|X| = n`, 则 `|2^X| = 2^n`.
+</p>
+
+<h2>集合列</h2>
+
+<p>	递增集合列 `{A_k}` 的极限 `lim_(k to oo) A_k := uuu_(k=1)^oo A_k`;
+   <br/>
+	递减集合列 `{B_k}` 的极限 `lim_(k to oo) B_k := nnn_(k=1)^oo B_k`.
+</p>
+
+<p>	任一集合列 `{A_k}` 的上极限
+	<span class="formula">
+		`underset(k to oo)(bar lim) A_k := nnn_(i=1)^oo uuu_(k=i)^oo A_k
+		= {x: AA i in NN, EE k ge i, x in A_k}`;
+	</span>
+	下极限
+	<span class="formula">
+		`underset(k to oo)(ul lim) A_k := uuu_(i=1)^oo nnn_(k=i)^oo A_k
+		= {x: EE i in NN, AA k ge i, x in A_k}`.
+	</span>
+	从谓词式易知
+	`underset(k to oo)(ul lim) A_k sube underset(k to oo)(bar lim) A_k`.
+	当上, 下极限相等时, 定义 `A_k` 的极限为它的上极限或下极限.
+</p>
+
+
+<p class="note">
+	试比较数列的上极限和下极限
+	<span class="formula">
+		`underset(k to oo)(bar lim) x_k
+		= underset(i in NN)"inf"\ underset(k ge i)"sup"\ x_k`,`quad`
+		`underset(k to oo)(ul lim) x_k
+		= underset(i in NN)"sup"\ underset(k ge i)"inf"\ x_k`.
+	</span>
+	下面的符号存在着 "翻译" 的关系:
+	<span class="formula">
+		`uu iff EE iff "sup"`, `quad`
+		`nn iff AA iff "inf"`.
+	</span>
+</p>
+
+<p>	由 De. Morgan 法则,
+	<span class="formula">
+		`E \\ underset(k to oo)(bar lim) A_k
+		= underset(k to oo)(ul lim)(E \\ A_k)`<br/>
+		`E \\ underset(k to oo)(ul lim) A_k
+		= underset(k to oo)(bar lim)(E \\ A_k)`
+	</span>
+</p>
+
+<p>	若 `A_k sube B_k`, `k = 1, 2, cdots`, 则
+	<span class="formula">
+		`uuu_(k=1)^oo A_k sube uuu_(k=1)^oo B_k`, `quad`
+		`nnn_(k=1)^oo A_k sube nnn_(k=1)^oo B_k`;<br/>
+		`underset(k to oo)(bar lim) A_k
+		sube underset(k to oo)(bar lim) B_k`, `quad`
+		`underset(k to oo)(ul lim) A_k
+		sube underset(k to oo)(ul lim) B_k`.
+	</span>
+</p>
+
+<h2>切割值域</h2>
+
+<p>	设 `{f_n(x)}` 在可测集 E 上有定义, `t in RR`. 注意, 这里取定 x 的值后,
+	`f_n(x)` 实际被视为一个数列. 简记 `{x in E: ...}` 为 `{x: ...}`, 有
+	<ol>
+		<li>`{x: underset(n ge 1)"sup" \ f_n(x) gt t}
+			= uuu_(n=1)^oo {x: f_n(x) gt t}`;
+		</li>
+		<li>`{x: underset(n ge 1)"inf" \ f_n(x) lt t}
+			= uuu_(n=1)^oo {x: f_n(x) lt t}`;
+		</li>
+		<li>`{x: underset(n ge 1)"sup" \ f_n(x) lt t}
+			= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) le t-1/k}`;
+		</li>
+		<li>`{x: underset(n ge 1)"inf" \ f_n(x) gt t}
+			= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) ge t+1/k}`;
+		</li>
+		<li>`{x: underset(n to oo)(bar lim) f_n(x) gt t}
+			= uuu_(k=1)^oo underset(n to oo)(bar lim)
+			{x: f_n(x) ge t + 1/k}`;
+		</li>
+		<li>`{x: underset(n to oo)(ul lim) f_n(x) lt t}
+			= uuu_(k=1)^oo underset(n to oo)(bar lim)
+			{x: f_n(x) le t - 1/k}`;
+		</li>
+		<li>`{x: underset(n to oo)(bar lim) f_n(x) lt t}
+			= uuu_(k=1)^oo underset(n to oo)(ul lim)
+			{x: f_n(x) le t - 1/k}`;
+		</li>
+		<li>`{x: underset(n to oo)(ul lim) f_n(x) gt t}
+			= uuu_(k=1)^oo underset(n to oo)(ul lim)
+			{x: f_n(x) ge t + 1/k}`.
+		</li>
+	</ol>
+	<ol class="prove">
+		<li>记 `g(x) = underset(n ge 1)"sup" \ f_n(x)`,
+			则对 `AA x in` 右, `AA n in NN`, `g(x) ge f_n(x) gt t`.
+			故左 &supe; 右;<br/>
+			另一方面, `AA x in` 左, `AA epsi gt 0`, `EE n_epsi in NN`,
+			`f_(n_epsi)(x) gt g(x) - epsi`.
+			取 `epsi = g(x) - t`, 就有 `x in` 右, 故左 &sube; 右.
+		</li>
+		<li>可以参考 1 的证明, 但也可以由 `underset(n ge 1)"inf" \ f_n(x)
+			= -underset(n ge 1)"sup" \ (-f_n(x))`, 有
+			<span class="formula">`{:(
+			左		,= {x: -underset(n ge 1)"sup"\ (-f_n(x)) lt t}
+			),(		,= {x: underset(n ge 1)"sup"\ (-f_n(x)) gt -t}
+			),(		,= uuu_(n=1)^oo {x: -f_n(x) gt -t}
+					= 右.
+			):}`</span>
+		</li>
+		<li> 如下
+			<span class="formula">`{:(
+			左		,= E \\ {x: underset(n ge 1)"sup"\ f_n(x) ge t}
+			),(		,= E \\ nnn_(k=1)^oo
+						{x: underset(n ge 1)"sup"\ f_n(x) gt t - 1/k}
+			),(		,= E \\ nnn_(k=1)^oo uuu_(n=1)^oo {x: f_n(x) gt t-1/k}
+					= 右.
+			):}`</span>
+		</li>
+		<li>类似 2 的证明.</li>
+		<li>如下
+			<span class="formula">`{:(
+			左		,= {x: underset(m ge 1)"inf"\ underset(n ge m)"sup"
+						\ f_n(x) gt t}
+			),(		,= uuu_(k=1)^oo nnn_(m=1)^oo
+						{x: underset(n ge m)"sup"\ f_n(x) ge t + 1/k}
+			),(		,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo
+						{x: underset(n ge m)"sup"\ f_n(x) lt t + 1/k}
+			),(		,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo uuu_(j=1)^oo
+						nnn_(n=m)^oo {x: f_n(x) le t + 1/k - 1/j}
+			),(		,= uuu_(k=1)^oo nnn_(j=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
+						{x: f_n(x) gt t + 1/k - 1/j}
+			),(		,= uuu_(k=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
+						{x: f_n(x) ge t + 1/k} = 右.
+			):}`</span>
+		</li>
+	</ol>
+</p>
+
+<p>	作为上面等式的一个应用, 设 `f_n(x)` 渐升
+	(即, 对每个给定的 x, `{f_n(x)}` 是单调递增数列)
+	趋于 `f(x)`, 则对 `AA t in RR`, `{x: f_n(x) gt t}` 是递增集合列, 且
+	<span class="formula">
+		`lim_(n to oo) {x: f_n(x) gt t}`
+		`= uuu_(n=1)^oo {x: f_x(x) gt t}`
+		`= {x: underset(n in NN)"sup"\ f_n(x) gt t}`
+		`= {x: f(x) gt t}`.
+	</span>
+	即对于渐升函数列 `f_n(x)` 有
+	<span class="formula">
+		`lim_(n to oo) {x: f_n(x) gt t} = {x: lim_(n to oo) f_n(x) gt t}`.
+	</span>
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

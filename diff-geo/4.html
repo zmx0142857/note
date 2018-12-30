@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>标架与曲面论基本定理</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>活动标架</h2>
+
+<h3>向量场, 活动标架</h3>
+
+<p class="definition">
+	设 `S: bm r(u,v)` 是 `E^3` 的曲面. 称 `bm x(u,v)` 是 `S`
+	上的光滑<b>向量场</b>, 如果对任意一点 `bm r(u, v) in S`, `bm x(u, v)`
+	是从该点出发的一个向量, 并且 `bm x(u,v)` 光滑地依赖于参数 `(u,v)`.
+	对任意 `(u, v)`, 当 `bm x(u, v)` 是 `S` 在 `bm r(u, v)` 的切向量时,
+	称为<b>切向量场</b>; 当 `bm x(u, v)` 是 `S` 在 `bm r(u,v)`
+	的法向量时, 称为<b>法向量场</b>. 例如, `bm r_u, bm r_v` 是切向量场,
+	`bm n` 是法向量场 (视它们为 `(u,v)` 的函数).
+</p>
+
+<p class="definition">
+	称坐标系
+	<span class="formula">
+		`{bm r(u,v); bm x_1(u,v), bm x_2(u,v), bm x_3(u,v)}`,
+		`(bm x_1, bm x_2, bm x_3) != bb 0`, `AA (u,v) in D`
+	</span>
+	为曲面 `S` 上的<b>活动标架</b>. 一般要求 `(x_1, x_2, x_3) gt 0`
+	以保证这组标架为正定向的. 特别当 `{bm x_1, bm x_2, bm x_3}`
+	为单位正交标架时, 称为曲面 `S` 的<b>正交活动标架</b>,
+	简称<b>正交标架</b>. `{bm r(u,v); bm r_u, bm r_v, bm n}`
+	是活动标架的一个例子, 称为<b>自然标架</b>.
+</p>
+
+<h2>自然标架的运动方程</h2>
+
+<h3>张量记号</h3>
+
+<span class="formula">
+	`u^1 = u`, `u^2 = v`;<br/>
+	`bm r_alpha = (del bm r)/(del u^alpha)`, `alpha = 1, 2`;<br/>
+	`bm r_(alpha beta) = (del^2 bm r)/(del u^alpha del u^beta)`,
+	`alpha, beta = 1, 2`;<br/>
+	`bm n = (bm r_1 ^^ bm r_2)/|bm r_1 ^^ bm r_2|`;<br/>
+	`g_(alpha beta) = (:bm r_alpha, bm r_beta:)`, `alpha,beta = 1,2`;<br/>
+	`b_(alpha beta) = (:bm r_(alpha beta), bm n:) = -(:bm r_alpha, bm
+	n_beta:)`, `alpha,beta = 1,2`;<br/>
+</span>
+
+<p>	在这些记号下, `(g_(alpha beta)) = [(E,F),(F,G)]`, `(b_(alpha beta)) =
+	[(L,M),(M,N)]`, 且 `g_(alpha beta) = g_(beta alpha)`, `b_(alpha beta)
+	= b_(beta alpha)`. 我们又记
+	<span class="formula">
+		`(g^(alpha beta)) = (g_(alpha beta))^-1`,<br/>
+		`b_alpha^beta = b_(alpha gamma) g^(gamma beta)`,<br/>
+		`(delta_alpha^beta) = bm E`.
+	</span>
+	即 `g^(alpha beta)` 是 `(g_(alpha beta))` 的逆矩阵相应位置的元素,
+	`(b_alpha^beta)` 是 Weingarten 变换在 `bm r_u, bm r_v` 下的矩阵,
+	`delta_alpha^beta` 是 Kroneker 符号.
+	我们有 `g^(alpha beta) = g^(beta alpha)`, 但一般 `b_alpha^beta !=
+	b_beta^alpha`.
+</p>
+
+<h3>Einstein 求和约定</h3>
+
+<p>	在一个单项式中, 若一个指标字母 (如 `alpha`) 作为上标和下标各出现一次,
+	则该式表示对 `alpha = 1, 2` 的求和式;
+	上下指标多对重复出现就表示该式是多重求和式. 如
+	<span class="formula">
+		`"d"bm r = bm r_1 "d"u^1 + bm r_2 "d"u^2 = bm r_alpha "d"u^alpha`,
+		<br/>
+		`"I" = g_(11)"d"u^1"d"u^1 + 2g_(12)"d"u^1"d"u^2 +
+		g_(22)"d"u^2"d"u^2 = g_(alpha beta)"d"u^alpha"d"u^beta`,<br/>
+		`"II" = b_(11)"d"u^1"d"u^1 + 2b_(12)"d"u^1"d"u^2 +
+		b_(22)"d"u^2"d"u^2 = b_(alpha beta)"d"u^alpha"d"u^beta`.
+	</span>
+</p>
+
+<h3>自然标架的运动方程</h3>
+
+<p>	下面用待定系数法推导曲面 `S` 自然标架 `{bm r; bm r_1, bm r_2, bm n}`
+	的运动方程.
+</p>
+
+<p class="collapse">
+	设
+	<span class="formula">
+		`(del bm r_alpha)/(del u^beta) = bm r_(alpha beta) = Gamma_(alpha
+		beta)^gamma bm r_(gamma) + C_(alpha beta) bm n`,
+		<span class="label">(4-1)</span>
+	</span>
+	<span class="formula">
+		`(del bm n)/(del u^alpha) = bm n_alpha = D_alpha^beta bm r_beta +
+		D_alpha bm n`.
+		<span class="label">(4-2)</span>
+	</span>
+	(4-1) 两边与 `bm n` 作内积得
+	<span class="formula">
+		`C_(alpha beta) = (:bm r_(alpha beta), bm n:) = b_(alpha beta)`.
+	</span>
+	(4-2) 两边与 `bm n` 作内积得
+	<span class="formula">
+		`D_alpha = (:bm n_alpha, bm n:) = 0`.
+	</span>
+	(4-2) 两边与 `bm r_gamma` 作内积得
+	<span class="formula">
+		`D_alpha^beta (:bm r_beta, bm r_gamma:) = (:bm n_alpha, bm
+		r_gamma:) = -b_(alpha gamma)`.
+	</span>
+	上式两边同乘 `g^(gamma xi)`, 并对 `gamma` 求和, 有
+	<span class="formula">
+		` D_alpha^xi
+		= D_alpha^beta delta_beta^xi
+		= D_alpha^beta g_(beta gamma) g^(gamma xi)
+		= -b_(alpha gamma) g^(gamma xi)
+		= -b_alpha^xi`.
+	</span>
+	最后, 分别对 `g_(alpha beta)`, `g_(alpha gamma)`, `g_(beta gamma)`
+	求偏导有
+	<span class="formula">
+		`(del g_(alpha beta))/(del u^gamma)
+		= (:bm r_(alpha gamma), bm r_beta:)
+		+ (:bm r_(beta gamma), bm r_alpha:)`,<br/>
+		`(del g_(alpha gamma))/(del u^beta)
+		= (:bm r_(alpha beta), bm r_gamma:)
+		+ (:bm r_(gamma beta), bm r_alpha:)`,<br/>
+		`(del g_(beta gamma))/(del u^alpha)
+		= (:bm r_(beta alpha), bm r_gamma:)
+		+ (:bm r_(gamma alpha), bm r_beta:)`.
+	</span>
+	后两式相加, 减去第一式得
+	<span class="formula">
+		`(:bm r_(alpha beta), bm r_gamma:) = 1/2 (
+			(del g_(alpha gamma))/(del u^beta)
+		+	(del g_(beta gamma))/(del u^alpha)
+		-	(del g_(alpha beta))/(del u^gamma) ).
+	</span>
+	现在 (4-1) 两边与 `bm r_xi` 作内积得
+	<span class="formula">
+		`Gamma_(alpha beta)^gamma g_(gamma xi) = (:bm r_(alpha beta), bm
+		r_xi:)`,
+	</span>
+	于是
+	<span class="formula">
+		` Gamma_(alpha beta)^gamma
+		= Gamma_(alpha beta)^eta delta_eta^gamma
+		= Gamma_(alpha beta)^eta g_(eta xi) g^(xi gamma)
+		= (:bm r_(alpha beta), bm r_xi:) g^(xi gamma)`
+		`= 1/2 g^(xi gamma)(
+			(del g_(alpha xi))/(del u^beta)
+		+	(del g_(beta xi))/(del u^alpha)
+		-	(del g_(alpha beta))/(del u^xi) ).
+		<span class="label">(4-3)</span>
+	</span>
+	称 `Gamma_(alpha beta)^gamma` 为 <b>(第一类) Christoffel 符号</b>,
+	它由曲面第一基本形式的系数及其偏导数完全决定.
+	又称
+	<span class="formula">
+		` Gamma_(xi alpha beta) = Gamma_(alpha beta)^gamma g_(gamma xi)
+		= (:bm r_(alpha beta), bm r_xi:)`
+		`= 1/2 (
+			(del g_(alpha xi))/(del u^beta)
+		+	(del g_(beta xi))/(del u^alpha)
+		-	(del g_(alpha beta))/(del u^xi) )
+	</span>
+	为曲面的<b>第二类 Christoffel 符号</b>.
+	由上述表达式可以看出第一, 二类 Christoffel 符号都关于 `alpha, beta`
+	对称.
+</p>
+
+<p>	现在我们得到了<b>自然标架的运动方程</b>:
+	<span class="formula">`{(
+		(del bm r)/(del u^alpha) = bm r_alpha,
+		quad alpha = 1","2;
+	),(	(del bm r_alpha)/(del u^beta)
+		= Gamma_(alpha beta)^gamma bm r_gamma + b_(alpha beta) bm n,
+		quad alpha"," beta = 1"," 2;
+	),(	(del bm n)/(del u^alpha) = -b_alpha^beta bm r_beta,
+		quad alpha = 1"," 2.
+	):}`</span>
+	可以看到, 自然标架的运动由第一, 第二基本形式的系数完全决定.
+</p>
+
+<h3>Christoffel 符号的表达式</h3>
+
+<p>	由 (4-3) 式:
+	<span class="formula">
+		` Gamma_(alpha beta)^gamma
+		= 1/2 g^(xi gamma)(
+			(del g_(alpha xi))/(del u^beta)
+		+	(del g_(beta xi))/(del u^alpha)
+		-	(del g_(alpha beta))/(del u^xi) )`
+	</span>
+	可以求出
+	<span class="formula">
+		` [(Gamma_11^1, Gamma_12^1), (Gamma_21^1, Gamma_22^1)]
+		= 1/(2(EG-F^2)) [(G E_u + F E_v - 2F F_u, G E_v - F E_v),
+		  (G E_v - F E_v, 2G F_v - G G_u - F G_v)]`
+		`overset ** =
+		  1/2 [((ln E)_u, (ln E)_v), ((ln E)_v, -G_u//E)]`,<br/>
+
+		` [(Gamma_11^2, Gamma_12^2), (Gamma_21^2, Gamma_22^2)]
+		= 1/(2(EG-F^2)) [(2E F_u - F E_u - E E_v, E G_u - F E_v),
+		  (E G_u - F E_v, F G_u + E G_v - 2F F_v)]`
+		`overset ** =
+		  1/2 [(-E_v//G, (ln G)_u), ((ln G)_u, (ln G)_v)]`.
+	</span>
+	其中当 `(u,v)` 是曲面的正交参数 (即 `F -= 0`) 时, `overset ** =` 成立.
+</p>
+
+<p class="example">
+	单位球面在球极投影参数下
+	<span class="formula">
+		` [(E, F), (F, G)] = 4/(1+u^2+v^2) bm E`,<br/>
+		  `[(Gamma_11^1, Gamma_12^1), (Gamma_21^1, Gamma_22^1)]
+		= 2/(1+u^2+v^2) [(-u,-v),(-v,u)]`,<br/>
+		  `[(Gamma_11^2, Gamma_12^2), (Gamma_21^2, Gamma_22^2)]
+	    = 2/(1+u^2+v^2) [(v,-u),(-u,-v)]`.
+	</span>
+</p>
+
+<h2>曲面的结构方程 (Gauss-Codazzi)</h2>
+
+<h3>方程的推导</h3>
+
+<p>	根据二阶连续可微函数的二阶偏导数可交换次序, 有
+	<span class="formula">
+		`bm r_(alpha beta) = bm r_(beta alpha)`,
+		<span class="label">(4-4)</span>
+	</span>
+	<span class="formula">
+		`bm r_(alpha beta gamma) = bm r_(alpha gamma beta)`,
+		<span class="label">(4-5)</span>
+	</span>
+	<span class="formula">
+		`bm n_(alpha beta) = bm n_(beta alpha)`.
+		<span class="label">(4-6)</span>
+	</span>
+</p>
+
+<p>	先看 (4-4). 联系自然标架的运动方程, 它等价于 `Gamma_(alpha beta)`,
+	`b_(alpha beta)` 关于 `alpha, beta` 对称.
+</p>
+
+<p>	再看 (4-5). 因为
+	<span class="formula">
+		`  bm r_(alpha beta gamma)
+		=  del/(del u^gamma)
+		   (Gamma_(alpha beta)^xi bm r_xi + b_(alpha beta) bm n)`
+		`= (del Gamma_(alpha beta)^xi)/(del u^gamma) bm r_xi
+		   + Gamma_(alpha beta)^xi bm r_(xi gamma)
+		   + (del b_(alpha beta))/(del u^gamma) bm n
+		   + b_(alpha beta) (del bm n)/(del u^gamma)`
+		`= (del Gamma_(alpha beta)^xi)/(del u^gamma) bm r_xi
+		   + Gamma_(alpha beta)^xi
+		     (Gamma_(xi gamma)^eta bm r_eta + b_(xi gamma) bm n)
+		   + (del b_(alpha beta))/(del u^gamma) bm n
+		   + b_(alpha beta) (-b_gamma^xi bm r_xi)`
+		`= (
+		     ( del Gamma_(alpha beta)^xi)/(del u^gamma)
+			 + Gamma_(alpha beta)^eta Gamma_(eta gamma)^xi
+			 - b_(alpha beta) b_gamma^xi ) bm r_xi
+		   + ( Gamma_(alpha beta)^xi b_(xi gamma)
+		     + (del b_(alpha beta))/(del u^gamma) ) bm n`,
+	</span>
+	而由 (4-5) 知上式左边关于 `beta, gamma` 对称, 所以上式右边也是如此.
+	利用 `bm r_1, bm r_2, bm n` 线性无关得到
+
+	<span class="formula">
+		(Gauss)
+		` (del Gamma_(alpha beta)^xi)/(del u^gamma)
+		- (del Gamma_(alpha gamma)^xi)/(del u^beta)
+		+ Gamma_(alpha beta)^eta Gamma_(eta gamma)^xi
+		- Gamma_(alpha gamma)^eta Gamma_(eta beta)^xi
+		- b_(alpha beta) b_gamma^xi
+		+ b_(alpha gamma) b_beta^xi = 0`,<br/>
+		(Codazzi)
+		` (del b_(alpha beta))/(del u^gamma)
+		- (del b_(alpha gamma))/(del u^beta)
+		+ Gamma_(alpha beta)^xi b_(xi gamma)
+		- Gamma_(alpha gamma)^xi b_(xi beta = 0`.
+	</span>
+</p>
+
+<p>	最后看 (4-6). 我们有
+	<span class="formula">
+		` bm n_(beta gamma)
+		= del/(del u^gamma) (b_beta^xi bm r_xi)
+		= (del b_beta^xi)/(del u^gamma) bm r_xi
+		  + b_beta^xi(Gamma_(xi gamma)^eta bm r_eta + b_(xi gamma) bm n)`
+		`= ( (del b_beta^xi)/(del u^gamma)
+		  + b_beta^eta Gamma_(eta gamma)^xi ) bm r_xi
+		  + b_beta^xi b_(xi gamma) bm n`.
+	</span>
+	同样由上式对 `beta, gamma` 对称有
+	<span class="formula">
+		` (del b_beta^xi)/(del u^gamma)
+		- (del b_gamma^xi)/(del u^beta) = 
+		- b_beta^eta Gamma_(eta gamma)^xi
+		+ b_gamma^eta Gamma_(eta beta)^xi`.
+	</span>
+	(由于 `(g^(eta xi))` 是对称矩阵,
+	`b_beta^xi b_(xi gamma) = b_(beta eta) g^(eta xi) b_(xi gamma)` 关于
+	`beta, gamma` 对称是显然的). 可以证明上式与 Codazzi 方程是等价的.
+</p>
+
+<h3>Gauss-Codazzi 方程中的独立方程</h3>
+
+<p>	由于 `alpha, beta, gamma, xi = 1, 2`, Gauss 方程共有 16 个, Codazzi
+	方程共 8 个. 不过实质上 Gauss 方程只有 1 个独立方程, Codazzi 方程只有
+	2 个独立方程. 为说明这一点, 引进如下 <b>Riemann 记号</b>:
+	<span class="formula">
+		` R_(delta alpha beta gamma) = g_(delta xi) (
+	      (del Gamma_(alpha beta)^xi)/(del u^gamma)
+	    - (del Gamma_(alpha gamma)^xi)/(del u^beta)
+	    + Gamma_(alpha beta)^eta Gamma_(eta gamma)^xi
+		- Gamma_(alpha gamma)^eta Gamma_(eta beta)^xi )`
+	</span>
+	因为
+	<span class="formula">
+		` (del Gamma_(delta alpha beta))/(del u^gamma)
+		= 1/2 del/(del u^gamma) (
+		    (del g_(alpha delta))/(del u^beta)
+		  + (del g_(beta delta))/(del u^alpha)
+		  - (del g_(alpha beta))/(del u^delta)
+		  )`
+		` Gamma_(delta eta gamma) - (del g_(delta eta))/(del u^gamma)
+		= 1/2 (
+		  - (del g_(eta delta))/(del u^gamma)
+		  + (del g_(gamma delta))/(del u^eta)
+		  - (del g_(eta gamma))/(del u^delta)
+		  )
+		= -Gamma_(eta delta gamma)`,
+	</span>
+	所以
+	<span class="formula">
+		` R_(delta alpha beta gamma)`
+		`=   (del Gamma_(delta alpha beta))/(del u^gamma)
+		   - (del Gamma_(delta alpha gamma))/(del u^beta)
+		   - (del g_(delta eta))/(del u^gamma) Gamma_(alpha beta)^eta
+		   + (del g_(delta eta))/(del u^beta) Gamma_(alpha gamma)^eta
+		   + Gamma_(alpha beta)^eta Gamma_(delta eta gamma)
+		   - Gamma_(alpha gamma)^eta Gamma_(delta eta beta)`
+		`=   (del Gamma_(delta alpha beta))/(del u^gamma)
+		   - (del Gamma_(delta alpha gamma))/(del u^beta)
+		   + Gamma_(alpha beta)^eta (
+		       Gamma_(delta eta gamma) - (del g_(delta eta))/(del u^gamma)
+			 )
+		   - Gamma_(alpha gamma)^eta (
+		       Gamma_(delta eta beta) - (del g_(delta eta))/(del u^beta)
+			 )`
+		`= 1/2 (
+		     (del^2 g_(delta beta))/(del u^gamma del u^alpha)
+		   - (del^2 g_(alpha beta))/(del u^gamma del u^delta)
+		   - (del^2 g_(delta gamma))/(del u^alpha del u^beta)
+		   + (del^2 g_(alpha gamma))/(del u^beta del u^delta)
+		   )`
+		`- Gamma_(alpha beta)^eta Gamma_(eta delta gamma)
+		 + Gamma_(alpha gamma)^eta Gamma_(eta delta beta)`.
+	</span>
+	改写 Gauss 方程为
+	<span class="formula">
+		` R_(delta alpha beta gamma) = g_(delta xi)(
+		  b_(alpha beta b_gamma^xi) - b_(alpha gamma) b_beta^xi)
+		= -(  b_(alpha gamma) b_(beta delta)
+		    - b_(alpha beta) b_(gamma delta) )`,
+		<span class="label">(4-7)</span>
+	</span>
+	可以发现, Riemann 记号满足
+	` R_(delta alpha beta gamma)
+	= R_(beta gamma delta alpha)
+	= -R_(alpha delta beta gamma)
+	= -R_(delta alpha gamma beta)`,
+	且 (4-7) 右端也满足相同性质, 因此 Gauss 方程中只有一个独立方程
+	<span class="formula">
+		`R_1212 = -(b_11 b_22 - b_12^2)`.
+	</span>
+	同样 Codazzi 方程的 `beta = gamma` 时, 为平凡等式. 于是 Codazzi
+	方程只有两个独立方程
+	<span class="formula">`{(
+		(del b_11)/(del u^2) - (del b_12)/(del u^1)
+		= b_(1 xi) Gamma_12^xi - b_(2 xi) Gamma_11^xi;
+	),(	(del b_21)/(del u^2) - (del b_22)/(del u^1)
+		= b_(1 xi) Gamma_22^xi - b_(2 xi Gamma_21^xi).
+	):}`</span>
+</p>
+
+<p>	当 `(u,v)` 为正交参数系, 即 `F -= 0` 时, Gauss 方程化简为
+	<span class="formula">
+		`-1/sqrt(EG) [(((sqrt E)_v)/sqrt G)_v + (((sqrt G)_u)/sqrt E)_u]
+		= (LN-M^2)/(EG)`,
+	</span>
+	Codazzi 方程化简为
+	<span class="formula">`{(
+		(L/sqrt E)_v - (M/sqrt E)_u - N(sqrt E)_v/G - M(sqrt G)_u/sqrt(EG)
+		= 0;
+	),(	(N/sqrt G)_u - (M/sqrt G)_v - L(sqrt G)_u/E - M(sqrt E)_v/sqrt(EG)
+		= 0.
+	):}`</span>
+</p>
+
+<h2>曲面的存在惟一性定理</h2>
+
+<p class="theorem">
+	设 `S: bm r(u^1,u^2)`, `bar S: bm r(u^1,u^2)` 是定义在同一个参数区域
+	`D` 上的两个曲面, 如果 `S` 和 `bar S` 的第一, 第二基本形式在 `D`
+	上处处相等, 则两个曲面相差一个 `E^3` 的刚体运动.
+</p>
+
+<p class="theorem">
+	设平面区域 `D` 定义了两个二次微分式
+	<span class="formula">
+		`varphi = g_(alpha beta) "d"u^alpha"d"u^beta`,<br/>
+		`psi = b_(alpha beta) "d"u^alpha"d"u^beta`,
+	</span>
+	且 `(b_(alpha beta))` 是对称阵, `(g_(alpha beta))` 是正定对称阵.
+	如果 `Gamma_(alpha beta)^gamma`, `b_(alpha beta)`, `b_beta^alpha`
+	满足 Gauss-Codazzi 方程, 则对 `D` 中任意的一点 `(u_0^1, u_0^2)`, 存在
+	一个邻域 `U sube D` 及定义在 `U` 上的曲面 `bm r(u^1, u^2)`, 使得
+	`varphi, psi` 分别为该曲面的第一, 第二基本形式.
+</p>
+
+<p class="note">
+	自然标架运动方程是一个一阶偏微分线性方程组, Gauss-Codazzi
+	方程实质上是这个方程组的可积性条件.
+</p>
+
+<h2>正交活动标架</h2>
+
+<h3>曲面正交标架运动方程</h3>
+
+<p>	引入正交活动标架通常能简化计算.</p>
+
+<p>	在曲面 `S` 各点的切平面上选取 `bm e_1, bm e_2`, 使
+	`(:bm e_i, bm e_j:) = delta_(ij)`, `i, j = 1, 2`;
+	再令 `bm e_3 = bm e_1 ^^ bm e_2`,
+	则 `{bm r; bm e_1, bm e_2, bm e_3}` 构成曲面的一个<b>正交标架</b>,
+	或<b>规范标架</b>.
+</p>
+
+<p class="definition">
+	定义参数区域 `D` 上的一阶微分形式 `omega_1, omega_2` 满足
+	`"d"bm r = omega_1 bm e_1 + omega_2 bm e_2`, 则
+	<span class="formula">
+		`omega_1 = (:"d"bm r, bm e_1:)`,
+		`omega_2 = (:"d"bm r, bm e_2:)`,<br/>
+		`"I" = (:"d"bm r, "d"bm r:) = omega_1 omega_1 + omega_2 omega_2`.
+	</span>
+	又定义一阶微分形式 `omega_(ij)` 满足
+	`"d"bm e_i = sum_(j=1)^3 omega_(ij) bm e_j`,
+	则由定理 1-3,
+	<span class="formula">
+		`omega_(ij) + omega_(ji) = 0`,<br/>
+		`"II" = -(:"d"bm r, "d"bm e_3":)
+		= -(:omega_1 bm e_1 + omega_2 bm e_2, omega_31 bm e_1 + omega_32
+		bm e_2:) = omega_1 omega_13 + omega_2 omega_23`.
+	</span>
+	称
+	<span class="formula">
+		`"d"[(bm r),(bm e_1),(bm e_2),(bm e_3)]
+		= [(omega_1, omega_2, 0),
+		   (0, omega_12, omega_13),
+		   (omega_21, 0, omega_23),
+		   (omega_31, omega_32, 0)]
+		  [(bm e_1),(bm e_2),(bm e_3)]`,
+		`(omega_(ij) + omega_(ji) = 0)`
+	</span>
+	为<b>曲面正交标架的运动方程</b>.
+</p>
+
+<p class="theorem">
+	由以上定义可以看出, 曲面的 `"I", "II"` 由正交标架运动方程的系数决定.
+	且可以证明, `"I"` 与正交标架的选取无关, `"II"`
+	与同法向的正交标架选取无关.
+</p>
+
+<h3>第一, 第二基本形式在正交标架下的矩阵</h3>
+
+<p>	由于 `bm r_u, bm r_v` 和 `bm e_1, bm e_2` 都是切平面的基, 可以设
+	<span class="formula">
+		`[(bm r_u),(bm r_v)] = bm A [(bm e_1), (bm e_2)]`, `bm A`
+		为可逆矩阵.
+	</span>
+	故
+	<span class="formula">
+		` "d"bm r
+		= ["d"u, "d"v] [(bm r_u),(bm r_v)]
+		= ["d"u, "d"v] bm A [(bm e_1),(bm e_2)]
+		= [omega_1, omega_2][(bm e_1),(bm e_2)]`,
+	</span>
+	从而
+	<span class="formula">
+		`["d"u, "d"v] bm A = [omega_1, omega_2]`,
+	</span>
+	即
+	<span class="formula">
+		`["d"u, "d"v] = [omega_1, omega_2] bm A^-1`.
+	</span>
+	我们知道, 一阶微分形式 `omega_13, omega_23` 是 `"d"u, "d"v`
+	的线性组合; 由上式, 它也可以表示为 `omega_1, omega_2` 的线性组合.
+	故可以设 2 阶方阵 `bm B = (h_(ij))^T` 满足
+	<span class="formula">
+		`[omega_13, omega_23] = [omega_1, omega_2] bm B`.
+	</span>
+</p>
+
+<p> 现在来考虑曲面的第一, 第二基本形式. 我们有
+	<span class="formula">
+		` "I"
+		= [omega_1, omega_2] [(omega_1),(omega_2)]
+		= ["d"u, "d"v] bm(A A)^T [("d"u),("d"v)]`,</br>
+		` "II"
+		= [omega_13, omega_23][(omega_1),(omega_2)]
+		= [omega_1, omega_2] bm B [(omega_1),(omega_2)]
+		= ["d"u, "d"v] bm (A B A)^T [("d"u),("d"v)]`.
+	</span>
+	联系 `"I", "II"` 的定义得
+	<span class="formula">
+		`[(E,F),(F,G)] = bm(A A)^T`,
+		`[(L,M),(M,N)] = bm(A B A)^T.
+	</span>
+</p>
+
+<p class="corollary">
+	上式重新得出了 `[(E,F),(F,G)]` 正定的结论;
+	由于对称矩阵的合同变换下保持对称, 所以 `bm B` 是对称矩阵.
+</p>
+
+<p class="corollary">
+	曲面的主曲率恰为 `bm B` 的两个特征值; 曲面的 Gauss 曲率等于 `|bm B|`;
+	曲面的平均曲率等于 `1/2 "tr"bm B`.
+</p>
+
+<h3>Weingarten 变换在正交标架下的矩阵</h3>
+
+<p>	设这一矩阵为 `bm bar B`. 因为
+	<span class="formula">
+		` [(cc W(bm r_u)), (cc W(bm r_v))]
+		= [(cc W(bm (A e_1))), (cc W(bm (A e_2)))]
+		= bm A [(cc W(bm e_1)), (cc W(bm e_2))]
+		= bm (A bar B) [(bm e_1), (bm e_2)]`,
+	</span>
+	另一方面
+	<span class="formula">
+		` [(cc W(bm r_u)), (cc W(bm r_v))]
+		= [(L,M),(M,N)] [(E,F),(F,G)]^-1 [(bm r_u),(bm r_v)]
+		= [(L,M),(M,N)] (bm (A A)^T)^-1 bm A[(bm e_1),(bm e_2)]`
+		`= [(L,M),(M,N)] (bm A^T)^-1 [(bm e_1),(bm e_2)]`,
+	</span>
+	所以
+	<span class="formula">
+		` bm bar B
+		= bm A^-1 [(L,M),(M,N)] (bm A^T)^-1
+		= bm B`.
+	</span>
+	即 `(:cc W(bm e_i), bm e_j:) = h_(ij)`.
+</p>
+
+<p class="note">
+	将
+	<span class="formula">
+		`"d"bm r = omega_1 bm e_1 + omega_2 bm e_2`,<br/>
+		`-"d"bm n = -"d"bm e_3 = omega_13 bm e_1 + omega_23 bm e_2
+		= [omega_1, omega_2] bm B [(bm e_1),(bm e_2)]`
+	</span>
+	代入 `cc W("d"bm r) = -"d"bm n`
+	计算, 也可以得到上面的结论.
+</p>
+
+<p>	当曲面没有脐点时, 特别取 `bm e_1, bm e_2` 为曲面的主方向, 有
+	<span class="formula">
+		`(:cc W(bm e_1), bm e_1:) = k_1`,
+		`(:cc W(bm e_2), bm e_2:) = k_2`,<br/>
+		`(:cc W(bm e_1), bm e_2:) = (:cc W(bm e_2), bm e_1:) = 0`,
+	</span>
+	即 `bm B` 为对角矩阵. 这时 `"II" = k_1 omega_1 omega_1 + k_2 omega_2
+	omega_2`.
+</p>
+
+<h2>正交标架下的曲面结构方程 (外微分法)</h2>
+
+<h3>外微分形式</h3>
+
+<p class="definition">
+	称平面参数区域 `D = {(u, v)}` 上的函数为<b>零阶外微分形式</b>.
+	零阶微分形式关于 `"d"u, "d"v` 的线性组合, 形如 `f"d"u + g"d"v`,
+	称为<b>一阶外微分形式</b>. 如 `"d"u`, `"d"v` 都是一阶外微分形式.
+</p>
+
+<p class="definition">
+	类似向量外积, 定义两个一阶外微分形式间的<b>外积运算</b> `^^`, 满足
+	<ol>
+		<li>线性性: `(lambda varphi + mu psi) ^^ theta
+			= lambda(varphi ^^ theta) + mu(psi ^^ theta)`;
+		</li>
+		<li>反交换律: `varphi ^^ psi =  - psi ^^ varphi`.</li>
+	</ol>
+</p>
+
+<p> 由 2 知 `theta ^^ theta = 0`; 令
+	`varphi = f_1"d"u + f_2"d"v`, `psi = g_1"d"u + g_2"d"v`, 由 1 有
+	<span class="formula">
+		`varphi ^^ psi = (f_1 g_2 - f_2 g_1) "d"u ^^ "d"v`.
+	</span>
+	可见任意两个一阶外微分形式的外积都是 `"d"u ^^ "d"v` 的倍数.
+</p>
+
+<p class="definition">
+	称形如 `f "d"u ^^ "d"v` 的微分形式为<b>二阶外微分形式</b>.
+</p>
+
+<p class="definition">
+	现在可以定义微分形式的<b>外微分运算</b> `"d"`.
+	<span class="formula">
+		` "d"f = (del f)/(del u) "d"u + (del f)/(del v) "d"v`,<br/>
+		` "d"(f"d"u+g"d"v) = "d"f ^^ "d"u + "d"g"d"v
+		= ((del g)/(del u) - (del f)/(del v)) "d"u ^^ "d"v`,<br/>
+		` "d"(f "d"u ^^ "d"v) = "d"f ^^ "d"u ^^ "d"v
+		= ((del f)/(del u) "d"u + (del f)/(del v) "d"v) ^^ "d"u ^^ "d"v
+		= 0`.
+	</span>
+</p>
+
+<p class="theorem">
+	设 `f`, `g` 是函数, `varphi` 是一阶微分形式, 则
+	<ol>
+		<li>`"d"(fg) = ("d"f)g + f("d"g)`;</li>
+		<li>`"d"(f varphi) = "d"f ^^ varphi + f "d"varphi`;</li>
+		<li>`"d"(varphi f) = "d"varphi f - varphi ^^ "d"f`;</li>
+		<li>`"d"("d"f) = 0`.</li>
+	</ol>
+</p>
+
+<h3>曲面的结构方程</h3>
+
+<p>	对正交标架的曲面运动方程第一式
+	`"d"bm r = omega_1 bm e_1 + omega_2 bm e_2` 两边求外微分,
+	<span class="formula">
+		` bb 0 = "d"(sum_(i=1)^2 omega_i bm e_i)
+		= sum_(i=1)^2 ("d"omega_i bm e_i - omega_i ^^ "d"bm e_i)
+		= sum_(i=1)^2 ("d"omega_i bm e_i - omega_i ^^ sum_(j=1)^3
+			omega_(ij) bm e_j)`
+		`=sum_(i=1)^2 "d"omega_i bm e_i - sum_(j=1)^3 sum_(i=1)^2
+			omega_i ^^ omega_(ij) bm e_j.
+	</span>
+	由 `bm e_1, bm e_2, bm e_3` 线性无关知,
+	<span class="formula">
+		`"d"omega_j = sum_(i=1)^2 omega_i ^^ omega_(ij)`, `j = 1, 2`;
+		<span class="label">(4-8)</span>
+	</span>
+	<span class="formula">
+		`0 = sum_(i=1)^2 omega_i ^^ omega_(i3).
+		<span class="label">(4-9)</span>
+	</span>
+	将 `omega_(i3) = sum_(j=1)^2 h_(ij) omega_j` 代入 (4-9), 得
+	<span class="formula">
+		` 0
+		= sum_(i=1)^2 omega_i ^^ sum_(j=1)^2 h_(ij) omega_j
+		= sum_(i=1)^2 sum_(j=1)^2 h_(ij) omega_i ^^ omega_j
+		= (h_12 - h_21) omega_1 ^^ omega_2`.
+	</span>
+	所以 `h_12 = h_21`, (4-9) 等价于矩阵 `bm B = (h_(ij))^T` 是对称的.
+	另一方面, 因为 `omega_11 = omega_22 = 0`, (4-8) 简化为
+	<span class="formula">`{(
+		"d" omega_1 = omega_2 ^^ omega_21
+	),(	"d" omega_2 = omega_1 ^^ omega_12
+	):}`.
+	<span class="label">(4-10)</span>
+	</span>
+</p>
+
+<p>	同样, 对运动方程的第二式
+	`"d"bm e_i = sum_(j=1)^3 omega_(ij) bm e_j` (`i = 1, 2, 3`) 求外微分,
+	<span class="formula">
+		` bb 0
+		= "d"(sum_(j=1)^3 omega_(ij) bm e_j)
+		= sum_(j=1)^3 ("d"omega_(ij) bm e_j - omega_(ij) ^^ "d"bm e_j)
+		= sum_(j=1)^3 ("d"omega_(ij) bm e_j
+		  - omega_(ij) ^^ sum_(k=1)^3 omega_(jk) bm e_k)`
+		`=sum_(j=1)^3 "d"omega_(ij) bm e_j
+		  - sum_(k=1)^3 sum_(j=1)^3 omega_(ij) ^^ omega_(jk) bm e_k
+		= sum_(k=1)^3 ("d"omega_(ik)
+		  - sum_(j=1)^3 omega_(ij) ^^ omega_(jk)) bm e_k`.
+	</span>
+	因此
+	<span class="formula">
+		`"d"omega_(ik) = sum_(j=1)^3 omega_(ij) ^^ omega_(jk)`,
+		`i, k = 1, 2, 3`.
+	</span>
+	由于 `omega_(ik)` 的反对称性, `i = k` 时, 上面的等式是平凡的;
+	将 `i != k` 的情形写出, 即
+	<span class="formula">
+		(Gauss) `"d"omega_12 = omega_13 ^^ omega_32`;
+		<span class="label">(4-11)</span>
+	</span>
+	<span class="formula">
+		(Codazzi) `{(
+		"d"omega_13 = omega_12 ^^ omega_23
+	),(	"d"omega_23 = omega_21 ^^ omega_13
+	):}`.
+		<span class="label">(4-12)</span>
+	</span>
+	(4-10), (4-11), (4-12) 合称为曲面<b>正交标架的结构方程式</b>,
+	它们是正交标架运动方程的可积性条件.
+</p>
+
+<p> 下面说明 (4-11) 就是 Gauss 方程, (4-12) 就是 Codazzi 方程.
+	设 `(u,v)` 是曲面的正交参数, 取 `bm e_1 = bm r_u/sqrt E`, `bm e_2 = bm
+	r_v/sqrt G`, 容易验证 `bm e_1, bm e_2` 是切平面的单位正交基.
+	此时
+	<span class="formula">
+		`bm A = [(sqrt E, 0), (0, sqrt G)]`,<br/>
+		`bm B = bm A^-1 [(L,M),(M,N)] (bm A^T)^-1
+		      = [(L//E, M//sqrt(EG)),(M//sqrt(EG),N//G)]`.
+	</span>
+	于是 `omega_1 = sqrt E "d"u`, `omega_2 = sqrt G"d"v`.
+	利用 (4-10) 有
+	<span class="formula">
+		` omega_12 ^^ omega_2 = "d"omega_1 = -(sqrt E)_v "d"u ^^ "d"v
+		= -(sqrt E)_v/sqrt G "d"u ^^ omega_2`,<br/>
+		` omega_21 ^^ omega_1 = "d"omega_2 = (sqrt G)_u "d"u ^^ "d"v
+		= -(sqrt G)_u/sqrt E "d"v ^^ omega_1`.
+	</span>
+	记 `beta = -(sqrt E)_v/sqrt G "d"u`, `gamma = (sqrt G)_u/sqrt E "d"v`,
+	由上式,
+	<span class="formula">
+		`(omega_12 - beta - gamma) ^^ omega_1 = (omega_12 - gamma) ^^
+		omega_1 = 0`,<br/>
+		`(omega_12 - beta - gamma) ^^ omega_2 = (omega_12 - beta) ^^
+		omega_2 = 0`.
+	</span>
+	但 `omega_1 ^^ omega_2 != 0`, 所以 `omega_12 - beta - gamma = 0`, 即
+	<span class="formula">
+		`omega_12 = beta + gamma = -(sqrt E)_v/sqrt G "d"u + (sqrt
+		G)_u/sqrt E "d"v`.
+	</span>
+	再利用 `[omega_13, omega_23] = [omega_1, omega_2] bm B` 得
+	<span class="formula">
+		`omega_13 = L/sqrt E "d"u + M/sqrt E "d"v`,<br/>
+		`omega_23 = M/sqrt G "d"u + N/sqrt G "d"v`.
+	</span>
+	将上述结果代入 (4-11) 计算, 就得到正交参数下的 Gauss 方程;
+	代入 (4-12), 就得到正交参数下的 Codazzi 方程.
+</p>
+
+<p class="note">
+	Gauss 方程 (4-11) 也可以写为
+	<span class="formula">
+		` "d"omega_12
+		= -sum_(i=1)^2 h_(1i) omega_i ^^ sum_(j=1)^2 h_(2j) omega_j
+		= -sum_(i=1)^2 sum_(j=1)^2 h_(1i) h_(2j) omega_i ^^ omega_j`
+		`=-(h_11 h_22 - h_12 h_21) omega_1 ^^ omega_2
+		= -K omega_1 omega_2`.
+	</span>
+</p>
+
+<h3>曲面的几何量</h3>
+
+<p>	设 `{bm r; bm e_1, bm e_2, bm e_3}` 和
+	`{bm bar r; bm bar e_1, bm bar e_2, bm bar e_3}` 是曲面的两组正交标架,
+	`{omega_1, omega_2, omega_12, omega_13, omega_23}` 和
+	`{bar omega_1, bar omega_2, bar omega_12, bar omega_13, bar omega_23}`
+	是相应的诸微分形式. 又设这两个标架间相差一个 `theta` 角的旋转, 即
+	<span class="formula">
+		`bm bar e_1 = cos theta bm e_1 + sin theta bm e_2`,<br/>
+		`bm bar e_2 = -sin theta bm e_1 + cos theta bm e_2`.
+	</span>
+	则计算知 `{bar omega_1, bar omega_2}` 与 `{omega_1, omega_2}` 之间,
+	`{bar omega_13, bar omega_23}` 与 `{omega_13, omega_23}`
+	之间均相差一个相同的旋转, 即
+	<span class="formula">
+		`bar omega_1 = cos theta omega_1 + sin theta omega_2`,<br/>
+		`bar omega_2 = -sin theta omega_1 + cos theta omega_2`;
+	</span>
+	<span class="formula">
+		`bar omega_13 = cos theta omega_13 + sin theta omega_23`,<br/>
+		`bar omega_23 = -sin theta omega_13 + cos theta omega_23`.
+	</span>
+	由此可以验证以下的量与正交标架选取无关, 它们都是曲面的几何量:
+	<ol>
+		<li>第一基本形式 `"I" = omega_1 omega_1 + omega_2 omega_2`;</li>
+		<li>第二基本形式 `"II" = omega_1 omega_13 + omega_2 omega_23`;</li>
+		<li>第三基本形式 `"III" = omega_13 omega_13 + omega_23 +
+			omega_23`;
+		</li>
+		<li>面积元 `"d"A = omega_1 ^^ omega_2`;</li>
+		<li>Gauss 映射的面积元 `"d"sigma = omega_13 ^^ omega_23 =
+			K"d"u^^"d"v`;
+		</li>
+		<li>Hopf 不变式 `psi = omega_1 omega_23 - omega_2 omega_13`.</li>
+	</ol>
+	但由 `omega_12 = (:"d"bm bar e_1, bm bar e_2:)` 计算可得,
+	<span class="formula">
+		`bar omega_12 = omega_12 + "d"theta`.
+	</span>
+	故 `omega_12` 依赖于正交标架的选取, 不是几何量.
+</p>
+
+<p class="note">
+	`omega_12` 称为<b>联络形式</b>在下一章研究曲面的内蕴几何学时,
+	还要大量讨论.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

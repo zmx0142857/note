@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>线性微分方程组</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<p>
+	<span class="formula">
+		`x' = A(t) x + f(t)`
+	</span>
+</p>
+
+<h2>常数变易公式</h2>
+
+<p>	若已知齐方程 `x' = A(t)x` 的基解矩阵 `Phi(t)`, 可设
+	`varphi(t) = Phi(t) c(t)` 是非齐方程的解, 代入得
+	<span class="formula">
+		`Phi(t) c'(t) = f(t)`.
+	</span>
+	因为 `Phi(t)` 可逆, 所以令
+	<span class="formula">
+		`c(t) = int_(t_0)^t Phi^-1(s) f(s) ds`,
+	</span>
+	就得到一个满足初值条件 `varphi(t_0) = 0` 的解. 一般地, 满足初值条件
+	`varphi(t_0) = eta` 的解为
+	<span class="formula">
+		`varphi(t) = Phi(t) Phi^-1(t_0) eta`
+					`+ Phi(t) int_(t_0)^t Phi^-1(s) f(s) ds`.
+	</span>
+</p>
+
+<h2>n 阶非齐次线性方程的常数变易公式</h2>
+
+<p>	因为
+	<span class="formula">
+		`sum_(i=0)^n a_i(t) x^((n-i)) = f(t)` (`a_0(t) = 1`),
+		`x^((i))(t_0) = eta_(i+1)`, `i = 0, 1, cdots, n-1`
+		<span class="num">5-1</span>
+	</span>
+	等价于
+	<span class="formula">
+		`x' = Ax + vec(f)(t)`, `x(t_0) = eta`,
+	</span>
+	其中 `x = (x_1, x_2, cdots, x_n)^T = (x, x', cdots, x^((n-1)))^T`,
+	`eta = (eta_1, eta_2, cdots, eta_n)^T`,
+	`A = [
+			(0, 1, 0, cdots, 0),
+			(0, 0, 1, cdots, 0),
+			(vdots, vdots, vdots, , vdots),
+			(0, 0, 0, cdots, 1),
+			(-a_n(t), -a_(n-1)(t), -a_(n-2)(t), cdots, -a_1(t))
+	]`,
+	`vec(f)(t) = [(0), (0), (vdots), (0), (f(t))]`. <br/>
+	则由线性方程组的常数变易公式知, 若 (5-1) 对应的齐方程的基本解组为
+	`x_1, x_2, cdots, x_n`, 则 (5-1) 有特解
+	<span class="formula">
+		`varphi(t) = sum_(k=1)^n x_k(t)
+					 int_(t_0)^t (W_k(s))/(W(s)) f(s) ds`,
+	</span>
+	其中
+	<span class="formula">
+		`W(s) = |
+			(x_1(s), x_2(s), cdots, x_n(s)),
+			(x_1'(s), x_2'(s), cdots, x_n'(s)),
+			(vdots, vdots, , vdots),
+			(x_1^((n-1))(s), x_2^((n-1))(s), cdots, x_n^((n-1))(s))
+		|`,<br/>
+		`W_k(s)` 是 `W(s)` 中 `x_k^((n-1))(s)` 的代数余子式.
+	</span>
+	特别当 `n = 2`, 上式化为
+	<span class="formula">
+		`varphi(t) = int_(t_0)^t
+		|(x_1(s), x_2(s)), (x_1(t), x_2(t))| /
+		|(x_1(s), x_2(s)), (x_1'(s), x_2'(s))|
+		f(s) ds`.
+	</span>
+</p>
+
+<h2>常系数线性方程组</h2>
+
+<p>
+	<span class="formula">
+		`x' = Ax`
+	</span>
+</p>
+
+<p>	此方程有基解矩阵 `exp At`. 显然 `exp A0 = E`.</p>
+
+<p>	若 `lambda` 是 `A` 的特征值, `bb"v"` 为对应的特征向量, 则
+	`e^(lambda t) bb"v"` 是一个解. 特别地, 若 `A` 有 `n`
+	个线性无关的特征向量, 对应的特征值为 `lambda_1, cdots, lambda_n`,
+	则方程有基解矩阵 `[e^(lambda_1 t) bb"v_1", cdots, e^(lambda_n t)
+	bb"v_n"]`.
+</p>
+
+<p>	若已知一个基解矩阵 `Phi(t)`, 则存在一常数矩阵 `C`, 使得
+	`exp At = Phi(t) C`, 再由 `exp A0 = E` 知 `exp At = Phi(t) Phi^-1(0)`.
+</p>
+
+<h3>利用特征子空间求 `exp At`</h3>
+
+<p>	先求方程 `x' = Ax` 满足初值条件 `varphi(0) = eta` 的解
+	`varphi(t) = (exp At) eta`.
+</p>
+
+<p>	设 `{lambda_j}_(j=1)^k` 是 `A` 的不同特征值, 重数分别为
+	`{n_j}_(j=1)^k`, 这里 `sum_(j=1)^k n_j = n`.
+	则方程组
+	<span class="formula">
+		`(A - lambda_j E)^(n_j) u = 0`
+	</span>
+	的解的全体构成 `n` 维 Euclid 空间的一个 `n_j` 维子空间 `U_j`.
+	换言之, `eta` 有直和分解
+	<span class="formula">
+		`eta = sum_(j=1)^k v_j`, `v_j in U_j`.
+	</span>
+	即
+	<span class="formula">
+		`(A - lambda_j E)^l v_j = 0`, `l >= n_j`, `j = 1, 2, cdots, k`.
+	</span>
+	所以
+	<span class="formula">
+		`(exp At) eta = (exp At)E sum_(j=1)^k v_j`
+					 `= sum_(j=1)^k (exp At) e^(lambda_j t)
+						exp(-lambda_j Et) v_j`
+					 `= sum_(j=1)^k e^(lambda_j t)
+						[exp(A-lambda_j E)t] v_j`
+					 `= sum_(j=1)^k e^(lambda_j t)
+						sum_(i=0)^(n_j-1) t^i/(i!) (A-lambda_j E)^i v_j`.
+	</span>
+	记 `E = (epsi_1, epsi_2, cdots, epsi_n)`, 在上式中依次取
+	`eta = epsi_i`, 就得到 `exp At` 的第 `i` 列.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

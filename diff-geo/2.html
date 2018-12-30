@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>曲线的局部理论</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>正则曲线: 无穷可微, 不停留</h2>
+
+<ol>
+	<li>每一分量是 `C^oo` 函数;</li>
+	<li>`|("d" bm r)/dt| gt 0`, `AA t in (a, b)`.</li>
+</ol>
+
+<p class="note">以后我们提到曲线, 如无特别说明, 都指正则曲线.</p>
+
+<h2>平面正则曲线</h2>
+
+<span class="formula">
+	`bm r(t) = (x(t), y(t))`, `t in (a, b)`
+</span>
+
+<h3>相关记号</h3>
+
+<p>参考 <a href="../mathnote/%236.html">场论常用公式</a>.</p>
+
+<table>
+	<tr>
+		<td>曲线参数微元 (时间)</td>
+		<td>`dt`</td>
+	</tr>
+	<tr>
+		<td>坐标长度微元</td>
+		<td>`dx, dy`</td>
+	</tr>
+	<tr>
+		<td>位移矢量微元</td>
+		<td>`"d" bm r = (dx, dy)`</td>
+	</tr>
+	<tr>
+		<td>切向量</td>
+		<td>`("d" bm r)/(dt) = ((dx)/(dt), (dy)/(dt))`</td>
+	</tr>
+	<tr>
+		<td>弧长微元</td>
+		<td>`"d"s = |("d" bm r)/dt| dt`</td>
+	</tr>
+	<tr>
+		<td>单位切向量</td>
+		<td>`bm t = ("d" bm r)/dt |(d bm r)/(dt)|^-1`</td>
+	</tr>
+	<tr>
+		<td>联系</td>
+		<td>`"d" bm r = bm t "d"s`</td>
+	</tr>
+	<tr>
+		<td>验证</td>
+		<td>`"d" bm r = (d bm r)/dt dt = bm t "d"s.`</td>
+	</tr>
+	<tr>
+		<td>法向量</td>
+		<td>`(dy/dt, -dx/dt)`</td>
+	</tr>
+	<tr>
+		<td>单位正法向量</td>
+		<td>`bm n = (-dy/("d"s), dx/("d"s))`</td>
+	</tr>
+	<tr>
+		<td>Frenet 标架</td>
+		<td>`{bm r; bm t, bm n}`</td>
+	</tr>
+</table>
+
+<p class="note">
+	记号 `bm n` 的含义与参考链接中的不同, 这里表示单位正法向量,
+	它是与 `bm t` 正交的单位向量, 且 `{bm t, bm n}` 成右手系.
+</p>
+
+<h3>曲率</h3>
+
+<p>
+	因为 `bm t` 的长度不变, 所以 `(:bm t, bm t':) = 0`.
+	但 `(:bm t, bm n:) = 0`, 所以 `bm t'` 与 `bm n` 线性相关.
+	设 `("d" bm t)/("d"s) = kappa(s) bm n`. 称 `kappa(s)` 为<b>曲率</b>.
+	显然 `|kappa(s)| = |("d" bm t)/("d"s)|`.
+</p>
+
+<h3>Frenet 方程</h3>
+
+<p>
+	对 `(:bm t, bm n:) = 0` 求导知 `(:bm t', bm n:) + (:bm t, bm n') = 0`,
+	故
+	<span class="formula">
+		`"d"/("d"s) [(bm t),(bm n)] = [
+			(0, kappa),
+			(-kappa, 0)
+		][(bm t),(bm n)]`.
+	</span>
+	`kappa gt 0` 时, `bm n` 沿逆时针转动 (曲线沿逆时针绕行).
+</p>
+
+<p class="example">
+	设 `bm r(t) = (x(t), y(t))`, 下式各导数均表示对 t 求导, 则曲率
+	<span class="formula">
+		`kappa(t) = (x'y'' - x''y')/(x'^2 + y'^2)^(3//2)`.
+	</span>
+</p>
+
+<p class="prove">
+	`dt/("d"s) = (("d"s)/dt)^-1 = |("d" bm r)/dt|^-1 = (x'^2+y'^2)^(-1/2)`.
+	<br/>
+	`("d"^2 t)/("d"s^2) = "d"/dt (dt/("d"s)) dt/("d"s)`
+	`= -1/2 (x'^2+y'^2)^(-3/2) * 2(x'x'' + y'y'') * (x'^2+y'^2)^(-1/2)`
+	`= -(x'^2+y'^2)^-2(x'x''+y'y'')`.
+	<br/>
+	`bm t = dot bm r = ("d" bm r)/dt dt/("d"s) =
+	(x'^2+y'^2)^(-1/2)(x',y')`.
+	<br/>
+	`bm n = (x'2+y'2)^(-1/2)(-y', x')`.
+	<br/>
+	`dot bm t = ("d"^2 bm r)/(dt^2) (dt/("d"s))^2 + ("d" bm r)/dt ("d"^2
+	t)/("d"s^2)`
+	`= (x'^2+y'^2)^-1(x'', y'') - (x'^2 + y'^2)^-2(x'x''+y'y'')(x', y')`
+	`= (x'^2+y'^2)^-2 (
+		(x''(x'x' + y'y') - x'(x'x'' + y'y'')),
+		(y''(x'x' + y'y') - y'(x'x'' + y'y''))
+	)`
+	`= (x'^2+y'^2)^-2 (
+		(-y'(x'y'' - x''y')),
+		(x'(x'y'' - x''y'))
+	) = kappa bm n`.
+</p>
+
+<p class="example">
+	在极坐标下, 曲线 `r = f(theta)` 的曲率
+	<span class="formula">
+		`kappa(theta) = (r^2 + 2r'^2 - rr'')/(r^2 + r'^2)^(3//2)`.
+	</span>
+	其中各导数均表示对 `theta` 求导.
+</p>
+
+<div class="prove">
+	<span class="formula"> `{
+			(x = r(theta) cos theta),
+			(y = r(theta) sin theta)
+	:}` </span>
+	<span class="formula"> `{
+			(x' = r' cos theta - r sin theta),
+			(y' = r' sin theta + r cos theta)
+	:}` </span>
+	<span class="formula"> `{
+			(x'' = r'' cos theta - r' sin theta - y'),
+			(y'' = r'' sin theta + r' cos theta + x')
+	:}` </span>
+	易知
+	<span class="formula">
+		`x'^2 + y'^2 = r^2 + r'^2`,
+	</span>
+	将这些计算结果代入上一题, 有
+	<span class="formula">
+		`kappa = (r^2 + r'^2)^(-3/2)(x'^2 + x'(r'' sin theta + r' cos
+		theta) - y'(r'' cos theta - r' sin theta) + y'^2)`
+		`= ans`.
+	</span>
+</div>
+
+<h2>三维正则曲线</h2>
+
+<span class="formula">
+	`bm r(t) = (x(t), y(t), z(t))`
+</span>
+
+<h3>相关记号</h3>
+
+<table>
+	<tr>
+		<td>位移矢量微元</td>
+		<td>`"d" bm r = (dx, dy, dz)`</td>
+	</tr>
+	<tr>
+		<td>单位切向量</td>
+		<td>`bm t = ("d" bm r)/("d"s)`</td>
+	</tr>
+	<tr>
+		<td>曲率向量</td>
+		<td>`("d" bm t)/("d"s) = (d^2 bm r)/{:"d"s:}^2`</td>
+	</tr>
+	<tr>
+		<td>曲率</td>
+		<td>`kappa(s) = |("d" bm t)/("d"s)|`</td>
+	</tr>
+	<tr>
+		<td>主法向量</td>
+		<td>`bm n = 1/kappa ("d" bm t)/("d"s)`</td>
+	</tr>
+	<tr>
+		<td>副法向量</td>
+		<td>`bm b = bm t ^^ bm n`</td>
+	</tr>
+	<tr>
+		<td>挠率</td>
+		<td>`tau = (:("d" bm n)/("d"s), bm b:)`</td>
+	</tr>
+	<tr>
+		<td>Frenet 标架</td>
+		<td>`{bm r; bm t, bm n, bm b}`</td>
+	</tr>
+</table>
+
+<p>`{bm t, bm n, bm b}` 形成右手系, 且均为单位向量.
+以这三个向量为法向量的平面分别称为法平面, 密切平面和从切平面.</p>
+
+<h3>Frenet 方程</h3>
+
+<p>
+	设
+	<span class="formula">
+		`"d"/("d"s) [(bm t),(bm n),(bm b)] = (omega)_(ij)
+		[(bm t),(bm n),(bm b)]`,
+	</span>
+	由于 `bm t, bm n, bm b` 是两两正交的单位向量, 所以 `omega_(ij) =
+	-omega_(ji)`. 又由主法向量的定义知 `omega_(12) = kappa`, `omega_(13) =
+	0`. 设 `omega_(23) = (:("d" bm n)/("d"s), bm b:) = tau`, 综上得到
+	<span class="formula">
+		`"d"/("d"s) [(bm t),(bm n),(bm b)] = [
+			(0, kappa, 0),
+			(-kappa, 0, tau),
+			(0, -tau, 0)
+		][(bm t),(bm n),(bm b)]`.
+	</span>
+</p>
+
+<p>不同于平面曲线, 空间曲线总有 `kappa ge 0`. `tau gt 0` 时,
+曲线沿正向穿越密切平面 (即在 `(bm t, bm b)` 平面的投影是上升曲线).</p>
+
+<p class="note">常用 "不屈 (曲) 不挠" 形容一个人很顽强.</p>
+<p class="note">
+	平面和空间的 Frenet 方程给出了各自 Frenet 标架的运动方程,
+	它们是一阶线性常微分方程组.
+</p>
+
+<p class="theorem">
+	空间曲线落在一张平面上当且仅当其挠率等于 0.
+</p>
+
+<p class="example">
+	圆柱螺旋线 `bm r(t) = (a cos t, a sin t, bt)` (`a gt 0`) 的曲率等于
+	`a/(a^2+b^2)`, 挠率等于 `b/(a^2+b^2)`.
+</p>
+
+<h2>曲线论基本定理</h2>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

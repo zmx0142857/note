@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>欧氏空间</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>向量空间</h2>
+
+<h3>内积 `(: alpha, beta :)`</h3>
+
+<p>内积定义为具有正定性的对称双线性函数:</p>
+
+<ol>
+	<li>`(: alpha, alpha :) ge 0`, 等号成立 `iff alpha = 0`</li>
+	<li>`(: alpha, beta :) = (: beta, alpha :)`</li>
+	<li>`k (: alpha, beta :) = (: k alpha, beta :)`</li>
+	<li>`(: alpha+beta, gamma :) = (: alpha, gamma :) + (: beta, gamma :)`
+	</li>
+</ol>
+
+<p>设 `X, Y in RR^n`, 则
+	<span class="formula">
+		`(:X, Y:) = sum_(i=1)^n x_i y_i in RR`.
+	</span>
+</p>
+
+<p>设 `X in RR^3`, 则
+	<span class="formula">
+		`X = (:i, X:)i + (:j, X:)j + (:k, X:)k`.
+	</span>
+</p>
+
+<p>称 `alpha, beta` <b>正交</b> (或垂直), 如果 `(:alpha, beta:) = 0`.</p>
+
+<h3>模（长度） `|alpha| = sqrt((: alpha, alpha :))`</h3>
+
+<ol>
+	<li>`|alpha| ge 0`, 等号成立 `iff alpha = 0`</li>
+	<li>`|k alpha| = |k| |alpha|`</li>
+	<li>`|alpha + beta| le |alpha| + |beta|`</li>
+</ol>
+
+<p>设 `X in RR^n`, 则
+	<span class="formula">
+		`|X| = sqrt(sum_(i=1)^n x_i^2)`.
+	</span>
+</p>
+
+<h3>外积 `alpha ^^ beta`</h3>
+
+<p>外积是一向量, 模等于两向量所夹的平行四边形的面积, 方向满足右手定则.</p>
+
+<ol>
+	<li>`alpha ^^ beta = -beta ^^ alpha`</li>
+	<li>`(alpha+beta) ^^ gamma = alpha ^^ gamma + beta ^^ gamma`</li>
+	<li>`gamma ^^ (alpha+beta) = gamma ^^ alpha + gamma ^^ beta`</li>
+	<li>`k(alpha ^^ beta) = (k alpha) ^^ beta = alpha ^^(k beta)`</li>
+</ol>
+
+<p>设 `X, Y in RR^3`, 则
+	<span class="formula">
+		`X ^^ Y = |
+			(i, j, k),
+			(x_1, x_2, x_3),
+			(y_1, y_2, y_3)
+		| in RR^3`.
+	</span>
+</p>
+
+<p>`alpha, beta` 线性相关 (共线) 当且仅当 `alpha ^^ beta = bb 0`.</p>
+
+<h3>混合积 `(alpha, beta, gamma) = (:alpha ^^ beta, gamma:) in RR^3`</h3>
+
+<p>`(alpha, beta, gamma) = (beta, gamma, alpha) = (gamma, alpha, beta)`</p>
+
+<p>设 `X, Y, Z in RR^3`, 则
+	<span class="formula">
+		`(X, Y, Z) = (:|
+			(i, j, k),
+			(x_1, x_2, x_3),
+			(y_1, y_2, y_3)
+		|, Z:) = |
+			(x_1, x_2, x_3),
+			(y_1, y_2, y_3),
+			(z_1, z_2, z_3)
+		|.`
+	</span>
+</p>
+
+<p>`alpha, beta, gamma` 线性相关 (共面) 当且仅当 `(alpha, beta, gamma) = 0`.</p>
+
+<h3>恒等式 / 不等式</h3>
+
+<ol>
+	<li>(由定义或由行列式性质) `(:alpha ^^ beta, alpha:) = (:alpha ^^
+		beta, beta:) = 0`;</li>
+	<li>(平行四边形等式) `|alpha+beta|^2 + |alpha-beta|^2 =
+		2(|alpha|^2+|beta|^2)`;</li>
+	<li>(二重外积) `alpha ^^ (beta ^^ gamma) = |
+		(beta, gamma),
+		((:alpha,beta:),(:alpha,gamma:))
+	|`;</li>
+	<li>(推论, 注意联系几何意义) 若 `(:alpha, beta:) = (:alpha, gamma:) =
+		0`, 则 `alpha ^^ (beta ^^ gamma) = bb 0`.
+	</li>
+	<li>(Lagrange) `(:alpha ^^ beta, gamma ^^ delta:) = |
+		( (:alpha, gamma:), (:alpha, delta:) ),
+		( (:beta, gamma:), (:beta, delta:) )
+	|`;</li>
+	<li>(Cauchy) `|(:alpha, beta:)| le |alpha||beta|`, 等号成立当且仅当
+		`alpha, beta` 线性相关;
+	</li>
+</ol>
+
+<p class="note">Lagrange 恒等式的证明:
+	<span class="formula">
+		左 = `(:beta ^^ (gamma ^^ delta), alpha:)
+		= (:|(gamma, delta), ((:beta, gamma:), (:beta, delta:))|, alpha:)`
+		= 右.
+	</span>
+	由 Lagrange 恒等式推出外积公式:
+	<span class="formula">
+		` X ^^ Y
+		= sum (:X ^^ Y, epsi_i:) epsi_i
+		= sum(:X ^^ Y, epsi_j ^^ epsi_k:) epsi_i`
+		`= sum |(
+			(:X, epsi_j:), (:X, epsi_k:)
+		),(	(:Y, epsi_j:), (:Y, epsi_k:)
+		)| epsi_i
+		= |(
+			i, j, k
+		),( (:X, i:), (:X, j:), (:X, k:)
+		),( (:Y, i:), (:Y, j:), (:Y, k:)
+		)|`.
+	</span>
+</p>
+
+<h2>向量分析</h2>
+
+<h3>向量/矩阵的导数</h3>
+
+<p>定义 `alpha(t) = (a_1(t), a_2(t), a_3(t))` 的导数:
+	<span class="formula">
+		`d/dt alpha(t) = ((da_1)/dt, (da_2)/dt, (da_3)/dt)`.
+	</span>
+</p>
+
+<p>设 `lambda = lambda(t)` 是数值函数, 有:</p>
+
+<ol>
+	<li>`d/dt (alpha+beta) = (d alpha)/dt + (d beta)/dt`</li>
+	<li>`d/dt (lambda alpha) = (d lambda)/dt alpha + lambda (d alpha)/dt`</li>
+	<li>`d/dt (:alpha, beta:) = (: (d alpha)/dt, beta :) + (:alpha, (d
+		beta)/dt:)`</li>
+	<li>`d/dt (alpha ^^ beta) = (d alpha)/dt ^^ beta + alpha ^^ (d
+		beta)/dt`</li>
+	<li>`d/dt (alpha, beta, gamma) = ((d alpha)/dt, beta, gamma) + (alpha,
+		(d beta)/dt, gamma) + (alpha, beta, (d gamma)/dt)`</li>
+	<li>A(t), B(t) 为矩阵. `d/dt (A(t)B(t)) = (dA)/dt B + A (dB)/dt`</li>
+</ol>
+
+<p class="note">1, 2 验证分量即可. 3 由 `(:alpha, beta:) = sum a_i b_i` 可证. 4 由行列式求导的法则可得. 5 由 3, 4 可得.</p>
+
+<h3>Nabla 算子 `grad = (del/(del x), del/(del y), del/(del z))`</h3>
+
+<p>设 `f(x, y, z)` 为数量函数, `F(x, y, z) = (P(x, y, z), Q(x, y, z), R(x,
+y, z))` 为向量函数 (或称向量场).</p>
+
+<p>梯度 `"grad" f =  grad f`, 散度 `"div" F = (:grad, F:)`, 旋度
+`"rot" F = grad ^^ F`.</p>
+
+<ol>
+	<li>`(:grad, F+G:) = (:grad, F:) + (:grad, G:)`</li>
+	<li>`(:grad, fF:) = f(:grad, F:) + (:grad f, F:)`</li>
+	<li>`grad ^^ (F+G) = grad ^^ F + grad ^^ G`</li>
+	<li>`grad ^^ (fF) = f(grad ^^ F) + (grad f) ^^ F`</li>
+	<li>(梯度场是无旋场) `grad ^^ (grad f) = bb"0"`</li>
+	<li>(旋度场是无源场) `(: grad, grad ^^ F:) = 0`</li>
+</ol>
+
+<p class="note">2, 4 相当于将 `grad` 分配到 f 与 F. 5 假定混合偏导相等, 故
+	<span class="formula">
+		`|
+			(i, j, k),
+			(del/(del x), del/(del y), del/(del z)),
+			((del f)/(del x), (del f)/(del y), (del f)/(del z))
+		| = bb"0"`.
+	</span>
+	6 同样假定混合偏导相等, 有
+	<span class="formula">
+		`|
+			(del/(del x), del/(del y), del/(del z)),
+			(del/(del x), del/(del y), del/(del z)),
+			(P, Q, R)
+		| = 0`.
+	</span>
+</p>
+
+<h3>定理</h3>
+
+<ol>
+	<li>`alpha(t)` 的长度不变, 即 `|alpha|` 为常数当且仅当
+		`(:alpha, alpha':) = 0`;
+	</li>
+	<li>`alpha(t) != 0` 的方向不变, 即 `alpha/|alpha|` 为常向量当且仅当
+		`alpha ^^ alpha' = 0`;
+	</li>
+</ol>
+
+<h2>合同变换 (保距变换)</h2>
+
+<p>具有形式
+	<span class="formula">
+		`cc"T"(X) = cc"T" X + X_0`, 其中 `cc"T"` 为正交实矩阵.
+	</span>
+</p>
+
+<p class="theorem">
+	设 `T` 为 `n` 阶正交阵, `t_i` 是其第 `i` 列 (行), 有
+	<span class="formula">
+		`(:t_i, t_j:) = delta_(ij)`.
+	</span>
+</p>
+
+<p class="corollary">
+	在上述定理中特别取 `n = 3` 时, `t_1 ^^ t_2 = "sgn"|T| t_3`.
+</p>
+
+<p class="prove">
+	不妨设 `|T| = 1`,
+	因为 `(:t_1 ^^ t_2, t_3:) = |T| = 1`, 但
+	<span class="formula">
+		`|t_1 ^^ t_2|^2 = (:t_1 ^^ t_2, t_1 ^^ t_2:) = |
+		( (:t_1, t_1:), (:t_1, t_2:) ),
+		( (:t_2, t_1:), (:t_2, t_2:) )
+		| = 1`, <br/>
+		`|t_3|^2 = (:t_3, t_3:) = 1`.
+	</span>
+	由 Cauchy 不等式知 `t_1 ^^ t_2 = t_3`.
+</p>
+
+<p class="theorem">
+	设 `T` 为正交阵, 则 `T (alpha ^^ beta) = T alpha ^^ T beta`.
+</p>
+
+<p class="prove">
+	记 `t_i` 为 T 的第 i 行,
+	<span class="formula">
+		左 = `sum (:t_i, alpha ^^ beta:)
+		= sum (:t_j ^^ t_k, alpha ^^ beta:) epsi_i`
+		`= sum |(
+			(:t_j, alpha:), (:t_j, beta:)
+		),( (:t_k, alpha:), (:t_k, beta:)
+		)| epsi_i
+		= |
+			(i, j, k),
+			((:alpha, t_1:), (:alpha, t_2:), (:alpha, t_3:)),
+			((:beta, t_1:), (:beta, t_2:), (:beta, t_3:))
+		| = T alpha ^^ T beta`.
+	</span>
+</p>
+
+<p class="theorem">
+	若单位向量 `epsi_1, cdots, epsi_n` 两两正交, 且
+	<span class="formula">
+		`d [(epsi_1), (vdots), (epsi_n)]
+		= (omega)_(ij) [(epsi_1), (vdots), (epsi_n)].
+	</span>
+	则矩阵 `(omega)_(ij)` 反对称 (我们会看到, Frenet
+	方程的系数矩阵是反对称的).
+</p>
+
+<p class="prove">
+	对 `(:epsi_i, epsi_j:) = delta_(ij)` 求微分即可.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

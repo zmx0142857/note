@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>初等函数</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<p class="theorem">
+	设 `O/ != A sube RR^+`, 且 `A` 有上界. `n in ZZ^+`,
+	<span class="formula">
+		`A^n = {a^n: a in A}`,
+	</span>
+	则 `"sup"(A^n)` 存在, 且
+	<span class="formula">
+		`"sup"(A^n) = ("sup" A)^n`.
+	</span>
+</p>
+
+<div class="prove">
+	<p>不妨设 `n ge 2`. 记 `x = "sup" A`.</p>
+	<p>(1) `x^n` 是 `A^n` 上界.
+		任取 `a^n in A^n`, 则 `a le x`, 故 `a^n le x^n`.</p>
+	<p>(2) `x^n` 是 `A^n` 最小上界.
+		设 `y ge a^n`, `AA a in A`. 断言 `x^n le y`.
+		否则, 取 `epsi = (x^n - y)/(nx^(n-1)) ge 0`,
+		则存在 `a_epsi in A`, `a_epsi gt x - epsi`.
+		利用 `n` 次方差公式放大, 有
+		<span class="formula">
+			`  x^n - a_epsi^n
+			lt x^n - (x-epsi)^n
+			lt epsi n x^(n-1)
+			=  x^n - y`,
+		</span>
+		从而 `y lt a_epsi^n`, 矛盾.
+	</p>
+</div>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

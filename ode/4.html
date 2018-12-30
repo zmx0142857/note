@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>高阶微分方程</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>常数变易法</h2>
+
+<p>	设方程
+	<span class="formula">
+		`x^((n)) + a_1(t)x^((n-1)) + cdots + a_(n-1)x' + a_n(t)x = f(t)`
+	</span>
+	或
+	<span class="formula">
+		`sum_(i=0)^n a_i(t) x^((n-i))(t) = f(t)` (`a_0(t) = 1`)
+	</span>
+	对应的齐方程的基本解组为
+	<span class="formula">
+		`x_i(t), i = 1, 2, cdots, n`.
+	</span>
+	我们解线性方程组
+	<span class="formula">
+		`[
+			(x_1(t), x_2(t), cdots, x_n(t)),
+			(x_1'(t), x_2'(t), cdots, x_n'(t)),
+			(vdots, vdots, , vdots),
+			(x_1^((n-1))(t), x_2^((n-1))(t), cdots, x_n^((n-1))(t))
+		][
+			(c_1'(t)), (c_2'(t)), (vdots), (c_n'(t))
+		] = [
+			(0), (0), (vdots), (f(t))
+		]`,
+	</span>
+	再积分, 就得到非齐方程的通解
+	<span class="formula">
+		`x = sum_(i=1)^n c_i(t) x_i(t)`.
+	</span>
+</p>
+
+<h2>常系数齐次线性方程</h2>
+<p>
+	<span class="formula">
+		`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = 0`,
+		`a_i in RR`, `i = 1, 2, cdots, n`
+	</span>
+</p>
+<p>	设特征多项式
+	<span class="formula">
+		`lambda^n + a_1 lambda^(n-1) + cdots + a_(n-1) lambda + a_n`
+	</span>
+	的根 (即特征根) 为 `lambda_i`, 重数分别为 `n_i`,
+	`i = 1, 2, cdots, l`, 且 `sum_(i=1)^l n_i = n`.
+	则微分方程的基本解组为
+	<span class="formula">
+		`t^j e^(lambda_i) t`,
+		`j = 0, 1, cdots, n_i-1`,
+		`i = 1, 2, cdots, l`.
+	</span>
+	若 `lambda_i = alpha + i beta` 为复根, 则`bar(lambda_i) = alpha - i
+	beta` 也必为特征根, 可以将基本解组中的
+		`e^(alpha + i beta) t` 与 `e^(alpha - i beta) t`
+	换成
+		`e^(alpha t) cos beta t` 与 `e^(alpha t) sin beta t`.
+</p>
+
+<h3>Euler 方程</h3>
+
+<span class="formula">
+	`t^n x^((n)) + a_1 t^(n-1) x^((n-1)) + cdots
+	+ a_(n-1) t x' + a_n x = 0`
+</span>
+
+<p>	将 `x = t^lambda` 代入方程, 得到 `n` 个特征根. 基本解组为
+	<span class="formula">
+		`ln^j |t| t^(lambda_i)`.
+	</span>
+	i, j 的迭代范围与常系数齐次方程相同.
+</p>
+
+<h2>常系数非齐次线性方程</h2>
+<p>
+	<span class="formula">
+		`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = f(t)`
+		`a_i in RR`, `i = 1, 2, cdots, n`
+	</span>
+</p>
+
+<h3>比较系数法</h3>
+
+<h4>`f(t) = P_m(t) e^(lambda t)`, `P_m` 为 `m` 次多项式</h4>
+
+<p>	此时有特解 `t^k Q_m(t) e^(lambda t)`, `k` 为 `lambda`
+	在特征方程中的重数, `Q_m(t)` 是系数待定的 `m` 次多项式.
+</p>
+
+<h4>`f(t) = [A(t) cos beta t + B(t) sin beta t] e^(alpha t)`,
+	`A(t), B(t)` 为多项式.
+</h4>
+
+<p>	此时有特解 `t^k[P_m(t) cos beta t + Q_m(t) sin beta t] e^(alpha t)`,
+	`k` 为 `lambda = alpha + i beta` 在特征方程中的重数,
+	`P_m(t), Q_m(t)` 为系数待定的 `m` 次多项式,
+	`m = max{del A(t), del B(t)}`.
+</p>
+
+<h3>Laplace 变换</h3>
+
+<span class="formula">
+	`cc"L"[f(t)] = F(s) = int_0^oo e^(-st) f(t) dt`,
+	`"Re" s > sigma`
+</span>
+
+<p>	若 `cc"L"[x(t)] = X(s)`, 则 `cc"L"[x'(t)]` 存在且等于 `sX(s) - x(0)`.
+	由归纳法知
+	<span class="formula">
+		`cc"L"[x^((n))(t)] = s^n X(s) - sum_(k=0)^(n-1) s^(n-1-k)
+		x^((k))(0)`.
+	</span>
+	Laplace 变换将方程
+	<span class="formula">
+		`sum_(i=0)^n a_i x^((n-i))(t) = f(t)`
+	</span>
+	变为
+	<span class="formula">
+		`X(s) sum_(i=0)^n a_i s^(n-i) = cc"L"[f(t)] + sum_(k=0)^(n-1)
+		x^((k))(0) sum_(i=0)^(n-1-k) a_i s^(n-1-i-k)`.
+	</span>
+	解出 `X(s)` 后, 适当分解分式, 再作 Laplace 反变换.
+</p>
+
+<p class="note">
+	`cc"L"[t^p e^(zt)] = (Gamma(p+1))/(s-z)^(p+1)`,
+	`p in (-1, +oo)`, `z in CC`, `"Re" s > "Re" z`.
+</p>
+
+<h3>降阶法</h3>
+
+<h4>n 阶方程 `F(t, x((k)), x^((k+1)), cdots, x^((n))) = 0`</h4>
+
+<p>此方程不显含 `k` 阶以下的导数. 令 `y = x^((k))`, 方程降低 k 阶.</p>
+
+<h4>n 阶方程 `F(x, x', cdots, x^((n))) = 0`</h4>
+
+<p>此方程不显含自变元, 令 `y = x'`, 降低 1 阶.</p>
+
+<h4>齐次线性微分方程 `sum_(i=0)^n a_i(t) x^((n-i))(t) = 0`</h4>
+
+<p>若有非零特解 `x_1, cdots, x_k`, 则令
+		`x = x_k int z dt`,
+	化为 `z` 的 `n-1` 阶方程, 有解
+		`z_i = ((x_i)/(x_k))^'`, `i = 1, 2, cdots, k-1`.
+</p>
+
+<h3>幂级数解法</h3>
+
+<p>	将
+	<span class="formula">
+		`y = sum_(n=0)^oo a_n x^n`, <br/>
+		`y' = sum_(n=1)^oo n a_n x^(n-1)
+			= sum_(n=0)^oo (n+1) a_(n+1) x^n`, <br/>
+		`y^((k)) = sum_(n=k)^oo n(n-1)cdots(n-k+1) a_n x^(n-k)`
+				`= sum_(n=0)^oo (n+k)cdots(n+2)(n+1) a_(n+k) x^n`
+	</span>
+	代入方程并比较系数, 注意幂级数的收敛半径.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>
+

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>`RR^n` 中的度量与极限</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>`RR^n` 中的度量</h2>
+
+<p class="theorem">
+	`RR^n` 在范数 (模, 长度)
+	<span class="formula">
+		`|x| = (sum_(i=1)^n x_i^2)^(1/2)`
+	</span>
+	下构成一赋范线性空间.
+</p>
+
+<p class="prove">
+	这里我们利用 Cauchy 不等式验证上述范数满足的三角不等式:<br/>
+	...
+</p>
+
+<p class="definition">
+	设 `E sube RR^n`, 定义 E 的<b>直径</b>
+	<span class="formula">
+		`"diam"(E) = underset(x, y in E)"sup"\ |x-y|`.
+	</span>
+</p>
+
+<p class="definition">
+	设 `x_0 in RR^n`, `delta gt 0`, 分别称
+	<span class="formula">
+		`B(x_0, delta) = {x in RR^n: |x-x_0| lt delta}`,<br/>
+		`bar B(x_0, delta) = {x in RR^n: |x-x_0| le delta}`
+	</span>
+	为 `RR^n` 中以 `x_0` 为心, `delta` 为半径的<b>开球</b>与<b>闭球</b>,
+</p>
+
+<p class="definition">
+	设 `{(a_i"," b_i): i = 1, 2, cdots, n}` 是 `RR` 上的一族开区间.
+	分别称
+	<span class="formula">
+		`prod_(i=1)^n (a_i, b_i)
+		= {x in RR^n: x_i in (a_i"," b_i), i = 1, 2, cdots, n}`,<br/>
+		`prod_(i=1)^n [a_i, b_i]`,
+		`prod_(i=1)^n (a_i, b_i]`
+	</span>
+	为 `RR^n` 中的<b>开矩体</b>, <b>闭矩体</b>和<b>半开闭矩体</b>.
+	若 `b_1 - a_1 = b_2 - a_2 = cdots = b_n - a_n`, 则称矩体为<b>方体</b>.
+</p>
+
+<p>	若 `I = prod_(i=1)^n (a_i, b_i)`, 则
+	<span class="formula">
+		直径 `"diam"(I) = (sum_(i=1)^n (b_i-a_i)^2)^(1/2)`,<br/>
+		体积 `|I| = prod_(i=1)^n (b_i-a_i)`.
+	</span>
+</p>
+
+<h2>`RR^n` 中的极限</h2>
+
+<p class="definition">
+	设 `x_k in RR^n`, `k = 1, 2, cdots`. 若存在 `x in RR^n`, 使
+	<span class="formula">
+		`lim_(k to oo) |x_k-x| = 0`,
+	</span>
+	则称 `{x_k}` 以 `x` 为<b>极限</b>, 记为 `lim_(k to oo) x_k = x`.
+</p>
+
+<p>注意到不等式
+	<span class="formula">
+		`underset(1 le i le n)max|x_m^((i))-x_n^((i))|
+		le |x_m-x_n|
+		le sqrt n underset(1 le i le n)max|x_m^((i))-x_n^((i))|`
+	</span>
+	从而 `x_k` 是 `RR^n` 中的 Cauchy 列当且仅当它的每一分量是 `RR` 中的
+	Cauchy 列. 由 `RR` 的完备性知 `x_k` 是 `RR^n`
+	中的收敛点列当且仅当它的每一分量是 `RR` 中的收敛列.
+</p>
+
+<h2>点集的相关点集</h2>
+
+<p class="theorem">
+	(极限点/聚点) 设 `E sube RR^n`, `x in RR^n`, 以下两款等价:
+	<ol>
+		<li>存在 `E` 中互异点列 `{x_k}` 以 `x` 为极限;</li>
+		<li>`AA delta gt 0`, `(B(x, delta)\\{x}) nn E != O/`.</li>
+	</ol>
+	它们都可以作为 `E` 的极限点的定义.
+</p>
+
+<p class="definition">
+	<ol>
+		<li>导集 (极限点的收集) `E' = {x in RR^n: AA delta gt 0, (B(x,
+			delta)\\{x}) nn E != O/}`;</li>
+		<li>闭包 `bar E = E uu E' = {x in RR: AA delta gt 0, B(x, delta)
+			nn E != O/}`;</li>
+		<li>内核 (内点的收集) `overset @ E = {x in RR^n: EE delta gt 0,
+			B(x, delta) sube E} sube E`;</li>
+		<li>边界 `del E = bar E \\ overset @ E`;</li>
+		<li>孤立点集 `E\\E'`.</li>
+	</ol>
+</p>
+
+<p class="corollary">
+	<ol>
+		<li>`(AA A sube B sube RR^n)`
+			`A' sube B', bar A sube bar B, overset @ A sube overset @ B`;
+		</li>
+		<li>`(AA A, B, sube RR^n)`
+			`(A uu B)' = A' uu B', bar(A uu B) = bar A uu bar B`;
+		</li>
+		<li>`(AA A sube RR^n)` `(overset @ E)^C = bar(E^C)`;</li>
+		<li>若 `E sube RR^n`, `overset @ E = O/`, 则 `AA S sube E`,
+			`overset @ S = O/`.
+		</li>
+	</ol>
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

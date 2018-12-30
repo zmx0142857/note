@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>上极限与下极限</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<p class="definition">
+	设 `{x_n}` 是有界数列. 定义<b>上极限</b>和<b>下极限</b>
+	<span class="formula">
+		`underset(n to oo) bar lim x_n
+		= underset(n ge 1)"inf" underset(k ge n) "sup" x_k`, `quad`
+		`underset(n to oo) ul lim x_n
+		= underset(n ge 1)"sup" underset(k ge n) "inf" x_k`.
+	</span>
+	其中 `{underset(k ge n) "sup" x_k}` 和 `{underset(k ge n) "inf" x_k}`
+	称为 `{x_n}` 的<b>上控数列</b>和<b>下控数列</b>.
+</p>
+
+<p class="corollary">
+	<span class="formula">
+		`underset(n to oo) bar lim x_n
+		= lim_(n to oo) underset(k ge n) "sup" x_k`, `quad`
+		`underset(n to oo) ul lim x_n
+		= lim_(n to oo) underset(k ge n) "inf" x_k`.
+	</span>
+</p>
+<p class="prove">
+	由习题 1.2 7(4) 知, 上控数列单调递减, 下控数列单调递增.
+	显然它们都有界. 于是由单调有界原理, 它们的极限存在.
+</p>
+
+<p class="definition">
+	设 `{x_n}` 为有界数列. 称 `a` 为 `{x_n}` 的一个<b>部分极限</b>, 如果
+	`{x_n}` 有子列收敛到 `a`.
+	记 `{x_n}` 的全体部分极限为 `L`, 则 `L != O/`.
+</p>
+
+<p class="theorem">
+	设 `{x_n}` 为有界数列, 其全体部分极限为 `L`, 则
+	<span class="formula">
+		`underset(n to oo) bar lim x_n = max L`, `quad`
+		`underset(n to oo) ul lim x_n = min L`.
+	</span>
+</p>
+<div class="prove">
+	<p> 先证 `underset(n to oo) bar lim x_n` 是 `L` 的一个上界.
+		任取 `a in L`, 由定义知存在子列 `{x_(n_k)}` 以 `a` 为极限.
+		在不等式
+		<span class="formula">
+			`x_(n_k) le underset(i ge n_k) "sup" x_i`, `k = 1, 2, cdots`
+		</span>
+		两端令 `k to oo`, 得 `a le underset(n to oo) bar lim x_n`.
+	</p>
+	<p> 现在说明 `underset(n to oo) bar lim x_n in L`.
+		记 `u = underset(n to oo) bar lim x_n`,
+		`bar x_n = underset(i ge n) "sup" x_i`.
+		对任意 `k in NN`, 由 `lim_(n to oo) bar x_n = u` 知,
+		存在充分大的 `N_k in NN`, 当 `n gt N_k` 时有
+		<span class="formula">
+			`|bar x_n - u| lt 1/k`.
+		</span>
+		再由 `bar x_n = underset(i ge n) "sup" x_i` 知, 存在 `n_k ge n`,
+		使 `|x_(n_k) - bar x_n| lt 1/k`. 于是
+		<span class="formula">
+			`|x_(n_k) - u| le |x_(n_k) - bar x_n| + |bar x_n - u| lt 2/k`.
+		</span>
+		在取定 `n_k` 后, 只需令下一次的 `N_(k+1) ge n_k`, 就能保证
+		`n_(k+1) ge n gt N_(k+1) ge n_k`. 所以 `{x_(n_k)}` 是收敛于 `u`
+		的 `{x_n}` 的子列.
+	<p>
+</div>
+
+<p class="theorem">
+	设 `{x_n}` 是有界数列, 则 `{x_n}` 收敛的充要条件是
+	`underset(n to oo) bar lim x_n = underset(n to oo) ul lim x_n`.
+	这一条件成立时, 上极限, 下极限, 极限三者相等.
+</p>
+<div class="prove">
+	记 `x_n` 的全体部分极限为 `L`.
+	<p>必要性. 设 `x_n to a`, 则它的所有子列也收敛到 `a`. 从而 `|L| = 1`,
+		显然有 `max L = min L`.
+	</p>
+	<p>充分性. 反设 `{x_n}` 不收敛, 由 Cauchy 收敛准则知,
+		存在 `epsi_0 gt 0`, 对任意 `N_k in NN`, 存在 `m_k, n_k gt N`, 使
+		<span class="formula">
+			`|x_(m_k) - x_(n_k)| ge epsi_0`.
+		</span>
+		可以取 `N_1 = 1`, `N_(k+1) = max{m_k, n_k}`,
+		这就保证 `{x_(m_k)}`, `{x_(n_k)}` 是两个子列.
+		应用列紧性原理, 从 `{x_(m_k)}` 中选出一收敛子列,
+		再从 `{x_(n_k)}` 的相应子数列中选出一收敛子列.
+		这一子列与 `{x_(m_k)}` 的相应子列保持对应项的距离不小于 `epsi_0`,
+		因此它们的极限不相等.
+		于是 `L` 至少含两个不同实数, 从而 `max L != min L`.
+	</p>
+</div>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

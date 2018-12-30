@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>波动方程</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>一维波动方程初值问题</h2>
+
+<p>	记 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
+	我们所讨论的定解问题为:
+	<span class="formula">`{(
+		square u = f(x","t), x in RR"," t in (0"," +oo)
+	),(	u|_(t=0) = varphi(x), x in RR
+	),(	u_t|_(t=0) = psi(x), x in RR
+	):}`</span>
+</p>
+
+<h3>问题的分解</h3>
+
+<p>	将问题一分为三:
+	<span class="formula">
+		`{
+			(square u_1 = 0, x in RR"," t in (0"," +oo)),
+			(u_1|_(t=0) = varphi(x), x in RR),
+			((u_1)_t|_(t=0) = 0, x in RR)
+		:}`
+		<span class="label">(2-1)</span>
+	</span>
+	<span class="formula">
+		`{
+			(square u_2 = 0, x in RR"," t in (0"," +oo)),
+			(u_2|_(t=0) = 0, x in RR),
+			((u_2)_t|_(t=0) = psi(x), x in RR)
+		:}`
+		<span class="label">(2-2)</span>
+	</span>
+	<span class="formula">
+		`{
+			(square u_3 = f(x","t), x in RR"," t in (0"," +oo)),
+			(u_3|_(t=0) = 0, x in RR),
+			((u_3)_t|_(t=0) = 0, x in RR)
+		:}`
+		<span class="label">(2-1)</span>
+	</span>
+	记三个问题的解分别为 `u_1`, `u_2`, `u_3`, 由线性叠加原理, 原问题的解
+	`u = u_1 + u_2 + u_3`.
+</p>
+
+<p class="theorem">
+	问题 (2-1), (2-3) 的解可由 (2-2) 的解来表示. 事实上, 记 `M_varphi`,
+	`M_psi`, `M_(f_tau)` 分别为问题 (2-2) 的非齐次项 `psi(x)` 取
+	`varphi(x)`, `psi(x)`, `f(x, tau)` 时的解, 且 `M_varphi`, `M_(f_tau)`
+	在 `RR xx [0, +oo)` 上充分光滑, 则
+	<span class="formula">
+		`u_1 = del/(del t) M_varphi(x, t)`,<br/>
+		`u_2 = M_psi(x, t)`,<br/>
+		`u_3 = int_0^t M_(f_tau) (x, t - tau) "d"tau`.
+	</span>
+</p>
+
+<ol class="prove">
+	<li>由 `M_varphi` 定义,
+		<span class="formula">`{
+			(square M_varphi = 0, x in RR"," t in (0","+oo)),
+			(M_varphi|_(t=0) = 0, x in RR),
+			((M_varphi)_t|_(t=0) = varphi(x), x in RR)
+		:}`.</span>
+		由 `M_varphi` 的光滑性假设,
+		<span class="formula">
+			`square u_1 = square del/(del t) M_varphi = del/(del t) square
+			M_varphi = 0`,<br/>
+			`u_1 |{::}_(t=0) = del/(del t) M_varphi|_(t=0) =
+				varphi(x)`,<br/>
+			`(u_1)_t |{::}_(t=0) = del^2/{:del t:}^2 M_varphi|_(t=0)
+			= a^2 del^2/{:del x:}^2 M_varphi|_(t=0) = 0`.
+		</span>
+		最后一个等号成立是因为由 `M_varphi|_(t=0) = 0` 知 `M_varphi` 在
+		`x` 轴上恒为 `0`, 其二阶偏导自然也为 `0`.
+	</li>
+	<li>记 `w = M_(f_tau)(x, t - tau)`, 由定义
+		<span class="formula">`{
+			(square w = 0, x in RR"," t in (tau","+oo)),
+			(w|_(t = tau) = 0, x in RR),
+			((w_t)|_(t = tau) = f(x"," tau), x in RR)
+		:}`.</span>
+		故
+		<span class="formula">
+			`u_3|_(t=0) = 0`,<br/>
+			`(u_3)_t = int_0^t del/(del t) M_(f_tau)(x, t - tau) "d"tau
+				+ M_(f_tau)(x, 0)`,<br/>
+			`(u_3)_t|_(t=0) = 0 + 0 = 0`,<br/>
+			`(u_3)_(t t) = int_0^t del^2/{:del t:}^2 M_(f_tau)(x, t-tau)
+			"d"tau + del/(del t) M_(f_tau)(x, 0)`
+			`= a^2 del^2/{:del x:}^2 int_0^t M_(f_tau)(x, t-tau)"d"tau
+			+ f(x, tau)`
+			`= a^2 (u_3)_(x x) + f(x, t)`.
+		</span>
+		故 `square u_3 = f(x, t)`.
+	</li>
+</ol>
+
+<h3>特征线法</h3>
+
+<p>	先看最简单的一阶线性方程:</p>
+
+<p class="example">
+	一阶线性方程 Cauchy 问题
+	<span class="formula">`{(
+		(del u)/(del t) + a (del u)/(del x) = 0
+	),(	u|_(t=0) = varphi(x)
+	):}`, `a = "const"`, `varphi in C^1(RR)`
+	</span>
+	的解为 `u = varphi(x-at)`. 注意到 `u(x + a Delta t, t + Delta t) -=
+	u(x)`, 故此解描述了以速度 `a` 传播而不改变形状的波.
+</p>
+
+<p>	我们以下面的方程为例介绍求解一阶线性方程的特征线法:</p>
+
+<span class="formula">`{(
+	(del u)/(del t) + v(x) (del u)/(del x) + w(x) u = 0
+),(	u|_(t=0) = varphi(x)
+):}`, `varphi in C^1 (RR)`.
+</span>
+
+<p> 视 `x` 为 `t` 的函数, 则
+	<span class="formula">
+		`("d"u)/dt = (del u)/(del t) + dx/dt (del u)/(del x)`.
+	</span>
+	可见只要 `x = x(t, c)` 满足特征线方程:
+	<span class="formula">`{(
+		dx/dt = v(x)
+	),(	x|_(t=0) = c
+	):}`, `c` 为参数
+	</span>
+	原方程就化为
+	<span class="formula">`{(
+		("d"u)/dt + w(x(t, c)) u = 0
+	),(	u|_(t=0) = varphi(c)
+	):}`</span>
+	解这个常微分方程, 再通过 `x = x(t, c)` 消去参数 `c`, 即得到原方程的解.
+</p>
+
+<h3>D'Alembert 公式 (解的存在性)</h3>
+
+<p class="solve">
+	由以上讨论, 只需求解 (2-2). 由于
+	<span class="formula">
+		`square = del^2/{:del t:}^2 - a^2 del^2/{:del x:}^2 = (del/(del t)
+		+ a del/(del x))(del/(del t) - a del/(del x)),
+	</span>
+	我们可以把 `square u = 0` 分解为
+	<span class="formula">`{
+		((del u)/(del t) - a (del u)/(del x) = v),
+		((del v)/(del t) + a (del v)/(del x) = 0)
+	:}`,</span>
+	从而将 (2-2) 化为两个一阶初值问题:
+	<span class="formula">`{
+		((del u)/(del t) - a (del u)/(del x) = v),
+		(u|_(t=0) = 0)
+	:}`, `quad`
+	`{
+		((del v)/(del t) + a (del v)/(del x) = 0),
+		(v|_(t=0) = psi(x))
+	:}`.</span>
+	它们的特征线为 `x_1 = c_1 - at` 和 `x_2 = c_2 + at`. 沿着特征线,
+	这两个问题化为
+	<span class="formula">`{
+		(("d"u)/dt = v(c_1 - at, t)),
+		(u|_(t=0) = 0)
+	:}`,
+		<span class="label">(2-4)</span>
+	</span>
+	<span class="formula">
+	`{
+		(("d"v)/dt = 0),
+		(v|_(t=0) = psi(c_2))
+	:}`
+		<span class="label">(2-5)</span>
+	</span>
+	从 (2-5) 解出 `v = psi(x-at)` 代入 (2-4) 得
+</p>
+<p>
+	<span class="formula">
+		`u_2 = u = int_0^t psi(c_1 - 2a tau)"d"tau = 1/(2a) int_(c_1)^(c_1
+		- 2a t) psi(xi)"d"xi = 1/(2a) int_(x-at)^(x+at) psi(xi)"d"xi`.
+	</span>
+	于是
+	<span class="formula">
+		` u_1
+		= del/(del t) 1/(2a) int_(x-at)^(x+at) varphi(xi)"d"xi
+		= 1/2 (varphi(x+at) + varphi(x-at))`,<br/>
+		` u_3
+		= 1/(2a) int_0^t "d" tau int_(x-a(t-tau))^(x+a(t-tau)) f(xi,
+		tau)"d"xi
+	</span>
+	原问题的解为 `u_1 + u_2 + u_3`. 这一解的表达式称为 <b>D'Alembert
+	公式</b>.
+</p>
+
+<p class="theorem">
+	若 `varphi in C^2 (RR)`, `psi in C^1(RR)`, `f in C^1(RR xx [0, +oo))`,
+	则由 D'Alembert 公式给出的 `u in C^2(RR xx [0, +oo))`, 且是问题的解.
+</p>
+
+<p class="corollary">
+	若 `varphi`, `psi`, `f` 是 `x` 的偶 (奇, 周期) 函数, 则解 `u` 亦是 `x`
+	的偶 (奇, 周期) 函数.
+</p>
+
+<h3>特征锥</h3>
+
+<p>	由 D'Alembert 公式知道, `u` 只由 `varphi` 在 `x+-at` 两点的值和 `psi`
+	在 `[x-at, x+at]` 上的值和 `f` 在<b>特征锥</b>
+	<span class="formula">
+		`K: {
+			(tau in [0"," t]), 
+			(xi in [x-a (t-tau)"," x + a (t-tau)])
+		:}`
+	</span>
+	上的值决定. 我们引入下面的术语:
+</p>
+
+<table>
+	<tr>
+		<td>点 `(x, t)` 的依赖区间</td>
+		<td>`[x-at, x+at]`</td>
+		<td><img src="pic/"/></td>
+	</tr>
+	<tr>
+		<td>区间 `[x_1, x_2]` 的决定区域</td>
+		<td>`[x_1, x_2]` 和两腰 `x_1 = xi - a tau`, `x_2 = xi + a tau`
+			围成的三角形区域
+		</td>
+		<td><img src="pic/"/></td>
+	</tr>
+	<tr>
+		<td>区间 `[x_1, x_2]` 的影响区域</td>
+		<td>`[x_1, x_2]` 和两腰 `x_1 = xi + a tau`, `x_2 = xi - a tau`
+			围成的半无界区域
+		</td>
+		<td><img src="pic/"/></td>
+	</tr>
+</table>
+
+<p>	波动沿着特征线传播, 解的奇性 (函数本身或其导数的间断) 也沿特征线传播.
+	波速是 `a`.
+</p>
+
+<h3>能量不等式 (解的唯一性)</h3>
+
+<p class="lemma">
+	<b>Gronwall 不等式</b>
+	设非负函数 `G(tau) in C^1[0, t_0]`, `G(0) = 0`; 非负函数 `F(tau) in
+	L[0, t_0]`, `F(tau)` 单增, 且存在常数 `c gt 0`, 使
+	<span class="formula">
+		`G'(tau) le c G(tau) + F(tau)`.
+		<span class="label">(2-6)</span>
+	</span>
+	则
+	<span class="formula">
+		`G'(tau) le e^(c tau) F(tau)`, `quad`
+		`G(tau) le c^-1 (e^(c tau) - 1) F(tau)`.
+	</span>
+</p>
+
+<p class="prove">
+	在 (2-6) 两边同乘 `e^(-c tau)` 得
+	<span class="formula">
+		`"d"/("d"tau) (e^(-c tau) G(tau)) le e^(-c tau) F(tau)`.
+	</span>
+	两边在 `[0, tau]` 上积分,
+	<span class="formula">
+		`e^(-c tau) G(tau) le int_0^tau e^(-c t) F(t) dt`
+		`le F(tau) int_0^tau e^(-c t) dt = F(tau) c^-1 (1-e^(-c tau))`,
+	</span>
+	即
+	<span class="formula">
+		`G(tau) le c^-1 (e^(c tau) - 1) F(tau)`.
+	</span>
+	再利用 (2-6),
+	<span class="formula">
+		`G'(tau) le e^(c tau) F(tau)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>能量不等式</b>
+	设 `u` 为一维波动方程初值问题的解, `Q = RR xx (0, +oo)`,
+	`u in C^1(bar Q) nn C^2(Q)`,
+	`tau in [0, t_0]`,
+	`Omega_tau = [x_0-a(t_0-tau), x_0+a(t_0-tau)]`,
+	`K_tau = { (t in [0"," tau]), (x in Omega_t):}`,
+	则对函数 `v = u_t^2 + a^2 u_x^2` 有估计
+	<span class="formula">
+		`max{
+			int_(Omega_tau) [u_t^2 + a^2 u_x^2]_(t=tau) dx,
+			iint_(K_tau) (u_t^t + a^2 u_x^2) dx dt
+		}` `le e^(t_0) (
+			int_(Omega_0) (psi^2 + a^2 varphi_x^2) dx
+		+	iint_(K_tau) f^2 dx dt
+		)`,
+	</span>
+	即
+	<span class="formula">
+		`max{
+			int_(Omega_tau) v|_(t=tau) dx,
+			iint_(K_tau) v dx dt
+		} le e^(t_0) (
+			int_(Omega_0) v|_(t=0) dx
+		+	iint_(K_tau) f^2 dx dt
+		)`.
+	</span>
+</p>
+
+<img src="pic/"/>
+
+<p class="prove">
+	在波动方程 `u_(t t) - a^2 u_(x x) = f` 两边同乘 `u_t`, 并在 `K_tau`
+	上积分:
+	<span class="formula">`{:(
+			iint_(K_tau) u_t f dx dt
+		,=	iint_(K_tau) u_t (u_(t t) - a^2 u_(x x)) dx dt
+	),(		(分部积分)
+		,=	iint_(K_tau) (1/2 del/(del t) (u_t^2) - a^2 (del/(del x) (u_t
+			u_x) - 1/2 del/(del t) (u_x^2))) dx dt
+	),(	,=	iint_(K_tau) (1/2 del/(del t) (u_t^2 + a^2 u_x^2) - a^2
+			del/(del x) (u_t u_x)) dx dt
+	),(		("Green" 公式)
+		,=	-oint_(del K_tau) 1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x)
+			dt
+	),(	,=	1/2 int_(Omega_tau) (u_t^2 + a^2 u_x^2) dx
+			- 1/2 int_(Omega_0) (psi^2 + a^2 varphi_x^2) dx
+	),(	,	- int_(Gamma_(tau_L) uu Gamma_(tau_R))
+			1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x) dt
+	),(		((Gamma_(tau_L): dx = a dt), (Gamma_(tau_R): dx = -a dt))
+		,=	"J"_1 + "J"_2 -a/2 int_(Gamma_(tau_L)) (u_t + a u_x)^2 dt
+			+ a/2 int_(Gamma_(tau_R)) (u_t - a u_x)^2 dt
+	),(		((Gamma_(tau_L): t 减小), (Gamma_(tau_R): t 增大))
+		,ge	"J"_1 + "J"_2.
+	):}`
+	</span>
+	记
+	<span class="formula">
+		`G(tau) = iint_(K_tau) (u_t^2 + a^2 u_x^2) dx dt`,<br/>
+		`F(tau) = int_(Omega_0)(psi^2 + a^2 varphi_x^2) dx + iint_(K_tau)
+		f^2 dx dt`,
+	</span>
+	则
+	<span class="formula">
+		`G'(tau)`
+		`= int_(Omega_tau) (u_t^2 + a^2 u_x^2) dx`
+		`le int_(Omega_0) (psi^2 + a^2 varphi_x^2) dx
+		    + 2 iint_(K_tau) u_t f dx dt`
+	</span>
+	再利用对任意正数 `a`, `b` 成立的不等式 `2ab le a^2 + b^2`,
+	<span class="formula">
+		`G'(tau) le int_(Omega_0)(psi^2 + a^2 varphi_x^2) dx
+		    + iint_(K_tau) f^2 dx dt + iint_(K_tau) u_t^2 dx dt`
+		`le F(tau) + G(tau)`.
+	</span>
+	由 Gronwall 不等式,
+	<span class="formula">
+		`G'(tau) le e^tau F(tau) le e^(t_0) F(tau)`,<br/>
+		`G(tau) le (e^tau-1) F(tau) le e^(t_0) F(tau)`.
+	</span>
+	即所要证的结论.
+</p>
+
+<p class="note">
+	对于弦振动问题, 弦段 `dx` 在时刻 `t` 的动能为 `1/2 rho u_t^2 dx`,
+	应变能 (势能) 为 `1/2 T u_x^2 dx`. 考虑到 `a^2 = T/rho`,
+	因此不计常数因子,
+	<span class="formula">
+		`int_(Omega_tau) (u_t^2 + a^2 u_x^2) dx`
+	</span>
+	表示弦段 `Omega_tau` 在 `tau` 时刻的总能量,
+	称为<b>能量积分</b>或<b>能量模</b>.
+</p>
+
+<p class="corollary">
+	对 `u` 的 `L^2` 模有估计
+	<span class="formula">
+		`max{
+			int_(Omega_tau) u^2|_(t = tau) dx,
+			iint_(K_tau) u^2 dx dt
+		}` `le e^(t_0) (e^(t_0)+1) (
+			int_(Omega_0) (varphi^2 + psi^2 + a^2 varphi_x^2) dx
+			+ iint_(K_tau) f^2 dx dt
+		)`.
+	</span>
+</p>
+
+<p class="prove">
+	`AA tau in [0, t_0]`,
+	<span class="formula">`{:(
+			int_(Omega_tau) [u^2]_(t=0)^(t=tau) dx
+		,=	int_(Omega_tau) dx int_0^tau del/(del t) u^2 dt
+	),(		
+		,le	2 iint_(K_tau) |u u_t| dx dt (矩形上的积分小于梯形上的)
+	),( ,le	iint_(K_tau) u^2 dx dt + iint_(K_tau) u_t^2 dx dt.
+	):}`
+	</span>
+	令
+	<span class="formula">
+		`G(tau) = iint_(K_tau) u^2 dx dt`,<br/>
+		`F(tau) = int_(Omega_0) varphi^2 dx + iint_(K_tau) u_t^2 dx dt`,
+	</span>
+	于是
+	<span class="formula">
+		`  G'(tau)
+		=  int_(Omega_tau) u^2|_(t=tau) dx
+		le int_(Omega_tau) varphi^2 dx + iint_(K_tau) u^2 dx dt
+		   + iint_(K_tau) u_t^2 dx dt`
+		`le int_(Omega_0) varphi^2 dx + iint_(K_tau) u^2 dx dt +
+		   iint_(K_tau) u_t^2 dx dt
+		= G(tau) + F(tau)`.
+	</span>
+	由 Gronwall 不等式,
+	<span class="formula">
+		`   max{G(tau), G'(tau)} le e^(t_0) F(tau)`
+		`le e^(t_0) (int_(Omega_0) varphi^2 dx + iint_(K_tau) (u_t^2 + a^2
+			u_x^2) dx dt)`
+		`le e^(t_0) (e^(t_0) + 1) (int_(Omega_0) varphi^2 dx +
+			int_(Omega_0) (psi^2 + a^2 varphi_x^2) dx
+			+ iint_(K_tau) f^2 dx dt)`.
+	</span>
+</p>
+
+<p class="note">
+	由 `u` 的能量模估计与 `L^2` 模估计, 可以得到波动方程 Cauchy
+	问题解的唯一性以及能量模意义下解对 `varphi`, `psi`, `f` 的连续依赖性.
+</p>
+
+<h3>半无界问题</h3>
+
+<p>	记 `R = (0, +oo)`, `Q = R xx R`, 在 `bar Q` 上求解
+	<span class="formula">`{
+		( square u = f(x"," t), x"," t in R),
+		( u|_(t=0) = varphi(x), x in bar R),
+		( (u_t)|_(t=0) = psi(x), x in bar R),
+		( u|_(x=0) = g(t), t in R)
+	:}`
+	</span>
+</p>
+
+<p> <b>奇对称开拓法</b>
+	思路: 适当将 `varphi`, `psi`, `f` 延拓到整个上半平面,
+	将半无界问题化为无界问题, 再使解 `u` 适合 `u|_(x=0) = g(t)`.
+</p>
+
+<p>	先设 `g(t) -= 0`. 为此只需令 `u` 是 `x` 的奇函数, 于是我们对 `varphi`,
+	`psi`, `f` 作奇延拓:
+	<span class="formula">
+		`bar varphi(x) = {
+			(varphi(x), x ge 0),
+			(-varphi(-x), x lt 0)
+		:}`,
+		`bar psi(x) = {
+			(psi(x), x ge 0),
+			(-psi(-x), x lt 0)
+		:}`,
+		`bar f(x, t) = {
+			(f(x, t), x ge 0"," t ge 0),
+			(-f(-x, t), x lt 0"," t ge 0)
+		:}`,
+	</span>
+</p>
+
+<p>	求得无界问题的解 `bar u` 后, 再令 `u = bar u|_(x ge 0)`. 联系
+	D'Alembert 公式, `x ge at` 时,
+	<span class="formula">
+		` u(x, t) 
+		= 1/2 (varphi(x-at) + varphi(x+at))`
+		`+ 1/(2a) int_(x-at)^(x+at) psi(xi) "d"xi`
+		`+ 1/(2a) int_0^t "d"tau int_(x-a(t-tau))^(x+a(t-tau))
+		f(xi, tau) "d"xi`.
+		  <span class="label">(2-7)</span>
+	</span>
+	`x lt at` 时,
+	<span class="formula">
+		` u(x, t)
+		= 1/2(varphi(at+x) - varphi(at-x))`
+		 `+ 1/(2a) (int_(x-at)^0 - psi(-xi) "d"xi
+		  + int_0^(x+at) psi(xi) "d" xi)`
+		 `+ 1/(2a) (int_(t-x/a)^t "d"tau int_(x-a(t-tau))^(x+a(t-tau))
+		  f(xi, tau) "d"xi`
+	     `+ int_0^(t-x/a) "d"tau (int_0^(x+a(t-tau)) f(xi, tau)
+		  "d"xi + int_(x-a(t-tau))^0 -f(-xi, tau) "d"xi))`
+		`=1/2(varphi(at+x) - varphi(at-x))`
+		`+ 1/(2a) int_(at-x)^(at+x) psi(xi) "d"xi`
+		`+ 1/(2a) (int_(t-x/a)^t "d"tau int_(x-a(t-tau))^(x+a(t-tau))
+		f(xi, tau) "d"xi
+		+ int_0^(t-x/a) "d"tau
+		int_(a(t-tau)-x)^(a(t-tau)+x) f(xi, tau) "d"xi)`.
+		  <span class="label">(2-8)</span>
+	</span>
+	<img src="pic/"/>
+	<img src="pic/"/>
+</p>
+
+<p class="note">
+	为使 `u` 确实是半无界问题的解, 除了对 `f`, `varphi`, `psi`
+	的光滑性要求外, 还必须在角点 `(0, 0)` 处加上<b>相容性条件</b>
+	(<b>连接条件</b>):
+</p>
+
+<ol>
+	<li>`u` 在 `(0, 0)` 连续, 即 `varphi(0) = g(0) = 0`;</li>
+	<li>`u_t` 在 `(0, 0)` 连续, 即 `psi(0) = g'(0) = 0`;</li>
+	<li>`u_(t t)` 在 `(0, 0)` 连续, 即 `g''(0) - a^2 varphi''(0) = f(0,
+		0)`, 或 `a^2 varphi''(0) + f(0, 0) = 0`.
+	</li>
+</ol>
+
+<p>	以上是保证 `u` 在角点二次可微的必要条件. 下面定理给出解存在的充分条件:</p>
+
+<p class="theorem">
+	设 `R = (0, +oo)`, `Q = R xx R`, `varphi(x) in C^2(bar R)`,
+	`psi(x) in C^1(R)`, `f(x, t) in C^1(bar Q)` 且适合相容性条件 1 ~ 3,
+	则半无界问题有解 `u in C^2(bar Q)`, 且由表达式 (2-7) (2-8) 给出.
+</p>
+
+<p>	现在设 `g(t) !-= 0`. 令 `v = u - g(t)`, 则 `v` 适合
+	<span class="formula">`{
+		( square v = f(x"," t) - g''(t)),
+		( v|_(t=0) = varphi(x) - g(0)),
+		( v_t|_(t=0) = psi(x) - g'(0)),
+		( v|_(x=0) = 0)
+	:}`
+	</span>
+	问题就化为 `g -= 0` 的情形.
+</p>
+
+<p class="theorem">
+	设 `g(t) in C^3(bar R)`, `varphi(x) in C^2(bar R)`,
+	`psi(x) in C^1(bar R)`, `f(x, t) in C^1(bar Q)`
+	且满足相容性条件 1 ~ 3, 则存在解 `u in C^2(bar Q).
+</p>
+
+<p class="note">
+	若在边界 `x = 0` 上给出第二类边界条件 `u_x|_(x=0) = g(t)`,
+	则先作函数代换 `v = u - x g(t)` 把 `x = 0` 上的边界条件化为齐次的
+	`v_x|_(x=0) = 0`, 再用<b>偶对称开拓法</b>求解. 同样,
+	加上一定光滑性条件和相容性条件后, 能证明解的存在性.
+</p>
+
+<h2>三维波动方程初值问题</h2>
+
+<span class="formula">`{
+	( u_(t t)^2 - a^2 laplace u = f(x","t), x in RR^3","t in (0","+oo)),
+	( u|_(t=0) = varphi(x), x in RR^3),
+	( u_t|_(t=0) = psi(x), x in RR^3)
+:}`
+</span>
+
+<p>	我们用<b>球面平均法</b>求解这个问题. 由于定理 2-1
+	的结论对三维情形也成立, 我们只须考虑 `f = varphi = 0` 的情况.
+	设 `h(bm x) in C^2(RR^3)`, `I` 是 `h` 在以 `bm x` 为心, `r`
+	为半径的球面上的平均值:
+	<span class="formula">
+		`  I(bm x, r; h)
+		=  1/(4 pi r^2) iint_(|bm z|=r) h(bm x + bm z) "d"sigma_(bm z)`
+		`= 1/(4 pi) iint_(|bm y|=1) h(bm x + r bm y) "d"sigma_(bm y)`.
+	</span>
+	注意到
+	<span class="formula">
+		`  int_0^r 4 pi rho^2 I(bm x, rho, h) "d"rho`
+		`= int_0^r"d"rho iint_(|bm z|=rho)h(bm x+bm z)"d"sigma_(bm z)`
+		`= iiint_(|bm z| le r) h(bm x + bm z) "d" bm z`,<br/>
+		`  del/(del r) I(bm x, r; h)
+		=  1/(4 pi) iint_(|bm y|=1) sum_(i=1)^3 y_i del/(del x_i)
+		   h(bm x+r bm y) "d"sigma_(bm y)`
+		`= 1/(4 pi r^2) iint_(|bm z|=r) sum_(i=1)^3 z_i/r
+		   del/(del z_i) h(bm x+bm z) "d"sigma_(bm z)`,<br/>
+	</span>
+	我们有 (这里 `laplace` 算子只作用于 `bm x`, 不作用于 `r`)
+	<span class="formula">
+		`  laplace int_0^r 4 pi rho^2 I(bm x, rho; h) "d"rho`
+		`= iiint_(|bm z| le r) laplace_(bm x) h(bm x+bm z)"d"bm z`
+		`  overset ?
+		=  iiint_(|bm z| le r) laplace_(bm z) h(bm x+bm z)
+		   "d"bm z`
+		`  overset "Gauss formula" ==
+		   iint_(|bm z|=r) del/(del bm n_(bm z)) h(bm x+bm z)
+		   "d"sigma_(bm z)`
+		`= iint_(|bm z|=r) sum_(i=1)^3 z_i/r del/(del z_i) h(bm x+bm z)
+		   "d"sigma_(bm z)`
+		`= 4 pi r^2 del/(del r) I(bm x, r; h)`.
+	</span>
+	于是
+	<span class="formula">
+		`  del^2/{:del r:}^2 (r I)`
+		`= del/(del r) (I + r (del I)/(del r))`
+		`= r (del^2 I)/{:del r:}^2 + 2 (del I)/(del r)`
+		`= 1/(4 pi r) del/(del r) (4 pi r^2 (del I)/(del r))`
+		`= 1/(4 pi r) del/(del r) laplace int_0^r 4 pi rho^2
+		   I(bm x,rho;h) "d"rho`
+		`= r laplace I`
+		`= laplace(r I)`.
+	</span>
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>
