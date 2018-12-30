@@ -118,7 +118,7 @@ function make_nav() {
 	nav.appendChild(prev);
 
 	var index = document.createElement('a');
-	index.href = 'index.html';
+	index.href = '../index.html';
 	index.target = '_blank';
 	index.innerHTML = '· · ·';
 	nav.appendChild(index);
