@@ -124,7 +124,7 @@
 	曲面的切平面, 法线与参数选取无关.
 </p>
 
-<h2>曲面的第一基本形式</h2>
+<h2>曲面的第一基本形式 (The first fundamental form)</h2>
 
 <span class="formula">
 	`"I" = "d"s^2 = "d" bm r^2 = (bm r_u "d"u + bm r_v "d" v)^2`
@@ -164,7 +164,7 @@
 	`"I" = ((2a^2)/d^2)^2 ("d"u"d"u + "d"v"d"v)`.
 </p>
 
-<h2>曲面的第二基本形式</h2>
+<h2>曲面的第二基本形式 (The second fundamental form)</h2>
 
 <span class="formula">
 	`"II" = -(:"d"bm r, "d"bm n:) = L"d"u"d"u + 2M"d"u"d"v + N"d"u"d"v
@@ -268,12 +268,12 @@
 	Gauss 映射定义为曲面 `S` 到 `E^3` 的单位球面 `S^2` 的映射:
 	<span class="formula">
 		`bm g: S |-> S^2`<br/>
-		`bm r(u, v) |-> n(u, v)`.
+		`bm r(u, v) |-> bm n(u, v)`.
 	</span>
 </p>
 
 <p class="definition">
-	Weingarten 变换是切平面上的线性变换:
+	Weingarten 变换是 Gauss 映射的导映射 (取反). 它是切平面上的线性变换:
 	<span class="formula">
 		`cc W: T_P S |-> T_P S`<br/>
 		`lambda bm r_u + mu bm r_v |-> -(lambda bm n_u + mu bm n_v).
@@ -281,6 +281,10 @@
 	特别, `cc W(bm r_u) = -bm n_u`, `cc W(bm r_v) = -bm n_v`,
 	`cc W("d"bm r) = -"d"bm n`.
 	<br/>
+</p>
+
+<p class="note">
+	也有定义 Weingarten 变换为 `cc W("d"bm r) = "d"bm n` 的.
 </p>
 
 <p class="theorem">
@@ -297,13 +301,19 @@
 <p class="theorem">
 	Weingarten 变换是自共轭变换: `AA bm v, bm w in T_P S`,
 	<span class="formula">
-		`(:cc W(bm v), bm w:) = (:bm v, cc W(bm w):)`.
+		`(:cc W(bm v), bm w:) = (:cc W(bm w), bm v:)`.
 	</span>
+	特别取两个向量为切平面的单位正交基底 `bm e_1, bm e_2` 时, 由上式知
+	Weingarten 变换在正交基底下的矩阵为二阶实对称阵.
+</p>
+
+<p class="note">
+	Weingarten 变换的矩阵即 Gauss 映射的 Jacobi 阵 (取反).
 </p>
 
 <p class="theorem">
 	Weingarten 变换的两个特征值是实数. 它们不相等时,
-	有两个相互正交的特征向量; 相等时, 任一切向量都是特征向量.
+	有两个相互正交的特征向量; 相等时, 任一个切向量都是特征向量.
 </p>
 
 <h3>主曲率</h3>
@@ -332,7 +342,7 @@
 <h4>计算主曲率</h4>
 
 <p>	设 Weingarten 变换在基 `(bm r_u, bm r_v)` 下的矩阵为
-	`bm A = [(a, b),(c, d)]`, 即
+	`bm A = [(a, b),(c, d)]` (未必对称), 即
 	<span class="formula">
 		`cc W(bm r_u) = -bm n_u = a bm r_u + b bm r_v`,<br/>
 		`cc W(bm r_v) = -bm n_v = c bm r_u + d bm r_v`.
@@ -353,12 +363,22 @@
 	<span class="formula">
 		`K = |(a,b),(c,d)| = |(L,M),(M,N)|//|(E,F),(F,G)|`.
 	</span>
+</p>
+
+<p class="note">
 	`K` 还满足
 	<span class="formula">
 		`bm n_u ^^ bm n_v = (a bm r_u + b bm r_v) ^^ (c bm r_u + d bm r_v)
 		= (ad-bc) bm r_u ^^ bm r_v = K bm r_u ^^ bm r_v`.
 	</span>
-</p>
+
+	直观上, Gauss 映射将曲面上的小块邻域映到单位球面上的区域.
+	对应区域的面积之比
+	<span class="formula">
+		`K = |bm n_u ^^ bm n_v|/|bm r_u ^^ bm r_v|`
+	</span>
+	就是 Gauss 曲率.
+<p>
 
 <p class="note">
 	曲面的第三基本形式定义为 `"III" = (:"d"bm n, "d"bm n:)`,
@@ -369,8 +389,6 @@
 </p>
 
 <h4>主曲率的几何意义</h4>
-
-<p>...</p>
 
 <h2>曲面举例</h2>
 

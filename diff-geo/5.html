@@ -47,7 +47,226 @@
 	</ol>
 </p>
 
+<p class="example">
+	特殊螺旋面 `(u cos v, u sin v, v)`, `u gt 0, 0 lt v lt 2 pi` 与悬链面
+	`(rho cos theta, rho sin theta, cosh^-1 rho)`, `rho gt 1, 0 lt theta
+	lt 2 pi` 的第一基本形式分别为
+	<span class="formula">
+		`"I"(u, v) = "d"u"d"u + (1+u^2)"d"v"d"v`,<br/>
+		`"I"(rho, theta) = rho^2/(rho^2-1) "d"rho"d"rho + rho^2
+		"d"theta"d"theta`.
+	</span>
+	映射 `(rho, theta) = sigma(u, v) = (sqrt(1+u^2), v)`
+	是两个曲面间的一个等距变换. 事实上, 由
+	<span class="formula">
+		`"d"rho = (u"d"u)/sqrt(1+u^2)`, `"d"theta = "d"v`
+	</span>
+	有
+	<span class="formula">
+		`"I"(rho, theta) = (1+u^2)/(1+u^2-1) (u^2"d"u^2)/(1+u^2) +
+		(1+u^2)"d"v^2 = "I"(u, v)`.
+	</span>
+	以上计算表明, 看似完全不同的这两个曲面,
+	可以在不发生拉伸或撕裂的情形下相互转换.
+</p>
+
+<p class="definition">
+	设 `S` 和 `bar S` 是 `E^3` 的两张曲面, 称双射 `sigma: S |-> bar S` 
+	为 `S` 到 `bar S` 的一个<b>保角变换</b>,
+	如果它保持任意两条相交曲线在交点的夹角不变, 即对 `S` 的任意两个切向量
+	`bm v, bm w`,
+	<span class="formula">
+		` (:bm v, bm w:)/(|bm v||bm w|)
+		= (:sigma_**(bm v), sigma_**(bm w):)/(|sigma_**(bm v)||sigma_**(bm
+		w)|)`.
+	</span>
+	显然, 等距变换是保角变换.
+</p>
+
+<p class="theorem">
+	设 `sigma` 是曲面 `S` 到 `bar S` 的双射. 则 `sigma`
+	为保角变换当且仅当存在正函数 `lambda` 使得在参数区域 `D` 的恒成立
+	`bar "I" = lambda^2 "I"`.
+</p>
+
+<p class="theorem">
+	(陈省身) 任意曲面都可以在局部和欧氏平面建立保角变换.
+	由于欧氏平面的度量 (第一基本形式) 为 `"d"u"d"u + "d"v"d"v`, 
+	因此上述定理等价地说, 对曲面上任一点, 存在一邻域和定义在其上的正函数
+	`lambda` 使曲面的第一基本形式在参数 `(u, v)` 下为
+	<span class="formula">
+		`"I" = lambda^2(u, v) ("d"u"d"u+"d"v"d"v)`.
+	</span>
+	这时称 `(u, v)` 为<b>等温参数 (isothermal parameters)</b>.
+</p>
+
 <h2>曲面的协变微分</h2>
+
+<p>	回顾正交标架下的五个一阶微分形式 `omega_1, omega_2, omega_12,
+	omega_13, omega_23`, 其中前三个满足结构方程式
+	<span class="formula">
+		`"d"omega_1 = omega_12 ^^ omega_2`,<br/>
+		`"d"omega_2 = omega_21 ^^ omega_1`
+		<span class="label">(5-1)</span>
+	</span>
+	和 Gauss 方程
+	<span class="formula">
+		`"d"omega_12 = -K omega_1 ^^ omega_2`.
+	</span>
+	称 `omega_12` 为曲面关于正交标架的<b>联络形式</b>, 它由方程 (5-1)
+	唯一确定, 事实上,
+	<span class="formula">
+		` omega_12 = -omega_21
+		= ("d"omega_1)/(omega_1 ^^ omega_2) omega_1
+		+ ("d"omega_2)/(omega_1 ^^ omega_2) omega_2`.
+	</span>
+	于是联络形式只由 `omega_1, omega_2`, 换言之, 只由第一基本形式
+	`omega_1 omega_1 + omega_2 omega_2` 决定.
+</p>
+
+<p class="theorem">
+	<b>Gauss 绝妙定理 (Theorema Egregium)</b>
+	曲面的 Gauss 曲率 `K = -("d"omega_12)/(omega_1 ^^ omega_2)`
+	由第一基本形式完全决定.
+</p>
+
+<p> 这就是说, Gauss 曲率是<b>内蕴</b>的, 它只与曲面的度量有关,
+	和曲面的具体嵌入 (如三维欧氏空间 `E^3`) 无关.
+	在等距变换下, Gauss 曲率保持不变.
+</p>
+
+<p class="example">
+	曲面在等温参数 `(u, v)` 下的 Gauss 曲率
+	<span class="formula">
+		`K = -(laplace ln lambda)/lambda^2`,
+	</span>
+	其中
+	<span class="formula">
+		`"I" = lambda^2 ("d"u"d"u + "d"v"d"v)`.
+	</span>
+</p>
+
+<p class="solve">
+	取 `omega_1 = lambda "d"u`, `omega_2 = lambda "d"v`, 有
+	<span class="formula">
+		`omega_1 ^^ omega_2 = lambda^2 "d"u ^^ "d"v`,<br/>
+		`"d"lambda = lambda_u "d"u + lambda_v "d"v`,<br/>
+		`"d"omega_1 = "d"lambda ^^ "d"u = -lambda_v "d"u ^^ "d"v`,<br/>
+		`"d"omega_2 = "d"lambda ^^ "d"v = lambda_u "d"u ^^ "d"v`,<br/>
+		`omega_12 = -lambda_v/lambda "d"u + lambda_u/lambda "d"v
+		= -(ln lambda)_v "d"u + (ln lambda)_u "d"v`.
+	</span>
+	所以
+	<span class="formula">
+		` K
+		= -("d"omega_12)/(omega_1 ^^ omega_2)
+		= -(((ln lambda)_(u u) + (ln lambda)_(v v)) "d"u ^^ "d"v)
+		/ (lambda^2 "d"u ^^ "d"v)
+		= -(laplace ln lambda)/lambda^2`.
+	</span>
+	若引入复坐标 `z = u + iv` 和
+	<span class="formula">
+		`del/(del z) = 1/2 (del/(del u) - i del/(del v))`,
+		`del/(del bar z) = 1/2 (del/(del u) + i del/(del v))`,
+	</span>
+	则
+	<span class="formula">
+		`K = - 4/lambda del^2/(del z del bar z) ln lambda`.
+	</span>
+</p>
+
+<p class="definition">
+	称标架微分落在切平面内的部分为<b>标架的协变微分</b>, 即
+	<span class="formula">
+		`"D" bm e_1 = omega_12 bm e_2`,
+		`"D" bm e_2 = omega_21 bm e_1`.
+	</span>
+	一般的切向量场 `bm v = f_1 bm e_1 + f_2 bm e_2`
+	的<b>协变微分</b>定义为 `"d"bm v` 在切平面内的投影
+	<span class="formula">
+		` "D"bm v
+		= (:"d"bm v, bm e_1:) bm e_1 + (:"d"bm v, bm e_2:) bm e_2
+		= ("d"f_1 + f_2 omega_21) bm e_1 + ("d"f_2 + f_1
+		omega_12) bm e_2`.
+	</span>
+	由于 `"d"bm v` 与正交标架 `{bm e_1, bm e_2}` 的选取无关,
+	所以协变微分也与正交标架的选取无关.
+</p>
+
+<ol class="theorem">
+	设 `bm v, bm w` 的曲面的切向量场, `f` 是曲面上的函数, 则
+	<li>`"D"(bm v + bm w) = "D"bm v + "D"bm w`;</li>
+	<li>`"D"(f bm v) = "d"f bm v + f "D"bm v`;</li>
+	<li>`"D"(:bm v, bm w:) = (:"D"bm v, bm w:) + (:bm v, "D"bm w:)`.</li>
+</ol>
+
+<p>
+	利用协变微分, 可以推广平移的概念到曲面上.
+</p>
+
+<p class="definition">
+	设 `S: bm r(u, v)` 是 `E^3` 的曲面, `P, Q` 为其上两点,
+	`gamma: bm r(t) = bm r(u(t), v(t))` 是联结这两点的曲线, `bm r(a) = P`,
+	`bm r(b) = Q`. `bm v` 是该曲线的切向量场.
+	称 `bm v` (在 Levi-Civita 意义下) 沿 `gamma` 平行,
+	如果 `("D"bm v)/dt = bb 0`.
+</p>
+
+<p class="theorem">
+	假设同定义5-4, 对任意 `bm v_0 in T_P S`, 沿 `gamma` 的满足
+	`bm v(a) = bm v_0` 的平行切向量场 `bm v` 存在且唯一.
+	这一定理保证了在曲面上将 `bm v_0` 沿曲线平移的可行性.
+</p>
+
+<p class="prove">
+	条件 `("D"bm v)/dt = bb 0` 等价于
+	<span class="formula">
+		`{
+		(("d"f_1)/dt + f_2 omega_21/dt = 0),
+		(("d"f_2)/dt + f_1 omega_12/dt = 0)
+		:}`,
+	</span>
+	当曲线 `gamma` 给定后, 上式是关于函数 `f_1, f_2` 的一阶常微分方程组. 
+	由一阶常微分方程初值问题解的存在唯一性定理可得结论.
+</p>
+
+<p class="theorem">
+	设 `bm v, bm w` 是曲面上沿曲线 `gamma` 的两个平行切向量场,
+	则 `(:bm v, bm w:)` 为常数.
+</p>
+
+<p class="prove">
+	`("D"bm v)/dt = ("D"bm w)/dt = bb 0` 等价于
+	<span class="formula">
+		`(:"d"bm v, bm e_1:) = (:"d"bm v, bm e_2:) = (:"d"bm w, bm e_1:)
+		= (:"d"bm w, bm e_2:) = 0`,
+	</span>
+	从而对曲线 `gamma` 上任一点处的任一切向量 `bm t = a bm e_1 + b bm e_2`
+	都有
+	<span class="formula">
+		`(:"d"bm v, bm t:) = (:"d"bm w, bm t:) = 0`.
+	</span>
+	所以
+	<span class="formula">
+		` "d"(:bm v, bm w:)
+		= (:"d"bm v, bm w:) + (:bm v, "d" bm w:)
+		= 0`.
+	</span>
+</p>
+
+<p class="corollary">
+	曲面上的平行移动保持切向量的长度和两个切向量间的夹角不变.
+</p>
+
+<p class="note">
+	将定义5-4 的协变微分换成普通微分 `"d"`, 曲面换成欧氏平面,
+	所定义的就是普通欧氏平面上的平移.
+	这两种平移都保持向量的长度和夹角不变, 但与欧氏平面的平移不同,
+	曲面上的平移一般与路径选择有关.
+</p>
+
+
+<p class=""></p>
 
 <h2>测地曲率与测地线</h2>
 

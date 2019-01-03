@@ -33,7 +33,8 @@
 		`{bm r(u,v); bm x_1(u,v), bm x_2(u,v), bm x_3(u,v)}`,
 		`(bm x_1, bm x_2, bm x_3) != bb 0`, `AA (u,v) in D`
 	</span>
-	为曲面 `S` 上的<b>活动标架</b>. 一般要求 `(x_1, x_2, x_3) gt 0`
+	为曲面 `S` 上的<b>活动标架 (Movable Frame)</b>.
+	一般要求 `(x_1, x_2, x_3) gt 0`
 	以保证这组标架为正定向的. 特别当 `{bm x_1, bm x_2, bm x_3}`
 	为单位正交标架时, 称为曲面 `S` 的<b>正交活动标架</b>,
 	简称<b>正交标架</b>. `{bm r(u,v); bm r_u, bm r_v, bm n}`
@@ -621,12 +622,12 @@
 <p class="definition">
 	现在可以定义微分形式的<b>外微分运算</b> `"d"`.
 	<span class="formula">
-		` "d"f = (del f)/(del u) "d"u + (del f)/(del v) "d"v`,<br/>
+		` "d"f = (del f)/(del u) "d"u + (del f)/(del v) "d"v
+		= (:grad f, ["d"u, "d"v]:)`,<br/>
 		` "d"(f"d"u+g"d"v) = "d"f ^^ "d"u + "d"g"d"v
-		= ((del g)/(del u) - (del f)/(del v)) "d"u ^^ "d"v`,<br/>
-		` "d"(f "d"u ^^ "d"v) = "d"f ^^ "d"u ^^ "d"v
-		= ((del f)/(del u) "d"u + (del f)/(del v) "d"v) ^^ "d"u ^^ "d"v
-		= 0`.
+		= ((del g)/(del u) - (del f)/(del v)) "d"u ^^ "d"v
+		= |(del/(del u), del/(del v)), (f, g)| "d"u ^^ "d"v`,<br/>
+		` "d"(f "d"u ^^ "d"v) = "d"f ^^ "d"u ^^ "d"v = 0`.
 	</span>
 </p>
 
@@ -774,6 +775,7 @@
 		`bm bar e_1 = cos theta bm e_1 + sin theta bm e_2`,<br/>
 		`bm bar e_2 = -sin theta bm e_1 + cos theta bm e_2`.
 	</span>
+	(验证: `|(cos theta, sin theta), (-sin theta, cos theta)| = 1`)
 	则计算知 `{bar omega_1, bar omega_2}` 与 `{omega_1, omega_2}` 之间,
 	`{bar omega_13, bar omega_23}` 与 `{omega_13, omega_23}`
 	之间均相差一个相同的旋转, 即
@@ -798,7 +800,7 @@
 		</li>
 		<li>Hopf 不变式 `psi = omega_1 omega_23 - omega_2 omega_13`.</li>
 	</ol>
-	但由 `omega_12 = (:"d"bm bar e_1, bm bar e_2:)` 计算可得,
+	但由 `bar omega_12 = (:"d"bm bar e_1, bm bar e_2:)` 计算可得,
 	<span class="formula">
 		`bar omega_12 = omega_12 + "d"theta`.
 	</span>
