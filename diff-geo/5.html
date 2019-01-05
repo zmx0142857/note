@@ -175,6 +175,10 @@
 	</span>
 </p>
 
+<p>	内蕴几何的观点是只考虑标架微分在切平面内的部分, 为此引入协变微分,
+	它是平面普通微分在曲面上的推广.
+</p>
+
 <p class="definition">
 	称标架微分落在切平面内的部分为<b>标架的协变微分</b>, 即
 	<span class="formula">
@@ -265,14 +269,401 @@
 	曲面上的平移一般与路径选择有关.
 </p>
 
-
-<p class=""></p>
-
 <h2>测地曲率与测地线</h2>
+
+<h3>测地曲率</h3>
+
+<p>	此前已经研究过曲率向量 `("d"^2 bm r)/("d"s^2)` 在法方向上的分量,
+	即法曲率 `k_n = (:("d"^2 bm r)/("d"s^2), bm n:)`.
+	现在, 用协变微分研究其切向部分, 即测地曲率.
+</p>
+
+<p class="definition">
+	设 `S: bm r(u^1, u^2)` 是 `E^3` 的曲面,
+	`bm r(s) = bm r(u^1(s), u^2(s))` 是曲面上一条弧长参数曲线.
+	沿该曲线取曲面的正交标架 `{bar bm e_1, bar bm e_2, bar bm e_3}`, 使得
+		`bar bm e_1 = ("d"bm r)/("d"s)`,
+		`bar bm e_3 = bm n`,
+		`bar bm e_2 = bar bm e_3 ^^ bar bm e_1`.
+	定义 `bm r(s)` 的<b>测地曲率</b>为
+	<span class="formula">
+		`k_g = (:("d"^2 bm r)/("d"s), bar bm e_2:)`.
+	</span>
+	注意到
+	<span class="formula">
+		` k_g
+		= (:("d"bar bm e_1)/("d"s), bar bm e_2:)
+		= (:("D"bar bm e_1)/("d"s), bar bm e_2:)
+		= bar omega_12/("d"s)`,
+	</span>
+	因此测地曲率只依赖于曲线的选取和曲面的联络形式, 是内蕴的几何量.
+	测地曲率是平面曲线曲率在曲面的推广.
+	易知曲率向量有如下分解
+	<span class="formula">
+		`("d"^2 bm r)/("d"s^2) = k_g bar bm e_2 + k_n bar bm e_3`.
+	</span>
+	由上式可以推出
+	<span class="formula">
+		`kappa^2 = k_g^2 + k_n^2`.
+	</span>
+</p>
+
+<p class="definition">
+	称
+	<span class="formula">
+		`bm k_g = ("D"bar bm e_1)/("d"s) = k_g bar bm e_2`
+	</span>
+	为曲线的<b>测地曲率向量</b>. 它是测地曲率向量在切平面的投影.
+</p>
+
+<p class="theorem">
+	<b>Liouville 公式</b>
+	设 `(u, v)` 是曲面的正交参数, `"I" = E"d"u"d"u + G"d"v"d"v`,
+	`bm r(s) = bm r(u(s), v(s))` 是曲面上的条弧长参数曲线,
+	它与 `u` 线的夹角为 `theta`, 则它的测地曲率
+	<span class="formula">
+		`k_g = ("d"theta)/("d"s) - (ln E)_v/(2sqrt G) cos theta
+		+ (ln G)_u/(2sqrt E) sin theta`.
+	</span>
+</p>
+
+<p class="prove">
+	取 `omega_1 = sqrt E "d"u`, `omega_2 = sqrt G "d" v`,
+	由式4-13,
+	<span class="formula">
+		`omega_12 = -(sqrt E)_v/sqrt G "d"u + (sqrt G)_u/sqrt E "d"v`.
+	</span>
+	沿曲线 `bm r(s)` 取正交标架 `{bar bm e_1, bar bm e_2, bar bm e_3}`,
+	由于曲线与 `u` 线的夹角为 `theta`, 有
+	<span class="formula">
+		`[bar bm e_1,bar bm e_2] = [(cos theta, -sin theta),(sin theta,
+		cos theta)] [bm e_1, bm e_2]`.
+	</span>
+	于是
+	<span class="formula">
+		`k_g = bar omega_12/("d"s) = ("d"theta)/("d"s) + omega_12/("d"s)`.
+	</span>
+	把
+	<span class="formula">
+		` sqrt E ("d"u)/("d"s)
+		= omega_1/("d"s)
+		= (:("d"bm r)/("d"s), bm e_1:)
+		= cos theta`,<br/>
+		` sqrt G ("d"v)/("d"s) = sin theta`
+	</span>
+	代入 `omega_12` 的表达式计算就得到 Liouville 公式.
+</p>
+
+<h3>测地线</h3>
+
+<p class="definition">
+	曲面上测地曲率等于 0 的曲线称为 (曲面的) <b>测地线</b>.
+</p>
+
+<p class="theorem">
+	设 `bm r(s)` 是曲面上的弧长参数曲线, 则以下几款等价:
+</p>
+
+<ol>
+	<li>`bm r(s)` 是测地线;</li>
+	<li>`bm k_g -= 0`;</li>
+	<li>曲率向量 `("d"^2 bm r)/("d"s^2)` 与曲面的法向量 `bm n` 平行;</li>
+	<li>根据自然标架的运动方程
+		<span class="formula">
+			` ("d"^2 bm r)/("d"s^2)
+			= "d"/("d"s) (bm r_alpha ("d"u^alpha)/("d"s))
+			= ("d"bm r_beta)/("d"s) ("d"u^beta)/("d"s)
+			  + bm r_alpha ("d"^2 u^alpha)/("d"s^2)`
+			`= (("d"^2 u^alpha)/("d"s^2) + Gamma_(beta gamma)^alpha
+			  ("d"u^beta)/("d"s) ("d"u^gamma)/("d"s)) bm r_alpha
+			  + b_(alpha beta) ("d"u^beta)/("d"s) ("d"u^gamma)/("d"s) bm n
+			= bm k_g + k_n bm n`.
+		</span>
+		因此 `bm r(s)` 是测地线当且仅当其曲率向量
+		`bm k_g = 0`, 即下面的<b>测地线方程</b>成立:
+		<span class="formula">
+			` ("d"^2 u^alpha)/("d"s^2) + Gamma_(beta gamma)^alpha
+			("d"u^beta)/("d"s) ("d"u^gamma)/("d"s) = 0`,
+			`quad alpha = 1,2`.
+		</span>
+	</li>
+</ol>
+
+<p class="corollary">
+	任何曲面上的直线都是测地线, 因为它满足 `("d"bm r^2)/("d"s) = bb 0`.
+</p>
+
+<p>	借助测地线方程, 我们将导出一系列测地线的性质,
+	它们类似于平面上直线的性质.
+</p>
+
+<p class="theorem">
+	曲面上过任意一点, 沿任意切向 (局部) 存在唯一一条测地线.
+	这可以由测地线方程在初值条件下解的存在唯一性推出.
+</p>
+
+<p class="theorem">
+	等距变换下, 测地线仍变为测地线. 这是因为测地曲率由第一基本形式决定.
+</p>
+
+<p class="example">
+	<b>球面上的测地线</b>
+	取球面上的点 `P` 与 `P` 点的切向量 `bm v`, 向量 `vec(OP)` 和 `bm v`
+	张成的平面与球面交于一个圆 `Gamma`, `bm v` 也是 `Gamma` 的切向量.
+	容易看出, `Gamma` 的主法向和球面的法向重合, 所以 `Gamma`
+	是球面的测地线. 由定理5-10,
+	球面的测地线就是过球心的平面与球面所交的圆, 这类圆称为球面的大圆.
+</p>
+
+<p class="example">
+	<b>圆柱面上的测地线</b>
+	平面的测地线是直线. 利用等距变换, 圆柱面的测地线就是:
+	将平面卷成圆柱面时, 由平面直线变成的曲线.
+	容易发现它们是平行圆与圆柱螺线.
+	自然界的攀缘植物沿螺线生长, 是测地线的一个例子.
+</p>
+
+<p class="theorem">
+	在曲面上, 联结两点的长度最短的曲线是测地线.
+</p>
+
+<div class="prove">
+	我们用变分法来证明. 设弧长参数曲线 `bm r(s) = bm r(u^1(s), u^2(s))`,
+	`s in [0, l]`, `bm r(0) = P`, `bm r(l) = Q` 是曲面上联结 `P, Q`
+	的最短曲线. 沿着 `bm r(s)` 取曲面的正交标架
+	`{bm e_1 = ("d"bm r)/("d"s), bm e_2 = bm n ^^ bm e_1, bm e_3 = bm n}`.
+	设沿着 `bm r(s)`,
+	<span class="formula">
+		`bm e_2 = a^1(s) (del bm r)/(del u^1)
+		+ a^2(s) (del bm r)/(del u^2) = a^1 bm r_1 + a^2 bm r_2`,
+	</span>
+	又设 `f in C[0, l]`, `f(0) = f(l) = 0`. 考虑曲面上一族曲线
+	<span class="formula">
+		`bm r^lambda(s) = bm r(u^1 + lambda a^1 f, u^2 + lambda a^2 f)`,
+		`lambda in (-epsi, epsi)`.
+	</span>
+	可以验证 `bm r^lambda` 满足
+	<ol>
+		<li>`bm r^0(s) = bm r(s)`;</li>
+		<li>`bm r^lambda(0) = P`, `bm r^lambda(l) = Q`, `AA lambda in
+			(-epsi, epsi)`;
+		</li>
+		<li>`(del bm r^lambda)/(del lambda)|_(lambda=0) = (a^1 bm r_1 +
+			a^2 bm r_2) f = f bm e_2`.
+		</li>
+	</ol>
+	曲线族 `{bm r^lambda}` 称为 `bm r^0(s) = bm r(s)` 的一个变分.
+	记
+	<span class="formula">
+		`L(lambda) = int_0^l |(del bm r^lambda)/(del s)| "d"s`
+	</span>
+	为 `bm r^lambda` 的长度 (注意 `s` 仅是曲线 `bm r^0` 的弧长参数),
+	则利用例1-1,
+	<span class="formula">
+		` {:del/(del lambda) |(del bm r^lambda)/(del s)||_(lambda=0)
+		= {:|(del bm r^lambda)/(del s)|^-1 (:(del bm r^lambda)/(del s),
+		  del/(del lambda) (del bm r^lambda)/(del s):)|_(lambda=0)
+	    = {:(:(del bm r^lambda)/(del s),
+		  del/(del s)(del bm r^lambda)/(del lambda):)|_(lambda=0)`
+		`= (:bm e_1, "d"/("d"s) (f bm e_2) :)
+		= (:bm e_1, ("d"f)/("d"s) bm e_2:)
+		  + (:bm e_1, f{::} ("d"bm e_2)/("d"s):)
+		= 0 + f omega_21/("d"s)
+		= -f k_g`.
+	</span>
+	这里 `k_g` 是曲线 `bm r(s)` 的测地曲率. 由最短假设,
+	<span class="formula">
+		` 0
+		= {:("d"L)/("d"lambda)|_(lambda=0)
+		= int_0^l{:del/(del lambda)|(del bm r^lambda)/(del s)||_(lambda=0)
+		  "d"s
+		= -int_0^l f k_g "d"s`.
+	</span>
+	容易推出 `k_g = 0`, 即 `bm r(s)` 是测地线.
+</div>
+
+<p class="note">
+	此定理的逆不成立, 比如在球面上取两点, 它们的连线不过球心,
+	则过这两点有唯一一个大圆. 在圆上联结它们的劣弧是最短测地线,
+	联结它们的优弧也是测地线, 但不是最短的.
+</p>
 
 <h2>测地坐标系</h2>
 
+<h3>测地平行坐标系</h3>
+
+<h3>法坐标系和测地极坐标系</h3>
+
+<p class="definition">
+	设 `S` 是 `E^3` 的曲面, `P in S`, `bm v` 是 `P` 点的一个单位切向量.
+	记 `gamma(bm v, s)` 是从 `P` 点出发, 与 `bm v` 相切, 以 `s ge 0`
+	为弧长参数的测地线, 又称<b>测地射线</b>. `s` 的定义范围可能很小, 且与
+	`bm v` 有关, 但 `bm v` 的全体是单位圆周, 这是一个紧致集合,
+	利用常微分方程解对初值的连续性可以证明: 存在 `epsi gt 0`,
+	使得对任意单位切向量 `bm v in T_P S`, `gamma(bm v, s)` 都在 `[0,
+	epsi)` 上有定义. 据此, 对任意非零切向量 `rho bm v` (`rho gt 0`, `bm v`
+	是单位切向量), 定义<b>指数映射</b> `exp_P: T_P S |-> S` 如下:
+	<span class="formula">
+		`exp_P(rho bm v) = gamma(bm v, rho)`,
+		`rho in [0, epsi)`.
+	</span>
+	指数映射将切平面原点的一个小邻域映到曲面上,
+	它将切平面上过原点的直线映为曲面上的测地线,
+	将切平面上以原点为心的圆映为曲面上的<b>测地圆</b>.
+</p>
+
+<p class="definition">
+	取 `P` 点的正交标架 `bm e_1, bm e_2`, 建立切平面 `T_P S` 的直角坐标系.
+	则曲面 `S` 在 `P` 附近有参数表示
+	<span class="formula">
+		`bm r(x^1, x^2) = exp_P(x^1 bm e_1 + x^2 bm e_2)`.
+	</span>
+	利用参数变换 `{ (x^1 = rho cos theta), (x^2 = rho sin theta):}`, 则
+	曲面 `S` 在 `P` 附近也有参数表示
+	<span class="formula">
+		`bm r(rho, theta) = exp_P(rho cos theta bm e_1 + rho sin theta bm
+		e_2)`.
+	</span>
+	`(x^1, x^2)` 与 `(rho, theta)`
+	分别称为曲面的<b>法坐标系</b>和<b>测地极坐标系</b>.
+	测地极坐标系下, `rho` 为常数的线称为 <b>`theta` 线</b>, 又称为以 `rho`
+	的半径的测地圆. `theta` 为常数的线称为 <b>`rho` 线</b>.
+</p>
+
+<p class="theorem">
+	设 `(x^1, x^2)` 是以 `P` 为原点的法坐标系, 则在 `P` 点,
+	<span class="formula">
+		`g_(alpha beta) = delta_(alpha beta)`,
+		`Gamma_(beta gamma)^alpha = (del g_(alpha beta))/(del x^gamma) =
+		0`, `alpha, beta, gamma = 1, 2`.
+	</span>
+</p>
+
+<p class="theorem">
+	设 `(rho, theta)` 是测地极坐标系, 则
+	<span class="formula">
+		`"I" = "d"rho^2 + G "d"theta^2`,<br/>
+		`lim_(rho to 0) sqrt G = 0`, `quad lim_(rho to 0) (sqrt G)_rho =
+		1`.
+	</span>
+</p>
+
+<p>	利用测地极坐标系, 可以证明:</p>
+
+<p class="theorem">
+	对曲面上任意一点 `P`, 存在邻域 `U`, 使得对任意 `Q in U`, 在 `U` 内联结
+	`P, Q` 两点的测地线是所有在 `U` 内联结 `P, Q` 两点的曲线中最短的.
+</p>
+
+<div class="example">
+	在测地极坐标系下讨论常 Gauss 曲率的曲面.
+	先计算 Gauss 曲率.
+	<span class="formula">
+		`omega_1 = "d"rho`, `quad omega_2 = sqrt G "d"theta`,<br/>
+		`omega_12 = ("d"omega_1)/(omega_1 ^^ omega_2) omega_1 + 
+			("d"omega_2)/(omega_1 ^^ omega_2) omega_2
+		= ("d"sqrt G ^^ "d"theta)/(sqrt G "d"rho ^^ "d"theta) sqrt G
+			"d"theta
+		= (sqrt G)_rho "d"theta`,<br/>
+		`K = -("d"omega_12)/(omega_1 ^^ omega_2)
+		= -("d"((sqrt G)_rho) ^^ "d"theta)/(sqrt G "d"rho ^^ "d"theta)
+		= -((sqrt G)_(rho rho))/sqrt G`.
+	</span>
+	当 `K` 为常数时, 得到关于 `sqrt G` 的二阶常系数常微分方程
+	<span class="formula">
+		`(sqrt G)_(rho rho) + K sqrt G = 0`.
+	</span>
+	<ol>
+		<li>`K = 0` 时, 通解为 `sqrt G = f(theta) rho + g(theta)`,
+			利用定理5-14 有 `f(theta) = 1, g(theta) = 0`.
+			这时曲面的第一基本形式
+			<span class="formula">
+				`"I" = "d"rho^2 + rho^2 "d"theta^2`.
+			</span>
+		</li>
+		<li>`K = a^2 gt 0` 时, 通解为 `sqrt G = f(theta) cos a rho +
+			g(theta) sin a rho`, 利用定理5-14 有 `f(theta) = 0, g(theta) =
+			1/a`, 这时曲面的第一基本形式
+			<span class="formula">
+				`"I" = "d"rho^2 + 1/a^2 sin^2 a rho "d"theta^2`.
+			</span>
+		</li>
+		<li>`K = -a^2 lt 0` 时, 通解为 `sqrt G = f(theta) cosh a rho +
+			g(theta) sinh a rho`, 利用定理5-14 有 `f(theta) = 0, g(theta)
+			= 1/a`, 这时曲面的第一基本形式
+			<span class="formula">
+				`"I" = "d"rho^2 + 1/a^2 sinh^2 a rho "d"theta^2`.
+			</span>
+		</li>
+	</ol>
+	上述讨论表明, 当 `K = "const"` 已知, 第一基本形式被完全决定.
+	因此具有相同常 Gauss 曲率的曲面, 局部间可以建立等距变换.
+</div>
+
 <h2>Gauss-Bonnet 公式</h2>
+
+<p>	设 `S` 是 `E^3` 的曲面, `D` 是曲面上一块单连通区域, `del D` 分段光滑. 
+	设 `theta_i` 是 `del D` 的顶点的外角, 则
+	<span class="formula">
+		`iint_D K "d"A + oint_(del D) k_g "d"s + sum theta_i = 2 pi`.
+	</span>
+</p>
+
+<p class="prove">
+	取 `S` 的正交标架 `bm e_1, bm e_2`, 在 `D` 上对 Gauss 方程
+	<span class="formula">
+		`"d"omega_12 = -K omega_1 ^^ omega_2 = -K "d"A`
+	</span>
+	两边积分, 应用 Green 公式就有
+	<span class="formula">
+		`iint_D K "d"A = -iint_D "d"omega_12 = -oint_(del D) omega_12`.
+	</span>
+	设 `del D` 与 `bm e_1` 的夹角为 `theta`, 由 Liouville
+	公式的证明过程知, 在每一光滑的小段上,
+	<span class="formula">
+		`k_g "d"s = "d"theta + omega_12`
+	</span>
+	于是
+	<span class="formula">
+		` iint_D K "d"A + oint_(del D) k_g "d"s
+		= -oint_(del D) omega_12 + oint_(del D) ("d"theta + omega_12)
+		= oint_(del D) "d" theta`.
+	</span>
+	余下的证明是直观的.
+</p>
+
+<p class="corollary">
+	曲面三角形的内角和
+	<span class="formula">
+		`sum_(i=1)^3 beta_i = sum_(i=1)^3 (pi - theta_i)
+		= iint_D K "d"A + oint_(del D) k_g "d"s + pi`.
+	</span>
+	当曲面为平面时, 第一个积分为 0; 当三边都是测地线时, 第二个积分为 0.
+	此公式的一个推论是是熟知的平面三角形的内角和等于 `pi`.
+	另外, `K gt 0` (如凸面或凹面) 时, 曲面的测地三角形内角和大于 `pi`,
+	`K lt 0` (如马鞍面) 时, 小于 `pi`.
+</p>
+
+<p class="corollary">
+	曲面上向量沿光滑闭曲线平移产生的角差.
+	设 `alpha(s)` 是沿曲线平行向量场 `bm v(s)` 与 `bm e_1` 的夹角,
+	则由 `bm v` 的平行性,
+	<span class="formula">
+		` 0
+		= "D"bm v
+		= "D" (cos alpha bm e_1 + sin alpha bm e_2)`
+		`= "d"alpha (-sin alpha bm e_1 + cos alpha bm e_2)
+		  + cos alpha omega_12 bm e_2 + sin alpha omega_21 bm e_1`.
+	</span>
+	上式两边与 `(-sin alpha bm e_1 + cos alpha bm e_2)` 作内积得到
+	`"d"alpha = -omega_12`. 故角度差
+	<span class="formula">
+		` oint_(del D) "d"alpha
+		= -oint_(del D) omega_12
+		= iint_D K "d"A`.
+	</span>
+	可以看出, 平移的角度差是由曲面弯曲引起的.
+</p>
 
 <h2>曲面的 Laplace 算子*</h2>
 

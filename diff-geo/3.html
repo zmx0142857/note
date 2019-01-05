@@ -394,12 +394,69 @@
 
 <h3>旋转曲面</h3>
 
+<span class="formula">
+	`bm r(u, v) = (f(u) cos v, f(u) sin v, g(u))`, `f gt 0`.
+</span>
+
+<p>	直接计算
+	<span class="formula">
+		`bm r_u = (f'(u)cos v, f'(u)sin v, g'(u))`,<br/>
+		`bm r_v = (-f(u)sin v, f(u)cos v, 0)`,<br/>
+		`E = f'^2+g'^2`, `quad F = 0`, `quad G = f^2`,<br/>
+		`L = (f' g'' - f'' g')/sqrt E`, `quad M = 0`,
+		`quad N = (fg')/sqrt E`,<br/>
+		`k_1 = L/E`, `quad k_2 = N/G`,
+		`quad K = k_1 k_2`, `quad H = (k_1 + k_2)/2`.
+	</span>
+	若取 `u` 为 `xz` 平面上曲线 `(f(u), g(u))` 的弧长参数, 则
+	`f'^2 + g'^2 = 1`, `f'f'' + g'g'' = 0`, 因此
+	<span class="formula">
+		` f'g'' - f''g'
+		= (f'g'' - f''g') (g')/(g')
+		= (f'(g''g') - f''g'^2)/(g')`
+		`= (-f'f'f'' - f''(1-f'^2))/(g')
+		= -(f'')/(g')`.
+	</span>
+	上面各式有比较简单的表达式
+	<span class="formula">
+		`E = 1`, `quad F = 0`, `quad G = f^2`,<br/>
+		`L = -(f'')/(g')`, `quad M = 0`, `quad N = fg'`,<br/>
+		`k_1 = -(f'')/(g')`, `quad k_2 = (g')/f`,
+		`quad K = -(f'')/f`, `quad H = 1/2 ((g')/f - (f'')/(g'))`.
+	</span>
+</p>
+
+<p>	下面我们总是取 `u` 为 `(f(u), g(u))` 的弧长参数, 以简化计算.</p>
+
 <h4>常 Gauss 曲率旋转曲面</h4>
+
+<!--
+<p>	`K = c^2 gt 0` 时, 由 `K = -(f'')/f`, 有常微分方程
+	<span class="formula">
+		`f''(u) + c^2 f(u) = 0`,
+	</span>
+	通解为
+	<span class="formula">
+		`f(u) = A cos cu + B sin cu`.
+	</span>
+</p>
+-->
+
 <h4>常平均曲率旋转曲面</h4>
 
 <h3>直纹面与可展曲面</h3>
 
 <h3>全脐点曲面</h3>
+
+<p class="definition">
+	若曲面在一点的两个主曲率相等,
+	则它在这一点第二基本形式与第一基本形式的系数成比例, 即
+	<span class="formula">
+		`L/E = M/F = N/G = k`,
+	</span>
+	则称该点为曲面的<b>脐点</b>. 特别 `k != 0` 时, 称为<b>圆点</b>.
+	`k = 0` 时称为<b>平点</b>.
+</p>
 
 </body>
 

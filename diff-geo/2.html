@@ -107,71 +107,6 @@
 	`kappa gt 0` 时, `bm n` 沿逆时针转动 (曲线沿逆时针绕行).
 </p>
 
-<p class="example">
-	设 `bm r(t) = (x(t), y(t))`, 下式各导数均表示对 t 求导, 则曲率
-	<span class="formula">
-		`kappa(t) = (x'y'' - x''y')/(x'^2 + y'^2)^(3//2)`.
-	</span>
-</p>
-
-<p class="prove">
-	`dt/("d"s) = (("d"s)/dt)^-1 = |("d" bm r)/dt|^-1 = (x'^2+y'^2)^(-1/2)`.
-	<br/>
-	`("d"^2 t)/("d"s^2) = "d"/dt (dt/("d"s)) dt/("d"s)`
-	`= -1/2 (x'^2+y'^2)^(-3/2) * 2(x'x'' + y'y'') * (x'^2+y'^2)^(-1/2)`
-	`= -(x'^2+y'^2)^-2(x'x''+y'y'')`.
-	<br/>
-	`bm t = dot bm r = ("d" bm r)/dt dt/("d"s) =
-	(x'^2+y'^2)^(-1/2)(x',y')`.
-	<br/>
-	`bm n = (x'2+y'2)^(-1/2)(-y', x')`.
-	<br/>
-	`dot bm t = ("d"^2 bm r)/(dt^2) (dt/("d"s))^2 + ("d" bm r)/dt ("d"^2
-	t)/("d"s^2)`
-	`= (x'^2+y'^2)^-1(x'', y'') - (x'^2 + y'^2)^-2(x'x''+y'y'')(x', y')`
-	`= (x'^2+y'^2)^-2 (
-		(x''(x'x' + y'y') - x'(x'x'' + y'y'')),
-		(y''(x'x' + y'y') - y'(x'x'' + y'y''))
-	)`
-	`= (x'^2+y'^2)^-2 (
-		(-y'(x'y'' - x''y')),
-		(x'(x'y'' - x''y'))
-	) = kappa bm n`.
-</p>
-
-<p class="example">
-	在极坐标下, 曲线 `r = f(theta)` 的曲率
-	<span class="formula">
-		`kappa(theta) = (r^2 + 2r'^2 - rr'')/(r^2 + r'^2)^(3//2)`.
-	</span>
-	其中各导数均表示对 `theta` 求导.
-</p>
-
-<div class="prove">
-	<span class="formula"> `{
-			(x = r(theta) cos theta),
-			(y = r(theta) sin theta)
-	:}` </span>
-	<span class="formula"> `{
-			(x' = r' cos theta - r sin theta),
-			(y' = r' sin theta + r cos theta)
-	:}` </span>
-	<span class="formula"> `{
-			(x'' = r'' cos theta - r' sin theta - y'),
-			(y'' = r'' sin theta + r' cos theta + x')
-	:}` </span>
-	易知
-	<span class="formula">
-		`x'^2 + y'^2 = r^2 + r'^2`,
-	</span>
-	将这些计算结果代入上一题, 有
-	<span class="formula">
-		`kappa = (r^2 + r'^2)^(-3/2)(x'^2 + x'(r'' sin theta + r' cos
-		theta) - y'(r'' cos theta - r' sin theta) + y'^2)`
-		`= ans`.
-	</span>
-</div>
-
 <h2>三维正则曲线</h2>
 
 <span class="formula">
@@ -244,21 +179,179 @@
 	曲线沿正向穿越密切平面 (即在 `(bm t, bm b)` 平面的投影是上升曲线).
 </p>
 
-<p class="note">常用 "不屈 (曲) 不挠" 形容一个人很顽强.</p>
-
 <p class="note">
 	直观上, 空间曲线的曲率可以理解为向心力,
 	挠率则可以理解为密切平面的运动速率.
 </p>
 
-<p class="theorem">
-	空间曲线落在一张平面上当且仅当其挠率等于 0.
+<p class="example">
+	`E^3` 的正则曲线 `bm r(t)` 的曲率和挠率分别为
+	(以下导数均表示对 `t` 求导)
+	<span class="formula">
+		`kappa(t) = |bm r' ^^ bm r''|/|bm r'|^3`,
+		`quad`
+		`tau(t) = ("("bm r', bm r'', bm r'''")")/|bm r' ^^ bm r''|^2`.
+	</span>
 </p>
+
+<p class="solve">
+	<span class="formula">
+		`{:"d"s:}/dt = |bm r'|`, `quad`
+		` bm t
+		= {:"d"bm r:}/{:"d"s:}
+		= {:"d"bm r:}/dt dt/{:"d"s:}
+		= (bm r')/|bm r'|`
+	</span>
+	应用例1-1,
+	<span class="formula">
+		` {"d"^2 bm r:}/{:"d"s:}^2
+		= "d"/dt ({:"d"bm r:}/{:"d"s:}) dt/{:"d"s:}
+		= 1/|bm r'| "d"/dt ((bm r')/|bm r'|)
+		= (bm r' ^^ (bm r'' ^^ bm r')) / |bm r'|^4`.
+	</span>
+	注意到 `(:bm r', bm r'' ^^ bm r':) = 0`, 所以
+	<span class="formula">
+		` kappa(t)
+		= |{:"d"^2 bm r:}/{:"d"s:}^2|
+		= (|bm r'| |bm r'' ^^ bm r'|)/|bm r'|^4
+		= |bm r'' ^^ bm r'|/|bm r'|^3`,<br/>
+		` bm n
+		= (bm r' ^^ (bm r'' ^^ bm r'))/(|bm r'| |bm r'' ^^ bm r'|)`,<br/>
+		` bm b
+		= bm t ^^ bm n
+		= (bm r' ^^ (bm r' ^^ (bm r'' ^^ bm r')))
+		  / (|bm r'|^2 |bm r'' ^^ bm r'|)
+		= ((:bm r',bm r'' ^^bm r':)bm r'-(:bm r',bm r':)(bm r'' ^^bm r'))
+		  / (|bm r'|^2 |bm r'' ^^ bm r'|)`
+		`= -(bm r'' ^^ bm r')/|bm r'' ^^ bm r'|`.
+	</span>
+	记 `bm beta = bm r'' ^^ bm r'`, 所以
+	<span class="formula">
+		`bm beta' = bm r''' ^^ bm r'`,<br/>
+		` -bm beta' ^^ bm beta
+		= bm beta ^^ (bm r''' ^^ bm r')
+		= (:bm beta, bm r':) bm r''' - (:bm beta, bm r''':)bm r'`
+		`= -(:bm beta, bm r''':)bm r'
+		= (bm r', bm r'', bm r''') bm r'`.
+	</span>
+	利用已有结果,
+	<span class="formula">
+		` {:"d"bm b:}/{:"d"s:}
+		= "d"/dt (-(bm beta)/|bm beta|) dt/{:"d"s:}
+		= -(bm beta ^^ (bm beta' ^^ bm beta))/(|bm r'| |bm beta|^3)
+		= ((bm r', bm r'', bm r''') bm beta ^^ bm r')
+		  / (|bm r'| |bm beta|^3)`.
+	</span>
+	联系 `bm n = (bm r ^^ bm beta)/(|bm r'| |bm beta|)` 和
+	`{:"d"bm b:}/{:"d"s:} = -tau(t) bm n` 即得到 `tau(t)` 的表达式.
+</p>
+
+<p class="example">
+	设 `bm r(t) = (x(t), y(t))`, 下式各导数均表示对 t 求导, 则曲率
+	<span class="formula">
+		`kappa(t) = (x'y'' - x''y')/(x'^2 + y'^2)^(3//2)`.
+	</span>
+</p>
+
+<p class="solve">
+	自然, `kappa` 可以通过计算 `("d"^2 bm r)/{:"d"s:}^2` 与 `bm n`
+	关于 `x, y` 的表达式来求得. 不过也可以将二维问题视为三维问题,
+	利用上题结论,
+	<span class="formula">
+		`kappa(t) = +- (x' y'' - x'' y')/(x'^2 + y'^2)^(3/2)`.
+	</span>
+	为确定其符号, 设 `kappa != 0`, 因为 `{bm t, bm n}` 为正定向的,
+	所以
+	<span class="formula">
+		`(bm t, bm n, bm k) gt 0`, `bm k` 是 `z` 轴的单位向量.
+	</span>
+	由于 `bm n = 1/kappa ("d"bm t)/{:"d"s:}`, 上式化为
+	<span class="formula">
+		`(bm r', bm r'', kappa bm k) gt 0`,
+		即
+		`|(x', y', 0), (x'', y'', 0), (0, 0, kappa)| gt 0`.
+	</span>
+	可见前述式子应当取正号.
+</p>
+
+<p class="example">
+	在极坐标下, 曲线 `r = f(theta)` 的曲率
+	<span class="formula">
+		`kappa(theta) = (r^2 + 2r'^2 - rr'')/(r^2 + r'^2)^(3//2)`.
+	</span>
+	其中各导数均表示对 `theta` 求导.
+</p>
+
+<div class="prove">
+	<span class="formula"> `{
+			(x = r(theta) cos theta),
+			(y = r(theta) sin theta)
+	:}` </span>
+	<span class="formula"> `{
+			(x' = r' cos theta - r sin theta),
+			(y' = r' sin theta + r cos theta)
+	:}` </span>
+	<span class="formula"> `{
+			(x'' = r'' cos theta - r' sin theta - y'),
+			(y'' = r'' sin theta + r' cos theta + x')
+	:}` </span>
+	易知
+	<span class="formula">
+		`x'^2 + y'^2 = r^2 + r'^2`,
+	</span>
+	将这些计算结果代入上一题, 有
+	<span class="formula">
+		`kappa = (r^2 + r'^2)^(-3/2)(x'^2 + x'(r'' sin theta + r' cos
+		theta) - y'(r'' cos theta - r' sin theta) + y'^2)`,
+	</span>
+	即为所求.
+</div>
 
 <p class="example">
 	圆柱螺旋线 `bm r(t) = (a cos t, a sin t, bt)` (`a gt 0`) 的曲率等于
 	`a/(a^2+b^2)`, 挠率等于 `b/(a^2+b^2)`.
 </p>
+
+<p class="theorem">
+	平面曲线的曲率恒等于 0 当且仅当它是直线;
+	恒等于非零常数当且仅当它是半径为 `1/kappa` 的圆.
+</p>
+
+<p class="theorem">
+	设空间曲线 `bm r` 的曲率 `kappa` 和挠率 `tau` 为常数, 则
+</p>
+
+<ol>
+	<li>`kappa = 0`, `bm r` 是直线;</li>
+	<li>`kappa gt 0`, `tau = 0`, `bm r` 是半径为 `1/kappa` 的圆;</li>
+	<li>`kappa gt 0`, `tau != 0`, `bm r` 是半径为
+		`kappa/(kappa^2+tau^2)`, 速率为 `tau/(kappa^2+tau^2)`
+		圆柱螺旋线.
+	</li>
+</ol>
+
+<p class="theorem">
+	空间曲线的曲率恒不等于 0 时,
+	它落在一张平面上当且仅当其挠率恒等于 0.
+</p>
+
+<p class="prove">
+	设曲线 `bm r` 落在以 `bm a` 为单位法向量的平面上,
+	则 `bm r` 的切向量与 `bm a` 垂直,
+	即 `(:bm t, bm a:) = 0`.
+	求导得 `kappa (:bm n, bm a:) = 0`.
+	假设 `kappa(s) != 0`, 得到 `(:bm n, bm a:) = 0`.
+	再求导得 `(:-kappa bm t + tau bm b, bm a:) = 0`,
+	因此 `tau (:bm b, bm a:) = 0`.
+	由 `bm a` 与 `bm t, bm n` 垂直知 `bm a` 与 `bm b` 平行,
+	从而 `(:bm b, bm a:) = 1`, `tau -= 0`.
+	<br/>
+	反之设 `tau -= 0`, 由 `("d"bm b)/{:"d"s"} = -tau bm n` 知 `bm b`
+	是常向量. 因为 `bm t` 与 `bm b` 垂直, `bm t` 只能落在同一平面内,
+	即曲线 `bm r` 落在同一平面内.
+</p>
+
+<p class="note">常用 "不屈 (曲) 不挠" 形容一个人很顽强.</p>
 
 <h2>曲线论基本定理</h2>
 
