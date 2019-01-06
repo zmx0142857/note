@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>常微分方程数值解法</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>引言</h2>
+
+<p>	本章我们将始终讨论下述定理中的常微分方程初值问题:</p>
+
+<p class="theorem">
+	<b>解的存在唯一性定理</b>
+	记 `D = [a, b] xx RR`.
+	考虑一阶常微分方程初值问题
+	<span class="formula">`{
+		(dy/dx = f(x, y), x in [a, b]),
+		(y(x_0) = y_0, (x_0, y_0) in D)
+	:}`
+	<span class="label">(1-1)</span>
+	</span>
+	其中 `f in C(D)`, 且关于 `y` 满足 <b>Lipschitz 条件</b>
+	<span class="formula">
+		(`EE L gt 0`) `|f(x,y_1) - f(x,y_2)| le L|y_1-y_2|`,
+		`AA y_1, y_2 in RR`.
+	</span>
+	则此问题存在唯一的解 `y(x) in C^1 [a, b]`.
+</p>
+
+<p class="theorem">
+	<b>解对 (初值) 扰动的敏感性</b>
+	设上述问题在初值 `y(x_0) = s` 下的解为 `y(x, s)`, 则
+	<span class="formula">
+		`|y(x, s_1) - y(x, s_2)| le e^(L|x-x_0|) |s_1 - s_2|`.
+	</span>
+	`L` 较大时, 为病态问题.
+</p>
+
+<p class="note">
+	Lipschitz 条件的一个充分条件是偏导数 `(del f)/(del y)` 在 `D` 上有界.
+	设在 `D` 上 `|(del f)/(del y)| le L`, 则由微分中值定理
+	<span class="formula">
+		`  |f(x, y_1) - f(x, y_2)|
+		=  |(del f)/(del y) (x, eta)| |y_1-y_2|
+		le L |y_1-y_2|`.
+	</span>
+</p>
+
+<h2>单步法</h2>
+
+<p>	单步法的一般形式为
+	<span class="formula">
+		`y_(n+1) = y_n + h varphi(x_n, y_n, y_(n+1), h)`.
+	</span>
+	其中 `h = x_(n+1) - x_n` 为<b>步长</b>.
+	<b>增量函数</b> `varphi` 与 `f(x, y)` 有关. 当 `varphi` 含
+	`y_(n+1)` 时为方法为<b>隐式</b>的, 否则为<b>显式</b>的.
+</p>
+
+<p class="definition">
+	设 `y(x)` 是问题的准确解, 定义单步法的<b>局部截断误差</b>为
+	<span class="formula">
+		` T_(n+1) = y(x_(n+1)) - y(x_n)
+		- h varphi(x_n, y(x_n), y(x_(n+1)), h)`.
+	</span>
+	从定义可见, 对于显式方法,
+	若假设 `x_n` 处没有误差, 即 `y_n = y(x_n)`, 则
+	<span class="formula">
+		`T_(n+1) = y(x_(n+1)) - y_(n+1)`.
+	</span>
+	就是说, 局部截断误差只考虑 `x_n` 到 `x_(n+1)`
+	这一步计算中产生的误差.
+</p>
+
+<p class="definition">
+	称单步法具有 <b>`p` 阶精度</b>, 如果存在最大整数 `p` 使
+	<span class="formula">
+		`T_(n+1) = psi(x_n, y(x_n)) h^(p+1) + O(h^(p+2)) = O(h^(p+1))`.
+	</span>
+	其中 `psi(x_n, y(x_n)) h^(p+1)` 称为<b>局部截断误差主项</b>.
+</p>
+
+<h3>Euler 法</h3>
+
+<span class="formula">
+	`y_(n+1) = y_n + h f(x_n, y_n)`.
+</span>
+
+<p>	其思想是从 `(x_0, y_0)` 出发, `h` 为步长作折线. 以 `x_n`
+	点的导数近似替代斜率.
+	下面计算局部截断误差. 设 `y_n = y(x_n)` 是精确的, Taylor 展开得
+	<span class="formula">
+		`y(x_(n+1)) = y(x_n+h) = y(x_n) + h y'(x_n) + h^2/2 y''(x_n) +
+		O(h^3)`,
+	</span>
+	得到误差估计
+	<span class="formula">
+		`y(x_(n+1)) - y_(n+1) = h^2/2 y''(x_n) + O(h^3) = O(h^2)`.
+	</span>
+	故 Euler 法具有一阶精度.
+</p>
+
+<h3>后退 Euler 法</h3>
+
+<span class="formula">
+	`y_(n+1) = y_n + h f(x_(n+1), y_(n+1))`.
+</span>
+
+<p>	公式右端含有未知的 `y_(n+1)`, 因此此方法是隐式的.
+	相比显式方法, 隐式方法计算量大, 但数值稳定性一般更好.
+	通常先以显式 Euler 法提供初值, 再用迭代法求解隐式方程, 即
+	<span class="formula">`{
+		(y_(n+1)^((0)) = y_n + h f(x_n, y_n)),
+		(y_(n+1)^((k+1)) = y_n + h f(x_(n+1), y_(n+1)^((k))))
+	:}`
+	</span>
+</p>
+
+<p> 因为
+	<span class="formula">
+		`  |y_(n+1)^((k+1)) - y_(n+1)|
+		=  h | f(x_(n+1), y_(n+1)^((k)) - f(x_(n+1), y_(n+1)) |
+		le hL |y_(n+1)^((k)) - y_(n+1)|`,
+	</span>
+	所以只要 `hL lt 1`, 迭代就收敛.
+</p>
+
+<p> 后退 Euler 法也具有一阶精度:
+	<span class="formula">`{:
+	(		T_(n+1)
+		,=	y(x_(n+1)) - y(x_n) - h f(x_(n+1), y(x_(n+1)))
+	),(	,=	h y'(x_n) + h^2/2 y''(x_n) + O(h^3)
+		  - h (y'(x_n) + h y''(x_n) + O(h^2))
+	),(	,= - h^2/2 y''(x_n) + O(h^3).
+	):}`
+	</span>
+</p>
+
+<h3>梯形方法</h3>
+
+<span class="formula">
+	`y_(n+1) = y_n + h/2 ( f(x_n, y_n) + f(x_(n+1), y_(n+1)) )`.
+</span>
+
+<p>	迭代格式:
+	<span class="formula">`{
+		( y_(n+1)^((0)) ,= y_n + h f(x_n, y_n) ),
+		( y_(n+1)^((k+1)) ,= y_n + h/2 (f(x_n, y_n) + f(x_(n+1),
+		y_(n+1)^((k)))) ),
+		( ,= 1/2 (y_(n+1)^((0)) + y_n + h f(x_(n+1), y_(n+1)^((k)))) )
+	:}`
+	</span>
+</p>
+
+<p>	因为
+	<span class="formula">
+		`  |y_(n+1)^((k+1)) - y_(n+1)|
+		=  h/2 |f(x_(n+1), y_(n+1)^((k))) - f(x_(n+1), y_(n+1))|
+		le (hL)/2 |y_(n+1)^((k)) - y_(n+1)|`,
+	</span>
+	故只要 `(hL)/2 lt 1`, 迭代就收敛.
+</p>
+
+<p>	梯形方法具有二阶精度. 以 `y', y'', y'''` 记
+	`y'(x_n)`, `y''(x_n)`, `y'''(x_n)`, 则
+	<span class="formula">`{:
+	(		T_(n+1)
+		,=	y(x_(n+1)) - y(x_n) - h/2 (y'(x_n) + y'(x_(n+1)))
+	),(	,=	hy' + h^2/2 h'' + h^3/6 y''' + O(h^4)
+		  - h/2 (y' + y' + hy'' + h^2/2 y''' + O(h^3))
+	),(	,=	-1/12 y''' + O(h^4).
+	):}`
+	</span>
+</p>
+
+<h3>改进 Euler 方法 (预测 - 校正法)</h3>
+
+<p>	作一次预测 (`y_p`) 与一次校正 (`y_c`),
+	然后取平均值:
+	<span class="formula">`{
+		(y_p = y_n + h f(x_n, y_n)),
+		(y_c = y_n + h f(x_(n+1), y_p)),
+		(y_(n+1) = 1/2(y_p + y_c))
+	:}`
+	</span>
+	这相当于在梯形方法中取 `k = 0`, 因此改进 Euler 法和梯形方法一样,
+	具有二阶精度. 下一节我们将证明这一点.
+</p>
+
+<h3>单步法与积分方程的联系</h3>
+
+<p>	对微分方程积分得
+	<span class="formula">
+		`y(x_(n+1)) = y(x_n) + int_(x_n)^(x_(n+1)) f(t, y(t)) dt`,
+	</span>
+	分别以 `y_(n+1)`, `y_n` 替代 `y(x_(n+1))`, `y(x_n)`, 并
+</p>
+
+<ol>
+	<li>以左矩形 `h f(x_n, y_n)` 替换积分, 得到 Euler 法;</li>
+	<li>以右矩形 `h f(x_(n+1), y_(n+1))` 替换积分, 得到后退 Euler 法;</li>
+	<li>以梯形 `h/2 (f(x_n, y_n) + f(x_(n+1), y_(n+1)))` 替换积分,
+		得到梯形方法.
+	</li>
+</ol>
+
+<h2>(显式) Runge-Kutta 方法</h2>
+
+<span class="formula">`{
+	( K_1 = f(x_n, y_n) ),
+	( K_i = f(x_n + lambda_i h,
+		y_n + h sum_(j=1)^(i-1) mu_(ij) K_j) ),
+	( y_(n+1) = y_n + h sum_(i=1)^r c_i K_i )
+:}`; `c_i`, `lambda_i`, `mu_(ij)` 为待定系数.
+</span>
+
+<h3>改进 Euler 法 (r=2)</h3>
+
+<span class="formula">`{
+	( K_1 = f(x_n, y_n) ),
+	( K_2 = f(x_n + h, y_n + h K_1) ),
+	( y_(n+1) = y_n + h/2 (K_1 + K_2) )
+:}`
+</span>
+
+<h3>中点公式 (r=2)</h3>
+
+<span class="formula">`{
+	( K_1 = f(x_n, y_n) ),
+	( K_2 = f(x_n + h/2, y_n + h/2 K_1) ),
+	( y_(n+1) = y_n + h K_2 )
+:}`
+</span>
+
+<h3>Kutta 三阶方法 (r=3)</h3>
+
+<span class="formula">`{
+	( K_1 = f(x_n, y_n) ),
+	( K_2 = f(x_n + h/2, y_n + h/2 K_1) ),
+	( K_3 = f(x_n + h, y_n - h K_1 + 2h K_2) ),
+	( y_(n+1) = y_n + h/6 (K_1 + 4K_2 + K_3) )
+:}`
+</span>
+
+<h3>四阶 R-K 方法 (r=4)</h3>
+
+<p>	此方法十分有效而且常用.
+	<span class="formula">`{
+		( K_1 = f(x_n, y_n) ),
+		( K_2 = f(x_n + h/2, y_n + h/2 K_1) ),
+		( K_3 = f(x_n + h/2, y_n + h/2 K_2) ),
+		( K_4 = f(x_n + h, y_n + h K_3) ),
+		( y_(n+1) = y_n + h/6 (K_1 + 2K_2 + 2K_3 + K_4) )
+	:}`
+	</span>
+</p>
+
+<h3>确定二阶 R-K 方法的系数</h3>
+
+<span class="formula">`{
+	( K_1 = f(x_n, y_n) ),
+	( K_2 = f(x_n + lambda_2 h, y_n + mu_21 h K_1) ),
+	( y_(n+1) = y_n + h (c_1 K_1 + c_2 K_2) )
+:}`
+</span>
+
+<p>	下面通过计算确定系数 `c_1`, `c_2`, `lambda_2`, `mu_21`,
+	使公式阶数尽量高. 以 `f`, `f_x`, `f_y`, `f_(x x)`, `f_(xy)`, `f_(yy)`,
+	`y', y'', y'''` 简记对应函数在 `(x_n, y_n)` 或 `x_n` 处的值, 则
+	<span class="formula">
+		`y' = f`, `quad y'' = f_x + y' f_y = f_x + f f_y`,
+	</span>
+	<span class="formula">`{:(
+			T_(n+1)
+		,=	y(x_(n+1)) - y(x_n) - h(c_1 K_1 + c_2 K_2)
+	),(	,=	hy' + h^2/2 y'' + O(h^3)
+	),( ,\  - h (c_1 f + c_2 ( f + lambda_2 h f_x + mu_21 h f f_y
+			+ O(h^2)))
+	),(	,=	(1-c_1-c_2)f h + (1/2(f_x + f f_y) - c_2 lambda_2 f_x - c_2
+			mu_21 f f_y) h^2 + O(h^3).
+	):}
+	</span>
+	该方法至少具有二阶精度, 即 `T_(n+1) = O(h^3)` 当且仅当
+	<span class="formula">`{
+		(1 - c_1 - c_2 = 0),
+		(1/2 - c_2 lambda_2 = 0),
+		(1/2 - c_2 mu_21 = 0)
+	:}`
+	</span>
+	成立. 这一非线性方程组的解不唯一, 可令 `c_2 != 0`, 则
+	<span class="formula">
+		`c_1 = 1 - c_2`, `lambda_2 = mu_21 = 1/(2 c_2)`.
+	</span>
+	这样得到的公式称为二阶 R-K 方法. 取
+	`c_1 = c_2 = 1/2`, `lambda_2 = mu_21 = 1` 时, 即改进 Euler 法;
+	取 `c_1 = 0`, `c_2 = 1`, `lambda_2 = mu_21 = 1/2` 时, 即中点公式.
+</p>
+
+<p>	二阶 R-K 方法能否达到三阶精度? 为此需把 `y(x_(n+1))` 展开到三阶,
+	`K_2` 展开到二阶. 然而
+	<span class="formula">
+		`y''' = f_(x x) + 2f f_(xy) + f^2 f_(yy) + y'' f_y`
+		`= f_(x x) + 2f f_(xy) + f^2 f_(yy) + f_x f_y + f f_y^2`
+	</span>
+	不能通过选择参数消掉. 故二阶 R-K 方法最高为二阶精度.
+</p>
+
+<p class="note">
+	R-K 方法的推导基于 Taylor 展开, 它要求所求的解具有较好的光滑性质.
+	如果解的光滑性差, 那么四阶 R-K 方法的精度可能反而不如改进 Euler
+	方法.
+</p>
+
+<h3>变步长方法</h3>
+
+???
+
+<h2>单步法的收敛性与稳定性</h2>
+
+<h3>收敛性与相容性</h3>
+
+<p class="definition">
+	称一种数值方法 (如单步法) 是<b>收敛</b>的, 如果它对于固定的
+	`x_n = x_0 + nh`, 有 `lim_(h to 0) y_n = y(x_n)`.
+</p>
+
+<p class="theorem">
+	设单步法 `y_(n+1) = y_n + h varphi(x_n, y_n, h)` 具有 `p` 阶精度,
+	增量函数 `varphi` 关于 `y` 满足 Lipschitz 条件, 且初值 `y_0` 准确,
+	则其<b>整体截断误差</b>
+	<span class="formula">
+		`e_n = y(x_n) - y_n = O(h^p)`.
+	</span>
+</p>
+
+<p> 对于 `p ge 1` 的单步法, 其收敛性归结于验证其增量函数关于 `y` 的
+	Lipschitz 条件. 可以验证, Euler 法, 改进 Euler 法, 各阶的 R-K
+	法均收敛.
+</p>
+
+<p> 因为局部截断误差
+	<span class="formula">`{:(,
+			y(x+h) - y(x) - h varphi(x, y(x), h)
+	),(	=,	h y'(x) + O(h^2) - h(varphi(x, y(x), 0) + O(h))
+	),(	=,	h (y'(x) - varphi(x, y(x), 0)) + O(h^2).
+	):}`
+	</span>
+	所以单步法的精度 `p ge 1` 的充要条件是 `varphi(x, y(x), 0) = y'(x) =
+	f(x, y)`.
+</p>
+
+<p class="definition">
+	称单步法的增量函数 `varphi(x, y, h)` 与初值问题 (1-1) <b>相容</b>,
+	如果
+	<span class="formula">
+		`varphi(x, y, 0) = f(x, y)`.
+	</span>
+</p>
+
+<p class="corollary">
+	单步法收敛当且仅当其至少具有一阶精度, 也当且仅当它是相容的.
+</p>
+
+<h3>绝对稳定性与绝对稳定域</h3>
+
+<p class="definition">
+	称一种数值方法是<b>稳定</b>的, 如果它在某一节点上大小为 `delta`
+	的扰动于以后的各节点值上产生的偏差均不超过 `delta.
+</p>
+
+<p>	简单起见, 考察方程 `y' = lambda y`, `lambda in CC` 的稳定性.
+	为保证微分方程本身的稳定性, 这里设 `"Re"(lambda) lt 0`.
+</p>
+
+<p class="note">
+	一般方程可以通过局部线性化, 化为 `y' = lambda y` 的形式. 如
+	???
+</p>
+
+<p>	设单步法求解 `y' = lambda y` 的迭代格式为
+	<span class="formula">
+		`y_(n+1) = E(h lambda) y_n`,
+	</span>
+	(如 Euler 公式, 取 `E(h lambda) = (1+h lambda)` 即可).
+	节点值 `y_n` 上有一扰动 `epsi_n`, 则
+	<span class="formula">
+		`epsi_(n+1) = E(h lambda) epsi_n`.
+	</span>
+	只要 `|E(h lambda)| le 1`, 它就是稳定的.
+</p>
+
+<p class="definition">
+	称复平面 `mu = lambda h` 上满足 `|E(h lambda)| lt 1`
+	的区域为<b>稳定稳定域</b>, 它与实轴的交为<b>绝对稳定区间</b>.
+</p>
+
+<p>	显式方法的稳定域围绕于点 `lambda h = -1` 附近, `h` 不满足稳定条件时,
+	误差增长很快. 隐式 Euler 法, 梯形法对 `0 lt h lt oo` 均稳定,
+	称这类对步长没有限制的方法为 <b>A-稳定</b>的.
+</p>
+
+<h2>线性多步法</h2>
+
+<span class="formula">
+	`y_(n+k) = sum_(i=0)^(k-1) alpha_i y_(n+i) + h sum_(i=0)^k beta_i
+	f_(n+i)`.
+</span>
+
+<p>	`beta_k = 0` 时, 为显式 `k` 步法.</p>
+
+<p class="definition">
+	线性 `k` 步法在 `x_(n+k)` 上的<b>局部截断误差</b>为
+	<span class="formula">
+		`T_(n+k) = y(x_(n+k)) - sum_(i=0)^(k-1) alpha_i y(x_(n+i)) - h
+		sum_(i=0)^k beta_i y'(x_(n+i))`.
+	</span>
+	称方法是 <b>`p` 阶精度</b>的, 如果存在最大整数 `p` 使得
+	`T_(n+k) = O(h^(p+1))`. 称方法<b>相容</b>, 如果 `p ge 1`.
+</p>
+
+<p class="theorem">
+	线性 `k` 步法的相容性条件为
+	<span class="formula">
+		`p ge 1 iff {
+		( sum_(i=0)^(k-1) alpha_i = 1 ),
+		( sum_(i=1)^(k-1) i alpha_i + sum_(i=0)^k beta_i = k )
+	:}`
+	</span>
+</p>
+
+<p class="prove">
+	将 `y_(n+i)` 与 `f_(n+i)` 展开, 用 `y, y', y'', y'''` 简记
+	`y(x_n)`, `y'(x_n)`, `y''(x_n)`, `y'''(x_n)`, 有
+	<span class="formula">
+		`y_(n+i) = y(x_n + ih) = y + ih y' + (ih)^2/2 y'' + O(h^3)`,<br/>
+		`f_(n+i) = f(x_(n+i), y_(n+i)) = y'(x_n + ih) = y' + ih y'' +
+		(ih)^2/2 y''' + O(h^3)`,<br/>
+
+		` T_(n+k)
+		= y(x_(n+k)) - sum_(i=0)^(k-1) alpha_i y(x_(n+i)) - h
+		  sum_(i=0)^k beta_i y'(x_(n+i))
+		= sum_(q=0)^oo c_q h^q y^((q))(x_n)`,
+	</span>
+	其中
+	<span class="formula">`c_q = {
+		( 1 - sum_(i=0)^(k-1) alpha_i, q = 0),
+		( k - sum_(i=1)^(k-1) i alpha_i - sum_(i=0)^k beta_i, q = 1),
+		( 1/(q!) (k^q - sum_(i=1)^(k-1) i^q alpha_i)
+		  - 1/((q-1)!) sum_(i=1)^k i^(q-1) beta_i, q ge 2)
+	:}`
+	</span>
+	于是 `p ge 1 iff c_0 = c_1 = 0`. 进一步, 适当选择系数 `alpha_i`,
+	`beta_i`, 可以使
+	<span class="formula">
+		`c_0 = c_1 = cdots = c_p = 0`, `c_(p+1) != 0`.
+	</span>
+	这时构造的多步法是 `p` 阶精度的.
+</p>
+
+<h3>Adams 方法</h3>
+
+<p>	即 `alpha_0 = alpha_1 = cdots = alpha_(k-2) = 0`, `alpha_(k-1) = 1` 的
+	`k` 步法. 显式 Adams 方法具有 `k` 阶精度, 隐式则有 `k+1` 阶.
+</p>
+
+<h3>Milne 方法</h3>
+
+<p>	即 `alpha_0 = 1`, `alpha_1 = alpha_2 = alpha_3 = 0` 的 4 步法. 具有 4
+	阶精度.
+</p>
+
+<h3>Simpson 方法</h3>
+
+<p>
+	<span class="formula">
+		`y_(n+2) = y_n + h/3 (f_n + 4f_(n+1) + f_(n+2))`,
+	</span>
+	隐式 2 步 4 阶法, 但其绝对稳定域为空, 不实用.
+</p>
+
+<h3>Hamming 方法</h3>
+
+<p>
+	<span class="formula">
+		`y_(n+3) = sum_(i=0)^2 alpha_i y_(n+i) + h sum_(i=1)^3 beta_i
+		f_(n+i)`, `alpha_1 = 0`.
+	</span>
+	作为 Simpson 方法的改进, 是 3 步 4 阶方法.
+</p>
+
+<h3>预测 - 校正法</h3>
+
+<p>	取同阶显式方法与隐式方法搭配. 如四阶 Adams 显式/隐式方法搭配, 四阶
+	Milne / Hamming 方法搭配等.
+</p>
+
+<h3>利用 Taylor 展开直接构造多步法公式</h3>
+
+<p class="example">
+???
+</p>
+
+<h2>线性多步法的收敛性与稳定性</h2>
+
+???
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>
+

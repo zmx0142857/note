@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>非线性方程数值解法</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>二分法</h2>
+
+<p>	设 `f(a) f(b) lt 0`, 在 `[a, b]` 上求连续函数 `f(x)` 的根.
+	令 `x_0 = (a+b)/2`, `k = 0`.
+</p>
+
+<ol>
+	<li>若 `f(x_k) = 0`, 根已找到;</li>
+	<li>若 `f(a) f(x_k) lt 0`, 令 `[a_(k+1), b_(k+1)] = [a, x_k]`,
+		转步骤 4;
+	</li>
+	<li>若 `f(x_0) f(b) lt 0`, 令 `[a_(k+1), b_(k+1)] = [x_k, b]`,
+		转步骤 4;
+	</li>
+	<li>`k := k+1`.
+		若 `b_k - a_k = (b-a)/2^k lt epsi`,
+		则以 `x_k = (a_k + b_k)/2` 作为近似根, 否则转步骤 1.
+	</li>
+</ol>
+
+<h2>不动点迭代法</h2>
+
+<div class="theorem">
+	<b>Banach 压缩映象原理</b>
+	设
+	<ol>
+		<li>`varphi(x) in C[a, b]`;</li>
+		<li>`a le varphi(x) le b, x in [a, b]`;</li>
+		<li>`EE L in (0, 1)`, `AA x, y in [a, b]`,
+			`|varphi(x) - varphi(y)| le L|x-y|`.
+		</li>
+	</ol>
+	则 `varphi(x)` 在 `[a, b]` 上存在唯一的<b>不动点</b> `x^**`,
+	即 `x^** = varphi(x^**)`. 此时对任意 `x_0 in [a, b]`, 迭代
+	<span class="formula">
+		`x_(k+1) = varphi(x_k)`, `k = 0, 1, 2, cdots`
+	</span>
+	收敛到 `x^**`, 并有误差估计
+	<span class="formula">
+		`|x_k - x^**| le 1/(1-L) |x_(k+1) - x_k| le L^k/(1-L) |x_1 -
+		x_0|`.
+	</span>
+</div>
+
+<p class="note">
+	`varphi(x) in C^1[a, b]` 时, 定理条件 3 可用 `|varphi'(x)| le L lt 1`
+	代替.
+</p>
+
+<p class="corollary">
+	设 `x^**` 为 `varphi(x)` 的不动点, `varphi'(x)` 在 `x^**`
+	的某邻域连续且 `|varphi'(x)| lt 1`, 则存在 `x^**` 的某个邻域 `R: |x -
+	x^**| le delta`, 使迭代法对任意 `x_0 in R` 收敛到 `x^**`.
+	称迭代法<b>局部收敛</b>到 `x^**`.
+</p>
+
+<p class="definition">
+	对迭代过程 `x_(k+1) = varphi(x_k)` 及正整数 `p`, 如果
+	`varphi^((p))(x)` 在不动点 `x^**` 附近连续, 且 `varphi'(x^**) =
+	varphi''(x^**) = cdots = varphi^((p-1))(x^**) = 0`,
+	`varphi^((p))(x^**) != 0`, 则称迭代过程在 `x^**` 附近 <b>`p`
+	阶收敛</b>, 即
+	<span class="formula">
+		`lim_(k to oo) e_(k+1)/e_k^p = c != 0`,
+	</span>
+	其中 `e_k = x_k - x^**`.
+	特别 `p = 1` 时称为<b>线性收敛</b>, `p = 2` 时称为<b>平方收敛</b>,
+	`p gt 1` 时称为<b>超线性收敛</b>.
+</p>
+
+<p class="note">
+	`varphi(x^**) != 0` 时, 最多为线性收敛.
+</p>
+
+<h2>Aitken `Delta^2` 加速方法 / Steffensen 迭代法</h2>
+
+<span class="formula">`{
+	( x_(k+1) = varphi(x_k) ),
+	( x_(k+2) = varphi(x_(k+1)) ),
+	( bar x_(k+1) = x_k - (x_(k+1) - x_k)^2/(x_k - 2x_(k+1) + x_(k+2))
+	  = x_k - ((Delta x_k)^2)/(Delta^2 x_k) )
+:}`
+</span>
+
+<p>	令 `epsi(x) = varphi(x) -x`, `bar x_(k+1)` 是直线 `(x_k, epsi(x_k))`,
+	`(x_(k+1), epsi(x_(k+1)))` 与 `x` 轴的交点. 当迭代 `x = varphi(x)`
+	`p` 阶收敛时, Steffensen 迭代是 `p+1` 阶收敛的.
+</p>
+
+<h2>Newton 法</h2>
+
+<p>	Newton 法的思想是将非线性方程 `f(x) = 0` 归结为线性方程. 设 `f(x)`
+	有近似根 `x_k`, `f'(x_k) != 0`, 将 `f` 在 `x_k` 展开,
+	<span class="formula">
+		`0 = f(x) ~~ f(x_k) + f'(x_k) (x-x_k)`,
+	</span>
+	得到公式
+	<span class="formula">
+		`x_(k+1) = x_k - f(x_k)/(f'(x_k))`, `k = 0, 1, cdots`
+	</span>
+	Newton 法是平方收敛的, 且
+	<span class="formula">
+		`lim_(k to oo) (x_(k+1) - x^**)/(x_k - x^**)^2 =
+		(f''(x^**))/(2f'(x^**)`.
+	</span>
+	若迭代次数达到 `N` 或 `f'(x_k) = 0`, 方法失败; 若 `|f(x_1)| lt epsi_1`
+	或 `min(|x_(k+1) - x_k|, |x_(k+1) - x_k|/|x_(k+1)| ) lt epsi_2`,
+	则终止迭代, 以 `x_(k+1)` 为近似根.
+</p>
+
+<h3>简化 Newton 法</h3>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>
