@@ -131,15 +131,15 @@ function make_nav() {
 }
 
 function hideAnswers(classNames) {
-	for (var className of classNames) {
-		console.log(className);
-		var answers = document.getElementsByClassName(className);
+	for (var k = 0; k < classNames.length; ++k) {
+		var answers = document.getElementsByClassName(classNames[k]);
 		for (var i = 0; i < answers.length; ++i) {
 			var button = document.createElement('button');
-			var id = className + '-' + filename + '-' + (i+1);
-			button.innerHTML = '+';
+			var id = classNames[k] + '-' + filename + '-' + (i+1);
+			button.innerHTML = classNames[k] == 'prove' ? '证 &#9654;' :
+				classNames[k] == 'solve' ? '解 &#9654;' : '答 &#9654;';
 			button.onclick = toggleShowAnswer(button, id);
-			button.style = "width: 18px; height: 18px; border: none; border-radius: 9px; text-align: center; line-height: 18px; color: white; font-size: 16px; background: rgba(0, 0, 0, 0.5)";
+			button.className = 'toggle-show-answer';
 			document.body.insertBefore(nav, document.body.firstChild);
 			answers[i].parentElement.insertBefore(button, answers[i]);
 			answers[i].hidden = 'true';
@@ -150,14 +150,15 @@ function hideAnswers(classNames) {
 
 function toggleShowAnswer(button, id) {
 	return function() {
-		console.log(id);
 		var answer = document.getElementById(id);
-		if (button.innerHTML == '+') {
-			button.innerHTML = '-';
+		if (answer.hidden) {
 			answer.removeAttribute('hidden');
+			button.innerHTML = button.innerHTML[0] + ' &#9660;';
+			button.style.borderRadius = '0.5em 0.5em 0 0';
 		} else {
-			button.innerHTML = '+';
-			answer.hidden = 'true';
+			answer.hidden = true;
+			button.innerHTML = button.innerHTML[0] + ' &#9654;';
+			button.style.borderRadius = '0.5em';
 		}
 	};
 }
@@ -174,7 +175,9 @@ decorate('example', '例');
 decorate('note', '注');
 decorate('method', '法', style_num); // place this before '证' and '解'. got problem with the numbering.
 decorate('label', '', style_formula);
+/*
 decorate('prove', '证', style_void);
 decorate('solve', '解', style_void);
 decorate('answer', '答', style_void);
+*/
 hideAnswers(['prove', 'solve', 'answer', 'collapse']);
