@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>附录</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>常用离散型分布</h2>
+
+<table>
+	<tr>
+		<td>名称</td>
+		<td>概率分布 `p_k`</td>
+		<td>备注</td>
+		<td>数学期望 `sum_(k=1)^n p_k x_k`</td>
+		<td>方差 `E(xi-E xi)^2`</td>
+		<td>特征函数 `E "e"^(it xi)`</td>
+	</tr>
+	<tr>
+		<td>退化分布 `I_c(x)`</td>
+		<td>`P{xi=c} = 1`</td>
+		<td></td>
+		<td>`c`</td>
+		<td>`0`</td>
+		<td>`"e"^(ict)`</td>
+	</tr>
+	<tr>
+		<td>两点分布 (Bernoulli 分布)</td>
+		<td>`p_1 = p`, `p_0 = q`</td>
+		<td>`0 lt p lt 1`, `p + q = 1`</td>
+		<td>`p`</td>
+		<td>`pq`</td>
+		<td>`p"e"^(it) + q`</td>
+	</tr>
+	<tr>
+		<td>二项分布 `B(n, p)`</td>
+		<td>`b(k; n, p) = ((n),(k)) p^k q^(n-k)`</td>
+		<td>`k in [0, n] nn ZZ`, `0 lt p lt 1`, `p + q = 1`</td>
+		<td>`np`</td>
+		<td>`npq`</td>
+		<td>`(p"e"^(it) + q)^n`</td>
+	</tr>
+	<tr>
+		<td>Poisson 分布 `P(lambda)`</td>
+		<td>`p(k;lambda) = lambda^k/(k!) "e"^-lambda`</td>
+		<td>`k = {0} uu ZZ^+`, `lambda gt 0`</td>
+		<td>`lambda`</td>
+		<td>`lambda`</td>
+		<td>`"e"^(lambda("e"^(it)-1))`</td>
+	</tr>
+	<tr>
+		<td>几何分布</td>
+		<td>`g(k;p) = q^(k-1) p`</td>
+		<td>`k in ZZ^+`, `0 lt p lt 1`, `p + q = 1`</td>
+		<td>`1/p`</td>
+		<td>`q/p^2`</td>
+		<td>`(p"e"^(it))/(1-q"e"^(it))`</td>
+	</tr>
+	<tr>
+		<td>超几何分布</td>
+		<td>`p_k = [((M),(k)) ((N-M),(n-k))]/{:((N),(n)):}`</td>
+		<td>`M, N, n in ZZ^+`, `M, n le N`,
+			`k = [0, min(M, n)] nn ZZ`
+		</td>
+		<td>`(nM)/N`</td>
+		<td>`(nM)/N (1-M/N) * (N-n)/(N-1)`</td>
+		<td>`sum_(k=0)^n p_k "e"^(itk)`</td>
+	</tr>
+	<tr>
+		<td>Pascal 分布</td>
+		<td>`p_k = ((k-1), (r-1)) p^r q^(k-r)`</td>
+		<td>`r in ZZ^+`, `k in [r, oo) nn ZZ`, `0 lt p lt 1`, `p + q = 1`
+		</td>
+		<td>`r/p`</td>
+		<td>`(rq)/p^2`</td>
+		<td>`( (p"e"^(it)) / (1-q"e"^(it)) )^r`</td>
+	</tr>
+	<tr>
+		<td>负二项分布</td>
+		<td>`p_k = ((-r),(k)) p^r (-q)^k`</td>
+		<td>`k in {0} nn ZZ^+`, `0 lt p lt 1`, `p + q = 1`, `r gt 0`</td>
+		<td>`(rq)/p`</td>
+		<td>`(rq)/p^2`</td>
+		<td>`(p/(1-q"e"^(it)))^r`</td>
+	</tr>
+</table>
+
+<h2>常用连续型分布</h2>
+<table>
+	<tr>
+		<td>名称</td>
+		<td>概率密度函数 `p(x)`</td>
+		<td>备注</td>
+		<td>数学期望 `int_-oo^oo x "d"F(x)`</td>
+		<td>方差 `E(xi-E xi)^2`</td>
+		<td>特征函数 `E "e"^(it xi)`</td>
+	</tr>
+	<tr>
+		<td>正态分布 (Gauss 分布) `N(mu, sigma^2)`</td>
+		<td>`1/(sqrt(2 pi) sigma) "e"^(-(x-mu)^2/(2sigma^2))`</td>
+		<td>`x in RR`, `mu, sigma gt 0` 为常数</td>
+		<td>`mu`</td>
+		<td>`sigma^2`</td>
+		<td>`exp(i mu t - 1/2 sigma^2 t^2)`</td>
+	</tr>
+	<tr>
+		<td>均匀分布 `U[a, b]`</td>
+		<td>`{(1/(b-a), if a le x le b),(0, if "else"):}`</td>
+		<td>`-oo lt a lt b lt oo` 为常数</td>
+		<td>`(a+b)/2`</td>
+		<td>`(b-a)^2/12`</td>
+		<td>`("e"^(itb)-"e"^(ita))/(it(b-a))`</td>
+	</tr>
+	<tr>
+		<td>指数分布 `"Exp"(lambda) = Gamma(1, lambda)`</td>
+		<td>`{(lambda "e"^(-lambda x), if x ge 0),(0, if "else"):}`</td>
+		<td>`lambda gt 0` 为常数</td>
+		<td>`lambda^-1</td>
+		<td>`lambda^-2</td>
+		<td>`(1-(it)/lambda)^-1`</td>
+	</tr>
+	<tr>
+		<td>`chi^2` 分布 `= Gamma(n/2, 1/2)`</td>
+		<td>`{((x^(n/2-1) "e"^(-x/2))/(2^(n/2) Gamma(n/2)), if x ge 0),
+			(0, if "else"):}`
+		</td>
+		<td>`n in ZZ^+`</td>
+		<td>`n`</td>
+		<td>`2n`</td>
+		<td>`(1-2it)^(-n/2)`</td>
+	</tr>
+	<tr>
+		<td>`Gamma` 分布 `Gamma(r, lambda)`</td>
+		<td>`{( lambda^r/(Gamma(r)) x^(r-1) "e"^(-lambda x), if x ge 0),
+			(0, if "else"):}`
+		</td>
+		<td>`r, lambda gt 0` 为常数</td>
+		<td>`r lambda^-1`</td>
+		<td>`r lambda^-2`</td>
+		<td>`(1-(it)/lambda)^-r`</td>
+	</tr>
+	<tr>
+		<td>Cauchy 分布</td>
+		<td>`1/pi * lambda/(lambda^2 + (x-mu)^2)`</td>
+		<td>`x in RR`; `lambda gt 0` 为常数, `mu` 为常数</td>
+		<td>不存在</td>
+		<td>`exp(i mu t - lambda|t|)`</td>
+	</tr>
+	<tr>
+		<td>t 分布</td>
+		<td>`(Gamma((n+1)/2))/(sqrt(n pi) Gamma(n/2))
+			(1+x^2/n)^(-(n+1)/2)`
+		</td>
+		<td>`x in RR`, `n in ZZ^+`</td>
+		<td>`0` (`n gt 1`)</td>
+		<td>`n/(n-2)` (`n gt 2`)</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Pareto 分布</td>
+		<td>`{((r A^r)/x^(r+1), if x ge A), (0, if "else"):}`</td>
+		<td>`r, A gt 0`</td>
+		<td>`r gt 1` 时存在</td>
+		<td>`r gt 2` 时存在</td>
+	</tr>
+	<tr>
+		<td>F 分布</td>
+		<td>`{( (m^(m/2) n^(n/2))/(B(m/2, n/2)) *
+			x^(m/2-1)/(n+mx)^((m+n)/2), if x ge 0),
+			(0, if "else"):}`
+		</td>
+		<td>`m, n in ZZ^+`</td>
+		<td>`n/(n-2)` (`n gt 2`)</td>
+		<td>`(2n^2(m+n-2))/(m(n-2)^2(n-4))` (`n gt 4`)</td>
+	</tr>
+	<tr>
+		<td>Beta 分布</td>
+		<td>`{((x^(p-1) (1-x)^(q-1))/(B(p, q)), if 0 lt x lt 1),
+			(0, if "else"):}`
+		</td>
+		<td>`p, q gt 0` 为常数</td>
+		<td>`p/(p+q)`</td>
+		<td>`(pq)/((p+q)^2 (p+q+1))`</td>
+		<td>`sum_(k=0)^oo (B(p+q, p+k) (it)^k)/(B(p, p+q+k) k!)`</td>
+	</tr>
+	<tr>
+		<td>对数正态分布</td>
+		<td>`{(1/(sigma x sqrt(2 pi)) "e"^(-(ln x-alpha)^2/(2 sigma^2)),
+			if x gt 0), (0, if "else"):}
+		</td>
+		<td>`alpha, sigma gt 0` 为常数</td>
+		<td>`"e"^(alpha + sigma^2/2)`</td>
+		<td>`"e"^(2 alpha + sigma^2) ("e"^(sigma^2) - 1)`</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Weibull 分布</td>
+		<td>`{(alpha lambda x^(alpha-1) "e"^(-lambda x^alpha), if x gt 0),
+			(0, if "else"):}`
+		</td>
+		<td>`alpha, lambda gt 0` 为常数</td>
+		<td>`(Gamma(1/alpha + 1))/lambda^(1/alpha)`</td>
+		<td>`[Gamma(2/alpha+1) - (Gamma(1/alpha+1))^2]/lambda^(2/alpha)`
+		</td>
+		<td></td>
+	</tr>
+</table>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

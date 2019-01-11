@@ -18,7 +18,7 @@
 <p>	记 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
 	我们所讨论的定解问题为:
 	<span class="formula">`{(
-		square u = f(x","t), x in RR"," t in (0"," +oo)
+		square u = f(x,t), x in RR"," t in (0, +oo)
 	),(	u|_(t=0) = varphi(x), x in RR
 	),(	u_t|_(t=0) = psi(x), x in RR
 	):}`</span>
@@ -29,7 +29,7 @@
 <p>	将问题一分为三:
 	<span class="formula">
 		`{
-			(square u_1 = 0, x in RR"," t in (0"," +oo)),
+			(square u_1 = 0, x in RR"," t in (0, +oo)),
 			(u_1|_(t=0) = varphi(x), x in RR),
 			((u_1)_t|_(t=0) = 0, x in RR)
 		:}`
@@ -37,7 +37,7 @@
 	</span>
 	<span class="formula">
 		`{
-			(square u_2 = 0, x in RR"," t in (0"," +oo)),
+			(square u_2 = 0, x in RR"," t in (0, +oo)),
 			(u_2|_(t=0) = 0, x in RR),
 			((u_2)_t|_(t=0) = psi(x), x in RR)
 		:}`
@@ -45,7 +45,7 @@
 	</span>
 	<span class="formula">
 		`{
-			(square u_3 = f(x","t), x in RR"," t in (0"," +oo)),
+			(square u_3 = f(x,t), x in RR"," t in (0, +oo)),
 			(u_3|_(t=0) = 0, x in RR),
 			((u_3)_t|_(t=0) = 0, x in RR)
 		:}`
@@ -70,7 +70,7 @@
 <ol class="prove">
 	<li>由 `M_varphi` 定义,
 		<span class="formula">`{
-			(square M_varphi = 0, x in RR"," t in (0","+oo)),
+			(square M_varphi = 0, x in RR"," t in (0, +oo)),
 			(M_varphi|_(t=0) = 0, x in RR),
 			((M_varphi)_t|_(t=0) = varphi(x), x in RR)
 		:}`.</span>
@@ -78,10 +78,10 @@
 		<span class="formula">
 			`square u_1 = square del/(del t) M_varphi = del/(del t) square
 			M_varphi = 0`,<br/>
-			`u_1 |{::}_(t=0) = del/(del t) M_varphi|_(t=0) =
+			`{: u_1 |_(t=0) = {: del/(del t) M_varphi|_(t=0) =
 				varphi(x)`,<br/>
-			`(u_1)_t |{::}_(t=0) = del^2/{:del t:}^2 M_varphi|_(t=0)
-			= a^2 del^2/{:del x:}^2 M_varphi|_(t=0) = 0`.
+			`{:(u_1)_t |_(t=0) = {:del^2/(del t^2) M_varphi|_(t=0)
+			= a^2 {:del^2/(del x^2) M_varphi|_(t=0) = 0`.
 		</span>
 		最后一个等号成立是因为由 `M_varphi|_(t=0) = 0` 知 `M_varphi` 在
 		`x` 轴上恒为 `0`, 其二阶偏导自然也为 `0`.
@@ -107,6 +107,10 @@
 		故 `square u_3 = f(x, t)`.
 	</li>
 </ol>
+
+<p class="note">
+	对高维波动方程初值问题也有类似的结论, 且证明类似.
+</p>
 
 <h3>特征线法</h3>
 
@@ -386,6 +390,21 @@
 	称为<b>能量积分</b>或<b>能量模</b>.
 </p>
 
+<p class="note">
+	对高维波动方程初值问题也有类似的能量不等式, 且证明类似. 如二维情形下,
+	记特征锥
+		`K: |bm x - bm x_0|^2 le a^2 (t-t_0)^2`,
+		`K_tau = K nn {t le tau}`,
+		`Omega_tau = K nn {t = tau}`,
+	函数
+		`v = u_t^2 + a^2 |grad u|^2`.
+	则
+	<span class="formula">
+		`  iint_(Omega_tau) v dxdy
+		le M (iint_(Omega_0) v|_(t=0) dxdy + iiint_(K_tau) f^2 dx dy dz)`.
+	</span>
+</p>
+
 <p class="corollary">
 	对 `u` 的 `L^2` 模有估计
 	<span class="formula">
@@ -400,12 +419,13 @@
 </p>
 
 <p class="prove">
-	`AA tau in [0, t_0]`,
+	`AA tau in [0, t_0]`, 注意到矩形 `Omega_tau xx [0,
+	tau]`上的积分小于梯形 `K_tau` 上的, 有
 	<span class="formula">`{:(
 			int_(Omega_tau) [u^2]_(t=0)^(t=tau) dx
 		,=	int_(Omega_tau) dx int_0^tau del/(del t) u^2 dt
 	),(		
-		,le	2 iint_(K_tau) |u u_t| dx dt (矩形上的积分小于梯形上的)
+		,le	2 iint_(K_tau) |u u_t| dx dt
 	),( ,le	iint_(K_tau) u^2 dx dt + iint_(K_tau) u_t^2 dx dt.
 	):}`
 	</span>
@@ -444,7 +464,7 @@
 
 <p>	记 `R = (0, +oo)`, `Q = R xx R`, 在 `bar Q` 上求解
 	<span class="formula">`{
-		( square u = f(x"," t), x"," t in R),
+		( square u = f(x, t), (x, t) in Q),
 		( u|_(t=0) = varphi(x), x in bar R),
 		( (u_t)|_(t=0) = psi(x), x in bar R),
 		( u|_(x=0) = g(t), t in R)
@@ -463,7 +483,7 @@
 		`bar varphi(x) = {
 			(varphi(x), x ge 0),
 			(-varphi(-x), x lt 0)
-		:}`,
+		:}`, `quad`
 		`bar psi(x) = {
 			(psi(x), x ge 0),
 			(-psi(-x), x lt 0)
@@ -507,7 +527,7 @@
 	<img src="pic/"/>
 </p>
 
-<p class="note">
+<p>
 	为使 `u` 确实是半无界问题的解, 除了对 `f`, `varphi`, `psi`
 	的光滑性要求外, 还必须在角点 `(0, 0)` 处加上<b>相容性条件</b>
 	(<b>连接条件</b>):
@@ -531,7 +551,7 @@
 
 <p>	现在设 `g(t) !-= 0`. 令 `v = u - g(t)`, 则 `v` 适合
 	<span class="formula">`{
-		( square v = f(x"," t) - g''(t)),
+		( square v = f(x, t) - g''(t)),
 		( v|_(t=0) = varphi(x) - g(0)),
 		( v_t|_(t=0) = psi(x) - g'(0)),
 		( v|_(x=0) = 0)
@@ -558,7 +578,7 @@
 <h3>三维情形 (球面平均法)</h3>
 
 <span class="formula">`{
-	( u_(t t)^2 - a^2 laplace u = f(bm x","t),
+	( u_(t t)^2 - a^2 laplace u = f(bm x, t),
 		bm x in RR^3","t in (0","+oo)),
 	( u|_(t=0) = varphi(bm x), bm x in RR^3),
 	( u_t|_(t=0) = psi(bm x), bm x in RR^3)
@@ -632,7 +652,7 @@
 	<span class="formula">`{
 		( (del^2 M)/{:del t:}^2 - a^2 (del^2 M)/{:del r^2:} = 0 ),
 		( M|_(t=0) = 0 ),
-		( M_t|_(t=0) = r I(bm x"," r; psi) ),
+		( M_t|_(t=0) = r I(bm x,  r; psi) ),
 		( M|_(r=0) = 0 )
 	:}`
 	</span>

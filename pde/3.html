@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>热传导方程</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>初值问题</h2>
+
+<h3>Fourier 变换</h3>
+
+<p class="definition">
+	用 `L(-oo, oo)` 表示在 `(-oo, oo)` 上可积函数的全体.
+	设 `f(x) in L(-oo, oo)`, 那么积分
+	<span class="formula">
+		`hat(f)(lambda) = 1/sqrt(2 pi)int_-oo^oo f(x)"e"^(-i lambda x) dx`
+	</span>
+	有意义, 称为 `f(x)` 的 <b>Fourier 变换</b>.
+	`f` 在 Fourier 变换下的像 `hat f` 称为 `f` 的 <b>Fourier 变式</b>.
+	若 `hat(f)(lambda) in L(-oo, oo)`, 则定义
+	<span class="formula">
+		` (hat f)^ vv
+		= 1/sqrt(2 pi) "P.V." int_-oo^oo hat(f)(lambda)
+		  "e"^(i lambda x) "d" lambda
+		= lim_(N to oo) 1/sqrt(2 pi) int_-N^N hat(f)(lambda)
+		"e"^(i lambda x) "d"lambda`
+	</span>
+	为 `hat f` 的 <b>Fourier 逆变换</b>, 其中积分应当取 Cauchy 主值.
+</p>
+
+<p class="theorem">
+	<b>Fourier 积分定理</b>
+	若 `f(x) in L(-oo, oo) nn C^1(-oo, oo)`, 则有<b>反演公式</b>
+	<span class="formula">
+		`(hat f)^ vv = f`.
+	</span>
+</p>
+
+<ol class="corollary">
+	Fourier 变换的性质
+	<li>线性性质. 若 `f(x), g(x) in L(-oo, oo)`, `a, b in CC`, 则
+		<span class="formula">
+			`hat (af+bg) = a hat f + b hat g`.
+		</span>
+	</li>
+	<li>平移性质. 若 `f(x) in L(-oo, oo)`, `a in CC`, 则
+		<span class="formula">
+			`hat (f(x-a)) = "e"^(-i lambda a) hat f`.
+		</span>
+	</li>
+	<li>伸缩性质. 若 `f(x) in L(-oo, oo)`, `k in CC\{0}`, 则
+		<span class="formula">
+			`hat (f(kx)) = 1/|k| hat(f)(lambda/k)`.
+		</span>
+	</li>
+	<li>对称性质. 若 `f(x) in L(-oo, oo)`, 则
+		<span class="formula">
+			`f^ vv(lambda) = hat(f)(-lambda) = hat(f(-x))(lambda)`.
+		</span>
+	</li>
+	<li>微商性质. 若 `f(x), f' in C(-oo, oo) nn L(-oo, oo)`, 则
+		<span class="formula">
+			`hat(f') = i lambda hat f`.
+		</span>
+	</li>
+	<li>乘多项式. 若 `f(x), xf(x) in L(-oo, oo)`, 则
+		<span class="formula">
+			`hat (x f(x)) = i {:hat f:}'`.
+		</span>
+	</li>
+	<li>卷积性质. 若 `f(x), g(x) in L(-oo, oo)`, 则
+		<span class="formula">
+			`f ** g = int_-oo^oo f(x-t) g(t) dt in L(-oo, oo)`,
+		</span>
+		且
+		<span class="formula">
+			`hat (f ** g) = sqrt(2 pi) hat f hat g`.
+		</span>
+	</li>
+</ol>
+
+<p class="corollary">
+	由归纳法容易得, 对 `m ge 1`,
+	若 `f, f', cdots, f^((m)) in C(-oo, oo) nn L(-oo, oo)`, 则
+	<span class="formula">
+		`hat (f^((m))) = (i lambda)^m hat f`,
+	</span>
+	若 `f, xf, cdots, x^(m)f in L(-oo, oo)`, 则
+	<span class="formula">
+		`hat (x^m f) = i^m {:hat f:}^((m))`.
+	</span>
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

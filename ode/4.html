@@ -46,6 +46,41 @@
 	</span>
 </p>
 
+<p class="example">
+	解如下的常微分方程初值问题:
+	<span class="formula">`{
+		( x'' + a^2 x = f(t) ),
+		( x|_(t=0) = x_0 ),
+		( x'|_(t=0) = x'_0 )
+	:}`
+	</span>
+</p>
+<p class="solve">
+	`{cos at, sin at}` 构成方程的基本解组. 设 `x = c_1 cos at + c_2 sin
+	at`, 解线性方程组
+	<span class="formula">`{
+		( c_1' cos at + c_2' sin at = 0 ),
+		( c_1' sin at - c_2' cos at = -f/a )
+	:}`
+	</span>
+	得 `(c_1', c_2') = f/a (-sin at, cos at)`. 由初值条件有
+	<span class="formula">
+		`c_2|_(t=0) = (x_0')/a`, `quad c_1|_(t=0) = x_0`,
+	</span>
+	故
+	<span class="formula">
+		`c_1 = -1/a int_0^t f sin a tau "d"tau + x_0`,<br/>
+		`c_2 = 1/a (int_0^t f cos a tau "d"tau + x_0')`.
+	</span>
+</p>
+<p>
+	所以解为
+	<span class="formula">
+		`x = x_0 cos at + (x_0')/a sin at + 1/a int_0^t f(t) sin[a(t-tau)]
+		"d"tau`.
+	</span>
+</p>
+
 <h2>常系数齐次线性方程</h2>
 <p>
 	<span class="formula">
@@ -115,15 +150,15 @@
 <h3>Laplace 变换</h3>
 
 <span class="formula">
-	`cc"L"[f(t)] = F(s) = int_0^oo e^(-st) f(t) dt`,
+	`cc L[f(t)] = F(s) = int_0^oo e^(-st) f(t) dt`,
 	`"Re" s > sigma`
 </span>
 
-<p>	若 `cc"L"[x(t)] = X(s)`, 则 `cc"L"[x'(t)]` 存在且等于 `sX(s) - x(0)`.
+<p>	若 `cc L[x(t)] = X(s)`, 则 `cc L[x'(t)]` 存在且等于 `sX(s) - x(0)`.
 	由归纳法知
 	<span class="formula">
-		`cc"L"[x^((n))(t)] = s^n X(s) - sum_(k=0)^(n-1) s^(n-1-k)
-		x^((k))(0)`.
+		` cc L[x^((n))(t)]
+		= s^n X(s) - sum_(k=0)^(n-1) s^(n-1-k) x^((k))(0)`.
 	</span>
 	Laplace 变换将方程
 	<span class="formula">
@@ -131,15 +166,41 @@
 	</span>
 	变为
 	<span class="formula">
-		`X(s) sum_(i=0)^n a_i s^(n-i) = cc"L"[f(t)] + sum_(k=0)^(n-1)
-		x^((k))(0) sum_(i=0)^(n-1-k) a_i s^(n-1-i-k)`.
+		` X(s) sum_(i=0)^n a_i s^(n-i)
+		= cc L[f(t)] + sum_(k=0)^(n-1) x^((k))(0)
+		  sum_(i=0)^(n-1-k) a_i s^(n-1-i-k)`
+		`= cc L[f(t)] + sum_(k=0)^(n-1) x^((n-1-k))(0)
+		  sum_(i=0)^k a_i s^(k-i)`.
 	</span>
-	解出 `X(s)` 后, 适当分解分式, 再作 Laplace 反变换.
+	解出 `X(s)` 后, 适当分解分式, 再作 <b>Laplace 反变换</b>
+	<span class="formula">
+		`f(t) = 1/(2 pi i) lim_(T to oo) int_(gamma-iT)^(gamma+iT) e^(st)
+		F(s) "d"s`
+	</span>
+	其中 `gamma in RR` 使得积分路径位于 `F(s)` 的收敛域内.
 </p>
 
 <p class="note">
-	`cc"L"[t^p e^(zt)] = (Gamma(p+1))/(s-z)^(p+1)`,
+	`cc L[t^p e^(zt)] = (Gamma(p+1))/(s-z)^(p+1)`,
 	`p in (-1, +oo)`, `z in CC`, `"Re" s > "Re" z`.
+</p>
+
+<p class="example">
+	用 Laplace 变换解例4-1.
+</p>
+
+<p class="solve">
+	对方程两边作 Laplace 变换得
+	<span class="formula">
+		`X(s) (s^2+a^2) = x_0 s + x_0' + cc L[f(t)]`,<br/>
+		`X(s) = (x_0 s)/(s^2+a^2) + (x_0')/(s^2+a^2) + (cc
+		L[f(t)])/(s^2+a^2)`.
+	</span>
+	作 Laplace 反变换得
+	<span class="formula">
+		`x = x_0 cos at + (x_0')/a sin at + int_0^t f(t) sin
+		[a(t-tau)]"d"tau`.
+	</span>
 </p>
 
 <h3>降阶法</h3>
