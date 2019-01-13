@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>事件与概率</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>概率公理化</h2>
+
+<h3>`sigma` 域</h3>
+
+<div class="definition">
+	设 `Omega != O/`, 称 `cc F sube cc P(Omega)` 为空间 `Omega` 上的
+	<b>`sigma` 域</b>, 或 <b>`sigma` 代数</b>, 如果
+	<ol>
+		<li>`Omega in cc F`;</li>
+		<li>`A in cc F rArr A^C in cc F`;</li>
+		<li>`A_i in cc F`, `i = 1, 2, cdots` `rArr uuu_(i=1)^oo A_i in cc
+			F`.
+		</li>
+	</ol>
+</div>
+
+<p class="note">
+	`cc P(Omega)` 为 `Omega` 的全体子集构成的集合, 称为 `Omega`
+	的<b>幂集</b>.
+</p>
+
+<ol class="corollary">
+	若 `cc F` 是 `Omega` 上的 `sigma` 域, `A_i in F`, `i = 1, 2, cdots`;
+	`n in ZZ^+`, 则
+	<li>`O/ in cc F`;</li>
+	<li>`nnn_(i=1)^oo A_i, uuu_(i=1)^n A_i, nnn_(i=1)^n A_i in cc F`,
+		从而 `sigma` 域对其中集合的补运算与可列次的并, 交运算封闭.
+	</li>
+</ol>
+
+<p class="theorem">
+	`Omega` 上的 `sigma` 域之交仍是 `Omega` 上的 `sigma` 域.
+</p>
+
+<p class="definition">
+	设 `Omega != O/`, `cc G sube cc P(Omega)`, `Omega` 上包含 `cc G` 的
+	`sigma` 域显然是存在的 (如 `cc P(Omega)`). 取一切这样的 `sigma`
+	域之交, 记为 `m(cc G)`, 则 `m(cc G)` 是 `Omega` 上包含 `cc G` 的最小
+	`sigma` 域, 称为由 `cc G` 生成的 `sigma` 域.
+</p>
+
+<p class="example">
+	由一切形如 `[a, b)` 的有界左闭右开区间生成的 `RR` 上的 `sigma`
+	域称为<b>一维 Borel `sigma` 域</b> `cc B_1`. 类似地, 由一切 `RR^n`
+	中的半开闭矩体 `prod_(i=1)^n [a_i, b_i)` 生成的 `sigma` 域称为<b>`n`
+	维 Borel `sigma` 域</b> `cc B_n`.
+</p>
+
+<h3>概率的定义</h3>
+
+<p>	1933 年, Колмогоров А. Н. (科尔莫戈罗夫) 综合前人成果,
+	提出了概率论公理化结构, 其中概率的定义如下:
+</p>
+
+<div class="definition">
+	设集合 `Omega != O/`, `cc F` 为 `Omega` 上的一个 `sigma` 域,
+	`P` 是定义在 `cc F` 上的集合函数, 满足
+	<ol>
+		<li>(非负性) (`AA A in cc F`) `P(A) ge 0`;</li>
+		<li>(规范性) `P(Omega) = 1`;</li>
+		<li>(可列可加性)
+			<span class="formula">
+				`P(uuu_(i=1)^oo A_i) = sum_(i=1)^oo P(A_i)`,<br/>
+				`A_i in cc F`, `A_i nn A_j = O/`,
+				`i, j = 1, 2, cdots`, `i != j`.
+			</span>
+		</li>
+	</ol>
+	则称 `P` 为<b>概率</b>.
+	其他集合及其元素也有相应术语.
+	我们称 `Omega` 为<b>样本空间</b>, `omega in Omega` 为<b>样本点</b>.
+	称 `cc F` 为<b>事件域</b>, `A in cc F` 为<b>事件</b>; 特别 `Omega`
+	称为<b>必然事件</b>, `O/` 称为<b>不可能事件</b>.
+	`(Omega, cc F, P)` 为<b>概率空间</b>.
+</div>
+
+<p>	这一定义可以类比于一般 `sigma` 域上的测度定义.</p>
+
+<p class="note">
+	称事件 `A` 与 `B` <b>不相容</b>, 如果 `A nn B = O/`.
+	称事件 `A_1, A_2, cdots` 为<b>不相容事件组</b>, 如果 `A_i nn A_j =
+	O/`, `i != j`.
+</p>
+
+<ol class="corollary">
+	<b>概率的性质</b>
+	符号约定同定义, 从定义中的 3 条基本性质可以推出概率的其他性质:
+	<li>不可能事件的概率. `P(O/) = 0`.</li>
+	<li>有限可加性. 设 `A_i nn A_j = O/`, `i != j`, 则
+		<span class="formula">
+			`P(uuu_(i=1)^n A_i) = sum_(i=1)^n P(A_i)`.
+		</span>
+	</li>
+	<li>补事件的概率. 设 `A in cc F`, 记 `A^C = bar A`, 则
+		<span class="formula">
+			`P(bar A) = 1-P(A)`.
+		</span>
+	</li>
+	<li>差事件的概率. 设 `B sube A in cc F`, 记 `A \\ B = A - B`. 则
+		<span class="formula">
+			`P(A - B) = P(A) - P(B)`.
+		</span>
+	</li>
+	<li>单调性. `AA A, B in cc F`,
+		<span class="formula">
+			`B sube A rArr P(B) le P(A)`.
+		</span>
+		因此, 必然事件 `Omega` 的概率最大, 不可能事件 `O/` 的概率最小.
+		任意事件的概率总是不小于 0, 不大于 1 的.
+	</li>
+	<li>加法公式. `AA A, B in cc F`,
+		<span class="formula">
+			`P(A uu B) = P(A) + P(B) - P(A nn B)`.
+		</span>
+		这可以借助集合基数运算的公式
+			`|A uu B| = |A| + |B| - |A nn B|`
+		来证明.
+	</li>
+	<li>Boolean 不等式. `AA A, B in cc F`,
+		<span class="formula">
+			`P(A uu B) le P(A) + P(B)`.
+		</span>
+	</li>
+	<li>Bonferroni 不等式. `AA A, B in cc F`,
+		<span class="formula">
+			`P(A nn B) ge P(A) + P(B) - 1`.
+		</span>
+	</li>
+	<li>加法公式的推广. `AA A_i in cc F`, `i = 1, 2, cdots, n`, `n in
+		ZZ^+`,
+		<span class="formula">
+			` P(uuu_(i=1)^n A_i)
+			= sum_(i=1, cdots, n) P(A_i)
+			  - sum_((i lt j),(i","j = 1","cdots","n)) P(A_i nn A_j)`
+			 `+ sum_((i lt j lt k),(i","j","k=1","cdots","n))
+			    P(A_i nn A_j nn A_k)`
+		     `- cdots + (-1)^(n-1) P(prod_(i=1)^n A_i)`.
+		</span>
+		同样运用数学归纳法, Boolean 不等式与 Bonferroni
+		不等式也可以推广到 `n` 个事件的情形.
+	</li>
+</ol>
+
+<h3>概率的连续性</h3>
+
+<p class="definition">
+	称一个定义在 `sigma` 域 `cc F` 上的集合函数 `P`
+	为<b>下连续</b>的, 如果对 `cc F` 中任意递增集合列 `{S_n}` 有
+	<span class="formula">
+		` lim_(n to oo) P(S_n)
+		= P(lim_(n to oo) S_n)
+		:= P(uuu_(n=1)^oo S_n)`;
+	</span>
+	类似地, 称 `P` <b>上连续</b>, 如果对 `cc F` 中任意递减集合列 `{T_n}`
+	有
+	<span class="formula">
+		` lim_(n to oo) P(T_n)
+		= P(lim_(n to oo) T_n)
+		:= P(nnn_(n=1)^oo T_n)`.
+	</span>
+</p>
+
+<p class="note">
+	所谓递增集合列, 就是 `S_1 sube S_2 sube cdots`.
+</p>
+
+<div class="theorem">
+	设 `cc F` 是 `Omega` 上的 `sigma` 域, `P` 是 `cc F` 上的集合函数,
+	满足概率定义的非负性与规范性. 则 `P`
+	具有可列可加性当且仅当它有限可加且下连续.
+</div>
+
+<p class="corollary">
+	概率是下连续的, 也是上连续的.
+</p>
+
+<p class="corollary">
+	概率具有次可加性
+	<span class="formula">
+		`P(uuu_(i=1)^oo A_i) le sum_(i=1)^oo P(A_i)`.
+	</span>
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>
