@@ -3,7 +3,7 @@
 
 <head>
 
-<title>向量</title>
+<title>几何空间的线性结构和度量结构</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/math.css" />
@@ -13,7 +13,245 @@
 
 <body>
 
+<p>	这里将要研究的是 2 维以及 3 维 Euclid 空间 `E^2` 与 `E^3`,
+	通过向量的概念及其性质,
+	以及高等代数中关于向量空间的结论, 首先建立几何空间的仿射坐标系,
+	刻画其<b>线性结构</b> (基, 线性相关, 线性无关); 既而,
+	运用向量的内积与外积, 刻画其<b>度量结构</b> (角度, 距离, 面积, 体积).
+</p>
 
+<h2>向量及其线性运算</h2>
+
+<h3>基本概念</h3>
+
+<p class="definition">
+	既有大小, 又有方向的量称为<b>向量</b>或<b>矢量</b>, 用符号 `bm a, bm
+	b, bm c, cdots` 或 `vec a, vec b, vec c` 表示.
+</p>
+
+<p class="note">
+	向量 `bm a` 可以用一条有向线段 `vec(AB)` 表示, 用其长度 `|AB|`
+	表示向量的大小, 用 `A` 到 `B` 的指向表示向量的方向,
+	记为 `vec(AB) = bm a`.
+	不过向量不等同于有向线段, 它仅仅是 "大小" 与 "方向"
+	两个概念的集合, 即, 如果两个向量的大小与方向都相等, 则它们是同一向量.
+	因此, 若把 `vec(AB)` 平行移动, 得到的有向线段 `vec(CD)`
+	仍表示同一向量. 记 `vec(AB) = vec(CD)`.
+</p>
+
+<p class="definition">
+	向量 `bm a` 的大小又称为<b>长度</b>或<b>模</b>, 记为 `|bm a|`.
+	称长度为 0 的向量为<b>零向量</b>, 记为 `bb 0`. 零向量的方向不确定:
+	我们规定它与任意向量都是同向的. 称长度为 1 的向量为<b>单位向量</b>.
+	称长度与 `bm a` 相等, 方向与 `bm a` 相反的向量为 `bm a`
+	的<b>反向量</b>, 记为 `-bm a`. 例如, `vec(BA) = -vec(AB)`.
+</p>
+
+<p class="note">
+	我们考虑的向量总是属于某一集合的. 比如, 属于 2 维或 3 维 Euclid 空间
+	(`E^2` 或 `E^3`).  这一集合称为<b>向量空间</b>.
+	下面将引出向量的两种线性运算——加法与数乘, 我们将会看到,
+	向量空间是典型的线性空间.
+</p>
+
+<h3>向量的加法</h3>
+
+<p class="definition">
+	<b>三角形法则</b>
+	设有向量 `bm a, bm b`, 选择一起点 `A`, 作有向线段 `vec(AB) = bm a`,
+	`vec(BC) = bm b`, 则称 `vec(AC)` 表示的向量为 `bm a` 与 `bm b`
+	的<b>和</b>, 即
+	<span class="formula">
+		`vec(AB) + vec(BC) = vec(AC)`.
+	</span>
+</p>
+
+<p class="note">
+	若另取一个起点 `A_1`, 作 `vec(A_1 B_1) = bm a`, `vec(B_1 C_1) = bm b`,
+	容易说明 `vec(A_1 C_1)` 与 `vec(AC)` 表示同一个向量.
+	因此向量的加法与起点选择无关.
+</p>
+
+<p class="note">
+	也可以选取起点 `O`, 作 `vec(OA) = bm a`, `vec(OB) = bm b`, 再以 `OA`
+	和 `OB` 为邻边作平行四边形 `OACB`. 容易说明对角线 `vec(OC) = bm a + bm
+	b`. 这称为向量加法的<b>平行四边形</b>法则.
+</p>
+
+<ol class="corollary">
+	<b>向量加法的性质</b> 设 `bm a, bm b, bm c` 是任意向量, 则它们满足
+	<li>结合律. `(bm a + bm b) + bm c = bm a + (bm b + bm c)`;</li>
+	<li>交换律. `bm a + bm b = bm b + bm a`;</li>
+	<li>加法零元. `bm a + bb 0 = bm a`;</li>
+	<li>加法逆元. `bm a + (-bm a) = bb 0`.</li>
+	总之, 向量空间关于向量的加法成一 Abel 群.
+</ol>
+
+<p class="definition">
+	向量 `bm a, bm b` 的减法定义为
+	<span class="formula">
+		`bm a - bm b = bm a + (-bm b)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>三角不等式</b>
+	对任意向量 `bm a, bm b`,
+	<span class="formula">
+		`  | |bm a| - |bm b| |
+		le |bm a + bm b|
+		le |bm a| + |bm b|`.
+	</span>
+</p>
+
+<h3>向量的数乘</h3>
+
+<p class="definition">
+	实数 `lambda` 与向量 `bm a` 的<b>数乘</b>运算结果为一向量,
+	它的大小定义为
+	<span class="formula">
+		`|lambda bm a| = |lambda| |bm a|`,
+	</span>
+	当 `lambda gt 0` 时, 定义 `lambda bm a` 的方向与 `bm a` 相同,
+	`lambda lt 0` 时则与 `bm a` 相反.
+</p>
+
+<ol class="corollary">
+	<b>向量数乘的性质</b> 
+	设 `bm a, bm b` 是任意向量, `lambda, mu in RR`, 则
+	<li>`lambda (bm a + bm b) = lambda bm a + lambda bm b`;</li>
+	<li>`(lambda + mu) bm a = lambda bm a + mu bm a`;</li>
+	<li>`(lambda mu) bm a = lambda (mu bm a)`;</li>
+	<li>`1 bm a = bm a`.</li>
+	于是, 向量空间关于向量的加法与数乘成一线性空间.
+</ol>
+
+<p class="corollary">
+	对任意向量 `bm a`, `|0 bm a| = bb 0`; 对任意实数 `lambda`, `lambda bb
+	0 = bb 0`.
+</p>
+
+<p class="corollary">
+	设向量 `bm a != bb 0`, 则向量 `(bm a)/|bm a|` 与 `bm a` 同向,
+	且长度为 1. 称这一计算过程为 `bm a` 的<b>单位化</b>.
+</p>
+
+<h3>线性相关与线性无关</h3>
+
+<p class="definition">
+	设 `bm a_1, cdots, bm a_n` 是一组向量,
+	`k_1, cdots, k_n` 是一组实数, 则 `k_1 bm a_1 + cdots + k_n
+	bm a_n` 是一个向量, 称为向量组 `bm a_1, cdots, bm a_n`
+	的一个<b>线性组合</b>. 称向量组 `bm a_1, cdots, bm a_n`
+	<b>线性相关</b>, 如果存在不全为零的系数 `k_1, cdots, k_n`, 使得
+	<span class="formula">
+		`sum_(i=1)^n k_i bm a_i = bb 0`.
+	</span>
+	否则称该向量组<b>线性无关</b>.
+</p>
+
+<p class="definition">
+	用同一起点的有向线段表示向量组中的每个向量. 若这些有向线段在同一直线
+	(同一平面) 上, 则称这个向量组是<b>共线的 (共面的)</b>.
+	向量共线也称为<b>平行</b>.
+</p>
+
+<p class="corollary">
+	`bb 0` 与任意向量共线; 共线的向量组必共面; 两个向量一定共面.
+</p>
+
+<p class="theorem">
+	向量 `bm a, bm b` 共线当且仅当 `bm a, bm b` 线性相关.
+</p>
+
+<p class="theorem">
+	向量 `bm a, bm b, bm c` 共面当且仅当 `bm a, bm b, bm c` 线性相关.
+</p>
+
+<p>	向量的线性运算可以用来解决点的共线或共面问题,
+	直线的共点问题以及线段的定比分割问题.
+</p>
+
+<p class="example">
+	设点 `O` 是任意一点. 证明: 点 `M` 在线段 `AB` 上当且仅当存在非负实数
+	`lambda, mu` 满足
+	<span class="formula">
+		`vec(OM) = lambda vec(OA) + mu vec(OB)`, 且 `lambda + mu = 1`.
+	</span>
+	这时也称 `vec(OM)` 是 `vec(OA)` 与 `vec(OB)` 的凸组合.
+</p>
+
+<p class="example">
+	设点 `O` 是任意一点. 证明: 点 `A, B, C` 共线当且仅当存在不全为零为实数
+	`lambda, mu, nu`, 使得
+	<span class="formula">
+		`lambda vec(OA) + mu vec(OB) + nu vec(OC) = bb 0`, 且
+		`lambda + mu + nu = 0`.
+	</span>
+</p>
+
+<h2>Euclid 空间的线性结构</h2>
+
+<p>	Euclid 空间是空间中所有点的集合. 取定一点 `O`, 则 Euclid
+	空间中的任一点 `M` 对应于向量 `vec(OM)`. 事实上,
+	对平移后能够重合的向量不加区分, 则 Euclid
+	空间中的点与向量空间中的向量是一一对应的.
+	下面我们对向量空间与几何空间不作区分, 都记为 `E^3`.
+</p>
+
+<h3>仿射坐标系与直角坐标系</h3>
+
+<p class="definition">
+	称 `E^3` 中任意三个线性无关向量 `{bm d_1, bm d_2, bm d_3}`
+	为 `E^3` 的一个<b>基</b>. 对任意 `bm x in E^3`, 若 `bm x`
+	能表示为基的线性组合, 即 `EE x_i in RR`, `i = 1, 2, 3`,
+	<span class="formula">
+		`bm x = sum_(i=1)^3 x_i bm d_i`.
+	</span>
+	则称三元有序实数组 `(x_1, x_2, x_3)` 为 `bm x` 在基 `{bm d_1, bm
+	d_2, bm d_3}` 下的<b>仿射坐标</b>, 简称<b>坐标</b>.
+</p>
+
+<p class="theorem">
+	<b>仿射坐标的存在唯一性</b>
+	取定 `E^3` 的一个基, 则 `E^3`
+	中的任意向量在这个基下的的仿射坐标存在唯一.
+</p>
+
+<p>	考虑到向量与点的一一对应关系, 我们有:</p>
+
+<p class="definition">
+	`E^3` 中的一个点 `O` 与一个基 `{bm d_1, bm d_2, bm d_3}`
+	合在一起称为 `E^3` 的一个<b>仿射标架</b>或<b>仿射坐标系</b>,
+	记为 `{O; bm d_1, bm d_2, bm d_3}`.
+	其中 `O` 称为<b>原点</b>. 对于任意一点 `M in E^3`,
+	定义它的<b>仿射坐标</b>为
+	`vec(OM)` 在基 `{bm d_1, bm d_2, bm d_3}` 下的仿射坐标.
+	把过原点 `O`, 且分别以 `bm d_1, bm d_2, bm d_3` 为方向的有向直线称为
+	`x` 轴, `y` 轴, `z` 轴, 统称为<b>坐标轴</b>.
+	每两根坐标轴决定的平面称为<b>坐标平面</b>, 即 `xy`, `yz`, `zx` 平面.
+	坐标平面把空间分为八个部分, 称为八个卦限, 在每个卦限内,
+	点的坐标的符号不变.
+	将右手拇指以外的四指从 `x` 轴方向弯向 `y` 轴方向, 且转角小于 `pi` 时,
+	如果拇指所指的方向与 `z` 轴方向在 `xy` 平面同侧,
+	则称此坐标系为<b>右手系</b>, 否则称为<b>左手系</b>.
+</p>
+
+<p class="definition">
+	如果 `bm e_1, bm e_2, bm e_3` 两两垂直, 且都是单位向量, 则称
+	`{O; bm e_1, bm e_2, bm e_3}` 为一个<b>直角标架</b>,
+	或<b>直角坐标系</b>. 显然 `bm e_1, bm e_2, bm e_3` 不共面,
+	因此直角标架是特殊的仿射标架.
+</p>
+
+<p>	平面上的仿射坐标系与直角坐标系也可以类似地建立起来.
+</p>
+
+<p>	运用几何空间的线性结构, 可以解决三点共线,
+	线段的定比分点和三线共点等问题.
+</p>
+
+<h3>坐标下向量的线性运算</h3>
 
 </body>
 

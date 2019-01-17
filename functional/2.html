@@ -152,7 +152,29 @@
 	设 `M` 是线性赋范空间 `X` 的闭子空间, 且 `M != X`, 则对任意 `epsi
 	gt 0`, 存在单位球面上的一点 `x_epsi in X`, `||x_epsi|| = 1`, 使得
 	<span class="formula">
-		`dist(x_epsi, M) = inf_(x in M) ||x_epsi, x|| ge 1-epsi`.
+		`"dist"(x_epsi, M) = inf_(x in M) ||x - x_epsi|| ge 1-epsi`.
+	</span>
+	换言之, 记 `S = {x in X: ||x|| = 1}`, 有
+	<span class="formula">
+		`Sup_(x in S) inf_(y in M) ||x - y|| ge 1`.
+	</span>
+</p>
+
+<p class="prove">
+	取 `x_0 in X \\ M`. 由 `M` 为闭集知 `"dist"(x_0, M) = d gt 0`, 且存在
+	`y_0 in M` 使得
+	<span class="formula">
+		`d le ||x_0 - y_0|| lt d/(1-epsi)`.
+	</span>
+	令 `x_epsi = (x_0 - y_0)/||x_0 - y_0||`, 则 `x_epsi in S`, 对任意 `x
+	in M`, 有
+	<span class="formula">
+		` ||x_epsi - x||
+		= 1/||x_0 - y_0|| || x_0 - (y_0 + ||x_0 - y_0||x) ||`.
+	</span>
+	注意到 `x, y_0 in M`, 故 `y_0 + ||x_0 - y_0|| x in M`. 从而
+	<span class="formula">
+		`||x_epsi - x|| ge d/||x_0 - y_0|| gt 1-epsi`.
 	</span>
 </p>
 
@@ -285,8 +307,14 @@
 <p class="note">
 	`X^**` 的范数的一个等价定义为
 	<span class="formula">
-		`||f|| = Sup_(||x|| = 1) |f(x)|`.
+		`||f||_1 = Sup_(||x|| = 1) |f(x)|`.
 	</span>
+	容易看出对任意 `f in X^**`, `||f||_1 le ||f||`.
+	反之, 对任意 `x in X`, `||x|| le 1` 有
+	<span class="formula">
+		`|f(x)| = |f(x/||x||)| ||x|| le ||f||_1 ||x|| le ||f||_1`,
+	</span>
+	于是 `||f|| le ||f||_1`, 综上有 `||f|| = ||f||_1`.
 </p>
 
 <p class="corollary">
@@ -375,7 +403,7 @@
 	设 `X` 是线性赋范空间, `Y` 是 `X` 的线性子空间, `f in Y^**`, 则存在
 	`F in X^**`, 使得
 	<span class="formula">
-		`F|_Y = f` 且 `||F||_X = ||f||_Y`.
+		`F|_Y = f`, 且 `||F||_X = ||f||_Y`.
 	</span>
 	称 `F` 为 `f` 的<b>保范线性延拓</b>.
 </p>
@@ -390,8 +418,8 @@
 <ol class="corollary">
 	设 `X` 是线性赋范空间, `Y` 是 `X` 的闭线性子空间, 且 `Y != X`.
 	则对任意 `x_0 in X \\ Y`, 存在 `f in X^**`, 满足
-	<li>`||f|| = 1`;</li>
 	<li>`f|_Y -= 0`;</li>
+	<li>`||f|| = 1`;</li>
 	<li>`f(x_0) = "dist"(x_0, Y) gt 0`.</li>
 </ol>
 
@@ -424,15 +452,16 @@
 
 <p class="theorem">
 	设 `1 lt p lt oo`, `1/p + 1/q = 1`,
-	`f` 是 `L^p[a, b]` 上的有界线性泛函,
-	则存在唯一的函数 `y in L^q[a, b]`, 使对任意 `x in L^p[a, b]`, 有
+	`f` 是 `L^p[a, b]` 上的有界线性泛函, 则存在唯一的函数
+	`y in L^q[a, b]`, 使对任意 `x in L^p[a, b]`, `f(x)` 可以表为
 	<span class="formula">
 		`f(x) = int_a^b x(t) y(t) dt`,<br/>
 		`||f|| = ||y||_(L^q[a, b])`.
 	</span>
-	反过来, 对任意固定的 `y in L^q[a, b]`, `int_a^b x(t) y(t) dt` 是
-	`L^p[a, b]` 上的有界线性泛函. 因此, 存在从 `L^p[a, b]` 的对偶空间到
-	`L^q[a, b]` 的保范同构.
+	即存在 `(L^p[a, b])^**` 到 `L^q[a, b]` 的保范映射.
+	反过来, 对任意固定的 `y in L^q[a, b]`, `f(x) = int_a^b x(t) y(t) dt` 
+	定义了 `L^p[a, b]` 上的有界线性泛函.
+	因此, 存在从 `(L^p[a, b])^**` 到 `L^q[a, b]` 的保范同构.
 </p>
 
 <p class="theorem">
@@ -440,7 +469,7 @@
 </p>
 
 <p class="corollary">
-	因为 `L^oo[a, b]` 不可分, 而 `L^1[a, b]` 可分, 故 `L^oo[a, b]`,
+	因为 `L^oo[a, b]` 不可分, 而 `L^1[a, b]` 可分, 故 `L^oo[a, b]`
 	的对偶空间不可能保范同构于 `L^1[a, b]`. 同理 `l^oo` 不可能保范同构于
 	`l^1`.
 </p>
@@ -460,6 +489,11 @@
 	<span class="formula">
 		`x^(** **)(f) = f(x)`, `f in X^**`.
 	</span>
+</p>
+
+<p class="corollary">
+	典型映射是保范线性映射, 因而是单射, 也是连续映射. 若典型映射还是满射,
+	可以证明它是同胚映射, 从而是 `X` 到 `X^(** **)` 的保范同构.
 </p>
 
 <p class="definition">
@@ -524,7 +558,9 @@
 </p>
 
 <p class="corollary">
-	当 `X` 是自反的 Banach 空间时, 弱收敛与弱*收敛是等价的.
+	当 `X` 是自反的 Banach 空间时, `X` 到 `X^(** **)` 存在保范同构, 从而
+	`{x_n} sube X` 的弱收敛与 `{x^(** **)} sube X^(** **)`
+	的弱*收敛是等价的.
 </p>
 
 <p class="definition">
@@ -539,7 +575,7 @@
 
 <p class="theorem">
 	<b>(Pettis, 1938)</b>
-	自反的 Banach 空间 `X` 中的有界集是弱列紧的.
+	自反的 Banach 空间中的有界集是弱列紧的.
 </p>
 
 </body>
