@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>初等几何基础: 五组公理</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<ol style="list-style-type:upper-roman">
+	简单回顾 Euclid 的五条几何公设:
+	<li>两点确定唯一一条直线;</li>
+	<li>直线可以向两端无限延伸;</li>
+	<li>以一点为心, 以定长为半径可作一圆;</li>
+	<li>任意两直角相等;</li>
+	<li>平面上, 如果一直线交两直线, 在某一侧同旁内角之和小于两直角,
+		则延长这两条直线, 它们将在这一侧相交.
+	</li>
+</ol>
+
+<p>	Euclid 的 "几何原本" 开公理化之先河, 然而以今天的眼光来看, Euclid
+	的理论有许多不严谨的, 且依赖直观的地方.
+	Hilbert 的 "几何基础" 则建立了几何学上首个严谨的公理化体系.
+</p>
+
+<p class="definition">
+	设想我们讨论的对象为一集合, 称为<b>空间</b>.
+	空间中的元素称为<b>点</b>, 用 `A, B, C, cdots` 表示;
+	<b>直线</b>是空间的一类子集, 用 `a, b, c, cdots` 表示;
+	<b>平面</b>是有别于直线的空间的另一类子集, 用 `alpha, beta, gamma,
+	cdots` 表示.
+	点也叫做<b>直线几何的元素</b>; 点和直线叫做<b>平面几何的元素</b>;
+	点, 直线和平面叫做<b>空间几何的元素</b>.
+</p>
+
+<p>	点, 直线和平面之间有一定的相互关系 (二元关系, 三元关系), 用
+	"关联" ("在…之上", "属于"),
+	"介于" ("在…之间"),
+	"合同于" ("全合于", "相等于") 等词来表示.
+	下面的几何公理将精确刻画这些关系:
+</p>
+
+<ol style="list-style-type:upper-roman">
+	<li> 1 ~ 8. 关联公理 (结合公理, 从属公理)</li>
+	<li> 1 ~ 4. 顺序公理 (次序公理)</li>
+	<li> 1 ~ 5. 合同公理</li>
+	<li> <span style="color: rgba(0, 0, 0, 0)">1 ~ ?.</span>
+		平行公理
+	</li>
+	<li> 1 ~ 2. 连续公理</li>
+</ol>
+
+<h2>第一组公理: 关联公理</h2>
+
+<p>	我们约定, 此后说两, 三, … 点、直线或平面时,
+	都是指互不相同的点、直线或平面.
+</p>
+
+<p class="formula">
+	I<sub>1</sub>. 对任意两点, 存在一直线与这两点的每一点相关联;
+</p>
+
+<p class="formula">
+	I<sub>2</sub>. 对任意两点, 至多有一直线与这两点的每一点相关联;
+</p>
+
+<p>	<b>关联</b>是点与直线间的二元关系,
+	它是相互的. 即如果点 `A` 与直线 `a` 关联, 则直线 `a` 与点 `A`
+	关联, 反之亦然.
+	点 `A` 和直线 `a` 关联, 也可用别的说法, 如, <b>`A` 是 `a` 的点</b>,
+	<b>`a` 通过 `A`</b>, <b>`A` 在 `a` 上</b>, <b>`a` 含有 `A`</b>
+	等等, 记为 `A in a`.
+	如果点 `A, B` 的每一点和直线 `a` 关联, 就称
+	`a` <b>连接</b> `A, B`. I<sub>2</sub> 指出这条直线唯一,
+	记它为 `l_(AB)`.
+	如果至少三点 `A_1, A_2, cdots, A_n` 和同一条直线关联,
+	就称这些点<b>共线</b>.
+	如果 `A` 既在直线 `a` 上, 又在另一直线 `b` 上, 就称直线 `a, b`
+	<b>相交于</b> `A`, `A` 是 `a, b` 的<b>公共点</b>, 记为 `a nn b = {A}`,
+	或简记为 `a nn b = A`.
+	把 I<sub>1</sub> 和 I<sub>2</sub> 合起来, 就是说:
+	过任意两点的直线存在唯一.
+</p>
+
+<p class="formula">
+	I<sub>3</sub>. 一直线上至少存在两点; 至少存在三点不在同一直线上;
+</p>
+
+<p class="formula">
+	I<sub>4</sub>. 对任意不在同一直线上的三点,
+	存在一平面同这三点的每一点相关联; 对任一平面, 存在一点同这平面相关联;
+</p>
+
+<p>	把点与平面之间的二元关系也称为<b>关联</b>.
+	点 `A` 同平面 `alpha` 相关联, 也可以说 <b>`A` 是 `alpha` 的点</b>,
+	<b>`A` 在 `alpha` 上</b>, <b>`alpha` 过 `A`</b>等, 记为 `A in alpha`;
+	类似点与直线的关联, 也有<b>平面的公共点</b>和<b>共面的点</b>的概念.
+</p>
+
+<p class="formula">
+	I<sub>5</sub>. 对任意不在同一直线上的三点,
+	至多有一平面同这三点的每一点相关联;
+</p>
+
+<p>	I<sub>4</sub>, I<sub>5</sub> 合起来就是说:
+	过任意不共线三点的平面存在唯一.
+</p>
+
+<p class="formula">
+	I<sub>6</sub>. 若一直线上有两点在一平面上,
+	则该直线的每一点都在该平面上;
+</p>
+
+<p>	直线 `a` 的每一点都在平面 `alpha` 上, 我们也说 <b>`a` 在 `alpha`
+	上</b>, <b>`alpha` 过 `a`</b>等, 记为 `a sub alpha`.
+	类似有<b>共面的直线</b>的概念.
+</p>
+
+<p class="formula">
+	I<sub>7</sub>. 若两平面有一公共点, 则它们至少还有另一公共点;
+</p>
+
+<p>	设这两个公共点是 `A` 和 `B`. 由 I<sub>6</sub> 立即得知 `l_(AB)`
+	同时在这两平面上.
+	<!-- ??? -->
+	I<sub>7</sub> 表明空间的维数 `le 3`. 从坐标的角度理解: 4 维空间的平面
+	`(x, y, 0, 0)` 与 `(0, 0, z, t)` 仅有一个公共点.
+</p>
+
+<p class="formula">
+	I<sub>8</sub>. 至少存在四点不在同一平面上.
+</p>
+
+<p>	I<sub>8</sub> 表明空间的维数 `ge 3`.</p>
+
+<p>	I<sub>1~3</sub>称为<b>关联公理中的平面公理</b>,
+	I<sub>4~8</sub>称为<b>关联公理中的空间公理</b>.
+</p>
+
+<p>	运用已经引入的符号, 8 条公理简洁地概括如下:
+</p>
+
+<p>I<sub>1</sub> `(AA A,B`, `A != B)` `(EE a)` `A, B in a`;</p>
+<p>I<sub>2</sub> `(AA A,B`, `A != B)` `|{a: A,B in a}| le 1`;</p>
+<p>I<sub>3</sub> `(AA a)` `(EE A, B in a)` `A != B`;
+				 `(EE A, B, C)` `A, B, C` 不共线;</p>
+<p>I<sub>4</sub> `(AA A, B, C` 不共线 `)` `(EE alpha)`
+				 `A,B,C in alpha`; `(AA alpha)` `(EE A)`
+				 `A in alpha`;</p>
+<p>I<sub>5</sub> `(AA A, B, C` 不共线 `)`
+				 `|{alpha: A,B,C in alpha}| le 1;</p>
+<p>I<sub>6</sub> `A, B in alpha, A != B rArr l_(AB) sub alpha;</p>
+<p>I<sub>7</sub> `A in alpha nn beta rArr EE B != A, B in alpha nn beta`;</p>
+<p>I<sub>8</sub> `(EE A,B,C,D)` `A,B,C,D` 不共面.</p>
+
+<p class="theorem">
+	同一平面上的两直线或无公共点, 或有一个公共点;
+	两平面或无公共点, 或有一公共直线;
+	一平面和不在其上的一直线或无公共点, 或有一个公共点.
+</p>
+
+<p>	称两条直线<b>相交</b>, 如果它们恰有一个公共点.</p>
+
+<p class="theorem">
+	过一直线和不在这直线上的一点的平面存在唯一;
+	过两条相交直线的平面存在唯一.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

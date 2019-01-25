@@ -731,12 +731,56 @@
 	当然, 只要不涉及最后一列, 对矩阵作列的初等变换也是允许的.
 </p>
 
+<h2>线性方程组的解的结构</h2>
+
+<p>	本节的讨论中, 总假定 `bm A in bbb P^(m xx n)`, `bm X in bbb P^n`, `bm
+	B in bbb P^m`, `bb 0` 是 `m` 元零向量. 我们把<b>非齐次线性方程组</b>
+	<span class="formula">
+		`bm (AX) = bm B`
+		<span class="label">(3-2)</span>
+	</span>
+	与<b>齐次线性方程组</b>
+	<span class="formula">
+		`bm (AX) = bb 0`
+		<span class="label">(3-3)</span>
+	</span>
+	作为讨论对象.
+</p>
+
+<h3>齐次线性方程组</h3>
+
+<p class="definition">
+	称齐次线性方程组 (3-3) 为非齐次线性方程组 (3-2)
+	的<b>导出线性方程组</b>.
+</p>
+
+<p class="corollary">
+	齐次线性方程组 (3-3) 总是有解的, `n` 元零向量就是一个解;
+	此推论也可由增广矩阵 `(bm A, bb 0)`
+	总与其系数矩阵 `bm A` 同秩这一事实得到.
+</p>
+
+<p class="corollary">
+	<b>线性叠加原理</b>
+	设 `bm X_1, bm X_2, cdots, bm X_s` 是齐次线性方程组 (3-3)
+	的解, 则它们的任意线性组合也是 (3-3) 的解, 这是因为
+	<span class="formula">
+		` bm A(sum_(i=1)^s k_i bm X_i)
+		= sum_(i=1)^s k_i (bm (AX_i))
+		= bb 0`.
+	</span>
+	因此, 若齐次线性方程组有非零解, 它就有无穷多个解.
+</p>
+
+<p class="note">
+	女装只有 `0` 次或 `oo` 次.
+</p>
+
 <p>	下面的引理给出构造同解线性方程组的一种方法.</p>
 
 <p class="lemma">
-	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^m`.
-	若线性方程组 `bm (AX) = bm B` 有解, 且 `bm A` 的前 `r` 行构成
-	`bm A` 的行向量组的一个极大无关组, 则原方程组与自己的前 `r` 行
+	若非齐次线性方程组 (3-2) 有解, 且 `bm A` 的前 `r` 行构成
+	`bm A` 的行向量组的一个极大无关组, 则 (3-2) 与自己的前 `r` 行
 	<span class="formula">
 		`bm A_(r xx n) bm X = bm B_(r xx 1)`
 	</span>
@@ -755,6 +799,292 @@
 	从而这一变换后的方程组 (本质上, 即 `bm A_(r xx n) bm X = bm B_(r xx
 	1)`) 与原方程组同解.
 </p>
+
+<p class="theorem">
+	齐次线性方程组 (3-3) 中, 记 `r_(bm A) = r`.
+	令 `bm A` 左上角的 `r` 阶子式非零,
+	`bm A_(r xx n)` 是 `bm A` 的前 `r` 行组成的矩阵, 若 `r lt n`,
+	将 `bm A_(r xx n)` 与 `bm X` 分块为
+	<span class="formula">
+		`bm A_(r xx n) = (bm A_1^(r xx r), bm A_2^(r xx (n-r)))`, `quad`
+		`bm X = [(bm X_1^(r xx 1)), (bm X_2^((n-r) xx 1))]`,
+	</span>
+	则 (3-3) 同解于
+	<span class="formula">
+		` bm X = [(-bm A_1^-1 bm A_2), (bm E_(n-r))] bm X_2`.
+		<span class="label">(3-4)</span>
+	</span>
+	任给定 `bm X_2 in bbb P^(n-r)`, 上式就确定 `bm X in bbb P^n`
+	的一个对应值, 因此上式实际上确定了一个 `bbb P^(n-r) to bbb P^n`
+	的显函数, 它由原方程组 `bm (AX) = bb 0` 蕴含的隐函数关系显化得到.
+</p>
+
+<p class="proof">
+	由引理3-3, (3-3) 与
+	<span class="formula">
+		`bm A_(r xx n) bm X = bb 0_(r xx 1)`
+	</span>
+	同解.
+	把 `bb 0_(r xx 1)` 仍记为 `bb 0`, 上式改写为
+	<span class="formula">
+		`bm A_1 bm X_1 + bm A_2 bm X_2 = bb 0`,
+	</span>
+	即 (在线性规划理论中, 这一步骤称为用非基变量表出基变量)
+	<span class="formula">
+		`bm A_1 bm X_1 = -bm A_2 bm X_2`.
+	</span>
+	由假设 `|bm A_1| != 0`, 从而同解于
+	<span class="formula">
+		`bm X_1 = -bm A_1^-1 bm A_2 bm X_2`
+	</span>
+	由于 `bm X_2 = bm E_(n-r) bm X_2` 恒成立, 上式又同解于
+	<span class="formula">
+		` bm X
+		= [(bm X_1), (bm X_2)]
+		= [(-bm A_1^-1 bm A_2), (bm E_(n-r))] bm X_2`.
+	</span>
+	即 (3-4).
+</p>
+
+<p class="note">
+	在 (3-4) 中特别取 `bm X_2 != bb 0`, 则 `bm X != bb 0`. 这说明 `r lt n`
+	时, (3-3) 有非零解. 这一结论与推论3-1 的 2 相符.
+</p>
+
+<p class="definition">
+	若齐次线性方程组 (3-3) 有非零解,
+	其非零解 `bm X_1, bm X_2, cdots, bm X_s`
+	构成其解集的极大线性无关组, 则称 `bm X_1, bm X_2, cdots, bm X_s`
+	为 (3-3) 的一个<b>基础解系</b>,
+	它们中的每一个称为<b>基础解</b>或<b>基解</b>.
+</p>
+
+<p class="corollary">
+	设齐次线性方程组 (3-3) 的基础解系存在, 则它不唯一. 事实上设
+
+		`bm X_1, bm X_2, cdots, bm X_s`
+
+	是 (3-3) 的一个基础解系, 则由线性叠加原理,
+	<span class="formula">
+		`bm X_1, bm X_1 + bm X_2, cdots, sum_(i=1)^s bm X_i`
+	</span>
+	是 (3-3) 的非零解, 且容易证明是线性无关的.
+</p>
+
+<p class="theorem">
+	令齐次线性方程组 (3-3) 系数矩阵的秩 `r_(bm A) = r`.
+	若 `r lt n`, 则 (3-3) 具有由 `n-r` 个基解
+	`bm X_1, bm X_2, cdots, bm X_(n-r)` 组成的基础解系. 于是 (3-3) 的解集
+	`S_0` 可以表为
+	<span class="formula">
+		`S_0 = {sum_(i=1)^(n-r) k_i bm X_i: k_i in bbb P, i = 1, 2, cdots,
+		n-r}`.
+	</span>
+	`sum_(i=1)^(n-r) k_i bm X_i` 称为 (3-3) 的<b>通解</b>.
+</p>
+
+<p class="proof">
+	我们给出构造性证明.  仍不妨令 `bm A` 左上角的 `r` 阶子式不等于零.
+	因为只要调动方程和未知项的顺序就可在等价意义上做到这一点. 由定理3-9,
+	(3-3) 的解由 (3-4) 给出.
+	在 (3-4) 中依次取 `bm X_2 = bm epsi_i`, `i = 1, 2, cdots, n-r`,
+	把得到的解记为
+	<span class="formula">
+		`bm gamma_i = [(-bm A_1^-1 bm A_2), (bm E_(n-r))] bm epsi_i
+		= bm (C epsi_i)`,
+		`i = 1, 2, cdots, n-r`
+	</span>
+	则 `bm gamma_i` 为 (3-4) 中系数矩阵 `bm C` 的第 `i` 列, (3-4) 可改写为
+	<span class="formula">
+		`bm X = sum_(i=1)^(n-r) x_(r+i) bm gamma_i`.
+	</span>
+	即 (3-3) 的每个解都是 `{bm gamma_i}_(i=1)^(n-r)` 的线性组合.
+	又 `bm C` 的子式 `|bm E_(n-r)| != 0`, 于是 `r_(bm C) = n-r`,
+	`{bm gamma_i}_(i=1)^(n-r)` 线性无关, 它们构成 (3-3) 的一个基础解系.
+</p>
+
+<h3>非齐次线性方程组</h3>
+
+<p class="theorem">
+	设非齐次线性方程组 (3-2) 有解, 解集为 `S != O/`,
+	记齐次线性方程组 (3-3) 的解集为 `S_0`,
+	取 `bm X_0 in S` , 称为 (3-2) 的一个<b>特解</b>. 则
+	<span class="formula">
+		`S = {bm X_0 + bm Y: bm Y in S_0}`.
+	</span>
+	由定理知道, 要找出非齐次线性方程组的所有解,
+	只需知道它的一个特解以及齐次线性方程组的所有解即可.
+</p>
+
+<p class="proof">
+	由 `bm X_0 in S`, `bm Y in S_0` 知,
+	<span class="formula">
+		` bm A(bm X_0 + bm Y)
+		= bm (AX_0) + bm (AY)
+		= bm B + bb 0
+		= bm B`,
+	</span>
+	故 `bm X_0 + bm Y in S`.
+	反之令 `bm X in S`, 由
+	<span class="formula">
+		` bm A(bm X - bm X_0)
+		= bm (AX) - bm (AX_0)
+		= bm B - bm B
+		= bb 0`
+	</span>
+	知, 存在 `bm Y = bm X - bm X_0 in S_0` 使得
+	`bm X = bm X_0 + bm Y`.
+</p>
+
+<p class="corollary">
+	设非齐次线性方程组 (3-2) 有解,
+	则它有唯一解当且仅当其导出的齐次方程组只有零解.
+</p>
+
+<p class="corollary">
+	设非齐次线性方程组 (3-2) 有特解 `bm X_0`, `bm X_1, bm X_2, cdots, bm
+	X_(n-r)` 为其导出方程组 (3-3) 的一个基础解系, 则 (3-2) 的解集为
+	<span class="formula">
+		`{bm X_0 + sum_(i=1)^(n-r) k_i bm X_i: k_i in bbb P, i = 1, 2,
+		cdots, n-r}`.
+	</span>
+</p>
+
+<p>	有了上面一段的铺垫, 我们可以对非齐次线性方程组的问题给出圆满解答了.
+</p>
+
+<ol class="algorithm">
+	<b>解非次齐次线性方程组</b>
+	<span class="formula">
+		`bm (AX) = bm B`.
+	</span>
+	<li>对方程的增广矩阵 `(bm A, bm B)` 作行初等变换, 将矩阵化为阶梯形.
+	</li>
+	<li>第一步后, 若得出 `r_(bm A) lt r_((bm A","bm B))`, 则方程组无解;
+		否则继续将矩阵化为行简化的, 即每个非零行的第一个非零元素等于 `1`,
+		且这些 `1` 所在列的其他元素皆为 `0` 的阶梯形矩阵.
+		由引理3-3, 我们可以删去那些零行.
+	</li>
+	<li>设现在变换后的增广矩阵为 `(bm A_1, bm B_1)_(n xx r)`,
+		其中 `r = r_(bm A)`.
+		将每行第一个非零元素所在的列的标号依次记为
+		`i_1, i_2, cdots, i_r`, 其它各列的标号依次记为
+		`i_(r+1), cdots, i_n`.
+		将其它各列移到方程右端, 得
+		<span class="formula">
+			` [(x_(i_1)),(x_(i_2)),(vdots),(x_(i_r))]
+			= bm B_1 - sum_(j=r+1)^n x_(i_j) bm A_1
+			  bm epsi_(i_j)`,
+		</span>
+		方程组的解已经显化出来. 取定一组
+		`x_(i_(r+1)), cdots, x_n`, 就决定了
+		`x_(i_1), x_(i_2), cdots, x_(i_r)` 的值.
+	</li>
+	<li>记变换矩阵
+		<span class="formula">
+			`sigma = (bm epsi_(i_1), bm epsi_(i_2), cdots, bm
+			epsi_(i_r))`,
+			`tau = (bm epsi_(i_(r+1)), cdots, bm epsi_(i_n))`,
+		</span>
+		则原方程组的一个特解是
+
+			`bm X_0 = sigma bm B_1`,
+
+		基础解系为矩阵
+
+			`(bm E_n - sigma bm A_1) tau`
+
+		的各列.
+		实际计算时不必生搬硬套公式, 只需代回原变元,
+		然后在必要的地方用 0 或 1 填充即可.
+	</li>
+</ol>
+
+<ol class="example">
+	在数域 `bbb P` 上解下列方程组:
+	<li>
+	`{
+		(5x_1 + 6x_2 - 2x_3 + 7x_4 + 4x_5 = 23),
+		(2x_1 + 3x_2 - x_3 + 4x_4 + 2x_5 = 12),
+		(7x_1 + 9x_2 - 3x_3 + 5x_4 + 6x_5 = 23),
+		(5x_1 + 9x_2 - 3x_3 + x_4 + 6x_5 = 13)
+	:}`
+	</li>
+	<li>
+	`{
+		(x_1 - x_2 + x_3 - x_4 = 1),
+		(x_1 - x_2 - x_3 + x_4 = 0),
+		(x_1 - x_2 - 2x_3 + 2x_4 = -1/2)
+	:}`
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>对增广矩阵作行初等变换:
+		<span class="formula">
+		`[
+			(5," "6," "-2," "7," "4," "23),
+			(2," "3," "-1," "4," "2," "12),
+			(7," "9," "-3," "5," "6," "23),
+			(5," "9," "-3," "1," "6," "13)
+		]`
+		`overset([1-2(2)][3-4(1)]) underset([4-2(3)]) to`
+		`[
+			(1," "0," "0," "-1," "0," "-1),
+			(2," "3," "-1," "4," "2," "12),
+			(2," "0," "0, " "4," "0," "10),
+			(-1," "0," "0," "-11," "0," "-23)
+		]`
+		`overset([2-1(2)][3-1(2)]) underset([4+1(1)]) to`
+		`[
+			(1," "0," "0," "-1," "0," "-1),
+			(0," "3," "-1," "6," "2," "14),
+			(0," "0," "0, " "6," "0," "12),
+			(0," "0," "0," "-12," "0," "-24)
+		]`
+		`overset([2-3(1)][4+3(2)]) underset([2(1/3)][3(1/6)]) to`
+		`[
+			(1," "0," "0," "-1," "0," "-1),
+			(0," "1," "-1/3," "0," "2/3," "2/3),
+			(0," "0," "0, " "1," "0," "2)
+		]`
+		`overset([1+3(1)]) to`
+		`[
+			(1," "0," "0," "0," "0," "1),
+			(0," "1," "-1/3," "0," "2/3," "2/3),
+			(0," "0," "0, " "1," "0," "2)
+		]`
+		</span>
+		得
+		<span class="formula">
+			` [(x_1),(x_2),(x_4)]
+			= [(1),(2/3),(2)]
+			+ [(0),(1/3),(0)] x_3
+			- [(0),(2/3),(0)] x_5`.
+		</span>
+		于是通解为
+		<span class="formula">
+			`bm X = [
+				(1),
+				(2/3 + 1/3 k_1 - 2/3 k_2),
+				(k_1),
+				(2),
+				(k_2)
+			]`,
+			`k_1, k_2 in bbb P`.
+		</span>
+	</li>
+	<li>过程略, 通解为
+		<span class="formula">
+			`bm X = [
+				(1/2 + k_1),
+				(k_1),
+				(1/2 + k_2),
+				(k_2)
+			]`
+		</span>
+	</li>
+</ol>
 
 </body>
 
