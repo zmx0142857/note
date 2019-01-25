@@ -136,8 +136,8 @@ function hideAnswers(classNames) {
 		for (var i = 0; i < answers.length; ++i) {
 			var button = document.createElement('button');
 			var id = classNames[k] + '-' + filename + '-' + (i+1);
-			button.innerHTML = classNames[k] == 'prove' ? '证 &#9654;' :
-				classNames[k] == 'solve' ? '解 &#9654;' : '答 &#9654;';
+			button.innerHTML = classNames[k] == 'proof' ? '证 &#9654;' :
+				classNames[k] == 'solution' ? '解 &#9654;' : '答 &#9654;';
 			button.onclick = toggleShowAnswer(button, id);
 			button.className = 'toggle-show-answer';
 			document.body.insertBefore(nav, document.body.firstChild);
@@ -176,8 +176,8 @@ decorate('note', '注');
 decorate('method', '法', style_num); // place this before '证' and '解'. got problem with the numbering.
 decorate('label', '', style_formula);
 /*
-decorate('prove', '证', style_void);
-decorate('solve', '解', style_void);
+decorate('proof', '证', style_void);
+decorate('solution', '解', style_void);
 decorate('answer', '答', style_void);
 */
-hideAnswers(['prove', 'solve', 'answer', 'collapse']);
+hideAnswers(['proof', 'solution', 'answer', 'collapse']);

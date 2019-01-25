@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>线性方程组的一般理论</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<p>	为进一步研究一般的线性方程组, 我们从第一节的 `n`
+	元向量的线性相关性入手, 进一步, 在第二节引入矩阵的秩,
+	最终在第三节得出结论.
+</p>
+
+<h2>`n` 元向量的线性相关性与方程组的求解问题</h2>
+
+<h3>`n` 元向量, 线性相关与线性无关</h3>
+
+<p class="definition">
+	仅考虑加法和数乘时, 我们等同 `n` 元列向量 `bm alpha in bbb P^(n xx 1)`
+	与它的转置, `n` 元行向量 `bm alpha' in bbb P^(1 xx n)`.
+	`n` 元列向量与 `n` 元行向量统称为 <b>`n` 元向量</b>. 记数域
+	`bbb P` 上 `n` 元向量的全体为 `bbb P^n`, 把 `bbb P^n`
+	连同其上的加法和数乘 `(bbb P^n, +, *)` 称为 `bbb P` 上的 <b>`n`
+	元向量空间</b>, 特别 `bbb P = bbb R (bbb C)` 时, 称为 <b>`n` 元实
+	(复) 向量空间</b>.
+</p>
+
+<p class="note">
+	`n` 元向量空间是后面更一般的线性空间的一个例子. 事实上, `bbb P`
+	上的任意 `n` 维线性空间同构于 `bbb P^n`.
+</p>
+
+<p class="definition">
+	设 `bm beta, bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n`,
+	`s ge 1`. 若存在 `k_1, k_2, cdots, k_s in bbb P`, 使得
+	<span class="formula">
+		`sum_(i=1)^s k_i bm alpha_i = bm beta`,
+	</span>
+	则称 `bm beta` 可被 `bm alpha_1, bm alpha_2, cdots, bm alpha_s`
+	<b>线性表出</b>, 或 `bm beta` 为 `bm alpha_1, bm alpha_2, cdots, bm
+	alpha_s` 的<b>线性组合</b>.
+</p>
+
+<p class="definition">
+	设 `s ge 1`, 称向量组 `bm alpha_1, bm alpha_2, cdots, bm alpha_s in
+	bbb P^n` <b>线性相关</b>, 如果存在不全为零的 `s` 个数 `k_1, k_2,
+	cdots, k_s in bbb P`, 使得零向量为该向量组的线性组合, 即
+	<span class="formula">
+		`sum_(i=1)^s k_i bm alpha_i = bm theta`.
+	</span>
+	否则, 称该向量组<b>线性无关</b>, 即, 如果有 `s` 个数 `k_1, k_2, cdots,
+	k_s in bbb P` 使得上式成立, 则 `k_1 = k_2 = cdots = k_s = 0`.
+</p>
+
+<ol class="corollary">
+	设 `bm A in bbb P^(m xx n)`, `bm X in bbb P^n`, `bm B in bbb P^m`, 则
+	<li>线性方程组 `bm (AX) = bm B` 有解当且仅当 `bm B` 能被 `bm A`
+		的各列向量 `bm (A epsi_i)` (`i = 1, 2, cdots, n`, `bm epsi_i` 是
+		`n` 元单位列向量) 线性表出.
+	</li>
+	<li>齐次方程组 `bm (AX) = bb 0` 有非零解当且仅当
+		`bm (A epsi_i)` (`i = 1, 2, cdots, n`) 线性相关.
+	</li>
+	<li>进一步设 `m = n`, 联系 Cramer 法则的推论 ???, `|bm A| = 0`
+		当且仅当 `bm (A epsi_i)` (`i = 1, 2, cdots, n`) 线性相关.
+		取 `bm A = bm E` 知,
+		`bm epsi_1, bm epsi_2, cdots, bm epsi_n` 线性无关.
+	</li>
+</ol>
+
+<ol class="corollary">
+	<li><b>加列仍线性相关</b>
+		若 `bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n`
+		线性相关, `bm alpha_(s+1) in bbb P^n`, 则 `bm alpha_1, bm alpha_2,
+		cdots, bm alpha_(s+1)` 线性相关. 用方程组的语言, 就是
+		<span class="formula">
+			`(AA bm X != bb 0)`
+			`bm (AX) = bb 0`
+			`rArr`
+			`(bm A, bm B) [(bm X),(bb 0)] = bb 0`.
+		</span>
+		这指出, 若向量组的一个<b>部分组</b>线性相关,
+		则整个向量组线性相关.  换言之, 若向量组线性无关,
+		则它的任意部分组线性无关.
+	</li>
+	<li><b>降维仍线性相关</b>
+		设 `bm alpha_i = (a_(i1), a_(i2), cdots, a_(i n)) in bbb P^n`,
+		`i = 1, 2, cdots, s` 线性相关, 则
+		`bm bar alpha_i = (a_(i1), a_(i2), cdots, a_(i,n-1)) in bbb
+		P^(n-1)`, `i = 1, 2, cdots, s` 线性相关.  用方程组的语言, 就是
+		<span class="formula">
+			`(AA bm X != bb 0)`
+			`[(bm A),(bm B)] bm X = [(bb 0),(bb 0)]`
+			`rArr`
+			`bm (AX) = bb 0`.
+		</span>
+		这指出, 若向量组线性相关, 则由它的部分分量组成的向量组皆线性相关.
+		换言之, 若向量组的某些部分分量组成的向量组线性无关,
+		则整个向量组线性无关.
+	</li>
+</ol>
+
+<ol class="theorem">
+	`bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n`
+	线性相关当且仅当
+	<li>`s = 1` 时, `bm alpha_1 = bm theta`;</li>
+	<li>`s ge 2` 时, 存在 `1 le i le s` 使得 `bm alpha_i` 为
+		其余 `s-1` 个向量的线性组合.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>`s = 1` 时, 若 `bm alpha_1 = bm theta`, 任取 `k_1 in bbb P\\{0}`,
+		就有 `k_1 bm alpha_1 = bm theta` 成立, 即 `bm alpha_1` 线性相关.
+		反之若 `bm alpha_1` 线性相关, 由定义知存在 `k_1 in bbb P\\{0}`
+		使得 `k_1 bm alpha_1 = bm theta`, 两边同乘 `k_1^-1` 得 `bm
+		alpha_1 = bm theta`.
+	</li>
+	<li>`s ge 2` 时, 若存在 `k_j in bbb P`, `j = 1, 2, cdots, s`, `j != i`
+		使得
+		<span class="formula">
+			`sum_(j=1, j!=i)^s k_j bm alpha_j = bm alpha_i`,
+		</span>
+		令 `k_i = -1 != 0`, 则
+		<span class="formula">
+			`sum_(j=1)^s k_j bm alpha_j = bm theta`,
+		</span>
+		故 `bm alpha_1, bm alpha_2, cdots, bm alpha_s` 线性相关.
+		反之, 若 `bm alpha_1, bm alpha_2, cdots, bm alpha_s` 线性相关,
+		则存在不全为零的 `k_j in bbb P`, `j = 1, 2, cdots, s` 使得
+		<span class="formula">
+			`sum_(j=1)^s k_j bm alpha_j = bm theta`,
+		</span>
+		不妨设 `k_i != 0`, `1 le i le s`, 于是
+		<span class="formula">
+			`bm alpha_i = -k_i^-1 sum_(j=1,j!=i)^s k_j bm alpha_j`,
+		</span>
+		即 `bm alpha_i` 是其它 `s-1` 个向量的线性组合.
+	</li>
+</ol>
+
+<p class="theorem">
+	设 `bm beta in bbb P^n` 可被 `bm alpha_1, bm alpha_2, cdots, bm
+	alpha_s in bbb P^n` 线性表出, `s ge 1`,
+	则向量组 `bm alpha_1, bm alpha_2, cdots, bm alpha_s`
+	线性无关当且仅当该表出方式唯一.
+</p>
+
+<ol class="proof">
+	<li>先设 `bm alpha_1, bm alpha_2, cdots, bm alpha_s` 线性无关,
+		`bm beta = sum_(i=1)^s k_i bm alpha_i = sum_(i=1)^s l_i bm
+		alpha_i`, 则 `sum_(i=1)^s (k_i - l_i) bm alpha_i = bm theta`.
+		由线性无关性知 `k_i = l_i`, `i = 1, 2, cdots, s`.
+	</li>
+	<li>反之设 `bm beta = sum_(i=1)^s k_i
+		bm alpha_i` 是唯一的表出方式. 又设 `sum_(i=1)^s l_i bm alpha_i =
+		bm theta`, 则 `bm beta = sum_(i=1)^s (k_i + l_i) bm alpha_i`,
+		由表出方式唯一知 `l_i = 0`, `i = 1, 2, cdots, s`, 即 `bm alpha_1,
+		bm alpha_2, cdots, bm alpha_s` 线性无关.
+	</li>
+</ol>
+
+<p class="note">
+	上述定理可以作为线性相关 (无关) 的等价定义.
+	事实上, 我们正是以零向量被一个向量组线性表出方式的唯一性 (不唯一性)
+	来定义该向量组的线性无关 (相关) 的 (零向量是能被任意向量表示的向量).
+</p>
+
+<h3>极大 (线性) 无关组, 向量组的秩</h3>
+
+<p class="definition">
+	称向量集 `S sube bbb P^n` 可被 `T sube bbb P^n` <b>线性表出</b>, 如果
+	`S` 中每一向量可被 `T` 中的向量线性表出
+	(这里的 `S` 与 `T` 未必只有有限个向量, 且与集合定义不同,
+	我们允许向量集中的元素重复). 这时称 `T` 为 `S` 的<b>生成集</b>.
+	特别当 `T` 只有有限个向量时, 称为 `S` 的<b>生成向量组</b>.
+	<br/>
+	称两向量集<b>等价</b>, 如果它们可以互相表出.
+	<br/>
+	显然向量集的等价满足自反性, 对称性和传递性, 是一等价关系;
+	向量集之间的线性表出满足自反性, 反对称性与传递性, 是一偏序.
+</p>
+
+<ol class="theorem">
+	<b>替换定理</b>
+	设 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n`
+	线性无关, 且可被 `"II": bm beta_1, bm beta_2, cdots, bm beta_t in bbb
+	P^n` 线性表出, 则
+	<li>`s le t`; 这表明 `t` 个向量能线性表出的线性无关向量的个数不超过
+		`t`.
+	</li>
+	<li>`"II"` 在适当重排后, 与向量组
+			`"III": bm alpha_1, bm alpha_2, cdots, bm alpha_s, bm
+			beta_(s+1), cdots, bm beta_t`
+		等价. 换言之, 用向量组 `"I"` 中的向量替换 `"II"` 中的 `s`
+		个向量后所得的向量组仍与 `"II"` 等价. 特别若 `s = t`, 则 `"I"`
+		与 `"II"` 等价.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>对 `t` 使用数学归纳法. 当 `t = 1` 时, 若有 `s gt t`, 则 `s ge 2`.
+		这时存在 `k_1, k_2 in bbb P`, 使得
+		`bm alpha_i = k_i bm beta_1`, `i = 1, 2`.
+		由于 `bm alpha_1, bm alpha_2` 线性无关, 有 `bm alpha_1, bm alpha_2
+		!= bm theta`, 所以 `k_1, k_2 != 0`. 但
+		<span class="formula">
+			`k_2 bm alpha_1 - k_1 bm alpha_2 = bm theta`,
+		</span>
+		所以 `bm alpha_1, bm alpha_2` 线性相关, 矛盾. 故 `s le t`.
+		<br/>
+		今假设定理对于 `t-1 ge 1` 成立, 考查 `t` 时的情形, 设
+		<span class="formula">
+			`bm alpha_i = sum_(j=1)^t k_(ij) bm beta_j`,
+			`i = 1, 2, cdots, s`.
+		</span>
+		若 `k_(it) = 0`, `i = 1, 2, cdots, s`, 则
+		<span class="formula">
+			`bm alpha_i = sum_(j=1)^(t-1) k_(ij) bm beta_j`,
+			`i = 1, 2, cdots, s`.
+		</span>
+		各个 `bm alpha_i` 已经被 `t-1` 个向量线性表出, 由归纳假设,
+		`s le t-1 lt t`, 定理成立.
+		<br/>
+		若存在一个 `1 le m le s`, 使得 `k_(mt) != 0`, 不妨设 `m = s`,
+		令
+		<span class="formula">
+			`"IV": bm gamma_i = bm alpha_i - k_(it)/k_(st) bm alpha_s`,
+			`i = 1, 2, cdots, s-1`,
+		</span>
+		则 `"IV"` 可由 `"I"` 线性表出; 由向量组线性表出的传递性, `"IV"`
+		也可由 `"II"` 线性表出, 且 `bm beta_t` 的系数 `k_(it) -
+		k_(it)/k_(st) * k_(st) = 0`, 这表明 `"IV"` 可以仅由 `"II"` 的前
+		`t-1` 个向量线性表出.
+		<br/>
+		我们证明 `"IV"` 线性无关. 事实上, 若存在
+		`l_i in bbb P`, `i = 1, 2, cdots, s-1`, 使得
+		<span class="formula">
+			`sum_(i=1)^(s-1) l_i bm gamma_i = bm theta`,
+		</span>
+		那么
+		<span class="formula">
+			`sum_(i=1)^(s-1) l_i bm alpha_i - (sum_(i=1)^(s-1) l_i
+			k_(it)/k_(st) ) bm alpha_s = bm theta`.
+		</span>
+		由 `"I"` 线性无关得 `l_i = 0`, `i = 1, 2, cdots, s-1`,
+		于是 `"III"` 线性无关.
+		由归纳假设, `s-1 le t-1`, 即 `s le t`.
+	</li>
+	<li>只需证明 `"III"` 能线性表出 `"II"`, 而这只需证明 `"III"`
+		能线性表出 `bm beta_i`, `i = 1, 2, cdots, s`.
+		对 `s` 使用数学归纳法, 当 `s = 1` 时, 设
+		<span class="formula">
+			`bm alpha_1 = sum_(j=1)^t k_j bm beta_j`,
+		</span>
+		适当排列 `"II"` 使 `k_1 != 0`, 则
+		<span class="formula">
+			`bm beta_1 = k_1^-1 bm alpha_1 - k_1^-1 sum_(j=2)^t k_j bm
+			beta_j`.
+		</span>
+		设定理对 `s-1 ge 1` 成立, 考察 `s` 的情形, 设
+		<span class="formula">
+			`bm alpha_s = sum_(j=1)^t l_j bm beta_j = sum_(j=1)^(s-1) m_j
+			bm alpha_j + sum_(j=s)^t m_j bm beta_j`,
+		</span>
+		其中 `m_s, m_(s+1), cdots, m_t` 不全为零, 适当排列使 `m_s != 0`,
+		于是 `"III"` 能线性表出 `bm beta_s`, 进而线性表出 `bm alpha_1,
+		cdots, bm alpha_(s-1), bm beta_s, cdots, bm beta_t`,
+		进而由归纳假设, 线性表出 `"II"`.
+	</li>
+</ol>
+
+<p class="corollary">
+	在替换定理中取 `"II"` 为 `n` 元单位向量组, 得到:
+	`bbb P^n` 中任意线性无关向量组含向量的个数不超过 `n`.
+</p>
+
+<p class="corollary">
+	设 `bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n` 和 `bm
+	beta_1, bm beta_2, cdots, bm beta_t in bbb P^n` 等价且各自线性无关,
+	则 `s = t`.
+</p>
+
+<p class="definition">
+	设 `bm alpha_1, bm alpha_2, cdots, bm alpha_r in S sube bbb P^n`.
+	称 `bm alpha_1, bm alpha_2, cdots, bm alpha_r` 为向量集 `S`
+	的一个<b>极大 (线性) 无关组</b>, 如果它线性无关, 且与 `S` 等价.
+	即极大线性无关组是能够表出 `S` 中任意向量的无关向量组.
+</p>
+
+<ol class="corollary">
+	<li><b>再多一个, 线性相关.</b>
+		向 `S` 的极大线性无关组 `"I"` 中再加入一个 `S` 中的向量,
+		则该向量可由 `"I"` 线性表出, 故 `"I"` 并上此向量后线性相关.
+	</li>
+	<li><b>再少一个, 不足表出 `S`.</b>
+		从 `S` 的极大线性无关组 `"I"` 中剔除一个向量, 则由 `"I"`
+		线性无关知, 该向量不能由 `"I"` 中剩余的向量线性表出.
+		从而剩余的向量不足以线性表出 `S`.
+	</li>
+</ol>
+
+<p class="lemma">
+	设 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_s` 线性无关, 则
+	`bm alpha_1, bm alpha_2, cdots, bm alpha_(s+1)` 线性无关当且仅当
+	`bm alpha_(s+1)` 不是 `"I"` 的线性组合.
+</p>
+
+<p class="proof">
+	`rArr`: 由定理3-1 显然. `lArr`: 设存在 `k_i in bbb P^n`,
+	`i = 1, 2, cdots, s+1` 使得
+	<span class="formula">
+		`sum_(i=1)^(s+1) k_i bm alpha_i = bm theta`.
+	</span>
+	由 `bm alpha_(s+1)` 不是 `"I"` 的线性组合知 `k_(s+1) = 0`.
+	再由 `"I"` 线性无关, `k_1 = k_2 = cdots = k_s = 0`. 于是
+	`bm alpha_1, bm alpha_2, cdots, bm alpha_(s+1)` 线性无关.
+</p>
+
+<p class="corollary">
+	`bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n`
+	线性无关当且仅当
+	`bm alpha_1 != bm theta`, 且对任意 `i = 2, 3, cdots, s`, `bm alpha_i`
+	不是 `bm alpha_1, bm alpha_2, cdots, bm alpha_(i-1)` 的线性组合.
+</p>
+
+<p class="proof">
+	`rArr`: 由定理3-1 显然. `lArr`: 对 `s` 用数学归纳法, 反复应用
+	引理3-1 可证.
+</p>
+
+<p class="theorem">
+	<b>扩充定理</b>
+	令 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n`,
+	若 `{bm alpha_i}_(i=1)^h` 线性无关, 但不构成 `"I"` 的极大无关组,
+	则可以从余下的 `s-h` 个向量 `bm alpha_(h+1), cdots, bm
+	alpha_s` 中选取若干向量, 使 `{bm alpha_i}_(i=1)^h`
+	与这些向量一起构成 `"I"` 的一个极大线性无关组.
+	换言之, 任意非零向量组可以扩充为极大线性无关组.
+</p>
+
+<p class="proof">
+	反复应用引理3-1. 从余下的向量中任取一向量, 若它不能表示为 `{bm
+	alpha_i}_(i=1)^h` 的线性组合, 则将它加入已有的无关向量组.
+	由于 `s` 是有限数, 这一步骤不可能永远继续下去.
+	最终我们得到一无关向量组, 且 `"I"` 中任意向量都可由它线性表出. 由定义,
+	我们已经得到极大无关向量组.
+</p>
+
+<p class="corollary">
+	令 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_s` 是 `bbb P^n`
+	中不全为零的向量组. 由扩充定理知, `"I"` 中存在极大无关组.
+	再由推论3-4 知, `"I"` 中所有极大无关组所含向量个数是相等的.
+</p>
+
+<p class="definition">
+	假设如推论3-7. 称不全为零的向量组 `"I"` 中极大无关组所含向量的个数为
+	`"I"` 的<b>秩</b>, 记为 `r_"I"` 或 `r_({bm alpha_i}_(i=1)^s)`.
+	约定全由零向量组成的向量组的秩为 `0`.
+</p>
+
+<ol class="corollary">
+	<li>由替换定理, 若向量组 `"I"` 能由 `"II"` 线性表出, 则 `r_"I" le
+		r_"II"`;
+	</li>
+	<li>若 `"I"` 与 `"II"` 等价, 则 `r_"I" = r_"II"`;</li>
+	<li>若 `"I"` 与 `"II"` 有包含关系, 则 2. 是充要的.</li>
+</ol>
+
+<p class="theorem">
+	无关向量组 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_r`
+	为 `S` 的极大无关组的充要条件是 `S`
+	中任意无关向量组所含向量的个数最多为 `r`.  换言之,
+
+	无关向量组 `"I"` 为 `S` 的极大无关组的充要条件是 `r_S = r`.
+	于是, 秩是无关向量组所含向量个数的最大值,
+	是生成向量组所含向量个数的最小值.
+</p>
+
+</p>
+
+<ol class="proof">
+	<li>充分性:
+		设 `S` 中无关向量组所含向量的个数最多为 `r`. 则 `S`
+		中的任意向量与 `"I"` 组成的向量组都线性相关. 由引理3-1, `S`
+		中任意向量都能被 `"I"` 线性表出, 即 `"I"` 为 `S` 的极大无关组.
+	</li>
+	<li>必要性: 设 `"I"` 为 `S` 的极大无关组.
+		这表示 `S` 中无关向量组所含向量的个数可以达到 `r`.
+		设 `S` 中有 `r+1` 个线性无关的向量, 则这些向量可被 `"I"` 线性表出,
+		由替换定理, `r+1 le r`, 矛盾. 所以 `S` 中无关向量组所含向量的个数
+		不超过 `r`.
+	</li>
+</ol>
+
+<p class="note">
+	定理3-5 可作为极大无关组与秩的又一定义, 且这一定义中体现了 "极大"
+	一词的内涵. 从这一定理得出的关于秩的结论, 是非常对称而优美的.
+</p>
+
+<h3>线性方程组的求解问题</h3>
+
+<p>	从推论3-1 早已知道, `n`
+	元向量的线性相关性与方程组解的存在性问题密不可分.
+	现在利用已经得到的向量线性相关性的结论,
+	回过头来解决方程组解的存在性问题, 即下面的定理:
+</p>
+
+<p class="theorem">
+	设 `bm alpha_i in bbb P^m`, `i = 1, 2, cdots, n`; `bm beta in bbb
+	P^m`. 则线性方程组
+	<span class="formula">
+		`sum_(i=1)^n x_i bm alpha_i = bm beta`
+	</span>
+	有解当且仅当
+	<span class="formula">
+		` r_({bm alpha_1, cdots, bm alpha_n})
+		= r_({bm alpha_1, cdots, bm alpha_n, bm beta})`.
+		<span class="label">(3-1)</span>
+	</span>
+	进一步, 当此方程组有解时, 其解唯一当且仅当 `bm alpha_1, bm alpha_2,
+	cdots, bm alpha_n` 线性无关, 即
+	<span class="formula">
+		` r_({bm alpha_1, cdots, bm alpha_n})
+		= r_({bm alpha_1, cdots, bm alpha_n, bm beta}) = n`.
+	</span>
+</p>
+
+<ol class="proof">
+	<li>由推论3-8 的 3, (3-1) 成立当且仅当 `bm alpha_1, bm alpha_2,
+		cdots, bm alpha_n` 等价于 `bm alpha_1, bm alpha_2, cdots, bm
+		alpha_n, bm beta`,
+		也当且仅当 `bm beta` 为 `bm alpha_1, bm alpha_2, cdots,
+		bm alpha_n` 的线性组合; 由推论3-1 的 1, 这当且仅当方程组有解.
+	</li>
+	<li>进一步设方程组有解, 由定理3-2 知解唯一当且仅当 `bm alpha_1, bm
+		alpha_2, cdots, bm alpha_n` 线性无关.
+	</li>
+</ol>
+
+<h2>矩阵的秩与方程组的求解问题</h2>
+
+<h3>矩阵的秩</h3>
+
+<p class="definition">
+	设 `bm A in bbb P^(m xx n)`, 把 `bm A` 的某 `r` 行某 `s` 列交叉处的
+	`r xx s` 个元素按原来 "上下左右" 的顺序形成的 `r xx s` 矩阵称为
+	`bm A` 的<b>子阵</b>, `r = 1, 2, cdots, m`, `s = 1, 2, cdots, n`.
+	特别 `r = s` 时, 称为 <b>`r` 阶方阵</b>,
+	其行列式称为 `bm A` 的 <b>`r` 阶子式</b>,
+	`r = 1, 2, cdots, min{m, n}`.
+</p>
+
+<p class="definition">
+	设 `bm epsi_i`, `i = 1, 2, cdots, n` 为 `m` 元单位列向量,
+	`bm epsi_j'`, `j = 1, 2, cdots, m` 为 `n` 元单位行向量.
+	称 `bm A in bbb P^(m xx n)` 的列向量组 `{bm (A epsi_i)}_(i=1)^n`
+	的秩为 `bm A` 的<b>列秩</b>, 行向量组 `{bm (epsi_j' A)}_(j=1)^m`
+	的秩为 `bm A` 的<b>行秩</b>, 称 `bm A` 的全体非零子式的最大阶数为
+	`bm A` 的<b>行列式秩</b>. 规定零矩阵的行列式秩为 `0`.
+	因此, `bm A` 的行秩, 列秩和行列式秩都是非负整数.
+</p>
+
+<p class="definition">
+	令 `bm alpha_1, bm alpha_2, cdots, bm alpha_n in bbb P^(m xx 1)`.
+	称下述变换为此向量组<b>涉及向量的初等变换</b>与<b>涉及分量的初等变换</b>:
+</p>
+
+<table>
+<tr>
+<td>
+<ol>涉及向量的初等变换
+	<li>`k` 乘以向量组的第 `l` 个向量作为新向量组的第 `l` 个向量,
+		其他向量不变, `k in bbb P\\{0}`, `1 le l le n`.
+	</li>
+	<li>向量组的第 `t` 个向量加上第 `s` 个向量的 `k` 倍, 作为新向量组的第
+		`t` 个向量, 其他向量不变, `k in bbb P`, `s != t`, `1 le s, t le
+		n`.
+	</li>
+	<li>交换向量组的第 `s, t` 个向量的位置, 其他向量不变, `1 le s, t le
+		n`.
+	</li>
+</ol>
+</td>
+
+<td>
+<ol>涉及分量的初等变换
+	<li>`k` 乘以向量组的每个向量的第 `l` 个分量作为新向量组每个向量的第
+		`l` 个分量, 其他分量不变, `k in bbb P\\{0}`, `1 le l le m`.
+	</li>
+	<li>向量组的每个向量的第 `t` 个分量加上各自的第 `s` 个分量的 `k` 倍,
+		作为新向量组每个向量的的第 `t` 个分量, 其他分量不变, `k in bbb P`,
+		`s != t`, `1 le s, t le m`.
+	</li>
+	<li>交换向量组的每个向量的第 `s, t` 个分量的位置, 其他分量不变, `1 le
+		s, t le m`.
+	</li>
+</ol>
+</td>
+</tr>
+</table>
+
+<p class="lemma">
+	向量组 `bm alpha_1, bm alpha_2, cdots, bm alpha_n in bbb P^(m xx 1)`
+	经过有限次涉及向量的初等变换及有限次涉及分量的初等变换后等到的新向量组与原向量组的秩相等.
+</p>
+
+<p class="proof">
+	关于涉及向量的初等变换的结论是显然的, 因为涉及向量的初等变换是可逆的
+	从而变换前后的向量组等价, 从而由推论3-8 的 2, 它们的秩也相等.
+	下证向量组在有限次涉及分量的初等变换后与原向量组等价.
+	不妨设原向量组 `{bm alpha_i}_(i=1)^n` 不全为零向量, 且 `{bm
+	alpha_i}_(i=1)^r` 构成它的一个极大线性无关组. 设
+	<span class="formula">
+		`bm alpha_i = (a_(1i), a_(2i), cdots, a_(mi))'`,
+		`bm beta_i = (b_(1i), b_(2i), cdots, b_(mi))'`,
+		`i = 1, 2, cdots, r`.
+	</span>
+	构造线性方程组
+	<span class="formula">
+		`sum_(i=1)^r x_i bm alpha_i = bm theta_(m xx 1)`, `quad`
+		`sum_(i=1)^r x_i bm beta_i  = bm theta_(m xx 1)`.
+	</span>
+	由 `{bm alpha_i}_(i=1)^r` 线性无关, 第一个方程组只有零解.
+	而第二个方程可以看成第一个方程经过有限次行初等变换得到的同解方程组,
+	从而也只有零解, 即 `{bm beta_i}_(i=1)^r` 线性无关.
+	这就证明了原向量组的任一极大无关组在 (涉及分量的)
+	初等变换下仍保持线性无关. 由定理3-5,
+	`r_({bm alpha_i}_(i=1)^n) = r le r_({bm beta_i}_(i=1)^n)`.
+	但涉及分量的初等变换也是可逆的, 类似可得
+	`r_({bm alpha_i}_(i=1)^n) ge r_({bm beta_i}_(i=1)^n)`.
+</p>
+
+<p class="theorem">
+	`bbb P` 上任意矩阵的行秩 = 列秩 = 行列式秩.
+</p>
+
+<ol class="proof">
+<li>
+	先证任意矩阵的行秩等于列秩. 设
+	<span class="formula">
+		` bm A
+		= [bm alpha_1, bm alpha_2, cdots, bm alpha_n]
+		= [(bm alpha^((1))), (bm alpha^((2))), (vdots), (bm alpha^((m)))]
+		in bbb P^(m xx n)`.
+	</span>
+	它有如下等价标准形:
+	<span class="formula">
+		` bm bar A
+		= [bm eta_1, bm eta_2, cdots, bm eta_n]
+		= [(bm eta^((1))), (bm eta^((2))), (vdots), (bm eta^((m)))]
+		= [(bm E_r, bm O), (bm O, bm O)]`,
+	</span>
+	即对列向量组 `{bm alpha_i}_(i=1)^n`
+	作有限次向量组的涉及向量的初等变换和涉及分量的初等变换后可得向量组
+	`{bm eta_i}_(i=1)^n`; 类似地, 对行向量组 `{bm alpha^((j))}_(j=1)^m`
+	作有限次向量组的涉及向量的初等变换和涉及分量的初等变换后可得向量组
+	`{bm eta^((j))}_(j=1)^m`. 显然 `bm bar A` 的行秩和列秩都是 `r`.
+	根据引理3-2, `bm A` 的行秩和列秩也都是 `r`.
+</li>
+<li>
+	下证 `bm A` 的行列式秩也是 `r`. 不妨设 `bm A != bm O`, 取它的 `r`
+	个线性无关的行, 按原顺序作成一个子阵, 记为 `bm A_(r xx n)`. 由 1,
+	`bm A_(r xx n)` 的列秩等于行秩等于 `r`. 任取 `bm A_(r xx n)` 的
+	`r` 个线性无关的列, 按原顺序作成一个子阵 `bm A_(r xx r)`, 它也是
+	`bm A` 的子阵.
+
+	由于 `bm A_(r xx r)` 的列向量线性无关, 由推论3-1 的 3, `|bm A_(r xx
+	r)|` 为 `bm A` 的一个非零 `r` 阶子式.
+
+	由于 `bm A` 的任 `r+1` 列都线性相关, 从而其缩短向量 (降维) 仍线性相关,
+	因此若 `bm A` 有 `r+1` 阶子式, 其必为零. 于是 `bm A` 的行列式秩为 `r`.
+</li>
+</ol>
+
+<p class="definition">
+	称 `bm A in bbb P^(m xx n)` 的行秩 (列秩, 行列式秩) 为<b>矩阵的秩</b>,
+	记为 `r_(bm A)`.
+</p>
+
+<p class="corollary">
+	矩阵的秩在有限次行, 列初等变换下不变.
+</p>
+
+<p class="definition">
+	称方阵 `bm A in bbb P^(n xx n)` <b>满秩</b>, 如果 `r_(bm A) = n`.
+</p>
+
+<p class="corollary">
+	由推论3-1, `bm A in bbb P^(n xx n)`
+	满秩当且仅当 `bm A` 非奇异 (即行列式非零),
+	也当且仅当齐次方程组 `bm (AX) = bb 0` 只有零解.
+</p>
+
+<p class="example">
+	<b>阶梯形矩阵</b>
+	<span class="formula">
+		` bm B
+		= [(**," "b_12," "b_13," " cdots," " b_(1r)," " cdots," " b_(1n)),
+		   (0," "**," "   b_12," " cdots," " b_(2r)," " cdots," " b_(2n)),
+		   (0," "0," "   **," "    cdots," " b_(3r)," " cdots," " b_(3n)),
+		   (vdots," " vdots," " vdots," " ," " vdots," " ," " vdots),
+		   (0," "0," "   0," "    cdots," " **," "      cdots," " b_(rn)),
+		   (0," "0," " 0," " cdots," " 0," " cdots," " 0),
+		   (vdots," " vdots," " vdots," " ," " vdots," " ," " vdots),
+		   (0," "0," " 0," " cdots," " 0," " cdots," " 0)]`
+	</span>
+	的秩为 `r`, 其中 `**` 为非零数.
+</p>
+
+<p class="example">
+	利用推论3-9 及上例计算
+	<span class="formula">
+		`[(4," "-2," "1),
+		  (1," "2," "-2),
+		  (-1," "8," "-7),
+		  (2," "14," "-13)]`
+	</span>
+	的秩.
+</p>
+
+<p class="solution">
+	作行初等变换:
+	<span class="formula">
+		`[(4," "-2," "1),
+		  (1," "2," "-2),
+		  (-1," "8," "-7),
+		  (2," "14," "-13)]`
+		`overset([1"," 2]) rarr`
+		`[(1," "2," "-2),
+		  (4," "-2," "1),
+		  (-1," "8," "-7),
+		  (2," "14," "-13)]`
+		`underset([3+1(1)][4-1(2)]) overset([2-1(4)]) rarr`
+		`[(1," "2," "-2),
+		  (0," "-10," "9),
+		  (0," "10," "-9),
+		  (0," "10," "-9)]`
+		`underset([4+2(1)]) overset([3+2(1)]) rarr`
+		`[(1," "2," "-2),
+		  (0," "-10," "9),
+		  (0," "0," "0),
+		  (0," "0," "0)]`.
+	</span>
+	由例3-1 知原矩阵的秩为 2.
+</p>
+
+<p class="example">
+	<b>低秩矩阵</b>
+	方阵 `bm A in bbb P^(n xx n)` 的秩 `le 1` 当且仅当存在 `bm alpha, bm
+	beta in bbb P^(n xx 1)`, 使得
+	<span class="formula">
+		`bm A = bm (alpha beta)'`.
+	</span>
+	此时记 `k = bm beta' bm alpha`, 则 `bm A^2 = k bm A`.
+	可见低秩矩阵的幂运算是容易进行的.
+</p>
+
+<h3>线性方程组的可解性判别</h3>
+
+<p>	再回到线性方程组理论的主线上. 我们将上节定理3-6
+	的结论用矩阵秩的语言叙述如下:
+</p>
+
+<p class="theorem">
+	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^m`.
+	则方程组
+	<span class="formula">
+		`bm (AX) = bm B`
+	</span>
+	有解当且仅当
+	<span class="formula">
+		`r_(bm A) = r_((bm A","bm B))`,
+	</span>
+	其中分块矩阵 `(bm A, bm B)` 表示方程组的增广矩阵. 进一步,
+	当此方程组有解时, 其解唯一当且仅当
+	<span class="formula">
+		`r_(bm A) = r_((bm A","bm B)) = n`.
+	</span>
+</p>
+
+<p class="example">
+	判断下列线性方程组的可解性.
+	<span class="formula">`{
+		(x_1 + 2x_2 + 3x_3 + x_4 = 1),
+		(x_1 + 4x_2 + 5x_3 + 2x_4 = 2),
+		(2x_1 + 9x_2 + 8x_3 + 3x_4 = 7),
+		(3x_1 + 7x_2 + 7x_3 + 2x_4 = 12),
+		(5x_1 + 7x_2 + 9x_3 + 2x_4 = 20)
+	:}`
+	</span>
+</p>
+
+<p class="solution">
+	只作行初等变换, 同时求出上面方程组系数矩阵与增广矩阵的秩.
+	<span class="formula">
+		`[(1," "2," "3," "1," "1),
+		  (1," "4," "5," "2," "2),
+		  (2," "9," "8," "3," "7),
+		  (3," "7," "7," "2," "12),
+		  (5," "7," "9," "2," "20)]`
+		`underset([4-1(3)][5-1(5)]) overset([3-2(2)][2-1(1)]) rarr`
+		`[(1," "2," "3," "1," "1),
+		  (0," "2," "2," "1," "1),
+		  (0," "1," "-2," "-1," "3),
+		  (0," "1," "-2," "-1," "9),
+		  (0," "-3," "-6," "-3," "15)]`
+		`underset([4-2(1)][5+2(3)]) overset([2","3][3-2(2)]) rarr`
+		`[(1," "2," "3," "1," "1),
+		  (0," "1," "-2," "-1," "3),
+		  (0," "0," "6," "3," "-5),
+		  (0," "0," "0," "0," "6),
+		  (0," "0," "-12," "-6," "24)]`
+		`underset([5-4(14/6)]) overset([5+3(2)]) rarr`
+		`[(1," "2," "3," "1," "1),
+		  (0," "1," "-2," "-1," "3),
+		  (0," "0," "6," "3," "-5),
+		  (0," "0," "0," "0," "6),
+		  (0," "0," "0," "0," "0)]`.
+	</span>
+	最后的矩阵是增广矩阵在初等变换后的形状,
+	其中前四列构成系数矩阵在初等变换后的形状.
+	可见系数矩阵的秩为 3, 而增广矩阵的秩为 4, 方程组无解.
+	当然, 只要不涉及最后一列, 对矩阵作列的初等变换也是允许的.
+</p>
+
+<p>	下面的引理给出构造同解线性方程组的一种方法.</p>
+
+<p class="lemma">
+	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^m`.
+	若线性方程组 `bm (AX) = bm B` 有解, 且 `bm A` 的前 `r` 行构成
+	`bm A` 的行向量组的一个极大无关组, 则原方程组与自己的前 `r` 行
+	<span class="formula">
+		`bm A_(r xx n) bm X = bm B_(r xx 1)`
+	</span>
+	同解. 一般地, 从 `bm A` 的行向量组中选出一个极大无关组,
+	它们所在的行组成的新方程组与原方程组同解.
+</p>
+
+<p class="proof">
+	因为 `bm A` 的前 `r` 行线性无关,
+	由推论3-2 的 2, 增广矩阵 `(bm A, bm B)` 的前 `r` 行也线性无关.
+	又方程组 `bm (AX) = bm B` 有解, 由定理3-8,
+	`r = r_(bm A) = r_((bm A","bm B))`.
+	因此由定理3-5, `(bm A, bm B)` 的前 `r` 行构成其行向量组的极大无关组,
+	从而 `(bm A, bm B)` 的后 `m-r` 行是前 `r` 行的线性组合.
+	对增广矩阵施行有限次第二类行初等变换, 就可将它的后 `m-r` 行化为零,
+	从而这一变换后的方程组 (本质上, 即 `bm A_(r xx n) bm X = bm B_(r xx
+	1)`) 与原方程组同解.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>
