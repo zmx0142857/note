@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>线性空间与线性方程组</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<p>	类比于平面仿射几何系统, 我们抽象出线性空间的概念:</p>
+
+<ol class="definition" style="list-style-type:lower-roman">
+	令集合 `V != O/`, `bbb P` 为一数域, "`+`" 为 `v` 上的一个二元运算,
+	称为<b>加法</b>, "`*`" 为 `bbb P xx V` 到 `V` 的一个二元合成,
+	称为<b>数乘</b>. (注意, "二元运算" 与 "二元合成" 隐含 `V` 对运算封闭,
+	即对任意 `bm alpha, bm beta in V` 和任意 `k in bbb P`,
+	<span class="formula">
+		`bm alpha + bm beta in V`, `quad` `k bm alpha in V`.
+	</span>
+	称代数系统 `(V; +, *; bbb P)` 为数域 `bbb P`
+	上的<b>线性空间</b>, 如果它满足下面 8 条<b>基本性质</b>:
+	<li>加法交换律. `(AA bm alpha, bm beta in V)`
+		`bm alpha + bm beta = bm beta + bm alpha`;
+	</li>
+	<li>加法结合律. `(AA bm alpha, bm beta, bm gamma in V)`
+		`(bm alpha + bm beta) + bm gamma = bm alpha + (bm beta + bm
+		gamma)`;
+	</li>
+	<li>(右) 零元存在. `(EE bm theta in V)` `(AA bm alpha in V)`
+		`bm alpha + bm theta = bm alpha`;
+	</li>
+	<li>(右) 负元存在. `(AA bm alpha in V)` `(EE bm alpha' in V)`
+		`bm alpha + bm alpha' = bm theta`;
+	</li>
+	<li>数乘对 `V` 上加法的分配律.
+		`(AA bm alpha, bm beta in V &amp; AA k in bbb P)`
+		`k * (bm alpha + bm beta) = k * bm alpha + k * bm beta`;
+	</li>
+	<li>数乘对 `bbb P` 上加法的分配律.
+		`(AA bm alpha in V &amp; AA k, l in bbb P)`
+		`(k + l) * bm alpha = k * bm alpha + l * bm alpha`;
+	</li>
+	<li>数乘下数字的穿越.
+		`(AA bm alpha in V &amp; AA k, l in bbb P)`
+		`(kl) * bm alpha = k * (l * bm alpha)`;
+	</li>
+	<li>设 `1` 是 `bbb P` 中的幺元, `(AA bm alpha in V)`
+		`1 * bm alpha = bm alpha`.
+	</li>
+	不引起混淆的情况下, 把线性空间也简记简记为 `V`.
+	把线性空间中的元素称为<b>向量</b>,
+	数乘的乘号可以省略.
+</ol>
+
+<p class="note">
+	线性空间的基本性质 i - iv 指出 `(V, +)` 构成一个 Abel 群.
+	若把数域 `bbb P` 换成一般的域, 这里定义的就是抽象代数中的模.
+</p>
+
+<ol class="corollary">
+	<b>线性空间的简单性质</b>
+	<li>iii 中的 `bm theta` 是唯一的, 称为线性空间 `V` 中的<b>零向量</b>;
+	</li>
+	<li>设 `0` 是 `bbb P` 中的零元, `(AA bm alpha in V)`
+		`0 bm alpha = bm theta`.
+	</li>
+	<li>`(AA k in bbb P)` `k bm theta = bm theta`;</li>
+	<li>对任意 `bm alpha in V`, iv 中的 `bm alpha'` 是唯一的, 称为 `bm
+		alpha` 的<b>负向量</b>, 记为 `-bm alpha`; 因此, `-(-bm alpha) = bm
+		alpha`;
+	</li>
+	<li>`(AA bm alpha in V)` `(-1) bm alpha = -bm alpha`;</li>
+	<li>消去律. `(AA bm alpha, beta, gamma in V)`
+		`bm alpha + bm beta = bm alpha + bm gamma iff bm beta = bm gamma`.
+	</li>
+	<li><!-- ??? -->
+		`(AA bm alpha in V &amp; AA k in bbb P)`
+		`k bm alpha = bm theta rArr k = 0 or bm alpha = bm theta`;
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>若 `bm theta'` 也是 `V` 的零向量, 则由交换律 (i) 和零元的定义
+		(iii) 有
+		<span class="formula">
+			` bm theta'
+			= bm theta' + bm theta
+			= bm theta + bm theta'
+			= bm theta`.
+		</span>
+	</li>
+	<li>由 viii 和 vi 有
+		<span class="formula">
+			` bm alpha + 0 bm alpha
+			= 1 bm alpha + 0 bm alpha
+			= (1 + 0) bm alpha
+			= 1 bm alpha
+			= bm alpha`.
+		</span>
+		由零元唯一性知 `0 bm alpha = bm theta`.
+	</li>
+	<li>任取 `bm alpha in V`, 由简单性质 2 和 vii ,
+		<span class="formula">
+			` k bm theta
+			= k (0 bm alpha)
+			= (k*0) bm alpha
+			= 0 bm alpha
+			= bm theta`.
+		</span>
+	</li>
+	<li>设 `bm alpha''` 也是 `bm alpha` 的负向量, 则由交换律,
+		结合律和零元, 负元的定义有
+		<span class="formula">
+			` bm alpha''
+			= bm alpha'' + bm theta
+			= bm theta + bm alpha''
+			= bm alpha + bm alpha' + bm alpha''
+			= bm alpha' + bm alpha + bm alpha''
+			= bm alpha' + bm theta
+			= bm alpha'`.
+		</span>
+	</li>
+	<li>由简单性质 2,
+		<span class="formula">
+			` bm alpha + (-1) bm alpha
+			= 1 bm alpha + (-1) bm alpha
+			= (1-1) bm alpha
+			= 0 bm alpha
+			= bm theta`.
+		</span>
+		由负元唯一性知 `(-1) bm alpha = -bm alpha`.
+	</li>
+	<li>`lArr`: 两边同时加上 `bm alpha`; `rArr`: 两边同时加上 `-bm alpha`.
+	</li>
+	<li>设 `k != 0`, 则由简单性质 3,
+		<span class="formula">
+			` bm alpha
+			= 1 bm alpha
+			= (k^-1 k) bm alpha
+			= k^-1 (k bm alpha)
+			= k^-1 bm theta
+			= bm theta`.
+		</span>
+	</li>
+</ol>
+
+<ol class="note">
+	零元, 负元的唯一性和消去律都是群的性质, 我们只由 ii, iii, iv
+	就可以推出它们:
+	<li>右负元也是左负元:
+		对 `AA bm alpha in V`, 有 `bm alpha', (bm alpha')' in V`, 满足
+		<span class="formula">
+			` bm alpha + bm alpha'
+			= bm alpha' + (bm alpha')'
+			= bm theta`.
+		</span>
+		于是
+		<span class="formula">
+			` bm alpha' + bm alpha
+			= bm alpha' + bm alpha + bm theta
+			= bm alpha' + bm alpha + bm alpha' + (bm alpha')'`
+			`= bm alpha' + bm theta + (bm alpha')'
+			= bm alpha' + (bm alpha')'
+			= bm theta`.
+		</span>
+	</li>
+	<li>右零元也是左零元:
+		对 `AA bm alpha in V`
+		<span class="formula">
+			` bm theta + bm alpha
+			= bm alpha + bm alpha' + bm alpha
+			= bm alpha + bm theta
+			= bm alpha`.
+		</span>
+	</li>
+	因此当 `bm alpha, bm beta in V` 中有一个是零元,
+	或者有一个是另一个的负元时, `bm alpha + bm beta = bm beta + bm alpha`.
+	从而上述推论 1, 4, 6 的证明实际上不依赖于交换律. 
+</ol>
+
+<p class="note">
+	线性空间定义中的 8 条基本性质不是相互独立的, 比如我们可以用 ii, iii,
+	iv, v, vi, viii 来推出 i. 
+	对任意 `bm gamma in V`, 由 vi 和 viii,
+	<span class="formula">
+		` 2 bm gamma
+		= (1+1) bm gamma
+		= 1 bm gamma + 1 bm gamma
+		= bm gamma + bm gamma`.
+	</span>
+	于是对任意 `bm alpha, bm beta in V`, 由 ii,
+	<span class="formula">
+		` 2 (bm alpha + bm beta)
+		= (bm alpha + bm beta) + (bm alpha + bm beta)
+		= bm alpha + (bm beta + bm alpha) + bm beta`.
+	</span>
+	但由 v, ii 知 
+	<span class="formula">
+		` 2 (bm alpha + bm beta)
+		= 2 bm alpha + 2 bm beta
+		= (bm alpha + bm alpha) + (bm beta + bm beta)
+		= bm alpha + (bm alpha + bm beta) + bm beta`.
+	</span>
+	由消去律 (从注4-2 知道, 消去律只依赖于 ii, iii, iv) 知
+	<span class="formula">
+		`bm beta + bm alpha = bm alpha + bm beta`.
+	</span>
+</p>
+
+<p class="definition">
+	令 `(V; +, *; bbb P)` 为一线性空间, `O/ != V_1 sube V`.
+	若 `(V_1; +, *, bbb P)` 也为一线性空间, 则称 `V_1` 为 `V`
+	的<b>线性子空间</b>, 简称<b>子空间</b>, 记为 `V_1 le V`.
+	进一步, 若 `V_1 != V`, 称 `V_1` 为 `V` 的<b>真子空间</b>,
+	记为 `V_1 lt V`.
+	显然对于任意数域 `bbb P` 上的任意线性空间 `V`, `{bm theta}` 和 `V`
+	本身都是 `V` 的子空间, 称为 `V` 的<b>平凡子空间</b>.
+</p>
+
+<ol class="theorem">
+	令 `(V; +, *; bbb P)` 为一线性空间, `V_1 sube V`.
+	则 `V_1` 为 `V` 的子空间的充要条件是
+	<li>`V_1 != O/`;</li>
+	<li>`V_1` 对 `V` 上的加法与数乘封闭.</li>
+	从而我们在验证线性子空间时, 不需要烦琐地逐一验证 8 条性质.
+</ol>
+
+<p class="proof">
+	必要性显然, 今证充分性, 这只需再证明 `V_1` 满足定义4-1 的 8 条性质.
+	由于 `V_1 sube V`, i, ii 及 v - viii 显然成立. 接下来证明 iii, iv
+	成立. 任取 `bm alpha in V_1`, 则由推论4-1 的 2 及 `V_1`
+	对数乘的封闭性, `bm theta = 0 bm alpha in V_1`, 故 iii 成立.
+	同理, 对任意 `bm alpha in V_1`, `-bm alpha = (-1) bm alpha in V_1`,
+	故 iv 成立.
+</p>
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, `bm alpha_1, bm alpha_2, cdots, bm
+	alpha_n in V`, 易知
+	<span class="formula">
+		`{sum_(i=1)^n k_i bm alpha_i: k_i in bbb P, i = 1, 2, cdots, n}
+		le V`,
+	</span>
+	称为<b>由 `bm alpha_1, bm alpha_2, cdots, bm alpha_n`
+	生成的子空间</b>, 记为 `G[bm alpha_1, bm alpha_2, cdots, bm alpha_n]`.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>
