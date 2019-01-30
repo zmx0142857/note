@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>抛物线</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>基本概念</h2>
+
+<p class="definition">
+	平面上到定直线和到定点距离相等的动点轨迹称为<b>抛物线</b>.
+	这条定直线称为<b>准线</b>, 这个定点称为<b>焦点</b>.
+	焦点到准线的垂线段称为<b>焦准距</b>.
+</p>
+
+<p class="note">
+	下文中如无特别说明 "在空间中", 我们的问题总是限于一个平面内的.
+</p>
+
+<p class="definition">
+	曲线上两点的连线称为<b>弦</b>.
+	称一条曲线<b>关于一直线对称</b>, 如果对曲线上的任一点,
+	存在这曲线上的一点, 使这两点位于直线异侧, 且连结它们的弦被这直线垂直平分.
+	这条直线称为曲线的<b>对称轴</b>, 曲线与轴的交点叫做<b>顶点</b>.
+</p>
+
+<p class="definition">
+	通过焦点且垂直于准线的直线叫做抛物线的<b>轴</b>,
+	轴与抛物线的交点叫做抛物线的<b>顶点</b>.
+</p>
+
+<p class="theorem">
+	作图: 已知焦点与准线, 作出抛物线上的点.
+	证明抛物线的轴就是抛物线的对称轴.
+</p>
+
+<p class="proof">
+	设 `S` 是焦点, `MXM'` 是准线. 过 `S` 作直线 `SX` 垂直准线于 `X`.
+	取 `SX` 中点 `A`, 则 `AX = AS`. 由定义, `A` 在抛物线上.
+	<br/>
+	在射线 `AS` 上任取一点 `N`, 作直线 `PNP'` 垂直 `SX` 于 `N`.
+	以 `S` 为心, `XN` 为半径作圆, 它与 `PNP'` 相交, 且交点为 `P` 和 `P'`.
+	作 `PM`, `P'M'` 分别垂直准线于 `M`, `M'`. 则由于
+
+		`PS = NX = PM`,
+
+	所以 `P` 也在抛物线上. 同理 `P'` 也在抛物线上.
+	容易证明 `PP'` 被直线 `XS` 垂直平分, 即 `P` 与 `P'` 关于直线 `XS` 对称.
+	<!-- 证明抛物线上的所有点都可以这样作出 -->
+</p>
+
+<p class="definition">
+	抛物线上一点到轴的垂线段叫做这个点的<b>纵标线</b>,
+	这一点与它的对称点的连线叫<b>双纵标线</b>;
+	特别, 通过焦点的双纵标线称为<b>正焦弦</b>.
+	轴在顶点和纵标线之间的部分叫做<b>横标线</b>.
+</p>
+
+<p class="theorem">
+	若 `S` 是抛物线的焦点, `A` 是抛物线的顶点, 纵标线 `PN` 与抛物线交于 `N`,
+	则 `PN^2 = 4 AS * AN`; 特别 `N = S` 时, `PN = 2 AS`.
+</p>
+
+<p class="proof">
+	设抛物线的轴与准线的交点为 `X`. 连接 `PS`, 作 `PM` 垂直准线于 `M`. 则
+	<span class="formula">
+		`PS = PM = NX = AX + AN = AS + AN`,
+	</span>
+	且不论 `N` 在线段 `AS` 上, 还是在 `AS` 延长线上, 都有
+	<span class="formula">
+		`NS^2 = (AS - AN)^2`.
+	</span>
+	所以
+	<span class="formula">
+		` PN^2
+		= PS^2 - NS^2
+		= (AS + AN)^2 - (AS - AN)^2
+		= 4 AS * AN`.
+	</span>
+</p>
+
+<p class="definition">
+	抛物线通过焦点的弦叫做<b>焦点弦</b>,
+	抛物线上一点到焦点的连线叫做<b>焦半径</b>.
+</p>
+
+<h2>抛物线的切线</h2>
+
+<p class="definition">
+	设 `PP'` 是曲线上的弦. 若存在过 `P` 的直线 `l`, 使得 `P'` 沿曲线趋于 `P`
+	时, 直线 `PP'` 与 `l` 的夹角趋于 0, 则称 `l` 为曲线在 `P`
+	点处的<b>切线</b>.
+</p>
+
+<p class="corollary">
+	过曲线上一点的切线若存在, 则必唯一.
+</p>
+
+<p class="lemma">
+	若 `S` 是抛物线焦点, `PP'` 是焦点弦, `Q` 是抛物线上异于 `P, P'` 的一点,
+	弦 `PQ` 延长后交准线于 `K`. 则 `SK` 平分 `triangle PQS` 的外角 `angle P'SQ`.
+</p>
+
+<p class="proof">
+	分别作 `P, Q` 到准线的垂线. 由三角形相似与抛物线定义得
+
+		`(KQ)/(KP) = (SQ)/(SP)`.
+
+	过 `P` 作直线 `SK` 的平行线, 与直线 `SQ` 交于 `R`, 则 `triangle PQR ~
+	triangle KQS`, 有
+
+		`(KQ)/(KP) = (SQ)/(SR)`.
+
+	所以 `SP = SR`. 从而
+
+		` angle P'SK
+		overset (RP || SK) == angle SPR
+		overset (SP = SR) == angle SRP
+		overset (RP || SK) == angle QSK`.
+</p>
+
+<ol class="theorem">
+	设 `S` 是抛物线的焦点; `P` 是抛物线上异于顶点的一点, `PM` 垂直准线于 `M`;
+	`K` 是准线上异于 `M` 的一点, 则下面各款等价:
+	<li>`PK` 是抛物线的切线;</li>
+	<li>`angle PSK` 是直角;</li>
+	<li>`triangle SPK ~= triangle MPK`;</li>
+	<li>`PK` 平分 `angle SPM`.</li>
+</ol>
+
+<p class="proof">
+	在引理5-1中令 `Q` 沿曲线趋于 `P`, 则 `angle PSQ` 趋于 0,
+	`angle P'SQ` 趋于平角, `angle PSK` 就趋于直角.
+	由此 1, 2 等价.
+	<br/>
+	由三角形全等的定理 (斜边, 直角边) 与 (两边一夹角) 容易证明余下的部分.
+</p>
+
+<p class="corollary">
+	抛物线顶点处的切线与准线平行.
+</p>
+
+<p class="corollary">
+	抛物线的切线与抛物线有唯一的公共点.
+</p>
+
+<p class="corollary">
+	<b>Adams 性质</b>
+	设 `S` 是抛物线的焦点, `P` 是抛物线上一点, `O` 在过 `P` 点的切线上.
+	作 `OI` 垂直准线 `I`, `OU` 垂直焦半径 `SP` 于 `U`, 则 `OI = SU`.
+</p>
+
+<p class="proof">
+	设 `PO` 交准线于 `K`, 由定理5-3, `OU` 平行于 `KS`.
+	由相似关系易得
+	<span class="formula">
+		`(OI)/(PM) = (OK)/(PK) = (SU)/(SP)`.
+	</span>
+	但 `PM = SP`, 于是 `OI = SU`.
+</p>
+
+<p class="construction">
+	<b>从抛物线外一点 `O` 作抛物线的两条切线</b>
+	设 `S` 是抛物线的焦点. 以 `O` 为心, `OS` 为半径作圆, 若 `OS`
+	不小于焦准距的一半, 此圆将交准线于 `M, N` 两点. 过 `M, N` 作准线的垂线,
+	分别与抛物线交于 `P, Q`. 则 `OP`, `OQ` 为所求的切线.
+</p>
+
+<p class="proof">
+	利用三角形全等的定理 (三边相等) 容易证明 `triangle OMP ~= triangle OSP`,
+	从而 `PO` 平分 `angle SPM`, 由定理5-3, 即 `PO` 是 `P` 点处的切线. 同理可证
+	`QO` 是 `Q` 点处的切线.
+</p>
+
+<p class="theorem">
+	抛物线焦点弦两端的切线相互垂直, 且交点在准线上.
+</p>
+
+<p class="proof">
+	设 `S` 是抛物线的焦点, `PQ` 是焦点弦; 直线 `PK` 切抛物线于点 `P`, 交准线于
+	`K`.
+	<br/>
+	由定理5-3, `PQ _|_ SK`. 再由定理5-3, `QK` 是抛物线的切线.
+	这说明两切线的交点在准线上. 下证它们相互垂直.
+	分别作 `PM, QN` 垂直准线于 `M,N`,
+	由定理5-3, `triangle SPK ~= triangle MPK`,
+	于是 `angle PKS = 1/2 angle MKS`. 同理 `angle QKS = 1/2 angle NKS`,
+	相加得 `angle PKQ = 1/2 angle MKN = pi/2`.
+</p>
+
+<p class="definition">
+	设过曲线上一点的切线存在, 过这一点, 且与切线垂直的直线称为曲线在该点的法线.
+	法线如果存在, 也必定唯一.
+</p>
+
+<p class="theorem">
+	设 `S` 是抛物线的焦点, `P` 是抛物线上一点. 切线 `PT` 与轴交于 `T`, 法线 `PG`
+	与轴交于 `G`, 则 `ST = SP = SG`.
+</p>
+
+<p class="proof">
+	作 `PM` 垂直准线于 `M`, 则由定理5-3, `angle STP = angle MPT = angle SPT`.
+	所以 `ST = SP`; 再由 `PT _|_ PG` 容易证明 `angle SPG = angle SGP`,
+	所以 `SP = SG`.
+</body>
+
+<p class="definition">
+	抛物线上一点的切线与纵标线在轴上所截的线段称为抛物线的<b>次切线</b>,
+	抛物线上一点的法线与纵标线在轴上所截的线段称为抛物线的<b>次法线</b>.
+</p>
+
+<ol class="theorem">
+	<li>抛物线的次切线被顶点平分, 换言之, 次切线是横标线的两倍;</li>
+	<li>抛物线的次法线等于焦准距.</li>
+</ol>
+
+<ol class="proof">
+	设 `S` 是抛物线的焦点, `A` 是抛物线的顶点; `PT` 切抛物线于 `P`, 交轴于 `T`. 
+	<li>由定理5-5, `ST = SP = XN`. 而 `AS = AX`, 两边相减得 `AT = AN`.</li>
+	<li>由定理5-5, `SG = SP = XN`. 两边同减 `SN` 得 `NG = XS`.</li>
+</ol>
+
+<ol class="theorem">
+	设 `S` 是抛物线的焦点, `A` 是抛物线的顶点, `P` 是抛物线上异于 `A` 的一点,
+	过 `P` 点的切线与过 `A` 点的切线交于 `Y`, 则
+	<li>`SY` 垂直平分 `PT`;</li>
+	<li>`SY` 是 `SA` 与 `SP` 的比例中项, 即 `SY^2 = SA * SP`.</li>
+</ol>
+
+<ol class="proof">
+	<li>作 `P` 的纵标线 `PN`, 由定理5-6, `A` 平分次切线 `TN`. 由推论5-2, `AY`
+		与 `PN` 平行, 于是 `Y` 平分 `PT`.
+		由定理5-5, `STP` 是等腰三角形, 故 `SY` 垂直平分 `PT`.
+	</li>
+	<li>利用 `triangle SAY ~ triangle SYP` 即可.</li>
+</ol>
+
+<script src="../js/main.js"></script>
+
+</html>
