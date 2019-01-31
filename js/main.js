@@ -173,6 +173,7 @@ decorate('lemma', '引理');
 decorate('corollary', '推论');
 decorate('example', '例');
 decorate('algorithm', '算法');
+decorate('construction', '作图');
 decorate('note', '注');
 decorate('method', '法', style_num); // place this before '证' and '解'. got problem with the numbering.
 decorate('label', '', style_formula);
