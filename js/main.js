@@ -2,7 +2,7 @@
 
 // ---- globals & initiation ----
 
-(function(){
+(function() {
 
 var url;		// 'A2', '%234', '3-1'
 var filename;	// 'A2', '#4',   '3-1'	// replace leading '%23' with '#'
@@ -29,9 +29,23 @@ function init() {
 	abbr = filename.substring(0, i);
 	url_abbr = (abbr === '#' ? '%23' : abbr);
 	fileindex = parseInt(filename.substring(i));
-}
 
-init();
+	var explorer = window.navigator.userAgent;
+	var foundFirefox = explorer.indexOf('Firefox') >= 0;
+	var foundChrome = explorer.indexOf('Chrome') >= 0;
+	var foundSafari = explorer.indexOf('Safari') >= 0;
+
+	var newScript = document.createElement('script');
+	if (foundFirefox || (foundSafari && !foundChrome)) {
+		newScript.src = '../js/asciimathml.js';
+	} else {
+		newScript.async = true;
+		newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML-full';
+		console.log('log');
+	}
+	document.body.appendChild(newScript);
+
+}
 
 // ---- functions ----
 
@@ -162,6 +176,7 @@ function makeReference() {
 
 // ---- data & function call ----
 
+init();
 make_h1();
 make_nav();
 
@@ -219,3 +234,45 @@ hideAnswer([
 makeReference();
 
 })();
+
+// ---- this function will be called last ----
+
+function genericJunior() {
+	(function labelHeight() {
+		var labels = document.getElementsByClassName('label');
+		for (var i = 0; i < labels.length; ++i) {
+			var h = labels[i].parentElement.clientHeight + 'px';
+			labels[i].style.lineHeight = h;
+		}
+	})();
+}
+
+//setup onload function
+if(typeof window.addEventListener != 'undefined'){
+  //.. gecko, safari, konqueror and standard
+  window.addEventListener('load', genericJunior, false);
+}
+else if(typeof document.addEventListener != 'undefined'){
+  //.. opera 7
+  document.addEventListener('load', genericJunior, false);
+}
+else if(typeof window.attachEvent != 'undefined'){
+  //.. win/ie
+  window.attachEvent('onload', genericJunior);
+}else{
+  //.. mac/ie5 and anything else that gets this far
+  //if there's an existing onload function
+  if(typeof window.onload == 'function'){
+    //store it
+    var existing = onload;
+    //add new onload handler
+    window.onload = function(){
+      //call existing onload function
+      existing();
+      //call genericJunior onload function
+      genericJunior();
+    };
+  }else{
+    window.onload = genericJunior;
+  }
+}
