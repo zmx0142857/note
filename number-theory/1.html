@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>整除</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+<script src="../js/asciimathml.js"></script>
+
+</head>
+
+<body>
+
+<h2>整数</h2>
+
+<p class="definition">
+	<b>自然数</b>又叫<b>正整数</b>, 即熟知的
+	<span class="formula">
+		`1, 2, 3, cdots, n, cdots`.
+	</span>
+	用 `NN` 表示全体自然数的集合.
+	<br/>
+	<b>整数</b>是指正整数, 负整数及零, 即
+	<span class="formula">
+		`0, +-1, +-2, +-3, cdots, +-n, cdots`.
+	</span>
+	用 `ZZ` 表示全体整数的集合.
+</p>
+
+<h3>整数的运算</h3>
+
+<ol class="enum">
+	整数集合 `ZZ` 关于其上的加法 "`+`" 与乘法 "`*`" 成一<b>整环</b>, 即
+	<br/>
+	<li>
+	关于加法与乘法成一环.
+	<ol>
+		关于加法成一 Abel 群.
+		<li>封闭性. `(AA a, b in ZZ)` `a + b in ZZ`;</li>
+		<li>结合律. `(AA a, b, c in ZZ)` `(a+b)+c = a+(b+c)`;</li>
+		<li>存在零元. `(EE 0 in ZZ)`, `(AA a in ZZ)` `a + 0 = a`;</li>
+		<li>存在负元. `(AA a in ZZ)`, `(EE -a in ZZ)` `a + (-a) = 0`;</li>
+		<li>交换律. `(AA a, b in ZZ)`, `a+b = b+a`;</li>
+		关于乘法成一半群.
+		<li>封闭性. `(AA a, b in ZZ)` `a * b in ZZ`;</li>
+		<li>结合律. `(AA a, b, c in ZZ)` `(a*b)*c = a*(b*c)`;</li>
+		满足加法对乘法的分配律: <!-- 写反了吗 -->
+		<li>`(AA a, b, c in ZZ)` `a * (b + c) = a*b + a*c`.</li>
+	</ol>
+	</li>
+	<li>无零因子. `(AA a, b in ZZ)` `a * b = 0 rArr a = 0 or b = 0`;</li>
+	<li>乘法交换律. `(AA a, b in ZZ)` `a*b = b*a`;</li>
+	<li>有乘法幺元. `(EE 1 in ZZ)` `(AA a in ZZ)` `a * 1 = a`;
+		但是, 不一定有乘法逆元.
+	</li>
+	因此, 也称 `ZZ` 为<b>整数环</b>.
+	简单起见, 字母间的乘法 `a*b` 简记为 `ab`,
+	减法 `a + (-b)` 简记为 `a-b`.
+</ol>
+
+<p>从整数乘法的无零因子可以推出它满足的消去律:
+	<span class="formula">
+		`(AA a in ZZ\\{0}, b, c in ZZ)` `a*b = a*c rArr b = c`.
+	</span>
+</p>
+
+<h3>整数的序</h3>
+
+<ol class="enum">整数环 `ZZ` 上有一<b>全序</b> `le`, 即满足
+	<br/>
+	<li>`le` 为一偏序.
+	<ol>
+		<li>自反性. `(AA a in ZZ)` `a le a`;</li>
+		<li>反对称性. `(AA a, b in ZZ)` `a le b and b le a rArr a =
+			b`;
+		</li>
+		<li>传递性. `(AA a, b, c in ZZ)` `a le b and b le c rArr a le
+			c`.
+		</li>
+	</ol>
+	据此可以定义 `ge, lt, gt` 如下: 对 `a, b in ZZ`,
+	<span class="formula">
+		`a ge b iff b le a`;<br/>
+		`a lt b iff a le b and a != b`;<br/>
+		`a gt b iff a ge b and a != b`.
+	</span>
+	</li>
+
+	<li>任意两个整数之间可以比较大小.
+		`AA a, b in ZZ`, `a=b, a lt b, a gt b` 有且仅有一个成立.
+	</li>
+</ol>
+
+<ol>全序 `le` 与 `ZZ` 上的运算<b>相容</b>, 即 
+	<li>`(AA a, b, c in ZZ)` `a + c le b + c iff a le b`;</li>
+	<li>`(AA a, b in ZZ, c in NN)` `a c le b c iff a le b`;</li>
+	<li>`(AA a, b in ZZ)` `a le b iff -a ge -b`;</li>
+</ol>
+
+<ol>一些额外的性质
+	<li>`(AA a, b, c in NN)` `c = ab rArr a le c`, 等号成立当且仅当 `b =
+		1`.
+	</li>
+	<li>`(AA a, b in NN)` `a lt b iff a + 1 le b iff a le b-1`.</li>
+</ol>
+
+<h3>整数的绝对值</h3>
+
+<p class="definition">
+	对任意 `a in ZZ`, 定义它的<b>绝对值</b>为
+	<span class="formula">
+		`|a| = {
+			(a, if a in NN),
+			(0, if a = 0),
+			(-a, if -a in NN)
+		:}`
+	</span>
+</p>
+
+<ol>借助绝对值容易建立等价关系 `~: a ~ b iff |a| = |b|`, 满足
+	<li>自反性. `(AA a in ZZ)` `a ~ a`;</li>
+	<li>对称性. `a ~ b rArr b ~ a`;</li>
+	<li>传递性. `a ~ b and b ~ c rArr a ~ c`.</li>
+</ol>
+
+<p>	绝对值具有性质
+	<span class="formula">
+		`|ab| = |a| * |b|`, `AA a, b in ZZ`;<br/>
+		`|a + b| le |a| + |b|`. `AA a, b in ZZ`.
+	</span>
+</p>
+
+<h3>归纳原理与数学归纳法</h3>
+
+<ol><b>归纳原理</b>
+	设 `S sube NN` 满足条件
+	<li>`1 in S`;</li>
+	<li>`n in S rArr n+1 in S`, `AA n ge 1`,</li>
+	则 `S = NN`.
+</ol>
+
+<p>	归纳原理是自然数最重要, 最本质的性质.
+</p>
+
+<ol class="theorem">
+	<b>(第一) 数学归纳法</b>
+	设 `P(n)` 是关于自然数 `n` 的一种性质或命题. 如果
+	<li>`P(1)` 成立;</li>
+	<li>由 `P(n)` 成立可以推出 `P(n+1)` 成立, `AA n ge 1`,</li>
+	那么 `P(n)` 对任意的自然数 `n` 成立.
+</ol>
+
+<p class="proof">
+	对集合 `S = {n in NN: P(n)}` 应用归纳原理即得.
+</p>
+
+<p class="theorem">
+	<b>最小自然数原理</b>
+	设 `O/ != T sube NN`, 则 `T` 中存在<b>最小</b>自然数, 即
+	<span class="formula">
+		`(EE t_0 in T)` `(AA t in T)` `t_0 le t`.
+	</span>
+</p>
+
+<p class="proof">
+	令 `S = {s in NN: AA t in T, s le t}` 是 `T` 的全体<b>下界</b>.
+	易知 `1 in S`, 故 `S` 非空.
+	<br/>
+	由于 `T` 非空, 取 `t_1 in T`,
+	则 `t_1 + 1 gt t_1`, 所以 `t_1 + 1 !in S`, 这说明 `S != NN`.
+	由归纳原理, 存在 `s_0 in S`, `s_0 + 1 !in S`.
+	<br/>
+	下证 `s_0 in T`.  若不然, 则对任意 `t in T`, `s_0 lt t`,
+	即 `s_0 + 1 le t`, 故 `s_0 + 1 in S`, 矛盾.
+	<br/>
+	`s_0` 即为 `T` 中的最小自然数.
+</p>
+
+<p class="theorem">
+	<b>最大自然数原理</b>
+	设 `O/ != M sube NN` 且有<b>上界</b>, 即
+	<span class="formula">
+		`(EE a in NN)` `(AA m in M)` `m le a`,
+	</span>
+	则 `M` 中存在<b>最大</b>自然数, 即
+	<span class="formula">
+		`(EE m_0 in M)` `(AA m in M)` `m le m_0`.
+	</span>
+</p>
+
+<p class="proof">
+	令 `T` 是 `M` 的全体上界, 由条件知 `T` 非空.
+	<br/>
+	由最小自然数原理知, 集合 `T` 中有最小自然数 `t_0`, 下证 `t_0 in M`,
+	若不然, 则对任意 `m in M`, `m lt t_0`,
+	即 `m le t_0 - 1`, 从而 `t_0 - 1 in T`, 与 `t_0` 是 `M`
+	的最小上界矛盾.
+	<br/>
+	`t_0` 即为 `M` 中的最大自然数.
+</p>
+
+<p class="note">
+	从证明过程可以看出,
+	整数集合中的最小自然数与最大自然数分别等于其下确界与上确界.
+</p>
+
+<ol class="theorem">
+	<b>第二数学归纳法</b>
+	设 `P(n)` 是关于自然数 `n` 的一种性质或命题. 如果
+	<li>`P(1)` 成立;</li>
+	<li>由 `P(m)` 对任意自然数 `m lt n` 成立可以推出 `P(n)` 成立, `n gt 1`,</li>
+	那么 `P(n)` 对任意的自然数 `n` 成立.
+</ol>
+
+<p class="proof">
+	反设集合 `T = {t in NN: not P(t)}` 非空, 则它有最小元 `t_0`,
+	由 `P(1)` 成立知 `t_0 gt 1`,
+	于是对任意自然数 `m lt t_0`, `P(m)` 成立,
+	由2, 这蕴含 `P(t_0)` 成立, 矛盾.
+</p>
+
+<p>	本节的最后介绍初等数论中另一个常用的工具. 这可以由反证法得到.</p>
+
+<p class="theorem">
+	<b>鸽巢原理</b>
+	设 `n in NN`. 集合 `X` 有 `n+1` 个元素, 集合 `Y` 有 `n` 个元素,
+	则 `X` 到 `Y` 的映射一定不是单射. 换言之, 将 `n+1` 个物体放入 `n`
+	个盒子, 一定有一个盒子放入了两个或两个以上的物体.
+</p>
+
+<h2>整除</h2>
+
+<p class="definition">
+	设 `a in ZZ\\{0}, b in ZZ`. 称 <b>`a` 整除 `b`</b>, 如果
+	<span class="formula">
+		`(EE q in ZZ)` `b = aq`.
+	</span>
+	我们也说 <b>`b` 被 `a` 整除</b>, <b>`a` 是 `b` 的因子 (因数, 约数,
+	除数)</b>, <b>`b` 是 `a` 的倍数</b>等.
+	`a` 整除 `b` 记为 `a | b` 或 `b vdots a`. `a` 不能整除 `b` 记为
+	`a !| b`.
+</p>
+
+<p class="note">
+	下文中总假定 `a | b` 这一表达式有意义, 即 `a != 0`.
+</p>
+
+<ol class="theorem">
+	对任意 `a, b, c in ZZ`,
+	<li>`a | b` `iff |a| | |b|`;</li>
+	<li>`a | b` `and b | c` `rArr a | c`;</li>
+	<li>`a | b` `and b | a` `rArr |a| = |b|`;</li>
+	因此, 在绝对值相等的意义下, 整除关系 "`|`" 构成 `ZZ` 上的偏序.
+	<li>`(AA m in ZZ\\{0})` `a | b` `iff m a | m b`;</li>
+	<li>`(AA b in ZZ\\{0})` `a | b` `rArr |a| le |b|`.</li>
+	<li>`a | b` `and a | c` `iff (AA x, y in ZZ)` `a | b x + c y`,
+		即 `a` 整除 `b, c` 的任意<b>线性组合</b>;
+		这条性质可以推广到任意有限个整数;
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>由 `b = +-aq iff |b| = |a| |q|` 知 1 成立;</li>
+	<li>由 `b = aq_1`, `c = bq_2` 得 `c = a q_1 q_2`, 所以 2 成立;</li>
+	<li>由 `b = aq_1`, `a = bq_2` 得 `a = a q_1 q_2`, 而 `a != 0`, 故 `q_1
+		q_2 = 1`. 由于 1 的因子只有 `+-1`, 所以 `q_1 = +-1`, 即 `b = +-a`.
+	</li>
+	<li>由乘法消去律知 `b = aq iff mb = maq`</li>
+	<li>`b = aq rArr |b| = |a| |q|`, 由 `b != 0` 知 `|b| in NN`,
+		由整数序关系的额外性质 1, `|a| le |b|`.
+	</li>
+	<li>`lArr` 显然. `rArr`: 由 `b = aq_1`, `c = aq_2` 得
+		`bx+cy = a(q_1 x + q_2 y)`.
+	</li>
+</ol>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

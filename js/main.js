@@ -2,6 +2,8 @@
 
 // ---- globals & initiation ----
 
+(function(){
+
 var url;		// 'A2', '%234', '3-1'
 var filename;	// 'A2', '#4',   '3-1'	// replace leading '%23' with '#'
 var abbr;		// 'A',  '#',    '3-'
@@ -46,9 +48,9 @@ function make_h1() {
 	};
 	var h1 = document.createElement('h1');
 	h1.innerHTML = ( zhname[abbr] === undefined
-		? document.title
-		: zhname[abbr] + ': ' + document.title
-	);
+		? ''
+		: zhname[abbr]
+	) + fileindex + ': ' + document.title;
 	document.body.insertBefore(h1, document.body.firstChild);
 }
 
@@ -215,3 +217,5 @@ hideAnswer([
 
 // call makeReference() after decorate()
 makeReference();
+
+})();

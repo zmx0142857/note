@@ -284,8 +284,6 @@ var AMsymbols = [
 {input:"uuu", tag:"mo", output:"\u22C3", tex:"bigcup", ttype:UNDEROVER},
 
 //binary relation symbols
-{input:"==",  tag:"mo", output:"\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
-{input:"====",  tag:"mo", output:"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
 {input:"!=",  tag:"mo", output:"\u2260", tex:"ne", ttype:CONST},
 {input:":=",  tag:"mo", output:":=",     tex:null, ttype:CONST},
 {input:"lt",  tag:"mo", output:"<",      tex:null, ttype:CONST},
@@ -306,10 +304,17 @@ var AMsymbols = [
 {input:"sube", tag:"mo", output:"\u2286", tex:"subseteq", ttype:CONST},
 {input:"supe", tag:"mo", output:"\u2287", tex:"supseteq", ttype:CONST},
 {input:"-=",  tag:"mo", output:"\u2261", tex:"equiv", ttype:CONST},
-{input:"!-=",  tag:"mo", output:"\u2262", tex:null, ttype:CONST},
 {input:"~=",  tag:"mo", output:"\u2245", tex:"cong", ttype:CONST},
 {input:"~~",  tag:"mo", output:"\u2248", tex:"approx", ttype:CONST},
 {input:"prop", tag:"mo", output:"\u221D", tex:"propto", ttype:CONST},
+
+{input:"==",  tag:"mo", output:"\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
+{input:"====",  tag:"mo", output:"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
+{input:"//", tag:"mo", output:"\u2225", tex:"bot", ttype:CONST},
+{input:"!//", tag:"mo", output:"\u2226", tex:"bot", ttype:CONST},
+{input:"S=",  tag:"mo", output:"\u224C", tex:null, ttype:CONST},
+{input:"!-=",  tag:"mo", output:"\u2262", tex:null, ttype:CONST},
+{input:"!|", tag:"mo", output:"\u2224", tex:null, ttype:CONST},
 
 //logical symbols
 {input:"and", tag:"mtext", output:"and", tex:null, ttype:SPACE},
@@ -474,7 +479,7 @@ AMquote,
 {input:"fr",  tag:"mstyle", atname:"mathvariant", atval:"fraktur", output:"fr", tex:null, ttype:UNARY, codes:AMfrk},
 {input:"mathfrak",  tag:"mstyle", atname:"mathvariant", atval:"fraktur", output:"mathfrak", tex:null, ttype:UNARY, codes:AMfrk},
 {input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:UNARY},
-{input:"rm", tag:"mstyle", atname:"mathvariant", atval:"serif", output:"rm", tex:null, ttype:UNARY}
+{input:"rm", tag:"mstyle", atname:"mathvariant", atval:"serif", output:"rm", tex:null, ttype:UNARY},
 ];
 
 function compareNames(s1,s2) {
