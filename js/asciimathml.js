@@ -310,8 +310,8 @@ var AMsymbols = [
 
 {input:"==",  tag:"mo", output:"\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
 {input:"====",  tag:"mo", output:"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
-{input:"//", tag:"mo", output:"\u2225", tex:"bot", ttype:CONST},
-{input:"!//", tag:"mo", output:"\u2226", tex:"bot", ttype:CONST},
+{input:"////", tag:"mo", output:"\u2225", tex:null, ttype:CONST},
+{input:"!//", tag:"mo", output:"\u2226", tex:null, ttype:CONST},
 {input:"S=",  tag:"mo", output:"\u224C", tex:null, ttype:CONST},
 {input:"!-=",  tag:"mo", output:"\u2262", tex:null, ttype:CONST},
 {input:"!|", tag:"mo", output:"\u2224", tex:null, ttype:CONST},

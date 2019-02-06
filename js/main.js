@@ -7,8 +7,8 @@
 var url;		// 'A2', '%234', '3-1'
 var filename;	// 'A2', '#4',   '3-1'	// replace leading '%23' with '#'
 var abbr;		// 'A',  '#',    '3-'
-var url_abbr;   // 'A',  '%234', '3-'
-var fileindex;  // 2,    4,      1
+var urlAbbr;	// 'A',  '%234', '3-'
+var index;		// 2,    4,      1
 
 function init() {
 	url = window.location.href.split('/');
@@ -20,15 +20,15 @@ function init() {
 	);
 
 	// locate first digit, or the first char after '-'
-	var index_of_minus = filename.indexOf('-');
+	var indexOfMinus = filename.indexOf('-');
 	var i = filename.search(/[0-9]/);
-	if (index_of_minus > i) {
-		i = index_of_minus + 1;
+	if (indexOfMinus > i) {
+		i = indexOfMinus + 1;
 	}
 
 	abbr = filename.substring(0, i);
-	url_abbr = (abbr === '#' ? '%23' : abbr);
-	fileindex = parseInt(filename.substring(i));
+	urlAbbr = (abbr === '#' ? '%23' : abbr);
+	index = parseInt(filename.substring(i));
 
 	var explorer = window.navigator.userAgent;
 	var foundFirefox = explorer.indexOf('Firefox') >= 0;
@@ -49,7 +49,7 @@ function init() {
 
 // ---- functions ----
 
-function make_h1() {
+function makeH1() {
 	var zhname = {
 		'#': '附录篇',
 		'A': '分析篇',
@@ -64,7 +64,7 @@ function make_h1() {
 	h1.innerHTML = ( zhname[abbr] === undefined
 		? ''
 		: zhname[abbr]
-	) + fileindex + ': ' + document.title;
+	) + index + ': ' + document.title;
 	document.body.insertBefore(h1, document.body.firstChild);
 }
 
@@ -75,7 +75,7 @@ function make_h1() {
 		<a href="next.html" style="float:right">&gt;&gt;&gt;</a>
 	</div>
 */
-function make_nav() {
+function makeNav() {
 	var nav = document.createElement('div');
 	nav.id = 'nav';
 	document.body.insertBefore(nav, document.body.firstChild);
@@ -83,21 +83,21 @@ function make_nav() {
 	var prev = document.createElement('a');
 	prev.style.float = 'left';
 	prev.innerHTML = '&lt;&lt;&lt;';
-	if (fileindex > 1) {
-		prev.href = url_abbr + (fileindex-1) + '.html';
+	if (index > 1) {
+		prev.href = urlAbbr + (index-1) + '.html';
 	} else {
 		prev.style.color = 'rgba(0,0,0,0)';
 	}
 	nav.appendChild(prev);
 
-	var index = document.createElement('a');
-	index.href = '../index.html';
-	index.target = '_blank';
-	index.innerHTML = '· · ·';
-	nav.appendChild(index);
+	var indexPage = document.createElement('a');
+	indexPage.href = '../index.html';
+	indexPage.target = '_blank';
+	indexPage.innerHTML = '· · ·';
+	nav.appendChild(indexPage);
 
 	var next = document.createElement('a');
-	next.href = url_abbr + (fileindex+1) + '.html';
+	next.href = urlAbbr + (index+1) + '.html';
 	next.style.float = 'right';
 	next.innerHTML = '&gt;&gt;&gt;';
 	nav.appendChild(next);
@@ -105,14 +105,15 @@ function make_nav() {
 
 function decorate(list) {
 	for (var i = 0; i < list.length; ++i) {
-		var elem = ( list[i].get_by === 'class'
+		var elem = ( list[i].getBy === 'class'
 			? document.getElementsByClassName(list[i].name)
 			: document.getElementsByTagName(list[i].name)
 		);
 
 		if (list[i].style === style_formula) {
 			for (var j = 0; j < elem.length; j++) {
-				elem[j].innerHTML = list[i].style(list[i].word, j);
+				elem[j].title = elem[j].innerHTML
+					= list[i].style(list[i].word, j);
 			}
 		} else {
 			for (var j = 0; j < elem.length; j++) {
@@ -121,9 +122,9 @@ function decorate(list) {
 				}
 				var space = document.createTextNode(' ');
 				elem[j].insertBefore(space, elem[j].firstChild);
-				elem[j].insertBefore(
-					list[i].style(list[i].word, j), elem[j].firstChild
-				);
+				var newNode = list[i].style(list[i].word, j);
+				elem[j].title = newNode.innerHTML;
+				elem[j].insertBefore(newNode, elem[j].firstChild);
 			}
 		}
 	}
@@ -167,7 +168,7 @@ function makeReference() {
 		var id = refs[i].href.substring(index+1);
 		var refed = document.getElementById(id);
 		if (refed) {
-			refs[i].innerHTML = refed.firstChild.innerHTML;
+			refs[i].innerHTML = refed.title;
 		} else {
 			console.warn('reference "' + id + '" not found');
 		}
@@ -177,8 +178,8 @@ function makeReference() {
 // ---- data & function call ----
 
 init();
-make_h1();
-make_nav();
+makeH1();
+makeNav();
 
 var style_name = function() {
 	return document.createTextNode(filename);
@@ -207,20 +208,20 @@ var style_formula = function(word, i) {
 };
 
 decorate([
-	{name:'title', word:'', style:style_name, get_by:'tag'},
-	{name:'h2', word:'', style:style_name_num, get_by:'tag'},
-	{name:'theorem', word:'定理', style:style_name_num, get_by:'class'},
-	{name:'definition', word:'定义', style:style_name_num, get_by:'class'},
-	{name:'lemma', word:'引理', style:style_name_num, get_by:'class'},
-	{name:'corollary', word:'推论', style:style_name_num, get_by:'class'},
-	{name:'example', word:'例', style:style_name_num, get_by:'class'},
-	{name:'algorithm', word:'算法', style:style_name_num, get_by:'class'},
-	{name:'construction', word:'作图', style:style_name_num, get_by:'class'},
-	{name:'graph', word:'图', style:style_name_num, get_by:'class'},
-	{name:'note', word:'注', style:style_name_num, get_by:'class'},
+	{name:'title', getBy:'tag', word:'', style:style_name},
+	{name:'h2', getBy:'tag', word:'', style:style_name_num},
+	{name:'theorem', getBy:'class', word:'定理', style:style_name_num},
+	{name:'definition', getBy:'class', word:'定义', style:style_name_num},
+	{name:'lemma', getBy:'class', word:'引理', style:style_name_num},
+	{name:'corollary', getBy:'class', word:'推论', style:style_name_num},
+	{name:'example', getBy:'class', word:'例', style:style_name_num},
+	{name:'algorithm', getBy:'class', word:'算法', style:style_name_num},
+	{name:'construction', getBy:'class', word:'作图', style:style_name_num},
+	{name:'graph', getBy:'class', word:'图', style:style_name_num},
+	{name:'note', getBy:'class', word:'注', style:style_name_num},
 	// place this before '证' and '解'. got problem with the numbering.
-	{name:'method', word:'法', style:style_num, get_by:'class'},
-	{name:'label', word:'', style:style_formula, get_by:'class'},
+	{name:'method', getBy:'class', word:'法', style:style_num},
+	{name:'label', getBy:'class', word:'', style:style_formula},
 ]);
 
 hideAnswer([
@@ -235,7 +236,7 @@ makeReference();
 
 })();
 
-// ---- this function will be called last ----
+// ---- this function will be called after asciimathml.js  ----
 
 function genericJunior() {
 	(function labelHeight() {
