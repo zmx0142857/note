@@ -489,7 +489,7 @@
 		<span class="label" id="for-division-algorithm"></span>
 	</span>
 	此外, `a | b` 当且仅当 `a | r`,
-	由<a class="ref" href="#cor-divident-eq-0"></a>,
+	由<a class="ref" href="#cor-dividend-eq-0"></a>,
 	这当且仅当 `r = 0`.
 </p>
 
@@ -564,6 +564,11 @@
 		`S_(n,r_1) nn S_(n,r_2) = O/`, `r_1 != r_2`.
 	</span>
 	即全体整数按模 `n` 的余数分为 `n` 个类, 称为<b>模 `n` 的同余类</b>.
+	在每一同余类中的数模 `n` 后有相同余数, 称它们<b>模 `n` 同余</b>,
+	记为 `a -= b (mod n)`. 显然
+	<span class="formula">
+		`a -= b (mod n) iff n | a - b`.
+	</span>
 </p>
 
 <p class="example">
@@ -572,7 +577,7 @@
 		`n = sum_(i=0)^m r_i a^i`, `quad`
 		`m ge 0`, `0 le r_i lt a`, `0 le i le m`.
 	</span>
-	称为正整数 `n` 的 <b>`a` 进位 (base-`a`) 表示</b>.
+	称为正整数 `n` 的 <b>`a` 进位 (base-`a` 或 radix-`a`) 表示</b>.
 </p>
 
 <p class="proof">
@@ -594,9 +599,106 @@
 	所以
 	<span class="formula">
 		`n = a sum_(i=0)^m s_i a^i + r_0
-		= r_0 + sum_(i=1)^(m+1) s_(i-1) a^i`.
+		= r_0 + sum_(i=1)^(m+1) s_(i-1) a^i`,
 	</span>
 	即结论对 `m+1` 成立.
+</p>
+
+<ol class="example">
+	设 `n gt 2` 是奇数. 证明
+	<li>`n !| 2^i`, `i = 0, 1, cdots, n-1`;</li>
+	<li>存在整数 `1 le d lt n`, 使得 `n | 2^d - 1`;</li>
+	<li>设 `d in NN`, `d_0` 是满足 2 的最小正整数,
+		则 `d | 2^d - 1` 的充要条件是 `d_0 | d`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>设 `i` 是使得 `n | 2^i` 成立的最小的非负整数, 显然 `i gt 0`.
+		设 `n = 2k+1`, `k in NN`, 则
+		<span class="formula">
+			`k * 2^i = (n-1)/2 * 2^i = n * 2^(i-1) - 2^(i-1)`.
+		</span>
+		因为 `n | k * 2^i`, 所以 `n | 2^(i-1)`. 这与 `i` 的最小性矛盾.
+	</li>
+	<li>考虑以下 `n` 个数:
+		<span class="formula">
+			`2^0, 2^1, cdots, 2^(n-1)`,
+		</span>
+		由 1 知 `n` 不能整除它们中的任何一个. 设 `n` 除它们的余数分别为
+		<span class="formula">
+			`r_0, r_1, cdots, r_(n-1)`.
+		</span>
+		这 `n` 个数只能取 `1, 2, cdots, n-1` 这 `n-1` 个值, 由鸽巢原理,
+		其中必有两个数相等. 设 `r_i = r_j`, `0 le j lt i lt n`, 则
+		<span class="formula">
+			`n(q_i - q_j) = 2^i - 2^j = 2^j (2^(i-j) - 1)`,
+		</span>
+		所以 `n | 2^j (2^(i-j) - 1)`.  取 `d = i-j`,
+		反复使用 1 中的推理就有 `n | 2^d - 1`.
+	</li>
+	<li>只证必要性. 由带余除法得
+		<span class="formula">
+			`d = d_0 q + r`, `0 le r lt d_0`.
+		</span>
+		所以
+		<span class="formula">
+			` 2^d - 1
+			= 2^(d_0 q + r) - 2^r + 2^r - 1
+			= 2^r (2^(d_0 q)-1) + 2^r - 1`.
+		</span>
+		因为 `n | 2^d - 1`, `n | 2^(d_0) - 1`, 所以 `n | 2^r - 1`.
+		但 `r lt d_0`, 所以只能 `r = 0`, 否则与 `d_0` 的最小性矛盾.
+		由<a class="ref" href="#the-division-algorithm"></a>,
+		这当且仅当 `d_0 | d`.
+	</li>
+</ol>
+
+<h2>最大公约数与最小公倍数</h2>
+
+<p class="definition">
+	设有 `n` 个整数 `a_1, a_2, cdots, a_n`, 若 `d | a_1`, `d | a_2,
+	cdots`, `d | a_n`, 则称 `d` 是它们的<b>公约数</b>或<b>公因数</b>.
+	当这些整数不全为零时, 它们的公约数个数有限,
+	称其中最大的为它们的<b>最大公约数</b>, 记为 `(a_1, a_2, cdots, a_n)`.
+	用 `cc D(a_1, a_2, cdots, a_n)` 表示它们的全体公约数, 则
+	<span class="formula">
+		`(a_1, a_2, cdots, a_n) = max cc D(a_1, a_2, cdots, a_n)`.
+	</span>
+	由定义知, 最大公约数是正整数.
+</p>
+
+<ol class="theorem" id="the-gcd">
+	<li>` (a_(i_1), a_(i_2), cdots, a_(i_n))
+		= (|a_1|, |a_2|, cdots, |a_n|)`, `(i_1, i_2, cdots, i_n)` 是
+		`1, 2, cdots, n` 的一种排列;
+	</li>
+	<li>`(a_1, a_2, cdots, a_n) = (a_1, a_2, cdots, a_n, k a_1)`,
+		`AA k in ZZ`;
+	</li>
+	<li>`(a_1, a_2, cdots, a_n) = (a_1, a_2, cdots, a_n + k a_1)`,
+		`AA k in ZZ`.
+	</li>
+	<li>若 `a_1 | a_i`, `i = 2, cdots, n`, 则
+		`(a_1, a_2, cdots, a_n) = |a_1|`.
+	</li>
+</ol>
+
+<p class="proof">
+	1, 2, 3 由公约数定义及整除性质直接推出.
+	为证 4, 首先由定义知 `a_1 in cc D(a_1, a_2, cdots, a_n)`,
+	设 `d in cc D(a_1, a_2, cdots, a_n)`, 则 `d | a_1`
+	再由<a class="ref" href="#the-divisor"></a>的 5, `d le |a_1|`.
+</p>
+
+<p class="theorem">
+	设 `a in ZZ`, `p` 是素数, 则
+	<span class="formula">
+		`(p, a) = {
+			(p, if p | a),
+			(1, if p !| a)
+		:}`.
+	</span>
 </p>
 
 </body>

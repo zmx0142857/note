@@ -90,17 +90,37 @@ function makeNav() {
 	}
 	nav.appendChild(prev);
 
+	/*
 	var indexPage = document.createElement('a');
 	indexPage.href = '../index.html';
 	indexPage.target = '_blank';
 	indexPage.innerHTML = '· · ·';
 	nav.appendChild(indexPage);
+	*/
+	var buttonTol = document.createElement('a');
+	buttonTol.innerHTML = '· · ·';
+	buttonTol.onclick = function() {
+		var tol = document.getElementById('tol');
+		if (tol.hidden) {
+			tol.removeAttribute('hidden');
+		} else {
+			tol.hidden = true;
+		}
+	}
+	nav.appendChild(buttonTol);
 
 	var next = document.createElement('a');
 	next.href = urlAbbr + (index+1) + '.html';
 	next.style.float = 'right';
 	next.innerHTML = '&gt;&gt;&gt;';
 	nav.appendChild(next);
+
+	// table of contents
+	var tol = document.createElement('iframe');
+	tol.id = 'tol';
+	tol.hidden = true;
+	tol.src = '../index.html';
+	document.body.insertBefore(tol, document.body.firstChild);
 }
 
 function decorate(list) {
