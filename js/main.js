@@ -97,17 +97,17 @@ function makeNav() {
 	indexPage.innerHTML = '· · ·';
 	nav.appendChild(indexPage);
 	*/
-	var buttonTol = document.createElement('a');
-	buttonTol.innerHTML = '· · ·';
-	buttonTol.onclick = function() {
-		var tol = document.getElementById('tol');
-		if (tol.hidden) {
-			tol.removeAttribute('hidden');
+	var buttonToc = document.createElement('a');
+	buttonToc.innerHTML = '· · ·';
+	buttonToc.onclick = function() {
+		var toc = document.getElementById('toc');
+		if (toc.hidden) {
+			toc.removeAttribute('hidden');
 		} else {
-			tol.hidden = true;
+			toc.hidden = true;
 		}
 	}
-	nav.appendChild(buttonTol);
+	nav.appendChild(buttonToc);
 
 	var next = document.createElement('a');
 	next.href = urlAbbr + (index+1) + '.html';
@@ -116,11 +116,11 @@ function makeNav() {
 	nav.appendChild(next);
 
 	// table of contents
-	var tol = document.createElement('iframe');
-	tol.id = 'tol';
-	tol.hidden = true;
-	tol.src = '../index.html';
-	document.body.insertBefore(tol, document.body.firstChild);
+	var toc = document.createElement('iframe');
+	toc.id = 'toc';
+	toc.hidden = true;
+	toc.src = '../index.html';
+	document.body.insertBefore(toc, document.body.firstChild);
 }
 
 function decorate(list) {
