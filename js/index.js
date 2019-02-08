@@ -1,6 +1,6 @@
-angular.module('memoApp', ['ionic'])
+angular.module('mathNoteApp', ['ionic'])
 
-// The articles factory handles saving and loading articles of memos
+// The articles factory handles saving and loading articles of mathNotes
 // from local storage, and also lets us save and load the last active
 // article index.
 .factory('Factory', function() {
@@ -109,7 +109,7 @@ angular.module('memoApp', ['ionic'])
 	};
 })
 
-.controller('memoCtrl', function($scope, $timeout, $ionicModal,
+.controller('mathNoteCtrl', function($scope, $timeout, $ionicModal,
 			Factory, $ionicSideMenuDelegate, $ionicActionSheet) {
 
 	// uncomment to clear caches
@@ -181,16 +181,15 @@ angular.module('memoApp', ['ionic'])
 		$ionicSideMenuDelegate.toggleLeft();
 	};
 
-	$scope.menu = function(memo) {
+	$scope.menu = function(article) {
 		var hideSheet = $ionicActionSheet.show ({
 			buttons: [
-				{ text: 'Star' },
-				{ text: 'Share' },
-				{ text: 'Contact us' },
+				{ text: '收藏' },
+				{ text: '分享' },
+				{ text: '联系我们' },
 			],
-			destructiveText: 'Delete',
-			titleText: 'Menu',
-			cancelText: 'Cancel',
+			titleText: '菜单',
+			cancelText: '返回',
 			cancel: function() {
 				// add cancel code...
 			},
