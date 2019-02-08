@@ -1,108 +1,66 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-
+<html>
 <head>
-
-<title>zmx0142857 的数学考试笔记</title>
-<meta charset="utf-8" />
-
-<link rel="stylesheet" type="text/css" href="css/math.css" />
-<script src="js/asciimathml.js"></script>
-<base target="_blank" />
-
+	<meta charset="utf-8">
+	<title>zmx0142857 的数学笔记</title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<link href="https://cdn.bootcss.com/ionic/1.3.2/css/ionic.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/ionic/1.3.2/js/ionic.bundle.min.js"></script>
 </head>
 
-<body>
+<body ng-app="memoApp" ng-controller="memoCtrl">
 
-<h1>zmx0142857 的数学考试笔记</h1>
+<ion-side-menus>
 
-<ol class="enum">
-	<li>高等代数
-		<ol>
-			<li><a href="algebra/3.html">algebra/3.html</a></li>
-			<li><a href="algebra/4.html">algebra/4.html</a></li>
-		</ol>
-	</li>
-	<li>数学分析
-		<ol>
-			<li><a href="analysis/1-3.html">analysis/1-3.html</a></li>
-			<li><a href="analysis/2-5.html">analysis/2-5.html</a></li>
-		</ol>
-	</li>
-	<li>解析几何
-		<ol>
-			<li><a href="analytic-geo/1.html">analytic-geo/1.html</a></li>
-			<li><a href="analytic-geo/2.html">analytic-geo/2.html</a></li>
-		</ol>
-	</li>
-	<li>组合数学</li>
-	<li>复变函数</li>
-	<li>微分几何
-		<ol>
-			<li><a href="diff-geo/1.html">diff-geo/1.html</a></li>
-			<li><a href="diff-geo/2.html">diff-geo/2.html</a></li>
-			<li><a href="diff-geo/3.html">diff-geo/3.html</a></li>
-			<li><a href="diff-geo/4.html">diff-geo/4.html</a></li>
-			<li><a href="diff-geo/5.html">diff-geo/5.html</a></li>
-		</ol>
-	</li>
-	<li>泛函分析
-		<ol>
-			<li><a href="functional/1.html">functional/1.html</a></li>
-			<li><a href="functional/2.html">functional/2.html</a></li>
-			<li><a href="functional/3.html">functional/3.html</a></li>
-			<li><a href="functional/4.html">functional/4.html</a></li>
-		</ol>
-	</li>
-	<li>初等几何
-		<ol>
-			<li><a href="geometry/1.html">geometry/1.html</a></li>
-			<li><a href="geometry/5.html">geometry/5.html</a></li>
-		</ol>
-	</li>
-	<li>初等数论
-		<ol>
-			<li><a href="number-theory/1.html">number-theory/1.html</a></li>
-		</ol>
-	</li>
-	<li>数值分析
-		<ol>
-			<li><a href="numeric/7.html">numeric/7.html</a></li>
-			<li><a href="numeric/8.html">numeric/8.html</a></li>
-		</ol>
-	</li>
-	<li>常微分方程
-		<ol>
-			<li><a href="ode/1.html">ode/1.html</a></li>
-			<li><a href="ode/2.html">ode/2.html</a></li>
-			<li><a href="ode/3.html">ode/3.html</a></li>
-			<li><a href="ode/4.html">ode/4.html</a></li>
-			<li><a href="ode/5.html">ode/5.html</a></li>
-		</ol>
-	</li>
-	<li>偏微分方程
-		<ol>
-			<li><a href="pde/1.html">pde/1.html</a></li>
-			<li><a href="pde/2.html">pde/2.html</a></li>
-			<li><a href="pde/3.html">pde/3.html</a></li>
-		</ol>
-	</li>
-	<li>概率论
-		<ol>
-			<li><a href="probability/0.html">probability/0.html</a></li>
-			<li><a href="probability/1.html">probability/1.html</a></li>
-			<li><a href="probability/2.html">probability/2.html</a></li>
-		</ol>
-	</li>
-	<li>实变函数
-		<ol>
-			<li><a href="real/1-2.html">real/1-2.html</a></li>
-			<li><a href="real/1-3.html">real/1-3.html</a></li>
-			<li><a href="real/1-4.html">real/1-4.html</a></li>
-		</ol>
-	</li>
-	<li>数理统计</li>
-</ol>
+<ion-side-menu-content>
+	<!-- header-bar -->
+	<ion-header-bar class="bar-dark">
+		<button class="button button-icon" ng-click="toggleSideMenu()">
+			<i class="icon ion-navicon"></i>
+		</button>
+		<h1 class="title">{{activeArticle.title}}</h1>
+	</ion-header-bar>
+
+	<!-- main article -->
+	<iframe id="article-container" style="height:100%;width:100%">
+	</iframe>
+</ion-side-menu-content>
+
+<!-- left side menu -->
+<ion-side-menu side="left">
+
+	<ion-header-bar class="bar-dark">
+		<button class="button button-icon" ng-click="prevArticle()">
+			<i class="icon ion-arrow-left-c"></i>
+		</button>
+		<h1 class="title">Contents</h1>
+		<button class="button button-icon" ng-click="nextArticle()">
+			<i class="icon ion-arrow-right-c"></i>
+		</button>
+	</ion-header-bar>
+
+	<ion-content style="overflow-y:auto">
+	<ion-list>
+		<div ng-repeat="group in groups"
+			ng-click="selectGroup($index)">
+			<div class="item item-divider"
+				style="color: #808080; font-size: 1em">
+				{{group.title}}
+			</div>
+			<ion-list>
+			<ion-item ng-repeat="article in group.articles"
+					ng-click="selectArticle(group, $index)"
+					ng-class="{active:activeArticle == article}">
+				{{article.title}}
+			</ion-item>
+			</ion-list>
+		</div>
+	</ion-list>
+	</ion-content>
+</ion-side-menu>
+
+</ion-side-menus>
+
+<script src="js/index.js"></script>
+
 </body>
-
 </html>
