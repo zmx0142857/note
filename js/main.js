@@ -74,7 +74,7 @@ function makeH1() {
 		<a href="index.html" target="_blank">· · ·</a>
 		<a href="next.html" style="float:right">&gt;&gt;&gt;</a>
 	</div>
-*/
+
 function makeNav() {
 	var nav = document.createElement('div');
 	nav.id = 'nav';
@@ -90,13 +90,12 @@ function makeNav() {
 	}
 	nav.appendChild(prev);
 
-	/*
 	var indexPage = document.createElement('a');
 	indexPage.href = '../index.html';
 	indexPage.target = '_blank';
 	indexPage.innerHTML = '· · ·';
 	nav.appendChild(indexPage);
-	*/
+
 	var buttonToc = document.createElement('a');
 	buttonToc.innerHTML = '· · ·';
 	buttonToc.onclick = function() {
@@ -122,6 +121,7 @@ function makeNav() {
 	toc.src = '../index.html';
 	document.body.insertBefore(toc, document.body.firstChild);
 }
+*/
 
 function decorate(list) {
 	for (var i = 0; i < list.length; ++i) {
@@ -199,7 +199,7 @@ function makeReference() {
 
 init();
 makeH1();
-makeNav();
+//makeNav();
 
 var style_name = function() {
 	return document.createTextNode(filename);
