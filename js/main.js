@@ -38,13 +38,18 @@ function init() {
 	var newScript = document.createElement('script');
 	if (foundFirefox || (foundSafari && !foundChrome)) {
 		newScript.src = '../js/asciimathml.js';
+		document.body.appendChild(newScript);
 	} else {
+		// bm "something" get bold-italics
+		newScript.type = 'text/x-mathjax-config';
+		newScript.innerHTML = 'MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () { var AM = MathJax.InputJax.AsciiMath.AM; AM.symbols.push({ input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:AM.TOKEN.UNARY }); });';
+		document.body.appendChild(newScript);
+
+		newScript = document.createElement('script');
 		newScript.async = true;
 		newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML-full';
-		console.log('log');
+		document.body.appendChild(newScript);
 	}
-	document.body.appendChild(newScript);
-
 }
 
 // ---- functions ----
