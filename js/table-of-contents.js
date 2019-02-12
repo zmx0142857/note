@@ -13,7 +13,7 @@ tableOfContents = [ {
 	}, {
 	title:'解析几何',
 	articles: [
-		{title:'几何空间的线性结构和度量结构', src:'analytic-geo/1.html'},
+		{title:'向量与坐标系', src:'analytic-geo/1.html'},
 		{title:'平面与直线', src:'analytic-geo/2.html'},
 	]
 	}, {
@@ -42,6 +42,7 @@ tableOfContents = [ {
 	title:'初等几何',
 	articles: [
 		{title:'五组公理', src:'geometry/1.html'},
+		{title:'三角形', src:'geometry/3.html'},
 		{title:'抛物线', src:'geometry/5.html'},
 	]
 	}, {

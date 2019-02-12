@@ -3,7 +3,7 @@
 
 <head>
 
-<title>几何空间的线性结构和度量结构</title>
+<title>向量与坐标系</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/math.css" />
@@ -152,7 +152,7 @@
 <p class="definition">
 	用同一起点的有向线段表示向量组中的每个向量. 若这些有向线段在同一直线
 	(同一平面) 上, 则称这个向量组是<b>共线的 (共面的)</b>.
-	向量共线也称为<b>平行</b>.
+	向量共线也称为<b>平行</b>, 记为 `bm a //// bm b`.
 </p>
 
 <p class="corollary">
@@ -272,265 +272,37 @@
 	a_3 - b_3)`.
 </p>
 
-<h3>几何空间线性结构的应用</h3>
-
-<h4>两向量共线</h4>
-
-<p class="theorem">
-	平面向量 `bm a = (a_1, a_2)`, `bm b = (b_1, b_2)` 共线当且仅当
-	<span class="formula">
-		`|(a_1," "b_1), (a_2," "b_2)| = 0`.
-	</span>
-</p>
-
-<p class="theorem">
-	平面上三点 `A(a_1, a_2)`, `B(b_1, b_2)`, `C(c_1, c_2)` 共线当且仅当
-	<span class="formula">
-		`|(a_1," "b_1," "c_1), (a_2," "b_2," "c_2), (1," "1," "1)| = 0`.
-	</span>
-</p>
-
-<p class="theorem">
-	空间中两向量 `bm a = (a_1, a_2, a_3)`, `bm b = (b_1, b_2, b_3)`
-	共线当且仅当
-	<span class="formula">
-		` |(a_1," "b_1), (a_2," "b_2)|
-		= |(a_1," "b_2), (a_3," "b_3)|
-		= |(a_2," "b_2), (a_3," "b_3)| = 0`.
-	</span>
-</p>
-
-<h4>线段的定比分点</h4>
-
-<ol class="definition">
-	设 `AB` 为一线段 (`A != B`).
-	如果点 `C` 满足 `vec(AC) = lambda vec(CB)`, 则称<b>点
-	`C` 分线段 `AB` 成定比 `lambda`</b>.
-	<li>若 `lambda = -1`, 得到 `vec(AB) = 0`, 矛盾, 故 `lambda != -1`.
-	</li>
-	<li>若 `lambda gt 0`, `vec(AC)`, `vec(CB)` 同向, 称 `C`
-		为<b>内分点</b>;
-	</li>
-	<li>若 `lambda lt 0` 且 `lambda != -1`,
-		`vec(AC)`, `vec(CB)` 反向, 称 `C` 为<b>外分点</b>;
-	</li>
-	<li>若 `lambda = 0`, `C = A`;</li>
-	<li>`lambda to +oo` 时, `C to B`;</li>
-</ol>
-
-<p class="theorem">
-	设点 `C` 分 `A(a_1, a_2, a_3)`, `B(b_1, b_2, b_3)` 成定比
-	`lambda != -1`. 则
-	<span class="formula">
-		`vec(OC) = 1/(1+lambda) (vec(OA) + lambda vec(OB))`.
-	</span>
-	特别取 `lambda = 1`, 知 `AB` 中点 `M` 满足
-	<span class="formula">
-		`vec(OM) = 1/2 (vec(OA) + vec(OB))`.
-	</span>
-</p>
-
-<h4>Menelaus 定理与 Ceva 定理</h4>
-
-<ol class="theorem">
-	设 `P, Q, R` 分别分 `triangle ABC` 的边 `AB, BC, CA` 成定比 `lambda,
-	mu, nu`, 则
-	<li><b>Menelaus 定理</b> `P, Q, R` 共线当且仅当 `lambda mu nu = -1`;
-	</li>
-	<li><b>Ceva 定理</b> 若 `P, Q, R` 都是内分点, 则
-		`AQ, BR, CP` 共点当且仅当 `lambda mu nu = 1`.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li></li>
-	<li>Ceva 定理的另一证法是利用等式
-		<span class="formula">
-			` lambda mu nu
-			= (AP * BQ * CR)/(BP * CQ * AR)
-			= (S_(AMC) * S_(BMA) * S_(CMB))
-			  / (S_(BMC) * S_(CMA) * S_(AMB))
-			= 1`.
-		</span>
-	</li>
-</ol>
-
-<h4>三角形的重心</h4>
-
-<p class="definition">
-	由 Ceva 定理知, 三角形三条中线交于一点, 称这点为三角形的<b>重心</b>.
-</p>
-
-<ol class="theorem">
-	(图??) 设 `G` 是 `triangle ABC` 的重心, `P, Q, R` 分别是边
-	`AB, BC, CA` 的中点. 则
-	<li>三条中线将三角形分成了面积相等的 6 个小三角形;</li>
-	<li>`G` 分三条中线 `AQ, BR, CP` 成定比 2, 从而
-		<span class="formula">
-			`vec(AG) = 1/3 (vec(AB) + vec(AC))`,
-			`vec(BG) = 1/3 (vec(BC) + vec(BA))`,
-			`vec(CG) = 1/3 (vec(CA) + vec(CB))`.
-		</span>
-	</li>
-	<li>`vec(AG) + vec(BG) + vec(CG) = bb 0`.</li>
-	<li>`vec(OG) = 1/3 (vec(OA) + vec(OB) + vec(OC))`, `O` 是平面上任一点.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>略.</li>
-	<li>由 1, `S_(ABG) = 2 S_(QBG)`, 所以 `AG = 2GQ`; 因而
-		<span class="formula">
-			`  vec(AG)
-			 = 2/3 vec(AQ)
-			 = 2/3 * 1/2 (vec(AB) + vec(AC))`
-			`= 1/3 (vec(AB) + vec(AC))`.
-		</span>
-		其余各式同理.
-	</li>
-	<li>将 2 的三式相加即得所证.</li>
-	<li>直接计算
-		<span class="formula">`{:
-		(		vec(OG)
-			,=	vec(OA) + vec(AG)
-		),(	,=	vec(OA) + 1/3 (vec(AB) + vec(AC))
-		),(	,=	vec(OA) + 1/3 (vec(OB) - vec(OA) + vec(OC) - vec(OA))
-		),(	,=	1/3 (vec(OA) + vec(OB) + vec(OC)).
-		):}`
-		</span>
-	</li>
-</ol>
-
-<h4>三角形的内心</h4>
-
-<ol class="lemma" id="lem-triangle-bisector">
-	(图??)
-	设在 `triangle ABC` 中, `CP` 平分 `angle ACB`, `a, b` 分别是
-	边 `BC, CA` 的长. 则
-	<li>`(AP)/(BP) = (sin angle B)/(sin angle A) = b/a`;</li>
-	<li>`vec(CP) = 1/(a+b) (a vec(CA) + b vec(CB))`.</li>
-</ol>
-
-<ol class="proof">
-	<li>由正弦定理,
-		<span class="formula">
-			` (AP)/(sin angle ACP)
-			= (CP)/(sin angle A)
-			= (AC)/(sin angle APC)`,<br/>
-			` (BP)/(sin angle BCP)
-			= (CP)/(sin angle B)
-			= (BC)/(sin angle BPC)`.
-		</span>
-		注意 `angle ACP = angle BCP` 和
-		`angle APC + angle BPC = pi` 即得所证.
-	</li>
-	<li>直接计算,
-		<span class="formula">
-			`  vec(CP)
-			 = vec(CA) + b/(a+b) vec(AB)`
-			`= vec(CA) + b/(a+b) (vec(CB) - vec(CA))`
-			`= 1/(a+b) (a vec(CA) + b vec(CB))`.
-		</span>
-	</li>
-</ol>
-
-<p class="definition">
-	由 Ceva 定理和<a class="ref" href="#lem-triangle-bisector"></a>知,
-	三角形的三条角平分线交于一点, 称为三角形的<b>内心</b>.
-</p>
-
-<ol class="note">
-	另一个证明三条角平分线共点的思路是利用如下命题:
-	设 `l` 是过角的顶点的直线, 则以下三款等价:
-	<li>`l` 平分角;</li>
-	<li>`l` 上任意一点到角两边的距离相等;</li>
-	<li>`l` 上存在一点到角两边的距离相等.</li>
-	容易证明, 若三角形的两条角平分线交于一点,
-	则这点与第三点的连线是第三条角平分线.
-</ol>
-
-<ol class="theorem">
-	设 `I` 是 `triangle ABC` 的内心, `P, Q, R` 分别是三条角平分线与
-	`AB, BC, CA` 的交点. 则
-	<li>三条角平分线将 `triangle ABC` 分成的 6 个小三角形的面积与其在
-		`triangle ABC` 边上的那一条边长成正比.
-	</li>
-	<li>`I` 分别分三条角平分线 `AQ, BR, CP` 成定比
-		`(b+c)/a`, `(c+a)/b`, `(a+b)/c`, 从而
-		<span class="formula">
-			`vec(AI) = 1/(a+b+c) (b vec(AB) + c vec(AC))`,<br/>
-			`vec(BI) = 1/(a+b+c) (c vec(BC) + a vec(BA))`,<br/>
-			`vec(CI) = 1/(a+b+c) (a vec(CA) + b vec(CB))`.
-		</span>
-	</li>
-	<li>`vec(OI) = 1/(a+b+c) (a vec(OA) + b vec(OB) + c vec(OC))`, `O`
-		是平面上任一点.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>略.</li>
-	<li>在 `triangle ACP`
-		中应用<a class="ref" href="#lem-triangle-bisector"></a> 有
-		<span class="formula">
-			` (CI)/(IP)
-			= (AC)/(AP)
-			= b/(c * b/(a+b))
-			= (a+b)/c`.
-		</span>
-		因而
-		<span class="formula">
-			`  vec(CI)
-			 = (a+b)/(a+b+c) vec(CP)`
-			`= 1/(a+b+c) (a vec(CA) + b vec(CB))`.
-		</span>
-		其余各式同理.
-	</li>
-	<li>直接计算
-		<span class="formula">`{:
-			(		vec(OI)
-				,=	vec(OC) + vec(CI)
-			),(	,=	vec(OC) + 1/(a+b+c)(a vec(CA) + b vec(CB))
-			),(	,=	vec(OC) + 1/(a+b+c)[a (vec(OA)-vec(OC)) + b
-					(vec(OB)-vec(OC))]
-			),(	,=	1/(a+b+c) (a vec(OA) + b vec(OB) + c vec(OC)).
-		):}`
-		</span>
-	</li>
-</ol>
-
 <h2>向量的内积</h2>
 
 <h3>射影和分量</h3>
 
 <ul class="definition">
-	设 `bm e` 是 `E^3` 中任一单位向量, `bm e_1, bm e_2` 是两个单位向量,
-	使得 `bm e_1, bm e_2, bm e` 两两垂直.
+	设 `bb 0 != bm d in E^3`, 取平面 `pi` 垂直于 `bm d`,
+	在 `pi` 内取一组基 `bm d_1, bm d_2`.
 	由<a class="ref" href="#the-frame-exist-unique"></a>,
 	任意 `bm a in E^3` 可以唯一地分解成
 	<span class="formula">
-		`bm a = x bm e_1 + y bm e_2 + z bm e`.
+		`bm a = x bm d_1 + y bm d_2 + z bm d`.
 	</span>
-	记 `bm a_1 = z bm e`, `bm a_2 = x bm e_1 + y bm e_2`, 易知
-	`bm a_1 //// bm e`, `bm a_2 _|_ bm e`.
-	称 `bm e` 所在的直线为<b>轴</b>, `bm e_1, bm e_2`
-	所在的平面为<b>射影平面</b>.
-	<li>称 `bm a_1` 是 `bm a` 沿方向 `bm e` 的<b>内射影</b>或 `bm a`
-		<b>在轴上的正投影</b>, 记为 `cc P_(bm e)(bm a)`;
-		实数 `z` 称为 `bm a` 沿方向 `bm e` 的<b>分量</b>, 记为
-		`Pi_(bm e)(bm a);
+	记 `bm a_1 = z bm d`, `bm a_2 = x bm d_1 + y bm d_2`, 易知
+	`bm a_1 //// bm d`, `bm a_2 _|_ bm d`.
+	称 `bm d` 所在直线为<b>轴</b>, `pi` 为<b>射影平面</b>.
+	<li>称 `bm a_1` 是 `bm a` 沿方向 `bm d` 的<b>内射影</b>或 `bm a`
+		<b>在轴上的正投影</b>, 记为 `cc P_(bm d)(bm a)`;
+		实数 `z` 称为 `bm a` 沿方向 `bm d` 的<b>分量</b>, 记为
+		`Pi_(bm d)(bm a);
 	</li>
-	<li>称 `bm a_2` 是 `bm a` 沿方向 `bm e` 的<b>外射影</b>或 `bm a`
+	<li>称 `bm a_2` 是 `bm a` 沿方向 `bm d` 的<b>外射影</b>或 `bm a`
 		<b>在射影平面上的正投影</b>.
 	</li>
 </ul>
 
 <p class="theorem">
-	设 `bm e in E^3` 是单位向量, 则 `bm a in E^3` 沿 `bm e` 的分量为
+	设 `bb 0 != bm d in E^3`, 则 `bm a in E^3` 沿 `bm d` 的分量为
 	<span class="formula">
-		`Pi_(bm e)(bm a) = |bm a| cos (:bm a, bm e:)`,
+		`Pi_(bm d)(bm a) = |bm a| cos (:bm a, bm d:)`,
 	</span>
-	`(:bm a, bm e:)` 是向量 `bm a` 与 `bm e` 之间的夹角.
+	`(:bm a, bm d:)` 是向量 `bm a` 与 `bm d` 之间的夹角.
 	<!-- 之前没有出现过夹角的概念 ? -->
 </p>
 
@@ -539,16 +311,16 @@
 	分量是从空间到 `RR` 的线性映射.
 	设 `bm a, bm b in E^3`, `lambda in RR`, 则
 	<span class="formula">
-		`cc P_(bm e)(bm a + bm b) = cc P_(bm e)(bm a) + cc P_(bm e)(bm
-		b)`, `quad cc P_(bm e)(lambda bm a) = lambda cc P_(bm e)(bm a)`.
+		`cc P_(bm d)(bm a + bm b) = cc P_(bm d)(bm a) + cc P_(bm d)(bm
+		b)`, `quad cc P_(bm d)(lambda bm a) = lambda cc P_(bm d)(bm a)`.
 	</span>
 	<span class="formula">
-		`Pi_(bm e)(bm a + bm b) = Pi_(bm e)(bm a) + Pi_(bm e)(bm b)`,
-		`quad Pi_(bm e)(lambda bm a) = lambda Pi_(bm e)(bm a)`.
+		`Pi_(bm d)(bm a + bm b) = Pi_(bm d)(bm a) + Pi_(bm d)(bm b)`,
+		`quad Pi_(bm d)(lambda bm a) = lambda Pi_(bm d)(bm a)`.
 	</span>
 </p>
 
-<h3>向量内积及其性质</h3>
+<h3>向量内积的定义与性质</h3>
 
 <p class="definition">
 	<b>内积</b>定义为一个映射 `(*): V xx V to RR`:
@@ -559,8 +331,7 @@
 </p>
 
 <ol class="corollary" id="cor-inner-product">
-	<li>若 `bm b != bb 0`, 则 `bm a * bm b = |bm b| Pi_(bm b // |bm
-		b|)(bm a)`;
+	<li>若 `bm a != bb 0`, 则 `bm a * bm b = |bm a| Pi_(bm a)(bm b)`;
 	</li>
 	<li>`|bm a| = sqrt(bm a * bm a)`;</li>
 	<li>若 `bm a, bm b != bb 0`, 则 `cos (:bm a, bm b:) = (bm a * bm
@@ -592,26 +363,6 @@
 		href="#the-inner-product-property"></a>定义内积, 再由
 	`|bm a| = sqrt(bm a * bm a)` 定义范数.
 	见高等代数和泛函分析.
-</p>
-
-<h4>三角形的垂心</h4>
-
-<p class="lemma">
-	三角形的三条高线 (高所在的直线) 交于一点, 称为<b>垂心</b>.
-</p>
-
-<p class="proof">
-	设 `triangle ABC` 的两条高线 `AQ, BR` 交于点 `H`, 下证 `CH _|_ AB`.
-	由 `AH _|_ BC`, `BH _|_ CA` 有
-	<span class="formula">
-		`0 = vec(AH) * vec(BC) = vec(AH)*vec(HC) - vec(AH)*vec(HB)`,<br/>
-		`0 = vec(BH) * vec(CA) = vec(BH)*vec(HA) - vec(BH)*vec(HC)`.
-	</span>
-	两式相加,
-	<span class="formula">
-		`0 = vec(AH)*vec(HC) - vec(BH)*vec(HC) = vec(AB)*vec(HC)`,
-	</span>
-	即 `CH _|_ AB`.
 </p>
 
 <h3>向量内积的坐标表示</h3>
@@ -672,11 +423,373 @@
 	<span class="formula">
 		`sum_(i=1)^3 cos^2 (:bm a, bm e_i:) = 1`.
 	</span>
+	所以方向余弦的平方和恒等于 1.
 </p>
 
 <h2>向量的外积</h2>
 
+<h3>向量外积的定义与性质</h3>
+
+<p class="definition">
+	<b>外积</b>定义为映射 `(xx): V xx V to V`:
+	<span class="formula">
+		`|bm a xx bm b| = |bm a| |bm b| sin (:bm a, bm b:)`,
+	</span>
+	当 `|bm a xx bm b| != 0` 时, 它的方向服从<b>右手定则</b>,
+	即当右手四指从 `bm a` 以小于 `pi` 的转角弯向 `bm b` 时,
+	拇指就指向 `bm a xx bm b`:
+	<span class="formula">
+		`bm a xx bm b _|_ bm a`, `quad` `bm a xx bm b _|_ bm b`, `quad`
+		`(bm a, bm b, bm a xx bm b)` 成右手系.
+	</span>
+	`bm a` 和 `bm b` 中有一个为 `bb 0` 时, 规定 `bm a xx bm b = bb 0`.
+</p>
+
+<ol class="corollary">
+	<li>`bm a //// bm b` 当且仅当 `bm a xx bm b = 0`
+		(零向量与任意向量都共线).
+	</li>
+	<li>设 `bm a != bb 0`, 则对任意 `bm b in E^3`, 令
+		`bm b_2` 是 `bm b` 沿方向 `bm a` 的外射影, 则
+		<span class="formula">
+			`bm a xx bm b = bm a xx bm b_2`,
+		</span>
+	</li>
+</ol>
+
+<ol	class="theorem" id="the-outer-product-property">
+	外积是反对称双线性映射.
+	设 `bm a, bm b, bm c in E^3`, `lambda in RR`, 则它们满足:
+	<li>反交换律. `bm b xx bm a = -(bm a xx bm b)`;</li>
+	<li>线性性. `(bm a + bm b) xx bm c = bm a xx bm c + bm b xx bm c`,
+		`quad` `(lambda bm a) xx bm b = lambda (bm a xx bm b).
+	</li>
+</ol>
+
+<p class="note">
+	一般的空间中, 可以将满足<a class="ref"
+		href="#the-outer-product-property"></a>的映射定义为外积.
+	如微分几何中的外微分就满足上述外积的性质.
+</p>
+
+<h3>向量外积的坐标表示</h3>
+
+<h4>仿射标架</h4>
+
+<p>	取定仿射标架 `{O; bm d_1, bm d_2, bm d_3}`, `bm a = (a_1, a_2, a_3)`,
+	`bm b = (b_1, b_2, b_3)`, 则
+	<span class="formula">
+		` bm a xx bm b
+		= (sum_(i=1)^3 a_i bm d_i) xx (sum_(j=1)^3 b_j bm d_j)`
+		`=   (a_2 b_3 - a_3 b_2) bm d_2 xx bm d_3
+		  + (a_3 b_1 - a_1 b_3) bm d_3 xx bm d_1
+		  + (a_1 b_2 - a_2 b_1) bm d_1 xx bm d_2`
+		`= |(bm d_2 xx bm d_3," "bm d_3 xx bm d_1," "bm d_1 xx bm d_2),
+		   (a_1," "a_2," "a_3),
+		   (b_1," "b_2," "b_3)|`.
+	</span>
+	因此只要知道 `bm d_1, bm d_2, bm d_3` 之间的外积,
+	就可以求出任意两个向量的外积.
+</p>
+
+<h4>右手正交标架</h4>
+
+<p class="lemma" id="lem-orthogonal-frame-outer-product">
+	设 `bm e` 是单位向量, `bm b _|_ bm e`, 则 `bm e xx bm b` 等于
+	`bm b` 在以 `bm e` 为法向量的平面上按右手法则旋转一个直角得到的向量.
+</p>
+
+<p>	现在取右手正交标架 `{O; bm e_1, bm e_2, bm e_3}`, 由<a class="ref"
+	href="#lem-orthogonal-frame-outer-product"></a> 有
+	<span class="formula">
+		`bm e_1 xx bm e_2 = bm e_3`, `quad`
+		`bm e_2 xx bm e_3 = bm e_1`, `quad`
+		`bm e_3 xx bm e_1 = bm e_2`.
+	</span>
+	于是
+	<span class="formula">
+		` bm a xx bm b
+		= |(bm e_1," "bm e_2," "bm e_3),
+		   (a_1," "a_2," "a_3),
+		   (b_1," "b_2," "b_3)|`,
+	</span>
+	<span class="formula">
+		` |bm a xx bm b|
+		= sqrt( |(a_2, a_3),(b_2,b_3)|^2
+		      + |(a_3, a_1),(b_3,b_1)|^2
+		      + |(a_1, a_2),(b_1,b_2)|^2 )`.
+	</span>
+</p>
+
 <h2>向量的混合积</h2>
+
+<h3>平面向量混合积的定义与性质</h3>
+
+<p class="definition">
+	曲面的一个法向量称为它的一个<b>定向</b>.
+	规定当右手拇指指向所给定的法向量时,
+	右手四指的环绕方向就是曲面上的绕行方向.
+	这个绕行方向也称为曲面的定向.
+	<!--
+	<br/>
+	曲面上由分段光滑曲线围成的封闭区域的<b>定向面积</b>是指,
+	当边界的绕行方向与定向相同时, 定向面积等于面积;
+	当边界的绕行方向与定向相反时, 定向面积等于面积的相反数.
+	-->
+</p>
+
+<p class="definition">
+	设 `bm n` 是平面 `pi` 的一个单位法向量, `bm a, bm b in pi`.
+	由外积定义, `bm n //// bm a xx bm b`, 由于 `bm n != bb 0`,
+	存在唯一的 `lambda in RR` 使得 `bm a xx bm b = lambda bm n`.
+	称 `lambda` 为 `bm a` 与 `bm b` 关于定向 `bm n`
+	的<b>平面向量混合积</b>, 记为 `(bm a, bm b)`. 由定义,
+	<span class="formula">
+		`bm a xx bm b = (bm a, bm b) bm n`.
+	</span>
+	`bm a, bm b` 不共线时,
+	以 `bm a, bm b` 为邻边的<b>平行四边形的定向面积</b>是指,
+	当 `bm a, bm b, bm n` 成右手系时, 定向面积等于面积;
+	否则定向面积等于面积的相反数.
+	这个定向面积恰好等于 `(bm a xx bm b)`.
+</p>
+
+<ol class="corollary">
+	<li>两向量共线当且仅当 `(bm a, bm b) = 0`;</li>
+	<li>`(bm a, bm b) = -(bm b, bm a)`.</li>
+</ol>
+
+<h3>平面向量混合积的坐标表示</h3>
+
+<p>	在平面上取定仿射标架 `{O; bm d_1, bm d_2}`, 令
+	`bm d_3 = bm d_1 xx bm d_2` 为平面的定向, 则
+	`{O; bm d_1, bm d_2, bm d_3}` 是空间中的仿射标架, 且为右手系.
+	设 `bm a = a_1 bm d_1 + a_2 bm d_2`,
+	`bm b = b_1 bm d_1 + b_2 bm d_2`, 因为
+	<span class="formula">
+		` bm a xx bm b
+		= |(bm d_2 xx bm d_3," "bm d_3 xx bm d_1," "bm d_1 xx bm d_2),
+		   (a_1, a_2, 0),
+		   (b_1, b_2, 0)|`
+		`= |(a_1," "a_2), (b_1," "b_2)| bm d_3`,
+	</span>
+	所以
+	<span class="formula">
+		` (bm a, bm b) = |(a_1," "a_2), (b_1," "b_2)| |bm d_3|`.
+	</span>
+</p>
+
+<p>	特别取右手正交标架 `{O; bm e_1, bm e_2}` 时,
+	<span class="formula">
+		`(bm a, bm b) = |(a_1," "a_2), (b_1," "b_2)|`.
+	</span>
+</p>
+
+<h3>两向量共线的条件 (仿射坐标)</h3>
+
+<p class="theorem">
+	平面上两向量 `bm a = (a_1, a_2)`, `bm b = (b_1, b_2)` 共线当且仅当
+	<span class="formula">
+		`|(a_1," "a_2), (b_1," "b_2)| = 0`.
+	</span>
+</p>
+
+<p class="theorem">
+	平面上三点 `A(a_1, a_2)`, `B(b_1, b_2)`, `C(c_1, c_2)` 共线当且仅当
+	<span class="formula">
+		`|(a_1," "a_2," "1), (b_1," "b_2," "1), (c_1," "c_2," "1)| = 0`.
+	</span>
+</p>
+
+<h3>二重外积公式</h3>
+
+<p class="theorem">
+	<b>二重外积公式</b>
+	设 `bm a, bm b, bm c in E^3`, 则
+	<span class="formula">
+		` bm a xx (bm b xx bm c)
+		= (bm a * bm c) bm b - (bm a * bm b) bm c`
+		`= |(bm b, bm c), (bm a * bm b," "bm a * bm c)|`.
+	</span>
+</p>
+
+<p class="example">
+	<b>Jacobi 等式</b>
+	<span class="formula">
+		`sum bm a xx (bm b xx bm c) = bb 0`.
+	</span>
+	上式遵循<b>轮换求和</b>约定, 相当于
+	<span class="formula">
+		`bm a xx (bm b xx bm c) + bm b xx (bm c xx bm a) + bm c xx (bm a
+		xx bm b) = bb 0`.
+	</span>
+</p>
+
+<h3>向量混合积的定义与性质</h3>
+
+<p class="definition">
+	<b>混合积</b>定义为映射 `(*,*,*): V^3 to RR`:
+	<span class="formula">
+		`(bm a, bm b, bm c) = bm a xx bm b * bm c`.
+	</span>
+	为使上式有意义, 应当先作外积, 再作内积.
+</p>
+
+<p>	给定空间中不共面的三向量 `bm a, bm b, bm c`,
+	由它们确定的<b>平行六面体的定向体积</b>是指, 当 `bm a, bm b, bm c`
+	成右手系时, 定向体积等于体积; 否则定向体积等于体积的相反数.
+	由向量混合积的定义, 这定向体积恰好等于 `(bm a, bm b, bm c)`.
+</p>
+
+<p class="theorem">
+	三向量 `bm a, bm b, bm c` 共面当且仅当 `(bm a, bm b, bm c) = 0`.
+</p>
+
+<p class="proof">
+	`bm a, bm b, bm c` 共面
+	`iff bm a xx bm c` 与 `bm a xx bm b` 共线
+	`iff (bm a xx bm b) xx (bm a xx bm c) = bb 0`
+	`iff (bm a xx bm b * bm c) bm a - (bm a xx bm b * bm a) bm c = bb 0`
+	`iff bm a xx bm b * bm c = 0`.
+</p>
+
+<p class="theorem">
+	混合积具有轮换对称性.
+	<span class="formula">
+		`(bm a, bm b, bm c) = (bm b, bm c, bm a) = (bm c, bm a, bm b)`.
+	</span>
+	由上式得
+	<span class="formula">
+		`bm a xx bm b * bm c = bm b xx bm c * bm a = bm a * bm b xx bm c`.
+	</span>
+	因此, 将混合积定义为 `bm a * bm b xx bm c` 也是一样的.
+	进一步可证, 交换混合积中任意两项, 结果相差一个负号.
+</p>
+
+<h3>混合积的坐标表示</h3>
+
+<p>	取定仿射标架 `{O; bm d_1, bm d_2, bm d_3}`, `bm a = (a_1, a_2, a_3)`,
+	`bm b = (b_1, b_2, b_3)`, `bm c = (c_1, c_2, c_3)`, 则
+	<span class="formula">
+		` (bm a, bm b, bm c) = bm a * bm b xx bm c`
+		`= |(bm d_2 xx bm d_3," "bm d_3 xx bm d_1," "bm d_1 xx bm d_2),
+		   (b_1," "b_2," "b_3),
+		   (c_1," "c_2," "c_3)|
+		   * sum_(i=1)^3 a_i bm d_i`
+		`= |(a_1," "a_2," "a_3),
+		    (b_1," "b_2," "b_3),
+			(c_1," "c_2," "c_3)| (bm d_1, bm d_2, bm d_3)`.
+	</span>
+</p>
+
+<p>	特别, 当取定的标架为右手正交标架 `{O; bm e_1, bm e_2, bm e_3}` 时,
+	<span class="formula">
+		`(bm e_1, bm e_2, bm e_3) = 1`.
+	</span>
+	所以
+	<span class="formula">
+		`(bm a, bm b, bm c)`
+		`= |(a_1," "a_2," "a_3),
+		    (b_1," "b_2," "b_3),
+			(c_1," "c_2," "c_3)|`.
+	</span>
+</p>
+
+<h3>三向量共面的条件 (仿射坐标)</h3>
+
+<p class="theorem">
+	空间中三向量 `bm a = (a_1, a_2, a_3)`, `bm b = (b_1, b_2, b_3)`,
+	`bm c = (c_1, c_2, c_3)` 共面当且仅当
+	<span class="formula">
+		`|(a_1," "a_2," "a_3),
+		  (b_1," "b_2," "b_3),
+		  (c_1," "c_2," "c_3)| = 0`.
+	</span>
+</p>
+
+<p class="theorem">
+	空间中四点 `A(a_1, a_2, a_3)`, `B(b_1, b_2, b_3)`, `C(c_1, c_2, c_3)`,
+	`D(d_1, d_2, d_3)` 共面当且仅当
+	<span class="formula">
+		`|(a_1," "a_2," "a_3," "1),
+		  (b_1," "b_2," "b_3," "1),
+		  (c_1," "c_2," "c_3," "1),
+		  (d_1," "d_2," "d_3," "1)| = 0`.
+	</span>
+</p>
+
+<h3>Lagrange 恒等式</h3>
+
+<p class="theorem">
+	<b>Lagrange 恒等式</b>
+	设 `bm a_1, bm a_2, bm b_1, bm b_2 in E^3`, 则
+	<span class="formula">
+		` (bm a_1 xx bm a_2) * (bm b_1 xx bm b_2)
+		= |(bm a_1 * bm b_1," "bm a_1 * bm b_2),
+		   (bm a_2 * bm b_1," "bm a_2 * bm b_2)|
+		= "det"(bm a_i * bm b_j)_(2 xx 2)`.
+	</span>
+</p>
+
+<p class="proof">
+	利用混合积的轮换对称性与二重外积公式,
+	<span class="formula">
+		左边 = `bm a_2 xx (bm b_1 xx bm b_2) * bm a_1
+		= |(bm b_1," "bm b_2), (bm a_2 * bm b_1," "bm a_2 * bm b_2)| * bm
+		  a_1` = 右边.
+	</span>
+</p>
+
+<ol class="corollary" id="cor-lagrange-equality">
+	<li>`|bm a xx bm b|^2 + (bm a * bm b)^2 = |bm a|^2 |bm b|^2`;</li>
+	<li>`(bm a_1, bm a_2, bm a_3)(bm b_1, bm b_2, bm b_3)
+		= "det"(bm a_i * bm b_j)_(3 xx 3)`;
+	</li>
+	<li>`(bm a, bm b, bm c)^2 = (bm a xx bm b, bm b xx bm c, bm c xx bm
+		a)`;
+	</li>
+	<li>`sum_(bm a, bm b, bm c) (bm a xx bm b) * (bm c xx bm d) = 0`;</li>
+	<li>`bm a_1 xx (bm a_2 xx (bm b_1 xx bm b_2)) = |
+		(bm a_1 xx bm b_1," "bm a_1 xx bm b_2),
+		(bm a_2 * bm b_1," " bm a_2 * bm b_2)|`;
+	</li>
+	<li>` (bm a xx bm b) xx (bm c xx bm d)
+		= (bm c, bm d, bm a) bm b - (bm b, bm c, bm d) bm a`
+		`= (bm d, bm a, bm b) bm c - (bm a, bm b, bm c) bm d`;
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>用 Lagrange 恒等式计算 `|bm a xx bm b|^2`;</li>
+	<li>用坐标计算, 注意矩阵乘积的行列式等于行列式的乘积;</li>
+</ol>
+
+<p class="example">
+	(二维勾股定理)
+	直角三棱锥的斜面面积的平方等于其他三个直角面面积的平方和.
+</p>
+
+<p class="proof">
+	设 `OABC` 是直角三棱锥, `O` 为直角顶点, 于是 `angle AOB, angle BOC,
+	angle COA` 是直角, `triangle ABC` 是它的斜面. 分别记
+	`vec(OA), vec(OB), vec(OC)` 为 `bm a, bm b, bm c`,
+	则
+	<span class="formula">
+		`bm a * bm b = bm b * bm c = bm c * bm a = 0`.
+	</span>
+	由<a class="ref" href="#cor-lagrange-equality"></a>的 1 有
+	<span class="formula">`{:
+	(		|vec(AB) xx vec(AC)|^2
+		,=	|vec(AB)|^2 |vec(AC)|^2 - (vec(AB) * vec(AC))^2
+	),(	,=	(|bm a|^2 + |bm b|^2) (|bm a|^2 + |bm c|^2)
+			- ((bm b - bm a) * (bm c - bm a))^2
+	),(	,=	(|bm a|^2 + |bm b|^2) (|bm a|^2 + |bm c|^2)
+			- |bm a|^4
+	),(	,=	|bm a|^2 |bm b|^2 + |bm b|^2 |bm c|^2 + |bm c|^2 |bm a|^2.
+	):}`
+	</span>
+	即得所证.
+</p>
 
 </body>
 
