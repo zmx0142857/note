@@ -12,10 +12,575 @@
 
 <body>
 
-<p class="theorem">
-	两直线 `bm a_1 + t bm b_1`, `bm a_2 + t bm b_2` 共面当且仅当
-	`bm b_1, bm b_2, bm a_1 - bm a_2` 线性相关.
+<p>	本章结合坐标法与向量法, 利用仿射坐标系研究空间中的平面与直线.</p>
+
+<h2>平面的线性性质</h2>
+
+<h3>平面的参数方程和普通方程</h3>
+
+<p class="definition">
+	向量 `bm v` 与平面 `pi` 平行与 `bm v` 在 `pi` 上等同,
+	记为 `bm v //// pi`.
 </p>
+
+<p>	取定仿射标架 `{O; bm d_1, bm d_2, bm d_3}`, 设 `P_0(x_0, y_0, z_0)`,
+	向量 `bm r_1 = (x_1, y_1, z_1)` 和 `bm r_2 = (x_2, y_2, z_2)`
+	线性无关, 则点 `P_0` 和向量 `bm r_1, bm r_2` 唯一确定了平面
+	`pi`, 使得 `P_0 in pi`, `bm r_i //// pi`, `i = 1, 2`.
+	我们有
+	<span class="formula">
+		<b>点 `P` 落在由 `P_0`, `bm r_1, bm r_2` 确定的平面上当且仅当
+			`vec(P_0 P), bm r_1, bm r_2` 线性相关.</b>
+	</span>
+
+	由于 `bm r_1, bm r_2` 线性无关, 所以 `vec(P_0 P)` 可以唯一表示为
+	<span class="formula">
+		`vec(P_0 P) = u bm r_1 + v bm r_2`, `u, v in RR`.
+	</span>
+	改写得到平面的<b>参数方程</b>
+	<span class="formula">`{
+		(x = x_0 + x_1 u + x_2 v),
+		(y = y_0 + y_1 u + y_2 v),
+		(z = z_0 + z_1 u + z_2 v)
+	:}` `quad` `u, v in RR`.
+	</span>
+</p>
+
+<p>	另一方面, 平面 `pi` 的方程也可以是
+	<span class="formula">
+		`(vec(P_0 P), bm r_1, bm r_2) = 0`,
+	</span>
+	即
+	<span class="formula">
+		`|(x-x_0, y-y_0, z-z_0), (x_1, y_1, z_1), (x_2, y_2, z_2)| = 0`.
+	</span>
+	令 `A = |(y_1, z_1),(y_2, z_2)|`, `B = |(z_1, x_1),(z_2, x_2)|`,
+	`C = |(x_1, y_1), (x_2, y_2)|`, `D = -(Ax_0 + By_0 + Cz_0)`,
+	上式化为平面的<b>普通方程</b>
+	<span class="formula">
+		`Ax + By + Cz + D = 0`.
+	</span>
+	由于 `bm r_1, bm r_2` 线性无关, `bm r_1 xx bm r_2 != bb 0`,
+	所以 `A, B, C` 不全为零, 平面的普通方程是三元一次方程.
+</p>
+
+<p class="theorem">
+	仿射坐标系下, 平面的方程是三元一次方程,
+	反之可以验证, 由 `P_0(-D//A, 0, 0)`, `bm r_1 = (-B//A, 1, 0)`,
+	`bm r_2 = (-C//A, 0, 1)` 确定的平面方程正好是
+	`Ax + By + Cz + D = 0`, 所以任意三元一次方程表示一个平面.
+</p>
+
+<p class="theorem" id="the-vector-plane-parallel">
+	向量 `bm w = (x_0, y_0, z_0)` 与平面 `Ax + By + Cz + D = 0`
+	平行当且仅当它适合齐次方程
+	<span class="formula">
+		`Ax_0 + By_0 + Cz_0 = 0`.
+	</span>
+</p>
+
+<p class="corollary">
+	`x` 轴 (`y` 轴, `z` 轴) 与平面 `pi: Ax + By + Cz + D = 0`
+	平行或落在平面上当且仅当 `A = 0` (`B = 0`, `C = 0`);
+	原点落在平面 `pi` 上当且仅当 `D = 0`.
+</p>
+
+<h3>平面的相对位置</h3>
+
+<ol class="theorem">
+	设平面 `pi_1`, `pi_2` 的方程分别为
+
+		`A_i x + B_i y + C_i z + D_i = 0`, `i = 1, 2`.
+
+	则
+	<li>`pi_1` 与 `pi_2` 相交当且仅当两方程的一次项系数不成比例;</li>
+	<li>`pi_1` 与 `pi_2` 平行当且仅当两方程的一次项系数成比例,
+		但与常数项不成比例;</li>
+	<li>`pi_1` 与 `pi_2` 重合当且仅当两方程的所有系数成比例.</li>
+</ol>
+
+<p class="theorem">
+	由 Cramer 法则知道, 三平面
+
+		`A_i x + B_i y + C_i z + D_i = 0`, `i = 1, 2, 3`
+
+	恰有一个公共点当且仅当
+	<span class="formula">
+		`|(A_1," "B_1," "C_1),(A_2," "B_2," "C_2),(A_3," "B_3," "C_3)|
+		!= 0`.
+	</span>
+</p>
+
+<h3>平面方程小集</h3>
+
+<p>	约定 `P = (x, y, z)`,
+	`varphi(P) = Ax + By + Cz`,
+	`f(P) = varphi(P) + D`.
+</p>
+
+<table>
+	<tr>
+		<td></td>
+		<td>条件</td>
+		<td>平面 `pi` 的方程</td>
+	</tr>
+	<tr>
+		<td>参数方程</td>
+		<td>`P_0 in pi`,
+			`bm r_i //// pi`, `i = 1, 2`.
+			`bm r_1 xx bm r_2 != bb 0`
+		</td>
+		<td>`P = P_0 + u bm r_1 + v bm r_2`, `u, v in RR`</td>
+	</tr>
+	<tr>
+		<td>点向式</td>
+		<td>`P_0(x_0, y_0, z_0) in pi`,
+			`bm r_i = (x_i, y_i, z_i) //// pi`,
+			`i = 1, 2`.
+			`bm r_1 xx bm r_2 != bb 0`
+		</td>
+		<td>
+			`|(x-x_0, y-y_0, z-z_0),
+			  (x_1, y_1, z_1),
+			  (x_2, y_2, z_2)| = 0`
+		</td>
+	</tr>
+	<tr>
+		<td>三截距</td>
+		<td>`(a,0,0)`, `(0,b,0)`, `(0,0,c) in pi`,
+			`a, b, c != 0`
+		</td>
+		<td>`x/a + y/b + z/c = 1`</td>
+	</tr>
+	<tr>
+		<td>不共线的三点</td>
+		<td>不共线的三点 `(x_i, y_i, z_i) in pi`, `i = 1, 2, 3`</td>
+		<td>
+			`|(x," "y," "z," "1),
+			  (x_1," "y_1," "z_1," "1),
+			  (x_2," "y_2," "z_2," "1),
+			  (x_3," "y_3," "z_3," "1)| = 0`
+		</td>
+	</tr>
+	<tr>
+		<td>有轴平面束</td>
+		<td>两平面 `pi_i: f_i(P) = 0`, `i = 1,2`
+			相交于直线 `l`, `l sub pi`
+		</td>
+		<td>`  lambda f_1 + mu f_2 = 0`,
+			`lambda, mu` 不全为零
+		</td>
+	</tr>
+	<tr>
+		<td>一点一平面</td>
+		<td>`P_0 in pi`,
+			`pi_0: f(P) = 0 //// pi`
+		</td>
+		<td>`varphi(P - P_0) = 0`</td>
+	</tr>
+	<tr>
+		<td>点法式 (正交标架)</td>
+		<td>`P_0 in pi`,
+			`bm n = (A, B, C) _|_ pi`
+		</td>
+		<td>`varphi(P - P_0) = 0`</td>
+	</tr>
+</table>
+
+<ol class="proof">
+	<li></li>
+	<li>首先容易验证 `(a,0,0)`, `(0,b,0)`, `(0,0,c)` 三点适合方程;
+		其次所给方程是三元一次方程, 它表示一个平面.
+		由几何知识知道, 过不共线三点的平面是唯一的.
+	</li>
+	<li>由四点共面的充要条件立即得到.</li>
+	<li></li>
+	<li>依题意, <b>点 `P` 落在 `pi` 上当且仅当 `vec(P_0 P) _|_ bm n`</b>.
+		所以 `pi` 的方程是
+		<span class="formula">
+			`vec(P_0 P) * bm n = 0`,
+		</span>
+		即
+		<span class="formula">
+			`A(x - x_0) + B(y - y_0) + C(z - z_0) = 0`.
+		</span>
+	</li>
+</ol>
+
+<ol class="note">
+	<li>几何空间中经过同一直线的所有平面组成的集合称为<b>有轴平面束</b>,
+		这条直线称为平面束的轴.
+		容易看出, 由两相交平面 `pi_1`, `pi_2` 确定的有轴平面束由
+		`pi_1`, `pi_2` 的全体线性组合构成.
+	</li>
+	<li>由 "一点一平面" 的结果知道, 满足
+		<span class="formula">
+			`Ax + By + Cz = delta`
+		</span>
+		的点的轨迹是一平面, 与平面 `pi: Ax + By + Cz + D = 0` 平行
+		(或重合).  当参数 `delta` 变化时, 上述方程取遍全体与平面 `pi`
+		平行的平面族.
+	</li>
+	<li>由点法式知道, 正交标架下, `(A, B, C)` 是平面 `Ax + By + Cz + D =
+		0` 的一个法向量.  另外, <b>两平面垂直当且仅当它们的法向量垂直</b>,
+		即 `bm n_1 * bm n_2 = 0`, 亦即 `A_1 A_2 + B_1 B_2 + C_1 C_2 = 0`.
+	</li>
+</ol>
+
+
+<h3>三元一次不等式的几何意义</h3>
+
+<p class="theorem" id="the-plane-definite-proportion">
+	设点 `P_0` 在平面 `f(P) = 0` 上, `P_0, P_1, P_2` 三点共线, 则
+	<span class="formula">
+		`f(P_1) vec(P_0 P_2) = f(P_2) vec(P_0 P_1)`.
+	</span>
+</p>
+
+<p class="proof">
+	方程 `f(P) = 0` 可以写成 `varphi(P) + D = 0`,
+	其中 `varphi` 是线性函数.
+	由 `P_0` 在平面上得 `varphi(P_0) = -D`.
+	<br/>
+	若 `P_1` 不在平面上, 有 `varphi(P_1) != varphi(P_0)`,
+	即 `varphi(P_1 - P_0) != 0`.
+	由 `P_0, P_1, P_2` 三点共线,
+	且 `vec(P_0 P_1) != bb 0` 知,
+	存在 `k in RR` 使 `vec(P_0 P_2) = k vec(P_0 P_1)`,
+	于是 `varphi(P_2 - P_0) = k varphi(P_1 - P_0)`.
+	从而
+	<span class="formula">
+		` k
+		= (varphi(P_2 - P_0)) / (varphi(P_1 - P_0))
+		= (varphi(P_2) - varphi(P_0)) / (varphi(P_1) - varphi(P_0))`
+		`= (varphi(P_2) + D) / (varphi(P_1) + D)
+		= f(P_2) / f(P_1)`.
+	</span>
+	现在设 `P_1` 在平面上, 即 `f(P_1) = 0`.
+	若 `P_1 = P_0`, 结论已经成立; 若 `P_1 != P_0`, 则 `P_1, P_0`
+	是平面上不同的两点, 连接它们的直线必定位于该平面上,
+	故 `f(P_2) = 0`, 结论也成立.
+</p>
+
+<p class="theorem">
+	设平面 `pi: f(P) = 0`,
+	则空间中全体适合不等式 `f(P) gt 0` 的点位于平面 `pi` 的同侧;
+	全体适合不等式 `f(P) lt 0` 的点位于平面 `pi` 的另一侧.
+</p>
+
+<ol class="proof">
+	将方程 `f(P) = 0` 写为 `varphi(P) + D = 0`, 其中 `varphi` 是线性函数.
+	在空间中取两点 `P_1, P_2`.
+	<li>若 `f(P_1) = f(P_2)`, 即 `varphi(P_1 - P_2) = 0`.
+		由<a class="ref" href="#the-vector-plane-parallel"></a>,
+		`vec(P_1 P_2)` 平行于平面, 于是 `P_1, P_2` 位于平面同侧.
+	</li>
+	<li>若 `f(P_1) f(P_2) gt 0`, 且 `f(P_1) != f(P_2)`,
+		`vec(P_1 P_2)` 与平面不平行. 设直线 `P_1 P_2` 与平面交于点 `P_0`.
+		由<a class="ref" href="#the-plane-definite-proportion"></a>,
+		`vec(P_0 P_1)` 与 `vec(P_0 P_2)` 同向, 即 `P_1, P_2` 位于平面同侧.
+	</li>
+	<li>`f(P_1) f(P_2) lt 0` 时可类似证明, `P_1, P_2` 位于平面异侧.</li>
+</ol>
+
+<h2>平面的度量性质</h2>
+
+<h3>点到平面的距离</h3>
+
+<p class="lemma" id="lem-distance-from-point-to-plane">
+	设 `bm n` 是平面的一个单位法向量, `P_0` 是平面上一点,
+	空间一点 `P` 在平面上的射影 (即垂足) 是 `P_1`, 则
+	<span class="formula">
+		`vec(P_1 P) = (vec(P_0 P) * bm n) bm n`,
+	</span>
+	于是 `P` 到该平面的距离为
+	<span class="formula">
+		`|vec(P_1 P)| = |vec(P_0 P) * bm n|`.
+	</span>
+</p>
+
+<p class="proof">
+	由 `vec(P_1 P) //// bm n` 知,
+	存在唯一的 `delta in RR`, 使
+	<span class="formula">
+		`vec(P_1 P) = delta bm n`.
+	</span>
+	上式两边与 `bm n` 作内积,
+	<span class="formula">
+		` delta
+		= delta bm n * bm n
+		= vec(P_1 P) * bm n
+		= cc P_(bm n)(vec(P_0 P)) * bm n
+		= vec(P_0 P) * bm n`.
+	</span>
+</p>
+
+<p class="theorem" id="the-distance-from-point-to-plane">
+	<b>正交标架下点到平面的垂向量, 点到平面的距离及对称点</b>
+	正交标架下, 设空间一点 `P(x_P, y_P, z_P)` 在平面
+	`Ax + By + Cz + D = 0` 上的射影是 `P_1`, 则
+	<span class="formula">
+		`vec(P_1 P) = (Ax_P + By_P + Cz_P + D) bm n/|bm n|^2`,
+	</span>
+	其中 `bm n = (A, B, C)` 是平面的法向量.
+	于是 `P` 到该平面的距离为
+	<span class="formula">
+		` |vec(P_1 P)| = |Ax_P + By_P + Cz_P + D|/sqrt(A^2+B^2+C^2)`.
+	</span>
+	又设 `Q` 是 `P` 关于该平面的对称点, 则
+	<span class="formula">
+		`vec(PQ) = -2 vec(P_1 P)`.
+	</span>
+</p>
+
+<p class="proof">
+	选取平面上一点 `P_0(x_0, y_0, z_0)`, 则
+	<span class="formula">
+		`-(Ax_0 + By_0 + Cz_0) = D`.
+	</span>
+	由<a class="ref" href="#lem-distance-from-point-to-plane"></a>,
+	<span class="formula">
+		`  vec(P_1 P)
+		 = (vec(P_0 P) * (bm n)/|bm n|) (bm n)/|bm n|`
+		`= (A(x_P - x_0) + B(y_P - y_0) + C(z_P - z_0)) (bm n)/|bm n|^2`
+		`= (Ax_P + By_P + Cz_P + D) (bm n)/|bm n|^2`.
+	</span>
+</p>
+
+<p class="note">
+	称满足 `vec(P_1 P) = delta (bm n)/|bm n|` 的实数
+	<span class="formula">
+		`delta = (Ax_P + By_P + Cz_P + D)/sqrt(A^2+B^2+C^2)`
+	</span>
+	为点 `P` 到平面 `Ax + By + Cz + D = 0` 的<b>离差</b>.
+	离差的绝对值等于点到平面的距离, 符号与单位法向量的选取有关.
+</p>
+
+<p class="corollary">
+	正交标架下, 两平行平面
+	<span class="formula">
+		`pi_1: Ax + By + Cz + D_1 = 0`,<br/>
+		`pi_2: Ax + By + Cz + D_2 = 0`
+	</span>
+	的距离
+	<span class="formula">
+		`d = |D_1 - D_2|/sqrt(A^2 + B^2 + C^2)`.
+	</span>
+</p>
+
+<p class="proof">
+	选取点 `(x_2, y_2, z_2) in pi_2`, 则
+	<span class="formula">
+		`Ax_2 + By_2 + Cz_2 = -D_2`.
+	</span>
+	由<a class="ref" href="#the-distance-from-point-to-plane"></a>,
+	<span class="formula">
+		` d
+		= |Ax_2 + By_2 + Cz_2 + D_1|/sqrt(A^2+B^2+C^2)
+		= |D_1 - D_2|/sqrt(A^2+B^2+C^2)`.
+	</span>
+</p>
+
+<h3>两平面的夹角</h3>
+
+<p class="definition">
+	<b>两平面的夹角</b>是指两平面交成四个二面角中的任一个,
+	也指两平面的法向量之间的夹角或其补角.
+	由定义知道, 两平行 (或重合) 平面的夹角等于 `0` 或 `pi`.
+</p>
+
+<p class="corollary">
+	正交标架下, 两平面
+	<span class="formula">
+		`pi_1: A_1 x + B_1 y + C_1 z + D = 0`,<br/>
+		`pi_2: A_2 x + B_2 y + C_2 z + D = 0`
+	</span>
+	的一个夹角 `theta` 满足
+	<span class="formula">
+		`cos theta = (bm n_1 * bm n_2)/(|bm n_1| |bm n_2|)
+		= (A_1 A_2 + B_1 B_2 + C_1 C_2)
+		  / (sqrt(A_1^2 + B_1^2 + C_1^2) sqrt(A_2^2 + B_2^2 + C_2^2))`.
+	</span>
+	`cos theta gt 0` 时 `theta` 为锐角,
+	`cos theta lt 0` 时 `theta` 为钝角,
+	`cos theta = 0` 时 `theta` 为直角.
+</p>
+
+<h2>直线的线性性质</h2>
+
+<h3>直线的参数方程和标准方程</h3>
+
+<p>	取定仿射标架 `{O; bm d_1, bm d_2, bm d_3}`, 设 `P_0(x_0, y_0, z_0)`,
+	非零向量 `bm r = (X, Y, Z)`,
+	则点 `P_0` 和向量 `bm r` 唯一确定了直线
+	`l`, 使得 `P_0 in l`, `bm r //// l`.
+	我们有
+	<span class="formula">
+		<b>点 `P` 落在由 `P_0`, `bm r` 确定的直线上当且仅当 `vec(P_0 P),
+			bm r` 线性相关.</b>
+	</span>
+	由于 `bm r != bb 0`, 所以 `vec(P_0 P)` 可以唯一表示为
+	<span class="formula">
+		`vec(P_0 P) = t bm r`, `t in RR`.
+	</span>
+	改写得到直线的<b>参数方程</b>
+	<span class="formula">`{
+		(x = x_0 + X t),
+		(y = y_0 + Y t),
+		(z = z_0 + Z t)
+	:}` `quad`, `t in RR`.
+	</span>
+</p>
+
+<p>	另一方面, 直线 `l` 的方程也可以是
+	<span class="formula">
+		`vec(P_0 P) xx bm r = bb 0`,
+	</span>
+	即
+	<span class="formula">
+		` |(x-x_0," "y-y_0), (X," "Y)|
+		= |(y-y_0," "z-z_0), (Y," "Z)|`
+		`= |(z-z_0," "x-x_0), (Z," "X)| = 0`.
+	</span>
+	约定分母为零时分子也为零, 且 `0/0` 表示任意实数,
+	则上式化为<b>标准方程</b>或<b>点向式方程</b>:
+	<span class="formula">
+		`(x-x_0)/X = (y-y_0)/Y = (z-z_0)/Z`.
+	</span>
+	这是两个方程联立的方程组. 对任意非零实数 `k`, 称 `kX, kY, kZ`
+	为直线的<b>方向系数</b>.
+</p>
+
+<h3>直线方程小集</h3>
+
+<table>
+	<tr>
+		<td></td>
+		<td>条件</td>
+		<td>直线 `l` 的方程</td>
+	</tr>
+	<tr>
+		<td>参数方程</td>
+		<td>`P_0 in l`,
+			`bm r //// l`,
+			`bm r != bb 0`
+		</td>
+		<td>`P = P_0 + t bm r`, `t in RR`</td>
+	</tr>
+	<tr>
+		<td>标准方程 (点向式)</td>
+		<td>`(x_0, y_0, z_0) in l`,
+			`bm r = (X, Y, Z) //// l`,
+			`bm r != bb 0`
+		</td>
+		<td>`(x-x_0)/X = (y-y_0)/Y = (z-z_0)/Z`</td>
+	</tr>
+	<tr>
+		<td>两点式</td>
+		<td>`P_i(x_i, y_i, z_i) in l`, `i = 1, 2`,
+			`P_1 != P_2`
+		</td>
+		<td>`(x-x_1)/(x_2-x_1) = (y-y_1)/(y_2-y_1) = (z-z_1)/(z_2-z_1)`
+		</td>
+	</tr>
+	<tr>
+		<td>普通方程 (两平面)</td>
+		<td>两平面 `f_i(P) = 0`, `i = 1, 2` (系数不成比例) 相交于 `l`</td>
+		<td>`{(f_1(P) = 0), (f_2(P) = 0):}`</td>
+	</tr>
+</table>
+
+<ol class="proof">
+	
+</ol>
+
+<ol class="note">
+	<li>标准方程在可化为普通方程. 不妨令 `X != 0`, 则
+		<span class="formula">`{
+			((x-x_0)/X = (y-y_0)/Y),
+			((x-x_0)/X = (z-z_0)/Z)
+		:}`
+		</span>
+		它表示一个平行于或经过 `z` 轴的平面与一个平行于或经过 `y`
+		轴的平面的交线.
+	</li>
+	<li>普通方程可化为标准方程.
+		这只需求出直线的方向向量和直线上一点.
+		设 `bm r = (X, Y, Z)` 是直线的方向向量,
+		则 `bm r` 与两平面都平行. 由<a class="ref"
+			href="#the-vector-plane-parallel"></a>知, `bm r` 满足方程组
+		<span class="formula">`{
+			(A_1 X + B_1 Y + C_1 Z = 0),
+			(A_2 X + B_2 Y + C_2 Z = 0)
+		:}`
+		</span>
+		代入验证可知
+		<span class="formula">
+			` bm r
+			= |(bm d_1, bm d_2, bm d_3),
+			   (A_1, B_1, C_1),
+			   (A_2, B_2, C_2)|`
+		</span>
+		是方程组的解 (行列式中若有相同的两行, 则行列式等于 0).
+		因为两平面方程的系数不成比例, 所以 `bm r != bb 0`.
+		为了得到直线上的一点, 不妨设 `|(A_1, B_1),(A_2, B_2)| != 0`,
+		在两平面的方程中令 `z = 0`, 解关于 `x, y` 的方程组即得.
+		<br/>
+		在直角坐标系中, 上述过程显得更加直观:
+		因为 `bm r` 平行于两平面, 所以 `bm r` 垂直于它们的法向量
+		`bm n_1 = (A_1, B_1, C_1)`, `bm n_2 = (A_1, B_1, C_1)`.
+		因此可以取
+		<span class="formula">
+			`bm r = bm n_1 xx bm n_2`,
+		</span>
+		此即上面所取的非零特解.
+	</li>
+</ol>
+
+<h3>两直线的相对位置, 直线与平面的相对位置</h3>
+
+<ol class="algorithm">
+	<b>判断两直线的位置关系</b>
+	设两直线的参数方程是 `P = P_i + t bm r_i`, `i = 1, 2`. 则
+	<li>两直线异面当且仅当 `bm r_1, bm r_2, vec(P_1 P_2)` 线性无关;</li>
+	<li>两直线交于一点当且仅当上面的条件不成立,
+		且 `bm r_1, bm r_2` 线性无关;</li>
+	<li>两直线平行但不重合当且仅当上面的条件都不成立, 且
+		`bm r_1, vec(P_1 P_2)` 线性无关;
+	</li>
+	<li>两直线重合当且仅当上面各条件都不成立.</li>
+<pre>
+	if `(bm r_1, bm r_2, vec(P_1 P_2)) != 0`:
+		两直线异面
+	elif `bm r_1, bm r_2` 线性无关:
+		两直线交于一点
+	elif `bm r_1, vec(P_1 P_2)` 线性无关:
+		两直线平行, 但不重合
+	else:
+		两直线重合
+</pre>
+</ol>
+
+<ol class="algorithm">
+	<b>判断直线与平面的位置关系</b>
+	设直线的参数方程是 `P = P_0 + t bm r`, 平面的普通方程是
+	`f(P) = varphi(P) + D = 0`. 则
+	<li>直线与平面相交当且仅当 `bm r` 与平面不平行;</li>
+	<li>直线与平面平行, 但不在平面上当且仅当上面的条件不成立, 且
+		`P` 不在平面上;
+	</li>
+	<li>直线在平面上当且仅当上面的条件都不成立.</li>
+<pre>
+	if `varphi(bm r) != 0`:
+		直线与平面相交
+	elif `f(P) != 0`:
+		直线与平面平行, 但不在平面上
+	else:
+		直线在平面上.
+</pre>
+</ol>
+
+<h2>点, 直线, 平面的度量关系</h2>
 
 </body>
 
