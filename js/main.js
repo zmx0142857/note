@@ -245,6 +245,8 @@ decorate([
 	{name:'graph', getBy:'class', word:'图', style:style_name_num},
 	{name:'note', getBy:'class', word:'注', style:style_name_num},
 	{name:'question', getBy:'class', word:'问题', style:style_name_num},
+	{name:'principle', getBy:'class', word:'原理', style:style_name_num},
+	{name:'axiom', getBy:'class', word:'公理', style:style_name_num},
 	// place this before '证' and '解'. got problem with the numbering.
 	{name:'method', getBy:'class', word:'法', style:style_num},
 	{name:'label', getBy:'class', word:'', style:style_formula},
