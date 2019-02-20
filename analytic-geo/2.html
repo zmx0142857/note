@@ -494,7 +494,7 @@
 	
 </ol>
 
-<ol class="note">
+<ol class="note" id="line-equation-convert">
 	<li>标准方程在可化为普通方程. 不妨令 `X != 0`, 则
 		<span class="formula">`{
 			((x-x_0)/X = (y-y_0)/Y),
@@ -580,7 +580,174 @@
 </pre>
 </ol>
 
+<h3>杂例</h3>
+
+<p class="example">
+	直线
+	`{(A_1 x + B_1 y + C_1 z + D_1 = 0),
+	(A_2 x + B_2 y + C_2 z + D_2 = 0):}`
+	和平面 `A_3 x + B_3 y + C_3 z + D_3  = 0` 平行或在平面上当且仅当
+	<span class="formula">
+		`|(A_1, B_1, C_1), (A_2, B_2, C_2), (A_3 , B_3 , C_3)| = 0`.
+	</span>
+</p>
+
+<p class="proof">
+	设 `bm r = (X, Y, Z) != bb 0` 是直线的方向向量,
+	则 `bm r` 与三个平面都平行, 即
+	<span class="formula">`{
+		(A_1 X + B_1 Y + C_1 Z = 0),
+		(A_2 X + B_2 Y + C_2 Z = 0),
+		(A_3 X + B_3 Y + C_3 Z = 0)
+	:}`
+	</span>
+	由线性方程组理论, 上面的齐次方程组有非零解当且仅当其系数行列式等于 0.
+</p>
+
+<p class="example">
+	两直线 
+	`{(A_1 x + B_1 y + C_1 z + D_1 = 0),
+	(A_2 x + B_2 y + C_2 z + D_2 = 0):}` 和
+	`{(A_3 x + B_3 y + C_3 z + D_3 = 0),
+	(A_4 x + B_4 y + C_4 z + D_4 = 0):}`
+	有公共点, 则
+	<span class="formula">
+		`|(A_1, B_1, C_1, D_1),
+		(A_2, B_2, C_2, D_2),
+		(A_3, B_3, C_3, D_3),
+		(A_4, B_4, C_4, D_4)| = 0`.
+	</span>
+</p>
+
+<p class="proof">
+	考虑关于变元 `t_1, t_2, t_3, t_4` 的齐次线性方程组
+	<span class="formula">`{
+		(A_1 t_1 + B_1 t_2 + C_1 t_3 + D_1 t_4 = 0),
+		(A_2 t_1 + B_2 t_2 + C_2 t_3 + D_2 t_4 = 0),
+		(A_3 t_1 + B_3 t_2 + C_3 t_3 + D_3 t_4 = 0),
+		(A_4 t_1 + B_4 t_2 + C_4 t_3 + D_4 t_4 = 0)
+	:}`
+	</span>
+	设 `(x, y, z)` 是两直线的公共点, 则 `(x, y, z, 1)` 是此方程组的非零解,
+	由线性方程组理论, 该方程组有非零解当且仅当其系数行列式等于 0.
+</p>
+
+<p class="example">
+	与异面直线
+	`{(A_1 x + B_1 y + C_1 z + D_1 = 0),
+	(A_2 x + B_2 y + C_2 z + D_2 = 0):}` 和
+	`{(A_3 x + B_3 y + C_3 z + D_3 = 0),
+	(A_4 x + B_4 y + C_4 z + D_4 = 0):}`
+	都相交的直线 `l` 的方程具有形式
+	<span class="formula">`{
+		(lambda (A_1 x + B_1 y + C_1 z + D_1)
+		+ mu (A_2 x + B_2 y + C_2 z + D_2) = 0),
+		(lambda' (A_3 x + B_3 y + C_3 z + D_3)
+		+ mu' (A_4 x + B_4 y + C_4 z + D_4) = 0)
+	:}`
+	</span>
+	其中 `lambda, mu` 不全为零, `lambda', mu'` 不全为零.
+	即 `l` 可以表为两直线各自确定的平面束中的平面的交.
+</p>
+
 <h2>点, 直线, 平面的度量关系</h2>
+
+<h3>点到直线的距离</h3>
+
+<p class="theorem">
+	设 `bm r` 是直线的单位方向向量, `P_0` 是直线上的点. 则空间一点 `P`
+	到直线的距离为
+	<span class="formula">
+		`|vec(P_0 P) xx bm r|`.
+	</span>
+	即以 `vec(P_0 P), bm r` 为邻边的平行四边形在底边 `bm r` 上的高.
+</p>
+
+<h3>两直线的距离</h3>
+
+<p class="definition">
+	<b>两直线的距离</b>定义为两直线上的点之间的最短距离.
+	若两直线 `l_1, l_2` 平行, 则 `l_1` 上一点到 `l_2` 的距离就是 `l_1,
+	l_2` 的距离; 若 `l_1, l_2` 相交或重合, 它们的距离为 0.
+	下面设 `l_1, l_2` 异面, 称分别与 `l_1, l_2` 垂直相交 (即正交) 的直线为
+	`l_1, l_2` 的<b>公垂线</b>, 两垂足之间的线段称为<b>公垂线段</b>.
+</p>
+
+<p class="lemma">
+	两异面直线的公垂线存在唯一.
+</p>
+
+<ol class="proof">
+	设两异面直线 `l_i` 分别经过点 `P_i`,
+	其方向向量分别为 `bm r_i`, `i = 1, 2`.
+	因为 `bm r_1, bm r_2` 不共线, 所以 `bm r_i, bm r_1 xx bm r_2`
+	不共线, `i = 1, 2`.
+	设直线 `l_i` 与 `bm r_1 xx bm r_2` 确定平面 `pi_i`, `i = 1, 2`.
+	考虑两平面的法向量
+	`bm n_i = bm r_i xx (bm r_1 xx bm r_2)`, `i = 1, 2`,
+	我们有
+	<span class="formula">
+		` bm n_1 xx bm n_2
+		= ((bm r_1 * bm r_2) bm r_1 - |bm r_1|^2 bm r_2)
+		  xx (|bm r_2|^2 bm r_1 - (bm r_1 * bm r_2) bm r_2)`
+		`= (|bm r_1|^2 |bm r_2|^2 - (bm r_1 * bm r_2)^2)
+		  bm r_1 xx bm r_2
+		= |bm r_1 xx bm r_2|^2 bm r_1 xx bm r_2`.
+	</span>
+	于是 `bm n_1 xx bm n_2 != bb 0`, 即两个法向量不共线.
+	所以 `pi_1, pi_2` 相交, 设它们的交线为 `l`.
+	联系<a class="ref" href="#line-equation-convert"></a>的 2,
+	`bm n_1 xx bm n_2` 是 `l` 的方向向量.
+	故 `bm r_1 xx bm r_2` 也是 `l` 的方向向量,
+	这说明 `l` 与 `l_1, l_2` 都垂直.
+	由于 `l, l_i sub pi_i`, 所以 `l` 与 `l_i` 相交, `i = 1, 2`.
+	故 `l` 是 `l_1, l_2` 的公垂线.
+	由于平面 `pi_1, pi_2` 及其交线都是唯一确定的,
+	所以上述证明过程得到的公垂线是唯一的.
+</ol>
+
+<p class="theorem">
+	设两异面直线 `l_i` 分别经过点 `P_i`,
+	其方向向量分别为 `bm r_i`, `i = 1, 2`.
+	则它们的距离等于其公垂线段长, 即
+	<span class="formula">
+		`|(vec(P_1 P_2)"," bm r_1"," bm r_2)| / |bm r_1 xx bm r_2|`.
+	</span>
+	这个公式说明, 两异面直线的距离等于以 `vec(P_1 P_2), bm r_1, bm r_2`
+	为棱的平行六面体的体积与以 `bm r_1, bm r_2`
+	的邻边的平行四边形的面积之比.
+</p>
+
+<ol class="proof">
+	<li>先证两异面直线上的点之间的所有连线中, 以公垂线段最短.
+		设 `l_1, l_2` 的公垂线段为 `M_1 M_2`, 其中 `M_i in l_i`,
+		`i = 1, 2`. 
+		作出由 `P_1, bm r_1, bm r_2` 决定的平面 `pi`,
+		则 `M_1 M_2` 垂直于 `pi`.
+		设 `N` 是 `P_2` 在 `pi` 上的垂足.
+		由 `l_2 //// pi` 知 `|P_2 N| = |M_1 M_2|`.
+		由于 `|P_2 N|` 是 `P_2` 到
+		`pi` 的最短距离, 所以
+		<span class="formula">
+			`|M_1 M_2| = |P_2 N| le |P_1 P_2|`.
+		</span>
+	</li>
+	<li>易知 `bm r_0 = (bm r_1 xx bm r_2)/|bm r_1 xx bm r_2|`
+		是平面 `pi` 的一个单位法向量, 于是
+		<span class="formula">
+			`|M_1 M_2| = |P_2 N|
+			= |vec(P_1 P_2) * bm r_0|`.
+		</span>
+	</li>
+</ol>
+
+<h3>两直线所成的角, 直线和平面所成的角</h3>
+
+<p class="definition">
+	<b>两直线所成的角</b>规定为它们方向向量夹角中不大于 `pi//2` 的那一个.
+	<b>直线与平面所成的角</b>规定为直线和直线在平面上的射影所成的角.
+	当直线与平面垂直时, 它们的夹角规定为 `pi//2`.
+</p>
 
 </body>
 
