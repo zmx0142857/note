@@ -71,6 +71,8 @@ tableOfContents = [ {
 		{title:'方程的导出', src:'pde/1.html'},
 		{title:'波动方程', src:'pde/2.html'},
 		{title:'热传导方程', src:'pde/3.html'},
+		{title:'位势方程', src:'pde/4.html'},
+		{title:'二阶线性偏微分方程的分类', src:'pde/5.html'},
 	]
 	}, {
 	title:'概率论',

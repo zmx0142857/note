@@ -270,28 +270,28 @@
 	</span>
 	则
 	<span class="formula">
-		`G'(tau) le e^(c tau) F(tau)`, `quad`
-		`G(tau) le c^-1 (e^(c tau) - 1) F(tau)`.
+		`G'(tau) le "e"^(c tau) F(tau)`, `quad`
+		`G(tau) le c^-1 ("e"^(c tau) - 1) F(tau)`.
 	</span>
 </p>
 
 <p class="proof">
-	在 (2-6) 两边同乘 `e^(-c tau)` 得
+	在 (2-6) 两边同乘 `"e"^(-c tau)` 得
 	<span class="formula">
-		`"d"/("d"tau) (e^(-c tau) G(tau)) le e^(-c tau) F(tau)`.
+		`"d"/("d"tau) ("e"^(-c tau) G(tau)) le "e"^(-c tau) F(tau)`.
 	</span>
 	两边在 `[0, tau]` 上积分,
 	<span class="formula">
-		`e^(-c tau) G(tau) le int_0^tau e^(-c t) F(t) dt`
-		`le F(tau) int_0^tau e^(-c t) dt = F(tau) c^-1 (1-e^(-c tau))`,
+		`"e"^(-c tau) G(tau) le int_0^tau "e"^(-c t) F(t) dt`
+		`le F(tau) int_0^tau "e"^(-c t) dt = F(tau) c^-1(1-"e"^(-c tau))`,
 	</span>
 	即
 	<span class="formula">
-		`G(tau) le c^-1 (e^(c tau) - 1) F(tau)`.
+		`G(tau) le c^-1 ("e"^(c tau) - 1) F(tau)`.
 	</span>
 	再利用 (2-6),
 	<span class="formula">
-		`G'(tau) le e^(c tau) F(tau)`.
+		`G'(tau) le "e"e^(c tau) F(tau)`.
 	</span>
 </p>
 
@@ -317,38 +317,45 @@
 		`max{
 			int_(Omega_tau) v|_(t=tau) dx,
 			iint_(K_tau) v dx dt
-		} le e^(t_0) (
+		} le "e"^(t_0) (
 			int_(Omega_0) v|_(t=0) dx
 		+	iint_(K_tau) f^2 dx dt
 		)`.
 	</span>
 </p>
 
-<img src="pic/"/>
+<div class="graph">
+	<img src="pic/wave-equation-energy-inequality.svg" />
+</div>
 
 <p class="proof">
 	在波动方程 `u_(t t) - a^2 u_(x x) = f` 两边同乘 `u_t`, 并在 `K_tau`
 	上积分:
 	<span class="formula">`{:(
-			iint_(K_tau) u_t f dx dt
-		,=	iint_(K_tau) u_t (u_(t t) - a^2 u_(x x)) dx dt
-	),(		(分部积分)
-		,=	iint_(K_tau) (1/2 del/(del t) (u_t^2) - a^2 (del/(del x) (u_t
+			,iint_(K_tau) u_t f dx dt
+	),(
+		=,	iint_(K_tau) u_t (u_(t t) - a^2 u_(x x)) dx dt
+	),(
+		=,	iint_(K_tau) (1/2 del/(del t) (u_t^2) - a^2 (del/(del x) (u_t
 			u_x) - 1/2 del/(del t) (u_x^2))) dx dt
-	),(	,=	iint_(K_tau) (1/2 del/(del t) (u_t^2 + a^2 u_x^2) - a^2
+		quad (分部积分)
+	),(	=,	iint_(K_tau) (1/2 del/(del t) (u_t^2 + a^2 u_x^2) - a^2
 			del/(del x) (u_t u_x)) dx dt
-	),(		("Green" 公式)
-		,=	-oint_(del K_tau) 1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x)
+	),(
+		=,	-oint_(del K_tau) 1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x)
 			dt
-	),(	,=	1/2 int_(Omega_tau) (u_t^2 + a^2 u_x^2) dx
+		quad ("Green" 公式)
+	),(	=,	1/2 int_(Omega_tau) (u_t^2 + a^2 u_x^2) dx
 			- 1/2 int_(Omega_0) (psi^2 + a^2 varphi_x^2) dx
 	),(	,	- int_(Gamma_(tau_L) uu Gamma_(tau_R))
 			1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x) dt
-	),(		((Gamma_(tau_L): dx = a dt), (Gamma_(tau_R): dx = -a dt))
-		,=	"J"_1 + "J"_2 -a/2 int_(Gamma_(tau_L)) (u_t + a u_x)^2 dt
+	),(
+		=,	"J"_1 + "J"_2 -a/2 int_(Gamma_(tau_L)) (u_t + a u_x)^2 dt
 			+ a/2 int_(Gamma_(tau_R)) (u_t - a u_x)^2 dt
-	),(		((Gamma_(tau_L): t 减小), (Gamma_(tau_R): t 增大))
-		,ge	"J"_1 + "J"_2.
+		quad ((Gamma_(tau_L): dx = a dt), (Gamma_(tau_R): dx = -a dt))
+	),(
+		ge,	"J"_1 + "J"_2.
+		quad ((Gamma_(tau_L): t 减小), (Gamma_(tau_R): t 增大))
 	):}`
 	</span>
 	记
@@ -372,8 +379,8 @@
 	</span>
 	由 Gronwall 不等式,
 	<span class="formula">
-		`G'(tau) le e^tau F(tau) le e^(t_0) F(tau)`,<br/>
-		`G(tau) le (e^tau-1) F(tau) le e^(t_0) F(tau)`.
+		`G'(tau) le "e"^tau F(tau) le "e"^(t_0) F(tau)`,<br/>
+		`G(tau) le ("e"^tau-1) F(tau) le "e"^(t_0) F(tau)`.
 	</span>
 	即所要证的结论.
 </p>
@@ -410,7 +417,7 @@
 		`max{
 			int_(Omega_tau) u^2|_(t = tau) dx,
 			iint_(K_tau) u^2 dx dt
-		}` `le e^(t_0) (e^(t_0)+1) (
+		}` `le "e"^(t_0) ("e"^(t_0)+1) (
 			int_(Omega_0) (varphi^2 + psi^2 + a^2 varphi_x^2) dx
 			+ iint_(K_tau) f^2 dx dt
 		)`.
@@ -445,10 +452,10 @@
 	</span>
 	由 Gronwall 不等式,
 	<span class="formula">
-		`   max{G(tau), G'(tau)} le e^(t_0) F(tau)`
-		`le e^(t_0) (int_(Omega_0) varphi^2 dx + iint_(K_tau) (u_t^2 + a^2
-			u_x^2) dx dt)`
-		`le e^(t_0) (e^(t_0) + 1) (int_(Omega_0) varphi^2 dx +
+		`   max{G(tau), G'(tau)} le "e"^(t_0) F(tau)`
+		`le "e"^(t_0) (int_(Omega_0) varphi^2 dx + iint_(K_tau) (u_t^2 +
+		a^2 u_x^2) dx dt)`
+		`le "e"^(t_0) ("e"^(t_0) + 1) (int_(Omega_0) varphi^2 dx +
 			int_(Omega_0) (psi^2 + a^2 varphi_x^2) dx
 			+ iint_(K_tau) f^2 dx dt)`.
 	</span>
@@ -743,6 +750,95 @@
 </p>
 
 <h3>特征锥与 Huygens 原理</h3>
+
+<h4>特征锥</h4>
+
+<ol>考虑二维波动方程. 由 Poisson 公式可以看出, 波动方程的解有以下重要性质:
+	<li>解 `u` 在任一点 `P_0(x_0, y_0, t_0)` 的值只依赖于外力 `f`
+		在<b>特征锥</b>
+		<span class="formula">
+			`K_(P_0) = {(x, y, t): sqrt((x-x_0)^2 + (y-y_0)^2)
+			 le a(t_0 - t), 0 le t le t_0}`
+		</span>
+		内的值和 `varphi, psi` 在<b>`P_0` 对初值的依赖区域</b>
+		`D_(P_0) = K_(P_0) nn {t = 0}` 上的值.
+		这反映了波的传播速度是有限的.
+	</li>
+	<li>进一步设 `f -= 0`, 且初始时刻的 `varphi, psi` 只在一小块区域 `D_0`
+		上不等于 0, 我们把上半空间 `RR^2 xx (0, oo)` 受小块区域 `D_0`
+		扰动影响的区域称为<b>`D_0` 的影响区域</b>, 记为 `J_(D_0)`. 易知
+		<span class="formula">
+			`J_(D_0) = {P: D_P nn D_0 != O/}`.
+		</span>
+		特别当 `D_0` 为一点 `(x_0, y_0)` 时,
+		<span class="formula">
+			`J_((x_0","y_0)) = {P: (x_0, y_0) in D_P}`
+			`= {(x, y, t): sqrt((x-x_0)^2 + (y-y_0)^2) le at, t ge 0}`.
+		</span>
+		这表明膜上任一点 `(x, y)` 如果与 `(x_0, y_0)` 的距离大于 `at`,
+		那么在 `t` 时刻内, `(x_0, y_0)` 点的初始扰动不可能达到点 `(x, y)`.
+	</li>
+	<li>仍设 `f -= 0`. 给定 `xy` 平面上任一区域 `D`, 称上半空间中能由
+		`D` 中 `varphi, psi` 的值完全决定的点的集合为<b>`D`
+		的决定区域</b>, 记为 `F_D`. 易知
+		<span class="formula">
+			`F_D = {P: D_P sube D}`.
+		</span>
+	</li>
+	三维波动方程也可做类似的讨论.
+</ol>
+
+<h4>二维, 三维波动方程的不同</h4>
+
+<p>	设 `f -= 0`, 比较二维与三维波动方程. 注意到三维情形下,
+	`u` 值只依赖于其依赖区域 (一个球) 的边界 
+	<span class="formula">
+		`del D_(P_0) = {(x, y, z): sqrt((x-x_0)^2 + (y-y_0)^2 + (z-z_0)^2)
+		= at}`
+	</span>
+	上的初值 `varphi, psi`, 而与它们在依赖区域内部的值无关;
+	但在二维情形, `u` 依赖于整个依赖区域上的 `varphi, psi`.
+	这个差别在物理上产生了截然不同的效果.
+</p>
+
+<ol class="enum">
+	设想在初始时刻, `varphi, psi` 只在区域 `D_0` 上不为 0,
+	考虑 `D_0` 外一点 `P_0`, 令
+	<span class="formula">
+		`d_min = inf_(P in D_0) d(P_0, P)`, `quad`
+		`d_max = Sup_(P in D_0) d(P_0, P)`,</br>
+		`t_min = d_min//a`, `quad t_max = d_max//a`.
+	</span>
+	其中 `d(P_0, P)` 为 `P_0, P` 两点间的距离.
+	现考虑 `t gt 0` 时刻 `P_0` 点的振动情况.
+	<li>三维情形下, 由 Kirchhoff 公式知:
+		<ol>
+			<li>`0 lt t lt t_min` 时, 波未传播到 `P_0`,
+				`del D_(P_0) nn D_0 = O/`, 故 `u = 0`;
+			</li>
+			<li>`t_min lt t lt t_max` 时, 波正在穿过 `P_0`,
+				`del D_(P_0) nn D_0 != O/`, 故 `u != 0`;
+			</li>
+			<li>`t gt t_max` 时, 波已经穿过 `P_0`,
+				`del D_(P_0) nn D_0 = O/`, 故 `u = 0`;
+			</li>
+		</ol>
+		这表明三维情形的波的传播 (如声波) 有清晰的波前和波后. 这一现象称为
+		<b>Huygens 原理</b>.
+	</li>
+	<li>二维情形下, 由 Poisson 公式知:
+		<ol>
+			<li>`0 lt t lt t_min` 时, `D_(P_0) nn D_0 = O/`,
+				故 `u = 0`;
+			</li>
+			<li>`t gt d_min` 时, `D_(P_0) nn D_0 != O/`,
+				故 `u != 0`.
+			</li>
+		</ol>
+		这表明二维情形的波的传播 (如膜振动) 只有明显的波前而无波后.
+		这一现象称为波的<b>弥漫</b>.
+	</li>
+</ol>
 
 </body>
 
