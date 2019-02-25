@@ -12,9 +12,24 @@
 
 <body>
 
-<h2>一阶线性方程初值问题: 特征线法</h2>
+<h2>一维波动方程初值问题: 特征线法</h2>
 
-<p>	先看最简单的一阶线性方程:</p>
+<h3>问题描述</h3>
+
+<p>
+	<span class="formula">`{
+		( square u = f(x,t), (x","t) in Q),
+		( u|_(t=0) = varphi(x), x in RR),
+		( u_t|_(t=0) = psi(x), x in RR)
+	:}`
+	</span>
+	其中 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
+	`Q = RR xx (0, +oo)` 表示上半平面.
+</p>
+
+<h3>一阶线性方程初值问题</h3>
+
+<p>	在求解波动方程之前, 先看最简单的一阶线性方程.</p>
 
 <p class="example">
 	一阶线性方程 Cauchy 问题
@@ -55,24 +70,9 @@
 	解这个常微分方程, 再通过 `x = x(t, c)` 消去参数 `c`, 即得到原方程的解.
 </p>
 
-<h2>一维波动方程初值问题: 特征线法</h2>
-
-<h3>问题描述</h3>
-
-<p>
-	<span class="formula">`{
-		( square u = f(x,t), (x","t) in Q),
-		( u|_(t=0) = varphi(x), x in RR),
-		( u_t|_(t=0) = psi(x), x in RR)
-	:}`
-	</span>
-	其中 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
-	`Q = RR xx (0, +oo)` 表示上半平面.
-</p>
-
 <h3>问题的分解</h3>
 
-<p>	将问题一分为三:
+<p>	现在回到本节开头的问题. 将一维波动方程初值问题一分为三:
 	<span class="formula">
 		`{
 			(square u_1 = 0, (x","t) in Q),
@@ -877,7 +877,212 @@
 
 <h3>问题描述</h3>
 
-<p>	考虑两端固定的弦振动方程混合问题 (一维波动方程 Dirichlet</p>
+<p>	考虑两端固定的弦振动方程混合问题
+	(这是一维波动方程第一边值问题的一个特例):
+	<span class="formula">`{
+		((del^2 u)/(del t^2) - a^2 (del^2 u)/(del x^2) = 0, (x","t) in Q),
+		(u|_(t=0) = varphi(x), x in bar I),
+		(u_t|_(t=0) = psi(x), x in bar I),
+		(u|{::}_(x=0) = u|_(x=l) = 0,\ t in R)
+	:}`
+	</span>
+	其中 `I = (0, l)`, `R = (0, +oo)`, `Q = I xx R`.
+</p>
+
+<h3>二阶常微分方程边值问题</h3>
+
+<p class="definition" id="def-sturm-liouville">
+	考虑二阶常微分方程齐次边值问题
+	<span class="formula">`{
+		(X'' + lambda X = 0 quad x in (0","l)),
+		((alpha_1 X' - beta_1 X)|_(t=0) = 0),
+		((alpha_2 X' + beta_2 X)|_(t=l) = 0)
+	:}`
+	</span>
+	其中 `alpha_1, alpha_2, beta_1, beta_2 ge 0`, 且 `alpha_i, beta_i`
+	不全为零, `i = 1, 2`.
+	如果存在 `lambda in CC` 使上述问题有非零解, 则称 `lambda`
+	是该边值问题的<b>特征值</b>, 相应的非零解称为对应于 `lambda`
+	的<b>特征函数</b>.
+	求所有特征值和特征函数的问题称为<b>特征值问题</b>或
+	<b>Sturm-Liouville 问题</b>.
+</p>
+
+<ol class="theorem">
+	问题如 <a class="ref" href="#def-sturm-liouville"></a>,
+	我们有:
+	<li>所有特征值都是非负实数, 特别当 `beta_1, beta_2` 不全为零时,
+		所有特征值是正数;
+	</li>
+	<li>所有特征值组成一个严格单调递增, 以无穷远点为聚点的序列:
+		<span class="formula">
+			`0 le lambda_1 lt lambda_2 lt cdots lt lambda_n lt cdots`,
+			`lim_(n to oo) lambda_n = oo`;
+		</span>
+	</li>
+	<li>不同特征值对应的特征函数必<b>正交</b>; 即若 `X_lambda(x), X_mu(x)`
+		分别是对应于不同特征值 `lambda, mu` 的特征函数, 则
+		<span class="formula">
+			`int_0^l X_lambda(x) X_mu(x) dx = 0`;
+		</span>
+	</li>
+	<li>任意 `f(x) in L_2[0, l]` 可以按特征函数系 `{X_n(x)}` <b>展开</b>,
+		即 `f(x) = sum_(n=1)^oo C_n X_n(x)`, 这里的收敛是 `L_2[0, l]`
+		意义的, 即
+		<span class="formula">
+			`lim_(N to oo)
+			sqrt(int_0^l (f(x) - sum_(n=1)^N C_n X_n(x))^2 dx) = 0`.
+		</span>
+		其中 Fourier 系数
+		<span class="formula">
+			`C_n = (int_0^l f(x) X_n(x) dx)/(int_0^l X_n^2(x) dx)`.
+		</span>
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>设 `X_lambda(x)` 是对应于特征值 `lambda` 的特征函数,
+		由 `X_lambda(x)` 适合边界条件知
+		<span class="formula">
+			` 0
+			= (X_lambda'(0) - X_lambda(0))
+			  (alpha_1 X_lambda'(0) - beta_1 X_lambda(0))`
+			`= alpha_1 (X_lambda'(0))^2 + beta_1 X_lambda^2(0)
+			  - (alpha_1 + beta_1) X_lambda(0) X_lambda'(0)`,
+		</span>
+		即
+		<span class="formula">
+			` (alpha_1 + beta_1) X_lambda(0) X_lambda'(0)
+			= alpha_1 (X_lambda'(0))^2 + beta_1 X_lambda^2(0)`.
+		</span>
+		同理
+		<span class="formula">
+			` -(alpha_2 + beta_2) X_lambda(l) X_lambda'(l)
+			= alpha_2 (X_lambda'(l))^2 + beta_2 X_lambda^2(l)`.
+		</span>
+		故
+		<span class="formula">
+			` -X_lambda X_lambda'|_(x=0)^(x=l)
+			=   (alpha_1 (X_lambda'(0))^2 + beta_1 X_lambda^2(0))
+			  / (alpha_1 + beta_1)`
+			  `+ (alpha_2 (X_lambda'(l))^2 + beta_2 X_lambda^2(l))
+			  / (alpha_2 + beta_2)`
+			  `ge 0`.
+		</span>
+		又因为
+		<span class="formula">
+			`lambda X_lambda = -X_lambda''`.
+		</span>
+		上式两端同乘 `X_lambda` 并在 `[0, l]` 上积分, 应用分部积分得
+		<span class="formula">
+			` lambda int_0^l X_lambda^2 dx
+			= -int_0^l X_lambda X_lambda'' dx`
+			`= int_0^l (X_lambda')^2 dx-X_lambda X_lambda'|_(x=0)^(x=l)`.
+		</span>
+		因此 `lambda ge 0`.
+		现在设 `lambda = 0`. 由上式, 这蕴含
+		<span class="formula">
+			`X_lambda'(x) = 0`, 且
+			`beta_1/(alpha_1 + beta_1) X_lambda^2(0)
+			+ beta_2/(alpha_2 + beta_2) X_lambda^2(l) = 0`.
+		</span>
+		前一式指出 `X_lambda(x)` 为常数; 后一式指出, 若
+		`beta_1, beta` 不全为零, 那么 `X_lambda(x) -= 0`.
+		这说明 `lambda = 0` 不是特征值.
+	</li>
+	<li></li>
+	<li>设 `X_lambda, X_mu` 分别为相应于特征值 `lambda, mu` 的特征函数.
+		设 `J(x) = X_lambda(x) X_mu'(x) - X_lambda'(x) X_mu(x)`,
+		由第一个边界条件,
+		<span class="formula">
+			`alpha_1 X_lambda'(0) - beta_1 X_lambda(0) = 0`,<br/>
+			`alpha_1 X_mu'(0) - beta_1 X_mu(0) = 0`.
+		</span>
+		这是一组以 `alpha_1, beta_1` 为未知数的齐次方程组.
+		由 `alpha_1, beta_1` 不全为零知方程组的系数行列式为零,
+		即 `J(0) = 0`, 同理由第二个边界条件得 `J(l) = 0`.
+
+		现在以 `X_mu` 和 `X_lambda` 分别乘相应于 `X_lambda, X_mu` 的方程,
+		并在 `[0, l]` 上积分,
+		<span class="formula">
+			`int_0^l(X_mu X_lambda''+ lambda X_mu X_lambda) dx = 0`,<br/>
+			`int_0^l(X_lambda X_mu''+ mu X_lambda X_mu) dx = 0`.
+		</span>
+		应用分部积分得
+		<span class="formula">
+			`X_mu X_lambda'|_(x=0)^(x=l) - int_0^l X_mu' X_lambda' dx
+			+ lambda int_0^l X_mu X_lambda dx = 0`,<br/>
+			`X_lambda X_mu'|_(x=0)^(x=l) - int_0^l X_lambda' X_mu' dx
+			+ mu int_0^l X_lambda X_mu dx = 0`.
+		</span>
+		相减得
+		<span class="formula">
+			` (lambda - mu) int_0^l X_mu X_lambda dx
+			= (X_lambda X_mu' - X_lambda' X_mu)_(x=0)^(x=l)
+			= J(l) - J(0) = 0`.
+		</span>
+		由于 `lambda != mu`, 必有 `int_0^l X_lambda X_mu dx = 0`.
+		<!-- 3 能证 1 ? -->
+	</li>
+	<li></li>
+</ol>
+
+<p class="note">
+	由上述定理的 1 知, `lambda = 0` 是 Sturm-Liouville 的特征值当且仅当
+	`beta_1 = beta_2 = 0`, 即当且仅当 Sturm-Liouville
+	的边界条件是第二类的.
+</p>
+
+<p class="note">
+	上述定理的 4 指出, 全体特征函数 `{X_n(x)}` 构成 `L_2[0,l]`
+	空间的一组完备正交基.
+</p>
+
+<h3>形式解</h3>
+
+<p>	回到本节开头的混合问题.</p>
+
+<p class="theorem">
+	设该混合问题具有<b>变量分离形式</b>的非零解 `u(x, t) = X(x) T(t)`,
+	则此问题相当于一个 Sturm-Liouville 问题
+	<span class="formula">`{
+		(X'' + lambda X = 0 quad x in I),
+		(X|{::}_(x=0) = X|_(x=l) = 0)
+	:}`
+	</span>
+	和一个二阶常微分方程初值问题
+	<span class="formula">`{
+		(T'' + a^2 lambda T = 0, t in R),
+		(u|_(t=0) = varphi(x), x in bar I),
+		(u_t|_(t=0) = psi(x), x in bar I)
+	:}\ `.
+	</span>
+</p>
+
+<p class="proof">
+	将 `u = XT` 代入边界条件得
+	<span class="formula">
+		`X(0) T(t) = X(l) T(t) = 0`, `AA t gt 0`.
+	</span>
+	由于 `u` 是非零解, `T(t) !-= 0`. 从而必有
+	<span class="formula">
+		`X(0) = X(l) = 0`.
+	</span>
+	另一方面, 将形式解 `X(x) T(t)` 代入方程得
+	<span class="formula">
+		`X T'' - a^2 X'' T = 0`, `AA (x, t) in Q`.
+	</span>
+	即
+	<span class="formula">
+		`(T'')/(a^2 T) = (X'')/X`, `AA (x, t) in Q`.
+	</span>
+	上式左端是 `t` 的函数, 右端是 `x` 的函数, 因此只能是常数.
+	记这个常数为 `-lambda`, 有
+	<span class="formula">
+		`T'' + a^2 lambda T = 0`, `t in R`,<br/>
+		`X'' + lambda X = 0`, `x in I`.
+	</span>
+</p>
 
 </body>
 
