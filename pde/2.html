@@ -12,15 +12,62 @@
 
 <body>
 
-<h2>一维波动方程初值问题</h2>
+<h2>一阶线性方程初值问题: 特征线法</h2>
 
-<p>	记 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
-	我们所讨论的定解问题为:
+<p>	先看最简单的一阶线性方程:</p>
+
+<p class="example">
+	一阶线性方程 Cauchy 问题
 	<span class="formula">`{(
-		square u = f(x,t), x in RR"," t in (0, +oo)
-	),(	u|_(t=0) = varphi(x), x in RR
-	),(	u_t|_(t=0) = psi(x), x in RR
+		(del u)/(del t) + a (del u)/(del x) = 0
+	),(	u|_(t=0) = varphi(x)
+	):}`, `a = "const"`, `varphi in C^1(RR)`
+	</span>
+	的解为 `u = varphi(x-at)`. 注意到 `u(x + a Delta t, t + Delta t) -=
+	u(x)`, 故此解描述了以速度 `a` 传播而不改变形状的波.
+</p>
+
+<p class="example">
+	我们以下面的方程为例介绍求解一阶线性方程的特征线法:
+	<span class="formula">`{(
+		(del u)/(del t) + v(x) (del u)/(del x) + w(x) u = 0
+	),(	u|_(t=0) = varphi(x)
+	):}`, `varphi in C^1 (RR)`.
+	</span>
+</p>
+
+<p class="solution">
+	视 `x` 为 `t` 的函数, 则
+	<span class="formula">
+		`("d"u)/dt = (del u)/(del t) + dx/dt (del u)/(del x)`.
+	</span>
+	可见只要 `x = x(t, c)` 满足特征线方程:
+	<span class="formula">`{(
+		dx/dt = v(x)
+	),(	x|_(t=0) = c
+	):}`, `c` 为参数
+	</span>
+	原方程就化为
+	<span class="formula">`{(
+		("d"u)/dt + w(x(t, c)) u = 0
+	),(	u|_(t=0) = varphi(c)
 	):}`</span>
+	解这个常微分方程, 再通过 `x = x(t, c)` 消去参数 `c`, 即得到原方程的解.
+</p>
+
+<h2>一维波动方程初值问题: 特征线法</h2>
+
+<h3>问题描述</h3>
+
+<p>
+	<span class="formula">`{
+		( square u = f(x,t), (x","t) in Q),
+		( u|_(t=0) = varphi(x), x in RR),
+		( u_t|_(t=0) = psi(x), x in RR)
+	:}`
+	</span>
+	其中 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
+	`Q = RR xx (0, +oo)` 表示上半平面.
 </p>
 
 <h3>问题的分解</h3>
@@ -28,35 +75,40 @@
 <p>	将问题一分为三:
 	<span class="formula">
 		`{
-			(square u_1 = 0, x in RR"," t in (0, +oo)),
+			(square u_1 = 0, (x","t) in Q),
 			(u_1|_(t=0) = varphi(x), x in RR),
 			((u_1)_t|_(t=0) = 0, x in RR)
 		:}`
-		<span class="label">(2-1)</span>
+		<span class="label" id="for-question-1">(2-1)</span>
 	</span>
 	<span class="formula">
 		`{
-			(square u_2 = 0, x in RR"," t in (0, +oo)),
+			(square u_2 = 0, (x","t) in Q),
 			(u_2|_(t=0) = 0, x in RR),
 			((u_2)_t|_(t=0) = psi(x), x in RR)
 		:}`
-		<span class="label">(2-2)</span>
+		<span class="label" id="for-question-2">(2-2)</span>
 	</span>
 	<span class="formula">
 		`{
-			(square u_3 = f(x,t), x in RR"," t in (0, +oo)),
+			(square u_3 = f(x,t), (x","t) in Q),
 			(u_3|_(t=0) = 0, x in RR),
 			((u_3)_t|_(t=0) = 0, x in RR)
 		:}`
-		<span class="label">(2-1)</span>
+		<span class="label" id="for-question-3">(2-1)</span>
 	</span>
 	记三个问题的解分别为 `u_1`, `u_2`, `u_3`, 由线性叠加原理, 原问题的解
 	`u = u_1 + u_2 + u_3`.
 </p>
 
-<p class="theorem">
-	问题 (2-1), (2-3) 的解可由 (2-2) 的解来表示. 事实上, 记 `M_varphi`,
-	`M_psi`, `M_(f_tau)` 分别为问题 (2-2) 的非齐次项 `psi(x)` 取
+<p class="theorem" id="the-three-in-one">
+	问题 <a class="ref" href="#for-question-1"></a>,
+	<a class="ref" href="#for-question-3"></a>的解可由
+	<a class="ref" href="#for-question-2"></a>的解来表示.
+	事实上, 记 `M_varphi`,
+	`M_psi`, `M_(f_tau)` 分别为问题
+	<a class="ref" href="#for-question-2"></a>
+	的非齐次项 `psi(x)` 取
 	`varphi(x)`, `psi(x)`, `f(x, tau)` 时的解, 且 `M_varphi`, `M_(f_tau)`
 	在 `RR xx [0, +oo)` 上充分光滑, 则
 	<span class="formula">
@@ -108,54 +160,24 @@
 </ol>
 
 <p class="note">
-	对高维波动方程初值问题也有类似的结论, 且证明类似.
+	此定理可以推广到多维波动方程, 证明类似.
 </p>
 
-<h3>特征线法</h3>
+<h3>D'Alembert 公式</h3>
 
-<p>	先看最简单的一阶线性方程:</p>
-
-<p class="example">
-	一阶线性方程 Cauchy 问题
-	<span class="formula">`{(
-		(del u)/(del t) + a (del u)/(del x) = 0
-	),(	u|_(t=0) = varphi(x)
-	):}`, `a = "const"`, `varphi in C^1(RR)`
-	</span>
-	的解为 `u = varphi(x-at)`. 注意到 `u(x + a Delta t, t + Delta t) -=
-	u(x)`, 故此解描述了以速度 `a` 传播而不改变形状的波.
-</p>
-
-<p>	我们以下面的方程为例介绍求解一阶线性方程的特征线法:</p>
-
-<span class="formula">`{(
-	(del u)/(del t) + v(x) (del u)/(del x) + w(x) u = 0
-),(	u|_(t=0) = varphi(x)
-):}`, `varphi in C^1 (RR)`.
-</span>
-
-<p> 视 `x` 为 `t` 的函数, 则
+<p class="theorem">
+	<b>D'Alembert 公式</b>
+	一维波动方程初值问题的形式解为
 	<span class="formula">
-		`("d"u)/dt = (del u)/(del t) + dx/dt (del u)/(del x)`.
+		`u = 1/2 (varphi(x + at) + varphi(x - at))`
+		`+ 1/(2a) int_(x-at)^(x+at) psi(xi) "d"xi`
+		`+ 1/(2a) int_0^t "d"tau int_(x-a(t-tau))^(x+a(t-tau)) f(xi, tau)
+		"d"xi`.
 	</span>
-	可见只要 `x = x(t, c)` 满足特征线方程:
-	<span class="formula">`{(
-		dx/dt = v(x)
-	),(	x|_(t=0) = c
-	):}`, `c` 为参数
-	</span>
-	原方程就化为
-	<span class="formula">`{(
-		("d"u)/dt + w(x(t, c)) u = 0
-	),(	u|_(t=0) = varphi(c)
-	):}`</span>
-	解这个常微分方程, 再通过 `x = x(t, c)` 消去参数 `c`, 即得到原方程的解.
 </p>
-
-<h3>D'Alembert 公式 (解的存在性)</h3>
 
 <p class="solution">
-	由以上讨论, 只需求解 (2-2). 由于
+	由以上讨论, 只需求解 <a class="ref" href="#for-question-2"></a>. 由于
 	<span class="formula">
 		`square = del^2/{:del t:}^2 - a^2 del^2/{:del x:}^2 = (del/(del t)
 		+ a del/(del x))(del/(del t) - a del/(del x)),
@@ -165,7 +187,7 @@
 		((del u)/(del t) - a (del u)/(del x) = v),
 		((del v)/(del t) + a (del v)/(del x) = 0)
 	:}`,</span>
-	从而将 (2-2) 化为两个一阶初值问题:
+	从而将 <a class="ref" href="#for-question-2"></a>化为两个一阶初值问题:
 	<span class="formula">`{
 		((del u)/(del t) - a (del u)/(del x) = v),
 		(u|_(t=0) = 0)
@@ -180,38 +202,36 @@
 		(("d"u)/dt = v(c_1 - at, t)),
 		(u|_(t=0) = 0)
 	:}`,
-		<span class="label">(2-4)</span>
+		<span class="label" id="for-dalembert-1">(2-4)</span>
 	</span>
 	<span class="formula">
 	`{
 		(("d"v)/dt = 0),
 		(v|_(t=0) = psi(c_2))
 	:}`
-		<span class="label">(2-5)</span>
+		<span class="label" id="for-dalembert-2">(2-5)</span>
 	</span>
-	从 (2-5) 解出 `v = psi(x-at)` 代入 (2-4) 得
-</p>
-<p>
+	从 <a class="ref" href="#for-dalembert-2"></a> 解出 `v = psi(x-at)`
+	代入 <a class="ref" href="#for-dalembert-1"></a> 得
 	<span class="formula">
 		`u_2 = u = int_0^t psi(c_1 - 2a tau)"d"tau = 1/(2a) int_(c_1)^(c_1
 		- 2a t) psi(xi)"d"xi = 1/(2a) int_(x-at)^(x+at) psi(xi)"d"xi`.
 	</span>
-	于是
+	由<a class="ref" href="#the-three-in-one"></a>,
 	<span class="formula">
 		` u_1
 		= del/(del t) 1/(2a) int_(x-at)^(x+at) varphi(xi)"d"xi
 		= 1/2 (varphi(x+at) + varphi(x-at))`,<br/>
 		` u_3
 		= 1/(2a) int_0^t "d" tau int_(x-a(t-tau))^(x+a(t-tau)) f(xi,
-		tau)"d"xi
+		tau)"d"xi`.
 	</span>
-	原问题的解为 `u_1 + u_2 + u_3`. 这一解的表达式称为 <b>D'Alembert
-	公式</b>.
 </p>
 
 <p class="theorem">
-	若 `varphi in C^2 (RR)`, `psi in C^1(RR)`, `f in C^1(RR xx [0, +oo))`,
-	则由 D'Alembert 公式给出的 `u in C^2(RR xx [0, +oo))`, 且是问题的解.
+	若 `varphi in C^2 (RR)`, `psi in C^1(RR)`, `f in C^1(bar Q)`,
+	则一维波动方程初值问题存在唯一的解 `u in C^2(bar Q)`,
+	其表达式由 D'Alembert 公式给出.
 </p>
 
 <p class="corollary">
@@ -254,11 +274,16 @@
 	</tr>
 </table>
 
-<p>	波动沿着特征线传播, 解的奇性 (函数本身或其导数的间断) 也沿特征线传播.
-	波速是 `a`.
+<p>	波动以速度 `a` 沿着特征线传播, 解的奇性 (函数本身或其导数的间断)
+	也以相同速度沿特征线传播.
 </p>
 
-<h3>能量不等式 (解的唯一性)</h3>
+<h3>能量不等式</h3>
+
+<p>	本段建立的能量不等式将从另一角度证明波动方程解的唯一性.
+	能量不等式应用范围广, 波动方程的一维到多维, 初值问题到边值问题,
+	乃至热传导方程都可以建立起能量不等式.
+</p>
 
 <p class="lemma">
 	<b>Gronwall 不等式</b>
@@ -266,7 +291,7 @@
 	L[0, t_0]`, `F(tau)` 单增, 且存在常数 `c gt 0`, 使
 	<span class="formula">
 		`G'(tau) le c G(tau) + F(tau)`.
-		<span class="label">(2-6)</span>
+		<span class="label" id="for-gronwall-inequality-cond">(2-6)</span>
 	</span>
 	则
 	<span class="formula">
@@ -276,7 +301,8 @@
 </p>
 
 <p class="proof">
-	在 (2-6) 两边同乘 `"e"^(-c tau)` 得
+	在 <a class="ref" href="#for-gronwall-inequality-cond"></a>
+	两边同乘 `"e"^(-c tau)` 得
 	<span class="formula">
 		`"d"/("d"tau) ("e"^(-c tau) G(tau)) le "e"^(-c tau) F(tau)`.
 	</span>
@@ -289,7 +315,7 @@
 	<span class="formula">
 		`G(tau) le c^-1 ("e"^(c tau) - 1) F(tau)`.
 	</span>
-	再利用 (2-6),
+	再利用 <a class="ref" href="#for-gronwall-inequality-cond"></a>,
 	<span class="formula">
 		`G'(tau) le "e"e^(c tau) F(tau)`.
 	</span>
@@ -297,8 +323,7 @@
 
 <p class="theorem">
 	<b>能量不等式</b>
-	设 `u` 为一维波动方程初值问题的解, `Q = RR xx (0, +oo)`,
-	`u in C^1(bar Q) nn C^2(Q)`,
+	设 `u in C^1(bar Q) nn C^2(Q)` 为一维波动方程初值问题的解,
 	`tau in [0, t_0]`,
 	`Omega_tau = [x_0-a(t_0-tau), x_0+a(t_0-tau)]`,
 	`K_tau = { (t in [0"," tau]), (x in Omega_t):}`,
@@ -397,7 +422,7 @@
 </p>
 
 <p class="note">
-	对高维波动方程初值问题也有类似的能量不等式, 且证明类似. 如二维情形下,
+	对多维波动方程初值问题也有类似的能量不等式, 且证明类似. 如二维情形下,
 	记特征锥
 		`K: |bm x - bm x_0|^2 le a^2 (t-t_0)^2`,
 		`K_tau = K nn {t le tau}`,
@@ -406,8 +431,8 @@
 		`v = u_t^2 + a^2 |grad u|^2`.
 	则
 	<span class="formula">
-		`  iint_(Omega_tau) v dxdy
-		le M (iint_(Omega_0) v|_(t=0) dxdy + iiint_(K_tau) f^2 dx dy dz)`.
+		`  iint_(Omega_tau) v \ dxdy`
+		`le M (iint_(Omega_0) v|_(t=0) dxdy + iiint_(K_tau) f^2 dxdydz)`.
 	</span>
 </p>
 
@@ -466,54 +491,64 @@
 	问题解的唯一性以及能量模意义下解对 `varphi`, `psi`, `f` 的连续依赖性.
 </p>
 
-<h3>半无界问题</h3>
+<h2>一维波动方程半无界问题: 对称开拓法</h2>
 
-<p>	记 `R = (0, +oo)`, `Q = R xx R`, 在 `bar Q` 上求解
+<h3>问题描述</h3>
+
+<p>	记 `R = (0, +oo)`, `Q = R xx R`, 在 `bar Q`
+	上求解第一类边界条件的半无界问题
 	<span class="formula">`{
 		( square u = f(x, t), (x, t) in Q),
 		( u|_(t=0) = varphi(x), x in bar R),
-		( (u_t)|_(t=0) = psi(x), x in bar R),
+		( u_t|_(t=0) = psi(x), x in bar R),
 		( u|_(x=0) = g(t), t in R)
 	:}`
 	</span>
 </p>
 
-<p> <b>奇对称开拓法</b>
-	思路: 适当将 `varphi`, `psi`, `f` 延拓到整个上半平面,
-	将半无界问题化为无界问题, 再使解 `u` 适合 `u|_(x=0) = g(t)`.
-</p>
+<h3>形式解</h3>
 
-<p>	先设 `g(t) -= 0`. 为此只需令 `u` 是 `x` 的奇函数, 于是我们对 `varphi`,
-	`psi`, `f` 作奇延拓:
+<ol>思路: 适当将 `varphi`, `psi`, `f` 延拓到整个上半平面,
+	将半无界问题化为无界问题, 再使解 `u` 适合边界条件 `u|_(x=0) = g(t)`.
+<li>令 `v = u - g(t)`, 则 `v` 适合
+	<span class="formula">`{
+		( square v = f(x, t) - g''(t)),
+		( v|_(t=0) = varphi(x) - g(0)),
+		( v_t|_(t=0) = psi(x) - g'(0)),
+		( v|_(x=0) = 0)
+	:}`
+	</span>
+	此时边界条件已化为齐次的.
+</li>
+<li>为使 `v` 是 `x` 的奇函数, 对 `varphi`, `psi`, `f` 作<b>奇延拓</b>:
 	<span class="formula">
 		`bar varphi(x) = {
 			(varphi(x), x ge 0),
 			(-varphi(-x), x lt 0)
-		:}`, `quad`
+		:}\ `, `quad`
 		`bar psi(x) = {
 			(psi(x), x ge 0),
 			(-psi(-x), x lt 0)
-		:}`,
+		:}\ `,
 		`bar f(x, t) = {
 			(f(x, t), x ge 0"," t ge 0),
 			(-f(-x, t), x lt 0"," t ge 0)
-		:}`,
+		:}\ `.
 	</span>
-</p>
-
-<p>	求得无界问题的解 `bar u` 后, 再令 `u = bar u|_(x ge 0)`. 联系
-	D'Alembert 公式, `x ge at` 时,
+	求得无界问题的解 `bar v` 后, 再令 `v = bar v|_(x ge 0)`. 联系
+	D'Alembert 公式,
+	`x ge at` 时,
 	<span class="formula">
-		` u(x, t) 
+		` v(x, t) 
 		= 1/2 (varphi(x-at) + varphi(x+at))`
 		`+ 1/(2a) int_(x-at)^(x+at) psi(xi) "d"xi`
 		`+ 1/(2a) int_0^t "d"tau int_(x-a(t-tau))^(x+a(t-tau))
 		f(xi, tau) "d"xi`.
-		  <span class="label">(2-7)</span>
+		  <span class="label" id="for-half-unbounded-1">(2-7)</span>
 	</span>
 	`x lt at` 时,
 	<span class="formula">
-		` u(x, t)
+		` v(x, t)
 		= 1/2(varphi(at+x) - varphi(at-x))`
 		 `+ 1/(2a) (int_(x-at)^0 - psi(-xi) "d"xi
 		  + int_0^(x+at) psi(xi) "d" xi)`
@@ -527,49 +562,36 @@
 		f(xi, tau) "d"xi
 		+ int_0^(t-x/a) "d"tau
 		int_(a(t-tau)-x)^(a(t-tau)+x) f(xi, tau) "d"xi)`.
-		  <span class="label">(2-8)</span>
+		  <span class="label" id="for-half-unbounded-2">(2-8)</span>
 	</span>
-	<img src="pic/"/>
-	<img src="pic/"/>
-</p>
+</li>
+</ol>
 
-<p>
-	为使 `u` 确实是半无界问题的解, 除了对 `f`, `varphi`, `psi`
+	<img src="pic/"/>
+	<img src="pic/"/>
+
+<h3>相容性条件</h3>
+
+<ol>为使 `u` 确实是半无界问题的解, 除了对 `f`, `varphi`, `psi`
 	的光滑性要求外, 还必须在角点 `(0, 0)` 处加上<b>相容性条件</b>
 	(<b>连接条件</b>):
-</p>
-
-<ol>
 	<li>`u` 在 `(0, 0)` 连续, 即 `varphi(0) = g(0) = 0`;</li>
 	<li>`u_t` 在 `(0, 0)` 连续, 即 `psi(0) = g'(0) = 0`;</li>
 	<li>`u_(t t)` 在 `(0, 0)` 连续, 即 `g''(0) - a^2 varphi''(0) = f(0,
 		0)`, 或 `a^2 varphi''(0) + f(0, 0) = 0`.
 	</li>
+	以上是保证 `u` 在角点二次可微的必要条件.
 </ol>
 
-<p>	以上是保证 `u` 在角点二次可微的必要条件. 下面定理给出解存在的充分条件:</p>
-
 <p class="theorem">
-	设 `R = (0, +oo)`, `Q = R xx R`, `varphi(x) in C^2(bar R)`,
-	`psi(x) in C^1(R)`, `f(x, t) in C^1(bar Q)` 且适合相容性条件 1 ~ 3,
-	则半无界问题有解 `u in C^2(bar Q)`, 且由表达式 (2-7) (2-8) 给出.
-</p>
-
-<p>	现在设 `g(t) !-= 0`. 令 `v = u - g(t)`, 则 `v` 适合
-	<span class="formula">`{
-		( square v = f(x, t) - g''(t)),
-		( v|_(t=0) = varphi(x) - g(0)),
-		( v_t|_(t=0) = psi(x) - g'(0)),
-		( v|_(x=0) = 0)
-	:}`
-	</span>
-	问题就化为 `g -= 0` 的情形.
-</p>
-
-<p class="theorem">
-	设 `g(t) in C^3(bar R)`, `varphi(x) in C^2(bar R)`,
-	`psi(x) in C^1(bar R)`, `f(x, t) in C^1(bar Q)`
-	且满足相容性条件 1 ~ 3, 则存在解 `u in C^2(bar Q).
+	设 `varphi(x) in C^2(bar R)`, `psi(x) in C^1(bar R)`,
+	`f(x, t) in C^1(bar Q)`, `g(t) in C^3(bar R)`
+	且满足相容性条件 1 ~ 3,
+	则一维波动方程第一类边界条件的半无界问题存在解 `u in C^2(bar Q)`,
+	其表达式由函数变换 `v = u - g(t)` 及
+	<a class="ref" href="#for-half-unbounded-1"></a>
+	<a class="ref" href="#for-half-unbounded-2"></a>
+	给出.
 </p>
 
 <p class="note">
@@ -579,9 +601,9 @@
 	加上一定光滑性条件和相容性条件后, 能证明解的存在性.
 </p>
 
-<h2>高维波动方程初值问题</h2>
+<h2>多维波动方程初值问题</h2>
 
-<h3>三维情形 (球面平均法)</h3>
+<h3>三维情形: 球面平均法</h3>
 
 <span class="formula">`{
 	( u_(t t)^2 - a^2 laplace u = f(bm x, t),
@@ -589,7 +611,7 @@
 	( u|_(t=0) = varphi(bm x), bm x in RR^3),
 	( u_t|_(t=0) = psi(bm x), bm x in RR^3)
 :}`
-<span class="label">(2-9)</span>
+<span class="label" id="for-wave-equation-3d">(2-9)</span>
 </span>
 
 <p> 设 `h(bm x) in C^2(RR^3)`, `I` 是 `h` 在以 `bm x` 为心, `r`
@@ -642,8 +664,12 @@
 	</span>
 </p>
 
-<p>	由于定理2-1 的结论对三维情形也成立, 我们只须考虑 (2-9) 中
-	`f = varphi = 0` 的情况. 设 `u_2` 是 (2-9) 当 `f = varphi = 0` 时的解,
+<p>	由于<a class="ref" href="#the-three-in-one"></a>
+	的结论对三维情形也成立, 我们只须考虑
+	<a class="ref" href="#for-wave-equation-3d"></a>中
+	`f = varphi = 0` 的情况. 设 `u_2` 是 
+	<a class="ref" href="#for-wave-equation-3d"></a>
+	当 `f = varphi = 0` 时的解,
 	`M(bm x, r, t) = r I(bm x, r; u_2)`, 则
 	<span class="formula">
 		`  a^2 (del^2 M)/{:del r:}^2 = a^2 laplace M`
@@ -681,7 +707,9 @@
 	</span>
 </p>
 
-<p>	由定理2-1, (2-9) 的解为 (<b>Kirchhoff 公式</b>)
+<p>	由<a class="ref" href="#the-three-in-one"></a>,
+	<a class="ref" href="#for-wave-equation-3d"></a>
+	的解为 (<b>Kirchhoff 公式</b>)
 	<span class="formula">
 		`  u(bm x, t)`
 		`= 1/(4 pi a^2) (
@@ -692,7 +720,7 @@
 	</span>
 </p>
 
-<h3>二维情形 (降维法)</h3>
+<h3>二维情形: 降维法</h3>
 
 <span class="formula">`{
 	( u_(t t)^2 - a^2 laplace u = f(bm x","t),
@@ -700,11 +728,14 @@
 	( u|_(t=0) = varphi(bm x), bm x in RR^2),
 	( u_t|_(t=0) = psi(bm x), bm x in RR^2)
 :}`
-<span class="label">(2-10)</span>
+<span class="label" id="for-wave-equation-2d">(2-10)</span>
 </span>
 
-<p>	如果将 (2-10) 视为三维问题, 并证明它的解是与 `x_3` 无关的函数,
-	那么此函数限制在二维空间上就是 (2-10) 的解. 这一思想称为<b>降维法</b>.
+<p>	如果将 <a class="ref" href="#for-wave-equation-2d"></a>
+	视为三维问题, 并证明它的解是与 `x_3` 无关的函数,
+	那么此函数限制在二维空间上就是 
+	<a class="ref" href="#for-wave-equation-2d"></a>
+	的解. 这一思想称为<b>降维法</b>.
 </p>
 
 <p>	因为 `f`, `varphi`, `psi` 都与 `x_3` 无关, 因此我们可以将 Kirchhoff
@@ -735,10 +766,12 @@
 	若 `Q = RR^n xx (0, +oo)`, `varphi in C^3(RR^n)`, `psi in C^2(RR^n)`,
 	`f in C^2 (bar Q)`, 则
 	<ol>
-		<li>`n = 2` 时, 由 Poisson 公式给出的 `u in C^2(bar Q)` 是 (2-10)
+		<li>`n = 2` 时, 由 Poisson 公式给出的 `u in C^2(bar Q)` 是
+			<a class="ref" href="#for-wave-equation-2d"></a>
 			的解;
 		</li>
-		<li>`n = 3` 时, 由 Kirchhoff 公式给出的 `u in C^2(bar Q)` 是 (2-9)
+		<li>`n = 3` 时, 由 Kirchhoff 公式给出的 `u in C^2(bar Q)` 是
+			<a class="ref" href="#for-wave-equation-3d"></a>
 			的解.
 		</li>
 	</ol>
@@ -749,9 +782,7 @@
 	的偶 (奇, 周期) 函数.
 </p>
 
-<h3>特征锥与 Huygens 原理</h3>
-
-<h4>特征锥</h4>
+<h3>特征锥</h3>
 
 <ol>考虑二维波动方程. 由 Poisson 公式可以看出, 波动方程的解有以下重要性质:
 	<li>解 `u` 在任一点 `P_0(x_0, y_0, t_0)` 的值只依赖于外力 `f`
@@ -788,7 +819,7 @@
 	三维波动方程也可做类似的讨论.
 </ol>
 
-<h4>二维, 三维波动方程的不同</h4>
+<h3>Huygens 原理与波的弥漫</h3>
 
 <p>	设 `f -= 0`, 比较二维与三维波动方程. 注意到三维情形下,
 	`u` 值只依赖于其依赖区域 (一个球) 的边界 
@@ -828,17 +859,25 @@
 	</li>
 	<li>二维情形下, 由 Poisson 公式知:
 		<ol>
-			<li>`0 lt t lt t_min` 时, `D_(P_0) nn D_0 = O/`,
-				故 `u = 0`;
+			<li>`0 lt t lt t_min` 时, `D_(P_0) nn D_0 = O/`, 故 `u = 0`;
 			</li>
-			<li>`t gt d_min` 时, `D_(P_0) nn D_0 != O/`,
-				故 `u != 0`.
+			<li>`t gt d_min` 时, `D_(P_0) nn D_0 != O/`, 故 `u != 0`.
 			</li>
 		</ol>
 		这表明二维情形的波的传播 (如膜振动) 只有明显的波前而无波后.
 		这一现象称为波的<b>弥漫</b>.
 	</li>
 </ol>
+
+<h2>波动方程混合问题: 分离变量法</h2>
+
+<p>	分离变量法又称 Fourier 方法, 它不仅适用于波动方程, 也适用于热传导方程,
+	位势方程和某些形式更复杂的方程/方程组.
+</p>
+
+<h3>问题描述</h3>
+
+<p>	考虑两端固定的弦振动方程混合问题 (一维波动方程 Dirichlet</p>
 
 </body>
 
