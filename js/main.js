@@ -244,7 +244,7 @@ decorate([
 	{name:'algorithm', getBy:'class', word:'算法', style:style_name_num},
 	{name:'construction', getBy:'class', word:'作图', style:style_name_num},
 	{name:'graph', getBy:'class', word:'图', style:style_name_num},
-	{name:'note', getBy:'class', word:'注', style:style_name_num},
+	{name:'remark', getBy:'class', word:'注', style:style_name_num},
 	{name:'question', getBy:'class', word:'问题', style:style_name_num},
 	{name:'principle', getBy:'class', word:'原理', style:style_name_num},
 	{name:'axiom', getBy:'class', word:'公理', style:style_name_num},
@@ -268,6 +268,7 @@ makeReference();
 // ---- this function will be called after asciimathml.js  ----
 
 function genericJunior() {
+	/*
 	(function labelHeight() {
 		var labels = document.getElementsByClassName('label');
 		for (var i = 0; i < labels.length; ++i) {
@@ -275,6 +276,7 @@ function genericJunior() {
 			labels[i].style.lineHeight = h;
 		}
 	})();
+	*/
 }
 
 //setup onload function

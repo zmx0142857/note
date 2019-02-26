@@ -14,19 +14,6 @@
 
 <h2>一维波动方程初值问题: 特征线法</h2>
 
-<h3>问题描述</h3>
-
-<p>
-	<span class="formula">`{
-		( square u = f(x,t), (x","t) in Q),
-		( u|_(t=0) = varphi(x), x in RR),
-		( u_t|_(t=0) = psi(x), x in RR)
-	:}`
-	</span>
-	其中 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
-	`Q = RR xx (0, +oo)` 表示上半平面.
-</p>
-
 <h3>一阶线性方程初值问题</h3>
 
 <p>	在求解波动方程之前, 先看最简单的一阶线性方程.</p>
@@ -70,9 +57,22 @@
 	解这个常微分方程, 再通过 `x = x(t, c)` 消去参数 `c`, 即得到原方程的解.
 </p>
 
+<h3>问题描述</h3>
+
+<p>	求解一维波动方程初值问题:
+	<span class="formula">`{
+		( square u = f(x,t), (x","t) in Q),
+		( u|_(t=0) = varphi(x), x in RR),
+		( u_t|_(t=0) = psi(x), x in RR)
+	:}`
+	</span>
+	其中 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
+	`Q = RR xx (0, +oo)` 表示上半平面.
+</p>
+
 <h3>问题的分解</h3>
 
-<p>	现在回到本节开头的问题. 将一维波动方程初值问题一分为三:
+<p>	将一维波动方程初值问题一分为三:
 	<span class="formula">
 		`{
 			(square u_1 = 0, (x","t) in Q),
@@ -159,7 +159,7 @@
 	</li>
 </ol>
 
-<p class="note">
+<p class="remark">
 	此定理可以推广到多维波动方程, 证明类似.
 </p>
 
@@ -410,7 +410,7 @@
 	即所要证的结论.
 </p>
 
-<p class="note">
+<p class="remark">
 	对于弦振动问题, 弦段 `dx` 在时刻 `t` 的动能为 `1/2 rho u_t^2 dx`,
 	应变能 (势能) 为 `1/2 T u_x^2 dx`. 考虑到 `a^2 = T/rho`,
 	因此不计常数因子,
@@ -421,7 +421,7 @@
 	称为<b>能量积分</b>或<b>能量模</b>.
 </p>
 
-<p class="note">
+<p class="remark">
 	对多维波动方程初值问题也有类似的能量不等式, 且证明类似. 如二维情形下,
 	记特征锥
 		`K: |bm x - bm x_0|^2 le a^2 (t-t_0)^2`,
@@ -486,7 +486,7 @@
 	</span>
 </p>
 
-<p class="note">
+<p class="remark">
 	由 `u` 的能量模估计与 `L^2` 模估计, 可以得到波动方程 Cauchy
 	问题解的唯一性以及能量模意义下解对 `varphi`, `psi`, `f` 的连续依赖性.
 </p>
@@ -594,7 +594,7 @@
 	给出.
 </p>
 
-<p class="note">
+<p class="remark">
 	若在边界 `x = 0` 上给出第二类边界条件 `u_x|_(x=0) = g(t)`,
 	则先作函数代换 `v = u - x g(t)` 把 `x = 0` 上的边界条件化为齐次的
 	`v_x|_(x=0) = 0`, 再用<b>偶对称开拓法</b>求解. 同样,
@@ -875,20 +875,6 @@
 	位势方程和某些形式更复杂的方程/方程组.
 </p>
 
-<h3>问题描述</h3>
-
-<p>	考虑两端固定的弦振动方程混合问题
-	(这是一维波动方程第一边值问题的一个特例):
-	<span class="formula">`{
-		((del^2 u)/(del t^2) - a^2 (del^2 u)/(del x^2) = 0, (x","t) in Q),
-		(u|_(t=0) = varphi(x), x in bar I),
-		(u_t|_(t=0) = psi(x), x in bar I),
-		(u|{::}_(x=0) = u|_(x=l) = 0,\ t in R)
-	:}`
-	</span>
-	其中 `I = (0, l)`, `R = (0, +oo)`, `Q = I xx R`.
-</p>
-
 <h3>二阶常微分方程边值问题</h3>
 
 <p class="definition" id="def-sturm-liouville">
@@ -908,7 +894,7 @@
 	<b>Sturm-Liouville 问题</b>.
 </p>
 
-<ol class="theorem">
+<ol class="theorem" id="the-sturm-liouville">
 	问题如 <a class="ref" href="#def-sturm-liouville"></a>,
 	我们有:
 	<li>所有特征值都是非负实数, 特别当 `beta_1, beta_2` 不全为零时,
@@ -1027,39 +1013,44 @@
 	<li></li>
 </ol>
 
-<p class="note">
-	由上述定理的 1 知, `lambda = 0` 是 Sturm-Liouville 的特征值当且仅当
-	`beta_1 = beta_2 = 0`, 即当且仅当 Sturm-Liouville
-	的边界条件是第二类的.
-</p>
+<ol class="remark">
+	<li>由上述定理的 1 知, `lambda = 0` 是 Sturm-Liouville
+		问题的特征值当且仅当 `beta_1 = beta_2 = 0`, 即当且仅当
+		Sturm-Liouville 问题的边界条件是第二类的.
+	</li>
+	<li>上述定理的 4 指出, 全体特征函数 `{X_n(x)}` 构成 `L_2[0,l]`
+		空间的一组完备正交基.
+	</li>
+</ol>
 
-<p class="note">
-	上述定理的 4 指出, 全体特征函数 `{X_n(x)}` 构成 `L_2[0,l]`
-	空间的一组完备正交基.
+<h3>问题描述</h3>
+
+<p>	考虑两端固定的弦振动方程混合问题
+	(这是一维波动方程第一边值问题的一个特例):
+	<span class="formula">`{
+		((del^2 u)/(del t^2) - a^2 (del^2 u)/(del x^2) = 0, (x","t) in Q),
+		(u|{::}_(x=0) = u|_(x=l) = 0,\ t in R),
+		(u|_(t=0) = varphi(x), x in bar I),
+		(u_t|_(t=0) = psi(x), x in bar I)
+	:}`
+	</span>
+	其中 `I = (0, l)`, `R = (0, +oo)`, `Q = I xx R`.
 </p>
 
 <h3>形式解</h3>
 
-<p>	回到本节开头的混合问题.</p>
-
-<p class="theorem">
-	设该混合问题具有<b>变量分离形式</b>的非零解 `u(x, t) = X(x) T(t)`,
-	则此问题相当于一个 Sturm-Liouville 问题
-	<span class="formula">`{
-		(X'' + lambda X = 0 quad x in I),
-		(X|{::}_(x=0) = X|_(x=l) = 0)
-	:}`
+<p>
+	<span class="formula">
+		` u(x, t)
+		= sum_(n=1)^oo sin beta_n x
+		  (psi_n/(beta_n a) sin beta_n a t + varphi_n cos beta_n a t)`,
 	</span>
-	和一个二阶常微分方程初值问题
-	<span class="formula">`{
-		(T'' + a^2 lambda T = 0, t in R),
-		(u|_(t=0) = varphi(x), x in bar I),
-		(u_t|_(t=0) = psi(x), x in bar I)
-	:}\ `.
-	</span>
+	其中 `beta_n^2` 是全体特征值.
 </p>
 
-<p class="proof">
+<ol class="solution">
+<li>
+	设该混合问题具有<b>变量分离形式</b>的非零解 `u(x, t) = X(x) T(t)`,
 	将 `u = XT` 代入边界条件得
 	<span class="formula">
 		`X(0) T(t) = X(l) T(t) = 0`, `AA t gt 0`.
@@ -1082,6 +1073,163 @@
 		`T'' + a^2 lambda T = 0`, `t in R`,<br/>
 		`X'' + lambda X = 0`, `x in I`.
 	</span>
+	至此, 得到一个 Sturm-Liouville 问题
+	<span class="formula">`{
+		(X'' + lambda X = 0 quad x in I),
+		(X|{::}_(x=0) = X|_(x=l) = 0)
+	:}`
+	<span class="label" id="for-variable-separation-x">(2-11)</span>
+	</span>
+	和一个二阶常微分方程
+	<span class="formula">
+		`T'' + a^2 lambda T = 0, t in R`.
+	<span class="label" id="for-variable-separation-t">(2-12)</span>
+</li>
+
+<li>
+	现在看特征值问题<a class="ref" href="#for-variable-separation-x"></a>.
+	由<a class="ref" href="#the-sturm-liouville"></a>,
+	所有特征值都是正的, 令 `lambda = beta^2`, 得到通解
+	<span class="formula">
+		`X(x) = C_1 sin beta x + C_2 cos beta x`.
+	</span>
+	由边界条件得
+	<span class="formula">
+		`C_2 = 0`, `quad C_1 sin beta l = 0`.
+	</span>
+	再由 `X(x) !-= 0` 知 `C_1 != 0`, 于是 `sin beta l = 0`, 即
+	<span class="formula">
+		`sqrt lambda_n = beta_n = (n pi)/l`, `n = 1, 2, cdots`.
+	</span>
+	特别取 `C_1 = 1`, 得到相应的特征函数
+	<span class="formula">
+		`X_n(x) = sin beta_n x`, `n = 1, 2, cdots`.
+	</span>
+</li>
+
+<li>
+	再看特征值问题<a class="ref" href="#for-variable-separation-t"></a>.
+	为使原问题有变量分离形式的解, 现在 `lambda` 只能取 `beta_n^2`,
+	`n = 1, 2, cdots`. 将它们分别代入, 得通解
+	<span class="formula">
+		`T_n(t) = A_n sin beta_n a t + B_n cos beta_n a t`,
+		`n = 1, 2, cdots`.
+	</span>
+	令
+	<span class="formula">
+		`u_n(x, t) = X_n(x) T_n(t)`,
+	</span>
+	则 `u_n` 适合原方程及其边界条件.  注意到原方程及其边界条件都是齐次的,
+	所以 `u_n` 的和也同样适合它们.
+	现在把所有的 `u_n` 叠加起来, 使它适合原方程的初始条件.
+	由于是求形式解, 因此不妨假设所有求和与求导, 取极限的运算可以交换次序.
+	<span class="formula">
+		` u(x, t)
+		= sum_(n=1)^oo u_n(x, t)`
+		`= sum_(n=1)^oo sin beta_n x
+		  (A_n sin beta_n a t + B_n cos beta_n a t)`,<br/>
+	  `u|_(t=0) = sum_(n=1)^oo B_n sin beta_n x = varphi(x)`,<br/>
+	  `u_t|_(t=0) = sum_(n=1)^oo A_n beta_n a sin beta_n x = psi(x)`.
+	</span>
+</li>
+
+<li>
+	由<a class="ref" href="#the-sturm-liouville"></a>,
+	`varphi(x), psi(x)` 可以按特征函数系 `{sin beta_n x}` 展开
+	<span class="formula">
+		`varphi(x) = sum_(n=1)^oo varphi_n sin beta_n x`,<br/>
+		`psi(x) = sum_(n=1)^oo psi_n sin beta_n x`.
+	</span>
+	比较得到
+	<span class="formula">
+		`B_n = varphi_n`, `quad A_n = psi_n/(beta_n a)`.
+	</span>
+	注意
+	<span class="formula">
+		` int_0^l sin^2 beta_n x dx
+		= 1/beta_n int_0^(beta_n l) sin^2 t dt`
+		`= l/(2n pi) int_0^(n pi) (1-cos 2t) dt
+		= l/2`,
+	</span>
+	所以 Fourier 系数
+	<span class="formula">
+		`varphi_n = 2/l int_0^l varphi(x) sin beta_n x dx`,<br/>
+		`psi_n = 2/l int_0^l psi(x) sin beta_n x dx`.
+	</span>
+	至此求得了混合问题的形式解.
+</li>
+</ol>
+
+<h3>解的存在性定理</h3>
+
+<p class="theorem">
+	若 `varphi(x) in C^3[0,l]`, `psi(x) in C^2[0, l]`, 且
+	`varphi(x), psi(x)` 在定解区域的角点 `(0,0), (l,0)`
+	处适合<b>相容性条件</b>
+	<span class="formula">
+		` varphi(0) = varphi(l) = varphi''(0)`
+		`= varphi(l) = psi(0) = psi(l) = 0`,
+	</span>
+	则所给混合问题存在解 `u in C^2(bar Q)`,
+	其表达式由前面求出的形式解给出.
+</p>
+
+<p class="proof">
+	为证明形式解确实是解, 关键在于证明所有求和可以和求导,
+	取极限的运算交换次序, 即
+	<span class="formula">
+		`square sum_(n=1)^oo u_n = sum_(n=1)^oo square u_n`,<br/>
+		` lim_(x to 0,l) sum_(n=1)^oo u_n
+		= sum_(n=1)^oo lim_(x to 0,l) u_n`,<br/>
+		` lim_(t to 0) del^m/(del t^m) (sum_(n=1)^oo u_n)
+		= sum_(n=1)^oo lim_(t to 0) (del^m u_n)/(del t^m)`, `m = 0, 1`.
+	</span>
+	根据数学分析的结论, 为证明上述运算合法, 只需证明对任意 `T gt 0`, 级数
+	<span class="formula">
+		`sum_(n=1)^oo u_n`, `sum_(n=1)^oo D u_n`, `sum_(n=1)^oo D^2 u_n`
+	</span>
+	(`D` 表示对 `x, t` 的一阶微商) 在区域 `bar I xx [0, T]` 上一致收敛.
+	<br/>
+
+	由 `psi(0) = psi(l) = 0` 和分部积分公式,
+	<span class="formula">
+		` A_n
+		= -2/(beta_n^2 a l) int_0^l psi(x) "d" cos beta_n x`
+		`= 2/(beta_n^3 a l) int_0^l psi'(x) "d" sin beta_n x
+		= -2/(beta_n^3 a l) int_0^l psi''(x) sin beta_n x dx`.
+	</span>
+	同理
+	<span class="formula">
+		` B_n
+		= -2/(beta_n l) int_0^l varphi(x) "d" cos beta_n x`
+		`= 2/(beta_n^2 l) int_0^l varphi'(x) "d" sin beta_n x
+		= 2/(beta_n^3 l) int_0^l varphi''(x) "d" cos beta_n x`
+		`= -2/(beta_n^3 l) int_0^l varphi'''(x) cos beta_n x dx`.
+	</span>
+	记
+	<span class="formula">
+		`a_n = 2/l int_0^l psi''(x) sin beta_n x dx`,<br/>
+		`b_n = 2/l int_0^l varphi'''(x) cos beta_n dx`,
+	</span>
+	而 `beta_n = (2 pi n)/l`, 从而在 `bar I xx [0, T]` 上有估计
+	<span class="formula">
+		`|u_n| le |A_n| + |B_n| = O(n^-3)`,<br/>
+		`|D u_n| = O(n^-2)`,<br/>
+		`|D^2 u_n| le a_n^2 + b_n^2 + O(n^-2)`, <!-- ??? -->
+	</span>
+	这里 "`O`" 依赖于 `l, a` 和 `int_0^l |varphi'''(x)| dx`,
+	`int_0^l |psi''(x)| dx`.
+	<br/>
+
+	从 Fourier 级数的 Bessel 不等式知, <!-- ??? -->
+	<span class="formula">
+		`sum_(n=1)^oo a_n^2 le 2/l int_0^l |psi''(x)|^2 dx`,<br/>
+		`sum_(n=1)^oo b_n^2 le 2/l int_0^l |varphi'''(x)|^2 dx`.
+	</span>
+	至此由 Weierstrass 判别法知, 前面列举的所有级数在
+	`bar I xx [0, T]` 上一致收敛. 从而得到:
+	前述的形式解 `u in C^2(bar Q)`, 可以将 `u` 逐项对 `x, t` 微分两次,
+	并适合原混合问题的所有条件.
 </p>
 
 </body>
