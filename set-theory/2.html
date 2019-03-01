@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>集合及其运算</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+
+</head>
+
+<body>
+
+<h2>集合的概念</h2>
+
+<p>	<b>集合</b>, 又叫做<b>类</b>, <b>族</b>或<b>搜集</b>,
+	是数学中极少数不加定义的 "元概念" 之一, 而且是 "元概念" 里最基本,
+	最重要的一个.  一般把集合理解为<b>具备某个性质的对象的全体</b>.
+</p>
+
+<p>	对于给定的集合 `A` 和对象 `a`, 一定有 `a` 属于 `A` 和 `a` 不属于 `A`
+	之一成立, 分别记为 `a in A`, `a !in A`.
+	当 `a in A` 时, 称 `a` 是 `A` 的<b>元素</b>或<b>成员</b>或<b>点</b>.
+</p>
+
+<p>	下面我们用大写字母 `A, B, C` 等表示集合,
+	小写字母 `a, b, c` 等表示集合的元素.
+</p>
+
+<h3>集合的表示</h3>
+
+<ol>
+	<li>列举法. 如 `A = {a, b, c}`, `B = {1, 2, cdots, 10}`,
+		`C = {{a}, {b}, {c}}`. 这里 `C` 是集合的集合, 与 `A` 不同.
+		同理单元素集合 `{a}` 与元素 `a` 不同, 应区分对待.
+	</li>
+	<li>描述法. 用谓词描述集合元素的公共特征.
+		`S = {x: P(x)}` 表示 `x in S` 当且仅当命题 `P(x)` 成立.
+	</li>
+</ol>
+
+<h3>集合的基本关系</h3>
+
+<ol class="definition">
+	<li> <b>包含</b>
+		<span class="formula">
+			`A sube B iff (a in A rArr a in B)
+			iff (AA a) a in A rarr a in B`.
+		</span>
+		此时称 `A` 含于 `B`, 或 `B` 包含 `A`, 或 `A` 是 `B` 的子集;
+	</li>
+	<li> <b>相等</b> (外延公理)
+		<span class="formula">
+			`A = B iff A sube B and B sube A`.
+		</span>
+		此时称 `A` 与 `B` 相等;
+		依上述定义, 两个集合相等当且仅当它们所含的元素相同,
+		而与元素的次序和重复次数无关, 如
+		`{a, b, c} = {a, c, b} = {a, b, c, b}`.
+	</li>
+	<li> <b>真包含</b>
+		<span class="formula">
+			`A subne B iff A sub B iff A sube B and A != B`.
+		</span>
+		此时称 `A` 真包含于 `B`, 或 `B` 真包含 `A`, 或 `A` 是 `B`
+		的真子集.
+	</li>
+</ol>
+
+<p class="definition">
+	不含任何元素的集合称为<b>空集</b> `O/`.
+	在集合论的各种场合下, 往往有一个集合 `Omega` 包含了我们讨论的所有集合.
+	称 `Omega` 为<b>全集</b>或<b>论述域</b>.
+</p>
+
+<p class="definition">
+	若 `I` 是一集合, 且任意 `alpha in I` 唯一确定一个集合
+	`A_alpha`, 则称集合
+	<span class="formula">
+		`  {A_alpha: alpha in I} := {B: (EE alpha in I) B = A_alpha}`
+	</span>
+	为<b>集合族</b>.
+</p>
+
+<h2>基本运算</h2>
+
+<p class="definition">
+	并/交
+	<span class="formula">
+		`A uu B := {x: x in A or x in B}`,<br/>
+		`A nn B := {x: x in A and x in B}`.
+	</span>
+	<span class="formula">
+		`uuu_(alpha in I) A_alpha := {x: EE alpha in I, x in A_alpha}`,
+		<br/>
+		`nnn_(alpha in I) A_alpha := {x: AA alpha in I, x in A_alpha}`.
+	</span>
+</p>
+
+<ol class="property">
+	<li>蕴含式
+	<span class="formula">
+		`AA alpha in I, A_alpha sube B
+		iff uuu_(alpha in I) A_alpha sube B`,<br/>
+		`AA alpha in I, B sube A_alpha
+		iff B sube nnn_(alpha in I) A_alpha`.
+	</span>
+	</li>
+	<li>分配律
+	<span class="formula">
+		`A nn (uuu_(alpha in I)B_alpha) = uuu_(alpha in I)(A nn B_alpha)`,
+		<br/>
+		`A uu (nnn_(alpha in I)B_alpha) = nnn_(alpha in I)(A uu B_alpha)`,
+		<br/>
+		`(uuu_(alpha in I) A_alpha) nn (uuu_(beta in J) B_beta)
+		= uuu_(alpha in I, beta in J) A_alpha nn B_beta`,
+		<br/>
+		`(nnn_(alpha in I) A_alpha) uu (nnn_(beta in J) B_beta)
+		= nnn_(alpha in I, beta in J) A_alpha uu B_beta`,
+		但 `uuu_(alpha in I) nnn_(beta in J) A_(alpha, beta)
+		= nnn_(beta in J) uuu_(alpha in I) A_(alpha, beta)` 一般不成立.
+	</span>
+	</li>
+</ol>
+
+<ol class="definition">
+	<li>差: 
+	<span class="formula">
+		`B \\ A = B - A := {x: x in B and x !in A}`.
+	</span>
+	</li>
+	<li>补 (余): 设 `X` 为全集,
+	<span class="formula">
+		`A^c = bar A = &#8705; A := X \\ A = {x: x !in A}`.
+	</span>
+	</li>
+</ol>
+
+<p class="property">
+	<span class="formula">
+		`(A^c)^c = A`, `quad`
+		`A \\ B = A nn B^c`, `quad`
+		`A = (A nn B) uu (A \\ B)`,<br/>
+		`A sube B rArr B^c sube A^c`, `quad`
+		`A nn B = O/ iff A sube B^c`, `quad`
+		`A \\ B = O/ iff A sube B`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>De. Morgan 法则</b>
+	<span class="formula">
+		`B\\(uuu_(alpha in I) A_alpha) = nnn_(alpha in I) (B\\A_alpha)`,
+		`quad`
+		`B\\(nnn_(alpha in I) A_alpha) = uuu_(alpha in I) (B\\A_alpha)`;
+		<br/>
+		`(uuu_(alpha in I) A_alpha)^c = nnn_(alpha in I) A_alpha^c`,`quad`
+		`(nnn_(alpha in I) A_alpha)^c = uuu_(alpha in I) A_alpha^c`.
+	</span>
+</p>
+
+<p class="definition">
+	<b>对称差</b>
+	<span class="formula">
+		`A triangle B := (A \\ B) uu (B \\ A) = (A uu B) \\ (A nn B)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<span class="formula">
+		`(EE C) A triangle C = B triangle C iff A = B`,<br/>
+		`(EE C) A nn C = B nn C and A uu C = B uu C iff A = B`.
+	</span>
+</p>
+
+<p class="definition">
+	<b>基数 (势)</b>: `|X|`.
+	对有限集合而言, 基数就是集合中元素的个数. 无限集的基数将在后面讨论.
+</p>
+
+<p class="definition">
+	<b>幂集</b>: 由 `X` 的一切子集形成的集合
+	<span class="formula">
+		`2^X = cc P(X) := {A: A sube X}`.
+	</span>
+	即 `A in 2^X iff A sube X`.
+	采用 `2^X` 这样的记号是因为, 若 `|X| = n`, 则 `|2^X| = 2^n`.
+	注意区分幂集与集合族的并这两个概念.
+	<br/>
+	把 `2^X` 的子集称为 `X` 的<b>子集族</b>. 如果 `tau` 是 `X` 的子集族,
+	那么 `tau sube 2^X`, 即 `tau in 2^(2^X)`.
+</p>
+
+<h2>Descartes 积, 二元关系</h2>
+
+<p class="definition">
+	<b>Descartes 积</b>
+	<span class="formula">
+		`A xx B := {(a, b): a in A, b in B}`,
+	</span>
+	其中 `(a, b)` 为有序二元组.
+	<span class="formula">
+		`  prod_(i=1)^n X_i
+		:= {(x_1, x_2, cdots, x_n): x_i in X_i, i = 1, 2, cdots, n}`,
+	</span>
+	其中 `(x_1, x_2, cdots, x_n)` 为有序 `n` 元组.
+	<span class="formula">
+		`X^n = prod_(i=1)^n X`.
+	</span>
+</p>
+
+<p class="definition">
+	集合 `X` 上的<b>二元关系</b>是 `X xx X` 的子集.
+	记 `X` 上的全体二元关系为 `cc B(X) := 2^(X xx X)`, 则
+	<span class="formula">
+		`sigma in cc B(X) iff sigma sube X xx X`.
+	</span>
+	设 `sigma` 是 `X` 上的一个二元关系,
+	称 `a` 与 `b` 是<b>`sigma`-相关</b>的,
+	如果 `(a, b) in sigma`, 记为 `a sigma b`:
+	<span class="formula">
+		`a sigma b iff (a, b) in sigma`.
+	</span>
+</p>
+
+<p class="definition">
+	令 `X` 为非空集, 定义 `X` 上 (通常的) <b>二元关系合成</b>
+	<span class="formula">
+		`sigma @ tau := {(a, b): (EE c in X)\ a sigma c and c tau b}`,
+		`sigma, tau in cc B(X)`.
+	</span>
+	换言之, `a, b` 有关系 `sigma @ tau` 当且仅当存在中间元 `c in X`,
+	`a sigma c` 且 `c tau b`.
+</p>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

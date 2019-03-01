@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>拓扑空间与连续映射</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+
+</head>
+
+<body>
+
+<h2>拓扑空间</h2>
+
+<h3>拓扑空间的定义</h3>
+
+<ol class="definition">
+	<b>拓扑公理</b>
+	设 `X != O/`, 称 `tau sube 2^X` 为 `X` 的一个<b>拓扑</b>, 如果它满足
+	<li>`X, O/ in tau`;</li>
+	<li>`tau` 中任意多个集合的并仍在 `tau` 中;</li>
+	<li>`tau` 中任意有限个集合的交仍在 `tau` 中.</li>
+	集合 `X` 连同其上的拓扑 `tau` 组成一个<b>拓扑空间</b> `(X, tau)`,
+	不引起混淆的情况下, 简记为 `X`.
+	`tau` 中的成员称为这个拓扑空间的<b>开集</b>.
+	因此, 给出集合的一个拓扑就是指定它的哪些子集是开集
+	(在满足拓扑公理的前提下).
+</ol>
+
+<p class="remark">
+	应用归纳法知, 拓扑公理的 3. 等价于 `tau` 中任意两个集合的交仍在 `tau`
+	中.
+</p>
+
+<p class="definition">
+	设 `tau_1, tau_2` 是 `X` 上的两个拓扑. 称 `tau_2` 比 `tau_1`
+	<b>大</b>或<b>精细</b>, 如果 `tau_1 sube tau_2`.
+</p>
+
+<ol class="example">
+	设 `X != O/`.
+	<li><b>平凡拓扑</b> `tau_t = {X, O/}` 是 `X` 上最小的拓扑;</li>
+	<li><b>离散拓扑</b> `tau_s = 2^X` 是 `X` 上最大的拓扑;</li>
+	<li><b>余有限拓扑</b> `tau_f = {A^c: A sube X, |A| lt oo} uu {O/}`,
+		`X` 为无穷集合;
+	</li>
+	<li><b>余可数拓扑</b> `tau_c = {A^c: A sube X, |A| = aleph_0} uu
+		{O/}`, `X` 为不可数集合;
+	</li>
+	<li><b>欧氏拓扑</b> `tau_e = {uuu_(alpha in I) O_alpha: O_alpha
+		"是开区间"}`, `X = RR`. 这里 `I` 可以是空集, 因此 `O/ in tau_e`.
+	</li>
+	统一取 `X = RR` 时, `tau_f` 小于 `tau_c` 和 `tau_e`; 而 `tau_c, tau_e`
+	不能比较大小.
+</ol>
+
+<h3>度量拓扑</h3>
+
+<ol class="definition">
+	设 `X != O/`, 称映射 `d: X xx X to RR` 为 `X` 上的一个<b>度量</b>,
+	如果它满足
+	<li>正定性. `(AA x in X)` `d(x, x) = 0`,
+		`(AA x, y in X, x != y)` `d(x, y) gt 0`;
+	</li>
+	<li>对称性. `(AA x, y in X)` `d(x, y) = d(y, x)`;</li>
+	<li>三角不等式. `(AA x, y, z in X)` `d(x, z) le d(x, y) + d(y, z)`.
+	</li>
+	集合 `X` 连同其上的度量 `d` 组成一个<b>度量空间</b> `(X, d)`,
+	有时也简记为 `X`.
+</ol>
+
+<p class="example">
+	在 `RR^n` 上规定度量
+	<span class="formula">
+		`d(x, y) = (sum_(i=1)^n (x_i - y_i)^2)^(1/2)`,
+	</span>
+	称 `E^n = (RR^n, d)` 为 <b>`n` 维欧氏空间</b>.
+</p>
+
+<p class="definition">
+	度量空间 `(X, d)` 上以 `x_0` 为心, `epsi gt 0`
+	为半径的<b>开球</b>定义为
+	<span class="formula">
+		`B(x_0, epsi) := {x in X: d(x_0, x) lt epsi}`.
+	</span>
+</p>
+
+<p class="lemma">
+	度量空间 `(X, d)` 的任意两个开球的交可以表为一族开球的并.
+</p>
+
+<p class="proof">
+	设 `U = B(x_1, epsi_1) nn B(x_2, epsi_2)`, 任取 `x in U`, 有
+	<span class="formula">
+		`d(x, x_i) lt epsi_i`, `i = 1, 2`.
+	</span>
+	取
+	<span class="formula">
+		`epsi_x = min{epsi_1 - d(x, x_1), epsi_2 - d(x, x_2)}`,
+	</span>
+	则对任意 `y in B(x, epsi_x)`, 有
+	<span class="formula">
+		`d(x, y) lt epsi_x le epsi_i - d(x, x_i)`, `i = 1, 2`.
+	</span>
+	于是
+	<span class="formula">
+		`d(x_i, y) le d(x_i, x) + d(x, y) lt epsi_i`, `i = 1, 2`,
+	</span>
+	即 `B(x, epsi_x) sube U`. 从而
+	<span class="formula">
+		`U = uuu_(x in U) B(x, epsi_x)`.
+	</span>
+</p>
+
+<p class="theorem">
+	任意度量空间上都可以诱导出一个拓扑
+	<span class="formula">
+		`tau_d = {uuu_(alpha in I) O_alpha: O_alpha "是开球"}`,
+	</span>
+	称为<b>度量拓扑</b>. 特别把欧氏空间 `E^n`
+	的度量拓扑称为<b>欧氏拓扑</b>.
+</p>
+
+<p class="proof">
+	显然 `tau_d` 满足拓扑公理的 1 和 2 (注意 `I` 可以是空集).
+	下证它满足 3. 设
+	<span class="formula">
+		`U = uuu_alpha B(x_alpha, epsi_alpha),
+		 V = uuu_beta B(x_beta, epsi_beta) in tau_d`,
+	</span>
+	则
+	<span class="formula">
+		` U nn V
+		= (uuu_alpha B(x_alpha, epsi_alpha))
+		  nn (uuu_beta B(x_beta, epsi_beta))`
+		`= uuu_(alpha, beta) (B(x_alpha, epsi_alpha)
+		  nn B(x_beta, epsi_beta))`.
+	</span>
+	再由引理知 `U nn V in tau_d`.
+</p>
+
+<h3>拓扑空间中的几个基本概念</h3>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

@@ -88,4 +88,16 @@ tableOfContents = [ {
 		{title:'映射与基数', src:'real/1-3.html'},
 		{title:'`RR^n` 中的度量与极限', src:'real/1-4.html'},
 	]
+	}, {
+	title:'集合论',
+	articles: [
+//		{title:'数理逻辑初步', src:'set-theory/1.html'},
+		{title:'集合及其运算', src:'set-theory/2.html'},
+		{title:'映射', src:'set-theory/3.html'},
+	]
+	}, {
+	title:'拓扑学基础',
+	articles: [
+		{title:'拓扑空间与连续映射', src:'topology/1.html'},
+	]
 }];

@@ -40,10 +40,12 @@ function init() {
 		newScript.src = '../js/asciimathml.js';
 		document.body.appendChild(newScript);
 	} else {
-		// bm "something" get bold-italics
+		newScript.src = '../js/mathjax-config.js';
+		document.body.appendChild(newScript);
+
+		newScript = document.createElement('script');
 		newScript.type = 'text/x-mathjax-config';
-		//newScript.src = 'js/mathjax-config.js';
-		newScript.innerHTML = ' MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () { var AM = MathJax.InputJax.AsciiMath.AM; AM.symbols.push( { input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:AM.TOKEN.UNARY }); AM.symbols.push({input:"==",  tag:"mo", output:"\u2550\u2550\u2550\u2550", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"====",  tag:"mo", output:"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"////", tag:"mo", output:"\u2225", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"!//", tag:"mo", output:"\u2226", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"S=",  tag:"mo", output:"\u224C", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"!-=",  tag:"mo", output:"\u2262", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"!|", tag:"mo", output:"\u2224", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"iint",  tag:"mo", output:"\u222C", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"iiint",  tag:"mo", output:"\u222D", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"oiint", tag:"mo", output:"\u222F", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"oiiint", tag:"mo", output:"\u2230", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"laplace",  tag:"mo", output:"\u0394", tex:null, ttype:AM.TOKEN.CONST}); AM.symbols.push({input:"Sup",  tag:"mo", output:"sup", tex:null, ttype:AM.TOKEN.UNDEROVER}); AM.symbols.push({input:"inf",  tag:"mo", output:"inf", tex:null, ttype:AM.TOKEN.UNDEROVER}); AM.symbols.push({input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:AM.TOKEN.UNARY}); AM.symbols.push({input:"rm", tag:"mstyle", atname:"mathvariant", atval:"serif", output:"rm", tex:null, ttype:AM.TOKEN.UNARY}); });';
+		newScript.innerHTML = 'mathJaxConfig();'
 		document.body.appendChild(newScript);
 
 		newScript = document.createElement('script');
@@ -248,6 +250,7 @@ decorate([
 	{name:'question', getBy:'class', word:'问题', style:style_name_num},
 	{name:'principle', getBy:'class', word:'原理', style:style_name_num},
 	{name:'axiom', getBy:'class', word:'公理', style:style_name_num},
+	{name:'property', getBy:'class', word:'性质', style:style_name_num},
 	// place this before '证' and '解'. got problem with the numbering.
 	{name:'method', getBy:'class', word:'法', style:style_num},
 	{name:'label', getBy:'class', word:'', style:style_formula},
