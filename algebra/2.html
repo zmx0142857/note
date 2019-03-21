@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>行列式</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+
+</head>
+
+<body>
+
+<p class="example">
+	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 证明:
+	<span class="formula">
+		` |bm E_m - bm (AB)|
+		= |(bm E_n, bm B),(bm A, bm E_m)|
+		= |(bm E_m, bm A),(bm B, bm E_n)|
+		= |bm E_n - bm (BA)|`.
+	</span>
+	当 `m != n`, 此公式可以用于降阶.
+</p>
+
+<ol class="proof">
+	<li>先证第一个等号. 由行列式的相关性质和矩阵的分块乘法,
+		<span class="formula">
+			` |bm E_m - bm (AB)|
+			= |(bm E_n, bm O), (bm O, bm E_m - bm (AB))|
+			= |(bm E_n, bm O), (-bm A, bm E_m)|
+			  |(bm E_n, bm B), (bm A, bm E_m)|
+			  |(bm E_n, -bm B), (bm O, bm E_m)|
+			= |(bm E_n, bm B), (bm A, bm E_m)|`.
+		</span>
+		类似可以证明第三个等号.
+	</li>
+	<li>再证第二个等号.
+		先交换左边行列式的前 `n` 列与后 `m` 列, 得到
+		`|(bm B, bm E_n),(bm E_m, bm A)|`.
+		这可以通过把后 `m` 列逐列前移 `n` 个位置得到, 因此需要交换 `mn`
+		次. 再交换它的前 `n` 行与后 `m` 行来得到右边的行列式; 同样需要
+		`mn` 次交换. 由于交换行/列的次数是偶数, 行列式的值不变.
+	</li>
+</ol>
+
+</body>
+
+<script src="../js/main.js"></script>
+
+</html>

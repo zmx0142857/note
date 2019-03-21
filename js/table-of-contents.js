@@ -1,6 +1,7 @@
 tableOfContents = [ {
 	title:'高等代数',
 	articles: [
+		{title:'行列式', src:'algebra/2.html'},
 		{title:'线性方程组的一般理论', src:'algebra/3.html'},
 		{title:'线性空间与线性方程组', src:'algebra/4.html'},
 	]
