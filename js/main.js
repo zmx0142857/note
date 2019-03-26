@@ -131,6 +131,17 @@ function makeNav() {
 }
 */
 
+function alignLabel() {
+	var labels = document.getElementsByClassName('label');
+	for (var i = 0; i < labels.length; ++i) {
+		var p = labels[i].parentElement;
+		var labelPhantom = document.createElement('span');
+		labelPhantom.className = 'label-phantom';
+		labelPhantom.innerHTML = labels[i].innerHTML;
+		p.insertBefore(labelPhantom, p.firstChild);
+	}
+}
+
 function decorate(list) {
 	for (var i = 0; i < list.length; ++i) {
 		var elem = ( list[i].getBy === 'class'
@@ -139,12 +150,12 @@ function decorate(list) {
 		);
 
 		if (list[i].style === style_formula) {
-			for (var j = 0; j < elem.length; j++) {
+			for (var j = 0; j < elem.length; ++j) {
 				elem[j].title = elem[j].innerHTML
 					= list[i].style(list[i].word, j);
 			}
 		} else {
-			for (var j = 0; j < elem.length; j++) {
+			for (var j = 0; j < elem.length; ++j) {
 				if (elem[j].classList.contains('nonu')) {
 					continue;
 				}
@@ -209,6 +220,9 @@ init();
 makeH1();
 //makeNav();
 
+// call alignLabel() before decorate()
+alignLabel();
+
 var style_name = function() {
 	return document.createTextNode(filename);
 };
@@ -254,6 +268,7 @@ decorate([
 	// place this before '证' and '解'. got problem with the numbering.
 	{name:'method', getBy:'class', word:'法', style:style_num},
 	{name:'label', getBy:'class', word:'', style:style_formula},
+	{name:'label-phantom', getBy:'class', word:'', style:style_formula},
 ]);
 
 hideAnswer([
@@ -269,17 +284,8 @@ makeReference();
 })();
 
 // ---- this function will be called after asciimathml.js  ----
-
 function genericJunior() {
-	/*
-	(function labelHeight() {
-		var labels = document.getElementsByClassName('label');
-		for (var i = 0; i < labels.length; ++i) {
-			var h = labels[i].parentElement.clientHeight + 'px';
-			labels[i].style.lineHeight = h;
-		}
-	})();
-	*/
+
 }
 
 //setup onload function
