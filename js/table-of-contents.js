@@ -54,6 +54,7 @@ tableOfContents = [ {
 	}, {
 	title:'数值分析',
 	articles: [
+		{title:'插值', src:'numeric/2.html'},
 		{title:'非线性方程数值解法', src:'numeric/7.html'},
 		{title:'常微分方程数值解法', src:'numeric/8.html'},
 	]

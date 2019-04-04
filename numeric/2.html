@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>插值</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/math.css" />
+
+</head>
+
+<body>
+
+<p class="example">
+	设 `f(x) = (a-x)^-1`, 证明:
+	<span class="formula">
+		`f[x_0, x_1, cdots, x_n] = prod_(k=0)^n (a-x_k)^-1`,
+	</span>
+	而且
+	<span class="formula">
+		` 1/(a-x)
+		= 1/(a-x_0) + (x-x_0)/((a-x_0)(a-x_1)) + cdots`
+		  `+ ((x-x_0) cdots (x-x_(n-1))) / ((a-x_0) cdots (a-x_n))
+		  + ((x-x_0) cdots (x-x_n)) / ((a-x_0) cdots (a-x_n) (a-x))`.
+	</span>
+</p>
+
+<ol class="proof">
+	<li>对 `n` 进行归纳证明. `n = 0` 时， `f[x_0] = (a-x_0)^-1`, 公式成立.
+		设公式对非负整数 `n` 成立, 则对 `n+1`, 有
+		<span class="formula">
+			` f[x_0, cdots, x_(n+1)]
+			= (f[x_1, cdots, x_(n+1)] - f[x_0, cdots, x_n])
+			  / (x_(n+1) - x_0)`
+			`= 1/(x_(n+1) - x_0) (prod_(k=1)^(n+1) (a-x_k)^-1
+			  - prod_(k=0)^n (a-x_k)^-1)`
+			`= 1/(x_(n+1) - x_0) ((a-x_0) - (a-x_(n+1)))
+			  / (prod_(k=0)^(n+1) (a-x_k))`
+			`= prod_(k=0)^(n+1) (a-x_k)^-1`.
+		</span>
+		故公式对任意非负整数 `n` 成立.
+	</li>
+	<li>应用 Newton 插值公式立得.</li>
+</ol>
+
+<script src="../js/main.js"></script>
+
+</body>
+
+</html>
