@@ -13,11 +13,7 @@ var index;		// 2,    4,      1
 function init() {
 	url = window.location.href.split('/');
 	url = url[url.length-1].split('.')[0];
-
-	filename = ( url.substring(0, 3) === '%23'
-		? '#' + url.substring(3)
-		: url
-	);
+	filename = unescape(url);
 
 	// locate first digit, or the first char after '-'
 	var indexOfMinus = filename.indexOf('-');
@@ -29,7 +25,9 @@ function init() {
 	abbr = filename.substring(0, i);
 	urlAbbr = (abbr === '#' ? '%23' : abbr);
 	index = parseInt(filename.substring(i));
+}
 
+function loadMath() {
 	var explorer = window.navigator.userAgent;
 	var foundFirefox = explorer.indexOf('Firefox') >= 0;
 	var foundChrome = explorer.indexOf('Chrome') >= 0;
@@ -214,14 +212,56 @@ function makeReference() {
 	}
 }
 
+function setDefaults(elem, dict) {
+	for (var attr in dict) {
+		if (!elem.getAttribute(attr))
+			elem.setAttribute(attr, dict[attr]);
+	}
+}
+
+function makeSvg() {
+	var rects = document.getElementsByTagName('rect');
+	for (var i = 0; i < rects.length; ++i) {
+		setDefaults(rects[i], {
+			height: '30',
+			width: '80',
+			rx: '10',
+			ry: '10'
+		});
+		//console.log(rects[i]);
+	}
+}
+
+function getQuery() {
+	var theRequest = new Object();
+	var scripts = document.getElementsByTagName('script');
+	var scriptName = scripts[scripts.length-1].getAttribute('src');
+	var i = scriptName.indexOf('?');
+	if (i != -1) {
+		var strs = scriptName.substr(i+1).split("&");
+		for (var i = 0; i < strs.length; ++i) {
+			var splits = strs[i].split('=');
+			theRequest[splits[0]] = unescape(splits[1]);
+      }
+   }
+   return theRequest;
+}
+
 // ---- data & function call ----
+
+var args = getQuery();
+console.log(args);
 
 init();
 makeH1();
 //makeNav();
 
-// call alignLabel() before decorate()
-alignLabel();
+if (args.type == 'cs') {
+	makeSvg();
+} else {
+
+loadMath();
+alignLabel(); // call alignLabel() before decorate()
 
 var style_name = function() {
 	return document.createTextNode(filename);
@@ -278,8 +318,9 @@ hideAnswer([
 	{name:'collapse', word:''},
 ]);
 
-// call makeReference() after decorate()
-makeReference();
+makeReference(); // call makeReference() after decorate()
+
+}
 
 })();
 
