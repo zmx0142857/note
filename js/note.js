@@ -1,14 +1,31 @@
 'use strict';
 
-// ---- globals & initiation ----
-
 (function() {
+
+// ---- globals ----
 
 var url;		// 'A2', '%234', '3-1'
 var filename;	// 'A2', '#4',   '3-1'	// replace leading '%23' with '#'
 var abbr;		// 'A',  '#',    '3-'
 var urlAbbr;	// 'A',  '%234', '3-'
 var index;		// 2,    4,      1
+
+// ---- functions ----
+
+function getQuery() {
+	var theRequest = new Object();
+	var scripts = document.getElementsByTagName('script');
+	var scriptName = scripts[scripts.length-1].getAttribute('src');
+	var i = scriptName.indexOf('?');
+	if (i != -1) {
+		var strs = scriptName.substr(i+1).split("&");
+		for (var i = 0; i < strs.length; ++i) {
+			var splits = strs[i].split('=');
+			theRequest[splits[0]] = unescape(splits[1]);
+      }
+   }
+   return theRequest;
+}
 
 function init() {
 	url = window.location.href.split('/');
@@ -53,7 +70,12 @@ function loadMath() {
 	}
 }
 
-// ---- functions ----
+function makeModified() {
+	var modified = document.createElement('p');
+	modified.id = 'last-modified';
+	modified.innerHTML = document.lastModified;
+	document.body.insertBefore(modified, document.body.firstChild);
+}
 
 function makeH1() {
 	var zhname = {
@@ -67,10 +89,8 @@ function makeH1() {
 		'S': '概率统计篇'
 	};
 	var h1 = document.createElement('h1');
-	h1.innerHTML = ( zhname[abbr] === undefined
-		? ''
-		: zhname[abbr]
-	) + index + ': ' + document.title;
+	h1.innerHTML = zhname[abbr] || '';
+	h1.innerHTML += index + ' ' + document.title;
 	document.body.insertBefore(h1, document.body.firstChild);
 }
 
@@ -140,6 +160,32 @@ function alignLabel() {
 	}
 }
 
+var Sname = function() {
+	return document.createTextNode(filename);
+};
+
+var Sname_num = function(word, i) {
+	var newItem = document.createElement('b');
+	newItem.innerHTML = word + filename + '-' + (i+1);
+	return newItem;
+};
+
+var Snum = function(word, i) {
+	var newItem = document.createElement('b');
+	newItem.innerHTML = word + (i+1);
+	return newItem;
+};
+
+var Svoid = function(word) {
+	var newItem = document.createElement('b');
+	newItem.innerHTML = word;
+	return newItem;
+};
+
+var Sformula = function(word, i) {
+	return '(' + filename + '-' + (i+1) + ')';
+};
+
 function decorate(list) {
 	for (var i = 0; i < list.length; ++i) {
 		var elem = ( list[i].getBy === 'class'
@@ -147,7 +193,7 @@ function decorate(list) {
 			: document.getElementsByTagName(list[i].name)
 		);
 
-		if (list[i].style === style_formula) {
+		if (list[i].style === Sformula) {
 			for (var j = 0; j < elem.length; ++j) {
 				elem[j].title = elem[j].innerHTML
 					= list[i].style(list[i].word, j);
@@ -165,6 +211,48 @@ function decorate(list) {
 			}
 		}
 	}
+}
+
+function decorateHeading(maxLevel=3) {
+	if (maxLevel < 2)
+		return;
+	if (maxLevel > 6)
+		maxLevel = 6;
+	var select = "h2,h3,h4,h5,h6".substr(0, (maxLevel-2)*3 + 2);
+	//console.log(select);
+	var elem = document.querySelectorAll(select);
+
+	var i = 0;
+	if (i == elem.length) return;
+	var level = parseInt(elem[i].nodeName[1]);
+	var nums = [index];
+	function decorateH(lastLevel) {
+		var cnt = 0;
+		if (level > lastLevel) {
+			nums.push(cnt);
+			decorateH(lastLevel+1);
+		}
+		while (level == lastLevel) {
+			if (!elem[i].classList.contains('nonu')) {
+				var space = document.createTextNode(' ');
+				elem[i].insertBefore(space, elem[i].firstChild);
+				var newNode = document.createElement('b');
+				elem[i].title = newNode.innerHTML
+					= nums.join('-') + '-' + (++cnt);
+				elem[i].insertBefore(newNode, elem[i].firstChild);
+				//console.log(elem[i]);
+			}
+			++i;
+			if (i == elem.length) return;
+			level = parseInt(elem[i].nodeName[1]);
+			if (level > lastLevel) {
+				nums.push(cnt);
+				decorateH(lastLevel+1);
+			}
+		}
+		nums.pop();
+	}
+	decorateH(2);
 }
 
 function hideAnswer(list) {
@@ -228,133 +316,67 @@ function makeSvg() {
 			rx: '10',
 			ry: '10'
 		});
-		//console.log(rects[i]);
 	}
-}
-
-function getQuery() {
-	var theRequest = new Object();
-	var scripts = document.getElementsByTagName('script');
-	var scriptName = scripts[scripts.length-1].getAttribute('src');
-	var i = scriptName.indexOf('?');
-	if (i != -1) {
-		var strs = scriptName.substr(i+1).split("&");
-		for (var i = 0; i < strs.length; ++i) {
-			var splits = strs[i].split('=');
-			theRequest[splits[0]] = unescape(splits[1]);
-      }
-   }
-   return theRequest;
 }
 
 // ---- data & function call ----
 
 var args = getQuery();
-console.log(args);
+//console.log(args);
 
 init();
-makeH1();
 //makeNav();
-
-if (args.type == 'cs') {
-	makeSvg();
-} else {
-
-loadMath();
-alignLabel(); // call alignLabel() before decorate()
-
-var style_name = function() {
-	return document.createTextNode(filename);
-};
-
-var style_name_num = function(word, i) {
-	var newItem = document.createElement('b');
-	newItem.innerHTML = word + filename + '-' + (i+1);
-	return newItem;
-};
-
-var style_num = function(word, i) {
-	var newItem = document.createElement('b');
-	newItem.innerHTML = word + (i+1);
-	return newItem;
-};
-
-var style_void = function(word) {
-	var newItem = document.createElement('b');
-	newItem.innerHTML = word;
-	return newItem;
-};
-
-var style_formula = function(word, i) {
-	return '(' + filename + '-' + (i+1) + ')';
-};
+makeModified();
+makeH1();		// call makeH1() before decorate()
+decorateHeading();
+makeSvg();
 
 decorate([
-	{name:'title', getBy:'tag', word:'', style:style_name},
-	{name:'h2', getBy:'tag', word:'', style:style_name_num},
-	{name:'theorem', getBy:'class', word:'定理', style:style_name_num},
-	{name:'definition', getBy:'class', word:'定义', style:style_name_num},
-	{name:'lemma', getBy:'class', word:'引理', style:style_name_num},
-	{name:'corollary', getBy:'class', word:'推论', style:style_name_num},
-	{name:'example', getBy:'class', word:'例', style:style_name_num},
-	{name:'algorithm', getBy:'class', word:'算法', style:style_name_num},
-	{name:'construction', getBy:'class', word:'作图', style:style_name_num},
-	{name:'graph', getBy:'class', word:'图', style:style_name_num},
-	{name:'remark', getBy:'class', word:'注', style:style_name_num},
-	{name:'question', getBy:'class', word:'问题', style:style_name_num},
-	{name:'principle', getBy:'class', word:'原理', style:style_name_num},
-	{name:'axiom', getBy:'class', word:'公理', style:style_name_num},
-	{name:'property', getBy:'class', word:'性质', style:style_name_num},
-	// place this before '证' and '解'. got problem with the numbering.
-	{name:'method', getBy:'class', word:'法', style:style_num},
-	{name:'label', getBy:'class', word:'', style:style_formula},
-	{name:'label-phantom', getBy:'class', word:'', style:style_formula},
+	{name:'title', getBy:'tag', word:'', style:Sname},
 ]);
 
-hideAnswer([
-	{name:'proof', word:'证'},
-	{name:'solution', word:'解'},
-	{name:'answer', word:'答'},
-	{name:'collapse', word:''},
-]);
+if (args.type == 'math' || args.loadmath) {
+	loadMath();
+}
+
+if (args.type == 'math') {
+	alignLabel(); // call alignLabel() before decorate()
+
+	decorate([
+		{name:'theorem', getBy:'class', word:'定理', style:Sname_num},
+		{name:'definition', getBy:'class', word:'定义', style:Sname_num},
+		{name:'lemma', getBy:'class', word:'引理', style:Sname_num},
+		{name:'corollary', getBy:'class', word:'推论', style:Sname_num},
+		{name:'example', getBy:'class', word:'例', style:Sname_num},
+		{name:'algorithm', getBy:'class', word:'算法', style:Sname_num},
+		{name:'construction',getBy:'class', word:'作图', style:Sname_num},
+		{name:'graph', getBy:'class', word:'图', style:Sname_num},
+		{name:'remark', getBy:'class', word:'注', style:Sname_num},
+		{name:'question', getBy:'class', word:'问题', style:Sname_num},
+		{name:'principle', getBy:'class', word:'原理', style:Sname_num},
+		{name:'axiom', getBy:'class', word:'公理', style:Sname_num},
+		{name:'property', getBy:'class', word:'性质', style:Sname_num},
+		// place this before 证 and 解. got problem with the numbering.
+		{name:'method', getBy:'class', word:'法', style:Snum},
+		{name:'label', getBy:'class', word:'', style:Sformula},
+		{name:'label-phantom', getBy:'class', word:'', style:Sformula},
+	]);
+
+	hideAnswer([
+		{name:'proof', word:'证'},
+		{name:'solution', word:'解'},
+		{name:'answer', word:'答'},
+		{name:'collapse', word:''},
+	]);
+
+} else if (args.type == 'cs') {
+
+	decorate([
+		{name:'example', getBy:'class', word:'例', style:Sname_num},
+		{name:'algorithm', getBy:'class', word:'算法', style:Sname_num}
+	]);
+}
 
 makeReference(); // call makeReference() after decorate()
 
-}
-
 })();
-
-// ---- this function will be called after asciimathml.js  ----
-function genericJunior() {
-
-}
-
-//setup onload function
-if(typeof window.addEventListener != 'undefined'){
-  //.. gecko, safari, konqueror and standard
-  window.addEventListener('load', genericJunior, false);
-}
-else if(typeof document.addEventListener != 'undefined'){
-  //.. opera 7
-  document.addEventListener('load', genericJunior, false);
-}
-else if(typeof window.attachEvent != 'undefined'){
-  //.. win/ie
-  window.attachEvent('onload', genericJunior);
-}else{
-  //.. mac/ie5 and anything else that gets this far
-  //if there's an existing onload function
-  if(typeof window.onload == 'function'){
-    //store it
-    var existing = onload;
-    //add new onload handler
-    window.onload = function(){
-      //call existing onload function
-      existing();
-      //call genericJunior onload function
-      genericJunior();
-    };
-  }else{
-    window.onload = genericJunior;
-  }
-}
