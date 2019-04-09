@@ -89,8 +89,13 @@ function makeH1() {
 		'S': '概率统计篇'
 	};
 	var h1 = document.createElement('h1');
-	h1.innerHTML = zhname[abbr] || '';
-	h1.innerHTML += index + ' ' + document.title;
+	var title = document.getElementsByTagName('title');
+	if (title[0].classList.contains('nonu')) {
+		h1.innerHTML = document.title;
+	} else {
+		h1.innerHTML = zhname[abbr] || '';
+		h1.innerHTML += filename + ' ' + document.title;
+	}
 	document.body.insertBefore(h1, document.body.firstChild);
 }
 
@@ -182,6 +187,13 @@ var Svoid = function(word) {
 	return newItem;
 };
 
+var Slarge = function(word) {
+	var newItem = document.createElement('span');
+	newItem.style.fontSize = '2em';
+	newItem.innerHTML = word;
+	return newItem;
+};
+
 var Sformula = function(word, i) {
 	return '(' + filename + '-' + (i+1) + ')';
 };
@@ -225,7 +237,7 @@ function decorateHeading(maxLevel=3) {
 	var i = 0;
 	if (i == elem.length) return;
 	var level = parseInt(elem[i].nodeName[1]);
-	var nums = [index];
+	var nums = [filename];
 	function decorateH(lastLevel) {
 		var cnt = 0;
 		if (level > lastLevel) {
@@ -253,6 +265,33 @@ function decorateHeading(maxLevel=3) {
 		nums.pop();
 	}
 	decorateH(2);
+}
+
+function enableCopyCode()
+{
+	var pres = document.getElementsByTagName('pre');
+	for (var i = 0; i < pres.length; ++i) {
+		var button = document.createElement('button');
+		var id = 'pre-' + filename + '-' + (i+1);
+		button.innerHTML = '复制';
+		button.onclick = copyCode(button, id);
+		button.className = 'copy-code';
+		pres[i].parentElement.insertBefore(button, pres[i]);
+		pres[i].id = id;
+	}
+}
+
+function copyCode(button, id)
+{
+	return function() {
+		var code = document.getElementById(id);
+		var textArea = document.createElement('textarea');
+		textArea.innerHTML = code.innerHTML;
+		document.body.appendChild(textArea);
+		textArea.select();
+		document.execCommand('copy');
+		document.body.removeChild(textArea);
+	}
 }
 
 function hideAnswer(list) {
@@ -289,8 +328,8 @@ function toggleShowAnswer(button, id) {
 function makeReference() {
 	var refs = document.getElementsByClassName('ref');
 	for (var i = 0; i < refs.length; ++i) {
-		var index = refs[i].href.indexOf('#');
-		var id = refs[i].href.substring(index+1);
+		var j = refs[i].href.indexOf('#');
+		var id = refs[i].href.substring(j+1);
 		var refed = document.getElementById(id);
 		if (refed) {
 			refs[i].innerHTML = refed.title;
@@ -332,6 +371,7 @@ decorateHeading();
 makeSvg();
 
 decorate([
+	//{name:'read-important',getBy:'class',word:'&#x1f4d6;',style:Slarge},
 	{name:'title', getBy:'tag', word:'', style:Sname},
 ]);
 
@@ -375,6 +415,8 @@ if (args.type == 'math') {
 		{name:'example', getBy:'class', word:'例', style:Sname_num},
 		{name:'algorithm', getBy:'class', word:'算法', style:Sname_num}
 	]);
+
+	enableCopyCode();
 }
 
 makeReference(); // call makeReference() after decorate()

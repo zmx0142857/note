@@ -9,19 +9,19 @@ angular.module('mathNoteApp', ['ionic'])
 		},
 
 		getGroupIndex: function() {
-			return parseInt(window.localStorage['groupIndex']) || 0;
+			return parseInt(window.localStorage['groupIndex'+domain]) || 0;
 		},
 
 		setGroupIndex: function(index) {
-			window.localStorage['groupIndex'] = index;
+			window.localStorage['groupIndex'+domain] = index;
 		},
 
 		getArticleIndex: function() {
-			return parseInt(window.localStorage['articleIndex']) || 0;
+			return parseInt(window.localStorage['articleIndex'+domain]) || 0;
 		},
 
 		setArticleIndex: function(index) {
-			window.localStorage['articleIndex'] = index;
+			window.localStorage['articleIndex'+domain] = index;
 		},
 	};
 })

@@ -1,4 +1,5 @@
-tableOfContents = [ {
+var domain = '.mathNote.io.github.zmx0142857';
+var tableOfContents = [ {
 	title:'高等代数',
 	articles: [
 		{title:'行列式', src:'algebra/2.html'},
