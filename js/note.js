@@ -4,6 +4,7 @@
 
 // ---- globals ----
 
+var explorer = navigator.userAgent;
 var url;		// 'A2', '%234', '3-1'
 var filename;	// 'A2', '#4',   '3-1'	// replace leading '%23' with '#'
 var abbr;		// 'A',  '#',    '3-'
@@ -45,7 +46,6 @@ function init() {
 }
 
 function loadMath() {
-	var explorer = window.navigator.userAgent;
 	var foundFirefox = explorer.indexOf('Firefox') >= 0;
 	var foundChrome = explorer.indexOf('Chrome') >= 0;
 	var foundSafari = explorer.indexOf('Safari') >= 0;
@@ -359,7 +359,7 @@ function makeSvg() {
 }
 
 function wrapIOS() {
-	//if (/iphone|ipad|ipod/i.test(explorer)) {
+	if (/iphone|ipad|ipod/i.test(explorer)) {
 		// move everything into wrapper
 		var wrapper = document.createElement('div');
 		wrapper.id = 'ios-wrapper';
@@ -368,7 +368,7 @@ function wrapIOS() {
 			wrapper.appendChild(node);
 		}
 		document.body.appendChild(wrapper);
-	//}
+	}
 }
 
 // ---- data & function call ----
