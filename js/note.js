@@ -359,7 +359,7 @@ function makeSvg() {
 }
 
 function wrapIOS() {
-	if (/iphone|ipad|ipod/i.test(explorer)) {
+	//if (/iphone|ipad|ipod/i.test(explorer)) {
 		// move everything into wrapper
 		var wrapper = document.createElement('div');
 		wrapper.id = 'ios-wrapper';
@@ -368,7 +368,7 @@ function wrapIOS() {
 			wrapper.appendChild(node);
 		}
 		document.body.appendChild(wrapper);
-	}
+	//}
 }
 
 // ---- data & function call ----
