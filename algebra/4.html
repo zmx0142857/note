@@ -18,7 +18,8 @@
 
 <p>	类比于平面仿射几何系统, 我们抽象出线性空间的概念:</p>
 
-<ol class="definition" style="list-style-type:lower-roman">
+<ol class="definition" style="list-style-type:lower-roman"
+	id="def-linear-space">
 	令集合 `V != O/`, `bbb P` 为一数域, "`+`" 为 `v` 上的一个二元运算,
 	称为<b>加法</b>, "`*`" 为 `bbb P xx V` 到 `V` 的一个二元合成,
 	称为<b>数乘</b>.
@@ -75,7 +76,7 @@
 	若把数域 `bbb P` 换成一般的域, 这里定义的就是抽象代数中的模.
 </p>
 
-<ol class="corollary">
+<ol class="corollary" id="cor-simple-property">
 	<b>线性空间的简单性质</b>
 	<li>iii 中的 `bm theta` 是唯一的, 称为线性空间 `V` 中的<b>零向量</b>;
 	</li>
@@ -163,7 +164,7 @@
 	</li>
 </ol>
 
-<ol class="remark">
+<ol class="remark" id="rem-reduce-dependency">
 	零元, 负元的唯一性和消去律都是群的性质, 我们只由 ii, iii, iv
 	就可以推出它们:
 	<li>右负元也是左负元:
@@ -194,7 +195,8 @@
 	</li>
 	因此当 `bm alpha, bm beta in V` 中有一个是零元,
 	或者有一个是另一个的负元时, `bm alpha + bm beta = bm beta + bm alpha`.
-	从而上述推论 1, 4, 6 的证明实际上不依赖于交换律. 
+	从而上述<a class="ref" href="#cor-simple-property"></a>
+	的 1, 4, 6 的证明实际上不依赖于交换律. 
 </ol>
 
 <p class="remark">
@@ -220,13 +222,14 @@
 		= (bm alpha + bm alpha) + (bm beta + bm beta)
 		= bm alpha + (bm alpha + bm beta) + bm beta`.
 	</span>
-	由消去律 (从注4-3 知道, 消去律只依赖于 ii, iii, iv) 知
+	由消去律 (从<a class="ref" href="#rem-reduce-dependency"></a> 知道,
+	消去律只依赖于 ii, iii, iv) 知
 	<span class="formula">
 		`bm beta + bm alpha = bm alpha + bm beta`.
 	</span>
 </p>
 
-<ol class="remark">
+<ol class="remark" id="rem-cancellation-law">
 	线性空间定义中的 iii, iv 可由消去律代替.
 	<li>任取 `bm alpha in V`, 记 `0 bm alpha = bm theta`.
 		对任意 `bm beta in V`, 由于
@@ -258,8 +261,9 @@
 			= bm theta`.
 		</span>
 	</li>
-	因此, 联系注4-3 至 4-5, 线性空间可以较弱地定义为:
-	满足 v - viii 的双消半群.
+	因此, 联系<a class="ref" href="#rem-reduce-dependency"></a>
+	至<a class="ref" href="#rem-cancellation-law"></a>,
+	线性空间可以较弱地定义为: 满足 v - viii 的双消半群.
 </ol>
 
 <h3>线性子空间</h3>
@@ -285,9 +289,11 @@
 </ol>
 
 <p class="proof">
-	必要性显然, 今证充分性, 这只需再证明 `V_1` 满足定义4-1 的 8 条性质.
+	必要性显然, 今证充分性, 这只需再证明 `V_1`
+	满足<a class="ref" href="#def-linear-space"></a> 的 8 条性质.
 	由于 `V_1 sube V`, i, ii 及 v - viii 显然成立. 接下来证明 iii, iv
-	成立. 任取 `bm alpha in V_1`, 则由推论4-1 的 2 及 `V_1`
+	成立. 任取 `bm alpha in V_1`, 则由<a class="ref"
+		href="#cor-simple-property"></a>的 2 及 `V_1`
 	对数乘的封闭性, `bm theta = 0 bm alpha in V_1`, 故 iii 成立.
 	同理, 对任意 `bm alpha in V_1`, `-bm alpha = (-1) bm alpha in V_1`,
 	故 iv 成立.
@@ -360,7 +366,7 @@
 	故 `V_1 + V_2` 为直和也当且仅当此映射是双射.
 </p>
 
-<ol class="theorem">
+<ol class="theorem" id="the-direct-sum">
 	假设如上述定义, 以下各款等价:
 	<li>`V_1 + V_2` 是直和;</li>
 	<li>存在向量 `bm alpha in V_1 + V_2`, 使得 `bm alpha` 写为 `V_1` 和
@@ -411,7 +417,7 @@
 
 <p class="remark">
 	子空间的和与直和可以推广到 `n` 个子空间的情形. 需要特别注意,
-	定理4-2 的 4 应该推广为
+	<a class="ref" href="#the-direct-sum"></a>的 4 应该推广为
 	<span class="formula">
 		`V_i nn sum_(j=1,j!=i)^n V_j = {bm theta}`,
 		`i = 1, 2, cdots, n`.
@@ -439,19 +445,20 @@
 	<span class="formula">
 		` G[bm alpha_1, bm alpha_2, cdots, bm alpha_n]
 		= sum_(i=1)^n G[bm alpha_i]`.
-		<span class="label">(4-2)</span>
+		<span class="label" id="for-generated-subspace">(4-2)</span>
 	</span>
 </p>
 
 <p> 子空间的直和与第三章中向量的线性无关性是很类似的概念.
 	若将第三章线性相关 (无关) 的概念从 `bbb P^n` 上推广到一般线性空间 `V`,
-	注意定理4-2 的 3, 我们有
+	注意<a class="ref" href="#the-direct-sum"></a>的 3, 我们有
 </p>
 
 <p class="corollary">
 	令 `V` 为 `bbb P` 上一线性空间,
 	`bm alpha_1, bm alpha_2, cdots, bm alpha_n in V` 都不是零向量,
-	则这些向量线性无关当且仅当 (4-2) 是直和.
+	则这些向量线性无关当且仅当 <a class="ref"
+	href="#for-generated-subspace"></a> 是直和.
 </p>
 
 <p>	事实上, 将第三章各定义中的 `bbb P^n` 换成一般线性空间 `V`, 则
@@ -479,7 +486,7 @@
 	我们将把讨论的重点放在有限维线性空间上.
 </p>
 
-<p class="definition">
+<p class="definition" id="def-base">
 	令 `V` 为 `bbb P` 上一 `n` 维线性空间, `n ge 1`. 若 `bm epsi_1, bm
 	epsi_2, cdots, bm epsi_n in V` 线性无关, 则称有序向量组
 	<span class="formula">
@@ -499,7 +506,7 @@
 </p>
 
 <ol class="remark">
-	联系定义4-6,
+	联系<a class="ref" href="#def-base"></a>
 	<li>对于 `1, 2, cdots, n` 的任意一个排列
 		`i_1, i_2, cdots, i_n`,
 		`(bm epsi_(i_1), bm epsi_(i_2), cdots, bm epsi_(i_n))` 也是
