@@ -359,7 +359,7 @@ function makeSvg() {
 }
 
 function wrapIOS() {
-	if (/iphone|ipad|ipod/i.test(explorer)) {
+	//if (/iphone|ipad|ipod/i.test(explorer)) {
 		// move everything into wrapper
 		var wrapper = document.createElement('div');
 		wrapper.id = 'ios-wrapper';
@@ -367,9 +367,10 @@ function wrapIOS() {
 		while (node = document.body.firstChild) {
 			wrapper.appendChild(node);
 		}
-		wrapper.style.height = '100%';//document.documentElement.clientHeight;
+		//wrapper.style.height = document.documentElement.clientHeight;
+		wrapper.style.height = '100%';
 		document.body.appendChild(wrapper);
-	}
+	//}
 }
 
 // ---- data & function call ----
