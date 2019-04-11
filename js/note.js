@@ -360,8 +360,8 @@ function makeSvg() {
 
 function wrapIOS() {
 	//if (/iphone|ipad|ipod/i.test(explorer)) {
-		document.body.style.height = '1000px';
-		document.body.style.background = '#fff';
+		//document.body.style.height = '1000px';
+		//document.body.style.background = '#fff';
 	//}
 }
 
