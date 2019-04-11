@@ -358,6 +358,13 @@ function makeSvg() {
 	}
 }
 
+function wrapIOS() {
+	if (/ios/iphone/ipad/ipod/i.test(explorer)) {
+		document.body.style.height = 600px;
+		document.body.style.background = '#fff';
+	}
+}
+
 // ---- data & function call ----
 
 var args = getQuery();
@@ -420,5 +427,6 @@ if (args.type == 'math') {
 }
 
 makeReference(); // call makeReference() after decorate()
+wrapIOS(); // call this last
 
 })();
