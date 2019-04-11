@@ -359,10 +359,10 @@ function makeSvg() {
 }
 
 function wrapIOS() {
-	if (/iphone|ipad|ipod/i.test(explorer)) {
+	//if (/iphone|ipad|ipod/i.test(explorer)) {
 		document.body.style.height = '1000px';
 		document.body.style.background = '#fff';
-	}
+	//}
 }
 
 // ---- data & function call ----
