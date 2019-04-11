@@ -359,10 +359,16 @@ function makeSvg() {
 }
 
 function wrapIOS() {
-	//if (/iphone|ipad|ipod/i.test(explorer)) {
-		//document.body.style.height = '1000px';
-		//document.body.style.background = '#fff';
-	//}
+	if (/iphone|ipad|ipod/i.test(explorer)) {
+		// move everything into wrapper
+		var wrapper = document.createElement('div');
+		wrapper.id = 'ios-wrapper';
+		var node;
+		while (node = document.body.firstChild) {
+			wrapper.appendChild(node);
+		}
+		document.body.appendChild(wrapper);
+	}
 }
 
 // ---- data & function call ----
