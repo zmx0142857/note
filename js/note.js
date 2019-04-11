@@ -367,6 +367,7 @@ function wrapIOS() {
 		while (node = document.body.firstChild) {
 			wrapper.appendChild(node);
 		}
+		wrapper.style.height = '100%';//document.documentElement.clientHeight;
 		document.body.appendChild(wrapper);
 	}
 }
