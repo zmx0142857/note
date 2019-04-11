@@ -359,8 +359,8 @@ function makeSvg() {
 }
 
 function wrapIOS() {
-	if (/ios/iphone/ipad/ipod/i.test(explorer)) {
-		document.body.style.height = 600px;
+	if (/iphone|ipad|ipod/i.test(explorer)) {
+		document.body.style.height = '1000px';
 		document.body.style.background = '#fff';
 	}
 }
