@@ -1,3 +1,4 @@
+document.title = 'zmx0142857 的数学笔记';
 var domain = '.mathNote.io.github.zmx0142857';
 var tableOfContents = [ {
 	title:'高等代数',
