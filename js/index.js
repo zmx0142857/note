@@ -118,10 +118,9 @@ angular.module('noteApp', ['ionic'])
 		$timeout(function() { hideSheet(); }, 5000);
 	};
 
-	document.getElementById('toggle-show-header')
-			.onclick = function(hide) {
+	var button = document.getElementById('toggle-show-header');
+	button.onclick = function(hide) {
 		$rootScope.isHeaderHidden = hide;
-		//if (!hide) $timeout(function() {$rootScope.isHeaderHidden = true;}, 2500);
 		$rootScope.$apply();
 	};
 

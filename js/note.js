@@ -375,13 +375,17 @@ function toggleHideHeader() {
 	var prevScrollTop = document.documentElement.scrollTop
 		|| document.body.scrollTop;
 	var threshod = 100;
+	var prevHide = false;
 	var button = parent.document.getElementById('toggle-show-header');
 	if (parent != window) {
 		document.body.onscroll = function() {
 			var scrollTop = document.documentElement.scrollTop
 				|| document.body.scrollTop;
-			button.onclick(scrollTop >= prevScrollTop);
+			var hide = (scrollTop >= prevScrollTop);
+			if (hide != prevHide)
+				button.onclick(hide);
 			prevScrollTop = scrollTop;
+			prevHide = hide;
 		};
 	}
 }
