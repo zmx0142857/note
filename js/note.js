@@ -225,7 +225,7 @@ function decorate(list) {
 	}
 }
 
-function decorateHeading(maxLevel=3) {
+function decorateHeading(maxLevel) {
 	if (maxLevel < 2)
 		return;
 	if (maxLevel > 6)
@@ -400,7 +400,7 @@ init();
 makeModified();
 makeH1();		// call makeH1() before decorate()
 
-decorateHeading();
+decorateHeading(3);
 makeSvg();
 
 decorate([
