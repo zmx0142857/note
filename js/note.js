@@ -367,9 +367,22 @@ function wrapIOS() {
 		while (node = document.body.firstChild) {
 			wrapper.appendChild(node);
 		}
-		//wrapper.style.height = document.documentElement.clientHeight;
-		wrapper.style.height = '100%';
 		document.body.appendChild(wrapper);
+	}
+}
+
+function toggleHideHeader() {
+	var prevScrollTop = document.documentElement.scrollTop
+		|| document.body.scrollTop;
+	if (parent != window) {
+		document.body.onscroll = function() {
+			var scrollTop = document.documentElement.scrollTop
+				|| document.body.scrollTop;
+			var show = scrollTop < prevScrollTop;
+			if (show)
+				parent.document.body.onclick();
+			prevScrollTop = scrollTop;
+		};
 	}
 }
 
@@ -382,6 +395,7 @@ init();
 //makeNav();
 makeModified();
 makeH1();		// call makeH1() before decorate()
+
 decorateHeading();
 makeSvg();
 
@@ -435,6 +449,8 @@ if (args.type == 'math') {
 }
 
 makeReference(); // call makeReference() after decorate()
-wrapIOS(); // call this last
+wrapIOS(); // call this after decorate()
+toggleHideHeader();
 
 })();
+

@@ -1,4 +1,4 @@
-angular.module('mathNoteApp', ['ionic'])
+angular.module('noteApp', ['ionic'])
 
 // The articles factory handles saving and loading last active
 // group/article index.
@@ -26,8 +26,9 @@ angular.module('mathNoteApp', ['ionic'])
 	};
 })
 
-.controller('mathNoteCtrl', function($scope, $timeout, $ionicModal,
-			Factory, $ionicSideMenuDelegate, $ionicActionSheet) {
+.controller('noteCtrl', function($scope, $timeout, $ionicModal,
+			Factory, $ionicSideMenuDelegate, $ionicActionSheet,
+			$rootScope) {
 
 	// uncomment to clear caches
 	//localStorage.clear();
@@ -114,6 +115,13 @@ angular.module('mathNoteApp', ['ionic'])
 			}
 		});
 		$timeout(function() { hideSheet(); }, 5000);
+	};
+
+	$timeout(function() {$rootScope.isHeaderHidden = true;}, 2500);
+	document.body.onclick = function() {
+		$rootScope.isHeaderHidden = false;
+		$timeout(function() {$rootScope.isHeaderHidden = true;}, 2500);
+		$rootScope.$apply();
 	};
 
 });

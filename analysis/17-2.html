@@ -12,9 +12,50 @@
 
 <body>
 
-<h2>求稳定点的 Lagrange 乘数法</h2>
+<h2>Lagrange 乘数法</h2>
 
-<script src="../js/note.js?type="></script>
+<p class="question">
+	<b>条件极值问题</b>
+	给定开集 `D sube RR^m` 和定义在 `D` 上的 `n+1` 个函数 `f, g_1, cdots,
+	g_n`, 其中 `n lt m`, 求函数 `y = f(x_1, cdots, x_m)` 在约束条件
+	<span class="formula">`{
+		(g_i(x_1, cdots, x_m) = 0),
+		(i = {:1, 2, cdots, n:})
+	:}`
+	<span class="label" id="for-condition">(17-2-1)</span>
+	</span>
+	下的极值. 以极小值为例, 即求满足上述约束条件的 `x^0 = (x_1^0, x_2^0,
+	cdots, x_m^0) in D`, 且存在邻域 `B(x_0, delta) sube D`,
+	使得对任意满足约束条件 <a class="ref" href="#for-condition"></a>
+	的 `x = (x_1, x_2, cdots, x_m) in B(x_0, delta)`, 有
+	<span class="formula">
+		`f(x^0) le f(x)`.
+	</span>
+</p>
+
+<p>	理论上, 可以从约束条件中解出 `n` 个变元, 如 `x_(m-n+1), cdots, x_m`,
+	作为其它 `m-n` 个变元的函数, 再代入函数 `y = f(x_1, cdots, x_m)`,
+	得到只含 `m-n` 个变元的函数 `y = h(x_1, cdots, x_(m-n))`,
+	从而将条件极值问题化为无条件极值问题. 但是实际应用中,
+	从约束条件往往难以解出它所确定的 `n` 个隐函数, 或者即使解出,
+	代入后得到的函数 `h` 也不便于求偏导数.
+	Lagrange 乘数法则巧妙避免了这些不便, 可以直接获得条件极值问题的解.
+</p>
+
+<p class="example">
+	以 `m=4, n=2` 的情形为例, 考虑定义在开集 `D sube RR^4`
+	上的 `3` 个可微函数 (为了能用微分学进行研究)
+	`f(x, y, u, v)`, `F(x, y, u, v)`, `G(x, y, u, v)`,
+	求 `f` 在约束条件
+	<span class="formula">`{
+		(F(x, y, u, v) = 0),
+		(G(x, y, u, v) = 0)
+	:}`
+	</span>
+	下的极值点.
+</p>
+
+<script src="../js/note.js?type=math"></script>
 
 </body>
 
