@@ -374,13 +374,13 @@ function wrapIOS() {
 function toggleHideHeader() {
 	var prevScrollTop = document.documentElement.scrollTop
 		|| document.body.scrollTop;
+	var threshod = 100;
+	var button = parent.document.getElementById('toggle-show-header');
 	if (parent != window) {
 		document.body.onscroll = function() {
 			var scrollTop = document.documentElement.scrollTop
 				|| document.body.scrollTop;
-			var show = scrollTop < prevScrollTop;
-			if (show)
-				parent.document.body.onclick();
+			button.onclick(scrollTop >= prevScrollTop);
 			prevScrollTop = scrollTop;
 		};
 	}

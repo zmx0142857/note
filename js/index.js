@@ -58,6 +58,7 @@ angular.module('noteApp', ['ionic'])
 			Factory.setArticleIndex(index);
 			$scope.doc.src = article.src;
 			$ionicSideMenuDelegate.toggleLeft(false);
+			$rootScope.isHeaderHidden = false;
 		} else {
 			console.warn('$scope.selectArticle: invalid index.');
 		}
@@ -117,10 +118,10 @@ angular.module('noteApp', ['ionic'])
 		$timeout(function() { hideSheet(); }, 5000);
 	};
 
-	$timeout(function() {$rootScope.isHeaderHidden = true;}, 2500);
-	document.body.onclick = function() {
-		$rootScope.isHeaderHidden = false;
-		$timeout(function() {$rootScope.isHeaderHidden = true;}, 2500);
+	document.getElementById('toggle-show-header')
+			.onclick = function(hide) {
+		$rootScope.isHeaderHidden = hide;
+		//if (!hide) $timeout(function() {$rootScope.isHeaderHidden = true;}, 2500);
 		$rootScope.$apply();
 	};
 
