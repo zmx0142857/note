@@ -22,6 +22,7 @@ function getQuery() {
 		var strs = scriptName.substr(i+1).split("&");
 		for (var i = 0; i < strs.length; ++i) {
 			var splits = strs[i].split('=');
+			// decodeURI() doesn't work
 			theRequest[splits[0]] = unescape(splits[1]);
       }
    }
