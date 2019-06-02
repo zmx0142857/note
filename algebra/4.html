@@ -530,6 +530,97 @@
 	这就是定义维数与基底的另一思路 (这一思路好像更直接些? -_-||).
 </p>
 
+<ol class="example">
+	定义 `RR^n` 到 `RR` 的映射如下:
+	<span class="formula">
+		`f(X) = sum_(i=1)^r |x_i| - sum_(i=r+1)^(r+s) |x_i|`, `AA X = (x_1, x_2,
+		cdots, x_n)^T in RR^n`,
+	</span>
+	其中 `r ge s ge 0`, `r+s le n`.
+	证明:
+	<li>存在 `RR^n` 的一个 `n-r` 维子空间 `W`, 使得 `f(X) = 0`, `AA X in
+		W`;
+	</li>
+	<li>若 `W_1, W_2` 是 `RR^n` 的两个 `n-r` 维子空间, 且满足 `f(X) = 0`,
+		`AA X in W_1 uu W_2`, 则一定有 `"dim" (W_1 nn W_2) ge n - (r +
+		s)`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>易知 `f` 是线性的.
+		用 `epsi_i` 表示 `RR^n` 中第 `i` 个分量为 `1`, 其余分量为 `0`
+		的向量. 可以验证下面 `n-r` 个向量满足 `f(X) = 0`, 且线性无关:
+		<span class="formula">
+			`epsi_1 + epsi_(r+1), epsi_2 + epsi_(r+2), cdots, epsi_s +
+			epsi_(r+s), epsi_(r+s+1), cdots, epsi_n`.
+		</span>
+		将 `W` 取为由这些向量生成的子空间即可.
+	</li>
+	<li>记
+		<span class="formula">
+			`V_1 = G[epsi_1, cdots, epsi_(r+s)]`,<br/>
+			`V_2 = G[epsi_(r+s+1), cdots, epsi_n]`.
+		</span>
+		只需证任意满足 `f(X) = 0`, `AA X in W` 的 `n-r` 维子空间 `W`
+		一定包含了子空间 `V_2`.
+		首先易知 `V_1 nn V_2 = {bm theta}`, 故 `W nn V_1 nn V_2 = {bm
+		theta}`, 从而 `W` 有直和分解
+		<span class="formula">
+			`W = W nn V_1 + W nn V_2`.
+		</span>
+		得到
+		<span class="formula">
+			`"dim" W = "dim"(W nn V_1) + "dim"(W nn V_2)`.
+		</span>
+		下证
+		<span class="formula">
+			`"dim"(W nn V_1) le s`.
+		</span>
+		事实上, 取 `W nn V_1` 的基 `bm alpha_1, cdots, bm alpha_m`, 令
+		<span class="formula">
+			`bm A = [(bm E_r," "bm O), (bm O," "bm O)]_(n xx n)`,
+		</span>
+		若存在 `k_i in RR`, `i = 1, 2, cdots, m` 使得
+		<span class="formula">
+			`sum_(i=1)^m k_i (bm E - bm A) bm alpha_i = bm theta`,
+		</span>
+		注意到 `bm alpha_1, cdots, bm alpha_m in W` 有
+		<span class="formula">
+			`f( sum_(i=1)^m k_i bm alpha_i ) = 0`,
+		</span>
+		于是
+		<span class="formula">
+			`  f( sum_(i=1)^m k_i bm A bm alpha_i )`
+			`= f( sum_(i=1)^m k_i bm alpha_i
+			   - sum_(i=1)^m k_i (bm E-bm A) bm alpha_i )
+			= 0`,
+		</span>
+		由 `f` 定义推出
+		<span class="formula">
+			`sum_(i=1)^m k_i bm A bm alpha_i = bm theta`,
+		</span>
+		于是
+		<span class="formula">
+			` sum_(i=1)^m k_i bm alpha_i`
+			`= sum_(i=1)^m k_i bm A bm alpha_i
+			  + sum_(i=1)^m k_i (bm E-bm A) bm alpha_i
+			= bm theta`.
+		</span>
+		由 `bm alpha_1, cdots, bm alpha_m` 线性无关知 `k_1 = cdots = k_m =
+		0`, 从而 `{(bm E - bm A) bm alpha_i}_(i=1)^m` 也线性无关.
+		注意到该向量组中向量的 `1~r`, `r+s+1~n` 分量全部为零,
+		这推出 `"dim(W nn V_1) = m le s`.
+
+		于是
+		<span class="formula">
+			` "dim"(W nn V_2)
+			= "dim" W - "dim"(W nn V_1) ge n - r - s = "dim"V_2`.
+		</span>
+		这推出 `W nn V_2 = V_2`, 即 `V_2 sube W`.
+	</li>
+</ol>
+
 </body>
 
 <script src="../js/note.js?type=math"></script>

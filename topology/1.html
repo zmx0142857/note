@@ -145,15 +145,70 @@
 
 <h3>拓扑空间中的几个基本概念</h3>
 
-<h4>内点与内部</h4>
+<h4>闭集</h4>
+
+<p class="definition">
+	称拓扑空间 `X` 的子集 `A` 为<b>闭集</b>, 如果 `A^c` 是开集.
+	`(X, tau)` 的全体闭集可以写作 `{A^c: A in tau}`.
+</p>
+
+<ol class="example">
+	<li>平凡拓扑空间中只有两个闭集: `X` 与 `O/`;</li>
+	<li>离散拓扑空间中, 任何子集都是闭集;</li>
+	<li>余有限拓扑空间 `(X, tau_f)` 中, 闭集是 `X` 或有限集;</li>
+	<li>余可数拓扑空间 `(X, tau_c)` 中, 闭集是 `X` 或可数集.</li>
+</ol>
+
+<ol class="corollary">
+	由拓扑公理和 De Morgan 公式, 拓扑空间的闭集满足:
+	<li>`X`, `O/` 都是闭集;</li>
+	<li>任意多个闭集的交仍是闭集;</li>
+	<li>有限个闭集的并仍是闭集.</li>
+</ol>
+
+<h4>邻域, 内点与内部</h4>
 
 <p class="definition">
 	设 `X` 为拓扑空间, `A sube X`, `x in A`. 如果存在开集 `U` 满足
-	`x in U sube A`, 则称 `x` 是 `A` 的一个<b>内点</b>, `A` 是 `x` 的一个
-	<b>邻域</b>.
+	`x in U sube A`, 则称 `x` 是 `A` 的一个<b>内点</b>, `A` 是 `x`
+	的一个<b>邻域</b>. 特别地, 若 `A` 本身是开集, 则称 `A` 是 `x`
+	的<b>开邻域</b>. 由定义知道, `A` 是 `x` 的邻域当且仅当它含着
+	`x` 的一个开邻域. `A` 的全体内点的集合称为 `A` 的<b>内部</b>,
+	记为 `A^@` 或 `overset @ A` 或 `"int" A`.
 </p>
 
-<h4>聚点与闭包</h4>
+<ol class="theorem">
+	<li>`A sube B rArr A^@ sube B^@`;</li>
+	<li>`A^@` 是 `A` 中所有开集的并, 因此是 `A` 中最大的开集;</li>
+	<li>`A` 是开集 `iff A^@ = A`;</li>
+	<li>`(A nn B)^@ = A^@ nn B^@`;</li>
+	<li>`(A uu B)^@ supe A^@ uu B^@`.</li>
+</ol>
+
+<ol class="proof">
+	<li>`x in A^@`
+		`iff EE U in tau, x in U sube A`
+		`rArr EE U in tau, x in U sube B`
+		`iff x in B^@`.
+	</li>
+	<li>设 `{U_alpha: alpha in I}` 是 `A` 中的所有开集构成的子集族, 则
+		`x in A^@`
+		`iff EE U in tau, x in U sube A`
+		`iff EE alpha in I, x in U_alpha`
+		`iff x in uuu_(alpha in I) U_alpha`.
+	</li>
+	<li>`A in tau iff A = uuu_(alpha in I) U_alpha = A^@`.</li>
+	<li>`(A nn B) sube A rArr (A nn B)^@ sube A^@`, 同理 `(A nn B)^@ sube
+		B^@`, 得到 `(A nn B)^@ sube A^@ nn B^@`.
+		另一方面, 由 3. 有 `A nn B supe A^@ nn B^@`
+		`rArr (A nn B)^@ supe (A^@ nn B^@)^@` `= A^@ nn B^@`.
+	</li>
+	<li>因为 `A^@ uu B^@` 是包含在 `A uu B` 中的开集, 由 2. 有
+		`(A uu B)^@ supe A^@ uu B^@`.
+	</li>
+</ol>
+
+<h4>聚点, 导集与闭包</h4>
 
 </body>
 

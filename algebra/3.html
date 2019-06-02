@@ -105,7 +105,7 @@
 	</li>
 </ol>
 
-<ol class="theorem">
+<ol class="theorem" id="the-linear-dependent-iff">
 	`bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n`
 	线性相关当且仅当
 	<li>`s = 1` 时, `bm alpha_1 = bm theta`;</li>
@@ -184,7 +184,8 @@
 	称两向量集<b>等价</b>, 如果它们可以互相表出.
 	<br/>
 	显然向量集的等价满足自反性, 对称性和传递性, 是一等价关系;
-	向量集之间的线性表出满足自反性, 反对称性与传递性, 是一偏序.
+	向量集之间的线性表出满足自反性, 反对称性 (对等价的向量组不作区分)
+	与传递性, 是一偏序.
 </p>
 
 <ol class="theorem">
@@ -281,7 +282,7 @@
 	`bbb P^n` 中任意线性无关向量组含向量的个数不超过 `n`.
 </p>
 
-<p class="corollary">
+<p class="corollary" id="cor-vector-group-eq">
 	设 `bm alpha_1, bm alpha_2, cdots, bm alpha_s in bbb P^n` 和 `bm
 	beta_1, bm beta_2, cdots, bm beta_t in bbb P^n` 等价且各自线性无关,
 	则 `s = t`.
@@ -294,7 +295,8 @@
 	即极大线性无关组是能够表出 `S` 中任意向量的无关向量组.
 </p>
 
-<ol class="corollary">
+<ol class="corollary" id="cor-maximal-linear-independent-group-property">
+	联系<a class="ref" href="#the-linear-dependent-iff"></a>有:
 	<li><b>再多一个, 线性相关.</b>
 		向 `S` 的极大线性无关组 `"I"` 中再加入一个 `S` 中的向量,
 		则该向量可由 `"I"` 线性表出, 故 `"I"` 并上此向量后线性相关.
@@ -306,15 +308,16 @@
 	</li>
 </ol>
 
-<p class="lemma">
+<p class="lemma" id="lem-add-vector">
 	设 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_s` 线性无关, 则
 	`bm alpha_1, bm alpha_2, cdots, bm alpha_(s+1)` 线性无关当且仅当
 	`bm alpha_(s+1)` 不是 `"I"` 的线性组合.
 </p>
 
 <p class="proof">
-	`rArr`: 由定理3-1 显然. `lArr`: 设存在 `k_i in bbb P^n`,
-	`i = 1, 2, cdots, s+1` 使得
+	`rArr`:
+	由<a class="ref" href="#the-linear-dependent-iff"></a>显然.
+	`lArr`: 设存在 `k_i in bbb P^n`, `i = 1, 2, cdots, s+1` 使得
 	<span class="formula">
 		`sum_(i=1)^(s+1) k_i bm alpha_i = bm theta`.
 	</span>
@@ -331,8 +334,9 @@
 </p>
 
 <p class="proof">
-	`rArr`: 由定理3-1 显然. `lArr`: 对 `s` 用数学归纳法, 反复应用
-	引理3-1 可证.
+	`rArr`: 由<a class="ref" href="#the-linear-dependent-iff"></a>显然.
+	`lArr`: 对 `s` 用数学归纳法, 反复应用<a class="ref"
+		href="#lem-add-vector"></a>可证.
 </p>
 
 <p class="theorem">
@@ -342,25 +346,29 @@
 	则可以从余下的 `s-h` 个向量 `bm alpha_(h+1), cdots, bm
 	alpha_s` 中选取若干向量, 使 `{bm alpha_i}_(i=1)^h`
 	与这些向量一起构成 `"I"` 的一个极大线性无关组.
-	换言之, 任意非零向量组可以扩充为极大线性无关组.
+	换言之, 任意无关向量组可以扩充为极大线性无关组.
 </p>
 
 <p class="proof">
-	反复应用引理3-1. 从余下的向量中任取一向量, 若它不能表示为 `{bm
+	反复应用<a class="ref" href="#lem-add-vector"></a>.
+	从余下的向量中任取一向量, 若它不能表示为 `{bm
 	alpha_i}_(i=1)^h` 的线性组合, 则将它加入已有的无关向量组.
 	由于 `s` 是有限数, 这一步骤不可能永远继续下去.
 	最终我们得到一无关向量组, 且 `"I"` 中任意向量都可由它线性表出. 由定义,
 	我们已经得到极大无关向量组.
 </p>
 
-<p class="corollary">
+<p class="corollary" id="cor-maximal-linearly-independent-group-exist-and-eq">
 	令 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_s` 是 `bbb P^n`
 	中不全为零的向量组. 由扩充定理知, `"I"` 中存在极大无关组.
-	再由推论3-4 知, `"I"` 中所有极大无关组所含向量个数是相等的.
+	再由<a class="ref" href="#cor-vector-group-eq"></a>知,
+	`"I"` 中所有极大无关组所含向量个数是相等的.
 </p>
 
 <p class="definition">
-	假设如推论3-7. 称不全为零的向量组 `"I"` 中极大无关组所含向量的个数为
+	假设如<a class="ref"
+		href="#cor-maximal-linearly-independent-group-exist-and-eq"></a>.
+	称不全为零的向量组 `"I"` 中极大无关组所含向量的个数为
 	`"I"` 的<b>秩</b>, 记为 `r_"I"` 或 `r_({bm alpha_i}_(i=1)^s)`.
 	约定全由零向量组成的向量组的秩为 `0`.
 </p>
@@ -373,7 +381,7 @@
 	<li>若 `"I"` 与 `"II"` 有包含关系, 则 2. 是充要的.</li>
 </ol>
 
-<ol class="theorem">
+<ol class="theorem" id="the-maximal-linear-independent-group-iff">
 	设向量组 `"I": bm alpha_1, bm alpha_2, cdots, bm alpha_r in S`
 	线性无关, 则以下三款等价:
 	<li>`"I"` 为 `S` 的极大无关组;</li>
@@ -381,7 +389,9 @@
 	<li>`"I"` 为 `S` 的<b>最大无关组</b>, 即 `S`
 		中任意无关向量组所含向量的个数最多为 `r`.
 	</li>
-	于是由推论3-5, 秩是无关向量组所含向量个数的最大值,
+	于是由<a class="ref"
+		href="#cor-maximal-linear-independent-group-property"></a>,
+	秩是无关向量组所含向量个数的最大值,
 	是生成向量组所含向量个数的最小值.
 </ol>
 
@@ -396,7 +406,8 @@
 	</li>
 	<li>`rArr` 1.
 		设 `S` 中无关向量组所含向量的个数最多为 `r`. 则 `S`
-		中的任意向量与 `"I"` 组成的向量组都线性相关. 由引理3-1, `S`
+		中的任意向量与 `"I"` 组成的向量组都线性相关.
+		由<a class="ref" href="#lem-add-vector"></a>, `S`
 		中任意向量都能被 `"I"` 线性表出, 即 `"I"` 为 `S` 的极大无关组.
 	</li>
 	2. `rArr` 1. 的另一种证法是, 设 `"III"` 为 `S` 的含 `r`
@@ -406,7 +417,8 @@
 </ol>
 
 <p class="remark">
-	定理3-5 告诉我们, 极大无关组就是最大无关组,
+	<a class="ref" href="#the-maximal-linear-independent-group-iff"></a>
+	告诉我们, 极大无关组就是最大无关组,
 	从而给出一个极大无关组的等价定义.
 	这一定理得出的关于秩的结论是非常对称而优美的.
 </p>
