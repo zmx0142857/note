@@ -177,11 +177,11 @@
 	记为 `A^@` 或 `overset @ A` 或 `"int" A`.
 </p>
 
-<ol class="theorem">
+<ol class="theorem" id="the-openset-property">
 	<li>`A sube B rArr A^@ sube B^@`;</li>
 	<li>`A^@` 是 `A` 中所有开集的并, 因此是 `A` 中最大的开集;</li>
 	<li>`A` 是开集 `iff A^@ = A`;</li>
-	<li>`(A nn B)^@ = A^@ nn B^@`;</li>
+	<li>`(A nn B)^@ = A^@ nn B^@` (可推广到有限个);</li>
 	<li>`(A uu B)^@ supe A^@ uu B^@`.</li>
 </ol>
 
@@ -205,10 +205,276 @@
 	</li>
 	<li>因为 `A^@ uu B^@` 是包含在 `A uu B` 中的开集, 由 2. 有
 		`(A uu B)^@ supe A^@ uu B^@`.
+		等号不成立的一个例子是 `bm E^1` 中, `A = (0, 1]`, `B = (1, 2)`;
+		此时 `(A uu B)^@ = (0, 2)`, `A^@ uu B^@ = (0, 1) uu (1, 2)`.
 	</li>
 </ol>
 
 <h4>聚点, 导集与闭包</h4>
+
+<p class="definition">
+	设 `X` 为拓扑空间, `A sube X`, `x in X`. 如果 `x` 的任意 (开) 邻域都含
+	`A \\ {x}` 中的点, 则称 `x` 为 `A` 的<b>聚点</b>. `A`
+	的所有聚点的集合称为 `A` 的<b>导集</b>, 记作 `A'`. 称集合
+	`bar A := A uu A'` 为 `A` 的<b>闭包</b>.
+</p>
+
+<p class="corollary">
+	`x in bar A` `iff x` 的任一 (开) 邻域与 `A` 有交点.
+</p>
+
+<p class="example">
+	拓扑空间中的聚点近旁未必聚集了 `A` 的无穷多个点.
+	设 `X = {a, b, c}`, `tau = {X, O/, {a}}`, `A = {a}`, 则
+	`b, c` 都是 `A` 的聚点, 因为 `b, c` 的邻域都只有 `X`, 而 `a in X`;
+	`a` 不是 `A` 的聚点, 因为 `A\\{a} = O/`.
+</p>
+
+<p class="theorem">
+	`A` 是拓扑空间 `X` 的子集, 则
+	<span class="formula">
+		`(bar A)^c = (A^c)^@`, `quad` `(A^@)^c = bar(A^c)`.
+	</span>
+</p>
+
+<p class="proof">
+	`x in (bar A)^c`
+	`iff x` 有邻域与 `A` 不相交
+	`iff x` 有邻域含于 `A^c`
+	`iff x in (A^c)^@`.
+	第一式得证; 以 `A^c` 替换第一式的 `A`, 再于等号两边取补集得第二式.
+</p>
+
+<ol class="theorem">
+	<li>`A sube B rArr bar A sube bar B`;</li>
+	<li>`bar A` 是所有包含 `A` 的闭集的交, 因此是包含 `A` 的最小闭集;</li>
+	<li>`A` 是闭集 `iff bar A = A`;</li>
+	<li>`bar(A uu B) = bar A uu bar B` (可推广到有限个);</li>
+	<li>`bar(A nn B) sube bar A nn bar B`.</li>
+</ol> 
+
+<ol class="proof">
+	用<a class="ref" href="#the-openset-property"></a>的结果:
+	<li>`A sube B`
+		`iff B^c sube A^c` 
+		`rArr (B^c)^@ sube (A^c)^@`
+		`iff (bar B)^c sube (bar A)^c`
+		`iff bar A sube bar B`.
+	</li>
+	<li>(`U_alpha` 定义同<a class="ref" href="#the-openset-property"></a>)
+		`(A^c)^@ = uuu_(alpha in I) U_alpha`,
+		`bar A = ((A^c)^@)^c = nnn_(alpha in I) U_alpha^c`.
+	</li>
+	<li>`A` 是闭集
+		`iff A^c` 是开集
+		`iff (A^c)^@ = A^c`
+		`iff bar A = A`.
+	</li>
+	<li>`(bar(A uu B))^c`
+		`= ((A uu B)^c)^@`
+		`= (A^c nn B^c)^@`
+		`= (A^c)^@ nn (B^c)^@`
+		`= (bar A)^c nn (bar B)^c`
+		`= (bar A uu bar B)^c`.
+	</li>
+	<li>`右^c = (A^c)^@ uu (B^c)^@`
+		`sube (A^c uu B^c)^@`
+		`= ((A nn B)^c)^@`
+		`= 左^c`.
+	</li>
+</ol>
+
+<p class="definition">
+	称拓扑空间 `X` 的子集 `A` 是<b>稠密</b>的, 如果 `bar A = X`;
+	称 `X` 是<b>可分</b>的, 如果它存在可数的稠密子集.
+</p>
+
+<p class="corollary">
+	`A` 在 `X` 中稠密 `iff` `X` 中的任意非空开集 `U` 与 `A` 有交点.
+</p>
+
+<ol class="example">
+	<li>`(RR, tau_f)` 的非空开集是有限集的余集,
+		因此它的任一无穷子集都是稠密的. `QQ` 是一个可数的稠密子集.
+		从而 `(RR, tau_f)` 可分.
+	</li>
+	<li>`(RR, tau_c)` 的任一可数集是闭集, 其闭包不可能是 `RR`, 从而不稠密.
+		因此 `(RR, tau_c)` 不可分.
+	</li>
+</ol>
+
+<h4>序列收敛性</h4>
+
+<p class="definition">
+	设 `x` 是拓扑空间 `X` 中的一点, `{x_n}` 是 `X` 中的点列.
+	若对 `x` 的任意 (开) 邻域 `U`, 存在正整数 `N`, 使 `n gt N` 时,
+	都有 `x_n in U` (换言之, `{x_n}` 只有有限项不在 `U` 中),
+	则称 `{x_n}` <b>收敛</b>到 `x`, 记为 `x_n to x`.
+</p>
+
+<ol class="remark">
+	拓扑空间中的收敛序列失去了一些重要的分析性质.
+	<li>序列可以收敛到多个点. `(RR, tau_f)` 中, 令 `{x_n}` 的项两两不同,
+		则对任意 `x in RR`, 其邻域 `U` 的余集是有限集, 从而 `{x_n}`
+		只有有限项不在 `U` 中. 这推出 `x_n to x`.
+	</li>
+	<li>聚点原理一般不成立. 数学分析中, 当 `x` 是 `A` 的聚点时, `A`
+		中有序列收敛到 `x`. 但在 `(RR, tau_c)` 中, `x_n to x`
+		`iff EE N, AA n gt N, x_n = x`. 设 `A` 是一个不可数真子集,
+		则包含 `A` 的闭集只有 `RR`, 这推出 `bar A = RR`.
+		取 `x in A^c`, 则 `x` 是 `A` 的聚点, 但 `A` 中不存在序列收敛到
+		`x`.
+		要使聚点原理成立, 满足 `C_1` 公理是一个充分条件, 见第二章第一节.
+	</li>
+</ol>
+
+<h3>子空间</h3>
+
+<p class="definition">
+	设 `A` 是拓扑空间 `(X, tau)` 的非空子集. 容易验证
+	<span class="formula">
+		`tau_A := { U nn A: U in tau }`
+	</span>
+	是 `A` 上的一个拓扑, 称为 `tau` 导出的 `A` 上的<b>子空间拓扑</b>,
+	`(A, tau_A)` 称为 `(X, tau)` 的<b>子空间</b>.
+</p>
+
+<ol class="remark">
+	<li>设 `A` 是拓扑空间 `(X, tau)` 的非空子集, `B` 是 `A` 的非空子集,
+		于是 `B` 有两个途径得到子空间拓扑: 一是直接作为 `X` 的子空间,
+		二是作为 `(A, tau_A)` 的子空间. 两个拓扑事实上是一样的. 记
+		`(tau_A)_B` 是 `tau_A` 导出的 `B` 上的拓扑, 则
+		<span class="formula">
+			`(tau_A)_B = { V nn B: V in tau_A }`
+			`= { (U nn A) nn B: U in tau }`
+			`= { (U nn B): U in tau } = tau_B`.
+		</span>
+	</li>
+	<li>对于度量空间 `(X, d)` 的非空子集 `A`, 也有两种途径得到拓扑:
+		一是直接作为 `(X, tau_d)` 的子空间, 二是由 `d` 在 `A` 上的限制得到
+		`A` 上的度量 `d_A`, 再决定 `A` 的度量拓扑 `tau_(d_A)`.
+		这两个拓扑也是相同的.
+	</li>
+</ol>
+
+<p class="remark">
+	开集及依赖开集定义的其他概念都是相对概念, 需要指出所在的空间.
+	对于子空间 `A` 的子集 `U`, 笼统地说 `U` 是不是开集意义就不明确了,
+	必须说明在 `A` 中看还是在全空间中看.
+	如 `bm E^1` 是 `bm E^2` 的子空间,
+	开区间 `(0, 1)` 在 `bm E^1` 中是开集, 但在 `bm E^2` 中不是.
+</p>
+
+<p class="theorem">
+	设 `X` 是拓扑空间, `B sube A sube X`, 则
+	<span class="formula">
+		`B` 是 `A` 的开集 `iff EE X` 中开集 `U`, `B = U nn A`;<br/>
+		`B` 是 `A` 的闭集 `iff EE X` 中闭集 `C`, `B = C nn A`.
+	</span>
+</p>
+
+<p class="proof">
+	结论一由子空间拓扑的定义可得. 利用结论一,
+	<span class="formula">
+		`B` 是 `A` 的闭集
+		`iff A\\B` 是 `A` 的开集
+		`iff EE X` 中开集 `U`, `A\\B = U nn A`.
+	</span>
+	令 `C = U^c`, 等号两边同时取 `A` 中的补集, 于是上式
+	`iff EE X` 中闭集 `C`, `B = C nn A`.
+</p>
+
+<ol class="theorem" id="the-subspace-topology-eq">
+	设 `X` 是拓扑空间, 则
+	<li>若 `B sube A sube X`, `B` 是 `X` 的开 (闭) 集, 则 `B` 也是 `A`
+		的开 (闭) 集;
+	</li>
+	<li>传递性. 若 `A` 是 `X` 的开 (闭) 集, `B` 是 `A` 的开 (闭) 集,
+		则 `B` 也是 `X` 的开 (闭) 集.
+	</li>
+</ol>
+
+<ol class="proof">
+	利用<a class="ref" href="#the-subspace-topology-eq"></a>,
+	<li>当 `B` 的 `X` 的开 (闭) 集时, `B = B nn A` 也是 `A` 的开 (闭) 集.
+	</li>
+	<li>由 `B` 是 `A` 的开 (闭) 集, 存在 `X` 的开 (闭) 集 `U`,
+		使得 `B = U nn A`. 又由 `A` 是 `X` 的开 (闭) 集知, `B` 是 `X` 的开
+		(闭) 集.
+	</li>
+</ol>
+
+<h2>连续映射与同胚映射</h2>
+
+<h3>连续映射的定义</h3>
+
+<p class="definition">
+	设 `X, Y` 是两个拓扑空间, 称映射 `f: X to Y` 在 `x in X`
+	处<b>连续</b>, 如果
+	<span class="formula">
+		`V` 是 `f(x)` 在 `Y` 中的 (开) 邻域
+		`rArr f^-1(V)` 是 `x` 在 `X` 中的邻域.
+	</span>
+	换言之, 对 `f(x)` 的每个开邻域 `V`, 必存在 `x` 的开邻域 `U`, 使
+	`U sube f^-1(V)`, 即 `f(U) sube V`.
+</p>
+
+<p class="remark">
+	定义中的第一个"邻域"换成"开邻域"也是对的, 因为任一 `f(x)` 的邻域 `V`
+	总是包含一个开邻域 `V'`, 而 `V' sube V rArr f^-1(V') sube f^-1(V)`.
+</p>
+
+<ol class="theorem" id="the-continuity-restriction">
+	设 `A` 是拓扑空间 `X` 的子集, `x in A`, `f: X to Y`.
+	记 `f_A = f | A: A to Y` 是 `f` 在 `A` 上的限制, 则
+	<li>`f` 在 `x` 连续 `rArr f_A` 在 `x` 连续;</li>
+	<li>`A` 是 `x` 的邻域时, 1 是充要的.</li>
+</ol>
+
+<ol class="proof">
+	<li>设 `V` 是 `f_A(x) = f(x)` 在 `Y` 上的邻域.
+		从而 `f^-1(V)` 是 `x` 在 `X` 的邻域, 即 `x in
+		(f^-1(V))^@`. 但
+		<span class="formula">
+			<span class="box">
+				`f_A^-1(V) = A nn f^-1(V)`
+			</span>
+			`supe A nn (f^-1(V))^@`,
+		</span>
+		上式右端是 `A` 中含 `x` 的开集,
+		从而 `f_A^-1(V)` 是 `x` 在 `X` 的邻域.
+		这说明 `f_A` 在 `x` 连续.
+	</li>
+	<li>设 `V` 是 `f(x)` 的邻域, `f_A` 在 `x` 连续, 则存在 `A` 中开集
+		`U_A`, 使 `x in U_A sube f_A^-1(V) = A nn f^-1(V)`.
+		设 `U_A = U nn A`, 其中 `U` 是 `X` 的开集. 则 `U nn A^@` 也是 `X`
+		的开集, 且 `x in U nn A^@ sube U_A sube f^-1(V)`. 因此 `f` 在 `x`
+		连续.
+	</li>
+</ol>
+
+<p class="remark">
+	<a class="ref" href="#the-continuity-restriction"></a>的 2 表明,
+	映射在一点的连续性只与它在该点附近 (即邻域内) 的情形有关.
+	因此和分析学中一样, 连续性是一种局部性概念.
+</p>
+
+<p class="definition">
+	如果映射 `f: X to Y` 在任一点 `x in X` 都连续, 则说 `f`
+	是<b>连续映射</b>.
+</p>
+
+<ol class="theorem">
+	设 `f: X to Y` 是映射, 则以下各款等价:
+	<li>`f` 是连续映射;</li>
+	<li>`Y` 的任一开集在 `f` 下的原像是 `X` 的开集;</li>
+	<li>`Y` 的任一闭集在 `f` 下的原像是 `X` 的闭集.</li>
+</ol>
+
+<ol class="proof">
+	<li>`iff` 2.</li>
+	<li>`iff` 3.</li>
+</ol>
 
 </body>
 
