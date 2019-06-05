@@ -365,7 +365,7 @@
 	开区间 `(0, 1)` 在 `bm E^1` 中是开集, 但在 `bm E^2` 中不是.
 </p>
 
-<p class="theorem">
+<p class="theorem" id="the-subspace-topology-eq">
 	设 `X` 是拓扑空间, `B sube A sube X`, 则
 	<span class="formula">
 		`B` 是 `A` 的开集 `iff EE X` 中开集 `U`, `B = U nn A`;<br/>
@@ -384,7 +384,7 @@
 	`iff EE X` 中闭集 `C`, `B = C nn A`.
 </p>
 
-<ol class="theorem" id="the-subspace-topology-eq">
+<ol class="theorem">
 	设 `X` 是拓扑空间, 则
 	<li>若 `B sube A sube X`, `B` 是 `X` 的开 (闭) 集, 则 `B` 也是 `A`
 		的开 (闭) 集;
@@ -415,6 +415,7 @@
 		`V` 是 `f(x)` 在 `Y` 中的 (开) 邻域
 		`rArr f^-1(V)` 是 `x` 在 `X` 中的邻域.
 	</span>
+	即 `f(x) in V^@ rArr x in f^-1(V)^@`.
 	换言之, 对 `f(x)` 的每个开邻域 `V`, 必存在 `x` 的开邻域 `U`, 使
 	`U sube f^-1(V)`, 即 `f(U) sube V`.
 </p>
@@ -472,8 +473,233 @@
 </ol>
 
 <ol class="proof">
-	<li>`iff` 2.</li>
-	<li>`iff` 3.</li>
+	<li>`iff` 2.
+		若 `f` 是连续映射, 设 `V` 是 `Y` 的开集，`U = f^-1(V)`.
+		任取 `x in U`, 则 `f(x) in V = V^@`.
+		但 `f` 在 `x` 连续, 有 `x in U^@`. 由 `x` 的任意性知 `U = U^@`,
+		即 `U` 是开集. 反之, 若 `Y` 的任一开集在 `f` 下的原像是 `X`
+		的开集, 则任取 `x in X`, 对于 `Y` 中 `f(x)` 的任一开邻域 `V`,
+		`f^-1(V)` 是包含 `x` 的开集, 即 `f` 在 `x` 连续.
+	</li>
+	<li>`iff` 3.
+		`F` 是 `Y` 的闭集
+		`iff F^c` 是 `Y` 的开集
+		`rArr f^-1(F^c)` 是 `X` 的开集
+		`iff f^-1(F) = (f^-1(F^c))^c` 是 `X` 的闭集.
+		反向的结论类似可证.
+	</li>
+</ol>
+
+<p class="remark">
+	拓扑空间中一般不能用序列收敛来刻画连续性. 事实上, 如果 `f: X to Y`
+	在 `x in X` 处连续, 则当 `x_n to x` 时, 必有 `f(x_n) to f(x)`.
+	然而逆命题不成立. 例如设 `f` 为单射, `X` 是具有余可数拓扑的不可数空间,
+	`Y` 是离散拓扑空间. 于是当 `x_n to x` 时, 对充分大的 `n`, 有 `x_n =
+	x`, 从而 `f(x_n) to f(x)`. 但 `f` 在 `x` 并不连续, 如 `{f(x)}` 是
+	`f(x)` 的邻域, 但 (`f` 是单射) 其原像为 `{x}`, 并不是 `x` 的邻域.
+</p>
+
+<h3>连续映射的性质</h3>
+
+<ol class="example">
+	连续映射的例子
+	<li><b>恒同映射</b>
+		<span class="formula">
+			`"id": X to X`,<br/>
+			`"id"(x) = x`.
+		</span>
+	</li>
+	<li><b>包含映射</b>
+		设 `A` 是 `X` 的子空间, 定义
+		<span class="formula">
+			`i: A to X`,<br/>
+			`i(a) = a`.
+		</span>
+		`U` 是 `X` 的开集时, `i^-1(U) = A nn U` 是 `A` 的开集.
+	</li>
+	<li><b>常值映射</b>
+		<span class="formula">
+			`f: X to Y`,<br/>
+			`f(x) = y_0`.
+		</span>
+		设 `V` 是 `Y` 的开集, 则
+		<span class="formula">
+			`f^-1(V) = {
+				(X, if y_0 in V),
+				(O/, if "else")
+			:}` 是开集.
+		</span>
+	</li>
+	一般地, 如果 `X` 是离散拓扑空间, 或 `Y` 是平凡拓扑空间, 则 `f: X to Y`
+	一定是连续的.
+</ol>
+
+<p class="theorem" id="the-continuous-composite-map">
+	<b>复合映射的连续性</b>.
+	设 `X, Y, Z` 都是拓扑空间, `f: X to Y` 在 `x` 处连续,
+	`g: Y to Z` 在 `f(x)` 处连续, 则复合映射 `g @ f: X to Z`
+	在 `x` 处连续.
+</p>
+
+<p class="proof">
+	对于 `g(f(x))` 的任一邻域 `W`, 由 `g` 在 `f(x)` 处连续知
+	`g^-1(W)` 是 `f(x)` 的邻域;
+	又由于 `f` 在 `x` 处连续, `f^-1(g^-1(W)) = (g @ f)^-1(W)` 是 `x`
+	的邻域, 结论得证.
+</p>
+
+<p class="corollary">
+	两个连续映射的复合也是连续映射.
+</p>
+
+<p class="remark">
+	利用<a class="ref" href="#the-continuous-composite-map"></a>,
+	可以给出<a class="ref" href="#the-continuity-restriction"></a>中
+	1 的另一个证明: `f_A = f @ i`, 由 `f` 和 `i` 的连续性得到 `f_A` 连续.
+</p>
+
+<p class="definition">
+	称拓扑空间 `X` 的子集族 `cc C sube 2^X` 是 `X` 的一个<b>覆盖</b>, 如果
+	`uuu_(C in cc C) C = X`; 换言之, `AA x in X`, `EE C in cc C` 使 `x in
+	C`. `cc C` 中成员都是开 (闭) 集时, 称之为<b>开 (闭) 覆盖</b>;
+	`cc C` 为有限集时, 称为<b>有限覆盖</b>.
+</p>
+
+<p class="lemma">
+	<b>粘接引理</b>
+	设 `{A_1, A_2, cdots, A_n}` 是 `X` 的一个有限闭覆盖, 如果 `f: X to Y`
+	在每个 `A_i` 上的限制 `f_(A_i)` 都连续, 则 `f` 是连续映射.
+</p>
+
+<p class="proof">
+	只需验证 `Y` 的每个闭集 `F` 的原像是 `X` 的闭集:
+	<span class="formula">
+		`f^-1(F) = uuu_(i=1)^n (f^-1(F) nn A_i)`
+		`= uuu_(i=1)^n f_(A_i)^-1(F)`.
+	</span>
+	由 `f_(A_i)` 的连续性, 每个 `f_(A_i)^-1(F)` 是 `A_i` 的闭集.
+	而 `A_i` 为 `X` 的闭集, 所以由闭集的传递性, `f_(A_i)^-1(F)` 也是
+	`X` 的闭集. 最后, `f^-1(F)` 作为有限个闭集的并也是闭集.
+</p>
+
+<p class="remark">
+	粘接引理是判断映射连续性的一种有效方法, 也是分片构造连续映射的依据.
+</p>
+
+<h3>同胚映射</h3>
+
+<p class="definition">
+	称 `f: X to Y` 是<b>同胚映射</b>或<b>拓扑变换</b>, 如果 `f` 是双射, 且
+	`f, f^-1` 均连续. 当存在 `X` 到 `Y` 之间的同胚映射时, 就称 `X` 与 `Y`
+	同胚, 记作 `X cong Y`.
+</p>
+
+<ol class="remark">
+	在全体拓扑空间集合内, 同胚是一等价关系, 其自反性,
+	对称性与传递性分别基于以下事实:
+	<li>恒同映射是同胚映射;</li>
+	<li>`f` 是同胚映射 `rArr f^-1` 是同胚映射;</li>
+	<li>两个同胚映射的复合也是同胚映射.</li>
+</ol>
+
+<ol class="definition">
+	称 `f: X to Y` 是<b>嵌入映射</b>, 如果
+	<li>`f: X to Y` 是单的连续映射,</li>
+	<li>`f: X to f(X)` 是同胚映射.</li>
+	事实上, 条件 2 可换成 `f^-1` 在 `f(X)` 上的限制连续.
+	包含映射 `i: A to X` 是嵌入映射.
+</ol>
+
+<p class="definition">
+	拓扑空间在同胚映射下保持不变的概念称为<b>拓扑概念</b>,
+	在同胚映射下保持不变的性质叫<b>拓扑性质</b>. 例如, 开集, 闭集, 邻域,
+	内点, 聚点, 闭包等等皆为拓扑概念.
+	用开集或其派生概念刻画的性质都是拓扑性质, 如可分性.
+	`(RR, tau_f)` 可分, 而 `(RR, tau_c)` 不可分, 故它们不同胚.
+</p>
+
+<h2>乘积空间与拓扑基</h2>
+
+<p class="definition">
+	设 `cc B sube 2^X` 是 `X` 的子集族, 规定新子集族 (不是闭包)
+	<span class="formula">
+		`bar cc B := {U sube X: U` 是 `cc B` 中若干成员的并`}`
+		`= {U sube X: AA x in U, EE B in cc B, x in B sube U}`.
+	</span>
+	称为 `cc B` <b>生成</b>的子集族. 显然 `cc B sube bar cc B`, `O/ in bar
+	cc B`.
+</p>
+
+<p class="definition">
+	设 `X_1, X_2` 是两个集合, 规定 `X_1 xx X_2` 到 `X_i` 的<b>投射</b>
+	(`i = 1, 2`):
+	<span class="formula">
+		`j_i: X_1 xx X_2 to X_i`,<br/>
+		`j_i(x_1, x_2) = x_i`.
+	</span>
+</p>
+
+<ol class="remark">
+	由笛卡尔积的定义容易验证:
+	<li>`A_i sube X_i` (`i = 1, 2`) `rArr A_1 xx A_2 sube X_1 xx X_2`;
+	</li>
+	<li>`A_i, B_i sube X_i` (`i = 1, 2`) `rArr`
+		<span class="formula">
+			`(A_1 xx A_2) nn (B_1 xx B_2) = (A_1 nn B_1) xx (A_2 nn B_2)`.
+		</span>
+		而对于并运算, 类似等式不成立.
+	</li>
+</ol>
+
+<h3>乘积空间</h3>
+
+<ol class="definition">
+	设 `(X_1, tau_1)`, `(X_2, tau_2)` 是两个拓扑空间, 定义 `X_1 xx X_2`
+	上的拓扑 `tau`, 满足
+	<li>`tau` 使得投射 `j_1, j_2` 都连续;</li>
+	<li>`tau` 是使 1. 成立的最小拓扑.</li>
+	称为 `X_1 xx X_2` 上的<b>乘积拓扑</b>. 称 `(X_1 xx X_2, tau)`
+	为 `(X_1, tau_1)` 和 `(X_2, tau_2)` 的<b>乘积空间</b>,
+	简记为 `X_1 xx X_2`.
+</ol>
+
+<p class="theorem">
+	令 `cc B = {U_1 xx U_2: U_i in tau_i, i = 1, 2}`, 则它生成的子集族
+	`bar cc B` 就是 `X_1 xx X_2` 上的乘积拓扑.
+</p>
+
+<ol class="proof">
+	<li>设 `tau` 是 `X_1 xx X_2` 上的拓扑, 使得 `j_1, j_2` 连续. 下证
+		`bar cc B sube tau`.
+		任取 `U_i in tau_i`, `i = 1, 2`, 由于 `j_i` 连续,
+		`j_i^-1(U_i) in tau` (开集的原像也是开集).  而
+		<span class="formula">
+			`  U_1 xx U_2`
+			`= (U_1 nn X_1) xx (U_2 nn X_2)`
+			`= (U_1 xx X_2) nn (X_1 xx U_2)`
+			`= j_1^-1(U_1) nn j_2^-1(U_2)`
+			`in tau`.
+		</span>
+		这说明 `cc B sube tau`; 由 `tau` 满足拓扑公理 2 知 `bar cc B sube
+		tau`.
+	</li>
+	<li>验证 `bar cc B` 是 `X_1 xx X_2` 上的拓扑.
+		显然, 它满足拓扑公理 1 和 2, 下证它满足拓扑公理 3.
+		设 `U, V in bar cc B`, 要证 `U nn V in bar cc B`.
+		任取 `(x_1, x_2) in U nn V`, 这蕴含 `(x_1, x_2) in U`,
+		从而存在 `U_i in tau_i`, `i = 1, 2`, 使 `(x_1, x_2) in U_1 xx U_2
+		sube U`; 同理存在 `V_i, in tau_i`, `i = 1, 2`, 使 `(x_1, x_2) in
+		V_1 xx V_2 sube V`. 于是
+		<span class="formula">
+			`(x_1, x_2) in (U_1 xx U_2) nn (V_1 xx V_2) sube U nn V`,
+		</span>
+		而
+		<span class="formula">
+			`  (U_1 xx U_2) nn (V_1 xx V_2)`
+			`= (U_1 nn V_1) xx (U_2 nn V_2) in cc B`,
+		</span>
+		这推出 `U nn V in bar cc B`.
+	</li>
 </ol>
 
 </body>

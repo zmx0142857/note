@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>偏微分方程的 Ritz-Galerkin 方法</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>线性代数: 二次函数的极值</h2>
+
+<p>	本节以二次函数极值问题入手, 介绍变分问题的基本概念和方法.</p>
+
+<p class="example">
+	熟知一元二次函数 `1/2 ax^2 - bx` (`a != 0`) 的极值在 `x = b/a`
+	处取得.
+</p>
+
+<p class="example">
+	`RR^n` 中向量
+	<span class="formula">
+		`bm x = (x_1, x_2, cdots, x_n)^T`,
+		`bm y = (y_1, y_2, cdots, y_n)^T`
+	</span>
+	的内积定义为
+	<span class="formula">
+		`(bm x, bm y) = sum_(i=1)^n x_i y_i`.
+	</span>
+	记矩阵
+	<span class="formula">
+		`bm A = [
+			(a_(11)," "a_(12)," "cdots," "a_(1n)),
+			(a_(21)," "a_(22)," "cdots," "a_(2n)),
+			(vdots," "vdots," "," "vdots),
+			(a_(n1)," "a_(n2)," "cdots," "a_(n n))
+		]`,
+	</span>
+	考虑 `n` 变量的二次函数
+	<span class="formula">
+		`J(bm x) = 1/2 (bm (Ax), bm x) - (bm b, bm x)`
+		`= 1/2 sum_(i,j=1)^n a_(ij) x_i x_j - sum_(i=1)^n b_i x_i
+	</span>
+	在 `bm x_0 = (x_1^0, x_2^0, cdots, x_n^0)` 取极值的条件.
+</p>
+
+<ol class="solution">
+	<li>`J` 在 `bm x_0` 取极值的必要条件是
+		<span class="formula">
+			`  (del J)/(del x_i) (bm x_0)`
+			`= 1/2 sum_(i=1)^n (a_(ik) + a_(ki)) x_i^0 - b_k = 0`,
+			`quad k = 1, 2, cdots, n`.
+		</span>
+		假定 `bm A` 对称, 上式化为
+		<span class="formula">
+			`sum_(i=1)^n a_(ki) x_i^0 = b_k`,
+			`quad k = 1, 2, cdots, n`.
+		</span>
+		即 `bm (Ax_0) = bm b`.
+	</li>
+	<li>下面研究 `J(bm x)` 在 `bm x_0` 取极值的充要条件.
+		任取 `bm x in RR^n \\ {bb 0}`, 考虑实变量 `lambda` 的二次函数
+		(或二次泛函)
+		<span class="formula">
+			`varphi(lambda) = J(bm x_0 + lambda bm x)`.
+		</span>
+		若 `J(bm x)` 于 `x_0` 极小, 则对任意 `lambda != 0`,
+		`varphi(lambda) = J(bm x_0 + lambda bm x)`
+		`gt J(bm x_0) = varphi(0)`, 即 `varphi(lambda)` 于 `lambda = 0`
+		极小; 反之若 `varphi(lambda)` 于 `lambda = 0` 取极小, 则对任意
+		非零向量 `bm x`, `J(bm x_0 + bm x) = varphi(1)`
+		`gt varphi(0) = J(bm x_0)`, 即 `J(bm x)` 于 `bm x_0` 极小.
+		这样就把多变量函数 `J(bm x)` 的极值问题化成单变量函数
+		`varphi(lambda)` 的极值问题.
+	</li>
+	<li>计算, 注意由 `bm A` 的对称性有
+		`(bm (Ax), bm y) = (bm (Ay), bm x)`:
+		<span class="formula">
+			`varphi(lambda) = J(bm x_0 + lambda bm x)`
+			`= 1/2 (bm A(bm x_0 + lambda bm x), bm x_0 + lambda bm x)
+			- (bm b, bm x_0 + lambda bm x)`
+			`= J(bm x_0) + lambda (bm (Ax_0-b), bm x)
+			+ lambda^2/2 (bm (Ax), bm x)`.
+		</span>
+		若 `J(bm x)` 于 `bm x_0` 极小, 则
+		<span class="formula">
+			`varphi'(0) = (bm (Ax_0-b), bm x) = 0`, `AA bm x in RR^n`.
+		</span>
+		特别取 `bm x` 为单位向量 `bm epsi_1, cdots, bm epsi_n`, 得到
+		<span class="formula">
+			`bm (Ax_0 - b) = bb 0`;
+		</span>
+		又此时
+		<span class="formula">
+			`varphi''(0) = (bm (Ax), bm x) gt 0`, `AA bm x != bb 0`,
+		</span>
+		故 `bm A` 为正定矩阵.
+		反之, 设 `bm A` 为对称正定矩阵, `bm (Ax_0) = bm b`, 则
+		<span class="formula">
+			`varphi(lambda) = varphi(0) + lambda^2/2 (bm(Ax), bm x) gt
+			varphi(0)`, `AA lambda != 0, bm x != bb 0`.
+		</span>
+		即 `J(bm x)` 于 `bm x_0` 极小.
+	</li>
+</ol>
+
+<p>	由上述讨论, 得到定理:</p>
+
+<p class="theorem">
+	设 `bm A` 为实对称正定矩阵, 则 `bm x_0 in RR^n` 是变分问题
+	<span class="formula">
+		`J(bm x_0) = min_(x in RR^n) J(bm x)`
+	</span>
+	的解当且仅当它是线性方程组 `bm (Ax) = bm b` 的解.
+</p>
+
+<p class="corollary">
+	设 `bm A` 为实对称矩阵 (不必正定), 则 `bm x_0` 是 `J(bm x)` 的驻点
+	(使 `varphi'(0) = 0` 成立的点) 当且仅当 `bm (Ax_0) = bm b`.
+</p>
+
+<p class="corollary">
+	设 `bm A` 为 `n` 阶实矩阵 (不必对称正定),
+	则 `bm x_0 in RR^n` 是变分问题
+	<span class="formula">
+		`(bm (Ax_0), bm x) = (bm b, bm x)`, `quad AA bm x in RR^n`
+	</span>
+	的解当且仅当它是线性方程组 `bm (Ax) = bm b` 的解.
+</p>
+
+<p class="remark">
+	今后, 在微分方程边值问题中, 我们也将反复见到形如
+	<span class="formula">
+		`J(u) = 1/2 a(u, u) - (f, u)`, `quad u in U`
+	</span>
+	的实二次泛函. 其中 `a(u, v)` 是<b>对称双线性形式</b>, 即对于任意
+	`u, v, w in U` 和 `k, l in RR`, 满足
+	<span class="formula">
+		`a(u, kv + lw) = k a(u, v) + l a(u, w)`,<br/>
+		`a(ku + lv, w) = k a(u, w) + l a(v, w)`,<br/>
+		`a(u, v) = a(v, u)`.
+	</span>
+	注意, 在复线性空间中, 对称性条件应当写成
+	<span class="formula">
+		`a(u, v) = bar(a(v, u))`.
+	</span>
+</p>
+
+<h2>常微分方程: 两点边值问题</h2>
+
+<h2>偏微分方程: 二阶椭圆边值问题</h2>
+
+<h2>Ritz-Galerkin 方法</h2>
+
+<h2>Fourier 谱方法</h2>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>
+
