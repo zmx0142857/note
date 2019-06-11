@@ -602,13 +602,10 @@
 	<li>两个同胚映射的复合也是同胚映射.</li>
 </ol>
 
-<ol class="definition">
-	称 `f: X to Y` 是<b>嵌入映射</b>, 如果
-	<li>`f: X to Y` 是单的连续映射,</li>
-	<li>`f: X to f(X)` 是同胚映射.</li>
-	事实上, 条件 2 可换成 `f^-1` 在 `f(X)` 上的限制连续.
-	包含映射 `i: A to X` 是嵌入映射.
-</ol>
+<p class="definition">
+	称 `f: X to Y` 是<b>嵌入映射</b>, 如果 `f: X to f(X)` 是同胚映射.
+	例如, 包含映射 `i: A to X` 是嵌入映射.
+</p>
 
 <p class="definition">
 	拓扑空间在同胚映射下保持不变的概念称为<b>拓扑概念</b>,
@@ -640,7 +637,8 @@
 </p>
 
 <ol class="remark">
-	由笛卡尔积的定义容易验证:
+	由笛卡尔积的定义容易验证如下性质. 这些性质在 Euclid 空间
+	`bm E^2 = bm E^1 xx bm E^1` 中是直观的:
 	<li>`A_i sube X_i` (`i = 1, 2`) `rArr A_1 xx A_2 sube X_1 xx X_2`;
 	</li>
 	<li>`A_i, B_i sube X_i` (`i = 1, 2`) `rArr`
@@ -666,6 +664,7 @@
 <p class="theorem">
 	令 `cc B = {U_1 xx U_2: U_i in tau_i, i = 1, 2}`, 则它生成的子集族
 	`bar cc B` 就是 `X_1 xx X_2` 上的乘积拓扑.
+	例如, `bm E^2` 中的开集可以表示为若干开矩体的并.
 </p>
 
 <ol class="proof">
@@ -688,7 +687,7 @@
 		设 `U, V in bar cc B`, 要证 `U nn V in bar cc B`.
 		任取 `(x_1, x_2) in U nn V`, 这蕴含 `(x_1, x_2) in U`,
 		从而存在 `U_i in tau_i`, `i = 1, 2`, 使 `(x_1, x_2) in U_1 xx U_2
-		sube U`; 同理存在 `V_i, in tau_i`, `i = 1, 2`, 使 `(x_1, x_2) in
+		sube U`; 同理存在 `V_i in tau_i`, `i = 1, 2`, 使 `(x_1, x_2) in
 		V_1 xx V_2 sube V`. 于是
 		<span class="formula">
 			`(x_1, x_2) in (U_1 xx U_2) nn (V_1 xx V_2) sube U nn V`,
@@ -701,6 +700,163 @@
 		这推出 `U nn V in bar cc B`.
 	</li>
 </ol>
+
+<p class="theorem">
+	投射 `j_i`, `i = 1, 2` 是<b>开映射</b>, 即把 `X_1 xx X_2` 中的开集映到
+	`X_i` 中的开集.
+</p>
+
+<p>	类似地, `n` 个拓扑空间 `(X_i, tau_i)`, `i = 1, 2, cdots, n`
+	的乘积拓扑定义可以由
+	<span class="formula">
+		`cc B = {prod_(i=1)^n U_i: U_i in tau_i, i = 1, cdots, n}`
+	</span>
+	生成.
+</p>
+
+<p>	拓扑空间的乘积运算具有结合律, 即
+	<span class="formula">
+		`X_1 xx X_2 xx X_3 = (X_1 xx X_2) xx X_3 = X_1 xx (X_2 xx X_3)`.
+	</span>
+</p>
+
+<h3>乘积空间的性质</h3>
+
+<p class="definition">
+	设 `Y` 是任一拓扑空间, `f: Y to X_1 xx X_2` 是一映射. 称 `f_i = j_i @
+	f: Y to X_i`, `i = 1, 2` 为 `f` 的两个<b>分量</b> (映射). `f`
+	与它的两个分量相互决定.
+</p>
+
+<p class="theorem">
+	假设如上. 则 `f` 连续 `iff f` 的分量都连续.
+</p>
+
+<ol class="proof">
+	<li>`rArr`. 因为 `j_i` 连续, 所以当 `f` 连续时, 复合映射 `f_i = j_i @
+		f` 也连续, `i = 1, 2`;
+	</li>
+	<li>`lArr`. 设 `U_i in tau_i`, `i = 1, 2`, 则 `f_i^-1(U_i)`
+		是 `Y` 的开集.  但
+		<span class="formula">
+			`f(y) in U_1 xx U_2 iff f_i(y) in U_i (i = 1, 2)`,
+		</span>
+		因此 `f^-1(U_1 xx U_2) = f_1^-1(U_1) nn f_2^-1(U_2)` 是 `Y`
+		的开集. 对于 `X_1 xx X_2` 中一般的开集 `W`, 有
+		<span class="formula">
+			`W = uuu_(alpha in I) U_1^alpha xx U_2^alpha`, `U_i^alpha in
+			tau_i`, `AA alpha in I`.
+		</span>
+		于是
+		<span class="formula">
+			`f^-1(W) = uuu_(alpha in I) f^-1(U_1^alpha xx U_2^alpha)`
+		</span>
+		也是 `Y` 的开集. 因此 `f` 连续.
+	</li>
+</ol>
+
+<p class="remark">
+	此定理可推广到任意多个拓扑空间的乘积 (无穷情形用乘积拓扑).
+	还可证明, `X_1 xx X_2` 上使定理成立的拓扑只有乘积拓扑.
+</p>
+
+<p class="corollary">
+	`AA b in X_2`, 映射
+		`j_b: X_1 to X_1 xx X_2`,
+		`x |-> (x, b)`
+	是嵌入映射.
+</p>
+
+<p class="proof">
+	验证 `i_b: X_1 to j_b(X_1) = X_1 xx {b}` 是同胚. 显然它是双射.
+	`i_b^-1` 是 `j_1` 在 `X_1 xx {b}` 上的限制, 因此是连续的. `i_b`
+	的两个分量分别是恒同映射 `"id": X_1 to X_1` 和 `X_1` 到 `X_2`
+	的常值映射, 都是连续的. 因此 `i_b` 连续.
+</p>
+
+<h3>拓扑基</h3>
+
+<p>	回顾度量拓扑与乘积拓扑的定义, 它们都是用一个特定的子集族生成的.
+	在度量拓扑中, 这个子集族的成员是球形邻域; 在乘积拓扑中,
+	它们是 `X_1` 与 `X_2` 中开集的笛卡尔积 (开矩体).
+	从上述方法中抽象出拓扑基的概念.
+</p>
+
+<ol class="definition">
+	<li><b>集合的拓扑基</b> 称集合 `X` 的子集族 `cc B` 为集合 `X`
+		的拓扑基, 如果 `bar cc B` 是 `X` 的一个拓扑;
+	</li>
+	<li><b>拓扑空间的拓扑基</b> 称拓扑空间 `(X, tau)` 的子集族 `cc B`
+		为这个拓扑空间的拓扑基, 如果 `bar cc B = tau`.
+	</li>
+	总之, 拓扑基中若干集合的并构成了 `X` 上的拓扑.
+	若两个拓扑基生成相同的拓扑, 则称它们<b>等价</b>.
+</ol>
+
+<ol class="theorem">
+	`cc B` 是集合 `X` 的拓扑基的充要条件是:
+	<li>`uuu_(B in cc B) B = X`;</li>
+	<li>`B_1, B_2 in cc B rArr B_1 nn B_2 in bar cc B`.</li>
+</ol>
+
+<p class="proof">
+	条件 2 显然是为了使拓扑公理 3 得到满足. 我们联系度量拓扑的证明.
+	必要性显然, 下证充分性, 即验证 `cc B` 满足拓扑公理.
+	由 `bar cc B` 的定义知它满足拓扑公理 2, 且 `O/ in bar cc B`.
+	条件 1 说明 `X in bar cc B`, 因此 `bar cc B` 也满足拓扑公理 1.
+	设 `U, V in bar cc B`, 记 `U = uuu_alpha B_alpha`, `V = uuu_beta
+	C_beta`, 其中 `B_alpha, C_beta in cc B`, `AA alpha, beta`.
+	由条件 2 得
+	`B_alpha nn C_beta in bar cc B`, `AA alpha, beta`.
+	于是
+	`U nn V = uuu_(alpha, beta) (B_alpha nn C_beta) in bar cc B`.
+	从而拓扑公理 3 成立.
+</p>
+
+<ol class="theorem">
+	`cc B` 是拓扑空间 `(X, tau)` 的拓扑基的充要条件是:
+	<li>`cc B sube tau`, 即 `cc B` 的每个成员都是开集;</li>
+	<li>`tau sube bar cc B`, 即每个开集都能表为 `cc B` 中若干成员的并.
+	</li>
+</ol>
+
+<p class="proof">
+	必要性显然. 由拓扑公理 2 和条件 1 推出 `bar cc B sube tau`, 再结合 2
+	有 `tau = bar cc B`, 充分性得证.
+</p>
+
+<p class="definition">
+	<b>子空间的拓扑基</b>
+	若 `cc B` 是 `(X, tau)` 的拓扑基, `A sube X`, 容易验证 `A` 的子集族
+	<span class="formula">
+		`cc B_A := {A nn B: B in cc B}`
+	</span>
+	是 `(A, tau_A)` 的拓扑基. 事实上, `cc B_A` 的每个成员都是 `A` 的开集;
+	设 `V` 是 `A` 的开集, 则存在 `U in tau`, 使 `V = A nn U`.
+	设 `U = uuu_alpha B_alpha`, `B_alpha in cc B`, 则
+	`V = uuu_alpha (A nn B_alpha) in bar cc B_A`.
+</p>
+
+<p class="theorem">
+	设 `X` 是拓扑空间, `cc B` 是其拓扑基, `A sube X`, 则
+	<span class="formula">
+		`x in A^@` `iff EE B in cc B`, `x in B sube A`.
+	</span>
+</p>
+
+<p class="remark">
+	回顾邻域与内点的定义可知,
+	此定理把前述定义中的开集换成了拓扑基中的特定开集.
+	于是, 许多由邻域定义的概念可由拓扑基刻画, 如
+	<span class="formula">
+		`x` 是 `A` 的聚点 `iff cc B` 中每个包含 `x` 的成员与 `A\\{x}`
+		有交点;<br/>
+		`x in bar A` `iff cc B` 中每个包含 `x` 的成员与 `A` 有交点;<br/>
+		`f: Y to X` 连续 `iff AA B in cc B`, `f^-1(B)` 是 `Y` 的开集.
+	</span>
+	当 `cc B` 中成员的形式比较 "规范" 时
+	(如度量空间的球形邻域或乘积空间中的开矩体), 以上的等价条件尤为方便.
+</p>
 
 </body>
 
