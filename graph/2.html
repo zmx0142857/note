@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>Paths and cycles</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>Connectivity</h2>
+
+<h3>Graphs</h3>
+
+<ul class="definition">
+	<li>A <b>walk</b> in graph `G` is a finite sequence of edges of the
+		form
+		<span class="formula">
+			`v_0 v_1, v_1 v_2, cdots, v_(m-1), v_m`,
+			also denoted by
+			`v_0 to v_1 to v_2 to cdots to v_m`,
+		</span>
+		in which any two consecutive edges are adjacent or identical.
+		The number of edges in a walk is called its length.
+	</li>
+	<li>A <b>trail</b> is a walk in which all edges are distinct.</li>
+	<li>A <b>path</b> is a walk in which all vertices are distinct
+		(except, possibly, `v_0 = v_m`).
+	</li>
+	<li>A walk, path or trail is <b>closed</b> if `v_0 = v_m`, a closed
+		path with at least one edge is a <b>cycle</b>.</li>
+</ul>
+
+<p class="definition">
+	A graph is <b>connected</b> if and only if there is a path between
+	each pair of vertices.
+</p>
+
+<p class="theorem">
+	A graph `G` is bipartite if and only if every cycle of `G` (if exist)
+	has even length. In other words, A bipartite graph has no odd length
+	cycle.
+</p>
+
+<p class="theorem">
+	Let `G` be a simple graph on `n` vertices. If `G` has `k` components,
+	then the number `m` of edges of `G` satisfies
+	<span class="formula">
+		`n-k le m le (n-k)(n-k+1)//2`.
+	</span>
+</p>
+
+<p>Let `k = 2`, it follows:</p>
+
+<p class="corollary">
+	Any simple graph with `n` vertices and more than `(n-1)(n-2)//2` edges
+	is connected.
+</p>
+
+<h3>Menger theorems</h3>
+
+<ul class="definition">
+	In a graph `G`,
+	<li>A <b>disconnecting set</b> is a set of edges whose removal
+		increases the number of components of `G`.</li>
+	<li>A <b>cutset</b> is a minimal disconnecting set.</li>
+	<li>A <b>bridge</b> is a cutset which has only one edge.</li>
+	If `G` is a connected graph, its <b>edge-connectivity</b> `lambda(G)`
+	is the size of the smallest cutset in `G`.
+	We say that `G` is <b>`k`-edge-connected</b> if `lambda(G) ge k`.
+</ul>
+
+<ul class="definition">
+	<li>A <b>separating set</b> in a graph `G` is a set of
+		vertices whose deletion increases the number of components of `G`.</li>
+	<li>A <b>cut-vertex</b> is a separating set which contains only one
+		vertex.</li>
+	If `G` is connected and not a complete graph, its <b>(vertex)
+	connectivity</b> `kappa(G)` is the size of the smallest separating
+	set in `G`. We also say that `G` is <b>`k`-connected</b> if `kappa(G)
+	ge k`.
+</ul>
+
+<ul class="theorem">
+	(Menger, 1927)
+	<li>A graph `G` is `k`-edge-connected if and only if any
+		two distinct vertices of `G` are joined by at least `k` paths, no
+		two of which have any edges in common.
+	</li>
+	<li>A graph `G` with at least `k+1` vertices is `k`-connected if and
+		only if any two vertices of `G` are joined by at least `k` paths,
+		no two of which have any other vertices in common.
+	</li>
+</ul>
+
+<p class="theorem">
+	If `G` is a connected graph, then
+	<span class="formula">
+		`kappa(G) le lambda(G) le delta(G)`,
+	</span>
+	where `delta(G)` is the smallest vertex-degree in `G`.
+</p>
+
+<p class="remark">
+	There are striking and unexpected similarities between the properties
+	of cycles and cutsets. The reasons will become clear in Chapter 7.
+</p>
+
+<h3>Digraphs</h3>
+
+<p>Definitions of walks, trails, paths and cycles in digraphs are similar;
+	note that although a trail cannot contain a given arc `vw` more than
+	once, it can contain both `vw` and `wv`. for example,
+	<span class="formula">
+		`z to w to v to w to u`.
+	</span>
+</p>
+
+<ul class="definition">
+	<li>A digraph `D` is <b>connected</b> if it cannot be expressed as the
+		union of two digraphs; this is equivalent to saying that the
+		underlying graph of `D` is a connected graph.</li>
+	<li>`D` is <b>strongly connected</b> if, for any two vertices `v` and
+		`w` of `D`, there is a directed path from `v` to `w`.</li>
+	Every strongly connected digraph is connected.
+</ul>
+
+<p class="definition">
+	Define a graph `G` to be <b>orientable</b> if each edge of `G` can
+	be directed so that the resulting degraph (an <b>orientation</b>)
+	is strongly connected.
+</p>
+
+<p class="theorem">
+	(H. E. Robbins) A connected graph `G` is orientable if and only if
+	each edge of `G` lies in at least one cycle; that is to say, `G` has
+	no bridge.
+</p>
+
+<h2>Eulerian graphs and digraphs</h2>
+
+<h3>Eulerian graphs</h3>
+
+<p class="definition">
+	A connected graph `G` is <b>Eulerian</b> if there exists a closed
+	trail (<b>Eulerian trail</b>) that includes every edge of `G`.
+	A non-Eulerian graph `G` is <b>semi-Eulerian</b> if there exists a
+	(non-closed) trail that includes every edge of `G`.
+</p>
+
+<p class="corollary">
+	Any Eulerian graph is orientable, since we simply follow any Eulerian
+	trail, directing the edges in the direction of the trail as we go.
+</p>
+
+<p class="lemma">
+	If `G` is a graph in which the degree of each vertex is at least 2,
+	then `G` contains a cycle.
+</p>
+
+<p class="theorem">
+	(Euler, 1735) A connected graph `G` is Eulerian if and only if the
+	degree of each vertex of `G` is even.
+</p>
+
+<p class="corollary">
+	A connected graph is Eulerian if and only if its set of edges can be
+	split up into edge-disjoint cycles (无公共边的圈).
+</p>
+
+<p class="corollary">
+	A connected graph is semi-Eulerian if and only if it has exactly two
+	vertices of odd degree.
+</p>
+
+<p class="remark">
+	In a semi-Eulerian graph, any semi-Eulerian trail must have one vertex
+	of odd degree as its initial vertex and the other as its final vertex.
+	Note also that, by the handshaking lemma, a graph cannot have exactly
+	one vertex of odd degree.
+</p>
+
+<ol class="algorithm">
+	(Fleury) Let `G` be an Eulerian graph. Then the following
+	construction is always possible, and produces an Eulerian trail of
+	`G`.<br/>
+	Start at any vertex `u` and traverse the edges in an arbitrary manner,
+	subject only to the following rules:
+	<li>erase the edges as they are traversed, and if any isolated
+		vertices result, erase them too;
+	</li>
+	<li>at each stage, use a bridge only if there is no alternative.</li>
+</ol>
+
+<h3>Eulerian digraphs</h3>
+
+<p class="definition">
+	A strongly connected digraph `D` is <b>Eulerian</b> if there exists a
+	closed directed trail (<b>Eulerian trail</b>) that includes every arc
+	of `D`.
+</p>
+
+<p class="theorem">
+	A strongly connected digraph `D` is Eulerian if and only if, for each
+	vertex `v` of `D`,
+	<span class="formula">
+		`"outdeg"(v) = "indeg"(v)`.
+	</span>
+</p>
+
+<h2>Hamiltonian graphs and digraphs</h2>
+
+<p class="definition">
+	A connected graph `G` is <b>Hamiltonian</b> if there exists a cycle
+	(<b>Hamiltonian cycle</b>) passing exactly once through each vertex of
+	`G`. A non-Hamiltonian graph is <b>semi-Hamiltonian</b> if there
+	exists a path through every vertex.
+</p>
+
+<p class="theorem">
+	(Ore, 1960) If `G` is a simple graph with `n` (`ge 3`) vertices, and
+	if
+	<span class="formula">
+		`"deg"(v) + "deg"(w) ge n`
+	</span>
+	for each pair of non-adjacent vertices `v` and `w`, then `G` is
+	Hamiltonian.
+</p>
+
+<p class="corollary">
+	(Dirac, 1952) If `G` is a simple graph with `n` (`ge 3`) vertices, and
+	if `"deg"(v) ge n//2` for each vertex `v`, then `G` is Hamiltonian.
+</p>
+
+<h3>Hamiltonian digraphs</h3>
+
+<p class="theorem">
+	Let `D` be a strongly connected digraph with `n` vertices.
+	If `"outdeg"(v) ge n//2` and `"indeg"(v) ge n//2` for each vertex `v`,
+	then `D` is Hamiltonian.
+</p>
+
+<ul class="theorem">
+	If `T` is a tournament:
+	<li>`T` is strongly connected `iff` `T` is Hamiltonian.</li>
+	<li>`T` is not strongly connected `iff` `T` is semi-Hamiltonian.</li>
+</ul>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>

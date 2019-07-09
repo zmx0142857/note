@@ -12,13 +12,15 @@
 
 <body>
 
-<h3>线段的定比分点</h3>
+<h2>定比分点与三角形的心</h2>
+
+<h3>定比分点公式</h3>
 
 <ol class="definition">
 	设 `AB` 为一线段 (`A != B`).
 	如果点 `C` 满足 `vec(AC) = lambda vec(CB)`, 则称<b>点
 	`C` 分线段 `AB` 成定比 `lambda`</b>.
-	<li>若 `lambda = -1`, 得到 `vec(AB) = 0`, 矛盾, 故 `lambda != -1`.
+	<li>若 `lambda = -1`, 得到 `vec(AB) = bb 0`, 矛盾, 故 `lambda != -1`.
 	</li>
 	<li>若 `lambda gt 0`, `vec(AC)`, `vec(CB)` 同向, 称 `C`
 		为<b>内分点</b>;
@@ -30,15 +32,43 @@
 	<li>`lambda to +oo` 时, `C to B`;</li>
 </ol>
 
-<p class="theorem">
-	设点 `C` 分 `A(a_1, a_2, a_3)`, `B(b_1, b_2, b_3)` 成定比
+<p class="theorem" id="the-formula-of-definite-proportion">
+	<b>定比分点公式</b>
+	设点 `C` 分 `AB` 成定比
 	`lambda != -1`. 则
 	<span class="formula">
 		`vec(OC) = 1/(1+lambda) (vec(OA) + lambda vec(OB))`.
 	</span>
+	为方便应用, 取 `lambda = b//a`, 得
+	<span class="formula">
+		`vec(OC) = 1/(a + b) (a vec(OA) + b vec(OB))`.
+	</span>
 	特别取 `lambda = 1`, 知 `AB` 中点 `M` 满足
 	<span class="formula">
 		`vec(OM) = 1/2 (vec(OA) + vec(OB))`.
+	</span>
+</p>
+
+<p class="corollary" id="cor-formula-of-definite-proportion-3">
+	<b>三向量的定比分点公式</b>
+	设 `O` 是平面上任一点,
+	考虑 `triangle ABC` 内一点 `M`, 如果记
+	`S_(ABC) = S`, `S_(BCM) = S_A`, `S_(CAM) = S_B`, `S_(ABM) = S_C`, 则
+	<span class="formula">
+		`vec(OM) = 1/S (S_A vec(OA) + S_B vec(OB) + S_C vec(OC))`.
+	</span>
+</p>
+
+<p class="proof">
+	延长 `CM` 交 `AB` 于 `X`, 注意到 `X` 分 `AB` 成定比 `S_B//S_A`, 有
+	<span class="formula">
+		`vec(OX) = 1/(S_A + S_B) (S_A vec(OA) + S_B vec(OB))`.
+	</span>
+	另外, 容易得到 `S_(AXM) = S_C S_B/(S_A + S_B)`, 故知 `M` 分 `CX`
+	成定比 `S_B/S_(AXM) = (S_A + S_B)/S_C`. 从而
+	<span class="formula">
+		`vec(OM) = 1/(S_A+S_B+S_C)[(S_A+S_B) vec(OX) + S_C vec(OC)]`
+		`= 1/S (S_A vec(OA) + S_B vec(OB) + S_C vec(OC))`.
 	</span>
 </p>
 
@@ -99,7 +129,9 @@
 		其余各式同理.
 	</li>
 	<li>将 2 的三式相加即得证.</li>
-	<li>直接计算
+	<li>这是<a class="ref"
+			href="#cor-formula-of-definite-proportion-3"></a>的直接推论,
+		当然也可以直接计算:
 		<span class="formula">`{:
 		(		vec(OG)
 			,=	vec(OA) + vec(AG)
@@ -134,14 +166,7 @@
 		注意 `angle ACP = angle BCP` 和
 		`angle APC + angle BPC = pi` 即得证.
 	</li>
-	<li>直接计算,
-		<span class="formula">
-			`  vec(CP)
-			 = vec(CA) + b/(a+b) vec(AB)`
-			`= vec(CA) + b/(a+b) (vec(CB) - vec(CA))`
-			`= 1/(a+b) (a vec(CA) + b vec(CB))`.
-		</span>
-	</li>
+	<li>由结论 1 应用定比分点公式即得.</li>
 </ol>
 
 <p class="definition">
@@ -196,7 +221,9 @@
 		</span>
 		其余各式同理.
 	</li>
-	<li>直接计算
+	<li>这是<a class="ref"
+			href="#cor-formula-of-definite-proportion-3"></a>的直接推论,
+		当然也可以直接计算:
 		<span class="formula">`{:
 			(		vec(OI)
 				,=	vec(OC) + vec(CI)

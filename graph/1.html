@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>Definitions and examples</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>Definitions</h2>
+
+<h3>Simple graphs and graphs</h3>
+
+<div class="definition">
+<p>	A <b>simple graph</b> `G` consists of a non-empty finite set `V(G)`
+	of elements called <b>vertices</b> (or <b>nodes</b> or <b>points</b>)
+	and a finite set `E(G)` of distinct unordered pairs of distinct
+	elements of `V(G)` called <b>edges</b> (or <b>lines</b>).
+	`V(G)` is called the <b>vertex-set</b> and `E(G)` is called the
+	<b>edge-set</b> of `G`.
+	An edge `{v, w}` is said to <b>join</b> the vertices `v` and `w`,
+	and is usually abbreviated to `vw`.
+</p>
+<p>	In a <b>general graph</b>, or simply <b>graph</b>, two
+	vertices may have several edges joining them; such edges are called
+	<b>multiple edges</b>. And <b>loops</b> -- edges joining a vertex to
+	itself may exist, too. Thus, a <b>graph</b> `G` consists of a
+	non-empty finite set `V(G)` of elements called <b>vertices</b>
+	and a finite family `E(G)` of unordered pairs of (not necessary
+	distinct) multiple edges. We call `V(G)` the <b>vertex-set</b> and
+	`E(G)` the <b>edge-family</b> of `G`.
+</p>
+</div>
+
+<p class="remark">
+	The language of graph theory is not standard -- all authors have their
+	own terminology. In this book: All graphs are finite and undirected,
+	with loops and multiple edges allowed unless specifically excluded.
+</p>
+
+<h3>Isomorphism</h3>
+
+<p class="definition">
+	Two graphs `G_1` and `G_2` are <b>isomorphic</b> if there is a one-one
+	correspondence between the vertices of `G_1` and those of `G_2` such
+	that the number of edges joining any two vertices of `G_1` equals the
+	number of edges joining the corresponding vertices of `G_2`.
+	We say that two 'unlabelled graphs' are isomorphic if we can assign
+	labels to their vertices so that the resulting 'labeled graphs' are
+	isomorphic.
+</p>
+
+<h3>Connected graphs</h3>
+
+<ul class="definition">
+	<li>If there are two graphs `G_1` and `G_2` with their vertex-sets
+	`V(G_1)` and `V(G_2)` disjoint, then their <b>union</b> `G_1 uu G_2`
+	is the graph with vertex-set `V(G_1) uu V(G_2)` and edge-family
+	`E(G_1) uu E(G_2)`.</li>
+	<li>A graph is <b>connected</b> if it cannot be expressed as a union
+		of graphs, and <b>disconnected</b> otherwise.
+		Any disconnected graph `G` can be expressed as the union of
+		connected graphs, each of which is called a <b>component</b> of
+		`G`.
+	</li>
+</ul>
+
+<h3>Adjacency and degrees</h3>
+
+<p class="definition">
+	We say that two vertices `v` and `w` of a graph are <b>adjacent</b> if
+	there is an edge `vw` joining them, and the vertices `v` and `w` are
+	then <b>incident</b> with such an edge. We also say that two distinct
+	edges `e` and `f` are <b>adjacent</b> if they have (at least) a vertex
+	in common.
+</p>
+
+<p class="definition">
+	The <b>degree</b> of a vertex `v` is the number of edges incident with
+	`v`, and is written `"deg"(v)`. We make the convention that a loop at
+	`v` contributes 2 (rather than 1) to `"deg"(v)`. A vertex of degree 0
+	is an <b>isolated vertex</b> and a vertex of degree 1 is an
+	<b>end-vertex</b>. The <b>degree sequence</b> of a graph consists of
+	the degrees written in increasing order, with repeats where necessary.
+</p>
+
+<p class="theorem">
+	(Handshaking lemma, Leonhard Euler, 1735) In any graph the sum of all
+	the vertex-degrees in an even number.
+	<span class="formula">
+		`sum_(v in V(G)) "deg"(v) = 2 |E(G)|`.
+	</span>
+</p>
+
+<p class="corollary">
+	In any graph the number of vertices of odd degree is even.
+</p>
+
+<h3>Subgraphs</h3>
+
+<p class="definition">
+	A graph `H` is a <b>subgraph</b> of a graph `G` if each of its
+	vertices belongs to `V(G)` and each of its edges belongs to `E(G)`.
+</p>
+
+<ul>
+	We can obtain subgraphs of a graph by deleting edges and/or vertices.
+	<li>If `e` is an edge of a graph `G`, we denote by `G - e` the graph
+		obtained from `G` by deleting the edge `e`; more generally if `F`
+		is any set of edges in `G`, we denote by `G-F` the graph obtained
+		by deleting the edges in `F`.
+		`G-F` is called <b>spanning graph</b> of `G`.
+	</li>
+	<li>If `v` is a vertex of `G`, we denote by `G-v` the graph obtained
+		from `G` by deleting the vertex `v` <em>together with the edges
+		incident with `v`</em>; more generally, if `S` is any set of
+		vertices in `G`, we denote by `G-S` the graph obtained by deleting
+		the vertices in `S` and all edges incident with any of them.
+		`G-S` is called	<b>induced graph</b> of `G`.
+	</li>
+	<li>We also denote by `G\\e` the graph obtained by taking an edge `e`
+		and 'contracting' it -- that is, removing it and identifying its
+		ends `v` and `w` so that the resulting vertex is incicent with all
+		those edges (other than `e`) that were originally incident with
+		`v` or `w`.
+	</li>
+</ul>
+
+<h3>The complement of a simple graph</h3>
+
+<p class="definition">
+	If `G` is a simple graph with vertex-set `V(G)`, its <b>complement</b>
+	`bar G` is the simple  graph with vertex-set `V(G)` in which two
+	vertices are adjacent if and only if they are <em>not</em> adjacent in
+	`G`.
+</p>
+
+<h3>Matrix representations</h3>
+
+<p class="definition">
+	If `G` is a graph without loops, with vertices labelled
+	`{1, 2, cdots, n}`, its <b>adjacency matrix</b> `bm A` is the
+	`n xx n` matrix whose `ij`th entry is the number of edges joining
+	vertex `i` and vertex `j`.
+	If, in addition, the edges are labelled `{1, 2, cdots, m}`, its
+	<b>incidence matrix</b> `bm M` is the `n xx m` matrix whose `ij`th
+	entry is 1 if vertex `i` is incident to edge `j`, and is 0 otherwise.
+</p>
+
+<h2>Examples</h2>
+
+<p class="definition">
+	A graph whose edge-set is empty is a <b>null-graph</b>; note that each
+	vertex of a null graph is isolated. We denote the null graph on `n`
+	vertices by `N_n`.
+</p>
+
+<p class="definition">
+	A simple graph in which each pair of distinct vertices are adjacent is
+	a <b>complete graph</b>. We denote the complete graph on `n` vertices
+	by `K_n`. `K_n` has `n(n-1)//2` edges.
+</p>
+
+<ul class="definition">
+	<li>A connected graph in which each vertex has degree 2 is a <b>cycle
+		graph</b>. We denote the cycle graph on `n` vertices by `C_n`.
+	</li>
+	<li>The graph obtained from `C_n` by removing an edge is the <b>path
+		graph</b>, denoted by `P_n`.</li>
+	<li>The graph obtained from `C_(n-1)` by joining each vertex to a new
+		vertex is the <b>wheel</b> on `n` vertices, denoted by `W_n`.</li>
+</ul>
+
+<p class="definition">
+	A graph in which each vertex has the same degree `r`is a <b>regular
+	graph</b>. We say that the graph is <b>regular of degree `r`</b> or
+	<b>`r`-regular</b>. Note that null graph `N_n` is regular of degree 0,
+	the cycle graph `C_n` is regular of degree 2, and the complete graph
+	`K_n` is regular of degree `n-1`. The <b>cubic graphs</b> are regular
+	of degree 3. An example of a cubic graph is the <b>Petersen graph</b>:
+</p>
+
+<img src="pic" />
+
+<p class="definition">
+	Of interest among the regular graphs are the <b>Platonic graphs</b>,
+	formed from the vertices and edges of the five regular (Platonic)
+	solids -- the tetrahedron, octahedron, cube, icosahedron and
+	dodecahedron.
+</p>
+
+<p class="definition">
+	If the vertex-set of a graph `G` can be split into two disjoint sets
+	`A` and `B` so that each edge of `G` joins a vertex of `A` and a
+	vertex of `B`, then `G` is a <b>bipartite graph</b>. We sometimes
+	write `G = G(A, B)` when we wish to specify the sets `A` and `B`.
+</p>
+
+<p class="definition">
+	A <b>complete bipartite graph</b> is a bipartite graph in which each
+	vertex in `A` is joined to each vertex in `B` by just one edge.
+	We denote the complete bipartite graph with `r` black vertices and `s`
+	white vertices by `K_(r,s)`. `K_(r,s)` has `r+s` vertices and `rs`
+	edges.
+</p>
+
+<p class="definition">
+	Of interest among the regular bipartite graphs are the <b>cubes</b>.
+	The <b>`k`-cube</b> `Q_k` is the graph whose vertices correspond to
+	the sequences `(a_1, a_2, cdots, a_k)`, where each `a_i = 0` or `1`,
+	and whose edges join those sequences that differ in just one place.
+	Note that `Q_k` has `2^k` vertices and regular of degree `k`.
+</p>
+
+<h2>Variations on a theme</h2>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>

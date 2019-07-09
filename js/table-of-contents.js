@@ -43,6 +43,7 @@ var tableOfContents = [ {
 		{title:'线性方程组', src:'numeric/5.html'},
 		{title:'非线性方程数值解法', src:'numeric/7.html'},
 		{title:'常微分方程数值解法', src:'numeric/8.html'},
+		{title:'偏微分方程的 Ritz-Galerkin 方法', src:'numeric/9.html'},
 	]
 	}, {
 	title:'泛函分析',
@@ -92,6 +93,11 @@ var tableOfContents = [ {
 	title:'组合数学',
 	articles: [
 		{title:'组合数学', src:'combinatorics/1.html'},
+	]
+	}, {
+	title:'图论',
+	articles: [
+		{title:'Paths and cycles', src:'graph/2.html'},
 	]
 	}, {
 	title:'初等数论',

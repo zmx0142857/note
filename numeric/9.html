@@ -151,14 +151,324 @@
 	</span>
 </p>
 
-<h2>常微分方程: 两点边值问题</h2>
+<h2>两点边值问题</h2>
 
 <h3>Sobolev 空间 `H^m(I)`</h3>
 
+<p class="definition">
+	<b>`L^2` 空间</b>
+	设 `I = (a, b)`, `bar I = [a, b]`. 用 `L^2(I)` 表示定义在 `I`
+	上的平方可积的可测函数组成的空间, 内积定义为
+	<span class="formula">
+		`(f, g) = int_a^b f * g dx`.
+	</span>
+	熟知的 Schwartz 不等式为
+	<span class="formula">
+		`(f, g) le ||f|| * ||g||`.
+	</span>
+</p>
+
+<p class="definition">
+	<b>广义导数</b>
+	用 `C_0^oo(I)` 表示在 `I` 上无穷次可微, 且在端点 `a, b`
+	的某一邻域内等于零的函数类, 称这一类中的函数为试探函数. 对于任一 `f(x)
+	in C^1([a, b])` 和任意试探函数 `varphi in C_0^oo(I)`, 用分部积分有
+	<span class="formula">
+		`int_a^b f'(x) varphi(x) dx = -int_a^b f(x) varphi'(x) dx`
+	</span>
+	现在设 `f in L^2(I)`, 若存在 `g in L^2(I)`, 使成立
+	<span class="formula">
+		`int_a^b g(x) varphi(x) dx = -int_a^b f(x) varphi'(x) dx`,
+		`AA varphi in C_0^oo(I)`.
+	</span>
+	则称 `g(x)` 是 `f(x)` 的<b>广义导数</b>. 上面的推理说明, `f`
+	在通常意义下可导时, 它的导数也是它的 (一个) 广义导数.
+	下面来说明广义导数在几乎处处相等的意义下是唯一的.
+</p>
+
+<p class="lemma">
+	<b>变分法基本引理</b>
+	设 `f in L^2(I)`, 若对任意 `varphi in C_0^oo(I)`, `int_a^b f(x)
+	varphi(x) dx = 0`, 则 `f(x)` 几乎处处为 0. 若进一步, `f in C(bar I)`,
+	则 `f(x) -= 0`.
+</p>
+
+<p class="corollary">
+	`f in L^2(I)` 的不同广义导数几乎处处相等.
+</p>
+
+<p class="example">
+	设 `I = (-1, 1)`.
+	阶梯函数 `f(x) = {(0, if -1 le x le 0), (1, if 0 lt x le 1):}`
+	的广义导数是 <b>Dirac `delta` 函数</b>, 它满足
+	<span class="formula">
+		`int_(-1)^1 delta(x) varphi(x) dx = varphi(0)`,
+		`AA varphi in C_0^oo(I)`.
+	</span>
+	`delta(x) !in L^2(I)`.
+</p>
+
+<p class="definition">
+	定义 <b>Sobolev 空间</b>为
+	<span class="formula">
+		`H^1(I) = {f: f, f' in L^2(I)}`,
+	</span>
+	其中 `f'` 为广义导数. 由于 `L^2` 是线性空间, 又容易验证 `H^1`
+	上加法与数乘的封闭性, 故 `H^1` 是 `L^2` 的子空间. `H^1` 上的内积定义为
+	<span class="formula">
+		`(f, g)_1 = int_a^b	(fg + f'g') dx`.
+	</span>
+	可以证明 `H^1` 是完备的内积空间, 即 Hilbert 空间.
+	类似地, <b>`m` 阶 Sobolev 空间</b> `H^m(I)` 的内积定义为
+	<span class="formula">
+		`(f, g)_m = sum_(i=0)^m int_a^b f^((i))(x) * g^((i))(x) dx`.
+	</span>
+	注意 `H^0 = L^2`.
+</p>
+
+<p class="remark">
+	`C(I) sube H^1(I)` ?
+</p>
+
+<h3>极小位能原理</h3>
+
+<p class="example">
+	考虑常微分方程两点边值问题
+	<span class="formula">
+		`Lu = -Tu'' = f(x)`, `0 lt x lt l` <br/>
+		`u(0) = u(l) = 0`.
+	</span>
+	若记 `H_0^1(I)` 为 `H^1(I)` 中满足齐次边值条件的函数类构成的子空间,
+	则与原问题对应的变分问题为求 `u_** in H_0^1`, 使
+	<span class="formula">
+		`J(u_**) = min_(u in H_0^1) J(u)`,
+	</span>
+	其中 `J(u) = 1/2 (Lu, u) - (f, u)`.
+	我们将在稍后进行严格的证明.
+</p>
+
+<p class="example" id="minimal-potential-energy">
+	对于两点边值问题
+	<span class="formula">
+		`Lu = -"d"/("d"x)(p ("d"u)/("d"x)) + qu = f`, `x in I`,<br/>
+		`u(a) = u'(b) = 0`.
+	</span>
+	其中 `I = (a, b)`, `p in C^1(bar I)`, `p(x) gt 0, AA x in I`,
+	`q in C(bar I)` 且 `q` 非负; `f in H^0(I)`.
+</p>
+
+<h4>对称算子</h4>
+
+</p>
+	接上例, 容易验证,
+	<span class="formula">
+		`(Lu, v) = int_a^b [- "d"/("d"x) (p("d"u)/("d"x)) v + quv] dx`
+		`= int_a^b [p ("d"u)/(dx) ("d"v)/(dx) + quv] dx`
+		`= (Lv, u)`.
+	</span>
+	称这样的 `L` 为<b>对称算子</b>.
+	如果设 `H_E^1` 为 `H^1` 中满足左边值条件 `u(a) = 0`
+	的函数组成的子空间, 记对称双线性形式 `a(u, v)` 为
+	<span class="formula">
+		`a(u, v) = int_a^b [p ("d"u)/(dx) ("d"v)/(dx) + quv] dx`,
+	</span>
+	则和原问题相应的变分问题为: 求 `u_** in H_E^1`, 使
+	<span class="formula">
+		`J(u_**) = min_(u in H_E^1) J(u)`.
+	</span>
+	其中 `J(u) = 1/2 a(u, u) - (f, u)`.
+</p>
+
+<h4>正定算子 (Poincare 不等式)</h4>
+
 <p>
+	注意到任一 `u in H_E^1` 可表为
+	<span class="formula">
+		`u(x) = int_a^x u'(t) dt`,
+	</span>
+	利用 Schwarz 不等式,
+	<span class="formula">
+		`u(x) le (x-a)^(1/2) (int_a^x |u'(t)|^2 dt)^(1/2)`,
+	</span>
+	于是
+	<span class="formula">
+		`int_a^b |u|^2 dx le int_a^b (x-a) dx int_a^b |u'(t)|^2 dt`
+		`= (b-a)^2/2 int_a^b |u'(t)|^2 dt`.
+	</span>
+	换言之, 如令 `h = b-a`, 则
+	<span class="formula">
+		`||u||_(L^2) le h/sqrt(2) ||u'||_(L^2)`.
+	</span>
+	最终,
+	<span class="formula">
+		`int_a^b |u'|^2 dx = 1/2 [int_a^b |u'|^2 dx + int_a^b |u'|^2 dx]`
+		`ge 1/(b-a)^2 int_a^b |u|^2 dx + 1/2 int_a^b |u'|^2 dx`
+		`= Omega(||u||_1^2)`.
+		(Poincare 不等式)
+	</span>
+	由 `p` 恒正的条件,
+	<span class="formula">
+		`(Lu, u) = int_a^b [p(("d"u)/(dx))^2 + q u^2] dx`
+		`ge p_(min) int_a^b (("d"u)/(dx))^2 dx`
+		`= Omega(||u||_1^2)`, `AA u in H_E^1`.
+	</span>
+	称满足这样不等式的 `L` 为<b>正定算子</b>.
+</p>
+
+<h4>连续性条件</h4>
+
+<p>	由 Schwarz 不等式,
+	<span class="formula">
+		`|(Lu"," v)| = O(||u||_1 ||v||_1)`,
+		`AA u, v in H_E^1`.
+	</span>
+	上式称为<b>连续性条件</b>.
+</p>
+
+<p class="theorem">
+	<b>极小位能原理</b>
+	设 `f in C(I)`, `u_** in C^2(I)` 是<a class="ref"
+		href="#minimal-potential-energy"></a>中边值问题的解, 则
+	`u_**` 使 `J(u)` 达到最小值; 反之, 若 `u_** in C^2 H_E^1` 使 `J(u)`
+	达到极小值, 则 `u_**` 是该边值问题的解.
+</p>
+
+<p>	从上述定理知道, 左边值条件 (第一边值条件)
+	必须强加在变分问题所在的函数类上,
+	称为<b>强制边值条件</b>或本质边值条件</b>. 而右边值条件
+	(第二, 三边值条件) 不必对函数类作为条件提出, 只要函数 `u_**` 使 `J(u)`
+	取极小值, 则它必然满足该条件, 因此称为<b>自然边值条件</b>.
+</p>
+
+<h3>虚功原理</h3>
+
+<p>	继续考虑边值问题<a class="ref" href="#minimal-potential-energy"></a>,
+	分部积分, 并考虑到 `u, v` 满足的边值条件 `v(a) = 0`, `u'(b) = 0`, 则
+	<span class="formula">
+		`-int_a^b "d"/dx (p ("d"u)/(dx))v dx`
+		`= {:-p ("d"u)/(dx) v |_a^b + int_a^b p ("d"u)/(dx) ("d"v)/(dx)
+		dx`
+		`= int_a^b p ("d"u)/(dx) ("d"v)/(dx) dx`.
+	</span>
+	以 `v` 乘方程两端并沿区间 `[a, b]` 积分, 得
+	<span class="formula">
+		`0 = int_a^b (Lu-f)v dx`
+		`= int_a^b [-"d"/dx (p ("d"u)/(dx)) v + quv - fv]dx`
+		`= int_a^b (p ("d"u)/dx ("d"v)/dx + quv - fv) dx`.
+	</span>
+	上式即
+	<span class="formula">
+		`a(u, v) - (f, v) = 0`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>虚功原理</b>
+	设 `u in C^2`, 则 `u` 是边值问题<a class="ref"
+		href="#minimal-potential-energy"></a>的解的充要条件是: `u in
+	H_E^1` 且满足变分方程
+	<span class="formula">
+		`a(u, v) - (f, v) = 0`, `AA v in H_E^1`.
+	</span>
+</p>
+
+<p class="remark">
+	虚功原理不仅适用于对称正定算子方程 (保守场方程),
+	而且也适用于非对称正定算子方程.
+	上述定理的一个推广是: 设 `u in C^2`, 则 `u` 是边值问题
+	<span class="formula">
+		`{(Lu = -"d"/dx(p ("d"u)/(dx)) + r("d"u)/(dx) + q u = f),
+		(u(a) = 0", " u'(b) = 0):}`
+	</span>
+	的解当且仅当 `u in C^2 nn H_E^1` 且满足变分方程
+	<span class="formula">
+		`{(a(u, v) - (f, v) = 0"," AA v in H_E^1),
+		(a(u, v) = int_a^b [p("d"u)/dx ("d"v)/dx + r ("d"u)/dx v + quv]dx)
+		:}`
+	</span>
+	其中 `p in C^1`, `p_min gt 0`, `r, q in C`, `f in L^2`.
+	此时双线性形式 `a(u, v)` 非对称正定, 除非 `r -= 0` 且 `q ge 0`
+	(这就化为<a class="ref"
+		href="#minimal-potential-energy"></a>中的边值问题).
 </p>
 
 <h2>偏微分方程: 二阶椭圆边值问题</h2>
+
+<h3>Sobolev 空间</h3>
+
+<p>	本节总假定 `G` 是有界平面区域, 其边界 `Gamma` 是逐段光滑的简单闭曲线.
+</p>
+
+<p class="definition">
+	<b>支集</b>
+	对于 `bar G` 上任一函数 `u(x, y)`, 称集合
+	<span class="formula">
+		`{(x, y) in bar G: u(x, y) != 0}`
+	</span>
+	的闭包为 `u` 的<b>支集</b>, 记作 `"supp" u`. 如果 `"supp" u sube G`,
+	则说 `u` 于 `G` 具有<b>紧致支集</b>.
+	具有紧致支集的函数必在 `Gamma` 的某一邻域内恒等于零(?).
+</p>
+
+<p class="definition">
+	<b>`L^2` 空间, 广义导数与 Sobolev 空间</b>
+	用 `C_0^oo(G)` 表示于 `G` 无穷次可微并具有紧致支集的函数类.
+	`L^2` 是定义在 `G` 上的平方可积的可测函数空间, 内积定义为
+	<span class="formula">
+		`(f, g) = iint_G f g dx dy`.
+	</span>
+	`AA f in L^(G)`, 若存在 `g, h in L^2(G)`, 使成立
+	<span class="formula">
+		`iint_G g varphi dx dy = -iint_G f{::} (del varphi)/(del x) dx dy`,<br/>
+		`iint_G h varphi dx dy = -iint_G f{::} (del varphi)/(del y) dx dy`,<br/>
+		`AA varphi in C_0^oo(G)`.
+	</span>
+	则分别称 `g, h` 为 `f` 对 `x, y` 的广义一阶偏导数.
+	在广义导数的意义下, 定义
+	<span class="formula">
+		`H^1(G) = {f(x, y): f, f_x, f_y in L^2(G)}`,
+	</span>
+	及其上的内积
+	<span class="formula">
+		`(f, g)_1 = iint_G (fg + f_x g_x + f_y g_y) dx dy`.
+	</span>
+	称为 Sobolev 空间. 类似可定义高阶导数下的 Sobolev 空间.
+</p>
+
+<h3>极小位能原理</h3>
+
+<p>	考虑 Poisson 方程第一边值问题
+	<span class="formula">
+		`-laplace u = f(x, y)`, `(x, y) in G`,<br/>
+		`u|_Gamma = 0`.
+	</span>
+</p>
+
+<h4>Green 第一公式</h4>
+
+<p>	利用场论公式 `grad * (f bm F) = grad f * bm F + f(grad * bm F)`,
+	在 Green 公式
+	<span class="formula">
+		`iint_G ((del Q)/(del x) + (del P)/(del y) ) dxdy`
+		`= int_Gamma -P dx + Q dy`.
+	</span>
+	中取 `Q = v (del u)/(del x)`, `P = v (del u)/(del y)`,
+	再借助关系 `bm n dx = (dy, -dx)` 和 `(del u)/(del bm n) = grad u * bm
+	n`, 得到 Green 第一公式:
+	<span class="formula">
+		`iint_G (-laplace u)v dx dy`
+		`= iint_G (-grad * grad u)v dx dy`
+		`= iint_G (grad v * grad u - grad * (v grad u)) dx dy`
+		`= iint_G (grad v * grad u) dx dy - int_Gamma v grad u * bm n
+		"d"s`
+		`= iint_G (grad v * grad u) dx dy - int_Gamma v (del u)/(del bm n)
+		"d"s`.
+	</span>
+</p>
+
+<h3>自然边值条件</h3>
+
+<h3>虚功原理</h3>
 
 <h2>Ritz-Galerkin 方法</h2>
 
