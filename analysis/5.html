@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>导数的应用</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>微分中值定理</h2>
+
+<p class="definition">
+	设函数 `f` 在 `x_0` 的某邻域内有定义, 若存在 `delta gt 0`, 使
+	`f(x_0)` 是 `B(x_0, delta)` 上的最大值, 即成立
+	<span class="formula">
+		`f(x) le f(x_0)`, `AA x in B(x_0, delta)`,
+	</span>
+	则称 `x_0` 为 `f` 的一个<b>极大值点</b>,
+	`f(x_0)` 称为 `f` 的一个<b>极大值</b>.
+	类似可以定义极小值点和极小值的概念. 极大值 (点) 和极小值 (点)
+	通称为极值 (点).
+</p>
+
+<p class="remark">
+	由定义知, 极值就是局部最值, 是局部性的概念, 只和
+	`f` 在某一 `x_0` 附近的定义有关.
+</p>
+
+<p class="corollary">
+	若函数 `f` 在其定义域 `D` 的内点 `x_0` (即存在某邻域 `B(x_0,
+	delta)`, 使得 `B(x_0, delta) sube D`) 达到最大值, 则 `x_0` 也是 `f`
+	的极大值点; 极小值点也有类似结论.
+</p>
+
+<p class="theorem">
+	(Fermat) 设函数 `f` 在极值点 `x_0` 可导, 则 `f'(x_0) = 0`.
+</p>
+
+<p class="proof">
+	不妨设 `f` 在 `x_0` 点极大. 则存在 `delta gt 0`, 使得
+	<span class="formula">
+		`f(x) le f(x_0)`, `AA x in (x-delta, x+delta)`.
+	</span>
+	令 `g(x) = (f(x) - f(x_0))/(x-x_0)`, 于是
+	<span class="formula">
+		`g(x) {
+			(le 0","\ x_0 lt x lt x_0+delta),
+			(ge 0","\ x_0-delta lt x lt x_0)
+		:}`
+	</span>
+	由 `f` 在 `x_0` 可导知, `f'_+(x_0)`, `f'_(-)(x_0)`, `f'(x_0)`
+	都存在且相等. 从而由函数极限的保序性知
+	<span class="formula">
+		`f'_+(x_0) = lim_(x to x_0^+) g(x) le 0`,<br/>
+		`f'_(-)(x_0) = lim_(x to x_0^-) g(x) ge 0`.
+	</span>
+	但是它们必相等, 于是 `f'(x_0) = 0`.
+</p>
+
+<p class="remark">
+	这个定理的几何意义是, `f` 在极值点如果可导,
+	则它的图像在该点的切线平行于 `x` 轴.
+</p>
+
+<p class="theorem">
+	(Rolle) 设函数 `f` 在闭区间 `[a, b]` 上连续, 开区间 `(a, b)` 上可微,
+	且 `f(a) = f(b)`; 则 `f'` 在 `(a, b)` 上存在零点, 换言之,
+	必存在 `xi in (a, b)`, 使 `f'(xi) = 0`.
+</p>
+
+<p class="proof">
+	记 `f(a) = f(b) = c`.
+	由 `f` 在 `[a, b]` 上连续知, `f` 在 `[a, b]` 上取得最大值 `f(x_M)`
+	和最小值 `f(x_m)`, 其中 `x_M`, `x_m in [a, b]`.
+	我们不妨设 `f` 不是 `[a, b]` 上的常值函数 (否则它的导数处处为零,
+	结论是平凡的), 则 `f(x_m) lt f(x_M)`. 这两个数必有一个与 `c`
+	不相等, 设 `f(x_m) != c`, 则 `x_m != a, b`, 即 `x_m in (a, b)`.
+	因而 `x_m` 是 `[a, b]` 的内点, 从而是 `f` 的极小值点.
+	由 Fermat 定理知 `f'(x_m) = 0`.
+</p>
+
+<p class="remark">
+	这个定理的几何意义是, 满足上述条件的函数 `f` 的图像在某点处具有水平的切线.
+</p>
+
+<ol class="example">
+	可以举反例说明, Rolle 定理的三个条件缺一不可.
+	<li>`f(x) = {(x, if 0 le x lt 1), (0, if x = 1):}`
+		在 `(0, 1)` 上可微, 但 `1` 是 `f` 的一个间断点.
+		它的导数 `f'(x) = 1` 在 `(0, 1)` 上没有零点.
+	</li>
+	<li>`f(x) = sqrt(|x|)` 在 `[-1, 1]` 上连续, 但在原点不可导;
+		它的导数 `f'(x) = ("sgn" x)/(2sqrt(|x|)` 在 `(-1, 1)` 上没有零点.
+	</li>
+</ol>
+
+<p class="theorem">
+	<b>Lagrange 中值定理</b>
+	设函数 `f` 在闭区间 `[a, b]` 上连续, 开区间 `(a, b)` 上可微;
+	则必存在 `xi in (a, b)` 使
+	<span class="formula">
+		`f'(xi) = (f(b) - f(a))/(b-a)`.
+	</span>
+</p>
+
+<p class="proof">
+	注意到连接 `f` 的图像的两个端点的直线方程是
+	<span class="formula">
+		`g(x) = y = f(a) + (f(b) - f(a))/(b-a) (x-a)`,
+	</span>
+	引进辅助函数 `F(x) = f(x) - g(x)`, 则 `F` 在 `[a, b]` 上连续, 在 `(a,
+	b)` 上可微. 注意到 `g(a) = f(a)`, `g(b) = f(b)`, 我们有 `F(a) = F(b) =
+	0`. 应用 Rolle 定理知, 存在 `xi in (a, b)`, 使 `F'(xi) = f'(xi) -
+	g'(xi) = 0`, 即 `f'(xi) = (f(b) - f(a))/(b-a)`.
+</p>
+
+<p class="remark">
+	这个定理的几何意义是, 满足定理条件的 `f`
+	的图像在某点的切线平行于曲线两个端点的连线; 换言之, `f`
+	在某一点的导数等于 `f` 在区间端点的差商.<br/>
+	应当注意, `xi` 与函数 `f` 的定义和区间 `[a, b]` 有关; 定理只给出
+	`xi` 的存在性, 而无法求出具体的值, 也不保证 `xi` 是唯一的. 尽管如此,
+	在许多应用场合, 这个存在性的结论已经足够.
+</p>
+
+<p class="theorem">
+	<b>Cauchy 中值定理</b>
+	设函数 `f, g` 都在闭区间 `[a, b]` 上连续, 开区间
+	`(a, b)` 上可微; 则必存在 `tau in (a, b)` 使得
+	<span class="formula">
+		`f'(tau) (g(b) - g(a)) = g'(tau) (f(b) - f(a))`.
+	</span>
+	当 `g(b) != g(a)`, 且 `f', g'` 无公共的零点时, 上式可以写成
+	<span class="formula">
+		`(f'(tau))/(g'(tau)) = (f(b) - f(a))/(g(b) - g(a))`.
+	</span>
+</p>
+
+<p class="proof">
+	若 `g(b) = g(a)`, 且 `f(b) = f(a)`, 则结论显然.
+	注意到定理中 `f, g` 地位对等, 我们可以设 `g(b) != g(a)`.
+	现在考虑割线方程
+	<span class="formula">
+		`y = f(a) + (f(b)-f(a))/(g(b)-g(a))(x-g(a))`,
+	</span>
+	令
+	<span class="formula">
+		`h(t) = f(a) + (f(b)-f(a))/(g(b)-g(a))(g(t)-g(a))`,
+	</span>
+	引入辅助函数 `F(t) = f(t) - h(t)`, 则 `F` 在 `[a, b]` 上连续, 在 `(a,
+	b)` 上可微, 且 `F(a) = F(b) = 0`. 由 Rolle 定理, 必存在 `tau in (a,
+	b)`, 使 `F'(tau) = f'(tau) - h'(tau) = 0`, 即
+	<span class="formula">
+		`f'(tau) = (f(b)-f(a))/(g(b)-g(a))g'(tau)`.
+	</span>
+</p>
+
+<p class="remark">
+	考虑可微曲线的参数方程 `(g(t), f(t))`, `t in [a, b]`, 则 Cauchy
+	中值定理的几何意义是, 曲线在某一点 `t = tau`
+	的切线平行于连接曲线两个端点的割线.
+</p>
+
+<h3>微分中值定理的应用</h3>
+
+<p class="theorem">
+	<b>导函数连续性定理</b>
+	设函数 `f` 在 `x_0` 的某邻域 `B(x_0, delta)` 上连续,
+	且在 `B(x_0, delta) \\ {x_0}` 上可微, 而 `x_0` 点处是否可微尚不了解.
+	现在假设 `lim_(x to x_0) f'(x) = a`, 则 `f` 在 `x_0` 处可微, 且
+	`f'(x_0) = a`.
+</p>
+
+<p class="proof">
+	任取 `x in (x_0-delta, x_0)`, 容易验证 `f` 在 `[x, x_0]` 上满足
+	Lagrange 中值定理的条件. 于是存在 `xi_x in (x, x_0)`, 使
+	<span class="formula">
+		`f'(xi_x) = (f(x) - f(x_0))/(x-x_0)`.
+	</span>
+	由 `xi_x in (x, x_0)` 知 `x to x_0^-` 时 `xi_x to x_0^-`,
+	上式两边取极限得
+	<span class="formula">
+		`lim_(x to x_0^-) (f(x) - f(x_0))/(x-x_0)
+		= lim_(x to x_0^-) f'(xi_x) = a`,
+	</span>
+	即 `f'_(-)(x_0) = a`. 同理 `f'_+(x_0) = a`, 从而结论成立.
+</p>
+
+<p class="remark">
+	这一定理说明, 连续函数的导函数不存在可去间断点.
+	从证明可以看出, 如果把条件换成 `f` 在 `(x_0 - delta, x_0]` 连续,
+	并将条件中的极限换成左极限, 则 `f` 在 `x_0` 的左导数等于 `a`;
+	右导数的情形类似.
+</p>
+
+<h2>L'Hôpital 法则</h2>
+
+<h3>Stolz 定理</h3>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>
+

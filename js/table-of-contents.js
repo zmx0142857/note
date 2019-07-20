@@ -12,6 +12,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'初等函数', src:'analysis/1-3.html'},
 		{title:'上极限与下极限', src:'analysis/2-5.html'},
+		{title:'导数的应用', src:'analysis/5.html'},
 	]
 	}, {
 	title:'集合论',
@@ -19,6 +20,11 @@ var tableOfContents = [ {
 //		{title:'数理逻辑初步', src:'set-theory/1.html'},
 		{title:'集合及其运算', src:'set-theory/2.html'},
 		{title:'映射', src:'set-theory/3.html'},
+	]
+	}, {
+	title:'复变函数',
+	articles: [
+		//{title:'复数与复变函数', src:'complex/1.html'},
 	]
 	}, {
 	title:'实变函数',
