@@ -471,6 +471,7 @@ var AMsymbols = [
 {input:"sech",  tag:"mo", output:"sech", tex:null, ttype:UNARY, func:true},
 {input:"csch",  tag:"mo", output:"csch", tex:null, ttype:UNARY, func:true},
 {input:"exp",  tag:"mo", output:"exp", tex:null, ttype:UNARY, func:true},
+{input:"sgn",  tag:"mo", output:"sgn", tex:null, ttype:UNARY, func:true},
 {input:"abs",   tag:"mo", output:"abs",  tex:null, ttype:UNARY, rewriteleftright:["|","|"]},
 {input:"norm",   tag:"mo", output:"norm",  tex:null, ttype:UNARY, rewriteleftright:["\u2225","\u2225"]},
 {input:"floor",   tag:"mo", output:"floor",  tex:null, ttype:UNARY, rewriteleftright:["\u230A","\u230B"]},

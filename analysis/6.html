@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>不定积分</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>实用的定积分公式</h2>
+
+<ul>
+	设下面的各个 `f` 在积分区间上有定义且可积.
+	<li>反向积分. 作变元替换 `x = a+b-t`, 有
+		<span class="formula">
+			`int_a^b f(x) dx = int_a^b f(a+b-t) dt`.
+		</span>
+		这个公式的一个推论是, 对任意使得 `f(sin x), f(cos x)` 可积的函数
+		`f`,
+		<span class="formula">
+			`int_0^(pi/2) f(sin x) dx = int_0^(pi/2) f(cos x) dx`.
+		</span>
+	</li>
+	<li>如果 `f` 有对称轴 `x = u`, 即 `f(x) = f(2u-x)`,
+		那么
+		<span class="formula">
+			`int_(u-a)^u f(x) dx = int_u^(u+a) f(x) dx`.
+		</span>
+		特别若 `f` 是偶函数, 则
+		<span class="formula">
+			`int_(-a)^a f(x) dx = 2 int_0^a f(x) dx`.
+		</span>
+	</li>
+	<li>如果 `f` 有对称中心 `(u, v)`, 即 `f(x) = 2v - f(2u-x)`,
+		那么
+		<span class="formula">
+			`int_(u-a)^u f(x) dx + int_u^(u+a) f(x) dx = 2va`.
+		</span>
+		特别若 `f` 是奇函数, 则
+		<span class="formula">
+			`int_(-a)^a f(x) dx = 0`.
+		</span>
+	</li>
+	<li>如果 `f` 是以 `T` 为周期的周期函数, 则
+		<span class="formula">
+			`int_a^(a+T) f(x) dx = int_0^T f(x) dx`.
+		</span>
+	</li>
+</ul>
+
+<h2>杂例</h2>
+
+<p class="example">`I = int_0^(pi/2) ln sin x dx = -pi/2 ln 2`.</p>
+
+<p class="solution">
+	先说明瑕积分的收敛性. 由于 `x to 0` 时 `ln sin x ~ ln x`, 而
+	`int_0^(pi/2) |ln x| dx` 收敛, 故 `int_0^(pi/2) ln sin x dx` 也收敛.
+	<br/>
+	现在计算积分.
+	由反向积分知 `I = int_0^(pi/2) ln cos t dt`.
+	注意到 `[0, pi]` 是 `sin x` 的对称区间,
+	所以又有 `int_0^pi ln sin x = 2I`.
+	于是
+	<span class="formula">
+		`2I = int_0^(pi/2) (ln sin x + ln cos x) dx`
+		`= 1/2 int_0^(pi/2) (ln sin 2x - ln 2) "d" (2x)`
+		`= 1/2 int_0^(pi) ln sin x "d" x - pi/2 ln 2`
+		`= I - pi/2 ln 2`,
+	</span>
+	故 `I = -pi/2 ln2`.
+</p>
+
+<ol class="example">
+	<li>`I_1 = int dx / sqrt((a+x)(b-x))`;</li>
+	<li>`I_2 = int_h^(R sin phi)
+			arccos{: (x cot phi) / sqrt(R^2-x^2) :} dx`,
+		`0 lt h lt R sin phi`, `phi in [0, pi/2)`;
+	</li>
+	<li>`I_3 = int sqrt((a^2x-b^2) / (1-x)) dx/x`;</li>
+	<li>`I_4 = int_(h_1)^(r_2) arccos{: (h_2)/sqrt(R^2-x^2) :} dx`,
+		其中 `R = sqrt(h_1^2 + r_1^2) = sqrt(h_2^2 + r_2^2)`.
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>令 `t = sqrt((a+x)/(b-x))`,
+		则 `x = (bt^2-a) / (1+t^2)`,
+		`dx = (2(a+b)t) / (1+t^2)^2 dt`.  于是
+		<span class="formula">
+			`I_1 = int (2(a+b)t dt)/( t|b-(bt^2-a)/(1+t^2)| (1+t^2)^2 )`
+			`= 2 sgn(a+b) int dt / (1+t^2)`
+			`= 2 sgn(a+b) * arctan sqrt((a+x)/(b-x)) + C`.
+		</span>
+	</li>
+	<li>令 `u = (x cot phi) / sqrt(R^2-x^2)`,
+		则 `x = (Ru) / sqrt(u^2 + cot^2 phi)`.
+		记 `r = sqrt(R^2 - h^2)`, 于是
+		<span class="formula">
+			`I_2 = [(Ru arccos u)/sqrt(u^2+cot^2 phi)]_((h cot phi)//r)^1
+			+ R/2 int_((h cot phi)//r)^1 ("d"(u^2))
+			/ sqrt( (cot^2 phi + u^2)(1-u^2) )`.
+		</span>
+		由 1,
+		<span class="formula">
+			`I_2 = -h arccos{: (h cot phi)/r :}
+				+ R[ arctan sqrt((cot^2 phi + u^2) / (1-u^2)) ]
+				_((h cot phi)//r)^1`
+			`= - h arccos{: (h cot phi)/r :}
+				+ R(pi/2-arctan{:(R cot phi) / sqrt(r^2-h^2 cot^2 phi):})`
+			`= R arccos{: (R cos phi)/r :} - h arccos{: (h cot phi)/r :}`.
+		</span>
+	</li>
+	<li>令 `t = sqrt((a^2x-b^2)/(1-x))`,
+		则 `x = (b^2+t^2)/(a^2+t^2)`,
+		`dx = (2t(a^2-b^2)) / (a^2+t^2)^2 dt`.  于是
+		<span class="formula">
+			`I_3 = int t * (a^2+t^2) / (b^2+t^2)
+				* (2t(a^2-b^2)) / (a^2+t^2)^2 dt`
+			`= 2 int ( a^2/(a^2 + t^2) - b^2 / (b^2 + t^2) ) dt`
+			`= 2 ( a arctan{:t/a:} - b arctan{:t/b:} ) + C`.
+		</span>
+		再将 `t` 代回, 即得最终结果.
+	</li>
+	<li>令 `u = h_2/sqrt(R^2-x^2)`,
+		则 `x = sqrt( R^2 - (h_2/u)^2 )`.  于是
+		<span class="formula">
+			`I_4 = [ sqrt( R^2 - (h_2/u)^2 ) arccos u ]_(h_2//r_1)^1
+				+ int_(h_2//r_1)^1 sqrt( R^2 - (h_2/u)^2 )
+				("d"u) / sqrt(1-u^2)`
+			`=	- h_1 arccos {:h_2/r_1:}
+				+ 1/2 int_(h_2//r_1)^1 sqrt( (R^2u^2 - h_2^2) / (1-u^2) )
+				( "d"(u^2) ) / u^2`.
+		</span>
+		由 3 知, 上式第二项等于
+		<span class="formula">
+			`[R arctan{:1/R:} sqrt((R^2u^2 - h_2^2)/(1-u^2))
+				- h_2 arctan{:1/h_2:}
+				sqrt((R^2u^2 - h_2^2)/(1-u^2)) ]_(h_2//r_1)^1`
+			`= pi/2 (R-h_2)
+				- (R arctan{:(h_1 h_2)/(R sqrt(r_1^2 - h_2^2)):}
+				- h_2 arctan{:h_1/sqrt(r_1^2 - h_2^2):} )`
+			`= R arccos{:(h_1 h_2)/(r_1 r_2):} - h_2 arccos{:h_1/r_2:}`.
+		</span>
+		故
+		<span class="formula">
+			` I_4 = R arccos{:(h_1 h_2)/(r_1 r_2):}
+			- h_1 arccos{:h_2/r_1:}
+			- h_2 arccos{:h_1/r_2:}`.
+		</span>
+	</li>
+</ol>
+
+<p class="example">`I = int sqrt(a^2 - x^2) dx`.</p>
+
+<p class="solution">
+	将原式拆开, 第一项做分子有理化, 第二项分部积分:
+	<span class="formula">
+		`I = 1/2 int sqrt(a^2 - x^2) dx
+			+ 1/2 int sqrt(a^2 - x^2) dx`
+		`= ( 1/2 int (a^2 text(d)x) / sqrt(a^2-x^2)
+			- 1/2 int (x^2 text(d)x) / sqrt(a^2-x^2) ) 
+			+ ( 1/2 x sqrt(a^2 - x^2)
+			+ 1/2 int (x^2 text(d)x)/sqrt(a^2 - x^2) )`
+		`= a^2/2 arcsin{:x/a:} + x/2 sqrt(a^2 - x^2) + C`.
+	</span>
+	这个积分的几何意义是, “从四分之一圆中减去半个弓形,
+	余下的面积等于一个扇形的面积加一个直角三角形的面积”.  类似地可以算出
+	<span class="formula">
+		` int sqrt(a^2+x^2) dx
+		= a^2/2 ln (x + sqrt(a^2+x^2)) + x/2 sqrt(a^2+x^2) + C`.
+	</span>
+</p>
+
+<p class="example">
+	`I_n = int_0^(pi/2) sin^n x dx = int_0^(pi/2) cos^n x dx`
+	`= {
+		((n-1)/n * (n-3)/(n-2) * cdots * 1/2 * pi/2, if n " is even";),
+		((n-1)/n * (n-3)/(n-2) * cdots * 2/3 * 1, if n " is odd".)
+	:}`
+	`= 1/2 B((n+1)/2, 1/2)`.
+</p>
+
+<p class="solution">
+	原式等于
+	<span class="formula">
+		` int_0^(pi/2) cos^(n-1) x "d" sin x`
+		`= [cos^(n-1) x * sin x]_0^(pi/2)
+			- int_0^(pi/2) sin x text(d)(cos^(n-1) x)`
+		`= 0 + (n-1)int_0^(pi/2) sin^2 x * cos^(n-2) x dx`
+		`= (n-1) ( int_0^(pi/2) cos^(n-2) x dx
+			- int_0^(pi/2) cos^n x dx )`
+		`= (n-1)( I_(n-2) - I_n )`.
+	</span>
+	于是
+	<span class="formula">
+		`I_n = (n-1)/n I_(n-2)`.
+	</span>
+	易求得 `I_0 = pi/2`, `I_1 = 1`. 由递推公式马上得到上面的结论.
+</p>
+
+<p class="solution">
+	另一种解法利用了 Beta 函数和 Gamma 函数的性质:
+	<span class="formula">
+		` I_n \ ("let " x = arcsin u)`
+		`= int_0^1 u^n/sqrt(1 - u^2) "d"u \ ("let " u=sqrt v)`
+		`= 1/2 int_0^1 v^(n/2 - 1/2) / sqrt(1-v) "d"v`
+		`= 1/2 int_0^1 v^((n+1)/2 - 1) (1-v)^(1/2 - 1) "d"v`
+		`= 1/2 B((n+1)/2, 1/2)`
+		`= ( Gamma((n+1)/2) Gamma(1/2) ) / (2 Gamma((n+2)/2))`
+		`= (sqrt pi Gamma((n+1)/2) ) / ( 2 Gamma((n+2)/2) )`.
+	</span>
+</p>
+
+<ol class="example">
+	<li>`I_n = int dx / (x^2 + a)^n`;</li>
+	<li>`int dx / (ax^2 + b)^2`.</li>
+</ol>
+
+<ol class="solution">
+	<li>
+		<span class="formula">
+			`I_(n-1) =	int dx / (x^2 + a)^(n-1)`
+			`= x/(x^2+a)^(n-1) - int x "d"(x^2+a)^(1-n)`
+			`= x/(x^2+a)^(n-1) + 2(n-1) int (x^2+a-a)/(x^2+a)^n dx`
+			`= x/(x^2+a)^(n-1) + (2n-2)( I_(n-1) - a I_n )`.
+		</span>
+		故 `(2n-2)aI_n = x/(x^2+a)^(n-1) + (2n-3)I_(n-1)`.
+	</li>
+	<li>在上题中取 `n = 2` 得
+		<span class="formula">
+			` (2b)/a int dx / (x^2 + b/a)^2
+			= x/(x^2 + b/a) + int dx / (x^2 + b/a)`.
+		</span>
+		于是
+		<span class="formula">
+			` 2b int dx /(ax^2 + b)^2
+			= x/(ax^2 + b) + int dx / (ax^2 + b)`.
+		</span>
+	</li>
+</ol>
+
+<p class="example">`int x^2 sin^3 x dx`.</p>
+
+<p class="solution">
+	原式等于
+	<span class="formula">
+		` int x^2 sin x dx - int x^2 sin x cos^2 x dx`
+		`= - int x^2 "d" cos x + 1/3 int x^2 "d" cos^3 x`
+		`= - x^2 cos x + 2 int x cos x dx
+			+ 1/3 x^2 cos^3 x - 2/3 int x cos^3 x dx`
+		`= - x^2 cos x + 2 int x cos x dx + 1/3 x^2 cos^3 x
+			- 2/3 int x cos x dx + 2/3 int x cos x sin^2 x dx`
+		`= - x^2 cos x + 4/3 x sin x + 4/3 cos x + 1/3 x^2 cos^3 x
+			+ 2/9 int x "d" sin^3 x`
+		`= - x^2 cos x + 4/3 x sin x + 4/3 cos x + 1/3 x^2 cos^3 x
+			+ 2/9 x sin^3 x - 2/9 int sin^3 x dx`.
+	</span>
+	因为
+	<span class="formula">
+		`  int sin^3 x dx = int (cos^2 x - 1) "d" cos x`
+		`= 1/3 cos^3 x - cos x + C`,
+	</span>
+	所以原式等于
+	<span class="formula">
+		`- x^2 cos x + 4/3 x sin x + 14/9 cos x + 1/3 x^2 cos^3 x
+		 + 2/9 x sin^3 x - 2/27 cos^3 x + C`.
+	</span>
+</p>
+
+<p class="example">`int sqrt(1+x^4) / (x^3) dx`.</p>
+
+<p class="solution">
+	依然是分子有理化.
+	令 `t = x^2`, 则 `dt = 2x dx`.
+	原式等于
+	<span class="formula">
+		` 1/2 int sqrt(1 + t^2)/t^2 dt
+		= 1/2 int 1/(t^2 sqrt(1+t^2)) dt
+		  + 1/2 int 1/sqrt(1+t^2) dt`.
+	</span>
+	令 `t = sinh u`, 则 `dt = cosh u "d"u`,
+	从而第一项等于
+	<span class="formula">
+		` 1/2 int ("d"u)/(sinh^2 u)
+		= - cosh u/(2 sinh u) + C_1
+		= -sqrt(1+t^2) / (2t) + C_1`.
+	</span>
+	第二项积分的结果是 `1/2 ln (t + sqrt(1+t^2)) + C_2`.
+	所以原式等于
+	<span class="formula">
+		`1/2 ln (x^2 + sqrt(1+x^4)) - sqrt(1+x^4) / (2x^2) + C`.
+	</span>
+</p>
+
+<p class="example">`I = int "e"^(ax) cos bx dx`.</p>
+
+<p class="solution">
+	<span class="formula">
+		` (a^2+b^2)I`
+		`= a^2 int "e"^(ax) cos bx dx + b^2 int "e"^(ax) cos bx dx`
+		`= a int cos bx "d" "e"^(ax) + b int "e"^(ax) "d" sin bx`
+		`= a "e"^(ax) cos bx + ab int "e"^(ax) sin bx dx
+			+ b "e"^(ax) sin bx - ab int "e"^(ax) sin bx dx`
+		`= a "e"^(ax) cos bx + b "e"^(ax) sin bx + C_0`.
+	</span>
+	所以
+	<span class="formula">
+		`I = "e"^(ax)/(a^2+b^2) (a cos bx + b sin bx) + C`.
+	</span>
+</p>
+
+<p class="example">`I = int x/(x+1)^3 dx`.</p>
+
+<p class="solution">
+	常规做法是令 `t = x+1`, 但也可以:
+	<span class="formula">
+		`I = int (x+1)/(x+1)^3 dx - int (dx)/(x+1)^3`
+		`= -1/(x+1) + 1/(2(x+1)^2) + C`.
+	</span>
+</p>
+
+<p class="example">
+	`int x^n "e"^x dx = n! "e"^x sum_(k=0)^n (-1)^(n-k) x^k/(k!) + C`.
+</p>
+
+<p class="solution">用分部积分及归纳法证明之.</p>
+
+<h2>有理函数积分</h2>
+
+<h3>分式分解方法</h3>
+
+<p class="example">
+	分解 `(5x-4)/((x-2)(x+1)) = A/(x-2) + B/(x+1)`.
+</p>
+
+<p class="solution">
+	计算分子:
+	<span class="formula">
+		`5x-4 = (x+1)A + (x-2)B`.
+	</span>
+	常规做法是比较上式两端各次项系数, 得出相应的线性代数方程组.
+	现在使用实根代入法. 分别令 `x = -1, 2`, 代入上式:
+	<span class="formula">
+		`-9 = -3B rArr B = 3`, `quad`
+		`6 = 3A rArr A = 2`.
+	</span>
+</p>
+
+<p>	一般地, 我们有如下定理:</p>
+
+<p class="theorem">
+	设 `p(x), q(x)` 为多项式. 若 `a` 是 `q(x)` 的 `r` 重根, 设 
+	`q(x) = (x-a)^r q_1(x)`, 其中 `q_1(a) != 0`. 则有理分式 `p(x) // q(x)`
+	具有分解式
+	<span class="formula">
+		`(p(x))/(q(x))
+		= sum_(k=0)^(r-1) A_k / (x-a)^(r-k) + **/(q_1(x))`, `quad`
+		`A_k = 1/(k!){:((p(x))/(q_1(x)))^((k))|_(x=a)`.
+	</span>
+	可见 `A_k` 恰是 `p(x) // q_1(x)` 在 `a` 处 Taylor 展开的系数.
+	`r = 1` 时, 上式化为
+	<span class="formula">
+		`(p(x))/(q(x)) = (p(a)//q_1(a))
+		/ (x-a) + **/(q_1(x))`.
+	</span>
+</p>
+
+<p class="example">
+	分解 `16/((x+3)^3(x-1)) = A_0/(x+3)^3 + A_1/(x+3)^2 + A_2 /(x+3)
+	+ B/(x-1)`.
+</p>
+
+<div class="solution">
+	易知 `B = {:16/(x+3)^3|_(x=1) = 1/4`.
+	为了求出 `A_0, A_1, A_2`, 虽然也可以用定理中求各阶导数的方法,
+	但这里我们直接使用幂级数的除法, 计算 `16//(x-1)` 在 `x = -3` 处的
+	Taylor 展开. 先做变换 `y = x+3`, 于是 `16//(x-1) = 16//(y-4)`.
+	列表作除法, 表格第一列是除式的各次项系数 (自上而下升幂排列),
+	第一行是商的各次项系数 (自左而右升幂排列),
+	而表格中的每一单元中的数字是最左侧数字与最上方数字的乘积,
+	作除法时, 应当保证每一对角线上数字之和等于被除式的对应系数:
+	比如 16 = 16; 4 + (-4) = 0; 1 + (-1) = 0 恰好对应被除式
+	`16 + 0y + 0y^2`.
+	<table>
+		<tr>
+			<td></td> <td>-4</td> <td>-1</td> <td>-1/4</td>
+		</tr>
+		<tr>
+			<td>-4</td> <td>16</td> <td>4</td> <td>1</td>
+		</tr>
+		<tr>
+			<td>1</td> <td>-4</td> <td>-1</td> <td></td>
+		</tr>
+	</table>
+	因此, `A_0 = -4, A_1 = -1, A_2 = -1/4`.
+</div>
+
+<h2>不具有初等原函数的函数</h2>
+
+<ul>
+	<li>(见 Poission 积分) `"e"^(-x^2)`;</li>
+	<li>(见 Dirichlet 积分) `(sin x)/x`;</li>
+	<li>`"e"^x/x`, `1/(ln x)`, `1/sqrt(1+x^4)`;</li>
+	<li>椭圆函数 `sqrt(1-a^2 cos^2 x)`, `0 lt a lt 1`.</li>
+</ul>
+
+<h2>重要广义积分</h2>
+
+<p class="example">
+	<b>Poission 积分</b> `int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
+</p>
+
+<p class="solution">
+	利用重积分.  设 `D` 是圆心在原点, 半径为 `R` 的圆域,
+	<span class="formula">
+		`iint_D "e"^(-x^2-y^2) dx dy`
+		` = iint_D rho "e"^(-rho^2) "d"rho "d"theta`
+		` = int_0^(2pi) "d"theta int_0^R rho "e"^(-rho^2) "d"rho`
+		` = pi(1 - "e"^(-R^2))`.
+	</span>
+	
+	另一方面,
+	<span class="formula">
+		`iint_([-R,R]xx[-R,R]) "e"^(-x^2-y^2) dx dy`
+		` = int_(-R)^R "e"^(-x^2) dx int_(-R)^R "e"^(-y^2) dy`
+		` = (int_(-R)^R "e"^(-x^2) dx)^2`.
+	</span>
+	令 `R to +oo`, 得 `int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
+</p>
+
+<p class="solution">
+	利用积分号下求导.
+	<span class="formula">
+		`"d"/dt int_(-oo)^(+oo) "e"^(-tx^2) dx`
+		`= int_(-oo)^(+oo) -x^2 "e"^(-tx^2) dx`
+	</span>
+</p>
+
+<p class="example">
+	<b>Dirichlet 积分</b>
+	`int_(-oo)^(+oo) (sin x)/x dx = pi`.
+</p>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>
+

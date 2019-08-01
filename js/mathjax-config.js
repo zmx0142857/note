@@ -1,7 +1,6 @@
 function mathJaxConfig() {
 MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () {
 var AM = MathJax.InputJax.AsciiMath.AM;
-AM.symbols.push( { input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:AM.TOKEN.UNARY });
 AM.symbols.push({input:"==",  tag:"mo", output:"\u2550\u2550\u2550\u2550", tex:null, ttype:AM.TOKEN.CONST});
 AM.symbols.push({input:"====",  tag:"mo", output:"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550", tex:null, ttype:AM.TOKEN.CONST});
 AM.symbols.push({input:"////", tag:"mo", output:"\u2225", tex:null, ttype:AM.TOKEN.CONST});
@@ -22,5 +21,6 @@ AM.symbols.push({input:"Sup",  tag:"mo", output:"sup", tex:null, ttype:AM.TOKEN.
 AM.symbols.push({input:"inf",  tag:"mo", output:"inf", tex:null, ttype:AM.TOKEN.UNDEROVER});
 AM.symbols.push({input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:AM.TOKEN.UNARY});
 AM.symbols.push({input:"rm", tag:"mstyle", atname:"mathvariant", atval:"serif", output:"rm", tex:null, ttype:AM.TOKEN.UNARY});
+AM.symbols.push({input:"sgn",  tag:"mo", output:"sgn", tex:null, ttype:UNARY, func:true});
 });
 }

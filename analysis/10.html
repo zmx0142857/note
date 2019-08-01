@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>无穷级数</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>无穷级数的基本概念</h2>
+
+<p class="definition">
+	<b>无穷级数</b>, 简称<b>级数</b>,
+	是用加号把数列 `{u_n}` 中的所有数依次连接起来所得到的数学表达式:
+	<span class="formula">
+		`sum_(n=1)^oo u_n = u_1 + u_2 + cdots + u_n + cdots`.
+	</span>
+	每个加数称为级数的一<b>项</b>, 一般项 `u_n` 称为级数的<b>通项</b>.
+	对每个正整数 `n`, 由级数的前 `n` 项和
+	<span class="formula">
+		`S_n = sum_(k=1)^n u_k`
+	</span>
+	组成一个数列 `{S_n}_(n=1)^oo`, 称为级数的<b>部分和 (数列)</b>.
+	当部分和数列收敛时, 则称这个级数<b>收敛</b>,
+	并称部分和数列的极限为级数的<b>和</b>. 故对收敛级数, 我们有
+	<span class="formula">
+		`sum_(k=1)^oo u_n = lim_(n to oo) sum_(k=1)^n u_k`.
+	</span>
+	另一方面, 当部分和数列发散时, 就称级数<b>发散</b>.
+	如果级数的部分和数列趋于正 (负) 无穷大, 我们也称这个级数发散到正 (负)
+	无穷大, 记为
+	<span class="formula">
+		`sum_(n=1)^oo u_n = +oo (-oo)`.
+	</span>
+</p>
+
+<p class="example">
+	几何级数
+	<span class="formula">
+		`sum_(n=0)^oo x^n`
+		`{
+			(= (1-x)^-1, if |x| lt 1),
+			(= oo, if |x| gt 1),
+			(发散, if x = -1)
+		:}`.
+	</span>
+</p>
+
+<ol class="theorem">
+	下面等式表示右端级数收敛时, 左端级数也收敛, 且它们的和相等.
+	这个定理表明, 收敛级数可以进行线性运算.
+	<li>`sum_(n=1)^oo c u_n = c sum_(n=1)^oo u_n`;</li>
+	<li>`sum_(n=1)^oo (u_n +- v_n) = sum_(n=1)^oo u_n +- sum_(n=1)^oo
+		v_n`.
+	</li>
+</ol>
+
+<p class="proof">
+	考察两个级数的部分和, 有
+	<span class="formula">
+		`sum_(k=1)^n c u_k = c sum_(k=1)^n u_k`.
+	</span>
+	在等式两边令 `n to oo`, 就证明了结论 1. 结论 2 的证明类似.
+	级数的线性可加性是由数列极限的线性可加性保证的.
+</p>
+
+<p class="theorem">
+	任意改变级数中有限项的数值, 不改变级数的敛散性;
+	换言之, 对两个级数 `sum_(n=1)^oo u_n`, `sum_(n=1)^oo v_n`,
+	如果存在正整数 `N`, 使对所有 `n gt N` 的项都有 `u_n = v_n`,
+	则它们的敛散性相同.
+</p>
+
+<p class="proof">
+	比较它们的部分和, 有
+	<span class="formula">
+		`sum_(k=1)^n u_n`
+		`= sum_(k=1)^N (u_k - v_k) + sum_(k=1)^n v_n`.
+	</span>
+	由数列极限的运算法则知道, 这两个级数敛散性相同.
+</p>
+
+<p>	由数列收敛的 Cauchy 准则立即推出:</p>
+
+<p class="theorem">
+	<b>级数收敛的 Cauchy 准则</b>
+	级数 `sum_(n=1)^oo u_n` 收敛的充要条件是 `AA epsi gt 0`, `EE N in NN`,
+	<span class="formula">
+		`|sum_(k=1)^p u_(n+k)| lt epsi`, `quad AA n gt N`, `AA p in NN`.
+	</span>
+</p>
+
+<p class="definition">
+称级数 `sum_(n=1)^oo u_n` <b>绝对收敛</b>, 如果 `sum_(n=1)^oo |u_n|` 收敛;
+称级数 `sum_(n=1)^oo u_n` <b>条件收敛</b>, 如果它自身收敛, 但是不绝对收敛.
+</p>
+
+<p class="corollary">
+	级数绝对收敛蕴含它收敛.
+</p>
+
+<p class="proof">
+	应用 Cauchy 准则和三角不等式
+	<span class="formula">
+		`|sum_(k=1)^p u_(n+k)| le sum_(k=1)^p |u_(n+k)|`
+	</span>
+	即可.
+</p>
+
+<p class="theorem">
+	级数收敛的必要条件是其通项趋于零.
+</p>
+
+<p class="proof">
+	这当然是 Cauchy 收敛准则的推论, 但也可以这样证: 记 `S_n`
+	是级数 `sum_(n=1)^oo u_n` 的前 `n` 项和,
+	则 `u_n = S_n - S_(n-1)`, `n = 2, 3, cdots`.
+	<span class="formula">
+		`lim_(n to oo) u_n
+		= lim_(n to oo) S_n - lim_(n to oo) S_(n-1)
+		= 0`.
+	</span>
+</p>
+
+<h2>正项级数</h2>
+
+<h3>正项级数的概念</h3>
+
+<p class="definition">
+	称一个级数为<b>正项级数</b>, 如果它的每一项的都非负.
+	注意, 并不要求每一项都是正数.
+</p>
+
+<p>	由数列收敛的单调有界原理立即得到:</p>
+
+<p class="theorem">
+	正项级数收敛的充要条件是其部分和数列有上界.
+</p>
+
+<p>	下面介绍的所有正项级数的判别法, 都从这个定理出发.
+	在介绍其它判别法之前, 我们先应用这个定理讨论 `p` 级数的敛散性.
+</p>
+
+<h3>`p` 级数与调和级数</h3>
+
+<p class="example">
+	`p` 级数 `sum_(n=1)^oo 1/n^p` 在 `p gt 1` 时收敛, `p le 1` 时发散.
+</p>
+
+<ol class="proof">
+	`p le 0` 时, 级数通项不趋于零, 因而发散. 下设 `p gt 0`.
+	我们通过适当放缩, 将 `p` 级数与几何级数作比较.
+	<li>若 `0 lt p le 1`, 对任意正整数 `n ge 2`, 存在正整数 `k` 使得
+		`2^k le n lt 2^(k+1)`. 现在分析 `p` 级数的部分和, 将它从第二项起,
+		依次按 `1, 2, 4, 8, cdots, 2^(k-1)` 项组合起来, 并舍弃从 `2^k + 1`
+		项开始的后面各项:
+		<span class="formula">
+			`sum_(i=1)^n i^-p`
+			`ge 1 + sum_(j=1)^k sum_(i=2^(j-1)+1)^(2^j) i^-p`
+			`ge 1 + sum_(j=1)^k 2^(j-1) * 2^(-pj)`
+			`= 1 + 1/2 sum_(j=1)^k 2^((1-p)j)`
+			`= {
+				(1 + a/2 (1-a^k)/(1-a), if 0 lt p lt 1),
+				(1 + k/2, if p = 1)
+			:}`.
+		</span>
+		其中 `a = 2^(1-p) gt 1`.
+		注意 `n to oo` 时, `k to oo`, 由上述不等式即知 `p` 级数发散.
+	</li>
+	<li>`p gt 1` 时, 类似有
+		<span class="formula">
+			`sum_(i=1)^n i^-p`
+			`le sum_(j=0)^k sum_(i=2^j)^(2^(j+1)-1) i^-p`
+			`le sum_(j=0)^k 2^j * 2^(-pj)`
+			`= sum_(j=0)^k 2^((1-p)j)`
+			`= (1-a^(k+1))/(1-a)`
+			`le 1/(1-a)`.
+		</span>
+		其中 `0 lt a = 2^(1-p) lt 1`.
+		从而部分和有界, 所以 `p` 级数收敛.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>先设 `p = 1`, 此时由熟知的不等式 (见第二章)
+		<span class="formula">
+			`1/(n+1) lt ln(1+1/n) lt 1/n`
+		</span>
+		立即得到
+		<span class="formula">
+			`sum_(k=1)^n 1/k
+			gt sum_(k=1)^n [ln(k+1) - ln k]`
+			`= ln(n+1)`,
+		</span>
+		因而级数发散.
+	</li>
+	<li>`p != 1` 时, 对函数 `x^(1-p)` (它和 x^-p
+		的原函数只相差一个常数因子) 在区间 `[n, n+1]`
+		上应用微分中值定理得
+		<span class="formula">
+			`(n+1)^(1-p) - n^(1-p) = (1-p) xi^-p`,
+		</span>
+		其中 `n lt xi lt n+1`. 从而
+		<span class="formula">
+			`1/(n+1)^p lt ((n+1)^(1-p) - n^(1-p))/(1-p) lt 1/n^p`.
+		</span>
+		因此 `p lt 1` 时,
+		<span class="formula">
+			`sum_(k=1)^n 1/k^p`
+			`gt sum_(k=1)^n ((k+1)^(1-p) - k^(1-p))/(1-p)`
+			`= ((n+1)^(1-p) - 1)/(1-p)`,
+		</span>
+		推知级数发散, 而 `p gt 1` 时,
+		<span class="formula">
+			`sum_(k=1)^n 1/k^p`
+			`= 1 + sum_(k=1)^(n-1) 1/(k+1)^p`
+			`lt 1 + sum_(k=1)^(n-1) ((k+1)^(1-p) - k^(1-p))/(1-p)`
+			`= 1 + (n^(1-p) - 1)/(1-p)`
+			`lt 1 - 1/(1-p)`,
+		</span>
+		表明部分和有界, 所以级数收敛.
+	</li>
+</ol>
+
+<p class="remark">
+	`p = 1` 时, `p` 级数又称为调和级数. 我们现在知道它是发散的.
+	下面的定理估计了它的发散速度.
+</p>
+
+<p class="theorem">
+	数列 `x_n = sum_(k=1)^n 1/k - ln n` 
+	(`n = 1, 2, cdots`) 有极限. 这个极限值叫做<b>欧拉常数</b>, 常记为 `c`.
+	从定理立即推出 `n to oo` 时, `sum_(k=1)^n 1/k ~ ln n`.
+</p>
+
+<p class="proof">
+	利用不等式
+	<span class="formula">
+		`1/(n+1) lt ln(1+1/n) lt 1/n`,
+		`quad n = 1, 2, cdots`;
+	</span>
+	立即得到 `{x_n}` 单调递减:
+	<span class="formula">
+		`x_(n+1) - x_n = = 1/(n+1) - ln(1+1/n) lt 0`,
+		`quad n = 1, 2, cdots`;
+	</span>
+	且有下界:
+	<span class="formula">
+		`sum_(k=1)^n 1/k
+		gt sum_(k=1)^n [ln(k+1) - ln k]`
+		`= ln(n+1) gt ln n`,
+		`quad n = 1, 2, cdots`.
+	</span>
+</p>
+
+<p class="remark">
+	`c = 0.577216...`.
+</p>
+
+<p class="example">
+	求 `lim_(n to oo) ln(1/(n+1) + 1/(n+2) + cdots + 1/(2n))`.
+</p>
+
+<p class="solution">因为
+	<span class="formula">
+		`sum_(k=n+1)^(2n) 1/k = (sum_(k=1)^(2n) 1/k - ln(2n))
+		- (sum_(k=1)^n 1/k - ln n) + ln 2`,
+	</span>
+	所以原式 = `ln ln 2`.
+</p>
+
+<h3>比较判别法</h3>
+
+<ol class="theorem">
+	<b>比较判别法一</b>
+	设有正项级数 `sum_(n=1)^oo u_n` 和 `sum_(n=1)^oo v_n`,
+	且存在正整数 `N` 使 `u_n le v_n`, `AA n gt N`, 则
+	<li>`sum_(n=1)^oo v_n` 收敛 `rArr sum_(n=1)^oo u_n` 收敛;</li>
+	<li>`sum_(n=1)^oo u_n` 发散 `rArr sum_(n=1)^oo v_n` 发散;</li>
+</ol>
+
+<p class="theorem">
+	<b>比较判别法二</b>
+</p>
+
+<p class="theorem">
+	<b>比较判别法三</b>
+</p>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>

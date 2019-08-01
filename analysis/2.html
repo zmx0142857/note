@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>数列的极限</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="example">`lim_(n to oo) root n n = 1`.</p>
+
+<p class="proof">
+	`n gt 2` 时, 有
+	<span class="formula">
+		`   1 lt root(n)(n)`
+		`=  root(n)(sqrt n * sqrt n * 1)`
+		`lt (2 sqrt n + n - 2)/n`
+		`lt 2/sqrt n + 1`.
+	</span>
+	由两边夹法则, `lim_(n to oo) root n n = 1`.
+</p>
+
+<p class="example">`lim_(n to oo) a^n/(n!) = 0`, `a in R`.</p>
+
+<p class="proof">
+	取 `N_1 = [|a| + 1]`, 则 `|a|/n lt 1, AA n gt N_1`. 取实数 `r` 使
+	`|a|/n lt r lt 1`, 有
+	<span class="formula">
+		`  |a^n/(n!)|
+		= |a|^n/(n!)
+		le r^(n-N_1) |a|^(N_1)/(N_1!)
+		lt r^(n-N_1) (|a|+1)^(N_1)/(N_1!)`.
+	</span>
+	记 `b = |a| + 1`,
+	对 `AA epsilon gt 0`, 要使上式右边小于 `epsilon`, 只要
+	<span class="formula">
+		`(n - N_1) ln r lt ln((N_1!)/b^(N_1) epsilon)`,
+	</span>
+	即
+	<span class="formula">
+		`n gt ln((N_1!)/b^(N_1) epsilon) / ln r + N_1`.
+	</span>
+	所以只要取 `N = [ln((N_1!)/b^(N_1) epsilon) / ln r + N_1] + 1`,
+	当 `n gt N` 时, 就有 `| a^n/(n!) | lt epsilon`.
+</p>
+
+<p class="example">
+	证明下面的数列收敛, 且极限为 `root(m)(A)`.
+	<span class="formula">
+		`x_1 = 1`,<br/>
+		`x_(n+1) = 1/m [(m-1) x_n + A/x_n^(m-1)]`.<br/>
+		(`m in ZZ\\{0}`, `A gt 0`)
+	</span>
+</p>
+
+<h2>极限的四则运算</h2>
+
+<p class="theorem">
+	若 `lim_(n to oo) x_n = a`, `lim_(n to oo) y_n = b`, 则
+	<span class="formula">
+		`lim_(n to oo) (x_n +- y_n) = a +- b`;<br/>
+		`lim_(n to oo) (x_n y_n) = ab`;<br/>
+		`lim_(n to oo) (x_n)/(y_n) = a/b` (当 `b != 0`).
+	</span>
+</p>
+
+<ol class="proof">
+	<li>对 `AA epsilon gt 0`, 由 `lim_(n to oo) x_n = a` 和
+		`lim_(n to oo) y_n = b` 知 `EE` `N_1`, `N_2`, 使
+		<span class="formula">
+			<p>`|x_n - a| lt epsilon/2, AA n gt N_1`;</p>
+			<p>`|y_n - b| lt epsilon/2, AA n gt N_2`.</p>
+		</span>
+		故 `n gt max{N_1, N_2}` 时,
+		<span class="formula">
+			`	|(x_n +- y_n) - (a +- b)|
+			le	|x_n - a| + |y_n - b|
+			lt	epsilon/2 + epsilon/2
+			=	epsilon`.
+		</span>
+	</li>
+	<li>由收敛数列的有界性知 `EE` M &gt; 0 使
+		<span class="formula">
+			`|y_n| lt M`, `AA n in NN`.
+		</span>
+		对 `AA epsilon gt 0`, 由 `lim_(n to oo) x_n = a` 和
+		`lim_(n to oo) y_n = b` 知 `EE N_1, N_2 in NN`, 使
+		<span class="formula">
+			<p>`|x_n - a| lt epsilon/(2M)`;</p>
+			<p>`|y_n - b| lt epsilon/(2(|a| + 1))`.</p>
+		</span>
+		(这样就避免了对 a = 0 的讨论). 因此 `n gt max{N_1, N_2}` 时,
+		<span class="formula">`
+	{:(			|x_n y_n - ab|
+	,		=	|x_n y_n - a y_n + a y_n - ab|
+	),(,	le	|x_n - a| |y_n| + |a| |y_n - b|
+	),(,	lt	epsilon/(2M) M + |a| epsilon/(2(|a| + 1))
+			lt	epsilon.
+	):}`</span>
+	</li>
+	<li>因为 `lim_(n to oo) y_n = b != 0`, 所以由数列极限的保号性知
+		`EE N_1 in NN` 与 `m gt 0` 使
+		<span class="formula">
+			`|y_n| gt m, AA n gt N_1`.
+		</span>
+		对 `AA epsilon gt 0`, 由 `lim_(n to oo) x_n = a` 和
+		`lim_(n to oo) y_n  = b` 知存在 `N_2, N_3 in NN` 使
+		<span class="formula">
+			<p>`|x_n - a| lt m epsilon/2, AA n gt N_2`;</p>
+			<p>`|y_n - b| lt (m|b|)/(|a|+1) epsilon/2, AA n gt N_3`.</p>
+		</span>
+		当 `n gt max{N_1, N_2, N_3}` 时有
+		<span class="formula">`
+	{:(			|(x_n)/(y_n) - a/b|
+	,		=	|(b x_n - a y_n)/(b y_n)|
+	),(,	=	(|b x_n - ab + ab - a y_n|)/(|b| |y_n|)
+	),(,	lt	(|b| |x_n - a| + |a| |y_n - b|)/(m |b|)
+	),(,	=	1/m |x_n - a| + |a|/(m|b|) |y_n - b|
+	),(,	lt	1/m m epsilon/2 + |a|/(m|b|) (m|b|)/(|a|+1) epsilon/2
+			lt epsilon.
+	):}`
+		</span>
+	</li>
+</ol>
+
+<h2>刻画实数完备性的定理</h2>
+
+<p class="theorem">
+	<b>单调有界原理</b>
+</p>
+
+<p class="theorem">
+	<b>Cantor 闭区间套定理</b>
+</p>
+
+<p class="theorem">
+	<b>Bolzano-Weierstrass 列紧性 (致密性) 原理</b>
+</p>
+
+<p class="theorem">
+	<b>Cauchy 收敛准则</b>
+</p>
+
+<h3>常用于判定数列收敛的定理</h3>
+
+<p>除单调有界原理, Cauchy 收敛准则外, 下面这些定理也很常用:</p>
+
+<p class="theorem">
+	<b>Banach 压缩映像原理</b>
+</p>
+
+<ol class="theorem">
+	设数列 `{x_n}` 满足:
+	<li>存在有限个子数列收敛到同一极限, 且 `{x_n}` 是这些子数列的并,
+		则 `{x_n}` 收敛; 常见的情形是它的奇数项与偶数项分别收敛到同一极限.
+	</li>
+	<li>`x_n = a + r_n`, `n = 1, 2, cdots`, 且存在常数 `lambda in (0, 1)`
+		使得
+		<span class="formula">
+			`|r_(n+1)| le lambda |r_n|`, `quad n = 1, 2, cdots`.
+		</span>
+		则 `lim_(n to oo) x_n = a`.
+	</li>
+	<li>存在常数 `lambda in (0, 1)` 使得
+		<span class="formula">
+			`|x_(n+1) - x_n| le lambda |x_n - x_(n-1)|`,
+			`quad n = 2, 3, cdots`.
+		</span>
+		则 `{x_n}` 收敛.
+	</li>
+</ol>
+
+<h3>一个重要极限</h3>
+
+<p class="theorem" id="the-e">
+	数列 `x_n = (1+1/n)^n` 有极限, 记为 `"e"`.
+</p>
+
+<ol class="proof">
+	<li>先证它单调递增.  由均值不等式知
+		<span class="formula">
+			`  root(n+1)((1 + 1/n)^n)
+			lt (n(1 + 1/n) + 1)/(n+1)
+			=  1 + 1/(n+1)`.
+		</span>
+		所以 `(1 + 1/n)^n lt (1 + 1/(n+1))^(n+1)`.
+	</li>
+	<li>再证此数列有上界. `n ge 2` 时, 由二项式定理,
+		<span class="formula">
+			`	(1 + 1/n)^n
+			=	1 + n * 1/n + (n(n-1))/(2!) * 1/n^2 + cdots + 1/n^n`
+			`lt	sum_(k=0)^n 1/(k!)`
+			`le	2 + sum_(k=2)^n 1/(k(k-1))`
+			`=	2 + 1 - 1/n lt 3`.
+		</span>
+		从而由单调有界原理知极限 `lim_(n to oo) x_n` 存在.
+	</li>
+</ol>
+
+<p class="remark">
+	`"e" = 2.718281828...` 有许多好的性质, 
+	最重要的一点是, 函数 `"e"^x` 的导数是它自身.
+	人们把 `"e"` 用于自然对数的底, 即 `log_"e" x = ln x`.
+</p>
+
+<p class="corollary">
+	由极限的四则运算容易得到:
+	<span class="formula">
+		` lim_(n to oo) (1 + 1/n)^(n+1)
+		= lim_(n to oo) (1 + 1/(n+1))^n = "e"`,<br/>
+		` lim_(n to oo) (1 - 1/n)^n
+		= lim_(n to oo) (1 - 1/n)^(n+1)
+		= lim_(n to oo) (1 - 1/(n+1))^n = "e"^-1`.
+	</span>
+</p>
+
+<p class="corollary" id="cor-e-2">
+	<span class="formula">
+		`(1 + 1/n)^n lt "e" lt (1 + 1/n)^(n+1)`, `quad n = 1, 2, cdots`.
+	</span>
+	或等价地,
+	<span class="formula">
+		`1/(n+1) lt ln(1 + 1/n) lt 1/n`, `quad n = 1, 2, cdots`.
+	</span>
+</p>
+
+<p class="proof">
+	由<a class="ref" href="#the-e"></a>的证明知道,
+	`(1+1/n)^n` 严格单调递增趋于 `"e"`, 因此得到不等式的前一半.
+	为证后半部分, 由 `lim_(n to oo) (1 + 1/n)^(n+1) = "e"`,
+	因此只需证明 `(1 + 1/n)^(n+1)` 严格单调递减.
+	由均值不等式有:
+	<span class="formula">
+		`  root(n+2)(1/( (1 + 1/n)^(n+1) ))`
+		`lt 1/(n+2)((n+1)/(1 + 1/n) + 1)`
+		`=  (n+1)/(n+2)`.
+	</span>
+	所以
+		`  (1 + 1/n)^(n+1)`
+		`gt ((n+2)/(n+1))^(n+2)`
+		`=  (1 + 1/(n+1))^(n+2)`.
+</p>
+
+<p class="remark">
+	对函数 `ln x` 在区间 `[n, n+1]` 上应用微分中值定理,
+	也可以得到此不等式.
+</p>
+
+<h2>上极限与下极限</h2>
+
+<p class="definition">
+	设 `{x_n}` 是有界数列. 定义<b>上极限</b>和<b>下极限</b>
+	<span class="formula">
+		`underset(n to oo) bar lim x_n
+		= underset(n ge 1)"inf" underset(k ge n) "sup" x_k`, `quad`
+		`underset(n to oo) ul lim x_n
+		= underset(n ge 1)"sup" underset(k ge n) "inf" x_k`.
+	</span>
+	其中 `{underset(k ge n) "sup" x_k}` 和 `{underset(k ge n) "inf" x_k}`
+	称为 `{x_n}` 的<b>上控数列</b>和<b>下控数列</b>.
+</p>
+
+<p class="corollary">
+	<span class="formula">
+		`underset(n to oo) bar lim x_n
+		= lim_(n to oo) underset(k ge n) "sup" x_k`, `quad`
+		`underset(n to oo) ul lim x_n
+		= lim_(n to oo) underset(k ge n) "inf" x_k`.
+	</span>
+</p>
+<p class="proof">
+	由习题 1.2 7(4) 知, 上控数列单调递减, 下控数列单调递增.
+	显然它们都有界. 于是由单调有界原理, 它们的极限存在.
+</p>
+
+<p class="definition">
+	设 `{x_n}` 为有界数列. 称 `a` 为 `{x_n}` 的一个<b>部分极限</b>, 如果
+	`{x_n}` 有子列收敛到 `a`.
+	记 `{x_n}` 的全体部分极限为 `L`, 则 `L != O/`.
+</p>
+
+<p class="theorem">
+	设 `{x_n}` 为有界数列, 其全体部分极限为 `L`, 则
+	<span class="formula">
+		`underset(n to oo) bar lim x_n = max L`, `quad`
+		`underset(n to oo) ul lim x_n = min L`.
+	</span>
+</p>
+<div class="proof">
+	<p> 先证 `underset(n to oo) bar lim x_n` 是 `L` 的一个上界.
+		任取 `a in L`, 由定义知存在子列 `{x_(n_k)}` 以 `a` 为极限.
+		在不等式
+		<span class="formula">
+			`x_(n_k) le underset(i ge n_k) "sup" x_i`, `k = 1, 2, cdots`
+		</span>
+		两端令 `k to oo`, 得 `a le underset(n to oo) bar lim x_n`.
+	</p>
+	<p> 现在说明 `underset(n to oo) bar lim x_n in L`.
+		记 `u = underset(n to oo) bar lim x_n`,
+		`bar x_n = underset(i ge n) "sup" x_i`.
+		对任意 `k in NN`, 由 `lim_(n to oo) bar x_n = u` 知,
+		存在充分大的 `N_k in NN`, 当 `n gt N_k` 时有
+		<span class="formula">
+			`|bar x_n - u| lt 1/k`.
+		</span>
+		再由 `bar x_n = underset(i ge n) "sup" x_i` 知, 存在 `n_k ge n`,
+		使 `|x_(n_k) - bar x_n| lt 1/k`. 于是
+		<span class="formula">
+			`|x_(n_k) - u| le |x_(n_k) - bar x_n| + |bar x_n - u| lt 2/k`.
+		</span>
+		在取定 `n_k` 后, 只需令下一次的 `N_(k+1) ge n_k`, 就能保证
+		`n_(k+1) ge n gt N_(k+1) ge n_k`. 所以 `{x_(n_k)}` 是收敛于 `u`
+		的 `{x_n}` 的子列.
+	<p>
+</div>
+
+<p class="theorem">
+	设 `{x_n}` 是有界数列, 则 `{x_n}` 收敛的充要条件是
+	`underset(n to oo) bar lim x_n = underset(n to oo) ul lim x_n`.
+	这一条件成立时, 上极限, 下极限, 极限三者相等.
+</p>
+<div class="proof">
+	记 `x_n` 的全体部分极限为 `L`.
+	<p>必要性. 设 `x_n to a`, 则它的所有子列也收敛到 `a`. 从而 `|L| = 1`,
+		显然有 `max L = min L`.
+	</p>
+	<p>充分性. 反设 `{x_n}` 不收敛, 由 Cauchy 收敛准则知,
+		存在 `epsi_0 gt 0`, 对任意 `N_k in NN`, 存在 `m_k, n_k gt N`, 使
+		<span class="formula">
+			`|x_(m_k) - x_(n_k)| ge epsi_0`.
+		</span>
+		可以取 `N_1 = 1`, `N_(k+1) = max{m_k, n_k}`,
+		这就保证 `{x_(m_k)}`, `{x_(n_k)}` 是两个子列.
+		应用列紧性原理, 从 `{x_(m_k)}` 中选出一收敛子列,
+		再从 `{x_(n_k)}` 的相应子数列中选出一收敛子列.
+		这一子列与 `{x_(m_k)}` 的相应子列保持对应项的距离不小于 `epsi_0`,
+		因此它们的极限不相等.
+		于是 `L` 至少含两个不同实数, 从而 `max L != min L`.
+	</p>
+</div>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>
