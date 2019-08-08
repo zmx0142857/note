@@ -136,14 +136,25 @@
 	注意, 并不要求每一项都是正数.
 </p>
 
+<p class="remark">
+	从上节知道, 一个级数绝对收敛可以保证它自身收敛, 而级数 `sum_(n=1)^oo
+	|u_n|` 的通项是非负的,
+	因此正项级数的敛散性理论可以用来判断一个级数是否绝对收敛.
+	另外, 由于去掉级数的有限项不改变其敛散性,
+	因此对除有限项外各项都是非负的级数, 也可以使用正项级数的敛散性理论.
+</p>
+
 <p>	由数列收敛的单调有界原理立即得到:</p>
 
 <p class="theorem">
 	正项级数收敛的充要条件是其部分和数列有上界.
 </p>
 
-<p>	下面介绍的所有正项级数的判别法, 都从这个定理出发.
+<p class="remark">
+	下面介绍的所有正项级数的判别法, 都从这个定理出发.
 	在介绍其它判别法之前, 我们先应用这个定理讨论 `p` 级数的敛散性.
+</p>
+
 </p>
 
 <h3>`p` 级数与调和级数</h3>
@@ -274,23 +285,135 @@
 	所以原式 = `ln ln 2`.
 </p>
 
-<h3>比较判别法</h3>
+<h3>正项级数的敛散性判别</h3>
 
 <ol class="theorem">
 	<b>比较判别法一</b>
 	设有正项级数 `sum_(n=1)^oo u_n` 和 `sum_(n=1)^oo v_n`,
-	且存在正整数 `N` 使 `u_n le v_n`, `AA n gt N`, 则
+	且存在正整数 `N` 使 `u_n le v_n`, `AA n ge N`
+	(注意到常数因子不改变级数敛散性, 这个条件就是说 `u_n = O(v_n)`), 则
 	<li>`sum_(n=1)^oo v_n` 收敛 `rArr sum_(n=1)^oo u_n` 收敛;</li>
 	<li>`sum_(n=1)^oo u_n` 发散 `rArr sum_(n=1)^oo v_n` 发散;</li>
 </ol>
 
-<p class="theorem">
-	<b>比较判别法二</b>
+<p class="proof">
+	因为去掉级数的有限项不改变级数的敛散性, 所以不妨设 `N = 1`.
+	由条件知
+	<span class="formula">
+		`sum_(k=1)^n u_n le sum_(k=1)^n v_n`, `quad n = 1, 2, cdots`.
+	</span>
+	如果 `sum_(n=1)^oo v_n` 收敛, 则 `sum_(n=1)^oo u_n` 的部分和有上界,
+	从而收敛; 反过来, 如果 `sum_(n=1)^oo u_n` 发散, 则其部分和无上界,
+	于是 `sum_(n=1)^oo v_n` 的部分和也无上界, 是发散的.
 </p>
 
-<p class="theorem">
-	<b>比较判别法三</b>
+<ol class="corollary">
+	<b>比较判别法二</b>
+	设有正项级数 `sum_(n=1)^oo u_n` 和 `sum_(n=1)^oo v_n`, 其中 `v_n`
+	的各项严格大于零, 且存在 `0 le l le +oo` 使成立
+	`lim_(n to oo) u_n/v_n = l`. 则
+	<li>如果 `sum_(n=1)^oo v_n` 收敛, 且 `l lt +oo`, 则 `sum_(n=1)^oo u_n`
+		也收敛;
+	</li>
+	<li>如果 `sum_(n=1)^oo v_n` 发散, 且 `l gt 0`, 则 `sum_(n=1)^oo u_n`
+		也发散.
+	</li>
+</ol>
+
+<!--
+<ol class="proof">
+	<li>若 `0 lt l lt +oo`, 由条件知存在正整数 `N`, 使
+		<span class="formula">
+			`l/2 v_n le u_n le 2l v_n`, `quad AA n ge N`.
+		</span>
+		级数 `sum_(n=1)^oo l/2 v_n` 与 `sum_(n=1)^oo 2l v_n` 都与
+		`sum_(n=1)^oo v_n` 具有相同的敛散性. 由比较判别法一知道,
+		`sum_(n=1)^oo u_n` 和 `sum_(n=1)^oo v_n` 也有相同的敛散性.
+	</li>
+	<li>若 `l = 0`, 由条件知存在正整数 `N`, 使 `u_n le v_n`, `AA n ge N`.
+		由比较判别法一知, `sum_(n=1)^oo v_n` 收敛时, `sum_(n=1)^n u_n`
+		也收敛.
+	</li>
+	<li>若 `l = +oo`, 由条件知存在正整数 `N`, 使 `u_n ge v_n`, `AA n ge
+		N`. 由比较判别法一知, `sum_(n=1)^oo v_n` 发散时, `sum_(n=1)^oo
+		u_n` 也发散.
+	</li>
+</ol>
+-->
+
+<p class="proof">
+	`l lt +oo` 时, 有 `u_n = O(v_n)`,
+	`l gt 0` 时, 有 `v_n = O(u_n)`;
+	再应用比较判别法一即得结论.
 </p>
+
+<ol class="corollary">
+	<b>比较判别法三</b>
+	设有正项级数 `sum_(n=1)^oo u_n` 和 `sum_(n=1)^oo v_n`,
+	两个级数的各项都严格大于零, 且存在正整数 `N` 使 `u_(n+1)/u_n le
+	v_(n+1)/v_n`, `AA n ge N`. 则
+	<li>`sum_(n=1)^oo v_n` 收敛 `rArr sum_(n=1)^oo u_n` 收敛;</li>
+	<li>`sum_(n=1)^oo u_n` 发散 `rArr sum_(n=1)^oo v_n` 发散;</li>
+</ol>
+
+<p class="proof">
+	由条件知对任意 `n gt N` 的项都成立
+	<span class="formula">
+		`u_n/u_N = prod_(k=N+1)^n u_k/u_(k-1)`
+		`le prod_(k=N+1)^n v_k/v_(k-1) = v_n/v_N`.
+	</span>
+	即 `u_n le u_N/v_N v_n`, `AA n gt N`.
+	应用比较判别法一即得结论.
+</p>
+
+<ol class="theorem">
+	<b>D'Alembert 检比法</b>
+	设 `sum_(n=1)^oo u_n` 是各项严格大于零的正项级数,
+	且存在 `0 le l le +oo` 使成立
+		`lim_(n to oo) u_(n+1)/u_n = l`.
+	则
+	<li>`l lt 1` 时级数收敛;</li>
+	<li>`l gt 1` 时级数发散.</li>
+	但是 `l = 1` 时, 级数的敛散性无法用此定理判断.
+</ol>
+
+<ol class="proof">
+	我们通过与几何级数进行比较, 来证明这个定理.
+	<li>先设 `0 le l lt 1`. 取实数 `r` 使得 `l lt r lt 1`, 再令
+		`v_n = r^n`, `n = 1, 2, cdots`. 则 `sum_(n=1)^oo v_n` 收敛.
+		注意到 `v_(n+1)/v_n = r gt l = lim_(n to oo) u_(n+1)/u_n`,
+		所以存在正整数 `N` 使 `u_(n+1)/u_n le v_(n+1)/v_n`, `AA n ge N`.
+		应用比较判别法三即知 `sum_(n=1)^oo u_n` 收敛.
+	</li>
+	<li>再设 `1 lt l le +oo`. 取实数 `r` 使得 `1 lt r lt l` (`l = +oo` 时,
+		取 `r gt 1` 即可), `类似可证 sum_(n=1)^oo u_n` 发散.
+	</li>
+</ol>
+
+<ol class="theorem">
+	<b>Cauchy 检根法</b>
+	设 `sum_(n=1)^oo u_n` 是正项级数, 且存在 `0 le l le +oo` 使上极限
+		`underset(n to oo) bar lim root n (u_n) = l`.
+	则
+	<li>`l lt 1` 时级数收敛;</li>
+	<li>`l gt 1` 时级数发散.</li>
+	但是再一次, `l = 1` 时, 级数的敛散性无法用此定理判断.
+</ol>
+
+<ol class="proof">
+	<li>先设 `0 le l lt `. 取实数 `r` 使得 `l lt r lt 1`,
+		则由条件知存在正整数 `N`, 使当 `n ge N` 时 `root n (u_n) le r`.
+		即 `u_n le r^n`. 由 `r lt 1` 知 `sum_(n=1)^oo r^n` 收敛, 从而
+		`sum_(n=1)^oo u_n` 也收敛.
+	</li>
+	<li>再设 `1 lt l le +oo`. 取实数 `r` 使得 `1 lt r lt l`. 由条件知,
+		存在 `{u_n}_(n=1)^oo` 的子列 `{u_(n_k)}_(k=1)^oo` 使得对任意正整数
+		`k` 成立 `root (n_k) (u_(n_k)) ge r`, 即 `u_(n_k) ge r^(n_k)`.
+		因为 `r gt 1`, 所以 `k to oo` 时, `r^(n_k) to +oo`, 于是
+		`u_(n_k) to +oo`. 级数 `sum_(n=1)^oo u_n` 的通项不趋于零,
+		所以它发散.
+	</li>
+</ol>
 
 </body>
 
