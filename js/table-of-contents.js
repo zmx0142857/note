@@ -15,6 +15,7 @@ var tableOfContents = [ {
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
 		{title:'无穷级数', src:'analysis/10.html'},
+		{title:'重积分', src:'analysis/19.html'},
 	]
 	}, {
 	title:'集合论',
