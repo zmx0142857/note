@@ -21,6 +21,6 @@ AM.symbols.push({input:"Sup",  tag:"mo", output:"sup", tex:null, ttype:AM.TOKEN.
 AM.symbols.push({input:"inf",  tag:"mo", output:"inf", tex:null, ttype:AM.TOKEN.UNDEROVER});
 AM.symbols.push({input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:AM.TOKEN.UNARY});
 AM.symbols.push({input:"rm", tag:"mstyle", atname:"mathvariant", atval:"serif", output:"rm", tex:null, ttype:AM.TOKEN.UNARY});
-AM.symbols.push({input:"sgn",  tag:"mo", output:"sgn", tex:null, ttype:UNARY, func:true});
+AM.symbols.push({input:"sgn",  tag:"mo", output:"sgn", tex:null, ttype:AM.TOKEN.UNARY, func:true});
 });
 }
