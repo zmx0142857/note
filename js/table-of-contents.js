@@ -88,6 +88,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'向量与坐标系', src:'analytic-geo/1.html'},
 		{title:'平面与直线', src:'analytic-geo/2.html'},
+		{title:'二次曲线与曲面', src:'analytic-geo/3.html'},
 	]
 	}, {
 	title:'微分几何',
