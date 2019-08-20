@@ -20,11 +20,11 @@
 	</span>
 	或
 	<span class="formula">
-		`sum_(i=0)^n a_i(t) x^((n-i))(t) = f(t)` (`a_0(t) = 1`)
+		`sum_(i=0)^n a_i(t) x^((n-i))(t) = f(t)`, `quad a_0(t) = 1`
 	</span>
 	对应的齐方程的基本解组为
 	<span class="formula">
-		`x_i(t), i = 1, 2, cdots, n`.
+		`x_i(t)`, `quad i = 1, 2, cdots, n`.
 	</span>
 	我们解线性方程组
 	<span class="formula">
@@ -45,7 +45,7 @@
 	</span>
 </p>
 
-<p class="example">
+<p class="example" id="exp-2nd-linear-nonhomogen-1">
 	解如下的常微分方程初值问题:
 	<span class="formula">`{
 		( x'' + a^2 x = f(t) ),
@@ -55,7 +55,7 @@
 	</span>
 </p>
 <p class="solution">
-	`{cos at, sin at}` 构成方程的基本解组. 设 `x = c_1 cos at + c_2 sin
+	`{cos at, sin at}` 构成齐方程的基本解组. 设 `x = c_1 cos at + c_2 sin
 	at`, 解线性方程组
 	<span class="formula">`{
 		( c_1' cos at + c_2' sin at = 0 ),
@@ -68,25 +68,23 @@
 	</span>
 	故
 	<span class="formula">
-		`c_1 = -1/a int_0^t f sin a tau "d"tau + x_0`,<br/>
-		`c_2 = 1/a (int_0^t f cos a tau "d"tau + x_0')`.
+		`c_1 = -1/a int_0^t f(tau) sin a tau "d"tau + x_0`,<br/>
+		`c_2 = 1/a (int_0^t f(tau) cos a tau "d"tau + x_0')`.
 	</span>
-</p>
-<p>
 	所以解为
 	<span class="formula">
-		`x = x_0 cos at + (x_0')/a sin at + 1/a int_0^t f(t) sin[a(t-tau)]
+		`x = x_0 cos at + (x_0')/a sin at + 1/a int_0^t f(tau) sin[a(t-tau)]
 		"d"tau`.
 	</span>
 </p>
 
 <h2>常系数齐次线性方程</h2>
-<p>
-	<span class="formula">
-		`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = 0`,
-		`a_i in RR`, `i = 1, 2, cdots, n`
-	</span>
-</p>
+
+<span class="formula">
+	`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = 0`,
+	`quad a_i in RR`, `i = 1, 2, cdots, n`.
+</span>
+
 <p>	设特征多项式
 	<span class="formula">
 		`lambda^n + a_1 lambda^(n-1) + cdots + a_(n-1) lambda + a_n`
@@ -95,15 +93,16 @@
 	`i = 1, 2, cdots, l`, 且 `sum_(i=1)^l n_i = n`.
 	则微分方程的基本解组为
 	<span class="formula">
-		`t^j e^(lambda_i) t`,
-		`j = 0, 1, cdots, n_i-1`,
-		`i = 1, 2, cdots, l`.
+		`t^j "e"^(lambda_i t)`,
+		`quad j = 0, 1, cdots, n_i-1`,
+		`quad i = 1, 2, cdots, l`.
 	</span>
-	若 `lambda_i = alpha + i beta` 为复根, 则`bar(lambda_i) = alpha - i
-	beta` 也必为特征根, 可以将基本解组中的
-		`e^(alpha + i beta) t` 与 `e^(alpha - i beta) t`
+	若 `lambda_i = alpha + "i" beta` 为复根, 则
+	`bar(lambda_i) = alpha - "i" beta` 也必为特征根,
+	可以将基本解组中的一对共轭复根
+		`"e"^((alpha + "i" beta) t)` 与 `"e"^((alpha - "i" beta) t)`
 	换成
-		`e^(alpha t) cos beta t` 与 `e^(alpha t) sin beta t`.
+		`"e"^(alpha t) cos beta t` 与 `"e"^(alpha t) sin beta t`.
 </p>
 
 <h3>Euler 方程</h3>
@@ -117,47 +116,105 @@
 	<span class="formula">
 		`ln^j |t| t^(lambda_i)`.
 	</span>
-	i, j 的迭代范围与常系数齐次方程相同.
+	`i, j` 的迭代范围与常系数齐次方程相同.
 </p>
 
 <h2>常系数非齐次线性方程</h2>
-<p>
-	<span class="formula">
-		`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = f(t)`
-		`a_i in RR`, `i = 1, 2, cdots, n`
-	</span>
-</p>
+
+<span class="formula">
+	`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = f(t)`,
+	`quad a_i in RR`, `i = 1, 2, cdots, n`.
+</span>
 
 <h3>比较系数法</h3>
 
-<h4>`f(t) = P_m(t) e^(lambda t)`, `P_m` 为 `m` 次多项式</h4>
-
-<p>	此时有特解 `t^k Q_m(t) e^(lambda t)`, `k` 为 `lambda`
-	在特征方程中的重数, `Q_m(t)` 是系数待定的 `m` 次多项式.
-</p>
-
-<h4>`f(t) = [A(t) cos beta t + B(t) sin beta t] e^(alpha t)`,
-	`A(t), B(t)` 为多项式.
+<h4>
+	`f(t) = P_m(t) "e"^(lambda t)`, `quad P_m` 为 `m` 次多项式.
 </h4>
 
-<p>	此时有特解 `t^k[P_m(t) cos beta t + Q_m(t) sin beta t] e^(alpha t)`,
-	`k` 为 `lambda = alpha + i beta` 在特征方程中的重数,
-	`P_m(t), Q_m(t)` 为系数待定的 `m` 次多项式,
-	`m = max{del A(t), del B(t)}`.
+<p> 此时有特解 `Q_m(t) t^k "e"^(lambda t)`, `k` 为 `lambda`
+	在特征多项式中的重数, `Q_m(t)` 是系数待定的 `m` 次多项式.
+</p>
+
+<h4>
+	`f(t) = A_m(t) "e"^(alpha t) cos beta t` 或
+	`f(t) = A_m(t) "e"^(alpha t) sin beta t`,
+	`quad A_m` 为 `m` 次多项式.
+</h4>
+
+<p>	此时有特解
+	`(P_m(t) cos beta t + Q_m(t) sin beta t) t^k "e"^(alpha t)`,
+	`k` 为 `lambda = alpha + "i" beta` 在特征多项式中的重数
+	(注意到 `lambda` 及其共轭在特征多项式中的重数相等),
+	`P_m(t), Q_m(t)` 为系数待定的 `m` 次多项式.
+</p>
+
+<p>	利用以上两种类型的非齐次项, 可以结合线性叠加原理,
+	写出更多非齐次项对应的特解.
+</p>
+
+<p class="example">
+	解 Lanchester 方程
+	<span class="formula">`{
+		(("d"A)/dt = -beta^2 B),
+		(("d"B)/dt = -alpha^2 A)
+	:}`</span>
+	其中 `A(0) = A_0`, `B(0) = B_0`.
+</p>
+
+<p class="solution">
+	令 `f' = B`, 且 `f(0) = 0`. 原方程组化为
+	<span class="formula">`{
+		(("d"A)/dt = -beta^2 ("d"f)/dt),
+		(("d"^2 f)/dt^2 = -alpha^2 A)
+	:}`</span>
+	第一式两边积分得 `A = -beta^2 f + A_0`, 代入第二式就有
+	<span class="formula">
+		`f'' = alpha^2 beta^2 f - alpha^2 A_0`,
+	</span>
+	它的解设为
+	<span class="formula">
+		`f = c_1 "e"^(alpha beta t) + c_2 "e"^(-alpha beta t) + c_3`.
+	</span>
+	代入前式得 `c_3 = A_0/beta^2`.
+	又
+	<span class="formula">
+		`B = f' = alpha beta (c_1 "e"^(alpha beta t) - c_2 "e"^(-alpha
+		beta t))`,
+	</span>
+	由 `f(0) = 0` 和 `B(0) = B_0` 有
+	<span class="formula">`{
+		(c_1 + c_2 = -A_0/beta^2),
+		(c_1 - c_2 = B_0/(alpha beta))
+	:}`</span>
+	解得
+	`c_(1, 2) = 1/(2 beta) (-A_0/beta +- B_0/alpha)`.
+	最终
+	<span class="formula">
+		`A = A_0 cosh(alpha beta t) - B_0 beta/alpha sinh(alpha beta t)`,
+		<br/>
+		`B = -A_0 alpha/beta sinh(alpha beta t) + B_0 cosh(alpha beta t)`.
+	</span>
+</p>
+
+<p class="remark">
+	从相平面上看, 有 `("d"A)/("d"B) = (beta^2 B)/(alpha^2 A)`,
+	解为 `alpha^2 A^2 = beta^2 B^2 + c`, 是双曲线.
 </p>
 
 <h3>Laplace 变换</h3>
 
 <span class="formula">
-	`cc L[f(t)] = F(s) = int_0^oo e^(-st) f(t) dt`,
-	`"Re" s > sigma`
+	`cc L[f(t)] = F(s) = int_0^oo "e"^(-st) f(t) dt`,
+	`quad "Re"(s) gt sigma`.
 </span>
 
 <p>	若 `cc L[x(t)] = X(s)`, 则 `cc L[x'(t)]` 存在且等于 `sX(s) - x(0)`.
 	由归纳法知
 	<span class="formula">
-		` cc L[x^((n))(t)]
-		= s^n X(s) - sum_(k=0)^(n-1) s^(n-1-k) x^((k))(0)`.
+		` cc L[x^((n))(t)]`
+		`= s^n X(s) - sum_(k=0)^(n-1) x^((k))(0) s^(n-1-k)`
+		`= s^n X(s) - sum_(k=0)^(n-1) x^((n-1-k))(0) s^k`.
 	</span>
 	Laplace 变换将方程
 	<span class="formula">
@@ -165,27 +222,50 @@
 	</span>
 	变为
 	<span class="formula">
-		` X(s) sum_(i=0)^n a_i s^(n-i)
-		= cc L[f(t)] + sum_(k=0)^(n-1) x^((k))(0)
-		  sum_(i=0)^(n-1-k) a_i s^(n-1-i-k)`
-		`= cc L[f(t)] + sum_(k=0)^(n-1) x^((n-1-k))(0)
-		  sum_(i=0)^k a_i s^(k-i)`.
+		` X(s) sum_(i=0)^n a_i s^(n-i)`
+		`= F(s) + sum_(i=0)^(n-1) a_i
+		   sum_(k=0)^(n-i-1) x^((k))(0) s^(n-i-1-k)`
+		`= F(s) + sum_(k=0)^(n-1) x^((k))(0)
+		   sum_(i=0)^(n-1-k) a_i s^(n-1-k-i)`
+		`= F(s) + sum_(k=0)^(n-1) x^((n-1-k))(0)
+		   sum_(i=0)^k a_i s^(k-i)`.
+	</span>
+	记 `p_k(x) = sum_(i=0)^k a_i s^(k-i)`, 上式可以写成
+	<span class="formula">
+		`X(s) p_n(s) = F(s) + sum_(k=0)^(n-1) x^((n-1-k))(0) p_k(s)`.
 	</span>
 	解出 `X(s)` 后, 适当分解分式, 再作 <b>Laplace 反变换</b>
 	<span class="formula">
-		`f(t) = 1/(2 pi i) lim_(T to oo) int_(gamma-iT)^(gamma+iT) e^(st)
-		F(s) "d"s`
+		`f(t) = 1/(2 pi i) lim_(T to oo) int_(gamma-iT)^(gamma+iT)
+		"e"^(st) F(s) "d"s`,
 	</span>
 	其中 `gamma in RR` 使得积分路径位于 `F(s)` 的收敛域内.
 </p>
 
 <p class="remark">
-	`cc L[t^p e^(zt)] = (Gamma(p+1))/(s-z)^(p+1)`,
-	`p in (-1, +oo)`, `z in CC`, `"Re" s > "Re" z`.
+	<span class="formula">
+		`cc L[t^p "e"^(zt)] = (Gamma(p+1))/(s-z)^(p+1)`,
+		`quad p in (-1, +oo)`, `z in CC`, `"Re"(s) gt "Re"(z)`.
+	</span>
+	从而
+	<span class="formula">
+		`cc L["e"^(zt)] = 1/(s-z)`.
+	</span>
+	上式取 `z = a "i"`, 有
+	<span class="formula">
+		`cc L[cos at + "i" sin at]`
+		`= 1/(s-a"i")`
+		`= (s+a"i")/(s^2 + a^2)`.
+	</span>
+	分别取实部与虚部, 即
+	<span class="formula">
+		`cc L[cos at] = s/(s^2+a^2)`, `quad`
+		`cc L[sin at] = a/(s^2+a^2)`.
+	</span>
 </p>
 
 <p class="example">
-	用 Laplace 变换解例4-1.
+	用 Laplace 变换解<a class="ref" href="#exp-2nd-linear-nonhomogen-1"></a>.
 </p>
 
 <p class="solution">
@@ -197,14 +277,14 @@
 	</span>
 	作 Laplace 反变换得
 	<span class="formula">
-		`x = x_0 cos at + (x_0')/a sin at + int_0^t f(t) sin
+		`x = x_0 cos at + (x_0')/a sin at + int_0^t f(tau) sin
 		[a(t-tau)]"d"tau`.
 	</span>
 </p>
 
 <h3>降阶法</h3>
 
-<h4>n 阶方程 `F(t, x((k)), x^((k+1)), cdots, x^((n))) = 0`</h4>
+<h4>n 阶方程 `F(t, x^((k)), x^((k+1)), cdots, x^((n))) = 0`</h4>
 
 <p>此方程不显含 `k` 阶以下的导数. 令 `y = x^((k))`, 方程降低 k 阶.</p>
 

@@ -13,27 +13,30 @@
 <body>
 
 <p>
+	本章研究方程
 	<span class="formula">
-		`x' = A(t) x + f(t)`
+		`x' = A(t) x + f(t)`,
 	</span>
+	`A` 为矩阵, `x, x', f` 为向量.
 </p>
 
 <h2>常数变易公式</h2>
 
-<p>	若已知齐方程 `x' = A(t)x` 的基解矩阵 `Phi(t)`, 可设
+<p>	若已知齐方程 `x' = A(t)x` 的基解矩阵为 `Phi(t)`, 于是
+	`Phi'(t) = A(t) Phi(t)`. 可设
 	`varphi(t) = Phi(t) c(t)` 是非齐方程的解, 代入得
 	<span class="formula">
 		`Phi(t) c'(t) = f(t)`.
 	</span>
 	因为 `Phi(t)` 可逆, 所以令
 	<span class="formula">
-		`c(t) = int_(t_0)^t Phi^-1(s) f(s) ds`,
+		`c(t) = int_(t_0)^t Phi^-1(s) f(s) "d"s`,
 	</span>
 	就得到一个满足初值条件 `varphi(t_0) = 0` 的解. 一般地, 满足初值条件
 	`varphi(t_0) = eta` 的解为
 	<span class="formula">
-		`varphi(t) = Phi(t) Phi^-1(t_0) eta`
-					`+ Phi(t) int_(t_0)^t Phi^-1(s) f(s) ds`.
+		`varphi(t) = Phi(t) (Phi^-1(t_0) eta
+					+ int_(t_0)^t Phi^-1(s) f(s) "d"s)`.
 	</span>
 </p>
 
@@ -41,13 +44,13 @@
 
 <p>	因为
 	<span class="formula">
-		`sum_(i=0)^n a_i(t) x^((n-i)) = f(t)` (`a_0(t) = 1`),
+		`sum_(i=0)^n a_i(t) x^((n-i)) = f(t)`, `quad a_0(t) = 1`,
 		`x^((i))(t_0) = eta_(i+1)`, `i = 0, 1, cdots, n-1`
-		<span class="num">5-1</span>
+		<span class="label" id="for-nth-linear-nonhomogen">(5-1)</span>
 	</span>
 	等价于
 	<span class="formula">
-		`x' = Ax + vec(f)(t)`, `x(t_0) = eta`,
+		`x' = Ax + vec(f)(t)`, `quad x(t_0) = eta`,
 	</span>
 	其中 `x = (x_1, x_2, cdots, x_n)^T = (x, x', cdots, x^((n-1)))^T`,
 	`eta = (eta_1, eta_2, cdots, eta_n)^T`,
@@ -59,11 +62,13 @@
 			(-a_n(t), -a_(n-1)(t), -a_(n-2)(t), cdots, -a_1(t))
 	]`,
 	`vec(f)(t) = [(0), (0), (vdots), (0), (f(t))]`. <br/>
-	则由线性方程组的常数变易公式知, 若 (5-1) 对应的齐方程的基本解组为
-	`x_1, x_2, cdots, x_n`, 则 (5-1) 有特解
+	则由线性方程组的常数变易公式知, 若 <a class="ref"
+		href="#for-nth-linear-nonhomogen"></a> 对应的齐方程的基本解组为
+	`x_1, x_2, cdots, x_n`, 则 <a class="ref"
+		href="#for-nth-linear-nonhomogen"></a> 有特解
 	<span class="formula">
 		`varphi(t) = sum_(k=1)^n x_k(t)
-					 int_(t_0)^t (W_k(s))/(W(s)) f(s) ds`,
+					 int_(t_0)^t (W_k(s))/(W(s)) f(s) "d"s`,
 	</span>
 	其中
 	<span class="formula">
@@ -94,11 +99,11 @@
 
 <p>	此方程有基解矩阵 `exp At`. 显然 `exp A0 = E`.</p>
 
-<p>	若 `lambda` 是 `A` 的特征值, `bb"v"` 为对应的特征向量, 则
-	`e^(lambda t) bb"v"` 是一个解. 特别地, 若 `A` 有 `n`
+<p>	若 `lambda` 是 `A` 的特征值, `bm v` 为对应的特征向量, 则
+	`"e"^(lambda t) bm v` 是一个解. 特别地, 若 `A` 有 `n`
 	个线性无关的特征向量, 对应的特征值为 `lambda_1, cdots, lambda_n`,
-	则方程有基解矩阵 `[e^(lambda_1 t) bb"v_1", cdots, e^(lambda_n t)
-	bb"v_n"]`.
+	则方程有基解矩阵 `["e"^(lambda_1 t) bm v_1, cdots, "e"^(lambda_n t)
+	bm v_n]`.
 </p>
 
 <p>	若已知一个基解矩阵 `Phi(t)`, 则存在一常数矩阵 `C`, 使得
@@ -120,24 +125,57 @@
 	的解的全体构成 `n` 维 Euclid 空间的一个 `n_j` 维子空间 `U_j`.
 	换言之, `eta` 有直和分解
 	<span class="formula">
-		`eta = sum_(j=1)^k v_j`, `v_j in U_j`.
+		`eta = sum_(j=1)^k v_j`, `quad v_j in U_j`.
 	</span>
 	即
 	<span class="formula">
-		`(A - lambda_j E)^l v_j = 0`, `l >= n_j`, `j = 1, 2, cdots, k`.
+		`(A - lambda_j E)^l v_j = 0`, `quad l ge n_j`, `j = 1, 2, cdots, k`.
 	</span>
 	所以
 	<span class="formula">
 		`(exp At) eta = (exp At)E sum_(j=1)^k v_j`
-					 `= sum_(j=1)^k (exp At) e^(lambda_j t)
+					 `= sum_(j=1)^k (exp At) "e"^(lambda_j t)
 						exp(-lambda_j Et) v_j`
-					 `= sum_(j=1)^k e^(lambda_j t)
+					 `= sum_(j=1)^k "e"^(lambda_j t)
 						[exp(A-lambda_j E)t] v_j`
-					 `= sum_(j=1)^k e^(lambda_j t)
+					 `= sum_(j=1)^k "e"^(lambda_j t)
 						sum_(i=0)^(n_j-1) t^i/(i!) (A-lambda_j E)^i v_j`.
 	</span>
 	记 `E = (epsi_1, epsi_2, cdots, epsi_n)`, 在上式中依次取
 	`eta = epsi_i`, 就得到 `exp At` 的第 `i` 列.
+</p>
+
+<p class="example">
+	用线性微分方程组的知识解 Lanchester 方程 (见第 4 章例题).
+</p>
+
+<p class="solution">
+	矩阵 `A = [(0, -beta^2),(-alpha^2, 0)]` 的特征值为 `+-alphabeta`,
+	对应的特征向量为 `-(beta, +-alpha)^T`.
+	代入公式计算,
+	<span class="formula">
+		`exp At ((1),(0)) = 1/(2beta)("e"^(alpha beta t) ((beta),
+		(-alpha)) + "e"^(-alpha beta t) ((beta),(alpha)))`,<br/>
+		`exp At ((0),(1)) = 1/(2alpha)("e"^(alpha beta t) ((-beta),
+		(alpha)) + "e"^(-alpha beta t) ((beta),(alpha)))`.
+	</span>
+	所以基解矩阵
+	<span class="formula">
+		`Phi(t) = exp At = [
+			(cosh(alpha beta t), -beta/alpha sinh(alpha beta t)),
+			(-alpha/beta sinh(alpha beta t), cosh(alpha beta t))
+	]`.</span>
+	而
+	<span class="formula">
+		`Phi^(-1)(0) = [
+			(cosh(alpha beta t), beta/alpha sinh(alpha beta t)),
+			(alpha/beta sinh(alpha beta t), cosh(alpha beta t))
+		](0) = E`.
+	</span>
+	故 Lanchester 方程满足初值条件 `(A, B)^T(0) = (A_0, B_0)^T` 的解为
+	<span class="formula">
+		`Phi(t)Phi^(-1)(0) (A_0, B_0)^T = Phi(t)(A_0, B_0)^T`.
+	</span>
 </p>
 
 </body>

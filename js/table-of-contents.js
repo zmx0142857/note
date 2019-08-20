@@ -39,9 +39,7 @@ var tableOfContents = [ {
 	}, {
 	title:'常微分方程',
 	articles: [
-		{title:'绪论', src:'ode/1.html'},
 		{title:'一阶微分方程的初等解法', src:'ode/2.html'},
-		{title:'解的存在唯一性定理', src:'ode/3.html'},
 		{title:'高阶微分方程', src:'ode/4.html'},
 		{title:'线性微分方程组', src:'ode/5.html'},
 	]

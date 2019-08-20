@@ -14,28 +14,32 @@
 
 <h2>变量分离方程</h2>
 
-<h2>可化为变量分离方程的类型</h2>
-
 <h3>齐次方程</h3>
 
-<h3>可化为齐次方程的</h3>
+<span class="formula">
+	`dy/dx = f(y/x)`.
+</span>
+
+<p>	令 `y = ux`, 则 `dy = udx + x"d"u`. 原方程化为
+	`u + x("d"u)/dx = f(u)`. 这是变量分离方程.
+</p>
 
 <span class="formula">
 	`dy/dx = (a_1 x + b_1 y + c_1)/(a_2 x + b_2 y + c_2)`,
-	`|(a_1, b_1),(a_2, b_2)| != 0`
+	`quad |(a_1, b_1),(a_2, b_2)| != 0`.
 </span>
 
 <p>	令 `alpha, beta` 是
 		`{(a_1 alpha + b_1 beta + c_1 = 0),
 		(a_2 alpha + b_2 beta + c_2 = 0):}`
-	的解, 再作代换 `{(X = x - alpha),(Y = y - beta):}`,
+	的解, 再作代换 `{(x = X + alpha),(y = Y + beta):}`,
 	即化为齐次方程.
 </p>
 
 <h2>线性方程</h2>
 
 <span class="formula">
-	`dy/dx = p(x)y + q(x)`
+	`dy/dx = p(x)y + q(x)`.
 </span>
 
 <p>	先用分离变量法解齐方程 `dy/dx = p(x) y`, 得通解
@@ -48,7 +52,7 @@
 <h3>Bernoulli 方程</h3>
 
 <span class="formula">
-	`dy/dx = p(x)y + q(x)y^n`, `n >= 2`
+	`dy/dx = p(x)y + q(x)y^n`, `quad n ge 2`.
 </span>
 
 <p>	显然 `y = 0` 是一个特解. `y != 0` 时, 两边同除以 `y^n`, 得
@@ -59,23 +63,30 @@
 <h2>恰当微分方程</h2>
 
 <span class="formula">
-	`M(x, y) dx + N(x, y) dy = 0`,
-	`(del M)/(del y) = (del N)/(del x)`
+	`M(x, y) dx + N(x, y) dy = 0`.
 </span>
 
-<p>	称 `mu(x, y)` 是 `M dx + N dy = 0` 的<b>积分因子</b>, 如果
-		`(del(mu M))/(del y) = (del(mu N))/(del x)`.
-	若 `mu` 只与 `x` 有关, 即 `(del mu)/(del y) = 0`, 则
-		`N (d mu)/dx = ( (del M)/(del y) - (del N)/(del x) ) mu`,
-	可以分离变量. 注意验证 `mu = 0` 是不是原方程的解.
-</p>
+<ol>
+	<li>如果方程满足 `(del M)/(del y) = (del N)/(del x)`,
+		此时存在二元函数 `f(x, y)`, 使 `"d"f = M dx + N dy`,
+		原方程就称为<b>恰当微分方程</b>, 通解为 `f(x, y) = c`.
+	</li>
+	<li>若上述条件不满足, 但方程两边同乘以 `mu(x, y)` 后有
+		`(del(mu M))/(del y) = (del(mu N))/(del x)`,
+		就称 `mu` 是方程的<b>积分因子</b>.
+	</li>
+	<li>若上述的 `mu` 只与 `x` 有关, 即 `(del mu)/(del y) = 0`, 则
+		`N ("d" mu)/dx = ( (del M)/(del y) - (del N)/(del x) ) mu`,
+		可以用分离变量法求出 `mu`. 注意验证 `mu = 0` 的情形.
+	</li>
+</ol>
 
 <p class="remark">
 	<b>一些常见的全微分</b>
 	<span class="formula">
-		`d(xy) = ydx + xdy`, <br/>
-		`d(x/y) = (ydx - xdy)/y^2`, <br/>
-		`d(x^a y^b) = a x^(a-1) y^b dx + b y^(b-1) x^a dy`.
+		`"d"(xy) = ydx + xdy`, <br/>
+		`"d"(x/y) = (ydx - xdy)/y^2`, <br/>
+		`"d"(x^a y^b) = a x^(a-1) y^b dx + b y^(b-1) x^a dy`.
 	</span>
 </p>
 
