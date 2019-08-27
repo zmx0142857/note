@@ -404,12 +404,29 @@ makeH1();		// call makeH1() before decorate()
 decorateHeading(3);
 makeSvg();
 
+alignLabel(); // call alignLabel() before decorate()
+
 decorate([
 	//{name:'read-important',getBy:'class',word:'&#x1f4d6;',style:Slarge},
 	{name:'title', getBy:'tag', word:'', style:Sname},
 	{name:'example', getBy:'class', word:'例', style:Sname_num},
 	{name:'remark', getBy:'class', word:'注', style:Sname_num},
 	{name:'question', getBy:'class', word:'问题', style:Sname_num},
+	{name:'theorem', getBy:'class', word:'定理', style:Sname_num},
+	{name:'definition', getBy:'class', word:'定义', style:Sname_num},
+	{name:'lemma', getBy:'class', word:'引理', style:Sname_num},
+	{name:'corollary', getBy:'class', word:'推论', style:Sname_num},
+	{name:'algorithm', getBy:'class', word:'算法', style:Sname_num},
+	{name:'data-structure', getBy:'class', word:'数据结构', style:Sname_num},
+	{name:'construction',getBy:'class', word:'作图', style:Sname_num},
+	{name:'graph', getBy:'class', word:'图', style:Sname_num},
+	{name:'principle', getBy:'class', word:'原理', style:Sname_num},
+	{name:'axiom', getBy:'class', word:'公理', style:Sname_num},
+	{name:'property', getBy:'class', word:'性质', style:Sname_num},
+	// place this before 证 and 解. got problem with the numbering.
+	{name:'method', getBy:'class', word:'法', style:Snum},
+	{name:'label', getBy:'class', word:'', style:Sformula},
+	{name:'label-phantom', getBy:'class', word:'', style:Sformula},
 ]);
 
 hideAnswer([
@@ -423,32 +440,7 @@ if (args.type == 'math' || args.loadmath) {
 	loadMath();
 }
 
-if (args.type == 'math') {
-	alignLabel(); // call alignLabel() before decorate()
-
-	decorate([
-		{name:'theorem', getBy:'class', word:'定理', style:Sname_num},
-		{name:'definition', getBy:'class', word:'定义', style:Sname_num},
-		{name:'lemma', getBy:'class', word:'引理', style:Sname_num},
-		{name:'corollary', getBy:'class', word:'推论', style:Sname_num},
-		{name:'algorithm', getBy:'class', word:'算法', style:Sname_num},
-		{name:'construction',getBy:'class', word:'作图', style:Sname_num},
-		{name:'graph', getBy:'class', word:'图', style:Sname_num},
-		{name:'principle', getBy:'class', word:'原理', style:Sname_num},
-		{name:'axiom', getBy:'class', word:'公理', style:Sname_num},
-		{name:'property', getBy:'class', word:'性质', style:Sname_num},
-		// place this before 证 and 解. got problem with the numbering.
-		{name:'method', getBy:'class', word:'法', style:Snum},
-		{name:'label', getBy:'class', word:'', style:Sformula},
-		{name:'label-phantom', getBy:'class', word:'', style:Sformula},
-	]);
-
-} else if (args.type == 'cs') {
-
-	decorate([
-		{name:'algorithm', getBy:'class', word:'算法', style:Sname_num}
-	]);
-
+if (args.type == 'cs') {
 	enableCopyCode();
 }
 
