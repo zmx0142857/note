@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>递推式与差分方程</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>递推式与差分方程</h2>
+
+<h3>从 Fibonacci 数列到常系数线性差分方程</h3>
+
+<p class="example">
+	求 Fibonacci 数列
+	<span class="formula">`f_n = {
+		(0, if n = 0),
+		(1, if n = 1),
+		(f_(n-1) + f_(n-2){::}, if n ge 2)
+	:}`</span>
+	的通项公式.
+</p>
+
+<p class="solution">
+	<b>待定系数法化为等差/等比数列</b>
+	设
+	<span class="formula">
+		`f_n = (varphi + psi) f_(n-1) - varphi psi f_(n-2)`,
+	</span>
+	则 `varphi, psi` 应是方程 `x^2 - x - 1` 的两根, 不妨令
+	`varphi, psi = (1 +- sqrt 5)//2`.
+	上式变形得到
+	<span class="formula">`{
+		(f_n - varphi f_(n-1) = psi(f_(n-1) - varphi f_(n-2))),
+		(f_n - psi f_(n-1) = varphi(f_(n-1) - psi f_(n-2)))
+	:}`</span>
+	于是 `{f_n - varphi f_(n-1)}`, `{f_n - psi f_(n-1)}` 皆为等比数列.
+	由等比数列的通项公式有:
+	<span class="formula">
+		`f_n - varphi f_(n-1) = psi^(n-1) (f_1 - varphi f_0) =
+		psi^(n-1)`,<br/>
+		`f_n - psi f_(n-1) = varphi^(n-1) (f_1 - psi f_0) = varphi^(n-1)`.
+	</span>
+	注意 `varphi psi = -1`, 由上式得到
+	<span class="formula">`{
+		(psi f_n + f_(n-1) = psi^n),
+		(varphi f_n + f_(n-1) = varphi^n)
+	:}`</span>
+	解得
+	<span class="formula">
+		`f_n = 1/sqrt 5 (varphi^n - psi^n)`.
+	</span>
+</p>
+
+<p class="solution">
+	<b>生成函数法</b>
+	记 `F(x) = sum_(n=0)^oo f_n x^n`, 于是
+	<span class="formula">
+		`F(x) = 0 + x + sum_(n=2)^oo (f_(n-1) + f_(n-2)) x^n`
+		`= x + sum_(n=1)^oo f_n x^(n+1) + sum_(n=0)^oo f_n x^(n+2)`
+		`= x + x F(x) + x^2 F(x)`.
+	</span>
+	解得
+	<span class="formula">
+		`F(x) = x/(1-x-x^2)`
+	</span>
+	记上式分母的两个零点的相反数为 `varphi, psi = (1 +- sqrt 5)//2`,
+	则 `varphi psi = -1`.  通过分解分式,
+	<span class="formula">
+		`F(x) = 1/sqrt 5(psi/(x + psi) - varphi/(x + varphi))`
+		`= 1/sqrt 5(1/(1-varphi x) - 1/(1-psi x))`
+		`= 1/sqrt 5 sum_(n=0)^oo [(varphi x)^n - (psi x)^n]`.
+	</span>
+	于是
+	<span class="formula">
+		`f_n = 1/sqrt 5(varphi^n - psi^n)`.
+	</span>
+</p>
+
+<p class="solution">
+	<b>特征根法</b>
+	将 `f_n = lambda^n` (`lambda != 0`) 代入递推公式, 得
+	<span class="formula">
+		`lambda^n = lambda^(n-1) + lambda^(n-2)`,
+	</span>
+	由 `lambda != 0`, 有
+	<span class="formula">
+		`lambda^2 = lambda + 1`.
+	</span>
+	这个二次方程的两根记为 `varphi, psi = (1 +- sqrt 5)//2`,
+	由线性叠加原理, 该差分方程的通解为
+	<span class="formula">
+		`f_n = c_1 varphi^n + c_2 psi^n`.
+	</span>
+	再代入初值条件 `f_0 = 0`, `f_1 = 1`, 有
+	<span class="formula">`{
+		(c_1 + c_2 = 0),
+		(varphi c_1 + psi c_2 = 1)
+	:}`</span>
+	解得
+	<span class="formula">
+		`c_1, c_2 = +- 1/sqrt 5`.
+	</span>
+	于是 Fibonacci 数列的通项公式是
+	<span class="formula">
+		`f_n = 1/sqrt 5 (varphi^n - psi^n)`.
+	</span>
+</p>
+
+<p class="corollary">
+	注意 `|psi| lt 1`, 从而对 `n = 0, 1, 2...` 都成立 `|psi^n/sqrt 5| lt
+	1/sqrt 5 lt 1/2`. 我们推出:
+		`f_n` 等于最接近 `varphi^n/sqrt 5` 的整数.
+</p>
+
+<p class="remark">
+	`varphi` 即是著名的黄金比例, 它定义为方程 `x^2 = 1 + x` 的正根.
+	利用通项公式容易计算, Fibonacci 数列前后项的比值 `f_(n+1)//f_n`
+	的极限是 `varphi`, 因此它在某种意义上是对等比数列 `varphi^n/sqrt 5`
+	的逼近.
+</p>
+
+<p>	我们看到, 求解 Fibonacci 数列通项公式的所有方法中, 特征根法计算量最小,
+	且抓住了问题的本质. 这一方法很容易推广到一般的常系数线性差分方程,
+	形如:
+	<span class="formula">
+		`sum_(i=0)^k a_i x_(n+i) = 0`, `quad a_k != 0`.
+	</span>
+	将 `x_n = lambda^n` (`lambda != 0`) 代入方程即得到关于 `lambda` 的一元
+	`k` 次方程
+	<span class="formula">
+		`sum_(i=0)^k a_i lambda^i = 0`,
+	</span>
+	称为差分方程的<b>特征方程</b>, 方程左边的 `k`
+	次多项式称为<b>特征多项式</b>, 它的根称为<b>特征根</b>.
+	事实上, 方程有 `k` 个线性无关的特解
+	<span class="formula">
+		`x_n = n^j lambda^n`,
+		`quad j = 0, 1, cdots, m-1`,
+	</span>
+	其中 `lambda` 取遍所有不同的特征根, `m` 是 `lambda` 的重数.
+	我们来说明它们确实是方程的解. 这只需证明下面的引理:
+</p>
+
+<p class="lemma">
+	设 `lambda != 0` 是多项式 `f(x) = sum_(i=0)^n a_i x^i`
+	的 `m` 重根 (`m ge 1`), 那么
+	<span class="formula">
+		`sum_(i=0)^n a_i lambda^i (x+i)^j = 0`,
+		`quad j = 0, 1, cdots, m-1`.
+	</span>
+</p>
+
+<ol class="proof">
+	当 `j = 0` 时, 显然 `sum_(i=0)^n a_i lambda^i = 0`. 下面证明分两步:
+	<li>先证 `lambda` 是 `sum_(i=0)^n a_i i^j x^i` 的 `m-j` 重根,
+		`j = 0, 1, cdots, m-1`. (约定 `0^0 = 1`).
+		`j = 0` 的情形, 条件已经给出.  现在设 `lambda` 是
+		`sum_(i=0)^n a_i i^(j-1) x^i` 的 `m-j+1` 重根, 则它是其导式
+		<span class="formula">
+			`sum_(i=1)^n a_i i^j x^(i-1)`
+		</span>
+		的 `m-j` 重根, 从而是
+		<span class="formula">
+			`sum_(i=0)^n a_i i^j x^i`
+			`= sum_(i=1)^n a_i i^j x^i`
+			`= x sum_(i=1)^n a_i i^j x^(i-1)`
+		</span>
+		的 `m-j` 重根 (另一个根显然是 `0`).
+	</li>
+	<li>再设引理的结论对 `j-1` 成立, 则
+		<span class="formula">
+			`sum_(i=0)^n a_i lambda^i (x+i)^j`
+			`= x sum_(i=0)^n a_i lambda^i (x+i)^(j-1)`
+			`  + sum_(i=0)^n a_i i lambda^i (x+i)^(j-1)`
+			`= x * 0 + sum_(i=0)^n a_i lambda^i sum_(k=0)^(j-1)
+			((j-1),(k)) i^(k+1) x^(j-1-k)`
+			`= sum_(k=0)^(j-1) ((j-1),(k)) x^(j-1-k)
+			sum_(i=0)^n a_i lambda^i i^(k+1) = 0`.
+		</span>
+	</li>
+</ol>
+
+<p class="remark">
+	如果特征方程有 `m` 重零根 `lambda = 0`, 则对应的系数满足
+	`a_0 = a_1 = cdots = a_(m-1) = 0`, 且 `a_m != 0`.
+	此时令 `y_n = x_(n+m)`, 原方程就化为
+	<span class="formula">
+		`sum_(i=m)^k a_i x_(n+i)`
+		`= sum_(i=0)^(k-m) a_(i+m) y_(n+i) = 0`.
+	</span>
+	由于 `a_m != 0`, 它的特征方程无零根.
+</p>
+
+<p class="remark">
+	如果系数 `a_0, a_1, cdots, a_k` 为实数, 而特征方程有复根
+	`lambda = a + b"i"`, 则在特征方程两端同时取其共轭, 容易证明
+	`bar lambda = a-b"i"` 也是特征根, 且和 `lambda` 具有相同重数.
+	注意到 `alpha(n) = n^j (lambda^n + {:bar lambda:}^n)` 为实数,
+	而 `beta(n) = n^j (lambda^n - {:bar lambda:}^n)` 为纯虚数,
+	则可以取特解 `alpha(n), beta(n)//"i"` 来替换复数形式的特解
+	`n^j lambda^n` 和 `n^j {:bar lambda:}^n`.
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

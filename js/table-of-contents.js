@@ -101,6 +101,9 @@ var tableOfContents = [ {
 	title:'组合数学',
 	articles: [
 		{title:'组合数学', src:'combinatorics/1.html'},
+		{title:'排列与组合', src:'combinatorics/2.html'},
+		{title:'递推式与差分方程', src:'combinatorics/3.html'},
+		{title:'若干著名数列', src:'combinatorics/4.html'},
 	]
 	}, {
 	title:'图论',
