@@ -12,9 +12,10 @@ var tableOfContents = [ {
 	articles: [
 		{title:'初等函数', src:'analysis/1-3.html'},
 		{title:'数列的极限', src:'analysis/2.html'},
+		{title:'无穷级数', src:'analysis/3.html'},
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
-		{title:'无穷级数', src:'analysis/10.html'},
+		{title:'含参变量的积分', src:'analysis/18.html'},
 		{title:'重积分', src:'analysis/19.html'},
 	]
 	}, {

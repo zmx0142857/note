@@ -52,12 +52,12 @@
 </p>
 
 <ol class="theorem">
-	下面等式表示右端级数收敛时, 左端级数也收敛, 且它们的和相等.
-	这个定理表明, 收敛级数可以进行线性运算.
 	<li>`sum_(n=1)^oo c u_n = c sum_(n=1)^oo u_n`;</li>
 	<li>`sum_(n=1)^oo (u_n +- v_n) = sum_(n=1)^oo u_n +- sum_(n=1)^oo
 		v_n`.
 	</li>
+	这两个等式表示右端级数收敛时, 左端级数也收敛, 且它们的和相等.
+	这个定理表明, 收敛级数可以进行线性运算.
 </ol>
 
 <p class="proof">
@@ -68,6 +68,15 @@
 	在等式两边令 `n to oo`, 就证明了结论 1. 结论 2 的证明类似.
 	级数的线性可加性是由数列极限的线性可加性保证的.
 </p>
+
+<ol class="corollary">
+	应用反证法, 立即得到下面的推论:
+	<li>若 `sum_(n=1)^oo u_n` 发散, 则对任意 `c != 0`,
+		`sum_(n=1)^oo c u_n` 发散.</li>
+	<li>若 `sum_(n=1)^oo u_n` 发散, `sum_(n=1)^oo v_n` 收敛, 则
+		`sum_(n=1)^oo (u_n +- v_n)` 发散;
+	</li>
+</ol>
 
 <p class="theorem">
 	任意改变级数中有限项的数值, 不改变级数的敛散性;
@@ -155,134 +164,6 @@
 	在介绍其它判别法之前, 我们先应用这个定理讨论 `p` 级数的敛散性.
 </p>
 
-</p>
-
-<h3>`p` 级数与调和级数</h3>
-
-<p class="example">
-	`p` 级数 `sum_(n=1)^oo 1/n^p` 在 `p gt 1` 时收敛, `p le 1` 时发散.
-</p>
-
-<ol class="proof">
-	`p le 0` 时, 级数通项不趋于零, 因而发散. 下设 `p gt 0`.
-	我们通过适当放缩, 将 `p` 级数与几何级数作比较.
-	<li>若 `0 lt p le 1`, 对任意正整数 `n ge 2`, 存在正整数 `k` 使得
-		`2^k le n lt 2^(k+1)`. 现在分析 `p` 级数的部分和, 将它从第二项起,
-		依次按 `1, 2, 4, 8, cdots, 2^(k-1)` 项组合起来, 并舍弃从 `2^k + 1`
-		项开始的后面各项:
-		<span class="formula">
-			`sum_(i=1)^n i^-p`
-			`ge 1 + sum_(j=1)^k sum_(i=2^(j-1)+1)^(2^j) i^-p`
-			`ge 1 + sum_(j=1)^k 2^(j-1) * 2^(-pj)`
-			`= 1 + 1/2 sum_(j=1)^k 2^((1-p)j)`
-			`= {
-				(1 + a/2 (1-a^k)/(1-a), if 0 lt p lt 1),
-				(1 + k/2, if p = 1)
-			:}`.
-		</span>
-		其中 `a = 2^(1-p) gt 1`.
-		注意 `n to oo` 时, `k to oo`, 由上述不等式即知 `p` 级数发散.
-	</li>
-	<li>`p gt 1` 时, 类似有
-		<span class="formula">
-			`sum_(i=1)^n i^-p`
-			`le sum_(j=0)^k sum_(i=2^j)^(2^(j+1)-1) i^-p`
-			`le sum_(j=0)^k 2^j * 2^(-pj)`
-			`= sum_(j=0)^k 2^((1-p)j)`
-			`= (1-a^(k+1))/(1-a)`
-			`le 1/(1-a)`.
-		</span>
-		其中 `0 lt a = 2^(1-p) lt 1`.
-		从而部分和有界, 所以 `p` 级数收敛.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>先设 `p = 1`, 此时由熟知的不等式 (见第二章)
-		<span class="formula">
-			`1/(n+1) lt ln(1+1/n) lt 1/n`
-		</span>
-		立即得到
-		<span class="formula">
-			`sum_(k=1)^n 1/k
-			gt sum_(k=1)^n [ln(k+1) - ln k]`
-			`= ln(n+1)`,
-		</span>
-		因而级数发散.
-	</li>
-	<li>`p != 1` 时, 对函数 `x^(1-p)` (它和 x^-p
-		的原函数只相差一个常数因子) 在区间 `[n, n+1]`
-		上应用微分中值定理得
-		<span class="formula">
-			`(n+1)^(1-p) - n^(1-p) = (1-p) xi^-p`,
-		</span>
-		其中 `n lt xi lt n+1`. 从而
-		<span class="formula">
-			`1/(n+1)^p lt ((n+1)^(1-p) - n^(1-p))/(1-p) lt 1/n^p`.
-		</span>
-		因此 `p lt 1` 时,
-		<span class="formula">
-			`sum_(k=1)^n 1/k^p`
-			`gt sum_(k=1)^n ((k+1)^(1-p) - k^(1-p))/(1-p)`
-			`= ((n+1)^(1-p) - 1)/(1-p)`,
-		</span>
-		推知级数发散, 而 `p gt 1` 时,
-		<span class="formula">
-			`sum_(k=1)^n 1/k^p`
-			`= 1 + sum_(k=1)^(n-1) 1/(k+1)^p`
-			`lt 1 + sum_(k=1)^(n-1) ((k+1)^(1-p) - k^(1-p))/(1-p)`
-			`= 1 + (n^(1-p) - 1)/(1-p)`
-			`lt 1 - 1/(1-p)`,
-		</span>
-		表明部分和有界, 所以级数收敛.
-	</li>
-</ol>
-
-<p class="remark">
-	`p = 1` 时, `p` 级数又称为调和级数. 我们现在知道它是发散的.
-	下面的定理估计了它的发散速度.
-</p>
-
-<p class="theorem">
-	数列 `x_n = sum_(k=1)^n 1/k - ln n` 
-	(`n = 1, 2, cdots`) 有极限. 这个极限值叫做<b>欧拉常数</b>, 常记为 `c`.
-	从定理立即推出 `n to oo` 时, `sum_(k=1)^n 1/k ~ ln n`.
-</p>
-
-<p class="proof">
-	利用不等式
-	<span class="formula">
-		`1/(n+1) lt ln(1+1/n) lt 1/n`,
-		`quad n = 1, 2, cdots`;
-	</span>
-	立即得到 `{x_n}` 单调递减:
-	<span class="formula">
-		`x_(n+1) - x_n = = 1/(n+1) - ln(1+1/n) lt 0`,
-		`quad n = 1, 2, cdots`;
-	</span>
-	且有下界:
-	<span class="formula">
-		`sum_(k=1)^n 1/k
-		gt sum_(k=1)^n [ln(k+1) - ln k]`
-		`= ln(n+1) gt ln n`,
-		`quad n = 1, 2, cdots`.
-	</span>
-</p>
-
-<p class="remark">
-	`c = 0.577216...`.
-</p>
-
-<p class="example">
-	求 `lim_(n to oo) ln(1/(n+1) + 1/(n+2) + cdots + 1/(2n))`.
-</p>
-
-<p class="solution">因为
-	<span class="formula">
-		`sum_(k=n+1)^(2n) 1/k = (sum_(k=1)^(2n) 1/k - ln(2n))
-		- (sum_(k=1)^n 1/k - ln n) + ln 2`,
-	</span>
-	所以原式 = `ln ln 2`.
 </p>
 
 <h3>正项级数的敛散性判别</h3>
@@ -414,6 +295,248 @@
 		所以它发散.
 	</li>
 </ol>
+
+<h3>`p` 级数与调和级数</h3>
+
+<p class="example">
+	`p` 级数 `sum_(n=1)^oo 1/n^p` 在 `p gt 1` 时收敛, `p le 1` 时发散.
+</p>
+
+<ol class="proof">
+	`p le 0` 时, 级数通项不趋于零, 因而发散. 下设 `p gt 0`.
+	我们通过适当放缩, 将 `p` 级数与几何级数作比较.
+	<li>若 `0 lt p le 1`, 对任意正整数 `n ge 2`, 存在正整数 `k` 使得
+		`2^k le n lt 2^(k+1)`. 现在分析 `p` 级数的部分和, 将它从第二项起,
+		依次按 `1, 2, 4, 8, cdots, 2^(k-1)` 项组合起来, 并舍弃从 `2^k + 1`
+		项开始的后面各项:
+		<span class="formula">
+			`sum_(i=1)^n i^-p`
+			`ge 1 + sum_(j=1)^k sum_(i=2^(j-1)+1)^(2^j) i^-p`
+			`ge 1 + sum_(j=1)^k 2^(j-1) * 2^(-pj)`
+			`= 1 + 1/2 sum_(j=1)^k 2^((1-p)j)`
+			`= {
+				(1 + a/2 (1-a^k)/(1-a), if 0 lt p lt 1),
+				(1 + k/2, if p = 1)
+			:}`.
+		</span>
+		其中 `a = 2^(1-p) gt 1`.
+		注意 `n to oo` 时, `k to oo`, 由上述不等式即知 `p` 级数发散.
+	</li>
+	<li>`p gt 1` 时, 类似有
+		<span class="formula">
+			`sum_(i=1)^n i^-p`
+			`le sum_(j=0)^k sum_(i=2^j)^(2^(j+1)-1) i^-p`
+			`le sum_(j=0)^k 2^j * 2^(-pj)`
+			`= sum_(j=0)^k 2^((1-p)j)`
+			`= (1-a^(k+1))/(1-a)`
+			`le 1/(1-a)`.
+		</span>
+		其中 `0 lt a = 2^(1-p) lt 1`.
+		从而部分和有界, 所以 `p` 级数收敛.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>先设 `p = 1`, 此时由熟知的不等式 (见第二章)
+		<span class="formula">
+			`1/(n+1) lt ln(1+1/n) lt 1/n`
+		</span>
+		立即得到
+		<span class="formula">
+			`sum_(k=1)^n 1/k
+			gt sum_(k=1)^n [ln(k+1) - ln k]`
+			`= ln(n+1)`,
+		</span>
+		因而级数发散.
+	</li>
+	<li>`p != 1` 时, 对函数 `x^(1-p)` (它和 `x^-p`
+		的原函数只相差一个常数因子) 在区间 `[n, n+1]`
+		上应用微分中值定理得
+		<span class="formula">
+			`(n+1)^(1-p) - n^(1-p) = (1-p) xi^-p`,
+		</span>
+		其中 `n lt xi lt n+1`. 从而
+		<span class="formula">
+			`1/(n+1)^p lt ((n+1)^(1-p) - n^(1-p))/(1-p) lt 1/n^p`.
+		</span>
+		因此 `p lt 1` 时,
+		<span class="formula">
+			`sum_(k=1)^n 1/k^p`
+			`gt sum_(k=1)^n ((k+1)^(1-p) - k^(1-p))/(1-p)`
+			`= ((n+1)^(1-p) - 1)/(1-p)`,
+		</span>
+		推知级数发散, 而 `p gt 1` 时,
+		<span class="formula">
+			`sum_(k=1)^n 1/k^p`
+			`= 1 + sum_(k=1)^(n-1) 1/(k+1)^p`
+			`lt 1 + sum_(k=1)^(n-1) ((k+1)^(1-p) - k^(1-p))/(1-p)`
+			`= 1 + (n^(1-p) - 1)/(1-p)`
+			`lt 1 - 1/(1-p)`,
+		</span>
+		表明部分和有界, 所以级数收敛.
+	</li>
+</ol>
+
+<p class="remark">
+	`p = 1` 时, `p` 级数又称为调和级数. 我们现在知道它是发散的.
+	下面的定理估计了它的发散速度.
+</p>
+
+<p class="theorem">
+	数列 `x_n = sum_(k=1)^n 1/k - ln n` 
+	(`n = 1, 2, cdots`) 有极限. 这个极限值叫做<b>欧拉常数</b>, 常记为 `c`.
+	从定理立即推出 `n to oo` 时, `sum_(k=1)^n 1/k ~ ln n`.
+</p>
+
+<p class="proof">
+	利用不等式
+	<span class="formula">
+		`1/(n+1) lt ln(1+1/n) lt 1/n`,
+		`quad n = 1, 2, cdots`;
+	</span>
+	立即得到 `{x_n}` 单调递减:
+	<span class="formula">
+		`x_(n+1) - x_n = 1/(n+1) - ln(1+1/n) lt 0`,
+		`quad n = 1, 2, cdots`;
+	</span>
+	且有下界:
+	<span class="formula">
+		`sum_(k=1)^n 1/k
+		gt sum_(k=1)^n [ln(k+1) - ln k]`
+		`= ln(n+1) gt ln n`,
+		`quad n = 1, 2, cdots`.
+	</span>
+</p>
+
+<p class="remark">
+	`c = 0.577216...`.
+</p>
+
+<p class="example">
+	求 `lim_(n to oo) ln(1/(n+1) + 1/(n+2) + cdots + 1/(2n))`.
+</p>
+
+<p class="solution">因为
+	<span class="formula">
+		`sum_(k=n+1)^(2n) 1/k = (sum_(k=1)^(2n) 1/k - ln(2n))
+		- (sum_(k=1)^n 1/k - ln n) + ln 2`,
+	</span>
+	所以原式 = `ln ln 2`.
+</p>
+
+<p class="example">
+	利用 `p` 级数敛散性的第二种证明的思路,
+	可以得到更精细的级数的敛散性. 如 `sum_(n=2)^oo 1/(n ln^p n)`
+	在 `p gt 1` 时收敛, `p le 1` 时发散. 一般地, 记 `f_0(n) = n`,
+	`f_m(n) = ln f_(m-1)(n)`, `m = 1, 2, cdots`.
+	又设 `M` 是某个使得 `f_m(n)` 有定义的正整数. 则级数
+	<span class="formula">
+		`sum_(n=M)^oo 1/(f_0(n) f_1(n) cdots f_(m-1)(n) f_m^p(n)`.
+	</span>
+	在 `p gt 1` 时收敛, `p le 1` 时发散.
+</p>
+
+<ol class="proof">
+	`m = 1` 的证明如下. 一般的情形, 可对 `m` 进行归纳证明.
+	<li>`p le 0` 时, 对充分大的 `n` 有 `1/(n ln^p n) ge 1/n`,
+		而调和级数发散; 由比较判别法一, 原级数发散.
+	</li>
+	<li>设 `p = 1`. 对函数 `ln ln x` 在 `[n, n+1]` 上应用微分中值定理,
+		容易得到不等式
+		<span class="formula">
+			`ln ln(n+1) - ln ln n lt 1/(n ln n)`.
+		</span>
+		两边从 `2` 到 `n` 求和,
+		<span class="formula">
+			`ln ln(n+1) - ln ln 2 lt sum_(k=2)^n 1/(k ln k)`.
+		</span>
+		从而原级数的部分和趋于无穷大, 因此是发散的.
+	</li>
+	<li>设 `0 lt p lt 1`. 对函数 `ln^(1-p) x` 在 `[n, n+1]`
+		上应用微分中值定理, 得到不等式
+		<span class="formula">
+			`ln^(1-p)(n+1) - ln^(1-p) n lt (1-p)/(n ln^p n)`.
+		</span>
+		两边从 `1` 到 `n` 求和,
+		<span class="formula">
+			`ln^(1-p)(n+1) lt sum_(k=1)^n (1-p)/(k ln^p k)`.
+		</span>
+		故原级数的部分和趋于无穷大, 因此发散.
+	</li>
+	<li>`p gt 1` 时, 同样对函数 `ln^(1-p) x` 在 `[n, n+1]`
+		上应用微分中值定理, 得到不等式
+		<span class="formula">
+			`(p-1)/((n+1)ln^p(n+1)) lt ln^(1-p) n - ln^(1-p)(n+1)`.
+		</span>
+		两边从 `2` 到 `n` 求和,
+		<span class="formula">
+			`sum_(k=3)^n (p-1)/(k ln^p k) lt ln^(1-p)2 - ln^(1-p)(n+1)`
+			`lt ln^(1-p)2`.
+		</span>
+		故原级数的部分和有上界, 因此收敛.
+	</li>
+</ol>
+
+<h2>任意项级数</h2>
+
+<p class="theorem">
+	<b>级数的两边夹法则</b>
+	若级数 `sum_(n=1)^oo w_n` 与 `sum_(n=1)^oo v_n` 均收敛,
+	且对任意正整数 `n` 成立 `w_n le u_n le v_n`, 则 `sum_(n=1)^oo u_n`
+	收敛. 进一步, 若两端的级数收敛到同一个和, 则 `sum_(n=1)^oo u_n`
+	也收敛到这个和.
+</p>
+
+<p class="proof">
+	由 `w_n le u_n le v_n` 得 `0 le u_n - w_n le v_n - w_n`,
+	由已知 `sum_(n=1)^oo (v_n - w_n)` 收敛, 由正项级数的比较判别法知,
+	`sum_(n=1)^oo (u_n - w_n)` 也收敛. 从而 `sum_(n=1)^oo u_n` 收敛.
+	进一步, 若两端级数收敛到同一个和, 则 `sum_(n=1)^oo (v_n - w_n)`
+	收敛到零, 从而 `sum_(n=1)^oo (u_n - w_n)` 也收敛到零, 即 `sum_(n=1)^oo
+	u_n` 收敛到同一个和.
+</p>
+
+<p class="remark">
+	数列的两边夹法则要求两端的数列具有同一极限, 级数的两边夹法则无此要求.
+</p>
+
+<p class="theorem">
+	<b>Leibniz 判别法</b>
+	如果数列 `{u_n}` 单调趋于零, 那么交错级数 `sum_(n=0)^oo (-1)^n u_n`
+	收敛.
+</p>
+
+<p class="lemma">
+	<b>Abel 变换</b>
+	设 `a_1, a_2, cdots, a_m` 和 `b_1, b_2, cdots b_m` 是两组数. 记 `b_0 =
+	0`, `Delta b_k = b_k - b_(k-1)`, `k = 1, 2, cdots m`. 则
+	<span class="formula">
+		`sum_(k=1)^m a_k Delta b_k = a_k b_k - sum_(k=1)^(m-1) Delta
+		a_(k+1) b_k`.
+	</span>
+</p>
+
+<ol class="theorem">
+	<li><b>Dirichlet 判别法</b> 如果数列 `{u_n}` 单调趋于零, 级数
+		`sum_(n=1)^oo v_n` 的部分和有界, 那么 `sum_(n=1)^oo u_n v_n` 收敛.
+	</li>
+	<li><b>Abel 判别法</b> 如果数列 `{u_n}` 单调有极限,
+		级数 `sum_(n=1)^oo v_n` 收敛, 那么 `sum_(n=1)^oo u_n v_n` 收敛.
+	</li>
+</ol>
+
+<p class="remark">
+	Dirichlet 判别法把 Leibniz 判别法中的 `(-1)^n` 项
+	换成了更一般的部分和有界的 `v_n`, 是 Leibniz 判别法的推广.
+</p>
+
+<h3>反例</h3>
+
+<p class="example">
+	`0 le u_n le 1/n`, 而 `sum_(n=1)^oo (-1)^n u_n` 发散的例子:
+	`u_n = (1+(-1)^n)/(2n)`. 在这个例子中, 通项 `u_n to 0`, 但不是单调的,
+	不满足 Leibniz 判别法的条件.
+</p>
 
 </body>
 
