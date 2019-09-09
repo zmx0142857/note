@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>抽象代数的基本概念</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>记号</h2>
+
+<table>
+	<tr>
+		<td>`cc P(A)`</td>
+		<td>集合 `A` 的幂集, 即 `A` 的全体子集构成的集合</td>
+	</tr>
+	<tr>
+		<td>`cc B(A)`</td>
+		<td>集合 `A` 上的全体二元关系, 即 `cc P(A xx A)`</td>
+	</tr>
+	<tr>
+		<td>`cc E(A)`</td>
+		<td>集合 `A` 上的全体等价关系</td>
+	</tr>
+	<tr>
+		<td>`cc T(A)`</td>
+		<td>集合 `A` 上的全体变换</td>
+	</tr>
+	<tr>
+		<td>`E(S)`</td>
+		<td>代数 `S` 上的全体幂等元</td>
+	</tr>
+	<tr>
+		<td>`Z(S)`</td>
+		<td>半群的中心, 即和半群中任意元素都可交换的元素的集合</td>
+	</tr>
+	<tr>
+		<td>`End(S)`</td>
+		<td>半群 `S` 的自同态映射的全体</td>
+	</tr>
+	<tr>
+		<td>`AntiEnd(S)`</td>
+		<td>半群 `S` 的反自同态映射的全体</td>
+	</tr>
+	<tr>
+		<td>`Aut(S)`</td>
+		<td>半群 `S` 的自同构映射的全体</td>
+	</tr>
+</table>
+
+<h2>半群, 群</h2>
+
+<p class="definition">
+	<b>代数</b>
+	令集合 `S != O/`, `*` 为 `S` 上的二元运算, 称 `(S, *)` 为一个<b>代数
+	(或广群, 或半群胚)</b>,
+	如果 `*` 在 `S` 上封闭, 即对任意 `a, b in S`, 有 `ab := a * b in S`.
+	或等价地,
+	<span class="formula">
+		`S S overset d = {s_1 s_2 | s_1, s_2 in S} sube S`.
+	</span>
+	如果 `|S| = 1`, 称这个代数是<b>平凡</b>的. 例如, 平凡半群, 平凡群等.
+	如果 `|S| lt oo`, 称这个代数是<b>有限</b>的. 例如, 有限半群, 有限群等;
+	否则称它为<b>无限</b>的.
+</p>
+
+<h3>半群</h3>
+
+<ul class="definition">
+	<b>半群</b>
+	<li>称代数 `(S, *)` 为一个<b>半群</b>, 如果 `*` 满足结合群, 即
+		<span class="formula">
+			`(a b)c -= a(b c)`.
+		</span>
+		一般把这种满足结合律的运算 `*` 称为乘法.
+	</li>
+	<li>若半群 `S` 中存在元素 `0` 满足
+		<span class="formula">
+			`0a -= 0` (`a0 -= 0`)
+		</span>
+		则称 `0` 为 `S` 的<b>左零元</b> (<b>右零元</b>). 若 `0` 同时是左,
+		右零元, 则称它为<b>零元</b>.
+		含有左 (右) 零元的非平凡半群称为<b>左 (右) 零半群</b>,
+		含有零元的非平凡半群称为<b>含零半群</b>.
+	</li>
+	<li>若半群 `S` 中存在元素 `1` 满足
+		<span class="formula">
+			`1a -= a` (`a1 -= a`)
+		</span>
+		则称 `1` 为 `S` 的<b>左幺元</b> (<b>右幺元</b>). 若 `1` 同时是左,
+		右幺元, 则称它为<b>幺元</b>.
+		含有幺元的非平凡半群称为<b>幺半群</b>.
+	</li>
+	<li>若半群 `(S, *)` 满足交换律, 即
+		<span class="formula">
+			`ab -= ba`,
+		</span>
+		则称 `S` 为<b>交换半群</b>.
+		显然交换半群的左零元 (如果存在) 也是右零元,
+		左幺元 (如果存在) 也是右幺元.
+	</li>
+	<li>若半群 `S` 满足左, 右消去律, 即对任意 `a, b, c in S`,
+		<span class="formula">
+			`a b = a c rArr b = c`,</br>
+			`b a = c a rArr b = c`,
+		</span>
+		则称 `S` 为<b>双消半群</b>.
+	</li>
+	<li>若半群 `S` 的每一元素都是正则的, 即
+		<span class="formula">
+			`(AA a in S)` `(EE x in S)` `a x a = a`,
+		</span>
+		则称 `S` 为<b>正则半群</b>.
+	</li>
+	<li>若半群 `S` 满足
+		<span class="formula">
+			`(AA a in S)` `(EE x in S)` `(a x)^2 := a x a x = a x`,
+		</span>
+		则称 `S` 为<b>反演半群</b>. 显然正则半群都是反演半群.
+	</li>
+</ul>
+
+<ol class="corollary">
+	在半群中,
+	<li>若左, 右零元 (幺元) 都存在, 则它们相等.</li>
+	<li>零元 (幺元) 若存在, 必惟一.</li>
+</ol>
+
+<ol class="proof">
+	<li>设 `0` 为左零元, `0'` 为右零元, 则 `0 = 0 0' = 0'`;
+		设 `1` 为左幺元, `1'` 为右幺元, 则 `1 = 1 1' = 1'`.
+	</li>
+	<li>设 `0, 0'` 都是零元, 则由上一推论, 它们相等.
+		幺元类似.
+	</li>
+</ol>
+
+<ul class="definition">
+	<li>设 `(S, *)` 为一代数, 如果存在元素 `x in S`, `x^2 := x x = x`,
+		则称 `x` 为<b>幂等元</b>.
+		显然, 半群的左, 右零元, 左, 右幺元都是幂等元;
+		半群的幂等元都是正则元.
+	</li>
+	<li>设 `(S, *)` 为一半群, `a in S`, 规定
+		<span class="formula">
+			`a^1 = a`, `a^n = a * a^(n-1)`, `n = 2, 3, cdots`.
+		</span>
+		易知通常的指数规则
+		<span class="formula">
+			`(AA m, n in ZZ^+) a^m a^n = a^(m+n)`, `(a^m)^n = a^(m n)`
+		</span>
+		在半群中也成立.
+	</li>
+</ul>
+
+<p class="definition">
+	设 `S` 为一半群, 称 `a, b in S` <b>可交换</b>, 如果 `a b = b a`.
+	称
+	<span class="formula">
+		`Z(S) := {a in S | (AA x in S) a x = x a}`
+	</span>
+	为 `S` 的<b>中心</b>, 即与 `S` 中任意元素都可交换的元素的集合.
+</p>
+
+<h3>群</h3>
+
+<ol class="definition">
+	<b>群</b>
+	<li>称半群 `G` 为一<b>群</b>, 如果它存在幺元,
+		且每个元素都存在逆元, 即
+		<span class="formula">
+			`(EE e in G)` `e a -= a e -= a`,</br>
+			`(AA a in G)` `(EE a' in G)` `a' a = a a' = e`.
+		</span>
+	</li>
+	<li>若群 `G` 的乘法还满足交换律, 则称它为 <b>Abel 群 (或交换群)</b>.
+		`G` 为 Abel 群时, 也常记作 `(G, +)`, 并把其上的运算称为加法.
+	</li>
+</ol>
+
+<ol class="corollary">
+	<li>群是双消半群.</li>
+	<li>群中的幺元是惟一的,
+		每个元素的逆元也是惟一的, 以后我们把 `a` 的逆元记为 `a^-1`.
+	</li>
+	<li>`e` 为群的惟一幂等元.
+	</li>
+	<li>`(a b)^-1 = b^-1 a^-1`.</li>
+</ol>
+
+<ol class="proof">
+	<li>这是因为在 `a b = a c` 两边同时左乘 `a` 的逆元, 就得到 `b = c`.
+	</li>
+	<li>幺元的惟一性由半群的相关结论可知.
+		逆元的唯一性可由 `a'a = a_0'a = e` 两边消去 `a` 得 `a' = a_0'`;
+		或者 `a' = a' a a_0' = a_0'`.
+	</li>
+	<li>若 `e_0^2 = e_0`, 则由
+		`e_0 e_0 = e_0 e` 两边消去 `e_0` 得 `e_0 = e`.
+	</li>
+	<li>直接计算, `b^-1 a^-1 a b = b^-1 e b = b^-1 b = e`.
+	</li>
+</ol>
+
+<p class="remark">
+	<b>群的等价定义</b>
+	设 `G` 为半群, `G` 中存在左幺元, 且每个元素都存在左逆元, 即
+	<span class="formula">
+		`(EE e in G)` `e a -= a`,<br/>
+		`(AA a in G)` `(EE a' in G)` `a' a = e`.
+	</span>
+	可以证明 `G` 为一群. 事实上, 对任意 `a in G`, 先证其左逆元 `a'`
+	也是它的右逆元. 取 `a'` 的左逆元 `a''`, 有
+	<span class="formula">
+		`a a' = e a a' = a'' a' a a'`
+		`= a'' e a' = a'' a' = e`.
+	</span>
+	从而左幺元 `e` 也是右幺元:
+	<span class="formula">
+		`a e = a a' a = e a = a`.
+	</span>
+	类似可以证明, 下面也是群的一个等价定义:
+	半群 `G` 上存在右幺元, 且每个元素都存在右逆元, 即
+	<span class="formula">
+		`(EE e in G)` `a e -= a`,<br/>
+		`(AA a in G)` `(EE a' in G)` `a a' = e`;
+	</span>
+</p>
+
+<p class="definition">
+	设 `S` 为半群, `s in S`, 则用 `s` 左乘 `S` 的任一元素诱导出 `S`
+	上的左平移变换
+	<span class="formula">
+		`s_l: S to S`<br/>
+		`a to s a`.
+	</span>
+	类似, 用 `s` 右乘 `S` 的任一元素诱导出 `S` 上的右平移变换 `s_r`.
+</p>
+
+<ol class="theorem">
+	令 `S` 为半群, 下列各款等价:
+	<li>`S` 为一双消半群;</li>
+	<li>`S` 上的两类方程 `a x = b`, `x a = b` 在 `S` 中如果有解,
+		则解常惟一;
+	</li>
+	<li>对任意 `a in S`, `S` 上的左, 右平移 `a_l, a_r` 常为单射.</li>
+</ol>
+
+<ol class="theorem">
+	令 `G` 为半群, 下列各款等价:
+	<li>`G` 为一群;</li>
+	<li>`G` 上的两类方程 `a x = b`, `x a = b` 在 `G` 中常有解;</li>
+	<li>对任意 `a in G`, `G` 上的左, 右平移 `a_l, a_r` 常为满射
+		(事实上, 由于群是双消半群, 可推出 `a_l, a_r` 是双射);
+	</li>
+	<li>任取 `a in G`, 分别定义 `a G := {a g | g in G}`, `G a := {g a | g
+		in G}`, 则 `a G = G a = G` (集合意义的相等).
+	</li>
+</ol>
+
+<p class="proof">
+	只证 3 `rArr` 1.
+	任取 `a in G`, 由 `a_r` 为一满射变换知,
+	<span class="formula">
+		`(EE e in G)` `a_r(e) = a`,
+	</span>
+	即 `e a = a`.
+	从而对任意 `b in G`, 由 `a_l` 为一满射变换知,
+	<span class="formula">
+		`(EE b_0 in G) a_l(b_0) = b`,
+	</span>
+	即 `a b_0 = b`. 所以
+	<span class="formula">
+		`e b = e a b_0 = a b_0 = b`.
+	</span>
+	这说明 `e` 为左幺元. 再令 `e` 在 `b_r` 下的原像为 `b^-1`, 有
+	`b^-1 b = e`, 即 `b^-1` 为 `b` 的左逆元.
+	由前述群的等价定义知 `G` 为一群.
+</p>
+
+<p class="corollary">
+	有限双消半群为群.
+</p>
+
+<p class="proof">
+	因为有限集上的变换为一单射当且仅当它为一满射.
+</p>
+
+<h3>群与群中元素的阶数</h3>
+
+<p class="definition">
+	<b>群上的幂运算</b>
+	令 `(G, *)` 为一群, `a in G`, `n in ZZ^+`.
+	`a^n` 的定义与半群的相同, 此外
+	<span class="formula">
+		`a^0 := e`, `quad a^-n := (a^-1)^n`.
+	</span>
+	从而通常的指数规则在群中仍成立:
+	<span class="formula">
+		`(AA m, n in ZZ^+) a^m a^n = a^(m+n)`, `(a^m)^n = a^(m n)`.
+	</span>
+	当 Abel 群被记作 `(G, +)` 时, 也将 `a^n` 写成 `n a`, 将 `a^-1` 写成
+	`-a`. 且在 Abel 群中, 满足第三条指数规则:
+	<span class="formula">
+		`(AA m in ZZ)` `(AA a, b in G)` `(a b)^m = a^m b^m`.
+	</span>
+</p>
+
+<p class="definition">
+	群 `G` 中元素 `a` 的<b>阶数</b>定义为
+	<span class="formula">
+		`|a| = min{m in ZZ^+ | a^m = e}`;
+	</span>
+	若上式右端的集合为空, 称 `a` 的阶为无限, 记为 `|a| = oo`.<br/>
+	有限群 `G` 的<b>阶数</b>定义为它的元素个数 `|G|`.
+</p>
+
+<ol class="corollary">
+	令 `G` 为一群, `e` 是幺元, `a, b in G`, 则
+	<li>`|e| = 1`;</li>
+	<li>`|a| = |a^-1|`;</li>
+	<li>`|a| = |b a b^-1|`;</li>
+	<li>`|a b| = |b a|`.</li>
+</ol>
+
+<ol class="proof">
+	<li>显然.</li>
+	<li>记 `|a| = n`, `|a^-1| = m`,
+		由 `(a^-1)^n = (a^n)^-1 = e^-1 = e`, 得到 `m le n`;
+		另一方面, `a^m = (a^-m)^-1` `= ((a^-1)^m)^-1= e^-1 = e`,
+		得到 `m ge n`.
+	</li>
+	<li>记 `|a| = n`, `|b a b^-1| = m`,
+		由 `(b a b^-1)^n = b a^n b^-1` `= b e b^-1 = b b^-1 = e`
+		得 `m le n`; 另一方面由
+		`a^m = b^-1 (b a^m b^-1) b` `= b^-1 (b a b^-1)^m b = e`
+		得 `m ge n`.
+	</li>
+	<li>`|a b| = |b (a b) b^-1| = |b a|`.</li>
+</ol>
+
+<p class="theorem">
+	设 `a` 是群 `G` 中的 `n` 阶元, 则对任意 `m in ZZ`,
+	<span class="formula">
+		`a^m = e iff n | m`.
+	</span>
+</p>
+
+<p class="proof">
+	`lArr)` 显然.<br/>
+	`rArr)` 令 `m = q n + r`, `q in ZZ`, `0 le r lt n`. 则
+	<span class="formula">
+		`e = a^m = a^(q n + r)` `= (a^n)^q a^r = e a^r = a^r`.
+	</span>
+	由 `r lt n` 知, 只可能是 `r = 0`, 从而 `n | m`.
+</p>
+
+<p class="corollary">
+	设 `a` 是 `n` 阶群 `G` 的元素, 则 `|a| le n`.
+</p>
+
+<p class="proof">
+	由群的封闭性知, 有 `n+1` 个元素 `a^0, a^1, cdots, a^n in G`.
+	但 `|G| = n`, 由鸽巢原理, 存在 `i gt j`, 使 `a^i = a^j`,
+	`i, j = 0, 1, cdots, n`. 所以 `a^(i-j) = a^i a^-j = a^j a^-j = e`.
+	设 `|a| = m`, 则 `m | i-j gt 0`, 因此 `m le i-j le n`.
+</p>
+
+<ol class="corollary">
+	设 `a` 是群 `G` 的 `n` 阶元, 则
+	<span class="formula">
+		`|a^m| = n/((m","n))`, `quad AA m in ZZ`.
+	</span>
+	特别地,
+	<li>若 `|a| = s t`, `s, t in ZZ^+`, 则 `|a^s| = t`;</li>
+	<li>`|a^m| = n` 当且仅当 `(m, n) = 1`.</li>
+</ol>
+
+<p class="proof">
+	记 `|a^m| = k`, `(m, n) = d`. 由 `a^(m n/d) = a^(n m/d) = e`
+	得 `k | n/d`; 另一方面, 由
+	`a^(m k) = e` 知 `n | m k`, 从而 `n/d | m/d k`, 但 `(n/d, m/d) = 1`,
+	所以 `n/d | k`.
+</p>
+
+<p class="corollary">
+	设 `G` 为一群, `a, b in G`, 且 `a, b` 间的乘法可交换.
+	`|a| = m`, `|b| = n`, `(m, n) = 1`, 则 `|a b| = m n`.
+</p>
+
+<p class="proof">
+	记 `|a b| = k`.
+	首先由
+	<span class="formula">
+		`(a b)^(m n) = a^(m n)b^(m n) = e e = e`
+	</span>
+	有 `k | m n`.
+	其次由
+	<span class="formula">
+		`b^(m k) = a^(m k) b^(m k) = (a b)^(m k) = e`
+	</span>
+	知, `n | m k`, 而 `(m, n) = 1`, 所以 `n | k`.
+	同理 `m | k`, 再次由 `(m, n) = 1` 得 `m n | k`.
+</p>
+
+<h3>子群</h3>
+
+<p class="definition">
+	<b>子群</b>
+	令 `(G, *)` 为一群, `H` 是 `G` 的非空子集. 如果 `H` 关于 `*` 也成一群,
+	则称 `H` 是 `G` 的一个<b>子群</b>, 记作 `H le G`.
+</p>
+
+<p class="corollary">
+	设群 `H le G`, 则 `H` 的幺元就是 `G` 的幺元, `a in H` 在 `H`
+	中的逆元就是 `a` 在 `G` 中的逆元.
+</p>
+
+<p class="proof">
+	幺元的惟一性由幂等元在群中的惟一性保证.
+	以 `a', a^-1` 记 `a` 在 `H` 和 `G` 中的逆元, 则
+	<span class="formula">
+		`a' = a' e = a' a a^-1`
+		`= e a^-1 = a^-1`.
+	</span>
+</p>
+
+<ol class="theorem">
+	<b>判定子群的充要条件</b>
+	设 `G` 为一群, `H` 是 `G` 的非空子集, 则以下几款等价:
+	<li>`H le G`;</li>
+	<li>`(AA a, b in H)` `a b in H`, `a^-1 in H`;</li>
+	<li>`(AA a, b in H)` `a b^-1 in H`.</li>
+	从而验证 `H` 是 `G` 的子群, 只需验证 `H` 对乘法的封闭性和 `H`
+	中逆元的存在性, 或者验证方程 `x b = a` 在 `H` 中常有解即可.
+</ol>
+
+<ol class="proof">
+	<li>`rArr` 2. 显然.</li>
+	<li>`rArr` 3. 显然.</li>
+	<li>`rArr` 1. 
+		结合律在 `H` 上成立是显然的;
+		取 `b = a` 知 `e in H` (幺元);
+		取 `a = e` 知对任意 `b in H`, `b^-1 in H` (逆元);
+		最后, 对任意 `a, b in H`, 有 `a b = a(b^-1)^-1 in H` (封闭性).
+	</li>
+</ol>
+
+<p class="corollary">
+	若 `H` 是群 `G` 的非空有限子集, 则 `H le G iff`
+	`(AA a, b in H)` `a b in H`.
+</p>
+
+<p class="proof">
+	任取 `a in H`, 因 `H` 有限, `EE s gt t`, `s, t in ZZ^+`, `a^s = a^t`,
+	从而 `a^-1 = a^(s-t-1) in H`.
+</p>
+
+<p class="example">
+	回顾半群的中心的定义:
+	<span class="formula">
+		`Z(G) := {a in G | (AA x in G) a x = x a}`.
+	</span>
+	若 `G` 为一群, 可以证明 `Z(G) le G`;
+	若 `G` 为一 Abel 群, 则 `Z(G) = G`.
+</p>
+
+<ol class="theorem">
+	<b>子群的交, 并与乘积</b>
+	设 `G` 为一群, `H, K` 是 `G` 的两个子群, 则
+	<li>`H nn K le G`;</li>
+	<li>`H uu K le G` `iff H sube K or K sube H`;</li>
+	<li>`HK := {h k | h in H, k in K} le G` `iff H K = K H`.</li>
+	此定理可类比于线性子空间的相关结论.
+</ol>
+
+<ol class="proof">
+	<li>显然 `e in H nn K`, 从而 `H nn K` 非空.
+		`AA a, b in H nn K`, 由判定子群的充要条件,
+		`a b^-1 in H`, `a b^-1 in K`.
+		即 `a b^-1 in H nn K`.
+		因此 `H nn K le G`.
+	</li>
+	<li>`lArr)` 显然. `rArr)` 设 `H sube K` 不成立, 即 `EE h in H`, `h !in
+		K`. 任取 `k in K`, 由 `H uu K le G` 知 `h k in H uu K`.
+		若 `h k in K`, 则 `h = (h k) k^-1 in K`, 矛盾; 故 `h k in H`,
+		于是 `k = h^-1 (h k) in H`. 所以 `K sube H`.
+	</li>
+	<li>令 `H K = K H`. `AA h k in H K`, 其中 `h in H`, `k in K`, 有
+		<span class="formula">
+			`(h k)^-1 = k^-1 h^-1 in K H = H K`.
+		</span>
+		又
+		<span class="formula">
+			`(H K)(H K) = H(K H)K = H(H K)K = (H H)(K K) = H K`,
+		</span>
+		(注: 上式的 `H, K` 可以换成任意属于 `H, K` 的元素进行运算,
+		结果是相同的)
+		即 `H K` 关于乘法封闭. 于是 `H K le G`.</br>
+		反之, 令 `H K le G`. 则对任意 `x in H K`,
+		`x^-1 in H K`. 记 `x^-1 = h k`,
+		其中 `h in H`, `k in K`, 有
+		<span class="formula">
+			`x = (h k)^-1 = k^-1 h^-1 in K H`.
+		</span>
+		得到 `H K in K H`. 同理 `K H sube H K`. 于是 `H K = K H`.
+	</li>
+</ol>
+
+<h3>群同态与同构</h3>
+
+<p class="definition">
+	令 `(S, *)`, `(T, @)` 为两个半群胚 (半群, 群). 称映射 `f: S to T` 为
+	`S` 到 `T` 的一个半群胚 (半群, 群) <b>同态映射</b>, 如果
+	<span class="formula">
+		`f(a * b) -= f(a) @ f(b)`.
+	</span>
+	在不引起混淆的情况下, 上式也可以写为
+	<span class="formula">
+		`f(a b) -= f(a) f(b)`.
+	</span>
+	当 `f` 为一单射 (满射, 双射) 时, 称 `f` 为一单同态 (满同态,
+	<b>同构</b>) 映射.<br/>
+	如果存在一个从 `S` 到 `T` 的同构映射, 则称 `S`, `T` <b>同构</b>, 记为
+	`S ~= T`.
+</p>
+
+<p class="corollary">
+	`f: S to T` 为一同态映射时, `C_("Ker"f) ~= "Im"f`,
+	其中 `C_("Ker"f)` 是等价关系 `"Ker"f` 的一个截面.
+	特别当 `f` 为一满同态时, `C_("Ker"f) ~= T`,
+	当 `f` 为一单同态时, `S ~= "Im"f`.
+</p>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>
