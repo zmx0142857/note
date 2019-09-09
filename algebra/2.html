@@ -13,6 +13,66 @@
 <body>
 
 <p class="example">
+	<b>Vandermonde 行列式</b>
+	对正整数 `n ge 2`,
+	<span class="formula">`|
+		(1," "x_1," "cdots," "x_1^(n-1)),
+		(1," "x_2," "cdots," "x_2^(n-1)),
+		(vdots," "vdots," "," "vdots),
+		(1," "x_n," "cdots," "x_n^(n-1))
+	| = prod_(1 le i lt j le n) (x_j - x_i)`.</span>
+</p>
+
+<p class="proof">
+	对 `n` 进行归纳证明. `n = 2` 时原式等于 `x_2 - x_1`, 结论成立.
+	设结论对 `n-1` 成立, 依次将原式第 `i` 列的 `-x_1` 倍加到第 `i+1` 列,
+	`i = n-1, n-2, cdots, 1`, 得到
+	<span class="formula">`|
+		(1," "0," "cdots," "0),
+		(1," "x_2-x_1," "cdots," "x_2^(n-2)(x_2-x_1)),
+		(vdots," "vdots," "," "vdots),
+		(1," "x_n-x_1," "cdots," "x_n^(n-2)(x_n-x_1))
+	|`.</span>
+	按第一行展开后, 提出每一行的公因式, 得
+	<span class="formula">`prod_(j=2)^n (x_j-x_1) |
+		(1," "cdots," "x_2^(n-2)),
+		(vdots," "," "vdots),
+		(1," "cdots," "x_n^(n-2))
+	|`.</span>
+	由归纳假设, 上式等于
+	<span class="formula">
+		`prod_(1 le i lt j le n) (x_j-x_i)`.
+	</span>
+</p>
+
+<p class="example">
+	求行列式
+	<span class="formula">`|
+		(1, ((m_1),(1)), cdots, ((m_1),(n-1))),
+		(1, ((m_2),(1)), cdots, ((m_2),(n-1))),
+		(vdots, vdots, , vdots),
+		(1, ((m_n),(1)), cdots, ((m_n),(n-1)))
+	|`.</span>
+</p>
+
+<p class="solution">
+	因为 `((m),(k))` 可以看成是关于 `m` 的 `k` 次多项式,
+	因此依次将原式的前 `i` 列的某个线性组合加到第 `i+1` 列, 就可以消去
+	第 `i+1` 列中的低次项, 使其只剩 `i` 次项, `i = 2, 3, cdots, n-1`.
+	从而得到
+	<span class="formula">`|
+		(1," "m_1/(1!)," "cdots," "m_1^(n-1)/((n-1)!)),
+		(1," "m_2/(1!)," "cdots," "m_2^(n-1)/((n-1)!)),
+		(vdots," "vdots," "," "vdots),
+		(1," "m_n/(1!)," "cdots," "m_n^(n-1)/((n-1)!))
+	|`.</span>
+	利用 Vandermonde 行列式, 上式等于
+	<span class="formula">
+		`prod_(i=1)^(n-1) (i!)^-1 prod_(1 le i lt j le n) (m_j-m_i)`.
+	</span>
+</p>
+
+<p class="example">
 	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 证明:
 	<span class="formula">
 		` |bm E_m - bm (AB)|

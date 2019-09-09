@@ -37,7 +37,7 @@
 	</tr>
 	<tr>
 		<td>`Z(S)`</td>
-		<td>半群的中心, 即和半群中任意元素都可交换的元素的集合</td>
+		<td>半群 `S` 的中心, 即和 `S` 中任意元素都可交换的元素的集合</td>
 	</tr>
 	<tr>
 		<td>`End(S)`</td>
@@ -536,6 +536,51 @@
 	特别当 `f` 为一满同态时, `C_("Ker"f) ~= T`,
 	当 `f` 为一单同态时, `S ~= "Im"f`.
 </p>
+
+<ol class="theorem">
+	令 `G` 和 `H` 为两个群, `f: G to H` 为一群同态映射, 则
+	<li>`G` 的幺元的像是 `H` 的幺元;</li>
+	<li>`(AA a in G)` `f(a^-1) = f(a)^-1`.</li>
+</ol>
+
+<ol class="proof">
+	<li>记 `G` 的幺元为 `e`.
+		由 `f(e) f(e) = f(e^2) = f(e)` 知, `f(e)` 为 `H` 的一个幂等元,
+		而群的幂等元只有幺元. 因此 `f(e)` 为 `H` 的幺元.
+	</li>
+	<li>由 `f(a) f(a^-1) = f(a a^-1) = f(e)` 及群元的逆元的惟一性知,
+		`f(a^-1)` 为 `f(a)` 的逆元.
+	</li>
+</ol>
+
+<p class="theorem">
+	令 `G`, `H` 为两个群, `G_1 le G`, `H_1 le H`, `f: G to H`
+	为一群同态映射, 则
+	<span class="formula">
+		`f(G_1) le H`, `quad f^-1(H_1) le G`.
+	</span>
+</p>
+
+<p class="proof">
+	任取 `f(a), f(b) in f(G_1)`, 其中 `a, b in G_1`, 从而
+	<span class="formula">
+		`f(a) f(b)^-1 = f(a) f(b^-1) = f(a b^-1) in f(G_1)`.
+	</span>
+	因此 `f(G_1) le H`. 又任取 `c, d in f^-1(H_1)`, 则 `f(c), f(d) in
+	H_1`, 从而
+	<span class="formula">
+		`f(c d^-1) = f(c) f(d^-1) = f(c) f(d)^-1 in H_1`.
+	</span>
+	所以 `c d^-1 in f^-1(H_1)`, 于是 `f^-1(H_1) le G`.
+</p>
+
+<ol class="corollary">
+	令 `G, H` 为两个群, `f: G to H` 为一群同态映射. 则
+	<li>`f` 的像 `"Im"f = {f(a) | a in G} le H`;</li>
+	<li>`f` 的核 `"Ker"f = {a in G | f(a) = e} le G`, 其中 `e` 为 `G`
+		的幺元.
+	</li>
+</ol>
 
 </body>
 
