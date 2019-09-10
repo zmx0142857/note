@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>群 (下)</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<!--
+<h2>同余与商群</h2>
+
+<p class="definition">
+	令 `S` 为一半群, `rho` 为 `S` 上的一个等价关系.
+	称 `rho` 为 `S` 上一<b>左同余 (右同余)</b>, 如果对任意 `a, b, c in S`,
+	<span class="formula">
+		`a rho b rArr (c a) rho (c b)`,<br/>
+		`(a rho b rArr (a c) rho (b c))`.
+	</span>
+	如果 `rho` 同时是左, 右同余, 则称它为 `S` 上一<b>同余</b>.
+	`S` 上的全体左同余, 右同余, 同余的集合分别记为 `cc C_l(S)`,
+	`cc C_r(S)`, `cc C(S)`.
+</p>
+
+<ol class="corollary">
+	<b>同余的等价条件</b>
+	令 `S` 为一半群, `rho` 为 `S` 上的一个等价关系, 则下列各款等价:
+	<li>`rho` 为一同余;</li>
+	<li>`(AA a, b, c, d in S)` `a rho b and c rho d`
+		`rArr (a c) rho (b d)`;
+	</li>
+	<li>`(AA a, b in S)` `(AA x, y in S^1)` a rho b rArr (x a y) rho (x b
+		y)`, 其中 `S^1` 是由 `S` 扩张得到的幺半群;
+	</li>
+	<li>`(AA a, b in S)` `a rho xx b rho := {x y | x in a rho, y in b rho}
+		sube (a b) rho` (即, 商集 `S/rho`
+		中任二等价类关于集合的乘积包含在另一等价类中).
+	</li>
+</ol>
+-->
+
+<h2>左右陪集与 Lagrange 定理</h2>
+
+<p class="definition">
+	令 `G` 为一群, `a in G`, `H le G`, 称
+	<span class="formula">
+		`a H := {a h | h in H}`<br/>
+		(`H a := {h a | h in H}`)
+	</span>
+	为 `G` 中 `H` 的含 `a` 的<b>左 (右) 陪集</b>.
+	另一种等价的定义是, 规定映射 `l_a: h in H to a h in G`, 则 `a H :=
+	"Im" l_a`. 右陪集类似.
+</p>
+
+<ol class="corollary">
+	令 `G` 为一群, `H le G`, 则下列各款等价:
+	<li>`b in a H` (`b in H a`);</li>
+	<li>`a H = b H` (`H a = H b)`;</li>
+	<li>`a^-1 b in H` (`b a^-1 in H`).</li>
+</ol>
+
+<ol class="proof">
+	用元素的语言证明左陪集情形:
+	<li>`rArr` 2. 由 `b in a H` 知 `EE h in H` 使 `b = a h`.
+		任取 `a h_1 in a H`, 则 `a h_1 = a h h^-1 h_1 = b(h^-1 h_1) in b
+		H`, 即 `a H sube b H`;
+		另一方面, 任取 `b h_2 in b H`, 则 `b h_2 = a (h h_2)
+		in a H`, 即 `b H sube a H`, 所以 `a H = b H`.
+	</li>
+	<li>`rArr` 3. 任取 `a h_1 in a H`, 则 `EE h_2 in H` 使 `a h_1 = b h_2`
+		所以 `a^-1 b = h_1 h_2^-1 in H`.
+	</li>
+	<li>`rArr` 1. 因为 `a^-1 b in H`, 所以 `b = a a^-1 b in a H`.</li>
+</ol>
+
+<ol class="proof">
+	用集合的语言证明右陪集情形:
+	<li>`rArr` 2. 
+		由 `b in H a` 有 `H b sube H (H a) = (H H) a = H a`;
+		另一方面, 由 `b in H a` 知 `a in H^-1 b = H b`,
+		用类似的论证得 `H a sube H b`, 故 `H a = H b`.
+	</li>
+	<li>`rArr` 3.
+		由 `H a = H b` 得 `H = H b a^-1`, 进而 `b a^-1 in H^-1 H = H`.
+	</li>
+	<li>`rArr` 1.
+		同时右乘 `a` 即可.
+	</li>
+</ol>
+
+<ol class="corollary" id="cor-group-partition">
+	令 `G` 为一群, `H le G`, 则
+	<li>`(AA a in G)` `a in a H`;</li>
+	<li>`(AA a, b in H)` `a H nn b H != O/` `iff a H = b H`.</li>
+	右陪集也有平行的结论.
+</ol>
+
+<ol class="proof">
+	<li>因为 `e in H`;</li>
+	<li>设 `c in a H nn b H`, 则 `c H = a H = b H`; 反之, 若 `a H = b H`,
+		则 `b in a H nn b H`.
+	</li>
+</ol>
+
+<p class="definition">
+	由<a class="ref" href="#cor-group-partition"></a>的 2. 知道,
+	所有形如 `a H` 的左陪集要么相等, 要么不相交.
+	又显然 `uuu_(a in G) a H = G`, 于是
+	<span class="formula">
+		`pi_H^l := {a H | a in G}`
+	</span>
+	形成 `G` 的一个分划. 同理
+	<span class="formula">
+		`pi_H^r := {H a | a in G}`
+	</span>
+	亦形成 `G` 的一个分划.
+</p>
+
+<p class="lemma">
+	令 `G` 为一群, `H le G`, 则 `|pi_H^l| = |pi_H^r|`.
+	当 `G` 为有限群时, 这个等式告诉我们 `G` 中 `H`
+	的不同的左陪集数等于其不同的右陪集数. 这个数称为 `H` 在 `G`
+	中的<b>指数</b>, 记为 `[G : H]`.
+</p>
+
+<p class="proof">
+	作 `varphi: a H in pi_H^l to H a^-1 in pi_H^r`.
+	由 `a H = b H iff a^-1 b in H`
+	`iff b^-1 (a^-1)^-1 in H`
+	`iff H a^-1 = H b^-1` 知, `varphi` 为一映射, 且为一单射.
+	又, 关于任意 `H a in pi_H^r`, `a^-1 H` 是其原像, 从而 `varphi`
+	为一满射. 所以 `varphi` 为双射, 于是 `|pi_H^l| = |pi_H^r|`.
+</p>
+
+<p class="lemma">
+	令 `G` 为一群, `a in G`, `H le G`, 则
+	`|a H| = |H a| = |H|`.
+	这一定理告诉我们, 群上的左 (右) 陪集对群的划分是均匀的.
+</p>
+
+<p class="proof">
+	作映射 `varphi: h in H to a h in a H`. 显然 `varphi` 为一满射. 又
+	`AA h_1, h_2 in H`, 若 `varphi(h_1) = varphi(h_2)`, 即 `a h_1 = a
+	h_2`, 消去 `a` 得 `h_1 = h_2`, 所以 `varphi` 为一单射. 因此 `varphi`
+	是双射, `|H| = |a H|`. 同理 `|H| = |H a|`.
+</p>
+
+<p class="theorem">
+	<b>Lagrange 定理</b>
+	令 `G` 为一有限群, `H le G`, 则
+	<span class="formula">
+		`|G| = [G : H] |H|`.
+	</span>
+	因此, `G` 的任意子群的阶和指数都整除 `|G|`.
+	特别 `G` 的任意元素的阶都整除 `|G|` (设它是 `a`, 则
+	`|a| = |(:a:)|`, 后者是 `G` 的子群).
+</p>
+
+<h2>正规子群, 商群</h2>
+
+<p class="definition">
+	令 `G` 为一群, `H le G`. 如果
+	<span class="formula">
+		`(AA a in G)` `a H = H a`,
+	</span>
+	则称 `H` 为 `G` 的一个<b>正规子群 (normal subgroup, 或不变子群,
+	或自共轭子群)</b>, 记为 `H &#8884; G`.
+	一般地, 含同一元素的左, 右陪集 `a H, H a` 是不相等的.
+	这就体现了正规子群的特殊性.
+</p>
+
+<p class="remark">
+	正规子群的定义可以 "减弱" 为: `H` 的每一个左陪集都是一个右陪集, 即
+	<span class="formula">
+		`(AA a in G)` `(EE b in G)` `a H = H b`.
+	</span>
+	事实上, 由 `a in a H = H b` 知, `H b = H a = a H`.
+	这就证明了那个存在的右陪集其实是 `H a` 自己.
+</p>
+
+<ol class="corollary">
+	<b>正规子群的等价条件</b>
+	令 `G` 为一群, `H le G`, 则下列各款等价:
+	<li>`H &#8884; G`;</li>
+	<li>`(AA a in G)` `a H a^-1 = H`;
+		这就是正规子群又称自共轭子群的原因;
+	</li>
+	<li>`(AA a in G)` `a H a^-1 sube H`;
+		实用的判定条件;
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>`rArr` 2. `AA a in G`, 由 `a H = H a` 知
+		<span class="formula">
+			`a H a^-1 = (a H) a^-1 = (H a) a^-1 = H`.
+		</span>
+	</li>
+	<li>`rArr` 3. 显然</li>
+	<li>`rArr` 1. `AA a in G`, 由 `a H a^-1 sube H` 同时右乘 `a` 有
+		`a H sube H a`; 另一方面, 由 `a^-1 H (a^-1)^-1 sube H`
+		同时左乘 `a` 有 `H a sube a H`. 于是 `a H = H a`.
+	</li>
+</ol>
+
+<ol class="example">
+	<li>`G &#8884; G`, `{e} &#8884; G`, 它们称为 `G`
+		的<b>平凡正规子群</b>;
+	</li>
+	<li>`G` 的中心 `Z(G) &#8884; G`;</li>
+	<li>Abel 群的任一子群都是正规子群.</li>
+</ol>
+
+<p class="theorem">
+	令 `G, H` 为两个群, `G_1 &#8884; G`, `H_1 &#8884; H`,
+	`f: G to H` 为一群<b>满</b>同态映射, 则
+	<span class="formula">
+		`f(G_1) &#8884; H`, `quad f^-1(H_1) &#8884; G`.
+	</span>
+	(类比于子群的相关定理, 我们看到此定理的条件加强为满映射)
+</p>
+
+<p class="proof">
+	只需验证子群的正规性.
+	`AA h in H`, 由 `f` 为一满射知, 存在 `g_1 in G` 使 `f(g_1) = h`.
+	从而由 `G_1 &#8884; G` 知
+	<span class="formula">
+		`h f(G_1) h^1 = f(g_1) f(G_1) f(g_1^-1) = f(g_1 G_1 g_1^-1)`
+		`= f(G_1)`,
+	</span>
+	所以 `f(G_1) &#8884; H`. 另一方面, `AA g in G`, 由 `f` 为一满射知
+	`f(f^-1(H_1)) = H_1`. 从而由 `H_1 &#8884; H` 知
+	<span class="formula">
+		`f(g f^-1(H_1) g^-1) = f(g) H_1 f(g)^-1 = H_1`,
+	</span>
+	即 `g f^-1(H_1) g^-1 = f^-1(H_1)`, 因此 `f^-1(H_1) &#8884; G`.
+</p>
+
+<ol class="theorem">
+	子群的正规性一般不具有传递性, 我们只有以下结论:
+	令 `G` 为一群, `H, K` 是 `G` 的两个子群, 则
+	<li>`H &#8884; G` `rArr H nn K &#8884; K`, `H K le G`;</li>
+	<li>`H &#8884; G`, `K &#8884; G` `rArr H nn K &8884; G`, `H K &#8884;
+		G`.
+	</li>
+</ol>
+
+<h2>群同态基本定理, 两个同构定理</h2>
+
+<h2>单群</h2>
+
+<p class="definition">
+	设 `G` 为非平凡群, 称 `G` 为<b>单群</b>, 如果它
+	只有平凡的正规子群 `{e}` 和 `G`, 即
+	<span class="formula">
+		`H &#8884; G rArr H = {e} or H = G`.
+	</span>
+	其中 `e` 为 `G` 的幺元.
+</p>
+
+<p class="theorem">
+	设 `G` 为 Abel 群, 则 `G` 为一单群当且仅当它为一素数阶循环群.
+</p>
+
+<p class="proof">
+	因为 Abel 群的每个子群都是正规子群, 所以 `G`
+	为一单群当且仅当它没有非平凡的子群, 从而当且仅当 `G` 为一素数阶循环群.
+	事实上, 由 Lagrange 定理, 素数阶循环群显然无非平凡子群. 另一方面,
+	由 `G` 无非平凡子群知 `G` 中非幺元都是 `|G|` 阶的, 故 `G` 为循环群
+	`(:a:)`.  若 `|G| = mn`, `m, n gt 1`, 则 `(:a^m:)` 为一非平凡子群,
+	故 `|G|` 为素数.
+</p>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>

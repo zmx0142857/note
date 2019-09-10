@@ -3,7 +3,7 @@
 
 <head>
 
-<title>抽象代数的基本概念</title>
+<title>群 (上)</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -29,7 +29,7 @@
 	</tr>
 	<tr>
 		<td>`cc T(A)`</td>
-		<td>集合 `A` 上的全体变换</td>
+		<td>集合 `A` 上的全体变换, 即全变换半群</td>
 	</tr>
 	<tr>
 		<td>`E(S)`</td>
@@ -50,6 +50,22 @@
 	<tr>
 		<td>`Aut(S)`</td>
 		<td>半群 `S` 的自同构映射的全体</td>
+	</tr>
+	<tr>
+		<td>`S_A`, `S_n`, `A_n`</td>
+		<td>集合 `A` 上的对称群, `n` 次对称群, `n` 次交代群</td>
+	</tr>
+	<tr>
+		<td>`(ZZ, +)`</td>
+		<td>整数加群</td>
+	</tr>
+	<tr>
+		<td>`(U_n, *)`</td>
+		<td>`n` 次单位根群</td>
+	</tr>
+	<tr>
+		<td>`D_(2n)`</td>
+		<td>二面体群</td>
 	</tr>
 </table>
 
@@ -171,12 +187,13 @@
 
 <ol class="definition">
 	<b>群</b>
-	<li>称半群 `G` 为一<b>群</b>, 如果它存在幺元,
+	<li>称半群 `G` 为一<b>群 (group)</b>, 如果它存在幺元,
 		且每个元素都存在逆元, 即
 		<span class="formula">
 			`(EE e in G)` `e a -= a e -= a`,</br>
 			`(AA a in G)` `(EE a' in G)` `a' a = a a' = e`.
 		</span>
+		群中的元素就简称为群元.
 	</li>
 	<li>若群 `G` 的乘法还满足交换律, 则称它为 <b>Abel 群 (或交换群)</b>.
 		`G` 为 Abel 群时, 也常记作 `(G, +)`, 并把其上的运算称为加法.
@@ -291,7 +308,7 @@
 	因为有限集上的变换为一单射当且仅当它为一满射.
 </p>
 
-<h3>群与群中元素的阶数</h3>
+<h2>群与群元的阶数</h2>
 
 <p class="definition">
 	<b>群上的幂运算</b>
@@ -371,7 +388,7 @@
 	设 `|a| = m`, 则 `m | i-j gt 0`, 因此 `m le i-j le n`.
 </p>
 
-<ol class="corollary">
+<ol class="corollary" id="cor-order-of-a-m">
 	设 `a` 是群 `G` 的 `n` 阶元, 则
 	<span class="formula">
 		`|a^m| = n/((m","n))`, `quad AA m in ZZ`.
@@ -388,27 +405,7 @@
 	所以 `n/d | k`.
 </p>
 
-<p class="corollary">
-	设 `G` 为一群, `a, b in G`, 且 `a, b` 间的乘法可交换.
-	`|a| = m`, `|b| = n`, `(m, n) = 1`, 则 `|a b| = m n`.
-</p>
-
-<p class="proof">
-	记 `|a b| = k`.
-	首先由
-	<span class="formula">
-		`(a b)^(m n) = a^(m n)b^(m n) = e e = e`
-	</span>
-	有 `k | m n`.
-	其次由
-	<span class="formula">
-		`b^(m k) = a^(m k) b^(m k) = (a b)^(m k) = e`
-	</span>
-	知, `n | m k`, 而 `(m, n) = 1`, 所以 `n | k`.
-	同理 `m | k`, 再次由 `(m, n) = 1` 得 `m n | k`.
-</p>
-
-<h3>子群</h3>
+<h2>子群</h2>
 
 <p class="definition">
 	<b>子群</b>
@@ -512,7 +509,7 @@
 	</li>
 </ol>
 
-<h3>群同态与同构</h3>
+<h2>群同态与同构</h2>
 
 <p class="definition">
 	令 `(S, *)`, `(T, @)` 为两个半群胚 (半群, 群). 称映射 `f: S to T` 为
@@ -540,7 +537,7 @@
 <ol class="theorem">
 	令 `G` 和 `H` 为两个群, `f: G to H` 为一群同态映射, 则
 	<li>`G` 的幺元的像是 `H` 的幺元;</li>
-	<li>`(AA a in G)` `f(a^-1) = f(a)^-1`.</li>
+	<li>群元的逆元的像是其像的逆元.</li>
 </ol>
 
 <ol class="proof">
@@ -548,17 +545,18 @@
 		由 `f(e) f(e) = f(e^2) = f(e)` 知, `f(e)` 为 `H` 的一个幂等元,
 		而群的幂等元只有幺元. 因此 `f(e)` 为 `H` 的幺元.
 	</li>
-	<li>由 `f(a) f(a^-1) = f(a a^-1) = f(e)` 及群元的逆元的惟一性知,
-		`f(a^-1)` 为 `f(a)` 的逆元.
+	<li>`AA a in G`, 由 `f(a) f(a^-1) = f(a a^-1) = f(e)`
+		及群元的逆元的惟一性知, `f(a^-1)` 为 `f(a)` 的逆元.
 	</li>
 </ol>
 
-<p class="theorem">
+<p class="theorem" id="the-homomorphism-subgroup">
 	令 `G`, `H` 为两个群, `G_1 le G`, `H_1 le H`, `f: G to H`
 	为一群同态映射, 则
 	<span class="formula">
 		`f(G_1) le H`, `quad f^-1(H_1) le G`.
 	</span>
+	特别有 `"Im"f le H`, `"Im"f^-1 le G`.
 </p>
 
 <p class="proof">
@@ -576,11 +574,408 @@
 
 <ol class="corollary">
 	令 `G, H` 为两个群, `f: G to H` 为一群同态映射. 则
-	<li>`f` 的像 `"Im"f = {f(a) | a in G} le H`;</li>
-	<li>`f` 的核 `"Ker"f = {a in G | f(a) = e} le G`, 其中 `e` 为 `G`
-		的幺元.
+	<li>`f` 的像 `"Im"f = {f(a) | a in G} le H`; `f` 满 `iff "Im"f = H`.
+	</li>
+	<li>`f` 的核 `"Ker"f = {a in G | f(a) = e_H} le G`;
+		`f` 单 `iff "Ker"f = {e_G}`.
 	</li>
 </ol>
+
+<p class="proof">
+	直接应用<a class="ref" href="#the-homomorphism-subgroup"></a>
+	(注意 `{e_H}` 自成一平凡群). 下面设 `"Ker"f = {e_G}`, 对任意满足
+	`f(a) = f(b)` 的 `a, b in G`, 有
+	<span class="formula">
+		`e_H = f(a) f^-1(b) = f(a b^-1)`.
+	</span>
+	但 `"Ker"f = {e_G}`, 所以 `a b^-1 = e_G`, 即 `a = b`. 因此 `f` 是单射.
+</p>
+
+<h2>循环群</h2>
+
+<h3>由一元素生成的循环群</h3>
+
+<p class="definition">
+	<b>生成集</b>
+	令 `G` 为一群, `X` 是 `G` 的非空子集, 记 `(:X:)` 为 `G` 的所有包含
+	`X` 的子群的交. 由于 `(:X:)` 是子群的交, 因此它也是一子群, 且是 `G`
+	的含 `X` 的最小子群. 称 `(:X:)` 为由 `X` <b>生成</b>的子群, `X` 称为
+	`(:X:)` 的<b>生成集</b>. 特别若 `(:X:) = G`, 则称 `X` 为 `G` 的生成集.
+	如果 `|X| lt oo`, 则称 `G` 为一<b>有限生成群</b>.
+</p>
+
+<p>	以 `X^-1` 记 `X` 中全体元素的逆组成的集合,
+	考虑到群上运行的封闭性和逆元的存在性, 则由 `X` 生成的子群是
+	`X uu X^-1` 中任意有限个元素乘积的全体, 即
+	<span class="formula">
+		`(:X:) = {prod_(i=1)^n a_i | a_i in X uu X^-1, i = 1, 2, cdots, n,
+		n in ZZ^+}`.
+	</span>
+	当 `X = {x_1, x_2, cdots, x_m}` 时, `(:X:)` 简记为 `(:x_1, x_2, cdots,
+	x_m:)`, 特别, `(:{a}:)` 简记为 `(:a:)`. 因此
+	<span class="formula">
+		`(:a:) = {a^k | k in ZZ}`.
+	</span>
+</p>
+
+<p class="definition">
+	设群 `G = (:a:)`, 则称 `G` 是由 `a` 生成的<b>循环群</b>, `a` 是 `G`
+	的一个生成元.
+</p>
+
+<ol class="corollary">
+	设 `G` 为一群.
+	<li>`|G| = oo` 时, `G` 的任一生成元 `a` 的阶也为无限;</li>
+	<li>`|G| = n` 时, `a` 是群 `G` 的生成元当且仅当 `|a| = n`.</li>
+</ol>
+
+<ol class="theorem">
+	<b>循环群的等价条件</b>
+	令 `G` 为一 `n` 阶群, 则下列几款等价:
+	<li>`G` 为一循环群;</li>
+	<li>`G` 有 `n` 阶元;</li>
+	<li>关于 `n` 的任意正因子 `t`, `G` 有 `t` 阶元.</li>
+</ol>
+
+<p class="proof">
+	显然有 1 `iff` 2, 3 `rArr` 2. 下证 1 `rArr` 3.
+	令 `G = (:a:)` 为一 `n` 阶循环群, 则 `|a| = n`. 关于 `n` 的任意正因子
+	`t`, 设 `n = s t`, `s in ZZ^+`, 则 `a^s in G`, 且 `|a^s| = t`
+	(<a class="ref" href="#cor-order-of-a-m"></a>).
+</p>
+
+<ol class="theorem">
+	<b>循环群的结构</b>
+	令 `G = (:a:)` 为一循环群. 则
+	<li>当 `|a| = oo` 时, `G = {cdots, a^-3, a^-2, a^-1, e, a^1, a^2, a^3,
+		cdots};
+	</li>
+	<li>当 `|a| = n` 时, `G = {e, a^1, a^2, cdots, a^(n-1)}`.</li>
+</ol>
+
+<ol class="corollary">
+	令 `(G, *)` 为一循环群, 则
+	<li>当 `|G| = oo` 时, `(G, *) ~= (ZZ, +)` (整数加群);</li>
+	<li>当 `|G| = n` 时, `(G, *) ~= (U_n, *)` (`n` 次单位根群).</li>
+	因此, 无限阶循环群是 "直线形" 的, 有限阶循环群是 "圆形" 的.
+	今后处理循环群时, 也可以类比为整数加群/`n` 次单位根群来处理.
+</ol>
+
+<ol class="proof">
+	<li>作 `varphi: a^m in G to m in ZZ`, 则 `varphi` 为双射, 且关于任意
+		`k, l in ZZ`,
+		<span class="formula">
+			`varphi(a^k a^l) = varphi(a^(k+l)) = k + l = varphi(k) +
+			varphi(l)`,
+		</span>
+		因此 `varphi` 为同构.
+	</li>
+	<li>作 `psi: a^m in G to epsi^m = "e"^((2pi m)/n"i") in U_n`,
+		则 `psi` 为双射, 且关于任意 `k, l in {0, 1, cdots, n-1}`,
+		<span class="formula">
+			`psi(a^k a^l) = psi(a^(k+l)) = epsi^(k+l)`
+			`= epsi^k + epsi^l = psi(a^k) psi(a^l)`,
+		</span>
+		因此 `psi` 为同构.
+	</li>
+</ol>
+
+<ol class="theorem">
+	<b>生成元的数目</b>
+	令 `G = (:a:)` 为一循环群, 则
+	<li>当 `|G| = oo` 时, `G` 只有两个生成元 `a^(+-1)`;</li>
+	<li>当 `|G| = n` 时, `G` 有 `varphi(n)` 个生成元.
+		其中 Euler 函数 `varphi(n)` 是小于等于 `n` 的正整数中与 `n`
+		互素的数的个数, 如 `varphi(1) = 1`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>显然 `a^(+-1)` 是 `G` 的生成元. 若 `a^k` 也是生成元,
+		`k in ZZ\\{0, +-1}`, 则存在 `m in ZZ\\{0}`, 使得
+		`(a^k)^m = a`. 两边同乘 `a^-1` 得 `a^(k m-1) = e`.
+		但 `k m -1 != 0`, 因此 `|a| lt oo`, 矛盾.
+	</li>
+	<li>只需证明 `n ge 2` 的情形. 关于任意 `a^k in G`, `0 lt k le n`,
+		`a^k` 为 `G` 的一个生成元 `iff |a^k| = n` `iff (k, n) = 1`
+		(<a class="ref" href="#cor-order-of-a-m"></a>).
+	</li>
+</ol>
+
+<h3>循环群的子群</h3>
+
+<p class="theorem" id="the-cyclic-subgroup">
+	循环群的子群必为循环群. 下面给出构造性证明.
+</p>
+
+<p class="proof">
+	设 `G = (:a:)`, `H le G`. `|H| = 1` 的情形是平凡的.
+	若 `|H| ge 2`, 可取最小的正整数 `t` 使得 `a^t in H`, 则
+	`(:a^t:) sube H`.<br/>
+	反之 `AA a^k in H`, 设
+	<span class="formula">
+		`k = qt + r`, `q in ZZ`, `0 le r lt t`,
+	</span>
+	则 `a^r = a^(k-q t) = a^k a^(-q t) in H`.
+	由 `t` 的取法知 `r = 0`. 因此
+	<span class="formula">
+		`a^k = a^(q t) in (:a^t:)`.
+	</span>
+	即 `H sube (:a^t:)`.
+</p>
+
+<ol class="theorem">
+	关于循环群 `G = (:a:)` 的子群, 我们有:
+	<li>当 `|G| = oo` 时, 除平凡群是 `G` 的惟一有限子群外,
+		`G` 有无限多个无限循环子群;
+	</li>
+	<li>当 `|G| = n` 时, 设 `n = s t`, `s, t in ZZ^+`,
+		则 `G` 存在惟一的 `t` 阶子群 `(:a^s:)`.
+		即 `n` 的每个正整数因子都与 `G` 的子群一一对应.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>由<a class="ref" href="#the-cyclic-subgroup"></a>知,
+		`G` 的子群都是循环群, 因此 `G` 的全部互不相同的子群为
+		<span class="formula">
+			`(:e:), (:a:), (:a^2:), cdots`
+		</span>
+		除第一个为有限群, 其它都是无限循环群.
+	</li>
+	<li>存在性: 由 `a` 是 `G` 的生成元知, `|a| = n = s t`, 因此 `|a^s| =
+		t`.  从而 `(:a^s:)` 是 `G` 的一个 `t` 阶子群.<br/>
+		惟一性: 令 `H` 也是 `G` 的一个 `t` 阶子群, 则 `H` 为循环群, 记
+		`H = (:a^m:)`, 则 `|a^m| = t`. 联系<a class="ref"
+		href="#cor-order-of-a-m"></a>, `t = n/((n","m))`, 所以
+		`(n, m) = s`. 这推出 `s | m`, 即 `(:a^m:) sube (:a^s:)`.
+		又 `|(:a^m:)| = |(:a^s:)| = t`, 有 `(:a^m:) = (:a^s:)`.
+	</li>
+</ol>
+
+<h3>Abel 群与循环群</h3>
+
+<p class="lemma">
+	设 `G` 为一群, `a, b in G`, 且 `a, b` 间的乘法可交换.
+	`|a| = m`, `|b| = n`, `(m, n) = 1`, 则 `|a b| = m n`.
+</p>
+
+<p class="proof">
+	记 `|a b| = k`.
+	首先由
+	<span class="formula">
+		`(a b)^(m n) = a^(m n)b^(m n) = e e = e`
+	</span>
+	有 `k | m n`.
+	其次由
+	<span class="formula">
+		`b^(m k) = a^(m k) b^(m k) = (a b)^(m k) = e`
+	</span>
+	知, `n | m k`, 而 `(m, n) = 1`, 所以 `n | k`.
+	同理 `m | k`, 再次由 `(m, n) = 1` 得 `m n | k`.
+</p>
+
+<p class="lemma" id="lem-abel-group-max-order">
+	令 `G` 为一 `n` 阶 Abel 群, `a` 为 `G` 中的最大阶元,
+	则对任意 `b in G`, `|b|` 整除 `|a|`.
+</p>
+
+<p class="proof">
+	记 `|a| = m`, `|b| = l`, 且
+	<span class="formula">
+		`l = prod_(i=1)^r p_i^(l_i)`,
+		`quad m = prod_(i=1)^r p_i^(m_i)`.
+	</span>
+	其中 `p_i` 为两两不同的素数, `l_i`, `m_i` 是非负整数, `i = 1, 2,
+	cdots, r`, `r in ZZ^+`. 若 `l !| m`, 则存在 `1 le k le r`, 使得
+	`l_k gt m_k ge 0`. 令
+	<span class="formula">
+		`l = s t`, `t = p_k^(l_k)`, `m = u v`, `v = p_k^(m_k)`.
+	</span>
+	则 `|a^v| = u`, `|b^s| = t`, `(u, t) = 1`.
+	从而 `|a^v b^s| = u t gt m`, 与 `m` 是元素的最大阶矛盾.
+	因此 `l | m`.
+</p>
+
+<p class="theorem">
+	显然, 循环群都是 Abel 群. 反之, 一个 Abel 群 `G`
+	为循环群的充要条件是对任意正整数 `m`, `x^m = e` 在 `G` 中最多有
+	`m` 个解.
+</p>
+
+<p class="proof">
+	必要性. 令 `G` 是循环群, 对任意 `m in ZZ^+`, 记方程 `x^m = e` 的解集为
+	<span class="formula">
+		`S_m = {x in G | x^m = e}`.
+	</span>
+	任取 `a, b in S_m`, 可以验证 `a b^-1 in S_m`, 故 `S_m le G`.
+	而循环群的子群必为循环群, 所以可设 `S_m = (:c:)`, `c in S_m`.
+	而 `c^m = e`, 故 `|S_m| = |c| le m`.<br/>
+	充分性. 只需证 `G` 中存在 `n` 阶元.
+	令 `a` 为 `G` 中最大阶元, `|a| = k`, 则 `k le n`.
+	由<a class="ref" href="#lem-abel-group-max-order"></a>, 对任意
+	`b in G`, 有 `|b|` 整除 `k`, 于是 `b^k = e`, 即方程 `x^k = e`
+	在 `G` 中至少有 `n` 个解, 由条件知 `n le k`. 于是 `n = k`, 即 `G =
+	(:a:)`.
+</p>
+
+<h2>对称群, 置换群</h2>
+
+<p class="definition">
+	设集合 `A != O/`, 记集合 `A` 上全体可逆变换的集合为 `S_A`.
+	容易证明 `S_A` 关于通常的变换合成为一群, 称为集合 `A`
+	上的<b>对称群</b>. `S_A` 的子群称为集合 `A` 上的<b>置换群</b>.<br/>
+	若 `A` 为有限群, `|A| = n`, 则 `A` 可以等同于 `{1, 2, cdots, n}`,
+	`S_A` 记为 `S_n`, 称为 <b>`n` 次对称群</b>, 其子群称为 <b>`n`
+	次置换群</b>. `S_n` 中的元素称为 <b>`n` 次置换</b>, 常记为
+	<span class="formula">
+		`sigma = ((1, 2, cdots, n), (i_1, i_2, cdots, i_n))`.
+	</span>
+	其中 `i_j = sigma(j)`, `j = 1, 2, cdots, n`. 显然 `i_1 i_2 cdots i_n`
+	为 `1 2 cdots n` 的一个排列, 因此 `|S_n| = n!`.
+</p>
+
+<p class="theorem">
+	<b>群的 Cayley 左正则表示</b>
+	令 `G` 为一群, 以 `a_l` 记元素 `a in G` 诱导的左平移变换, 则映射
+	<span class="formula">
+		`eta: G to S_G`<br/>
+		`a to a_l`
+	</span>
+	为一单同态, 因此 `G ~= "Im"eta`. 由于 `"Im"eta le S_G`,
+	定理告诉我们, 任一抽象群都同构于某集合上的一个置换群.
+</p>
+
+<p class="proof">
+	显然该映射是良定义的. 下证它是单射. `AA a, b in G`, 若 `eta(a) =
+	eta(b)`, 则 `a_l = b_l`, 从而关于任意 `x in G`, `a_l(x) = b_l(x)`,
+	即 `a x = b x`. 特别取 `x = e`, 有 `a = b`. 因此 `eta` 是单射.</br>
+	又, `AA x in G`,
+	<span class="formula">
+		`(a b)_l(x) = (a b) x = a (b x)`
+		`= a_l(b_l(x)) = (a_l b_l)(x)`.
+	</span>
+	从而 `(a b)_l = a_l b_l`, 即 `eta(a b) = eta(a) eta(b)`, 即 `eta`
+	为一同态.
+</p>
+
+<p class="definition">
+	<b>`k`-轮换</b>
+	令 `sigma in S_n`, `1 le k le n`,
+	`i_1, i_2, cdots, i_k` 是 `1, 2, cdots, n` 中 `k` 个两两不同的数, 若
+	<span class="formula">
+		`sigma(i_1) = i_2`, `sigma(i_2) = i_3`, `cdots`,
+		`sigma(i_(k-1)) = i_k`, `sigma(i_k) = i_1`,
+	</span>
+	而其它数在 `sigma` 下不变, 则称 `sigma` 为一<b>`k`-轮换</b>, 记为
+	`sigma = (i_1 i_2 cdots i_k)`. 特别 `k = 2` 时, 称 `sigma`
+	为一<b>对换</b>. 无公共数字的轮换称为<b>不相交的</b>. 恒等置换
+	<span class="formula">
+		`((1, 2, cdots, n), (1, 2, cdots, n))`
+	</span>
+	通常简记为 `(1)`.
+</p>
+
+<ol class="corollary">
+	<li>`(i_1 i_2 cdots i_k)^-1 = (i_k cdots i_2 i_1)`;</li>
+	<li>`(i_1 i_2 cdots i_k) = (i_1 i_k)(i_1 i_(k-1))cdots(i_1 i_2)`,
+		从而任一轮换可以分解为对换的乘积;</li>
+	<li>不相交轮换的乘积是可交换的;</li>
+	<li>`k`-轮换的阶为 `k`.</li>
+	<li>`(i_1 i_2 cdots i_m) (j_1 j_2 cdots j_n)` 的阶为 `m, n`
+		的最小公倍数. (对吗?)
+	</li>
+</ol>
+
+<p class="proof">
+	只证 4. 令 `sigma = (i_1 i_2 cdots i_k)`,
+	显然 `sigma^k = (1)`; 另一方面, 对任意 `1 le m lt k`, 有
+	`sigma^m(i_1) = i_(m+1) != i_1`, 即 `sigma^m != (1)`. 于是 `|sigma| =
+	k`.
+</p>
+
+<ol class="theorem">
+	<b>置换的奇偶性</b>
+	令 `sigma in S_n`. 则
+	<li>`sigma` 可表示为若干不相交轮换的乘积, 且在不计排列顺序的意义上,
+		表示方式惟一;
+	</li>
+	<li>`sigma` 可表示为若干对换的乘积,
+		且不同分解式中的对换个数的奇偶性相同.
+		称分解式中对换个数为奇数的置换为<b>奇置换</b>,
+		否则为<b>偶置换</b>.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>对 `n` 进行归纳证明. `n = 1` 时, 显然 `sigma = (1)`.
+		假设对任意小于 `n` 的正整数, `sigma`
+		都能分解为若干不相交轮换的乘积, 则在 `n` 的情形, 任取
+		`i_1 in {1, 2, cdots, n}`, 记 `i_2 = sigma(i_1)`.
+		接下来对 `l = 1, 2, cdots, n`, 依次处理如下:
+		若 `i_(l+1) != i_1`, 则定义 `i_(l+2) = sigma(i_(l+1))`; 否则就得到
+		`l`-轮换 `(i_1 i_2 cdots i_l)`. 容易说明 `i_1, i_2, cdots, i_l`
+		两两不同. 这是因为由定义, `i_1 != i_j`, `j = 1, 2, cdots, l`.
+		再由 `sigma` 是双射从而是单射, 就得到: 对任意 `i_j, i_k`,
+		`1 lt j lt k le l`, 有 `i_j != i_k`.
+		从而我们将 `sigma` 分解成一个 `l`-轮换与一个 `n-l`
+		次置换的不相交的乘积,
+		由归纳假设后者可以分解为若干不相交轮换的乘积, 从而 `sigma`
+		可以分解为若干不相交轮换的乘积. (惟一性?)
+	</li>
+	<li>先将 `sigma` 分解为若干轮换的乘积, 再将轮换分解为对换的乘积即可.
+		下证惟一性, 设
+		<span class="formula">
+			`sigma = ((1, 2, cdots, n), (i_1, i_2, cdots, i_n))`
+			`= sigma_1 sigma_2 cdots sigma_s (1)`
+			`= tau_1 tau_2 cdots tau_t (1)`,
+		</span>
+		由于对换改变排列的奇偶性, 从而 `s, t` 的奇偶性都与排列
+		`i_1 i_2 cdots i_n` 的奇偶性相同, 所以 `s, t` 的奇偶性相同.
+	</li>
+</ol>
+
+<ol class="corollary">
+	<li>`k`-轮换的奇偶性与 `k` 的奇偶性相反, 因为它能分解成 `k-1` 个对换.
+	</li>
+	<li>逆置换与原置换的奇偶性相同.</li>
+</ol>
+
+<ol class="corollary">
+	 `S_n` 中全体偶置换构成的集合记为 `A_n`. 则
+	 <li>`A_n le S_n`, 称 `A_n` 为 <b>`n` 次交代群 (或交错群)</b>.</li>
+	 <li>`S_n` 中的奇置换和偶置换一样多, 换言之 `|A_n| = n! // 2`.</li>
+</ol>
+
+<ol class="proof">
+	<li>任取 `sigma, tau in A_n`, 则 `sigma tau^-1`
+		也能分解成偶数个对换的乘积, 因此是偶置换.
+	</li>
+	<li>记 `B = S_n \\ A_n` 为 `S_n` 中的全体奇置换. 作映射 `f: A_n to B`
+		和 `g: B to A_n` 如下
+		<span class="formula">
+			`f: sigma to (1 n) sigma`<br/>
+			`g: tau to (1 n) tau`
+		</span>
+		(`f` 在偶置换 `sigma` 的基础上再对换 `1, n`, 而 `g` 在奇置换
+		`tau` 的基础上再对换 `1, n`).
+		则 `g @ f = 1_(A_n)`, `f @ g = 1_B`. 故 `f` 为一双射.
+		从而 `S_n` 中的奇置换与偶置换一样多.
+	</li>
+</ol>
+
+<p class="corollary">
+	令 `H le S_n`, 则要么 `H` 中不含奇置换, 要么奇置换与偶置换一样多.
+</p>
+
+<p class="proof">
+	不妨设有奇置换 `sigma_1 in H`. 类似地作映射
+	<span class="formula">
+		`f: sigma in H nn A_n to sigma_1 sigma in H \\ A_n`<br/>
+		`g: tau in H \\ A_n to sigma_1^-1 tau in H nn A_n`
+	</span>
+	来证明.
+</p>
 
 </body>
 

@@ -26,6 +26,11 @@ var tableOfContents = [ {
 		{title:'映射', src:'set-theory/3.html'},
 	]
 	}, {
+	title:'拓扑学基础',
+	articles: [
+		{title:'拓扑空间与连续映射', src:'topology/1.html'},
+	]
+	}, {
 	title:'复变函数',
 	articles: [
 		//{title:'复数与复变函数', src:'complex/1.html'},
@@ -38,11 +43,11 @@ var tableOfContents = [ {
 		{title:'`RR^n` 中的度量与极限', src:'real/1-4.html'},
 	]
 	}, {
-	title:'常微分方程',
+	title:'概率论',
 	articles: [
-		{title:'一阶微分方程的初等解法', src:'ode/2.html'},
-		{title:'高阶微分方程', src:'ode/4.html'},
-		{title:'线性微分方程组', src:'ode/5.html'},
+		{title:'附录', src:'probability/0.html'},
+		{title:'事件与概率', src:'probability/1.html'},
+		{title:'条件概率与独立性', src:'probability/2.html'},
 	]
 	}, {
 	title:'数值分析',
@@ -62,9 +67,11 @@ var tableOfContents = [ {
 		{title:'Hilbert 空间及其上的有界线性算子', src:'functional/4.html'},
 	]
 	}, {
-	title:'拓扑学基础',
+	title:'常微分方程',
 	articles: [
-		{title:'拓扑空间与连续映射', src:'topology/1.html'},
+		{title:'一阶微分方程的初等解法', src:'ode/2.html'},
+		{title:'高阶微分方程', src:'ode/4.html'},
+		{title:'线性微分方程组', src:'ode/5.html'},
 	]
 	}, {
 	title:'偏微分方程',
@@ -112,15 +119,20 @@ var tableOfContents = [ {
 		{title:'Paths and cycles', src:'graph/2.html'},
 	]
 	}, {
+	title:'抽象代数',
+	articles: [
+		{title:'群 (上)', src:'abstract/2.html'},
+		{title:'群 (下)', src:'abstract/3.html'},
+		{title:'Galois 理论', src:'abstract/8.html'},
+	]
+	}, {
 	title:'初等数论',
 	articles: [
 		{title:'整除', src:'number-theory/1.html'},
 	]
 	}, {
-	title:'概率论',
+	title:'数学游戏',
 	articles: [
-		{title:'附录', src:'probability/0.html'},
-		{title:'事件与概率', src:'probability/1.html'},
-		{title:'条件概率与独立性', src:'probability/2.html'},
+		//{title:'链式推理', src:'recreation/1.html'},
 	]
 }];
