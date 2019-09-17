@@ -21,9 +21,9 @@ var tableOfContents = [ {
 	}, {
 	title:'集合论',
 	articles: [
-//		{title:'数理逻辑初步', src:'set-theory/1.html'},
-		{title:'集合及其运算', src:'set-theory/2.html'},
-		{title:'映射', src:'set-theory/3.html'},
+//		{title:'数理逻辑初步', src:'set/1.html'},
+		{title:'集合及其运算', src:'set/2.html'},
+		{title:'映射', src:'set/3.html'},
 	]
 	}, {
 	title:'拓扑学基础',
@@ -122,17 +122,19 @@ var tableOfContents = [ {
 	title:'抽象代数',
 	articles: [
 		{title:'群 (上)', src:'abstract/2.html'},
-		{title:'群 (下)', src:'abstract/3.html'},
+		{title:'群 (中)', src:'abstract/3.html'},
+		{title:'群 (下)', src:'abstract/4.html'},
 		{title:'Galois 理论', src:'abstract/8.html'},
 	]
 	}, {
 	title:'初等数论',
 	articles: [
-		{title:'整除', src:'number-theory/1.html'},
+		{title:'整除', src:'number/1.html'},
+		{title:'不定方程', src:'number/5.html'},
 	]
 	}, {
 	title:'数学游戏',
 	articles: [
-		//{title:'链式推理', src:'recreation/1.html'},
+		{title:'数学游戏', src:'recreation/1.html'},
 	]
 }];

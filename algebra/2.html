@@ -104,6 +104,105 @@
 	</li>
 </ol>
 
+<h3>Laplace 定理</h3>
+
+<a href="https://www.jianshu.com/p/527a17b9e674">原文来自简书</a>
+
+<p class="definition">
+	<b>子式, 余子式和代数余子式</b>
+	令 `D` 为一个 `n` 阶行列式, `1 le k le n`. 在 `D` 上任意选定 `k` 行
+	`k` 列, 位于这些行和列的交点上的 `k^2` 个元素按原来的 "上下左右"
+	的次序组成一个 `k` 阶行列式 `M`, 称为 `D` 的一个 <b>`k` 阶子式</b>.
+	若 `k lt n`, 在 `D` 中划去这 `k` 行 `k` 列后,
+	余下的元素按原来的次序组成一个 `n-k` 阶行列式 `N`,
+	称为 `M` 在 `D` 中的<b>余子式</b>. 由定义, `M` 也是 `N` 的余子式,
+	因此又称 `M, N` 为一对互余的子式.
+	如果 `M` 的各行, 列在原行列式 `D` 中的指标为 `i_1, i_2, cdots, i_k`
+	和 `j_1, j_2, cdots, j_k`, 则称
+	<span class="formula">
+		`(-1)^(sum_(t=1)^k (i_t + j_t)) N`
+	</span>
+	为 `M` 在 `D` 中的<b>代数余子式</b>.
+</p>
+
+<p class="lemma">
+	行列式 `D` 的任一子式 `M` 与它的代数余子式 `A` 的乘积中的每一项都是
+	`D` 的展开式中的一项, 且符号一致.
+</p>
+
+<ol class="proof">
+	<li>假设 `M` 是 `D_(n xx n) = |a_(ij)|` 的左上方的 `k` 阶子式, 即 `M`
+		由 `D` 的前 `k` 行和前 `k` 列交叉处的元素组成, 则 `M`
+		的每一项可以写作
+		<span class="formula">
+			`(-1)^(tau(i_1 i_2 cdots i_k))`
+			`a_(1 i_1) a_(2 i_2) cdots a_(a i_k)`,
+		</span>
+		其中 `i_1 i_2 cdots i_k` 是 `1, 2, cdots, k` 的一个排列.
+		而 `M` 的余子式 `N` 的每一项可以写作
+		<span class="formula">
+			`(-1)^(tau(j_1 j_2 cdots j_(n-k)))`
+			`a_(k+1, j_1) a_(k+2, j_2) cdots a_(n, j_(n-k))`,
+		</span>
+		其中 `j_1 j_2 cdots j_(n-k)` 是 `k+1, k+2, cdots, n` 的一个排列.
+		两个通项相乘得
+		<span class="formula">
+			`(-1)^(tau(i_1 i_2 cdots i_k j_1 j_2 cdots j_(n-k))`
+			`a_(1 i_1) a_(2 i_2) cdots a_(k i_k)`
+			`a_(k+1, j_1) a_(k+2, j_2) cdots a_(n, j_(n-k))`.
+		</span>
+		上式再乘以代数余子式的符号
+		<span class="formula">
+			`(-1)^(sum_(t=1)^k (t+t)) = 1`
+		</span>
+		即为 `D` 的展开式中的一项, 且符号一致.
+	</li>
+	<li>下证一般情形, 设 `M` 位于 `D` 的第 `i_1, i_2, cdots, i_k` 行,
+		第 `j_1, j_2, cdots j_k` 列, 其中
+		`i_1 lt i_2 lt cdots lt i_k`, `j_1 lt j_2 lt cdots lt j_k`.
+		作行列的对换, 将 `M` 移到 `D` 的左上角:
+		先把第 `i_1` 行依次与第 `i_1-1, i_1-2, cdots, 2, 1` 行对换,
+		经过 `i_1-1` 次对换而将它换到第 1 行.
+		再将第 `i_2` 行依次与第 `i_2-1, i_2-2, cdots, 2` 行对换,
+		经过 `i_2-2` 次对换而将它换到第 2 行...
+		如此下去, 经过 `sum_(t=1)^k (i_t-t)` 次对换, 把第 `i_1, i_2,
+		cdots, i_k` 行换到第 `1, 2, cdots, k` 行.
+		类似地经过 `sum_(t=1)^k (j_t-t)` 次列对换, 可将第 `j_1, j_2,
+		cdots, j_k` 列换到第 `1, 2, cdots, k` 列.
+		从而变换前后, 行列式 `D` 的值相差一个符号
+		<span class="formula">
+			`(-1)^(sum_(t=1)^k (i_t+j_t))`.
+		</span>
+		恰为 `M` 的代数余子式前的符号因子, 因此 `M`
+		与它的代数余子式乘积中的每一项都是 `D` 的展开式中的一项,
+		且符号一致.
+	</li>
+</ol>
+
+<p class="theorem">
+	<b>Laplace 定理</b>
+	`n` 阶行列式的值等于它的任意 `k` (`1 le k le n-1`) 行 (列)
+	中所含有的全体 `k` 阶子式与相应代数余子式的乘积的和.
+</p>
+
+<p class="proof">
+	由行列式行和列的对称性, 只证行的情形.
+	设 `n` 阶行列式 `D` 中取定 `k` 行后得到的子式为 `M_i`,
+	相应的代数余子式为 `A_i`, `i = 1, 2, cdots, s`. 下证
+	<span class="formula">
+		`D = sum_(i=1)^s M_i A_i`.
+	</span>
+	显然, `M_i A_i` 中每一项都是 `D` 的展开式中的一项且符号一致,
+	且 `i!=j` 时, `M_i A_i` 与 `M_j A_j` 无公共项.
+	因此要证结论成立, 只需指出等式左右含展开式的项数相等.
+	由于 `n` 阶行列式的展开式有 `n!` 项, 故等式左端有 `n!` 项.
+	而由子式的取法知 `s = ((n),(k))`, 故等式右端的项数为
+	<span class="formula">
+		`((n),(k)) k! (n-k)! = n!`.
+	</span>
+	证毕.
+</p>
+
 </body>
 
 <script src="../js/note.js?type=math"></script>

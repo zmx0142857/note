@@ -3,7 +3,7 @@
 
 <head>
 
-<title>群 (下)</title>
+<title>群 (中)</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -13,7 +13,7 @@
 <body>
 
 <!--
-<h2>同余与商群</h2>
+<h2>同余</h2>
 
 <p class="definition">
 	令 `S` 为一半群, `rho` 为 `S` 上的一个等价关系.
@@ -108,6 +108,7 @@
 </ol>
 
 <p class="definition">
+	<b>群的一个分划</b>
 	由<a class="ref" href="#cor-group-partition"></a>的 2. 知道,
 	所有形如 `a H` 的左陪集要么相等, 要么不相交.
 	又显然 `uuu_(a in G) a H = G`, 于是
@@ -119,6 +120,8 @@
 		`pi_H^r := {H a | a in G}`
 	</span>
 	亦形成 `G` 的一个分划.
+	我们把由 `pi_H^l`, `pi_H^r` 确定的 `G` 上的等价关系分别记为
+	`sigma_H^l`, `sigma_H^r`.
 </p>
 
 <p class="lemma">
@@ -152,7 +155,7 @@
 
 <p class="theorem">
 	<b>Lagrange 定理</b>
-	令 `G` 为一有限群, `H le G`, 则
+	令 `G` 为一有限群, `H le G`, 则由两个引理立即推得
 	<span class="formula">
 		`|G| = [G : H] |H|`.
 	</span>
@@ -161,7 +164,16 @@
 	`|a| = |(:a:)|`, 后者是 `G` 的子群).
 </p>
 
-<h2>正规子群, 商群</h2>
+<p class="corollary">
+	素数阶群是循环群.
+</p>
+
+<p class="proof">
+	设 `|G| = p` 为一素数. 任取非单位元 `a in G`, 则 `|a| != 1`,
+	由 Lagrange 定理, `|a| = p`, 故 `(:a:) = G`.
+</p>
+
+<h2>正规子群</h2>
 
 <p class="definition">
 	令 `G` 为一群, `H le G`. 如果
@@ -169,7 +181,7 @@
 		`(AA a in G)` `a H = H a`,
 	</span>
 	则称 `H` 为 `G` 的一个<b>正规子群 (normal subgroup, 或不变子群,
-	或自共轭子群)</b>, 记为 `H &#8884; G`.
+	或自共轭子群)</b>, 记为 `H normal G`.
 	一般地, 含同一元素的左, 右陪集 `a H, H a` 是不相等的.
 	这就体现了正规子群的特殊性.
 </p>
@@ -186,12 +198,12 @@
 <ol class="corollary">
 	<b>正规子群的等价条件</b>
 	令 `G` 为一群, `H le G`, 则下列各款等价:
-	<li>`H &#8884; G`;</li>
+	<li>`H normal G`;</li>
 	<li>`(AA a in G)` `a H a^-1 = H`;
 		这就是正规子群又称自共轭子群的原因;
 	</li>
 	<li>`(AA a in G)` `a H a^-1 sube H`;
-		实用的判定条件;
+		这是实用的判定条件. 也可以写成 `G H G^-1 sube H`.
 	</li>
 </ol>
 
@@ -209,72 +221,545 @@
 </ol>
 
 <ol class="example">
-	<li>`G &#8884; G`, `{e} &#8884; G`, 它们称为 `G`
+	<li>`G normal G`, `{e} normal G`, 它们称为 `G`
 		的<b>平凡正规子群</b>;
 	</li>
-	<li>`G` 的中心 `Z(G) &#8884; G`;</li>
+	<li>`G` 的中心 `Z(G) normal G`;</li>
 	<li>Abel 群的任一子群都是正规子群.</li>
 </ol>
 
 <p class="theorem">
-	令 `G, H` 为两个群, `G_1 &#8884; G`, `H_1 &#8884; H`,
-	`f: G to H` 为一群<b>满</b>同态映射, 则
+	令 `G, H` 为两个群, `G_1 normal G`, `H_1 normal H`,
+	`f: G to H` 为一群同态映射, 则
 	<span class="formula">
-		`f(G_1) &#8884; H`, `quad f^-1(H_1) &#8884; G`.
+		`f(G_1) normal f(G)`,
+		`quad f^-1(H_1) normal f^-1(H) = G`.
 	</span>
-	(类比于子群的相关定理, 我们看到此定理的条件加强为满映射)
+	(类比于子群的相关定理, 我们看到此定理的结论一 "减弱" 为
+	`f(G_1) normal f(G)`, 或者说, 要使 `f(G_1) normal H`, 必须要求 `f`
+	为满射)
 </p>
 
 <p class="proof">
 	只需验证子群的正规性.
-	`AA h in H`, 由 `f` 为一满射知, 存在 `g_1 in G` 使 `f(g_1) = h`.
-	从而由 `G_1 &#8884; G` 知
+	`AA h in f(G)`, 存在 `g in G` 使 `f(g) = h`.
+	从而由 `G_1 normal G` 知
 	<span class="formula">
-		`h f(G_1) h^1 = f(g_1) f(G_1) f(g_1^-1) = f(g_1 G_1 g_1^-1)`
+		`h f(G_1) h^-1 = f(g) f(G_1) f(g)^-1 = f(g G_1 g^-1)`
 		`= f(G_1)`,
 	</span>
-	所以 `f(G_1) &#8884; H`. 另一方面, `AA g in G`, 由 `f` 为一满射知
-	`f(f^-1(H_1)) = H_1`. 从而由 `H_1 &#8884; H` 知
+	所以 `f(G_1) normal f(G)`.
+	<br/> 另一方面,
+	由集合论的等式有 `f(f^-1(H_1)) sube H_1`. 从而由 `H_1 normal H` 知
+	`AA g in G`,
 	<span class="formula">
-		`f(g f^-1(H_1) g^-1) = f(g) H_1 f(g)^-1 = H_1`,
+		`f(g f^-1(H_1) g^-1) sube f(g) H_1 f(g)^-1 = H_1`,
 	</span>
-	即 `g f^-1(H_1) g^-1 = f^-1(H_1)`, 因此 `f^-1(H_1) &#8884; G`.
+	即 `g f^-1(H_1) g^-1 sube f^-1(H_1)`, 因此 `f^-1(H_1) normal G`.
+</p>
+
+<p class="corollary">
+	令 `f: G to H` 为一群同态映射, 则 `"Ker"f = f^-1(e_H) normal G`.
 </p>
 
 <ol class="theorem">
-	子群的正规性一般不具有传递性, 我们只有以下结论:
+	子群的正规性一般不具有传递性, 即
+	`K normal H normal G` 未必推出 `K normal G`.
+	我们只有以下结论:
 	令 `G` 为一群, `H, K` 是 `G` 的两个子群, 则
-	<li>`H &#8884; G` `rArr H nn K &#8884; K`, `H K le G`;</li>
-	<li>`H &#8884; G`, `K &#8884; G` `rArr H nn K &8884; G`, `H K &#8884;
-		G`.
+	<li>`H normal G` `rArr H nn K normal G nn K = K`;</li>
+	<li>`H normal G` and `K normal G` `rArr H nn K normal G`;
 	</li>
+	<li>`H normal G` or `K normal G` `rArr H K le G`;</li>
+	<li>`H normal G` and `K normal G` `rArr H K normal G`;</li>
+	<li>`K normal G and K le H le G` `rArr K normal H`.</li>
 </ol>
 
-<h2>群同态基本定理, 两个同构定理</h2>
+<ol class="proof">
+	<li>显然 `H nn K le K`; 由 `H normal G` 知
+		`K (H nn K) K^-1 sube G H G^-1 = H`,
+		又 `K (H nn K) K^-1 sube K`,
+		所以 `K (H nn K) K^-1 sube H nn K`,
+		即 `H nn K normal K`.
+	</li>
+	<li>显然 `H nn K le G`; 由 `H, K normal G` 知
+		`G (H nn K) G^-1 sube G H G^-1 = H`,
+		`G (H nn K) G^-1 sube G K G^-1 = K`,
+		因此 `G (H nn K) G^-1 sube H nn K`, 即 `H nn K normal G`.<br/>
+	</li>
+	<li>不妨设 `H normal G`.
+		任取 `h k in H K`, 其中 `h in H`, `k in K sube G`, 则
+		`h k in H k = k H sube K H`, 因此 `H K sube K H`.
+		同理 `K H sube H K`, 因此 `H K = K H`.
+		从而由子群的积是子群的充要条件知 `H K le G`.
+	</li>
+	<li>由 3, `H K le G`, 从而由 `H, K normal G` 知, `AA g in G`,
+		<span class="formula">
+			`g (H K) = (g H) K = (H g) K = H (g K)`
+			`= H (K g) = (H K) g`.
+		</span>
+		因此 `H K normal G`.
+	</li>
+	<li>这是显然的, 因为 `AA a in H sube G`, `a K = K a`.</li>
+</ol>
 
-<h2>单群</h2>
-
-<p class="definition">
-	设 `G` 为非平凡群, 称 `G` 为<b>单群</b>, 如果它
-	只有平凡的正规子群 `{e}` 和 `G`, 即
-	<span class="formula">
-		`H &#8884; G rArr H = {e} or H = G`.
-	</span>
-	其中 `e` 为 `G` 的幺元.
+<p class="example">
+	`K_4 := {(1), (12)(34), (13)(24), (14)(23)} normal S_4`
+	(从而由 `K_4 le A_4 le S_4` 知, `K_4 normal A_4`)
+	称为 <b>Klein 四元群</b>. 可验证 `K_4` 是 Abel 群.
+	`K_4` 又可写作 `{e, a, b, c}`, 满足下面的乘法表:
 </p>
 
-<p class="theorem">
-	设 `G` 为 Abel 群, 则 `G` 为一单群当且仅当它为一素数阶循环群.
+<table>
+	<tr>
+		<td></td>
+		<td>`e`</td>
+		<td>`a`</td>
+		<td>`b`</td>
+		<td>`c`</td>
+	</tr>
+	<tr>
+		<td>`e`</td>
+		<td>`e`</td>
+		<td>`a`</td>
+		<td>`b`</td>
+		<td>`c`</td>
+	</tr>
+	<tr>
+		<td>`a`</td>
+		<td>`a`</td>
+		<td>`e`</td>
+		<td>`c`</td>
+		<td>`b`</td>
+	</tr>
+	<tr>
+		<td>`b`</td>
+		<td>`b`</td>
+		<td>`c`</td>
+		<td>`e`</td>
+		<td>`a`</td>
+	</tr>
+	<tr>
+		<td>`c`</td>
+		<td>`c`</td>
+		<td>`b`</td>
+		<td>`a`</td>
+		<td>`e`</td>
+	</tr>
+</table>
+
+<h3>商群</h3>
+
+<p class="definition">
+	令 `G` 为一群, `H normal G`.
+	易知上节定义的 `pi_H^l = pi_H^r`.
+	现在定义
+	<span class="formula">
+		`G // H := pi_H^l = {a H | a in G}`
+	</span>
+	上的二元合成 `*` 如下
+	<span class="formula">
+		`a H * b H := (a b)H`.
+	</span>
+	可以验证 `*` 是映射, 因此是一个二元运算.
+	且 `G//H` 关于 `*` 成一群,
+	称其为 `G` 关于 `H` 的<b>商群 (factor group)</b>.
+	直观上, 商群是将正规子群 `H` "收缩" 或 "粘合" 为一个点 (单位元)
+	后得到的群.
 </p>
 
 <p class="proof">
-	因为 Abel 群的每个子群都是正规子群, 所以 `G`
-	为一单群当且仅当它没有非平凡的子群, 从而当且仅当 `G` 为一素数阶循环群.
-	事实上, 由 Lagrange 定理, 素数阶循环群显然无非平凡子群. 另一方面,
-	由 `G` 无非平凡子群知 `G` 中非幺元都是 `|G|` 阶的, 故 `G` 为循环群
-	`(:a:)`.  若 `|G| = mn`, `m, n gt 1`, 则 `(:a^m:)` 为一非平凡子群,
-	故 `|G|` 为素数.
+	映射的良定义验证:
+	<span class="formula">
+		`a_1 H = a_2 H`, `b_1 H = b_2 H`
+		`rArr (a_1 b_1) H = a_1 (b_1 H)`
+		`= a_1 (b_2 H) = a_1 (H b_2)`
+		`= (a_1 H) b_2 = (a_2 H) b_2`
+		`= a_2 (H b_2) = a_2 (b_2 H)`
+		`= (a_2 b_2) H`.
+	</span>
+	群的验证:
+	封闭性: 显然; 幺元: `H`; 逆元: `(a H)^-1 = a^-1 H`;
+	结合律: `(a H*b H)*c H = (a b)c H = a(b c)H = a H*(b H*c H)`.
 </p>
+
+<p class="corollary">
+	设群 `H normal G`, 则 `G//H = {bar e} iff H = G`.
+</p>
+
+<p class="corollary" id="factor-group-surject-homomorphism">
+	设群 `H normal G`,
+	映射 `eta: a in G to a H in G//H` 是满同态, 称为<b>自然同态</b>.
+</p>
+
+<p class="corollary">
+	若群 `K, H normal G`, `K le H` (从而 `K normal H`),
+	则由同态像保持了正规子群关系知,
+	`H//K normal G//K`.
+</p>
+
+<p class="corollary">
+	由 Lagrange 定理, 当 `|G| lt oo` 时 `|G // H| = |G| // |H|`.
+</p>
+
+<p class="remark">
+	商群相关的映射, 常常需要验证其映射的良定义. 不过,
+	商群相关的映射又常常显然是满射. 这就简化了证明.
+</p>
+
+<h2>群同态基本定理, 两个同构定理</h2>
+
+<p class="lemma">
+	令 `f: G to H` 为一群同态映射, 则 `f`
+	可分解为一群满同态映射 `h` 和一群单同态 `g` 映射的合成, 即
+	`f = g @ h`.
+</p>
+
+<p class="proof">
+	构造性证明:
+	易知 `"Ker"f normal G`. 作
+	<span class="formula">
+		`h: a in G to a "Ker"f in G//"Ker"f`,<br/>
+		`g: a "Ker"f in G//"Ker"f to f(a) in H`.
+	</span>
+	则由<a class="ref" href="#factor-group-surject-homomorphism"></a>,
+	`h` 为一满同态. 而 `g` 为一单同态. 事实上, 由
+	<span class="formula">
+		`a "Ker"f = b "Ker"f`
+		`iff f(a) = f(b)`
+		`iff g(a "Ker"f) = g(b "Ker"f)`
+	</span>
+	知, `g` 为一映射, 且为单射, 另外
+	<span class="formula">
+		`g(a"Ker"f * b"Ker"f)`
+		`= g((a b)"Ker"f) = f(a b)`
+		`= f(a) f(b) = g(a"Ker"f) g(b"Ker"f)`,
+	</span>
+	所以 `g` 为一同态.
+	最后, 容易看出 `f = g @ h`.
+</p>
+
+<p class="remark">
+	联系集合论中的定理: 令 `f: A to B` 为一映射, 则 `f` 可分解为一满射 `h:
+	A to C` 和一单射 `g: C to B` 的合成, 即 `f = g @ h`.
+</p>
+
+<p class="theorem">
+	<b>群同态基本定理</b>
+	令 `f: G to H` 为一群同态映射, 则
+	<span class="formula">
+		`G//"Ker"f ~= "Im"f`.
+	</span>
+</p>
+
+<p class="proof">
+	由引理, `f` 有分解 `f = g @ h`, `g` 是到 `"Im"f` 的满射. 因此
+	`g` 为到 `"Im"f` 的同构映射.
+</p>
+
+<p class="lemma">
+	令 `f: G to H` 为一群同态映射, 则 `AA G' le G`,
+	`f^-1(f(G')) = G'` 当且仅当 `"Ker"f le G'`.
+</p>
+
+<p class="proof">
+	若 `f^-1(f(G')) = G'`,
+	显然 `"Ker"f` 为一群, 因此只需证 `"Ker"f sube G'`.  则
+	<span class="formula">
+		`"Ker"f = f^-1(e_H) sube f^-1(f(G')) = G'`.
+	</span>
+	反之, 令 `"Ker"f le G'`.
+	由集合论的知识知道, 恒成立 `f^-1(f(G')) supe G'`,
+	因此只需证 `f^-1(f(G')) sube G'`.
+	`AA a in f^-1(f(G'))`, 存在 `b in G'`, 使 `f(a) = f(b)`,
+	从而 `e_H = f(a)f(b)^-1 = f(a b^-1)`, 即 `a b^-1 in "Ker"f le G'`,
+	因此 `a = (a b^-1) b in G'`, 即 `f^-1(f(G')) sube G'`.
+</p>
+
+<p class="lemma" id="lem-ker-in-g">
+	令 `f: G to H` 为一群满同态映射,
+	<span class="formula">
+		`S = {G' | G' le G and "Ker"f le G'}`,<br/>
+		`S' = {H' | H' le H}`.
+	</span>
+	则 `|S| = |S'|`, 即 `G` 中含 `"Ker"f` 的子群与 `H` 中的子群一一对应.
+</p>
+
+<p class="proof">
+	作 `eta: G' in S to f(G') in S'`,
+	则由子群在群同态映射下的像也为一子群知, `eta` 为一映射.
+	任取 `H' in S'`, 则 `f^-1(H') in S` (注意 `"Ker"f = f^-1(e_H)
+	sube f^-1(H')`),
+	且由 `f` 为满射知, `f(f^-1(H')) = H'`. 故 `eta` 为一满射.
+	根据<a class="ref" href="#lem-ker-in-g"></a>,
+	<span class="formula">
+		`f(G_1) = f(G_2) iff f^-1(f(G_1)) = f^-1(f(G_1))`
+		`iff G_1 = G_2`.
+	</span>
+	从而 `eta` 为一单射, 于是 `eta` 为一双射.
+</p>
+
+<p class="remark">
+	由正规子群在满同态映射下的像和原像也是正规子群知,
+	将上述引理的子群换成正规子群, 结论也成立.
+</p>
+
+<p class="theorem">
+	<b>第一同构定理</b>
+	令 `f` 是群 `G` 上的同态映射, `H` 是 `G` 的含 `"Ker"f` 的正规子群,
+	则
+	<span class="formula">
+		`G//H ~= f(G)//f(H)`.
+	</span>
+</p>
+
+<p class="proof">
+	显然 `f(H) normal f(G)`. 作
+	`eta: a H in G//H to f(a) f(H) in f(G)//f(H)`.
+	由
+	<span class="formula">
+		`a H = b H`
+		`iff a^-1 b in H`
+		`iff f(a^-1 b) in f(H)`
+		`iff f(a)^-1 f(b) in f(H)`
+		`iff f(a) f(H) = f(b) f(H)`
+	</span>
+	(其中由 `f(a^-1 b) in f(H)` 得出 `a^-1 b in H`, 利用了<a class="ref"
+	href="#lem-ker-in-g"></a>)
+	知, `eta` 为一映射, 且为一单射. 又显然 `eta` 为满射. 从而 `eta`
+	为一双射. 又
+	<span class="formula">
+		`eta(a H b H) = eta((a b) H) = f(a b)f(H)`
+		`= (f(a)f(b)) f(H) = (f(a)f(H))(f(b)f(H)) = eta(a H)eta(b H)`.
+	</span>
+	因此 `eta` 为一同构映射.
+</p>
+
+<p class="corollary">
+	<b>商群同构定理</b>
+	令 `G` 为一群, `K, H normal G`, `K le H`. 则
+	<span class="formula">
+		`G//H ~= (G//K)//(H//K)`.
+	</span>
+</p>
+
+<p class="proof">
+	由条件知 `K normal H`. 取满同态 `f: g in G to g K in G//K`,
+	则 `"Ker"f = f^-1(e K) = K sube H`.
+	应用第一同构定理即得结论.
+</p>
+
+<p class="corollary">
+	设群 `K, H normal G`, `K le H`, 则
+	<span class="formula">
+		`H//K = G//K iff H = G`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>第二同构定理</b>
+	令 `G` 为一群, `H normal G`, `K le G`. 则
+	<span class="formula">
+		`K H//H ~= K//(K nn H)`.
+	</span>
+</p>
+
+<p class="remark">
+	易知 `K nn H normal K nn G = K`, `K H le G`. 显然 `H le K H`, 从而由
+	`H normal G` 知 `H normal K H`.
+</p>
+
+<p class="proof">
+	`AA k in K, h in H`, `(k h) H = k (h H) = k H`. 作
+	<span class="formula">
+		`f: k H in K H//H to k(K nn H) in K//(K nn H)`.
+	</span>
+	由
+	<span class="formula">
+		`k_1 H = k_2 H`
+		`iff k_1^-1 k_2 in H`
+		`iff k_1^-1 k_2 in H nn K`
+		`iff k_1 (H nn K) = k_2 (H nn K)`
+	</span>
+	知, `f` 为一映射, 且为一单射. 显然 `f` 为一满射, 从而 `f` 为一双射.
+	又
+	<span class="formula">
+		`f(k_1 H k_2 H) = f(k_1 k_2 H) = k_1 k_2 (K nn H)`
+		`= k_1(K nn H) k_2 (K nn H) = f(k_1 H) f(k_2 H)`,
+	</span>
+	故 `f` 为一同态映射, 从而 `f` 为一同构映射.
+</p>
+
+<p class="proof">
+	作满同态 `varphi: k in K to k H in K H // H`, 又 `AA k in K`,
+	`k in "Ker"varphi iff k H = H`
+	`iff k in H iff k in H nn H`,
+	从而 `"Ker"varphi = K nn H`. 于是由同态基本定理即得结论.
+</p>
+
+<h2>群的直积</h2>
+
+<h3>内直积</h3>
+
+<p class="definition">
+	令 `G` 为一群, `G_1, G_2 normal G`. 若
+	`G = G_1 G_2`, 且 `G` 的任一元素表为 `G_1, G_2` 中元素乘积的方式惟一,
+	则称 `G` 是 `G_1, G_2` 的<b>内直积</b>. 特别当 `G` 为 Abel 群时,
+	内直积也称为<b>内直和</b>.
+</p>
+
+<p class="remark">
+	线性空间的直和就是群的内直积的一个例子.
+</p>
+
+<ol class="corollary">
+	<b>内直积的等价条件</b>
+	设 `e` 是群 `G` 的幺元, `G_1, G_2 normal G`, 且 `G = G_1 G_2`.
+	则以下各款等价:
+	<li>`G` 是 `G_1, G_2` 的内直积;</li>
+	<li>`G` 中存在一元素, 表为 `G_1, G_2` 中元素乘积的方式惟一;</li>
+	<li>`G` 的幺元表为 `G_1, G_2` 中元素乘积的方式是惟一的, 即 `e = e e`;
+	</li>
+	<li>`G_1 nn G_2 = {e}`.</li>
+</ol>
+
+<ol class="proof">
+	<li>`rArr` 2. 显然.</li>
+	<li>`rArr` 3. 设 `g = g_1 g_2` 是元素 `g in G` 的惟一分解, 其中 `g_1
+		in G_1`, `g_2 in G_2`.
+		设 `e = a b`, 其中 `a in G_1`, `b in G_2`, 则
+		<span class="formula">
+			`g = g_1 g_2 e = g_1 g_2 a b = g_1 (g_2 a g_2^-1) g_2 b`,
+		</span>
+		其中 `g_1 (g_2 a g_2^-1) in G_1`, `g_2 b in G_2`.
+		由 `g = g_1 g_2` 是惟一分解知
+		`g_1(g_2 a g_2^-1) = g_1`, `g_2 b = g_2`.
+		从而 `a = b = e`.
+	</li>
+	<li>`rArr` 4. 若 `g in G_1 nn G_2`,
+		由 `G_1 nn G_2 le G` 知 `g^-1 in G_1 nn G_2`,
+		于是 `e = g g^-1`. 但 `e = e e` 是幺元的惟一分解,
+		所以 `g = e`.
+	</li>
+	<li>`rArr` 1. 设存在元素 `g = g_1 g_2 = h_1 h_2`,
+		其中 `g_1, h_1 in G_1`, `g_2, h_2 in G_2`.
+		则 `h_1^-1 g_1 = h_2 g_2^-1 in G_1 nn G_2`,
+		由 `G_1 nn G_2 = {e}` 知, `h_1 = g_1`, `h_2 = g_2`.
+	</li>
+</ol>
+
+<p class="theorem">
+	令群 `G` 是 `G_1, G_2` 的内直积, 则 `G_1, G_2` 之间元素的乘积可交换,
+	即
+	<span class="formula">
+		`(AA g_1 in G_1, g_2 in G_2)`
+		`g_1 g_2 = g_2 g_1`.
+	</span>
+</p>
+
+<p class="proof">
+	(利用换位子的概念, 见可解群一节) `AA g_1 in G_1, g_2 in G_2`,
+	由 `G_1, G_2 normal G` 知
+	<span class="formula">
+		`g_1 g_2 g_1^-1 g_2^-1 = g_1 (g_2 g_1^-1 g_2^-1) in G_1`,<br/>
+		`g_1 g_2 g_1^-1 g_2^-1 = (g_1 g_2 g_1^-1) g_2^-1 in G_2`.
+	</span>
+	从而 `g_1 g_2 g_1^-1 g_2^-1 in G_1 nn G_2`,
+	因此 `g_1 g_2 g_1^-1 g_2^-1 = e`, 即 `g_1 g_2 = g_2 g_1`.
+</p>
+
+<h3>外直积</h3>
+
+<p class="definition">
+	令 `G_1`, `G_2` 为两个群, 定义 `G_1 xx G_2` 上的二元合成 `*` 如下:
+	<span class="formula">
+		`(a, b) * (c, d) -= (a c, b d)`.
+	</span>
+	可以验证 `(G_1 xx G_2, *)` 成一群, 称其为群 `G_1, G_2` 的 <b>(外)
+	直积</b>. 特别当 `G_1, G_2` 为 Abel 群时, `G_1 xx G_2` 也为 Abel 群,
+	直积也称为 <b>(外) 直和</b>, 也记为 `G_1 o+ G_2`.
+</p>
+
+<p class="remark">
+	虽然形式上与平面向量的内积相似, 这种运算却被称作群的 "外" 直积!
+	当然, 后面将要证明外直积与内直积在同构意义上是一致的.
+</p>
+
+<ol class="theorem">
+	设 `e_1, e_2` 分别为群 `G_1, G_2` 的幺元. 定义
+	<span class="formula">
+		`bar G_1 = {(a, e_2) | a in G_1}`,
+		`bar G_2 = {(e_1, b) | b in G_2}`.
+	</span>
+	则
+	<li>`G_1 ~= bar G_1`, `G_2 ~= bar G_2`;</li>
+	<li>`G_1 xx G_1` 是 `bar G_1, bar G_2` 的内直积.</li>
+</ol>
+
+<ol class="proof">
+	<li>作 `varphi: g in G_1 to (g, e_2) in bar G_1`, 显然 `varphi`
+		为一双射. 又 `AA g, h in G_1`,
+		<span class="formula">
+			`varphi(g h) = (g h, e_2) = (g, e_2) (h, e_2) = varphi(g)
+			varphi(h)`.
+		</span>
+		从而 `varphi` 为一同态. 因此 `varphi` 是同构映射, 从而 `G_1 ~= bar
+		G_1`. 同理 `G_2 ~= bar G_2`.
+	</li>
+	<li>由 1. 知, `bar G_1, bar G_2 le G_1 xx G_2`.
+		又 `AA (g_1, g_2) in G_1 xx G_2`, `(g, e_2) in bar G_1`,
+		<span class="formula">
+			`(g_1, g_2)(g, e_2)(g_1, g_2)^-1`
+			`= (g_1, g_2)(g, e_2)(g_1^-1, g_2^-1)`
+			`= (g_1 g g_1^-1, g_2 e_2 g_2^-1)`
+			`= (g_1 g g_1^-1, e_2) in bar G_1`.
+		</span>
+		因此 `bar G_1 normal G_1 xx G_2`, 同理 `bar G_2 normal G_1 xx
+		G_2`.</br>
+		显然 `G_1 xx G_2 supe bar G_1 bar G_2`; 另一方面,
+		`AA (a, b) in G_1 xx G_2`, `(a, b) = (a, e_2) xx (e_1, b)`.
+		所以 `G_1 xx G_2 = bar G_1 bar G_2`, 且 `G_1 xx G_2`
+		中的任意元素表为 `bar G_1, bar G_2` 中元素乘积的方式惟一.
+	</li>
+</ol>
+
+<p class="theorem">
+	令群 `G` 是 `G_1, G_2` 的内直积, 则 `G ~= G_1 xx G_2`.
+</p>
+
+<ol class="proof">
+	<li>作映射 `varphi (g_1, g_2) in G_1 xx G_2 to g_1 g_2 in G`.
+		由于 `G` 中元素都能表为 `G_1, G_2` 中元素乘积, 所以 `varphi`
+		为一满射. 再由 `G` 中元素表为 `G_1, G_2` 中元素乘积的惟一性,
+		<span class="formula">
+			`varphi(g_1, g_2) = varphi(h_1, h_2)`
+			`iff g_1 g_2 = h_1 h_2`
+			`iff g_1 = h_1 and g_2 = h_2`
+			`iff (g_1, g_2) = (h_1, h_2)`.
+		</span>
+		从而 `varphi` 为一单射.
+		(注: 这里的证明体现了集合论中 "满射决定原像存在性,
+		单射决定原像惟一性" 的道理)
+	</li>
+	<li>`AA (g_1, g_2), (h_1, h_2) in G_1 xx G_2`,
+		注意到 `G_1, G_2` 之间元素的乘积可交换, 于是
+		<span class="formula">
+			`varphi((g_1, g_2)(h_1, h_2))`
+			`= varphi(g_1 h_1, g_2 h_2)`
+			`= g_1 h_1 g_2 h_2`
+			`= g_1 g_2 h_1 h_2`
+			`= varphi(g_1, g_2) varphi(h_1, h_2)`.
+		</span>
+		于是 `varphi` 为一同态映射, 从而是同构映射.
+	</li>
+</ol>
+
+<p class="remark">
+	有时对内, 外直积不加区分, 都称作直积, 记为 `G_1 xx G_2`.
+	最后, 直积的概念容易推广到多个群的情形.
+</p>
+
+<h2>1 到 10 阶群的结构</h2>
 
 </body>
 

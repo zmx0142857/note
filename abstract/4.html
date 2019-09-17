@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>群 (下)</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>可解群</h2>
+
+<h3>单群</h3>
+
+<p class="definition">
+	设 `G` 为非平凡群, 称 `G` 为<b>单群</b>, 如果它
+	只有平凡的正规子群 `{e}` 和 `G`, 即
+	<span class="formula">
+		`H normal G rArr H = {e} or H = G`.
+	</span>
+	其中 `e` 为 `G` 的幺元.
+</p>
+
+<p class="theorem" id="the-simple-abel-is-prime-cyclic-group">
+	Abel 群 `G` 为一单群当且仅当它为一素数阶循环群.
+</p>
+
+<p class="proof">
+	因为 Abel 群的每个子群都是正规子群, 所以 `G`
+	为一单群当且仅当它没有非平凡的子群, 从而当且仅当 `G` 为一素数阶循环群.
+	事实上, 由 Lagrange 定理, 素数阶循环群显然无非平凡子群. 另一方面,
+	由 `G` 无非平凡子群知 `G` 中非幺元都是 `|G|` 阶的, 故 `G` 为循环群
+	`(:a:)`.  若 `|G| = mn`, `m, n gt 1`, 则 `(:a^m:)` 为一非平凡子群,
+	故 `|G|` 为素数.
+</p>
+
+<p class="theorem">
+	单群在群同态映射下的像也为一单群.
+</p>
+
+<p class="proof">
+	不妨设 `f: G to G'` 为一群满同态 (否则 `f` 是到 `f(G)` 上的满同态).
+	取 `G'` 的正规子群 `N' != {e'}`,
+	则 `f^-1(N') normal G`, 但 `G` 为单群, 故 `f^-1(N')` 等于 `{e}` 或
+	`G`.  但由 `f` 是满射知道, `N' = f(f^-1(N')) != {e'}`, 故只能
+	`f^-1(N') = G`. 再由 `f` 是满射,
+	`N' = f(f^-1(N')) = f(G) = G'`.
+	所以 `G'` 为单群.
+</p>
+
+<p class="theorem">
+	`n ge 5` 时, `A_n` 为单群.
+</p>
+
+<ol class="proof">
+	令 `H normal A_n`, `H != {(1)}`. 下证 `H = A_n`.
+	<li>先证 `H` 中含有一 `3`-轮换. 我们通过考察 `H`
+		中元素的不动点数来证明它.
+		令 `tau in A_n`.  称 `i` 为 `tau` 的一个不动点, 如果 `tau(i) = i`.
+		`tau` 的不动点数记为 `f(tau)`. 又令 `pi` 是 `H`
+		中不动点数最多的非幺元, 下证 `f(pi) = n-3`. 事实上
+		由对换为奇置换知 `f(pi) != n-2`, 从而 `f(pi) le n-3`.
+		假设 `f(pi) lt n-3`. 由于 `pi` 能分解成互不相交的轮换的乘积, 于是
+	</li>
+	<li>若 `pi` 的分解式中只有对换, 则 `pi^-1 = pi`.
+		由于 `pi` 至少使 `3` 个点发生了移动,
+		不妨令 `pi = (12)(34) cdots`.
+		取 `sigma = (345) in A_n`. 显然除了 `5`, `pi` 的不动点也是
+		<span class="formula">
+			`tau := pi^-1 sigma pi sigma^-1 = pi (12)(45) cdots in H`
+		</span>
+		的不动点. 显然 `tau != (1)`, 否则推出 `pi = pi^-1 = sigma`.
+		又 `tau(1) = 1`, `tau(2) = 2`,
+		而 `pi(1) = 2`, `pi(2) = 1`, 因此 `f(tau) gt f(pi)`, 一个矛盾.
+	</li>
+	<li>若 `pi` 的分解式中至少有一 `k`-轮换, `k ge 3`,
+		不妨令 `pi = (123 cdots)cdots`.
+		若 `f(pi) = n-4`, 则不妨令 `4` 也不是不动点, 从而
+		<span class="formula">
+			`pi = (1234) = (14)(13)(12) !in A_n`,
+		</span>
+		一个矛盾.
+		若 `f(pi) le n-5`, 则不妨令 `4, 5` 也不是不动点.
+		令 `sigma = (345) in A_n`. 显然 `pi` 的不动点也是
+		<span class="formula">
+			`tau := pi^-1 sigma pi sigma^-1`
+			`= (pi^-1(3), pi^-1(4), pi^-1(5)) sigma^-1 in H`
+		</span>
+		的不动点.  显然 `tau != (1)`.  又 `tau(1) = 1`, 从而 `f(tau) gt
+		f(pi)`, 一个矛盾.
+		因此, `f(pi) = n-3`, 即 `pi` 为一 `3`-轮换.
+	</li>
+	<li>下证 `H` 含所有 `3`-轮换. 不妨令 `pi = (123)`, 则关于任意 `(i j
+		k) in A_n`, 取置换
+		<span class="formula">
+			`delta = (
+			(1," "2," "3, 4, cdots, n),
+			(i," "j," "k, delta(4), cdots, delta(n))
+		)`,</span>
+		则 `(i j k) = delta (123) delta^-1`.
+		若 `delta` 为一偶置换, 则取 `varphi := delta`.
+		若 `delta` 为一奇置换, 则 `varphi := delta (45)` 为一偶置换, 且
+		`varphi (123) varphi^-1 = (i j k)`.
+		总之存在 `varphi in A_n`, 使得 `(i j k) = varphi pi varphi^-1 in
+		H`.
+		由于 `A_n` 由全体 `3`-轮换生成, 所以 `H = A_n`.
+	</li>
+</ol>
+
+<h3>导群</h3>
+
+<p class="definition">
+	令 `G` 为一群, `a, b in G`, 定义
+	<span class="formula">
+		`[a, b] := a^-1 b^-1 a b`
+	</span>
+	为 `a, b` 确定的<b>换位子</b>. 又称由 `G` 中全体换位子生成的子群为 `G`
+	的<b>导群 (或换位子群)</b>, 记为
+	<span class="formula">
+		`G' := (: [a, b] | a, b in G:)`.
+	</span>
+	还可以规定高阶导群
+	<span class="formula">
+		`G^((0)) = G`,
+		`quad G^((i+1)) = (G^((i)))'`, `i = 0, 1, 2, cdots`.
+	</span>
+</p>
+
+<p class="corollary">
+	<span class="formula">
+		`a b = b a[a, b]`, `quad [a, b]^-1 = [b, a]`.
+	</span>
+</p>
+
+<ol class="corollary">
+	设 `e` 为群 `G` 的幺元, `a, b in G`. 则
+	<li>`a b = b a` 当且仅当 `[a, b] = e`;</li>
+	<li>`G` 为一 Abel 群当且仅当 `G' = {e}`.</li>
+</ol>
+
+<p class="corollary">
+	令 `G` 为一群, 则 `G' normal G`.
+</p>
+
+<p class="proof">
+	`AA [a, b] in G'`, `g in G`,
+	<span class="formula">
+		`g[a, b]g^-1`
+		`= g a^-1 b^-1 a b g^-1`
+		`= g a^-1 (g^-1 g) b^-1 (g^-1 g) a (g^-1 g) b g^-1`
+		`= (g a^-1 g^-1) (g b^-1 g^-1) (g a g^-1) (g b g^-1)`
+		`= [g a g^-1, g b g^-1] in G'`.
+	</span>
+	从而 `G' normal G`.
+</p>
+
+<p class="corollary">
+	`S_n' normal A_n`.
+</p>
+
+<p class="proof">
+	先证 `S_n' le A_n`. 这是因为 `S_n` 的任一换位子是偶置换.
+	任取换位子 `a^-1 b^-1 a b`, 由 `a, a^-1`; `b, b^-1` 的奇偶性分别相等知
+	`a^-1 b^-1 a b in A_n`.
+	再由 `S_n' normal S_n` 有 `S_n' normal A_n`.
+</p>
+
+<h3>可解群</h3>
+
+<p class="definition">
+	设 `e` 为群 `G` 的幺元. 称 `G` 为一<b>可解群</b>, 如果
+	存在非负整数 `n`, 使
+	<span class="formula">
+		`G^((n)) = {e}`.
+	</span>
+</p>
+
+<ol class="corollary">
+	<li>若 `G'` 是可解群, 则 `G` 也是可解群;</li>
+	<li>若非平凡群 `G` 是可解群, 则 `G' != G`.</li>
+	<li>有限群 `G` 不可解的充要条件是存在非负整数 `i`, 使
+		`G^((i+1)) = G^((i)) != {e}`;
+	</li>
+	<li>Abel 群是可解群;</li>
+	<li>可解单群是素数阶循环群.</li>
+</ol>
+
+<ol class="proof">
+	<li>由定义显然.</li>
+	<li>显然.</li>
+	<li>充分性显然, 下证必要性.
+		假设对任意非负整数 `i`, `G^((i+1)) != G^((i))`, 则由
+		`G^((i+1)) le G^((i))` 知 `|G^((i+1))| lt |G^((i))|`, 但群 `G`
+		有限, 这是不可能的. 所以必存在非负整数 `i` 使 `G^((i+1)) =
+		G^((i))`. 由 `G` 不可解知 `G^((i+1)) = G^((i)) != {e}`.
+	</li>
+	<li>设 `G` 为 Abel 群, 则 `G' = {e}`.</li>
+	<li>令 `G` 是可解群, 则 `G' != G`.
+		若 `G` 为单群, 则 `G' = {e}`.
+		因此 `G` 是 Abel 群, 从而由<a class="ref"
+		href="#the-simple-abel-is-prime-cyclic-group"></a>,
+		是素数阶循环群.
+	</li>
+</ol>
+
+<p class="remark">
+	素数阶群是循环群; 循环群是 Abel 群; Abel
+	群是可解群; 可解单群是素数阶循环群.
+</p>
+
+<ol class="example">
+	<b>`A_n` 的可解性</b>
+	<li>`A_1, A_2` 为平凡群, 因此为可解群;</li>
+	<li>`A_3 = {(1), (123), (132)}` 为素数阶群, 也是可解群;</li>
+	<li>`A_4` 是可解群; 用换位子的定义计算可得 `A_4' = K_4`.
+		而 `K_4` 是 Abel 群, 因此是可解群.
+	</li>
+	<li>`n ge 5` 时, `A_n` 不是可解群.
+		因为 `n ge 5` 时 `A_n` 为一单群, 其正规子群 `A_n' = {e}` 或 `A_n`,
+		然而 `n ge 4` 时 `A_n` 不是 Abel 群, 所以 `A_n' != {e}`, `A_n' =
+		A_n`. 从而关于任意非负整数 `k`, `A_n^((k)) = A_n`.
+	</li>
+</ol>
+
+<ol class="example">
+	<b>`S_n` 的可解性</b>
+	<li>`S_1, S_2` 是 Abel 群, 因此为可解群.</li>
+	<li>`S_3` 是可解群.
+		3 阶群 `A_3` 的子群 `S_3'` 的阶只能是 1 或 3.
+		若 `|S_3'| = 1`, 则 `S_3` 为 Abel 群, 矛盾; 所以 `|S_3'| = 3`,
+		即 `S_3' = A_3`. 而 `A_3` 是可解群.
+	</li>
+	<li>`S_4` 是可解群; 因为 `S_4' le A_4`, 反之可以验证,
+		`A_4` 的任一元素都为 `S_4` 的换位子, 故 `S_4' = A_4`.
+		而 `A_4` 是可解群.
+	</li>
+	<li>`n ge 5` 时, `S_n` 不是可解群.
+		注意到 `S_n' normal A_n`, 且 `n ge 3` 时 `S_n` 不是 Abel 群,
+		所以 `S_n' = A_n`. 但是 `A_n` 的任意阶导群都是自己, 所以 `S_n`
+		不是可解群.
+	</li>
+</ol>
+
+<table>
+	<caption>`S_n` 的各阶导群</caption>
+	<tr>
+		<td></td>
+		<td>`'`</td>
+		<td>`''`</td>
+		<td>`'''`</td>
+	</tr>
+	<tr>
+		<td>`S_1`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_2`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_3`</td>
+		<td>`A_3`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_4`</td>
+		<td>`A_4`</td>
+		<td>`K_4`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_5`</td>
+		<td>`A_5`</td>
+		<td>`A_5`</td>
+		<td>`A_5`</td>
+	</tr>
+</table>
+
+<p class="remark">
+	在 Galois 理论中, 我们将利用 `n ge 5` 时 `S_n` 不是可解群这一结论,
+	说明五次及以上方程没有根式解.  这一推理过程是非常巧妙的.
+</p>
+
+<ol class="theorem">
+	`G` 为一群, `n` 为非负整数,
+	<li>`H le G` `rArr H^((n)) le G^((n))`.</li>
+	<li>`varphi` 是 `G` 上的群同态, 则
+		`(varphi(G))^((n)) = varphi(G^((n)))`;
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>因为 `H le G`, `H` 的换位子都是 `G` 的换位子, 从而 `H' le G'`.
+		由数学归纳法可证 `H^((n)) le G^((n))`.
+	</li>
+	<li>`AA a, b in G`, `[varphi(a), varphi(b)] = varphi[a, b]`,
+		从而 `(varphi(G))' = varphi(G')`.
+		由数学归纳法可证 `(varphi(G))^((n)) = varphi(G^((n)))`.
+	</li>
+</ol>
+
+<ol class="corollary">
+	<li>可解群的子群是可解群.</li>
+	<li>可解群的同态像是可解群;</li>
+</ol>
+
+<ol class="corollary">
+	令 `G` 为一群, `N normal G`, 则
+	<li>若 `G` 可解, 则 `G//N` 可解;</li>
+	<li>若 `N`, `G//N` 可解, 则 `G` 可解.</li>
+</ol>
+
+<ol class="proof">
+	<li>`G//N` 是 `G` 在自然同态 `eta: g in G to g N in G//N` 下的像,
+		因而可解.
+	</li>
+	<li>因为 `N`, `G//N` 都可解, 存在非负整数 `s, t`, 使
+		<span class="formula">
+			`N^((s)) = {e}`, `quad (G//N)^((t)) = {bar e}`.
+		</span>
+		其中 `e, bar e` 分别为 `N, G//N` 的幺元.
+		因为 `G//N` 是 `G` 在自然同态 `eta` 下的像, 故对非负整数 `t`, 有
+		<span class="formula">
+			`{bar e} = (G//N)^((t)) = (eta(G))^((t))`
+			`= eta(G^((t))) = (G^((t)) N)//N`.
+		</span>
+		(注意未必有 `N normal G^((t))`, 因为未必有 `N le G^((t))`;
+		但一定有 `N normal G^((t)) N`, 这是因为 `G^((t)) N = N G^((t))`,
+		故 `N le G^((t)) N le G`, 又 `N normal G`)
+		因此 `G^((t)) N = N`, 从而 `G^((t)) le N`.
+		于是 `G^((s+t)) le N^((s)) = {e}`, 即 `G` 可解.
+	</li>
+</ol>
+
+<h3>子群列</h3>
+
+<p class="definition">
+	令 `G` 为非平凡群, `M &#8882; G` (即 `M normal G` 且 `M != G`).
+	称 `M` 为 `G` 的一个<b>极大正规子群</b>, 如果包含 `M` 的 `G`
+	的正规子群只有 `M` 和 `G`, 即
+	<span class="formula">
+		`(AA N normal G)` `M sub N rArr N = G`.
+	</span>
+</p>
+
+<p class="corollary">
+	任意非平凡有限群 `G` 都有极大正规子群.
+</p>
+
+<p class="proof">
+	`|G| = 2` 时, `{e}` 即是 `G` 的极大正规子群; `|G| = n gt 2` 时,
+	任取 `M_1 &#8882; G`, 若 `M_1` 不极大, 则存在 `M_2 &#8882; G`,
+	`M_1 sub M_2`. 这蕴含 `|M_1| lt |M_2|`. 若 `M_2` 不极大, 类似可得
+	`M_3, M_4, cdots`, 且 `|M_1| lt |M_2| lt |M_3| lt cdots`. 但 `|G|`
+	有限, 这一序列也有限, 所以存在 `G` 的极大正规子群.
+</p>
+
+<p class="theorem">
+	若群 `M &#8882; G`, 则 `M` 为 `G` 的一个极大正规子群当且仅当
+	`G//M` 为一单群.
+</p>
+
+<p class="proof">
+	充分性: 任取 `N normal G`, 且 `M sub N`,
+	由 `M &#8882; G` 知 `M &#8882; N`.
+	考察 `N//M = {n M | n in N} le G//M`. 因为 `N normal G`, 所以
+	`N//M normal G//M`, 但 `G//M` 为单群, 又由 `M sub N`,
+	`N//M != {M}`, 故 `N//M = G//M`, 即 `N = G`.<br/>
+	必要性: 作自然同态 `eta: g in G to g M in G//M`.
+	取 `H normal G//M`, 且 `H != {M}`, 又记 `K = eta^-1(H) normal G`.
+	由 `{M} sub H`, `M = eta^-1({M}) sub eta^-1(H) = K`.
+	但 `M` 是极大正规子群, 故 `K = G`, `H = eta(K) = G//M`.
+</p>
+
+<p class="definition">
+	令 `G` 为非平凡群, `k ge 1`. 称 `G` 的子群列
+	<span class="formula">
+		`G = G_0 &#8883; G_1 &#8883; cdots &#8883; G_k = {e}`
+	</span>
+	为 `G` 的一个长度为 `k` 的<b>合成群列</b>,
+	如果各个<b>合成因子</b> `G_i//G_(i+1)` 为一单群,
+	`i = 0, 1, cdots, k-1`.
+</p>
+
+<p class="remark">
+	`G_i//G_(i+1)` 为单群, 则 `G_(i+1)` 为 `G_i` 的一个极大正规子群.
+	这保证了合成群列中不能再插入其他子群.
+</p>
+
+<p class="corollary">
+	任意非平凡有限群 `G` 有合成群列.
+</p>
+
+<p class="proof">
+	`|G| = 2` 时, `G &#8883; {e}` 即为 `G` 的一个合成群列.
+	`|G| = n gt 2` 时, 假设阶小于 `n` 的非平凡有限群有合成群列, 考查阶为
+	`n` 的情形. 若 `G` 为单群, 则 `G &#8883; {e}` 为 `G` 的一个合成群列;
+	否则取 `G` 的极大正规子群 `M`, 显然 `1 lt |M| lt |G|`. 由归纳假设,
+	`M` 有合成群列. 又 `G//M` 为单群, 可以将 `G` 加入到 `M` 的合成群列中,
+	成为 `G` 的一个合成群列.
+</p>
+
+<p class="definition">
+	令 `G` 为一群, `k ge 1`, 称 `G` 的子群列
+	<span class="formula">
+		`G = G_0 &#8885; G_1 &#8885; cdots &#8885; G_k = {e}`
+	</span>
+	为 `G` 的一个长度为 `k` 的<b>次正规群列</b>,
+	`G_i//G_(i+1)` 称为 `G` 的<b>次正规因子</b>;
+	若进一步 `G_i normal G`, 则上述群列称为 `G` 的<b>正规群列</b>,
+	`G_i//G_(i+1)` 称为 `G` 的<b>正规因子</b>; `i = 0, 1, cdots, k-1`.
+</p>
+
+<p class="corollary">
+	合成群列是次正规群列, 正规群列是次正规群列.
+</p>
+
+<h3>利用特征子群给出可解群的等价条件</h3>
+
+<p class="definition">
+	设群 `H le G`, 如果对 `G` 上任意自同构映射 `sigma` (即 `sigma in
+	"Aut"(G)`), 有
+	<span class="formula">
+		`sigma(H) = H`.
+	</span>
+	则称 `H` 为 `G` 的一个<b>特征子群</b>, 记为 `H" char "G`.
+	换言之, `H" char "G` 当且仅当对任意 `sigma in "Aut"(G)`, 都有
+	`sigma|_H in "Aut"(H)`.
+</p>
+
+<ol class="example">
+	<li>`{e}" char "G`, `G" char "G`. 称 `{e}, G` 为 `G` 的平凡特征子群.
+	</li>
+	<li>`Z(G)" char "G`.</li>
+</ol>
+
+<ol class="proof">
+	<li>显然.</li>
+	<li>由 `sigma` 为满同态, `AA sigma(g) in G, x in Z(G)`,
+		<span class="formula">
+			`sigma(g) sigma(x) = sigma(g x) = sigma(x g) = sigma(x)
+			sigma(g)`,
+		</span>
+		故 `sigma(x) in Z(G)`, 即 `sigma(Z(G)) sube Z(G)`.<br/>
+		另一方面, `AA sigma(x) in Z(G), g in G`,
+		<span class="formula">
+			`sigma(x g) = sigma(x) sigma(g) = sigma(g) sigma(x) = sigma(g
+			x)`,
+		</span>
+		由 `sigma` 为单射知 `x g = g x`. 故 `x in Z(G)`, 即
+		`sigma^-1(Z(G)) sube Z(G)`, 从而 `Z(G) = sigma(sigma^-1(Z(G)))
+		sube sigma(Z(G))`.
+	</li>
+</ol>
+
+<p class="corollary">
+	特征子群是正规子群.
+</p>
+
+<p class="proof">
+	取 `sigma: h in H to g h g^-1 in G` 即可.
+</p>
+
+<p class="corollary">
+	<b>特征子群的传递性</b>
+	设群 `K" char "H" char "G`, 则 `K" char "G`.
+</p>
+
+<p class="proof">
+	令 `sigma in "Aut"(G)`, 由 `H" char "G` 知 `sigma|_H in "Aut"(H)`,
+	又由 `K" char "H` 知 `sigma|_K = (sigma|_H)_K in "Aut"(K)`,
+	因此 `H" char "G`.
+</p>
+
+<p class="corollary">
+	令 `G` 为一群, `n` 为非负整数, 则 `G^((n))" char "G`.
+</p>
+
+<p class="proof">
+	令 `sigma in "Aut"(G)`, 则 `sigma(G^((n))) = (sigma(G))^((n)) =
+	G^((n))`, 即 `G^((n))" char "G`.
+</p>
+
+<p class="corollary" id="cor-gn-normal-g">
+	令 `G` 为一群, `n` 为非负整数, 则 `G^((n)) normal G`.
+	于是 `G` 可解时, `G^((n))`, `n = 0, 1, cdots, k`
+	构成 `G` 的一个正规群列.
+</p>
+
+<p class="remark">
+	由于正规子群不具有传递性, 我们利用特征子群的概念才得到这一结果.
+</p>
+
+<p class="theorem">
+	令群 `N normal G`, 则 `G//N` 为一 Abel 群当且仅当 `G' sube N`.
+</p>
+
+<p class="proof">
+	`G//N` 为一 Abel 群
+	`iff (AA a, b in G) a N * b N = b N * a N`
+	`iff (AA a, b in G) (a b)N = (b a)N`
+	`iff (AA a, b in G) (b a)^-1(a b) in N`
+	`iff (AA a, b in G) a^-1 b^-1 a b in N`
+	`iff G' sube N`.
+</p>
+
+<p class="corollary" id="cor-g-mod-g1-abel">
+	`G//G'` 为一 Abel 群.
+</p>
+
+<p class="remark">
+	这个定理告诉我们, `G'` 是使得 `G//N` 为一 Abel 群的最小正规子群 `N`;
+	换言之, `G//G'` 是同构意义下最大的形如 `G//N` 的 Abel 群.
+</p>
+
+<ol class="theorem" id="the-solvable-iff">
+	令 `G` 为一群, 则以下几款等价:
+	<li>`G` 可解;</li>
+	<li>`G` 有一正规群列, 且它的所有正规因子都为 Abel 群;</li>
+	<li>`G` 有一次正规群列, 且它的所有次正规因子都为 Abel 群.</li>
+</ol>
+
+<ol class="proof">
+	<li>`rArr` 2. 利用<a class="ref" href="#cor-gn-normal-g"></a>和<a
+		class="ref" href="#cor-g-mod-g1-abel"></a>即可.
+	</li>
+	<li>`rArr` 3. 显然.</li>
+	<li>`rArr` 1. 令 `k ge 1`,
+		<span class="formula">
+			`G = G_0 &#8885; G_1 &#8885; cdots &#8885; G_k = {e}`
+		</span>
+		为 `G` 的一个次正规群列, 且 `G_i//G_(i+1)` 为一 Abel 群, `i = 0,
+		1, cdots, k-1`. 下证 `G^((i)) le G_i`, `i = 1, 2, cdots, k`,
+		从而 `G^((k)) le G_k = {e}`, 就推出 `G` 可解.<br/>
+		关于 `i` 应用数学归纳法. 当 `i = 1` 时, 由于 `G//G_1` 为一 Abel
+		群, 则 `G' sube G_1`, 结论成立.<br/>
+		假设 `i-1` 时结论成立, 考察 `i gt 1` 的情形, 由于
+		`G_(i-1)//G_i` 为一 Abel 群, 则 `G_(i-1)' sube G_i`, 由归纳假设
+		<span class="formula">
+			`G^((i)) = (G^((i-1)))' sube G_(i-1)' sube G_i`.
+		</span>
+	</li>
+</ol>
+
+<p class="theorem">
+	非平凡有限群 `G` 可解当且仅当 `G` 有一合成群列,
+	且它的所有合成因子都为素数阶循环群.
+</p>
+
+<p class="proof">
+	充分性. 素数阶循环群必为 Abel 群, 合成群列是次正规群列.
+	应用<a class="ref" href="#the-solvable-iff"></a>知 `G` 可解.<br/>
+	必要性. 由于 `G` 为非平凡有限群, 故 `G` 有一合成群列. 令 `H//K` 为 `G`
+	的一个合成因子, 其中 `K &#8882; H le G`, 则由 `G` 可解知,
+	`G` 的子群 `K, H` 都可解, 从而 `H//K` 可解. 但 `H//K` 又是单群,
+	所以 `H//K` 为一素数阶循环群.
+</p>
+
+<h2>自同构群</h2>
+
+<p class="definition">
+	令 `G` 为一群, `G` 上的全体自同构映射 `"Aut"(G)`
+	关于变换的通常合成为一群, 称为 `G` 的<b>自同构群</b>.
+</p>
+
+<ol class="corollary">
+	令 `G = (:a:)` 为一循环群, 则
+	<li>`"Aut"(G)` 为 Abel 群;</li>
+	<li>若 `|G| = n`, 则 `"Aut"(G)` 为一 `varphi(n)` 阶 Abel 群,
+		`varphi(n)` 为 Euler 函数;
+	</li>
+	<li>若 `|G| = oo`, 则 `"Aut"(G)` 为一 2 阶 Abel 群 `{i, sigma}`,
+		其中 `i(a) = a`, `sigma(a) = a^-1`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>`AA sigma, tau in "Aut"(G)`, 其中 `sigma(a) = a^m`, `tau(a) =
+		a^n`, `m, n in ZZ`, 则 `AA a^k in G`,
+		<span class="formula">
+			`sigma tau(a^k) = a^(m n k) = tau sigma(a^k)`.
+		</span>
+	</li>
+	<li>由于每一对生成元之间的对应关系都决定了 `G` 的一个自同构
+		(如 `sigma(a) = b`, 则 `sigma(a^k) = b^k`),
+		从而 `|"Aut"(G)|` 等于 `G` 中生成元的个数, 即 `varphi(n)`.
+	</li>
+	<li>无限阶循环群有两个生成元 `a^(+-1)`, 所以 `|"Aut"(G)| = 2`.</li>
+</ol>
+
+<p class="definition">
+	令 `G` 为一群, `a in G`, 定义由 `a` 确定的 `G` 的<b>内自同构</b>如下:
+	<span class="formula">
+		`tau_a: G to G`<br/>
+		`g to a g a^-1`
+	</span>
+	可以验证 `tau_a in "Aut"(G)`.
+	`G` 的全体内自同构的集合记为 `"Inn"(G)`, 可以验证 `"Inn"(G) normal
+	"Aut"(G)`, 称 `"Inn"(G)` 为 `G` 的<b>内自同构群</b>,
+	`"Aut"(G)//"Inn"(G)` 为 `G` 的<b>外自同构群</b>.
+</p>
+
+<ol class="proof">
+	<li>显然 `tau_a` 为双射, 又
+		<span class="formula">
+			`tau_a(g h) = a(g h)a^-1 = a g a^-1 a h a^-1 =
+			tau_a(g)tau_a(h)`,
+		</span>
+		`tau_a` 为一同构, 故 `tau_a in "Aut"(G)`.
+	</li>
+	<li>显然 `"Inn"(G) sube "Aut"(G)`, 又 `AA tau_a, tau_b in "Inn"(G)`,
+		<span class="formula">
+			`tau_a^-1 = tau_(a^-1) in "Inn"(G)`,
+			`quad tau_a tau_b = tau_(a b) in "Inn"(G)`.
+		</span>
+		所以 `"Inn"(G) le "Aut"(G)`.
+	</li>
+	<li>`AA tau_a in "Inn"(G), sigma in "Aut"(G), x in G`,
+		<span class="formula">
+			`(sigma tau_a sigma^-1)(x)`
+			`= sigma( tau_a (sigma^-1(x)))`
+			`= sigma(a sigma^-1(x) a^-1)`
+			`= sigma(a) x sigma(a)^-1`
+			`= tau_(sigma(a))(x)`.
+		</span>
+		从而 `sigma tau_a sigma^-1 = tau_(sigma(a)) in "Inn"(G)`,
+		于是 `"Inn"(G) normal "Aut"(G)`.
+	</li>
+</ol>
+
+<p class="theorem" id="the-inn-isomorphism">
+	令 `G` 为一群, 则
+	<span class="formula">
+		`"Inn"G ~= G//Z(G)`.
+	</span>
+</p>
+
+<p class="proof">
+	作 `eta: a in G to tau_a in "Inn"(G)`, 由内自同构的定义知 `eta`
+	为一满射, 又 `AA g in G`,
+	<span class="formula">
+		`tau_(a b)(g) = (a b)g(a b)^-1 = (tau_a tau_b)(g)`,
+	</span>
+	故 `eta` 为一满同态.<br/>
+	下证 `"Ker"eta = Z(G)`. 这是因为
+	<span class="formula">
+		`a in "Ker"eta`
+		`iff tau_a = 1_G`
+		`iff (AA x in G) x = tau_a(x) = a x a^-1`
+		`iff (AA x in G) x a = a x`
+		`iff a in Z(G)`.
+	</span>
+	根据同态基本定理,
+	<span class="formula">
+		`"Inn"(G) = "Im"eta ~= G//"Ker"eta = G//Z(G)`.
+	</span>
+</p>
+
+<p class="definition">
+	令群 `H le G`. 定义 `H` 的<b>正规化子</b>和<b>中心化子</b>如下:
+	<span class="formula">
+		`N_G(H) := {g in G | g H = H g}`,<br/>
+		`Z_G(H) := {g in G | (AA h in G) g h = h g}`.
+	</span>
+	容易验证 `N_G(H), Z_G(H) le G`.
+	由定义可见, `N_G(H)` 是 `G` 中所有 `H` 可吸收的元素,
+	`Z_G(H)` 是 `G` 中所有与 `H` 可换的元素.
+</p>
+
+<ol class="corollary">
+	设群 `H le G`, 则
+	<li>`H normal N_G(H)`; 特别 `H normal G iff N_G(H) = G`;</li>
+	<li>`Z_G(H) normal N_G(H)`; 特别 `H normal G` 时, `Z_G(H) normal G`;
+	</li>
+	<li>若 `K normal H`, 则 `H le N_G(K)`.</li>
+</ol>
+
+<p class="remark">
+	`N_G(H) = H` 时, `H` 在 `G` 中的正规程度最差; `N_G(H) = G` 时, `H
+	normal G`, 在 `G` 中的正规程度最好. `Z_G(H) = H` 时, `H` 为一 Abel 群;
+	`Z_G(H) = G` 时, `H le Z(G)`. 另外显然 `Z(G) = Z_G(G)`.
+</p>
+
+<p class="theorem" id="the-inn-isomorphism-advanced">
+	令群 `H le G`, 则
+	<span class="formula">
+		`N_G(H) // Z_G(H) ~= "Inn"(N_G(H))|_H le "Aut"(H)`
+	</span>
+</p>
+
+<p class="proof">
+	令 `g in N_G(H)`, 则 `tau_g(H) = g H g^-1 = H`, 其中 `tau_g in
+	"Inn"(N_G(H))`. 因此 `tau_g|_H` 为 `H` 上一自同构. 据此, 存在同态
+	<span class="formula">
+		`eta: N_G(H) to "Aut"(H)`<br/>
+		`g to tau_g|_H`.
+	</span>
+	又
+	<span class="formula">
+		`"Ker"eta = {g in N_G(H) | tau_g|_H = 1_H}`
+		`= {g in N_G(H) | (AA h in H) g h g^-1 = h}`
+		`= Z_G(H) nn N_G(H)`
+		`= Z_G(H)`.
+	</span>
+	于是由群同态基本定理
+	<span class="formula">
+		`N_G(H)//Z_G(H)`
+		`= N_G(H)//"Ker"eta ~= "Im"eta`
+		`= Inn(N_G(H))|_H le`
+		`"Aut"(H)`.
+	</span>
+</p>
+
+<p class="corollary" id="cor-inn-isomorphism-advanced">
+	令群 `H normal G`, 则 `N_G(H) = G`, 于是
+	<span class="formula">
+		`G//Z_G(H) ~= "Inn"(G)|_H le "Aut"(H)`.
+	</span>
+</p>
+
+<p class="remark">
+	在上面的推论中取 `H = G`, 可以看到<a class="ref"
+	href="#the-inn-isomorphism-advanced"></a>是<a class="ref"
+	href="#the-inn-isomorphism"></a>的推广.
+</p>
+
+<p class="example">
+	令 `G` 为一群, `a in G`, 且 `(:a:) normal G`.
+	则 `G' sube Z_G((:a:))`.
+</p>
+
+<p class="proof">
+	由<a class="ref" href="#cor-inn-isomorphism-advanced"></a>,
+	<span class="formula">
+		`G//Z_G((:a:)) ~= "Inn"(G)|_(:a:) le "Aut"((:a:))`
+	</span>
+	后者是循环群的自同构群, 必为 Abel 群, 所以
+	`G//Z_G((:a:))` 也是 Abel 群. 从而 `G' sube Z_G((:a:))`.
+</p>
+
+<h2>群作用与有限群的 Sylow 定理</h2>
+
+<h3>群作用</h3>
+
+<ol class="definition">
+	令 `X` 为一非空集, `e` 为群 `G` 的幺元. 称映射
+	<span class="formula">
+		`f: G xx X to X`<br/>
+		`(g, x) to f(g, x) := g(x)`
+	</span>
+	为群 `G` 在 `X` 上的<b>作用</b>, 如果 `f` 满足
+	<li>`(AA g, h in G and AA x in X)` `(g h)x = g(h x)`;</li>
+	<li>`(AA x in X)` `e x = x`.</li>
+	由两条性质立即推出
+	<span class="formula">
+		`g^-1(g(x)) = (g^-1 g)x = e x = x`.
+	</span>
+</ol>
+
+<p class="theorem">
+	令 `X` 为一非空集, `G` 为一群. 则 `G` 在 `X` 上的一个群作用 `f(g, x)`
+	确定 `G` 到 `X` 上对称群 `S_X` (`S` 上全体可逆变换) 的一个群同态
+	`eta`, 反之亦然.
+</p>
+
+<h3>Sylow 定理</h3>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>

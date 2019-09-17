@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>容斥原理</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="theorem">
+	<b>容斥原理</b>
+	设 `A, B` 为有限集, 则
+	<span class="formula">
+		`|A uu B| = |A| + |B| - |A nn B|`.
+	</span>
+</p>
+
+<p class="corollary">
+	设 `A_1, A_2, cdots, A_n` 为 `n` 个有限集, `n in ZZ^+`.
+	`N = {1, 2, cdots, n}`, 则
+	<span class="formula">
+		`|uuu_(i=1)^n A_i| = sum_(C sube N) (-1)^(|C|-1)
+		|nnn_(j in C) A_j|`
+		`= sum_(k=1)^n (-1)^(k-1) sum_(1 le i_1 lt cdots lt i_k le n)
+		|nnn_(j=1)^k A_(i_j)|`.
+	</span>
+	即 `n` 个集合的并集的基数, 等于它们每个集合的基数之和,
+	减去每两个集合的交的基数之和, 加上每三个集合的交的基数之和,
+	..., 最后加上 `(-1)^(n-1)` 乘以所有集合的交集的基数.
+</p>
+
+<p class="proof">
+	`n = 1` 的情形是平凡的; `n = 2` 时, 即为容斥原理.
+	设 `n-1` 时命题成立, 则 `n` 的情形, 由容斥原理,
+	<span class="formula">
+		左边
+		`= |(uuu_(i=1)^(n-1) A_i) uu A_n|`
+		`= |uuu_(i=1)^(n-1) A_i| + |A_n| - |uuu_(i=1)^(n-1) (A_i nn A_n)|`
+		`= sum_(C sube N\\{n}) (-1)^(|C|-1) |nnn_(j in C) A_j| + |A_n|`
+		`+ sum_(C sube N\\{n}) (-1)^|C| |nnn_(j in C) (A_j nn A_n)|`
+		`=` 右边
+	</span>
+</p>
+
+<p class="corollary">
+	设 `A_1, A_2, cdots, A_n` 为 `n` 个基数相等的有限集, `n in ZZ^+`.
+	`S_0 supe uuu_(i=1)^n A_i`, `S_k = nnn_(i=1)^k A_i`,
+	`bar S_k = S_0 \\ S_k`, `k = 1, 2, cdots, n`. 则
+	<span class="formula">
+		`|nnn_(k=1)^n bar S_k| = sum_(k=0)^n (-1)^k ((n),(k)) |S_k|`.
+	</span>
+</p>
+
+<p class="proof">
+	易知 `A_1, A_2, cdots, A_n` 中任意 `k` 个集合的交的基数都等于
+	`|S_k|`, 而从 `n` 个集合中选出 `k` 个有 `((n),(k))` 种选法, 所以
+	<span class="formula">
+		`|nnn_(k=1)^n bar S_k| = |S_0| - |uuu_(k=1)^n S_k|`
+		`= |S_0| + sum_(k=1)^n (-1)^k ((n),(k)) |S_k|`.
+	</span>
+</p>
+
+<p class="example">
+	<b>错排问题</b>
+	有 `n` 封信和 `n` 只对应的信封, 有黑暗中随意将每封信装进一个信封,
+	问恰好每封信都装错信封的装法有几种, 并求 `n to oo` 时,
+	每封信都装错信封的概率.
+</p>
+
+<p class="solution">
+	以集合 `S_k` 记所有使得前 `k` 封信被装进对的信封的安排, 则
+	`|S_k| = (n-k)!`, `k = 1, 2, cdots, n`.
+	所求的数为
+	<span class="formula">
+		`|nnn_(k=1)^n bar S_k|`
+		`= sum_(k=0)^n (-1)^k ((n),(k)) (n-k)!`
+		`= sum_(k=0)^n (-1)^k (n!)/(k!)`.
+	</span>
+	`n to oo` 时, 所求概率为
+	<span class="formula">
+		`lim_(n to oo) 1/(n!) sum_(k=0)^n (-1)^k (n!)/(k!)`
+		`= sum_(k=0)^oo (-1)^k/(k!) = "e"^-1`.
+	</span>
+</p>
+
+<p class="example">
+	<b>n 对夫妇问题</b>
+	`n` 对夫妇坐成一横排, 问有几种坐法, 使得每一对夫妇的位置都不相邻.
+</p>
+
+<p class="solution">
+	以集合 `S_k` 记所有使得前 `k` 对夫妇坐在一起的排列, 则这 `k`
+	对夫妇两两 "合并", 后, 可以看作 `2n-k` 个人的全排列, 于是
+	<span class="formula">
+		`|S_k| = 2^k (2n - k)!`, `quad k = 1, 2, cdots, n`.
+	</span>
+	所求的数为
+	<span class="formula">
+		`|nnn_(k=1)^n bar S_k|`
+		`= sum_(k=0)^n ((n),(k)) (-2)^k (2n-k)!`.
+	</span>
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

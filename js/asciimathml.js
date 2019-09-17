@@ -375,6 +375,7 @@ var AMsymbols = [
 {input:"!supe", tag:"mo", output:"\u2289", tex:null, ttype:CONST},
 {input:"subne", tag:"mo", output:"\u228A", tex:null, ttype:CONST},
 {input:"supne", tag:"mo", output:"\u228B", tex:null, ttype:CONST},
+{input:"normal", tag:"mo", output:"\u22B4", tex:null, ttype:CONST},
 
 //logical symbols
 {input:"and", tag:"mtext", output:"and", tex:null, ttype:SPACE},

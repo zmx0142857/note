@@ -12,6 +12,7 @@ AM.symbols.push({input:"!sube", tag:"mo", output:"\u2288", tex:null, ttype:AM.TO
 AM.symbols.push({input:"!supe", tag:"mo", output:"\u2289", tex:null, ttype:AM.TOKEN.CONST});
 AM.symbols.push({input:"subne", tag:"mo", output:"\u228A", tex:null, ttype:AM.TOKEN.CONST});
 AM.symbols.push({input:"supne", tag:"mo", output:"\u228B", tex:null, ttype:AM.TOKEN.CONST});
+AM.symbols.push({input:"normal", tag:"mo", output:"\u22B4", tex:null, ttype:AM.symbols.CONST});,
 AM.symbols.push({input:"iint",  tag:"mo", output:"\u222C", tex:null, ttype:AM.TOKEN.CONST});
 AM.symbols.push({input:"iiint",  tag:"mo", output:"\u222D", tex:null, ttype:AM.TOKEN.CONST});
 AM.symbols.push({input:"oiint", tag:"mo", output:"\u222F", tex:null, ttype:AM.TOKEN.CONST});

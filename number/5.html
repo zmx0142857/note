@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>不定方程</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<a href="https://baike.baidu.com/item/%E5%9B%9B%E5%B9%B3%E6%96%B9%E5%92%8C%E5%AE%9A%E7%90%86?bk_fr=chain_bottom&timestamp=1568187163118">原文来自百度百科</a>
+
+<p class="theorem">
+	<b>Lagrange 恒等式</b>
+	设 `n in ZZ^+`, `x_i, y_i in RR`, `i = 1, 2, cdots, n`, 则
+	<span class="formula">
+		`(sum_(i=1)^n x_i^2)(sum_(i=1)^n y_i^2)`
+		`= (sum_(i=1)^n x_i y_i)^2
+		+ sum_(1 le i lt j le n) (x_i y_j - x_j y_i)^2`.
+	</span>
+</p>
+
+<p class="proof">
+	<span class="formula">
+		右边
+		`= sum_(i=1)^n x_i^2 y_i^2 + 2 sum_(1 le i lt j le n) x_i y_i x_j
+		y_j + sum_(1 le i lt j le n) x_i^2 y_j^2`
+		`- 2 sum_(1 le i lt j le n) x_i y_j x_j y_i
+		+ sum_(1 le i lt j le n) x_j^2 y_i^2`
+		`= sum_(i=1)^n x_i^2 y_i^2 + sum_(1 le i lt j le n) x_i^2
+		y_j^2 + sum_(1 le i lt j le n) x_j^2 y_i^2 =`左边.
+	</span>
+</p>
+
+<p class="corollary">
+	<b>二平方和恒等式</b>
+	<span class="formula">
+		`(x_1^2+x_2^2)(y_1^2+y_2^2)
+		= (x_1 y_1+x_2 y_2)^2 + (x_1 y_2-x_2 y_1)^2`.
+	</span>
+	可以从向量的角度理解:
+	<span class="formula">
+		`|bm x|^2 |bm y|^2 = |bm x * bm y|^2 + |bm x xx bm y|^2`.
+	</span>
+	从而, 如果整数 `m, n` 能表示为两个整数的平方之和,
+	则 `mn` 也能.
+</p>
+
+<p class="corollary">
+	<b>四平方和恒等式</b> (Euler, 1743)
+	<span class="formula">
+		`(sum_(i=1)^4 x_i^2)(sum_(i=1)^4 y_i^2) = sum_(i=1)^4 z_i^2`.
+	</span>
+	其中
+	<span class="formula">
+		`z_1 = x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4`,<br/>
+		`z_2 = x_1 y_2 - x_2 y_1 + x_3 y_4 - x_4 y_3`,<br/>
+		`z_3 = x_1 y_3 - x_3 y_1 + x_4 y_2 - x_2 y_4`,<br/>
+		`z_4 = x_1 y_4 - x_4 y_1 + x_2 y_3 - x_3 x_2`.
+	</span>
+	从而, 如果整数 `m, n` 能表示为四个整数的平方之和,
+	则 `mn` 也能.
+</p>
+
+<p class="proof">
+	由 Lagrange 恒等式, 只需验证
+	<span class="formula">
+		`(x_1 y_2 - x_2 y_1)(x_3 y_4 - x_4 y_3)`
+		`- (x_1 y_3 - x_3 y_1)(x_2 y_4 - x_4 y_2)`
+		`+ (x_1 y_4 - x_4 y_2)(x_2 y_3 - x_3 y_2) = 0`.
+	</span>
+	即可. 上式的左边可由 Laplace 定理展开行列式
+	<span class="formula">
+		`|(x_1," "x_2," "x_3," "x_4),
+		  (y_1," "y_2," "y_3," "y_4),
+		  (x_1," "x_2," "x_3," "x_4),
+		  (y_1," "y_2," "y_3," "y_4)|`
+	</span>
+	得到.
+</p>
+
+<p class="lemma" id="lem-4-square-odd-prime">
+	(Euler, 1751) 对任意奇素数 `p`, 同余方程
+	<span class="formula">
+		`x^2+y^2+1 = 0` `(mod p)`
+	</span>
+	存在整数解 `0 le x, y lt p//2`.
+	因此对任意奇素数 `p`, 存在正整数 `m` 和整数 `0 le x, y le (p-1)//2`,
+	使得
+	<span class="formula">
+		`m p = x^2 + y^2 + 1 le (p-1)^2//2 + 1 lt (p-1)(p+1) + 1 = p^2`.
+	</span>
+	因此 `m lt p`.
+</p>
+
+<p class="proof">
+	模 `p` 的二次剩余 (即全体平方数 `ZZ^2` 模 `p` 的同余类)
+	有 `(p+1)//2` 个, 分别为
+	<span class="formula">
+		`0, 1^2, 2^2, cdots, ((p-1)/2)^2`.
+	</span>
+	若 `(p-1)//2` 是模 `p` 的二次剩余, 则存在 `0 le x lt p//2`
+	使得 `x^2 -= (p-1)//2` `(mod p)`, 于是 `1 + x^2 + x^2 -= 0` `(mod p)`,
+	定理得证.<br/>
+	若 `(p-1)//2` 不属于模 `p` 的二次剩余,
+	将模 `p` 的剩余 (即全体整数模 `p` 的同余类)
+	分为如下 `(p-1)//2` 组:
+	<span class="formula">
+		`{0, p-1}, {1, p-2}, cdots, {(p-1)/2, (p-1)/2}`.
+	</span>
+	而模 `p` 的 `(p+1)//2` 个二次剩余必然落在前 `(p-3)//2` 组当中.
+	由鸽巢原理, 必有两个二次剩余落在同一组中. 由于每一组的两个元素
+	`m, n` 满足 `m + n + 1 -= 0` `(mod p)`,
+	故存在整数 `x, y`, `0 le x, y lt p/2`,
+	使 `x^2 + y^2 + 1 -= 0` `(mod p)`.
+</p>
+
+<p class="theorem">
+	<b>四平方和定理</b>
+	(Lagrange, 1770; Euler, 1773)
+	任何非负整数都可以表示为四个整数的平方之和, 即不定方程
+	<span class="formula">
+		`x_1^2 + x_2^2 + x_3^2 + x_4^2 = n`, `quad n in ZZ^+ uu {0}`
+	</span>
+	恒有整数解.
+</p>
+
+<ol class="proof">
+	<li>显然定理对 `n = 0, 1, 2` 成立:
+		<span class="formula">
+			`0 = 0^2 + 0^2 + 0^2 + 0^2`,<br/>
+			`1 = 0^2 + 0^2 + 0^2 + 1^2`,<br/>
+			`2 = 0^2 + 0^2 + 1^2 + 1^2`.
+		</span>
+		从而由四平方和恒等式知, 只需证定理对任意奇素数成立.
+		又由<a class="ref" href="#lem-4-square-odd-prime"></a>,
+		对任意奇素数 `p`, 存在正整数 `m` 使得 `m p`
+		能表示为四个整数的平方和, 且 `m lt p`.
+		不妨设 `m` 是这些整数中最小的, 且
+		<span class="formula">
+			`m p = x_1^2 + x_2^2 + x_3^2 + x_4^2`.
+		</span>
+	</li>
+	<li>下证 `m` 不是偶数, 否则 `m p` 为偶数, `x_i, i = 1, 2, 3, 4`
+		中的奇数只能是偶数个 (即 0, 2, 4 个).
+		不失一般性, 设 `x_1, x_2` 奇偶性相同, 且 `x_3, x_4` 奇偶性相同, 则
+		`x_1+-x_2`, `x_3+-x_4` 均为偶数, 得到
+		<span class="formula">
+			`(m p)/2 = ((x_1+x_2)/2)^2 + ((x_1-x_2)/2)^2`
+			`+ ((x_3+x_4)/2)^2 + ((x_3-x_4)/2)^2`.
+		</span>
+		从而有 `m/2 lt m` 使得 `(m p)/2` 被表示为四个整数的平方和,
+		与 `m` 的最小性矛盾.
+	</li>
+	<li>下证 `m = 1`. 我们反设 `m gt 1`.
+		首先, `m` 不是 `x_1, x_2, x_3, x_4` 的公因数,
+		否则有 `m^2 | m p rArr m | p`, 一个矛盾.
+		故存在不全为零, 且绝对值小于 `m//2` (注意 `m` 是奇数) 的整数
+		`y_i`, `i = 1, 2, 3, 4`, 使得
+		<span class="formula">
+			`y_i -= x_i` `(mod m)`, `quad i = 1, 2, 3, 4`.
+		</span>
+		(取 `y_i` 为 `x_i` 除以 `m` 的绝对最小余数即可). 因此
+		<span class="formula">
+			`0 lt sum_(i=1)^4 y_i^2 lt 4(m/2)^2 = m^2`,
+		</span>
+		且
+		<span class="formula">
+			`sum_(i=1)^4 y_i^2 -= sum_(i=1)^4 x_i^2 -= 0` `(mod m)`
+		</span>
+		从而
+		<span class="formula">
+			`sum_(i=1)^4 y_i^2 = m q`,
+		</span>
+		其中整数 `q` 满足 `0 lt q lt m`.
+	</li>
+	<li>下证 `p q` 可以表示成四个整数的平方和, 从而推翻假设.
+		由四平方和恒等式, 令
+		<span class="formula">
+			`sum_(i=1)^4 z_i^2 = (sum_(i=1)^4 x_i^2) (sum_(i=1)^4 y_i^2)
+			= m^2 p q`,
+		</span>
+		其中
+		<span class="formula">
+			`z_1 = x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4`,<br/>
+			`z_2 = x_1 y_2 - x_2 y_1 + x_3 y_4 - x_4 y_3`,<br/>
+			`z_3 = x_1 y_3 - x_3 y_1 + x_4 y_2 - x_2 y_4`,<br/>
+			`z_4 = x_1 y_4 - x_4 y_1 + x_2 y_3 - x_3 x_2`.
+		</span>
+		由 `x_i -= y_i (mod m)`, `i = 1, 2, 3, 4`, 有
+		<span class="formula">
+			`z_1 -= sum_(i=1)^4 x_i^2 -= 0` `(mod m)`.<br/>
+			`z_i -= 0`, `i = 2, 3, 4`.
+		</span>
+		设 `z_i = m t_i`, `i = 1, 2, 3, 4`, 则
+		<span class="formula">
+			`p q = sum_(i=1)^4 t_i^2`,
+		</span>
+		但 `q lt m`, 与 `m` 的最小性矛盾. 证毕.
+	</li>
+</p>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>
