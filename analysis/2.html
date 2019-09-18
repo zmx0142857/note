@@ -58,6 +58,52 @@
 	</span>
 </p>
 
+<p class="example">
+	设 `p_k gt 0`, `k = 1, 2, cdots`, `lim_(n to oo) a_n = a`, 且
+	<span class="formula">
+		`lim_(n to oo) p_n/(p_1 + p_2 + cdots + p_n) = 0`
+	</span>
+	证明:
+	<span class="formula">
+		`lim_(n to oo) (p_1 a_n + p_2 a_(n-1) + cdots + p_n a_1)/(p_1 +
+		p_2 + cdots + p_n) = a`.
+	</span>
+</p>
+
+<p class="proof">
+	记 `b_n = a_n - a`, `n = 1, 2, cdots`,
+	则对任意 `epsi gt 0`, 存在正整数 `N`,
+	对任意 `n gt N` 有 `|b_n| lt epsi//2`.
+	记 `S_n = sum_(i=1)^n p_i`, 因为 `N` 有限,
+	存在正整数 `M`, 对任意 `n gt M` 有
+	<span class="formula">
+		`|(b_1 p_n)/S_n + cdots + (b_(N+1) p_(n-N))/S_n|`
+		`lt |(b_1 p_n)/S_n + cdots + (b_(N+1) p_(n-N))/S_(n-N)|`
+		`lt epsi/2`.
+	</span>
+	从而当 `n gt max{N, M}` 时
+	<span class="formula">
+		`|(p_1 a_n + p_2 a_(n-1) + cdots + p_n a_1)/(p_1 + p_2 + cdots +
+		p_n) - a|`
+		`= |(p_1 b_n + p_2 b_(n-1) + cdots + p_n b_1)/(p_1 + p_2 + cdots +
+		p_n)|`
+		`le p_1/S_n |b_n| + p_2/S_n |b_(n-1)| + cdots + p_(n-N-1)/S_n
+		|b_(N+2)|`
+		`+ |(b_1 p_n)/S_n + cdots + (b_(N+1) p_(n-N))/S_n|`
+		`lt (p_1 + cdots + p_(n-N-1))/S_n epsi/2 + epsi/2 lt epsi`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>Toeplitz 定理</b>
+	设对任意正整数 `n` 和任意正整数 `k le n` 有 `t_(n, k) ge 0` 和 `lim_(n
+	to oo) t_(n, k) = 0`, 且 `sum_(k=1)^n t_(n,k) = 1`. 若 `lim_(n to oo)
+	a_n = a`, 则
+	<span class="formula">
+		`lim_(n to oo) sum_(k=1)^n t_(n,k) a_k = a`.
+	</span>
+</p>
+
 <h2>极限的四则运算</h2>
 
 <p class="theorem">

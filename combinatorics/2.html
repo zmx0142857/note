@@ -14,22 +14,103 @@
 
 <h2>排列与组合</h2>
 
-<h2>组合数的公式</h2>
+<h2>组合恒等式</h2>
 
-<p>	
-	公式
+<p>	这里收集一些关于组合数 `((n),(m))` 的恒等式.
+	约定 `0^0 = 1`, `sum_(i=k)^(k-1) = 0`, `prod_(i=k)^(k-1) = 1`.
+</p>
+
+<p class="theorem">	
+	<b>Pascal 恒等式</b>
 	<span class="formula">
-		`((n+1), (k)) = ((n),(k-1)) + ((n),(k))`
+		`((n+1), (k)) = ((n),(k-1)) + ((n),(k))`.
 	</span>
-	的组合证明: 从 `n+1` 件物品中选取 `k` 件, 如果其中含有第一件物品,
+</p>
+
+<p class="proof">
+	组合证明: 从 `n+1` 件物品中选取 `k` 件, 如果其中含有第一件物品,
 	则需要从剩下 `n` 件中再选取 `k-1` 件, 有 `((n),(k-1))` 种选法;
 	如果其中不含第一件物品, 则需要从剩下 `n` 件中选取 `k` 件,
 	有 `((n),(k))` 种选法.
 </p>
 
-<h3>二项式定理</h3>
+<p class="theorem">
+	<b>二项式定理</b>
+	`n` 为非负整数, `x, y` 为任意实数, 则
+	<span class="formula">
+		`(x+y)^n = sum_(k=0)^n ((n),(k)) x^k y^(n-k)`.
+	</span>
+	因此组合数 `((n),(k))` 也称为<b>二项式系数</b>.
+</p>
 
-<h3>杂例</h3>
+<p class="corollary">
+	在二项式定理中取 `x = y = 1` 有
+	<span class="formula">
+		`2^n = sum_(k=0)^n ((n),(k))`.
+	</span>
+	取 `x = 1`, `y = -1` 有
+	<span class="formula">
+		`0 = sum_(k=0)^n ((n),(k)) (-1)^k`,
+	</span>
+	即
+	<span class="formula">
+		`sum_(k" is odd") ((n),(k)) = sum_(k" is even") ((n),(k))`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>Vandermonde 恒等式</b>
+	`m, n` 为非负整数, 则
+	<span class="formula">
+		`((m+n),(k)) = sum_(i=0)^k ((m),(i))((n),(k-i))`.
+	</span>
+</p>
+
+<p class="corollary">
+	在 Vandermonde 恒等式中令 `m = n = k` 有
+	<span class="formula">
+		`((2n),(n)) = sum_(i=0)^n ((n),(i))^2`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>朱世杰恒等式 (元代)</b>
+	设 `m, n` 为非负整数, 则
+	<span class="formula">
+		`((m+n+1),(n+1)) = sum_(i=0)^m ((n+i),(n))`.
+	</span>
+	令 `n = k`, `m = n-k`, 得左斜公式:
+	<span class="formula">
+		`((n+1),(k+1)) = sum_(i=0)^(n-k) ((k+i),(k))`
+		`= sum_(i=k)^n ((i),(k))`.
+	</span>
+	令 `m = k`, `n = m-k`, 得右斜公式:
+	<span class="formula">
+		`((m+1),(k)) = sum_(i=0)^k ((m-k+i),(i))`
+		`= sum_(i=0)^k ((m-i),(k-i))`.
+	</span>
+</p>
+
+<div class="proof">
+	注意到朱世杰恒等式实质上是将 Pascal 三角的系数按左斜线相加,
+<pre>
+            1
+		  1  (1)
+		1  (2) [1]
+	  1  (3)  3   1
+	1  (4)  6   4   1
+  1  (5)  10  10  5   1
+</pre>
+	如, 为了将括号中的数字相加, 将右上角的 1 换成方括号中的 1,
+	就可以反复应用 Pascal 恒等式: 1 + 2 = 3, 3 + 3 = 6 ...,
+	最后得到所求的和 15. 为此得到启发,
+	反复用 Pascal 恒等式:
+	<span class="formula">
+		右边 `= ((n+1),(n+1)) + sum_(i=1)^m ((n+i),(n))`
+		`= ((n+2),(n+1)) + sum_(i=2)^m ((n+i),(n))`
+		`= cdots =` 左边.
+	</span>
+</div>
 
 <p class="example">
 	设 `m, n` 是非负整数, `m gt n`, 则
@@ -39,18 +120,12 @@
 </p>
 
 <p class="proof">
+	应用右斜公式:
 	<span class="formula">
 		左边 `= 1/{:((m),(n)):} sum_(i=0)^n ((m-i),(n-i))`
-		`= 1/{:((m),(n)):} sum_(i=0)^n ((m-n+i),(i))`
-		`= 1/{:((m),(n)):} (((m-n+1),(0)) + sum_(i=1)^n ((m-n+i),(i)))`
 		`= {:((m+1),(n)):}/{:((m),(n)):} =`
 		右边.
 	</span>
-	证明中用到公式
-	<span class="formula">
-		`((n+1), (k)) = ((n),(k-1)) + ((n),(k))`
-	</span>
-	的连锁反应, 是非常有趣的.
 </p>
 
 <h2>排列与组合的算法</h2>

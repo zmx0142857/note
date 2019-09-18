@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>场论初步</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="example">
+	利用 Green 第一公式
+	<span class="formula">
+		`int_V grad f * grad g "d"V + int_V g laplace f "d"V`
+		`= int_(del V) g{::} (del f)/(del bm n) "d"s`
+	</span>
+	证明 <b>Dirichlet 原理</b>: 在区域边界上取给定值的连续可微函数,
+	其 Dirichlet 积分 (函数的梯度的模的平方在区域上的积分)
+	取最小值当且仅当该函数为调和函数.
+</p>
+
+<p class="proof">
+	设 `laplace f = 0`, 且 `f|{::}_(del V) = g|_(del V)`.
+	在 Green 第一公式中令 `g = f`, 利用边界条件得
+	<span class="formula">
+		`int_V |grad f|^2 "d"V`
+		`= int_(del V) f{::} (del f)/(del bm n) "d"s`
+		`= int_(del V) g{::} (del f)/(del bm n) "d"s`
+		`= int_V grad f * grad g "d"V`.
+	</span>
+	从而
+	<span class="formula">
+		`int_V |grad g|^2 "d"V - int_V |grad f|^2 "d"V`
+		`= int_V |grad g|^2 "d"V + int_V |grad f|^2 "d"V - 2 int_V grad f
+		* grad g "d"V`
+		`= int_V |grad g - grad f|^2 "d"V ge 0`.
+	</span>
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

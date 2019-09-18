@@ -761,13 +761,231 @@
 	</span>
 </ol>
 
+<p class="remark">
+	群作用的概念和拓扑学中的同伦是类似的.
+</p>
+
+<ol class="example">
+	<li>数域 `bbb F` 上线性空间 `V` 的数乘运算
+		<span class="formula">
+			`*_(bbb F): bbb F xx V to V`<br/>
+			`(k, alpha) to k alpha`
+		</span>
+		是 `bbb F` 的乘法群在 `V` 上的一个群作用.
+	</li>
+	<li>群 `G` 上的左平移变换
+		<span class="formula">
+			`f_1: G xx G to G`<br/>
+			`(g, x) to g x`
+		</span>
+		是 `G` 在 `G` 上的一个群作用. 右平移类似.
+	</li>
+	<li>群 `G` 上的共轭变换
+		<span class="formula">
+			`f_2: G xx G to G`<br/>
+			`(g, x) to g x g^-1`
+		</span>
+		是 `G` 在 `G` 上的一个群作用.
+	</li>
+	<li>群 `H le G`, `G` 关于 `H` 的左陪集全体 `G//H_l = {g H | g in G}`
+		称为 `G` 的一个<b>齐性空间</b>. 下述变换:
+		<span class="formula">
+			`f_3: G xx G//H_l to G//H_l`<br/>
+			`(g, a H) to (g a) H`.
+		</span>
+		是 `G` 在 `G//H_l` 上的一个群作用. 右陪集类似.
+	</li>
+</ol>
+
 <p class="theorem">
-	令 `X` 为一非空集, `G` 为一群. 则 `G` 在 `X` 上的一个群作用 `f(g, x)`
-	确定 `G` 到 `X` 上对称群 `S_X` (`S` 上全体可逆变换) 的一个群同态
-	`eta`, 反之亦然.
+	令 `X` 为一非空集, `G` 为一群. 则 `G` 在 `X` 上的群作用 `f(g, x)`
+	与 `G` 到 `X` 上对称群 `S_X` (`X` 上全体可逆变换) 的群同态一一对应.
+</p>
+
+<p class="proof">
+	设有群作用 `f(g, x) := g(x)`,
+	作 `eta: g in G to sigma_g in S_X`, 其中 `sigma_g: x to g(x)`.
+	先证 `sigma_g in S_X`, 即 `sigma_g` 为双射.
+	显然 `sigma_g in cc T(X)`. 又 `AA x in X`,
+	<span class="formula">
+		`sigma_(g^-1) @ sigma_g{::}(x)`
+		`= sigma_(g^-1)(sigma_g{::}(x))`
+		`= g^-1(g(x)) = x`,
+	</span>
+	所以 `sigma_(g^-1) @ sigma_g = 1_X`.
+	同理 `sigma_g @ sigma_(g^-1) = 1_X`, 于是 `sigma_g` 为一双射.
+	又 `AA g, h in G`, `x in X`,
+	<span class="formula">
+		`eta(h g)(x) = sigma_(h g)(x)`
+		`= (h g)(x) = h(g(x))`
+		`= sigma_h(sigma_g{::}(x)) = (sigma_h @ sigma_g)(x)`
+		`= [eta(h) eta(g)](x)`,
+	</span>
+	因此 `eta` 为一同态映射.<br/>
+	反之, 令 `eta: G to S_X` 为同态映射.  作映射
+	`f: (g, x) in G xx X to (eta(g))(x) in X`.
+	由于 `AA g, h in G`, `x in X`,
+	<span class="formula">
+		`(h g)(x) = eta(h g)(x) = (eta(h) @ eta(g))(x)`
+		`= eta(h)(eta(g)(x)) = h(g(x))`;<br/>
+		`e(x) = eta(e)(x) = 1_X(x) = x`.
+	</span>
+	因此 `f: G xx X to X` 为群作用.
+</p>
+
+<p class="remark">
+	定理告诉我们, 定义了群作用 `f(g, x)` 后, 每取定一个群元 `g in G`,
+	就对应有 `X` 上的一个可逆变换 `sigma_g`, 且 `G` 到 `S_X`
+	间是群同态的关系, 亦即 `sigma_g` 保持了 `g` 在 `G` 中的代数运算.
+	反之, 如果每取定一个 `g in G`, 就对应有 `X` 上的可逆变换 `sigma_g`,
+	且 `sigma_g` 保持 `g` 在 `G` 中的代数运算, 我们也就定义了一个群作用
+	`f(g, x)`.
+</p>
+
+<h3>群作用的轨道与不动点</h3>
+
+<p class="definition">
+	令 `f: G xx X to X` 为一群作用, 定义 `X` 上二元关系 `~` 如下
+	<span class="formula">
+		`x ~ y iff (EE g in G) g(x) = y`
+	</span>
+	可以验证 `~` 为 `X` 上一等价关系.  元素 `x in X` 所在的等价类记为
+	<span class="formula">
+		`O_x := {g(x) | g in G}`
+	</span>
+	称为群作用 `f` 的一个<b>轨道</b>. 显然 `X` 是全体不同轨道的并.
+	若群作用 `f` 只有一个轨道, 则称 `f` 是<b>可迁的</b>.
+</p>
+
+<p class="definition">
+	令 `f: G xx X to X` 为一群作用, 对任意 `x in X`, 定义
+	<span class="formula">
+		`H_x := {g in G | g(x) = x}`
+	</span>
+	由 `e in H_x` 知 `H_x` 非空. 容易验证 `H_x le G`, 称 `H_x` 为 `x` 在
+	`f` 下的<b>稳定子群</b>.
+	如果 `x in X` 满足
+	<span class="formula">
+		`(AA g in G) g(x) = x`
+	</span>
+	(即 `O_x = {x}`, 亦即 `H_x = G`),
+	则称 `x` 为 `f` 的一个<b>不动点</b>.
+</p>
+
+<p class="proof">
+	`AA a, b in G`, 若 `a x = b x = x`,
+	则
+	<span class="formula">
+		`a b^-1 x = a b^-1(b x) = a x = x`.
+	</span>
+	所以 `a b^-1 in H_x`.
+</p>
+
+<p class="example">
+	群 `G` 在共轭作用 `g(x) = g x g^-1` 下的稳定子群 `H_x = Z_G({x})`;
+	从而, `G` 在共轭作用下的不动点的全体就是 `Z(G)`.
+</p>
+
+<p class="definition">
+	设群 `G` 在非空集 `X, Y` 上各有一群作用, 称这两个群作用<b>等价</b>,
+	如果存在双射 `varphi: X to Y` 使得
+	<span class="formula">
+		`(AA g in G)(AA x in X)`
+		`varphi(g(x)) = g(varphi(x))`.
+	</span>
+</p>
+
+<p class="lemma">
+	令 `f: G xx X to X` 为一群作用, `x in X`, 显然 `f` 在 `O_x`
+	上的限制也为一群作用, 且 `G` 在 `O_x` 上的群作用与 `G` 在齐性空间
+	`G//H_(x,l)` 上的群作用等价.
+</p>
+
+<p class="proof">
+	作 `varphi: a H_x in G//H_(x,l) to a(x) in O_x`.
+	由
+	<span class="formula">
+		`a H_x = b H_x iff a^-1 b in H_x`
+		`iff x = (a^-1 b) x`
+		`iff a(x) = b(x)`
+	</span>
+	知, `varphi` 为一映射, 且为一单射, 又由轨道定义, `varphi` 为一满射,
+	因此 `varphi` 为一双射.
+	`AA g in G, a H_x in G//H_(x,l)`,
+	<span class="formula">
+		`varphi(g(a H_x)) = varphi((g a)H_x)`
+		`= (g a)(x) = g(a(x)) = g(varphi(a H_x))`,
+	</span>
+	因此, 二群作用等价.
+</p>
+
+<p class="theorem" id="the-orbit-cardinal">
+	令 `f: G xx X to X` 为一群作用, 则
+	<span class="formula">
+		`|G| = |O_x| |H_x|`.
+	</span>
+</p>
+
+<p class="proof">
+	这是因为存在 `G//H_(x,l) to O_x` 间的双射, 故
+	<span class="formula">
+		`|O_x| = |G//H_(x,l)| = [G:H_x]`.
+	</span>
 </p>
 
 <h3>Sylow 定理</h3>
+
+<p class="definition">
+	称群 `G` 为一<b>`bm p`-群</b>, 如果 `|G| = p^k`,
+	其中 `p` 为一素数, `k in ZZ^+`.
+</p>
+
+<p class="theorem">
+	令 `G` 为一 `p^k` 阶 `p`-群, `X` 为一非空有限集, `|X| = n`.
+	则群作用 `f: G xx X to X` 的不动点个数 `t` 满足
+	<span class="formula">
+		`t -= n (mod p)`.
+	</span>
+	从而 `p !| n` 时, 群作用有不动点.
+</p>
+
+<p class="proof">
+	令 `X` 为群作用 `f` 的轨道的如下无交并
+	<span class="formula">
+		`X = uuu_(i=1)^m O_(x_i)`,
+	</span>
+	不妨令 `x_1, x_2, cdots, x_t` 为 `f` 的所有不动点, 则
+	<span class="formula">
+		`|X| = t + sum_(i=t+1)^m |O_(x_i)|`.
+	</span>
+	对 `i = t+1, t+2, cdots, m`,
+	由<a class="ref" href="#the-orbit-cardinal"></a>,
+	`|O_(x_i)|` 整除 `|G| = p^k`, 但 `|O_(x_i)| gt 1`, 所以
+	<span class="formula">
+		`p | |O_(x_i)|`, `i = t+1, t+2, cdots, m`.
+	</span>
+	从而 `p | n-t`, 即 `t -= n (mod p)`.
+</p>
+
+<p class="corollary">
+	`p`-群有非平凡中心.
+</p>
+
+<p class="proof">
+	令 `G` 为一 `p^k` 阶 `p`-群, `t` 为 `G` 上共轭作用的不动点数,
+	则 `t -= p^k (mod p)`, 从而 `p | t`. 但元素 `e in G`
+	是共轭作用的不动点 (`g e g^-1 -= e`), 所以 `t gt 0`, 从而 `t gt 1`.
+	这就是说, `G` 上共轭作用的不动点数 `gt 1`, 即 `|Z(G)| gt 1`.
+	事实上 `|Z(G)| = p^l`, `1 le l le k`.
+</p>
+
+<p class="lemma">
+	令 `n = p^l m`, `p` 为一素数, `l, m in ZZ^+` 且 `p !| m`,
+	则 `AA 0 le k le l`, `((n),(p^k))` 中仅含 `l-k` 个 `p` 因子, 即
+	<span class="formula">
+		`p^(l-k) | ((n),(p^k))`, 但 `p^(l-k+1) !| ((n),(p^k))`.
+	</span>
+</p>
 
 </body>
 

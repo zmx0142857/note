@@ -10,13 +10,15 @@ var tableOfContents = [ {
 	}, {
 	title:'数学分析',
 	articles: [
-		{title:'初等函数', src:'analysis/1-3.html'},
+		{title:'初等函数', src:'analysis/1.html'},
 		{title:'数列的极限', src:'analysis/2.html'},
-		{title:'无穷级数', src:'analysis/3.html'},
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
+		{title:'无穷级数', src:'analysis/10.html'},
+		{title:'条件极值问题', src:'analysis/17.html'},
 		{title:'含参变量的积分', src:'analysis/18.html'},
 		{title:'重积分', src:'analysis/19.html'},
+		{title:'场论初步', src:'analysis/22.html'},
 	]
 	}, {
 	title:'集合论',
@@ -95,6 +97,7 @@ var tableOfContents = [ {
 		{title:'向量与坐标系', src:'analytic-geo/1.html'},
 		{title:'平面与直线', src:'analytic-geo/2.html'},
 		{title:'二次曲线与曲面', src:'analytic-geo/3.html'},
+		{title:'平面几何的复数解法', src:'analytic-geo/6.html'},
 	]
 	}, {
 	title:'微分几何',
@@ -112,6 +115,7 @@ var tableOfContents = [ {
 		{title:'排列与组合', src:'combinatorics/2.html'},
 		{title:'递推式与差分方程', src:'combinatorics/3.html'},
 		{title:'若干著名数列', src:'combinatorics/4.html'},
+		{title:'容斥原理', src:'combinatorics/5.html'},
 	]
 	}, {
 	title:'图论',
@@ -124,6 +128,7 @@ var tableOfContents = [ {
 		{title:'群 (上)', src:'abstract/2.html'},
 		{title:'群 (中)', src:'abstract/3.html'},
 		{title:'群 (下)', src:'abstract/4.html'},
+		{title:'环', src:'abstract/6.html'},
 		{title:'Galois 理论', src:'abstract/8.html'},
 	]
 	}, {
