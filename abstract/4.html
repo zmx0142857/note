@@ -661,14 +661,42 @@
 </p>
 
 <p class="definition">
+	令群 `H le G`, `g in G`, 则 `g H g^-1 le G`, 称为 `H` 在 `G`
+	中的共轭子群.
+</p>
+
+<p class="corollary">
+	令群 `H le G`, `g in G`, 则 `H ~= g H g^-1`.
+</p>
+
+<p class="proof">
+	作映射 `f: h in H to g h g^-1 in g H g^-1`. 显然 `f` 为双射, 又
+	`AA h_1, h_2 in H`,
+	<span class="formula">
+		`f(h_1) f(h_2) = g h_1 g^-1 g h_2 g^-1`
+		`= g(h_1 h_2)g^-1 = f(h_1 h_2)`,
+	</span>
+	故 `f` 为一同态, 即 `f` 为一同构.
+</p>
+
+<p class="definition">
 	令群 `H le G`. 定义 `H` 的<b>正规化子</b>和<b>中心化子</b>如下:
 	<span class="formula">
-		`N_G(H) := {g in G | g H = H g}`,<br/>
+		`N_G(H) := {g in G | g H g^-1 = H} = {g in G | g H = H g}`,<br/>
 		`Z_G(H) := {g in G | (AA h in G) g h = h g}`.
 	</span>
 	容易验证 `N_G(H), Z_G(H) le G`.
 	由定义可见, `N_G(H)` 是 `G` 中所有 `H` 可吸收的元素,
 	`Z_G(H)` 是 `G` 中所有与 `H` 可换的元素.
+</p>
+
+<p class="remark">
+	若 `H` 有限, 正规化子还可以定义为
+	<span class="formula">
+		`N_G = {g in G | g H g^-1 sube H}`.
+	</span>
+	事实上, 由于 `g H g^-1 ~= H` 有 `|g H g^-1| = |H|`,
+	故只能 `g H g^-1 = H`.
 </p>
 
 <ol class="corollary">
@@ -797,7 +825,7 @@
 	</li>
 </ol>
 
-<p class="theorem">
+<p class="theorem" id="the-group-action-homomorphism">
 	令 `X` 为一非空集, `G` 为一群. 则 `G` 在 `X` 上的群作用 `f(g, x)`
 	与 `G` 到 `X` 上对称群 `S_X` (`X` 上全体可逆变换) 的群同态一一对应.
 </p>
@@ -985,6 +1013,188 @@
 	<span class="formula">
 		`p^(l-k) | ((n),(p^k))`, 但 `p^(l-k+1) !| ((n),(p^k))`.
 	</span>
+</p>
+
+<p class="proof">
+	由于
+	<span class="formula">
+		`((n),(p^k)) = n/p^k ((n-1),(p^k-1))`
+		`= p^(l-k) m ((n-1),(p^k-1))`,
+	</span>
+	且 `AA 1 le i le p^k-1`, `0 le t le k`, 由于 `p^t | n`, 有
+	<span class="formula">
+		`p^t | n-i iff p^t | i iff p^t | p^k-i`
+	</span>
+	因此
+	<span class="formula">
+		`((n-1),(p^k-1)) =
+		((n-1)cdots(n-(p^k-1)))/((p^k-1)cdots(p^k-(p^k-1)))`
+	</span>
+	分子分母含有同样多的公因子 `p`, 因而消去因子 `p` 后得到一分子分母都与
+	`p` 互素的分数. 又 `p !| m`, 所以
+	<span class="formula">
+		`p !| m * ((n-1),(p^k-1))`,
+	</span>
+	于是 `p^(l-k) | ((n),(p^k))`, 但 `p^(l-k+1) !| ((n),(p^k))`.
+</p>
+
+<ol class="theorem">
+	<b>Sylow 定理</b>
+	令 `G` 为一 `n` 阶群, `p` 为一素数, `l in ZZ^+`,
+	`p^l | n`, `p^(l+1) !| n`.
+	则
+	<li>`AA 1 le k le l`, `G` 必有 `p^k` 阶子群 `H`, 特别地有 `p^l` 阶子群
+		`P`, 称为 `G` 的一个 <b>Sylow `bm p`-子群</b>.
+	</li>
+	<li>如上述, `|H| = p^k le p^l = |P|`,
+		则 `H` 含于 `P` 的某个共轭子群, 即
+		<span class="formula">
+			`(EE a in G)` `H sube a P a^-1`.
+		</span>
+		因为 `P` 的任意共轭子群与 `P` 同构, 从而阶数相同,
+		所以 Sylow-`p` 子群的共轭子群也是 Sylow `p`-子群.
+		特别取 `k = l` 有 `H = a P a^-1`,
+		即 `G` 的 Sylow `p`-子群都是相互共轭的.
+	</li>
+	<li>`G` 的 Sylow `p`-子群的数目 `n_p -= 1 (mod p)`,
+		且 `n_p | n//p^l`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>令 `X = {A sube G {:|:} |A| = p^k}`. 则 `|X| = ((n),(p^k))`.
+		作映射
+		<span class="formula">
+			`f: G xx X to X`<br/>
+			`(g, A) to g A`.
+		</span>
+		(`g A = {g a | a in A}` 类似于左陪集, 但这里 `A` 是一般的集合.
+		由于 `G` 上左平移变换为单射, 故 `|g A| = |A|`).
+		`AA g, h in G`, `A in X`, 有
+		<span class="formula">
+			`e A = A`, `quad (g h) A = g(h A)`,
+		</span>
+		故 `f` 为群 `G` 在 `X` 上的一个群作用, 令 `X` 为 `f` 轨道的无交并:
+		<span class="formula">
+			`X = uuu_(i=1)^m O_(A_i)`,
+			`quad |X| = sum_(i=1)^m |O_(A_i)|`.
+		</span>
+		由引理, `p^(l-k) | |X|`, `p^(l-k+1) !| |X|`. 故存在 `1 le j le m`,
+		<span class="formula">
+			`p^(l-k+1) !| |O_(A_j)|`,
+		</span>
+		即 `|O_(A_j)|` 至多含 `l-k` 个素因子 `p`, 根据<a class="ref"
+		href="#the-orbit-cardinal"></a>,
+		<span class="formula">
+			`|G| = |O_(A_j)| |H_(A_j)|`.
+		</span>
+		从而 `|H_(A_j)|` 至少含有 `l-(l-k) = k` 个素因子 `p`,
+		即 `p^k | |H_(A_j)|`. 因为
+		<span class="formula">
+			`H_(A_j) = {g in G | g A_j = A_j}`,
+		</span>
+		所以 `AA a in A_j`, `AA g in H_(A_j)`, `g a in A_j`.
+		从而 `H_(A_j)` 的右陪集 `H_(A_j) a sube A_j`, 因此
+		<span class="formula">
+			`|H_(A_j)| = |H_(A_j) a| le |A_j| = p^k`
+		</span>
+		但 `p^k | |H_(A_j)|`, 所以 `|H_(A_j)| = p^k`, 即为 `G` 的一个
+		`p^k` 阶子群.
+	</li>
+	<li>令 `X` 为 `G` 关于 Sylow `p`-子群 `P` 的全体左陪集构成的集合,
+		则 `|X| = [G:P] = n//p^l`. 作映射
+		<span class="formula">
+			`f: H xx X to X`<br/>
+			`(h, g P) to (h g)P`.
+		</span>
+		`AA h_1, h_2 in H`, `AA g P in X`,
+		<span class="formula">
+			`e(g P) = (e g) P = g P`,
+			`quad (h_1 h_2)g P = (h_1 (h_2 g)) P`.
+		</span>
+		从而 `f` 为群 `H` 在 `X` 上的一个群作用.
+		由 `p !| |X|` 知, `f` 有不动点, 记为 `a P`, 即 `AA h in H`,
+		`h (a P) = a P`. 从而 `a^-1 h a in P`, 于是
+		`a^-1 H a sube P`, 即 `H sube a P a^-1`.
+	</li>
+	<li>先证 `n_p | n`.
+		令 `X` 为 `G` 的所有 Sylow `p`-子群构成的集合. 作映射
+		<span class="formula">
+			`f_1: G xx X to X`<br/>
+			`(g, P) to g P g^-1`.
+		</span>
+		容易验证 `f_1` 为一群作用. 但 `G` 的所有 Sylow
+		`p`-子群都是相互共轭的, 所以 `f_1` 只有一个轨道 `X`,
+		从而 `n_p = |X| | |G| = n`.<br/>
+		现在令 `P_1` 为 `G` 的一个 Sylow `p`-子群,
+		`X = {P_1, P_2, cdots, P_(n_p)}`, 则
+		<span class="formula">
+			`f_2: P_1 xx X to X`<br/>
+			`(a, P_i) to a P_i a^-1`.
+		</span>
+		提供 `P_1` 在 `X` 上的一个群作用. 记 `f_2` 的不动点数为 `t`, 则
+		<span class="formula">
+			`t -= n_p (mod p)`.
+		</span>
+		下证 `t = 1`. 显然 `P_1 in X` 为 `f_2` 的一个不动点, 若 `P_j` 也为
+		`f_2` 的一个不动点, 则
+		<span class="formula">
+			`(AA g in P)` `P_j = g P_j g^-1`.
+		</span>
+		从而 `P_1 sube N_G(P_j)`. 即 `P_1` 为 `N_G(P_j)` 的一个 Sylow
+		`p`-子群. 但 `P_j` 也是 `N_G(P_j)` 的 Sylow `p`-子群, 故
+		`P_1 = P_j`. 即 `t = 1`, 即 `n_p -= 1 (mod p)`.<br/>
+		现在由 `n_p | n` 和 `n_p !| p^l` 知, `n_p | n//p^l`.
+	</li>
+</ol>
+
+<ol class="corollary">
+	假设同上. 设 `P` 是 `G` 的一个 Sylow `p`-子群, 则
+	<li>`P` 是 `G` 的惟一 Sylow `p`-子群当且仅当 `P normal G`.</li>
+	<li>`P` 是 `N_G(P) = {g in G | g P g^-1 = P}` 的惟一 Sylow
+		`p`-子群.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>只需证 `P` 是 `G` 的惟一 Sylow `p`-子群当且仅当
+		<span class="formula">
+			`(AA g in G)` `g P g^-1 = P`.
+		</span>
+		必要性由 Sylow-`p` 子群的共轭子群也是 Sylow-`p` 子群得知.
+		充分性由 `G` 的 Sylow-`p` 子群都是相互共轭的得知.
+	</li>
+	<li>显然 `P sube N_G(P)`, 因此 `P` 是 `N_G(P)` 的 Sylow `p`-子群.
+		由于 `N_G(P)` 的 Sylow `p`-子群都相互共轭, 所以若 `P_1` 也是
+		`N_G(P)` 的 Sylow `p`-子群, 则
+		<span class="formula">
+			`(EE g in N_G(P))` `P_1 = g P g^-1 = P`.
+		</span>
+	</li>
+</ol>
+
+<p class="example">
+	72, 36 阶群不是单群.
+</p>
+
+<p class="proof">
+	设 `|G| = 72 = 2^3 3^2`, 由第三 Sylow 定理, `G` 的 Sylow 3-子群的个数
+	`n_3 = 1+3t | 2^3`, 因此, `t = 0, 1`.
+	当 `t = 0` 时, `G` 的 Sylow-3 子群只有 1 个, 为 9 阶正规子群.
+	当 `t = 1` 时, `G` 的 Sylow-3 子群有 4 个, 令 `X` 是这 4 个群的集合:
+	<span class="formula">
+		`X = {P_1, P_2, P_3, P_4}`.
+	</span>
+	考虑 `G` 在 `X` 上的共轭作用, 则由<a class="ref"
+	href="#the-group-action-homomorphism"></a>, `G` 的每一元素提供一个 4
+	次置换, 于是我们得到一个同态映射 `varphi: G to S_4`.
+	由 `|G| = 72 gt |S_4| = 24` 知, `varphi` 不是单射, 即 `"Ker"varphi !=
+	{e}`, 又显然 `varphi(G) != {(1)}` (否则 `G` 只有一个 Sylow 3-子群,
+	矛盾). 从而 `"Ker" varphi != G`, 于是 `G`
+	有非平凡的正规子群 `"Ker"varphi` (它是 `varphi(G)` 的平凡正规子群
+	`{(1)}` 的原像, 因此是正规子群).
+	综上所述, `G` 不是单群.<br/>
+	类似可证明 36 阶群不是单群.
 </p>
 
 </body>

@@ -109,7 +109,7 @@
 	</li>
 </ol>
 
-<h3>从 Fibonacci 数列到常系数线性差分方程</h3>
+<h3>Fibonacci 数列</h3>
 
 <p class="example">
 	求 Fibonacci 数列
@@ -208,19 +208,53 @@
 </p>
 
 <p class="corollary">
-	注意 `|psi| lt 1`, 从而对 `n = 0, 1, 2...` 都成立 `|psi^n/sqrt 5| lt
-	1/sqrt 5 lt 1/2`. 我们推出:
-		`f_n` 等于最接近 `varphi^n/sqrt 5` 的整数.
+	注意 `|psi|  = |1-sqrt 5|//2 lt 1`, 从而对 `n = 0, 1, 2...` 都成立
+	`|psi^n/sqrt 5| lt 1/sqrt 5 lt 1/2`. 我们推出: `f_n` 等于最接近
+	`varphi^n/sqrt 5` 的整数.
 </p>
 
 <p class="remark">
-	`varphi` 即是著名的黄金比例, 它定义为方程 `x^2 = 1 + x` 的正根.
-	利用通项公式容易计算, Fibonacci 数列前后项的比值 `f_(n+1)//f_n`
-	的极限是 `varphi`, 因此它在某种意义上是对等比数列 `varphi^n/sqrt 5`
-	的逼近.
+	`varphi = (1+sqrt 5)//2` 即是著名的黄金比例, 它定义为方程 `x^2 = 1 +
+	x` 的正根.  利用通项公式容易计算, Fibonacci 数列前后项的比值
+	`f_(n+1)//f_n` 的极限是 `varphi`, 因此它在某种意义上是对等比数列
+	`varphi^n/sqrt 5` 的逼近.
 </p>
 
-<h4>常系数齐次线性差分方程</h4>
+<p class="proof">
+	现在我们不用通项公式, 只借助递推式来推导极限 `lim_(n to oo)
+	f_(n+1)//f_n`. 记 `x_n = f_(n+1)//f_n`, 则
+	<span class="formula">
+		`x_1 = 1`, `quad x_n = (f_n + f_(n-1))/(f_n) = 1 + 1/x_(n-1)`.
+	</span>
+	假设 `x_n to a`, 则 `a` 满足
+	<span class="formula">
+		`a = 1 + 1/a`.
+	</span>
+	显然 `a` 是正数, 由上式解得 `a = varphi = (1+sqrt 5)//2`.
+	下证极限存在. 注意到 `x_n ge 1`, `n = 1, 2, cdots`, 有
+	<span class="formula">
+		`|x_n - a| = |(1 + 1/x_(n-1)) - (1 + 1/a)|`
+		`= |1/x_(n-1) - 1/a|`
+		`= |x_(n-1) - a|/(a x_(n-1))`
+		`le 1/a |x_(n-1) - a|`
+	</span>
+	由 `1/a lt 1` 知 `|x_n - a| to 0`, 即 `x_n to a`.
+</p>
+
+<p class="example">
+	设有两种译码规则 0 = A 和 00 = B, 现收到一串 `n` 个 0 的序列,
+	问有几种不同的解释. 事实上, 设这个数为 `x_n`, 则 `x_1 = 1`, `x_2 = 2`
+	(因为两个 0 可以解释为一个 B, 也可以解释为两个 A).
+	设 `n ge 3`, 考虑 `n` 个 0 的序列, 若将第一个 0 解释为一个 A, 则余下
+	`n-1` 个 0 有 `x_(n-1)` 种解释; 若将前两个 0 解释为一个 B, 则余下
+	`n-2` 个 0 有 `x_(n-2)` 种解释.
+	<span class="formula">
+		`x_n = x_(n-1) + x_(n-2)`, `quad n ge 3`.
+	</span>
+	注意 `x_1 = f_2`, `x_2 = f_3`, 所以 `x_n = f_(n+1)`.
+</p>
+
+<h3>常系数齐次线性差分方程</h3>
 
 <p>	我们看到, 求解 Fibonacci 数列通项公式的所有方法中, 特征根法计算量最小,
 	且抓住了问题的本质. 这一方法很容易推广到一般的常系数线性差分方程,
@@ -311,7 +345,7 @@
 	`n^j lambda^n` 和 `n^j {:bar lambda:}^n`.
 </p>
 
-<h4>非齐次常系数线性方程的比较系数法</h4>
+<h3>非齐次常系数线性方程的比较系数法</h3>
 
 <ol>这类方程的一般形式如
 	<span class="formula">

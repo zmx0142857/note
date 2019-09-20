@@ -142,4 +142,9 @@ var tableOfContents = [ {
 	articles: [
 		{title:'数学游戏', src:'recreation/1.html'},
 	]
+	}, {
+	title:'未分类',
+	articles: [
+		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
+	]
 }];
