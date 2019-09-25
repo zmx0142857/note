@@ -12,15 +12,337 @@
 
 <body>
 
+<h2>三角函数与反三角函数</h2>
+
+<h4>勾股定理</h4>
+
+<span class="formula">
+	`sin^2 x + cos^2 x = 1`;<br/>
+	`tan^2 x + 1 = 1 // cos^2 x`;<br/>
+	`1 + cot^2 x = 1 // sin^2 x`.
+</span>
+
+<h4>和角公式</h4>
+
+<span class="formula">
+	`sin (x +- y) = sin x cos y +- cos x sin y`;<br/>
+	`cos (x +- y) = cos x cos y &#x2213; sin x sin y`;<br/>
+	`tan (x +- y) = (tan x +- tan y) / (1 &#x2213; tan x tan y)`.
+</span>
+
+<h4>倍角/半角公式</h4>
+
+<p>	运用和角公式推出</p>
+
+<span class="formula">
+	`cos 2x = cos^2 x - sin^2 x`
+	`= 1 - 2 sin^2 x`
+	`= 2 cos^2 x -1`;<br/>
+	`sin 2x = 2 sin x cos x`;<br/>
+	`cos 3x = 4 cos^3 x - 3 cos x`;<br/>
+	`sin 3x = 3 sin x - 4 sin^3 x`;<br/>
+	`cos^2 x = (1 + cos 2x)//2`;<br/>
+	`sin^2 x = (1 - cos 2x)//2`;<br/>
+	`tan^2 x = (1 - cos 2x)/(1 + cos 2x)`;<br/>
+	`tan x = (sin 2x)/(1 + cos 2x) = (1 - cos 2x)/(sin 2x)`;<br/>
+	`1 +- sin 2x = (sin x +- cos x)^2`.
+</span>
+
+<h4>和差化积</h4>
+
+<p>	运用和角公式推出</p>
+
+<span class="formula">
+	`sin x +- sin y = 2 sin{:(x+-y)/2:} cos{:(x&#x2213;y)/2:}`;<br/>
+	`cos x + cos y = 2 cos{:(x+y)/2:} cos{:(x-y)/2:}`;<br/>
+	`cos x - cos y = 2 sin{:(x+y)/2:} sin{:(x-y)/2:}`.
+</span>
+
+<h4>积化和差</h4>
+
+<p>	运用和角公式推出</p>
+
+<span class="formula">
+	`2 sin x cos y = sin(x+y) + sin(x-y)`
+	`= sin(y+x) - sin(y-x)`;<br/>
+	`2 cos x cos y = cos(x-y) + cos(x+y)`;<br/>
+	`2 sin x sin y = cos(x-y) - cos(x+y)`.
+</span>
+
+<h4>辅助角公式</h4>
+
+<span class="formula">
+	`A sin x + B cos x = sqrt(A^2+B^2) sin(x+varphi)`,
+	`quad tan varphi = B/A`;<br/>
+	`(1 + C tan x)/(C - tan x) = tan (x+varphi)`,
+	`quad cot varphi = C`.
+</span>
+
+<h4>万能代换</h4>
+
+<p>	令 `t = tan {:x/2:}`, 有 `x = 2 arctan t`, 从而
+	<span class="formula">
+		`dx = (2 dt)/(1+t^2)`,
+		`quad sin x = (2t)/(1+t^2)`,
+		`quad tan x = (2t)/(1-t^2)`,
+		`quad cos x = (1-t^2)/(1+t^2)`.
+	</span>
+</p>
+
+<h2>反三角函数</h2>
+
+<p>	定义域, 值域:
+	<span class="formula">
+		`y = arcsin x`, `quad x in [-1, 1]`, `y in [-pi/2, pi/2]`;<br/>
+		`y = arccos x`, `quad x in [-1, 1]`, `y in [0, pi]`;<br/>
+		`y = arctan x`, `quad x in RR`, `y in (-pi/2, pi/2)`;<br/>
+		`y = "arccot" x`, `quad x in RR`, `y in (0, pi)`.
+	</span>
+</p>
+
+<p>	因为 `arcsin x`, `arccos x`, `arctan x` 都在各自的定义域上单调,
+	所以对所有定义域中的 `x`,
+	<span class="formula">
+		`sin arcsin x = x`,
+		`quad cos arccos x = x`,
+		`quad tan arctan x = x`.
+	</span>
+	反之, 则不那么优雅:
+	<span class="formula">
+		`arcsin sin x = (-1)^n (x-n pi)`, `quad |x-n pi| le pi/2;<br/>
+		`arctan tan x = x-n pi`, `quad |x - n pi| lt pi/2`;<br/>
+		`arccos cos x = {
+			(x-n pi, if n " is even"),
+			((n+1)pi-x, if n " is odd")
+		:}`, `quad |x-(n+1/2)pi| le pi/2`.
+	</span>
+</p>
+
+<p>	相应于一些三角函数公式, 对于反三角函数有如下恒等式
+	<span class="formula">
+		`arcsin x + arccos x = pi/2`;<br/>
+		`arctan x + text(arccot) x = pi/2`;<br/>
+		`2 arctan "e"^x - arctan sinh x = pi/2`;<br/>
+	</span>
+	以及
+	<span class="formula">
+		` arcsin x = text(sgn) x * arccos sqrt (1 - x^2)
+		= arctan {: x/sqrt (1 - x^2) :}`;<br/>
+
+		`arctan x = sgn x * arccos{:1/sqrt(1 + x^2):}`
+		`= arcsin {:x/sqrt(1 + x^2):}`;<br/>
+
+		`arccos x = {
+			(arcsin sqrt(1-x^2), if x ge 0),
+			(pi - arcsin sqrt(1-x^2), if x lt 0)
+		:} = {
+			(arctan{:sqrt(1-x^2)/x:}, if x ge 0),
+			(pi + arctan{:sqrt(1-x^2)/x:}, if x lt 0)
+		:}`.
+	</span>
+	还有
+	<span class="formula">
+		` 2 arctan sqrt ((a-b)/(a+b))
+		= arccos {: b/a :}`, `quad |a| ge |b|`;<br/>
+		` arccos x = 2 arccos sqrt((1+x)/2) = 2 arcsin sqrt((1-x)/2)`.
+	</span>
+</p>
+
+<p>	下面三个式子常用于数学分析:
+	<span class="formula">
+		`arcsin x - arcsin y = {
+			(arcsin(x sqrt(1-y^2) - y sqrt(1-x^2))
+				if xy ge 0 or x^2 + y^2 le 1),
+			(pi*sgn(x-y) - arcsin(x sqrt(1-y^2) - y sqrt(1-x^2))
+				if "else")
+		:}`<br/>
+		`arctan x - arctan y = {
+			(arctan{:(x-y)/(1+xy):}, if xy ge -1),
+			(arctan{:(x-y)/(1+xy):} + pi*sgn(x-y), if xy lt -1)
+		:}`;<br/>
+		`arccos x - arccos y
+		= arccos(xy + sqrt((1-x^2)(1-y^2)) ) * sgn(y-x)`.
+	</span>
+
+<p class="remark">
+	考虑如下的证明思路 (以 `arcsin x + arccos x = pi/2` 的证明为例):
+	原式成立当且仅当
+	<span class="formula">
+		`arcsin x = pi/2 - arccos x`,
+	</span>
+	注意到上式两边之差的绝对值不超过 `2 pi`, 所以上式成立当且仅当
+	<span class="formula">
+		`sin arcsin x = sin (pi/2 - arccos x)`,
+	</span>
+	即 `x = cos arccos x`, 这显然成立.
+</p>
+
+<h2>双曲三角函数与反双曲三角函数</h2>
+
+<h4>和角</h4>
+
+<span class="formula">
+	`sinh(x+-y) = sinh x cosh y +- sinh y cosh x`;<br/>
+	`cosh(x+-y) = cosh x cosh y +- sinh x sinh y`;<br/>
+	`tanh(x+-y) = (tanh x +- tanh y)/(1+-tanh x tanh y)`.
+</span>
+
+<h4>倍角公式</h4>
+
+<span class="formula">
+	`sinh 2x = 2 sinh x cosh x`;<br/>
+	`cosh 2x = cosh^2 x + sinh^2 x` `= 2 cosh^2 x -1` `= 2 sinh^2 x +1`.
+</span>
+
+<h4>勾股定理</h4>
+
+<span class="formula">
+	`cosh^2 x = sinh^2 x + 1`;<br/>
+	`1 = tanh^2 x + 1//cosh^2 x`;<br/>
+	`1//tanh^2 x = 1 + 1//sinh^2 x`.
+</span>
+
+<h4>反双曲三角函数</h4>
+
+<span class="formula">
+	`"arsh "x = ln (x + sqrt(x^2+1))`, `quad x in RR`;<br/>
+	`"arch "x = ln (x + sqrt(x^2-1))`, `quad x ge 1`;<br/>
+	`"arth "x = 1/2 ln ((1+x)/(1-x))`, `quad -1 lt x lt 1`.
+</span>
+
+<h2>De Moivre 定理</h2>
+
+<p>
+	`AA n in ZZ`, 对 `n` 作归纳即可证明,
+	<span class="formula">
+		`(cos x + "i"sin x)^n = cos nx + "i" sin nx`.
+	</span>
+	上式左边展开, 分别取实部和虚部就得到: `AA n in ZZ^+`.
+	<span class="formula">
+		`cos n x = sum_(j=0)^k (-1)^j ((n),(2j)) cos^(n-2j)x sin^(2j)x`,
+		`quad n = 2k` 或 `2k+1`;<br/>
+		`sin n x = sum_(j=1)^k (-1)^(j-1) ((n),(2j-1)) cos^(n-2j+1)x
+		sin^(2j-1)x`.
+		`quad n = 2k` 或 `2k-1`.
+	</span>
+</p>
+
+<h2>Euler 公式</h2>
+
+<p>
+	<span class="formula">
+		`"e"^(ix) = cos x + "i" sin x`, `quad AA x in CC`.
+	</span>
+	从而
+	<span class="formula">
+		`cos x = ("e"^(ix) + "e"^(-ix))/2`,
+		`quad sin x = ("e"^(ix) - "e"^(-ix))/{2i}`.
+	</span>
+	且
+	<span class="formula">
+		`arccos x = -"i" ln (x + "i"sqrt(1-x^2))`,<br/>
+		`arcsin x = -"i" ln (sqrt(1-x^2) + "i"x)`,<br/>
+		`arctan x = -"i" ln {:(1 + "i"x)/sqrt(1+x^2):}`.
+	</span>
+</p>
+
+<p class="remark">
+	比如, 设 `y = arccos x`, 则
+	<span class="formula">
+		`"e"^("i"y) = cos y + "i"sin y = x + "i"sqrt(1-x^2)`,
+	</span>
+	于是 `y = -"i"ln (x + "i"sqrt(1-x^2))`.
+</p>
+
+<h2>杂例</h2>
+
+<p class="example">
+	证明 `x != 2m pi`, `m in ZZ` 时,
+	<span class="formula">
+		`sum_(k=1)^n cos kx`
+		`= (cos {:((n+1)x)/2:} sin {:(nx)/2:}) / sin{:x/2:}`;<br/>
+		` sum_(k=1)^n sin kx
+		= (sin {:((n+1)x)/2:} sin {:(nx)/2:}) / sin {:x/2:}`.
+	</span>
+	从而对 `AA n in ZZ^+`,
+	<span class="formula">
+		`sum_(k=1)^n cos {:(2k pi)/n:}`
+		`= sum_(k=1)^n sin {:(2k pi)/n:} = 0`.
+	</span>
+	这个等式的几何意义是,
+	向量组 `bm e_k = ( cos {:(2k pi)/n:}, sin {:(2k pi)/n:} )`,
+	`k = 1, 2, cdots, n`, 中所有向量之和为零.
+</p>
+
+<p class="proof">
+	只证第一式. 第二式类似. 利用积化和差与和差化积:
+	<span class="formula">
+		`2 sin{:x/2:} sum_(k=1)^n cos kx`
+		`=	sum_(k=1)^n [sin(k+1/2)x - sin(k-1/2)x]`
+		`= sin(n+1/2)x - sin{:x/2:}`
+		`= 2 cos {:((n+1)x)/2:} sin {:(nx)/2:}`.
+	</span>
+</p>
+
+<p class="example">
+	计算 `sin 20^@ * sin40^@ * sin80^@`.
+</p>
+
+<p class="solution">
+	记 `x = 10^@`, 注意到 `sin 8x = cos x`, 利用积化和差, 上式即
+	<span class="formula">
+		`1/2 [ cos (4-2)x - cos (4+2)x ] cos x`
+		`= 1/2 (cos 2 x - 1/2) cos x`
+		`= 1/2 cos 2 x cos x - 1/4 cos x`
+		`= 1/4 [ cos(2+1)x + cos(2-1)x ] - 1/4 cos x`
+		`= (sqrt 3)/8`.
+	</span>
+</p>
+
+<p class="example">
+	计算 `1/(2sin 10^@) ( 3/(sin^2 40^@) - 1/(cos^2 40^@) )`.
+</p>
+
+<p class="solution">
+	同样设 `x = 10^@`. 利用三倍角公式
+	<span class="formula">
+		` 1/2 = sin 3x`
+		`= 3 cos^2 x sin x - sin^3 x`
+		`= 3 sin x - 4 sin^3 x`.
+	</span>
+	消去 `sin^3 x` 后, 得到
+	<span class="formula">
+		`8 cos^2 x sin x = 2 sin x + 1`.
+	</span>
+	于是原式等于
+	<span class="formula">
+		`1/(2 sin x) ( 6/(1 - cos 8x) - 2/(1 + cos 8x) )`
+		`= 1/sin x ( (3(1+sin x) - (1-sin x)) / ( 1-sin^2 x) )`
+		`= (2(2sin x + 1)) / (sin x \ cos^2 x) = 16`.
+	</span>
+</p>
+
+<p class="example">
+	计算 `arctan 1 + arctan{:1/2:} + arctan{:1/3:}`.
+</p>
+
+<p class="solution">
+	利用等式
+	<span class="formula">
+		`arctan x + arctan y = arctan{:(x+y)/(1-xy):}`,
+	</span>
+	原式等于
+	<span class="formula">
+		`arctan 1 + arctan{:(1/2 + 1/3)/(1- 1/2 *1/3 ):}`
+		`= arctan 1 + arctan 1 = pi/2`.
+	</span>
+</p>
+
 <p class="theorem">
-	设 `O/ != A sube RR^+`, 且 `A` 有上界. `n in ZZ^+`,
-	<span class="formula">
-		`A^n = {a^n: a in A}`,
-	</span>
+	设非空集合 `A sube RR^+` 有上界. `n in ZZ^+`,
+	`A^n = {a^n | a in A}`,
 	则 `"sup"(A^n)` 存在, 且
-	<span class="formula">
-		`"sup"(A^n) = ("sup" A)^n`.
-	</span>
+	`"sup"(A^n) = ("sup" A)^n`.
 </p>
 
 <ol class="proof">

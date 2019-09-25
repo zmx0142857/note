@@ -36,6 +36,7 @@
 </p>
 
 <p class="solution">
+	(Cardano 公式)
 	令 `x = u + v`, 代入方程有
 	<span class="formula">
 		`u^3 + v^3 + (3 u v + p)(u+v) + q = 0`.
@@ -79,12 +80,112 @@
 	</span>
 </p>
 
+<ol class="solution">
+	(三角解法, <a href="https://www.spaces.ac.cn/archives/831">苏剑林. (2010, Aug 08). 《三次方程的三角函数解法 》[Blog post].</a>)
+	假设 `p, q in RR`.
+	引理: 三角恒等式 (前两个是万能代换的变形, 后一个是三倍角公式)
+	<span class="formula">
+		`2/(tan 2A) = 1/(tan A) - tan A`,<br/>
+		`2/(sin 2A) = 1/(tan A) + tan A`,<br/>
+		`cos 3A = 4cos^3 A - 3 cos A`.
+	</span>
+	`p = 0` 时, 容易得到惟一实根 `x = root 3 (-q)`.
+	`p != 0` 时, 设 `r = -q |3/p|^(3/2)`, 下面分三种情形讨论方程的解法.
+	<li>
+	`p gt 0` 时, 令 `x = sqrt(p/3) z` 得
+	<span class="formula">
+		`z^3 + 3 z = r`.
+	</span>
+	再令 `z = w^-1 - w`, 有
+	<span class="formula">
+		`w^-3 - w^3 = (w^-1 - w)(w^-2 + 1 + w^2)` `= z(z^2 + 3) = r`.
+	</span>
+	令 `w^3 = tan A`, 由引理,
+	<span class="formula">
+		`2/(tan 2A) = r`, `A = 1/2 arctan{:2/r:}`, `w = root 3(tan A)`.
+	</span>
+	由于 `"d"/(dz) (z^3 + 3 z) = 3 z^2 + 3 gt 0`, 函数 `z^3 + 3 z`
+	在 `(-oo, +oo)` 上单调增, 且取遍一切实数值, 所以 `z^3 + 3 z = r`
+	恒有一个实根.
+	</li>
+	<li>
+	`p lt 0`, `|r| ge 2` 时, 令 `x = sqrt(|p|/3) z` 得
+	<span class="formula">
+		`z^3 - 3 z = r`.
+	</span>
+	再令 `z = w^-1 + w`, 有
+	<span class="formula">
+		`w^-3 + w^3 = (w^-1 + w)(w^-2 - 1 + w^2)` `= z(z^2 - 3) = r`.
+	</span>
+	令 `w^3 = tan A`, 由引理,
+	<span class="formula">
+		`2/(sin 2A) = r`, `A = 1/2 arcsin{:2/r:}`, `w = root 3(tan A)`.
+	</span>
+	由反正弦函数的定义域知, 上述公式只对 `|r| ge 2` 有效.
+	事实上, 由 `"d"/(dz) (z^3 - 3 z) =
+	3 z^2 - 3` 知, 函数有两个极值点 `z = +- 1`, 因而容易推出
+	`z^3 - 3 z = r` 在
+	`|r| gt 2` 时只有一实根, `|r| = 2` 时有一对实的重根和另一实根,
+	而 `|r| lt 2` 时, 有三个不同实根.
+	</li>
+	<li>`p lt 0`, `|r| lt 2` 时, 令 `z = 2 cos A`, 利用引理,
+	<span class="formula">
+		`r = z^3 - 3 z = 2 (4 cos^3 A - 3 cos A) = 2 cos 3A`,<br/>
+		`A = 1/3 (arccos{:r/2:} + 2 k pi)`, `k = 0, 1, 2`.
+	</span>
+	</li>
+</ol>
+
+<ol class="solution">
+	(盛金公式) 方程
+	<span class="formula">
+		`a x^3 + b x^2 + c x + d = 0`, `quad a, b, c, d in RR`.
+	</span>
+	计算三个重根判别式:
+	<span class="formula">
+		`A = b^2 - 3 a c`,<br/>
+		`B = b c - 9 a d`,<br/>
+		`C = c^2 - 3 b d`
+	</span>
+	和总判别式 `Delta = B^2 - 4 A C`, 有:
+	<li>`A = B = 0` 时, 有三重实根
+		<span class="formula">
+			`x_(1, 2, 3) = -b/(3a) = -c/b = -(3d)/c`.
+		</span>
+	</li>
+	<li>`Delta = 0`, 且 `A != 0` 时, 有一实单根和一实二重根
+		<span class="formula">
+			`x_1 = B/A - b/a`, `quad x_(2,3) = -B/(2A)`.
+		</span>
+	</li>
+	<li>`Delta gt 0` 时, 有一实根, 一对共轭复根
+		<span class="formula">
+			`x_1 = (-b - (root 3 y_1 + root 3 y_2))/(3a)`,<br/>
+			`x_(2, 3) = (-b + 1/2(root 3 y_1 + root 3 y_2) +- (sqrt
+			3)/2(root 3 y_1 - root 3 y_2)"i")/(3 a)`.
+		</span>
+		其中 `y_(1, 2) = A b + 3 a((-B+-sqrt Delta)/2)`.
+	</li>
+	<li>`Delta lt 0`, `A gt 0`, 且
+		<span class="formula">
+			`T = (2 A b - 3 a B)/(2 sqrt (A^3)) in [-1, 1]`
+		</span>
+		时, 有三个不同实根
+		<span class="formula">
+			`x_1 = (-b - 2 sqrt A cos{:theta/3:})/(3 a)`,<br/>
+			`x_(2, 3) = (-b + sqrt A(cos{:theta/3:} +- sqrt 3
+			sin{:theta/3:}))/(3 a)`.
+		</span>
+		其中 `theta = arccos T`.
+	</li>
+</ol>
+
 <ol class="remark">
 	三次方程 `x^3 + p x + q = 0` (`p, q in RR`)
 	的判别式记为 `Delta = (q/2)^2 + (p/3)^3`.
 	<li>`Delta gt 0` 时, 方程有一实根, 一对共轭复根;</li>
-	<li>`Delta lt 0` 时, 方程有三个不同的实根; 记 `alpha, beta = r
-		"e"^(+-"i"theta)`, 则三个根是
+	<li>`Delta lt 0` 时, 方程有三个不同的实根; 记 Cardano 公式中的
+		`alpha, beta = r "e"^(+-"i"theta)`, 则三个根是
 		<span class="formula">
 			`2 * root 3 r cos(theta/3 + varphi)`,
 			`quad varphi = 0, (2pi)/3, (4pi)/3`.
@@ -175,9 +276,11 @@
 	</span>
 </p>
 
+<!--
 <p class="remark">
 	Lagrange 预解式法
 </p>
+-->
 
 <h4>一般地解多项式方程的策略</h4>
 

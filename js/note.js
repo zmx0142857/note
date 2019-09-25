@@ -273,12 +273,15 @@ function enableCopyCode()
 	var pres = document.getElementsByTagName('pre');
 	for (var i = 0; i < pres.length; ++i) {
 		var button = document.createElement('button');
-		var id = 'pre-' + filename + '-' + (i+1);
+		var id = pres[i].id;
+		if (!id) {
+			id = 'pre-' + filename + '-' + (i+1);
+			pres[i].id = id;
+		}
 		button.innerHTML = '复制';
 		button.onclick = copyCode(button, id);
 		button.className = 'copy-code';
-		pres[i].parentElement.insertBefore(button, pres[i]);
-		pres[i].id = id;
+		pres[i].insertBefore(button, pres[i].firstChild);
 	}
 }
 
@@ -300,13 +303,16 @@ function hideAnswer(list) {
 		var answers = document.getElementsByClassName(list[i].name);
 		for (var j = 0; j < answers.length; ++j) {
 			var button = document.createElement('button');
-			var id = list[i].name + '-' + filename + '-' + (j+1);
-			button.innerHTML = list[i].word + ' &#9654;';
+			var id = answers[j].id;
+			if (!id) {
+				id = list[i].name + '-' + filename + '-' + (j+1);
+				answers[j].id = id;
+			}
 			button.onclick = toggleShowAnswer(button, id);
+			button.innerHTML = list[i].word + ' &#9654;';
 			button.className = 'toggle-show-answer';
 			answers[j].parentElement.insertBefore(button, answers[j]);
 			answers[j].hidden = 'true';
-			answers[j].id = id;
 		}
 	}
 }
