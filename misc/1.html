@@ -15,6 +15,61 @@
 <h2>有理数与无理数</h2>
 
 <p class="theorem">
+	无限循环小数是有理数; 反之, 有理数 `m//n` 可以写成无限循环小数,
+	且循环节的长度小于分母 `n`. 因此,
+	一个数是无理数当且仅当它是无限不循环小数.
+</p>
+
+<ol class="proof">
+	<li>不妨设这个 `B` 进制小数 (`B gt 1`) 在区间 `[0, 1]` 中.
+		则它可以写成 `0.a_1 a_2 cdots a_k {:dot a:}_(k+1) cdots
+		{:dot a:}_(k+p)`. 记
+		<span class="formula">
+			`m_1 = a_(k+1) cdots a_(k+p)`
+			`= sum_(i=1)^p a_(k+i) B^(p-i)`.
+		</span>
+		原来的小数等于
+		<span class="formula">
+			`sum_(i=1)^k a_i B^-i + B^-k sum_(j=1)^oo B^(-p j) m_1`
+			`= sum_(i=1)^k a_i B^-i + B^-k/(B^p-1) m_1`,
+		</span>
+		故是一个有理数.
+	</li>
+	<li>(证明参考初等数论的例题)
+		不妨设 `n gt 1`.
+		如果存在正整数 `k` 使得 `n | B^k`, 设 `B^k = n_1 n`, 则
+		`m//n = m n_1 // B^k` 是一个有限小数. 否则有
+		`n !| B^k`, `k = 0, 1, cdots, n-1`. 设 `B^k` 除以 `n` 的余数是
+		`r_k`, 则 `n` 个数
+		<span class="formula">
+			`r_0, r_1, cdots, r_(n-1)`
+		</span>
+		只能取 `1, 2, cdots, n-1` 这 `n-1` 个值. 由鸽巢原理,
+		必有两个余数相等, 设为 `r_i = r_j`, `0 le j lt i lt n`. 则
+		<span class="formula">
+			`n | B^i - B^j = B^j(B^(i-j)-1)`.
+		</span>
+		设 `d = i-j`, `B^j(B^d-1) = n n_2`, 则
+		<span class="formula">
+			`m/n = (m n_2)/(B^j(B^d-1))`.
+		</span>
+		记 `m_2 = m n_2`. 下面只需证 `m_2/(B^d-1)` 是循环小数.
+		我们只看小数部分, 不妨设 `0 le m_2/(B^d-1) le 1`,
+		于是 `0 le m_2 le B^d-1`.
+		将 `m_2` 表为 `B` 进制数 (在前面添加 0 直到有 `d` 位数)
+		<span class="formula">
+			`m_2 = sum_(j=1)^d a_j B^(d-j) = a_1 a_2 cdots a_d`,
+		</span>
+		得到
+		<span class="formula">
+			`m_2/(B^d-1) = sum_(i=1)^oo B^(-d i) m_2`
+			`= 0.a_1 a_2 cdots a_d a_1 a_2 cdots a_d cdots`.
+		</span>
+		这是循环节长度为 `d` 的循环小数, 其中 `d = i-j lt n`.
+	</li>
+</ol>
+
+<p class="theorem">
 	`sqrt 2` 是无理数.
 </p>
 

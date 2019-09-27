@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>多元数量函数微分学</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="example">
+	设 `f(x, y)` 二阶连续可微, 且满足方程
+	<span class="formula">
+		`a(del^2 f)/(del x^2) + b(del^2 f)/(del x del y) + c(del^2 f)/(del
+		y^2) = 0`,
+	</span>
+	其中 `a, b, c` 为常数, `a != 0`.
+	若特征方程 `a z^2 + b z + c = 0` 有两个不同的根 `alpha, beta`,
+	作变元代换 `u = alpha x + y`, `v = beta x + y`,
+	验证 `(del^2 f)/(del u del v) = 0`.
+</p>
+
+<p class="solution">
+	<span class="formula">
+		`(del f)/(del x) = alpha (del f)/(del u) + beta (del f)/(del
+		v)`,
+		`quad (del f)/(del y) = (del f)/(del u) + (del f)/(del v)`,<br/>
+		`(del^2 f)/(del x^2) = alpha^2 (del^2 f)/(del u^2) + 2 alpha beta
+		(del^2 f)/(del u del v) + beta^2 (del^2 f)/(del v^2)`,<br/>
+		`(del^2 f)/(del x del y) = alpha (del^2 f)/(del u^2) +
+		(alpha+beta) (del^2 f)/(del u del v) + beta (del^2 f)/(del
+		v^2)`,<br/>
+		`(del^2 f)/(del y^2) = (del f^2)/(del u^2) + 2(del^2 f)/(del u del
+		v) + (del^2 f)/(del v^2)`.
+	</span>
+	代入方程, 并利用 Vieta 定理得
+	<span class="formula">
+		`0 = [a(2alpha beta) + b(alpha+beta) + 2c] (del^2 f)/(del u del v)`
+		`= (4a c - b^2)/a (del^2 f)/(del u del v)`.
+	</span>
+	由于特征方程有两根, 判别式 `b^2 - 4 a c != 0`, 最终得到
+	<span class="formula">
+		`(del^2 f)/(del u del v) = 0`.
+	</span>
+</p>
+
+<p class="example">
+	设 `f` 二阶连续可微, `z = f(x+y, f(x, y))`. 求 `(del^2 z)/(del x del
+	y)`.
+</p>
+
+<p class="solution">
+	记 `u = x+y`, `v = f(x, y)`, 则
+	<span class="formula">
+		`(del z)/(del y)`
+		`= (del z)/(del u)(del u)/(del y)+(del z)/(del v)(del v)/(del y)`
+		`= (del z)/(del u) + (del z)/(del v) (del v)/(del y)`,<br/>
+		`(del^2 z)/(del x del y)`
+		`= (del^2 z)/(del u^2) (del u)/(del x) + (del^2 z)/(del v del u)
+		(del v)/(del x)`
+		`+ ((del^2 z)/(del u del v) (del u)/(del x) + (del^2 z)/(del v^2)
+		(del v)/(del x)) (del v)/(del y)`
+		`+ (del z)/(del v) (del^2 v)/(del x del y)`
+		`= f_(11)''(u, v) + f_(12)''(u, v) f_1'(x, y)`
+		`+ (f_(21)''(u, v) + f_(22)''(u, v) f_1'(x, y))f_2'(x, y)`
+		`+ f_2'(u, v) f_(21)''(x, y)`.
+	</span>
+	再将 `u, v` 用 `x, y` 代回, 即得到最终结果.
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

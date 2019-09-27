@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>多元函数的极限与连续性</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>多元函数的极限</h2>
+
+<ol class="theorem">
+	设 `alpha, beta ge 0`, `alpha + beta gt 1`, 则 `(x,y) to (0,0)` 时,
+	<span class="formula">
+		`x^alpha y^beta = o(sqrt(x^2+y^2))`,<br/>
+		`x^alpha y^beta = o(root 4(x^4+y^4))`,<br/>
+		`x^(n alpha) y^(m beta) = o(sqrt(x^(2n)+y^(2m)))`,
+		`n, m = 1, 2, cdots`.
+	</span>
+	所以 `(x, y) to (0, 0)` 时, `x y`, `x^2`, `x^(1+p)` (`p gt 0`)
+	等函数皆是 `sqrt(x^2+y^2)` 的高阶无穷小.
+	又如, `x y = (x^(3/4) y^(3/4))^(4/3) = o(root 4(x^4+y^4))^(4/3)`
+	`= o(root 3(x^4+y^4))`.
+</ol>
+
+<ol class="proof">
+	记 `r = sqrt(x^2+y^2)`, `p = alpha + beta - 1 gt 0`.
+	<li>对任意 `epsi gt 0`, 取 `delta = epsi^(1/p)`,
+		则由 `|x|, |y| le r` 知, 当 `0 lt r lt delta` 时
+		<span class="formula">
+			`|x^alpha y^beta|/sqrt(x^2+y^2) le r^(alpha+beta-1) lt
+			delta^p = epsi`.
+		</span>
+	</li>
+	<li>由不等式 `2(x^4 + y^4) ge (x^2+y^2)^2 = r^4`,
+		<span class="formula">
+			`|x^alpha y^beta|/root 4(x^4+y^4)`
+			`le r^(alpha+beta)/root 4(1/2 r^4)`
+			`= root 4 2 r^(alpha+beta-1) to 0`.
+		</span>
+	</li>
+	<li>由不等式 `|x| le root(2n)(x^(2n)+y^(2m))`,
+		`|y| le root(2m)(x^(2n)+y^(2m))`,
+		又注意到 `|x| le r le 1` 时有 `x^(2n)+y^(2m) le x^2+y^2 = r^2`, 得
+		<span class="formula">
+			`(|x|^(n alpha) |y|^(m beta))/(sqrt(x^(2n)+y^(2m)))`
+			`= (x^(2n)+y^(2m))^(alpha/2 + beta/2 - 1/2)`
+			`le r^(alpha+beta-1) to 0`.
+		</span>
+	</li>
+</ol>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

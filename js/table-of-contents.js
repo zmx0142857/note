@@ -15,6 +15,8 @@ var tableOfContents = [ {
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
 		{title:'无穷级数', src:'analysis/10.html'},
+		{title:'多元函数的极限与连续性', src:'analysis/14.html'},
+		{title:'多元数量函数微分学', src:'analysis/15.html'},
 		{title:'条件极值问题', src:'analysis/17.html'},
 		{title:'含参变量的积分', src:'analysis/18.html'},
 		{title:'重积分', src:'analysis/19.html'},
@@ -146,5 +148,6 @@ var tableOfContents = [ {
 	title:'未分类',
 	articles: [
 		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
+		{title:'三角函数', src:'misc/2.html'},
 	]
 }];
