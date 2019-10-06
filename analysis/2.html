@@ -12,10 +12,465 @@
 
 <body>
 
-<p class="example">`lim_(n to oo) root n n = 1`.</p>
+<h2>数列极限的定义</h2>
+
+<p class="definition">
+	能与全体自然数建立一一对应的集合称为<b>序列</b>, 记为
+	<span class="formula">
+		`x_1, x_2, x_3, cdots`,
+	</span>
+	简写为 `{x_n}_(n=1)^oo` 或 `{x_n}`.
+	序列的第 `n` 项 `x_n` 称为它的<b>通项</b>.
+	如果序列中的每一元素都是实数, 就称它为<b>实数列</b>, 简称<b>数列</b>.
+</p>
+
+<p class="definition">
+	设 `a in RR`, `{x_n}` 为一数列. 如果对任意正实数 `epsi`,
+	都存在相应的正整数 `N`, 使对任意的 `n gt N`, 成立
+	<span class="formula">
+		`|x_n - a| lt epsi`,
+	</span>
+	则称数列 `{x_n}` <b>收敛</b>, 它的<b>极限</b>为 `a`, 记为
+	`lim_(n to oo) x_n = a`, 或 `x_n to a` (`n to oo`).
+	等价的说法是, 当 `n` 趋于正无穷大时, `x_n` 趋于 `a` 或以 `a` 为极限.
+	反之, 如果数列的极限不存在, 则称它<b>发散</b>.
+</p>
+
+<p class="remark">
+	我们把数列极限的这种定义采用的数学表述称为 `epsi-N` 语言.</br>
+	注意, 按照定义, 我们只需证明对小的正数 `epsi` 成立 `|x_n - a| lt epsi`
+	即可. 因此证明的时候可以根据实际情况加上 `epsi lt 1`
+	的限制条件等.</br>
+	另外, `AA n gt N`, `|x_n - a| lt epsi`
+	的另一种说法是, <b>对充分大的 `bm n`</b> 成立上式.</br>
+	最后, 不等式 `|x_n - a| lt epsi` 的一个等价的写法是
+	<span class="formula">
+		`a - epsi lt x_n lt a + epsi`.
+	</span>
+</p>
+
+<p class="corollary">
+	`lim_(n to oo) x_n = a` `iff lim_(n to oo) x_n - a = 0`.
+</p>
+
+<ol class="example">
+	<li><b>对数</b> `lim_(n to oo) 1/(log_a n) = 0`, 其中 `a gt 1`.</li>
+	<li><b>p 数列</b> `lim_(n to oo) 1/n^p = 0`, 其中 `p gt 0`;</li>
+	<li><b>等比数列</b> `lim_(n to oo) q^n = 0`, 其中 `0 lt q lt 1`;</li>
+	<li><b>n 次方根</b> `lim_(n to oo) root n a = 1`, 其中 `a gt 0`,
+		`a != 1`;
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>`AA epsi gt 0`, 取正整数 `N gt a^(1/epsi)`, 则
+		`log_a N gt 1/epsi`, 从而 `AA n gt N`,
+		<span class="formula">
+			`|1/(log_a n)| lt 1/(log_a N) lt epsi`.
+		</span>
+	</li>
+	<li>`AA epsi gt 0`, 取正整数 `N gt (1/epsi)^(1/p)`, 则 
+		`N^p gt 1/epsi`, 从而 `AA n gt N`,
+		<span class="formula">
+			`|1/n^p| lt 1/N^p lt epsi`.
+		</span>
+	</li>
+	<li>`AA epsi gt 0`, 不妨令 `epsi lt 1`.
+		取正整数 `N gt (log_2 epsi)/(log_2 q)`, 则
+		`N log_2 q lt log_2 epsi`. 从而 `AA n gt N`,
+		<span class="formula">
+			`|q^n| lt q^N lt epsi`.
+		</span>
+	</li>
+	<li>`AA epsi gt 0`, 先设 `a gt 1`, 取正整数 `N gt (log_2
+		a)/(log_2(1+epsi))`, 则 `N log_2(1+epsi) gt log_2 a`,
+		`(1+epsi)^N gt a`.  从而 `AA n gt N`,
+		<span class="formula">
+			`|root n a - 1| lt root N a - 1 lt (1+epsi)-1 = epsi`.
+		</span>
+		再设 `a lt 1`, 不妨令 `epsi lt 1`.
+		取正整数 `N gt (log_2 a)/(log_2(1-epsi))`, 则
+		`log_2 a gt N log_2(1-epsi)`, `a gt (1-epsi)^N`,
+		`root N a gt 1-epsi`. 从而 `AA n gt N`,
+		<span class="formula">
+			`|1 - root n a| lt 1 - root N a lt 1-(1-epsi) = epsi`.
+		</span>
+	</li>
+</ol>
+
+<h2>有界数列, 无穷大与无穷小</h2>
+
+<p class="definition">
+	设 `{x_n}` 为一数列. 如果存在实数 `A, B` 使成立
+	<span class="formula">
+		`A le x_n le B`, `AA n in ZZ^+`,
+	</span>
+	则称 `{x_n}` <b>有界</b>, 否则称它<b>无界</b>.
+</p>
+
+<p class="corollary">
+	数列 `{x_n}` 有界当且仅当存在正实数 `M`, 对充分大的 `n` 成立
+	<span class="formula">
+		`|x_n| le M`.
+	</span>
+</p>
 
 <p class="proof">
-	`n gt 2` 时, 有
+	先设 `{x_n}` 有界. 则存在实数 `A, B` 使成立
+	<span class="formula">
+		`A le x_n le B`, `AA n in ZZ^+`.
+	</span>
+	取 `M = max{|A|, |B|}`, 则
+	<span class="formula">
+		`|x_n| le M`, `AA n in ZZ^+`.
+	</span>
+	反之设存在正实数 `M` 和正整数 `N`, 成立
+	<span class="formula">
+		`|x_n| le M`, `AA n gt N`,
+	</span>
+	取 `M' = max{x_1, x_2, cdots, x_N, M}`, 则
+	<span class="formula">
+		`|x_n| le M'`, `AA n in ZZ^+`.
+	</span>
+	再取 `A = -M', B = M'` 即得结论.
+</p>
+
+<p class="definition">
+	如果 `lim_(n to oo) x_n = 0`, 则称 `{x_n}`
+	是一个<b>无穷小量</b>或无穷小.
+	如果 `AA M gt 0`, 对充分大的 `n` 有 `|x_n| gt M`, 则称 `{x_n}`
+	趋于无穷大, 或 `x_n` 是一个<b>无穷大量</b>. 其中,
+	如果 `AA M gt 0`, 对充分大的 `n` 有 `x_n gt M` (`x_n lt -M`),
+	则称 `{x_n}` 趋于正无穷大 (负无穷大), 记为
+	`lim_(n to oo) x_n = +oo` (`-oo`) 或 `x_n to +oo` (`-oo`),
+	当 `n to oo`.
+</p>
+
+<p class="theorem">
+	若 `{x_n}` 是无穷大且 `x_n != 0`, 则 `{1/x_n}` 是无穷小;
+	反之若 `{y_n}` 是无穷小且 `y_n != 0`, 则 `{1/y_n}` 是无穷大.
+</p>
+
+<p class="proof">
+	只证第一个结论, 第二个结论类似.
+	`AA epsi gt 0`, 
+	由 `{x_n}` 是无穷大知对 `1/epsi gt 0` 和正整数 `N`, 使得
+	<span class="formula">
+		`|x_n| gt 1/epsi`, `AA n gt N`.
+	</span>
+	即
+	<span class="formula">
+		`|1/x_n| lt epsi`, `AA n gt N`.
+	</span>
+</p>
+
+<p class="theorem">
+	设 `{x_n}` 是无穷小, `{y_n}` 有界, 则 `{x_n y_n}` 是无穷小.
+</p>
+
+<p class="proof">
+	由 `{y_n}` 有界知存在 `M gt 0` 使得 `|y_n| le M`, `AA n in ZZ^+`.
+	`AA epsi gt 0`, 由极限定义, 存在正整数 `N` 使成立
+	<span class="formula">
+		`|x_n| lt epsi/M`, `AA n gt N`.
+	</span>
+	从而
+	<span class="formula">
+		`|x_n y_n| lt epsi/M M lt epsi`.
+	</span>
+</p>
+
+<p class="theorem">
+	设 `{x_n}` 是无穷小, 且对充分大的 `n`, 有 `|y_n| le |x_n|`, 则 `{y_n}`
+	是无穷小.
+</p>
+
+<p class="proof">
+	(这条定理可以作为两边夹法则的推论.)
+	设存在正整数 `M`, 使得
+	<span class="formula">
+		`|y_n| le |x_n|`, `AA n gt M`.
+	</span>
+	`AA epsi gt 0`, 由极限定义, 存在正整数 `N`, 使得
+	<span class="formula">
+		`|x_n| lt epsi`, `AA n gt N`.
+	</span>
+	从而 `n gt max{M, N}` 时,
+	<span class="formula">
+		`|y_n| le |x_n| lt epsi`.
+	</span>
+</p>
+
+<ol class="example">
+	<li>`lim_(n to oo) (n!)/n^n = 0`.</li>
+	<li>`lim_(n to oo) a^n/(n!) = 0`, `a in RR`;</li>
+	<li>`lim_(n to oo) n^p/a^n = 0`, `a gt 1`, `p gt 0`;</li>
+	<li>`lim_(n to oo) (log_a n)/n^p = 0`, `a gt 1`, `p gt 0`.</li>
+</ol>
+
+<ol class="proof">
+	<li>只需注意到 `AA n in ZZ^+`, `(n!)/n^n le 1/n`.</li>
+	<li>取正整数 `N gt |a|`, 则 `|a|/N lt 1`. 取实数 `r` 使
+		`|a|/N lt r lt 1`, 则对任意 `n gt N` 有 `|a|/n lt |a|/N lt r`.
+		于是
+		<span class="formula">
+			`|a^n/(n!)| lt r^(n-M) |a|^N/(N!)`.
+		</span>
+		因为 `r^n` 是无穷小, `r^-N |a|^N/(N!)` 是有界量,
+		所以上式右端是无穷小, 因此 `a^n/(n!)` 是无穷小.
+	</li>
+	<li>设 `a = 1 + r`, `r gt 0`. 取正整数 `N gt p`, 当 `n gt N` 时,
+		利用二项式定理有
+		<span class="formula">
+			`|n^p/a^n| = n^p / (1+r)^n`
+			`= n^p // (1 + n r + (n(n-1))/(2!) r^2 + cdots`
+			`+ (n(n-1)cdots(n-N+1))/(N!) r^N + cdots + r^n)`
+			`lt (n^p N!) / (n(n-1)cdots(n-N+1) r^N)`
+			`lt (n^p N!) / ((n-N)r)^N`
+			`= (N!)/n^(N-p) (1/((1-N/n)r))^N`.
+		</span>
+		`n gt 2N` 时, `1-N/n gt 1/2`. 所以
+			`|n^p/a^n| lt (N!)/n^(N-p) (2/r)^N`.
+		其中 `1/n^(N-p)` 是无穷小, 其余因子为有界量. 因此 `n^p/a^n`
+		是无穷小.
+	</li>
+	<li>`AA epsi gt 0`, 由 3 知存在正整数 `M`, 使得
+		<span class="formula">
+			`n/a^n lt p/a epsi`, `AA n gt M`.
+		</span>
+		取正整数 `N gt a^(M/p)`, 则 `p log_a N gt M`.
+		`AA n gt N`, 记 `m = |__p log_a n__|+1`, 于是 `m gt M`.
+		从而 
+		<span class="formula">
+			`|(log_a n)/n^p| = 1/p (p log_a n)/(a^(p log_a n))`
+			`lt 1/p m/a^(m-1)`
+			`= a/p m/a^m`
+			`lt epsi`.
+		</span>
+	</li>
+</ol>
+
+<h2>数列极限的性质</h2>
+
+<p class="theorem">
+	<b>数列极限的惟一性</b>
+	若数列有极限, 极限必惟一.
+</p>
+
+<p class="proof">
+	设 `lim_(n to oo) x_n = a`, 且 `lim_(n to oo) x_n = b`.
+	如果 `a != b`, 不妨设 `a lt b`, 取 `epsi = (b-a)//2 gt 0`,
+	由极限的定义知分别存在正整数 `M, N`, 使得
+	<span class="formula">
+		`a - epsi lt x_n lt a + epsi`, `quad n gt M`;<br/>
+		`b - epsi lt x_n lt b + epsi`, `quad n gt N`.
+	</span>
+	从而当 `n gt max{M, N}` 时, 以上两式皆成立, 有
+	<span class="formula">
+		`(a+b)//2 = b - epsi lt x_n lt a + epsi = (a+b)//2`,
+	</span>
+	矛盾. 所以必有 `a = b`.
+</p>
+
+<p class="theorem">
+	<b>收敛数列的有界性</b>
+	如果 `{x_n}` 收敛, 则它有界. 从而无界数列必发散.
+</p>
+
+<p class="proof">
+	设 `x_n to a`.
+	对 `epsi = 1 gt 0`, 由极限的定义知存在正整数 `N`, 使成立
+	<span class="formula">
+		`|x_n - a| lt epsi = 1`, `AA n gt N`.
+	</span>
+	这蕴含
+	<span class="formula">
+		`|x_n| = |(x_n-a) + a| lt 1+|a|`, `AA n gt N`.
+	</span>
+	从而数列有界.
+</p>
+
+<ol class="theorem">
+	<b>收敛数列的保号性</b>
+	设 `lim_(n to oo) x_n = a`, 则存在一个介于 `a` 和 `0` 之间的实数 `r`,
+	<li>`a gt 0` 时, 对充分大的 `n` 成立 `x_n gt r gt 0`;</li>
+	<li>`a lt 0` 时, 对充分大的 `n` 成立 `x_n lt r lt 0`.</li>
+	从而当数列有一个不等于零的极限时, 对充分大的 `n`, `x_n` 与 `0`
+	保持一个正的距离.
+</ol>
+
+<p class="proof">
+	只证结论 1, 结论 2 证明类似.
+	取 `epsi = a/2 gt 0`, 由极限定义, 对充分大的 `n` 有
+	`a - a/2 lt x_n lt a + a/2`, 从而 `x_n gt a/2 gt 0`.
+	取 `r = a/2` 即可.
+</p>
+
+<p class="theorem">
+	<b>数列极限的保序性</b>
+	如果 `{x_n}`, `{y_n}` 收敛, 且对充分大的 `n` 有 `x_n le y_n`, 则
+	<span class="formula">
+		`lim_(n to oo) x_n le lim_(n to oo) y_n`.
+	</span>
+	注意, 由 `x_n lt y_n` 不能推出 `lim_(n to oo) x_n lt lim_(n to oo)
+	y_n`. 比如 `1/n lt 2/n`, 但两数列都趋于 `0`.
+</p>
+
+<p class="proof">
+	设对 `AA n gt N_1` 成立 `x_n le y_n`.
+	记 `lim_(n to oo) x_n = a`, `lim_(n to oo) y_n = b`.
+	反设 `a gt b`. 取 `epsi = (a-b)//2 gt 0`.
+	由极限定义, 存在正整数 `N_2, N_3` 使成立
+	<span class="formula">
+		`a - epsi lt x_n lt a + epsi`, `AA n gt N_2`,<br/>
+		`b - epsi lt y lt b + epsi`, `AA n gt N_3`.
+	</span>
+	从而 `n gt max{N_1, N_2, N_3}` 时,
+	<span class="formula">
+		`(a+b)//2 = a - epsi lt x_n le y_n lt b + epsi = (a+b)//2`,
+	</span>
+	矛盾. 因此 `a le b`.
+</p>
+
+<p class="definition">
+	如果 `x_n le x_(n+1)`, `n = 1, 2, cdots`, 则称 `{x_n}`
+	<b>单调递增</b>, 如果 `x_n lt x_(n+1)`, `n = 1, 2, cdots`, 则称
+	`{x_n}` <b>严格单调递增</b>.
+	类似可以定义单调递减数列和严格单调递减数列.
+</p>
+
+<p class="definition">
+	设 `{x_n}` 是一序列, `{n_k}` 是一个严格单调递增的正整数列, 
+	则 `{x_(n_k)} := {x_(n_k)}_(k=0)^oo` 称为 `{x_n}`
+	的一个<b>子 (序) 列</b>, 特别 `{x_n}` 为数列时, `{x_(n_k)}` 称为
+	`{x_n}` 的一个<b>子数列</b>.
+	直观地看, 子列就是把原序列的一部分取出, 按原先的次序排成的一个序列.
+</p>
+
+<p class="corollary">
+	若 `{n_k}` 是一个严格单调递增的正整数列, 则 `n_k ge k`, `k in ZZ^+`.
+</p>
+
+<p class="proof">
+	归纳法容易证明.
+</p>
+
+<p class="theorem">
+	<b>收敛数列子列的收敛性</b> 设 `lim_(n to oo) x_n = a`,
+	则 `{x_n}` 的任意子列也收敛到 `a`.
+</p>
+
+<p class="proof">
+	由极限定义, `AA epsi gt 0`, 存在正整数 `N`, 使得
+	<span class="formula">
+		`|x_n - a| lt epsi`, `AA n gt N`.
+	</span>
+	任取子列 `{x_(n_k)}`, 由 `n_k ge k`, `k in ZZ^+` 知,
+	<span class="formula">
+		`|x_(n_k) - a| lt epsi`, `AA k gt N`.
+	</span>
+</p>
+
+<h2>数列极限的四则运算, 两边夹法则</h2>
+
+<p class="theorem">
+	<b>数列极限的四则运算</b>
+	若 `lim_(n to oo) x_n = a`, `lim_(n to oo) y_n = b`, 则
+	<span class="formula">
+		`lim_(n to oo) (x_n +- y_n) = a +- b`;
+		`quad lim_(n to oo) (x_n y_n) = ab`;
+		`quad lim_(n to oo) (x_n)/(y_n) = a/b` (当 `b != 0`).
+	</span>
+	定理告诉我们, 极限运算与 (有限次的) 四则运算可以交换次序.
+</p>
+
+<ol class="proof">
+	<li>`AA epsilon gt 0`, 由极限定义,  存在正整数 `N_1, N_2` 使成立
+		<span class="formula">
+			`|x_n - a| lt epsilon/2, AA n gt N_1`;</br>
+			`|y_n - b| lt epsilon/2, AA n gt N_2`.
+		</span>
+		故 `n gt max{N_1, N_2}` 时,
+		<span class="formula">
+			`|(x_n +- y_n) - (a +- b)|`
+			`le |x_n - a| + |y_n - b|`
+			`lt epsi/2 + epsi/2 = epsi`.
+		</span>
+	</li>
+	<li>由收敛数列的有界性知 `EE M gt 0`, 使
+		<span class="formula">
+			`|y_n| le M`, `AA n in NN`.
+		</span>
+		`AA epsilon gt 0`, 由极限定义, 存在正整数 `N_1, N_2` 使成立
+		<span class="formula">
+			`|x_n - a| lt epsi/(2M)`, `AA n gt N_1`;</br>
+			`|y_n - b| lt epsi/(2(|a| + 1))`, `AA n gt N_2`.
+		</span>
+		(这样就避免了对 `a = 0` 的讨论). 因此 `n gt max{N_1, N_2}` 时,
+		<span class="formula">
+			`|x_n y_n - a b|`
+			`= |x_n y_n - a y_n + a y_n - a b|`
+			`le |x_n - a| |y_n| + |a| |y_n - b|`
+			`lt epsi/(2M) M + |a| epsi/(2|a|+1) lt epsi`.
+		</span>
+	</li>
+	<li>注意 `lim_(n to oo) y_n = b != 0`, 由数列极限的保号性知存在正整数
+		`N_1` 与 `m gt 0` 使
+		<span class="formula">
+			`|y_n| gt m`, `AA n gt N_1`.
+		</span>
+		`AA epsilon gt 0`, 由极限定义, 存在正整数 `N_2, N_3` 使
+		<span class="formula">
+			`|x_n - a| lt m epsilon/2`, `AA n gt N_2`;</br>
+			`|y_n - b| lt (m|b|)/(|a|+1) epsilon/2`, `AA n gt N_3`.
+		</span>
+		当 `n gt max{N_1, N_2, N_3}` 时有
+		<span class="formula">
+			`|x_n/y_n - a/b|`
+			`= |(b x_n - a y_n)/(b y_n)|`
+			`= (|b x_n - a b + a b - a y_n|)/(|b| |y_n|)`
+			`lt (|b| |x_n - a| + |a| |y_n - b|)/(m |b|)`
+			`= 1/m|x_n-a| + |a|/(m|b|) |y_n - b|`
+			`lt 1/m m epsi/2 + |a|/(m|b|) (m|b|)/(|a|+1) epsi/2`
+			`lt epsi`.
+		</span>
+	</li>
+</ol>
+
+<p class="corollary">
+	设 `lim x_n = a`, `AA c in RR`, 令 `y_n = c` 是一个常数列, 则
+	<span class="formula">
+		`lim_(n to oo) (c x_n) = c a`, `quad lim_(n to oo) (c + x_n) = c +
+		a`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>两边夹法则 (squeezing theorem)</b>
+	设数列 `{x_n}, {y_n}, {z_n}` 对充分大的 `n` 满足 `x_n le y_n le z_n`,
+	且 `lim_(n to oo) x_n = lim_(n to oo) z_n = a`, 则 `lim_(n to oo) y_n
+	= a`.
+</p>
+
+<p class="proof">
+	设对 `AA n gt N_1` 成立 `x_n le y_n le z_n`, `AA epsi gt 0`,
+	由极限定义, 存在正整数 `N_2, N_3` 使成立
+	<span class="formula">
+		`a - epsi lt x_n lt a + epsi`, `AA n gt N_2`,<br/>
+		`a - epsi lt z_n lt a + epsi`, `AA n gt N_3`.
+	</span>
+	从而 `n gt max{N_1, N_2, N_3}` 时,
+	<span class="formula">
+		`a - epsi lt x_n le y_n le z_n lt a + epsi`,
+	</span>
+	即 `lim_(n to oo) y_n = a`.
+</p>
+
+<p class="example">
+	`lim_(n to oo) root n n = 1`.
+</p>
+
+<p class="proof">`n gt 2` 时, 应用均值不等式有
 	<span class="formula">
 		`   1 lt root(n)(n)`
 		`=  root(n)(sqrt n * sqrt n * 1)`
@@ -25,37 +480,74 @@
 	由两边夹法则, `lim_(n to oo) root n n = 1`.
 </p>
 
-<p class="example">`lim_(n to oo) a^n/(n!) = 0`, `a in R`.</p>
+<p class="example">
+	`lim_(n to oo) sin(pi sqrt(n^2+1)) = 0`.
+</p>
+
+<p class="solution">
+	`|sin(pi sqrt(n^2+1))|`
+	`= |sin(n pi + (sqrt(n^2+1) - n) pi)|`
+	`= |cos(n pi) sin[(sqrt(n^2+1)-n)pi]|`
+	`= |sin {:pi/(sqrt(n^2+1)+n):}|`.
+	因此原式极限为 `0`.
+</p>
+
+<h2>几个刻画实数完备性的定理</h2>
+
+<p class="theorem">
+	<b>单调有界原理</b>
+</p>
+
+<p class="theorem">
+	<b>Cantor 闭区间套定理</b>
+</p>
+
+<p class="theorem">
+	<b>Bolzano-Weierstrass 列紧性 (致密性) 原理</b>
+</p>
+
+<p class="theorem">
+	<b>Cauchy 收敛准则</b>
+</p>
+
+<h2>迭代型数列, 数列间的关联</h2>
+
+<p class="theorem">
+	设 `0 lt r lt 1`, `a in RR`, `|x_(n+1)-a| le r |x_n-a|`,
+	`n = 1, 2, cdots`. 则 `lim_(n to oo) x_n = a`.
+</p>
 
 <p class="proof">
-	取 `N_1 = [|a| + 1]`, 则 `|a|/n lt 1, AA n gt N_1`. 取实数 `r` 使
-	`|a|/n lt r lt 1`, 有
+	归纳法容易证明
 	<span class="formula">
-		`  |a^n/(n!)|
-		= |a|^n/(n!)
-		le r^(n-N_1) |a|^(N_1)/(N_1!)
-		lt r^(n-N_1) (|a|+1)^(N_1)/(N_1!)`.
+		`|x_n - a| le r^(n-1)|x_1 - a|`,
 	</span>
-	记 `b = |a| + 1`,
-	对 `AA epsilon gt 0`, 要使上式右边小于 `epsilon`, 只要
-	<span class="formula">
-		`(n - N_1) ln r lt ln((N_1!)/b^(N_1) epsilon)`,
-	</span>
-	即
-	<span class="formula">
-		`n gt ln((N_1!)/b^(N_1) epsilon) / ln r + N_1`.
-	</span>
-	所以只要取 `N = [ln((N_1!)/b^(N_1) epsilon) / ln r + N_1] + 1`,
-	当 `n gt N` 时, 就有 `| a^n/(n!) | lt epsilon`.
+	`r^(n-1)` 是无穷小, `|x_1 - a|` 是有界量, 因此 `|x_n - a|` 为无穷小,
+	即 `lim_(n to oo) x_n = a`.
+</p>
+
+<ol class="theorem">
+	设数列 `{x_n}` 满足:
+	<li>存在有限个子数列收敛到同一极限, 且 `{x_n}` 是这些子数列的并,
+		则 `{x_n}` 收敛; 常见的情形是它的奇数项与偶数项分别收敛到同一极限.
+	</li>
+	<li>存在常数 `lambda in (0, 1)` 使得
+		<span class="formula">
+			`|x_(n+1) - x_n| le lambda |x_n - x_(n-1)|`,
+			`quad n = 2, 3, cdots`.
+		</span>
+		则 `{x_n}` 收敛.
+	</li>
+</ol>
+
+<p class="theorem">
+	<b>Banach 压缩映像原理</b>
 </p>
 
 <p class="example">
-	证明下面的数列收敛, 且极限为 `root(m)(A)`.
-	<span class="formula">
-		`x_1 = 1`,<br/>
-		`x_(n+1) = 1/m [(m-1) x_n + A/x_n^(m-1)]`.<br/>
-		(`m in ZZ\\{0}`, `A gt 0`)
-	</span>
+	设 `x_1 = 1`, `x_n = 1/m [(m-1) x_(n-1) + A/x_(n-1)^(m-1)]`,
+	其中 `m` 是非零整数, `A gt 0`.
+	证明 `{x_n}` 收敛, 且极限为 `root m A`.
 </p>
 
 <p class="example">
@@ -104,166 +596,42 @@
 	</span>
 </p>
 
-<h2>极限的四则运算</h2>
+<h2>一个重要极限</h2>
 
-<p class="theorem">
-	若 `lim_(n to oo) x_n = a`, `lim_(n to oo) y_n = b`, 则
+<p class="lemma">
+	`n ge 2` 时, `(1+1/n)^n lt sum_(k=0)^n 1/(k!) lt 3`.
+</p>
+
+<p class="proof">
+	由二项式定理,
 	<span class="formula">
-		`lim_(n to oo) (x_n +- y_n) = a +- b`;<br/>
-		`lim_(n to oo) (x_n y_n) = ab`;<br/>
-		`lim_(n to oo) (x_n)/(y_n) = a/b` (当 `b != 0`).
+		`	(1 + 1/n)^n
+		=	1 + n * 1/n + (n(n-1))/(2!) * 1/n^2 + cdots + 1/n^n`
+		`lt	sum_(k=0)^n 1/(k!)`
+		`le	2 + sum_(k=2)^n 1/(k(k-1))`
+		`=	2 + 1 - 1/n lt 3`.
 	</span>
 </p>
-
-<ol class="proof">
-	<li>对 `AA epsilon gt 0`, 由 `lim_(n to oo) x_n = a` 和
-		`lim_(n to oo) y_n = b` 知 `EE` `N_1`, `N_2`, 使
-		<span class="formula">
-			<p>`|x_n - a| lt epsilon/2, AA n gt N_1`;</p>
-			<p>`|y_n - b| lt epsilon/2, AA n gt N_2`.</p>
-		</span>
-		故 `n gt max{N_1, N_2}` 时,
-		<span class="formula">
-			`	|(x_n +- y_n) - (a +- b)|
-			le	|x_n - a| + |y_n - b|
-			lt	epsilon/2 + epsilon/2
-			=	epsilon`.
-		</span>
-	</li>
-	<li>由收敛数列的有界性知 `EE` M &gt; 0 使
-		<span class="formula">
-			`|y_n| lt M`, `AA n in NN`.
-		</span>
-		对 `AA epsilon gt 0`, 由 `lim_(n to oo) x_n = a` 和
-		`lim_(n to oo) y_n = b` 知 `EE N_1, N_2 in NN`, 使
-		<span class="formula">
-			<p>`|x_n - a| lt epsilon/(2M)`;</p>
-			<p>`|y_n - b| lt epsilon/(2(|a| + 1))`.</p>
-		</span>
-		(这样就避免了对 a = 0 的讨论). 因此 `n gt max{N_1, N_2}` 时,
-		<span class="formula">`
-	{:(			|x_n y_n - ab|
-	,		=	|x_n y_n - a y_n + a y_n - ab|
-	),(,	le	|x_n - a| |y_n| + |a| |y_n - b|
-	),(,	lt	epsilon/(2M) M + |a| epsilon/(2(|a| + 1))
-			lt	epsilon.
-	):}`</span>
-	</li>
-	<li>因为 `lim_(n to oo) y_n = b != 0`, 所以由数列极限的保号性知
-		`EE N_1 in NN` 与 `m gt 0` 使
-		<span class="formula">
-			`|y_n| gt m, AA n gt N_1`.
-		</span>
-		对 `AA epsilon gt 0`, 由 `lim_(n to oo) x_n = a` 和
-		`lim_(n to oo) y_n  = b` 知存在 `N_2, N_3 in NN` 使
-		<span class="formula">
-			<p>`|x_n - a| lt m epsilon/2, AA n gt N_2`;</p>
-			<p>`|y_n - b| lt (m|b|)/(|a|+1) epsilon/2, AA n gt N_3`.</p>
-		</span>
-		当 `n gt max{N_1, N_2, N_3}` 时有
-		<span class="formula">`
-	{:(			|(x_n)/(y_n) - a/b|
-	,		=	|(b x_n - a y_n)/(b y_n)|
-	),(,	=	(|b x_n - ab + ab - a y_n|)/(|b| |y_n|)
-	),(,	lt	(|b| |x_n - a| + |a| |y_n - b|)/(m |b|)
-	),(,	=	1/m |x_n - a| + |a|/(m|b|) |y_n - b|
-	),(,	lt	1/m m epsilon/2 + |a|/(m|b|) (m|b|)/(|a|+1) epsilon/2
-			lt epsilon.
-	):}`
-		</span>
-	</li>
-</ol>
-
-<p class="example">
-	`lim_(n to oo) sin(pi sqrt(n^2+1)) = 0`.
-</p>
-
-<p class="solution">
-	`|sin(pi sqrt(n^2+1))|`
-	`= |sin(n pi + (sqrt(n^2+1) - n) pi)|`
-	`= |cos(n pi) sin[(sqrt(n^2+1)-n)pi]|`
-	`= |sin {:pi/(sqrt(n^2+1)+n):}|`.
-	因此原式极限为 `0`.
-</p>
-
-<h2>几个刻画实数完备性的定理</h2>
-
-<p class="theorem">
-	<b>单调有界原理</b>
-</p>
-
-<p class="theorem">
-	<b>Cantor 闭区间套定理</b>
-</p>
-
-<p class="theorem">
-	<b>Bolzano-Weierstrass 列紧性 (致密性) 原理</b>
-</p>
-
-<p class="theorem">
-	<b>Cauchy 收敛准则</b>
-</p>
-
-<h3>常用于判定数列收敛的定理</h3>
-
-<p>除单调有界原理, Cauchy 收敛准则外, 下面这些定理也很常用:</p>
-
-<p class="theorem">
-	<b>Banach 压缩映像原理</b>
-</p>
-
-<ol class="theorem">
-	设数列 `{x_n}` 满足:
-	<li>存在有限个子数列收敛到同一极限, 且 `{x_n}` 是这些子数列的并,
-		则 `{x_n}` 收敛; 常见的情形是它的奇数项与偶数项分别收敛到同一极限.
-	</li>
-	<li>`x_n = a + r_n`, `n = 1, 2, cdots`, 且存在常数 `lambda in (0, 1)`
-		使得
-		<span class="formula">
-			`|r_(n+1)| le lambda |r_n|`, `quad n = 1, 2, cdots`.
-		</span>
-		则 `lim_(n to oo) x_n = a`.
-	</li>
-	<li>存在常数 `lambda in (0, 1)` 使得
-		<span class="formula">
-			`|x_(n+1) - x_n| le lambda |x_n - x_(n-1)|`,
-			`quad n = 2, 3, cdots`.
-		</span>
-		则 `{x_n}` 收敛.
-	</li>
-</ol>
-
-<h3>一个重要极限</h3>
 
 <p class="theorem" id="the-e">
 	数列 `x_n = (1+1/n)^n` 有极限, 记为 `"e"`.
 </p>
 
-<ol class="proof">
-	<li>先证它单调递增.  由均值不等式知
-		<span class="formula">
-			`  root(n+1)((1 + 1/n)^n)
-			lt (n(1 + 1/n) + 1)/(n+1)
-			=  1 + 1/(n+1)`.
-		</span>
-		所以 `(1 + 1/n)^n lt (1 + 1/(n+1))^(n+1)`.
-	</li>
-	<li>再证此数列有上界. `n ge 2` 时, 由二项式定理,
-		<span class="formula">
-			`	(1 + 1/n)^n
-			=	1 + n * 1/n + (n(n-1))/(2!) * 1/n^2 + cdots + 1/n^n`
-			`lt	sum_(k=0)^n 1/(k!)`
-			`le	2 + sum_(k=2)^n 1/(k(k-1))`
-			`=	2 + 1 - 1/n lt 3`.
-		</span>
-		从而由单调有界原理知极限 `lim_(n to oo) x_n` 存在.
-	</li>
-</ol>
+<p class="proof">
+	由引理知数列有上界, 下证数列单调递增.  由均值不等式知
+	<span class="formula">
+		`  root(n+1)((1 + 1/n)^n)
+		lt (n(1 + 1/n) + 1)/(n+1)
+		=  1 + 1/(n+1)`.
+	</span>
+	所以 `(1 + 1/n)^n lt (1 + 1/(n+1))^(n+1)`.
+	从而由单调有界原理知极限 `lim_(n to oo) x_n` 存在.
+</p>
 
 <p class="remark">
 	`"e" = 2.718281828...` 有许多好的性质, 
 	最重要的一点是, 函数 `"e"^x` 的导数是它自身.
-	人们把 `"e"` 用于自然对数的底, 即 `log_"e" x = ln x`.
+	人们把 `"e"` 用于自然对数的底, 即 `ln x := log_"e" x`.
 </p>
 
 <p class="corollary">
@@ -314,6 +682,23 @@
 	<span class="formula">
 		`sum_(k=1)^n 1/(k+1) lt ln(n+1) lt sum_(k=1)^n 1/k`.
 	</span>
+	从而, <b>调和级数</b> `lim_(n to oo) sum_(k=1)^ 1/k` 发散到正无穷.
+</p>
+
+<p class="corollary">
+	`n ge 2` 时, `(n/"e")^n lt n! lt n^(n+1)/"e"^n`.
+	这个定理给出 `n!` 的比较粗糙的估计. 更仔细的估计参见 Stirling 公式.
+</p>
+
+<p class="proof">
+	`n = 1` 时 `(n/"e")^n lt n!` 显然成立.
+	下面设不等式对正整数 `n` 成立, 则对于正整数 `n+1`,
+	<span class="formula">
+		`(n+1)! = n! (n+1) gt (n/"e")^n (n+1)^(n+1)/(n+1)^n`
+		`= (n+1)^(n+1)/("e"^n (1+1/n)^n)`
+		`gt (n+1)^(n+1)/"e"^(n+1)`.
+	</span>
+	类似可证, `n ge 2` 时, `n! lt n^(n+1)/"e"^n` 成立.
 </p>
 
 <h2>上极限与下极限</h2>
