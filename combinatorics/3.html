@@ -16,6 +16,111 @@
 
 <h3>等差数列与等比数列</h3>
 
+<ol class="definition">
+	不妨设数列的首项为 `x_0`.
+	<li>满足递推关系 `x_n = x_(n-1) + d`, `n = 1, 2, cdots`
+		的数列称为<b>等差数列</b>, 其中 `d` 为常数.
+	</li>
+	<li>满足递推关系 `x_n = x_(n-1) * q`, `n = 1, 2, cdots`
+		的数列称为<b>等比数列</b>, 其中 `q` 为常数.
+	</li>
+</ol>
+
+<ol class="theorem">
+	<li>等差数列的通项公式为 `x_n = x_0 + n d`,
+		前 `n` 项和为
+		<span class="formula">
+			`sum_(k=0)^(n-1) x_k = sum_(k=0)^(n-1) (x_0 + k d)`
+			`= n x_0 + (n(n-1))/2 d`.
+		</span>
+	</li>
+	<li>等比数列的通项公式为 `x_n = q^n x_0`,
+		前 `n` 项和为
+		<span class="formula">
+			`sum_(k=0)^(n-1) x_k = sum_(k=0)^(n-1) q^k x_0`
+			`= {
+				(x_0 (1-q^n)/(1-q), if q != 1),
+				(x_0 n, if q = 1):}`.
+		</span>
+	</li>
+</ol>
+
+<ol class="example">
+	求解
+	<li><b>线性递推式</b> `x_n = a x_(n-1) + d`;</li>
+	<li><b>Bernoulli 型递推式</b> `x_n = a x_(n-1) + d a^n`.</li>
+</ol>
+
+<ol class="solution">
+	<li>`a = 1` 时 `x_n` 即为等差数列. 下设 `a != 1`, 使用待定系数法,
+		设 `x_n - c = a(x_(n-1) - c)`, 于是
+		`x_n = a x_(n-1) + (1-a) c`, 与原递推式比较得 `c = d//(1-a)`.
+		从而 `{x_n - c}` 是以 `a` 为公比的等差数列.
+	</li>
+	<li>两边同乘以 `a^-n` 得
+		<span class="formula">
+			`x_n/a^n = x_(n-1)/a^(n-1) + d`,
+		</span>
+		即 `{x_n/a^n}` 是以 `d` 为公差的等差数列.
+	</li>
+	当然本题也可以看作一般的常系数线性递推关系来解答. 详见下文.
+</ol>
+
+<ol class="theorem">
+	<b>分式线性变换</b>
+	设 `f(x) = (a x + b)/(c x + d)`, `a d - b c != 0`.
+	又设 `{x_n}` 满足 `x_1 != f(x_1)`, `x_(n+1) = f(x_n)`, 且 `c x_n + d
+	!= 0`, `n = 1, 2,
+	cdots`. 则
+	<li>`f(x)` 有两个不同的不动点, 即方程 `x = f(x)` 有两根 `p, q` 时,
+		`{(x_n-p)/(x_n-q)}` 是以 `(a-c p)/(a-c q) = (c q+d)/(c p+d)`
+		为公比的等比数列;
+	</li>
+	<li>`f(x)` 只有一个不动点 `p` 时, `{1/(x_n-p)}` 是以 `c/(c p+d) =
+		(2c)/(a+d)` 为公差的等差数列.
+	</li>
+</ol>
+
+<ol class="proof">
+	容易计算,
+	<span class="formula">
+		`f(x) - f(y) = ((a d-b c)(x-y))/((c x+d)(c y+d))`.
+	</span>
+	<li>若方程 `x = f(x)` 有两个不同的根 `p, q`, 则
+		<span class="formula">
+			`(x_(n+1) - p)/(x_(n+1) - q)`
+			`= (f(x_n) - f(p))/(f(x_n) - f(q))`
+			`= ((c q+d)(x_n-p))/((c p+d)(x_n-q))`.
+		</span>
+		现在证明 `(a-c p)/(a-c q) = (c q+d)/(c p+d)`. 事实上,
+		交叉相乘并消去相同的项, 得到
+		<span class="formula">
+			`(a-d)c q - c^2q^2 = (a-d)c p - c^2p^2`.
+		</span>
+		但 `p, q` 是方程 `x = f(x)`, 即 `c x^2 - (a-d) x - b = 0`
+		的根, 所以上式左右两边都等于 `-b c`.
+	</li>
+	<li>若方程 `x = f(x)` 只有一个根 `p = (a-d)//(2c)`, 则
+		<span class="formula">
+			`c p+d = (a+d)//2`,
+		</span>
+		又此时判别式 `Delta = (a-d)^2 + 4b c = 0`, 有
+		<span class="formula">
+			`(c p+d)^2 = (a+d)^2/4 = ((a-d)^2+4a d)/4`
+			`= a d-b c`.
+		</span>
+		于是
+		<span class="formula">
+			`1/(x_(n+1)-p)`
+			`= 1/(f(x_n) - f(p))`
+			`= ((c x_n+d)(c p+d))/((a d-b c)(x_n-p))`
+			`= (c x_n+d)/((c p+d)(x_n-p))`
+			`= 1/(x_n-p) + c/(c p+d)`
+			`= 1/(x_n-p) + (2c)/(a+d)`.
+		</span>
+	</li>
+</ol>
+
 <p class="example">
 	`x_1 = 2`, `x_n = 1/((n-1)!) + 1/n x_(n-1)`, `n gt 1`. 求 `x_n`
 	通项公式.

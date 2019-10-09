@@ -72,6 +72,98 @@
 	再将 `u, v` 用 `x, y` 代回, 即得到最终结果.
 </p>
 
+<p class="example">
+	讨论二元数量函数的极坐标表示和三元数量函数的球坐标表示.
+</p>
+
+<ol class="solution">
+	<li>设 `u(x, y)` 可微, 令 `x = r cos theta`, `y = r sin theta`, 则
+		<span class="formula">
+			`(del u)/(del r) = (del u)/(del x) cos theta
+			+ (del u)/(del y) sin theta`,<br/>
+			`(del u)/(del theta) = r (-(del u)/(del x) sin theta
+			+ (del u)/(del y) cos theta)`.
+		</span>
+		代换的 Jacobi 行列式为
+		<span class="formula">
+			`|((del x)/(del r), (del x)/(del theta)),
+			  ((del y)/(del r), (del y)/(del theta))| = r`.
+		</span>
+		解线性方程组得
+		<span class="formula">
+			`grad u = ((del u)/(del x), (del u)/(del y))`
+			`= ((del u)/(del r) cos theta
+			- 1/r (del u)/(del theta) sin theta,
+			(del u)/(del r) sin theta
+			+ 1/r (del u)/(del theta) cos theta)`
+			`= (x/r, y/r) (del u)/(del r)
+			+ 1/r (-y/r, x/r) (del u)/(del theta)`
+			`:= (del u)/(del r) bm e_r
+			+ 1/r (del u)/(del theta) bm e_theta`.
+		</span>
+		其中 `bm e_r = ((x","y))/r` 表示极径 `r` 方向的单位向量,
+		`bm e_theta = ((-y","x))/r` 表示极角 `theta` 方向的单位向量.
+	</li>
+	<li>设 `u(x, y, z)` 可微, 令 `x = r cos theta cos varphi`,
+		`y = r sin theta cos varphi`, `z = r sin varphi`, 则
+		<span class="formula">
+			`(del u)/(del r) = (del u)/(del x) cos theta cos varphi`
+			`+ (del u)/(del y) sin theta cos varphi`
+			`+ (del u)/(del z) sin varphi`,<br/>
+			`(del u)/(del theta) = -(del u)/(del x) r sin theta cos
+			varphi`
+			`+ (del u)/(del y) r cos theta cos varphi`,<br/>
+			`(del u)/(del varphi) = -(del u)/(del x) r cos theta sin
+			varphi`
+			`- (del u)/(del y) r sin theta sin varphi`
+			`+ r cos varphi`.
+		</span>
+		代换的 Jacobi 行列式为
+		<span class="formula">
+			`|((del x)/(del r), (del x)/(del theta), (del x)/(del varphi)),
+			((del y)/(del r), (del y)/(del theta), (del y)/(del varphi)),
+			((del z)/(del r), (del z)/(del theta), (del z)/(del varphi))|`
+			`= r^2 cos varphi`.
+		</span>
+		解线性方程组得
+		<span class="formula">
+			`grad u = ((del u)/(del x), (del u)/(del y), (del u)/(del z))`
+			`= 1/(r^2 cos varphi)`
+			`((del u)/(del r) r^2 cos theta cos^2 varphi`
+			`- (del u)/(del theta) r sin theta`
+			`- (del u)/(del varphi) r cos theta cos varphi sin varphi,`
+			`(del u)/(del r) r^2 sin theta cos^2 varphi`
+			`+ (del u)/(del theta) r cos theta`
+			`- (del u)/(del varphi) r sin theta cos varphi sin varphi,`
+			`(del u)/(del r) r^2 cos varphi sin varphi`
+			`+(del u)/(del varphi) r cos^2 varphi)`
+			`= (del u)/(del r) (cos theta cos varphi, sin theta cos
+			varphi, sin varphi)`
+			`+ 1/(r cos varphi) (del u)/(del theta) (-sin theta, cos
+			theta, 0)`
+			`+ 1/r (del u)/(del varphi) (-cos theta sin varphi, -sin theta
+			sin varphi, cos varphi)`
+			`:= (del u)/(del r) bm e_r + 1/(r cos varphi) (del u)/(del
+			theta) bm e_theta + 1/r (del u)/(del varphi) bm e_varphi`.
+		</span>
+		以 `bm alpha_1` 记与 `bm alpha` 同向的单位向量,
+		其中
+		<span class="formula">
+			`bm e_r = (x_r, y_r, z_r)_1 = (cos theta cos varphi, sin
+			theta cos varphi, sin varphi) = ((x","y","z))/r`,<br/>
+			`bm e_theta = (x_theta, y_theta, z_theta)_1 = (-sin theta, cos
+			theta, 0) = ((-y","x","0))/sqrt(x^2+y^2)`,<br/>
+			`bm e_varphi = (x_varphi, y_varphi, z_varphi)_1 = (-cos theta
+			sin varphi, -sin theta sin varphi, cos varphi)`
+			`= ((-x z","-y z","x^2+y^2))/(r sqrt(x^2+y^2))`.
+		</span>
+		三者分别表示 `r, theta, varphi` 方向的单位向量.
+		(注: 如果作变换 `x = r cos theta sin varphi`, `y = r sin theta sin
+		varphi`, `z = r cos varphi`, 上面的行列式应该等于 `-r^2 sin
+		varphi`)
+	</li>
+</ol>
+
 <script src="../js/note.js?type=math"></script>
 
 </body>
