@@ -190,7 +190,7 @@
 	</span>
 </p>
 
-<p class="example">
+<p class="example" id="exp-int-sin-n-x">
 	求 `I_n = int sin^n x dx`, `J_n = int cos^n x dx`
 	的递推公式.
 </p>
@@ -226,6 +226,25 @@
 		`I_(-2) = - cot x + C`, `quad J_(-2) = tan x + C`.
 	</span>
 </p>
+
+<p class="example" id="exp-possion-integral">
+	求 `I_n = int "e"^(-x^2) x^n dx` 的递推公式.
+</p>
+
+<p class="solution">
+	<span class="formula">
+		`I_1 = int "e"^(-x^2) x dx`
+		`= 1/2 int "e"^(-x^2) "d"(x^2)`
+		`= -1/2 "e"^(-x^2) + C`,
+	</span>
+	所以
+	<span class="formula">
+		`I_n = int x^(n-1) "d"(-1/2 "e"^(-x^2))`
+		`= -1/2 "e"^(-x^2) x^(n-1) + (n-1)/2 int "e"^(-x^2) x^(n-2) dx`
+		`= -1/2 "e"^(-x^2) x^(n-1) + (n-1)/2 I_(n-2)`.
+	</span>
+</p>
+
 
 <h2>有理函数积分</h2>
 

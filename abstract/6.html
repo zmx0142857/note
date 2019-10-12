@@ -28,11 +28,183 @@
 
 <ul class="definition">
 	<li>称环 `R` 为一<b>交换环</b>, 如果 `(R, *)` 为一交换半群;</li>
-	<li>称环 `R` 为一<b>幺环</b>, 如果 `(R, *)` 为一幺半群;</li>
+	<li>称环 `R` 为一<b>幺环</b>, 如果 `(R, *)` 为一幺半群;
+		由于幺半群非平凡 (即至少含两个元素), 所以幺环至少含两个元素.
+	</li>
 </ul>
 
 <p class="remark">
-	在些书本的定义中, 把幺环或者交换幺环称为环.
+	在些书本的定义中, 把幺环称为环 (ring), 把不含幺元的一般的环称为
+	(rng).
+</p>
+
+<ol class="corollary">
+	令 `R` 为一环, `a, b in R`, `n in ZZ`, 则
+	<li>`0 a -= a 0 -= 0`; 即加法单位元是乘法的零元;</li>
+	<li>`(n a)b -= a(n b) -= n(a b)`; 即整系数可穿越; 特别地,
+		`(-a)b -= a(-b) -= -(a b)`;
+		`(-a)(-b) -= a b`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>`AA a in R`, 由
+		<span class="formula">
+			`0 a = (0+0)a = 0 a + 0 a`
+		</span>
+		知 `0 a = 0`, 同理 `a 0 = 0`.
+	</li>
+	<li>`AA a, b in R`,
+		`n = 0` 时, 结论显然成立. `n` 为一正整数时,
+		<span class="formula">
+			`(n a)b = overbrace(n)(a+a+cdots+a) b`
+			`= overbrace(n)(a b+a b+cdots+a b)`
+			`= n(a b)`.
+		</span>
+		同理 `a(n b) = n(a b)`.<br/>
+		`n = -1` 时, 
+		<span class="formula">
+			`(-a) b + a b = (-a+a)b = 0`,
+		</span>
+		故 `(-a)b = -(a b)`. 同理 `a(-b) = -(a b)`.<br/>
+		`n` 为一负整数时, 记 `m = -n`, 则
+		<span class="formula">
+			`(n a)b = (m(-1)a)b = m(-a)b = m(-(a b))`
+			`= -m(a b) = n(a b)`.
+		</span>
+		同理 `a(n b) = n(a b)`.
+	</li>
+</ol>
+
+<ol class="example">
+	<li>全体整数 `ZZ` 关于整数的加法和乘法成一交换幺环.</li>
+	<li>线性空间 `V` 上全体线性变换 `cc L(V)`
+		关于线性变换的加法与合成成一幺环;
+		平行地, 数域 `bbb F` 上 `n` 阶方阵的全体 `bbb F^(n xx n)`
+		关于矩阵的通常加法与乘法成一环;
+	</li>
+	<li><b>一元多项式环</b> 数域 `bbb F` 上一元多项式全体 `bbb F[x]`
+		关于多项式的加法与乘法成一交换幺环.
+	</li>
+	<li><b>模 `n` 的剩余类环</b> 令 `n in ZZ^+`, 定义 `ZZ` 上
+		模 `n` 同余的等价关系
+		<span class="formula">
+			`a ~ b iff n | a-b`,
+		</span>
+		在此关系下的每个等价类称为模 `n` 的剩余类, 全体模 `n` 的剩余类为
+		<span class="formula">
+			`ZZ_n := {bar 0, bar 1, cdots, bar(n-1)}`.
+		</span>
+		定义 `ZZ_n` 上的加法与乘法为:
+		<span class="formula">
+			`bar a + bar b = bar(a+b)`,<br/>
+			`bar a * bar b = bar(a b)`.
+		</span>
+		容易验证它们是良定义的, 且 `(ZZ_n; +, *)` 为一环, 即<b>`ZZ` 模
+		`bm n` 的剩余类环</b>.
+	</li>
+</ol>
+
+<p class="definition">
+	令 `(R; +, *)` 为一环, `S` 是 `R` 的非空子集. 称 `S` 为 `R`
+	的一个<b>子环</b>, 如果 `(S; +, *)` 也成一环, 记为 `S le R`.
+</p>
+
+<p class="corollary">
+	<b>子环的判定</b>
+	令 `S` 为环 `R` 的一个非空子集, 则 `S le R` 当且仅当
+	<span class="formula">
+		`(AA a, b in S)` `a-b, a b in S`.
+	</span>
+	其中, `a-b in S` 保证了 `(S, +)` 是 `(R, +)` 子群,
+	`a b in S` 保证了 `(S, *)` 是 `(R, *)` 子半群.
+</p>
+
+<p class="corollary">
+	令 `R` 为一环, 则 `R` 的若干子环的交仍为 `R` 的子环.
+</p>
+
+<p class="example">
+	子环一定含有原来的零元, 但幺元则未必.
+	整数环 `ZZ` 有幺元, 而它的子环 `2ZZ` 没有幺元.<br/>
+	数域 `bbb F` 上的矩阵环 `{((a" ",b),(0" ",0))|a, b in bbb F}`
+	无幺元,<br/>
+	而它的子环 `{((a" ",0),(0" ",0))| a in bbb F}` 有幺元
+	`((1" ",0),(0" ",0))`.<br/>
+	整数环上的矩阵环 `{((a" ",b),(c" ",d))| a, b, c, d in ZZ}` 有幺元
+	`((1" ",0),(0" ",1))`,<br/>
+	它的子环 `{((a" ",a),(0" ",0))| a in ZZ}`
+	有幺元 `((1" ",1),(0" ",0))`, 二者的幺元不同.
+</p>
+
+<p class="definition">
+	令 `R, S` 为两个环, 称映射
+	<span class="formula">
+		`f: R to S`
+	</span>
+	为 `R` 到 `S` 的一个<b>环同态映射</b>, 如果
+	<span class="formula">
+		`f(a+b) -= f(a) + f(b)`,<br/>
+		`f(a b) -= f(a) f(b)`.
+	</span>
+	若 `f` 为单射 (满射, 双射), 则称 `f` 为一单同态 (满同态, 同构) 映射.
+	若 `f` 为一同构映射, 则称 `R` 与 `S` 同构, 记为 `R ~= S`.<br/>
+	环同态映射 `f` 的核定义为
+	<span class="formula">
+		`"Ker"f := f^-1(bar 0) = {a in R| f(a) = bar 0}`,
+	</span>
+	其中 `bar 0` 是 `S` 的零元.
+</p>
+
+<p class="theorem">
+	环的同态像 (原像) 仍为一环.
+	令 `R, S` 为两个环, `R_1 le R`, `S_1 le S`.
+	`f: R to S` 为一同态映射. 则
+	<span class="formula">
+		`f(R_1) le S`, `quad f^-1(S_1) le R`.
+	</span>
+	特别有 `"Im"f le S`, `"Im"f^-1 le R`, `"Ker"f le R`.
+</p>
+
+<p class="proof">
+	`AA f(a), f(b) in f(R_1)`, 其中 `a, b in R_1`, 有
+	<span class="formula">
+		`f(a) - f(b) = f(a-b) in f(R_1)`,<br/>
+		`f(a) f(b) = f(a b) in f(R_1)`.
+	</span>
+	因此 `f(R_1) le S`. 又 `AA c, d in f^-1(S_1)`, 则 `f(c), f(d) in S_1`,
+	有
+	<span class="formula">
+		`f(c-d) = f(c) - f(d) in S_1`,<br/>
+		`f(c d) = f(c) f(d) in S_1`.
+	</span>
+	因此 `c-d, c d in f^-1(S_1)`, 即 `f^-1(S_1) le R`.
+</p>
+
+<p class="theorem">
+	类比于任一半群可扩张为一幺半群, 我们有:
+	任一环可扩张为 (或嵌入到) 一幺环.
+	令 `R` 为一环, 则存在一个幺环 `R_1`, 使得 `R` 同构于 `R_1` 的某一子环.
+</p>
+
+<p class="remark">
+	Every rng is an ideal in some ring, and every ideal of a ring is a
+	rng.
+</p>
+
+<p class="definition">
+	令 `(G, +)` 为一 Abel 群,
+</p>
+
+<p class="theorem">
+	<b>环的 Cayley 左正则表示</b>
+	令 `R` 为一幺环, 以 `a_l` 记元素 `a in R` 诱导的左平移变换 `a_l: r to
+	a r`, `r in R`. 则
+	<span class="formula">
+		`eta: R to End(R, +)`<br/>
+		`a to a_l`
+	</span>
+	为一单同态, 因此 `R ~= "Im"eta`.
 </p>
 
 </body>

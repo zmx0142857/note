@@ -390,82 +390,201 @@
 	</tr>
 </table>
 
-<p>	因为 `arcsin x`, `arccos x`, `arctan x` 都在各自的定义域上单调,
+<p>	其中 `"arccot "x` 定义为
+	<span class="formula">
+		`"arccot "x = {
+			(arctan{:1/x:}, if x gt 0),
+			(pi/2, if x = 0),
+			(arctan{:1/x:}+pi, if x lt 0)
+		:}`
+	</span>
+	因为上面 4 个反三角函数都在各自的定义域上单调,
 	所以对所有定义域中的 `x`,
+	<span class="formula">
+		`sin arcsin x = x`.
+	</span>
+	其它三个类似.
+</p>
+
+<h4>互余关系, 反射变换</h4>
+
+<span class="formula">
+	`arcsin x + arccos x = pi/2`
+	`quad arctan x + "arccot "x = pi/2`,<br/>
+	`arcsin(-x) = -arcsin x`,
+	`quad arctan(-x) = -arctan x`,<br/>
+	`arccos(-x) + arccos x =  pi`,
+	`quad "arccot"(-x) + "arccot" x = pi`.
+</span>
+
+<p class="proof">
+	我们只证 `arcsin`, `arccos` 的相关公式. 先证明
+	<span class="formula">
+		`arcsin x = pi/2 - arccos x`.
+	</span>
+	考察 `arcsin x` 和 `arccos x` 的值域可知,
+	上式两边之差的绝对值不超过 `2 pi`, 所以上式成立当且仅当
+	<span class="formula">
+		`sin arcsin x = sin (pi/2 - arccos x)`,
+	</span>
+	即 `x = cos arccos x`, 这显然成立.
+	又 `arcsin x` 是 `sin x` 在对称区间 `[-pi/2, pi/2]` 上的反函数,
+	而 `sin x` 为奇函数, 所以 `arcsin x` 也为奇函数. 最后
+	<span class="formula">
+		`arccos(-x) = pi/2 - arcsin(-x)`
+		`= pi/2 + arcsin x = pi/2 + pi/2 - arccos x`.
+	</span>
+</p>
+
+<h4>勾股互化</h4>
+
+<p>	`x gt 0` 时, 通过画图容易得知</p>
+
+<span class="formula">
+	` arcsin x = arccos sqrt(1-x^2)`
+	`= arctan {:x/sqrt(1-x^2):}`,<br/>
+	`arccos x = arcsin sqrt(1-x^2)`
+	`= arctan{:sqrt(1-x^2)/x:}`,<br/>
+	`arctan x = arccos{:1/sqrt(1+x^2):}`
+	`= arcsin{:x/sqrt(1+x^2):}`.
+</span>
+
+<p>	`x lt 0` 时, 令 `x = -y`, 再对 `y` 应用上述公式.
+	适当利用反三角函数的反射变换.
+	比如 `x lt 0` 时,
+	<span class="formula">
+		`arccos x = arccos(-y) = pi-arccos y`
+		`= pi - arctan{:sqrt(1-y^2)/y:}`
+		`= pi + arctan{:sqrt(1-x^2)/x:}`.
+	</span>
+</p>
+
+<h4>反函数性质</h4>
+
+<p>	前面已经提到,
 	<span class="formula">
 		`sin arcsin x = x`,
 		`quad cos arccos x = x`,
 		`quad tan arctan x = x`.
 	</span>
-	反之, 则不那么优雅:
+	反之就比较复杂, 需要适当地作<b>平移变换</b>, 将 `x-n pi`
+	落入反三角函数的值域中:
 	<span class="formula">
-		`arcsin sin x = (-1)^n (x-n pi)`, `quad |x-n pi| le pi/2;<br/>
-		`arctan tan x = x-n pi`, `quad |x - n pi| lt pi/2`;<br/>
-		`arccos cos x = {
-			(x-n pi, if n " is even"),
-			((n+1)pi-x, if n " is odd")
-		:}`, `quad |x-(n+1/2)pi| le pi/2`.
+		`arcsin sin x = (-1)^n (x-n pi)`, `quad |x-n pi| le pi/2,<br/>
+		`arccos cos x = (-1)^n (x-n pi) + [n" odd"] pi`,
+		`quad 0 le x-n pi le pi`,<br/>
+		`arctan tan x = x-n pi`, `quad |x - n pi| lt pi/2`,<br/>
+	</span>
+	其中 `[n" odd"] = {(1, if n" is odd;"), (0, if n" is even."):}`
+</p>
+
+<p>	利用勾股互化, 得到
+	<span class="formula">
+		`cos arcsin x = sin arccos x = sqrt(1-x^2)`,
+	</span>
+	当然, 也可以从值域来考虑. 比如 `arcsin x` 值域是 `[-pi/2,
+	pi/2]`, 而在这一区间上 `cos` 函数非负, 所以结果的符号为正.
+</p>
+
+<h4>差角公式</h4>
+
+<p>
+	介绍差角而不是和角, 是因为前者在数学分析中更常用.
+	<span class="formula">
+		`arcsin sin(arcsin x - arcsin y)`
+		`= arcsin(x sqrt(1-y^2) - y sqrt(1-x^2))`,
+		`arccos cos(arccos x - arccos y)`
+		`= arccos(x y+sqrt(1-x^2) sqrt(1-y^2))`,
+		`arctan tan(arctan x - arctan y)`
+		`= arctan{:(x - y)/(1+x y):}`,
+	</span>
+	条件
+	<span class="formula">
+		`|arcsin x - arcsin y| le pi/2` `iff x y ge 0 or x^2+y^2 le 1`,
+		<br/>
+		`0 le arccos x - arccos y le pi` `iff x le y`,<br/>
+		`|arctan x - arctan y| lt pi/2` `iff x y gt -1`.
+	</span>
+	分别成立时, 上面三个等式分别等于
+	<span class="formula">
+		`arcsin x - arcsin y`,
+		`arccos x - arccos y`,
+		`arctan x - arctan y`.
 	</span>
 </p>
 
-<p>	相应于一些三角函数公式, 对于反三角函数有如下恒等式
-	<span class="formula">
-		`arcsin x + arccos x = pi/2`;<br/>
-		`arctan x + text(arccot) x = pi/2`;<br/>
-		`2 arctan "e"^x - arctan sinh x = pi/2`;<br/>
-	</span>
-	以及
-	<span class="formula">
-		` arcsin x = text(sgn) x * arccos sqrt (1 - x^2)
-		= arctan {: x/sqrt (1 - x^2) :}`;<br/>
+<ol class="proof">
+	我们来证明那些使公式成立的等价条件.
+	<li>首先由 `arccos` 的值域为 `[0, pi]` 知 `arccos x - arccos y le pi`
+		恒成立.
+		又由 `arccos` 单调递减知 `arccos x - arccos y ge 0 iff x le y`.
+	</li>
+	<li>记 `a = arctan x`, `b = arctan y`, 由值域知
+		`-pi/2 lt a, b lt pi/2`, 所以 `cos a, cos b gt 0`.
+		若 `|a-b| lt pi/2`,
+		<span class="formula">
+			`0 lt cos(a-b) = cos a cos b + sin a sin b`
+			`= cos a cos b(1 + tan a tan b)`
+		</span>
+		这推出 `x y+1 = tan a tan b + 1 gt 0`.
+		反之若 `x y gt -1`, 可得 `cos(a-b) gt 0`
+		但由 `-pi/2 lt a, b lt pi/2` 知 `|a-b| lt pi`,
+		于是必有 `|a-b| lt pi/2`.
+		这个条件的几何意义是, 若两角之差是锐角, 且两直线与 `x`
+		轴正方向的夹角分别等于这两个角, 则两直线斜率之积大于 `-1`.
+	</li>
+	<li>记 `a = arcsin x`, `b = arcsin y`.  若 `|a-b| le pi/2`,
+		<span class="formula">
+			`0 le cos(a-b) = cos a cos b + sin a sin b`.
+		</span>
+		即
+		<span class="formula">
+			`-x y le sqrt(1-x^2) sqrt(1-y^2)`.
+		</span>
+		假设 `x y lt 0`, 上式化为
+		<span class="formula">
+			`|x y| le sqrt(1-x^2) sqrt(1-y^2)`,
+		</span>
+		两边平方得
+		<span class="formula">
+			`x^2 y^2 le (1-x^2)(1-y^2) = 1 - (x^2+y^2) + x^2 y^2`.
+		</span>
+		即
+		<span class="formula">
+			`x^2+y^2 le 1`.
+		</span>
+		反之, 若 `x y ge 0` 或 `x^2+y^2 le 1` 成立, 都可以推出
+		<span class="formula">
+			`-x y le sqrt(1-x^2) sqrt(1-y^2)`
+		</span>
+		成立, 这等价于 `cos(a-b) ge 0`, 从而等价于 `|a-b| le pi/2`.
+	</li>
+</ol>
 
-		`arctan x = sgn x * arccos{:1/sqrt(1 + x^2):}`
-		`= arcsin {:x/sqrt(1 + x^2):}`;<br/>
-
-		`arccos x = {
-			(arcsin sqrt(1-x^2), if x ge 0),
-			(pi - arcsin sqrt(1-x^2), if x lt 0)
-		:} = {
-			(arctan{:sqrt(1-x^2)/x:}, if x ge 0),
-			(pi + arctan{:sqrt(1-x^2)/x:}, if x lt 0)
-		:}`.
-	</span>
-	还有
+<p>	条件不成立时, 使用平移变换. 比如, 取合适的 `n` 使得
+	`|arcsin x - arcsin y - n pi| le pi/2`, 则
 	<span class="formula">
-		` 2 arctan sqrt ((a-b)/(a+b))
-		= arccos {: b/a :}`, `quad |a| ge |b|`;<br/>
-		` arccos x = 2 arccos sqrt((1+x)/2) = 2 arcsin sqrt((1-x)/2)`.
+		`arcsin sin(arcsin x - arcsin y)`
+		`= (-1)^n (arcsin x - arcsin y - n pi)`
+	</span>
+	于是
+	<span class="formula">
+		`arcsin x - arcsin y = n pi
+		+ (-1)^n arcsin(x sqrt(1-y^2) - y sqrt(1-x^2))`.
+	</span>
+	另外, 利用反射变换可以得到
+	<span class="formula">
+		`arcsin x + arcsin y = arcsin x - arcsin(-y)`,<br/>
+		`arccos x + arccos y = arccos x - arccos(-y) + pi`,<br/>
+		`arctan x + arctan y = arctan x - arctan(-y)`.
 	</span>
 </p>
 
-<p>	下面三个式子常用于数学分析:
-	<span class="formula">
-		`arcsin x - arcsin y = {
-			(arcsin(x sqrt(1-y^2) - y sqrt(1-x^2))
-				if xy ge 0 or x^2 + y^2 le 1),
-			(pi*sgn(x-y) - arcsin(x sqrt(1-y^2) - y sqrt(1-x^2))
-				if "else")
-		:}`<br/>
-		`arctan x - arctan y = {
-			(arctan{:(x-y)/(1+xy):}, if xy ge -1),
-			(arctan{:(x-y)/(1+xy):} + pi*sgn(x-y), if xy lt -1)
-		:}`;<br/>
-		`arccos x - arccos y
-		= arccos(xy + sqrt((1-x^2)(1-y^2)) ) * sgn(y-x)`.
-	</span>
-
-<p class="remark">
-	考虑如下的证明思路 (以 `arcsin x + arccos x = pi/2` 的证明为例):
-	原式成立当且仅当
-	<span class="formula">
-		`arcsin x = pi/2 - arccos x`,
-	</span>
-	注意到上式两边之差的绝对值不超过 `2 pi`, 所以上式成立当且仅当
-	<span class="formula">
-		`sin arcsin x = sin (pi/2 - arccos x)`,
-	</span>
-	即 `x = cos arccos x`, 这显然成立.
+<!-- 放在哪里好呢???
+<p>	其中 `sgn x = {(1, if x gt 0), (0, if x = 0), (-1, if x lt 0):}`.
+	显然恒有 `x = sgn x |x|`, `x in RR`.
 </p>
+-->
 
 <h2>双曲三角函数与反双曲三角函数</h2>
 
@@ -595,6 +714,10 @@
 	</span>
 </p>
 
+<p class="example">
+	`prod_(n=1)^oo cos^{:x/2^n:} = (sin x)/x`.
+</p>
+
 <ol class="example">
 	计算
 	<li>`arctan 1 + arctan{:1/2:} + arctan{:1/3:}`;</li>
@@ -604,7 +727,8 @@
 <ol class="solution">
 	利用等式
 	<span class="formula">
-		`arctan x + arctan y = arctan{:(x+y)/(1-xy):}`.
+		`arctan x + arctan y = arctan{:(x+y)/(1-xy):}`,
+		`quad x y lt 1`.
 	</span>
 	<li>
 		<span class="formula">
@@ -625,34 +749,46 @@
 	</li>
 </ol>
 
-<p class="example">
-	`prod_(n=1)^oo cos^{:x/2^n:} = (sin x)/x`.
+<ol class="example">
+	证明:
+	<li>`2 arctan "e"^x - arctan sinh x = pi/2`;</li>
+	<li>`2 arctan "e"^-x + arctan sinh x = pi/2`.</li>
+</ol>
+
+<p class="proof">
+	只证第一式.
+	注意到 `"e"^x * "e"^x lt 1` 未必成立, 不适合用公式
+	<span class="formula">
+		`arctan x + arctan y = arctan{:(x+y)/(1-x y):}`.
+	</span>
+	不过 `arctan" e"^x gt 0` 恒成立, 因此适合用 `"arccot"` 来刻画.
+	<span class="formula">
+		原式 `= "arccot"{:(1-"e"^(2x))/(2"e"^x):} - arctan sinh x`
+		`= "arccot"(-sinh x) + arctan(-sinh x)`
+		`= pi/2`.
+	</span>
 </p>
 
-<p class="theorem">
-	设非空集合 `A sube RR^+` 有上界. `n in ZZ^+`,
-	`A^n = {a^n | a in A}`,
-	则 `"sup"(A^n)` 存在, 且
-	`"sup"(A^n) = ("sup" A)^n`.
+<p class="proof">
+	只证第一式.  求导,
+	<span class="formula">
+		`2/(1+"e"^(2x)) "e"^x - 1/(1+sinh^2 x) cosh x`
+		`= 1/(cosh x) - 1/(cosh x) = 0`.
+	</span>
+	从而原式恒为一常数. 取 `x = 0` 得 `pi/2`.
 </p>
+
+<ol class="example">
+	证明
+	<li>`2 arctan sqrt ((a-b)/(a+b))
+		= arccos {: b/a :}`, `quad a ge |b|`;</li>
+	<li>`arccos x = 2 arccos sqrt((1+x)/2) = 2 arcsin sqrt((1-x)/2)`.</li>
+</ol>
 
 <ol class="proof">
-	不妨设 `n ge 2`. 记 `x = "sup" A`.
-	<li>`x^n` 是 `A^n` 上界.
-		任取 `a^n in A^n`, 则 `a le x`, 故 `a^n le x^n`.
-	</li>
-	<li>`x^n` 是 `A^n` 最小上界.
-		设 `y ge a^n`, `AA a in A`. 断言 `x^n le y`.
-		否则, 取 `epsi = (x^n - y)/(nx^(n-1)) gt 0`,
-		则存在 `a_epsi in A`, `a_epsi gt x - epsi`.
-		利用 `n` 次方差公式放大, 有
-		<span class="formula">
-			`  x^n - a_epsi^n
-			lt x^n - (x-epsi)^n
-			lt epsi n x^(n-1)
-			=  x^n - y`,
-		</span>
-		从而 `y lt a_epsi^n`, 矛盾.
+	<li>原式 `= arctan{:(2sqrt((a-b)/(a+b)))/(1-(a-b)/(a+b)):}`
+		`= arctan{:(sqrt(a^2-b^2))/b:}`
+		`= sgn b * arccos{:b/a:}`.
 	</li>
 </ol>
 

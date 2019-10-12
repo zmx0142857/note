@@ -183,50 +183,11 @@
 	</span>
 </p>
 
-<p class="example">
-	`I_n = int_0^(pi/2) sin^n x dx = int_0^(pi/2) cos^n x dx`
-	`= {
-		((n-1)/n * (n-3)/(n-2) * cdots * 1/2 * pi/2, if n " is even";),
-		((n-1)/n * (n-3)/(n-2) * cdots * 2/3 * 1, if n " is odd".)
-	:}`
-	`= 1/2 B((n+1)/2, 1/2)`.
-</p>
-
-<p class="solution">
-	原式等于
-	<span class="formula">
-		` int_0^(pi/2) cos^(n-1) x "d" sin x`
-		`= [cos^(n-1) x * sin x]_0^(pi/2)
-			- int_0^(pi/2) sin x text(d)(cos^(n-1) x)`
-		`= 0 + (n-1)int_0^(pi/2) sin^2 x * cos^(n-2) x dx`
-		`= (n-1) ( int_0^(pi/2) cos^(n-2) x dx
-			- int_0^(pi/2) cos^n x dx )`
-		`= (n-1)( I_(n-2) - I_n )`.
-	</span>
-	于是
-	<span class="formula">
-		`I_n = (n-1)/n I_(n-2)`.
-	</span>
-	易求得 `I_0 = pi/2`, `I_1 = 1`. 由递推公式马上得到上面的结论.
-</p>
-
-<p class="solution">
-	另一种解法利用了 Beta 函数和 Gamma 函数的性质:
-	<span class="formula">
-		` I_n \ ("let " x = arcsin u)`
-		`= int_0^1 u^n/sqrt(1 - u^2) "d"u \ ("let " u=sqrt v)`
-		`= 1/2 int_0^1 v^(n/2 - 1/2) / sqrt(1-v) "d"v`
-		`= 1/2 int_0^1 v^((n+1)/2 - 1) (1-v)^(1/2 - 1) "d"v`
-		`= 1/2 B((n+1)/2, 1/2)`
-		`= ( Gamma((n+1)/2) Gamma(1/2) ) / (2 Gamma((n+2)/2))`
-		`= (sqrt pi Gamma((n+1)/2) ) / ( 2 Gamma((n+2)/2) )`.
-	</span>
-</p>
-
 <h2>重要广义积分</h2>
 
 <p class="example">
-	<b>Poission 积分</b> `int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
+	<b>Poission 积分 (或 Euler-Poission 积分, 又称概率积分)</b>
+	`int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
 </p>
 
 <p class="solution">
@@ -258,6 +219,218 @@
 <p class="example">
 	<b>Dirichlet 积分</b>
 	`int_(-oo)^(+oo) (sin x)/x dx = pi`.
+</p>
+
+<h3>Euler 积分</h3>
+
+<h4>第一类 Euler 积分: Beta 函数</h4>
+
+<span class="formula">
+	`B(x+1, y+1) = int_0^1 t^x (1-t)^y dt`.
+</span>
+
+<p class="property">
+	`0`, `1` 是 Beta 函数积分的瑕点; `B(x, y)` 在 `x, y gt 0` 时收敛.
+</p>
+
+<p class="property">
+	<b>对称性</b>
+	作变元替换 `s = 1-t` 可得, `B(x, y) = B(y, x)`.
+</p>
+
+<p class="property">
+	<b>递推公式</b>
+	`B(x+1, y) = x/(x+y) B(x, y)`.
+</p>
+
+<p class="proof">
+	分部积分,
+	<span class="formula">
+		`B(x+1, y) = -1/y t^x (1-t)^y |_0^1
+		+ x/y int_0^1 (1-t)^y t^(x-1) dt`
+		`= x/y (int_0^1 (1-t)^(y-1) t^(x-1) dt
+		- int_0^1 (1-t)^(y-1) t^x dt)`
+		`= x/y (B(x, y) - B(x+1, y))`.
+	</span>
+	移项整理即得结论.
+</p>
+
+<p class="corollary">
+	`B(m+1, n+1) = (m! n!)/((m+n+1)!)`, `m, n` 是非负整数.
+</p>
+
+<ol class="property">
+	<b>Beta 函数的其它形式</b>
+	<li>令 `t = sin^2 theta`, 则
+		`B(x, y) = 2 int_0^(pi//2) sin^(2x-1) theta
+		cos^(2y-1) theta "d"theta`.
+	</li>
+	<li>令 `t = u/(1+u)`, 则 `B(x, y) = int_0^oo u^(x-1)/(1+u)^(x+y)
+		"d"u`. 特别 `B(x, 1-x) = int_0^oo u^(x-1)/(1+u) "d"u`.
+	</li>
+	<li>由上一式得 `B(x, y) = int_0^1 u^(x-1)/(1+u)^(x+y) "d"u`
+		`+ int_1^oo u^(x-1)/(1+u)^(x+y) "d"u`.
+		对第二项积分作变换 `u = 1/v` 得
+		`B(x, y) = int_0^1 (u^(x-1) + u^(y-1))/(1+u)^(x+y) "d"u`.
+	</li>
+</ol>
+
+<p class="example">
+	`I_n = int_0^(pi/2) sin^n x dx = int_0^(pi/2) cos^n x dx`
+	`= 1/2 B((n+1)/2, 1/2)`
+	`= {
+		((n-1)/n * (n-3)/(n-2) * cdots * 1/2 * pi/2, if n " is even";),
+		((n-1)/n * (n-3)/(n-2) * cdots * 2/3 * 1, if n " is odd".)
+	:}`
+	由此得到 Beta 函数在一些半整数点的取值.
+</p>
+
+<p class="solution">
+	化为 Beta 函数:
+	<span class="formula">
+		`I_n` (令 `x = arcsin u`)
+		`= int_0^1 u^n/sqrt(1 - u^2) "d"u \ ("let " u=sqrt v)`
+		`= 1/2 int_0^1 v^(n/2 - 1/2) / sqrt(1-v) "d"v`
+		`= 1/2 int_0^1 v^((n+1)/2 - 1) (1-v)^(1/2 - 1) "d"v`
+		`= 1/2 B((n+1)/2, 1/2)`.
+	</span>
+	现在利用第 6 章的 <a href="6.html#exp-int-sin-n-x">例题</a>, 容易得到
+	<span class="formula">
+		`I_n = (n-1)/n I_(n-2)`.
+	</span>
+	易求得 `I_0 = pi/2`, `I_1 = 1`. 由递推公式马上得到上面的结论.
+</p>
+
+<h4>第二类 Euler 积分: Gamma 函数</h4>
+
+<span class="formula">
+	`Gamma(x+1) = int_0^oo "e"^-t t^x dt`.
+</span>
+
+<p class="property">
+	`Gamma(x)` 在 `x gt 0` 时收敛, 可在积分号下求任意阶导数:
+	<span class="formula">
+		`Gamma^((n))(x+1) = int_0^oo "e"^-t t^x ln^n t dt`.
+	</span>
+</p>
+
+<p class="property">
+	<b>递推公式</b>
+	`Gamma(x+1) = x Gamma(x)`.
+</p>
+
+<p class="proof">
+	分部积分,
+	<span class="formula">
+		`Gamma(x+1) = int_0^oo "e"^-t t^x dt`
+		`= -"e"^-t t^x|_0^oo + x int_0^oo "e"^-t t^(x-1) dt`
+		`= x Gamma(x)`.
+	</span>
+</p>
+
+<p class="corollary">
+	`Gamma(n+1) = n!`, `n` 为非负整数.
+</p>
+
+<p class="property">
+	<b>Gamma 函数的其它形式</b>
+	令 `t = u^2`, 则
+	`Gamma(x) = 2 int_0^oo "e"^(-u^2) u^(2x-1) "d"u`.
+</p>
+
+<p class="example">
+	`I_n = int_(-oo)^(+oo) "e"^(-x^2) x^n dx` 在 `n` 为奇数时等于零;
+	`n` 为偶数时, 等于
+	<span class="formula">
+		`Gamma((n+1)/2) = (n!)/(2^n (n//2)!) sqrt pi`,
+		`quad n = 0, 2, 4, 6, cdots`.
+	</span>
+	由此得到了 `Gamma` 函数在半整数点的取值.
+</p>
+
+<p class="solution">
+	`n` 是奇数时, 被积函数为奇函数, 积分为零;
+	`n` 是偶数时, 被积函数为偶函数, 利用 Gamma 函数的变化形式,
+	`I_n = Gamma((n+1)/2)`.
+	现在利用第 6 章的<a href="6.html#exp-possion-integral">例题</a>,
+	容易得到
+	<span class="formula">
+		`I_n = (n-1)/2 I_(n-2)`.
+	</span>
+	利用 `I_0 = sqrt pi` (Poission 积分) 和 `I_1 = 0` 立即得到上面的结论.
+</p>
+
+<p class="property">
+	<b>两类 Euler 积分的联系 (Dirichlet 公式)</b>
+	`B(x, y) = (Gamma(x)Gamma(y))/(Gamma(x+y))`.
+</p>
+
+<p class="proof">
+	应用 Gamma 函数与 Beta 函数的变化形式, 并在极坐标下积分:
+	<span class="formula">
+		`Gamma(x) Gamma(y)`
+		`= 4 int_0^oo "e"^(-u^2) u^(2x-1) "d"u
+		int_0^oo "e"^(-v^2) v^(2y-1) "d"v`
+		`= 4 int_0^oo int_0^oo "e"^-(u^2+v^2) u^(2x-1) v^(2y-1) "d"u"d"v`
+		(令 `u = r cos theta`, `v = r sin theta`)
+		`= 4 int_0^(pi//2) cos^(2x-1) theta sin^(2y-1) theta "d"theta`
+		`int_0^oo "e"^(-r^2) r^(2x+2y-1) "d"r`
+		`= B(x, y) Gamma(x+y)`.
+	</span>
+</p>
+
+<p class="property">
+	<b>极限表达式 (Euler 公式)</b>
+	`Gamma(x) = lim_(n to oo) n^x B(x, n+1)`
+	`= lim_(n to oo) (n^x (n-1)!)/(x(x+1) cdots (x+n-1))`.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`Gamma(x) = int_0^oo "e"^-t t^(x-1) dt`
+		`= lim_(n to oo) int_0^n (1-t/n)^n t^(x-1) dt`
+		`= lim_(n to oo) n^x int_0^1 (1-u)^n u^(x-1) d"u"`
+		`= lim_(n to oo) n^x B(x, n+1)`.
+	</span>
+</p>
+
+<p class="property">
+	<b>余元公式</b>
+	`Gamma(x) Gamma(1-x) = pi/(sin pi x)`.
+</p>
+
+<p class="proof">
+	利用 Gamma 函数的极限表达式,
+	<span class="formula">
+		`Gamma(x) Gamma(1-x)`
+		`= lim_(n to oo) n B(x, n+1) B(1-x, n+1)`
+		`= lim_(n to oo) n ((n-1)!)/(prod_(k=0)^(n-1) (x+k))`
+		`((n-1)!)/(prod_(k=1)^n (k-x))`
+		`= x^-1 lim_(n to oo) n(n-x) prod_(k=1)^(n-1) (1+x/k)^-1`
+		`prod_(k=1)^(n-1) (1-x/k)^-1`
+		`= x^-1 prod_(n=1)^oo (1-x^2/n^2)^-1`.
+	</span>
+	利用 Euler 发现的等式
+	<span class="formula">
+		`(sin pi x)/(pi x) = prod_(n=1)^oo (1-x^2/n^2)`,
+	</span>
+	即得结论.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`Gamma(x) Gamma(1-x)`
+		`= Beta(x, 1-x) Gamma(1)`
+		`= int_0^oo (u^(x-1)/(1+u)) "d"u`.
+	</span>
+	???
+</p>
+
+<p class="property">
+	<b>Legendre 倍角公式</b>
+	`Gamma(x) Gamma(x+1/2) = (sqrt(2pi)) 4^-x Gamma(2x)`,<br/>
+	`prod_(k=0)^(n-1) Gamma(x+k/n)`
+	`= (2pi)^((n-1)/2) n^(-n x) Gamma(n x)`.
 </p>
 
 <script src="../js/note.js?type=math"></script>

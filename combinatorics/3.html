@@ -49,13 +49,22 @@
 	求解
 	<li><b>线性递推式</b> `x_n = a x_(n-1) + d`;</li>
 	<li><b>Bernoulli 型递推式</b> `x_n = a x_(n-1) + d a^n`.</li>
+	<li><b>高次递推式</b> `x_0 gt 0`, `x_(n+1) = a x_n^m`.
+		其中 `a gt 0`, `m in RR`.
+	</li>
 </ol>
 
 <ol class="solution">
+	当然前 2 小题也可以看作一般的常系数线性递推关系来解答. 详见下文.
 	<li>`a = 1` 时 `x_n` 即为等差数列. 下设 `a != 1`, 使用待定系数法,
 		设 `x_n - c = a(x_(n-1) - c)`, 于是
 		`x_n = a x_(n-1) + (1-a) c`, 与原递推式比较得 `c = d//(1-a)`.
 		从而 `{x_n - c}` 是以 `a` 为公比的等差数列.
+		解得
+		<span class="formula">
+			`x_n = a^n x_0 + (1-a^n)/(1-a) d`
+			`= a^n x_0 + (a^(n-1) + cdots + a + 1)d`.
+		</span>
 	</li>
 	<li>两边同乘以 `a^-n` 得
 		<span class="formula">
@@ -63,111 +72,28 @@
 		</span>
 		即 `{x_n/a^n}` 是以 `d` 为公差的等差数列.
 	</li>
-	当然本题也可以看作一般的常系数线性递推关系来解答. 详见下文.
-</ol>
-
-<ol class="theorem">
-	<b>分式线性变换</b>
-	设 `f(x) = (a x + b)/(c x + d)`, `a d - b c != 0`.
-	又设 `{x_n}` 满足 `x_1 != f(x_1)`, `x_(n+1) = f(x_n)`, 且 `c x_n + d
-	!= 0`, `n = 1, 2,
-	cdots`. 则
-	<li>`f(x)` 有两个不同的不动点, 即方程 `x = f(x)` 有两根 `p, q` 时,
-		`{(x_n-p)/(x_n-q)}` 是以 `(a-c p)/(a-c q) = (c q+d)/(c p+d)`
-		为公比的等比数列;
-	</li>
-	<li>`f(x)` 只有一个不动点 `p` 时, `{1/(x_n-p)}` 是以 `c/(c p+d) =
-		(2c)/(a+d)` 为公差的等差数列.
-	</li>
-</ol>
-
-<ol class="proof">
-	容易计算,
-	<span class="formula">
-		`f(x) - f(y) = ((a d-b c)(x-y))/((c x+d)(c y+d))`.
-	</span>
-	<li>若方程 `x = f(x)` 有两个不同的根 `p, q`, 则
+	<li>取对数得 `ln x_(n+1) = ln a + m ln x_n`. 这是线性递推式, 解为
 		<span class="formula">
-			`(x_(n+1) - p)/(x_(n+1) - q)`
-			`= (f(x_n) - f(p))/(f(x_n) - f(q))`
-			`= ((c q+d)(x_n-p))/((c p+d)(x_n-q))`.
-		</span>
-		现在证明 `(a-c p)/(a-c q) = (c q+d)/(c p+d)`. 事实上,
-		交叉相乘并消去相同的项, 得到
-		<span class="formula">
-			`(a-d)c q - c^2q^2 = (a-d)c p - c^2p^2`.
-		</span>
-		但 `p, q` 是方程 `x = f(x)`, 即 `c x^2 - (a-d) x - b = 0`
-		的根, 所以上式左右两边都等于 `-b c`.
-	</li>
-	<li>若方程 `x = f(x)` 只有一个根 `p = (a-d)//(2c)`, 则
-		<span class="formula">
-			`c p+d = (a+d)//2`,
-		</span>
-		又此时判别式 `Delta = (a-d)^2 + 4b c = 0`, 有
-		<span class="formula">
-			`(c p+d)^2 = (a+d)^2/4 = ((a-d)^2+4a d)/4`
-			`= a d-b c`.
+			`ln x_n = m^n ln x_0 + (1-m^n)/(1-m) ln a`.
 		</span>
 		于是
 		<span class="formula">
-			`1/(x_(n+1)-p)`
-			`= 1/(f(x_n) - f(p))`
-			`= ((c x_n+d)(c p+d))/((a d-b c)(x_n-p))`
-			`= (c x_n+d)/((c p+d)(x_n-p))`
-			`= 1/(x_n-p) + c/(c p+d)`
-			`= 1/(x_n-p) + (2c)/(a+d)`.
+			`x_n = x_0^(m^n) * a^((1-m^n)/(1-m))`.
 		</span>
 	</li>
 </ol>
 
-<p class="example">
-	`x_1 = 2`, `x_n = 1/((n-1)!) + 1/n x_(n-1)`, `n gt 1`. 求 `x_n`
-	通项公式.
-</p>
+<ol class="theorem">
+	用归纳法容易证明以下多项式的重要求和公式
+	<li>`sum_(k=1)^n 1 = n`;</li>
+	<li>`sum_(k=1)^n k = n^2/2 + n/2 = (n(n+1))/2`;</li>
+	<li>`sum_(k=1)^n k^2 = n^3/3 + n^2/2 + n/6` `= (n(n+1)(2n+1))/6`;</li>
+	<li>`sum_(k=1)^n k^3 = n^4/4 + n^3/2 + n^2/4` `= ((n(n+1))/2)^2`.</li>
+</ol>
 
-<p class="solution">
-	两边同乘以 `n!`,
-	<span class="formula">
-		`n! x_n = (n-1)! x_(n-1) + n`
-		`= 1! x_1 + sum_(k=2)^n k`
-		`= 2 + (n(n+1))/2 - 1`.
-	</span>
-	所以
-	<span class="formula">
-		`x_n = 1/(n!) (1 + (n(n+1))/2)`.
-	</span>
-</p>
-
-<p class="example">
-	`x_1 = 1`, `x_n = 1 + 2/n^2 sum_(k=1)^(n-1) k x_k`, `n gt 1`. 求 `x_n`
-	通项公式.
-</p>
-
-<p class="solution">
-	记 `S_n = sum_(k=1)^n k x_k`. 从递推式中解出
-	<span class="formula">
-		`S_(n-1) = n^2/2 (x_n - 1)`,
-	</span>
-	相减得
-	<span class="formula">
-		`2(n-1) x_(n-1) = 2(S_(n-1) - S_(n-2))`
-		`= n^2 x_n - (n-1)^2 x_(n-1) - (n^2 - (n-1)^2)`.
-	</span>
-	即
-	<span class="formula">
-		`n^2 x_n = (n+1)(n-1) x_(n-1) + 2n - 1`.
-	</span>
-	两边同加 `n^2`, 再同除以 `n(n+1)`,
-	<span class="formula">
-		`n/(n+1) (x_n + 1) = (n-1)/n (x_(n-1) + 1) + 2/(n+1)`
-		`= 1/2 (x_1 + 1) + sum_(k=2)^n 2/(k+1)`
-		`= 2 sum_(k=1)^n 1/(k+1)`.
-	</span>
-	即
-	<span class="formula">
-		`x_n = 2(1+1/n) sum_(k=1)^n 1/(k+1) - 1`.
-	</span>
+<p class="remark">
+	这些公式目前是足够的; 我们以后将得出 `sum_(k=1)^n k^m` (`m`
+	为非负整数) 的公式.
 </p>
 
 <p class="example">
@@ -485,6 +411,197 @@
 		<td>`n^m r^n (P(n) cos n theta + Q(n) sin n theta)`</td>
 	</tr>
 </table>
+
+<h3>非常系数的线性递推式</h3>
+
+<p class="example">
+	`x_1 = 2`, `x_n = 1/((n-1)!) + 1/n x_(n-1)`, `n gt 1`. 求 `x_n`
+	通项公式.
+</p>
+
+<p class="solution">
+	两边同乘以 `n!`,
+	<span class="formula">
+		`n! x_n = (n-1)! x_(n-1) + n`
+		`= 1! x_1 + sum_(k=2)^n k`
+		`= 2 + (n(n+1))/2 - 1`.
+	</span>
+	所以
+	<span class="formula">
+		`x_n = 1/(n!) (1 + (n(n+1))/2)`.
+	</span>
+</p>
+
+<p class="example">
+	`x_1 = 1`, `x_n = 1 + 2/n^2 sum_(k=1)^(n-1) k x_k`, `n gt 1`. 求 `x_n`
+	通项公式.
+</p>
+
+<p class="solution">
+	记 `S_n = sum_(k=1)^n k x_k`. 从递推式中解出
+	<span class="formula">
+		`S_(n-1) = n^2/2 (x_n - 1)`,
+	</span>
+	相减得
+	<span class="formula">
+		`2(n-1) x_(n-1) = 2(S_(n-1) - S_(n-2))`
+		`= n^2 x_n - (n-1)^2 x_(n-1) - (n^2 - (n-1)^2)`.
+	</span>
+	即
+	<span class="formula">
+		`n^2 x_n = (n+1)(n-1) x_(n-1) + 2n - 1`.
+	</span>
+	两边同加 `n^2`, 再同除以 `n(n+1)`,
+	<span class="formula">
+		`n/(n+1) (x_n + 1) = (n-1)/n (x_(n-1) + 1) + 2/(n+1)`
+		`= 1/2 (x_1 + 1) + sum_(k=2)^n 2/(k+1)`
+		`= 2 sum_(k=1)^n 1/(k+1)`.
+	</span>
+	即
+	<span class="formula">
+		`x_n = 2(1+1/n) sum_(k=1)^n 1/(k+1) - 1`.
+	</span>
+</p>
+
+<h3>非线性递推式的不动点法</h3>
+
+<p>	事实上, 前面所述的特征方程的方法, 也可以推广到非线性的递推式中.
+	一般地, 设 `x_(n+1) = f(x_n)`, 我们称方程 `x = f(x)` 的根为函数 `f(x)`
+	的不动点. 我们利用不动点来求解一些递推式.
+</p>
+
+<ol class="theorem">
+	<b>分式线性变换</b>
+	设 `f(x) = (a x + b)/(c x + d)`, `a d - b c != 0`, `c != 0`.
+	又设 `{x_n}` 满足 `x_1 != f(x_1)`, `x_(n+1) = f(x_n)`, 且 `c x_n + d
+	!= 0`, `n = 1, 2, cdots`. 则
+	<li>`f(x)` 有两个不同的不动点, 即方程 `x = f(x)` 有两根 `p, q` 时,
+		`{(x_n-p)/(x_n-q)}` 是以 `(a-c p)/(a-c q) = (c q+d)/(c p+d)`
+		为公比的等比数列;
+	</li>
+	<li>`f(x)` 只有一个不动点 `p` 时, `{1/(x_n-p)}` 是以 `c/(c p+d) =
+		(2c)/(a+d)` 为公差的等差数列.
+	</li>
+</ol>
+
+<ol class="proof">
+	容易计算,
+	<span class="formula">
+		`f(x) - f(y) = ((a d-b c)(x-y))/((c x+d)(c y+d))`.
+	</span>
+	<li>若方程 `x = f(x)` 有两个不同的根 `p, q`, 则
+		<span class="formula">
+			`(x_(n+1) - p)/(x_(n+1) - q)`
+			`= (f(x_n) - f(p))/(f(x_n) - f(q))`
+			`= ((c q+d)(x_n-p))/((c p+d)(x_n-q))`.
+		</span>
+		现在证明 `(a-c p)/(a-c q) = (c q+d)/(c p+d)`. 事实上,
+		交叉相乘并消去相同的项, 得到
+		<span class="formula">
+			`(a-d)c q - c^2q^2 = (a-d)c p - c^2p^2`.
+		</span>
+		但 `p, q` 是方程 `x = f(x)`, 即 `c x^2 - (a-d) x - b = 0`
+		的根, 所以上式左右两边都等于 `-b c`.
+	</li>
+	<li>若方程 `x = f(x)` 只有一根 `p`, 由于 `c != 0`, 有
+		`p = (a-d)//(2c)`, 则
+		<span class="formula">
+			`c p+d = (a+d)//2`,
+		</span>
+		又此时判别式 `Delta = (a-d)^2 + 4b c = 0`, 有
+		<span class="formula">
+			`(c p+d)^2 = (a+d)^2/4 = ((a-d)^2+4a d)/4`
+			`= a d-b c`.
+		</span>
+		于是
+		<span class="formula">
+			`1/(x_(n+1)-p)`
+			`= 1/(f(x_n) - f(p))`
+			`= ((c x_n+d)(c p+d))/((a d-b c)(x_n-p))`
+			`= (c x_n+d)/((c p+d)(x_n-p))`
+			`= 1/(x_n-p) + c/(c p+d)`
+			`= 1/(x_n-p) + (2c)/(a+d)`.
+		</span>
+	</li>
+	现在解释定理对参数的要求.
+	显然如果 `a d-b c = 0`, `f(x) = (a x+b)/(c x+d)` 退化为常数.
+	如果 `c = 0`, 递推式退化为 `x_(n+1) = a/d
+	x_n + b/d`, 为一线性递推式. 可以按照前例解之, 但也可以用不动点法.
+	取方程 `x = a/d x + b/d` 的根 `b/(d-a)`, 有
+	<span class="formula">
+		`x_(n+1) - b/(d-a) = a/d(x_n - b/(d-a))`,
+	</span>
+	从而得到一等比数列.
+</ol>
+
+<p class="example">
+	`x_(n+1) = n/(n+2) x_n + 2/(n+2)`.
+</p>
+
+<p class="solution">
+	这是非常系数的线性递推式. 注意到系数之和为 `1`, 显然特征方程
+	`x = n/(n+2) x + 2/(n+2)` 有不动点 `1`. 计算知
+	<span class="formula">
+		`x_(n+1) - 1 = n/(n+2) (x_n - 1)`.
+	</span>
+	递推,
+	<span class="formula">
+		`x_n - 1 = (n-1)/(n+1) (n-2)/n (n-3)/(n-1)`
+		`cdots 2/4 1/3 (x_1-1)`
+		`= 2/(n(n+1)) (x_1-1)`.
+	</span>
+</p>
+
+<p class="example">
+	`x_(n+1) = 1/2(x_n + a/x_n)`, `a gt 0`.
+</p>
+
+<p class="solution">
+	这是熟知的开平方根的牛顿迭代公式, 对所有正的初值都收敛到 `sqrt a`.
+	为求通项公式, 先求得不动点为 `+- sqrt a`, 再计算
+	<span class="formula">
+		`(x_(n+1) - sqrt a)/(x_(n+1) + sqrt a)`
+		`= ((x_n^2+a)/(2x_n) - sqrt a)/((x_n^2+a)/(2x_n) + sqrt a)`
+		`= ((x_n-sqrt a)/(x_n+sqrt a))^2`.
+	</span>
+	记 `y_n = (x_n-sqrt a)/(x_n+sqrt a)`, 则 `y_(n+1) = y_n^2`.
+	利用高次递推式的结果, `y_n = y_0^(2^n)`. 由此可得 `x_n` 的通项公式.
+</p>
+
+<h3>非线性递推式的三角换元法</h3>
+
+<ol class="example">
+	<li>`x_(n+1) = (1+x_n)/(1-x_n)`;</li>
+	<li>`x_(n+1) = (2 x_n)/(1-x_n^2)`;</li>
+	<li>`x_(n+1) = 4 x_n^3 - 3 x_n`, 其中 `x_0 in [-1, 1]`;</li>
+	<li>`x_(n+1) = 2 x_n^2 - 1`.</li>
+</ol>
+
+<ol class="solution">
+	<li>令 `x_n = tan theta_n`, 则递推关系可以写为
+		<span class="formula">
+			`tan theta_(n+1) = (1+tan theta_n)/(1-tan theta_n)`
+			`= tan(theta_n+pi/4)`.
+		</span>
+		从而
+		<span class="formula">
+			`theta_(n+1) = theta_n + pi/4 + k pi`, `k in ZZ`,<br/>
+			`theta_n = theta_0 + (n pi)/4 + k pi`, `k in ZZ`,<br/>
+			`x_n = tan(theta_0 + (n pi)/4)`.
+		</span>
+	</li>
+	<li>令 `x_n = tan theta_n`, 并利用恒等式 `tan 2 theta = (2 tan
+		theta)/(1-tan^2 theta)`.
+	</li>
+	<li>令 `x_n = cos theta_n`, 并利用恒等式 `cos 3 theta = 4 cos^3 theta
+		- 3 cos theta`.
+	</li>
+	<li>`x_0 in [-1, 1]` 时, 令 `x_n = cos theta_n`, 并利用恒等式 `cos 2
+		theta = 2 cos^2 theta - 1`. `x_0 gt 1` 时, 令 `x_n = cosh theta_n`
+		并利用恒等式 `cosh 2 theta = 2 cosh^2 theta -1`.
+		`x_0 lt -1` 时, 有 `x_1 gt 1`, 即化为上一种情形.
+	</li>
+</ol>
 
 <script src="../js/note.js?type=math"></script>
 

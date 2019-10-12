@@ -232,6 +232,71 @@
 	矛盾.
 </p>
 
+<p class="theorem">
+	<a href="https://www.zhihu.com/question/315450309/answer/620576514">原文来自知乎</a>
+	设 `a` 是无理数, 则集合 `{n a mod 1 | n in NN}` 在 `[0, 1]` 上稠密.
+	其中 `x mod 1 = x - |__ x__|`, 对正数 `x` 来说, 即为 `x` 的小数部分.
+</p>
+
+<p class="proof">
+	只需证对任意正整数 `m` 和 `x in [0, 1]`, 存在 `n in ZZ`, 使得
+	<span class="formula">
+		`|n a mod 1 - x| lt 1/m`.
+	</span>
+	考虑 `m` 个区间
+	<span class="formula">
+		`[0, 1/m], [1/m, 2/m], cdots, [(m-1)/m, 1]`
+	</span>
+	和 `m+1` 个数
+	<span class="formula">
+		`a mod 1, 2a mod 1, cdots, m a mod 1, (m+1) a mod 1`.
+	</span>
+	这些数是两两不同的, 否则设 `i a mod 1 = j a mod 1`, 则 `i a - j a in
+	ZZ`. 从而 `a = (i a - j a)/(i - j)` 是有理数, 矛盾.
+	现在由鸽巢原理, 必有两个不同的数 `i a mod 1, j a mod 1` 属于上面 `m`
+	个区间中的同一个区间, `i, j in {1, cdots, m+1}`. 不妨设 `i a mod 1 gt
+	j a mod 1`, 有
+	<span class="formula">
+		`(i-j)a mod 1 = i a mod 1 - j a mod 1 le 1/m`.
+	</span>
+	记 `y = (i-j)a mod 1`,
+	由实数的 Archimedes 性质, 存在正整数 `k` 使得 `k y le x lt (k+1)y`,
+	于是
+	<span class="formula">
+		`|k(i-j)a mod 1 - x| = |k y - x| lt y lt 1/m`.
+	</span>
+</p>
+
+<p class="example">
+	数列 `{tan n}` 无界.
+</p>
+
+<p class="proof">
+	由于 `1/pi` 是无理数知, `{n/pi mod 1 | n in NN}` 在 `[0, 1]` 上稠密.
+	从而对任意 `epsi gt 0`, 存在 `n in NN`, 使得
+	<span class="formula">
+		`|n/pi mod 1 - 1/2| lt epsi`.
+	</span>
+	同乘 `pi`,
+	<span class="formula">
+		`|pi(n/pi mod 1) - pi/2| lt pi epsi`.
+	</span>
+	又
+	<span class="formula">
+		`pi(n/pi mod 1) = pi(n/pi - |__n/pi__|) = n - pi|__n/pi__|`,
+	</span>
+	所以
+	<span class="formula">
+		`|n - pi(|__n/pi__| + 1/2)| lt pi epsi`.
+	</span>
+	因为 `|__n/pi__| in NN`, 我们实际证明了:
+	集合 `NN` 与集合 `T = {pi/2 + k pi | k in ZZ}` 的距离
+	<span class="formula">
+		`inf{|x-y|: x in NN, y in T} = 0`.
+	</span>
+	然而对任意 `y in T`, `x to y` 时有 `tan x to oo`. 所以 `tan n` 无界.
+</p>
+
 <h2>代数数与超越数</h2>
 
 <p class="definition">

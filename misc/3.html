@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>不等式</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>三角不等式</h2>
+
+<p class="lemma">
+	设 `x in RR`, `M ge 0`, 则
+	<span class="formula">
+		`|x| le M iff -M le x le M`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>实数的三角不等式</b>
+	设 `x, y in RR`, 则
+	<span class="formula">
+		`|x+y| le |x| + |y|`,
+	</span>
+	等号成立当且仅当 `x, y` 同号, 即 `x y ge 0`.
+</p>
+
+<p class="proof">
+	显然 `|x| le |x|`, `|y| le |y|`,
+	由引理, 这等价于
+	<span class="formula">
+		`-|x| le x le |x|`, `quad -|y| le y le |y|`.
+	</span>
+	两式相加,
+	<span class="formula">
+		`-(|x|+|y|) le x+y le |x|+|y|`.
+	</span>
+	再由引理, 这等价于要证的不等式.
+	等号成立当且仅当
+	<span class="formula">
+		(`x = |x|` 且 `y = |y|`) 或 (`x = -|x|` 且 `y = -|y|`).
+	</span>
+	这等价于 `x y ge 0`.
+</p>
+
+<p class="corollary">
+	设 `x, y in RR`, 则
+	<span class="formula">
+		`| |x| - |y| | le |x + y| le |x| + |y|`.
+	</span>
+	第一个等号成立当且仅当 `x y le 0`, 第二个等号成立当且仅当 `x y ge 0`.
+</p>
+
+<p class="proof">
+	由三角不等式得
+	<span class="formula">
+		`|x| = |(x+y)+(-y)| le |x+y| + |y|`,
+	</span>
+	即 `|x| - |y| le |x+y|`;
+	同理 `|y| - |x| le |x+y|`, 所以得到左边的不等式.
+	这个不等式的等号成立当且仅当
+	`(x+y)(-y) ge 0`, 或 `(y+x)(-x) ge 0`.
+	两种情形都推出 `x y le 0`.
+	反之若 `x y le 0`, 不妨设 `|x| ge |y|`, 则不等式左边等于
+	`|x|-|y|`, 而另一边等于 `|x+y| = |x|-|y|`, 所以两边相等.
+</p>
+
+<h2>Cauchy-Schwarz 不等式</h2>
+
+<p class="theorem">
+	<b>Cauchy-Schwarz 不等式</b>
+	设 `x_k, y_k` 是非零实数, `k = 1, 2, cdots, n`. 则
+	<span class="formula">
+		`|sum_(k=1)^n x_k y_k|`
+		`le sqrt(sum_(k=1)^n x_k^2)sqrt(sum_(k=1)^n y_k^2)`,
+	</span>
+	等号成立当且仅当存在实数 `t`, 使得 `y_k = t x_k`, `k = 1, 2, cdots,
+	n`.
+</p>
+
+<p class="proof">
+	设二次函数
+	<span class="formula">
+		`f(t) = sum_(k=1)^n (x_k t - y_k)^2`
+		`= (sum_(k=1)^n x_k^2) t^2 - 2(sum_(k=1)^n x_k y_k) x`
+		`+ sum_(k=1)^n y_k^2 ge 0`.
+	</span>
+	因此, 其判别式
+	<span class="formula">
+		`Delta/4 = (sum_(k=1)^n x_k y_k)^2 - (sum_(k=1)^n
+		x_k^2)(sum_(k=1)^n y_k^2) le 0`,
+	</span>
+	此即要证的不等式. 其中
+	<span class="formula">
+		等号成立 `iff Delta = 0`
+		`iff f` 存在惟一实根 `t`
+		`iff EE t in RR`, `x_k t - y_k = 0`, `k = 1, 2, cdots, n`.
+	</span>
+</p>
+
+<ol class="theorem">
+	<b>内积空间中的 Cauchy-Schwarz 不等式</b>
+	设 `V` 是数域 `bbb F` 上一线性空间, `(*,*)` 是 `V`
+	上正定的对称双线性函数, 满足
+	<li>正定性. `(AA x in V)` `(x, x) ge 0`, 等号成立当且仅当 `x = 0`;</li>
+	<li>共轭对称性. `(AA x, y in V)` `(x, y) = bar((y","x))`;</li>
+	<li>双线性性. `(AA x, y, z in V)` `(AA k, l in bbb F)`
+		<span class="formula">
+			`(k x+l y, z) = k(x, z) + l(y, z)`,<br/>
+			`(z, k x+l y) = k(z, x) + l(z, y)`.
+		</span>
+	</li>
+	现在引入
+	<span class="formula">
+		`||x|| = sqrt((x","x))`,
+	</span>
+	则成立不等式
+	<span class="formula">
+		`(x, y) le ||x||*||y||`.
+	</span>
+</ol>
+
+<h2>均值不等式</h2>
+
+<p class="lemma">
+	<b>一个配方不等式</b>
+	设 `x, y in RR`, 则
+	`(x-y)^2 ge 0` `rArr 2 x y le x^2 + y^2`.
+	显见等号成立当且仅当 `x = y`.
+</p>
+
+<p class="corollary">
+	在引理的不等式两边同时加上 `x^2+y^2` 得 `(x+y)^2 le 2(x^2+y^2)`.
+	可以用 `x^2, y^2` 分别代替原不等式的 `x, y`, 得到
+	`2 x^2 y^2 le x^4 + y^4`, `(x^2+y^2)^2 le 2(x^4 + y^4)`, 等等.
+	如果用 `sqrt x, sqrt y` 分别代替引理中不等式的 `x, y`, 就得到:
+</p>
+
+<p class="theorem">
+	<b>二元均值不等式</b>
+	设 `x, y gt 0`, 则
+	<span class="formula">
+		`sqrt(x y) le (x+y)/2`,
+	</span>
+	等号成立当且仅当 `x = y`.
+</p>
+
+<p class="theorem">
+	<b>均值不等式</b>
+	设 `x_1, x_2, cdots, x_n gt 0`, 则
+	<span class="formula">
+		`root n (prod_(k=1)^n x_k) le 1/n sum_(k=1)^n x_k`,
+	</span>
+	等号成立当且仅当 `x_1 = x_2 = cdots = x_n`.
+</p>
+
+<p class="proof">
+	对 `n` 进行归纳证明. `n = 1` 时不等式是平凡的等式.
+	假设不等式对 `n ge 1` 成立, 则对正整数 `n+1`, 记 `A_n = 1/n
+	sum_(k=1)^n x_k`, 有
+	<span class="formula">
+		`A_(n+1)`
+		`= 1/2 ((n+1)/n A_(n+1) + (n-1)/n A_(n+1))`
+		`= 1/2 (1/n sum_(k=1)^(n+1) x_k + (n-1)/n A_(n+1))`
+		`= 1/2 (1/n sum_(k=1)^n x_k  + 1/n x_(n+1) + (n-1)/n A_(n+1))`
+		(归纳假设)
+		`ge 1/2 (root n(prod_(k=1)^n x_k)
+		+ root n(x_(n+1) * A_(n+1)^(n-1)))`
+		(二元均值不等式)
+		`ge root (2n)(prod_(k=1)^(n+1) x_k * A_(n+1)^(n-1))`.
+	</span>
+	整理得到
+	<span class="formula">
+		`A_(n+1) ge root(n+1)(prod_(k=1)^(n+1) x_k)`.
+	</span>
+	因此不等式对任意正整数 `n` 成立.<br/>
+	再看取等条件. 这个条件的充分性显然, 下证必要性.
+	`n = 2` 时, 二元均值不等式的取等条件是 `x_1 = x_2`.
+	现在设取等条件对 `n` 元均值不等式成立, 则当 `n+1`
+	元均值不等式取得等号时, 上述推导过程的两个不等式中的等号都应当成立,
+	即 `prod_(k=1)^n x_k = x_(n+1) A_(n+1)^(n-1)`,
+	且 `x_1 = x_2 = cdots = x_n`.
+	记 `x_k^(1//(n-1)) = a_k`, 有
+	<span class="formula">
+		`x_1^n = x_(n+1) ((n x_1 + x_(n+1))/(n+1))^(n-1)`,<br/>
+		`(n+1) a_1^n = a_(n+1) (n x_1 + x_(n+1))`,<br/>
+		`n a_1^(n-1) (a_1 - a_(n+1)) + a_1^n - a_(n+1)^n = 0`,<br/>
+		`(a_1-a_(n+1))` `(n a_1^(n-1)
+		+ sum_(k=0)^(n-1) a_1^k a_(n+1)^(n-k)) = 0`.
+	</span>
+	这推出 `a_1 = a_(n+1)`, 从而 `x_1 = x_2 = cdots = x_n = x_(n+1)`,
+	证毕.
+</p>
+
+<p class="corollary">
+	设 `x_1, x_2, cdots, x_n gt 0`, 则
+	<span class="formula">
+		`(1/n sum_(k=1)^n x_k^-1)^-1` 
+		`le exp(1/n sum_(k=1)^n ln x_k)`
+		`le 1/n sum_(k=1)^n x_k`
+		`le (1/n sum_(k=1)^n x_k^2)^(1/2)`,
+	</span>
+	所有等号成立当且仅当 `x_1 = x_2 = cdots = x_n`.
+</p>
+
+<ol class="proof">
+	<li>对 `x_k^-1`, `k = 1, 2, cdots, n` 应用均值不等式,
+		<span class="formula">
+			`root n(prod_(k=1)^n x_k^-1) le 1/n sum_(k=1)^n x_k^-1`,
+		</span>
+		两边取倒数即得第一个不等式.
+	</li>
+	<li>由 Cauchy 不等式,
+		<span class="formula">
+			`(sum_(k=1)^n 1 x_k)^2 le (sum_(k=1)^n 1^2)(sum_(k=1)^n
+			x_k^2)`,
+		</span>
+		两边同除以 `n^2` 再开平方即得到第三个不等式.
+	</li>
+	容易知道, 这些不等式取等号的充要条件都是 `x_1 = x_2 = cdots = x_n`.
+</ol>
+
+<p class="remark">
+	我们把 `(1/n sum_(k=1)^n x_k^-1)^-1` 称为这 `n`
+	个数的<b>调和平均数</b>, `exp(1/n sum_(k=1)^n ln x_k)`
+	`= root n(prod_(k=1)^n x_k)`
+	称为它们的<b>几何平均数</b>, `1/n sum_(k=1)^n x_k`
+	称为它们的<b>算术平均数</b>.
+</p>
+
+<h2>Jensen 不等式</h2>
+
+<p class="theorem">
+	<b>Jensen 不等式</b>
+	设 `f` 是区间 `I` 上的下凸函数, `x_k in I`, `t_k in (0, 1)`,
+	`k = 1, 2, cdots, n`. 其中 `sum_(k=1)^n t_k = 1`. 则
+	<span class="formula">
+		`f(sum_(k=1)^n t_k x_k) le sum_(k=1)^n t_k f(x_k)`.
+	</span>
+	进一步, 若 `f` 在 `I` 上严格下凸, 则不等式中等号成立当且仅当
+	`x_1 = x_2 = cdots = x_n`.
+	另外, 若 `f` 在 `I` 上是上凸函数, 取 `g = -f` 知, 对 `f`
+	成立反向的不等号.
+</p>
+
+<p class="proof">
+	对 `n` 进行归纳. `n = 1` 时不等式是平凡的等式.
+	设不等式对 `n-1 ge 1` 成立, 则对正整数 `n`, 有
+	<span class="formula">
+		`f(sum_(k=1)^n t_k x_k)`
+		`= f(sum_(k=1)^(n-1) t_k x_k + t_n x_n)`
+		`= f((1-t_n) sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) + t_n x_n)`
+		(由函数下凸) `le (1-t_n) f(sum_(k=1)^(n-1) (t_k x_k)/(1-t_n))
+		+ t_n f(x_n)`
+		(由归纳假设) `le (1-t_n) sum_(k=1)^(n-1) (t_k f(x_k))/(1-t_n) +
+		t_n f(x_n)`
+		`= sum_(k=1)^n t_k f(x_k)`.
+	</span>
+	如果 `f` 是严格下凸函数且 `x_1, x_2, cdots, x_n` 不全相等, 那么当
+	`sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) != x_n` 时,
+	上面推导的第一个不等式中的等号不成立. 而 `sum_(k=1)^(n-1) (t_k
+	x_k)/(1-t_n) = x_n` 时, 则断言 `x_1, x_2, cdots, x_(n-1)` 不全相等
+	(否则设 `x_1 = x_2 = cdots = x_(n-1)`, 有
+	<span class="formula">
+		`x_n = sum_(k=1)^(n-1) (t_k x_k)/(1-t_n)`
+		`= x_1 sum_(k=1)^(n-1) t_k/(1-t_n)`
+		`= x_1 = x_2 = cdots = x_(n-1)`,
+	</span>
+	矛盾).
+	由归纳假设, 只要 `x_1, x_2, cdots x_(n-1)` 不全相等,
+	上面推导的第二个不等式的等号不成立. 从而上面的不等式是严格不等式.
+</p>
+
+<p class="example">
+	用 Jensen 不等式导出均值不等式.
+</p>
+
+<p class="proof">
+	取 `f(x) = ln x`, 它是区间 `(0, +oo)` 上的上凸函数. 取 `t_k = 1/n`,
+	于是对任意 `x_1, x_2, cdots, x_n gt 0`,
+	<span class="formula">
+		`1/n sum_(k=1)^n ln x_k le ln(1/n sum_(k=1)^n x_k)`,
+	</span>
+	等号成立当且仅当 `x_1 = x_2 = cdots = x_n`. 两端取指数, 得到
+	<span class="formula">
+		`root n(prod_(k=1)^n x_k) le 1/n sum_(k=1)^n x_k`.
+	</span>
+</p>
+
+<h2>轮换求和?</h2>
+
+<h2>Schur 不等式</h2>
+
+<p class="theorem">
+	设 `x, y, z ge 0`, `t in RR`, 则
+	<span class="formula">
+		`sum_"cyc" x^t(x-y)(x-z) ge 0`,
+	</span>
+	"`=`" 成立当且仅当 `x = y = z`, 或其中两数相等且另一数为零.
+	特别当 `t` 为非负偶数时, 不等式对任意实数 `x, y, z` 成立.
+</p>
+
+<p class="proof">
+	不妨设 `x ge y ge z ge 0`. 则 `t gt 0` 时 `x^t ge y^t`,
+	`t lt 0` 时 `z^t ge y^t`, 总之有
+	<span class="formula">
+		`x^t-y^t+z^t ge 0`.
+	</span>
+	于是
+	<span class="formula">
+		`sum_"cyc" x^t(x-y)(x-z)`
+		`= x^t(x-y)(x-y+y-z)` `+ y^t(y-z)(y-x)` `+ z^t(z-y+y-x)(z-y)`
+		`= x^t(x-y)^2 + z^t(y-z)^2` `+ (x^t-y^t+z^t)(x-y)(y-z)`
+		`ge 0`.
+	</span>
+	分析上式最后一个不等号左边三项, 得到原式等于零当且仅当
+	<span class="formula">
+		`(x = 0 or x = y)` `and (z = 0 or y = z)` `and (x = y or y = z)`.
+	</span>
+	从而得到: "`=`" 成立当且仅当 `x = y = z`, 或其中两数相等且另一数为零.
+	另外容易看到 `t` 是非负偶数时, 不等式也成立.
+</p>
+
+<ol class="corollary">
+	在 Schur 不等式中取 `t = 1`, 变形得到
+	<li>`sum_"cyc" x^3 - sum_"cyc" x^2(y+z) + 3x y z ge 0`;</li>
+	<li>`(sum_"cyc" x)^3 - 4(sum_"cyc" x)(sum_"cyc" y z)` `+ 9x y z ge 0`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>`sum_"cyc" x(x-y)(x-z)`
+		`= sum_"cyc" x^3 - sum_"cyc" x^2(y+z) + sum_"cyc" x y z`
+		`= sum_"cyc" x^3 - sum_"cyc" x^2(y+z) + 3x y z ge 0`.
+	</li>
+	<li>`(sum_"cyc" x)^3 - 4(sum_"cyc" x)(sum_"cyc" y z) + 9x y z`
+		`= sum_"cyc" x^3 + 3 sum_"cyc" x^2(y+z) + 6x y z`
+		`- 4(sum_"cyc" x^2(y+z) + sum_"cyc" x y z) + 9x y z`
+		`= sum_"cyc" x^3 - sum_"cyc" x^2(x+z) + 3x y z ge 0`.
+	</li>
+</ol>
+
+<ol class="corollary">
+	<li>`prod_"cyc" (x+y-z) le x y z`, `AA x, y, z ge 0`;</li>
+	<li>三角形 ABC 中, `sum_"cyc" cos A le 3//2`;</li>
+	<li>三角形的外接圆半径为 `R`, 内接圆半径为 `r`, 则 `R ge 2r`.</li>
+	(证明?)
+</ol>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>
