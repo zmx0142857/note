@@ -229,19 +229,16 @@
 </ol>
 
 <p class="theorem">
-	令 `G, H` 为两个群, `G_1 normal G`, `H_1 normal H`,
-	`f: G to H` 为一群同态映射, 则
+	令 `G, H` 为两个群, `f: G to H` 为一群同态映射, 则
 	<span class="formula">
-		`f(G_1) normal f(G)`,
-		`quad f^-1(H_1) normal f^-1(H) = G`.
+		`G_1 normal G rArr f(G_1) normal f(G)`,<br/>
+		`H_1 normal H rArr f^-1(H_1) normal f^-1(H) = G`.
 	</span>
-	(类比于子群的相关定理, 我们看到此定理的结论一 "减弱" 为
-	`f(G_1) normal f(G)`, 或者说, 要使 `f(G_1) normal H`, 必须要求 `f`
-	为满射)
 </p>
 
 <p class="proof">
-	只需验证子群的正规性.
+	由子群的相关定理, 有 `f(G_1) le f(G)`, `f^-1(H_1) le G`.
+	下面只需验证子群的正规性.
 	`AA h in f(G)`, 存在 `g in G` 使 `f(g) = h`.
 	从而由 `G_1 normal G` 知
 	<span class="formula">
@@ -263,16 +260,12 @@
 </p>
 
 <ol class="theorem">
-	子群的正规性一般不具有传递性, 即
-	`K normal H normal G` 未必推出 `K normal G`.
-	我们只有以下结论:
 	令 `G` 为一群, `H, K` 是 `G` 的两个子群, 则
 	<li>`H normal G` `rArr H nn K normal G nn K = K`;</li>
-	<li>`H normal G` and `K normal G` `rArr H nn K normal G`;
-	</li>
-	<li>`H normal G` or `K normal G` `rArr H K le G`;</li>
-	<li>`H normal G` and `K normal G` `rArr H K normal G`;</li>
-	<li>`K normal G and K le H le G` `rArr K normal H`.</li>
+	<li>`H normal G and H le K le G` `rArr H normal K`.</li>
+	<li>`H normal G or K normal G` `rArr H K le G`;</li>
+	<li>`H normal G and K normal G` `rArr H K normal G`;</li>
+	<li>`H normal G and K normal G` `rArr H nn K normal G`;</li>
 </ol>
 
 <ol class="proof">
@@ -282,10 +275,9 @@
 		所以 `K (H nn K) K^-1 sube H nn K`,
 		即 `H nn K normal K`.
 	</li>
-	<li>显然 `H nn K le G`; 由 `H, K normal G` 知
-		`G (H nn K) G^-1 sube G H G^-1 = H`,
-		`G (H nn K) G^-1 sube G K G^-1 = K`,
-		因此 `G (H nn K) G^-1 sube H nn K`, 即 `H nn K normal G`.<br/>
+	<li>这是显然的, 因为 `AA a in K sube G`, `a H = H a`.
+		当然, 也可以由 1. 得到: `H normal G`
+		`rArr H nn K normal G nn K`, 即 `H normal K`.
 	</li>
 	<li>不妨设 `H normal G`.
 		任取 `h k in H K`, 其中 `h in H`, `k in K sube G`, 则
@@ -300,8 +292,17 @@
 		</span>
 		因此 `H K normal G`.
 	</li>
-	<li>这是显然的, 因为 `AA a in H sube G`, `a K = K a`.</li>
+	<li>显然 `H nn K le G`; 由 `H, K normal G` 知
+		`G (H nn K) G^-1 sube G H G^-1 = H`,
+		`G (H nn K) G^-1 sube G K G^-1 = K`,
+		因此 `G (H nn K) G^-1 sube H nn K`, 即 `H nn K normal G`.<br/>
+	</li>
 </ol>
+
+<p class="remark">
+	子群的正规性一般不具有传递性, 即 `K normal H normal G` 未必推出 `K
+	normal G`.
+</p>
 
 <p class="example">
 	`K_4 := {(1), (12)(34), (13)(24), (14)(23)} normal S_4`
@@ -351,55 +352,66 @@
 <h3>商群</h3>
 
 <p class="definition">
-	令 `G` 为一群, `H normal G`.
-	易知上节定义的 `pi_H^l = pi_H^r`.
+	令 `G` 为一群, `N normal G`.
+	易知上节定义的 `pi_N^l = pi_N^r`.
 	现在定义
 	<span class="formula">
-		`G // H := pi_H^l = {a H | a in G}`
+		`G // N := pi_N^l = {a N | a in G}`
 	</span>
 	上的二元合成 `*` 如下
 	<span class="formula">
-		`a H * b H := (a b)H`.
+		`a N * b N := (a b)N`.
 	</span>
 	可以验证 `*` 是映射, 因此是一个二元运算.
-	且 `G//H` 关于 `*` 成一群,
-	称其为 `G` 关于 `H` 的<b>商群 (factor group)</b>.
-	直观上, 商群是将正规子群 `H` "收缩" 或 "粘合" 为一个点 (单位元)
+	且 `G//N` 关于 `*` 成一群,
+	称其为 `G` 关于 `N` 的<b>商群 (factor group)</b>.
+	直观上, 商群是将正规子群 `N` "收缩" 或 "粘合" 为一个点 (单位元)
 	后得到的群.
 </p>
 
 <p class="proof">
 	映射的良定义验证:
 	<span class="formula">
-		`a_1 H = a_2 H`, `b_1 H = b_2 H`
-		`rArr (a_1 b_1) H = a_1 (b_1 H)`
-		`= a_1 (b_2 H) = a_1 (H b_2)`
-		`= (a_1 H) b_2 = (a_2 H) b_2`
-		`= a_2 (H b_2) = a_2 (b_2 H)`
-		`= (a_2 b_2) H`.
+		`a_1 N = a_2 N`, `b_1 N = b_2 N`
+		`rArr (a_1 b_1) N = a_1 (b_1 N)`
+		`= a_1 (b_2 N) = a_1 (N b_2)`
+		`= (a_1 N) b_2 = (a_2 N) b_2`
+		`= a_2 (N b_2) = a_2 (b_2 N)`
+		`= (a_2 b_2) N`.
 	</span>
 	群的验证:
-	封闭性: 显然; 幺元: `H`; 逆元: `(a H)^-1 = a^-1 H`;
-	结合律: `(a H*b H)*c H = (a b)c H = a(b c)H = a H*(b H*c H)`.
+	封闭性: 显然; 幺元: `N`; 逆元: `(a N)^-1 = a^-1 N`;
+	结合律: `(a N*b N)*c N = (a b)c N = a(b c)N = a N*(b N*c N)`.
 </p>
 
 <p class="corollary">
-	设群 `H normal G`, 则 `G//H = {bar e} iff H = G`.
+	设群 `N normal G`, 则 `G//N = {bar e} iff N = G`.
 </p>
 
 <p class="corollary" id="factor-group-surject-homomorphism">
-	设群 `H normal G`,
-	映射 `eta: a in G to a H in G//H` 是满同态, 称为<b>自然同态</b>.
+	设群 `N normal G`,
+	映射 `eta: a in G to a N in G//N` 是满同态, 称为<b>自然同态</b>.
 </p>
 
 <p class="corollary">
-	若群 `K, H normal G`, `K le H` (从而 `K normal H`),
-	则由同态像保持了正规子群关系知,
-	`H//K normal G//K`.
+	设群 `N normal G_1`, `N normal G_2`, 且 `G_1 le G_2`.
+	则 `G_1 normal G_2 iff G_1//N normal G_2//N`.
+</p>
+
+<p class="proof">
+	取自然同态 `eta: G_2 to G_2//N`.<br/>
+	"`rArr`". 由同态像保持正规子群的关系, `G_1 normal G_2 rArr eta(G_1)
+	normal eta(G_2)`, 即 `G_1//N normal G_2//N`.<br/>
+	"`lArr`". 只需验证 `G_1//N` 在自然同态 `eta` 下的原像 `eta^-1(G_1//N)
+	= G_1`. 由 `eta(G_1) = G_1//N`, 有 `G_1 sube eta^-1(G_1//N)`, 反之设
+	`g in G_2`, `g N in G_1//N`, 则存在 `g_1 in G_1`, 使 `g N = g_1 N`, 即
+	`g in g_1 N sube G_1`. 从而 `eta^-1(G_1//N) sube G_1`. 于是 `G_1//N
+	normal G_2//N rArr eta^-1(G_1//N) normal eta^-1(G_2//N)`, 即 `G_1
+	normal G_2`.
 </p>
 
 <p class="corollary">
-	由 Lagrange 定理, 当 `|G| lt oo` 时 `|G // H| = |G| // |H|`.
+	由 Lagrange 定理, 当 `|G| lt oo` 时 `|G // N| = |G| // |N|`.
 </p>
 
 <p class="remark">
@@ -458,39 +470,39 @@
 </p>
 
 <p class="lemma">
-	令 `f: G to H` 为一群同态映射, 则 `AA G' le G`,
-	`f^-1(f(G')) = G'` 当且仅当 `"Ker"f le G'`.
+	令 `f: G to H` 为一群同态映射, 则 `AA G_1 le G`,
+	`f^-1(f(G_1)) = G_1` 当且仅当 `"Ker"f le G_1`.
 </p>
 
 <p class="proof">
-	若 `f^-1(f(G')) = G'`,
-	显然 `"Ker"f` 为一群, 因此只需证 `"Ker"f sube G'`.  则
+	若 `f^-1(f(G_1)) = G_1`,
+	显然 `"Ker"f` 为一群, 因此只需证 `"Ker"f sube G_1`.  则
 	<span class="formula">
-		`"Ker"f = f^-1(e_H) sube f^-1(f(G')) = G'`.
+		`"Ker"f = f^-1(e_H) sube f^-1(f(G_1)) = G_1`.
 	</span>
-	反之, 令 `"Ker"f le G'`.
-	由集合论的知识知道, 恒成立 `f^-1(f(G')) supe G'`,
-	因此只需证 `f^-1(f(G')) sube G'`.
-	`AA a in f^-1(f(G'))`, 存在 `b in G'`, 使 `f(a) = f(b)`,
-	从而 `e_H = f(a)f(b)^-1 = f(a b^-1)`, 即 `a b^-1 in "Ker"f le G'`,
-	因此 `a = (a b^-1) b in G'`, 即 `f^-1(f(G')) sube G'`.
+	反之, 令 `"Ker"f le G_1`.
+	由集合论的知识知道, 恒成立 `f^-1(f(G_1)) supe G_1`,
+	因此只需证 `f^-1(f(G_1)) sube G_1`.
+	`AA a in f^-1(f(G_1))`, 存在 `b in G_1`, 使 `f(a) = f(b)`,
+	从而 `e_H = f(a)f(b)^-1 = f(a b^-1)`, 即 `a b^-1 in "Ker"f le G_1`,
+	因此 `a = (a b^-1) b in G_1`, 即 `f^-1(f(G_1)) sube G_1`.
 </p>
 
 <p class="lemma" id="lem-ker-in-g">
 	令 `f: G to H` 为一群满同态映射,
 	<span class="formula">
-		`S = {G' | G' le G and "Ker"f le G'}`,<br/>
-		`S' = {H' | H' le H}`.
+		`S = {G_1 | "Ker"f le G_1 le G}`,<br/>
+		`S_1 = {H_1 | H_1 le H}`.
 	</span>
-	则 `|S| = |S'|`, 即 `G` 中含 `"Ker"f` 的子群与 `H` 中的子群一一对应.
+	则 `|S| = |S_1|`, 即 `G` 中含 `"Ker"f` 的子群与 `H` 中的子群一一对应.
 </p>
 
 <p class="proof">
-	作 `eta: G' in S to f(G') in S'`,
+	作 `eta: G_1 in S to f(G_1) in S_1`,
 	则由子群在群同态映射下的像也为一子群知, `eta` 为一映射.
-	任取 `H' in S'`, 则 `f^-1(H') in S` (注意 `"Ker"f = f^-1(e_H)
-	sube f^-1(H')`),
-	且由 `f` 为满射知, `f(f^-1(H')) = H'`. 故 `eta` 为一满射.
+	任取 `H_1 in S_1`, 则 `f^-1(H_1) in S` (注意 `"Ker"f = f^-1(e_H)
+	sube f^-1(H_1)`),
+	且由 `f` 为满射知, `f(f^-1(H_1)) = H_1`. 故 `eta` 为一满射.
 	根据<a class="ref" href="#lem-ker-in-g"></a>,
 	<span class="formula">
 		`f(G_1) = f(G_2) iff f^-1(f(G_1)) = f^-1(f(G_1))`
@@ -760,6 +772,37 @@
 </p>
 
 <h2>1 到 10 阶群的结构</h2>
+
+<p>每一栏的种类数恰好是 `n` 的素因子个数.</p>
+
+<table>
+	<tr>
+		<td>n</td>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+		<td>7</td>
+		<td>8</td>
+		<td>9</td>
+		<td>10</td>
+	</tr>
+	<tr>
+		<td>`G`</td>
+		<td>`{e}`</td>
+		<td>`ZZ_2`</td>
+		<td>`ZZ_3`</td>
+		<td>`ZZ_4`, `K_4`</td>
+		<td>`ZZ_5`</td>
+		<td>`ZZ_6`, `S_3`</td>
+		<td>`ZZ_7`</td>
+		<td>`ZZ_8`, `D_8`, `Q_8`</td>
+		<td>`ZZ_9`, `ZZ_2 xx ZZ_3`</td>
+		<td>`ZZ_10`, `D_10`</td>
+	</tr>
+</table>
 
 </body>
 

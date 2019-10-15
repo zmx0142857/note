@@ -12,6 +12,71 @@
 
 <body>
 
+<h2>Cauchy-Schwarz 不等式</h2>
+
+<p class="theorem">
+	<b>Cauchy-Schwarz 不等式</b>
+	设 `x_k, y_k` 是非零实数, `k = 1, 2, cdots, n`. 则
+	<span class="formula">
+		`|sum_(k=1)^n x_k y_k|`
+		`le sqrt(sum_(k=1)^n x_k^2)sqrt(sum_(k=1)^n y_k^2)`,
+	</span>
+	等号成立当且仅当存在实数 `t`, 使得 `y_k = t x_k`, `k = 1, 2, cdots,
+	n`.
+</p>
+
+<p class="proof">
+	设二次函数
+	<span class="formula">
+		`f(t) = sum_(k=1)^n (x_k t - y_k)^2`
+		`= (sum_(k=1)^n x_k^2) t^2 - 2(sum_(k=1)^n x_k y_k) x`
+		`+ sum_(k=1)^n y_k^2 ge 0`.
+	</span>
+	因此, 其判别式
+	<span class="formula">
+		`Delta/4 = (sum_(k=1)^n x_k y_k)^2 - (sum_(k=1)^n
+		x_k^2)(sum_(k=1)^n y_k^2) le 0`,
+	</span>
+	此即要证的不等式. 其中
+	<span class="formula">
+		等号成立 `iff Delta = 0`
+		`iff f` 存在惟一实根 `t`
+		`iff EE t in RR`, `x_k t - y_k = 0`, `k = 1, 2, cdots, n`.
+	</span>
+</p>
+
+<p class="proof">
+	由 <a href="../number/5.html">Lagrange 恒等式</a>
+	<span class="formula">
+		`(sum_(i=1)^n x_i^2)(sum_(i=1)^n y_i^2)`
+		`= (sum_(i=1)^n x_i y_i)^2
+		+ sum_(1 le i lt j le n) (x_i y_j - x_j y_i)^2`.
+	</span>
+	立即得到 Cauchy 不等式.
+</p>
+
+<ol class="theorem">
+	<b>内积空间中的 Cauchy-Schwarz 不等式</b>
+	设 `V` 是数域 `bbb F` 上一线性空间, `(*,*)` 是 `V`
+	上正定的对称双线性函数, 满足
+	<li>正定性. `(AA x in V)` `(x, x) ge 0`, 等号成立当且仅当 `x = 0`;</li>
+	<li>共轭对称性. `(AA x, y in V)` `(x, y) = bar((y","x))`;</li>
+	<li>双线性性. `(AA x, y, z in V)` `(AA k, l in bbb F)`
+		<span class="formula">
+			`(k x+l y, z) = k(x, z) + l(y, z)`,<br/>
+			`(z, k x+l y) = k(z, x) + l(z, y)`.
+		</span>
+	</li>
+	现在引入
+	<span class="formula">
+		`||x|| = sqrt((x","x))`,
+	</span>
+	则成立不等式
+	<span class="formula">
+		`(x, y) le ||x||*||y||`.
+	</span>
+</ol>
+
 <h2>三角不等式</h2>
 
 <p class="lemma">
@@ -51,7 +116,7 @@
 <p class="corollary">
 	设 `x, y in RR`, 则
 	<span class="formula">
-		`| |x| - |y| | le |x + y| le |x| + |y|`.
+		`|{:|x| - |y|:}| le |x + y| le |x| + |y|`.
 	</span>
 	第一个等号成立当且仅当 `x y le 0`, 第二个等号成立当且仅当 `x y ge 0`.
 </p>
@@ -70,60 +135,158 @@
 	`|x|-|y|`, 而另一边等于 `|x+y| = |x|-|y|`, 所以两边相等.
 </p>
 
-<h2>Cauchy-Schwarz 不等式</h2>
-
 <p class="theorem">
-	<b>Cauchy-Schwarz 不等式</b>
-	设 `x_k, y_k` 是非零实数, `k = 1, 2, cdots, n`. 则
+	<b>Euclid 空间的三角不等式</b>
+	设 `bm x = (x_1, x_2, cdots, x_n)`,
+	`bm y = (y_1, y_2, cdots, y_n) in E^n`, 则
 	<span class="formula">
-		`|sum_(k=1)^n x_k y_k|`
-		`le sqrt(sum_(k=1)^n x_k^2)sqrt(sum_(k=1)^n y_k^2)`,
+		`|bm x + bm y| le |bm x| + |bm y|`,
 	</span>
-	等号成立当且仅当存在实数 `t`, 使得 `y_k = t x_k`, `k = 1, 2, cdots,
-	n`.
+	即
+	<span class="formula">
+		`sqrt(sum_(k=1)^n (x_k+y_k)^2)`
+		`le sqrt(sum_(k=1)^n x_k^2) + sqrt(sum_(k=1)^n y_k^2)`.
+	</span>
 </p>
 
 <p class="proof">
-	设二次函数
+	事实上, 这是 Minkowski 不等式取 `p = 2` 的情形. 当然也可以用 Cauchy
+	不等式证之:
 	<span class="formula">
-		`f(t) = sum_(k=1)^n (x_k t - y_k)^2`
-		`= (sum_(k=1)^n x_k^2) t^2 - 2(sum_(k=1)^n x_k y_k) x`
-		`+ sum_(k=1)^n y_k^2 ge 0`.
+		`sum_(k=1)^n (x_k+y_k)^2`
+		`= sum_(k=1)^n x_k^2 + sum_(k=1)^n y_k^2 + 2 sum_(k=1)^n x_k y_k`
+		`le sum_(k=1)^n x_k^2 + sum_(k=1)^n y_k^2`
+		`+ 2 sqrt(sum_(k=1)^n x_k^2) sqrt(sum_(k=1)^n y_k^2)`
+		`= (sqrt(sum_(k=1)^n x_k^2) + sqrt(sum_(k=1)^n y_k^2))^2`.
 	</span>
-	因此, 其判别式
+	两边开方即得结果.
+</p>
+
+<h2>Jensen 不等式</h2>
+
+<a href="https://zhuanlan.zhihu.com/p/55307171">原文来自知乎</a>, 当然,
+也来自崔尚斌. 数学分析教程 (上册). 第一版. 北京: 科学出版社.
+
+<p class="theorem">
+	<b>Jensen 不等式</b>
+	设 `f` 是区间 `I` 上的下凸函数, `x_k in I`, `t_k in (0, 1)`,
+	`k = 1, 2, cdots, n`. 其中 `sum_(k=1)^n t_k = 1`. 则
 	<span class="formula">
-		`Delta/4 = (sum_(k=1)^n x_k y_k)^2 - (sum_(k=1)^n
-		x_k^2)(sum_(k=1)^n y_k^2) le 0`,
+		`f(sum_(k=1)^n t_k x_k) le sum_(k=1)^n t_k f(x_k)`.
 	</span>
-	此即要证的不等式. 其中
+	进一步, 若 `f` 在 `I` 上严格下凸, 则不等式中等号成立当且仅当
+	`x_1 = x_2 = cdots = x_n`.
+	另外, 若 `f` 在 `I` 上是上凸函数, 取 `g = -f` 知, 对 `f`
+	成立反向的不等号.
+</p>
+
+<p class="proof">
+	对 `n` 进行归纳. `n = 1` 时不等式是平凡的等式.
+	设不等式对 `n-1 ge 1` 成立, 则对正整数 `n`, 有
 	<span class="formula">
-		等号成立 `iff Delta = 0`
-		`iff f` 存在惟一实根 `t`
-		`iff EE t in RR`, `x_k t - y_k = 0`, `k = 1, 2, cdots, n`.
+		`f(sum_(k=1)^n t_k x_k)`
+		`= f(sum_(k=1)^(n-1) t_k x_k + t_n x_n)`
+		`= f((1-t_n) sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) + t_n x_n)`
+		(由函数下凸) `le (1-t_n) f(sum_(k=1)^(n-1) (t_k x_k)/(1-t_n))
+		+ t_n f(x_n)`
+		(由归纳假设) `le (1-t_n) sum_(k=1)^(n-1) (t_k f(x_k))/(1-t_n) +
+		t_n f(x_n)`
+		`= sum_(k=1)^n t_k f(x_k)`.
+	</span>
+	如果 `f` 是严格下凸函数且 `x_1, x_2, cdots, x_n` 不全相等, 那么当
+	`sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) != x_n` 时,
+	上面推导的第一个不等式中的等号不成立. 而 `sum_(k=1)^(n-1) (t_k
+	x_k)/(1-t_n) = x_n` 时, 则断言 `x_1, x_2, cdots, x_(n-1)` 不全相等
+	(否则设 `x_1 = x_2 = cdots = x_(n-1)`, 有
+	<span class="formula">
+		`x_n = sum_(k=1)^(n-1) (t_k x_k)/(1-t_n)`
+		`= x_1 sum_(k=1)^(n-1) t_k/(1-t_n)`
+		`= x_1 = x_2 = cdots = x_(n-1)`,
+	</span>
+	矛盾).
+	由归纳假设, 只要 `x_1, x_2, cdots x_(n-1)` 不全相等,
+	上面推导的第二个不等式的等号不成立. 从而上面的不等式是严格不等式.
+</p>
+
+<p class="theorem">
+	<b>Young 不等式</b>
+	设 `x, y gt 0`, `p, q gt 1`, 且 `1/p + 1/q = 1`, 则
+	<span class="formula">
+		`x y le x^p/p + y^q/q`.
+	</span>
+	等号成立当且仅当 `x^p = y^q`.
+</p>
+
+<p class="proof">
+	由于 `f(x) = ln x` 是严格上凸函数, 所以对 `x^p, y^q gt 0` 有
+	<span class="formula">
+		`1/p ln x^p + 1/q ln y^q le ln (x^p/p + y^q/q)`.
+	</span>
+	其中等号成立当且仅当 `x^p = y^q`. 取指数即得结论.
+</p>
+
+<p class="theorem">
+	<b>Hölder 不等式 (Hardy 不等式)</b>
+	设 `x_k, y_k gt 0`, `k = 1, 2, cdots, n`.
+	`p, q gt 1` 且 `1/p+1/q = 1`. 则
+	<span class="formula">
+		`sum_(k=1)^n x_k y_k le (sum_(k=1)^n x_k^p)^(1/p) (sum_(k=1)^n
+		y_k^q)^(1/q)`.
+	</span>
+	特别取 `p = q = 2` 时, 得到 Cauchy 不等式.
+	这个不等式的另一种形式是 (取 `alpha = p^-1`, `beta = q^-1`):
+	<span class="formula">
+		`sum_(k=1)^n x_k^alpha y_k^beta le (sum_(k=1)^n x_k)^alpha
+		(sum_(k=1)^n y_k)^beta`.
 	</span>
 </p>
 
-<ol class="theorem">
-	<b>内积空间中的 Cauchy-Schwarz 不等式</b>
-	设 `V` 是数域 `bbb F` 上一线性空间, `(*,*)` 是 `V`
-	上正定的对称双线性函数, 满足
-	<li>正定性. `(AA x in V)` `(x, x) ge 0`, 等号成立当且仅当 `x = 0`;</li>
-	<li>共轭对称性. `(AA x, y in V)` `(x, y) = bar((y","x))`;</li>
-	<li>双线性性. `(AA x, y, z in V)` `(AA k, l in bbb F)`
-		<span class="formula">
-			`(k x+l y, z) = k(x, z) + l(y, z)`,<br/>
-			`(z, k x+l y) = k(z, x) + l(z, y)`.
-		</span>
-	</li>
-	现在引入
+<p class="proof">
+	记 `sum_(k=1)^n x_k^p = A`, `sum_(k=1)^n y_k^q = B`.
+	使用 Young 不等式, 对 `i = 1, 2, cdots, n` 有
 	<span class="formula">
-		`||x|| = sqrt((x","x))`,
+		`(x_i^p/A)^(1/p) (y_i^q/B)^(1/q)`
+		`le 1/p x_i^p/A + 1/q y_i^q/B`.
 	</span>
-	则成立不等式
+	关于 `i` 求和,
 	<span class="formula">
-		`(x, y) le ||x||*||y||`.
+		`1/(A^(1/p) B^(1/q)) sum_(i=1)^n x_i y_i le 1/p + 1/q = 1`.
 	</span>
-</ol>
+	所以原不等式成立.
+</p>
+
+<p class="theorem">
+	<b>Minkowski 不等式</b>
+	设 `x_k, y_k gt 0`, `k = 1, 2, cdots, n`. 又设 `p ge 1`, 则
+	<span class="formula">
+		`(sum_(k=1)^n (x_k+y_k)^p)^(1/p) le (sum_(k=1)^n x_k^p)^(1/p) +
+		(sum_(k=1)^n y_k^p)^(1/p)`.
+	</span>
+	Mindowski 不等式适合用作一些度量空间的三角不等式.
+</p>
+
+<p class="proof">
+	`p = 1` 的情形是平凡的. 下面设 `p gt 1`,
+	取实数 `q` 使得 `1/p + 1/q = 1`. 由 Hölder 不等式有
+	<span class="formula">
+		`sum_(k=1)^n x_k (x_k+y_k)^(p//q) le (sum_(k=1)^n x_k^p)^(1/p)
+		(sum_(k=1)^n (x_k+y_k)^p)^(1/q)`,<br/>
+		`sum_(k=1)^n y_k (x_k+y_k)^(p//q) le (sum_(k=1)^n y_k^p)^(1/p)
+		(sum_(k=1)^n (x_k+y_k)^p)^(1/q)`.
+	</span>
+	两式相加, 注意 `p/q + 1 = p/q + p/p = p`,
+	<span class="formula">
+		`sum_(k=1)^n (x_k+y_k)^p`
+		`le [(sum_(k=1)^n x_k^p)^(1/p) + (sum_(k=1)^n y_k^p)^(1/p)]`
+		`(sum_(k=1)^n (x_k+y_k)^p)^(1/q)`.
+	</span>
+	两边同乘以 `(sum_(k=1)^n (x_k+y_k)^p)^(-1/q)` 即得结果.
+</p>
+
+<p class="remark">
+	虽然我们是用 Young 不等式导出了本节后面的几个不等式, 但实际上,
+	包括 Young 不等式在内, 它们都能用 Jensen 不等式直接导出.
+</p>
 
 <h2>均值不等式</h2>
 
@@ -157,6 +320,19 @@
 		`root n (prod_(k=1)^n x_k) le 1/n sum_(k=1)^n x_k`,
 	</span>
 	等号成立当且仅当 `x_1 = x_2 = cdots = x_n`.
+</p>
+
+<p class="proof">
+	利用 Jensen 不等式的简单证明.
+	取 `f(x) = ln x`, 它是区间 `(0, +oo)` 上的上凸函数. 取 `t_k = 1/n`,
+	于是对任意 `x_1, x_2, cdots, x_n gt 0`,
+	<span class="formula">
+		`1/n sum_(k=1)^n ln x_k le ln(1/n sum_(k=1)^n x_k)`,
+	</span>
+	等号成立当且仅当 `x_1 = x_2 = cdots = x_n`. 两端取指数, 得到
+	<span class="formula">
+		`root n(prod_(k=1)^n x_k) le 1/n sum_(k=1)^n x_k`.
+	</span>
 </p>
 
 <p class="proof">
@@ -233,63 +409,110 @@
 	称为它们的<b>算术平均数</b>.
 </p>
 
-<h2>Jensen 不等式</h2>
-
-<p class="theorem">
-	<b>Jensen 不等式</b>
-	设 `f` 是区间 `I` 上的下凸函数, `x_k in I`, `t_k in (0, 1)`,
-	`k = 1, 2, cdots, n`. 其中 `sum_(k=1)^n t_k = 1`. 则
-	<span class="formula">
-		`f(sum_(k=1)^n t_k x_k) le sum_(k=1)^n t_k f(x_k)`.
-	</span>
-	进一步, 若 `f` 在 `I` 上严格下凸, 则不等式中等号成立当且仅当
-	`x_1 = x_2 = cdots = x_n`.
-	另外, 若 `f` 在 `I` 上是上凸函数, 取 `g = -f` 知, 对 `f`
-	成立反向的不等号.
-</p>
-
-<p class="proof">
-	对 `n` 进行归纳. `n = 1` 时不等式是平凡的等式.
-	设不等式对 `n-1 ge 1` 成立, 则对正整数 `n`, 有
-	<span class="formula">
-		`f(sum_(k=1)^n t_k x_k)`
-		`= f(sum_(k=1)^(n-1) t_k x_k + t_n x_n)`
-		`= f((1-t_n) sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) + t_n x_n)`
-		(由函数下凸) `le (1-t_n) f(sum_(k=1)^(n-1) (t_k x_k)/(1-t_n))
-		+ t_n f(x_n)`
-		(由归纳假设) `le (1-t_n) sum_(k=1)^(n-1) (t_k f(x_k))/(1-t_n) +
-		t_n f(x_n)`
-		`= sum_(k=1)^n t_k f(x_k)`.
-	</span>
-	如果 `f` 是严格下凸函数且 `x_1, x_2, cdots, x_n` 不全相等, 那么当
-	`sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) != x_n` 时,
-	上面推导的第一个不等式中的等号不成立. 而 `sum_(k=1)^(n-1) (t_k
-	x_k)/(1-t_n) = x_n` 时, 则断言 `x_1, x_2, cdots, x_(n-1)` 不全相等
-	(否则设 `x_1 = x_2 = cdots = x_(n-1)`, 有
-	<span class="formula">
-		`x_n = sum_(k=1)^(n-1) (t_k x_k)/(1-t_n)`
-		`= x_1 sum_(k=1)^(n-1) t_k/(1-t_n)`
-		`= x_1 = x_2 = cdots = x_(n-1)`,
-	</span>
-	矛盾).
-	由归纳假设, 只要 `x_1, x_2, cdots x_(n-1)` 不全相等,
-	上面推导的第二个不等式的等号不成立. 从而上面的不等式是严格不等式.
-</p>
-
 <p class="example">
-	用 Jensen 不等式导出均值不等式.
+	设 `a, b gt 0`.
+	证明: 数列 `x_n = root(n)((a^n+b^n)/2)` 单调递增.
 </p>
 
 <p class="proof">
-	取 `f(x) = ln x`, 它是区间 `(0, +oo)` 上的上凸函数. 取 `t_k = 1/n`,
-	于是对任意 `x_1, x_2, cdots, x_n gt 0`,
+	(zmx可以从这道题的证明中凭吊高中时代的遗迹)
+	只需证对任意正整数 `n`,
 	<span class="formula">
-		`1/n sum_(k=1)^n ln x_k le ln(1/n sum_(k=1)^n x_k)`,
+		`  root(n)((a^n+b^n)/2)
+		le root(n+1)(( a^(n+1) + b^(n+1) )/2)`.
 	</span>
-	等号成立当且仅当 `x_1 = x_2 = cdots = x_n`. 两端取指数, 得到
+	即证
 	<span class="formula">
-		`root n(prod_(k=1)^n x_k) le 1/n sum_(k=1)^n x_k`.
+		`(a^n+b^n)^(n+1) le 2( a^(n+1)+b^(n+1) )^n`.
 	</span>
+	当 `n=1` 时, 上述不等式即 `(a+b)^2 le 2(a^2+b^2)`, 显然成立.
+	假设当 `n=k` 时不等式成立, 即
+
+		`(a^k+b^k)^(k+1) / ( a^(k+1)+b^(k+1) )^k le 2`.
+
+	则 `n=k+1` 时, 断言
+	<span class="formula">
+		`	( a^(k+1)+b^(k+1) )^(k+2) / ( a^(k+2)+b^(k+2) )^(k+1)
+		le	(a^k+b^k)^(k+1) / ( a^(k+1)+b^(k+1) )^k`
+		<span class="label" id="for-exp-inequality-to-prove"></span>
+	</span>
+	成立, 这只要证
+	<span class="formula">
+		`	( a^(k+1)+b^(k+1) )^(2(k+1))
+		le	[ (a^k+b^k) ( a^(k+2) + b^(k+2) ) ] ^ (k+1)`,
+	</span>
+	即证
+	<span class="formula">
+		`	( a^(k+1)+b^(k+1) )^2
+		le	(a^k+b^k)( a^(k+2)+b^(k+2) )`,
+	</span>
+	即证
+	<span class="formula">
+		`2(ab)^(k+1) le (ab)^k (a^2+b^2)`.
+	</span>
+	即证 `2ab le a^2+b^2`. 这显然成立. 所以 <a class="ref"
+		href="#for-exp-inequality-to-prove"></a> 成立, 从而
+	`n=k+1` 时不等式成立. 再由数学归纳法知原命题成立.
+</p>
+
+<ol class="theorem">
+	<b>幂平均值不等式</b>
+	设 `x_1, x_2, cdots, x_n gt 0`, `alpha in RR uu {+oo, -oo}`, 则函数
+	<span class="formula">
+		`(1/n sum_(k=1)^n x_k^alpha)^(1/alpha)`
+	</span>
+	关于参数 `alpha` 单调递增.
+	其中 `alpha = 0, +oo, -oo` 的情形考虑极限:
+	<span class="formula">
+		`lim_(alpha to 0) (1/n sum_(k=1)^n x_k^alpha)^(1/alpha)`
+		`= exp(1/n sum_(k=1)^n ln x_k)`
+		`= root n(prod_(k=1)^n x_k)`,<br/>
+		`lim_(alpha to +oo) (1/n sum_(k=1)^n x_k^alpha)^(1/alpha)`
+		`= max_k x_k`,
+		`lim_(alpha to -oo) (1/n sum_(k=1)^n x_k^alpha)^(1/alpha)`
+		`= min_k x_k`.
+	</span>
+</ol>
+
+<ol class="proof">
+	用 Hölder 不等式来证明, 使用 Jensen 不等式的证法留给读者.
+	<li>先设 `0 lt alpha lt beta`.
+		取 `p = beta/alpha gt 1`, 又取实数 `q` 使得 `1/p + 1/q = 1`.
+		记 `y_k = x_k^alpha`, 则
+		由 Hölder 不等式有
+		<span class="formula">
+			`sum_(k=1)^n y_k * 1
+			le (sum_(k=1)^n y_k^p)^(1/p) (sum_(k=1)^n 1^q)^(1/q)`,<br/>
+			`(1/n)^(1/q) sum_(k=1)^n y_k
+			le (sum_(k=1)^n y_k^p)^(1/p)`,<br/>
+			`1/n sum_(k=1)^n y_k
+			le (1/n sum_(k=1)^n y_k^p)^(1/p)`,<br/>
+			`1/n sum_(k=1)^n x_k^alpha
+			le (1/n sum_(k=1)^n x_k^beta)^(alpha/beta)`,
+		</span>
+		即得到要证的不等式
+		<span class="formula">
+			`(1/n sum_(k=1)^n x_k^alpha)^(1/alpha)`
+			`le (1/n sum_(k=1)^n x_k^beta)^(1/beta)`.
+		</span>
+	</li>
+	<li>再设 `alpha lt beta lt 0`. 对 `0 lt -beta lt -alpha` 和实数
+		`x_1^-1, x_2^-1, cdots, x_n^-1` 应用不等式得,
+		<span class="formula">
+			`(1/n sum_(k=1)^n x_k^alpha)^(-1/alpha) ge (1/n sum_(k=1)^n
+			x_k^beta)^(-1/beta)`.
+		</span>
+		两边取倒数即得到要证的不等式.
+	</li>
+	<li>最后, 由连续性得到 `alpha` 等于 `0`, `+oo` 或 `-oo` 的情形.
+	</li>
+</ol>
+
+<p class="remark">
+	此定理是均值不等式的推广.
+	`x_1, x_2, cdots, x_n` 的函数 `(1/n sum_(k=1)^n x_k^alpha)^(1/alpha)`
+	在参数 `alpha` 取 `-oo`, `-1`, `0`, `1`, `+oo`
+	时, 分别取得最小值, 调和平均, 几何平均, 算术平均和最大值.
 </p>
 
 <h2>轮换求和?</h2>

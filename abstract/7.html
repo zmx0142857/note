@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>域</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>域</h2>
+
+<h3>域</h3>
+
+<ol class="definition">
+	回顾环的一章中对域的定义, 将它重新整理如下:
+	称环 `(bbb F; +, *)` 为一<b>域 (field)</b>, 如果 `|bbb F| ge 2`, 且
+	`(bbb F, +)`, `(bbb F\\{0}, *)` 是 Abel 群, 其中 `0` 是加群的零元.
+	又记乘法群的幺元为 `1`.<br/>
+	域上可以进行四则运算: 令 `bbb F` 为一域, `a, b in bbb F`.
+	称 `a+b` 为 `a, b` 的和, `a-b := a + (-b)` 为 `a, b` 的差,
+	`a * b` 为 `a, b` 的积, `b != 0` 时, `a//b := a b^-1` 为 `a, b` 的商.
+</ol>
+
+<p class="example">
+	`p` 为一素数时, `ZZ` 模 `p` 的剩余类环 `ZZ_p` 为一域.
+</p>
+
+<p class="definition">
+	令 `bbb F` 为一域. 称 `bbb F_1 sube bbb F` 为 `bbb F`
+	的一个<b>子域</b>, 如果它关于 `bbb F` 的加法和乘法也成域.
+	`{0, 1}` 和 `bbb F` 是 `bbb F` 的两个<b>平凡子域</b>.
+	只有平凡子域的域称为<b>素域</b>, 如 `QQ` 和 `ZZ_p` 都是素域.
+</p>
+
+<p class="corollary">
+	<b>子域的判定条件</b>
+	域 `bbb F_1 le bbb F_2` 当且仅当 `(bbb F_1, +)`, `(bbb F_1\\{0}, *)`
+	分别为 `(bbb F_2, +)` 和 `(bbb F_2\\{0}, *)` 的子群, 即
+	<span class="formula">
+		`(AA a, b in bbb F_1)` `a - b in bbb F_1`;<br/>
+		`(AA a, b in bbb F_1\\{0})` `a b^-1 in bbb F_1\\{0}`.
+	</span>
+</p>
+
+<p class="theorem">
+	任意域 `bbb F` 含且只含一个素域, 称为 <b>`bbb F` 的素域</b>.
+</p>
+
+<p class="proof">
+	取 `bbb P` 为 `bbb F` 的全体子域的交, 由 `{0, 1} sube bbb P` 知 `bbb
+	P` 非空, 又 `bbb P le bbb F`. 显然 `bbb P` 只有平凡子域, 因此为一素域.
+	由 `bbb P` 的构造知, 它是惟一的.
+</p>
+
+<h3>整环的分式域</h3>
+
+<p class="definition">
+	令 `R` 为一交换的无零因子环 (特别地, 整环),
+	`bbb F` 为一域, 称 `bbb F` 为 `R` 的分式域, 如果
+	在同构意义下, `R` 为 `bbb F` 的子环, 且任意 `bbb F` 中的元素 `x`
+	可以写成 `R` 中两个元素的商, 即 `EE a, b in R`, `x = a b^-1`, 其中 `b
+	!= 0`.
+</p>
+
+<p class="example">
+	`ZZ` 的分式域是 `QQ`.
+	令 `n in ZZ\\{0}`, 则 `n ZZ` 的分式域也是 `QQ`.
+	`bbb F[x]` 的分式域是
+	<span class="formula">
+		`{(f(x))/(g(x)) | f(x), g(x) in bbb F[x], g(x) != 0}`.
+	</span>
+</p>
+
+<p class="theorem">
+	令 `R` 为一交换的无零因子环 (特别地, 整环), 则 `R` 的分式域存在.
+</p>
+
+<ol class="proof">
+	构造性证明. 模仿由整数环构造有理数域的方法, 来构造 `R` 的分式域.
+	记 `R^** = R\\{0}`, `T = R xx R^**`.
+	<li>定义 `T` 上的二元关系 `~`:
+		<span class="formula">
+			`(a, b) ~ (c, d) iff a d = b c`.
+		</span>
+		可以验证 `~` 为 `T` 上一等价关系. 事实上自反性与对称性显然,
+		至于传递性, 设 `a d = b c`, `c f = d e`, 则
+		<span class="formula">
+			`a d f = b c f = b d e`,
+		</span>
+		由 `R` 可交换且无零因子, 上式消去 `d != 0` 得 `a f = b e`.
+	</li>
+	<li>作商集 `bbb F = T//~`, 记 `(a, b)` 所在的等价类
+		`bar ((a","b)) = a/b`, 则
+		<span class="formula">
+			`bbb F = {a/b | a in R, b in R^**}`.
+		</span>
+		在 `bbb F` 上定义二元合成 `+, *`:
+		<span class="formula">
+			`a/b + c/d = (a d + b c)/(b d)`,
+			`quad a/b * c/d = (a c)/(b d)`.
+		</span>
+		可以验证 `+, *` 是良定义的, 因此是二元运算. 又 `+, *`
+		都满足结合律与交换律, 且 `0 := 0/b` 为 `bbb F` 的零元,
+		`-a/b := (-a)/b` 为 `a/b` 的负元, `1:= b/b` 为 `bbb F` 的幺元,
+		`b/a` 为 `a/b != 0` 的逆元. 因此 `(bbb F, +, *)` 为一域.
+	</li>
+	<li>显然 `R' = {a/1 | a in R}` 是 `bbb F` 的子环, 且 `AA a/b in bbb
+		F`, `EE a/1, b/1 in R'`,
+		<span class="formula">
+			`a/b = a/1 * (b/1)^-1`.
+		</span>
+		容易验证 `f: a in R to a/1 in R'` 为一同构映射, 从而 `R`
+		在同构意义下是 `bbb F` 的子环, 且 `bbb F` 中任意元素可以写为 `R`
+		中两个元素的商. 因此 `bbb F` 为 `R` 的分式域.
+	</li>
+</ol>
+
+<p class="theorem">
+	无零因子的交换环 `R` 的分式域 `bbb F` 是包含 `R` 的最小域.
+	因此同构意义下 `R` 的分式域惟一. 一个例子是,
+	有理数域是包含整数环的最小域.
+</p>
+
+<p class="proof">
+	令 `bbb F'` 为包含 `R` 的任一域, 则
+	<span class="formula">
+		`bbb F_1 = {a b^-1 | a, b in R, b != 0}`
+	</span>
+	是 `bbb F'` 的子域. 事实上, 
+	<span class="formula">
+		`(AA a b^-1, c d^-1 in bbb F_1)` `a b^-1 - c d^-1 = (a d - c b)(b d)^-1 in bbb F_1`,<br/>
+		`(AA a b^-1, c d^-1 in bbb F_1\\{0})`
+		`(a b^-1)(c d^-1)^-1 = (a d)(b c)^-1 in bbb F_1\\{0}`.
+	</span>
+	所以 `bbb F_1 le bbb F'`.
+	又容易验证 `f: a/b in bbb F to a b^-1 in bbb F_1` 为一同构映射,
+	因此 `bbb F le bbb F'`.
+</p>
+
+<h3>域的特征</h3>
+
+<p>	回顾环的特征一节,
+	因为域是无零因子的, 因此域的<b>特征</b>只能是零或素数, 如:
+	任意数域的特征为零, 数域上多项式环的分式域的特征为零,
+	有限域 `ZZ_p` 的特征为 `p`.
+	在特征为 `0` 的域中, 每个非零元的阶都为 `oo`;
+	在特征为 `p` 的域中, 每个非零元的阶都为 `p`.
+</p>
+
+<p class="corollary">
+	令域 `bbb F` 的特征为素数 `p`, 则对任意 `n in ZZ^+`, 在 `bbb F` 中
+	<span class="formula">
+		`(a+-b)^(p^n) -= a^(p^n) +- b^(p^n)`.
+	</span>
+</p>
+
+<p class="proof">
+	对 `n` 进行归纳.
+	由于 `(a+b)^(p^n) = ((a+b)^(p^(n-1)))^p`,
+	只需证 `(a+b)^p -= a^p + b^p`. 这只需注意到 `p | ((p),(k))`,
+	`k = 1, 2, cdots, p-1`; 因此 `AA a in bbb F`, `p a = 0`.
+</p>
+
+<p class="theorem">
+	<b>域的特征与素域</b>
+	令 `bbb F` 为一域, 则 `"char"(bbb F) = 0` 时, 
+	`bbb F` 的素域同构于 `QQ`, `"char"(bbb F) = p` 时, `bbb F`
+	的素域同构于 `ZZ_p`; 因此两个域的特征相同当且仅当它们的素域同构.
+</p>
+
+<p class="proof">
+	记 `bbb F` 的幺元为 `e`. 作映射 `f: n in ZZ to n e to bbb F`.
+	容易验证 `f` 为一同态映射.<br/>
+	若 `"char"(bbb F) = 0`, 则只有 `n = 0` 才能使 `n e = 0`, 即
+	`"Ker"f = {0}`.
+	由同态基本定理, `"Im"f ~= ZZ//"Ker"f = ZZ`.
+	从而 `"Im"f` 为一整环. 又, 同构的整环有同构的分式域,
+	从而 `"Im"f` 的分式域 (记为 `bbb F_e`) 同构于 `QQ`.
+	显然 `bbb F_e le bbb F`, 且 `bbb F` 的任一子域都包含 `bbb F_e`,
+	即 `bbb F_e` 为 `bbb F` 的素域, 且 `bbb F_e ~= QQ`.<br/>
+	若 `"char"(bbb F) = p` 为一素数, 则 `"Ker"f = (:p:)`,
+	类似可证 `"Im"f` 的分式域同构于 `ZZ//(:p:) = ZZ_p`, 即为
+	`bbb F` 的同构于 `ZZ_p` 的素域.
+</p>
+
+<p class="corollary">
+	`QQ` 和 `ZZ_p` 的自同构只有恒等自同构,
+	因此任意素域的自同构只有恒等自同构.
+</p>
+
+<h3>域上的一元多项式环</h3>
+
+<p>	关于一般域 `bbb F`, 由于 `bbb F` 为一交换幺环, 所以 `bbb F`
+	上存在一元多项式环 `bbb F[x]`. 数域上多项式的整除, 因式, 最大公因式,
+	不可约多项式, 互素, 因式分解以及根的相关概念和定理, 在 `bbb F[x]`
+	中都成立. 罗列部分如下:
+</p>
+
+<p class="theorem">
+	<b>余数定理</b>
+	令 `bbb F` 为一域, `f(x) in bbb F[x]`, `a in bbb F`. 则 `x-a` 除
+	`f(x)` 的余式为一常数, 此常数等于 `f(a)`.
+</p>
+
+<p class="theorem">
+	<b>零点-因子定理</b>
+	假设同上. 则 `a` 为 `f(x)` 的根当且仅当 `(x-a) | f(x)`.
+</p>
+
+<p class="theorem">
+	<b>关于根的数目上限</b>
+	令 `bbb F` 为一域. `f(x) in bbb F[x]\\{0}`, 则 `f(x)` 在 `bbb F`
+	中最多有 `n = del f(x)` 个根 (重根以重数计).
+</p>
+
+<p class="remark">
+	下面我们会看到, 关于任意 `f(x) in bbb F[x]\\{0}`, 
+	可以适当扩大域 `bbb F` 到域 `bbb G_(f(x))`, 使得 `f(x)` 在新的域中恰有
+	`n = del f(x)` 个根.
+</p>
+
+<p class="theorem">
+	域 `bbb F` 上任两个多项式的最大公因式不因域的扩大而改变.
+</p>
+
+<h2>扩域及其分类</h2>
+
+<h3>有限次扩张与无限次扩张</h3>
+
+<h3>代数扩张与超越扩张</h3>
+
+<h3>正规扩张与非正规扩张</h3>
+
+<h3>单扩张</h3>
+
+<h2>单代数扩张和有限次扩张</h2>
+
+<h2>分裂域</h2>
+
+<h2>有限域</h2>
+
+<h2>可分扩张</h2>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

@@ -320,13 +320,14 @@ function hideAnswer(list) {
 function toggleShowAnswer(button, id) {
 	return function() {
 		var answer = document.getElementById(id);
+		var str = button.innerHTML;
 		if (answer.hidden) {
 			answer.removeAttribute('hidden');
-			button.innerHTML = button.innerHTML[0] + ' &#9660;';
+			button.innerHTML = str.substring(0,str.length-1) + '&#9660;';
 			button.style.borderRadius = '0.5em 0.5em 0 0';
 		} else {
 			answer.hidden = true;
-			button.innerHTML = button.innerHTML[0] + ' &#9654;';
+			button.innerHTML = str.substring(0,str.length-1) + '&#9654;';
 			button.style.borderRadius = '0.5em';
 		}
 	};
@@ -439,7 +440,7 @@ hideAnswer([
 	{name:'proof', word:'证'},
 	{name:'solution', word:'解'},
 	{name:'answer', word:'答'},
-	{name:'collapse', word:''},
+	{name:'collapse', word:'&nbsp;'},
 ]);
 
 if (args.type == 'math' || args.loadmath) {

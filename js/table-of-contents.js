@@ -10,6 +10,7 @@ var tableOfContents = [ {
 	}, {
 	title:'数学分析',
 	articles: [
+		{title:'附录', src:'analysis/0.html'},
 		{title:'初等函数', src:'analysis/1.html'},
 		{title:'数列的极限', src:'analysis/2.html'},
 		{title:'导数的应用', src:'analysis/5.html'},
@@ -130,7 +131,9 @@ var tableOfContents = [ {
 		{title:'群 (上)', src:'abstract/2.html'},
 		{title:'群 (中)', src:'abstract/3.html'},
 		{title:'群 (下)', src:'abstract/4.html'},
+		{title:'半群', src:'abstract/5.html'},
 		{title:'环', src:'abstract/6.html'},
+		{title:'域', src:'abstract/7.html'},
 		{title:'Galois 理论', src:'abstract/8.html'},
 	]
 	}, {
@@ -149,5 +152,6 @@ var tableOfContents = [ {
 	articles: [
 		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
 		{title:'三角函数', src:'misc/2.html'},
+		{title:'不等式', src:'misc/1.html'},
 	]
 }];
