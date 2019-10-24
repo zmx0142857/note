@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>因式分解</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>杂例</h2>
+
+<ol>
+<li>`x^4 - 13x^2 + 36`;
+	<p class="solution">
+		将 `x^2` 视为整体, 进行十字相乘. 原式等于
+		<span class="formula">
+			`(x^2-4)(x^2-9)`
+			`= (x+2)(x-2)(x+3)(x-3)`.
+		</span>
+	</p>
+</li>
+<li>`(x^2 + x - 5)(x^2 + x - 7) + 1`;
+	<p class="solution">
+		同上, 将 `x^2 + x` 视为整体. 原式等于
+		<span class="formula">
+			`(x^2 + x)^2 -12 (x^2 + x) + 36`
+			`= (x^2 + x - 6)^2`
+			`= [(x-2)(x+3)]^2`.
+		</span>
+	</p>
+</li>
+<li>证明: `2^1984 + 1` 不是素数;
+	<p class="solution">
+		实际上是进行因数分解. 当 `n` 为偶数时, 将公式
+		<span class="formula">
+			` x^(n+1) - y^(n+1)`
+			`= (x-y)(x^n + x^(n-1)y + cdots + xy^(n-1) + y^n)`
+		</span>
+		中的 `y` 换为 `-y` 得
+		<span class="formula">
+			` x^(n+1) + y^(n+1)`
+			`= (x+y)(x^n - x^(n-1)y + cdots - xy^(n-1) + y^n)`.
+		</span>
+		于是
+		<span class="formula">
+			`2^1984 + 1 = (2^64)^31 + 1`
+			`= (2^64+1)(cdots)`.
+		</span>
+		显然 `1 lt 2^64+1 lt 2^1984`, 故 `2^1984+1` 不是素数.
+	</p>
+</li>
+<li>`x^4 - 4x + 3`;
+	<p class="solution">
+		在三项式中, 中项系数的绝对值是另外两个系数的绝对值之和时,
+		往往可以分解. 原式等于
+		<span class="formula">
+			`x^4 - x -3x + 3`
+			`= x(x^3-1) -3(x-1)`
+			`= (x-1)(x^3 + x^2 + x - 3)`.
+		</span>
+	</p>
+</li>
+<li>`x^4 + x^2 y^2 + y^4`;
+	<p class="solution">
+		有时为凑平方, 我们对中项作改动 (此时往往还需平方差公式). 原式等于
+		<span class="formula">
+			`x^4 + 2x^2 y^2 + y^4 - x^2 y^2`
+			`= (x^2 + y^2)^2 - (xy)^2`
+			`= (x^2 + xy + y^2)(x^2 - xy + y^2)`.
+		</span>
+	</p>
+</li>
+<li>`x^4 + 2^6`;
+	<p class="solution">
+		同上, 原式等于
+		<span class="formula">
+			`(x^2 + 2^3)^2 - 2*2^3 x^2`
+			`= (x^2 + 4x + 8)(x^2 - 4x + 8)`.
+		</span>
+	</p>
+</li>
+<li>`-a^4 -b^4 -c^4 +2b^2 c^2 + 2c^2 a^2 + 2a^2 b^2`;
+	<p class="solution">
+		同上, 原式等于
+		<span class="formula">
+		`4a^2 b^2 - (a^4+b^4+c^4 - 2b^2 c^2 - 2c^2 a^2 + 2a^2 b^2)`
+		`= (2ab)^2 - (a^2 + b^2 - c^2)^2`
+		`= (a^2 + 2ab + b^2 - c^2)(-a^2 + 2ab -b^2 + c^2)`
+		`= (a+b+c)(a+b-c)(c+a-b)(c-a+b)`.
+		</span>
+		此式见于三角形面积的海伦公式.
+	</p>
+</li>
+<li>`x^2 - y^2 + 2x + 6y - 8`;
+	<p class="solution">
+		因为没有形如 `c x y` 的交叉项, 直接分别对 `x, y` 配方. 原式等于
+		<span class="formula">
+			`(x^2 + 2x + 1) - (y^2 - 6y + 9)`
+			`= (x+1)^2 - (y-3)^2`
+			`= (x+y-2)(x-y+4)`.
+		</span>
+	</p>
+</li>
+<li>`4x^2 - 4xy + y^2 - 6x + 3y - 10`;
+	<p class="solution">
+		使用 "主元法". 将整个式子视为 x 的多项式, 再将其常数部分视为 y
+		的多项式. 原式等于
+		<span class="formula">
+			`4x^2 + (-4y-6)x + (y-2)(y+5)`.
+		</span>
+		为了进行十字相乘, 设上式等于
+		<span class="formula">
+			`(mx + y - 2)(nx + y + 5)`,
+		</span>
+		于是
+		<span class="formula">
+			`mn = 4`,<br />
+			`(m + n)y + 5m  - 2n = -4y-6`.
+		</span>
+		所以 `m = n = -2`.
+		于是原式等于
+		<span class="formula">
+			`(-2x + y - 2)(-2x + y + 5)`.
+		</span>
+	</p>
+</li>
+<li>`a^2 b + ab^2 + a + b - ab - 1`;
+	<p class="solution">
+		方法同上. 原式等于
+		<span class="formula">
+			`ba^2 + (b^2 - b + 1)a + b - 1`
+			`= (a + b - 1)(ba + 1)`.
+		</span>
+	</p>
+</li>
+<li>`abc + a^2 b - ab^2 - a + b - c`;
+	<p class="solution">原式等于
+		<span class="formula">
+			`ba^2 + (bc - b^2 - 1)a + b - c`
+			`= (ba - 1)(a - b + c)`.
+		</span>
+	</p>
+</li>
+<li>`(a + b + c + 1)(a + 1) + bc`;
+	<p class="solution">原式等于
+		<span class="formula">
+			`a^2 + (b+c+2)a + bc + b + c + 1`
+			`= a^2 + (b+c+2)a + (b+1)(c+1)`
+			`= (a + b + 1)(a + c + 1)`.
+		</span>
+	</p>
+</li>
+<li>`(x+y)(y+z)(z+x) + xyz`;
+	<p class="solution">即使是看似对称的式子, 主元法依然可以胜任. 原式等于
+		<span class="formula">
+			`(y+z)x^2 + ((y+z)^2 + yz)x + yz(y+z)`
+			`= ((y+z)x + yz)(x + y + z)`
+			`= (yz + zx + xy)(x + y + z)`.
+		</span>
+	</p>
+</li>
+<li>`x^3(a+1) - xy(x-y)(a-b) + y^3(b+1)`;
+	<p class="solution">
+		在分组分解时, 除主元法, 另一有力手段就是先提 "稀有字母",
+		即那些出现频率相对较低, 而次数只有一次的字母. 这里我们提出 a, b.
+		原式等于
+		<span class="formula">
+			`x^3 a + x^3 - (x^y - xy^2)(a-b) + y^3 b + y^3`
+			`= ax(x^2-xy+y^2) + by(y^2+x^2-xy) + (x+y)(x^2-xy+y^2)`
+			`= (ax + by + x + y)(x^2 - xy + y^2)`.
+		</span>
+	</p>
+</li>
+<li>`x(y^2 - z^2) + y(z^2 - x^2) + z(x^2 - y^2)`;
+	<p class="solution">
+		当然可以用主元法. 不过这里用稍特别的方法 (Vandermonde 行列式)
+		来处理. 原式等于
+		<span class="formula">
+			`|(1" ",1" ",1), (x" ",y" ",z), (x^2" ", y^2" ", z^2)|`
+			`= (y-x)(z-x)(z-y)`.
+		</span>
+	</p>
+</li>
+<li>`a^5 + b^5 - a^3 b^2 - a^2 b^3`;
+	<p class="solution">
+		注意到 `(a^3 b^2 + a^2 b^3) = a^2 b^2(a+b)`.
+		`a+b` 是不是 `a^5 + b^5` 的因子呢? 我们用整式除法来验证.
+		视 `a+b` 为 `a` 的一次式, 列表如下:
+		<span class="formula">`{:
+			(" ",1" ",b),
+			(1" ",1" ",b),
+			(-b" ", -b" ", -b^2),
+			(b^2" ", b^2" ", b^3),
+			(-b^3" ", -b^3" ", -b^4),
+			(b^4" ", b^4" ", b^5)
+		:}`</span>
+		恰好整除. 所以原式等于
+		<span class="formula">
+			`(a+b)(1 - b + b^2 - b^3 + b^4 - a^2 b^2)`.
+		</span>
+	</p>
+</li>
+<li>`x^3 + y^3 + z^3 - 3xyz`.
+	<p class="solution">
+		注意到所给式子中的每一项都在 `(x+y+z)^3` 的展开式中.
+		猜测 `x + y + z` 是一个因子, 作整式除法:
+		<span class="formula">`{:
+			(" ", 1" ", y+z),
+			(1" ", 1" ", y+z),
+			(-(y+z)" ", -(y+z)" ", -(y+z)^2),
+			(y^2 + z^2 - yz" ", y^2 + z^2 - yz" ", y^3 + z^3)
+		:}`</span>
+		恰好整除. 所以原式等于
+		<span class="formula">
+			`(x + y + z)(x^2 -(y+z)x + y^2 + z^2 - yz)`
+			`= (x + y + z)(x^2 + y^2 + z^2 -yz - zx - xy)`.
+		</span>
+	</p>
+</li>
+</ol>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

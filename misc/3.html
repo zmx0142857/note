@@ -225,6 +225,23 @@
 	其中等号成立当且仅当 `x^p = y^q`. 取指数即得结论.
 </p>
 
+<p class="remark">
+	设 `p, q gt 1`, 则
+	<span class="formula">
+		`1/p + 1/q = 1 iff p + q = p q iff (p-1)(q-1) = 1`.
+	</span>
+</p>
+
+<p class="remark">
+	Young 不等式的几何解释: 令 `y = x^(p-1)`, 则 `x = y^(q-1)`,
+	即 `y = x^(p-1)` 和 `x = y^(q-1)` 表示同一条曲线. 由积分的几何意义,
+	矩形的面积小于等于两个曲边三角形的面积之和, 即
+	<span class="formula">
+		`a b le int_0^a x^(p-1) dx + int_0^b y^(q-1) dy`
+		`= a^p/p + b^q/q`.
+	</span>
+</p>
+
 <p class="theorem">
 	<b>Hölder 不等式 (Hardy 不等式)</b>
 	设 `x_k, y_k gt 0`, `k = 1, 2, cdots, n`.
@@ -243,14 +260,14 @@
 
 <p class="proof">
 	记 `sum_(k=1)^n x_k^p = A`, `sum_(k=1)^n y_k^q = B`.
-	使用 Young 不等式, 对 `i = 1, 2, cdots, n` 有
+	使用 Young 不等式, 对 `k = 1, 2, cdots, n` 有
 	<span class="formula">
-		`(x_i^p/A)^(1/p) (y_i^q/B)^(1/q)`
-		`le 1/p x_i^p/A + 1/q y_i^q/B`.
+		`(x_k^p/A)^(1/p) (y_k^q/B)^(1/q)`
+		`le 1/p x_k^p/A + 1/q y_k^q/B`.
 	</span>
-	关于 `i` 求和,
+	关于 `k` 求和,
 	<span class="formula">
-		`1/(A^(1/p) B^(1/q)) sum_(i=1)^n x_i y_i le 1/p + 1/q = 1`.
+		`1/(A^(1/p) B^(1/q)) sum_(k=1)^n x_k y_k le 1/p + 1/q = 1`.
 	</span>
 	所以原不等式成立.
 </p>
@@ -286,6 +303,13 @@
 <p class="remark">
 	虽然我们是用 Young 不等式导出了本节后面的几个不等式, 但实际上,
 	包括 Young 不等式在内, 它们都能用 Jensen 不等式直接导出.
+	例如, 取 `f(x) = x^(1/p)`, 其中 `p gt 1`, 则 `f''(x) lt 0`.
+	应用 Jensen 不等式得到凸性不等式
+	<span class="formula">
+		`sum_(k=1)^n t_k x_k^(1/p) le (sum_(k=1)^n t_k x_k)^(1/p)`,
+	</span>
+	其中 `x_k gt 0`, `t_k in (0,1)`, `sum_(k=1)^n t_k = 1`.
+	Hölder 不等式是此不等式的直接推论.
 </p>
 
 <h2>均值不等式</h2>
@@ -515,7 +539,158 @@
 	时, 分别取得最小值, 调和平均, 几何平均, 算术平均和最大值.
 </p>
 
-<h2>轮换求和?</h2>
+<h2>积分不等式</h2>
+
+<a href="https://wenku.baidu.com/view/ea9c16d649649b6648d7471a.html">欧阳资考.  2011. 利用凸函数证明积分不等式. 高等教育, 第 107 期</a>
+
+<p class="theorem">
+	(联系 Jensen 不等式)
+	设 `varphi` 在 `[a, b]` 上可积, 值域含于 `[alpha, beta]`;
+	`f` 是在 `[alpha, beta]` 上连续的下凸函数;
+	`w(x)` 在 `[a, b]` 上可积, `w(x) gt 0`. 记 `W = int_a^b w(x) dx`, 则
+	<span class="formula">
+		`f(1/W int_a^b w(x) varphi(x) dx)`
+		`le 1/W int_a^b w(x) f(varphi(x)) dx`.
+	</span>
+	特别取 `w(x) -= 1` 得,
+	<span class="formula">
+		`f(1/(b-a) int_a^b varphi(x) dx)`
+		`le 1/(b-a) int_a^b f(varphi(x)) dx`.
+	</span>
+	取 `g = -f` 知, 对上凸函数成立反向的不等号.
+</p>
+
+<p class="proof">
+	易知不等式中出现的积分都有意义.
+	将 `[a, b]` `n` 等分, 记 `h = (b-a)//n`, `x_k = a+k h`,
+	`varphi_k = varphi(x_k)`, `w_k = w(x_k)`,
+	`t_k = w_k/(sum_(k=1)^n w_k)`,
+	`k = 1, 2, cdots, n`.
+	因为 `f` 为上凸函数, 由 Jensen 不等式,
+	<span class="formula">
+		`f(sum_(k=1)^n t_k varphi_k)`
+		`le sum_(k=1)^n t_k f(varphi_k)`,
+	</span>
+	即
+	<span class="formula">
+		`f((sum_(k=1)^n w_k varphi_k h)/(sum_(k=1)^n w_k h))`
+		`le (sum_(k=1)^n w_k f(varphi_k) h)/(sum_(k=1)^n w_k h)`.
+	</span>
+	令 `n to oo`, 注意 `f` 的连续性, 极限符号可转移到 `f` 的括号内.
+	从而由定积分的定义即得结果.
+</p>
+
+<p class="theorem">
+	设 `f` 是 `[a, b]` 上可积的下凸函数. 则
+	<span class="formula">
+		`f((a+b)/2) le 1/(b-a) int_a^b f(x) dx le (f(a)+f(b))/2`.
+	</span>
+</p>
+
+<p class="proof">
+	记 `I = 1/(b-a) int_a^b f(x) dx`,
+	令 `x = a + t(b-a) = (1-t)a + t b`, 则
+	<span class="formula">
+		`I = int_0^1 f((1-t)a+t b) dt`
+		`le int_0^1 ((1-t) f(a) + t f(b)) dt`
+		`= (f(a)+f(b))/2`.
+	</span>
+	另一方面, 令 `s = 1-t`, 则
+	<span class="formula">
+		`I = int_0^1 f(s a+(1-s)b) "d"s`
+		`= 1/2 int_0^1 [f(t a+(1-t)b) + f((1-t)a+t b)]dt`
+		`ge int_0^1 f((t a+(1-t)b+(1-t)a+t b)/2) dt`
+		`= int_0^1 f((a+b)/2) dt`
+		`= f((a+b)/2)`.
+	</span>
+</p>
+
+<p class="definition">
+	<b>`bm p` 方可积</b>
+	设 `p ge 1`, 函数 `f` 在定义域 `[a,b]` 上只有有限个瑕点, 且 `f`
+	在任意不含这些瑕点的闭子区间上都 Riemann 可积. 如果 `|f(x)|^p` 在
+	`[a,b]` 上广义 Riemann 可积, 即瑕积分
+	<span class="formula">
+		`int_a^b |f(x)|^p dx lt oo`,
+	</span>
+	则称 `f` 在 `[a,b]` 上 <b>`bm p` 方可积</b>. 特别当 `p = 1` 时,
+	称 `f` 在 `[a,b]` 上<b>绝对可积</b>, `p = 2` 时, 称 `f` 在 `[a,b]`
+	上<b>平方可积</b>.
+</p>
+
+<p class="corollary">
+	`p` 方可积函数的任意线性组合也 `p` 方可积.
+</p>
+
+<p class="proof">
+	设 `f,g` 在 `[a,b]` 上 `p` 方可积, 显然对任意常数 `c`,
+	函数 `c f` 也在 `[a,b]` 上 `p` 方可积. 下证函数 `f+-g` 在 `[a,b]` 上
+	`p` 方可积. 只需注意对 `AA x in [a,b]` 有
+	<span class="formula">
+		`|f(x) +- g(x)|^p`
+		`le (|f(x)|+|g(x)|)^p`
+		`le (2 max{|f(x)|, |g(x)|})^p`
+		`= 2^p max{|f(x)|^p, |g(x)|^p}`
+		`le 2^p (|f(x)|^p + |g(x)|^p)`,
+	</span>
+	据此立得结论.
+</p>
+
+<p class="corollary">
+	设 `1 le p lt q`, 若函数 `f` 在 `[a,b]` 上 `q` 方可积, 则它也在
+	`[a,b]` 上 `p` 方可积.
+</p>
+
+<p class="theorem">
+	<b>Hölder 不等式</b>
+	设 `p, q gt 1` 且 `1/p+1/q = 1`. 如果 `f` 在 `[a,b]` 上 `p` 方可积,
+	`g` 在 `[a,b]` 上 `q` 方可积, 则乘积 `f g` 在 `[a,b]` 上绝对可积,
+	且
+	<span class="formula">
+		`int_a^b |f(x)g(x)| dx`
+		`le (int_a^b |f(x)|^p dx)^(1/p) (int_a^b |g(x)|^q dx)^(1/q)`.
+	</span>
+	特别取 `p = q = 2`, 得到 Cauchy 不等式
+	<span class="formula">
+		`int_a^b |f(x) g(x)| dx`
+		`le sqrt(int_a^b |f(x)|^2 dx) sqrt(int_a^b |g(x)|^2 dx)`.
+	</span>
+</p>
+
+<p class="proof">
+	记 `int_a^b |f(x)|^p dx = A`, `int_a^b |g(x)|^q dx = B`. 使用 Young
+	不等式, 对 `AA x in [a,b]` 有
+	<span class="formula">
+		`(|f(x)|^p/A)^(1/p) (|g(x)|^q)^(1/q)`
+		`le 1/p |f(x)|^p/A + 1/q |g(x)|^q/B`.
+	</span>
+	因为不等式右端函数在 `[a,b]` 上广义可积, 所以左端也可以. 积分得
+	<span class="formula">
+		`1/(A^(1/p) B^(1/q)) int_a^b |f(x) g(x)| dx`
+		`le 1/p + 1/q = 1`.
+	</span>
+	所以原不等式成立.
+</p>
+
+<p>	下面两个不等式可以仿照上文对应不等式来证明.</p>
+
+<p class="theorem">
+	<b>Minkowski 不等式</b>
+	设 `p ge 1`, `f, g` 都在 `[a,b]` 上 `p` 方可积, 则
+	<span class="formula">
+		`(int_a^b |f(x) + g(x)|^p dx)^(1/p)`
+		`le (int_a^b |f(x)|^p dx)^(1/p) + (int_a^b |g(x)|^p dx)^(1/p)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>幂平均值不等式</b>
+	设 `f` 在 `[a,b]` 上 `p` 方可积, `p ge 1`, 则函数
+	<span class="formula">
+		`(1/(b-a)int_a^b|f(x)^alpha)^(1/alpha)`
+	</span>
+	关于参数 `alpha` 单调递增.
+</p>
 
 <h2>Schur 不等式</h2>
 

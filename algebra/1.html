@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>矩阵</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>矩阵的定义及其运算</h2>
+
+<h3>矩阵的线性运算, 矩阵的乘法</h3>
+
+<p class="remark">
+	一个记号. 设 `n` 为正整数, 记集合
+	<span class="formula">
+		`[n] = {1, 2, cdots, n}`.
+	</span>
+</p>
+
+<p class="definition">
+	令 `bbb P` 为一数域, `bbb P` 上 `m` 行 `n` 列矩阵的全体记为 `bbb P^(m
+	xx n)`, `bbb P` 称为矩阵的<b>基础数域</b>.
+	如果 `m xx n` 矩阵 `bm A = (a_(i j))` 和 `bm B = (b_(i j))` 满足
+	<span class="formula">
+		`a_(i j) = b_(i j)`, `quad i in [m], j in [n]`,
+	</span>
+	则称它们<b>相等</b>, 记为 `bm A = bm B`.
+</p>
+
+<ol class="definition">
+	<b>矩阵的线性运算</b>
+	设 `c in bbb P`, `bm A = (a_(i j))_(m xx n)`,
+	`bm B = (b_(i j))_(m xx n)`.
+	<li>数乘.
+		定义 `c bm A := (c_(i j))_(m xx n)`, 其中
+		<span class="formula">
+			`c_(i j) = c a_(i j)`, `quad i in [m], j in [n]`.
+		</span>
+		即矩阵与 `c` 数乘, 相当于把每一元素都乘以 `c`.
+	</li>
+	<li>加法.
+		定义 `bm (A+B) := (s_(i j))_(m xx n)`, 其中
+		<span class="formula">
+			`s_(i j) = a_(i j) + b_(i j)`, `quad i in [m], j in [n]`.
+		</span>
+		即两矩阵相加, 相当于把对应元素相加.
+	</li>
+</ol>
+
+<p class="definition">
+	<b>矩阵乘法</b>
+	令 `bm A = (a_(i j))_(m xx n)`, `bm B = (b_(i j))_(n xx l)`.
+	定义 `bm (A B) := (p_(i j))_(m xx l)`, 其中
+	<span class="formula">
+		`p_(i j) = sum_(k=1)^n a_(i k) b_(k j)`,
+		`quad i in [m], j in [l]`.
+	</span>
+	这一乘法法则称为 "左行乘右列", 即矩阵 `bm (A B)` 的 `i j` 元由
+	`bm A` 的第 `i` 行与 `bm B` 的第 `j` 列作向量的一般内积得到.
+	为何这样定义矩阵乘法呢, 考虑两个线性函数组
+	<span class="formula">
+		`y_i = sum_(k=1)^n a_(i k) x_k`, `quad i in [m]`;<br/>
+		`x_k = sum_(j=1)^l b_(k j) t_j`, `quad k in [n]`.
+	</span>
+	将第二式代入第一式,
+	<span class="formula">
+		`y_i = sum_(k=1)^n a_(i k) sum_(j=1)^l b_(k j) t_j`
+		`= sum_(j=1)^l t_j sum_(k=1)^n a_(i k) b_(k j)`
+		`= sum_(j=1)^l p_(i j) t_j`.
+	</span>
+	从而矩阵乘法反映了线性函数组的复合.
+</p>
+
+<ol class="example">
+	<li>元素全为零的矩阵称为<b>零矩阵</b>, 记为 `bm O`.
+		矩阵加上零矩阵, 结果不变. 矩阵左乘或右乘零矩阵, 结果为零矩阵.
+	</li>
+	<li>矩阵 `bm A` 与 `-1` 数乘的结果记为 `-bm A`. 显然
+		`bm A + (-bm A) = bm O`. 从而矩阵的减法定义为
+		`bm (A-B) := bm A + (-bm B)`.
+	</li>
+	<li>`n xx n` 矩阵称为 `n` 阶<b>方阵</b>;
+		矩阵的 `i = j` 的 `i j` 元组成它的<b>主对角线</b>:
+		<span class="formula">
+			`{a_(i j) | i = j}`.
+		</span>
+		`n` 阶方阵的 `i + j = n+1` 的 `i j` 元组成它的<b>副对角线</b>:
+		<span class="formula">
+			`{a_(i j) | i + j = n}`.
+		</span>
+	</li>
+	<li>如果方阵的所有满足 `i lt j` 的 `i j` 元均为零,
+		则称它为 `n` 阶<b>下三角矩阵</b>;
+		如果方阵的所有满足 `i le j` 的 `i j` 元均为零,
+		则称它为 `n` 阶<b>严格下三角矩阵</b>;
+		如果方阵的所有满足 `i gt j` 的 `i j` 元均为零,
+		则称它为 `n` 阶<b>上三角矩阵</b>;
+		如果方阵的所有满足 `i ge j` 的 `i j` 元均为零,
+		则称它为 `n` 阶<b>严格上三角矩阵</b>;
+	</li>
+	<li>如果方阵的主对角线以外的元素均等于零, 即矩阵形如
+		<span class="formula">
+		`[
+			(d_1" ",0" ",cdots" ",0),
+			(0" ",d_2" ",cdots" ",0),
+			(vdots" ",vdots" ", " ",vdots),
+			(0" ",0" ",cdots" ",d_n)
+		]`,
+		</span>
+		则称它为 `n` 阶<b>对角矩阵</b>, 记为 `bm D_(d_k)`.
+		对角矩阵既是上三角矩阵, 也是下三角矩阵.
+		矩阵左乘 `bm D_(d_k)`, 相当于第 `i` 行每个元素都乘以 `d_i`;
+		矩阵右乘 `bm D_(d_k)`, 相当于第 `j` 列每个元素都乘以 `d_j`.
+		对角矩阵相乘, 结果还是对角矩阵.
+	</li>
+	<li>如果 `n` 阶对角阵的每个对角元都等于 `1`, 则称它为 `n`
+		阶<b>单位矩阵</b>, 记为 `bm E` 或 `bm I`.
+		如果引入 Kronecker `delta` 函数
+		<span class="formula">
+			`delta_(i j) = { (1, if i = j;), (0, if i != j;) :}`
+		</span>
+		则单位阵的 `i j` 元就是 `delta_(i j)`.
+		矩阵左乘或右乘单位矩阵, 结果都不变.
+	</li>
+	<li>如果 `n` 阶对角阵的每个对角元都等于常数 `c`, 即矩阵等于 `c bm E`,
+		则称它为 `n` 阶<b>数量矩阵</b>或<b>纯量矩阵</b>.
+		矩阵左乘或右乘 `c bm E`, 结果相当于与 `c` 作数乘.
+	</li>
+</ol>
+
+<ol class="property">
+	假设下面各式中的加法与乘法都可以进行, 即矩阵具有合适的行, 列数.
+	<li>加法交换律. `bm (A + B) = bm (B + A)`.</li>
+	<li>加法结合律. `bm ((A+B)+C) = bm (A+(B+C))`.</li>
+	<li>乘法结合律. `bm ((A B)C) = bm (A(B C))`.</li>
+	<li>乘法对加法的分配律. `bm (A(B+C)) = bm (A B + A C)`,
+		`bm ((B+C)A) = bm (B A + C A)`.
+	</li>
+	<li>数乘的穿越. `c(bm(A B)) = (c bm A)bm B = bm A(c bm B)`.</li>
+	<li>数乘的结合律. `(c d)bm A = c(d bm A)`.</li>
+	<li>数乘的单位元. `1 bm A = bm A`.</li>
+	<li>数乘的分配律. `c(bm A + bm B) = c bm A + c bm B`,
+		`(c + d)(bm A) = c bm A + d bm A`.
+	</li>
+</ol>
+
+<p class="remark">
+	矩阵乘法一般不成立交换律, 如 `bm A, bm B` 分别是 `m xx n`, `n xx m`
+	矩阵, 则 `bm (A B)` 是 `m` 阶方阵, 而 `bm (B A)` 是 `n` 阶方阵,
+	因此两个矩阵的乘法可交换的必要条件是 `m = n`.
+	即使有 `m = n`, `bm (A B) = bm (B A)` 也未必成立. 令
+	<span class="formula">
+		`bm A = [(1" ",0),(0" ",0)]`,
+		`quad bm B = [(0" ",1),(0" ",0)]`,
+	</span>
+	则 `bm (A B) = bm B`, `bm (B A) = bm O`.<br/>
+	不过, 方阵与零矩阵, 方阵与数量矩阵 (特别地, 单位阵) 的乘法可以交换.
+	两个对角矩阵的乘法可以交换.
+	方阵与自身的乘法, 或者与其逆矩阵 (见下文) 的乘法可以交换.
+</p>
+
+<h3>矩阵的转置</h3>
+
+<p class="definition">
+	令 `bm A = (a_(i j))_(m xx n)`, 定义 `bm A` 的<b>转置</b>
+	`bm A' := (t_(i j))_(n xx m)`, 其中
+	<span class="formula">
+		`t_(i j) = a_(j i)`, `quad i in [n], j in [m]`.
+	</span>
+	矩阵的转置即 "行变列, 列变行". 形象地说, 转置就是将矩阵沿主对角线翻转.
+</p>
+
+<ol class="property">
+	<li>`(bm A')' = bm A`.</li>
+	<li>`(c bm A)' = c bm A'`.</li>
+	<li>`(bm A + bm B)' = bm A + bm B`.</li>
+	<li>`(bm (A B))' = bm B' bm A'`.</li>
+</ol>
+
+<ol class="example">
+	<li>如果方阵 `bm A` 满足 `bm A' = bm A`, 则称它为<b>对称矩阵</b>;
+		如果方阵 `bm A` 满足 `bm A' = -bm A`, 则称它为<b>反对称矩阵</b>.
+		如同任一函数可分解为偶函数与奇函数之和:
+		<span class="formula">
+			`f(x) = (f(x) + f(-x))/2 + (f(x) - f(-x))/2`,
+		</span>
+		任一方阵也可分解为对称矩阵与反对称矩阵之和:
+		<span class="formula">
+			`bm A = (bm A + bm A')/2 + (bm A - bm A')/2`.
+		</span>
+	</li>
+	<li>下三角矩阵的转置为上三角矩阵, 等等.</li>
+</ol>
+
+<h3>矩阵的逆</h3>
+
+<p class="definition">
+	令 `bm A, bm B` 是 `n` 阶方阵, 如果 `bm (A B) = bm E`, 则称 `bm A` 是
+	`bm B` 的左逆, `bm B` 是 `bm A` 的右逆. 如果 `bm B` 同时是 `bm A`
+	的左逆和右逆, 即 `bm (A B) = bm (B A) = bm E`, 则称 `bm B` 是 `bm A`
+	的<b>逆矩阵</b>.
+	如果 `bm A` 的逆矩阵存在, 则称它是<b>可逆</b>的.
+	如果 `bm A` 可逆, 则它的逆矩阵必惟一, 记作 `bm A^-1`.
+</p>
+
+<p class="proof">
+	设 `bm B, bm C` 都是 `bm A` 的逆. 则
+	<span class="formula">
+		`bm B = bm (B E) = bm (B(A C))`
+		`= bm ((B A)C) = bm (E C) = bm C`.
+	</span>
+	因此逆矩阵必惟一.
+</p>
+
+<p class="remark">
+	后面会证明, 如果 `bm A` 的左逆存在, 则它也是 `bm A` 的右逆, 反之亦然.
+	因此只要 `bm (A B) = bm E`, 就可以断言 `bm A, bm B` 都可逆,
+	且它们互逆.<br/>
+	事实上, 由 `bm (A B) = bm E` 有 `|bm A||bm B| = 1`,
+	从而 `|bm A| != 0`, 即 `bm A` 可逆. 记 `bm A` 的逆为 `bm A^-1`, 于是
+	<span class="formula">
+		`bm B = bm (E B) = bm (A^-1 A B)`
+		`= bm (A^-1 E) = bm A^-1`.
+	</span>
+</p>
+
+<ol class="property">
+	设 `bm A`, `bm B` 是 `n` 阶可逆方阵. `c in bbb P`, `c != 0`,
+	则下面各矩阵也可逆, 它们的逆写在等号右边.
+	<li>`(bm A^-1)^-1 = bm A`.</li>
+	<li>`(bm(A B))^-1 = bm B^-1 bm A^-1`.</li>
+	<li>`(bm A')^-1 = (bm A^-1)'`.</li>
+	<li>`(c bm A)^-1 = c^-1 bm A^-1`.</li>
+</ol>
+
+<h2>杂例</h2>
+
+<p class="definition">
+	<b>方阵的幂</b>
+	设 `bm A` 是方阵, `n` 为正整数, 则
+	<span class="formula">
+		`bm A^0 := bm E`, `quad bm A^n := bm (A A)^(n-1)`.
+	</span>
+	幂运算满足
+	<span class="formula">
+		`bm A^m bm A^n = bm A^(m+n)`,
+		`quad (bm A^m)^n = bm A^(m n)`.
+	</span>
+	显然 `bm A^m`, `bm A^n` 是可交换的.
+	当 `bm A, bm B` 可交换时,
+	<span class="formula">
+		`bm A^n bm B^n = (bm (A B))^n`.
+	</span>
+	设 `bm P` 可逆, 则
+	<span class="formula">
+		`(bm (P^-1 A P))^n = bm P^-1 bm A^n bm P`.
+	</span>
+	分块对角矩阵的幂
+	<span class="formula">
+		`bm D_(bm A_k)^n = bm D_(bm A_k^n)`.
+	</span>
+</p>
+
+<ol class="example">
+	<li>如果方阵 `bm A` 满足 `bm A^2 = bm E`, 则称它为<b>对合矩阵</b>.
+		对合矩阵的逆就是自己. `bm(A B)` 是对合矩阵当且仅当 `bm A, bm B` 
+		可交换.</li>
+	<li>如果方阵 `bm A` 满足 `bm A^2 = bm A`, 则称它为<b>幂等矩阵</b>.
+		所有幂等矩阵中只有单位阵可逆.
+		`bm(A+B)` 是幂等矩阵当且仅当 `bm (A B) = bm (B A) = bm O`.
+	</li>
+</ol>
+
+<p class="definition">
+	<b>方阵的多项式</b>
+	令 `f(x) = sum_(k=0)^m c_k x^k`, `a_m != 0` 为一多项式,
+	`bm A = (a_(i j))_(n xx n)`, 则 `f(bm A) = sum_(k=0)^n c_k bm A^k`
+	有意义, 且
+	<span class="formula">
+		`f(bm A) = (f(a_(i j)))_(n xx n)`.
+	</span>
+	于是方阵的多项式可以等同于多项式的方阵.
+</p>
+
+<p class="example">
+	设 `bm A` 是方阵. 由等式
+	<span class="formula">
+		`bm E - bm A^n = bm((E-A)) sum_(k=0)^(n-1) bm A^k`
+	</span>
+	知道, 若 `bm A^n = bm O`, 则 `bm E - bm A` 可逆,
+	<span class="formula">
+		`bm((E-A))^-1 = sum_(k=0)^(n-1) bm A^k`.
+	</span>
+</p>
+
+<p class="example">
+	设 `bm A, bm B` 是 `n` 阶对称矩阵, 则 `bm A bm B` 是对称矩阵当且仅当
+	`bm A, bm B` 可交换.
+</p>
+
+<p class="definition">
+	设 `bm A = (a_(i j))_(n xx n)`, 定义 `bm A`
+	的<b>迹</b>为它的主对角线上的元素之和, 记为
+	<span class="formula">
+		`"tr"bm A := sum_(i=1)^n a_(i i)`.
+	</span>
+	方阵的迹满足
+	<span class="formula">
+		`"tr"(bm E_(n xx n)) = n`,
+		`quad "tr"(c bm A) = c "tr"bm A`,
+		`quad "tr"(bm(A+B)) = "tr"bm A + "tr" bm B`,<br/>
+		`"tr"(bm (A B)) = "tr"(bm (B A))`,
+		`quad "tr"(bm A') = "tr"bm A`.
+	</span>
+	任意 `n` 阶方阵可以写成一个迹为零的矩阵与一个数量矩阵之和:
+	记 `1/n "tr" bm A = t`.
+	<span class="formula">
+		`bm A = (bm A - t bm E) + t bm E`.
+	</span>
+</p>
+
+<p class="example">
+	设 `bm A = (a_(i j))_(m xx n)`, 则 `bm (A' A)` 是 `n` 阶对称矩阵.
+	且 `"tr"(bm(A' A))` 等于 `bm A` 的每个元素的平方和, 即
+	<span class="formula">
+		`"tr"(bm(A'A)) = sum_(i=1)^m sum_(j=1)^n a_(i j)^2`.
+	</span>
+	从而 `bm A = bm O` 当且仅当 `"tr"(bm(A'A)) = 0`.
+</p>
+
+<p class="example">
+	如果方阵 `bm T` 满足 `bm (T' T) = bm E`, 则称 `bm T` 为 `n`
+	阶<b>正交矩阵</b>. 正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
+	`delta_(i j)`. 例如下面的矩阵是正交矩阵:
+	<span class="formula">
+		`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`.
+	</span>
+</p>
+
+<p class="example">
+	分块对角矩阵的逆. 假设每个 `bm A_k` 都可逆, 则
+	<span class="formula">
+		`bm D_(bm A_k)^-1 = bm D_(bm A_k^-1)`.
+	</span>
+</p>
+
+<p class="example">
+	设 `bm A, bm B` 可逆, 则
+	<span class="formula">
+		`[(bm O" ",bm A),(bm B" ",bm O)]^-1`
+		`= [(bm O,bm B^-1),(bm A^-1,bm O)]`.
+	</span>
+</p>
+
+<p class="example">
+	设 `bm A, bm B` 是 `n` 阶方阵, `bm A, bm B, bm A + bm B` 都可逆,
+	则
+	<span class="formula">
+		`bm A^-1 + bm B^-1 = bm B^-1(bm B+bm A)bm A^-1`
+		`= bm A^-1(bm B+bm A)bm B^-1`.
+	</span>
+</p>
+
+<p class="example">
+	设 `bm A, bm B` 是 `n` 阶方阵, 且 `bm (A+B) = bm (A B)`, 则
+	`bm A, bm B` 可交换.
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

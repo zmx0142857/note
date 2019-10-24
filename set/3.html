@@ -3,7 +3,7 @@
 
 <head>
 
-<title>映射</title>
+<title>二元关系与映射</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -12,127 +12,301 @@
 
 <body>
 
-<h2>映射的概念</h2>
+<h2>有序组</h2>
+
+<p class="definition">
+	(Kuratowski) 对任意 `x, y`, 定义
+	<span class="formula">
+		`(x, y) = (:x, y:) := {{x},{x,y}}`,
+	</span>
+	称为由 `x, y` 组成的<b>有序对 (ordered pair, 或有序二元组)</b>.
+	这个集合的存在惟一性分别由配对公理和外延公理保证.
+</p>
+
+<p class="theorem">
+	`(x, y) = (u, v) iff x = u and y = v`.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`(x,y) = (u,v)`
+		`iff {{x},{x,y}} = {{u},{u,v}}`
+		`iff ({x} = {u} and {x,y} = {u,v})`
+		`or ({x} = {u,v} and {x,y} = {u})`
+		`iff (x = u and y = v) or (x = y = u = v)`
+		`iff x = u and y = v`.
+	</span>
+</p>
+
+<ol class="theorem">
+	<li>`x, y in S rArr (x, y) in 2^(2^S)`;</li>
+	<li>`(x,y) in S rArr x, y in uuu(uuu S)`.</li>
+</ol>
+
+<ol class="proof">
+	<li>由 `x,y in S` 得 `{x}, {x,y} in 2^S`,
+		从而 `(x,y) = {{x},{x,y}} in 2^(2^S)`.
+	</li>
+	<li>由 `{{x},{x,y}} in S` 得 `{x}, {x,y} in uuu S`,
+		从而 `x, y in uuu(uuu S)`.
+	</li>
+</ol>
+
+<p class="remark">
+	注意, 不能用类似 Kuratowski 定义有序对的方式来定义有序三元组:
+	假设
+	<span class="formula">
+		`(x,y,z) := {{x},{x,y},{x,y,z}}`,
+	</span>
+	则
+	<span class="formula">
+		`(a,a,b) = {{a},{a},{a,b}}`
+		`= {{a},{a,b}}`
+		`= {{a},{a,b},{a,b}} = (a,b,a)`.
+	</span>
+	这不是我们想要的性质.
+</p>
+
+<p class="definition">
+	对任意 `x_1, x_2, cdots, x_n` 递归地定义
+	<span class="formula">
+		`(x_1, x_2, cdots, x_n) := ((x_1, cdots, x_(n-1)), x_n)`,
+	</span>
+	称为<b>有序 `bm n` 元组</b>.
+</p>
+
+<h2>Descartes 积</h2>
+
+<p class="definition">
+	对任意集合 `A, B`, 存在集合 `X`, 使得 `x in X` 当且仅当存在 `a in A`
+	和 `b in B`, 使得 `x = (a, b)`:
+	<span class="formula">
+		`AA A AA B EE X AA x(x in X harr EE a EE b(a in A ^^ b in B ^^ x =
+		(a, b)))`.
+	</span>
+	由外延公理可证集合 `X` 惟一, 称为 `A, B` 的 <b>Descartes 积 (Descartes
+	product)</b>, 记为
+	<span class="formula">
+		`X = A xx B := {(a,b): a in A, b in B} sube 2^(2^(A uu B))`.
+	</span>
+</p>
+
+<p class="proof">
+	因为 `a, b in A uu B`, 所以 `(a, b) in 2^(2^(A uu B))`.
+	由子集公理, 集合
+	<span class="formula">
+		`X = {x in 2^(2^(A uu B)): EE a in A, EE b in B, x = (a, b)}`
+	</span>
+	存在.
+</p>
+
+<!--
+<p class="definition">
+	<b>Descartes 积</b>
+	<span class="formula">
+		`A xx B := {(a, b): a in A, b in B}`,
+	</span>
+	其中 `(a, b)` 为有序二元组.
+	<span class="formula">
+		`  prod_(i=1)^n X_i
+		:= {(x_1, x_2, cdots, x_n): x_i in X_i, i = 1, 2, cdots, n}`,
+	</span>
+	其中 `(x_1, x_2, cdots, x_n)` 为有序 `n` 元组.
+	<span class="formula">
+		`X^n = prod_(i=1)^n X`.
+	</span>
+</p>
+-->
+
+<h2>二元关系</h2>
+
+<ol class="definition">
+	<li>设集合 `X, Y != O/`, 集合 `R sube X xx Y` 称为 `X` 到 `Y`
+		上的一个<b>二元关系</b>, 记作 `R: X to Y`. 显见 `R in 2^(X xx Y)`.
+		如果 `(x, y) in R`, 则称 `x, y` 是 <b>`bm R`-相关</b>的, 记为
+		`x R y`. 即
+		<span class="formula">
+			`x R y iff (x, y) in R`.
+		</span>
+	</li>
+	<li>分别称
+		<span class="formula">
+			`"dom"R = {x in X: EE y in Y, (x,y) in R} sube X`,<br/>
+			`"ran"R = {y in Y: EE x in X, (x,y) in R} sube Y`,<br/>
+			`"fld"R = "dom"R uu "ran"R`
+		</span>
+		为 `R` 的<b>定义域 (domain)</b>, <b>值域 (range)</b> 和<b>域
+		(field)</b>.<br/>
+		由定义知, `"fld" R = uuu(uuu R)`, `R sube "dom"R xx "ran"R sube
+		"fld"R xx "fld"R`.
+	</li>
+	<li>定义二元关系 `R: X to Y` 的<b>逆</b>为:
+		<span class="formula">
+			`R^-1 := {(y,x): (x,y) in R}`.
+		</span>
+		`AA A sube "dom"R`, 定义 `A` 的<b>截口 (section)</b> 为:
+		<span class="formula">
+			`R(A) := {y in Y: EE x in A, (x, y) in R}`,
+		</span>
+		特别 `R(X) = "ran"R`. 又定义单点集的截口为:
+		<span class="formula">
+			`R(x) := {y in Y: (x, y) in R}`, `quad AA x in "dom"R`.
+		</span>
+		二元关系 `R: X to Z` 与 `S: Z to Y` 的<b>复合</b>为:
+		<span class="formula">
+			`R @ S := {(x,y): EE z in Z, (x,z) in S and (z,y) in R}`.
+		</span>
+		换言之, `x, y` 有关系 `R @ S` 当且仅当存在中间元 `z`, 使得
+		`x S z` 且 `z R y`. 关系的复合满足结合律.
+	</li>
+</ol>
+
+<h2>映射</h2>
+
+<h3>映射的概念</h3>
 
 <ol class="definition enum">
-	<li>设集合 `X, Y != O/`, 考虑从 `X` 到 `Y` 的对应法则 `f`,
-		如果对任意 `x in X`, 根据法则 `f` 都<b>存在唯一</b>的
-		`y in Y` 与之对应, 则称 `f` 为 `X` 到 `Y` 的一个<b>映射
-		(mapping)</b>,
+	<li>设集合 `X, Y != O/`, 考虑 `X` 到 `Y` 上的二元关系 `f`.
+		如果对任意 `x in X`, 都<b>存在惟一</b>的 `y in Y`,
+		使 `(x, y) in f`, 换言之,
+		<span class="formula">
+			`X = "dom"R`,
+			`quad (x,y) in f and (x,z) in f rArr y = z`,
+		</span>
+		换言之
+		<span class="formula">
+			`AA x in X`, `|f(x)| = 1`,
+		</span>
+		则称 `f` 为 `X` 到 `Y` 的一个<b>映射 (mapping)</b>,
 		记为 `f: X to Y`.
 	</li>
-	<li>若 `f` 把 `x in X` 映到 `y in Y`,
-		则称 `y` 为 `x` 在 `f` 下的<b>像</b>或<b>像点</b>, 记为 `y =
-		f(x)`; `x` 称为 `y` 在 `f` 下的一个<b>原像</b>.
+	<li>因为满足 `(x,y) in f` 的 `y` 是惟一的, 我们可以记
+		<span class="formula">
+			`y = f(x) iff (x,y) in f`.
+		</span>
+		此时称 `f` 把 `x` 映到 `y`,
+		`y` 称为 `x` 在 `f` 下的<b>像</b>或<b>像点</b>,
+		`x` 称为 `y` 在 `f` 下的一个<b>原像</b>.
 	</li>
-	<li>称一个映射是<b>良定义</b>的, 如果上述的存在唯一性被满足, 即
+	<!--
+	<li>称一个映射是<b>良定义</b>的, 如果上述的存在惟一性被满足, 即
 	<ol>
 		<li>`(AA x in X)` `(EE y in Y)` `y = f(x)`;</li>
 		<li>`x_1 = x_2 rArr f(x_1) = f(x_2)`.</li>
 	</ol>
 	</li>
-	<li>设 `f` 和 `g` 都是 `X` 到 `Y` 的映射, 称 `f` 与 `g` <b>相等</b>,
-		如果对任意 `x in X`, `f(x) = g(x)`.
-	</li>
+	-->
 </ol>
 
-<p class="remark">
-	用二元关系定义映射: 设二元关系 `f: A to B` 满足
-	`|f(a)| = 1`, `AA a in A`, 则称 `f` 为 `A` 到 `B` 的映射.
+<p class="corollary">
+	设 `f` 和 `g` 都是 `X` 到 `Y` 的映射, 由外延公理知
+	<span class="formula">
+		`f = g iff AA x in X, f(x) = g(x)`.
+	</span>
 </p>
 
-<h2>像, 核</h2>
+<h3>映射的像</h3>
 
 <ol class="definition">
 	设 `f: X to Y`, `A sube X`, `B sube Y`.
 	<li>称
 		<span class="formula">
-			`f(A) := {f(x): x in A} = {y in Y: (EE x in A)\ y = f(x)}
+			`f(A) := {f(x): x in A} = {y in Y: (EE x in A) y = f(x)}
 			sube Y`
 		</span>
 		为 `A` 在 `f` 下的<b>像</b>或<b>像集</b>.
 		约定 `f(O/) = O/`.
-		特别 `f(X)` 也记为 `"Im" f`, 称为 `f` 的<b>像</b>.
+		特别 `f(X) = "ran"f` 也记为 `"Im" f`, 称为 `f` 的<b>像
+		(image)</b>.
 	</li>
 	<li>称
 		<span class="formula">
 			`f^-1(B) = {x in X: f(x) in B} sube X`
 		</span>
-		为 `B` 在 `f` 下的<b>原像</b>或<b>原像集</b>或<b>完全原像</b>.
-		简记 `f^-1({y}) = f^-1(y)`.
+		为 `B` 在 `f` 下的<b>原像
+		(preimage)</b>或<b>原像集</b>或<b>完全原像</b>.
+		单点集的原像可以简记 `f^-1({y}) = f^-1(y)`. 特别 `f^-1(Y) =
+		"dom" f = X`.
 	</li>
 </ol>
 
 <p class="property">
+	设 `f: X to Y` 是映射, `A, A_1, A_2 sube X`, `B, B_1, B_2 sube Y`,
+	`cc A sube 2^X`, `cc B sube 2^Y`. 又假定求交集时 `cc A, cc B != O/`,
+	则
 	<span class="formula">
-		`A_1 sube A_2 rArr f(A_1) sube f(A_2)`,<br/>
-		`B_1 sube B_2 rArr f^-1(B_1) sube f^-1(B_2)`,<br/>
-		`f(uuu_(alpha in I) A_alpha) = uuu_(alpha in I) f(A_alpha)`,<br/>
-		`f(nnn_(alpha in I) A_alpha) sube nnn_(alpha in I) f(A_alpha)`,
-		<br/>
-		`f^-1(uuu_(alpha in I) B_alpha) = uuu_(alpha in I) f^-1(B_alpha)`,
-		<br/>
-		`f^-1(nnn_(alpha in I) B_alpha) = nnn_(alpha in I) f^-1(B_alpha)`,
-		<br/>
-		`f^-1(B_1\\B_2) = f^-1(B_1)\\f^-1(B_2)`,<br/>
-		`f^-1(Y\\B) = X\\f^-1(B)`.
+		`A_1 sube A_2 rArr f(A_1) sube f(A_2)`,
+		`quad B_1 sube B_2 rArr f^-1(B_1) sube f^-1(B_2)`,<br/>
+		`f(uuu cc A) = uuu_(A in cc A) f(A)`,
+		`quad f^-1(uuu cc B) = uuu_(B in cc B) f^-1(B)`,<br/>
+		`f(nnn cc A) sube nnn_(A in cc A) f(A)`,
+		`quad f^-1(nnn cc B) = nnn_(B in cc B) f^-1(B)`,<br/>
+		`f(A_1\\A_2) supe f(A_1)\\f(A_2)`,
+		`quad f^-1(B_1\\B_2) = f^-1(B_1)\\f^-1(B_2)`,<br/>
+		`f(X\\A) supe f(X)\\f(A)`,
+		`quad f^-1(Y\\B) = X\\f^-1(B)`.
 	</span>
 </p>
 
-<p class="definition">
-	设 `f: X to Y`, 定义 `f` 的<b>核</b>
-	<span class="formula">
-		`"Ker" f = {(x_1, x_2) in X xx X: f(x_1) = f(x_2)}`.
-	</span>
-	换言之, `(x_1, x_2) in "Ker" f iff f(x_1) = f(x_2)`.
-	容易验证 `"Ker" f` 构成 `X` 上的一个等价关系.
-</p>
-
-<h2>复合, 限制, 恒等映射</h2>
+<h3>映射的复合与限制</h3>
 
 <p class="definition">
-	设 `f: X to Y`, `g: Y to Z`. 称由
+	设 `f, g` 为映射, 则 `f @ g` 也为一映射, 此时
 	<span class="formula">
-		`h(x) = g(f(x))`
+		`"dom"f @ g = "dom"g nn g^-1("dom"f)`
+		`= {x in "dom"g: g(x) in "dom"f}`.
 	</span>
-	定义的 `h: X to Z` 为 `f` 与 `g` 的<b>复合映射</b>, 记为 `h = g@f`.
-	映射的复合满足结合律.
+	现在设 `f: X to Y`, `g: "Im"f to Z`. 则
+	<span class="formula">
+		`h: X to Z`<br/>
+		`x to g(f(x))`
+	</span>
+	称为 `f` 与 `g` 的<b>复合映射</b>, 记为 `h = g@f`.
+	映射的复合也满足结合律.
 </p>
 
 <p class="definition">
 	定义集合 `X` 到自身的<b>恒等映射</b>或<b>恒同映射</b>为
 	<span class="formula">
-		`1_X: X to X`<br>
+		`"id"_X: X to X`<br>
 		`x to x`.
 	</span>
 	恒等映射保持每一点不变.<br/>
 	容易验证,
-	`(AA f: X to Y)` `f = f @ 1_X = 1_Y @ f`;
-	`"Im" 1_X = X`, `"Ker" 1_X = iota_X`
+	`(AA f: X to Y)` `f = f @ "id"_X = "id"_Y @ f`;
+	`"Im"("id"_X) = X`, `"Ker"("id"_X) = Delta_X`
 	(`X` 上最小的等价关系, 每个元素只和自身等价).
 </p>
 
 <p class="definition">
-	设 `f: X to Y`, `A sube X`. 定义映射 `f` 在子集 `A`
-	上的<b>限制</b>为
+	设 `f, g` 为映射. 如果 `g sube f`, 即
+	<span class="formula">
+		`"dom"g sube "dom" f`, 且 `AA x in "dom"g, g(x) = f(x)`,
+	</span>
+	则称 `g` 为 `f` 的<b>限制</b>. 记 `"dom"f = X`, `"dom"g = A sube X`,
+	则映射 `f: X to Y` 在子集 `A` 上的限制记为
 	<span class="formula">
 		`f|{::}_A: A to Y`<br/>
 		`x to f(x)`.
 	</span>
-	容易验证 `f|{::}_A = f @ 1_X|_A`, 其中 `1_X|_A` 称为<b>包含映射</b>.
+	容易验证 `f|{::}_A = f @ "id"_X|_A`, 其中 `"id"_X|_A`
+	称为<b>包含映射</b>.
+	如果 `g` 是 `f` 的限制, 则称 `f` 是 `g` 的<b>扩张</b>.
+	如果 `f uu g` 还是一个映射, 亦即 `AA x in "dom"f nn "dom"g`,
+	都有 `f(x) = g(x)`, 则称 `f`, `g` 是<b>相容的</b>.
 </p>
 
-<h2>满射, 单射, 双射</h2>
+<h3>满射, 单射, 双射</h3>
 
 <ol class="definition">
 	设 `f: X to Y`.
 	<li>如果对任意 `y in Y`, 都存在 `x in X`, 使得 `y = f(x)`,
-		则称 `f` 是<b>满射</b>;
+		则称 `f` 是<b>满射 (surjection, onto)</b>;
 	</li>
 	<li>如果由 `f(x_1) = f(x_2)` 蕴含 `x_1 = x_2`,
-		则称 `f` 是<b>单射</b>;
+		则称 `f` 是<b>单射 (injection, monophism, one-one)</b>;
 	</li>
-	<li>如果 `f` 既是单射又是满射, 则称 `f` 是<b>双射</b>;
+	<li>如果 `f` 既是单射又是满射, 则称 `f` 是<b>双射 (bijection)</b>;
 	</li>
 </ol>
 
@@ -143,7 +317,7 @@
 			<li>`f` 为一满射;</li>
 			<li>`"Im" f = Y`;</li>
 			<li>`(AA y in Y)` `|f^-1(y)| ge 1`;</li>
-			<li>存在 `g: Y to  X`, 使 `f @ g = 1_Y`.</li>
+			<li>存在 `g: Y to  X`, 使 `f @ g = "id"_Y`.</li>
 		</ol>
 	</li>
 	<li>以下各款等价:
@@ -151,14 +325,14 @@
 			<li>`f` 为一单射;</li>
 			<li>`"Ker" f = iota_X`;</li>
 			<li>`(AA y in Y)` `|f^-1(y)| le 1`;</li>
-			<li>存在 `g: Y to X`, 使 `g @ f = 1_X`.<br/>
+			<li>存在 `g: Y to X`, 使 `g @ f = "id"_X`.<br/>
 		</ol>
 	</li>
 	<li>以下各款等价:
 		<ol>
 			<li>`f` 为一双射;</li>
 			<li>`(AA y in Y)`, `|f^-1(y)| = 1`;</li>
-			<li>存在 `g: Y to X`, `g @ f = 1_X`, `f @ g = 1_B`.</li>
+			<li>存在 `g: Y to X`, `g @ f = "id"_X`, `f @ g = "id"_Y`.</li>
 		</ol>
 	</li>
 </ol>
@@ -170,7 +344,7 @@
 </p>
 
 <p class="theorem">
-	关于象集, 原象集和单射, 满射的关系, 我们有 (设 A, B 分别为 X, Y
+	关于像集, 原像集和单射, 满射的关系, 我们有 (设 `A, B` 分别为 `X, Y`
 	的真子集):
 	<span class="formula">
 		`f(f^-1(B)) sube B`, 等号成立当且仅当 `f` 为满射;<br/>
@@ -178,10 +352,10 @@
 	</span>
 </p>
 
-<h2>特征函数</h2>
+<h3>特征函数</h3>
 
 <p>	设 `f: X to  Y`. 当 `Y = X` 时, 又称 `f` 为 `X` 上的<b>变换</b>.
-	当 `Y = RR` 时, 一般称 `f` 为<b>函数</b>.
+	当 `Y = RR` 时, 又称 `f` 为<b>函数</b>.
 </p>
 
 <p class="definition">
@@ -191,14 +365,14 @@
 			(1, if x in A),
 			(0, if x in X\\A)
 	:}`</span>
-	一定意义上特征函数可以代表集合 A 本身. 如
+	一定意义上特征函数可以代表集合 `A` 本身. 如
 	<span class="formula">
-		`A = B iff chi_A = chi_B`,<br/>
-		`A sube B iff chi_A le chi_B`.
+		`A = B iff chi_A = chi_B`,
+		`quad A sube B iff chi_A le chi_B`.
 	</span>
 	关于特征函数与集合运算之间的联系, 我们有
 	<span class="formula">
-		`chi_(A^C)(x) = 1 - chi_A(x)`<br/>
+		`chi_(A^c)(x) = 1 - chi_A(x)`<br/>
 		`chi_(A nn B)(x) = chi_A(x) * chi_B(x)`<br/>
 		`chi_(A \\ B)(x) = chi_A(x)(1 - chi_B(x))`<br/>
 		`chi_(A uu B)(x) = chi_A(x) + chi_B(x) - chi_A(x) * chi_B(x)`<br/>
@@ -206,59 +380,175 @@
 	</span>
 </p>
 
-<h2>集合的基数</h2>
+<h2>等价关系</h2>
 
-<p class="theorem" id="the-isb-map-exist">
-	<b>鸽巢原理</b>
-	设 `X, Y != O/` 为有限集,
-	则存在 `X to Y` 的单射的充要条件是 `|X| le |Y|`,
-	存在 `X to Y` 的满射的充要条件是 `|X| ge |Y|`;
-	因此, 存在 `X to Y` 的双射的充要条件是 `|X| = |Y|`.
+<ol class="definition">
+	设 `R: X to X` 是一个二元关系, 满足:
+	<li>自反性. `AA x in X`, `x R x`;</li>
+	<li>对称性. `x R y rArr y R x`;</li>
+	<li>传递性. `x R y and y R z rArr x R z`.</li>
+	则称 `R` 为 `X` 上的一个<b>等价关系</b>.
+	`AA x in X`, 称 `R(x) = {y: x R y}` 为 `x` 的<b>等价类</b>.
+</ol>
+
+<p class="corollary">
+	若关系 `R` 是对称的和传递的, 则它是一等价关系.
 </p>
 
 <p class="proof">
-	我们只证明单射的情形, 满射的证明类似.
-	设 `X = {x_1, x_2, cdots, x_m}`, `Y = {y_1, y_2, cdots, y_n}`,
-	则 `|X| = m`, `|Y| = n`.
-	<br/>
-	充分性: 当 `m le n` 时, 显然 `f(x_i) = y_i`, `i = 1, 2, cdots, m`
-	是 `X` 到 `Y` 的单射.
-	<br/>
-	必要性: 若 `f: X to Y` 是单射, 对每个 `y_i in Y`,
-	考虑原像集 `f^-1(y_i)`, 有 `|f^-1(y_i)| le 1`.
-	注意到 `X` 是各 `f^-1(y_i)` 的不交并, 由加法原理,
-	<span class="formula">
-		` |X|
-		= |uuu_(i=1)^n f^-1(y_i)|
-		= sum_(i=1)^n |f^-1(y_i)|
-		le n`.
-	</span>
+	`AA x in "dom"R`, `EE y in "ran"R`, `x R y`.
+	由对称性, `y R x`. 再由传递性有 `x R x`, 即 `R` 是自反的.
+</p>
+
+<p class="corollary">
+	设 `R` 为一等价关系, 则由对称性得到 `"dom"R = "ran"R`.
 </p>
 
 <p class="theorem">
-	设 `X, Y != O/` 为有限集, 且 `|X| = |Y|`. 若 `f: X to Y`, 则
-	`f` 是单射当且仅当 `f` 是满射, 从而当且仅当 `f` 是双射.
+	设 `R` 是 `X` 上一个等价关系, 则
+	<span class="formula">
+		`(x,y) in R rArr R(x) = R(y)`,
+		`quad (x,y) !in R rArr R(x) nn R(y) = O/`.
+	</span>
+	于是任意两个等价类要么重合, 要么不相交. 这样 `X`
+	就被划分为一些不相交等价类的并, 换言之, 集合
+	<span class="formula">
+		`X//R := {R(x): x in X}`
+	</span>
+	构成 `X` 的一个<b>划分 (partition)</b>, 称 `X//R` 为 `X` 模 `R`
+	的<b>商集</b>.
+</p>
+
+<p class="proof">
+	`AA z in R(x)`, 有 `(x,z) in R`, 如果 `(x,y) in R`,
+	由对称性和传递性得到 `(y,z) in R`, 即 `z in R(y)`.
+	于是 `R(x) sube R(y)`. 同理 `R(y) sube R(x)`.<br/>
+	假设 `EE z in R(x) nn R(y)`, 有 `(x,z), (y,z) in R`.
+	由对称性和传递性得到 `(x,y) in R`, 矛盾.
+</p>
+
+<p class="definition">
+	设 `f: X to Y`, 定义 `f` 的<b>核</b>
+	<span class="formula">
+		`"Ker" f = {(x_1, x_2) in X xx X: f(x_1) = f(x_2)}`.
+	</span>
+	换言之, `(x_1, x_2) in "Ker" f iff f(x_1) = f(x_2)`.
+	容易验证 `"Ker" f` 构成 `X` 上的一个等价关系.
+</p>
+
+<p>	若 `cc D` 是 `X` 的一个划分, 可以确定 `X` 上的等价关系 `R`:
+	<span class="formula">
+		`x_1 R x_2 iff EE D in cc D, x_1, x_2 in D`.
+	</span>
+	此时 `cc D` 中的每个集合都是一个等价类, 于是 `R(x)` 确定了
+	`X` 到 `D` 上的一个满射.<br/>
+	反之若 `f` 是满射, 则商集 `X//"Ker"f = {f^-1(y): y in Y}` 与 `Y`
+	之间存在双射.
+</p>
+
+<h2>偏序与全序</h2>
+
+<ol class="definition">
+	设二元关系 `le: X to X` 满足:
+	<li>自反性. `AA x in X`, `x le x`;</li>
+	<li>反对称性. `x le y and y le x` `rArr x = y`;</li>
+	<li>传递性. `x le y and y le z` `rArr x le z`.</li>
+	则称 `le` 为一<b>偏序 (partial order)</b>, `(X, le)` 构成 `X`
+	上的<b>偏序集</b>.
+	我们记
+	<span class="formula">
+		`x ge y iff y le x`, `quad x lt y iff x le y and x != y`,
+		`quad x gt y iff x ge y and x != y`.
+	</span>
+</ol>
+
+<p class="definition">
+	偏序集 `(X, le)` 称为 `X` 上的<b>全序 (total order)</b>, 如果任意 `x,
+	y in X` 都可以比较大小, 即
+	<span class="formula">
+		`AA x, y in X`, `x le y or y le x`.
+	</span>
+</p>
+
+<p class="definition">
+	设 `(X, le)` 为一偏序集, 非空集 `E sube X`.
+	称 `m in X` 为 `E` 的一个<b>上界 (upper bound)</b>, 如果
+	`AA x in E, x le m`.
+	称 `m` 为 `E` 的一个<b>最大元</b>, 如果 `m in E`, 且 `m` 为 `E` 的一个上界.
+	称 `m` 为 `E` 的一个<b>极大元</b>, 如果 `m in E`, 且 `AA x in E`,
+	`x gt m` 不成立.
+	换言之, `AA x in E`, `x ge m rArr x = m`.
+	类似可以定义下界, 最小元和极小元.
+</p>
+
+<p class="corollary">
+	最大元若存在, 必惟一, 且为一极大元.
+</p>
+
+<p class="definition">
+	设 `(X, le)` 为一全序集, `a, b in X`, 定义以 `a, b`
+	为端点的<b>闭区间</b>和开区间分别为
+	<span class="formula">
+		`[a,b] := {x in X: a le x le b}`,
+		`quad (a, b) := {x in X: a lt x lt b}`.
+	</span>
+	若 `(a, b) = O/`, 就称 `(a, b)` 是 `X` 的一个<b>间隙 (gap)</b>.
+	称 `E sube X` 为一<b>区间</b>, 如果
+	<span class="formula">
+		`AA x, y in E`, `[x, y] sube E`.
+	</span>
+	如果对任意不空的开区间 `(a, b)`, 有 `(a, b) nn E != O/`, 则称 `E`
+	是<b>(序) 稠密</b>的.
+</p>
+
+<p class="definition">
+	设 `(X, le)` 为一全序集, 非空集 `E sube X`.
+	称 `s in X` 为 `E` 的一个<b>上确界</b>, 如果 `s` 是 `E`
+	的最小上界. 换言之, `s` 是 `E` 的上界, 且对 `E` 的任意上界
+	`m`, 有 `s le m`.
+	记 `s = "sup" E`. 类似可以定义 `E` 的下确界 `"inf"E`.
+	称 `(X, le)` 是 <b>(序) 完备</b>的, 如果它满足<b>确界原理</b>:
+	(1) 任意有上界的子集必有上确界; (2) 任意有下界的子集必有下确界.
+</p>
+
+<p class="corollary">
+	上 (下) 确界若存在, 必惟一.
+</p>
+
+<p class="corollary">
+	确界原理的两个条件相互等价.
 </p>
 
 <ol class="proof">
-	<li>设 `f` 不是满射,
-		由定义, 存在 `y in Y`, 对任意 `x in X`, `f(x) != y`.
-		所以 `f` 也是从 `X` 到 `Y\\{y}` 的映射.
-		但 `|Y\\{y}| lt |Y| = |X|`, 所以由<a class="ref"
-			href="#the-isb-map-exist"></a>, `f` 不是单射.
+	我们证明 (1) `rArr` (2).
+	设 `(X, le)` 任意有上界的子集都有上确界, 设非空集 `E sube X` 有下界.
+	下证 `E` 有下确界.
+	<li>令 `A` 是 `E` 的全体下界, 则 `A` 不空, 且
+		`AA e in E, AA a in A`, 由 `a` 是 `E` 的下界有 `a le e`,
+		从而 `E` 的任一元都是 `A` 的上界.
 	</li>
-	<li>设 `f` 不是单射, 则存在 `x_1, x_2 in X`, `x_1 != x_2`,
-		`f(x_1) = f(x_2)`.
-		所以 `f` 限制在 `X\\{x_1}` 上是 `X\\{x_1}` 到 `Y` 的映射.
-		但 `|X\\{x_1}| lt |X| = |Y|`,
-		所以由<a class="ref" href="#the-isb-map-exist"></a>,
-		`f` 限制在 `X\\{x_1}` 上不是满射,
-		即存在 `y in Y`, 对任意 `x in X\\{x_1}`, `f(x) != y`.
-		因为 `x_2 in X\\{x_1}`,
-		所以 `f(x_1) = f(x_2) != y`.
-		因而 `f` 不是满射.
+	<li>令 `a = "sup"A`, 则由 `a` 是 `A` 的最小上界知, `AA e in E`,
+		`a le e`, 从而 `a` 是 `E` 的下界, 即 `a in A`.
+		我们已经证明 `a` 是 `A` 的最大元, 即为 `E` 的最大下界,
+		所以 `a = "inf"E`, 从而 `E` 有下确界.
 	</li>
 </ol>
+
+<p class="definition">
+	设 `(X, le)` 为一偏序集, 称 `C sube X` 为一<b>链</b>, 如果 `(C, le) :=
+	(C xx C) nn le` 是一全序集.
+</p>
+
+<p class="definition">
+	设 `(X, le)`, `(Y, &#8828;)` 是全序集. 称 `f: X to Y`
+	为<b>保序映射</b>, 如果
+	<span class="formula">
+		`x_1 le x_2 rArr f(x_1) &#8828; f(x_2)`.
+	</span>
+	由定义, 保序映射是单射. 若 `f` 还是满射, 则称它是 `X` 到 `Y`
+	上的<b>相似映射</b>, 此时称 `X, Y` 相似, 或称 `(X, le)`, `(Y,
+	&#8828;)` 是<b>序同构</b>的, 记作 `(X, le) ~ (Y, &#8828;)`.
+</p>
 
 </body>
 

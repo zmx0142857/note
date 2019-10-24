@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>自然数</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>Peano 公理</h2>
+
+<p>	这是自然数的最早的公理化定义.</p>
+
+<ol class="axiom enum">
+	(Peano, 1889) 设 `NN` 是一个非空集合, `0 in NN` 是其中某一特定的元.
+	`"++"` 是 `NN` 上一变换 (即 `NN` 到自身的映射), `(NN, 0, "++")` 满足:
+	<li>`0 !in "ran"("++")`, 即不存在 `x in NN`, 使得 `"++"x = 0`;</li>
+	<li>`"++"` 是一单射, 即 `"++"x = "++"y rArr x = y`;</li>
+	<li>`AA E sube NN`, 如果
+		<ol>
+			<li>`0 in E`;</li>
+			<li>`n in E rArr "++"n in E`.</li>
+		</ol>
+		那么 `E = NN`.
+	</li>
+</ol>
+
+<p>	Peano 证明了, 凡是满足这三条公理的系统都彼此同构;
+	因此在同构意义下, 自然数系统是惟一的. 所谓 `(NN, 0, "++")` 与 `(NN^**,
+	0^**, "++"^**)` 同构, 是指存在一个双射 `f: NN to NN^**`, 使得
+	<span class="formula">
+		`f(0) = f(0^**)`,<br/>
+		`AA n in NN`, `f("++"n) = "++"^**(f(n))`.
+	</span>
+</p>
+
+<h2>在公理集合论体系内定义自然数</h2>
+
+<p class="definition">
+	对任意集合 `x`, 定义 `x^+ := x uu {x}`, 称为 `x` 的<b>后继元
+	(successor)</b>. 由配对公理, 并公理和外延公理, 后继元是存在惟一的.
+</p>
+
+<h3>归纳集与归纳原理</h3>
+
+<ol class="definition">
+	称 `A` 是一个<b>归纳集</b> (inductive set), 如果
+	<li>`O/ in A`;</li>
+	<li>`x in A rArr x^+ in A`.</li>
+</ol>
+
+<p>	在集合论体系内引入下面的公理:</p>
+
+<p class="axiom">
+	<b>无限公理</b> 归纳集是存在的.
+</p>
+
+<p class="remark">
+	归纳集的全体不构成集, 而是一个真类.
+</p>
+
+<p class="definition">
+	<b>自然数的定义</b>
+	应用无限公理, 设存在归纳集 `A`, 则由子集公理和外延公理, `A` 的子集
+	<span class="formula">
+		`omega = {x in A:` 对任意归纳集 `E` 有 `x in E}`
+	</span>
+	存在惟一. 称 `omega` 为<b>自然数集</b>, 它的元素称为<b>自然数</b>.
+	我们记 `O/ := 0`, `0^+ := 1`, `1^+ := 2`. 下面证明,
+	我们定义的自然数集 `omega` 适合 Peano 公理.
+</p>
+
+<p class="theorem">
+	`omega` 是一个归纳集, 并且是最小的归纳集.
+</p>
+
+<p class="proof">
+	首先 `O/ in A`, 且对任意归纳集 `E` 有 `O/ in E`, 从而由 `omega`
+	的定义, `O/ in omega`.<br/>
+	其次, 若 `x in omega`, 则 `x in A`, 且对任意归纳集 `E` 有 `x in E`.
+	于是分别由 `A, E` 是归纳集知, `x^+ in A`, 且对任意归纳集 `E` 有
+	`x^+ in E`. 再由 `omega` 的定义知 `x^+ in omega`.<br/>
+	由归纳集的定义, `omega` 是归纳集. 由 `omega` 的定义知对任意归纳集 `E`,
+	`omega sube E`, 因此是最小的归纳集.
+</p>
+
+<p class="corollary">
+	<b>自然数归纳原理 (数学归纳法原理)</b>
+	设 `T sube omega`, `0 in T` 且
+	<span class="formula">
+		`n in T rArr n^+ in T`,
+	</span>
+	则 `T = omega`. 于是 `omega` 满足 Peano 公理的 3.
+</p>
+
+<p class="proof">
+	显然 `T` 是归纳集, 因此 `omega` 作为最小的归纳集, 有 `omega sube T`.
+	但 `T sube omega`, 于是 `T = omega`.
+</p>
+
+<p class="remark">
+	自然数归纳原理告诉我们, 要得到所有的自然数, 只需从 `0` 开始,
+	每次按最近得到的数 `n`, 将 `n^+` 也加入到集合中来,
+	这一过程无限地进行下去, 就得到全体自然数.
+</p>
+
+<p class="corollary">
+	<b>`bm omega` 上的强归纳原理</b>
+	设 `T sube omega`, 且
+	<span class="formula">
+		`n sube T rArr n in T`,
+	</span>
+	则 `T = omega`.
+</p>
+
+<p class="proof">
+	令 `S = {n in omega: n sube T}`, 由定义 `S sube T sube omega`.<br/>
+	首先 `0 in omega`, 且 `0 = O/ sube T`, 因此 `0 in S`.
+	其次若 `n in S`, 则 `n sube T`, 于是 `n in T`,
+	从而 `n^+ = n uu {n} sube T`. 又由定义 `omega` 是归纳集,
+	所以由 `n in omega` 得到 `n^+ in omega`. 这推出 `n^+ in S`.
+	于是由自然数归纳原理, `S = omega`, 从而只能 `T = omega`.
+</p>
+
+<h3>传递集与单调性</h3>
+
+<p>	本小节证明 `{::}^+` 是单射. 为此引入传递集的概念.</p>
+
+<p class="definition">
+	称 `A` 为一<b>传递集 (transitive set)</b>, 如果
+	<span class="formula">
+		`x in A ^^ t in x rArr t in A`.
+	</span>
+	由于 `x in O/` 是伪命题, 上式的前件为假, 因此对 `A = O/` 上式为真,
+	即 `O/` 是传递集.
+</p>
+
+<ol class="theorem">
+	`AA A`, 下列命题等价:
+	<li>`A` 是传递集;</li>
+	<li>`uuu A sube A`;</li>
+	<li>`a in A rArr a sube A`;</li>
+	<li>`A sube 2^A`.</li>
+</ol>
+
+<ol class="proof">
+	<li>`rArr` 2. 设 `t in uuu A`, 则 `EE x in A`, `t in x`.
+		由传递集的定义得 `t in A`.
+	</li>
+	<li>`rArr` 3. 设 `a in A`, 则 `a sube uuu A`. 由 2, `uuu A sube A`,
+		所以 `a sube A`.
+	</li>
+	<li>显然.</li>
+	<li>设 `x in A`, `t in x`. 由 4, `x in 2^A`, 即 `x sube A`.
+		再由 `t in x` 得 `t in A`.
+	</li>
+</ol>
+
+<p class="theorem">
+	若 `x` 是传递集, 则 `uuu x^+ = x`.
+</p>
+
+<p class="proof">
+	`x^+ = x uu {x}`, 显然 `x in x^+`, 故 `x sube uuu x^+`.
+	<br/>
+	设 `a in x^+ = x uu {x}`, 则 `a in x` 或 `a = x`. 由 `x` 是传递集知
+	`a sube x` 或 `a = x`. 从而 `x^+` 的每一元素都是 `x` 的子集,
+	有 `uuu x^+ sube x`.
+</p>
+
+<p class="corollary">
+	若 `x` 是传递集, 则 `uuu x^+ = x sube x^+`, 所以 `x^+` 也是传递集.
+	从而由 `0 = O/` 是传递集知, 每个自然数都是传递集.
+</p>
+
+<p>	平行于强归纳原理, 有:</p>
+
+<p class="corollary">
+	`omega` 本身也为一传递集.
+</p>
+
+<p class="proof">
+	令 `T = {x in omega: x sube omega}`,<br/>
+	首先 `0 in omega`, 且 `0 = O/ sube omega`, 所以 `0 in T`.
+	其次若 `n in T`, 即 `n in omega`, `n sube omega`, 于是
+	`n^+ = n uu {n} sube omega`. 又由 `omega` 是归纳集和 `n in omega` 推出
+	`n^+ in omega`. 这推出 `n^+ in T`. 于是由自然数归纳原理 `T = omega`.
+	但 `T` 是一传递集: `AA t in T`, `t sube omega = T`.
+	所以 `omega` 也是传递集.
+</p>
+
+<p>	现在证明 Peano 公理的 2, 即变换 `{::}^+` 是单射.</p>
+
+<ol class="theorem">
+	<li>`(AA m, n in omega)` `m = n iff m^+ = n^+`;</li>
+	<li>`(AA n in omega)` `n != n^+`.</li>
+</ol>
+
+<ol class="proof">
+	<li>只需证 `m^+ = n^+ rArr m = n`. 设 `m^+ = n^+`, 则
+		`uuu m^+ = uuu n^+`, 但 `m, n` 为传递集, 所以 `uuu m^+ = m`,
+		`uuu n^+ = n`, 从而 `m = n`.
+	</li>
+	<li>令 `T = {n in omega: n != n^+}`.
+		首先因为
+		<span class="formula">
+			`0^+ = O/ uu {O/} = {O/} != O/ = 0`,
+		</span>
+		所以 `0 in T`.<br/>
+		其次若 `n in T`, 则 `n != n^+`, 由 1 有 `n^+ != (n^+)+`,
+		从而 `n^+ in T`, 由归纳原理, `T = omega`.
+	</li>
+</ol>
+
+<p>	最后, `AA n in omega`, `n^+ = n uu {n} != O/ = 0`.
+	即 `omega` 满足 Peano 公理的 1, 从而 `omega` 是一个 Peano 系统.
+</p>
+
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

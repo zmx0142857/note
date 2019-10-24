@@ -13,6 +13,80 @@
 <body>
 
 <p class="example">
+	计算 `n` 阶行列式
+	<span class="formula">`|
+		(x" ",y" ",cdots" ",y),
+		(y" ",x" ",cdots" ",y),
+		(vdots" ",vdots" ", " ",vdots),
+		(y" ",y" ",cdots" ",x)
+	|`.</span>
+</p>
+
+<p class="solution">
+	加边法. 设原式等于 `D_n`, 则
+	<span class="formula">
+	`D_n =`
+	`|
+		(1" ",-y" ",-y" ",cdots" ",-y),
+		(0" ",x" ",y" ",cdots" ",y),
+		(0" ",y" ",x" ",cdots" ",y),
+		(vdots" ",vdots" ",vdots" ", " ",vdots),
+		(0" ",y" ",y" ",cdots" ",x)
+	|_(n+1)`
+	`=|
+		(1" ",-y" ",-y" ",cdots" ",-y),
+		(1" ",x-y" ",0" ",cdots" ",0),
+		(1" ",0" ",x-y" ",cdots" ",0),
+		(vdots" ",vdots" ",vdots" ", " ",vdots),
+		(1" ",0" ",0" ",cdots" ",x-y)
+	|_(n+1)`.
+	</span>
+	沿最后一列展开, 再将 `-y` 的余子式沿最后一行展开,
+	<span class="formula">
+		`D_n = (x-y) D_(n-1) + (-1)^(n+1+1) (-y) (-1)^(n+1) (x-y)^(n-1)`
+		`= (x-y) D_(n-1) + y(x-y)^(n-1)`.
+	</span>
+	两边同除以 `(x-y)^(n-1)`,
+	<span class="formula">
+		`D_n/(x-y)^(n-1) = D_(n-1)/(x-y)^(n-2) + y`.
+	</span>
+	于是
+	<span class="formula">
+		`D_n = (x-y)^(n-1)(D_1/(x-y)^0 + (n-1) y)`
+		`= (x-y)^(n-1) (x+(n-1)y)`.
+	</span>
+</p>
+
+<p class="example">
+	计算 `n` 阶行列式
+	<span class="formula">
+	`|
+		(x" ",0" ",cdots" ",0" ",a_0),
+		(-1" ",x" ",cdots" ",0" ",a_1),
+		(0" ",-1" ",cdots" ",0" ",a_2),
+		(vdots" ",vdots" ", " ",vdots" ",vdots),
+		(0" ",0" ",cdots" ",-1" ",x+a_(n-1))
+	|`.
+	</span>
+</p>
+
+<p class="solution">
+	对 `k = n-1, cdots, 2, 1`, 依次将第 `k+1` 行的 `x` 倍加到第 `k` 行上,
+	记 `f(x) = sum_(i=0)^n a_i x^i`, `a_n = 1`,
+	原式等于
+	<span class="formula">
+		`|(0 ,f(x)),
+		  (-bm E_(n-1) ,**)
+		|`
+		`= (-1)^(n-1) |
+		  (f(x) ,0),
+		  (** ,-bm E_(n-1))
+		|`
+		`= f(x)`.
+	</span>
+</p>
+
+<p class="example">
 	<b>Vandermonde 行列式</b>
 	对正整数 `n ge 2`,
 	<span class="formula">`|

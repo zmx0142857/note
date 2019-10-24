@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>基数</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>集合的基数</h2>
+
+<p class="theorem" id="the-isb-map-exist">
+	<b>鸽巢原理</b>
+	设 `X, Y != O/` 为有限集,
+	则存在 `X to Y` 的单射的充要条件是 `|X| le |Y|`,
+	存在 `X to Y` 的满射的充要条件是 `|X| ge |Y|`;
+	因此, 存在 `X to Y` 的双射的充要条件是 `|X| = |Y|`.
+</p>
+
+<p class="proof">
+	我们只证明单射的情形, 满射的证明类似.
+	设 `X = {x_1, x_2, cdots, x_m}`, `Y = {y_1, y_2, cdots, y_n}`,
+	则 `|X| = m`, `|Y| = n`.
+	<br/>
+	充分性: 当 `m le n` 时, 显然 `f(x_i) = y_i`, `i = 1, 2, cdots, m`
+	是 `X` 到 `Y` 的单射.
+	<br/>
+	必要性: 若 `f: X to Y` 是单射, 对每个 `y_i in Y`,
+	考虑原像集 `f^-1(y_i)`, 有 `|f^-1(y_i)| le 1`.
+	注意到 `X` 是各 `f^-1(y_i)` 的不交并, 由加法原理,
+	<span class="formula">
+		` |X|
+		= |uuu_(i=1)^n f^-1(y_i)|
+		= sum_(i=1)^n |f^-1(y_i)|
+		le n`.
+	</span>
+</p>
+
+<p class="theorem">
+	设 `X, Y != O/` 为有限集, 且 `|X| = |Y|`. 若 `f: X to Y`, 则
+	`f` 是单射当且仅当 `f` 是满射, 从而当且仅当 `f` 是双射.
+</p>
+
+<ol class="proof">
+	<li>设 `f` 不是满射,
+		由定义, 存在 `y in Y`, 对任意 `x in X`, `f(x) != y`.
+		所以 `f` 也是从 `X` 到 `Y\\{y}` 的映射.
+		但 `|Y\\{y}| lt |Y| = |X|`, 所以由<a class="ref"
+			href="#the-isb-map-exist"></a>, `f` 不是单射.
+	</li>
+	<li>设 `f` 不是单射, 则存在 `x_1, x_2 in X`, `x_1 != x_2`,
+		`f(x_1) = f(x_2)`.
+		所以 `f` 限制在 `X\\{x_1}` 上是 `X\\{x_1}` 到 `Y` 的映射.
+		但 `|X\\{x_1}| lt |X| = |Y|`,
+		所以由<a class="ref" href="#the-isb-map-exist"></a>,
+		`f` 限制在 `X\\{x_1}` 上不是满射,
+		即存在 `y in Y`, 对任意 `x in X\\{x_1}`, `f(x) != y`.
+		因为 `x_2 in X\\{x_1}`,
+		所以 `f(x_1) = f(x_2) != y`.
+		因而 `f` 不是满射.
+	</li>
+</ol>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

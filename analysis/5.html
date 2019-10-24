@@ -216,9 +216,161 @@
 	右导数的情形类似.
 </p>
 
+<p class="example">
+	设 `f` 在 `[0, 1]` 上可导, `f(0) = 0`, 且 `|f'(x)| le |f(x)|`, `AA
+	x in [0, 1]`. 证明: `f` 在 `[0,1]` 上恒为零.
+</p>
+
+<p class="proof">
+	任取 `x in (0, 1)`, 在 `[0, x]` 上应用微分中值定理, 有
+	<span class="formula">
+		`|f(x)| = |f(x)-f(0)| = x|f'(xi_1)|`
+		`le x|f(xi_1)|`.
+	</span>
+	其中 `xi_1 in (0,x)`.
+	下证对任意正整数 `n`, 存在 `xi_n in (0,x)`, `|f(x)| le x^n |f(xi_n)|`.
+	`n = 1` 时命题已经成立. 假设命题对 `n-1` 成立, 考察 `n` 的情形,
+	将上式的 `x` 换为 `xi_(n-1)` 就有
+	<span class="formula">
+		`|f(xi_(n-1))| le xi_(n-1)|f(xi_n)| le x|f(xi_n)|`,
+	</span>
+	其中 `xi_n in (0,xi_(n-1))`. 于是
+	<span class="formula">
+		`|f(x)| le x^(n-1)|f(xi_(n-1))| le x^n|f(xi_n)|`.
+	</span>
+	命题得证. 又显然 `f(x)` 在 `[0, 1]` 上有界, 于是由上式, `f(x) = 0`,
+	`AA x in (0, 1)`, 再由连续性知道  `f(1) = 0`.
+</p>
+
+<ol class="example">
+	设 `f, g` 在 `[a, b]` 上二阶可导, `f(a) = f(b) = g(a) = g(b) = 0`, 且
+	`AA x in (a, b)`, `g''(x) != 0`. 证明
+	<li>`AA x in (a, b)`, `g(x) != 0`;</li>
+	<li>`EE xi in (a, b)`, `(f(xi))/(g(xi)) = (f''(xi))/(g''(xi))`.</li>
+</ol>
+
+<ol class="proof">
+	<li>设 `EE z in (a,b)`, `g(z) = 0`, 则由 Rolle 定理, 存在 `x_1 in
+		(a,z)`, `x_2 in (z,b)`, 使得
+		<span class="formula">
+			`g'(x_1) = g'(x_2) = 0`.
+		</span>
+		再由 Rolle 定理, 存在 `x_3 in (x_1,x_2)`, 使得 `g''(x_3) = 0`,
+		矛盾.
+	</li>
+	<li>令 `F = f g'-f'g`, 则 `F(a) = F(b) = 0`. 由 Rolle 定理, 存在
+		`xi in (a,b)`, 使得 `F'(xi) = (f g''-f''g)(xi) = 0`,
+		即得所证的等式.
+	</li>
+</ol>
+
+<p class="example">
+	设 `f` 在 `[-2, 2]` 上二阶可导, 且 `|f(x)| le 1`, 又 `f^2(0) +
+	[f'(0)]^2 = 4`. 证明: `EE xi in (-2, 2)`, `f(xi) + f''(xi) = 0`.
+</p>
+
+<p class="proof">
+	(很不好想...)
+	设 `F(x) = f^2(x) + [f'(x)]^2`, 则 `F(0) = 4`. 注意到
+	<span class="formula">
+		`F' = 2f f' + 2f'f'' = 2f'(f+f'')`.
+	</span>
+	从而由 Fermat 定理知, `F` 在极值点处有 `f'(f+f'') = 0`.
+	下面寻找合适的区间, 使 `F` 在其上取得极值. 事实上, 由 Lagrange
+	中值定理, 存在 `eta in (-2,0)`, `zeta in (0,2)`, 使
+	<span class="formula">
+		`f'(eta) = (f(0)-f(-2))/2`, `quad f'(zeta) = (f(2)-f(0))/2`.
+	</span>
+	由 `|f(x)| le 1` 有 `|f'(eta)|, |f'(zeta)| le 1`, 从而
+	`F(eta), F(zeta) le 2`.
+	现在设 `F` 在 `[eta, zeta]` 上的最大值在 `xi` 处取得,
+	则 `F(xi) ge F(0) = 4`, 所以 `xi != eta, zeta`,
+	从而`xi` 是 `[eta, zeta]` 内点, 因此是 `F` 的极大值点.
+	从而 `f'(xi)(f(xi)+f''(xi)) = 0`.
+	但 `F(xi) ge 4`, `|f(x)| le 1`, 故 `f'(xi) != 0`.
+	得到
+	<span class="formula">
+		`f(xi) + f''(xi) = 0`.
+	</span>
+</p>
+
 <h2>L'Hôpital 法则</h2>
 
-<h3>Stolz 定理</h3>
+<h2>函数的凹凸性</h2>
+
+<p class="definition">
+	设 `f` 在区间 `I` 上有定义, 如果对 `AA t in [0,1]` 和 `AA a, b in I`
+	都有
+	<span class="formula">
+		`f((1-t)a+t b) le (1-t) f(a) + t f(b)`,
+	</span>
+	则称 `f` 是区间 `I` 上的<b>下凸函数</b>; 若 `t in(0,1)`, `a != b` 时,
+	不等式严格成立, 则称 `f` 在 `I` 上<b>严格下凸</b>.
+	若不等式方向相反, 类似可定义上凸函数和严格上凸函数.
+</p>
+
+<p class="remark">
+	`(1-t)a + t b = a + t(b-a) = b - (1-t)(b-a)`.
+</p>
+
+<p class="example">
+	`|x|`, `"e"^x` 是 `RR` 上的下凸函数;
+	`ln x` 是 `(0,+oo)` 上的上凸函数;
+	`p gt 1` 时, `x^p` 是 `[0,+oo)` 上的下凸函数,
+	`0 lt p lt 1` 时, 它是 `[0,+oo)` 上的上凸函数.
+</p>
+
+<ol class="theorem">
+	若 `f, g` 是区间 `I` 上的下凸函数, 则
+	<li>`-f` 是 `I` 上的上凸函数;</li>
+	<li>`f + g` 是 `I` 上的下凸函数;</li>
+	<li>`max{f(x), g(x)}` 是 `I` 上的下凸函数;</li>
+	<li>若 `f, g` 非负且单调递增, 则 `f g` 是 `I` 上的下凸函数;</li>
+	<li>若 `f` 的值域含于 `J`, `h` 是 `J` 上单调递增的下凸函数, 则
+		`h @ f` 是 `I` 上的下凸函数.
+	</li>
+</ol>
+
+<ol class="theorem">
+	下面各命题等价:
+	<li>`f` 是区间 `I` 上的下凸函数;</li>
+	<li>定义在 `I` 上的差商函数 `(f(x)-f(y))/(x-y)` 关于 `x,y`
+		都单调递增;</li>
+	<li>对任意 `x,y,z in I` 有
+		<span class="formula">
+			`((z-y)f(x) + (x-z)f(y) + (y-x)f(z))/((z-y)(x-z)(y-x)) le 0`
+		</span>
+	</li>
+	<li>对 `I` 中任意 `x lt y lt z` 有
+		<span class="formula">
+			`|(1,1,1),
+			  (x,y,z),
+			  (f(x),f(y),f(z))
+			 | ge 0`.
+		</span>
+	</li>
+</ol>
+
+<p class="corollary">
+	若 `f` 是`f(0) = 0`
+</p>
+
+<p class="example">
+	设 `f` 是定义在 `[0,+oo)` 上的下凸函数, `f(0) = 0`.
+	证明: `AA a, b gt 0`, `f(a) + f(b) le f(a+b)`.
+</p>
+
+<p class="proof">
+	由 `f` 是下凸函数得
+	<span class="formula">
+		`(f(a))/a le (f(a+b))/(a+b)`,
+		`quad (f(b))/b le (f(a+b))/(a+b)`.
+	</span>
+	交叉相乘后再相加,
+	<span class="formula">
+		`(a+b)(f(a)+f(b)) le (a+b) f(a+b)`.
+	</span>
+</p>
 
 <h2>函数的作图</h2>
 
@@ -226,6 +378,18 @@
 	<span class="formula">
 		`f(((sqrt(x-a))^2-(sqrt(b-x))^2+a+b)/2)`.
 	</span>
+</p>
+
+<h2>Taylor 公式</h2>
+
+<p class="example">
+	对称区间上的 Taylor 公式
+	<span class="formula">
+		`f(x+Delta x) - f(x-Delta x)`
+		`= 2 sum_(k=1)^n f^((2k-1))(x) (Delta x^(2k-1))/((2k-1)!)`
+		`= (f^((2n+1))(xi) - f^((2n+1))(eta)) (Delta x^(2n+1))/((2n+1)!)`
+	</span>
+	没有偶数阶项, 同理 `f(x+Delta x) + f(x-Delta x)` 的展式没有奇数阶项.
 </p>
 
 </body>
