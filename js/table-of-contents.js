@@ -5,8 +5,9 @@ var tableOfContents = [ {
 	articles: [
 		{title:'矩阵', src:'algebra/1.html'},
 		{title:'行列式', src:'algebra/2.html'},
-		{title:'线性方程组的一般理论', src:'algebra/3.html'},
-		{title:'线性空间与线性方程组', src:'algebra/4.html'},
+		{title:'向量的相关性与线性方程组', src:'algebra/3.html'},
+		{title:'线性空间', src:'algebra/4.html'},
+		{title:'线性空间中的度量与内积', src:'algebra/4.html'},
 	]
 	}, {
 	title:'数学分析',

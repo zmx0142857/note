@@ -12,7 +12,310 @@
 
 <body>
 
-<p>	本章在直角坐标系下研究平面上的二次曲线与空间中的二次曲面.</p>
+<p>	本章在直角坐标系下研究平面上的二次曲线与空间中的二次曲面.
+	没有特别说明, 本章中的坐标系均为直角坐标系.
+</p>
+
+<h2>圆</h2>
+
+<h3>圆的相关方程</h3>
+
+<p>	约定 `P = (x,y)`, `P_i = (x_i,y_i)`,
+	`f_i(P) = x^2+y^2+D_i x + E_i y + F_i`, `i = 0,1,2,3`.
+	圆记为 `C`.
+</p>
+
+<table>
+	<tr>
+		<td></td>
+		<td>条件</td>
+		<td>方程</td>
+	</tr>
+	<tr>
+		<td>参数方程</td>
+		<td>`|P_0 P| = r`</td>
+		<td>`{(x = x_0 + r cos theta),
+			(y = y_0 + r sin theta):}`, `theta in [0,2pi)`
+		</td>
+	</tr>
+	<tr>
+		<td>标准方程</td>
+		<td>`|P_0 P| = r`</td>
+		<td>`(x-x_0)^2 + (y-y_0)^2 = r^2`</td>
+	</tr>
+	<tr>
+		<td>一般方程</td>
+		<td>`D^2+E^2 gt 4 F`</td>
+		<td>`x^2 + y^2 + D x + E y + F = 0`</td>
+	</tr>
+	<tr>
+		<td>直径式</td>
+		<td>`vec(P P_1) * vec(P P_2) = 0`</td>
+		<td>`(x-x_1)(x-x_2)` `+ (y-y_1)(y-y_2) = 0`</td>
+	</tr>
+	<tr>
+		<td>不共线三点</td>
+		<td>不共线的三点 `P_i in C`, `i = 1,2,3`</td>
+		<td>`|
+				(x^2+y^2" ", x" ", y" ", 1),
+				(x_1^2+y_1^2" ", x_1" ", y_1" ", 1),
+				(x_2^2+y_2^2" ", x_2" ", y_2" ", 1),
+				(x_3^2+y_3^2" ", x_3" ", y_3" ", 1)
+			| = 0`</td>
+	</tr>
+	<tr>
+		<td>两圆公共弦</td>
+		<td>两圆 `f_i(P) = 0`, `i = 1, 2`</td>
+		<td>`f_1(P) - f_2(P) = 0`</td>
+	</tr>
+	<tr>
+		<td>恒过圆与直线交点</td>
+		<td>圆 `f(P) = 0`, 直线 `g(P) = 0`</td>
+		<td>`f(P) + lambda g(P) = 0`</td>
+	</tr>
+	<tr>
+		<td>恒过两圆交点</td>
+		<td>两圆 `f_i(P) = 0`, `i = 1,2`</td>
+		<td>`lambda f_1(P) + mu f_2(P) = 0`, `lambda, mu` 不同时为零</td>
+	</tr>
+	<tr>
+		<td>到两定点距离之比为定值</td>
+		<td>两定点 `P_i`, `i = 1,2`, 定值 `lambda gt 0`, `lambda != 1`
+		</td>
+		<td>`(x-x_1)^2 + (y-y_1)^2` `= lambda^2[(x-x_2)^2+(y-y_2)^2]`</td>
+	</tr>
+</table>
+
+<h3>点/直线与圆的位置关系</h3>
+
+<ul>点 `(x_0,y_0)` 与圆 `(x-a)^2 + (y-b)^2 = r^2` 的位置关系.
+	记 `d = sqrt((x-a)^2 + (y-b)^2)`,
+	<li>点在圆内 `iff d lt r`, 此时 `sqrt(r^2-d^2) =` 弦长;</li>
+	<li>点在圆外 `iff d gt r`, 此时 `sqrt(d^2-r^2) =` 切线长;</li>
+	<li>点在圆上 `iff d = r`.</li>
+</ul>
+
+<ul>直线 `A x + B y + C = 0` 与圆 `(x-a)^2 + (y-b)^2 = r^2` 的位置关系.
+	记 `d = |A a + B b + C|/sqrt(A^2+B^2)`,
+	<li>相交 `iff d lt r`;</li>
+	<li>相离 `iff d gt r`;</li>
+	<li>相切 `iff d = r`.</li>
+</ul>
+
+<p class="remark">
+	记圆的方程为 `f(P) = (x-x_0)^2+(y-y_0)^2 - r^2 = 0`,
+	圆心为 `P_0(x_0,y_0)`, 又设 `P_1` 为平面上一点, 则
+	<span class="formula">
+		`f(P_1) = |P_0 P_1|^2 - r^2`.
+	</span>
+	特别当 `P_1` 在圆外时, `f(P_0)` 等于切线长的平方.
+</p>
+
+<h2>圆锥曲线</h2>
+
+<p class="definition">
+	平面上到两点距离之和为定值的点的轨迹是<b>椭圆</b>.
+</p>
+
+<h3>椭圆的方程</h3>
+
+<p class="theorem">
+	设 `P(x, y)` 到点 `F_1(-c, 0)` 和点 `F_2(c, 0)` 的距离分别为
+	`r_1`, `r_2`, 且
+	<span class="formula">
+		`r_1 + r_2 = 2a`, `quad 0 lt c lt a`.
+	</span>
+	则 `P` 的轨迹方程是
+	<span class="formula">
+		`x^2/a^2 + y^2/b^2 = 1`.
+	</span>
+</p>
+
+<p class="solution">
+	由已知
+	<span class="formula">
+		`r_1 = sqrt ((x+c)^2 + y^2)`,
+		`quad r_2 = sqrt ((x-c)^2 + y^2)`.
+	</span>
+	所以
+	<span class="formula">
+		`r_1^2 - r_2^2 = 4cx`,
+		`quad r_1 - r_2 = (r_1^2 - r_2^2)/(r_1 + r_2)`
+		`= (4 c x)/(2 a) = 2ex`.
+	</span>
+	其中 `e = c/a`.  于是
+	<span class="formula">
+		`r_1^2 + r_2^2`
+		`= 1/2 [(r_1 - r_2)^2 + (r_1 + r_2)^2]`
+		`= 1/2 [(2e x)^2 + (2 a)^2]`
+		`= 2(e^2 x^2 + a^2)`.
+	</span>
+	而另一方面, 由 `r_1, r_2` 的表达式直接得到
+	<span class="formula">
+		`r_1^2 + r_2^2 = 2(x^2 + y^2 + c^2)`
+	</span>
+	(也可以说是 “平行四边形四边的平方和, 等于其对角线的平方和”), 所以
+	<span class="formula">
+		`x^2 + y^2 + c^2 = e^2 x^2 + a^2`,
+	</span>
+	即
+	<span class="formula">
+		`x^2 / a^2 + y^2 / b^2 = 1`.
+	</span>
+	其中 `b = sqrt (a^2 - c^2)`.
+</p>
+
+<p class="corollary">
+	由 `r_1 + r_2 = 2 a`, `r_1 - r_2 = 2 e x` 得
+	<span class="formula">
+		`r_1 = a + ex`, `quad r_2 = a - ex`.
+	</span>
+</p>
+
+<p class="remark">
+	设 `p = a//e`, 则点 `P` 到点 `F_2` 与到直线 `x = p` 的距离之比
+		`r_2/(p-x) = (a-ex)/(a//e - x) = e`.
+	事实上, 这个性质引出下面的统一定义:
+<p>
+
+<p class="definition">
+	<b>圆锥曲线的统一定义</b>
+	平面上到定点的距离与到定直线的距离之比等于定值 `e` 的点形成的轨迹
+	是<b>圆</b> (当 `e = 0` )
+	或<b>椭圆</b> (当 `0 lt e lt 1` )
+	或<b>抛物线</b> (当 `e = 1` )
+	或<b>双曲线</b> (当 `e gt 1` ).
+</p>
+
+<h2>圆锥曲线与直线的位置关系</h2>
+
+<ul>联立圆锥曲线方程与直线方程, 利用 Vieta 定理:
+	<li>椭圆 `x^2/a^2+y^2/b^2 = 1` 与直线 `A x + B y + C = 0`.
+		记 `M = A^2 a^2 + B^2 b^2`, 则
+		`Delta ge 0 iff M ge C^2`,
+		<span class="formula">
+			`x_1 + x_2 = -2 A C a^2// M`,
+			`quad y_1 + y_2 = -2 B C b^2// M`,<br/>
+			`x_1 x_2 = (C^2 - B^2 b^2) a^2// M`,
+			`quad y_1 y_2 = (C^2 - A^2 a^2) b^2// M`
+		</span>
+		特别 `A = -k`, `B = 1`, `C = -t` 时, 直线为 `y = k x + t`,
+		`M = a^2 k^2 + b^2`, `Delta ge 0 iff M ge t^2`,
+		<span class="formula">
+			`x_1 + x_2 = -2 k t a^2 // M`,
+			`quad y_1 + y_2 = 2 t b^2 // M`,<br/>
+			`x_1 x_2 = (t^2-b^2)a^2//M`,
+			`quad y_1 y_2 = (t^2-a^2 k^2)b^2//M`.
+		</span>
+		特别 `A = 1`, `B = -m`, `C = -n` 时, 直线为 `x = m y + n`,
+		`M = b^2 m^2 + a^2`, `Delta ge 0 iff M ge n^2`,
+		<span class="formula">
+			`y_1 + y_2 = -2 m n b^2 // M`,
+			`quad x_1 + x_2 = 2n a^2 //M`<br/>
+			`y_1 y_2 = (n^2-a^2)b^2//M`,
+			`quad x_1 x_2 = (n^2-b^2 m^2)a^2//M`.
+		</span>
+	</li>
+	<li>双曲线 `x^2/a^2-y^2/b^2 = 1` (或 `y^2/b^2-x^2/a^2 = 1`),
+		只需将椭圆的结果中的 `b^2` 换成 `-b^2`
+		(`a^2` 换成 `-a^2`) 即可.
+	</li>
+	<li>抛物线 `y^2 = 2p x` 与直线 `x = m y + n`.
+		`Delta ge 0 iff p^2 m^2 + 2 p n ge 0`.
+		<span class="formula">
+			`y_1 + y_2 = 2 p m`,
+			`quad x_1 + x_2 = 2 p m^2 + 2 n`,<br/>
+			`y_1 y_2 = -2 p n`,
+			`quad x_1 x_2 = n^2`.
+		</span>
+		特别令 `n = p/2`, 焦点弦满足 `x_1 x_2 = p^2/4`, `y_1 y_2 = -p^2`.
+	</li>
+</ul>
+
+<p>直线 `A x + B y + C = 0` 与双曲线 `x^2/a^2-y^2/b^2 = 1` 的位置关系.
+	`A^2 a^2 = B^2 b^2` 时, 若 `C = 0` 则无交点, 若 `C != 0` 有一交点.
+	`A^2 a^2 != B^2 b^2` 时, 见下表.
+</p>
+
+<table border="1">
+	<tr>
+		<td>`Delta`</td>
+		<td>`x_1 x_2`</td>
+		<td>`x_1 + x_2`</td>
+		<td>交点情况</td>
+	</tr>
+	<tr>
+		<td rowspan="3">`+`</td>
+		<td rowspan="2">`+`</td>
+		<td>`+`</td>
+		<td>两交点都在右支</td>
+	</tr>
+	<tr>
+		<td>`-`</td>
+		<td>两交点都在左支</td>
+	</tr>
+	<tr>
+		<td>`-`</td>
+		<td></td>
+		<td>两支各有一交点</td>
+	</tr>
+	<tr>
+		<td>`0`</td>
+		<td></td>
+		<td></td>
+		<td>有一切点</td>
+	</tr>
+	<tr>
+		<td>`-`</td>
+		<td></td>
+		<td></td>
+		<td>无交点</td>
+	</tr>
+</table>
+
+<p class="example">
+	已知点 `C` 在椭圆 `x^2/a^2 + y^2/b^2 = 1` 上,
+	过 `C` 作弦 `C A`, `C B`, 使得 `k_(C A) k_(C B) := z` 为定值.
+	讨论直线 `A B` 过一定点的条件.
+</p>
+
+<p class="proof">
+	设 `A(x_1,y_1)`, `B(x_2,y_2)`, `C(x_0,y_0)`, 直线 `A B: y = k x + t`.
+	联立直线与椭圆方程, 利用 Vieta 定理求得 `x_1+x_2`, `y_1+y_2`,
+	`x_1 x_2` 和 `y_1 y_2`. 注意 `C` 在椭圆上, 有
+	<span class="formula">
+		`a^2 y_0^2 + b^2 x_0^2 = a^2 b^2`,
+	</span>
+	于是
+	<span class="formula">
+		`z = k_(C A) k_(C B)`
+		`= ((y_1-y_0)(y_2-y_0))/((x_1-x_0)(x_2-x_0))`
+		`= (y_1 y_2 - y_0(y_1+y_2) + y_0^2)/(x_1 x_2 - x_0(x_1+x_2) +
+		x_0^2)`
+		`= (b^2(t^2-a^2 k^2) - 2b^2 t y_0 + y_0^2(a^2 k^2+b^2))
+		 / (a^2(t^2-b^2) + 2a^2 t k x_0 + x_0^2(a^2 k^2 + b^2))`
+		`= b^2/a^2 ((t-y_0)^2 -(k x_0^2))/((t+k x_0)^2 - y_0^2)`.
+	</span>
+	变形得
+	<span class="formula">
+		`(b^2 + z a^2)/(b^2 - z a^2) = t/(y_0 + k x_0)`.
+	</span>
+	注意 `z` 为定值, 因此上式左边为定值, 记为 `lambda`.
+	我们要求上式右边与 `k` 无关.
+	设 `P(x_P,y_P) in l_(A B)`, 则 `t = y_P - k x_P`. 于是
+	<span class="formula">
+		`lambda = (y_P - k x_P)/(y_0 + k x_0)`, `AA k in RR`.
+	</span>
+	即
+	<span class="formula">
+		`lambda y_0 - y_P + k(lambda x_0 + x_P) = 0`, `AA k in RR`.
+	</span>
+	解得 `x_P = - lambda x_0`, `y_P = lambda y_0`. `P` 点即为所求的定点.
+	可以看到 `P` 是 `A B` 与直线 `O C'` 的交点, 其中 `C'(-x_0,y_0)`.<br/>
+	特别地, 令 `z = -b^2//a^2`, 有 `lambda = 0`, `P` 与原点重合.
+	`z = b^2//a^2` 时, `A B // O C'`, 此时定点不存在.
+	当 `A B` 的斜率不存在时, 容易验证上面的结论仍成立.
+</p>
 
 <h2>二次曲线 (面) 的切线 (面)</h2>
 
@@ -26,7 +329,7 @@
 </p>
 
 <p class="proof">
-	记圆心为 `S(a, b)`, 则
+	记圆心为 `S(a, b)`, 注意 `vec(SA) * vec(AP) = 0`, 有
 	<span class="formula">
 		`  vec(SA) * vec(SP)`
 		`= vec(SA) * (vec(SA) + vec(AP))`
@@ -40,6 +343,58 @@
 	因此上式是一直线方程. 但 `A, B` 都在这一直线上, 所以它是直线 `AB`
 	的方程. `P` 在圆上时, 同样计算向量内积可以证明上式是过 `P`
 	点的切线方程.
+</p>
+
+<p class="theorem">
+	过椭圆 `x^2/a^2 + y^2/b^2 = 1` 上一点 `(x_0,y_0)` 的切线方程为
+	<span class="formula">
+		`(x_0 x)/a^2 + (y_0 y)/b^2 = 1`.
+	</span>
+</p>
+
+<p class="proof">
+	在椭圆方程的两端对 `x` 求导,
+	<span class="formula">
+		`(2x)/a^2 + (2y)/b^2 y^' = 0`.
+	</span>
+	记 `k = y'|_((x_0","y_0)) = -(x_0 b^2)/(y_0 a^2)`, 则切线方程为
+	<span class="formula">
+		`y - y_0 = k(x-x_0)`
+		`= -(x_0 b^2)/(y_0 a^2) (x - x_0)`.
+	</span>
+	利用等式
+	<span class="formula">
+		`b^2 x_0^2 + a^2 y_0^2 = a^2 b^2`
+	</span>
+	化简得
+	<span class="formula">
+		`(x_0 x)/a^2 + (y_0 y)/b^2 = 1`.
+	</span>
+	易知斜率不存在时, `y_0 = 0`, 上式也是椭圆的切线方程.
+</p>
+
+<p class="proof">
+	如利用 `Delta = 0`, 则计算繁琐:
+	将椭圆方程与过 `(x_0,y_0)` 的直线
+	<span class="formula">
+		`A(x - x_0) + B(y - y_0) = 0`
+	</span>
+	联立, 令 `Delta = 0` 得
+	<span class="formula">
+		`A^2 a^2 + B^2 b^2 = (A x_0 + B y_0)^2`.
+	</span>
+	`B != 0` 时, 记 `m = A/B`, 解上述二次方程, 注意利用等式
+	<span class="formula">
+		`b^2 x_0^2 + a^2 y_0^2 = a^2 b^2`,
+	</span>
+	得一对相等实根
+	<span class="formula">
+		`m = (x_0 y_0)/(a^2 - x_0^2)`
+		`= x_0/(a^2 y_0) (a^2 y_0^2)/(a^2 - x_0^2)`
+		`= x_0/(a^2 y_0) (a^2 b^2 - b^2 x_0^2)/(a^2 - x_0^2)`
+		`= (x_0 b^2)/(y_0 a^2)`.
+	</span> 
+	再作类似处理可以得到切线方程.
 </p>
 
 <p class="example">
@@ -103,6 +458,47 @@
 		/ [(2 + 3 lambda)^2 + 1 + lambda^2] = 1/3`.
 	</span>
 	解得 `lambda = +-1`, 从而得到所求平面的方程.
+</p>
+
+<h2> 二元二次方程及其表示的曲线</h2>
+
+<p class="theorem">
+	令对称矩阵 `bm A = (a_(i j))_(2 xx 2)`.
+	取 `theta` 使得 `cot 2theta = (a_11-a_22)/(2 a_12)`, 则正交矩阵
+	`bm T = [(cos theta" ",-sin theta),(sin theta" ",cos theta)]`
+	将 `bm A` 对角化, 即 `bm (T'A T) = (b_(i j))_(2 xx 2)`
+	为对角矩阵. 
+	其中 `b_11 = a_11 + a_12 tan theta`,
+	`b_22 = a_22 - a_12 tan theta`.
+</p>
+
+<p class="proof">
+	计算知
+	<span class="formula">
+		`b_11 = a_11 cos^2 theta + a_22 sin^2 theta
+		+ 2a_12 sin theta cos theta`,<br/>
+		`b_22 = a_11 sin^2 theta + a_22 cos^2 theta
+		- 2a_12 sin theta cos theta`,<br/>
+		`b_12 = b_21 = a_12 cos 2theta - (a_11 - a_22)/2 sin 2theta`.
+	</span>
+	所以
+	<span class="formula">
+		`b_11 + b_22 = a_11 + a_22`,<br/>
+		`b_11 - b_22`
+		`= (a_11 - a_22) cos 2 theta + 2 a_12 sin 2 theta`.
+	</span>
+	`cot 2 theta = (a_11 - a_22) / (2a_12)` 时,
+	`b_12 = 0`, 且
+	<span class="formula">
+		`b_11 = 1/2[(b_11+b_22) + (b_11-b_22)]`
+		`= (a_11+a_22)/2 + (a_11-a_22)/2 cos 2 theta`
+			`+ a_12 sin 2 theta`
+		`= a_11 - (a_11-a_22)/2 (1-cos 2theta) + a_12 sin 2theta`
+		`= a_11 + a_12[sin 2theta - cot 2theta(1-cos 2theta)]`
+		`= a_11 + a_12 tan theta`,<br/>
+		`b_22 = b_11 + b_22 - b_11 = a_11 + a_22 - b_11`
+		`= a_22 - a_12 tan theta`.
+	</span>
 </p>
 
 </body>

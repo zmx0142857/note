@@ -146,13 +146,6 @@
 		</td>
 	</tr>
 	<tr>
-		<td>三截距</td>
-		<td>`(a,0,0)`, `(0,b,0)`, `(0,0,c) in pi`,
-			`a, b, c != 0`
-		</td>
-		<td>`x/a + y/b + z/c = 1`</td>
-	</tr>
-	<tr>
 		<td>不共线的三点</td>
 		<td>不共线的三点 `(x_i, y_i, z_i) in pi`, `i = 1, 2, 3`</td>
 		<td>
@@ -161,6 +154,13 @@
 			  (x_2," "y_2," "z_2," "1),
 			  (x_3," "y_3," "z_3," "1)| = 0`
 		</td>
+	</tr>
+	<tr>
+		<td>三截距</td>
+		<td>`(a,0,0)`, `(0,b,0)`, `(0,0,c) in pi`,
+			`a, b, c != 0`
+		</td>
+		<td>`x/a + y/b + z/c = 1`</td>
 	</tr>
 	<tr>
 		<td>有轴平面束</td>
@@ -405,6 +405,184 @@
 	`cos theta lt 0` 时 `theta` 为钝角,
 	`cos theta = 0` 时 `theta` 为直角.
 </p>
+
+<h2>平面上直线的若干性质与事实</h2>
+
+<ul>因为平面上直线的性质与事实可以完全类似于空间中的平面建立起来,
+	我们不拟作重复的推导, 只将若干平行的事实罗列如下:
+	<li>在平面仿射标架 `{O; bm d_1, bm d_2}` 下, 由点 `P_0(x_0,y_0)`
+		和向量 `bm r_1 = (x_1,y_1) != bb 0` 唯一确定了直线 `l`,
+		使得 `P_0 in l`, `bm r_1 //// l`. 且点 `P` 落在直线 `l`
+		上当且仅当 `vec(P_0 P) //// r_1`:
+		<span class="formula">
+			`vec(P_0 P) = t bm r_1`, `quad t in RR`.
+		</span>
+		直线的<b>参数方程</b>是
+		<span class="formula">`{
+			(x = x_0 + x_1 t),
+			(y = y_0 + y_1 t)
+		:}` `quad t in RR`.<br/>
+		</span>
+		另一方面由
+		<span class="formula">
+			`(vec(P_0 P), bm r_1)`
+			`= |
+				(x-x_0,y-y_0),
+				(x_1, y_1)
+			|`
+			`= 0`,
+		</span>
+		得到<b>普通方程</b>
+		<span class="formula">
+			`A x + B y + C = 0`.
+		</span>
+	</li>
+	<li>平面仿射标架下, 直线的方程是二元一次方程,
+		反之任意二元一次方程表示一条直线.
+	</li>
+	<li>向量 `bm w = (x_0,y_0)` 与直线 `A x + B y + C = 0`
+		平行当且仅当它适合齐次方程
+		<span class="formula">
+			`A x_0 + B y_0 = 0`.
+		</span>
+	</li>
+	<li>`x` 轴 (`y` 轴) 与直线 `l: A x + B y + C = 0` 平行或重合当且仅当
+		`A = 0` (`B = 0`); `l` 过原点当且仅当 `C = 0`.
+	</li>
+	<li>两直线 `A_i x + B_i y + C_i = 0`, `i = 1, 2`
+		相交当且仅当两方程的一次项系数不成比例, 此时两直线恰有一个公共点:
+		由 Cramer 法则, 这当且仅当
+		<span class="formula">
+			`|(A_1,B_1),(A_2,B_2)| != 0`;
+		</span>
+		两直线平行当且仅当两方程的一次项系数成比例, 但与常数项不成比例;
+		两直线重合当且仅当两方程的所有系数成比例.
+	</li>
+	<li>正交标架下, 直线 `l: A x + B y + C = 0`, `P_0(x_0,y_0) in l`.
+		当 `B != 0` 时, `(y-y_0)/(x-x_0)` 为一常数 `k`, 称为 `l`
+		的<b>斜率</b>. 斜率存在的充要条件是直线与 `y` 轴不平行 (或重合).
+		类似地, `A != 0` 时, `(x-x_0)/(y-y_0)` 为一常数 `m`, 称为 `l` 的
+		`x`-斜率, 显然 `k, m` 都存在时, 有 `k m = 1`.
+	</li>
+	<li>斜率存在时, 两直线垂直当且仅当 `k_1 k_2 = -1`,
+		两直线平行或重合当且仅当 `k_1 = k_2`, 两直线相交当且仅当 `k_1 !=
+		k_2`.
+	</li>
+	<li>直线方程小集.  约定 `P = (x,y,z)`, `varphi(P) = A x + B y`, `f(P)
+		= varphi(P) + C`.
+		<table>
+			<tr>
+				<td></td>
+				<td>条件</td>
+				<td>直线 `l` 的方程</td>
+			</tr>
+			<tr>
+				<td>参数方程</td>
+				<td>`P_0 in l`, `bm r_1 //// l`, `bm r_1 != bb 0`</td>
+				<td>`P = P_0 + t bm r_1`, `t in RR`</td>
+			</tr>
+			<tr>
+				<td>点向式</td>
+				<td>`P_0(x_0,y_0) in l`,
+					`bm r_1 = (x_1,y_1) //// l`, `bm r_1 != bb 0`
+				</td>
+				<td>`|(x-x_0,y-y_0),(x_1,y_1)| = 0`</td>
+			</tr>
+			<tr>
+				<td>两点式</td>
+				<td>不重合的两点 `(x_i,y_i) in l`, `i = 1,2`</td>
+				<td>`|(x" ",y" ",1),(x_1" ",y_1" ",1),(x_2" ",y_2" ",1)|
+					= 0`
+				</td>
+			</tr>
+			<tr>
+				<td>截距式</td>
+				<td>`(a,0)`,`(0,b) in l`, `a, b != 0`</td>
+				<td>`x/a + y/b = 1`</td>
+			</tr>
+			<tr>
+				<td>点斜式</td>
+				<td>`P_0(x_0,y_0) in l`, `l` 的斜率为 `k`</td>
+				<td>`y-y_0 = k(x-x_0)</td>
+			</tr>
+			<tr>
+				<td>斜率式 (y)</td>
+				<td>`l` 的斜率为 `k`, `(0,b) in l`</td>
+				<td>`y = k x + b`</td>
+			</tr>
+			<tr>
+				<td>斜率式 (x)</td>
+				<td>`l` 的 `x`-斜率为 `m`, `(a,0) in l`</td>
+				<td>`x = m y + a`</td>
+			</tr>
+			<tr>
+				<td>直线束</td>
+				<td>两直线 `l_i: f_i(P) = 0`, `i = 1, 2` 交于一点,
+					`l` 过其交点
+				</td>
+				<td>`lambda f_1 + mu f_2 = 0`, `lambda, mu` 不全为零</td>
+			</tr>
+			<tr>
+				<td>一点一直线</td>
+				<td>`P_0 in l`, `l_0: f(P) = 0 //// l`</td>
+				<td>`varphi(P-P_0) = 0`</td>
+			</tr>
+			<tr>
+				<td>点法式 (正交标架)</td>
+				<td>`P_0 in l`, `bm n = (A,B) _|_ l`</td>
+				<td>`varphi(P-P_0) = 0`</td>
+			</tr>
+		</table>
+	</li>
+	<li>设直线 `l: f(P) = 0`, 则平面上全体适合二元一次不等式 `f(P) gt 0`
+		的点位于直线的同侧, 全体适合 `f(P) lt 0` 的点位于直线的另一侧.
+	</li>
+	<li>设 `bm n` 是直线的一个法向量, `bm n_1 = (bm n)/|bm n|`
+		是单位法向量, `P_0` 在直线上, 则平面上一点 `P` 在直线上的垂足
+		`P_1` 满足
+		<span class="formula">
+			`vec(P_1 P) = (vec(P_0 P) * bm n_1) bm n_1`,
+		</span>
+		`P` 到直线的距离为 `|vec(P_1 P)| = |vec(P_0 P) * bm n|`.
+		特别在正交标架下, 设 `l: A x + B y + C = 0`, 则
+		<span class="formula">
+			`vec(P_1 P) = (A x_P + B x_P + C)(bm n)/|bm n|^2`,<br/>
+			`|vec(P_1 P)| = |A x_P + B x_P + C|/sqrt(A^2+B^2)`.
+		</span>
+		正交标架下, 两平面 `A x + B y + C_i`, `i = 1, 2` 的距离等于
+		<span class="formula">
+			`|C_1-C_2|/sqrt(A^2+B^2)`
+		</span>
+	</li>
+	<li>两直线的夹角是指两直线交成的四个角中的任一个,
+		也指两直线的法向量之间的夹角或其补角. 两平行 (或重合)
+		直线的夹角等于 `0` 或 `pi`.
+		正交标架下, 两直线
+		<span class="formula">
+			`A_i x + B_i y + C = 0`, `i = 1,2`
+		</span>
+		的一个夹角 `theta` 满足
+		<span class="formula">
+			`cos theta = (bm n_1 * bm n_2)/(|bm n_1| |bm n_2|)`
+			`= (A_1 A_2 + B_1 B_2)/(sqrt(A_1^2+B_1^2) sqrt(A_2^2+B_2^2))`.
+		</span>
+	</li>
+	<li>把从 `x` 轴正方向以逆时针旋转到直线方向上的小于 `pi` 的角称为
+		<b>直线与 `bm x` 轴正方向的夹角</b>或<b>直线的倾斜角</b>, 记为
+		`alpha`. 正交标架下, 联系斜率的概念, 有
+		<span class="formula">
+			`tan alpha = k`.
+		</span>
+		记 `Delta x = x_2-x_1`, `Delta y = y_2-y_1`.
+		直线上从 `(x_1,y_1)` 到 `(x_2,y_2)` 的弦长等于
+		<span class="formula">
+			`(Delta x)/|cos alpha| = sqrt(1+k^2) Delta x`
+			`= (Delta y)/(sin alpha) = sqrt(1+m^2) Delta y`.
+		</span>
+	</li>
+</ul>
+
+<p>	下面回到空间直线.</p>
 
 <h2>直线的线性性质</h2>
 

@@ -120,7 +120,8 @@
 		对角矩阵相乘, 结果还是对角矩阵.
 	</li>
 	<li>如果 `n` 阶对角阵的每个对角元都等于 `1`, 则称它为 `n`
-		阶<b>单位矩阵</b>, 记为 `bm E` 或 `bm I`.
+		阶<b>单位矩阵</b>, 记为 `bm E_n` 或 `bm I_n`, 或者省略下标,
+		简记为 `bm E` 或 `bm I`.
 		如果引入 Kronecker `delta` 函数
 		<span class="formula">
 			`delta_(i j) = { (1, if i = j;), (0, if i != j;) :}`
@@ -184,6 +185,7 @@
 </ol>
 
 <ol class="example">
+	<li>上, 下三角矩阵互为转置; 严格上, 下三角矩阵互为转置.</li>
 	<li>如果方阵 `bm A` 满足 `bm A' = bm A`, 则称它为<b>对称矩阵</b>;
 		如果方阵 `bm A` 满足 `bm A' = -bm A`, 则称它为<b>反对称矩阵</b>.
 		如同任一函数可分解为偶函数与奇函数之和:
@@ -195,7 +197,25 @@
 			`bm A = (bm A + bm A')/2 + (bm A - bm A')/2`.
 		</span>
 	</li>
-	<li>下三角矩阵的转置为上三角矩阵, 等等.</li>
+	<li>把其他位置都为零, 而第 `j` 个下标处等于 `1` 的单位列向量记作
+		<span class="formula">
+			`bm epsi_j := (overbrace(0,cdots,0,1)^j ,0,cdots,0)'`;
+		</span>
+		其他位置都为零, 而第 `i` 行 `j` 列处等于 `1` 的矩阵记作
+		<span class="formula">
+			`bm E_(i j) = (overbrace(bb 0,cdots,bb 0,bm epsi_i)^j,bb
+			0,cdots, bb 0)`.
+		</span>
+		分别用 `bm alpha_i`, `bm A_j` 记矩阵 `bm A` 的第 `i` 行和第 `j`
+		列, 有
+		<span class="formula">
+			`bm (A epsi)_j = bm A_j`,
+			`quad bm epsi_i' bm A = bm alpha_i`,
+			<br/>
+			`bm epsi_i' bm epsi_j = delta_(i j)`,
+			`quad bm epsi_j bm epsi_i' = bm E_(i j)`.
+		</span>
+	</li>
 </ol>
 
 <h3>矩阵的逆</h3>
@@ -219,7 +239,8 @@
 </p>
 
 <p class="remark">
-	后面会证明, 如果 `bm A` 的左逆存在, 则它也是 `bm A` 的右逆, 反之亦然.
+	利用行列式的知识可以证明,
+	如果 `bm A` 的左逆存在, 则它也是 `bm A` 的右逆, 反之亦然.
 	因此只要 `bm (A B) = bm E`, 就可以断言 `bm A, bm B` 都可逆,
 	且它们互逆.<br/>
 	事实上, 由 `bm (A B) = bm E` 有 `|bm A||bm B| = 1`,
@@ -239,7 +260,64 @@
 	<li>`(c bm A)^-1 = c^-1 bm A^-1`.</li>
 </ol>
 
-<h2>杂例</h2>
+<!--<h3>矩阵的分块运算</h3>???-->
+
+<h2>矩阵运算进阶</h2>
+
+<h3>几类矩阵可交换的结论</h3>
+
+<ol class="example">
+	<li>设 `bm A, bm B` 是同阶对称矩阵, 则 `bm(A B)` 是对称矩阵当且仅当
+		`bm A, bm B` 可交换.
+	</li>
+	<li>如果方阵 `bm A` 满足 `bm A^2 = bm E`, 则称它为<b>对合矩阵</b>.
+		对合矩阵的逆就是自己. 设 `bm A, bm B` 是同阶对合矩阵, 则 `bm(A B)`
+		是对合矩阵当且仅当 `bm A, bm B` 可交换.
+	</li>
+	<li>如果方阵 `bm A` 满足 `bm A^2 = bm A`, 则称它为<b>幂等矩阵</b>.
+		所有幂等矩阵中只有单位阵可逆. 设 `bm A, bm B` 是同阶幂等矩阵, 则
+		`bm(A+B)` 是幂等矩阵当且仅当 `bm (A B) = bm (B A) = bm O`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>设 `bm((A B))' = bm(A B)`, 即
+		<span class="formula">
+			`bm((A B))' = bm((B' A'))' = bm((B A))'`,
+		</span>
+		即 `bm(A B) = bm(B A)`. 反面的证明是容易的.
+	</li>
+	<li>先设 `bm(A B A B) = bm E`,
+		于是
+		<span class="formula">
+			`bm B^-1 = bm(A B A)`, `bm A^-1 = bm(B A B)`.
+		</span>
+		因为 `bm A^2 = bm B^2 = bm E`, 有
+		<span class="formula">
+			`bm(A B A B) = bm A^2 bm B^2`,
+		</span>
+		左边同乘以 `bm A^-1`, 右边同乘以 `bm B^-1` 就得到 `bm(B A) = bm(A
+		B)`. 反之类似.
+	</li>
+	<li>先设 `bm((A+B))^2 = bm A + bm B`, 于是
+		<span class="formula">
+			`bm A + bm B`
+			`= bm A^2 + bm(A B + B A) + bm B^2`
+			`= bm A + bm(A B + B A) + bm B`.
+		</span>
+		比较得 `bm(A B) = -bm(B A)`.
+		于是
+		<span class="formula">
+			`bm(A B) = bm(A A B)`
+			`= bm(A (-B A)) = -bm((A B)A)`
+			`= bm(B A A) = bm(B A)`.
+		</span>
+		但 `bm(A B) = -bm(B A)`, 于是 `bm(A B) = bm(B A) = bm O`.
+		反面的证明的容易的.
+	</li>
+</ol>
+
+<h3>方阵的幂与多项式</h3>
 
 <p class="definition">
 	<b>方阵的幂</b>
@@ -267,16 +345,6 @@
 	</span>
 </p>
 
-<ol class="example">
-	<li>如果方阵 `bm A` 满足 `bm A^2 = bm E`, 则称它为<b>对合矩阵</b>.
-		对合矩阵的逆就是自己. `bm(A B)` 是对合矩阵当且仅当 `bm A, bm B` 
-		可交换.</li>
-	<li>如果方阵 `bm A` 满足 `bm A^2 = bm A`, 则称它为<b>幂等矩阵</b>.
-		所有幂等矩阵中只有单位阵可逆.
-		`bm(A+B)` 是幂等矩阵当且仅当 `bm (A B) = bm (B A) = bm O`.
-	</li>
-</ol>
-
 <p class="definition">
 	<b>方阵的多项式</b>
 	令 `f(x) = sum_(k=0)^m c_k x^k`, `a_m != 0` 为一多项式,
@@ -299,10 +367,7 @@
 	</span>
 </p>
 
-<p class="example">
-	设 `bm A, bm B` 是 `n` 阶对称矩阵, 则 `bm A bm B` 是对称矩阵当且仅当
-	`bm A, bm B` 可交换.
-</p>
+<h3>方阵的迹, 正交矩阵</h3>
 
 <p class="definition">
 	设 `bm A = (a_(i j))_(n xx n)`, 定义 `bm A`
@@ -326,22 +391,44 @@
 </p>
 
 <p class="example">
-	设 `bm A = (a_(i j))_(m xx n)`, 则 `bm (A' A)` 是 `n` 阶对称矩阵.
-	且 `"tr"(bm(A' A))` 等于 `bm A` 的每个元素的平方和, 即
+	设 `bm A = (a_(i j))_(m xx n)`,
+	`bm bar A = (bar(a_(i j)))_(m xx n)`,
+	则 `bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
+	且 `"tr"(bm(bar A' A))` 等于 `bm A` 的每个元素的模的平方和, 即
 	<span class="formula">
-		`"tr"(bm(A'A)) = sum_(i=1)^m sum_(j=1)^n a_(i j)^2`.
+		`"tr"(bm(bar A'A)) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
 	</span>
-	从而 `bm A = bm O` 当且仅当 `"tr"(bm(A'A)) = 0`.
+	从而 `bm A = bm O` 当且仅当 `"tr"(bm(bar A'A)) = 0`.
 </p>
 
 <p class="example">
 	如果方阵 `bm T` 满足 `bm (T' T) = bm E`, 则称 `bm T` 为 `n`
-	阶<b>正交矩阵</b>. 正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
+	阶<b>正交矩阵 (orthgonal matrix)</b>.
+	正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
 	`delta_(i j)`. 例如下面的矩阵是正交矩阵:
 	<span class="formula">
 		`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`.
 	</span>
+	用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
 </p>
+
+<ol class="example">
+	设 `bm A, bm B` 为方阵,
+	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T'A T)`,
+		则称矩阵 `bm A, bm B` <b>合同</b>.
+		合同是一等价关系. 如果 `bm A` 为对称矩阵, 则任意与 `bm A`
+		合同的矩阵都对称.
+		称方阵 `bm A` <b>正定</b>, 如果它合同于单位矩阵 `bm E`.
+	</li>
+	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T^-1 A T)`,
+		则称矩阵 `bm A, bm B` <b>相似</b>.
+		相似是一等价关系.
+		特别若 `bm T` 是正交矩阵, 则称 `bm A, bm B` <b>正交相似</b>.
+		显然正交相似的两个矩阵既合同, 又相似.
+	</li>
+</ol>
+
+<h3>方阵逆的一些结论</h3>
 
 <p class="example">
 	分块对角矩阵的逆. 假设每个 `bm A_k` 都可逆, 则
@@ -365,11 +452,109 @@
 		`bm A^-1 + bm B^-1 = bm B^-1(bm B+bm A)bm A^-1`
 		`= bm A^-1(bm B+bm A)bm B^-1`.
 	</span>
+	容易看出 `bm A^-1 + bm B^-1` 也可逆.
 </p>
 
 <p class="example">
 	设 `bm A, bm B` 是 `n` 阶方阵, 且 `bm (A+B) = bm (A B)`, 则
 	`bm A, bm B` 可交换.
+</p>
+
+<p class="proof">
+	因为
+	<span class="formula">
+		`bm((E-A)(E-B))`
+		`= bm E - bm((A+B)) + bm(A B)`
+		`= bm E`,
+	</span>
+	所以 `bm(E-A), bm(E-B)` 互逆. 得到
+	<span class="formula">
+		`bm E = bm((E-B)(E-A))`
+		`= bm E - bm((A+B)) + bm(B A)`.
+	</span>
+	从而 `bm (B A) = bm(A+B) = bm(A B)`.
+</p>
+
+<p class="example">
+	设 `bm E + bm(A B)` 可逆, 证明 `bm E + bm(B A)` 也可逆.
+</p>
+
+<p class="proof">
+	设 `bm X = (bm E + bm(A B))^-1`, 则
+	<span class="formula">
+		`bm(B X A)(bm E + bm(B A))`
+		`= bm(B X)(bm E + bm(A B))bm A`
+		`= bm(B A)`,<br/>
+		`(bm E + bm(B A))bm(B X A)`
+		`= bm B(bm E + bm(A B))bm(X A)`
+		`= bm(B A)`.
+	</span>
+	故 `bm E - bm(B X A) = (bm E + bm(B A))^-1`.
+</p>
+
+<h2>矩阵的初等变换</h2>
+
+<ol class="definition">
+	规定矩阵的三种行初等变换:
+	<li>将矩阵第 `i` 行的每个元素都乘以非零常数 `c`, 记作 `[i(c)]`;</li>
+	<li>将矩阵第 `j` 行的 `k` 倍加到第 `i` 行上, 记作 `[i+j(k)]`;</li>
+	<li>将矩阵第 `i`, `j` 行交换位置, 记作 `[i,j]`.</li>
+	类似可规定三种列初等变换, 分别记为 `{i(c)}`, `{i+j(k)}`, `{i,j}`.<br/>
+	将三种行 (列) 初等变换分别作用于 `n` 阶单位矩阵, 得到
+	第一类初等矩阵:
+	<span class="formula">
+		`[(bm E_(i-1)" ", ,),
+		  (,c" ",),
+		  (, ,bm E_(n-i))]`
+		  `= (epsi_1, cdots, epsi_(i-1), c epsi_i, epsi_(i+1), cdots,
+		  epsi_n)`.
+	</span>
+	第二类初等矩阵:
+	<span class="formula">
+		`[(bm E_(i-1)" ", , , ,),
+		  (,1" ",cdots" ",k" ",),
+		  (, ,ddots" ",vdots" ",),
+		  (, , ,1" ",),
+		  (, , , ,bm E_(n-j))]`
+		  `= (epsi_1, cdots, epsi_(j-1), k epsi_i + epsi_j, epsi_(j+1),
+		  cdots, epsi_n)`.
+	</span>
+	和第三类初等矩阵:
+	<span class="formula">
+		`[(bm E_(i-1)" ", , , ,),
+		  (,0" ",cdots" ",1" ",),
+		  (,vdots" ",bm E_(j-i-1)" ",vdots" ",),
+		  (,1" ",cdots" ",0" ",),
+		  (, , , ,bm E_(n-j))]`
+		  `= (epsi_1, cdots, epsi_(i-1), epsi_j, epsi_(i+1), cdots,
+		  epsi_(j-1), epsi_i, epsi_(j+1), cdots, epsi_n)`.
+	</span>
+	容易计算验证, 用第 `i` 类初等矩阵左 (右) 乘一矩阵 `bm A`,
+	相当于对 `bm A` 施以第 `i` 类初等行 (列) 变换, `i = 1,2,3`.
+	初等矩阵都是可逆的, 它们的逆分别是同一类的初等矩阵.
+</ol>
+
+<p class="definition">
+	如果 `m xx n` 矩阵 `bm A` 可经有限次初等变换化为 `bm B`,
+	则称 `bm A, bm B` <b>等价</b>, 记为 `bm A ~ bm B`.
+	矩阵的等价是一种等价关系.
+</p>
+
+<p class="corollary">
+	`m xx n` 阶矩阵 `bm A, bm B` 等价当且仅当存在 `m` 阶初等矩阵
+	`{bm F_i}_(i=1)^s` 和 `n` 阶初等矩阵 `{bm G_j}_(j=1)^t`, 使得
+	<span class="formula">
+		`bm B = bm F_s cdots bm F_2 bm F_1 bm A bm G_1 bm G_2 cdots bm
+		G_t`.
+	</span>
+</p>
+
+<p class="theorem">
+	任意 `m xx n` 矩阵等价于如下形状的矩阵
+	<span class="formula">
+		`bar bm A = [(bm E_r" ", bm O),(bm O" ", bm O)]_(m xx n)`,
+	</span>
+	称为 `bm A` 的<b>等价标准形</b>, 其中 `0 le r le min{m,n}`.
 </p>
 
 <script src="../js/note.js?type=math"></script>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>线性空间中的度量与内积</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>线性函数与双线性函数</h2>
+
+<h3>线性函数</h3>
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, 视 `bbb P` 为一维线性空间,
+	称线性映射 `f: V to bbb P` 为 `V` 上一<b>线性函数</b>.
+	`V` 上全体函数记为 `L(V, bbb P)`.
+</p>
+
+<p class="example">
+	记 `bm alpha = (a_1, a_2, cdots, a_n)'`, `bm X = (x_1, x_2, cdots,
+	x_n)'`, 则 `f(bm X) = alpha' X` 是 `bbb P^n` 上的一个线性函数.<br/>
+	方阵的迹是 `bbb P^(n xx n)` 上的一个线性函数.<br/>
+	多项式在一点的取值是 `bbb P[x]` 上的一个线性函数.
+</p>
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, `"I" = (bm epsi_1, bm epsi_2, cdots,
+	bm epsi_n)` 是一组基, `f` 是 `V` 上一个线性函数. 称
+	<span class="formula">
+		`bm epsi = (f(bm epsi_1), f(bm epsi_2), cdots, f(bm epsi_n))`
+	</span>
+	为 `f` 在基底 `"I"` 下的<b>表示向量</b>. 给定了表示向量,
+	任意 `bm alpha = sum_(i=1)^n x_i bm epsi_i in V` 的函数值都能确定了:
+	记 `bm X = (x_1, x_2, cdots, x_n)'`, 则
+	<span class="formula">
+		`f(bm alpha) = sum_(i=1)^n x_i f(bm epsi_i)`
+		`= bm(epsi X)`.
+	</span>
+</p>
+
+<h3>双线性函数</h3>
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, 称映射 `f: V xx V to bbb P`
+	为 `V` 上一<b>双线性函数</b>, 如果它对每一个变元都是线性的:
+	即对任意 `bm alpha, bm beta, bm gamma in V` 和任意 `k, l in bbb P`,
+	<span class="formula">
+		`(k bm alpha + l bm beta, bm gamma) = k(bm alpha, bm gamma) + l(bm
+		beta, bm gamma)`,<br/>
+		`(bm gamma, k bm alpha + l bm beta) = k(bm gamma, bm alpha) + l(bm
+		gamma, bm beta)`.
+	</span>
+	`V` 上全体双线性函数记为 `BL(V, bbb P)`.<br/>
+	称 `f` 为<b>对称的</b>, 如果恒有
+	<span class="formula">
+		`f(bm alpha, bm beta) = f(bm beta, bm alpha)`;
+	</span>
+	称 `f` 为<b>非奇异的</b>,
+	如果对任意非零向量 `bm alpha in V`, 存在 `bm beta in V` 使得
+	<span class="formula">
+		`f(bm alpha, bm beta) != 0`;
+	</span>
+	称 `f` 为<b>正定的</b>, 如果对任意向量 `bm alpha in V`,
+	<span class="formula">
+		`f(bm alpha, bm alpha) ge 0`, 等号成立当且仅当 `bm alpha = bm
+		theta`.
+	</span>
+</p>
+
+<p class="example">
+	令 `bm A in bbb P^(n xx n)`, `bm X = (x_1, x_2, cdots, x_n)'`,
+	`bm Y = (y_1, y_2, cdots, y_n)'`, 则
+	<span class="formula">
+		`f(bm X, bm Y) = bm X' bm A bm Y = sum_(i,j=1)^n a_(i j) x_i y_j`
+	</span>
+	为 `bbb P^n` 上一双线性函数. 当 `bm A` 分别为对称的,
+	非奇异的和正定的时候, `f` 也分别为对称的, 非奇异的和正定的.
+</p>
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, `"I" = (bm epsi_1, bm epsi_2, cdots,
+	bm epsi_n)` 是一组基, `f` 是 `V` 上一个双线性函数. 称
+	<span class="formula">
+		`bm A = (f(bm epsi_i, bm epsi_j))_(n xx n)`
+	</span>
+	为 `f` 在基底 `"I"` 下的<b>表示矩阵</b>或<b>度量矩阵</b>.
+	给定了度量矩阵, 对任意
+	<span class="formula">
+		`bm alpha = sum_(i=1)^n x_i bm epsi_i`
+		`= (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm X`,<br/>
+		`bm beta = sum_(i=1)^n y_i bm epsi_i`
+		`= (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm Y`,
+		<span class="label" id="for-any-vectors"></span>
+	</span>
+	其函数值都能确定了:
+	<span class="formula">
+		`f(bm alpha, bm beta)
+		= sum_(i,j=1)^n f(bm epsi_i,bm epsi_j) x_i y_j`
+		`= bm X' bm (A Y)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>表示向量/度量矩阵与坐标变换</b>
+	设 `bbb P` 上线性空间的两个基
+	`"I" = (bm eta_1, bm eta_2, cdots, bm eta_n)`,
+	`"II" = (bm xi_1, bm xi_2, cdots, bm xi_n)` 之间的关系为
+	<span class="formula">
+		`(bm eta_1, bm eta_2, cdots, bm eta_n)`
+		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm T`,
+	</span>
+	线性函数 `f` 在 `"I"` 下的表示向量为 `bm epsi`,
+	则它在 `"II"` 下的表示向量为 `bm epsi bm T`.
+	双线性函数 `g` 在 `"I"` 下的度量矩阵为 `bm A`,
+	则它在 `"II"` 下的度量矩阵为 `bm (T'A T)`.
+	注意 `bm T` 可逆, 因而 `bm A` 和 `bm T'bm(A T)` 的秩相同, 称为 `f`
+	的<b>秩</b>.
+</p>
+
+<p class="proof">
+	仅验证度量矩阵的变换.
+	设 `bm alpha, bm beta` 在 `"I"` 下的坐标分别为 `bm X, bm Y`,
+	在 `"II"` 下的坐标分别为 `bm X_1, bm Y_1`,  则
+	<span class="formula">
+		`g(bm alpha, bm beta)`
+		`= bm X' bm (A Y)`
+		`= bm(T X_1)' bm A bm(T Y_1)`
+		`= bm(X_1' T' A T Y_1)`.
+	</span>
+	可见 `g` 在 `"II"` 下的度量矩阵为 `bm(T'A T)`.
+</p>
+
+<ol class="theorem">
+	(容易证明)
+	设 `f` 为线性空间 `V` 上的双线性函数, 则以下各款等价:
+	<li>`f` 对称;</li>
+	<li>`f` 在任一基底下的度量矩阵对称;</li>
+	<li>`f` 在某一基底下的度量矩阵对称;</li>
+</ol>
+
+<ol class="theorem">
+	设 `f` 为线性空间 `V` 上的双线性函数, 则以下各款等价:
+	<li>`f` 非奇异;</li>
+	<li>`f` 在 `V` 的任意基底下的度量矩阵非奇异;</li>
+	<li>`f` 在 `V` 的某一基底下的度量矩阵非奇异;</li>
+	<li>`AA bm alpha in V\\{bm theta}`, `EE bm beta in V`,
+		`f(bm alpha, bm beta) != 0`.
+	</li>
+</ol>
+
+<p class="proof">
+	
+</p>
+
+<h2>正交向量, 对称双线性度量空间</h2>
+
+<p class="definition">
+	设 `f` 为线性空间 `V` 上的对称双线性函数, 如果
+	`f(bm alpha, bm beta) = 0`, 则称 `bm alpha, bm beta` 正交.
+	如果 `V` 的一个基底中的不同向量两两正交, 则称为<b>正交基底</b>.
+	正交基底下的度量矩阵为对角阵, 对角线上非零元的个数恰为 `f` 的秩.
+</p>
+
+<p class="theorem">
+	设 `f` 为线性空间 `V` 上的对称双线性函数, 则存在 `V` 的正交基底.
+</p>
+
+<p class="proof">
+	
+</p>
+
+<p class="corollary">
+	设 `f` 为实 (复) 线性空间上的对称双线性函数, `f` 的秩为 `r`,
+	则存在 `V` 的正交基底
+	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`, 使对任意向量
+	<a class="ref" href="#for-any-vectors"></a> 有
+	<span class="formula">
+		`f(bm alpha, bm beta) = sum_(i=1)^r x_i y_i` (复数情形),
+		<br/>
+		`f(bm alpha, bm beta) = sum_(i=1)^p x_i y_i - sum_(i=p+1)^r x_i
+		y_i` (实数情形),
+	</span>
+	其中 `0 le p le r le n`.
+</p>
+
+<p class="definition">
+	令 `f` 为线性空间 `V` 上的非奇异对称双线性函数. 则
+	`(V, f)` 称为一个<b>对称双线性度量空间</b>, 仍简记为 `V`.
+</p>
+
+<p class="corollary">
+	对称双线性度量空间存在正交基底 `(bm epsi_1, bm epsi_2, cdots, bm
+	epsi_n)`. 因为 `f` 非奇异, 有
+	<span class="formula">
+		`f(bm epsi_i,bm epsi_j) {
+			(= 0, if i != j),
+			(!= 0, if i = j)
+	:}`</span>
+</p>
+
+<h2>内积空间</h2>
+
+<h2>向量到子空间的距离, 最小二乘法</h2>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>
