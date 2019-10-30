@@ -899,7 +899,7 @@
 	的非零解, 且容易证明是线性无关的.
 </p>
 
-<p class="theorem">
+<p class="theorem" id="the-structure-of-solution">
 	令齐次线性方程组 <a class="ref" href="#for-homogeneous"></a>
 	系数矩阵的秩 `r_(bm A) = r`.
 	若 `r lt n`, 则 <a class="ref" href="#for-homogeneous"></a>
@@ -1129,6 +1129,67 @@
 				(k_2)
 			]`
 		</span>
+	</li>
+</ol>
+
+<p class="example">
+	设有 `bbb P^(n xx 1)` 中的线性无关向量组 `"I" = {bm alpha_i}_(i=1)^r`,
+	`"II" = {bm beta_i}_(i=1)^s`, `r + s = n`, 则 `"II"` 构成方程组
+	<span class="formula">
+		`(bm alpha_1,bm alpha_2,cdots,bm alpha_r)' bm X = bb 0`
+	</span>
+	的基础解系当且仅当
+	<span class="formula">
+		`bm alpha_i' bm beta_j = 0`,
+		`quad i in [r], j in [s]`,
+	</span>
+	这当且仅当`"I"` 构成方程组
+	<span class="formula">
+		`(bm beta_1,bm beta_2,cdots,bm beta_s)' bm X = bb 0`
+	</span>
+	的基础解系.
+</p>
+
+<ol class="example">
+	设 `bm A in RR^(m xx n)`, `bm X in RR^n`, `bm B, bb 0 in RR^m`, 则
+	<li>实线性方程组 `bm (A X) = bb 0` 与 `bm (A'A X) = bb 0` 同解;</li>
+	<li>`r_(bm A) = r_(bm(A'A))`;</li>
+	<li>实线性方程组 `bm (A'A X) = bm(A'B)` 有解.</li>
+	注意在复数域中, 结论 1. 未必成立. 如 `bm A = [(1" ","i"),("i ",-1)]`.
+</ol>
+
+<ol class="proof">
+	<li>显然 `bm (A X) = bb 0` 的解也是 `bm (A'A X) = bb 0` 的解. 反之设
+		`bm(A'A X) = bb 0`, 则 `bm(X'A'A X) = 0`, 即 (向量内积)
+		<span class="formula">
+			`(bm(A X), bm(A X)) = 0`,
+		</span>
+		这推出 `bm(A X) = bb 0`.
+		注意, 从线性变换的角度看, 两个齐次方程组同解, 即
+		<span class="formula">
+			`"Ker"bm A = "Ker"bm(A'A)`.
+		</span>
+	</li>
+	<li>由<a class="ref" href="#the-structure-of-solution"></a>
+		知道, 两个同解齐次方程组的系数矩阵秩相等.
+	</li>
+	<li>运用几类秩不等式 (并上一列, 秩变大; 乘以一个矩阵, 秩变小):
+		<span class="formula">
+			`r_(bm(A'A)) le r_((bm(A'A)","bm(A'B)))`
+			`= r_(bm A'(bm A,bm B))`
+			`le r_(bm A')`
+			`= r_(bm A)`
+			`= r_(bm(A'A))`.
+		</span>
+		从而上式取得等号, 特别
+		<span class="formula">
+			`r_(bm(A'A)) = r_((bm(A'A)","bm(A'B)))`,
+		</span>
+		即方程组
+		<span class="formula">
+			`bm(A'A X) = bm(A'B)`
+		</span>
+		有解.
 	</li>
 </ol>
 

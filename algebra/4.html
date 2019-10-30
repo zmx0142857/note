@@ -634,6 +634,16 @@
 	</li>
 </ol>
 
+<p class="example">
+	从线性空间的观点来看线性方程组理论. 设 `bm A in bbb P^(m xx n)`,
+	`bm X in bbb P^(n xx 1)`. 设齐次线性方程组
+	`bm (A X) = bb 0` 的解集为 `S_0`. 记 `r = r_(bm A)`,
+	由第 3 章知, `S_0` 中任意两个解的线性组合仍在 `S_0` 中,
+	因此 `S_0 le bbb P^n`, 称为方程组 `bm (A X) = bb 0` 的<b>解空间</b>.
+	此外, `S_0` 中存在 `n-r` 个向量组成的极大线性无关组 (基础解系),
+	这个无关组就构成解空间 `S_0` 的一组基, 因此 `"dim"S_0 = n-r`.
+</p>
+
 <ol class="example"> *
 	定义 `RR^n` 到 `RR` 的映射如下:
 	<span class="formula">
@@ -815,158 +825,6 @@
 		`quad j = 1, 2, cdots, n`.
 	</span>
 	即得所要证的结果.
-</p>
-
-<h2>线性映射与同构映射</h2>
-
-<p class="definition">
-	令 `V`, `W` 都是数域 `bbb P` 上的线性空间, 称映射
-	`f: V to W` 为 `V` 到 `W` 的一个<b>线性映射</b>, 如果 `f`
-	保持加法和数乘运算, 即对任意 `bm alpha, bm beta in V` 和任意 `k in bbb
-	P`,
-	<span class="formula">
-		`f(bm alpha + bm beta) = f(bm alpha) + f(bm beta)`,
-		`quad f(k bm alpha) = k f(bm alpha)`.
-	</span>
-	或等价地, 对任意 `bm alpha, bm beta in V` 和任意 `k, l in bbb P`,
-	<span class="formula">
-		`f(k bm alpha + l bm beta) = k f(bm alpha) + l f(bm beta)`.
-	</span>
-	定义 `f` 的<b>像</b>与<b>核</b>分别为
-	<span class="formula">
-		`"Im"f := {f(bm alpha) | bm alpha in V}`,<br/>
-		`"Ker"f := {bm alpha in V | f(bm alpha) = bm theta}`.
-	</span>
-	称 `f` 为 `V` 到 `W` 的一个<b>同构映射</b>, 如果它是线性映射,
-	且为双射. 存在 `V` 到 `W` 的同构映射时, 就称 `V` 与 `W` <b>同构</b>,
-	记为 `V ~= W`.
-</p>
-
-<p class="corollary">
-	线性映射的像 (原像) 仍为一线性空间.
-	设 `f` 是线性空间 `V` 到 `W` 的一个线性映射,
-	`V_1 le V`, `W_1 le W`, 则
-	<span class="formula">
-		`f(V_1) le W`, `quad f^-1(W_1) le V`.
-	</span>
-	特别有 `"Im"f le W`, `"Ker"f le V`.
-</p>
-
-<p class="proof">
-	任取 `f(bm alpha), f(bm beta) in f(V_1)`, 其中 `bm alpha, bm beta in
-	V_1`, 从而对任意 `k in bbb P`,
-	<span class="formula">
-		`f(bm alpha) + f(bm beta) = f(bm alpha + bm beta) in f(V_1)`,<br/>
-		`k f(bm alpha) = f(k bm alpha) in f(V_1)`.
-	</span>
-	因此 `f(V_1) le W`. 又任取 `bm gamma, bm delta in f^-1(W_1)`,
-	则 `f(bm gamma), f(bm delta) in W_1`, 从而
-	<span class="formula">
-		`f(bm gamma + bm delta) = f(bm gamma) + f(bm delta) in W_1`,<br/>
-		`f(k bm gamma) = k f(bm gamma) in W_1`.
-	</span>
-	所以 `bm gamma + bm delta, k bm gamma in f^-1(W_1)`, 于是
-	`f^-1(W_1) le V`.
-</p>
-
-<p class="corollary">
-	设 `f` 是线性空间 `V` 到 `W` 的一个线性映射,
-	则对任意 `bm alpha_i in V`, `k_i in bbb P`, `i = 1, 2, cdots, n` 有
-	<span class="formula">
-		`f(sum_(i=1)^n k_i bm alpha_i) = sum_(i=1)^n k_i f(bm alpha_i)`.
-	</span>
-	特别取 `n = 1`, `k_1 = -1` 有
-	<span class="formula">
-		`(AA bm alpha in V)` `f(-bm alpha) = -f(bm alpha)`.
-	</span>
-	取 `n = 1`, `k_1 = 0` 有
-	<span class="formula">
-		`f(bm theta_V) = bm theta_W`.
-	</span>
-</p>
-
-<p class="corollary">
-	设 `f` 是线性空间 `V` 到 `W` 的一个线性映射,
-	若 `f(bm alpha_1), f(bm alpha_2), cdots, f(bm alpha_n)` 线性无关,
-	则 `bm alpha_1, bm alpha_2, cdots, bm alpha_n in V` 线性无关.
-</p>
-
-<p class="theorem">
-	数域 `bbb P` 上线性空间的同构满足自反性, 对称性和传递性,
-	因此是一等价关系.
-</p>
-
-<ol class="proof">
-	设 `U, V, W` 都是 `bbb P` 上的线性空间, `f: U to V`, `g: V to W`
-	为同构映射.
-	<li>`U` 上的恒等映射是一同构映射, 故 `U ~= U`. 这证明了自反性.</li>
-	<li>显然 `f^-1` 为双射;
-		任取 `bm alpha, bm beta in V` 和 `k, l in bbb P`,
-		<span class="formula">
-			`f f^-1(k bm alpha + l bm beta)`
-			`= k bm alpha + l bm beta`
-			`= k f f^-1(bm alpha) + l f f^-1(bm beta)`
-			`= f(k f^-1(bm alpha) + l f^-1(bm beta))`.
-		</span>
-		由 `f` 是单射得
-		<span class="formula">
-			`f^-1(k bm alpha + l bm beta) = k f^-1(bm alpha + l f^-1(bm
-			beta))`,
-		</span>
-		因此 `f^-1` 是同构映射. 这证明了对称性.
-	</li>
-	<li>显然 `g @ f: U to W` 是双射, 同理容易验证它保持加法和数乘,
-		因此是同构映射. 这证明了传递性.
-	</li>
-</ol>
-
-<p class="theorem">
-	数域 `bbb P` 上任意 `n` 维线性空间同构于 `bbb P^n`,
-</p>
-
-<p class="proof">
-	任取 `V` 的一个基底, 则任意 `bm alpha in V` 都唯一确定一个坐标
-	`bm X in bbb P`. 这一映射保持加法和数乘, 且为一双射, 因此是同构映射.
-</p>
-
-<p class="corollary">
-	数域 `bbb P` 上两个有限维线性空间同构当且仅当它们维数相等.
-</p>
-
-<p class="proof">
-	充分性: 设它们的维数都等于 `n`, 则它们都同构于 `bbb P^n`.
-	必要性: 设 `V ~= W`, `bm alpha_1, cdots, bm alpha_n` 是 `V` 的一组基,
-	则 `f(bm alpha_1), cdots, f(bm alpha_n)` 线性无关, 是 `W` 的一组基;
-	反之亦然.
-</p>
-
-<h2>齐次线性方程组的解空间</h2>
-
-<p>	从线性空间的观点来看线性方程组理论. 设 `bm A in bbb P^(m xx n)`,
-	`bm X in bbb P^(n xx 1)`. 设齐次线性方程组
-	`bm (A X) = bb 0` 的解集为 `S_0`. 记 `r = r_(bm A)`,
-	由第 3 章知, `S_0` 中任意两个解的线性组合仍在 `S_0` 中,
-	因此 `S_0 le bbb P^n`, 称为方程组 `bm (A X) = bb 0` 的<b>解空间</b>.
-	此外, `S_0` 中存在 `n-r` 个向量组成的极大线性无关组 (基础解系),
-	这个无关组就构成解空间 `S_0` 的一组基, 因此 `"dim"S_0 = n-r`.
-</p>
-
-<p class="theorem">
-	设有 `bbb P^(n xx 1)` 中的线性无关向量组 `"I" = {bm alpha_i}_(i=1)^r`,
-	`"II" = {bm beta_i}_(i=1)^s`, `r + s = n`, 则 `"II"` 构成方程组
-	<span class="formula">
-		`(bm alpha_1,bm alpha_2,cdots,bm alpha_r)' bm X = bb 0`
-	</span>
-	的基础解系当且仅当
-	<span class="formula">
-		`bm alpha_i' bm beta_j = 0`,
-		`quad i in [r], j in [s]`,
-	</span>
-	这当且仅当`"I"` 构成方程组
-	<span class="formula">
-		`(bm beta_1,bm beta_2,cdots,bm beta_s)' bm X = bb 0`
-	</span>
-	的基础解系.
 </p>
 
 </body>
