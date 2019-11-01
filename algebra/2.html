@@ -13,17 +13,68 @@
 <body>
 
 <p class="example">
-	计算 `n` 阶行列式
+	对正整数 `n ge 2`,
+	<span class="formula">`|
+		(a" ",x" ",cdots" ",x),
+		(y" ",z" ",cdots" ",0),
+		(vdots" ",vdots" "," ",vdots),
+		(y" ",0" ",cdots" ",z)
+	|_n`
+	`= {
+		((a z-(n-1)x y) z^(n-2), if z != 0),
+		(-x y, if z = 0 and n = 2),
+		(0, if z = 0 and n gt 2)
+	:}`
+	</span>
+</p>
+
+<p class="proof">
+	`z != 0` 时, 将后面各列的 `-y/z` 倍加到第一列, 原式等于
+	<span class="formula">
+	`|
+		(a-(n-1)x y z^-1" ",x" ",cdots" ",x),
+		(0" ",z" ",cdots" ",0),
+		(vdots" ",vdots" "," ",vdots),
+		(0" ",0" ",cdots" ",z)
+	|`.
+	</span>
+	于是得到第一种情形. 另外两种情形是显然的.
+</p>
+
+<p class="example">
+	对正整数 `n ge 2`,
 	<span class="formula">`|
 		(x" ",y" ",cdots" ",y),
 		(y" ",x" ",cdots" ",y),
 		(vdots" ",vdots" ", " ",vdots),
 		(y" ",y" ",cdots" ",x)
-	|`.</span>
+	|_n = (x-y)^(n-1) (x+(n-1)y)`.
+	</span>
 </p>
 
-<p class="solution">
-	加边法. 设原式等于 `D_n`, 则
+<p class="proof">
+	先将第一行的 -1 倍加到其余各行, 再将其余各列加到第一列, 原式等于
+	<span class="formula">
+	`|
+		(x" ",y" ",cdots" ",y),
+		(y-x" ",x-y" ",cdots" ",0),
+		(vdots" ",vdots" ", " ",vdots),
+		(y-x" ",0" ",cdots" ",x-y)
+	|`
+	`= |
+		(x+(n-1)y" ",y" ",cdots" ",y),
+		(0" ",x-y" ",cdots" ",0),
+		(vdots" ",vdots" ", " ",vdots),
+		(0" ",0" ",cdots" ",x-y)
+	|`
+	`= (x-y)^(n-1) (x+(n-1)y)`.
+	</span>
+</p>
+
+<p class="proof">
+	加边法. 此法需要结合线性递推式来求解, 可能不是最简便的,
+	但它的通用性较强.
+	设原式等于 `D_n`, 则
 	<span class="formula">
 	`D_n =`
 	`|
@@ -58,7 +109,60 @@
 </p>
 
 <p class="example">
-	计算 `n` 阶行列式
+	对正整数 `n ge 1`, 三对角形行列式
+	<span class="formula">
+	`|
+		(y" ",z" ",0" ",cdots" ",0" ",0),
+		(x" ",y" ",z" ",cdots" ",0" ",0),
+		(0" ",x" ",y" ",cdots" ",0" ",0),
+		(vdots" ",vdots" ",vdots" ", " ",vdots" ",vdots),
+		(0" ",0" ",0" ",cdots" ",y" ",z),
+		(0" ",0" ",0" ",cdots" ",x" ",y)
+	|_n`
+	</span>
+</p>
+
+<p class="proof">
+	记原式等于 `D_n`, 按第一行展开,
+	<span class="formula">
+	`D_n = y D_(n-1) - z|
+		(x" ",z" ",cdots" ",0),
+		(0" "," "," ",),
+		(vdots" "," ",D_(n-2)" ",),
+		(0" "," "," ",)
+	|`,
+	</span>
+	最后一个行列式再按第一列展开得
+	<span class="formula">
+		`D_n = y D_(n-1) - x z D_(n-2)`.
+	</span>
+	下面求解这个线性递推式,
+	若 `x z = 0`, 方程退化为 `D_n = y D_(n-1)`, 从而 `D_n = y^n`.
+	否则解特征方程
+	<span class="formula">
+		`lambda^2 - y lambda + x z = 0`
+	</span>
+	得 `lambda_(1,2) = (y +- sqrt(y^2-4x z))//2`.
+	`lambda_1 != lambda_2` 时, 通解为
+	<span class="formula">
+		`D_n = c_1 lambda_1^n + c_2 lambda_2^n`,<br/>
+		`c_1 = (D_1 lambda_2-D_2)/(lambda_1(lambda_2-lambda_1))`,
+		`quad c_2 = (D_2-lambda_1 D_1)/(lambda_2(lambda_2-lambda_1))`.
+	</span>
+	再代入初值 `D_1 = y`, `D_2 = y^2-x z` 即可.
+	`lambda_1 = lambda_2 = y//2` 时, 通解为
+	<span class="formula">
+		`D_n = (c_1 + c_2 n) lambda_1^n`,<br/>
+		`c_1 = 1/lambda_1(2D_1 - D_2/lambda_1)`,
+		`quad c_2 = 1/lambda_1(D_2/lambda_1-D_1)`.
+	</span>
+	再代入初值得
+	<span class="formula">
+		`c_1 = (x z)/y^2`, `quad c_2 = 2 - (4x z)/y^2`.
+	</span>
+</p>
+
+<p class="example">
 	<span class="formula">
 	`|
 		(x" ",0" ",cdots" ",0" ",a_0),
@@ -66,13 +170,13 @@
 		(0" ",-1" ",cdots" ",0" ",a_2),
 		(vdots" ",vdots" ", " ",vdots" ",vdots),
 		(0" ",0" ",cdots" ",-1" ",x+a_(n-1))
-	|`.
+	| = f(x)`,
 	</span>
+	其中 `f(x) = sum_(i=0)^n a_i x^i`, `a_n = 1`.
 </p>
 
 <p class="solution">
 	对 `k = n-1, cdots, 2, 1`, 依次将第 `k+1` 行的 `x` 倍加到第 `k` 行上,
-	记 `f(x) = sum_(i=0)^n a_i x^i`, `a_n = 1`,
 	原式等于
 	<span class="formula">
 		`|(0 ,f(x)),
@@ -126,27 +230,27 @@
 <p class="example">
 	求行列式
 	<span class="formula">`|
-		(1, ((m_1),(1)), cdots, ((m_1),(n-1))),
-		(1, ((m_2),(1)), cdots, ((m_2),(n-1))),
+		(1, ((x_1),(1)), cdots, ((x_1),(n-1))),
+		(1, ((x_2),(1)), cdots, ((x_2),(n-1))),
 		(vdots, vdots, , vdots),
-		(1, ((m_n),(1)), cdots, ((m_n),(n-1)))
+		(1, ((x_n),(1)), cdots, ((x_n),(n-1)))
 	|`.</span>
 </p>
 
 <p class="solution">
-	因为 `((m),(k))` 可以看成是关于 `m` 的 `k` 次多项式,
+	因为 `((x),(k))` 可以看成是关于 `x` 的 `k` 次多项式,
 	因此依次将原式的前 `i` 列的某个线性组合加到第 `i+1` 列, 就可以消去
 	第 `i+1` 列中的低次项, 使其只剩 `i` 次项, `i = 2, 3, cdots, n-1`.
 	从而得到
 	<span class="formula">`|
-		(1," "m_1/(1!)," "cdots," "m_1^(n-1)/((n-1)!)),
-		(1," "m_2/(1!)," "cdots," "m_2^(n-1)/((n-1)!)),
+		(1," "x_1/(1!)," "cdots," "x_1^(n-1)/((n-1)!)),
+		(1," "x_2/(1!)," "cdots," "x_2^(n-1)/((n-1)!)),
 		(vdots," "vdots," "," "vdots),
-		(1," "m_n/(1!)," "cdots," "m_n^(n-1)/((n-1)!))
+		(1," "x_n/(1!)," "cdots," "x_n^(n-1)/((n-1)!))
 	|`.</span>
 	利用 Vandermonde 行列式, 上式等于
 	<span class="formula">
-		`prod_(i=1)^(n-1) (i!)^-1 prod_(1 le i lt j le n) (m_j-m_i)`.
+		`prod_(i=1)^(n-1) (i!)^-1 prod_(1 le i lt j le n) (x_j-x_i)`.
 	</span>
 </p>
 
