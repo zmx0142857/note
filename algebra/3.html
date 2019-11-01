@@ -71,9 +71,10 @@
 	<li>齐次方程组 `bm (AX) = bb 0` 有非零解当且仅当
 		`bm (A epsi_j)` (`j = 1, 2, cdots, n`) 线性相关.
 	</li>
-	<li>进一步设 `m = n`, 联系 Cramer 法则的推论 ???, `|bm A| = 0`
-		当且仅当 `bm (A epsi_j)` (`j = 1, 2, cdots, n`) 线性相关.
-		特别取 `bm A = bm E` 知,
+	<li>进一步设 `m = n`, 联系 Cramer 法则一节的<a
+		href="2.html#the-homogeneous-nonzero-solution-iff">这个定理</a>,
+		`|bm A| = 0` 当且仅当 `bm (A epsi_j)` (`j = 1, 2, cdots, n`)
+		线性相关.  特别取 `bm A = bm E` 知,
 		`bm epsi_1, bm epsi_2, cdots, bm epsi_n` 线性无关.
 	</li>
 </ol>
@@ -606,6 +607,13 @@
 
 <p class="corollary">
 	有限次初等变换不改变矩阵的秩.
+</p>
+
+<p class="corollary">
+	两个矩阵等价当且仅当它们是具有同样行, 列数的同秩矩阵.
+</p>
+
+<p class="corollary">
 	由于可逆矩阵可以写为有限个初等矩阵的乘积, 所以任一矩阵乘以可逆矩阵后,
 	秩不变.
 </p>
@@ -684,6 +692,131 @@
 	此时记 `k = bm beta' bm alpha`, 则 `bm A^2 = k bm A`.
 	可见低秩矩阵的幂运算是容易进行的.
 </p>
+
+<ol class="example">
+	<b>若干秩不等式</b>
+	假设下面各式中的加法与乘法都可以进行, 即矩阵具有合适的行, 列数:
+	<li>`max{r_(bm A),r_(bm B)} le r_((bm A","bm B))
+		le r_(bm A) + r_(bm B)`;
+	</li>
+	<li>`r_(bm A+-bm B) le r_(bm A) + r_(bm B)`;</li>
+	<li>`r_(bm(A B)) le min{r_(bm A), r_(bm B)}`;</li>
+	<li>(Sylvester) 任意 `bm A_(m xx n)`, `bm B_(n xx s)` 满足
+		`r_(bm A) + r_(bm B) le n + r_(bm(A B))`,
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>分别记 `bm A, bm B, (bm A,bm B)` 这三个矩阵的列向量组为
+		`"I", "II", "III"`. 因为 `"I", "II"` 都能由 `"III"` 线性表出, 所以
+		`max{r_"I",r_"II"} le r_"III"`. 另一方面, 记 `"IV"` 为 `"I", "II"`
+		中的极大线性无关组之并, 则 `r_"IV" le r_"I" + r_"II"`.
+		但 `"III"` 和 `"IV"` 能相互表出, 从而 `r_"III" = r_"IV"`.
+		综上即得到结论.
+	</li>
+	<li>分别记 `bm A, bm B, bm(A+B)` 这三个矩阵的列向量组为
+		`"I", "II", "III"`. 又记 `"IV"` 为 `"I", "II"`
+		中的极大线性无关组之并, 则 `r_"IV" le r_"I" + r_"II"`.
+		但 `"IV"` 能线性表出 `"III"`, 有 `r_"III" le r"IV"`,
+		综上即得到结论.
+	</li>
+	<li>`bm (A B)` 的各列向量可由 `bm A` 的各列向量线性表出,
+		所以 `r_(bm(A B)) le r_(bm A)`;
+		`bm (A B)` 的各行向量可由 `bm B` 的各行向量线性表出,
+		所以 `r_(bm(A B)) le r_(bm B)`.
+	</li>
+	<li>考察矩阵
+		<span class="formula">
+			`bm C = [(bm E_n" ",bm B),(bm A" ",bm O)]`,
+			`quad bm P = [(bm E_n" ",bm O),(-bm A" ",bm E_m)]`,
+			`quad bm Q = [(bm E_n" ",-bm B),(bm O" ",bm E_s)]`,
+		</span>
+		计算知
+		<span class="formula">
+			`bm(P C Q) = [(bm E_n" ",bm O),(bm O" ",-bm(A B))]`.
+		</span>
+		由于 `|bm P| = |bm Q| = 1`, 故 `bm P, bm Q` 均可逆, 所以
+		<span class="formula">
+			`r_(bm C) = r_(bm(P C Q)) = r_(bm E_n) + r_(-bm(A B))`
+			`= n + r_(bm(A B)`.
+		</span>
+		通过初等变换可以发现, 在矩阵 `bm C` 中,
+		`bm A`, `bm B` 各自的列极大线性无关组所在的列线性无关,
+		故 `r_(bm A) + r_(bm B) le r_(bm C)`, 证毕.
+	</li>
+</ol>
+
+<p class="example">
+	`bm A in bbb P^(r xx r)`, `bm B in bbb P^(r xx n)`,
+	`r_(bm B) = r`, 则
+	<span class="formula">
+		`bm(A B) = bm O rArr bm A = bm O`,<br/>
+		`bm(A B) = bm B rArr bm A = bm E`.
+	</span>
+</p>
+
+<p class="proof">
+	若 `bm(A B) = bm O`, 由 Sylvester 秩不等式立即有 `r_(bm A) + r_(bm B)
+	le r`, 但 `r_(bm B) = r`, 故 `r_(bm A) le 0`, 即 `bm A = bm O`.<br/>
+	若 `bm(A B) = bm B`, 令 `bm B_1` 为 `bm B` 中线性无关的 `r`
+	列组成的方阵, 于是 `bm B_1` 可逆, 且 `bm(A B_1) = bm B_1`.
+	两边同时右乘 `bm B_1^-1` 得 `bm A = bm E`.
+</p>
+
+<p class="example">
+	<b>矩阵的秩因子分解 (rank factorization)</b>
+	令 `bm A in bbb P^(m xx n)`,
+	`r_(bm A) = r`, 则存在 `bm B in bbb P^(m xx r)`, `bm C in bbb
+	P^(r xx n)` 使得 `r_(bm B) = r_(bm C) = r`,
+	`bm A = bm(B C)`.
+</p>
+
+<p class="proof">
+	`r = 0` 时, `bm A = bm O`, 取 `bm B, bm C` 为零矩阵即可. 下设 `r gt
+	0`. 记 `bm A = (bm alpha_1, bm alpha_2, cdots, bm alpha_n)`.
+	不妨设 `bm A` 的前 `r` 列线性无关, 则后 `n-r` 列可以被前 `r`
+	列线性表出:
+	<span class="formula">
+		`bm alpha_(r+j) = sum_(i=1)^r c_(i j) bm alpha_i`,
+		`quad j = 1,2,cdots,n-r`.
+	</span>
+	将 `bm A` 的前 `r` 列组成的矩阵记为 `bm B`, 又记
+	<span class="formula">
+		`bm C_1 = (c_(i j))_(r xx (n-r))`,
+		`quad bm C = (bm E_r, bm C_1)`,
+	</span>
+	可以验证 `r_(bm B) = r_(bm C) = r`, 且 `bm A = bm(B C)`.
+</p>
+
+<ol class="example">
+	<b>伴随矩阵的秩</b>
+	设 `bm A` 是阶数 `ge 2` 的方阵, `bm A^**` 是它的伴随矩阵, 则
+	<span class="formula">
+		`r_(bm A^**) = {
+			(n, if r_(bm A) = n),
+			(1, if r_(bm A) = n-1),
+			(0, if r_(bm A) lt n-1)
+		:}`
+	</span>
+	从而 `bm A` 不可逆时, `bm A^**` 也不可逆.
+</ol>
+
+<ol class="proof">
+	<li>由方阵逆的结构公式 `bm A^-1 = (bm A^**)/|bm A|`,
+		`bm A` 可逆时, `bm A^**` 也可逆.
+		因此 `r_(bm A) = n` 时, `r_(bm A^**) = n`.
+	</li>
+	<li>由 `r_(bm A) = n-1` 知存在 `bm A` 的一个非零 `n-1` 阶子式,
+		故 `bm A^** != bm O`, `r_(bm A^**) ge 1`.
+		另一方面, 由 `bm(A A^**) = |bm A|bm E = bm O`,
+		由 Sylvester 秩不等式,
+		`r_(bm A) + r_(bm A^**) le n`, 即 `r_(bm A^**) le 1`,
+		所以 `r_(bm A^**) = 1`.
+	</li>
+	<li>`r_(bm A) lt n-1` 蕴含 `bm A` 的任一 `n-1` 阶子式为零, 从而
+		`bm A^** = bm O`, `r_(bm A^**) = 0`.
+	</li>
+</ol>
 
 <h3>线性方程组的可解性 (矩阵语言)</h3>
 

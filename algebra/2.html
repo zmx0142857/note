@@ -281,6 +281,227 @@
 	证毕.
 </p>
 
+<h2>Cramer 法则</h2>
+
+<p class="lemma">
+	令 `bm  A = (a_(i j))_(n xx n)`, 以 `A_(i j)` 记元素 `a_(i j)`
+	的代数余子式, 则
+	<span class="formula">
+		`sum_(k=1)^n a_(i k) A_(j k) = delta_(i j) |bm A|`,
+		`quad sum_(k=1)^n a_(k i) A_(k j) = delta_(i j) |bm A|`,
+		`quad i,j in [n]`.
+	</span>
+</p>
+
+<p class="proof">
+	只证第一式. 若 `i = j`, 等式左边等于 `|bm A|` 沿第 `i` 行展开的结果,
+	自然等于右边. 若 `i != j`, 等式左边等于将 `|bm A|` 的第 `j` 行用第 `i`
+	行的拷贝替换后, 沿第 `j` 行展开的结果. 由于这个替换后的行列式的第 `j`
+	行与第 `i` 行完全相同, 所以它等于零.
+</p>
+
+<p class="definition">
+	如果 `|bm A| != 0`, 则称方阵 `bm A` <b>非奇异</b>.
+</p>
+
+<p class="definition">
+	设 `bm A` 是阶数 `ge 2` 的方阵,
+	<span class="formula">
+		`bm A^** = [
+			(A_11" ",A_21" ",cdots" ",A_(n1)),
+			(A_12" ",A_22" ",cdots" ",A_(n2)),
+			(vdots" ",vdots" ", ,vdots),
+			(A_(1n)" ",A_(2n)" ",cdots" ",A_(n n))
+		]`
+	</span>
+	称为 `bm A` 的<b>伴随矩阵</b>. 注意伴随矩阵的 `i j` 元等于 `a_(j i)`
+	的代数余子式.
+</p>
+
+<p class="theorem">
+	<b>方阵逆的结构公式</b>
+	方阵 `bm A` 可逆当且仅当它非奇异, 此时有
+	<span class="formula">
+		`bm A^-1 = (bm A^**)/|bm A|`.
+	</span>
+	这个公式适用于计算二阶矩阵的逆:
+	<span class="formula">
+		`[(a" ",b),(c" ",d)]^-1`
+		`= 1/(a d-b c) [(d" ",-b),(-c" ",a)]`,
+	</span>
+	但是当矩阵的阶数较大时, 计算量很大, 所以并不适用.
+</p>
+
+<p class="proof">
+	"`rArr`": 若 `bm A` 可逆, 则存在方阵 `bm B` 使得
+	`bm(A B) = bm(B A) = bm E`, 从而 `|bm A||bm B| = 1`,
+	所以 `|bm A| != 0`.<br/>
+	"`lArr`": 若 `bm A` 非奇异, 利用引理计算得,
+	`bm (A A^**) = bm (A^** A) = |bm A| bm E`,
+	从而得到 `bm A^-1`.
+</p>
+
+<p>	从而得到第一章注释中的推论:</p>
+
+<p class="corollary">
+	若方阵 `bm A, bm B` 满足 `bm(A B) = bm E`, 则 `bm A, bm B` 都可逆,
+	事实上它们互逆.
+</p>
+
+<p class="corollary">
+	若 `bm A_(n xx n)` 可逆, 则由 `bm A^** bm A = |bm A|bm E` 得到
+	`|bm A^**| = |bm A|^(n-1)`.
+</p>
+
+<p class="remark">
+	若 `bm A` 不可逆, 则 `|bm A^**| = 0`.
+	我们将在第三章利用秩的理论给出一个证明.
+</p>
+
+<p class="theorem" id="the-homogeneous-nonzero-solution-iff">
+	设 `bm A in bbb P^(n xx n)`, `bm X, bb 0 in bbb P^(n xx 1)`,
+	则<b>齐次线性方程组</b> `bm(A X) = bb 0`
+	存在非零解当且仅当其系数矩阵 `bm A` 奇异.
+</p>
+
+<ol class="proof">
+	首先指出, 原方程组总是有解 `bm X = bb 0`, 称为<b>零解</b>.
+	<li>设 `bm A` 非奇异, 即 `bm A` 可逆.
+		设存在 `bm X` 满足 `bm(A X) = bb 0`, 则
+		<span class="formula">
+			`bm X = bm(A^-1 A X) = bm A^-1 bb 0 = bb 0`.
+		</span>
+		即原方程只有零解.
+	</li>
+	<li>设 `bm A` 奇异, 考虑 `bm A` 的等价标准形 `bm bar A`.
+		我们知道, 方程组在增广矩阵的行初等变换下,
+		以及不涉及最后一列的列初等变换下保持同解 (涉及列初等变换时,
+		同解是在适当重排变量次序的意义下的).
+		注意到齐次线性方程组的增广矩阵的最后一列全为零,
+		从而原方程组可以通过上述变换变成 `bm(bar A X) = bb 0`,
+		即它们同解.<br/>
+		因为初等变换不能将一个矩阵的行列式从零变成非零,
+		也不能将它从非零变成零, 所以
+		`|bm A| = 0` 当且仅当 `bm bar A` 含有零列.
+		设 `bm bar A` 的第 `j` 列全为零, 则单位列向量 `bm epsi_j`
+		就是 `bm(bar A X) = bb 0` 的一个非零解,
+		从而也是原方程组的一个非零解.
+	</li>
+</ol>
+
+<p class="theorem">
+	<b>Cramer 法则</b>
+	设 `bm A in bbb P^(n xx n)`, `bm X, bm B in bbb P^(n xx 1)`,
+	则线性方程组 `bm(A X) = bm B` 有唯一解当且仅当 `bm A` 非奇异,
+	且此时解的表达式为:
+	<span class="formula">
+		`bm X = bm(A^-1 B)`
+		`= 1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)'`,
+	</span>
+	其中 `bm A_i` 是用 `bm B` 取代 `bm A` 的第 `i` 列所得的矩阵,
+	`i in [n]`.
+</p>
+
+<ol class="proof">
+	<li>"`lArr`": 设 `bm A` 非奇异, 即 `bm A` 可逆,
+		`bm X = bm A^-1 bm B` 即为方程组的一个解, 这证明了解的存在性.
+		设又有 `bm Y` 满足 `bm(A Y) = bm B`, 则
+		<span class="formula">
+			`bm Y = bm(A^-1 A Y) = bm(A^-1 B) = bm X`.
+		</span>
+		这证明了解的唯一性.
+	</li>
+	<li>"`rArr`": 设 `bm X` 是方程组 `bm(A X) = bm B` 的唯一解,
+		反设 `bm A` 奇异, 则由<a class="ref"
+		href="#the-homogeneous-nonzero-solution-iff"></a>,
+		存在 `bm Y != bb 0` 使得 `bm(A Y) = bb 0`. 从而
+		<span class="formula">
+			`bm(A(X+Y)) = bm(A X) + bm(A Y) = bm B`,
+		</span>
+		而 `bm(X+Y) != bm X`, 与解的唯一性矛盾. 故 `bm A` 非奇异.
+	</li>
+	<li>下面证明解的第二个表达式.
+		首先将 `|bm A_i|` 按第 `i` 列展开得
+		<span class="formula">
+			`|bm A_i| = (A_(1 i), A_(2 i), cdots, A_(n i)) bm B`.
+		</span>
+		从而
+		<span class="formula">
+			`1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)'`
+			`= 1/|bm A| [
+				((A_11, A_21, cdots, A_(n1))bm B),
+				((A_12, A_22, cdots, A_(n2))bm B),
+				(vdots),
+				((A_(1n), A_(2n), cdots, A_(n n))bm B)
+			]`
+			`= 1/|bm A| bm A^** bm B`
+			`= bm(A^-1 B)`.
+		</span>
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>解的表达式的另一证法.
+		设 `bm epsi_i` 为第 `i` 个分量等于 1, 其余分量等于 0 的 `n`
+		维单位列向量, 则 `bm A` 的 `n` 个列向量可以写成
+		<span class="formula">
+			`bm(A epsi_1), bm(A epsi_2), cdots, bm(A epsi_n)`.
+		</span>
+		若存在列向量 
+		<span class="formula">
+			`bm X = (x_1, x_2, cdots, x_n)'`
+		</span>
+		使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
+		<span class="formula">
+			`bm A(bm epsi_1, cdots, bm epsi_(i-1), bm X, bm epsi_(i+1),
+			cdots, bm epsi_n)`
+			`= (bm(A epsi_1), cdots, bm(A epsi_(i-1)), bm(A X), bm(A
+			epsi_(i+1)), cdots, bm(A epsi_n))`
+			`= bm A_i`.
+		</span>
+		上式两边取行列式, 注意
+		<span class="formula">
+			`|bm epsi_1, cdots, bm epsi_(i-1), bm X, bm epsi_(i+1),
+			cdots, bm epsi_n| = x_i`,
+		</span>
+		有
+		<span class="formula">
+			`x_i = |bm A_i|/|bm A|`,
+			`quad i in [n]`.
+		</span>
+	</li>
+	<li>解的表达式的又一证法. 记
+		<span class="formula">
+			`bm A = (bm alpha_1, bm alpha_2, cdots, bm alpha_n)`,
+		</span>
+		若存在列向量 
+		<span class="formula">
+			`bm X = (x_1, x_2, cdots, x_n)'`
+		</span>
+		使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
+		<span class="formula">
+			`|bm A_i|`
+			`= |bm alpha_1, cdots, bm alpha_(i-1), bm(A X),
+			bm alpha_(i+1), cdots, bm alpha_n|`
+			`= |bm alpha_1, cdots, bm alpha_(i-1), sum_(j=1)^n x_j bm
+			alpha_j, bm alpha_(i+1), cdots, bm alpha_n|`
+			`= sum_(j=1)^n |bm alpha_1, cdots, bm alpha_(i-1),
+			bm alpha_j, bm alpha_(i+1), cdots, bm alpha_n| x_j`
+			`= |bm A| x_i`.
+		</span>
+	</li>
+</ol>
+
+<p class="remark">
+	用 Cramer 法则求解二元一次方程组
+	<span class="formula">`{
+		(a x + b y = u),
+		(c x + d y = v)
+	:}`</span>
+	得 `(x,y) = 1/(a d-b c)(|(u" ",b),(v" ",d)|, |(a" ",u),(c" ",v)|)`.
+	但当方程组规模较大时, Cramer 法则的计算量很大.
+</p>
+
 </body>
 
 <script src="../js/note.js?type=math"></script>
