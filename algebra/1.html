@@ -97,27 +97,53 @@
 	</li>
 	<li>如果方阵的所有满足 `i lt j` 的 `i j` 元均为零,
 		则称它为 `n` 阶<b>下三角矩阵</b>;
-		如果方阵的所有满足 `i le j` 的 `i j` 元均为零,
-		则称它为 `n` 阶<b>严格下三角矩阵</b>;
 		如果方阵的所有满足 `i gt j` 的 `i j` 元均为零,
 		则称它为 `n` 阶<b>上三角矩阵</b>;
-		如果方阵的所有满足 `i ge j` 的 `i j` 元均为零,
-		则称它为 `n` 阶<b>严格上三角矩阵</b>;
+		如果上 (下三角矩阵的主对角线元素全为 0, 则称它为<b>严格上 (下)
+		三角矩阵</b>;
+		如果上 (下) 三角矩阵的主对角线元素全为 1, 则称它为<b>单位上 (下)
+		三角矩阵</b>.
+		显然, (严格, 单位) 上 (下) 三角矩阵的乘积仍为 (严格, 单位) 上
+		(下) 三角矩阵.
+		如果我们只关心三角形矩阵的主对角元, 则上三角矩阵可以简记为
+		<span class="formula">
+			`bm U_(a_i)`
+			`= bm U(a_1, a_2, cdots, a_r)`
+			`= [
+				(a_1, , , **),
+				(, a_2, ,),
+				(, ,ddots,),
+				(, , ,a_r)
+			]`.
+		</span>
+		下三角矩阵类似记为 `bm L_(a_i)`.
 	</li>
 	<li>如果方阵的主对角线以外的元素均等于零, 即矩阵形如
 		<span class="formula">
 		`[
-			(d_1" ",0" ",cdots" ",0),
-			(0" ",d_2" ",cdots" ",0),
-			(vdots" ",vdots" ", " ",vdots),
-			(0" ",0" ",cdots" ",d_n)
+			(d_1, , ,),
+			(,d_2, ,),
+			(, ,ddots,),
+			(, , ,d_n)
 		]`,
 		</span>
-		则称它为 `n` 阶<b>对角矩阵</b>, 记为 `bm D_(d_k)`.
-		对角矩阵既是上三角矩阵, 也是下三角矩阵.
+		则称它为 `n` 阶<b>对角矩阵</b>, 记为 `bm D(d_1, cdots, d_n)` 或
+		`bm D_(d_k)`.
+		对角矩阵既是上三角矩阵, 也是下三角矩阵;
+		对角矩阵相乘, 结果还是对角矩阵.
 		矩阵左乘 `bm D_(d_k)`, 相当于第 `i` 行每个元素都乘以 `d_i`;
 		矩阵右乘 `bm D_(d_k)`, 相当于第 `j` 列每个元素都乘以 `d_j`.
-		对角矩阵相乘, 结果还是对角矩阵.
+	</li>
+	<li>如果方阵的副对角线以外的元素均等于零, 即矩阵形如
+		<span class="formula">
+		`[
+			(, , ,d_1),
+			(, ,d_2,),
+			(,&#8944;, ,),
+			(d_n, , ,)
+		]`
+		</span>
+		则称它为 `n` 阶<b>副对角矩阵</b>.
 	</li>
 	<li>如果 `n` 阶对角阵的每个对角元都等于 `1`, 则称它为 `n`
 		阶<b>单位矩阵</b>, 记为 `bm E_n` 或 `bm I_n`, 或者省略下标,
@@ -185,7 +211,7 @@
 </ol>
 
 <ol class="example">
-	<li>上, 下三角矩阵互为转置; 严格上, 下三角矩阵互为转置.</li>
+	<li>(严格, 单位) 上, 下三角矩阵互为转置.</li>
 	<li>如果方阵 `bm A` 满足 `bm A' = bm A`, 则称它为<b>对称矩阵</b>;
 		如果方阵 `bm A` 满足 `bm A' = -bm A`, 则称它为<b>反对称矩阵</b>.
 		如同任一函数可分解为偶函数与奇函数之和:
@@ -260,13 +286,30 @@
 	<li>`(c bm A)^-1 = c^-1 bm A^-1`.</li>
 </ol>
 
-<!--<h3>矩阵的分块运算</h3>???-->
-
 <h2>矩阵运算进阶</h2>
+
+<ol class="example">
+	设 `bm A, bm B` 为方阵,
+	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T'A T)`,
+		则称矩阵 `bm A, bm B` <b>合同</b>.
+		合同是一等价关系.
+		与对称矩阵合同的矩阵仍对称.
+		称方阵 `bm A` <b>正定</b>, 如果它合同于单位矩阵 `bm E`.
+		正定矩阵是对称的, 可逆的.
+	</li>
+	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T^-1 A T)`,
+		则称矩阵 `bm A, bm B` <b>相似</b>.
+		相似是一等价关系.
+		与数量矩阵 `c bm E` 相似的矩阵只有它自己,
+		特别地, 与单位矩阵 (零矩阵) 相似的矩阵只有自己.
+		若 `bm T` 是正交矩阵, 则称 `bm A, bm B` <b>正交相似</b>.
+		正交相似的两个矩阵既合同, 又相似.
+	</li>
+</ol>
 
 <h3>几类矩阵可交换的结论</h3>
 
-<ol class="example">
+<ol class="definition">
 	<li>设 `bm A, bm B` 是同阶对称矩阵, 则 `bm(A B)` 是对称矩阵当且仅当
 		`bm A, bm B` 可交换.
 	</li>
@@ -335,14 +378,6 @@
 	<span class="formula">
 		`bm A^n bm B^n = (bm (A B))^n`.
 	</span>
-	设 `bm P` 可逆, 则
-	<span class="formula">
-		`(bm (P^-1 A P))^n = bm P^-1 bm A^n bm P`.
-	</span>
-	分块对角矩阵的幂
-	<span class="formula">
-		`bm D_(bm A_k)^n = bm D_(bm A_k^n)`.
-	</span>
 </p>
 
 <p class="definition">
@@ -353,7 +388,18 @@
 	<span class="formula">
 		`f(bm A) = (f(a_(i j)))_(n xx n)`.
 	</span>
-	于是方阵的多项式可以等同于多项式的方阵.
+	设 `bm A, bm T` 为方阵, `f, g` 为多项式, 且下面的各运算有意义, 则
+	<span class="formula">
+		`f(bm(T^-1 A T)) = bm T^-1 f(bm A) bm T`,
+		`quad f(bm A') = f(bm A)'`,
+		`quad f(bm A)g(bm A) = g(bm A)f(bm A)`.
+	</span>
+	关于分块上, 下三角矩阵和分块对角矩阵有
+	<span class="formula">
+		`f(bm U_(bm A_k)) = bm U_(f(bm A_k))`,
+		`quad f(bm L_(bm A_k)) = bm L_(f(bm A_k))`,
+		`quad f(bm D_(bm A_k)) = bm D_(f(bm A_k))`.
+	</span>
 </p>
 
 <p class="example">
@@ -390,10 +436,25 @@
 	</span>
 </p>
 
+<ol class="definition">
+	<li>称满足 `bm(T' T) = bm E` 的实方阵 `bm T`
+		为<b>正交矩阵 (orthgonal matrix)</b>.
+		正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
+		`delta_(i j)`. 例如下面的矩阵是正交矩阵:
+		<span class="formula">
+			`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`.
+		</span>
+		用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
+	</li>
+	<li>设 `bm A = (a_(i j))_(m xx n)`, 则 `bm bar A = (bar(a_(i j)))_(m
+		xx n)` 称为 `bm A` 的<b>共轭</b>.
+		称满足 `bm(bar U' U) = bm E` 的复方阵 `bm U` 为<b>酉矩阵</b>.
+		显然正交矩阵都为酉矩阵. 酉矩阵是正交矩阵在复数域上的推广.
+	</li>
+</ol>
+
 <p class="example">
-	设 `bm A = (a_(i j))_(m xx n)`,
-	`bm bar A = (bar(a_(i j)))_(m xx n)`,
-	则 `bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
+	`bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
 	且 `"tr"(bm(bar A' A))` 等于 `bm A` 的每个元素的模的平方和, 即
 	<span class="formula">
 		`"tr"(bm(bar A'A)) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
@@ -401,50 +462,42 @@
 	从而 `bm A = bm O` 当且仅当 `"tr"(bm(bar A'A)) = 0`.
 </p>
 
-<p class="example">
-	如果方阵 `bm T` 满足 `bm (T' T) = bm E`, 则称 `bm T` 为 `n`
-	阶<b>正交矩阵 (orthgonal matrix)</b>.
-	正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
-	`delta_(i j)`. 例如下面的矩阵是正交矩阵:
-	<span class="formula">
-		`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`.
-	</span>
-	用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
-</p>
-
-<ol class="example">
-	设 `bm A, bm B` 为方阵,
-	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T'A T)`,
-		则称矩阵 `bm A, bm B` <b>合同</b>.
-		合同是一等价关系. 如果 `bm A` 为对称矩阵, 则任意与 `bm A`
-		合同的矩阵都对称.
-		称方阵 `bm A` <b>正定</b>, 如果它合同于单位矩阵 `bm E`.
-		显然正定矩阵是对称的, 可逆的.
-	</li>
-	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T^-1 A T)`,
-		则称矩阵 `bm A, bm B` <b>相似</b>.
-		相似是一等价关系. 与单位阵相似的矩阵只有单位阵.
-		特别若 `bm T` 是正交矩阵, 则称 `bm A, bm B` <b>正交相似</b>.
-		显然正交相似的两个矩阵既合同, 又相似.
-	</li>
-</ol>
-
 <h3>方阵逆的一些结论</h3>
 
-<p class="example">
-	分块对角矩阵的逆. 假设每个 `bm A_k` 都可逆, 则
-	<span class="formula">
-		`bm D_(bm A_k)^-1 = bm D_(bm A_k^-1)`.
-	</span>
-</p>
-
-<p class="example">
-	设 `bm A, bm B` 可逆, 则
-	<span class="formula">
-		`[(bm O" ",bm A),(bm B" ",bm O)]^-1`
-		`= [(bm O,bm B^-1),(bm A^-1,bm O)]`.
-	</span>
-</p>
+<ol class="example">
+	<li>分块对角矩阵的逆. 假设每个 `bm A_k` 都可逆, 则
+		<span class="formula">
+			`[
+				(bm A_1, , ,),
+				(,bm A_2, ,),
+				(, ,ddots,),
+				(, , ,bm A_n)
+			]^-1`
+			`= [
+				(bm A_1^-1, , ,),
+				(,bm A_2^-1, ,),
+				(, ,ddots,),
+				(, , ,bm A_n^-1)
+			]`.
+		</span>
+	</li>
+	<li>分块副对角矩阵的逆. 假设每个 `bm A_k` 都可逆, 则
+		<span class="formula">
+			`[
+				(, , ,bm A_1),
+				(, ,bm A_2,),
+				(,&#8944;, ,),
+				(bm A_n, , ,)
+			]^-1`
+			`= [
+				(, , ,bm A_n^-1),
+				(, ,&#8944;,),
+				(,bm A_2^-1, ,),
+				(bm A_1^-1, , ,)
+			]`.
+		</span>
+	</li>
+</ol>
 
 <p class="example">
 	设 `bm A, bm B` 是 `n` 阶方阵, `bm A, bm B, bm A + bm B` 都可逆,
@@ -543,17 +596,17 @@
 
 <p class="corollary">
 	`m xx n` 阶矩阵 `bm A, bm B` 等价当且仅当存在 `m` 阶初等矩阵
-	`{bm F_i}_(i=1)^s` 和 `n` 阶初等矩阵 `{bm G_j}_(j=1)^t`, 使得
+	`{bm P_i}_(i=1)^s` 和 `n` 阶初等矩阵 `{bm Q_j}_(j=1)^t`, 使得
 	<span class="formula">
-		`bm B = bm F_s cdots bm F_2 bm F_1 bm A bm G_1 bm G_2 cdots bm
-		G_t`.
+		`bm B = bm P_s cdots bm P_2 bm P_1 bm A bm Q_1 bm Q_2 cdots bm
+		Q_t`.
 	</span>
 </p>
 
 <p class="theorem">
 	任意 `m xx n` 矩阵等价于如下形状的矩阵
 	<span class="formula">
-		`bar bm A = [(bm E_r" ", bm O),(bm O" ", bm O)]_(m xx n)`,
+		`bm overset ~ A = [(bm E_r" ", bm O),(bm O" ", bm O)]_(m xx n)`,
 	</span>
 	称为 `bm A` 的<b>等价标准形</b>, 其中 `0 le r le min{m,n}`.
 </p>
@@ -563,10 +616,10 @@
 </p>
 
 <p class="proof">
-	设 `bm A = bm(P bar A Q)`, 其中 `bm P, bm Q` 可逆, `bar bm A` 是 `bm
-	A` 的等价标准形, 显然 `bm bar A` 对称. 于是
-	`bm A = bm (P(Q')^-1 Q' bar A Q)`, 其中 `bm(P(Q')^-1)` 可逆,
-	`bm (Q' bar A Q)` 为对称矩阵.
+	设 `bm A = bm(P overset ~ A Q)`, 其中 `bm P, bm Q` 可逆, `bm overset
+	~A` 是 `bm A` 的等价标准形, 显然 `bm overset ~ A` 对称. 于是
+	`bm A = bm (P(Q')^-1 Q' overset ~ A Q)`, 其中 `bm(P(Q')^-1)` 可逆,
+	`bm (Q' overset ~ A Q)` 为对称矩阵.
 </p>
 
 <script src="../js/note.js?type=math"></script>
