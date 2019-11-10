@@ -144,6 +144,9 @@
 		]`
 		</span>
 		则称它为 `n` 阶<b>副对角矩阵</b>.
+		记 `bm K` 是副对角线元全为 1 的副对角矩阵, 则任意矩阵 `bm A`
+		左乘 `bm K`, 结果是将 `bm A` 的各行倒序排列; 右乘 `bm K`,
+		结果是将 `bm A` 的各列倒序排列.
 	</li>
 	<li>如果 `n` 阶对角阵的每个对角元都等于 `1`, 则称它为 `n`
 		阶<b>单位矩阵</b>, 记为 `bm E_n` 或 `bm I_n`, 或者省略下标,
@@ -288,6 +291,56 @@
 
 <h2>矩阵运算进阶</h2>
 
+<h3>正交矩阵</h3>
+
+<ol class="definition">
+	<li>称满足 `bm(T' T) = bm E` 的实方阵 `bm T`
+		为<b>正交矩阵 (orthgonal matrix)</b>.
+		正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
+		`delta_(i j)`.
+	</li>
+	<li>设 `bm A = (a_(i j))_(m xx n)`, 则 `bm bar A = (bar(a_(i j)))_(m
+		xx n)` 称为 `bm A` 的<b>共轭</b>.
+		称满足 `bm(bar U' U) = bm E` 的复方阵 `bm U` 为<b>酉矩阵</b>.
+		显然正交矩阵都为酉矩阵. 酉矩阵是正交矩阵在复数域上的推广.
+	</li>
+</ol>
+
+<ol class="example">
+	<li>
+		<span class="formula">
+			`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`
+		</span>
+		是正交矩阵.
+		用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
+	</li>
+	<li>对称矩阵
+		<span class="formula">
+			`bm A = [
+				(1" ",1" ",1" ",1),
+				(1" ",1" ",-1" ",-1),
+				(1" ",-1" ",1" ",-1),
+				(1" ",-1" ",-1" ",1)
+			]`
+		</span>
+		满足 `bm A^2 = 4 bm E`, 因此 `1/2 bm A` 是正交矩阵.
+	</li>
+	<li>反对称矩阵
+		<span class="formula">
+			`bm B = [
+				(a" ",b" ",c" ",d),
+				(-b" ",a" ",-d" ",c),
+				(-c" ",d" ",a" ",-b),
+				(-d" ",-c" ",b" ",a)
+			]`
+		</span>
+		满足 `bm(B'B) = (a^2+b^2+c^2+d^2) bm E`, 因此
+		`(a^2+b^2+c^2+d^2)^(-1/2) bm B` 是正交矩阵.
+	</li>
+</ol>
+
+<h3>合同与相似</h3>
+
 <ol class="example">
 	设 `bm A, bm B` 为方阵,
 	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T'A T)`,
@@ -305,7 +358,41 @@
 		若 `bm T` 是正交矩阵, 则称 `bm A, bm B` <b>正交相似</b>.
 		正交相似的两个矩阵既合同, 又相似.
 	</li>
+	今后我们将花很大篇幅讨论矩阵的合同标准形和相似标准形, 力求将矩阵化为
+	(分块) 对角形.
 </ol>
+
+<h3>方阵的迹</h3>
+
+<p class="definition">
+	设 `bm A = (a_(i j))_(n xx n)`, 定义 `bm A`
+	的<b>迹</b>为它的主对角线上的元素之和, 记为
+	<span class="formula">
+		`"tr"bm A := sum_(i=1)^n a_(i i)`.
+	</span>
+	方阵的迹满足
+	<span class="formula">
+		`"tr"(bm E_(n xx n)) = n`,
+		`quad "tr"(c bm A) = c "tr"bm A`,
+		`quad "tr"(bm(A+B)) = "tr"bm A + "tr" bm B`,<br/>
+		`"tr"(bm (A B)) = "tr"(bm (B A))`,
+		`quad "tr"(bm A') = "tr"bm A`.
+	</span>
+	任意 `n` 阶方阵可以写成一个迹为零的矩阵与一个数量矩阵之和:
+	记 `1/n "tr" bm A = t`.
+	<span class="formula">
+		`bm A = (bm A - t bm E) + t bm E`.
+	</span>
+</p>
+
+<p class="example">
+	`bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
+	且 `"tr"(bm(bar A' A))` 等于 `bm A` 的每个元素的模的平方和, 即
+	<span class="formula">
+		`"tr"(bm(bar A'A)) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
+	</span>
+	从而 `bm A = bm O` 当且仅当 `"tr"(bm(bar A'A)) = 0`.
+</p>
 
 <h3>几类矩阵可交换的结论</h3>
 
@@ -411,55 +498,6 @@
 	<span class="formula">
 		`bm((E-A))^-1 = sum_(k=0)^(n-1) bm A^k`.
 	</span>
-</p>
-
-<h3>方阵的迹, 正交矩阵</h3>
-
-<p class="definition">
-	设 `bm A = (a_(i j))_(n xx n)`, 定义 `bm A`
-	的<b>迹</b>为它的主对角线上的元素之和, 记为
-	<span class="formula">
-		`"tr"bm A := sum_(i=1)^n a_(i i)`.
-	</span>
-	方阵的迹满足
-	<span class="formula">
-		`"tr"(bm E_(n xx n)) = n`,
-		`quad "tr"(c bm A) = c "tr"bm A`,
-		`quad "tr"(bm(A+B)) = "tr"bm A + "tr" bm B`,<br/>
-		`"tr"(bm (A B)) = "tr"(bm (B A))`,
-		`quad "tr"(bm A') = "tr"bm A`.
-	</span>
-	任意 `n` 阶方阵可以写成一个迹为零的矩阵与一个数量矩阵之和:
-	记 `1/n "tr" bm A = t`.
-	<span class="formula">
-		`bm A = (bm A - t bm E) + t bm E`.
-	</span>
-</p>
-
-<ol class="definition">
-	<li>称满足 `bm(T' T) = bm E` 的实方阵 `bm T`
-		为<b>正交矩阵 (orthgonal matrix)</b>.
-		正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
-		`delta_(i j)`. 例如下面的矩阵是正交矩阵:
-		<span class="formula">
-			`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`.
-		</span>
-		用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
-	</li>
-	<li>设 `bm A = (a_(i j))_(m xx n)`, 则 `bm bar A = (bar(a_(i j)))_(m
-		xx n)` 称为 `bm A` 的<b>共轭</b>.
-		称满足 `bm(bar U' U) = bm E` 的复方阵 `bm U` 为<b>酉矩阵</b>.
-		显然正交矩阵都为酉矩阵. 酉矩阵是正交矩阵在复数域上的推广.
-	</li>
-</ol>
-
-<p class="example">
-	`bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
-	且 `"tr"(bm(bar A' A))` 等于 `bm A` 的每个元素的模的平方和, 即
-	<span class="formula">
-		`"tr"(bm(bar A'A)) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
-	</span>
-	从而 `bm A = bm O` 当且仅当 `"tr"(bm(bar A'A)) = 0`.
 </p>
 
 <h3>方阵逆的一些结论</h3>
