@@ -9,9 +9,9 @@ var tableOfContents = [ {
 		{title:'线性空间', src:'algebra/4.html'},
 		{title:'线性映射与线性变换', src:'algebra/5.html'},
 		{title:'特征值与特征向量', src:'algebra/6.html'},
-		{title:'线性空间中的度量与内积', src:'algebra/7.html'},
-		//{title:'二次型', src:'algebra/8.html'},
-		{title:'矩阵的相似标准形', src:'algebra/9.html'},
+		{title:'矩阵的相似标准形', src:'algebra/7.html'},
+		{title:'线性空间中的度量与内积', src:'algebra/8.html'},
+		//{title:'二次型', src:'algebra/9.html'},
 	]
 	}, {
 	title:'数学分析',

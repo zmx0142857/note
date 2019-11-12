@@ -190,9 +190,10 @@
 		`quad bm B = [(0" ",1),(0" ",0)]`,
 	</span>
 	则 `bm (A B) = bm B`, `bm (B A) = bm O`.<br/>
-	不过, 方阵与零矩阵, 方阵与数量矩阵 (特别地, 单位阵) 的乘法可以交换.
+	不过, 方阵与数量矩阵 (特别地, 单位阵, 零矩阵) 的乘法可以交换.
 	两个对角矩阵的乘法可以交换.
-	方阵与自身的乘法, 或者与其逆矩阵 (见下文) 的乘法可以交换.
+	方阵与自身, 与其伴随矩阵 (第二章), 或者与其逆矩阵 (见下文)
+	的乘法可以交换.
 </p>
 
 <h3>矩阵的转置</h3>
@@ -291,109 +292,6 @@
 
 <h2>矩阵运算进阶</h2>
 
-<h3>正交矩阵</h3>
-
-<ol class="definition">
-	<li>称满足 `bm(T' T) = bm E` 的实方阵 `bm T`
-		为<b>正交矩阵 (orthgonal matrix)</b>.
-		正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
-		`delta_(i j)`.
-	</li>
-	<li>设 `bm A = (a_(i j))_(m xx n)`, 则 `bm bar A = (bar(a_(i j)))_(m
-		xx n)` 称为 `bm A` 的<b>共轭</b>.
-		称满足 `bm(bar U' U) = bm E` 的复方阵 `bm U` 为<b>酉矩阵</b>.
-		显然正交矩阵都为酉矩阵. 酉矩阵是正交矩阵在复数域上的推广.
-	</li>
-</ol>
-
-<ol class="example">
-	<li>
-		<span class="formula">
-			`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`
-		</span>
-		是正交矩阵.
-		用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
-	</li>
-	<li>对称矩阵
-		<span class="formula">
-			`bm A = [
-				(1" ",1" ",1" ",1),
-				(1" ",1" ",-1" ",-1),
-				(1" ",-1" ",1" ",-1),
-				(1" ",-1" ",-1" ",1)
-			]`
-		</span>
-		满足 `bm A^2 = 4 bm E`, 因此 `1/2 bm A` 是正交矩阵.
-	</li>
-	<li>反对称矩阵
-		<span class="formula">
-			`bm B = [
-				(a" ",b" ",c" ",d),
-				(-b" ",a" ",-d" ",c),
-				(-c" ",d" ",a" ",-b),
-				(-d" ",-c" ",b" ",a)
-			]`
-		</span>
-		满足 `bm(B'B) = (a^2+b^2+c^2+d^2) bm E`, 因此
-		`(a^2+b^2+c^2+d^2)^(-1/2) bm B` 是正交矩阵.
-	</li>
-</ol>
-
-<h3>合同与相似</h3>
-
-<ol class="example">
-	设 `bm A, bm B` 为方阵,
-	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T'A T)`,
-		则称矩阵 `bm A, bm B` <b>合同</b>.
-		合同是一等价关系.
-		与对称矩阵合同的矩阵仍对称.
-		称方阵 `bm A` <b>正定</b>, 如果它合同于单位矩阵 `bm E`.
-		正定矩阵是对称的, 可逆的.
-	</li>
-	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T^-1 A T)`,
-		则称矩阵 `bm A, bm B` <b>相似</b>.
-		相似是一等价关系.
-		与数量矩阵 `c bm E` 相似的矩阵只有它自己,
-		特别地, 与单位矩阵 (零矩阵) 相似的矩阵只有自己.
-		若 `bm T` 是正交矩阵, 则称 `bm A, bm B` <b>正交相似</b>.
-		正交相似的两个矩阵既合同, 又相似.
-	</li>
-	今后我们将花很大篇幅讨论矩阵的合同标准形和相似标准形, 力求将矩阵化为
-	(分块) 对角形.
-</ol>
-
-<h3>方阵的迹</h3>
-
-<p class="definition">
-	设 `bm A = (a_(i j))_(n xx n)`, 定义 `bm A`
-	的<b>迹</b>为它的主对角线上的元素之和, 记为
-	<span class="formula">
-		`"tr"bm A := sum_(i=1)^n a_(i i)`.
-	</span>
-	方阵的迹满足
-	<span class="formula">
-		`"tr"(bm E_(n xx n)) = n`,
-		`quad "tr"(c bm A) = c "tr"bm A`,
-		`quad "tr"(bm(A+B)) = "tr"bm A + "tr" bm B`,<br/>
-		`"tr"(bm (A B)) = "tr"(bm (B A))`,
-		`quad "tr"(bm A') = "tr"bm A`.
-	</span>
-	任意 `n` 阶方阵可以写成一个迹为零的矩阵与一个数量矩阵之和:
-	记 `1/n "tr" bm A = t`.
-	<span class="formula">
-		`bm A = (bm A - t bm E) + t bm E`.
-	</span>
-</p>
-
-<p class="example">
-	`bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
-	且 `"tr"(bm(bar A' A))` 等于 `bm A` 的每个元素的模的平方和, 即
-	<span class="formula">
-		`"tr"(bm(bar A'A)) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
-	</span>
-	从而 `bm A = bm O` 当且仅当 `"tr"(bm(bar A'A)) = 0`.
-</p>
-
 <h3>几类矩阵可交换的结论</h3>
 
 <ol class="definition">
@@ -447,6 +345,113 @@
 	</li>
 </ol>
 
+<h3>正交矩阵</h3>
+
+<ol class="definition">
+	<li>称满足 `bm(T' T) = bm E` 的实方阵 `bm T`
+		为<b>正交矩阵 (orthgonal matrix)</b>.
+		正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
+		`delta_(i j)`.
+	</li>
+	<li>设 `bm A = (a_(i j))_(m xx n)`, 则 `bm bar A = (bar(a_(i j)))_(m
+		xx n)` 称为 `bm A` 的<b>共轭</b>.
+		称满足 `bm(bar U' U) = bm E` 的复方阵 `bm U` 为<b>酉矩阵</b>.
+		显然正交矩阵都为酉矩阵. 酉矩阵是正交矩阵在复数域上的推广.
+	</li>
+</ol>
+
+<ol class="example">
+	<li>
+		<span class="formula">
+			`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`
+		</span>
+		是正交矩阵.
+		用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
+	</li>
+	<li>对称矩阵
+		<span class="formula">
+			`bm A = [
+				(1" ",1" ",1" ",1),
+				(1" ",1" ",-1" ",-1),
+				(1" ",-1" ",1" ",-1),
+				(1" ",-1" ",-1" ",1)
+			]`
+		</span>
+		满足 `bm A^2 = 4 bm E`, 因此 `1/2 bm A` 是正交矩阵.
+	</li>
+	<li>反对称矩阵
+		<span class="formula">
+			`bm B = [
+				(a" ",b" ",c" ",d),
+				(-b" ",a" ",-d" ",c),
+				(-c" ",d" ",a" ",-b),
+				(-d" ",-c" ",b" ",a)
+			]`
+		</span>
+		满足 `bm(B'B) = (a^2+b^2+c^2+d^2) bm E`, 因此
+		`(a^2+b^2+c^2+d^2)^(-1/2) bm B` 是正交矩阵.
+	</li>
+	<li>设 `bm alpha` 是单位列向量, 满足 `bm(alpha'alpha) = 1`,
+		则 `bm E - 2 bm(alpha alpha')` 是对称的正交矩阵,
+		称为 <b>Householder 矩阵</b>.
+	</li>
+</ol>
+
+<h3>合同与相似</h3>
+
+<ol class="definition">
+	设 `bm A, bm B` 为方阵,
+	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T'A T)`,
+		则称矩阵 `bm A, bm B` <b>合同</b>.
+		合同是一等价关系.
+		与对称矩阵合同的矩阵仍对称.
+		称方阵 `bm A` <b>正定</b>, 如果它合同于单位矩阵 `bm E`.
+		正定矩阵是对称的, 可逆的.
+	</li>
+	<li>如果存在可逆矩阵 `bm T` 使得 `bm B = bm(T^-1 A T)`,
+		则称矩阵 `bm A, bm B` <b>相似</b>.
+		相似是一等价关系.
+		与数量矩阵 `c bm E` 相似的矩阵只有它自己,
+		特别地, 与单位矩阵 (零矩阵) 相似的矩阵只有自己.
+		若 `bm T` 是正交矩阵, 则称 `bm A, bm B` <b>正交相似</b>.
+		正交相似的两个矩阵既合同, 又相似.
+	</li>
+	今后我们将花很大篇幅讨论矩阵的合同标准形和相似标准形, 力求将矩阵化为
+	(分块) 对角形.
+</ol>
+
+<h3>方阵的迹</h3>
+
+<p class="definition">
+	设 `bm A = (a_(i j))_(n xx n)`, 定义 `bm A`
+	的<b>迹</b>为它的主对角线上的元素之和, 记为
+	<span class="formula">
+		`"tr"bm A := sum_(i=1)^n a_(i i)`.
+	</span>
+	方阵的迹满足
+	<span class="formula">
+		`"tr"(c bm A) = c "tr"bm A`,
+		`quad "tr"(bm(A+B)) = "tr"bm A + "tr" bm B`,<br/>
+		`"tr"(bm (A B)) = "tr"(bm (B A))`,
+		`quad "tr"(bm A') = "tr"bm A`.
+	</span>
+	其中前两条指出, 方阵的迹是线性函数 (第五章).
+	任意 `n` 阶方阵可以写成一个迹为零的矩阵与一个数量矩阵之和:
+	记 `1/n "tr" bm A = t`.
+	<span class="formula">
+		`bm A = (bm A - t bm E) + t bm E`.
+	</span>
+</p>
+
+<p class="example">
+	`bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
+	且 `"tr"(bm(bar A' A))` 等于 `bm A` 的每个元素的模的平方和, 即
+	<span class="formula">
+		`"tr"(bm(bar A'A)) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
+	</span>
+	从而 `bm A = bm O` 当且仅当 `"tr"(bm(bar A'A)) = 0`.
+</p>
+
 <h3>方阵的幂与多项式</h3>
 
 <p class="definition">
@@ -466,6 +471,50 @@
 		`bm A^n bm B^n = (bm (A B))^n`.
 	</span>
 </p>
+
+<p class="example">
+	设 `bm A = (a_(i j))_(n xx n)` 的主对角线的下一条对角线 `i-j = 1`
+	上的元素全为 1, 其下方元素全为 0, 即
+	<span class="formula">
+		`a_(i j) = {
+			(1, if i-j = 1),
+			(0, if i-j gt 1)
+		:}`<br/>
+	`bm A = [
+		(**" ", cdots" ", cdots" ",**),
+		(1" ",ddots" ", ,vdots),
+		(, ddots" ", ddots" ", vdots),
+		(, , 1" ", **)
+	]`
+	</span>
+	计算可知, 对任意正整数 `k`, `bm A^k = (a_(i j)^((k)))_(n xx n)` 满足
+	<span class="formula">
+		`a_(i j)^((k)) = {
+			(1, if i-j = k),
+			(0, if i-j gt k)
+		:}`
+	</span>
+	即每升高一次幂, 全为 1 的那条对角线就下移一个位置. 特别地,
+	<span class="formula">
+		`(delta_(i,j+1))^k = (delta_(i,j+k))`.
+	</span>
+</p>
+
+<ol class="proof">
+	`k = 1` 时结论显然成立, 假设结论对 `k-1` 成立, 则
+	<span class="formula">
+		`a_(i j)^((k)) = sum_(l=1)^n a_(i l)^((k-1)) a_(l j)`
+	</span>
+	<li>`i-j = k` 时: 若 `i-l lt k-1`, 则 `l-j = (i-j)-(i-l) gt 1`,
+	`a_(l j) = 0`; 若 `i-l = k-1`, 则 `l-j = 1`,
+	`a_(i l)^((k-1)) a_(l j) = 1`; 若 `i-l gt k-1`,
+	则 `a_(i l) =  0`. 从而 `a_(i j)^((k)) = 1`.
+	</li>
+	<li>`i-j gt k` 时: 若 `i-l le k-1`, 则 `l-j = (i-j)-(i-l) gt 1`,
+	`a_(l j) = 0`; 若 `i-l gt k-1`, 则 `a_(i l) = 0`;
+	从而 `a_(i j)^((k)) = 0`.
+	</li>
+</ol>
 
 <p class="definition">
 	<b>方阵的多项式</b>
@@ -490,11 +539,23 @@
 </p>
 
 <p class="example">
+	设 `bm A` 是 `k` 阶单位上三角矩阵, 则 `bm A = bm(E+B)`,
+	其中 `bm B` 是 `k` 阶严格上三角矩阵. 由于 `bm B^k = bm O`,
+	有
+	<span class="formula">
+		`bm A^n = bm((E+B))^n`
+		`= bm E + n bm B + (n(n-1))/2 bm B^2 + cdots`
+		`+ ((n),(k-1)) bm B^(k-1)`.
+	</span>
+</p>
+
+<p class="example">
 	设 `bm A` 是方阵. 由等式
 	<span class="formula">
 		`bm E - bm A^n = bm((E-A)) sum_(k=0)^(n-1) bm A^k`
 	</span>
-	知道, 若 `bm A^n = bm O`, 则 `bm E - bm A` 可逆,
+	知道, 若 `bm A^n = bm O` (如, `bm A` 是 `n` 阶严格上三角矩阵),
+	则 `bm E - bm A` 可逆,
 	<span class="formula">
 		`bm((E-A))^-1 = sum_(k=0)^(n-1) bm A^k`.
 	</span>
@@ -547,24 +608,32 @@
 	容易看出 `bm A^-1 + bm B^-1` 也可逆.
 </p>
 
-<p class="example">
+<ol class="example">
 	设 `bm A, bm B` 是 `n` 阶方阵, 且 `bm (A+B) = bm (A B)`, 则
-	`bm A, bm B` 可交换.
-</p>
+	<li>`bm((A-E)(B-E)) = bm E`, 所以 `bm(A-E)`, `bm(B-E)` 互逆;</li>
+	<li>将 `bm((A-E)(B-E)) = bm((B-E)(A-E))` 展开并比较等式两边得,
+		`bm A, bm B` 可交换;
+	</li>
+	<li>若 `bm A`, `bm B`, `bm(A+B)` 三者中有一个可逆, 则另外两个也可逆.
+	</li>
+</ol>
 
 <p class="proof">
-	因为
+	只证 3. 若 `bm(A+B)` 可逆, 则
 	<span class="formula">
-		`bm((E-A)(E-B))`
-		`= bm E - bm((A+B)) + bm(A B)`
-		`= bm E`,
+		`bm((A+B))^-1 bm(A B)`
+		`= bm((A+B))^-1 bm(B A)`
+		`= bm((A+B))^-1 bm((A+B)) = bm E`.
 	</span>
-	所以 `bm(E-A), bm(E-B)` 互逆. 得到
+	因此 `bm A`, `bm B` 都可逆.<br/>
+	若 `bm A` 可逆, 则
 	<span class="formula">
-		`bm E = bm((E-B)(E-A))`
-		`= bm E - bm((A+B)) + bm(B A)`.
+		`bm A^-1(bm A-bm E)bm B`
+		`= bm A^-1(bm(A B)-bm B)`
+		`= bm (A^-1 A) = bm E`.
 	</span>
-	从而 `bm (B A) = bm(A+B) = bm(A B)`.
+	因此 `bm B` 可逆. 从而 `bm(A+B) = bm(A B)` 可逆.<br/>
+	最后若 `bm B` 可逆, 类似可证 `bm A`, `bm(A+B)` 可逆.
 </p>
 
 <p class="example">
@@ -582,6 +651,61 @@
 		`= bm(B A)`.
 	</span>
 	故 `bm E - bm(B X A) = (bm E + bm(B A))^-1`.
+</p>
+
+<p class="remark">
+	从形式上计算:
+	<span class="formula">
+		`(bm E + bm(B A))^-1`
+		`= bm E + sum_(i=1)^oo bm((-B A))^i`
+		`= bm E - bm B(sum_(i=0)^oo bm((-A B))^i) bm A`
+		`= bm E - bm B(bm E + bm(A B))^-1 bm A`.
+	</span>
+</p>
+
+<p class="example">
+	设
+	<span class="formula">
+	`bm A = [
+		(0" ",1" ",cdots" ",1),
+		(1" ",0" ",cdots" ",1),
+		(vdots" ",vdots" "," ",vdots),
+		(1" ",1" ",cdots" ",0)
+	]_(n xx n)`,
+	</span>
+	求 `bm A^-1`.
+</p>
+
+<p class="solution">
+	记 `bm B` 是元素全为 `1` 的 `n` 阶矩阵, 则 `bm B^2 = n bm B`.
+	于是
+	<span class="formula">
+		`(bm B-bm E)(bm B-(n-1)bm E)`
+		`= bm B^2 - n bm B + (n-1) bm E`
+		`= (n-1)bm E`,<br/>
+		`bm A^-1 = bm((B-E))^-1 = 1/(n-1) bm B - bm E`.
+	</span>
+</p>
+
+<p class="example">
+	设 `bm alpha, bm beta` 是 `n` 元列向量,
+	`bm(alpha'beta) = bm(beta'alpha) = c`, 则对任意正整数 `k`,
+	<span class="formula">
+		`bm((alpha beta'))^k = bm alpha bm((beta'alpha))^(k-1) bm beta'`
+		`= c^(k-1) bm(alpha beta')`.
+	</span>
+	设 `bm E` 是 `n` 阶单位阵, 考虑 `bm E + x bm(alpha beta')` 的逆.
+	计算
+	<span class="formula">
+		`(bm E + x bm(alpha beta'))(bm E + y bm(alpha beta'))`
+		`= bm E + (x+y)bm(alpha beta') + c x y bm(alpha beta')`.
+	</span>
+	所以 `bm E + x bm (alpha beta')` 可逆当且仅当存在 `y` 使得
+	`x+y+c x y = 0`, 即 `x = 0` 或 `1+c x != 0`.
+	此时它的逆就是 `bm E + y bm (alpha beta')`.<br/>
+	取 `c = 1`, `x = -1` 可知, `bm E - bm(alpha beta')` 不可逆.
+	事实上 `(bm E - bm (alpha beta'))^2 = bm E - bm(alpha beta')`,
+	它是幂等矩阵, 但可逆的幂等矩阵只有单位阵, 所以它不可逆.
 </p>
 
 <h2>矩阵的初等变换</h2>
@@ -657,7 +781,7 @@
 	设 `bm A = bm(P overset ~ A Q)`, 其中 `bm P, bm Q` 可逆, `bm overset
 	~A` 是 `bm A` 的等价标准形, 显然 `bm overset ~ A` 对称. 于是
 	`bm A = bm (P(Q')^-1 Q' overset ~ A Q)`, 其中 `bm(P(Q')^-1)` 可逆,
-	`bm (Q' overset ~ A Q)` 为对称矩阵.
+	`bm (Q' overset ~ A Q)` 对称.
 </p>
 
 <script src="../js/note.js?type=math"></script>

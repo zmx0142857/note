@@ -271,15 +271,33 @@
 </p>
 
 <p class="corollary">
-	设 `n` 方阵 `bm A` 的秩 `r lt n`, 则 `bm A` 的所有 `k gt r`
+	设 `n` 阶方阵 `bm A` 的秩 `r lt n`, 则 `bm A` 的所有 `k gt r`
 	阶主子式等于 0, 从而 `Delta_(bm A)(x)` 所有次数小于 `n-r`
 	的项的系数等于 0, 即 `bm A` 的零特征根的重数 `ge n-r`.
 </p>
 
-<p class="corollary">
-	前面已经讨论过 `bm A` 可逆时 `bm A^**` 的特征根.
-	`bm A` 不可逆时, 由 `r_(bm A^**) le 1` 知, `bm A^**` 的零特征根至少为
-	`n-1` 重, 再由 Vieta 定理, 另一根为 `"tr"bm A^**`.
+<ol class="corollary">
+	<b>低秩矩阵的特征根</b>
+	设 `n` 阶方阵 `bm A` 的秩 `r le 1`, 则 `bm A` 的零特征根至少有 `n-1`
+	重, 再由 Vieta 定理, 另一根为 `"tr"bm A`.
+	<li>前面已经讨论过 `bm A` 可逆时 `bm A^**` 的特征根;
+		`bm A` 不可逆时, `r_(bm A^**) le 1`, 于是 `bm A^**` 至少有 `n-1`
+		重的零特征根, 另一根为 `"tr"bm A^**`.
+	</li>
+	<li>现在设 `bm A = bm(alpha beta')`, 其中 `bm alpha, bm beta` 为 `n`
+		元列向量, 于是 `r_(bm A) le 1`, `bm A` 至少有 `n-1` 重的零特征根,
+		另一根为 `"tr"bm A = bm(beta'alpha) = bm(alpha'beta)`.
+	</li>
+</ol>
+
+<p class="remark">
+	即使矩阵有 `n` 重零特征根, 矩阵也不一定为零. 如
+	<span class="formula">
+		`[
+			(0" ",1),
+			(0" ",0)
+		]`.
+	</span>
 </p>
 
 <h2>Cayley-Hamilton 定理</h2>
@@ -287,30 +305,19 @@
 <p class="definition">
 	令 `cc A in L(V)`, 称多项式 `f` 为 `cc A` 的一个<b>零化多项式</b>,
 	如果 `f(cc A) = bb 0`. 称 `f` 为方阵 `bm A` 的一个零化多项式,
-	如果 `f(bm A) = bm O`.
-	零多项式是一个平凡的零化多项式.
+	如果 `f(bm A) = bm O`.  零多项式是一个平凡的零化多项式.
 </p>
 
 <p class="corollary">
-	任意 `cc A in L(V)`, 存在次数不超过 `n^2` 的非平凡的零化多项式,
-	其中 `n = "dim"V`.
-</p>
-
-<p class="proof">
-	`L(V)` 构成一个 `n^2` 维线性空间, 所以 `AA cc A in L(V)`,
-	<span class="formula">
-		`bb E, cc A, cc A^2, cdots, cc A^(n^2)`
-	</span>
-	必然线性相关, 即存在非零多项式 `f`, 使得 `f(cc A) = bb 0`.
+	`f` 是 `bm A in bbb P^(n xx n)` 的一个 `k ge 1` 次的零化多项式当且仅当
+	`bm A^k` 可以表示为 `bm E, bm A, bm A^2, cdots, bm A^(k-1)`
+	的线性组合. 因此, 存在次数不超过 `n^2` 的非平凡的零化多项式.
 </p>
 
 <p class="theorem">
 	<b>Cayley-Hamilton 定理</b>
-	对任意 `n` 阶方阵 `bm A`, `Delta_(bm A)(x)` 是它的一个 `n`
-	次的零化多项式, 即
-	<span class="formula">
-		`Delta_(bm A)(bm A) = bm O`.
-	</span>
+	`bm A in bbb P^(n xx n)`, 则 `Delta_(bm A)(x)` 是它的一个 `n`
+	次的零化多项式, 即 `Delta_(bm A)(bm A) = bm O`.
 </p>
 
 <p class="proof">
@@ -407,6 +414,99 @@
 		</span>
 	</li>
 </ol>
+
+<p class="example">
+	求 `bm A^n`, 其中
+	<span class="formula">
+		`bm A = [
+			(0" ",1),
+			(1" ",1)
+		]`.
+	</span>
+</p>
+
+<p class="solution">
+	<span class="formula">
+		`|lambda bm A-bm E|`
+		`= lambda^2-lambda-1`.
+	</span>
+	由 Cayley-Hamilton 定理, `bm A^2 = bm A + bm E`,
+	从而 `bm A^(n+2) = bm A^(n+1) + bm A^n`.
+	这一递推公式类似于 Fibonacci 数列, 注意到初值
+	`bm A^0 = bm E`, `bm A^1 = bm A`, 得到
+	<span class="formula">
+		`bm A^n = [
+			(F_(n-1)" ",F_n),
+			(F_n" ",F_(n+1))
+		]`.
+	</span>
+</p>
+
+<p class="example">
+	求 `bm A^n`, 已知方阵 `bm A` 的特征多项式为
+	`(lambda-lambda_1)(lambda-lambda_2)`.
+</p>
+
+<p class="solution">
+	由 Cayley-Hamilton 定理,
+	`(bm A-lambda_1 bm E)(bm A-lambda_2 bm E) = bm O`.
+	先设 `lambda_1 != lambda_2`, 于是
+	<span class="formula">
+		`bm A^n(bm A-lambda_2 bm E) = lambda_1^n(bm A-lambda_2 bm E)`,
+		<br/>
+		`bm A^n(bm A-lambda_1 bm E) = lambda_2^n(bm A-lambda_1 bm E)`.
+	</span>
+	两式相减得
+	<span class="formula">
+		`bm A^n = 1/(lambda_1-lambda_2) (lambda_1^n(bm A-lambda_2 bm E)
+		-lambda_2^n(bm A-lambda_1 bm E))`.
+	</span>
+	再看 `lambda_1 = lambda_2 != 0` 的情形. 我们有
+	<span class="formula">
+		`bm A^(n+2) - 2lambda_1 bm A^(n+1) + lambda_1^2 bm A^n = bm O`.
+	</span>
+	通解为 `bm A^n = lambda_1^n(bm C_1 + n bm C_2)`. 代入 `bm A^0 = bm E`,
+	`bm A^1 = bm A` 得
+	<span class="formula">
+		`bm A^n = lambda_1^n bm E + n lambda_1^(n-1) (bm A-lambda_1 bm
+		E)`.
+	</span>
+	最后, 若 `lambda_1 = lambda_2 = 0`, 有 `bm A^2 = bm O`, 从而 `bm A^n =
+	bm O` (`n ge 2`).
+</p>
+
+<p class="example">
+	求 `bm A^100`, 其中
+	<span class="formula">
+		`bm A = [
+			(1" ",0" ",0),
+			(1" ",0" ",1),
+			(0" ",1" ",0)
+		]`.
+	</span>
+</p>
+
+<p class="solution">
+	<span class="formula">
+		`|lambda bm E - bm A|`
+		`= (lambda-1)(lambda^2-1)`.
+	</span>
+	由 Cayley-Hamilton 定理, `(bm A-bm E)(bm A^2-bm E) = bm O`,
+	即 `bm A(bm A^2-bm E) = bm A^2-bm E`.
+	从而对任意正整数 `n`, `bm A^n(bm A^2-bm E) = bm A^2-bm E`, 即
+	<span class="formula">
+		`bm A^(n+2) = bm A^n + bm A^2-bm E`.
+	</span>
+	于是
+	<span class="formula">
+		`bm A^100 = bm A^2 + 49(bm A^2-bm E)`
+		`= [
+			(1" ",,),
+			(50" ",1" ",),
+			(50" ", ,1)
+		]`.
+	</span>
+</p>
 
 <h2>矩阵的合成与特征多项式</h2>
 

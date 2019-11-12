@@ -274,6 +274,12 @@
 		= |bm E_n - bm (BA)|`.
 	</span>
 	当 `m != n`, 此公式可以用于降阶.
+	如第一章的 Householder 矩阵的行列式为
+	<span class="formula">
+		`|bm E - 2 bm(alpha alpha')|`
+		`= |bm E - 2 bm(alpha'alpha)|`
+		`= -1`.
+	</span>
 </p>
 
 <ol class="proof">
@@ -296,6 +302,26 @@
 		`mn` 次交换. 由于交换行/列的次数是偶数, 行列式的值不变.
 	</li>
 </ol>
+
+<ol class="example">
+	正交矩阵 `bm A` 满足 `bm(A'A) = bm E`, 取行列式知 `|bm A|^2 = 1`.
+	我们把行列式等于 1 的正交矩阵称为<b>第一类正交矩阵</b>, 行列式等于 -1
+	的正交矩阵称为<b>第二类正交矩阵</b>.<br/>
+	现在设 `bm A` 是 `n ge 3` 阶非零实矩阵, 则
+	<li>`bm A` 是第一类正交矩阵当且仅当 `bm A' = bm A^**`;</li>
+	<li>`bm A` 是第二类正交矩阵当且仅当 `bm A' = -bm A^**`.</li>
+</ol>
+
+<p class="proof">
+	只证第一小题的充分性.
+	于 `bm(A'A) = bm(A^** A) = |bm A|bm E` 两边取行列式有
+	`|bm A|^2 = |bm A|^n`.  因为 `bm A` 非零,
+	<span class="formula">
+		`0 lt "tr"(bm(A'A)) = "tr"(|bm A|bm E) = n|bm A|`.
+	</span>
+	从而 `|bm A| gt 0`, 即 `|bm A| = 1`. 于是 `bm(A'A) = bm E`,
+	`bm A` 为第一类正交矩阵.
+</p>
 
 <h3>Laplace 定理</h3>
 
