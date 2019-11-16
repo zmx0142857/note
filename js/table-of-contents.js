@@ -11,7 +11,7 @@ var tableOfContents = [ {
 		{title:'特征值与特征向量', src:'algebra/6.html'},
 		{title:'矩阵的相似标准形', src:'algebra/7.html'},
 		{title:'线性空间中的度量与内积', src:'algebra/8.html'},
-		//{title:'二次型', src:'algebra/9.html'},
+		{title:'二次型', src:'algebra/9.html'},
 	]
 	}, {
 	title:'数学分析',
@@ -19,13 +19,14 @@ var tableOfContents = [ {
 		{title:'附录', src:'analysis/0.html'},
 		{title:'初等函数', src:'analysis/1.html'},
 		{title:'数列的极限', src:'analysis/2.html'},
+		{title:'函数的极限与连续性', src:'analysis/3.html'},
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
+		{title:'定积分', src:'analysis/7.html'},
 		{title:'无穷级数', src:'analysis/10.html'},
 		{title:'多元函数的极限与连续性', src:'analysis/14.html'},
 		{title:'多元数量函数微分学', src:'analysis/15.html'},
 		{title:'条件极值问题', src:'analysis/17.html'},
-		{title:'含参变量的积分', src:'analysis/18.html'},
 		{title:'重积分', src:'analysis/19.html'},
 		{title:'场论初步', src:'analysis/22.html'},
 	]
@@ -58,7 +59,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'附录', src:'probability/0.html'},
 		{title:'事件与概率', src:'probability/1.html'},
-		{title:'条件概率与独立性', src:'probability/2.html'},
+		{title:'离散型分布', src:'probability/2.html'},
 	]
 	}, {
 	title:'数值分析',

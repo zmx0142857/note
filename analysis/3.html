@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>函数的极限和连续性</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>函数的极限</h2>
+
+<h3>邻域与函数极限</h3>
+
+<ol class="definition">
+	<b>邻域</b>
+	<li>设 `x_0 in RR`, `delta gt 0`.
+		称 `(x_0-delta, x_0)` 为 `x_0` 的<b>左 `delta` 邻域</b>,
+		`(x_0, x_0+delta)` 为 `x_0` 的<b>右 `delta` 邻域</b>,
+		`B(x_0, delta) := (x_0-delta, x_0+delta)` 称为 `x_0` 的
+		<b>`delta` 邻域</b>,
+		`overset @ B(x_0, delta)`
+		`:= B(x_0, delta)\\{x_0}`
+		`= (x_0-delta, x_0) uu (x_0, x_0+delta)`
+		为 `x_0` 的<b>去心 `delta` 邻域</b>.
+		显然 `x in overset @ B(x_0, delta) iff 0 lt |x-x_0| lt delta`.
+	</li>
+	<li>设 `delta gt 0`, 称 `(1//delta, +oo)` 为 `oo` 的左 `delta` 邻域,
+		`(-oo, -1//delta)` 为 `oo` 的右 `delta` 邻域.
+		`overset @ B(oo, delta)`
+		`:= (-oo, -1//delta) uu (1//delta, +oo)` 称为 `oo` 的去心 `delta`
+		邻域.
+	</li>
+</ol>
+
+<p class="definition">
+	<b>函数极限</b>
+	设函数 `f` 在点 `x_0 in RR uu {oo}`
+	的某个去心邻域内有定义, `a in RR`, 如果对任意
+	`epsi gt 0`, 都存在相应的 `delta gt 0`, 使得
+	`x in overset @ B(x_0, delta)` 时, 成立
+	<span class="formula">
+		`|f(x)-a| lt epsi`,
+	</span>
+	则称 `f(x)` 在 `x` 趋于 `x_0` 时<b>以 `a` 为极限</b>, 或称当 `x` 趋于
+	`x_0` 时, `f(x)` <b>趋于 `a` 或收敛于 `a`</b>, 记作
+	<span class="formula">
+		`lim_(x to x_0) f(x) = a` 或 `f(x) to a` (`x to x_0`).
+	</span>
+	函数极限的这种定义称为 `epsi`-`delta` 语言.
+</p>
+
+<h3>有界函数, 无穷大与无穷小</h3>
+
+<p class="definition">
+	设 `f(x)` 在点集 `E sube RR` 上有定义, 且存在 `M gt 0` 使得
+	<span class="formula">
+		`|f(x)| le M`, `quad AA x in E`,
+	</span>
+	则称 `f(x)` <b>在 `E` 上有界</b>, 否则称它<b>在 `E` 上无界</b>.
+	<br/>
+	如果存在 `x_0` 的某去心邻域 `overset @ B(x_0, delta) sube E`, 使得
+	<span class="formula">
+		`|f(x)| le M`, `quad AA x in overset @ B(x_0, delta)`,
+	</span>
+	则称 `f(x)` <b>在 `E` 上局部有界</b>.<br/>
+	在整个定义域上有界的函数称为<b>有界函数</b>, 否则称为<b>无界函数</b>.
+</p>
+
+<h3>函数极限的性质</h3>
+
+<p class="theorem">
+	<b>函数极限的唯一性</b>
+	若极限 `lim_(x to x_0) f(x)` 存在, 则该极限唯一.
+</p>
+
+<p class="proof">
+	反设 `x to x_0` 时, `f(x)` 有极限 `a` 和 `b`, 且 `a != b`, 不妨设 `a
+	lt b`. 令 `epsi = (b-a)//2 gt 0`, 由极限定义, 存在 `delta_1, delta_2
+	gt 0`, 使得
+	<span class="formula">
+		`a-epsi lt f(x) lt a+epsi`,
+		`quad AA x in overset @ B(x_0, delta_1)`,<br/>
+		`b-epsi lt f(x) lt b+epsi`,
+		`quad AA x in overset @ B(x_0, delta_2)`.
+	</span>
+	取 `delta = min{delta_1, delta_2}`,
+	从而当 `x in overset @ B(x_0, delta)`
+	`= overset @ B(x_0, delta_1) nn overset @ B(x_0, delta_2)` 时,
+	<span class="formula">
+		`f(x) lt a + epsi = b - epsi lt f(x)`,
+	</span>
+	矛盾. 所以 `a = b`.
+</p>
+
+<p class="theorem">
+	<b>局部有界性</b>
+	若极限 `lim_(x to x_0) f(x)` 存在, 则 `f(x)` 在 `x_0`
+	附近局部有界.
+</p>
+
+<p class="proof">
+	设 `lim_(x to x_0) f(x) = a`. 由极限定义, 存在 `delta gt 0`, 使得
+	<span class="formula">
+		`a - 1 lt f(x) lt a + 1`, `AA x in overset @ B(x_0, delta)`.
+	</span>
+	取 `M = |a| + 1`, 则 `|a+-1| le M`, 于是
+	<span class="formula">
+		`|f(x)| lt M`, `quad AA x in overset @ B(x_0, delta)`.
+	</span>
+</p>
+
+<ol class="theorem">
+	<b>局部保号性</b>
+	设 `lim_(x to x_0) f(x) = a != 0`, 则存在一个介于 `a` 和 `0`
+	之间的实数 `r`,
+	<li>`a gt 0` 时, 在 `x_0` 的某去心邻域内有 `f(x) gt r gt 0`;</li>
+	<li>`a lt 0` 时, 在 `x_0` 的某去心邻域内有 `f(x) lt r lt 0`.</li>
+	从而若函数趋于 `x_0` 时有一个不等于零的极限, 则在 `x_0`
+	的某去心邻域内, `f(x)` 与 `0` 保持一个正的距离.
+</ol>
+
+<p class="proof">
+	只证结论 1, 结论 2 证明类似. 取 `epsi = a/2 gt 0`, 由极限定义,
+	在 `x_0` 的某去心邻域内有 `a-a/2 lt f(x) lt a+a/2`,
+	从而 `f(x) gt a/2 gt 0`. 取 `r = a/2` 即可.
+</p>
+
+<p>这些定理的证明完全类似于数列极限的对应定理. 下面不加证明, 仅罗列结论.
+</p>
+
+<p class="theorem">
+	<b>函数极限的保序性</b>
+	如果 `f(x)`, `g(x)` 在 `x to x_0` 时有极限, 且在 `x_0`
+	的某去心邻域内成立 `f(x) le g(x)`, 则
+	<span class="formula">
+		`lim_(x to x_0) f(x) le lim_(x to x_0) g(x)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>两边夹法则</b>
+	设函数 `f`, `g`, `h` 都在 `x_0` 的某去心邻域内有定义, 且在该邻域内成立
+	`f(x) le g(x) le h(x)`. 又设 `lim_(x to x_0) f(x) = lim_(x to x_0)
+	h(x) = a`, 则 `lim_(x to x_0) g(x) = a`.
+</p>
+
+<p class="theorem">
+	<b>函数极限的四则运算</b>
+	若 `lim_(x to x_0) f(x) = a`, `lim_(x to x_0) g(x) = b`, 则
+	<span class="formula">
+		`lim_(x to x_0) (f(x) +- g(x)) = a +- b`,
+		`quad lim_(x to x_0) (f(x) g(x)) = a b`,
+		`quad lim_(x to x_0) (f(x))/(g(x)) = a/b` (当 `b != 0`).
+	</span>
+	从而对任意常数 `c` 有 `lim_(x to x_0) (c f(x)) = c a`.
+</p>
+
+<h3>复合函数的极限</h3>
+
+<h3>函数极限与数列极限</h3>
+
+<h3>函数的单侧极限</h3>
+
+<h2>两个重要极限</h2>
+
+<h2>函数的连续性</h2>
+
+<ol class="example">
+	<li>`a^x` 是 `RR` 上的连续函数, `a gt 0`, `a != 1`;</li>
+	<li>`log_a x` 是 `(0, +oo)` 上的连续函数, `a gt 0`, `a != 1`;</li>
+	<li>`sin x`, `cos x` 是 `RR` 上的连续函数;</li>
+	<li>`arcsin x` 是 `[-1, 1]` 上的连续函数;</li>
+	<li>`arctan x` 是 `RR` 上的连续函数.</li>
+</ol>
+
+<ol class="proof">
+	<li>只证 `a gt 1` 的情形. `AA x_0 in RR`, `AA epsi gt 0`, 由于
+		<span class="formula">
+			`|a^x - a^(x_0)| lt epsi`
+			`iff a^(x_0)-epsi lt a^x lt a^(x_0)+epsi`
+			`iff 1-a^(-x_0)epsi lt a^(x-x_0) lt 1+a^(-x_0)epsi`
+			`iff log_a(1-a^(-x_0)epsi) lt x-x_0 lt log_a(1+a^(-x_0)epsi)`,
+		</span>
+		令
+		<span class="formula">
+			`delta = min{|log_a(1-a^(-x_0)epsi)|,
+			|log_a(1+a^(-x_0)epsi)|} gt 0`,
+		</span>
+		则 `0 lt |x-x_0| lt delta` 时, 就有 `|a^x - a^(x_0)| lt epsi`.
+	</li>
+	<li>只证 `a gt 1` 的情形. `AA x_0 gt 0`, `AA epsi gt 0`, 由于
+		<span class="formula">
+			`|log_a x - log_a x_0| lt epsi`
+			`iff log_a x_0 - epsi lt log_a x lt log_a x_0 + epsi`
+			`iff x_0 a^-epsi lt x lt x_0 a^epsi`
+			`iff x_0(a^-epsi-1) lt x-x_0 lt x_0(a^epsi-1)`,
+		</span>
+		令
+		<span class="formula">
+			`delta = min{|x_0 (a^-epsi-1)|, |x_0(a^epsi-1)|} gt 0`,
+		</span>
+		如果进一步要求 `delta lt x_0`, 则 `0 lt |x-x_0| lt delta` 时,
+		`x gt 0`, 故 `loa_a x` 有定义, 且 `|log_a x - log_a x_0| lt epsi`.
+	</li>
+	<li>`AA x_0 in RR`, 记 `a = (x+x_0)/2`, `b = (x-x_0)/2`,
+		运用和差化积公式,
+		<span class="formula">
+			`|sin x - sin x_0|`
+			`= |sin(a+b) - sin(a-b)|`
+			`= 2 |cos a sin b|`
+			`le 2 |sin b| le 2 |b|`
+			`= |x-x_0|`.
+		</span>
+		`AA epsi gt 0`, 取 `delta = epsi`, 则 `0 lt |x-x_0| lt delta`
+		时, `|sin x - sin x_0| lt epsi`.
+	</li>
+	<li>`AA x_0 in (-1, 1)`, 先证
+		<span class="formula">
+			`lim_(x to x_0) sqrt(1-x^2) = sqrt(1-x_0^2)`.
+		</span>
+		由于
+		<span class="formula">
+			`|sqrt(1-x^2)-sqrt(1-x_0^2)|`
+			`= |x^2-x_0^2|/(sqrt(1-x^2)+sqrt(1-x_0^2))`
+			`le |x^2-x_0^2|/sqrt(1-x_0^2)`
+			`to 0`,
+		</span>
+		从而
+		<span class="formula">
+			`lim_(x to x_0) sqrt(1-x^2) = sqrt(1-x_0^2)`.
+		</span>
+		计算, 由极限的四则运算知
+		<span class="formula">
+			`|arcsin x - arcsin x_0|`
+			`le |tan(arcsin x - arcsin x_0)|`
+			`= |(sin(arcsin x - arcsin x_0))/(cos(arcsin x - arcsin x_0))|`
+			`= |(x sqrt(1-x_0^2) - x_0
+			sqrt(1-x^2))/(sqrt(1-x^2)sqrt(1-x_0^2) + x x_0)|`
+			`to 0`.
+		</span>
+		再考虑端点处的左, 右极限...???
+	</li>
+	<li>
+		应用极限的四则运算,
+		<span class="formula">
+			`|arctan x - arctan x_0|`
+			`le |tan(arctan x - arctan x_0)|`
+			`= |x-x_0|/|1+x x_0|`
+			`to 0`.
+		</span>
+	</li>
+</ol>
+
+<h2>有界闭区间上的连续函数</h2>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

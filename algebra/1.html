@@ -127,8 +127,8 @@
 			(, , ,d_n)
 		]`,
 		</span>
-		则称它为 `n` 阶<b>对角矩阵</b>, 记为 `bm D(d_1, cdots, d_n)` 或
-		`bm D_(d_k)`.
+		则称它为 `n` 阶<b>对角矩阵</b>, 记为 `bm "diag"(d_1, cdots, d_n)`
+		或 `bm D_(d_k)`.
 		对角矩阵既是上三角矩阵, 也是下三角矩阵;
 		对角矩阵相乘, 结果还是对角矩阵.
 		矩阵左乘 `bm D_(d_k)`, 相当于第 `i` 行每个元素都乘以 `d_i`;
@@ -347,16 +347,27 @@
 
 <h3>正交矩阵</h3>
 
+<p class="definition">
+	设 `bm A = (a_(i j))_(m xx n)`, 则 `bm bar A = (bar a_(i j))_(m
+	xx n)` 称为 `bm A` 的<b>复共轭矩阵</b>, `bm A^H = bm bar A'` 称为
+	`bm A` 的<b>复共轭转置矩阵</b>. 复共轭转置是转置概念的推广.<br/>
+	如果 `bm A in CC^(n xx n)`, `bm A^H = bm A`, 则称 `bm A` 是
+	<b>Hermite 矩阵 (Hermitian matrix)</b>. Hermite
+	矩阵是对称矩阵概念的推广.
+</p>
+
 <ol class="definition">
+	<li>满足 `bm A^H bm A = bm A bm A^H` 的复方阵 `bm A`
+		称为<b>正规矩阵</b>, 满足 `bm(A'A) = bm(A A')` 的实方阵 `bm A`
+		称为<b>实正规矩阵</b>.
+	</li>
 	<li>称满足 `bm(T' T) = bm E` 的实方阵 `bm T`
 		为<b>正交矩阵 (orthgonal matrix)</b>.
 		正交矩阵的第 `i` 行与第 `j` 行的向量内积等于
 		`delta_(i j)`.
 	</li>
-	<li>设 `bm A = (a_(i j))_(m xx n)`, 则 `bm bar A = (bar(a_(i j)))_(m
-		xx n)` 称为 `bm A` 的<b>共轭</b>.
-		称满足 `bm(bar U' U) = bm E` 的复方阵 `bm U` 为<b>酉矩阵</b>.
-		显然正交矩阵都为酉矩阵. 酉矩阵是正交矩阵在复数域上的推广.
+	<li>称满足 `bm U^H bm U = bm E` 的复方阵 `bm U` 为<b>酉矩阵</b>.
+		酉矩阵是正交矩阵概念的推广.
 	</li>
 </ol>
 
@@ -444,12 +455,12 @@
 </p>
 
 <p class="example">
-	`bm (bar A' A)` 是 `n` 阶对称矩阵 (注意内积的共轭对称性),
-	且 `"tr"(bm(bar A' A))` 等于 `bm A` 的每个元素的模的平方和, 即
+	可以验证, `bm A^H bm A` 是 `n` 阶实对称矩阵,
+	且 `"tr"(bm A^H bm A)` 等于 `bm A` 的每个元素的模的平方和, 即
 	<span class="formula">
-		`"tr"(bm(bar A'A)) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
+		`"tr"(bm A^H bm A) = sum_(i=1)^m sum_(j=1)^n |a_(i j)|^2`.
 	</span>
-	从而 `bm A = bm O` 当且仅当 `"tr"(bm(bar A'A)) = 0`.
+	从而 `bm A = bm O` 当且仅当 `"tr"(bm A^H bm A) = 0`.
 </p>
 
 <h3>方阵的幂与多项式</h3>

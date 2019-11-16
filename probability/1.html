@@ -16,183 +16,419 @@
 
 <h3>`sigma` 域</h3>
 
-<div class="definition">
-	设 `Omega != O/`, 称 `cc F sube cc P(Omega)` 为空间 `Omega` 上的
-	<b>`sigma` 域</b>, 或 <b>`sigma` 代数</b>, 如果
-	<ol>
-		<li>`Omega in cc F`;</li>
-		<li>`A in cc F rArr A^C in cc F`;</li>
-		<li>`A_i in cc F`, `i = 1, 2, cdots` `rArr uuu_(i=1)^oo A_i in cc
-			F`.
-		</li>
-	</ol>
-</div>
-
 <p class="remark">
-	`cc P(Omega)` 为 `Omega` 的全体子集构成的集合, 称为 `Omega`
-	的<b>幂集</b>.
+	设 `Omega` 为一集合, `cc P(Omega)` 为 `Omega` 的全体子集构成的集合,
+	称为 `Omega` 的<b>幂集</b>. `cc P(Omega)` 的子集称为 `Omega`
+	的一个<b>子集族</b>. 子集族是集合的集合.
 </p>
 
+<ol class="definition">
+	设 `Omega != O/`, 称子集族 `cc F sube cc P(Omega)` 为集合 `Omega` 上的
+	<b>`bm sigma` 域</b> (或 <b>`bm sigma` 代数</b>), 如果
+	<li>`Omega in cc F`;</li>
+	<li>`A in cc F rArr A^c in cc F`;</li>
+	<li>`A_i in cc F`, `i = 1, 2, cdots` `rArr uuu_(i=1)^oo A_i in cc
+		F`.
+	</li>
+</ol>
+
 <ol class="corollary">
-	若 `cc F` 是 `Omega` 上的 `sigma` 域, `A_i in F`, `i = 1, 2, cdots`;
-	`n in ZZ^+`, 则
+	若 `cc F` 是 `Omega` 上的 `sigma` 域, `A_i in cc F`,
+	`i = 1, 2, cdots`. 又设 `n in ZZ^+`, 则
 	<li>`O/ in cc F`;</li>
 	<li>`nnn_(i=1)^oo A_i, uuu_(i=1)^n A_i, nnn_(i=1)^n A_i in cc F`,
 		从而 `sigma` 域对其中集合的补运算与可列次的并, 交运算封闭.
 	</li>
 </ol>
 
-<p class="theorem">
-	`Omega` 上的 `sigma` 域之交仍是 `Omega` 上的 `sigma` 域.
-</p>
-
 <p class="definition">
-	设 `Omega != O/`, `cc G sube cc P(Omega)`, `Omega` 上包含 `cc G` 的
-	`sigma` 域显然是存在的 (如 `cc P(Omega)`). 取一切这样的 `sigma`
-	域之交, 记为 `m(cc G)`, 则 `m(cc G)` 是 `Omega` 上包含 `cc G` 的最小
-	`sigma` 域, 称为由 `cc G` 生成的 `sigma` 域.
+	设 `Omega != O/`, `cc G sube cc P(Omega)`,
+	`Omega` 上包含 `cc G` 的 `sigma` 域显然是存在的, 如 `cc P(Omega)`.
+	取一切这样的 `sigma` 域之交, 记为 `m(cc G)`. 可以验证, 任意多 `sigma`
+	域的交仍是 `sigma` 域, 于是 `m(cc G)` 是 `Omega` 上包含 `cc G` 的最小
+	`sigma` 域, 称为由 `cc G` <b>生成的 `bm sigma` 域</b>.
 </p>
 
 <p class="example">
 	由一切形如 `[a, b)` 的有界左闭右开区间生成的 `RR` 上的 `sigma`
-	域称为<b>一维 Borel `sigma` 域</b> `cc B_1`. 类似地, 由一切 `RR^n`
-	中的半开闭矩体 `prod_(i=1)^n [a_i, b_i)` 生成的 `sigma` 域称为<b>`n`
-	维 Borel `sigma` 域</b> `cc B_n`.
+	域称为<b>一维 Borel `bm sigma` 域</b> `cc B_1`.
+	类似地, 由一切 `RR^n` 中的半开闭矩体 `prod_(i=1)^n [a_i, b_i)`
+	生成的 `sigma` 域称为<b>`bm n` 维 Borel `bm sigma` 域</b> `cc B_n`.
+	可以验证, `cc B_1` 也可以由形如 `(a,b)` 或 `[a,b]` 或 `(-oo, x)`
+	这样的子集族来生成.
 </p>
 
 <h3>概率的定义</h3>
 
-<p>	1933 年, Колмогоров А. Н. (科尔莫戈罗夫) 综合前人成果,
-	提出了概率论公理化结构, 其中概率的定义如下:
+<p> 1933 年, Колмогоров А. Н. 总结前人成果, 提出如下的概率公理化结构:</p>
+
+<p class="definition">
+	设 `Omega != O/`, `cc F` 为 `Omega` 上的一个 `sigma` 域,
+	则称 `Omega` 为<b>样本空间</b>, `omega in Omega` 为<b>样本点</b>.
+	称 `cc F` 为<b>事件域 (event field)</b>, `A in cc F` 为<b>事件</b>.
+	特别 `Omega, O/ in cc F` 分别称为必然事件和不可能事件.
 </p>
 
+<ol class="definition">
+	<b>事件运算的几个记号</b>
+	<li>`bar A := A^c = Omega-A`;</li>
+	<li>`A B := A nn B`, `prod_(i=1)^oo A_i := nnn_(i=1)^oo A_i`</li>
+	<li>称事件 `A` 与 `B` <b>不相容</b>或<b>互斥</b>, 如果 `A nn B = O/`.
+		此时 `A + B := A uu B`.
+		称事件 `A_1, A_2, cdots` 为<b>互斥事件组</b>, 如果它们两两互斥,
+		即 `A_i nn A_j = O/`, `i != j`. 此时
+		<span class="formula">
+			`sum_(i=1)^oo A_i := uuu_(i=1)^oo A_i`.
+		</span>
+		以后凡是使用 `+` 或 `sum` 的地方, 都假定参与运算的事件是互斥的.
+	</li>
+	<li>约定 `uuu_(i=k)^(k-1) = O/`, `nnn_(i=k)^(k-1) = Omega`.</li>
+</ol>
+
 <div class="definition">
-	设集合 `Omega != O/`, `cc F` 为 `Omega` 上的一个 `sigma` 域,
-	`P` 是定义在 `cc F` 上的集合函数, 满足
+	设 `Omega != O/`, `cc F` 为 `Omega` 上的一个 `sigma` 域,
+	若集合函数 `P: cc F to RR` 满足
 	<ol>
-		<li>(非负性) (`AA A in cc F`) `P(A) ge 0`;</li>
 		<li>(规范性) `P(Omega) = 1`;</li>
-		<li>(可列可加性)
+		<li>(非负性) `(AA A in cc F)` `P(A) ge 0`;</li>
+		<li>(互斥事件的可列可加性) 若 `A_i in cc F`,
+			`i = 1, 2, cdots` 互斥, 则下式左端级数收敛, 且等于右端:
 			<span class="formula">
-				`P(uuu_(i=1)^oo A_i) = sum_(i=1)^oo P(A_i)`,<br/>
-				`A_i in cc F`, `A_i nn A_j = O/`,
-				`i, j = 1, 2, cdots`, `i != j`.
+				`sum_(i=1)^oo P(A_i) = P(sum_(i=1)^oo A_i)`.
 			</span>
 		</li>
 	</ol>
-	则称 `P` 为<b>概率</b>.
-	其他集合及其元素也有相应术语.
-	我们称 `Omega` 为<b>样本空间</b>, `omega in Omega` 为<b>样本点</b>.
-	称 `cc F` 为<b>事件域</b>, `A in cc F` 为<b>事件</b>; 特别 `Omega`
-	称为<b>必然事件</b>, `O/` 称为<b>不可能事件</b>.
-	`(Omega, cc F, P)` 为<b>概率空间</b>.
+	则称 `P` 为<b>概率</b>, `(Omega, cc F, P)` 为<b>概率空间</b>.
 </div>
 
-<p>	这一定义可以类比于一般 `sigma` 域上的测度定义.</p>
-
-<p class="remark">
-	称事件 `A` 与 `B` <b>不相容</b>, 如果 `A nn B = O/`.
-	称事件 `A_1, A_2, cdots` 为<b>不相容事件组</b>, 如果 `A_i nn A_j =
-	O/`, `i != j`.
-</p>
+<p class="remark">这一定义可以类比于一般 `sigma` 域上的测度定义.</p>
 
 <ol class="corollary">
-	<b>概率的性质</b>
-	符号约定同定义, 从定义中的 3 条基本性质可以推出概率的其他性质:
+	<b>概率的基本性质</b>
+	本质上, 这些性质只涉及概率的规范性, 非负性和<b>有限可加性</b>,
+	我们将在下一节讨论概率的可列可加性.
 	<li>不可能事件的概率. `P(O/) = 0`.</li>
-	<li>有限可加性. 设 `A_i nn A_j = O/`, `i != j`, 则
+	<li>互斥事件的有限可加性.
 		<span class="formula">
-			`P(uuu_(i=1)^n A_i) = sum_(i=1)^n P(A_i)`.
+			`P(sum_(i=1)^n A_i) = sum_(i=1)^n P(A_i)`.
 		</span>
 	</li>
-	<li>补事件的概率. 设 `A in cc F`, 记 `A^C = bar A`, 则
+	<li>补事件的概率.
 		<span class="formula">
 			`P(bar A) = 1-P(A)`.
 		</span>
 	</li>
-	<li>差事件的概率. 设 `B sube A in cc F`, 记 `A \\ B = A - B`. 则
+	<li>差事件的概率. 如果 `B sube A`, 那么
 		<span class="formula">
 			`P(A - B) = P(A) - P(B)`.
 		</span>
 	</li>
-	<li>单调性. `AA A, B in cc F`,
+	<li>单调性.
 		<span class="formula">
 			`B sube A rArr P(B) le P(A)`.
 		</span>
 		因此, 必然事件 `Omega` 的概率最大, 不可能事件 `O/` 的概率最小.
-		任意事件的概率总是不小于 0, 不大于 1 的.
+		任意事件 `A`, 其概率满足 `0 le P(A) le 1`.
 	</li>
-	<li>加法公式. `AA A, B in cc F`,
+	<li>加法公式.
 		<span class="formula">
 			`P(A uu B) = P(A) + P(B) - P(A nn B)`.
 		</span>
-		这可以借助集合基数运算的公式
+		加法公式同有限集的基数运算公式
 			`|A uu B| = |A| + |B| - |A nn B|`
-		来证明.
+		完全类似.
+		如果记 `[n] = {1, 2, cdots, n}`, 则
+		<span class="formula">
+			` P(uuu_(i=1)^n A_i)
+			= sum_(S in [n]) (-1)^(|S|-1) P(prod_(i in S) A_i)`.
+		</span>
 	</li>
-	<li>Boolean 不等式. `AA A, B in cc F`,
+	<li>Boolean 不等式:
 		<span class="formula">
 			`P(A uu B) le P(A) + P(B)`.
 		</span>
-	</li>
-	<li>Bonferroni 不等式. `AA A, B in cc F`,
+		Bonferroni 不等式:
 		<span class="formula">
 			`P(A nn B) ge P(A) + P(B) - 1`.
 		</span>
-	</li>
-	<li>加法公式的推广. `AA A_i in cc F`, `i = 1, 2, cdots, n`, `n in
-		ZZ^+`,
-		<span class="formula">
-			` P(uuu_(i=1)^n A_i)
-			= sum_(i=1, cdots, n) P(A_i)
-			  - sum_((i lt j),(i","j = 1","cdots","n)) P(A_i nn A_j)`
-			 `+ sum_((i lt j lt k),(i","j","k=1","cdots","n))
-			    P(A_i nn A_j nn A_k)`
-		     `- cdots + (-1)^(n-1) P(prod_(i=1)^n A_i)`.
-		</span>
-		同样运用数学归纳法, Boolean 不等式与 Bonferroni
-		不等式也可以推广到 `n` 个事件的情形.
+		这两个不等式容易推广到 `n` 个事件的情形.
 	</li>
 </ol>
 
+<p class="remark">
+	Boolean 不等式与 Bonferroni 不等式形似线性代数中的秩不等式.
+</p>
+
 <h3>概率的连续性</h3>
+
+<p>	本节讨论概率的可列可加性带来的性质.</p>
+
+<p class="definition">
+	对<b>递增集合列</b> `S_1 sube S_2 sube cdots` 和<b>递减集合列</b>
+	`T_1 supe T_2 supe cdots`, 分别定义
+	<span class="formula">
+		`lim_(n to oo) S_n = uuu_(n=1)^oo S_n`,
+		`quad lim_(n to oo) T_n = nnn_(n=1)^oo T_n`.
+	</span>
+</p>
 
 <p class="definition">
 	称一个定义在 `sigma` 域 `cc F` 上的集合函数 `P`
-	为<b>下连续</b>的, 如果对 `cc F` 中任意递增集合列 `{S_n}` 有
+	为<b>下连续 (上连续)</b>的, 如果对 `cc F` 中任意递增 (递减)
+	集合列 `{S_n}` 有
 	<span class="formula">
 		` lim_(n to oo) P(S_n)
-		= P(lim_(n to oo) S_n)
-		:= P(uuu_(n=1)^oo S_n)`;
+		= P(lim_(n to oo) S_n)`.
 	</span>
-	类似地, 称 `P` <b>上连续</b>, 如果对 `cc F` 中任意递减集合列 `{T_n}`
-	有
+</p>
+
+<p class="lemma">
+	设 `{A_i}` 是互斥事件组, 则
 	<span class="formula">
-		` lim_(n to oo) P(T_n)
-		= P(lim_(n to oo) T_n)
-		:= P(nnn_(n=1)^oo T_n)`.
+		`lim_(n to oo) sum_(i=1)^n A_i`
+		`= uuu_(n=1)^oo sum_(i=1)^n A_i`
+		`= sum_(i=1)^oo A_i`.
 	</span>
 </p>
 
-<p class="remark">
-	所谓递增集合列, 就是 `S_1 sube S_2 sube cdots`.
+<p class="theorem">
+	设 `cc F` 是 `Omega` 上的 `sigma` 域, `P` 是 `cc F` 上的集合函数,
+	满足概率定义的规范性与非负性. 则 `P`
+	具有可列可加性当且仅当它有限可加且下连续.
+	这个定理给出了概率的一个等价定义.
 </p>
 
-<div class="theorem">
-	设 `cc F` 是 `Omega` 上的 `sigma` 域, `P` 是 `cc F` 上的集合函数,
-	满足概率定义的非负性与规范性. 则 `P`
-	具有可列可加性当且仅当它有限可加且下连续.
-</div>
+<ol class="proof">
+	<li>先设 `P` 有限可加且下连续. 于是对任意互斥的
+		`A_1, A_2, cdots in cc F`,
+		<span class="formula">
+			`sum_(i=1)^n P(A_i) = P(sum_(i=1)^n A_n)`.
+		</span>
+		上式右边单调有界, 必有极限. 于是由下连续性
+		<span class="formula">
+			`sum_(i=1)^oo P(A_i)`
+			`= lim_(n to oo) P(sum_(i=1)^n A_n)`
+			`= P(lim_(n to oo) sum_(i=1)^n A_n)`
+			`= P(sum_(i=1)^oo A_i)`.
+		</span>
+	</li>
+	<li>反之设 `P` 可列可加. 显然 `P` 有限可加, 下证 `P` 下连续.
+		设 `{S_n}_(n=1)^oo` 是 `cc F` 中的递增集合列, 定义 `S_0 = O/`,
+		`E_i = S_i-S_(i-1)`, `i = 1, 2, cdots`.
+		由 `S_i` 的单调性知 `E_i` 两两互斥, 且
+		<span class="formula">
+			`S_n = sum_(i=1)^n E_i`.
+		</span>
+		于是由可列可加性与有限可加性,
+		<span class="formula">
+			`P(lim_(n to oo) S_n)`
+			`= P(lim_(n to oo) sum_(i=1)^n E_i)`
+			`= P(sum_(i=1)^oo E_i)`
+			`= sum_(i=1)^oo P(E_i)`
+			`= lim_(n to oo) sum_(i=1)^n P(E_i)`
+			`= lim_(n to oo) P(sum_(i=1)^n E_i)`
+			`= lim_(n to oo) P(S_n)`.
+		</span>
+	</li>
+</ol>
 
 <p class="corollary">
 	概率是下连续的, 也是上连续的.
 </p>
 
+<p class="proof">
+	下连续已在定理中证明. 现在对 `cc F` 中任意递减集合列 `{T_n}`, 取
+	`S_i = bar T_i`, 则 `S_i` 为递增集合列, 有
+	<span class="formula">
+		`lim_(n to oo) P(T_n)`
+		`= lim_(n to oo) P(bar S_n)`
+		`= 1 - lim_(n to oo) P(S_n)`
+		`= 1 - P(uuu_(n=1)^oo S_n)`
+		`= P(bar(uuu_(n=1)^oo S_n))`
+		`= P(nnn_(n=1)^oo T_n)`
+		`= P(lim_(n to oo) T_n)`,
+	</span>
+	所以 `P` 上连续.
+</p>
+
 <p class="corollary">
-	概率具有次可加性
+	<b>概率的次可加性</b>
 	<span class="formula">
 		`P(uuu_(i=1)^oo A_i) le sum_(i=1)^oo P(A_i)`.
 	</span>
+	这是 Boolean 不等式的推广.
+</p>
+
+<p class="proof">
+	不妨设不等式右端 `lt +oo`.
+	取 `E_1 = A_1`, `E_i = A_i - uuu_(j=1)^(i-1) A_j`, `i = 2, 3, cdots`.
+	于是 `E_i` 两两互斥, `E_i sube A_i`, `i = 1, 2, cdots`, 且
+	<span class="formula">
+		`sum_(i=1)^n E_i = uuu_(i=1)^n A_i`.
+	</span>
+	令 `n to oo` 有
+	<span class="formula">
+		`sum_(i=1)^oo E_i = uuu_(i=1)^oo A_i`.
+	</span>
+	从而
+	<span class="formula">
+		`P(uuu_(i=1)^oo A_i)`
+		`= P(sum_(i=1)^oo E_i)`
+		`= sum_(i=1)^oo P(E_i)`
+		`le sum_(i=1)^oo P(A_i)`.
+	</span>
+</p>
+
+<h2>条件概率</h2>
+
+<p class="definition">
+	设 `(Omega, cc F, P)` 为一概率空间, `A in cc F`, `P(A) gt 0`, 则对任意
+	`B in cc F`, 称
+	<span class="formula">
+		`P(B | A) = (P(A B))/(P(A))`
+	</span>
+	为事件 `A` 发生的条件下事件 `B` 发生的<b>条件概率</b>.
+	相对应地, 一般的概率称为<b>无条件概率</b>. 我们有
+	<span class="formula">
+		`P(A) = P(A | Omega)`.
+	</span>
+</p>
+
+<p class="remark">
+	`B | A` 可以理解为 "B over A".
+	注意事件 `A` 已经发生, 是一事实, 我们要以事实为分母.
+</p>
+
+<p class="remark">
+	如没有特别指出, 今后出现 `P(B | A)` 时都假定 `P(A) gt 0`. 不过即使
+	`P(A) = 0`, 显然此时 `P(A B) le P(A) = 0`,
+	所以 `P(B | A)` 是 `0/0` 型的未定式, 可以通过极限来研究它的值.
+</p>
+
+<p class="corollary">
+	条件概率满足概率的 3 条基本性质:
+	<span class="formula">
+		`P(Omega | B) = 1`,
+		`quad P(A | B) ge 0`,<br/>
+		`P(sum_(i=1)^oo A_i | B) = sum_(i=1)^oo P(A_i | B)`.
+	</span>
+</p>
+
+<p class="corollary">
+	<b>乘法公式</b>
+	<span class="formula">
+		`P(A B) = P(A) P(B | A)`, `quad P(A) gt 0`;<br/>
+		`P(nnn_(i=1)^n A_i) = prod_(i=1)^n P(A_i | nnn_(j=1)^(i-1) A_j)`,
+		`quad P(A_1 A_2 cdots A_(n-1)) gt 0`.
+	</span>
+	乘法公式可以直观地解释为: 事件 `A, B` 同时发生, 相当于令 `A` 发生,
+	再在 `A` 发生的条件下, 令 `B` 发生.
+</p>
+
+<p class="definition">
+	如果互斥事件组 `A_1, A_2, cdots` 满足
+	<span class="formula">
+		`sum_(i=1)^oo A_i = Omega`,
+	</span>
+	则称它们为样本空间 `Omega` 的一个<b>分割</b>或<b>完备事件组</b>.
+</p>
+
+<p class="theorem">
+	<b>全概率公式</b>
+	<span class="formula">
+		`P(B) = P(A) P(B | A) + P(bar A) P(B | bar A)`.
+	</span>
+	一般地, 如果 `A_1, A_2, cdots` 是 `Omega` 的一个分割, 则
+	<span class="formula">
+		`P(B) = sum_(i=1)^oo P(A_i) P(B | A_i)`.
+	</span>
+	在多数问题中, 上式只有有限项. 当 `P(A_i) = 0` 时, 把相应的项当作 `0`
+	即可.
+</p>
+
+<p class="remark">
+	这个公式形似微积分中求导的链锁法则.
+</p>
+
+<p class="theorem">
+	<b>Bayes 公式</b> 结合乘法公式以及全概率公式, 有
+	<span class="formula">
+		` P(A | B)`
+		`= (P(A B))/(P(B))`
+		`= (P(A) P(B | A)) / (P(A) P(B | A) + P(bar A) P(B | bar A))`.
+	</span>
+	一般地, 如果 `A_1, A_2, cdots` 是 `Omega` 的一个分割, 则
+	<span class="formula">
+		` P(A_i | B)
+		= (P(A_i) P(B | A_i)) / (sum_(i=1)^oo P(A_i) P(B | A_i))`.
+	</span>
+	Bayes 公式中, `P(A_i)` 通常由经验提供, 称为<b>先验概率</b>;
+	`P(B | A_i)` 由实验测定;
+	`P(A_i | B)` 是我们想要计算的, 称为<b>后验概率</b>.
+	有时, 先验概率由某一种主观方式给定, 如对未来的预期等,
+	称为<b>主观概率</b>.
+</p>
+
+<h2>独立性</h2>
+
+<p class="definition">
+	若事件 `A, B` 满足
+	<span class="formula">
+		`P(A B) = P(A) P(B)`,
+	</span>
+	则称它们是<b>统计独立的</b>, 简称<b>独立的</b>. 从上式的对称性知道,
+	独立的概念是相互的, 因此也称 `A, B` <b>相互独立</b>.
+</p>
+
+<p class="corollary">
+	必然事件 `Omega` 与不可能事件 `O/` 与任何事件独立.
+</p>
+
+<p class="corollary">
+	由条件概率的定义, 若事件 `A, B` 独立, 且 `P(B) gt 0`, 则
+	<span class="formula">
+		`P(A | B) = P(A)`.
+	</span>
+	这正说明事件 `A` 发生的概率与事件 `B` 发生与否无关.
+</p>
+
+<p class="corollary">
+	若事件 `A, B` 独立, 则 `bar A` 与 `B`, `A` 与 `bar B`, `bar A` 与
+	`bar B` 也相互独立.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`P(bar A B) = P(B - A B)`
+		`= P(B) - P(A B)`
+		`= P(B) - P(A) P(B)`
+		`= (1-P(A)) P(B)`
+		`= P(bar A) P(B)`.
+	</span>
+	所以 `bar A` 与 `B` 相互独立; 由它立即推出 `bar A`, `bar B` 相互独立.
+	同理 `A`, `bar B` 相互独立.
+</p>
+
+<ol class="definition">
+	平凡地, 规定一个事件总是独立的.
+	称 `n` 个事件 `A_1, A_2, cdots, A_n` 相互独立, 如果
+	<li>其中任意 `n-1` 个事件都独立;</li>
+	<li>`P(prod_(i=1)^n A_i) = prod_(i=1)^n P(A_i)`.</li>
+	称无穷多个事件相互独立, 如果其中任意有限个事件相互独立.
+	从而无穷多个事件相互独立当且仅当它们是<b>有限可乘</b>的,
+	换言之, 对任意 `n` 个事件 `A_(i_1), A_(i_2), cdots, A_(i_n)`,
+	<span class="formula">
+		`P(prod_(j=1)^n A_(i_j)) = prod_(j=1)^n P(A_(i_j))`.
+	</span>
+</ol>
+
+<p class="remark">
+	条件 1. 和 2. 互相不能推出. 另外,
+	<span class="formula">
+		`P(prod_(i=1)^k A_i) = prod_(i=1)^k P(A_i)`,
+		`quad k = 1, 2, cdots, n`
+	</span>
+	也不能推出 `A_1, A_2, cdots, A_n` 相互独立.
 </p>
 
 </body>

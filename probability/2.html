@@ -3,7 +3,7 @@
 
 <head>
 
-<title>条件概率与独立性</title>
+<title>随机变量</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -12,126 +12,10 @@
 
 <body>
 
-<h2>条件概率</h2>
 
-<p class="definition">
-	设 `(Omega, cc F, P)` 为一概率空间, `B in cc F`, `P(B) gt 0`, 则对任意
-	`A in cc F`, 称
-	<span class="formula">
-		`P(A | B) = (P(A nn B))/(P(B))`
-	</span>
-	为事件 `B` 发生的条件下事件 `A` 发生的<b>条件概率</b>.
-	相对应地, 一般的概率称为<b>无条件概率</b>. 我们有
-	<span class="formula">
-		`P(A) = P(A | Omega)`.
-	</span>
-</p>
-
-<p class="remark">
-	如没有特别指出, 今后出现 `P(A | B)` 时都假定 `P(B) gt 0`. 不过即使
-	`P(B) = 0`, `P(A | B)` 也未必无意义, 它可以通过研究未定式的值来确定.
-</p>
-
-<p class="corollary">
-	条件概率满足概率的 3 条基本性质:
-	<span class="formula">
-		`P(A | B) ge 0`,<br/>
-		`P(Omega | B) = 1`,<br/>
-		`P(uuu_(i=1)^oo A_i | B) = sum_(i=1)^oo P(A_i | B)`.
-	</span>
-</p>
-
-<p class="corollary">
-	<b>乘法公式</b>
-	<span class="formula">
-		`P(A nn B) = P(B) P(A | B)`, `P(B) gt 0`;<br/>
-		`P(nnn_(i=1)^n A_i) = prod_(i=1)^n P(A_i | nnn_(j=1)^(i-1) A_j)`,
-		`P(A_1 A_2 cdots A_(n-1)) gt 0`.
-	</span>
-</p>
-
-<p class="definition">
-	称 `A_1, A_2, cdots` 是样本空间 `Omega` 的一个<b>分割</b>,
-	亦称<b>完备事件组</b>, 如果
-	<span class="formula">
-		`A_i nn A_j = O/`, `i != j`, 且 `uuu_(i=1)^oo A_i = Omega`.
-	</span>
-</p>
-
-<p class="theorem">
-	<b>全概率公式</b>
-	<span class="formula">
-		`P(B) = P(A) P(B | A) + P(bar A) P(B | bar A)`.
-	</span>
-	一般地, 如果 `A_1, A_2, cdots` 是 `Omega` 的一个分割, 则
-	<span class="formula">
-		`P(B) = sum_(i=1)^oo P(A_i) P(B | A_i)`.
-	</span>
-	在多数问题中, 上式只有有限项. 当 `P(A_i) = 0` 时, 把相应的项当作 `0`
-	即可.
-</p>
-
-<p class="remark">
-	这个公式形似多元微积分中的复合求导法则.
-</p>
-
-<p class="theorem">
-	<b>Bayes 公式</b> 结合条件概率的定义, 乘法公式以及全概率公式, 有
-	<span class="formula">
-		` P(A | B)
-		= (P(A) P(B | A)) / (P(A) P(B | A) + P(bar A) P(B | bar A))`.
-	</span>
-	一般地, 如果 `A_1, A_2, cdots` 是 `Omega` 的一个分割, 则
-	<span class="formula">
-		` P(A_i | B)
-		= (P(A_i) P(B | A_i)) / (sum_(i=1)^oo P(A_i) P(B | A_i))`.
-	</span>
-</p>
-
-<h2>独立性</h2>
-
-<p class="definition">
-	若事件 `A, B` 满足
-	<span class="formula">
-		`P(A nn B) = P(A) P(B)`,
-	</span>
-	则称它们是<b>统计独立的</b>, 简称<b>独立的</b>. 从上式的对称性知道,
-	独立的概念是相互的, 因此也称 `A, B` <b>相互独立</b>.
-</p>
-
-<p class="corollary">
-	必然事件 `Omega` 与不可能事件 `O/` 与任何事件独立.
-</p>
-
-<p class="corollary">
-	由条件概率的定义, 若事件 `A, B` 独立, 且 `P(B) gt 0`, 则
-	<span class="formula">
-		`P(A | B) = P(A)`.
-	</span>
-</p>
-
-<p class="corollary">
-	若事件 `A, B` 独立, 则 `bar A` 与 `B`, `A` 与 `bar B`, `bar A` 与
-	`bar B` 也相互独立.
-</p>
-
-<p class="definition">
-	平凡地, 规定一个事件总是独立的.
-	称 `n` 个事件 `A_1, A_2, cdots, A_n` 相互独立, 如果其中任意 `n-1`
-	个事件都独立, 且
-	<span class="formula">
-		`P(nnn_(i=1)^n A_i) = prod_(i=1)^n P(A_i)`.
-	</span>
-	称无穷多个事件相互独立, 如果其中任意有限个事件相互独立.
-</p>
-
-<p class="remark">
-	从三个事件两两独立不能推出这三个事件相互独立.
-	<!-- Bernstein 反例 -->
-</p>
-
-</body>
 
 <script src="../js/note.js?type=math"></script>
+
+</body>
 
 </html>

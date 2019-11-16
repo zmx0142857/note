@@ -171,10 +171,10 @@
 
 <p class="theorem">
 	<b>Jensen 不等式</b>
-	设 `f` 是区间 `I` 上的下凸函数, `x_k in I`, `t_k in (0, 1)`,
-	`k = 1, 2, cdots, n`. 其中 `sum_(k=1)^n t_k = 1`. 则
+	设 `f` 是区间 `I` 上的下凸函数, `x_k in I`, `w_k in (0, 1)`,
+	`k = 1, 2, cdots, n`. 其中 `sum_(k=1)^n w_k = 1`. 则
 	<span class="formula">
-		`f(sum_(k=1)^n t_k x_k) le sum_(k=1)^n t_k f(x_k)`.
+		`f(sum_(k=1)^n w_k x_k) le sum_(k=1)^n w_k f(x_k)`.
 	</span>
 	进一步, 若 `f` 在 `I` 上严格下凸, 则不等式中等号成立当且仅当
 	`x_1 = x_2 = cdots = x_n`.
@@ -186,23 +186,23 @@
 	对 `n` 进行归纳. `n = 1` 时不等式是平凡的等式.
 	设不等式对 `n-1 ge 1` 成立, 则对正整数 `n`, 有
 	<span class="formula">
-		`f(sum_(k=1)^n t_k x_k)`
-		`= f(sum_(k=1)^(n-1) t_k x_k + t_n x_n)`
-		`= f((1-t_n) sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) + t_n x_n)`
-		(由函数下凸) `le (1-t_n) f(sum_(k=1)^(n-1) (t_k x_k)/(1-t_n))
-		+ t_n f(x_n)`
-		(由归纳假设) `le (1-t_n) sum_(k=1)^(n-1) (t_k f(x_k))/(1-t_n) +
-		t_n f(x_n)`
-		`= sum_(k=1)^n t_k f(x_k)`.
+		`f(sum_(k=1)^n w_k x_k)`
+		`= f(sum_(k=1)^(n-1) w_k x_k + w_n x_n)`
+		`= f((1-w_n) sum_(k=1)^(n-1) (w_k x_k)/(1-w_n) + w_n x_n)`
+		(由函数下凸) `le (1-w_n) f(sum_(k=1)^(n-1) (w_k x_k)/(1-w_n))
+		+ w_n f(x_n)`
+		(由归纳假设) `le (1-w_n) sum_(k=1)^(n-1) (w_k f(x_k))/(1-w_n) +
+		w_n f(x_n)`
+		`= sum_(k=1)^n w_k f(x_k)`.
 	</span>
 	如果 `f` 是严格下凸函数且 `x_1, x_2, cdots, x_n` 不全相等, 那么当
-	`sum_(k=1)^(n-1) (t_k x_k)/(1-t_n) != x_n` 时,
-	上面推导的第一个不等式中的等号不成立. 而 `sum_(k=1)^(n-1) (t_k
-	x_k)/(1-t_n) = x_n` 时, 则断言 `x_1, x_2, cdots, x_(n-1)` 不全相等
+	`sum_(k=1)^(n-1) (w_k x_k)/(1-w_n) != x_n` 时,
+	上面推导的第一个不等式中的等号不成立. 而 `sum_(k=1)^(n-1) (w_k
+	x_k)/(1-w_n) = x_n` 时, 则断言 `x_1, x_2, cdots, x_(n-1)` 不全相等
 	(否则设 `x_1 = x_2 = cdots = x_(n-1)`, 有
 	<span class="formula">
-		`x_n = sum_(k=1)^(n-1) (t_k x_k)/(1-t_n)`
-		`= x_1 sum_(k=1)^(n-1) t_k/(1-t_n)`
+		`x_n = sum_(k=1)^(n-1) (w_k x_k)/(1-w_n)`
+		`= x_1 sum_(k=1)^(n-1) w_k/(1-w_n)`
 		`= x_1 = x_2 = cdots = x_(n-1)`,
 	</span>
 	矛盾).
@@ -546,37 +546,36 @@
 <a href="https://wenku.baidu.com/view/ea9c16d649649b6648d7471a.html">欧阳资考.  2011. 利用凸函数证明积分不等式. 高等教育, 第 107 期</a>
 
 <p class="theorem">
-	(联系 Jensen 不等式)
-	设 `varphi` 在 `[a, b]` 上可积, 值域含于 `[alpha, beta]`;
-	`f` 是在 `[alpha, beta]` 上连续的下凸函数;
-	`w(x)` 在 `[a, b]` 上可积, `w(x) gt 0`. 记 `W = int_a^b w(x) dx`, 则
+	<b>Jensen 不等式的积分形式</b>
+	设 `x(t)` 在 `[a, b]` 上可积, 值域含于区间 `I`;
+	`f` 是区间 `I` 上连续的下凸函数;
+	`w(t)` 在 `[a, b]` 上可积, `w(t) gt 0`, 且 `int_a^b w(t) dt = 1`, 则
 	<span class="formula">
-		`f(1/W int_a^b w(x) varphi(x) dx)`
-		`le 1/W int_a^b w(x) f(varphi(x)) dx`.
+		`f(int_a^b w(t) x(t) dt)`
+		`le int_a^b w(t) f(x(t)) dt`.
 	</span>
-	特别取 `w(x) -= 1` 得,
+	特别取 `w(t) -= 1/(b-a)` 得,
 	<span class="formula">
-		`f(1/(b-a) int_a^b varphi(x) dx)`
-		`le 1/(b-a) int_a^b f(varphi(x)) dx`.
+		`f(1/(b-a) int_a^b x(t) dt)`
+		`le 1/(b-a) int_a^b f(x(t)) dt`.
 	</span>
 	取 `g = -f` 知, 对上凸函数成立反向的不等号.
 </p>
 
 <p class="proof">
 	易知不等式中出现的积分都有意义.
-	将 `[a, b]` `n` 等分, 记 `h = (b-a)//n`, `x_k = a+k h`,
-	`varphi_k = varphi(x_k)`, `w_k = w(x_k)`,
-	`t_k = w_k/(sum_(k=1)^n w_k)`,
-	`k = 1, 2, cdots, n`.
+	将 `[a, b]` `n` 等分, 记 `h = (b-a)//n`, `t_k = a+k h`,
+	`x_k = x(t_k)`, `w_k = w(t_k)`,
+	`y_k = w_k/(sum_(k=1)^n w_k)`, `k = 1, 2, cdots, n`.
 	因为 `f` 为上凸函数, 由 Jensen 不等式,
 	<span class="formula">
-		`f(sum_(k=1)^n t_k varphi_k)`
-		`le sum_(k=1)^n t_k f(varphi_k)`,
+		`f(sum_(k=1)^n x_k y_k)`
+		`le sum_(k=1)^n f(x_k) y_k`,
 	</span>
 	即
 	<span class="formula">
-		`f((sum_(k=1)^n w_k varphi_k h)/(sum_(k=1)^n w_k h))`
-		`le (sum_(k=1)^n w_k f(varphi_k) h)/(sum_(k=1)^n w_k h)`.
+		`f((sum_(k=1)^n w_k x_k h)/(sum_(k=1)^n w_k h))`
+		`le (sum_(k=1)^n w_k f(x_k) h)/(sum_(k=1)^n w_k h)`.
 	</span>
 	令 `n to oo`, 注意 `f` 的连续性, 极限符号可转移到 `f` 的括号内.
 	从而由定积分的定义即得结果.
@@ -593,17 +592,16 @@
 	记 `I = 1/(b-a) int_a^b f(x) dx`,
 	令 `x = a + t(b-a) = (1-t)a + t b`, 则
 	<span class="formula">
-		`I = int_0^1 f((1-t)a+t b) dt`
-		`le int_0^1 ((1-t) f(a) + t f(b)) dt`
+		`I = int_0^1 f[(1-t)a+t b] dt`
+		`le int_0^1 [(1-t) f(a) + t f(b)] dt`
 		`= (f(a)+f(b))/2`.
 	</span>
-	另一方面, 令 `s = 1-t`, 则
+	另一方面, 令 `x = a+b-s`,
 	<span class="formula">
-		`I = int_0^1 f(s a+(1-s)b) "d"s`
-		`= 1/2 int_0^1 [f(t a+(1-t)b) + f((1-t)a+t b)]dt`
-		`ge int_0^1 f((t a+(1-t)b+(1-t)a+t b)/2) dt`
-		`= int_0^1 f((a+b)/2) dt`
-		`= f((a+b)/2)`.
+		`(b-a) I = int_a^b f(a+b-s) "d"s`
+		`= 1/2 int_a^b [f(x) + f(a+b-x)] dx`
+		`ge int_a^b f((x+a+b-x)/2) dx`
+		`= (b-a)f((a+b)/2)`.
 	</span>
 </p>
 
@@ -663,7 +661,7 @@
 	记 `int_a^b |f(x)|^p dx = A`, `int_a^b |g(x)|^q dx = B`. 使用 Young
 	不等式, 对 `AA x in [a,b]` 有
 	<span class="formula">
-		`(|f(x)|^p/A)^(1/p) (|g(x)|^q)^(1/q)`
+		`(|f(x)|^p/A)^(1/p) (|g(x)|^q/B)^(1/q)`
 		`le 1/p |f(x)|^p/A + 1/q |g(x)|^q/B`.
 	</span>
 	因为不等式右端函数在 `[a,b]` 上广义可积, 所以左端也可以. 积分得
@@ -689,7 +687,7 @@
 	<b>幂平均值不等式</b>
 	设 `f` 在 `[a,b]` 上 `p` 方可积, `p ge 1`, 则函数
 	<span class="formula">
-		`(1/(b-a)int_a^b|f(x)^alpha)^(1/alpha)`
+		`(1/(b-a)int_a^b|f(x)|^alpha dx)^(1/alpha)`
 	</span>
 	关于参数 `alpha` 单调递增.
 </p>
