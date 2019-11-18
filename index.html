@@ -1,98 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
-	<title></title>
+<title>index</title>
+<meta charset="utf-8" />
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
 
-	<!-- newer but slow <link rel="stylesheet" href="https://code.ionicframework.com/1.3.3/css/ionic.min.css">
-	<script src="https://code.ionicframework.com/1.3.3/js/ionic.bundle.min.js"></script> -->
-	<link rel="stylesheet" href="https://cdn.bootcss.com/ionic/1.3.2/css/ionic.css">
-	<script src="https://cdn.bootcss.com/ionic/1.3.2/js/ionic.bundle.min.js"></script>
-	<style>
-	.bar-header {
-	  z-index: 1;
-	  transition: top 0.25s ease;
-	}
+body {
+	text-rendering: optimizeLegibility;
+	font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+	overflow-x: hidden;
+}
 
-	.has-header {
-	  top: 0;
-	}
+header {
+	display: table;
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 44px;
+	line-height: 44px;
+	text-align: center;
+	font-size: 17px;
+	font-weight: 500;
+	border-color: #000;
+	background-color: #444;
+	color: #fff;
+}
 
-	.has-header .scroll {
-	  padding-top: 0;
-	}
+header button {
+	display: table-cell;
+	width: 100%;
+	border: 0;
+	color: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	background: rgba(0,0,0,0);
+	cursor: pointer;
+}
 
-	body.header-hidden .bar-header {
-		top: -44px;
-	}
+header span {
+	display: table-cell;
+}
 
-	body.header-hidden .has-header {
-		top: 0;
-	}
-	</style>
+#nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 16em;
+	display: flex;
+	flex-flow: column nowrap;
+	overflow-y: auto;
+	padding: 1em 0 0 0;
+	background: #fcfcfc;
+	box-shadow: inset -14px 0px 5px -12px rgb(210,210,210);
+	border-right: 1px #444;
+}
+
+#table-of-contents {
+	margin-top: 44px;
+	height: 100%;
+	overflow: auto;
+	list-style-type: none;
+	color: #45a;
+}
+
+#table-of-contents ul {
+	list-style-type: none;
+}
+
+#table-of-contents li {
+	padding-left: 1em;
+	line-height: 2em;
+}
+
+#table-of-contents ul li {
+	color: black;
+}
+
+#table-of-contents ul li:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#article {
+	position: absolute;
+	margin-left: 16em;
+	width: 100%;
+	height: 100%;
+}
+
+#iframe {
+	display: table;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+}
+</style>
+
 </head>
 
-<body ng-app="noteApp" ng-controller="noteCtrl" ng-class="{'header-hidden': isHeaderHidden}">
+<body>
 
-<ion-side-menus>
+<nav id="nav">
+	<ul id="table-of-contents"></ul>
+	<header>
+		<button onclick="prevArticle()">&lt;</button>
+		<span>目录</span>
+		<button onclick="nextArticle()")>&gt;</button>
+	</header>
+</nav>
 
-<!-- main content -->
-<ion-side-menu-content>
-	<!-- header-bar -->
-	<ion-header-bar class="bar-dark">
-		<button class="button button-icon" ng-click="toggleSideMenu()">
-			<i class="icon ion-navicon"></i>
-		</button>
-		<h1 class="title">{{activeArticle.title}}</h1>
-		<button class="button button-icon" ng-click="menu()">
-			<i class="icon ion-plus"></i>
-		</button>
-	</ion-header-bar>
+<article id="article">
+	<iframe id="iframe" src="pde/2.html"></iframe>
+	<header>
+		<button onclick="hideNav()">&Xi;</button>
+		<span id="article-title"></span>
+		<button>+</button>
+	</header>
+</article>
 
-	<!-- main article -->
-	<iframe id="article-container" style="height:100%;width:100%;">
-	</iframe>
-</ion-side-menu-content>
-
-<!-- left side menu -->
-<ion-side-menu side="left">
-
-	<ion-header-bar class="bar-dark">
-		<button class="button button-icon" ng-click="prevArticle()">
-			<i class="icon ion-arrow-left-c"></i>
-		</button>
-		<h1 class="title">目录</h1>
-		<button class="button button-icon" ng-click="nextArticle()">
-			<i class="icon ion-arrow-right-c"></i>
-		</button>
-	</ion-header-bar>
-
-	<ion-content style="overflow-y:auto; margin-top:44px">
-	<ion-list>
-		<div ng-repeat="group in groups"
-			ng-click="selectGroup($index)">
-			<div class="item item-divider"
-				style="color: #808080; font-size: 1em">
-				{{group.title}}
-			</div>
-			<ion-list>
-			<ion-item ng-repeat="article in group.articles"
-					ng-click="selectArticle(group, $index)"
-					ng-class="{active:activeArticle == article}">
-				{{article.title}}
-			</ion-item>
-			</ion-list>
-		</div>
-	</ion-list>
-	</ion-content>
-</ion-side-menu>
-
-</ion-side-menus>
-<div id="toggle-show-header"></div>
 
 <script src="js/table-of-contents.js"></script>
-<script src="js/index.js"></script>
+<script>
+'use strict';
+var toc = document.getElementById('table-of-contents');
+var iframe = document.getElementById('iframe');
+var artitle = document.getElementById('article-title');
+var groupIdx = parseInt(window.localStorage['groupIndex'+domain]) || 0;
+var articleIdx = parseInt(window.localStorage['articleIndex'+domain]) || 0;
+
+function jump() {
+	iframe.setAttribute('src', tableOfContents[groupIdx].articles[articleIdx].src);
+	artitle.innerHTML = tableOfContents[groupIdx].articles[articleIdx].title;
+	window.localStorage['groupIndex'+domain] = groupIdx;
+	window.localStorage['articleIndex'+domain] = articleIdx;
+}
+
+function prevArticle() {
+	if (articleIdx == 0) {
+		if (groupIdx == 0) {
+			console.warn('already at first article.');
+			return;
+		}
+		articleIdx = tableOfContents[--groupIdx].articles.length;
+	}
+	--articleIdx;
+	jump();
+};
+
+function nextArticle() {
+	if (articleIdx == tableOfContents[groupIdx].articles.length-1) {
+		if (groupIdx == tableOfContents.length-1) {
+			console.warn('$no more articles.');
+			return;
+		}
+		++groupIdx;
+		articleIdx = -1;
+	}
+	++articleIdx;
+	jump();
+};
+
+// load page
+jump();
+
+function jumpto(i, j) {
+	return function() {
+		groupIdx = i;
+		articleIdx = j;
+		jump();
+	}
+}
+
+// load table of contents
+for (var i = 0; i < tableOfContents.length; ++i) {
+	var li0 = document.createElement('li');
+	li0.innerHTML = tableOfContents[i].title;
+	var ul = document.createElement('ul');
+	for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
+		var li = document.createElement('li');
+		li.innerHTML = tableOfContents[i].articles[j].title;
+		li.onclick = jumpto(i, j);
+		ul.appendChild(li);
+
+	}
+	li0.appendChild(ul);
+	toc.appendChild(li0);
+}
+</script>
+
+<script>
+function hideNav() {
+	var nav = document.getElementById('nav');
+	var article = document.getElementById('article');
+	if (nav.hidden) {
+		nav.removeAttribute('hidden');
+		nav.style.width = '16em';
+		article.style.marginLeft = '16em';
+	} else {
+		nav.hidden = true;
+		nav.style.width = '0';
+		article.style.marginLeft = '0';
+	}
+}
+</script>
+
 </body>
+
 </html>
