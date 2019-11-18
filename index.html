@@ -13,6 +13,7 @@
 
 body {
 	text-rendering: optimizeLegibility;
+	font-size: 16px;
 	font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
 	overflow-x: hidden;
 	background: #eeee99; /* yellow */
@@ -21,16 +22,16 @@ body {
 }
 
 header {
+	height: 45px;
+	line-height: 45px;
+	font-size: 18px;
 	display: table;
 	position: absolute;
 	width: 100%;
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 2.5em;
-	line-height: 2.5em;
 	text-align: center;
-	font-size: 1.5em;
 	font-weight: 500;
 	border-color: #000;
 	background-color: #444;
@@ -38,10 +39,10 @@ header {
 }
 
 header button {
+	height: 45px;
+	width: 45px;
 	display: table-cell;
 	border: 0;
-	height: 2.5em;
-	width: 2.5em;
 	color: inherit;
 	font-size: inherit;
 	font-weight: inherit;
@@ -68,7 +69,7 @@ header span {
 }
 
 #table-of-contents {
-	margin-top: 2.5em;
+	margin-top: 45px;
 	height: 100%;
 	overflow: auto;
 	list-style-type: none;
@@ -114,6 +115,21 @@ header span {
 		background: #eeeedd; /* lighter yellow */
 	}
 
+	header {
+		height: 120px;
+		line-height: 120px;
+		font-size: 48px;
+	}
+
+	header button {
+		height: 120px;
+		width: 120px;
+	}
+
+	#table-of-contents {
+		margin-top: 120px;
+	}
+
 	div.graph {
 		height: 15em;
 	}
@@ -152,6 +168,20 @@ var iframe = document.getElementById('iframe');
 var artitle = document.getElementById('article-title');
 var groupIdx = parseInt(window.localStorage['groupIndex'+domain]) || 0;
 var articleIdx = parseInt(window.localStorage['articleIndex'+domain]) || 0;
+
+function hideNav() {
+	var nav = document.getElementById('nav');
+	var article = document.getElementById('article');
+	if (nav.hidden) {
+		nav.removeAttribute('hidden');
+		nav.style.width = '16em';
+		article.style.marginLeft = '16em';
+	} else {
+		nav.hidden = true;
+		nav.style.width = '0';
+		article.style.marginLeft = '0';
+	}
+}
 
 function jump() {
 	iframe.setAttribute('src', tableOfContents[groupIdx].articles[articleIdx].src);
@@ -211,22 +241,6 @@ for (var i = 0; i < tableOfContents.length; ++i) {
 	}
 	li0.appendChild(ul);
 	toc.appendChild(li0);
-}
-</script>
-
-<script>
-function hideNav() {
-	var nav = document.getElementById('nav');
-	var article = document.getElementById('article');
-	if (nav.hidden) {
-		nav.removeAttribute('hidden');
-		nav.style.width = '16em';
-		article.style.marginLeft = '16em';
-	} else {
-		nav.hidden = true;
-		nav.style.width = '0';
-		article.style.marginLeft = '0';
-	}
 }
 </script>
 
