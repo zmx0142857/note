@@ -59,7 +59,8 @@ var tableOfContents = [ {
 	articles: [
 		{title:'附录', src:'probability/0.html'},
 		{title:'事件与概率', src:'probability/1.html'},
-		{title:'离散型分布', src:'probability/2.html'},
+		{title:'随机变量', src:'probability/2.html'},
+		{title:'大数定律与中心极限定理', src:'probability/5.html'},
 	]
 	}, {
 	title:'数值分析',

@@ -51,23 +51,55 @@ function loadMath() {
 	var foundChrome = explorer.indexOf('Chrome') >= 0;
 	var foundSafari = explorer.indexOf('Safari') >= 0;
 
-	var newScript = document.createElement('script');
 	if (foundFirefox || (foundSafari && !foundChrome)) {
-		newScript.src = '../js/asciimathml.js';
+		var newScript = document.createElement('script');
+		newScript.src = '../js/AMsymbols.js';
+		document.body.appendChild(newScript);
+		newScript = document.createElement('script');
+		newScript.src = '../js/asciimath.js';
 		document.body.appendChild(newScript);
 	} else {
+		/*
+		var newScript = document.createElement('script');
 		newScript.src = '../js/mathjax-config.js';
 		document.body.appendChild(newScript);
-
 		newScript = document.createElement('script');
 		newScript.type = 'text/x-mathjax-config';
 		newScript.innerHTML = 'mathJaxConfig();'
 		document.body.appendChild(newScript);
-
 		newScript = document.createElement('script');
 		newScript.async = true;
 		newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML-full';
 		document.body.appendChild(newScript);
+		*/
+		var link = document.createElement('link');
+		link.setAttribute('rel', 'stylesheet');
+		link.setAttribute('href', '../js/katex/katex.min.css');
+		document.body.appendChild(link);
+
+		function loadScript(url, callback) {
+			var script = document.createElement('script');
+			script.type = 'application/javascript';
+			if (typeof(callback) != 'undefined') {
+				if (script.readyState) {
+					script.onreadystatechange = function() {
+						if (script.readyState == 'loaded' || script.readyState == 'complete') {
+							script.onreadystatechange = null;
+							callback();
+						}
+					}
+				} else {
+					script.onload = function() {
+						callback();
+					}
+				}
+			}
+			script.src = url;
+			document.body.appendChild(script);
+		}
+		loadScript('../js/katex/katex.min.js', function() {
+		loadScript('../js/asciimath-katex.js', function() { 
+		});});
 	}
 }
 
@@ -268,6 +300,27 @@ function decorateHeading(maxLevel) {
 	decorateH(2);
 }
 
+/* select text on click
+function selectText(id) {
+	var text = document.getElementById(id);
+	var range;
+	if (document.body.createTextRange) {
+		range = document.body.createTextRange();
+		range.moveToElementText(text);
+		range.select();
+	} else if (window.getSelection) {
+		var selection = window.getSelection();
+		range = document.createRange();
+		range.selectNodeContents(text);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	}
+}
+element.onclick = function() {
+	 selectText("output");
+}
+*/
+
 function enableCopyCode()
 {
 	var pres = document.getElementsByTagName('pre');
@@ -379,6 +432,7 @@ function wrapIOS() {
 	}
 }
 
+/*
 function toggleHideHeader() {
 	var prevScrollTop = document.documentElement.scrollTop
 		|| document.body.scrollTop;
@@ -397,6 +451,7 @@ function toggleHideHeader() {
 		};
 	}
 }
+*/
 
 // ---- data & function call ----
 
@@ -453,7 +508,7 @@ if (args.type == 'cs') {
 
 makeReference(); // call makeReference() after decorate()
 wrapIOS(); // call this after decorate()
-toggleHideHeader();
+//toggleHideHeader();
 
 })();
 
