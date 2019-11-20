@@ -59,7 +59,6 @@ function loadMath() {
 		newScript.src = '../js/asciimath.js';
 		document.body.appendChild(newScript);
 	} else {
-		/*
 		var newScript = document.createElement('script');
 		newScript.src = '../js/mathjax-config.js';
 		document.body.appendChild(newScript);
@@ -71,7 +70,7 @@ function loadMath() {
 		newScript.async = true;
 		newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML-full';
 		document.body.appendChild(newScript);
-		*/
+		/*
 		var link = document.createElement('link');
 		link.setAttribute('rel', 'stylesheet');
 		link.setAttribute('href', '../js/katex/katex.min.css');
@@ -100,6 +99,7 @@ function loadMath() {
 		loadScript('../js/katex/katex.min.js', function() {
 		loadScript('../js/asciimath-katex.js', function() { 
 		});});
+		*/
 	}
 }
 
