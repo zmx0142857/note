@@ -51,14 +51,14 @@ function loadMath() {
 	var foundChrome = explorer.indexOf('Chrome') >= 0;
 	var foundSafari = explorer.indexOf('Safari') >= 0;
 
-	if (foundFirefox || (foundSafari && !foundChrome)) {/*
+	if (foundFirefox || (foundSafari && !foundChrome)) {
 		var newScript = document.createElement('script');
 		newScript.src = '../js/AMsymbols.js';
 		document.body.appendChild(newScript);
 		newScript = document.createElement('script');
 		newScript.src = '../js/asciimath.js';
 		document.body.appendChild(newScript);
-	} else {
+	} else {/* former use of MathJaX
 		var newScript = document.createElement('script');
 		newScript.src = '../js/mathjax-config.js';
 		document.body.appendChild(newScript);
@@ -71,6 +71,7 @@ function loadMath() {
 		newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML-full';
 		document.body.appendChild(newScript);
 		*/
+		// KaTeX renders math faster!
 		var link = document.createElement('link');
 		link.setAttribute('rel', 'stylesheet');
 		// CORS error
