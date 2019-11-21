@@ -2,8 +2,8 @@ var AM = {};
 
 (function(){
 
-//false to return to legacy phi/varphi mapping
-var fixphi = true;
+var fixphi = true;  //false to return to legacy phi/varphi mapping
+var fixepsi = true; //false to return to legacy epsi/varepsi mapping
 
 // token types
 var CONST = 0, UNARY = 1, BINARY = 2, INFIX = 3, LEFTBRACKET = 4, RIGHTBRACKET = 5, SPACE = 6, UNDEROVER = 7, DEFINITION = 8, LEFTRIGHT = 9, TEXT = 10, BIG = 11, LONG = 12, STRETCHY = 13, MATRIX = 14, UNARYUNDEROVER = 15;
@@ -34,8 +34,8 @@ AM.symbols = [
 {input:"chi",    tag:"mi", output:"\u03C7", tex:null, ttype:CONST},
 {input:"delta",  tag:"mi", output:"\u03B4", tex:null, ttype:CONST},
 {input:"Delta",  tag:"mo", output:"\u0394", tex:null, ttype:CONST},
-{input:"epsi",   tag:"mi", output:"\u03B5", tex:"epsilon", ttype:CONST},
-{input:"varepsilon", tag:"mi", output:"\u025B", tex:null, ttype:CONST},
+{input:"epsi",   tag:"mi", output:fixepsi?"\u03B5":"\u025B", tex:fixepsi?"varepsilon":"epsilon", ttype:CONST},
+{input:"varepsilon", tag:"mi", output:fixepsi?"\u025B":"\u03B5", tex:fixepsi?"epsilon":"varepsilon", ttype:CONST},
 {input:"eta",    tag:"mi", output:"\u03B7", tex:null, ttype:CONST},
 {input:"gamma",  tag:"mi", output:"\u03B3", tex:null, ttype:CONST},
 {input:"Gamma",  tag:"mo", output:"\u0393", tex:null, ttype:CONST},
@@ -179,18 +179,19 @@ AM.symbols = [
 {input:"~~",  tag:"mo", output:"\u2248", tex:"approx", ttype:CONST},
 {input:"prop", tag:"mo", output:"\u221D", tex:"propto", ttype:CONST},
 
-{input:"==",  tag:"mo", output:"\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
-{input:"====",  tag:"mo", output:"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550", tex:null, ttype:CONST},
-{input:"////", tag:"mo", output:"\u2225", tex:null, ttype:CONST},
-{input:"!//", tag:"mo", output:"\u2226", tex:null, ttype:CONST},
-{input:"S=",  tag:"mo", output:"\u224C", tex:null, ttype:CONST},
-{input:"!-=",  tag:"mo", output:"\u2262", tex:null, ttype:CONST},
-{input:"!|", tag:"mo", output:"\u2224", tex:null, ttype:CONST},
-{input:"!sube", tag:"mo", output:"\u2288", tex:null, ttype:CONST},
-{input:"!supe", tag:"mo", output:"\u2289", tex:null, ttype:CONST},
-{input:"subne", tag:"mo", output:"\u228A", tex:null, ttype:CONST},
-{input:"supne", tag:"mo", output:"\u228B", tex:null, ttype:CONST},
-{input:"normal", tag:"mo", output:"\u22B4", tex:null, ttype:CONST},
+// zmx add
+{input:"==",  tag:"mo", output:"\u2550\u2550\u2550\u2550", tex:null, ttype:CONST, val:true},
+{input:"====",  tag:"mo", output:"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550", tex:null, ttype:CONST, val:true},
+{input:"////", tag:"mo", output:"\u2225", tex:null, ttype:CONST, val:true},
+{input:"!//", tag:"mo", output:"\u2226", tex:null, ttype:CONST, val:true},
+{input:"S=",  tag:"mo", output:"\u224C", tex:null, ttype:CONST, val:true},
+{input:"!-=",  tag:"mo", output:"\u2262", tex:null, ttype:CONST, val:true},
+{input:"!|", tag:"mo", output:"\u2224", tex:null, ttype:CONST, val:true},
+{input:"!sube", tag:"mo", output:"\u2288", tex:null, ttype:CONST, val:true},
+{input:"!supe", tag:"mo", output:"\u2289", tex:null, ttype:CONST, val:true},
+{input:"subne", tag:"mo", output:"\u228A", tex:null, ttype:CONST, val:true},
+{input:"supne", tag:"mo", output:"\u228B", tex:null, ttype:CONST, val:true},
+{input:"normal", tag:"mo", output:"\u22B4", tex:null, ttype:CONST, val:true},
 
 //logical symbols
 {input:"and", tag:"mtext", output:"and", tex:null, ttype:SPACE},
@@ -267,11 +268,12 @@ AM.symbols = [
 {input:"'''",tag:"mo",output:"'''",tex:null,val:true},
 {input:"''''",tag:"mo",output:"''''",tex:null,val:true},
 
-{input:"iint",  tag:"mo", output:"\u222C", tex:null, ttype:CONST},
-{input:"iiint",  tag:"mo", output:"\u222D", tex:null, ttype:CONST},
-{input:"oiint", tag:"mo", output:"\u222F", tex:null, ttype:CONST},
-{input:"oiiint", tag:"mo", output:"\u2230", tex:null, ttype:CONST},
-{input:"laplace",  tag:"mo", output:"\u0394", tex:null, ttype:CONST},
+// zmx add
+{input:"iint",  tag:"mo", output:"\u222C", tex:null, ttype:CONST, val:true},
+{input:"iiint",  tag:"mo", output:"\u222D", tex:null, ttype:CONST, val:true},
+{input:"oiint", tag:"mo", output:"\u222F", tex:null, ttype:CONST, val:true},
+{input:"oiiint", tag:"mo", output:"\u2230", tex:null, ttype:CONST, val:true},
+{input:"laplace",  tag:"mo", output:"\u0394", tex:null, ttype:CONST, val:true},
 
 //standard functions
 {input:"lim",  tag:"mo", output:"lim", tex:null, ttype:UNDEROVER},
@@ -301,7 +303,6 @@ AM.symbols = [
 {input:"max",  tag:"mo", output:"max", tex:null, ttype:UNDEROVER},
 {input:"Sup",  tag:"mo", output:"sup", tex:null, ttype:UNDEROVER},
 {input:"inf",  tag:"mo", output:"inf", tex:null, ttype:UNDEROVER},
-
 {input:"mod",tag:"mo",output:"mod",tex:"text{mod}",ttype:CONST,notexcopy:true},
 {input:"lcm",tag:"mo",output:"lcm",tex:"text{lcm}",ttype:UNARY,func:true,notexcopy:true},
 {input:"lub",tag:"mo",output:"lub",tex:null,ttype:CONST},
@@ -361,8 +362,9 @@ AMtext,AMmbox,AMquote,
 {input:"fr",tag:"mstyle",atname:"mathvariant",atval:"fraktur",output:"fr",tex:"mathfrak",ttype:UNARY,notexcopy:true},
 {input:"mathfrak",tag:"mstyle",atname:"mathvariant",atval:"fraktur",output:"mathfrak",tex:null,ttype:UNARY},
 
+// zmx add
 {input:"bm", tag:"mstyle", atname:"mathvariant", atval:"bold-italic", output:"bm", tex:null, ttype:UNARY},
-{input:"rm", tag:"mstyle", atname:"mathvariant", atval:"serif", output:"rm", tex:null, ttype:UNARY},
+{input:"rm", tag:"mstyle", atname:"mathvariant", atval:"serif", output:"rm", tex:"mathrm", ttype:UNARY},
 ];
 
 })();

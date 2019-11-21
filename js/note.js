@@ -51,7 +51,7 @@ function loadMath() {
 	var foundChrome = explorer.indexOf('Chrome') >= 0;
 	var foundSafari = explorer.indexOf('Safari') >= 0;
 
-	if (foundFirefox || (foundSafari && !foundChrome)) {
+	if (foundFirefox || (foundSafari && !foundChrome)) {/*
 		var newScript = document.createElement('script');
 		newScript.src = '../js/AMsymbols.js';
 		document.body.appendChild(newScript);
@@ -70,36 +70,37 @@ function loadMath() {
 		newScript.async = true;
 		newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML-full';
 		document.body.appendChild(newScript);
-		/*
+		*/
 		var link = document.createElement('link');
 		link.setAttribute('rel', 'stylesheet');
-		link.setAttribute('href', '../js/katex/katex.min.css');
+		// CORS error
+		//link.setAttribute('href', '../js/katex/katex.min.css');
+		link.setAttribute('href', 'https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css');
 		document.body.appendChild(link);
 
 		function loadScript(url, callback) {
 			var script = document.createElement('script');
 			script.type = 'application/javascript';
 			if (typeof(callback) != 'undefined') {
-				if (script.readyState) {
+				if (script.readyState) { // IE
 					script.onreadystatechange = function() {
-						if (script.readyState == 'loaded' || script.readyState == 'complete') {
+						if (script.readyState == 'loaded'
+								|| script.readyState == 'complete') {
 							script.onreadystatechange = null;
 							callback();
 						}
 					}
-				} else {
-					script.onload = function() {
-						callback();
-					}
+				} else { // others
+					script.onload = function() { callback(); }
 				}
 			}
 			script.src = url;
 			document.body.appendChild(script);
 		}
+		loadScript('../js/AMsymbols.js', function(){
 		loadScript('../js/katex/katex.min.js', function() {
-		loadScript('../js/asciimath-katex.js', function() { 
-		});});
-		*/
+		loadScript('../js/asciimath-katex.js', function() {});
+		}); });
 	}
 }
 
