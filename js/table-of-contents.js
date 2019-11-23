@@ -1,10 +1,17 @@
 document.title = 'zmx0142857 的数学笔记';
 var domain = '.mathNote.io.github.zmx0142857';
 var tableOfContents = [ {
+	title:'示例',
+	articles: [
+		{title:'Asciimath', src:'example/asciimath.html', isnew:true},
+		{title:'KaTeX', src:'example/katex.html', isnew:true},
+		{title:'Mathml', src:'example/mathml.html', isnew:true},
+	]
+	}, {
 	title:'高等代数',
 	articles: [
-		{title:'矩阵', src:'algebra/1.html', isnew:true},
-		{title:'行列式', src:'algebra/2.html', isnew:true},
+		{title:'矩阵', src:'algebra/1.html'},
+		{title:'行列式', src:'algebra/2.html'},
 		{title:'向量的相关性与线性方程组', src:'algebra/3.html'},
 		{title:'线性空间', src:'algebra/4.html'},
 		{title:'线性映射与线性变换', src:'algebra/5.html'},
@@ -18,7 +25,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'附录', src:'analysis/0.html'},
 		{title:'初等函数', src:'analysis/1.html'},
-		{title:'数列的极限', src:'analysis/2.html', isnew:true},
+		{title:'数列的极限', src:'analysis/2.html'},
 		{title:'函数的极限与连续性', src:'analysis/3.html', isnew:true},
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
@@ -159,7 +166,7 @@ var tableOfContents = [ {
 	title:'未分类',
 	articles: [
 		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
-		{title:'三角函数', src:'misc/2.html', isnew:true},
+		{title:'三角函数', src:'misc/2.html'},
 		{title:'不等式', src:'misc/3.html', isnew:true},
 		{title:'Bernoulli 数', src:'misc/6.html', isnew:true},
 	]
