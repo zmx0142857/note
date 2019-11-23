@@ -434,8 +434,8 @@ function AMparseMath(str) {
 			node.innerHTML="`"+str+"`";
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"mathId"+mIdCounter]);
 		} else {
-			//console.error(err);
-			//console.log(texstring);
+			console.error(err);
+			console.log(texstring);
 		}
 	}
 	mIdCounter++;
@@ -511,111 +511,6 @@ function AMprocessNodeR(n, linebreaks,latex) {
   }
   return 0;
 }
-
-/*
-function AMprocessNodeR(n){
-	var mtch,str,arr,frg,i;
-	if(n.childNodes.length==0){
-		if((n.nodeType!=8)
-			&& n.nodeName.toLowerCase()!="script"
-			&& n.parentNode.nodeName.toLowerCase()!="script"
-			&& n.parentNode.nodeName.toLowerCase()!="em"
-			&& n.parentNode.nodeName.toLowerCase()!="i"
-			&& n.parentNode.nodeName.toLowerCase()!="button"
-			&& n.parentNode.nodeName.toLowerCase()!="form"
-			&& n.parentNode.className.indexOf("noKatex")==-1
-			&& n.parentNode.className.indexOf("adinText")==-1
-			&& (n.nodeValue!=null
-				&& n.nodeValue.replace(/(\r\n\t|\n|\r\t)/gm,"")
-				.replace(/\s+/g,"").length>0
-			) && n.id!="footer"
-		) {
-			str=n.nodeValue;
-			if(!(str==null)&&str.length>0){
-				str=str.replace(/\r\n\r\n/g,"\n\n");
-				str=str.replace(/\x20+/g," ");
-				str=str.replace(/\s*\r\n/g," ");
-				mtch=false;
-				if(AMusedelimiter2){
-					str=str.replace(
-						new RegExp(AMescape2,"g"),
-						function(st){mtch=true;return"AMescape2"}
-					);
-				}
-				str=str.replace(
-					new RegExp(AMescape1,"g"),
-					function(st){mtch=true;return"AMescape1"}
-				);
-				if(AMusedelimiter2)
-					str=str.replace(
-						new RegExp(AMdelimiter2regexp,"g"),
-						AMdelimiter1
-					);
-				arr=str.split(AMdelimiter1);
-				for(i=0;i<arr.length;i++){
-					if(AMusedelimiter2){
-						arr[i]=arr[i].replace(/AMescape2/g,AMdelimiter2)
-							.replace(/AMescape1/g,AMdelimiter1);
-					}else{
-						arr[i]=arr[i].replace(/AMescape1/g,AMdelimiter1);
-					}
-				}
-				if(arr.length>1||mtch){
-					frg=AMstrarr2docFrag(arr,n.nodeType==8);
-					var len=frg.childNodes.length;
-					n.parentNode.replaceChild(frg,n);
-					return len-1;
-				}
-			}
-		}else{
-			return 0;
-		}
-	}else if(n.nodeName!="math"&&n.nodeName.toLowerCase()!="svg"){
-		if (n.nodeName.toLowerCase() != "script"
-			&& !(n.parentNode.classList
-				&& (n.classList.contains("displayNone")
-					|| n.classList.contains("ariaHidden")
-					|| n.classList.contains("katex")
-					|| n.parentNode.classList.contains("sprite")
-				)
-			)
-		) {
-			var eleTop=n.getBoundingClientRect().top;
-			for(i=0;i<n.childNodes.length;i++){
-				if ((n.childNodes[i].nodeType==3 // text node
-						&& n.childNodes[i].nodeValue!=null
-						&& n.childNodes[i].nodeValue.replace(/(\r\n\t|\n|\r\t)/gm,"").replace(/\s+/g,"").length==0
-					) || (n.childNodes[i].classList
-						&& (n.childNodes[i].classList.contains("sprite")
-							|| n.childNodes[i].classList.contains("showHideButt")
-							|| n.childNodes[i].classList.contains("noKatex")
-							|| n.childNodes[i].classList.contains("displayNone")
-							|| n.childNodes[i].classList.contains("katex")
-							|| n.childNodes[i].classList.contains("ariaHidden")
-						)
-					)|| n.childNodes[i].nodeName.toLowerCase()=="i"
-					|| n.childNodes[i].nodeName.toLowerCase()=="em"
-					|| n.childNodes[i].nodeName.toLowerCase()=="strong"
-					|| n.childNodes[i].nodeName.toLowerCase()=="b"
-					|| n.childNodes[i].nodeName.toLowerCase()=="button"
-					|| n.childNodes[i].nodeName.toLowerCase()=="svg"
-					|| n.childNodes[i].nodeName.toLowerCase()=="pre"
-					|| n.childNodes[i].nodeName.toLowerCase()=="code"
-					|| n.childNodes[i].nodeName.toLowerCase()=="textarea"
-					|| n.childNodes[i].nodeName.toLowerCase()=="script"
-					|| (n.childNodes[i].nodeName.toLowerCase()=="span"
-						&& n.childNodes[i].id.indexOf("mathId")>-1)
-					|| n.childNodes[i].nodeType==8 // comment node
-					|| eleTop>window.innerHeight+1000
-				) {} else {
-					i+=AMprocessNodeR(n.childNodes[i]);
-				}
-			}
-		}
-	}
-	return 0;
-}
-*/
 
 function AMprocessNode(n, linebreaks, spanclassAM) {
   var frag,st;

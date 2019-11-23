@@ -5,6 +5,7 @@
 
 <meta charset="utf-8" />
 <title>index</title>
+<link rel="shortcut icon" href="pic/favicon.png"/>
 <style type="text/css">
 * {
 	margin: 0;
@@ -92,7 +93,8 @@ header span {
 }
 
 #table-of-contents ul li:hover {
-	text-decoration: underline;
+	/*text-decoration: underline;*/
+	background: #dde;
 	cursor: pointer;
 }
 
@@ -176,15 +178,15 @@ var nav = document.getElementById('nav');
 var article = document.getElementById('article');
 var header = document.getElementById('header');
 
-function hideNav() {
-	if (nav.hidden) {
-		nav.removeAttribute('hidden');
-		nav.style.width = '16em';
-		article.style.marginLeft = '16em';
-	} else {
+function hideNav(flag) {
+	if (!nav.hidden || flag) {
 		nav.hidden = true;
 		nav.style.width = '0';
 		article.style.marginLeft = '0';
+	} else {
+		nav.removeAttribute('hidden');
+		nav.style.width = '16em';
+		article.style.marginLeft = '16em';
 	}
 }
 
@@ -203,6 +205,8 @@ function jump() {
 	artitle.innerHTML = tableOfContents[groupIdx].articles[articleIdx].title;
 	window.localStorage['groupIndex'+domain] = groupIdx;
 	window.localStorage['articleIndex'+domain] = articleIdx;
+	hideNav(true);
+	setTimeout(hideHeader, 1000);
 }
 
 function prevArticle() {
@@ -215,7 +219,6 @@ function prevArticle() {
 	}
 	--articleIdx;
 	jump();
-	hideNav();
 };
 
 function nextArticle() {
@@ -229,20 +232,18 @@ function nextArticle() {
 	}
 	++articleIdx;
 	jump();
-	hideNav();
 };
-
-// load page
-jump();
 
 function jumpto(i, j) {
 	return function() {
 		groupIdx = i;
 		articleIdx = j;
 		jump();
-		hideNav();
 	}
 }
+
+// load page
+jump();
 
 // load table of contents
 for (var i = 0; i < tableOfContents.length; ++i) {
@@ -253,6 +254,14 @@ for (var i = 0; i < tableOfContents.length; ++i) {
 		var li = document.createElement('li');
 		li.innerHTML = tableOfContents[i].articles[j].title;
 		li.onclick = jumpto(i, j);
+		if (tableOfContents[i].articles[j].isnew) {
+			var isnew = document.createElement('span');
+			isnew.style.color = 'red';
+			isnew.style.fontSize = '0.7em';
+			isnew.style.padding = '0 0.3em';
+			isnew.innerHTML = 'NEW';
+			li.appendChild(isnew);
+		}
 		ul.appendChild(li);
 
 	}
@@ -260,7 +269,6 @@ for (var i = 0; i < tableOfContents.length; ++i) {
 	toc.appendChild(li0);
 }
 
-setTimeout(hideHeader, 1000);
 </script>
 
 </body>

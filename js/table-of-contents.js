@@ -3,23 +3,23 @@ var domain = '.mathNote.io.github.zmx0142857';
 var tableOfContents = [ {
 	title:'高等代数',
 	articles: [
-		{title:'矩阵', src:'algebra/1.html'},
-		{title:'行列式', src:'algebra/2.html'},
+		{title:'矩阵', src:'algebra/1.html', isnew:true},
+		{title:'行列式', src:'algebra/2.html', isnew:true},
 		{title:'向量的相关性与线性方程组', src:'algebra/3.html'},
 		{title:'线性空间', src:'algebra/4.html'},
 		{title:'线性映射与线性变换', src:'algebra/5.html'},
-		{title:'特征值与特征向量', src:'algebra/6.html'},
+		{title:'特征值与特征向量', src:'algebra/6.html', isnew:true},
 		{title:'矩阵的相似标准形', src:'algebra/7.html'},
 		{title:'线性空间中的度量与内积', src:'algebra/8.html'},
-		{title:'二次型', src:'algebra/9.html'},
+		{title:'二次型', src:'algebra/9.html', isnew:true},
 	]
 	}, {
 	title:'数学分析',
 	articles: [
 		{title:'附录', src:'analysis/0.html'},
 		{title:'初等函数', src:'analysis/1.html'},
-		{title:'数列的极限', src:'analysis/2.html'},
-		{title:'函数的极限与连续性', src:'analysis/3.html'},
+		{title:'数列的极限', src:'analysis/2.html', isnew:true},
+		{title:'函数的极限与连续性', src:'analysis/3.html', isnew:true},
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
 		{title:'定积分', src:'analysis/7.html'},
@@ -57,9 +57,9 @@ var tableOfContents = [ {
 	}, {
 	title:'概率论',
 	articles: [
-		{title:'附录', src:'probability/0.html'},
-		{title:'事件与概率', src:'probability/1.html'},
-		{title:'随机变量', src:'probability/2.html'},
+		{title:'附录', src:'probability/0.html', isnew:true},
+		{title:'事件与概率', src:'probability/1.html', isnew:true},
+		{title:'随机变量', src:'probability/2.html', isnew:true},
 		{title:'大数定律与中心极限定理', src:'probability/5.html'},
 	]
 	}, {
@@ -159,7 +159,8 @@ var tableOfContents = [ {
 	title:'未分类',
 	articles: [
 		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
-		{title:'三角函数', src:'misc/2.html'},
-		{title:'不等式', src:'misc/1.html'},
+		{title:'三角函数', src:'misc/2.html', isnew:true},
+		{title:'不等式', src:'misc/3.html', isnew:true},
+		{title:'Bernoulli 数', src:'misc/6.html', isnew:true},
 	]
 }];
