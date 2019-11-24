@@ -52,13 +52,15 @@ function loadMath() {
 	var foundSafari = explorer.indexOf('Safari') >= 0;
 
 	if (foundFirefox || (foundSafari && !foundChrome)) {
+		// firefox and safari
 		var newScript = document.createElement('script');
 		newScript.src = '../js/AMsymbols.js';
 		document.body.appendChild(newScript);
 		newScript = document.createElement('script');
 		newScript.src = '../js/asciimath.js';
 		document.body.appendChild(newScript);
-	} else {/* former use of MathJaX
+	} else { // other browser
+		/* former use of MathJaX
 		var newScript = document.createElement('script');
 		newScript.src = '../js/mathjax-config.js';
 		document.body.appendChild(newScript);
@@ -421,6 +423,7 @@ function makeSvg() {
 	}
 }
 
+/*
 function wrapIOS() {
 	if (/iphone|ipad|ipod/i.test(explorer)) {
 		// move everything into wrapper
@@ -434,7 +437,6 @@ function wrapIOS() {
 	}
 }
 
-/*
 function toggleHideHeader() {
 	var prevScrollTop = document.documentElement.scrollTop
 		|| document.body.scrollTop;

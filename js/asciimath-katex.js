@@ -14,7 +14,7 @@ var mIdCounter = 0;
 var displaystyle = true;
 
 // token types
-var CONST=0,UNARY=1,BINARY=2,INFIX=3,LEFTBRACKET=4,RIGHTBRACKET=5,SPACE=6,UNDEROVER=7,DEFINITION=8,LEFTRIGHT=9,TEXT=10;
+var CONST = 0, UNARY = 1, BINARY = 2, INFIX = 3, LEFTBRACKET = 4, RIGHTBRACKET = 5, SPACE = 6, UNDEROVER = 7, DEFINITION = 8, LEFTRIGHT = 9, TEXT = 10, BIG = 11, LONG = 12, STRETCHY = 13, MATRIX = 14, UNARYUNDEROVER = 15;
 
 function compareNames(s1,s2){
 	if(s1.input>s2.input) return 1;
@@ -132,12 +132,9 @@ var AMnestingDepth,AMpreviousSymbol,AMcurrentSymbol;
 
 function AMTgetTeXsymbol(symb){
 	if(typeof symb.val=="boolean"&&symb.val){
-		return symb.output;
-	}else if (symb.tex == null){
-		return '\\' + symb.input;
-	}else{
-		return '\\' + symb.tex;
+		return (symb.tex == null ? symb.output : symb.tex);
 	}
+	return '\\' + (symb.tex == null ? symb.input : symb.tex);
 }
 
 function AMTgetTeXbracket(symb){
@@ -169,18 +166,95 @@ function AMTparseSexpr(str){
 		case LEFTBRACKET:
 			AMnestingDepth++;
 			str=AMremoveCharsAndBlanks(str,symbol.input.length);
-			result=AMTparseExpr(str,true);AMnestingDepth--;if(result[0].substr(0,6)=="\\right"){if(result[0].substr(0,7)=="\\right."){result[0]=result[0].substr(7);}else{result[0]=result[0].substr(6);}
-if(typeof symbol.invisible=="boolean"&&symbol.invisible)
-node='{'+result[0]+'}';else{node='{'+AMTgetTeXbracket(symbol)+result[0]+'}';}}else{if(typeof symbol.invisible=="boolean"&&symbol.invisible)
-node='{\\left.'+result[0]+'}';else{node='{\\left'+AMTgetTeXbracket(symbol)+result[0]+'}';}}
-return[node,result[1]];case TEXT:if(symbol!=AM.quote)str=AMremoveCharsAndBlanks(str,symbol.input.length);if(str.charAt(0)=="{")i=str.indexOf("}");else if(str.charAt(0)=="(")i=str.indexOf(")");else if(str.charAt(0)=="[")i=str.indexOf("]");else if(symbol==AM.quote)i=str.slice(1).indexOf("\"")+1;else i=0;if(i==-1)i=str.length;st=str.slice(1,i);if(st.charAt(0)==" "){newFrag='\\ ';}
-newFrag+='\\text{'+st+'}';if(st.charAt(st.length-1)==" "){newFrag+='\\ ';}
-str=AMremoveCharsAndBlanks(str,i+1);return[newFrag,str];case UNARY:str=AMremoveCharsAndBlanks(str,symbol.input.length);result=AMTparseSexpr(str);if(result[0]==null)return['{'+AMTgetTeXsymbol(symbol)+'}',str];if(typeof symbol.func=="boolean"&&symbol.func){st=str.charAt(0);if(st=="^"||st=="_"||st=="/"||st=="|"||st==","||(symbol.input.length==1&&symbol.input.match(/\w/)&&st!="(")){return['{'+AMTgetTeXsymbol(symbol)+'}',str];}else{node=' '+AMTgetTeXsymbol(symbol)+'{'+result[0]+'}';return[node,result[1]];}}
-result[0]=AMTremoveBrackets(result[0]);if(symbol.input=="sqrt"){return['\\sqrt{'+result[0]+'}',result[1]];}else if(symbol.input=="cancel"){return['\\cancel{'+result[0]+'}',result[1]];}else if(typeof symbol.rewriteleftright!="undefined"){return['{\\left'+symbol.rewriteleftright[0]+result[0]+'\\right'+symbol.rewriteleftright[1]+'}',result[1]];}else if(typeof symbol.acc=="boolean"&&symbol.acc){return[AMTgetTeXsymbol(symbol)+'{'+result[0]+'}',result[1]];}else{return['{'+AMTgetTeXsymbol(symbol)+'{'+result[0]+'}}',result[1]];}
-case BINARY:str=AMremoveCharsAndBlanks(str,symbol.input.length);result=AMTparseSexpr(str);if(result[0]==null)return['{'+AMTgetTeXsymbol(symbol)+'}',str];result[0]=AMTremoveBrackets(result[0]);var result2=AMTparseSexpr(result[1]);if(result2[0]==null)return['{'+AMTgetTeXsymbol(symbol)+'}',str];result2[0]=AMTremoveBrackets(result2[0]);if(symbol.input=="color"){newFrag='{\\color{'+result[0].replace(/[\{\}]/g,'')+'}'+result2[0]+'}';}
-if(symbol.input=="root"||symbol.input=="stackrel"){if(symbol.input=="root"){newFrag='{\\sqrt['+result[0]+']{'+result2[0]+'}}';}else{newFrag='{'+AMTgetTeXsymbol(symbol)+'{'+result[0]+'}{'+result2[0]+'}}';}}
-if(symbol.input=="frac"){newFrag='{\\frac{'+result[0]+'}{'+result2[0]+'}}';}
-return[newFrag,result2[1]];case INFIX:str=AMremoveCharsAndBlanks(str,symbol.input.length);return[symbol.output,str];case SPACE:str=AMremoveCharsAndBlanks(str,symbol.input.length);return['{\\quad\\text{'+symbol.input+'}\\quad}',str];case LEFTRIGHT:AMnestingDepth++;str=AMremoveCharsAndBlanks(str,symbol.input.length);result=AMTparseExpr(str,false);AMnestingDepth--;var st="";st=result[0].charAt(result[0].length-1);if(st=="|"){node='{\\left|'+result[0]+'}';return[node,result[1]];}else{node='{|}';return[node,str];}
+			result=AMTparseExpr(str,true);
+			AMnestingDepth--;
+			if(result[0].substr(0,6)=="\\right"){
+				if(result[0].substr(0,7)=="\\right."){
+					result[0]=result[0].substr(7);
+				}else{
+					result[0]=result[0].substr(6);
+				}
+				if(typeof symbol.invisible=="boolean"&&symbol.invisible)
+					node='{'+result[0]+'}';
+				else{
+					node='{'+AMTgetTeXbracket(symbol)+result[0]+'}';
+				}
+			}else{
+				if(typeof symbol.invisible=="boolean"&&symbol.invisible)
+					node='{\\left.'+result[0]+'}';
+				else{
+					node='{\\left'+AMTgetTeXbracket(symbol)+result[0]+'}';
+				}
+			}
+			return[node,result[1]];
+		case TEXT:
+			if(symbol!=AM.quote)
+				str=AMremoveCharsAndBlanks(str,symbol.input.length);
+			if(str.charAt(0)=="{")
+				i=str.indexOf("}");
+			else if(str.charAt(0)=="(")
+				i=str.indexOf(")");
+			else if(str.charAt(0)=="[")
+				i=str.indexOf("]");
+			else if(symbol==AM.quote)
+				i=str.slice(1).indexOf("\"")+1;
+			else i=0;
+			if(i==-1)
+				i=str.length;
+			st=str.slice(1,i);
+			if(st.charAt(0)==" "){newFrag='\\ ';}
+			newFrag+='\\text{'+st+'}';
+			if(st.charAt(st.length-1)==" "){newFrag+='\\ ';}
+			str=AMremoveCharsAndBlanks(str,i+1);
+			return[newFrag,str];
+		case UNARYUNDEROVER:
+		case UNARY:
+			str=AMremoveCharsAndBlanks(str,symbol.input.length);
+			result=AMTparseSexpr(str);
+			if(result[0]==null)
+				return['{'+AMTgetTeXsymbol(symbol)+'}',str];
+			if(typeof symbol.func=="boolean"&&symbol.func){
+				st=str.charAt(0);
+				if(st=="^"||st=="_"||st=="/"||st=="|"||st==","||(symbol.input.length==1&&symbol.input.match(/\w/)&&st!="(")){
+					return['{'+AMTgetTeXsymbol(symbol)+'}',str];
+				}else{
+					node=' '+AMTgetTeXsymbol(symbol)+'{'+result[0]+'}';
+					return[node,result[1]];
+				}
+			}
+			result[0]=AMTremoveBrackets(result[0]);
+			if(symbol.input=="sqrt"){
+				return['\\sqrt{'+result[0]+'}',result[1]];
+			}else if(symbol.input=="cancel"){
+				return['\\cancel{'+result[0]+'}',result[1]];
+			}else if(typeof symbol.rewriteleftright!="undefined"){
+				return['{\\left'+symbol.rewriteleftright[0]+result[0]+'\\right'+symbol.rewriteleftright[1]+'}',result[1]];
+			}else if(typeof symbol.acc=="boolean"&&symbol.acc){
+				return[AMTgetTeXsymbol(symbol)+'{'+result[0]+'}',result[1]];
+			}else{return['{'+AMTgetTeXsymbol(symbol)+'{'+result[0]+'}}',result[1]];
+			}
+		case BINARY:
+			str=AMremoveCharsAndBlanks(str,symbol.input.length);
+			result=AMTparseSexpr(str);
+			if(result[0]==null)
+				return['{'+AMTgetTeXsymbol(symbol)+'}',str];
+			result[0]=AMTremoveBrackets(result[0]);
+			var result2=AMTparseSexpr(result[1]);
+			if(result2[0]==null)
+				return['{'+AMTgetTeXsymbol(symbol)+'}',str];
+			result2[0]=AMTremoveBrackets(result2[0]);
+			if(symbol.input=="color"){
+				newFrag='{\\color{'+result[0].replace(/[\{\}]/g,'')+'}'+result2[0]+'}';
+			}else if(symbol.input=="root"){
+				newFrag='{\\sqrt['+result[0]+']{'+result2[0]+'}}';
+			}else if(symbol.output=="stackrel"){
+				newFrag='{'+AMTgetTeXsymbol(symbol)+'{'+result[0]+'}{'+result2[0]+'}}';
+			}else if(symbol.input=="frac"){
+				newFrag='{\\frac{'+result[0]+'}{'+result2[0]+'}}';
+			}
+			return[newFrag,result2[1]];
+		case INFIX:
+			str=AMremoveCharsAndBlanks(str,symbol.input.length);return[symbol.output,str];case SPACE:str=AMremoveCharsAndBlanks(str,symbol.input.length);return['{\\quad\\text{'+symbol.input+'}\\quad}',str];case LEFTRIGHT:AMnestingDepth++;str=AMremoveCharsAndBlanks(str,symbol.input.length);result=AMTparseExpr(str,false);AMnestingDepth--;var st="";st=result[0].charAt(result[0].length-1);if(st=="|"){node='{\\left|'+result[0]+'}';return[node,result[1]];}else{node='{|}';return[node,str];}
 default:str=AMremoveCharsAndBlanks(str,symbol.input.length);return['{'+AMTgetTeXsymbol(symbol)+'}',str];}}
 
 function AMTparseIexpr(str){
