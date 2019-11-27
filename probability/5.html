@@ -3,7 +3,7 @@
 
 <head>
 
-<title>大数定律与中心极限定理</title>
+<title>常用分布</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -12,51 +12,430 @@
 
 <body>
 
-<h2>大数定律</h2>
+<table>
+	<caption>常用离散型分布</caption>
+	<tr>
+		<td>名称</td>
+		<td>概率分布 `p_k`, `k in ZZ`, 未定义处概率视为 0</td>
+		<td>备注</td>
+		<td>数学期望 `sum_(k=1)^n p_k x_k`</td>
+		<td>方差 `E(xi-E xi)^2`</td>
+		<td>特征函数 `E "e"^("i"t xi)`</td>
+	</tr>
+	<tr>
+		<td>退化分布 `I_c(x)`</td>
+		<td>`P{xi=c} = 1`</td>
+		<td></td>
+		<td>`c`</td>
+		<td>`0`</td>
+		<td>`"e"^("i"t c)`</td>
+	</tr>
+	<tr>
+		<td>两点分布 (Bernoulli 分布)</td>
+		<td>`p^k(1-p)^(1-k)`</td>
+		<td>`k = 0,1`, `0 lt p lt 1`</td>
+		<td>`p`</td>
+		<td>`p(1-p)`</td>
+		<td>`1 + p("e"^("i"t)-1)`</td>
+	</tr>
+	<tr>
+		<td>二项分布 `B(n, p)`</td>
+		<td>`((n),(k)) p^k (1-p)^(n-k)`</td>
+		<td>`0 le k le n`, `0 lt p lt 1`</td>
+		<td>`np`</td>
+		<td>`np(1-p)`</td>
+		<td>`(1 + p("e"^("i"t)-1))^n`</td>
+	</tr>
+	<tr>
+		<td>Poisson 分布 `P(lambda)`</td>
+		<td>`lambda^k/(k!) "e"^-lambda`</td>
+		<td>`k ge 0`, `lambda gt 0`</td>
+		<td>`lambda`</td>
+		<td>`lambda`</td>
+		<td>`"e"^(lambda("e"^("i"t)-1))
+			= lim_(n to oo)(1+lambda/n("e"^("i"t)-1))^n`
+		</td>
+	</tr>
+	<tr>
+		<td>几何分布</td>
+		<td>`p (1-p)^(k-1)`</td>
+		<td>`k ge 1`, `0 lt p lt 1`</td>
+		<td>`p^-1`</td>
+		<td>`p^-1(p^-1 - 1)`</td>
+		<td>`(1 + p^-1("e"^(-"i"t)-1))^-1`</td>
+	</tr>
+	<tr>
+		<td>Pascal 分布</td>
+		<td>`((k-1), (n-1)) p^n (1-p)^(k-n)`</td>
+		<td>`k ge n`, `0 lt p lt 1`</td>
+		<td>`n p^-1`</td>
+		<td>`n p^-1(p^-1 - 1)`</td>
+		<td>`(1 + p^-1("e"^(-"i"t)-1))^-n`</td>
+	</tr>
+	<tr>
+		<td>负二项分布</td>
+		<td>`((-r),(k)) p^r (p-1)^k`</td>
+		<td>`r gt 0`, `k ge 0`, `0 lt p lt 1`</td>
+		<td>`r (p^-1 - 1)`</td>
+		<td>`r p^-1 (p^-1 - 1)`</td>
+		<td>`("e"^("i"t) (1 + p^-1("e"^(-"i"t)-1)))^-r`</td>
+	</tr>
+	<tr>
+		<td>超几何分布</td>
+		<td>`[((M),(k)) ((N-M),(n-k))]/{:((N),(n)):}`</td>
+		<td>`0 le k le min{M,n}`</td>
+		<td>`(nM)/N`</td>
+		<td>`(nM)/N (1-M/N) * (N-n)/(N-1)`</td>
+		<td>`sum_(k=0)^n p_k "e"^("i"t k)`</td>
+	</tr>
+</table>
 
-<p class="definition">
-	设 `{xi_n}` 是随机变量序列,
-	<span class="formula">
-		`bar xi_n = 1/n sum_(i=1)^n xi_i`,
-	</span>
-	如果存在常数列 `{a_n}`, 对任意 `epsi gt 0`, 满足
-	<span class="formula">
-		`lim_(n to oo) P{ |bar xi_n - a_n| lt epsi } = 1`,
-		即 `lim_(n to oo) P{ |bar xi_n - a_n| ge epsi } = 0`,
-	</span>
-	则称序列 `{xi_n}` 满足<b>大数定律</b>.
-</p>
+<table>
+	<caption>常用连续型分布</caption>
+	<tr>
+		<td>名称</td>
+		<td>概率密度函数 `p(x)`, `x in RR`, 未定义处概率密度视为 0</td>
+		<td>备注</td>
+		<td>数学期望 `int_-oo^oo x "d"F(x)`</td>
+		<td>方差 `E(xi-E xi)^2`</td>
+		<td>特征函数 `E "e"^(it xi)`</td>
+	</tr>
+	<tr>
+		<td>正态分布 (Gauss 分布) `N(mu, sigma^2)`</td>
+		<td>`1/(sqrt(2 pi) sigma) "e"^(-(x-mu)^2/(2sigma^2))`</td>
+		<td>`sigma gt 0`</td>
+		<td>`mu`</td>
+		<td>`sigma^2`</td>
+		<td>`exp("i" mu t - 1/2 sigma^2 t^2)`</td>
+	</tr>
+	<tr>
+		<td>`n` 元正态分布</td>
+		<td>`1/sqrt((2 pi)^n |bm Sigma|) "e"^[-1/2(bm x-bm mu)' bm
+			Sigma^-1 (bm x-bm mu)]`
+		</td>
+		<td>`bm x, bm mu in RR^n`, `bm Sigma in RR^(n xx n)` 对称正定</td>
+		<td>`bm mu`</td>
+		<td>`bm Sigma` (协方差矩阵)</td>
+		<td>`exp("i" bm(mu' t) - 1/2 bm(t' Sigma t))`</td>
+	</tr>
+	<tr>
+		<td>均匀分布 `U[a, b]`</td>
+		<td>`1/(b-a)`</td>
+		<td>`a le x le b`</td>
+		<td>`(a+b)/2`</td>
+		<td>`(b-a)^2/12`</td>
+		<td>`("e"^("i"t b)-"e"^("i"t a))/("i"t(b-a))`</td>
+	</tr>
+	<tr>
+		<td>指数分布 `"Exp"(lambda) = Gamma(1, lambda)`</td>
+		<td>`lambda "e"^(-lambda x)`</td>
+		<td>`x ge 0`, `lambda gt 0`</td>
+		<td>`lambda^-1</td>
+		<td>`lambda^-2</td>
+		<td>`(1-("i"t)/lambda)^-1`</td>
+	</tr>
+	<tr>
+		<td>`chi^2` 分布 `= Gamma(n/2, 1/2)`</td>
+		<td>`(x^(n/2-1) "e"^(-x/2))/(2^(n/2) Gamma(n/2))`</td>
+		<td>`x ge 0`, `n in ZZ^+`</td>
+		<td>`n`</td>
+		<td>`2n`</td>
+		<td>`(1-2"i"t)^(-n/2)`</td>
+	</tr>
+	<tr>
+		<td>`Gamma` 分布 `Gamma(r, lambda)`</td>
+		<td>`lambda^r/(Gamma(r)) x^(r-1) "e"^(-lambda x)`</td>
+		<td>`x ge 0`, `r gt 0`, `lambda gt 0`</td>
+		<td>`r lambda^-1`</td>
+		<td>`r lambda^-2`</td>
+		<td>`(1-("i"t)/lambda)^-r`</td>
+	</tr>
+	<tr>
+		<td>F 分布</td>
+		<td>`(m^(m/2) n^(n/2))/(B(m/2, n/2)) * x^(m/2-1)/(n+mx)^((m+n)/2)`
+		</td>
+		<td>`x ge 0`, `m, n in ZZ^+`</td>
+		<td>`n/(n-2)` (`n gt 2`)</td>
+		<td>`(2n^2(m+n-2))/(m(n-2)^2(n-4))` (`n gt 4`)</td>
+	</tr>
+	<tr>
+		<td>t 分布 (Student 分布)</td>
+		<td>`1/(sqrt n B(1/2, n/2)) (1+x^2/n)^(-(n+1)/2)`</td>
+		<td>`n in ZZ^+`</td>
+		<td>`0` (`n gt 1`)</td>
+		<td>`n/(n-2)` (`n gt 2`)</td>
+	</tr>
+	<tr>
+		<td>Cauchy 分布</td>
+		<td>`1/pi * lambda/(lambda^2 + (x-mu)^2)`</td>
+		<td>`lambda gt 0`</td>
+		<td>不存在</td>
+		<td>不存在</td>
+		<td>`exp("i" mu t - lambda|t|)`</td>
+	</tr>
+	<tr>
+		<td>Pareto 分布</td>
+		<td>`(r A^r)/x^(r+1)`</td>
+		<td>`x ge A`, `r, A gt 0`</td>
+		<td>`r gt 1` 时存在</td>
+		<td>`r gt 2` 时存在</td>
+	</tr>
+	<tr>
+		<td>Beta 分布</td>
+		<td>`(x^(p-1) (1-x)^(q-1))/(B(p, q))`</td>
+		<td>`0 lt x lt 1`, `p, q gt 0`</td>
+		<td>`p/(p+q)`</td>
+		<td>`(pq)/((p+q)^2 (p+q+1))`</td>
+		<td>`sum_(k=0)^oo (B(p+q, p+k))/(B(p, p+q+k)) ("i"t)^k/(k!)`</td>
+	</tr>
+	<tr>
+		<td>对数正态分布</td>
+		<td>`1/(sigma x sqrt(2 pi)) "e"^(-(ln x-alpha)^2/(2 sigma^2))`
+		</td>
+		<td>`x gt 0`, `alpha, sigma gt 0`</td>
+		<td>`"e"^(alpha + sigma^2/2)`</td>
+		<td>`"e"^(2 alpha + sigma^2) ("e"^(sigma^2) - 1)`</td>
+	</tr>
+	<tr>
+		<td>Weibull 分布</td>
+		<td>`alpha lambda x^(alpha-1) "e"^(-lambda x^alpha)`</td>
+		<td>`x gt 0`, `alpha, lambda gt 0`</td>
+		<td>`(Gamma(1/alpha + 1))/lambda^(1/alpha)`</td>
+		<td>`[Gamma(2/alpha+1) - (Gamma(1/alpha+1))^2]/lambda^(2/alpha)`
+		</td>
+	</tr>
+</table>
 
-<ol class="theorem">
-	<li><b>Мaрков 大数定律</b></li>
-	<li><b></b></li>
-	<li><b></b></li>
+<h2>数理统计三大分布</h2>
+
+<ol>
+	<li><b>`chi^2` 分布</b> 由 Gamma 函数 (`t = lambda x`)
+		<span class="formula">
+			`Gamma(r) = int_0^oo t^(r-1) "e"^-t dt`
+			`= int_0^oo lambda^r x^(r-1) "e"^(-lambda x) dx`,
+		</span>
+		可定义密度函数为
+		<span class="formula">
+			`lambda^r/(Gamma(r)) x^(r-1) "e"^(-lambda x)`,
+			`quad x gt 0`
+		</span>
+		的分布为 <b>Gamma 分布</b> `Gamma(r, lambda)`, 其中 `r gt 0`
+		称为形状参数, `lambda gt 0` 称为尺度参数.
+		特别 `Gamma(lambda, 1)` 称为<b>指数分布</b>,
+		`Gamma(n/2, 1/2)` 称为自由度为 `n` 的
+		<b>`chi^2` 分布 (卡方分布)</b> `chi^2(n)` (`n in ZZ^+`).
+		`n ge 3` 时, 此密度函数在 `n-2` 处取得极大值.
+	</li>
+	<li><b>F 分布</b> 由 Beta 函数 (`u = m/n x`)
+		<span class="formula">
+			`B(m/2, n/2) = int_0^oo u^(m/2-1)/(1+u)^((m+n)/2) "d"u`
+			`= int_0^oo (m/n)^(m/2) x^(m/2-1)/(1+m/n x)^((m+n)/2) dx`,
+		</span>
+		可定义密度函数为
+		<span class="formula">
+			`(m/n)^(m/2)/(B(m/2, n/2)) x^(m/2-1)/(1+m/n x)^((m+n)/2)`,
+			`quad x gt 0`
+		</span>
+		的分布为 F 分布 `F(m, n)`, 其中 `m, n in ZZ^+`
+		分别称为第一, 第二自由度.
+		`m ge 3` 时, 此密度函数在 `(m-2)/m n/(n+2)` 处取得极大值,
+		此极值点落在 `(0, 1)` 内.
+	</li>
+	<li><b>t 分布 (Student 分布)</b> 由 Beta 函数 (`u = x^2/n`)
+		<span class="formula">
+			`B(1/2, n/2) = int_0^oo u^(1/2-1)/(1+u)^((1+n)/2) "d"u`
+			`= int_0^oo (sqrt n)/x (1+x^2/n)^(-(n+1)/2) (2x)/n dx`,
+		</span>
+		可定义密度函数为
+		<span class="formula">
+			`1/(sqrt n B(1/2, n/2)) (1+x^2/n)^(-(n+1)/2)`,
+			`quad x in RR`
+		</span>
+		的分布为 t 分布 `t(n)` (`n in ZZ^+`).
+		此密度函数是偶函数.
+	</li>
 </ol>
 
-<h2>中心极限定理</h2>
-
-<p class="definition">
-	设 `{xi_n}` 是独立随机变量序列 (即任意有限个变量都是独立的),
+<p class="theorem">
+	设 `X_1, X_2, cdots, X_n "i.i.d."~ N(0,1)`, 则
 	<span class="formula">
-		`bar xi_n = 1/n sum_(i=1)^n xi_i`,
+		`X = sum_(i=1)^n X_i^2 ~ chi^2(n)`.
 	</span>
-	假定 `E xi_i`, `D xi_i` 存在, 将 `bar xi_n` 标准化, 得到
-	<span class="formula">
-		`zeta_n = (bar xi_n - E bar xi_n)/sqrt(D bar xi_n)`
-		`= (sum_(i=1)^n xi_i - sum_(i=1)^n E xi_i)/
-		sqrt(sum_(i=1)^n D xi_i)`. 
-	</span>
-	设随机变量 `zeta_n` 的分布函数为 `F_n(x)`, 如果 `lim_(n to oo) F_n(x)
-	= Phi(x)` (标准正态分布函数), 即
-	<span class="formula">
-		`lim_(n to oo) P{zeta_n lt x} = 1/sqrt(2 pi) int_-oo^x
-		"e"^(-t^2/2) dt`,
-	</span>
-	则称 `{xi_n}` 服从<b>中心极限定理 (central limit theorem)</b>.
 </p>
 
-<script src="../js/note.js?type=math"></script>
+<ol class="proof">
+	设 `X` 的分布函数为 `F(x)`, 密度函数为 `f(x)`,
+	则 `x le 0` 时 `F(x) = 0`; `x gt 0` 时,
+	对 `n` 进行归纳证明.
+	<li>`n=1` 时,
+		<span class="formula">
+			`F(x) = P{X lt x}`
+			`= int_(t^2 lt x) 1/sqrt(2pi) "e"^(-t^2/2) dt`
+			`= int_0^(sqrt x) 2/sqrt(2pi) "e"^(-t^2/2) dt`.
+		</span>
+		求导得
+		<span class="formula">
+			`f(x) = 1/(2sqrt x) 2/sqrt(2pi) "e"^(-x/2)`
+			`= 1/sqrt(2 pi x) "e"^(-x/2)`.
+		</span>
+		因此 `X ~ chi_1^2`.
+	</li>
+	<li>假设命题对正整数 `n` 成立, 考察 `n+1` 的情形.
+		令 `xi = sum_(i=1)^n X_i^2`, `eta = X_(n+1)^2`,
+		`X = xi + eta`, 则由卷积公式,
+		<span class="formula">
+			`f(x) = int_(-oo)^oo f_xi(x-t) f_eta(t) dt`
+			`= int_0^x f_xi(x-t) f_eta(t)`
+			`= int_0^x 1/(2^((n+1)/2) Gamma(n/2)Gamma(1/2)) (x-t)^(n/2-1)
+			t^(-1/2) "e"^(-x/2) dt`
+			`= 1/(2^((n+1)/2) Gamma((n+1)/2) B(n/2, 1/2)) "e"^(-x/2)
+			int_0^x (x-t)^(n/2-1) t^(-1/2) dt`
+			`= 1/(2^((n+1)/2) Gamma((n+1)/2) B(n/2, 1/2)) "e"^(-x/2)
+			x^((n-1)/2) int_0^1 (1-u)^(n/2-1) u^(1/2-1) "d"u`
+			`= 1/(2^((n+1)/2) Gamma((n+1)/2)) x^((n+1)/2-1) "e"^(-x/2)`.
+		</span>
+		因此 `X ~ chi^2(n+1)`.
+	</li>
+</ol>
+
+<p class="proof">
+	首先有
+	<span class="formula">
+		`int_0^pi sin^k x dx = B((k+1)/2, 1/2) = (sqrt pi Gamma((k+1)/2))
+		/(Gamma((k+2)/2))`,<br/>
+		`prod_(i=1)^(n-2) int_0^pi sin^(n-1-i) theta_i "d"theta_i`
+		`= pi^(n/2-1) (Gamma((n-1)/2))/(Gamma(n/2))
+		(Gamma((n-2)/2))/(Gamma((n-1)/2)) cdots (Gamma(1))/(Gamma(3/2))`
+		`= pi^(n/2-1)/(Gamma(n/2))`.
+	</span>
+	`x gt 0` 时, 应用 `n` 维球坐标变换, 直接计算
+	<span class="formula">
+		`F(x) = int_(sum_(i=1)^n t_i^2 lt x) (1/sqrt(2pi))^n exp(-1/2
+		sum_(i=1)^n t_i^2) dt`
+		`= (2pi)^(-n/2) int_0^(2pi) "d"theta_(n-1) int_0^pi
+		"d"theta_(n-2) cdots`
+		`int_0^pi "d"theta_1 int_0^(sqrt x) r^(n-1) "e"^(-r^2/2)
+		prod_(i=1)^(n-2) sin^(n-1-i) theta_i "d"r`
+		`= (2pi)^(1-n/2) prod_(i=1)^(n-2) int_0^pi sin^(n-1-i) theta_i
+		"d"theta_i int_0^(sqrt x) r^(n-1) "e"^(-r^2/2) "d"r`
+		`= (2pi)^(1-n/2) pi^(n/2-1)/(Gamma(n/2))
+		int_0^(sqrt x) r^(n-1) "e"^(-r^2/2) "d"r`.
+	</span>
+	求导,
+	<span class="formula">
+		`f(x) = 1/(2^(n/2-1) Gamma(n/2)) 1/(2sqrt x) x^((n-1)/2) "e"^(-x/2)`
+		`= 1/(2^(n/2) Gamma(n/2)) x^(n/2-1) "e"^(-x/2)`.
+	</span>
+	因此 `X ~ chi^2(n)`.
+</p>
+
+<p class="corollary">
+	`n to oo` 时, 由中心极限定理知 `chi^2` 分布趋于正态分布 `N(n, 2n)`.
+</p>
+
+<p class="lemma">
+	设 `X ~ chi^2(n)`, 则 `X//n ~ Gamma(n/2, n/2)`.
+</p>
+
+<p class="proof">
+	设 `X` 的分布函数为 `F(x)`, 密度函数为 `f(x)`,
+	则 `X//n` 的分布函数为
+	<span class="formula">
+		`P{X//n lt x} = P{X lt n x} = F(n x)`.
+	</span>
+	密度函数为 
+	<span class="formula">
+		`"d"/dx F(n x) = n f(n x)`
+		`= n/(2^(n/2) Gamma(n/2)) (n x)^(n/2-1) "e"^(-n/2 x)`.
+	</span>
+	于是 `X//n ~ Gamma(n/2, n/2)`.
+</p>
+
+<p class="theorem">
+	设 `X ~ chi^2(m)`, `Y ~ chi^2(n)` 且独立, 则
+	<span class="formula">
+		`Z = (X//m)/(Y//n) ~ F(m,n)`.
+	</span>
+</p>
+
+<p class="proof">
+	由引理知 `X//m` 和 `Y//n` 分别服从 `Gamma(m/2, m/2)` 和 `Gamma(n/2,
+	n/2)` 且独立. 由随机变量商的分布公式,
+	<span class="formula">
+		`f_Z(x) = int_0^oo f_(X//m)(x t) f_(Y//n)(t) t dt`
+		`= int_0^oo ((m/2)^(m/2) (n/2)^(n/2))/(Gamma(m/2) Gamma(n/2))
+		(x t)^(m/2-1) t^(n/2-1) t "e"^(-(m x+n)/2 t) dt`
+		`= ((m/2)^(m/2) (n/2)^(n/2))/(Gamma(m/2) Gamma(n/2)) x^(m/2-1)`
+		`((m x+n)/2)^(-(m+n)/2) int_0^oo u^((m+n)/2-1) "e"^-u "d"u`
+		`= ((m/2)^(m/2) (n/2)^(n/2))/(B(m/2, n/2)) x^(m/2-1)
+		((m x+n)/2)^(-(m+n)/2)`.
+	</span>
+	于是 `Z ~ F(m, n)`.
+</p>
+
+<p class="corollary">
+	若 `X ~ F(m, n)`, 则 `X^-1 ~ F(n, m)`.
+</p>
+
+<p class="lemma">
+	若 `X, Y` 是独立的连续型随机变量,
+	且 `X` 具有对称的密度函数 (偶函数), 则 `Z = X//Y`
+	也具有对称的密度函数.
+</p>
+
+<p class="theorem">
+	设 `X ~ N(0,1)`, `Y ~ chi^2(n)` 且独立, 则
+	<span class="formula">
+		`T = X/sqrt(Y//n) ~ t(n)`.
+	</span>
+</p>
+
+<p class="proof">
+	易知 `T^2 = X^2/(Y//n) ~ F(1, n)`.
+	从而 `x gt 0` 时, `|T|` 的分布函数为
+	<span class="formula">
+		`P{|T| lt x} = P{T^2 lt x^2} = F_(T^2)(x^2)`,
+	</span>
+	`|T|` 的密度函数为
+	<span class="formula">
+		`f_|T|(x)`
+		`= 2x f_(T^2)(x^2)`
+		`= 2x ((1/n)^(1/2) (x^2)^(-1/2))/(B(1/2, n/2) (1+x^2/n)^((n+1)/2))`
+		`= 2/(sqrt n B(1/2, n/2)) (1+x^2/n)^(-(n+1)/2)`
+	</span>
+	由引理, `T` 具有对称的密度函数, 所以不难得到
+	<span class="formula">
+		`f_T(x) = 1/2 f_|T|(|x|)`.
+	</span>
+	于是 `T ~ t(n)`.
+</p>
+
+<p class="theorem">
+	`n to oo` 时, t 分布趋于标准正态分布.
+</p>
+
+<p class="proof">
+	首先
+	<span class="formula">
+		`lim_(n to oo) (1+x^2/n)^(-(n+1)/2) = "e"^(-x^2/2)`,
+	</span>
+	利用 Euler 公式
+	<span class="formula">
+		`Gamma(x) = lim_(n to oo) n^x B(x, n+1)`
+	</span>
+	有
+	<span class="formula">
+		`lim_(n to oo) sqrt n B(1/2, n/2)`
+		`= lim_(m to oo) sqrt(2m+2) B(1/2, m+1)`
+		`= sqrt 2 lim_(m to oo) sqrt m B(1/2, m+1)`
+		`= sqrt 2 Gamma(1/2)`
+		`= sqrt(2pi)`.
+	</span>
+	总之, t 分布的密度函数趋于标准正态分布密度函数.
+</p>
 
 </body>
+
+<script src="../js/note.js?type=math"></script>
 
 </html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>数理统计的基本概念</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>总体与样本</h2>
+
+<ul>
+	<li><b>总体 (population)</b>: 一个统计问题所研究的对象的全体.
+	</li>
+	<li><b>个体 (individual)</b>: 总体的元素. 总体是由个体组成的.</li>
+	<li><b>总体容量</b>: 总体中个体的数目. 容量为有限的总体称为有限总体,
+		否则称为无限总体.
+	</li>
+	<li><b>样本 (sample)</b>: 总体中的选出的一部分个体, 用来代表总体.
+		从总体中选出样本这一行为称为抽样 (sampling).
+	</li>
+	<li><b>样本容量 (sample size)</b>: 样本中个体的数目.</li>
+	<li><b>样本的两重性</b>: 在得到抽样结果前, 视样本为随机向量
+		`(X_1, cdots, X_n)`; 观察到抽样结果后, 视样本为具体的数字 (观察值)
+		`(x_1, cdots, x_n)`.
+	</li>
+	<li><b>样本空间 (sample space)</b>: 样本 `(x_1, cdots, x_n)`
+		可能取值的全体.</li>
+	数理统计的任务正是<b>统计推断</b>: 已知总体的一个样本,
+	对总体分布作出推断.
+</ul>
+
+<h3>简单随机样本</h3>
+
+<p> 通常用一个随机变量 `X` 来描述总体,
+	把该随机变量服从的分布 `F` 称为总体分布.
+	从总体中抽取的样本 `X_1, X_2, cdots, X_n`
+	常被假定为<b>简单随机样本</b>,
+	即要求它们是<b>独立同分布 (independent and identically
+	distributed, i.i.d.)</b>的, 记为
+	<span class="formula">
+		`X_1, X_2, cdots, X_n "i.i.d"~ F`,
+	</span>
+	若 `F` 有密度 `f`, 也记为
+	<span class="formula">
+		`X_1, X_2, cdots, X_n "i.i.d"~ f`,
+	</span>
+	我们常对总体和总体分布不加以区分, 因此也记
+	<span class="formula">
+		`X_1, X_2, cdots, X_n "i.i.d"~ X`.
+	</span>
+	产生简单随机样本的过程称为简单随机抽样.
+	简单随机抽样可以视为 `n` 次重复独立试验.
+</p>
+
+<ol class="remark">
+	<li>服从正态分布的总体称为正态总体, 服从 Bernoulli 分布的总体称为
+		Bernoulli 总体, 等等.</li>
+	<li>在独立同分布的假定下, 概率论中的许多结论便有用武之地了.
+		今后在无特别说明的情况下, 样本都指简单随机样本.</li>
+</ol>
+
+<h2>统计量</h2>
+
+<p>	为了对总体作出统计推断, 常常基于已知的样本, 构造样本的函数.
+	如果这个函数不含未知参数, 则称它为一个<b>统计量 (statistic)</b>.
+</p>
+
+<h3>矩统计量</h3>
+
+<ol class="definition">
+	设 `(X_1, X_2, cdots, X_n)` 为总体 `X` 的一个样本.
+	常用的<b>矩统计量</b>有:
+	<li><b>样本均值 (sample mean)</b>:
+		<span class="formula">
+			`bar X = 1/n sum_(i=1)^n X_i`.
+		</span>
+	</li>
+	<li><b>样本方差 (sample variance)</b>:
+		<span class="formula">
+			`S^2 = 1/(n-1) sum_(i=1)^n (X_i-bar X)^2`.
+		</span>
+		`S = sqrt(S^2)` 称为<b>样本标准差</b>.
+		`S^2` 又称为<b>修正样本方差</b>. 使用修正样本方差, 最大的好处是
+		`E(S^2) = D X`, 即用修正样本方差来估计总体方差 `D X`
+		时没有系统的偏差, 属于<b>无偏估计</b>.
+	</li>
+	<li><b>样本 `k` 阶原点矩</b>:
+		<span class="formula">
+			`a_k = 1/n sum_(i=1)^n X_i^k`, `quad k = 1, 2, cdots`.
+		</span>
+		1 阶原点矩就是样本均值.
+	</li>
+	<li><b>样本 `k` 阶中心矩</b>:
+		<span class="formula">
+			`m_k = 1/n sum_(i=1)^n (X_i-bar X)^k`, `quad k = 2, 3, cdots`.
+		</span>
+		`k = 1` 时, 上式恒为零, 是平凡的情形.
+		`k = 2` 时, 上式表示未修正的样本方差.
+	</li>
+	<li>最后, 设 `(X_1, Y_1), cdots, (X_n, Y_n)` 是二维总体 `(X, Y)`
+	的一个样本, 则 `X` 和 `Y` 的<b>样本协方差 (sample covariance)</b>
+	定义为
+	<span class="formula">
+		`S_(X Y) = 1/n sum_(i=1)^n (X_i-bar X)(Y_i-bar Y)`.
+	</span>
+	</li>
+</ol>
+
+<p class="remark">
+	设 `bar X = mu`, `D X = sigma^2`, 计算:
+	<span class="formula">
+		`E(bar X) = 1/n sum_(i=1)^n E X_i = E X = mu`,<br/>
+		`(n-1) E(S^2) = E sum_(i=1)^n (X_i^2 - 2 X_i bar X + bar X^2)`
+		`= E( sum_(i=1)^n X_i^2 - n bar X^2)`
+		`= n[ E(X^2) - E(bar X^2) ]`
+		`= n( D X - D bar X )`
+		`= n(sigma^2 - sigma^2/n)`
+		`= (n-1) sigma^2`.
+	</span>
+</p>
+
+<h3>次序统计量</h3>
+
+<ol class="definition">
+	设 `X_1, X_2, cdots, X_n` 是总体 `X` 的一个样本, 将其按大小次序排列为
+	<span class="formula">
+		`X_((1)) le X_((2)) le cdots le X_((n))`,
+	</span>
+	我们定义如下几种<b>次序统计量 (顺序统计量, order statistics)</b>:
+	<li><b>样本极值 (extremum of sample)</b>: 样本的极小值 `X_((1))`
+		和极大值 `X_((n))` 的统称. `X_((n))-X_((1))` 称为<b>样本极差
+			(sample range)</b>.
+	</li>
+	<li><b>样本中位数 (sample median)</b>:
+		<span class="formula">
+			`m_(1/2) = {
+				( X_(((n+1)//2)), if n" is odd"),
+				( 1/2[ X_((n//2)) + X_((n//2+1)) ], if n" is even")
+			:}
+		</span>
+	</li>
+	<li><b>样本 `p` 分位数 (sample `p`-quantile)</b>:
+		<span class="formula">
+			`X_((|__(n+1)p__|))`, `quad 0 lt p lt 1`.
+		</span>
+		`p = 1/2` 时, 即为样本中位数.
+	</li>
+</ol>
+
+<h3>枢轴量</h3>
+
+<p> 如果一个样本的函数仅含有一个未知参数, 且这个函数服从的分布已知,
+	则称它为一个<b>枢轴量</b>.
+</p>
+
+<h3>总体分位数 (分布的分位数)</h3>
+
+<p class="definition">
+	设 `F(x)` 是随机变量 `X` 的分布函数, 任给实数 `0 lt alpha lt 1`, 称
+	`F_alpha` 是 `F(x)` 的水平 `alpha` 的<b>上侧分位数</b>, 如果
+	<span class="formula">
+		`P{X gt F_alpha} = alpha`, 即 `F(F_alpha) = 1-alpha`.
+	</span>
+	特别当 `F(x)` 严格单调时, `F_alpha` 由 `alpha` 唯一确定.
+</p>
+
+<ol class="corollary">
+	<li>`P{X le F_(1-alpha)} = 1 - P{X gt F_(1-alpha)}`
+		`= 1-(1-alpha) = alpha`;
+	</li>
+	<li>`P{F_(1-alpha/2) lt X le F_(alpha/2)}`
+		`= P{X gt F_(1-alpha/2)} - P{X gt F_(alpha/2)}`
+		`= 1-alpha/2 - alpha/2 = 1-alpha`.
+	</li>
+</ol>
+
+<p class="definition">
+	设 `F(x)` 是对称分布的随机变量 `X` 的分布函数, 任给实数 `0 lt alpha lt
+	1`, 称 `T_alpha` 是 `F(x)` 的水平 `alpha` 的双侧分位数, 如果
+	<span class="formula">
+		`P{|X| gt T_alpha} = alpha`, 即 `F(T_alpha) = 1-alpha/2`.
+	</span>
+	假设 `F(x)` 严格单调, 有 `T_alpha = F_(alpha/2)`, `F(alpha) +
+	F(1-alpha) = 0`.
+</p>
+
+<h2>抽样分布</h2>
+
+<p>	统计量或枢轴量的分布统称为<b>抽样分布</b>.</p>
+
+<h3>Fisher 引理</h3>
+
+<ol class="theorem">
+	<b>Fisher 引理</b>
+	设总体 `X ~ N(mu, sigma^2)`, `X_1, X_2, cdots, X_n` 为样本,
+	`bar X` 和 `S^2` 分别为样本均值和样本方差, 则
+	<li>`bar X ~ N(mu, sigma^2/n)`;</li>
+	<li>`(n-1)/sigma^2 S^2 ~ chi^2(n-1)`;</li>
+	<li>`bar X` 与 `S^2` 相互独立.</li>
+</ol>
+
+<h3>正态总体的抽样分布</h3>
+
+<ol class="theorem">
+	设总体 `X ~ N(mu, sigma^2)`, `X_1, X_2, cdots, X_n` 为样本,
+	`bar X` 和 `S^2` 分别为样本均值和样本方差, 则
+	<li>`(bar X - mu)/(sigma//sqrt n) ~ N(0,1)`;</li>
+	<li>`(n-1)/sigma^2 S^2 ~ chi^2(n-1);`</li>
+	<li>`T</li>
+</ol>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

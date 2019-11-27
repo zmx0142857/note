@@ -76,8 +76,7 @@ function loadMath() {
 		// KaTeX renders math faster!
 		var link = document.createElement('link');
 		link.setAttribute('rel', 'stylesheet');
-		// CORS error
-		//link.setAttribute('href', '../js/katex/katex.min.css');
+		// local fonts cause CORS error
 		link.setAttribute('href', 'https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css');
 		document.body.appendChild(link);
 
@@ -101,7 +100,7 @@ function loadMath() {
 			document.body.appendChild(script);
 		}
 		loadScript('../js/AMsymbols.js', function(){
-		loadScript('../js/katex/katex.min.js', function() {
+		loadScript('../js/katex.min.js', function() {
 		loadScript('../js/asciimath-katex.js', function() {});
 		}); });
 	}

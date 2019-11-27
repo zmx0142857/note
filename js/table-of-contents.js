@@ -15,10 +15,10 @@ var tableOfContents = [ {
 		{title:'向量的相关性与线性方程组', src:'algebra/3.html'},
 		{title:'线性空间', src:'algebra/4.html'},
 		{title:'线性映射与线性变换', src:'algebra/5.html'},
-		{title:'特征值与特征向量', src:'algebra/6.html', isnew:true},
+		{title:'特征值与特征向量', src:'algebra/6.html'},
 		{title:'矩阵的相似标准形', src:'algebra/7.html'},
 		{title:'线性空间中的度量与内积', src:'algebra/8.html'},
-		{title:'二次型', src:'algebra/9.html', isnew:true},
+		{title:'二次型', src:'algebra/9.html'},
 	]
 	}, {
 	title:'数学分析',
@@ -64,10 +64,15 @@ var tableOfContents = [ {
 	}, {
 	title:'概率论',
 	articles: [
-		{title:'附录', src:'probability/0.html', isnew:true},
-		{title:'事件与概率', src:'probability/1.html', isnew:true},
+		{title:'事件与概率', src:'probability/1.html'},
 		{title:'随机变量', src:'probability/2.html', isnew:true},
-		{title:'大数定律与中心极限定理', src:'probability/5.html'},
+		{title:'常用分布', src:'probability/4.html', isnew:true},
+		{title:'极限定理', src:'probability/5.html', isnew:true},
+	]
+	}, {
+	title:'数理统计',
+	articles: [
+		{title:'数理统计的基本概念', src:'statistics/1.html', isnew:true},
 	]
 	}, {
 	title:'数值分析',
@@ -167,7 +172,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
 		{title:'三角函数', src:'misc/2.html'},
-		{title:'不等式', src:'misc/3.html', isnew:true},
+		{title:'不等式', src:'misc/3.html'},
 		{title:'Bernoulli 数', src:'misc/6.html', isnew:true},
 	]
 }];
