@@ -12,6 +12,41 @@
 
 <body>
 
+<h2>收敛性</h2>
+
+<ol>设 `{xi_n}` 是随机变量序列, `xi` 是随机变量, 
+	<li>如果对任意 `epsi gt 0` 成立
+		<span class="formula">
+			`lim_(n to oo) P{|xi_n - xi| lt epsi} = 1`,
+			即 `lim_(n to oo) P{|xi_n - xi| ge epsi} = 0`,
+		</span>
+		则称 `{xi_n}` <b>依概率收敛 (convergence in probability)</b>于
+		`xi`, 记为 `xi_n overset P to xi`.
+	</li>
+	<li>设 `xi_n, xi` 的分布函数分别为 `F_n(x), F(x)`, `n = 1, 2,
+		cdots`, 如果在 `F(x)` 的每个连续点 `x` 处都成立
+		<span class="formula">
+			`lim_(n to oo) F_n(x) = F(x)`,
+		</span>
+		则称 `F_n(x)` <b>弱收敛</b>于 `F(x)`, 记为 `F_n(x) overset W to
+		F(x)`;
+		此时称 `{xi_n}` <b>依分布收敛 (convergence in distribution)</b>于
+		`xi`, 记为 `xi_n overset L to xi`.
+	</li>
+	<li>如果
+		<span class="formula">
+			`P{lim_(n to oo) xi_n = xi} = 1`,
+		</span>
+		则称 `{xi_n}` <b>以概率 1 收敛 (convergence in probability 1)</b>
+		或<b>几乎处处收敛</b>于 `xi`, 记为 `xi_n overset "a.s." to xi`.
+		上式涉及的集合
+		<span class="formula">
+			`{omega: lim_(n to oo) xi_n(omega) = xi(omega)}`
+		</span>
+		上是否一定有概率定义, 我们稍后讨论.
+	</li>
+</ol>
+
 <h2>大数定律</h2>
 
 <p class="definition">
@@ -19,27 +54,118 @@
 	<span class="formula">
 		`bar xi_n = 1/n sum_(i=1)^n xi_i`,
 	</span>
-	如果存在常数列 `{a_n}`, 对任意 `epsi gt 0`, 满足
+	如果对任意 `epsi gt 0`, 满足
 	<span class="formula">
-		`lim_(n to oo) P{ |bar xi_n - a_n| lt epsi } = 1`,
-		即 `lim_(n to oo) P{ |bar xi_n - a_n| ge epsi } = 0`,
+		`lim_(n to oo) P{ |bar xi_n - E bar xi_n| lt epsi } = 1`,
+		即 `lim_(n to oo) P{ |bar xi_n - E bar xi_n| ge epsi } = 0`,
 	</span>
 	则称序列 `{xi_n}` 满足<b>大数定律</b>.
 </p>
 
+<h3>Bernoulli 试验情形*</h3>
+
+<p class="theorem">
+	设 `{xi_n}` 是独立同分布随机变量序列 (任意有限个变量都是独立的),
+	`xi_n ~ B(1, p)`, `n = 1, 2, cdots`, 则 `{xi_n}` 满足大数定律.
+</p>
+
+<p class="remark">
+	利用收敛性的语言, Bernoulli 大数定律重新叙述为: `n` 次独立试验中,
+	事件发生的频率 `bar xi` 依概率收敛于概率 `p`.
+</p>
+
+<h3>二阶矩存在的情形</h3>
+
 <ol class="theorem">
-	<li><b>Мaрков 大数定律</b></li>
-	<li><b></b></li>
-	<li><b></b></li>
+	<li><b>Марков 大数定律</b>
+		设 `{xi_n}` 是随机变量序列, 其方差存在且满足 <b>Марков 条件</b>
+		`lim_(n to oo) D bar xi = 0`, 则 `{xi_n}` 满足大数定律.
+	</li>
+	<li><b>Чебышев 大数定律</b>
+		设 `{xi_n}` 是两两不相关的随机变量序列, 其方差存在且有共同的上界:
+		`D xi le C`, `i = 1, 2, cdots`, 则 `{xi_n}` 满足大数定律.
+	</li>
+	<li><b>Poisson 大数定律</b>
+		设 `{xi_n}` 是独立随机变量序列,
+		`xi_n ~ B(1,p_n)`, 则 `{xi_n}` 满足大数定律.
+	</li>
 </ol>
+
+<ol class="proof">
+	<li>利用 Чебышев 不等式,
+		<span class="formula">
+			`0 le P{|bar xi_n - E bar xi_n| ge epsi}`
+			`le (D bar xi_n)/epsi^2`.
+		</span>
+		两边令 `n to oo`, 由两边夹法则即得
+		<span class="formula">
+			`lim_(n to oo) P{bar xi_n - E bar xi_n| ge epsi} = 0`.
+		</span>
+	</li>
+	<li>因为 `{xi_n}` 两两不相关, 有
+		<span class="formula">
+			`D bar xi_n = D(1/n sum_(i=1)^n xi_i)`
+			`= 1/n^2 sum_(i=1)^n D xi le C/n`,
+		</span>
+		故 Марков 条件成立.
+	</li>
+	<li>显然 `{xi_n}` 两两不相关. 由均值不等式
+		<span class="formula">
+			`D xi = p_n(1-p_n) le ((p_n+1-p_n)/2)^2 = 1/4`,
+		</span>
+		满足 Чебышев 大数定律的条件.
+	</li>
+</ol>
+
+<p class="remark">
+	由 Poisson 大数定律立即推出 Bernoulli 大数定律.
+</p>
+
+<h3>独立同分布情形</h3>
+
+<p class="theorem">
+	<b>Хинчин 大数定律</b>
+	设 `{xi_n}` 是独立同分布随机变量序列, 其期望为 `mu`, 则 `{xi_n}`
+	服从大数定律, 即 `bar xi_n overset P to mu`.
+</p>
+
+<p class="proof">
+	将 `xi_n` 的特征函数 `f(t)` 展开
+	<span class="formula">
+		`f(t) = f(0) + f'(0) t + o(t)`
+		`= 1 + "i"mu t + o(t)`.
+	</span>
+	由独立性, `bar xi_n` 的特征函数为
+	<span class="formula">
+		`[f(t/n)]^n = [1 + ("i"mu t + o(t))/n]^n`
+	</span>
+	对固定的 `t`, 令 `n to oo`, 上式趋于 `"e"^("i"mu t)` (??),
+	即 `bar xi_n` 的特征函数趋于退化分布 `I_mu(x)` 的特征函数.
+	由逆极限定理, `bar xi_n overset L to mu`. 但 `mu` 为一常数, 所以
+	`bar xi_n overset P to mu`.
+</p>
+
+<ol class="remark">
+	<li>Bernoulli 大数定律是 Хинчин 大数定律的特殊情形.</li>
+	<li>Хинчин 大数定律已经去掉了方差存在的假定.</li>
+	<li>在数理统计中, 假定总体 `xi` 的均值 `mu` 未知, 通常的做法是对
+		`xi` 进行 `n` 次独立重复观察, 得到样本 `xi_1, xi_2, cdots, xi_n`.
+		由 Хинчин 大数定律, 样本均值 `bar xi` 依概率收敛于 `mu`,
+		这一性质称为<b>相合性</b>. 进一步若总体的 `k` 阶矩存在, 有
+		<span class="formula">
+			`1/n sum_(i=1)^n xi^k overset P to E xi^k`,<br/>
+			`1/n sum_(i=1)^n (xi-bar xi)^k overset P to E(xi-mu)^k`.
+		</span>
+		因此 Хинчин 大数定律保证了矩估计的相合性.
+	</li>
+</ol>
+
+<h3>强大数定律</h3>
 
 <h2>中心极限定理</h2>
 
 <p class="definition">
-	设 `{xi_n}` 是独立随机变量序列 (即任意有限个变量都是独立的),
-	<span class="formula">
-		`bar xi_n = 1/n sum_(i=1)^n xi_i`,
-	</span>
+	设 `{xi_n}` 是独立随机变量序列, `bar xi_n = 1/n sum_(i=1)^n xi_i`,
 	假定 `E xi_i`, `D xi_i` 存在, 将 `bar xi_n` 标准化, 得到
 	<span class="formula">
 		`zeta_n = (bar xi_n - E bar xi_n)/sqrt(D bar xi_n)`
@@ -54,6 +180,65 @@
 	</span>
 	则称 `{xi_n}` 服从<b>中心极限定理 (central limit theorem)</b>.
 </p>
+
+<h3>Bernoulli 试验情形*</h3>
+
+<ol class="theorem">
+	<b>De Moivre-Laplace 中心极限定理</b>
+	设 `{xi_n}` 是独立同分布随机变量序列, `xi_n ~ B(1,p)`, `n = 1, 2,
+	cdots`, `0 lt p lt 1`, `q = 1-p`, 则对任意有限区间 `[a,b]`, 当 `n to
+	oo` 时有
+	<li>局部极限定理: 对任意 `x_k := (k-n p)/sqrt(n p q) in [a,b]`,
+		一致地 (所取的 `N` 与 `k` 的选取无关) 有
+		<span class="formula">
+			`P{sum_(i=1)^n xi_n = k} ~ 1/sqrt(n p q) varphi(x_k)`,
+		</span>
+		其中 `varphi(x)` 是标准正态密度函数.
+	</li>
+	<li>
+		<span class="formula">
+			`P{a le zeta_n lt b} to int_a^b varphi(x) dx`.
+		</span>
+	</li>
+</ol>
+
+<h3>独立同分布情形</h3>
+
+<p class="theorem">
+	<b>Lindeberg-Lévy 中心极限定理</b>
+	设 `{xi_n}` 是独立同分布随机变量序列, 其方差满足 `0 lt sigma^2 lt oo`,
+	则 `{xi_n}` 满足中心极限定理.
+</p>
+
+<p class="proof">
+	将 `xi_n-mu` 的特征函数 `f(t)` 展开
+	<span class="formula">
+		`f(t) = f(0) + f'(0) t + (f''(0))/2 t^2 + o(t^2)`
+		`= 1 - sigma^2/2 t^2 + o(t^2)`.
+	</span>
+	由独立性, `zeta_n` 的特征函数为
+	<span class="formula">
+		`[f(t/(sqrt n sigma))]^n`
+		`= [1 - t^2/(2n) + o(t^2/n)]^n`
+		`to "e"^(-t^2/2)`
+	</span>
+	即 `zeta_n` 的特征函数趋于标准正态分布的特征函数.
+	由逆极限定理, `zeta_n overset L to N(0,1)`.
+</p>
+
+<ol class="remark">
+	<li>由 Lindeberg-Lévy 中心极限定理立即得到 De Moivre-Laplace
+		积分极限定理.
+	</li>
+	<li>在数理统计中, 假定样本 `xi_1, xi_2, cdots, xi_n` 独立同分布,
+		由 Lindeberg-Lévy 中心极限定理, 若总体的二阶矩存在,
+		则样本均值 `bar xi_i` 的分布渐近于 `N(mu, sigma^2/n)`,
+		进一步若总体的 `2k` 阶矩存在, 有
+		<span class="formula">
+			`1/n sum_(i=1)^n xi_i^k` 的分布渐近于 `N(E xi^k, 1/n D xi^k)`.
+		</span>
+	</li>
+</ol>
 
 <script src="../js/note.js?type=math"></script>
 

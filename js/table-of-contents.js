@@ -66,8 +66,8 @@ var tableOfContents = [ {
 	articles: [
 		{title:'事件与概率', src:'probability/1.html'},
 		{title:'随机变量', src:'probability/2.html', isnew:true},
-		{title:'常用分布', src:'probability/4.html', isnew:true},
-		{title:'极限定理', src:'probability/5.html', isnew:true},
+		{title:'极限定理', src:'probability/4.html', isnew:true},
+		{title:'常用分布', src:'probability/5.html', isnew:true},
 	]
 	}, {
 	title:'数理统计',

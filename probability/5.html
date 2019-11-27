@@ -223,7 +223,7 @@
 		称为形状参数, `lambda gt 0` 称为尺度参数.
 		特别 `Gamma(lambda, 1)` 称为<b>指数分布</b>,
 		`Gamma(n/2, 1/2)` 称为自由度为 `n` 的
-		<b>`chi^2` 分布 (卡方分布)</b> `chi^2(n)` (`n in ZZ^+`).
+		<b>`chi^2` 分布 (卡方分布)</b> `chi_n^2` (`n in ZZ^+`).
 		`n ge 3` 时, 此密度函数在 `n-2` 处取得极大值.
 	</li>
 	<li><b>F 分布</b> 由 Beta 函数 (`u = m/n x`)
@@ -236,7 +236,7 @@
 			`(m/n)^(m/2)/(B(m/2, n/2)) x^(m/2-1)/(1+m/n x)^((m+n)/2)`,
 			`quad x gt 0`
 		</span>
-		的分布为 F 分布 `F(m, n)`, 其中 `m, n in ZZ^+`
+		的分布为 F 分布 `F_(m, n)`, 其中 `m, n in ZZ^+`
 		分别称为第一, 第二自由度.
 		`m ge 3` 时, 此密度函数在 `(m-2)/m n/(n+2)` 处取得极大值,
 		此极值点落在 `(0, 1)` 内.
@@ -251,7 +251,7 @@
 			`1/(sqrt n B(1/2, n/2)) (1+x^2/n)^(-(n+1)/2)`,
 			`quad x in RR`
 		</span>
-		的分布为 t 分布 `t(n)` (`n in ZZ^+`).
+		的分布为 t 分布 `t_n` (`n in ZZ^+`).
 		此密度函数是偶函数.
 	</li>
 </ol>
@@ -259,7 +259,7 @@
 <p class="theorem">
 	设 `X_1, X_2, cdots, X_n "i.i.d."~ N(0,1)`, 则
 	<span class="formula">
-		`X = sum_(i=1)^n X_i^2 ~ chi^2(n)`.
+		`X = sum_(i=1)^n X_i^2 ~ chi_n^2`.
 	</span>
 </p>
 
@@ -294,7 +294,7 @@
 			x^((n-1)/2) int_0^1 (1-u)^(n/2-1) u^(1/2-1) "d"u`
 			`= 1/(2^((n+1)/2) Gamma((n+1)/2)) x^((n+1)/2-1) "e"^(-x/2)`.
 		</span>
-		因此 `X ~ chi^2(n+1)`.
+		因此 `X ~ chi_(n+1)^2`.
 	</li>
 </ol>
 
@@ -326,15 +326,15 @@
 		`f(x) = 1/(2^(n/2-1) Gamma(n/2)) 1/(2sqrt x) x^((n-1)/2) "e"^(-x/2)`
 		`= 1/(2^(n/2) Gamma(n/2)) x^(n/2-1) "e"^(-x/2)`.
 	</span>
-	因此 `X ~ chi^2(n)`.
+	因此 `X ~ chi_n^2`.
 </p>
 
 <p class="corollary">
-	`n to oo` 时, 由中心极限定理知 `chi^2` 分布趋于正态分布 `N(n, 2n)`.
+	`n to oo` 时, 由中心极限定理知 `chi_n^2` 分布趋于正态分布 `N(n, 2n)`.
 </p>
 
 <p class="lemma">
-	设 `X ~ chi^2(n)`, 则 `X//n ~ Gamma(n/2, n/2)`.
+	设 `X ~ chi_n^2`, 则 `X//n ~ Gamma(n/2, n/2)`.
 </p>
 
 <p class="proof">
@@ -352,9 +352,9 @@
 </p>
 
 <p class="theorem">
-	设 `X ~ chi^2(m)`, `Y ~ chi^2(n)` 且独立, 则
+	设 `X ~ chi_m^2`, `Y ~ chi_n^2` 且独立, 则
 	<span class="formula">
-		`Z = (X//m)/(Y//n) ~ F(m,n)`.
+		`Z = (X//m)/(Y//n) ~ F_(m,n)`.
 	</span>
 </p>
 
@@ -370,11 +370,11 @@
 		`= ((m/2)^(m/2) (n/2)^(n/2))/(B(m/2, n/2)) x^(m/2-1)
 		((m x+n)/2)^(-(m+n)/2)`.
 	</span>
-	于是 `Z ~ F(m, n)`.
+	于是 `Z ~ F_(m, n)`.
 </p>
 
 <p class="corollary">
-	若 `X ~ F(m, n)`, 则 `X^-1 ~ F(n, m)`.
+	若 `X ~ F_(m, n)`, 则 `X^-1 ~ F_(n, m)`.
 </p>
 
 <p class="lemma">
@@ -384,14 +384,14 @@
 </p>
 
 <p class="theorem">
-	设 `X ~ N(0,1)`, `Y ~ chi^2(n)` 且独立, 则
+	设 `X ~ N(0,1)`, `Y ~ chi_n^2` 且独立, 则
 	<span class="formula">
-		`T = X/sqrt(Y//n) ~ t(n)`.
+		`T = X/sqrt(Y//n) ~ t_n`.
 	</span>
 </p>
 
 <p class="proof">
-	易知 `T^2 = X^2/(Y//n) ~ F(1, n)`.
+	易知 `T^2 = X^2/(Y//n) ~ F_(1, n)`.
 	从而 `x gt 0` 时, `|T|` 的分布函数为
 	<span class="formula">
 		`P{|T| lt x} = P{T^2 lt x^2} = F_(T^2)(x^2)`,
@@ -407,11 +407,11 @@
 	<span class="formula">
 		`f_T(x) = 1/2 f_|T|(|x|)`.
 	</span>
-	于是 `T ~ t(n)`.
+	于是 `T ~ t_n`.
 </p>
 
 <p class="theorem">
-	`n to oo` 时, t 分布趋于标准正态分布.
+	`n to oo` 时, `t_n` 趋于标准正态分布.
 </p>
 
 <p class="proof">

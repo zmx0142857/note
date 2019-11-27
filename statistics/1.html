@@ -194,26 +194,73 @@
 
 <p>	统计量或枢轴量的分布统称为<b>抽样分布</b>.</p>
 
-<h3>Fisher 引理</h3>
-
-<ol class="theorem">
+<ol class="lemma">
 	<b>Fisher 引理</b>
 	设总体 `X ~ N(mu, sigma^2)`, `X_1, X_2, cdots, X_n` 为样本,
 	`bar X` 和 `S^2` 分别为样本均值和样本方差, 则
 	<li>`bar X ~ N(mu, sigma^2/n)`;</li>
-	<li>`(n-1)/sigma^2 S^2 ~ chi^2(n-1)`;</li>
+	<li>`(n-1)/sigma^2 S^2 ~ chi_(n-1)^2`;</li>
 	<li>`bar X` 与 `S^2` 相互独立.</li>
 </ol>
 
-<h3>正态总体的抽样分布</h3>
-
 <ol class="theorem">
+	<b>正态总体的抽样分布</b>
 	设总体 `X ~ N(mu, sigma^2)`, `X_1, X_2, cdots, X_n` 为样本,
 	`bar X` 和 `S^2` 分别为样本均值和样本方差, 则
-	<li>`(bar X - mu)/(sigma//sqrt n) ~ N(0,1)`;</li>
-	<li>`(n-1)/sigma^2 S^2 ~ chi^2(n-1);`</li>
-	<li>`T</li>
+	<li>`U := (bar X - mu)/(sigma//sqrt n) ~ N(0,1)`;</li>
+	<li>`(n-1)/sigma^2 S^2 ~ chi_(n-1)^2`;
+		(记忆: `S^2/sigma^2 ~ (chi_(n-1)^2)/(n-1) = Gamma((n-1)/2,
+		(n-1)/2)`)</li>
+	<li>`T := (bar X-mu)/(S//sqrt n) ~ t_(n-1)`.</li>
 </ol>
+
+<p class="proof">
+	结论 1. 由 Fisher 引理的 1. 得到.
+	结论 2. 即为 Fisher 引理的结论 2.
+	现在证 3. 由于 
+	<span class="formula">
+		`T = sigma/S U = U/sqrt((n-1)/sigma^2 S^2//(n-1))`
+	</span>
+	且由 Fisher 引理, `U` 与 `(n-1)/sigma^2 S^2` 相互独立.
+	所以由 t 分布的定义知 `T ~ t_(n-1)`.
+</p>
+
+<p class="remark">
+	枢轴量 `(n-1)/sigma^2 S^2` 可用于估计 `sigma^2` 而无需了解 `mu`,
+	`T` 可用于估计 `mu` 而无需了解 `sigma^2`.
+</p>
+
+<ol class="theorem">
+	<b>双正态总体的抽样分布</b>
+	设 `X ~ N(mu_1, sigma_1^2)`, `Y ~ N(mu_2, sigma_2^2)`, 分别从总体 `X,
+	Y` 中抽取容量为 `m, n` 的样本, 设样本均值分别为 `bar X, bar Y`,
+	样本方差分别为 `S_1^2, S_2^2`.
+	则
+	<li>`U := ((bar X-mu_1)-(bar Y-mu_2))/sqrt(sigma_1^2/m + sigma_2^2/n) ~ N(0,1);</li>
+	<li>`F := ((S_1//sigma_1)/(S_2//sigma_2))^2 ~ F_(m-1, n-1)`;</li>
+	<li>当 `sigma_1 = sigma_2 = sigma` 时,
+		<span class="formula">
+			`T := ((bar X-mu_1)-(bar Y-mu_2))/(S sqrt(1/m+1/n)) ~
+			t_(m+n-2)`,
+		</span>
+		其中 `S^2` 是样本方差的加权平均:
+		<span class="formula">
+			`S^2 := (m-1)/(m+n-2) S_1^2 + (n-1)/(m+n-2) S_2^2`.
+		</span>
+	</li>
+</ol>
+
+<ol class="theorem">
+	<b>极限分布与大样本性质</b>
+	设总体 `X` 的均值与方差分别为 `mu, sigma^2`,
+	样本均值与样本方差分别为 `bar X, S^2`, 则当样本容量 `n to oo` 时
+	<li>`U_n := (bar X-mu)/(sigma//sqrt n) overset L to N(0,1)`;</li>
+	<li>`T_n := (bar X-mu)/(S//sqrt n) overset L to N(0,1)`.</li>
+</ol>
+
+<p class="proof">
+	结论 1. 由 Lindeberg-Lévy 中心极限定理得到.
+</p>
 
 <script src="../js/note.js?type=math"></script>
 
