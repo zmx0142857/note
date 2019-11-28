@@ -73,6 +73,7 @@ var tableOfContents = [ {
 	title:'数理统计',
 	articles: [
 		{title:'数理统计的基本概念', src:'statistics/1.html', isnew:true},
+		{title:'参数估计与假设检验', src:'statistics/2.html', isnew:true},
 	]
 	}, {
 	title:'数值分析',

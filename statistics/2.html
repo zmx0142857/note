@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>参数估计与假设检验</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>参数估计</h2>
+
+<h3>点估计</h3>
+
+<h3>区间估计</h3>
+
+<h2>假设检验</h2>
+
+<p>	假设检验是对总体分布中的<b>参数</b>或总体分布的<b>类型</b>提出假设,
+	希望通过样本进行判断. 前一种称为<b>参数假设检验</b>,
+	后一种称为<b>非参数假设检验</b>.
+</p>
+
+<h3>参数假设检验</h3>
+
+<ol>
+	<li>建立原假设 `H_0: theta = theta_0`;</li>
+	<li>构造含待检参数 `theta` 的枢轴量;</li>
+	<li>在假设成立的条件下, 计算当前样本 (以及更离谱的事件) 发生的概率 `p`.</li>
+	<li>如果 `p` 小于给定的显著性水平 `alpha`, 则拒绝原假设;
+		否则接受原假设.
+	</li>
+</ol>
+
+<p class="example">
+	设总体 `X` 服从正态分布, 现由容量为 9 的样本算得样本均值 `bar x =
+	17.4` 和样本标准差 `s = 2.4`.
+	在 `alpha = 0.05` 的显著性水平下检验 `mu = 18.2` 这一假设.
+</p>
+
+<ol class="solution">
+	<li>原假设: `mu = mu_0 := 18.2`;</li>
+	<li>构造枢轴量 `T = (bar X - mu)/(S//sqrt n) ~ t_8`;</li>
+	<li>令 `t_0 = (bar x - mu_0)/(s//sqrt 9) = -1`,
+		在假设成立的条件下,
+		`T_0 = (bar X - mu_0)/(S//sqrt n) ~ t_8`, 从而
+		<span class="formula">
+			`p = P{|T_0| gt |t_0|}`
+			`= 2P{T_0 gt 1} ~~ 0.36 gt alpha`.
+		</span>
+		所以接受原假设.
+	</li>
+</ol>
+
+<h3>非参数假设检验</h3>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

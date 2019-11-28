@@ -510,7 +510,7 @@ if (args.type == 'cs') {
 }
 
 makeReference(); // call makeReference() after decorate()
-wrapIOS(); // call this after decorate()
+//wrapIOS(); // call this after decorate()
 //toggleHideHeader();
 
 })();

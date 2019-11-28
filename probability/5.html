@@ -225,6 +225,7 @@
 		`Gamma(n/2, 1/2)` 称为自由度为 `n` 的
 		<b>`chi^2` 分布 (卡方分布)</b> `chi_n^2` (`n in ZZ^+`).
 		`n ge 3` 时, 此密度函数在 `n-2` 处取得极大值.
+		特别 `chi_2^2` 是一指数分布.
 	</li>
 	<li><b>F 分布</b> 由 Beta 函数 (`u = m/n x`)
 		<span class="formula">
@@ -333,22 +334,24 @@
 	`n to oo` 时, 由中心极限定理知 `chi_n^2` 分布趋于正态分布 `N(n, 2n)`.
 </p>
 
-<p class="lemma">
-	设 `X ~ chi_n^2`, 则 `X//n ~ Gamma(n/2, n/2)`.
-</p>
+<ol class="lemma">
+	<li>设 `X ~ Gamma(r, lambda)`, 则 `k X ~ Gamma(r, lambda/k)`;</li>
+	<li>设 `X ~ chi_n^2`, 则 `X//n ~ Gamma(n/2, n/2)`.</li>
+</ol>
 
 <p class="proof">
+	只证 1.
 	设 `X` 的分布函数为 `F(x)`, 密度函数为 `f(x)`,
-	则 `X//n` 的分布函数为
+	则 `k X` 的分布函数为
 	<span class="formula">
-		`P{X//n lt x} = P{X lt n x} = F(n x)`.
+		`P{k X lt x} = P{X lt x/k} = F(x/k)`.
 	</span>
 	密度函数为 
 	<span class="formula">
-		`"d"/dx F(n x) = n f(n x)`
-		`= n/(2^(n/2) Gamma(n/2)) (n x)^(n/2-1) "e"^(-n/2 x)`.
+		`"d"/dx F(x/k) = 1/k f(x/k)`
+		`1/k lambda^r/(Gamma(r)) (x/k)^(r-1) "e"^(-lambda x/k)`,
 	</span>
-	于是 `X//n ~ Gamma(n/2, n/2)`.
+	于是 `k X ~ Gamma(r, lambda/k)`;
 </p>
 
 <p class="theorem">
