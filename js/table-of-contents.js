@@ -112,7 +112,7 @@ var tableOfContents = [ {
 	title:'初等几何',
 	articles: [
 		{title:'五组公理', src:'geometry/1.html'},
-		{title:'三角形', src:'geometry/3.html'},
+		{title:'三角形', src:'geometry/3.html', isnew:true},
 		{title:'抛物线', src:'geometry/5.html'},
 	]
 	}, {
@@ -120,7 +120,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'向量与坐标系', src:'analytic-geo/1.html'},
 		{title:'平面与直线', src:'analytic-geo/2.html'},
-		{title:'二次曲线与曲面', src:'analytic-geo/3.html'},
+		{title:'二次曲线与曲面', src:'analytic-geo/3.html', isnew:true},
 		{title:'平面几何的复数解法', src:'analytic-geo/6.html'},
 	]
 	}, {

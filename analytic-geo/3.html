@@ -165,19 +165,6 @@
 	其中 `b = sqrt (a^2 - c^2)`.
 </p>
 
-<p class="corollary">
-	由 `r_1 + r_2 = 2 a`, `r_1 - r_2 = 2 e x` 得
-	<span class="formula">
-		`r_1 = a + ex`, `quad r_2 = a - ex`.
-	</span>
-</p>
-
-<p class="remark">
-	设 `p = a//e`, 则点 `P` 到点 `F_2` 与到直线 `x = p` 的距离之比
-		`r_2/(p-x) = (a-ex)/(a//e - x) = e`.
-	事实上, 这个性质引出下面的统一定义:
-<p>
-
 <p class="definition">
 	<b>圆锥曲线的统一定义</b>
 	平面上到定点的距离与到定直线的距离之比等于定值 `e` 的点形成的轨迹
@@ -185,7 +172,56 @@
 	或<b>椭圆</b> (当 `0 lt e lt 1` )
 	或<b>抛物线</b> (当 `e = 1` )
 	或<b>双曲线</b> (当 `e gt 1` ).
+	这个定点称为<b>焦点</b>, 定直线称为<b>准线</b>,
+	`e` 称为圆锥曲线的<b>离心率</b>.
 </p>
+
+<h3>图解椭圆</h3>
+
+<ol>设椭圆的方程为 `x^2/a^2 + y^2/b^2 = 1` (`a gt b gt 0`).
+	<li>半长轴 `OA = a`, 半短轴 `OB = b`, 半焦距 `OF_1 = OF_2 = c`.
+		以 `(0,b)` 为心, `a` 为半径作圆, 与 `x` 轴的交点就是焦点.
+	</li>
+	<li>离心率 `e = c/a`, 因此 `b^2/a^2 = 1-e^2`.
+		<span class="formula">
+			`OP = sqrt(x^2+y^2)`
+			`= sqrt(x^2+b^2(1-x^2/a^2))`
+			`= sqrt(e^2 x^2 + b^2)`,
+		</span>
+		因此 `OP` 分别在 `x^2 = 0` 和 `x^2 = a^2` 时取得最小值和最大值.
+	</li>
+	<li>由 `r_1 + r_2 = 2 a`, `r_1 - r_2 = 2 e x` 得
+		<span class="formula">
+			`r_1 = a + ex`, `quad r_2 = a - ex`.
+		</span>
+		设 `p = a//e`, 则点 `P` 到焦点 `F_2` 与到准线 `x = p` 的距离之比
+		<span class="formula">
+			`r_2/(p-x) = (a-ex)/(a//e - x) = e`.
+		</span>
+	</li>
+	<li>设两焦半径的夹角为 `theta`.
+		由 `(r_1+r_2)^2 = (2a)^2` 减去 `r_1^2 + r_2^2 - 2 r_1 r_2 cos
+		theta = (2c)^2` 得
+		<span class="formula">
+			`r_1 r_2 = (2b^2)/(1+cos theta)`.
+		</span>
+		两焦半径与焦距围成的三角形面积
+		<span class="formula">
+			`S_(P F_1 F_2) = 1/2 r_1 r_2 sin theta`
+			`= b^2 (sin theta)/(1+cos theta)`
+			`= b^2 tan{:theta/2:}`.
+		</span>
+		由均值不等式, `r_1 r_2 le ((r_1+r_2)/2)^2 = a^2`.  于是
+		<span class="formula">
+			`cos theta = (2b^2)/(r_1 r_2) - 1`
+			`ge 2 b^2/a^2-1`
+			`= 2(1-e^2)-1`
+			`= 1-2e^2`.
+		</span>
+		当 `r_1 = r_2` 时 `theta` 取得最大值, `S_(P F_1 F_2)`
+		也取得最大值.
+	</li>
+</ol>
 
 <h2>圆锥曲线与直线的位置关系</h2>
 
@@ -237,7 +273,7 @@
 	`A^2 a^2 != B^2 b^2` 时, 见下表.
 </p>
 
-<table border="1">
+<table border="1" cellspacing="0">
 	<tr>
 		<td>`Delta`</td>
 		<td>`x_1 x_2`</td>
@@ -346,10 +382,11 @@
 </p>
 
 <p class="theorem">
-	过椭圆 `x^2/a^2 + y^2/b^2 = 1` 上一点 `(x_0,y_0)` 的切线方程为
+	过椭圆 `x^2/a^2 + y^2/b^2 = 1` 上一点 `P(x_0,y_0)` 的切线方程为
 	<span class="formula">
 		`(x_0 x)/a^2 + (y_0 y)/b^2 = 1`.
 	</span>
+	注意切线斜率与 `OP` 的斜率乘积等于 `-b^2/a^2 = e^2-1`.
 </p>
 
 <p class="proof">
