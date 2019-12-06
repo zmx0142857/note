@@ -3,9 +3,9 @@ var domain = '.mathNote.io.github.zmx0142857';
 var tableOfContents = [ {
 	title:'示例',
 	articles: [
-		{title:'Asciimath', src:'example/asciimath.html', isnew:true},
-		{title:'KaTeX', src:'example/katex.html', isnew:true},
-		{title:'Mathml', src:'example/mathml.html', isnew:true},
+		{title:'公式编辑器', src:'example/katex.html', isnew:true},
+		{title:'Asciimath', src:'example/asciimath.html'},
+		{title:'Mathml', src:'example/mathml.html'},
 	]
 	}, {
 	title:'高等代数',
@@ -26,7 +26,7 @@ var tableOfContents = [ {
 		{title:'附录', src:'analysis/0.html'},
 		{title:'初等函数', src:'analysis/1.html'},
 		{title:'数列的极限', src:'analysis/2.html'},
-		{title:'函数的极限与连续性', src:'analysis/3.html', isnew:true},
+		{title:'函数的极限与连续性', src:'analysis/3.html'},
 		{title:'导数的应用', src:'analysis/5.html'},
 		{title:'不定积分', src:'analysis/6.html'},
 		{title:'定积分', src:'analysis/7.html'},
@@ -65,15 +65,15 @@ var tableOfContents = [ {
 	title:'概率论',
 	articles: [
 		{title:'事件与概率', src:'probability/1.html'},
-		{title:'随机变量', src:'probability/2.html', isnew:true},
-		{title:'极限定理', src:'probability/4.html', isnew:true},
-		{title:'常用分布', src:'probability/5.html', isnew:true},
+		{title:'随机变量', src:'probability/2.html'},
+		{title:'极限定理', src:'probability/4.html'},
+		{title:'常用分布', src:'probability/5.html'},
 	]
 	}, {
 	title:'数理统计',
 	articles: [
-		{title:'数理统计的基本概念', src:'statistics/1.html', isnew:true},
-		{title:'参数估计与假设检验', src:'statistics/2.html', isnew:true},
+		{title:'数理统计的基本概念', src:'statistics/1.html'},
+		{title:'参数估计与假设检验', src:'statistics/2.html'},
 	]
 	}, {
 	title:'数值分析',
@@ -174,6 +174,7 @@ var tableOfContents = [ {
 		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
 		{title:'三角函数', src:'misc/2.html'},
 		{title:'不等式', src:'misc/3.html'},
-		{title:'Bernoulli 数', src:'misc/6.html', isnew:true},
+		{title:'Bernoulli 数', src:'misc/6.html'},
+		{title:'算术', src:'misc/7.html', isnew:true},
 	]
 }];

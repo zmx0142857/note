@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>算术</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="example">
+	<b>笔算开平方</b> 求 `root 4 1.33`.
+</p>
+
+<ol class="solution">
+	<li>把求四次方根分解为开两次平方. 问题化为求 `|__ sqrt x __|`,
+		其中 `x = 13300`.</li>
+	<li>先设 `x = 10a_1 + b_1`, `0 le b_1 le 9`.
+		因为 `b_1^2 lt 100`, 有 `a_1 = |__ sqrt 133 __|`.
+		又设 `a_1 = 10a_2 + b_2`, `0 le b_2 le 9`.
+		同理 `a_2 = |__ sqrt 1 __| = 1`.
+	</li>
+	<li>由
+		<span class="formula">
+			`(10a_2 + b_2)^2 le 133`
+			`rArr (20a_2 + b_2)b_2 le 33`
+			`rArr b_2 le 1`,
+		</span>
+		`b_2` 应当尽可能取大, 所以 `b_2 = 1`, `a_1 = 11`.
+		同理
+		<span class="formula">
+			`(10a_1 + b_1)^2 le 13300`
+			`rArr (20a_1 + b_1)b_1 le 1200`
+			`rArr b_1 le 5`.
+		</span>
+	</li>
+</ol>
+
+<pre class="solution">
+# 笔算开平方的竖式表示    # 同理
+     1  1  5                 1  0  7  2
+    --------                -----------
+ 1 / 1 33 00             1 / 1 15 00 00
+     1                       1
+      ---                     ---
+  21 / 33                 20 / 15
+       21                       0
+	  ------                  -------
+ 225 / 12 00             207 / 15 00
+       11 25                   14 49
+	                             ------
+						   2142 / 51 00
+						          42 84
+# 每步把当前答案的 20 倍加上一位数字, 再与这位数字相乘,
+# 要求不超过当前余数, 如此做下去.
+</pre>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

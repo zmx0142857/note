@@ -1,52 +1,96 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-	<title>ASCIIMath input, LaTeX and KaTeX output</title>
+	<title>公式编辑器</title>
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"/>
 	<link rel="stylesheet" href="../css/note.css"/>
+	<style type="text/css">
+div {
+	padding: 10px 0;
+}
+#input {
+	width: 100%;
+	margin: 15px 0;
+}
+#outputWrapper {
+	height: 400px;
+	overflow: auto;
+}
+	</style>
 </head>
 <body>
 
-<h4>Asciimath input</h4>
+<div id="outputWrapper"></div>
 
-<textarea id="asciimathInput" rows="3" cols="80">
+<button id="copyTex">copy tex</button>
+<button id="newFormula">new</button>
+
+<textarea id="input" rows="5">
 x = (-b+-sqrt(b^2-4ac))/(2a)
 </textarea>
 
-<h4>LaTeX output</h4>
-
-<p id="latexOutput"
-   style='font-family: "DejaVu Sans Mono", consolas, monospace;
-   font-size: 0.8em'>
-</p>
-
-<h4>KaTeX output</h4>
-
-<div id="katexOutput"></div>
- 
 <script src="../js/AMsymbols.js"></script>
+<script src="../js/asciimath-katex.js"></script>
+<script src="../js/katex.min.js"></script>
 <script>
-function loadScript(t,e){var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,e&&"function"==typeof e&&e())}:a.onload=function(){e&&"function"==typeof e&&e()},a.src=t,document.head.appendChild(a)}
+var count = 0;
+var current = 0;
+var input = document.getElementById('input');
+var outputWrapper = document.getElementById('outputWrapper');
 
-loadScript('../js/asciimath-katex.js', function() { 
-	loadScript('../js/katex.min.js', function() { 
-		asciimathInput.onkeyup = function(event) {
-			if (event.keyCode || event.which)
-				doOutput();
-		};
-		function doOutput() {
-			var input = asciimathInput.value;		
-			katexOutput.innerHTML = "`"+input+"`";
-			if (typeof(AMTEX) != "undefined") {
-				AMTEX();
-				latexOutput.innerHTML = texstring; // texstring comes from asciimath-katex.js
-			}
-		} 	 
-		doOutput();
-		doOutput();
-	});
-});
+function render() {
+	var output = document.getElementById('' + current);
+	output.asciimath = input.value;
+	output.innerHTML = '`' + output.asciimath + '`';
+	if (typeof(AMTEX) != "undefined") {
+		AMTEX();
+		// texstring comes from asciimath-katex.js
+		output.tex = texstring;
+	}
+} 	 
+
+input.onkeyup = function(event) {
+	if (event.keyCode || event.which)
+		render();
+};
+
+copyTex.onclick = function() {
+	var output = document.getElementById('' + current);
+	var textArea = document.createElement('textarea');
+	textArea.innerHTML = output.tex;
+	document.body.appendChild(textArea);
+	textArea.select();
+	document.execCommand('copy');
+	document.body.removeChild(textArea);
+}
+
+function cancelHighlight() {
+	var last = document.getElementById('' + current);
+	if (last)
+		last.style.border = 'none';
+}
+
+newFormula.onclick = function() {
+	cancelHighlight();
+	current = ++count;
+	var div = document.createElement('div');
+	div.id = '' + current;
+	div.onclick = function() {
+		cancelHighlight();
+		current = parseInt(div.id);
+		console.log(current);
+		div.style.border = '1px solid #aaa';
+		input.value = div.asciimath;
+	}
+	div.style.border = '1px solid #aaa';
+	outputWrapper.appendChild(div);
+	input.value = '';
+}
+
+newFormula.onclick();
+render();
+render();
 </script>
 </body>
 </html>
