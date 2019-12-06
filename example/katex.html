@@ -14,21 +14,21 @@ div {
 	margin: 15px 0;
 }
 #outputWrapper {
-	height: 400px;
+	height: 200px;
 	overflow: auto;
 }
 	</style>
 </head>
 <body>
 
+<h1>公式编辑器</h1>
+
 <div id="outputWrapper"></div>
 
 <button id="copyTex">copy tex</button>
 <button id="newFormula">new</button>
 
-<textarea id="input" rows="5">
-x = (-b+-sqrt(b^2-4ac))/(2a)
-</textarea>
+<textarea id="input" rows="5"></textarea>
 
 <script src="../js/AMsymbols.js"></script>
 <script src="../js/asciimath-katex.js"></script>
@@ -89,6 +89,7 @@ newFormula.onclick = function() {
 }
 
 newFormula.onclick();
+input.value = 'x = (-b+-sqrt(b^2-4ac))/(2a)';
 render();
 render();
 </script>
