@@ -3,7 +3,7 @@ var domain = '.mathNote.io.github.zmx0142857';
 var tableOfContents = [ {
 	title:'示例',
 	articles: [
-		{title:'公式编辑器', src:'example/katex.html', isnew:true},
+		{title:'公式编辑器', src:'example/editor.html', isnew:true},
 		{title:'Asciimath', src:'example/asciimath.html'},
 		{title:'Mathml', src:'example/mathml.html'},
 	]
