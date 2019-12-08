@@ -186,8 +186,8 @@
 	因此两个矩阵的乘法可交换的必要条件是 `m = n`.
 	即使有 `m = n`, `bm (A B) = bm (B A)` 也未必成立. 令
 	<span class="formula">
-		`bm A = [(1" ",0),(0" ",0)]`,
-		`quad bm B = [(0" ",1),(0" ",0)]`,
+		`bm A = [(1,0),(0,0)]`,
+		`quad bm B = [(0,1),(0,0)]`,
 	</span>
 	则 `bm (A B) = bm B`, `bm (B A) = bm O`.<br/>
 	不过, 方阵与数量矩阵 (特别地, 单位阵, 零矩阵) 的乘法可以交换.
@@ -374,7 +374,7 @@
 <ol class="example">
 	<li>
 		<span class="formula">
-			`[(cos theta" ",-sin theta),(sin theta" ",cos theta)]`
+			`[(cos theta,-sin theta),(sin theta,cos theta)]`
 		</span>
 		是正交矩阵.
 		用这个矩阵左乘一个平面向量, 结果恰好将该向量逆时针旋转 `theta` 角.
@@ -382,10 +382,10 @@
 	<li>对称矩阵
 		<span class="formula">
 			`bm A = [
-				(1" ",1" ",1" ",1),
-				(1" ",1" ",-1" ",-1),
-				(1" ",-1" ",1" ",-1),
-				(1" ",-1" ",-1" ",1)
+				(1,1,1,1),
+				(1,1,-1,-1),
+				(1,-1,1,-1),
+				(1,-1,-1,1)
 			]`
 		</span>
 		满足 `bm A^2 = 4 bm E`, 因此 `1/2 bm A` 是正交矩阵.
@@ -393,10 +393,10 @@
 	<li>反对称矩阵
 		<span class="formula">
 			`bm B = [
-				(a" ",b" ",c" ",d),
-				(-b" ",a" ",-d" ",c),
-				(-c" ",d" ",a" ",-b),
-				(-d" ",-c" ",b" ",a)
+				(a,b,c,d),
+				(-b,a,-d,c),
+				(-c,d,a,-b),
+				(-d,-c,b,a)
 			]`
 		</span>
 		满足 `bm(B'B) = (a^2+b^2+c^2+d^2) bm E`, 因此
@@ -492,10 +492,10 @@
 			(0, if i-j gt 1)
 		:}`<br/>
 	`bm A = [
-		(**" ", cdots" ", cdots" ",**),
-		(1" ",ddots" ", ,vdots),
-		(, ddots" ", ddots" ", vdots),
-		(, , 1" ", **)
+		(**, cdots, cdots,**),
+		(1,ddots, ,vdots),
+		(, ddots, ddots, vdots),
+		(, , 1, **)
 	]`
 	</span>
 	计算可知, 对任意正整数 `k`, `bm A^k = (a_(i j)^((k)))_(n xx n)` 满足
@@ -678,10 +678,10 @@
 	设
 	<span class="formula">
 	`bm A = [
-		(0" ",1" ",cdots" ",1),
-		(1" ",0" ",cdots" ",1),
-		(vdots" ",vdots" "," ",vdots),
-		(1" ",1" ",cdots" ",0)
+		(0,1,cdots,1),
+		(1,0,cdots,1),
+		(vdots,vdots,,vdots),
+		(1,1,cdots,0)
 	]_(n xx n)`,
 	</span>
 	求 `bm A^-1`.
@@ -730,28 +730,28 @@
 	将三种行 (列) 初等变换分别作用于 `n` 阶单位矩阵, 得到
 	第一类初等矩阵:
 	<span class="formula">
-		`[(bm E_(i-1)" ", ,),
-		  (,c" ",),
+		`[(bm E_(i-1), ,),
+		  (,c,),
 		  (, ,bm E_(n-i))]`
 		  `= (epsi_1, cdots, epsi_(i-1), c epsi_i, epsi_(i+1), cdots,
 		  epsi_n)`.
 	</span>
 	第二类初等矩阵:
 	<span class="formula">
-		`[(bm E_(i-1)" ", , , ,),
-		  (,1" ",cdots" ",k" ",),
-		  (, ,ddots" ",vdots" ",),
-		  (, , ,1" ",),
+		`[(bm E_(i-1), , , ,),
+		  (,1,cdots,k,),
+		  (, ,ddots,vdots,),
+		  (, , ,1,),
 		  (, , , ,bm E_(n-j))]`
 		  `= (epsi_1, cdots, epsi_(j-1), k epsi_i + epsi_j, epsi_(j+1),
 		  cdots, epsi_n)`.
 	</span>
 	和第三类初等矩阵:
 	<span class="formula">
-		`[(bm E_(i-1)" ", , , ,),
-		  (,0" ",cdots" ",1" ",),
-		  (,vdots" ",bm E_(j-i-1)" ",vdots" ",),
-		  (,1" ",cdots" ",0" ",),
+		`[(bm E_(i-1), , , ,),
+		  (,0,cdots,1,),
+		  (,vdots,bm E_(j-i-1),vdots,),
+		  (,1,cdots,0,),
 		  (, , , ,bm E_(n-j))]`
 		  `= (epsi_1, cdots, epsi_(i-1), epsi_j, epsi_(i+1), cdots,
 		  epsi_(j-1), epsi_i, epsi_(j+1), cdots, epsi_n)`.
@@ -779,7 +779,7 @@
 <p class="theorem">
 	任意 `m xx n` 矩阵等价于如下形状的矩阵
 	<span class="formula">
-		`bm overset ~ A = [(bm E_r" ", bm O),(bm O" ", bm O)]_(m xx n)`,
+		`bm overset ~ A = [(bm E_r, bm O),(bm O, bm O)]_(m xx n)`,
 	</span>
 	称为 `bm A` 的<b>等价标准形</b>, 其中 `0 le r le min{m,n}`.
 </p>
