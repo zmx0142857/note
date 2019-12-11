@@ -790,9 +790,8 @@ function AMprocessNode(n, linebreaks, spanclassAM) {
       st = n.innerHTML; // look for AMdelimiter on page
     } catch(err) {}
 //alert(st)
-    if (st==null || /amath\b|\\begin{a?math}/i.test(st) ||
-      st.indexOf(AMdelimiter1+" ")!=-1 || st.slice(-1)==AMdelimiter1 ||
-      st.indexOf(AMdelimiter1+"<")!=-1 || st.indexOf(AMdelimiter1+"\n")!=-1) {
+    //if (st==null || /amath\b|\\begin{a?math}/i.test(st) || st.indexOf(AMdelimiter1+" ")!=-1 || st.slice(-1)==AMdelimiter1 || st.indexOf(AMdelimiter1+"<")!=-1 || st.indexOf(AMdelimiter1+"\n")!=-1)
+	if (st.indexOf(AMdelimiter1 != -1)) {
       processNodeR(n,linebreaks,false);
     }
   }
@@ -835,7 +834,7 @@ else if(typeof window.attachEvent != 'undefined'){
 }
 
 //expose some functions to outside
-//AM.AMprocesssNode = AMprocessNode;
+//AM.AMprocessNode = AMprocessNode;
 //AM.parseMath = parseMath;
 //AM.translate = translate;
 })();

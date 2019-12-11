@@ -170,10 +170,10 @@ function getQuery() {
 }
 
 var args = getQuery();
-var groupIdx = parseInt(args.group)-1
-	|| parseInt(window.localStorage['groupIndex'+domain]) || 0;
-var articleIdx = parseInt(args.article)-1
-	|| parseInt(window.localStorage['articleIndex'+domain]) || 0;
+var groupIdx = (args.group ? parseInt(args.group)-1 :
+	parseInt(window.localStorage['groupIndex'+domain]) || 0);
+var articleIdx = (args.article ? parseInt(args.article)-1 :
+	parseInt(window.localStorage['articleIndex'+domain]) || 0);
 var toc = document.getElementById('table-of-contents');
 var iframe = document.getElementById('iframe');
 var artitle = document.getElementById('article-title');
@@ -204,12 +204,8 @@ function headerVisible(flag) {
 }
 
 function jump() {
-	iframe.setAttribute('src', tableOfContents[groupIdx].articles[articleIdx].src);
-	artitle.innerHTML = tableOfContents[groupIdx].articles[articleIdx].title;
-	window.localStorage['groupIndex'+domain] = groupIdx;
-	window.localStorage['articleIndex'+domain] = articleIdx;
-	hideNav(true);
-	setTimeout(headerVisible, 1000);
+	var baseurl = window.location.href.split('?')[0];
+	window.location.href = baseurl + '?group=' + (groupIdx+1) + '&article=' + (articleIdx+1);
 }
 
 function prevArticle() {
@@ -227,7 +223,7 @@ function prevArticle() {
 function nextArticle() {
 	if (articleIdx == tableOfContents[groupIdx].articles.length-1) {
 		if (groupIdx == tableOfContents.length-1) {
-			console.warn('$no more articles.');
+			console.warn('no more articles.');
 			return;
 		}
 		++groupIdx;
@@ -246,7 +242,10 @@ function jumpto(i, j) {
 }
 
 // load page
-jump();
+iframe.setAttribute('src', tableOfContents[groupIdx].articles[articleIdx].src);
+artitle.innerHTML = tableOfContents[groupIdx].articles[articleIdx].title;
+window.localStorage['groupIndex'+domain] = groupIdx;
+window.localStorage['articleIndex'+domain] = articleIdx;
 
 // load table of contents
 var frag = document.createDocumentFragment();
@@ -273,7 +272,10 @@ for (var i = 0; i < tableOfContents.length; ++i) {
 	frag.appendChild(li0);
 }
 toc.appendChild(frag);
+hideNav(true);
+setTimeout(headerVisible, 1000);
 
+// expose API
 window.prevArticle = prevArticle;
 window.nextArticle = nextArticle;
 window.headerVisible = headerVisible;
