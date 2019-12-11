@@ -153,11 +153,30 @@ header span {
 <script src="js/table-of-contents.js"></script>
 <script>
 'use strict';
+(function(){
+function getQuery() {
+	var ret = {};
+	var argstr = window.location.href;
+	var i = argstr.indexOf('?');
+	if (i != -1) {
+		var strs = argstr.substr(i+1).split("&");
+		for (var i = 0; i < strs.length; ++i) {
+			var splits = strs[i].split('=');
+			// decodeURI() doesn't work
+			ret[splits[0]] = unescape(splits[1]);
+      }
+   }
+   return ret;
+}
+
+var args = getQuery();
+var groupIdx = parseInt(args.group)-1
+	|| parseInt(window.localStorage['groupIndex'+domain]) || 0;
+var articleIdx = parseInt(args.article)-1
+	|| parseInt(window.localStorage['articleIndex'+domain]) || 0;
 var toc = document.getElementById('table-of-contents');
 var iframe = document.getElementById('iframe');
 var artitle = document.getElementById('article-title');
-var groupIdx = parseInt(window.localStorage['groupIndex'+domain]) || 0;
-var articleIdx = parseInt(window.localStorage['articleIndex'+domain]) || 0;
 var nav = document.getElementById('nav');
 var article = document.getElementById('article');
 var header = document.getElementById('header');
@@ -230,6 +249,7 @@ function jumpto(i, j) {
 jump();
 
 // load table of contents
+var frag = document.createDocumentFragment();
 for (var i = 0; i < tableOfContents.length; ++i) {
 	var li0 = document.createElement('li');
 	li0.innerHTML = tableOfContents[i].title;
@@ -250,9 +270,15 @@ for (var i = 0; i < tableOfContents.length; ++i) {
 
 	}
 	li0.appendChild(ul);
-	toc.appendChild(li0);
+	frag.appendChild(li0);
 }
+toc.appendChild(frag);
 
+window.prevArticle = prevArticle;
+window.nextArticle = nextArticle;
+window.headerVisible = headerVisible;
+window.hideNav = hideNav;
+})();
 </script>
 
 </body>

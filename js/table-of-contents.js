@@ -33,7 +33,7 @@ var tableOfContents = [ {
 		{title:'无穷级数', src:'analysis/10.html'},
 		{title:'多元函数的极限与连续性', src:'analysis/14.html'},
 		{title:'多元数量函数微分学', src:'analysis/15.html'},
-		{title:'条件极值问题', src:'analysis/17.html'},
+		{title:'多元函数的极值', src:'analysis/17.html'},
 		{title:'重积分', src:'analysis/19.html'},
 		{title:'场论初步', src:'analysis/22.html'},
 	]
@@ -138,7 +138,7 @@ var tableOfContents = [ {
 		{title:'组合数学', src:'combinatorics/1.html'},
 		{title:'排列与组合', src:'combinatorics/2.html'},
 		{title:'递推式与差分方程', src:'combinatorics/3.html'},
-		{title:'若干著名数列', src:'combinatorics/4.html'},
+		{title:'Bernoulli 数', src:'combinatorics/4.html'},
 		{title:'容斥原理', src:'combinatorics/5.html'},
 	]
 	}, {
@@ -174,7 +174,9 @@ var tableOfContents = [ {
 		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
 		{title:'三角函数', src:'misc/2.html'},
 		{title:'不等式', src:'misc/3.html'},
-		{title:'Bernoulli 数', src:'misc/6.html'},
+		{title:'对称多项式', src:'misc/4.html'},
+		{title:'因式分解', src:'misc/5.html'},
 		{title:'算术', src:'misc/7.html', isnew:true},
+		{title:'问题', src:'misc/question.html', isnew:true},
 	]
 }];
