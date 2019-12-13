@@ -40,13 +40,13 @@ header {
 	transition: 1s;
 }
 
-header button {
+header a {
 	height: 45px;
 	width: 45px;
 	display: table-cell;
 	position: absolute;
 	top: 0;
-	border: 0;
+	border: none;
 	color: inherit;
 	font-size: inherit;
 	font-weight: inherit;
@@ -54,11 +54,15 @@ header button {
 	cursor: pointer;
 }
 
-header button:first-child {
+header a:focus {
+	border: none;
+}
+
+header a:first-child {
 	left: 0;
 }
 
-header button:last-child {
+header a:last-child {
 	right: 0;
 }
 
@@ -79,7 +83,7 @@ header span {
 	background: #fcfcfc;
 	box-shadow: inset -14px 0px 5px -12px rgb(210,210,210);
 	border-right: 1px #444;
-	transition: .2s;
+	transition: .5s;
 }
 
 #table-of-contents {
@@ -114,7 +118,7 @@ header span {
 	margin-left: 0;
 	width: 100%;
 	height: 100%;
-	transition: .2s;
+	transition: .5s;
 }
 
 #iframe {
@@ -123,6 +127,10 @@ header span {
 	border: 0;
 	width: 100%;
 	height: 100%;
+}
+
+#yinyang {
+	transition: .5s;
 }
 </style>
 
@@ -133,9 +141,9 @@ header span {
 <nav id="nav" hidden>
 	<ul id="table-of-contents"></ul>
 	<header>
-		<button onclick="prevArticle()">&lt;</button>
+		<a onclick="prevArticle()">&#x276e;</a>
 		<span>目录</span>
-		<button onclick="nextArticle()")>&gt;</button>
+		<a onclick="nextArticle()")>&#x276f;</a>
 	</header>
 </nav>
 
@@ -143,9 +151,9 @@ header span {
 	<iframe id="iframe"></iframe>
 	<header id="header" onmouseover="headerVisible(true)"
 						onmouseout="headerVisible(false)">
-		<button onclick="hideNav()">&Xi;</button>
+		<a id="yinyang" onclick="hideNav()">&#x262f;</a>
 		<span id="article-title"></span>
-		<button>+</button>
+		<a></a>
 	</header>
 </article>
 
@@ -180,16 +188,19 @@ var artitle = document.getElementById('article-title');
 var nav = document.getElementById('nav');
 var article = document.getElementById('article');
 var header = document.getElementById('header');
+var yinyang = document.getElementById('yinyang');
 
 function hideNav(flag) {
 	if (!nav.hidden || flag) {
 		nav.hidden = true;
 		nav.style.width = '0';
 		article.style.marginLeft = '0';
+		yinyang.style.transform = 'none';
 	} else {
 		nav.removeAttribute('hidden');
 		nav.style.width = '16em';
 		article.style.marginLeft = '16em';
+		yinyang.style.transform = 'rotate(540deg)';
 	}
 }
 

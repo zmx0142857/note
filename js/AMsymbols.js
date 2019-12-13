@@ -176,6 +176,7 @@ AM.symbols = [
 {input:"supe", tag:"mo", output:"\u2287", tex:"supseteq", ttype:CONST},
 {input:"-=",  tag:"mo", output:"\u2261", tex:"equiv", ttype:CONST},
 {input:"~=",  tag:"mo", output:"\u2245", tex:"cong", ttype:CONST},
+{input:"~",  tag:"mo", output:"~", tex:"sim", ttype:CONST},
 {input:"cong",tag:"mo",output:"~=",tex:null,ttype:DEFINITION},
 {input:"~~",  tag:"mo", output:"\u2248", tex:"approx", ttype:CONST},
 {input:"prop", tag:"mo", output:"\u221D", tex:"propto", ttype:CONST},

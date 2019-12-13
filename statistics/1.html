@@ -230,6 +230,26 @@
 	`T` 可用于估计 `mu` 而无需了解 `sigma^2`.
 </p>
 
+<p class="theorem">
+	设总体服从标准正态分布, `T_1` 是样本二阶原点矩的 `n` 倍,
+	`T_2` 是样本方差的 `n-1` 倍:
+	<span class="formula">
+		`T_1 = sum_(i=1)^n X_i^2`,<br/>
+		`T_2 = sum_(i=1)^n (X_i-bar X)^2 = sum_(i=1)^n X_i^2 - n bar X^2`.
+	</span>
+	则 `T_2` 与 `T_1-T_2` 独立, 且
+	<span class="formula">
+		`T_2/T_1 ~ Be ta((n-1)/2, 1/2)`.
+	</span>
+</p>
+
+<p class="proof">
+	样本均值 `bar X` 与样本方差 `S^2` 独立, 所以它们各自的函数
+	`T_2 = (n-1)S^2`, `T_1-T_2 = n bar X^2` 之间是独立的.
+	又 `T_2 ~ chi_(n-1)^2`, `T_1-T_2 ~ chi_1^2`,
+	所以 `T_2/T_1 ~ Beta((n-1)/2, 1/2)`.
+</p>
+
 <ol class="theorem">
 	<b>双正态总体的抽样分布</b>
 	设 `X ~ N(mu_1, sigma_1^2)`, `Y ~ N(mu_2, sigma_2^2)`, 分别从总体 `X,

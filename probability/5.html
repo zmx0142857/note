@@ -208,7 +208,7 @@
 
 <h2>数理统计三大分布</h2>
 
-<ol>
+<ol class="definition">
 	<li><b>`chi^2` 分布</b> 由 Gamma 函数 (`t = lambda x`)
 		<span class="formula">
 			`Gamma(r) = int_0^oo t^(r-1) "e"^-t dt`
@@ -391,6 +391,10 @@
 	<span class="formula">
 		`T = X/sqrt(Y//n) ~ t_n`.
 	</span>
+	特别地, 若 `Z ~ N(0,1)` 且与 `X` 独立, 则
+	<span class="formula">
+		`X/|Z| ~ t_1`.
+	</span>
 </p>
 
 <p class="proof">
@@ -435,6 +439,51 @@
 		`= sqrt(2pi)`.
 	</span>
 	总之, t 分布的密度函数趋于标准正态分布密度函数.
+</p>
+
+<h2>其它</h2>
+
+<p class="definition">
+	<b>Beta 分布</b>
+	由 Beta 函数
+	<span class="formula">
+		`B(p, q) = int_0^1 x^(p-1) (1-x)^(q-1) dx`,
+	</span>
+	可定义密度函数为
+	<span class="formula">
+		`(x^(p-1) (1-x)^(q-1))/(B(p, q))`, `quad x in (0,1)`
+	</span>
+	的分布为 Beta 分布 `Be ta(p,q)`.
+</p>
+
+<p class="theorem">
+	设 `X ~ Gamma(p, lambda)`, `Y ~ Gamma(q, lambda)` 且独立, 则
+	<span class="formula">
+		`X/(X+Y) ~ Be ta(p,q)`.
+	</span>
+</p>
+
+<p class="proof">
+	考虑 `X, Y` 的联合分布密度
+	<span class="formula">
+		`p(x, y) = (x^(p-1) y^(q-1))/(Gamma(p) Gamma(q)) lambda^(p+q)
+		"e"^(-lambda (x+y))`, `quad x, y gt 0`,
+	</span>
+	作变元替换 `u = x+y`, `v = x/(x+y)`, 于是 `x = u v`, `y = u(1-v)`,
+	Jacobi 行列式为
+	<span class="formula">
+		`J = (del(x,y))/(del(u,v))`
+		`= |(v, u), (1-v, -u)|`
+		`= -u`.
+	</span>
+	新变元下的密度函数为
+	<span class="formula">
+		`p(x(u,v), y(u,v)) |J|`
+		`= u^(p+q-1)/(Gamma(p+q)) lambda^(p+q) "e"^(-lambda u)`
+		`(v^(p-1) (1-v)^(q-1))/(B(p,q))`.
+	</span>
+	此密度函数可以分离变量, 因此 `X+Y` 与 `X/(X+Y)` 独立,
+	且 `X+Y ~ Gamma(p+q, lambda)`, `X/(X+Y) ~ Be ta(p,q)`.
 </p>
 
 </body>
