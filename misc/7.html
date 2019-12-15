@@ -61,13 +61,14 @@
 
 <ol class="example">
 	<b>进制转换</b>
-	<li>将十进制数 2500 分别转换为二进制和十六进制.</li>
+	将十进制数分别转换为二进制和十六进制;
+	将二进制数和十六进制数化为十进制.
 </ol>
 
+<ol class="solution">
+	<li>十进制数化为二进制: 以 2500 为例,
+		反复把 2500 除以 2, 将余数写在右边, 商写在下面.
 <pre>
-# 化为二进制数:
-# 反复把 2500 除以 2, 将余数写在右边, 商写在下面.
-
 2500 0
 1250 0
  625 1
@@ -80,16 +81,26 @@
    4 0
    2 0
    1 1
-
-# 从下到上读出各个余数, 即为二进制数: 1001 1100 0100
 </pre>
+		从下到上读出各个余数, 即为二进制数: 1001 1100 0100
+	</li>
+	<li>十进制数化为十六进制, 也可以采用反复除以 16, 再倒序读出余数的做法,
+		但一般是先化为二进制数, 再从低位起按每 4 位一组划分,
+		利用二进制与十六进制对照表进行转换, 得到答案 0x9c4.
+		十六进制与二进制之间的转换是容易的, 在实际应用中,
+		十六进制常作为二进制的缩写而存在.
+	</li>
+	<li>将二进制数 `b_n b_(n-1) cdots b_1 b_0` 化为十进制, 只需计算
+		`sum_(i=0)^n b_i 2^i` 即可. 为此可以熟记常见的 2
+		的正整数幂的十进制写法.
+	</li>
+	<li>将十六进制数 `h_n h_(n-1) cdots h_1 h_0` 化为十进制, 可以直接计算
+		`sum_(i=0)^n h_i 16^i`, 也可以先化为二进制数,
+		再按 3. 的方法化为十进制.
+	</li>
+</ol>
 
-<p>	化为十六进制数, 也可以采用反复除以 16, 再倒序读出余数的做法,
-	但一般是先化为二进制数, 再从低位起按每 4 位一组划分,
-	利用下表进行转换, 得到答案 0x9c4.
-</p>
-
-<table class="cols">
+<table class="col2">
 	<caption>二进制与十六进制对照表</caption>
 	<tr>
 		<td>0000</td>
@@ -130,6 +141,140 @@
 		<td>0xb</td>
 		<td>1111</td>
 		<td>0xf</td>
+	</tr>
+</table>
+
+<table class="col2">
+	<caption>2 的正整数幂</caption>
+	<tr>
+		<td>`2^1`</td>
+		<td>2</td>
+		<td>`2^6`</td>
+		<td>64</td>
+		<td>`2^16`</td>
+		<td>65536</td>
+	</tr>
+	<tr>
+		<td>`2^2`</td>
+		<td>4</td>
+		<td>`2^7`</td>
+		<td>128</td>
+		<td>`2^20`</td>
+		<td>1048576</td>
+	</tr>
+	<tr>
+		<td>`2^3`</td>
+		<td>8</td>
+		<td>`2^8`</td>
+		<td>256</td>
+		<td>`2^24`</td>
+		<td>16777216</td>
+	</tr>
+	<tr>
+		<td>`2^4`</td>
+		<td>16</td>
+		<td>`2^9`</td>
+		<td>512</td>
+		<td>`2^30`</td>
+		<td>1073741824</td>
+	</tr>
+	<tr>
+		<td>`2^5`</td>
+		<td>32</td>
+		<td>`2^10`</td>
+		<td>1024</td>
+		<td>`2^32`</td>
+		<td>4294967296</td>
+	</tr>
+</table>
+
+<p class="example">
+	<b>数量级</b>
+</p>
+
+<table class="col3">
+	<caption>常见数量级</caption>
+	<tr>
+		<th>数量级</th>
+		<th>英文</th>
+		<th>中文</th>
+		<th>数量级</th>
+		<th>英文</th>
+		<th>中文</th>
+		<th>数量级</th>
+		<th>英文</th>
+	</tr>
+	<tr>
+		<td>`10^-1`</td>
+		<td>deci, d</td>
+		<td>分</td>
+		<td>`10^1`</td>
+		<td>deka, D</td>
+		<td>十</td>
+	</tr>
+	<tr>
+		<td>`10^-2`</td>
+		<td>centi, c</td>
+		<td>厘</td>
+		<td>`10^2`</td>
+		<td>hecto, h</td>
+		<td>百</td>
+	</tr>
+	<tr>
+		<td>`10^-3`</td>
+		<td>milli, m</td>
+		<td>毫</td>
+		<td>`10^3`</td>
+		<td>kilo, k, Ki</td>
+		<td>千</td>
+		<td>`2^10`</td>
+		<td>K</td>
+	</tr>
+	<tr>
+		<td>`10^-6`</td>
+		<td>micro, &mu;</td>
+		<td>微</td>
+		<td>`10^6`</td>
+		<td>mega, Mi</td>
+		<td>兆</td>
+		<td>`2^20`</td>
+		<td>M</td>
+	</tr>
+	<tr>
+		<td>`10^-9`</td>
+		<td>nano, n</td>
+		<td>纳</td>
+		<td>`10^9`</td>
+		<td>giga, Gi</td>
+		<td>吉</td>
+		<td>`2^30`</td>
+		<td>G</td>
+	</tr>
+	<tr>
+		<td>`10^-12`</td>
+		<td>pico, p</td>
+		<td>皮</td>
+		<td>`10^12`</td>
+		<td>tera, Ti</td>
+		<td>-</td>
+		<td>`2^40`</td>
+		<td>T</td>
+	</tr>
+	<tr>
+		<td>`10^-15`</td>
+		<td>femto, f</td>
+		<td>飞</td>
+		<td>`10^15`</td>
+		<td>peta, P</td>
+		<td>-</td>
+	</tr>
+	<tr>
+		<td>`10^-18`</td>
+		<td>atto, a</td>
+		<td>阿</td>
+		<td>`10^18`</td>
+		<td>exa, E</td>
+		<td>-</td>
 	</tr>
 </table>
 
