@@ -336,11 +336,48 @@ function AMTparseExpr(str,rightbracket){
 			newFrag+=node;
 			symbol=AMgetSymbol(str);
 		}else if(node!=undefined)newFrag+=node;
-	}
-	while((symbol.ttype!=RIGHTBRACKET&&(symbol.ttype!=LEFTRIGHT||rightbracket)||AMnestingDepth==0)&&symbol!=null&&symbol.output!="");
+	} while((symbol.ttype!=RIGHTBRACKET&&(symbol.ttype!=LEFTRIGHT||rightbracket)||AMnestingDepth==0)&&symbol!=null&&symbol.output!="");
 	if(symbol.ttype==RIGHTBRACKET||symbol.ttype==LEFTRIGHT){
 		var len=newFrag.length;
-		if(len>2&&newFrag.charAt(0)=='{'&&newFrag.indexOf(',')>0){
+		var depth = 0;
+		var leftDilim = /[\(\[{]/;
+		var rightDilim = /[)\]}]/;
+		var ismatrix = false;
+		for (i = 0; i < len; ++i) {
+			if (leftDilim.test(newFrag[i])) ++depth;
+			else if (rightDilim.test(newFrag[i])) --depth;
+			else if (newFrag[i] == ';' && depth == 0) {
+				ismatrix = true;
+				break;
+			}
+		}
+		if (ismatrix) {
+			var matrix = '';
+			var begin = 0;
+			var row = [];
+			depth = 0;
+			for (i = 0; i < len; ++i) {
+				if (leftDilim.test(newFrag[i])) ++depth;
+				else if (rightDilim.test(newFrag[i])) --depth;
+				else if (newFrag[i] == ';' && depth == 0) {
+					row.push(newFrag.substring(begin, i));
+					begin = i+1;
+					matrix += row.join('&') + '\\\\';
+					row = [];
+				} else if (newFrag[i] == ',' && depth == 0) {
+					row.push(newFrag.substring(begin, i));
+					begin = i+1;
+				}
+			}
+			if (begin < i)
+				row.push(newFrag.substring(begin,i));
+			if (row[0])
+				matrix += row.join('&') + '\\\\';
+			if (symbol.invisible)
+				newFrag = '\\begin{aligned}' + matrix + '\\end{aligned}';
+			else
+				newFrag = '\\begin{matrix}' + matrix + '\\end{matrix}';
+			/*
 			var right=newFrag.charAt(len-2);
 			if(right==')'||right==']'){
 				var left=newFrag.charAt(6);
@@ -411,7 +448,7 @@ function AMTparseExpr(str,rightbracket){
 					mxout+='\\end{matrix}';
 					newFrag=mxout;
 				}
-			}
+			} */
 		}
 		str=AMremoveCharsAndBlanks(str,symbol.input.length);
 		if(typeof symbol.invisible!="boolean"||!symbol.invisible){

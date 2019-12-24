@@ -598,8 +598,8 @@
 <span class="formula">`{
 	u_(t t)^2 - a^2 laplace u = f(bm x, t),
 		bm x in RR^3","t in (0","+oo);
-	u|_(t=0) = varphi(bm x), bm x in RR^3;
-	u_t|_(t=0) = psi(bm x), bm x in RR^3;
+	u"|"_(t=0) = varphi(bm x), bm x in RR^3;
+	u_t"|"_(t=0) = psi(bm x), bm x in RR^3;
 :}`
 <span class="label" id="for-wave-equation-3d">(2-9)</span>
 </span>
@@ -607,7 +607,7 @@
 <p> 设 `h(bm x) in C^2(RR^3)`, `I` 是 `h` 在以 `bm x` 为心, `r`
 	为半径的球面上的平均值:
 	<span class="formula">
-		`  I(bm x, r; h)
+		`  I(bm x, r";" h)
 		=  1/(4 pi r^2) iint_(|bm z|=r) h(bm x + bm z) "d"sigma_(bm z)`
 		`= 1/(4 pi) iint_(|bm y|=1) h(bm x + r bm y) "d"sigma_(bm y)`.
 	</span>
@@ -639,7 +639,7 @@
 		   "d"sigma_(bm z)`
 		`= iint_(|bm z|=r) sum_(i=1)^3 z_i/r del/(del z_i) h(bm x+bm z)
 		   "d"sigma_(bm z)`
-		`= 4 pi r^2 del/(del r) I(bm x, r; h)`.
+		`= 4 pi r^2 del/(del r) I(bm x, r";" h)`.
 	</span>
 	于是
 	<span class="formula">
@@ -648,7 +648,7 @@
 		`= r (del^2 I)/{:del r:}^2 + 2 (del I)/(del r)`
 		`= 1/(4 pi r) del/(del r) (4 pi r^2 (del I)/(del r))`
 		`= 1/(4 pi r) del/(del r) laplace int_0^r 4 pi rho^2
-		   I(bm x,rho;h) "d"rho`
+		   I(bm x,rho";"h) "d"rho`
 		`= r laplace I`
 		`= laplace(r I)`.
 	</span>
@@ -660,7 +660,7 @@
 	`f = varphi = 0` 的情况. 设 `u_2` 是 
 	<a class="ref" href="#for-wave-equation-3d"></a>
 	当 `f = varphi = 0` 时的解,
-	`M(bm x, r, t) = r I(bm x, r; u_2)`, 则
+	`M(bm x, r, t) = r I(bm x, r";" u_2)`, 则
 	<span class="formula">
 		`  a^2 (del^2 M)/{:del r:}^2 = a^2 laplace M`
 		`= (a^2 r)/(4 pi) iint_(|bm y|=1) laplace u_2(bm x+r bm y, t)
@@ -674,23 +674,23 @@
 	<span class="formula">`{
 		(del^2 M)/{:del t:}^2 - a^2 (del^2 M)/{:del r^2:} = 0;
 		M"|"_(t=0) = 0;
-		M_t"|"_(t=0) = r I(bm x,  r; psi);
+		M_t"|"_(t=0) = r I(bm x,  r";" psi);
 		M"|"_(r=0) = 0;
 	:}`
 	</span>
 	由半无界问题的解的表达式, 当 `0 le r le at` 时,
 	<span class="formula">
-		`M(bm x, r, t) = 1/(2a) int_(at-r)^(at+r)rho I(bm x,rho;psi)
+		`M(bm x, r, t) = 1/(2a) int_(at-r)^(at+r)rho I(bm x,rho";"psi)
 		"d"rho`.
 	</span>
 	从而
 	<span class="formula">
 		`  u_2(bm x, t) = lim_(r to 0) M/r`
-		`= lim_(r to 0) 1/(2 a r) int_(at-r)^(at+r) rho I(bm x,rho;psi)
+		`= lim_(r to 0) 1/(2 a r) int_(at-r)^(at+r) rho I(bm x,rho";"psi)
 		   "d"rho`
-		`= 1/(2a) lim_(r to 0) ( (at+r) I(bm x,at+r;psi) + (at-r)
-		   I(bm x,at-r; psi))`
-		`= t I(bm x, at; psi)`
+		`= 1/(2a) lim_(r to 0) ( (at+r) I(bm x,at+r";"psi) + (at-r)
+		   I(bm x,at-r";" psi))`
+		`= t I(bm x, at";" psi)`
 		`= t/(4 pi) iint_(|bm y|=1) psi(bm x + a t bm y) "d"sigma_(bm y)`
 		`= 1/(4 pi a^2 t) iint_(|bm y|=at) psi(bm x+bm y) "d"sigma_(bm
 		   y)`.
@@ -715,8 +715,8 @@
 <span class="formula">`{
 	u_(t t)^2 - a^2 laplace u = f(bm x","t),
 		bm x in RR^2","t in (0","+oo);
-	u|_(t=0) = varphi(bm x), bm x in RR^2;
-	u_t|_(t=0) = psi(bm x), bm x in RR^2;
+	u"|"_(t=0) = varphi(bm x), bm x in RR^2;
+	u_t"|"_(t=0) = psi(bm x), bm x in RR^2;
 :}`
 <span class="label" id="for-wave-equation-2d">(2-10)</span>
 </span>
@@ -871,8 +871,8 @@
 	考虑二阶常微分方程齐次边值问题
 	<span class="formula">`{
 		X'' + lambda X = 0 quad x in (0","l);
-		(alpha_1 X' - beta_1 X)|_(t=0) = 0;
-		(alpha_2 X' + beta_2 X)|_(t=l) = 0;
+		(alpha_1 X' - beta_1 X)"|"_(t=0) = 0;
+		(alpha_2 X' + beta_2 X)"|"_(t=l) = 0;
 	:}`
 	</span>
 	其中 `alpha_1, alpha_2, beta_1, beta_2 ge 0`, 且 `alpha_i, beta_i`
@@ -1020,8 +1020,8 @@
 	<span class="formula">`{
 		(del^2 u)/(del t^2) - a^2 (del^2 u)/(del x^2) = 0, (x,t) in Q;
 		u|{::}_(x=0) = u|_(x=l) = 0,\ t in R;
-		u|_(t=0) = varphi(x), x in bar I;
-		u_t|_(t=0) = psi(x), x in bar I;
+		u"|"_(t=0) = varphi(x), x in bar I;
+		u_t"|"_(t=0) = psi(x), x in bar I;
 	:}`
 	</span>
 	其中 `I = (0, l)`, `R = (0, +oo)`, `Q = I xx R`.
