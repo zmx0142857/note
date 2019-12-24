@@ -15,7 +15,7 @@
 <h2>环</h2>
 
 <ol class="definition">
-	令 `R` 为一非空集, 称 `R := (R; +, *)` 为一<b>环</b>, 如果
+	令 `R` 为一非空集, 称 `R := (R";" +, *)` 为一<b>环</b>, 如果
 	<li>`(R, +)` 为一 Abel 群;</li>
 	<li>`(R, *)` 为一半群;</li>
 	<li>满足乘法对加法的左, 右分配律, 即
@@ -106,14 +106,14 @@
 			`bar a + bar b = bar(a+b)`,<br/>
 			`bar a * bar b = bar(a b)`.
 		</span>
-		容易验证它们是良定义的, 且 `(ZZ_n; +, *)` 为一环, 即<b>`ZZ` 模
+		容易验证它们是良定义的, 且 `(ZZ_n";" +, *)` 为一环, 即<b>`ZZ` 模
 		`bm n` 的剩余类环</b>.
 	</li>
 </ol>
 
 <p class="definition">
-	令 `(R; +, *)` 为一环, `S` 是 `R` 的非空子集. 称 `S` 为 `R`
-	的一个<b>子环</b>, 如果 `(S; +, *)` 也成一环, 记为 `S le R`.
+	令 `(R";" +, *)` 为一环, `S` 是 `R` 的非空子集. 称 `S` 为 `R`
+	的一个<b>子环</b>, 如果 `(S";" +, *)` 也成一环, 记为 `S le R`.
 </p>
 
 <p class="corollary">
@@ -133,14 +133,14 @@
 <p class="example">
 	子环一定含有原来的零元, 但幺元则未必.
 	整数环 `ZZ` 有幺元, 而它的子环 `2ZZ` 没有幺元.<br/>
-	数域 `bbb F` 上的矩阵环 `{((a" ",b),(0" ",0))|a, b in bbb F}`
+	数域 `bbb F` 上的矩阵环 `{(a,b;0,0)|a, b in bbb F}`
 	无幺元,<br/>
-	而它的子环 `{((a" ",0),(0" ",0))| a in bbb F}` 有幺元
-	`((1" ",0),(0" ",0))`.<br/>
-	整数环上的矩阵环 `{((a" ",b),(c" ",d))| a, b, c, d in ZZ}` 有幺元
-	`((1" ",0),(0" ",1))`,<br/>
-	它的子环 `{((a" ",a),(0" ",0))| a in ZZ}`
-	有幺元 `((1" ",1),(0" ",0))`, 二者的幺元不同.
+	而它的子环 `{(a,0;0,0)| a in bbb F}` 有幺元
+	`(1,0;0,0)`.<br/>
+	整数环上的矩阵环 `{(a,b;c,d)| a, b, c, d in ZZ}` 有幺元
+	`(1,0;0,1)`,<br/>
+	它的子环 `{(a,a;0,0)| a in ZZ}`
+	有幺元 `(1,1;0,0)`, 二者的幺元不同.
 </p>
 
 <p class="definition">
@@ -235,7 +235,7 @@
 </p>
 
 <ol class="corollary">
-	令 `(R; +, *)` 为一环, 则下列各款等价:
+	令 `(R";" +, *)` 为一环, 则下列各款等价:
 	<li>`R` 为一无零因子环;</li>
 	<li>`(R\\{0}, *)` 为一半群;</li>
 	<li>`(AA a != 0, b, c in R)` `a b = a c rArr b = c`.</li>
@@ -265,7 +265,7 @@
 <h3>整环, 除环与域</h3>
 
 <ul class="definition">
-	令 `(R; +, *)` 为一环,
+	令 `(R";" +, *)` 为一环,
 	<li>如果 `R` 为交换幺环, 且 `(R\\{0}, *)` 为一双消半群 (这一条等价于
 		`R` 无零因子), 则称 `R` 为一<b>整环 (integral domain)</b>.
 	</li>
@@ -293,7 +293,7 @@
 
 <p class="corollary">
 	<b>除环 (域) 的等价定义</b>
-	令 `(R; +, *)` 为一 (交换) 幺环, 且任意非零元都有乘法逆元, 即
+	令 `(R";" +, *)` 为一 (交换) 幺环, 且任意非零元都有乘法逆元, 即
 	<span class="formula">
 		`(AA a in R\\{0})` `(EE a^-1 in R)` `a a^-1 = a^-1 a = 1`.
 	</span>
@@ -355,8 +355,7 @@
 	<b>四元数除环</b>
 	验证
 	<span class="formula">
-		`H = {((a" ",b),(-bar b" ",bar a))
-		| a, b in CC}` `sube CC^(2 xx 2)`
+		`H = {(a,b;-bar b,bar a) | a, b in CC}` `sube CC^(2 xx 2)`
 	</span>
 	为一除环.
 </p>
@@ -364,18 +363,17 @@
 <p class="proof">
 	容易验证 `H` 关于 `CC^(2 xx 2)` 的减法封闭. 又关于任意
 	<span class="formula">
-		`((a" ",b),(-bar b" ",bar a))`,
-		`((c" ",d),(-bar d" ",bar c)) in H`,
+		`(a, b; -bar b, bar a)`, `(c, d; -bar d, bar c) in H`,
 	</span>
 	两矩阵的乘积
 	<span class="formula">
-		`( (a c-b bar d" ",a d + b bar c),
-		(-bar(a d + b bar c)" ",bar(a c-b bar d)) ) in H`.
+		`(a c-b bar d, a d+b bar c; -bar(a d+b bar c), bar(a c-b bar d))
+		in H`.
 	</span>
 	从而 `H le C^(2 xx 2)`.<br/>
 	显然 `H` 含单位矩阵, 又关于任意
 	<span class="formula">
-		`((a" ",b),(-bar b" ",bar a)) in H\\{bm O}`,
+		`(a, b; -bar b, bar a) in H\\{bm O}`,
 	</span>
 	其中 `a, b` 不全为零, 其行列式
 	<span class="formula">
@@ -383,7 +381,7 @@
 	</span>
 	从而 `H\\{bm O}` 的矩阵都可逆,其逆矩阵为
 	<span class="formula">
-		`1/Delta ((bar a" ",-b),(bar b" ",a)) in H`.
+		`1/Delta (bar a, -b; bar b, a) in H`.
 	</span>
 	从而 `(H\\{bm O}, *)` 为一群. 由于 `H` 中元素一般不可交换,
 	所以 `H` 为一除环, 但不是域. `H` 称为 <b>Hamilton 四元数除环</b>
@@ -393,11 +391,11 @@
 	记 `a = x + "i"y`, `b = z + "i"w`, `x, y, z, w in RR`.
 	则
 	<span class="formula">
-		`((a" ",b),(-bar b" ",bar a))`
-		`= x ((1" ",0),(0" ",1))`
-		`+ y (("i ", 0),(0" ",-"i"))`
-		`+ z ((0" ",1),(-1" ",0))`
-		`+ w ((0" ","i"),("i ",0))`
+		`(a, b; -bar b, bar a)`
+		`= x (1, 0; 0, 1)`
+		`+ y ("i", 0; 0, -"i")`
+		`+ z (0, 1; -1, 0)`
+		`+ w (0, "i"; "i", 0)`
 		`:= x * 1 + y * I + z * J + w * K`.
 	</span>
 	因此,
@@ -563,7 +561,7 @@
 <h3>剩余类环</h3>
 
 <p class="definition">
-	令 `(R;+,*)` 为一环, `I normal R`, 称
+	令 `(R";"+,*)` 为一环, `I normal R`, 称
 	<span class="formula">
 		`r + I := {r + a | a in I} = I + r`
 	</span>
@@ -576,7 +574,7 @@
 		`(r+I) + (s+I) -= (r+s) + I`,
 		`quad (r+I) * (s+I) -= (r s) + I`.
 	</span>
-	可以验证 `+, *` 为 `R//I` 上的二元运算, 且 `(R//I; +, *)` 为一环,
+	可以验证 `+, *` 为 `R//I` 上的二元运算, 且 `(R//I";" +, *)` 为一环,
 	称为 `R` 关于理想 `I` 的<b>剩余类环</b>.
 </p>
 
@@ -657,7 +655,7 @@
 		`(a,b) + (c,d) = (a+c,b+d)`,<br/>
 		`(a,b) * (c,d) = (a c,b d)`.
 	</span>
-	可以验证 `(R_1 xx R_2; +, *)` 成一环, 称其为环 `R_1, R_2` 的 <b>(外)
+	可以验证 `(R_1 xx R_2";" +, *)` 成一环, 称其为环 `R_1, R_2` 的 <b>(外)
 		直积</b>, 仍记为 `R_1 xx R_2`.<br/>
 	`R_1 xx R_2` 的零元是 `(0, 0)`. 若 `R_1, R_2` 是幺环, 则 `R_1 xx R_2`
 	是幺环, 幺元为 `(1, 1)`. 若 `R_1, R_2` 为交换环, 则 `R_1 xx R_2`
@@ -996,7 +994,7 @@
 			`(a_0, a_1, cdots) * (b_0, b_1, cdots) = (c_0, c_1, cdots)`,
 		</span>
 		其中 `c_n = sum_(i+j=n) a_i b_j`, `n = 0, 1, cdots`.
-		可以验证 `+, *` 为 `R'` 上的二元运算, 且 `(R'; +, *)`
+		可以验证 `+, *` 为 `R'` 上的二元运算, 且 `(R'";" +, *)`
 		为一交换幺环, 零元和幺元分别为 `(0, 0, cdots, 0, cdots)` 和 `(1,
 		0, cdots, 0, cdots)`.
 	</li>

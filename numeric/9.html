@@ -34,10 +34,10 @@
 	记矩阵
 	<span class="formula">
 		`bm A = [
-			(a_(11)," "a_(12)," "cdots," "a_(1n)),
-			(a_(21)," "a_(22)," "cdots," "a_(2n)),
-			(vdots," "vdots," "," "vdots),
-			(a_(n1)," "a_(n2)," "cdots," "a_(n n))
+			a_(11),a_(12),cdots,a_(1n);
+			a_(21),a_(22),cdots,a_(2n);
+			vdots,vdots,,vdots;
+			a_(n1),a_(n2),cdots,a_(n n);
 		]`,
 	</span>
 	考虑 `n` 变量的二次函数
@@ -199,7 +199,7 @@
 
 <p class="example">
 	设 `I = (-1, 1)`.
-	阶梯函数 `f(x) = {(0, if -1 le x le 0), (1, if 0 lt x le 1):}`
+	阶梯函数 `f(x) = {0, if -1 le x le 0; 1, if 0 lt x le 1 :}`
 	的广义导数是 <b>Dirac `delta` 函数</b>, 它满足
 	<span class="formula">
 		`int_(-1)^1 delta(x) varphi(x) dx = varphi(0)`,
@@ -376,16 +376,15 @@
 	虚功原理不仅适用于对称正定算子方程 (保守场方程),
 	而且也适用于非对称正定算子方程.
 	上述定理的一个推广是: 设 `u in C^2`, 则 `u` 是边值问题
-	<span class="formula">
-		`{(Lu = -"d"/dx(p ("d"u)/(dx)) + r("d"u)/(dx) + q u = f),
-		(u(a) = 0", " u'(b) = 0):}`
-	</span>
+	<span class="formula">`{
+		Lu = -"d"/dx(p ("d"u)/(dx)) + r("d"u)/(dx) + q u = f;
+		u(a) = 0", " u'(b) = 0;
+	:}` </span>
 	的解当且仅当 `u in C^2 nn H_E^1` 且满足变分方程
-	<span class="formula">
-		`{(a(u, v) - (f, v) = 0"," AA v in H_E^1),
-		(a(u, v) = int_a^b [p("d"u)/dx ("d"v)/dx + r ("d"u)/dx v + quv]dx)
-		:}`
-	</span>
+	<span class="formula">`{
+		a(u, v) - (f, v) = 0"," AA v in H_E^1;
+		a(u, v) = int_a^b [p("d"u)/dx ("d"v)/dx + r ("d"u)/dx v + quv]dx)
+	:}`</span>
 	其中 `p in C^1`, `p_min gt 0`, `r, q in C`, `f in L^2`.
 	此时双线性形式 `a(u, v)` 非对称正定, 除非 `r -= 0` 且 `q ge 0`
 	(这就化为<a class="ref"

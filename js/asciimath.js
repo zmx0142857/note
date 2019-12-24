@@ -291,7 +291,10 @@ function AMgetSymbol(str) {
   } else {
     k = 2;
     st = str.slice(0,1); //take 1 character
-    tagst = (("A">st || st>"Z") && ("a">st || st>"z")?"mo":"mi");
+	if (/[a-zA-Z]/.test(st)) tagst = "mi";
+	else if (st.charCodeAt(0) > 0x4e00) tagst = "mtext";
+	else tagst = "mo";
+    //tagst = (("A">st || st>"Z") && ("a">st || st>"z")?"mo":"mi");
   }
   if (st=="-" && AMpreviousSymbol==INFIX) {
     AMcurrentSymbol = INFIX;  //trick "/" into recognizing "-" on second parse
@@ -585,8 +588,53 @@ function AMparseExpr(str,rightbracket) {
            || AMnestingDepth == 0) && symbol!=null && symbol.output!="");
   if (symbol.ttype == RIGHTBRACKET || symbol.ttype == LEFTRIGHT) {
 //    if (AMnestingDepth > 0) AMnestingDepth--;
+	/* new grammar
+		{:
+			x ,= a + b + c + d;
+			,= abcd;
+			,= eeeee;
+		:}
+	*/
     var len = newFrag.childNodes.length;
-    if (len>0 && newFrag.childNodes[len-1].nodeName == "mrow" 
+	var ismatrix = false;
+	for (i = 0; i < len; ++i) {
+		if (newFrag.childNodes[i].firstChild.nodeValue == ";") {
+			ismatrix = true;
+			break;
+		}
+	}
+	if (ismatrix) {
+		var table = document.createDocumentFragment();
+		var row = document.createDocumentFragment();
+		var elem = document.createDocumentFragment();
+		while (newFrag.firstChild) {
+			var val = newFrag.firstChild.firstChild.nodeValue;
+			if (val == ";") {
+				newFrag.removeChild(newFrag.firstChild);
+				row.appendChild(createMmlNode("mtd", elem));
+				elem = document.createDocumentFragment();
+				table.appendChild(createMmlNode("mtr", row));
+				row = document.createDocumentFragment();
+			} else if (val == ",") {
+				newFrag.removeChild(newFrag.firstChild);
+				row.appendChild(createMmlNode("mtd", elem));
+				elem = document.createDocumentFragment();
+			} else {
+				elem.appendChild(newFrag.firstChild);
+			}
+		}
+		if (elem.firstChild)
+			row.appendChild(createMmlNode("mtd", elem));
+		if (row.firstChild)
+			table.appendChild(createMmlNode("mtr", row));
+		node = createMmlNode("mtable", table);
+        if (symbol.invisible) {
+			node.setAttribute("columnalign","left");
+		    node.setAttribute("displaystyle", "true");
+		}
+		newFrag.appendChild(node);
+	}
+	/*if (len>0 && newFrag.childNodes[len-1].nodeName == "mrow" 
     	    && newFrag.childNodes[len-1].lastChild
     	    && newFrag.childNodes[len-1].lastChild.firstChild ) { //matrix
     	    //removed to allow row vectors: //&& len>1 && 
@@ -639,12 +687,15 @@ function AMparseExpr(str,rightbracket) {
             table.appendChild(createMmlNode("mtr",row));
           }
           node = createMmlNode("mtable",table);
-          if (typeof symbol.invisible == "boolean" && symbol.invisible) node.setAttribute("columnalign","left");
+          if (typeof symbol.invisible == "boolean" && symbol.invisible) {
+			  node.setAttribute("columnalign","left");
+		      node.setAttribute("displaystyle", "true");
+		  }
           newFrag.replaceChild(node,newFrag.firstChild);
         }
        }
       }
-    }
+    } */
     str = AMremoveCharsAndBlanks(str,symbol.input.length);
     if (typeof symbol.invisible != "boolean" || !symbol.invisible) {
       node = createMmlNode("mo",document.createTextNode(symbol.output));

@@ -20,10 +20,10 @@
 
 <p class="example">
 	一阶线性方程 Cauchy 问题
-	<span class="formula">`{(
-		(del u)/(del t) + a (del u)/(del x) = 0
-	),(	u|_(t=0) = varphi(x)
-	):}`, `a = "const"`, `varphi in C^1(RR)`
+	<span class="formula">`{
+		(del u)/(del t) + a (del u)/(del x) = 0;
+		u|_(t=0) = varphi(x);
+	:}`, `a = "const"`, `varphi in C^1(RR)`
 	</span>
 	的解为 `u = varphi(x-at)`. 注意到 `u(x + a Delta t, t + Delta t) -=
 	u(x)`, 故此解描述了以速度 `a` 传播而不改变形状的波.
@@ -31,10 +31,10 @@
 
 <p class="example">
 	我们以下面的方程为例介绍求解一阶线性方程的特征线法:
-	<span class="formula">`{(
-		(del u)/(del t) + v(x) (del u)/(del x) + w(x) u = 0
-	),(	u|_(t=0) = varphi(x)
-	):}`, `varphi in C^1 (RR)`.
+	<span class="formula">`{
+		(del u)/(del t) + v(x) (del u)/(del x) + w(x) u = 0;
+		u|_(t=0) = varphi(x);
+	:}`, `varphi in C^1 (RR)`.
 	</span>
 </p>
 
@@ -44,16 +44,16 @@
 		`("d"u)/dt = (del u)/(del t) + dx/dt (del u)/(del x)`.
 	</span>
 	可见只要 `x = x(t, c)` 满足特征线方程:
-	<span class="formula">`{(
-		dx/dt = v(x)
-	),(	x|_(t=0) = c
-	):}`, `c` 为参数
+	<span class="formula">`{
+		dx/dt = v(x);
+		x|_(t=0) = c;
+	:}`, `c` 为参数
 	</span>
 	原方程就化为
-	<span class="formula">`{(
-		("d"u)/dt + w(x(t, c)) u = 0
-	),(	u|_(t=0) = varphi(c)
-	):}`</span>
+	<span class="formula">`{
+		("d"u)/dt + w(x(t, c)) u = 0;
+		u|_(t=0) = varphi(c);
+	:}`</span>
 	解这个常微分方程, 再通过 `x = x(t, c)` 消去参数 `c`, 即得到原方程的解.
 </p>
 
@@ -61,9 +61,9 @@
 
 <p>	求解一维波动方程初值问题:
 	<span class="formula">`{
-		( square u = f(x,t), (x,t) in Q),
-		( u|_(t=0) = varphi(x), x in RR),
-		( u_t|_(t=0) = psi(x), x in RR)
+		square u = f(x,t), (x,t) in Q;
+		u"|"_(t=0) = varphi(x), x in RR;
+		u_t"|"_(t=0) = psi(x), x in RR;
 	:}`
 	</span>
 	其中 `square u = (del^2 u)/{:del t:}^2 - a^2 (del^2 u)/{:del x:}^2`,
@@ -73,27 +73,24 @@
 <h3>问题的分解</h3>
 
 <p>	将一维波动方程初值问题一分为三:
-	<span class="formula">
-		`{
-			(square u_1 = 0, (x,t) in Q),
-			(u_1|_(t=0) = varphi(x), x in RR),
-			((u_1)_t|_(t=0) = 0, x in RR)
+	<span class="formula">`{
+			square u_1 = 0, (x,t) in Q;
+			u_1"|"_(t=0) = varphi(x), x in RR;
+			(u_1)_t"|"_(t=0) = 0, x in RR;
 		:}`
 		<span class="label" id="for-question-1">(2-1)</span>
 	</span>
-	<span class="formula">
-		`{
-			(square u_2 = 0, (x,t) in Q),
-			(u_2|_(t=0) = 0, x in RR),
-			((u_2)_t|_(t=0) = psi(x), x in RR)
+	<span class="formula"> `{
+			square u_2 = 0, (x,t) in Q;
+			u_2"|"_(t=0) = 0, x in RR;
+			(u_2)_t"|"_(t=0) = psi(x), x in RR;
 		:}`
 		<span class="label" id="for-question-2">(2-2)</span>
 	</span>
-	<span class="formula">
-		`{
-			(square u_3 = f(x,t), (x,t) in Q),
-			(u_3|_(t=0) = 0, x in RR),
-			((u_3)_t|_(t=0) = 0, x in RR)
+	<span class="formula"> `{
+			square u_3 = f(x,t), (x,t) in Q;
+			u_3"|"_(t=0) = 0, x in RR;
+			(u_3)_t"|"_(t=0) = 0, x in RR;
 		:}`
 		<span class="label" id="for-question-3">(2-3)</span>
 	</span>
@@ -121,9 +118,9 @@
 <ol class="proof">
 	<li>由 `M_varphi` 定义,
 		<span class="formula">`{
-			(square M_varphi = 0, x in RR"," t in (0, +oo)),
-			(M_varphi|_(t=0) = 0, x in RR),
-			((M_varphi)_t|_(t=0) = varphi(x), x in RR)
+			square M_varphi = 0, x in RR"," t in (0, +oo);
+			M_varphi"|"_(t=0) = 0, x in RR;
+			(M_varphi)_t"|"_(t=0) = varphi(x), x in RR;
 		:}`.</span>
 		由 `M_varphi` 的光滑性假设,
 		<span class="formula">
@@ -139,9 +136,9 @@
 	</li>
 	<li>记 `w = M_(f_tau)(x, t - tau)`, 由定义
 		<span class="formula">`{
-			(square w = 0, x in RR"," t in (tau","+oo)),
-			(w|_(t = tau) = 0, x in RR),
-			((w_t)|_(t = tau) = f(x"," tau), x in RR)
+			square w = 0, x in RR"," t in (tau,+oo);
+			w|_(t = tau) = 0, x in RR;
+			(w_t)|_(t = tau) = f(x, tau), x in RR;
 		:}`.</span>
 		故
 		<span class="formula">
@@ -180,34 +177,34 @@
 	由以上讨论, 只需求解 <a class="ref" href="#for-question-2"></a>. 由于
 	<span class="formula">
 		`square = del^2/{:del t:}^2 - a^2 del^2/{:del x:}^2 = (del/(del t)
-		+ a del/(del x))(del/(del t) - a del/(del x)),
+		+ a del/(del x))(del/(del t) - a del/(del x))`,
 	</span>
 	我们可以把 `square u = 0` 分解为
 	<span class="formula">`{
-		((del u)/(del t) - a (del u)/(del x) = v),
-		((del v)/(del t) + a (del v)/(del x) = 0)
+		(del u)/(del t) - a (del u)/(del x) = v;
+		(del v)/(del t) + a (del v)/(del x) = 0;
 	:}`,</span>
 	从而将 <a class="ref" href="#for-question-2"></a>化为两个一阶初值问题:
 	<span class="formula">`{
-		((del u)/(del t) - a (del u)/(del x) = v),
-		(u|_(t=0) = 0)
+		(del u)/(del t) - a (del u)/(del x) = v;
+		u|_(t=0) = 0;
 	:}`, `quad`
 	`{
-		((del v)/(del t) + a (del v)/(del x) = 0),
-		(v|_(t=0) = psi(x))
+		(del v)/(del t) + a (del v)/(del x) = 0;
+		v|_(t=0) = psi(x);
 	:}`.</span>
 	它们的特征线为 `x_1 = c_1 - at` 和 `x_2 = c_2 + at`. 沿着特征线,
 	这两个问题化为
 	<span class="formula">`{
-		(("d"u)/dt = v(c_1 - at, t)),
-		(u|_(t=0) = 0)
+		("d"u)/dt = v(c_1 - at, t);
+		u|_(t=0) = 0;
 	:}`,
 		<span class="label" id="for-dalembert-1">(2-4)</span>
 	</span>
 	<span class="formula">
 	`{
-		(("d"v)/dt = 0),
-		(v|_(t=0) = psi(c_2))
+		("d"v)/dt = 0;
+		v|_(t=0) = psi(c_2);
 	:}`
 		<span class="label" id="for-dalembert-2">(2-5)</span>
 	</span>
@@ -245,8 +242,8 @@
 	在 `[x-at, x+at]` 上的值和 `f` 在<b>特征锥</b>
 	<span class="formula">
 		`K: {
-			(tau in [0"," t]), 
-			(xi in [x-a (t-tau)"," x + a (t-tau)])
+			tau in [0"," t];
+			xi in [x-a (t-tau)"," x + a (t-tau)];
 		:}`
 	</span>
 	上的值决定. 我们引入下面的术语:
@@ -326,7 +323,7 @@
 	设 `u in C^1(bar Q) nn C^2(Q)` 为一维波动方程初值问题的解,
 	`tau in [0, t_0]`,
 	`Omega_tau = [x_0-a(t_0-tau), x_0+a(t_0-tau)]`,
-	`K_tau = { (t in [0"," tau]), (x in Omega_t):}`,
+	`K_tau = { t in [0"," tau]; x in Omega_t :}`,
 	则对函数 `v = u_t^2 + a^2 u_x^2` 有估计
 	<span class="formula">
 		`max{
@@ -356,32 +353,27 @@
 <p class="proof">
 	在波动方程 `u_(t t) - a^2 u_(x x) = f` 两边同乘 `u_t`, 并在 `K_tau`
 	上积分:
-	<span class="formula">`{:(
-			,iint_(K_tau) u_t f dx dt
-	),(
-		=,	iint_(K_tau) u_t (u_(t t) - a^2 u_(x x)) dx dt
-	),(
+	<span class="formula">`{:
+			,iint_(K_tau) u_t f dx dt;
+		=,	iint_(K_tau) u_t (u_(t t) - a^2 u_(x x)) dx dt;
 		=,	iint_(K_tau) (1/2 del/(del t) (u_t^2) - a^2 (del/(del x) (u_t
 			u_x) - 1/2 del/(del t) (u_x^2))) dx dt
-		quad (分部积分)
-	),(	=,	iint_(K_tau) (1/2 del/(del t) (u_t^2 + a^2 u_x^2) - a^2
-			del/(del x) (u_t u_x)) dx dt
-	),(
+		quad (分部积分);
+		=,	iint_(K_tau) (1/2 del/(del t) (u_t^2 + a^2 u_x^2) - a^2
+			del/(del x) (u_t u_x)) dx dt;
 		=,	-oint_(del K_tau) 1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x)
 			dt
-		quad ("Green" 公式)
-	),(	=,	1/2 int_(Omega_tau) (u_t^2 + a^2 u_x^2) dx
+		quad ("Green" 公式);
+		=,	1/2 int_(Omega_tau) (u_t^2 + a^2 u_x^2) dx
 			- 1/2 int_(Omega_0) (psi^2 + a^2 varphi_x^2) dx
-	),(	,	- int_(Gamma_(tau_L) uu Gamma_(tau_R))
-			1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x) dt
-	),(
+			- int_(Gamma_(tau_L) uu Gamma_(tau_R))
+			1/2 (u_t^2 + a^2 u_x^2) dx + a^2 (u_t u_x) dt;
 		=,	"J"_1 + "J"_2 -a/2 int_(Gamma_(tau_L)) (u_t + a u_x)^2 dt
 			+ a/2 int_(Gamma_(tau_R)) (u_t - a u_x)^2 dt
-		quad ((Gamma_(tau_L): dx = a dt), (Gamma_(tau_R): dx = -a dt))
-	),(
+		quad (Gamma_(tau_L): dx = a dt; Gamma_(tau_R): dx = -a dt);
 		ge,	"J"_1 + "J"_2.
-		quad ((Gamma_(tau_L): t 减小), (Gamma_(tau_R): t 增大))
-	):}`
+		quad (Gamma_(tau_L): t 减小; Gamma_(tau_R): t 增大);
+	:}`
 	</span>
 	记
 	<span class="formula">
@@ -452,14 +444,12 @@
 <p class="proof">
 	`AA tau in [0, t_0]`, 注意到矩形 `Omega_tau xx [0,
 	tau]`上的积分小于梯形 `K_tau` 上的, 有
-	<span class="formula">`{:(
+	<span class="formula">`{:
 			int_(Omega_tau) [u^2]_(t=0)^(t=tau) dx
-		,=	int_(Omega_tau) dx int_0^tau del/(del t) u^2 dt
-	),(		
-		,le	2 iint_(K_tau) |u u_t| dx dt
-	),( ,le	iint_(K_tau) u^2 dx dt + iint_(K_tau) u_t^2 dx dt.
-	):}`
-	</span>
+		,=	int_(Omega_tau) dx int_0^tau del/(del t) u^2 dt;
+		,le	2 iint_(K_tau) |u u_t| dx dt;
+		,le	iint_(K_tau) u^2 dx dt + iint_(K_tau) u_t^2 dx dt.
+	:}` </span>
 	令
 	<span class="formula">
 		`G(tau) = iint_(K_tau) u^2 dx dt`,<br/>
@@ -498,10 +488,10 @@
 <p>	记 `R = (0, +oo)`, `Q = R xx R`, 在 `bar Q`
 	上求解第一类边界条件的半无界问题
 	<span class="formula">`{
-		( square u = f(x, t), (x, t) in Q),
-		( u|_(t=0) = varphi(x), x in bar R),
-		( u_t|_(t=0) = psi(x), x in bar R),
-		( u|_(x=0) = g(t), t in R)
+		square u = f(x, t), (x, t) in Q;
+		u"|"_(t=0) = varphi(x), x in bar R;
+		u_t"|"_(t=0) = psi(x), x in bar R;
+		u"|"_(x=0) = g(t), t in R;
 	:}`
 	</span>
 </p>
@@ -512,10 +502,10 @@
 	将半无界问题化为无界问题, 再使解 `u` 适合边界条件 `u|_(x=0) = g(t)`.
 <li>令 `v = u - g(t)`, 则 `v` 适合
 	<span class="formula">`{
-		( square v = f(x, t) - g''(t)),
-		( v|_(t=0) = varphi(x) - g(0)),
-		( v_t|_(t=0) = psi(x) - g'(0)),
-		( v|_(x=0) = 0)
+		square v = f(x, t) - g''(t);
+		v"|"_(t=0) = varphi(x) - g(0);
+		v_t"|"_(t=0) = psi(x) - g'(0);
+		v"|"_(x=0) = 0;
 	:}`
 	</span>
 	此时边界条件已化为齐次的.
@@ -523,16 +513,16 @@
 <li>为使 `v` 是 `x` 的奇函数, 对 `varphi`, `psi`, `f` 作<b>奇延拓</b>:
 	<span class="formula">
 		`bar varphi(x) = {
-			(varphi(x), x ge 0),
-			(-varphi(-x), x lt 0)
+			varphi(x), x ge 0;
+			-varphi(-x), x lt 0;
 		:}\ `, `quad`
 		`bar psi(x) = {
-			(psi(x), x ge 0),
-			(-psi(-x), x lt 0)
+			psi(x), x ge 0;
+			-psi(-x), x lt 0;
 		:}\ `,
 		`bar f(x, t) = {
-			(f(x, t), x ge 0"," t ge 0),
-			(-f(-x, t), x lt 0"," t ge 0)
+			f(x, t), x ge 0"," t ge 0;
+			-f(-x, t), x lt 0"," t ge 0;
 		:}\ `.
 	</span>
 	求得无界问题的解 `bar v` 后, 再令 `v = bar v|_(x ge 0)`. 联系
@@ -606,10 +596,10 @@
 <h3>三维情形: 球面平均法</h3>
 
 <span class="formula">`{
-	( u_(t t)^2 - a^2 laplace u = f(bm x, t),
-		bm x in RR^3","t in (0","+oo)),
-	( u|_(t=0) = varphi(bm x), bm x in RR^3),
-	( u_t|_(t=0) = psi(bm x), bm x in RR^3)
+	u_(t t)^2 - a^2 laplace u = f(bm x, t),
+		bm x in RR^3","t in (0","+oo);
+	u|_(t=0) = varphi(bm x), bm x in RR^3;
+	u_t|_(t=0) = psi(bm x), bm x in RR^3;
 :}`
 <span class="label" id="for-wave-equation-3d">(2-9)</span>
 </span>
@@ -682,10 +672,10 @@
 	容易验证, 对每一个固定的 `bm x`, `M(bm x, r, t)`
 	是下述一维半无界问题的解:
 	<span class="formula">`{
-		( (del^2 M)/{:del t:}^2 - a^2 (del^2 M)/{:del r^2:} = 0 ),
-		( M|_(t=0) = 0 ),
-		( M_t|_(t=0) = r I(bm x,  r; psi) ),
-		( M|_(r=0) = 0 )
+		(del^2 M)/{:del t:}^2 - a^2 (del^2 M)/{:del r^2:} = 0;
+		M"|"_(t=0) = 0;
+		M_t"|"_(t=0) = r I(bm x,  r; psi);
+		M"|"_(r=0) = 0;
 	:}`
 	</span>
 	由半无界问题的解的表达式, 当 `0 le r le at` 时,
@@ -723,10 +713,10 @@
 <h3>二维情形: 降维法</h3>
 
 <span class="formula">`{
-	( u_(t t)^2 - a^2 laplace u = f(bm x","t),
-		bm x in RR^2","t in (0","+oo)),
-	( u|_(t=0) = varphi(bm x), bm x in RR^2),
-	( u_t|_(t=0) = psi(bm x), bm x in RR^2)
+	u_(t t)^2 - a^2 laplace u = f(bm x","t),
+		bm x in RR^2","t in (0","+oo);
+	u|_(t=0) = varphi(bm x), bm x in RR^2;
+	u_t|_(t=0) = psi(bm x), bm x in RR^2;
 :}`
 <span class="label" id="for-wave-equation-2d">(2-10)</span>
 </span>
@@ -880,9 +870,9 @@
 <p class="definition" id="def-sturm-liouville">
 	考虑二阶常微分方程齐次边值问题
 	<span class="formula">`{
-		(X'' + lambda X = 0 quad x in (0","l)),
-		((alpha_1 X' - beta_1 X)|_(t=0) = 0),
-		((alpha_2 X' + beta_2 X)|_(t=l) = 0)
+		X'' + lambda X = 0 quad x in (0","l);
+		(alpha_1 X' - beta_1 X)|_(t=0) = 0;
+		(alpha_2 X' + beta_2 X)|_(t=l) = 0;
 	:}`
 	</span>
 	其中 `alpha_1, alpha_2, beta_1, beta_2 ge 0`, 且 `alpha_i, beta_i`
@@ -1028,10 +1018,10 @@
 <p>	考虑两端固定的弦振动方程混合问题
 	(这是一维波动方程第一边值问题的一个特例):
 	<span class="formula">`{
-		((del^2 u)/(del t^2) - a^2 (del^2 u)/(del x^2) = 0, (x,t) in Q),
-		(u|{::}_(x=0) = u|_(x=l) = 0,\ t in R),
-		(u|_(t=0) = varphi(x), x in bar I),
-		(u_t|_(t=0) = psi(x), x in bar I)
+		(del^2 u)/(del t^2) - a^2 (del^2 u)/(del x^2) = 0, (x,t) in Q;
+		u|{::}_(x=0) = u|_(x=l) = 0,\ t in R;
+		u|_(t=0) = varphi(x), x in bar I;
+		u_t|_(t=0) = psi(x), x in bar I;
 	:}`
 	</span>
 	其中 `I = (0, l)`, `R = (0, +oo)`, `Q = I xx R`.
@@ -1075,8 +1065,8 @@
 	</span>
 	至此, 得到一个 Sturm-Liouville 问题
 	<span class="formula">`{
-		(X'' + lambda X = 0 quad x in I),
-		(X|{::}_(x=0) = X|_(x=l) = 0)
+		X'' + lambda X = 0 quad x in I;
+		X|{::}_(x=0) = X|_(x=l) = 0;
 	:}`
 	<span class="label" id="for-variable-separation-x">(2-11)</span>
 	</span>

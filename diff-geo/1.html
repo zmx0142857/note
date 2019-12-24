@@ -68,9 +68,9 @@
 <p>设 `X, Y in RR^3`, 则
 	<span class="formula">
 		`X ^^ Y = |
-			(i, j, k),
-			(x_1, x_2, x_3),
-			(y_1, y_2, y_3)
+			i, j, k;
+			x_1, x_2, x_3;
+			y_1, y_2, y_3;
 		| in RR^3`.
 	</span>
 </p>
@@ -84,13 +84,13 @@
 <p>设 `X, Y, Z in RR^3`, 则
 	<span class="formula">
 		`(X, Y, Z) = (:|
-			(i, j, k),
-			(x_1, x_2, x_3),
-			(y_1, y_2, y_3)
+			i, j, k;
+			x_1, x_2, x_3;
+			y_1, y_2, y_3;
 		|, Z:) = |
-			(x_1, x_2, x_3),
-			(y_1, y_2, y_3),
-			(z_1, z_2, z_3)
+			x_1, x_2, x_3;
+			y_1, y_2, y_3;
+			z_1, z_2, z_3;
 		|.`
 	</span>
 </p>
@@ -105,15 +105,15 @@
 	<li>(平行四边形等式) `|alpha+beta|^2 + |alpha-beta|^2 =
 		2(|alpha|^2+|beta|^2)`;</li>
 	<li>(二重外积) `alpha ^^ (beta ^^ gamma) = |
-		(beta, gamma),
-		((:alpha,beta:),(:alpha,gamma:))
+		beta, gamma;
+		(:alpha,beta:),(:alpha,gamma:);
 	|`;</li>
 	<li>(推论, 注意联系几何意义) 若 `(:alpha, beta:) = (:alpha, gamma:) =
 		0`, 则 `alpha ^^ (beta ^^ gamma) = bb 0`.
 	</li>
 	<li>(Lagrange) `(:alpha ^^ beta, gamma ^^ delta:) = |
-		( (:alpha, gamma:), (:alpha, delta:) ),
-		( (:beta, gamma:), (:beta, delta:) )
+		(:alpha, gamma:), (:alpha, delta:);
+		(:beta, gamma:), (:beta, delta:);
 	|`;</li>
 	<li>(Cauchy) `|(:alpha, beta:)| le |alpha||beta|`, 等号成立当且仅当
 		`alpha, beta` 线性相关;
@@ -123,7 +123,7 @@
 <p class="remark">Lagrange 恒等式的证明:
 	<span class="formula">
 		左 = `(:beta ^^ (gamma ^^ delta), alpha:)
-		= (:|(gamma, delta), ((:beta, gamma:), (:beta, delta:))|, alpha:)`
+		= (:|gamma, delta; (:beta, gamma:), (:beta, delta:)|, alpha:)`
 		= 右.
 	</span>
 	由 Lagrange 恒等式推出外积公式:
@@ -131,15 +131,12 @@
 		` X ^^ Y
 		= sum (:X ^^ Y, epsi_i:) epsi_i
 		= sum(:X ^^ Y, epsi_j ^^ epsi_k:) epsi_i`
-		`= sum |(
-			(:X, epsi_j:), (:X, epsi_k:)
-		),(	(:Y, epsi_j:), (:Y, epsi_k:)
-		)| epsi_i
-		= |(
-			i, j, k
-		),( (:X, i:), (:X, j:), (:X, k:)
-		),( (:Y, i:), (:Y, j:), (:Y, k:)
-		)|`.
+		`= sum |
+			(:X, epsi_j:), (:X, epsi_k:);
+			(:Y, epsi_j:), (:Y, epsi_k:)| epsi_i
+		= | i, j, k;
+		(:X, i:), (:X, j:), (:X, k:);
+		(:Y, i:), (:Y, j:), (:Y, k:)|`.
 	</span>
 </p>
 
@@ -197,17 +194,17 @@
 	2, 4 相当于将 `grad` 分配到 f 与 F. 5 假定混合偏导相等, 故
 	<span class="formula">
 		`|
-			(i, j, k),
-			(del/(del x), del/(del y), del/(del z)),
-			((del f)/(del x), (del f)/(del y), (del f)/(del z))
+			i, j, k;
+			del/(del x), del/(del y), del/(del z);
+			(del f)/(del x), (del f)/(del y), (del f)/(del z);
 		| = bb"0"`.
 	</span>
 	6 同样假定混合偏导相等, 有
 	<span class="formula">
 		`|
-			(del/(del x), del/(del y), del/(del z)),
-			(del/(del x), del/(del y), del/(del z)),
-			(P, Q, R)
+			del/(del x), del/(del y), del/(del z);
+			del/(del x), del/(del y), del/(del z);
+			P, Q, R;
 		| = 0`.
 	</span>
 </p>
@@ -265,8 +262,8 @@
 	因为 `(:t_1 ^^ t_2, t_3:) = |T| = 1`, 但
 	<span class="formula">
 		`|t_1 ^^ t_2|^2 = (:t_1 ^^ t_2, t_1 ^^ t_2:) = |
-		( (:t_1, t_1:), (:t_1, t_2:) ),
-		( (:t_2, t_1:), (:t_2, t_2:) )
+			(:t_1, t_1:), (:t_1, t_2:);
+			(:t_2, t_1:), (:t_2, t_2:);
 		| = 1`, <br/>
 		`|t_3|^2 = (:t_3, t_3:) = 1`.
 	</span>
@@ -282,14 +279,13 @@
 	<span class="formula">
 		左 = `sum (:t_i, alpha ^^ beta:)
 		= sum (:t_j ^^ t_k, alpha ^^ beta:) epsi_i`
-		`= sum |(
-			(:t_j, alpha:), (:t_j, beta:)
-		),( (:t_k, alpha:), (:t_k, beta:)
-		)| epsi_i
+		`= sum |
+			(:t_j, alpha:), (:t_j, beta:);
+			(:t_k, alpha:), (:t_k, beta:); | epsi_i
 		= |
-			(i, j, k),
-			((:alpha, t_1:), (:alpha, t_2:), (:alpha, t_3:)),
-			((:beta, t_1:), (:beta, t_2:), (:beta, t_3:))
+			i, j, k;
+			(:alpha, t_1:), (:alpha, t_2:), (:alpha, t_3:);
+			(:beta, t_1:), (:beta, t_2:), (:beta, t_3:);
 		| = T alpha ^^ T beta`.
 	</span>
 </p>
@@ -297,8 +293,8 @@
 <p class="theorem">
 	若单位向量 `epsi_1, cdots, epsi_n` 两两正交, 且
 	<span class="formula">
-		`d [(epsi_1), (vdots), (epsi_n)]
-		= (omega)_(ij) [(epsi_1), (vdots), (epsi_n)].
+		`d [epsi_1; vdots; epsi_n]
+		= (omega)_(ij) [epsi_1; vdots; epsi_n].
 	</span>
 	则矩阵 `(omega)_(ij)` 反对称 (我们会看到, Frenet
 	方程的系数矩阵是反对称的).

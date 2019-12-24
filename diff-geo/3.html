@@ -43,25 +43,26 @@
 
 <p>设参数变换如前述. 坐标切向量 `bm r_u` 和 `bm r_v` 的变换公式为
 	<span class="formula">
-		`[(bm r_(bar u)), (bm r_(bar v))] = J [(bm r_u), (bm r_v)]`,<br/>
+		`[bm r_(bar u); bm r_(bar v)] = J [bm r_u; bm r_v]`,<br/>
 		`bm r_(bar u) ^^ bm r_(bar v) = |J| bm r_u ^^ bm r_v`.
 	</span>
 </p>
 
 <p class="example">
 	球面 `x^2 + y^2 + z^2 = a^2` 有球坐标表示
-	<span class="formula">`{(
-		x = a cos u cos v
-	),(	y = a cos u sin v
-	),( z = a sin u
-	):}`, `u in [-pi/2, pi/2]`, `v in [0, 2pi]`.
+	<span class="formula">`{
+		x = a cos u cos v;
+		y = a cos u sin v;
+		z = a sin u;
+	:}`,
+	`u in [-pi/2, pi/2]`, `v in [0, 2pi]`.
 	</span>
 	和球极投影坐标表示:
-	<span class="formula">`{(
-		x = 2a^2 u // d^2
-	),(	y = 2a^2 v // d^2
-	),(	z = a delta^2 // d^2
-	):}`, `u, v in RR`.
+	<span class="formula">`{
+		x = 2a^2 u // d^2;
+		y = 2a^2 v // d^2;
+		z = a delta^2 // d^2;
+	:}`, `u, v in RR`.
 	</span>
 	其中 `d = sqrt(u^2 + v^2 + a^2)` 是 `(u, v)` 到北极的距离,
 	`delta = sqrt(u^2 + v^2 - a^2)` 是 `(u, v)` 到球面的切线长.
@@ -70,18 +71,18 @@
 <img src="pic/sphere-polar-coordinal.png" />
 
 <p class="example"> <b>旋转面</b><br/>
-	`xz` 平面上与 `z` 轴无交的曲线 `{(x = x(u)), (z = z(u)):}`
+	`xz` 平面上与 `z` 轴无交的曲线 `{x = x(u); z = z(u) :}`
 	绕 `z` 轴旋转得到
 	<span class="formula">
-		`{(x = x(u) cos v), (y = x(u) sin v), (z = z(u)):}`.
+		`{x = x(u) cos v; y = x(u) sin v; z = z(u) :}`.
 	</span>
 	特别当 `x(u) = a cos u`, `z(u) = a sin u` 时, 得到球面.
 </p>
 
 <p class="example"> <b>柱面</b><br/>
-	`xy` 平面上的曲线 `{(x = x(u)), (y = y(u)):}` 沿 `z` 轴平移得到
+	`xy` 平面上的曲线 `{x = x(u); y = y(u) :}` 沿 `z` 轴平移得到
 	<span class="formula">
-		`{(x = x(u)), (y = y(u)), (z = v):}`.
+		`{x = x(u); y = y(u); z = v :}`.
 	</span>
 </p>
 
@@ -128,7 +129,7 @@
 <span class="formula">
 	`"I" = "d"s^2 = "d" bm r^2 = (bm r_u "d"u + bm r_v "d" v)^2`
 	`= E "d"u"d"u + 2F "d"u"d"v + G"d"v"d"v
-	= ["d"u, "d"v][(E, F),(F, G)][("d"u),("d"v)]`.
+	= ["d"u, "d"v][E, F; F, G]["d"u; "d"v]`.
 </span>
 
 <p>其中
@@ -167,16 +168,16 @@
 
 <span class="formula">
 	`"II" = -(:"d"bm r, "d"bm n:) = L"d"u"d"u + 2M"d"u"d"v + N"d"u"d"v
-	= ["d"u, "d"v][(L, M),(M, N)][("d"u),("d"v)]`.
+	= ["d"u, "d"v][L, M; M, N]["d"u; "d"v]`.
 </span>
 
 <p>其中
-	<span class="formula">`{:(
-		,L = (:bm r_(u u)"," bm n:) = -(:bm r_u"," bm n_u:)","
-	),(	,M = (:bm r_(uv)"," bm n:) = -(:bm r_u"," bm n_v:)
-			= -(:bm r_v"," bm n_u:)","
-	),(	,N = (:bm r_(v v)"," bm n:) = -(:bm r_v"," bm n_v:).
-	):}`</span>
+	<span class="formula">
+		`L = (:bm r_(u u)"," bm n:) = -(:bm r_u"," bm n_u:)`,<br/>
+		`M = (:bm r_(uv)"," bm n:) = -(:bm r_u"," bm n_v:)
+			= -(:bm r_v"," bm n_u:)`,<br/>
+		`N = (:bm r_(v v)"," bm n:) = -(:bm r_v"," bm n_v:)`.
+	</span>
 </p>
 <p class="remark">
 	以上等式可由 `(:bm r_u, bm n:) = (:bm r_v, bm n:) = 0` 求导推得.
@@ -200,7 +201,7 @@
 	</span>
 	则 `f_u = (:bm r_u, bm n_0:)`, `f_v = (:bm r_v, bm n_0:)`,
 	`"II" = ["d"u, "d"v]
-	[(f_(u u), f_(uv)), (f_(vu), f_(v v))][("d"u),("d"v)]`.
+	[f_(u u), f_(uv); f_(vu), f_(v v)]["d"u; "d"v]`.
 </p> 
 
 <p class="example">
@@ -209,8 +210,8 @@
 </p>
 
 <p class="example">
-	柱面 `bm r(u,v) = (x(u), y(u), v)`. 记 `kappa = |(x_u, y_u),(x_(u u),
-	y_(u u))|`, 有 `"II" = -kappa "d"u"d"u`.
+	柱面 `bm r(u,v) = (x(u), y(u), v)`. 记 `kappa = |x_u, y_u; x_(u u),
+	y_(u u)|`, 有 `"II" = -kappa "d"u"d"u`.
 </p>
 
 <p class="example">
@@ -341,18 +342,18 @@
 <h4>计算主曲率</h4>
 
 <p>	设 Weingarten 变换在基 `(bm r_u, bm r_v)` 下的矩阵为
-	`bm A = [(a, b),(c, d)]` (未必对称), 即
+	`bm A = [a, b; c, d]` (未必对称), 即
 	<span class="formula">
 		`cc W(bm r_u) = -bm n_u = a bm r_u + b bm r_v`,<br/>
 		`cc W(bm r_v) = -bm n_v = c bm r_u + d bm r_v`.
 	</span>
 	以上两式分别与 `bm r_u, bm r_v` 作内积, 得
 	<span class="formula">
-		`[(L, M),(M, N)] = [(a, b), (c, d)][(E, F), (F, G)]`,
+		`[L, M; M, N] = [a, b; c, d][E, F; F, G]`,
 	</span>
 	即
 	<span class="formula">
-		`[(a, b), (c, d)] = [(L, M),(M, N)][(E, F), (F, G)]^-1`.
+		`[a, b; c, d] = [L, M; M, N][E, F; F, G]^-1`.
 	</span>
 	主曲率须满足特征方程 `|k bm E - bm A| = 0`, 即
 	<span class="formula">
@@ -360,7 +361,7 @@
 	</span>
 	易知 Gauss 曲率
 	<span class="formula">
-		`K = |(a,b),(c,d)| = |(L,M),(M,N)|//|(E,F),(F,G)|`.
+		`K = |a,b; c,d| = |L,M; M,N|//|E,F; F,G|`.
 	</span>
 </p>
 

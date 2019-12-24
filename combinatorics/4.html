@@ -25,7 +25,7 @@
 <p class="theorem">
 	<b>`S_n(x)` 的递推公式</b>
 	<span class="formula">
-		`sum_(k=0)^n ((n+1),(k)) S_k(x) = (x+1)^(n+1) - 1`,
+		`sum_(k=0)^n (n+1;k) S_k(x) = (x+1)^(n+1) - 1`,
 		`quad n ge 0`.
 		<span class="label" id="for-Sn(x)-recur"></span>
 	</span>
@@ -37,7 +37,7 @@
 	现假设 `n gt 0`, 结论对所有小于 `n` 的非负整数成立, 
 	由二项式定理, 对 `i = 1, 2, cdots, x` 有
 	<span class="formula">
-		`(i+1)^(n+1) - i^(n+1) = sum_(k=0)^n ((n+1),(k)) i^k`.
+		`(i+1)^(n+1) - i^(n+1) = sum_(k=0)^n (n+1;k) i^k`.
 	</span>
 	两边关于 `i` 从 `1` 到 `x` 求和就得到式 <a class="ref"
 	href="#for-Sn(x)-recur"></a>.
@@ -66,12 +66,12 @@
 	对任意非负整数 `n`, 记 `B_n^+ := B_n(0)` 为 `B_n(x)` 的常数项,
 	在 <a class="ref" href="#for-Sn(x)-recur"></a> 两边求导, 有
 	<span class="formula">
-		`sum_(k=0)^n ((n+1),(k)) B_k(x) = (n+1)(x+1)^n`,
+		`sum_(k=0)^n (n+1;k) B_k(x) = (n+1)(x+1)^n`,
 		<span class="label" id="for-Bn(x)-recur"></span>
 	</span>
 	从而
 	<span class="formula">
-		`sum_(k=0)^n ((n+1),(k)) B_k^+ = n+1`.
+		`sum_(k=0)^n (n+1;k) B_k^+ = n+1`.
 		<span class="label" id="for-Bn+-recur"></span>
 	</span>
 </p>
@@ -79,8 +79,8 @@
 <p class="theorem">
 	<span class="formula">
 		`B_n(x) = "d"/dx S_n(x) = {
-			(B_0^+, if n = 0),
-			(n S_(n-1)(x) + B_n^+, if n ge 1)
+			B_0^+, if n = 0;
+			n S_(n-1)(x) + B_n^+, if n ge 1;
 		:}`
 	</span>
 	换言之,
@@ -91,7 +91,7 @@
 	<span class="formula">
 		`"d"/dx B_n(x) = n "d"/dx S_(n-1)(x) = n B_(n-1)(x)`,
 		`quad n ge 1`,<br/>
-		`1/(k!)"d"^k/dx^k B_n(x) = ((n),(k)) B_(n-k)(x)`, `quad n ge k`.
+		`1/(k!)"d"^k/dx^k B_n(x) = (n;k) B_(n-k)(x)`, `quad n ge k`.
 	</span>
 </p>
 
@@ -108,19 +108,19 @@
 	<a class="ref" href="#for-Bn(x)-recur"></a>,
 	<a class="ref" href="#for-Bn+-recur"></a> 和归纳假设,
 	<span class="formula">
-		`B_n(x) = (x+1)^n - 1/(n+1) sum_(k=0)^(n-1) ((n+1),(k)) B_k(x)`
-		`= (x+1)^n - sum_(k=1)^(n-1) ((n+1),(k)) k/(n+1) S_(k-1)(x)`
-		`- 1/(n+1) sum_(k=0)^(n-1) ((n+1),(k)) B_k^+`
-		`= (x+1)^n - sum_(k=1)^(n-1) ((n),(k-1)) S_(k-1)(x)`
+		`B_n(x) = (x+1)^n - 1/(n+1) sum_(k=0)^(n-1) (n+1;k) B_k(x)`
+		`= (x+1)^n - sum_(k=1)^(n-1) (n+1;k) k/(n+1) S_(k-1)(x)`
+		`- 1/(n+1) sum_(k=0)^(n-1) (n+1;k) B_k^+`
+		`= (x+1)^n - sum_(k=1)^(n-1) (n;k-1) S_(k-1)(x)`
 		`- (1 - B_n^+)`
-		`= (x+1)^n - 1 - sum_(k=0)^(n-2) ((n),(k)) S_k(x) + B_n^+`
+		`= (x+1)^n - 1 - sum_(k=0)^(n-2) (n;k) S_k(x) + B_n^+`
 		`= n S_(n-1)(x) + B_n^+`.
 	</span>
 </p>
 
 <p class="corollary">
 	<span class="formula">
-		`B_n(x) = sum_(k=0)^n ((n),(k)) B_k^+ x^(n-k)`, `quad n ge 0`.
+		`B_n(x) = sum_(k=0)^n (n;k) B_k^+ x^(n-k)`, `quad n ge 0`.
 		<span class="label" id="for-Bn(x)"></span>
 	</span>
 </p>
@@ -132,11 +132,11 @@
 	<span class="formula">
 		`"d"/dx B_n(x)`
 		`= n B_(n-1)(x)`
-		`= n sum_(k=0)^(n-1) ((n-1),(k)) B_k^+ x^(n-1-k)`
-		`= sum_(k=0)^(n-1) ((n),(k)) B_k^+ (n-k) x^(n-1-k)`
-		`= "d"/dx sum_(k=0)^n ((n),(k)) B_k^+ x^(n-k)`.
+		`= n sum_(k=0)^(n-1) (n-1;k) B_k^+ x^(n-1-k)`
+		`= sum_(k=0)^(n-1) (n;k) B_k^+ (n-k) x^(n-1-k)`
+		`= "d"/dx sum_(k=0)^n (n;k) B_k^+ x^(n-k)`.
 	</span>
-	又 `B_n(0) = B_n^+ = sum_(k=0)^n ((n),(k)) B_k^+ x^(n-k)|_(x=0)`,
+	又 `B_n(0) = B_n^+ = sum_(k=0)^n (n;k) B_k^+ x^(n-k)|_(x=0)`,
 	所以结论成立.
 </p>
 -->
@@ -145,8 +145,8 @@
 	`B_n(x)` 的 `n-k` 次项系数等于
 	<span class="formula">
 		`1/((n-k)!) "d"^(n-k)/dx^(n-k) B_n(x)|_(x=0)`
-		`= ((n),(n-k)) B_k(0)`
-		`= ((n),(k)) B_k^+`,
+		`= (n;n-k) B_k(0)`
+		`= (n;k) B_k^+`,
 	</span>
 	从而结论成立.
 </p>
@@ -177,7 +177,7 @@
 		`("e"^t-1) sum_(n=0)^oo B_n^+ t^n/(n!)`
 		`= (sum_(n=1)^oo t^n/(n!)) (sum_(n=0)^oo B_n^+ t^n/(n!))`
 		`= sum_(n=1)^oo sum_(k=0)^(n-1) B_k^+ t^n/(k!(n-k)!)`
-		`= sum_(n=1)^oo t^n/(n!) sum_(k=0)^(n-1) ((n),(k)) B_k^+`
+		`= sum_(n=1)^oo t^n/(n!) sum_(k=0)^(n-1) (n;k) B_k^+`
 		`= sum_(n=1)^oo t^n/((n-1)!)`
 		`= t sum_(n=0)^oo t^n/(n!)`
 		`= t "e"^t`.
@@ -273,12 +273,12 @@
 	<b>`B_n^-` 的递推公式</b>
 	在 `B_n^+` 的递推公式
 	<span class="formula">
-		`n = sum_(k=0)^(n-1) ((n),(k)) B_k^+`,
+		`n = sum_(k=0)^(n-1) (n;k) B_k^+`,
 		`quad n ge 1`.
 	</span>
 	两边同时减 `n`, 有
 	<span class="formula">
-		`0 = sum_(k=0)^(n-1) ((n),(k)) B_k^-`, `quad n ge 2`,
+		`0 = sum_(k=0)^(n-1) (n;k) B_k^-`, `quad n ge 2`,
 		<span class="label" id="for-Bn--recur"></span>
 	</span>
 	由这个递推公式立即得到: `n ge 1` 时, `B_(2n)` 的符号是正负交错的.

@@ -29,15 +29,11 @@
 	我们解线性方程组
 	<span class="formula">
 		`[
-			(x_1(t), x_2(t), cdots, x_n(t)),
-			(x_1'(t), x_2'(t), cdots, x_n'(t)),
-			(vdots, vdots, , vdots),
-			(x_1^((n-1))(t), x_2^((n-1))(t), cdots, x_n^((n-1))(t))
-		][
-			(c_1'(t)), (c_2'(t)), (vdots), (c_n'(t))
-		] = [
-			(0), (0), (vdots), (f(t))
-		]`,
+			x_1(t), x_2(t), cdots, x_n(t);
+			x_1'(t), x_2'(t), cdots, x_n'(t);
+			vdots, vdots, , vdots;
+			x_1^((n-1))(t), x_2^((n-1))(t), cdots, x_n^((n-1))(t);
+		][ c_1'(t); c_2'(t); vdots; c_n'(t) ] = [ 0; 0; vdots; f(t) ]`,
 	</span>
 	再积分, 就得到非齐方程的通解
 	<span class="formula">
@@ -48,9 +44,9 @@
 <p class="example" id="exp-2nd-linear-nonhomogen-1">
 	解如下的常微分方程初值问题:
 	<span class="formula">`{
-		( x'' + a^2 x = f(t) ),
-		( x|_(t=0) = x_0 ),
-		( x'|_(t=0) = x'_0 )
+		x'' + a^2 x = f(t);
+		x|_(t=0) = x_0;
+		x'|_(t=0) = x'_0;
 	:}`
 	</span>
 </p>
@@ -58,8 +54,8 @@
 	`{cos at, sin at}` 构成齐方程的基本解组. 设 `x = c_1 cos at + c_2 sin
 	at`, 解线性方程组
 	<span class="formula">`{
-		( c_1' cos at + c_2' sin at = 0 ),
-		( c_1' sin at - c_2' cos at = -f/a )
+		c_1' cos at + c_2' sin at = 0;
+		c_1' sin at - c_2' cos at = -f/a;
 	:}`
 	</span>
 	得 `(c_1', c_2') = f/a (-sin at, cos at)`. 由初值条件有
@@ -189,8 +185,8 @@
 <p class="example">
 	解 Lanchester 方程
 	<span class="formula">`{
-		(("d"A)/dt = -beta^2 B),
-		(("d"B)/dt = -alpha^2 A)
+		("d"A)/dt = -beta^2 B;
+		("d"B)/dt = -alpha^2 A;
 	:}`</span>
 	其中 `A(0) = A_0`, `B(0) = B_0`.
 </p>
@@ -198,8 +194,8 @@
 <p class="solution">
 	令 `f' = B`, 且 `f(0) = 0`. 原方程组化为
 	<span class="formula">`{
-		(("d"A)/dt = -beta^2 ("d"f)/dt),
-		(("d"^2 f)/dt^2 = -alpha^2 A)
+		("d"A)/dt = -beta^2 ("d"f)/dt;
+		("d"^2 f)/dt^2 = -alpha^2 A;
 	:}`</span>
 	第一式两边积分得 `A = -beta^2 f + A_0`, 代入第二式就有
 	<span class="formula">
@@ -217,8 +213,8 @@
 	</span>
 	由 `f(0) = 0` 和 `B(0) = B_0` 有
 	<span class="formula">`{
-		(c_1 + c_2 = -A_0/beta^2),
-		(c_1 - c_2 = B_0/(alpha beta))
+		c_1 + c_2 = -A_0/beta^2;
+		c_1 - c_2 = B_0/(alpha beta);
 	:}`</span>
 	解得
 	`c_(1, 2) = 1/(2 beta) (-A_0/beta +- B_0/alpha)`.

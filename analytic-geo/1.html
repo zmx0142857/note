@@ -423,7 +423,7 @@
 	<span class="formula">
 		`bm e_i * bm e_j = delta_(ij)`, `i, j = 1, 2, 3`.
 	</span>
-	其中 `delta_(ij) = {(1, if i = j),(0, if i != j):}`
+	其中 `delta_(ij) = { 1, if i = j; 0, if i != j :}`
 	称为<b>Kroneker 符号</b>.
 	因此在正交标架下,
 	<span class="formula">
@@ -520,9 +520,9 @@
 		`=   (a_2 b_3 - a_3 b_2) bm d_2 xx bm d_3
 		  + (a_3 b_1 - a_1 b_3) bm d_3 xx bm d_1
 		  + (a_1 b_2 - a_2 b_1) bm d_1 xx bm d_2`
-		`= |(bm d_2 xx bm d_3," "bm d_3 xx bm d_1," "bm d_1 xx bm d_2),
-		   (a_1," "a_2," "a_3),
-		   (b_1," "b_2," "b_3)|`.
+		`= |bm d_2 xx bm d_3, bm d_3 xx bm d_1, bm d_1 xx bm d_2;
+		   a_1, a_2, a_3;
+		   b_1, b_2, b_3|`.
 	</span>
 	因此只要知道 `bm d_1, bm d_2, bm d_3` 之间的外积,
 	就可以求出任意两个向量的外积.
@@ -545,15 +545,15 @@
 	于是
 	<span class="formula">
 		` bm a xx bm b
-		= |(bm e_1," "bm e_2," "bm e_3),
-		   (a_1," "a_2," "a_3),
-		   (b_1," "b_2," "b_3)|`,
+		= |bm e_1, bm e_2, bm e_3;
+		   a_1, a_2, a_3;
+		   b_1, b_2, b_3|`,
 	</span>
 	<span class="formula">
 		` |bm a xx bm b|
-		= sqrt( |(a_2, a_3),(b_2,b_3)|^2
-		      + |(a_3, a_1),(b_3,b_1)|^2
-		      + |(a_1, a_2),(b_1,b_2)|^2 )`.
+		= sqrt( |a_2, a_3; b_2,b_3|^2
+		      + |a_3, a_1; b_3,b_1|^2
+		      + |a_1, a_2; b_1,b_2|^2 )`.
 	</span>
 </p>
 
@@ -605,20 +605,20 @@
 	`bm b = b_1 bm d_1 + b_2 bm d_2`, 因为
 	<span class="formula">
 		` bm a xx bm b
-		= |(bm d_2 xx bm d_3," "bm d_3 xx bm d_1," "bm d_1 xx bm d_2),
-		   (a_1, a_2, 0),
-		   (b_1, b_2, 0)|`
-		`= |(a_1," "a_2), (b_1," "b_2)| bm d_3`,
+		= |bm d_2 xx bm d_3, bm d_3 xx bm d_1, bm d_1 xx bm d_2;
+		   a_1, a_2, 0;
+		   b_1, b_2, 0|`
+		`= |a_1, a_2; b_1, b_2| bm d_3`,
 	</span>
 	所以
 	<span class="formula">
-		` (bm a, bm b) = |(a_1," "a_2), (b_1," "b_2)| |bm d_3|`.
+		` (bm a, bm b) = |a_1, a_2; b_1, b_2| |bm d_3|`.
 	</span>
 </p>
 
 <p>	特别取右手正交标架 `{O; bm e_1, bm e_2}` 时,
 	<span class="formula">
-		`(bm a, bm b) = |(a_1," "a_2), (b_1," "b_2)|`.
+		`(bm a, bm b) = |a_1, a_2; b_1, b_2|`.
 	</span>
 </p>
 
@@ -628,7 +628,7 @@
 	平面上两向量 `bm a = (a_1, a_2)`, `bm b = (b_1, b_2)`
 	共线当且仅当它们所围的平行四边形的定向面积
 	<span class="formula">
-		`|(a_1," "a_2), (b_1," "b_2)| = 0`.
+		`|a_1, a_2; b_1, b_2| = 0`.
 	</span>
 </p>
 
@@ -636,7 +636,7 @@
 	平面上三点 `A(a_1, a_2)`, `B(b_1, b_2)`, `C(c_1, c_2)`
 	共线当且仅当它们所围的三角形的定向面积
 	<span class="formula">
-		`1/2 |(a_1," "a_2," "1), (b_1," "b_2," "1), (c_1," "c_2," "1)|
+		`1/2 |a_1, a_2, 1; b_1, b_2, 1; c_1, c_2, 1|
 		= 0`.
 	</span>
 </p>
@@ -649,7 +649,7 @@
 	<span class="formula">
 		` bm a xx (bm b xx bm c)
 		= (bm a * bm c) bm b - (bm a * bm b) bm c`
-		`= |(bm b, bm c), (bm a * bm b," "bm a * bm c)|`.
+		`= |bm b, bm c; bm a * bm b, bm a*bm c|`.
 	</span>
 </p>
 
@@ -713,13 +713,13 @@
 	`bm b = (b_1, b_2, b_3)`, `bm c = (c_1, c_2, c_3)`, 则
 	<span class="formula">
 		` (bm a, bm b, bm c) = bm a * bm b xx bm c`
-		`= |(bm d_2 xx bm d_3," "bm d_3 xx bm d_1," "bm d_1 xx bm d_2),
-		   (b_1," "b_2," "b_3),
-		   (c_1," "c_2," "c_3)|
+		`= |bm d_2 xx bm d_3, bm d_3 xx bm d_1, bm d_1 xx bm d_2;
+		   b_1, b_2, b_3;
+		   c_1, c_2, c_3|
 		   * sum_(i=1)^3 a_i bm d_i`
-		`= |(a_1," "a_2," "a_3),
-		    (b_1," "b_2," "b_3),
-			(c_1," "c_2," "c_3)| (bm d_1, bm d_2, bm d_3)`.
+		`= |a_1, a_2, a_3;
+		    b_1, b_2, b_3;
+			c_1, c_2, c_3| (bm d_1, bm d_2, bm d_3)`.
 	</span>
 </p>
 
@@ -730,9 +730,9 @@
 	所以
 	<span class="formula">
 		`(bm a, bm b, bm c)`
-		`= |(a_1," "a_2," "a_3),
-		    (b_1," "b_2," "b_3),
-			(c_1," "c_2," "c_3)|`.
+		`= |a_1, a_2, a_3;
+		    b_1, b_2, b_3;
+			c_1, c_2, c_3|`.
 	</span>
 </p>
 
@@ -742,9 +742,9 @@
 	空间中三向量 `bm a = (a_1, a_2, a_3)`, `bm b = (b_1, b_2, b_3)`,
 	`bm c = (c_1, c_2, c_3)` 共面当且仅当它们所围的平行六面体的定向体积
 	<span class="formula">
-		`|(a_1," "a_2," "a_3),
-		  (b_1," "b_2," "b_3),
-		  (c_1," "c_2," "c_3)| = 0`.
+		`|a_1, a_2, a_3;
+		  b_1, b_2, b_3;
+		  c_1, c_2, c_3| = 0`.
 	</span>
 </p>
 
@@ -752,10 +752,10 @@
 	空间中四点 `A(a_1, a_2, a_3)`, `B(b_1, b_2, b_3)`, `C(c_1, c_2, c_3)`,
 	`D(d_1, d_2, d_3)` 共面当且仅当它们所围的四面体的定向体积
 	<span class="formula">
-		`1/6 |(a_1," "a_2," "a_3," "1),
-		  (b_1," "b_2," "b_3," "1),
-		  (c_1," "c_2," "c_3," "1),
-		  (d_1," "d_2," "d_3," "1)| = 0`.
+		`1/6 |a_1, a_2, a_3, 1;
+		  b_1, b_2, b_3, 1;
+		  c_1, c_2, c_3, 1;
+		  d_1, d_2, d_3, 1| = 0`.
 	</span>
 </p>
 
@@ -766,8 +766,8 @@
 	设 `bm a_1, bm a_2, bm b_1, bm b_2 in E^3`, 则
 	<span class="formula">
 		` (bm a_1 xx bm a_2) * (bm b_1 xx bm b_2)
-		= |(bm a_1 * bm b_1," "bm a_1 * bm b_2),
-		   (bm a_2 * bm b_1," "bm a_2 * bm b_2)|
+		= |bm a_1 * bm b_1, bm a_1 * bm b_2;
+		   bm a_2 * bm b_1, bm a_2 * bm b_2|
 		= "det"(bm a_i * bm b_j)_(2 xx 2)`.
 	</span>
 </p>
@@ -776,8 +776,8 @@
 	利用混合积的轮换对称性与二重外积公式,
 	<span class="formula">
 		左边 = `bm a_2 xx (bm b_1 xx bm b_2) * bm a_1
-		= |(bm b_1," "bm b_2), (bm a_2 * bm b_1," "bm a_2 * bm b_2)| * bm
-		  a_1` = 右边.
+		= |bm b_1, bm b_2; bm a_2 * bm b_1, bm a_2 * bm b_2| * bm a_1`
+		= 右边.
 	</span>
 </p>
 
@@ -791,8 +791,8 @@
 	</li>
 	<li>`sum_(bm a, bm b, bm c) (bm a xx bm b) * (bm c xx bm d) = 0`;</li>
 	<li>`bm a_1 xx (bm a_2 xx (bm b_1 xx bm b_2)) = |
-		(bm a_1 xx bm b_1," "bm a_1 xx bm b_2),
-		(bm a_2 * bm b_1," " bm a_2 * bm b_2)|`;
+		bm a_1 xx bm b_1, bm a_1 xx bm b_2;
+		bm a_2 * bm b_1, bm a_2 * bm b_2|`;
 	</li>
 	<li>` (bm a xx bm b) xx (bm c xx bm d)
 		= (bm c, bm d, bm a) bm b - (bm b, bm c, bm d) bm a`
@@ -820,15 +820,13 @@
 	</span>
 	由<a class="ref" href="#cor-lagrange-equality"></a>的 1 有
 	<span class="formula">`{:
-	(		|vec(AB) xx vec(AC)|^2
-		,=	|vec(AB)|^2 |vec(AC)|^2 - (vec(AB) * vec(AC))^2
-	),(	,=	(|bm a|^2 + |bm b|^2) (|bm a|^2 + |bm c|^2)
-			- ((bm b - bm a) * (bm c - bm a))^2
-	),(	,=	(|bm a|^2 + |bm b|^2) (|bm a|^2 + |bm c|^2)
-			- |bm a|^4
-	),(	,=	|bm a|^2 |bm b|^2 + |bm b|^2 |bm c|^2 + |bm c|^2 |bm a|^2.
-	):}`
-	</span>
+		|vec(AB) xx vec(AC)|^2
+		,= |vec(AB)|^2 |vec(AC)|^2 - (vec(AB)*vec(AC))^2;
+		,= (|bm a|^2 + |bm b|^2) (|bm a|^2 + |bm c|^2)
+		   - ((bm b - bm a) * (bm c - bm a))^2;
+		,= (|bm a|^2 + |bm b|^2) (|bm a|^2 + |bm c|^2) - |bm a|^4;
+		,= |bm a|^2 |bm b|^2 + |bm b|^2 |bm c|^2 + |bm c|^2 |bm a|^2.
+	:}`</span>
 	即得证.
 </p>
 

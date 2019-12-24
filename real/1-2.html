@@ -39,9 +39,9 @@
 	试比较数列的上极限和下极限
 	<span class="formula">
 		`underset(k to oo)(bar lim) x_k
-		= underset(i in NN)"inf"\ underset(k ge i)"sup"\ x_k`,`quad`
-		`underset(k to oo)(ul lim) x_k
-		= underset(i in NN)"sup"\ underset(k ge i)"inf"\ x_k`.
+		= inf_(i in NN) Sup_(k ge i) x_k`,
+		`quad underset(k to oo)(ul lim) x_k
+		= Sup_(i in NN) inf_(k ge i) x_k`.
 	</span>
 	下面的符号存在着 "翻译" 的关系:
 	<span class="formula">
@@ -75,16 +75,16 @@
 <p>	设 `{f_n(x)}` 在可测集 E 上有定义, `t in RR`. 注意, 这里取定 x 的值后,
 	`f_n(x)` 实际被视为一个数列. 简记 `{x in E: ...}` 为 `{x: ...}`, 有
 	<ol>
-		<li>`{x: underset(n ge 1)"sup" \ f_n(x) gt t}
+		<li>`{x: Sup_(n ge 1) f_n(x) gt t}
 			= uuu_(n=1)^oo {x: f_n(x) gt t}`;
 		</li>
-		<li>`{x: underset(n ge 1)"inf" \ f_n(x) lt t}
+		<li>`{x: inf_(n ge 1) f_n(x) lt t}
 			= uuu_(n=1)^oo {x: f_n(x) lt t}`;
 		</li>
-		<li>`{x: underset(n ge 1)"sup" \ f_n(x) lt t}
+		<li>`{x: Sup_(n ge 1) f_n(x) lt t}
 			= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) le t-1/k}`;
 		</li>
-		<li>`{x: underset(n ge 1)"inf" \ f_n(x) gt t}
+		<li>`{x: inf_(n ge 1) f_n(x) gt t}
 			= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) ge t+1/k}`;
 		</li>
 		<li>`{x: underset(n to oo)(bar lim) f_n(x) gt t}
@@ -105,47 +105,45 @@
 		</li>
 	</ol>
 	<ol class="proof">
-		<li>记 `g(x) = underset(n ge 1)"sup" \ f_n(x)`,
+		<li>记 `g(x) = Sup_(n ge 1) f_n(x)`,
 			则对 `AA x in` 右, `AA n in NN`, `g(x) ge f_n(x) gt t`.
 			故左 &supe; 右;<br/>
 			另一方面, `AA x in` 左, `AA epsi gt 0`, `EE n_epsi in NN`,
 			`f_(n_epsi)(x) gt g(x) - epsi`.
 			取 `epsi = g(x) - t`, 就有 `x in` 右, 故左 &sube; 右.
 		</li>
-		<li>可以参考 1 的证明, 但也可以由 `underset(n ge 1)"inf" \ f_n(x)
-			= -underset(n ge 1)"sup" \ (-f_n(x))`, 有
-			<span class="formula">`{:(
-			左		,= {x: -underset(n ge 1)"sup"\ (-f_n(x)) lt t}
-			),(		,= {x: underset(n ge 1)"sup"\ (-f_n(x)) gt -t}
-			),(		,= uuu_(n=1)^oo {x: -f_n(x) gt -t}
-					= 右.
-			):}`</span>
+		<li>可以参考 1 的证明, 但也可以由 `inf_(n ge 1) f_n(x)
+			= -Sup_(n ge 1) (-f_n(x))`, 有
+			<span class="formula">`{:
+			左	,= {x: -Sup_(n ge 1) (-f_n(x)) lt t};
+				,= {x: Sup_(n ge 1) (-f_n(x)) gt -t};
+				,= uuu_(n=1)^oo {x: -f_n(x) gt -t} = 右.
+			:}`</span>
 		</li>
 		<li> 如下
-			<span class="formula">`{:(
-			左		,= E \\ {x: underset(n ge 1)"sup"\ f_n(x) ge t}
-			),(		,= E \\ nnn_(k=1)^oo
-						{x: underset(n ge 1)"sup"\ f_n(x) gt t - 1/k}
-			),(		,= E \\ nnn_(k=1)^oo uuu_(n=1)^oo {x: f_n(x) gt t-1/k}
-					= 右.
-			):}`</span>
+			<span class="formula">`{:
+			左	,= E \\ {x: Sup_(n ge 1) f_n(x) ge t};
+				,= E \\ nnn_(k=1)^oo
+						{x: Sup_(n ge 1) f_n(x) gt t - 1/k};
+				,= E \\ nnn_(k=1)^oo uuu_(n=1)^oo {x: f_n(x) gt t-1/k}
+				= 右.
+			:}`</span>
 		</li>
 		<li>类似 2 的证明.</li>
 		<li>如下
-			<span class="formula">`{:(
-			左		,= {x: underset(m ge 1)"inf"\ underset(n ge m)"sup"
-						\ f_n(x) gt t}
-			),(		,= uuu_(k=1)^oo nnn_(m=1)^oo
-						{x: underset(n ge m)"sup"\ f_n(x) ge t + 1/k}
-			),(		,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo
-						{x: underset(n ge m)"sup"\ f_n(x) lt t + 1/k}
-			),(		,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo uuu_(j=1)^oo
-						nnn_(n=m)^oo {x: f_n(x) le t + 1/k - 1/j}
-			),(		,= uuu_(k=1)^oo nnn_(j=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
-						{x: f_n(x) gt t + 1/k - 1/j}
-			),(		,= uuu_(k=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
-						{x: f_n(x) ge t + 1/k} = 右.
-			):}`</span>
+			<span class="formula">`{:
+			左	,= {x: inf_(m ge 1) Sup_(n ge m) f_n(x) gt t};
+				,= uuu_(k=1)^oo nnn_(m=1)^oo
+					{x: Sup_(n ge m) f_n(x) ge t + 1/k};
+				,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo
+					{x: Sup_(n ge m) f_n(x) lt t + 1/k};
+				,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo uuu_(j=1)^oo
+					nnn_(n=m)^oo {x: f_n(x) le t + 1/k - 1/j};
+				,= uuu_(k=1)^oo nnn_(j=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
+					{x: f_n(x) gt t + 1/k - 1/j};
+				,= uuu_(k=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
+					{x: f_n(x) ge t + 1/k} = 右.
+			:}`</span>
 		</li>
 	</ol>
 </p>
@@ -156,7 +154,7 @@
 	<span class="formula">
 		`lim_(n to oo) {x: f_n(x) gt t}`
 		`= uuu_(n=1)^oo {x: f_x(x) gt t}`
-		`= {x: underset(n in NN)"sup"\ f_n(x) gt t}`
+		`= {x: Sup_(n in NN) f_n(x) gt t}`
 		`= {x: f(x) gt t}`.
 	</span>
 	即对于渐升函数列 `f_n(x)` 有

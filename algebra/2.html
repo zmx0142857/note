@@ -15,10 +15,10 @@
 <p class="example">
 	<span class="formula">
 		`|
-			(, , ,1),
-			(, ,1,),
-			(,&#8944;, ,),
-			(1, , ,)
+			, , ,1;
+			, ,1, ;
+			,&#8944;, , ;
+			1, , , ;
 		|_(n xx n) = (-1)^((n(n-1))/2)`.
 	</span>
 </p>
@@ -26,15 +26,15 @@
 <p class="example">
 	对正整数 `n ge 2`,
 	<span class="formula">`|
-		(a,x,cdots,x),
-		(y,z,cdots,0),
-		(vdots,vdots,,vdots),
-		(y,0,cdots,z)
+		a,x,cdots,x;
+		y,z,cdots,0;
+		vdots,vdots,,vdots;
+		y,0,cdots,z;
 	|_n`
 	`= {
-		((a z-(n-1)x y) z^(n-2), if z != 0),
-		(-x y, if z = 0 and n = 2),
-		(0, if z = 0 and n gt 2)
+		(a z-(n-1)x y) z^(n-2), if z != 0;
+		-x y, if z = 0 and n = 2;
+		0, if z = 0 and n gt 2;
 	:}`
 	</span>
 </p>
@@ -43,10 +43,10 @@
 	`z != 0` 时, 将后面各列的 `-y/z` 倍加到第一列, 原式等于
 	<span class="formula">
 	`|
-		(a-(n-1)x y z^-1,x,cdots,x),
-		(0,z,cdots,0),
-		(vdots,vdots,,vdots),
-		(0,0,cdots,z)
+		a-(n-1)x y z^-1,x,cdots,x;
+		0,z,cdots,0;
+		vdots,vdots,,vdots;
+		0,0,cdots,z;
 	|`.
 	</span>
 	于是得到第一种情形. 另外两种情形是显然的.
@@ -55,10 +55,10 @@
 <p class="example">
 	对正整数 `n ge 2`,
 	<span class="formula">`|
-		(x,y,cdots,y),
-		(y,x,cdots,y),
-		(vdots,vdots, ,vdots),
-		(y,y,cdots,x)
+		x,y,cdots,y;
+		y,x,cdots,y;
+		vdots,vdots, ,vdots;
+		y,y,cdots,x;
 	|_n = (x-y)^(n-1) (x+(n-1)y)`.
 	</span>
 </p>
@@ -67,16 +67,16 @@
 	先将第一行的 -1 倍加到其余各行, 再将其余各列加到第一列, 原式等于
 	<span class="formula">
 	`|
-		(x,y,cdots,y),
-		(y-x,x-y,cdots,0),
-		(vdots,vdots, ,vdots),
-		(y-x,0,cdots,x-y)
+		x,y,cdots,y;
+		y-x,x-y,cdots,0;
+		vdots,vdots, ,vdots;
+		y-x,0,cdots,x-y;
 	|`
 	`= |
-		(x+(n-1)y,y,cdots,y),
-		(0,x-y,cdots,0),
-		(vdots,vdots, ,vdots),
-		(0,0,cdots,x-y)
+		x+(n-1)y,y,cdots,y;
+		0,x-y,cdots,0;
+		vdots,vdots, ,vdots;
+		0,0,cdots,x-y;
 	|`
 	`= (x-y)^(n-1) (x+(n-1)y)`.
 	</span>
@@ -89,18 +89,18 @@
 	<span class="formula">
 	`D_n =`
 	`|
-		(1,-y,-y,cdots,-y),
-		(0,x,y,cdots,y),
-		(0,y,x,cdots,y),
-		(vdots,vdots,vdots, ,vdots),
-		(0,y,y,cdots,x)
+		1,-y,-y,cdots,-y;
+		0,x,y,cdots,y;
+		0,y,x,cdots,y;
+		vdots,vdots,vdots, ,vdots;
+		0,y,y,cdots,x;
 	|_(n+1)`
 	`=|
-		(1,-y,-y,cdots,-y),
-		(1,x-y,0,cdots,0),
-		(1,0,x-y,cdots,0),
-		(vdots,vdots,vdots, ,vdots),
-		(1,0,0,cdots,x-y)
+		1,-y,-y,cdots,-y;
+		1,x-y,0,cdots,0;
+		1,0,x-y,cdots,0;
+		vdots,vdots,vdots, ,vdots;
+		1,0,0,cdots,x-y;
 	|_(n+1)`.
 	</span>
 	沿最后一列展开, 再将 `-y` 的余子式沿最后一行展开,
@@ -123,12 +123,12 @@
 	对正整数 `n ge 1`, 三对角形行列式
 	<span class="formula">
 	`|
-		(y,z,0,cdots,0,0),
-		(x,y,z,cdots,0,0),
-		(0,x,y,cdots,0,0),
-		(vdots,vdots,vdots, ,vdots,vdots),
-		(0,0,0,cdots,y,z),
-		(0,0,0,cdots,x,y)
+		y,z,0,cdots,0,0;
+		x,y,z,cdots,0,0;
+		0,x,y,cdots,0,0;
+		vdots,vdots,vdots, ,vdots,vdots;
+		0,0,0,cdots,y,z;
+		0,0,0,cdots,x,y;
 	|_n`
 	</span>
 </p>
@@ -137,10 +137,10 @@
 	记原式等于 `D_n`, 按第一行展开,
 	<span class="formula">
 	`D_n = y D_(n-1) - z|
-		(x,z,cdots,0),
-		(0,,,),
-		(vdots,,D_(n-2),),
-		(0,,,)
+		x,z,cdots,0;
+		0,,,;
+		vdots,,D_(n-2),;
+		0,,,;
 	|`,
 	</span>
 	最后一个行列式再按第一列展开得
@@ -176,11 +176,11 @@
 <p class="example">
 	<span class="formula">
 	`|
-		(x,0,cdots,0,a_0),
-		(-1,x,cdots,0,a_1),
-		(0,-1,cdots,0,a_2),
-		(vdots,vdots, ,vdots,vdots),
-		(0,0,cdots,-1,x+a_(n-1))
+		x,0,cdots,0,a_0;
+		-1,x,cdots,0,a_1;
+		0,-1,cdots,0,a_2;
+		vdots,vdots, ,vdots,vdots;
+		0,0,cdots,-1,x+a_(n-1);
 	| = f(x)`,
 	</span>
 	其中 `f(x) = sum_(i=0)^n a_i x^i`, `a_n = 1`.
@@ -190,13 +190,8 @@
 	对 `k = n-1, cdots, 2, 1`, 依次将第 `k+1` 行的 `x` 倍加到第 `k` 行上,
 	原式等于
 	<span class="formula">
-		`|(0 ,f(x)),
-		  (-bm E_(n-1) ,**)
-		|`
-		`= (-1)^(n-1) |
-		  (f(x) ,0),
-		  (** ,-bm E_(n-1))
-		|`
+		`|0, f(x); -bm E_(n-1) ,**|`
+		`= (-1)^(n-1) |f(x), 0; **, -bm E_(n-1)|`
 		`= f(x)`.
 	</span>
 </p>
@@ -205,10 +200,10 @@
 	<b>Vandermonde 行列式</b>
 	对正整数 `n ge 2`,
 	<span class="formula">`|
-		(1,x_1,cdots,x_1^(n-1)),
-		(1,x_2,cdots,x_2^(n-1)),
-		(vdots,vdots,,vdots),
-		(1,x_n,cdots,x_n^(n-1))
+		1,x_1,cdots,x_1^(n-1);
+		1,x_2,cdots,x_2^(n-1);
+		vdots,vdots,,vdots;
+		1,x_n,cdots,x_n^(n-1);
 	| = prod_(1 le i lt j le n) (x_j - x_i)`.</span>
 </p>
 
@@ -217,16 +212,16 @@
 	设结论对 `n-1` 成立, 依次将原式第 `i` 列的 `-x_1` 倍加到第 `i+1` 列,
 	`i = n-1, n-2, cdots, 1`, 得到
 	<span class="formula">`|
-		(1,0,cdots,0),
-		(1,x_2-x_1,cdots,x_2^(n-2)(x_2-x_1)),
-		(vdots,vdots,,vdots),
-		(1,x_n-x_1,cdots,x_n^(n-2)(x_n-x_1))
+		1,0,cdots,0;
+		1,x_2-x_1,cdots,x_2^(n-2)(x_2-x_1);
+		vdots,vdots,,vdots;
+		1,x_n-x_1,cdots,x_n^(n-2)(x_n-x_1);
 	|`.</span>
 	按第一行展开后, 提出每一行的公因式, 得
 	<span class="formula">`prod_(j=2)^n (x_j-x_1) |
-		(1,cdots,x_2^(n-2)),
-		(vdots,,vdots),
-		(1,cdots,x_n^(n-2))
+		1,cdots,x_2^(n-2);
+		vdots,,vdots;
+		1,cdots,x_n^(n-2);
 	|`.</span>
 	由归纳假设, 上式等于
 	<span class="formula">
@@ -241,23 +236,23 @@
 <p class="example">
 	求行列式
 	<span class="formula">`|
-		(1, ((x_1),(1)), cdots, ((x_1),(n-1))),
-		(1, ((x_2),(1)), cdots, ((x_2),(n-1))),
-		(vdots, vdots, , vdots),
-		(1, ((x_n),(1)), cdots, ((x_n),(n-1)))
+		1, (x_1;1), cdots, (x_1;n-1);
+		1, (x_2;1), cdots, (x_2;n-1);
+		vdots, vdots, , vdots;
+		1, (x_n;1), cdots, (x_n;n-1);
 	|`.</span>
 </p>
 
 <p class="solution">
-	因为 `((x),(k))` 可以看成是关于 `x` 的 `k` 次多项式,
+	因为 `(x;k)` 可以看成是关于 `x` 的 `k` 次多项式,
 	因此依次将原式的前 `i` 列的某个线性组合加到第 `i+1` 列, 就可以消去
 	第 `i+1` 列中的低次项, 使其只剩 `i` 次项, `i = 2, 3, cdots, n-1`.
 	从而得到
 	<span class="formula">`|
-		(1,x_1/(1!),cdots,x_1^(n-1)/((n-1)!)),
-		(1,x_2/(1!),cdots,x_2^(n-1)/((n-1)!)),
-		(vdots,vdots,,vdots),
-		(1,x_n/(1!),cdots,x_n^(n-1)/((n-1)!))
+		1,x_1/(1!),cdots,x_1^(n-1)/((n-1)!);
+		1,x_2/(1!),cdots,x_2^(n-1)/((n-1)!);
+		vdots,vdots,,vdots;
+		1,x_n/(1!),cdots,x_n^(n-1)/((n-1)!);
 	|`.</span>
 	利用 Vandermonde 行列式, 上式等于
 	<span class="formula">
@@ -269,8 +264,8 @@
 	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 证明:
 	<span class="formula">
 		` |bm E_m - bm (AB)|
-		= |(bm E_n, bm B),(bm A, bm E_m)|
-		= |(bm E_m, bm A),(bm B, bm E_n)|
+		= |bm E_n, bm B; bm A, bm E_m|
+		= |bm E_m, bm A; bm B, bm E_n|
 		= |bm E_n - bm (BA)|`.
 	</span>
 	当 `m != n`, 此公式可以用于降阶.
@@ -286,17 +281,17 @@
 	<li>先证第一个等号. 由行列式的相关性质和矩阵的分块乘法,
 		<span class="formula">
 			` |bm E_m - bm (AB)|
-			= |(bm E_n, bm O), (bm O, bm E_m - bm (AB))|`
-			`= |(bm E_n, bm O), (-bm A, bm E_m)|
-			  |(bm E_n, bm B), (bm A, bm E_m)|
-			  |(bm E_n, -bm B), (bm O, bm E_m)|
-			= |(bm E_n, bm B), (bm A, bm E_m)|`.
+			= |bm E_n, bm O; bm O, bm E_m - bm (AB)|`
+			`= |bm E_n, bm O; -bm A, bm E_m|
+			  |bm E_n, bm B; bm A, bm E_m|
+			  |bm E_n, -bm B; bm O, bm E_m|
+			= |bm E_n, bm B; bm A, bm E_m|`.
 		</span>
 		类似可以证明第三个等号.
 	</li>
 	<li>再证第二个等号.
 		先交换左边行列式的前 `n` 列与后 `m` 列, 得到
-		`|(bm B, bm E_n),(bm E_m, bm A)|`.
+		`|bm B, bm E_n; bm E_m, bm A|`.
 		这可以通过把后 `m` 列逐列前移 `n` 个位置得到, 因此需要交换 `mn`
 		次. 再交换它的前 `n` 行与后 `m` 行来得到右边的行列式; 同样需要
 		`mn` 次交换. 由于交换行/列的次数是偶数, 行列式的值不变.
@@ -415,9 +410,9 @@
 	且 `i!=j` 时, `M_i A_i` 与 `M_j A_j` 无公共项.
 	因此要证结论成立, 只需指出等式左右含展开式的项数相等.
 	由于 `n` 阶行列式的展开式有 `n!` 项, 故等式左端有 `n!` 项.
-	而由子式的取法知 `s = ((n),(k))`, 故等式右端的项数为
+	而由子式的取法知 `s = (n;k)`, 故等式右端的项数为
 	<span class="formula">
-		`((n),(k)) k! (n-k)! = n!`.
+		`(n;k) k! (n-k)! = n!`.
 	</span>
 	证毕.
 </p>
@@ -449,10 +444,10 @@
 	设 `bm A` 是阶数 `ge 2` 的方阵,
 	<span class="formula">
 		`bm A^** := [
-			(A_11,A_21,cdots,A_(n1)),
-			(A_12,A_22,cdots,A_(n2)),
-			(vdots,vdots, ,vdots),
-			(A_(1n),A_(2n),cdots,A_(n n))
+			A_11,A_21,cdots,A_(n1);
+			A_12,A_22,cdots,A_(n2);
+			vdots,vdots, ,vdots;
+			A_(1n),A_(2n),cdots,A_(n n);
 		]`
 	</span>
 	称为 `bm A` 的<b>伴随矩阵 (adjugate matirx)</b>, 也记为 `"adj" bm A`.
@@ -467,8 +462,8 @@
 	</span>
 	这个公式适用于计算二阶矩阵的逆:
 	<span class="formula">
-		`[(a,b),(c,d)]^-1`
-		`= 1/(a d-b c) [(d,-b),(-c,a)]`,
+		`[a,b;c,d]^-1`
+		`= 1/(a d-b c) [d,-b;-c,a]`,
 	</span>
 	但是当矩阵的阶数较大时, 计算量很大, 所以并不适用.
 </p>
@@ -570,10 +565,10 @@
 		<span class="formula">
 			`1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)'`
 			`= 1/|bm A| [
-				((A_11, A_21, cdots, A_(n1))bm B),
-				((A_12, A_22, cdots, A_(n2))bm B),
-				(vdots),
-				((A_(1n), A_(2n), cdots, A_(n n))bm B)
+				(A_11, A_21, cdots, A_(n1))bm B;
+				(A_12, A_22, cdots, A_(n2))bm B;
+				vdots;
+				(A_(1n), A_(2n), cdots, A_(n n))bm B;
 			]`
 			`= 1/|bm A| bm A^** bm B`
 			`= bm(A^-1 B)`.
@@ -636,10 +631,10 @@
 <p class="remark">
 	用 Cramer 法则求解二元一次方程组
 	<span class="formula">`{
-		(a x + b y = u),
-		(c x + d y = v)
+		a x + b y = u;
+		c x + d y = v;
 	:}`</span>
-	得 `(x,y) = 1/(a d-b c)(|(u,b),(v,d)|, |(a,u),(c,v)|)`.
+	得 `(x,y) = 1/(a d-b c)(|u,b;v,d|, |a,u;c,v|)`.
 	但当方程组规模较大时, Cramer 法则的计算量很大.
 </p>
 

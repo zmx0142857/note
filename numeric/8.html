@@ -21,8 +21,8 @@
 	记 `D = [a, b] xx RR`.
 	考虑一阶常微分方程初值问题
 	<span class="formula">`{
-		(dy/dx = f(x, y), x in [a, b]),
-		(y(x_0) = y_0, (x_0, y_0) in D)
+		dy/dx = f(x, y), x in [a, b]);
+		y(x_0) = y_0, (x_0, y_0) in D;
 	:}`
 	<span class="label">(1-1)</span>
 	</span>
@@ -117,8 +117,8 @@
 	相比显式方法, 隐式方法计算量大, 但数值稳定性一般更好.
 	通常先以显式 Euler 法提供初值, 再用迭代法求解隐式方程, 即
 	<span class="formula">`{
-		(y_(n+1)^((0)) = y_n + h f(x_n, y_n)),
-		(y_(n+1)^((k+1)) = y_n + h f(x_(n+1), y_(n+1)^((k))))
+		y_(n+1)^((0)) = y_n + h f(x_n, y_n);
+		y_(n+1)^((k+1)) = y_n + h f(x_(n+1), y_(n+1)^((k)));
 	:}`
 	</span>
 </p>
@@ -134,12 +134,11 @@
 
 <p> 后退 Euler 法也具有一阶精度:
 	<span class="formula">`{:
-	(		T_(n+1)
-		,=	y(x_(n+1)) - y(x_n) - h f(x_(n+1), y(x_(n+1)))
-	),(	,=	h y'(x_n) + h^2/2 y''(x_n) + O(h^3)
-		  - h (y'(x_n) + h y''(x_n) + O(h^2))
-	),(	,= - h^2/2 y''(x_n) + O(h^3).
-	):}`
+	T_(n+1) ,=	y(x_(n+1)) - y(x_n) - h f(x_(n+1), y(x_(n+1)));
+			,=	h y'(x_n) + h^2/2 y''(x_n) + O(h^3)
+			  - h (y'(x_n) + h y''(x_n) + O(h^2));
+			,= - h^2/2 y''(x_n) + O(h^3).
+	:}`
 	</span>
 </p>
 
@@ -151,10 +150,10 @@
 
 <p>	迭代格式:
 	<span class="formula">`{
-		( y_(n+1)^((0)) ,= y_n + h f(x_n, y_n) ),
-		( y_(n+1)^((k+1)) ,= y_n + h/2 (f(x_n, y_n) + f(x_(n+1),
-		y_(n+1)^((k)))) ),
-		( ,= 1/2 (y_(n+1)^((0)) + y_n + h f(x_(n+1), y_(n+1)^((k)))) )
+		y_(n+1)^((0)) ,= y_n + h f(x_n, y_n);
+		y_(n+1)^((k+1)) ,= y_n + h/2 (f(x_n, y_n) + f(x_(n+1),
+		y_(n+1)^((k))));
+		,= 1/2 (y_(n+1)^((0)) + y_n + h f(x_(n+1), y_(n+1)^((k))));
 	:}`
 	</span>
 </p>
@@ -171,12 +170,11 @@
 <p>	梯形方法具有二阶精度. 以 `y', y'', y'''` 记
 	`y'(x_n)`, `y''(x_n)`, `y'''(x_n)`, 则
 	<span class="formula">`{:
-	(		T_(n+1)
-		,=	y(x_(n+1)) - y(x_n) - h/2 (y'(x_n) + y'(x_(n+1)))
-	),(	,=	hy' + h^2/2 h'' + h^3/6 y''' + O(h^4)
-		  - h/2 (y' + y' + hy'' + h^2/2 y''' + O(h^3))
-	),(	,=	-1/12 y''' + O(h^4).
-	):}`
+	T_(n+1) ,=	y(x_(n+1)) - y(x_n) - h/2 (y'(x_n) + y'(x_(n+1)));
+			,=	hy' + h^2/2 h'' + h^3/6 y''' + O(h^4)
+			  - h/2 (y' + y' + hy'' + h^2/2 y''' + O(h^3));
+			,=	-1/12 y''' + O(h^4).
+	:}`
 	</span>
 </p>
 
@@ -185,9 +183,9 @@
 <p>	作一次预测 (`y_p`) 与一次校正 (`y_c`),
 	然后取平均值:
 	<span class="formula">`{
-		(y_p = y_n + h f(x_n, y_n)),
-		(y_c = y_n + h f(x_(n+1), y_p)),
-		(y_(n+1) = 1/2(y_p + y_c))
+		y_p = y_n + h f(x_n, y_n);
+		y_c = y_n + h f(x_(n+1), y_p);
+		y_(n+1) = 1/2(y_p + y_c);
 	:}`
 	</span>
 	这相当于在梯形方法中取 `k = 0`, 因此改进 Euler 法和梯形方法一样,
@@ -214,38 +212,38 @@
 <h2>(显式) Runge-Kutta 方法</h2>
 
 <span class="formula">`{
-	( K_1 = f(x_n, y_n) ),
-	( K_i = f(x_n + lambda_i h,
-		y_n + h sum_(j=1)^(i-1) mu_(ij) K_j) ),
-	( y_(n+1) = y_n + h sum_(i=1)^r c_i K_i )
+	K_1 = f(x_n, y_n);
+	K_i = f(x_n + lambda_i h,
+		y_n + h sum_(j=1)^(i-1) mu_(ij) K_j);
+	y_(n+1) = y_n + h sum_(i=1)^r c_i K_i;
 :}`; `c_i`, `lambda_i`, `mu_(ij)` 为待定系数.
 </span>
 
 <h3>改进 Euler 法 (r=2)</h3>
 
 <span class="formula">`{
-	( K_1 = f(x_n, y_n) ),
-	( K_2 = f(x_n + h, y_n + h K_1) ),
-	( y_(n+1) = y_n + h/2 (K_1 + K_2) )
+	K_1 = f(x_n, y_n);
+	K_2 = f(x_n + h, y_n + h K_1);
+	y_(n+1) = y_n + h/2 (K_1 + K_2);
 :}`
 </span>
 
 <h3>中点公式 (r=2)</h3>
 
 <span class="formula">`{
-	( K_1 = f(x_n, y_n) ),
-	( K_2 = f(x_n + h/2, y_n + h/2 K_1) ),
-	( y_(n+1) = y_n + h K_2 )
+	K_1 = f(x_n, y_n);
+	K_2 = f(x_n + h/2, y_n + h/2 K_1);
+	y_(n+1) = y_n + h K_2;
 :}`
 </span>
 
 <h3>Kutta 三阶方法 (r=3)</h3>
 
 <span class="formula">`{
-	( K_1 = f(x_n, y_n) ),
-	( K_2 = f(x_n + h/2, y_n + h/2 K_1) ),
-	( K_3 = f(x_n + h, y_n - h K_1 + 2h K_2) ),
-	( y_(n+1) = y_n + h/6 (K_1 + 4K_2 + K_3) )
+	K_1 = f(x_n, y_n);
+	K_2 = f(x_n + h/2, y_n + h/2 K_1);
+	K_3 = f(x_n + h, y_n - h K_1 + 2h K_2);
+	y_(n+1) = y_n + h/6 (K_1 + 4K_2 + K_3);
 :}`
 </span>
 
@@ -253,11 +251,11 @@
 
 <p>	此方法十分有效而且常用.
 	<span class="formula">`{
-		( K_1 = f(x_n, y_n) ),
-		( K_2 = f(x_n + h/2, y_n + h/2 K_1) ),
-		( K_3 = f(x_n + h/2, y_n + h/2 K_2) ),
-		( K_4 = f(x_n + h, y_n + h K_3) ),
-		( y_(n+1) = y_n + h/6 (K_1 + 2K_2 + 2K_3 + K_4) )
+		K_1 = f(x_n, y_n);
+		K_2 = f(x_n + h/2, y_n + h/2 K_1);
+		K_3 = f(x_n + h/2, y_n + h/2 K_2);
+		K_4 = f(x_n + h, y_n + h K_3);
+		y_(n+1) = y_n + h/6 (K_1 + 2K_2 + 2K_3 + K_4);
 	:}`
 	</span>
 </p>
@@ -265,9 +263,9 @@
 <h3>确定二阶 R-K 方法的系数</h3>
 
 <span class="formula">`{
-	( K_1 = f(x_n, y_n) ),
-	( K_2 = f(x_n + lambda_2 h, y_n + mu_21 h K_1) ),
-	( y_(n+1) = y_n + h (c_1 K_1 + c_2 K_2) )
+	K_1 = f(x_n, y_n);
+	K_2 = f(x_n + lambda_2 h, y_n + mu_21 h K_1);
+	y_(n+1) = y_n + h (c_1 K_1 + c_2 K_2);
 :}`
 </span>
 
@@ -277,15 +275,14 @@
 	<span class="formula">
 		`y' = f`, `quad y'' = f_x + y' f_y = f_x + f f_y`,
 	</span>
-	<span class="formula">`{:(
-			T_(n+1)
-		,=	y(x_(n+1)) - y(x_n) - h(c_1 K_1 + c_2 K_2)
-	),(	,=	hy' + h^2/2 y'' + O(h^3)
-	),( ,\  - h (c_1 f + c_2 ( f + lambda_2 h f_x + mu_21 h f f_y
-			+ O(h^2)))
-	),(	,=	(1-c_1-c_2)f h + (1/2(f_x + f f_y) - c_2 lambda_2 f_x - c_2
-			mu_21 f f_y) h^2 + O(h^3).
-	):}
+	<span class="formula">`{:
+		T_(n+1) ,=	y(x_(n+1)) - y(x_n) - h(c_1 K_1 + c_2 K_2);
+		,=	hy' + h^2/2 y'' + O(h^3);
+		,\  - h (c_1 f + c_2 ( f + lambda_2 h f_x + mu_21 h f f_y
+				+ O(h^2)));
+		,=	(1-c_1-c_2)f h + (1/2(f_x + f f_y) - c_2 lambda_2 f_x - c_2
+				mu_21 f f_y) h^2 + O(h^3).
+	:}
 	</span>
 	该方法至少具有二阶精度, 即 `T_(n+1) = O(h^3)` 当且仅当
 	<span class="formula">`{
@@ -346,11 +343,11 @@
 </p>
 
 <p> 因为局部截断误差
-	<span class="formula">`{:(,
-			y(x+h) - y(x) - h varphi(x, y(x), h)
-	),(	=,	h y'(x) + O(h^2) - h(varphi(x, y(x), 0) + O(h))
-	),(	=,	h (y'(x) - varphi(x, y(x), 0)) + O(h^2).
-	):}`
+	<span class="formula">`{:
+			,y(x+h) - y(x) - h varphi(x, y(x), h);
+		=,	h y'(x) + O(h^2) - h(varphi(x, y(x), 0) + O(h));
+		=,	h (y'(x) - varphi(x, y(x), 0)) + O(h^2).
+	:}`
 	</span>
 	所以单步法的精度 `p ge 1` 的充要条件是 `varphi(x, y(x), 0) = y'(x) =
 	f(x, y)`.
@@ -429,8 +426,8 @@
 	线性 `k` 步法的相容性条件为
 	<span class="formula">
 		`p ge 1 iff {
-		( sum_(i=0)^(k-1) alpha_i = 1 ),
-		( sum_(i=1)^(k-1) i alpha_i + sum_(i=0)^k beta_i = k )
+		sum_(i=0)^(k-1) alpha_i = 1;
+		sum_(i=1)^(k-1) i alpha_i + sum_(i=0)^k beta_i = k;
 	:}`
 	</span>
 </p>
@@ -450,10 +447,10 @@
 	</span>
 	其中
 	<span class="formula">`c_q = {
-		( 1 - sum_(i=0)^(k-1) alpha_i, q = 0),
-		( k - sum_(i=1)^(k-1) i alpha_i - sum_(i=0)^k beta_i, q = 1),
-		( 1/(q!) (k^q - sum_(i=1)^(k-1) i^q alpha_i)
-		  - 1/((q-1)!) sum_(i=1)^k i^(q-1) beta_i, q ge 2)
+		1 - sum_(i=0)^(k-1) alpha_i, q = 0;
+		k - sum_(i=1)^(k-1) i alpha_i - sum_(i=0)^k beta_i, q = 1;
+		1/(q!) (k^q - sum_(i=1)^(k-1) i^q alpha_i)
+		  - 1/((q-1)!) sum_(i=1)^k i^(q-1) beta_i, q ge 2;
 	:}`
 	</span>
 	于是 `p ge 1 iff c_0 = c_1 = 0`. 进一步, 适当选择系数 `alpha_i`,

@@ -456,6 +456,17 @@ function toggleHideHeader() {
 }
 */
 
+// make formula scrollable on overflow
+function wrapFormula() {
+	var fmls = document.getElementsByClassName('formula');
+	for (var i = 0; i < fmls.length; ++i) {
+		var div = document.createElement('div');
+		div.className = 'formula-wrapper';
+		fmls[i].parentElement.insertBefore(div, fmls[i]);
+		div.appendChild(fmls[i]);
+	}
+}
+
 // ---- data & function call ----
 
 var args = getQuery();
@@ -512,6 +523,7 @@ if (args.type == 'cs') {
 makeReference(); // call makeReference() after decorate()
 //wrapIOS(); // call this after decorate()
 //toggleHideHeader();
+wrapFormula();
 
 })();
 

@@ -23,11 +23,11 @@
 	定义 `n` 选 `m` 的<b>组合数</b>为集合 `X_n = {1, 2, cdots, n}` 的
 	`m`-子集数, 记为
 	<span class="formula">
-		`((n),(m)) = C(n, m) = C_n^m`.
+		`(n;m) = C(n, m) = C_n^m`.
 	</span>
 	这里的字母 C 可理解为 choice 或 combination.
-	特别地, `((n),(0)) -= 1`, 因为大小为 0 的子集只有空集;
-	`((n),(n)) -= 1`, 因为大小为 `n` 的子集只能是 `X_n` 自身.
+	特别地, `(n;0) -= 1`, 因为大小为 0 的子集只有空集;
+	`(n;n) -= 1`, 因为大小为 `n` 的子集只能是 `X_n` 自身.
 	组合数最直观的解释是, 从 `n` 件不同物品中选出 (无序的) `m` 件的方法数.
 </p>
 
@@ -40,7 +40,7 @@
 	个不同盒子, 且使得每个盒子的物体数只能是 0 或 1 的方法数.
 	显然只需从 `n` 个盒子选出物体数为 1 的盒子即可. 故
 	<span class="formula">
-		`|I_2| = ((n),(m))`.
+		`|I_2| = (n;m)`.
 	</span>
 </p>
 
@@ -57,7 +57,7 @@
 	由于每个盒子不空, 问题转化为在 `m-1` 个空隙中插入 `n-1`
 	个隔板的方法数, 于是
 	<span class="formula">
-		`|S_2| = ((m-1),(n-1))`.
+		`|S_2| = (m-1;n-1)`.
 	</span>
 	`|S_2|` 还是:
 	<li>方程 `sum_(i=1)^n x_i = m` 的正整数解的个数;</li>
@@ -75,7 +75,7 @@
 	注意隔板与物体都不可区分, 这相当于在
 	`m+n-1` 个位置上选出 `m` 个物体, 即
 	<span class="formula">
-		`|F_2| = ((m+n-1),(m))`.
+		`|F_2| = (m+n-1;m)`.
 	</span>
 	`|F_2|` 还是:
 	<li>方程 `sum_(i=1)^n x_i = m` 的非负整数解的个数;</li>
@@ -92,7 +92,7 @@
 <p class="theorem">
 	<b>对称性</b>
 	<span class="formula">
-		`((n),(k)) = ((n),(n-k))`.
+		`(n;k) = (n;n-k)`.
 	</span>
 </p>
 
@@ -104,7 +104,7 @@
 <p class="theorem">	
 	<b>Pascal 恒等式</b>
 	<span class="formula">
-		`((n+1), (k)) = ((n),(k-1)) + ((n),(k))`.
+		`(n+1;k) = (n;k-1) + (n;k)`.
 	</span>
 </p>
 
@@ -112,24 +112,22 @@
 	组合证明:
 	事先将 `n+1` 件物品标号为 `1, 2, cdots, n+1`.
 	现从 `n+1` 件物品中选取 `k` 件, 如果其中含有第一件物品,
-	则需要从剩下 `n` 件中再选取 `k-1` 件, 有 `((n),(k-1))` 种选法;
+	则需要从剩下 `n` 件中再选取 `k-1` 件, 有 `(n;k-1)` 种选法;
 	如果其中不含第一件物品, 则需要从剩下 `n` 件中选取 `k` 件,
-	有 `((n),(k))` 种选法.
+	有 `(n;k)` 种选法.
 </p>
 
 <p class="example">
 	<b>Pascal (杨辉) 三角</b>
-	利用 `((n),(0)) = ((n),(n)) = 1` 和 Pascal 恒等式,
+	利用 `(n;0) = (n;n) = 1` 和 Pascal 恒等式,
 	将组合数列成一个等腰三角形数表:
 	<span class="formula">
-		`((0),(0))`<br/>
-		`((1),(0)) quad ((1),(1))`<br/>
-		`((2),(0)) quad ((2),(1)) quad ((2),(2))`<br/>
-		`((3),(0)) quad ((3),(1)) quad ((3),(2)) quad ((3),(3))`<br/>
-		`((4),(0)) quad ((4),(1)) quad ((4),(2)) quad ((4),(3)) quad
-		((4),(4))`<br/>
-		`((5),(0)) quad ((5),(1)) quad ((5),(2)) quad ((5),(3)) quad
-		((5),(4)) quad ((5),(5))`<br/>
+		`(0;0)`<br/>
+		`(1;0) quad (1;1)`<br/>
+		`(2;0) quad (2;1) quad (2;2)`<br/>
+		`(3;0) quad (3;1) quad (3;2) quad (3;3)`<br/>
+		`(4;0) quad (4;1) quad (4;2) quad (4;3) quad (4;4)`<br/>
+		`(5;0) quad (5;1) quad (5;2) quad (5;3) quad (5;4) quad (5;5)`<br/>
 		`cdots`
 	</span>
 	即
@@ -148,7 +146,7 @@
 
 <h2>组合恒等式</h2>
 
-<p>	这里收集一些关于组合数 `((n),(m))` 的恒等式.
+<p>	这里收集一些关于组合数 `(n;m)` 的恒等式.
 	约定 `0^0 = 1`, `sum_(i=k)^(k-1) = 0`, `prod_(i=k)^(k-1) = 1`.
 </p>
 
@@ -156,23 +154,23 @@
 	<b>二项式定理</b>
 	`n` 为非负整数, `x, y` 为任意实数, 则
 	<span class="formula">
-		`(x+y)^n = sum_(k=0)^n ((n),(k)) x^k y^(n-k)`.
+		`(x+y)^n = sum_(k=0)^n (n;k) x^k y^(n-k)`.
 	</span>
-	因此组合数 `((n),(k))` 也称为<b>二项式系数</b>.
+	因此组合数 `(n;k)` 也称为<b>二项式系数</b>.
 </p>
 
 <p class="corollary">
 	在二项式定理中取 `x = y = 1` 有
 	<span class="formula">
-		`2^n = sum_(k=0)^n ((n),(k))`.
+		`2^n = sum_(k=0)^n (n;k)`.
 	</span>
 	取 `x = 1`, `y = -1` 有
 	<span class="formula">
-		`0 = sum_(k=0)^n ((n),(k)) (-1)^k`,
+		`0 = sum_(k=0)^n (n;k) (-1)^k`,
 	</span>
 	即
 	<span class="formula">
-		`sum_(k" is odd") ((n),(k)) = sum_(k" is even") ((n),(k))`.
+		`sum_(k" is odd") (n;k) = sum_(k" is even") (n;k)`.
 	</span>
 </p>
 
@@ -180,14 +178,14 @@
 	<b>Vandermonde 恒等式</b>
 	`m, n` 为非负整数, 则
 	<span class="formula">
-		`((m+n),(k)) = sum_(i=0)^k ((m),(i))((n),(k-i))`.
+		`(m+n;k) = sum_(i=0)^k (m;i)(n;k-i)`.
 	</span>
 </p>
 
 <p class="corollary">
 	在 Vandermonde 恒等式中令 `m = n = k` 有
 	<span class="formula">
-		`((2n),(n)) = sum_(i=0)^n ((n),(i))^2`.
+		`(2n;n) = sum_(i=0)^n (n;i)^2`.
 	</span>
 </p>
 
@@ -195,17 +193,17 @@
 	<b>朱世杰恒等式 (元代)</b>
 	设 `m, n` 为非负整数, 则
 	<span class="formula">
-		`((m+n+1),(n+1)) = sum_(i=0)^m ((n+i),(n))`.
+		`(m+n+1;n+1) = sum_(i=0)^m (n+i;n)`.
 	</span>
 	令 `n = k`, `m = n-k`, 得左斜公式:
 	<span class="formula">
-		`((n+1),(k+1)) = sum_(i=0)^(n-k) ((k+i),(k))`
-		`= sum_(i=k)^n ((i),(k))`.
+		`(n+1;k+1) = sum_(i=0)^(n-k) (k+i;k)`
+		`= sum_(i=k)^n (i;k)`.
 	</span>
 	令 `m = k`, `n = m-k`, 得右斜公式:
 	<span class="formula">
-		`((m+1),(k)) = sum_(i=0)^k ((m-k+i),(i))`
-		`= sum_(i=0)^k ((m-i),(k-i))`.
+		`(m+1;k) = sum_(i=0)^k (m-k+i;i)`
+		`= sum_(i=0)^k (m-i;k-i)`.
 	</span>
 </p>
 
@@ -224,8 +222,8 @@
 	最后得到所求的和 15. 为此得到启发,
 	反复用 Pascal 恒等式:
 	<span class="formula">
-		右边 `= ((n+1),(n+1)) + sum_(i=1)^m ((n+i),(n))`
-		`= ((n+2),(n+1)) + sum_(i=2)^m ((n+i),(n))`
+		右边 `= (n+1;n+1) + sum_(i=1)^m (n+i;n)`
+		`= (n+2;n+1) + sum_(i=2)^m (n+i;n)`
 		`= cdots =` 左边.
 	</span>
 </div>
@@ -233,15 +231,15 @@
 <p class="example">
 	设 `m, n` 是非负整数, `m gt n`, 则
 	<span class="formula">
-		`sum_(i=0)^n {:((n),(i)):}/{:((m),(i)):} = (m+1)/(m+1-n)`.
+		`sum_(i=0)^n {:(n;i):}/{:(m;i):} = (m+1)/(m+1-n)`.
 	</span>
 </p>
 
 <p class="proof">
 	应用右斜公式:
 	<span class="formula">
-		左边 `= 1/{:((m),(n)):} sum_(i=0)^n ((m-i),(n-i))`
-		`= {:((m+1),(n)):}/{:((m),(n)):} =`
+		左边 `= 1/{:(m;n):} sum_(i=0)^n (m-i;n-i)`
+		`= {:(m+1;n):}/{:(m;n):} =`
 		右边.
 	</span>
 </p>

@@ -88,7 +88,7 @@
 			`(AA bm X != bb 0)`
 			`bm (AX) = bb 0`
 			`rArr`
-			`(bm A, bm B) [(bm X),(bb 0)] = bb 0`.
+			`(bm A, bm B) [bm X;bb 0] = bb 0`.
 		</span>
 		这指出, 若向量组的一个<b>部分组</b>线性相关,
 		则整个向量组线性相关.  换言之, 若向量组线性无关,
@@ -101,7 +101,7 @@
 		P^(n-1)`, `i = 1, 2, cdots, s` 线性相关.  用方程组的语言, 就是
 		<span class="formula">
 			`(AA bm X != bb 0)`
-			`[(bm A),(bm B)] bm X = [(bb 0),(bb 0)]`
+			`[bm A;bm B] bm X = [bb 0;bb 0]`
 			`rArr`
 			`bm (AX) = bb 0`.
 		</span>
@@ -575,15 +575,14 @@
 	<span class="formula">
 		` bm A
 		= [bm alpha_1, bm alpha_2, cdots, bm alpha_n]`
-		`= [(bm alpha^((1))), (bm alpha^((2))), (vdots), (bm
-		alpha^((m)))]`.
+		`= [bm alpha^((1)); bm alpha^((2)); vdots; bm alpha^((m))]`.
 	</span>
 	它有如下等价标准形:
 	<span class="formula">
 		` bm overset ~ A
 		= [bm eta_1, bm eta_2, cdots, bm eta_n]`
-		`= [(bm eta^((1))), (bm eta^((2))), (vdots), (bm eta^((m)))]`
-		`= [(bm E_r, bm O), (bm O, bm O)]`,
+		`= [bm eta^((1)); bm eta^((2)); vdots; bm eta^((m))]`
+		`= [bm E_r, bm O; bm O, bm O]`,
 	</span>
 	即对列向量组 `{bm alpha_i}_(i=1)^n`
 	作有限次向量组的涉及向量的初等变换和涉及分量的初等变换后可得向量组
@@ -633,14 +632,14 @@
 	<b>阶梯形矩阵</b>
 	<span class="formula">
 		` bm A
-		= [(**,a_12,a_13, cdots, a_(1r), cdots, a_(1n)),
-		   (0,**,   a_12, cdots, a_(2r), cdots, a_(2n)),
-		   (0,0,   **,    cdots, a_(3r), cdots, a_(3n)),
-		   (vdots, vdots, vdots, , vdots, , vdots),
-		   (0,0,   0,    cdots, **,      cdots, a_(rn)),
-		   (0,0, 0, cdots, 0, cdots, 0),
-		   (vdots, vdots, vdots, , vdots, , vdots),
-		   (0,0, 0, cdots, 0, cdots, 0)]`
+		= [**,a_12,a_13, cdots, a_(1r), cdots, a_(1n);
+		   0,**,   a_12, cdots, a_(2r), cdots, a_(2n);
+		   0,0,   **,    cdots, a_(3r), cdots, a_(3n);
+		   vdots, vdots, vdots, , vdots, , vdots;
+		   0,0,   0,    cdots, **,      cdots, a_(rn);
+		   0,0, 0, cdots, 0, cdots, 0;
+		   vdots, vdots, vdots, , vdots, , vdots;
+		   0,0, 0, cdots, 0, cdots, 0]`
 	</span>
 	的秩为 `r`, 其中 `**` 为非零数.
 </p>
@@ -648,10 +647,10 @@
 <p class="example">
 	利用初等变换计算
 	<span class="formula">
-		`[(4,-2,1),
-		  (1,2,-2),
-		  (-1,8,-7),
-		  (2,14,-13)]`
+		`[4,-2,1;
+		  1,2,-2;
+		  -1,8,-7;
+		  2,14,-13]`
 	</span>
 	的秩.
 </p>
@@ -659,25 +658,25 @@
 <p class="solution">
 	作行初等变换:
 	<span class="formula">
-		`[(4,-2,1),
-		  (1,2,-2),
-		  (-1,8,-7),
-		  (2,14,-13)]`
-		`overset([1"," 2]) rarr`
-		`[(1,2,-2),
-		  (4,-2,1),
-		  (-1,8,-7),
-		  (2,14,-13)]`
+		`[4,-2,1;
+		  1,2,-2;
+		  -1,8,-7;
+		  2,14,-13]`
+		`overset([1, 2]) rarr`
+		`[1,2,-2;
+		  4,-2,1;
+		  -1,8,-7;
+		  2,14,-13]`
 		`underset([3+1(1)][4-1(2)]) overset([2-1(4)]) rarr`
-		`[(1,2,-2),
-		  (0,-10,9),
-		  (0,10,-9),
-		  (0,10,-9)]`
+		`[1,2,-2;
+		  0,-10,9;
+		  0,10,-9;
+		  0,10,-9]`
 		`underset([4+2(1)]) overset([3+2(1)]) rarr`
-		`[(1,2,-2),
-		  (0,-10,9),
-		  (0,0,0),
-		  (0,0,0)]`.
+		`[1,2,-2;
+		  0,-10,9;
+		  0,0,0;
+		  0,0,0]`.
 	</span>
 	由上例知原矩阵的秩为 2.
 </p>
@@ -696,7 +695,7 @@
 <ol class="example">
 	<b>若干秩不等式</b>
 	假设下面各式中的加法与乘法都可以进行, 即矩阵具有合适的行, 列数:
-	<li>`max{r_(bm A),r_(bm B)} le r_((bm A","bm B))
+	<li>`max{r_(bm A),r_(bm B)} le r_((bm A,bm B))
 		le r_(bm A) + r_(bm B)`;
 	</li>
 	<li>`r_(bm A+-bm B) le r_(bm A) + r_(bm B)`;</li>
@@ -727,13 +726,13 @@
 	</li>
 	<li>考察矩阵
 		<span class="formula">
-			`bm C = [(bm E_n,bm B),(bm A,bm O)]`,
-			`quad bm P = [(bm E_n,bm O),(-bm A,bm E_m)]`,
-			`quad bm Q = [(bm E_n,-bm B),(bm O,bm E_s)]`,
+			`bm C = [bm E_n,bm B; bm A,bm O]`,
+			`quad bm P = [bm E_n,bm O; -bm A,bm E_m]`,
+			`quad bm Q = [bm E_n,-bm B; bm O,bm E_s]`,
 		</span>
 		计算知
 		<span class="formula">
-			`bm(P C Q) = [(bm E_n,bm O),(bm O,-bm(A B))]`.
+			`bm(P C Q) = [bm E_n,bm O; bm O,-bm(A B)]`.
 		</span>
 		由于 `|bm P| = |bm Q| = 1`, 故 `bm P, bm Q` 均可逆, 所以
 		<span class="formula">
@@ -804,9 +803,9 @@
 	设 `bm A` 是阶数 `ge 2` 的方阵, `bm A^**` 是它的伴随矩阵, 则
 	<span class="formula">
 		`r_(bm A^**) = {
-			(n, if r_(bm A) = n),
-			(1, if r_(bm A) = n-1),
-			(0, if r_(bm A) lt n-1)
+			n, if r_(bm A) = n;
+			1, if r_(bm A) = n-1;
+			0, if r_(bm A) lt n-1;
 		:}`
 	</span>
 	从而 `bm A` 不可逆时, `bm A^**` 也不可逆.
@@ -855,11 +854,11 @@
 <p class="example">
 	判断下列线性方程组的可解性.
 	<span class="formula">`{
-		(x_1 + 2x_2 + 3x_3 + x_4 = 1),
-		(x_1 + 4x_2 + 5x_3 + 2x_4 = 2),
-		(2x_1 + 9x_2 + 8x_3 + 3x_4 = 7),
-		(3x_1 + 7x_2 + 7x_3 + 2x_4 = 12),
-		(5x_1 + 7x_2 + 9x_3 + 2x_4 = 20)
+		x_1 + 2x_2 + 3x_3 + x_4 = 1;
+		x_1 + 4x_2 + 5x_3 + 2x_4 = 2;
+		2x_1 + 9x_2 + 8x_3 + 3x_4 = 7;
+		3x_1 + 7x_2 + 7x_3 + 2x_4 = 12;
+		5x_1 + 7x_2 + 9x_3 + 2x_4 = 20;
 	:}`
 	</span>
 </p>
@@ -867,29 +866,29 @@
 <p class="solution">
 	只作行初等变换, 同时求出上面方程组系数矩阵与增广矩阵的秩.
 	<span class="formula">
-		`[(1,2,3,1,1),
-		  (1,4,5,2,2),
-		  (2,9,8,3,7),
-		  (3,7,7,2,12),
-		  (5,7,9,2,20)]`
+		`[1,2,3,1,1;
+		  1,4,5,2,2;
+		  2,9,8,3,7;
+		  3,7,7,2,12;
+		  5,7,9,2,20]`
 		`underset([4-1(3)][5-1(5)]) overset([3-2(2)][2-1(1)]) rarr`
-		`[(1,2,3,1,1),
-		  (0,2,2,1,1),
-		  (0,1,-2,-1,3),
-		  (0,1,-2,-1,9),
-		  (0,-3,-6,-3,15)]`
+		`[1,2,3,1,1;
+		  0,2,2,1,1;
+		  0,1,-2,-1,3;
+		  0,1,-2,-1,9;
+		  0,-3,-6,-3,15]`
 		`underset([4-2(1)][5+2(3)]) overset([2","3][3-2(2)]) rarr`
-		`[(1,2,3,1,1),
-		  (0,1,-2,-1,3),
-		  (0,0,6,3,-5),
-		  (0,0,0,0,6),
-		  (0,0,-12,-6,24)]`
+		`[1,2,3,1,1;
+		  0,1,-2,-1,3;
+		  0,0,6,3,-5;
+		  0,0,0,0,6;
+		  0,0,-12,-6,24]`
 		`underset([5-4(14/6)]) overset([5+3(2)]) rarr`
-		`[(1,2,3,1,1),
-		  (0,1,-2,-1,3),
-		  (0,0,6,3,-5),
-		  (0,0,0,0,6),
-		  (0,0,0,0,0)]`.
+		`[1,2,3,1,1;
+		  0,1,-2,-1,3;
+		  0,0,6,3,-5;
+		  0,0,0,0,6;
+		  0,0,0,0,0]`.
 	</span>
 	最后的矩阵是增广矩阵在初等变换后的形状,
 	其中前四列构成系数矩阵在初等变换后的形状.
@@ -973,11 +972,11 @@
 	将 `bm A_(r xx n)` 与 `bm X` 分块为
 	<span class="formula">
 		`bm A_(r xx n) = (bm A_1^(r xx r), bm A_2^(r xx (n-r)))`, `quad`
-		`bm X = [(bm X_1^(r xx 1)), (bm X_2^((n-r) xx 1))]`,
+		`bm X = [bm X_1^(r xx 1); bm X_2^((n-r) xx 1)]`,
 	</span>
 	则 <a class="ref" href="#for-homogeneous"></a> 同解于
 	<span class="formula">
-		` bm X = [(-bm A_1^-1 bm A_2), (bm E_(n-r))] bm X_2`.
+		` bm X = [-bm A_1^-1 bm A_2; bm E_(n-r)] bm X_2`.
 		<span class="label" id="for-homogeneous-equals">(3-4)</span>
 	</span>
 	任给定 `bm X_2 in bbb P^(n-r)`, 上式就确定 `bm X in bbb P^n`
@@ -1006,8 +1005,8 @@
 	由于 `bm X_2 = bm E_(n-r) bm X_2` 恒成立, 上式又同解于
 	<span class="formula">
 		` bm X
-		= [(bm X_1), (bm X_2)]
-		= [(-bm A_1^-1 bm A_2), (bm E_(n-r))] bm X_2`.
+		= [bm X_1; bm X_2]
+		= [-bm A_1^-1 bm A_2; bm E_(n-r)] bm X_2`.
 	</span>
 	即 <a class="ref" href="#for-homogeneous-equals"></a>.
 </p>
@@ -1066,7 +1065,7 @@
 	在 <a class="ref" href="#for-homogeneous-equals"></a>
 	中依次取 `bm X_2 = bm epsi_i`, `i = 1, 2, cdots, n-r`, 把得到的解记为
 	<span class="formula">
-		`bm gamma_i = [(-bm A_1^-1 bm A_2), (bm E_(n-r))] bm epsi_i
+		`bm gamma_i = [-bm A_1^-1 bm A_2; bm E_(n-r)] bm epsi_i
 		= bm (C epsi_i)`,
 		`i = 1, 2, cdots, n-r`
 	</span>
@@ -1162,7 +1161,7 @@
 		`i_(r+1), cdots, i_n`.
 		将其它各列移到方程右端, 得
 		<span class="formula">
-			` [(x_(i_1)),(x_(i_2)),(vdots),(x_(i_r))]
+			` [x_(i_1); x_(i_2); vdots; x_(i_r)]
 			= bm B_1 - sum_(j=r+1)^n x_(i_j) bm A_1
 			  bm epsi_(i_j)`,
 		</span>
@@ -1194,17 +1193,17 @@
 	在数域 `bbb P` 上解下列方程组:
 	<li>
 	`{
-		(5x_1 + 6x_2 - 2x_3 + 7x_4 + 4x_5 = 23),
-		(2x_1 + 3x_2 - x_3 + 4x_4 + 2x_5 = 12),
-		(7x_1 + 9x_2 - 3x_3 + 5x_4 + 6x_5 = 23),
-		(5x_1 + 9x_2 - 3x_3 + x_4 + 6x_5 = 13)
+		5x_1 + 6x_2 - 2x_3 + 7x_4 + 4x_5 = 23;
+		2x_1 + 3x_2 - x_3 + 4x_4 + 2x_5 = 12;
+		7x_1 + 9x_2 - 3x_3 + 5x_4 + 6x_5 = 23;
+		5x_1 + 9x_2 - 3x_3 + x_4 + 6x_5 = 13;
 	:}`
 	</li>
 	<li>
 	`{
-		(x_1 - x_2 + x_3 - x_4 = 1),
-		(x_1 - x_2 - x_3 + x_4 = 0),
-		(x_1 - x_2 - 2x_3 + 2x_4 = -1/2)
+		x_1 - x_2 + x_3 - x_4 = 1;
+		x_1 - x_2 - x_3 + x_4 = 0;
+		x_1 - x_2 - 2x_3 + 2x_4 = -1/2;
 	:}`
 	</li>
 </ol>
@@ -1213,65 +1212,54 @@
 	<li>对增广矩阵作行初等变换:
 		<span class="formula">
 		`[
-			(5,6,-2,7,4,23),
-			(2,3,-1,4,2,12),
-			(7,9,-3,5,6,23),
-			(5,9,-3,1,6,13)
+			5,6,-2,7,4,23;
+			2,3,-1,4,2,12;
+			7,9,-3,5,6,23;
+			5,9,-3,1,6,13;
 		]`
 		`overset([1-2(2)][3-4(1)]) underset([4-2(3)]) to`
 		`[
-			(1,0,0,-1,0,-1),
-			(2,3,-1,4,2,12),
-			(2,0,0, 4,0,10),
-			(-1,0,0,-11,0,-23)
+			1,0,0,-1,0,-1;
+			2,3,-1,4,2,12;
+			2,0,0, 4,0,10;
+			-1,0,0,-11,0,-23;
 		]`
 		`overset([2-1(2)][3-1(2)]) underset([4+1(1)]) to`
 		`[
-			(1,0,0,-1,0,-1),
-			(0,3,-1,6,2,14),
-			(0,0,0, 6,0,12),
-			(0,0,0,-12,0,-24)
+			1,0,0,-1,0,-1;
+			0,3,-1,6,2,14;
+			0,0,0, 6,0,12;
+			0,0,0,-12,0,-24;
 		]`
 		`overset([2-3(1)][4+3(2)]) underset([2(1/3)][3(1/6)]) to`
 		`[
-			(1,0,0,-1,0,-1),
-			(0,1,-1/3,0,2/3,2/3),
-			(0,0,0, 1,0,2)
+			1,0,0,-1,0,-1;
+			0,1,-1/3,0,2/3,2/3;
+			0,0,0, 1,0,2;
 		]`
 		`overset([1+3(1)]) to`
 		`[
-			(1,0,0,0,0,1),
-			(0,1,-1/3,0,2/3,2/3),
-			(0,0,0, 1,0,2)
+			1,0,0,0,0,1;
+			0,1,-1/3,0,2/3,2/3;
+			0,0,0, 1,0,2;
 		]`
 		</span>
 		得
 		<span class="formula">
-			` [(x_1),(x_2),(x_4)]
-			= [(1),(2/3),(2)]
-			+ [(0),(1/3),(0)] x_3
-			- [(0),(2/3),(0)] x_5`.
+			` [x_1; x_2; x_4]
+			= [1; 2/3; 2]
+			+ [0; 1/3; 0] x_3
+			- [0; 2/3; 0] x_5`.
 		</span>
 		于是通解为
 		<span class="formula">
-			`bm X = [
-				(1),
-				(2/3 + 1/3 k_1 - 2/3 k_2),
-				(k_1),
-				(2),
-				(k_2)
-			]`,
+			`bm X = [1; 2/3 + 1/3 k_1 - 2/3 k_2; k_1; 2; k_2]`,
 			`k_1, k_2 in bbb P`.
 		</span>
 	</li>
 	<li>过程略, 通解为
 		<span class="formula">
-			`bm X = [
-				(1/2 + k_1),
-				(k_1),
-				(1/2 + k_2),
-				(k_2)
-			]`
+			`bm X = [1/2 + k_1; k_1; 1/2 + k_2; k_2]`.
 		</span>
 	</li>
 </ol>
@@ -1299,7 +1287,7 @@
 	<li>实线性方程组 `bm (A X) = bb 0` 与 `bm (A'A X) = bb 0` 同解;</li>
 	<li>`r_(bm A) = r_(bm(A'A))`;</li>
 	<li>实线性方程组 `bm (A'A X) = bm(A'B)` 有解.</li>
-	注意在复数域中, 结论 1. 未必成立. 如 `bm A = [(1,"i"),("i ",-1)]`.
+	注意在复数域中, 结论 1. 未必成立. 如 `bm A = [1,"i"; "i",-1]`.
 </ol>
 
 <ol class="proof">

@@ -29,9 +29,9 @@
 		<li>两曲面的第一基本形式在对应点处相等;</li>
 		<li>两曲面的第一基本形式的系数矩阵满足
 			<span class="formula">
-				`[(E,F),(F,G)] = J[(bar E,bar F),(bar F,bar G)]J^T`,
-				其中 `J = [((del bar u)/(del u), (del bar v)/(del u)),
-				((del bar u)/(del v), (del bar v)/(del v))]`;
+				`[E,F; F,G] = J[bar E,bar F; bar F,bar G]J^T`,
+				其中 `J = [(del bar u)/(del u), (del bar v)/(del u);
+				(del bar u)/(del v), (del bar v)/(del v)]`;
 			</span>
 		</li>
 		<li>可以选取适当的正交标架 `{bm e_1, bm e_2, bm e_3}` 和
@@ -223,12 +223,10 @@
 
 <p class="proof">
 	条件 `("D"bm v)/dt = bb 0` 等价于
-	<span class="formula">
-		`{
-		(("d"f_1)/dt + f_2 omega_21/dt = 0),
-		(("d"f_2)/dt + f_1 omega_12/dt = 0)
-		:}`,
-	</span>
+	<span class="formula">`{
+		("d"f_1)/dt + f_2 omega_21/dt = 0;
+		("d"f_2)/dt + f_1 omega_12/dt = 0;
+	:}`, </span>
 	当曲线 `gamma` 给定后, 上式是关于函数 `f_1, f_2` 的一阶常微分方程组. 
 	由一阶常微分方程初值问题解的存在唯一性定理可得结论.
 </p>
@@ -335,8 +333,8 @@
 	沿曲线 `bm r(s)` 取正交标架 `{bar bm e_1, bar bm e_2, bar bm e_3}`,
 	由于曲线与 `u` 线的夹角为 `theta`, 有
 	<span class="formula">
-		`[bar bm e_1,bar bm e_2] = [(cos theta, -sin theta),(sin theta,
-		cos theta)] [bm e_1, bm e_2]`.
+		`[bar bm e_1,bar bm e_2] = [cos theta, -sin theta; sin theta,
+		cos theta] [bm e_1, bm e_2]`.
 	</span>
 	于是
 	<span class="formula">
@@ -517,7 +515,7 @@
 	<span class="formula">
 		`bm r(x^1, x^2) = exp_P(x^1 bm e_1 + x^2 bm e_2)`.
 	</span>
-	利用参数变换 `{ (x^1 = rho cos theta), (x^2 = rho sin theta):}`, 则
+	利用参数变换 `{ x^1 = rho cos theta; x^2 = rho sin theta :}`, 则
 	曲面 `S` 在 `P` 附近也有参数表示
 	<span class="formula">
 		`bm r(rho, theta) = exp_P(rho cos theta bm e_1 + rho sin theta bm

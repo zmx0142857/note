@@ -14,11 +14,9 @@
 
 <h2>域</h2>
 
-<h3>域</h3>
-
 <ol class="definition">
 	回顾环的一章中对域的定义, 将它重新整理如下:
-	称环 `(bbb F; +, *)` 为一<b>域 (field)</b>, 如果 `|bbb F| ge 2`, 且
+	称环 `(bbb F";" +, *)` 为一<b>域 (field)</b>, 如果 `|bbb F| ge 2`, 且
 	`(bbb F, +)`, `(bbb F\\{0}, *)` 是 Abel 群, 其中 `0` 是加群的零元.
 	又记乘法群的幺元为 `1`.<br/>
 	域上可以进行四则运算: 令 `bbb F` 为一域, `a, b in bbb F`.
@@ -32,9 +30,11 @@
 
 <p class="definition">
 	令 `bbb F` 为一域. 称 `bbb F_1 sube bbb F` 为 `bbb F`
-	的一个<b>子域</b>, 如果它关于 `bbb F` 的加法和乘法也成域.
-	`{0, 1}` 和 `bbb F` 是 `bbb F` 的两个<b>平凡子域</b>.
-	只有平凡子域的域称为<b>素域</b>, 如 `QQ` 和 `ZZ_p` 都是素域.
+	的一个<b>子域</b>, 如果它关于 `bbb F` 的加法和乘法也成域, 记作
+	`bbb F_1 le bbb F`.
+	`bbb F` 是自身的<b>平凡子域</b>.
+	只有平凡子域 (即没有真子域) 的域称为<b>素域</b>,
+	如 `QQ` 和 `ZZ_p` 都是素域.
 </p>
 
 <p class="corollary">
@@ -45,16 +45,6 @@
 		`(AA a, b in bbb F_1)` `a - b in bbb F_1`;<br/>
 		`(AA a, b in bbb F_1\\{0})` `a b^-1 in bbb F_1\\{0}`.
 	</span>
-</p>
-
-<p class="theorem">
-	任意域 `bbb F` 含且只含一个素域, 称为 <b>`bbb F` 的素域</b>.
-</p>
-
-<p class="proof">
-	取 `bbb P` 为 `bbb F` 的全体子域的交, 由 `{0, 1} sube bbb P` 知 `bbb
-	P` 非空, 又 `bbb P le bbb F`. 显然 `bbb P` 只有平凡子域, 因此为一素域.
-	由 `bbb P` 的构造知, 它是惟一的.
 </p>
 
 <h3>整环的分式域</h3>
@@ -142,7 +132,7 @@
 	因此 `bbb F le bbb F'`.
 </p>
 
-<h3>域的特征</h3>
+<h3>域的特征与素域</h3>
 
 <p>	回顾环的特征一节,
 	因为域是无零因子的, 因此域的<b>特征</b>只能是零或素数, 如:
@@ -160,32 +150,40 @@
 </p>
 
 <p class="proof">
-	对 `n` 进行归纳.
-	由于 `(a+b)^(p^n) = ((a+b)^(p^(n-1)))^p`,
-	只需证 `(a+b)^p -= a^p + b^p`. 这只需注意到 `p | ((p),(k))`,
-	`k = 1, 2, cdots, p-1`; 因此 `AA a in bbb F`, `p a = 0`.
+	注意到 `p | (p;k)`, `k = 1, 2, cdots, p-1`;
+	且由特征的定义有 `AA a in bbb F`, `p a = 0`.
+	所以 `(a+b)^p -= a^p + b^p`.
+	对 `n` 进行归纳就得到结论.
 </p>
 
 <p class="theorem">
-	<b>域的特征与素域</b>
+	任意域 `bbb F` 含且只含一个素域, 称为 <b>`bbb F` 的素域</b>.
+</p>
+
+<p class="proof">
+	取 `bbb P` 为 `bbb F` 的全体子域的交, 由 `{0, 1} sube bbb P` 知
+	`bbb P` 非空, 又 `bbb P le bbb F`. 显然 `bbb P`
+	只有平凡子域, 因此为一素域.  由 `bbb P` 的构造知, 它是惟一的.
+</p>
+
+<p class="theorem">
 	令 `bbb F` 为一域, 则 `"char"(bbb F) = 0` 时, 
-	`bbb F` 的素域同构于 `QQ`, `"char"(bbb F) = p` 时, `bbb F`
+	`bbb F` 的素域同构于 `QQ`; `"char"(bbb F) = p` 时为一素数, `bbb F`
 	的素域同构于 `ZZ_p`; 因此两个域的特征相同当且仅当它们的素域同构.
 </p>
 
 <p class="proof">
-	记 `bbb F` 的幺元为 `e`. 作映射 `f: n in ZZ to n e to bbb F`.
+	记 `bbb F` 的幺元为 `e`. 作映射 `f: n in ZZ to n e in bbb F`.
 	容易验证 `f` 为一同态映射.<br/>
 	若 `"char"(bbb F) = 0`, 则只有 `n = 0` 才能使 `n e = 0`, 即
 	`"Ker"f = {0}`.
-	由同态基本定理, `"Im"f ~= ZZ//"Ker"f = ZZ`.
-	从而 `"Im"f` 为一整环. 又, 同构的整环有同构的分式域,
-	从而 `"Im"f` 的分式域 (记为 `bbb F_e`) 同构于 `QQ`.
-	显然 `bbb F_e le bbb F`, 且 `bbb F` 的任一子域都包含 `bbb F_e`,
-	即 `bbb F_e` 为 `bbb F` 的素域, 且 `bbb F_e ~= QQ`.<br/>
+	由同态基本定理, `"Im"f ~= ZZ//"Ker"f = ZZ`, 从而 `"Im"f` 为一整环.
+	记 `"Im"f` 的分式域为 `bbb F_e`, 显然 `bbb F` 的任一子域都包含
+	`"Im"f`, 从而包含 `bbb F_e`; 于是 `bbb F_e` 为 `bbb F` 的素域.
+	又, 同构的整环有同构的分式域, 所以 `bbb F_e ~= QQ`.<br/>
 	若 `"char"(bbb F) = p` 为一素数, 则 `"Ker"f = (:p:)`,
-	类似可证 `"Im"f` 的分式域同构于 `ZZ//(:p:) = ZZ_p`, 即为
-	`bbb F` 的同构于 `ZZ_p` 的素域.
+	类似可证 `"Im"f` 的分式域 `RR_e`
+	同构于 `ZZ//(:p:) = ZZ_p`, 因此是一素域.
 </p>
 
 <p class="corollary">
@@ -230,15 +228,105 @@
 
 <h2>扩域及其分类</h2>
 
-<h3>有限次扩张与无限次扩张</h3>
+<ol class="definition">
+	如果域 `bbb F le bbb K`, 则称 `bbb K` 为 `bbb F`
+	的一个<b>扩张</b>或<b>扩域</b>, `bbb F` 为 `bbb K` 的<b>基域</b>.
+	<li>视 `bbb K` 为 `bbb F` 上的线性空间 (加法是 `bbb K` 中的加法,
+		数乘是 `bbb F` 与 `bbb K` 中元素的乘法), 则称 `"dim"bbb K` 为
+		`bbb K` 在 `bbb F` 上的<b>扩张次数</b>, 记为 `del(bbb K, bbb F)`.
+		按扩张次数, 扩域可以分为有限次和无限次两类.
+	</li>
+	<li>设 `k in bbb K`, 若 `k` 是 `bbb F` 上某个次数大于 0
+		的一元多项式的根:
+		<span class="formula">
+			`(EE f(x) in bbb F[x] \\ {bbb F}) f(k) = 0`,
+		</span>
+		则称 `k` 为 `bbb F` 上的<b>代数元</b>, 否则称为<b>超越元</b>.
+		若 `bbb K` 的每一元素都是 `bbb F` 上的代数元,
+		则称 `bbb K` 为 `bbb F` 的一个<b>代数扩域</b>,
+		否则为<b>超越扩域</b>. 特别当 `bbb K \\ bbb F` 的元素都为 `bbb F`
+		上的超越元时, 称 `bbb K` 为 `bbb F` 的<b>纯超越扩域</b>.
+	</li>
+	<li>记 `f(x) in bbb F[x] \\ bbb F` 在复数域上的全部根为 `S_(f(x))`.
+		如果关于任意不可约多项式 `p(x) in bbb F[x]`, `p(x)`
+		的全部根要么全在 `bbb K` 中, 要么全不在 `bbb K` 中:
+		<span class="formula">
+			`S_(p(x)) sube bbb K` or `S_(p(x)) nn bbb K = O/`,
+		</span>
+		则称 `bbb K` 为 `bbb F` 的一个<b>正规扩域</b>.
+	</li>
+</ol>
 
-<h3>代数扩张与超越扩张</h3>
+<p class="corollary">
+	超越扩域都是无限次的; 换言之, 有限次扩域都是代数的.
+</p>
 
-<h3>正规扩张与非正规扩张</h3>
+<ol class="example">
+	<li>`CC` 为 `RR` 的有限 2 次扩域;</li>
+	<li>`RR` 和 `CC` 都是 `QQ` 的超越扩域;</li>
+</ol>
+
+<p class="definition">
+	令 `bbb K` 为 `bbb F` 的一个扩域, `S sube bbb K`, 记
+	`bbb F(S) := (:bbb F uu S:)`
+	(`bbb K` 中所有既含 `bbb F` 又含 `S` 的子域的交), 显然它是
+	`bbb K` 的包含 `bbb F` 和 `S` 的最小域, 称为添加 `S` 到 `bbb F`
+	上所得到的<b>中间域</b>.<br/>
+	简记 `bbb F({a}) = bbb F(a)`, 称为 `bbb F` 的一个<b>单扩域</b>.
+	按 `a` 为 `bbb F` 上的代数元或超越元,
+	单扩域又分为<b>单代数扩张</b>和<b>单超越扩张</b>.
+</p>
+
+<p class="theorem">
+	获得的中间域与子集的添加次序无关:
+	令 `bbb K` 为 `bbb F` 的一个扩域, `S, T sube bbb K`, 则
+	<span class="formula">
+		`bbb F(S)(T) = bbb F(T)(S) = bbb F(S uu T)`.
+	</span>
+</p>
+
+<p class="proof">
+	由已知 `bbb F, S, T sube bbb F(S)(T)`, 因而 `bbb F, S uu
+	T sube bbb F(S)(T)`. 由 `bbb F(S uu T)` 的最小性知 `bbb F(S uu T) sube
+	bbb F(S)(T)`.<br/>
+	另一方面, `bbb F, S, T sube bbb F(S uu T)`, 因而 `bbb F(S), T sube F(S
+	uu T)`. 由 `bbb F(S)(T)` 的最小性知 `bbb F(S)(T) sube bbb F(S uu T)`.
+	于是 `bbb F(S)(T) = bbb F(S uu T)`.
+	同理 `bbb F(T)(S) = bbb F(S uu T)`.
+</p>
+
+<h2>单扩张和有限次扩张</h2>
 
 <h3>单扩张</h3>
 
-<h2>单代数扩张和有限次扩张</h2>
+<h3>有限次扩张</h3>
+
+<p class="theorem">
+	<b>次数公式</b>
+	令域 `bbb F le bbb L le bbb K`, 则
+	<span class="formula">
+		`del(bbb K, bbb F) = del(bbb K, bbb L) del(bbb L, bbb F)`.
+	</span>
+	规定 `a, b` 中至少有一个数为 `oo` 时, `a b = oo`.
+</p>
+
+<p class="corollary">
+	域的有限次扩张具有传递性, 即有限次扩张的有限次扩张还是有限次扩张.
+</p>
+
+<p class="corollary">
+	对于有限次扩张 `bbb F le bbb K`, 若 `del(bbb K, bbb F)` 为素数,
+	则 `bbb F` 与 `bbb K` 无真中间域. (逆命题是否成立?)
+</p>
+
+<p class="theorem">
+	扩域 `bbb F le bbb K` 是有限次的当且仅当存在从 `bbb F` 到 `bbb K`
+	的一个单代数扩张的有限升链:
+	<span class="formula">
+		`bbb F = bbb F_0 le bbb F_1 le bbb F_2 le cdots le bbb F_l = bbb K`,
+	</span>
+	其中 `bbb F_i` 是 `bbb F_(i-1)` 的单代数扩域, `i = 1, 2, cdots, l`.
+</p>
 
 <h2>分裂域</h2>
 

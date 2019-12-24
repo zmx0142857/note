@@ -56,12 +56,44 @@
 			`int_(-a)^a f(x) dx = 0`.
 		</span>
 	</li>
-	<li>如果 `f` 是以 `T` 为周期的周期函数, 则
+	<li>如果 `f` 是以 `T` 为周期的周期函数, 则对任意常数 `a`,
 		<span class="formula">
 			`int_a^(a+T) f(x) dx = int_0^T f(x) dx`.
 		</span>
+		且 `int_a^x f(t) dt` 以 `T` 为周期当且仅当 `int_0^T f(t) dt = 0`.
 	</li>
 </ul>
+
+<ol class="proof">
+	<li></li>
+	<li></li>
+	<li></li>
+	<li>结论一: 由周期性,
+		<span class="formula">
+			`int_T^(a+T) f(x) dx`
+			`= int_0^a f(y+T) dy`
+			`= int_0^a f(y) dy`.
+		</span>
+		因此
+		<span class="formula">
+			`int_a^(a+T) = int_a^0 + int_0^T + int_T^(a+T)`
+			`= int_a^0 + int_0^T + int_0^a`
+			`= int_0^T`.
+		</span>
+		事实上, 若 `f` 连续, 则
+		<span class="formula">
+			`"d"/("d"a) int_a^(a+T) f(x) dx`
+			`= f(a+T) - f(a) = 0`,
+		</span>
+		这说明 `int_a^(a+T) f(x) dx` 与 `a` 的取值无关.
+		下证结论二.
+		<span class="formula">
+			`int_a^(x+T) f(t) dt = int_a^x f(t) dt`
+			`iff int_x^(x+T) f(t) dt = 0`
+			`iff int_0^T f(t) dt = 0`.
+		</span>
+	</li>
+</ol>
 
 <h2>杂例</h2>
 
@@ -279,8 +311,8 @@
 	`I_n = int_0^(pi/2) sin^n x dx = int_0^(pi/2) cos^n x dx`
 	`= 1/2 B((n+1)/2, 1/2)`
 	`= {
-		((n-1)/n * (n-3)/(n-2) * cdots * 1/2 * pi/2, if n " is even";),
-		((n-1)/n * (n-3)/(n-2) * cdots * 2/3 * 1, if n " is odd".)
+		(n-1)/n * (n-3)/(n-2) * cdots * 1/2 * pi/2, if n " is even";
+		(n-1)/n * (n-3)/(n-2) * cdots * 2/3 * 1, if n " is odd";
 	:}`
 	由此得到 Beta 函数在一些半整数点的取值.
 </p>

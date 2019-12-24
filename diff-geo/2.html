@@ -74,7 +74,7 @@
 	</tr>
 	<tr>
 		<td>Frenet 标架</td>
-		<td>`{bm r; bm t, bm n}`</td>
+		<td>`{bm r";" bm t, bm n}`</td>
 	</tr>
 </table>
 
@@ -98,10 +98,7 @@
 	对 `(:bm t, bm n:) = 0` 求导知 `(:bm t', bm n:) + (:bm t, bm n') = 0`,
 	故
 	<span class="formula">
-		`"d"/("d"s) [(bm t),(bm n)] = [
-			(0, kappa),
-			(-kappa, 0)
-		][(bm t),(bm n)]`.
+		`"d"/("d"s) [bm t; bm n] = [0, kappa; -kappa, 0][(bm t),(bm n)]`.
 	</span>
 	`kappa gt 0` 时, `bm n` 沿逆时针转动 (曲线沿逆时针绕行).
 </p>
@@ -145,7 +142,7 @@
 	</tr>
 	<tr>
 		<td>Frenet 标架</td>
-		<td>`{bm r; bm t, bm n, bm b}`</td>
+		<td>`{bm r";" bm t, bm n, bm b}`</td>
 	</tr>
 </table>
 
@@ -159,18 +156,18 @@
 <p>
 	设
 	<span class="formula">
-		`"d"/("d"s) [(bm t),(bm n),(bm b)] = (omega)_(ij)
-		[(bm t),(bm n),(bm b)]`,
+		`"d"/("d"s) [bm t; bm n; bm b] = (omega)_(ij)
+		[bm t; bm n; bm b]`,
 	</span>
 	由于 `bm t, bm n, bm b` 是两两正交的单位向量, 所以 `omega_(ij) =
 	-omega_(ji)`. 又由主法向量的定义知 `omega_(12) = kappa`, `omega_(13) =
 	0`. 设 `omega_(23) = (:("d" bm n)/("d"s), bm b:) = tau`, 综上得到
 	<span class="formula">
-		`"d"/("d"s) [(bm t),(bm n),(bm b)] = [
-			(0, kappa, 0),
-			(-kappa, 0, tau),
-			(0, -tau, 0)
-		][(bm t),(bm n),(bm b)]`.
+		`"d"/("d"s) [bm t; bm n; bm b] = [
+			0, kappa, 0;
+			-kappa, 0, tau;
+			0, -tau, 0;
+		][bm t; bm n; bm b]`.
 	</span>
 </p>
 
@@ -268,7 +265,7 @@
 	<span class="formula">
 		`(bm r', bm r'', kappa bm k) gt 0`,
 		即
-		`|(x', y', 0), (x'', y'', 0), (0, 0, kappa)| gt 0`.
+		`|x', y', 0; x'', y'', 0; 0, 0, kappa| gt 0`.
 	</span>
 	可见前述式子应当取正号.
 </p>
@@ -283,16 +280,16 @@
 
 <div class="proof">
 	<span class="formula"> `{
-			(x = r(theta) cos theta),
-			(y = r(theta) sin theta)
+		x = r(theta) cos theta;
+		y = r(theta) sin theta;
+	:}`</span>
+	<span class="formula"> `{
+		x' = r' cos theta - r sin theta;
+		y' = r' sin theta + r cos theta;
 	:}` </span>
 	<span class="formula"> `{
-			(x' = r' cos theta - r sin theta),
-			(y' = r' sin theta + r cos theta)
-	:}` </span>
-	<span class="formula"> `{
-			(x'' = r'' cos theta - r' sin theta - y'),
-			(y'' = r'' sin theta + r' cos theta + x')
+		x'' = r'' cos theta - r' sin theta - y';
+		y'' = r'' sin theta + r' cos theta + x';
 	:}` </span>
 	易知
 	<span class="formula">
