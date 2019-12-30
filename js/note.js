@@ -365,10 +365,10 @@ function hideAnswer(list) {
 				answers[j].id = id;
 			}
 			button.onclick = toggleShowAnswer(button, id);
-			button.innerHTML = list[i].word + ' &#9654;';
-			button.className = 'toggle-show-answer';
+			button.innerHTML = list[i].word;
+			button.className = 'toggle-answer answer-hidden';
 			answers[j].parentElement.insertBefore(button, answers[j]);
-			answers[j].hidden = 'true';
+			answers[j].classList.add('hidden');
 		}
 	}
 }
@@ -377,14 +377,14 @@ function toggleShowAnswer(button, id) {
 	return function() {
 		var answer = document.getElementById(id);
 		var str = button.innerHTML;
-		if (answer.hidden) {
-			answer.removeAttribute('hidden');
-			button.innerHTML = str.substring(0,str.length-1) + '&#9660;';
-			button.style.borderRadius = '0.5em 0.5em 0 0';
+		if (answer.classList.contains('hidden')) {
+			button.classList.remove('answer-hidden');
+			button.classList.add('answer-shown');
+			answer.classList.remove('hidden');
 		} else {
-			answer.hidden = true;
-			button.innerHTML = str.substring(0,str.length-1) + '&#9654;';
-			button.style.borderRadius = '0.5em';
+			button.classList.remove('answer-shown');
+			button.classList.add('answer-hidden');
+			answer.classList.add('hidden');
 		}
 	};
 }
@@ -456,14 +456,13 @@ function toggleHideHeader() {
 }
 */
 
-// make formula scrollable on overflow
-function wrapFormula() {
-	var fmls = document.getElementsByClassName('formula');
-	for (var i = 0; i < fmls.length; ++i) {
+// make formula/table scrollable on overflow
+function wrap(L) {
+	for (var i = 0; i < L.length; ++i) {
 		var div = document.createElement('div');
-		div.className = 'formula-wrapper';
-		fmls[i].parentElement.insertBefore(div, fmls[i]);
-		div.appendChild(fmls[i]);
+		div.className = 'scroll-wrapper';
+		L[i].parentElement.insertBefore(div, L[i]);
+		div.appendChild(L[i]);
 	}
 }
 
@@ -523,7 +522,8 @@ if (args.type == 'cs') {
 makeReference(); // call makeReference() after decorate()
 //wrapIOS(); // call this after decorate()
 //toggleHideHeader();
-wrapFormula();
+wrap(document.getElementsByClassName('formula'));
+wrap(document.getElementsByTagName('table'));
 
 })();
 

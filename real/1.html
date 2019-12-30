@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>预备知识</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>集合的可列运算</h2>
+
+<h3>集合列</h3>
+
+<p class="definition">
+	递增集合列 `{A_k}` 的极限 `lim_(k to oo) A_k := uuu_(k=1)^oo A_k`;<br/>
+	递减集合列 `{B_k}` 的极限 `lim_(k to oo) B_k := nnn_(k=1)^oo B_k`.<br/>
+	任一集合列 `{A_k}` 的上极限
+	<span class="formula">
+		`underset(k to oo)(bar lim) A_k := nnn_(i=1)^oo uuu_(k=i)^oo A_k
+		= {x: AA i in NN, EE k ge i, x in A_k}`;
+	</span>
+	下极限
+	<span class="formula">
+		`underset(k to oo)(ul lim) A_k := uuu_(i=1)^oo nnn_(k=i)^oo A_k
+		= {x: EE i in NN, AA k ge i, x in A_k}`.
+	</span>
+	从谓词式易知
+	`underset(k to oo)(ul lim) A_k sube underset(k to oo)(bar lim) A_k`.
+	当上, 下极限相等时, 定义 `A_k` 的极限为它的上极限或下极限.
+</p>
+
+<p class="remark">
+	类比数列的上极限和下极限
+	<span class="formula">
+		`underset(k to oo)(bar lim) x_k
+		= inf_(i in NN) Sup_(k ge i) x_k`,
+		`quad underset(k to oo)(ul lim) x_k
+		= Sup_(i in NN) inf_(k ge i) x_k`.
+	</span>
+	下面的符号存在着 "翻译" 的关系:
+	<span class="formula">
+		`uu iff EE iff "s" bb u "p"`, `quad`
+		`nn iff AA iff "i" bb n "f"`.
+	</span>
+</p>
+
+<p>	由 De. Morgan 法则,
+	<span class="formula">
+		`E \\ underset(k to oo)(bar lim) A_k
+		= underset(k to oo)(ul lim)(E \\ A_k)`<br/>
+		`E \\ underset(k to oo)(ul lim) A_k
+		= underset(k to oo)(bar lim)(E \\ A_k)`
+	</span>
+</p>
+
+<p>	若 `A_k sube B_k`, `k = 1, 2, cdots`, 则
+	<span class="formula">
+		`uuu_(k=1)^oo A_k sube uuu_(k=1)^oo B_k`, `quad`
+		`nnn_(k=1)^oo A_k sube nnn_(k=1)^oo B_k`;<br/>
+		`underset(k to oo)(bar lim) A_k
+		sube underset(k to oo)(bar lim) B_k`, `quad`
+		`underset(k to oo)(ul lim) A_k
+		sube underset(k to oo)(ul lim) B_k`.
+	</span>
+</p>
+
+<h3>切割值域</h3>
+
+<ol class="theorem">
+	设实函数列 `{f_n(x)}` 在可测集 `E sube RR` 上有定义, `t in RR`.
+	注意 `f_n(x)` 有两种解读: 一是视为函数的序列,
+	二是取定一个 `x` 的值后, 视为普通数列; 这里采用第二种解读.
+	简记 `{x in E: ...}` 为 `{x: ...}`, 有
+	<li>`{x: Sup_(n ge 1) f_n(x) gt t}
+		= uuu_(n=1)^oo {x: f_n(x) gt t}`;
+	</li>
+	<li>`{x: inf_(n ge 1) f_n(x) lt t}
+		= uuu_(n=1)^oo {x: f_n(x) lt t}`;
+	</li>
+	<li>`{x: Sup_(n ge 1) f_n(x) lt t}
+		= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) le t-1/k}`;
+	</li>
+	<li>`{x: inf_(n ge 1) f_n(x) gt t}
+		= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) ge t+1/k}`;
+	</li>
+	<li>`{x: underset(n to oo)(bar lim) f_n(x) gt t}
+		= uuu_(k=1)^oo underset(n to oo)(bar lim)
+		{x: f_n(x) ge t + 1/k}`;
+	</li>
+	<li>`{x: underset(n to oo)(ul lim) f_n(x) lt t}
+		= uuu_(k=1)^oo underset(n to oo)(bar lim)
+		{x: f_n(x) le t - 1/k}`;
+	</li>
+	<li>`{x: underset(n to oo)(bar lim) f_n(x) lt t}
+		= uuu_(k=1)^oo underset(n to oo)(ul lim)
+		{x: f_n(x) le t - 1/k}`;
+	</li>
+	<li>`{x: underset(n to oo)(ul lim) f_n(x) gt t}
+		= uuu_(k=1)^oo underset(n to oo)(ul lim)
+		{x: f_n(x) ge t + 1/k}`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>记 `g(x) = Sup_(n ge 1) f_n(x)`,
+		则对 `AA x in` 右, `AA n in NN`, `g(x) ge f_n(x) gt t`.
+		故左 &supe; 右;<br/>
+		另一方面, `AA x in` 左, `AA epsi gt 0`, `EE n_epsi in NN`,
+		`f_(n_epsi)(x) gt g(x) - epsi`.
+		取 `epsi = g(x) - t`, 就有 `x in` 右, 故左 &sube; 右.
+	</li>
+	<li>可以参考 1 的证明, 但也可以由 `inf_(n ge 1) f_n(x)
+		= -Sup_(n ge 1) (-f_n(x))`, 有
+		<span class="formula">`{:
+		左	,= {x: -Sup_(n ge 1) (-f_n(x)) lt t};
+			,= {x: Sup_(n ge 1) (-f_n(x)) gt -t};
+			,= uuu_(n=1)^oo {x: -f_n(x) gt -t} = 右.
+		:}`</span>
+	</li>
+	<li>如下
+		<span class="formula">`{:
+		左	,= E \\ {x: Sup_(n ge 1) f_n(x) ge t};
+			,= E \\ nnn_(k=1)^oo
+					{x: Sup_(n ge 1) f_n(x) gt t - 1/k};
+			,= E \\ nnn_(k=1)^oo uuu_(n=1)^oo {x: f_n(x) gt t-1/k}
+			= 右.
+		:}`</span>
+	</li>
+	<li>类似 2 的证明.</li>
+	<li>如下
+		<span class="formula">`{:
+		左	,= {x: inf_(m ge 1) Sup_(n ge m) f_n(x) gt t};
+			,= uuu_(k=1)^oo nnn_(m=1)^oo
+				{x: Sup_(n ge m) f_n(x) ge t + 1/k};
+			,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo
+				{x: Sup_(n ge m) f_n(x) lt t + 1/k};
+			,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo uuu_(j=1)^oo
+				nnn_(n=m)^oo {x: f_n(x) le t + 1/k - 1/j};
+			,= uuu_(k=1)^oo nnn_(j=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
+				{x: f_n(x) gt t + 1/k - 1/j};
+			,?= uuu_(k=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
+				{x: f_n(x) ge t + 1/k} = 右.
+		:}`</span>
+	</li>
+</ol>
+
+<p class="corollary">
+	设 `f_n(x)` 渐升
+	(即, 对每个给定的 `x`, `{f_n(x)}` 是单调递增数列)
+	趋于 `f(x)`, 则对 `AA t in RR`, `{x: f_n(x) gt t}` 是递增集合列, 且
+	<span class="formula">
+		`lim_(n to oo) {x: f_n(x) gt t}`
+		`= uuu_(n=1)^oo {x: f_x(x) gt t}`
+		`= {x: Sup_(n in NN) f_n(x) gt t}`
+		`= {x: f(x) gt t}`.
+	</span>
+	即对于渐升函数列 `f_n(x)` 有
+	<span class="formula">
+		`lim_(n to oo) {x: f_n(x) gt t} = {x: lim_(n to oo) f_n(x) gt t}`.
+	</span>
+</p>
+
+<h2>`RR^n` 中的度量与极限</h2>
+
+<p class="theorem">
+	`RR^n` 在范数 (模, 长度)
+	<span class="formula">
+		`|x| = (sum_(i=1)^n x_i^2)^(1/2)`
+	</span>
+	下构成一赋范线性空间.
+</p>
+
+<ol class="definition">
+	设 `x in RR^n`, `E, F sube RR^n`, 定义
+	<li><b>直径</b> `"diam"(E) = Sup_(x, y in E) |x-y|`;</li>
+	<li><b>点到点集的距离</b> `d(x, E) = inf_(y in E) |x-y|`;</li>
+	<li><b>点集间的距离</b> `d(E, F) = inf_(x in E, y in F) |x-y|`.</li>
+</ol>
+
+<p class="definition">
+	设 `x_0 in RR^n`, `delta gt 0`, 分别称
+	<span class="formula">
+		`B(x_0, delta) = {x in RR^n: |x-x_0| lt delta}`,<br/>
+		`bar B(x_0, delta) = {x in RR^n: |x-x_0| le delta}`
+	</span>
+	为 `RR^n` 中以 `x_0` 为心, `delta` 为半径的<b>开球</b>与<b>闭球</b>.
+	`overset @ B(x_0, delta) := B(x_0, delta)\\{x_0}` 称为 `x_0`
+	的<b>去心球形 `delta` 邻域</b>.
+</p>
+
+<p class="definition">
+	设 `{(a_i"," b_i): i = 1, 2, cdots, n}` 是 `RR` 上的一族开区间.
+	分别称
+	<span class="formula">
+		`prod_(i=1)^n (a_i, b_i)
+		= {x in RR^n: x_i in (a_i, b_i), i = 1, 2, cdots, n}`,<br/>
+		`prod_(i=1)^n [a_i, b_i]`,
+		`prod_(i=1)^n (a_i, b_i]`
+	</span>
+	为 `RR^n` 中的<b>开矩体</b>, <b>闭矩体</b>和<b>半开闭矩体</b>.
+	若 `b_1 - a_1 = b_2 - a_2 = cdots = b_n - a_n`, 则称矩体为<b>方体</b>.
+</p>
+
+<p>	若 `I = prod_(i=1)^n (a_i, b_i)`, 则
+	<span class="formula">
+		直径 `"diam"(I) = (sum_(i=1)^n (b_i-a_i)^2)^(1/2)`,<br/>
+		体积 `|I| = prod_(i=1)^n (b_i-a_i)`.
+	</span>
+</p>
+
+<p class="definition">
+	设 `x_k in RR^n`, `k = 1, 2, cdots`. 若存在 `x in RR^n`, 使
+	<span class="formula">
+		`lim_(k to oo) |x_k-x| = 0`,
+	</span>
+	则称 `{x_k}` 以 `x` 为<b>极限</b>, 记为 `lim_(k to oo) x_k = x`.
+</p>
+
+<p>注意到不等式
+	<span class="formula">
+		`underset(1 le i le n)max|x_m^((i))-x_n^((i))|
+		le |x_m-x_n|
+		le sqrt n underset(1 le i le n)max|x_m^((i))-x_n^((i))|`
+	</span>
+	从而 `x_k` 是 `RR^n` 中的 Cauchy 列当且仅当它的每一分量是 `RR` 中的
+	Cauchy 列. 由 `RR` 的完备性知 `x_k` 是 `RR^n`
+	中的收敛点列当且仅当它的每一分量是 `RR` 中的收敛列.
+</p>
+
+<h2>`RR^n` 中的拓扑与 `sigma`-代数</h2>
+
+<ol class="theorem">
+	(极限点/聚点) 设 `E sube RR^n`, `x in RR^n`, 以下两款等价:
+	<li>存在 `E` 中互异点列 `{x_k}` 以 `x` 为极限;</li>
+	<li>`AA delta gt 0`, `overset @ B(x, delta) nn E != O/`.</li>
+	它们都可以作为 `E` 的极限点的定义.
+</ol>
+
+<ol class="definition">
+	<li>导集 (极限点的收集) `E' = {x in RR^n: AA delta gt 0,
+		overset @ B(x, delta) nn E != O/}`;</li>
+	<li>闭包 `bar E = E uu E' = {x in RR: AA delta gt 0, B(x, delta)
+		nn E != O/}`;</li>
+	<li>内核 (内点的收集) `E^@ = {x in RR^n: EE delta gt 0,
+		B(x, delta) sube E} sube E`;</li>
+	<li>边界 `del E = bar E \\ E^@`;</li>
+	<li>孤立点集 `E\\E'`.</li>
+</ol>
+
+<ol class="corollary">
+	设 `A, B sube RR^n`.
+	<li>若 `A sube B`, 则
+		`A' sube B', bar A sube bar B, A^@ sube B^@`;</li>
+	<li>`(A uu B)' = A' uu B', bar(A uu B) = bar A uu bar B`;</li>
+	<li>`(A^@)^c = bar(A^c)`;</li>
+</ol>
+
+<p class="definition">
+	若 `A sube B` 且 `bar A = B`, 则称 `A` 在 `B` 中<b>稠密</b>.
+	若 `B` 有可数的稠密子集, 则称 `B` 是<b>可分</b>的.
+</p>
+
+<p class="definition">
+	设 `Gamma` 是 `RR^n` 中的开集族, `E sube RR^n`. 若 `E sube uu Gamma`,
+	则称 `Gamma` 是 `E` 的一个<b>开覆盖</b>. 若 `Gamma' sube Gamma` 也是
+	`E` 的开覆盖, 则称它为 `Gamma` 的一个<b>子覆盖</b>.
+</p>
+
+<p class="definition">
+	设 `E sube RR^n`. 若 `(bar E)^@ = O/`, 则称 `E` 为 `RR^n`
+	中的<b>无处稠密集</b>; 可数个无处稠密集的并称为<b>贫集</b>或第一纲集.
+	不是第一纲集称为第二纲集.
+</p>
+
+<ol class="theorem">
+	<li>`RR` 中的非空开集是可数个互不相交的开区间的并; 这里, 开区间也包括
+		`(-oo, a)`, `(b, +oo)` 和 `(-oo, +oo)`.
+	</li>
+	<li>`RR^n` 中的非空开集是可数个互不相交的半开闭方体的并.</li>
+</ol>
+
+<p class="definition">
+	可数个闭集的并称为 <b>`F_sigma` 集</b>, 可数个开集的交称为
+	<b>`G_delta` 集</b>. 这两类集合是互补的关系.
+</p>
+
+<ol class="definition">
+	设 `Gamma sube 2^X`, 且满足
+	<li>`O/ in Gamma`;</li>
+	<li>`A in Gamma rArr A^c in Gamma`;</li>
+	<li>`A_1, A_2, cdots in Gamma rArr uuu_(n=1)^oo A_n in Gamma`.</li>
+	则称 `Gamma` 是 `X` 上的一个 <b>`sigma`-代数</b>.
+	若 `Sigma sube 2^X`, 取 `Gamma` 为 `X` 上所有包含 `Sigma`
+	的 `sigma`-代数之交, 称为由子集族 `Sigma` <b>生成的 `sigma`-代数</b>.
+</ol>
+
+<p class="corollary">
+	若 `Gamma` 是 `X` 上的一个 `sigma`-代数, `A_1, A_2, cdots in Gamma`,
+	`A, B in Gamma`, 则
+	<span class="formula">
+		`X`, `uuu_(n=1)^m A_n`, `A \\ B`,
+		`nnn_(n=1)^oo A_n`, `underset(n to oo)(bar lim) A_n`,
+		`underset(n to oo)(ul lim) A_n in Gamma`.
+	</span>
+</p>
+
+<p class="definition">
+	由 `RR^n` 中全体开集生成的 `sigma`-代数称为 <b>Borel `sigma`-代数</b>,
+	记为 `cc B`.  `cc B` 中的集合称为 <b>Borel 集</b>.
+</p>
+
+</body>
+
+<script src="../js/note.js?type=math"></script>
+
+</html>

@@ -38,16 +38,12 @@ var tableOfContents = [ {
 		{title:'场论初步', src:'analysis/22.html'},
 	]
 	}, {
-	title:'集合论',
+	title:'集合论与点集拓扑',
 	articles: [
 //		{title:'数理逻辑初步', src:'set/1.html'},
 		{title:'集合及其运算', src:'set/2.html'},
-		{title:'映射', src:'set/3.html'},
-	]
-	}, {
-	title:'拓扑学基础',
-	articles: [
-		{title:'拓扑空间与连续映射', src:'topology/1.html'},
+		{title:'二元关系与映射', src:'set/3.html'},
+		{title:'基数', src:'set/6.html'},
 	]
 	}, {
 	title:'复变函数',
@@ -57,9 +53,8 @@ var tableOfContents = [ {
 	}, {
 	title:'实变函数',
 	articles: [
-		{title:'集合的运算', src:'real/1-2.html'},
-		{title:'映射与基数', src:'real/1-3.html'},
-		{title:'`RR^n` 中的度量与极限', src:'real/1-4.html'},
+		{title:'预备知识', src:'real/1.html'},
+		{title:'Lebesgue 外测度', src:'real/2.html'},
 	]
 	}, {
 	title:'概率论',
@@ -91,6 +86,11 @@ var tableOfContents = [ {
 		{title:'线性赋范空间', src:'functional/2.html'},
 		{title:'有界线性算子', src:'functional/3.html'},
 		{title:'Hilbert 空间及其上的有界线性算子', src:'functional/4.html'},
+	]
+	}, {
+	title:'拓扑学',
+	articles: [
+		{title:'拓扑空间与连续映射', src:'topology/1.html'},
 	]
 	}, {
 	title:'常微分方程',
@@ -137,7 +137,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'组合数学', src:'combinatorics/1.html'},
 		{title:'排列与组合', src:'combinatorics/2.html'},
-		{title:'递推式与差分方程', src:'combinatorics/3.html'},
+		{title:'递推式与生成函数', src:'combinatorics/3.html'},
 		{title:'Bernoulli 数', src:'combinatorics/4.html'},
 		{title:'容斥原理', src:'combinatorics/5.html'},
 	]

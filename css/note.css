@@ -106,7 +106,7 @@ pre.remark {
 	margin: 1em 0;
 }
 
-div.formula-wrapper {
+div.scroll-wrapper {
 	width: 100%;
 	overflow-x: auto;
 }
@@ -138,6 +138,14 @@ mtd {
 	margin-top: 0;
 }
 
+.proof pre, .solution pre, .answer pre, .collapse pre {
+	background: rgba(0,0,0,0);
+}
+
+.hidden {
+	display: none;
+}
+
 button.copy-code {
 	text-align: right;
 	float: right;
@@ -154,10 +162,9 @@ button.copy-code:hover {
 	opacity: 1;
 }
 
-button.toggle-show-answer {
+button.toggle-answer {
 	font-size: 1em;
 	padding: 0.2em 0.4em;
-	border-radius: 0.5em;
 	border: none;
 	font-weight: bold;
 	color: black;
@@ -165,16 +172,25 @@ button.toggle-show-answer {
 	margin-bottom: 0;
 }
 
-button.toggle-show-answer:hover {
+button.toggle-answer:hover {
 	cursor: pointer;
 }
 
-/*
-li button.toggle-show-answer {
-	display: table-cell;
-	float: left;
+button.answer-hidden {
+	border-radius: 0.5em;
 }
-*/
+
+button.answer-shown {
+	border-radius: 0.5em 0.5em 0 0;
+}
+
+button.answer-hidden::after {
+	content: ' ▶';
+}
+
+button.answer-shown::after {
+	content: ' ▼';
+}
 
 div.graph {
 	height: 25em;
@@ -245,7 +261,7 @@ ol.enum ol > li {
 	counter-increment: enum_cnt;
 }
 
-ol.enum ol > li:before {
+ol.enum ol > li::before {
 	content: "(" counter(enum_cnt) ") ";
 }
 
@@ -396,13 +412,14 @@ div.tree li {
 @media print {
 	body {
 		margin: 0;
+		padding: 0;
 		font-size: 10pt;
 		font-family: SimSun, Songti, STIXGeneral, times, serif;
 		background: white;
 	}
 
 	h1, h2, h3, h4, h5, h6, b {
-		font-family: "AR PL UMing CN Bold", "Microsoft YaHei", serif;
+		font-family: "Noto Sans CJK SC", Heiti, "AR PL UMing CN Bold", serif;
 		font-weight: bold;
 	}
 
@@ -410,22 +427,30 @@ div.tree li {
 		color: black;
 	}
 
-	/*.remark {
-		font-family: fang-song, Kaiti;
-	}  open A10 and you got a problem...*/
-
-	/*
-	#nav {
-		display: none;
+	/* always show answer */
+	.hidden {
+		display: revert;
 	}
-	*/
 
-	.toggle-show-answer {
-		display: none;
+	button.answer-hidden {
+		border-radius: 0.5em 0.5em 0 0;
+	}
+
+	button.answer-hidden::after {
+		content: ' ▼';
 	}
 
 	.pagebreak {
 		page-break-after: always;
+	}
+
+	/* always display overflow */
+	pre {
+		overflow-x: revert;
+	}
+
+	div.scroll-wrapper {
+		overflow-x: revert;
 	}
 }
 

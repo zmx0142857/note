@@ -12,8 +12,7 @@
 
 <body>
 
-<h2>集合的基数</h2>
-
+<!--
 <p class="theorem" id="the-isb-map-exist">
 	<b>鸽巢原理</b>
 	设 `X, Y != O/` 为有限集,
@@ -65,6 +64,302 @@
 		因而 `f` 不是满射.
 	</li>
 </ol>
+-->
+
+<h2>基数的定义</h2>
+
+<p>	我们知道, 有限集的元素个数可以用一个非负整数 `n` 表示,
+	<b>基数</b>或<b>势</b>就是对 "有限集的元素个数" 这个概念的扩充.
+	用 `|X|` 表示集合 `X` 的基数.
+</p>
+
+<ol class="definition">
+	<li>设 `A, B sube X`.  如果存在 `A` 到 `B` 的双射, 就称集合 `A` 与 `B`
+		<b>对等</b>, 记为 `A~B`. 可以验证, 对等构成 `2^X` 上的等价关系.
+	</li>
+	<li>若 `X` 与 `Y` 对等, 则称 `|X| = |Y|`, 否则 `|X| != |Y|`;
+		若 `X` 与 `Y` 的一个子集对等, 则称 `|X| le |Y|`;
+		若 `|X| le |Y|` 且 `|X| != |Y|`, 则称 `|X| lt |Y|`.
+	</li>
+	<li>称一个集合 `X` 为<b>有限集</b>, 如果存在非负整数 `n`, 使得
+		`X ~ {1, 2, cdots, n}` (`n = 0` 时表示空集), 这时定义 `X`
+		的基数为它所含的元素个数: `|X| = n`.
+		如果一个集合不是有限集, 则称它为<b>无限集</b>.
+		有限集也记为 `|X| lt oo`, 无限集记为 `|X| &#8814; oo`.
+	</li>
+</ol>
+
+<p class="lemma">
+	<b>Banach 映射分解定理</b>
+	若 `f: X to Y`, `g: Y to X`, 则存在 `A sube X`,
+	`B sube Y`, 使得
+	<span class="formula">
+		`f(A) = B`, `quad g(overset ~ B) = overset ~ A`,
+	</span>
+	其中 `overset ~ A = X\\A`, `overset ~ B = Y\\B`.
+</p>
+
+<ol class="proof">
+	<li>对任意 `E sube X`, 记
+		<span class="formula">
+			`F = f(E)`, `quad Y\\F = overset ~ F`,
+			`quad g(overset ~ F) = overset ~ E`.
+		</span>
+		若 `E nn overset ~ E = O/`, 则称 `E` 为 `X` 中的<b>分离集</b>.
+		显然, `O/` 就是 `X` 中一分离集.
+	</li>
+	<li>令 `A` 为 `X` 中全体分离集的并, 下证 `A` 是分离集.
+		对 `X` 中任意分离集 `E`, 有 `E sube A`, 从而
+		<span class="formula">
+			`F := f(E) sube B := f(A)`,<br/>
+			`quad overset ~ F := Y\\F supe overset ~ B := Y\\B`,<br/>
+			`quad overset ~ E := g(overset ~ F) supe overset ~ A :=
+			g(overset ~ B)`.
+		</span>
+		由 `E nn overset ~ E = O/` 知 `E nn overset ~ A = O/`,
+		再由 `E` 的任意性得 `A nn overset ~ A = O/`.
+	</li>
+	<li>下证 `A uu overset ~ A = X`. 如若不然, 则存在 `x in X`, `x !in
+		A uu overset ~ A`. 记 `E = A uu {x}`, 则 `E nn overset ~ A = O/`.
+		于是
+		<span class="formula">
+			`B = f(A) sube F := f(E)`,<br/>
+			`overset ~ B = Y\\B supe overset ~ F := Y\\F`,<br/>
+			`overset ~ A = g(overset ~ B) supe overset ~ E := g(overset
+			~ F)`.
+		</span>
+		联系 `A nn overset ~ A = O/` 有 `E nn overset ~ E = O/`,
+		与 `A` 是 `X` 中最大的分离集矛盾.
+	</li>
+</ol>
+	
+<p class="theorem">
+	<b>Cantor-Bernstein 定理</b>
+	若 `|X| le |Y|`, `|Y| le |X|`, 则 `|X| = |Y|`.
+	因此, "`le`" 构成一偏序关系.
+</p>
+
+<p class="proof">
+	(Banach) 由已知存在单射 `f: X to Y` 和单射 `g: Y to X`.
+	由映射分解定理, 存在 `A sube X`, `B sube Y` 使得
+	`f(A) = B`, `g(Y\\B) = X\\A`. 从而下面的映射是 `X` 到 `Y` 的双射:
+	<span class="formula">`F(x) = {
+		f(x), if x in A;
+		g^-1(x), if x in X\\A;
+	:}`</span>
+</p>
+
+<p class="corollary">
+	若 `A sube B sube C` 且 `A ~ C`, 则 `A ~ B ~ C`.
+</p>
+
+<p class="proof">
+	显然 `|A| le |B| le |C|`, 而 `|A| = |C|`, 所以 `|A| = |B| = |C|`.
+</p>
+
+<h2>可列集, 可数集</h2>
+
+<p class="definition">
+	记 `|NN| = aleph_0` (阿列夫·零).
+	称 `A` 为<b>可列集</b>, 如果 `A ~ NN`, 亦即 `|A| = aleph_0`.
+	可列集与有限集合称<b>可数集</b>. 如果 `|A| gt aleph_0`, 则称 `A`
+	为<b>不可数集</b>.
+</p>
+
+<p class="theorem">
+	无限集中必含一个可列子集, 从而 `aleph_0` 是最小的无限基数:
+	`|E| &#8814; oo rArr |E| ge aleph_0`.
+</p>
+
+<p class="theorem">
+	无限集并上一可数集后, 基数不变.
+</p>
+
+<p class="corollary">
+	一集合为无限集当且仅当它与自身的某个真子集对等.
+</p>
+
+<p class="theorem">
+	可列个可列集的并还是可列集.
+</p>
+
+<p class="proof">
+	设 `|A_n| = aleph_0`, `n = 1, 2, cdots`.
+	注意 `B_k = {a_(ij): i + j = k}` 为有限集, 而 `uuu_(n=1)^oo A_n =
+	uuu_(k=2)^oo B_k`, 显然后者为可列集.
+</p>
+
+<p class="example">
+	`ZZ` 是可列集;
+	`NN xx NN = uuu_(m in NN) {(m, n): n in NN}` 是可列集;
+	`QQ = uuu_(k=1)^oo {n/k: n in ZZ}` 是可列集;
+	`NN^n` 是可列集 (对 `n` 归纳).
+</p>
+
+<ol class="example">
+	<li>`RR` 中互不相交的开区间族是可数集.</li>
+	<li>区间 `I` 上单调函数的不连续点集为可数集.</li>
+	<li>区间 `I` 上的上凸 (下凸) 函数的不可微点为可数集.</li>
+</ol>
+
+<ol class="proof">
+	<li>由有理数的稠密性, 从每个开区间中可以选出一有理数,
+		从而这一开区间族对等于 `QQ` 的子集.
+	</li>
+	<li>以递增函数 `f` 为例.  由函数极限的单调有界原理知,
+		单调函数在每一点的单侧极限必存在.
+		因此每个 `f` 的不连续点 `x` 都对应开区间
+		`(f(x-0), f(x+0))`. 又对于不同的不连续点 `x_1, x_2`,
+		其对应的开区间互不相交 (不妨设 `x_1 lt x_2`, 展开极限定义, 利用
+		`f` 在 `(x_1, x_2)` 上的单调性反证, 可得 `f(x_1+0) le f(x_2-0)`),
+		所以 `f` 的不连续点对等于一族互不相交的开区间, 后者是可数的.
+	</li>
+	<li>函数 `f` 在 `x_0` 处可微当且仅当函数
+		`g(x) = (f(x) - f(x_0))/(x-x_0)` 在 `x_0` 处极限存在.
+		由凹凸性, `g(x)` 是单调函数. 所以由 2 即得结论.
+	</li>
+</ol>
+
+<p class="example">
+	<b>在无理点处连续, 有理点处间断的递增函数</b>
+	任取收敛级数
+	<span class="formula">
+		`sum_(n=1)^oo c_n lt +oo`, `quad c_n gt 0`, `quad n = 1, 2,
+		cdots`,
+	</span>
+	记区间 `I` 上全体有理数为 `{r_n}`, 定义 `f(x)` 为所有使得 `r_n lt
+	x` 的项 `c_n` 的和:
+	<span class="formula">
+		`f(x) = sum_(r_n lt x) c_n`,
+	</span>
+	易知 `f` 递增, 且 `f(r_n + 0) - f(r_n - 0) = c_n`, `n = 1, 2, cdots`.
+</p>
+
+<h2>连续基数</h2>
+
+<ol class="example">
+	<li>构造双射 `f: (-1, 1) to RR`, 其中 `f(x) = x/(1-x^2)`
+		(也可以是 `("e"^x-"e"^-x)/("e"^x + "e"^-x)`).
+	</li>
+	<li>构造双射 `f: [-1, 1] to (1, -1)` 如下
+		<span class="formula">`f(x) = {
+				1/(n+1), if x = 1/n;
+				-1/(n+1), if x = -1/n;
+				x, if "else";
+		:}` </span>
+		这一做法可以推广到高维的单位球上.
+	</li>
+	结合以上两例可知, 任何 `RR` 上的区间 (开, 闭, 半开闭) 都与 `RR` 对等.
+</ol>
+
+<p class="theorem">
+	`RR` 是不可数集.
+</p>
+
+<p class="proof">
+	只需证明闭区间 `[a, d]` 是不可数集. 反设 `[a, d] = {r_n}` 可数,
+	将 `[a, d]` 分成三等份 `[a = a_0, b_0]`,
+	`[b_0, c_0]`, `[c_0, d_0 = d]`,
+	至少有一区间不含 `r_1`, 记这个区间为 `[a_1, d_1]`, 并将它继续三等分,
+	把其中不含 `r_2` 的区间记为 `[a_2, d_2]`. 重复以上步骤,
+	得到长度趋于零的闭区间套
+	<span class="formula">
+		`[a_0, d_0] supe [a_1, d_1] supe [a_2, d_2] supe cdots`.
+	</span>
+	满足
+	<span class="formula">
+		`{r_n} nn uuu_(n=1)^oo [a_n, d_n] = O/`.
+	</span>
+	与闭区间套定理矛盾.
+</p>
+
+<ol class="proof">
+	<li>采用二进制小数, 则 `(0, 1]` 中的任意实数 `x` 可以表示为
+		<span class="formula">
+			`x = sum_(n=1)^oo a_n 2^-n`,
+		</span>
+		其中 `a_n in {0, 1}`, 且上式中 `a_n = 1` 的项有无穷多项 (即,
+		上式不是有限小数. 注意, 任意有限小数都可以写为无限小数, 如
+		1.0 = 0.111111...). 由闭区间套定理可证,
+		`(0, 1]` 中的实数与其二进制小数表示之间存在双射.
+	</li>
+	<li>记 `{a_n}` 为 `x` 的二进制小数表示.
+		记 `k_1` 是数列 `{a_n}` 中第一个数字 1 的下标,
+		`k_i` 表示数列 `a_n` 中第 `i` 个数字 1 与第 `i-1` 个数字
+		1 的下标之差, `i = 2, 3, cdots`, 则 `{k_i}` 是正整数列
+		(每一项都是正整数的数列).
+		这就建立了 `{a_n}` 到全体正整数列之间的双射.
+	</li>
+	<li>下证全体正整数列不可数. 反设全体正整数列可以列出如下:
+		<span class="formula">
+			`k_(11), k_(12), cdots, k_(1i), cdots`<br/>
+			`k_(21), k_(22), cdots, k_(2i), cdots`<br/>
+			`cdots`<br/>
+			`k_(i1), k_(i2), cdots, k_(ii), cdots`<br/>
+			`cdots`
+		</span>
+		但数列 `k_(11)+1, k_(22)+1, cdots, k_(i i)+1` 没有被列出,
+		这是因为对 `AA i in NN`, 它都与第 `i` 行不同.
+		所以全体正整数列不可数.
+	</li>
+</ol>
+
+<p class="definition">
+	称 `RR` 的基数为<b>连续基数</b>, 记为 `c` 或 `aleph_1`. 由上讨论,
+	任意区间的基数, 全体二进制小数的基数和全体正整数列的基数都是
+	`aleph_1`.
+</p>
+
+<p class="corollary">
+	`aleph_1 = 2^(aleph_0)`, 即, 可列集的幂集的基数为连续基数.
+</p>
+
+<p class="proof">
+	记这个可列集为 `{r_n}`.
+	对于它的每个子集 `X sube {r_n}`, 令
+	<span class="formula">`a_n = {
+		1, if r_n in X;
+		0, if r_n !in X;
+	:}`</span>
+	于是 `X` 与 `[0, 1]` 中的二进制小数一一对应.
+</p>
+
+<p class="theorem">
+	可列个具有连续基数的集合之并, 仍具有连续基数.
+</p>
+
+<ol class="example">
+	<b>Cantor 集</b>
+	记 `F_0 = [0, 1]`. 将其三等分, 移去中间部分的开区间 `(1/3, 2/3)`,
+	剩下的部分记为 `F_1 = [0, 1/3] uu [2/3, 1]`.
+	一般地, 将 `F_n` 中每个互不相交的闭区间三等分, 并移去中间部分的开区间,
+	剩下的部分记为 `F_(n+1)`.
+	定义 Cantor 集为
+	<span class="formula">
+		`C = nnn_(n=1)^oo F_n`.
+	</span>
+	Cantor 集的若干性质:
+	<li>`C` 是非空有界闭集;</li>
+	<li>`C` 是完全集, 即 `C' = C`;</li>
+	<li>`C` 无内点;</li>
+	<li>`C` 的基数是 `c`.</li>
+</ol>
+
+<p class="theorem">
+	<b>无最大基数定理</b>
+	`|X| lt |2^X|`. 任一集合都存在幂集, 于是无最大基数.
+</p>
+
+<p class="proof">
+	易知 `X ~ {{x}: x in X} sube 2^X`, 所以 `|X| le |2^X|`.
+	下证 `X` 与其幂集不对等. 假设存在双射 (从而是满射) `f: X to 2^X`,
+	令
+	<span class="formula">
+		`Y = {x in X: x !in f(x)}`,
+	</span>
+	则 `Y in 2^X`. 由 `f` 是满射, 存在 `y in X`, 使 `f(y) = Y`.
+	然而不论 `y in Y` 还是 `y !in Y` 均引出矛盾 (罗素悖论).
+</p>
 
 <script src="../js/note.js?type=math"></script>
 

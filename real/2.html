@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>Lebesgue 测度</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>Lebesgue 外测度</h2>
+
+<h3>外测度的定义</h3>
+
+<p class="definition">
+	设 `E sube RR^n`, 若 `RR^n` 中的可数个开矩体 `{I_k}` 构成
+	`E` 的开覆盖, 则称 `{I_k}` 为 `E` 的一个 <b>L-覆盖</b>.
+	`E` 的全体 L-覆盖组成集合 `L`.
+	`E` 的每一个 L-覆盖确定了一个非负广义实值 `sum_(k ge 1) |I_k|`
+	(可以是非负实数或 `+oo`). 这个值关于 `E` 的全体 L-覆盖取下确界,
+	称为 `E` 的 <b>Lebesgue 外测度</b>:
+	<span class="formula">
+		`m^**(E) := inf_({I_k} in L) sum_(k ge 1) |I_k|`.
+	</span>
+	当 `E` 为有界集时, 我们总能用体积总和有限的开矩体将它覆盖, 此时
+	`m^**(E) lt +oo`; 反之当 `E` 无界时, `m^**(E) = +oo`.
+	如果 `m^**(E) = 0`, 则称 `E` 为<b>零测集</b>.
+</p>
+
+<p class="remark">
+	我们没有要求这些开矩体互不相交.
+</p>
+
+<ol class="theorem">
+	<b>Lebesgue 外测度的性质</b>
+	<li>非负性: `m^**(E) ge 0`, `m^**(O/) = 0`;</li>
+	<li>单调性: `E sube F rArr m^**(E) le m^**(F)`;</li>
+	<li>次可加性: `m^**(uuu_(k=1)^oo E_k) le sum_(k=1)^oo m^**(E_k)`.</li>
+	一般地, 定义在幂集 `2^X` 上的广义实值函数如果满足此处的三条性质,
+	则称它是 `X` 上的一个<b>外测度</b>. 在没有特别说明的情况下,
+	我们所说的外测度均指 Lebesgue 外测度.
+</ol>
+
+<ol class="proof">
+	<li>由定义显然.</li>
+	<li>这是因为 `F` 的任一 L-覆盖都是 `E` 的 L-覆盖.</li>
+	<li>不妨设不等号右边 `lt +oo`. 对任意 `epsi gt 0` 和每个自然数 `k`,
+		存在 `E_k` 的 L-覆盖 `{I_(k,l)}_(l=1)^oo`, 满足
+		<span class="formula">
+			`sum_(l=1)^oo |I_(k,l)| lt m^**(E_k) + epsi 2^-k`.
+		</span>
+		因此 `{I_(k,l)}_(k,l=1)^oo` 是 `uuu_(k=1)^oo E_k` 的一个 L-覆盖,
+		满足
+		<span class="formula">
+			`sum_(k,l=1)^oo |I_(k,l)| le sum_(k=1)^oo m^**(E_k) + epsi`.
+		</span>
+		于是
+		<span class="formula">
+			`m^**(uuu_(k=1)^oo E_k) le sum_(k=1)^oo m^**(E_k) + epsi`.
+		</span>
+		由 `epsi` 的任意性知结论成立.
+	</li>
+</ol>
+
+<ol class="example">
+	`RR^n` 中:
+	<li>`n-1` 维的超平面块
+		<span class="formula">
+			`{(x_1, cdots, x_(i-1), a, x_(i+1), cdots, x_n):
+			x_j in RR, j != i}`
+		</span>
+		是零测集, 从而由单调性,
+		任意维数小于 `n` 的点集 (特别地, 单点集) 都是零测集.
+	</li>
+	<li>设 `I` 为一开矩体, 则 `m^**(I) = m^**(bar I) = |I|`.</li>
+	<li>根据次可加性, 可数点集是零测集.</li>
+	<li>Cantor 集是零测集. 事实上, `C = nnn_(n=1)^oo F_n`, `F_n` 是 `2^n`
+		个长度为 `3^-n` 的不相交闭区间的并, 由单调性,
+		<span class="formula">
+			`m^**(C) le m^**(F_n) = (2/3)^n`,
+		</span>
+		从而知 `m^**(C) = 0`.
+	</li>
+</ol>
+
+<h3>外测度的平移与数乘</h3>
+
+<p class="theorem">
+	设 `E sube RR^n`, `x in RR^n`, 则
+	<span class="formula">
+		`m^**(x + E) = m^**(E)`,
+	</span>
+	其中 `x + E = {x + e: e in E}`.
+</p>
+
+<p class="theorem">
+	设 `E sube RR`, `lambda in R. 则
+	<span class="formula">
+		`m^**(lambda E) = |lambda| m^**(E)`,
+	</span>
+	其中 `lambda E = {lambda e: e in E}`.
+</p>
+
+<h3>距离外测度性质</h3>
+
+<p class="lemma">
+	设 `E sube RR^n`, `delta gt 0`, 将 `E` 的全体
+	L-覆盖中满足每个开矩体边长 `lt delta` 的那部分记为 `L_delta`, 定义
+	<span class="formula">
+		`m_delta^**(E) := inf_({I_k} in L_delta) sum_(k ge 1) |I_k|`,
+	</span>
+	则 `m_delta^**(E) = m^**(E)`.
+	引理告诉我们, 仅由小矩形组成的 L-覆盖就可以充分接近全体
+	L-覆盖的体积的下确界, 即外测度.
+</p>
+
+<p class="theorem">
+	<b>距离外测度性质</b>
+	设 `E, F sube RR^n`, 若 `d(E, F) gt 0`, 则
+	<span class="formula">
+		`m^**(E uu F) = m^**(E) + m^**(F)`.
+	</span>
+	一般地, 在度量空间 `(X, d)` 上满足此处性质的外测度, 称为 `X`
+	上的一个<b>距离外测度</b>.
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>
