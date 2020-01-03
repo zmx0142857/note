@@ -3,7 +3,7 @@ var domain = '.mathNote.io.github.zmx0142857';
 var tableOfContents = [ {
 	title:'示例',
 	articles: [
-		{title:'公式编辑器', src:'example/editor.html', isnew:true},
+		{title:'公式编辑器', src:'example/editor.html'},
 		{title:'Asciimath', src:'example/asciimath.html'},
 		{title:'Mathml', src:'example/mathml.html'},
 	]
@@ -42,8 +42,8 @@ var tableOfContents = [ {
 	articles: [
 //		{title:'数理逻辑初步', src:'set/1.html'},
 		{title:'集合及其运算', src:'set/2.html'},
-		{title:'二元关系与映射', src:'set/3.html'},
-		{title:'基数', src:'set/6.html'},
+		{title:'二元关系与映射', src:'set/3.html', isnew:true},
+		{title:'基数', src:'set/6.html', isnew:true},
 	]
 	}, {
 	title:'复变函数',
@@ -53,8 +53,8 @@ var tableOfContents = [ {
 	}, {
 	title:'实变函数',
 	articles: [
-		{title:'预备知识', src:'real/1.html'},
-		{title:'Lebesgue 外测度', src:'real/2.html'},
+		{title:'预备知识', src:'real/1.html', isnew:true},
+		{title:'Lebesgue 外测度', src:'real/2.html', isnew:true},
 	]
 	}, {
 	title:'概率论',
@@ -112,7 +112,7 @@ var tableOfContents = [ {
 	title:'初等几何',
 	articles: [
 		{title:'五组公理', src:'geometry/1.html'},
-		{title:'三角形', src:'geometry/3.html', isnew:true},
+		{title:'三角形', src:'geometry/3.html'},
 		{title:'抛物线', src:'geometry/5.html'},
 	]
 	}, {
@@ -120,7 +120,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'向量与坐标系', src:'analytic-geo/1.html'},
 		{title:'平面与直线', src:'analytic-geo/2.html'},
-		{title:'二次曲线与曲面', src:'analytic-geo/3.html', isnew:true},
+		{title:'二次曲线与曲面', src:'analytic-geo/3.html'},
 		{title:'平面几何的复数解法', src:'analytic-geo/6.html'},
 	]
 	}, {
@@ -154,8 +154,8 @@ var tableOfContents = [ {
 		{title:'群 (下)', src:'abstract/4.html'},
 		{title:'半群', src:'abstract/5.html'},
 		{title:'环', src:'abstract/6.html'},
-		{title:'域', src:'abstract/7.html'},
-		{title:'Galois 理论', src:'abstract/8.html'},
+		{title:'域', src:'abstract/7.html', isnew:true},
+		{title:'Galois 理论', src:'abstract/8.html', isnew:true},
 	]
 	}, {
 	title:'初等数论',
@@ -176,7 +176,7 @@ var tableOfContents = [ {
 		{title:'不等式', src:'misc/3.html'},
 		{title:'对称多项式', src:'misc/4.html'},
 		{title:'因式分解', src:'misc/5.html'},
-		{title:'算术', src:'misc/7.html', isnew:true},
-		{title:'问题', src:'misc/question.html', isnew:true},
+		{title:'算术', src:'misc/7.html'},
+		{title:'问题', src:'misc/question.html'},
 	]
 }];
