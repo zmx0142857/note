@@ -364,32 +364,46 @@
 	`Gamma(n+1) = n!`, `n` 为非负整数.
 </p>
 
-<p class="property">
-	<b>Gamma 函数的其它形式</b>
-	令 `t = u^2`, 则
-	`Gamma(x) = 2 int_0^oo "e"^(-u^2) u^(2x-1) "d"u`.
+<p class="corollary">
+	令 `t = u^2` 得到 Gamma 函数的另一重要形式:
+	<span class="formula">
+		`Gamma(x) = 2 int_0^oo "e"^(-u^2) u^(2x-1) "d"u`.
+	</span>
+	利用 Poisson 积分知 `Gamma(1/2) = sqrt pi`, 再由递推公式可得 Gamma
+	函数在半整数点的取值:
+	<span class="formula">
+		`Gamma((2n+1)/2) = ((2n-1)!!)/2^n sqrt pi`
+		`= ((2n)!)/(4^n * n!) sqrt pi`.
+	</span>
 </p>
 
+<table class="col2">
+	<tr>
+		<td>`x`</td>
+		<td>`1/2`</td>
+		<td>`3/2`</td>
+		<td>`5/2`</td>
+		<td>`7/2`</td>
+	</tr>
+	<tr>
+		<td>`Gamma(x)//sqrt pi`</td>
+		<td>`1`</td>
+		<td>`1/2`</td>
+		<td>`1/2 * 3/2`</td>
+		<td>`1/2 * 3/2 * 5/2`</td>
+	</tr>
+</table>
+
 <p class="example">
-	`I_n = int_(-oo)^(+oo) "e"^(-x^2) x^n dx` 在 `n` 为奇数时等于零;
-	`n` 为偶数时, 等于
-	<span class="formula">
-		`Gamma((n+1)/2) = (n!)/(2^n (n//2)!) sqrt pi`,
-		`quad n = 0, 2, 4, 6, cdots`.
-	</span>
-	由此得到了 `Gamma` 函数在半整数点的取值.
+	`I_n = int_(-oo)^(+oo) "e"^(-x^2) x^n dx`
+	`= { 0, if n" is odd"; Gamma((n+1)/2), if n" is even" :}`
 </p>
 
 <p class="solution">
 	`n` 是奇数时, 被积函数为奇函数, 积分为零;
-	`n` 是偶数时, 被积函数为偶函数, 利用 Gamma 函数的变化形式,
+	`n` 是偶数时, 被积函数为偶函数, 利用 Gamma 函数的变化形式知
 	`I_n = Gamma((n+1)/2)`.
-	现在利用第 6 章的<a href="6.html#exp-possion-integral">例题</a>,
-	容易得到
-	<span class="formula">
-		`I_n = (n-1)/2 I_(n-2)`.
-	</span>
-	利用 `I_0 = sqrt pi` (Poission 积分) 和 `I_1 = 0` 立即得到上面的结论.
+	(也可以利用第 6 章的<a href="6.html#exp-possion-integral">这个例题</a>).
 </p>
 
 <p class="property">
@@ -453,7 +467,7 @@
 	<span class="formula">
 		`Gamma(x) Gamma(1-x)`
 		`= B(x, 1-x) Gamma(1)`
-		`= int_0^oo (u^(x-1)/(1+u)) "d"u`.
+		`= int_0^oo u^(x-1)/(1+u) "d"u`.
 	</span>
 	???
 </p>

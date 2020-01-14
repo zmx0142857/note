@@ -54,7 +54,7 @@ var tableOfContents = [ {
 	title:'实变函数',
 	articles: [
 		{title:'预备知识', src:'real/1.html', isnew:true},
-		{title:'Lebesgue 外测度', src:'real/2.html', isnew:true},
+		{title:'Lebesgue 测度', src:'real/2.html', isnew:true},
 	]
 	}, {
 	title:'概率论',

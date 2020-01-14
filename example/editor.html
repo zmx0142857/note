@@ -31,10 +31,11 @@ div {
 <div id="outputWrapper"></div>
 
 <div id="inputWrapper">
-	<button id="copyTex">copy tex</button>
+	<button id="copy">copy</button>
 	<button id="newFormula">new</button>
 	<button id="deleteFormula">delete</button>
-	<textarea id="input" rows="5"></textarea>
+	<button id="lang">asciimath</button>
+	<textarea id="input" rows="5" lang="asciimath"></textarea>
 </div>
 
 <script src="../js/AMsymbols.js"></script>
@@ -43,16 +44,24 @@ div {
 <script>
 var count = 0;
 var input = document.getElementById('input');
-var output;
+var output = document.getElementById('output');
+var copy = document.getElementById('copy');
+var lang = document.getElementById('lang');
 var outputWrapper = document.getElementById('outputWrapper');
 
 function render() {
-	output.asciimath = input.value;
-	output.innerHTML = '`' + output.asciimath + '`';
-	if (typeof(AMTEX) != "undefined") {
-		AMTEX();
-		// texstring comes from asciimath-katex.js
-		output.tex = texstring;
+	if (input.lang == 'asciimath') {
+		output.asciimath = input.value;
+		output.innerHTML = '`' + output.asciimath + '`';
+		if (typeof(AMTEX) != "undefined") {
+			AMTEX();
+			// texstring comes from asciimath-katex.js
+			output.tex = texstring;
+		}
+	} else {
+		output.tex = input.value;
+		output.innerHTML = input.value;
+		katex.render(input.value, output);
 	}
 } 	 
 
@@ -61,14 +70,23 @@ input.onkeyup = function(event) {
 		render();
 };
 
-copyTex.onclick = function() {
-	var textArea = document.createElement('textarea');
-	textArea.innerHTML = output.tex || '';
-	document.body.appendChild(textArea);
-	textArea.select();
+lang.onclick = function() {
+	if (input.lang == 'asciimath') {
+		lang.innerHTML = 'tex';
+		input.lang = 'tex';
+		input.value = output.tex;
+	} else {
+		lang.innerHTML = 'asciimath';
+		input.lang = 'asciimath';
+		input.value = output.asciimath || '';
+	}
+};
+
+copy.onclick = function() {
+	input.select();
 	document.execCommand('copy');
-	document.body.removeChild(textArea);
-}
+	input.blur();
+};
 
 function highlight(elem) {
 	if (output) output.style.border = 'none';
@@ -84,7 +102,7 @@ deleteFormula.onclick = function() {
 		outputWrapper.removeChild(output);
 		highlight(formulae[formulae.length-1]);
 	}
-}
+};
 
 newFormula.onclick = function() {
 	var div = document.createElement('div');
@@ -93,11 +111,10 @@ newFormula.onclick = function() {
 	}
 	highlight(div);
 	outputWrapper.appendChild(div);
-}
+};
 
 newFormula.onclick();
 input.value = 'x = (-b+-sqrt(b^2-4ac))/(2a)';
-render();
 render();
 </script>
 </body>

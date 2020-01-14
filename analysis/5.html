@@ -410,6 +410,74 @@
 	没有偶数阶项, 同理 `f(x+Delta x) + f(x-Delta x)` 的展式没有奇数阶项.
 </p>
 
+<ol class="theorem" id="taylor-inequality">
+	<b>Taylor 公式导出的若干不等式</b>
+	对任意自然数 `n` 和任意 `x gt 0` 成立:
+	<li>`sum_(k=0)^n x^k/(k!) lt "e"^x lt sum_(k=0)^n x^k/(k!)
+		+ x^(n+1)/((n+1)!) "e"^x`;
+	</li>
+	<li>`sum_(k=0)^(2n-1) (-1)^k x^(2k+1)/((2k+1)!)`
+		`lt sin x lt sum_(k=0)^(2n) (-1)^k x^(2k+1)/((2k+1)!)`;
+	</li>
+	<li>`sum_(k=0)^(2n-1) (-1)^k x^(2k)/((2k)!)`
+		`lt cos x lt sum_(k=0)^(2n) (-1)^k x^(2k)/((2k)!)`;
+	</li>
+	<li>`sum_(k=0)^(2n-1) (-1)^k x^(k+1)/(k+1) lt ln(1+x)`
+		`lt sum_(k=0)^(2n) (-1)^k x^(k+1)/(k+1)`;
+	</li>
+	对任意自然数 `n` 和任意 `0 lt x lt 1` 成立:
+	<li>`sum_(k=1)^n x^k/k lt -ln(1-x)`
+		`lt sum_(k=1)^n x^k/k + x^(n+1)/(n+1) (1-x)^(-n-1)`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>`x gt 0` 时, 由 Taylor 展开
+		<span class="formula">
+			`"e"^x = sum_(k=0)^n x^k/(k!) + x^(n+1)/(n+1) "e"^(theta x)`,
+			`quad 0 lt theta lt 1`
+		</span>
+		立即得到结论.
+	</li>
+	<li>`x gt 0` 时, 由 Taylor 展开
+		<span class="formula">
+			`sin x = sum_(k=0)^(2n-1) (-1)^k x^(2k+1)/((2k+1)!)
+			+ x^(4n+1)/((4n+1)!) cos theta x`,
+			`quad 0 lt theta lt 1`
+		</span>
+		得到不等式的后半部分; 由
+		<span class="formula">
+			`sin x = sum_(k=0)^(2n-2) (-1)^k x^(2k+1)/((2k+1)!)
+			- x^(4n-1)/((4n-1)!) cos theta x`,
+			`quad 0 lt theta lt 1`
+		</span>
+		得到不等式的前半部分.
+	</li>
+	<li>类似 `sin x` 的证明.</li>
+	<li>`x gt 0` 时, 由 Taylor 展开
+		<span class="formula">
+			`ln(1+x) = sum_(k=0)^(2n-1) (-1)^k x^(k+1)/(k+1)
+			+ x^(2n+1)/(2n+1) (1+theta x)^(-2n-1)`,
+			`quad 0 lt theta lt 1`
+		</span>
+		得到不等式的后半部分; 由
+		<span class="formula">
+			`ln(1+x) = sum_(k=0)^(2n-2) (-1)^k x^(k+1)/(k+1)`
+			`- x^(2n)/(2n) (1+theta x)^(-2n)`,
+			`quad 0 lt theta lt 1`
+		</span>
+		得到不等式的前半部分.
+	</li>
+	<li>`0 lt x lt 1` 时, 由 Taylor 展开
+		<span class="formula">
+			`-ln(1-x) = sum_(k=1)^n x^k/k + x^(n+1)/(n+1) (1-theta
+			x)^(-n-1)`,
+			`quad 0 lt theta lt 1`
+		</span>
+		立即得到结论.
+	</li>
+</ol>
+
 </body>
 
 <script src="../js/note.js?type=math"></script>

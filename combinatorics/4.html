@@ -334,6 +334,92 @@
 	</span>
 </p>
 
+<h2>Bernoulli 数与调和级数</h2>
+
+<p class="lemma">
+	`sum_(k=n)^oo 1/(k(k+1) cdots (k+m))`
+	`= 1/(m n(n+1)cdots(n+m-1))`.
+</p>
+
+<p class="proof">
+	等式左边记为 `T_(m, n)`.
+	显然 `m ge 1` 时级数收敛. 直接计算
+	<span class="formula">
+		`T_(m+1,n) = sum_(k=n)^oo 1/(k(k+1)cdots(k+m+1))`
+		`= sum_(k=n)^oo 1/(k(k+1)cdots(k+m)) - sum_(k=n)^oo
+		(k+m)/(k(k+1)cdots(k+m+1))`
+		`= T_(m,n) - m T_(m+1,n) - sum_(k=n)^oo 1/((k+1)cdots(k+m+1))`.
+	</span>
+	于是
+	<span class="formula">
+		`T_(m+1,n) = 1/(m+1) (T_(m,n) - T_(m,n+1))`
+		`= 1/((m+1)n(n+1)cdots(n+m)`.
+	</span>
+</p>
+
+<ol class="theorem">
+	记 `a_n = sum_(k=1)^n 1/k - ln n`, 则
+	<li>`lim_(n to oo) a_n` 存在, 记为 `gamma` (Euler 常数);</li>
+	<li>`a_n - gamma ~ 1/(2n)`;</li>
+	<li>`a_n - gamma - 1/(2n) ~ -1/(12n^2)`.</li>
+</ol>
+
+<ol	class="proof">
+	<li>见<a href="../analysis/10.html#euler-constant">Euler 常数</a>的证明.</li>
+	<li>即证 `lim_(n to oo) n (a_n - gamma) = 1/2`.
+		首先利用
+		<span class="formula">
+			`ln n = sum_(k=1)^(n-1) [ln(k+1) - ln k]`
+			`= sum_(k=1)^(n-1) ln(1+1/k)`,
+		</span>
+		把 `a_n` 写成求和的形式:
+		<span class="formula">
+			`a_n = 1 + sum_(k=1)^(n-1) [1/(k+1) - ln(1+1/k)]`.
+		</span>
+		利用 Taylor 展开 `ln(1+x) = x - x^2/2 + O(x^3)` (`x to 0`) 有
+		<span class="formula">
+			`n(a_n - gamma)`
+			`= n sum_(k=n)^oo [ln(1+1/k) - 1/(k+1)]`
+			`= n sum_(k=n)^oo [1/k - 1/(2 k^2) - 1/(k+1) + O(1/k^3)]`
+			`= n sum_(k=n)^oo (1/k - 1/(k+1) - 1/(2k^2))`.
+		</span>
+		从而一方面有
+		<span class="formula">
+			`n(a_n - gamma)`
+			`le n sum_(k=n)^oo (1/k - 1/(k+1) - 1/(2k(k+1)))`
+			`= 1/2`;
+		</span>
+		另一方面,
+		<span class="formula">
+			`n(a_n - gamma)`
+			`ge n sum_(k=n)^oo (1/k - 1/(k+1) - 1/(2k(k-1)))`
+			`= 1-n/(2(n-1))`.
+		</span>
+		所以 `lim_(n to oo) n(a_n - gamma) = 1/2`.
+	</li>
+</ol>
+
+<h2>Bernoulli 数与 Stirling 公式</h2>
+
+<p class="example">
+	`"d"/dx ln Gamma(x)` 的递推公式.
+	<span class="formula">
+		`Gamma(x+1) = x Gamma(x)`<br/>
+		`ln Gamma(x+1) = ln x + ln Gamma(x)`<br/>
+		`"d"/dx ln Gamma(x+1) = 1/x + "d"/dx ln Gamma(x)`.
+	</span>
+	记 `f(x) = "d"/dx ln Gamma(x) = (Gamma'(x))/(Gamma(x))`, 则
+	<span class="formula">
+		`f(x+1) - f(x) = 1/x`.
+	</span>
+</p>
+
+<span class="formula">
+	`n! = sqrt(2 pi n) (n/"e")^n (1 + 1/(12n) + 1/(288n^2) + cdots)`
+</span>
+
+<h2>`zeta(2k)` 的求值</h2>
+
 <script src="../js/note.js?type=math"></script>
 
 </body>
