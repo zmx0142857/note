@@ -12,6 +12,153 @@
 
 <body>
 
+<h2>三角形的面积</h2>
+
+<p class="theorem">
+	<b>Heron 公式</b>
+	设三角形的三边长分别为 `a, b, c`, 其周长的一半为 `p = (a+b+c)//2`,
+	则三角形的面积为
+	<span class="formula">
+		`S = sqrt(p(p-a)(p-b)(p-c))`.
+	</span>
+</p>
+
+<p class="proof">
+	记边 `a, b` 的夹角为 `C`, 利用余弦定理
+	<span class="formula">
+		`cos C = (a^2+b^2-c^2)/(2a b)`,
+	</span>
+	有
+	<span class="formula">
+		`16S^2 = 16 (1/2 a b sin C)^2`
+		`= (2a b)^2 (1-cos^2 C)`
+		`= (2a b)^2 (1+(a^2+b^2-c^2)/(2a b)) (1-(a^2+b^2-c^2)/(2a b))`
+		`= [(a+b)^2-c^2][c^2-(a-b)^2]`
+		`= (a+b+c)(a+b-c)(c+a-b)(c-a+b)`,
+	</span>
+	结论得证.
+</p>
+
+<p class="theorem">
+	<b>婆罗摩笈多公式</b>
+	设平面上一四边形的四边长按顺时针依次为 `a, b, c, d`, 其周长的一半为
+	`p = (a+b+c+d)//2`, 又设其一组对角之和为 `theta`, 则四边形的面积为
+	<span class="formula">
+		`S = sqrt((p-a)(p-b)(p-c)(p-d) - a b c d cos^2{:theta/2:})`.
+	</span>
+	注意当一组对角之和为 `theta` 时, 另一组对角之和为 `pi-theta`;
+	特别当四边形内接于圆时, 根号内的 `cos` 项等于零.
+</p>
+
+<p class="proof">
+	设 `a, b` 的夹角为 `A`, `c, d` 的夹角为 `C`.
+	四边形被对角线分成边长为 `a, b, l` 和 `c, d, l` 的两个三角形,
+	由余弦定理,
+	<span class="formula">
+		`l^2 = a^2 + b^2 - 2 a b cos A = c^2 + d^2 - 2 c d cos C`,
+	</span>
+	即
+	<span class="formula">
+		`a^2 + b^2 - c^2 - d^2 = 2(a b cos A - c d cos C)`.
+	</span>
+	另一方面,
+	<span class="formula">
+		`4S = 2(a b sin A + c d sin C)`.
+	</span>
+	以上两式平方后相加,
+	<span class="formula">
+		`(a^2+b^2-c^2-d^2)^2 + 16S^2 = 4(a^2 b^2 + c^2 d^2)`
+		`- 8a b c d(cos A cos C - sin A sin C)`,
+	</span>
+	于是
+	<span class="formula">
+		`16S^2 = 4(a^2 b^2 + c^2 d^2) - (a^2+b^2-c^2-d^2)^2`
+		`- 8a b c d cos theta`
+		`= 4(a b + c d)^2 - 8a b c d - (a^2+b^2-c^2-d^2)^2`
+		`- 8a b c d (2cos^2{:theta/2:} - 1)`,
+	</span>
+	得到
+	<span class="formula">
+		`16(S^2+a b c d cos^2{:theta/2:})`
+		`= [2(a b+c d) + a^2+b^2-c^2-d^2][2(a b+c d) - (a^2+b^2-c^2-d^2)]`
+		`= [(a+b)^2 - (c-d)^2][(c+d)^2 - (a-b)^2]`
+		`= (a+b+c-d)(a+b-c+d)(a-b+c+d)(-a+b+c+d)`.
+	</span>
+	即得所证.
+</p>
+
+<p class="lemma">
+	三维欧氏空间中,
+	`cos AOC = alpha`, `cos BOC = beta`, `cos AOB = gamma`.
+	求 `OC` 与平面 `AOB` 的夹角余弦值 `rho`.
+</p>
+
+<p class="solution">
+	不妨设 `OC = 1`, 作 `CH` 垂直平面 `AOB` 于 `H`, 则 `OH = rho`,
+	`cos AOH = alpha//rho`, `cos BOH = beta//rho`,
+	于是
+	<span class="formula">
+		`gamma = cos AOB`
+		`= cos(AOH +- BOH)`
+		`= (alpha beta -+ sqrt((rho^2-alpha^2)(rho^2-beta^2)))/rho^2`.
+	</span>
+	`OC` 不垂直于平面 `AOB` 时, 解得
+	<span class="formula">
+		`rho^2 = (alpha^2 + beta^2 - 2alpha beta gamma)/(1-gamma^2)`.
+	</span>
+	显然上式也适用于 `OC` 垂直于平面 `AOB` 的情形.
+</p>
+
+<p class="theorem">
+	<b>Euler 四面体问题</b>
+	已知四面体六棱长, 求体积.
+</p>
+
+<p class="solution">
+	记这个四面体为 `OABC`, 其中 `OA = a`, `OB = b`, `OC = c`,
+	`AB = p`, `AC = q`, `BC = r`.
+	利用余弦定理,
+	<span class="formula">
+		`gamma := cos AOB = (a^2+b^2-p^2)/(2a b)`,<br/>
+		`alpha := cos AOC = (a^2+c^2-q^2)/(2a c)`,<br/>
+		`beta := cos BOC = (b^2+c^2-r^2)/(2b c)`.
+	</span>
+	利用引理有
+	<span class="formula">
+		`V^2 = (1/3 S_(AOB) h)^2`
+		`= (1/6 a b sin AOB h)^2`
+		`= (1/6 a b c)^2 (1-gamma^2) (1-alpha^2-beta^2-gamma^2 + 2alpha
+		beta gamma)/(1-gamma^2)`.
+	</span>
+	即
+	<span class="formula">
+		`((6V)/(a b c))^2 = 1-alpha^2-beta^2-gamma^2 + 2alpha beta gamma`.
+	</span>
+</p>
+
+<p class="solution">
+	记号同前一种解法.  又记 `vec(OA) := bm a = (a_1, a_2, a_3)`, `vec(OB)
+	:= bm b = (b_1, b_2, b_3)`, `vec(OC) := bm c = (c_1, c_2, c_3)`, 则
+	<span class="formula">
+		`36 V^2 =
+		|a_1, a_2, a_3; b_1, b_2, b_3; c_1, c_2, c_3|
+		|a_1, b_1, c_1; a_2, b_2, c_2; a_3, b_3, c_3|`
+		`= |
+			bm a * bm a, bm a * bm b, bm a * bm c;
+			bm b * bm a, bm b * bm b, bm b * bm c;
+			bm c * bm a, bm c * bm b, bm c * bm c
+		|`
+		`= |
+			a^2, gamma a b, alpha a c;
+			gamma a b, b^2, beta b c;
+			alpha a c, beta b c, c^2
+		|`
+		`= (a b c)^2 | 1, gamma, alpha; gamma, 1, beta; alpha, beta, 1 |`
+		`= (a b c)^2 (1-alpha^2-beta^2-gamma^2 + 2 alpha beta gamma)`.
+	</span>
+	结果与前相同.
+</p>
+
 <h2>定比分点与三角形的心</h2>
 
 <h3>定比分点公式</h3>
@@ -210,7 +357,7 @@
 	则这点与第三点的连线是第三条角平分线.
 </ol>
 
-<ol class="theorem">
+<ol class="theorem" id="the-incenter">
 	设 `I` 是 `triangle ABC` 的内心, `P, Q, R` 分别是三条角平分线与
 	`AB, BC, CA` 的交点. 则
 	<li>三条角平分线将 `triangle ABC` 分成的 6 个小三角形的面积与其在
@@ -312,11 +459,144 @@
 	则这点与第三边中点的连线是第三条中垂线.
 </ol>
 
-<h3>Fermat 点</h3>
+<h3>Euler 线与九点圆</h3>
+
+<p class="theorem">
+	三角形的外心 `O`, 重心 `G`, 垂心 `H` 满足 `vec(OH) = 3 vec(OG)`.
+	点 `O, G, H` 所在的直线称为 <b>Euler 线</b>.
+</p>
+
+<p class="proof">
+	取三角形的外心 `O` 为原点, 不妨令其外接圆的半径为 1,
+	则三角形三个顶点 `A, B, C` 的坐标可设为
+	`(cos theta_i, sin theta_i)`, `i = 1, 2, 3`.
+	因为 `G` 是重心, 有
+	<span class="formula">
+		`vec(OG) = 1/3(sum cos theta_i, sum sin theta_i)`.
+	</span>
+	记 `H'` 坐标为 `(sum cos theta_i, sum sin theta_i)`,
+	从而 `vec(OH') = 3 vec(OG)`. 下证 `H` 与 `H'` 重合, 这只需说明
+	`H'` 是 `triangle ABC` 的垂心:
+	<span class="formula">
+		`vec(AH') * vec(BC)`
+		`= (cos theta_3+cos theta_2, sin theta_3+sin theta_2)`
+		`* (cos theta_3-cos theta_2, sin theta_3-sin theta_2)`
+		`= cos^2 theta_3 - cos^2 theta_2 + sin^2 theta_3 - sin^2 theta_2`
+		`= 0`.
+	</span>
+	同理 `vec(BH') * vec(AC) = 0`, 因此 `H'` 是 `triangle ABC` 的垂心.
+	证毕.
+</p>
+
+<p class="remark">
+	若三角形的外心和重心的存在性已证,
+	上面的证明也可作为三角形垂心存在的证明.
+</p>
+
+<p class="theorem">
+	<b>三角形内心与外心距离的 Euler 公式</b>
+	设三角形的内切圆与外接圆的半径分别为 `r, R`, 两圆圆心距离为 `d`, 则
+	<span class="formula">
+		`d^2 = R^2 - 2 R r`.
+	</span>
+	整理得
+	<span class="formula">
+		`1/r = 1/(R+d) + 1/(R-d)`.
+	</span>
+	推论:
+	<span class="formula">
+		`R ge 2r`.
+	</span>
+</p>
+
+<p class="proof">
+	设 `triangle ABC` 的内心, 外心分别为 `I, O`, 由 <a class="ref" href="#the-incenter"></a>,
+	<span class="formula">
+		`vec(OI) = 1/(a+b+c)(a vec(OA)+b vec(OB)+c vec(OC))`,
+	</span>
+	其中 `a, b, c` 分别是边 `BC, CA, AB` 的长. 注意到
+	<span class="formula">
+		`2 vec(OA)*vec(OB) = vec(OA)^2+vec(OB)^2-vec(AB)^2`
+		`= 2R^2 - c^2`,
+	</span>
+	有
+	<span class="formula">
+		`d^2 = vec(OI)^2`
+		`= 1/(a+b+c)^2 [a^2 vec(OA)^2+b^2 vec(OB)^2+c^2 vec(OC)^2`
+		`+ 2(a b vec(OA)*vec(OB) + b c vec(OB)*vec(OC)
+		+ c a vec(OC)*vec(OA))]`<br/>
+		`= 1/(a+b+c)^2 [(a^2+b^2+c^2)R^2`
+		`+ a b(2R^2-c^2) + b c(2R^2-a^2) + c a(2R^2-b^2)]`
+		`= 1/(a+b+c)^2 [(a+b+c)^2 R^2 - (a+b+c)abc]`
+		`= R^2 - (abc)/(a+b+c)`.
+	</span>
+	由 `triangle ABC` 的面积 `S = (abc)/(4R) = r/2(a+b+c)` 有
+	<span class="formula">
+		`(abc)/(a+b+c) = 2R r`.
+	</span>
+	所以 `d^2 = R^2 - 2 R r`.
+</p>
+
+<p class="proof">
+	<span class="graph" style="display:block">
+		<img src="pic/triangle-001.png" width="420px"/>
+	</span>
+	设 `triangle ABC` 的内心, 外心分别为 `I, O`, 直线 `IO` 与圆 `O` 交于点
+	`E, F`, 又设直线 `AI` 与圆 `O` 交于点 `A, M`.
+	对 `EF` 与 `AM` 应用相交弦定理有
+	<span class="formula">
+		`AI * MI = EI * FI = (R+d)(R-d)`.
+	</span>
+	另一方面, 作 `DI _|_ AC` 于 `D`, 延长 `MO` 交圆 `O` 于 `L`,
+	则 `triangle MBL ~ triangle IDA` (`/_ DAI = /_ MAB = /_ L`, `/_ ADI
+	= pi/2 = /_ LBM`), 得到
+	<span class="formula">
+		`AI * MB = ID * LM = 2R r`.
+	</span>
+	下证两式的左边相等, 从而得到结论. 这只需说明 `MI = MB`.
+	由 "等边对等角", 这又只需证 `alpha = beta + gamma`.
+	(其中 `alpha := /_ MIB`, `beta := /_ IBC`, `gamma := /_ MBC`).
+	事实上, 利用角平分线的条件和圆周角相等的性质:
+	<span class="formula">
+		`alpha = /_ IBA + /_ IAB`
+		`= beta + /_ IAC`
+		`= beta + gamma`.
+	</span>
+	证毕.
+</p>
+
+<h3>到三个顶点的距离之和</h3>
+
+<p class="example">
+	设 `triangle ABC` 内部有一点 `M`, `M` 到三边 `a, b, c` 的距离分别为
+	`x, y, z`, 则
+	<span class="formula">
+		`(abc)/(xyz) ge 4(a/x+b/y+c/z)`.
+	</span>
+</p>
+
+<p class="proof">
+	做法类似于 Euler 公式的证明.
+	设 `triangle ABC` 的外心为 `O`, 外接圆半径为 `R`,
+	利用 <a class="ref" href="#cor-formula-of-definite-proportion-3"></a>
+	有
+	<span class="formula">
+		`0 le vec(OM)^2`
+		`= 1/S^2 (S_A^2 vec(OA)^2 + S_B^2 vec(OB)^2 + S_C^2 vec(OC)^2)`
+		`+ 2/S^2(S_B S_C vec(OB)*vec(OC)
+		+ S_C S_A vec(OC)*vec(OA) + S_A S_B vec(OA)*vec(OB))`
+		`= R^2/S^2 (S_A^2+S_B^2+S_C^2)`
+		`+ 1/S^2[S_A S_B(2R^2-c) + S_B S_C(2R^2-a^2) + S_C S_A(2R^2-b^2)]`
+		`= R^2/S^2(S_A+S_B+S_C)^2 - (2 S_A S_B S_C)/S^2 (a/x+b/y+c/z)`
+		`= R^2 - (1/4 abc xyz)/(abc//4R)^2 (a/x+b/y+c/z)`
+		`= R^2 [1-(4xyz)/(abc)(a/x+b/y+c/z)]`.
+	</span>
+	整理即得结论.
+</p>
 
 <p class="example">
 	在平面上求一点 `F`, 使之到三角形 `ABC` 的三个顶点的距离之和最短,
-	并求该最小值.
+	并求该最小值. 这个点 `F` 称为 Fermat 点.
 </p>
 
 <p class="solution">
@@ -335,6 +615,46 @@
 	当且仅当 `/_ AFC = /_ B'F'C = 2pi//3`,
 	即 `/_ AFC = /_ BFC = /_ AFB = 2pi//3`.
 	此时 `F` 到 `ABC` 的三个顶点距离之和达到最小值 `m`.
+</p>
+
+<p class="example">
+	<b>Erdös-Mordell 不等式</b>
+	设三角形内部或边界上有一点,
+	到三个顶点的距离为 `x, y, z`, 到三边的距离为 `l, m, n`, 则
+	<span class="formula">
+		`x+y+z ge 2(l+m+n)`.
+	</span>
+</p>
+
+<p class="proof">
+	(Claudi Alsina and Roger B. Nelsen. A Visual Proof of the
+	Erdos-Mordell Inequality. Forum Geometricorum, Vol. 7 (2007): 99-102.)
+	<br/>
+	三角形的三个顶点记为 `A, B, C`, 其对边分别为 `a, b, c`,
+	`M` 是 `triangle ABC` 内部或边界上一点,
+	它到 `A, B, C` 的距离分别为 `x, y, z`, 到 `a, b, c` 的距离分别为 `l,
+	m, n`.  过 `M` 作 `MP _|_ AB` 于 `P`, `MQ _|_ AC` 于 `Q`.
+	现在将 `triangle ABC` 放大 `x` 倍, `triangle APM` 放大 `b` 倍,
+	`triangle AQM` 放大 `c` 倍, 按下图拼合:
+	<span class="graph" style="display:block">
+		<img src="pic/triangle-002.svg" width="100%"/>
+	</span>
+	由于原图中 `/_ PMQ + /_PAQ = pi`, 所以得到的图形是一个直角梯形,
+	我们有:
+	<span class="formula">
+		`a x ge b n + c m`.
+	</span>
+	同理
+	<span class="formula">
+		`b y ge c l + a n`, `quad c z ge a m + b l`.
+	</span>
+	利用均值不等式,
+	<span class="formula">
+		`x + y + z`
+		`ge b/a n + c/a m + c/b l + a/b n + a/c m + b/c l`
+		`= (b/a+a/b)n + (c/a+a/c)m + (c/b+b/c)l`
+		`ge 2(l + m + n)`.
+	</span>
 </p>
 
 </body>

@@ -197,7 +197,7 @@
 <p class="corollary">
 	对奇数 `n ge 3`, `B_n^+ = 0`. 因此, 除了 `B_1^+ = 1/2`,
 	`B_1^(-) = -1/2` 外, 对所有非负整数 `n` 都有 `B_n^+ = B_n^-`.
-	因此, 当下标为偶数时, 我们不区分两类 Bernoulli 数, 都简记为 `B_(2n)`.
+	因此, 当 `n != 1` 时, 我们不区分两类 Bernoulli 数, 都简记为 `B_n`.
 </p>
 
 <p class="proof">
@@ -334,34 +334,63 @@
 	</span>
 </p>
 
+<h2>Bernoulli 数与 Stirling 数</h2>
+
 <h2>Bernoulli 数与调和级数</h2>
 
-<p class="lemma">
-	`sum_(k=n)^oo 1/(k(k+1) cdots (k+m))`
-	`= 1/(m n(n+1)cdots(n+m-1))`.
-</p>
+<ol class="lemma">
+	<li>`sum_(k=n)^oo 1/(k(k+1) cdots (k+m))`
+		`= 1/(m n(n+1)cdots(n+m-1))`.
+	</li>
+	<li>设 `m ge 1`, 当 `n to oo` 时有 `sum_(k=n)^oo 1/k^(m+1) ~ 1/(m n^m)`.
+	</li>
+</ol>
 
-<p class="proof">
-	等式左边记为 `T_(m, n)`.
-	显然 `m ge 1` 时级数收敛. 直接计算
-	<span class="formula">
-		`T_(m+1,n) = sum_(k=n)^oo 1/(k(k+1)cdots(k+m+1))`
-		`= sum_(k=n)^oo 1/(k(k+1)cdots(k+m)) - sum_(k=n)^oo
-		(k+m)/(k(k+1)cdots(k+m+1))`
-		`= T_(m,n) - m T_(m+1,n) - sum_(k=n)^oo 1/((k+1)cdots(k+m+1))`.
-	</span>
-	于是
-	<span class="formula">
-		`T_(m+1,n) = 1/(m+1) (T_(m,n) - T_(m,n+1))`
-		`= 1/((m+1)n(n+1)cdots(n+m)`.
-	</span>
-</p>
+<ol class="proof">
+	<li>等式左边记为 `T_(m, n)`.
+		显然 `m ge 1` 时级数收敛. 直接计算
+		<span class="formula">
+			`T_(m+1,n) = sum_(k=n)^oo 1/(k(k+1)cdots(k+m+1))`
+			`= sum_(k=n)^oo 1/(k(k+1)cdots(k+m)) - sum_(k=n)^oo
+			(k+m)/(k(k+1)cdots(k+m+1))`
+			`= T_(m,n) - m T_(m+1,n) - sum_(k=n)^oo
+			1/((k+1)cdots(k+m+1))`.
+		</span>
+		于是
+		<span class="formula">
+			`T_(m+1,n) = 1/(m+1) (T_(m,n) - T_(m,n+1))`
+			`= 1/((m+1)n(n+1)cdots(n+m)`.
+		</span>
+	</li>
+	<li>由 1. 有
+		<span class="formula">
+			`sum_(k=n)^oo 1/k^(m+1)`
+			`le sum_(k=n)^oo 1/(k(k-1)cdots(k-m))`
+			`= 1/(m(n-1)cdots(n-m))`,
+		</span>
+		另一方面
+		<span class="formula">
+			`sum_(k=n)^oo 1/k^(m+1)`
+			`ge sum_(k=n)^oo 1/(k(k+1)cdots(k+m))`
+			`= 1/(m n(n+1)cdots(n+m-1))`,
+		</span>
+		令 `n to oo`, 由两边夹法则即得结论.
+	</li>
+</ol>
 
-<ol class="theorem">
+<ol class="example">
 	记 `a_n = sum_(k=1)^n 1/k - ln n`, 则
 	<li>`lim_(n to oo) a_n` 存在, 记为 `gamma` (Euler 常数);</li>
 	<li>`a_n - gamma ~ 1/(2n)`;</li>
 	<li>`a_n - gamma - 1/(2n) ~ -1/(12n^2)`.</li>
+	继续计算, 得到:
+	<span class="formula">
+		`a_n = gamma + 1/(2n) - 1/(6*2n^2) + 1/(30*4n^4) - 1/(42*6n^6)+ cdots`.
+	</span>
+	猜想:
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^m (B_k^-)/(k n^(k)) + O(1/n^(m+1))`.
+	</span>
 </ol>
 
 <ol	class="proof">
@@ -380,22 +409,31 @@
 		<span class="formula">
 			`n(a_n - gamma)`
 			`= n sum_(k=n)^oo [ln(1+1/k) - 1/(k+1)]`
-			`= n sum_(k=n)^oo [1/k - 1/(2 k^2) - 1/(k+1) + O(1/k^3)]`
-			`= n sum_(k=n)^oo (1/k - 1/(k+1) - 1/(2k^2))`.
+			`= n sum_(k=n)^oo [1/k - 1/(2 k^2) + O(1/k^3) - 1/(k+1)]`
+			`= n sum_(k=n)^oo [(k-1)/(2k^2(k+1)) + O(1/k^3)]`.
 		</span>
-		从而一方面有
+		由引理有
 		<span class="formula">
-			`n(a_n - gamma)`
-			`le n sum_(k=n)^oo (1/k - 1/(k+1) - 1/(2k(k+1)))`
-			`= 1/2`;
+			`lim_(n to oo) n(a_n-gamma)`
+			`= lim_(n to oo) n * 1/(2n) = 1/2`.
 		</span>
-		另一方面,
+	</li>
+	<li>即证 `lim_(n to oo) n^2(a_n-gamma-1/(2n)) = -1/12`.
+		由 `1/(2n) = sum_(k=n)^oo (1/(2k) - 1/(2(k+1)))` 有
 		<span class="formula">
-			`n(a_n - gamma)`
-			`ge n sum_(k=n)^oo (1/k - 1/(k+1) - 1/(2k(k-1)))`
-			`= 1-n/(2(n-1))`.
+			`n^2 (a_n-gamma-1/(2n))`
+			`= n^2 sum_(k=n)^oo [ln(1+1/k) - 1/(k+1) - 1/(2k)
+			+ 1/(2(k+1))]`
+			`= n^2 sum_(k=n)^oo [1/k - 1/(2k^2) + 1/(3k^3) + O(1/k^4)
+			- 1/(2k) - 1/(2(k+1))]`
+			`= n^2 sum_(k=n)^oo [(2-k)/(6k^3(k+1)) + O(1/k^4)]`.
 		</span>
-		所以 `lim_(n to oo) n(a_n - gamma) = 1/2`.
+		由引理有
+		<span class="formula">
+			`lim_(n to oo) n^2(a_n-gamma-1/(2n))`
+			`= lim_(n to oo) n^2 (1/(3*3n^3) - 1/(6*2n^2))`
+			`= -1/12`.
+		</span>
 	</li>
 </ol>
 
