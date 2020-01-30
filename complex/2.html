@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>全纯函数</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p>	下文中总假定 `D sube CC` 为一域, `f: D to CC` 为一复变函数, `z, z_0 in D`, `Delta z = z - z_0`.
+</p>
+
+<h2>复导数</h2>
+
+<h3>复导数的定义</h3>
+
+<p class="definition">
+	如果极限
+	<span class="formula">
+		`lim_(z to z_0) (f(z) - f(z_0))/(z-z_0)`
+		`= lim_(Delta z to 0) (f(z_0+Delta z)-f(z_0))/(Delta z)`
+	</span>
+	存在, 则称 `f` 在 `z_0` 处<b>(复) 可微</b>, 该极限称为 `f` 在 `z_0`
+	处的<b>导数</b>或<b>微商</b>, 记为 `f'(z_0)`.
+</p>
+
+<ol class="definition">
+	<li>若 `f` 在 `D` 中处处可微, 则称 `f` 是 `D`
+	上的<b>全纯函数 (holomorphic function)</b>或<b>解析函数</b>.
+	`D` 上全纯函数的全体记为 `H(D)`.</li>
+	<li>如果 `f` 在 `D` 上能表示成两个全纯函数的商, 则称 `f` 为 `D`
+		上的<b>亚纯函数 (meromorphic function)</b>或<b>半纯函数</b>.</li>
+	<li>如果 `f` 在 `z_0` 的某个邻域中全纯, 则称 `f` 在 `z_0` 处全纯.</li>
+	<li>如果 `f` 在 `CC` 上全纯, 则称 `f` 为<b>整函数 (entire function)</b>.</li>
+</ol>
+
+<p class="corollary">
+	若 `f` 在 `z_0` 处可微, 由定义有
+	<span class="formula">
+		`f(z_0+Delta z)-f(z_0) = f'(z_0) Delta z + o(|Delta z|)`.
+		<span class="label" id="for-differentiable"></span>
+	</span>
+	上式也可以作为可微的定义.
+</p>
+
+<p>上式两端令 `Delta z to 0`, 得到:</p>
+
+<p class="corollary">
+	<b>可微必连续</b>
+	若 `f` 在 `z_0` 处可微, 则它在 `z_0` 处连续.
+</p>
+
+<p class="remark">
+	由于复变函数导数的定义从形式上和实函数的导数定义一致,
+	许多数学分析中的经典结论在复变函数中也同样成立, 如导数的四则运算,
+	复合函数的求导法则等.
+</p>
+
+<p class="example">
+	`f(z) = bar z` 在 `CC` 中处处连续但处处不可微.
+</p>
+
+<p class="proof">
+	`AA z in CC`,
+	<span class="formula">
+		`|f(z+Delta z) - f(z)|`
+		`= |bar(z+Delta z) - bar z|`
+		`= |bar(Delta z)|`
+		`= O(|Delta z|)`.
+	</span>
+	因此 `f` 在 `CC` 中处处连续; 另一方面
+	<span class="formula">
+		`(f(z+Delta z)-f(z))/(Delta z)`
+		`= (bar(Delta z))/(Delta z)`.
+	</span>
+	当 `Delta z` 取实数时, 上式等于 `1`; 当 `Delta z` 取纯虚数时, 上式等于
+	`-1`, 从而 `Delta z to 0` 时, 上式的极限不存在. 即 `f` 在 `CC`
+	中处处不可微.
+</p>
+
+<p class="remark">
+	在实函数中找到一个处处连续而处处不可微的例子并不容易,
+	但在复变函数中这样的例子很多.
+	事实上, 复可微比数学分析中可导的要求强得多, 下文会看到,
+	由此得到的结论也强得多.
+</p>
+
+<h3>复导数的几何意义*</h3>
+
+<p>	熟知一元实函数导数的几何意义是切线的斜率, 现在讨论复导数的几何意义.</p>
+
+<h2>Cauchy-Riemann 方程</h2>
+
+<h3>可微的充要条件</h3>
+
+<p class="definition">
+	将复变函数视为两个实函数的线性组合, 即
+	<span class="formula">
+		`z = x + "i"y`, `quad z_0 = x_0 + "i"y_0`,<br/>
+		`f(z) = u(x,y) + "i"v(x,y)`.
+	</span>
+	如果二元实函数 `u, v` 都在 `(x_0, y_0)` 可微, 则称 `f` 在 `z_0`
+	处<b>实可微</b>.
+</p>
+
+<p class="theorem">
+	`f` 在 `z_0` 处实可微的充要条件是
+	<span class="formula">
+		`f(z_0+Delta z)-f(z_0)`
+		`= (del f)/(del z)(z_0) Delta z
+		 + (del f)/(del bar z)(z_0) bar(Delta z) + o(|Delta z|)`,
+		 <span class="label" id="for-real-differentiable"></span>
+	</span>
+	其中
+	<span class="formula">
+		`del/(del z) = 1/2(del/(del x)-"i"del/(del y))`,
+		`quad del/(del bar z) = 1/2(del/(del x)+"i"del/(del y))`.
+	</span>
+</p>
+
+<p class="proof">
+	记 `Delta x = x-x_0`, `Delta y = y-y_0`, 于是
+	`Delta z = Delta x + "i"Delta y`, `|Delta z| = sqrt(Delta x^2 + Delta
+	y^2)`. 由实可微的定义,
+	<span class="formula">
+		`u(x,y)-u(x_0,y_0)`
+		`= (del u)/(del x) (x_0,y_0) Delta x
+		 + (del u)/(del y) (x_0,y_0) Delta y + o(|Delta z|)`,<br/>
+		`v(x,y)-v(x_0,y_0)`
+		`= (del v)/(del x) (x_0,y_0) Delta x
+		 + (del v)/(del y) (x_0,y_0) Delta y + o(|Delta z|)`.
+	</span>
+	第二式乘以 `"i"`, 再与第一式相加得
+	<span class="formula">
+		`f(z)-f(z_0)`
+		`= ((del u)/(del x)(x_0,y_0)+"i"(del v)/(del x)(x_0,y_0))Delta x`
+		`+ ((del u)/(del y)(x_0,y_0)+"i"(del v)/(del y)(x_0,y_0))Delta y`
+		`+ o(|Delta z|)`
+		`= (del f)/(del x)(x_0,y_0)Delta x
+		+ (del f)/(del y)(x_0,y_0)Delta y + o(|Delta z|)`.
+	</span>
+	注意到
+	<span class="formula">
+		`Delta x = (Delta z+bar(Delta z))/2`,
+		`quad Delta y = (Delta z-bar(Delta z))/(2"i")`,
+	</span>
+	有
+	<span class="formula">
+		`f(z)-f(z_0)`<br/>
+		`= 1/2 (del f)/(del x)(x_0,y_0)(Delta z+bar(Delta z))`
+		`- "i"/2 (del f)/(del y)(x_0,y_0)(Delta z-bar(Delta z))`
+		`+ o(|Delta z|)`
+		`= 1/2(del/(del x)-"i"del/(del y)) f(x_0,y_0) Delta z`
+		`+ 1/2(del/(del x)+"i"del/(del y)) f(x_0,y_0) bar(Delta z)`
+		`+ o(|Delta z|)`.
+	</span>
+	即得到最终结论.
+</p>
+
+<p class="remark">
+	算子 `del/(del z)` 和 `del/(del bar z)` 可以这样记忆: 由
+	<span class="formula">
+		`f(x,y) = f((z+bar z)/2, -"i"(z-bar z)/2)`
+	</span>
+	分别对独立变量 `z, bar z` 求偏导数, 有
+	<span class="formula">
+		`(del f)/(del z) = 1/2((del f)/(del x)-"i"(del f)/(del y))`,
+		`quad (del f)/(del bar z) = 1/2((del f)/(del x)+"i"(del f)/(del y))`.
+	</span>
+	上述命题告诉我们, 在 `f` 实可微的条件下, 可以将 `z, bar z`
+	视为独立变量, 进行微分运算.
+</p>
+
+<ol class="corollary" id="cor-z-operator">
+	记 `f = u + "i"v`, 有
+	<li>`(del f)/(del z) = 1/2((del u)/(del x)+(del v)/(del y))
+		+ "i"/2((del v)/(del x)-(del u)/(del y))`;
+	</li>
+	<li>`(del f)/(del bar z) = 1/2((del u)/(del x)-(del v)/(del y))
+		+ "i"/2((del v)/(del x)+(del u)/(del y))`;
+	</li>
+	<li>`(del bar f)/(del z) = bar((del f)/(del bar z))`;
+	</li>
+	<li>`(del bar f)/(del bar z) = bar((del f)/(del z))`.
+	</li>
+	其中 3, 4 形式上与商的共轭运算相同.
+</ol>
+
+<p class="proof">
+	以 2. 为例:
+	<span class="formula">
+		`(del f)/(del bar z)`
+		`= (del u)/(del bar z) + "i"(del v)/(del bar z)`
+		`= 1/2 ((del u)/(del x) + "i"(del u)/(del y))
+		 + "i"/2 ((del v)/(del x) + "i"(del v)/(del y))`
+		`= 1/2 ((del u)/(del x) - (del v)/(del y))
+		 + "i"/2 ((del u)/(del y) + (del v)/(del x))`.
+	</span>
+</p>
+
+<p>通过比较 <a class="ref" href="#for-differentiable"></a> 和
+	<a class="ref" href="#for-real-differentiable"></a>, 得到:
+</p>
+
+<ol class="theorem">
+	<li>`f` 在 `z_0` 处可微的充要条件是 `f` 在 `z_0` 处实可微, 且
+		`(del f)/(del bar z)(z_0) = 0`;</li>
+	<li>如果 `f` 在 `z_0` 处可微, 那么 `f'(z_0) = (del f)/(del z)(z_0)`.
+	</li>
+	`(del f)/(del bar z) = 0` 称为 <b>Cauchy-Riemann 方程</b>.
+	设 `f = u + "i"v`, 由<a class="ref" href="#cor-z-operator"></a>,
+	此方程等价于
+	<span class="formula">
+		`{ (del u)/(del x) = (del v)/(del y);
+		   (del u)/(del y) = -(del v)/(del x) :}`
+		<span class="label" id="for-cauchy-riemann"></span>
+	</span>
+	我们常用 <a class="ref" href="#for-cauchy-riemann"></a>
+	验证复变函数的可微性, 再由
+	<span class="formula">
+		`f' = (del f)/(del z) = (del u)/(del x) + "i"(del v)/(del x)`
+	</span>
+	计算其导数.
+</ol>
+
+<h3>调和函数</h3>
+
+<p class="definition">
+	设实值函数 `u in C^2(D)`, 定义 <b>Laplace 算子</b> `laplace` 如下:
+	<span class="formula">
+		`laplace u = (del^2 u)/(del x^2) + (del^2 u)/(del y^2)`.
+	</span>
+	若 `laplace u = 0` 在 `D` 上恒成立, 则称 `u` 是 `D`
+	上的<b>调和函数</b>.
+</p>
+
+<p class="corollary">
+	用算子的运算可以验证: `laplace = 4 del^2/(del z del bar z)`.
+</p>
+
+<p class="definition">
+	若调和函数 `u, v` 满足 Cauchy-Riemann 方程 <a class="ref"
+	href="#for-cauchy-riemann"></a>, 则称 `v` 为 `u`
+	的<b>共轭调和函数</b>.
+</p>
+
+<p class="theorem">
+	全纯函数的实部与虚部构成一对共轭调和函数.
+</p>
+
+<p class="proof">
+	设 `f = u + "i"v in H(D)`,
+	由 Cauchy-Riemann 方程,
+	<span class="formula">
+		`(del f)/(del bar z) = 0`,
+		`quad (del bar f)/(del z) = bar 0 = 0`.
+	</span>
+	继续求导得
+	<span class="formula">
+		`(del^2 f)/(del z del bar z) = (del^2 bar f)/(del z del bar z) = 0`.
+	</span>
+	这就是说 `laplace f = laplace bar f = 0`.
+	而 `u = (f+bar f)/2`, `v = (f-bar f)/(2"i")`,
+	故 `laplace u = laplace v = 0`.
+</p>
+
+<p class="theorem">
+	设 `u` 是单连通域 `D` 上的调和函数, 则存在 `u` 的共轭调和函数 `v`,
+	使得 `u + "i"v` 在 `D` 上全纯.
+</p>
+
+<p class="proof">
+	令 `P = -(del u)/(del y)`, `Q = (del u)/(del x)`, 由 `u` 是调和函数知
+	<span class="formula">
+		`(del Q)/(del x)`
+		`= (del^2 u)/(del x^2)`
+		`= -(del^2 u)/(del y^2)`
+		`(del P)/(del y)`.
+	</span>
+	所以 `P dx + Q dy` 是全微分, 在单连通域 `D` 上的积分
+	<span class="formula">
+		`int_((x_0,y_0))^((x,y)) P dx + Q dy`
+	</span>
+	与路径无关. 记上述积分为 `v(x,y)`, 容易验证 `v` 就是 `u`
+	的共轭调和函数. 又显然 `u, v` 都是可微函数, 所以 `u+"i"v` 是全纯函数.
+</p>
+
+<h2>初等函数</h2>
+
+<h3>指数函数</h3>
+
+<p class="definition">
+	设 `z = x + "i"y`, 定义
+	<span class="formula">
+		`"exp"(z) = "e"^z = "e"^x(cos y + "i"sin y)`.
+	</span>
+</p>
+
+<p class="corollary">
+	当 `y = 0` 时, `"e"^z = "e"^x`, 此定义与实变量的指数函数一致;
+	当 `x = 0` 时, 得到<b>Euler 公式</b>:
+	<span class="formula">
+		`"e"^("i"y) = cos y + "i" sin y`.
+	</span>
+	应用 Euler 公式, 复数的三角表示 `r(cos theta + "i"sin theta)`
+	可以简单地写为 `r "e"^("i"theta)`.
+	此外, 由
+	<span class="formula">
+		`"e"^("i"y) = cos y + "i" sin y`,<br/>
+		`"e"^(-"i"y) = cos y - "i" sin y`
+	</span>
+	可得
+	<span class="formula">
+		`cos y = ("e"^("i"y)+"e"^(-"i"y))/2`,
+		`quad sin y = ("e"^("i"y)-"e"^(-"i"y))/(2"i")`.
+	</span>
+</p>
+
+<ol class="corollary">
+	<li>`"e"^z` 是整函数, 且 `("e"^z)' = "e"^z`;</li>
+	<li>`|"e"^z| = "e"^x gt 0`, 因此 `"e"^z != 0`;</li>
+	<li>`"e"^z "e"^w = "e"^(z+w)`;</li>
+	<li>`"e"^(z+2pi"i") = "e"^z`, 因此 `"e"^z` 是周期为 `2pi"i"`
+		的周期函数;
+	</li>
+</ol>
+
+<p class="proof">
+	只证 1. 任取 `z in CC`, 显然
+	<span class="formula">
+		`u(x,y) = "e"^x cos y`, `quad v(x,y) = "e"^x sin y`
+	</span>
+	都是可微函数, 且满足 Cauchy-Riemann 方程:
+	<span class="formula">
+		`(del u)/(del x) = "e"^x cos y = (del v)/(del y)`,<br/>
+		`(del u)/(del y) = -"e"^x sin y = -(del v)/(del x)`.
+	</span>
+	所以 `"e"^z` 是 `CC` 上的全纯函数, 且
+	<span class="formula">
+		`("e"^z)'`
+		`= (del u)/(del x) + "i"(del v)/(del x)`
+		`= "e"^x(cos y + "i"sin y)`
+		`= "e"^z`.
+	</span>
+</p>
+
+<h3>对数函数</h3>
+
+<p class="definition">
+	设 `z in CC`, 称满足方程 `"e"^w = z` 的 `w in CC` 为 `z`
+	的<b>对数</b>, 记为 `"Log"z `.
+</p>
+
+<p class="corollary">
+	`"Log" z  = log|z| + "i" "Arg"z`.它是一个多值函数,
+	其多值性由辐角 `"Arg"z` 的多值性产生.
+</p>
+
+<p class="proof">
+	设 `z = r"e"^("i"theta)`, `w = u + "i"v`, 若
+	`"e"^w = z`, 我们有
+	<span class="formula">
+		`"e"^(u+"i"v) = r"e"^("i"theta)`,
+	</span>
+	即
+	<span class="formula">
+		`"e"^u = r`, `quad v = theta + 2 k pi`, `quad k in ZZ`.
+	</span>
+	于是
+	<span class="formula">
+		`"Log"z = log|z| + "i" "Arg" z`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>对数函数的单值全纯分支</b>
+	如果 `D` 是不含原点和无穷远点的单连通域, 则存在 `D`
+	上的一列单值全纯函数 `{varphi_k}`, 满足
+	<span class="formula">
+		`exp(varphi_k(z)) = z`,
+		`quad (varphi_k(z))' = 1/z`,
+		`quad k = 0, +-1, +-2, cdots`.
+	</span>
+	每个 `varphi_k` 都称为 `"Log"z` 在 `D` 上的一个单值全纯分支.
+</p>
+
+<h3>幂函数</h3>
+
+<p class="definition">
+	设 `z in CC`, `mu = a + "i"b`, 定义 `z^mu = "e"^(mu"Log"z)`.
+</p>
+
+<h3>三角函数</h3>
+
+<p class="definition">
+	设 `z in CC`, 从 Euler 公式得到启发, 定义
+	<span class="formula">
+		`cos z = ("e"^("i"z)+"e"^(-"i"z))/2`,
+		`quad sin z = ("e"^("i"z)-"e"^(-"i"z))/(2"i")`.
+	</span>
+</p>
+
+<ol class="corollary">
+	<li>`sin z`, `cos z` 是整函数的线性组合, 因此也是整函数, 且
+		<span class="formula">
+			`(sin z)' = cos z`, `quad (cos z)' = -sin z`.
+		</span>
+	</li>
+	<li>`"e"^("i"z)` 和 `"e"^(-"i"z)` 都以 `2pi` 为周期, 所以
+		`sin z`, `cos z` 也以 `2pi` 为周期.
+	</li>
+	<li>`sin z` 是奇函数, `cos z` 是偶函数.</li>
+	<li>常见的三角恒等式在复数范围内仍成立:
+		<span class="formula">
+			`sin(z+w) = sin z cos w + cos z sin w`,<br/>
+			`cos(z+w) = cos z cos w - sin z sin w`,<br/>
+			`sin^2 z + cos^2 z = 1`, `quad sin 2z = 2 sin z cos z`,
+			`quad cos z = sin(pi/2 - z)`,
+		</span>
+		等等.
+	</li>
+	<li>`sin z` 的零点是 `z = k pi`, `k in ZZ`;
+		`cos z` 的零点是 `z = (k+1/2)pi`, `k in ZZ`.
+		这些零点都是实数.
+	</li>
+	<li>
+		定义
+		<span class="formula">
+			`cosh z = ("e"^z+"e"^-z)/2`,
+			`quad sinh z = ("e"^z-"e"^-z)/2`.
+		</span>
+		容易看出
+		<span class="formula">
+			`cosh("i"z) = cos z`, `quad sinh("i"z) = sin z`,<br/>
+			`cos("i"z) = cosh z`, `quad sin("i"z) = -sinh z`.
+		</span>
+		注意 `sinh`, `cosh` 是无界函数,
+		因此与实变量的正, 余弦函数不同, `sin z`, `cos z` 是无界函数.
+	</li>
+</ol>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

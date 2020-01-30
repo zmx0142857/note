@@ -49,6 +49,7 @@ var tableOfContents = [ {
 	title:'复变函数',
 	articles: [
 		//{title:'复数与复变函数', src:'complex/1.html'},
+    {title:'全纯函数', src:'complex/2.html', isnew:true},
 	]
 	}, {
 	title:'实变函数',
@@ -138,7 +139,7 @@ var tableOfContents = [ {
 		{title:'组合数学', src:'combinatorics/1.html'},
 		{title:'排列与组合', src:'combinatorics/2.html'},
 		{title:'递推式与生成函数', src:'combinatorics/3.html'},
-		{title:'Bernoulli 数', src:'combinatorics/4.html'},
+		{title:'Bernoulli 数', src:'combinatorics/4.html', isnew:true},
 		{title:'容斥原理', src:'combinatorics/5.html'},
 	]
 	}, {
@@ -154,8 +155,8 @@ var tableOfContents = [ {
 		{title:'群 (下)', src:'abstract/4.html'},
 		{title:'半群', src:'abstract/5.html'},
 		{title:'环', src:'abstract/6.html'},
-		{title:'域', src:'abstract/7.html', isnew:true},
-		{title:'Galois 理论', src:'abstract/8.html', isnew:true},
+		{title:'域', src:'abstract/7.html'},
+		{title:'Galois 理论', src:'abstract/8.html'},
 	]
 	}, {
 	title:'初等数论',

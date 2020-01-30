@@ -117,6 +117,13 @@ header span {
 	cursor: pointer;
 }
 
+li.isnew::after {
+	content: "NEW";
+	color: red;
+	font-size: 0.7em;
+	padding: 0 0.3em;
+}
+
 #article {
 	position: absolute;
 	margin-left: 0;
@@ -272,14 +279,8 @@ for (var i = 0; i < tableOfContents.length; ++i) {
 		var li = document.createElement('li');
 		li.innerHTML = tableOfContents[i].articles[j].title;
 		li.onclick = jumpto(i, j);
-		if (tableOfContents[i].articles[j].isnew) {
-			var isnew = document.createElement('span');
-			isnew.style.color = 'red';
-			isnew.style.fontSize = '0.7em';
-			isnew.style.padding = '0 0.3em';
-			isnew.innerHTML = 'NEW';
-			li.appendChild(isnew);
-		}
+		if (tableOfContents[i].articles[j].isnew)
+			li.classList.add('isnew');
 		ul.appendChild(li);
 
 	}

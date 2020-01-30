@@ -276,7 +276,7 @@ AM.symbols = [
 {input:"iiint",  tag:"mo", output:"\u222D", tex:null, ttype:CONST, val:true},
 {input:"oiint", tag:"mo", output:"\u222F", tex:null, ttype:CONST, val:true},
 {input:"oiiint", tag:"mo", output:"\u2230", tex:null, ttype:CONST, val:true},
-{input:"laplace",  tag:"mo", output:"\u0394", tex:null, ttype:CONST, val:true},
+{input:"laplace",  tag:"mo", output:"\u0394", tex:"Delta", ttype:CONST, val:true},
 
 //standard functions
 {input:"lim",  tag:"mo", output:"lim", tex:null, ttype:UNDEROVER},
@@ -350,6 +350,7 @@ AM.symbols = [
 {input:"overbrace", tag:"mover", output:"\u23DE", tex:"overbrace", ttype:UNARYUNDEROVER, acc:true},
 {input:"color", tag:"mstyle", ttype:BINARY},
 {input:"cancel", tag:"menclose", output:"cancel", tex:null, ttype:UNARY},
+{input:"phantom", tag:"mphantom", tex:"phantom", ttype:UNARY},
 AMtext,AMmbox,AMquote,
 
 {input:"bb",tag:"mstyle",atname:"mathvariant",atval:"bold",output:"bb",tex:"mathbf",ttype:UNARY,notexcopy:true},
