@@ -13,7 +13,7 @@
 <body>
 
 <p>	<b>复变函数</b>就是自变量为复数的函数.
-	我们的研究对象是在某种意义下可导的复变函数, 即所谓<b>解析函数</b>.
+	在经典的复变函数理论中, 复可微函数即<b>全纯函数</b>占据核心地位.
 </p>
 
 <h2>复数</h2>
@@ -21,6 +21,135 @@
 <h2>复平面上的点集</h2>
 
 <h3>复变函数</h3>
+
+<h2>初等函数</h2>
+
+<h3>指数函数</h3>
+
+<p class="definition">
+	设 `z = x + "i"y`, 定义
+	<span class="formula">
+		`"exp"(z) = "e"^z = "e"^x(cos y + "i"sin y)`.
+	</span>
+</p>
+
+<p class="corollary">
+	当 `y = 0` 时, `"e"^z = "e"^x`, 此定义与实变量的指数函数一致;
+	当 `x = 0` 时, 得到<b>Euler 公式</b>:
+	<span class="formula">
+		`"e"^("i"y) = cos y + "i" sin y`.
+	</span>
+	应用 Euler 公式, 复数的三角表示 `r(cos theta + "i"sin theta)`
+	可以简单地写为 `r "e"^("i"theta)`.
+	此外, 由
+	<span class="formula">
+		`"e"^("i"y) = cos y + "i" sin y`,<br/>
+		`"e"^(-"i"y) = cos y - "i" sin y`
+	</span>
+	可得
+	<span class="formula">
+		`cos y = ("e"^("i"y)+"e"^(-"i"y))/2`,
+		`quad sin y = ("e"^("i"y)-"e"^(-"i"y))/(2"i")`.
+	</span>
+</p>
+
+<ol class="corollary">
+	<li>`|"e"^z| = "e"^x gt 0`, 因此 `"e"^z != 0`;</li>
+	<li>`"e"^z "e"^w = "e"^(z+w)`;</li>
+	<li>`"e"^(z+2pi"i") = "e"^z`, 因此 `"e"^z` 是周期为 `2pi"i"`
+		的周期函数;
+	</li>
+</ol>
+
+<h3>三角函数</h3>
+
+<p class="definition">
+	设 `z in CC`, 从 Euler 公式得到启发, 定义
+	<span class="formula">
+		`cos z = ("e"^("i"z)+"e"^(-"i"z))/2`,
+		`quad sin z = ("e"^("i"z)-"e"^(-"i"z))/(2"i")`.
+	</span>
+</p>
+
+<ol class="corollary">
+	<li>`"e"^("i"z)` 和 `"e"^(-"i"z)` 都以 `2pi` 为周期, 所以
+		`sin z`, `cos z` 也以 `2pi` 为周期.
+	</li>
+	<li>`sin z` 是奇函数, `cos z` 是偶函数.</li>
+	<li>常见的三角恒等式在复数范围内仍成立:
+		<span class="formula">
+			`sin(z+w) = sin z cos w + cos z sin w`,<br/>
+			`cos(z+w) = cos z cos w - sin z sin w`,<br/>
+			`sin^2 z + cos^2 z = 1`, `quad sin 2z = 2 sin z cos z`,
+			`quad cos z = sin(pi/2 - z)`,
+		</span>
+		等等.
+	</li>
+	<li>`sin z` 的零点是 `z = k pi`, `k in ZZ`;
+		`cos z` 的零点是 `z = (k+1/2)pi`, `k in ZZ`.
+		这些零点都是实数.
+	</li>
+	<li>
+		定义
+		<span class="formula">
+			`cosh z = ("e"^z+"e"^-z)/2`,
+			`quad sinh z = ("e"^z-"e"^-z)/2`.
+		</span>
+		容易看出
+		<span class="formula">
+			`cosh("i"z) = cos z`, `quad sinh("i"z) = sin z`,<br/>
+			`cos("i"z) = cosh z`, `quad sin("i"z) = -sinh z`.
+		</span>
+		注意 `sinh`, `cosh` 是无界函数,
+		因此与实变量的正, 余弦函数不同, `sin z`, `cos z` 是无界函数.
+	</li>
+</ol>
+
+<h3>对数函数</h3>
+
+<p class="definition">
+	设 `z in CC`, 称满足方程 `"e"^w = z` 的 `w in CC` 为 `z`
+	的<b>对数</b>, 记为 `"Log"z `.
+</p>
+
+<p class="corollary">
+	`"Log" z  = log|z| + "i" "Arg"z`.它是一个多值函数,
+	其多值性由辐角 `"Arg"z` 的多值性产生.
+</p>
+
+<p class="proof">
+	设 `z = r"e"^("i"theta)`, `w = u + "i"v`, 若
+	`"e"^w = z`, 我们有
+	<span class="formula">
+		`"e"^(u+"i"v) = r"e"^("i"theta)`,
+	</span>
+	即
+	<span class="formula">
+		`"e"^u = r`, `quad v = theta + 2 k pi`, `quad k in ZZ`.
+	</span>
+	于是
+	<span class="formula">
+		`"Log"z = log|z| + "i" "Arg" z`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>对数函数的单值全纯分支</b>
+	如果 `D` 是不含原点和无穷远点的单连通域, 则存在 `D`
+	上的一列单值全纯函数 `{varphi_k}`, 满足
+	<span class="formula">
+		`exp(varphi_k(z)) = z`,
+		`quad (varphi_k(z))' = 1/z`,
+		`quad k = 0, +-1, +-2, cdots`.
+	</span>
+	每个 `varphi_k` 都称为 `"Log"z` 在 `D` 上的一个单值全纯分支.
+</p>
+
+<h3>幂函数</h3>
+
+<p class="definition">
+	设 `z in CC`, `mu = a + "i"b`, 定义 `z^mu = "e"^(mu"Log"z)`.
+</p>
 
 </body>
 

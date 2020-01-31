@@ -340,6 +340,7 @@ AM.symbols = [
 {input:"overset", tag:"mover", output:"stackrel", tex:null, ttype:BINARY},
 {input:"underset", tag:"munder", output:"stackrel", tex:null, ttype:BINARY},
 {input:"hat", tag:"mover", output:"\u005E", tex:null, ttype:UNARY, acc:true},
+{input:"arc", tag:"mover", output:"\u23DC", tex:"stackrel{\\frown}", ttype:UNARY, acc:true},
 {input:"bar", tag:"mover", output:"\u00AF", tex:"overline", ttype:UNARY, acc:true},
 {input:"vec", tag:"mover", output:"\u2192", tex:null, ttype:UNARY, acc:true},
 {input:"tilde",tag:"mover",output:"~",tex:null,ttype:UNARY,acc:true},

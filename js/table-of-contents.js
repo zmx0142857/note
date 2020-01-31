@@ -48,7 +48,7 @@ var tableOfContents = [ {
 	}, {
 	title:'复变函数',
 	articles: [
-		//{title:'复数与复变函数', src:'complex/1.html'},
+		{title:'复数与复变函数', src:'complex/1.html', isnew:true},
     {title:'全纯函数', src:'complex/2.html', isnew:true},
 	]
 	}, {

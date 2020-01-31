@@ -12,10 +12,10 @@
 
 <body>
 
-<p>	下文中总假定 `D sube CC` 为一域, `f: D to CC` 为一复变函数, `z, z_0 in D`, `Delta z = z - z_0`.
-</p>
-
 <h2>复导数</h2>
+
+<p>	本节总假定 `D sube CC` 为一域, `f: D to CC` 为一复变函数, `z, z_0 in D`, `Delta z = z - z_0`.
+</p>
 
 <h3>复导数的定义</h3>
 
@@ -94,9 +94,7 @@
 
 <p>	熟知一元实函数导数的几何意义是切线的斜率, 现在讨论复导数的几何意义.</p>
 
-<h2>Cauchy-Riemann 方程</h2>
-
-<h3>可微的充要条件</h3>
+<h3>Cauchy-Riemann 方程</h3>
 
 <p class="definition">
 	将复变函数视为两个实函数的线性组合, 即
@@ -228,6 +226,38 @@
 	计算其导数.
 </ol>
 
+<ol class="corollary">
+	<li>`"e"^z` 是整函数, 且 `("e"^z)' = "e"^z`;</li>
+	<li>`sin z`, `cos z` 是整函数的线性组合, 因此也是整函数, 且
+		<span class="formula">
+			`(sin z)' = cos z`, `quad (cos z)' = -sin z`.
+		</span>
+	</li>
+</ol>
+
+<p class="proof">
+	只证 1. 任取 `z = x+"i"y in CC`, 则
+	<span class="formula">
+		`"e"^z = "e"^x(cos y + "i"sin y)`.
+	</span>
+	它的实部和虚部
+	<span class="formula">
+		`u(x,y) = "e"^x cos y`, `quad v(x,y) = "e"^x sin y`
+	</span>
+	都是可微函数, 且满足 Cauchy-Riemann 方程:
+	<span class="formula">
+		`(del u)/(del x) = "e"^x cos y = (del v)/(del y)`,<br/>
+		`(del u)/(del y) = -"e"^x sin y = -(del v)/(del x)`.
+	</span>
+	所以 `"e"^z` 是 `CC` 上的全纯函数, 且
+	<span class="formula">
+		`("e"^z)'`
+		`= (del u)/(del x) + "i"(del v)/(del x)`
+		`= "e"^x(cos y + "i"sin y)`
+		`= "e"^z`.
+	</span>
+</p>
+
 <h3>调和函数</h3>
 
 <p class="definition">
@@ -290,159 +320,182 @@
 	的共轭调和函数. 又显然 `u, v` 都是可微函数, 所以 `u+"i"v` 是全纯函数.
 </p>
 
-<h2>初等函数</h2>
+<h2>复积分</h2>
 
-<h3>指数函数</h3>
+<h3>复积分的定义</h3>
 
 <p class="definition">
-	设 `z = x + "i"y`, 定义
+	设 `gamma(t)`, `a le t le b` 是复平面上一条可求长曲线, <!--??-->
+	`f` 在 `gamma` 上有定义, 沿 `gamma` 正方向任取分点
 	<span class="formula">
-		`"exp"(z) = "e"^z = "e"^x(cos y + "i"sin y)`.
+		`gamma(a) = z_0, z_1, cdots, z_n = gamma(b)`
 	</span>
-</p>
-
-<p class="corollary">
-	当 `y = 0` 时, `"e"^z = "e"^x`, 此定义与实变量的指数函数一致;
-	当 `x = 0` 时, 得到<b>Euler 公式</b>:
+	再于每一弧段上任取介点
 	<span class="formula">
-		`"e"^("i"y) = cos y + "i" sin y`.
+		`zeta_k in arc(z_(k-1) z_k)`, `quad k = 1, cdots, n`.
 	</span>
-	应用 Euler 公式, 复数的三角表示 `r(cos theta + "i"sin theta)`
-	可以简单地写为 `r "e"^("i"theta)`.
-	此外, 由
+	记 `lambda` 是各弧段长度的最大值, `Delta z = z_k - z_(k-1)`,
+	如果 Riemann 和的极限
 	<span class="formula">
-		`"e"^("i"y) = cos y + "i" sin y`,<br/>
-		`"e"^(-"i"y) = cos y - "i" sin y`
+		`lim_(lambda to 0) sum_(k=1)^n f(zeta_k) Delta z_k`
 	</span>
-	可得
+	总是存在且唯一, 而与分点和介点的选取方式无关, 就称 `f` 在 `gamma`
+	上<b>可积</b>, 此极限称为 `f` 沿曲线 `gamma` 的<b>积分</b>, 记为
 	<span class="formula">
-		`cos y = ("e"^("i"y)+"e"^(-"i"y))/2`,
-		`quad sin y = ("e"^("i"y)-"e"^(-"i"y))/(2"i")`.
+		`int_gamma f(z) dz`.
 	</span>
 </p>
 
 <ol class="corollary">
-	<li>`"e"^z` 是整函数, 且 `("e"^z)' = "e"^z`;</li>
-	<li>`|"e"^z| = "e"^x gt 0`, 因此 `"e"^z != 0`;</li>
-	<li>`"e"^z "e"^w = "e"^(z+w)`;</li>
-	<li>`"e"^(z+2pi"i") = "e"^z`, 因此 `"e"^z` 是周期为 `2pi"i"`
-		的周期函数;
+	由定义得到
+	<li>`int_gamma^(-) f(z) dz = -int_gamma f(z) dz`, `gamma^-` 表示与
+		`gamma` 方向相反的曲线;</li>
+	<li>`int_gamma (k f(z) + l g(z)) dz = k int_gamma f(z) dz
+		+ l int_gamma g(z) dz`, `k, l in CC`;
+	</li>
+	<li>`int_gamma f(z) dz = int_(gamma_1) f(z) dz + int_(gamma_2) f(z)
+		dz`, `gamma` 是由 `gamma_1`, `gamma_2` 拼接成的曲线.
 	</li>
 </ol>
 
-<p class="proof">
-	只证 1. 任取 `z in CC`, 显然
-	<span class="formula">
-		`u(x,y) = "e"^x cos y`, `quad v(x,y) = "e"^x sin y`
-	</span>
-	都是可微函数, 且满足 Cauchy-Riemann 方程:
-	<span class="formula">
-		`(del u)/(del x) = "e"^x cos y = (del v)/(del y)`,<br/>
-		`(del u)/(del y) = -"e"^x sin y = -(del v)/(del x)`.
-	</span>
-	所以 `"e"^z` 是 `CC` 上的全纯函数, 且
-	<span class="formula">
-		`("e"^z)'`
-		`= (del u)/(del x) + "i"(del v)/(del x)`
-		`= "e"^x(cos y + "i"sin y)`
-		`= "e"^z`.
-	</span>
-</p>
+<ol class="theorem">
+	<li>若 `f = u + "i"v` 在 `gamma` 上连续, 则 `f` 在 `gamma` 上可积, 且
+		<span class="formula">
+			`int_gamma f(z) dz`
+			`= int_gamma u dx - v dy + "i"int_gamma v dx + u dy`.
+		</span>
+		形式化记忆:
+		<span class="formula">
+			`f(z) dz`
+			`= (u+"i"v)(dx+"i"dy)`
+			`= u dx - v dy + "i"(v dx + u dy)`.
+		</span>
+	</li>
+	<li>进一步若 `f` 在 `gamma` 上连续可微 (即, 具有连续的导数),
+		则可以通过参数方程计算积分:
+		<span class="formula">
+			`int_gamma f(z) dz = int_a^b f(gamma(t)) gamma'(t) dt`.
+		</span>
+	</li>
+</ol>
 
-<h3>对数函数</h3>
-
-<p class="definition">
-	设 `z in CC`, 称满足方程 `"e"^w = z` 的 `w in CC` 为 `z`
-	的<b>对数</b>, 记为 `"Log"z `.
-</p>
-
-<p class="corollary">
-	`"Log" z  = log|z| + "i" "Arg"z`.它是一个多值函数,
-	其多值性由辐角 `"Arg"z` 的多值性产生.
-</p>
-
-<p class="proof">
-	设 `z = r"e"^("i"theta)`, `w = u + "i"v`, 若
-	`"e"^w = z`, 我们有
-	<span class="formula">
-		`"e"^(u+"i"v) = r"e"^("i"theta)`,
-	</span>
-	即
-	<span class="formula">
-		`"e"^u = r`, `quad v = theta + 2 k pi`, `quad k in ZZ`.
-	</span>
-	于是
-	<span class="formula">
-		`"Log"z = log|z| + "i" "Arg" z`.
-	</span>
-</p>
+<ol class="proof">
+	<li>记 `z_k = x_k + "i"y_k`, `zeta_k = xi_k + "i"eta_k`,
+		`u(xi_k,eta_k) = u_k`, `v(xi_k,eta_k) = v_k`,
+		`Delta x_k = x_k-x_(k-1)`, `Delta y_k = y_k-y_(k-1)`,
+		从而
+		<span class="formula">
+			`sum_(k=1)^n f(zeta_k) Delta z_k`
+			`= sum_(k=1)^n (u_k+"i"v_k)(Delta x_k+"i"Delta y_k)`<br/>
+			`= sum_(k=1)^n (u_k Delta x_k-v_k Delta y_k)`
+			`+ "i"sum_(k=1)^n(v_k Delta x_k+u_k Delta y_k)`.
+		</span>
+		由 `u, v` 在 `gamma` 上连续知, 上述和式当 `lambda to 0` 时趋于曲线积分
+		<span class="formula">
+			`int_gamma u dx - v dy + "i"int_gamma v dx + u dy`.
+		</span>
+	</li>
+	<li>设 `gamma(t) = x(t) + "i"y(t)`, 利用积分换元
+		<span class="formula">
+			`int_gamma u dx - v dy`
+			`= int_a^b (u(x(t),y(t)) x'(t) - v(x(t),y(t)) y'(t)) dt`,<br/>
+			`int_gamma v dx + u dy`
+			`= int_a^b (v(x(t),y(t)) x'(t) + u(x(t),y(t)) y'(t)) dt`.
+		</span>
+		第二式乘以 `"i"`, 再与第一式相加得
+		<span class="formula">
+			`int_gamma f(z) dz`
+			`= int_a^b (u(x(t),y(t))+"i"v(x(t),y(t)))(x'(t)+"i"y'(t)) dt`
+			`= int_a^b f(gamma(t)) gamma'(t) dt`.
+		</span>
+	</li>
+</ol>
 
 <p class="theorem">
-	<b>对数函数的单值全纯分支</b>
-	如果 `D` 是不含原点和无穷远点的单连通域, 则存在 `D`
-	上的一列单值全纯函数 `{varphi_k}`, 满足
+	<b>长 (cháng) 大不等式</b>
+	以 `L` 记 `gamma` 的长度, `M` 记 `|f(z)|` 在 `gamma` 上的一个上界, 如
+	`M = Sup_(z in gamma) |f(z)|`. 有
 	<span class="formula">
-		`exp(varphi_k(z)) = z`,
-		`quad (varphi_k(z))' = 1/z`,
-		`quad k = 0, +-1, +-2, cdots`.
+		`|int_gamma f(z) dz| le L M`.
 	</span>
-	每个 `varphi_k` 都称为 `"Log"z` 在 `D` 上的一个单值全纯分支.
+	"长度" `L` 和 "大小" `M` 的乘积是积分的模的一个上界.
 </p>
 
-<h3>幂函数</h3>
-
-<p class="definition">
-	设 `z in CC`, `mu = a + "i"b`, 定义 `z^mu = "e"^(mu"Log"z)`.
-</p>
-
-<h3>三角函数</h3>
-
-<p class="definition">
-	设 `z in CC`, 从 Euler 公式得到启发, 定义
+<p class="proof">
+	考虑 Riemann 和的模的上界
 	<span class="formula">
-		`cos z = ("e"^("i"z)+"e"^(-"i"z))/2`,
-		`quad sin z = ("e"^("i"z)-"e"^(-"i"z))/(2"i")`.
+		`|sum_(k=1)^n f(zeta_k) Delta z_k|`
+		`le |sum_(k=1)^n |f(zeta_k)| |Delta z_k|`
+		`le M |sum_(k=1)^n |Delta z_k|`
+		`le M L`.
 	</span>
+	再令 `lambda to 0` 取极限, 即获证.
 </p>
 
-<ol class="corollary">
-	<li>`sin z`, `cos z` 是整函数的线性组合, 因此也是整函数, 且
-		<span class="formula">
-			`(sin z)' = cos z`, `quad (cos z)' = -sin z`.
-		</span>
-	</li>
-	<li>`"e"^("i"z)` 和 `"e"^(-"i"z)` 都以 `2pi` 为周期, 所以
-		`sin z`, `cos z` 也以 `2pi` 为周期.
-	</li>
-	<li>`sin z` 是奇函数, `cos z` 是偶函数.</li>
-	<li>常见的三角恒等式在复数范围内仍成立:
-		<span class="formula">
-			`sin(z+w) = sin z cos w + cos z sin w`,<br/>
-			`cos(z+w) = cos z cos w - sin z sin w`,<br/>
-			`sin^2 z + cos^2 z = 1`, `quad sin 2z = 2 sin z cos z`,
-			`quad cos z = sin(pi/2 - z)`,
-		</span>
-		等等.
-	</li>
-	<li>`sin z` 的零点是 `z = k pi`, `k in ZZ`;
-		`cos z` 的零点是 `z = (k+1/2)pi`, `k in ZZ`.
-		这些零点都是实数.
-	</li>
-	<li>
-		定义
-		<span class="formula">
-			`cosh z = ("e"^z+"e"^-z)/2`,
-			`quad sinh z = ("e"^z-"e"^-z)/2`.
-		</span>
-		容易看出
-		<span class="formula">
-			`cosh("i"z) = cos z`, `quad sinh("i"z) = sin z`,<br/>
-			`cos("i"z) = cosh z`, `quad sin("i"z) = -sinh z`.
-		</span>
-		注意 `sinh`, `cosh` 是无界函数,
-		因此与实变量的正, 余弦函数不同, `sin z`, `cos z` 是无界函数.
-	</li>
+<ol class="example">
+	设 `gamma(t)`, `a le t le b` 是可求长曲线, `alpha = gamma(a)`,
+	`beta = gamma(b)`, 则
+	<li>`int_gamma dz = beta - alpha`;</li>
+	<li>`int_gamma z dz = 1/2(beta^2-alpha^2)`.</li>
 </ol>
+
+<p class="example">
+	设 `a in CC`, `gamma` 是以 `a` 为心, `r` 为半径的圆周, `n in ZZ`, 则
+	<span class="formula">
+		`oint_gamma (z-a)^n dz = { 2pi"i", if n = -1; 0, if" else" :}`
+	</span>
+	这个答案与半径 `r` 无关.
+</p>
+
+<p class="proof">
+	`gamma` 的参数方程为 `z = a + r"e"^("i"t)`, `0 le t le 2pi`.
+	显然 `gamma` 连续可微, 故原式等于
+	<span class="formula">
+		`int_0^(2pi) (r"e"^("i"t))^n "i" r"e"^("i"t) dt`
+		`= "i" int_0^(2pi) (r"e"^("i"t))^(n+1) dt`.
+	</span>
+	上式当 `n = -1` 时等于 `2pi"i"`, `n != -1` 时等于零 (利用 Euler
+	公式化为三角函数的积分), 即得证.
+</p>
+
+<h3>Cauchy 积分定理</h3>
+
+<p class="theorem">
+	<b>Cauchy 积分定理 (Cauchy, 1825)</b>
+	设 `D sube CC` 是单连通域, `f in H(D) nn C^1(D)`, `gamma` 是 `D`
+	中的可求长闭曲线, 则
+	<span class="formula">
+		`oint_gamma f(z) dz = 0`.
+	</span>
+	Cauchy 积分定理给出了复积分与路径无关的充分条件.
+</p>
+
+<p class="proof">
+	`gamma` 围成的域记为 `G`. 因为 `f in C^1(D)`, 可用 Green 公式,
+	又 `f in H(D)`, Cauchy-Riemann 方程成立:
+	<span class="formula">
+		`oint_gamma u dx - v dy`
+		`= -iint_G ((del u)/(del y) + (del v)/(del x)) dx dy = 0`,<br/>
+		`oint_gamma v dx + u dy`
+		`= iint_G ((del u)/(del x) - (del v)/(del y)) dx dy = 0`.
+	</span>
+	第二式乘以 `"i"`, 再加上第一式就得到 `oint_gamma f(z) dz = 0`.
+</p>
+
+<p class="remark">
+	Cauchy 积分定理条件中的 `f in C^1(D)` 可以去掉. 为此先证明一个引理:
+</p>
+
+<ol class="lemma">
+	设 `D sube CC` 是一域, `f in C(D)`, `gamma` 是 `D` 中的可求长曲线.
+	对任意 `epsi gt 0`, 存在 `D` 中的折线 `P`, 满足:
+	<li>`P` 的每个顶点都在 `gamma` 上, 特别, `P` 和 `gamma`
+		有相同的起点和终点;</li>
+	<li>`|int_gamma f(z) dz - int_P f(z) dz| lt epsi`.</li>
+	从而折线上的积分是 `gamma` 上积分的近似.
+</ol>
+
+<p>现在来重新证明 Cauchy 积分定理 (Goursat, 1900):</p>
 
 <script src="../js/note.js?type=math"></script>
 
