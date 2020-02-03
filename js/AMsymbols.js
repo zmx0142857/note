@@ -187,6 +187,7 @@ AM.symbols = [
 {input:"////", tag:"mo", output:"\u2225", tex:null, ttype:CONST, val:true},
 {input:"!//", tag:"mo", output:"\u2226", tex:null, ttype:CONST, val:true},
 {input:"S=",  tag:"mo", output:"\u224C", tex:null, ttype:CONST, val:true},
+{input:"S~", tag:"mo", output:"\u223D", tex:null, ttype:CONST, val:true},
 {input:"!-=",  tag:"mo", output:"\u2262", tex:null, ttype:CONST, val:true},
 {input:"!|", tag:"mo", output:"\u2224", tex:null, ttype:CONST, val:true},
 {input:"!sube", tag:"mo", output:"\u2288", tex:null, ttype:CONST, val:true},

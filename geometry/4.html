@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>四边形</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>四边形的面积</h2>
+
+<p class="theorem">
+	<b>婆罗摩笈多公式</b>
+	设平面上一四边形的四边长按顺时针依次为 `a, b, c, d`, 其周长的一半为
+	`p = (a+b+c+d)//2`, 又设其一组对角之和为 `theta`, 则四边形的面积为
+	<span class="formula">
+		`S = sqrt((p-a)(p-b)(p-c)(p-d) - a b c d cos^2{:theta/2:})`.
+	</span>
+	注意当一组对角之和为 `theta` 时, 另一组对角之和为 `pi-theta`;
+	特别当四边形内接于圆时, 根号内的 `cos` 项等于零.
+</p>
+
+<p class="proof">
+	设 `a, b` 的夹角为 `A`, `c, d` 的夹角为 `C`.
+	四边形被对角线分成边长为 `a, b, l` 和 `c, d, l` 的两个三角形,
+	由余弦定理,
+	<span class="formula">
+		`l^2 = a^2 + b^2 - 2 a b cos A = c^2 + d^2 - 2 c d cos C`,
+	</span>
+	即
+	<span class="formula">
+		`a^2 + b^2 - c^2 - d^2 = 2(a b cos A - c d cos C)`.
+	</span>
+	另一方面,
+	<span class="formula">
+		`4S = 2(a b sin A + c d sin C)`.
+	</span>
+	以上两式平方后相加,
+	<span class="formula">
+		`(a^2+b^2-c^2-d^2)^2 + 16S^2 = 4(a^2 b^2 + c^2 d^2)`
+		`- 8a b c d(cos A cos C - sin A sin C)`,
+	</span>
+	于是
+	<span class="formula">
+		`16S^2 = 4(a^2 b^2 + c^2 d^2) - (a^2+b^2-c^2-d^2)^2`
+		`- 8a b c d cos theta`
+		`= 4(a b + c d)^2 - 8a b c d - (a^2+b^2-c^2-d^2)^2`
+		`- 8a b c d (2cos^2{:theta/2:} - 1)`,
+	</span>
+	得到
+	<span class="formula">
+		`16(S^2+a b c d cos^2{:theta/2:})`
+		`= [2(a b+c d) + a^2+b^2-c^2-d^2][2(a b+c d) - (a^2+b^2-c^2-d^2)]`
+		`= [(a+b)^2 - (c-d)^2][(c+d)^2 - (a-b)^2]`
+		`= (a+b+c-d)(a+b-c+d)(a-b+c+d)(-a+b+c+d)`.
+	</span>
+	即得所证.
+</p>
+
+<h2>四边形的边长</h2>
+
+<p class="theorem">
+	平行四边形四边长的平方和 = 对角线长的平方和.
+</p>
+
+<p class="proof">
+	用向量轻松证明:
+	<span class="formula">
+		`|bm a+bm b|^2 + |bm a-bm b|^2`
+		`= 2(|bm a|^2 + |bm b|^2)`.
+	</span>
+</p>
+
+<p class="corollary">
+	设三角形三边长为 `a, b, c`, 则边 `a` 上的中线长 `m_a` 满足:
+	<span class="formula">
+		`4 m_a^2 = 2(b^2+c^2)-a^2`.
+	</span>
+</p>
+
+<p class="corollary">
+	平面上任意四边形四边长的平方和 = 对角线长的平方和 + 4 &times;
+	对角线中点连线长度的平方.
+</p>
+
+<p class="proof">
+	设四边形 `ABCD` 中, `AC, BD` 的中点分别为 `M, N`.
+	在 `triangle NAC`, `triangle ABD`, `triangle CBD` 中分别使用上述推论,
+	<span class="formula">
+		`4 MN^2 = 2(AN^2+CN^2)-AC^2`,<br/>
+		`4 AN^2 = 2(AB^2+AD^2)-BD^2`,<br/>
+		`4 CN^2 = 2(CB^2+CD^2)-BD^2`.
+	</span>
+	将后两个式子代入第一式右边, 整理得
+	<span class="formula">
+		`AB^2+BC^2+CD^2+DA^2`
+		`= AC^2+BD^2+4MN^2`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>Ptolemy 定理 (Hipparchus)</b>
+	任意平面四边形中, 两组对边乘积之和 &ge; 两条对角线的乘积.
+	等号成立当且仅当该四边形内接于圆.
+</p>
+
+<p class="proof">
+	在四边形 `ABCD` 中, 作相似三角形 `triangle ABE S~ triangle ACD`, 有
+	<span class="formula">
+		`AB * CD = BE * AC`.
+	</span>
+	又易证 `triangle ABC S~ triangle AED`, 有
+	<span class="formula">
+		`BC * AD = ED * AC`.
+	</span>
+	两式相加,
+	<span class="formula">
+		`AB * CD + BC * AD`
+		`= (BE+ED)*AC`
+		`ge BD * AC`.
+	</span>
+	等号成立当且仅当 `E` 落在 `BD` 上, 即 `/_ ABE = /_ ACD`,
+	即四边形 `ABCD` 内接于圆.
+</p>
+
+<p class="proof">
+	复数证明.
+	用 `a, b, c, d in CC` 表示四边形的四个顶点, 有
+	<span class="formula">
+		`|(a-c)(b-d)|`
+		`= |(a-b)(c-d) + (a-d)(b-c)|`
+		`le |(a-b)(c-d)| + |(a-d)(b-c)|`.
+	</span>
+	其中等号成立当且仅当
+	<span class="formula">
+		`"arg"(a-b)(c-d) = "arg"(a-d)(b-c)`.
+	</span>
+	即
+	<span class="formula">
+		`"arg"((a-b)(c-d))/((a-d)(b-c)) = 0`.
+	</span>
+	即
+	<span class="formula">
+		`"arg"(a-b)/(a-d) + "arg"(c-d)/(c-b) = pi`.
+	</span>
+	这指出四边形的对角互补, 因此内接于圆.
+</p>
+
+<p class="corollary">
+	<b>Euler 定理</b>
+	在直线上顺次有 `A, B, C, D` 四点, 则
+	<span class="formula">
+		`AD * BC + AB * CD = AC * BD`.
+	</span>
+	这是 Ptolemy 定理的退化情形.
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

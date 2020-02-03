@@ -488,6 +488,7 @@ decorate([
 	{name:'remark', getBy:'class', word:'注', style:Sname_num},
 	{name:'question', getBy:'class', word:'问题', style:Sname_num},
 	{name:'theorem', getBy:'class', word:'定理', style:Sname_num},
+  {name:'proposition', getBy:'class', word:'命题', style:Sname_num},
 	{name:'definition', getBy:'class', word:'定义', style:Sname_num},
 	{name:'lemma', getBy:'class', word:'引理', style:Sname_num},
 	{name:'corollary', getBy:'class', word:'推论', style:Sname_num},

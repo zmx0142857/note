@@ -12,6 +12,16 @@
 
 <body>
 
+<h2>正弦/余弦定理</h2>
+
+<h3>正弦定理</h3>
+
+<p>	由面积关系
+	`2S = b c sin A = a c sin B`, 得到:
+	`(sin A)/a = (sin B)/b`.
+	此外有圆周角和其所对弦长的关系 `a = 2 R sin A`.
+</p>
+
 <h2>三角形的面积</h2>
 
 <p class="theorem">
@@ -37,54 +47,6 @@
 		`= (a+b+c)(a+b-c)(c+a-b)(c-a+b)`,
 	</span>
 	结论得证.
-</p>
-
-<p class="theorem">
-	<b>婆罗摩笈多公式</b>
-	设平面上一四边形的四边长按顺时针依次为 `a, b, c, d`, 其周长的一半为
-	`p = (a+b+c+d)//2`, 又设其一组对角之和为 `theta`, 则四边形的面积为
-	<span class="formula">
-		`S = sqrt((p-a)(p-b)(p-c)(p-d) - a b c d cos^2{:theta/2:})`.
-	</span>
-	注意当一组对角之和为 `theta` 时, 另一组对角之和为 `pi-theta`;
-	特别当四边形内接于圆时, 根号内的 `cos` 项等于零.
-</p>
-
-<p class="proof">
-	设 `a, b` 的夹角为 `A`, `c, d` 的夹角为 `C`.
-	四边形被对角线分成边长为 `a, b, l` 和 `c, d, l` 的两个三角形,
-	由余弦定理,
-	<span class="formula">
-		`l^2 = a^2 + b^2 - 2 a b cos A = c^2 + d^2 - 2 c d cos C`,
-	</span>
-	即
-	<span class="formula">
-		`a^2 + b^2 - c^2 - d^2 = 2(a b cos A - c d cos C)`.
-	</span>
-	另一方面,
-	<span class="formula">
-		`4S = 2(a b sin A + c d sin C)`.
-	</span>
-	以上两式平方后相加,
-	<span class="formula">
-		`(a^2+b^2-c^2-d^2)^2 + 16S^2 = 4(a^2 b^2 + c^2 d^2)`
-		`- 8a b c d(cos A cos C - sin A sin C)`,
-	</span>
-	于是
-	<span class="formula">
-		`16S^2 = 4(a^2 b^2 + c^2 d^2) - (a^2+b^2-c^2-d^2)^2`
-		`- 8a b c d cos theta`
-		`= 4(a b + c d)^2 - 8a b c d - (a^2+b^2-c^2-d^2)^2`
-		`- 8a b c d (2cos^2{:theta/2:} - 1)`,
-	</span>
-	得到
-	<span class="formula">
-		`16(S^2+a b c d cos^2{:theta/2:})`
-		`= [2(a b+c d) + a^2+b^2-c^2-d^2][2(a b+c d) - (a^2+b^2-c^2-d^2)]`
-		`= [(a+b)^2 - (c-d)^2][(c+d)^2 - (a-b)^2]`
-		`= (a+b+c-d)(a+b-c+d)(a-b+c+d)(-a+b+c+d)`.
-	</span>
-	即得所证.
 </p>
 
 <p class="lemma">
@@ -157,6 +119,31 @@
 		`= (a b c)^2 (1-alpha^2-beta^2-gamma^2 + 2 alpha beta gamma)`.
 	</span>
 	结果与前相同.
+</p>
+
+<p class="example">
+	设有矩形 `ABCD`, `E, F` 分别在边 `BC, CD` 上,
+	`S_(ABE) = x`, `S_(ADF) = y`, `S_(CEF) = z`. 求 `S_(AEF)`.
+</p>
+
+<p class="solution">
+	设 `AB = a`, `AD = b`, 则 `BE = (2x)/a`, `DF = (2y)/b`.
+	利用 `S_(CEF)` 列出方程:
+	<span class="formula">
+		`(b-(2x)/a)(a-(2y)/b) = 2 z`,
+	</span>
+	即
+	<span class="formula">
+		`(a b-2x)(a b-2y) = 2 a b z`.`
+	</span>
+	上式视为 `a b` 的方程, 解得
+	<span class="formula">
+		`a b = x+y+z +- sqrt((x+y+z)^2-4x y)`.
+	</span>
+	显然 `a b gt x + y + z`, 上式应取正号, 所以
+	<span class="formula">
+		`S_(AEF) = sqrt((x+y+z)^2-4x y)`.
+	</span>
 </p>
 
 <h2>定比分点与三角形的心</h2>
@@ -269,6 +256,42 @@
 		容易看出, 上式成立当且仅当 `M` 在 `CP` 上, 即三线共点.
 	</li>
 </ol>
+
+<p class="theorem">
+	<b>角元 Ceva 定理</b>
+	设 `P, Q, R` 分别是 `triangle ABC` 三边 `AB, BC, CA` 的内分点,
+	六个角 `/_ ACP`, `/_ PCB`, `/_ BAQ`, `/_ QAC`, `/_ CBR`, `/_ RBA`
+	依次记为 `/_ 1` 到 `/_ 6`, 则 `AQ, BR, CP` 共点当且仅当
+	<span class="formula">
+		`sin /_1 sin /_3 sin /_5 = sin /_2 sin /_4 sin /_6`.
+	</span>
+</p>
+
+<p class="proof">
+	必要性: 设三线共点于 `M`. 由正弦定理
+	<span class="formula">
+		`(sin /_1)/(AM) = (sin /_4)/(CM)`,
+		`quad (sin /_5)/(CM) = (sin /_2)/(BM)`,
+		`quad (sin /_3)/(BM) = (sin /_6)/(AM)`.
+	</span>
+	三式相乘即得结论.
+	充分性的证明与 Ceva 定理类似.
+</p>
+
+<p class="example">
+	设圆周上顺次有 `A, B, C, D, E, F` 六点, 则
+	`AD, BE, CF` 共点当且仅当
+	<span class="formula">
+		`AB * CD * EF = BC * DE * FA`.
+	</span>
+</p>
+
+<p class="proof">
+	在 `triangle ACE` 中应用角元 Ceva 定理,
+	注意到圆周角所对的弦长正比于该圆周角的正弦值
+	(事实上有 `a = 2 R sin theta`, `a` 为弦长, `R` 为半径, `theta`
+	为圆周角), 即得结论.
+</p>
 
 <h3>三角形的重心</h3>
 
@@ -548,7 +571,7 @@
 		`AI * MI = EI * FI = (R+d)(R-d)`.
 	</span>
 	另一方面, 作 `DI _|_ AC` 于 `D`, 延长 `MO` 交圆 `O` 于 `L`,
-	则 `triangle MBL ~ triangle IDA` (`/_ DAI = /_ MAB = /_ L`, `/_ ADI
+	则 `triangle MBL S~ triangle IDA` (`/_ DAI = /_ MAB = /_ L`, `/_ ADI
 	= pi/2 = /_ LBM`), 得到
 	<span class="formula">
 		`AI * MB = ID * LM = 2R r`.

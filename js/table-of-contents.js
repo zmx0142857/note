@@ -27,7 +27,7 @@ var tableOfContents = [ {
 		{title:'初等函数', src:'analysis/1.html'},
 		{title:'数列的极限', src:'analysis/2.html'},
 		{title:'函数的极限与连续性', src:'analysis/3.html'},
-		{title:'导数的应用', src:'analysis/5.html'},
+		{title:'导数的应用', src:'analysis/5.html', isnew:true},
 		{title:'不定积分', src:'analysis/6.html'},
 		{title:'定积分', src:'analysis/7.html'},
 		{title:'无穷级数', src:'analysis/10.html'},
@@ -42,19 +42,19 @@ var tableOfContents = [ {
 	articles: [
 //		{title:'数理逻辑初步', src:'set/1.html'},
 		{title:'集合及其运算', src:'set/2.html'},
-		{title:'二元关系与映射', src:'set/3.html', isnew:true},
-		{title:'基数', src:'set/6.html', isnew:true},
+		{title:'二元关系与映射', src:'set/3.html'},
+		{title:'基数', src:'set/6.html'},
 	]
 	}, {
 	title:'复变函数',
 	articles: [
-		{title:'复数与复变函数', src:'complex/1.html', isnew:true},
+		{title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html', isnew:true},
 	]
 	}, {
 	title:'实变函数',
 	articles: [
-		{title:'预备知识', src:'real/1.html', isnew:true},
+		{title:'预备知识', src:'real/1.html'},
 		{title:'Lebesgue 测度', src:'real/2.html', isnew:true},
 	]
 	}, {
@@ -113,7 +113,8 @@ var tableOfContents = [ {
 	title:'初等几何',
 	articles: [
 		{title:'五组公理', src:'geometry/1.html'},
-		{title:'三角形', src:'geometry/3.html'},
+		{title:'三角形', src:'geometry/3.html', isnew:true},
+		{title:'四边形', src:'geometry/4.html', isnew:true},
 		{title:'抛物线', src:'geometry/5.html'},
 	]
 	}, {
@@ -162,7 +163,7 @@ var tableOfContents = [ {
 	title:'初等数论',
 	articles: [
 		{title:'整除', src:'number/1.html'},
-		{title:'不定方程', src:'number/5.html'},
+		{title:'不定方程', src:'number/5.html', isnew:true},
 	]
 	}, {
 	title:'数学游戏',
@@ -178,6 +179,6 @@ var tableOfContents = [ {
 		{title:'对称多项式', src:'misc/4.html'},
 		{title:'因式分解', src:'misc/5.html'},
 		{title:'算术', src:'misc/7.html'},
-		{title:'问题', src:'misc/question.html'},
+		{title:'问题', src:'misc/question.html', isnew:true},
 	]
 }];
