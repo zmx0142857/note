@@ -251,11 +251,15 @@ function decorate(list) {
 				if (elem[j].classList.contains('nonu')) {
 					continue;
 				}
-				var space = document.createTextNode(' ');
-				elem[j].insertBefore(space, elem[j].firstChild);
-				var newNode = list[i].style(list[i].word, j);
-				elem[j].title = newNode.innerHTML;
-				elem[j].insertBefore(newNode, elem[j].firstChild);
+        var newNode = list[i].style(list[i].word, j);
+        elem[j].title = newNode.innerHTML;
+        if (list[i].placeAfter) {
+          elem[j].appendChild(newNode); 
+        } else {
+          var space = document.createTextNode(' ');
+          elem[j].insertBefore(space, elem[j].firstChild);
+          elem[j].insertBefore(newNode, elem[j].firstChild);
+        }
 			}
 		}
 	}
@@ -495,7 +499,7 @@ decorate([
 	{name:'algorithm', getBy:'class', word:'算法', style:Sname_num},
 	{name:'data-structure', getBy:'class', word:'数据结构', style:Sname_num},
 	{name:'construction',getBy:'class', word:'作图', style:Sname_num},
-	{name:'graph', getBy:'class', word:'图', style:Sname_num},
+	{name:'graph', getBy:'class', word:'图', style:Sname_num, placeAfter:true},
 	{name:'principle', getBy:'class', word:'原理', style:Sname_num},
 	{name:'axiom', getBy:'class', word:'公理', style:Sname_num},
 	{name:'property', getBy:'class', word:'性质', style:Sname_num},

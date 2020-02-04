@@ -71,7 +71,7 @@
 	显然上式也适用于 `OC` 垂直于平面 `AOB` 的情形.
 </p>
 
-<p class="theorem">
+<p class="example">
 	<b>Euler 四面体问题</b>
 	已知四面体六棱长, 求体积.
 </p>
@@ -146,72 +146,188 @@
 	</span>
 </p>
 
-<h2>定比分点与三角形的心</h2>
+<h2>定比分点, 对称坐标与三角形的心</h2>
 
-<h3>定比分点公式</h3>
+<h3>定比分点</h3>
 
-<ol class="definition">
-	设 `AB` 为一线段 (`A != B`).
-	如果点 `C` 满足 `vec(AC) = lambda vec(CB)`, 则称<b>点
-	`C` 分线段 `AB` 成定比 `lambda`</b>.
-	<li>若 `lambda = -1`, 得到 `vec(AB) = bb 0`, 矛盾, 故 `lambda != -1`.
-	</li>
-	<li>若 `lambda gt 0`, `vec(AC)`, `vec(CB)` 同向, 称 `C`
-		为<b>内分点</b>;
-	</li>
-	<li>若 `lambda lt 0` 且 `lambda != -1`,
-		`vec(AC)`, `vec(CB)` 反向, 称 `C` 为<b>外分点</b>;
-	</li>
-	<li>若 `lambda = 0`, `C = A`;</li>
-	<li>`lambda to +oo` 时, `C to B`;</li>
-</ol>
+<p class="definition">
+	设 `AB` 是线段, `lambda, mu, k` 为实数,
+	若点 `P` 满足
+	<span class="formula">
+		`vec(AP) = k lambda vec(AB)`,
+		`quad vec(PB) = k mu vec(AB)`.
+	</span>
+	则称 `P` 把 `AB` 分成了 `lambda//mu`.
+	特别当 `P` 在线段 `AB` 上时, 称 `P` 是 `AB` 的内分点.
+</p>
 
 <p class="theorem" id="the-formula-of-definite-proportion">
 	<b>定比分点公式</b>
-	设 `O` 是平面上任一点. 点 `C` 分 `AB` 成定比
-	`lambda != -1`. 则
+	设 `O` 是平面上任一点, `AB` 是一线段.
+	则平面上一点 `P` 把 `AB` 分成 `lambda//mu`, `lambda+mu=1` 当且仅当
 	<span class="formula">
-		`vec(OC) = 1/(1+lambda) (vec(OA) + lambda vec(OB))`.
+		`vec(OP) = mu vec(OA) + lambda vec(OB)`.
 	</span>
-	为方便应用, 取 `lambda = b//a`, 得
+	特别 `lambda = mu = 1/2` 刻画了 `P` 是 `AB` 中点的情形:
 	<span class="formula">
-		`vec(OC) = 1/(a + b) (a vec(OA) + b vec(OB))`.
-	</span>
-	特别取 `lambda = 1`, 知 `AB` 中点 `M` 满足
-	<span class="formula">
-		`vec(OM) = 1/2 (vec(OA) + vec(OB))`.
+		`vec(OP) = 1/2 (vec(OA) + vec(OB))`.
 	</span>
 </p>
 
-<p class="corollary" id="cor-formula-of-definite-proportion-3">
-	<b>三向量的定比分点公式</b>
-	设 `O` 是平面上任一点,
-	考虑 `triangle ABC` 内一点 `M`, 如果记
-	`S_(ABC) = S`, `S_(BCM) = S_A`, `S_(CAM) = S_B`, `S_(ABM) = S_C`, 则
+<p class="corollary">
+	<b>Stewart 定理</b>
+	设有 `triangle ABC`, 内分点 `P` 将 `AB` 分成了 `lambda//mu`,
+	`lambda+mu=1`.
+	分别用 `a, b, c` 记 `triangle ABC` 中 `A, B, C` 的对边, 则
 	<span class="formula">
-		`vec(OM) = 1/S (S_A vec(OA) + S_B vec(OB) + S_C vec(OC))`.
+		`|CP|^2 = lambda a^2 + mu b^2 - lambda mu c^2`.
 	</span>
 </p>
 
 <p class="proof">
-	延长 `CM` 交 `AB` 于 `X`, 注意到 `X` 分 `AB` 成定比 `S_B//S_A`, 有
+	由定比分点公式
 	<span class="formula">
-		`vec(OX) = 1/(S_A + S_B) (S_A vec(OA) + S_B vec(OB))`.
+		`vec(CP) = mu vec(CA) + lambda vec(CB)`,
 	</span>
-	另外, 容易得到 `S_(AXM) = S_C S_B/(S_A + S_B)`, 故知 `M` 分 `CX`
-	成定比 `S_B/S_(AXM) = (S_A + S_B)/S_C`. 从而
+	由余弦定理
 	<span class="formula">
-		`vec(OM) = 1/(S_A+S_B+S_C)[(S_A+S_B) vec(OX) + S_C vec(OC)]`
+		`cos /_ACB = (a^2+b^2-c^2)/(2a b)`.
+	</span>
+	于是
+	<span class="formula">
+		`|vec(CP)|^2`
+		`= mu^2 |vec(CA)|^2 + lambda^2 |vec(CB)|^2 + 2 lambda mu vec(CA)
+		* vec(CB)`<br/>
+		`= lambda^2 a^2 + mu^2 b^2 + 2lambda mu a b cos/_ACB`<br/>
+		`= lambda^2 a^2 + mu^2 b^2 + lambda mu (a^2+b^2-c^2)`<br/>
+		`= lambda a^2 + mu b^2 - lambda mu c^2`.
+	</span>
+</p>
+
+<h3>对称坐标</h3>
+
+<p class="definition">
+	设平面上有一点 `X` 和 `triangle ABC`, 如果存在实数 `x_A, x_B, x_C`
+	满足 `x_A + x_B + x_C = 1`, 且
+	<span class="formula">
+		`x_A vec(AX) + x_B vec(BX) + x_C vec(CX) = bb 0`.
+		<span class="label" id="for-symmetric-coordinate"></span>
+	</span>
+	则称 `(x_A, x_B, x_C)` 为 `X` 关于 `triangle ABC` 的<b>对称坐标</b>.
+</p>
+
+<p class="theorem">
+	`X` 关于 `triangle ABC` 的对称坐标存在唯一.
+</p>
+
+<p class="proof">
+	存在性: 平面上三个向量必线性相关, 故存在不全为零的实数
+	`k_1, k_2, k_3` (不妨设 `k_3 != 0`) 使得
+	<span class="formula">
+		`k_1 vec(AX) + k_2 vec(BX) + k_3 vec(CX) = bb 0`.
+	</span>
+	假设 `k_1 + k_2 + k_3 = 0`, 则在等式
+	<span class="formula">
+		`k_1 vec(AX) + k_2 vec(BX) = -k_3 vec(CX)`
+	</span>
+	两边同除以 `-k_3` 得
+	<span class="formula">
+		`k_1/(k_1+k_2) vec(AX) + k_2/(k_1+k_2) vec(BX) = vec(CX)`.
+	</span>
+	由定比分点公式知 `A, B, C` 共线, 这与 `A, B, C`
+	三点构成一个三角形矛盾, 所以 `k_1 + k_2 + k_3 != 0`.
+	记 `x_i = k_i//(k_1+k_2+k_3)`, `i = 1, 2, 3`,
+	则 `(x_1, x_2, x_3)` 就是 `X` 关于 `triangle ABC` 的对称坐标.<br/>
+	唯一性: 设 `(x_1, x_2, x_3)` 和 `(y_1, y_2, y_3)` 都是 `X` 关于
+	`triangle ABC` 的对称坐标, 我们有
+	<span class="formula">
+		`x_1 vec(AX) + x_2 vec(BX) + x_3 vec(CX) = bb 0`,<br/>
+		`y_1 vec(AX) + y_2 vec(BX) + y_3 vec(CX) = bb 0`.
+	</span>
+	相减得
+	<span class="formula">
+		`(x_1-y_1)vec(AX) + (x_2-y_2)vec(BX) + (x_3-y_3)vec(CX) = bb 0`.
+	</span>
+	假设 `(x_1, x_2, x_3) != (y_1, y_2, y_3)`, 则 `x_1-y_1, x_2-y_2,
+	x_3-y_3` 不全为零. 由存在性部分的证明知, 此时
+	<span class="formula">
+		`(x_1-y_1) + (x_2-y_2) + (x_3-y_3) != 0`.
+	</span>
+	与 `x_1+x_2+x_3 = y_1+y_2+y_3 = 1` 矛盾.
+	故 `(x_1, x_2, x_3) = (y_1, y_2, y_3)`.
+</p>
+
+<p class="theorem">
+	`(x_A, x_B, x_C)` 是 `X` 关于 `triangle ABC` 的对称坐标,
+	当且仅当对平面上的任意一点 `O` 有
+	<span class="formula">
+		`vec(OX) = x_A vec(OA) + x_B vec(OB) + x_C vec(OC)`.
+		<span class="label" id="for-symmetric-coordinate-2def"></span>
+	</span>
+	这一结论帮助我们将对称坐标化为普通坐标.
+</p>
+
+<p class="proof">
+	充分性: 将点 `A, B, C` 分别代入<a class="ref"
+		href="#for-symmetric-coordinate-2def"></a> 有
+	<span class="formula">
+		`vec(AX) = x_B vec(AB) + x_C vec(AC)`,<br/>
+		`vec(BX) = x_A vec(BA) + x_C vec(BC)`,<br/>
+		`vec(CX) = x_A vec(CA) + x_B vec(CB)`.
+	</span>
+	所以 <a class="ref" href="#for-symmetric-coordinate"></a> 成立.<br/>
+	必要性: 易知 `x_A, x_B, x_C` 不全为零, 不妨设 `x_A != 0`, 有
+	<span class="formula">`{:
+		vec(OX) ,= vec(OA) + vec(AX);
+	,= vec(OA) - 1/x_A (x_B vec(BX) + x_C vec(CX));
+	,= vec(OA) - 1/x_A [x_B (vec(OX)-vec(OB)) + x_C(vec(OX)-vec(OC))];
+	,= vec(OA) + x_B/x_A vec(OB) + x_C/x_A vec(OC) - (x_B+x_C)/x_A vec(OX).
+	:}`
+	</span>
+	利用 `x_A + x_B + x_C = 1`,
+	整理即得式 <a class="ref" href="#for-symmetric-coordinate-2def"></a>.
+</p>
+
+<p>	下面推导对称坐标的计算公式, 为此先引入三角形的<b>有向面积</b>的概念:
+</p>
+
+<ol class="definition">
+	<li>三角形的有向面积的绝对值等于三角形的面积;</li>
+	<li>当三个顶点的书写次序为逆时针时, 三角形的有向面积的符号为正, 否则为负.</li>
+</ol>
+
+<p class="theorem" id="the-compute-symmetric-coordnate">
+	设平面上有一点 `X` 和 `triangle ABC`,
+	三角形 `ABC, BCX, CAX, ABX` 的有向面积分别记为 `S, S_A, S_B, S_C`.
+	则点 `X` 关于 `triangle ABC` 的对称坐标是 `1/S(S_A, S_B, S_C)`.
+</p>
+
+<p class="proof">
+	(更具一般性的证明? 交点 `P` 的存在性?)
+	任取平面上一点 `O`.
+	设直线 `CX` 交 `AB` 于 `P`, 注意到 `AP//BP = S_B//S_A`, 有
+	<span class="formula">
+		`vec(OP) = 1/(S_A + S_B) (S_A vec(OA) + S_B vec(OB))`.
+	</span>
+	另外, 容易得到 `S_(APM) = S_C S_B/(S_A + S_B)`, 故知
+	`(CM)/(MP) = S_B/S_(APM) = (S_A + S_B)/S_C`. 从而
+	<span class="formula">
+		`vec(OM) = 1/(S_A+S_B+S_C)[(S_A+S_B) vec(OP) + S_C vec(OC)]`
 		`= 1/S (S_A vec(OA) + S_B vec(OB) + S_C vec(OC))`.
 	</span>
 </p>
 
+<h3>Menelaus 定理与 Ceva 定理</h3>
+
 <ol class="theorem">
-	设 `P, Q, R` 分别分 `triangle ABC` 的边 `AB, BC, CA` 成定比 `lambda,
-	mu, nu`, 则
-	<li><b>Menelaus 定理</b> `P, Q, R` 共线当且仅当 `lambda mu nu = -1`;
+	设有 `triangle ABC`, `P, Q, R` 分别在直线 `AB, BC, CA` 上,
+	满足 `vec(AP) = lambda vec(PB)`, `vec(BQ) = mu vec(QC)`, `vec(CR) = nu
+	vec(RA)`, 则
+	<li><b>Menelaus 定理</b>
+		`P, Q, R` 共线当且仅当 `lambda mu nu = -1`;
 	</li>
-	<li><b>Ceva 定理</b> 若 `P, Q, R` 都是内分点, 则
+	<li><b>Ceva 定理</b>
+		若 `P, Q, R` 都是内分点, 则
 		`AQ, BR, CP` 共点当且仅当 `lambda mu nu = 1`.
 	</li>
 </ol>
@@ -257,7 +373,7 @@
 	</li>
 </ol>
 
-<p class="theorem">
+<p class="corollary">
 	<b>角元 Ceva 定理</b>
 	设 `P, Q, R` 分别是 `triangle ABC` 三边 `AB, BC, CA` 的内分点,
 	六个角 `/_ ACP`, `/_ PCB`, `/_ BAQ`, `/_ QAC`, `/_ CBR`, `/_ RBA`
@@ -293,193 +409,117 @@
 	为圆周角), 即得结论.
 </p>
 
-<h3>三角形的重心</h3>
+<h3>三角形的心</h3>
 
-<p class="definition">
-	由 Ceva 定理知, 三角形三条中线交于一点, 称这点为三角形的<b>重心</b>.
+<p class="theorem" id="the-heart">
+	假设如 Ceva 定理.
+	设 `AQ, BR, CP` 相交于点 `X`, 则 `X` 关于 `triangle ABC` 的对称坐标是
+	<span class="formula">
+		`(1/(1+lambda+lambda mu),
+		1/(1+mu+mu nu),
+		1/(1+nu+nu lambda))`.
+	</span>
 </p>
 
-<ol class="theorem">
-	设 `G` 是 `triangle ABC` 的重心, `P, Q, R` 分别是边
-	`AB, BC, CA` 的中点. 则
-	<li>三条中线将三角形分成了面积相等的 6 个小三角形;</li>
-	<li>`G` 分三条中线 `AQ, BR, CP` 成定比 2, 从而
-		<span class="formula">
-			`vec(AG) = 1/3 (vec(AB) + vec(AC))`,<br/>
-			`vec(BG) = 1/3 (vec(BC) + vec(BA))`,<br/>
-			`vec(CG) = 1/3 (vec(CA) + vec(CB))`,<br/>
-			`vec(AG) + vec(BG) + vec(CG) = bb 0`.
-		</span>
-	</li>
-	<li>`vec(OG) = 1/3 (vec(OA) + vec(OB) + vec(OC))`, `O` 是平面上任一点.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>略.</li>
-	<li>由 1, `S_(ABG) = 2 S_(QBG)`, 所以 `AG = 2GQ`; 因而
-		<span class="formula">
-			`  vec(AG)
-			 = 2/3 vec(AQ)
-			 = 2/3 * 1/2 (vec(AB) + vec(AC))`
-			`= 1/3 (vec(AB) + vec(AC))`.
-		</span>
-		其余各式同理.
-	</li>
-	<li>这是<a class="ref"
-			href="#cor-formula-of-definite-proportion-3"></a>的直接推论,
-		当然也可以直接计算:
-		<span class="formula">`{:
-			vec(OG) ,=	vec(OA) + vec(AG);
-		,=	vec(OA) + 1/3 (vec(AB) + vec(AC));
-		,=	vec(OA) + 1/3 (vec(OB) - vec(OA) + vec(OC) - vec(OA));
-		,=	1/3 (vec(OA) + vec(OB) + vec(OC)).
-		:}`
-		</span>
-	</li>
-</ol>
-
-<h3>三角形的内心</h3>
-
-<ol class="lemma" id="lem-triangle-bisector">
-	`P` 在 `triangle ABC` 的 `AB` 边上,
-	`CP` 平分 `angle ACB`, `a, b` 分别是 边 `BC, CA` 的长. 则
-	<li>`(AP)/(BP) = (sin angle B)/(sin angle A) = b/a`;</li>
-	<li>`vec(CP) = 1/(a+b) (a vec(CA) + b vec(CB))`.</li>
-</ol>
-
-<ol class="proof">
-	<li>由正弦定理,
-		<span class="formula">
-			` (AP)/(sin angle ACP)
-			= (CP)/(sin angle A)
-			= (AC)/(sin angle APC)`,<br/>
-			` (BP)/(sin angle BCP)
-			= (CP)/(sin angle B)
-			= (BC)/(sin angle BPC)`.
-		</span>
-		两式相除, 注意 `angle ACP = angle BCP` 和
-		`angle APC + angle BPC = pi` 即得证.
-	</li>
-	<li>由结论 1 应用定比分点公式即得.</li>
-</ol>
-
-<p class="definition">
-	由 Ceva 定理和<a class="ref" href="#lem-triangle-bisector"></a>知,
-	三角形的三条角平分线交于一点, 称为三角形的<b>内心</b>.
-	内心是三角形内接圆的心.
+<p class="proof">
+	`S_A, S_B, S_C` 的定义见<a class="ref" href="#the-compute-symmetric-coordnate"></a>.  将
+	<span class="formula">
+		`S_B//S_A = lambda`, `quad S_C//S_B = mu`, `quad S_A//S_C = nu`
+	</span>
+	代入
+	<span class="formula">
+		`S_A + S_B + S_C = S`
+	</span>
+	得到
+	<span class="formula">
+		`S_A(1 + lambda + lambda mu) = S`,<br/>
+		`S_B(1 + mu + mu nu) = S`,<br/>
+		`S_C(1 + nu + nu lambda) = S`.
+	</span>
+	再由<a class="ref" href="#the-compute-symmetric-coordnate"></a>即得结论.
 </p>
 
-<ol class="proof">
-	另一个证明三条角平分线共点的思路是利用如下命题:
-	设 `l` 是过角的顶点的直线, 则以下三款等价:
-	<li>`l` 平分角;</li>
-	<li>`l` 上任意一点到角两边的距离相等;</li>
-	<li>`l` 上存在一点到角两边的距离相等.</li>
-	容易证明, 若三角形的两条角平分线交于一点,
-	则这点与第三点的连线是第三条角平分线.
-</ol>
-
-<ol class="theorem" id="the-incenter">
-	设 `I` 是 `triangle ABC` 的内心, `P, Q, R` 分别是三条角平分线与
-	`AB, BC, CA` 的交点. 则
-	<li>三条角平分线将 `triangle ABC` 分成的 6 个小三角形的面积与其在
-		`triangle ABC` 边上的那一条边长成正比.
+<ol class="lemma" id="lem-proportion">
+	在 `triangle ABC` 中, 分别用 `a, b, c` 记三个角 `A, B, C` 的对边,
+	点 `P` 满足 `vec(AP) = lambda vec(PB). 则
+	<li>`P` 是 `AB` 中点时, `lambda = 1`;</li>
+	<li>`CP` 是 `/_ACB` 的平分线时,
+		`lambda = S_(ACP)/S_(BCP) = b/a = (sin B)/(sin A)`;
 	</li>
-	<li>`I` 分别分三条角平分线 `AQ, BR, CP` 成定比
-		`(b+c)/a`, `(c+a)/b`, `(a+b)/c`, 从而
-		<span class="formula">
-			`vec(AI) = 1/(a+b+c) (b vec(AB) + c vec(AC))`,<br/>
-			`vec(BI) = 1/(a+b+c) (c vec(BC) + a vec(BA))`,<br/>
-			`vec(CI) = 1/(a+b+c) (a vec(CA) + b vec(CB))`,<br/>
-			`a vec(AI) + b vec(BI) + c vec(CI) = bb 0`.
-		</span>
-	</li>
-	<li>`vec(OI) = 1/(a+b+c) (a vec(OA) + b vec(OB) + c vec(OC))`, `O`
-		是平面上任一点.
+	<li>`CP` 是 `AB` 边上的高时,
+		`lambda = (b cos A)/(a cos B) = (sin B cos A)/(sin A cos B)`
+		`= (tan B)/(tan A)`.
 	</li>
 </ol>
 
-<ol class="proof">
-	<li>略.</li>
-	<li>在 `triangle ACP`
-		中应用<a class="ref" href="#lem-triangle-bisector"></a> 有
-		<span class="formula">
-			` (CI)/(IP)
-			= (AC)/(AP)
-			= b/(c * b/(a+b))
-			= (a+b)/c`.
-		</span>
-		因而
-		<span class="formula">
-			`  vec(CI)
-			 = (a+b)/(a+b+c) vec(CP)`
-			`= 1/(a+b+c) (a vec(CA) + b vec(CB))`.
-		</span>
-		其余各式同理.
-	</li>
-	<li>这是<a class="ref"
-			href="#cor-formula-of-definite-proportion-3"></a>的直接推论,
-		当然也可以直接计算:
-		<span class="formula">`{:
-			vec(OI) ,=	vec(OC) + vec(CI);
-			,=	vec(OC) + 1/(a+b+c)(a vec(CA) + b vec(CB));
-			,=	vec(OC) + 1/(a+b+c)[a (vec(OA)-vec(OC)) + b
-					(vec(OB)-vec(OC))];
-			,=	1/(a+b+c) (a vec(OA) + b vec(OB) + c vec(OC)).
-		:}`
-		</span>
-	</li>
+<ol class="definition">
+	<b>三角形的五心</b> 三角形的
+	<li>三条中线交于一点, 称为三角形的<b>重心</b>;</li>
+	<li>三条角平分线交于一点, 称为三角形的<b>内心</b>;
+		内心是三角形内切圆的心;</li>
+	<li>三条高所在的直线交于一点, 称为三角形的<b>垂心</b>;</li>
+	<li>三角形的三边的中垂线交于一点, 称为三角形的<b>外心</b>;
+		外心是三角形外接圆的心;</li>
+	<li>三角形的三个外角的平分线相交于三点, 它们称为三角形的<b>旁心</b>;
+		旁心分别是三角形三个外切圆的心.</li>
 </ol>
+
+<ul class="proof">
+	<li>由 Ceva 定理和<a class="ref" href="#lem-proportion"></a> 立即得到重心, 内心和垂心的存在性.
+	</li>
+	<li>
+		<ol>
+			证明外心存在性, 可利用如下命题: 设 `l` 是过线段中点的直线,
+			则以下三款等价:
+			<li>`l` 垂直于线段;</li>
+			<li>`l` 上任意一点到线段两端的距离相等;</li>
+			<li>`l` 上存在一点到线段两端的距离相等.</li>
+			容易证明, 若三角形两边的中垂线交于一点,
+			则这点与第三边中点的连线是第三条中垂线.
+		</ol>
+	</li>
+	<li>
+		<ol>内心存在的又一证明, 利用如下命题:
+			设 `l` 是过角的顶点的直线, 则以下三款等价:
+			<li>`l` 平分角;</li>
+			<li>`l` 上任意一点到角两边的距离相等;</li>
+			<li>`l` 上存在一点到角两边的距离相等.</li>
+			容易证明, 若三角形的两条角平分线交于一点,
+			则这点与第三点的连线是第三条角平分线.
+		</ol>
+	</li>
+	<li>垂心存在性的又一证明:
+		设 `triangle ABC` 的两条高线 `AQ, BR` 交于点 `H`, 下证 `CH _|_ AB`.
+		由 `AH _|_ BC`, `BH _|_ CA` 有
+		<span class="formula">
+			`0 = vec(AH) * vec(BC) = vec(AH)*vec(HC) - vec(AH)*vec(HB)`,<br/>
+			`0 = vec(BH) * vec(CA) = vec(BH)*vec(HA) - vec(BH)*vec(HC)`.
+		</span>
+		两式相加,
+		<span class="formula">
+			`0 = vec(AH)*vec(HC) - vec(BH)*vec(HC) = vec(AB)*vec(HC)`,
+		</span>
+		即 `CH _|_ AB`.
+	</li>
+</ul>
 
 <p class="remark">
 	重心与内心都在三角形的内部. 外心和垂心则未必.
 </p>
 
-<h3>三角形的垂心</h3>
-
-<p class="lemma" id="lem-triangle-height">
-	设 `CP` 是 `triangle ABC` 在 `AB` 边上的高, `a, b` 分别是边 `BC, CA`
-	的长, 则
+<ol class="corollary">
+	设 `triangle ABC` 的重心为 `G`, 内心为 `I`, 外心为 `O`, 垂心为 `H`.
+	利用<a class="ref" href="#the-heart"></a>和<a class="ref" href="#lem-proportion"></a> 容易算出各心的对称坐标:
+	<li>重心: `1/3(1, 1, 1)`;</li>
+	<li>内心: `1/(a+b+c)(a, b, c) = 1/(sin A + sin B + sin C)(sin A, sin
+		B, sin C)`;</li>
+	<li>垂心: `1/(tan A+tan B+tan C)(tan A, tan B, tan C)`;</li>
+	<li>外心: `1/(sin 2A+sin 2B+sin 2C)(sin 2A, sin 2B, sin 2C)`;</li>
+	其中外心的 `lambda` 值的计算思路是:
 	<span class="formula">
-		`(AP)/(BP) = (b cos A)/(a cos B)`.
+		`lambda = S_(AOC)/S_(COB) = (sin /_AOC)/(sin /_COB)`
+		`= (sin 2B)/(sin 2A)`.
 	</span>
-</p>
-
-<p class="definition">
-	由 Ceva 定理和<a class="ref" href="#lem-triangle-height"></a>知,
-	三角形的三条高线 (高所在的直线) 交于一点, 称为<b>垂心</b>.
-</p>
-
-<p class="proof">
-	另一证明:
-	设 `triangle ABC` 的两条高线 `AQ, BR` 交于点 `H`, 下证 `CH _|_ AB`.
-	由 `AH _|_ BC`, `BH _|_ CA` 有
-	<span class="formula">
-		`0 = vec(AH) * vec(BC) = vec(AH)*vec(HC) - vec(AH)*vec(HB)`,<br/>
-		`0 = vec(BH) * vec(CA) = vec(BH)*vec(HA) - vec(BH)*vec(HC)`.
-	</span>
-	两式相加,
-	<span class="formula">
-		`0 = vec(AH)*vec(HC) - vec(BH)*vec(HC) = vec(AB)*vec(HC)`,
-	</span>
-	即 `CH _|_ AB`.
-</p>
-
-<h3>三角形的外心</h3>
-
-<p class="definition">
-	三角形的三边的中垂线交于一点, 称为<b>外心</b>.
-	外心是三角形外接圆的心.
-</p>
-
-<ol class="proof">
-	利用如下命题: 设 `l` 是过线段中点的直线, 则以下三款等价:
-	<li>`l` 垂直于线段;</li>
-	<li>`l` 上任意一点到线段两端的距离相等;</li>
-	<li>`l` 上存在一点到线段两端的距离相等.</li>
-	容易证明, 若三角形两边的中垂线交于一点,
-	则这点与第三边中点的连线是第三条中垂线.
 </ol>
 
 <h3>Euler 线与九点圆</h3>
@@ -533,7 +573,7 @@
 </p>
 
 <p class="proof">
-	设 `triangle ABC` 的内心, 外心分别为 `I, O`, 由 <a class="ref" href="#the-incenter"></a>,
+	设 `triangle ABC` 的内心, 外心分别为 `I, O`, 由内心的对称坐标,
 	<span class="formula">
 		`vec(OI) = 1/(a+b+c)(a vec(OA)+b vec(OB)+c vec(OC))`,
 	</span>
@@ -601,7 +641,7 @@
 <p class="proof">
 	做法类似于 Euler 公式的证明.
 	设 `triangle ABC` 的外心为 `O`, 外接圆半径为 `R`,
-	利用 <a class="ref" href="#cor-formula-of-definite-proportion-3"></a>
+	利用 <a class="ref" href="#the-compute-symmetric-coordnate"></a>
 	有
 	<span class="formula">
 		`0 le vec(OM)^2`
