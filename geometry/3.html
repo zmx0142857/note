@@ -460,12 +460,24 @@
 	<li>三条高所在的直线交于一点, 称为三角形的<b>垂心</b>;</li>
 	<li>三角形的三边的中垂线交于一点, 称为三角形的<b>外心</b>;
 		外心是三角形外接圆的心;</li>
-	<li>三角形的三个外角的平分线相交于三点, 它们称为三角形的<b>旁心</b>;
-		旁心分别是三角形三个外切圆的心.</li>
+	<li>三角形的任一内角平分线与另外两个外角平分线交于一点,
+		称为三角形的<b>旁心</b>;
+		旁心共有三个，分别是三角形三个外切圆的心.</li>
 </ol>
 
 <ul class="proof">
 	<li>由 Ceva 定理和<a class="ref" href="#lem-proportion"></a> 立即得到重心, 内心和垂心的存在性.
+	</li>
+	<li>
+		<ol>证明旁心存在性, 利用如下命题:
+			设 `l` 是过角的顶点的直线, 则以下三款等价:
+			<li>`l` 平分角;</li>
+			<li>`l` 上任意一点到角两边的距离相等;</li>
+			<li>`l` 上存在一点到角两边的距离相等.</li>
+			容易证明, 若三角形的两条角平分线交于一点,
+			则这点与第三点的连线是第三条角平分线.
+		</ol>
+		这一命题也可用于证明内心的存在性.
 	</li>
 	<li>
 		<ol>
@@ -476,16 +488,6 @@
 			<li>`l` 上存在一点到线段两端的距离相等.</li>
 			容易证明, 若三角形两边的中垂线交于一点,
 			则这点与第三边中点的连线是第三条中垂线.
-		</ol>
-	</li>
-	<li>
-		<ol>内心存在的又一证明, 利用如下命题:
-			设 `l` 是过角的顶点的直线, 则以下三款等价:
-			<li>`l` 平分角;</li>
-			<li>`l` 上任意一点到角两边的距离相等;</li>
-			<li>`l` 上存在一点到角两边的距离相等.</li>
-			容易证明, 若三角形的两条角平分线交于一点,
-			则这点与第三点的连线是第三条角平分线.
 		</ol>
 	</li>
 	<li>垂心存在性的又一证明:
@@ -504,23 +506,70 @@
 </ul>
 
 <p class="remark">
-	重心与内心都在三角形的内部. 外心和垂心则未必.
+	重心与内心都在三角形的内部; 三个旁心都在三角形的外部;
+	外心和垂心则不一定.
 </p>
 
 <ol class="corollary">
-	设 `triangle ABC` 的重心为 `G`, 内心为 `I`, 外心为 `O`, 垂心为 `H`.
-	利用<a class="ref" href="#the-heart"></a>和<a class="ref" href="#lem-proportion"></a> 容易算出各心的对称坐标:
-	<li>重心: `1/3(1, 1, 1)`;</li>
-	<li>内心: `1/(a+b+c)(a, b, c) = 1/(sin A + sin B + sin C)(sin A, sin
+	利用<a class="ref" href="#the-heart"></a>和<a class="ref" href="#lem-proportion"></a> 容易算出 `triangle ABC` 各心的对称坐标:
+	<li>重心 `G`: `1/3(1, 1, 1)`;</li>
+	<li>内心 `I`: `1/(a+b+c)(a, b, c) = 1/(sin A + sin B + sin C)(sin A, sin
 		B, sin C)`;</li>
-	<li>垂心: `1/(tan A+tan B+tan C)(tan A, tan B, tan C)`;</li>
-	<li>外心: `1/(sin 2A+sin 2B+sin 2C)(sin 2A, sin 2B, sin 2C)`;</li>
-	其中外心的 `lambda` 值的计算思路是:
-	<span class="formula">
-		`lambda = S_(AOC)/S_(COB) = (sin /_AOC)/(sin /_COB)`
-		`= (sin 2B)/(sin 2A)`.
-	</span>
+	<li>垂心 `H`: `1/(tan A+tan B+tan C)(tan A, tan B, tan C)`,
+		如果 `tan A = oo`, 则坐标视为 `(1, 0, 0)`;
+	</li>
+	<li>外心 `O`: `1/(sin 2A+sin 2B+sin 2C)(sin 2A, sin 2B, sin 2C)`;
+	</li>
+	<li>旁心 `J_A`: `1/(-a+b+c)(-a, b, c)`.
+		其中 `J_A` 与 `A` 在直线 `BC` 异侧;
+		`J_B`, `J_C` 的坐标可以轮换得到.
+	</li>
 </ol>
+
+<ol class="remark">
+	<li>外心的 `lambda` 值的计算思路是:
+		<span class="formula">
+			`lambda = S_(AOC)/S_(COB) = (sin /_AOC)/(sin /_COB)`
+			`= (sin 2B)/(sin 2A)`.
+		</span>
+	</li>
+	<li>旁心的 `lambda` 值的计算思路是 (用 `sigma` 表示有向面积):
+		<span class="formula">
+			`lambda = sigma_(A J_A C)/sigma_(C J_A B)`
+			`= - (b sin{:(pi-C)/2:})/(a sin{:(pi-C)/2:})`
+			`= -b/a`.
+		</span>
+	</li>
+</ol>
+
+<p class="remark">
+	设 `triangle ABC` 的面积为 `S`,
+	则内切圆 `I`, 旁切圆 `J_A, J_B, J_C` 的半径分别是
+	<span class="formula">
+		`r = (2S)/(a+b+c)`,
+		`quad r_A = (2S)/(-a+b+c)`,
+		`quad r_B = (2S)/(a-b+c)`,
+		`quad r_C = (2S)/(a+b-c)`.
+	</span>
+	由三角形面积的 Heron 公式,
+	<span class="formula">
+		`S^2 = S/r S/r_A S/r_B S/r_C`,
+	</span>
+	即
+	<span class="formula">
+		`S^2 = r r_A r_B r_C`.
+	</span>
+</p>
+
+<p class="remark">
+	设 `A + B + C = pi`, 则有
+	<span class="formula">
+		`sin A + sin B + sin C = 4 cos{:A/2:}cos{:B/2:}cos{:C/2:}`,<br/>
+		`tan A + tan B + tan C = tan A tan B tan C`,<br/>
+		`sin 2A + sin 2B + sin 2C = 4 sin A sin B sin C`.
+	</span>
+	参见<a href="../misc/2.html#equality-of-triangle">三角形中的恒等式</a>.
+</p>
 
 <h3>Euler 线与九点圆</h3>
 
