@@ -152,54 +152,50 @@ li.isnew::after {
 <nav id="nav" hidden>
 	<ul id="table-of-contents"></ul>
 	<header>
-		<a onclick="prevArticle()">&#x276e;</a>
+		<a id="prev-article">&#x276e;</a>
 		<span>目录</span>
-		<a onclick="nextArticle()")>&#x276f;</a>
+		<a id="next-article">&#x276f;</a>
 	</header>
 </nav>
 
 <article id="article">
 	<iframe id="iframe"></iframe>
-	<header id="header" onmouseover="headerVisible(true)"
-						onmouseout="headerVisible(false)">
-		<a id="yinyang" onclick="hideNav()">&#x262f;</a>
+  <header id="header">
+		<a id="yinyang">&#x262f;</a>
 		<span id="article-title"></span>
 		<a></a>
 	</header>
 </article>
 
-
 <script src="js/table-of-contents.js"></script>
 <script>
 'use strict';
 (function(){
-function getQuery() {
-	var ret = {};
-	var argstr = window.location.href;
-	var i = argstr.indexOf('?');
-	if (i != -1) {
-		var strs = argstr.substr(i+1).split("&");
-		for (var i = 0; i < strs.length; ++i) {
-			var splits = strs[i].split('=');
-			// decodeURI() doesn't work
-			ret[splits[0]] = unescape(splits[1]);
-      }
-   }
-   return ret;
+// 假装在用 jquery
+function $(str, innerHTML) {
+	if (typeof(str) == 'string') {
+		if (str[0] == '#')
+			return document.getElementById(str.slice(1));
+		else if (str.length > 0) {
+			var elem = document.createElement(str);
+			elem.innerHTML = innerHTML || '';
+			return elem;
+		}
+  } else if (typeof(str) == 'undefined') {
+    return document.createDocumentFragment();
+  }
 }
 
-var args = getQuery();
-var groupIdx = (args.group ? parseInt(args.group)-1 :
-	parseInt(window.localStorage['groupIndex'+domain]) || 0);
-var articleIdx = (args.article ? parseInt(args.article)-1 :
-	parseInt(window.localStorage['articleIndex'+domain]) || 0);
-var toc = document.getElementById('table-of-contents');
-var iframe = document.getElementById('iframe');
-var artitle = document.getElementById('article-title');
-var nav = document.getElementById('nav');
-var article = document.getElementById('article');
-var header = document.getElementById('header');
-var yinyang = document.getElementById('yinyang');
+// elements
+var article = $('#article'),
+  artitle = $('#article-title'),
+  header = $('#header'),
+  iframe = $('#iframe'),
+  nav = $('#nav'),
+  toc = $('#table-of-contents'),
+  yinyang = $('#yinyang'),
+  prevArticle = $('#prev-article'),
+  nextArticle = $('#next-article');
 
 function hideNav(flag) {
 	if (!nav.hidden || flag) {
@@ -225,77 +221,84 @@ function headerVisible(flag) {
 	}
 }
 
-function jump() {
-	var baseurl = window.location.href.split('?')[0];
-	window.location.href = baseurl + '?group=' + (groupIdx+1) + '&article=' + (articleIdx+1);
+// load data & find pos
+var src = localStorage['src'] || tableOfContents[0].articles[0].src;
+var title = localStorage['title'] || tableOfContents[0].articles[0].title;
+var pos = [0, 0];
+for (var i = 0; i < tableOfContents.length; ++i) {
+  for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
+    if (tableOfContents[i].articles[j].src == src) {
+      pos = [i, j];
+      break;
+    }
+  }
 }
+jump();
 
-function prevArticle() {
-	if (articleIdx == 0) {
-		if (groupIdx == 0) {
-			console.warn('already at first article.');
-			return;
-		}
-		articleIdx = tableOfContents[--groupIdx].articles.length;
-	}
-	--articleIdx;
-	jump();
-};
-
-function nextArticle() {
-	if (articleIdx == tableOfContents[groupIdx].articles.length-1) {
-		if (groupIdx == tableOfContents.length-1) {
-			console.warn('no more articles.');
-			return;
-		}
-		++groupIdx;
-		articleIdx = -1;
-	}
-	++articleIdx;
-	jump();
-};
+function jump() {
+  localStorage['src'] = src;
+  localStorage['title'] = title;
+  iframe.setAttribute('src', src);
+  artitle.innerHTML = title;
+  hideNav(true);
+  setTimeout(headerVisible, 1000);
+}
 
 function jumpto(i, j) {
-	return function() {
-		groupIdx = i;
-		articleIdx = j;
-		jump();
-	}
+  return function() {
+    var item = tableOfContents[i].articles[j];
+    src = item.src, title = item.title;
+    pos = [i, j];
+    jump();
+  };
 }
 
-// load page
-iframe.setAttribute('src', tableOfContents[groupIdx].articles[articleIdx].src);
-artitle.innerHTML = tableOfContents[groupIdx].articles[articleIdx].title;
-window.localStorage['groupIndex'+domain] = groupIdx;
-window.localStorage['articleIndex'+domain] = articleIdx;
-
-// load table of contents
-var frag = document.createDocumentFragment();
+// render table of contents
+var frag = $();
 for (var i = 0; i < tableOfContents.length; ++i) {
-	var li0 = document.createElement('li');
-	li0.innerHTML = tableOfContents[i].title;
-	var ul = document.createElement('ul');
+	var LI = $('li', tableOfContents[i].title);
+	var ul = $('ul');
 	for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
-		var li = document.createElement('li');
-		li.innerHTML = tableOfContents[i].articles[j].title;
+		var li = $('li', tableOfContents[i].articles[j].title);
 		li.onclick = jumpto(i, j);
 		if (tableOfContents[i].articles[j].isnew)
 			li.classList.add('isnew');
 		ul.appendChild(li);
-
 	}
-	li0.appendChild(ul);
-	frag.appendChild(li0);
+	LI.appendChild(ul);
+	frag.appendChild(LI);
 }
 toc.appendChild(frag);
-hideNav(true);
-setTimeout(headerVisible, 1000);
 
-// expose API
-window.prevArticle = prevArticle;
-window.nextArticle = nextArticle;
-window.headerVisible = headerVisible;
-window.hideNav = hideNav;
+// bind event listener
+header.onmouseover = function() {headerVisible(true)};
+header.onmouseout = function() {headerVisible(false)};
+yinyang.onclick = function() {hideNav()};
+prevArticle.onclick = function() {
+	if (pos[1] == 0) {
+		if (pos[0] == 0) {
+			console.warn('already at first article.');
+			return;
+		}
+		pos[1] = tableOfContents[--pos[0]].articles.length;
+	}
+	--pos[1];
+	jumpto(pos[0], pos[1])();
+};
+
+nextArticle.onclick = function() {
+	if (pos[1] == tableOfContents[pos[0]].articles.length-1) {
+		if (pos[0] == tableOfContents.length-1) {
+			console.warn('no more articles.');
+			return;
+		}
+		++pos[0];
+		pos[1] = -1;
+	}
+	++pos[1];
+	jumpto(pos[0], pos[1])();
+};
+
 })();
 </script>
 

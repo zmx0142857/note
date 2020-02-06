@@ -598,7 +598,8 @@ function AMparseExpr(str,rightbracket) {
     var len = newFrag.childNodes.length;
 	var ismatrix = false;
 	for (i = 0; i < len; ++i) {
-		if (newFrag.childNodes[i].firstChild.nodeValue == ";") {
+		if (newFrag.childNodes[i].firstChild
+      && newFrag.childNodes[i].firstChild.nodeValue == ";") {
 			ismatrix = true;
 			break;
 		}

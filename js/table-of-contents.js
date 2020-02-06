@@ -8,6 +8,17 @@ var tableOfContents = [ {
 		{title:'Mathml', src:'example/mathml.html'},
 	]
 	}, {
+	title:'未分类',
+	articles: [
+		{title:'问题', src:'misc/0.html', isnew:true},
+		{title:'有理数和代数数', src:'misc/1.html', isnew:true},
+		{title:'三角函数', src:'misc/2.html'},
+		{title:'不等式', src:'misc/3.html'},
+		{title:'对称多项式', src:'misc/4.html'},
+		{title:'因式分解', src:'misc/5.html'},
+		{title:'算术', src:'misc/7.html'},
+	]
+	}, {
 	title:'高等代数',
 	articles: [
 		{title:'矩阵', src:'algebra/1.html'},
@@ -169,16 +180,5 @@ var tableOfContents = [ {
 	title:'数学游戏',
 	articles: [
 		{title:'数学游戏', src:'recreation/1.html'},
-	]
-	}, {
-	title:'未分类',
-	articles: [
-		{title:'有理数, 无理数, 代数数, 超越数', src:'misc/1.html'},
-		{title:'三角函数', src:'misc/2.html'},
-		{title:'不等式', src:'misc/3.html'},
-		{title:'对称多项式', src:'misc/4.html'},
-		{title:'因式分解', src:'misc/5.html'},
-		{title:'算术', src:'misc/7.html'},
-		{title:'问题', src:'misc/question.html', isnew:true},
 	]
 }];

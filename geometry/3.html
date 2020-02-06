@@ -543,6 +543,16 @@
 </ol>
 
 <p class="remark">
+	设 `A + B + C = pi`, 则有
+	<span class="formula">
+		`sin A + sin B + sin C = 4 cos{:A/2:}cos{:B/2:}cos{:C/2:}`,<br/>
+		`tan A + tan B + tan C = tan A tan B tan C`,<br/>
+		`sin 2A + sin 2B + sin 2C = 4 sin A sin B sin C`.
+	</span>
+	参见<a href="../misc/2.html#equality-of-triangle">三角形中的恒等式</a>.
+</p>
+
+<p class="corollary">
 	设 `triangle ABC` 的面积为 `S`,
 	则内切圆 `I`, 旁切圆 `J_A, J_B, J_C` 的半径分别是
 	<span class="formula">
@@ -561,14 +571,31 @@
 	</span>
 </p>
 
-<p class="remark">
-	设 `A + B + C = pi`, 则有
+<p class="corollary">
+	重心是平面上到三角形三个顶点距离平方和最小的点,
+	也是平面上到三角形三边距离之积最大的点 (?).
+</p>
+
+<p class="proof">
+	设三个顶点的坐标分别为 `(x_i, y_i)`, `i = 1,2,3`.
+	则点 `(x,y)` 到它们距离的平方和为
 	<span class="formula">
-		`sin A + sin B + sin C = 4 cos{:A/2:}cos{:B/2:}cos{:C/2:}`,<br/>
-		`tan A + tan B + tan C = tan A tan B tan C`,<br/>
-		`sin 2A + sin 2B + sin 2C = 4 sin A sin B sin C`.
+		`f(x,y) = sum_(i=1)^3 ((x-x_i)^2+(y-y_i)^2)`.
 	</span>
-	参见<a href="../misc/2.html#equality-of-triangle">三角形中的恒等式</a>.
+	求导有
+	<span class="formula">
+		`(del f)/(del x) = 2 sum_(i=1)^3 (x-x_i)`,
+		`quad (del f)/(del y) = 2 sum_(i=1)^3 (y-y_i)`,<br/>
+		Hessian 矩阵
+		`[(del^2 f)/(del x^2), (del^2 f)/(del x del y);
+		(del^2 f)/(del y del x), (del^2 f)/(del y^2)]`
+		`= 6 [1, 0; 0, 1]` 正定.
+	</span>
+	令 `(del f)/(del x) = (del f)/(del y) = 0` 求得极小值点
+	<span class="formula">
+		`(x,y) = 1/3(x_1+x_2+x_3,y_1+y_2+y_3)`.
+	</span>
+	这是三角形的重心.
 </p>
 
 <h3>Euler 线与九点圆</h3>
