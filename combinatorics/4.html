@@ -15,134 +15,86 @@
 <h2>前 `x` 个自然数 `n` 次幂的求和公式</h2>
 
 <p class="definition">
-	对任意非负整数 `n` 和 `x`, 记
+	设 `n` 为非负整数, 定义 `B_n(x) in QQ[x]` 是满足
 	<span class="formula">
-		`S_n(x) = sum_(i=1)^x i^n`.
+		`int_x^(x+1) B_n(y) dy = x^n`
 	</span>
-	特别 `S_n(0) = 0`, `n = 0, 1, 2, cdots`.
-</p>
-
-<p class="theorem">
-	<b>`S_n(x)` 的递推公式</b>
-	<span class="formula">
-		`sum_(k=0)^n (n+1;k) S_k(x) = (x+1)^(n+1) - 1`,
-		`quad n ge 0`.
-		<span class="label" id="for-Sn(x)-recur"></span>
-	</span>
-	其中 `S_n(x)` 是关于 `x` 的 `n+1` 次多项式, 其常数项为 `0`.
-</p>
-
-<p class="proof">
-	`n = 0` 时, `S_0(x) = sum_(i=1)^x i^0 = x`, 结论成立.
-	现假设 `n gt 0`, 结论对所有小于 `n` 的非负整数成立, 
-	由二项式定理, 对 `i = 1, 2, cdots, x` 有
-	<span class="formula">
-		`(i+1)^(n+1) - i^(n+1) = sum_(k=0)^n (n+1;k) i^k`.
-	</span>
-	两边关于 `i` 从 `1` 到 `x` 求和就得到式 <a class="ref"
-	href="#for-Sn(x)-recur"></a>.
-	由归纳假设, `S_k(x)` 是常数项为 `0` 的 `k+1` 次多项式, `k = 0, 1,
-	cdots, n-1`, 又 <a class="ref" href="#for-Sn(x)-recur"></a>
-	右边是一个常数项为 `0` 的 `n+1` 次多项式, 所以 `S_n(x)` 是常数项为 `0`
-	的 `n+1` 次多项式.
-</p>
-
-<p class="corollary">
-	取 `x = 1` 知, `S_n(x)` 的各次项系数之和为 `1`.
+	的唯一多项式, 称为 <b>Bernoulli 多项式</b>.
+	易知 `B_n(x)` 是次数为 `n` 的首一多项式.
+	`B_n(x)` 也记为 `B_n^(-)(x)`.
 </p>
 
 <p class="definition">
-	现在考虑 `S_n(x)` 的导数.
-	对任意非负整数 `n`, 定义多项式 `B_n(x) := "d"/dx S_n(x)`, 则
+	对任意非负整数 `n, x`, 记
 	<span class="formula">
-		`sum_(i=1)^x i^n = S_n(x) = int_0^x B_n(t) dt`.
+		`S_n(x) = sum_(i=1)^x i^n`, `quad B_n^+(x) = "d"/dx S_n(x)`.
 	</span>
-	从而将离散的求和化为连续的积分来处理.
-
+	注意 `S_n(0) -= 0`, 故有 `S_n(x) = int_0^x B_n^+(y) dy`.
 </p>
 
-<p class="corollary">
-	<b>`B_n^+` 的递推公式</b>
-	对任意非负整数 `n`, 记 `B_n^+ := B_n(0)` 为 `B_n(x)` 的常数项,
-	在 <a class="ref" href="#for-Sn(x)-recur"></a> 两边求导, 有
-	<span class="formula">
-		`sum_(k=0)^n (n+1;k) B_k(x) = (n+1)(x+1)^n`,
-		<span class="label" id="for-Bn(x)-recur"></span>
-	</span>
-	从而
-	<span class="formula">
-		`sum_(k=0)^n (n+1;k) B_k^+ = n+1`.
-		<span class="label" id="for-Bn+-recur"></span>
-	</span>
-</p>
-
-<p class="theorem">
-	<span class="formula">
-		`B_n(x) = "d"/dx S_n(x) = {
-			B_0^+, if n = 0;
-			n S_(n-1)(x) + B_n^+, if n ge 1;
-		:}`
-	</span>
-	换言之,
-	<span class="formula">
-		`S_n(x) = (B_(n+1)(x) - B_(n+1)^+)/(n+1)`, `quad n ge 0`.
-	</span>
-	此外,
-	<span class="formula">
-		`"d"/dx B_n(x) = n "d"/dx S_(n-1)(x) = n B_(n-1)(x)`,
-		`quad n ge 1`,<br/>
-		`1/(k!)"d"^k/dx^k B_n(x) = (n;k) B_(n-k)(x)`, `quad n ge k`.
-	</span>
+<p class="proposition" id="prop-relation-bernoulli-poly">
+	`B_n^+(x) = B_n(x+1)`, 因此 `B_n^+(x)` 也是次数为 `n` 的首一多项式.
 </p>
 
 <p class="proof">
-	`n = 0, 1` 时,
+	在等式
 	<span class="formula">
-		`B_0(x) = "d"/dx (x) = 1 = B_0^+`,<br/>
-		`B_1(x) = "d"/dx(x^2/2+x/2)`
-		`= x + 1/2 = S_0(x) + B_1^+`,
+		`S_n(x) = sum_(i=1)^x i^n`
+		`= sum_(i=1)^x int_i^(i+1) B_n(y) dy`
+		`= int_1^(x+1) B_n(y) dy`
 	</span>
-	结论成立. 现假设 `n gt 1`, 结论对所有小于 `n` 的非负整数都成立,
-	利用
-	<a class="ref" href="#for-Sn(x)-recur"></a>,
-	<a class="ref" href="#for-Bn(x)-recur"></a>,
-	<a class="ref" href="#for-Bn+-recur"></a> 和归纳假设,
-	<span class="formula">
-		`B_n(x) = (x+1)^n - 1/(n+1) sum_(k=0)^(n-1) (n+1;k) B_k(x)`
-		`= (x+1)^n - sum_(k=1)^(n-1) (n+1;k) k/(n+1) S_(k-1)(x)`
-		`- 1/(n+1) sum_(k=0)^(n-1) (n+1;k) B_k^+`
-		`= (x+1)^n - sum_(k=1)^(n-1) (n;k-1) S_(k-1)(x)`
-		`- (1 - B_n^+)`
-		`= (x+1)^n - 1 - sum_(k=0)^(n-2) (n;k) S_k(x) + B_n^+`
-		`= n S_(n-1)(x) + B_n^+`.
-	</span>
+	两端求导即得.
 </p>
 
-<p class="corollary">
-	<span class="formula">
-		`B_n(x) = sum_(k=0)^n (n;k) B_k^+ x^(n-k)`, `quad n ge 0`.
-		<span class="label" id="for-Bn(x)"></span>
-	</span>
+<p class="proposition" id="prop-Bn'(x)">
+	`"d"/dx B_n^(+-)(x) = n B_(n-1)^(+-)(x)`, `n ge 1`.
 </p>
-
-<!--
-<p class="proof">
-	`n = 0` 时, `B_0(x) = 1 = B_k^+`, 结论成立.
-	现假设 `n gt 0`, 结论对任意小于 `n` 的非负整数成立, 则
-	<span class="formula">
-		`"d"/dx B_n(x)`
-		`= n B_(n-1)(x)`
-		`= n sum_(k=0)^(n-1) (n-1;k) B_k^+ x^(n-1-k)`
-		`= sum_(k=0)^(n-1) (n;k) B_k^+ (n-k) x^(n-1-k)`
-		`= "d"/dx sum_(k=0)^n (n;k) B_k^+ x^(n-k)`.
-	</span>
-	又 `B_n(0) = B_n^+ = sum_(k=0)^n (n;k) B_k^+ x^(n-k)|_(x=0)`,
-	所以结论成立.
-</p>
--->
 
 <p class="proof">
-	`B_n(x)` 的 `n-k` 次项系数等于
+	<span class="formula">
+		`int_x^(x+1) "d"/dx B_n(y) dy`
+		`= "d"/dx int_x^(x+1) B_n(y) dy`
+		`= "d"/dx (x^n)`
+		`= n x^(n-1)`,
+	</span>
+	再由定义即得
+	<span class="formula">
+		`"d"/dx B_n(x) = n B_(n-1)(x)`.
+	</span>
+	利用<a class="ref" href="#prop-relation-bernoulli-poly"></a> 知,
+	`B_n^+(x)` 也满足相同的等式.
+</p>
+
+<p class="proposition" id="prop-Sn">
+	`S_(n-1)(x) = (B_n^+(x) - B_n^+(0))/n`, `n ge 1`.
+</p>
+
+<p class="proof">
+	`S_(n-1)(x) = int_0^x B_(n-1)^+(y) dy`
+	`= int_0^x ("d"/dx B_n^+(y))/n dy`
+	`= (B_n^+(x) - B_n^+(0))/n`.
+</p>
+
+<ol class="definition">
+	<li><b>第一类 Bernoulli 数</b>是 `B_n(x)` 的常数项:
+		`B_n^(-) := B_n^(-)(0) = B_n^+(-1)`;
+	</li>
+	<li><b>第二类 Bernoulli 数</b>是 `B_n(x)` 的各项系数之和:
+		`B_n^+ := B_n^+(0) = B_n^(-)(1)`.
+	</li>
+</ol>
+
+<p class="proposition" id="prop-Bn(x)">
+	`B_n^(+-)(x) = sum_(k=0)^n (n;k) B_k^(+-) x^(n-k)`.
+</p>
+
+<p class="proof">
+	由<a class="ref" href="#prop-Bn'(x)"></a>,
+	<span class="formula">
+		`1/(k!) "d"^k/dx^k B_n^(+-)(x)`
+		`= (n;k) B_(n-k)^(+-)(x)`, `quad n ge k`.
+	</span>
+	从而 `B_n^(+-)(x)` 的 `n-k` 次项系数等于
 	<span class="formula">
 		`1/((n-k)!) "d"^(n-k)/dx^(n-k) B_n(x)|_(x=0)`
 		`= (n;n-k) B_k(0)`
@@ -151,63 +103,172 @@
 	从而结论成立.
 </p>
 
-<h2>Bernoulli 数的定义</h2>
+<p>综上有:</p>
 
-<p class="definition">
-	对任意非负整数 `n`,
-	把由递推公式 <a class="ref" href="#for-Bn+-recur"></a> 定义的
-	`B_n^+` 称为<b>第二类 Bernoulli 数</b>,
-	`B_n^(-) := (-1)^n B_n^+` 称为<b>第一类 Bernoulli 数</b>.
+<p class="theorem">
+	设整数 `x ge 0`, `n ge 1`, 则
+	<span class="formula">
+		`sum_(i=1)^x i^(n-1) = S_(n-1)(x)`
+		`= 1/n sum_(k=0)^(n-1) (n;k) B_k^+ x^(n-k)`.
+		<span class="label" id="for-sum-powers"></span>
+	</span>
+</p>
+
+<p class="proof">
+	由<a class="ref" href="#prop-Sn"></a>知, `n S_(n-1)(x)` 等于
+	`B_n^+(x)` 减去其常数项,
+	由<a class="ref" href="#prop-Bn(x)"></a>, 此即
+	<span class="formula">
+		`n S_(n-1)(x)`
+		`= sum_(k=0)^(n-1) (n;k) B_k^+ x^(n-k)`.
+	</span>
+</p>
+
+<h2>Bernoulli 数的递推公式与生成函数</h2>
+
+<p class="proposition">
+	<b>`B_n^+(x)` 的递推公式</b>
+	<span class="formula">
+		`sum_(k=0)^(n-1) (n;k) B_k^(+)(x) = n(x+1)^(n-1)`, `quad n ge 1`.
+		<br/>
+		`sum_(k=0)^(n-1) (n;k) B_k(x) = n x^(n-1)`(?), `quad n ge 1`.
+	</span>
+</p>
+
+<p class="proof">
+	由二项式定理
+	<span class="formula">
+		`sum_(k=0)^(n-1) (n;k) i^k`
+		`= (i+1)^n - i^n`,
+	</span>
+	令 `i` 从 `1` 到 `x` 求和,
+	<span class="formula">
+		`sum_(k=0)^(n-1) (n;k) S_n(x)`
+		`= (x+1)^n - 1`.
+	</span>
+	再求导即可.
+</p>
+
+<p class="corollary">
+	<b>`B_n^+` 的递推公式</b>
+	在 <a class="ref" href="#for-sum-powers"></a> 中代入 `x=1` 或
+	在 `B_n^+(x)` 的递推公式中代入 `x=0`, 都能得到
+	<span class="formula">
+		`sum_(k=0)^(n-1) (n; k) B_k^+ = n`, `quad n ge 1`.
+	</span>
+</p>
+
+<p>	利用递推公式计算前几个 Bernoulli 数如下. 有趣的是
+	`B_3^+ = B_5^+ = B_7^+ = cdots = 0`,
+	我们稍后将利用生成函数证明这一点.
+</p>
+
+<table style="font-size:.85em;text-align:center">
+	<tr>
+		<td>`n`</td>
+		<td>`0`</td>
+		<td>`1`</td>
+		<td>`2`</td>
+		<td>`4`</td>
+		<td>`6`</td>
+		<td>`8`</td>
+		<td>`10`</td>
+		<td>`12`</td>
+		<td>`14`</td>
+		<td>`16`</td>
+		<td>`18`</td>
+		<td>`20`</td>
+	</tr>
+	<tr>
+		<td>`B_n^+`</td>
+		<td>`1`</td>
+		<td>`1/2`</td>
+		<td>`1/6`</td>
+		<td>`-1/30`</td>
+		<td>`1/42`</td>
+		<td>`-1/30`</td>
+		<td>`5/66`</td>
+		<td>`-691/2730`</td>
+		<td>`7/6`</td>
+		<td>`-3617/510`</td>
+		<td>`43867/798`</td>
+		<td>`-174611/330`</td>
+	</tr>
+</table>
+
+<p>下面推导 `B_n^(-)` 的递推公式, 为此先建立两类 Bernoulli 数之间的联系:</p>
+
+<p class="proposition">
+	`B_n(1-x) = (-1)^n B_n(x)`.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`int_x^(x+1) B_n(1-y) dy`
+		`= int_(-x)^(1-x) B_n(t) dt`
+		`= (-x)^n`,
+	</span>
+	由定义即得结论.
+</p>
+
+<p class="corollary">
+	`B_n^(-) = B_n(0) = (-1)^n B_n(1) = (-1)^n B_n^+`.
 </p>
 
 <p class="theorem">
-	两类 Bernoulli 数的指数型生成函数分别是
+	`B_n(x)` 的指数型生成函数是
+	<span class="formula">
+		`(t "e"^(x t))/("e"^t-1) = sum_(n=0)^oo B_n(x) t^n/(n!)`,
+		`quad |t| lt 2pi`.
+	</span>
+	分别代入 `x = 1, 0` 得:
 	<span class="formula">
 		`(t"e"^t)/("e"^t-1) = sum_(n=0)^oo B_n^+ t^n/(n!)`,
 		`quad |t| lt 2 pi`,<br/>
 		`(t)/("e"^t-1) = sum_(n=0)^oo B_n^(-) t^n/(n!)`,
 		`quad |t| lt 2 pi`.
 	</span>
-	等价地, 也可以由生成函数来定义数列 `{B_n^+}`, `{B_n^-}`.
 </p>
 
 <p class="proof">
-	利用 `B_n^+` 的递推公式, 计算
-	<span class="formula">
-		`("e"^t-1) sum_(n=0)^oo B_n^+ t^n/(n!)`
-		`= (sum_(n=1)^oo t^n/(n!)) (sum_(n=0)^oo B_n^+ t^n/(n!))`
-		`= sum_(n=1)^oo sum_(k=0)^(n-1) B_k^+ t^n/(k!(n-k)!)`
-		`= sum_(n=1)^oo t^n/(n!) sum_(k=0)^(n-1) (n;k) B_k^+`
-		`= sum_(n=1)^oo t^n/((n-1)!)`
-		`= t sum_(n=0)^oo t^n/(n!)`
-		`= t "e"^t`.
-	</span>
-	从而证明了 `B_n^+` 的生成函数. 在 `B_n^+` 的生成函数两边取 `t = -t`,
-	有
-	<span class="formula">
-		`(-t"e"^-t)/("e"^-t-1) = sum_(n=0)^oo B_n^(-) t^n/(n!)`,
-	</span>
-	从而 `B_n^-` 的生成函数为
-	<span class="formula">
-		`(-t"e"^-t)/("e"^-t-1) = t/("e"^t-1)`.
-	</span>
+	<span class="formula">`{:
+		 , ("e"^t-1) sum_(k=0)^oo B_k(x) t^k/(k!);
+		=, (sum_(j=1)^oo t^j/(j!)) (sum_(k=0)^oo B_k(x) t^k/(k!));
+		=, sum_(n=1)^oo sum_(k=0)^(n-1) B_k(x) t^n/(k!(n-k)!);
+		=, sum_(n=1)^oo t^n/(n!) sum_(k=0)^(n-1) (n;k) B_k(x);
+		=, sum_(n=1)^oo (x^(n-1) t^n)/((n-1)!);
+		=, t sum_(n=0)^oo (x t)^n/(n!);
+		=, t "e"^(x t).
+	:}`</span>
 	注意到生成函数具有奇点 `2 k pi "i"`, `k in ZZ`, 因此收敛半径为 `2pi`.
 </p>
 
-<p class="corollary">
-	对奇数 `n ge 3`, `B_n^+ = 0`. 因此, 除了 `B_1^+ = 1/2`,
-	`B_1^(-) = -1/2` 外, 对所有非负整数 `n` 都有 `B_n^+ = B_n^-`.
-	因此, 当 `n != 1` 时, 我们不区分两类 Bernoulli 数, 都简记为 `B_n`.
+<p class="remark">
+	在 `B_n^+` 的生成函数两边用 `-t` 替换 `t`,
+	也能得到 `B_n^(-)` 的生成函数:
+	<span class="formula">
+		`sum_(n=0)^oo B_n^(-) t^n/(n!)`
+		`= sum_(n=0)^oo B_n^+ (-1)^n t^n/(n!)`
+		`= (-t"e"^-t)/("e"^-t-1)`
+		`= t/("e"^t-1)`.
+	</span>
 </p>
 
-<p class="proof">
-	注意
+<p class="remark">
+	也可以由生成函数来定义 `B_n(x)`, `B_n^+`, `B_n^-`.
+</p>
+
+<p class="corollary">
+	容易验证
 	<span class="formula">
 		`(t"e"^t)/("e"^t-1) - B_1^+ t`
 		`= (t"e"^t-t/2("e"^t-1))/("e"^t-1)`
 		`= t/2 ("e"^t+1)/("e"^t-1)`
 	</span>
-	是偶函数, 即得到结论.
+	是偶函数, 所以对任意奇数 `n ge 3`, `B_n^+ = 0`.
+	因此, 除了 `B_1^+ = 1/2`,
+	`B_1^(-) = -1/2` 外, 对所有非负整数 `n != 1` 都有 `B_n^+ = B_n^-`,
+	此时我们不区分两类 Bernoulli 数, 都简记为 `B_n`.
 </p>
 
 <p class="corollary">
@@ -271,67 +332,13 @@
 
 <p class="corollary">
 	<b>`B_n^-` 的递推公式</b>
-	在 `B_n^+` 的递推公式
-	<span class="formula">
-		`n = sum_(k=0)^(n-1) (n;k) B_k^+`,
-		`quad n ge 1`.
-	</span>
-	两边同时减 `n`, 有
+	在 `B_n^+` 的递推公式两边同时减 `n`, 有
 	<span class="formula">
 		`0 = sum_(k=0)^(n-1) (n;k) B_k^-`, `quad n ge 2`,
 		<span class="label" id="for-Bn--recur"></span>
 	</span>
-	由这个递推公式立即得到: `n ge 1` 时, `B_(2n)` 的符号是正负交错的.
+	由此知 `n ge 1` 时, `B_(2n)` 的符号是正负交错的.
 	因此 `tan x` 的 Maclaurin 展开系数全为正, 等等.
-</p>
-
-<p>	利用递推公式计算前几个 Bernoulli 数如下:</p>
-
-<table style="font-size:.85em;text-align:center">
-	<tr>
-		<td>`n`</td>
-		<td>`0`</td>
-		<td>`1`</td>
-		<td>`2`</td>
-		<td>`4`</td>
-		<td>`6`</td>
-		<td>`8`</td>
-		<td>`10`</td>
-		<td>`12`</td>
-		<td>`14`</td>
-		<td>`16`</td>
-		<td>`18`</td>
-		<td>`20`</td>
-	</tr>
-	<tr>
-		<td>`B_n^+`</td>
-		<td>`1`</td>
-		<td>`1/2`</td>
-		<td>`1/6`</td>
-		<td>`-1/30`</td>
-		<td>`1/42`</td>
-		<td>`-1/30`</td>
-		<td>`5/66`</td>
-		<td>`-691/2730`</td>
-		<td>`7/6`</td>
-		<td>`-3617/510`</td>
-		<td>`43867/798`</td>
-		<td>`-174611/330`</td>
-	</tr>
-</table>
-
-<p class="definition">
-	<b>Bernoulli 多项式</b> `B_n(x)` (`n ge 0`) 由指数型生成函数
-	<span class="formula">
-		`(t "e"^(x t))/("e"^t-1) = sum_(n=0)^oo B_n(x) t^n/(n!)`,
-		`quad |t| lt 2pi`
-	</span>
-	定义. 联系两类 Bernoulli 数的生成函数知,
-	第一类 Bernoulli 数是 Bernoulli 多项式的常数项,
-	第二类 Bernoulli 数是 Bernoulli 多项式的各项系数之和:
-	<span class="formula">
-		`B_n^(-) = B_n(0)`, `quad B_n^+ = B_n(1)`.
-	</span>
 </p>
 
 <h2>Bernoulli 数与 Stirling 数</h2>

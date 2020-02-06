@@ -573,30 +573,40 @@
 
 <p class="corollary">
 	重心是平面上到三角形三个顶点距离平方和最小的点,
-	也是平面上到三角形三边距离之积最大的点 (?).
+	也是三角形内部到三边距离之积最大的点.
 </p>
 
-<p class="proof">
-	设三个顶点的坐标分别为 `(x_i, y_i)`, `i = 1,2,3`.
-	则点 `(x,y)` 到它们距离的平方和为
-	<span class="formula">
-		`f(x,y) = sum_(i=1)^3 ((x-x_i)^2+(y-y_i)^2)`.
-	</span>
-	求导有
-	<span class="formula">
-		`(del f)/(del x) = 2 sum_(i=1)^3 (x-x_i)`,
-		`quad (del f)/(del y) = 2 sum_(i=1)^3 (y-y_i)`,<br/>
-		Hessian 矩阵
-		`[(del^2 f)/(del x^2), (del^2 f)/(del x del y);
-		(del^2 f)/(del y del x), (del^2 f)/(del y^2)]`
-		`= 6 [1, 0; 0, 1]` 正定.
-	</span>
-	令 `(del f)/(del x) = (del f)/(del y) = 0` 求得极小值点
-	<span class="formula">
-		`(x,y) = 1/3(x_1+x_2+x_3,y_1+y_2+y_3)`.
-	</span>
-	这是三角形的重心.
-</p>
+<ol class="proof">
+	<li>设三个顶点的坐标分别为 `(x_i, y_i)`, `i = 1,2,3`.
+		则点 `(x,y)` 到它们距离的平方和为
+		<span class="formula">
+			`f(x,y) = sum_(i=1)^3 ((x-x_i)^2+(y-y_i)^2)`.
+		</span>
+		求导有
+		<span class="formula">
+			`(del f)/(del x) = 2 sum_(i=1)^3 (x-x_i)`,
+			`quad (del f)/(del y) = 2 sum_(i=1)^3 (y-y_i)`,<br/>
+			Hessian 矩阵
+			`[(del^2 f)/(del x^2), (del^2 f)/(del x del y);
+			(del^2 f)/(del y del x), (del^2 f)/(del y^2)]`
+			`= 6 [1, 0; 0, 1]` 正定.
+		</span>
+		令 `(del f)/(del x) = (del f)/(del y) = 0` 求得极小值点
+		<span class="formula">
+			`(x,y) = 1/3(x_1+x_2+x_3,y_1+y_2+y_3)`.
+		</span>
+		这是三角形的重心.
+	</li>
+	<li>设点 `X` 的对称坐标是 `1/S(S_A, S_B, S_C)`,
+		则它到三边距离之积等于
+		<span class="formula">
+			`(2S_A)/a (2S_B)/b (2S_C)/c`
+			`le 8/(a b c) ((S_A + S_B + S_C)/3)^3`
+			`= 8/27 S^3/(a b c)`.
+		</span>
+		等号成立当且仅当 `S_A = S_B = S_C`, 即 `X` 是三角形的重心.
+	</li>
+</ol>
 
 <h3>Euler 线与九点圆</h3>
 
