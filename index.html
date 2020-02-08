@@ -221,14 +221,30 @@ function headerVisible(flag) {
 	}
 }
 
+function getQuery() {
+	var theRequest = new Object();
+	var i = location.href.indexOf('?');
+	if (i != -1) {
+		var strs = location.href.substr(i+1).split("&");
+		for (var i = 0; i < strs.length; ++i) {
+			var splits = strs[i].split('=');
+			// decodeURI() doesn't work
+			theRequest[splits[0]] = unescape(splits[1]);
+		}
+	}
+	return theRequest;
+}
+
 // load data & find pos
-var src = localStorage['src'] || tableOfContents[0].articles[0].src;
-var title = localStorage['title'] || tableOfContents[0].articles[0].title;
+var args = getQuery();
+var src = (args.g + '/' + args.a + '.html') || localStorage['src'] || tableOfContents[0].articles[0].src;
+var title;
 var pos = [0, 0];
 for (var i = 0; i < tableOfContents.length; ++i) {
   for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
     if (tableOfContents[i].articles[j].src == src) {
       pos = [i, j];
+	  title = tableOfContents[i].articles[j].title;
       break;
     }
   }

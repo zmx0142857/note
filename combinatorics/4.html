@@ -18,8 +18,9 @@
 	设 `n` 为非负整数, 定义 `B_n(x) in QQ[x]` 是满足
 	<span class="formula">
 		`int_x^(x+1) B_n(y) dy = x^n`
+		<span class="label" id="for-def-Bn(x)"></span>
 	</span>
-	的唯一多项式, 称为 <b>Bernoulli 多项式</b>.
+	的唯一 (?) 多项式, 称为 <b>Bernoulli 多项式</b>.
 	易知 `B_n(x)` 是次数为 `n` 的首一多项式.
 	`B_n(x)` 也记为 `B_n^(-)(x)`.
 </p>
@@ -44,6 +45,14 @@
 		`= int_1^(x+1) B_n(y) dy`
 	</span>
 	两端求导即得.
+</p>
+
+<p class="corollary" id="cor-relation-bernoulli-poly">
+	在 `B_n(x)` 的定义式<a class="ref"
+	href="#for-def-Bn(x)"></a>两端求导有
+	<span class="formula">
+		`B_n^+(x) - B_n(x) = n x^(n-1)`.
+	</span>
 </p>
 
 <p class="proposition" id="prop-Bn'(x)">
@@ -79,9 +88,12 @@
 	<li><b>第一类 Bernoulli 数</b>是 `B_n(x)` 的常数项:
 		`B_n^(-) := B_n^(-)(0) = B_n^+(-1)`;
 	</li>
-	<li><b>第二类 Bernoulli 数</b>是 `B_n(x)` 的各项系数之和:
-		`B_n^+ := B_n^+(0) = B_n^(-)(1)`.
+	<li><b>第二类 Bernoulli 数</b>是 `B_n^+(x)` 的常数项, 也是 `B_n(x)`
+		的各项系数之和: `B_n^+ := B_n^+(0) = B_n^(-)(1)`.
 	</li>
+	由<a class="ref" href="#cor-relation-bernoulli-poly"></a>知道,
+	除了 `n=1` 时有 `B_n^+ - B_n^(-) = 1` 外, 对于 `n != 1` 均有 `B_n^+
+	= B_n^(-)`, 这时我们不区分两类 Bernoulli 数, 都简记为 `B_n`.
 </ol>
 
 <p class="proposition" id="prop-Bn(x)">
@@ -126,41 +138,57 @@
 
 <h2>Bernoulli 数的递推公式与生成函数</h2>
 
+<h3>递推公式</h3>
+
 <p class="proposition">
-	<b>`B_n^+(x)` 的递推公式</b>
+	<b>`B_n^(+-)(x)` 的递推公式</b>
 	<span class="formula">
 		`sum_(k=0)^(n-1) (n;k) B_k^(+)(x) = n(x+1)^(n-1)`, `quad n ge 1`.
 		<br/>
-		`sum_(k=0)^(n-1) (n;k) B_k(x) = n x^(n-1)`(?), `quad n ge 1`.
+		`sum_(k=0)^(n-1) (n;k) B_k^(-)(x) = n x^(n-1)`, `quad n ge 2`.
 	</span>
 </p>
 
-<p class="proof">
-	由二项式定理
-	<span class="formula">
-		`sum_(k=0)^(n-1) (n;k) i^k`
-		`= (i+1)^n - i^n`,
-	</span>
-	令 `i` 从 `1` 到 `x` 求和,
-	<span class="formula">
-		`sum_(k=0)^(n-1) (n;k) S_n(x)`
-		`= (x+1)^n - 1`.
-	</span>
-	再求导即可.
-</p>
+<ol class="proof">
+	<li>由二项式定理
+		<span class="formula">
+			`sum_(k=0)^(n-1) (n;k) i^k`
+			`= (i+1)^n - i^n`,
+		</span>
+		令 `i` 从 `1` 到 `x` 求和,
+		<span class="formula">
+			`sum_(k=0)^(n-1) (n;k) S_n(x)`
+			`= (x+1)^n - 1`.
+		</span>
+		再求导即可.
+	</li>
+	<li>由 1, <a class="ref" href="#cor-relation-bernoulli-poly"></a> 和
+		<span class="formula">
+			`sum_(k=0)^(n-1) (n;k) k x^(k-1)`
+			`= sum_(k=0)^(n-2) (n;k+1) (k+1) x^k`
+			`= n sum_(k=0)^(n-2) (n-1;k) x^k`
+			`= n [(x+1)^(n-1) - x^(n-1)]`
+		</span>
+		即得证.
+	</li>
+</ol>
 
 <p class="corollary">
-	<b>`B_n^+` 的递推公式</b>
-	在 <a class="ref" href="#for-sum-powers"></a> 中代入 `x=1` 或
-	在 `B_n^+(x)` 的递推公式中代入 `x=0`, 都能得到
+	<b>`B_n^(+-)` 的递推公式</b>
+	在 `B_n^(+-)(x)` 的递推公式中代入 `x=0` 得,
 	<span class="formula">
-		`sum_(k=0)^(n-1) (n; k) B_k^+ = n`, `quad n ge 1`.
+		`sum_(k=0)^(n-1) (n; k) B_k^+ = n`, `quad n ge 1`.<br/>
+		`sum_(k=0)^(n-1) (n; k) B_k^(-) = 0`, `quad n ge 2`.
 	</span>
+	在 <a class="ref" href="#for-sum-powers"></a> 中代入 `x=1` 也能得到
+	`B_n^+` 的递推公式.
+	(由此知 `n ge 1` 时, `B_(2n)` 的符号是正负交错的.
+	因此 `tan x` 的 Maclaurin 展开系数全为正, 等等.)(?)
 </p>
 
 <p>	利用递推公式计算前几个 Bernoulli 数如下. 有趣的是
 	`B_3^+ = B_5^+ = B_7^+ = cdots = 0`,
-	我们稍后将利用生成函数证明这一点.
+	这一点我们稍后证明.
 </p>
 
 <table style="font-size:.85em;text-align:center">
@@ -196,8 +224,6 @@
 	</tr>
 </table>
 
-<p>下面推导 `B_n^(-)` 的递推公式, 为此先建立两类 Bernoulli 数之间的联系:</p>
-
 <p class="proposition">
 	`B_n(1-x) = (-1)^n B_n(x)`.
 </p>
@@ -213,7 +239,11 @@
 
 <p class="corollary">
 	`B_n^(-) = B_n(0) = (-1)^n B_n(1) = (-1)^n B_n^+`.
+	但是对任意 `n != 1` 有 `B_n^+ = B_n^(-)`,
+	所以对任意奇数 `n ge 3`, `B_n^+ = 0`.
 </p>
+
+<h3>生成函数</h3>
 
 <p class="theorem">
 	`B_n(x)` 的指数型生成函数是
@@ -255,31 +285,22 @@
 </p>
 
 <p class="remark">
-	也可以由生成函数来定义 `B_n(x)`, `B_n^+`, `B_n^-`.
+	也可以由生成函数来定义 `B_n(x)`, `B_n^+`, `B_n^-`,
+	并导出以上提到的全部性质.
 </p>
 
 <p class="corollary">
-	容易验证
 	<span class="formula">
-		`(t"e"^t)/("e"^t-1) - B_1^+ t`
-		`= (t"e"^t-t/2("e"^t-1))/("e"^t-1)`
+		`t/2 coth{:t/2:}`
 		`= t/2 ("e"^t+1)/("e"^t-1)`
-	</span>
-	是偶函数, 所以对任意奇数 `n ge 3`, `B_n^+ = 0`.
-	因此, 除了 `B_1^+ = 1/2`,
-	`B_1^(-) = -1/2` 外, 对所有非负整数 `n != 1` 都有 `B_n^+ = B_n^-`,
-	此时我们不区分两类 Bernoulli 数, 都简记为 `B_n`.
-</p>
-
-<p class="corollary">
-	<span class="formula">
-		`t/2 ("e"^t+1)/("e"^t-1)`
+		`= (t"e"^t-t/2("e"^t-1))/("e"^t-1)`
+		`= (t"e"^t)/("e"^t-1) - B_1^+ t`
 		`= sum_(n=0)^oo B_(2n) t^(2n)/((2n)!)`.
 	</span>
 </p>
 
 <p class="example">
-	作为 Bernoulli 数的一个应用, 给出若干三角函数的 Maclaurin 展式:
+	一些三角函数的 Maclaurin 展式:
 </p>
 
 <table>
@@ -328,17 +349,6 @@
 		`quad |x| lt pi`.
 	</span>
 	等等.
-</p>
-
-<p class="corollary">
-	<b>`B_n^-` 的递推公式</b>
-	在 `B_n^+` 的递推公式两边同时减 `n`, 有
-	<span class="formula">
-		`0 = sum_(k=0)^(n-1) (n;k) B_k^-`, `quad n ge 2`,
-		<span class="label" id="for-Bn--recur"></span>
-	</span>
-	由此知 `n ge 1` 时, `B_(2n)` 的符号是正负交错的.
-	因此 `tan x` 的 Maclaurin 展开系数全为正, 等等.
 </p>
 
 <h2>Bernoulli 数与 Stirling 数</h2>
@@ -390,14 +400,6 @@
 	<li>`lim_(n to oo) a_n` 存在, 记为 `gamma` (Euler 常数);</li>
 	<li>`a_n - gamma ~ 1/(2n)`;</li>
 	<li>`a_n - gamma - 1/(2n) ~ -1/(12n^2)`.</li>
-	继续计算, 得到:
-	<span class="formula">
-		`a_n = gamma + 1/(2n) - 1/(6*2n^2) + 1/(30*4n^4) - 1/(42*6n^6)+ cdots`.
-	</span>
-	猜想:
-	<span class="formula">
-		`a_n = gamma - sum_(k=1)^m (B_k^-)/(k n^(k)) + O(1/n^(m+1))`.
-	</span>
 </ol>
 
 <ol	class="proof">
@@ -443,6 +445,68 @@
 		</span>
 	</li>
 </ol>
+
+<p class="remark">
+	继续计算, 得到:
+	<span class="formula">
+		`a_n = gamma + 1/(2n) - 1/(6*2n^2) + 1/(30*4n^4) - 1/(42*6n^6)+ cdots`.
+	</span>
+	猜想:
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^m (B_k^-)/(k n^(k)) + O(1/n^(m+1))`.
+	</span>
+</p>
+
+<h2>Euler-Maclaurin 求和公式</h2>
+
+<p>	在探讨前 `x` 个自然数 `n` 次幂的求和公式时, 采用了化求和
+	`sum_(i=1)^x i^n` 为积分 `int_0^x B_n^+(y) dy` 的方法.
+	同样的思想加以推广, 就有了下述以积分来估计求和的
+	Euler-Maclaurin 求和公式. 这一公式可以类比于积分型余项的 Taylor 公式.
+</p>
+
+<p class="theorem">
+	设函数 `f in C^m[a,b]`, `m ge 1`, `a,b` 为整数. 则
+	<span class="formula">
+		`sum_(n=a)^b f(n) = int_a^b f(x) dx + (f(a)+f(b))/2`
+		`+ sum_(k=1)^(m-1) B_(k+1)/((k+1)!) (f^((k))(b) - f^((k))(a))`
+		`- (-1)^m/m int_a^b B_m(x-|__x__|) f^((m))(x) dx`.
+	</span>
+	上式等号右端的前两项相当于梯形公式
+	<span class="formula">
+		`int_a^b f(x) dx ~~ sum_(n=a)^b f(n) - (f(a)+f(b))/2`,
+	</span>
+	它用一系列以整数点为中心, 宽度为 `1`, 高度为 `f(n)`
+	的矩形面积来估计积分 `int_a^b f(x) dx`. 注意左右两端的矩形宽度只有
+	`1/2`, 这就是第二项的由来.
+</p>
+
+<p class="proof">
+	设 `g in C^m[0,1]`.
+	反复应用<a class="ref" href="#prop-Bn'(x)"></a> 和分部积分,
+	<span class="formula">
+		`int_0^1 g(x) dx`
+		`= int_0^1 B_0(x) g(x) dx`
+		`= int_0^1 B_1'(x) g(x) dx`
+		`= [B_1(x) g(x)]_0^1 - int_0^1 B_1(x) g'(x) dx`
+		`= (B_1^+ g(1) - B_1^(-) g(0)) - 1/2 int_0^1 B_2'(x) g'(x) dx`
+		`= (g(1)+g(0))/2 - 1/2 [B_2(x) g'(x)]_0^1 + 1/2 int_0^1 B_2(x)
+		g''(x) dx`
+		`= (g(1)+g(0))/2 - B_2/2 (g'(1)-g'(0)) + 1/2 int_0^1 B_2(x) g''(x) dx`
+		`= cdots`
+		`= (g(1)+g(0))/2 - sum_(k=1)^(m-1) B_(k+1)/((k+1)!) (g^((k))(1)
+		- g^((k))(0))`
+		`+ (-1)^m/(m!) int_0^1 B_m(x) g^((m))(x) dx`.
+	</span>
+	在上式中令 `g(x) = f(x+n)`, 注意到对任意 `x in [n,n+1]`,
+	`B_m(x-n) = B_m(x-|__x__|)`, 得到
+	<span class="formula">
+		`int_n^(n+1) f(x) dx`
+		`= (f(n+1)+f(n))/2 - sum_(k=1)^(m-1) B_(k+1)/((k+1)!)
+		(f^((k))(n+1)-f^((k))(n))`
+		`+ (-1)^m/(m!) int_n^(n+1) B_m(x-|__x__|) f^((m))(x) dx`.
+	</span>
+</p>
 
 <h2>Bernoulli 数与 Stirling 公式</h2>
 
