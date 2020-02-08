@@ -237,8 +237,12 @@ function getQuery() {
 
 // load data & find pos
 var args = getQuery();
-var src = (args.g + '/' + args.a + '.html') || localStorage['src'] || tableOfContents[0].articles[0].src;
-var title;
+var src, title;
+if (args.g && args.a) {
+	src = args.g + '/' + args.a + '.html'; 
+} else {
+	src = localStorage['src'] || tableOfContents[0].articles[0].src;
+}
 var pos = [0, 0];
 for (var i = 0; i < tableOfContents.length; ++i) {
   for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
@@ -253,7 +257,6 @@ jump();
 
 function jump() {
   localStorage['src'] = src;
-  localStorage['title'] = title;
   iframe.setAttribute('src', src);
   artitle.innerHTML = title;
   hideNav(true);
