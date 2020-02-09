@@ -351,9 +351,9 @@
 	等等.
 </p>
 
-<h2>Bernoulli 数与 Stirling 数</h2>
+<h2>Euler-Maclaurin 求和公式</h2>
 
-<h2>Bernoulli 数与调和级数</h2>
+<h3>Bernoulli 数与调和级数</h3>
 
 <ol class="lemma">
 	<li>`sum_(k=n)^oo 1/(k(k+1) cdots (k+m))`
@@ -446,7 +446,7 @@
 	</li>
 </ol>
 
-<p class="remark">
+<p class="remark" id="rem-conj-harmonic">
 	继续计算, 得到:
 	<span class="formula">
 		`a_n = gamma + 1/(2n) - 1/(6*2n^2) + 1/(30*4n^4) - 1/(42*6n^6)+ cdots`.
@@ -457,7 +457,7 @@
 	</span>
 </p>
 
-<h2>Euler-Maclaurin 求和公式</h2>
+<h3>Euler-Maclaurin 求和公式</h3>
 
 <p>	在探讨前 `x` 个自然数 `n` 次幂的求和公式时, 采用了化求和
 	`sum_(i=1)^x i^n` 为积分 `int_0^x B_n^+(y) dy` 的方法.
@@ -466,19 +466,20 @@
 </p>
 
 <p class="theorem">
+	<b>Euler-Maclaurin 求和公式</b>
 	设函数 `f in C^m[a,b]`, `m ge 1`, `a,b` 为整数. 则
 	<span class="formula">
 		`sum_(n=a)^b f(n) = int_a^b f(x) dx + (f(a)+f(b))/2`
 		`+ sum_(k=1)^(m-1) B_(k+1)/((k+1)!) (f^((k))(b) - f^((k))(a))`
-		`- (-1)^m/m int_a^b B_m(x-|__x__|) f^((m))(x) dx`.
+		`- (-1)^m/(m!) int_a^b B_m(x-|__x__|) f^((m))(x) dx`.
 	</span>
 	上式等号右端的前两项相当于梯形公式
 	<span class="formula">
 		`int_a^b f(x) dx ~~ sum_(n=a)^b f(n) - (f(a)+f(b))/2`,
 	</span>
-	它用一系列以整数点为中心, 宽度为 `1`, 高度为 `f(n)`
-	的矩形面积来估计积分 `int_a^b f(x) dx`. 注意左右两端的矩形宽度只有
-	`1/2`, 这就是第二项的由来.
+	它用一系列以 `[n-1/2, n+1/2]` 为底, 以 `f(n)` 为高的矩形面积来估计积分
+	`int_a^b f(x) dx`. 注意左右两端的矩形宽度只有 `1/2`,
+	这就是第二项的由来.
 </p>
 
 <p class="proof">
@@ -498,13 +499,81 @@
 		- g^((k))(0))`
 		`+ (-1)^m/(m!) int_0^1 B_m(x) g^((m))(x) dx`.
 	</span>
-	在上式中令 `g(x) = f(x+n)`, 注意到对任意 `x in [n,n+1]`,
-	`B_m(x-n) = B_m(x-|__x__|)`, 得到
+	在上式中令 `g(x) = f(x+n)`,
 	<span class="formula">
 		`int_n^(n+1) f(x) dx`
 		`= (f(n+1)+f(n))/2 - sum_(k=1)^(m-1) B_(k+1)/((k+1)!)
 		(f^((k))(n+1)-f^((k))(n))`
-		`+ (-1)^m/(m!) int_n^(n+1) B_m(x-|__x__|) f^((m))(x) dx`.
+		`+ (-1)^m/(m!) int_n^(n+1) B_m(x-n) f^((m))(x) dx`.
+	</span>
+	再令 `n = a` 到 `b-1` 求和,
+	注意到对任意 `x in [n,n+1]` 有 `B_m(x-n) = B_m(x-|__x__|)`,
+	就得到结论.
+</p>
+
+<p class="corollary">
+	<b>Bernoulli 数与调和级数</b>
+	<a class="ref" href="#rem-conj-harmonic"></a>
+	中的猜想是正确的.
+</p>
+
+<p class="proof">
+	在 Euler-Maclaurin 公式中取 `f(k) = 1/k`, `a = 1`, `b = n`. 由
+	<span class="formula">
+		`int_1^n dx/x = ln n`,
+		`quad "d"^k/dx^k (1/x)`
+		`= ((-1)^k k!)/x^(1+k)`,
+	</span>
+	得到
+	<span class="formula">
+		`a_n = sum_(k=1)^n 1/k - ln n`
+		`= 1/2(1+1/n) + sum_(k=1)^(m-1) B_(k+1)/(k+1)(1 - 1/n^(1+k))`
+		`- int_1^n (B_m(x-|__x__|))/x^(1+m) dx`.
+	</span>
+	取极限,
+	<span class="formula">
+		`gamma = lim_(n to oo) a_n`
+		`= 1/2 + sum_(k=1)^(m-1) B_(k+1)/(k+1)`
+		`- int_1^oo (B_m(x-|__x__|))/x^(1+m) dx`.
+	</span>
+	两式相减,
+	<span class="formula">
+		`a_n - gamma`
+		`= 1/(2n) - sum_(k=1)^(m-1) B_(k+1)/(k+1) 1/n^(1+k) + int_n^oo
+		(B_m(x-|__x__|))/x^(1+m) dx`.
+	</span>
+	因为 `B_m(x-|__x__|)` 是有界函数, 我们设它的模不超过 `C`, 则
+	<span class="formula">
+		`|int_n^oo (B_m(x-|__x__|))/x^(1+m) dx|`
+		`le C int_n^oo dx/x^(1+m)`
+		`= C/(m n^m)`
+		`= O(1/n^m)`.
+	</span>
+	于是
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^m B_k^(-)/(k n^k) + O(1/n^(m+1))`.
+	</span>
+</p>
+
+<p class="corollary">
+	<b>Bernoulli 数与 Stirling 级数</b>
+	在 Euler-Maclaurin 公式中取 `f(k) = ln k`, `a = 1`, `b = n`. 由
+	<span class="formula">
+		`int_1^n ln x dx = n(ln n-1)`,<br/>
+		`quad "d"^k/dx^k (ln x) = (-1)^(k-1) (k-1)! x^-k`, `quad k ge 1`,
+	</span>
+	得到
+	<span class="formula">
+		`ln n! = sum_(k=1)^n ln k`
+		`= n(ln n-1) + 1/2 ln n + sum_(k=1)^(m-1) B_(k+1)/(k(k+1))
+		(1/n^k-1)`
+		`+ 1/m int_1^n (B_m(x-|__x__|))/x^m dx`.
+	</span>
+	取极限
+	<span class="formula">
+		`ln n! - n(ln n-1) - 1/2 ln n`
+		`- sum_(k=1)^(m-1) B_(k+1)/(k(k+1)) + 1/m int_1^n
+		(B_m(x-|__x__|))/x^m dx`.
 	</span>
 </p>
 
@@ -526,6 +595,8 @@
 <span class="formula">
 	`n! = sqrt(2 pi n) (n/"e")^n (1 + 1/(12n) + 1/(288n^2) + cdots)`
 </span>
+
+<h2>Bernoulli 数与 Stirling 数</h2>
 
 <h2>`zeta(2k)` 的求值</h2>
 

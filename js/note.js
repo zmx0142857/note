@@ -491,6 +491,8 @@ decorate([
 	{name:'example', getBy:'class', word:'例', style:Sname_num},
 	{name:'remark', getBy:'class', word:'注', style:Sname_num},
 	{name:'question', getBy:'class', word:'问题', style:Sname_num},
+  {name:'conjecture', getBy:'class', word:'猜想', style:Sname_num},
+  {name:'hypothesis', getBy:'class', word:'假设', style:Sname_num},
 	{name:'theorem', getBy:'class', word:'定理', style:Sname_num},
   {name:'proposition', getBy:'class', word:'命题', style:Sname_num},
 	{name:'definition', getBy:'class', word:'定义', style:Sname_num},
@@ -503,8 +505,6 @@ decorate([
 	{name:'principle', getBy:'class', word:'原理', style:Sname_num},
 	{name:'axiom', getBy:'class', word:'公理', style:Sname_num},
 	{name:'property', getBy:'class', word:'性质', style:Sname_num},
-	// place this before 证 and 解. got problem with the numbering.
-	{name:'method', getBy:'class', word:'法', style:Snum},
 	{name:'label', getBy:'class', word:'', style:Sformula},
 	{name:'label-phantom', getBy:'class', word:'', style:Sformula},
 ]);
