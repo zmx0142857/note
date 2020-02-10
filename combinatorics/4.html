@@ -186,9 +186,9 @@
 	因此 `tan x` 的 Maclaurin 展开系数全为正, 等等.)(?)
 </p>
 
-<p>	利用递推公式计算前几个 Bernoulli 数如下. 有趣的是
-	`B_3^+ = B_5^+ = B_7^+ = cdots = 0`,
-	这一点我们稍后证明.
+<p>	利用递推公式计算前几个 Bernoulli 数如下. 其中除了 `B_1^+ = 1/2`,
+	`B_1^(-) = -1/2` 外, 均有 `B_n^+ = B_n^(-)`.
+	有趣的是 `B_3 = B_5 = B_7 = cdots = 0`, 这一点我们稍后证明.
 </p>
 
 <table style="font-size:.85em;text-align:center">
@@ -208,9 +208,9 @@
 		<td>`20`</td>
 	</tr>
 	<tr>
-		<td>`B_n^+`</td>
+		<td>`B_n`</td>
 		<td>`1`</td>
-		<td>`1/2`</td>
+		<td>`+-1/2`</td>
 		<td>`1/6`</td>
 		<td>`-1/30`</td>
 		<td>`1/42`</td>
@@ -240,7 +240,7 @@
 <p class="corollary">
 	`B_n^(-) = B_n(0) = (-1)^n B_n(1) = (-1)^n B_n^+`.
 	但是对任意 `n != 1` 有 `B_n^+ = B_n^(-)`,
-	所以对任意奇数 `n ge 3`, `B_n^+ = 0`.
+	所以对任意奇数 `n ge 3`, `B_n = 0`.
 </p>
 
 <h3>生成函数</h3>
@@ -475,11 +475,10 @@
 	</span>
 	上式等号右端的前两项相当于梯形公式
 	<span class="formula">
-		`int_a^b f(x) dx ~~ sum_(n=a)^b f(n) - (f(a)+f(b))/2`,
+		`int_a^b f(x) dx ~~ sum_(n=a)^(b-1) (f(n)+f(n+1))/2`,
 	</span>
-	它用一系列以 `[n-1/2, n+1/2]` 为底, 以 `f(n)` 为高的矩形面积来估计积分
-	`int_a^b f(x) dx`. 注意左右两端的矩形宽度只有 `1/2`,
-	这就是第二项的由来.
+	它用一系列宽度为 `1`, 两底长分别为 `f(n)` 和 `f(n+1)`
+	的梯形面积来估计积分 `int_a^b f(x) dx`.
 </p>
 
 <p class="proof">
@@ -512,9 +511,8 @@
 </p>
 
 <p class="corollary">
-	<b>Bernoulli 数与调和级数</b>
-	<a class="ref" href="#rem-conj-harmonic"></a>
-	中的猜想是正确的.
+	<b>调和级数的估计</b>
+	<a class="ref" href="#rem-conj-harmonic"></a> 中的猜想是正确的.
 </p>
 
 <p class="proof">
@@ -556,45 +554,68 @@
 </p>
 
 <p class="corollary">
-	<b>Bernoulli 数与 Stirling 级数</b>
-	在 Euler-Maclaurin 公式中取 `f(k) = ln k`, `a = 1`, `b = n`. 由
+	<b>Stirling 级数</b>
 	<span class="formula">
-		`int_1^n ln x dx = n(ln n-1)`,<br/>
+		`n! = sqrt(2pi n) (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
+		1/n^k + O(1/n^(m+1)))`.
+	</span>
+</p>
+
+<ol class="proof">
+	<li>在 Euler-Maclaurin 公式中取 `f(k) = ln k`, `a = 1`, `b = n`. 由
+	<span class="formula">
+		`sum_(k=1)^n ln k = ln n!`,<br/>
+		`int_1^n ln x dx = n(ln n-1) + 1`,<br/>
 		`quad "d"^k/dx^k (ln x) = (-1)^(k-1) (k-1)! x^-k`, `quad k ge 1`,
 	</span>
 	得到
 	<span class="formula">
-		`ln n! = sum_(k=1)^n ln k`
-		`= n(ln n-1) + 1/2 ln n + sum_(k=1)^(m-1) B_(k+1)/(k(k+1))
-		(1/n^k-1)`
+		`ln n! - 1/2 ln n - n(ln n-1)`
+		`= 1 + sum_(k=1)^(m-1) B_(k+1)/(k(k+1)) (1/n^k-1)`
 		`+ 1/m int_1^n (B_m(x-|__x__|))/x^m dx`.
 	</span>
 	取极限
 	<span class="formula">
-		`ln n! - n(ln n-1) - 1/2 ln n`
-		`- sum_(k=1)^(m-1) B_(k+1)/(k(k+1)) + 1/m int_1^n
-		(B_m(x-|__x__|))/x^m dx`.
+		`a := lim_(n to oo) (ln n! - 1/2 ln n - n(ln n-1))`
+		`= 1-sum_(k=1)^(m-1) B_(k+1)/(k(k+1))`
+		`+ 1/m int_1^oo (B_m(x-|__x__|))/x^m dx`.
 	</span>
-</p>
-
-<h2>Bernoulli 数与 Stirling 公式</h2>
-
-<p class="example">
-	`"d"/dx ln Gamma(x)` 的递推公式.
+	两式相减
 	<span class="formula">
-		`Gamma(x+1) = x Gamma(x)`<br/>
-		`ln Gamma(x+1) = ln x + ln Gamma(x)`<br/>
-		`"d"/dx ln Gamma(x+1) = 1/x + "d"/dx ln Gamma(x)`.
+		`ln n! - ln(sqrt n(n/"e")^n) - a`
+		`= sum_(k=1)^(m-1) B_(k+1)/(k(k+1)) 1/n^k`
+		`+ O(1/n^(m-1))`,
 	</span>
-	记 `f(x) = "d"/dx ln Gamma(x) = (Gamma'(x))/(Gamma(x))`, 则
+	移项后两边取指数,
 	<span class="formula">
-		`f(x+1) - f(x) = 1/x`.
+		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^(m-1) B_(k+1)/(k(k+1))
+		1/n^k + O(1/n^(m-1)))`.
+		<span class="label" id="for-On^(1-m)"></span>
 	</span>
-</p>
-
-<span class="formula">
-	`n! = sqrt(2 pi n) (n/"e")^n (1 + 1/(12n) + 1/(288n^2) + cdots)`
-</span>
+	以 `m` 代替上式的 `m-1`, 又得到
+	<span class="formula">
+		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
+		1/n^k + O(1/n^m))`.
+	</span>
+	两式比较可以发现, <a class="ref" href="#for-On^(1-m)"></a>
+	中的余项 `O(1/n^(m-1))` 实际上可以换成 `O(1/n^m)`. 于是
+	<span class="formula">
+		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
+		1/n^k + O(1/n^(m+1)))`.
+	</span>
+	</li>
+	<li>下面确定公式中的常数 `"e"^a`. 由 1. 得
+		<span class="formula">
+			`n! = "e"^a sqrt n (n/"e")^n exp(O(1/n))`
+			`= "e"^a sqrt n (n/"e")^n (1 + O(1/n))`.
+		</span>
+		将其代入 <a href="../analysis/7.html#for-wallis">Wallis 公式</a>
+		<span class="formula">
+			`pi/2 = lim_(n to oo) ((2n)!!)^2/((2n-1)!!(2n+1)!!)`,
+		</span>
+		就可算出 `"e"^a = sqrt(2pi)`.
+	</li>
+</ol>
 
 <h2>Bernoulli 数与 Stirling 数</h2>
 

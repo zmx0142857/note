@@ -339,6 +339,34 @@
 	易求得 `I_0 = pi/2`, `I_1 = 1`. 由递推公式马上得到上面的结论.
 </p>
 
+<p class="example" id="for-wallis">
+	<b>Wallis 公式</b>
+	`lim_(n to oo) ((2n)!!)^2/((2n-1)!!(2n+1)!!) = pi/2`.
+	尽管只有乘除法因而计算简便, 但 Wallis 公式的收敛速度不快,
+	不适合直接用来计算 `pi`.
+</p>
+
+<p class="proof">
+	由于
+	<span class="formula">
+		`sin^(2n+1) x le sin^(2n) x le sin^(2n-1) x`, `quad 0 le x le
+		pi/2`,
+	</span>
+	积分得
+	<span class="formula">
+		`int_0^(pi/2) sin^(2n+1)x le int_0^(pi/2) sin^(2n) x le int_0^(pi/2) sin^(2n-1) x`.
+	</span>
+	即
+	<span class="formula">
+		`((2n)!!)/((2n+1)!!) le ((2n-1)!!)/((2n)!!) pi/2 le ((2n-2)!!)/((2n-1)!!)`.
+	</span>
+	于是
+	<span class="formula">
+		`pi/2 (2n)/(2n+1) le ((2n)!!)^2/((2n-1)!!(2n+1)!!) le pi/2`.
+	</span>
+	由两边夹法则立即得到结论.
+</p>
+
 <h4>第二类 Euler 积分: Gamma 函数</h4>
 
 <span class="formula">
@@ -483,6 +511,108 @@
 	`Gamma(x) Gamma(x+1/2) = (sqrt(2pi)) 4^-x Gamma(2x)`,<br/>
 	`prod_(k=0)^(n-1) Gamma(x+k/n)`
 	`= (2pi)^((n-1)/2) n^(-n x) Gamma(n x)`.
+</p>
+
+<p>	下文推导阶乘函数的 Stirling 公式, 为此先证明一个 (冗长但实用的) 引理.</p>
+
+<p class="lemma">
+	<b>Laplace 方法</b>
+	设 `f in C^2[a,b]`.  `x_0 in (a,b)` 是 `f` 唯一的极大值点, `f''(x_0)
+	= -lambda lt 0`, 则
+	<span class="formula">
+		`int_a^b "e"^(M f(x)) dx\ ~\ "e"^(M f(x_0)) sqrt((2pi)/(M lambda))`,
+		`quad M to oo`.
+	</span>
+	这意味着 `"e"^(M f(x))` 在整个区间上的积分值几乎都集中在 `x_0` 附近,
+	且可以用 `f` 的二阶 Taylor 展开
+	<span class="formula">
+		`int_(-oo)^oo "e"^(M f(x_0) - M lambda(x-x_0)^2/2) dx`
+	</span>
+	来估计.
+</p>
+
+<p class="proof">
+	将 `f` 在 `x_0` 处展开, 因为是极大值点, `f'(x_0) = 0`, 有
+	<span class="formula">
+		`f(x) = f(x_0) + f''(x_0+theta(x-x_0)) (x-x_0)^2/2`.
+	</span>
+	由二阶导数连续, 对任意 `epsi gt 0`, 当 `x` 与 `x_0` 充分接近时,
+	<span class="formula">
+		`f''(x_0)-epsi le f''(x_0+theta(x-x_0)) le f''(x_0)+epsi`,
+	</span>
+	从而
+	<span class="formula">
+		`f(x_0) - (lambda+epsi) (x-x_0)^2/2`
+		`le f(x)`
+		`le f(x_0) - (lambda-epsi) (x-x_0)^2/2`.
+	</span>
+	取 `delta gt 0` 充分小. 一方面, 注意到 `int_(-oo)^oo "e"^(-y^2/2) dy
+	= sqrt (2pi)`, 有
+	<span class="formula">
+		`int_a^b "e"^(M f(x)) dx`
+		`ge int_(x_0-delta)^(x_0+delta)
+		"e"^(M f(x_0)-M(lambda+epsi)(x-x_0)^2/2) dx`
+		`= int_(-delta sqrt(M(lambda+epsi)))^(delta sqrt(M(lambda+epsi)))
+		"e"^(M f(x_0) - y^2/2)/sqrt(M(lambda+epsi)) dy`
+		`~ "e"^(M f(x_0)) sqrt((2pi)/(M(lambda+epsi)))`;
+	</span>
+	另一方面, 由 `x_0` 是唯一的极大值点知, 存在 `eta gt 0` 使得
+	<span class="formula">
+		`f(x) le f(x_0)-eta`, `quad |x-x_0| ge delta`.
+		<span class="label" id="for-eta-condition"></span>
+	</span>
+	不妨设 `lambda-epsi gt 0`, 得到
+	<span class="formula">
+		`int_a^b "e"^(M f(x)) dx`
+		`= int_a^(x_0-delta) + int_(x_0-delta)^(x_0+delta)
+		+ int_(x_0+delta)^b`
+		`le (b-a)"e"^(M(f(x_0)-eta)) + int_(x_0-delta)^(x_0+delta)
+		"e"^(M f(x_0)-M(lambda-epsi)(x-x_0)^2/2) dx`
+		`~ "e"^(M f(x_0)) ((b-a)"e"^(-M eta) + sqrt((2pi)/(M(lambda-epsi))))`
+		`~ "e"^(M f(x_0)) sqrt((2pi)/(M(lambda-epsi)))`.
+	</span>
+	令 `epsi to 0`, 由两边夹法则即得结论.
+</p>
+
+<p class="remark">
+	若 `[a, b]` 是无限区间, 要使引理成立, 还需两个充分条件. 一是满足条件
+	<a class="ref" href="#for-eta-condition"></a> 的 `eta` 存在,
+	二是存在 `M_0 gt 0`, 使得 `int_a^b "e"^(M_0 f(x)) dx lt oo`.
+	此时有
+	<span class="formula">
+		`int_a^(x_0-delta) "e"^(M f(x)) dx + int_(x_0+delta)^b "e"^(M
+		f(x)) dx`
+		`le int_a^b "e"^(M_0 f(x)) "e"^((M-M_0) f(x)) dx`
+		`le int_a^b "e"^(M_0 f(x)) "e"^((M-M_0) (f(x_0)-eta)) dx`
+		`= O("e"^((M-M_0) (f(x_0)-eta)))`,
+	</span>
+	代入前面的证明, 得到相同的结果.
+</p>
+
+<p class="theorem">
+	<b>Stirling 公式</b> `n! ~ sqrt(2pi n) (n/"e")^n`, `quad n to oo`.
+</p>
+
+<p class="proof">
+	利用 Gamma 函数,
+	<span class="formula">
+		`n! = Gamma(n+1)`
+		`= int_0^oo "e"^(-t) t^n dt`
+		(令 `t = n x`)
+		`= n^(n+1) int_0^oo "e"^(-n x) x^n dx`
+		`= n^(n+1) int_0^oo "e"^(n(ln x-x)) dx`.
+	</span>
+	应用 Laplace 方法, 其中
+	<span class="formula">
+		`f(x) = ln x-x`, `quad f'(x) = 1/x-1`, `quad f''(x)
+		  = -1/x^2`,<br/>
+		`f'(1) = 0`, `quad f(1) = f''(1) = -1`.
+	</span>
+	有
+	<span class="formula">
+		`n! ~ n^(n+1) "e"^-n sqrt((2pi)/n)`
+		`= sqrt(2pi n) (n/"e")^n`.
+	</span>
 </p>
 
 <script src="../js/note.js?type=math"></script>

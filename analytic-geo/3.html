@@ -227,30 +227,19 @@
 
 <ul>联立圆锥曲线方程与直线方程, 利用 Vieta 定理:
 	<li>椭圆 `x^2/a^2+y^2/b^2 = 1` 与直线 `A x + B y + C = 0`.
-		记 `M = A^2 a^2 + B^2 b^2`, 则
-		`Delta ge 0 iff M ge C^2`,
+		记 `M = A^2 a^2 + B^2 b^2`, `delta = M-C^2`, 则
+		`Delta ge 0 iff delta ge 0`,
 		<span class="formula">
 			`x_1 + x_2 = -2 A C a^2// M`,
-			`quad y_1 + y_2 = -2 B C b^2// M`,<br/>
-			`x_1 x_2 = (C^2 - B^2 b^2) a^2// M`,
-			`quad y_1 y_2 = (C^2 - A^2 a^2) b^2// M`
+			`quad x_1 x_2 = (C^2 - B^2 b^2) a^2// M`,<br/>
+			`x_1 y_2 + x_2 y_1 = x_1 (A x_2+C)/(-B) + x_2 (A x_1+C)/(-B)`
+			`= (2 A B a^2 b^2)//M`,<br/>
+			`|x_1-x_2| = sqrt((x_1+x_2)^2-4x_1 x_2)`
+			`= (2 a b|B| sqrt(delta))//M`,<br/>
 		</span>
-		特别 `A = -k`, `B = 1`, `C = -t` 时, 直线为 `y = k x + t`,
-		`M = a^2 k^2 + b^2`, `Delta ge 0 iff M ge t^2`,
-		<span class="formula">
-			`x_1 + x_2 = -2 k t a^2 // M`,
-			`quad y_1 + y_2 = 2 t b^2 // M`,<br/>
-			`x_1 x_2 = (t^2-b^2)a^2//M`,
-			`quad y_1 y_2 = (t^2-a^2 k^2)b^2//M`.
-		</span>
-		特别 `A = 1`, `B = -m`, `C = -n` 时, 直线为 `x = m y + n`,
-		`M = b^2 m^2 + a^2`, `Delta ge 0 iff M ge n^2`,
-		<span class="formula">
-			`y_1 + y_2 = -2 m n b^2 // M`,
-			`quad x_1 + x_2 = 2n a^2 //M`<br/>
-			`y_1 y_2 = (n^2-a^2)b^2//M`,
-			`quad x_1 x_2 = (n^2-b^2 m^2)a^2//M`.
-		</span>
+		`y_1, y_2` 的相关公式, 只需将 `A`, `B` 对调, `a, b` 对调即可.
+		(前三条公式的系数可以这样记忆: 取 `x_1 = x_2 = y_1 = y_2 = -1`,
+		那么 `x_1 + x_2 = -2`, `x_1 x_2 = 1`, `x_1 y_2 + x_2 y_1 = 2`)
 	</li>
 	<li>双曲线 `x^2/a^2-y^2/b^2 = 1` (或 `y^2/b^2-x^2/a^2 = 1`),
 		只需将椭圆的结果中的 `b^2` 换成 `-b^2`
@@ -260,9 +249,10 @@
 		`Delta ge 0 iff p^2 m^2 + 2 p n ge 0`.
 		<span class="formula">
 			`y_1 + y_2 = 2 p m`,
-			`quad x_1 + x_2 = 2 p m^2 + 2 n`,<br/>
-			`y_1 y_2 = -2 p n`,
-			`quad x_1 x_2 = n^2`.
+			`quad y_1 y_2 = -2 p n`,<br/>
+			`x_1 + x_2 = m y_1 + n + m y_2 + n`
+			`= 2 p m^2 + 2 n`,
+			`quad x_1 x_2 = y_1^2/(2p) y_2^2/(2p) = n^2`.
 		</span>
 		特别令 `n = p/2`, 焦点弦满足 `x_1 x_2 = p^2/4`, `y_1 y_2 = -p^2`.
 	</li>
