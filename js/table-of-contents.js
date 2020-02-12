@@ -100,6 +100,17 @@ var tableOfContents = [ {
 		{title:'Hilbert 空间及其上的有界线性算子', src:'functional/4.html'},
 	]
 	}, {
+	title:'抽象代数',
+	articles: [
+		{title:'群 (上)', src:'abstract/2.html'},
+		{title:'群 (中)', src:'abstract/3.html'},
+		{title:'群 (下)', src:'abstract/4.html'},
+		{title:'半群', src:'abstract/5.html'},
+		{title:'环', src:'abstract/6.html'},
+		{title:'域', src:'abstract/7.html'},
+		{title:'Galois 理论', src:'abstract/8.html'},
+	]
+	}, {
 	title:'拓扑学',
 	articles: [
 		{title:'拓扑空间与连续映射', src:'topology/1.html'},
@@ -146,35 +157,24 @@ var tableOfContents = [ {
 		{title:'曲面的内蕴几何学', src:'diff-geo/5.html'},
 	]
 	}, {
+	title:'数论',
+	articles: [
+		{title:'整除', src:'number/1.html'},
+		{title:'不定方程', src:'number/5.html', isnew:true},
+		{title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html', isnew:true},
+	]
+	}, {
 	title:'组合数学',
 	articles: [
 		{title:'组合数学', src:'combinatorics/1.html'},
 		{title:'排列与组合', src:'combinatorics/2.html'},
 		{title:'递推式与生成函数', src:'combinatorics/3.html'},
-		{title:'Bernoulli 数', src:'combinatorics/4.html', isnew:true},
 		{title:'容斥原理', src:'combinatorics/5.html'},
 	]
 	}, {
 	title:'图论',
 	articles: [
 		{title:'Paths and cycles', src:'graph/2.html'},
-	]
-	}, {
-	title:'抽象代数',
-	articles: [
-		{title:'群 (上)', src:'abstract/2.html'},
-		{title:'群 (中)', src:'abstract/3.html'},
-		{title:'群 (下)', src:'abstract/4.html'},
-		{title:'半群', src:'abstract/5.html'},
-		{title:'环', src:'abstract/6.html'},
-		{title:'域', src:'abstract/7.html'},
-		{title:'Galois 理论', src:'abstract/8.html'},
-	]
-	}, {
-	title:'初等数论',
-	articles: [
-		{title:'整除', src:'number/1.html'},
-		{title:'不定方程', src:'number/5.html', isnew:true},
 	]
 	}, {
 	title:'数学游戏',

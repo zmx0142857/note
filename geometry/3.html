@@ -443,7 +443,7 @@
 	在 `triangle ABC` 中, 分别用 `a, b, c` 记三个角 `A, B, C` 的对边,
 	点 `P` 满足 `vec(AP) = lambda vec(PB). 则
 	<li>`P` 是 `AB` 中点时, `lambda = 1`;</li>
-	<li>`CP` 是 `/_ACB` 的平分线时,
+	<li>(角平分线定理) `CP` 是 `/_ACB` 的平分线时,
 		`lambda = S_(ACP)/S_(BCP) = b/a = (sin B)/(sin A)`;
 	</li>
 	<li>`CP` 是 `AB` 边上的高时,
@@ -553,22 +553,55 @@
 </p>
 
 <p class="corollary">
-	设 `triangle ABC` 的面积为 `S`,
+	设 `triangle ABC` 的面积为 `S`, `p = (a+b+c)//2`,
 	则内切圆 `I`, 旁切圆 `J_A, J_B, J_C` 的半径分别是
 	<span class="formula">
-		`r = (2S)/(a+b+c)`,
-		`quad r_A = (2S)/(-a+b+c)`,
-		`quad r_B = (2S)/(a-b+c)`,
-		`quad r_C = (2S)/(a+b-c)`.
+		`r = S/p`,
+		`quad r_A = S/(p-a)`,
+		`quad r_B = S/(p-b)`,
+		`quad r_C = S/(p-c)`.
 	</span>
-	由三角形面积的 Heron 公式,
-	<span class="formula">
-		`S^2 = S/r S/r_A S/r_B S/r_C`,
-	</span>
-	即
+	由三角形面积的 Heron 公式推知,
 	<span class="formula">
 		`S^2 = r r_A r_B r_C`.
 	</span>
+</p>
+
+<p class="proof">
+	注意到 `S` 是 `triangle BCI`, `triangle CAI`, `triangle ABI`
+	的面积之和:
+	<span class="formula">
+		`S = 1/2 a r + 1/2 b r + 1/2 c r`,
+	</span>
+	即得到 `r = S//p`.<br/>
+	再由 `S` 是 `triangle BCJ_A`, `triangle CAJ_A`, `triangle ABJ_A`
+	的有向面积之和:
+	<span class="formula">
+		`S = -1/2 a r_A + 1/2 b r_A + 1/2 c r_A`,
+	</span>
+	即得到 `r_A = S//(p-a)`
+</p>
+
+<p class="corollary">
+	<b>余切定理</b>
+	`triangle ABC` 中, 记 `p = (a+b+c)//2`, `r` 为内切圆半径, 则
+	<span class="formula">
+		`cot{:A/2:} = (p-a)/r`,
+		`quad cot{:B/2:} = (p-b)/r`,
+		`quad cot{:C/2:} = (p-c)/r`.
+	</span>
+	结合内, 外切圆的半径长度, 有: 三角形每个外切圆到其对面顶点 (如,
+	圆 `J_A` 到点 `A`) 的切线长都等于 `p`.
+</p>
+
+<p class="proof">
+	设内切圆 `I` 在边 `AB, BC, CA` 上的切点分别为 `P, Q, R`. 设 `AP = AR
+	= x`, `BP = BQ = y`, `CQ = CR = z`, 于是
+	<span class="formula">
+		`y+z = a`, `quad z+x = b`, `quad x+y = c`.
+	</span>
+	解得 `x = p-a`, `y = p-b`, `z = p-c`.
+	在 `triangle API` 中可以验证 `cot{:A/2:}`. 其余类似.
 </p>
 
 <p class="corollary">

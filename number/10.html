@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Bernoulli 数</title>
+<title>Bernoulli 数与 Riemann zeta 函数</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -85,7 +85,7 @@
 </p>
 
 <ol class="definition">
-	<li><b>第一类 Bernoulli 数</b>是 `B_n(x)` 的常数项:
+	<li><b>第一类 Bernoulli 数</b>是 `B_n^(-)(x)` 的常数项:
 		`B_n^(-) := B_n^(-)(0) = B_n^+(-1)`;
 	</li>
 	<li><b>第二类 Bernoulli 数</b>是 `B_n^+(x)` 的常数项, 也是 `B_n(x)`
@@ -135,6 +135,8 @@
 		`= sum_(k=0)^(n-1) (n;k) B_k^+ x^(n-k)`.
 	</span>
 </p>
+
+<h2>Bernoulli 数与 Stirling 数</h2>
 
 <h2>Bernoulli 数的递推公式与生成函数</h2>
 
@@ -604,22 +606,210 @@
 		1/n^k + O(1/n^(m+1)))`.
 	</span>
 	</li>
-	<li>下面确定公式中的常数 `"e"^a`. 由 1. 得
+	<li>下面确定公式中的常数 `c = "e"^a`. 由 1. 得
 		<span class="formula">
-			`n! = "e"^a sqrt n (n/"e")^n exp(O(1/n))`
-			`= "e"^a sqrt n (n/"e")^n (1 + O(1/n))`.
+			`n! = c sqrt n (n/"e")^n exp(O(1/n))`
+			`~ c sqrt n (n/"e")^n`.
 		</span>
 		将其代入 <a href="../analysis/7.html#for-wallis">Wallis 公式</a>
 		<span class="formula">
 			`pi/2 = lim_(n to oo) ((2n)!!)^2/((2n-1)!!(2n+1)!!)`,
 		</span>
-		就可算出 `"e"^a = sqrt(2pi)`.
+		或者代入
+		<span class="formula">
+			`Gamma(n+1/2) = ((2n-1)!!)/2^n sqrt pi`
+			`= ((2n)!)/(n!) (sqrt pi)/2^(2n)`
+		</span>
+		就可算出 `c = sqrt(2pi)`. 今代入后者, 有
+		<span class="formula">
+			`c = lim_(n to oo) (sqrt pi)/2^(2n) (sqrt(2n)
+			((2n)/"e")^(2n))/(sqrt n(n/"e")^n sqrt(n-1/2) ((n-1/2)/"e")^(n-1/2))`
+			`= lim_(n to oo) sqrt((2pi)/"e") (1-1/(2n))^-n`
+			`= sqrt(2pi)`.
+		</span>
 	</li>
 </ol>
 
-<h2>Bernoulli 数与 Stirling 数</h2>
+<p class="example">
+	再次导出前 `x` 个自然数 `n` 次幂的和.
+</p>
+
+<p class="proof">
+    在 Euler-Maclaurin 公式中取 `f(k) = k^(m-1)`, `a = 1`, `b = n`. 由
+    <span class="formula">
+        `int_1^n x^(m-1) dx = 1/m(n^m-1)`,
+        `quad "d"^(k-1)/dx^(k-1) x^(m-1) = (m-1) (m-2) cdots (m-k) x^(m-k)`, `k = 2, 3, cdots, m`,<br/>
+        `"d"^m/dx^m x^(m-1) = 0`,
+    </span>
+    得到
+    <span class="formula">
+        `sum_(k=1)^n k^(m-1)`
+        `= 1/m(n^m-1) + (1+n^(m-1))/2 + sum_(k=2)^m B_k/k (m-1;k-1) (n^(m-k)-1)`
+        `= 1/m(n^m-1) + (1+n^(m-1))/2 + sum_(k=2)^m B_k/m (m;k)
+        (n^(m-k)-1)`
+        `= 1/m sum_(k=0)^m B_k^+ (m;k) (n^(m-k)-1) + 1`
+        `= 1/m sum_(k=0)^(m-1) B_k^+ (m;k) (n^(m-k)-1) + 1`
+        `= 1/m sum_(k=0)^(m-1) B_k^+ (m;k) n^(m-k)`.
+    </span>
+    最后一步利用了 Bernoulli 数的递推公式.
+</p>
+
+<p class="example">
+    将 Riemann zeta 函数的定义域延拓到 `CC\\{0}` 上, 并求 `zeta(-k)` 的值,
+    `k` 为非负整数.
+</p>
+
+<ol class="solution">
+    <li>
+	在 Euler-Maclaurin 公式中取 `f(k) = 1/k^s`, `"Re"(s) gt 1`,
+	`a = 1`, `b = n`. 由
+	<span class="formula">
+		`int_1^n dx/x^s = 1/(s-1) (1-1/n^(s-1))`,
+		`quad "d"^k/dx^k (1/x^s) = (-1)^k s(s+1) cdots (s+k-1) 1/x^(s+k)`,
+	</span>
+	得到
+	<span class="formula">
+		`sum_(k=1)^n 1/k^s`
+		`= 1/(s-1) (1-1/n^(s-1)) + 1/2(1+1/n^s)`
+		`+ sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1) (1-1/n^(s+k))`
+		`- int_1^n (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+	</span>
+	取极限,
+	<span class="formula">
+		`zeta(s) = sum_(k=1)^oo 1/k^s`
+		`= 1/(s-1) + 1/2 + sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1)`
+		`- int_1^oo (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+	</span>
+	两式相减,
+	<span class="formula">
+		`zeta(s) - sum_(k=1)^n 1/k^s`
+		`= 1/((s-1)n^(s-1)) - 1/(2n^s)`
+		`+ sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1) 1/n^(s+k)`
+		`- int_n^oo (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+		<span class="label" id="for-zeta-continuation"></span>
+	</span>
+	对任意的正整数 `m, n`, 上式都成立.
+	注意到只要取适当的 `m` 使得 `s+m gt 1`, 上式最后一项的积分就收敛.
+	假如我们以上式作为 zeta 函数的定义, 那么 `zeta(s)` 的定义域将扩大到
+	`CC \\ {1}`. 这就是 Riemann zeta 函数的解析延拓.
+    </li>
+    <li>
+	将 `s = 1-m` 代入 <a class="ref" href="#for-zeta-continuation"></a>,
+	则最后一项的系数 `(s+m-1; m)` 变为 0, 有
+	<span class="formula">
+		`zeta(1-m) - sum_(k=1)^n k^(m-1)`
+		`= - n^m/m - n^(m-1)/2 + sum_(k=1)^(m-1) (k-m; k) B_(k+1)/(k+1) n^(m-k-1)`
+		`= - n^m/m - n^(m-1)/2 + sum_(k=2)^m (k-1-m; k-1) B_k/k n^(m-k)`
+		`= - n^m/m - n^(m-1)/2 + sum_(k=2)^m (-1)^(k-1)/m (m; k) B_k n^(m-k)`
+		`= - 1/m sum_(k=0)^m (m; k) B_k^+ n^(m-k)`.
+	</span>
+	再由 <a class="ref" href="#for-sum-powers"></a> 得
+	<span class="formula">
+		`zeta(1-m) = -B_m^+/m`, `quad m in ZZ^+`.
+	</span>
+	这一结果解释了流行的说法
+	<span class="formula">
+		`1 + 1 + 1 + cdots = zeta(0) = -B_1^+ = -1/2`,<br/>
+		`1 + 2 + 3 + cdots = zeta(-1) = -B_2/2 = -1/12`,
+	</span>
+	等等.
+    </li>
+</ol>
 
 <h2>`zeta(2k)` 的求值</h2>
+
+<h3>Basel 问题</h3>
+
+<p>证明: `zeta(2) = sum_(n=1)^oo 1/n^2 = pi^2/6`.</p>
+
+<p class="proof">
+	利用 Euler 的无穷乘积
+	<span class="formula">
+		`(sin pi x)/(pi x) = prod_(n=1)^oo (1-x^2/n^2)`,
+	</span>
+	另一方面, 由 Taylor 公式有
+	<span class="formula">
+		`(sin pi x)/(pi x) = 1 - (pi x)^2/(3!) + O(x^3)`.
+	</span>
+	比较两式中 `x^2` 的系数即得:
+    <span class="formula">
+        `sum_(n=1)^oo 1/n^2 = pi^2/6`.
+    </span>
+</p>
+
+<p class="proof">
+    利用三角恒等式
+    <span class="formula">
+        `1/(sin^2 x)`
+        `= (sin^2{:x/2:} + cos^2{:x/2:})/(4 sin^2{:x/2:} cos^2{:x/2:})`
+        `= 1/4 (1/(sin^2{:x/2:}) + 1/(cos^2{:x/2:}))`
+        `= 1/4 (1/(sin^2{:x/2:}) + 1/(sin^2(x/2+pi/2)))`,
+    </span>
+    代入 `x = pi/2` 有
+    <span class="formula">
+        `1 = 1/4 (sin^-2{:pi/4:} + sin^-2{:(3pi)/4:})`
+        `= 1/4^2 (sin^-2{:pi/8:} + sin^-2{:(3pi)/8:} + sin^-2{:(5pi)/8:}
+        + sin^-2{:(7pi)/8:})`<br/>
+        `= 1/4^n sum_(k=1)^(2^n) sin^-2{:((2k-1)pi)/2^(n+1):}`
+        `= 2/4^n sum_(k=1)^(2^(n-1)) sin^-2{:((2k-1)pi)/2^(n+1):}`.
+    </span>
+    其中最后一步利用了互补角的正弦值相等.
+    `AA x in (0, pi/2)`, 有 `sin^-2 x-1 = tan^-2 lt x^-2 lt sin^-2 x`,
+    代入上式得
+    <span class="formula">
+        `1-2^-n lt 8/pi^2 sum_(k=1)^(2^(n-1)) 1/(2k-1)^2 lt 1`.
+    </span>
+    由两边夹法则,
+    <span class="formula">
+        `sum_(k=1)^oo 1/(2k-1)^2 = pi^2/8`.
+    </span>
+    由收敛级数的运算法则,
+    <span class="formula">
+        `zeta(2) = sum_(n=1)^oo 1/n^2`
+        `= sum_(n=1)^oo 1/(2n-1)^2 + sum_(n=1)^oo 1/(2n)^2`
+        `= pi^2/8 + 1/4 zeta(2)`.
+    </span>
+    于是 `zeta(2) = pi^2/6`.
+</p>
+
+<p class="proof">
+    记 `I_n = int_0^(pi/2) cos^(2n) x dx`,
+    `J_n = int_0^(pi/2) x^2 cos^(2n) x dx`.
+    首先,
+    <span class="formula">
+        `I_n = ((2n-1)!!)/((2n)!!) pi/2`.
+    </span>
+    另一方面, 分部积分得到
+    <span class="formula">
+        `I_n = [x cos^(2n) x]_0^(pi/2) + 2n int_0^(pi/2) x cos^(2n-1)
+        x sin x dx`
+        `= n[x^2 cos^(2n-1) x sin x]_0^(pi/2)`
+        `- n int_0^(pi/2) x^2[cos^(2n) x - (2n-1) cos^(2n-2) x sin^2 x]dx`
+        `= n(2n-1) J_(n-1) - 2n^2 J_n`.
+    </span>
+    上式两边同乘以 `((2n)!!)/((2n-1)!!) 1/(2n^2)` 得到
+    <span class="formula">
+        `pi/(4n^2)`
+        `= ((2n-2)!!)/((2n-3)!!) J_(n-1) - ((2n)!!)/((2n-1)!!) J_n`.
+    </span>
+    求和, 注意 `(2n-1)!! = ((2n)!)/(2^n n!)`, 因此 `(-1)!!` 有定义.
+    我们有
+    <span class="formula">
+        `pi/4 sum_(k=1)^n 1/k^2`
+        `= J_0 - ((2n)!!)/((2k-1)!!) J_n`
+        `= J_0 - pi/2 J_n/I_n`.
+    </span>
+    `AA x in (0, pi/2)`, 有 `x lt pi/2 sin x`, 从而
+    <span class="formula">
+        `0 lt J_n lt int_0^(pi/2) (pi/2 sin x)^2 cos^(2n) x dx`
+        `= pi^2/4 (I_n - I_(n+1))`
+        `= pi^2/(8(n+1)) I_n`,
+    </span>
+    这说明 `n to oo` 时, `J_n//I_n to 0`.  综上有
+    <span class="formula">
+        `zeta(2) = 4/pi J_0 = pi^2/6`.
+    </span>
+</p>
 
 <script src="../js/note.js?type=math"></script>
 
