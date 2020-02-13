@@ -12,9 +12,10 @@
 
 <body>
 
-<h2>二次方程</h2>
+<h2>三次方程与四次方程的初等解法</h2>
 
-<p>	熟知一元二次方程 `a x^2 + b x + c = 0`, `a, b, c in RR`, `a != 0`
+<p class="example">
+	熟知一元二次方程 `a x^2 + b x + c = 0`, `a, b, c in RR`, `a != 0`
 	的求根公式为
 	<span class="formula">
 		`x_(1,2) = (-b +- sqrt(b^2-4 a c))/(2 a)`.
@@ -32,8 +33,6 @@
 		`= (2 a)/(-b &mp; sqrt(b^2-4 a c))`.
 	</span>
 </p>
-
-<h2>三次方程与四次方程的初等解法</h2>
 
 <p>	一般的一元 `n` 次方程形如
 	<span class="formula">
@@ -282,26 +281,6 @@
 	得到原方程的根.
 </p>
 
-<p class="theorem">
-	<b>Vieta 定理</b>
-	记多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根为 `r_j`, `j = 1,
-	2, cdots, n`. 关于这些根的<b>对称多项式</b>定义为
-	<span class="formula">
-		`s_i = sum_(C sube N, |C| = i) prod_(j in C) r_j`,
-	</span>
-	其中 `N = {1, 2, cdots, n}`. 例如,
-	<span class="formula">
-		`s_1 = r_1 + r_2 + r_3 + r_4 + cdots`,<br/>
-		`s_2 = r_1 r_2 + r_1 r_3 + r_1 r_4 + r_2 r_3 + cdots`,<br/>
-		`s_3 = r_1 r_2 r_3 + r_1 r_2 r_4 + r_2 r_3 r_4 + cdots`.
-	</span>
-	我们有根与系数的关系:
-	<span class="formula">
-		`s_i = (-1)^i a_(n-i)/a_n`,
-		`quad i = 1, 2, cdots, n`.
-	</span>
-</p>
-
 <!--
 <p class="remark">
 	Lagrange 预解式法
@@ -328,6 +307,73 @@
 		</ol>
 	</li>
 </ol>
+
+<h2>对称多项式</h2>
+
+<p class="definition">
+	若一个 `n` 元代数式 `f(x_1, x_2, cdots, x_n)` 对任意实数 `t` 满足
+	<span class="formula">
+		`f(t x_1, t x_2, cdots, t x_n) = t f(x_1, x_2, cdots, x_n)`,
+	</span>
+	就称它为 `n` 元<b>齐次式</b>.
+	齐次的 `n` 元多项式称为 `n` 元<b>齐次多项式</b>.
+	容易知道, 一个多项式是齐次的当且仅当它的各项次数都相等, 如
+	`x^3 - 2x^2 y` 就是一个齐次多项式.
+</p>
+
+<ol class="definition">
+	若一个 `n` 元代数式 `f(x_1, x_2, cdots, x_n)` 满足:
+	<li>交换其中任意两个字母 `x_i`, `x_j` 后都保持不变, 即
+		<span class="formula">
+			`f(x_1, cdots, x_i, cdots, x_j, cdots, x_n)`
+			`= f(x_1, cdots, x_j, cdots, x_i, cdots, x_n)`,
+		</span>
+		就称它为 `n` 元<b>对称式</b>.
+	</li>
+	<li>交换其中任意两个字母 `x_i`, `x_j` 后恰好变为原来的 -1 倍, 即
+		<span class="formula">
+			`f(x_1, cdots, x_i, cdots, x_j, cdots, x_n)`
+			`= -f(x_1, cdots, x_j, cdots, x_i, cdots, x_n)`,
+		</span>
+		就称它为 `n` 元<b>交代式</b>.
+	</li>
+	<li>将字母 `x_1, x_2, cdots, x_(n-1), x_n` 分别换成 `x_2, x_3, cdots, x_n, x_1` 后保持不变, 即
+		<span class="formula">
+			`f(x_1, x_2, cdots, x_(n-1), x_n)`
+			`= f(x_2, x_3, cdots, x_n, x_1)`,
+		</span>
+		就称它为 `n` 元轮换式. 显然对称式必为轮换式.
+	</li>
+	对称的 (交代的, 轮换的) `n` 元多项式分别称为 `n` 元 <b>对称多项式</b>
+	(<b>交代多项式</b>, <b>轮换多项式</b>).
+</ol>
+
+<p class="example">
+	`(x+y)/(x y)` 是对称式, `x+y`, `x y`, `x^2 + y^2 + z^2`, `x y+y
+	z+z x` 是对称多项式. `(x-y)/(x+y)` 是交代式, `x-y`,
+	`(x-y)(y-z)(z-x) = |1, 1, 1; x, y, z; x^2, y^2, z^2|` 是交代式.
+	`x^2 y + y^2 z + z^2 x` 是轮换式.
+</p>
+
+<p class="theorem">
+	<b>Vieta 定理</b>
+	记多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根为 `r_j`, `j = 1,
+	2, cdots, n`. 关于这些根的<b>对称多项式</b>定义为
+	<span class="formula">
+		`s_i = sum_(C sube N, |C| = i) prod_(j in C) r_j`,
+	</span>
+	其中 `N = {1, 2, cdots, n}`. 例如,
+	<span class="formula">
+		`s_1 = r_1 + r_2 + r_3 + r_4 + cdots`,<br/>
+		`s_2 = r_1 r_2 + r_1 r_3 + r_1 r_4 + r_2 r_3 + cdots`,<br/>
+		`s_3 = r_1 r_2 r_3 + r_1 r_2 r_4 + r_2 r_3 r_4 + cdots`.
+	</span>
+	我们有根与系数的关系:
+	<span class="formula">
+		`s_i = (-1)^i a_(n-i)/a_n`,
+		`quad i = 1, 2, cdots, n`.
+	</span>
+</p>
 
 </body>
 

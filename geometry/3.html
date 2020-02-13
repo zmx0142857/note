@@ -174,7 +174,20 @@
 	</span>
 </p>
 
-<p class="corollary">
+<ol class="lemma" id="lem-proportion">
+	在 `triangle ABC` 中, 分别用 `a, b, c` 记三个角 `A, B, C` 的对边,
+	点 `P` 满足 `vec(AP) = lambda vec(PB). 则
+	<li>`P` 是 `AB` 中点时, `lambda = 1`;</li>
+	<li>(角平分线定理) `CP` 是 `/_ACB` 的平分线时,
+		`lambda = S_(ACP)/S_(BCP) = b/a = (sin B)/(sin A)`;
+	</li>
+	<li>`CP` 是 `AB` 边上的高时,
+		`lambda = (b cos A)/(a cos B) = (sin B cos A)/(sin A cos B)`
+		`= (tan B)/(tan A)`.
+	</li>
+</ol>
+
+<p class="theorem">
 	<b>Stewart 定理</b>
 	设有 `triangle ABC`, 内分点 `P` 将 `AB` 分成了 `lambda//mu`,
 	`lambda+mu=1`.
@@ -203,6 +216,26 @@
 		`= lambda a^2 + mu b^2 - lambda mu c^2`.
 	</span>
 </p>
+
+<ol class="corollary">
+	<b>中线长与角平分线长</b>
+	设 `triangle ABC` 中, `a, b, c` 分别是 `A, B, C` 的对边, `p
+	= (a+b+c)//2`, 边 `c` 上的中线长与角平分线长分别记为 `m_c`, `t_c`.
+	由 Stewart 定理和<a class="ref" href="#lem-proportion"></a>得到
+	<li>`4 m_c^2 = 2(a^2+b^2)-c^2`;</li>
+	<li>`t_c^2 = ((2a b)/(a+b)cos{:C/2:})^2`
+		`= (2/(a+b))^2 a b p(p-c)`
+		`= a b - (a c)/(a+b) (b c)/(a+b)`.
+		设角平分线与 `AB` 交于 `P`, 最后一个公式即为
+		`|CP|^2 = |CA| |CB| - |AP| |PB|`.
+	</li>
+	<li>`4(m_c^2-t_c^2)`
+		`= (2(a^2+b^2) - 4a b) + ((4a b c^2)/(a+b)^2 - c^2)`
+		`= 2(a-b)^2 - c^2/(a+b)^2 (a-b)^2`
+		`= ((a-b)/(a+b))^2 [2(a+b)^2-c^2]`.
+		可见中线总是长于或等于角平分线. 二者相等当且仅当 `a = b`.
+	</li>
+</ol>
 
 <h3>对称坐标</h3>
 
@@ -438,19 +471,6 @@
 	</span>
 	再由<a class="ref" href="#the-compute-symmetric-coordnate"></a>即得结论.
 </p>
-
-<ol class="lemma" id="lem-proportion">
-	在 `triangle ABC` 中, 分别用 `a, b, c` 记三个角 `A, B, C` 的对边,
-	点 `P` 满足 `vec(AP) = lambda vec(PB). 则
-	<li>`P` 是 `AB` 中点时, `lambda = 1`;</li>
-	<li>(角平分线定理) `CP` 是 `/_ACB` 的平分线时,
-		`lambda = S_(ACP)/S_(BCP) = b/a = (sin B)/(sin A)`;
-	</li>
-	<li>`CP` 是 `AB` 边上的高时,
-		`lambda = (b cos A)/(a cos B) = (sin B cos A)/(sin A cos B)`
-		`= (tan B)/(tan A)`.
-	</li>
-</ol>
 
 <ol class="definition">
 	<b>三角形的五心</b> 三角形的
