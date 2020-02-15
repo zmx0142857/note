@@ -53,7 +53,7 @@
 </p>
 
 <p class="example">
-	解方程 `x^3 + p x + q = 0`.
+	<b>解三次方程</b> `x^3 + p x + q = 0`.
 </p>
 
 <p class="solution">
@@ -245,7 +245,7 @@
 </p>
 
 <p class="example">
-	解方程 `x^4 + p x^2 + q x + r = 0`.
+	<b>解四次方程</b> `x^4 + p x^2 + q x + r = 0`.
 </p>
 
 <p class="solution">
@@ -344,7 +344,8 @@
 		</span>
 		就称它为 `n` 元轮换式. 显然对称式必为轮换式.
 	</li>
-	对称的 (交代的, 轮换的) `n` 元多项式分别称为 `n` 元 <b>对称多项式</b>
+	对称的 (交代的, 轮换的) `n` 元多项式分别称为 `n` 元 <b>对称多项式
+		(symmetric polynomial)</b>
 	(<b>交代多项式</b>, <b>轮换多项式</b>).
 </ol>
 
@@ -357,22 +358,111 @@
 
 <p class="theorem">
 	<b>Vieta 定理</b>
-	记多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根为 `r_j`, `j = 1,
-	2, cdots, n`. 关于这些根的<b>对称多项式</b>定义为
+	`n` 次多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根记为 `x_j`,
+	`j = 1, 2, cdots, n`. 关于这些根的<b>初等对称多项式 (elementary
+		symmetric polynomial)</b>定义为
 	<span class="formula">
-		`s_i = sum_(C sube N, |C| = i) prod_(j in C) r_j`,
+		`sigma_i(x_1, cdots, x_n) = sum_(C sube N, |C| = i) prod_(j in C) x_j`,
+		`quad i = 0, 1, cdots, n`.
 	</span>
-	其中 `N = {1, 2, cdots, n}`. 例如,
+	其中 `N = {1, 2, cdots, n}`. 上式也可以写成
 	<span class="formula">
-		`s_1 = r_1 + r_2 + r_3 + r_4 + cdots`,<br/>
-		`s_2 = r_1 r_2 + r_1 r_3 + r_1 r_4 + r_2 r_3 + cdots`,<br/>
-		`s_3 = r_1 r_2 r_3 + r_1 r_2 r_4 + r_2 r_3 r_4 + cdots`.
+		`sigma_0 = 1`,
+		`quad sigma_1 = sum_i x_i`,
+		`quad sigma_2 = sum_(i lt j) x_i x_j`,
+		`quad sigma_3 = sum_(i lt j lt k) x_i x_j x_k`,
+		`quad cdots`,
+		`quad sigma_n = x_1 x_2 cdots x_n`.
 	</span>
 	我们有根与系数的关系:
 	<span class="formula">
-		`s_i = (-1)^i a_(n-i)/a_n`,
-		`quad i = 1, 2, cdots, n`.
+		`sigma_i = (-1)^i a_(n-i)/a_n`,
+		`quad i = 0, 1, cdots, n`.
 	</span>
+</p>
+
+<p class="theorem">
+	<b>对称多项式基本定理</b>
+	任一 `n` 元对称多项式 `f(x_1, x_2, cdots, x_n)`
+	可以表示为初等对称多项式 `sigma_i = sigma_i(x_1, x_2, cdots, x_n)`,
+	`i = 1, 2, cdots, n` 的多项式.
+</p>
+
+<p class="proof">
+	首先注意, 在 `n` 元初等对称多项式 `sigma_i(x_1, cdots, x_n)` 中令 `x_n
+	= 0`, 就得到 `n-1` 元初等对称多项式
+	<span class="formula">
+		`sigma_i(x_1, cdots, x_(n-1), 0) = sigma_i(x_1, cdots, x_(n-1))`.
+	</span>
+	对 `n` 进行归纳证明. `n = 1` 时显然成立. 设 `n gt 1`, 且结论对 `n-1`
+	成立.  由定义知 `f(x_1, cdots, x_(n-1), 0)` 是 `n-1` 元对称多项式,
+	设它能表示为
+	<span class="formula">
+		`f(x_1, cdots, x_(n-1), 0)`
+		`= p(sigma_1(x_1,cdots,x_(n-1)),cdots,sigma(x_1,cdots,x_(n-1)))`,
+	</span>
+	其中 `p` 是一个多项式.  令
+	<span class="formula">
+		`g(x_1, cdots, x_n)`
+		`= p(sigma_1(x_1,cdots,x_n), cdots, sigma(x_1,cdots,x_n))`,<br/>
+		`h = f - g`.
+	</span>
+	则
+	<span class="formula">
+		`h(x_1, cdots, x_(n-1), 0) = 0`.
+	</span>
+	这说明 `x_n | h`. 由对称性, `sigma_n = x_1 x_2 cdots x_n | h`.
+	如果 `h` 的次数不小于 `n`, 就令 `f_1 = h//sigma_n`, 代替原来的 `f`
+	进行操作, 直到得到的 `h` 次数小于 `n`. 这时由
+	`sigma_n | h` 知 `h -= 0`. 零多项式当然是初等对称多项式的多项式, 证毕.
+</p>
+
+<p class="theorem">
+	<b>Newton-Girard 公式</b>
+	设 `S_i` 是 `n` 次多项式的全部 `n` 个根的 `i` 次方和:
+	<span class="formula">
+		`S_i = sum_(j=1)^n x_j^i`, `quad i = 0, 1, 2, cdots`.
+	</span>
+	`sigma_i` 的定义同上, 则
+	<span class="formula">`S_i = {
+		sum_(j=1)^n (-1)^(j+1) sigma_j S_(i-j), if i ge n;
+		sum_(j=1)^(i-1) (-1)^(j+1) sigma_j S_(i-j) + (-1)^(i+1) sigma_i * i, if i lt n;
+	:}`</span>
+	利用 `sigma_0 = 1`, 上式等价于
+	<span class="formula">`{
+		sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0, if i ge n;
+		sum_(j=0)^(i-1) (-1)^j sigma_j S_(i-j) + (-1)^i sigma_i * i = 0,
+		if i lt n;
+	:}`</span>
+	需要注意, 一般来说 `i lt n` 时 `S_0` 被认为是未定义的,
+	因此最后一项被单独提出.
+</p>
+
+<p class="proof">
+	`i ge n` 时, 容易验证 `S_i` 为线性递推式
+	<span class="formula">
+		`sum_(j=0)^n a_(n-j) S_(i-j) = 0`
+	</span>
+	的解, 由 Vieta 定理有
+	<span class="formula">
+		`sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0`.
+	</span>
+	现在设 `i lt n`. 对 `k = n-i gt 0` 作归纳, 设结论对任意 `k' lt k`
+	已经成立.
+	用 `f_(n,i)(x_1, x_2, cdots, x_n)` 表示 Newton-Girard 公式的左边, 因为
+	<span class="formula">
+		`sigma_j(x_1, cdots, x_(n-1), 0) = sigma_j(x_1, cdots, x_(n-1))`,<br/>
+		`S_j(x_1, cdots, x_(n-1), 0) = S_j(x_1, cdots, x_(n-1))`.
+	</span>
+	有
+	<span class="formula">
+		`f_(n,i)(x_1, cdots, x_(n-1), 0)`
+		`= f_(n-1,i)(x_1, cdots, x_(n-1))`.
+	</span>
+	由归纳假设, 上式右边等于零, 这说明 `x_n | f_(n,i)`.
+	由 `f` 的对称性, `sigma_n = x_1 x_2 cdots x_n | f_(n,i)`.
+	注意到 `f_(n,i)` 的次数不超过 `i`, 且 `i lt n`, 我们得到
+	`f_(n,i) = 0`. 证毕.
 </p>
 
 </body>
