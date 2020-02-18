@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>分数阶微积分</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<ol class="definition">
+	设 `f` 是连续函数, 容易通过求导验证它的 `n` 阶原函数是
+	<span class="formula">
+		`1/((n-1)!) int_a^x f(t) (x-t)^(n-1) dt`.
+	</span>
+	今对任意 `beta gt 0`, 定义 `f` 的 `beta` 阶<b>原函数</b>为
+	<span class="formula">
+		`{::}_a D_x^-beta f = 1/(Gamma(beta)) int_a^x f(t) (x-t)^(beta-1) dt`,
+	</span>
+	其中 `(x-t)^(beta-1)` 称为<b>记忆核函数</b>.
+	常用的分数阶导数定义有两种. 设 `beta gt 0`, `m = |__beta__|+1`, 定义
+	<li>先积分再求导的 `beta` 阶 <b>Riemann-Liouville 导数 (R-L 导数)</b>:
+		<span class="formula">
+			`{::}_a^"RL" D_x^beta f = D^m {::}_a D_x^-(m-beta) f`.
+		</span>
+	</li>
+	<li>先求导再积分的 `beta` 阶 <b>Caputo</b> 导数:
+		<span class="formula">
+			`{::}_a^"C" D_x^beta f = {::}_a D_x^-(m-beta) D^m f`.
+		</span>
+	</li>
+	两种导数一般不相等.
+	Caputo 导数在实际应用中更常见, 它对函数的光滑性要求很高, 要求 `f`
+	至少有 `m` 阶导数; Riemann-Liouville 导数更多见于理论研究.
+</ol>
+
+<p class="remark">
+	下文未注明的情况下, 分数阶微积分总是指 R-L 型. 简记
+	<span class="formula">
+		`{::}_0^"RL" D_x^beta = D_x^beta`.
+	</span>
+</p>
+
+<p class="corollary">
+	分数阶微积分具有线性性.
+</p>
+
+<ol class="example">
+	<li>`{::}_0 D_x^nu x^mu = (Gamma(1+mu))/(Gamma(1+mu-nu)) x^(mu-nu)`;
+		`quad_0 D_x^nu 1 = x^-nu/(Gamma(1-nu))`;
+	</li>
+	<li>`{::}_0 D_x^nu "e"^x = sum_(n=0)^oo x^(n-nu)/(Gamma(1+n-nu)`;
+		`quad_(-oo) D_x^nu "e"^x = "e"^x`;
+	</li>
+	<li>`{::}_(-oo) D_x^nu sin x = sin(x+(nu pi)/2)`;
+		`quad_(-oo) D_x^nu cos x = cos(x+(nu pi)/2)`.
+	</li>
+	当 `nu` 为正整数时, 求导结果与经典微积分相同. 值得注意,
+	常数的分数阶导数未必是零.
+</ol>
+
+<ol class="proof">
+	<li>
+		<span class="formula">
+			`{::}_0 D_x^-alpha x^mu`
+			`= 1/(Gamma(alpha)) int_0^x t^mu (x-t)^(alpha-1) dt`
+			`= x^(mu+alpha)/(Gamma(alpha)) int_0^1 y^mu(1-y)^(alpha-1) dy`
+			`= x^(mu+alpha)/(Gamma(alpha)) B(alpha,mu+1)`
+			`= (Gamma(1+mu))/(Gamma(1+mu+alpha)) x^(mu+alpha)`.
+		</span>
+		不妨设 `0 lt nu lt 1`, 从而
+		<span class="formula">
+			`{::}_0 D_x^nu x^mu`
+			`= "d"/dx {::}_0 D_x^-(1-nu) x^mu`
+			`= "d"/dx (Gamma(1+mu))/(Gamma(2+mu-nu)) x^(1+mu-nu)`
+			`= (Gamma(1+mu))/(Gamma(1+mu-nu)) x^(mu-nu)`.
+		</span>
+	</li>
+	<li>第一式通过将 `"e"^x` 展开为幂级数并逐项求导得到. 第二式...</li>
+	<li>...</li>
+</ol>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

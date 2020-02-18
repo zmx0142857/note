@@ -3,7 +3,7 @@
 
 <head>
 
-<title>对称多项式</title>
+<title>初等代数</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -12,10 +12,724 @@
 
 <body>
 
+<h2>根式运算</h2>
 
+<p class="example">
+	<b>化简二重根式</b>
+	记 `sqrt(u^2-v) = n`, 则
+	<span class="formula">
+		`sqrt(u+-sqrt v) = (sqrt(u+n) +- sqrt(u-n))/sqrt 2`.
+	</span>
+	如 `sqrt((3-sqrt 5)/2) = (sqrt 5 - 1)/2`, `sqrt(2+sqrt 3)
+	+ sqrt(2-sqrt 3) = sqrt 6` 等等.
+</p>
 
-<script src="../js/note.js?type=math"></script>
+<p class="proof">
+	记 `a = u + sqrt v`, `b = u - sqrt v`, 则
+	<span class="formula">
+		`sqrt a +- sqrt b`
+		`= sqrt(a + b +- 2 sqrt(a b))`
+		`= sqrt(2(u +- n))`.
+	</span>
+	解出 `sqrt a`, `sqrt b` 即得结论.
+</p>
+
+<h2>三次方程与四次方程</h2>
+
+<p class="example">
+	熟知一元二次方程 `a x^2 + b x + c = 0`, `a, b, c in RR`, `a != 0`
+	的求根公式为
+	<span class="formula">
+		`x_(1,2) = (-b +- sqrt(b^2-4 a c))/(2 a)`.
+	</span>
+	于是, 方程在 `Delta = b^2 - 4 a c gt 0` 时有两个不同实根,
+	`Delta = 0` 时有一对实二重根, `Delta lt 0` 时有一对共轭复根.<br/>
+	一元二次方程的 Vieta 定理是说,
+	<span class="formula">
+		`x_1 + x_2 = -b/a`, `quad x_1 x_2 = c/a`.
+	</span>
+	最后, 如果 `c != 0`, 则方程 `a + b y + c y^2 = 0` 的根存在, 且满足
+	`y_1 = x_2^-1, y_2 = x_1^-1`, 其中
+	<span class="formula">
+		`y_(1,2) = (-b +- sqrt(b^2-4 a c))/(2 c)`
+		`= (2 a)/(-b &mp; sqrt(b^2-4 a c))`.
+	</span>
+</p>
+
+<p> 一般的一元 `n` 次方程形如
+	<span class="formula">
+		`a_n x^n + a_(n-1) x^(n-1) + cdots + a_1 x + a_0 = 0`,
+		`quad a_n != 0`.
+	</span>
+	两边同除以 `a_n`, 就可将方程左边化为首一 (最高次项系数为 1) 的多项式:
+	<span class="formula">
+		`x^n + b_(n-1) x^(n-1) + cdots + b_1 x + b_0 = 0`.
+	</span>
+	再作变元替换 `x = y - b_(n-1)/n` (即配 `n` 次方),
+	可将 `n-1` 次项系数化为零:
+	<span class="formula">
+		`y^n + c_(n-2) y^(n-2) + cdots + c_1 y + c_0 = 0`.
+	</span>
+	下面我们就从首一的, `n-1` 次项系数为零的方程入手,
+	讨论三次和四次方程的解法.
+</p>
+
+<p class="example">
+	<b>解三次方程</b> `x^3 + p x + q = 0`.
+</p>
+
+<p class="solution">
+	(Cardano 公式)
+	令 `x = u + v`, 代入方程有
+	<span class="formula">
+		`u^3 + v^3 + (3 u v + p)(u+v) + q = 0`.
+	</span>
+	可见 `x` 是方程的解的一个充分条件是
+	<span class="formula">`{
+		u^3 + v^3 = -q;
+		3 u v = -p;
+		:}`</span>
+	令 `alpha = u^3`, `beta = v^3`, 则 `alpha`, `beta` 应当满足
+	<span class="formula">`{
+		alpha + beta = -q;
+		alpha beta = -p^3/27;
+		:}`</span>
+	从而由一元二次方程根与系数的关系 (Vieta 定理), `alpha`, `beta` 是
+	关于 `z` 的方程
+	<span class="formula">
+		`z^2 + q z -p^3/27 = 0`
+	</span>
+	的两根, 即
+	<span class="formula">
+		`alpha, beta = -q/2 +- sqrt((q/2)^2 + (p/3)^3)`.
+	</span>
+	以 `omega = -1/2 + (sqrt 3)/2 "i"` 记三次方程 `x^3 = 1` 的一个根,
+	又记 `root 3 alpha`, `root 3 beta` 分别为三次方程 `u^3 = alpha`,
+	`v^3 = beta` 的一个根, 且满足 `root 3 alpha root 3 beta = -p//3`
+	(在 `p` 为实数时, 将 `root 3 alpha` 和 `root 3 beta` 取为实数,
+	或一对共轭复数即可).
+	容易验证, `u^3 = alpha` 的全部根和 `v^3 = beta`
+	的全部根为 (注意, `n` 次多项式最多只有 `n` 个根)
+	<span class="formula">
+		`u = root 3 alpha, omega root 3 alpha, omega^2 root 3 alpha`,
+		<br/>
+		`v = root 3 beta, omega root 3 beta, omega^2 root 3 beta`.
+	</span>
+	再利用 `u v = -p//3`, 原方程的三个根为:
+	<span class="formula">
+		`root 3 alpha + root 3 beta`,
+		`omega root 3 alpha + omega^2 root 3 beta`,
+		`omega^2 root 3 alpha + omega root 3 beta`.
+	</span>
+</p>
+
+<ol class="solution">
+	(三角解法, <a href="https://www.spaces.ac.cn/archives/831">苏剑林. (2010, Aug 08). 《三次方程的三角函数解法 》[Blog post].</a>)
+	假设 `p, q in RR`.
+	引理: 三角恒等式 (前两个是万能代换的变形, 后一个是三倍角公式)
+	<span class="formula">
+		`2/(tan 2A) = 1/(tan A) - tan A`,<br/>
+		`2/(sin 2A) = 1/(tan A) + tan A`,<br/>
+		`cos 3A = 4cos^3 A - 3 cos A`.
+	</span>
+	`p = 0` 时, 容易得到惟一实根 `x = root 3 (-q)`.
+	`p != 0` 时, 设 `r = -q |3/p|^(3/2)`, 下面分三种情形讨论方程的解法.
+	<li>
+		`p gt 0` 时, 令 `x = sqrt(p/3) z` 得
+		<span class="formula">
+			`z^3 + 3 z = r`.
+		</span>
+		再令 `z = w^-1 - w`, 有
+		<span class="formula">
+			`w^-3 - w^3 = (w^-1 - w)(w^-2 + 1 + w^2)` `= z(z^2 + 3) = r`.
+		</span>
+		令 `w^3 = tan A`, 由引理,
+		<span class="formula">
+			`2/(tan 2A) = r`,
+			`quad A = 1/2 arctan{:2/r:}`,
+			`quad w = root 3(tan A)`.
+		</span>
+		由于 `"d"/(dz) (z^3 + 3 z) = 3 z^2 + 3 gt 0`, 函数 `z^3 + 3 z`
+		在 `(-oo, +oo)` 上单调增, 且取遍一切实数值, 所以 `z^3 + 3 z = r`
+		恒有一个实根.
+	</li>
+	<li>
+		`p lt 0`, `|r| ge 2` 时, 令 `x = sqrt(|p|/3) z` 得
+		<span class="formula">
+			`z^3 - 3 z = r`.
+		</span>
+		再令 `z = w^-1 + w`, 有
+		<span class="formula">
+			`w^-3 + w^3 = (w^-1 + w)(w^-2 - 1 + w^2)` `= z(z^2 - 3) = r`.
+		</span>
+		令 `w^3 = tan A`, 由引理,
+		<span class="formula">
+			`2/(sin 2A) = r`,
+			`quad A = 1/2 arcsin{:2/r:}`,
+			`quad w = root 3(tan A)`.
+		</span>
+		由反正弦函数的定义域知, 上述公式只对 `|r| ge 2` 有效.
+		事实上, 由 `"d"/(dz) (z^3 - 3 z) =
+		3 z^2 - 3` 知, 函数有两个极值点 `z = +- 1`, 因而容易推出
+		`z^3 - 3 z = r` 在
+		`|r| gt 2` 时只有一实根, `|r| = 2` 时有一对实的重根和另一实根,
+		而 `|r| lt 2` 时, 有三个不同实根.
+	</li>
+	<li>`p lt 0`, `|r| lt 2` 时, 令 `z = 2 cos A`, 利用引理,
+		<span class="formula">
+			`r = z^3 - 3 z = 2 (4 cos^3 A - 3 cos A) = 2 cos 3A`,<br/>
+			`A = 1/3 (arccos{:r/2:} + 2 k pi)`, `quad k = 0, 1, 2`.
+		</span>
+	</li>
+</ol>
+
+<ol class="solution">
+	(盛金公式) 方程
+	<span class="formula">
+		`a x^3 + b x^2 + c x + d = 0`, `quad a, b, c, d in RR`.
+	</span>
+	计算三个重根判别式:
+	<span class="formula">
+		`A = b^2 - 3 a c`,<br/>
+		`B = b c - 9 a d`,<br/>
+		`C = c^2 - 3 b d`
+	</span>
+	和总判别式 `Delta = B^2 - 4 A C`, 有:
+	<li>`A = B = 0` 时, 有三重实根
+		<span class="formula">
+			`x_(1, 2, 3) = -b/(3a) = -c/b = -(3d)/c`.
+		</span>
+	</li>
+	<li>`Delta = 0`, 且 `A != 0` 时, 有一实单根和一实二重根
+		<span class="formula">
+			`x_1 = B/A - b/a`, `quad x_(2,3) = -B/(2A)`.
+		</span>
+	</li>
+	<li>`Delta gt 0` 时, 有一实根, 一对共轭复根
+		<span class="formula">
+			`x_1 = (-b - (root 3 y_1 + root 3 y_2))/(3a)`,<br/>
+			`x_(2, 3) = (-b + 1/2(root 3 y_1 + root 3 y_2) +- (sqrt
+			3)/2(root 3 y_1 - root 3 y_2)"i")/(3 a)`.
+		</span>
+		其中 `y_(1, 2) = A b + 3 a((-B+-sqrt Delta)/2)`.
+	</li>
+	<li>`Delta lt 0`, `A gt 0`, 且
+		<span class="formula">
+			`T = (2 A b - 3 a B)/(2 sqrt (A^3)) in [-1, 1]`
+		</span>
+		时, 有三个不同实根
+		<span class="formula">
+			`x_1 = (-b - 2 sqrt A cos{:theta/3:})/(3 a)`,<br/>
+			`x_(2, 3) = (-b + sqrt A(cos{:theta/3:} +- sqrt 3
+			sin{:theta/3:}))/(3 a)`.
+		</span>
+		其中 `theta = arccos T`.
+	</li>
+</ol>
+
+<ol class="remark">
+	三次方程 `x^3 + p x + q = 0` (`p, q in RR`)
+	的判别式记为 `Delta = (q/2)^2 + (p/3)^3`.
+	<li>`Delta gt 0` 时, 方程有一实根, 一对共轭复根;</li>
+	<li>`Delta lt 0` 时, 方程有三个不同的实根; 记 Cardano 公式中的
+		`alpha, beta = r "e"^(+-"i"theta)`, 则三个根是
+		<span class="formula">
+			`2 * root 3 r cos(theta/3 + varphi)`,
+			`quad varphi = 0, (2pi)/3, (4pi)/3`.
+		</span> 
+	</li>
+	<li>`Delta = 0` 时, 方程有一个一重实根 `-2 root 3(q/2)`,
+		一个两重实根 `root 3(q/2)`.
+	</li>
+</ol>
+
+<p class="example">
+	解方程 `27 x^3 + 54 x^2 - 369 x - 370 = 0`.
+</p>
+
+<p class="solution">
+	最高次项系数化为 1,
+	<span class="formula">
+		`x^3 + 2 x^2 - 41/3 x -370/27 = 0`.
+	</span>
+	令 `x = y - 2/3`,
+	<span class="formula">
+		`y^3 - 15 y - 4 = 0`.
+	</span>
+	故 `q/2 = -2`, `p/3 = -5`, `Delta = (q/2)^2 + (p/3)^3 lt 0`, 有三个不
+	同实根. 解得
+	<span class="formula">
+		`alpha = 2 + 11"i" = (2+"i")^3`,
+		`quad beta = 2 - 11"i" = (2-"i")^3`.
+	</span>
+	所以三个实根为 `4, -2-sqrt3, -2+sqrt3`.
+	而原方程的根为 `10/3, -8/3-sqrt3, -8/3+sqrt3`.
+</p>
+
+<p class="example">
+	<b>解四次方程</b> `x^4 + p x^2 + q x + r = 0`.
+</p>
+
+<p class="solution">
+	设方程左侧可以因式分解为
+	<span class="formula">
+		`x^4 + p x^2 + q x + r = (x^2 - k x + m)(x^2 + k x + n)`
+	</span>
+	注意我们已将两个二次因式中的一次项系数设为相反数,
+	这是因为它们相乘的结果的三次项系数为零. 比较各次项系数有:
+	<span class="formula">`{
+		m + n -k^2 = p;
+		k(m-n) = q;
+		m n = r;
+		:}`</span>
+	由前两式得
+	<span class="formula">
+		`2k m = k(k^2 + p) + q`,<br/>
+		`2k n = k(k^2 + p) - q`.
+	</span>
+	代入第三式,
+	<span class="formula">
+		`4k^2 r = k^2 (k^2 + p)^2 - q^2`,
+	</span>
+	即
+	<span class="formula">
+		`k^6 + 2p k^4 + (p^2 - 4r)k^2 - q^2 = 0`.
+	</span>
+	上式看作关于 `k^2` 的一元三次方程, 取它的任一根 (比如实根),
+	就可得到 `m, n` 的值, 进而解两个一元二次方程
+	<span class="formula">
+		`x^2 - k x + m = 0`, `x^2 + k x + n = 0`
+	</span>
+	得到原方程的根.
+</p>
+
+<!--
+<p class="remark">
+	Lagrange 预解式法
+</p>
+-->
+
+<h4>一般地解多项式方程的策略</h4>
+
+<ol class="enum">
+	<li>消去重根. 用 `f(x)/((f(x)","f'(x)))` 替代 `f(x)`
+		得到只含一重根的多项式. 最大公因式可用辗转相除法求.
+	</li>
+	<li>Eisenstein 判别法求有理根.
+		令 `f(x) = a_n x^n + a_(n-1) x^(n-1) + cdots + a_1 x + a_0`
+		是次数大于 1 的整系数多项式.
+		<ol>
+			<li>若存在素数 `p` 使得 `p | a_0, a_1, cdots, a_(n-1)` 且 `p
+				!| a_n`, `p^2 !| a_0`. 则 `f(x)` 没有有理根.
+			</li>
+			<li>若 `p_0/p_n in QQ` 是 `f(x)` 的一个根, `(p_0, p_n) = 1`,
+				则 `p_n | a_n`, `p_0 | a_0`. 特别地, 当 `f(x)` 首 1 时,
+				`f(x)` 的有理根都是整数, 且为 `a_0` 的因子.
+			</li>
+		</ol>
+	</li>
+</ol>
+
+<h2>对称多项式</h2>
+
+<p class="definition">
+	若一个 `n` 元代数式 `f(x_1, x_2, cdots, x_n)` 对任意实数 `t` 满足
+	<span class="formula">
+		`f(t x_1, t x_2, cdots, t x_n) = t f(x_1, x_2, cdots, x_n)`,
+	</span>
+	就称它为 `n` 元<b>齐次式</b>.
+	齐次的 `n` 元多项式称为 `n` 元<b>齐次多项式</b>.
+	容易知道, 一个多项式是齐次的当且仅当它的各项次数都相等, 如
+	`x^3 - 2x^2 y` 就是一个齐次多项式.
+</p>
+
+<ol class="definition">
+	若一个 `n` 元代数式 `f(x_1, x_2, cdots, x_n)` 满足:
+	<li>交换其中任意两个字母 `x_i`, `x_j` 后都保持不变, 即
+		<span class="formula">
+			`f(x_1, cdots, x_i, cdots, x_j, cdots, x_n)`
+			`= f(x_1, cdots, x_j, cdots, x_i, cdots, x_n)`,
+		</span>
+		就称它为 `n` 元<b>对称式</b>.
+	</li>
+	<li>交换其中任意两个字母 `x_i`, `x_j` 后恰好变为原来的 -1 倍, 即
+		<span class="formula">
+			`f(x_1, cdots, x_i, cdots, x_j, cdots, x_n)`
+			`= -f(x_1, cdots, x_j, cdots, x_i, cdots, x_n)`,
+		</span>
+		就称它为 `n` 元<b>交代式</b>.
+	</li>
+	<li>将字母 `x_1, x_2, cdots, x_(n-1), x_n` 分别换成 `x_2, x_3, cdots, x_n, x_1` 后保持不变, 即
+		<span class="formula">
+			`f(x_1, x_2, cdots, x_(n-1), x_n)`
+			`= f(x_2, x_3, cdots, x_n, x_1)`,
+		</span>
+		就称它为 `n` 元轮换式. 显然对称式必为轮换式.
+	</li>
+	对称的 (交代的, 轮换的) `n` 元多项式分别称为 `n` 元 <b>对称多项式
+		(symmetric polynomial)</b>
+	(<b>交代多项式</b>, <b>轮换多项式</b>).
+</ol>
+
+<p class="example">
+	`(x+y)/(x y)` 是对称式, `x+y`, `x y`, `x^2 + y^2 + z^2`, `x y+y
+	z+z x` 是对称多项式. `(x-y)/(x+y)` 是交代式, `x-y`,
+	`(x-y)(y-z)(z-x) = |1, 1, 1; x, y, z; x^2, y^2, z^2|` 是交代式.
+	`x^2 y + y^2 z + z^2 x` 是轮换式.
+</p>
+
+<p class="theorem">
+	<b>Vieta 定理</b>
+	`n` 次多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根记为 `x_j`,
+	`j = 1, 2, cdots, n`. 关于这些根的<b>初等对称多项式 (elementary
+		symmetric polynomial)</b>定义为
+	<span class="formula">
+		`sigma_i(x_1, cdots, x_n) = sum_(C sube N, |C| = i) prod_(j in C) x_j`,
+		`quad i = 0, 1, cdots, n`.
+	</span>
+	其中 `N = {1, 2, cdots, n}`. 上式也可以写成
+	<span class="formula">
+		`sigma_0 = 1`,
+		`quad sigma_1 = sum_i x_i`,
+		`quad sigma_2 = sum_(i lt j) x_i x_j`,
+		`quad sigma_3 = sum_(i lt j lt k) x_i x_j x_k`,
+		`quad cdots`,
+		`quad sigma_n = x_1 x_2 cdots x_n`.
+	</span>
+	我们有根与系数的关系:
+	<span class="formula">
+		`sigma_i = (-1)^i a_(n-i)/a_n`,
+		`quad i = 0, 1, cdots, n`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>对称多项式基本定理</b>
+	任一 `n` 元对称多项式 `f(x_1, x_2, cdots, x_n)`
+	可以表示为初等对称多项式 `sigma_i = sigma_i(x_1, x_2, cdots, x_n)`,
+	`i = 1, 2, cdots, n` 的多项式.
+</p>
+
+<p class="proof">
+	首先注意, 在 `n` 元初等对称多项式 `sigma_i(x_1, cdots, x_n)` 中令 `x_n
+	= 0`, 就得到 `n-1` 元初等对称多项式
+	<span class="formula">
+		`sigma_i(x_1, cdots, x_(n-1), 0) = sigma_i(x_1, cdots, x_(n-1))`.
+	</span>
+	对 `n` 进行归纳证明. `n = 1` 时显然成立. 设 `n gt 1`, 且结论对 `n-1`
+	成立.  由定义知 `f(x_1, cdots, x_(n-1), 0)` 是 `n-1` 元对称多项式,
+	设它能表示为
+	<span class="formula">
+		`f(x_1, cdots, x_(n-1), 0)`
+		`= p(sigma_1(x_1,cdots,x_(n-1)),cdots,sigma(x_1,cdots,x_(n-1)))`,
+	</span>
+	其中 `p` 是一个多项式.  令
+	<span class="formula">
+		`g(x_1, cdots, x_n)`
+		`= p(sigma_1(x_1,cdots,x_n), cdots, sigma(x_1,cdots,x_n))`,<br/>
+		`h = f - g`.
+	</span>
+	则
+	<span class="formula">
+		`h(x_1, cdots, x_(n-1), 0) = 0`.
+	</span>
+	这说明 `x_n | h`. 由对称性, `sigma_n = x_1 x_2 cdots x_n | h`.
+	如果 `h` 的次数不小于 `n`, 就令 `f_1 = h//sigma_n`, 代替原来的 `f`
+	进行操作, 直到得到的 `h` 次数小于 `n`. 这时由
+	`sigma_n | h` 知 `h -= 0`. 零多项式当然是初等对称多项式的多项式, 证毕.
+</p>
+
+<p class="theorem">
+	<b>Newton-Girard 公式</b>
+	设 `S_i` 是 `n` 次多项式的全部 `n` 个根的 `i` 次方和:
+	<span class="formula">
+		`S_i = sum_(j=1)^n x_j^i`, `quad i = 0, 1, 2, cdots`.
+	</span>
+	`sigma_i` 的定义同上, 则
+	<span class="formula">`S_i = {
+		sum_(j=1)^n (-1)^(j-1) sigma_j S_(i-j), if i ge n;
+		sum_(j=1)^(i-1) (-1)^(j-1) sigma_j S_(i-j)
+		+ (-1)^(i-1) sigma_i * i, if i lt n;
+		:}`</span>
+	利用 `sigma_0 = 1`, 上式等价于
+	<span class="formula">`{
+		sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0, if i ge n;
+		sum_(j=0)^(i-1) (-1)^j sigma_j S_(i-j) + (-1)^i sigma_i * i = 0,
+		if i lt n;
+		:}`</span>
+	需要注意, 一般来说 `i lt n` 时 `S_0` 被认为是未定义的,
+	因此最后一项被单独提出.
+</p>
+
+<p class="proof">
+	`i ge n` 时, 容易验证 `S_i` 为线性递推式
+	<span class="formula">
+		`sum_(j=0)^n a_(n-j) S_(i-j) = 0`
+	</span>
+	的解, 由 Vieta 定理有
+	<span class="formula">
+		`sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0`.
+	</span>
+	现在设 `i lt n`. 对 `k = n-i gt 0` 作归纳, 设结论对任意 `k' lt k`
+	已经成立.
+	用 `f_(n,i)(x_1, x_2, cdots, x_n)` 表示 Newton-Girard 公式的左边, 因为
+	<span class="formula">
+		`sigma_j(x_1, cdots, x_(n-1), 0) = sigma_j(x_1, cdots, x_(n-1))`,
+		<br/>
+		`S_j(x_1, cdots, x_(n-1), 0) = S_j(x_1, cdots, x_(n-1))`.
+	</span>
+	有
+	<span class="formula">
+		`f_(n,i)(x_1, cdots, x_(n-1), 0)`
+		`= f_(n-1,i)(x_1, cdots, x_(n-1))`.
+	</span>
+	由归纳假设, 上式右边等于零, 这说明 `x_n | f_(n,i)`.
+	由 `f` 的对称性, `sigma_n = x_1 x_2 cdots x_n | f_(n,i)`.
+	注意到 `f_(n,i)` 的次数不超过 `i`, 且 `i lt n`, 我们得到
+	`f_(n,i) = 0`. 证毕.
+</p>
+
+<p class="example">
+	当 `n = 3` 时, `a = b = c` 当且仅当 `S_2 = sigma_2`, 即
+	<span class="formula">
+		`a^2+b^2+c^2 = a b+b c+c a`.
+	</span>
+</p>
+
+<h2>多项式</h2>
+
+<ol class="example">
+	<li>设 `n` 为整数, 记 `x_n = t^n+t^-n`, 显然 `x_n = x_(-n)`, 即 `x`
+		关于 `n` 是偶函数.  又容易验证 `x_m x_n = x_(m+n) + x_(m-n)`,
+		特别取 `m = 1`, `n = n-1` 有
+		<span class="formula">
+			`x_n = x_1 x_(n-1) - x_(n-2)`.
+		</span>
+		从而任意 `x_n` 都是 `x_1` 的多项式, 记 `x_1 = x`,
+		这一系列多项式定义为
+		<span class="formula">`x_n = {
+			2, if n = 0;
+			x, if n = 1;
+			x x_(n-1) - x_(n-2), if n ge 2;
+		:}`</span>
+	</li>
+	<li>记 `y_n = t^n-t^-n`, 则 `y` 关于 `n` 是奇函数.
+		又 `x_m y_n = y_(m+n) - y_(m-n)`, 取 `m=1`, `n = n-1` 有
+		<span class="formula">
+			`y_n = x_1 y_(n-1) - y_(n-2)`.
+		</span>
+		则 `w_n := y_n//y_1` 是 `x := x_1` 的多项式.  可以定义
+		<span class="formula">`w_n = {
+			0, if n = 0;
+			1, if n = 1;
+			x w_(n-1) - w_(n-2), if n ge 2;
+		:}`</span>
+	</li>
+	两种多项式的迭代步骤相同, 而初值不同.
+</ol>
+
+<table>
+	<tr>
+		<td>`n`</td>
+		<td>`x_n`</td>
+		<td>`w_n`</td>
+	</tr>
+	<tr>
+		<td>`0`</td>
+		<td>`2`</td>
+		<td>`0`</td>
+	</tr>
+	<tr>
+		<td>`1`</td>
+		<td>`x`</td>
+		<td>`1`</td>
+	</tr>
+	<tr>
+		<td>`2`</td>
+		<td>`x^2-2`</td>
+		<td>`x`</td>
+	</tr>
+	<tr>
+		<td>`3`</td>
+		<td>`x^3-3x`</td>
+		<td>`x^2-1`</td>
+	</tr>
+	<tr>
+		<td>`4`</td>
+		<td>`x^4-4x^2+2`</td>
+		<td>`x^3-2x`</td>
+	</tr>
+	<tr>
+		<td>`5`</td>
+		<td>`x^5-5x^3+5x`</td>
+		<td>`x^4-3x^2+1`</td>
+	</tr>
+</table>
+
+<h3>Chebyshev 多项式</h3>
+
+<p>这类多项式的灵感来自三角函数的 `n` 倍角问题.
+	使用和差化积公式, 便得到求 `n` 倍角正余弦值的 Chebyshev 算法:
+	<span class="formula">
+		`cos n x = 2 cos x cos(n-1)x - cos(n-2)x`,<br/>
+		`sin n x = 2 cos x sin(n-1)x - sin(n-2)x`.
+	</span>
+	而初始条件为
+	<span class="formula">
+		`cos 0 x = 1`, `quad cos 1 x = cos x`,<br/>
+		`sin 0 x = 0`, `quad sin 1 x = sin x`.
+	</span>
+	容易看出 `cos n x` 可以被表为 `cos x` 的多项式, 称为
+	<b>(第一类) Chebyshev 多项式</b>:
+	<span class="formula">
+		`cos n x = T_n(cos x)`.
+	</span>
+	类似地, `U_n` 称为 <b>第二类 Chebyshev 多项式</b>:
+	<span class="formula">
+		`(sin n x)/(sin x) = U_(n-1)(cos x)`.
+	</span>
+	<!--
+		另外, `S_n` 称为 <b>spread polynomial</b>:
+		<span class="formula">
+		`sin^2 n x = S_n(sin^2 x)`.
+		</span>
+	-->
+</p>
+
+<p> Chebyshev 多项式的递归定义:
+	<span class="formula">`T_n(c) = {
+		1, if n = 0;
+		c, if n = 1;
+		2c T_(n-1)(c) - T_(n-2)(c), if n ge 2;
+	:}`</span>
+	容易证明, Chebyshev 多项式的各次项系数之和等于 1.
+	同样, 第二类 Chebyshev 多项式的递归定义为:
+	<span class="formula">`U_(n-1)(c) = {
+		0, if n = 0;
+		1, if n = 1;
+		2c U_(n-2)(c) - U_(n-3)(c), if n ge 2;
+	:}`</span>
+</p>
+
+<table>
+	<caption>Chebyshev 多项式</caption>
+	<tr>
+		<td>`n`</td>
+		<td>`c_n := T_n(c)`</td>
+		<td>`s_n//s := U_(n-1)(c)`</td>
+	</tr>
+	<tr>
+		<td>`0`</td>
+		<td>`1`</td>
+		<td>`0`</td>
+	</tr>
+	<tr>
+		<td>`1`</td>
+		<td>`c`</td>
+		<td>`1`</td>
+	</tr>
+	<tr>
+		<td>`2`</td>
+		<td>`2c^2-1`</td>
+		<td>`2c`</td>
+	</tr>
+	<tr>
+		<td>`3`</td>
+		<td>`4c^3 - 3c`</td>
+		<td>`4c^2-1`</td>
+	</tr>
+	<tr>
+		<td>`4`</td>
+		<td>`8c^4 - 8c^2 + 1`</td>
+		<td>`8c^3 - 4c`</td>
+	</tr>
+	<tr>
+		<td>`5`</td>
+		<td>`16c^5 - 20c^3 + 5c`</td>
+		<td>`16c^4 - 12c^2 + 1</td>
+	</tr>
+</table>
+
+<p> 现在考虑 Chebyshev 多项式的反向表示, 亦即
+	`sin^n x`, `cos^n x` 的 Fourier 级数.  记
+	<span class="formula">
+		`s_n = sin n x`, `quad c_n = cos n x`, `quad n = 0, 1, 2, cdots`.
+	</span>
+	利用积化和差公式
+	<span class="formula">
+		`2 c_m c_n = c_(m+n) + c_|m-n|`,<br/>
+		`2 s_m s_n = c_|m-n| - c_(m+n)`,<br/>
+		`2 s_m c_n = s_(m+n) + sgn(m-n) s_|m-n|`
+	</span>
+	和初始条件
+	<span class="formula">
+		`cos^0 x = 1`, `cos^1 x = c_1`, `sin^0 x = 1`, `sin^1 x = s_1`
+	</span>
+	我们有:
+</p>
+
+<table>
+	<tr>
+		<td>`n`</td>
+		<td>`sin^n x`</td>
+		<td>`cos^n x`</td>
+	</tr>
+	<tr>
+		<td>`0`</td>
+		<td>`c_0`</td>
+		<td>`c_0`</td>
+	</tr>
+	<tr>
+		<td>`1`</td>
+		<td>`s_1`</td>
+		<td>`c_1`</td>
+	</tr>
+	<tr>
+		<td>`2`</td>
+		<td>`(c_0 - c_2)//2`</td>
+		<td>`(c_0 + c_2)//2`</td>
+	</tr>
+	<tr>
+		<td>`3`</td>
+		<td>`(3s_1 - s_3)//4`</td>
+		<td>`(3c_1 + c_3)//4`</td>
+	</tr>
+	<tr>
+		<td>`4`</td>
+		<td>`(3c_0 - 4c_2 + c_4)//8`</td>
+		<td>`(3c_0 + 4c_2 + c_4)//8`</td>
+	</tr>
+	<tr>
+		<td>`5`</td>
+		<td>`(10s_1 - 5s_3 + s_5)//16`</td>
+		<td>`(10c_1 + 5c_3 + c_5)//16`</td>
+	</tr>
+</table>
+
+<p> 容易看出每行的系数之和为 1. 系数三角形的规律为:
+	最右一条斜线系数全为 1, 其余每一系数等于左上方与右上方两系数之和,
+	但 `c_1` 的系数等于左上方系数的两倍与右上方系数之和.
+</p>
+
+<pre>
+1
+0  1
+1  0  1
+0  3  0  1
+3  0  4  0  1
+0  10 0  5  0  1
+</pre>
+
+<p> 利用这个结果可以轻松得出 `sin^n x`, `cos^n x` 的不定积分, 如
+	<span class="formula">
+		`int sin^5 x dx`
+		`= 1/16 int (10 sin x - 5 sin 3 x + sin 5 x) dx`
+		`= 1/16 (-10 cos x + 5/3 cos 3 x - 1/5 cos 5 x) + C`.
+	</span>
+</p>
 
 </body>
+
+<script src="../js/note.js?type=math"></script>
 
 </html>

@@ -14,7 +14,7 @@ var tableOfContents = [ {
 		{title:'有理数和代数数', src:'misc/1.html', isnew:true},
 		{title:'三角函数', src:'misc/2.html'},
 		{title:'不等式', src:'misc/3.html'},
-		{title:'对称多项式', src:'misc/4.html'},
+		{title:'初等代数', src:'misc/4.html', isnew:true},
 		{title:'因式分解', src:'misc/5.html'},
 		{title:'算术', src:'misc/7.html'},
 	]
@@ -47,6 +47,7 @@ var tableOfContents = [ {
 		{title:'多元函数的极值', src:'analysis/17.html'},
 		{title:'重积分', src:'analysis/19.html'},
 		{title:'场论初步', src:'analysis/22.html'},
+		{title:'分数阶微积分', src:'analysis/23.html'},
 	]
 	}, {
 	title:'集合论与点集拓扑',
@@ -87,6 +88,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'插值', src:'numeric/2.html'},
 		{title:'线性方程组', src:'numeric/5.html'},
+		{title:'矩阵', src:'numeric/6.html'},
 		{title:'非线性方程数值解法', src:'numeric/7.html'},
 		{title:'常微分方程数值解法', src:'numeric/8.html'},
 		{title:'偏微分方程的 Ritz-Galerkin 方法', src:'numeric/9.html'},
@@ -108,7 +110,6 @@ var tableOfContents = [ {
 		{title:'半群', src:'abstract/5.html'},
 		{title:'环', src:'abstract/6.html'},
 		{title:'域', src:'abstract/7.html'},
-		{title:'Galois 理论', src:'abstract/8.html'},
 	]
 	}, {
 	title:'拓扑学',
