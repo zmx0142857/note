@@ -20,9 +20,18 @@
 		`int_x^(x+1) B_n(y) dy = x^n`
 		<span class="label" id="for-def-Bn(x)"></span>
 	</span>
-	的唯一 (?) 多项式, 称为 <b>Bernoulli 多项式</b>.
-	易知 `B_n(x)` 是次数为 `n` 的首一多项式.
+	的唯一多项式, 称为 <b>Bernoulli 多项式</b>.
 	`B_n(x)` 也记为 `B_n^(-)(x)`.
+</p>
+
+<p class="remark">
+	设 `B_n(x) = sum_(k=0)^n b_k x^k`, 逐项积分得
+	<span class="formula">
+		`sum_(k=0)^n b_k ((x+1)^(k+1) - x^(k+1))/(k+1) = x^n`.
+	</span>
+	比较等号两边的各次项系数就可得到 `B_n(x)`.
+	这就同时证明了 `B_n(x)` 的存在性与唯一性.
+	从以上证明看出, `B_n(x)` 是次数为 `n` 的首一多项式.
 </p>
 
 <p class="definition">
@@ -75,13 +84,25 @@
 </p>
 
 <p class="proposition" id="prop-Sn">
-	`S_(n-1)(x) = (B_n^+(x) - B_n^+(0))/n`, `n ge 1`.
+	<span class="formula">
+		`S_(n-1)(x) = (B_n^+(x) - B_n^+(0))/n`, `quad n ge 1`,<br/>
+		`S_(n-1)(x-1) = (B_n^(-)(x) - B_n^(-)(0))/n`, `quad n ge 2`.
+	</span>
 </p>
 
 <p class="proof">
-	`S_(n-1)(x) = int_0^x B_(n-1)^+(y) dy`
-	`= int_0^x ("d"/dx B_n^+(y))/n dy`
-	`= (B_n^+(x) - B_n^+(0))/n`.
+	<span class="formula">
+		`S_(n-1)(x) = int_0^x B_(n-1)^+(y) dy`
+		`= int_0^x ("d"/dx B_n^+(y))/n dy`
+		`= (B_n^+(x) - B_n^+(0))/n`.
+	</span>
+	第二式的证明, 只需注意由定义, `n ge 2` 时, `int_0^1 B_n^(-)(y) dy=0`:
+	<span class="formula">
+		`S_(n-1)(x-1) = int_0^(x-1) B_(n-1)^+(y) dy`
+		`= int_1^x B_(n-1)^(-)(y) dy`
+		`= int_0^x B_(n-1)^(-)(y) dy`.
+	</span>
+	后面的步骤与第一式相同.
 </p>
 
 <ol class="definition">
@@ -184,8 +205,6 @@
 	</span>
 	在 <a class="ref" href="#for-sum-powers"></a> 中代入 `x=1` 也能得到
 	`B_n^+` 的递推公式.
-	(由此知 `n ge 1` 时, `B_(2n)` 的符号是正负交错的.
-	因此 `tan x` 的 Maclaurin 展开系数全为正, 等等.)(?)
 </p>
 
 <p>	利用递推公式计算前几个 Bernoulli 数如下. 其中除了 `B_1^+ = 1/2`,
@@ -268,6 +287,7 @@
 </p>
 
 <p class="proof">
+	直接验证
 	<span class="formula">
 		`("e"^t-1) sum_(k=0)^oo B_k(x) t^k/(k!)`
 		`= (sum_(j=1)^oo t^j/(j!)) (sum_(k=0)^oo B_k(x) t^k/(k!))`
@@ -278,6 +298,34 @@
 		`= t "e"^(x t)`.
 	</span>
 	注意到生成函数具有奇点 `2 k pi "i"`, `k in ZZ`, 因此收敛半径为 `2pi`.
+</p>
+
+<p class="proof">
+	(Castellanos, 1988)
+	用微分方程导出生成函数. 设
+	<span class="formula">
+		`f(x, t) = sum_(n=0)^oo (B_n(x) t^n)/(n!)`,
+	</span>
+	求偏导
+	<span class="formula">
+		`(del f)/(del x)`
+		`= sum_(n=1)^oo (B_(n-1)(x) t^n)/((n-1)!)`
+		`= t sum_(n=0)^oo (B_n(x) t^n)/(n!)`
+		`= t f(x, t)`.
+	</span>
+	此方程的解为 `f(x, t) = c(t) "e"^(x t)`. 为确定 `c(t)`, 计算积分
+	<span class="formula">
+		`int_0^1 f(x, t) dx`
+		`= c(t) int_0^1 "e"^(x t) dx`
+		`= c(t) ("e"^t-1)/t`.
+	</span>
+	另一方面,
+	<span class="formula">
+		`int_0^1 f(x, t)`
+		`= sum_(n=0)^oo t^n/(n!) int_0^1 B_n(x) dx`
+		`= 1 + sum_(n=1)^oo t^n/(n!) 0^n = 1`.
+	</span>
+	比较得 `c(t) = t/("e"^t-1)`, `f(x,t) = (t"e"^(x t))/("e"^t-1)`.
 </p>
 
 <p class="remark">
@@ -307,24 +355,24 @@
 </p>
 
 <p class="example">
-	一些三角函数的 Maclaurin 展式:
+	一些三角函数的 Maclaurin 展式 (`"i" 为虚数单位):
 </p>
 
 <table>
 	<tr>
-		<td>`coth x = sum_(n=0)^oo B_(2n) (4^n x^(2n-1))/((2n)!)`,</td>
+		<td>`coth x = 1/x sum_(n=0)^oo B_(2n) (2x)^(2n)/((2n)!)`,</td>
 		<td>`|x| lt pi`</td>
 	</tr>
 	<tr>
-		<td>`cot x = sum_(n=0)^oo B_(2n) ((-4)^n x^(2n-1))/((2n)!)`,</td>
+		<td>`cot x = 1/x sum_(n=0)^oo B_(2n) (2"i"x)^(2n)/((2n)!)`,</td>
 		<td>`|x| lt pi`</td>
 	</tr>
 	<tr>
-		<td>`tanh x = sum_(n=1)^oo B_(2n) (4^n(4^n-1) x^(2n-1))/((2n)!)`,</td>
+		<td>`tanh x = 1/x sum_(n=1)^oo B_(2n) ((4^n-1) (2x)^(2n))/((2n)!)`,</td>
 		<td>`|x| lt pi/2`</td>
 	</tr>
 	<tr>
-		<td>`tan x = sum_(n=1)^oo B_(2n)((-4)^n(1-4^n) x^(2n-1))/((2n)!)`,</td>
+		<td>`tan x = 1/x sum_(n=1)^oo B_(2n)((1-4^n) (2"i"x)^(2n))/((2n)!)`,</td>
 		<td>`|x| lt pi/2`</td>
 	</tr>
 </table>
@@ -333,12 +381,11 @@
 	<span class="formula">
 		`coth x`
 		`= ("e"^(2x)+1)/("e"^(2x)-1)`
-		`= 1/x sum_(n=0)^oo B_(2n) (2x)^(2n)/((2n)!)`
-		`= sum_(n=0)^oo B_(2n)(4^n x^(2n-1))/((2n)!)`,<br/>
+		`= 1/x sum_(n=0)^oo B_(2n) (2x)^(2n)/((2n)!)`,<br/>
 		`tanh x`
 		`= ("e"^(2x)-1)/("e"^(2x)+1)`
 		`= 2("e"^(4x)+1)/("e"^(4x)-1) - ("e"^(2x)+1)/("e"^(2x)-1)`
-		`= sum_(n=1)^oo (4^n(4^n-1) B_(2n))/((2n)!) x^(2n-1)`.
+		`= 1/x sum_(n=1)^oo B_(2n) ((4^n-1) (2x)^(2n))/((2n)!)`.
 	</span>
 	再利用
 	<span class="formula">
@@ -477,7 +524,7 @@
 	设函数 `f in C^m[a,b]`, `m ge 1`, `a,b` 为整数. 则
 	<span class="formula">
 		`sum_(n=a)^b f(n) = int_a^b f(x) dx + (f(a)+f(b))/2`
-		`+ sum_(k=1)^(m-1) B_(k+1)/((k+1)!) (f^((k))(b) - f^((k))(a))`
+		`+ sum_(k=2)^m B_k/(k!) (f^((k-1))(b) - f^((k-1))(a))`
 		`- (-1)^m/(m!) int_a^b B_m(x-|__x__|) f^((m))(x) dx`.
 	</span>
 	上式等号右端的前两项相当于梯形公式
@@ -501,15 +548,15 @@
 		g''(x) dx`
 		`= (g(1)+g(0))/2 - B_2/2 (g'(1)-g'(0)) + 1/2 int_0^1 B_2(x) g''(x) dx`
 		`= cdots`
-		`= (g(1)+g(0))/2 - sum_(k=1)^(m-1) B_(k+1)/((k+1)!) (g^((k))(1)
-		- g^((k))(0))`
+		`= (g(1)+g(0))/2 - sum_(k=2)^m B_k/(k!) (g^((k-1))(1)
+		- g^((k-1))(0))`
 		`+ (-1)^m/(m!) int_0^1 B_m(x) g^((m))(x) dx`.
 	</span>
 	在上式中令 `g(x) = f(x+n)`,
 	<span class="formula">
 		`int_n^(n+1) f(x) dx`
-		`= (f(n+1)+f(n))/2 - sum_(k=1)^(m-1) B_(k+1)/((k+1)!)
-		(f^((k))(n+1)-f^((k))(n))`
+		`= (f(n+1)+f(n))/2 - sum_(k=2)^m B_k/(k!)
+		(f^((k-1))(n+1)-f^((k-1))(n))`
 		`+ (-1)^m/(m!) int_n^(n+1) B_m(x-n) f^((m))(x) dx`.
 	</span>
 	再令 `n = a` 到 `b-1` 求和,
@@ -517,7 +564,33 @@
 	就得到结论.
 </p>
 
-<p class="corollary">
+<ol class="remark">
+	Euler-Maclaurin 公式的其它形式:
+	<li>在原来的公式两边同时减 `f(a)` 或同时减 `f(b)`, 分别得到
+		<span class="formula">
+			`sum_(n=a+1)^b f(n) = int_a^b f(x) dx`
+			`+ sum_(k=1)^m B_k^+/(k!) (f^((k-1))(b)-f^((k-1))(a))`
+			`+ R_m`,<br/>
+			`sum_(n=a)^(b-1) f(n) = int_a^b f(x) dx`
+			`+ sum_(k=1)^m B_k^(-)/(k!) (f^((k-1))(b)-f^((k-1))(a))`
+			`+ R_m`.
+		</span>
+		`R_m` 为余项.
+	</li>
+	<li>设 `g in C^m[alpha, beta]`, 记 `h = (beta-alpha)//n`,
+		`x_k = alpha + k h`,
+		`f(k) = g(x_k)`, 于是 `f in C^m[0,n]`, 对 `f` 应用
+		Euler-Maclaurin 公式再代回 `g`, 有
+		<span class="formula">
+			`h sum_(k=0)^n g(x_k)`
+			`= int_alpha^beta g(x) dx + h/2(g(0) + g(n))`
+			`+ sum_(k=2)^m B_k/(k!) h^k
+			(g^((k-1))(b) - g^((k-1))(a)) + R_m`.
+		</span>
+	</li>
+</ol>
+
+<p class="example">
 	<b>调和级数的估计</b>
 	<a class="ref" href="#rem-conj-harmonic"></a> 中的猜想是正确的.
 </p>
@@ -526,25 +599,25 @@
 	在 Euler-Maclaurin 公式中取 `f(k) = 1/k`, `a = 1`, `b = n`. 由
 	<span class="formula">
 		`int_1^n dx/x = ln n`,
-		`quad "d"^k/dx^k (1/x)`
-		`= ((-1)^k k!)/x^(1+k)`,
+		`quad "d"^(k-1)/dx^(k-1) (1/x)`
+		`= ((-1)^(k-1) (k-1)!)/x^k`,
 	</span>
 	得到
 	<span class="formula">
 		`a_n = sum_(k=1)^n 1/k - ln n`
-		`= 1/2(1+1/n) + sum_(k=1)^(m-1) B_(k+1)/(k+1)(1 - 1/n^(1+k))`
+		`= 1/2(1+1/n) + sum_(k=2)^m B_k/k (1 - 1/n^k)`
 		`- int_1^n (B_m(x-|__x__|))/x^(1+m) dx`.
 	</span>
 	取极限,
 	<span class="formula">
 		`gamma = lim_(n to oo) a_n`
-		`= 1/2 + sum_(k=1)^(m-1) B_(k+1)/(k+1)`
+		`= 1/2 + sum_(k=2)^m B_k/k`
 		`- int_1^oo (B_m(x-|__x__|))/x^(1+m) dx`.
 	</span>
 	两式相减,
 	<span class="formula">
 		`a_n - gamma`
-		`= 1/(2n) - sum_(k=1)^(m-1) B_(k+1)/(k+1) 1/n^(1+k) + int_n^oo
+		`= 1/(2n) - sum_(k=2)^m B_k/(k n^k) + int_n^oo
 		(B_m(x-|__x__|))/x^(1+m) dx`.
 	</span>
 	因为 `B_m(x-|__x__|)` 是有界函数, 我们设它的模不超过 `C`, 则
@@ -556,16 +629,27 @@
 	</span>
 	于是
 	<span class="formula">
+		`a_n = gamma - sum_(k=1)^m B_k^(-)/(k n^k) + O(1/n^m)`.
+		<span class="label" id="for-O(1/n^m)"></span>
+	</span>
+	与
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^(m+1) B_k^(-)/(k n^k) + O(1/n^(m+1))`
+	</span>
+	比较知道, <a class="ref" href="#for-O(1/n^m)"></a> 中余项可以写为
+	`O(1/n^(m+1))`, 最终得到
+	<span class="formula">
 		`a_n = gamma - sum_(k=1)^m B_k^(-)/(k n^k) + O(1/n^(m+1))`.
 	</span>
 </p>
 
-<p class="corollary">
+<p class="example">
 	<b>Stirling 级数</b>
 	<span class="formula">
 		`n! = sqrt(2pi n) (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
 		1/n^k + O(1/n^(m+1)))`.
 	</span>
+	(改用 Gamma 函数??)
 </p>
 
 <ol class="proof">
@@ -597,15 +681,8 @@
 	<span class="formula">
 		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^(m-1) B_(k+1)/(k(k+1))
 		1/n^k + O(1/n^(m-1)))`.
-		<span class="label" id="for-On^(1-m)"></span>
 	</span>
-	以 `m` 代替上式的 `m-1`, 又得到
-	<span class="formula">
-		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
-		1/n^k + O(1/n^m))`.
-	</span>
-	两式比较可以发现, <a class="ref" href="#for-On^(1-m)"></a>
-	中的余项 `O(1/n^(m-1))` 实际上可以换成 `O(1/n^m)`. 于是
+	基于估计调和级数时相同的理由, 上式余项的阶可以加一, 最终得到
 	<span class="formula">
 		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
 		1/n^k + O(1/n^(m+1)))`.
@@ -642,7 +719,7 @@
 <p class="proof">
 	在 Euler-Maclaurin 公式中取 `f(k) = k^(m-1)`, `a = 1`, `b = n`. 由
 	<span class="formula">
-		`"d"^(k-1)/dx^(k-1) x^(m-1) = (m-1) (m-2) cdots (m-k) x^(m-k)`,
+		`"d"^(k-1)/dx^(k-1) x^(m-1) = (m-1) (m-2) cdots (m-k+1) x^(m-k)`,
 		`quad k = 2, 3, cdots, m`,<br/>
 		`"d"^m/dx^m x^(m-1) = 0`,
 		`quad int_1^n x^(m-1) dx = 1/m(n^m-1)`,
@@ -702,7 +779,8 @@
 	对任意的正整数 `m, n`, 上式都成立.
 	注意到只要取适当的 `m` 使得 `s+m gt 1`, 上式最后一项的积分就收敛.
 	假如我们以上式作为 zeta 函数的定义, 那么 `zeta(s)` 的定义域将扩大到
-	`CC \\ {1}`. 这就是 Riemann zeta 函数的解析延拓.
+	`CC \\ {1}`. 容易看出它在定义域上处处解析 (最后一项??)
+	这就是 Riemann zeta 函数的解析延拓.
 	</li>
 	<li>
 	将 `s = 1-m` 代入 <a class="ref" href="#for-zeta-continuation"></a>,
@@ -946,6 +1024,24 @@
 	由引理, 上式恰等于 `1`. 证毕.
 	</li>
 </ol>
+
+<p class="remark">
+	`zeta(2n)` 的公式对 `n=0` 也有效.
+</p>
+
+<p class="corollary">
+	`n ge 1` 时,
+	由 `zeta(2n) gt 0` 知道, `B_(2n)` 的符号是正负交错的.
+	由此还能得到 `tan x` 的 Maclaurin 展开系数全为正, 等等.
+</p>
+
+<p class="corollary">
+	因为 `lim_(n to oo) zeta(2n) = 1`, 所以
+	<span class="formula">
+		`B_(2n) ~ -2 ((2n)!)/(2pi"i")^(2n)`
+		`~ (-1)^(n-1) 4 sqrt(pi n) (n/(pi e))^(2n)`.
+	</span>
+</p>
 
 <script src="../js/note.js?type=math"></script>
 

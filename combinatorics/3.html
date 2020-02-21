@@ -396,6 +396,36 @@
 	736]`. 所以答案是 `6816+736=7552`.
 </p>
 
+<p class="example">
+	[<a href="https://brilliant.org/practice/binomial-theorem-level-2-3-challenges/?p=3">题源 brilliant.org</a>]
+	求 `(sqrt(71)+1)^71 - (sqrt(71)-1)^71` 的个位数.
+</p>
+
+<p class="solution">
+	将题目改写为 `(1+sqrt(71))^71 + (1-sqrt(71)^71`,
+	构造线性递推式 `x_n = 2 x_(n-1) - 6 x_(n-2)`,
+	它的两个特征根恰为 `1+-sqrt(71)`. 题目转化为求解 `x_71 (mod 10)`.
+	代入初值条件 `x_1 = 2`, 容易知道
+	<span class="formula">
+		`x_2 -= 4`, `x_3 -= 8`, `x_4 -= 6`, `x_5 = 2` `quad (mod 10)`.
+	</span>
+	由于 `71 -= 3 (mod 4)`, 所以 `x_71 -= 8 (mod 10)`.
+</p>
+
+<p class="example">
+	<a href="https://brilliant.org/practice/binomial-theorem-level-2-3-challenges/?p=4">题源 brilliant.org</a>
+</p>
+
+<p class="solution">
+	求 `|__ (sqrt 2+1)^6 __|`.
+</p>
+
+<p class="solution">
+	记 `x_n = (1+sqrt 2)^n + (1-sqrt 2)^n`.
+	容易求得 `x_6 = 198`. 注意到 `(1-sqrt 2)^6 lt 1`,
+	所以答案是 `197`.
+</p>
+
 <h3>非齐次常系数线性递推式的比较系数法</h3>
 
 <ol>这类方程的一般形式如
