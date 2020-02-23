@@ -38,25 +38,14 @@ div {
 	<textarea id="input" rows="5" lang="asciimath"></textarea>
 </div>
 
-<script src="../js/AMsymbols.js"></script>
-<script src="../js/asciimath-katex.js"></script>
-<script src="../js/katex.min.js"></script>
 <script>
-var count = 0;
-var input = document.getElementById('input');
-var output = document.getElementById('output');
-var copy = document.getElementById('copy');
-var lang = document.getElementById('lang');
-var outputWrapper = document.getElementById('outputWrapper');
-
 function render() {
 	if (input.lang == 'asciimath') {
 		output.asciimath = input.value;
 		output.innerHTML = '`' + output.asciimath + '`';
-		if (typeof(AMTEX) != "undefined") {
-			AMTEX();
-			// texstring comes from asciimath-katex.js
-			output.tex = texstring;
+		if (asciimath) {
+			asciimath.render(output);
+			output.tex = asciimath.texstr;
 		}
 	} else {
 		output.tex = input.value;
@@ -64,6 +53,21 @@ function render() {
 		katex.render(input.value, output);
 	}
 } 	 
+
+var asciimath = {
+	katexpath: '../js/katex.min.js',
+	katex: true,
+	onload: render,
+};
+</script>
+<script src="../js/asciimath.js"></script>
+<script>
+var count = 0;
+var input = document.getElementById('input');
+var output = document.getElementById('output');
+var copy = document.getElementById('copy');
+var lang = document.getElementById('lang');
+var outputWrapper = document.getElementById('outputWrapper');
 
 input.onkeyup = function(event) {
 	if (event.keyCode || event.which)
@@ -115,7 +119,6 @@ newFormula.onclick = function() {
 
 newFormula.onclick();
 input.value = 'x = (-b+-sqrt(b^2-4ac))/(2a)';
-render();
 </script>
 </body>
 </html>

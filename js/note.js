@@ -1,5 +1,11 @@
 'use strict';
 
+var asciimath;
+if (typeof asciimath == 'undefined')
+	asciimath = { katexpath: '../js/katex.min.js' };
+else if (typeof asciimath.katexpath == 'undefined')
+	asciimath.katexpath = '../js/katex.min.js';
+
 (function() {
 
 // ---- globals ----
@@ -47,63 +53,9 @@ function init() {
 }
 
 function loadMath() {
-	var foundFirefox = explorer.indexOf('Firefox') >= 0;
-	var foundChrome = explorer.indexOf('Chrome') >= 0;
-	var foundSafari = explorer.indexOf('Safari') >= 0;
-
-	if (foundFirefox || (foundSafari && !foundChrome)) {
-		// firefox and safari
-		var newScript = document.createElement('script');
-		newScript.src = '../js/AMsymbols.js';
-		document.body.appendChild(newScript);
-		newScript = document.createElement('script');
-		newScript.src = '../js/asciimath.js';
-		document.body.appendChild(newScript);
-	} else { // other browser
-		/* former use of MathJaX
-		var newScript = document.createElement('script');
-		newScript.src = '../js/mathjax-config.js';
-		document.body.appendChild(newScript);
-		newScript = document.createElement('script');
-		newScript.type = 'text/x-mathjax-config';
-		newScript.innerHTML = 'mathJaxConfig();'
-		document.body.appendChild(newScript);
-		newScript = document.createElement('script');
-		newScript.async = true;
-		newScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML-full';
-		document.body.appendChild(newScript);
-		*/
-		// KaTeX renders math faster!
-		var link = document.createElement('link');
-		link.setAttribute('rel', 'stylesheet');
-		// local fonts cause CORS error
-		link.setAttribute('href', 'https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css');
-		document.body.appendChild(link);
-
-		function loadScript(url, callback) {
-			var script = document.createElement('script');
-			script.type = 'application/javascript';
-			if (typeof(callback) != 'undefined') {
-				if (script.readyState) { // IE
-					script.onreadystatechange = function() {
-						if (script.readyState == 'loaded'
-								|| script.readyState == 'complete') {
-							script.onreadystatechange = null;
-							callback();
-						}
-					}
-				} else { // others
-					script.onload = function() { callback(); }
-				}
-			}
-			script.src = url;
-			document.body.appendChild(script);
-		}
-		loadScript('../js/AMsymbols.js', function(){
-		loadScript('../js/katex.min.js', function() {
-		loadScript('../js/asciimath-katex.js', function() {});
-		}); });
-	}
+	var newScript = document.createElement('script');
+	newScript.src = '../js/asciimath.js';
+	document.body.appendChild(newScript);
 }
 
 function makeModified() {

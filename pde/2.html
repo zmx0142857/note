@@ -542,10 +542,10 @@
 		= 1/2(varphi(at+x) - varphi(at-x))`
 		 `+ 1/(2a) (int_(x-at)^0 - psi(-xi) "d"xi
 		  + int_0^(x+at) psi(xi) "d" xi)`
-		 `+ 1/(2a) (int_(t-x/a)^t "d"tau int_(x-a(t-tau))^(x+a(t-tau))
+		 `+ 1/(2a) int_(t-x/a)^t "d"tau int_(x-a(t-tau))^(x+a(t-tau))
 		  f(xi, tau) "d"xi`
-	     `+ int_0^(t-x/a) "d"tau (int_0^(x+a(t-tau)) f(xi, tau)
-		  "d"xi + int_(x-a(t-tau))^0 -f(-xi, tau) "d"xi))`
+	     `+ 1/(2a) int_0^(t-x/a) "d"tau (int_0^(x+a(t-tau)) f(xi, tau)
+		  "d"xi + int_(x-a(t-tau))^0 -f(-xi, tau) "d"xi)`
 		`=1/2(varphi(at+x) - varphi(at-x))`
 		`+ 1/(2a) int_(at-x)^(at+x) psi(xi) "d"xi`
 		`+ 1/(2a) (int_(t-x/a)^t "d"tau int_(x-a(t-tau))^(x+a(t-tau))
@@ -703,9 +703,9 @@
 	<span class="formula">
 		`  u(bm x, t)`
 		`= 1/(4 pi a^2) (
-		   del/(del t) (1/t iint_(|bm y-bm x|=at) varphi(bm y) "d"sigma)`
-		`+ 1/t iint_(|bm y-bm x|=at) psi(bm y) "d"sigma`
-		`+ int_0^t 1/(t-tau) "d"tau iint_(|bm y-bm x|=a(t-tau))
+		   del/(del t) (1/t iint_(|bm y-bm x|=at) varphi(bm y) "d"sigma)
+		+ 1/t iint_(|bm y-bm x|=at) psi(bm y) "d"sigma
+		+ int_0^t 1/(t-tau) "d"tau iint_(|bm y-bm x|=a(t-tau))
 		   f(bm y, tau) "d"sigma)`.
 	</span>
 </p>
@@ -739,13 +739,13 @@
 	我们有 (<b>Poisson 公式</b>)
 	<span class="formula">
 		`  u(bm x, t)`
-		`= 1/(2 pi a) (
+		`= 1/(2pi a)
 		   del/(del t) iint_(|bm y-bm x| le at)
 		   (varphi(bm y)) / sqrt(a^2 t^2 - |bm y-bm x|^2) "d"bm y`
-		`+ iint_(|bm y-bm x| le at)
+		`+ 1/(2pi a) iint_(|bm y-bm x| le at)
 		   (psi(bm y)) / sqrt(a^2 t^2 - |bm y-bm x|^2) "d"bm y`
-		`+ int_0^t "d"tau iint_(|bm y-bm x| le a(t-tau))
-		   (f(bm y, tau))/sqrt(a^2(t-tau)^2-|bm y-bm x|^2) "d"bm y)`.
+		`+ 1/(2pi ) int_0^t "d"tau iint_(|bm y-bm x| le a(t-tau))
+		   (f(bm y, tau))/sqrt(a^2(t-tau)^2-|bm y-bm x|^2) "d"bm y`.
 	</span>
 	它的确是与 `x_3` 无关的函数.
 </p>
