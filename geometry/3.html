@@ -146,7 +146,7 @@
 	</span>
 </p>
 
-<h2>定比分点, 对称坐标与三角形的心</h2>
+<h2>定比分点, 齐次坐标与三角形的心</h2>
 
 <h3>定比分点</h3>
 
@@ -237,7 +237,7 @@
 	</li>
 </ol>
 
-<h3>对称坐标</h3>
+<h3>齐次坐标</h3>
 
 <p class="definition">
 	设平面上有一点 `X` 和 `triangle ABC`, 如果存在实数 `x_A, x_B, x_C`
@@ -246,11 +246,11 @@
 		`x_A vec(AX) + x_B vec(BX) + x_C vec(CX) = bb 0`.
 		<span class="label" id="for-symmetric-coordinate"></span>
 	</span>
-	则称 `(x_A, x_B, x_C)` 为 `X` 关于 `triangle ABC` 的<b>对称坐标</b>.
+	则称 `(x_A, x_B, x_C)` 为 `X` 关于 `triangle ABC` 的<b>齐次坐标</b>.
 </p>
 
 <p class="theorem">
-	`X` 关于 `triangle ABC` 的对称坐标存在唯一.
+	`X` 关于 `triangle ABC` 的齐次坐标存在唯一.
 </p>
 
 <p class="proof">
@@ -270,9 +270,9 @@
 	由定比分点公式知 `A, B, C` 共线, 这与 `A, B, C`
 	三点构成一个三角形矛盾, 所以 `k_1 + k_2 + k_3 != 0`.
 	记 `x_i = k_i//(k_1+k_2+k_3)`, `i = 1, 2, 3`,
-	则 `(x_1, x_2, x_3)` 就是 `X` 关于 `triangle ABC` 的对称坐标.<br/>
+	则 `(x_1, x_2, x_3)` 就是 `X` 关于 `triangle ABC` 的齐次坐标.<br/>
 	唯一性: 设 `(x_1, x_2, x_3)` 和 `(y_1, y_2, y_3)` 都是 `X` 关于
-	`triangle ABC` 的对称坐标, 我们有
+	`triangle ABC` 的齐次坐标, 我们有
 	<span class="formula">
 		`x_1 vec(AX) + x_2 vec(BX) + x_3 vec(CX) = bb 0`,<br/>
 		`y_1 vec(AX) + y_2 vec(BX) + y_3 vec(CX) = bb 0`.
@@ -291,13 +291,13 @@
 </p>
 
 <p class="theorem">
-	`(x_A, x_B, x_C)` 是 `X` 关于 `triangle ABC` 的对称坐标,
+	`(x_A, x_B, x_C)` 是 `X` 关于 `triangle ABC` 的齐次坐标,
 	当且仅当对平面上的任意一点 `O` 有
 	<span class="formula">
 		`vec(OX) = x_A vec(OA) + x_B vec(OB) + x_C vec(OC)`.
 		<span class="label" id="for-symmetric-coordinate-2def"></span>
 	</span>
-	这一结论帮助我们将对称坐标化为普通坐标.
+	这一结论帮助我们将齐次坐标化为普通坐标.
 </p>
 
 <p class="proof">
@@ -321,7 +321,7 @@
 	整理即得式 <a class="ref" href="#for-symmetric-coordinate-2def"></a>.
 </p>
 
-<p>	下面推导对称坐标的计算公式, 为此先引入三角形的<b>有向面积</b>的概念:
+<p>	下面推导齐次坐标的计算公式, 为此先引入三角形的<b>有向面积</b>的概念:
 </p>
 
 <ol class="definition">
@@ -332,7 +332,7 @@
 <p class="theorem" id="the-compute-symmetric-coordnate">
 	设平面上有一点 `X` 和 `triangle ABC`,
 	三角形 `ABC, BCX, CAX, ABX` 的有向面积分别记为 `S, S_A, S_B, S_C`.
-	则点 `X` 关于 `triangle ABC` 的对称坐标是 `1/S(S_A, S_B, S_C)`.
+	则点 `X` 关于 `triangle ABC` 的齐次坐标是 `1/S(S_A, S_B, S_C)`.
 </p>
 
 <p class="proof">
@@ -406,6 +406,11 @@
 	</li>
 </ol>
 
+<p class="remark">
+	各字母假定同上. `AQ, BR, CP` 叫 Ceva 线, `triangle PQR` 叫 Ceva
+	三角形.
+</p>
+
 <p class="corollary">
 	<b>角元 Ceva 定理</b>
 	设 `P, Q, R` 分别是 `triangle ABC` 三边 `AB, BC, CA` 的内分点,
@@ -446,7 +451,7 @@
 
 <p class="theorem" id="the-heart">
 	假设如 Ceva 定理.
-	设 `AQ, BR, CP` 相交于点 `X`, 则 `X` 关于 `triangle ABC` 的对称坐标是
+	设 `AQ, BR, CP` 相交于点 `X`, 则 `X` 关于 `triangle ABC` 的齐次坐标是
 	<span class="formula">
 		`(1/(1+lambda+lambda mu),
 		1/(1+mu+mu nu),
@@ -531,7 +536,7 @@
 </p>
 
 <ol class="corollary">
-	利用<a class="ref" href="#the-heart"></a>和<a class="ref" href="#lem-proportion"></a> 容易算出 `triangle ABC` 各心的对称坐标:
+	利用<a class="ref" href="#the-heart"></a>和<a class="ref" href="#lem-proportion"></a> 容易算出 `triangle ABC` 各心的齐次坐标:
 	<li>重心 `G`: `1/3(1, 1, 1)`;</li>
 	<li>内心 `I`: `1/(a+b+c)(a, b, c) = 1/(sin A + sin B + sin C)(sin A, sin
 		B, sin C)`;</li>
@@ -650,7 +655,7 @@
 		</span>
 		这是三角形的重心.
 	</li>
-	<li>设点 `X` 的对称坐标是 `1/S(S_A, S_B, S_C)`,
+	<li>设点 `X` 的齐次坐标是 `1/S(S_A, S_B, S_C)`,
 		则它到三边距离之积等于
 		<span class="formula">
 			`(2S_A)/a (2S_B)/b (2S_C)/c`
@@ -712,7 +717,7 @@
 </p>
 
 <p class="proof">
-	设 `triangle ABC` 的内心, 外心分别为 `I, O`, 由内心的对称坐标,
+	设 `triangle ABC` 的内心, 外心分别为 `I, O`, 由内心的齐次坐标,
 	<span class="formula">
 		`vec(OI) = 1/(a+b+c)(a vec(OA)+b vec(OB)+c vec(OC))`,
 	</span>
@@ -858,6 +863,47 @@
 		`ge 2(l + m + n)`.
 	</span>
 </p>
+
+<h2>调和点列</h2>
+
+<p class="definition">
+	设 `a, b, c, d in CC uu {oo}`, 称
+	<span class="formula">
+		`(a, b, c, d) := (c-a)/(c-b) : (d-a)/(d-b)`
+	</span>
+	为这四点的<b>交比</b>. 其中规定 `oo : oo = 1 : 1`.
+</p>
+
+<p class="definition">
+	直线上依次有 `A, C, B, D` 四点, 若
+	<span class="formula">
+		`AC * BD = AD * BC`,
+	</span>
+	则称 `A, B, C, D` 构成<b>调和点列</b>, 我们也说 `AB` 调和分割
+	`CD`, 或 `CD` 调和分割 `AB` (因为两条线段地位是对称的),
+	或 `AB, CD` 调和共轭.<br/>
+	若 `A, B, C, D` 是调和点列, `AC = x`, `AD = y`, `AB = z`. 计算得到
+	<span class="formula">
+		`z = (2x y)/(x+y), quad` 即 `1/z = 1/2 (1/x + 1/y)`.
+	</span>
+	这就是 "调和" 一词的由来.<br/>
+</p>
+
+<ol class="corollary">
+	`A, B, C, D` 四点构成调和点列, `M` 是 `AB` 中点, 则
+	<li>`AC * BD = AD * BC = (AB * CD)//2`;</li>
+	<li>`CA * CB = CM * CD`;</li>
+	<li>调和点列的交比是 `-1`.</li>
+</ol>
+
+<ol class="theorem">
+	设直线上依次有 `A, C, B, D` 四点, 若以下命题中有两个为真,
+	则四个命题都为真:
+	<li>`A, B, C, D` 成调和点列;</li>
+	<li>平面上存在一点 `O`, 使 `OB` 平分 `/_ AOC`;</li>
+	<li>平面上存在一点 `O`, 使 `OB _|_ OD`;</li>
+	<li>平面上存在一点 `O`, 使 `OD` 平分 `/_AOC` 的补角.</li>
+</ol>
 
 </body>
 
