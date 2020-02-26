@@ -197,27 +197,6 @@
 	其中 `j -= i+1 (mod 4)`, `k -= j+1 (mod 4)`.
 </p>
 
-<h4>De Moivre 定理与 `n` 倍角公式</h4>
-
-<p> De Moivre 定理是下面的恒等式:
-  <span class="formula">
-    `(cos x + "i"sin x)(cos y + "i"sin y)`
-    `= cos(x+y) + "i"sin(x+y)`.
-  </span>
-  `AA n in ZZ`, 对 `n` 作归纳得到
-  <span class="formula">
-    `(cos x + "i"sin x)^n = cos nx + "i" sin nx`.
-  </span>
-  上式左边展开, 分别取实部和虚部就得到 (François Viète):
-  <span class="formula">
-    `sin n x = sum_(j" odd") (-1)^((j-1)/2)
-    (n;j) cos^(n-j) x sin^j x`,<br/>
-    `cos n x = sum_(j" even") (-1)^(j/2)
-    (n;j) cos^(n-j) x sin^j x`.
-  </span>
-  另一种更便捷的方法是利用 <a href="4.html">Chebyshev 多项式</a>.
-</p>
-
 <h2>反三角函数</h2>
 
 <table>
@@ -477,9 +456,12 @@
 	`"arth "x = 1/2 ln ((1+x)/(1-x))`, `quad -1 lt x lt 1`.
 </span>
 
-<h2>Euler 公式</h2>
+<h2>三角函数与复数</h2>
 
-<p>
+<h3>Euler 公式与 De Moivre 公式</h3>
+
+<p class="theorem">
+	<b>Euler 公式</b>
 	<span class="formula">
 		`"e"^("i"x) = cos x + "i" sin x`, `quad AA x in CC`.
 	</span>
@@ -496,12 +478,212 @@
 	</span>
 </p>
 
-<p class="remark">
-	比如, 设 `y = arccos x`, 则
+<p class="proof">
+	比如, 设 `y = arccos x in (0, pi)`, 则 `sin y ge 0`, 有
 	<span class="formula">
 		`"e"^("i"y) = cos y + "i"sin y = x + "i"sqrt(1-x^2)`,
 	</span>
 	于是 `y = -"i"ln (x + "i"sqrt(1-x^2))`.
+</p>
+
+<p class="theorem">
+	<b>De Moivre 公式</b>
+	<span class="formula">
+		`(cos x + "i"sin x)(cos y + "i"sin y)`
+		`= cos(x+y) + "i"sin(x+y)`.
+	</span>
+	`AA n in ZZ`, 对 `n` 作归纳得到
+	<span class="formula">
+		`(cos x + "i"sin x)^n = cos nx + "i" sin nx`.
+		<span class="label" id="for-de-moivre"></span>
+	</span>
+</p>
+
+<h3>`n` 倍角公式与 Chebyshev 多项式</h3>
+
+<p class="theorem">
+	(Vieta) 将 <a class="ref" href="#for-de-moivre"></a>
+	左边展开, 分别取实部和虚部就得到
+	<span class="formula">
+		`cos n x = sum_(j" even") (-1)^(j/2)
+		(n;j) cos^(n-j) x sin^j x`,<br/>
+		`sin n x = sum_(j" odd") (-1)^((j-1)/2)
+		(n;j) cos^(n-j) x sin^j x`.
+	</span>
+</p>
+
+<p>	下面主要讨论 Chebyshev 多项式. 它来源于 `n` 倍角问题,
+	在数值分析中作为一类 "最佳多项式" 有着重要应用.
+	使用和差化积公式, 便得到求 `n` 倍角正余弦值的 Chebyshev 算法:
+	<span class="formula">
+		`cos n x = 2 cos x cos(n-1)x - cos(n-2)x`,<br/>
+		`sin n x = 2 cos x sin(n-1)x - sin(n-2)x`.
+	</span>
+	而初始条件为
+	<span class="formula">
+		`cos 0 x = 1`, `quad cos 1 x = cos x`,<br/>
+		`sin 0 x = 0`, `quad sin 1 x = sin x`.
+	</span>
+	容易看出 `cos n x` 可以被表为 `cos x` 的多项式, 称为
+	<b>(第一类) Chebyshev 多项式</b>:
+	<span class="formula">
+		`cos n x = T_n(cos x)`.
+	</span>
+	类似地, `U_n` 称为 <b>第二类 Chebyshev 多项式</b>:
+	<span class="formula">
+		`(sin n x)/(sin x) = U_(n-1)(cos x)`.
+	</span>
+	<!--
+		另外, `S_n` 称为 <b>spread polynomial</b>:
+		<span class="formula">
+		`sin^2 n x = S_n(sin^2 x)`.
+		</span>
+	-->
+</p>
+
+<p> Chebyshev 多项式的递归定义:
+	<span class="formula">`T_n(c) = {
+		1, if n = 0;
+		c, if n = 1;
+		2c T_(n-1)(c) - T_(n-2)(c), if n ge 2;
+	:}`</span>
+	容易证明, Chebyshev 多项式的各次项系数之和等于 1.
+	同样, 第二类 Chebyshev 多项式的递归定义为:
+	<span class="formula">`U_(n-1)(c) = {
+		0, if n = 0;
+		1, if n = 1;
+		2c U_(n-2)(c) - U_(n-3)(c), if n ge 2;
+	:}`</span>
+</p>
+
+<table>
+	<caption>Chebyshev 多项式</caption>
+	<tr>
+		<td>`n`</td>
+		<td>`c_n := T_n(c)`</td>
+		<td>`s_n//s := U_(n-1)(c)`</td>
+	</tr>
+	<tr>
+		<td>`0`</td>
+		<td>`1`</td>
+		<td>`0`</td>
+	</tr>
+	<tr>
+		<td>`1`</td>
+		<td>`c`</td>
+		<td>`1`</td>
+	</tr>
+	<tr>
+		<td>`2`</td>
+		<td>`2c^2-1`</td>
+		<td>`2c`</td>
+	</tr>
+	<tr>
+		<td>`3`</td>
+		<td>`4c^3 - 3c`</td>
+		<td>`4c^2-1`</td>
+	</tr>
+	<tr>
+		<td>`4`</td>
+		<td>`8c^4 - 8c^2 + 1`</td>
+		<td>`8c^3 - 4c`</td>
+	</tr>
+	<tr>
+		<td>`5`</td>
+		<td>`16c^5 - 20c^3 + 5c`</td>
+		<td>`16c^4 - 12c^2 + 1`</td>
+	</tr>
+</table>
+
+<h3>`cos^n x` 和 `sin^n x` 的 Fourier 展开</h3>
+
+<p> 利用 Euler 公式得到
+	<span class="formula">
+		`cos^n x = (("e"^("i"x)+"e"^(-"i"x))/2)^n`
+		`= 2^-n sum_(k=0)^n (n;k) "e"^((n-2k)"i"x)`
+		(取实部) `= 2^-n sum_(k=0)^n (n;k) cos (n-2k)x`,<br/>
+		`sin^n x = (("e"^("i"x)-"e"^(-"i"x))/(2"i"))^n`
+		`= 2^-n sum_(k=0)^n (n;k) "i"^(2k-n) "e"^((n-2k)"i"x)`
+		`= {
+			2^-n sum_(k=0)^n (n;k) (-1)^(k-m) cos (n-2k)x, n=2m;
+			2^-n sum_(k=0)^n (n;k) (-1)^(k-m) sin (n-2k)x, n=2m+1;
+		:}`
+	</span>
+	我们将这些重要公式列表如下 (分别用 `c_n`, `s_n` 表示 `cos n x`
+	与 `sin n x`):
+</p>
+
+<table>
+	<tr>
+		<td>`n`</td>
+		<td>`sin^n x`</td>
+		<td>`cos^n x`</td>
+	</tr>
+	<tr>
+		<td>`0`</td>
+		<td>`c_0`</td>
+		<td>`c_0`</td>
+	</tr>
+	<tr>
+		<td>`1`</td>
+		<td>`s_1`</td>
+		<td>`c_1`</td>
+	</tr>
+	<tr>
+		<td>`2`</td>
+		<td>`(c_0 - c_2)//2`</td>
+		<td>`(c_0 + c_2)//2`</td>
+	</tr>
+	<tr>
+		<td>`3`</td>
+		<td>`(3s_1 - s_3)//4`</td>
+		<td>`(3c_1 + c_3)//4`</td>
+	</tr>
+	<tr>
+		<td>`4`</td>
+		<td>`(3c_0 - 4c_2 + c_4)//8`</td>
+		<td>`(3c_0 + 4c_2 + c_4)//8`</td>
+	</tr>
+	<tr>
+		<td>`5`</td>
+		<td>`(10s_1 - 5s_3 + s_5)//16`</td>
+		<td>`(10c_1 + 5c_3 + c_5)//16`</td>
+	</tr>
+</table>
+
+<p> 容易看出每行的系数之和为 1. 系数三角形恰好是杨辉三角的右半边
+	(中线上的数字要除以 2):
+</p>
+
+<pre>
+&frac12;
+   1
+1     1
+   3     1
+3     4     1
+  10     5     1
+</pre>
+
+<p> 利用这个结果可以轻松得出 `sin^n x`, `cos^n x` 的不定积分, 如
+	<span class="formula">
+		`int sin^5 x dx`
+		`= 1/16 int (10 sin x - 5 sin 3 x + sin 5 x) dx`
+		`= 1/16 (-10 cos x + 5/3 cos 3 x - 1/5 cos 5 x) + C`.
+	</span>
+</p>
+
+<p class="remark">
+	当然, 也可以按 Chebyshev 多项式的思路, 利用积化和差公式
+	<span class="formula">
+		`2 c_m c_n = c_(m+n) + c_|m-n|`,<br/>
+		`2 s_m s_n = c_|m-n| - c_(m+n)`,<br/>
+		`2 s_m c_n = s_(m+n) + sgn(m-n) s_|m-n|`
+	</span>
+	和初始条件
+	<span class="formula">
+		`cos^0 x = 1`, `cos^1 x = c_1`, `sin^0 x = 1`, `sin^1 x = s_1`
+	</span>
+	进行上述公式的推导.
 </p>
 
 <h2>杂例</h2>

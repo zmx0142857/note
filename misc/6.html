@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>数学家</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<script src="../js/note.js"></script>
+<script>
+var mathematician = [
+  //{name, cnname, enname, nationality, birth, decease},
+  {name:'François Viète', cnname:'韦达', enname:'Vieta',
+    nationality:'法国', birth:1540, decease:1603},
+  {name:'Augustin-Louis Cauchy', cnname:'柯西', enname:'Cauchy',
+    nationality:'法国', birth:1789, decease:1857},
+  {name:'Georg Friedrich Bernhard Riemann', cnname:'黎曼',
+    enname:'Riemann', nationality:'德国', birth:1826, decease:1866},
+  {name:'Johann Carl Friedrich Gauss', cnname:'高斯',
+    enname:'Gauss', nationality:'德国', birth:1777, decease:1855},
+  {name:'Leonhard Euler', cnname:'欧拉', enname:'Euler',
+    nationality:'瑞士', birth:1707, decease:1783},
+  {name:'Gottfried Wilhelm Leibniz', cnname:'莱布尼茨', enname:'Leibniz',
+    nationality:'德国', birth:1646, decease:1716},
+  {name:'Issac Newton', cnname:'牛顿', enname:'Newton',
+    nationality:'英国', birth:1642, decease:1726},
+  //{name:'Euclid of Alexandria', cnname:'欧几里得', enname:'Euclid', nationality:'古希腊'},
+  {name:'René Descartes', cnname:'笛卡儿', enname:'Descartes',
+    nationality:'法国', birth:1596, decease:1650},
+];
+
+mathematician.sort(function(m1, m2) { return m1.birth-m2.birth; });
+
+// imitate jquery (迫真)
+function $(str, children, namespace) {
+  if (typeof(str) == 'string') {
+    if (str[0] == '#')
+      return document.getElementById(str.slice(1));
+    if (str[0] == '.')
+      return document.getElementsByClassName(str.slice(1));
+    if (str[0] == '"' && str.slice(-1) == '"')
+      return document.createTextNode(str.slice(1,-1));
+    if (str[0] == '<' && str.slice(-1) == '>') {
+      var elem;
+      str = str.slice(1,-1);
+	  elem = document.createElement(str);
+      if (!children)
+        ;
+      else if (typeof(children) == 'string')
+        elem.appendChild(document.createTextNode(children));
+      else if (children instanceof Node)
+        elem.appendChild(children);
+      else if (children instanceof Array)
+        for (c of children)
+          elem.appendChild(c);
+      return elem;
+    }
+    if (str.length > 0)
+      return document.getElementsByTagName(str);
+  } else if (typeof(str) == 'undefined') {
+    return document.createDocumentFragment();
+  }
+}
+
+var frag = $();
+var tr = $('<tr>');
+var ths = ['中文名', '英文名', '国籍', '生卒', '全名'];
+for (t of ths) {
+  tr.appendChild($('<th>', t));
+}
+frag.appendChild(tr);
+for (m of mathematician) {
+  tr = $('<tr>', [
+	  $('<td>', '' + m.cnname),
+	  $('<td>', '' + m.enname),
+	  $('<td>', '' + m.nationality),
+	  $('<td>', m.birth + ' - ' + m.decease),
+	  $('<td>', '' + m.name),
+  ]);
+  frag.appendChild(tr);
+}
+document.body.append($('<table>', frag));
+</script>
+
+</body>
+
+</html>

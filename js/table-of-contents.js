@@ -16,6 +16,7 @@ var tableOfContents = [ {
 		{title:'不等式', src:'misc/3.html'},
 		{title:'初等代数', src:'misc/4.html', isnew:true},
 		{title:'因式分解', src:'misc/5.html'},
+		{title:'数学家', src:'misc/6.html'},
 		{title:'算术', src:'misc/7.html'},
 	]
 	}, {
