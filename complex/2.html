@@ -48,17 +48,15 @@
 	上式也可以作为可微的定义.
 </p>
 
-<p>上式两端令 `Delta z to 0`, 得到:</p>
-
-<p class="corollary">
-	<b>可微必连续</b>
-	若 `f` 在 `z_0` 处可微, 则它在 `z_0` 处连续.
-</p>
-
 <p class="remark">
-	由于复变函数导数的定义从形式上和实函数的导数定义一致,
+	由于复导数的定义形式上和实函数的导数定义一致,
 	许多数学分析中的经典结论在复变函数中也同样成立, 如导数的四则运算,
-	复合函数的求导法则等.
+	复合函数的求导法则等. 例如在 <a class="ref" href="#for-differentiable"></a> 两边令 `Delta z to 0` 就得到:
+	<span class="formula">
+		<b>可微必连续</b>:
+		若 `f` 在 `z_0` 处可微, 则它在 `z_0` 处连续.
+	</span>
+	其余类似结论不再赘述.
 </p>
 
 <p class="example">
@@ -79,7 +77,7 @@
 		`= (bar(Delta z))/(Delta z)`.
 	</span>
 	当 `Delta z` 取实数时, 上式等于 `1`; 当 `Delta z` 取纯虚数时, 上式等于
-	`-1`, 从而 `Delta z to 0` 时, 上式的极限不存在. 即 `f` 在 `CC`
+	`-1`. 从而 `Delta z to 0` 时, 上式的极限不存在, 即 `f` 在 `CC`
 	中处处不可微.
 </p>
 
@@ -122,9 +120,14 @@
 </p>
 
 <p class="proof">
-	记 `Delta x = x-x_0`, `Delta y = y-y_0`, 于是
-	`Delta z = Delta x + "i"Delta y`, `|Delta z| = sqrt(Delta x^2 + Delta
-	y^2)`. 由实可微的定义,
+	记 `Delta x = x-x_0`, `Delta y = y-y_0`, 我们有
+	<span class="formula">
+		`Delta z = Delta x + "i"Delta y`,
+		`quad |Delta z| = sqrt(Delta x^2 + Delta y^2)`,<br/>
+		`Delta x = (Delta z+bar(Delta z))/2`,
+		`quad Delta y = (Delta z-bar(Delta z))/(2"i")`.
+	</span>
+	由实可微的定义,
 	<span class="formula">
 		`u(x,y)-u(x_0,y_0)`
 		`= (del u)/(del x) (x_0,y_0) Delta x
@@ -135,27 +138,18 @@
 	</span>
 	第二式乘以 `"i"`, 再与第一式相加得
 	<span class="formula">
-		`f(z)-f(z_0)`
-		`= ((del u)/(del x)(x_0,y_0)+"i"(del v)/(del x)(x_0,y_0))Delta x`
-		`+ ((del u)/(del y)(x_0,y_0)+"i"(del v)/(del y)(x_0,y_0))Delta y`
-		`+ o(|Delta z|)`
-		`= (del f)/(del x)(x_0,y_0)Delta x
-		+ (del f)/(del y)(x_0,y_0)Delta y + o(|Delta z|)`.
-	</span>
-	注意到
-	<span class="formula">
-		`Delta x = (Delta z+bar(Delta z))/2`,
-		`quad Delta y = (Delta z-bar(Delta z))/(2"i")`,
-	</span>
-	有
-	<span class="formula">
-		`f(z)-f(z_0)`<br/>
-		`= 1/2 (del f)/(del x)(x_0,y_0)(Delta z+bar(Delta z))`
-		`- "i"/2 (del f)/(del y)(x_0,y_0)(Delta z-bar(Delta z))`
-		`+ o(|Delta z|)`
-		`= 1/2(del/(del x)-"i"del/(del y)) f(x_0,y_0) Delta z`
-		`+ 1/2(del/(del x)+"i"del/(del y)) f(x_0,y_0) bar(Delta z)`
-		`+ o(|Delta z|)`.
+		`{:,f(z)-f(z_0);
+		=, ((del u)/(del x)(x_0,y_0)+"i"(del v)/(del x)(x_0,y_0))Delta x
+		+ ((del u)/(del y)(x_0,y_0)+"i"(del v)/(del y)(x_0,y_0))Delta y
+		+ o(|Delta z|);
+		=, (del f)/(del x)(x_0,y_0)Delta x
+		+ (del f)/(del y)(x_0,y_0)Delta y + o(|Delta z|);
+		=, 1/2 (del f)/(del x)(x_0,y_0)(Delta z+bar(Delta z))
+		- "i"/2 (del f)/(del y)(x_0,y_0)(Delta z-bar(Delta z))
+		+ o(|Delta z|);
+		=, 1/2(del/(del x)-"i"del/(del y)) f(x_0,y_0) Delta z
+		+ 1/2(del/(del x)+"i"del/(del y)) f(x_0,y_0) bar(Delta z)
+		+ o(|Delta z|).:}`
 	</span>
 	即得到最终结论.
 </p>
@@ -205,25 +199,26 @@
 	<a class="ref" href="#for-real-differentiable"></a>, 得到:
 </p>
 
-<ol class="theorem">
-	<li>`f` 在 `z_0` 处可微的充要条件是 `f` 在 `z_0` 处实可微, 且
-		`(del f)/(del bar z)(z_0) = 0`;</li>
-	<li>如果 `f` 在 `z_0` 处可微, 那么 `f'(z_0) = (del f)/(del z)(z_0)`.
+<ol class="theorem" id="the-cauchy-riemann">
+	<li><b>复可微的充要条件</b>
+		`f = u + "i"v` 在 `z_0` 处可微当且仅当它在 `z_0` 处实可微, 且满足
+		<b>Cauchy-Riemann 方程</b>
+		`(del f)/(del bar z)(z_0) = 0`;
+		由<a class="ref" href="#cor-z-operator"></a>,
+		此方程等价于
+		<span class="formula">
+			`{ (del u)/(del x) = (del v)/(del y);
+			   (del u)/(del y) = -(del v)/(del x) :}`
+			<span class="label" id="for-cauchy-riemann"></span>
+		</span>
 	</li>
-	`(del f)/(del bar z) = 0` 称为 <b>Cauchy-Riemann 方程</b>.
-	设 `f = u + "i"v`, 由<a class="ref" href="#cor-z-operator"></a>,
-	此方程等价于
-	<span class="formula">
-		`{ (del u)/(del x) = (del v)/(del y);
-		   (del u)/(del y) = -(del v)/(del x) :}`
-		<span class="label" id="for-cauchy-riemann"></span>
-	</span>
-	我们常用 <a class="ref" href="#for-cauchy-riemann"></a>
-	验证复变函数的可微性, 再由
-	<span class="formula">
-		`f' = (del f)/(del z) = (del u)/(del x) + "i"(del v)/(del x)`
-	</span>
-	计算其导数.
+	<li><b>计算复导数</b>
+		如果 `f` 在 `z_0` 处可微, 那么
+		<span class="formula">
+			`f'(z_0) = (del f)/(del z)(z_0)`
+			`= (del u)/(del x)(x_0,y_0) + "i"(del v)/(del x)(x_0,y_0)`.
+		</span>
+	</li>
 </ol>
 
 <ol class="corollary">
@@ -258,6 +253,16 @@
 	</span>
 </p>
 
+<p class="corollary" id="cor-constant">
+	若 `f` 在域 `D` 上满足 `f'(z) -= 0`, 则 `f` 在 `D` 上是常数.
+</p>
+
+<p class="proof">
+	设 `f = u+"i"v`, 由<a class="ref" href="#the-cauchy-riemann"></a>知
+	`u, v` 作为二元实函数, 其偏导数 `u_x, u_y, v_x, v_y` 都等于零.
+	由数学分析的结论知道, `u, v` 均为常数, 所以 `f` 也是常数.
+</p>
+
 <h3>调和函数</h3>
 
 <p class="definition">
@@ -276,7 +281,7 @@
 <p class="definition">
 	若调和函数 `u, v` 满足 Cauchy-Riemann 方程 <a class="ref"
 	href="#for-cauchy-riemann"></a>, 则称 `v` 为 `u`
-	的<b>共轭调和函数</b>.
+	的<b>共轭调和函数</b>. 注意此时不能说 `u` 为 `v` 的共轭调和函数.
 </p>
 
 <p class="theorem">
@@ -288,7 +293,7 @@
 	由 Cauchy-Riemann 方程,
 	<span class="formula">
 		`(del f)/(del bar z) = 0`,
-		`quad (del bar f)/(del z) = bar 0 = 0`.
+		`quad (del bar f)/(del z) = bar ((del f)/(del bar z)) = 0`.
 	</span>
 	继续求导得
 	<span class="formula">
@@ -310,7 +315,7 @@
 		`(del Q)/(del x)`
 		`= (del^2 u)/(del x^2)`
 		`= -(del^2 u)/(del y^2)`
-		`(del P)/(del y)`.
+		`= (del P)/(del y)`.
 	</span>
 	所以 `P dx + Q dy` 是全微分, 在单连通域 `D` 上的积分
 	<span class="formula">
@@ -325,7 +330,7 @@
 <h3>复积分的定义</h3>
 
 <p class="definition">
-	设 `gamma(t)`, `a le t le b` 是复平面上一条可求长曲线, <!--??-->
+	设 `gamma(t)`, `a le t le b` 是复平面上一条可求长曲线 (??),
 	`f` 在 `gamma` 上有定义, 沿 `gamma` 正方向任取分点
 	<span class="formula">
 		`gamma(a) = z_0, z_1, cdots, z_n = gamma(b)`
@@ -339,16 +344,20 @@
 	<span class="formula">
 		`lim_(lambda to 0) sum_(k=1)^n f(zeta_k) Delta z_k`
 	</span>
-	总是存在且唯一, 而与分点和介点的选取方式无关, 就称 `f` 在 `gamma`
+	总是存在, 且与分点和介点的选取方式无关, 就称 `f` 在 `gamma`
 	上<b>可积</b>, 此极限称为 `f` 沿曲线 `gamma` 的<b>积分</b>, 记为
 	<span class="formula">
 		`int_gamma f(z) dz`.
+	</span>
+	若 `gamma` 是闭曲线, 上述积分也记为
+	<span class="formula">
+		`oint_gamma f(z) dz`.
 	</span>
 </p>
 
 <ol class="corollary">
 	由定义得到
-	<li>`int_gamma^(-) f(z) dz = -int_gamma f(z) dz`, `gamma^-` 表示与
+	<li>`int_(gamma^-) f(z) dz = -int_gamma f(z) dz`, `gamma^-` 表示与
 		`gamma` 方向相反的曲线;</li>
 	<li>`int_gamma (k f(z) + l g(z)) dz = k int_gamma f(z) dz
 		+ l int_gamma g(z) dz`, `k, l in CC`;
@@ -359,6 +368,7 @@
 </ol>
 
 <ol class="theorem">
+	<b>计算复积分</b>
 	<li>若 `f = u + "i"v` 在 `gamma` 上连续, 则 `f` 在 `gamma` 上可积, 且
 		<span class="formula">
 			`int_gamma f(z) dz`
@@ -371,7 +381,8 @@
 			`= u dx - v dy + "i"(v dx + u dy)`.
 		</span>
 	</li>
-	<li>进一步若 `f` 在 `gamma` 上连续可微 (即, 具有连续的导数),
+	<li>进一步若 `gamma` 分段光滑,
+		且 `f` 在 `gamma` 上连续可微 (即, 具有连续的导数),
 		则可以通过参数方程计算积分:
 		<span class="formula">
 			`int_gamma f(z) dz = int_a^b f(gamma(t)) gamma'(t) dt`.
@@ -413,21 +424,19 @@
 
 <p class="theorem">
 	<b>长 (cháng) 大不等式</b>
-	以 `L` 记 `gamma` 的长度, `M` 记 `|f(z)|` 在 `gamma` 上的一个上界, 如
-	`M = Sup_(z in gamma) |f(z)|`. 有
+	以 `L` 记 `gamma` 的长度, `M` 记 `|f(z)|` 在 `gamma` 上的一个上界, 则
 	<span class="formula">
 		`|int_gamma f(z) dz| le L M`.
 	</span>
-	"长度" `L` 和 "大小" `M` 的乘积是积分的模的一个上界.
+	即积分的模可以用 "长度" `L` 和 "大小" `M` 来估计.
 </p>
 
 <p class="proof">
-	考虑 Riemann 和的模的上界
 	<span class="formula">
 		`|sum_(k=1)^n f(zeta_k) Delta z_k|`
-		`le |sum_(k=1)^n |f(zeta_k)| |Delta z_k|`
-		`le M |sum_(k=1)^n |Delta z_k|`
-		`le M L`.
+		`le sum_(k=1)^n |f(zeta_k)| |Delta z_k|`
+		`le M sum_(k=1)^n |Delta z_k|`
+		`le M L`,
 	</span>
 	再令 `lambda to 0` 取极限, 即获证.
 </p>
@@ -442,36 +451,39 @@
 <p class="example">
 	设 `a in CC`, `gamma` 是以 `a` 为心, `r` 为半径的圆周, `n in ZZ`, 则
 	<span class="formula">
-		`oint_gamma (z-a)^n dz = { 2pi"i", if n = -1; 0, if" else" :}`
+		`oint_gamma (z-a)^n dz = { 2pi"i", if n = -1; 0, if "else" :}`
 	</span>
-	这个答案与半径 `r` 无关.
+	这个答案与半径 `r` 无关. 今后, `2pi"i"`
+	这个常数将在复积分的各种公式中频繁出现.
 </p>
 
 <p class="proof">
 	`gamma` 的参数方程为 `z = a + r"e"^("i"t)`, `0 le t le 2pi`.
-	显然 `gamma` 连续可微, 故原式等于
+	原式等于
 	<span class="formula">
 		`int_0^(2pi) (r"e"^("i"t))^n "i" r"e"^("i"t) dt`
 		`= "i" int_0^(2pi) (r"e"^("i"t))^(n+1) dt`.
 	</span>
-	上式当 `n = -1` 时等于 `2pi"i"`, `n != -1` 时等于零 (利用 Euler
-	公式化为三角函数的积分), 即得证.
+	上式当 `n = -1` 时等于 `2pi"i"`; `n != -1` 时, 利用 Euler
+	公式化为三角函数的积分得到结果是零.
 </p>
 
 <h3>Cauchy 积分定理</h3>
 
+<p class="definition">
+	若 `f in C(D)`, 且对 `D` 中任意可求长闭曲线 `gamma` 都有 `oint_gamma
+	f(z) dz = 0`, 则称 `f` 在 `D` 上的<b>积分与路径无关</b>.
+</p>
+
 <p class="theorem">
 	<b>Cauchy 积分定理 (Cauchy, 1825)</b>
-	设 `D sube CC` 是单连通域, `f in H(D) nn C^1(D)`, `gamma` 是 `D`
-	中的可求长闭曲线, 则
-	<span class="formula">
-		`oint_gamma f(z) dz = 0`.
-	</span>
-	Cauchy 积分定理给出了复积分与路径无关的充分条件.
+	设 `D sube CC` 是单连通域, `f in H(D) nn C^1(D)`,
+	则 `f` 在 `D` 上的积分与路径无关.
 </p>
 
 <p class="proof">
-	`gamma` 围成的域记为 `G`. 因为 `f in C^1(D)`, 可用 Green 公式,
+	设 `gamma` 是 `D` 中的可求长闭曲线, 其围成的域记为 `G`.
+	因为 `f in C^1(D)`, 可用 Green 公式;
 	又 `f in H(D)`, Cauchy-Riemann 方程成立:
 	<span class="formula">
 		`oint_gamma u dx - v dy`
@@ -482,9 +494,19 @@
 	第二式乘以 `"i"`, 再加上第一式就得到 `oint_gamma f(z) dz = 0`.
 </p>
 
-<p class="remark">
-	Cauchy 积分定理条件中的 `f in C^1(D)` 可以去掉. 为此先证明一个引理:
-</p>
+<ol class="remark">
+	Cauchy 积分定理的条件有各种减弱的版本:
+	<li>(Goursat, 1900) 原版的条件 `f in C^1(D)` 可以去掉.</li>
+	<li>`D sube CC` 是单连通域, `f in H(D) nn C(bar D)`, `gamma = del D`.
+	</li>
+	<li>设 `gamma_0, gamma_1, cdots, gamma_n` 是 `n+1` 条可求长简单闭曲线,
+		后 `n` 条曲线 `gamma_1, cdots, gamma_n` 都在 `gamma_0` 的内部,
+		且每一条都在其它 `n-1` 条的外部. `D` 是由这 `n+1` 条曲线围成的,
+		具有 `n` 个 "洞" 的多连通域, `f in H(D) nn C(bar D)`,
+		`gamma = del D`.
+	</li>
+	从 1, 2, 3 都能推出 `oint_gamma f(z) dz = 0`.
+</ol>
 
 <ol class="lemma">
 	设 `D sube CC` 是一域, `f in C(D)`, `gamma` 是 `D` 中的可求长曲线.
@@ -495,7 +517,122 @@
 	从而折线上的积分是 `gamma` 上积分的近似.
 </ol>
 
-<p>现在来重新证明 Cauchy 积分定理 (Goursat, 1900):</p>
+<h3>原函数</h3>
+
+<p class="definition">
+	设 `f` 是域 `D` 上的函数, 若存在 `F in H(D)`, 使得
+	<span class="formula">
+		`F'(z) = f(z)`, `quad AA z in D`,
+	</span>
+	则称 `F` 是 `f` 的一个原函数.
+</p>
+
+<p class="theorem">
+	<b>原函数的存在性</b>
+	设 `f in C(D)`, 且在 `D` 上的积分与路径无关, 则任取 `z_0 in D`,
+	由变上限积分确定的函数
+	<span class="formula">
+		`F(z) = int_(z_0)^z f(zeta) "d"zeta`
+	</span>
+	就是 `f` 的一个原函数.
+	由 Cauchy 积分定理知道, 单连通域上的全纯函数都有原函数.
+</p>
+
+<p class="proof">
+	由 `f` 在 `D` 上的积分与路径无关知 `F` 是单值函数. 任取 `a in D`, 下证
+	`F'(a) = f(a)`.
+	`AA epsi gt 0`, 因为 `f` 在 `a` 点连续, 存在 `delta gt 0`,
+	当 `|zeta-a| lt delta` 时, 有 `|f(zeta) - f(a)| lt epsi`.
+	取 `z in B(a, delta)`, 在 `a` 到 `z` 的线段上积分, 有
+	<span class="formula">
+		`|(F(z) - F(a))/(z-a) - f(a)|`
+		`= |1/(z-a) int_a^z f(zeta) "d"zeta - 1/(z-a) int_a^z f(a) "d"zeta|`
+		`= 1/|z-a| |int_a^z (f(zeta) - f(a)) "d"zeta|`
+		`le epsi`.
+	</span>
+	于是 `F'(a) = f(a)`.
+</p>
+
+<p class="corollary">
+	<b>原函数的唯一性</b>
+	由 <a class="ref" href="#cor-constant"></a> 立即得知, `f`
+	的原函数若存在则必有无穷多个, 且不同的原函数之间相差一个常数.<br/>
+	特别当 `f` 是单连通域上的全纯函数时, 有 <b>Newton-Leibniz 公式</b>
+	<span class="formula">
+		`int_a^b f(zeta) "d"zeta = F(b) - F(a)`,
+	</span>
+	其中 `F` 是 `f` 的任一原函数.
+</p>
+
+<h3>Cauchy 积分公式</h3>
+
+<p>	Cauchy 积分公式是全纯函数的积分表示,
+	由此可以证明全纯函数有任意阶导数等重要性质,
+	说它是单复变函数理论中最重要, 最基本的公式也不为过.
+</p>
+
+<p class="theorem">
+	<b>Cauchy 积分公式</b>
+	设 `gamma` 是可求长简单闭曲线, `D` 是 `gamma` 围成的域,
+	`f in H(D) nn C(bar D)`, 则
+	<span class="formula">
+		`f(z) = 1/(2pi"i") oint_gamma (f(zeta))/(zeta-z) "d"zeta`,
+		`quad AA z in D`.
+	</span>
+	注意到 `f` 在曲线 `gamma` 上的值已经完全决定了它在 `D` 内的取值.
+</p>
+
+<p class="proof">
+	任取 `z in D`, `AA epsi gt 0`, 由 `f` 在 `z` 点连续, 存在 `delta gt
+	0`, 当 `|zeta - z| lt delta` 时有 `|f(zeta)-f(z)| lt epsi`.<br/>
+	取充分小的 `0 lt r lt delta`, 使得 `B(z, r) sube D`, 并记圆周 `gamma_r
+	= del B(z, r)`, `D'` 为 `gamma` 和 `gamma_r` 围成的二连通域.
+	于是, 函数 `f(zeta)/(zeta-z)` 在 `D'` 中全纯, 在 `bar D'` 上连续.
+	由 Cauchy 积分定理,
+	<span class="formula">
+		`oint_gamma (f(zeta))/(zeta-z) "d"zeta = oint_(gamma_r)
+		(f(zeta))/(zeta-z) "d"zeta`.
+	</span>
+	另一方面,
+	<span class="formula">
+		`f(z) = f(z) (2pi"i")/(2pi"i")`
+		`= 1/(2pi"i") oint_(gamma_r) (f(z))/(zeta-z) "d"zeta`.
+	</span>
+	于是
+	<span class="formula">
+		`|f(z) - 1/(2pi"i") oint_gamma (f(zeta))/(zeta-z) "d"zeta|`
+		`= 1/|2pi"i"| |oint_(gamma_r) (f(z)-f(zeta))/(zeta-z) "d"zeta|`
+		`le 1/(2pi) * 2pi r * epsi/r = epsi`.
+	</span>
+	由 `epsi` 的任意性即得证.
+</p>
+
+<p class="definition">
+	设 `gamma` 是可求长曲线 (不一定是闭的), `f in C(gamma)`, 则
+	<span class="formula">
+		`F(z) = 1/(2pi"i") int_gamma (f(zeta))/(zeta-z) "d"zeta`
+	</span>
+	确定了 `CC \\ gamma` 上的一个函数, 称为 <b>Cauchy 型积分</b>.
+</p>
+
+<p class="theorem">
+	设 `F(z)` 是如上述定义的 Cauchy 型积分, 则 `F(z)` 在其定义域 `CC \\
+	gamma` 上有任意阶导数:
+	<span class="formula">
+		`F^((n))(z) = (n!)/(2pi"i") int_gamma (f(zeta))/(zeta-z)^(n+1)
+		"d"zeta`, `quad n in ZZ^+`.
+	</span>
+</p>
+
+<p class="remark">
+	可以用
+	<span class="formula">
+		`F^((s))(z) = (Gamma(s+1))/(2pi"i")
+		int_gamma (f(zeta))/(zeta-z)^(s+1)
+		"d"zeta`, `quad s in CC`
+	</span>
+	来定义一个复变函数的 `s` 阶导数, 从而将导数的阶的概念推广到任意复数.
+</p>
 
 <script src="../js/note.js?type=math"></script>
 

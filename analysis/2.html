@@ -686,7 +686,7 @@
 	从而, <b>调和级数</b> `lim_(n to oo) sum_(k=1)^n 1/k` 发散到正无穷.
 </p>
 
-<p class="corollary">
+<p class="corollary" id="ieq-stirling">
 	`n ge 2` 时, `(n/"e")^n lt n! lt n^(n+1)/"e"^n`.
 	这个定理给出 `n!` 的比较粗糙的估计. 更仔细的估计参见 Stirling 公式.
 </p>
@@ -700,6 +700,73 @@
 		`gt (n+1)^(n+1)/"e"^(n+1)`.
 	</span>
 	类似可证, `n ge 2` 时, `n! lt n^(n+1)/"e"^n` 成立.
+</p>
+
+<p class="corollary">
+	`lim_(n to oo) n/(root n (n!)) = "e"`.
+</p>
+
+<p class="proof">
+	对 <a class="ref" href="#ieq-stirling"></a> 变形得
+	<span class="formula">
+		`"e"/(root n n) lt n/(root n (n!)) lt "e"`.
+	</span>
+	再由两边夹法则即得证.
+</p>
+
+<p class="proof">
+	[来自群友 我是比四元数复数高斯整数都可爱的十六元数]
+	用定积分定义,
+	<span class="formula">
+		`1 = int_0^1 ln{:1/x:} dx`
+		`= lim_(n to oo) 1/n sum_(k=1)^n ln{:1/(k/n):}`
+		`= lim_(n to oo) 1/n ln{:n^n/(n!):}`
+		`= lim_(n to oo) ln {: n/(root n (n!)):}`.
+	</span>
+	两边取指数即可.
+</p>
+
+<p class="example">
+	`lim_(n to oo) sum_(k=1)^n (k/n)^n = "e"/("e"-1)`.<br/>
+	[题源 <a href="https://kexue.fm/archives/3256">苏剑林. (2015, Mar 28). 《有趣的求极限题：随心所欲的放缩 》[Blog post]. https://kexue.fm/archives/3256</a>]
+</p>
+
+<p class="proof">
+	只需证明
+	<span class="formula">
+		`lim_(n to oo) sum_(k=0)^(n-1) (1-k/n)^n = sum_(n=0)^oo "e"^-n`.
+	</span>
+	先由均值不等式
+	<span class="formula">
+		`root(n+1)((1-k/n)^n) le (n-k+1)/(n+1) = 1-k/(n+1)`
+	</span>
+	知道, 数列 `{(1-k/n)^n}` 单调递增趋于 `"e"^-k`, 于是左边 `le` 右边.
+	为证明左边 `ge` 右边, 同样由均值不等式
+	<span class="formula">
+		`root(n-k+1)(1/((1-k/n)^(n-k))) le 1/(n-k+1) ((n-k)/(1-k/n) + 1)`
+		`= (n+1)/(n-k+1)`,
+	</span>
+	有
+	<span class="formula">
+		`(1-k/n)^(n-k)`
+		`ge ((n-k+1)/(n+1))^(n-k+1)`
+		`= (1-k/(n+1))^(n-k+1)`
+		`ge "e"^-k`.
+	</span>
+	对任意 `epsi gt 0` 和任意正整数 `N`,
+	因为对固定的 `k` 有 `lim_(n to oo) (1-k/n)^k = 1`,
+	所以当 `n` 充分大时, 有
+	<span class="formula">
+		`(1-k/n)^k ge 1-epsi`, `quad k = 0, 1, cdots, N`.
+	</span>
+	不妨设 `n gt N`, 从而
+	<span class="formula">
+		`sum_(k=0)^(n-1) (1-k/n)^n`
+		`ge sum_(k=0)^N (1-k/n)^(n-k) (1-k/n)^k`
+		`ge sum_(k=0)^N "e"^-k (1-k/n)^k`
+		`ge (1-epsi) sum_(k=0)^N "e"^-k`.
+	</span>
+	令 `epsi to 0`, `N to oo` 就得到要证的不等式.
 </p>
 
 <h2>上极限与下极限</h2>
