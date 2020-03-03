@@ -936,6 +936,31 @@
 	`zeta(2n) = -1/2 B_(2n)/((2n)!) (2pi"i")^(2n)`.
 </p>
 
+<p class="proof">
+	从 Euler 的无穷乘积
+	<span class="formula">
+		`prod_(k ge 1) (1-t^2/k^2) = (sin pi t)/(pi t)`
+	</span>
+	出发, 两边取对数再求导, 整理得
+	<span class="formula">
+		`sum_(k ge 1) 1/(k^2-t^2) = 1/(2t^2) (1 - pi t cot pi t)`,
+		`quad |t| lt 1`.
+	</span>
+	令 `x = pi t`, 则 `|x| lt pi` 时有
+	<span class="formula">
+		`x cot x = 1 - 2 sum_(k ge 1) x^2/((k pi)^2 - x^2)`
+		`= 1 - 2 sum_(k ge 1) (x/(k pi))^2/(1-(x/(k pi))^2)`
+		`= 1 - 2 sum_(k ge 1) sum_(n ge 1) (x/(k pi))^(2n)`
+		`= 1 - 2 sum_(n ge 1) (x/pi)^(2n) sum_(k ge 1) 1/k^(2n)`
+		`= 1 - 2 sum_(n ge 1) (x/pi)^(2n) zeta(2n)`.
+	</span>
+	和 Maclaurin 展式
+	<span class="formula">
+		`x cot x = sum_(n ge 0) (-1)^n B_(2n)/((2n)!) (2x)^(2n)`
+	</span>
+	比较系数即得到 `zeta(2n)` 的值.
+</p>
+
 <ol class="proof">
 	证明分四步.
 	<li>从 De Moivre 公式出发.
@@ -1039,7 +1064,7 @@
 	因为 `lim_(n to oo) zeta(2n) = 1`, 所以
 	<span class="formula">
 		`B_(2n) ~ -2 ((2n)!)/(2pi"i")^(2n)`
-		`~ (-1)^(n-1) 4 sqrt(pi n) (n/(pi e))^(2n)`.
+		`~ (-1)^(n-1) 4 sqrt(pi n) (n/(pi"e"))^(2n)`.
 	</span>
 </p>
 

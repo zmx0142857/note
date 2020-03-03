@@ -96,7 +96,10 @@ function highlight(elem) {
 	if (output) output.style.border = 'none';
 	elem.style.border = '1px solid #aaa';
 	output = elem;
-	input.value = output.asciimath || '';
+	if (input.lang == 'tex')
+		input.value = output.tex || '';
+	else // if (input.lang == 'asciimath')
+		input.value = output.asciimath || '';
 	input.focus();
 }
 

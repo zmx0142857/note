@@ -171,7 +171,7 @@ var tableOfContents = [ {
 	articles: [
 		{title:'组合数学', src:'combinatorics/1.html'},
 		{title:'排列与组合', src:'combinatorics/2.html'},
-		{title:'递推式与生成函数', src:'combinatorics/3.html'},
+		{title:'求解递推式', src:'combinatorics/3.html'},
 		{title:'容斥原理', src:'combinatorics/5.html'},
 	]
 	}, {
