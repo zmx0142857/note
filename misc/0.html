@@ -13,6 +13,88 @@
 <body>
 
 <p class="example">
+	有一种说法称, `"e"` 进制是最高效的进制, 依据何在?
+</p>
+
+<p class="answer">
+	`n` 位的 `r` 进制数共有 `r^n` 个之多, 为了表示它, 需要消耗 `r * n`
+	的存储空间. 比如, 可以用下面的 `3 xx 4` 矩阵表示 3 进制数
+	(2102)<sub>3</sub>:
+	<span class="formula">
+		`[0, 0, 1, 0; 0, 1, 0, 0; 1, 0, 0, 1]`.
+	</span>
+	问题转化为 `r^n = c` 为定值时, 求 `r n` 的极小值.
+	取对数有 `n ln r = ln c`, 于是
+	<span class="formula">
+		`r n = r (ln c)/(ln r) := f(r)`,
+	</span>
+	令 `f'(r) = 0`, 解得 `r = "e"`.
+	在限定进制为整数的情况下, 有
+	<span class="formula">
+		`f(2) = 2/(ln 2) ln c gt 3/(ln 3) ln c = f(3)`,
+	</span>
+	因此三进制从某种意义上 "优于" 二进制.
+</p>
+
+<p class="example">
+	`ABDC` 是圆内接四边形, `AB, CD` 交于 `P`, 且 `AP = AC`.
+	`BC` 中点是 `E`, `vec(EF) = vec(EA) + vec(ED)`. 证明: `PF _|_ BC`.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`vec(PF) = vec(PE) + vec(EF)`
+		`= 1/2(vec(PB)+vec(PC)) + vec(EA) + vec(ED)`
+		`= 1/2(vec(PB)+vec(PC)) -1/2(vec(AB)+vec(AC)) + vec(EC) + vec(CD)`
+		`= 1/2(vec(PA)+vec(PC)) -1/2(vec(PC)-vec(PA))
+		+ 1/2(vec(PC)-vec(PB)) + vec(PD)-vec(PC)`
+		`= vec(PA) + vec(PD) - 1/2(vec(PB)+vec(PC))`
+	</span>
+	利用割线定理有 `vec(PA) * vec(PB) = vec(PC) * vec(PD)`,
+	分别记 `vec(PA), cdots, vec(PD)` 的长度为 `a, b, c, d`,
+	`/_APC = theta`, 于是
+	<span class="formula">
+		`vec(PF)*vec(BC)`
+		`= (vec(PA) + vec(PD) - 1/2(vec(PB)+vec(PC))) * (vec(PC)-vec(PB))`
+		`= (a c - b d) cos theta + 1/2(b^2-c^2)`.
+	</span>
+	由余弦定理 `cos theta = (a^2+c^2-a^2)/(2a c) = c/(2a)` 和割线定理
+	`a b = c d`, 上式等于
+	<span class="formula">
+		`1/2(c^2-b^2) + 1/2(b^2-c^2) = 0`.
+	</span>
+</p>
+
+<p class="example">
+	[题源 brilliant.org]
+	设
+	<span class="formula">
+		`a/(b+c) + b/(c+a) + c/(a+b) = 1`,
+	</span>
+	求
+	<span class="formula">
+		`a^2/(b+c) + b^2/(c+a) + c^2/(a+b) = ?`.
+	</span>
+</p>
+
+<p class="solution">
+	记 `x = a/(b+c)`, `y = b/(c+a)`, `z = c/(a+b)`,
+	于是
+	<span class="formula">
+		`a x + b y + c z`
+		`= (a+b+c) (x+y+z) - x(b+c) - y(c+a) - z(a+b)`
+		`= (a+b+c) - a - b - c  = 0`.
+	</span>
+</p>
+
+<p class="example">
+	平面上到 `n` 个点距离之和为定值的点的轨迹
+	<span class="formula">
+		`sum_(k=1)^n sqrt((x-x_k)^2+(y-y_k)^2) = c`.
+	</span>
+</p>
+
+<p class="example">
 	证明: `0.5^(0.4) gt log_(0.4) 0.5`.
 </p>
 
