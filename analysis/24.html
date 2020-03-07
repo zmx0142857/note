@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>函数方程</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>Cauchy 方程</h2>
+
+<ol class="theorem">
+	称 `f: RR to RR` 为<b>加性函数</b>, 如果它满足下面的<b>Cauchy
+	函数方程</b>:
+	<span class="formula">
+		`f(x) + f(y) = f(x+y)`, `quad AA x, y in RR`.
+	</span>
+	记 `f(1) = a`, 则 `f(x) = a x`, `AA x in QQ`.
+	若 `f` 还满足下面某一条件, 则结论对任意实数成立:
+	<li>`f` 在某一点连续;</li>
+	<li>`f` 在某一开区间上单调;</li>
+	<li>`f` 在某一开区间上有界;</li>
+	<li>`f` 局部保号, 即存在 `delta gt 0`, 使 `f` 在 `[0, delta]`
+		上符号不变 (保持非负或保持非正).
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>令 `y = 0` 得, `f(0) = 0`.</li>
+	<li>令 `y = -x` 得, `f` 是奇函数.</li>
+	<li>下证 `n f(x) = f(n x)`, `n in ZZ, x in RR`.
+		事实上 `n = 0` 时显然成立. 设结论对整数 `n ge 0` 成立, 则
+		<span class="formula">
+			`(n+1) f(x) = n f(x) + f(x)`
+			`= f(n x) + f(x)`
+			`= f((n+1)x)`.
+		</span>
+		于是结论对所有非负整数成立. 又设 `n lt 0`, 利用 `f` 是奇函数有
+		<span class="formula">
+			`n f(x) = - (-n) f(x) = - f(-n x) = f(n x)`.
+		</span>
+	</li>
+	<li>下证 `f(x) = a x` 对任意有理数 `x` 成立.
+		设 `n` 是正整数, `m` 是整数,
+		则 `n f(1/n) = f(1) = a`, 得到 `f(1/n) = a/n`.
+		进而 `f(m/n) = m f(1/n) = a m/n`.
+	</li>
+	<li>最后, 设 `f` 在 `x_0` 处连续, 有
+		<span class="formula">
+			`lim_(h to x_0) f(x-x_0+h)`
+			`= lim_(h to x_0) (f(x-x_0) + f(h))`
+			`= f(x-x_0) + lim_(h to x_0) f(h)`
+			`= f(x-x_0) + f(x_0)`
+			`= f(x)`.
+		</span>
+		这说明 `f` 在 `RR` 上连续. 对任意 `x in RR`,
+		取有理点列 `{x_n}` 趋于 `x`, 则
+		<span class="formula">
+			`f(x) = lim_(n to oo) f(x_n)`
+			`= lim_(n to oo) a x_n`
+			`= a lim_(n to oo) x_n`
+			`= a x`.
+		</span>
+	</li>
+</ol>
+
+<p class="corollary">
+	设 `f: RR to RR` 在 `0` 处连续, 且满足
+	<span class="formula">
+		`f(x) f(y) = f(x+y)`, `quad AA x, y in RR`,
+	</span>
+	则 `f(x) -= 0`, 或 `f(x) = "e"^(a x)`, 其中 `f(1) = "e"^a`.
+</p>
+
+<ol class="proof">
+	<li>`f(x) = f(x/2) f(x/2) ge 0` 是非负函数.</li>
+	<li>若存在 `x_0 in RR` 使 `f(x_0) = 0`,
+		则对任意 `x in RR`, `f(x) = f(x_0 + x - x_0)`
+		`= f(x_0) f(x-x_0) = 0`, 即 `f(x) -= 0`.
+	</li>
+	<li>下设 `f` 无零点, 由 1. 知 `f` 恒正. 记 `g(x) = ln f(x)`,
+		显然 `g` 在 `0` 处连续, 且
+		<span class="formula">
+			`g(x) + g(y) = g(x+y)`, `quad AA x, y in RR`.
+		</span>
+		因此 `g(x) = a x`, 其中 `a = g(1)`.
+		于是 `f(x) = "e"^(g(x)) = "e"^(a x)`.
+	</li>
+</ol>
+
+<p class="theorem">
+	设 `f: RR to RR` 在 `0` 处连续, 且满足
+	<span class="formula">
+		`f(x) f(y) = f(x y)`, `quad AA x, y in RR`,
+	</span>
+	则 `f(x) -= 0`, 或 `f(x) -= 1`, 或
+</p>
+
+<ol class="proof">
+	<li>取 `y = 0` 得 `f(x) f(0) = f(0)`. 若 `f(0) != 0`, 则有
+		`f(x) -= 1`.
+	</li>
+	<li>下设 `f(0) = 0`. 取 `y = 1` 得 `f(x) f(1) = f(x)`. 若 `f(1) != 1`,
+		则有 `f(x) -= 0`.
+	</li>
+	<li>下设 `f(0) = 0`, 且 `f(1) = 1`, 我们来证 `0` 是 `f` 的唯一零点.
+		否则设 `f(x_0) = 0`, `x_0 != 0`, 则 `AA x in RR`,
+		<span class="formula">
+			`f(x) = f(x/x_0 x_0) = f(x/x_0) f(x_0) = 0`,
+		</span>
+		与 `f(1) = 1` 矛盾.
+	</li>
+	<li>下证 `(f(x))^n = f(x^n)`, `n` 是正整数.</li>
+</ol>
+
+<p class="corollary">
+	设 `f: RR^+ to RR` 在 `1` 处连续, 且满足
+	<span class="formula">
+		`f(x) + f(y) = f(x y)`, `quad AA x, y in RR^+`,
+	</span>
+	则
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

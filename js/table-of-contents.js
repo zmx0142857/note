@@ -42,14 +42,15 @@ var tableOfContents = [ {
 		{title:'导数的应用', src:'analysis/5.html', isnew:true},
 		{title:'不定积分', src:'analysis/6.html'},
 		{title:'定积分', src:'analysis/7.html'},
-		{title:'特殊函数', src:'analysis/8.html'},
+		{title:'特殊函数', src:'analysis/8.html', isnew:true},
 		{title:'无穷级数', src:'analysis/10.html'},
 		{title:'多元函数的极限与连续性', src:'analysis/14.html'},
 		{title:'多元数量函数微分学', src:'analysis/15.html'},
 		{title:'多元函数的极值', src:'analysis/17.html'},
 		{title:'重积分', src:'analysis/19.html'},
 		{title:'场论初步', src:'analysis/22.html'},
-		{title:'分数阶微积分', src:'analysis/23.html'},
+		{title:'分数阶微积分', src:'analysis/23.html', isnew:true},
+		{title:'函数方程', src:'analysis/24.html', isnew:true},
 	]
 	}, {
 	title:'集合论与点集拓扑',
@@ -63,7 +64,7 @@ var tableOfContents = [ {
 	title:'复变函数',
 	articles: [
 		{title:'复数与复变函数', src:'complex/1.html'},
-    {title:'全纯函数', src:'complex/2.html', isnew:true},
+		{title:'全纯函数', src:'complex/2.html', isnew:true},
 	]
 	}, {
 	title:'实变函数',
