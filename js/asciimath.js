@@ -763,27 +763,25 @@ function parseS() {
   case TEXT:
     if (sym.input != '"')
       skip(len);
-    if (AMstr[AMbegin] == '{') i = AMstr.indexOf('}', AMbegin+1);
-    else if (AMstr[AMbegin] == '(') i = AMstr.indexOf(')', AMbegin+1);
-    else if (AMstr[AMbegin] == '[') i = AMstr.indexOf(']', AMbegin+1);
-    else if (sym.input == '"') i = AMstr.indexOf('"', AMbegin+1);
-    else i = AMbegin;
-    if (i != -1)
-      st = AMstr.slice(AMbegin+1, i);
-    else
-      st = AMstr.slice(AMbegin+1)
-    AMbegin = i+1;
+    var i = AMbegin;
+    if (AMstr[i] == '{') AMbegin = AMstr.indexOf('}', i+1);
+    else if (AMstr[i] == '(') AMbegin = AMstr.indexOf(')', i+1);
+    else if (AMstr[i] == '[') AMbegin = AMstr.indexOf(']', i+1);
+    else if (sym.input == '"') AMbegin = AMstr.indexOf('"', i+1);
+    if (AMbegin == -1) {
+      AMbegin = AMstr.length;
+      st = AMstr.slice(i+1);
+    } else {
+      st = AMstr.slice(i+1, AMbegin++);
+    }
     skip();
     if (AM.katex)
       return (st[0] == ' ' ? '\\ ' : '')
         + '\\text{' + st + '}'
         + (st.slice(-1) == ' ' ? '\\ ' : '');
-    if (st[0] == ' ')
-      frag.appendChild(mspace());
+    if (st[0] == ' ') frag.appendChild(mspace());
     frag.appendChild($math(sym.tag, $text(st)));
-    if (st.slice(-1) == ' ') {
-      frag.appendChild(mspace());
-    }
+    if (st.slice(-1) == ' ') frag.appendChild(mspace());
     return $math('mrow', frag);
   case UNARYUNDEROVER:
   case UNARY:
