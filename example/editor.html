@@ -7,25 +7,43 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"/>
 <link rel="stylesheet" href="../css/note.css"/>
 <style type="text/css">
-div {
-  padding: 10px 0;
+#outputWrapper div.highlight {
+  border-left: 5px solid #56a;
 }
 #outputWrapper {
-  margin-top: 45px;
+  border: 1px solid #ccc; 
+  background: white;
+  margin: 55px 0 10px 0;
 }
 #outputWrapper > div {
+  padding: 10px 0;
   text-align: center;
+}
+#outputWrapper > div:hover {
+  background: #dde;
+  cursor: default;
+}
+#keyboard {
+  padding: 0;
 }
 #keyboard > button {
+  margin: 5px 0;
+  border-width: 1px;
   text-align: center;
-  width: 40px;
+  min-width: 40px;
   height: 40px;
 }
+#input {
+  margin: 10px 0;
+}
 @media print {
+  #outputWrapper {
+    border: none;
+  }
   #outputWrapper > div {
     border: none !important;
   }
-  #inputWrapper {
+  #inputWrapper,#help {
     display: none;
   }
 }
@@ -36,28 +54,35 @@ div {
 <div id="outputWrapper"></div>
 
 <div id="inputWrapper">
-  <button onclick="toggleKeyboard()" title="keyboard">keyboard</button>
-  <button id="copy" title="copy">copy</button>
-  <button id="newFormula" title="new">new</button>
-  <button id="deleteFormula" title="delete">delete</button>
-  <button id="lang" title="language">asciimath</button>
+  <button onclick="toggleKeyboard()">keyboard</button>
+  <button id="copy">copy</button>
+  <button id="newFormula">add</button>
+  <button id="deleteFormula">remove</button>
+  <button id="lang">asciimath</button>
   <div id="keyboard" hidden>
-    <button>^</button>
-    <button>_</button>
     <button>+</button>
     <button>-</button>
     <button>*</button>
     <button>/</button>
     <button>=</button>
-    <button value="sqrt">&#x221a;</button>
-    <button value="int">&#x222b;</button>
-    <button value="sum">&Sigma;</button>
-    <button value="oo">&#x221e;</button>
+    <button>^</button>
+    <button>_</button>
+    <button name="sqrt">&#x221a;</button>
+    <button name="root n"><sup>n</sup>&#x221a;</button>
+    <button name="int">&#x222b;</button>
+    <button name="sum">&Sigma;</button>
+    <button name="prod">&Pi;</button>
+    <button name="oo">&#x221e;</button>
+    <button value="1">()</button>
+    <button value="1">[]</button>
+    <button value="1">{}</button>
+    <button name="[a,b;c,d]">[..]</button>
+    <button name="``" value="1">T</button>
   </div>
   <textarea id="input" rows="5" lang="asciimath"></textarea>
 </div>
 
-<p>
+<p id="help">
   <a target="_blank" href="asciimath.html">更多示例帮助?</a>
 </p>
 
@@ -85,11 +110,11 @@ var asciimath = {
 </script>
 <script src="../js/asciimath.js"></script>
 <script>
-var count = 0;
 var input = document.getElementById('input');
 var output = document.getElementById('output');
 var copy = document.getElementById('copy');
 var lang = document.getElementById('lang');
+var keyboard = document.getElementById('keyboard');
 var outputWrapper = document.getElementById('outputWrapper');
 
 input.onkeyup = function(event) {
@@ -105,16 +130,56 @@ function toggleKeyboard() {
   }
 }
 
-for (b of keyboard.children) {
-  function appendText(text) {
-    return function() {
-      input.focus();
-      input.value += text;
-      render();
+function getCaret(obj) {
+  var result = 0;
+  if (obj.selectionStart >= 0) { // IE 以外 
+    result = obj.selectionStart;
+  } else { // IE 
+    try {
+      var range;
+      if (/textarea/i.test(obj.tagName)) { // TEXTAREA
+        range = event.srcElement.createTextRange();
+        range.moveToPoint(event.x, event.y);
+      } else { // Text 
+        range = document.selection.createRange();
+      }
+      range.moveStart("character", -event.srcElement.value.length);
+      result = range.text.length;
+    } catch(e) { }
+  }
+  return result;
+}
+
+function setCaret(textarea, pos) {
+  if (textarea && pos) {
+    if(textarea.setSelectionRange) {
+      setTimeout(function() {
+        textarea.setSelectionRange(pos, pos);
+        textarea.focus();
+      }, 0);
+    } else if (textarea.createTextRange) {
+      var range = textarea.createTextRange();
+      range.move('character', pos);
+      range.select();
     }
   }
+}
+
+function appendText(b) {
+  var text = b.name || b.innerText;
+  return function() {
+    input.focus();
+    var i = getCaret(input);
+    input.value = input.value.substr(0,i) + text + input.value.substr(i);
+    var pos = b.value ? i + parseInt(b.value): i + text.length;
+    setCaret(input, pos);
+    render();
+  }
+}
+
+for (b of keyboard.children) {
   if (/button/i.test(b.tagName)) {
-    b.onclick = appendText(b.value || b.innerText);
+    b.onclick = appendText(b);
   }
 }
 
@@ -137,8 +202,9 @@ copy.onclick = function() {
 };
 
 function highlight(elem) {
-  if (output) output.style.border = 'none';
-  elem.style.border = '1px solid #aaa';
+  if (output)
+    output.classList.remove('highlight');
+  elem.classList.add('highlight');
   output = elem;
   if (input.lang == 'tex')
     input.value = output.tex || '';
