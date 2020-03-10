@@ -8,21 +8,26 @@
 <link rel="stylesheet" href="../css/note.css"/>
 <style type="text/css">
 div {
-	padding: 10px 0;
+  padding: 10px 0;
 }
 #outputWrapper {
-	margin-top: 45px;
+  margin-top: 45px;
 }
 #outputWrapper > div {
-	text-align: center;
+  text-align: center;
+}
+#keyboard > button {
+  text-align: center;
+  width: 40px;
+  height: 40px;
 }
 @media print {
-	#outputWrapper > div {
-		border: none !important;
-	}
-	#inputWrapper {
-		display: none;
-	}
+  #outputWrapper > div {
+    border: none !important;
+  }
+  #inputWrapper {
+    display: none;
+  }
 }
 </style>
 </head>
@@ -31,33 +36,51 @@ div {
 <div id="outputWrapper"></div>
 
 <div id="inputWrapper">
-	<button id="copy">copy</button>
-	<button id="newFormula">new</button>
-	<button id="deleteFormula">delete</button>
-	<button id="lang">asciimath</button>
-	<textarea id="input" rows="5" lang="asciimath"></textarea>
+  <button onclick="toggleKeyboard()" title="keyboard">keyboard</button>
+  <button id="copy" title="copy">copy</button>
+  <button id="newFormula" title="new">new</button>
+  <button id="deleteFormula" title="delete">delete</button>
+  <button id="lang" title="language">asciimath</button>
+  <div id="keyboard" hidden>
+    <button>^</button>
+    <button>_</button>
+    <button>+</button>
+    <button>-</button>
+    <button>*</button>
+    <button>/</button>
+    <button>=</button>
+    <button value="sqrt">&#x221a;</button>
+    <button value="int">&#x222b;</button>
+    <button value="sum">&Sigma;</button>
+    <button value="oo">&#x221e;</button>
+  </div>
+  <textarea id="input" rows="5" lang="asciimath"></textarea>
 </div>
+
+<p>
+  <a target="_blank" href="asciimath.html">更多示例帮助?</a>
+</p>
 
 <script>
 function render() {
-	if (input.lang == 'asciimath') {
-		output.asciimath = input.value;
-		output.innerHTML = '`' + output.asciimath + '`';
-		if (asciimath) {
-			asciimath.render(output);
-			output.tex = asciimath.texstr;
-		}
-	} else {
-		output.tex = input.value;
-		output.innerHTML = input.value;
-		katex.render(input.value, output);
-	}
-} 	 
+  if (input.lang == 'asciimath') {
+    output.asciimath = input.value;
+    output.innerHTML = '`' + output.asciimath + '`';
+    if (asciimath) {
+      asciimath.render(output);
+      output.tex = asciimath.texstr;
+    }
+  } else {
+    output.tex = input.value;
+    output.innerHTML = input.value;
+    katex.render(input.value, output);
+  }
+}    
 
 var asciimath = {
-	katexpath: '../js/katex.min.js',
-	katex: true,
-	onload: render,
+  katexpath: '../js/katex.min.js',
+  katex: true,
+  onload: render,
 };
 </script>
 <script src="../js/asciimath.js"></script>
@@ -70,54 +93,75 @@ var lang = document.getElementById('lang');
 var outputWrapper = document.getElementById('outputWrapper');
 
 input.onkeyup = function(event) {
-	if (event.keyCode || event.which)
-		render();
+  if (event.keyCode || event.which)
+    render();
 };
 
+function toggleKeyboard() {
+  if (keyboard.hidden) {
+    keyboard.removeAttribute('hidden');
+  } else {
+    keyboard.hidden = true;
+  }
+}
+
+for (b of keyboard.children) {
+  function appendText(text) {
+    return function() {
+      input.focus();
+      input.value += text;
+      render();
+    }
+  }
+  if (/button/i.test(b.tagName)) {
+    b.onclick = appendText(b.value || b.innerText);
+  }
+}
+
 lang.onclick = function() {
-	if (input.lang == 'asciimath') {
-		lang.innerHTML = 'tex';
-		input.lang = 'tex';
-		input.value = output.tex;
-	} else {
-		lang.innerHTML = 'asciimath';
-		input.lang = 'asciimath';
-		input.value = output.asciimath || '';
-	}
+  if (input.lang == 'asciimath') {
+    lang.innerText = 'tex';
+    input.lang = 'tex';
+    input.value = output.tex;
+  } else {
+    lang.innerText = 'asciimath';
+    input.lang = 'asciimath';
+    input.value = output.asciimath || '';
+  }
 };
 
 copy.onclick = function() {
-	input.select();
-	document.execCommand('copy');
-	input.blur();
+  input.select();
+  document.execCommand('copy');
+  input.blur();
 };
 
 function highlight(elem) {
-	if (output) output.style.border = 'none';
-	elem.style.border = '1px solid #aaa';
-	output = elem;
-	if (input.lang == 'tex')
-		input.value = output.tex || '';
-	else // if (input.lang == 'asciimath')
-		input.value = output.asciimath || '';
-	input.focus();
+  if (output) output.style.border = 'none';
+  elem.style.border = '1px solid #aaa';
+  output = elem;
+  if (input.lang == 'tex')
+    input.value = output.tex || '';
+  else // if (input.lang == 'asciimath')
+    input.value = output.asciimath || '';
+  input.focus();
 }
 
 deleteFormula.onclick = function() {
-	var formulae = outputWrapper.children;
-	if (formulae.length > 1) {
-		outputWrapper.removeChild(output);
-		highlight(formulae[formulae.length-1]);
-	}
+  var formulae = outputWrapper.children;
+  if (formulae.length > 1) {
+    outputWrapper.removeChild(output);
+    highlight(formulae[formulae.length-1]);
+  }
 };
 
 newFormula.onclick = function() {
-	var div = document.createElement('div');
-	div.onclick = function() {
-		highlight(div);
-	}
-	highlight(div);
-	outputWrapper.appendChild(div);
+  var div = document.createElement('div');
+  div.onclick = function() {
+    highlight(div);
+  }
+  highlight(div);
+  outputWrapper.appendChild(div);
 };
 
 newFormula.onclick();

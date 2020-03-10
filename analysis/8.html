@@ -180,7 +180,15 @@
 
 <p class="property">
 	<b>递推公式</b>
-	`Gamma(x+1) = x Gamma(x)`.
+	Gamma 函数满足函数方程
+	<span class="formula">
+		`Gamma(x+1) = x Gamma(x)`.
+	</span>
+	从而其定义域可以推广到 `ZZ^+ uu (RR\\ZZ)`,
+	即除了零和负整数外的所有实数:
+	<span class="formula">
+		`Gamma(x) = (Gamma(x+n+1))/(x(x+1)cdots(x+n))`.
+	</span>
 </p>
 
 <p class="proof">
@@ -194,21 +202,6 @@
 
 <p class="corollary">
 	`Gamma(n+1) = n!`, `n` 为非负整数.
-</p>
-
-<p class="definition">
-	Gamma 函数的对数的一阶导数称为 digamma 函数 `psi`:
-	<span class="formula">
-		`psi(z) = "d"/dz ln Gamma(z)`
-		`= (Gamma'(z))/(Gamma(z))`,
-	</span>
-	digamma 函数的高阶导数 `psi^((n))` 称为 polygamma 函数.
-	计算知
-	<span class="formula">
-		`psi(z+1) = "d"/dz ln Gamma(z+1)`
-		`= "d"/dz(ln z + ln Gamma(z))`
-		`= 1/z + psi(z)`.
-	</span>
 </p>
 
 <p class="corollary">
@@ -254,7 +247,7 @@
 </p>
 
 <p class="property">
-	<b>两类 Euler 积分的联系 (Dirichlet 公式)</b>
+	<b>Dirichlet 公式</b>
 	`B(x, y) = (Gamma(x)Gamma(y))/(Gamma(x+y))`.
 </p>
 
@@ -479,6 +472,31 @@
 		`n! ~ n^(n+1) "e"^-n sqrt((2pi)/n)`
 		`= sqrt(2pi n) (n/"e")^n`.
 	</span>
+</p>
+
+<p class="definition">
+	Gamma 函数的对数的导数称为 <b>digamma 函数</b>:
+	<span class="formula">
+		`psi(z) = "d"/dz ln Gamma(z)`
+		`= (Gamma'(z))/(Gamma(z))`,
+	</span>
+	digamma 函数的高阶导数 `psi^((n))` 称为 polygamma 函数.
+	计算知
+	<span class="formula">
+		`psi(z+1) = "d"/dz ln Gamma(z+1)`
+		`= "d"/dz(ln z + ln Gamma(z))`
+		`= 1/z + psi(z)`.
+	</span>
+	对任意非负整数 `n`,
+	<span class="formula">
+		`psi(n+1) = psi(1) + sum_(k=1)^n 1/k = psi(1) + H_n`.
+	</span>
+	其中
+	<span class="formula">
+		`psi(1) = (Gamma'(1))/(Gamma(1)) = int_0^oo "e"^-t ln t dt`
+		`= -gamma`,
+	</span>
+	`gamma` 是 Euler 常数.
 </p>
 
 <h2>指数积分与对数积分</h2>

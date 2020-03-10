@@ -597,7 +597,7 @@
 	</span>
 </p>
 
-<h2>一个重要极限</h2>
+<h2>从 `"e"` 到 `gamma`</h2>
 
 <p class="lemma">
 	`n ge 2` 时, `(1+1/n)^n lt sum_(k=0)^n 1/(k!) lt 3`.
@@ -615,7 +615,13 @@
 </p>
 
 <p class="theorem" id="the-e">
-	数列 `x_n = (1+1/n)^n` 有极限, 记为 `"e"`.
+	数列 `x_n = (1+1/n)^n` 有极限, 记为
+	<span class="formula">
+		`"e" = 2.718281828...`
+	</span>
+	我们已知 <a href="misc/1.html">`"e"` 是无理数</a>.
+	这个常数有许多好的性质, 最重要的一点是, 函数 `"e"^x` 的导数是它自身.
+	人们把 `"e"` 用于自然对数的底, 即 `ln x := log_"e" x`.
 </p>
 
 <p class="proof">
@@ -627,12 +633,6 @@
 	</span>
 	所以 `(1 + 1/n)^n lt (1 + 1/(n+1))^(n+1)`.
 	从而由单调有界原理知极限 `lim_(n to oo) x_n` 存在.
-</p>
-
-<p class="remark">
-	`"e" = 2.718281828...` 有许多好的性质, 
-	最重要的一点是, 函数 `"e"^x` 的导数是它自身.
-	人们把 `"e"` 用于自然对数的底, 即 `ln x := log_"e" x`.
 </p>
 
 <p class="corollary">
@@ -647,12 +647,17 @@
 </p>
 
 <p class="corollary" id="cor-e-2">
+	对任意正整数 `n` 有
 	<span class="formula">
-		`(1 + 1/n)^n lt "e" lt (1 + 1/n)^(n+1)`, `quad n = 1, 2, cdots`.
+		`(1 + 1/n)^n lt "e" lt (1 + 1/n)^(n+1)`,
 	</span>
 	或等价地,
 	<span class="formula">
-		`1/(n+1) lt ln(1 + 1/n) lt 1/n`, `quad n = 1, 2, cdots`.
+		`1/(n+1) lt ln(1 + 1/n) lt 1/n`,
+	</span>
+	即
+	<span class="formula">
+		`ln{:(n+1)/n:} lt 1/n lt ln{:n/(n-1):}`, `quad n ge 2`.
 	</span>
 </p>
 
@@ -673,50 +678,114 @@
 		`=  (1 + 1/(n+1))^(n+2)`.
 </p>
 
-<p class="remark">
+<p class="proof">
 	对函数 `ln x` 在区间 `[n, n+1]` 上应用微分中值定理,
-	也可以得到此不等式.
+	立即得到第二个不等式.
 </p>
 
-<p class="corollary">
-	对<a class="ref" href="#cor-e-2"></a>的第二式两边求和得到
+<p class="theorem" id="euler-constant">
+	`H_n = sum_(k=1)^n 1/k` 称为第 `n` 个<b>调和数 (harmonic number)</b>.
+	这个名字来自音乐中的泛音, 因为一段弦振动时, 其二分之一, 三分之一,
+	四分之一... 也在相应振动.
+	由<a class="ref" href="#cor-e-2"></a>的第三式求和得到
 	<span class="formula">
-		`sum_(k=1)^n 1/(k+1) lt ln(n+1) lt sum_(k=1)^n 1/k`.
+		`ln(n+1) lt H_n lt ln n + 1`, `quad n ge 2`.
 	</span>
-	从而, <b>调和级数</b> `lim_(n to oo) sum_(k=1)^n 1/k` 发散到正无穷.
-</p>
-
-<p class="corollary" id="ieq-stirling">
-	`n ge 2` 时, `(n/"e")^n lt n! lt n^(n+1)/"e"^n`.
-	这个定理给出 `n!` 的比较粗糙的估计. 更仔细的估计参见 Stirling 公式.
+	因为 `lim_(n to oo) ln(n+1) = +oo`,
+	所以 <b>调和级数</b> `lim_(n to oo) H_n = +oo`.
+	然而极限 `lim_(n to oo) H_n - ln n` 存在,
+	称为<b>Euler-Mascheroni 常数</b>
+	<span class="formula">
+		`gamma = 0.5772156649015329...`
+	</span>
+	这个数究竟是有理数还是无理数, 目前尚未得到证明.
 </p>
 
 <p class="proof">
-	`n = 1` 时 `(n/"e")^n lt n!` 显然成立.
-	下面设不等式对正整数 `n` 成立, 则对于正整数 `n+1`,
+	对任意正整数 `n`, 记 `x_n = H_n - ln n`.
+	一方面 `H_n gt ln(n+1) gt ln n`, 因此 `{x_n}` 有下界.
+	另一方面
 	<span class="formula">
-		`(n+1)! = n! (n+1) gt (n/"e")^n (n+1)^(n+1)/(n+1)^n`
-		`= (n+1)^(n+1)/("e"^n (1+1/n)^n)`
-		`gt (n+1)^(n+1)/"e"^(n+1)`.
+		`x_(n+1) - x_n = 1/(n+1) - ln(1+1/n) lt 0`,
 	</span>
-	类似可证, `n ge 2` 时, `n! lt n^(n+1)/"e"^n` 成立.
+	即 `{x_n}` 单调递减.
 </p>
 
 <p class="corollary">
-	`lim_(n to oo) n/(root n (n!)) = "e"`.
+	`H_n ~ ln n` (`n to oo`).
+</p>
+
+<p class="example">
+	`lim_(n to oo) (H_(2n) - H_n)`
+	`= lim_(n to oo) sum_(k=1)^n 1/(n+k) = ln 2`.
 </p>
 
 <p class="proof">
-	对 <a class="ref" href="#ieq-stirling"></a> 变形得
 	<span class="formula">
-		`"e"/(root n n) lt n/(root n (n!)) lt "e"`.
+		`lim_(n to oo) (H_(2n) - H_n)`
+		`= lim_(n to oo) [(H_(2n) - ln 2n) - (H_n - ln n) + ln 2]`
+		`= gamma - gamma + ln 2 = ln 2`.
 	</span>
-	再由两边夹法则即得证.
 </p>
+
+<p class="proof">
+	利用 <a class="ref" href="#cor-e-2"></a> 得到
+	<span class="formula">
+		`ln{:(2n+1)/n:} lt sum_(k=1)^n 1/(n+k) lt ln{:(2n)/(n-1):}`,
+	</span>
+	两边夹即得结论.
+</p>
+
+<p class="proof">
+	利用定积分定义,
+	<span class="formula">
+		`lim_(n to oo) sum_(k=1)^n 1/(n+k)`
+		`= lim_(n to oo) 1/n sum_(k=1)^n 1/(1+k/n)`
+		`= int_0^1 dx/(1+x)`
+		`= ln 2`.
+	</span>
+</p>
+
+<p class="remark">
+	用 Cauchy 不等式可以得到
+	<span class="formula">
+		`(H_(2n)-H_n)^2 lt n sum_(k=1)^n 1/(n+k)^2`
+		`lt n sum_(k=1)^n 1/((n+k)(n+k-1))`
+		`= n (1/n - 1/(2n)) = 1/2`
+	</span>
+	和
+	<span class="formula">
+		`(H_(2n) - H_n) (n+1) (n+2) cdots (2n) ge n^2`. (??)
+	</span>
+</p>
+
+<ol class="example">
+	本例给出 `n!` 的比较粗糙的估计. 更仔细的估计参见 Stirling 公式.
+	<li>`n ge 2` 时, `(n/"e")^n lt n! lt n^(n+1)/"e"^n`.</li>
+	<li>`lim_(n to oo) n/(root n (n!)) = "e"`.</li>
+</ol>
+
+<ol class="proof">
+	<li>`n = 1` 时 `(n/"e")^n lt n!` 显然成立.
+		下面设不等式对正整数 `n` 成立, 则对于正整数 `n+1`,
+		<span class="formula">
+			`(n+1)! = n! (n+1) gt (n/"e")^n (n+1)^(n+1)/(n+1)^n`
+			`= (n+1)^(n+1)/("e"^n (1+1/n)^n)`
+			`gt (n+1)^(n+1)/"e"^(n+1)`.
+		</span>
+		类似可证, `n ge 2` 时, `n! lt n^(n+1)/"e"^n` 成立.
+	</li>
+	<li>对 1. 的结论 变形得
+		<span class="formula">
+			`"e"/(root n n) lt n/(root n (n!)) lt "e"`.
+		</span>
+		再由两边夹法则即得证.
+	</li>
+</ol>
 
 <p class="proof">
 	[来自群友 我是比四元数复数高斯整数都可爱的十六元数]
-	用定积分定义,
+	第 2 问的又一证明.  用定积分定义,
 	<span class="formula">
 		`1 = int_0^1 ln{:1/x:} dx`
 		`= lim_(n to oo) 1/n sum_(k=1)^n ln{:1/(k/n):}`

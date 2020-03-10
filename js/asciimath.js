@@ -373,6 +373,7 @@ AM.symbols = AM.symbols.concat([
 {input:'text',tag:'mtext',output:'text',tex:null,ttype:TEXT},
 {input:'mbox',tag:'mtext',output:'mbox',tex:null,ttype:TEXT},
 {input:'"',tag:'mtext',output:'mbox',tex:null,ttype:TEXT},
+{input:'op',tag:'mo',output:'operatorname',tex:'operatorname',ttype:UNARY},
 
 // font commands
 {input:'bb',tag:'mstyle',atname:'mathvariant',atval:'bold',output:'bb',tex:'mathbf',ttype:UNARY,notexcopy:true},
@@ -663,6 +664,17 @@ function skip(n) {
     ++AMbegin;
 }
 
+function getArg(begin) {
+  var end = AMstr.length;
+  if (AMstr[begin] == '{')
+    end = AMstr.indexOf('}', begin+1);
+  else if (AMstr[begin] == '(')
+    end = AMstr.indexOf(')', begin+1);
+  else if (AMstr[begin] == '[')
+    end = AMstr.indexOf(']', begin+1);
+  return AMstr.slice(begin+1, end);
+}
+
 // -> token or bracket or empty
 // return maximal initial substring of str that appears in names
 // or return null if there is none
@@ -825,8 +837,12 @@ function parseS() {
       return node;
     }
 
+    // op
+    if (sym.input == 'op') {
+      node = $math('mo', $text(getArg(rewind)));
+    }
     // sqrt
-    if (sym.input == 'sqrt') {
+    else if (sym.input == 'sqrt') {
       node = $math(sym.tag, res);
     }
     // abs, floor, ceil
@@ -900,11 +916,8 @@ function parseS() {
     }
 
     if (sym.input == 'color') {
-      if (AMstr[rewind] == '{') i = AMstr.indexOf('}', rewind+1);
-      else if (AMstr[rewind] == '(') i = AMstr.indexOf(')', rewind+1);
-      else if (AMstr[rewind] == '[') i = AMstr.indexOf(']', rewind+1);
+      var color = getArg(rewind);
       node = $math(sym.tag, res2);
-      var color = AMstr.slice(rewind+1, i);
       node.setAttribute('mathcolor', color);
       return node;
     }
