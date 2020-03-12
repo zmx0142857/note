@@ -282,31 +282,27 @@ element.onclick = function() {
 
 function enableCopyCode()
 {
+	function copyCode(pre)
+	{
+		return function() {
+			var textarea = document.createElement('textarea');
+			textarea.value = pre.innerText;
+			document.body.appendChild(textarea);
+			textarea.select();
+			document.execCommand('copy');
+			document.body.removeChild(textarea);
+			var notify = document.createElement('div');
+			notify.innerText = '复制成功';
+			notify.id = 'notify';
+			document.body.appendChild(notify);
+			setTimeout(function(){document.body.removeChild(notify)}, 1000);
+		}
+	}
+
 	var pres = document.getElementsByTagName('pre');
 	for (var i = 0; i < pres.length; ++i) {
-		var button = document.createElement('button');
-		var id = pres[i].id;
-		if (!id) {
-			id = 'pre-' + filename + '-' + (i+1);
-			pres[i].id = id;
-		}
-		button.innerHTML = '复制';
-		button.onclick = copyCode(button, id);
-		button.className = 'copy-code';
-		pres[i].insertBefore(button, pres[i].firstChild);
-	}
-}
-
-function copyCode(button, id)
-{
-	return function() {
-		var code = document.getElementById(id);
-		var textArea = document.createElement('textarea');
-		textArea.innerHTML = code.innerHTML;
-		document.body.appendChild(textArea);
-		textArea.select();
-		document.execCommand('copy');
-		document.body.removeChild(textArea);
+		pres[i].onclick = copyCode(pres[i]);
+		pres[i].title = '点击复制';
 	}
 }
 
