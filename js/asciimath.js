@@ -1247,8 +1247,8 @@ function parseNode(node) {
     for (var i = 0; i < arr.length; ++i) {
       arr[i] = arr[i].replace(/AMesc1/g, AM.delim1);
       if (math) {
-        for (d in AM.define)
-          arr[i] = arr[i].replace(d, AM.define[d]);
+        for (d of AM.define)
+          arr[i] = arr[i].replace(d[0], d[1]);
         frag.appendChild(parseMath(arr[i]));
       } else {
         frag.appendChild($text(arr[i]));
@@ -1337,6 +1337,11 @@ function init() {
   var toescape = /(\(|\)|\[|\]|\{|\}|\$|\^|\/|\\|\||\.|\*|\+|\?)/g;
   AM.delim1.replace(toescape, '\\$1');
   AMesc1 = new RegExp('\\\\' + AM.delim1, 'g');
+
+  var def = []
+  for (d in AM.define)
+  	def.push([new RegExp(d, 'g'), AM.define[d]]);
+  AM.define = def;
 
   if (!AM.katex && hasMathML())
     return AM.onload();

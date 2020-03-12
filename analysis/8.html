@@ -549,6 +549,133 @@
 	</span>
 </p>
 
+<h2>杂例</h2>
+
+<ol class="example" id="exp-lnsinx">
+	<li>`int_0^(pi/2) ln sin x dx`
+		`= int_0^(pi/2) ln cos dx`
+		`= -pi/2 ln 2`;
+	</li>
+	<li>`-int_0^1 (ln x)/sqrt(1-x^2) dx`
+		`= int_0^(pi/2) x cot x dx`
+		`= int_0^1 (arcsin x)/x dx = pi/2 ln 2`.
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>先说明瑕积分 `I = int_0^(pi/2) ln sin x dx` 的收敛性.
+		由于 `x to 0` 时 `ln sin x ~ ln x`,
+		而 `int_0^(pi/2) |ln x| dx` 收敛,
+		故 `int_0^(pi/2) ln sin x dx` 也收敛.
+		<br/>
+		现在由反向积分知 `I = int_0^(pi/2) ln cos t dt`.
+		注意到 `[0, pi]` 是 `sin x` 的对称区间,
+		所以又有 `int_0^pi ln sin x = 2I`.
+		于是
+		<span class="formula">
+			`2I = int_0^(pi/2) (ln sin x + ln cos x) dx`
+			`= 1/2 int_0^(pi/2) (ln sin 2x - ln 2) "d" (2x)`
+			`= 1/2 int_0^(pi) ln sin x "d" x - pi/2 ln 2`
+			`= I - pi/2 ln 2`,
+		</span>
+		故 `I = -pi/2 ln2`.
+	</li>
+	<li>直接令 `t = sin x` 有:
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = int_0^1 (ln t)/sqrt(1-t^2)`.
+		</span>
+		另一方面, 若先分部积分,
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = - int_0^(pi/2) x cot x dx`,
+		</span>
+		这时令 `t = sin x`, 有:
+		<span class="formula">
+			`int_0^(pi/2) x cot x dx = int_0^1 (arcsin t)/t dt`.
+		</span>
+	</li>
+</ol> 
+
+<ol class="example">
+	[来自群友 我是比四元数复数高斯整数都可爱的十六元数]
+	无穷级数 `sum_(n ge 0) (-1)^n/(2n+1)^2` 的和称为 <b>Catalan 常数</b>
+	<span class="formula">
+		`K = 0.915965594177...`
+	</span>
+	由此计算:
+	<li>`int_0^1 int_0^1 1/(1+x^2 y^2) dx dy = K`;</li>
+	<li>`int_0^1 (arctan x)/x dx = K`;</li>
+	<li>`int_0^1 (ln x)/(1+x^2) dx`
+		`= -1/2 int_0^(pi/2) x csc x dx`
+		`= int_0^(pi/4) ln tan x dx`
+		`= -K`;
+	</li>
+	<li>`int_0^(pi/4) ln sin x dx` 和 `int_0^(pi/4) ln cos x dx`;</li>
+	<li>`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`,
+		`int_0^(sqrt 2/2) (arcsin x)/x dx` 和 `int_0^(pi/4) x cot x dx`;
+	</li>
+	<li>`int_0^(1/2) Gamma(1+x)Gamma(1-x) dx`.</li>
+</ol>
+
+<ol class="solution">
+	<li>将分母以几何级数展开, 原式等于
+		<span class="formula">
+			`int_0^1 int_0^1 sum_(n ge 0) (-x^2 y^2)^n dx dy`
+			`overset ? = sum_(n ge 0) (-1)^n
+			int_0^1 x^(2n) dx int_0^1 y^(2n) dy`
+			`= sum_(n ge 0) (-1)^n/(2n+1)^2 = K`.
+		</span>
+	</li>
+	<li>利用 `arctan x = sum_(n ge 0) (-1)^n x^(2n+1)/(2n+1)`, 原式等于
+		<span class="formula">
+			`int_0^1 sum_(n ge 0) (-1)^n x^(2n)/(2n+1) dx`
+			`overset ? = sum_(n ge 0) (-1)^n/(2n+1) int_0^1 x^(2n) dx`
+			`= sum_(n ge 0) (-1)^n/(2n+1)^2`
+			`= K`.
+		</span>
+	</li>
+	<li>分部积分,
+		<span class="formula">
+			`int_0^1 (arctan x)/x dx = - int_0^1 (ln x)/(1+x^2) dx`.
+		</span>
+		令 `t = arctan x`,
+		<span class="formula">
+			`int_0^1 (arctan x)/x dx = int_0^(pi/4) t/(sin t cos t) dt`
+			`= 1/2 int_0^(pi/2) (t dt)/(sin t)`,<br/>
+			`int_0^1 (ln x)/(1+x^2) dx = int_0^(pi/4) ln tan t dt`.
+		</span>
+	</li>
+	<li>两个积分分别记为 `I, J`, 于是
+		<span class="formula">
+			`I+J = int_0^(pi/4) ln{:(sin 2x)/2:} dx`
+			`= 1/2 int_0^(pi/2) ln sin x dx - pi/4 ln 2`
+			`= - pi/2 ln 2`,<br/>
+			`I-J = int_0^(pi/4) ln tan x dx = -K`.
+		</span>
+		解线性方程组即得到 `I, J` 的值.
+	</li>
+	<li>令 `x = sin t`,
+		<span class="formula">
+			`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`
+			`= int_0^(pi/4) ln sin t dt`.
+		</span>
+		另外两个积分的处理方法和<a class="ref"
+			href="#exp-lnsinx"></a>一样, 先换元再分部积分, 得
+		<span class="formula">
+			`int_0^(sqrt2/2) (arcsin x)/x dx`
+			`= int_0^(pi/4) t cot t dt`
+			`= -pi/8 ln 2 - int_0^(pi/4) ln sin t dt`
+			`= pi/8 ln 2 + K/2`. 
+		</span>
+	</li>
+	<li>原式等于
+		<span class="formula">
+			`int_0^(1/2) x Gamma(x) Gamma(1-x) dx`
+			`= int_0^(1/2) (pi x)/(sin pi x) dx` (余元公式)
+			`= 2/pi K` (由 3).
+		</span>
+	</li>
+</ol>
+
 <script src="../js/note.js?type=math"></script>
 
 </body>
