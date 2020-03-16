@@ -449,7 +449,7 @@ decorate([
 	{name:'algorithm', getBy:'class', word:'算法', style:Sname_num},
 	{name:'data-structure', getBy:'class', word:'数据结构', style:Sname_num},
 	{name:'construction',getBy:'class', word:'作图', style:Sname_num},
-	{name:'graph', getBy:'class', word:'图', style:Sname_num, placeAfter:true},
+	{name:'img', getBy:'class', word:'图', style:Sname_num, placeAfter:true},
 	{name:'principle', getBy:'class', word:'原理', style:Sname_num},
 	{name:'axiom', getBy:'class', word:'公理', style:Sname_num},
 	{name:'property', getBy:'class', word:'性质', style:Sname_num},
