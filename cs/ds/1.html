@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>绪论</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p>	尽管名为 "数据结构" (data structure, DS), 事实上,
+	数据结构与算法不分家, 因此这也是我的算法笔记.
+</p>
+
+<h2>伪代码约定</h2>
+
+<h4>注释</h4>
+
+<p>	单行注释以井号 <code>#</code> 开头.
+	我们不用多行注释.
+</p>
+
+<h4>变量/对象</h4>
+
+<p>	我们主要采用面向对象的思路, 即一切变量都是对象.
+	对象的属性和方法由句点引出, 形如 <code>对象.属性</code>,
+	<code>对象.方法()</code>.
+	如数组 <code>arr</code> 的长度可以写作 <code>arr.length</code>.
+</p>
+
+<h4>异常</h4>
+
+<p>	一些接收输入或分配内存的算法可能会失败, 我们假定它们在出错时抛出异常.
+	简单起见, 我们所写的算法一般不处理异常. 假定的异常类型有:
+</p>
+
+<table>
+	<tr>
+		<th>值</th>
+		<th>含义</th>
+	</tr>
+	<tr>
+		<td><code>OK</code></td>
+		<td>成功</td>
+	</tr>
+	<tr>
+		<td><code>ValueError</code></td>
+		<td>输入的值不合法</td>
+	</tr>
+	<tr>
+		<td><code>Overflow</code></td>
+		<td>分配内存失败, 或数据结构已满, 或计算上溢</td>
+	</tr>
+	<tr>
+		<td><code>Underflow</code></td>
+		<td>试图分配大小为负的内存, 或试图从空容器中取出元素, 或计算上溢</td>
+	</tr>
+	<tr>
+		<td><code>NullptrError</code></td>
+		<td>试图释放一个空指针所指的内存</td>
+	</tr>
+	<tr>
+		<td><code>IndexError</code></td>
+		<td>数组下标越界</td>
+	</tr>
+	<tr>
+		<td><code>Error</code></td>
+		<td>其他错误</td>
+	</tr>
+</table>
+
+<h4>函数的返回值和引用参数</h4>
+
+<p>	<code>return</code> 语句用于结束当前函数的运行, 并返回零个到多个值.
+	返回多值时, 各值用逗号隔开; 接收多个返回值时,
+	被赋值的变量也用逗号隔开, 如:
+</p>
+
+<pre>
+f():
+	return 1, 2, 3
+x, y, z = f() // 调用
+</pre>
+
+<p>	在书写函数原型时, 返回值的类型可以省略, 只在必要时写出.
+</p>
+
+<p>	当函数可能改变实参的值的时候, 我们在函数的形参前添加一个
+	<code>&amp;</code> 符号, 表示这是一个<b>引用参数</b>, 或者说,
+	函数内外所引用的, 事实上是同一对象, 这可以通过指针来实现.
+	如交换两个变量的函数可以定义如下:
+</p>
+
+<pre>
+swap(&amp;x, &amp;y):
+	tmp = x
+	x = y
+	y = tmp
+swap(a, b) // 调用
+</pre>
+
+<p>	应当把这个 <code>&amp;</code> 符号同 c 语言中的取地址符区分开来.
+	值得注意, 与 c++ 不同, 我们还允许引用绑定到不同的对象上.
+	另外, 如果被引用对象本身是指针, 我们将通过指针的指针来实现这个引用.
+</p>
+
+<h4>迭代范围</h4>
+
+<p>	我们用 <code>m..n</code> 表示大于等于 m, 小于等于 n 的整数集合,
+	与数组/字符串结合使用时, 表示一个子数组/子串. 如
+	<code>str[2..5]</code> 表示 <code>str[2], str[3], str[4],
+	str[5]</code> 依次组成的 <code>str</code> 的子串.
+</p>
+
+<p>	我们约定, 数组和字符串的下标是从零开始的.</p>
+
+<p>	还可以用集合的语法来描述一些数组/容器的初始值,
+	这些初值应当是容易计算的. 如 <code>[2*k: k = 0..n]</code> 表示 0 到 2n
+	间的所有偶数.
+</p>
+
+<h4>标准设施</h4>
+
+<p>	假定已经实现了的函数或语法,
+	在大多数语言中, 这些函数都是标准的库函数, 或直接是语言的一部分.
+</p>
+
+<table>
+	<tr>
+		<td><code>input(&amp;a, &amp;b, ...)</code></td>
+		<td>读取用户输入, 分别存入变量 <code>a</code>, <code>b</code>, ...
+			成功时返回一个非零值, 失败时返回零.
+			导致 <code>input</code> 失败的原因可能有遇到文件结束符
+			<code>EOF</code>, 或输入的格式不正确等.
+		</td>
+	</tr>
+	<tr>
+		<td><code>print(a, b, ...)</code></td>
+		<td>将变量 <code>a</code>, <code>b</code>, ... 的值输出到屏幕.
+		</td>
+	</tr>
+	<tr>
+		<td><code>new Type[n](args...)</code></td>
+		<td>类似于 c++ 的语法. 为 n 个 <code>Type</code>
+			类型的对象分配空间 (省略 <code>[n]</code> 时,
+			为一个对象分配空间), 并将参数 <code>args</code>
+			传递给构造函数, 以完成对象的初始化.
+			返回指向新分配空间的指针. 若内存分配失败, 则抛出异常
+			<code>Overflow</code>.
+			(<a class="ref" href="#rem-allocate"></a>)
+		</td>
+	</tr>
+	<tr>
+		<td><code>delete ptr</code></td>
+		<td>释放指针 <code>ptr</code> 所指的内存,
+			若 <code>ptr == NULL</code>, 抛出 <code>NullptrError</code>.
+			(<a class="ref" href="#rem-delete"></a>)
+		</td>
+	</tr>
+</table>
+
+<p class="remark" id="rem-allocate">
+	在 c 语言中, 负责分配内存的 <code>malloc</code>
+	函数在失败时返回一个空指针, 因此每次调用后,
+	必不可少的步骤是检查返回的指针是否为空; 如果指针为空,
+	接下来要做的一般是退出当前函数, 并返回一个表示错误的值.
+	异常机制为我们免去了这些繁琐步骤.
+</p>
+
+<p class="remark" id="rem-delete">
+	与 <code>new</code> 语句不同的是, 我们应当在 <code>delete</code>
+	之前判断指针是否为空, 这一步骤是不能省略的.
+	另外, 在 c++ 中, 释放一个分配的数组应当使用 <code>delete[]</code>
+	运算符, 但方便起见我们只用 <code>delete</code>.
+</p>
+
+<h4>条件</h4>
+
+<pre>
+	if 条件1:
+		语句块1
+	elif 条件2:
+		语句块2
+	...
+	elif 条件n:
+		语句块n
+	else:
+		语句块n+1
+</pre>
+
+<p>	依次检验各个条件, 只执行第一个成立的条件下的语句块.
+	若所有条件都不成立, 执行 <code>else</code> 下的语句块
+	(如果 <code>else</code> 子句被省略, 则什么也不执行).
+	各个 <code>elif</code> 和 <code>else</code> 子句都可以省略.
+</p>
+
+<p>	在关键字 <code>if</code>, <code>while</code>
+	后面的表达式一律转化为布尔类型来理解,
+	但引起歧义的场合则不可这样略写.
+</p>
+
+<table>
+	<tr>
+		<th>类型</th>
+		<th>等于 <code>True</code> 当且仅当</th>
+	</tr>
+	<tr>
+		<td>数字 (整型, 浮点型, ...)</td>
+		<td>非零</td>
+	</tr>
+	<tr>
+		<td>指针</td>
+		<td>不等于 <code>NULL</code></td>
+	</tr>
+	<tr>
+		<td>字符</td>
+		<td>不等于 <code>'\0'</code></td>
+	</tr>
+	<tr>
+		<td>字符串</td>
+		<td>不等于空串</td>
+	</tr>
+	<tr>
+		<td>数据结构 (表, 数组, 栈, 队列, 树, 图...)</td>
+		<td>不空</td>
+	</tr>
+	<tr>
+		<td>status</td>
+		<td><code>OK</code></td>
+	</tr>
+</table>
+
+<h4>循环</h4>
+
+<table>
+	<tr>
+		<td>
+<pre>
+while 条件:
+	语句块
+</pre>
+		</td>
+		<td>当条件成立时, 反复执行语句块.</td>
+	</tr>
+	<tr>
+		<td>
+<pre>
+do:
+	语句块
+while 条件
+</pre>
+		</td>
+		<td>先执行一次语句块, 然后当条件成立时, 反复执行语句块.</td>
+	</tr>
+	<tr>
+		<td>
+<pre>
+loop n:
+	语句块
+</pre>
+		</td>
+		<td>反复执行语句块 n 次.</td>
+	</tr>
+	<tr>
+		<td>
+<pre>
+for i = m to n:
+	语句块
+</pre>
+		</td>
+		<td>也可以写成 <code>for i = m..n</code>.
+			依次对 i = m, m+1, m+2, ..., n 执行循环;
+			如果 m &gt; n 则为空循环, 一次也不执行.
+		</td>
+	</tr>
+	<tr>
+		<td>
+<pre>
+for i = m downto n:
+	语句块
+</pre>
+		</td>
+		<td>依次对 i = m, m-1, m-2, ..., n 执行循环;
+			如果 m &lt; n 则为空循环, 一次也不执行.
+		</td>
+	</tr>
+</table>
+
+<table>
+	<caption>循环语句的常见写法 (idioms)</caption>	
+	<tr>
+		<td><code>while True</code></td>
+		<td>死循环, 可以用 <code>break</code> 语句脱出.</td>
+	</tr>
+	<tr>
+		<td><code>while input(x)</code></td>
+		<td>反复处理输入, 直到遇到输入错误或 EOF.</td>
+	</tr>
+	<tr>
+		<td><code>while n--</code>,<br/>
+			<code>do ... while --n</code>
+		</td>
+		<td>在循环体不涉及变量 <code>n</code> 时, 都是执行
+			<code>n</code> 次.  我们引入 <code>loop n</code>
+			这样简单而不易混淆的写法来替代这两种写法.
+		</td>
+	</tr>
+	<tr>
+		<td><code>do ... while False</code></td>
+		<td>恰好执行一次. 它可以在 c 语言的宏定义中替代花括号.</td>
+	</tr>
+</table>
+
+<h2>算法的时空复杂度</h2>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

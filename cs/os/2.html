@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>进程</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<table>
+	<caption>术语表</caption>
+	<tr>
+		<th>缩写</th>
+		<th>全称</th>
+		<th>中文</th>
+	</tr>
+	<tr>
+		<td>PCB</td>
+		<td>Process Control Block</td>
+		<td>进程控制块</td>
+	</tr>
+</table>
+
+<h2>进程同步</h2>
+
+<p>	为保证多个进程有条不紊地运行，在多道程序系统中必须引入进程同步机制。
+	否则，进程对系统资源的无序争夺将造成系统混乱，
+	每次处理的结果显现出不可再现性。
+</p>
+
+<h3>进程同步的基本概念</h3>
+
+<p class="example">
+	<b>生产者-消费者 (producer-consumer) 问题</b>
+	输入进程 A 和计算进程 B 相互合作，它们共享一个缓冲区。
+	进程 A 作为生产者，通过缓冲区向进程 B 提供数据，
+	进程 B 作为消费者，从缓冲区取出数据并处理。
+	尽管两个进程以异步方式运行，但它们之间必须保持同步。
+	既不允许消费者进程到空缓冲区取产品，
+	也不允许生产者向装满尚未取走的产品的缓冲区中投放产品。
+</p>
+
+<h4>制约关系</h4>
+
+<dl>
+	<dt>间接相互制约关系</dt>
+	<dd>进程间由于共享系统资源（CPU、I/O 设备等）形成的制约关系。
+		应由系统对临界资源（打印机、磁带机等）统一分配，
+		以保证进程对它们的互斥访问。用户使用临界资源前需提出申请，
+		不允许直接使用。
+	</dd>
+	<dt>直接相互制约关系</dt>
+	<dd>一些进程为完成同一项任务相互合作形成的制约关系。
+		在生产者-消费者问题中，缓冲区空时，进程 B 
+		不能获取所需数据而被阻塞，
+		一旦进程 A 把数据输入缓冲区后便可唤醒进程 B；
+		反之当缓冲区满时，进程 A 不能再向缓冲区投放数据而被阻塞，
+		当进程 B 将缓冲区数据取走后便可唤醒 A。
+	</dd>
+</dl>
+
+<h4>临界资源 (Critical Resource)</h4>
+
+<p>	以生产者-消费者问题为例，用数组 <code>buffer</code> 表示具有 n
+	个缓冲区的缓冲池，并以循环队列形式组织数据的进出，变量 <code>in</code>
+	和 <code>out</code>分别表示队尾与队头。此外，引入计数器
+	<code>count</code>，其初值为 0。
+</p>
+
+<pre>
+// 共享变量
+int in = 0, out = 0, count = 0;
+item buffer[n];
+// 生产者
+void producer()
+{
+	while (true) {
+		nextp = produce();
+		while (count == n) {}
+		buffer[in] = nextp
+		in = (in + 1) % n;
+		++count;
+	}
+}
+// 消费者
+void consumer()
+{
+	while (true) {
+		while (count == 0) {}
+		nextc = buffer[out]
+		out = (out + 1) % n;
+		--count;
+		consume(nextc);
+	}
+}
+</pre>
+
+<p>	虽然生产者与消费者的程序在顺序执行时是正确的，但并发执行就会出差错。
+	问题就在于这两个进程拥有共享变量。生产者执行 <code>++count</code>，
+	而消费者执行 <code>--count</code>。这两个操作用底层语言可以描述为：
+</p>
+
+<pre>
+mov reg1 [count]		mov reg2 [count]
+inc reg1				dec reg2
+mov [count] reg1		mov [count] reg2
+</pre>
+
+<p>	当这些语句之间交错执行，就会产生错误结果。如</p>
+
+<pre>
+; [count] = 5
+mov reg1 [count]	; reg1 = 5
+inc reg1			; reg1 = 6
+mov reg2 [count]	; reg2 = 5
+dec reg2			; reg2 = 4
+mov [count] reg1	; [count] = 6
+mov [count] reg2	; [count] = 4
+</pre>
+
+<p>	先使 <code>count</code> 增加 1，再使它减 1，结果却是 4！
+	解决此问题的关键是把变量 <code>count</code> 作为临界资源处理，
+	即令生产者和消费者进程互斥地访问它。
+</p>
+
+<h4>临界区</h4>
+
+<p>	<b>临界区 (critical section)</b>指进程中访问临界资源的那段代码。
+	每个进程在进入临界区前，应先检查欲访问的资源是否正被访问，
+	如果该资源正被访问，则不能进入临界区；
+	否则应当设置资源正被访问的标志，并进入临界区。
+	相应地，退出临界区后，应清除资源被访问的标志，表示资源现在可用。
+	在进入临界区前做检查的这段代码称为<b>进入区 (entry section)</b>，
+	退出后的代码则称为<b>退出区 (exit section)</b>。
+	与临界区无关的其它代码称为<b>剩余区 (remainder section)</b>。
+	一般地，访问临界资源的循环进程描述为：
+</p>
+
+<pre>
+while (true) {
+	entry_section();
+	critical_section();
+	exit_section();
+	remainder_section();
+}
+</pre>
+
+<h4>同步机制的准则</h4>
+
+<ul>
+	<li>空闲让进。临界资源空闲时，允许进程立即进入其临界区；</li>
+	<li>忙则等待。临界资源被占用时，其它试图进入临界区的进程必须等待；</li>
+	<li>有限等待。保证进程能在有限时间进入自己的临界区，避免“死等”状态；</li>
+	<li>让权等待。进程等待时，应立即释放处理机，避免“忙等”状态。</li>
+</ul>
+
+<h3>硬件同步机制</h3>
+
+<p>	虽然可以用软件方法解决进程互斥进入临界区的问题，但有一定难度，
+	并且有很大局限性，故现在已很少采用。目前许多计算机提供了硬件指令，
+	可用于解决临界区管理问题。
+</p>
+
+<p>	管理临界区时，可将标志看做一个锁，锁开时进入并上锁，锁关时等待。
+	测试和关锁操作必须是连续的，不允许分开进行。
+</p>
+
+<p>	下面列举实现进程互斥的具体方法。</p>
+
+<h4>关中断</h4>
+
+<ul>进入锁测试之前关闭中断，直到完成锁测试并上锁后才打开中断。
+	进程在临界区执行期间，计算机系统不响应中断，从而不会引起调度，
+	也就不会发生进程或线程切换。由此保证了测试与上锁操作的连续性和完整性。
+	缺点：
+	<li>滥用关中断权力可能导致严重后果；</li>
+	<li>关中断时间过长，会影响系统效率，限制了处理器交叉执行程序的能力；
+	</li>
+	<li>关中断方法不适用于多 CPU 系统，在一个处理器上关中断，
+		并不能防止在其它处理器上执行相同的临界代码。
+	</li>
+</ul>
+
+<h4>Test-and-Set</h4>
+
+<p>	许多计算机都提供了硬件指令 TS (Test-and-Set) 以实现进程互斥。
+	这条指令可以看作一个不可分割的过程，即一条原语。
+</p>
+
+<pre>
+bool TS(bool *lock)
+{
+	bool old = *lock;
+	*lock = true;		// 上锁
+	return old;			// 返回测试结果
+}
+</pre>
+
+<p>	相应的循环进程结构为：</p>
+
+<pre>
+while (true) {
+	while (TS(&amp;lock)) {}
+	critical_section();
+	lock = false;
+	remainder_section();
+}
+</pre>
+
+<h4>swap</h4>
+
+<p>	硬件指令 swap 称为对换指令，在 Intel 80x86 中又称 xchg 指令，
+	用于交换两个字的内容。
+</p>
+
+<pre>
+void swap(bool *a, bool *b)
+{
+	bool tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+</pre>
+
+<p>	相应的循环进程为：</p>
+
+<pre>
+while (true) {
+	key = true;
+	do {
+		swap(&amp;lock, &amp;key);
+	} while (key == true);
+	critical_section();
+	lock = false;
+	remainder_section();
+}
+</pre>
+
+<p>	TS 和 swap 指令能有效实现进程互斥，然而当临界资源忙碌时，
+	其它进程必须不断测试，处于“忙等”状态，不符合“让权等待”原则。
+</p>
+
+<h3>信号量机制</h3>
+
+<p>	1965 年，荷兰学者 Dijkstra 提出信号量 (semaphores，字面意为旗语)
+	机制。
+</p>
+
+<h4>整型信号量</h4>
+
+<p>	整型信号量定义为一个用于表示资源数目的整型量 <code>s</code>，
+	除初始化外，仅能通过两个原子操作 <code>wait</code> 和
+	<code>signal</code> 来访问。在荷兰语中，这两个操作称为 P
+	(passeren，通过)、V (vrijgeven，释放) 操作。
+</p>
+
+<pre>
+wait(s)
+{
+	while (s &le; 0) {}
+	--s;
+}
+signal(s)
+{
+	++s;
+}
+</pre>
+
+<ul>由于原子操作在执行时不可中断，故一个进程在修改某信号量时，
+	没有其它进程可以同时对该信号时进行修改。缺点是 wait 操作中，只要信号量
+	<code>s &le; 0</code>，就会不断测试， 不符合“让权等待”原则。
+</ul>
+
+<h4 class="read-important">记录型信号量：让权等待</h4>
+
+<p> 记录型信号量采取“让权等待”策略后，
+	会出现多个进程等待访问同一临界资源的情况。
+	为此，除了代表资源数目的整型变量 <code>value</code> 外，
+	还应增加一个进程链表指针 <code>list</code>，用于链接等待中的进程。
+	记录型信号量因它采用记录型的数据结构而得名。
+</p>
+
+<pre>
+typedef struct {
+	int value;	// &ge; 0 时表示资源数, &lt; 0 时其绝对值表示等待中的进程数
+	struct PCB *list; // 等待队列
+} semaphore;
+// 请求资源
+wait(semaphore *s)
+{
+	--s&rarr;value;
+	if (s&rarr;value &lt; 0)   // 资源分配完毕?
+		block(s&rarr;list); // 使用 block 原语自我阻塞，插入到等待链表中
+}
+// 释放资源
+signal(semaphore *s)
+{
+	++s&rarr;value;
+	if (s&rarr;value &le; 0)    // 仍有等待的进程?
+		wakeup(s&rarr;list); // 使用 wakeup 原语唤醒等待链表中的第一个进程
+}
+</pre>
+
+<p>	特别地，如果设 <code>value</code> 初值为 1，
+	则表示只允许一个进程访问临界资源，可用于进程互斥管理。
+</p>
+
+<h4>and 型信号量：防止死锁</h4>
+
+<p>	一般场合中，一个进程往往要获得两个或更多共享资源后才能执行任务。
+	假定两个进程 A, B 都要访问共享数据 D, E，为此，分别设置互斥信号量
+	<code>Dmutex = 1</code> 和 <code>Emutex = 1</code>，
+	在两个进程中包含相应的请求代码：
+</p>
+
+<pre>
+processA()			processB()
+{					{
+	wait(Dmutex);		wait(Emutex);
+	wait(Emutex);		wait(Dmutex);
+	...					...
+}					}
+</pre>
+
+<p>	若进程 A 和 B 按下列次序操作：</p>
+
+<pre>
+A: wait(Dmutex);		// Dmutex = 0
+B: wait(Emutex);		// Emutex = 0
+A: wait(Emutex);		// Emutex = -1, A 阻塞
+B: wait(Dmutex);		// Dmutex = -1, B 阻塞
+</pre>
+
+<p>	最后，两个进程就处于僵持状态。在无外力作用下，两者都无法解除僵持。
+	称此时的进程 A，B 已进入<b>死锁</b>状态。
+	进程同时要求的共享资源越多，发生进程死锁的可能性就越大。
+</p>
+
+<p>	and 同步机制的基本思想是：将进程在整个运行过程中所需的全部资源，
+	一次性分配给进程。即对若干临界资源的分配采取原子操作方式：
+	要么全部分配，要么一个也不分配。这样就可避免上述死锁的发生。
+	为此在 wait 操作中增加了 “and” 条件，故称为 <b>and 同步</b>，或<b>同时
+	(simultaneous) wait</b> 操作。
+</p>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

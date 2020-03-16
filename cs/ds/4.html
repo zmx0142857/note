@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>递归与回溯</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>递归算法</h2>
+
+<p>	递归算法的正确性容易用数学归纳法得到证明.</p>
+
+<p class="algorithm">
+	<b>Hanoi 塔</b>
+</p>
+
+<pre>
+# 将 n 个圆盘从 x 搬到 z; y 作为辅助.
+hanoi(n, x, y, z):
+	if n == 1:
+		print(x, " -&gt; ", z)
+	else:
+		hanoi(n-1, x, z, y)
+		print(x, " -&gt; ", z)
+		hanoi(n-1, y, x, z)
+</pre>
+
+<p class="algorithm">
+	<b>九连环</b>
+</p>
+
+<pre>
+# 取下前 n 个环
+unload(n):
+	if n == 1:
+		print("unload #1")
+	elif n == 2:
+		print("unload #2")
+		print("unload #1")
+	else:
+		unload(n-2)
+		print("unload #", n)
+		load(n-2)
+		unload(n-1)
+
+# 装上前 n 个环
+load(n):
+	if n == 1:
+		print("load #1")
+	elif n == 2:
+		print("load #1")
+		print("load #2")
+	else:
+		load(n-1)
+		unload(n-2)
+		print("load #", n)
+		load(n-2)
+</pre>
+
+<h2>回溯算法</h2>
+
+<pre>
+traceback(n):
+	if n == MAX_DEPTH:
+		output(vec)
+	else:
+		for move in possible_moves:
+			move(vec[n])
+			traceback(n+1)
+			unmove(vec[n])
+</pre>
+
+<p class="algorithm">
+	<b>求幂集</b>
+</p>
+
+<pre>
+LinkList vec
+
+powerset(n):
+	if n == S.len:
+		output(vec[1..k])
+	else:
+		k = vec.len
+		vec.insert(k+1, S[n])
+		powerset(n+1)
+		vec.remove(k+1)
+		powerset(n+1)
+</pre>
+
+<p class="algorithm">
+	<b>n 皇后问题</b>
+</p>
+
+<p class="algorithm">
+	<b>走迷宫</b>
+</p>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

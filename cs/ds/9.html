@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>查找</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>静态查找表</h2>
+
+<h3>顺序表的查找</h3>
+
+<p class="definition">
+	<b>平均查找长度 (ASL, Average Search Length)</b>
+	定义为查找一条存在于表中的记录时进行比较操作次数的期望值.
+	若 `c_k` 是找到第 `k` 个记录所需比较的次数,
+	`p_k` 为查找第 `k` 个记录的概率, 则 `sum_k p_k = 1`, 且
+	<span class="formula">
+		`ASL = sum_k p_k c_k`.
+	</span>
+</p>
+
+<p class="algorithm">
+	<b>顺序查找</b>
+	即逐个查找比较, 适用面很广. 为了避免每一步都要检测整个表是否查找完毕,
+	在表头处设置哨兵, 从表尾开始反向查找. 如果找不到, 则返回 0. 可以看到,
+	哨兵同样完美解决了空表的判断问题.
+</p>
+
+<pre>
+L.find(key):
+	L[0] = key
+	i = L.length-1
+	while L[i] != key
+		--i
+	return i
+</pre>
+
+<p class="algorithm">
+	<b>折半查找 (二分查找, binary serach)</b>
+	适用于按关键字有序的顺序表. 思想是确定查找元素下标的上界
+	<code>hi</code> 与下界 <code>lo</code>,
+	每次将上下界中间的那个元素 <code>mid = |_ (lo+hi)/2 _|</code>
+	与待查元素比较, 可将范围缩小一半.
+	下面设 <code>L</code> 是按关键字有序的顺序表,
+	函数 <code>bsearch</code> 返回具有值 <code>val</code>
+	的元素下标 (当多个元素都具有值 <code>val</code> 时,
+	返回其中任意一个即可).  找不到匹配元素时, 返回该值在表中的插入位置.
+</p>
+
+<pre>
+L.bsearch(val):
+	lo, hi = 0, L.length-1
+	while lo &lt;= hi:               # 查找范围不空
+		mid = lo + ((hi-lo) &gt;&gt; 1) # 避免上溢; 另外, 指针不能相加
+		if val == L[mid]:
+			return mid
+		elif val &lt; L[mid]:
+			hi = mid-1
+		else:
+			lo = mid+1
+	return lo                     # L[hi] &lt; val &lt; L[lo]
+</pre>
+
+<p>	我们来说明为什么查找失败时, 返回值是 <code>lo</code>.
+	假如循环一次也不执行, 说明表为空, 应当返回 0, 算法是正确的.
+	假如循环至少执行了一次, 则由 <code>lo &lt;= mid &lt;= hi</code> 知道,
+	不论最后一次循环中执行的是 <code>hi = mid-1</code> 还是
+	<code>lo = mid+1</code>, 退出循环后都必有 <code>hi+1 == lo</code>.
+	此时 <code>L[hi] == L[lo-1] &lt; val</code>, <code>L[lo] == L[hi+1]
+	&gt; val</code>, 按约定应当在 <code>lo</code> 处插入.
+	运行结果如下:
+</p>
+
+<pre>
+[1, 3, 5].bsearch(0) = 0
+[1, 3, 5].bsearch(1) = 0
+[1, 3, 5].bsearch(4) = 2
+[1, 3, 5].bsearch(5) = 2
+[1, 3, 5].bsearch(6) = 3
+</pre>
+
+<ol>折半查找的思路看似简单, 实现起来有许多陷阱.
+	<li>直接令 <code>mid = |_ (lo+hi)/2 _|</code> 可能导致整数上溢.
+		更进一步, 若 <code>lo, hi</code> 是指针或迭代器类型,
+		相加是不可能的.
+	</li>
+	<li>使用无符号整型下标, 会带来什么问题?
+		首先, 必须在函数开头对 <code>L.length == 0</code> 进行检查,
+		否则会导致 <code>hi == -1</code>. 在无符号整型中, <code>-1</code>
+		是一个很大的正数, 与我们 <code>hi &lt; lo</code> 的期望相背!
+		同理, 代码 <code>hi = mid-1</code> 也将在 <code>mid == 0</code>
+		时出错. 如果你还想使用无符号整型下标,
+		一个补救的措施是把数组头空出不用, 从下标 1 开始使用它.
+	</li>
+</ol>
+
+<p class="algorithm">
+	<b>Fibonacci 查找</b>
+	同样仅适用于按关键字有序的顺序表.
+	利用 Fibonacci 数列
+	<span class="formula">`F_n = {
+		(0, if n = 0),
+		(1, if n = 1),
+		(F_(n-1) + F_(n-2), if n ge 2)
+	:}`</span>
+	假设表中记录数 `n = F_k-1`, 以 `F_(k-1)` 为分点,
+	将表分为长 `F_(k-1)-1` 的左半部分
+	<code>L[1..F<sub>k-1</sub>-1]</code> 和长 `F_(k-2)-1` 的右半部分
+	<code>L[F<sub>k-1</sub>+1..F<sub>k</sub>-1]</code>.
+	由于 Fibonacci 数列前后项比以黄金比例为极限, 可以证明 Fibonacci
+	查找的平均性能优于折半查找, 但最坏情况的性能 (仍是 `O(log n)`)
+	比折半查找差. 它的另一优点是分割时只需加减运算.
+</p>
+
+<p class="algorithm">
+	<b>插值查找</b>
+	同样仅适用于按关键字有序的顺序表.
+	令 <code>hi</code>, <code>lo</code> 分别为当前表的最大,
+	最小元素的下标, 取分点为
+	<span class="formula">
+		`i = lo + (val - L[lo])/(L[hi] - L[lo]) (hi - lo)`.
+	</span>
+	插值查找特别适用于那些元素值分布均匀的表.
+</p>
+
+<h3>Huffman 树 (到叶结点带权路径最短)</h3>
+
+<p class="definition">
+	树中<b>两个结点之间的路径长度</b>是这两个结点间路径所含的边数.
+	<b>树的路径长度</b>是从根到每一<b>叶结点</b>的路径长度之和.
+	<b>结点的带权路径长度</b>是从根到该结点的路径长度乘以该结点的权重.
+	这里假定各结点的权重是正数.
+	<b>树的带权路径长度 (weighted path length, WPL)</b>
+	是从根到每一<b>叶结点</b>的带权路径长度之和:
+	<span class="formula">
+		`WPL = sum_k w_k l_k`.
+	</span>
+	给定叶子结点及其权重, 构造的具有最小 WPL
+	的二叉树称为<b>最优二叉树</b>.  最优二叉树一般是不惟一的.
+</p>
+
+<p class="remark">
+	最优二叉树对叶子结点的次序不作要求,
+	如果要求构造的二叉树具有给定次序的叶子结点 (比如, 成绩等级的判定树)
+	可以参考下面的静态最优查找树.
+</p>
+
+<p class="theorem">
+	最优二叉树没有 1 度点; 因此, 一棵具有 `n` 个叶结点的最优二叉树一共有
+	`2n-1` 个结点.
+</p>
+
+<p class="proof">
+	假如一棵最优二叉树有 1 度点 `s`, 不妨设 `s` 只有左子树. 去掉 `s`,
+	令 `s` 的左子树取代 `s` 的位置, 则所有 `s`
+	的左子树中的叶结点的深度都减 1, 由于结点的权重是正数,
+	我们就得到一棵 WPL 更小的二叉树.
+	矛盾. 二叉树的 2 度点比叶子结点少 1, 因此共有 `2n-1` 个结点.
+</p>
+
+<p class="lemma">
+	给定权值所构造的所有最优二叉树中, 可以找到一棵,
+	其权值最小的两个叶结点是兄弟.
+</p>
+
+<p class="proof">
+	设 `a, b` 是最优二叉树 `T` 中权值最小的两个叶结点, 假如 `a, b`
+	不是兄弟, 设 `a, a_1` 是兄弟, `b, b_1` 是兄弟. 则
+	<span class="formula">
+		`max(w(a), w(b)) le min(w(a_1), w(b_1))`.
+	</span>
+	不妨设 `d = "depth"(a_1) - "depth"(b) ge 0`, 现交换结点 `a_1, b`,
+	新的 WPL 与旧的之差
+	<span class="formula">
+		`WPL' - WPL = (w(b) - w(a_1))d le 0`
+	</span>
+	因此新二叉树的 WPL 不大于原来的 WPL, 新二叉树必为最优二叉树.
+</p>
+
+<p class="theorem">
+	给定带权叶结点集 `N`. 去掉其中权值最小的两个结点 `a, b`,
+	加入一个新结点 `c`, 满足 `w(c) = w(a) + w(b)`.
+	令集合 `M = N\\{a, b} uu {c}`.
+	设 `T` 为 `M` 上构造的一棵最优二叉树, 现在 `T` 中加入结点 `a, b` 作为
+	`c` 的子结点, 则所得的新二叉树 `T_1` 是 `N` 上的一棵最优二叉树.
+</p>
+
+<p class="proof">
+	可以看到, 在 `T` 中加入 `a, b`
+	的效果是使得权值 `w(a) + w(b)` "下移" 一层, 所以
+	<span class="formula">
+		`WPL(T_1) = WPL(T) + w(a) + w(b)`.
+	</span>
+	设 `S_1` 是 `N` 上的一棵最优二叉树, 且 `a, b` 在 `S_1` 中是兄弟.
+	我们从 `S_1` 中去掉 `a, b`, 令它们的父结点 `c` 的权值等于 `w(a) +
+	w(b)`, 作为新的结点. 所得的新二叉树记为 `S`, 则
+	<span class="formula">
+		`WPL(S_1) = WPL(S) + w(a) + w(b)`.
+	</span>
+	但 `T` 是 `M` 上的最优二叉树, 有 `WPL(T) le WPL(S)`.
+	所以 `WPL(T_1) le WPL(S_1)`,
+	即 `T_1` 是 `N` 上的一棵最优二叉树.
+</p>
+
+<ol class="algorithm">
+	<b>构造最优二叉树的 Huffman 算法</b>
+	<li>给定 <code>N</code> 个正的权值, 先构造
+		<code>N</code> 棵具有单结点的二叉树, 将权值赋予根结点.
+	</li>
+	<li>新建一个根结点, 选取森林中权值最小的两棵树, 分别作为它的左右子树.
+		令新构造的树权值为两子树之和, 替代原来的两棵子树, 加入到森林中.
+	</li>
+	<li>反复步骤 2, 直到只剩一棵树, 称为 <b>Huffman 树</b>.
+		Huffman 树就是一棵最优二叉树.
+	</li>
+	假设叶结点保存在数组的 <code>[0..N-1]</code> 单元中, 且其权值已经给出.
+	为了选出最小权重的树, 算法使用一个优先级队列
+	<code>PriorityQueue</code>.
+</ol>
+
+<pre>
+HuffmanTree {
+	int weight
+	int left
+	int right
+} ht[2*N-1]
+
+huffman(w):
+	PriorityQueue q
+	for i = 0 to N-1:
+		ht[i] = (w[i], 0, 0)
+		q.enqueue(i)
+	for i = N to 2*N-2:
+		l = q.dequeue()
+		r = q.dequeue()
+		ht[i] = (weight[l] + weight[r], l, r)
+		q.enqueue(i)
+	return q.dequeue()
+</pre>
+
+<p class="example">
+	<b>Huffman 编码</b>
+	电报编码问题中, 需要将 A-Z 等字符编码为 0-1 二进制串.
+	为避免解码时的歧义, 要求使用<b>前缀编码</b>,
+	即任一字符的编码都不是另一字符编码的前缀.
+	如果从二叉树的根出发, 用 "向左" 表示数位 0, "向右" 表示数位 1,
+	则每一条从根到叶的路径都确定一个编码, 容易看出,
+	任一编码都不是另一编码的前缀, 因此得到的是前缀编码.
+	可以根据各种字符在电报中使用的频率, 为二叉树的每个叶结点赋以权值,
+	构造 Huffman 树, 来设计电报的编码.
+	由于 Huffman 树是带权路径最小的二叉树,
+	所以平均的报文长度也是最短的.
+	这种编码称为 Huffman 编码.
+</p>
+
+<p class="algorithm">
+	<b>求 Huffman 编码</b> 使用回溯法遍历 Huffman 树的所有根到叶的路径.
+	根到叶的最长路径不超过结点数减一, 即 <code>N-1</code>, 再算上空字符,
+	<code>str</code> 只需大小为 <code>N</code> 的空间即可.
+</p>
+
+<pre>
+char str[N]
+
+# 调用时取 lv = 0
+huffman_code(root, lv):
+	if root &gt; N: # 当 root 是内结点时
+		str[lv] = '0'
+		huffman_code(ht[root].left, lv+1)
+		str[lv] = '1'
+		huffman_code(ht[root].right, lv+1)
+	else:
+		str[lv] = '\0'
+		print(str)
+</pre>
+
+<h3>静态最优查找树 (到所有结点带权路径最短)</h3>
+
+<p class="example">
+	考虑将分数 (0-100) 转换为等级 (E, D, C, B, A) 的程序,
+	假设已知输入数据的分布为
+</p>
+
+<table>
+	<tr>
+		<th>等级</th>
+		<td>E</td>
+		<td>D</td>
+		<td>C</td>
+		<td>B</td>
+		<td>A</td>
+	</tr>
+	<tr>
+		<th>分数</th>
+		<td>0-59</td>
+		<td>60-69</td>
+		<td>70-79</td>
+		<td>80-89</td>
+		<td>90-100</td>
+	</tr>
+	<tr>
+		<th>频率</th>
+		<td>0.05</td>
+		<td>0.15</td>
+		<td>0.40</td>
+		<td>0.30</td>
+		<td>0.10</td>
+	</tr>
+</table>
+
+<p>	从理论上计算, 当输入数据有 100 个时,
+	程序 1 的比较次数为 315, 而程序 2 的比较次数为 220, 优于程序 1.
+	原因在于, 程序 1 的判定树严重不平衡, 而程序 2 的判定树是最优查找树.
+</p>
+
+<pre>
+程序 1
+
+  60             if n &lt; 60:
+ /  \            	'E'
+E   70           elif n &lt; 70:
+   /  \          	'D'
+  D   80         elif n &lt; 80:
+     /  \        	'C'
+	C   90       elif n &lt; 90:
+	   /  \      	'B'
+	  B    A     else:
+                 	'A'        
+</pre>
+<pre>
+程序 2
+
+       80        if n &lt; 80:
+     /    \      	if n &lt; 70:
+    70     90    		if n &lt; 60:
+   /  \   /  \   			'E'
+  60   C B    A  		else:
+ /  \            			'D'
+E    D           	else:
+                 		'C'
+                 elif n &lt; 90:
+                 	'B'
+                 else:
+                 	'A'
+</pre>
+
+<h2>动态查找树</h2>
+
+<p>	即具有静态的查找功能, 又具有动态的增, 删, 改的功能.</p>
+
+<p class="data-structure">
+	<b>二叉查找树 (二叉排序树, Binary Search Tree, BST)</b>
+	是一棵二叉树, 它要么是空树,
+	要么每个结点中存储一个不重复的关键字, 若左子树非空,
+	则左子树上所有结点关键字小于根的关键字; 右右子树非空,
+	则右子树上所有结点关键字大小根的关键字. 且左右子树也分别是二叉查找树.
+	二叉排序树的中序遍历序列将所有关键字从小到大列出.
+</p>
+
+<pre>
+struct BSTNode:
+	KeyType key
+	BSTNode *left, *right
+BSTNode *root
+
+# 在以 root 为根的 BST 中查找值 key, 以引用返回指向结点的指针
+find_rec(&amp;root, key):
+	if !root or key == root-&gt;key:
+		return root					# 返回引用
+	elif key &lt; root-&gt;key:
+		return find_rec(root-&gt;left)	# 引用重绑定
+	else:
+		return find_rec(root-&gt;right)
+
+# 非递归实现, 效率更高
+find(&amp;root, key):
+	while root and key != root-&gt;key:
+		if key &lt; root-&gt;key:
+			&amp;root = root-&gt;left	# 引用重绑定
+		else:
+			&amp;root = root-&gt;right
+	return root					# 返回引用
+
+insert(&amp;root, key):
+	# node 是一个引用, 因此当树空时, node 就是 root.
+	# 当某结点的左子树空时, node 就是这个结点的左指针域. 右子树类似.
+	node = find(root, key)
+	if node:
+		error('key already exists')
+	else:
+		node = new BSTNode(key, NULL, NULL) # 插入一个叶子结点
+
+delete(&amp;root, key):
+	node = find(root, key)	# node 是引用
+	if !node:
+		error('key not exist')
+	elif !node-&gt;left:		# 左子树空, 重接右子树
+		tmp = node
+		node = node-&gt;right
+	elif !node-&gt;right:		# 右子树空类似
+		tmp = node
+		node = node-&gt;left
+	else:					# 左右子树都不空
+		pre = node
+		tmp = node-&gt;left
+		# 寻找左子树的中序终点
+		while tmp-&gt;right:
+			pre = tmp
+			tmp = tmp-&gt;right
+		# 现在 tmp 无右子树. 将 tmp 拷贝到 node
+		node-&gt;key = tmp-&gt;key
+		if pre == node:
+			pre-&gt;left = tmp-&gt;left
+		else:
+			pre-&gt;right = tmp-&gt;left
+	delete tmp
+</pre>
+
+<pre class="remark">
+delete 函数中, 也可以用下面的写法避免拷贝
+if pre == node:
+    tmp-&gt;right = node-&gt;right
+    tmp = node
+    node = node-&gt;left
+else:
+    pre-&gt;right = tmp-&gt;left
+    tmp-&gt;left = node-&gt;left
+    tmp-&gt;right = node-&gt;right
+    swap(tmp, node)
+</pre>
+
+<pre class="remark">
+cpp 不支持引用重绑定. 因此 c/cpp 的实现应该使用二重指针:
+BSTNode **find(BSTNode **root, int val) {
+	while ((*root) &amp;&amp; val != (*root)-&gt;val) {
+		if (val &lt; (*root)-&gt;val)
+			root = &amp;(*root)-&gt;left;
+		else
+			root = &amp;(*root)-&gt;right;
+	}
+	return root;
+}
+BSTNode* insert(BSTNode* root, int val) {
+	BSTNode **node = find(&amp;root, val);
+	*node = new BSTNode(val, NULL, NULL);
+	return root;
+}
+</pre>
+
+<p class="data-structure">
+	<b>平衡二叉树 (AVL 树)</b> 是一棵二叉查找树, 且任意结点的左,
+	右子树的高度差 (即<b>平衡因子</b>,
+	<code>height(left) - height(right)</code>)
+	的绝对值不大于 1. 另一种等价定义是, 平衡二叉树是一棵二叉查找树,
+	它或者是空树, 或者左右子树的高度差的绝对值不大于 1,
+	且左右子树都是平衡二叉树.
+</p>
+
+<pre>
+L = +1
+E = 0
+R = -1
+
+struct AVLNode
+	Type data
+	AVLTreeNode *left, *right
+	int bf                  # 平衡因子 balance factor
+AVLNode *root
+
+# 返回左/右指针的<b>引用</b>
+go(dir):
+	if dir == L:
+		return this-&gt;left
+	elif dir == R:
+		return this-&gt;right
+
+# 右旋示意图. 此操作保持中序序列不变
+#   T         P
+#  /           \
+# P    P   T    T
+#  \    \ /    /
+#   Q    Q    Q
+rotate(dir):
+	p = this-&gt;go(-dir)
+	this-&gt;go(-dir) = p-&gt;go(dir)
+	p-&gt;go(dir) = this
+	this = p
+
+# 左平衡示意图
+# LL单旋:            LR双旋:
+#     T(++)   P          T(++)     T       Q
+#    /  \    / \        /  \      / \    /   \
+#   P(+) S  R   T      P(-) S    Q   S  P     T
+#  / \         / \    / \       / \    / \   / \
+# R   Q       Q   S  R   Q(?)  P   B  R   A B   S
+#                       / \   / \
+#                      A   B R   A
+# 双旋情形, 分别代入 Q.bf = 0, +, -, 考查 A, B, R, S 的高度可知,
+# Q.bf == 0 时四者高度相等; Q.bf == + 时其它三者相等, 而 B 短 1;
+# Q.bf == - 时其它三者相等, 而 A 短 1.
+balance(dir):
+	p = this-&gt;go(dir)
+	if p-&gt;bf == dir:    # 单旋
+		this-&gt;bf = p-&gt;bf = E
+		this-&gt;rotate(-dir)
+	elif p-&gt;bf == -dir: # 双旋
+		q = p-&gt;go(-dir)
+		if q-&gt;bf == dir:
+			this-&gt;bf = -dir
+			p-&gt;bf = E
+		elif q-&gt;bf == -dir:
+			this-&gt;bf = E
+			p-&gt;bf = dir
+		else: # q-&gt;bf == E:
+			this-&gt;bf = p-&gt;bf = E
+		q-&gt;bf = E
+		this-&gt;go(dir)-&gt;rotate(dir)
+		this-&gt;rotate(-dir)
+
+# 在 dir 子树插入结点, 并判断树是否长高
+is_taller(dir):
+	if !this-&gt;go(dir)-&gt;insert(val):
+		return False
+	elif this-&gt;bf == -dir:	# 原本向 -dir 倾斜: 倾斜抵消, 树不变
+		this-&gt;bf = E
+		return False
+	elif this-&gt;bf == dir:	# 原本向 dir 倾斜: 为保持平衡需作调整
+		balance(dir)
+		return False
+	else: # this-&gt;bf == E:	# 原本平衡时: 向 dir 倾斜, 树长高
+		this-&gt;bf = dir
+		return True
+
+# 当且仅当执行的插入使得以 this 为根的树长高时返回 True
+insert(val):
+	if !this:              # 空树, 插入
+		this = new AVLTNode(val, NULL, NULL, E)
+		return True
+	elif val == this-&gt;data:# 结点已存在, 不插入
+		return False
+	elif val &lt; this-&gt;data: # 应当搜索左子树
+		return this-&gt;is_taller(L)
+	else:                  # 应当搜索右子树
+		return this-&gt;is_taller(R)
+</pre>
+
+<p class="theorem">
+	设高度为 `h` 的平衡二叉树中的最少结点数为 `n_h`, 含 `n`
+	个结点的平衡二叉树的最大高度为 `h_n`, 则
+	<span class="formula">
+		`n_h = {
+			(0, if h = 0),
+			(1, if h = 1),
+			(n_(h-1) + n_(h-2) + 1, if "else")
+		:}`
+	</span>
+	可以解得
+	<span class="formula">
+		`n_h = 1/(2 sqrt 5)
+		[(sqrt 5 + 3) varphi^h + (sqrt 5 - 3) psi^h] - 1`.
+	</span>
+	其中 `varphi, psi = (1+-sqrt 5)//2`. 于是 `n_h = O(varphi^h)`,
+	`h_n = O(log_varphi h) = O(log_2 h)`.
+</p>
+
+<p class="algorithm">
+	<b>B 树</b>
+</p>
+
+<pre>
+struct BNode:
+	int n_key			# 关键字数目
+	KeyType key[m]		# 0 号单元未用
+	BNode *parent		# 父指针
+	BNode *child[m]		# 子树指针
+
+find(KeyType k):
+	p = this
+	pre = NULL
+	i = 0
+	while p:
+		# i = 1..p-&gt;n_key
+		# 且 p-&gt;key[i] &le; k &lt; p-&gt;key[i+1]
+		i = p-&gt;key.find(k)
+		if i &gt; 0 and p-&gt;key == k:
+			return p, i, True	# 查找成功
+		else:
+			pre = p
+			p = p-&gt;child[i]
+	return pre, i, False		# 查找失败
+</pre>
+
+<p class="algorithm">
+	<b>B<sup>+</sup>树</b>
+</p>
+
+<script src="../js/note.js?type=cs&loadmath=true"></script>
+
+</body>
+
+</html>

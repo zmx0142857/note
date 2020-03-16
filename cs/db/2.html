@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>关系数据库</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p>	最先系统、严格地提出关系模型的是美国 IBM 公司的 E.F.Codd.</p>
+
+<h2>关系数据结构及形式化定义</h2>
+
+<h3>关系</h3>
+
+<p class="definition">
+	<b>域</b> (domain) 是一组具有相同数据类型的值的集合。
+	<b>笛卡尔积</b> (Cartesian product) 是一组域之间的集合运算，定义为
+	<span class="formula">
+		`D_1 xx D_2 xx cdots xx D_n
+		= {(d_1, d_2, cdots, d_n): d_i in D_i, i = 1, 2, cdots, n}`.
+	</span>
+	其中每个元素 `(d_1, d_2, cdots, d_n)` 叫作一个 <b>`n` 元组</b>
+	(`n`-tuple) 或简称<b>元组</b> (tuple)。元组中的每一个值 `d_i`
+	叫作一个<b>分量</b> (component)。
+</p>
+
+<p class="definition">
+	`D_1 xx D_2 xx cdots xx D_n` 的子集 `R` 叫作域 `D_1, D_2, cdots, D_n`
+	上的<b>关系</b>，记为 `R(D_1, D_2, cdots, D_n)`。
+	称域的个数 `n` 为关系 `R` 的<b>目</b>或<b>度</b> (degree)。
+	`n = 1` 时，称 `R` 是一个一元关系 (unary relation)，`n = 2` 时，称
+	`R` 是一个二元关系 (binary relation)。
+	关系是笛卡尔积的有限子集，所以关系是一张二维表，每行对应一个元组，每列对应一个域。由于域可以相同，为加以区别，为每列起一个名字，称为<b>属性</b>。`n` 目关系必有 `n` 个属性。
+	若关系中的某一属性组的值能唯一地标识一个元组，而其子集不能，则称该属性组为<b>候选码</b>
+	(candidate key)
+</p>
+
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

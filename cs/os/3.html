@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>内存</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>分页存储</h2>
+
+<p>	下文用 b 表示 bit, B 表示 Byte = 8b, K 表示 2<sup>10</sup> = 1024,
+	M 表示 2<sup>20</sup> = K<sup>2</sup>,
+	G 表示 2<sup>30</sup> = K<sup>3</sup>.
+</p>
+
+<p>	分页存储方案中, 内存空间被分为许多大小相等的物理块, 称为页面.
+	每个进程配有一页表, 它是进程所用页面的索引.
+	页表采用连续存储的数组形式, 每个页表项指向内存中的一个页面.
+</p>
+
+<p>	在 32 位操作系统中, 逻辑地址和物理地址长度均为 32bit = 4B
+	(称为一个字, Word), 而内存中可寻址的最小单位是 Byte.
+	如下所示, 页表最大长度 2<sup>20</sup> 由页号的位数决定.
+	每个页面的大小 2<sup>12</sup>B = 4KB 由页内偏移的位数决定.
+	页表本身也要占据内存空间, 若每个页表项占 4B = 1Word,
+	则每个页面最多容纳 4KB/4B = 1K 个页表项.
+</p>
+
+<pre>
+逻辑地址A:
+	20b 页号P      # 页表项在页表中的下标
+	12b 页内偏移W   # 相对于物理块始址的偏移
+
+物理地址E:
+	20b 物理块号b
+	12b 页内偏移W
+
+页表项:
+	20b 物理块号b
+	12b 标志位
+
+页表寄存器PTR:
+	页表始址F
+	页表长度M
+</pre>
+
+<p class="algorithm">
+	地址映射: 将逻辑地址转换为物理地址.
+</p>
+
+<pre>
+if A.P &gt;= PTR.M:
+	越界中断
+E = {F[P].b, A.W}
+</pre>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

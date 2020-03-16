@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>网络层</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>网际协议——IP</h2>
+
+<ul>
+	将网络互连起来的设备称为<b>中间设备</b>。中间设备按层次可以分为：
+	<li>物理层的<b>转发器</b> (repeater)；</li>
+	<li>数据链路层的<b>网桥或桥接器</b> (bridge)；</li>
+	<li>网络层的<b>路由器</b> (router)；</li>
+	<li>网络层以上的<b>网关</b>。</li>
+</ul>
+
+<p class="remark">
+	由于历史原因，许多文献把网络层的路由器称为网关。
+</p>
+
+<h3>分类的 IP 地址</h3>
+
+<table>
+	<tr>
+		<th rowspan="2">类型</th>
+		<th rowspan="2">用途</th>
+		<th rowspan="2">开头</th>
+		<th colspan="3">网络号</th>
+		<th colspan="2">主机号</th>
+	</tr>
+	<tr>
+		<th>位数</th>
+		<th>可用</th>
+		<th>范围</th>
+		<th>位数</th>
+		<th>可用</th>
+	</tr>
+	<tr>
+		<td>A 类</td>
+		<td>单播</td>
+		<td>0</td>
+		<td>8 位</td>
+		<td>2<sup>7</sup>-2</td>
+		<td>1 - 126</td>
+		<td>24 位</td>
+		<td>2<sup>24</sup>-2</td>
+	</tr>
+	<tr>
+		<td>B 类</td>
+		<td>单播</td>
+		<td>10</td>
+		<td>16 位</td>
+		<td>2<sup>14</sup>-1</td>
+		<td>128.1 - 191.255</td>
+		<td>16 位</td>
+		<td>2<sup>16</sup>-2</td>
+	</tr>
+	<tr>
+		<td>C 类</td>
+		<td>单播</td>
+		<td>110</td>
+		<td>24 位</td>
+		<td>2<sup>21</sup>-1</td>
+		<td>192.0.1 - 223.255.255</td>
+		<td>8 位</td>
+		<td>2<sup>8</sup>-2</td>
+	</tr>
+	<tr>
+		<td>D 类</td>
+		<td>多播</td>
+		<td>1110</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>E 类</td>
+		<td>保留</td>
+		<td>1111</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+
+<p class="remark">
+	计算可用网络数时，先减去固定开头位数，再减去保留的网络号。
+	计算可用主机数时，只需减去全 0 和 全 1 的主机号。
+</p>
+
+<h4>特殊的 IP 地址</h4>
+
+<ul>
+	<li>全 0: 本网络的本主机 (this);</li>
+	<li>全 1: 在本网络上进行广播;</li>
+	<li>主机号全 0: 网络 x 的地址;</li>
+	<li>主机号全 1: 网络 x 上的所有主机;</li>
+	<li>网络号全 0: 保留的 A 类地址，表示本网络的主机 x;</li>
+	<li>127.x.x.x: 保留的 A 类地址, 用于本地软件环回测试;</li>
+	<li>128.0.x.x: 保留的 B 类地址;</li>
+	<li>192.0.0.x: 保留的 C 类地址.</li>
+</ul>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

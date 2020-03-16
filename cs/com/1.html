@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>计算机系统概论</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+</head>
+
+<body>
+
+<p>	计算机组成原理 Principles of Computer Composition.
+</p>
+
+<h4>计算机系统的层次结构</h4>
+
+<svg height="300">
+	<defs>
+		<marker id="arrow-end" markerWidth="13" markerHeight="13"
+				refx="10" refy="3" orient="auto">
+			<path d="M 0,0 L 0,6 L 10,3 Z" style="fill: black;" />
+		</marker>
+		<marker id="arrow-start" markerWidth="13" markerHeight="13"
+				refx="0" refy="3" orient="auto">
+			<path d="M 10,0 L 10,6 L 0,3 Z" style="fill: black;" />
+		</marker>
+	</defs>
+
+	<text x="30" y="25">(虚拟) 应用语言机器</text>
+	<rect x="10" y="5" width="170"/>
+
+	<text x="30" y="75">(虚拟) 高级语言机器</text>
+	<rect x="10" y="55" width="170"/>
+	<text x="100" y="100">编译</text>
+
+	<text x="30" y="125">(虚拟) 汇编语言机器</text>
+	<rect x="10" y="105" width="170"/>
+	<text x="100" y="150">汇编</text>
+
+	<text x="30" y="175">(虚拟) 操作系统机器</text>
+	<rect x="10" y="155" width="170"/>
+	<text x="100" y="200">?</text>
+
+	<text x="30" y="225">(传统) 机器语言机器</text>
+	<rect x="10" y="205" width="170"/>
+	<text x="100" y="250">?</text>
+
+	<text x="30" y="275">(微程序) 微指令系统</text>
+	<rect x="10" y="255" width="170"/>
+
+	<path class="arrow" d="M 95,35 L 95,55"/>
+	<path class="arrow" d="M 95,85 L 95,105"/>
+	<path class="arrow" d="M 95,135 L 95,155"/>
+	<path class="arrow" d="M 95,185 L 95,205"/>
+	<path class="arrow" d="M 95,235 L 95,255"/>
+</svg>
+
+<h2>计算机的基本组成</h2>
+
+<h3>von Neumann 计算机的特点</h3>
+
+<ul>
+	<li>由运算器, 控制器, 存储器, 输入设备, 输出设备组成;</li>
+	<li>指令和数据以同等地位存放于存储器内, 并按址寻访;</li>
+	<li>指令和数据均以二进制数表示;</li>
+	<li>指令由操作码和地址码组成, 操作码表示操作性质,
+		地址码指出操作数在内存的位置;</li>
+	<li>指令在内存中顺序存放, 顺序执行. 特定条件下,
+		可以改变执行顺序;</li>
+	<li>机器以运算器为中心,
+		输入输出设备与内存的数据传递通过运算器完成 (已弃用).
+	</li>
+</ul>
+
+<h3>现代计算机三大部分</h3>
+
+<ul>
+	<li>CPU, Central Processing Unit	中央处理器,
+		由运算器和控制器组成</li>
+	<li>MM, Main Memory				主存储器, 内存</li>
+	<li>I/O Equipment					输入输出设备</li>
+</ul>
+
+<h3>以存储器为中心的计算机结构</h3>
+
+<svg height="200">
+	<text x="180" y="25">控制器</text> <rect x="160" y="5"/>
+	<text x="43" y="95">输入设备</text> <rect x="30" y="75"/>
+	<text x="180" y="95">存储器</text> <rect x="160" y="75"/>
+	<text x="303" y="95">输出设备</text> <rect x="290" y="75"/>
+	<text x="180" y="165">运算器</text> <rect x="160" y="145"/>
+
+	<path class="arrow dashed" d="M 0,90 L 30,90"/>
+	<path class="arrow dashed" d="M 110,90 L 160,90"/>
+	<path class="arrow dashed" d="M 240,90 L 290,90"/>
+	<path class="arrow dashed" d="M 370,90 L 400,90"/>
+
+	<path class="arrow" d="M 200,75 L 200,35"/>
+	<path class="double-arrow" d="M 200,105 L 200,145"/>
+</svg>
+<svg>
+	<rect x="30" y="75"/>
+	<text x="50" y="95">控制器</text>
+	<text x="120" y="75">控制</text>
+	<path class="arrow" d="M 110,85 L 160,85"/>
+	<path class="arrow" d="M 160,95 L 110,95"/>
+	<text x="120" y="115">反馈</text>
+	<rect x="160" y="75"/>
+	<text x="173" y="95">其他设备</text>
+</svg>
+
+<script src="../js/note.js"></script>
+
+</body>
+
+</html>

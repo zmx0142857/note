@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>外排序</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="algorithm">
+	<b>败者树</b>
+</p>
+
+<pre>
+int loser[N]			# loser[1] 是根结点, loser[0] 是冠军
+int leaf[N+1]			# leaf[N] 作特殊用途, 见 init()
+
+# 从 leaf[i] 出发向上调整, 败者留在结点中, 胜者向上继续比赛
+adjust(i):
+	p = (N+i+1) &gt;&gt; 1    # 求父结点下标
+	while p:
+		if leaf[i] &gt; leaf[loser[p]]:
+			swap(i, loser[p])
+		p &gt;&gt;= 1
+	loser[0] = i		# 选出冠军
+
+init():
+	# 在虚拟结点中存储"负无穷大", 让所有的 loser 指针指向它
+	leaf[N] = -INF
+	for i = 0 to N-1:
+		loser[i] = N
+	# 从后往前依次读入记录, 并调整叶子结点
+	for i = N-1 downto 0:
+		input(leaf[i])		# 读取输入, 该路已无数据时, 得到 INF
+		adjust(i)
+	# 调整 N 次后, 产生第一个冠军
+
+# 利用败者树将 leaf[0..N-1] 的记录进行 N 路归并
+N_merge():
+	init()
+	# 每输出一个冠军, 就读入新的记录代替它, 直到没有新数据
+	i = loser[0]
+	while leaf[i] != INF:
+		output(leaf[i])
+		input(leaf[i])
+		adjust(i)
+		i = loser[0]
+</pre>
+
+<pre>
+败者树构建过程示意. 下面圆括号代表 loser 结点, 方括号代表 leaf 结点.
+从上而下, 从左而右, loser 结点和 leaf 结点的下标分别是 0, 1, 2, ...
+为直观起见, loser 结点上写的是值而不是指针.
+
+       ( )            ( )            ( )            ( )     
+	    |              |              |              |      
+       ( )            ( )            ( )            (3)     
+	  /   \    	     /   \    	    /   \   	   /   \     
+    ( )   ( )      (2)   ( )      (2)   (9)      (2)   (9)  
+   /   \  /  \    /   \  /  \    /   \  /  \    /   \  /  \ 
+  (7) [ ][ ][ ]  (7) [ ][ ][ ]  (7) [ ][ ][9]  (7) [ ][3][9]
+  / \            / \            / \            / \          
+[ ][7]         [2][7]         [2][7]         [2][7]         
+ 
+       (2)     
+        |      
+       (3)     
+      /   \    
+    (5)   (9)  
+   /   \  /  \ 
+  (7) [5][3][9]
+  / \          
+[2][7]         
+</pre>
+
+<p class="algorithm">
+	<b>置换-选择排序</b>
+</p>
+
+<pre>
+int loser[N]	# 败者树
+int key[N]		# 关键字, 放在败者树的叶结点
+int tag[N]		# 归并段号
+int cur_tag = 1	# 当前段号
+int max_tag = 1	# 最大段号
+
+lose(i, j):
+	return tag[i] &gt; tag[j]\
+		or (tag[i] == tag[j] and key[i] &gt; key[j])
+
+adjust(i):
+	p = (N+i+1) &gt;&gt; 1
+	while p:
+		if lose(i, loser[p]):
+			swap(i, loser[p])
+		p &gt;&gt;= 1
+	loser[0] = i
+
+init():
+	for i = 0 to N-1:
+		tag[i] = key[i] = loser[i] = 0
+	for i = N-1 downto 0:
+		if input(key[i]):
+			tag[i] = cur_tag
+		else:
+			tag[i] = max_tag + 1
+		adjust(i)
+
+# 求下一归并段
+next_segment():
+	w = loser[0]				# w = winner
+	while tag[w] == cur_tag:	# 选得的冠军属于当前段时
+		key_to_put = key[w]
+		output(key_to_put)
+		if !input(key[w]):		# 输入文件结束, 虚设段号为 max_tag + 1
+			tag[w] = max_tag + 1
+		elif key[w] &lt; key_to_put:	# 读入数据较小, 应属于下一段
+			max_tag = cur_tag + 1
+			tag[w] = max_tag
+		adjust(w)
+		w = loser[0]
+	output(SEGMENT_DILIMITER)	# 将段结束标志写入输出文件
+	cur_tag = tag[w]
+
+replace_select_sort():
+	init()
+	while cur_tag &lt;= max_tag:
+		next_segment()
+</pre>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

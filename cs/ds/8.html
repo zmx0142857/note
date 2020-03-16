@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>图</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>图的存储结构</h2>
+
+<p>	没有特别说明时, 下面总假定图中不含自环和重边.</p>
+
+<p>	带权图称为网络. 因此这里讨论的图一共有 4 种: 有向图, 无向图,
+	有向网络和无向网络.
+</p>
+
+<ul class="data-structure">
+	<b>邻接矩阵 (adjacency matrix)</b>
+	<li>一个含有 <code>N</code> 个顶点的有向图的邻接矩阵是一个
+		<code>N*N</code> 矩阵 <code>mat</code>.
+		当图中有弧 <code>&lt;i, j&gt;</code> 时,
+		<code>mat[i][j] == 1</code>, 否则 <code>mat[i][j] == 0</code>,
+		i, j = 0, 1, 2, ..., N-1.
+	</li>
+	<li>一个无向图的邻接矩阵为对称矩阵, 当图中有边 <code>(i, j)</code> 时,
+		<code>mat[i][j] == mat[j][i] == 1</code>,
+		否则 <code>mat[i][j] == mat[j][i] == 0</code>.
+	</li>
+	<li>当一个有向网络中有弧 <code>&lt;i, j&gt;</code> 时,
+		<code>mat[i][j]</code> 等于该弧的权, 否则 <code>mat[i][j] ==
+		INF</code>, 特别规定主对角线全为零.
+	</li>
+	<li>类似地, 无向网络的邻接矩阵为对称矩阵. 定义留给读者完成.</li>
+	由于图中不含自环, 因此 4 种图的邻接矩阵的主对角线上全为零,
+</ul>
+
+<p class="remark">
+	有些定义中, 网络的邻接矩阵的主对角线上全为 <code>INF</code>.
+</p>
+
+<p>	无向图和无向网络的邻接矩阵可以只存储上三角元或下三角元以节省空间.
+	比如, 把无向图 (网络) 的严格下三角元按行存储在一维数组
+	<code>compmat[N(N-1)/2]</code> 中,
+	用映射 <code>at(i, j)</code> 来获取矩阵的 ij 元.
+	(参考上一章对称矩阵的压缩存储)
+</p>
+
+<pre>
+at(i, j):
+	if i &lt; j:
+		swap(i, j)
+	elif i == j:
+		return 0
+	return compmat[i*(i-1)/2 + j]
+</pre>
+
+<p>	借助邻接矩阵, 容易判断两个顶点间是否有边 (弧), 也容易求各顶点的度.
+	有向图顶点 <code>i</code> 的出度是邻接矩阵的第 <code>i</code> 行和,
+	入度则是第 <code>i</code> 列和.
+	无向图顶点 <code>i</code> 的度是邻接矩阵的第 <code>i</code> 行和或第
+	<code>i</code> 列和. 邻接矩阵适合稠密图的存储.
+</p>
+
+<p class="theorem">
+	设无向 (有向) 图的邻接矩阵为 `bm A`, 则 `bm A^n` 的 `ij` 元
+	(记为 `bm A_(i j)^n`) 等于由顶点
+	`i` 到顶点 `j` 的长度为 `n` 的路径的数目.
+</p>
+
+<p class="proof">
+	设 `bm A` 是 `m` 阶方阵.
+	对 `n` 进行归纳, `n = 1` 时结论成立; 假设结论对正整数 `n-1` 成立,
+	则 `bm A_(i k)^(n-1)` 等于由顶点 `i` 到顶点 `k` 的长度为 `n-1`
+	的路径数目, `k = 1, 2, cdots, m`.
+	由于每一条由顶点 `i` 到顶点 `j` 的长度为 `n`
+	的路径可以视为一条由顶点 `i` 到顶点 `k` 的长度为 `n-1`
+	的路径和一条由顶点 `k` 到顶点 `j` 的长度为 `1` 的路径的连接,
+	所以求和得到, 由顶点 `i` 到顶点 `j` 的长度为 `n` 的路径数目
+	<span class="formula">
+		`sum_(k=1)^m bm A_(i k)^(n-1) bm A_(k j) = bm A_(i j)^n`.
+	</span>
+</p>
+
+<ul class="data-structure">
+	<b>邻接表与逆邻接表</b>
+	<li><b>邻接表 (adjacency list, 或出边表)</b>
+		对有向图的每个顶点建立一个单链表, 保存所有从该顶点出发的弧的终点;
+		对有向网络, 链表中也可以附带存储弧的权值.
+		邻接表中, 顶点 <code>i</code> 的出度恰为对应链表中的结点数.
+	</li>
+	<li><b>逆邻接表 (入边表)</b> 
+		保存以每个结点为终点的弧的起点, 顶点 <code>i</code>
+		的入度恰为对应链表中的结点数.
+	</li>
+	下面是有向图 (网络) 的邻接表示意. 逆邻接表只需将 <code>to</code>
+	改为 <code>from</code>, 并用 <code>next</code>
+	指向下一条具有同终点的弧就可以.  无向图 (网络)
+	也可以建立类似的邻接表表示. 显然无向图不需要逆邻接表.
+</ul>
+
+<pre>
+struct Arc:
+	int to		# 弧的终点
+	int weight	# 弧的权重
+	Arc *next	# 下一条具有同起点的弧
+
+Arc *adjlist[N]	# adjlist[i] 指向第一条以 i 为起点的弧
+</pre>
+
+<p>	由于图中弧的次序无关紧要, 所以向邻接表中添加弧时, 插入到链表头即可.
+</p>
+
+<p>	对于稀疏图, 邻接表比邻接矩阵更省空间.
+	在邻接表上容易找到任一结点的第一个邻接点和下一邻接点, 但要判定顶点
+	<code>i, j</code> 之间是否有边, 需要搜索第 <code>i</code> 个链表,
+	不及邻接矩阵方便.
+</p>
+
+<p class="data-structure">
+	<b>十字链表 (orthogonal list)</b>
+	将有向图 (网络) 的邻接表与逆邻接表合而为一.
+</p>
+
+<pre>
+struct Arc:
+	int from		# 弧的起点
+	int to			# 弧的终点
+	int weight		# 弧的权重
+	Arc *next_from	# 下一条具有同起点的弧
+	Arc *next_to	# 下一条具有同终点的弧
+
+Arc *adjfrom[N]		# adjfrom[i] 指向第一条以 i 为起点的弧
+Arc *adjto[N]		# adjto[i] 指向第一条以 i 为终点的弧
+</pre>
+
+<p class="data-structure">
+	<b>邻接多重表 (adjacency multilist)</b> 是无向图 (网络)
+	的另一种链式存储结构.  它克服了无向图的邻接表存储中出现的冗余,
+	即同一条边 <code>(i, j)</code> 同时出现在第
+	<code>i, j</code> 个链表中的问题. 它的结构与十字链表类似.
+	需要注意, 从某一边 <code>e</code> 出发, 沿 <code>next_i</code>
+	指针找到的与顶点 <code>e.i</code> 关联的下一条边 <code>f</code>,
+	不一定满足 <code>f.i == e.i</code>, 很有可能是 <code>f.j ==
+	e.i</code>.
+</p>
+
+<pre>
+struct Edge:
+	int i			# 与边关联的一个顶点
+	int j			# 与边关联的另一个顶点, 且 j &lt; i
+	int weight		# 边的权重
+	Edge *next_i	# 下一条与 i 关联的边
+	Edge *next_j	# 下一条与 j 关联的边
+
+Edge *adjmullist[N]	# adjmullist[i] 指向第一条与 i 关联的边
+</pre>
+
+<h2>图的遍历</h2>
+
+<p class="algorithm">
+	<b>在顶点 v 的所有邻接点间迭代</b>
+</p>
+
+<pre>
+w = G.first_adj(v)			# w 是与 v 相邻的第一个顶点
+while is_valid(w):			# 可以用特殊值 (如 -1) 表示无效的点
+	do_something(w)
+	w = G.next_adj(v, w)	# w 取为与 v 相邻的下一顶点
+
+# 这一算法以后简写为
+for w in G.adj(v):
+	do_something(w)
+</pre>
+
+<p class="algorithm">
+	<b>顶点的遍历算法</b>. 用 bool 数组 <code>visited[N]</code>
+	记录每个顶点是否已经访问过. 从每个未访问的顶点
+	<code>v</code> 出发, 依次调用搜索算法 <code>search(v)</code>,
+	来遍历图中所有顶点. <code>search</code> 可以是 <code>BFS</code>
+	或 <code>DFS</code> (见下文).
+</p>
+
+<pre>
+bool visited[N]			# 访问过顶点 i, visited[i] 为 True, 否则为 False
+
+G.traverse(search(), visit()):
+	for v = 0 to N-1:
+		visited[v] = False
+	for v = 0 to N-1:
+		if !visited[v]:
+			search(v, visit)
+</pre>
+
+<ol class="algorithm">
+	<b>广度优先搜索 (breadth first search, BFS)</b>
+	<li>从任一未访问的顶点开始, 先访问这个顶点.</li>
+	<li>依次访问与当前顶点相邻的, 且未被访问的所有顶点.</li>
+	<li>依次从第 2 步中访问的所有顶点出发, 执行第 2 步,
+		直到图中所有已访问顶点的邻接点都已访问过.</li>
+	如果图 (有向图) 是连通 (强连通) 的, 广度优先搜索会遍历图中的每个顶点.
+	如果图中尚有顶点未被访问, 则选取一个未被访问的顶点, 进行广度优先搜索,
+	直到所有顶点都访问完毕.
+</ol>
+
+<pre>
+# 从顶点 v 出发, 对图 G 进行广度优先搜索
+G.BFS(v, visit()):
+	queue.enqueue(v)
+	visited[v] = True	# 入队后即做标记, 防止再次入队
+	while queue:
+		v = queue.dequeue()
+		visit(v)		# 出队后立即访问
+		for w in G.adj(v):
+			if !visited[w]:
+				queue.enqueue(w)
+				visited[w] = True
+</pre>
+
+<ol class="algorithm">
+	<b>深度优先搜索 (depth first search, DFS)</b>
+	<li>从任一未被访问的顶点开始, 先访问这个顶点.</li>
+	<li>任取一个与当前顶点 <code>v</code> 相邻的, 且未被访问的顶点,
+		从这个新顶点开始进行深度优先搜索. 搜索完毕后, 再取下一个
+		与 <code>v</code> 相邻的, 且未被访问的顶点进行深度优先搜索,
+		直到 <code>v</code> 的所有相邻的顶点都被检查一遍.
+	</li>
+	如果无向图 (有向图) 是连通 (强连通) 的,
+	深度优先搜索会遍历图中的每个顶点.
+	如果图中尚有顶点未被访问, 则选取一个未被访问的顶点, 进行深度优先搜索,
+	直到所有顶点都访问完毕.
+	深度优先搜索可以用于判断图是是否有环. 另一个判断有环的方法是拓扑排序
+	(见下文).
+</ol>
+
+<pre>
+# 从顶点 v 出发, 对图 G 进行深度优先搜索
+# 将广度优先搜索算法中的队列改为栈即可
+G.DFS(v, visit()):
+	stack.push(v)
+	visited[v] = True	# 入栈后即做标记, 防止再次入栈
+	while stack:
+		v = stack.pop()
+		visit(v)		# 出栈后立即访问
+		for w in G.adj(v):
+			if !visited[w]:
+				stack.push(w)
+				visited[w] = True
+</pre>
+
+<pre>
+# 递归版本. 注意非递归版本先访问最后一个邻接点,
+# 而递归版本先访问第一个邻接点
+G.DFS_rec(v, visit()):
+	visit(v)
+	visited[v] = True
+	for w in G.adj(v):
+		if !visited[w]:
+			G.DFS(w, visit)
+</pre>
+
+<p>	设图中有 `n` 个顶点, `e` 条弧 (边).
+	上述两种图的遍历算法都是从每一个顶点出发, 访问与其邻接的每一条弧
+	(边). 故以邻接矩阵为存储结构时, 广度与深度优先遍历的时间复杂度都为
+	`O(n^2)`, 以邻接表为存储结构时, 都为 `O(n+e)`.
+	广度优先搜索使用队列,
+	深度优先搜索则使用一个工作栈,
+	两者的空间复杂度都为 `O(n)`.
+</p>
+
+<p>	包括广度优先搜索和深度优先搜索在内的几乎所有图的搜索算法,
+	都可以抽象为优先级搜索或最佳优先搜索.
+	广度优先搜索优先访问最早发现的顶点, 即离起点最近的顶点;
+	而深度优先搜索优先访问最后发现的顶点.
+</p>
+
+<h2>图的连通性问题</h2>
+
+<h3>两顶点间的路径</h3>
+
+<p class="algorithm">
+	<b>判断两顶点是否连通</b>
+	从顶点 <code>v</code> 出发进行 BFS 或 DFS,
+	如果能搜索到顶点 <code>u</code>, 说明两顶点间连通.
+	具体做法是把 BFS/DFS 函数中的 <code>visit(v)</code> 换成
+	<code>if v == u: return True</code> 之类的语句.
+</p>
+
+<p class="algorithm">
+	<b>输出两顶点间所有简单路径</b>
+	使用 DFS + 回溯法. 用 <code>find_path(start, 0)</code> 调用之.
+</p>
+
+<pre>
+path[N]
+
+find_path(v, depth):
+	path[depth] = v
+	visited[v] = True
+	if v == target:
+		print(path[0..depth])
+	else:
+		for w in G.adj(v):
+			if !visited[w]:
+				find_path(w, depth+1)
+	visited[v] = False
+</pre>
+
+<h3>无向图的连通分量</h3>
+
+<p>	一个含 <code>N</code> 个顶点的连通无向图的<b>生成树</b>是它的一个子图,
+	含有全部 <code>N</code> 个顶点和 <code>N-1</code> 条边.
+	因此它是一棵 (无向) 树.
+	一般地, 一个无向图的<b>生成森林</b>是它的各连通分量的生成树的并.
+</p>
+
+<p>	容易知道, 构造一个连通无向图的生成树, 只需从图上选出 <code>N-1</code>
+	条边即可.  如, 按深度优先遍历中经过的边,
+	就得到一座<b>深度优先生成森林</b>.  类似有<b>广度优先生成森林</b>.
+	通过求无向图的生成森林, 可以得到它的全部连通分量.
+</p>
+
+<p class="algorithm">
+	<b>无向图的深度优先生成森林</b>
+	以长子-兄弟链表作为森林的存储结构, 通过深度优先遍历求无向图的生成森林.
+	时间复杂度与深度优先遍历相同.
+</p>
+
+<pre>
+bool visited[N]
+
+# 从图 G 的第 v 个顶点出发, 建立以 p 为根的深度优先生成树
+G.DFS_tree(v, &amp;p):
+	p = new TreeNode(v, NULL, NULL)
+	visited[v] = True
+	w = G.first_adj(v)
+	if is_valid(w):
+		if !visited[w]:
+			p = p-&gt;first_child	# p 重新绑定到长子结点
+			DFS_tree(w, p)
+		w = G.next(v, w)
+	while is_valid(w):
+		if !visited[w]:
+			p = p-&gt;next_sibling	# p 重新绑定到兄弟结点
+			DFS_tree(w, p)
+		w = G.next(v, w)
+
+G.DFS_forest():
+	&amp;p = root = NULL			# p 是对 root 的引用
+	for v = 0 to N-1:
+		visited[v] = False
+	for v = 0 to N-1:
+		if !visited[v]:
+			DFS_tree(v, p)
+			p = p-&gt;next_sibling	# p 重新绑定到兄弟结点
+	return root
+</pre>
+
+<h3>有向图的强连通分量</h3>
+
+<p>	如果一个有向图恰有一个顶点入度为 0, 其余顶点入度为 1,
+	则是一棵<b>有向树</b>.
+	一个有向图的<b>生成森林</b>是若干不相交的有向树的并,
+	含有原图的所有顶点. 需要注意, 无向图的生成树是连通的,
+	但有向图的生成森林中的每一棵树一般不是强连通的,
+	因为它只能从根结点向下.
+</p>
+
+<ol class="algorithm">
+	<b>有向图的强连通分量</b>
+	以十字链表为有向图的存储结构,
+	通过正向和反向的深度优先遍历求有向图的强连通分量.
+	时间复杂度与深度优先遍历相同.
+	<li>令顶点记数 <code>cnt = 0</code>,
+		从图 <code>G</code> 的某个顶点 <code>v</code>
+		出发进行深度优先搜索.
+		在退出 <code>DFS</code> 函数前, 用辅助数组
+		<code>post_visited[N]</code> 记录刚刚访问的结点 <code>w</code>:
+		<code>post_visited[cnt++] = w</code>.
+		可见该数组保存的是以 <code>v</code>
+		为根的深度优先生成树的后根遍历序列.
+	</li>
+	<li>当从 <code>v</code> 出发的一趟深度优先搜索完成后,
+		依次从顶点 <code>post_visited[cnt-1..0]</code> 开始,
+		沿着以该顶点为终点的弧进行反向的深度优先搜索, 直到
+		<code>post_visited</code> 数组中的顶点全部被访问到为止.
+		可以证明, 每一次反向搜索时访问到的顶点集便是 <code>G</code>
+		的一个强连通分量的顶点集.
+	</li>
+	<li>继续从正向深度优先搜索时未访问到的任一顶点出发, 反复前面的步骤,
+		即可求得全部强连通分量.
+	</li>
+</ol>
+
+<p class="proof">
+	证明思路主要是: 假设从 <code>v</code>
+	开始的反向搜索访问到了顶点集 <code>S</code>, 我们知道
+	<code>S</code> 的元素都是可以到达 <code>v</code> 的.
+	但 <code>S</code> 的元素属于数组 <code>post_visited</code>,
+	后者中的所有顶点都是从 <code>v</code> 可达的.
+	从而 <code>S</code> 是全体可以到达顶点 <code>v</code>,
+	且从顶点 <code>v</code> 出发可达的顶点集合, 因而它恰是包含顶点
+	<code>v</code> 的图 <code>G</code> 的一个强连通分量的顶点集.
+</p>
+
+<h3>连通无向网络的最小生成树</h3>
+
+<p>	称一个连通无向网络的所有生成树中,
+	各边权重之和最小的为它的<b>最小生成树 (minimum spanning tree,
+	MST)</b>, 最小生成树可以不止一棵.
+	求最小生成树的算法很容易推广到最小生成森林.
+	下面将介绍的两种经典算法, Prim 算法与 Kruskal
+	算法都利用到最小生成树性质:
+</p>
+
+<p class="theorem">
+	<b>最小生成树性质</b>
+	设 `G = (V, E)` 是一个连通无向网络. `A` 是 `G`
+	的某棵最小生成树 `T` 的子图, 记 `A` 的顶点集为 `S sube V`.
+	现在设 `G` 中所有横跨 `S` 与 `V-S` 的边当中, `(u, v)`
+	是一条权重最小的边, 则我们可以将 `(u, v)` 加入到图 `A`,
+	使得加入后的图仍是 `G` 的某棵最小生成树的子图.
+</p>
+
+<p class="proof">
+	不妨设 `(u, v)` 不含于 `T`, 否则结论已经成立. <br/>
+	如果将 `(u, v)` 加入到 `T` 中, 将形成一个含 `(u, v)` 的圈 `C`.
+	由于 `(u, v)` 横跨 `S` 和 `V-S`, 所以必存在含于 `C` 的另一条边
+	`(x, y)`, 同样横跨 `S` 和 `V-S`. 注意, 由于 `(u, v)` 和 `(x, y)`
+	都是横跨 `S` 与 `V-S` 的边, 因此它们都不在 `A` 中. 现在用 `(u, v)`
+	替换 `T` 中的 `(x, y)`, 得到另一棵生成树 `T' = T - (x, y) uu (u, v)`.
+	因为 `A sube T`, 所以 `A sube T'`.<br/>
+	下证 `T'` 是最小生成树. 记 `w` 为权值函数,
+	由条件知 `w(u, v) le w(x, y)`, 从而
+	<span class="formula">
+		`w(T') = w(T) - w(x, y) + w(u, v) le w(T)`.
+	</span>
+	但 `T` 是最小生成树, 所以 `T'` 也是最小生成树.
+</p>
+
+<p>	下面介绍的 Prim 算法和 Kruskal 算法的共同点是,
+	通过 <code>N-1</code> 步的循环, 利用最小生成树性质选出所需的
+	<code>N-1</code> 条边. 在循环过程中, 不断将选出的边加入到子图
+	<code>A</code> 中, 最终使其成为一棵最小生成树.
+</p>
+
+<p class="algorithm">
+	<b>Prim 算法</b>
+	任取一个顶点作为开始时的子图 <code>A</code>,
+	每次将从 <code>A</code> 能达到的最近顶点及其边并入 <code>A</code> 中,
+	过程保持 <code>A</code> 的连通性. 可以看到 Prim
+	算法实际上是一种带条件的广度优先搜索.
+	现在我们从顶点 0 出发求最小生成树,
+	我们假设网络的权重是正数, 每个顶点到自身的距离为 0,
+	一条不存在的边的权重为 INF.
+	这个算法的时间复杂度为 `O((n+e)log n)`, 适用于稠密图.<br/>
+	如果给定的图可能不连通,
+	则需要在初始化优先级队列后判断队列的长度是否不小于 N-1 (生成树的边数),
+	并且每次取出一条边, 都需要判断它的权重是有意义的 (小于 INF).<br/>
+	cost 数组更新后, 应当想办法更新队列中的值, 这要求手动实现优先级队列.
+</p>
+
+<pre>
+PriorityQueue q	# 用优先级队列表示集合 V-A, 队列需要手动实现
+int index[N]	# index[i] 是顶点 i 在队列中的下标, 这是队列暴露的接口
+int from[N]		# from[i] 是当前到顶点 i 最近的顶点
+int cost[N]		# cost[i] 是 from[i] 到 i 的距离
+
+G.Prim():
+	for j = 0 to N-1:
+		from[j] = 0
+		cost[j] = weight(0, j)
+		q.enqueue(j)
+	q.dequeue()				# 第一个点是起点 0
+	loop N-1:
+		i = q.dequeue()		# 取出当前到 A 最近点
+		output(from[i], i)	# 输出一条边
+		cost[i] = 0
+		q.erase(index[i])	# i 已并入集合 A
+		# 更新 cost 和 from 数组
+		for j in G.adj(i):
+			if weight(i, j) &lt; cost[j]:
+				from[j] = i
+				cost[j] = weight(i, j)
+				q.update(index[j])
+</pre>
+
+<p>	另一种做法是, 先只将起点入队, 之后每次将更新后的值-顶点对插入队列.
+	从队列中取出最小值后, 先判断它是不是当前到集合 A 的距离最小值.
+	如果这个最小值已经过时, 则丢弃不用.
+	这种实现下可以借用标准库现成的优先级队列.
+</p>
+
+<pre>
+PriorityQueue q
+int from[N]
+int cost[N]
+
+G.Prim():
+	for j = 0 to N-1:
+		from[j] = 0
+		cost[j] = INF
+	from[0] = 0
+	cost[0] = 0
+	q.enqueue(cost[0], 0)
+	while q:
+		once_cost, i = q.dequeue()
+		if cost[i] &lt; once_cost:
+			continue
+		if from[i] != i:
+			output(from[i], i)
+		cost[i] = 0
+		for j in G.adj(i):
+			if weight(i, j) &lt; cost[j]:
+				from[j] = i
+				cost[j] = weight(i, j)
+				q.enqueue(cost[j], j)
+</pre>
+
+<p class="algorithm">
+	<b>Kruskal 算法 (避圈法)</b>
+	从含有全部 <code>N</code> 个顶点和 0 条边的的支撑森林 <code>A</code>
+	开始, 在不形成圈的前提下, 每次选取最短的边并入 <code>A</code> 中.
+	算法使用优先级队列 <code>PriorityQueue</code> 保存所有的边.
+	用并查集来实现各连通分量形成的等价类. 时间复杂度为 `O(e log e)`,
+	适合稀疏图.<br/>
+	如果给定的图可能不连通,
+	则需要在初始化优先级队列后判断队列的长度是否不小于 N-1 (生成树的边数),
+	并且每次取出一条边, 都需要判断它的权重是有意义的 (小于 INF).
+</p>
+
+<pre>
+PriorityQueue q	# 优先级队列
+int parent[N]	# 并查集
+
+G.Kruskal():
+	cnt = 0
+	q.init(G.edges)
+	for i = 0 to N-1:
+		parent[i] = -1			# 每个顶点各成一类
+	while cnt &lt; N-1:
+		(u, v) = q.dequeue()	# 取最短边
+		ru, rv = find(u), find(v)
+		if ru != rv:			# u, v 属于不同连通分量
+			output(u, v)		# 输出一条边
+			merge(ru, rv)		# 合并两个分量
+			++cnt
+</pre>
+
+<p class="algorithm">
+	<b>破圈法</b> 任取一个圈, 去掉圈中一条权最大的边.
+	反复这个步骤直到图中不含圈.
+</p>
+
+<h3>关节点 (割点)</h3>
+
+<h2>有向无环图</h2>
+
+<h3>AOV 图与拓扑排序</h3>
+
+<h3>AOE 图与关键路径</h3>
+
+<h2>最短路径</h2>
+
+<h3>单源最短路径</h3>
+
+<p class="algorithm">
+	<b>BFS 求非带权图单源最短路径</b>
+	定义无向 (有向) 图中每条边 (弧) 的长度为 1.
+	两个顶点间的距离定义为它们间的最短路径长度. 如果两个顶点间无路径,
+	定义它们的距离为 <code>INF</code>.
+	由于广度优先搜索总是按照距离由近及远来遍历图中每个顶点, 所以由 BFS
+	能得到非带权图的单源最短路径.
+</p>
+
+<pre>
+int distance[N]
+int from[N]
+
+G.BFS_min_distance(v):
+	for i = 0 to N-1:
+		distance[N] = INF
+	distance[v] = 0
+	from[v] = v
+	queue.enqueue(v)
+	while queue:
+		v = queue.dequeue()
+		for w in G.adj(v):
+			if distance[w] == INF:
+				distance[w] = distance[v] + 1
+				from[w] = v
+				queue.enqueue(w)
+</pre>
+
+<p class="algorithm">
+	<b>Dijkstra 算法求有向 (无向) 网络单源最短路径</b>
+	因为无向网络的每条边可以看作两条权值相等的有向弧,
+	所以下面只讨论有向网络的情形.
+	Dijkstra 算法与求最小生成树的 Prim 算法相似.
+	假设网络的权重为正数, 每个结点到自己的距离是 0, 一条不存在的边的权重是
+	INF.
+	集合 A 开始时只含起点 s, 每一步将当前未访问的,
+	到起点最近的顶点 i 并入集合 A, 然后更新 i 的邻接点到起点的距离
+	(如果可以更短的话). 我们使用优先级队列维护这个最小值. 具体做法类似于
+	min 栈, 每次更新最短距离后, 都将新值连同结点号一起入队;
+	从队列取出的最小值如果不是当前到起点最短的, 则丢弃不用.<br/>
+	算法向队列插入值的次数是 `O(n+e)`, 每次维护队列的代价是 `O(log n)`,
+	总时间复杂度为 `O((n+e) log n)`, 因此 Dijkstra 算法适合稀疏图.
+</p>
+
+<pre>
+PriorityQueue q
+int from[N]		# from[i] 是起点到顶点 i 的最短路径上的前驱
+int cost[N]		# cost[i] 是起点到顶点 i 的最短距离
+
+G.Dijkstra(v):
+	for j = 0 to N-1:
+		from[j] = v
+		cost[j] = INF
+	from[v] = v
+	cost[v] = 0
+	q.enqueue(cost[v], v)
+	while q:
+		once_cost, i = q.dequeue()
+		if cost[i] &lt; once_cost:
+			continue
+		for j in G.adj(i):
+			newcost = cost[i] + weight(i, j)
+			if newcost &lt; cost[j]:
+				from[j] = i
+				cost[j] = newcost
+				q.enqueue(cost[j], j)
+</pre>
+
+<p>
+	Dijkstra 算法和 Prim 算法的区别只在代价的计算不同.
+	Prim 算法将一个新结点并入 A 后,
+	它的 cost 就变为 0 (因为现在它到集合 A 的距离为 0), 但 Dijkstra
+	算法将新结点并入 A 后, 它的 cost 并不归零, 而是定型为最短路径长.
+	显然, 由 Dijkstra 算法顺便求得了一棵生成树, 但未必是最小的.
+	比如三角形 ABC, 其中 AB = AC = 10, BC = 1. 由 A 出发的单源最短路径是
+	AB, AC; 而最小生成树是 AB, BC 或 AC, BC.<br/>
+	Dijkstra 算法不能用于带负权边的网络. 比如
+	有向三角形 ABC, 其中 `vec(AB) = 1`, `vec(AC) = 2`, `vec(CB) = -3`.
+	用 Dijkstra 算法则得到 A 到 B 的最短路长度是 1, 但 A 到 C 再到 B
+	的路径长是 -1. Dijkstra 算法失效的原因是, 顶点 B
+	加入到最短路径已知的集合中后, 又有新的顶点 C 以负权边指向 B, 但这时 B
+	的最短路径已无法更新.
+</p>
+
+<p class="algorithm">
+	<b>Bellman-Ford 算法求有向 (无向) 网络单源最短路径</b>
+	与 Dijkstra 算法的最大不同是, 此算法允许网络带有负权边.
+</p>
+
+<p class="algorithm">
+	<b>求每对顶点间最短路径的 Floyd-Warshall 算法</b>
+	此外, 当然可以用 Dijkstra 算法/Bellman-Ford 算法依次求每个顶点的单源最短路径,
+	从而得到每对顶点间的最短路径.
+</p>
+
+<script src="../js/note.js?type=cs&loadmath=true"></script>
+
+</body>
+
+</html>

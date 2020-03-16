@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>svg 流程图</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../css/note.css"/>
+<style type="text/css">
+#flowchart {
+	margin: 45px 0 10px 0;
+}
+</style>
+
+</head>
+
+<body>
+
+<svg height="0">
+	<defs>
+		<marker id="arrow-end" markerWidth="11" markerHeight="6"
+				refx="11" refy="2.5" orient="auto">
+			<path d="M 0,0 L 0,5 L 10,2.5 L -1.5,0" style="fill: black;" />
+		</marker>
+		<marker id="arrow-start" markerWidth="11" markerHeight="6"
+				refx="0" refy="2.5" orient="auto">
+			<path d="M 10,0 L 10,5 L 0,2.5 Z" style="fill: black;" />
+		</marker>
+		<polygon id="parallelogram" points="7,0 87,0 73,30 -7,30"/>
+		<polygon id="diamond" points="50,0 100,20 50,40 0,20"/>
+	</defs>
+</svg>
+
+<div id="flowchart"><svg></svg></div>
+
+<button onclick="draw()">draw</button>
+<button onclick="copySvg()">copy svg</button>
+
+<textarea id="code" rows="10">
+newNode([
+  {name:'a', text:'begin', type:Rect, args:{roundCorner:10}},
+  {name:'b', text:'condition?', type:Diamond},
+  {name:'c', text:'end', type:Rect, args:{roundCorner:10}},
+]);
+newLine([
+  {from:'a', to:'b'},
+  {from:'b', to:'c'},
+]);
+</textarea>
+
+<script>
+'use strict';
+function newElem(name, child1, child2) {
+	// namespace is needed for correct displaying
+	var node = document.createElementNS(
+	  'http://www.w3.org/2000/svg', name);
+	if (child1)
+		node.appendChild(child1);
+	if (child2)
+		node.appendChild(child2);
+	return node;
+}
+
+function setAttrs(elem, dict) {
+	for (var attr in dict) {
+		if (!elem.getAttribute(attr))
+			elem.setAttribute(attr, dict[attr]);
+	}
+}
+
+function draw() {
+var margin = 5, sep = 20;
+var x = margin, y = margin;
+var nodes = [];
+var name_table = {};
+var frag = document.createDocumentFragment();
+
+// x,y 是中心坐标, hw 是宽度一半, hh 是高度一半
+function Rect(args) {
+	this.hw = (args.width+30)/2 || 40;
+	this.hh = (args.height+10)/2 || 15;
+	this.roundCorner = args.roundCorner;
+}
+
+Rect.prototype.draw = function() {
+	var rect = newElem('rect');
+	this.x = x-this.hw;
+	this.y = y;
+	setAttrs(rect, {
+		x: x-this.hw,
+		y: y,
+		width: 2*this.hw,
+		height: 2*this.hh,
+		rx: this.roundCorner,
+		ry: this.roundCorner
+	});
+	frag.appendChild(rect);
+}
+
+function Parallelogram(args) {
+	this.hw = (args.width+35)/2 || 40;
+	this.hh = (args.height+10)/2 || 15;
+	this.offset = args.offset || 7;
+}
+
+Parallelogram.prototype.draw = function() {
+	var para = newElem('polygon');
+	this.x = x-this.hw;
+	this.y = y;
+	setAttrs(para, {
+		points: this.offset + ',0 '
+			+ (2*this.hw+this.offset) + ',0 '
+			+ (2*this.hw-this.offset) + ',' + 2*this.hh + ' '
+			+ -this.offset + ',' + 2*this.hh,
+		transform: 'translate(' + (x-this.hw) + ',' + y + ')'
+	});
+	frag.appendChild(para);
+}
+
+function Diamond(args) {
+	this.hw = (args.width+40)/2 || 50;
+	this.hh = (args.height+20)/2 || 40;
+}
+
+Diamond.prototype.draw = function() {
+	var diam = newElem('polygon');
+	this.x = x-this.hw;
+	this.y = y;
+	setAttrs(diam, {
+		points: this.hw + ',0 '
+			+ 2*this.hw + ',' + this.hh + ' '
+			+ this.hw + ',' + 2*this.hh + ' '
+			+ '0,' + this.hh,
+		transform: 'translate(' + (x-this.hw) + ',' + y + ')'
+	});
+	frag.appendChild(diam);
+}
+
+function Node(params) {
+	this.type = params.type;
+	this.name = params.name;
+
+	// get text width and height
+	this.text = document.createElement('text');
+	this.text.innerHTML = params.text || ' ';
+	document.body.appendChild(this.text);
+	this.rect = this.text.getBoundingClientRect();
+	if (params.args === undefined)
+		params.args = {};
+	params.args.width = this.rect.width;
+	params.args.height = this.rect.height;
+	document.body.removeChild(this.text);
+
+	this.text = newElem('text', document.createTextNode(params.text || ' '));
+	this.shape = new params.type(params.args);
+	if (x-margin < this.shape.hw)
+		x = this.shape.hw+margin;
+}
+
+Node.prototype.draw = function() {
+	this.shape.draw();
+	setAttrs(this.text, {
+		x: x-this.rect.width/2,
+		y: y+this.rect.height/2+this.shape.hh-margin
+	});
+	frag.appendChild(this.text);
+	y += sep + 2*this.shape.hh;
+}
+
+function newNode(params) {
+	for (var i = 0; i < params.length; ++i) {
+		nodes.push(new Node(params[i]));
+		name_table[params[i].name] = i;
+	}
+	for (var i = 0; i < nodes.length; ++i) {
+		nodes[i].draw();
+	}
+}
+
+function Line(params) {
+	var line = newElem('path');
+	var from = nodes[name_table[params.from]].shape;
+	var to = nodes[name_table[params.to]].shape;
+	var fx = from.x + from.hw;
+	var fy = from.y + 2*from.hh;
+	var tx = to.x + to.hw;
+	var ty = to.y;
+
+	setAttrs(line, {
+		class: 'arrow',
+		d: 'M ' + fx + ',' + fy + 'L ' + tx + ',' + ty
+	});
+	frag.appendChild(line);
+}
+
+function newLine(params) {
+	for (var i = 0; i < params. length; ++i) {
+		new Line(params[i]);
+	}
+}
+
+eval(document.getElementById('code').value);
+var flowchart = document.getElementById('flowchart');
+var svg = newElem('svg', frag);
+svg.setAttribute('height', y);
+flowchart.replaceChild(svg, flowchart.firstChild);
+flowchart.svg = flowchart.innerHTML;
+
+}
+draw();
+
+function copySvg() {
+	var textArea = document.createElement('textarea');
+	textArea.value = flowchart.svg;
+	document.body.appendChild(textArea);
+	textArea.select();
+	document.execCommand('copy');
+	document.body.removeChild(textArea);
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title class="nonu">数据结构习题</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>数组</h2>
+
+<h3>一般数组</h3>
+
+<ol class="remark">
+	<li>数组的下标从 <code>0</code> 开始.</li>
+	<li>数组的长度是数组中元素的个数.</li>
+	<li>数组的长度 <code>len</code> 为奇数时,
+		<code>&lfloor;len/2&rfloor;</code> 号单元是中间的元素;
+		<code>len</code> 为偶数时, <code>&lfloor;len/2&rfloor;</code>
+		号单元是中间两个元素中的后一个.
+	</li>
+	<li>子数组: 数组中连续单元组成的数组, 类似子串的概念.</li>
+	<li>前缀: 形如 <code>[0..i]</code> 的子数组; 后缀: 形如 <code>[i..n-1]
+		的子数组</code>.
+	</li>
+</ol>
+
+<ol>
+<li><b>逆置</b>. 使数组的元素倒序排列.
+<pre class="solution">
+# 将子数组 [0..n-1] 逆置
+# 时间 O(n), 空间 O(1)
+L.reverse(0, n):
+	cofor i = 0 to n/2-1: # 并行地
+		L.swap(i, n-1-i)
+</pre>
+<pre class="solution">
+L.reverse(0, n):
+	b = 0, e = n
+	while b &lt; e:
+		L.swap(b, e)
+		++b, --e
+</pre>
+</li>
+
+<li><b>循环移位</b>. 设数组是两个不相交子数组 A, B 的并置,
+	要求将数组由 AB 变为 BA.
+<pre class="solution">
+# 使用三次逆置, 将子数组 A = [0..i-1] 和 B = [i..n-1] 交换位置
+# AB &rarr; B<sup>-1</sup>A<sup>-1</sup> &rarr; BA
+# 时间 O(n), 空间 O(1)
+L.cyclic_shift(i):
+	reverse(0, n)
+	cobegin: # 并行地
+		reverse(0, i)
+		reverse(i, n)
+</pre>
+</li>
+
+<li><b>按值删除</b>.
+	删除数组中所有使得 <code>f(x) == True</code> 的值 <code>x</code>.
+	假设 <code>f</code> 的时空复杂度均是 <code>O(1)</code>.
+<pre class="solution">
+# n = L.len; 时间 O(n), 空间 O(1)
+L.remove_if1(f):
+	passed = 0	# f(x) == False 的元素计数
+	for i = 0 to L.len-1:
+		if !f(L[i]):
+			L[passed++] = L[i]
+	L.len = passed
+
+# 时间 O(n), 空间 O(1)
+L.remove_if2(f):
+	removed = 0	# f(x) == True 的元素计数
+	for i = 0 to L.len-1:
+		if f(L[i]):
+			++removed
+		else:
+			L[i-removed] = L[i]
+	L.len -= removed
+</pre>
+</li>
+</ol>
+
+<h3>有序数组</h3>
+
+<ol class="remark" id="rem-ordered-array">
+	<li>有序数组, 是指升序或降序的数组. 升序数组是任意相邻两个元素满足
+		<code>L[i] &le; L[i+1]</code> 的数组.
+		降序数组是任意相邻两个元素满足 <code>L[i] &ge; L[i+1]</code>
+		的数组.
+	</li>
+	<li>一般来说, 通过排序能实现的算法, 也可以通过散列或计数来实现.
+		例如数组无序时, 去重操作可以实现如下:
+	</li>
+</ol>
+
+<pre class="solution">
+# n = L.len; 时间空间均 O(n)
+L.unique():
+	HashTable set
+	for i = 0 to L.len-1:
+		set.add(i)
+	L.len = 0
+	for val in set:
+		L[L.len++] = val
+</pre>
+
+<ol>
+<li><b>去重</b>. 删除一个有序数组中值重复的元素, 使得所有元素两两不相等.
+<pre class="solution">
+# n = L.len; 时间 O(n), 空间 O(1)
+L.unique():
+	if L.len == 0:
+		return
+	i = 0 # i 指向数组的*无重复元素前缀*的最后一个单元
+	for j = 1 to L.len-1:
+		if L[i] != L[j] and ++i != j:
+			L[i] = L[j]
+	L.len = i+1
+</pre>
+</li>
+
+<li><b>归并</b>. 将两个升序数组合并为一个升序数组.
+<pre class="solution">
+# m = M.len, n = N.len; 时间空间均 O(m+n)
+merge(M, N):
+	A = new array[M.len+N.len]
+	i = j = k = 0
+	while i &lt; M.len and j &lt; N.len:
+		if M[i] &lt;= N[j]:
+			A[k++] = M[i++]
+		else:
+			A[k++] = N[j++]
+	# 下面两个循环只有一个执行
+	while i &lt; M.len:
+		A[k++] = M[i++]
+	while j &lt; N.len:
+		A[k++] = N[j++]
+</pre>
+</li>
+
+<li><b>折半查找1</b>. 在升序数组中查找值 <code>val</code>, 确认它是否存在.
+<pre class="solution">
+# n = L.len; 时间 O(log n), 空间 O(1)
+# 每次把查找范围 [lo..hi] 缩小一半
+L.binary_search1(val):
+	lo = 0, hi = L.len-1
+	while lo &lt;= hi:
+		mid = lo + (hi-lo)//2
+		if L[mid] == val:
+			return True
+		elif: L[mid] &lt; val:
+			lo = mid+1
+		else:
+			hi = mid-1
+	return False
+</pre>
+</li>
+
+<li><b>折半查找2</b>. 在升序数组中查找值 <code>val</code> 的优先插入位置.
+	即求下标 <code>i</code>, 使得 <code>L[i]</code> (如果存在的话)
+	是第一个大于等于 <code>val</code> 的元素.
+<pre class="solution">
+# n = L.len; 时间 O(log n), 空间 O(1)
+L.binary_search2(val):
+	lo = 0, hi = L.len-1
+	while lo &lt;= hi:
+		mid = lo + (hi-lo)//2
+		if L[mid] &lt; val:
+			lo = mid+1
+		else:
+			hi = mid-1
+	return lo
+
+# 1. 我们来证明循环结束后有 hi+1 == lo.
+# 假设 L 初始为空, 则循环结束后 hi+1 == 0 == lo.
+# 若 L 初始不空, 则每一步循环中有
+# L[lo-1] &lt; val &le; L[hi+1]
+# 因此 lo-1 &lt; hi+1.
+# 又循环结束时有 hi &lt; lo, 故
+# hi &lt; lo &lt; hi+2, 可见 hi+1 == lo.
+
+# 2. 显然 L 初始为空时, 所求的插入位置是 lo == 0.
+# L 初始不空时, 最后有 L[lo-1] &lt; val &le; L[lo]
+# 因此 L[lo] 是第一个大于等于 val 的元素.
+</pre>
+</li>
+
+<li><b>折半查找3</b>. 在升序数组中查找值 <code>val</code> 的次后 (即,
+	不优先) 插入位置.
+	即求下标 <code>i</code>, 使得 <code>L[i]</code> (如果存在的话)
+	是第一个大于 <code>val</code> 的元素.
+	<p class="solution">
+		将上面解法的 <code>if L[mid] &lt; val</code> 一句
+		换成 <code>if L[mid] &lt;= val</code> 即可.
+	</p>
+</li>
+
+<li><b>未出现的最小正整数</b>
+	给定一个长度为 <code>n</code> 的整数数组, 求数组中未出现的最小正整数.
+	<p class="solution">
+		先排序, 在数组中依次找 1, 2, 3, ... 即可.
+		根据<a class="ref" href="#rem-ordered-array"></a>的 2,
+		算法也可以通过开辟一个长度为 <code>n</code> 的数组来计数实现.
+	</p>
+</li>
+
+<li><b>偏序集的极大元</b>
+	给定一些平面上的两两不同的点 <code>(x[i], y[i])</code>, 规定
+	<span class="formula">
+		<code>(x[i], y[i])
+		&lt; (x[j], y[j])</code> 当且仅当 <code>x[i] &lt; x[j]</code> 且
+		<code>y[i] &lt; y[j]</code>.
+	</span>
+	求极大元, 即求所有的点 <code>(x[i], y[i])</code>,
+	使得不存在其它的点满足 <code>(x[j], y[j]) &gt; (x[i], y[i])</code>.
+<p class="solution">
+	将所有点关于 x 按降序排序, 取第一个点 <code>(x[0], y[0])</code>,
+	由于它关于 x 是最大的, 所以它是一个极大元. 接着正向扫描数组,
+	寻找下一个满足 <code>y[i<sub>1</sub>] &gt; y[0]</code> 的下标
+	<code>i<sub>1</sub></code>. 可以证明 <code>(x[i<sub>1</sub>],
+	y[i<sub>1</sub>])</code> 也是一个极大元. 接下来再寻找下一个满足
+	<code>y[i<sub>2</sub>] &gt; y[i<sub>1</sub>]</code> 的下标
+	<code>i<sub>2</sub></code>... 从而找到所有的极大元.
+</p>
+</li>
+
+<li><b>寻找和为给定值的两整数</b>
+	给定值 <code>val</code>, 求 <code>i, j</code> (允许 <code>i ==
+	j</code>), 使得 <code>L[i] + L[j] == val</code>.
+<pre class="solution">
+# 先排序 (时空复杂度由排序方法决定), 再执行下面的代码
+# n = L.len; 时间 O(n), 空间 O(1)
+L.two_sum(val):
+	i = 0, j = L.len-1
+	while i &lt;= j: # 不允许 i == j 时, 写 i &lt; j
+		if L[i] + L[j] == val:
+			return i, j
+		elif L[i] + L[j] &lt; val:
+			++i
+		else:
+			--j
+	return None
+</pre>
+</li>
+<li><b>在两数组中寻找差为给定值的两整数</b>
+	给定两数组 <code>A, B</code> 和值 <code>val</code>,
+	求 <code>i, j</code>, 使得 <code>A[i] - B[j] == val</code>.
+<pre class="solution">
+# 先排序, 再执行下面的代码
+two_diff(A, B, val):
+	i = j = 0
+	while i &lt; A.len and j &lt; B.len:
+		if A[i] - B[j] == val:
+			return i, j
+		elif A[i] - B[j] &lt; val:
+			++i
+		else:
+			++j
+	return None
+</pre>
+</li>
+
+</ol>
+
+<h3>顺序统计量与其它</h3>
+
+<ol>
+<li><b>下中位数</b> 定义为一个长度为 <code>n</code> 的升序数组中
+	下标为 <code>&lfloor;(n-1)/2&rfloor;</code> 的元素. 类似地,
+	<b>上中位数</b>定义为该数组中下标为 <code>&lceil;(n-1)/2&rceil;</code>
+	的元素. 例如, <code>n == 5</code> 时
+	<span class="formula">
+		<code>&lfloor;(n-1)/2&rfloor; == 2</code>,
+		<code>&lceil;(n-1)/2&rceil; == 2</code>;
+	</span>
+	上, 下中位数都是中间的元素. <code>n == 6 时</code>
+	<span class="formula">
+		<code>&lfloor;(n-1)/2&rfloor; == 2</code>,
+		<code>&lceil;(n-1)/2&rceil; == 3</code>.
+	</span>
+	上, 下中位数分别是中间两个元素的后一个与前一个.
+	已知两个长度为 <code>n</code> 的升序序列.
+	求它们合并后的升序序列的下中位数.
+<pre class="solution">
+# n = L1.len; 时间 O(log n), 空间 O(1)
+# 设 m1, m2 是两序列 L1, L2 的下中位数.
+# 如果两个序列都只有一个元素, 则较小者就是所求的下中位数.
+# 如果 m1 == m2, 则 L[m1] 就是所求的下中位数;
+# 如果 m1 &lt; m2, 则舍弃 L1 中较小的一半和 L2 中较大的一半,
+# 舍弃后仍保持 L1.len == L2.len;
+# 如果 m1 &gt; m2, 则舍弃 L1 中较大的一半和 L2 中较小的一半,
+# 舍弃后仍保持 L1.len == L2.len.
+median(L1, L2):
+	if L1.len == 0:
+		return None
+	diff = L1.len-1
+	lo1 = lo2 = 0
+	hi1 = hi2 = diff
+	while diff &gt; 0:
+		m1 = lo1 + diff/2
+		m2 = lo2 + diff/2
+		if L1[m1] == L2[m2]:
+			return L1[m1]
+		elif L1[m1] &lt; L2[m2]:
+			hi2 = m2
+			# 元素奇数个时加 0, 否则加 1
+			lo1 = m1 + diff % 2
+		else:
+			hi1 = m1
+			lo2 = m2 + diff % 2
+		diff = hi1 - lo1
+	return min(L1[lo1], L2[lo2])
+</pre>
+</li>
+
+<li><b>主元素</b> 定义为一个长度为 <code>n</code> 的数组中出现次数大于
+	<code>n/2</code> 的元素. 显然主元素如果存在, 必惟一.
+	求给定数组的主元素.
+<pre class="solution">
+# n = L.len; 时间 O(n), 空间 O(1)
+# 如果 candidate 是主元素, 那么数组必能分成若干段,
+# 使得 candidate 是最后一段的主元素, 且前面的每一段中 candidate
+# 恰好占了半数
+L.marjority_number():
+	if L.len == 0:
+		return None
+	candidate = L[0]
+	count = 1
+	for i = 1 to L.len-1:
+		if L[i] == candidate:
+			++count
+		elif count &gt; 0:
+			--count
+		else:
+			candidate = L[i]	# 改变候选
+			count = 1			# 重新计数
+	# 计数 candidate 出现次数, 确认是否是主元素
+	if count &gt; 0:
+		count = 0
+		for i = 0 to L.len-1:
+			if L[i] == candidate:
+				++count
+		if count &gt; n//2:
+			return candidate
+	return None
+</pre>
+</li>
+
+</ol>
+
+<h2>链表</h2>
+
+<h3>单链表</h3>
+
+<p class="remark">
+	若无特别说明, 总假定链表不含头结点.
+</p>
+
+<ol>
+<li><b>按值删除</b>. 删除单链表中所有使得 <code>f(x) == True</code>
+	的值 <code>x</code>. 假设 <code>f</code> 的时空复杂度均是 O(1).
+<pre class="solution">
+# n = L.len; 时间 O(n), 空间 O(1)
+# 用指针 p 遍历链表
+L.remove_if1(f):
+	Node *p = head
+	if !p:
+		return
+	while p-&gt;next:
+		if f(p-&gt;next-&gt;val):
+			tmp = p-&gt;next
+			p-&gt;next = tmp-&gt;next
+			delete tmp
+		else:
+			p = p-&gt;next
+</pre>
+</li>
+</ol>
+
+<h2>二叉树</h2>
+
+<ol>
+<li><b>反向层序遍历</b> 自下而上, 从右到左遍历二叉树.
+	<p class="solution">
+		设一栈. 按正常次序进行层序遍历, 结点出队后先入栈;
+		所有结点入栈后再依次弹出并访问.
+	</p>
+</li>
+<li><b>求二叉树高度</b> 各给出递归和非递归的版本.
+<pre class="solution">
+height_rec(root):
+	if !root:
+		return 0
+	return 1+max(height_rec(root-&gt;left), height_rec(root-&gt;right))
+</pre>
+<p class="solution">
+	用栈实现中序 (或后序) 遍历, 最大栈长度即为二叉树的高度.
+	不可用 "三位一体" 写法.
+</p>
+<pre class="solution">
+# 使用层序遍历, 每次获取队列长度以保证严格按行遍历.
+# 空指针不可以进队列
+height_nonrec(root):
+	level = 0
+	if root:
+		queue.enqueue(root)
+	while queue:
+		# 如果 queue 对象没有取得长度的方法, 可设一计数变量 len
+		# 随出队入队操作而变化.
+		cur_len = queue.len
+		loop cur_len:
+			root = queue.dequeue()
+			if root-&gt;left:		
+				queue.enqueue(root-&gt;left)
+			if root-&gt;right:		
+				queue.enqueue(root-&gt;right)
+		++level
+	return level
+</pre>
+</li>
+<li><b>求二叉树宽度</b>, 即二叉树结点最多的那一层的结点数.
+<pre class="solution">
+# 类似上一题. 计数层序遍历
+width(root):
+	max = 0
+	if root:
+		queue.enqueue(root)
+	while queue:
+		if queue.len &gt; max:
+			max = queue.len
+		loop max:
+			root = queue.dequeue()
+			if root-&gt;left:
+				queue.enqueue(root-&gt;left)
+			if root-&gt;right:
+				queue.enqueue(root-&gt;right)
+	return max
+</pre>
+</li>
+<li><b>由前序序列和中序序列确定二叉树</b>
+<pre class="solution">
+pre[], in[] # 前序和中序序列
+init_pre_in(pre_lo, pre_hi, in_lo, in_hi):
+	if pre.lo &lt;= pre.hi:
+		return NULL
+	root = new BinaryTreeNode(pre[pre_lo], NULL, NULL)
+	i = in_lo 
+	while in[i] != root-&gt;val:
+		++i
+	left_len = i - in_lo
+	right_len = in_hi - i
+	if left_len &gt; 0:
+		root-&gt;left = init_pre_in(
+			pre_lo+1, pre_lo+left_len, in_lo, in_lo+left_len-1)
+	if right_len &gt; 0:
+		root-&gt;right = init_pre_in(
+			pre_hi-right_len+1, pre_hi, in_hi-right_len+1, in_hi)
+	return root
+</pre>
+</li>
+<li><b>判断二叉树是否是完全二叉树</b>
+<pre class="solution">
+# 层序遍历, 将空结点一并入队.
+# 遇到第一个空结点后, 查看队列中是否还有非空结点,
+# 如果有, 说明二叉树不完全.
+is_complete(root):
+	if !root:
+		return True
+	queue.enqueue(root)
+	while queue:
+		root = queue.dequeue()
+		if root:
+			queue.enqueue(root-&gt;left)
+			queue.enqueue(root-&gt;right)
+		else:
+			break
+	while queue:
+		root = queue.dequeue()
+		if root:
+			return False
+	return True
+</pre>
+</li>
+<li><b>求二叉树的 2 度结点数</b>
+<pre class="solution">
+n2(root):
+	if !root:
+		return 0
+	return n2(root-&gt;left) + n2(root-&gt;right) + 
+		(root-&gt;left and root-&gt;right ? 1 : 0)
+</pre>
+</li>
+<li><b>交换二叉树的左右子树</b>
+<pre class="solution">
+swap_left_right(root):
+	if root:
+		swap_left_right(root-&gt;left)
+		swap_left_right(root-&gt;right)
+		tmp = root-&gt;left
+		root-&gt;left = root-&gt;right
+		root-&gt;right = tmp
+</pre>
+</li>
+<li><b>查找前序序列的第 n 个结点</b>
+<pre class="solution">
+find_nth_preorder_node(root):
+	cnt = 0
+	stack.push(NULL)
+	while root:
+		++cnt
+		if cnt == n:
+			return root-&gt;val
+		if root-&gt;right:
+			stack.push(root-&gt;right)
+		if root-&gt;left:
+			root = root-&gt;left
+		else:
+			root = stack.pop()
+	return 'not found'
+</pre>
+</li>
+<li><b>按值删除</b> 删除二叉树中所有使得 <code>f(x) == True</code>
+	的值 <code>x</code> 所在的根结点的子树. 假设 f 的时空复杂度均是 O(1).
+<pre class="solution">
+# 按层序查找待删结点
+remove_if(root, f()):
+	if !root:
+		return
+	if f(root-&gt;val):
+		remove(root) # 删除整棵树
+	queue.enqueue(root)
+	while queue:
+		root = queue.dequeue()
+		if root-&gt;left:
+			if f(root-&gt;left-&gt;val):
+				remove(root-&gt;left)
+			else:
+				queue.enqueue(root-&gt;left)
+		if root-&gt;right:
+			if f(root-&gt;right-&gt;val):
+				remove(root-&gt;right)
+			else:
+				queue.enqueue(root-&gt;right)
+</pre>
+</li>
+<li><b>求所有祖先</b> 求二叉树中某结点的所有祖先.
+<pre class="solution">
+# 以非递归中序 (或后序) 遍历二叉树, 每访问一个结点,
+# 栈中保存的都是它的全体祖先.
+ancestors(root, node):
+	while True:
+		if root:
+			stack.push(root)
+			root = root-&gt;left
+		elif stack:
+			root = stack.pop()
+			#### visit()
+			if root == node:
+				while stack:
+					print(stack.pop()-&gt;val)
+				break
+			####
+			root = root-&gt;right
+		else:
+			break
+</pre>
+</li>
+<li><b>查找两结点的最近共同祖先</b>
+<pre class="solution">
+# 顺序存储.
+nearest_common_ancestor1(i, j):
+	while i != j:
+		if i &gt; j:
+			i &gt;&gt;= 1
+		else:
+			j &gt;&gt;= 1
+	return i
+</pre>
+<p class="solution">
+	在以父指针二叉树中查找最近共同祖先, 和单链表一样, 用错位同步法.
+</p>
+<pre class="solution">
+# 二叉链表存储
+# 以非递归中序 (或后序) 遍历二叉树, 每访问一个结点,
+# 栈中保存的都是它的全体祖先.
+nearest_common_ancestor2(root, p1, p2):
+	first = True
+	while True:
+		if root:
+			stack.push(root)
+			root = root-&gt;left
+		elif stack:
+			root = stack.pop()
+			#### visit()
+			if root == p1 or root == p2:
+				if first:
+					stack1 = stack.copy()
+					first = False
+				else:
+					# 使两栈长度相等
+					while stack.len &gt; stack1.len:
+						stack.pop()
+					while stack1.len &gt; stack.len:
+						stack1.pop()
+					# 两栈长度相等时, 比较栈顶元素
+					while stack.top() != stack1.top():
+						stack.pop()
+						stack1.pop()
+					return stack.top()
+			####
+			root = root-&gt;right
+		else:
+			break
+	return 'one of node p1, p2 not found'
+</pre>
+</li>
+<li><b>给定满二叉树的前序序列, 求后序序列</b>
+<pre class="solution">
+pre[], post[]
+pre2post(pre_lo, pre_hi, post_lo, post_hi):
+	if pre_hi &gt;= pre_lo:
+		# 后序的最后一个结点就是前序的第一个结点
+		post[post_hi] = pre[pre_lo]
+		half = (pre_hi-pre_lo) &gt;&gt; 1
+		pre2post(pre_lo+1, pre_lo+half, post_lo, post_lo+half-1)
+		pre2post(pre_lo+half+1, pre_hi, post_lo+half, post_hi-1)
+</pre>
+</li>
+<li><b>将叶结点以 right 指针连成单链表</b>
+<pre class="solution">
+# 用中序 (或前序, 后序) 遍历二叉树, 设一头结点执行连接.
+# 方法类似于中序线索化
+BinaryTreeNode *pre
+
+visit(root):
+	if is_leaf(root):
+		pre-&gt;right = root
+	pre = root
+
+thread_leaf(root):
+	pre = head = new BinaryTreeNode(?, NULL, NULL)
+	traverse(root, visit) # 任一遍历方法
+	# 如果不需要头结点, 可以删除之
+	tmp = head
+	head = head-&gt;right
+	delete tmp
+</pre>
+</li>
+<li><b>判断二叉树相似</b> 两棵空树相似; 空树与非空树不相似;
+	两棵非空二叉树相似当且仅当它们的左子树和右子树分别对应相似.
+<pre class="solution">
+similar(root1, root2):
+	if !root1 and !root2:
+		return True
+	if !root1 or !root2:
+		return False
+	return similar(root1-&gt;left, root2-&gt;left) and
+			similar(root1-&gt;right, root2-&gt;right)
+</pre>
+</li>
+<li><b>在中序线索二叉树中寻找后序前驱</b>
+<pre class="solution">
+# p 的后序前驱是其最后一个子结点. 若 p 是叶子结点,
+# 则它是某棵树的最左下叶子结点. 先找到 p 的中序前驱  s, 若 s 有左子结点, 
+# 则 s-&gt;left 就是 p 的后序前驱; 否则再找 s 的中序前驱,
+# 直到 s 有左子结点, 或者 s 无中序前驱为止.
+post_prev(root, node):
+	if !node-&gt;right_thread: # 有右子结点
+		return node-&gt;right
+	if !node-&gt;left_thread: # 有左子结点
+		return node-&gt;left
+	while node-&gt;left_thread and node-&gt;left: # 有中序前驱
+		node = node-&gt;left
+	if !node-&gt;left_thread # 有左子结点
+		return node-&gt;left
+	else: # 无中序前驱
+		return NULL
+</pre>
+</li>
+<li><b>求带权路径长度</b>
+<pre class="solution">
+# 递归算法
+wpl = 0
+WPL(root, depth):
+	if root:
+		if is_leaf(root):
+			wpl += root-&gt;weight * depth
+		else:
+			WPL(root-&gt;left, depth+1)
+			WPL(root-&gt;right, depth+1)
+</pre>
+<pre class="solution">
+# 又一递归算法, 注意 WPL 等于分支结点权和.
+wpl = 0
+weight(root):
+	if !root:
+		return 0
+	if is_leaf(root):
+		return root-&gt;weight
+	w = weight(root-&gt;left) + weight(root-&gt;right)
+	wpl += w
+	return w
+</pre>
+<pre class="solution">
+# 层序遍历
+WPL_levelorder(root):
+	wpl = 0
+	depth = 0
+	if root:
+		queue.enqueue(root)
+	while queue:
+		cur_len = queue.len
+		loop cur_len:
+			root = queue.dequeue()
+			if is_leaf(root):
+				wpl += root-&gt;weight * depth
+			if root-&gt;left:
+				queue.enqueue(root-&gt;left)
+			if root-&gt;right:
+				queue.enqueue(root-&gt;right)
+			++depth
+	return wpl
+</pre>
+</li>
+<li><b>由表达式树求中缀表达式</b> 不考虑运算符优先级, 统统加括号.
+	最外层不加括号.
+<pre class="solution">
+inorder_expr(root):
+	if root:
+		if if_leaf(root):
+			print(root-&gt;val)
+		else:
+			do_inorder_expr(root-&gt;left)
+			print(root-&gt;val)
+			do_inorder_expr(root-&gt;right)
+
+do_inorder_expr(root):
+	if root:
+		if is_leaf(root):
+			print(root-&gt;val)
+		else:
+			print('(')
+			inorder_expr(root-&gt;left)
+			print(root-&gt;val)
+			inorder_expr(root-&gt;right)
+			print(')')
+</pre>
+</li>
+</ol>
+
+<h2>树和森林</h2>
+
+<ol>
+<li><b>森林的叶结点数</b>
+<pre class="solution">
+count_leaves(root):
+	if !root:
+		return 0
+	elif !root-&gt;first_child:
+		return 1 + count_leaves(root-&gt;next_sibling)
+	return count_leaves(root-&gt;first_child)
+		+ count_leaves(root-&gt;next_sibling)
+</pre>
+</li>
+<li><b>森林的高度</b>
+<pre class="solution">
+height(root):
+	if !root:
+		return 0
+	return max(1+height(root-&gt;first_child),
+		height(root-&gt;next_sibling))
+</pre>
+</li>
+<li><b>利用森林的层序序列和每个结点的度数建立森林</b>
+<pre class="solution">
+init_levelorder_deg(val[], deg[], n):
+	nodes = new TreeNode[n](val[i], NULL, NULL)
+	j = 0
+	for i = 0 to n-1:
+		d = deg[i]
+		if d--:
+			nodes[i]-&gt;first_child = nodes[++j]
+			while d--:
+				nodes[j]-&gt;next_sibling = nodes[j+1]
+				++j
+	return nodes[0]
+</pre>
+</li>
+</ol>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

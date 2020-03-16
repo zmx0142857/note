@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>线性表</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>存储结构</h2>
+
+<h3>单链表</h3>
+
+<p class="data-structure">
+	<b>单链表</b> 头指针 <code>head</code> 指向单链表的第一个结点, 
+	空表的头指针为空.<br/>
+	也可以在单链表的第一个结点前附设一<b>头结点</b>,
+	头结点不存放数据, 或者也可存放表的长度等信息.
+	头结点的指针域指向第一个结点.
+	引入头结点的好处是, 链表第一个结点的操作和其它结点的操作变得一致了,
+	空表和非空表的操作也变得一致了.
+	因为头结点无需任何改变, 所以 <code>head</code> 的指向始终不变.
+	不过, 下面没有特别说明时,
+	总假定单链表不含头结点.<br/>
+	也可以附设单链表的尾指针, 指向最后一个结点.
+</p>
+
+<pre>
+struct Node:
+	Type val
+	Node *next
+Node *head
+</pre>
+
+<p class="algorithm">
+	<b>单链表的查找</b>
+</p>
+
+<pre>
+# 查找第 i 个结点, 1 &le; i &le; len.
+# 如果 i 无效, 返回 NULL
+get(i):
+	if i &lt; 1:
+		return NULL
+	p = head
+	while p and --i:
+		p = p-&gt;next
+	return p
+
+# 查找值为 val 的结点, 找不到则返回 NULL
+# 另外如果链表含尾指针, 可以先在末尾插入一个值
+# val 的结点作哨兵, 可省去每步循环对空指针的判断
+find(val):
+	p = head
+	while p and p-&gt;val != val:
+		p = p-&gt;next
+	return p
+</pre>
+
+<p class="algorithm">
+	<b>单链表的增删</b>
+	下面各个删除结点的算法, 亦可以利用返回值或引用参数返回被删除结点的值.
+</p>
+
+<pre>
+# 在 head 所指的链表前插入一个结点,
+# 使用前保证 head 确实指向一链表,
+# 即 head == NULL, 或指向某一结点
+insert_head(val):
+	head = new Node(val, head)
+
+# 在指针 p 所指的结点后插入一值为 val 的结点
+# 使用前保证 p 确实指向某一结点
+# 注意此算法不能在头部插入结点
+insert_after(p, val):
+	p-&gt;next = new Node(val, p-&gt;next)
+
+# 头插法: 反向输入各结点的值, 建立单链表
+init_reverse():
+	head = NULL
+	while input(val):
+		insert_head(val)
+
+# 尾插法: 正向输入各结点的值, 建立单链表
+init():
+	head = tail = new Node(?, NULL) # 头结点
+	while input(val):
+		insert_after(tail, val)
+		tail = tail-&gt;next
+	remove_head()	# 若不需要头结点, 可以删除之
+</pre>
+
+<pre>
+# 删除 head 所指的结点,
+# 使用前保证 head 确实指向某一结点
+remove_head():
+	tmp = head
+	head = head-&gt;next;
+	delete tmp
+
+# 删除指针 p 所指结点的下一结点,
+# 使用前保证 p 确实指向某一结点.
+# 注意此算法不能删除头部的结点
+remove_after(p)
+	tmp = p-&gt;next
+	if tmp:
+		p-&gt;next = tmp-&gt;next
+		delete tmp
+
+# 清空单链表
+clear():
+	while head:
+		remove_head()
+</pre>
+
+
+<p class="remark">
+	对单链表的结点作增, 删操作时, 一般要求已知该结点的前驱.
+	但是, 也可以这样删除一个非尾结点: 先将下一结点的内容拷贝到此结点,
+	再删除下一结点. 同理, 为了在非尾部插入一个结点,
+	可以先在此结点后插入一个此结点的拷贝,
+	再将要插入的数据拷贝到此结点.
+	这两种做法分别称为单链表的前插与前删操作,
+	与已知前驱结点的后插/后删算法相比, 它们各自多了一次数据的拷贝.
+</p>
+
+<h3>双链表</h3>
+
+<p class="data-structure">
+	<b>双链表</b> 相比于单链表, 增加了一个指向前驱结点的指针.
+	操作与单链表相似.
+	在双链表中, 寻找前驱的时间由单链表的 O(n) 降到 O(1).
+</p>
+
+<pre>
+struct DualNode:
+	Type val
+	DualNode *prev
+	DualNode *next
+DualNode *head
+</pre>
+
+<p class="algorithm">
+	<b>双链表的增删</b>
+	下面只列出其中两个算法. 注意指针回指前应当判断非空, 比如
+	<code>p-&gt;next-&gt;prev = node</code> 一句.
+	<code>insert_before</code>, <code>insert_head</code>
+	的思路都类似.
+</p>
+
+<pre>
+# 在 p 所指的结点后插入一值为 val 的结点
+# 使用前保证 p 确实指向某一结点
+# 注意此算法不能在头部插入结点
+insert_after(p, val):
+	node = new Node(val, p, p-&gt;next)
+	if p-&gt;next:
+		p-&gt;next-&gt;prev = node
+	p-&gt;next = node
+
+# 删除指针 p 所指结点, 使用前保证 p 确实指向某一结点
+remove(p):
+	if p-&gt;next:
+		p-&gt;next-&gt;prev = p-&gt;prev
+	if p-&gt;prev:
+		p-&gt;prev-&gt;next = p-&gt;next
+	delete p
+</pre>
+
+<h3>循环链表</h3>
+
+<p class="data-structure">
+	<b>循环 (单) 链表</b> 的结点结构与单链表相同;
+	与单链表的区别在于, 最后一个指针不是空指针,
+	而是指向第一个结点 (或头结点, 如果存在), 整个链表形成一个环.
+	与单链表不同, 循环链表常设尾指针, 而不是头指针, 这是因为表非空时,
+	<code>tail-&gt;next</code> 就是头指针.
+	空循环链表的 <code>tail == NULL</code>; 只有单个元素的循环链表,
+	其惟一结点的后继就是自己.
+</p>
+
+<pre>
+struct Node:
+	Type val
+	Node *next
+Node *tail
+
+# 在表尾插入一个新结点
+append(val):
+	if !tail:
+		tail = new Node(val, NULL)
+		tail-&gt;next = tail
+	else:
+		tail = tail-&gt;next = new Node(val, tail-&gt;next)
+
+# 删除 p 所指结点的下一结点. 要求 p 确实指向一个结点.
+remove_after(p):
+	if tail-&gt;next == tail:
+		tail = NULL
+		delete tail
+	else:
+		tmp = p-&gt;next
+		p-&gt;next = tmp-&gt;next
+		if tmp == tail:
+			tail = p
+		delete tmp
+
+# 遍历所有结点
+traverse(visit):
+	if tail:
+		p = tail
+		do:
+			p = p-&gt;next
+			visit(p)
+		while p != tail
+</pre>
+
+<p class="data-structure">
+	<b>循环双链表</b> 的结点结构与双链表相同;
+	与双链表的区别在于, 最后一个结点的 <code>next</code>
+	指针指向第一个结点, 而第一个结点的 <code>prev</code>
+	指针指向最后一个结点.
+</p>
+
+<h3>静态链表</h3>
+
+<p class="data-structure">
+	<b>静态链表</b> 借助数组实现链表结构.
+	因为不涉及指针,
+	所以静态链表在用于一些大小固定的数据结构时有一定的方便之处.
+	后面会看到, 二叉树, 图... 凡是用到指针的数据结构,
+	统统可以做出它们的静态版本来.
+	动态分配的算法 <code>new</code>,
+	<code>delete</code> 等需要自己实现. 一般数组的 0 号单元空出不用
+	(亦即, 0 号单元用作头结点), 这样就可以用 0 表示空指针.
+	假设静态链表可用单元最多为 <code>N</code> 个, 则数组大小须是
+	<code>N+1</code>.
+</p>
+
+<pre>
+struct StaticList:
+	Type val[N+1]
+	int next[N+1]
+</pre>
+
+<p class="algorithm">
+	<b>静态链表的空间分配算法</b>
+	将未分配的空间链接成一单链表 (实为链栈),
+	<code>next[0] == 0</code> 表示可用空间为空.
+	每次分配 (回收) 空间时从表头进行操作即可.
+</p>
+
+<pre>
+init():
+	for i = 0 to N-1:
+		next[i] = i+1
+	next[N] = 0
+
+# 分配 next[0] 所指的单元; 如果空间用尽, 返回 0
+alloc(&amp;p):
+	p = next[0]
+	next[0] = next[p] # 空间用尽时, 这里其实是自赋值
+
+# 释放 p 所指的单元
+free(p):
+	next[p] = next[0]
+	next[0] = p
+</pre>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

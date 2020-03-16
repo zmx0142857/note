@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>矩阵与广义表</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>n 维数组</h2>
+
+<p class="algorithm">
+	<b>映像函数</b>
+	设 n 维数组的基址为 `a`, 每个元素占 `L` 个单元, `b_i` 是第 `i`
+	维的长度, 则元素 <code>a[j_(n-1)]...[j_2][j_1][j_0]</code>
+	的存储位置是
+	<span class="formula">
+		`a + L(sum_(i=1)^(n-1) j_i prod_(k=0)^(i-1) b_i)`.
+	</span>
+	数组具有<b>随机存储结构</b>:
+	计算各元素存储位置的时间相等, 存取任一元素的时间也相等.
+	下面的函数计算存储位置:
+</p>
+
+<pre>
+offset(n, bound, index):
+	ret = 0
+	size = [1]	# size[i] 表示 0..i-1 维总大小
+	for i = 0 to n-1:
+		if index[i] &lt; 0 or index[i] &gt;= bound[i]:
+			return OVERFLOW
+		ret += size[i] * index[i]
+		size[i+1] = size[i] * bound[i]
+	# 最后 size[n] 表示整个数组的大小
+	return ret
+</pre>
+
+<h2>矩阵的压缩存储</h2>
+
+<p>	下面总假定矩阵的行列下标是从 0 开始的.</p>
+
+<h3>对称矩阵的下三角存储</h3>
+
+<p>	将 <code>N</code> 维对称矩阵的下三角元 (包括主对角线) 按行存储在数组
+	<code>compmat[N(N+1)/2]</code> 中, 用映射 <code>at(i, j)</code>
+	来获取矩阵的 ij 元.  类似可以设计出上 (下) 三角矩阵的压缩存储方案.
+	当矩阵为严格下三角时, 可以存储在数组 <code>compmat[N(N-1)/2]</code>
+	中, 且 <code>at(i, j)</code> 返回 <code>compmat[i*(i-1)/2+j]</code>.
+</p>
+
+<pre>
+at(i, j):
+	if i lt j:
+		swap(i, j)
+	return compmat[i*(i+1)/2 + j]
+</pre>
+
+<h3>2n+1 对角矩阵的压缩存储</h3>
+
+<p>	n = 0, 1, ... 时, 2n+1 对角矩阵是指只有主对角线以及主对角线上, 下各 n
+	条对角线非零, 其它元素都为 0 的矩阵.
+	我们可以按行序或按对角线顺序压缩存储之.
+</p>
+
+<h3>稀疏矩阵的三元组表示法</h3>
+
+<p>	假设 <code>rows*cols</code> 矩阵中, 有 <code>t</code> 个非零元, 则称
+	<code>&delta; = t/(rows*cols)</code> 为矩阵的<b>稀疏因子</b>.
+	通常认为 <code>&delta; &le; 1/20</code> 时为稀疏矩阵.
+</p>
+
+<p class="data-structure">
+	<b>稀疏矩阵的三元组表示法</b>
+	用 <code>(val, row, col)</code> 的三元组表示一个
+	<code>rows*cols</code> 稀疏矩阵. 所有非零元按行序排列.
+	当操作过程中, 矩阵的非零元个数和位置变化较大时,
+	就不宜采用顺序存储的三元组表示法.
+</p>
+
+<pre>
+struct TripleSparseMat:
+	int rows, cols		# 行数, 列数
+	int cnt				# 非零元个数
+	Type val[rows*cols]	# val[i] 是第 i 个非零元
+	int row[rows*cols]	# row[i] 是第 i 个非零元的行号
+	int col[rows*cols]	# col[i] 是第 i 个非零元的列号
+</pre>
+
+<p class="algorithm">
+	<b>三元组表示法下的矩阵转置</b>
+	naive 算法依次在矩阵 <code>this</code> 中寻找位于第
+	<code>0..cols-1</code> 列的元素, 将其存入矩阵 <code>m</code>,
+	时间复杂度为 <code>O(cols*cnt)</code>.<br/>
+	改进后的算法预先计算 <code>this</code> 每一列的第一个非零元在结果矩阵
+	<code>m</code> 中的序号, 将其保存在数组 <code>next[cols+1]</code> 中.
+	接下来按行处理矩阵 <code>this</code>, 可将结果直接放到 <code>m</code>
+	的对应位置上. 每处理一个元素, 都应使 <code>next[col]</code> 增加 1.
+	改进后的时间复杂度为 <code>O(cols+cnt)</code>.
+</p>
+
+<pre>
+naive_transpose(TripleSparseMat &amp;m):
+	m.cnt, m.rows, m.cols = cnt, rows, cols
+	if cnt == 0:
+		return
+	i = 0
+	for c = 0 to cols-1:
+		for j = 0 to cnt-1:
+			if col[j] == c:
+				(m.val, m.row, m.col)[i++] = val[j], col[j], row[j]
+
+int next[cols+1]
+
+fast_transpose(TripleSparseMat &amp;m):
+	m.cnt, m.rows, m.cols = cnt, rows, cols
+	if cnt == 0:
+		return
+	# next[i+1] 初始化为矩阵 this 第 i 列的非零元数
+	for c = 0 to cols:
+		next[c] = 0
+	for i = 0 to cnt-1:
+		++next[col[i]+1]
+	# 累加得到各列第一个非零元的序号
+	for c = 1 to cols:
+		next[c] += next[c-1]
+	# 按行处理 this
+	for j = 0 to cnt-1:
+		i = next[col[j]]++
+		(m.val, m.row, m.col)[i] = val[j], col[j], row[j]
+</pre>
+
+<h3>稀疏矩阵的行逻辑链接表示法</h3>
+
+<p class="data-structure">
+	<b>行逻辑链接表示法</b>
+	<code>RowLinkedSparseMat</code>
+	其实就是在三元组表示法中, 增加一个指示每行第一个非零元序号的向量
+	<code>row_head[rows+1]</code>, 其中最后一个单元 <code>row_head[rows]
+	== cnt+1</code> 作哨兵. 显然 <code>row_head[0] == 0</code>.
+</p>
+
+<p class="algorithm">
+	<b>行逻辑链接表示法下的矩阵乘法</b>
+	依次取出 <code>m1</code> 中的元素 <code>(val, row, col)</code>,
+	在 <code>m2</code> 中找到第 <code>col</code> 行元素与之相乘.
+	如此逐行得到结果 <code>m = m1*m2</code>. 每得到 <code>m</code>
+	的一行, 都进行压缩存储操作.</br>
+	算法的时间复杂度等于初始化 <code>tmp</code> 的时间
+	<code>O(m.rows*m.cols)</code>, 计算 <code>m</code> 的所有非零元的时间
+	<code>O(m1.cnt*m2.cnt/m2.rows)</code> (矩阵 <code>m2</code>
+	每行平均有 <code>m2.cnt/m2.rows</code> 个非零元) 和挑出非零元的时间
+	<code>O(m.rows*m.cols)</code> 之和, 即
+	<code>O(m.rows*m.cols + m1.cnt*m2.cnt/m2.rows)</code>.
+	当矩阵足够稀疏时, 近似为 <code>O(m.rows*m.cols)</code>.
+</p>
+
+<pre>
+tmp[m2.cols]
+
+multiply(m1, m2, &amp;m):
+	if m1.cols != m2.rows
+		return ERROR
+	m.cnt, m.rows, m.cols = 0, m1.rows, m2.cols
+	if m1.cnt == 0 or m2.cnt == 0:
+		return
+
+	i = 0
+	for row = 0 to m.rows-1:
+		tmp = [0..]	# 清空临时行向量
+		# 计算 m 的新一行
+		while i &lt; m1.row_head[row+1]:
+			col = m1.col[i]
+			for j = m2.row_head[col] to m2.row_head[col+1]-1:
+				tmp[m2.col[j]] += m1.val[i] * m2.val[j]
+			++i
+		# 挑出非零元
+		for col = 0 to m.cols-1:
+			if tmp[col] != 0:
+				(m.val, m.row, m.col)[m.cnt++] = tmp[col], row, col
+</pre>
+
+<h3>稀疏矩阵的十字链表表示法</h3>
+
+<p class="data-structure">
+	<b>稀疏矩阵的十字链表表示法 (Orthogonal List)</b>
+	每个非零元用一个向右指针 <code>right</code> 链接同一行中下一非零元,
+	用一个向下指针 <code>down</code> 链接同一列中下一非零元.
+	整个矩阵构成一个十字交叉的链表.
+</p>
+
+<pre>
+struct OLNode:
+	Type val
+	int row, col
+	OLNode *right, *down
+
+struct OList:
+	int rows, cols, cnt
+	OLNode *row_head[rows]
+	OLNode *col_head[cols]
+</pre>
+
+<p class="algorithm">
+	<b>十字链表表示下矩阵的初始化</b>
+	对输入非零元的先后次序没有要求. 时间复杂度为
+	<code>O(cnt*max(rows,cols))</code>. 如果数据以行序输入,
+	则算法可改写为 <code>O(cnt)</code> 的.
+</p>
+
+<pre>
+init():
+	# 各行各列初始化为空链表
+	row_head = col_head = [NULL..]
+	while input(val, row, col):
+		p = new OLNode(val, row, col)
+		# 插入到行表
+		if !row_head[row] or col &lt; row_head[row]-&gt;col:
+			p-&gt;right = row_head[row]
+			row_head[row] = p
+		else:
+			q = row_head[row]
+			while q-&gt;right and col &gt; q-&right;-&gt;col:
+				q = q-&gt;right
+			p-&gt;right = q-&gt;right
+			q-&gt;right = p
+		# 插入到列表
+		if !col_head[col] or row &lt; col_head[col]:
+			p-&gt;down = col_head[col]
+			col_head[col] = p
+		else:
+			q = col_head[col]
+			while q-&gt;down and row &gt; q-&gt;down-&gt;row:
+				q = q-&gt;down
+			p-&gt;down = q-&gt;down
+			q-&gt;down = p
+</pre>
+
+<p class="algorithm">
+	<b>十字链表表示法下的矩阵加法</b>
+	将矩阵 <code>m</code> 加到 <code>this</code> 上.
+	此算法可类比于链表表示的一元多项式加法. 算法设指针向量
+	<code>col_pre[cols]</code>, 用于指示每一列的前驱结点.
+	算法的时间复杂度为 <code>O(m1.cnt+m2.cnt)</code>.
+</p>
+
+<pre>
+col_pre[cols]
+
+add(m):
+	if rows != m.rows or cols != m.cols:
+		return ERROR
+	for col = 0 to cols-1:
+		col_pre[col] = col_head[col]
+	for row = 0 to rows-1:
+		p1 = row_head[row]
+		p2 = m.row_head[row]
+		row_pre = NULL
+		while p2:
+			col = p2-&gt;col
+			if !p1 or col &lt; p1-&gt;col: # 插入一个 *p2 的拷贝
+				p = new OLNode(p2-&gt;val, row, col)
+				if !row_pre:
+					row_head[row] = p
+				else:
+					row_pre-&gt;right = p
+				p-&gt;right = p1
+				row_pre = p
+				if !col_head[col] or row &lt; col_head[col]-&gt;row:
+					p-&gt;down = m1.col_head[col]
+					col_head[col] = p
+				else:
+					p-&gt;down = col_pre[col]-&gt;down
+					col_pre[col]-&gt;down = p
+				col_pre[col] = p
+				p2 = p2-&gt;right
+			elif col == p1-&gt;col: # *p1 + *p2
+				p1-&gt;val += p2-&gt;val
+				if p1-&gt;val == 0:		# 删除零元
+					if !row_pre:
+						row_head[row] = p1-&gt;right
+					else:
+						row_pre-&gt;right = p1-&gt;right
+					p = p1
+					p1 = p1-&gt;right
+					if p1.col_head[col] == p:
+						p1.col_head[col] = col_pre[col] = p-&gt;down
+					else:
+						col_pre[col]-&gt;down = p-&gt;down
+					delete p
+				else:
+					p1 = p1-&gt;right
+				p2 = p2-&gt;right
+			else: # col &gt; p1-&gt;col: 跳过 *p1
+				row_pre = p1
+				p1 = p1-&gt;right
+</pre>
+
+<h2>广义表</h2>
+
+<p>	广义表 (General List) 广泛应用于 Lisp 语言, 一般记作
+	<span class="formula">
+		`LS = (a_1, a_2, cdots, a_n)`,
+	</span>
+	其中 `a_i` 可以是单个元素, 即<b>原子</b>, 也可以是广义表,
+	即<b>子表</b>.  当广义表非空时, 第一个元素 `a_1` 称为<b>表头
+	(car)</b>, 其余元素组成的广义表 `(a_2, cdots, a_n)` 称为<b>表尾
+	(cdr)</b>.  某种程度上, 广义表可以看作树结构. 和树不同之处在于,
+	广义表的元素和子表可以公用. 甚至自己可以是自己的子表 (递归表).
+</p>
+
+<h3>广义表的存储结构</h3>
+
+<p class="data-structure">
+	<b>广义表的头尾链表存储</b>
+	与树的内部结点和叶子结点相对应, 有广义表的表结点和原子结点.
+	设 <code>ATOM = False</code>, <code>LIST = True</code>,
+	则可用一 bool 变量指示结点类型.
+	<code>car</code> 指向表的第一个结点, <code>cdr</code> (读作 kuder)
+	指向表的其余结点组成的广义表. 故表尾非空时, <code>cdr</code>
+	总是指向一个表结点.
+</p>
+
+<pre>
+struct GLNode1:
+	bool type
+	union:
+		Type atom
+		struct:
+			GLNode *car
+			GLNode *cdr
+</pre>
+
+<p class="data-structure">
+	<b>广义表的扩展线性链表存储</b>
+	与头尾链表的区别在于, 不以 <code>cdr</code> 指向表尾, 而以
+	<code>next</code> 指向同一层次的下一结点. 原子和表都具有
+	<code>next</code> 域.
+</p>
+
+<pre>
+struct GLNode2:
+	bool type
+	union:
+		Type atom
+		GLNode *car
+	GLNode *next
+</pre>
+
+<h3>多元多项式的广义表存储</h3>
+
+<p>	`n` 元多项式 `P(x_1, x_2, cdots, x_n)` 可以整理为按 `x_1`
+	降幂的多项式, 其系数是 `x_2, cdots, x_n` 组成的 `n-1` 元多项式.
+	这一过程递归地进行, 最终可以化为一元多项式的情形. 如多项式
+	<span class="formula">
+		`x^10 y^3 z^2 + 2x^6 y^3 z^2 + 3x^5 y^2 z^2`
+		`+ x^4 y^4 z + 6x^3 y^4 z + 2y z + 15`
+		`= ((x^10 + 2 x^6)y^3 + 3x^5 y^2)z^2`
+		`+ ((x^4 + 6x^3)y^4 + 2y)z + 15`,
+	</span>
+	用广义表表示, 其中用方括号表示系数-指数的偶对, 得:
+	<span class="formula">
+		<code>
+		([([([1,10], [2,6]), 3], [([3,5]), 2]), 2], [([([1,4], [6,3]), 4], [2,1]), 1], [15, 0])
+		</code>
+	</span>
+	或用树表示如下, 从根到叶的每一路径指出了多项式中的一项.
+</p>
+
+<pre>
+z:          2                  1              (15)
+y:      3       2          4       1
+x:	  10  6     5        4   3    (2)
+     (1) (2)   (3)      (1) (6)
+</pre>
+
+<p>	可见广义表的表结点需要存储指数, 而原子结点需要存储系数.
+	故设计存储结构如下
+</p>
+
+<p class="data-structure">
+	<b>多元多项式的扩展线性链表存储</b>
+</p>
+
+<pre>
+struct MPolyNode:
+	bool type
+	int exp				# 指数
+	union:
+		double coef		# 系数
+		MPolyNode *car
+	MPolyNode *next
+</pre>
+
+<h3>广义表的算法</h3>
+
+<p>	以下假设广义表都是非递归表且无共享子表.</p>
+
+<p class="algorithm">
+	<b>求广义表深度</b>
+	即广义表中括弧的重数. 空表深度为 1, 原子深度为 0; 否则广义表的深度等于
+	1 + 所有子表的最大深度.
+</p>
+
+<pre>
+GList.depth(GLNode1 root):
+	if !root:
+		return 1	# 空表
+	if root-&gt;type == ATOM:
+		return 0	# 原子
+	max = 0
+	p = root
+	while p:
+		dep = depth(p-&gt;car)
+		if dep &gt; max:
+			max = dep
+		p = p-&gt;cdr
+	return max+1
+</pre>
+
+<p class="algorithm">
+	<b>复制广义表</b>
+	当原表为空时, 只需分配一空表; 否则分别复制其表头和表尾即可.
+</p>
+
+<pre>
+GList.copy(GLNode1 &amp;cpy, GLNode1 root):
+	if !root:
+		cpy = NULL
+	elif root-&gt;type == ATOM:
+		cpy = new GLNode1(ATOM, root-&gt;atom)
+	else:
+		cpy = new GLNode1(LIST)
+		copy(cpy-&gt;car, root-&gt;car)
+		copy(cpy-&gt;cdr, root-&gt;cdr)
+</pre>
+
+<p class="algorithm">
+	<b>创建广义表</b>
+	读取广义表的括号表达式串, 以此建立广义表.
+</p>
+
+<pre>
+# 取出非空串 str 第一个 "," 前的部分 car, 剩余部分赋给 str
+# 假设操作前后的 str 均不含最外层的括号
+sever(&amp;str, &amp;car):
+	pushed = 0
+	for i = 0 to str.length-1:
+		if str[i] == '(':
+			++pushed
+		elif str[i] == ')':
+			--pushed
+		elif str[i] == ',' and pushed == 0:
+			car = str[..i-1]
+			str = str[i+1..]
+			return
+	car = ''
+	swap(car, str)
+
+# 思路1: 将广义表视为 car 和 cdr 的组合 (推荐)
+GList.init(&amp;root, str):
+	if str == '()':
+		root = NULL
+	elif str[0] != '('
+		root = new GLNode1(ATOM)
+	else:
+		str = remove_parenthesis(str)
+		sever(str, car)
+		cdr = add_parenthesis(str)
+		root = new GLNode1(LIST)
+		init(root-&gt;car, car)
+		init(root-&gt;cdr, cdr)
+
+# 思路2: 将广义表视为含 n 个并列子表的表
+GList.init(&amp;root, str):
+	if str == '()':
+		root = NULL
+	elif str.length == 1:
+		root = new GLNode1(ATOM, str)
+	else:
+		str = remove_parenthesis(str)	# 去外层括号
+		root = new GLNode1(LIST)
+		p = root
+		while True:
+			sever(str, car)
+			init(p-&gt;car, car)
+			if str:
+				p = p-&gt;cdr = new GLNode1(LIST)
+			else:
+				p-&gt;cdr = NULL
+				break
+</pre>
+
+<script src="../js/note.js?type=cs&loadmath=true"></script>
+
+</body>
+
+</html>

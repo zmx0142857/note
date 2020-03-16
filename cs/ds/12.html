@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>文件</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="algorithm">
+	<b>磁带事务批处理</b>
+</p>
+
+<pre>
+transaction_batch(infile, instruction_file, outfile):
+	fread(infile, rec)					# 文件到结尾时, 什么也不做
+	fread(instruction_file, ins)
+	while !feof(infile) or !feof(instruction_file):
+		if rec.key &lt; ins.key:		# 直接复制
+			fwrite(outfile, rec)
+			fread(infile, rec)
+		elif ins.type == INSERT and rec.key &gt; ins.key:
+			fwrite(outfile, new_record(ins))
+			fread(instruction_file, ins)
+		elif ins.type == DELETE and rec.key == ins.key:
+			fread(infile, rec)
+			fread(instruction_file, ins)
+		elif ins.type == UPDATE and rec.key == ins.key:
+			fwrite(outfile, update_record(rec, ins))
+			fread(infile, rec)
+			fread(instruction_file, ins)
+		else:
+			error()
+</pre>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

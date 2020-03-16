@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>SQL</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h3 class="nonu">术语表</h3>
+
+<table>
+	<tr>
+		<th>缩写</th>
+		<th>全称</th>
+		<th>中文</th>
+		<th>简介</th>
+	</tr>
+	<tr>
+		<td>SQL</td>
+		<td>Structured Query Language</td>
+		<td>结构化查询语言</td>
+		<td>关系型数据库的标准语言，集数据查询、数据操纵、
+			数据定义和数据控制的功能于一体
+		</td>
+	</tr>
+	<tr>
+		<td>ANSI</td>
+		<td>American National Standard Institute</td>
+		<td>美国国家标准局</td>
+	</tr>
+	<tr>
+		<td>ISO</td>
+		<td>International Organization for Standardization</td>
+		<td>国际标准化组织</td>
+	</tr>
+</table>
+
+<h2>概述</h2>
+
+<p>	<b>SQL</b>
+	是关系型数据库的标准语言，简单易学，功能丰富，被各大数据库厂商采用。
+	SQL 原名 Sequel，1974 年由 Boyce 和 Chamberlin 提出，并在 IBM
+	公司的关系型数据库管理系统原型 System R 上实现。
+	1986 年 10 月，ANSI 颁布 SQL-86 标准。1987 年，ISO 也通过了这一标准。
+</p>
+
+<h3>SQL 的特点</h3>
+
+	<h4>综合统一</h4>
+	<ul>非关系型的数据库系统一般将数据语言分为
+		<li>模式数据定义语言 (Schema <b>D</b>ata <b>D</b>efinition
+			<b>L</b>anguage)</li>
+		<li>外模式数据定义语言 (Subschema Data Definition Language)</li>
+		<li>数据存储描述语言 (<b>D</b>ata <b>S</b>torage
+			<b>D</b>escription	<b>L</b>anguage)</li>
+		<li>数据操纵语言 (Data Manipulation)</li>
+		一旦需要修改模式，必须停止数据库的运行，转储数据，
+		修改模式并编译后重装数据库，十分麻烦。与之对比鲜明，SQL
+		集上述各功能于一体，语言风格统一，
+		可以独立完成数据库生命周期中的全部活动，包括：
+	</ul>
+	<ul>
+		<li>定义、修改、删除模式，定义、删除视图，插入数据，建立数据库；</li>
+		<li>查询与更新数据；</li>
+		<li>数据库重构与维护；</li>
+		<li>数据库安全性、完整性控制，事务控制；</li>
+		<li>嵌入式 SQL 和动态 SQL 定义。</li>
+		这就为数据库应用系统的开发提供了良好的环境。
+		在数据库投入运行后还可随时修改模式而不影响运行，
+		从而使系统具有良好的可扩展性。
+	</ul>
+
+	<h4>高度非过程化</h4>
+
+	<p>	非关系型数据库的语言是“面向过程”的。使用 SQL，只需指出 “做什么”
+		而无须指明 “怎么做”，从而无需了解存取路径等细节。
+		这减轻了用户负担，也有利于提高数据独立性。
+	</p>
+
+	<h4>面向集合的操作方式</h4>
+
+	<p> 非关系型数据库的操作方式是面向记录的，通常要说明具体处理过程，
+		如存取路径，如何循环等。而 SQL 采用集合操作方式，增、删、改、
+		查的操作对象均可以是元组的集合。
+	</p>
+
+	<h4>以同一种语法结构提供多种使用方式</h4>
+
+	<p>	SQL 是独立的语言，它能以交互的方式独立地使用，
+		用户可以在终端通过键盘输入 SQL 命令对数据库进行操作。
+		SQL 又是嵌入式语言，能嵌入到 C、C++、Java 等高级语言的程序中。
+		<del>在两种不同的使用情境下，SQL 语法结构基本上一致</del>。
+	</p>
+
+	<h4><del>语言简洁，易学易用</del></h4>
+
+	<ul> SQL 接近英语口语，易于学习使用。
+		SQL 功能极强，但核心功能只用了九个动词：
+		<li>数据查询：select</li>
+		<li>数据定义：create, drop, alter</li>
+		<li>数据操纵：insert, update, delete</li>
+		<li>数据控制：grant, revoke</li>
+	</ul>
+
+<h2>数据定义</h2>
+
+<p>	模式 (schema)、(基本)表 (table)、视图 (view)、索引 (index)
+	是关系型数据库常见的四种对象。
+	四大对象支持创建 (create) 与删除 (delete) 操作，
+	其中表和索引还支持修改 (alter) 操作。
+</p>
+
+<p>	这些对象适用关系型数据库的三级模式结构模型。
+	其中视图对应于关系数据库的外模式，基本表对应于关系型数据库的模式，
+	而数据在计算机上的存储文件对应于关系型数据库的内模式。
+</p>
+
+<p>	各数据库对象之间的层次关系是：一个数据库系统实例中可建立多个数据库，
+	一个数据库中可建立多个模式，一个模式下可建立多个表、视图和索引。
+</p>
+
+<h3>模式</h3>
+
+<h4>定义模式</h4>
+
+<pre>
+create schema [<em>schemaName</em>] authorization <em>userName</em>
+[create table ... | create view ... | grant ...]
+</pre>
+
+<p>	<em>schemaName</em> 缺省时，取 <em>userName</em> 值。
+	创建模式需要 root 权限或 root 授予的 create schema 权限。
+</p>
+
+<div class="example">
+	为用户 Wang 定义一个学生-课程模式 "S-C"。<p></p>
+<pre>
+create schema "S-C" authorization Wang;
+</pre>
+	<p>为用户 Zhang 创建一个模式 Test, 并在其中定义表 Tab1。</p>
+<pre>
+create schema Test authorization Zhang
+create table Tab1 (
+	col1 smallint,
+	col2 int,
+	col3 char(20),
+	col4 numeric(10,3),
+	col5 decimal(5,2)
+);
+</pre>
+</div>
+
+<h4>删除模式</h4>
+
+<pre>
+drop schema <em>schemaName</em> [cascade | restrict];
+</pre>
+
+<p>	cascade （级联）表示在删除模式的同时，删除其下属的所有对象，
+	如表、视图等。restrict （限制）表示如果该模式下已经定义了数据库对象，
+	则拒绝执行删除操作。
+</p>
+
+<div class="example">
+	删除模式 Test，以及其下属的表 Tab1。 <p></p>
+<pre>
+drop schema Test cascade;
+</pre>
+</div>
+
+<h3>基本表</h3>
+
+<h2>数据查询</h2>
+
+<h2>数据更新</h2>
+
+<h2>视图</h2>
+
+<h3>建立与删除</h3>
+
+<h3>查询</h3>
+
+<h3>更新</h3>
+
+<h3>视图的作用</h3>
+
+<script src="../js/note.js?type=cs"></script>
+
+</body>
+
+</html>

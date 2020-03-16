@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>栈与队列</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<h2>栈</h2>
+
+<p class="definition">
+	<b>栈 (stack)</b>
+	是将插入与删除操作限定在一端进行的线性表, 这一端称为栈顶 (top),
+	另一端称为栈底 (bottom). 不含元素的栈称为空栈.
+	栈是一种后进先出 (LIFO, last in first out) 的结构.
+</p>
+
+<h3>栈的存储</h3>
+
+<p class="data-structure">
+	<b>顺序栈</b>
+	用一数组 <code>stack</code> 保存栈的元素, 变量 <code>len</code>
+	指示栈中元素的个数. 于是栈顶元素的位置为
+	<code>stack[len-1]</code>.
+</p>
+
+<pre>
+struct Stack:
+	Type stack[N]
+	int len
+
+init():
+	len = 0
+
+is_empty():
+	return len == 0
+
+is_full():
+	return len == N
+
+# 使用前保证栈非空
+top():
+	return stack[len-1]
+
+# 使用前保证栈非空
+pop():
+	return[--len]
+
+push(val):
+	if is_full():
+		error('overflow')
+	stack[len++] = val
+</pre>
+
+<p class="data-structure">
+	<b>链栈</b>
+	用一单链表保存栈的元素, 删除与插入都在表头进行.
+	用于指示栈中元素数目的变量 <code>len</code> 是可选的.
+	链栈克服了顺序栈可能溢出的缺点.
+</p>
+
+<pre>
+struct StackNode:
+	Type val
+	StackNode *next
+StackNode *head
+
+init():
+	head = NULL
+
+is_empty():
+	return head == NULL
+
+# 使用前保证栈非空
+top():
+	return head-&gt;val
+
+# 使用前保证栈非空
+pop():
+	tmp = head
+	val = tmp-&gt;val
+	head = head-&gt;next;
+	delete tmp
+	return val
+
+push(val):
+	head = new StackNode(val, head) # 头插法
+</pre>
+
+<h3>进栈出栈问题</h3>
+
+<ol>设在 n 次进栈和 n 次出栈的过程中, 数字 1 到 n 恰好进栈, 出栈各一次.
+	如果它们进栈的次序是 1 到 n. 那么:
+	<li>假设某一时刻数字 i 已经出栈, 则数字 1 到 i-1
+		中仍在栈中的那些必然以逆序出栈. 特别地, 如果数字 n 最先出栈,
+		则剩下的数字全部以逆序出栈.
+	</li>
+	<li>判断一个序列是不是可能的出栈序列, 只需从第一个出栈的数字 i 看起,
+		依次验证上一条性质是否成立.
+	</li>
+	<li>任给一个可能的出栈序列, 实现这一出栈序列的操作次序是惟一的.</li>
+	<li>所有可能的出栈次序共有 `C_n` 种, `C_n` 是第 `n` 个 Catalan 数,
+		<span class="formula">
+			`C_n = 1/(n+1) (2n;n)`.
+		</span>
+	</li>
+</ol>
+
+<p class="example" id="exp-stack-1234">
+	求进栈序列为 1 2 3 4 时, 所有不可能的出栈序列.
+</p>
+
+<p class="solution">
+	所有不可能的出栈序列有 `4! - C_4 = 10` 种. 以 4 开头的包括除了
+	4 3 2 1 之外的 `3!-1 = 5` 种:
+	<span class="formula">
+		4 1 2 3, 4 1 3 2, 4 2 3 1, 4 2 1 3, 4 3 1 2.
+	</span>
+	以 3 开头的必然含有子序列 1 2, 再把 4 插入其中, 一共 3 种:
+	<span class="formula">
+		3 4 1 2, 3 1 4 2, 3 1 2 4.
+	</span>
+	以 2 开头和以 1 开头的各有一种:
+	<span class="formula">
+		2 4 1 3, 1 4 2 3.
+	</span>
+</p>
+
+<h2>队列</h2>
+
+<p class="definition">
+	<b>队列 (queue)</b>
+	是将插入与删除操作限定在两端进行的线性表, 一端只能删除元素, 称为队头;
+	一端只能插入元素, 称为队尾. 不含元素的队列称为空队列.
+	队列是一种先进先出 (FIFO, first in first out) 的结构.
+	队列常用于操作系统中需要等待的事务, 比如缓冲区队列, 请求队列等.
+</p>
+
+<h3>队列的存储</h3>
+
+<p class="data-structure">
+	<b>顺序队列 (循环队列)</b> 充分利用数组的空间,
+	一个大小为 <code>N+1</code> 的数组最多能容纳 <code>N</code> 个元素
+	, 其中下标 <code>i</code> 的下一个下标为
+	<code>next(i) := (i+1) % (N+1)</code>.
+	用指针 <code>front</code> 指示队头元素, <code>rear</code>
+	指示<b>队尾元素的下一个位置</b>, 这个位置不保存元素.
+	其中 <code>front == rear</code> 表示队列空, <code>front ==
+	next(rear)</code> 表示队列满.
+</p>
+
+<pre>
+struct Queue:
+	Type queue[N+1]
+	int front
+	int rear
+
+next(i):
+	return (i+1) % (N+1)
+
+init():
+	front = rear = 0
+
+is_empty():
+	return front == rear
+
+is_full():
+	return front == next(rear)
+
+# 使用前保证队列非空
+front():
+	return queue[front]
+
+# 使用前保证队列非空
+dequeue():
+	val = queue[front]
+	front = next(front)
+	return val
+
+enqueue(val):
+	if is_full():
+		error('overflow')
+	queue[rear] = val
+	rear = next(rear)
+</pre>
+
+<p class="data-structure">
+	<b>链式队列</b> 用一单链表表示队列,
+	<code>head</code> 指示队头元素,
+	<code>tail</code> 指示队尾元素. 以 <code>head == NULL</code>
+	表示空队列, 注意空队列时, <code>tail</code> 的取值无意义.
+	链式队列克服了顺序存储队列可能溢出的缺点.
+</p>
+
+<pre>
+struct QueueNode:
+	Type val
+	QueueNode *next
+struct LinkQueue:
+	QueueNode *head
+	QueueNode *tail
+
+init():
+	head = NULL
+
+is_empty():
+	return head == NULL
+
+# 使用前保证队列非空
+front():
+	return head-&gt;val
+
+# 使用前保证队列非空
+dequeue():
+	tmp = head
+	val = tmp-&gt;val
+	head = head-&gt;next
+	delete tmp
+	return val
+
+enqueue(val):
+	if is_empty():
+		head = tail = new QueueNode(val, NULL)
+	else: # 尾插法
+		tail = tail-&gt;next = new QueueNode(val, NULL)
+</pre>
+
+<p class="remark">
+	链式队列与链栈的实现代码几乎一样,
+	除了链式队列的 <code>enqueue</code>
+	需要先判断队列非空, 在非空情形下用尾插法.
+	而链栈的 <code>push</code> 直接从头部插入即可;
+</p>
+
+<h3>队列归并问题*</h3>
+
+<p>	设数字 1 到 n 以某一次序排成一队列,
+	将序列分成 k 个不相交子序列的并, 使得每个子序列都呈升序
+	(子序列中的相邻元素在原序列中不一定相邻).
+	再作 k 路归并, 可得到 1 到 n 的升序队列.
+	求 k 的最小值.
+	如序列 8 4 2 5 3 9 1 6 7 可分为 4 个子序列
+	8 9, 4 5 6 7, 2 3 和 1.
+</p>
+
+<h2>双端队列与受限双端队列*</h2>
+
+<ol class="definition">
+	<b>双端队列</b> 是将插入与删除操作限定在两端进行的线性表,
+	两端都能进行插入与删除.
+	<li>如果限定双端队列从一端插入的元素只能从同一端删除,
+		则双端队列退化为两个栈.
+	</li>
+	<li><b>输入受限的双端队列</b> 两端都允许删除, 但只许在一端插入.
+		换言之, 是一个允许删除栈底元素的栈.
+	</li>
+	<li><b>输出受限的双端队列</b> 两端都允许插入, 但只许在一端删除.
+		换言之, 是一个允许在栈底插入元素的栈.
+	</li>
+	输入受限和输出受限的双端队列都同时具备栈与队列的功能.
+</ol>
+
+<ol class="example">
+	设有双端队列 Q, 进队序列为 1 到 n, 记数字 i 出队时, 数字 1 到 i-1
+	中仍在队列中的那些元素组成的子序列为 `S_i`.
+	<li>若 Q 为输入受限的双端队列, `S_i` 必然呈升序,
+		因此 `S_i` 中最先出队的, 不是最大值, 就是最小值.
+	</li>
+	<li>若 Q 为输出受限的双端队列, `S_i` 的当前顺序就是它们的出队顺序.
+		但 `S_i` 是由队列的两端插入得到的, 所以 `S_i` 的最小值位于中间,
+		以这个最小值为分界, 前半部呈降序, 后半部呈升序.
+	</li>
+	最后, 由于输入受限和输出受限的双端队列从概念上是对称的,
+	因此, 输入受限的双端队列的进队序列为 1 到 n 的全体可能出队序列,
+	相当于输出受限的双端队列的出队序列为 1 到 n 的全体可能进队序列;
+	反之亦然.
+</ol>
+
+<ol class="example">
+	求进队序列为 1 2 3 4 时,
+	<li>所有能由输入受限的双端队列得到,
+		但不能由输出受限的双端队列得到的出队序列;
+	</li>
+	<li>所有能由输出受限的双端队列得到,
+		但不能由输入受限的双端队列得到的出队序列;
+	</li>
+	<li>所有输出受限或输入受限的双端队列都不能得到的出队序列.</li>
+</ol>
+
+<p class="solution">
+	容易知道, 所求的三类出队序列均不能由栈得到, 即这三类出队序列必在<a
+	class="ref" href="#exp-stack-1234"></a>中 10 个序列当中.
+	在这些序列中验证可知, 不能由输入受限的双端队列得到的出队序列有
+	4 2 3 1, 4 2 1 3; 不能由输出受限的双端队列得到的出队序列有
+	4 1 3 2, 4 2 3 1. 因此题 1. 的答案是
+	4 1 3 2; 题 2. 的答案是 4 2 1 3; 题 3. 的答案是 4 2 3 1.
+</p>
+
+<h2>栈与表达式求值</h2>
+
+<p>	后缀表达式可以视为后序遍历表达式树的结果 (见二叉树一章),
+	同一表达式的后缀版本和中缀版本, 操作数的次序完全相同.
+	类似地, 前缀和中缀表达式分别是前序和中序遍历表达式树的结果.
+	如下面的表达式树, 其前, 中, 后缀表达式分别为:
+	<code>+/ab/-*cd*efg</code>,
+	<code>a/b+(c*d-e*f)/g</code> 和
+	<code>ab/cd*ef*-g/+</code>.
+</p>
+
+<pre>
+          +
+		/   \
+	   &#247;     &#247;
+	  / \   / \
+	 a   b -   g
+	      / \
+		 *   *
+	    / \ / \
+	    c d e f
+</pre>
+
+<p class="algorithm">
+	<b>后缀表达式求值</b>
+	设一操作数栈.  顺序扫描表达式, 若是数字则入栈;
+	若是运算符 op, 则从栈中先后取出操作数 y 和 x, 并执行 x op y,
+	将结果存入栈中. 处理完表达式后, 栈顶元素就是计算的结果.
+</p>
+
+<ol class="algorithm">
+	<b>中缀表达式化为后缀表达式</b>
+	设一运算符栈, 用于保存未完成匹配的左括号与未完成计算的运算符的序列.
+	顺序扫描中缀表达式, 按下列要求输出到后缀表达式中:
+	<li>若读到操作数, 直接输出;</li>
+	<li>若读到左括号, 将其入栈;</li>
+	<li>若读到右括号, 当栈非空时, 把栈中元素依次弹出并输出,
+		直到遇到第一个左括号 (左括号丢弃即可, 后缀表达式不需要括号);
+		如果直到栈空仍未遇见左括号, 说明右括号过多, 括号不匹配;
+	</li>
+	<li>若读到运算符 op, 当栈非空, 且栈顶不是左括号,
+		且栈顶运算符的优先级 &ge; op 的优先级时, 反复将栈顶元素弹出并输出;
+		再将 op 入栈;
+	</li>
+	<li>当中缀表达式扫描完毕, 将栈中剩余符号依次弹出并输出;
+		若栈中还剩有左括号, 说明左括号过多, 括号不匹配.
+	</li>
+	在本算法中,
+	如处理中缀表达式 <code>a/b+(c*d-e*f)/g</code> 时,
+	扫描到 <code>f</code> 的时候, 栈中的元素是 (从底到顶):
+	<code>+(-*</code>.
+</ol>
+
+<p class="algorithm">
+	<b>算符优先法</b> 
+	直接处理中缀表达式.
+	规定前后相邻两个运算符 `theta_1`, `theta_2` 间的优先级如下表.
+	为了先计算括号内, 再计算括号外, 规定加减乘除的优先级均低于左括号,
+	但高于右括号. 另外加减的优先级低于乘除, 而加减之间 (或乘除之间)
+	是从左往右计算的, 所以同一运算符, `theta_1` 优先于 `theta_2`.
+	令左括号与右括号的优先级 "相等", 表示括号相匹配.
+	EOL 为行结束符, 我们在表达式左端也虚设一个 EOL, 和结尾的 EOL 相匹配.
+	N 表示不可比较, 遇到这种情况说明表达式出错.
+</p>
+
+<table>
+	<tr>
+		<td>`theta_1 \\ theta_2`</td>
+		<td>+</td>
+		<td>-</td>
+		<td>*</td>
+		<td>/</td>
+		<td>(</td>
+		<td>)</td>
+		<td>EOL</td>
+	</tr>
+	<tr>
+		<td>+</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+	</tr>
+	<tr>
+		<td>-</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&lt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+	</tr>
+	<tr>
+		<td>/</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&lt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+	</tr>
+	<tr>
+		<td>(</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>=</td>
+		<td>N</td>
+	</tr>
+	<tr>
+		<td>)</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+		<td>N</td>
+		<td>&gt;</td>
+		<td>&gt;</td>
+	</tr>
+	<tr>
+		<td>EOL</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>&lt;</td>
+		<td>N</td>
+		<td>=</td>
+	</tr>
+</table>
+
+<p>	我们可以用数字 0-6 表示这些运算符, 并用
+	<code>char precede[7][7]</code>
+	保存这个优先级表. 算法设两个栈, <code>operator</code> 保存算符,
+	<code>operand</code> 保存值.
+</p>
+
+<pre>
+struct Token:
+	int type
+	int val
+
+eval():
+	stack operator, operand
+	operator.push(EOL)
+	t = get_token()
+	while operator:
+		if t.type == NUM:
+			operand.push(t.val)
+			t = get_token()
+		else: # t.type == OP
+			prec = precede[operator.top()][t.val]
+			if prec == '&lt;':
+				operator.push(t.val)
+				t = get_token()
+			elif prec == '=':
+				operator.pop()
+				t = get_token()
+			elif prec == '&gt;':
+				theta = operator.pop()
+				b = operand.pop()
+				a = operand.pop()
+				res = calculate(theta, a, b)
+				operand.push(res)
+			else:
+				error()
+	return operand.top()
+</pre>
+
+<h2>特殊栈/队列</h2>
+
+<p class="data-structure">
+	<b>min 栈</b>
+	用双倍的空间, 可以在 O(1) 的时间求得栈内元素的最小值.
+</p>
+
+<pre>
+struct MinStack:
+	Stack min
+	Stack main
+
+init():
+	min.init()
+	main.init()
+
+push(val):
+	if min.is_empty():
+		min.push(val)
+	else:
+		min.push(min(min.top(), val))
+	main.push(val)
+
+pop(val):
+	min.pop()
+	return main.pop()
+
+# 使用前保证栈非空
+get_min():
+	return min.top()
+</pre>
+
+<p class="data-structure">
+	<b>双栈模拟的队列</b>
+	栈 <code>s1</code> 用于入队, 栈 <code>s2</code> 用于出队.
+	如果 <code>s1</code> 满而 <code>s2</code> 空, 则将 <code>s1</code>
+	的元素转移到 <code>s2</code>. 如果 <code>s1</code>
+	满而 <code>s2</code> 非空, 则队列已满.
+</p>
+
+<pre>
+Stack s1, s2
+
+is_empty():
+	return s1.is_empty() and s2.is_empty()
+
+move():
+	while !s1.is_empty():
+		s2.push(s1.pop())
+
+enqueue(val):
+	if s1.is_full():
+		if s2.is_empty():
+			move()
+		else:
+			error('overflow')
+	s1.push(val)
+
+# 使用前保证队列非空
+dequeue():
+	if s2.is_empty():
+		move()
+	return s2.pop()
+</pre>
+
+<script src="../js/note.js?type=cs&loadmath=true"></script>
+
+</body>
+
+</html>

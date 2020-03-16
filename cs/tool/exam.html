@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>exam</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../css/note.css"/>
+<style>
+label {
+	margin-left: 10px;
+}
+.warning {
+	color: red;
+}
+#main li > span {
+	display: block;
+	margin: 7px 0;
+}
+#main li > span > span {
+	margin: 0 10px;
+}
+#result {
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	color: #45a;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>模拟考试</h1>
+
+<form id="form"><ol id="main"></ol></form>
+
+<button onclick="check()">submit</button>
+
+<div id="result"></div>
+
+<script>
+'use strict';
+(function(){
+var questions = [ {
+	body:'第一题...',
+	choices:[
+		{label:'第一选项'},
+		{label:'第二选项'},
+		{label:'第三选项', isAnswer:true},
+		{label:'第四选项'}
+	]}, {
+	body:'第二题...',
+	choices:[
+		{label:'第一选项'},
+		{label:'第二选项'},
+		{label:'第三选项', isAnswer:true},
+		{label:'第四选项'}
+	]}, {
+	body:'第三题...',
+	choices:[
+		{label:'第一选项'},
+		{label:'第二选项'},
+		{label:'第三选项', isAnswer:true},
+		{label:'第四选项'}
+	]}, {
+	body:'第四题...',
+	choices:[
+		{label:'第一选项'},
+		{label:'第二选项'},
+		{label:'第三选项', isAnswer:true},
+		{label:'第四选项'}
+	]},
+];
+
+var answers = [];
+var frag = document.createDocumentFragment();
+function compare() {
+	return 0.5-Math.random();
+}
+for (var i = 0; i < questions.length; ++i) {
+	var li = document.createElement('li');
+	li.innerHTML = questions[i].body + '<br/>';
+	questions[i].choices.sort(compare); // shuffle the choices
+	var choices = document.createElement('span');
+	for (var j = 0; j < questions[i].choices.length; ++j) {
+		var span = document.createElement('span');
+		var input = document.createElement('input');
+		var label = document.createElement('label');
+		input.type = 'radio';
+		input.name = 'q' + (i+1);
+		input.value = j+1;
+		input.id = input.name + '-' + input.value;
+		label.setAttribute('for', input.id);
+		label.innerHTML = String.fromCharCode(65+j) + '. '
+			+ questions[i].choices[j].label;
+		if (questions[i].choices[j].isAnswer) {
+			answers.push(j+1);
+		}
+		span.appendChild(input);
+		span.appendChild(label);
+		choices.appendChild(span);
+	}
+	var warning = document.createElement('span');
+	warning.className = 'warning';
+	li.appendChild(choices);
+	li.appendChild(warning);
+	frag.appendChild(li);
+}
+
+var main = document.getElementById('main');
+main.appendChild(frag);
+var form = document.getElementById('form');
+
+function getRadioValue(name) {
+	var radioGroup = form.elements[name];
+	for (var i = 0; i < radioGroup.length; ++i)
+		if (radioGroup[i].checked)
+			return radioGroup[i].value;
+}
+
+window.check = function() {
+	var correct = 0;
+	var isValid = true;
+	for (var i = 0; i < answers.length; ++i) {
+		var value = getRadioValue('q' + (i+1));
+		if (!value) {
+			isValid = false;
+			main.children[i].lastChild.innerHTML = 'please answer';
+		} else {
+			main.children[i].lastChild.innerHTML = '';
+		}
+	}
+	if (!isValid)
+		return;
+	for (var i = 0; i < answers.length; ++i) {
+		var value = getRadioValue('q' + (i+1));
+		if (value != answers[i]) {
+			var answer = String.fromCharCode(64+answers[i]);
+			main.children[i].lastChild.innerHTML = 'answer: ' + answer;
+		} else {
+			++correct;
+		}
+	}
+	var res = document.getElementById('result');
+	res.innerHTML = 'score: ' + correct + '/' + answers.length;
+}
+})();
+</script>
+
+</body>
+
+</html>
