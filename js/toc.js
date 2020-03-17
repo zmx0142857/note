@@ -237,4 +237,9 @@ var tocCs = [ {
   ]
 }];
 
-var tocPhysics = [];
+var tocPhysics = [{
+	title:'力学',
+	articles: [
+		{title:'绪论', src:'mechanics/1.html'},
+	]
+}];
