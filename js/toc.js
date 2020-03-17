@@ -15,7 +15,7 @@ var tocMath = [ {
     {title:'初等代数', src:'misc/4.html', isnew:true},
     {title:'因式分解', src:'misc/5.html'},
     {title:'数学家', src:'misc/6.html'},
-    {title:'算术', src:'misc/7.html'},
+    {title:'算术与进制', src:'misc/7.html'},
   ]
 }, {
   title:'高等代数',
@@ -238,8 +238,14 @@ var tocCs = [ {
 }];
 
 var tocPhysics = [{
-	title:'力学',
-	articles: [
-		{title:'绪论', src:'mechanics/1.html'},
-	]
+  title:'未分类',
+  articles: [
+    {title:'单位与数量', src:'misc/1.html'},
+    {title:'物理学家', src:'misc/6.html'},
+  ]
+}, {
+  title:'力学',
+  articles: [
+    {title:'质点运动学', src:'mechanics/1.html'},
+  ]
 }];
