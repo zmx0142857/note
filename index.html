@@ -433,15 +433,17 @@ book.onchange = function() {
 }
 
 // load data & find pos
-var arg = localStorage['book'];
-if (arg)
-  book.value = arg;
-loadToc();
-/* arg = getQuery();
-if (arg.g && arg.a)
+var arg = getQuery();
+if (arg.b && arg.g && arg.a) {
+  book.value = arg.b;
   src = arg.g + '/' + arg.a + '.html'; 
-else*/
+} else {
+  arg = localStorage['book'];
+  if (arg)
+    book.value = arg;
   src = localStorage['src'] || tableOfContents[0].articles[0].src;
+}
+loadToc();
 pos = [0, 0];
 for (var i = 0; i < tableOfContents.length; ++i) {
   for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
