@@ -12,7 +12,9 @@
 
 <body>
 
-<p> 作直线运动的质点, 其位置 `s`, 速度 `v`, 加速度 `a` 是时间 `t` 的函数,
+<p class="example">
+	<b>直线运动</b>
+	作直线运动的质点, 其位置 `s`, 速度 `v`, 加速度 `a` 是时间 `t` 的函数,
 	其中
 	<span class="formula">
 		`v = ("d"s)/dt`, `quad a = ("d"v)/dt`.
@@ -21,7 +23,7 @@
 	<span class="formula">
 		`v = v_0 + a t`, `quad s = s_0 + v_0 t + 1/2 a t^2`.
 	</span>
-	两式消去 `t` 得到
+	上式消去 `t` 得到
 	<span class="formula">
 		`s - s_0 = t(v_0 + 1/2 a t)`
 		`= (v-v_0)/a (v_0 + 1/2 (v-v_0))`
@@ -34,11 +36,80 @@
 	其中 `Delta s = s - s_0` 表示末位置与初位置的差, 称为位移.
 </p>
 
-<p>	作曲线运动的质点, 其位置 (又叫位矢) `bm r`, 速度 `bm v`, 加速度 `bm a`
+<p class="example">
+	<b>曲线运动</b>
+	作曲线运动的质点, 其位置 (又叫位矢) `bm r`, 速度 `bm v`, 加速度 `bm a`
 	是矢量 (在手写时通常写成 `vec r`, `vec v`, `vec a`), 它们满足
 	<span class="formula">
 		`bm v = ("d"bm r)/dt`, `quad bm a = ("d"bm v)/dt`.
 	</span>
+	速度的大小 `v = |bm v|` 称为速率, 满足
+	<span class="formula">
+		`v = ("d"s)/dt`,
+	</span>
+	`"d"s` 为弧长微元.
+</p>
+
+<ol class="example">
+	<b>抛体运动</b> 可以分解为水平方向的匀速运动和竖直方向的匀加速运动.
+	设 `t = 0` 时质点位于原点,
+	初速度大小为 `v_0`, 方向与 `x` 轴成 `alpha` 角, 则参数方程为
+	<span class="formula">
+		`dx/dt = v_0 cos alpha`, `quad dy/dt = v_0 sin alpha - g t`.
+	</span>
+	积分得到
+	<span class="formula">
+		`x = v_0 t cos alpha`, `quad y = v_0 t sin alpha - 1/2 g t^2`.
+	</span>
+	上式消去 `t` 得到轨迹方程
+	<span class="formula">
+		`y = x tan alpha - g/2 (x/(v_0 cos alpha))^2`,
+	</span>
+	这是抛物线方程.
+	<li>
+	观察方程知, 抛体运动还可以分解为沿初速度方向的直线运动
+	`y = x tan alpha` 和自由落体运动 `y = -1/2 g t^2` 之和.
+	</li>
+	<li>
+	在抛物线的顶点处有 `dy/dt = 0`, 即 `t = v_0 sin alpha // g`, 代入
+	`y(t)` 的表达式得
+	<span class="formula">
+		`y_(max) = (v_0^2 sin^2 alpha)/(2g)`,
+	</span>
+	因此 `alpha = 90^@` 时抛体运动具有最大射高.
+	</li>
+	<li>
+	另一方面, 在抛物线与 `x` 轴的交点处有 `y = 0`, 即 `t = 0` 或 `2v_0 sin
+	alpha // g`. 后者代入 `x(t)` 的表达式得
+	<span class="formula">
+		`x_(max) = (v_0^2 sin 2 alpha) / g`,
+	</span>
+	因此 `alpha = 45^@` 时抛体运动具有最大射程.
+	此外若 `alpha_1 + alpha_2 = 90^@`, 由上式知道两个抛体运动具有相同射程.
+	</li>
+</ol>
+
+<p class="example">
+	<b>匀速圆周运动</b>
+	设 `t = 0` 时质点的相位为 `0`,
+	其角速度 `omega gt 0` 为常数, 圆周半径为 `R`, 则参数方程为
+	<span class="formula">
+		`x = R cos omega t`, `quad y = R sin omega t`.
+	</span>
+	求导得
+	<span class="formula">
+		`v_x = -omega R sin omega t`, `quad v_y = omega R cos omega
+		t`,<br/>
+		`a_x = -omega^2 R cos omega t`, `quad a_y = -omega^2 R sin omega
+		t`.
+	</span>
+	速度大小和加速度大小分别为
+	<span class="formula">
+		`v = sqrt(v_x^2 + v_y^2) = omega R`,<br/>
+		`a = sqrt(a_x^2 + a_y^2) = omega^2 R = v^2 / R`.
+	</span>
+	用向量内积容易验证 `bm v _|_ bm a`, 这不是巧合,
+	事实上, 曲线在取定弧长参数时, 切向量的导数总是与自身垂直 (见微分几何).
 </p>
 
 <script src="../js/note.js?type=math"></script>
