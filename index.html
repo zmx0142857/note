@@ -70,7 +70,7 @@ header span {
   white-space: nowrap;
 }
 
-.notify {
+#notify {
 	position: fixed;
 	top: 10px;
 	left: 40%;
@@ -335,11 +335,13 @@ function headerVisible(flag) {
 }
 
 function jump() {
-  var notify = document.createElement('div');
+  var notify = $('#notify');
+  if (notify) document.body.removeChild(notify);
+  notify = $('<div>');
   notify.innerText = '加载中...';
-  notify.className = 'notify';
+  notify.id = 'notify';
   document.body.appendChild(notify);
-  iframe.onload = function(){document.body.removeChild(notify)};
+  iframe.onload = function(){ document.body.removeChild(notify) };
 
   localStorage['src'] = src;
   iframe.setAttribute('src', bookname + '/' + src);
