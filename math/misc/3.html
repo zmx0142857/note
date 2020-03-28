@@ -12,47 +12,6 @@
 
 <body>
 
-<h2>p 级数部分和 `sum_(k=1)^n 1/k^p` 的估计</h2>
-
-<p class="example">
-	设 `k ge 2`, 有
-	<span class="formula">
-		`1/(k(k+1)) lt 1/k^2 lt 1/(k(k-1))`.
-	</span>
-	在这个不等式两边求和, 可以得到 `sum_(k=a)^b 1/k^2` 的上下界估计. 如
-	<span class="formula">
-		`sum_(k=1)^n 1/k^2 gt sum_(k=1)^n 1/(k(k+1)) = 1 - 1/(n+1)`,
-		`quad n ge 1`.
-	</span>
-	然而这个结果没有什么用, 因为仅从第 1 项就可以看出它大于 1.
-	但我们可以从第 2 项开始放缩, 得到
-	<span class="formula">
-		`sum_(k=1)^n 1/k^2 gt 1 + sum_(k=2)^n 1/(k(k+1)) = 3/2 - 1/(n+1)`,
-		`quad n ge 2`.
-	</span>
-	这是一个更好的下界. 现在估计它的上界, 有
-	<span class="formula">
-		`sum_(k=1)^n 1/k^2 lt 2 - 1/n`, `quad n ge 2`.
-	</span>
-	若 `n ge 3`, 从第 3 项开始放缩, 上界可降低到 `7/4 - 1/n`.
-	若从第 4 项开始放缩, 可进一步降低至 `61/36 - 1/n`.
-	事实上, Basel 问题告诉我们,
-	<span class="formula">
-		`sum_(k=1)^oo 1/k^2 = pi^2/6 = 1.644934...`
-	</span>
-	类似地, 我们还有
-	<span class="formula">
-		`1/(sqrt k + sqrt(k+1)) lt 1/(2 sqrt k) lt 1/(sqrt
-		k + sqrt(k-1))`, `quad k ge 2`.
-	</span>
-	以及 (<a href="../analysis/2.html">证明在这里</a>)
-	<span class="formula">
-		`ln{:(k+1)/k:} lt 1/k lt ln{:k/(k-1):}`, `quad k ge 2`.
-	</span>
-	两边求和就可得到 `sum_(k=a)^b 1/sqrt k`,
-	`sum_(k=a)^b 1/k` 的上下界.
-</p>
-
 <h2>Cauchy-Schwarz 不等式</h2>
 
 <p class="theorem">
@@ -586,9 +545,104 @@
 	时, 分别取得最小值, 调和平均, 几何平均, 算术平均和最大值.
 </p>
 
-<h2>积分不等式</h2>
+<h2>微积分不等式</h2>
 
-<a href="https://wenku.baidu.com/view/ea9c16d649649b6648d7471a.html">欧阳资考.  2011. 利用凸函数证明积分不等式. 高等教育, 第 107 期</a>
+<p class="theorem">
+	<b>曲边梯形不等式</b>
+	设 `f` 是 `[a, b]` 上可积的下凸函数, 则
+	<span class="formula">
+		`f((a+b)/2) le 1/(b-a) int_a^b f(x) dx le (f(a)+f(b))/2`.
+	</span>
+	当 `f` 严格凸时, 不等号严格成立.
+	这个不等式的几何意义是, `f` 的图像在 `[a,b]` 上围成的曲边梯形面积
+	大于它在 `x = (a+b)/2` 处的内切梯形面积, 但小于它的外接梯形面积.
+	<span class="img" style="height:18em">
+		<img src="../img/trapeziod-with-curve-side-inequality.svg">
+	</span>
+</p>
+
+<p class="proof">
+	记 `I = 1/(b-a) int_a^b f(x) dx`,
+	令 `x = a + t(b-a) = (1-t)a + t b`, 则
+	<span class="formula">
+		`I = int_0^1 f[(1-t)a+t b] dt`
+		`le int_0^1 [(1-t) f(a) + t f(b)] dt`
+		`= (f(a)+f(b))/2`.
+	</span>
+	另一方面, 令 `x = a+b-s`,
+	<span class="formula">
+		`(b-a) I = int_a^b f(a+b-s) "d"s`
+		`= 1/2 int_a^b [f(x) + f(a+b-x)] dx`
+		`ge int_a^b f((x+a+b-x)/2) dx`
+		`= (b-a)f((a+b)/2)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>对数均值不等式 (ALG 不等式, <del>奥利给不等式</del>)</b>
+	设 `a, b` 是不相等的正数, 则
+	<span class="formula">
+		`(a+b)/2 gt (a-b)/(ln a - ln b) gt sqrt(a b)`,
+	</span>
+	即 `A gt L gt G`. 这一不等式刻画了 `ln {:a/b:}` 的上下界.
+</p>
+
+<p class="proof">
+	微分学的证明. 设
+	<span class="formula">
+		`f(x) = sqrt x - 1/sqrt x - ln x`,
+		`quad g(x) = 2 (x-1)/(x+1) - ln x`.
+	</span>
+	计算知 `f(1) = g(1) = 0 = ln(1)`, 且在 `(0, +oo)` 上
+	`f'(x) ge 0`, `g'(x) le 0`. 于是得到:
+	`ln x` 的值介于 `sqrt x - 1/sqrt x` 和 `2(x-1)/(x+1)` 之间, 其中
+	<span class="formula">
+		`sqrt x - 1/sqrt x lt ln x lt 2(x-1)/(x+1)`, `quad 0 lt x lt 1`,<br/>
+		`2(x-1)/(x+1) lt ln x lt sqrt x - 1/sqrt x`, `quad x gt 1`.
+	</span>
+	不妨设 `a gt b`, 取 `x = a/b`, 得到
+	<span class="formula">
+		`2(a-b)/(a+b) lt ln a - ln b lt sqrt(a/b) - sqrt(b/a)`.
+	</span>
+	不等号两边同除以 `a-b` 即得证.
+</p>
+
+<p class="proof">
+	积分学的证明.
+	分别在 `[a, b]` 和 `[a, sqrt(a b)]` 上对 `f(x) = 1/x`
+	应用曲边梯形不等式, 有
+	<span class="formula">
+		`2/(a+b) lt (ln b - ln a)/(b-a)`,<br/>
+		`(ln sqrt(a b) - ln a)/(sqrt(a b) - a) lt (a^-1 + (a b)^(-1/2))/2`.
+	</span>
+	整理即得结论.
+</p>
+
+<p class="example">
+	若 `f(x) = "e"^x - a x` 有两个不同的零点 `x_1`, `x_2`, 则
+	<span class="formula">
+		`x_1 x_2 lt 1`, `quad 2 lt x_1 + x_2 lt 2 ln a`.
+	</span>
+</p>
+
+<p class="proof">
+	由题意
+	<span class="formula">
+		`"e"^(x_1) = a x_1`, `quad "e"^(x_2) = a x_2`,
+	</span>
+	取对数得
+	<span class="formula">
+		`x_1 = ln a + ln x_1`, `quad x_2 = ln a + ln x_2`.
+		<span class="label" id="for-zeros-e^x-ax"></span>
+	</span>
+	因此 `x_1 - x_2 = ln x_1 - ln x_2`. 由对数均值不等式有
+	<span class="formula">
+		`sqrt(x_1 x_2) lt 1 lt (x_1+x_2)/2`,
+	</span>
+	从而得 `x_1 x_2 lt 1`, `x_1 + x_2 gt 2`.
+	再由 <a class="ref" href="#for-zeros-e^x-ax"></a> 得到
+	`x_1 + x_2 = 2 ln a + ln x_1 x_2 lt 2 ln a`.
+</p>
 
 <p class="theorem">
 	<b>Jensen 不等式的积分形式</b>
@@ -604,7 +658,8 @@
 		`f(1/(b-a) int_a^b x(t) dt)`
 		`le 1/(b-a) int_a^b f(x(t)) dt`.
 	</span>
-	取 `g = -f` 知, 对上凸函数成立反向的不等号.
+	取 `g = -f` 知, 对上凸函数成立反向的不等号.<br/>
+	[<a href="https://wenku.baidu.com/view/ea9c16d649649b6648d7471a.html">欧阳资考.  2011. 利用凸函数证明积分不等式. 高等教育, 第 107 期</a>]
 </p>
 
 <p class="proof">
@@ -628,33 +683,9 @@
 
 <p class="remark">
 	假设定理中的 `x(t)` 在 `[a,b]` 上单调增, 于是 `f @ x` 仍是 `[a,b]`
-	上的下凸函数, 利用下面的定理类似的证明方法可以得到,
+	上的下凸函数, 类比曲边梯形不等式的证明方法可以得到,
 	<span class="formula">
 		`1/(b-a) int_a^b f(x(t)) dt le (f(x(a)) + f(x(b)))/2`.
-	</span>
-</p>
-
-<p class="theorem">
-	设 `f` 是 `[a, b]` 上可积的下凸函数. 则
-	<span class="formula">
-		`f((a+b)/2) le 1/(b-a) int_a^b f(x) dx le (f(a)+f(b))/2`.
-	</span>
-</p>
-
-<p class="proof">
-	记 `I = 1/(b-a) int_a^b f(x) dx`,
-	令 `x = a + t(b-a) = (1-t)a + t b`, 则
-	<span class="formula">
-		`I = int_0^1 f[(1-t)a+t b] dt`
-		`le int_0^1 [(1-t) f(a) + t f(b)] dt`
-		`= (f(a)+f(b))/2`.
-	</span>
-	另一方面, 令 `x = a+b-s`,
-	<span class="formula">
-		`(b-a) I = int_a^b f(a+b-s) "d"s`
-		`= 1/2 int_a^b [f(x) + f(a+b-x)] dx`
-		`ge int_a^b f((x+a+b-x)/2) dx`
-		`= (b-a)f((a+b)/2)`.
 	</span>
 </p>
 
@@ -804,6 +835,46 @@
 </ol>
 
 <h2>杂例</h2>
+
+<p class="example">
+	<b>p 级数部分和 `sum_(k=1)^n 1/k^p` 的估计</b>
+	设 `k ge 2`, 有
+	<span class="formula">
+		`1/(k(k+1)) lt 1/k^2 lt 1/(k(k-1))`.
+	</span>
+	在这个不等式两边求和, 可以得到 `sum_(k=a)^b 1/k^2` 的上下界估计. 如
+	<span class="formula">
+		`sum_(k=1)^n 1/k^2 gt sum_(k=1)^n 1/(k(k+1)) = 1 - 1/(n+1)`,
+		`quad n ge 1`.
+	</span>
+	然而这个结果没有什么用, 因为仅从第 1 项就可以看出它大于 1.
+	但我们可以从第 2 项开始放缩, 得到
+	<span class="formula">
+		`sum_(k=1)^n 1/k^2 gt 1 + sum_(k=2)^n 1/(k(k+1)) = 3/2 - 1/(n+1)`,
+		`quad n ge 2`.
+	</span>
+	这是一个更好的下界. 现在估计它的上界, 有
+	<span class="formula">
+		`sum_(k=1)^n 1/k^2 lt 2 - 1/n`, `quad n ge 2`.
+	</span>
+	若 `n ge 3`, 从第 3 项开始放缩, 上界可降低到 `7/4 - 1/n`.
+	若从第 4 项开始放缩, 可进一步降低至 `61/36 - 1/n`.
+	事实上, Basel 问题告诉我们,
+	<span class="formula">
+		`sum_(k=1)^oo 1/k^2 = pi^2/6 = 1.644934...`
+	</span>
+	类似地, 我们还有
+	<span class="formula">
+		`1/(sqrt k + sqrt(k+1)) lt 1/(2 sqrt k) lt 1/(sqrt
+		k + sqrt(k-1))`, `quad k ge 2`.
+	</span>
+	以及 (<a href="../analysis/2.html">证明在这里</a>)
+	<span class="formula">
+		`ln{:(k+1)/k:} lt 1/k lt ln{:k/(k-1):}`, `quad k ge 2`.
+	</span>
+	两边求和就可得到 `sum_(k=a)^b 1/sqrt k`,
+	`sum_(k=a)^b 1/k` 的上下界.
+</p>
 
 <ol class="example">
 	<b>二元均值不等式应用</b>
