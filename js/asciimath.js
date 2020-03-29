@@ -388,7 +388,7 @@ AM.symbols = AM.symbols.concat([
 {input:'mathtt',tag:'mstyle',atname:'mathvariant',atval:'monospace',output:'mathtt',tex:null,ttype:UNARY},
 {input:'fr',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'fr',tex:'mathfrak',ttype:UNARY,notexcopy:true},
 {input:'mathfrak',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'mathfrak',tex:null,ttype:UNARY},
-{input:'bm',tag:'mstyle',atname:'mathvariant',atval:'bold-italic',output:'bm',tex:null,ttype:UNARY},
+{input:'bm',tag:'mstyle',atname:'mathvariant',atval:'bold-italic',output:'bm',tex:'boldsymbol',ttype:UNARY},
 {input:'rm',tag:'mstyle',atname:'mathvariant',atval:'serif',output:'rm',tex:'mathrm',ttype:UNARY},
 
 // zmx add
@@ -948,7 +948,7 @@ function parseS() {
       if (res.slice(-1) == '|')
         return '{\\left|' + res + '}';
       AMbegin = rewind;
-      return '{|}';
+      return '\\mid';
     }
     st = res.lastChild ? res.lastChild.firstChild.nodeValue : '';
     if (st == '|') { // absolute value subterm
@@ -956,9 +956,8 @@ function parseS() {
       node = $math('mrow', node);
       node.appendChild(res);
     } else {
-      // the '|' is a \mid so use \u2223 (divides) for spacing
-      node = $math('mo', $text('\u2223'));
-      node = $math('mrow', node);
+      // the '|' is a \mid so maybe use \u2223 (divides) for spacing??
+      node = $math('mo', $text('|'));
       AMbegin = rewind;
     }
     return node;

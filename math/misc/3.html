@@ -553,7 +553,7 @@
 	<span class="formula">
 		`f((a+b)/2) le 1/(b-a) int_a^b f(x) dx le (f(a)+f(b))/2`.
 	</span>
-	当 `f` 严格凸时, 不等号严格成立.
+	当 `f` 严格凸且 `a lt b` 时, 不等号严格成立.
 	这个不等式的几何意义是, `f` 的图像在 `[a,b]` 上围成的曲边梯形面积
 	大于它在 `x = (a+b)/2` 处的内切梯形面积, 但小于它的外接梯形面积.
 	<span class="img" style="height:18em">
@@ -582,9 +582,30 @@
 	<b>对数均值不等式 (ALG 不等式, <del>奥利给不等式</del>)</b>
 	设 `a, b` 是不相等的正数, 则
 	<span class="formula">
-		`(a+b)/2 gt (a-b)/(ln a - ln b) gt sqrt(a b)`,
+		`sqrt(a b) lt (a-b)/(ln a - ln b) lt (a+b)/2`,
 	</span>
 	即 `A gt L gt G`. 这一不等式刻画了 `ln {:a/b:}` 的上下界.
+</p>
+
+<p class="proof">
+	积分学的证明.
+	在 `[u,v]` 上对 `f(x) = "e"^x` 应用曲边梯形不等式,
+	得到对数均值不等式的指数形式:
+	<span class="formula">
+		`"e"^((u+v)/2) lt ("e"^v-"e"^u)/(v-u) lt ("e"^u+"e"^v)/2`,
+	</span>
+	令 `"e"^u = a`, `"e"^v = b` 即得证.
+</p>
+
+<p class="proof">
+	又一积分学的证明.
+	分别在 `[a, b]` 和 `[a, sqrt(a b)]` 上对 `f(x) = 1/x`
+	应用曲边梯形不等式, 有
+	<span class="formula">
+		`2/(a+b) lt (ln b - ln a)/(b-a)`,<br/>
+		`(ln sqrt(a b) - ln a)/(sqrt(a b) - a) lt (a^-1 + (a b)^(-1/2))/2`.
+	</span>
+	整理即得结论.
 </p>
 
 <p class="proof">
@@ -605,17 +626,6 @@
 		`2(a-b)/(a+b) lt ln a - ln b lt sqrt(a/b) - sqrt(b/a)`.
 	</span>
 	不等号两边同除以 `a-b` 即得证.
-</p>
-
-<p class="proof">
-	积分学的证明.
-	分别在 `[a, b]` 和 `[a, sqrt(a b)]` 上对 `f(x) = 1/x`
-	应用曲边梯形不等式, 有
-	<span class="formula">
-		`2/(a+b) lt (ln b - ln a)/(b-a)`,<br/>
-		`(ln sqrt(a b) - ln a)/(sqrt(a b) - a) lt (a^-1 + (a b)^(-1/2))/2`.
-	</span>
-	整理即得结论.
 </p>
 
 <p class="example">
