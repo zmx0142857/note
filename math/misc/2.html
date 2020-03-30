@@ -1007,6 +1007,64 @@
 	</span>
 </p>
 
+<p class="example">
+	求函数 `y = (sin x - 1)/(cos x - 2)` 的值域.
+</p>
+
+<p class="solution">
+	通用做法:
+	作万能代换 `t = tan{:x/2:}`, 则
+	<span class="formula">
+		`sin x = (2t)/(1+t^2)`, `quad cos x = (1-t^2)/(1+t^2)`,<br/>
+		`y = (2t - (1+t^2))/(1-t^2 -2(1+t^2))`
+		`= (t^2-2t+1)/(3t^2+1)`
+		`= 1/3 - (2t-2/3)/(3t^2+1)`.
+	</span>
+	令 `u = 2t-2/3`,
+	<span class="formula">
+		`y = 1/3 - u/(3/4 u^2 + u + 4/3)`
+		`= 1/3 - 1/(1 + (3u)/4 + 4/(3u))`.
+	</span>
+	从而
+	<span class="formula">
+		`|(3u)/4 + 4/(3u)| ge 2`,<br/>
+		`1 + (3u)/4 + 4/(3u) in (-oo, -1] uu [3, +oo)`,<br/>
+		`-1/(1+(3u)/4 + 4/(3u)) in [-1/3, 1]`,<br/>
+		`y in [0, 4/3]`.
+	</span>
+</p>
+
+<p class="solution">
+	变形得
+	<span class="formula">
+		`y cos x - sin x = 2y - 1`.
+	</span>
+	引入辅助角 `theta`, 满足
+	<span class="formula">
+		`cos theta = y/sqrt(1+y^2)`, `quad sin theta = 1/sqrt(1+y^2)`,
+	</span>
+	于是
+	<span class="formula">
+		`(2y-1)/sqrt(1+y^2) = cos(x + theta) in [-1, 1]`.
+	</span>
+	解不等式
+	<span class="formula">
+		`(2y-1)^2 le 1 + y^2`
+	</span>
+	得 `y in [0, 4/3]`.
+</p>
+
+<p class="solution">
+	联系几何意义, 原问题即求平面上点 (2,1) 到单位圆上一点连线的斜率范围.
+	这只需作出 (2,1) 到单位圆的切线.
+	从图像容易看出其中一条切线的斜率是 0, 另一切线的斜率等于
+	<span class="formula">
+		`tan(2arctan{:1/2:})`
+		`= (2 * 1/2)/(1- (1/2)^2)`
+		`= 4/3`.
+	</span>
+</p>
+
 </body>
 
 <script src="../js/note.js?type=math"></script>

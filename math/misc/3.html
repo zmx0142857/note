@@ -609,23 +609,26 @@
 </p>
 
 <p class="proof">
-	微分学的证明. 设
+	微分学的证明. 先证明 `b = 1` 的情形:
 	<span class="formula">
-		`f(x) = sqrt x - 1/sqrt x - ln x`,
-		`quad g(x) = 2 (x-1)/(x+1) - ln x`.
+		`sqrt x lt (x-1)/(ln x) lt (x+1)/2`,
+		<span class="label" id="for-lnx-estimate"></span>
 	</span>
-	计算知 `f(1) = g(1) = 0 = ln(1)`, 且在 `(0, +oo)` 上
-	`f'(x) ge 0`, `g'(x) le 0`. 于是得到:
-	`ln x` 的值介于 `sqrt x - 1/sqrt x` 和 `2(x-1)/(x+1)` 之间, 其中
+	即证
 	<span class="formula">
 		`sqrt x - 1/sqrt x lt ln x lt 2(x-1)/(x+1)`, `quad 0 lt x lt 1`,<br/>
 		`2(x-1)/(x+1) lt ln x lt sqrt x - 1/sqrt x`, `quad x gt 1`.
 	</span>
-	不妨设 `a gt b`, 取 `x = a/b`, 得到
+	换言之, `ln x` 的值介于 `sqrt x - 1/sqrt x` 和 `2(x-1)/(x+1)` 之间,
+	且三者的函数图像在 `x=1` 时相交.  设
 	<span class="formula">
-		`2(a-b)/(a+b) lt ln a - ln b lt sqrt(a/b) - sqrt(b/a)`.
+		`f(x) = sqrt x - 1/sqrt x - ln x`,
+		`quad g(x) = 2 (x-1)/(x+1) - ln x`.
 	</span>
-	不等号两边同除以 `a-b` 即得证.
+	计算知 `f(1) = g(1) = 0`, 且在 `(0, +oo)` 上
+	`f'(x) gt 0`, `g'(x) lt 0`.
+	于是 <a class="ref" href="#for-lnx-estimate"></a> 成立.<br/>
+	取 `x = a/b`, 再在不等号两边同乘 `b` 即得证.
 </p>
 
 <p class="example">
@@ -846,45 +849,60 @@
 
 <h2>杂例</h2>
 
-<p class="example">
-	<b>p 级数部分和 `sum_(k=1)^n 1/k^p` 的估计</b>
-	设 `k ge 2`, 有
-	<span class="formula">
-		`1/(k(k+1)) lt 1/k^2 lt 1/(k(k-1))`.
-	</span>
-	在这个不等式两边求和, 可以得到 `sum_(k=a)^b 1/k^2` 的上下界估计. 如
-	<span class="formula">
-		`sum_(k=1)^n 1/k^2 gt sum_(k=1)^n 1/(k(k+1)) = 1 - 1/(n+1)`,
-		`quad n ge 1`.
-	</span>
-	然而这个结果没有什么用, 因为仅从第 1 项就可以看出它大于 1.
-	但我们可以从第 2 项开始放缩, 得到
-	<span class="formula">
-		`sum_(k=1)^n 1/k^2 gt 1 + sum_(k=2)^n 1/(k(k+1)) = 3/2 - 1/(n+1)`,
-		`quad n ge 2`.
-	</span>
-	这是一个更好的下界. 现在估计它的上界, 有
-	<span class="formula">
-		`sum_(k=1)^n 1/k^2 lt 2 - 1/n`, `quad n ge 2`.
-	</span>
-	若 `n ge 3`, 从第 3 项开始放缩, 上界可降低到 `7/4 - 1/n`.
-	若从第 4 项开始放缩, 可进一步降低至 `61/36 - 1/n`.
-	事实上, Basel 问题告诉我们,
-	<span class="formula">
-		`sum_(k=1)^oo 1/k^2 = pi^2/6 = 1.644934...`
-	</span>
-	类似地, 我们还有
-	<span class="formula">
-		`1/(sqrt k + sqrt(k+1)) lt 1/(2 sqrt k) lt 1/(sqrt
-		k + sqrt(k-1))`, `quad k ge 2`.
-	</span>
-	以及 (<a href="../analysis/2.html">证明在这里</a>)
-	<span class="formula">
-		`ln{:(k+1)/k:} lt 1/k lt ln{:k/(k-1):}`, `quad k ge 2`.
-	</span>
-	两边求和就可得到 `sum_(k=a)^b 1/sqrt k`,
-	`sum_(k=a)^b 1/k` 的上下界.
-</p>
+<ol class="example">
+	<b>裂项估计 p 级数部分和 `sum_(k=1)^n 1/k^p`</b>
+	<li>设 `k ge 2`, 有
+		<span class="formula">
+			`1/k - 1/(k+1) = 1/(k(k+1)) lt 1/k^2 lt 1/(k(k-1)) = 1/(k-1) - 1/k`.
+		</span>
+		在这个不等式两边求和, 可以得到 `sum_(k=a)^b 1/k^2` 的上下界估计. 如
+		<span class="formula">
+			`sum_(k=1)^n 1/k^2 gt sum_(k=1)^n 1/(k(k+1)) = 1 - 1/(n+1)`,
+			`quad n ge 1`.
+		</span>
+		然而这个结果没有什么用, 因为仅从第 1 项就可以看出它大于 1.
+		但我们可以从第 2 项开始放缩, 得到
+		<span class="formula">
+			`sum_(k=1)^n 1/k^2 gt 1 + sum_(k=2)^n 1/(k(k+1)) = 3/2 - 1/(n+1)`,
+			`quad n ge 2`.
+		</span>
+		这是一个更好的下界. 现在估计它的上界, 有
+		<span class="formula">
+			`sum_(k=1)^n 1/k^2 lt 2 - 1/n`, `quad n ge 2`.
+		</span>
+		若 `n ge 3`, 从第 3 项开始放缩, 上界可降低到 `7/4 - 1/n`.
+		若从第 4 项开始放缩, 可进一步降低至 `61/36 - 1/n`.
+		事实上, Basel 问题告诉我们,
+		<span class="formula">
+			`sum_(k=1)^oo 1/k^2 = pi^2/6 = 1.644934...`
+		</span>
+	</li>
+	<li>一般地, 可以用不等式
+		<span class="formula">
+			`1/(a^2 k^2 + b k + c) lt (或 gt) 1/(a k+u) - 1/(a k+v)`
+		</span>
+		来得到通项的估计. 为了使不等式右端在求和时各项可以抵消, 要求 `u-v`
+		是 `a` 的整数倍. 比如
+		<span class="formula">
+			`1/k^2 lt 1/(k^2 - 1)` 或 `1/k^2 lt 1/(k^2 - 1/4)`.
+		</span>
+	</li>
+	<li>此外, 还有
+		<span class="formula">
+			`1/(sqrt k + sqrt(k+1)) lt 1/(2 sqrt k) lt 1/(sqrt
+			k + sqrt(k-1))`, `quad k ge 2`,<br/>
+			`1/(2 sqrt k) lt 1/(sqrt(k-1/2) + sqrt(k+1/2))`, `quad k ge 2`,
+		</span>
+		以及
+		<span class="formula">
+			`ln{:(k+1)/k:} lt 1/k lt ln{:k/(k-1):}`, `quad k ge 2`
+			(<a href="../analysis/2.html">证明在这里</a>),<br/>
+			`2/(2k+1) lt 1/(sqrt(k(k+1)))` (均值不等式),
+		</span>
+		两边求和就可得到 `sum_(k=a)^b 1/sqrt k`,
+		`sum_(k=a)^b 1/k` 的上下界.
+	</li>
+</ol>
 
 <ol class="example">
 	<b>二元均值不等式应用</b>
