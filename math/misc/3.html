@@ -980,40 +980,71 @@
 	<li>`x y + x^2 = (x y)/2 + (x y)/2 + x^2`. 后面是处理是容易的.</li>
 </ol>
 
-<ol class="example">
-	<b>用二元均值不等式导出三元不等式</b>
-	<li>已知 `a, b, c gt 0`, 则 `(a+b+c)^2 le 3(a^2 + b^2 + c^2)`;</li>
-	<li>已知 `a, b, c gt 0` 且 `a b c = 1`, 则 `sqrt a + sqrt b + sqrt
-		c le a b + b c + c a`.
-	</li>
-</ol>
+<p class="example">
+	已知 `a, b, c gt 0`, 则 `(a+b+c)^2 le 3(a^2 + b^2 + c^2)`.
+</p>
 
-<ol class="proof">
-	<li>即证
-		<span class="formula">
-			`a^2 + b^2 + c^2 + 2(a b + b c + c a) le 3(a^2 + b^2 + c^2)`,
-		</span>
-		即证
-		<span class="formula">
-			`a b + b c + c a le a^2 + b^2 + c^2`.
-		</span>
-		上式由 `2 a b le a^2+b^2`, `2 b c le b^2 + c^2` 和 `2 c a le c^2
-		+ a^2` 相加得到. 等号成立当且仅当 `a = b = c`.
-	</li>
-	<li>即证
-		<span class="formula">
-			`1/sqrt(b c) + 1/sqrt(c a) + 1/sqrt(a b)
-			le 1/a + 1/b + 1/c`,
-		</span>
-		上式由
-		<span class="formula">
-			`1/sqrt(b c) le 1/2(1/b + 1/c)`,
-			`quad 1/sqrt(c a) le 1/2(1/c + 1/a)`
-			`quad 1/sqrt(a b) le 1/2(1/a + 1/b)`
-		</span>
-		相加得到. 等号成立当且仅当 `a = b = c = 1/3`.
-	</li>
-</ol>
+<p class="proof">
+	这个不等式可以直接用 Cauchy 不等式得到.
+	现在用二元均值不等式证明之. 原式成立当且仅当
+	<span class="formula">
+		`a^2 + b^2 + c^2 + 2(a b + b c + c a) le 3(a^2 + b^2 + c^2)`,
+	</span>
+	即证
+	<span class="formula">
+		`a b + b c + c a le a^2 + b^2 + c^2`.
+	</span>
+	上式由 `2 a b le a^2+b^2`, `2 b c le b^2 + c^2` 和 `2 c a le c^2
+	+ a^2` 相加得到. 等号成立当且仅当 `a = b = c`.
+</p>
+
+<p class="example">
+	已知 `a, b, c gt 0` 且 `a b c = 1`, 则 `sqrt a + sqrt b + sqrt
+	c le a b + b c + c a`.
+</p>
+
+<p class="proof">
+	即证
+	<span class="formula">
+		`1/sqrt(b c) + 1/sqrt(c a) + 1/sqrt(a b)
+		le 1/a + 1/b + 1/c`,
+	</span>
+	上式由
+	<span class="formula">
+		`1/sqrt(b c) le 1/2(1/b + 1/c)`,
+		`quad 1/sqrt(c a) le 1/2(1/c + 1/a)`
+		`quad 1/sqrt(a b) le 1/2(1/a + 1/b)`
+	</span>
+	相加得到. 等号成立当且仅当 `a = b = c = 1/3`.
+</p>
+
+<p class="example">
+	已知 `a, b, c gt 0` 且 `a + b + c = 4 - sqrt(a b c)`,
+	则 `sqrt((b c)/a) + sqrt((c a)/b) + sqrt((a b)/c) ge a + b + c`.
+</p>
+
+<p class="proof">
+	由 `a + b + c = 4 - sqrt(a b c)` 应用四元均值不等式有
+	<span class="formula">
+		`5 - sqrt(a b c) = a + b + c + 1`
+		`ge 4 root 4(a b c)`,
+	</span>
+	解得 `root4(a b c) in [-5, 1]`.
+	现在证明原不等式. 原式等价于
+	<span class="formula">
+		`sqrt(a b c) (1/a + 1/b + 1/c) ge 4 - sqrt(a b c)`,
+	</span>
+	即
+	<span class="formula">
+		`1/a + 1/b + 1/c + 1 ge 4/sqrt(a b c)`.
+	</span>
+	由四元均值不等式,
+	<span class="formula">
+		`1/a + 1/b + 1/c + 1`
+		`ge 4/root4(a b c)`
+	</span>
+	??
+</p>
 
 <p class="example">
 	已知 `x y^2 (x+y) = 9`, 求 `min(2x+y)`.
@@ -1037,6 +1068,41 @@
 		* (1-sqrt2/2)(x+y)]^(1//4)`
 		`= 4 * root 4 (9/16) = 2sqrt3`.
 	</span>
+</p>
+
+<p class="example">
+	三角形的三边长分别为 `a, b, c`, 边 `c` 上的中线长为 `1`, 且 `/_
+	C = 45^@`. 求 `max(a+b)`.
+</p>
+
+<p class="solution">
+	由中线长公式和余弦定理:
+	<span class="formula">
+		`c^2 = 2(a^2+b^2)-4`, `quad c^2 = a^2+b^2-2a b cos 45^@`.
+	</span>
+	于是
+	<span class="formula">
+		`a^2+b^2 = 4 - sqrt 2 a b`,<br/>
+		`(a+b)^2 = 4 - (2-sqrt 2)a b`
+		`le 4 + (2-sqrt2)((a+b)/2)^2`.
+	</span>
+	解得 `a+b le 2 sqrt(4-2sqrt2)`, 等号成立当且仅当 `a = b`.
+</p>
+
+<p class="example">
+	设 `a, b gt 0`, 实数 `x` 满足
+	<span class="formula">
+		`sqrt(x^2-sqrt2 a x + a^2) + sqrt(x^2-sqrt 2 b x + b^2) le
+		sqrt(a^2+b^2)`,
+	</span>
+	求 `x` 的值.
+</p>
+
+<p class="solution">
+	不等式左边应用余弦定理, 右边应用勾股定理, 采用几何意义解决问题.
+	作一直角三角形 `ABC`, 两斜边 `BC, AC` 分别为 `a, b`,
+	又作直角 `C` 的平分线 `CP = x`. 题目条件即化为 `PA + PB le AB`.
+	这推出 `P` 位于线段 `AB` 上, `x` 即为角平分线长.
 </p>
 
 <script src="../js/note.js?type=math"></script>

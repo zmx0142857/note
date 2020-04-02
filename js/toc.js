@@ -127,7 +127,7 @@ var tocMath = [ {
 }, {
   title:'偏微分方程',
   articles: [
-    {title:'方程的导出', src:'pde/1.html'},
+    {title:'方程的导出', src:'pde/1.html', isnew:true},
     {title:'波动方程', src:'pde/2.html'},
     {title:'热传导方程', src:'pde/3.html'},
     {title:'位势方程', src:'pde/4.html'},
