@@ -528,6 +528,54 @@
 	</span>
 </p>
 
+<ol class="example">
+	 平面直角坐标系 `xOy` 中,
+	 <li>一线段长为 `l`, 两端点分别固定在 `x` 轴和 `y` 轴上滑动, 求线段中点 `M` 的轨迹;</li>
+	 <li>假设同 1. 设线段上一点 `P` 将线段分为长度为 `m, n` 的两段 (靠近 `y` 轴一侧为 `m`, 靠近 `x` 轴一侧为 `n`), 求 `P` 点轨迹;</li>
+	 <li>假设同 2. 过 `P` 作线段的垂线 `AP = h`, 使得 `A, O` 在线段异侧,
+		 求 `A` 点轨迹.
+	 </li>
+</ol>
+
+<ol class="solution">
+	<li>因为直角三角形斜边上的中线长等于斜边的一半, 所以 `MO` 为常数, 因此
+		`M` 轨迹是以 `O` 为心, `l//2` 为半径的圆.
+	</li>
+	<li>设 `P` 的坐标为 `(x,y)`. 由相似三角形列出方程
+		<span class="formula">
+			`sqrt(m^2-x^2)/m = y/n`,
+		</span>
+		化简得
+		<span class="formula">
+			`x^2/m^2 + y^2/n^2 = 1`.
+		</span>
+		轨迹为椭圆.
+	</li>
+	<li>设 `A` 的坐标为 `(x,y)`, 线段与 `x` 轴夹角为 `theta`, 列出参数方程
+		<span class="formula">
+			`x = m cos theta + h sin theta`,
+			`quad y = n sin theta + h cos theta`.
+		</span>
+		将 `m y - h x = (m n - h^2) sin theta` 代入 `(y - n sin theta)^2
+		= h^2 cos^2 theta` 得
+		<span class="formula">
+			`(y - n (m y-h x)/(m n-h^2))^2 = h^2 (1-((m y-h x)/(m
+			n-h^2))^2)`,
+		</span>
+		两边同乘 `(m n-h^2)^2` 并整理得
+		<span class="formula">
+			`(n x-h y)^2 + (m y-h x)^2 = (m n-h^2)^2`.
+		</span>
+		利用二元二次曲线 `A x^2 + B x y + C y^2 + D x + E y + F = 0`
+		的判别式 `Delta = B^2 - 4 A C`:
+		<span class="formula">
+			`Delta/4 = (m+n)^2 h^2 - (m^2+h^2)(n^2+h^2)`
+			`= -(m n-h^2)^2 lt 0`,
+		</span>
+		因此轨迹为椭圆.
+	</li>
+</ol>
+
 </body>
 
 <script src="../js/note.js?type=math"></script>

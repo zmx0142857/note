@@ -632,6 +632,18 @@
 </p>
 
 <p class="example">
+	证明 `x gt 1` 时, `x^2-1 gt 2 x ln x`.
+</p>
+
+<p class="proof">
+	在对数均值不等式中取 `a = x^2`, `b = 1`, 则
+	<span class="formula">
+		`sqrt(x^2) lt (x^2 - 1)/(ln x^2)`,
+	</span>
+	整理即得结果.
+</p>
+
+<p class="example">
 	若 `f(x) = "e"^x - a x` 有两个不同的零点 `x_1`, `x_2`, 则
 	<span class="formula">
 		`x_1 x_2 lt 1`, `quad 2 lt x_1 + x_2 lt 2 ln a`.
@@ -655,6 +667,30 @@
 	从而得 `x_1 x_2 lt 1`, `x_1 + x_2 gt 2`.
 	再由 <a class="ref" href="#for-zeros-e^x-ax"></a> 得到
 	`x_1 + x_2 = 2 ln a + ln x_1 x_2 lt 2 ln a`.
+</p>
+
+<p class="example">
+	若 `f(x) = ln x + 2/x - a` 有两个不同的零点 `x_1, x_2`, 则
+	<span class="formula">
+		`x_1 + x_2 gt 4`, `quad x_1 x_2 gt 4`.
+	</span>
+</p>
+
+<p class="proof">
+	由题意
+	<span class="formula">
+		`ln x_1 = a - 2/x_1`, `quad ln x_2 = a - 2/x_2`,
+	</span>
+	因此
+	<span class="formula">
+		`ln x_1^-1 = 2 x_1^-1 - a`, `quad ln x_2^-1 = 2 x_2^-1 - a`.
+	</span>
+	应用对数均值不等式,
+	<span class="formula">
+		`2/(x_1+x_2) lt sqrt(x_1^-1 x_2^-1)`
+		`lt (x_1^-1 - x_2^-1)/(ln x_1^-1 - ln x_2^-1) = 1/2`,
+	</span>
+	即 `x_1 + x_2 gt 4`, `x_1 x_2 gt 4`.
 </p>
 
 <p class="theorem">
@@ -1104,6 +1140,41 @@
 	又作直角 `C` 的平分线 `CP = x`. 题目条件即化为 `PA + PB le AB`.
 	这推出 `P` 位于线段 `AB` 上, `x` 即为角平分线长.
 </p>
+
+<ol class="example">
+	<b>从指对数不等式到 Lambert W 函数</b>
+	<li>
+	在不等式 `"e"^t ge t+1` 中令 `t = a x + ln x` (`a != 0`) 得
+	<span class="formula">
+		`x "e"^(a x) ge a x + ln x + 1`, 等号成立当且仅当 `t = 0`.
+	</span>
+	从而得到:
+	不等式 `x"e"^(a x) ge b x + ln x + 1` 对所有 `x gt 0`
+	成立当且仅当 `a ge b`.
+	</li>
+	<li>现在考虑等号成立的条件
+		<span class="formula">
+			`a x + ln x = 0`, 或 `x "e"^(a x) = 1`.
+		</span>
+		记 `x "e"^x` 的反函数为 Lambert W 函数 `W(x)`,
+		即 `W(x) "e"^(W(x)) = x`.
+		于是原方程化为 `a x"e"^(a x) = a`, 得到 `x = W(a)//a`.
+	</li>
+	<li>用 Lambert W 函数求解
+		<span class="formula">
+			`a/x + ln x = 0`, 或 `x "e"^(a/x) = 1`.
+		</span>
+		两边取倒数再同乘 `-a` 得 `-a/x "e"^(-a/x) = -a`,
+		于是 `-a/x = W(-a)`, `x = -a // W(-a)`.
+	</li>
+	<li>用 Lambert W 函数求解
+		<span class="formula">
+			`x^x = a`, 或 `x ln x = ln a`.
+		</span>
+		方程化为 `"e"^(ln x) ln x = ln a`,
+		于是 `ln x = W(ln a)`, `x = "e"^(W(ln a))`.
+	</li>
+</ol>
 
 <script src="../js/note.js?type=math"></script>
 
