@@ -495,17 +495,18 @@
 </p>
 
 <ol class="remark">
-	Cauchy 积分定理的条件有各种减弱的版本:
+	Cauchy 积分定理的变式:
 	<li>(Goursat, 1900) 原版的条件 `f in C^1(D)` 可以去掉.</li>
-	<li>`D sube CC` 是单连通域, `f in H(D) nn C(bar D)`, `gamma = del D`.
+	<li>`D sube CC` 是单连通域, `f in H(D) nn C(bar D)`, 则 `f` 在
+		`gamma = del D` 上的积分等于零.
 	</li>
 	<li>设 `gamma_0, gamma_1, cdots, gamma_n` 是 `n+1` 条可求长简单闭曲线,
 		后 `n` 条曲线 `gamma_1, cdots, gamma_n` 都在 `gamma_0` 的内部,
 		且每一条都在其它 `n-1` 条的外部. `D` 是由这 `n+1` 条曲线围成的,
 		具有 `n` 个 "洞" 的多连通域, `f in H(D) nn C(bar D)`,
-		`gamma = del D`.
+		则 `f` 在 `gamma_0` 上的积分等于其在 `uuu_(k=1)^n gamma_k`
+		上的积分.
 	</li>
-	从 1, 2, 3 都能推出 `oint_gamma f(z) dz = 0`.
 </ol>
 
 <ol class="lemma">
@@ -516,6 +517,211 @@
 	<li>`|int_gamma f(z) dz - int_P f(z) dz| lt epsi`.</li>
 	从而折线上的积分是 `gamma` 上积分的近似.
 </ol>
+
+<h3>Cauchy 积分公式</h3>
+
+<p>	Cauchy 积分公式是全纯函数的积分表示,
+	由此可以证明全纯函数有任意阶导数等重要性质,
+	说它是单复变函数理论中最重要, 最基本的公式也不为过.
+</p>
+
+<p class="theorem">
+	<b>Cauchy 积分公式</b>
+	设 `gamma` 是可求长简单闭曲线, `D` 是 `gamma` 围成的单连通域,
+	`f in H(D) nn C(bar D)`, 则
+	<span class="formula">
+		`f(z) = 1/(2pi"i") oint_gamma (f(zeta))/(zeta-z) "d"zeta`,
+		`quad AA z in D`.
+	</span>
+	注意到 `f` 在曲线 `gamma` 上的值已经完全决定了它在 `D` 内的取值.
+</p>
+
+<p class="proof">
+	任取 `z in D`, `AA epsi gt 0`, 由 `f` 在 `z` 点连续, 存在 `delta gt
+	0`, 当 `|zeta - z| lt delta` 时有 `|f(zeta)-f(z)| lt epsi`.<br/>
+	取充分小的 `0 lt r lt delta`, 使得 `B(z, r) sube D`, 并记圆周 `gamma_r
+	= del B(z, r)`, `D'` 为 `gamma` 和 `gamma_r` 围成的二连通域.
+	于是, 函数 `f(zeta)/(zeta-z)` 在 `D'` 中全纯, 在 `bar D'` 上连续.
+	由 Cauchy 积分定理,
+	<span class="formula">
+		`oint_gamma (f(zeta))/(zeta-z) "d"zeta = oint_(gamma_r)
+		(f(zeta))/(zeta-z) "d"zeta`.
+	</span>
+	另一方面,
+	<span class="formula">
+		`f(z) = f(z) (2pi"i")/(2pi"i")`
+		`= 1/(2pi"i") oint_(gamma_r) (f(z))/(zeta-z) "d"zeta`.
+	</span>
+	于是
+	<span class="formula">
+		`|f(z) - 1/(2pi"i") oint_gamma (f(zeta))/(zeta-z) "d"zeta|`
+		`= 1/|2pi"i"| |oint_(gamma_r) (f(z)-f(zeta))/(zeta-z) "d"zeta|`
+		`le 1/(2pi) * 2pi r * epsi/r = epsi`.
+	</span>
+	由 `epsi` 的任意性即得证.
+</p>
+
+<p class="remark">
+	类似于 Cauchy 积分定理的变式 3, 可以将这一结论推广到多连通域的情形.
+</p>
+
+<p class="definition">
+	设 `gamma` 是可求长曲线 (不一定是闭曲线), `f in C(gamma)`, 则
+	<span class="formula">
+		`F(z) = 1/(2pi"i") int_gamma (f(zeta))/(zeta-z) "d"zeta`
+	</span>
+	确定了 `CC \\ gamma` 上的一个函数, 称为 <b>Cauchy 型积分</b>.
+</p>
+
+<p class="theorem">
+	上述定义的 Cauchy 型积分 `F(z)` 在 `CC \\ gamma` 上有任意阶导数
+	(求导与积分可换):
+	<span class="formula">
+		`F^((n))(z) = (n!)/(2pi"i") int_gamma (f(zeta))/(zeta-z)^(n+1)
+		"d"zeta`, `quad n in ZZ^+`.
+	</span>
+</p>
+
+<ol class="proof">
+	<li>先证明 `n = 1` 的情形.
+		任取 `a in CC\\gamma`, 下证
+		<span class="formula">
+			`F'(a) = 1/(2pi"i") int_gamma f(zeta)/(zeta-a)^2 "d"zeta`.
+		</span>
+		记 `rho = d(a, gamma) = inf_(zeta in gamma) |zeta-a| gt 0`,
+		`delta = min{1, rho//2}`, 则对任意 `zeta in gamma`, `z in B(a,
+		delta)`, 有
+		<span class="formula">
+			`|(z-a)/(zeta-a)| le delta/rho le 1/2`,
+		</span>
+		于是
+		<span class="formula">
+			`|sum_(k ge 2) ((z-a)/(zeta-a))^k|`
+			`le |(z-a)/(zeta-a)|^2 sum_(k ge 0) |(z-a)/(zeta-a)|^k`
+			`le |z-a|^2/rho^2 sum_(k ge 0) 2^-k`
+			`= 2/rho^2 |z-a|^2`.
+		</span>
+		这说明 `sum_(k ge 2) ((z-a)/(zeta-a))^k = O(|z-a|^2)`.  所以
+		<span class="formula">
+			`1/(zeta-z) = 1/(zeta-a) (zeta-a)/(zeta-z)`
+			`= 1/(zeta-a) 1/(1 - (z-a)/(zeta-a))`
+			`= 1/(zeta-a) sum_(k ge 0) ((z-a)/(zeta-a))^k`
+			`= 1/(zeta-a) (1 + (z-a)/(zeta-a) + O(|z-a|^2))`.
+			<span class="label" id="for-nth-derivative-estimation"></span>
+		</span>
+		代入导数定义式,
+		<span class="formula">
+			`(F(z) - F(a))/(z-a)`
+			`= 1/(2pi"i") 1/(z-a) int_gamma f(zeta)(1/(zeta-z)-1/(zeta-a)) "d"zeta`
+			`= 1/(2pi"i") 1/(z-a) int_gamma f(zeta)/(zeta-a)
+			((z-a)/(zeta-a) + O(|z-a|^2)) "d"zeta`,
+		</span>
+		于是
+		<span class="formula">
+			`|(F(z) - F(a))/(z-a) - 1/(2pi"i") int_gamma
+			(f(zeta))/(zeta-a)^2 "d"zeta|`
+			`= O(|z-a|) |1/(2pi"i")int_gamma (f(zeta))/(zeta-a) "d"zeta|`
+			`= O(|z-a|) |F(a)|`.
+		</span>
+		上式令 `z to a` 即得结论.
+	</li>
+	<li>假设结论对正整数 `n` 已经成立, 现考虑 `n+1` 的情形.
+		<a class="ref" href="#for-nth-derivative-estimation"></a>
+		式两边取 `n+1` 次方得
+		<span class="formula">
+			`1/(zeta-z)^(n+1) = 1/(zeta-a)^(n+1) (1 + (n+1)(z-a)/(zeta-a)
+			+ O(|z-a|^2))`,
+		</span>
+		代入导数定义式,
+		<span class="formula">
+			`(F^((n))(z) - F^((n))(a))/(z-a)`
+			`= (n!)/(2pi"i") 1/(z-a) int_gamma f(zeta) (1/(zeta-z)^(n+1) - 1/(zeta-a)^(n+1)) "d"zeta`
+			`= (n!)/(2pi"i") 1/(z-a) int_gamma (f(zeta))/(zeta-a)^(n+1)((n+1)(z-a)/(zeta-a) + O(|z-a|^2))"d"zeta`,
+		</span>
+		于是
+		<span class="formula">
+			`|(F^((n))(z)-F^((n))(a))/(z-a) - ((n+1)!)/(2pi"i") int_gamma (f(zeta))/(zeta-a)^(n+2) "d"zeta|`
+			`= O(|z-a|) |(n!)/(2pi"i") int_gamma f(zeta)/(zeta-a)^(n+1) "d"zeta|`
+			`= O(|z-a|) |F^((n))(a)|`.
+		</span>
+		上式令 `z to a` 可知结论对 `n+1` 成立. 由归纳法, 命题得证.
+	</li>
+</ol>
+
+<p class="remark">
+	可以用
+	<span class="formula">
+		`F^((s))(z) = (Gamma(s+1))/(2pi"i")
+		int_gamma (f(zeta))/(zeta-z)^(s+1)
+		"d"zeta`, `quad s in CC`
+	</span>
+	来定义一个复变函数的 `s` 阶导数, 从而将导数的阶的概念推广到任意复数.
+</p>
+
+<p class="corollary">
+	设 `D sube CC` 为一域, `f in H(D)`, 则 `f in C^oo(D)`,
+	即 `f` 在 `D` 上有任意阶导数, 且它的各阶导数也是全纯函数
+	(可见函数全纯是多么强的条件!)
+</p>
+
+<p class="proof">
+	对任意 `z in D`, 取充分小的邻域 `G = B(z, delta)` 使得 `bar G sube D`,
+	则 `f in H(G) nn C(bar G)`. 由 Cauchy 积分公式, `f` 在 `G` 上可以写成
+	Cauchy 型积分, 因此在 `G` 上有任意阶导数. 特别地, `f` 在 `z`
+	处有任意阶导数. 由 `z` 的任意性知命题成立.
+</p>
+
+<p class="theorem">
+	<b>Cauchy 不等式</b>
+	设 `f` 在 开圆盘 `B(a, r)` 上全纯且有界 (`|f(z)| le M`), 则 `f` 在 `a`
+	点的各阶导数的模有上界:
+	<span class="formula">
+		`|f^((n))(a)| le n! M/r^n`, `quad n in ZZ^+`.
+	</span>
+</p>
+
+<p class="proof">
+	取 `0 lt rho lt r`, 记 `D = B(a, rho)`, `gamma = del D`. 在 `D` 上应用
+	Cauchy 积分公式得
+	<span class="formula">
+		`|f^((n))(a)|`
+		`= |(n!)/(2pi"i") int_gamma (f(zeta))/(zeta-a)^(n+1) "d"zeta|`
+		`le (n!)/(2pi) * 2pi rho * M/rho^(n+1)`
+		`= n! M/rho^n`, `quad n in ZZ^+`.
+	</span>
+	上式令 `rho to r` 即得结论.
+</p>
+
+<p class="theorem">
+	<b>Liouville 定理</b>
+	有界整函数是常数.
+</p>
+
+<p class="proof">
+	设在 `CC` 上有 `|f(z)| le M`.
+	以任意 `a in CC` 为心, 任意大的半径 `r` 作圆盘, 由 Cauchy 不等式都有
+	<span class="formula">
+		`|f'(a)| le M/r`,
+	</span>
+	令 `r to oo` 知 `f'(a) = 0`.
+	由 `a` 的任意性知 `f` 的导数处处为零, 于是 `f` 为一常数.
+</p>
+
+<p class="theorem">
+	<b>代数学基本定理</b>
+	任意 `n` 次复系数多项式
+	<span class="formula">
+		`P(z) = a_n z^n + a_(n-1) z^(n-1) + cdots + a_1 z + a_0`,
+		`quad a_n != 0`, `n ge 1`
+	</span>
+	在 `CC` 中必有零点.
+</p>
+
+<p class="proof">
+	若 `P(z)` 在 `CC` 中无零点, 则 `1/(P(z))` 是整函数.
+	而由 `lim_(z to oo) P(z) = oo` 知 `1/(P(z))` 有界.
+	由 Liouville 定理, `1/(P(z))` 是常数, 矛盾.
+</p>
 
 <h3>原函数</h3>
 
@@ -555,7 +761,7 @@
 
 <p class="corollary">
 	<b>原函数的唯一性</b>
-	由 <a class="ref" href="#cor-constant"></a> 立即得知, `f`
+	由<a class="ref" href="#cor-constant"></a> 立即得知, `f`
 	的原函数若存在则必有无穷多个, 且不同的原函数之间相差一个常数.<br/>
 	特别当 `f` 是单连通域上的全纯函数时, 有 <b>Newton-Leibniz 公式</b>
 	<span class="formula">
@@ -564,74 +770,14 @@
 	其中 `F` 是 `f` 的任一原函数.
 </p>
 
-<h3>Cauchy 积分公式</h3>
-
-<p>	Cauchy 积分公式是全纯函数的积分表示,
-	由此可以证明全纯函数有任意阶导数等重要性质,
-	说它是单复变函数理论中最重要, 最基本的公式也不为过.
-</p>
-
 <p class="theorem">
-	<b>Cauchy 积分公式</b>
-	设 `gamma` 是可求长简单闭曲线, `D` 是 `gamma` 围成的域,
-	`f in H(D) nn C(bar D)`, 则
-	<span class="formula">
-		`f(z) = 1/(2pi"i") oint_gamma (f(zeta))/(zeta-z) "d"zeta`,
-		`quad AA z in D`.
-	</span>
-	注意到 `f` 在曲线 `gamma` 上的值已经完全决定了它在 `D` 内的取值.
+	<b>Morera 定理</b> (Cauchy 积分定理的逆定理)
+	设 `f in C(D)`, 且 `f` 在 `D` 上的积分与路径无关, 则 `f in H(D)`.
 </p>
 
 <p class="proof">
-	任取 `z in D`, `AA epsi gt 0`, 由 `f` 在 `z` 点连续, 存在 `delta gt
-	0`, 当 `|zeta - z| lt delta` 时有 `|f(zeta)-f(z)| lt epsi`.<br/>
-	取充分小的 `0 lt r lt delta`, 使得 `B(z, r) sube D`, 并记圆周 `gamma_r
-	= del B(z, r)`, `D'` 为 `gamma` 和 `gamma_r` 围成的二连通域.
-	于是, 函数 `f(zeta)/(zeta-z)` 在 `D'` 中全纯, 在 `bar D'` 上连续.
-	由 Cauchy 积分定理,
-	<span class="formula">
-		`oint_gamma (f(zeta))/(zeta-z) "d"zeta = oint_(gamma_r)
-		(f(zeta))/(zeta-z) "d"zeta`.
-	</span>
-	另一方面,
-	<span class="formula">
-		`f(z) = f(z) (2pi"i")/(2pi"i")`
-		`= 1/(2pi"i") oint_(gamma_r) (f(z))/(zeta-z) "d"zeta`.
-	</span>
-	于是
-	<span class="formula">
-		`|f(z) - 1/(2pi"i") oint_gamma (f(zeta))/(zeta-z) "d"zeta|`
-		`= 1/|2pi"i"| |oint_(gamma_r) (f(z)-f(zeta))/(zeta-z) "d"zeta|`
-		`le 1/(2pi) * 2pi r * epsi/r = epsi`.
-	</span>
-	由 `epsi` 的任意性即得证.
-</p>
-
-<p class="definition">
-	设 `gamma` 是可求长曲线 (不一定是闭的), `f in C(gamma)`, 则
-	<span class="formula">
-		`F(z) = 1/(2pi"i") int_gamma (f(zeta))/(zeta-z) "d"zeta`
-	</span>
-	确定了 `CC \\ gamma` 上的一个函数, 称为 <b>Cauchy 型积分</b>.
-</p>
-
-<p class="theorem">
-	设 `F(z)` 是如上述定义的 Cauchy 型积分, 则 `F(z)` 在其定义域 `CC \\
-	gamma` 上有任意阶导数:
-	<span class="formula">
-		`F^((n))(z) = (n!)/(2pi"i") int_gamma (f(zeta))/(zeta-z)^(n+1)
-		"d"zeta`, `quad n in ZZ^+`.
-	</span>
-</p>
-
-<p class="remark">
-	可以用
-	<span class="formula">
-		`F^((s))(z) = (Gamma(s+1))/(2pi"i")
-		int_gamma (f(zeta))/(zeta-z)^(s+1)
-		"d"zeta`, `quad s in CC`
-	</span>
-	来定义一个复变函数的 `s` 阶导数, 从而将导数的阶的概念推广到任意复数.
+	由条件知道 `f` 在 `D` 上存在原函数 `F`. 由定义 `F in H(D)`, 于是
+	`f` 作为 `F` 的导数也是全纯函数.
 </p>
 
 <script src="../js/note.js?type=math"></script>
