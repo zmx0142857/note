@@ -603,8 +603,94 @@
 		<td>`x^4-3x^2+1`</td>
 	</tr>
 </table>
-</body>
+
+<h2>代数学基本定理</h2>
+
+<p class="example">
+	设 `f` 是复数域上的多项式
+	<span class="formula">
+		`f(z) = sum_(k=0)^n a_k z^k`, `quad a_n != 0`.
+	</span>
+	令 `A = max_k |a_k|`, `r = A/|a_n| + 1`, 则 `|z| gt r` 时,
+	首项的模大于其余各项的模之和:
+	<span class="formula">
+		`|a_n z^n| gt sum_(k=0)^(n-1) |a_k z^k|`.
+	</span>
+	这一结论可以类比于盖尔圆盘定理.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`sum_(k=0)^(n-1) |a_k z^k|`
+		`le A sum_(k=0)^(n-1) |z|^k`
+		`= A (|z|^n-1)/(|z|-1)`
+		`lt A |z|^n/(r-1)`
+		`= |a_n z^n|`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>代数学基本定理</b>
+	`n` 次复系数多项式 (`n ge 1`)
+	<span class="formula">
+		`f(z) = sum_(k=0)^n a_k z^k`, `quad a_n != 0`
+	</span>
+	在复数域内有零点.
+</p>
+
+<ol class="proof">
+	若 `f` 的常数项为零, 显然 `z = 0` 就是 `f` 的零点. 下设 `a_0 != 0`.
+	<li>因为 `a_0 != 0`, 有 `lim_(z to oo) |f(z)| = oo` (将 `f`
+		的各项同除以首项可以证明. 这是因为 `z to oo` 时, `f`
+		的高次项是最主要的项). 因此存在 `R gt 0`, 使得 `|f|` 在闭圆盘
+		`D = bar(B(0, R))` 外大于 `1`. 换言之, `f` 的零点若是存在,
+		只可能出现在 `D` 中. 由于 `D` 是紧集, 可以取 `z_0 in D`.
+		使得 `|f(z_0)| = min_(z in D) |f(z)|`.
+	</li>
+	<li>下证 `f(z_0) = 0`. 若不然, 设 `f(z_0) = a != 0`,
+		我们来证明存在 `z_1 in D`, 使得
+		`|f(z_1)| lt |f(z_0)|`, 从而与 `z_0` 是最小值点矛盾.
+		令 `Delta z = z - z_0`, 将 `f(z)` 在 `z_0` 处 Taylor 展开
+		(由于 `f` 是多项式函数, 只需将 `z = z_0 + Delta z` 代入
+		`f(z)` 的表达式即可):
+		<span class="formula">
+			`f(z) = f(z_0 + Delta z) = f(z_0) + Delta z^m g(Delta z)`,
+		</span>
+		其中 `m ge 1`, `g` 是多项式. 由 `f` 的次数 `ge 1` 推出 `g`
+		不是零多项式, 因此可以设 `g(0) = b != 0`.
+	</li>
+	<li>
+		由多项式函数的连续性知, 存在 `delta gt 0`, 对任意
+		`|Delta z| lt delta` 有
+		<span class="formula">
+			`|g(Delta z) - b|`
+			`= |g(Delta z) - g(0)| lt |b|//2`.
+		</span>
+		令 `0 lt t lt min{1, delta^m}`, 取 `Delta z in CC` 满足
+		`Delta z^m = - t a//b`, 则
+		<span class="formula">
+			`|Delta z^m b| = t |a| lt delta^m |b|`
+			`rArr |Delta z| lt delta`,<br/>
+			`a + Delta z^m b`
+			`= (1 + Delta z^m b // a) a`
+			`= (1-t) a`.
+		</span>
+		记 `z_1 = z_0 + Delta z`, 于是
+		<span class="formula">
+			`|f(z_1)|`
+			`= |f(z_0) + Delta z^m g(Delta z)|`
+			`= |a + Delta z^m b + Delta z^m g(Delta z) - Delta z^m b|`
+			`le |a + Delta z^m b| + |Delta z|^m |g(Delta z) - b|`
+			`lt (1-t) |a| + |Delta z|^m |b|//2`
+			`= (1-t) |a| + t/2 |a|`
+			`= (1-t/2) |a| lt |a| = |f(z_0)|`.
+		</span>
+		定理证毕.
+	</li>
+</ol>
 
 <script src="../js/note.js?type=math"></script>
+
+</body>
 
 </html>
