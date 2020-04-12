@@ -12,6 +12,22 @@
 
 <body>
 
+<h2>勾股定理</h2>
+
+<p class="example">
+	直角三角形的两直角边长为 `a, b`, 则斜边 `c` 满足
+		`c^2 = a^2 + b^2` (勾股定理).
+	斜边上的高 `h` 满足
+		`1/h^2 = 1/a^2 + 1/b^2` (倒数勾股定理).
+</p>
+
+<p class="proof">
+	应用面积法知道 `c h = a b`, 于是
+	<span class="formula">
+		`1/h^2 = (c/(a b))^2 = (a^2 + b^2)/(a^2 b^2) = 1/a^2 + 1/b^2`.
+	</span>
+</p>
+
 <h2>正弦/余弦定理</h2>
 
 <h3>正弦定理</h3>
@@ -1087,6 +1103,46 @@
 </p>
 
 <h2>完全四边形</h2>
+
+<h2>杂例</h2>
+
+<ol class="example">
+	`triangle ABC` 中, `/_A = 2 /_B`, `D` 为 `AB` 中点,
+	<li>若 `/_ADC = 60^@`, 证明: `/_ACB = 90^@`;</li>
+	<li>若 `/_ACD = 60^@`, 证明: `/_ACB = 90^@`;</li>
+</ol>
+
+<ol class="proof">
+	证明 `/_A = 60^@`, 或 `/_B = 30^@`, 或 `/_ACB = 90^@` 是完全等价的.
+	<li>在 `triangle ACD` 和 `triangle BCD` 中分别使用正弦定理,
+		<span class="formula">
+			`(sin 2B)/(CD) = (sin(120^@-2B))/(AD)`,
+			`quad (sin B)/(CD) = (sin(60^@-B))/(BD)`.
+		</span>
+		于是
+		<span class="formula">
+			`(sin 2B)/(sin B) = (sin(120^@-2B))/(sin(60^@-B))`,<br/>
+			`cos B = cos(60^@-B) = 1/2 cos B + sqrt3/2 sin B`,<br/>
+			`tan B = 1/sqrt3`.
+		</span>
+		因为三角形内角和为 `180^@`, 所以 `0 lt /_B lt 60^@`.
+		于是 `/_B = 30^@`.<br/>
+		纯几何证明: 作 `CE _|_ AB` 于 `E`, 取 `BC` 中点 `F`.
+		则 `CD = DE//cos 60^@ = 2DE`, `AC = 2DF` (因为 `DF`
+		是中位线).
+		下证 `DE = DF`, 从而 `CD = AC`, 从而 `/_A = /_ADC = 60^@`.<br/>
+		我们通过 `/_DEF = /_DFE` 说明这一点. 在直角三角形 `BEC` 中,
+		`EF = BF`, 故 `/_DEF = /_B`; 另一方面 `/_DFE = /_BDF - /_DEF`
+		`= /_A - /_B = /_B`. 证毕.
+	</li>
+	<li>同样由正弦定理得到
+		<span class="formula">
+			`(sin 2B)/(sin B) = (sin 60^@)/(sin(120^@-3B))`,<br/>
+			`sin(2A+60^@) + sin(A+60^@) = sqrt3/2`.
+		</span>
+		??
+	</li>
+</ol>
 
 </body>
 

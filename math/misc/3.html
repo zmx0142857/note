@@ -885,6 +885,22 @@
 
 <h2>杂例</h2>
 
+<p class="example">
+	设 `a, b gt 0`, 比较 `a^b` 和 `b^a` 的大小.
+</p>
+
+<p class="solution">
+	两边取对数, 问题化为比较 `(ln a)/a` 和 `(ln b)/b` 的大小.
+	我们来求函数 `f(x) = (ln x)/x` 的单调区间. 因为
+	<span class="formula">
+		`f'(x) = (1-ln x)/x^2`
+	</span>
+	在 `x="e"` 处等于零, 在 `(0, "e")` 上大于零, `("e", +oo)` 上小于零,
+	所以 `x = "e"` 是 `f` 的唯一极大值点.
+	根据这些信息, 在 `a, b` 同大于 `"e"` 或同小于 `"e"`
+	时就容易判断 `a^b` 和 `b^a` 的大小.
+</p>
+
 <ol class="example">
 	<b>裂项估计 p 级数部分和 `sum_(k=1)^n 1/k^p`</b>
 	<li>设 `k ge 2`, 有
@@ -939,6 +955,33 @@
 		`sum_(k=a)^b 1/k` 的上下界.
 	</li>
 </ol>
+
+<p class="example">
+	`n` 是正整数, 证明: `sum_(k=1)^n 1/sqrt k lt sqrt n(1+sqrt(n/(n+1)))`.
+</p>
+
+<p class="proof">
+	记不等式右边为 `a_n`, 则
+	<span class="formula">
+		`a_n = sqrt n + sqrt(n+1) - 1/sqrt(n+1)`.
+	</span>
+	作差分
+	<span class="formula">
+		`Delta a_n = a_n - a_(n-1)`
+		`= 1/sqrt n - 1/sqrt(n+1) + sqrt(n+1) - sqrt(n-1)`.
+	</span>
+	因为 `a_0 = 0`,
+	要证 `sum 1/sqrt n lt a_n`, 只需证 `1/sqrt n lt Delta a_n`, 即证
+	<span class="formula">
+		`1/sqrt n lt 1/sqrt n - 1/sqrt(n+1) + sqrt(n+1) - sqrt(n-1)`,
+	</span>
+	即证
+	<span class="formula">
+		`1/sqrt(n+1) lt sqrt(n+1) - sqrt(n-1)`
+		`= 2/(sqrt(n+1) + sqrt(n-1))`.
+	</span>
+	上式是成立的, 因此原不等式成立.
+</p>
 
 <ol class="example">
 	<b>二元均值不等式应用</b>

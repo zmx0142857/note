@@ -3,7 +3,7 @@
 
 <head>
 
-<title>二次曲线与曲面</title>
+<title>圆锥曲线与二次曲面</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -526,6 +526,89 @@
 		`b_22 = b_11 + b_22 - b_11 = a_11 + a_22 - b_11`
 		`= a_22 - a_12 tan theta`.
 	</span>
+</p>
+
+<p class="example">
+	寻找一个正交变换, 将对称矩阵 `bm A = [2, -1; -1, 2]` 对角化.
+</p>
+
+<p class="solution">
+	令 `|lambda bm E-bm A| = 0`, 即 `(lambda-2)^2 = 1`, 解得特征根 `lambda = 1,3`.
+	分别解方程组
+	<span class="formula">
+		`{ (1-2) x + 1 y = 0; 1 x + (1-2) y = 0 :}`,<br/>
+		`{ (3-2) x + 1 y = 0; 1 x + (3-2) y = 0 :}`,
+	</span>
+	得到特征向量 `(1, 1)` 和 `(1, -1)`, 将它们正交单位化
+	(实际上只需单位化,
+	因为实对称矩阵的不同特征根对应的特征向量总是正交的) 得到
+	<span class="formula">
+		`bm epsi_1 = (sqrt2/2, sqrt2/2)`, `quad bm epsi_2 = (sqrt2/2,
+		-sqrt2/2)`.
+	</span>
+	根据特征向量的定义有
+	<span class="formula">
+		`bm (A epsi)_1 = 1 bm epsi_1`, `quad bm (A epsi)_2 = 3 bm epsi_2`,
+	</span>
+	写成矩阵形式就是
+	<span class="formula">
+		`bm A (bm epsi_1, bm epsi_2) = (bm epsi_1, bm epsi_2) [1, ; , 3]`,
+	</span>
+	记 `bm T = (bm epsi_1, bm epsi_2)`, `bm D = [1, ; , 3]`, 上式可以写成
+	`bm (A T) = bm (T D)`.
+	因为 `bm T` 是正交矩阵, 有 `bm T^-1 = bm T'`, 于是
+	<span class="formula">
+		`bm A = bm (T D T)'`.
+	</span>
+	如果 `bm x` 是二元列向量, 作变换 `bm x = bm (T y)`,
+	就可以将二次型旋转到主轴上:
+	<span class="formula">
+		`bm x' bm (A x)`
+		` = (bm y' bm T') (bm (T D T')) (bm (T y))`
+		`= bm y' bm (D y)`.
+	</span>
+</p>
+
+<ol class="example">
+	<li>将双曲线 `y = 1/x` 化为主轴形式;</li>
+	<li>将双曲线 `y = x + 1/x` 化为主轴形式;</li>
+</ol>
+
+<ol class="solution">
+	<li>方程化为 `x_1 x_2 = 1`, 将系数矩阵对角化:
+		<span class="formula">
+			`[0, 1/2; 1/2, 0] = bm T [1/2, ; ,-1/2] bm T'`,
+		</span>
+		其中 `bm T = (bm epsi_1, bm epsi_2)`,
+		`bm epsi_1 = 1/sqrt2(1, 1)`, `bm epsi_2 = 1/sqrt2(1,-1)`.
+		这些信息告诉我们, 只要作变换 `bm x = bm (T y)`, 曲线方程就化为
+		<span class="formula">
+			`y_1^2/2 - y_2^2/2 = 1`.
+		</span>
+	</li>
+	<li>方程化为 `x_1^2 - x_1 x_2 = -1`, 系数矩阵对角化得
+		<span class="formula">
+			`[1, -1/2; -1/2, 0] = bm T [(1+sqrt2)/2, ; ,(1-sqrt2)/2] bm T'`,
+		</span>
+		其中 `bm T = 1/L[1, 1-sqrt2; sqrt2-1, 1]`, `L = sqrt(4-2sqrt2)`.
+		只要作变换 `bm x = bm (T y)`, 曲线就化为
+		<span class="formula">
+			`(1+sqrt2)/2 y_1^2 + (1-sqrt2)/2 y_2^2 = -1`,
+		</span>
+		即
+		<span class="formula">
+			`(sqrt2-1)/2 y_2^2 - (sqrt2+1)/2 y_1^2 = 1`.
+		</span>
+	</li>
+</ol>
+
+<p class="remark">
+	一般地, 二次型 `A x^2 + B x y + C y^2` 的系数矩阵是
+	`[A, B/2; B/2, C]`.
+	二次曲线按特征根的符号分为三类:
+	两个特征根同号为椭圆型, 异号为双曲型, 有一个特征根等于零为抛物型.
+	假设 `A gt 0`, 则: `Delta = B^2 - 4 A C lt 0` 时为椭圆型,
+	`Delta lt 0` 时为双曲型, `Delta = 0` 时为抛物型.
 </p>
 
 <ol class="example">

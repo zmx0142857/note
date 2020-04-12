@@ -186,44 +186,86 @@
 
 <h2>函数的连续性</h2>
 
+<ol class="theorem">
+	<b>Lipschitz 条件</b>
+	设函数 `f` 的定义域为 `D`. 考察它的<b>差商</b> `(f(x) - f(y))/(x-y)`.
+	<li>若差商局部有界, 即对任意 `x_0 in D`, 存在常数 `L gt 0` 和邻域
+		`G = B(x_0, delta)`, 使成立
+		<span class="formula">
+			`|f(x) - f(y)| le L|x-y|`, `quad AA x, y in G`,
+		</span>
+		则 `f` 在 `D` 上连续.
+	</li>
+	<li>若差商在 `D` 上有界, 即存在常数 `L gt 0` 使得
+		<span class="formula">
+			`|f(x) - f(y)| le L|x-y|`, `quad AA x, y in D`,
+		</span>
+		则称 `f` 在 `D` 上 Lipschitz 连续或满足 Lipschitz 条件, `L` 称为
+		Lipschitz 常数.  这时可以推出 `f` 在 `D` 上一致连续.
+	</li>
+</ol>
+
+<p class="proof">
+	AA x_0 in D`, 设存在常数 `L` 和 `x_0` 的邻域 `G`, 使得
+	<span class="formula">
+		`|f(x) - f(x_0)| le L|x-x_0|`, `quad AA x, x_0 in G`.
+	</span>
+	取 `0 lt delta lt epsi//L`,
+	则对任意 `x in B(x_0 delta) nn G` 有
+	<span class="formula">
+		`|f(x) - f(x_0)| le epsi`,
+	</span>
+	这就证明了结论 1. 如果 `f` 在 `D` 上 Lipschitz 连续, 则 `L` 与 `x_0`
+	的选取无关, 相应地 `delta` 也与 `x_0` 选取无关, 因此 `f` 在 `D`
+	上一致连续.
+</p>
+
 <ol class="example">
-	<li>`a^x` 是 `RR` 上的连续函数, `a gt 0`, `a != 1`;</li>
-	<li>`log_a x` 是 `(0, +oo)` 上的连续函数, `a gt 0`, `a != 1`;</li>
-	<li>`sin x`, `cos x` 是 `RR` 上的连续函数;</li>
-	<li>`arcsin x` 是 `[-1, 1]` 上的连续函数;</li>
-	<li>`arctan x` 是 `RR` 上的连续函数.</li>
+	<li>`"e"^x` 在 `RR` 上连续;</li>
+	<li>`ln x` 在 `(0, +oo)` 上连续;</li>
+	<li>`sin x`, `cos x` 在 `RR` 上 Lipschitz 连续;</li>
+	<li>`arcsin x` 在 `[-1, 1]` 上一致连续;</li>
+	<li>`arctan x` 在 `RR` 上一致连续.</li>
 </ol>
 
 <ol class="proof">
-	<li>只证 `a gt 1` 的情形. `AA x_0 in RR`, `AA epsi gt 0`, 由于
+	<li>`AA x_0 in RR`, `AA epsi gt 0`,
+		取 `0 lt delta lt ln(1+"e"^(-x_0) epsi)`.
+		记 `h = "e"^(-x_0) epsi gt 0`, 因为
 		<span class="formula">
-			`|a^x - a^(x_0)| lt epsi`
-			`iff a^(x_0)-epsi lt a^x lt a^(x_0)+epsi`
-			`iff 1-a^(-x_0)epsi lt a^(x-x_0) lt 1+a^(-x_0)epsi`
-			`iff log_a(1-a^(-x_0)epsi) lt x-x_0 lt log_a(1+a^(-x_0)epsi)`,
+			`ln(1+h) + ln(1-h) = ln(1-h^2) lt 0`,
 		</span>
-		令
+		所以 `|ln(1+h)| lt |ln(1-h)|`.
+		于是 `0 lt |x-x_0| lt delta` 时, 有
 		<span class="formula">
-			`delta = min{|log_a(1-a^(-x_0)epsi)|,
-			|log_a(1+a^(-x_0)epsi)|} gt 0`,
+			`ln(1-h) lt x-x_0 lt ln(1+h)`,
 		</span>
-		则 `0 lt |x-x_0| lt delta` 时, 就有 `|a^x - a^(x_0)| lt epsi`.
+		取指数得
+		<span class="formula">
+			`1-h lt "e"^(x-x_0) lt 1+h`,
+		</span>
+		即 `|"e"^(x-x_0)-1| lt h`. 于是
+		<span class="formula">
+			`|"e"^x - "e"^(x_0)|`
+			`= "e"^(x_0) |"e"^(x-x_0)-1|`
+			`lt "e"^(x_0) h = epsi`.
+		</span>
 	</li>
-	<li>只证 `a gt 1` 的情形. `AA x_0 gt 0`, `AA epsi gt 0`, 由于
+	<li>`AA x_0 gt 0`, `AA epsi gt 0`,
+		取 `0 lt delta lt x_0(1-"e"^-epsi)`, 因为
 		<span class="formula">
-			`|log_a x - log_a x_0| lt epsi`
-			`iff log_a x_0 - epsi lt log_a x lt log_a x_0 + epsi`
-			`iff x_0 a^-epsi lt x lt x_0 a^epsi`
-			`iff x_0(a^-epsi-1) lt x-x_0 lt x_0(a^epsi-1)`,
+			`("e"^epsi-1) - (1-"e"^-epsi)`
+			`= ("e"^(epsi//2) - "e"^(-epsi//2))^2 gt 0`,
 		</span>
-		令
+		所以 `|"e"^epsi-1| gt |"e"^-epsi-1|`.
+		取 `x gt 0`, 当 `x` 满足 `0 lt |x-x_0| lt delta` 时, 有
 		<span class="formula">
-			`delta = min{|x_0 (a^-epsi-1)|, |x_0(a^epsi-1)|} gt 0`,
+			`x_0("e"^-epsi-1) lt x-x_0 lt x_0("e"^epsi-1)`,
 		</span>
-		如果进一步要求 `delta lt x_0`, 则 `0 lt |x-x_0| lt delta` 时,
-		`x gt 0`, 故 `loa_a x` 有定义, 且 `|log_a x - log_a x_0| lt epsi`.
+		即 `"e"^-epsi lt x/x_0 lt "e"^epsi`,
+		取对数得 `|ln x - ln x_0| lt epsi`.
 	</li>
-	<li>`AA x_0 in RR`, 记 `a = (x+x_0)/2`, `b = (x-x_0)/2`,
+	<li>只证 `sin x`. `AA x_0 in RR`, 记 `a = (x+x_0)/2`, `b = (x-x_0)/2`,
 		运用和差化积公式,
 		<span class="formula">
 			`|sin x - sin x_0|`
@@ -232,8 +274,6 @@
 			`le 2 |sin b| le 2 |b|`
 			`= |x-x_0|`.
 		</span>
-		`AA epsi gt 0`, 取 `delta = epsi`, 则 `0 lt |x-x_0| lt delta`
-		时, `|sin x - sin x_0| lt epsi`.
 	</li>
 	<li>`AA x_0 in (-1, 1)`, 先证
 		<span class="formula">
