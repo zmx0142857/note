@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<meta charset="utf-8" />
+<title>光学</title>
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p class="example">
+	<b>折射定律</b>
+	设一质点从点 `A(x_1, y_1)` 运动到点 `B(x_2, y_2)`, 其中 `y_2 lt 0 lt
+	y_1`. 如果质点在上半平面和下半平面运动的速度分别为常数 `v_1`, `v_2`,
+	问它应沿什么路径运动才能使运动时间最短?
+	显然质点在上半平面和下半平面的路线都是直线, 故只需求出路线与 `x`
+	轴的交点 `P`. 设 `AP`, `BP` 与 `y` 轴的夹角分别为 `i_1`, `i_2`,
+	可以证明, 当
+	<span class="formula">
+		`(sin i_1)/(sin i_2) = v_1/v_2`
+	</span>
+	时, 质点运动时间最短. 这一规律称为折射定律.
+	由费马原理知, 光总是走花费时间最短的路线, 因此光的路径满足折射定律.
+</p>
+
+<p class="proof">
+	几何方法. 在 `x` 轴上任取一点 `P'`, 下证
+	<span class="formula">
+		`(AP)/v_1 + (BP)/v_2 le (AP')/v_1 + (BP')/v_2`.
+	</span>
+	过点 `P'` 分别作直线 `AP, BP` 的垂线, 垂足分别为 `C, D`.  于是
+	<span class="formula">
+		`PC = PP' sin /_ PP'C = PP' sin i_1`,<br/>
+		`PD = PP' sin /_ PP'D = PP' sin i_2`.
+	</span>
+	这推出
+	<span class="formula">
+		`(PC)/(PD) = (sin i_1)/(sin i_2) = v_1/v_2`,
+	</span>
+	即 `(PC)/v_1 = (PD)/v_2`.  于是
+	<span class="formula">
+		`(AP)/v_1 + (BP)/v_2`
+		`= (AC-PC)/v_1 + (BD+PD)/v_2`
+		`= (AC)/v_1 + (BD)/v_2`
+		`le (AP')/v_1 + (BP')/v_2`.
+	</span>
+</p>
+
+<p class="proof">
+	微分方法. 设 `P(x, 0)`, 则时间
+	<span class="formula">
+		`t = sqrt((x-x_1)^2+y_1^2)/v_1 + sqrt((x-x_2)^2+y_2^2)/v_2`,<br/>
+		`dt/dx = 1/v_1 (x-x_1)/sqrt((x-x_1)^2+y_1^2) + 1/v_2
+		(x-x_2)/sqrt((x-x_2)^2+y_2^2)`
+		`= (sin i_1)/v_1 - (sin i_2)/v_2`.
+	</span>
+	时间取极小值时有 `dt/dx = 0`, 即 `(sin i_1)/v_1 = (sin i_2)/v_2`.
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

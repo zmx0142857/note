@@ -273,8 +273,11 @@
 
 <p class="property">
 	<b>极限表达式 (Euler 公式)</b>
-	`Gamma(x) = lim_(n to oo) n^x B(x, n+1)`
-	`= lim_(n to oo) (n^x n!)/(x(x+1) cdots (x+n))`.
+	<span class="formula">
+		`Gamma(x) = lim_(n to oo) n^x B(x, n+1)`
+		`= lim_(n to oo) (n^x n!)/(x(x+1) cdots (x+n))`.
+	</span>
+	此结论简记为 `Gamma(x+n+1) ~ n^x n!`.
 </p>
 
 <p class="proof">
@@ -371,12 +374,72 @@
 	???
 </p>
 
-<p class="property">
-	<b>Legendre 倍角公式</b>
-	`Gamma(x) Gamma(x+1/2) = (sqrt(2pi)) 4^-x Gamma(2x)`,<br/>
-	`prod_(k=0)^(n-1) Gamma(x+k/n)`
-	`= (2pi)^((n-1)/2) n^(-n x) Gamma(n x)`.
-</p>
+<ol class="property">
+	<b>Gauss-Legendre 倍元公式</b>
+	<li>`Gamma(x) Gamma(x+1/2) = (Gamma(2x))/2^(2x) 2 sqrt pi`;</li>
+	<li>`prod_(0 le k lt n) Gamma(x+k/n) = (Gamma(n x))/n^(n x) sqrt n (2pi)^((n-1)/2)`.</li>
+</ol>
+
+<ol class="proof">
+	<li>由于
+		<span class="formula">
+			`Gamma(m + 3/2)`
+			`= Gamma((2m+3)/2)`
+			`= (2m+1)/2 (2m-1)/2 cdots 3/2 1/2 Gamma(1/2)`
+			`= ((2m+1)!)/(2^(2m+1) m!) sqrt pi`, 
+		</span>
+		即 `(m! 2^(2m+1))/((2m+1)!) = sqrt pi /(Gamma(n+3/2)`.
+		利用 Gamma 函数的 Euler 乘积表示进行计算, 我们有
+		<span class="formula">
+		`{:
+			Gamma(x) Gamma(x+1/2)
+			=, lim_(m to oo) (m^(2x+1/2) m!^2)/(x(x+1/2) cdots (x+m)(x+m+1/2));
+			~, (m^(2x+1/2) m!^2 2^(2m+2))/(2x(2x+1)cdots(2x+2m+1));
+			~, (Gamma(2x))/((2m+1)^(2x)(2m+1)!) m^(2x+1/2) m!^2 2^(2m+2);
+			~, (Gamma(2x))/2^(2x) (2 sqrt m m! sqrt pi)/(Gamma(n+1+1/2));
+			~, (Gamma(2x))/2^(2x) 2 sqrt pi.
+		:}`
+		</span>
+	</li>
+	<li>利用三角恒等式
+		<span class="formula">
+			`prod_(0 lt k lt n) sin{:(k pi)/n:} = (2n)/2^n`.
+		</span>
+		由余元公式有
+		<span class="formula">
+			`prod_(0 lt k lt n) Gamma(k/n)`
+			`= sqrt(prod_(0 lt k lt n) Gamma(k/n) Gamma(1-k/n))`
+			`= sqrt(pi^(n-1)/(prod_(0 lt k lt n) sin{:(k pi)/n:}))`
+			`= (2pi)^((n-1)/2) / sqrt n`,
+		</span>
+		计算
+		<span class="formula">
+			`prod_(0 le k lt n) Gamma(m+1+k/n)`
+			`= m! prod_(0 lt k lt n) (m n+k)/n ((m-1)n+k)/n cdots (n+k)/n k/n Gamma(k/n)`
+			`= ((n m+n-1)!)/n^(n m+n-1) prod_(0 lt k lt n) Gamma(k/n)`
+		</span>
+		我们得到
+		<span class="formula">
+			`n^(n m+n-1)/((n m+n-1)!)
+			= (2pi)^((n-1)/2)/(sqrt n prod_(0 le k lt n) Gamma(m+1+k/n))`.
+		</span>
+		注意 `sum_(0 lt k lt n) k/n = (n-1)/2`, 于是
+		<span class="formula">
+		`{:
+			,prod_(0 le k lt n) Gamma(x+k/n);
+			=, lim_(m to oo) (m^(n x + (n-1)/2) m!^n) / (x(x+1/n) cdots (x
+			+ m + (n-1)/n));
+			~, (m^(n x + (n-1)/2) m!^n n^(n(m+1))) / (n x(n x+1) cdots (n
+			x+ n m + n - 1));
+			~, (Gamma(n x))/((n m+n-1)^(n x) (n m+n-1)!) m^(n x+(n-1)/2)
+			m!^n n^(n(m+1));
+			~, (Gamma(n x))/n^(n x) m!^n sqrt n (2pi m)^((n-1)/2)
+			/( prod_(0 le k lt n) Gamma(m+1+k/n));
+			~, (Gamma(n x))/n^(n x) sqrt n (2pi)^((n-1)/2).
+		:}`
+		</span>
+	</li>
+</ol>
 
 <p>	下文推导阶乘函数的 Stirling 公式, 为此先证明一个 (冗长但实用的) 引理.</p>
 

@@ -33,7 +33,8 @@
 <p class="example">`I = int sqrt(a^2 - x^2) dx`.</p>
 
 <p class="solution">
-	将原式拆开, 第一项做分子有理化, 第二项分部积分:
+	一种方法是是作三角代换 `x = a sin t`.
+	也可以将原式拆开, 第一项做分子有理化, 第二项分部积分:
 	<span class="formula">
 		`I = 1/2 int sqrt(a^2 - x^2) dx
 			+ 1/2 int sqrt(a^2 - x^2) dx`
@@ -73,6 +74,19 @@
 	所以原式等于
 	<span class="formula">
 		`1/2 ln (x^2 + sqrt(1+x^4)) - sqrt(1+x^4) / (2x^2) + C`.
+	</span>
+</p>
+
+<p class="example">
+	`int sqrt((a+x)/(a-x)) dx`.
+</p>
+
+<p class="solution">
+	常规思路是作代换 `t = sqrt((a+x)/(a-x))` 将被积函数有理化, 计算量较大.
+	比较简单的做法是
+	<span class="formula">
+		原式 `= int (a+x)/sqrt(a^2-x^2) dx`
+		`= a arcsin {:x/a:} - sqrt(a^2-x^2) + C`.
 	</span>
 </p>
 

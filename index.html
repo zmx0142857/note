@@ -122,10 +122,19 @@ header span {
 
 #table-of-contents ul li {
   color: black;
+/* 折叠目录
+  height: 0;
+  overflow-y: hidden;
+  transition: .3s ease;
+}
+
+#table-of-contents > li:hover li {
+  height: 2em;
+  transition: .3s ease;
+*/
 }
 
 #table-of-contents ul li:hover {
-  /*text-decoration: underline;*/
   background: #dde;
   cursor: pointer;
 }
@@ -267,7 +276,6 @@ li.isnew::after {
   </header>
 </article>
 
-<script src="js/toc.js"></script>
 <script>
 'use strict';
 (function(){
@@ -456,28 +464,56 @@ book.onchange = function() {
 }
 
 // load data & find pos
-var arg = getQuery();
-loadToc();
-if (arg.b && arg.g && arg.a) {
-  book.value = arg.b;
-  src = arg.g + '/' + arg.a + '.html'; 
-} else {
-  arg = localStorage['book'];
-  if (arg)
-    book.value = arg;
-  src = localStorage['src'] || tableOfContents[0].articles[0].src;
-}
-pos = [0, 0];
-for (var i = 0; i < tableOfContents.length; ++i) {
-  for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
-    if (tableOfContents[i].articles[j].src == src) {
-      pos = [i, j];
-      title = tableOfContents[i].articles[j].title;
-      break;
+function init() {
+  var arg = getQuery();
+  loadToc();
+  if (arg.b && arg.g && arg.a) {
+    book.value = arg.b;
+    src = arg.g + '/' + arg.a + '.html'; 
+  } else {
+    arg = localStorage['book'];
+    if (arg)
+      book.value = arg;
+    src = localStorage['src'] || tableOfContents[0].articles[0].src;
+  }
+  pos = [0, 0];
+  for (var i = 0; i < tableOfContents.length; ++i) {
+    for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
+      if (tableOfContents[i].articles[j].src == src) {
+        pos = [i, j];
+        title = tableOfContents[i].articles[j].title;
+        break;
+      }
     }
   }
+  jump();
 }
-jump();
+
+function loadScript(url, callback) {
+  var script = document.createElement('script');
+  script.type = 'application/javascript';
+  if (typeof(callback) != 'undefined') {
+    if (script.readyState) { // IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded'
+            || script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      }
+    } else { // others
+      script.onload = function() { callback(); }
+    }
+  }
+  script.src = url;
+  document.body.appendChild(script);
+}
+
+try{
+  loadScript('js/toc.js', init);
+} catch (e) {
+  alert(e);
+}
 
 })();
 </script>

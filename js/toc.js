@@ -248,4 +248,9 @@ var tocPhysics = [{
   articles: [
     {title:'质点运动学', src:'mechanics/1.html'},
   ]
+}, {
+  title:'光学',
+  articles: [
+    {title:'光学', src:'optics/1.html'},
+  ]
 }];
