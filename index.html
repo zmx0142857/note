@@ -81,6 +81,22 @@ header span {
 	z-index: 10;
 	color: white;
 	background: #444;
+	overflow: hidden;
+}
+
+#notify::before {
+	content: '';
+	position: absolute;
+	background: white;
+	bottom: 2px;
+	left: -25%;
+	height: 2px;
+	width: 50%;
+	animation: whitebar 1.5s infinite ease;
+}
+
+@keyframes whitebar {
+	50% { left: 75% }
 }
 
 #nav {
@@ -348,12 +364,13 @@ function headerVisible(flag) {
 
 function jump() {
   var notify = $('#notify');
-  if (notify) document.body.removeChild(notify);
-  notify = $('<div>');
-  notify.innerText = '加载中...';
-  notify.id = 'notify';
-  document.body.appendChild(notify);
-  iframe.onload = function(){ document.body.removeChild(notify) };
+	if (!notify) {
+    notify = $('<div>');
+    notify.innerText = '加载中...';
+    notify.id = 'notify';
+    document.body.appendChild(notify);
+  }
+  iframe.onload = function() { document.body.removeChild(notify) };
 
   localStorage['src'] = src;
   iframe.setAttribute('src', bookname + '/' + src);

@@ -12,45 +12,62 @@
 
 <body>
 
-<h2>Cauchy 方程</h2>
+<h2>Cauchy 函数方程</h2>
 
-<ol class="theorem">
-	称 `f: RR to RR` 为<b>加性函数</b>, 如果它满足下面的<b>Cauchy
-	函数方程</b>:
+<p class="theorem">
+	<b>Cauchy 方程</b>
 	<span class="formula">
-		`f(x) + f(y) = f(x+y)`, `quad AA x, y in RR`.
+		`f(x+y) = f(x) + f(y)`.
 	</span>
-	记 `f(1) = a`, 则 `f(x) = a x`, `AA x in QQ`.
-	若 `f` 还满足下面某一条件, 则结论对任意实数成立:
-	<li>`f` 在某一点连续;</li>
-	<li>`f` 在某一开区间上单调;</li>
-	<li>`f` 在某一开区间上有界;</li>
-	<li>`f` 局部保号, 即存在 `delta gt 0`, 使 `f` 在 `[0, delta]`
-		上符号不变 (保持非负或保持非正).
+	满足此方程的函数称为<b>加性函数</b>.
+	设 `f: RR to RR` 满足 Cauchy 方程, 则
+	<span class="formula">
+		`f(q x) = q f(x)`, `quad AA q in QQ`, `x in RR`.
+		<span class="label" id="for-f(qx)=qf(x)"></span>
+	</span>
+	上式取 `x = 1` 知, Cauchy 方程在 `QQ` 上的解是线性函数 `f(x) = k x`,
+	其中 `k = f(1)`.
+</p>
+
+<ol class="proof">
+	<li>令 `x = y = 0` 得 `f(0) = 0`.
+		再令 `y = -x` 得 `f` 是奇函数.
+		因此我们只需证明
+		<a class="ref" href="#for-f(qx)=qf(x)"></a> 式对 `q gt 0` 成立.
+	</li>
+	<li>先证 `f(n x) = n f(x)`, `n in ZZ^+, x in RR`.
+		`n = 1` 时显然成立. 设结论对正整数 `n` 成立, 则
+		<span class="formula">
+			`f((n+1)x)`
+			`= f(n x) + f(x)`
+			`= n f(x) + f(x)`
+			`= (n+1) f(x)`.
+		</span>
+		于是结论对所有正整数 `n` 成立.
+	</li>
+	<li>在 2 的结论中用 `x/n` 代替 `x`, 又得到 `f(x/n) = (f(x))/n`.
+		设 `q = m/n`, `m, n` 是正整数, 则
+		<span class="formula">
+			`f(q x) = f(m x/n) = m f(x/n) = m/n f(x) = q f(x)`.
+		</span>
 	</li>
 </ol>
 
+<ol class="theorem">
+	设 `f` 在 `RR` 上满足 Cauchy 方程, 若 `f` 满足下面某一条件,
+	则 `f` 在 `RR` 上是线性函数:
+	<li>`f` 在某一点连续;</li>
+	<li>`f` 在某一开区间上单调;</li>
+	<li>`f` 在某一开区间上有上界或有下界;</li>
+	<li>点集 `{(x, f(x)): x in RR}` 不是 `RR^2` 的稠密子集.
+		形象地说, 就是 `f` 的图像没有占满整个 `xOy` 平面.
+	</li>
+	由此可见, Cauchy 方程在 `RR` 上除了线性解之外, 其它解是病态的:
+	处处不连续, 而且图像在 `RR^2` 中稠密.
+</ol>
+
 <ol class="proof">
-	<li>令 `y = 0` 得, `f(0) = 0`.</li>
-	<li>令 `y = -x` 得, `f` 是奇函数.</li>
-	<li>下证 `n f(x) = f(n x)`, `n in ZZ, x in RR`.
-		事实上 `n = 0` 时显然成立. 设结论对整数 `n ge 0` 成立, 则
-		<span class="formula">
-			`(n+1) f(x) = n f(x) + f(x)`
-			`= f(n x) + f(x)`
-			`= f((n+1)x)`.
-		</span>
-		于是结论对所有非负整数成立. 又设 `n lt 0`, 利用 `f` 是奇函数有
-		<span class="formula">
-			`n f(x) = - (-n) f(x) = - f(-n x) = f(n x)`.
-		</span>
-	</li>
-	<li>下证 `f(x) = a x` 对任意有理数 `x` 成立.
-		设 `n` 是正整数, `m` 是整数,
-		则 `n f(1/n) = f(1) = a`, 得到 `f(1/n) = a/n`.
-		进而 `f(m/n) = m f(1/n) = a m/n`.
-	</li>
-	<li>最后, 设 `f` 在 `x_0` 处连续, 有
+	<li>设 `f` 在 `x_0` 处连续, 有
 		<span class="formula">
 			`lim_(h to x_0) f(x-x_0+h)`
 			`= lim_(h to x_0) (f(x-x_0) + f(h))`
@@ -62,46 +79,54 @@
 		取有理点列 `{x_n}` 趋于 `x`, 则
 		<span class="formula">
 			`f(x) = lim_(n to oo) f(x_n)`
-			`= lim_(n to oo) a x_n`
-			`= a lim_(n to oo) x_n`
-			`= a x`.
+			`= lim_(n to oo) k x_n`
+			`= k lim_(n to oo) x_n`
+			`= k x`.
 		</span>
 	</li>
 </ol>
 
-<p class="corollary">
-	设 `f: RR to RR` 在 `0` 处连续, 且满足
+<p class="example">
+	<b>Cauchy 方程的病态解</b>
+	定义
 	<span class="formula">
-		`f(x) f(y) = f(x+y)`, `quad AA x, y in RR`,
+		`f: QQ(sqrt2) to QQ(sqrt2)`<br/>
+		`a+b sqrt 2 to b+a sqrt 2`,
 	</span>
-	则 `f(x) -= 0`, 或 `f(x) = "e"^(a x)`, 其中 `f(1) = "e"^a`.
+	其中 `a, b` 是有理数.
+	`f` 满足 Cauchy 方程, 但 `f(1) = sqrt 2`, `f(sqrt2) = 1`,
+	因此 `f` 不是线性函数.
 </p>
 
-<ol class="proof">
+<ol class="example">
+	设 `f` 是连续函数, 在 `RR` 上解函数方程
+	<li>`f(x) f(y) = f(x+y)`;</li>
+	<li>`f(x) f(y) = f(x y)`; 满足此方程的函数称为积性函数;</li>
+	在 `RR^+` 上解函数方程
+	<li>`f(x) + f(y) = f(x y)`;</li>
+</p>
+
+<ol class="solution enum">
+	<li>
+	<ol>
 	<li>`f(x) = f(x/2) f(x/2) ge 0` 是非负函数.</li>
-	<li>若存在 `x_0 in RR` 使 `f(x_0) = 0`,
-		则对任意 `x in RR`, `f(x) = f(x_0 + x - x_0)`
-		`= f(x_0) f(x-x_0) = 0`, 即 `f(x) -= 0`.
+	<li>若 `u` 是 `f` 的零点, 则
+		对任意 `x in RR`, `f(x) = f(u + x - u)`
+		`= f(u) f(x-u) = 0`, 即 `f(x) -= 0`.
 	</li>
-	<li>下设 `f` 无零点, 由 1. 知 `f` 恒正. 记 `g(x) = ln f(x)`,
-		显然 `g` 在 `0` 处连续, 且
+	<li>下设 `f` 无零点, 由 (1) 知 `f` 恒正.
+		于是 `g(x) = ln f(x)` 适合 Cauchy 方程, 显然 `g` 也是连续函数,
+		记 `f(1) = a`, 则 `g(1) = ln a`, 我们有 `g(x) = x ln a`, 于是
 		<span class="formula">
-			`g(x) + g(y) = g(x+y)`, `quad AA x, y in RR`.
+			`f(x) = "e"^(g(x)) = "e"^(x ln a) = a^x`.
 		</span>
-		因此 `g(x) = a x`, 其中 `a = g(1)`.
-		于是 `f(x) = "e"^(g(x)) = "e"^(a x)`.
+		综上有 `f(x) = a^x`, `a = f(1) ge 0`.
 	</li>
-</ol>
+	</ol>
+	</li>
 
-<p class="theorem">
-	设 `f: RR to RR` 在 `0` 处连续, 且满足
-	<span class="formula">
-		`f(x) f(y) = f(x y)`, `quad AA x, y in RR`,
-	</span>
-	则 `f(x) -= 0`, 或 `f(x) -= 1`, 或
-</p>
-
-<ol class="proof">
+	<li>
+	<ol>
 	<li>取 `y = 0` 得 `f(x) f(0) = f(0)`. 若 `f(0) != 0`, 则有
 		`f(x) -= 1`.
 	</li>
@@ -109,22 +134,42 @@
 		则有 `f(x) -= 0`.
 	</li>
 	<li>下设 `f(0) = 0`, 且 `f(1) = 1`, 我们来证 `0` 是 `f` 的唯一零点.
-		否则设 `f(x_0) = 0`, `x_0 != 0`, 则 `AA x in RR`,
+		否则设 `f(u) = 0`, `u != 0`, 则 `AA x in RR`,
 		<span class="formula">
-			`f(x) = f(x/x_0 x_0) = f(x/x_0) f(x_0) = 0`,
+			`f(x) = f(x/u u) = f(x/u) f(u) = 0`,
 		</span>
 		与 `f(1) = 1` 矛盾.
 	</li>
-	<li>下证 `(f(x))^n = f(x^n)`, `n` 是正整数.</li>
-</ol>
+	<li>下证 `f(x^n) = f(x)^n`, `n` 是整数. `n = 1` 时显然成立.
+		设结论对正整数 `n` 成立, 则
+		<span class="formula">
+			`f(x^(n+1)) = f(x^n) f(x) = f(x)^n f(x) = f(x)^(n+1)`.
+		</span>
+		故结论对所有正整数 `n` 成立. 又
+		<span class="formula">
+			`f(x^-1) f(x) = f(1) = 1`,
+		</span>
+		类似可证结论对所有负整数也成立.
+	</li>
+	<li>下证 `f(x^q) = f(x)^q`, `q in QQ`, `x in RR^+`.
+		在 (2) 的结论中用 `root n x` 代替 `x`, 又得到 `f(root n x) = root
+		n (f(x))`. 设 `q = m/n`, `m` 是整数, `n` 是正整数, 则
+		<span class="formula">
+			`f(x^q) = f((x^(1/n))^m) = f(x^(1/n))^m = f(x)^(m/n)
+			= f(x)^q`.
+		</span>
+	</li>
+	</ol>
+	</li>
 
-<p class="corollary">
-	设 `f: RR^+ to RR` 在 `1` 处连续, 且满足
-	<span class="formula">
-		`f(x) + f(y) = f(x y)`, `quad AA x, y in RR^+`,
-	</span>
-	则
-</p>
+	<li>
+	<ol>
+	<li>取 `x = y = 1` 知 `f(1) = 0`. 令 `g(x) = "e"^(f(x))`, 则
+		`g` 是积性函数.
+	</li>
+	</ol>
+	</li>
+</ol>
 
 <script src="../js/note.js?type=math"></script>
 

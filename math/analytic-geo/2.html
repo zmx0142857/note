@@ -923,6 +923,81 @@
 	当直线与平面垂直时, 它们的夹角规定为 `pi//2`.
 </p>
 
+<h2>包络线</h2>
+
+<p class="example">
+	设 `gamma` 是平面曲线, 它的全体切线组成直线束
+	`Gamma = {l(t): f(t) x + g(t) y = c}`,
+	则 `gamma` 称为 `Gamma` 的<b>包络 (线)</b>.
+	下面求包络线.  设 `gamma` 的参数方程为
+	`(x(t), y(t))`, 且点 `P(t) = (x(t)`,`y(t))` 是 `gamma` 与直线
+	`l(t)` 的切点, 这时 `gamma` 在 `P(t)` 处的切向量应与 `l(t)` 平行, 有
+	<span class="formula">
+		`dy/dx = (y'(t))/(x'(t)) = -(f(t))/(g(t))`,
+	</span>
+	即
+	<span class="formula">
+		`f(t) x'(t) + g(t) y'(t) = 0`.
+		<span class="label" id="for-envelope-1"></span>
+	</span>
+	又由 `P(t)` 在切线上, 有
+	<span class="formula">
+		`f(t) x(t) + g(t) y(t) = c`.
+		<span class="label" id="for-envelope-2"></span>
+	</span>
+	上式两边对 `t` 求导, 再与 <a class="ref" href="#for-envelope-1"></a> 相减得
+	<span class="formula">
+		`f'(t) x(t) + g'(t) y(t) = 0`.
+		<span class="label" id="for-envelope-3"></span>
+	</span>
+	从 <a class="ref" href="#for-envelope-2"></a>
+	<a class="ref" href="#for-envelope-3"></a>
+	组成的方程组中解出 `x(t)`, `y(t)`, 就得到曲线的参数方程.
+</p>
+
+<p class="example">
+	求直线束 `1/2 x cos t + y sin t = 1`, `t in [0, 2pi)` 的包络.
+</p>
+
+<p class="solution">
+	列出方程组
+	<span class="formula">
+		`{ 1/2 x cos t + y sin t = 1;
+		-1/2 x sin t + y cos t = 0 :}`
+	</span>
+	从上式解出 `x, y` 就得到参数方程. 现在我们求隐方程, 两式平方相加得
+	<span class="formula">
+		`x^2/4 + y^2 = 1`,
+	</span>
+	这是一个椭圆.
+</p>
+
+<p class="example">
+	在平面直角坐标系中, 求直线 `A_k B_k` 的包络线与坐标轴围成图形的面积,
+	其中 `A_k(0, k/n)`, `B_k((n+1-k)/n, 0)`, `k = 1, 2, cdots, n`.
+</p>
+
+<p class="solution">
+	记 `k/n = t`, 则直线束可以用
+	<span class="formula">
+		`x/(1-t) + y/t = 1`, `quad t in (0, 1)`
+	</span>
+	来近似. 解方程组
+	<span class="formula">
+		`{x/(1-t) + y/t = 1;
+		x/(1-t)^2 - y/t^2 = 0 :}`
+	</span>
+	得到 `x = (1-t)^2`, `y = t^2`. 隐方程为
+	<span class="formula">
+		`sqrt x + sqrt y = 1`, 或 `y = 1 - 2 sqrt x + x`.
+	</span>
+	面积为
+	<span class="formula">
+		`int_0^1 (1 - 2 sqrt x + x) dx`
+		`= 1 - 4/3 + 1/2 = 1/6`.
+	</span>
+</p>
+
 </body>
 
 <script src="../js/note.js?type=math"></script>

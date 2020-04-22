@@ -220,12 +220,37 @@
 <h4>积化和差</h4>
 
 <span class="formula">
-	`2 sin x cos y = sin(x+y) + sin(x-y)`
-	`= sin(y+x) - sin(y-x)`,<br/>
+	`2 sin x cos y = sin(x+y) + sin(x-y)`,<br/>
 	`2 cos x cos y = cos(x-y) + cos(x+y)`,<br/>
 	`2 sin x sin y = cos(x-y) - cos(x+y)`,<br/>
 	`tan x tan y = (cos(x-y) - cos(x+y))/(cos(x-y)-cos(x+y))`.
 </span>
+
+<p class="example">
+	`prod_(0 lt k lt n) sin {:(k pi)/n:} = (2n)/2^n`.
+</p>
+
+<p class="proof">
+	等式左边记为 `S`.
+	取 `n` 次单位根 `x_k = "e"^((2k pi)/n "i")`, 则多项式 `x^n-1`
+	可以分解为
+	<span class="formula">
+		`x^n-1 = prod_(0 le k lt n) (x-x_k)`
+	</span>
+	两边同除以 `x-1` 得
+	<span class="formula">
+		`sum_(0 le k lt n) x^k = prod_(0 lt k lt n) (x-x_k)`,
+	</span>
+	令 `x = 1`, 于是
+	<span class="formula">
+		`n = prod_(0 lt k lt n) (1-"e"^((2k pi)/n "i"))`
+		`= prod_(0 lt k lt n) (-2"i" "e"^((k pi)/n "i")) ("e"^((k pi)/n "i") - "e"^(-(k pi)/n "i")) / (2"i")`
+		`= prod_(0 lt k lt n) -2"i" "e"^((k pi)/n "i") sin {:(k pi)/n:}`
+		`= (-2"i")^(n-1) "e"^((n-1)/2 pi "i") S`
+		`= 2^(n-1) S`.
+	</span>
+</p>
+
 <p>
 	<span class="formula">
 		`prod_(k=1)^n cos x_k = 1/2^n sum_(e in S)
