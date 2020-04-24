@@ -4,8 +4,7 @@
 <head>
 
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0,
-  maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>index</title>
 <link id="favicon" rel="shortcut icon" href="img/pikachu.png"/>
 <style type="text/css">
@@ -51,6 +50,7 @@ header a {
   font-weight: inherit;
   background: rgba(0,0,0,0);
   cursor: pointer;
+  text-decoration: none;
 }
 
 header a:focus {
@@ -71,32 +71,32 @@ header span {
 }
 
 #notify {
-	position: fixed;
-	top: 10px;
-	left: 40%;
-	width: 20%;
-	padding: 5px;
-	border-radius: 5px;
-	text-align: center;
-	z-index: 10;
-	color: white;
-	background: #444;
-	overflow: hidden;
+  position: fixed;
+  top: 10px;
+  left: 40%;
+  width: 20%;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 10;
+  color: white;
+  background: #444;
+  overflow: hidden;
 }
 
 #notify::before {
-	content: '';
-	position: absolute;
-	background: white;
-	bottom: 2px;
-	left: -25%;
-	height: 2px;
-	width: 50%;
-	animation: whitebar 1.5s infinite ease;
+  content: '';
+  position: absolute;
+  background: white;
+  bottom: 2px;
+  left: -25%;
+  height: 2px;
+  width: 50%;
+  animation: whitebar 1.5s infinite ease;
 }
 
 @keyframes whitebar {
-	50% { left: 75% }
+  50% { left: 75% }
 }
 
 #nav {
@@ -217,7 +217,7 @@ li.isnew::after {
 }
 
 #book option {
-	color: black;
+  color: black;
 }
 
 #book:focus {
@@ -288,7 +288,8 @@ li.isnew::after {
   <header id="header">
     <a id="yinyang">&#x262f;</a>
     <span id="article-title"></span>
-    <a></a>
+    <a href="mailto:892298182@qq.com" style="font-size:1.5em; line-height:1.5em">&#x2709;</a>
+    <!--<img src="img/envelope.svg" alt="&#x2709;" style="width: 20px; height: 20px; margin: 12px">-->
   </header>
 </article>
 
@@ -336,7 +337,7 @@ var article = $('#article'),
   book = $('#book'),
   favicon = $('#favicon');
 
-var tableOfContents, bookname, src, title, pos;
+var tableOfContents, src, title, pos;
 
 function hideNav(flag) {
   if (!nav.hidden || flag) {
@@ -364,7 +365,7 @@ function headerVisible(flag) {
 
 function jump() {
   var notify = $('#notify');
-	if (!notify) {
+  if (!notify) {
     notify = $('<div>');
     notify.innerText = '加载中...';
     notify.id = 'notify';
@@ -373,7 +374,7 @@ function jump() {
   iframe.onload = function() { document.body.removeChild(notify) };
 
   localStorage['src'] = src;
-  iframe.setAttribute('src', bookname + '/' + src);
+  iframe.setAttribute('src', book.value + '/' + src);
   artitle.innerText = title;
   hideNav(true);
   setTimeout(headerVisible, 1000);
@@ -403,18 +404,17 @@ function getQuery() {
 }
 
 function loadToc() {
-  localStorage['book'] = bookname = book.value;
-  if (bookname == 'math') {
+  if (book.value == 'math') {
     tableOfContents = tocMath;
     document.title = 'zmx0142857 的数学笔记';
     document.body.id = 'body-yellow';
     favicon.href = 'img/pikachu.png';
-  } else if (bookname == 'cs') {
+  } else if (book.value == 'cs') {
     tableOfContents = tocCs;
     document.title = 'zmx0142857 的计算机笔记';
     document.body.id = 'body-green';
     favicon.href = 'img/dango.png';
-  } else if (bookname == 'physics') {
+  } else if (book.value == 'physics') {
     tableOfContents = tocPhysics;
     document.title = 'zmx0142857 的物理笔记';
     document.body.id = 'body-purple';
@@ -473,6 +473,7 @@ nextArticle.onclick = function() {
 };
 
 book.onchange = function() {
+  localStorage['book'] = book.value;
   loadToc();
   src = tableOfContents[0].articles[0].src;
   title = tableOfContents[0].articles[0].title;
@@ -483,14 +484,13 @@ book.onchange = function() {
 // load data & find pos
 function init() {
   var arg = getQuery();
-  loadToc();
   if (arg.b && arg.g && arg.a) {
     book.value = arg.b;
+    loadToc();
     src = arg.g + '/' + arg.a + '.html'; 
   } else {
-    arg = localStorage['book'];
-    if (arg)
-      book.value = arg;
+    book.value = localStorage['book'] || 'math';
+    loadToc();
     src = localStorage['src'] || tableOfContents[0].articles[0].src;
   }
   pos = [0, 0];
