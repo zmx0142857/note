@@ -94,10 +94,11 @@ is_prime(n):
 # 如 n = 252 时, 得到 {2:2, 3:2, 7:1}
 decom(n):
     d = {}
-    for i = 2 to n:
+	for i = 2 to n: # 注意 n 需要在循环中更新
         while n % i == 0:
-			++d[i] # 空的表项默认为零
+			++d[i] # 空的表项在这里被置为 1
             n //= i
+		# 可选, 起加速作用
 		if is_prime(n):
 			++d[n]
 			break
