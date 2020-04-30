@@ -173,7 +173,7 @@ AM.symbols = AM.symbols.concat([
 {input:'*',tag:'mo',output:'\u22C5',tex:'cdot',ttype:CONST},
 {input:'**',tag:'mo',output:'\u2217',tex:'ast',ttype:CONST},
 {input:'***',tag:'mo',output:'\u22C6',tex:'star',ttype:CONST},
-{input:'//',tag:'mo',output:'/',tex:'/',ttype:CONST,val:true},
+{input:'//',tag:'mo',output:'/',tex:'{/}',ttype:CONST,val:true},
 {input:'\\\\',tag:'mo',output:'\\',tex:'backslash',ttype:CONST},
 {input:'setminus',tag:'mo',output:'\\',tex:null,ttype:CONST},
 {input:'xx',tag:'mo',output:'\u00D7',tex:'times',ttype:CONST},
@@ -799,7 +799,7 @@ function parseS() {
   case UNARY:
     skip(len);
     var rewind = AMbegin;
-    res = parseS();
+    res = parseI(); // BUG: formerly, parseS() failed on `sin x_1`
     if (res == null) {
       AMbegin = rewind;
       return AM.katex ? b(getTexSymbol(sym)) :
