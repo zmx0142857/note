@@ -41,6 +41,7 @@ var tocMath = [ {
     {title:'不定积分', src:'analysis/6.html'},
     {title:'定积分', src:'analysis/7.html'},
     {title:'特殊函数', src:'analysis/8.html', isnew:true},
+    {title:'椭圆函数', src:'analysis/9.html', isnew:true},
     {title:'无穷级数', src:'analysis/10.html'},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
     {title:'多元数量函数微分学', src:'analysis/15.html'},
