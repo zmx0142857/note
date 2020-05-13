@@ -315,6 +315,17 @@
 	<li>消去重根. 用 `f(x)/((f(x)","f'(x)))` 替代 `f(x)`
 		得到只含一重根的多项式. 最大公因式可用辗转相除法求.
 	</li>
+	<li>令 `f(x) = a_n x^n + a_(n-1) x^(n-1) + cdots + a_1 x + a_0`
+		是整系数多项式, `c/d` 是 `f` 的有理根, `gcd(c,d) = 1`.
+		则由
+		<span class="formula">
+			`a_n c^n + a_(n-1) c^(n-1) d + cdots + a_0 d^n = 0`
+		</span>
+		知道, `d | a_n c^n`, 从而 `d | a_n`. 类似 `c | a_0`.
+		也就是说, 整系数多项式的有理根, 其分母是首项系数的因子,
+		分子是常数项的因子. 特别地, 首一的整系数多项式,
+		其有理根只能是整数.
+	</li>
 	<li>Eisenstein 判别法求有理根.
 		令 `f(x) = a_n x^n + a_(n-1) x^(n-1) + cdots + a_1 x + a_0`
 		是次数大于 1 的整系数多项式.
@@ -611,7 +622,7 @@
 	<span class="formula">
 		`f(z) = sum_(k=0)^n a_k z^k`, `quad a_n != 0`.
 	</span>
-	令 `A = max_k |a_k|`, `r = A/|a_n| + 1`, 则 `|z| gt r` 时,
+	令 `A = max_(0 le k lt n) |a_k|`, `r = A/|a_n| + 1`, 则 `|z| gt r` 时,
 	首项的模大于其余各项的模之和:
 	<span class="formula">
 		`|a_n z^n| gt sum_(k=0)^(n-1) |a_k z^k|`.
@@ -621,12 +632,30 @@
 
 <p class="proof">
 	<span class="formula">
-		`sum_(k=0)^(n-1) |a_k z^k|`
-		`le A sum_(k=0)^(n-1) |z|^k`
+		`sum_(0 le k lt n) |a_k z^k|`
+		`le A sum_(0 le k lt n) |z|^k`
 		`= A (|z|^n-1)/(|z|-1)`
 		`lt A |z|^n/(r-1)`
 		`= |a_n z^n|`.
 	</span>
+</p>
+
+<p class="example">
+	设 `z^n + a_(n-1) z^(n-1) + cdots + a_1 z + a_0 = 0`,
+	`A = max_(0 le k lt n) |a_k|`, 则
+	<span class="formula">
+		`|z| le max{1, n A}`.
+	</span>
+</p>
+
+<p class="proof">
+	不妨设 `|z| gt 1`, 下证 `|z| le n A`. 移项并取模
+	<span class="formula">
+		`|z|^n = |a_(n-1) z^(n-1) + cdots + a_1 z + a_0|`
+		`le A |z^(n-1) + cdots + z + 1|`
+		`le n A |z|^(n-1)`.
+	</span>
+	两边同除以 `|z|^(n-1)` 即得证.
 </p>
 
 <p class="theorem">

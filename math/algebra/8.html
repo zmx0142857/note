@@ -597,6 +597,66 @@
 
 <h2>向量到子空间的距离, 最小二乘法</h2>
 
+<p class="example">
+	<b>线性回归</b>
+	假设有数据点
+	<span class="formula">
+		`(x_1, y_1), (x_2, y_2), cdots, (x_n, y_n)`.
+	</span>
+	在平面上用一直线 `y = a x + b` 拟合这些数据,
+	使得每个点处误差的平方和
+	<span class="formula">
+		`E(a, b) = sum_(i=1)^n (y_i - a x_i - b)^2`
+	</span>
+	最小.
+</p>
+
+<p class="solution">
+	令偏导数等于零,
+	<span class="formula">
+		`0 = (del E)/(del b) = -2 sum_(i=1)^n (y_i - a x_i - b)`,<br/>
+		`0 = (del E)/(del a) = -2 sum_(i=1)^n x_i (y_i - a x_i - b)`.
+	</span>
+	即
+	<span class="formula">
+		`sum y_i = a sum x_i + n b`,<br/>
+		`sum x_i y_i = a sum x_i^2 + b sum x_i`
+	</span>
+	于是
+	<span class="formula">
+		`b = bar y - a bar x`,
+		`quad a = (sum x_i y_i - n bar x_i bar y_i)/(sum x_i^2 - n {:bar x:}^2)`.
+	</span>
+</p>
+
+<p class="solution">
+	用线性代数的语言, 这个问题就是:
+	设 `bm 1 = (1, 1, cdots, 1) in RR^n`,
+	`bm x = (x_1, x_2, cdots, x_n) in RR^n`,
+	`bm y = (y_1, y_2, cdots, y_n) in RR^n`,
+	内积定义为
+	<span class="formula">
+		`(bm x, bm y) = sum_(i=1)^n x_i y_i`.
+	</span>
+	在 `RR^n` 的子空间 `"span"[1, bm x]` 中寻找一向量, 使其到向量 `bm y`
+	的距离最小.
+	这一向量的坐标 `(b, a)` 满足
+	<span class="formula">
+		`[(bm 1, bm 1), (bm 1, bm x); (bm x, bm 1), (bm x, bm x)] [b;a]
+		= [(bm 1, bm y); (bm x, bm y)]`,
+	</span>
+	即
+	<span class="formula">
+		`[sum 1, sum x_i; sum x_i, sum x_i^2] [b;a] = [sum y_i; sum x_i
+		y_i]`.
+	</span>
+	解得
+	<span class="formula">
+		`b = bar y - a bar x`,
+		`quad a = (sum x_i y_i - n bar x_i bar y_i)/(sum x_i^2 - n {:bar x:}^2)`.
+	</span>
+</p>
+
 <script src="../js/note.js?type=math"></script>
 
 </body>
