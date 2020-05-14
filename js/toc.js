@@ -172,7 +172,8 @@ var tocMath = [ {
     {title:'组合数学', src:'combinatorics/1.html'},
     {title:'排列与组合', src:'combinatorics/2.html'},
     {title:'求解递推式', src:'combinatorics/3.html'},
-    {title:'容斥原理', src:'combinatorics/5.html'},
+    {title:'容斥原理', src:'combinatorics/4.html'},
+    {title:'离散微积分与 Stirling 数', src:'combinatorics/5.html'},
   ]
 }, {
   title:'图论',

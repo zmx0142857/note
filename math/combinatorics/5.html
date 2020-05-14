@@ -3,7 +3,7 @@
 
 <head>
 
-<title>容斥原理</title>
+<title>离散微积分与 Stirling 数</title>
 <meta charset="utf-8" />
 
 <link rel="stylesheet" type="text/css" href="../css/note.css" />
@@ -12,98 +12,114 @@
 
 <body>
 
+<h2>离散微积分</h2>
+
+<p class="definition">
+	设 `x_n` (`n ge 0`) 是一个数列. 定义 `x_n` 的<b>差分</b>为
+	<span class="formula">
+		`Delta x_n = x_(n+1) - x_n`,
+	</span>
+	其中 `Delta` 称为差分算子.
+	定义 `x_n` 是自己的零阶差分: `x_n = Delta^0 x_n`.
+	一般地, 对任意正整数 `k`, `x_n` 的 `k` 阶差分递归定义为
+	<span class="formula">
+		`Delta^k x_n = Delta( Delta^(k-1) x_n)`.
+	</span>
+	差分可以类比于微分运算.
+</p>
+
+<p class="remark">
+	上面定义的差分又叫向前差分. 还可以定义向后差分与中心差分
+	<span class="formula">
+		`grad x_n = x_n - x_(n-1)`,
+		`quad delta x_n = x_(n+1/2) - x_(n-1/2)`.
+	</span>
+	下文我们只讨论向前差分.
+</p>
+
+<ol class="corollary">
+	<li>就如同积分与微分互逆一样, <b>求和与差分互为逆运算</b>:
+		<span class="formula">
+			`sum_(k=0)^n Delta x_k = x_(n+1) - x_0`,
+			`quad Delta sum_(k=0)^n x_k = x_n`.
+		</span>
+	</li>
+	<li>如同积分与微分一样, 求和与差分具有线性性:
+		<span class="formula">
+			`sum (a x_n + b y_n) = a sum x_n + b sum y_n`,
+			`quad Delta (a x_n + b y_n) = a Delta x_n + b Delta y_n`.
+		</span>
+	</li>
+</ol>
+
+<p class="definition">
+	<b>下降幂与上升幂</b>
+	设 `n` 为非负整数, 分别定义下降幂与上升幂:
+	<span class="formula">
+		`x^(ul n) = prod_(0 le k lt n) (x-k) = x(x-1) cdots (x-n+1)`,<br/>
+		`x^(bar n) = prod_(0 le k lt n) (x+k) = x(x+1) cdots (x+n-1)`.
+	</span>
+	下降幂与二项式系数只相差系数 `n!`:
+	<span class="formula">
+		`x^(ul n)/(n!) = (x;n)`.
+	</span>
+</p>
+
+<p class="corollary">
+	<b>下降幂的差分公式</b>
+	由 Pascal 公式 `(x+1; n) = (x; n) + (x; n-1)` 知
+	<span class="formula">
+		`Delta (x;n) = (x; n-1)`.
+	</span>
+	写成下降幂形式就是
+	<span class="formula">
+		`Delta x^(ul n) = n x^(ul(n-1))`.
+	</span>
+	这对应于微分学的公式 `"d"/dx x^n = n x^(n-1)`. 然而 `x^n`
+	却没有简单的差分公式.  因此在离散数学的世界里, 用下降幂代替普通的幂,
+	往往能简化计算.
+</p>
+
+<p class="example">
+	应用离散微积分的方法导出朱世杰恒等式:
+	<span class="formula">
+		`sum_(k=0)^n (k;p)`
+		`= sum_(k=0)^n Delta (k; p+1)`
+		`= (n+1; p+1) - (0; p+1)`
+		`= (n+1; p+1)`.
+	</span>
+</p>
+
 <p class="theorem">
-	<b>容斥原理</b>
-	设 `A, B` 为有限集, 则
+	<b>差分形式的 Maclaurin 公式</b>
+	设 `x_n` 为数列通项, `p` 为非负整数, 且对任意 `k gt p` 有 `Delta^k x_n
+	= 0`, 则
 	<span class="formula">
-		`|A uu B| = |A| + |B| - |A nn B|`.
-	</span>
-</p>
-
-<p class="corollary">
-	设 `A_1, A_2, cdots, A_n` 为 `n` 个有限集, `n in ZZ^+`.
-	`N = {1, 2, cdots, n}`, 则
-	<span class="formula">
-		`|uuu_(i=1)^n A_i| = sum_(C sube N) (-1)^(|C|-1)
-		|nnn_(j in C) A_j|`
-		`= sum_(k=1)^n (-1)^(k-1) sum_(1 le i_1 lt cdots lt i_k le n)
-		|nnn_(j=1)^k A_(i_j)|`.
-	</span>
-	即 `n` 个集合的并集的基数, 等于它们每个集合的基数之和,
-	减去每两个集合的交的基数之和, 加上每三个集合的交的基数之和,
-	..., 最后加上 `(-1)^(n-1)` 乘以所有集合的交集的基数.
-</p>
-
-<p class="proof">
-	`n = 1` 的情形是平凡的; `n = 2` 时, 即为容斥原理.
-	设 `n-1` 时命题成立, 则 `n` 的情形, 由容斥原理,
-	<span class="formula">
-		左边
-		`= |(uuu_(i=1)^(n-1) A_i) uu A_n|`
-		`= |uuu_(i=1)^(n-1) A_i| + |A_n| - |uuu_(i=1)^(n-1) (A_i nn A_n)|`
-		`= sum_(C sube N\\{n}) (-1)^(|C|-1) |nnn_(j in C) A_j| + |A_n|`
-		`+ sum_(C sube N\\{n}) (-1)^|C| |nnn_(j in C) (A_j nn A_n)|`
-		`=` 右边
-	</span>
-</p>
-
-<p class="corollary">
-	设 `A_1, A_2, cdots, A_n` 为 `n` 个基数相等的有限集, `n in ZZ^+`.
-	`S_0 supe uuu_(i=1)^n A_i`, `S_k = nnn_(i=1)^k A_i`,
-	`bar S_k = S_0 \\ S_k`, `k = 1, 2, cdots, n`. 则
-	<span class="formula">
-		`|nnn_(k=1)^n bar S_k| = sum_(k=0)^n (-1)^k (n;k) |S_k|`.
+		`x_n = sum_(k=0)^p (n;k) Delta^k x_n`.
 	</span>
 </p>
 
 <p class="proof">
-	易知 `A_1, A_2, cdots, A_n` 中任意 `k` 个集合的交的基数都等于
-	`|S_k|`, 而从 `n` 个集合中选出 `k` 个有 `(n;k)` 种选法, 所以
-	<span class="formula">
-		`|nnn_(k=1)^n bar S_k| = |S_0| - |uuu_(k=1)^n S_k|`
-		`= |S_0| + sum_(k=1)^n (-1)^k (n;k) |S_k|`.
-	</span>
+	
 </p>
 
-<p class="example">
-	<b>错排问题</b>
-	有 `n` 封信和 `n` 只对应的信封, 有黑暗中随意将每封信装进一个信封,
-	问恰好每封信都装错信封的装法有几种, 并求 `n to oo` 时,
-	每封信都装错信封的概率.
-</p>
+<h2>Stirling 数</h2>
 
-<p class="solution">
-	以集合 `S_k` 记所有使得前 `k` 封信被装进对的信封的安排, 则
-	`|S_k| = (n-k)!`, `k = 1, 2, cdots, n`.
-	所求的数为
+<p class="definition">
+	<b>Stirling 数</b>
+	从线性代数的角度, `{x^k}_(k=0)^n` 与 `{x^(ul k)}_(k=0)^n`
+	是次数不超过 `n` 的多项式组成的线性空间 `bbb P{::}_n[x]` 的两组基.
+	为了方便离散微积分运算, 需要将多项式的基由普通幂换为由下降幂.
+	下面定义的两类 Stirling 数分别给出了两组基底之间互化的系数
+	(即过渡矩阵):
 	<span class="formula">
-		`|nnn_(k=1)^n bar S_k|`
-		`= sum_(k=0)^n (-1)^k (n;k) (n-k)!`
-		`= sum_(k=0)^n (-1)^k (n!)/(k!)`.
+		`x^(ul n) = sum_(k=0)^n (-1)^(n-k) s(n, k) x^k`,
+		`quad x^n = sum_(k=0)^n S(n, k) x^(ul k)`.
 	</span>
-	`n to oo` 时, 所求概率为
-	<span class="formula">
-		`lim_(n to oo) 1/(n!) sum_(k=0)^n (-1)^k (n!)/(k!)`
-		`= sum_(k=0)^oo (-1)^k/(k!) = "e"^-1`.
-	</span>
-</p>
-
-<p class="example">
-	<b>n 对夫妇问题</b>
-	`n` 对夫妇坐成一横排, 问有几种坐法, 使得每一对夫妇的位置都不相邻.
-</p>
-
-<p class="solution">
-	以集合 `S_k` 记所有使得前 `k` 对夫妇坐在一起的排列, 则这 `k`
-	对夫妇两两 "合并", 后, 可以看作 `2n-k` 个人的全排列, 于是
-	<span class="formula">
-		`|S_k| = 2^k (2n - k)!`, `quad k = 1, 2, cdots, n`.
-	</span>
-	所求的数为
-	<span class="formula">
-		`|nnn_(k=1)^n bar S_k|`
-		`= sum_(k=0)^n (n;k) (-2)^k (2n-k)!`.
-	</span>
+	其中 `s(n, k)` 称为<b>第一类 Stirling 数</b>,
+	`S(n, k)` 称为<b>第二类 Stirling 数</b>.
+	第二类 Stirling 数 `S(n, k)` 具有许多与二项式系数 `(n;k)` 相似的性质,
+	因此又常记为 `{n;k}`.
 </p>
 
 <script src="../js/note.js?type=math"></script>
