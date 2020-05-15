@@ -14,6 +14,8 @@
 
 <h2>离散微积分</h2>
 
+<h3>差分与求和</h3>
+
 <p class="definition">
 	设 `x_n` (`n ge 0`) 是一个数列. 定义 `x_n` 的<b>差分</b>为
 	<span class="formula">
@@ -38,46 +40,112 @@
 </p>
 
 <ol class="corollary">
-	<li>就如同积分与微分互逆一样, <b>求和与差分互为逆运算</b>:
-		<span class="formula">
-			`sum_(k=0)^n Delta x_k = x_(n+1) - x_0`,
-			`quad Delta sum_(k=0)^n x_k = x_n`.
-		</span>
-	</li>
-	<li>如同积分与微分一样, 求和与差分具有线性性:
+	<li>如同积分与微分一样, <b>求和与差分具有线性性</b>:
 		<span class="formula">
 			`sum (a x_n + b y_n) = a sum x_n + b sum y_n`,
 			`quad Delta (a x_n + b y_n) = a Delta x_n + b Delta y_n`.
 		</span>
 	</li>
+	<li>如同积分与微分互逆一样, <b>求和与差分互为逆运算</b>:
+		<span class="formula">
+			`sum_(0 le k lt n) Delta x_k = [x_k]_0^n = x_n - x_0`,
+			`quad Delta sum_(0 le k lt n) x_k = x_n`.
+		</span>
+		特别当 `x_0 = 0` 时, 两式结果相等.
+	</li>
+	<li>
+		<b>分部求和公式</b>
+		因为
+		<span class="formula">
+			`Delta x_k y_k = x_(k+1) y_(k+1) - x_k y_(k+1) + x_k y_(k+1)
+			- x_k y_k`
+			`= y_(k+1) Delta x_k + x_k Delta y_k`,
+		</span>
+		所以
+		<span class="formula">
+			`sum_(0 le k lt n) x_k Delta y_k`
+			`= [x_k y_k]_0^n - sum_(0 le k lt n) y_(k+1) Delta x_k`.
+		</span>
+		分部求和的几何意义是改变矩形求和的次序.
+	</li>
 </ol>
 
-<p class="definition">
-	<b>下降幂与上升幂</b>
-	设 `n` 为非负整数, 分别定义下降幂与上升幂:
+<img src="img/sum-by-part.svg" class="img">
+
+<p>	如同微积分中我们有一张常用函数的导数表一样, 我们来推导一些常见数列的差分.</p>
+
+<p class="proposition">
+	<b>指数函数的差分公式</b>
+	直接计算,
 	<span class="formula">
-		`x^(ul n) = prod_(0 le k lt n) (x-k) = x(x-1) cdots (x-n+1)`,<br/>
-		`x^(bar n) = prod_(0 le k lt n) (x+k) = x(x+1) cdots (x+n-1)`.
+		`Delta 2^n = 2^n`, `quad Delta a^n = a^n (a-1)`.
 	</span>
-	下降幂与二项式系数只相差系数 `n!`:
+	`2^n` 的差分是它自己, 这一性质对应于微积分中的 `"e"^x`.
+	如果记 `H_n = sum_(k=1)^n 1/k`, 则
 	<span class="formula">
-		`x^(ul n)/(n!) = (x;n)`.
+		`Delta H_n = 1/(n+1)`,
+	</span>
+	这一性质对应于微积分中的 `ln x`.
+</p>
+
+<p class="example">
+	求 `sum k 2^k`, 其中求和范围是 `0 le k lt n`.
+</p>
+
+<p class="solution">
+	<span class="formula">
+		`sum k 2^k = sum k Delta 2^k = [k 2^k]_0^n - sum 2^(k+1) Delta k`
+		`= n 2^n - 2 sum Delta 2^k = n 2^n - 2 [2^k]_0^n`
+		`= n 2^n - 2(2^n - 1)`.
 	</span>
 </p>
 
-<p class="corollary">
-	<b>下降幂的差分公式</b>
-	由 Pascal 公式 `(x+1; n) = (x; n) + (x; n-1)` 知
+<p class="example">
+	求 `sum H_k`, 求和范围是 `0 le k lt n`.
+</p>
+
+<p class="solution">
 	<span class="formula">
-		`Delta (x;n) = (x; n-1)`.
+		`sum H_k = sum H_k Delta k = [k H_k]_0^n - sum (k+1) Delta H_k`
+		`= n(H_n - 1)`.
+	</span>
+</p>
+
+<h3>下降幂</h3>
+
+<p class="definition">
+	<b>下降幂与上升幂</b>
+	设 `k` 为非负整数,
+	<span class="formula">
+		`n^(ul k) = prod_(0 le i lt k) (n-i) = n(n-1) cdots (n-k+1)`,<br/>
+		`n^(bar k) = prod_(0 le i lt k) (n+i) = n(n+1) cdots (n+k-1)`.
+	</span>
+	下降幂与二项式系数只相差系数 `k!`:
+	<span class="formula">
+		`n^(ul k)/(k!) = (n;k)`.
+	</span>
+	下面考虑负指数的下降幂.  设 `k` 为正整数, 定义
+	<span class="formula">
+		`n^(ul(-k)) = prod_(1 le i le k) (n+i)^-1`
+		`= 1/((n+1)(n+2) cdots (n+k))`.
+	</span>
+	特别地 `n^(ul(-1)) = 1/(n+1)`.
+</p>
+
+<p class="proposition">
+	<b>下降幂的差分公式</b>
+	`k` 为非负整数时, 由 Pascal 公式 `(n+1; k) = (n; k) + (n; k-1)` 知
+	<span class="formula">
+		`Delta (n;k) = (n; k-1)`.
 	</span>
 	写成下降幂形式就是
 	<span class="formula">
-		`Delta x^(ul n) = n x^(ul(n-1))`.
+		`Delta n^(ul k) = k n^(ul(k-1))`.
 	</span>
-	这对应于微分学的公式 `"d"/dx x^n = n x^(n-1)`. 然而 `x^n`
-	却没有简单的差分公式.  因此在离散数学的世界里, 用下降幂代替普通的幂,
-	往往能简化计算.
+	可以验证上式对于负指数下降幂仍成立. 因此, 下降幂的差分仍是一个下降幂,
+	这对应于微分学的公式 `"d"/dx x^n = n x^(n-1)`.
+	然而 `n^k` 没有简单的差分公式, 所以在离散数学的世界里,
+	用下降幂代替普通的幂, 往往能简化计算.
 </p>
 
 <p class="example">
@@ -95,12 +163,13 @@
 	设 `x_n` 为数列通项, `p` 为非负整数, 且对任意 `k gt p` 有 `Delta^k x_n
 	= 0`, 则
 	<span class="formula">
-		`x_n = sum_(k=0)^p (n;k) Delta^k x_n`.
+		`x_n = sum_(k=0)^p (n;k) Delta^k x_n`
+		`= sum_(k=0)^p (Delta^k x_n)/(k!) n^(ul k)`.
 	</span>
 </p>
 
 <p class="proof">
-	
+
 </p>
 
 <h2>Stirling 数</h2>
