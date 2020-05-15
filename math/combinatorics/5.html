@@ -39,7 +39,24 @@
 	下文我们只讨论向前差分.
 </p>
 
-<ol class="corollary">
+<p class="example">
+	利用差分表计算 `x_n = 2 n^2 + 3 n + 1` 的各阶差分.
+</p>
+
+<div class="solution">
+	将 `x_0, x_1, x_2, cdots` 列于第一行,
+	`Delta x_0, Delta x_1, cdots` 列于第二行,
+	依此类推, 每个差分值写在被减数与减数的下面:
+	<pre>
+1   6   15  28  45  66  91  ..
+  5   9   13  17  21  25  ..
+    4   4   4   4   4   ..
+	  0   0   0   0   ..
+	</pre>
+	从 3 阶差分开始, 每一行都是零.
+</div>
+
+<ol class="proposition">
 	<li>如同积分与微分一样, <b>求和与差分具有线性性</b>:
 		<span class="formula">
 			`sum (a x_n + b y_n) = a sum x_n + b sum y_n`,
@@ -159,17 +176,66 @@
 </p>
 
 <p class="theorem">
-	<b>差分形式的 Maclaurin 公式</b>
-	设 `x_n` 为数列通项, `p` 为非负整数, 且对任意 `k gt p` 有 `Delta^k x_n
-	= 0`, 则
+	<b>离散 Maclaurin 公式</b>
+	设 `x_n` 为数列通项, `m` 为非负整数, 且对任意 `k gt m` 有
+	`Delta^k x_0 = 0`, 则
 	<span class="formula">
-		`x_n = sum_(k=0)^p (n;k) Delta^k x_n`
-		`= sum_(k=0)^p (Delta^k x_n)/(k!) n^(ul k)`.
+		`x_n = sum_(k=0)^m (n;k) Delta^k x_0`
+		`= sum_(k=0)^m (Delta^k x_0)/(k!) n^(ul k)`.
 	</span>
 </p>
 
 <p class="proof">
+	首先由大于 `m` 阶的差分都等于零知, `x_n` 是一个多项式 (??).<br/>
+	因为 `(n; k)` 是 `n` 的 `k` 次多项式, `k = 0, 1, cdots, m`, 所以
+	`(n;k)` 线性无关, 它们组成多项式空间 `bbb P{::}_m[x]` 的基.<br/>
+	下面计算 `(n;k)` 的差分.
+	因为 `Delta (n;k) = (n;k-1)`, 所以
+	<span class="formula">
+		`{: Delta^j (n;k) |_(n=0) = {: (n; k-j) |_(n=0)`
+		`= delta_(j k) = { 1, if j = k; 0, if j != k :}`.
+	</span>
+	现在将多项式 `x_n` 用基底线性表示为
+	<span class="formula">
+		`x_n = sum_(k=0)^m c_k (n; k)`,
+	</span>
+	则由差分的线性性知,
+	<span class="formula">
+		`Delta^j x_0 = sum_(k=0)^m c_k {:Delta^j (n;k)|_(n=0)`
+		`= sum_(k=0)^m c_k delta_(j k)`
+		`= c_j`.
+	</span>
+	所以公式成立.
+</p>
 
+<p class="theorem">
+	<b>带余项的离散 Maclaurin 公式</b>
+	<span class="formula">
+		`x_n = sum_(k=0)^m (n;k) Delta^k x_0 + R_m(n)`,
+	</span>
+	其中 `R_m(n) = sum_(0 le k lt n) (n-k-1; m) Delta^(m+1) x_k`.
+</p>
+
+<p class="proof">
+	设 `m gt 0`, 对 `R_m(n)` 分部求和,
+	<span class="formula">`{:
+		R_m(n) ,= sum_(0 le k lt n-1) (n-k-1; m) Delta^(m+1) x_k;
+		,= [(n-k-1; m) Delta^m x_k]_(k=0)^(n-1)
+		+ sum_(0 le k lt n-1) (n-k-2; m-1) Delta^m x_(k+1);
+		,= -(n-1; m) Delta^m x_0 + sum_(1 le k lt n) (n-k-1; m-1)
+		Delta^m x_k;
+		,= -(n-1; m) Delta^m x_0 - (n-1; m-1) Delta^m x_0 + sum_(0 le k lt
+		n) (n-k-1; m-1) Delta^m x_k;
+		,= -(n; m) Delta^m x_0 + R_(m-1) (n).:}`
+	</span>
+	于是
+	<span class="formula">
+		`R_0(n) = sum_(1 le k le m) (R_(k-1)(n) - R_k(n)) + R_m(n)`,
+	</span>
+	即
+	<span class="formula">
+		`x_n - x_0 = sum_(1 le k le m) (n;k) Delta^k x_0 + R_m(n)`.
+	</span>
 </p>
 
 <h2>Stirling 数</h2>
@@ -177,7 +243,7 @@
 <p class="definition">
 	<b>Stirling 数</b>
 	从线性代数的角度, `{x^k}_(k=0)^n` 与 `{x^(ul k)}_(k=0)^n`
-	是次数不超过 `n` 的多项式组成的线性空间 `bbb P{::}_n[x]` 的两组基.
+	是次数不超过 `n` 的多项式组成的线性空间 `bbb P{::}_n[x]` 的两个基底.
 	为了方便离散微积分运算, 需要将多项式的基由普通幂换为由下降幂.
 	下面定义的两类 Stirling 数分别给出了两组基底之间互化的系数
 	(即过渡矩阵):
@@ -189,6 +255,41 @@
 	`S(n, k)` 称为<b>第二类 Stirling 数</b>.
 	第二类 Stirling 数 `S(n, k)` 具有许多与二项式系数 `(n;k)` 相似的性质,
 	因此又常记为 `{n;k}`.
+</p>
+
+<p class="corollary">
+	由离散 Maclaurin 公式知,
+	`S(n,k) = {: (Delta^k x^n)/(k!) |_(x=0)`.
+</p>
+
+<p class="proposition">
+	`S(n,k) = sum_(i=0)^k (-1)^(k-i) (k;i) i^n`
+	`= sum_(i=0)^k (-1)^i (k;i) (k-i)^n
+</p>
+
+<p class="proposition">
+	<b>前 `m` 个自然数的 `n` 次幂和</b>
+	由第二类 Stirling 数定义,
+	<span class="formula">
+		`i^n = sum_(k=0)^n {n;k} k! (i;k)`,
+	</span>
+	所以
+	<span class="formula">
+		`sum_(i=0)^m i^n = sum_(k=0)^n {n;k} k! sum_(i=0)^m (i;k)`
+		`= sum_(k=0)^n {n;k} k! (m+1; k+1)`.
+	</span>
+	和 Bernoulli 数的公式
+	<span class="formula">
+		`sum_(i=1)^m i^n = 1/(n+1) sum_(k=0)^n (n+1;k) B_k^(+) m^(n-k)`
+	</span>
+	比较得
+	<span class="formula">
+		`{n;k} k! (m+1;k+1) = 1/(n+1) (n+1;k) B_k^(+) m^(n-k)`.
+	</span>
+	证明:
+	<span class="formula">
+		`B_n = sum_(k=0)^n {n;k} k! (-1)^k/(k+1)`, `quad n ge 0`. (??)
+	</span>
 </p>
 
 <script src="../js/note.js?type=math"></script>
