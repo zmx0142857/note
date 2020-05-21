@@ -532,17 +532,24 @@
 		</ol>
 	</li>
 	<li>垂心存在性的又一证明:
-		设 `triangle ABC` 的两条高线 `AQ, BR` 交于点 `H`, 下证 `CH _|_ AB`.
-		由 `AH _|_ BC`, `BH _|_ CA` 有
+		设 `triangle ABC` 的两条高线 `AQ, BR` 交于点 `H`,
+		下证 `HC _|_ AB`. 
+		事实上,
 		<span class="formula">
-			`0 = vec(AH) * vec(BC) = vec(AH)*vec(HC) - vec(AH)*vec(HB)`,<br/>
-			`0 = vec(BH) * vec(CA) = vec(BH)*vec(HA) - vec(BH)*vec(HC)`.
+			`HC _|_ AB` `iff vec(HC) * vec(AB) = 0`
+			`iff vec(HC) * (vec(HB) - vec(HA)) = 0`
+			`iff vec(HC) * vec(HA) = vec(HC) * vec(HB)`,
 		</span>
-		两式相加,
+		同理, `HA _|_ BC`, `HB _|_ CA` 等价于
 		<span class="formula">
-			`0 = vec(AH)*vec(HC) - vec(BH)*vec(HC) = vec(AB)*vec(HC)`,
+			`vec(HA)*vec(HB) = vec(HA)*vec(HC)`,<br/>
+			`vec(HB)*vec(HC) = vec(HB)*vec(HA)`.
 		</span>
-		即 `CH _|_ AB`.
+		于是 `vec(HC) * vec(HA) = vec(HC) * vec(HB)`, 即 `HC _|_ AB`.
+		由以上证明知, 垂心 `H` 满足等式
+		<span class="formula">
+			`vec(HA) * vec(HB) = vec(HB) * vec(HC) = vec(HC) * vec(HA)`.
+		</span>
 	</li>
 </ul>
 
@@ -688,6 +695,62 @@
 		等号成立当且仅当 `S_A = S_B = S_C`, 即 `X` 是三角形的重心.
 	</li>
 </ol>
+
+<p class="example">
+	设 `A, B, C` 三点到原点 `O` 的距离分别为 `a, b, c`, 求三角形 `ABC`
+	面积的最大值.
+</p>
+
+<p class="solution">
+	首先说明, 只有 `O, A, B, C` 四点共面时, 三角形面积才能取得最大值.
+	若三角形面积最大时四点不共面, 可设 `O` 在平面 `ABC` 上的投影为 `O'`,
+	有 `O'A lt OA`, `O'B lt OB`, `O'C lt OC`. 但如果延长 `O'A`, `O'B`,
+	`O'C` 三条线段, 使它们分别等于 `OA`, `OB`, `OC`,
+	所得的三角形面积将更大, 矛盾.<br/>
+	下面假设四点共面.
+	记 `vec(OA) = bm a`, `vec(OB) = bm b`, `vec(OC) = bm c`,
+	`(:bm a, bm b:) = theta_1`, `(:bm b, bm c:) = theta_2`, `(:bm c, bm
+	a:) = theta_3`, 则三角形面积的两倍等于
+	<span class="formula">
+		`a b sin theta_1 + b c sin theta_2 + c a sin theta_3`.
+	</span>
+	设
+	<span class="formula">
+		`f = a b sin theta_1 + b c sin theta_2 + c a sin theta_3
+		- lambda(theta_1 + theta_2 + theta_3 - 2pi)`.
+	</span>
+	于是
+	<span class="formula">
+		`(del f)/(del theta_1) = a b cos theta_1 - lambda`,
+		`quad (del f)/(del theta_2) = b c cos theta_2 - lambda`,
+		`quad (del f)/(del theta_3) = c a cos theta_3 - lambda`.
+	</span>
+	令三个偏导数为零知, 当
+	<span class="formula">
+		`bm a * bm b = bm b * bm c = bm c * bm a = lambda`
+	</span>
+	时, 三角形面积最大 (此时原点是三角形的垂心).  将
+	<span class="formula">
+		`a b cos theta_1 = b c cos theta_2 = c a cos theta_3`
+	</span>
+	中的 `cos theta_2, cos theta_3` 用 `cos theta_1` 表示, 再代入
+	<span class="formula">
+		`cos theta_3 = cos(2pi-theta_1 - theta_2)`
+		`= cos(theta_1 + theta_2)`,
+	</span>
+	整理得到 `lambda` 满足下面的三次方程:
+	<span class="formula">
+		`lambda^2 (a^2 + b^2 + c^2) = a^2 b^2 c^2 + 2 lambda^3`.
+	</span>
+	解出 `lambda` 后, 再代入
+	<span class="formula">
+		`2 S = sqrt(a^2 b^2 - (bm a * bm b)^2) + sqrt(b^2 c^2 - (bm b * bm
+		c)^2) + sqrt(c^2 a^2 - (bm c * bm a)^2)`
+		`= sqrt(a^2 b^2 - lambda^2) + sqrt(b^2 c^2 - lambda^2) + sqrt(c^2 a^2
+		- lambda^2)`,
+	</span>
+	得到面积的最大值.
+</p>
 
 <h3>Euler 线与九点圆</h3>
 

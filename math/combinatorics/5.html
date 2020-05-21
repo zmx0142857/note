@@ -253,8 +253,6 @@
 	</span>
 	其中 `s(n, k)` 称为<b>第一类 Stirling 数</b>,
 	`S(n, k)` 称为<b>第二类 Stirling 数</b>.
-	第二类 Stirling 数 `S(n, k)` 具有许多与二项式系数 `(n;k)` 相似的性质,
-	因此又常记为 `{n;k}`.
 </p>
 
 <p class="corollary">
@@ -268,28 +266,41 @@
 </p>
 
 <p class="proposition">
-	<b>前 `m` 个自然数的 `n` 次幂和</b>
-	由第二类 Stirling 数定义,
+	<b>前 `x` 个自然数的 `n` 次幂和</b>
+	记 `(:n;k:) = S(n,k) k!`, `S_n(x) = sum_(i=1)^x i^n`.  则
 	<span class="formula">
-		`i^n = sum_(k=0)^n {n;k} k! (i;k)`,
+		`S_n(x) = sum_(k=0)^n (:n;k:) (x+1; k+1)`, `quad n ge 1`.
 	</span>
-	所以
+	关于第一类和第二类 Bernoulli 数, 分别有
 	<span class="formula">
-		`sum_(i=0)^m i^n = sum_(k=0)^n {n;k} k! sum_(i=0)^m (i;k)`
-		`= sum_(k=0)^n {n;k} k! (m+1; k+1)`.
+		`B_n^(-) = sum_(k=0)^n (:n;k:) (-1)^k/(k+1)`, `quad n ge 0`,<br/>
+		`B_n^(+) = sum_(k=0)^n (:n;k:) (-1)^(k-1)/(k(k+1))`, `quad n ge
+		1`.
 	</span>
-	和 Bernoulli 数的公式
+</p>
+
+<p class="proof">
+	由第二类 Stirling 数定义
 	<span class="formula">
-		`sum_(i=1)^m i^n = 1/(n+1) sum_(k=0)^n (n+1;k) B_k^(+) m^(n-k)`
+		`i^n = sum_(k=0)^n (:n;k:) (i;k)`,
 	</span>
-	比较得
+	两边令 `i` 从 `0` 到 `x` 求和就得到第一式.
+	再和 Bernoulli 数的公式
 	<span class="formula">
-		`{n;k} k! (m+1;k+1) = 1/(n+1) (n+1;k) B_k^(+) m^(n-k)`.
+		`S_n(x) = 1/(n+1) sum_(k=0)^n (n+1;k) B_k^(+) x^(n+1-k)`
 	</span>
-	证明:
+	比较一次项系数, 就得到 `B_n^(+)` 的表达式.
+	同理比较
 	<span class="formula">
-		`B_n = sum_(k=0)^n {n;k} k! (-1)^k/(k+1)`, `quad n ge 0`. (??)
+		`S_n(x-1) = sum_(k=0)^n (:n;k:) (x;k+1)`, `quad n ge 1`,<br>
+		`S_n(x-1) = 1/(n+1) sum_(k=0)^n (n+1;k) B_k^(-) x^(n+1-k)`,
+		`quad n ge 1`
 	</span>
+	的一次项系数得
+	<span class="formula">
+		`B_n^(-) = sum_(k=0)^n (:n;k:) (-1)^k/(k+1)`, `quad n ge 1`.
+	</span>
+	容易验证上式对 `n=0` 也成立.
 </p>
 
 <script src="../js/note.js?type=math"></script>
