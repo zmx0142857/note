@@ -167,6 +167,11 @@ var tocMath = [ {
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html', isnew:true},
   ]
 }, {
+  title:'运筹学',
+  articles: [
+    {title:'线性规划', src:'or/1.html'},
+  ]
+}, {
   title:'组合数学',
   articles: [
     {title:'组合数学', src:'combinatorics/1.html'},

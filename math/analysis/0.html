@@ -152,6 +152,25 @@
 
 <h3>幂级数</h3>
 
+<ol>
+	设 `|x| lt 1`, 则
+	<li>`sum_(n ge 0) x^n = 1/(1-x)` (几何级数);</li>
+	<li>`sum_(n ge 1) x^n/n = -ln(1-x)`;</li>
+	<li>`sum_(n ge 1, "odd") x^n/n = "arth "x = 1/2 ln|(1+x)/(1-x)|`;</li>
+</ol>
+
+<ol class="proof">
+	<li>由等式 `(1-x)(1 + x + cdots + x^n) = 1 - x^(n+1)` 得
+		<span class="formula">
+			`1 + x + cdots + x^n = (1-x^(n+1))/(1-x)`,
+		</span>
+		两边令 `n to oo` 即得结论.
+	</li>
+	<li>由几何级数两边从 `0` 到 `x` 积分即可.</li>
+	<li>由 `sum_(n ge 0) t^(2n) = 1/(1-t^2)` 两边从 `0` 到 `x` 积分即可.
+	</li>
+</ol>
+
 <table>
 <tr>
 	<td>收敛域</td>
@@ -162,6 +181,11 @@
 	<td>`|x| lt oo`</td>
 	<td>`"e"^x`</td>
 	<td>`sum_(n ge 0) x^n/(n!) = 1 + x + x^2/(2!) + x^3/(3!) + cdots`</td>
+</tr>
+<tr>
+	<td>`|x| lt 1`</td>
+	<td>`1/(1-x)`</td>
+	<td>`sum_(n ge 0) x^n = 1 + x + x^2 + x^3 + cdots`</td>
 </tr>
 <tr>
 	<td>`|x| lt 1`</td>
@@ -295,6 +319,60 @@
 
 <h3>Fourier 级数</h3>
 
+<ol class="example">
+	设 `x in (0, 2pi)`, 则
+	<li>`sum_(n ge 1) cos n x = -1/2` (`x != 1/2`);</li>
+	<li>`sum_(n ge 1) (sin n x)/n = (pi-x)/2`;</li>
+	<li>`sum_(n ge 1) (cos n x)/n^2 = x^2/4 - (pi x)/2 + pi^2/6`.</li>
+	<li>`sum_(n ge 1) (sin n x)/n^3 = x^3/12 - (pi x^2)/4 + (pi^2 x)/6`.</li>
+	在 2. 中把 `x` 换成 `pi-x`, 就得到 `x` 在 `|x| lt pi` 上的 Fourier
+	展开.  类似地, 由 3, 4 分别得 `x^2, x^3` 的 Fourier 展开.
+</ol>
+
+<ol class="proof">
+	<li>利用 Euler 公式, 原式等于
+		<span class="formula">
+			`sum_(n ge 1) ("e"^(n x"i") + "e"^(-n x"i"))/2`
+			`= 1/2 sum_(n ge 1) ("e"^(x"i")/(1-"e"^(x"i"))
+			+ "e"^(-x"i")/(1-"e"^(-x"i")))`
+			`= -1/2`.
+		</span>
+	</li>
+	<li>由 1. 两边积分,
+		<span class="formula">
+			`int_pi^x sum_(n ge 1) cos n t dt`
+			`= sum_(n ge 1) int_pi^x cos n t dt`
+			`= sum_(n ge 1) (sin n x)/n`,<br/>
+			`int_pi^x (-1/2) dt = (pi-x)/2`.
+		</span>
+	</li>
+	<li>由 2. 两边积分,
+		<span class="formula">
+			`int_0^x sum_(n ge 1) (sin n t)/n dt`
+			`= sum_(n ge 1) int_0^x (sin n t)/n dt`
+			`= sum_(n ge 1) (1-cos n x)/n^2`,<br/>
+			`int_0^x (pi-t)/2 dt = pi/2 x - x^2/4`,
+		</span>
+		再利用 `sum_(n ge 1) n^-2 = pi^2//6` 即得结论.
+	</li>
+	<li>由 3. 两边积分,
+		<span class="formula">
+			`int_pi^x sum_(n ge 1) (cos n t)/n^2 dt`
+			`= sum_(n ge 1) (sin n x)/n^3`,<br/>
+			`int_pi^x (t^2/4 - (pi t)/2 + pi^2/6) dx`
+			`= x^3/12 - pi/4 x^2 + pi^2/6 x`.
+		</span>
+	</li>
+</ol>
+
+<p>一般地, `f` 在 `(-pi,pi)` 上的 Fourier 级数可以由以下公式计算:
+	<span class="formula">
+		`f(x) = a_0/2 + sum_(n ge 1) (a_n cos n x + b_n sin n x)`,<br/>
+		`a_n = 1/pi int_(-pi)^pi f(x) cos n x dx`,
+		`quad b_n = 1/pi int_(-pi)^pi f(x) sin n x dx`.
+	</span>
+</p>
+
 <table>
 <tr>
 	<td>收敛域</td>
@@ -303,23 +381,8 @@
 </tr>
 <tr>
 	<td>`|x| lt pi`</td>
-	<td>`"sgn"x`</td>
-	<td>`4/pi sum_(n ge 1) (sin(2n-1)x)/(2n-1)`</td>
-</tr>
-<tr>
-	<td>`|x| lt pi`</td>
 	<td>`x`</td>
 	<td>`2 sum_(n ge 1) (-1)^(n-1) (sin n x)/n`</td>
-</tr>
-<tr>
-	<td>`(0, 2pi)`</td>
-	<td>`pi-x`</td>
-	<td>`2 sum_(n ge 1) (sin n x)/n`</td>
-</tr>
-<tr>
-	<td>`|x| le pi`</td>
-	<td>`|x|`</td>
-	<td>`pi/2 - 4/pi sum_(n ge 1) (cos (2n-1) x)/(2n-1)^2`</td>
 </tr>
 <tr>
 	<td>`|x| le pi`</td>
@@ -329,7 +392,17 @@
 <tr>
 	<td>`|x| lt pi`</td>
 	<td>`x^3`</td>
-	<td>`sum_(n ge 1) (-1)^n (12-2n^2 pi^2)/n^3 sin n x`</td>
+	<td>`sum_(n ge 1) (12-2n^2 pi^2)/n^3 (-1)^n sin n x`</td>
+</tr>
+<tr>
+	<td>`|x| lt pi`</td>
+	<td>`"sgn "x`</td>
+	<td>`4/pi sum_(n ge 1, "odd") (sin n x)/n`</td>
+</tr>
+<tr>
+	<td>`|x| le pi`</td>
+	<td>`|x|`</td>
+	<td>`pi/2 - 4/pi sum_(n ge 1, "odd") (cos n x)/n^2`</td>
 </tr>
 <tr>
 	<td>`|x| le pi`</td>
@@ -339,17 +412,27 @@
 <tr>
 	<td>`|x| lt pi`</td>
 	<td>`x cos x`</td>
-	<td>`-(sin x)/2 - 2 sum_(n ge 2) (-1)^n n/(n^2-1) sin n x`</td>
+	<td>`-(sin x)/2 + 2 sum_(n ge 2) (-1)^n (n sin n x)/(n^2-1)`</td>
 </tr>
 <tr>
 	<td>`|x| lt oo`</td>
 	<td>`|sin x|`</td>
-	<td>`2/pi - 4/pi sum_(n ge 1) (cos 2 n x)/(4n^2 - 1)`</td>
+	<td>`2/pi - 4/pi sum_(n ge 1, "even") (cos n x)/(n^2 - 1)`</td>
 </tr>
 <tr>
 	<td>`|x| lt oo`</td>
 	<td>`|cos x|`</td>
-	<td>`2/pi - 4/pi sum_(n ge 1) (-1)^n (cos 2 n x)/(4n^2 - 1)`</td>
+	<td>`2/pi - 4/pi sum_(n ge 1, "even") "i"^n (cos n x)/(n^2 - 1)`</td>
+</tr>
+<tr>
+	<td>`|x| lt pi`</td>
+	<td>`sinh a x`</td>
+	<td>`-2/pi sinh a pi sum_(n ge 1) (-1)^n (n sin n x)/(n^2+a^2)`</td>
+</tr>
+<tr>
+	<td>`|x| le pi`</td>
+	<td>`cosh a x`</td>
+	<td>`2/pi sinh a pi(1/(2a) + sum_(n ge 1) (-1)^n (a cos n x)/(n^2+a^2))`</td>
 </tr>
 <tr>
 	<td>`|x| lt pi`</td>
@@ -358,17 +441,14 @@
 		n x)/(n^2 + a^2))`
 	</td>
 </tr>
-<tr>
-	<td>`|x| lt pi`</td>
-	<td>`sinh a x`</td>
-	<td>`-2/pi sinh a pi sum_(n ge 1) (-1)^n n/(n^2+a^2) sin n x`</td>
-</tr>
-<tr>
-	<td>`|x| le pi`</td>
-	<td>`cosh a x`</td>
-	<td>`2/pi sinh a pi(1/(2a) + sum_(n ge 1) (-1)^n (cos n x)/(n^2+a^2))`</td>
-</tr>
 </table>
+
+<p class="remark">
+	提示: `x sin x` 和 `x cos x` 积分时需借助积化和差;
+	`"e"^(a x) = sinh a x + cosh a x`.
+</p>
+
+<h2>连分数</h2>
 
 <script src="../js/note.js?type=math"></script>
 
