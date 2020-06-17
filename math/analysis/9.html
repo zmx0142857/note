@@ -12,7 +12,7 @@
 
 <body>
 
-<h2>椭圆积分</h2>
+<h2>Jacobi 椭圆函数</h2>
 
 [<a href="https://zhuanlan.zhihu.com/p/130428825">原文来自知乎</a>]
 
@@ -20,7 +20,57 @@
 	<b>第一类完全椭圆积分</b>
 	<span class="formula">
 		`K(z) := int_0^(pi/2) ("d"theta)/sqrt(1-z^2 cos^2 theta)`
-		`= 1/2 int_0^pi ("d"theta)/sqrt(1+z^2-2z cos theta)`.
+		`= int_0^(pi/2) ("d"varphi)/sqrt(1+z^2-2z cos 2 varphi)`,
+		`quad "Re"(z) lt 1`.
+	</span>
+</p>
+
+<p class="proof">
+	令 `t = cos theta`, 左边等于
+	<span class="formula">
+		`int_0^1 dt/(sqrt(1-t^2) sqrt(1-z^2 t^2)`,
+	</span>
+	设 `k' = (1-z)/(1+z) = sqrt(1 - k^2)`, 有
+	<span class="formula">`{:
+		,1 + z^2 - 2 z cos 2 varphi;
+		=, (1+z)^2 - 2 z(1 + cos 2 varphi);
+		=, (1+z)^2 (1 - (4 z)/(1+z)^2 cos^2 varphi);
+		=, (1+z)^2 [1 - (1 - (1-z)^2/(1+z)^2) cos^2 varphi];
+		=, (1+z)^2 (1 - k^2 cos^2 varphi).
+	:}` </span>
+	令 `s = cos varphi`, 则右边等于
+	<span class="formula">
+		`1/(1+z) int_0^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`.
+	</span>
+	下面来证 `K(k) = (1+z) K(z)`.  利用朗登型变换
+	<span class="formula">
+		`t = (1+k') (s sqrt(1-s^2))/sqrt(1-k^2 s^2)`,
+	</span>
+	求微分,
+	<span class="formula">
+		`dt = (1+k')/sqrt(1-s^2)
+		(1-2s^2 + k^2 s^4)/(1-k^2 s^2)^(3//2) "d"s`,
+	</span>
+	又
+	<span class="formula">
+		`1-k^2 s^2 - (1+-k')^2 s^2 (1-s^2)`
+		`= 1 - k^2 s^2 + (s^4 - s^2) (1 + k'^2 +- 2 k')`
+		`= 1 - 2(1+-k') s^2 + (1+-k')^2 s^4`
+		`= [1 - (1+-k') s^2]^2`,
+	</span>
+	有
+	<span class="formula">
+		`sqrt(1-t^2) = (1 - (1+k') s^2)/sqrt(1-k^2 s^2)`,
+		`quad sqrt(1-z^2 t^2) = (1 - (1-k') s^2)/sqrt(1-k^2 s^2)`.
+	</span>
+	当 `t = 0` 时, 相应的 `s = 0` 或 `1`;
+	当 `t = 1` 时, 解二次方程知, 相应的 `s = 1/sqrt(1+k')`. 于是
+	<span class="formula">
+		`int_0^1 dt/(sqrt(1-t^2) sqrt(1-z^2 t^2))`
+		`= (1+k') int_0^(1//sqrt(1+k')) ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`
+		`= (1+k') int_(1//sqrt(1+k'))^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`
+		`= (1+k')/2 int_0^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`
+		`= 1/(1+z) int_0^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`.
 	</span>
 </p>
 
@@ -29,6 +79,19 @@
 	<span class="formula">
 		`K("i"x) = 1/sqrt(1+x^2) K(sqrt(x^2/(1+x^2)))`.
 	</span>
+</p>
+
+<p class="proof">
+	利用 `K(z)` 的第一形式,
+	<span class="formula">
+		`K("i"x) = int_0^(pi/2) ("d"theta)/sqrt(1+x^2 cos^2 theta)`,<br/>
+		`1/sqrt(1+x^2) K(sqrt(x^2/(1+x^2)))`
+		`1/sqrt(1+x^2) int_0^(pi/2) ("d"theta)/sqrt(1-x^2/(1+x^2) cos^2
+		theta)`
+		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2-x^2 cos^2 theta)`
+		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2 sin^2 theta)`.
+	</span>
+	因此左右两边相等.
 </p>
 
 <p class="proposition">
@@ -127,6 +190,10 @@
 	<span class="formula">
 		`G = AGM(1, sqrt 2)^-1 = (Gamma^2(1/4))/(2pi)^(3/2)`.
 	</span>
+</p>
+
+<p class="proposition">
+	`K(z) = pi/2 sum_(n ge 0) [((2n-1)!!)/((2n)!!) z^n]^2`.
 </p>
 
 <script src="../js/note.js?type=math"></script>
