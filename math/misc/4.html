@@ -452,7 +452,7 @@
 
 <p class="theorem">
 	<b>Newton-Girard 公式</b>
-	设 `S_i` 是 `n` 次多项式的全部 `n` 个根的 `i` 次方和:
+	设 `S_i` 是 `n` 次多项式 `f` 的全部 `n` 个根的 `i` 次方和:
 	<span class="formula">
 		`S_i = sum_(j=1)^n x_j^i`, `quad i = 0, 1, 2, cdots`.
 	</span>
@@ -473,17 +473,19 @@
 </p>
 
 <p class="proof">
-	`i ge n` 时, 容易验证 `S_i` 为线性递推式
+	`i ge n` 时, 设 `f(x) = sum_(j=0)^n a_j x^j`. 代入 `f`
+	的所有根并求和得
 	<span class="formula">
-		`sum_(j=0)^n a_(n-j) S_(i-j) = 0`
+		`sum_(j=0)^n a_(n-j) S_(i-j) = 0`.
 	</span>
-	的解, 由 Vieta 定理有
+	由 Vieta 定理, `a_(n-j) = (-1)^j sigma_j a_n`, 代入上式得
 	<span class="formula">
 		`sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0`.
 	</span>
 	现在设 `i lt n`. 对 `k = n-i gt 0` 作归纳, 设结论对任意 `k' lt k`
 	已经成立.
-	用 `f_(n,i)(x_1, x_2, cdots, x_n)` 表示 Newton-Girard 公式的左边, 因为
+	用 `f_(n,i)(x_1, x_2, cdots, x_n)` 表示 Newton-Girard 公式 (等价形式)
+	的左边, 因为
 	<span class="formula">
 		`sigma_j(x_1, cdots, x_(n-1), 0) = sigma_j(x_1, cdots, x_(n-1))`,
 		<br/>
@@ -495,7 +497,7 @@
 		`= f_(n-1,i)(x_1, cdots, x_(n-1))`.
 	</span>
 	由归纳假设, 上式右边等于零, 这说明 `x_n | f_(n,i)`.
-	由 `f` 的对称性, `sigma_n = x_1 x_2 cdots x_n | f_(n,i)`.
+	由 `f_(n,i)` 的对称性, `sigma_n = x_1 x_2 cdots x_n | f_(n,i)`.
 	注意到 `f_(n,i)` 的次数不超过 `i`, 且 `i lt n`, 我们得到
 	`f_(n,i) = 0`. 证毕.
 </p>
