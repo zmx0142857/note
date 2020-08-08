@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<meta charset="utf-8" />
+<title>Fourier 级数</title>
+
+<link rel="stylesheet" type="text/css" href="../css/note.css" />
+
+</head>
+
+<body>
+
+<p>	设函数 `f in L^2[a, b]`, 记 `T = b-a`, `omega = 2pi//T`,
+	则 `f` 的 Fourier 级数为
+	<span class="formula">
+		`f(x) = sum_(n ge 0) a_n cos n omega x + b_n sin n omega x`.
+	</span>
+	其中系数
+	<span class="formula">
+		`a_n = (int_a^b f(x) cos n omega x dx)/(int_a^b cos^2 n omega
+		x dx)`,
+		`quad b_n = (int_a^b f(x) sin n omega x dx)/(int_a^b sin^2 n omega
+		x dx)`,
+		`quad n = 1, 2, cdots`.
+	</span>
+	特别 `a_0 = 1/(b-a) int_a^b f(x) dx` 也适合上面的公式;
+	又, 我们并不关心 `b_0` 的值, 因为 `sin 0 = 0`.
+</p>
+
+<p class="remark">
+	Fourier 级数可以推广到内积空间, 此时向量 `f` 在
+	正交基底 `e_1, e_2, cdots` 张成的子空间 `"span"[e_1, e_2, cdots]`
+	下的投影坐标
+	<span class="formula">
+		`x_n = ((f, e_n))/((e_n, e_n))`,
+		`quad n = 1, 2, cdots`.
+	</span>
+</p>
+
+<script src="../js/note.js?type=math"></script>
+
+</body>
+
+</html>

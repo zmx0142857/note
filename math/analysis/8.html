@@ -781,6 +781,56 @@
 	</li>
 </ol>
 
+<ol class="example">
+	<li>`1 - 1/(n!) int_0^n t^n "e"^-t dt = "e"^-n sum_(k=0)^n n^k/(k!)`;
+	</li>
+	<li>(Dobiński 公式) `n to oo` 时上式两边趋于 `1/2`.</li>
+</ol>
+
+<ol class="proof">
+	<li>一种做法是对左边反复分部积分. 第二种做法从右边出发,
+		利用 gamma 函数定义及二项式定理有
+		<span class="formula">
+			`"e"^-n sum_(k=0)^n n^k/(k!)`
+			`= "e"^-n/(n!) sum_(k=0)^n (n;k) n^k (n-k)!`
+			`= "e"^-n/(n!) sum_(k=0)^n (n;k) n^k int_0^oo t^(n-k) "e"^-t
+			dt`
+			`= "e"^-n/(n!) int_0^oo (n+t)^n "e"^-t dt`
+			`= 1/(n!) int_n^oo t^n "e"^-t dt`
+			`= 1 - 1/(n!) int_0^n t^n "e"^-t dt`.
+		</span>
+	</li>
+	<li>利用等式
+		<span class="formula">
+			`sum_(k=0)^n n^k/(k!) = sum_(k=0)^n (k^k (n-k)^(n-k))/(k!
+			(n-k)!)`, (规定 `0^0 = 1`) (??)
+		</span>
+		有
+		<span class="formula">
+			`lim_(n to oo) "e"^-n sum_(k=0)^n n^k/(k!)`
+			`= lim_(n to oo) "e"^-n sum_(k=1)^(n-1) ("e"^k
+			"e"^(n-k))/(sqrt(2pi k) sqrt(2pi(n-k)) O(1+1/k) O(1+1/(n-k)))`
+			`= lim_(n to oo) 1/(2 pi n) sum_(k=1)^(n-1) 1/sqrt(k/n
+			(1-k/n))`
+			`= 1/(2pi) int_0^1 dx/sqrt(x(1-x))`
+			`= 1/(2pi) (Gamma(1/2)^2)/(Gamma(1)) = 1/2`.
+		</span>
+	</li>
+</ol>
+
+<p class="proof">
+	2. 的另一证法. 设 `X_1, X_2, cdots, X_n` 独立服从参数为 1 的 Poisson
+	分布, 则 `X = X_1 + X_2 + cdots + X_n` 服从参数为 `n` 的 Poisson 分布.
+	<span class="formula">
+		`P{X le n} = "e"^-n sum_(k=0)^n n^k/(k!)`.
+	</span>
+	令 `n to oo`, 由中心极限定理
+	<span class="formula">
+		`(X-n)/sqrt n to Z`, `quad Z ~ N(0, 1)`,
+	</span>
+	于是 `P{X le n} to P{Z le 0} = 1/2`.
+</p>
+
 <script src="../js/note.js?type=math"></script>
 
 </body>

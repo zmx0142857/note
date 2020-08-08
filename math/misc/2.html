@@ -286,53 +286,152 @@
 	</span>
 </p>
 
-<h4 id="equality-of-triangle">三角形中的恒等式</h4>
-
-<p>	设 `x + y + z = pi`, 则
-	<span class="formula">
-		`sin x + sin y + sin z = 4 cos{:x/2:} cos{:y/2:} cos{:z/2:}`,<br/>
-		`cos x + cos y + cos z = 4 sin{:x/2:} sin{:y/2:} sin{:z/2:} +
-		1`,<br/>
-		`tan x + tan y + tan z = tan x tan y tan z`,<br/>
-		`sin 2x + sin 2y + sin 2z = 4 sin x sin y sin z`,<br/>
-		`cos 2x + cos 2y + cos 2z = -4 cos x cos y cos z - 1`,<br/>
-		`tan{:y/2:} tan{:z/2:} + tan{:z/2:} tan{:x/2:} +
-		tan{:x/2:} tan{:y/2:} = 1`,<br/>
-		`cot{:x/2:} + cot{:y/2:} + cot{:z/2:} = cot{:x/2:} cot{:y/2:}
-		cot{:z/2:}`,<br/>
-		`sin^2 x + sin^2 y + sin^2 z = 2 cos x cos y cos z + 2`,<br/>
-		`cos^2 x + cos^2 y + cos^2 z = -2 cos x cos y cos z + 1`,<br/>
-		`sin^2{:x/2:} + sin^2{:y/2:} + sin^2{:z/2:} + 2 sin{:x/2:}
-		sin{:y/2:} sin{:z/2:} = 1`.
-	</span>
-</p>
+<h3 id="equality-of-triangle">三角形中的恒等式与不等式</h3>
 
 <p class="example">
-	圆内接三角形中, 等边三角形面积最大.
+	设 `A + B + C = pi`, 则
+	<span class="formula">
+		`sin A + sin B + sin C = 4 cos{:A/2:} cos{:B/2:} cos{:C/2:}`,<br/>
+		`cos A + cos B + cos C = 1 + 4 sin{:A/2:} sin{:B/2:} sin{:C/2:}`,<br/>
+		`sin 2A + sin 2B + sin 2C = 4 sin A sin B sin C`,<br/>
+		`cos 2A + cos 2B + cos 2C = -1 - 4 cos A cos B cos C`,<br/>
+		`sin^2 A + sin^2 B + sin^2 C = 2 + 2 cos A cos B cos C`,<br/>
+		`cos^2 A + cos^2 B + cos^2 C = 1 - 2 cos A cos B cos C`,<br/>
+		`sin^2{:A/2:} + sin^2{:B/2:} + sin^2{:C/2:} =
+		1 - 2 sin{:A/2:} sin{:B/2:} sin{:C/2:}`,<br/>
+		`tan A + tan B + tan C = tan A tan B tan C`,<br/>
+		`cot{:A/2:} + cot{:B/2:} + cot{:C/2:} = cot{:A/2:} cot{:B/2:}
+		cot{:C/2:}`,<br/>
+		`tan{:A/2:} tan{:B/2:} + tan{:B/2:} tan{:C/2:} + tan{:C/2:} tan{:A/2:} = 1`.
+	</span>
 </p>
 
-<!--
+<ol class="example">
+	[<a href="https://www.cut-the-knot.org/m/Geometry/InequalitiesInTriangle.shtml">几何不等式</a>]
+	`triangle ABC` 中以下不等式成立, 其中等号成立当且仅当 `ABC`
+	是正三角形.
+	<li>`sin{:A/2:} sin{:B/2:} sin{:C/2:} le 1/8`,
+		`cos A + cos B + cos C le 3/2`,<br/>
+		`cos A cos B cos C le 1/8`,
+		`sin{:A/2:} + sin{:B/2:} + sin{:C/2:} le 3/2`;
+	</li>
+	<li>`cos{:A/2:} cos{:B/2:} cos{:C/2:} le (3 sqrt 3)/8`.
+		`sin A + sin B + sin C le (3 sqrt 3)/2`,<br/>
+		`sin A sin B sin C le (3 sqrt 3)/8`;
+		`cos{:A/2:} + cos{:B/2:} + cos{:C/2:} le (3 sqrt 3)/2`;
+	</li>
+	<li>`tan{:A/2:} + tan{:B/2:} + tan{:C/2:} ge sqrt 3`,
+		`cot A + cot B + cot C ge sqrt 3`,
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>由余弦定理,
+		<span class="formula">
+			`a^2 = b^2 + c^2 - 2b c cos A`
+			`= (b-c)^2 + 4b c sin^2{:A/2:}`,
+		</span>
+		因此 `sin{:A/2:} le a/(2sqrt(b c))`.
+		对 `A, B, C` 轮换并相乘即得第一式成立.  利用
+		<span class="formula">
+			`cos A + cos B + cos C
+			= 1 + 4 sin{:A/2:} sin{:B/2:} sin{:C/2:}`
+		</span>
+		得到第二式, 再利用均值不等式得到第三式.
+		最后, 令 `alpha = (pi-A)/2`, `beta = (pi-B)/2`, `gamma
+		= (pi-C)/2`, 则 `alpha + beta + gamma = pi`,
+		于是
+		<span class="formula">
+			`sin{:A/2:} + sin{:B/2:} + sin{:C/2:}`
+			`= cos alpha + cos beta + cos gamma le 3/2`.
+		</span>
+	</li>
+	<li>由 1,
+		<span class="formula">
+			`2(cos^2{:A/2:} + cos^2{:B/2:} + cos^2{:C/2:})`
+			`= 3 + cos A + cos B + cos C le 9/2`.
+		</span>
+		于是
+		<span class="formula">
+			`root 3(cos{:A/2:} cos{:B/2:} cos{:C/2:})`
+			`le sqrt((cos^2{:A/2:} + cos^2{:B/2:} + cos^2{:C/2:})/3)`
+			`le sqrt(3)/2`,
+		</span>
+		即得第一式. 利用
+		<span class="formula">
+			`sin A + sin B + sin C = 4 cos{:A/2:} cos{:B/2:} cos{:C/2:}`
+		</span>
+		得到第二式. 再利用均值不等式得到第三式.
+		最后,
+		<span class="formula">
+			`cos{:A/2:} + cos{:B/2:} + cos{:C/2:}`
+			`= sin alpha + sin beta + sin gamma`
+			`le (3 sqrt 3)/2`.
+		</span>
+	</li>
+	<li>由不等式
+		<span class="formula">
+			`(x+y+z)^2 = x^2+y^2+z^2 + 2(x y+y z+z x)`
+			`ge 3(x y+y z+z x)`
+		</span>
+		和等式
+		<span class="formula">
+			`tan{:A/2:} tan{:B/2:} + tan{:B/2:} tan{:C/2:}
+			+ tan{:C/2:} tan{:A/2:} = 1`
+		</span>
+		即得第一式.
+		最后, 令 `A = (pi-u)/2`, `B = (pi-v)/2`, `C = (pi-w)/2`,
+		则 `u + v + w = pi`. 于是
+		<span class="formula">
+			`cot A + cot B + cot C`
+			`= tan{:u/2:} + tan{:v/2:} + tan{:w/2:} ge sqrt 3`.
+		</span>
+	</li>
+</ol>
+
 <p class="proof">
-	设圆 `O` 的半径为 `r`, `ABC` 是它的内接三角形, `/_AOB, /_BOC, /_COA`
-	分别记为 `x, y, z`, 则 `ABC` 的面积
+	`sin A + sin B + sin C le (3sqrt 3)/2` 的另一证明:
+	在 `[0,pi]` 上对 `sin x` 应用 Jensen 不等式
 	<span class="formula">
-		`S = r^2/2(sin x + sin y + sin z)`
-		`= 2r^2 sin x sin y sin z`
-		`le 2r^2 ((sin x + sin y + sin z)/3)^3`
-		`= 16/27 S^3/r^4`.
+		`sqrt(3)/2 = sin{:(A+B+C)/3:}`
+		`le (sin A + sin B + sin C)/3`.
 	</span>
-	将这个关于 `S` 的一元三次不等式因式分解为
-	<span class="formula">
-		`S((4S)/(3 sqrt 3 r^2) + 1)((4S)/(3 sqrt 3 r^2) - 1) le 0`.
-	</span>
-	考虑到 `S ge 0`, 即得
-	<span class="formula">
-		`0 le S le (3sqrt 3)/4 r^2`.
-	</span>
-	等号成立当且仅当 `sin x = sin y = sin z`, 这说明 `ABC`
-	是等边三角形时面积最大.
+	于是, 完全可以从 2. 的系列不等式出发, 导出 1. 的不等式.
 </p>
--->
+
+<p class="proof">
+	(繁琐) `cos A cos B cos C le 1/8` 的直接证法: 将等式
+	<span class="formula">
+		`cos^2 A + cos^2 B + cos^2 C = 1 - 2 cos A cos B cos C`
+	</span>
+	代入不等式
+	<span class="formula">
+		`root 3 (cos A cos B cos C) le sqrt((cos^2 A + cos^2 B + cos^2 C)/3)`,
+	</span>
+	记 `p = cos A cos B cos C`, 有
+	<span class="formula">
+		`p^2 le ((1-2p)/3)^3`,
+	</span>
+	解得 `p in [-1, 1//8]`.
+	(多项式 `8p^3 + 15p^2 + 6p-1` 的有理根形如 `a_1/a_8`,
+	`a_1 | 1`, `a_8 | 8`. 代入验证可知 `1/8` 是它的一根,
+	再由多项式除法得到另外一对重根 `-1`).
+</p>
+
+<p class="corollary">
+	圆内接三角形中, 正三角形面积最大.
+</p>
+
+<p class="proof">
+	设圆 `O` 的半径为 `r`, `ABC` 是它的内接三角形,
+	`/_AOB, /_BOC, /_COA` 分别记为 `2x, 2y, 2z`, 则 `ABC` 的面积
+	<span class="formula">
+		`S = r^2/2(sin 2x + sin 2y + sin 2z)`
+		`= 2r^2 sin x sin y sin z`
+		`le (3sqrt 3)/4 r^2`.
+	</span>
+	等号成立当且仅当 `ABC` 是正三角形.
+</p>
 
 <p class="theorem">
 	(Ptolemy, 证明见 <a href="../geometry/4.html#the-ptolemy">Ptolemy 定理</a>) 设 `sum_(n=0)^3 x_n = pi`, 则

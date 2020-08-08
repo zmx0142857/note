@@ -189,6 +189,32 @@
 	</li>
 </ol>
 
+<p class="example">
+	分别在柱坐标与球坐标下计算 `"d"l^2 = dx^2 + dy^2 + dz^2`.
+</p>
+
+<ol class="solution">
+	<li>柱坐标 `x = r cos theta`, `y = r sin theta` 下,
+		<span class="formula">
+			`dx = cos theta "d"r - r sin theta "d"theta`,
+			`quad dy = sin theta "d"r + r cos theta "d"theta`.
+		</span>
+		于是 `dx^2 + dy^2 + dz^2 = "d"r^2 + r^2 "d"theta^2 + dz^2`.
+		也可以由 Jacobi 矩阵 `bm J = (del(x, y))/(del(r, theta))`
+		直接得到
+		<span class="formula">
+			`dx^2 + dy^2 = ["d"r, "d"theta] bm(J' J) ["d"r; "d"theta]`.
+		</span>
+	</li>
+	<li>对球坐标 `x = r sin varphi cos theta`,
+		`y  = r sin varphi sin theta`, `z = r cos varphi`
+		也作类似 1. 的计算, 得
+		<span class="formula">
+			`"d"l^2 = "d"r^2 + r^2(sin varphi"d"theta^2 + "d"varphi^2)`.
+		</span>
+	</li>
+</ol>
+
 <script src="../js/note.js?type=math"></script>
 
 </body>
