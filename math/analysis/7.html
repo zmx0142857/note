@@ -213,6 +213,40 @@
 	</span>
 </p>
 
+<h2>含参积分</h2>
+
+<ol class="example">
+	<li>`int_0^1 (ln(1+x))/(1+x^2) dx`;</li>
+	<li>`int_(-oo)^oo "e"^(-x^2)/(1+x^2) dx`;</li>
+</ol>
+
+<ol class="solution">
+	<li>令 `I(s) = int_0^1 (ln(1+s x))/(1+x^2) dx`, 积分号下求导,
+		<span class="formula">
+			`I(1) = int_0^1 I'(s) "d"s`
+			`= int_0^1 (int_0^1 x/(1+x^2) dx/(1+s x) dx) "d"s`
+			`= int_0^1 ((ln 2)/2 1/(1+s^2) + pi/4 s/(1+s^2)
+			- (ln(1+s))/(1+s^2) ) "d"s`
+			`= pi/4 ln 2 - I(1)`.
+		</span>
+		所以 `I(1) = pi/8 ln 2`.
+	</li>
+	<li>令 `I(s) = int_0^oo "e"^(-s x^2)/(1+x^2) dx`, 积分号下求导,
+		<span class="formula">
+			`I'(s) = int_0^oo (-x^2 "e"^(-s x^2))/(1+x^2) dx`
+			`= I(s) - int_0^oo "e"^(-s x^2) dx`
+			`= I(s) - 1/2 sqrt(pi/s)`.
+		</span>
+		上述常微分方程通解为 `I(s) = sqrt pi "e"^s int_s^c "e"^(-y^2) dy`.
+		代入 `I(0) = pi/2` 知 `c = +oo`. 因此 `I(1) = sqrt pi "e"
+		int_1^oo "e"^(-y^2) dy`, 原式等于
+		<span class="formula">
+			`2 I(1) = pi "e" 2/sqrt pi int_1^oo "e"^(-y^2) dy`
+			`= pi "e"\ "erfc"(1)`.
+		</span>
+	</li>
+</ol>
+
 <script src="../js/note.js?type=math"></script>
 
 </body>
