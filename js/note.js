@@ -301,8 +301,8 @@ function enableCopyCode()
 
 	var pres = document.getElementsByTagName('pre');
 	for (var i = 0; i < pres.length; ++i) {
-		pres[i].onclick = copyCode(pres[i]);
-		pres[i].title = '点击复制';
+		pres[i].ondblclick = copyCode(pres[i]);
+		pres[i].title = '双击复制';
 	}
 }
 
