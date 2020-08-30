@@ -195,7 +195,7 @@ function decorate(list) {
 
 		if (list[i].style === Sformula) {
 			for (var j = 0; j < elem.length; ++j) {
-				elem[j].title = elem[j].innerHTML
+				elem[j].caption = elem[j].innerHTML
 					= list[i].style(list[i].word, j);
 			}
 		} else {
@@ -203,15 +203,15 @@ function decorate(list) {
 				if (elem[j].classList.contains('nonu')) {
 					continue;
 				}
-        var newNode = list[i].style(list[i].word, j);
-        elem[j].title = newNode.innerHTML;
-        if (list[i].placeAfter) {
-          elem[j].appendChild(newNode); 
-        } else {
-          var space = document.createTextNode(' ');
-          elem[j].insertBefore(space, elem[j].firstChild);
-          elem[j].insertBefore(newNode, elem[j].firstChild);
-        }
+				var newNode = list[i].style(list[i].word, j);
+				elem[j].caption = newNode.innerHTML;
+				if (list[i].placeAfter) {
+					elem[j].appendChild(newNode); 
+				} else {
+					var space = document.createTextNode(' ');
+					elem[j].insertBefore(space, elem[j].firstChild);
+					elem[j].insertBefore(newNode, elem[j].firstChild);
+				}
 			}
 		}
 	}
@@ -241,7 +241,7 @@ function decorateHeading(maxLevel) {
 				var space = document.createTextNode(' ');
 				elem[i].insertBefore(space, elem[i].firstChild);
 				var newNode = document.createElement('b');
-				elem[i].title = newNode.innerHTML
+				elem[i].caption = newNode.innerHTML
 					= nums.join('-') + '-' + (++cnt);
 				elem[i].insertBefore(newNode, elem[i].firstChild);
 				//console.log(elem[i]);
@@ -341,6 +341,35 @@ function toggleShowAnswer(button, id) {
 	};
 }
 
+function refPreview(elem, refed) {
+	var div = document.createElement('div');
+	elem.onmouseover = function(e) {
+		if (refed.classList.contains('img')) {
+			div.innerHTML = refed.innerHTML;
+		} else {
+			div.innerHTML = '';
+			div.appendChild(refed.cloneNode(true));
+		}
+		div.classList.add('ref-preview');
+		var left = e.clientX + 20;
+		var top = e.clientY - 110;
+		if (window.innerWidth - e.clientX < 150)
+			left = e.clientX - 280;
+		if (window.innerHeight - e.clientY < 110)
+			top = e.clientY - 250;
+		else if (e.clientY < 110)
+			top = e.clientY + 10;
+		div.style.left = left + 'px';
+		div.style.top = top + 'px';
+		document.body.appendChild(div);
+	};
+	elem.onmouseout = function() {
+		if (div) {
+			document.body.removeChild(div);
+		}
+	};
+}
+
 function makeReference() {
 	var refs = document.getElementsByClassName('ref');
 	for (var i = 0; i < refs.length; ++i) {
@@ -348,7 +377,12 @@ function makeReference() {
 		var id = refs[i].href.substring(j+1);
 		var refed = document.getElementById(id);
 		if (refed) {
-			refs[i].innerHTML = refed.title;
+			refs[i].innerHTML = refed.caption || '??';
+			if (refed.classList.contains('label')) {
+				refPreview(refs[i], refed.parentNode);
+			} else {
+				refPreview(refs[i], refed);
+			}
 		} else {
 			console.warn('reference "' + id + '" not found');
 		}
@@ -439,10 +473,10 @@ decorate([
 	{name:'example', getBy:'class', word:'例', style:Sname_num},
 	{name:'remark', getBy:'class', word:'注', style:Sname_num},
 	{name:'question', getBy:'class', word:'问题', style:Sname_num},
-  {name:'conjecture', getBy:'class', word:'猜想', style:Sname_num},
-  {name:'hypothesis', getBy:'class', word:'假设', style:Sname_num},
+	{name:'conjecture', getBy:'class', word:'猜想', style:Sname_num},
+	{name:'hypothesis', getBy:'class', word:'假设', style:Sname_num},
 	{name:'theorem', getBy:'class', word:'定理', style:Sname_num},
-  {name:'proposition', getBy:'class', word:'命题', style:Sname_num},
+	{name:'proposition', getBy:'class', word:'命题', style:Sname_num},
 	{name:'definition', getBy:'class', word:'定义', style:Sname_num},
 	{name:'lemma', getBy:'class', word:'引理', style:Sname_num},
 	{name:'corollary', getBy:'class', word:'推论', style:Sname_num},
