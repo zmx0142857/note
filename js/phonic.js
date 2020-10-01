@@ -1,4 +1,39 @@
+/* usage:
+ * <span class="words">
+ *   骨髓(suǐ) 给(gěi)以 憎恨(2zēnghèn)
+ * </span>
+ * 
+ * or:
+ * <span class="word">骨髓(suǐ)</span>
+ * <span class="word">给(gěi)以</span>
+ * <span class="word">憎恨(2zēnghèn)</span>
+ * 
+ * or:
+ * <!-- '骨' 和 <span> 之间不要有空白 -->
+ * <span class="word">
+ *   骨<span class="char">
+ * 	  髓 <span class="phonic">suǐ</span>
+ *   </span>
+ * </span>
+ * <!-- <span> 和 '以' 之间也不要有空白 -->
+ * <span class="word">
+ *   <span class="char">
+ *     给 <span class="phonic">gěi</span>
+ *   </span>以
+ * </span>
+ * <span class="word">
+ *   <span class="char">
+ * 	憎恨 <span class="phonic">zēnghèn</span>
+ *   </span>
+ * </span>
+ */
 (function(){
+
+var wordss = document.getElementsByClassName('words');
+for (words of wordss) {
+	var s = words.innerHTML; // 这里如用 innerText, 汉字间的换行符会消失
+	words.innerHTML = s.replace(/(\S+)/g, '<span class="word">$1</span>');
+}
 
 var words = document.getElementsByClassName('word');
 for (w of words) {
@@ -29,12 +64,16 @@ for (w of words) {
 	if (matched)
 		w.innerHTML = s;
 }
+
 var char = document.getElementsByClassName('char');
 for (k of char) {
-	var phonic = document.createElement('span');
-	phonic.innerText = k.getAttribute('phonic');
-	phonic.classList.add('phonic');
-	k.appendChild(phonic);
+	var phonicText = k.getAttribute('phonic');
+	if (phonicText) {
+		var phonic = document.createElement('span');
+		phonic.innerText = phonicText;
+		phonic.classList.add('phonic');
+		k.appendChild(phonic);
+	}
 }
 
 })();

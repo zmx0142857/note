@@ -273,9 +273,6 @@ li.isnew::after {
     <a id="prev-article">&#x276e;</a>
     <div id="book-wrapper">
       <select name="book" id="book">
-        <option value="math">数学</option>
-        <option value="cs">计算机</option>
-        <option value="physics">物理</option>
         <!--&#x2304;-->
       </select>
     </div>
@@ -404,22 +401,11 @@ function getQuery() {
 }
 
 function loadToc() {
-  if (book.value == 'math') {
-    tableOfContents = tocMath;
-    document.title = 'zmx0142857 的数学笔记';
-    document.body.id = 'body-yellow';
-    favicon.href = 'img/pikachu.png';
-  } else if (book.value == 'cs') {
-    tableOfContents = tocCs;
-    document.title = 'zmx0142857 的计算机笔记';
-    document.body.id = 'body-green';
-    favicon.href = 'img/dango.png';
-  } else if (book.value == 'physics') {
-    tableOfContents = tocPhysics;
-    document.title = 'zmx0142857 的物理笔记';
-    document.body.id = 'body-purple';
-    favicon.href = 'img/pikachu.png';
-  }
+  var bookData = tocData[book.value];
+  tableOfContents = bookData.toc;
+  document.title = 'zmx0142857 的' + bookData.title + '笔记';
+  document.body.id = 'body-' + (bookData.color || 'yellow');
+  favicon.href = 'img/' + (bookData.favicon || 'pikachu.png');
 
   // render table of contents
   var newtoc = $('<ul>');
@@ -483,6 +469,12 @@ book.onchange = function() {
 
 // load data & find pos
 function init() {
+  for (var key in tocData) {
+    var option = $('<option>', tocData[key].title);
+    option.value = key;
+    book.appendChild(option);
+  }
+
   var arg = getQuery();
   if (arg.b && arg.g && arg.a) {
     book.value = arg.b;
@@ -527,7 +519,7 @@ function loadScript(url, callback) {
 }
 
 try{
-  loadScript('js/toc.js', init);
+  loadScript('js/toc.js', init); // 加载 tocData
 } catch (e) {
   alert(e);
 }

@@ -1,4 +1,10 @@
-var tocMath = [ {
+var tocData = {
+
+math: {
+  title: '数学',
+  color: 'yellow',
+  favicon: 'pikachu.png',
+  toc: [ {
   title:'示例',
   articles: [
     {title:'公式编辑器', src:'example/editor.html'},
@@ -55,7 +61,7 @@ var tocMath = [ {
 }, {
   title:'集合论与点集拓扑',
   articles: [
-    //		{title:'数理逻辑初步', src:'set/1.html'},
+    //      {title:'数理逻辑初步', src:'set/1.html'},
     {title:'集合及其运算', src:'set/2.html'},
     {title:'二元关系与映射', src:'set/3.html'},
     {title:'基数', src:'set/6.html'},
@@ -191,9 +197,13 @@ var tocMath = [ {
   articles: [
     {title:'数学游戏', src:'recreation/1.html'},
   ]
-}];
+}]},
 
-var tocCs = [ {
+cs: {
+  title: '计算机',
+  color: 'green',
+  favicon: 'dango.png',
+  toc: [ {
   title:'数据结构',
   articles: [
     {title:'数据结构习题', src:'ds/exercise.html'},
@@ -243,9 +253,12 @@ var tocCs = [ {
     {title:'svg 流程图', src:'tool/svg-flowchart.html'},
     {title:'模拟考试', src:'tool/exam.html'},
   ]
-}];
+}]},
 
-var tocPhysics = [{
+physics: {
+  title: '物理',
+  color: 'purple',
+  toc: [ {
   title:'未分类',
   articles: [
     {title:'单位与数量', src:'misc/1.html'},
@@ -261,4 +274,21 @@ var tocPhysics = [{
   articles: [
     {title:'光学', src:'optics/1.html'},
   ]
-}];
+}]},
+
+lang: {
+  title: '语言',
+  toc: [ {
+    title: '汉语',
+    articles: [
+        {title:'易读错字词整理', src:'zh/words.html',isnew:true},
+    ]
+}, {
+    title: '日语',
+    articles: [
+        {title:'学五十音', src:'jp/kana.html',isnew:true},
+        {title:'日语动词', src:'jp/words.html',isnew:true},
+    ]
+}]},
+// 全新的开始?
+};
