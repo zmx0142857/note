@@ -2,12 +2,12 @@
  * <span class="words">
  *   骨髓(suǐ) 给(gěi)以 憎恨(2zēnghèn)
  * </span>
- * 
+ *
  * or:
  * <span class="word">骨髓(suǐ)</span>
  * <span class="word">给(gěi)以</span>
  * <span class="word">憎恨(2zēnghèn)</span>
- * 
+ *
  * or:
  * <!-- '骨' 和 <span> 之间不要有空白 -->
  * <span class="word">

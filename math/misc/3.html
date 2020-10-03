@@ -242,6 +242,7 @@
 		`a b le int_0^a x^(p-1) dx + int_0^b y^(q-1) dy`
 		`= a^p/p + b^q/q`.
 	</span>
+	<img src="" alt="[图片暂缺]">
 </p>
 
 <p class="theorem">
@@ -250,14 +251,17 @@
 	`p, q gt 1` 且 `1/p+1/q = 1`. 则
 	<span class="formula">
 		`sum_(k=1)^n x_k y_k le (sum_(k=1)^n x_k^p)^(1/p) (sum_(k=1)^n
-		y_k^q)^(1/q)`.
+		y_k^q)^(1/q)`,
 	</span>
-	特别取 `p = q = 2` 时, 得到 Cauchy 不等式.
-	这个不等式的另一种形式是 (取 `alpha = p^-1`, `beta = q^-1`):
+	等号成立当且仅当所有 `x_k^p/y_k^q` 都相等 (都等于 `(sum x_k^p)/(sum
+	y_k^q)`).
+	分别以 `x_k, y_k` 替换 `x_k^p`, `y_k^q`, 得到另一形式:
 	<span class="formula">
-		`sum_(k=1)^n x_k^alpha y_k^beta le (sum_(k=1)^n x_k)^alpha
-		(sum_(k=1)^n y_k)^beta`.
+		`sum_(k=1)^n x_k^(1/p) y_k^(1/q) le (sum_(k=1)^n x_k)^(1/p)
+		(sum_(k=1)^n y_k)^(1/q)`,
 	</span>
+	等号成立当且仅当所有 `x_k/y_k` 都相等 (都等于 `(sum x_k)/(sum y_k)`).
+	特别取 `p = q = 2` 时, 得到 Cauchy 不等式.
 </p>
 
 <p class="proof">
@@ -271,7 +275,8 @@
 	<span class="formula">
 		`1/(A^(1/p) B^(1/q)) sum_(k=1)^n x_k y_k le 1/p + 1/q = 1`.
 	</span>
-	所以原不等式成立.
+	所以原不等式成立. 由 Young 不等式的取等条件容易推出 Hölder
+	不等式的取等条件.
 </p>
 
 <p class="theorem">
@@ -281,7 +286,7 @@
 		`(sum_(k=1)^n (x_k+y_k)^p)^(1/p) le (sum_(k=1)^n x_k^p)^(1/p) +
 		(sum_(k=1)^n y_k^p)^(1/p)`.
 	</span>
-	Mindowski 不等式适合用作一些度量空间的三角不等式.
+	Minkowski 不等式适合用作一些度量空间的三角不等式.
 </p>
 
 <p class="proof">
@@ -311,7 +316,13 @@
 		`sum_(k=1)^n t_k x_k^(1/p) le (sum_(k=1)^n t_k x_k)^(1/p)`,
 	</span>
 	其中 `x_k gt 0`, `t_k in (0,1)`, `sum_(k=1)^n t_k = 1`.
-	Hölder 不等式是此不等式的直接推论.
+	再取
+	<span class="formula">
+		`t_k = y_k^q/(sum_(k=1)^n y_k^q)`,
+		`quad x_k = x_k^p/y_k^q`,
+		`quad k = 1, 2, cdots,  n`,
+	</span>
+	利用 `1/p + 1/q = 1` 适当变形即得 Hölder 不等式.
 </p>
 
 <h2>均值不等式</h2>
@@ -427,7 +438,7 @@
 <p class="corollary">
 	设 `x_1, x_2, cdots, x_n gt 0`, 则
 	<span class="formula">
-		`(1/n sum_(k=1)^n x_k^-1)^-1` 
+		`(1/n sum_(k=1)^n x_k^-1)^-1`
 		`le exp(1/n sum_(k=1)^n ln x_k)`
 		`le 1/n sum_(k=1)^n x_k`
 		`le (1/n sum_(k=1)^n x_k^2)^(1/2)`,
@@ -568,6 +579,137 @@
 	`x_1, x_2, cdots, x_n` 的函数 `(1/n sum_(k=1)^n x_k^alpha)^(1/alpha)`
 	在参数 `alpha` 取 `-oo`, `-1`, `0`, `1`, `+oo`
 	时, 分别取得最小值, 调和平均, 几何平均, 算术平均和最大值.
+</p>
+
+<h2>权方和不等式</h2>
+
+<p class="theorem">
+	<b>权方和不等式</b>
+	设 `x_k, y_k gt 0`, `k = 1, 2, cdots, n`, `alpha gt 0`, 则
+	<span class="formula">
+		`(sum_(k=1)^n x_k)^(alpha+1)/(sum_(k=1)^n y_k)^alpha le sum_(k=1)^n x_k^(alpha+1)/y_k^alpha`,
+	</span>
+	等号成立当且仅当所有 `x_k/y_k` 都相等 (都等于 `(sum x_k)/(sum y_k)`).
+	<br/>
+	权方和不等式等价于 Hölder 不等式,
+	是求解分式条件极值的利器, 其特征是分子幂次比分母高一次.
+	其中 `alpha = 1` 的情形 (等价于 Cauchy 不等式) 最为常用.
+</p>
+
+<p class="proof">
+	在 Hölder 不等式 (第二形式) 中取
+	`1/p = 1/(alpha+1)`, `1/q = alpha/(alpha+1)`,
+	<span class="formula">
+		`x_k = x_k^(alpha+1)/y_k^alpha`,
+		`quad y_k = y_k`,
+		`quad k = 1, 2, cdots, n`
+	</span>
+	即可, 取等条件由 Hölder 不等式的推出.
+</p>
+
+<ol class="example">
+	本例可以用权方和不等式, 也可以用 Cauchy 不等式.
+	<li>设 `a, b, x, y gt 0`, `x^2 + y^2 = k`, 求 `a x + b y`
+		的最大值;
+	</li>
+	<li>[<a href="https://wenku.baidu.com/view/6a33034bfad6195f302ba618.html">权方和不等式的应用</a>]
+		设 `a, b, c, d, x, y gt 0`, 求 `min{a x^2 + b y^2 | c x + d y = k}`.
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>利用权方和不等式 (`alpha = 1`),
+		<span class="formula">
+			`(a x + b y)^2/(a^2 + b^2)`
+			`le (a x)^2/a^2 + (b y)^2/b^2`
+			`= k`,
+		</span>
+		故
+		<span class="formula">
+			`a x + b y le sqrt(k(a^2 + b^2))`,
+		</span>
+		等号成立当且仅当 `x/a = y/b`.
+	</li>
+	<li>利用权方和不等式 (`alpha = 1`),
+		<span class="formula">
+			`a x^2 + b y^2`
+			`= (c x)^2/(c^2//a) + (d y)^2/(d^2//b)`
+			`ge (c x + d y)^2/(c^2//a + d^2//b)`
+			`= k^2/(c^2//a + d^2//b)`,
+		</span>
+		等号成立当且仅当 `a/c x = b/d y = k/(c^2//a + d^2//b)`.
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>利用 Cauchy 不等式,
+		<span class="formula">
+			`(a x + b y)^2 le (a^2 + b^2)(x^2 + y^2) = k(a^2+b^2)`,
+		</span>
+		故
+		<span class="formula">
+			`a x + b y le sqrt(k(a^2+b^2))`,
+		</span>
+		等号成立当且仅当 `x/a = y/b`.
+	</li>
+	<li>利用 Cauchy 不等式,
+		<span class="formula">
+			`(c/(sqrt a) sqrt a x + d/(sqrt b) sqrt b y)^2`
+			`le (c^2/a + d^2/b)(a x^2 + b y^2)`,
+		</span>
+		故
+		<span class="formula">
+			`(a x^2 + b y^2) ge k^2/(c^2//a + d^2//b)`,
+		</span>
+		等号成立当且仅当 `c/(a x) = d/(b y)`.
+	</li>
+</ol>
+
+<p class="example">
+	设 `x in [0, pi//2]`, 求 `1/(sin x) + 8/(cos x)` 的最小值.
+</p>
+
+<p class="solution">
+	利用权方和不等式 (`alpha = 1`), 原式等于
+	<span class="formula">
+		`1^2/(sin x) + 4^2/(2 cos x)`
+		`ge (1+4)^2/(sin x + 2 cos x)`
+		`= 5^2/(sqrt 5 sin(x+varphi))`
+		`ge 5 sqrt 5`.
+	</span>
+</p>
+
+<p class="solution">
+	用 Cauchy 不等式的做法, 可能不太直观:
+	<span class="formula">
+		`(1 + 4)^2`
+		`= (1/sqrt(sin x) sqrt(sin x) + 4/sqrt(2 cos x) sqrt(2 cos x))^2`
+		`le (1^2/(sin x) + 4^2/(2 cos x))(sin x + 2 cos x)`,
+	</span>
+	因此
+	<span class="formula">
+		`1/(sin x) + 8/(cos x) ge 5^2/(sin x + 2 cos x)`.
+	</span>
+	后面的处理是一样的.
+</p>
+
+<p class="example">
+	[<a href="https://wenku.baidu.com/view/6a33034bfad6195f302ba618.html">权方和不等式的应用</a>]
+	设 `a, b, c gt 0`, `a b c = 1`, 求 `1/(a^3(b+c)) + 1/(b^3(c+a))
+	+ 1/(c^3(a+b))` 的最小值.
+</p>
+
+<p class="solution">
+	利用权方和不等式, 原式等于
+	<span class="formula">
+		`a^-2/(a(b+c)) + b^-2/(b(c+a)) + c^-2/(c(a+b))`
+		`ge (a^-1+b^-1+c^-1)^2/(2(a b+b c+c a))`
+		`= 1/2 (a b+b c+c a)/(a b c)^2`
+		`= 1/2 (a b+b c+c a)`
+		`ge 3/2 root 3 (a b b c c a)`
+		`= 3/2`,
+	</span>
+	等号成立当且仅当 `a = b = c = 1`.
 </p>
 
 <h2>微积分不等式</h2>
@@ -888,31 +1030,156 @@
 
 <h2>三元不等式</h2>
 
-<ol class="example">
-	<li>`a^3 + b^3 + c^3 ge 3 root 3 (a^3 b^3 c^3) = 3 a b c`;</li>
-	<li>`a^2 + b^2 + c^2 = 1/2(a^2 + b^2 + b^2 + c^2 + c^2 + a^2)`
-	`ge a b+b c+c a`;</li>
-	<li>(推论, 也可由 Cauchy 不等式得到)
-		`3(a^2+b^2+c^2) ge (a+b+c)^2`;</li>
-	<li>`a b c ge (b+c-a)(c+a-b)(a+b-c)` (??)</li>
-	<li>`a^2 b + b^2 c + c^2 a + a b^2 + b c^2 + c a^2`
-		`ge 3 a b c + 3 a b c = 6 a b c`;
-	</li>
-	<li>(推论, 也可由 Cauchy 不等式或 Chebyshev 不等式得到)
-		`p q ge 9 r`</li>
+<h3>两个记号</h3>
+
+<p class="definition">
+	<b>轮换求和记号</b>
+	<span class="formula">
+		`sum_"cyc" f(a, b, c) := f(a, b, c) + f(b, c, a) + f(c, a, b)`.
+	</span>
+	不引起混淆的情况下, `sum_"cyc"` 可简记为 `sum`.
+</p>
+
+<ol class="theorem">
+	<b>`p q r` 记号</b>
+	设 `a, b, c ge 0`,
+	<span class="formula">
+		`S_2 = a^2 + b^2 + c^2`,
+		`quad p = a + b + c`,
+		`quad q = a b+b c+c a`,
+		`quad r = a b c `,<br/>
+		`S_3 = a^3 + b^3 + c^3`,
+		`quad q_3 = sum_"cyc" a^2(b+c)`
+		`= (a^2 b + b^2 c + c^2 a) + (a b^2 + b c^2 + c a^2)`.
+	</span>
+	则成立等式
+	<span class="formula">
+		`S_2 = p^2 - 2q`,
+		`quad S_3 = p^3 - 3p q + 3 r`,
+		`quad q_3 = p q - 3r`,
+		`quad a^-1 + b^-1 + c^-1 = q//r`,
+	</span>
+	以及以下的三元齐次不等式:
+	<li>`3 S_2 ge p^2 ge 3 q ge 9 r^(2/3)`;</li>
+	<li>`S_3 ge q_3 - 3r ge 3r`;</li>
+	<li>`p q ge 9 r ge 4 p q - p^3`;</li>
 </ol>
 
-<h3>`pqr` 方法 (或 `uvw` 方法)</h3>
+<ol class="proof enum">
+	各等式直接计算验证即可. 下证不等式.
+	<li>
+	<ol>
+		<li>`S_2 = a^2 + b^2 + c^2`
+			`= 1/2(a^2 + b^2 + b^2 + c^2 + c^2 + a^2)`
+			`ge a b+b c+c a = q`.
+		</li>
+		<li>在 `S_2 ge q` 两边同时加上 `2q`, 注意到 `p^2 = S_2 + 2 q`,
+			得到 `p^2 ge 3 q`.</li>
+		<li>在 `S_2 ge q` 左边加上 `2 S_2`, 右边加上 `S_2 + q` 得
+			`3 S_2 ge p^2`; 或者, 由 Cauchy 不等式,
+			`(1^2+1^2+1^2)(a^2+b^2+c^2)` `ge (a*1+b*1+c*1)^2`.
+		</li>
+		<li>`q = a b + b c + c a`
+			`ge 3 root 3(a b b c c a)`
+			`= 3 (a b c)^(2/3) = 3 r^(2/3)`.
+		</li>
+	</ol>
+	</li>
 
-[参见 <a href="brilliant.org/wiki/the-uvw-method">brilliant.org</a>]
+	<li>
+	<ol>
+		<li>`q_3 = (a^2 b + b^2 c + c^2 a) + (a b^2 + b c^2 + c a^2)`
+			`ge 3 root 3(a^2 b b^2 c c^2 a) + 3 root 3(a b^2 b c^2 c a^2)`
+			`= 6 a b c = 6r`.
+		</li>
+		<li>`S_3 ge q_3 - 3 r` 的证明见下一节的<a class="ref" href="#cor-schur"></a>.</li>
+	</ol>
+	</li>
+
+	<li>
+	<ol>
+		<li>由 Cauchy 不等式 `p q//r = (a+b+c) (a^-1 + b^-1 + c^-1) ge 9`
+			得到 `p q ge 9 r`;
+			也可以用 `p q = 3r + q_3` 和 `q_3 ge 6r` 推出结论.
+		</li>
+		<li>`9r ge 4 p q - p^3` 的证明见下一节的<a class="ref" href="#cor-schur"></a>.</li>
+	</ol>
+	</li>
+</ol>
+
+<h3>Schur 不等式</h3>
+
+<p class="theorem">
+	<b>Schur 不等式</b>
+	设 `a, b, c ge 0`, `t in RR`, 则
+	<span class="formula">
+		`sum_"cyc" a^t(a-b)(a-c) ge 0`,
+	</span>
+	等号成立当且仅当 `a = b = c`, 或其中两数相等且另一数为零.
+	特别当 `t` 为非负偶数时, 不等式对任意实数 `a, b, c` 成立.
+</p>
+
+<p class="proof">
+	不妨设 `a ge b ge c ge 0`. 则 `t gt 0` 时 `a^t ge b^t`,
+	`t lt 0` 时 `c^t ge b^t`, 总之有
+	<span class="formula">
+		`a^t-b^t+c^t ge 0`.
+	</span>
+	于是
+	<span class="formula">`{:
+		,  sum_"cyc" a^t(a-b)(a-c);
+		=, a^t(a-b)(a-b+b-c) + b^t(b-c)(b-a) + c^t(c-b+b-a)(c-b);
+		=, a^t(a-b)^2 + c^t(b-c)^2 + (a^t-b^t+c^t)(a-b)(b-c);
+		ge, 0.
+	:}</span>
+	分析上式最后一个不等号左边三项, 得到原式等于零当且仅当
+	<span class="formula">
+		`(a = 0 or a = b)` `and (c = 0 or b = c)` `and (a = b or b = c)`.
+	</span>
+	从而得到: 等号成立当且仅当 `a = b = c`, 或其中两数相等且另一数为零.
+	另外容易看到 `t` 是非负偶数时, 不等式也成立.
+</p>
+
+<ol class="corollary" id="cor-schur">
+	Schur 不等式最常用的是 `t = 1` 的情形, 此时有
+	<li>`S_3 - q_3 + 3r = p^3 - 4 p q + 9 r ge 0`;</li>
+	<li>`prod_"cyc" (a+b-c) le a b c`;</li>
+</ol>
+
+<ol class="proof">
+	<li>由 Schur 不等式,
+		<span class="formula">
+			`0 le sum a(a-b)(a-c)`
+			`= sum a^3 - sum a^2(b+c) + sum a b c`
+			`= S_3 - q_3 + 3r`,
+		</span>
+		再利用等式, 将 `S_3` 和 `q_3` 用 `p, q, r` 来表示即可.
+	</li>
+	<li>即证 `(p-2a)(p-2b)(p-2c) le r`. 展开左边得
+		<span class="formula">
+			`p^3 - 2(a + b + c) p^2 + 4(a b+b c+c a)p - 8 a b c`
+			`= -p^3 + 4 p q - 8 r le r`.
+		</span>
+	</li>
+</ol>
+
+<ol class="example">
+	<li>三角形 ABC 中, `sum_"cyc" cos A le 3//2`;</li>
+	<li>三角形的外接圆半径为 `R`, 内接圆半径为 `r`, 则 `R ge 2r`.</li>
+	(证明?)
+</ol>
+
+<h3>`uvw` 方法</h3>
+
+[参见 <a href="https://brilliant.org/wiki/the-uvw-method">brilliant.org</a>]
 
 <ol class="theorem">
 	<b>基本定理</b>
 	设 `a, b, c ge 0`,
 	<span class="formula">
-		`p = 3u = a + b + c`,<br/>
-		`q = 2v^2 = a b+b c+c a`,<br/>
-		`r = w^3 = a b c`,
+		`3u = a + b + c`,<br/>
+		`3v^2 = a b+b c+c a`,<br/>
+		`w^3 = a b c`,
 		<span class="label" id="for-uvw"></span>
 	</span>
 	则 `u ge v ge w`, 其中
@@ -966,64 +1233,6 @@
 <p class="theorem">
 	<b>Tejs 定理</b>
 </p>
-
-<h3>Schur 不等式</h3>
-
-<p class="theorem">
-	设 `x, y, z ge 0`, `t in RR`, 则
-	<span class="formula">
-		`sum_"cyc" x^t(x-y)(x-z) ge 0`,
-	</span>
-	"`=`" 成立当且仅当 `x = y = z`, 或其中两数相等且另一数为零.
-	特别当 `t` 为非负偶数时, 不等式对任意实数 `x, y, z` 成立.
-</p>
-
-<p class="proof">
-	不妨设 `x ge y ge z ge 0`. 则 `t gt 0` 时 `x^t ge y^t`,
-	`t lt 0` 时 `z^t ge y^t`, 总之有
-	<span class="formula">
-		`x^t-y^t+z^t ge 0`.
-	</span>
-	于是
-	<span class="formula">
-		`sum_"cyc" x^t(x-y)(x-z)`
-		`= x^t(x-y)(x-y+y-z)` `+ y^t(y-z)(y-x)` `+ z^t(z-y+y-x)(z-y)`
-		`= x^t(x-y)^2 + z^t(y-z)^2` `+ (x^t-y^t+z^t)(x-y)(y-z)`
-		`ge 0`.
-	</span>
-	分析上式最后一个不等号左边三项, 得到原式等于零当且仅当
-	<span class="formula">
-		`(x = 0 or x = y)` `and (z = 0 or y = z)` `and (x = y or y = z)`.
-	</span>
-	从而得到: "`=`" 成立当且仅当 `x = y = z`, 或其中两数相等且另一数为零.
-	另外容易看到 `t` 是非负偶数时, 不等式也成立.
-</p>
-
-<ol class="corollary">
-	在 Schur 不等式中取 `t = 1`, 变形得到
-	<li>`sum_"cyc" x^3 - sum_"cyc" x^2(y+z) + 3x y z ge 0`;</li>
-	<li>`(sum_"cyc" x)^3 - 4(sum_"cyc" x)(sum_"cyc" y z)` `+ 9x y z ge 0`.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>`sum_"cyc" x(x-y)(x-z)`
-		`= sum_"cyc" x^3 - sum_"cyc" x^2(y+z) + sum_"cyc" x y z`
-		`= sum_"cyc" x^3 - sum_"cyc" x^2(y+z) + 3x y z ge 0`.
-	</li>
-	<li>`(sum_"cyc" x)^3 - 4(sum_"cyc" x)(sum_"cyc" y z) + 9x y z`
-		`= sum_"cyc" x^3 + 3 sum_"cyc" x^2(y+z) + 6x y z`
-		`- 4(sum_"cyc" x^2(y+z) + sum_"cyc" x y z) + 9x y z`
-		`= sum_"cyc" x^3 - sum_"cyc" x^2(x+z) + 3x y z ge 0`.
-	</li>
-</ol>
-
-<ol class="corollary">
-	<li>`prod_"cyc" (x+y-z) le x y z`, `AA x, y, z ge 0`;</li>
-	<li>三角形 ABC 中, `sum_"cyc" cos A le 3//2`;</li>
-	<li>三角形的外接圆半径为 `R`, 内接圆半径为 `r`, 则 `R ge 2r`.</li>
-	(证明?)
-</ol>
 
 <h2>杂例</h2>
 
