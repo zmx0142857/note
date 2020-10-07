@@ -62,7 +62,7 @@ Table.create = function(config) {
   // 表体
   for (row of data) {
     tr = $('<tr>', columns.map(function(k) {
-      return $('<td>', typeof k == 'function' ? k(row) : row[k] || '');
+      return $('<td>', typeof k == 'function' ? k.apply(row) : row[k] || '');
     }));
     frag.appendChild(tr);
   }

@@ -170,6 +170,7 @@ math: {
   title:'数论',
   articles: [
     {title:'整除', src:'number/1.html'},
+    {title:'指数与原根', src:'number/4.html', isnew:true},
     {title:'不定方程', src:'number/5.html', isnew:true},
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html', isnew:true},
   ]

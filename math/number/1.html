@@ -640,53 +640,6 @@
 	即结论对 `m+1` 成立.
 </p>
 
-<ol class="example">
-	设 `n gt 2` 是奇数. 证明
-    <li>`n !| 2^i`, `i = 0, 1, cdots`;</li>
-	<li>存在整数 `1 le d lt n`, 使得 `n | 2^d - 1`;</li>
-	<li>设 `d in NN`, `d_0` 是满足 2 的最小正整数,
-		则 `d | 2^d - 1` 的充要条件是 `d_0 | d`.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>设 `i` 是使得 `n | 2^i` 成立的最小的非负整数, 显然 `i gt 0`.
-		设 `n = 2k+1`, `k in NN`, 则
-		<span class="formula">
-			`k * 2^i = (n-1)/2 * 2^i = n * 2^(i-1) - 2^(i-1)`.
-		</span>
-		因为 `n | k * 2^i`, 所以 `n | 2^(i-1)`. 这与 `i` 的最小性矛盾.
-	</li>
-	<li>设
-        <span class="formula">
-            `2^i = n q_i + r_i`, `quad i = 0, 1, cdots, n-1`.
-        </span>
-		由 1 知, `n` 个余数 `r_0, r_1, cdots, r_(n-1)`
-		只能取 `1, 2, cdots, n-1` 这 `n-1` 个值, 由鸽巢原理,
-		其中必有两个数相等. 设 `r_i = r_j`, `i gt j`, 则
-		<span class="formula">
-			`n(q_i - q_j) = 2^i - 2^j = 2^j (2^(i-j) - 1)`,
-		</span>
-		所以 `n | 2^j (2^(i-j) - 1)`.  取 `d = i-j`,
-		反复使用 1 中的推理就有 `n | 2^d - 1`.
-	</li>
-	<li>只证必要性. 由带余除法得
-		<span class="formula">
-			`d = d_0 q + r`, `quad 0 le r lt d_0`.
-		</span>
-		所以
-		<span class="formula">
-			` 2^d - 1
-			= 2^(d_0 q + r) - 2^r + 2^r - 1
-			= 2^r (2^(d_0 q)-1) + 2^r - 1`.
-		</span>
-		因为 `n | 2^d - 1`, `n | 2^(d_0) - 1`, 所以 `n | 2^r - 1`.
-		但 `r lt d_0`, 所以只能 `r = 0`, 否则与 `d_0` 的最小性矛盾.
-		由<a class="ref" href="#the-division-algorithm"></a>,
-		这当且仅当 `d_0 | d`.
-	</li>
-</ol>
-
 <h2>最大公约数与最小公倍数</h2>
 
 <h3>最大公约数与最小公倍数的定义</h3>
@@ -886,11 +839,13 @@
     即 `(a b)/d | l`.
 </p>
 
+<h3>Fermat 小定理</h3>
+
 <ol class="theorem">
     设 `p` 是素数, 则
     <li>`p | (p;k)`, `1 le k le p-1`.</li>
     <li>`p | a^p - a`, `a in NN`.</li>
-    <li>(Fermat 小定理) 若 `(a, p) = 1`, 则 `p | a^(p-1)-1`;
+    <li><b>Fermat 小定理</b> 若 `(a, p) = 1`, 则 `p | a^(p-1)-1`;
         换言之, `a^(p-1) -= 1` `(mod p)`.
     </li>
 </ol>

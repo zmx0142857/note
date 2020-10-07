@@ -712,6 +712,20 @@
 	等号成立当且仅当 `a = b = c = 1`.
 </p>
 
+<p class="example">
+	设 `a, b, c gt 0`, `a b + b c + c a = 1`, 求 `a^3/(b+c) + b^3/(c+a)
+	+ c^3/(a+b)` 的最小值.
+</p>
+
+<p class="solution">
+	由权方和不等式, 原式等于
+	<span class="formula">
+		`a^4/(a(b+c)) + b^4/(b(c+a)) + c^4/(c(a+b))`
+		`ge (a^2+b^2+c^2)^2/(2(a b+b c+c a))`
+		`ge (a b+b c+c a)/2 = 1/2`.
+	</span>
+</p>
+
 <h2>微积分不等式</h2>
 
 <p class="theorem">
@@ -1059,14 +1073,14 @@
 		`quad q_3 = p q - 3r`,
 		`quad a^-1 + b^-1 + c^-1 = q//r`,
 	</span>
-	以及以下的三元齐次不等式:
+	以及以下的三元不等式:
 	<li>`3 S_2 ge p^2 ge 3 q ge 9 r^(2/3)`;</li>
 	<li>`S_3 ge q_3 - 3r ge 3r`;</li>
 	<li>`p q ge 9 r ge 4 p q - p^3`;</li>
 </ol>
 
 <ol class="proof enum">
-	各等式直接计算验证即可. 下证不等式.
+	各等式直接计算验证即可 (`S_2`, `S_3` 可用牛顿公式计算). 下证不等式.
 	<li>
 	<ol>
 		<li>`S_2 = a^2 + b^2 + c^2`
@@ -1098,11 +1112,10 @@
 
 	<li>
 	<ol>
-		<li>由 Cauchy 不等式 `p q//r = (a+b+c) (a^-1 + b^-1 + c^-1) ge 9`
-			得到 `p q ge 9 r`;
-			也可以用 `p q = 3r + q_3` 和 `q_3 ge 6r` 推出结论.
+		<li>`p q ge 9 r` 和 `q_3 ge 6r` 等价; 也可由 Cauchy 不等式得到
+			`p q//r = (a+b+c) (a^-1 + b^-1 + c^-1) ge 9`.
 		</li>
-		<li>`9r ge 4 p q - p^3` 的证明见下一节的<a class="ref" href="#cor-schur"></a>.</li>
+		<li>`9r ge 4p q - p^3` 和 `S_3 ge q_3 - 3r` 等价.</li>
 	</ol>
 	</li>
 </ol>
@@ -1120,12 +1133,13 @@
 </p>
 
 <p class="proof">
-	不妨设 `a ge b ge c ge 0`. 则 `t gt 0` 时 `a^t ge b^t`,
+	由于 `a, b, c` 可以轮换, 不妨设 `b` 的大小在 `a` 和 `c` 中间.
+	有两种情形, 先看 `a ge b ge c`. 当 `t gt 0` 时 `a^t ge b^t`,
 	`t lt 0` 时 `c^t ge b^t`, 总之有
 	<span class="formula">
 		`a^t-b^t+c^t ge 0`.
 	</span>
-	于是
+	上式在 `a le b le c` 时也成立, 于是
 	<span class="formula">`{:
 		,  sum_"cyc" a^t(a-b)(a-c);
 		=, a^t(a-b)(a-b+b-c) + b^t(b-c)(b-a) + c^t(c-b+b-a)(c-b);

@@ -49,9 +49,39 @@
 	</span>
 </p>
 
-<p class="corollary">
-	`lim_(n to oo) x_n = a` `iff lim_(n to oo) x_n - a = 0`.
+<p class="proposition">
+	`lim_(n to oo) x_n = a` `iff lim_(n to oo) (x_n - a) = 0`.
 </p>
+
+<p class="proposition" id="prop-diff">
+	若 `lim_(n to oo) x_n = a`, 则
+	`lim_(n to oo) (x_n - y_n) = 0` `iff {y_n}` 的极限存在, 且等于 `a`.
+</p>
+
+<ol class="proof">
+	<li>对任意 `epsi gt 0`, 由 `lim_(n to oo) x_n = a`, 存在正整数 `N`
+		使得
+		<span class="formula">
+			`|x_n - a| lt epsi/2`, `AA n gt N`.
+		</span>
+		由 `lim_(n to oo) (x_n-y_n) = 0`, 存在正整数 `M` 使得
+		<span class="formula">
+			`|x_n - y_n| lt epsi/2`, `AA n gt M`.
+		</span>
+		于是对任意 `n gt max{N, M}`, 应用三角不等式有
+		<span class="formula">
+			`|y_n - a| le |y_n - x_n| + |x_n - a| lt epsi`.
+		</span>
+	</li>
+	<li>现在设 `lim_(n to oo) x_n = lim_(n to oo)  y_n = a`,
+		则对任意 `epsi gt 0`, 存在正整数 `N, M` 使得
+		<span class="formula">
+			`|x_n - a| lt epsi/2`, `AA n gt N`;<br/>
+			`|y_n - a| lt epsi/2`, `AA n gt M`.
+		</span>
+		类似地对 `n gt max{N, M}` 应用三角不等式即得结论.
+	</li>
+</ol>
 
 <ol class="example">
 	<li><b>对数</b> `lim_(n to oo) 1/(log_a n) = 0`, 其中 `a gt 1`.</li>
@@ -69,7 +99,7 @@
 			`|1/(log_a n)| lt 1/(log_a N) lt epsi`.
 		</span>
 	</li>
-	<li>`AA epsi gt 0`, 取正整数 `N gt (1/epsi)^(1/p)`, 则 
+	<li>`AA epsi gt 0`, 取正整数 `N gt (1/epsi)^(1/p)`, 则
 		`N^p gt 1/epsi`, 从而 `AA n gt N`,
 		<span class="formula">
 			`|1/n^p| lt 1/N^p lt epsi`.
@@ -98,7 +128,7 @@
 	</li>
 </ol>
 
-<h2>有界数列, 无穷大与无穷小</h2>
+<h2>有界数列, 无穷大与无穷小, 两边夹法则</h2>
 
 <p class="definition">
 	设 `{x_n}` 为一数列. 如果存在实数 `A, B` 使成立
@@ -146,15 +176,15 @@
 	当 `n to oo`.
 </p>
 
-<p class="theorem">
+<p class="proposition">
 	若 `{x_n}` 是无穷大且 `x_n != 0`, 则 `{1/x_n}` 是无穷小;
 	反之若 `{y_n}` 是无穷小且 `y_n != 0`, 则 `{1/y_n}` 是无穷大.
 </p>
 
 <p class="proof">
 	只证第一个结论, 第二个结论类似.
-	`AA epsi gt 0`, 
-	由 `{x_n}` 是无穷大知对 `1/epsi gt 0` 和正整数 `N`, 使得
+	`AA epsi gt 0`,
+	由 `{x_n}` 是无穷大知存在正整数 `N`, 使得
 	<span class="formula">
 		`|x_n| gt 1/epsi`, `AA n gt N`.
 	</span>
@@ -164,7 +194,7 @@
 	</span>
 </p>
 
-<p class="theorem">
+<p class="proposition">
 	设 `{x_n}` 是无穷小, `{y_n}` 有界, 则 `{x_n y_n}` 是无穷小.
 </p>
 
@@ -176,18 +206,17 @@
 	</span>
 	从而
 	<span class="formula">
-		`|x_n y_n| lt epsi/M M lt epsi`.
+		`|x_n y_n| lt epsi/M M = epsi`.
 	</span>
 </p>
 
-<p class="theorem">
+<p class="proposition" id="prop-smaller">
 	设 `{x_n}` 是无穷小, 且对充分大的 `n`, 有 `|y_n| le |x_n|`, 则 `{y_n}`
 	是无穷小.
 </p>
 
 <p class="proof">
-	(这条定理可以作为两边夹法则的推论.)
-	设存在正整数 `M`, 使得
+	由已知, 存在正整数 `M` 使得
 	<span class="formula">
 		`|y_n| le |x_n|`, `AA n gt M`.
 	</span>
@@ -202,14 +231,16 @@
 </p>
 
 <ol class="example">
-	<li>`lim_(n to oo) (n!)/n^n = 0`.</li>
+	<li>`lim_(n to oo) (n!)/n^n = 0`, `lim_(n to oo) n^n/((2n)!) = 0`.</li>
 	<li>`lim_(n to oo) a^n/(n!) = 0`, `a in RR`;</li>
 	<li>`lim_(n to oo) n^p/a^n = 0`, `a gt 1`, `p gt 0`;</li>
 	<li>`lim_(n to oo) (log_a n)/n^p = 0`, `a gt 1`, `p gt 0`.</li>
 </ol>
 
 <ol class="proof">
-	<li>只需注意到 `AA n in ZZ^+`, `(n!)/n^n le 1/n`.</li>
+	<li>只需注意到 `AA n in ZZ^+`, `(n!)/n^n le 1/n`, `n^n/((2n)!) lt
+		1/(n!)`;
+	</li>
 	<li>取正整数 `N gt |a|`, 则 `|a|/N lt 1`. 取实数 `r` 使
 		`|a|/N lt r lt 1`, 则对任意 `n gt N` 有 `|a|/n lt |a|/N lt r`.
 		于是
@@ -223,11 +254,10 @@
 		利用二项式定理有
 		<span class="formula">
 			`|n^p/a^n| = n^p / (1+r)^n`
-			`= n^p // (1 + n r + (n(n-1))/(2!) r^2 + cdots`
-			`+ (n(n-1)cdots(n-N+1))/(N!) r^N + cdots + r^n)`
-			`lt (n^p N!) / (n(n-1)cdots(n-N+1) r^N)`
-			`lt (n^p N!) / ((n-N)r)^N`
-			`= (N!)/n^(N-p) (1/((1-N/n)r))^N`.
+			`= n^p // sum_(k=0)^n (n;k) r^k`
+			`lt n^p // (n;N) r^N`
+			`lt (n^p N!) / ((n-N)^N r^N)`
+			`= (N!)/(n^(N-p) (1-N/n)^N r^N)`.
 		</span>
 		`n gt 2N` 时, `1-N/n gt 1/2`. 所以
 			`|n^p/a^n| lt (N!)/n^(N-p) (2/r)^N`.
@@ -240,7 +270,7 @@
 		</span>
 		取正整数 `N gt a^(M/p)`, 则 `p log_a N gt M`.
 		`AA n gt N`, 记 `m = |__p log_a n__|+1`, 于是 `m gt M`.
-		从而 
+		从而
 		<span class="formula">
 			`|(log_a n)/n^p| = 1/p (p log_a n)/(a^(p log_a n))`
 			`lt 1/p m/a^(m-1)`
@@ -250,9 +280,51 @@
 	</li>
 </ol>
 
-<h2>数列极限的性质</h2>
-
 <p class="theorem">
+	<b>两边夹法则 (squeezing theorem)</b>
+	设数列 `{x_n}, {y_n}, {z_n}` 对充分大的 `n` 满足 `x_n le y_n le z_n`,
+	且 `lim_(n to oo) x_n = lim_(n to oo) z_n = a`, 则 `{y_n}`
+	的极限也存在且等于 `a`.
+</p>
+
+<p class="proof">
+	设对 `AA n gt N_1` 成立 `x_n le y_n le z_n`, `AA epsi gt 0`,
+	由极限定义, 存在正整数 `N_2, N_3` 使成立
+	<span class="formula">
+		`a - epsi lt x_n lt a + epsi`, `AA n gt N_2`,<br/>
+		`a - epsi lt z_n lt a + epsi`, `AA n gt N_3`.
+	</span>
+	从而 `n gt max{N_1, N_2, N_3}` 时,
+	<span class="formula">
+		`a - epsi lt x_n le y_n le z_n lt a + epsi`,
+	</span>
+	即 `lim_(n to oo) y_n = a`.
+</p>
+
+<p class="proof">
+	记 `a_n = y_n - x_n`, `b_n = z_n - x_n`, `n = 1, 2, cdots`.
+	由<a class="ref" href="#prop-diff"></a>知 `b_n` 是无穷小,
+	而 `|a_n| le |b_n|`, 故由<a class="ref" href="#prop-smaller"></a>知
+	`a_n` 也是无穷小. 再次应用<a class="ref" href="#prop-diff"></a> `y_n` 的极限存在, 且等于 `a`.
+</p>
+
+<p class="example">
+	`lim_(n to oo) root n n = 1`.
+</p>
+
+<p class="proof">`n gt 2` 时, 应用均值不等式有
+	<span class="formula">
+		`   1 lt root(n)(n)`
+		`=  root(n)(sqrt n * sqrt n * 1)`
+		`lt (2 sqrt n + n - 2)/n`
+		`lt 2/sqrt n + 1`.
+	</span>
+	由两边夹法则, `lim_(n to oo) root n n = 1`.
+</p>
+
+<h2>数列极限的性质与四则运算</h2>
+
+<p class="property">
 	<b>数列极限的惟一性</b>
 	若数列有极限, 极限必惟一.
 </p>
@@ -272,7 +344,7 @@
 	矛盾. 所以必有 `a = b`.
 </p>
 
-<p class="theorem">
+<p class="property">
 	<b>收敛数列的有界性</b>
 	如果 `{x_n}` 收敛, 则它有界. 从而无界数列必发散.
 </p>
@@ -290,7 +362,7 @@
 	从而数列有界.
 </p>
 
-<ol class="theorem">
+<ol class="property">
 	<b>收敛数列的保号性</b>
 	设 `lim_(n to oo) x_n = a != 0`,
 	则存在一个介于 `a` 和 `0` 之间的实数 `r`,
@@ -307,7 +379,7 @@
 	取 `r = a/2` 即可.
 </p>
 
-<p class="theorem">
+<p class="property">
 	<b>数列极限的保序性</b>
 	如果 `{x_n}`, `{y_n}` 收敛, 且对充分大的 `n` 有 `x_n le y_n`, 则
 	<span class="formula">
@@ -341,7 +413,7 @@
 </p>
 
 <p class="definition">
-	设 `{x_n}` 是一序列, `{n_k}` 是一个严格单调递增的正整数列, 
+	设 `{x_n}` 是一序列, `{n_k}` 是一个严格单调递增的正整数列,
 	则 `{x_(n_k)} := {x_(n_k)}_(k=0)^oo` 称为 `{x_n}`
 	的一个<b>子 (序) 列</b>, 特别 `{x_n}` 为数列时, `{x_(n_k)}` 称为
 	`{x_n}` 的一个<b>子数列</b>.
@@ -356,7 +428,7 @@
 	归纳法容易证明.
 </p>
 
-<p class="theorem">
+<p class="property">
 	<b>收敛数列子列的收敛性</b> 设 `lim_(n to oo) x_n = a`,
 	则 `{x_n}` 的任意子列也收敛到 `a`.
 </p>
@@ -371,8 +443,6 @@
 		`|x_(n_k) - a| lt epsi`, `AA k gt N`.
 	</span>
 </p>
-
-<h2>数列极限的四则运算, 两边夹法则</h2>
 
 <p class="theorem">
 	<b>数列极限的四则运算</b>
@@ -446,53 +516,6 @@
 	</span>
 </p>
 
-<p class="theorem">
-	<b>两边夹法则 (squeezing theorem)</b>
-	设数列 `{x_n}, {y_n}, {z_n}` 对充分大的 `n` 满足 `x_n le y_n le z_n`,
-	且 `lim_(n to oo) x_n = lim_(n to oo) z_n = a`, 则 `lim_(n to oo) y_n
-	= a`.
-</p>
-
-<p class="proof">
-	设对 `AA n gt N_1` 成立 `x_n le y_n le z_n`, `AA epsi gt 0`,
-	由极限定义, 存在正整数 `N_2, N_3` 使成立
-	<span class="formula">
-		`a - epsi lt x_n lt a + epsi`, `AA n gt N_2`,<br/>
-		`a - epsi lt z_n lt a + epsi`, `AA n gt N_3`.
-	</span>
-	从而 `n gt max{N_1, N_2, N_3}` 时,
-	<span class="formula">
-		`a - epsi lt x_n le y_n le z_n lt a + epsi`,
-	</span>
-	即 `lim_(n to oo) y_n = a`.
-</p>
-
-<p class="example">
-	`lim_(n to oo) root n n = 1`.
-</p>
-
-<p class="proof">`n gt 2` 时, 应用均值不等式有
-	<span class="formula">
-		`   1 lt root(n)(n)`
-		`=  root(n)(sqrt n * sqrt n * 1)`
-		`lt (2 sqrt n + n - 2)/n`
-		`lt 2/sqrt n + 1`.
-	</span>
-	由两边夹法则, `lim_(n to oo) root n n = 1`.
-</p>
-
-<p class="example">
-	`lim_(n to oo) sin(pi sqrt(n^2+1)) = 0`.
-</p>
-
-<p class="solution">
-	`|sin(pi sqrt(n^2+1))|`
-	`= |sin(n pi + (sqrt(n^2+1) - n) pi)|`
-	`= |cos(n pi) sin[(sqrt(n^2+1)-n)pi]|`
-	`= |sin {:pi/(sqrt(n^2+1)+n):}|`.
-	因此原式极限为 `0`.
-</p>
-
 <h2>几个刻画实数完备性的定理</h2>
 
 <p class="theorem">
@@ -511,7 +534,7 @@
 	<b>Cauchy 收敛准则</b>
 </p>
 
-<h2>迭代型数列, 数列间的关联</h2>
+<h2>压缩映像</h2>
 
 <p class="theorem">
 	设 `0 lt r lt 1`, `a in RR`, `|x_(n+1)-a| le r |x_n-a|`,
@@ -551,6 +574,12 @@
 	证明 `{x_n}` 收敛, 且极限为 `root m A`.
 </p>
 
+<h2>数列的差分与加权和</h2>
+
+<h3>数列的差分--Stolz 定理</h3>
+
+<h3>数列的加权和--Toeplitz 定理</h3>
+
 <p class="example">
 	设 `p_k gt 0`, `k = 1, 2, cdots`, `lim_(n to oo) a_n = a`, 且
 	<span class="formula">
@@ -587,14 +616,55 @@
 	</span>
 </p>
 
+<p>	这启示我们得到如下定理:</p>
+
 <p class="theorem">
 	<b>Toeplitz 定理</b>
-	设对任意正整数 `n` 和任意正整数 `k le n` 有 `t_(n, k) ge 0` 和 `lim_(n
-	to oo) t_(n, k) = 0`, 且 `sum_(k=1)^n t_(n,k) = 1`. 若 `lim_(n to oo)
-	a_n = a`, 则
+	设对任意正整数 `n` 和任意正整数 `k le n` 有 `t_(n, k) ge 0` 和
+	`sum_(k=1)^n t_(n,k) = 1`,
+	且对每个固定有 `k` 有 `lim_(n to oo) t_(n, k) = 0`.
+	若 `lim_(n to oo) a_n = a`, 则
 	<span class="formula">
 		`lim_(n to oo) sum_(k=1)^n t_(n,k) a_k = a`.
 	</span>
+</p>
+
+<p class="proof">
+	记 `b_n = a_n - a`, `n = 1, 2, cdots`, 只需证
+	<span class="formula">
+		`lim_(n to oo) sum_(k=1)^n t_(n,k) b_k = 0`.
+	</span>
+	因为 `b_n to 0`, 存在正整数 `N`, 对任意 `n gt N` 有 `|b_n| lt epsi/2`.
+	由于对每个固定的 `k` 有 `lim_(n to oo) t_(n,k) = 0`,
+	故存在正整数 `M`, 对任意 `n gt M` 有
+	<span class="formula">
+		`|sum_(k=1)^N t_(n,k) b_k| lt epsi/2`.
+	</span>
+	从而当 `n gt max{N, M}` 时
+	<span class="formula">
+		`|sum_(k=1)^n t_(n,k) b_k|`
+		`= |sum_(k=1)^N t_(n,k) b_k| + |sum_(k=N+1)^n t_(n,k) b_k|`
+		`lt epsi/2 + epsi/2`
+		`= epsi`.
+	</span>
+</p>
+
+<ol class="corollary">
+	<b>Cesaro 定理</b> 设 `lim_(n to oo) a_n = a`, 则
+	<li>`lim_(n to oo) 1/n sum_(k=1)^n a_k = a`;</li>
+	<li>若 `a_n gt 0`, `a gt 0`, 则 `lim_(n to oo) root n (prod_(k=1)^n a_k) = a`;</li>
+</ol>
+
+<p class="example">
+	已知 `lim_(n to oo) a_n = a`, `x_n = sum_(k=0)^n (n;k) a_k`, 求极限
+	`lim_(n to oo) x_n/2^n`.
+</p>
+
+<p class="solution">
+	取 `t_(n,k) = 1/2^n (n;k)`, 则 `sum_(k=1)^n t_(n,k) = 1`.
+	另一方面, `(n;k)` 是 `n` 的 `k` 次多项式, 因此
+	`lim_(n to oo) t_(n,k) = 0`. 由 Toeplitz 定理,
+	`lim_(n to oo) x_n/2^n = a`.
 </p>
 
 <h2>从 `"e"` 到 `gamma`</h2>
@@ -775,7 +845,7 @@
 		</span>
 		类似可证, `n ge 2` 时, `n! lt n^(n+1)/"e"^n` 成立.
 	</li>
-	<li>对 1. 的结论 变形得
+	<li>对 1. 的结论变形得
 		<span class="formula">
 			`"e"/(root n n) lt n/(root n (n!)) lt "e"`.
 		</span>
@@ -930,6 +1000,21 @@
 		于是 `L` 至少含两个不同实数, 从而 `max L != min L`.
 	</p>
 </div>
+
+<h2>杂例</h2>
+
+<p class="example">
+	`lim_(n to oo) sin(pi sqrt(n^2+1)) = 0`.
+</p>
+
+<p class="solution">
+	`|sin(pi sqrt(n^2+1))|`
+	`= |sin(n pi + (sqrt(n^2+1) - n) pi)|`
+	`= |cos(n pi) sin[(sqrt(n^2+1)-n)pi]|`
+	`= |sin {:pi/(sqrt(n^2+1)+n):}|`.
+	因此原式极限为 `0`.
+</p>
+
 
 </body>
 
