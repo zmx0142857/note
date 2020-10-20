@@ -246,7 +246,7 @@
 </p>
 
 <ol class="theorem">
-    <b>循环群阶数公式</b> 设 `n ge 0`, `delta_m(a) = delta`, 则
+    <b>元素幂的阶数公式</b> 设 `n ge 0`, `delta_m(a) = delta`, 则
     <span class="formula">
         `delta_m(a^n) = delta//(n, delta)`;
     </span>
@@ -327,6 +327,32 @@
 <p class="proof">
     先证必要性, 充分性将在下文分几个定理完成证明.
     ??
+</p>
+
+<p class="example">
+    我们知道, `1//7 = 0. dot 1 4285 dot 7`, 其循环节恰有 `7-1 = 6` 位.
+    在 100 以内, 除 2 以外, 满足 `1//n` 的循环节恰有 `n-1`
+    位这一性质的正整数 `n` 有:
+    <span class="formula">
+        7, 17, 19, 23, 29, 47, 59, 61, 97.
+    </span>
+    它们都是素数以外, 还有什么共同特点?
+</p>
+
+<p class="solution">
+    共同特点是: 10 是模 `n` 的原根.
+    原因是若 `10^d -= 1 (mod n)`, 即 `n | 10^d - 1`, 则分数 `1//n`
+    可以化为循环节 `d` 位的循环小数. 如 `10^6 -= 1 (mod 7)`, 则
+    <span class="formula">
+        `1/7 = 142857/999999 = 0. dot 1 4285 dot 7`.
+    </span>
+    又如 `10^6 -= 1 (mod 13)`, 则
+    <span class="formula">
+        `1/13 = 076923/999999 = 0. dot 0 7692 dot 3`.
+    </span>
+    因此, 当 `(10, n) = 1` 时, 循环节的长度就是 10 模 `n` 的指数.
+    要使循环节恰有 `n-1` 位, 就要求 10 模 `n` 的指数等于 `n-1`;
+    这当且仅当 `n` 是素数, 且 10 是模 `n` 的原根.
 </p>
 
 <script src="../js/note.js?type=math"></script>
