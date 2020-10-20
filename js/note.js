@@ -1,10 +1,6 @@
 'use strict';
 
 var asciimath;
-if (typeof asciimath == 'undefined')
-	asciimath = { katexpath: '../js/katex.min.js' };
-else if (typeof asciimath.katexpath == 'undefined')
-	asciimath.katexpath = '../js/katex.min.js';
 
 (function() {
 
@@ -16,23 +12,30 @@ var filename;	// 'A2', '#4',   '3-1'	// replace leading '%23' with '#'
 var abbr;		// 'A',  '#',    '3-'
 var urlAbbr;	// 'A',  '%234', '3-'
 var index;		// 2,    4,      1
+var scripts = document.getElementsByTagName('script');
+var scriptName = scripts[scripts.length-1].getAttribute('src');
+var prefix = scriptName.slice(0, scriptName.indexOf('js'));
+
+if (typeof asciimath == 'undefined')
+    asciimath = {};
+if (typeof asciimath.katexpath == 'undefined')
+	asciimath.katexpath = prefix + 'js/katex.min.js';
+
 
 // ---- functions ----
 
-function getQuery() {
-	var theRequest = new Object();
-	var scripts = document.getElementsByTagName('script');
-	var scriptName = scripts[scripts.length-1].getAttribute('src');
+function getParams(scriptName) {
+	var ret = new Object();
 	var i = scriptName.indexOf('?');
 	if (i != -1) {
 		var strs = scriptName.substr(i+1).split("&");
 		for (var i = 0; i < strs.length; ++i) {
 			var splits = strs[i].split('=');
 			// decodeURI() doesn't work
-			theRequest[splits[0]] = unescape(splits[1]);
+			ret[splits[0]] = unescape(splits[1]);
       }
    }
-   return theRequest;
+   return ret;
 }
 
 function init() {
@@ -54,7 +57,7 @@ function init() {
 
 function loadMath() {
 	var newScript = document.createElement('script');
-	newScript.src = '../js/asciimath.js';
+	newScript.src = prefix + 'js/asciimath.js';
 	document.body.appendChild(newScript);
 }
 
@@ -454,8 +457,8 @@ function wrap(L) {
 
 // ---- data & function call ----
 
-var args = getQuery();
-//console.log(args);
+var params = getParams(scriptName);
+//console.log(params);
 
 init();
 //makeNav();
@@ -498,11 +501,11 @@ hideAnswer([
 	{name:'collapse', word:'&nbsp;'},
 ]);
 
-if (args.type == 'math' || args.loadmath) {
+if (params.type == 'math' || params.loadmath) {
 	loadMath();
 }
 
-if (args.type == 'cs') {
+if (params.type == 'cs') {
 	enableCopyCode();
 }
 
