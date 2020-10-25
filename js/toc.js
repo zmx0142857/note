@@ -279,6 +279,7 @@ physics: {
 
 lang: {
   title: '语言',
+  color: 'dark',
   toc: [ {
     title: '汉语',
     articles: [
