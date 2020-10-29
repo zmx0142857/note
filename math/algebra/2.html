@@ -115,6 +115,55 @@
 </p>
 
 <p class="example">
+    对正整数 `n ge 2`, `y != z`, 有
+	<span class="formula">`|
+		x,y,cdots,y;
+		z,x,cdots,y;
+		vdots,vdots,,vdots;
+		z,z,cdots,x;
+	|_n`
+    `= (z(x-y)^n - y(x-z)^n)/(z-y)`.
+	</span>
+</p>
+
+<p class="proof">
+    设原式为 `D_n`, 则
+    <span class="formula">
+    `D_n =`
+    `|
+        z, y, y, cdots, y;
+        z, x, y, cdots, y;
+        z, z, x, cdots, y;
+        vdots, vdots, vdots,,vdots;
+        z, z, z, cdots, x;
+    |`
+    `+ |
+        x-z, y, y, cdots, y;
+        0, x, y, cdots, y;
+        0, z, x, cdots, y;
+        vdots, vdots, vdots,,vdots;
+        0, z, z, cdots, x;
+    |`
+    `= |
+        z, 0, 0, cdots, 0;
+        z, x-y, 0, cdots, 0;
+        z, z-y, x-y, cdots, 0;
+        vdots, vdots, vdots,,vdots;
+        z, z-y, z-y, cdots, x-y;
+    | + (x-z) D_(n-1)`
+    `= z(x-y)^(n-1) + (x-z) D_(n-1)`.
+    </span>
+    将 `y, z` 互换得
+    <span class="formula">
+        `D_n = y(x-z)^(n-1) (x-z) D_(n-1)`.
+    </span>
+    由两式得
+    <span class="formula">
+        `D_n = (z(x-y)^n - y(x-z)^n)/(z-y)`.
+    </span>
+</p>
+
+<p class="example">
 	对正整数 `n ge 1`, 三对角形行列式
 	<span class="formula">
 	`|

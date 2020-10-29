@@ -252,7 +252,7 @@ cs: {
   title:'工具',
   articles: [
     {title:'svg 流程图', src:'tool/svg-flowchart.html'},
-    {title:'模拟考试', src:'tool/exam.html'},
+    {title:'无奖竞猜', src:'tool/exam.html'},
   ]
 }]},
 
