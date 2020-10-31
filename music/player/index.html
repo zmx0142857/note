@@ -1,284 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>player</title>
+    <link rel="stylesheet" href="../../css/note.css">
     <script src="../../js/audio/resampler.js"></script>
     <script src="../../js/audio/XAudioServer.js"></script>
-    <link rel="stylesheet" href="../../css/note.css">
+    <script src="../../js/player.js"></script>
+<style>
+button {
+    height: 1.5rem;
+    width: 5rem;
+}
+</style>
 </head>
 <body>
 <table>
     <tr>
         <th>代码</th>
         <th>名称</th>
+        <th>默认值</th>
         <th>说明</th>
     </tr>
     <tr>
         <td>time</td>
         <td>时值</td>
-        <td>单位 ms. 可用常量: whole, half, quarter, eighth, sixteenth.
+        <td>八分音符</td>
+        <td>类型为数字时, 单位是 ms;<br/>
+            可用常量: "1", "2", "4", "8", "16";
+            附点形如 "8.";<br/>
+            也能以 "拍" (四分音符) 为单位, 如 "1.5b"
         </td>
     </tr>
     <tr>
         <td>pitch</td>
         <td>音高</td>
-        <td>单位 Hz. 可用常量: C1 ~ B6. 升半音的写法如 #A, 降半音如 bE.
+        <td>440</td>
+        <td>类型为数字时, 单位是 Hz; 可用常量: "C1" ~ "B6";<br/>
+            升半音形如 "#A", 降半音如 "bE"
         </td>
     </tr>
     <tr>
         <td>volume</td>
         <td>音量</td>
+        <td>0.5</td>
         <td>范围 0 ~ 1</td>
     </tr>
     <tr>
         <td>tone</td>
         <td>音色</td>
-        <td>可用常量: sin, rect, saw</td>
+        <td>sin</td>
+        <td>可用常量: "sin", "rect", "saw"</td>
     </tr>
 </table>
 <p>示例: {"time": 1000, "pitch": 440, volume: 0.5, tone: "sin"}</p>
-<textarea id="textarea" rows="25" cols="60">
+BPM (40 ~ 250): <input type="text" id="bpm" value="100">
+<textarea id="score" rows="25" cols="60">
 [
-    {"pitch": "E4", "time": "sixteenth"},
-    {"pitch": "F4", "time": "sixteenth"},
-    {"pitch": "G4"},
-    {"pitch": "E5"},
-    {"pitch": "C5"},
-    {"pitch": "D5", "time": "sixteenth"},
-    {"pitch": "C5", "time": "sixteenth"},
-    {"pitch": "C5"},
-    {"pitch": "B4"},
-    {"pitch": "B4"},
-
-    {"pitch": "D4", "time": "sixteenth"},
-    {"pitch": "E4", "time": "sixteenth"},
+    {"pitch": "E4", "time": "8."},
+    {"pitch": "G4", "time": "16"},
     {"pitch": "F4"},
-    {"pitch": "D5"},
-    {"pitch": "B4"},
-    {"pitch": "C5", "time": "sixteenth"},
-    {"pitch": "B4", "time": "sixteenth"},
-    {"pitch": "A4"},
     {"pitch": "G4"},
-    {"pitch": "G4"}
+    {"pitch": "C5"},
+    {"pitch": "G4"},
+    {"pitch": "F4", "time": "4"},
+    {"pitch": "E4", "time": "8."},
+    {"pitch": "G4", "time": "16"},
+    {"pitch": "F4"},
+    {"pitch": "G4"},
+    {"pitch": "E4", "time": "4"},
+    {"volume": 0, "time": "4"},
+    {"pitch": "E4", "time": "8."},
+    {"pitch": "G4", "time": "16"},
+    {"pitch": "F4"},
+    {"pitch": "G4"},
+    {"pitch": "C5"},
+    {"pitch": "G4"},
+    {"pitch": "F4", "time": "4"},
+    {"pitch": "C5"},
+    {"pitch": "G4"},
+    {"pitch": "D5"},
+    {"pitch": "G4"},
+    {"pitch": "C5", "time": "4"}
 ]
 </textarea>
 <br/>
-<button onclick="Player.play()">Play</button>
+<button onclick="player.play()">Play</button>
+<button onclick="player.stop()">Stop</button>
 <script>
-var Player = {};
+var score = document.getElementById('score');
+var bpm = document.getElementById('bpm');
+var player = new Player(function() {
+    return JSON.parse(score.value);
+});
 
-(function(){
-
-// time
-var BPM = 100;
-var QUARTER = 60000 / BPM;
-var times = {
-    sixteenth: QUARTER / 4,
-    eighth: QUARTER / 2,
-    quarter: QUARTER,
-    half: QUARTER * 2,
-    whole: QUARTER * 4,
-};
-
-// pitch
-var A4 = 440, A0 = 27.5, C1 = A0 * Math.pow(2, 1/4);
-var names = ['C', '#C', 'D', '#D', 'E', 'F', '#F', 'G', '#G', 'A', '#A', 'B'];
-var nameConversion = {
-    'bD': '#C',
-    'bE': '#D',
-    'bG': '#F',
-    'bA': '#G',
-    'bB': '#A',
-};
-var pitches = {};
-for (var i = 0; i < names.length; ++i) {
-    pitches[names[i] + '1'] = C1 * Math.pow(2, i/12);
-    for (var j = 2; j < 7; ++j) {
-        pitches[names[i] + j] = pitches[names[i] + (j-1)] * 2;
-    }
-}
-//console.log(pitches);
-
-// tone
-var mod = function(x, period) {
-    x = x % period;
-    return x < 0 ? x + period : x;
-}
-
-var tones = { // period = 2
-    sin: function(x) {
-        return Math.sin(Math.PI * x);
-    },
-    rect: function(x) {
-        return mod(x, 2) < 1 ? 1 : -1;
-    },
-    saw: function(x) {
-        x = mod(x + 0.5, 2);
-        return x < 1 ? 1-2*x : 2*x-3;
-    },
-};
-
-// sample & audio
-var audioServer = null;
-var SAMPLE_RATE = 8000;
-var hasAudio = true;
-var isPlaying = false;
-var sample = [];
-var defaultNote = {
-    time: times.eighth,
-    pitch: A4,
-    volume: 0.5,
-    tone: tones.sin
-};
-var track = [];
-var trackPos = 0;
-var trackReady = false;
-
-function initServer() {
-    if (audioServer)
-        return;
-    audioServer = new XAudioServer(
-        1,                // channels
-        SAMPLE_RATE,      // sample rate
-        SAMPLE_RATE / 4,  // buffer_low
-        SAMPLE_RATE * 2,  // buffer_size
-        generator,        // callback when samples remaining < buffer_low
-        1,                // volume
-        failureCallback   // callback when brower has no audio API
-    );
-
-    setInterval(function() {
-        if (isPlaying) {
-            audioServer.executeCallback();
-        }
-    }, 20);
-}
-
-function makeSample(note) {
-    var omega = 2 * note.pitch / SAMPLE_RATE;
-    var duration = SAMPLE_RATE * note.time / 1000;
-    for (var i = 0; i < duration; ++i) {
-        sample.push(note.tone(i * omega) * note.volume);
-    }
-    //console.log('duration: ' + duration);
-}
-
-function generator(need) {
-    var ret;
-    if (need <= 0) {
-        isPlaying = false;
-        ret = [];
-    } else if (sample.length < need) {
-        while (trackPos < track.length && sample.length < need) {
-            makeSample(track[trackPos++]);
-        }
-        ret = sample;
-        sample = [];
-    } else {
-        ret = sample.slice(0, need);
-        sample = sample.slice(need);
-    }
-    return ret;
-}
-
-function failureCallback() {
-    if (hasAudio) {
-        // alert only once
-        alert("Sorry your browser is unable to play the audio on this page.");
-    }
-    hasAudio = false;
-}
-
-function between(x, lo, hi) {
-    if (x < lo) return lo;
-    if (x > hi) return hi;
-    return x;
-}
-
-function setTrack(t) {
-    console.log('setTrack');
-    track = t;
-    if (track.length == 0)
-        return;
-    // append 1s of silence lest the browser keeps beeping
-    if (track[track.length-1].volume !== 0) {
-        track.push({time: 1000, pitch: 'A4', volume: 0});
-    }
-    track.forEach(function(note) {
-        if (typeof note.time === 'string') {
-            note.time = times[note.time];
-        }
-        if (!note.time && note.time !== 0) {
-            note.time = defaultNote.time;
-        }
-
-        if (typeof note.pitch === 'string') {
-            note.pitch = pitches[note.pitch];
-        }
-        if (!note.pitch && note.pitch !== 0) {
-            note.pitch = defaultNote.pitch;
-        } else {
-            note.pitch = between(note.pitch, 20, 10000);
-        }
-
-        if (!note.volume && note.volume !== 0) {
-            note.volume = defaultNote.volume;
-        } else {
-            note.volume = between(note.volume, 0, 1);
-        }
-
-        if (typeof note.tone === 'string') {
-            note.tone = tones[note.tone];
-        }
-        if (!note.tone) {
-            note.tone = defaultNote.tone;
-        }
-    });
-    trackReady = true;
-}
-
-function stop() {
-    isPlaying = false;
-    sample = [];
-    if (audioServer) {
-        audioServer.changeVolume(0);
-    }
-}
-
-function play() {
-    stop();
-    if (!audioServer) {
-        initServer();
-    }
-    if (!trackReady)
-        setTrack(track);
-    if (track.length > 0) {
-        isPlaying = true;
-        trackPos = 0;
-        audioServer.changeVolume(1);
-    }
-}
-
-var textarea = document.getElementById('textarea');
-textarea.onkeyup = function() {
-    trackReady = false;
+score.onkeyup = function() {
     try {
-        track = JSON.parse(textarea.value);
+        player.updateTrack();
         this.style.background = 'white';
     } catch (e) {
         console.error(e);
         this.style.background = '#eaa';
     }
 }
-textarea.onkeyup();
+score.onkeyup();
 
-Player.play = play;
-Player.stop = stop;
-Player.initServer = initServer;
-Player.setTrack = setTrack;
-
-})();
+bpm.onkeyup = function() {
+    var bpmValue = parseInt(bpm.value);
+    if (bpmValue >= 40 && bpmValue <= 250) {
+        player.setBpm(bpmValue);
+        this.style.background = 'white';
+    } else {
+        this.style.background = '#eaa';
+    }
+}
+bpm.onkeyup();
 </script>
 </body>
 </html>
