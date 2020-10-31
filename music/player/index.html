@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script src="../../js/audio/resampler.js"></script>
+    <script src="../../js/audio/XAudioServer.js"></script>
+</head>
+<body>
+<script>
+var BPM = 100;
+var MINUTE = 60000;
+var times = {
+    sixteenth: MINUTE / (BPM*4),
+    eighth: MINUTE / (BPM*2),
+    quarter: MINUTE / BPM,
+    half: 2*MINUTE / BPM,
+    whole: 4*MINUTE / BPM,
+};
+
+var A2 = 110
+var A4 = 440;
+var pitch = [];
+for (var i = 0; i < 48; ++i) {
+    pitch.push(A2*Math.pow(2, i/12));
+}
+
+function mod(x, period) {
+    x = x % period;
+    return x < 0 ? x + period : x;
+}
+
+// period = 2
+var tones = {
+    sin: function(x) {
+        return Math.sin(Math.PI * x);
+    },
+    block: function(x) {
+        return mod(x, 2) < 1 ? 1 : -1;
+    },
+    zip: function(x) {
+        x = mod(x + 0.5, 2);
+        return x < 1 ? 1-2*x : 2*x-3;
+    },
+};
+
+var SAMPLE_RATE = 8000;
+var hasAudio = true;
+var isPlaying = false;
+var sample = [];
+var track = [
+    //{time: 300, freq: pitch[0], volume: 0.2, tone: tones.sin},
+    //{time: 300, freq: pitch[2], volume: 0.35, tone: tones.block},
+    //{time: 300, freq: pitch[3], volume: 0.5, tone: tones.zip},
+    {freq: pitch[19], time: times.sixteenth},
+    {freq: pitch[20], time: times.sixteenth},
+    {freq: pitch[22]},
+    {freq: pitch[31]},
+    {freq: pitch[27]},
+    {freq: pitch[29], time: times.sixteenth},
+    {freq: pitch[27], time: times.sixteenth},
+    {freq: pitch[27]},
+    {freq: pitch[26]},
+    {freq: pitch[26]},
+
+    {freq: pitch[17], time: times.sixteenth},
+    {freq: pitch[19], time: times.sixteenth},
+    {freq: pitch[20]},
+    {freq: pitch[29]},
+    {freq: pitch[26]},
+    {freq: pitch[27], time: times.sixteenth},
+    {freq: pitch[26], time: times.sixteenth},
+    {freq: pitch[24]},
+    {freq: pitch[22]},
+    {freq: pitch[22]},
+];
+var trackPos = 0;
+
+var audioServer = new XAudioServer(
+    1,                // channels
+    SAMPLE_RATE,      // sample rate
+    SAMPLE_RATE / 4,  // buffer_low
+    SAMPLE_RATE * 2,  // buffer_size
+    generator,        // callback when samples remaining < buffer_low
+    1,                // volume
+    failureCallback   // callback when brower has no audio API
+);
+
+setInterval(function() {
+    if (isPlaying) {
+        audioServer.executeCallback();
+    }
+}, 20);
+
+function makeSample(note) {
+    var time = note.time || (note.time === 0 ? 0 : times.eighth);
+    var freq = note.freq || (note.freq === 0 ? 0 : A4);
+    var volume = note.volume || (note.volume === 0 ? 0 : 0.5);
+    var tone = note.tone || tones.sin;
+
+    var omega = 2 * freq / SAMPLE_RATE;
+    var duration = SAMPLE_RATE * time / 1000;
+    for (var i = 0; i < duration; ++i) {
+        sample.push(tone(i * omega) * volume);
+    }
+    //console.log('duration: ' + duration);
+}
+
+function generator(need) {
+    var ret;
+    if (need <= 0) {
+        isPlaying = false;
+        ret = [];
+    } else if (sample.length < need) {
+        while (trackPos < track.length && sample.length < need) {
+            makeSample(track[trackPos++]);
+        }
+        ret = sample;
+        sample = [];
+    } else {
+        ret = sample.slice(0, need);
+        sample = sample.slice(need);
+    }
+    return ret;
+}
+
+function failureCallback() {
+    if (hasAudio) {
+        // alert only once
+        alert("Sorry your browser is unable to play the audio on this page.");
+    }
+    hasAudio = false;
+}
+
+function stop() {
+    isPlaying = false;
+    sample = [];
+    audioServer.changeVolume(0);
+}
+
+function play() {
+    stop();
+    if (track.length > 0 ) {
+        isPlaying = true;
+        trackPos = 0;
+        audioServer.changeVolume(1);
+    }
+}
+
+function between(x, lo, hi) {
+    if (x < lo) return lo;
+    if (x > hi) return hi;
+    return x;
+}
+
+function preprocess() {
+    if (track.length == 0)
+        return;
+    // append 1s of silence lest the browser keeps beeping
+    if (track[track.length-1].volume !== 0) {
+        track.push({time: 1000, freq: 440, volume: 0});
+    }
+    for (var i = 0; i < track.length; ++i) {
+        track[i].freq = between(track[i].freq, 20, 10000);
+        track[i].volume = between(track[i].volume, 0, 1);
+    }
+}
+
+preprocess();
+document.body.onload = play;
+</script>
+</body>
+</html>
