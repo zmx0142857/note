@@ -5,103 +5,161 @@
     <title>test</title>
     <script src="../../js/audio/resampler.js"></script>
     <script src="../../js/audio/XAudioServer.js"></script>
+    <link rel="stylesheet" href="../../css/note.css">
 </head>
 <body>
+<table>
+    <tr>
+        <th>代码</th>
+        <th>名称</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>时值</td>
+        <td>单位 ms. 可用常量: whole, half, quarter, eighth, sixteenth.
+        </td>
+    </tr>
+    <tr>
+        <td>pitch</td>
+        <td>音高</td>
+        <td>单位 Hz. 可用常量: C1 ~ B6. 升半音的写法如 #A, 降半音如 bE.
+        </td>
+    </tr>
+    <tr>
+        <td>volume</td>
+        <td>音量</td>
+        <td>范围 0 ~ 1</td>
+    </tr>
+    <tr>
+        <td>tone</td>
+        <td>音色</td>
+        <td>可用常量: sin, rect, saw</td>
+    </tr>
+</table>
+<p>示例: {"time": 1000, "pitch": 440, volume: 0.5, tone: "sin"}</p>
+<textarea id="textarea" rows="25" cols="60">
+[
+    {"pitch": "E4", "time": "sixteenth"},
+    {"pitch": "F4", "time": "sixteenth"},
+    {"pitch": "G4"},
+    {"pitch": "E5"},
+    {"pitch": "C5"},
+    {"pitch": "D5", "time": "sixteenth"},
+    {"pitch": "C5", "time": "sixteenth"},
+    {"pitch": "C5"},
+    {"pitch": "B4"},
+    {"pitch": "B4"},
+
+    {"pitch": "D4", "time": "sixteenth"},
+    {"pitch": "E4", "time": "sixteenth"},
+    {"pitch": "F4"},
+    {"pitch": "D5"},
+    {"pitch": "B4"},
+    {"pitch": "C5", "time": "sixteenth"},
+    {"pitch": "B4", "time": "sixteenth"},
+    {"pitch": "A4"},
+    {"pitch": "G4"},
+    {"pitch": "G4"}
+]
+</textarea>
+<br/>
+<button onclick="Player.play()">Play</button>
 <script>
+var Player = {};
+
+(function(){
+
+// time
 var BPM = 100;
-var MINUTE = 60000;
+var QUARTER = 60000 / BPM;
 var times = {
-    sixteenth: MINUTE / (BPM*4),
-    eighth: MINUTE / (BPM*2),
-    quarter: MINUTE / BPM,
-    half: 2*MINUTE / BPM,
-    whole: 4*MINUTE / BPM,
+    sixteenth: QUARTER / 4,
+    eighth: QUARTER / 2,
+    quarter: QUARTER,
+    half: QUARTER * 2,
+    whole: QUARTER * 4,
 };
 
-var A2 = 110
-var A4 = 440;
-var pitch = [];
-for (var i = 0; i < 48; ++i) {
-    pitch.push(A2*Math.pow(2, i/12));
+// pitch
+var A4 = 440, A0 = 27.5, C1 = A0 * Math.pow(2, 1/4);
+var names = ['C', '#C', 'D', '#D', 'E', 'F', '#F', 'G', '#G', 'A', '#A', 'B'];
+var nameConversion = {
+    'bD': '#C',
+    'bE': '#D',
+    'bG': '#F',
+    'bA': '#G',
+    'bB': '#A',
+};
+var pitches = {};
+for (var i = 0; i < names.length; ++i) {
+    pitches[names[i] + '1'] = C1 * Math.pow(2, i/12);
+    for (var j = 2; j < 7; ++j) {
+        pitches[names[i] + j] = pitches[names[i] + (j-1)] * 2;
+    }
 }
+//console.log(pitches);
 
-function mod(x, period) {
+// tone
+var mod = function(x, period) {
     x = x % period;
     return x < 0 ? x + period : x;
 }
 
-// period = 2
-var tones = {
+var tones = { // period = 2
     sin: function(x) {
         return Math.sin(Math.PI * x);
     },
-    block: function(x) {
+    rect: function(x) {
         return mod(x, 2) < 1 ? 1 : -1;
     },
-    zip: function(x) {
+    saw: function(x) {
         x = mod(x + 0.5, 2);
         return x < 1 ? 1-2*x : 2*x-3;
     },
 };
 
+// sample & audio
+var audioServer = null;
 var SAMPLE_RATE = 8000;
 var hasAudio = true;
 var isPlaying = false;
 var sample = [];
-var track = [
-    //{time: 300, freq: pitch[0], volume: 0.2, tone: tones.sin},
-    //{time: 300, freq: pitch[2], volume: 0.35, tone: tones.block},
-    //{time: 300, freq: pitch[3], volume: 0.5, tone: tones.zip},
-    {freq: pitch[19], time: times.sixteenth},
-    {freq: pitch[20], time: times.sixteenth},
-    {freq: pitch[22]},
-    {freq: pitch[31]},
-    {freq: pitch[27]},
-    {freq: pitch[29], time: times.sixteenth},
-    {freq: pitch[27], time: times.sixteenth},
-    {freq: pitch[27]},
-    {freq: pitch[26]},
-    {freq: pitch[26]},
-
-    {freq: pitch[17], time: times.sixteenth},
-    {freq: pitch[19], time: times.sixteenth},
-    {freq: pitch[20]},
-    {freq: pitch[29]},
-    {freq: pitch[26]},
-    {freq: pitch[27], time: times.sixteenth},
-    {freq: pitch[26], time: times.sixteenth},
-    {freq: pitch[24]},
-    {freq: pitch[22]},
-    {freq: pitch[22]},
-];
+var defaultNote = {
+    time: times.eighth,
+    pitch: A4,
+    volume: 0.5,
+    tone: tones.sin
+};
+var track = [];
 var trackPos = 0;
+var trackReady = false;
 
-var audioServer = new XAudioServer(
-    1,                // channels
-    SAMPLE_RATE,      // sample rate
-    SAMPLE_RATE / 4,  // buffer_low
-    SAMPLE_RATE * 2,  // buffer_size
-    generator,        // callback when samples remaining < buffer_low
-    1,                // volume
-    failureCallback   // callback when brower has no audio API
-);
+function initServer() {
+    if (audioServer)
+        return;
+    audioServer = new XAudioServer(
+        1,                // channels
+        SAMPLE_RATE,      // sample rate
+        SAMPLE_RATE / 4,  // buffer_low
+        SAMPLE_RATE * 2,  // buffer_size
+        generator,        // callback when samples remaining < buffer_low
+        1,                // volume
+        failureCallback   // callback when brower has no audio API
+    );
 
-setInterval(function() {
-    if (isPlaying) {
-        audioServer.executeCallback();
-    }
-}, 20);
+    setInterval(function() {
+        if (isPlaying) {
+            audioServer.executeCallback();
+        }
+    }, 20);
+}
 
 function makeSample(note) {
-    var time = note.time || (note.time === 0 ? 0 : times.eighth);
-    var freq = note.freq || (note.freq === 0 ? 0 : A4);
-    var volume = note.volume || (note.volume === 0 ? 0 : 0.5);
-    var tone = note.tone || tones.sin;
-
-    var omega = 2 * freq / SAMPLE_RATE;
-    var duration = SAMPLE_RATE * time / 1000;
+    var omega = 2 * note.pitch / SAMPLE_RATE;
+    var duration = SAMPLE_RATE * note.time / 1000;
     for (var i = 0; i < duration; ++i) {
-        sample.push(tone(i * omega) * volume);
+        sample.push(note.tone(i * omega) * note.volume);
     }
     //console.log('duration: ' + duration);
 }
@@ -132,42 +190,95 @@ function failureCallback() {
     hasAudio = false;
 }
 
-function stop() {
-    isPlaying = false;
-    sample = [];
-    audioServer.changeVolume(0);
-}
-
-function play() {
-    stop();
-    if (track.length > 0 ) {
-        isPlaying = true;
-        trackPos = 0;
-        audioServer.changeVolume(1);
-    }
-}
-
 function between(x, lo, hi) {
     if (x < lo) return lo;
     if (x > hi) return hi;
     return x;
 }
 
-function preprocess() {
+function setTrack(t) {
+    console.log('setTrack');
+    track = t;
     if (track.length == 0)
         return;
     // append 1s of silence lest the browser keeps beeping
     if (track[track.length-1].volume !== 0) {
-        track.push({time: 1000, freq: 440, volume: 0});
+        track.push({time: 1000, pitch: 'A4', volume: 0});
     }
-    for (var i = 0; i < track.length; ++i) {
-        track[i].freq = between(track[i].freq, 20, 10000);
-        track[i].volume = between(track[i].volume, 0, 1);
+    track.forEach(function(note) {
+        if (typeof note.time === 'string') {
+            note.time = times[note.time];
+        }
+        if (!note.time && note.time !== 0) {
+            note.time = defaultNote.time;
+        }
+
+        if (typeof note.pitch === 'string') {
+            note.pitch = pitches[note.pitch];
+        }
+        if (!note.pitch && note.pitch !== 0) {
+            note.pitch = defaultNote.pitch;
+        } else {
+            note.pitch = between(note.pitch, 20, 10000);
+        }
+
+        if (!note.volume && note.volume !== 0) {
+            note.volume = defaultNote.volume;
+        } else {
+            note.volume = between(note.volume, 0, 1);
+        }
+
+        if (typeof note.tone === 'string') {
+            note.tone = tones[note.tone];
+        }
+        if (!note.tone) {
+            note.tone = defaultNote.tone;
+        }
+    });
+    trackReady = true;
+}
+
+function stop() {
+    isPlaying = false;
+    sample = [];
+    if (audioServer) {
+        audioServer.changeVolume(0);
     }
 }
 
-preprocess();
-document.body.onload = play;
+function play() {
+    stop();
+    if (!audioServer) {
+        initServer();
+    }
+    if (!trackReady)
+        setTrack(track);
+    if (track.length > 0) {
+        isPlaying = true;
+        trackPos = 0;
+        audioServer.changeVolume(1);
+    }
+}
+
+var textarea = document.getElementById('textarea');
+textarea.onkeyup = function() {
+    trackReady = false;
+    try {
+        track = JSON.parse(textarea.value);
+        this.style.background = 'white';
+    } catch (e) {
+        console.error(e);
+        this.style.background = '#eaa';
+    }
+}
+textarea.onkeyup();
+
+Player.play = play;
+Player.stop = stop;
+Player.initServer = initServer;
+Player.setTrack = setTrack;
+
+})();
 </script>
 </body>
 </html>
