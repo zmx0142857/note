@@ -291,6 +291,11 @@ lang: {
         {title:'学五十音', src:'jp/kana.html',isnew:true},
         {title:'日语动词', src:'jp/words.html',isnew:true},
     ]
+}, {
+    title: '歌词',
+    articles: [
+        {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html',isnew:true},
+    ]
 }]},
 // 全新的开始?
 };

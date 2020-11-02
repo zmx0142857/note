@@ -81,13 +81,30 @@ function initServer() {
     }, 20);
 }
 
+function sum(arr) {
+    return arr.reduce(function(x,y) {return x+y}, 0);
+}
+
 function makeSample(note) {
-    var omega = 2 * note.pitch / SAMPLE_RATE;
     var duration = SAMPLE_RATE * note.time / 1000;
-    for (var i = 0; i < duration; ++i) {
-        sample.push(note.tone(i * omega) * note.volume);
+    if (note.pitch instanceof Array) {
+        var omega = note.pitch.map(function(x) {
+            return 2 * x / SAMPLE_RATE;
+        });
+        var volume = note.volume / Math.sqrt(note.pitch.length);
+        for (var i = 0; i < duration; ++i) {
+            sample.push(
+                sum(omega.map(function(x) {
+                    return note.tone(i * x);
+                })) * volume
+            );
+        }
+    } else {
+        var omega = 2 * note.pitch / SAMPLE_RATE;
+        for (var i = 0; i < duration; ++i) {
+            sample.push(note.tone(i * omega) * note.volume);
+        }
     }
-    //console.log('duration: ' + duration);
 }
 
 function generator(need) {
@@ -125,36 +142,25 @@ function between(x, lo, hi) {
 function setTime(note, i) {
     if (typeof note.time === 'string') {
         var ratio = 1;
-        if (note.time.slice(-1) == '.') { // dot
-            note.time = note.time.slice(0, -1);
-            ratio = 1.5;
-        } else if (/^(\d*\.)?\d+b$/.test(note.time)) { // unit: beat
+        if (/^(\d*\.)?\d+b$/.test(note.time)) { // unit: beat
             note.time = parseFloat(note.time) * times['4'];
             return;
+        } else if (/^\d+\/\d+$/.test(note.time)) { // ratio
+            var ratio = note.time.split('/');
+            note.time = parseInt(ratio[0]) / parseInt(ratio[1]) * times['4'];
+            return;
+        } else {
+            if (note.time.slice(-1) == '.') { // dot
+                note.time = note.time.slice(0, -1);
+                ratio = 1.5;
+            }
+            if (!(note.time in times))
+                console.warn('track[' + i + ']: invalid time');
+            note.time = times[note.time] * ratio;
         }
-        if (!(note.time in times))
-            console.warn('track[' + i + ']: invalid time');
-        note.time = times[note.time] * ratio;
     }
     if (!note.time && note.time !== 0) {
         note.time = defaultNote.time;
-    }
-}
-
-function setPitch(note, i) {
-    if (typeof note.pitch === 'string') {
-        // flat note
-        if (note.pitch[0] == 'b') {
-            note.pitch = nameConversion[note.pitch.slice(0,2)] + note.pitch.slice(2);
-        }
-        if (!(note.pitch in pitches))
-            console.warn('track[' + i + ']: invalid pitch');
-        note.pitch = pitches[note.pitch];
-    }
-    if (!note.pitch && note.pitch !== 0) {
-        note.pitch = defaultNote.pitch;
-    } else {
-        note.pitch = between(note.pitch, 20, 10000);
     }
 }
 
@@ -177,6 +183,24 @@ function setTone(note, i) {
     }
 }
 
+function processPitch(pitch, i) {
+    if (typeof pitch === 'string') {
+        // flat note
+        if (pitch[0] == 'b') {
+            pitch = nameConversion[pitch.slice(0,2)] + pitch.slice(2);
+        }
+        if (!(pitch in pitches))
+            console.warn('track[' + i + ']: invalid pitch');
+        pitch = pitches[pitch];
+    }
+    if (!pitch && pitch !== 0) {
+        pitch = defaultNote.pitch;
+    } else {
+        pitch = between(pitch, 20, 10000);
+    }
+    return pitch;
+}
+
 function buildTrack() {
     //console.log('buildTrack');
     track = userTrack; // pass by reference
@@ -189,9 +213,15 @@ function buildTrack() {
 
     track.forEach(function(note, i) {
         setTime(note, i);
-        setPitch(note, i);
         setVolume(note, i);
         setTone(note, i);
+        if (note.pitch instanceof Array) {
+            note.pitch.forEach(function(p, j) {
+                note.pitch[j] = processPitch(p, i);
+            });
+        } else {
+            note.pitch = processPitch(note.pitch, i);
+        }
     });
     //console.log(track);
     trackReady = true;

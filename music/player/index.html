@@ -2,6 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width"/>
     <title>player</title>
     <link rel="stylesheet" href="../../css/note.css">
     <script src="../../js/audio/resampler.js"></script>
@@ -9,6 +10,9 @@
     <script src="../../js/player.js"></script>
 </head>
 <style>
+body {
+    margin-top: 45px;
+}
 button {
     height: 1.5rem;
     width: 5rem;
@@ -31,8 +35,9 @@ button {
         <td>八分音符</td>
         <td>类型为数字时, 单位是 ms;<br/>
             可用常量: "1", "2", "4", "8", "16";
-            附点形如 "8.";<br/>
-            也能以 "拍" (四分音符) 为单位, 如 "1.5b"
+            附点: "8.";<br/>
+            也能以 "拍" (四分音符) 为单位, 如 "1.5b";<br/>
+            分数的单位也是 "拍", 如 "1/3" 表示三分之一拍
         </td>
     </tr>
     <tr>
@@ -40,7 +45,8 @@ button {
         <td>音高</td>
         <td>440</td>
         <td>类型为数字时, 单位是 Hz; 可用常量: "C1" ~ "B6";<br/>
-            升半音形如 "#A", 降半音如 "bE"
+            升半音形如 "#A", 降半音如 "bE";<br/>
+            和弦写成数组形式: ["C4", "E4", "G4"]
         </td>
     </tr>
     <tr>
@@ -57,34 +63,18 @@ button {
     </tr>
 </table>
 <p>示例: {"time": 1000, "pitch": 440, "volume": 0.5, "tone": "sin"}</p>
-BPM (40 ~ 250): <input type="text" id="bpm" value="100">
-<textarea id="score" rows="25" cols="60">
+BPM (40 ~ 250): <input type="text" id="bpm" value="160">
+<textarea id="score" rows="16" cols="40">
 [
-    {"pitch": "E4", "time": "8."},
-    {"pitch": "G4", "time": "16"},
-    {"pitch": "F4"},
-    {"pitch": "G4"},
-    {"pitch": "C5"},
-    {"pitch": "G4"},
-    {"pitch": "F4", "time": "4"},
-    {"pitch": "E4", "time": "8."},
-    {"pitch": "G4", "time": "16"},
-    {"pitch": "F4"},
-    {"pitch": "G4"},
-    {"pitch": "E4", "time": "4"},
-    {"volume": 0, "time": "4"},
-    {"pitch": "E4", "time": "8."},
-    {"pitch": "G4", "time": "16"},
-    {"pitch": "F4"},
-    {"pitch": "G4"},
-    {"pitch": "C5"},
-    {"pitch": "G4"},
-    {"pitch": "F4", "time": "4"},
-    {"pitch": "C5"},
-    {"pitch": "G4"},
-    {"pitch": "D5"},
-    {"pitch": "G4"},
-    {"pitch": "C5", "time": "4"}
+    {"pitch": ["#G4","C5","#F5","#G5"], "time": "4"},
+    {"pitch": ["#G4","C5","#F5","#G5"], "time": "4"},
+    {"pitch": ["C4","bB4","E5","G5"], "time": "4"},
+    {"pitch": ["C4","bB4","E5","G5"], "time": "4"},
+    {"pitch": ["#F4","bB4","E5","#F5"], "time": "2/3"},
+    {"pitch": "#G5", "time": "1/3"},
+    {"pitch": "#F5", "time": "1/3"},
+    {"volume": 0, "time": "1/3"},
+    {"pitch": ["bB3","#G4","D5","F5"], "time": "4/3"}
 ]
 </textarea>
 <br/>
