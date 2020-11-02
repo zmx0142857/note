@@ -7,13 +7,16 @@
     <script src="../../js/audio/resampler.js"></script>
     <script src="../../js/audio/XAudioServer.js"></script>
     <script src="../../js/player.js"></script>
+</head>
 <style>
 button {
     height: 1.5rem;
     width: 5rem;
 }
+.error {
+    background: #eaa;
+}
 </style>
-</head>
 <body>
 <table>
     <tr>
@@ -53,7 +56,7 @@ button {
         <td>可用常量: "sin", "rect", "saw"</td>
     </tr>
 </table>
-<p>示例: {"time": 1000, "pitch": 440, volume: 0.5, tone: "sin"}</p>
+<p>示例: {"time": 1000, "pitch": 440, "volume": 0.5, "tone": "sin"}</p>
 BPM (40 ~ 250): <input type="text" id="bpm" value="100">
 <textarea id="score" rows="25" cols="60">
 [
@@ -97,10 +100,10 @@ var player = new Player(function() {
 score.onkeyup = function() {
     try {
         player.updateTrack();
-        this.style.background = 'white';
+        this.classList.remove('error');
     } catch (e) {
         console.error(e);
-        this.style.background = '#eaa';
+        this.classList.add('error');
     }
 }
 score.onkeyup();
@@ -109,9 +112,9 @@ bpm.onkeyup = function() {
     var bpmValue = parseInt(bpm.value);
     if (bpmValue >= 40 && bpmValue <= 250) {
         player.setBpm(bpmValue);
-        this.style.background = 'white';
+        this.classList.remove('error');
     } else {
-        this.style.background = '#eaa';
+        this.classList.add('error');
     }
 }
 bpm.onkeyup();
