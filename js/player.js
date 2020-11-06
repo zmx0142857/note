@@ -2,10 +2,8 @@ var Player;
 
 (function(){
 
-// time
-var times = {};
+/* pitch */
 
-// pitch
 var A4 = 440, A0 = 27.5, C1 = A0 * Math.pow(2, 1/4);
 var names = ['C', '#C', 'D', '#D', 'E', 'F', '#F', 'G', '#G', 'A', '#A', 'B'];
 var nameConversion = {
@@ -24,7 +22,8 @@ for (var i = 0; i < names.length; ++i) {
 }
 //console.log(pitches);
 
-// tone
+/* tone */
+
 var mod = function(x, period) {
     x = x % period;
     return x < 0 ? x + period : x;
@@ -43,53 +42,28 @@ var tones = { // period = 2
     },
 };
 
-var defaultNote = {
-    time: times['8'],
-    pitch: A4,
-    volume: 0.5,
-    tone: tones.sin
-};
+/* util functions */
 
-// sample & audio
-var audioServer = null;
-var SAMPLE_RATE = 8000;
-var hasAudio = true;
-var isPlaying = false;
-var sample = [];
-var userTrack = [];
-var track = [];
-var trackPos = 0;
-var trackReady = false;
-
-function initServer() {
-    if (audioServer)
-        return;
-    audioServer = new XAudioServer(
-        1,                // channels
-        SAMPLE_RATE,      // sample rate
-        SAMPLE_RATE / 4,  // buffer_low
-        SAMPLE_RATE * 2,  // buffer_size
-        generator,        // callback when samples remaining < buffer_low
-        1,                // volume
-        failureCallback   // callback when brower has no audio API
-    );
-
-    setInterval(function() {
-        if (isPlaying) {
-            audioServer.executeCallback();
-        }
-    }, 20);
+function getTimes(bpm) {
+    var quarter = 60000 / bpm;
+    return {
+        '16': quarter / 4,
+        '8': quarter / 2,
+        '4': quarter,
+        '2': quarter * 2,
+        '1': quarter * 4,
+    };
 }
 
 function sum(arr) {
     return arr.reduce(function(x,y) {return x+y}, 0);
 }
 
-function makeSample(note) {
-    var duration = SAMPLE_RATE * note.time / 1000;
+function makeSample(note, sampleRate, sample) {
+    var duration = sampleRate * note.time / 1000;
     if (note.pitch instanceof Array) {
         var omega = note.pitch.map(function(x) {
-            return 2 * x / SAMPLE_RATE;
+            return 2 * x / sampleRate;
         });
         var volume = note.volume / Math.sqrt(note.pitch.length);
         for (var i = 0; i < duration; ++i) {
@@ -100,31 +74,14 @@ function makeSample(note) {
             );
         }
     } else {
-        var omega = 2 * note.pitch / SAMPLE_RATE;
+        var omega = 2 * note.pitch / sampleRate;
         for (var i = 0; i < duration; ++i) {
             sample.push(note.tone(i * omega) * note.volume);
         }
     }
 }
 
-function generator(need) {
-    var ret;
-    if (need <= 0) {
-        isPlaying = false;
-        ret = [];
-    } else if (sample.length < need) {
-        while (trackPos < track.length && sample.length < need) {
-            makeSample(track[trackPos++]);
-        }
-        ret = sample;
-        sample = [];
-    } else {
-        ret = sample.slice(0, need);
-        sample = sample.slice(need);
-    }
-    return ret;
-}
-
+var hasAudio = true;
 function failureCallback() {
     if (hasAudio) {
         // alert only once
@@ -139,51 +96,111 @@ function between(x, lo, hi) {
     return x;
 }
 
-function setTime(note, i) {
+Player = function(getTrack) {
+    this.getTrack = getTrack; // callback that returns user input track
+    this.times = getTimes(120);
+    this.defaultNote = {
+        time: this.times['8'],
+        pitch: A4,
+        volume: 0.5,
+        tone: tones.sin
+    };
+    this.audioServer = null;
+    this.sampleRate = 8000;
+    this.isPlaying = false;
+    this.sample = [];
+    this.userTrack = [];
+    this.track = [];
+    this.trackPos = 0;
+    this.trackBuilt = false;
+};
+
+
+Player.prototype.initServer = function() {
+    var _this = this;
+    this.audioServer = new XAudioServer(
+        1,                    // channels
+        this.sampleRate,      // sample rate
+        this.sampleRate / 4,  // buffer_low
+        this.sampleRate * 2,  // buffer_size
+        // callback when samples remaining < buffer_low
+        function(need) {
+            var ret;
+            if (need <= 0) {
+                _this.isPlaying = false;
+                ret = [];
+            } else if (_this.sample.length < need) {
+                while (_this.trackPos < _this.track.length &&
+                       _this.sample.length < need) {
+                    makeSample(
+                        _this.track[_this.trackPos++],
+                        _this.sampleRate,
+                        _this.sample
+                    );
+                }
+                ret = _this.sample;
+                _this.sample = [];
+            } else {
+                ret = _this.sample.slice(0, need);
+                _this.sample = _this.sample.slice(need);
+            }
+            return ret;
+        },
+        1,                 // volume
+        failureCallback    // callback when brower has no audio API
+    );
+    setInterval(function() {
+        if (_this.isPlaying) {
+            _this.audioServer.executeCallback();
+        }
+    }, 20);
+}
+
+Player.prototype.setTime = function(note, i) {
     if (typeof note.time === 'string') {
         var ratio = 1;
         if (/^(\d*\.)?\d+b$/.test(note.time)) { // unit: beat
-            note.time = parseFloat(note.time) * times['4'];
+            note.time = parseFloat(note.time) * this.times['4'];
             return;
         } else if (/^\d+\/\d+$/.test(note.time)) { // ratio
             var ratio = note.time.split('/');
-            note.time = parseInt(ratio[0]) / parseInt(ratio[1]) * times['4'];
+            note.time = parseInt(ratio[0]) / parseInt(ratio[1]) * this.times['4'];
             return;
         } else {
             if (note.time.slice(-1) == '.') { // dot
                 note.time = note.time.slice(0, -1);
                 ratio = 1.5;
             }
-            if (!(note.time in times))
+            if (!(note.time in this.times))
                 console.warn('track[' + i + ']: invalid time');
-            note.time = times[note.time] * ratio;
+            note.time = this.times[note.time] * ratio;
         }
     }
     if (!note.time && note.time !== 0) {
-        note.time = defaultNote.time;
+        note.time = this.defaultNote.time;
     }
 }
 
-function setVolume(note, i) {
+Player.prototype.setVolume = function(note, i) {
     if (!note.volume && note.volume !== 0) {
-        note.volume = defaultNote.volume;
+        note.volume = this.defaultNote.volume;
     } else {
         note.volume = between(note.volume, 0, 1);
     }
 }
 
-function setTone(note, i) {
+Player.prototype.setTone = function(note, i) {
     if (typeof note.tone === 'string') {
         note.tone = tones[note.tone];
         if (!(note.tone in tones))
             console.warn('track[' + i + ']: invalid tone');
     }
     if (!note.tone) {
-        note.tone = defaultNote.tone;
+        note.tone = this.defaultNote.tone;
     }
 }
 
-function processPitch(pitch, i) {
+Player.prototype.processPitch = function(pitch, i) {
     if (typeof pitch === 'string') {
         // flat note
         if (pitch[0] == 'b') {
@@ -194,83 +211,74 @@ function processPitch(pitch, i) {
         pitch = pitches[pitch];
     }
     if (!pitch && pitch !== 0) {
-        pitch = defaultNote.pitch;
+        pitch = this.defaultNote.pitch;
     } else {
         pitch = between(pitch, 20, 10000);
     }
     return pitch;
 }
 
-function buildTrack() {
+Player.prototype.buildTrack = function() {
     //console.log('buildTrack');
-    track = userTrack; // pass by reference
-    if (track.length == 0)
+    this.track = this.userTrack; // pass by reference
+    if (this.track.length == 0)
         return;
     // append 1s of silence lest the browser keeps beeping
-    if (track[track.length-1].volume !== 0) {
-        track.push({time: 1000, pitch: 'A4', volume: 0});
+    if (this.track[this.track.length-1].volume !== 0) {
+        this.track.push({time: 1000, pitch: 'A4', volume: 0});
     }
 
-    track.forEach(function(note, i) {
-        setTime(note, i);
-        setVolume(note, i);
-        setTone(note, i);
+    var _this = this;
+    this.track.forEach(function(note, i) {
+        _this.setTime(note, i);
+        _this.setVolume(note, i);
+        _this.setTone(note, i);
         if (note.pitch instanceof Array) {
             note.pitch.forEach(function(p, j) {
-                note.pitch[j] = processPitch(p, i);
+                note.pitch[j] = _this.processPitch(p, i);
             });
         } else {
-            note.pitch = processPitch(note.pitch, i);
+            note.pitch = _this.processPitch(note.pitch, i);
         }
     });
-    //console.log(track);
-    trackReady = true;
+    //console.log(this.track);
+    this.trackBuilt = true;
 }
 
-function stop() {
-    isPlaying = false;
-    sample = [];
-    if (audioServer)
-        audioServer.changeVolume(0);
+Player.prototype.stop = function() {
+    this.isPlaying = false;
+    this.sample = [];
+    if (this.audioServer)
+        this.audioServer.changeVolume(0);
 }
 
-function play() {
-    stop();
-    if (!audioServer)
-        initServer();
-    if (!trackReady)
-        buildTrack();
-    if (track.length > 0) {
-        isPlaying = true;
-        trackPos = 0;
-        audioServer.changeVolume(1);
+Player.prototype.play = function() {
+    this.stop();
+    if (!this.audioServer)
+        this.initServer();
+    if (!this.trackUpdated)
+        this.updateTrack();
+    if (!this.trackBuilt)
+        this.buildTrack();
+    if (this.track.length > 0) {
+        this.isPlaying = true;
+        this.trackPos = 0;
+        this.audioServer.changeVolume(1);
     }
 }
 
-Player = function(getTrack) {
-    this.play = play;
-    this.stop = stop;
-    this.initServer = initServer;
-    this.getTrack = getTrack; // callback that returns user input track
-};
-
 Player.prototype.updateTrack = function() {
-    trackReady = false;
-    userTrack = this.getTrack();
+    //console.log('updateTrack');
+    this.userTrack = this.getTrack();
+    this.trackUpdated = true;
+    this.trackBuilt = false;
 }
 
 Player.prototype.setBpm = function(bpm) {
     //console.log('setBpm = ' + bpm);
-    var quarter = 60000 / bpm;
-    times = {
-        '16': quarter / 4,
-        '8': quarter / 2,
-        '4': quarter,
-        '2': quarter * 2,
-        '1': quarter * 4,
-    };
-    defaultNote.time = times['8'];
-    this.updateTrack();
+    this.times = getTimes(bpm);
+    this.defaultNote.time = this.times['8'];
+    this.trackUpdated = false;
 }
 
 })();

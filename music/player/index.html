@@ -63,7 +63,8 @@ button {
     </tr>
 </table>
 <p>示例: {"time": 1000, "pitch": 440, "volume": 0.5, "tone": "sin"}</p>
-BPM (40 ~ 250): <input type="text" id="bpm" value="160">
+BPM (40 ~ 250):
+<input type="number" id="bpm" value="140" min="40" max="250">
 <textarea id="score" rows="16" cols="40">
 [
     {"pitch": ["#G4","C5","#F5","#G5"], "time": "4"},
@@ -87,27 +88,42 @@ var player = new Player(function() {
     return JSON.parse(score.value);
 });
 
-score.onkeyup = function() {
-    try {
-        player.updateTrack();
-        this.classList.remove('error');
-    } catch (e) {
-        console.error(e);
-        this.classList.add('error');
+function debounce(callback, time) {
+    var timeout;
+    return function() {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(callback, time || 800);
     }
 }
-score.onkeyup();
 
-bpm.onkeyup = function() {
+function onScoreInput() {
+    //console.log('onScoreInput');
+    try {
+        player.updateTrack();
+        score.classList.remove('error');
+    } catch (e) {
+        console.error(e);
+        score.classList.add('error');
+    }
+}
+
+function onBpmInput() {
+    //console.log('onBpmInput');
     var bpmValue = parseInt(bpm.value);
     if (bpmValue >= 40 && bpmValue <= 250) {
         player.setBpm(bpmValue);
-        this.classList.remove('error');
+        bpm.classList.remove('error');
     } else {
-        this.classList.add('error');
+        bpm.classList.add('error');
     }
 }
-bpm.onkeyup();
+
+score.oninput = debounce(onScoreInput);
+bpm.oninput = debounce(onBpmInput);
+onScoreInput();
+onBpmInput();
 </script>
 </body>
 </html>

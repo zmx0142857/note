@@ -24,18 +24,18 @@ if (typeof asciimath.katexpath == 'undefined')
 
 // ---- functions ----
 
-function getParams(scriptName) {
-	var ret = new Object();
-	var i = scriptName.indexOf('?');
-	if (i != -1) {
-		var strs = scriptName.substr(i+1).split("&");
-		for (var i = 0; i < strs.length; ++i) {
-			var splits = strs[i].split('=');
-			// decodeURI() doesn't work
-			ret[splits[0]] = unescape(splits[1]);
-      }
-   }
-   return ret;
+function getParams(str) {
+  var ret = {};
+  var i = str.indexOf('?');
+  if (i != -1) {
+    var strs = str.substr(i+1).split("&");
+    for (var i = 0; i < strs.length; ++i) {
+      var splits = strs[i].split('=');
+      // decodeURI() doesn't work
+      ret[splits[0]] = unescape(splits[1]);
+    }
+  }
+  return ret;
 }
 
 function init() {

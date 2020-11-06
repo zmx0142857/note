@@ -390,20 +390,6 @@ function jumpto(i, j) {
   };
 }
 
-function getQuery() {
-  var theRequest = new Object();
-  var i = location.href.indexOf('?');
-  if (i != -1) {
-    var strs = location.href.substr(i+1).split("&");
-    for (var i = 0; i < strs.length; ++i) {
-      var splits = strs[i].split('=');
-      // decodeURI() doesn't work
-      theRequest[splits[0]] = unescape(splits[1]);
-    }
-  }
-  return theRequest;
-}
-
 function loadToc() {
   var bookData = tocData[book.value];
   tableOfContents = bookData.toc;
@@ -479,12 +465,19 @@ function init() {
     book.appendChild(option);
   }
 
-  var arg = getQuery();
-  if (arg.b && arg.g && arg.a) {
-    book.value = arg.b;
-    loadToc();
-    src = arg.g + '/' + arg.a + '.html'; 
-  } else {
+  var success = false;
+  var index = location.href.indexOf('?');
+  if (index != -1) {
+    var params = location.href.slice(index+1);
+    if (/^[^/]+\/[^/]+\/[^/]+$/.test(params)) { // ***/***/***
+      var path = params.split('/');
+      book.value = path[0];
+      loadToc();
+      src = path[1] + '/' + path[2] + '.html';
+      success = true;
+    }
+  }
+  if (!success) {
     book.value = localStorage['book'] || 'math';
     loadToc();
     src = localStorage['src'] || tableOfContents[0].articles[0].src;
