@@ -1,38 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-
 <head>
-
 <title>学五十音</title>
 <meta charset="utf-8" />
+<link rel="stylesheet" href="../../css/quiz.css">
 <style>
 body {
-	background: aliceblue;
-  margin: 45px;
-}
-#settings {
-	text-align: center;
-}
-#wrap {
-	width: 60%;
-	min-width: 300px;
-	max-width: 800px;
-	margin: 0 auto;
-	padding: 10px;
-	text-align: center;
-}
-#choice > button {
-	width: 200px;
-	height: 40px;
-	display: block;
-	margin: 8px auto;
+    color: white;
 }
 </style>
+<script src="../../js/quiz.js"></script>
 </head>
-
 <body>
 
-<form id="settings">
+<form class="settings">
 	<input type="checkbox" id="checkbox-hiragana" checked="true"/>
 	<label for="checkbox-hiragana">平假名</label>
 	<input type="checkbox" id="checkbox-katakana"/>
@@ -43,16 +24,11 @@ body {
 	<label for="checkbox-kana-roma">看假名选罗马音</label>
 	<input type="checkbox" id="checkbox-roma-kana"/>
 	<label for="checkbox-roma-kana">看罗马音选假名</label>
-	<input type="checkbox" id="checkbox-"/>
-	<label for="checkbox-youon">填空</label> <!-- 待实现 -->
+	<!-- <input type="checkbox" id="checkbox-"/>
+	<label for="checkbox-youon">填空</label> 待实现 -->
 </form>
 
-<div id="wrap">
-<p id="question"></p>
-<p id="choice" onclick="choose()"></p>
-<p id="message"></p>
-<button id="next" onclick="newQuestion()">下一个</button>
-</div>
+<main id="quiz"></main>
 
 <script>
 var dict = [
@@ -84,73 +60,21 @@ var dict = [
 	['bya','びゃ','ビャ'], ['byu','びゅ','ビュ'], ['byo','びょ','ビョ'],
 	['pya','ぴゃ','ピャ'], ['pyu','ぴゅ','ピュ'], ['pyo','ぴょ','ピョ'],
 ];
-//解开注释, 在console中查看五十音表
 //console.table(dict);
 
-// 假装在用 jquery
-function $(str, innerHTML) {
-	if (typeof(str) == 'string') {
-		if (str[0] == '#')
-			return document.getElementById(str.slice(1));
-		else if (str.length > 0) {
-			var elem = document.createElement(str);
-			elem.innerHTML = innerHTML;
-			return elem;
-		}
-	}
+function $(str) {
+	if (typeof str == 'string' && str[0] == '#')
+        return document.getElementById(str.slice(1));
 }
 
-var elemQuestion = $('#question'),
-	elemChoice = $('#choice'),
-	elemMessage = $('#message'),
-	buttonNext = $('#next'),
-	checkHiragana = $('#checkbox-hiragana'),
+var checkHiragana = $('#checkbox-hiragana'),
 	checkKatakana = $('#checkbox-katakana'),
 	checkKanaRoma = $('#checkbox-kana-roma'),
 	checkRomaKana = $('#checkbox-roma-kana'),
 	checkYouon = $('#checkbox-youon');
 
-var questionStr, answer, answerStr, choice;
-
-// 在控制台调用 console.log(info) 查看当前计数
-var info = {
-	correctCnt: parseInt(localStorage['correctCnt']) || 0,
-	mistakeCnt: parseInt(localStorage['mistakeCnt']) || 0,
-	mistakes: localStorage['mistakes'] ? JSON.parse(localStorage['mistakes']) : {},
-};
-
-function setChoice(n) {
-	return function() { choice = n; };
-}
-
-function choose() {
-	if (choice == answer) {
-		//elemMessage.style.color = '#080';
-		//elemMessage.innerHTML = '正确!';
-		++info.correctCnt;
-		localStorage['correctCnt'] = info.correctCnt;
-		newQuestion();
-	} else {
-		elemMessage.style.color = '#800';
-		elemMessage.innerHTML = '答案: ' + answerStr;
-		++info.mistakeCnt;
-		localStorage['mistakeCnt'] = info.mistakeCnt;
-		if (info.mistakes[questionStr])
-			++info.mistakes[questionStr];
-		else
-			info.mistakes[questionStr] = 1;
-		localStorage['mistakes'] = JSON.stringify(info.mistakes); // 低效
-		buttonNext.style.display = 'inline';
-		document.onkeydown = onAnswer;
-		elemChoice.onclick = function() {};
-	}
-}
-
-function newQuestion() {
-	elemMessage.innerHTML = '';
-	elemChoice.innerHTML = '';
-	buttonNext.style.display = 'none';
-
+function getNext() {
+    
 	// 产生答案
 	answer = Math.floor(4*Math.random()); // 0, 1, 2, 3
 
@@ -176,43 +100,34 @@ function newQuestion() {
 	var choiceIdx = chooseRoma ? 0 : kana;
 
 	// 产生选项
-	var visited = [];
-	var frag = document.createDocumentFragment();
+    var visited = {};
+    var data = {choices:[]};
 	for (var n = 0; n < 4; ++n) {
 		var i;
 		do
 			i = Math.floor(len*Math.random());
-		while (visited.includes(i));
-		visited.push(i);
+		while (visited[i]);
+		visited[i] = true;
 
-		var button = $('button', dict[i][choiceIdx]);
-		button.onclick = setChoice(n);
-		frag.appendChild(button);
+        var choice = {label:dict[i][choiceIdx]};
 		if (n == answer) {
-			questionStr = elemQuestion.innerHTML = dict[i][questionIdx];
-			answerStr = dict[i][choiceIdx];
+            choice.isAnswer = true;
+            data.question = dict[i][questionIdx];
 		}
+        data.choices.push(choice);
 	}
-	elemChoice.appendChild(frag);
-	document.onkeydown = onQuestion;
-	elemChoice.onclick = choose;
-}
-newQuestion();
-
-function onQuestion(e) {
-	choice = e.keyCode - 49;
-	if (0 <= choice && choice <= 3) {
-		choose();
-	}
+    //console.log(data);
+    // {question: ??, choices: [ {label: ??, isAnswer: ??}... ]}
+    return data;
 }
 
-function onAnswer(e) {
-	if (e.code == 'Enter') {
-		newQuestion();
-	}
+function* generator() {
+    while (true) {
+        yield getNext();
+    }
 }
 
+var quiz = new Quiz($('#quiz'), generator(), 'kana');
 </script>
 </body>
-
 </html>

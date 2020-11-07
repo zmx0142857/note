@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="utf-8" />
+<title>lywriter</title>
+<style>
+body {
+	position: fixed;
+	padding: 0;
+	margin: 0;
+    margin-top: 45px;
+	width: 100%;
+	height: 100%;
+	font-family: consolas, monospace;
+}
+header {
+	font-size: 1.5em;
+    margin: 10px;
+}
+main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70%;
+}
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+#cmd {
+	width: 100%;
+	height: 30px;
+}
+#score {
+	width: 90%;
+	min-height: 90%;
+	max-width: 800px;
+	border: none;
+	font-size: 1.2em;
+}
+#help {
+	position: absolute;
+    bottom: 7px;
+	right: 7px;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+	border: none;
+	color: white;
+	background: rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<header id="status-bar"></header>
+<main>
+    <textarea id="score"></textarea>
+</main>
+<footer>
+    <input type="text" id="cmd" value="">
+    <button id="help" onclick="cmds.help()">i</button>
+</footer>
+
+<script>
+var audio_types = {
+	'mp3': 'audio/mpeg',
+	'mp4': 'audio/mp4',
+	'ogg': 'audio/ogg',
+	'wav': 'audio/wav'
+}
+
+function loadAudio(files) {
+	var audio = document.createElement('audio');
+	if (!audio.canPlayType)
+		return { playclip: function() { error("Your browser doesn't support HTML5 audio unfortunately") } };
+
+	for (arg of arguments){
+		var source = document.createElement('source')
+		source.setAttribute('src', arg)
+		if (arg.match(/\.(\w+)$/i)) // 提取后缀名
+			source.setAttribute('type', audio_types[RegExp.$1]);
+		audio.appendChild(source);
+	}
+	audio.load();
+	audio.playclip = function() {
+		audio.pause();
+		audio.currentTime = 0;
+		audio.play();
+	}
+	return audio;
+}
+
+var c_sound = loadAudio('c.wav', 'fallback.wav');
+</script>
+
+<script>
+var statusBar = document.getElementById('status-bar'),
+	score = document.getElementById('score'),
+	cmd = document.getElementById('cmd');
+
+var back_stack = [],
+	bracket_level = 0,
+	oncmd = false;
+
+// 浏览器有 status 变量, 这里避免命名冲突
+var mystatus = {bpm: 120, time_numerator: 4, time_denominator: 4, note: 2, octave: 4},
+symbols = {
+	note: ['𝅝', '𝅗𝅥', '𝅘𝅥', '𝅘𝅥𝅮', '𝅘𝅥𝅯', '𝅘𝅥𝅰', '𝅘𝅥𝅱', '𝅘𝅥𝅲'],
+	rest: ['𝄻', '𝄼', '𝄽', '𝄾', '𝄿', '𝅀', '𝅁', '𝅂'],
+},
+cmds = {
+	time: function(args) {
+		mystatus.time_numerator = parseInt(args[0]);
+		mystatus.time_denominator = parseInt(args[1]);
+		addTimeSignature();
+	},
+	bpm: function(args) {
+		mystatus.bpm = parseFloat(args[0]);
+		addBpm();
+	},
+	key: function(args) {
+		//TODO
+	},
+	clef: function(args) {
+		//TODO
+	},
+	ly: function(args) {
+		//TODO
+		var s = score.value.toLowerCase()
+		  .replace(/([\w.]+)bpm/g, '\\tempo 4 = $1\n')
+		  .replace(/(\d+\/\d+)/g, '\\time = $1\n')
+		  .replace(/([a-g])10/g, "$1'''''''")
+		  .replace(/([a-g])0/g, "$1,,,")
+		  .replace(/([a-g])1/g, "$1,,")
+		  .replace(/([a-g])2/g, "$1,")
+		  .replace(/([a-g])3/g, "$1")
+		  .replace(/([a-g])4/g, "$1'")
+		  .replace(/([a-g])5/g, "$1''")
+		  .replace(/([a-g])6/g, "$1'''")
+		  .replace(/([a-g])7/g, "$1''''")
+		  .replace(/([a-g])8/g, "$1'''''")
+		  .replace(/([a-g])9/g, "$1''''''");
+		console.log(s);
+	},
+	help: function() {
+		var msgs = [
+			'asdf jkl = CDEFGAB',
+			'qwer uio = #C..#B',
+			'zxcvbnm = bC..bB',
+			'', 't = 时值/2', 'g = 时值*2',
+			'y = 高八度', 'h = 低八度',
+			'. = 附点', '<space> = 休止',
+			'[] = 和弦', '{} = 反复',
+			'( = 时值/2', ') = 时值*2',
+			'<tab> = 小节', '" = 注释', ': = 命令行',
+			'', ':time 3 4 = 拍号', ':bpm 108 = 速度', ':help = 帮助'
+		];
+		alert(msgs.join('\n'));
+	}
+},
+funcs = {
+	c: addNote('C'), d: addNote('D'), e: addNote('E'), f: addNote('F'),
+	g: addNote('G'), a: addNote('A'), b: addNote('B'),
+	cis: addNote('♯C'), dis: addNote('♯D'), eis: addNote('♯E'), fis: addNote('♯F'),
+	gis: addNote('♯G'), ais: addNote('♯A'), bis: addNote('♯B'),
+	ces: addNote('♭C'), des: addNote('♭D'), ees: addNote('♭E'), fes: addNote('♭F'),
+	ges: addNote('♭G'), aes: addNote('♭A'), bes: addNote('♭B'),
+	note_half: function() {
+		if (mystatus.note < 7) {
+			++mystatus.note;
+			updateStatus();
+		}
+	},
+	note_double: function() {
+		if (mystatus.note > 0) {
+			--mystatus.note;
+			updateStatus();
+		}
+	},
+	octave_up: function() {
+		if (mystatus.octave < 10) {
+			++mystatus.octave;
+			updateStatus();
+		}
+	},
+	octave_down: function() {
+		if (mystatus.octave > 0) {
+			--mystatus.octave;
+			updateStatus();
+		}
+	},
+	dot: function() {
+		add('. ');
+	},
+	rest: function() {
+		add(' R');
+	},
+	chord_begin: function() {
+		add(' (');
+	},
+	chord_end: function() {
+		add(') ');
+	},
+	repeat_begin: function() {
+		add(' {');
+	},
+	repeat_end: function() {
+		add('} ');
+	},
+	bar: function() {
+		add(']'.repeat(bracket_level) + ' |');
+		bracket_level = 0;
+	},
+	cmd: function() {
+		cmd.focus();
+	},
+	comment: function() {
+		add('"');
+	},
+},
+maps = {
+	'a': funcs.c, 's': funcs.d, 'd': funcs.e, 'f': funcs.f,
+	'j': funcs.g, 'k': funcs.a, 'l': funcs.b,
+	'q': funcs.cis, 'w': funcs.dis, 'e': funcs.eis, 'r': funcs.fis,
+	'u': funcs.gis, 'i': funcs.ais, 'o': funcs.bis,
+	'z': funcs.ces, 'x': funcs.des, 'c': funcs.ees, 'v': funcs.fes,
+	'b': funcs.ges, 'n': funcs.aes, 'm': funcs.bes,
+	't': funcs.note_half, 'g': funcs.note_double,
+	'y': funcs.octave_up, 'h': funcs.octave_down,
+	'.': funcs.dot, ' ': funcs.rest,
+	'(': funcs.chord_begin, ')': funcs.chord_end,
+	'[': funcs.note_half, ']': funcs.note_double,
+	'{': funcs.repeat_begin, '}': funcs.repeat_end,
+	'Tab': funcs.bar, ':': funcs.cmd, '"': funcs.comment,
+};
+
+function updateBracketLevel() {
+	bracket_level = 0;
+	for (c of score.innerHTML) {
+		if (c == '[')
+			++bracket_level;
+		else if (c == ']')
+			--bracket_level;
+	}
+}
+
+function add(s) {
+	back_stack.push(score.innerHTML.length);
+	score.innerHTML += s;
+}
+
+function addNote(note) {
+	return function() {
+		var s = note + mystatus.octave;
+		if (mystatus.note == 0)
+			s = s + ' - - -';
+		else if (mystatus.note == 1)
+			s = s + ' -';
+
+		var lvl = Math.max(mystatus.note - 2, 0);
+		if (lvl > bracket_level)
+			add(' ' + '['.repeat(lvl-bracket_level) + s);
+		else if (lvl < bracket_level)
+			add(']'.repeat(bracket_level-lvl) + ' ' + s);
+		else
+			add(' ' + s);
+		bracket_level = lvl;
+	};
+}
+
+function addBpm() {
+	add(' ' + mystatus.bpm + 'bpm');
+}
+
+function addTimeSignature() {
+	add(' ' + mystatus.time_numerator + '/' + mystatus.time_denominator);
+}
+
+cmd.onfocus = function() { oncmd = true; }
+cmd.onblur = function() { oncmd = false; }
+
+document.addEventListener('keydown', function(e) {
+	if (e.key == 'Enter') {
+		if (oncmd) {
+			var arr = cmd.value.split(' ');
+			var args = [];
+			for (a of arr) if (a) args.push(a);
+			if (args.length > 0) {
+				if (cmds[args[0]])
+					cmds[args[0]](args.slice(1));
+				else
+					error('no such command');
+				cmd.value = '';
+			}
+			cmd.blur();
+		} else {
+			score.innerHTML += '\n';
+		}
+	} else if (oncmd) {
+		return;
+	} else if (e.key == 'Backspace') {
+		if (back_stack.length > 0) {
+			score.innerHTML = score.innerHTML.slice(0, back_stack.pop());
+			updateBracketLevel();
+		}
+	} else if (maps[e.key]) // or use e.code?
+		maps[e.key]();
+	e.preventDefault();
+}, false);
+
+function updateStatus() {
+	statusBar.innerText = '[' + symbols.note[mystatus.note] + ' ]'
+		+ ' C' + mystatus.octave;
+}
+
+updateStatus();
+addBpm();
+addTimeSignature();
+</script>
+</body>
+</html>

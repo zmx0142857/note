@@ -299,13 +299,15 @@ lang: {
 }]},
 
 music: {
-    title: '音乐',
+    title: '音乐 (开发中)',
     color: 'pink',
     toc: [ {
         title: '工具',
         articles: [
             {title:'播放器', src:'utils/player.html',isnew:true},
             {title:'简谱', src:'utils/jianpu.html',isnew:true},
+            {title:'乐谱编辑器', src:'utils/lywriter.html',isnew:true},
+            //{title:'练耳', src:'utils/ear-training.html',isnew:true},
         ]
     }]
 }

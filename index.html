@@ -342,6 +342,7 @@ var article = $('#article'),
   book = $('#book'),
   favicon = $('#favicon');
 
+var UUID = 'io.zmx0142857.';
 var tableOfContents, src, title, pos;
 
 function hideNav(flag) {
@@ -378,7 +379,7 @@ function jump() {
   }
   iframe.onload = function() { document.body.removeChild(notify) };
 
-  localStorage['src'] = src;
+  localStorage[UUID+'src'] = src;
   iframe.setAttribute('src', book.value + '/' + src);
   artitle.innerText = title;
   hideNav(true);
@@ -453,7 +454,7 @@ nextArticle.onclick = function() {
 };
 
 book.onchange = function() {
-  localStorage['book'] = book.value;
+  localStorage[UUID+'book'] = book.value;
   loadToc();
   src = tableOfContents[0].articles[0].src;
   title = tableOfContents[0].articles[0].title;
@@ -482,9 +483,9 @@ function init() {
     }
   }
   if (!success) {
-    book.value = localStorage['book'] || 'math';
+    book.value = localStorage[UUID+'book'] || 'math';
     loadToc();
-    src = localStorage['src'] || tableOfContents[0].articles[0].src;
+    src = localStorage[UUID+'src'] || tableOfContents[0].articles[0].src;
   }
   pos = [0, 0];
   for (var i = 0; i < tableOfContents.length; ++i) {
