@@ -251,8 +251,8 @@ cs: {
 }, {
   title:'工具',
   articles: [
-    {title:'svg 流程图', src:'tool/svg-flowchart.html'},
-    {title:'无奖竞猜', src:'tool/exam.html'},
+    {title:'svg 流程图', src:'utils/svg-flowchart.html'},
+    {title:'无奖竞猜', src:'utils/exam.html'},
   ]
 }]},
 
@@ -297,5 +297,17 @@ lang: {
         {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html',isnew:true},
     ]
 }]},
+
+music: {
+    title: '音乐',
+    color: 'pink',
+    toc: [ {
+        title: '工具',
+        articles: [
+            {title:'播放器', src:'utils/player.html',isnew:true},
+            {title:'简谱', src:'utils/jianpu.html',isnew:true},
+        ]
+    }]
+}
 // 全新的开始?
 };

@@ -81,15 +81,6 @@ function makeSample(note, sampleRate, sample) {
     }
 }
 
-var hasAudio = true;
-function failureCallback() {
-    if (hasAudio) {
-        // alert only once
-        alert("Sorry your browser is unable to play the audio on this page.");
-    }
-    hasAudio = false;
-}
-
 function between(x, lo, hi) {
     if (x < lo) return lo;
     if (x > hi) return hi;
@@ -97,7 +88,7 @@ function between(x, lo, hi) {
 }
 
 Player = function(getTrack) {
-    this.getTrack = getTrack; // callback that returns user input track
+    this.getTrack = getTrack;  // callback that returns userTrack
     this.times = getTimes(120);
     this.defaultNote = {
         time: this.times['8'],
@@ -109,51 +100,61 @@ Player = function(getTrack) {
     this.sampleRate = 8000;
     this.isPlaying = false;
     this.sample = [];
-    this.userTrack = [];
-    this.track = [];
-    this.trackPos = 0;
+    this.userTrack = [];       // user input track
+    this.track = [];           // track being played
+    this.trackPos = 0;         // current playing position
     this.trackBuilt = false;
 };
 
+function generate(need) {
+    var ret;
+    if (need <= 0) {
+        this.isPlaying = false;
+        ret = [];
+    } else if (this.sample.length < need) {
+        while (this.trackPos < this.track.length &&
+            this.sample.length < need) {
+            makeSample(
+                this.track[this.trackPos++],
+                this.sampleRate,
+                this.sample
+            );
+        }
+        ret = this.sample;
+        this.sample = [];
+    } else {
+        ret = this.sample.slice(0, need);
+        this.sample = this.sample.slice(need);
+    }
+    return ret;
+}
+
+var hasAudio = true;
+function failureCallback() {
+    if (hasAudio) {
+        // alert only once
+        alert("Sorry your browser is unable to play the audio on this page.");
+    }
+    hasAudio = false;
+}
+
+function streaming() {
+    if (this.isPlaying) {
+        this.audioServer.executeCallback();
+    }
+}
 
 Player.prototype.initServer = function() {
-    var _this = this;
     this.audioServer = new XAudioServer(
-        1,                    // channels
-        this.sampleRate,      // sample rate
-        this.sampleRate / 4,  // buffer_low
-        this.sampleRate * 2,  // buffer_size
-        // callback when samples remaining < buffer_low
-        function(need) {
-            var ret;
-            if (need <= 0) {
-                _this.isPlaying = false;
-                ret = [];
-            } else if (_this.sample.length < need) {
-                while (_this.trackPos < _this.track.length &&
-                       _this.sample.length < need) {
-                    makeSample(
-                        _this.track[_this.trackPos++],
-                        _this.sampleRate,
-                        _this.sample
-                    );
-                }
-                ret = _this.sample;
-                _this.sample = [];
-            } else {
-                ret = _this.sample.slice(0, need);
-                _this.sample = _this.sample.slice(need);
-            }
-            return ret;
-        },
-        1,                 // volume
-        failureCallback    // callback when brower has no audio API
+        1,                   // channels
+        this.sampleRate,     // sample rate
+        this.sampleRate / 4, // buffer_low
+        this.sampleRate * 2, // buffer_size
+        generate.bind(this), // callback when samples.length < buffer_low
+        1,                   // volume
+        failureCallback      // callback when brower has no audio API
     );
-    setInterval(function() {
-        if (_this.isPlaying) {
-            _this.audioServer.executeCallback();
-        }
-    }, 20);
+    setInterval(streaming.bind(this), 20);
 }
 
 Player.prototype.setTime = function(note, i) {
@@ -228,19 +229,18 @@ Player.prototype.buildTrack = function() {
         this.track.push({time: 1000, pitch: 'A4', volume: 0});
     }
 
-    var _this = this;
     this.track.forEach(function(note, i) {
-        _this.setTime(note, i);
-        _this.setVolume(note, i);
-        _this.setTone(note, i);
+        this.setTime(note, i);
+        this.setVolume(note, i);
+        this.setTone(note, i);
         if (note.pitch instanceof Array) {
             note.pitch.forEach(function(p, j) {
-                note.pitch[j] = _this.processPitch(p, i);
-            });
+                note.pitch[j] = this.processPitch(p, i);
+            }, this);
         } else {
-            note.pitch = _this.processPitch(note.pitch, i);
+            note.pitch = this.processPitch(note.pitch, i);
         }
-    });
+    }, this);
     //console.log(this.track);
     this.trackBuilt = true;
 }
@@ -282,4 +282,3 @@ Player.prototype.setBpm = function(bpm) {
 }
 
 })();
-
