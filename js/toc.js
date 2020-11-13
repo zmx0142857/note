@@ -307,7 +307,8 @@ music: {
             {title:'播放器', src:'utils/player.html',isnew:true},
             {title:'简谱', src:'utils/jianpu.html',isnew:true},
             {title:'乐谱编辑器', src:'utils/lywriter.html',isnew:true},
-            //{title:'练耳', src:'utils/ear-training.html',isnew:true},
+            {title:'练耳', src:'utils/ear-training.html',isnew:true},
+            {title:'键盘', src:'utils/piano.html',isnew:true},
         ]
     }]
 }

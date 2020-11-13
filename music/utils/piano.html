@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>piano</title>
+<script src="../../js/audio/resampler.js"></script>
+<script src="../../js/audio/XAudioServer.js"></script>
+<script src="../../js/player.js"></script>
+<style>
+body {
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+.white, .black {
+    display: inline-block;
+    vertical-align: top;
+    outline: none; /* 去掉焦点框 */
+}
+@media (hover: hover) { /* 电脑端支持按下的效果 */
+    .white, .black, .white:active, .black:active {
+        transition: linear 0.05s;
+    }
+    .white:active {
+        height: 210px;
+        border-bottom-width: 20px;
+    }
+    .black:active {
+        height: 120px;
+        border-bottom-width: 10px;
+    }
+}
+.white {
+    width: 50px;
+    height: 200px;
+    background: white;
+    margin: 0;
+    border: #888 2px solid;
+    border-bottom: #ccc 30px solid;
+	box-shadow: 18px 18px 30px rgba(0,0,0,0.1),
+	  -18px -18px 30px rgba(255,255,255,1);
+}
+.white:hover {
+    background: #ddd;
+}
+#blacks {
+    position: absolute;
+    margin-left: 26px;
+    height: 0; /* 避免覆盖白键 */
+}
+.black {
+    width: 24px;
+    height: 115px;
+    background: black;
+    margin: 0 13px;
+    border: #444 2px solid;
+    border-bottom: #444 15px solid;
+	box-shadow: 3px 0px 3px rgba(0,0,0,1),
+        inset 15px 18px 24px rgba(255,255,255,0.3);
+}
+.black:hover {
+    background: #333;
+}
+.black:nth-child(5n+2),
+.black:nth-child(5n) {
+    margin-right: 67px;
+}
+</style>
+</head>
+<body>
+<div id="blacks"></div>
+<script>
+var naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+var sharps = ['#C', '#D', '#F', '#G', '#A'];
+var track = [];
+var player = new Player(function() {
+    return track;
+});
+var blacks = document.getElementById('blacks');
+function playNote(pitch) {
+    return function() {
+        player.stop();
+        track = [{pitch: pitch, time: 500}];
+        player.updateTrack();
+        player.play();
+    }
+}
+for (var i = 1; i < 7; ++i) {
+    for (var j = 0; j < 7; ++j) {
+        var white = document.createElement('span');
+        white.classList.add('white');
+        white.onclick = playNote(naturals[j] + i);
+        document.body.appendChild(white);
+    }
+    for (var j = 0; j < 5; ++j) {
+        var black = document.createElement('span');
+        black.classList.add('black');
+        black.onclick = playNote(sharps[j] + i);
+        blacks.appendChild(black);
+    }
+}
+window.scrollTo(1500,0);
+</script>
+</body>
+</html>
