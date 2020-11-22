@@ -2,6 +2,7 @@
 <html lang="zh-cn">
 <head>
 <title>exam</title>
+<meta name="viewport" content="width=device-width"/>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="../../css/note.css"/>
 <style>
@@ -11,7 +12,7 @@ label {
 .choices {
 	margin: 10px 0;
 }
-.warning {
+.warning, #message {
 	color: red;
 }
 </style>
@@ -20,14 +21,17 @@ label {
 
 <body>
 
-<h1>无奖竞猜</h1>
+第 <input id="page-no" type="number" value="1" min="1" style="width:50px"> 页,
+共 <span id="page-total"></span> 页
+<button onclick="jump(-1)">上一页</button>
+<button onclick="jump(1)">下一页</button>
 
 <form id="form"><ol id="main"></ol></form>
 
 <button onclick="check()">提交</button>
+<span id="message"></span>
 
 <script>
-(function(){
 var questions = [ {
 	question:'以下乐队中最早接触的是',
 	choices:[
@@ -94,6 +98,9 @@ var questions = [ {
 		{label:'大学毕业后'}
 	]},
 ];
+</script>
+<script>
+(function(){
 
 function shuffle(arr) {
     arr.sort(function(){return 0.5-Math.random()});
@@ -103,33 +110,56 @@ function alpha(n) {
     return String.fromCharCode(65+n); // A=0, B=1
 }
 
-var main = document.getElementById('main');
-var form = document.getElementById('form');
-var warnings = document.getElementsByClassName('warning');
-var answers = [];
-var buf = [];
+function $(e) {
+    if (e[0] == '#')
+        return document.getElementById(e.slice(1));
+    else if (e[0] == '.')
+        return document.getElementByClassName(e.slice(1));
+}
 
-shuffle(questions);
-questions.forEach(function(q, i) {
-    buf.push('<li>' + q.question);
-    buf.push('<span class="warning"></span>' +
-                 '<div class="choices">'
-    );
-    shuffle(q.choices);
-    q.choices.forEach(function(c, j) {
-        buf.push(
-            '<label>' +
-                '<input type="radio" name="q' + i + '" value="' + j + '"> ' +
-                (alpha(j) + '. ' + c.label) +
-            '</label>'
+var main = $('#main');
+var form = $('#form');
+var jump = $('#jump');
+var message = $('#message');
+var $pageNo = $('#page-no');
+var answers = [];
+var pageLen = 10;
+var pageTotal = Math.ceil(questions.length / pageLen);
+$('#page-total').innerHTML = pageTotal;
+$pageNo.setAttribute('max', pageTotal);
+$pageNo.oninput = render;
+
+function render() {
+    var pageNo = $('#page-no').value;
+    var buf = [];
+    answers = [];
+    var end = pageLen*pageNo, start = end-pageLen;
+    questions.slice(start, end).forEach(function(q, i) {
+        buf.push('<li>' + q.question);
+        buf.push('<span class="warning"></span>' +
+                     '<div class="choices">'
         );
-		if (c.isAnswer) {
-			answers.push(j);
-		}
+        shuffle(q.choices);
+        q.choices.forEach(function(c, j) {
+            buf.push(
+                '<label>' +
+                    '<input type="radio" name="q' + i + '" value="' + j + '"> ' +
+                    (alpha(j) + '. ' + c.label) +
+                '</label>'
+            );
+            if (c.isAnswer) {
+                answers.push(j);
+            }
+        });
+        buf.push('</div></li>');
     });
-    buf.push('</div></li>');
-});
-main.innerHTML = buf.join('\n');
+    if (buf.length > 0) {
+        main.setAttribute('start', start+1);
+        main.innerHTML = buf.join('\n');
+    } else
+        main.innerHTML = '暂无数据';
+    message.innerHTML = '';
+}
 
 function getRadioValue(name) {
 	var radioGroup = form.elements[name];
@@ -139,6 +169,7 @@ function getRadioValue(name) {
 }
 
 window.check = function() {
+    var warnings = document.getElementsByClassName('warning');
 	var correct = 0;
 	var isValid = true;
 	for (var i = 0; i < answers.length; ++i) {
@@ -161,8 +192,18 @@ window.check = function() {
 			++correct;
 		}
 	}
-	alert('成绩: ' + correct + '/' + answers.length);
+	message.innerHTML = '成绩: ' + correct + '/' + answers.length;
 }
+
+window.jump = function(offset) {
+    var target = parseInt($('#page-no').value) + offset;
+    if (target >= 1 && target <= pageTotal) {
+        $('#page-no').value = target;
+        render();
+    }
+}
+
+render();
 })();
 </script>
 </body>

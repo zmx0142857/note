@@ -227,7 +227,6 @@
 </p>
 
 <p class="proof">
-	第一个等式的左边记为 `S`.
 	取 `n` 次单位根 `x_k = "e"^((2k pi)/n "i")`, 则多项式 `x^n-1`
 	可以分解为
 	<span class="formula">
@@ -237,17 +236,18 @@
 	<span class="formula">
 		`sum_(0 le k lt n) x^k = prod_(0 lt k lt n) (x-x_k)`,
 	</span>
-	令 `x = 1`, 于是
+	令 `x = 1`, 两边平方得
 	<span class="formula">
-		`n = prod_(0 lt k lt n) (1-"e"^((2k pi)/n "i"))`
-		`= prod_(0 lt k lt n) (-2"i" "e"^((k pi)/n "i")) ("e"^((k pi)/n "i") - "e"^(-(k pi)/n "i")) / (2"i")`
-		`= prod_(0 lt k lt n) -2"i" "e"^((k pi)/n "i") sin {:(k pi)/n:}`
-		`= (-2"i")^(n-1) "e"^((n-1)/2 pi "i") S`
-		`= 2^(n-1) S`.
-	</span>
-	如果令 `x = -1`, 再用 `2n+1` 替换 `n`, 可证
+        `n^2 = prod_(0 lt k lt n) (1-x_k)(1-bar x_k)`
+        `= prod_(0 lt k lt n) (2 sin {: ("arg" x_k)/2 :})^2`,
+    </span>
+    故
+    <span class="formula">
+        `n = 2^(n-1) prod_(0 lt k lt n) sin {:(k pi)/n:}`.
+    </span>
+	如果令 `x = -1`, 再用 `2n+1` 替换 `n`, 同理可证
 	<span class="formula">
-		`prod_(0 lt k lt 2n+1) cos{:(k pi)/(2n+1):} = ("i"/2)^(2n)`,
+        `1 = 2^(2n) prod_(1 le k le 2n) cos{:(k pi)/(2n+1):}`,
 	</span>
 	从而第二个等式成立.
 </p>

@@ -11,16 +11,6 @@
 
 <ul>
 	设下面的各个 `f` 在积分区间上有定义且可积.
-	<li>反向积分. 作变元替换 `x = a+b-t`, 有
-		<span class="formula">
-			`int_a^b f(x) dx = int_a^b f(a+b-t) dt`.
-		</span>
-		这个公式的一个推论是, 对任意使得 `f(sin x), f(cos x)` 可积的函数
-		`f`,
-		<span class="formula">
-			`int_0^(pi/2) f(sin x) dx = int_0^(pi/2) f(cos x) dx`.
-		</span>
-	</li>
 	<li>如果 `f` 有对称轴 `x = u`, 即 `f(x) = f(2u-x)`,
 		那么
 		<span class="formula">
@@ -29,16 +19,6 @@
 		特别若 `f` 是偶函数, 则
 		<span class="formula">
 			`int_(-a)^a f(x) dx = 2 int_0^a f(x) dx`.
-		</span>
-		如果 `f` 关于 `x = (a+b)//2` 对称, 利用反向积分有
-		<span class="formula">
-			`int_a^b x f(x) dx`
-			`= int_a^b (a+b-x) f(x) dx`
-			`= (a+b)/2 int_a^b f(x) dx`.
-		</span>
-		例如
-		<span class="formula">
-			`int_0^pi x f(sin x) dx = pi/2 int_0^pi f(sin x) dx`.
 		</span>
 	</li>
 	<li>如果 `f` 有对称中心 `(u, v)`, 即 `f(x) = 2v - f(2u-x)`,
@@ -57,12 +37,27 @@
 		</span>
 		且 `int_a^x f(t) dt` 以 `T` 为周期当且仅当 `int_0^T f(t) dt = 0`.
 	</li>
+	<li>区间再现. 作变元替换 `x = a+b-t`, 有
+		<span class="formula">
+			`int_a^b f(x) dx = int_a^b f(a+b-t) dt`.
+		</span>
+		这个公式的一个推论是, 对任意使得 `f(sin x), f(cos x)` 可积的函数
+		`f`,
+		<span class="formula">
+			`int_0^(pi/2) f(sin x) dx = int_0^(pi/2) f(cos x) dx`.
+		</span>
+        如果 `f` 和 `g` 在同一区间上的积分相等, 我们可以用 `(f+g)//2`
+        的积分来替代它, 例如
+		<span class="formula">
+			`int_0^pi x f(sin x) dx`
+            `= int_0^pi (pi-x) f(sin(pi-x)) dx`
+            `= pi/2 int_0^pi f(sin x) dx`.
+		</span>
+	</li>
 </ul>
 
 <ol class="proof">
-	<li></li>
-	<li></li>
-	<li></li>
+    只证周期函数的相关结论.
 	<li>结论一: 由周期性,
 		<span class="formula">
 			`int_T^(a+T) f(x) dx`
@@ -173,6 +168,25 @@
 </ol>
 
 <p class="example">
+    `int_(-pi)^pi (x sin x * arctan "e"^x) / (1+cos^2 x) dx`
+</p>
+
+<p class="solution">
+    区间再现. 用 `-x` 代替 `x`, 原式等于
+    <span class="formula">
+        `int_(-pi)^pi (x sin x * arctan "e"^-x) / (1+cos^2 x) dx`
+        `= pi/4 int_(-pi)^pi (x sin x)/(1+cos^2 x) dx`
+        `= pi/2 int_0^pi (x sin x)/(1+cos^2 x) dx`.
+    </span>
+    再次区间再现. 用 `pi-x` 代替 `x`, 上式等于
+    <span class="formula">
+        `pi/2 int_0^pi ((pi-x) sin x)/(1+cos^2 x) dx`
+        `= pi^2/4 int_0^pi (sin x dx)/(1+cos^2 x)`
+        `= -pi^2/4 int_1^(-1) dx/(1+x^2) = pi^3/8`.
+    </span>
+</p>
+
+<p class="example">
 	`int_0^(2pi) (1-cos t)^2 (t-sin t) dt`.
 </p>
 
@@ -185,7 +199,8 @@
 		`= 16 int_0^pi u sin^4 u "d" u`
 		`= 16 int_0^pi (pi-u) sin^4 u "d"u`
 		`= 8 pi int_0^pi sin^4 u "d"u`
-		`= pi int_0^pi (3 - 4 cos 2u + cos 4 u) "d"u`
+        `= 16 pi int_0^(pi/2) sin^4 u "d"u`
+        `= 16 pi * 3/4 * 1/2 * pi/2`
 		`= 3 pi^2`.
 	</span>
 </p>

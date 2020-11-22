@@ -731,8 +731,10 @@
 	<span class="formula">
 		`zeta(s) = sum_(n=1)^oo 1/n^s`, `quad "Re"(s) gt 1`
 	</span>
-	的定义域延拓到 `CC\\{0}` 上, 并求 `zeta(-n)` 的值,
-	`n` 为非负整数.
+	的定义域延拓到 `CC\\{0}` 上, 并证明公式
+    <span class="formula">
+		`zeta(-n) = -B_(n+1)^+/(n+1)`, `quad n` 为非负整数.
+    </span>
 </p>
 
 <ol class="solution">
@@ -794,6 +796,16 @@
 	函数的零点, 称为 zeta 函数的<b>平凡零点</b>.
 	</li>
 </ol>
+
+<p class="example">
+    证明 `int_(-1)^0 S_n(x) dx = zeta(-n)`.
+</p>
+
+<p class="proof">
+    左边 `= 1/(n+1) int_(-1)^0 (B_(n+1)(x+1) - B_(n+1)(1)) dx`
+        `= 1/(n+1) int_0^1 B_(n+1)(x) dx - B_(n+1)^+/(n+1)`
+        `= 0 + zeta(-n) = ` 右边.
+</p>
 
 <h2>`zeta(2n)` 的求值</h2>
 

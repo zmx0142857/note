@@ -695,7 +695,7 @@
 	</li>
 	<li>`r_(bm A+-bm B) le r_(bm A) + r_(bm B)`;</li>
 	<li>`r_(bm(A B)) le min{r_(bm A), r_(bm B)}`;</li>
-	<li>(Sylvester) 任意 `bm A_(m xx n)`, `bm B_(n xx s)` 满足
+    <li>(Sylvester) 任意 `{:bm A:}_(m xx n)`, `{:bm B:}_(n xx s)` 满足
 		`r_(bm A) + r_(bm B) le n + r_(bm(A B))`,
 	</li>
 </ol>
@@ -1319,6 +1319,28 @@
 		有解.
 	</li>
 </ol>
+
+<p class="example">
+    配平化学方程式
+    <span class="formula">
+        `x_1 P_4 + x_2 P_2 I_4 + x_3 H_2 O == x_4 P H_4 I + x_5 H_3 P O_4`.
+    </span>
+</p>
+
+<p class="solution">
+    按各个元素列出线性方程组:
+    <span class="formula">`{
+        P: 4x_1 + 2x_2 - x_4 - x_5 = 0;
+        I: 4x_2 - x_4 = 0;
+        H: 2x_3 - 4x_4 - 3x_5 = 0;
+        O: x_3 - 4x_5 = 0;
+    :}`</span>
+    设 `x_5 = 1`, 解得
+    <span class="formula">
+        `(13/32, 5/16, 4, 5/4, 1)`
+        `overset (xx32)(rarr) (13, 10, 128, 40, 32)`.
+    </span>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
