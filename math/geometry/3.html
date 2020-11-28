@@ -962,7 +962,7 @@
 <p class="definition">
 	直线上依次有 `A, C, B, D` 四点, 若
 	<span class="formula">
-		`AC * BD = AD * BC`,
+		`vec(AC) * vec(BD) = vec(AD) * vec(CB)`,
 	</span>
 	则称 `A, B, C, D` 构成<b>调和点列</b>, 我们也说 `AB` 调和分割
 	`CD`, 或 `CD` 调和分割 `AB` (因为两条线段地位是对称的),
@@ -976,10 +976,38 @@
 
 <ol class="corollary">
 	`A, B, C, D` 四点构成调和点列, `M` 是 `AB` 中点, 则
-	<li>`AC * BD = AD * BC = (AB * CD)//2`;</li>
-	<li>`CA * CB = CM * CD`;</li>
+	<li>`vec(AC) * vec(BD) = vec(AD) * vec(CB) = (vec(AB) * vec(CD))//2`;
+    </li>
+	<li>`vec(CA) * vec(CB) = vec(CM) * vec(CD)`;</li>
 	<li>调和点列的交比是 `-1`.</li>
 </ol>
+
+<p class="theorem">
+    <b>完全四边形</b>
+    是指平面上一般位置的四条直线, 既没有直线平行, 也没有三线共点.
+    完全四边形的每条对角线被另外两条对角线调和分割.<br/>
+    如图, 在三角形 `ABC` 中, `R, Q` 分别在直线 `AB, AC` 上, `BQ, CR`
+    交于点 `O`.  现在设 `AO, BC` 交于 `P`, `RQ, BC` 交于 `T`, 则 `BC`
+    与 `PT` 调和共轭.
+    <span class="img" style="height:20rem">
+        <img src="../img/complete-quadrilateral.png"/>
+    </span>
+</p>
+
+<p class="proof">
+    在 `triangle ABC` 中使用 Menelaus 定理得
+    <span class="formula">
+        `(BT)/(TC) (CQ)/(QA) (AR)/(RB) = 1`,
+    </span>
+    使用 Ceva 定理得
+    <span class="formula">
+        `(BP)/(PC) (CQ)/(QA) (AR)/(RB) = 1`.
+    </span>
+    比较得 `(BT)/(TC) = (BP)/(PC)`, 即得结论.<br/>
+    此外, 设 `AP, RT` 交于 `S`, 则在 `triangle AOB` 中应用两大定理可证
+    `AO, SP` 调用共轭; 在 `triangle ARQ` 中应用两大定理可证 `RQ, ST`
+    调用共轭.
+</p>
 
 <ol class="theorem">
 	设直线上依次有 `A, C, B, D` 四点, 若以下命题中有两个为真,
@@ -1159,8 +1187,6 @@
 	<!-- 四边形余弦定理?? -->
 	于是 `AC _|_ BD iff AB^2 + CD^2 = AD^2 + BC^2`.
 </p>
-
-<h2>完全四边形</h2>
 
 <h2>杂例</h2>
 
