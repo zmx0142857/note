@@ -7,13 +7,283 @@
 </head>
 <body>
 
-<p class="example">
-	利用 Green 第一公式
+<h2>常用公式</h2>
+
+<h3>Nabla 算子</h3>
+
+<span class="formula">
+    `grad := (del/(del x_1), cdots, del/(del x_m))`
+</span>
+
+<table>
+	<tr>
+		<td>`grad c = 0`</td>
+		<td>`grad * bm c = 0`</td>
+	</tr>
+	<tr>
+		<td>`grad (cf) = c grad f`</td>
+		<td>`grad * (c bm F) = c (grad * bm F)`</td>
+	</tr>
+	<tr>
+		<td>`grad (f +- g) = grad f +- grad g`</td>
+		<td>`grad * (bm F +- bm G) = grad * bm F +- grad * bm G`</td>
+	</tr>
+	<tr>
+		<td>`grad (fg) = g grad f + f grad g`</td>
+		<td>`grad * (f bm F) = grad f * bm F + f (grad * bm F)`</td>
+	</tr>
+	<tr>
+		<td>`grad (f/g) = (g grad f - f grad g) / g^2`</td>
+		<td>`grad xx bm c = bm 0`</td>
+	</tr>
+	<tr>
+		<td>`grad f(g) = ("d"f)/("d"g) grad g`</td>
+		<td>`grad xx (c bm F) = c (grad xx bm F)`</td>
+	</tr>
+	<tr>
+		<td>`grad f(g_1, cdots, g_n) = sum (del f)/(del g_i) grad g_i`</td>
+		<td>`grad xx (bm F +- bm G) = grad xx bm F +- grad xx bm G`</td>
+	</tr>
+	<tr>
+		<td>`grad * (grad f) = (grad * grad) f`</td>
+		<td>`grad xx (f bm F) = grad f xx bm F + f(grad xx bm F)`</td>
+	</tr>
+	<tr>
+		<td>`grad * (grad xx bm F) = 0`</td>
+		<td>`grad xx (grad f) = bm 0`</td>
+	</tr>
+</table>
+
+<h3>Laplace 算子</h3>
+
+<span class="formula">
+    `laplace := grad^2 = grad * grad = sum del^2/(del x_i^2)`
+</span>
+
+<table>
+	<tr>
+		<td>`laplace c = 0`</td>
+	</tr>
+	<tr>
+		<td>`laplace (cf) = c laplace f`</td>
+	</tr>
+	<tr>
+		<td>`laplace (f +- g) = laplace f +- laplace g`</td>
+	</tr>
+	<tr>
+		<td>`laplace (fg) = f laplace g + g laplace f + 2 grad f * grad g`</td>
+	</tr>
+	<tr>
+		<td>`laplace f(g) = grad ("d"f)/("d"g) * grad g + ("d"f)/("d"g) laplace g`</td>
+	</tr>
+	<tr>
+		<td>`laplace f(g_1, cdots, g_n) = sum grad (del f)/(del g_i) * grad
+		g_i + sum (del f)/(del g_i) laplace g_i`</td>
+	</tr>
+</table>
+
+<h3>径向函数</h3>
+
+<p>	设 `bm r = (x_1, cdots, x_m)`, `r = |bm r|`, 则
 	<span class="formula">
-		`int_V grad f * grad g "d"V + int_V g laplace f "d"V`
-		`= int_(del V) g{::} (del f)/(del bm n) "d"s`
+		`grad r = (bm r)/r`, `quad |grad r| = 1`,
+        `quad grad * bm r = m`, `quad laplace r = (m-1)/r`;<br/>
+		`grad f(r) = ("d"f)/("d"r) grad r`,
+		`quad laplace f(r) = ("d"^2 f)/("d"r^2) + (m-1)/r ("d"f)/("d"r)`;<br/>
+		`r laplace f = "d"^2/("d"r^2) (rf) quad (m = 3)`
 	</span>
-	证明 <b>Dirichlet 原理</b>: 在区域边界上取给定值的连续可微函数,
+</p>
+
+<p class="proof">
+    `laplace r = grad * grad r`
+    `= grad * (bm r)/r`
+    `= 1/r grad * bm r + bm r * grad 1/r`
+    `= m/r - 1/r^2 bm r * grad r`
+    `= m/r - 1/r^3 bm r * bm r`
+    `= (m-1)/r`.<br/>
+    `laplace f(r) = grad * grad f(r)`
+    `= grad ("d"f)/("d"r) * grad r + ("d"f)/("d"r) laplace r`
+    `= ("d"^2 f)/("d"r^2) grad r * grad r + ("d"f)/("d"r) laplace r`
+    `= ("d"^2 f)/("d"r^2) + (m-1)/r ("d"f)/("d"r)`.
+</p>
+
+<h2>曲线/曲面积分常用记号</h2>
+
+<h3>曲线积分</h3>
+
+<table>
+	<tr>
+		<td>曲线参数微元 (时间)</td>
+		<td>`dt`</td>
+	</tr>
+	<tr>
+		<td>坐标长度微元</td>
+		<td>`dx, dy, dz`</td>
+	</tr>
+	<tr>
+		<td>位移矢量微元</td>
+		<td>`"d" bm r = (dx, dy, dz)`</td>
+	</tr>
+	<tr>
+		<td>切向量</td>
+		<td>`("d" bm r)/(dt) = ((dx)/(dt), (dy)/(dt), (dz)/(dt))`</td>
+	</tr>
+	<tr>
+		<td>外法向量</td>
+		<td>`bm n = (dy/dt, -dx/dt)`</td>
+	</tr>
+	<tr>
+		<td>弧长微元</td>
+		<td>`"d"s = |("d" bm r)/dt| dt`</td>
+	</tr>
+	<tr>
+		<td>单位切向量</td>
+		<td>`bm t = ("d" bm r)/dt |("d" bm r)/(dt)|^-1`</td>
+	</tr>
+	<tr>
+		<td>联系</td>
+		<td>`"d" bm r = bm t "d"s`</td>
+	</tr>
+	<tr>
+		<td>验证</td>
+		<td>`"d" bm r = ("d" bm r)/dt dt = bm t "d"s.`</td>
+	</tr>
+</table>
+
+<h3>曲面积分</h3>
+
+<table>
+	<tr>
+		<td>曲面参数微元</td>
+		<td>`"d"u, "d"v`</td>
+	</tr>
+	<tr>
+		<td>坐标平面上的面积微元</td>
+		<td>`dydz, dzdx, dxdy`</td>
+	</tr>
+	<tr>
+		<td>曲面积分微元</td>
+		<td>`"d" bm S = (dydz, dzdx, dxdy)`</td>
+	</tr>
+	<tr>
+		<td>沿参数方向的切向量</td>
+		<td>`bm r_u = ((del x)/(del u), (del y)/(del u), (del z)/(del u))` `bm r_v = ((del x)/(del v), (del y)/(del v), (del z)/(del v))`</td>
+	</tr>
+	<tr>
+		<td>法向量</td>
+		<td>`bm r_u xx bm r_v`</td>
+	</tr>
+	<tr>
+		<td>曲面面积微元</td>
+		<td>`"d" sigma = |bm r_u xx bm r_v| "d"u"d"v`</td>
+	</tr>
+	<tr>
+		<td>单位外法向量</td>
+		<td>`bm n = +- (bm r_u xx bm r_v)/|bm r_u xx bm r_v|`</td>
+	</tr>
+	<tr>
+		<td>联系</td>
+		<td>`"d" bm S = bm n "d" sigma`</td>
+	</tr>
+	<tr>
+		<td>验证</td>
+		<td>`"d" bm S = ( (del(y,z))/(del(u,v)), (del(z,x))/(del(u,v)),
+			(del(x,y))/(del(u,v)) ) "d"u"d"v`
+			`= bm r_u xx bm r_v "d"u"d"v = bm n "d" sigma.`
+		</td>
+	</tr>
+</table>
+
+<h2>多元积分公式</h2>
+
+<p>在二维空间中, 约定 `"d"V = dx dy`, 三维空间中则 `"d"V = dx dy dz`.</p>
+
+<p>	Leibniz:
+	<span class="formula">
+		`"d"/dt int_(alpha(t))^(beta(t)) f(x, t) dx`
+		`= int_(alpha(t))^(beta(t)) del/(del t) f(x, t) dx`
+		`+ f(beta(t), t) beta'(t)`
+		`- f(alpha(t), t) alpha'(t).`
+	</span>
+	Green (记忆: `del y` 者符号相反):
+	<span class="formula">
+		`iint_V |del/(del x), del/(del y); P, Q| "d"V
+		= oint_(del V) P dx + Q dy`
+	</span>
+	Gauss:
+	<span class="formula">
+		`iiint_V grad * bm F "d"V`
+		`= oiint_(del V) bm F * "d" bm S`
+	</span>
+	Stokes:
+	<span class="formula">
+		`iint_Sigma grad xx bm F * "d" bm S
+        = oint_(del Sigma) bm F * "d" bm r`,
+	</span>
+</p>
+
+<p class="remark">
+    用混合积的定义, Stokes 公式可以写为
+    <span class="formula">
+		`iint_S |
+			del/(del x), del/(del y), del/(del z);
+			P, Q, R;
+			dy dz, dz dx, dx dy;
+		|
+		= oint_(del S) P dx + Q dy + R dz`,
+    </span>
+    取 `dz = 0` 就得到 Green 公式.
+</p>
+
+<p class="remark">
+    在 Gauss 公式中取 `bm F = grad f`, 得到常用的方向导数形式:
+    <span class="formula">
+		`iiint_V Delta f "d"V
+		= oiint_(del V) (del f)/(del bm n) "d" sigma`,
+		`quad bm n` 是单位外法向量.
+    </span>
+    在 Green 公式中取 `(Q, -P) = grad f`, 也得到方向导数形式:
+    <span class="formula">
+		`iint_V Delta f "d"V = oint_(del V) (del f)/(del bm n) "d"s`,
+        `quad bm n` 是单位外法向量 `(dy/("d"s), -dx/("d"s))`.
+    </span>
+    这个公式实际是下面 Green 第一公式的特殊情形.
+</p>
+
+<p class="proof">
+    回忆方向导数的定义: `(del f)/(del bm n) = grad f * bm n`, 因此
+    <span class="formula">
+        `bm F * "d"bm S`
+        `= grad f * bm n |"d"bm S|`
+        `= (del f)/(del bm n) "d"sigma`.
+    </span>
+</p>
+
+<p class="theorem">
+    <b>Green 第一公式</b>
+	<span class="formula">
+		`iint_V grad f * grad g "d"V
+		= int_(del V) g{::} (del f)/(del bm n) "d"s
+        - iint_V g laplace f "d"V`.
+	</span>
+    类比于分部积分公式 (将导数转移到另一个因子上), Green 第一公式将 nabla
+    算子从 `g` 转移到 `f` 上.
+</p>
+
+<p class="proof">
+    利用方向导数的定义和 `bm n = (dy/("d"s), -dx/("d"s))`,
+    <span class="formula">
+        `int_(del V) g{::} (del f)/(del bm n) "d"s`
+        `= int_(del V) g grad f * bm n "d"s`
+        `= int_(del V) g ((del f)/(del x) dy - (del f)/(del y) dx)`
+        `= iint_V [del/(del x)(g{::}(del f)/(del x))
+        + del/(del y)(g{::}(del f)/(del y))] "d"V`
+        `= iint_V grad f * grad g "d"V + iint_V g laplace f "d"V`.
+    </span>
+</p>
+
+<p class="example">
+	<b>Dirichlet 原理</b> 在区域边界上取给定值的连续可微函数,
 	其 Dirichlet 积分 (函数的梯度的模的平方在区域上的积分)
 	取最小值当且仅当该函数为调和函数.
 </p>
@@ -22,18 +292,36 @@
 	设 `laplace f = 0`, 且 `f|{::}_(del V) = g|_(del V)`.
 	在 Green 第一公式中令 `g = f`, 利用边界条件得
 	<span class="formula">
-		`int_V |grad f|^2 "d"V`
+		`iint_V |grad f|^2 "d"V`
 		`= int_(del V) f{::} (del f)/(del bm n) "d"s`
 		`= int_(del V) g{::} (del f)/(del bm n) "d"s`
-		`= int_V grad f * grad g "d"V`.
+		`= iint_V grad f * grad g "d"V`.
 	</span>
 	从而
 	<span class="formula">
-		`int_V |grad g|^2 "d"V - int_V |grad f|^2 "d"V`
-		`= int_V |grad g|^2 "d"V + int_V |grad f|^2 "d"V - 2 int_V grad f
-		* grad g "d"V`
-		`= int_V |grad g - grad f|^2 "d"V ge 0`.
+		`iint_V |grad g|^2 "d"V - iint_V |grad f|^2 "d"V`
+		`= iint_V |grad g|^2 "d"V + iint_V |grad f|^2 "d"V
+        - 2 iint_V grad f * grad g "d"V`
+		`= iint_V |grad g - grad f|^2 "d"V ge 0`.
 	</span>
+</p>
+
+<p class="theorem">
+    <b>Green 第二公式</b>
+    <span class="formula">
+        `iint_V |laplace f, laplace g; f, g| "d"V
+        = oint_(grad V) |(del f)/(del bm n), (del g)/(del bm n);
+        f, g| "d"s`.
+    </span>
+</p>
+
+<p class="theorem">
+    <b>Green 第三公式</b>
+    <span class="formula">
+        `u(x, y) = 1/(2pi) oint_(del V) (u (del ln r)/(del bm n) - ln
+        r (del u)/(del bm n)) "d"s`,
+    </span>
+    其中 `laplace u = 0`, `r` 是 `(x, y)` 到边界 `del V` 上一点的距离.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

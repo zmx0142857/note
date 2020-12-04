@@ -12,6 +12,7 @@
   margin: 55px 0 10px 0;
 }
 #outputWrapper div {
+  margin: 0;
   padding: 10px 0;
   text-align: center;
 }
@@ -110,16 +111,26 @@ var asciimath = {
 </script>
 <script src="../../js/asciimath.js"></script>
 <script>
-var input = document.getElementById('input');
-var output = document.getElementById('output');
-var copy = document.getElementById('copy');
-var lang = document.getElementById('lang');
-var keyboard = document.getElementById('keyboard');
-var outputWrapper = document.getElementById('outputWrapper');
+function $(el) {
+  if (el[0] == '#')
+    return document.getElementById(el.slice(1));
+}
+var input = $('#input');
+var output = $('#output');
+var copy = $('#copy');
+var lang = $('#lang');
+var keyboard = $('#keyboard');
+var outputWrapper = $('#outputWrapper');
 
+// debounce
+var timeout;
 input.onkeyup = function(event) {
-  if (event.keyCode || event.which)
-    render();
+  if (timeout)
+    clearTimeout(timeout);
+  timeout = setTimeout(function() {
+    if (event.keyCode || event.which)
+      render();
+  }, 500);
 };
 
 function toggleKeyboard() {

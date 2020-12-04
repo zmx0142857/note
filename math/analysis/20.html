@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>曲线与曲面积分</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<table>
+    <tr>
+        <td>第一类曲线积分</td>
+        <td>`int_L f(x,y,z) "d"s`</td>
+        <td>第二类曲线积分</td>
+        <td>`int_L bm F(x,y,z) * "d"bm r`</td>
+    </tr>
+    <tr>
+        <td>第一类曲面积分</td>
+        <td>`int_Sigma f(x,y,z) "d"sigma`</td>
+        <td>第二类曲面积分</td>
+        <td>`int_Sigma bm F(x,y,z) * "d"bm S`</td>
+    </tr>
+</table>
+
+<p> 形式上
+    <span class="formula">
+        切向微元 `"d"bm r = (dx, dy, dz)`, `quad "d"s = |"d"bm r|`,<br/>
+        法向微元 `"d"bm S = (dy dz, dz dx, dx dy)`,
+        `quad "d"sigma = |"d"bm S|`.
+    </span>
+    实际计算时, 为曲线 `L` (曲面 `Sigma`) 选取合适的参数, 就有
+    <span class="formula">
+        `"d"bm r = bm v dt`, `quad "d"s = |bm v| dt`;<br/>
+        `"d"bm S = bm n "d"u"d"v`, `quad "d"sigma = |bm n|"d"u"d"v`.
+    </span>
+    其中
+    <span class="formula">
+        切向量 `bm v = (dx/dt, dy/dt, dz/dt)`, `quad`
+        法向量 `bm n = |bm i, bm j, bm k; x_u, y_u, z_u; x_v, y_v, z_v|`
+    </span>
+    依赖于参数选取.
+</p>
+
+<p class="example">
+    求 `int_L x y "d"s`, 其中 `L: {x+y+z = 0; x^2+y^2+z^2=1:}`
+</p>
+
+<p class="solution">
+    利用积分区域的对称性,
+    <span class="formula">
+        `int_L x y "d"s`
+        `= 1/3 int_L (x y+y z+z x) "d"s`
+        `= 1/6 int_L [(x+y+z)^2 - (x^2+y^2+z^2)] "d"s`
+        `= -1/6 int_L "d"s`
+        `= -pi/3`.
+    </span>
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

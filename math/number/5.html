@@ -29,7 +29,7 @@
 </p>
 
 <ol class="solution">
-	<li>模 2: 
+	<li>模 2:
 		显然 `y` 只能是正整数, 于是 `2^y` 是偶数. 这推出方程左边是偶数,
 		于是 `x` 是奇数.
 	</li>
@@ -53,8 +53,6 @@
 	</li>
 </ol>
 
-
-
 <h2>勾股数</h2>
 
 <p class="definition">
@@ -69,6 +67,68 @@
 	注意到像 `(3, 4, 5)` 与 `(6, 8, 10)` 是本质相同的勾股数, 故定义勾股数
 	`a, b, c` 是<b>本原</b>的, 如果 `gcd(a, b, c) = 1`.
 </p>
+
+<p class="lemma">
+    本原勾股数 `(a, b, c)` 两两互素, 且 `c` 为奇数, `a, b` 一奇一偶.
+</p>
+
+<p class="proof">
+    设 `d = (a, b)`, 则 `d^2 | a^2 + b^2 = c^2`, 这推出 `d | c`.
+    于是 `d | (a, b, c) = 1`, 即 `d = 1`. 同理 `(b, c) = (c, a) = 1`.<br/>
+    因为 `(a, b, c)` 两两互素, 它们中的偶数不超过一个, 假设 `c` 为偶数,
+    则 `a, b` 为奇数. 设
+    <span class="formula">
+        `a = 2m+1`, `quad b = 2n+1`, `quad c = 2k`,
+    </span>
+    则 `a^2 + b^2 -= 2 (mod 4)`, `c^2 -= 0 (mod 4)`, 矛盾.
+    因此 `c` 为奇数. 注意到 `a, b` 不全为偶数, 其中一个为奇数,
+    则另一个为偶数.
+</p>
+
+<p class="theorem">
+    由于 `a, b` 地位对称, 不妨设 `b` 是偶数, 则本原勾股数的全体可以表示为
+    <span class="formula">
+        `a = u^2-v^2`, `quad b = 2u v`, `quad c = u^2+v^2`.
+    </span>
+    其中
+    <span class="formula">
+        `u gt v gt 0`, `quad (u, v) = 1`, 且 `u, v` 一奇一偶.
+    </span>
+</p>
+
+<p class="proof">
+    容易说明满足上述条件的 `(a, b, c)` 确实是本原勾股数. 下证必要性.
+    注意 `c-a, c+a, b` 都是正的偶数, 可设
+    <span class="formula">
+        `2A = c-a`, `quad 2B = b`, `quad 2C = c+a`,
+    </span>
+    `A, B, C` 为正整数. 因为 `b^2 = c^2 - a^2 = (c-a)(c+a)`, 我们有
+    <span class="formula">
+        `B^2 = A C`.
+    </span>
+    下证 `A, C` 互素. 设 `d = (A, C)`, 则
+    <span class="formula">
+        `d | C-A = a`, `quad d | C+A = c`,
+    </span>
+    从而 `d | (a, c) = 1`, 即 `d = 1`.<br/>
+    因为 `A C` 是平方数, 而 `A, C` 没有公共的素因子, 所以 `A, C`
+    都是平方数, 可设
+    <span class="formula">
+        `C = u^2`, `quad A = v^2`.
+    </span>
+    于是
+    <span class="formula">
+        `a = u^2-v^2`, `quad c = u^2+v^2`,<br/>
+        `b = 2 sqrt(B^2)`
+        `= 2 sqrt(A C)`
+        `= 2 u v`.
+    </span>
+    最后说明 `u, v` 满足的条件. 由 `C gt A` 有 `u gt v gt 0`.
+    由 `(A, C) = 1` 知 `(u, v) = 1`. 由 `a = u^2 - v^2` 是奇数知 `u, v`
+    一奇一偶.
+</p>
+
+<p>下面使用数形结合的直观重新证明这一定理.</p>
 
 <p class="proposition">
 	全体本原勾股数与单位圆在第一象限上的有理点一一对应.
