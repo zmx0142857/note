@@ -15,7 +15,6 @@ math: {
   title:'未分类',
   articles: [
     {title:'问题', src:'misc/0.html', isnew:true},
-    {title:'有理数和代数数', src:'misc/1.html', isnew:true},
     {title:'三角函数', src:'misc/2.html'},
     {title:'不等式', src:'misc/3.html'},
     {title:'初等代数', src:'misc/4.html', isnew:true},
@@ -58,6 +57,16 @@ math: {
     {title:'场论初步', src:'analysis/22.html', isnew:true},
     {title:'分数阶微积分', src:'analysis/23.html'},
     {title:'函数方程', src:'analysis/24.html'},
+  ]
+}, {
+  title:'数论',
+  articles: [
+    {title:'整数, 有理数, 代数数', src:'number/0.html'},
+    {title:'数论的基本概念', src:'number/1.html'},
+    {title:'指数与原根', src:'number/4.html', isnew:true},
+    {title:'不定方程', src:'number/5.html', isnew:true},
+    {title:'积性数论函数', src:'number/9.html', isnew:true},
+    {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html', isnew:true},
   ]
 }, {
   title:'集合论与点集拓扑',
@@ -166,14 +175,6 @@ math: {
     {title:'曲面的局部理论', src:'diff-geo/3.html'},
     {title:'标架与曲面论基本定理', src:'diff-geo/4.html'},
     {title:'曲面的内蕴几何学', src:'diff-geo/5.html'},
-  ]
-}, {
-  title:'数论',
-  articles: [
-    {title:'整除', src:'number/1.html'},
-    {title:'指数与原根', src:'number/4.html', isnew:true},
-    {title:'不定方程', src:'number/5.html', isnew:true},
-    {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html', isnew:true},
   ]
 }, {
   title:'运筹学',

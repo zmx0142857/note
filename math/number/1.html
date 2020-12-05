@@ -1,347 +1,348 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>整除</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+    <title>数论的基本概念</title>
+    <link rel="stylesheet" href="../../css/note.css"/>
 </head>
 <body>
 
-<h2>整数</h2>
-
-<p class="definition">
-	<b>自然数</b>又叫<b>正整数</b>, 即熟知的
-	<span class="formula">
-		`1, 2, 3, cdots, n, cdots`.
-	</span>
-	用 `NN` 表示全体自然数的集合.
-	<br/>
-	<b>整数</b>是指正整数, 负整数及零, 即
-	<span class="formula">
-		`0, +-1, +-2, +-3, cdots, +-n, cdots`.
-	</span>
-	用 `ZZ` 表示全体整数的集合.
-</p>
-
-<h3>整数的运算</h3>
-
-<ol class="enum">
-	整数集合 `ZZ` 关于其上的加法 "`+`" 与乘法 "`*`" 成一<b>整环</b>, 即
-	<li>
-	关于加法与乘法成一环.
-	<ol>
-		关于加法成一 Abel 群.
-		<li>封闭性. `(AA a, b in ZZ)` `a + b in ZZ`;</li>
-		<li>结合律. `(AA a, b, c in ZZ)` `(a+b)+c = a+(b+c)`;</li>
-		<li>存在零元. `(EE 0 in ZZ)`, `(AA a in ZZ)` `a + 0 = a`;</li>
-		<li>存在负元. `(AA a in ZZ)`, `(EE -a in ZZ)` `a + (-a) = 0`;</li>
-		<li>交换律. `(AA a, b in ZZ)`, `a+b = b+a`;</li>
-		关于乘法成一半群.
-		<li>封闭性. `(AA a, b in ZZ)` `a * b in ZZ`;</li>
-		<li>结合律. `(AA a, b, c in ZZ)` `(a*b)*c = a*(b*c)`;</li>
-		满足乘法对加法的分配律:
-		<li>`(AA a, b, c in ZZ)` `a * (b + c) = a*b + a*c`.</li>
-	</ol>
-	</li>
-	<li>无零因子. `(AA a, b in ZZ)` `a * b = 0 rArr a = 0 or b = 0`;</li>
-	<li>乘法交换律. `(AA a, b in ZZ)` `a*b = b*a`;</li>
-	<li>有乘法幺元. `(EE 1 in ZZ)` `(AA a in ZZ)` `a * 1 = a`;
-		但是, 不一定有乘法逆元.
-	</li>
-	因此, 也称 `ZZ` 为<b>整数环</b>.
-	简单起见, 字母间的乘法 `a*b` 简记为 `ab`,
-	减法 `a + (-b)` 简记为 `a-b`.
-</ol>
-
-<p>从整数乘法的无零因子可以推出它满足的消去律:
-	<span class="formula">
-		`(AA a in ZZ\\{0}, b, c in ZZ)` `a*b = a*c rArr b = c`.
-	</span>
-</p>
-
-<h3>整数的序</h3>
-
-<ol class="enum">整数环 `ZZ` 上有一<b>全序</b> `le`, 即满足
-	<br/>
-	<li>`le` 为一偏序.
-	<ol>
-		<li>自反性. `(AA a in ZZ)` `a le a`;</li>
-		<li>反对称性. `(AA a, b in ZZ)` `a le b and b le a rArr a =
-			b`;
-		</li>
-		<li>传递性. `(AA a, b, c in ZZ)` `a le b and b le c rArr a le
-			c`.
-		</li>
-	</ol>
-	据此可以定义 `ge, lt, gt` 如下: 对 `a, b in ZZ`,
-	<span class="formula">
-		`a ge b iff b le a`;<br/>
-		`a lt b iff a le b and a != b`;<br/>
-		`a gt b iff a ge b and a != b`.
-	</span>
-	</li>
-
-	<li>任意两个整数之间可以比较大小.
-		`AA a, b in ZZ`, `a=b, a lt b, a gt b` 有且仅有一个成立.
-	</li>
-</ol>
-
-<ol>全序 `le` 与 `ZZ` 上的运算<b>相容</b>, 即 
-	<li>`(AA a, b, c in ZZ)` `a + c le b + c iff a le b`;</li>
-	<li>`(AA a, b in ZZ, c in NN)` `a c le b c iff a le b`;</li>
-	<li>`(AA a, b in ZZ)` `a le b iff -a ge -b`;</li>
-</ol>
-
-<ol>一些额外的性质
-	<li>`(AA a, b, c in NN)` `c = ab rArr a le c`, 等号成立当且仅当 `b =
-		1`.
-	</li>
-	<li>`(AA a, b in NN)` `a lt b iff a + 1 le b iff a le b-1`.</li>
-</ol>
-
-<h3>整数的绝对值</h3>
-
-<p class="definition">
-	对任意 `a in ZZ`, 定义它的<b>绝对值</b>为
-	<span class="formula">
-		`|a| = {
-			a, if a in NN;
-			0, if a = 0;
-			-a, if -a in NN;
-		:}`
-	</span>
-</p>
-
-<ol>借助绝对值容易建立等价关系 `~: a ~ b iff |a| = |b|`, 满足
-	<li>自反性. `(AA a in ZZ)` `a ~ a`;</li>
-	<li>对称性. `a ~ b rArr b ~ a`;</li>
-	<li>传递性. `a ~ b and b ~ c rArr a ~ c`.</li>
-</ol>
-
-<p>	绝对值具有性质
-	<span class="formula">
-		`|ab| = |a| * |b|`, `AA a, b in ZZ`;<br/>
-		`|a + b| le |a| + |b|`. `AA a, b in ZZ`.
-	</span>
-</p>
-
-<h3>归纳原理与数学归纳法</h3>
-
-<ol><b>归纳原理</b>
-	设 `S sube NN` 满足条件
-	<li>`1 in S`;</li>
-	<li>`n in S rArr n+1 in S`, `AA n ge 1`,</li>
-	则 `S = NN`.
-</ol>
-
-<p>	归纳原理是自然数最重要, 最本质的性质.
-</p>
-
-<ol class="theorem">
-	<b>(第一) 数学归纳法</b>
-	设 `P(n)` 是关于自然数 `n` 的一种性质或命题. 如果
-	<li>`P(1)` 成立;</li>
-	<li>由 `P(n)` 成立可以推出 `P(n+1)` 成立, `AA n ge 1`,</li>
-	那么 `P(n)` 对任意的自然数 `n` 成立.
-</ol>
-
-<p class="proof">
-	对集合 `S = {n in NN: P(n)}` 应用归纳原理即得.
-</p>
-
-<ol class="theorem">
-    <li><b>最小自然数原理</b> `NN` 的任意非空子集中存在最小元;</li>
-    <li><b>最大自然数原理</b> `NN` 的任意非空且有上界的子集中存在最大元.</li>
-</ol>
-
-<ol class="proof">
-    <li>设 `O/ != S sube NN`, 要证
-        <span class="formula">
-            `(EE m in S)` `(AA s in S)` `m le s`.
-        </span>
-        令 `L` 是 `S` 的全体<b>下界</b>, 即
-        <span class="formula">
-            `L = {l in NN: (AA s in S) l le s}`.
-        </span>
-        易知 `1 in L`, 故 `L` 非空.<br/>
-        由于 `S` 非空, 取 `s in S`, 有 `s+1 gt s`.
-        所以 `s+1 !in L`, 这说明 `L != NN`.
-        由归纳原理, 存在 `m in L`, `m+1 !in L`.<br/>
-        下证 `m in S`.  若不然, 则对任意 `s in S`, `m lt s`,
-        即 `m+1 le s`, 故 `m+1 in L`, 矛盾.
-        `m` 即为 `S` 中的最小自然数.
-    </li>
-    <li>设 `O/ != S sube NN` 且有上界, 要证
-        <span class="formula">
-            `(EE M in S)` `(AA s in S)` `s le M`.
-        </span>
-        令
-        <span class="formula">
-            `U = {u in NN: (AA s in S) s le u}`
-        </span>
-        是 `S` 的全体上界, 则 `U` 非空.
-        由最小自然数原理知, `U` 中有最小自然数 `M`.
-        下证 `M in S`, 若不然, 则对任意 `s in S`, `s lt M`, 即 `s le M-1`.
-        从而 `M-1 in U`, 与 `M` 是 `S` 的最小上界矛盾.
-        `M` 即为 `S` 中的最大自然数.
-    </li>
-</ol>
+<h2>整除</h2>
 
 <p class="remark">
-	从证明过程可以看出,
-	整数集合中的最小自然数与最大自然数分别等于其下确界与上确界.
-</p>
-
-<ol class="theorem">
-	<b>第二数学归纳法</b>
-	设 `P(n)` 是关于自然数 `n` 的一种性质或命题. 如果
-	<li>`P(1)` 成立;</li>
-	<li>由 `P(m)` 对任意自然数 `m lt n` 成立可以推出 `P(n)` 成立, `n gt 1`,</li>
-	那么 `P(n)` 对任意的自然数 `n` 成立.
-</ol>
-
-<p class="proof">
-	反设集合 `T = {t in NN: not P(t)}` 非空, 则它有最小元 `t_0`,
-	由 `P(1)` 成立知 `t_0 gt 1`,
-	于是对任意自然数 `m lt t_0`, `P(m)` 成立,
-	由2, 这蕴含 `P(t_0)` 成立, 矛盾.
-</p>
-
-<p>	本节的最后介绍初等数论中另一个常用的工具. 这可以由反证法得到.</p>
-
-<p class="theorem">
-	<b>鸽巢原理</b>
-	设 `n in NN`. 集合 `X` 有 `n+1` 个元素, 集合 `Y` 有 `n` 个元素,
-	则 `X` 到 `Y` 的映射一定不是单射. 换言之, 将 `n+1` 个物体放入 `n`
-	个盒子, 一定有一个盒子放入了两个或两个以上的物体.
-</p>
-
-<h2>整除, 因子, 素数</h2>
-
-<h3>整除与因子</h3>
-
-<p class="definition">
-    设 `a in ZZ\\{0}`, `b in ZZ`, 且
-	<span class="formula">
-		`(EE q in ZZ)` `b = aq`.
-	</span>
-	则称 <b>`a` 整除 `b`</b>, 我们也说 <b>`b` 被 `a` 整除</b>,
-    <b>`a` 是 `b` 的因子 (因数, 约数, 除数)</b>,
-    <b>`b` 是 `a` 的倍数</b>等.
-	`a` 整除 `b` 记为 `a | b` 或 `b vdots a`.
-    `a` 不能整除 `b` 记为 `a !| b`.
-	<br/>
-	`a` 的全体倍数的集合记为
-	<span class="formula">
-		`a ZZ = {aq: q in ZZ}`.
-	</span>
-</p>
-
-<p class="remark">
-	下文中总假定 `a | b` 这一表达式有意义, 即 `a != 0`.
+    记号: 整数集 `ZZ`, 非零整数集 `ZZ^**`, 正整数集 `ZZ^+`.
+    以下若无特殊说明, `a, b, c, m, n` 等均表示整数.
 </p>
 
 <p class="definition">
-	设 `n in ZZ`, 称 `n` 为<b>偶数</b>, 如果 `2 | n`,
-	否则称它为<b>奇数</b>.
+    设 `n, d` 为整数, 若存在整数 `k` 使得 `n = k d`, 则记 `d | n`, 读作
+    `d` <b>整除</b> `n`. 我们也说 `d` 是 `n` 的因子 (factor) 或约数
+    (denominator) 或除数 (divisor), 也可以说 `n` 是 `d` 的倍数.
+    若 `d` 不能整除 `n`, 则记 `d !| n`.
 </p>
-
-<ol class="proposition" id="prop-divisor">
-	对任意 `a, b, c in ZZ`,
-	<li>`a | b` `iff |a| | |b|`;</li>
-	<li>`a | b` `and b | c` `rArr a | c`;</li>
-	<li>`a | b` `and b | a` `rArr |a| = |b|`;</li>
-	因此, 在绝对值相等的意义下, 整除关系 "`|`" 构成 `ZZ` 上的偏序.
-	<li>`(AA m in ZZ\\{0})` `a | b` `iff m a | m b`;</li>
-	<li>`(AA b in ZZ\\{0})` `a | b` `rArr |a| le |b|`.
-        进一步若正整数 `a, b` 满足 `a | b` 和 `b | a`, 则 `a = b`.
-    </li>
-	<li>`a | b` `and a | c` `iff (AA x, y in ZZ)` `a | b x + c y`,
-		即 `a` 整除 `b, c` 的任意<b>线性组合</b>;
-		这条性质可以推广到任意有限个整数.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>由 `b = +-aq iff |b| = |a| |q|` 知 1 成立;</li>
-	<li>由 `b = aq_1`, `c = bq_2` 得 `c = a q_1 q_2`, 所以 2 成立;</li>
-	<li>由 `b = aq_1`, `a = bq_2` 得 `a = a q_1 q_2`, 而 `a != 0`, 故 `q_1
-		q_2 = 1`. 由于 1 的因子只有 `+-1`, 所以 `q_1 = +-1`, 即 `b = +-a`;
-	</li>
-	<li>由乘法消去律知 `b = aq iff mb = maq`;</li>
-	<li>`b = aq rArr |b| = |a| |q|`, 由 `b != 0` 知 `|b|, |a|, |q| in NN`,
-		由整数序关系的额外性质 1, `|a| le |b|`;
-	</li>
-	<li>`lArr` 显然. `rArr`: 由 `b = aq_1`, `c = aq_2` 得
-		`bx+cy = a(q_1 x + q_2 y)`.
-	</li>
-</ol>
 
 <p class="corollary">
-	全体整数都是零的因子;
-	由<a class="ref" href="#prop-divisor"></a>的 5,
-	非零整数的因子只有有限个.
-
-	如 12 的全体因子是 `{+-1, +-2, +-3, +-4, +-6, +-12}`;
-	7 的全体因子是 `{+-1, +-7}`.
+    对任意整数 `d`, `d | 0` 总是成立; 若 `0 | n`, 则 `n = 0`.
 </p>
 
-<p class="corollary" id="cor-dividend-eq-0">
-	由<a class="ref" href="#prop-divisor"></a>的 5 还可以得到,
-	如果 `a, b in ZZ`, `a | b` 且 `b lt |a|`, 那么 `b = 0`.
+<p class="corollary" id="cor-ka|kb">
+	`(AA k in ZZ^**)` `a | b` `iff k a | k b`.
 </p>
 
-<p class="theorem" id="the-divisor-in-pairs">
-	设 `b in ZZ\\{0}`, 它的全体因子是 `{d_1, d_2, cdots, d_k}`,
-	则 `{b//d_1, b//d_2, cdots, b//d_k}` 也是它的全体因子;
-	设 `b' in NN`, 它的全体正因子是 `{d_1', d_2', cdots, d_k'}`,
-	则 `{(b')//(d_1'), (b')//(d_2'), cdots, (b')//(d_k')}`
-	也是它的全体正因子.
+<p class="corollary" id="cor-div-order">
+    `a | b rArr |a| le |b|` 或 `b = 0`.
+    这表明非零整数的因子只有有限个.
+    此外, 这个结论还用于带余除法的证明中.
 </p>
 
 <p class="proof">
-	只证第一个结论, 第二个结论的证明类似.
-	设 `d_i | b`, 则 `b = d_i (b // d_i)`, 且 `b//d_i in ZZ\\{0}`.
+    设 `b = k a`, 且 `b != 0`. 这推出 `k != 0`,
+    因此 `|k| ge 1`, 从而 `|b| = |k| |a| ge |a|`.
+</p>
+
+<ol class="property">
+    对任意整数 `a, b, c`,
+	<li>`a | b` `iff |a|` 整除 `|b|`;</li>
+	<li>`a | b` `and b | c` `rArr a | c`;</li>
+	<li>`a | b` `and b | a` `rArr |a| = |b|`;</li>
+	因此, 整除关系 "`|`" 构成 `ZZ^+` 上的偏序.
+    在数论中, 我们常用 `a | b and b | a` 来证明两个正整数相等.
+</ol>
+
+<p class="proof">
+    只证 3. 若 `a = 0`, 由 `a | b` 知 `b` 也等于零, 结论自然成立;
+    `b = 0` 时同理. 下设 `a, b` 都不为零,
+    由<a class="ref" href="#cor-div-order"></a>有
+    <span class="formula">
+        `|a| le |b|`, `quad |b| le |a|`,
+    </span>
+    因此结论成立.
+</p>
+
+<p class="proposition">
+	设 `b in ZZ^**`, 它的全体 (正) 因子是 `{d_1, d_2, cdots, d_k}`,
+	则 `{b//d_1, b//d_2, cdots, b//d_k}` 也是它的全体 (正) 因子.
+</p>
+
+<p class="proof">
+	只证结论一, 结论二类似.
+	设 `d_i | b`, 则 `b = d_i (b // d_i)`, 且 `b//d_i in ZZ^**`.
 	所以 `b//d_i | b`. 另一方面, `d_i != d_j` 时, 有 `b//d_i != b//d_j`.
 	所以 `b//d_1, b//d_2, cdots, b//d_k` 是 `b` 的 `k` 个不同的因子,
 	即为 `b` 的全体因子.
 </p>
 
-<p class="example">
-	设 `a, b in ZZ\\{0}`, `x, y in ZZ` 满足 `ax + by = 1`.
-	证明: `a | n`, `b | n` 的充要条件是 `ab | n`.
+<h2>最大公约数</h2>
+
+<h3>定义</h3>
+
+<p class="definition">
+    若 `d | a`, `d | b`, 则 `d` 称为 `a, b` 的<b>公约数</b>.
+    `a, b` 不全为零时, 它们的公约数只有有限个, 我们称其中最大的为 `a, b`
+    的<b>最大公约数 (greatest common divisor)</b>, 记为 `gcd(a, b)`
+    或 `(a, b)`;
+    为使最大公约数的性质普遍成立, 我们规定 `(0, 0) = 0`.
 </p>
 
-<p class="proof">
-	充分性显然. 必要性: 由 `n = a s = b t` 得
+<p class="definition">
+    若 `a | h`, `b | h`, 则 `h` 称为 `a, b` 的<b>公倍数</b>.
+    `a, b` 中有一个为零时, 平凡地有 `h = 0`; 若 `a, b != 0`,
+    则 `a, b` 的全体公倍数中存在最小正整数, 称为 `a, b`
+    的<b>最小公倍数 (least common multiple)</b>, 记为 `lcm(a, b)`
+    或 `[a, b]`.
+</p>
+
+<p class="remark">
+    类似可以定义 `n` 个整数 `a_1, a_2, cdots, a_n` 的 (最大) 公约数和
+    (最小) 公倍数.
+    本节的许多结论容易推广到任意有限个整数的情形, 简明起见不再赘述.
+</p>
+
+<h3>计算</h3>
+
+<ol class="property" id="ppt-gcd">
+    设 `d = (a_1, a_2, cdots, a_n)`, 则
+	<li>`d = (a_1, a_2+k a_1, cdots, a_n)`, `AA k in ZZ`;</li>
+	<li>`d = (a_1, a_2, cdots, a_n, 0)`;</li>
+    <li>`d = (|a_1|, |a_2|, cdots, |a_n|)`;</li>
+    <li><b>交换律</b> `d = (a_(i_1), a_(i_2), cdots, a_(i_n))`,
+        `i_1, i_2, cdots, i_n` 是
+		`1, 2, cdots, n` 的一个排列;
+	</li>
+    <li><b>结合律</b> `d = (a_1, a_2, cdots, a_n) = ((a_1, a_2), cdots, a_n)`;</li>
+    <li><b>同乘非零常数</b> `k(a_1, a_2, cdots, a_n) = (k a_1, k a_2, cdots, k a_n)`, `k in ZZ^+`;</li>
+    其中 3 到 6 也适用于最小公倍数.
+</ol>
+
+<ul class="proof">
+    只证最后两条.
+    <li>若 `d` 是 `a_1, a_2, cdots, a_n` 的公约数, 则 `d` 当然也是 `a_1,
+        a_2` 的公约数, 从而 `d | (a_1, a_2)`, `d | a_i`, `i = 3, cdots,
+        n`; 反过来, 若 `d | (a_1, a_2)`, `d | a_i`, `i = 3, cdots, n`,
+        由定义即知 `d | a_i`, `i = 1, cdots, n`. 这证明了
+        `a_1, cdots, a_n` 的全体公约数集合等于
+        `(a_1, a_2), cdots, a_n` 的全体公约数集合,
+        从而结论成立.
+    </li>
+    <li>利用<a class="ref" href="#cor-ka|kb"></a>.
+        设 `d = (a_1, a_2, cdots, a_n)`, `d' = (k a_1, k a_2, cdots k a_n)`.
+        一方面, `d | a_i`, 所以 `k d | k a_i`, `i = 1, 2, cdots, n`.
+        这推出 `k d | d'`.<br/>
+        另一方面, 由于 `k` 是 `k a_1, k a_2, cdots, k a_n` 的公约数, 所以
+        `k | d'`. 又由 `d' | k a_i` 得 `d'//k | a_i`, `i = 1, 2, cdots,
+        n`. 这推出 `d'//k | d`, 即 `d' | k d`.
+    </li>
+</ul>
+
+<p class="remark">
+    利用<a class="ref" href="#ppt-gcd"></a>,
+    反复将一个数的 `k` 倍加到另一数上,
+    就可以化简关系, 从而求出最大公约数.
+    这种做法为后面的辗转相除法提供了思想. 一例:
+    <span class="formula">
+        `(-30; 45; -84)`
+        `rarr (30; 45; 84)`
+        `rarr (30; 15; 24)`
+        `rarr (0; 15; 9)`
+        `rarr (0; 6; 9)`
+        `rarr (0; 6; 3)`
+        `rarr (0; 0; 3)`
+    </span>
+    从而 (-30, 45, 84) = 3.
+</p>
+
+<h3>带余除法</h3>
+
+<p>为进一步揭示最大公约数的性质, 我们引入有力工具——带余除法.</p>
+
+<p class="theorem" id="the-division-algorithm">
+    <b>带余除法</b>
+	设 `n in ZZ`, `d in ZZ^**`, 则存在唯一的整数 `q` 与 `r`, 满足
 	<span class="formula">
-		`s = (ax + by)s = btx + bys`,
+		`n = q d + r`, `quad 0 le r lt |d|`.
+		<span class="label" id="for-division-algorithm"></span>
 	</span>
-	故 `b | s`, 进而 `ab | as = n`.
+	且 `d | n` 当且仅当 `r = 0`.
 </p>
 
-<ol class="example">
-    <li>因为 `a^n-b^n = (a-b)(a^(n-1)+a^(n-2)b+cdots+a b^(n-2)+b^(n-1))`,
-        所以 `a-b | a^n-b^n`, 特别地 `a-1 | a^n-1`.
-    </li>
-    <li>`m | n rArr a^m-1 | a^n-1`.</li>
-    <li>设 `f(x)` 为整系数多项式, 若 `d | a - b`, 则 `d | f(a) - f(b)`.
-    </li>
-    <li>因为 `(a^(2^n)-1)(a^(2^n)+1) = a^(2^(n+1))-1`,
-        所以对任意 `n lt m`, 有
-        <span class="formula">
-            `a^(2^n)+1 | a^(2^m)-1`, `quad a^(2^n)-1 | a^(2^m)-1`.
-        </span>
+<ol class="proof">
+	<li>唯一性. 若还有整数 `q', r'` 满足
+		<a class="ref" href="#for-division-algorithm"></a>,
+		不妨设 `r' ge r`, 于是
+		<span class="formula">
+			`r' - r = (q - q') d`,
+			`quad 0 le r' - r lt |d|`.
+		</span>
+		由<a class="ref" href="#cor-div-order"></a>得 `r' - r = 0`.
+		再由 `d != 0` 得 `q - q' = 0`.
+	</li>
+	<li>存在性. 当 `d | n` 时, 可取 `q = n//d`, `r = 0`.
+		当 `d !| n` 时, 考虑集合
+		<span class="formula">
+			`T = {n-k d: k in ZZ}`.
+		</span>
+		容易看出 `T` 中含有正整数 (如取 `k = -2|n|d`),
+        故可以设 `T` 中最小正整数为 `t_0 = n - k_0 d`.
+		<br/>
+		下证 `t_0 lt |d|`. 因为 `d !| n`, 所以 `t_0 != |d|`.
+		若 `t_0 gt |d|`, 则 `t_1 = t_0 - |d| gt 0 in T`, 与 `t_0` 是
+		`T` 的最小元素矛盾. 所以 `t_0 lt |d|`. 这时取 `q = k_0`,
+		`r = t_0` 即满足要求.
+	</li>
+    <li>由 `n = q d + r` 知 `d | n iff d | r`,
+        再由<a class="ref" href="#cor-div-order"></a>, `d | r iff r = 0`.
     </li>
 </ol>
 
-<h3>素数</h3>
+<p class="remark">
+    带余除法中, `n, d, q, r` 分别称为<b>被除数, 除数, 商和余数</b>.
+    带余除法是证明 `d | n` 这类命题的重要工具.
+</p>
+
+<h3>最大公约数的进一步性质</h3>
+
+<p class="lemma" id="lem-d|ax+by">
+    `a, b` 的公约数整除 `a, b` 的任意线性组合:
+    <span class="formula">
+        `d | a and d | b` `iff (AA x, y in ZZ)` `d | a x + b y`.
+    </span>
+</p>
+
+<p class="proof">
+    `lArr` 分别取 `(x, y) = (1, 0)` 和 `(0, 1)` 即可;<br/>
+    `rArr` 设 `a = d a_1`, `b = d a_2`, 则
+        `a x + b y = d (a_1 x + b_1 y)`.
+</p>
+
+<p class="theorem" id="the-bezout-like">
+    <b>(相当于裴蜀定理)</b>
+    设整数 `a, b` 不全为零, 则 `(a, b)` 是 `a, b` 的全体线性组合
+    <span class="formula">
+        `S = {a x+b y: x, y in ZZ}`
+    </span>
+    中的最小正整数.
+</p>
+
+<ol class="proof">
+    显然 `S` 中含有正整数. 设 `s = a x+b y` 是其中的最小正整数.
+    <li>由<a class="ref" href="#lem-d|ax+by"></a>知 `(a, b) | s`,
+        这推出 `(a, b) le s`.
+    </li>
+    <li>由带余除法,
+        <span class="formula">
+            `a = s q + r`, `quad 0 le r lt s`,
+        </span>
+        注意到 `r in S`, 由 `s` 的最小性知 `r = 0`, 于是 `s | a`;
+        同理 `s | b`. 因此 `s` 是 `a, b` 的公约数, `s le (a, b)`.
+    </li>
+</ol>
+
+<p class="remark">
+    `(a, b)` 是 `a, b` 的公约数集的最大元, 又是线性组合集的最小元,
+    这样的对偶关系值得玩味.
+</p>
+
+<ol class="corollary">
+    <li><b>公约数是最大公约数的约数</b>
+        `d | a, d | b iff d | (a, b)`;
+    </li>
+    <li><b>公倍数是最小公倍数的倍数</b>
+        `a | h, b | h iff [a, b] | h`.
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>`lArr` 利用了最大公约数是一个公约数;
+        `rArr` 利用了最大公约数是一个线性组合.
+    </li>
+    <li>`lArr` 显然, 下证 `rArr`. 记 `l = [a, b]`,
+        作带余除法
+        <span class="formula">
+            `h = l q + r`, `quad 0 le r lt l`.
+        </span>
+        由 `a | h`, `b | h` 知 `a | r`, `b | r`,
+        由最小公倍数的定义知 `r` 只能为 `0`, 因此 `l | h`.
+    </li>
+</ol>
+
+<p class="proof">
+    可以用 2. 来证 1.<br/>
+    `lArr` 显然, 下证 `rArr`.  记 `g = (a, b)`,
+    `h` 是 `a, b` 的全体公约数的最小公倍数.
+    一方面, 由于 `g` 也是 `a, b` 的公约数, 有 `g | h`,
+    这推出 `g le h`;<br/>
+    另一方面, `a` 是 `a, b` 的全体公约数的一个公倍数, 由 1 有 `h | a`.
+    同理 `h | b`. 这说明 `h` 是 `a, b` 的公约数, 故 `h le g`.
+    综上 `g = h`, 即最大公约数是全体公约数的最小公倍数.
+</p>
+
+<h3>互素</h3>
+
+<ol class="definition">
+    <li>若 `(a, b) = 1`, 则称 `a, b` <b>互素</b>或<b>既约</b>;</li>
+    <li>若 `(a_1, cdots, a_n) = 1`, 则称 `a_1, cdots, a_n` 这 `n`
+        个数互素;
+    </li>
+    <li>若 `a_1, cdots, a_n` 中任意两个数都互素, 则称它们两两互素.</li>
+    `n` 个数互素不常用, 但两两互素很常用.
+</ol>
+
+<p class="corollary">
+    由<a class="ref" href="#the-bezout-like"></a>,
+    `a, b` 互素当且仅当 1 是它们的线性组合,
+    即存在整数 `x, y` 使 `a x + b y = 1`.
+</p>
+
+<p class="proof">
+    必要性显然, 下证充分性. 由于 1 是 `a, b` 的线性组合,
+    故 `a, b` 的所有线性组合中的最小正整数是 1, 即 `(a, b) = 1`.
+</p>
+
+<ol class="property" id="ppt-coprime">
+    设 `(a, b) = 1`,
+    <li>`(a, b n) = (a, n)`;</li>
+    <li>若 `a | b n`, 则 `a | n`;</li>
+    <li>若 `a | n`, `b | n`, 则 `a b | n`.</li>
+</ol>
+
+<ol class="proof">
+    <li>`(a, n) = (a, (a, b)n)`
+        `= (a, (a n, b n))`
+        `= ((a, a n), b n)`
+        `= (a, b n)`.
+    </li>
+    <li>由 1. `(a, n) = (a, b n) = |a|`, 即 `a | n`.</li>
+    <li>在 2. 中用 `n//b` 代替 `n`, 得到 `a | n//b`, 即 `a b | n`.</li>
+</ol>
+
+<p class="proof">
+    2. 的另一证明: 利用<a class="ref" href="#the-bezout-like"></a>,
+    设 `1 = m x + n y`, `x, y` 为整数. 从而
+    `m | a m x + a n y = a`.
+</p>
+
+<p class="theorem">
+    设 `a, b` 是正整数, 则 `(a, b) [a, b] = a b`.
+</p>
+
+<p class="proof">
+    记 `d = (a,b)`, `l = [a,b]`.
+    一方面 `a | (a b)/d`, `b | (a b)/d`, 所以 `(a b)/d` 是 `a, b`
+    的公倍数, 有 `l | (a b)/d`.<br/>
+    另一方面
+    由 `d(a/d, b/d) = (a, b) = d` 知 `(a/d, b/d) = 1`.
+    而 `a/d | l/d`, `b/d | l/d`, 所以 `(a b)/d^2 | l/d`,
+    即 `(a b)/d | l`.
+</p>
+
+<h3>辗转相除法 (Euclid 算法)</h3>
+
+<h2>素数</h2>
 
 <p class="definition">
-	设 `b in ZZ`. 显然 `+-1, +-b` 是 `b` 的因子, 称为 `b`
-	的<b>平凡因子</b>. `b` 的其他因子称为<b>非平凡因子</b>或<b>真因子</b>.
-
-	设 `n in NN\\{1}`, 如果 `n` 只有平凡因子, 则称它是<b>素数 (prime
+	设 `n in ZZ`. 显然 `+-1, +-n` 是 `n` 的因子, 称为<b>平凡因子</b>.
+    `n` 的其他因子称为<b>非平凡因子</b>或<b>真因子</b>.<br/>
+    设 `n gt 1`, 如果 `n` 只有平凡因子, 则称它是<b>素数 (prime
 	number)</b>; 否则称它是<b>合数 (composite number)</b>.
 </p>
 
@@ -349,24 +350,37 @@
 	100 以内的素数有 25 个 (阴影部分):
 </p>
 
-<table>
-    <tr> <td>1</td> <td class="shadow">2</td> <td class="shadow">3</td> <td>4</td> <td class="shadow">5</td> <td>6</td> <td class="shadow">7</td> <td>8</td> <td>9</td> <td>10</td> </tr>
-    <tr> <td class="shadow">11</td> <td>12</td> <td class="shadow">13</td> <td>14</td> <td>15</td> <td>16</td> <td class="shadow">17</td> <td>18</td> <td class="shadow">19</td> <td>20</td> </tr>
-    <tr> <td>21</td> <td>22</td> <td class="shadow">23</td> <td>24</td> <td>25</td> <td>26</td> <td>27</td> <td>28</td> <td class="shadow">29</td> <td>30</td> </tr>
-    <tr> <td class="shadow">31</td> <td>32</td> <td>33</td> <td>34</td> <td>35</td> <td>36</td> <td class="shadow">37</td> <td>38</td> <td>39</td> <td>40</td> </tr>
-    <tr> <td class="shadow">41</td> <td>42</td> <td class="shadow">43</td> <td>44</td> <td>45</td> <td>46</td> <td class="shadow">47</td> <td>48</td> <td>49</td> <td>50</td> </tr>
-    <tr> <td>51</td> <td>52</td> <td class="shadow">53</td> <td>54</td> <td>55</td> <td>56</td> <td>57</td> <td>58</td> <td class="shadow">59</td> <td>60</td> </tr>
-    <tr> <td class="shadow">61</td> <td>62</td> <td>63</td> <td>64</td> <td>65</td> <td>66</td> <td class="shadow">67</td> <td>68</td> <td>69</td> <td>70</td> </tr>
-    <tr> <td class="shadow">71</td> <td>72</td> <td class="shadow">73</td> <td>74</td> <td>75</td> <td>76</td> <td>77</td> <td>78</td> <td class="shadow">79</td> <td>80</td> </tr>
-    <tr> <td>81</td> <td>82</td> <td class="shadow">83</td> <td>84</td> <td>85</td> <td>86</td> <td>87</td> <td>88</td> <td class="shadow">89</td> <td>90</td> </tr>
-    <tr> <td>91</td> <td>92</td> <td>93</td> <td>94</td> <td>95</td> <td>96</td> <td class="shadow">97</td> <td>98</td> <td>99</td> <td>100</td> </tr>
+<table id="primes">
 </table>
 
 <ol class="corollary" id="cor-prime-iff">
 	<li>素数 `p` 的大于 1 的因子只有 `p` 自身;</li>
-	<li>设 `n in NN\\{1}`. 则 `n` 是合数的充要条件是存在整数
-		`1 lt n_1, n_2 lt a`, 使得 `n = n_1 n_2`.
+	<li>设 `n gt 1`. 则 `n` 是合数的充要条件是存在整数
+		`1 lt a, b lt n`, 使得 `n = a b`.
 	</li>
+</ol>
+
+<ol class="corollary">
+    <b>互素与素数</b>
+    设 `p` 是素数, 则
+    <li>
+        `(p, n) = {
+            p, if p | n;
+            1, if p !| n;
+        :}`
+        换言之, 要么 `n` 与 `p` 互素, 要么 `n` 是 `p` 的倍数.
+    </li>
+    <li>若 `p | a b`, 则 `p | a` 或 `p | b`.</li>
+</ol>
+
+<ol class="proof">
+    <li>首先 `p | n iff (p, n) = p`. 若 `p !| n`, 有
+        `(p, n) != p`, 因此 `(p, n)` 只能等于 `p` 的另一个正因子,
+        即等于 1.
+    </li>
+    <li>设 `p !| a`, 由 1 知 `(p, a) = 1`,
+        于是由<a class="ref" href="#ppt-coprime"></a>知 `p | b`.
+    </li>
 </ol>
 
 <p class="theorem" id="the-composite-has-prime-divisor">
@@ -381,19 +395,19 @@
 </p>
 
 <p class="theorem">
-	<b>算术基本定理 (素因子分解定理)</b>
-	任意整数 `n in NN\\{1}` 可以表为素因子的乘积
+	<b>算术基本定理 (唯一因子分解定理)</b>
+	任意整数 `n gt 1` 可以表为素因子的乘积
 	<span class="formula">
 		`n = prod_(i=1)^s p_i`,
 	</span>
 	其中 `p_i` 是素数, `i = 1, 2, cdots, s`,
-	且这一乘积在不计素因子次序的情况下唯一.
+    不计素因子次序, 这种分解是唯一的.
 	如果将相同的素因子合并, 上式可写为<b>标准分解式</b>
 	<span class="formula">
 		`n = prod_(i=1)^l p_i^(m_i)`,
 	</span>
 	其中 `m_i in NN` 是<b>重数</b>, `i = 1, 2, cdots, l`.
-	换言之, 任意整数 `n in NN\\{1}` 都唯一对应着一个素数的<b>多重集合</b>
+	换言之, 任意整数 `n gt 1` 都唯一对应着一个素数的<b>多重集合</b>
 	<span class="formula">
 		`{p_1: m_1, p_2: m_2, cdots, p_l: m_l}`.
 	</span>
@@ -420,7 +434,7 @@
 </p>
 
 <ol class="corollary">
-	设 `n in NN\\{1}`,
+	设 `n gt 1`,
 	<li>若 `n` 是合数, 则 `n` 有不超过 `sqrt n` 的素因子;</li>
 	<li>若 `n` 可以表为 `s` 个素因子的乘积, 则 `n` 有不超过 `n^(1/s)`
 		的素因子.
@@ -488,352 +502,6 @@
 	今后我们会介绍 `p_n` 与 `pi(n)` 的更好的估计.
 </p>
 
-<h2>带余除法</h2>
-
-<p class="theorem" id="the-division-algorithm">
-	设 `a in ZZ\\{0}`, `b in ZZ`, 则存在唯一的整数 `q` 与 `r`, 满足
-	<span class="formula">
-		`b = aq + r`, `quad 0 le r lt |a|`.
-		<span class="label" id="for-division-algorithm"></span>
-	</span>
-	此外, `a | b` 当且仅当 `a | r`,
-	由<a class="ref" href="#cor-dividend-eq-0"></a>,
-	这当且仅当 `r = 0`.
-</p>
-
-<ol class="proof">
-	<li>唯一性. 若还有整数 `q', r'` 满足
-		<a class="ref" href="#for-division-algorithm"></a>,
-		不妨设 `r' ge r`, 于是
-		<span class="formula">
-			`r' - r = a (q - q')`,
-			`0 le r' - r lt |a|`.
-		</span>
-		由<a class="ref" href="#cor-dividend-eq-0"></a>得 `r' - r = 0`.
-		再由 `a != 0` 得 `q - q' = 0`.
-	</li>
-	<li>存在性. 当 `a | b` 时, 可取 `q = b//a`, `r = 0`.
-		当 `a !| b` 时, 考虑集合
-		<span class="formula">
-			`T = {b-ak: k in ZZ}`.
-		</span>
-		容易看出 `T` 中含有正整数 (如取 `k = -2|b|a`),
-		所以由最小自然数原理, `T` 中存在最小正整数, 设为
-		`t_0 = b - a k_0`.
-		<br/>
-		下证 `t_0 lt |a|`. 因为 `a !| b`, 所以 `t_0 != |a|`.
-		若 `t_0 gt |a|`, 则 `t_1 = t_0 - |a| gt 0 in T`, 与 `t_0` 是
-		`T` 的最小元素矛盾. 所以 `t_0 lt |a|`. 这时取 `q = k_0`,
-		`r = t_0` 即满足要求.
-	</li>
-</ol>
-
-<p class="theorem" id="the-division-algorithm-2">
-	设 `a in ZZ\\{0}, b, d in ZZ`, 则存在唯一的整数 `q, r` 满足
-	<span class="formula">
-		`b = a q + r`,
-		`quad d le r lt |a| + d`.
-	</span>
-	此外, `a | b` 当且仅当 `a | r`.
-</p>
-
-<p class="proof">
-	对 `a` 和 `b-d` 应用<a class="ref" href="#the-division-algorithm"></a>
-	即得.
-</p>
-
-<ul class="definition">
-	一般地, 称<a class="ref" href="#the-division-algorithm-2"></a>中由 `a,
-	b` 得到 `q, r` 的算法为 `a` 除 `b` (或 `b` 模 `a`, 或 `b` 被 `a` 除,
-	或 `b` 除以 `a`) 的<b>带余除法</b>.
-	`a` 称为<b>除数</b>, `b` 为<b>被除数</b>, `q` 为 `a` 除 `b`
-	的<b>商</b>, `r` 为 `a` 除 `b` 的<b>余数</b>.
-	取不同的 `d` 值, 就得到不同的带余除法:
-	<li>取 `d = 0` 时, `0 le r lt |a|`, 称为<b>最小非负余数</b>;
-		没有特别指明时, 余数都指最小非负余数;
-	</li>
-	<li>取 `d = 1` 时, `1 le r le |a|`, 称为<b>最小正余数</b>.</li>
-	<li>取 `d = -|__ |a|/2 __|` 时, `-|a|/2 le r lt |a|/2`,
-		称为<b>绝对最小余数</b>;
-	</li>
-	<li>取 `d = 1 - |__ |a|/2 __|` 时, `-|a|/2 lt r le |a|/2`,
-		也称为绝对最小余数; 当 `a` 为奇数时, 两个绝对最小余数相等.
-	</li>
-</ul>
-
-<p class="example">
-	设 `n in NN\\{1}`, `0 le r lt n`. 记全体模 `n` 余数等于 `r` 的整数为
-	<span class="formula">
-		`S_(n,r) = {kn + r: k in ZZ}`.
-	</span>
-	我们有
-	<span class="formula">
-		`uuu_(r=0)^(n-1) S_(n,r) = ZZ`; `quad`
-		`S_(n,r_1) nn S_(n,r_2) = O/`, `r_1 != r_2`.
-	</span>
-	即全体整数按模 `n` 的余数分为 `n` 个类, 称为<b>模 `n` 的同余类</b>.
-	在每一同余类中的数模 `n` 后有相同余数, 称它们<b>模 `n` 同余</b>,
-	记为 `a -= b (mod n)`. 显然
-	<span class="formula">
-		`a -= b (mod n) iff n | a - b`.
-	</span>
-</p>
-
-<p class="example">
-	<b>除以 7, 11, 13 的余数</b>
-	一个前三位和后三位数字完全相同的六位数 (如, 123123)
-	显然是 1001 的倍数.  注意到 `1001 = 7 xx 11 xx 13`,
-	因此我们可以反复从一个数中减去 1001 的倍数, 来计算这个数除以
-	7 (或 11, 13) 的余数. 如考虑 142857, 有
-	<span class="formula">
-		`142857 -= 142857 - 142142 -= 715 -= 1 (mod 7)`.
-	</span>
-	类似地, 利用 `17 | 10^8+1` 可以计算除以 17 的余数,
-	只不过计算量更大了.
-</p>
-
-<ol class="example">
-	<b>完全平方数</b> 是指能写成整数的平方的数, 如 0, 1, 4, 9 等.
-	设 `n` 是正整数, 则
-	<li>`n^2` 除以 10 的余数是 0, 1, 4, 5, 6 或 9;</li>
-	<li>`n^2` 除以 9 的余数是 0, 1, 4 或 7;</li>
-	<li>`n^2` 除以 16 的余数是 0, 1, 4 或 9;</li>
-	<li>如果 `n^2` 的个位是奇数, 则它是十位是偶数;</li>
-	<li>`n^2` 的个位等于 6 当且仅当它的十位是奇数.</li>
-</ol>
-
-<p class="example">
-	设 `a in NN\\{1}`, `n in NN`. 则 `n` 可以唯一地表为
-	<span class="formula">
-		`n = sum_(i=0)^m r_i a^i`, `quad`
-		`m ge 0`, `0 le r_i lt a`, `i = 0, 1, cdots, m`.
-	</span>
-	称为正整数 `n` 的 <b>`a` 进位 (base-`a` 或 radix-`a`) 表示</b>.
-</p>
-
-<p class="proof">
-	由最大自然数原理, 对正整数 `n` 存在唯一的 `m ge 0`, 使
-	`a^m le n lt a^(m+1)`.
-	由带余除法, 存在唯一的 `q, r` 满足
-	<span class="formula">
-		`n = a q + r`, `quad 0 le r lt a`.
-	</span>
-	对 `m` 使用数学归纳法.
-	若 `m = 0`, 则必有 `q = 0`, `1 le r lt a`, 所以结论成立.
-	设结论对整数 `m ge 0` 成立, 考虑 `m+1` 的情形.
-	因为 `a^(m+1) le n lt a^(m+2)`,
-	所以上式中的 `q` 满足 `a^m le q lt a^(m+1)`.
-	由归纳假设, 存在唯一的 `0 le s_i lt a`, `i=0,1,cdots,m`, 使
-	<span class="formula">
-		`q = sum_(i=0)^m s_i a^i`.
-	</span>
-	所以
-	<span class="formula">
-		`n = a sum_(i=0)^m s_i a^i + r
-		= r + sum_(i=1)^(m+1) s_(i-1) a^i`,
-	</span>
-	即结论对 `m+1` 成立.
-</p>
-
-<h2>最大公约数与最小公倍数</h2>
-
-<h3>最大公约数与最小公倍数的定义</h3>
-
-<ol class="definition">
-    设有 `n` 个整数 `a_1, a_2, cdots, a_n`.
-    <li>若 `d | a_i`, `i = 1, 2, cdots, n`,
-        则称 `d` 是它们的<b>公约数</b>或<b>公因数</b>.
-        用 `cc D(a_i)` 记 `a_i` 的全体因子, 这些整数的全体公约数可以记为
-        <span class="formula">
-            `cc D(a_1, a_2, cdots, a_n)`
-            `:= nnn_(i=1)^n cc D(a_i)`.
-        </span>
-        当这些整数不全为零时, 它们的公约数个数有限,
-        称其中最大的为它们的<b>最大公约数 (greatest common divisor)</b>,
-        记为
-        <span class="formula">
-            `(a_1, a_2, cdots, a_n)`
-            `= gcd(a_1, a_2, cdots, a_n)`
-            `:= max cc D(a_1, a_2, cdots, a_n)`.
-        </span>
-        由定义知, 最大公约数是正整数; 如果 `a != 0`, 则 `gcd(a) = |a|`.
-    </li>
-    <li>若 `a_i | l`, `i = 1, 2, cdots, n`,
-        则称 `l` 是它们的<b>公倍数</b>.
-        用 `cc L(a_i)` 记 `a_i` 的全体倍数, 这些整数的全体公倍数可以记为
-        <span class="formula">
-            `cc L(a_1, a_2, cdots, a_n)`
-            `:= nnn_(i=1)^n cc L(a_i)`.
-        </span>
-        若这些整数全不为零,
-        由最小自然数原理, 这些整数的正的公倍数中存在最小数,
-        称为它们的<b>最小公倍数 (least common multiple)</b>, 记为
-        <span class="formula">
-            `[a_1, a_2, cdots, a_n]`
-            `= lcm(a_1, a_2, cdots, a_n)`
-            `:= min{l: l in L(a_1, a_2, cdots, a_n) nn NN}`.
-        </span>
-        由定义知, 零是任意一组数的公倍数.
-    </li>
-</ol>
-
-<ol class="theorem">
-    <li><b>公倍数是最小公倍数的倍数</b>
-        `a in cc L(a_1, a_2, cdots, a_n) iff [a_1, a_2, cdots, a_n] | a`;
-    </li>
-    <li><b>公约数是最大公约数的约数</b>
-        `a in cc D(a_1, a_2, cdots, a_n) iff a | (a_1, a_2, cdots, a_n)`.
-    </li>
-</ol>
-
-<ol class="proof">
-    <li>`lArr` 显然, 下证 `rArr`. 记 `l = [a_1, a_2, cdots, a_n]`,
-        作带余除法
-        <span class="formula">
-            `a = l q + r`, `quad 0 le r lt l`.
-        </span>
-        由 `a_i | a`, `a_i | l`, `i = 1, 2, cdots, n` 知
-        `a_i | r`, `i = 1, 2, cdots, n`, 即
-        `r in L(a_1, a_2, cdots, a_n)`.
-        由最小公倍数的定义知 `r` 只能为 `0`, 因此 `l | a`.
-    </li>
-    <li>`lArr` 显然, 下证 `rArr`.
-        记 `d = (a_1, a_2, cdots, a_n)`,
-        `l` 是 `a_1, a_2, cdots, a_n` 的全体公约数的最小公倍数.
-        一方面, 由于 `d` 也是 `a_1, a_2, cdots, a_n` 的公约数, 有 `d | l`;
-        这推出 `d le l`.<br/>
-        另一方面, 对任意 `1 le i le n`, `a_i` 是 `a_1, a_2, cdots, a_n`
-        的全体公约数的一个公倍数, 由 1 有 `l | a_i`, `i = 1, 2, cdots, n`.
-        即 `l in cc D(a_1, a_2, cdots, a_n)`, 这推出 `l le d`.
-        综上 `d = l`, 即最大公约数是全体公约数的最小公倍数.
-    </li>
-</ol>
-
-<h3>最大公约数与最小公倍数的计算</h3>
-
-<ol class="proposition" id="prop-gcd">
-    `(a_1, a_2, cdots, a_n)` 等于
-	<li>`(a_(i_1), a_(i_2), cdots, a_(i_n))`,
-        `i_1, i_2, cdots, i_n` 是
-		`1, 2, cdots, n` 的一个排列;
-	</li>
-    <li>`(|a_1|, |a_2|, cdots, |a_n|)`;</li>
-	<li>`(a_1, a_2, cdots, a_n, 0)`;</li>
-	<li>`(a_1, a_2+k a_1, cdots, a_n)`, `AA k in ZZ`;</li>
-</ol>
-
-<p class="remark">
-    利用<a class="ref" href="#prop-gcd"></a>,
-    反复将一个数的 `k` 倍加到另一数上,
-    就可以化简关系, 从而求出最大公约数.
-    这种做法为后面的辗转相除法提供了思想. 一例:
-    <span class="formula">
-        `(-30; 45; -84)`
-        `rarr (30; 45; 84)`
-        `rarr (30; 15; 24)`
-        `rarr (0; 15; 9)`
-        `rarr (0; 6; 9)`
-        `rarr (0; 6; 3)`
-        `rarr (0; 0; 3)`
-    </span>
-    从而 (-30, 45, 84) = 3.
-</p>
-
-<ol class="proposition">
-    <li>`m(a_1, a_2, cdots, a_n) = (m a_1, m a_2, cdots, m a_n)`, `m in NN`;</li>
-    <li>`m[a_1, a_2, cdots, a_n] = [m a_1, m a_2, cdots, m a_n]`, `m in NN`;</li>
-    <li>`(a_1, a_2, cdots, a_n) = ((a_1, a_2), cdots, a_n)`;</li>
-    <li>`[a_1, a_2, cdots, a_n] = [[a_1, a_2], cdots, a_n]`;</li>
-</ol>
-
-<ol class="proof">
-    <li>设 `d = (a_1, a_2, cdots, a_n)`, `d' = (m a_1, m a_2, cdots m a_n)`.
-        一方面, `d | a_i`, 所以 `m d | m a_i`, `i = 1, 2, cdots, n`.
-        这推出 `m d | d'`.<br/>
-        另一方面, 由于 `m` 是 `m a_1, m a_2, cdots, m a_n` 的公约数, 所以
-        `m | d'`. 又由 `d' | m a_i` 得 `(d')/m | a_i`, `i = 1, 2, cdots,
-        n`. 这推出 `(d')/m | d`, 即 `d' | m d`.
-    </li>
-    <li>与 1. 类似</li>
-    <li>若 `d` 是 `a_1, a_2, cdots, a_n` 的公约数, 则 `d` 当然也是 `a_1,
-        a_2` 的公约数, 从而 `d | (a_1, a_2)`, `d | a_i`, `i = 3, cdots,
-        n`; 反过来, 若 `d | (a_1, a_2)`, `d | a_i`, `i = 3, cdots, n`,
-        由定义即知 `d | a_i`, `i = 1, cdots, n`. 这证明了
-        <span class="formula">
-            `cc D(a_1, a_2, cdots, a_n) = cc D((a_1, a_2), cdots, a_n)`.
-        </span>
-        从而结论成立.
-    </li>
-    <li>与 3. 类似.</li>
-</ol>
-
-<h3>互素与素数</h3>
-
-<p class="definition">
-     若 `(a_1, a_2, cdots, a_n) = 1`, 则称 `a_1, a_2, cdots, a_n`
-     是<b>互素的</b>或<b>既约的</b>.
-</p>
-
-<p class="theorem">
-	设 `a in ZZ`, `p` 是素数, 则
-    `(p, a) = p iff p | a`.
-    于是
-	<span class="formula">
-		`(p, a) = {
-			p, if p | a;
-			1, if p !| a;
-		:}`.
-	</span>
-    换言之, 要么 `a` 与 `p` 互素, 要么 `a` 是 `p` 的倍数.
-</p>
-
-<p class="theorem">
-    `a_1, a_2, cdots, a_n` 互素的充要条件是数字 1 能被它们线性表出,
-    即存在整数 `k_1, k_2, cdots, k_n`, 使得
-    <span class="formula">
-        `sum_(i=1)^n k_i a_i = 1`.
-    </span>
-</p>
-
-<p class="proof">
-    充分性. 设 `d in cc D(a_1, a_2, cdots, a_n)`, 则
-    <span class="formula">
-        `d | sum_(i=1)^n k_i a_i = 1`.
-    </span>
-    这推出 `d = +- 1`, 从而结论成立.
-</p>
-
-<ol class="theorem" id="the-coprime-utility">
-    设 `(m, n) = 1`,
-    <li>`AA a in ZZ`, `(m, n a) = (m, a)`;</li>
-    <li>若 `m | n a`, 则 `m | a`;</li>
-    <li>若 `m | k`, `n | k`, 则 `m n | k`.</li>
-</ol>
-
-<ol class="proof">
-    <li>`(m, a) = (m, (m, n)a)`
-        `= (m, (m a, n a))`
-        `= (m, m a, n a)`
-        `= (m, n a)`.
-    </li>
-    <li>由 `(m, n) = 1` 知 `(m, a) = (m, n a) = |m|`, 这推出 `m | a`.</li>
-    <li>在 2. 中取 `a = k//n`, 得到 `m | k//n`, 即 `m n | k`.</li>
-</ol>
-
-<p class="theorem">
-    设 `a, b` 是正整数, 则 `(a, b) [a, b] = a b`.
-</p>
-
-<p class="proof">
-    记 `d = (a,b)`, `l = [a,b]`.
-    一方面 `a | (a b)/d`, `b | (a b)/d`, 所以 `(a b)/d` 是 `a, b`
-    的公倍数, 有 `l | (a b)/d`.<br/>
-    另一方面
-    由 `d(a/d, b/d) = (a, b) = d` 知 `(a/d, b/d) = 1`.
-    而 `a/d | l/d`, `b/d | l/d`, 所以 `(a b)/d^2 | l/d`,
-    即 `(a b)/d | l`.
-</p>
-
 <h3>Fermat 小定理</h3>
 
 <ol class="theorem">
@@ -850,13 +518,13 @@
 		因此 `p` 整除 `(p;k)`. 下面给出正式证明:
 		因为 `p` 是素数, 所以对任意 `1 le k le p-1` 有
         `(p, k) = 1`. 反复运用<a class="ref"
-            href="#the-coprime-utility"></a>的 1 得到 `(p, k!) = 1`.
+            href="#ppt-coprime"></a>的 1 得到 `(p, k!) = 1`.
         现在记
         <span class="formula">
             `(p;k) = (p(p-1) cdots (p-k+1))/(k!) := (p a)/(k!)`,
         </span>
         因为 `(p;k)` 是整数, 有 `k! | p a`.
-        再运用<a class="ref" href="#the-coprime-utility"></a>的 2, 有
+        再运用<a class="ref" href="#ppt-coprime"></a>的 2, 有
         `k! | a`. 这说明 `a//k!` 是整数, 所以 `p | (p;k)`.
     </li>
     <li>`a = 1` 时显然成立. 假设 `a = n` 时结论成立, 则
@@ -867,7 +535,7 @@
             `-= 0` `(mod p)`.
         </span>
     </li>
-    <li>由 2. 和<a class="ref" href="#the-coprime-utility"></a>的 2.
+    <li>由 2. 和<a class="ref" href="#ppt-coprime"></a>的 2.
         即得结论.
     </li>
 </ol>
@@ -912,6 +580,188 @@
         `3n^5+5n^3+7n -= 3(n^5-n) + 3n + 7n -= 0 (mod 5)`.
     </span>
 </p>
+
+<h2>杂例</h2>
+
+<p class="example">
+	设 `n in NN\\{1}`, `0 le r lt n`. 记全体模 `n` 余数等于 `r` 的整数为
+	<span class="formula">
+		`S_(n,r) = {kn + r: k in ZZ}`.
+	</span>
+	我们有
+	<span class="formula">
+		`uuu_(r=0)^(n-1) S_(n,r) = ZZ`; `quad`
+		`S_(n,r_1) nn S_(n,r_2) = O/`, `r_1 != r_2`.
+	</span>
+	即全体整数按模 `n` 的余数分为 `n` 个类, 称为<b>模 `n` 的同余类</b>.
+	在每一同余类中的数模 `n` 后有相同余数, 称它们<b>模 `n` 同余</b>,
+	记为 `a -= b (mod n)`. 显然
+	<span class="formula">
+		`a -= b (mod n) iff n | a - b`.
+	</span>
+</p>
+
+<p class="example">
+	<b>除以 7, 11, 13 的余数</b>
+	一个前三位和后三位数字完全相同的六位数 (如, 123123)
+	显然是 1001 的倍数.  注意到 `1001 = 7 xx 11 xx 13`,
+	因此我们可以反复从一个数中减去 1001 的倍数, 来计算这个数除以
+	7 (或 11, 13) 的余数. 如考虑 142857, 有
+	<span class="formula">
+		`142857 -= 142857 - 142142 -= 715 -= 1 (mod 7)`.
+	</span>
+	类似地, 利用 `17 | 10^8+1` 可以计算除以 17 的余数,
+	只不过计算量更大了.
+</p>
+
+<ol class="example">
+	<b>完全平方数</b> (简称平方数)
+    是指能写成整数的平方的数, 如 0, 1, 4, 9 等.
+	设 `n` 是正整数, 则
+	<li>`n^2` 除以 10 的余数是 0, 1, 4, 5, 6 或 9;</li>
+	<li>`n^2` 除以 9 的余数是 0, 1, 4 或 7;</li>
+	<li>`n^2` 除以 16 的余数是 0, 1, 4 或 9;</li>
+	<li>如果 `n^2` 的个位是奇数, 则它是十位是偶数;</li>
+	<li>`n^2` 的个位等于 6 当且仅当它的十位是奇数.</li>
+</ol>
+
+<p class="example">
+	设 `a in NN\\{1}`, `n in NN`. 则 `n` 可以唯一地表为
+	<span class="formula">
+		`n = sum_(i=0)^m r_i a^i`, `quad`
+		`m ge 0`, `0 le r_i lt a`, `i = 0, 1, cdots, m`.
+	</span>
+	称为正整数 `n` 的 <b>`a` 进位 (base-`a` 或 radix-`a`) 表示</b>.
+</p>
+
+<p class="proof">
+	由最大自然数原理, 对正整数 `n` 存在唯一的 `m ge 0`, 使
+	`a^m le n lt a^(m+1)`.
+	由带余除法, 存在唯一的 `q, r` 满足
+	<span class="formula">
+		`n = a q + r`, `quad 0 le r lt a`.
+	</span>
+	对 `m` 使用数学归纳法.
+	若 `m = 0`, 则必有 `q = 0`, `1 le r lt a`, 所以结论成立.
+	设结论对整数 `m ge 0` 成立, 考虑 `m+1` 的情形.
+	因为 `a^(m+1) le n lt a^(m+2)`,
+	所以上式中的 `q` 满足 `a^m le q lt a^(m+1)`.
+	由归纳假设, 存在唯一的 `0 le s_i lt a`, `i=0,1,cdots,m`, 使
+	<span class="formula">
+		`q = sum_(i=0)^m s_i a^i`.
+	</span>
+	所以
+	<span class="formula">
+		`n = a sum_(i=0)^m s_i a^i + r
+		= r + sum_(i=1)^(m+1) s_(i-1) a^i`,
+	</span>
+	即结论对 `m+1` 成立.
+</p>
+
+<ol class="example">
+    研究幂函数 `f(n) = n^k`, `k` 为正整数.
+    <li>`a^k | b^k iff a | b`</li>
+    <li>`(a^k, b^k) = (a, b)^k`.</li>
+    <li>设 `a, b` 互素, 且 `a b = n^k`,
+        则 `a, b` 都是某个数的 `k` 次方.
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>`lArr` 显然, 下证 `rArr`. 先设 `a, b` 互素, 则由 `a | b^k`
+        和<a class="ref" href="#ppt-coprime"></a>知 `a | b`. 再证一般情形.
+        设 `(a, b) = d`, 由 `a^k | b^k` 得 `(a/d)^k | (b/d)^k`,
+        由互素情形知 `a/d | b/d`, 即 `a | b`.
+    </li>
+    <li>先设 `a, b` 互素, 则由<a class="ref" href="#ppt-coprime"></a>,
+        <span class="formula">
+            `(a^k, b) = (1, b) = 1`,
+        </span>
+        因此 `a^k, b` 互素. 再用<a class="ref" href="#ppt-coprime"></a>,
+        <span class="formula">
+            `(a^k, b^k) = (a^k, 1) = 1`.
+        </span>
+        再证一般情形. 设 `(a, b) = d`, 则
+        <span class="formula">
+            `(a^k, b^k) = d^k ((a/d)^k, (b/d)^k)`
+        </span>
+        由互素情形知上式右边等于 `d^k`.
+    </li>
+    <li>`(a, n)^k = (a^k, n^k)`
+        `= (a^k, a b) = a (a^(k-1), b) = a`.
+        同理 `(b, n)^k = b`.
+    </li>
+</ol>
+
+<ol class="example">
+    研究指数函数 `f(n) = c^n - 1`, 其中整数 `c gt 1`.
+    <li>`c^a - 1 | c^b - 1 iff a | b`;</li>
+    <li>`(c^a-1, c^b-1) = c^((a,b))-1`;</li>
+    今后我们将用指数和原根来研究这个函数.
+</ol>
+
+<ol class="proof">
+    <li>`lArr`. 利用因式分解
+        <span class="formula">
+            `c^d - 1 = (c-1)(1+c+cdots+c^(d-1))`
+        </span>
+        知, `c-1 | c^d-1`. 设 `b = a d`, 用 `c^a` 代替公式中的 `c` 得
+        <span class="formula">
+            `c^a-1 | c^(a d) - 1 = c^b - 1`.
+        </span>
+        `rArr`. 作带余除法
+        <span class="formula">
+            `b = q a + r`, `quad 0 le r lt a`,
+        </span>
+        于是
+        <span class="formula">
+            `c^b - 1`
+            `= c^(q a + r) - c^r + c^r - 1`
+            `= c^r(c^(q a) - 1) + c^r - 1`.
+        </span>
+        由 `c^a - 1 | c^b - 1` 知 `c^a - 1 | c^r - 1`, 然而 `c^a - 1 gt
+        c^r - 1`, 故 `c^r-1 = 0`, 即 `r = 0`.
+    </li>
+    <li>不妨设 `a ge b`, 有
+        <span class="formula">
+            `(c^a-1, c^b-1)`
+            `= ((c^a-1) - (c^b-1), c^b-1)`
+            `= (c^b(c^(a-b)-1), c^b-1)`
+            `= (c^(a-b)-1, c^b-1)`.
+        </span>
+        注意指数已经从 `a` 变为 `a-b`. 反复使用这一结果, 类似辗转相除法,
+        最终就得到 `c^((a,b))-1`.
+    </li>
+</ol>
+
+<script>
+(function(){
+function isprime(n) {
+    if (n < 2) return false;
+    if (n < 4) return true;
+    if (n % 6 !== 1 && n % 6 !== 5) return false;
+    for (var i = 5; i*i <= n; i += 6) {
+        if (n % i === 0 || n % (i+2) === 0)
+            return false;
+    }
+    return true;
+}
+var buf = [];
+for (var i = 0; i < 10; ++i) {
+    buf.push('<tr>')
+    for (var j = 1; j <= 10; ++j) {
+        var n = 10 * i + j;
+        if (isprime(n)) {
+            buf.push('<td class="shadow">' + n + '</td>');
+        } else {
+            buf.push('<td>' + n + '</td>');
+        }
+    }
+    buf.push('</tr>');
+}
+document.getElementById('primes').innerHTML = buf.join('\n');
+})();
+</script>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

@@ -1,11 +1,251 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>有理数, 无理数, 代数数, 超越数</title>
+    <title>整数, 有理数, 代数数</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
+
+<h2>整数</h2>
+
+<p class="definition">
+	<b>自然数</b>又叫<b>正整数</b>, 即熟知的
+	<span class="formula">
+		`1, 2, 3, cdots, n, cdots`.
+	</span>
+	用 `NN` 表示全体自然数的集合.
+	<br/>
+	<b>整数</b>是指正整数, 负整数及零, 即
+	<span class="formula">
+		`0, +-1, +-2, +-3, cdots, +-n, cdots`.
+	</span>
+	用 `ZZ` 表示全体整数的集合.
+</p>
+
+<h3>整数的运算</h3>
+
+<ol class="enum">
+	整数集合 `ZZ` 关于其上的加法 "`+`" 与乘法 "`*`" 成一<b>整环</b>, 即
+	<li>
+	关于加法与乘法成一环.
+	<ol>
+		关于加法成一 Abel 群.
+		<li>封闭性. `(AA a, b in ZZ)` `a + b in ZZ`;</li>
+		<li>结合律. `(AA a, b, c in ZZ)` `(a+b)+c = a+(b+c)`;</li>
+		<li>存在零元. `(EE 0 in ZZ)`, `(AA a in ZZ)` `a + 0 = a`;</li>
+		<li>存在负元. `(AA a in ZZ)`, `(EE -a in ZZ)` `a + (-a) = 0`;</li>
+		<li>交换律. `(AA a, b in ZZ)`, `a+b = b+a`;</li>
+		关于乘法成一半群.
+		<li>封闭性. `(AA a, b in ZZ)` `a * b in ZZ`;</li>
+		<li>结合律. `(AA a, b, c in ZZ)` `(a*b)*c = a*(b*c)`;</li>
+		满足乘法对加法的分配律:
+		<li>`(AA a, b, c in ZZ)` `a * (b + c) = a*b + a*c`.</li>
+	</ol>
+	</li>
+	<li>无零因子. `(AA a, b in ZZ)` `a * b = 0 rArr a = 0 or b = 0`;</li>
+	<li>乘法交换律. `(AA a, b in ZZ)` `a*b = b*a`;</li>
+	<li>有乘法幺元. `(EE 1 in ZZ)` `(AA a in ZZ)` `a * 1 = a`;
+		但是, 不一定有乘法逆元.
+	</li>
+	因此, 也称 `ZZ` 为<b>整数环</b>.
+	简单起见, 字母间的乘法 `a*b` 简记为 `ab`,
+	减法 `a + (-b)` 简记为 `a-b`.
+</ol>
+
+<p>从整数乘法的无零因子可以推出它满足的消去律:
+	<span class="formula">
+		`(AA a in ZZ\\{0}, b, c in ZZ)` `a*b = a*c rArr b = c`.
+	</span>
+</p>
+
+<h3>整数的序</h3>
+
+<ol class="enum">整数环 `ZZ` 上有一<b>全序</b> `le`, 即满足
+	<br/>
+	<li>`le` 为一偏序.
+	<ol>
+		<li>自反性. `(AA a in ZZ)` `a le a`;</li>
+		<li>反对称性. `(AA a, b in ZZ)` `a le b and b le a rArr a =
+			b`;
+		</li>
+		<li>传递性. `(AA a, b, c in ZZ)` `a le b and b le c rArr a le
+			c`.
+		</li>
+	</ol>
+	据此可以定义 `ge, lt, gt` 如下: 对 `a, b in ZZ`,
+	<span class="formula">
+		`a ge b iff b le a`;<br/>
+		`a lt b iff a le b and a != b`;<br/>
+		`a gt b iff a ge b and a != b`.
+	</span>
+	</li>
+
+	<li>任意两个整数之间可以比较大小.
+		`AA a, b in ZZ`, `a=b, a lt b, a gt b` 有且仅有一个成立.
+	</li>
+</ol>
+
+<ol>全序 `le` 与 `ZZ` 上的运算<b>相容</b>, 即
+	<li>`(AA a, b, c in ZZ)` `a + c le b + c iff a le b`;</li>
+	<li>`(AA a, b in ZZ, c in NN)` `a c le b c iff a le b`;</li>
+	<li>`(AA a, b in ZZ)` `a le b iff -a ge -b`;</li>
+</ol>
+
+<ol>一些额外的性质
+	<li>`(AA a, b, c in NN)` `c = ab rArr a le c`, 等号成立当且仅当 `b =
+		1`.
+	</li>
+	<li>`(AA a, b in NN)` `a lt b iff a + 1 le b iff a le b-1`.</li>
+</ol>
+
+<h3>整数的绝对值</h3>
+
+<p class="definition">
+	对任意 `a in ZZ`, 定义它的<b>绝对值</b>为
+	<span class="formula">
+		`|a| = {
+			a, if a in NN;
+			0, if a = 0;
+			-a, if -a in NN;
+		:}`
+	</span>
+</p>
+
+<ol>借助绝对值容易建立等价关系 `~: a ~ b iff |a| = |b|`, 满足
+	<li>自反性. `(AA a in ZZ)` `a ~ a`;</li>
+	<li>对称性. `a ~ b rArr b ~ a`;</li>
+	<li>传递性. `a ~ b and b ~ c rArr a ~ c`.</li>
+</ol>
+
+<p>	绝对值具有性质
+	<span class="formula">
+		`|ab| = |a| * |b|`, `AA a, b in ZZ`;<br/>
+		`|a + b| le |a| + |b|`. `AA a, b in ZZ`.
+	</span>
+</p>
+
+<h3>归纳原理与数学归纳法</h3>
+
+<ol><b>归纳原理</b>
+	设 `S sube NN` 满足条件
+	<li>`1 in S`;</li>
+	<li>`n in S rArr n+1 in S`, `AA n ge 1`,</li>
+	则 `S = NN`.
+</ol>
+
+<p>	归纳原理是自然数最重要, 最本质的性质.
+</p>
+
+<ol class="theorem">
+	<b>(第一) 数学归纳法</b>
+	设 `P(n)` 是关于自然数 `n` 的一种性质或命题. 如果
+	<li>`P(1)` 成立;</li>
+	<li>由 `P(n)` 成立可以推出 `P(n+1)` 成立, `AA n ge 1`,</li>
+	那么 `P(n)` 对任意的自然数 `n` 成立.
+</ol>
+
+<p class="proof">
+	对集合 `S = {n in NN: P(n)}` 应用归纳原理即得.
+</p>
+
+<ol class="theorem">
+    <li><b>最小自然数原理</b> `NN` 的任意非空子集中存在最小元;</li>
+    <li><b>最大自然数原理</b> `NN` 的任意非空且有上界的子集中存在最大元.</li>
+</ol>
+
+<ol class="proof">
+    <li>设 `O/ != S sube NN`, 要证
+        <span class="formula">
+            `(EE m in S)` `(AA s in S)` `m le s`.
+        </span>
+        令 `L` 是 `S` 的全体<b>下界</b>, 即
+        <span class="formula">
+            `L = {l in NN: (AA s in S) l le s}`.
+        </span>
+        易知 `1 in L`, 故 `L` 非空.<br/>
+        由于 `S` 非空, 取 `s in S`, 有 `s+1 gt s`.
+        所以 `s+1 !in L`, 这说明 `L != NN`.
+        由归纳原理, 存在 `m in L`, `m+1 !in L`.<br/>
+        下证 `m in S`.  若不然, 则对任意 `s in S`, `m lt s`,
+        即 `m+1 le s`, 故 `m+1 in L`, 矛盾.
+        `m` 即为 `S` 中的最小自然数.
+    </li>
+    <li>设 `O/ != S sube NN` 且有上界, 要证
+        <span class="formula">
+            `(EE M in S)` `(AA s in S)` `s le M`.
+        </span>
+        令
+        <span class="formula">
+            `U = {u in NN: (AA s in S) s le u}`
+        </span>
+        是 `S` 的全体上界, 则 `U` 非空.
+        由最小自然数原理知, `U` 中有最小自然数 `M`.
+        下证 `M in S`, 若不然, 则对任意 `s in S`, `s lt M`, 即 `s le M-1`.
+        从而 `M-1 in U`, 与 `M` 是 `S` 的最小上界矛盾.
+        `M` 即为 `S` 中的最大自然数.
+    </li>
+</ol>
+
+<p class="remark">
+	从证明过程可以看出,
+	整数集合中的最小自然数与最大自然数分别等于其下确界与上确界.
+</p>
+
+<ol class="theorem">
+	<b>第二数学归纳法</b>
+	设 `P(n)` 是关于自然数 `n` 的一种性质或命题. 如果
+	<li>`P(1)` 成立;</li>
+	<li>由 `P(m)` 对任意自然数 `m lt n` 成立可以推出 `P(n)` 成立, `n gt 1`,</li>
+	那么 `P(n)` 对任意的自然数 `n` 成立.
+</ol>
+
+<p class="proof">
+	反设集合 `T = {t in NN: not P(t)}` 非空, 则它有最小元 `t_0`,
+	由 `P(1)` 成立知 `t_0 gt 1`,
+	于是对任意自然数 `m lt t_0`, `P(m)` 成立,
+	由2, 这蕴含 `P(t_0)` 成立, 矛盾.
+</p>
+
+<p>	本节的最后介绍初等数论中另一个常用的工具. 这可以由反证法得到.</p>
+
+<p class="theorem">
+    <b>抽屉原理 (鸽巢原理)</b>
+	设 `n in NN`. 集合 `X` 有 `n+1` 个元素, 集合 `Y` 有 `n` 个元素,
+	则 `X` 到 `Y` 的映射一定不是单射. 换言之, 将 `n+1` 个物体放入 `n`
+	个盒子, 一定有一个盒子放入了两个或两个以上的物体.
+</p>
+
+<p class="theorem">
+    <b>Dirichlet 逼近定理</b>
+    设 `x in RR`, `n in ZZ^+`, 则在 `x, 2x, cdots, n x` 这 `n` 个数中,
+    存在一个数, 到最近整数的距离小于 `1//n`.
+</p>
+
+<p class="proof">
+    记 `{x} = x - [x]` 为实数 `x` 的小数部分.
+    考虑 `n+1` 个数
+    <span class="formula">
+        `0, {x}, {2x}, cdots, {n x}`,
+    </span>
+    它们落在区间 `[0, 1)` 中. 若将区间平均分为 `n` 份
+    <span class="formula">
+        `[0, 1//n)`, `cdots`, `[(n-1)//n, 1)`,
+    </span>
+    则必有两个数落在同一区间. 设它们是 `{i x}`, `{j x}`, 其中
+    `0 le j lt i le n`, 则
+    <span class="formula">
+        `1//n gt |{i x} - {j x}|`
+        `= |i x - [i x] - j x + [j x]|`
+        `= |(i-j) x - ([i x] - [j x])|`.
+    </span>
+    令 `k = i-j`, `m = [i x] - [j x]`, 则 `1 le k le n`, 且
+    `k x` 到 `m` 的距离小于 `1//n`.
+</p>
+
+<p class="example">
+    设整数 `n gt 1`. 证明: `sum_(k=1)^n 1/k` 不是整数.
+</p>
 
 <h2>有理数与无理数</h2>
 
@@ -81,8 +321,13 @@
 </p>
 
 <p class="theorem">
-	设 `n, k` 是正整数. 若 `n` 不是某个整数的 `k` 次方, 则 `root k n`
-	是无理数. 因此, `sqrt 2, sqrt 5, sqrt 12, root 3 2` 都是无理数.
+	设 `n, k` 是正整数. 则 `root k n` 是整数或无理数.
+    因此, `sqrt 2, sqrt 5, sqrt 12, root 3 2` 都是无理数.
+</p>
+
+<p class="proof">
+    注意 `root k n` 是多项式 `x^k - n` 的根,
+	利用这一事实: "首一的整系数多项式, 其有理根只能是整数" 立即得到结论.
 </p>
 
 <p class="proof">
@@ -95,6 +340,14 @@
 	`p^k | a^k = n b^k`.
 	因为 `n` 中含因子 `p` 的次数小于 `k`, 我们推出 `p | b^k`, 于是 `p
 	| b`, 即 `p` 是 `a, b` 的公因子.
+</p>
+
+<p class="corollary">
+    `a^n | b^n rArr a | b`.
+</p>
+
+<p class="proof">
+    设 `b^n = a^n d`, 则 `b/a = root n d` 是整数.
 </p>
 
 <p class="example">

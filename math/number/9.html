@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>积性数论函数</title>
+    <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p class="definition">
+    设 `f` 是定义在 `ZZ^+` 上的函数, 满足
+    <span class="formula">
+        `f(a b) = f(a) f(b)`, `quad AA (a,b) = 1`.
+    </span>
+    则称 `f` 为<b>积性数论函数</b>. 此时若 `n` 有素因子分解
+    <span class="formula">
+        `n = prod_(i=1)^r p_i^(alpha_i)`,
+        <span class="label" id="for-prime-factor"></span>
+    </span>
+    则
+    <span class="formula">
+        `f(n) = prod_(i=1)^r f(p_i^(alpha_i))`.
+    </span>
+</p>
+
+<ol class="theorem">
+    <b>积性数论函数的求和公式</b>
+    设 `f` 为积性数论函数,
+    <li>若 `n` 有 <a class="ref" href="#for-prime-factor"></a>
+        所示的素因子分解, 则
+        <span class="formula">
+            `sum_(d | n) f(d) = prod_(i=1)^r sum_(k=0)^(alpha_i)
+            f(p_i^k)`,
+        </span>
+        其中 `sum_(d | n)` 表示对 `n` 的全体正因子求和.
+    </li>
+    <li>若级数 `sum_(n ge 0) f(n)` 绝对收敛, 则
+        <span class="formula">
+            `sum_(n ge 0) f(n) = prod_p sum_(k ge 0) f(p^k)`.
+        </span>
+        其中 `prod_p` 表示对全体素数求积.
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>`n` 的全体正因子可以表示为
+        <span class="formula">
+            `{d: d | n}`
+            `= {prod_(i=1)^r p_i^(k_i):
+            0 le k_i le alpha_i, i = 1, cdots, r}`.
+        </span>
+        因此
+        <span class="formula">
+            `sum_(d | n) f(d)`
+            `= sum_(k_1=0)^(alpha_1) cdots sum_(k_r=0)^(alpha_r)
+            f(prod_(i=1)^r p_i^(k_i))`,
+        </span>
+        再由 `f` 的积性, 上式等于
+        <span class="formula">
+            `prod_(i=1)^r sum_(k=0)^(alpha_i) f(p_i^k)`.
+        </span>
+    </li>
+    <li>设 `p_1=2, p_2=3, cdots` 是全体素数,
+        由算术基本定理, 整数 `n` 与下面的多重集合一一对应:
+        <span class="formula">
+            `{p_1: alpha_1, p_2: alpha_2, cdots}`
+        </span>
+        即公式左边的每一项, 恰对应右边的唯一一项.
+    </li>
+</ol>
+
+<ol class="corollary">
+    <li>Euler 函数 `varphi(n)` 是积性函数, 有 `sum_(d | n) varphi(d) = n`.
+    </li>
+    <li>`f(n) = n^-s` 是积性函数, 因此 Riemann zeta 函数
+        <span class="formula">
+            `zeta(s) = sum_(n ge 0) n^-s`
+            `= prod_p (1-p^-s)^-1`.
+        </span>
+        这一公式将 `zeta(s)` 与素数联系在一起.
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>利用 `varphi(p^k) = p^k - p^(k-1)`,
+        <span class="formula">
+        左边 `= prod_(i=1)^r sum_(k=0)^(alpha_i) varphi(p_i^k)`
+            `= prod_(i=1)^r (1 + sum_(k=1)^(alpha_i) (p_i^k - p_i^(k-1)))`
+            `= prod_(i=1)^r p_i^(alpha_i)`
+            `= n`.
+        </span>
+    </li>
+    <li>利用等比级数求和公式,
+        <span class="formula">
+            左边 `= prod_p sum_(k ge 0) p^(-s k) =` 右边.
+        </span>
+    </li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
