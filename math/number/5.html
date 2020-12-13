@@ -195,6 +195,119 @@
 	得到勾股数 `(5,12,13)`... 试试看吧!
 </p>
 
+<p class="lemma">
+    不存在面积为平方数的勾股三角形.
+</p>
+
+<ol class="proof">
+    本证明使用无穷递降法.
+    <li>设该勾股三角形的三边长为 `a, b, c`, 面积为 `d^2`.
+        若 `(a, b, c) = m gt 1`, 则 `m^2 | a b = 2 d^2`,
+        这推出 `m | d`.  因此不妨设 `a, b, c` 是本原的,
+        从而得到已知条件
+        <span class="formula">
+            `a^2 + b^2 = c^2`,
+            `quad (a, b, c) = 1`,
+            `quad a b // 2 = d^2`.
+            <span class="label" id="for-inf-cond-abc"></span>
+        </span>
+        我们假设 `c` 是满足上述条件的最小正整数, 下面来导出矛盾.
+    </li>
+    <li>由勾股数的结论, `a, b, c` 两两互素. 设 `b` 是偶数,
+        则存在整数 `u, v`, 满足
+        <span class="formula">
+            `u gt v gt 0`,
+            `quad (u, v) = 1`,
+            `quad u, v` 一奇一偶,
+        </span>
+        使得
+        <span class="formula">
+            `a = u^2 - v^2`, `quad b = 2uv`, `quad c = u^2 + v^2`.
+        </span>
+        于是
+        <span class="formula">
+            `d^2 = a b // 2 = (u+v)(u-v) u v`.
+        </span>
+    </li>
+    <li>容易验证四个因子 `u+v, u-v, u, v` 两两互素. 比如
+        <span class="formula">
+            `(u+v, u-v)`
+            `= (u+v, (u+v)+(u-v))`
+            `= (u+v, 2 u)`,
+        </span>
+        但 `u + v` 是奇数, 因此上式等于 `(u+v, u) = (v, u) = 1`, 这推出
+        `(u+v, u-v) = 1`.
+    </li>
+    <li>四个互素因子的乘积是平方数 `d^2`, 由此得到这四个因子都是平方数.
+        设
+        <span class="formula">
+            `A = sqrt(u+v)`, `quad B = sqrt(u-v)`,
+            `quad C = sqrt u`, `quad D = sqrt v`,
+        </span>
+        `A, B, C, D` 也是两两互素的,
+        其中 `A gt B gt 0` 是奇数, `C, D` 一奇一偶.  注意
+        <span class="formula">
+            `2C^2 = 2u = A^2 + B^2 -= 2 (mod 4)`,
+        </span>
+        所以 `C` 是奇数, `D` 是偶数.
+    </li>
+    <li>令
+        <span class="formula">
+            `a_1 = (A+B)/2`, `quad b_1 = (A-B)/2`,
+            `quad c_1 = C`, `quad d_1 = D/2`,
+        </span>
+        有
+        <span class="formula">
+            `a_1^2 + b_1^2 = (A^2+B^2)/2 = C^2 = c_1^2`,<br/>
+            `a_1 b_1 // 2 = (A^2-B^2)/8 = v/4 = (D/2)^2 = d_1^2`.
+        </span>
+        且
+        <span class="formula">
+            `(a_1, b_1, c_1)`
+            `= (a_1, a_1+b_1, c_1)`
+            `= (a_1, A, C) = 1`.
+        </span>
+    </li>
+    <li>我们发现, `a_1, b_1, c_1` 也满足 `a, b, c` 的关系
+        <a class="ref" href="#for-inf-cond-abc"></a>,
+        但 `c_1 = C = sqrt u lt u^2+v^2 = c`, 这与 `c` 的最小性矛盾.
+        原命题得证.
+    </li>
+</ol>
+
+<p class="theorem">
+    <b>Fermat 大定理 (Fermat's Last Theorem, FLT)</b>
+    设整数 `n gt 2`, 则不定方程
+    <span class="formula">
+        `x^n + y^n = z^n`
+    </span>
+    不存在满足 `x, y, z != 0` 的整数解.
+</p>
+
+<ol class="proof">
+    我们有以下观察:
+    <li>该不定方程是齐次的. 即, 若 `x, y, z` 是该方程的解,
+    则对任意整数 `k`, `k x, k y, k z` 也是它的解.</li>
+    <li>若 FLT 对于整数 `n` 成立, 则它对任意 `n` 的倍数也成立.</li>
+    我们来证明 FLT(4), 即 `n = 4` 的情形.
+    设 `x^4 + y^4 = z^4`, 由观察 1, 可以假设 `(x, y, z) = 1`.
+    因此, `x^2, y^2, z^2` 是本原勾股数. 设 `y` 是偶数, 故存在 `u, v` 使得
+    <span class="formula">
+        `x^2 = u^2 - v^2`,
+        `quad y^2 = 2 u v`,
+        `quad z^2 = u^2 + v^2`.
+    </span>
+    上式表明 `u, v, z` 是勾股数, 但它们围成的直角三角形的面积
+    <span class="formula">
+        `u v // 2 = (y/2)^2`
+    </span>
+    是平方数! 矛盾.
+    <br/>
+    既然 FLT(4) 已证, 由观察 2, 接下来只需考虑 `n` 为奇素数的情形.
+    然而, 费马大定理是非常困难的问题,
+    即使我有绝妙证法, 这里的空白也太小写不下.
+</ol>
+
 <h2>四平方和定理</h2>
 
 <a href="https://baike.baidu.com/item/%E5%9B%9B%E5%B9%B3%E6%96%B9%E5%92%8C%E5%AE%9A%E7%90%86?bk_fr=chain_bottom&timestamp=1568187163118">原文来自百度百科</a>
@@ -401,9 +514,9 @@
 	</span>
 	于是当已知 `P_1`, `P_2` 时, `P_3` 的坐标为
 	<span class="formula">
-		`x_3 = k^2 - x_1 - x_2`,
-		`quad y_3 = y_1 + k(x_3-x_1)`<br/>
-		(也可以是 `y_3 = y_2 + k(x_3-x_2)`.
+        `x_3 = k^2 - x_1 - x_2`,<br/>
+		`y_3 = y_1 + k(x_3-x_1)`
+		`= y_2 + k(x_3-x_2)`.
 	</span>
 	称 `P_3` 关于 `x` 轴的对称点 `Q` 为 `P_1` 与 `P_2` 的和, 记为
 	`Q = P_1 + P_2`.

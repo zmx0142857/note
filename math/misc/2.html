@@ -221,7 +221,7 @@
 	`tan x tan y = (cos(x-y) - cos(x+y))/(cos(x-y)-cos(x+y))`.
 </span>
 
-<p class="example">
+<p class="theorem" id="the-sin-prod">
 	`prod_(0 lt k lt n) sin {:(k pi)/n:} = (2n)/2^n`,
 	`prod_(1 le k le n) cos {:(k pi)/(2n+1):} = 2^-n`.
 </p>
@@ -1189,6 +1189,81 @@
 		`= 4/3`.
 	</span>
 </p>
+
+<ol class="example">
+    记 `theta = pi/7`,
+        `a = sin theta`, `b = sin 2theta`, `c = sin 3theta`,
+    证明:
+    <li>`b^3 + c^3 - a^3 = b + c - a`;</li>
+    <li>`4 (a^2 b + b^2 c - c^2 a) = b + c - a`;</li>
+    <li>`1/a = 1/b + 1/c`;</li>
+    <li>`b + c - a = 4 a b c`;</li>
+    <li>`b/c^2 + c/a^2 - a/b^2 = 2 sqrt 7`.</li>
+</ol>
+
+<ol class="proof">
+    记 `sin n theta = s_n`, `cos n theta = c_n`.
+    <li>利用三倍角公式 `4 sin^3 x = 3 sin x - sin 3 x` 有
+        <span class="formula">
+            `4 (s_2^3 + s_3^3 - s_1^3)`
+            `= 3(s_2 + s_3 - s_1) - (s_6 + s_9 - s_3)`
+            `= 3(s_2 + s_3 - s_1) - (s_1 - s_2 - s_3)`
+            `= 4(s_2 + s_3 - s_1)`.
+        </span>
+    </li>
+    <li>先证 `4 a^2 b = 2b - c`.
+        <span class="formula">
+            `2 s_1^2 * 2 s_2`
+            `= (1-c_2) * 2 s_2`
+            `= 2 s_2 - s_4`
+            `= 2 s_2 - s_3`.
+        </span>
+        类似可证 `4 c^2 a = 2 a + b`, `4 b^2 c = 2 c + a`. 结论成立.
+    </li>
+    <li>先证 `b^2 - a^2 = a c`.
+        <span class="formula">
+            `s_2^2 - s_2^2`
+            `= (1-c_4)/2 - (1-c_2)/2`
+            `= 1/2 (c_2 - c_4)`
+            `= s_1 s_3`.
+        </span>
+        类似可证 `c^2 - b^2 = a b`, `c^2 - a^2 = b c`. 于是
+        <span class="formula">
+            `b c = (c^2-a^2)`
+            `= (c^2 - b^2) + (b^2 - a^2)`
+            `= a b + a c`,
+        </span>
+        等号两边同除以 `a b c` 即得结论.
+    </li>
+    <li>
+        <span class="formula">
+            `s_2 + s_3 - s_1`
+            `= s_2 + (c_2 s_1 + c_1 s_2) - s_1`
+            `= s_2 (1 + c_1) - s_1 (1 - c_2)`
+            `= 2 s_2 s_3^2 - s_1^3`
+            `= 2 (b c^2 - a^3)`
+            `= 2 (b c^2 - a(c^2 - b c))`
+            `= 2 (b c^2 - a c^2) + 2 a b c`
+            `= 2 c(b c - a c) + 2 a b c`
+            `= 4 a b c`.
+        </span>
+    </li>
+    <li>即证
+        <span class="formula">
+            `a^2 b^3 + b^2 c^3 - c^2 a^3 = 2 sqrt 7 (a b c)^2`.
+        </span>
+        利用前面各结论, 左边等于
+        <span class="formula">
+            `b^2 (2 b-c) + c^2 (2 c+a) - a^2 (2 a+b)`
+            `= 2(b^2 + c^2 - a^2) - (b^2 c + a^2 b - c^2 a)`
+            `= 2(b+c-a) - 1/4(b+c-a)`
+            `= 7/4 (b+c-a)`
+            `= 7 a b c`.
+        </span>
+        由<a class="ref" href="#the-sin-prod"></a>有
+        `(a b c)^2 = 7/2^6`, 因此上式等于 `2 sqrt 7 (a b c)^2`.
+    </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

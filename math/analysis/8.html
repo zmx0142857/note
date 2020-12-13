@@ -306,13 +306,16 @@
 	</span>
 </p>
 
+<h3>Gamma 函数的乘积表示*</h3>
+
 <p class="property">
-	<b>极限表达式 (Euler 公式)</b>
+	<b>Euler 的乘积表达式</b>
 	<span class="formula">
 		`Gamma(x) = lim_(n to oo) n^x B(x, n+1)`
 		`= lim_(n to oo) (n^x n!)/(x(x+1) cdots (x+n))`.
 	</span>
-	此结论简记为 `Gamma(x+n+1) ~ n^x n!`.
+    使用 Gauss 的记号 `Pi(x) = Gamma(x+1)`,
+	此结论简记为 `Pi(x+n) // Pi(n) ~ n^x`.
 </p>
 
 <p class="proof">
@@ -377,9 +380,30 @@
 	</span>
 </p>
 
+<p class="theorem">
+    乘积公式右边的极限, 只要分母不为零, 对任意复数 `x` 都收敛.
+    因此借助此公式, 可以将 `Gamma(z)` 的定义拓展到复平面上, `z != 0, -1,
+    -2, cdots`. `Gamma(z)` 没有零点, 它的倒数 `1/Gamma(z)` 在 `CC` 上解析.
+</p>
+
+<p class="proof">
+    用 `(n+1)^x` 等价代替乘积公式的 `n^x`, 记
+    <span class="formula">
+        `f(n) = (n!)/(x(x+1)cdots(x+n)) (n+1)^x`,
+    </span>
+    将公式写为无穷乘积
+    <span class="formula">
+        `Gamma(x) = f(0) prod_(n ge 1) (f(n))/(f(n-1))`
+        `= 1/x prod_(n ge 1) n/(x+n) ((n+1)/n)^x`
+        `= 1/x prod_(n ge 1) (1+x/n)^-1 (1+1/n)^x`.
+    </span>
+    (??)
+</p>
+
 <p class="property">
 	<b>余元公式</b>
 	`Gamma(x) Gamma(1-x) = pi/(sin pi x)`.
+    这是复变量正弦函数的乘积公式.
 </p>
 
 <p class="proof">
@@ -411,7 +435,7 @@
 			`Gamma(m + 3/2)`
 			`= Gamma((2m+3)/2)`
 			`= (2m+1)/2 (2m-1)/2 cdots 3/2 1/2 Gamma(1/2)`
-			`= ((2m+1)!)/(2^(2m+1) m!) sqrt pi`, 
+			`= ((2m+1)!)/(2^(2m+1) m!) sqrt pi`,
 		</span>
 		即 `(m! 2^(2m+1))/((2m+1)!) = sqrt pi /(Gamma(n+3/2)`.
 		利用 Gamma 函数的 Euler 乘积表示进行计算, 我们有
@@ -593,7 +617,7 @@
 	`gamma` 是 Euler 常数.
 </p>
 
-<h2>指数积分与对数积分</h2>
+<h2>超越函数的积分</h2>
 
 <p class="definition">
 	设 `n` 为非负整数, `n` 阶指数积分定义为
@@ -602,11 +626,27 @@
 	</span>
 </p>
 
-<p class="corollary">
+<ol class="definition">
+    <li><b>指数积分</b> `"Ei"(x) = -E_1(-x) = int_(-oo)^x "e"^t/t dt`.</li>
+    <li><b>对数积分</b> `"li"(x) = int_0^x dt/(ln t)`
+    (`x gt 1` 时, 取 Cauchy 主值
+    `lim_(epsi to 0^+) int_0^(1-epsi) + int_(1+epsi)^x`).
+    </li>
+    <li><b>正弦积分</b> `"Si"(x) = int_0^x (sin t)/t dt`.  </li>
+    <li><b>余弦积分</b> `"Ci"(x) = gamma + ln x + int_0^x (cos t - 1)/t dt`.
+    </li>
+</p>
+
+<ol class="proposition">
+    <li>`"li"(x) = "Ei"(ln x)`;</li>
+    <li>`"Ei"("i"x) = "Ci"(x) + "i"(pi/2 + "Si"(x))`;</li>
+</ol>
+
+<p class="proposition">
 	分部积分可证, `n E_(n+1)(z) = "e"^-z - z E_n(z)`.
 </p>
 
-<p class="corollary">
+<p class="proposition">
 	设 `x gt 0`, `n ge 1`, 则
 	<span class="formula">
 		`1/(x+n) lt "e"^x E_n(x) lt 1/(x+n-1)`.
@@ -630,6 +670,21 @@
 	</span>
 	另一边??
 </p>
+
+<p class="proposition">
+    `"Ei"(z) = gamma + ln z + sum_(k ge 1) z^k/(k * k!)`.
+</p>
+
+<p class="theorem">
+    <b>素数定理</b>
+    记 `pi(x)` 为小于 `x` 的素数个数,
+    <span class="formula">
+        `"Li"(x) = int_2^x dt/(ln t) = "li"(x) - "li"(2)`,
+    </span>
+    则 `x to oo` 时, `pi(x) ~ "Li"(x)`.
+</p>
+
+<h2>不完全 Gamma 函数</h2>
 
 <h2>Riemann zeta 函数</h2>
 
