@@ -54,7 +54,7 @@ function word(s, el) {
         /(.{4}){4([^\d].*?)}/g,
         /(.{3}){3([^\d].*?)}/g,
         /(.{2}){2([^\d].*?)}/g,
-        /([^{]){([^{].*?)}/g,
+        /([^{]){([^{]*?)}/g,
     ];
     var replace_str = '<span class="phonic-char" phonic="$2">$1</span>';
     for (var i = 0; i < regs.length; ++i) {

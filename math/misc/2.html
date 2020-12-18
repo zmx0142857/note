@@ -1190,78 +1190,81 @@
 	</span>
 </p>
 
-<ol class="example">
-    记 `theta = pi/7`,
-        `a = sin theta`, `b = sin 2theta`, `c = sin 3theta`,
-    证明:
-    <li>`b^3 + c^3 - a^3 = b + c - a`;</li>
-    <li>`4 (a^2 b + b^2 c - c^2 a) = b + c - a`;</li>
-    <li>`1/a = 1/b + 1/c`;</li>
-    <li>`b + c - a = 4 a b c`;</li>
-    <li>`b/c^2 + c/a^2 - a/b^2 = 2 sqrt 7`.</li>
-</ol>
+<p class="example">
+    设 `theta = pi/7`, `a = sin(-theta)`, `b = sin 2theta`, `c = sin
+    3theta`, 证明:
+    <span class="formula">
+        `a/b^2 + b/c^2 + c/a^2 = 2 sqrt 7`.
+    </span>
+</p>
 
 <ol class="proof">
-    记 `sin n theta = s_n`, `cos n theta = c_n`.
-    <li>利用三倍角公式 `4 sin^3 x = 3 sin x - sin 3 x` 有
+    简记 `sin n theta = s_n`, `cos n theta = c_n`.
+    <li>我们来证明 `a, b, c` 的基本对称多项式
         <span class="formula">
-            `4 (s_2^3 + s_3^3 - s_1^3)`
-            `= 3(s_2 + s_3 - s_1) - (s_6 + s_9 - s_3)`
-            `= 3(s_2 + s_3 - s_1) - (s_1 - s_2 - s_3)`
-            `= 4(s_2 + s_3 - s_1)`.
+            `sigma_1 = a + b + c = (sqrt 7)/2`,
+            `quad sigma_2 = a b+b c+c a = 0`,
+            `quad sigma_3 = a b c = -(sqrt 7)/8`.
+        </span>
+        首先由<a class="ref" href="#the-sin-prod"></a>有
+        `(a b c)^2 = 7//2^6`, 故 `a b c = -sqrt 7 // 8`.
+    </li>
+    <li>求 `sigma_2`, 先证 `a^2 - b^2 = c a`.
+        <span class="formula">
+            `s_1^2 - s_2^2`
+            `= (1-c_2)/2 - (1-c_4)/2`
+            `= 1/2 (c_4 - c_2)`
+            `= -s_3 s_1`.
+        </span>
+        类似可证 `b^2 - c^2 = a b`, `c^2 - a^2 = b c`. 三式相加即得
+        `sigma_2 = 0`.
+    </li>
+    <li>求 `sigma_1`.
+        <span class="formula">
+            `a + b + c`
+            `= -s_1 + s_2 + s_3`
+            `= -s_1 + s_2 + (c_2 s_1 + c_1 s_2)`
+            `= s_2(1+c_1) - s_1(1-c_2)`
+            `= 2(s_2 s_3^2 - s_1^3)`
+            `= 2(b c^2 + a^3)`
+            `= 2(b c^2 + a(c^2-b c))`
+            `= 2(b c^2 + a c^2) - 2 a b c`
+            `= 2c(b c + a c) - 2 a b c`
+            `= 2c(-a b) - 2 a b c`
+            `= -4 a b c = sqrt 7//2`.
         </span>
     </li>
-    <li>先证 `4 a^2 b = 2b - c`.
+    <li>证 `4 a^2 b = 2 b - c`.
         <span class="formula">
-            `2 s_1^2 * 2 s_2`
-            `= (1-c_2) * 2 s_2`
+            `4 s_1^2 s_2`
+            `= 2 s_2 (1-c_2)`
             `= 2 s_2 - s_4`
             `= 2 s_2 - s_3`.
         </span>
-        类似可证 `4 c^2 a = 2 a + b`, `4 b^2 c = 2 c + a`. 结论成立.
+        类似有 `4 b^2 c = 2 c - a`, `4 c^2 a = 2 a - b`.
     </li>
-    <li>先证 `b^2 - a^2 = a c`.
+    <li>来证最终结论, 即证
         <span class="formula">
-            `s_2^2 - s_2^2`
-            `= (1-c_4)/2 - (1-c_2)/2`
-            `= 1/2 (c_2 - c_4)`
-            `= s_1 s_3`.
+            `a^2 b^3 + b^2 c^3 - c^2 a^3 = 2 sqrt 7 (a b c)^2`
+            `= 2 sqrt 7 sigma_3^2 = (7sqrt 7)/32`.
         </span>
-        类似可证 `c^2 - b^2 = a b`, `c^2 - a^2 = b c`. 于是
+        左边的 4 倍等于
         <span class="formula">
-            `b c = (c^2-a^2)`
-            `= (c^2 - b^2) + (b^2 - a^2)`
-            `= a b + a c`,
+            `b^2 (2 b-c) + c^2 (2 c-a) + a^2 (2 a-b)`
+            `= 2(a^3 + b^3 + c^2) - (b^2 c + c^2 a + a^2 b)`
+            `= 2(a^3 + b^3 + c^2) - 1/4(a+b+c)`.
         </span>
-        等号两边同除以 `a b c` 即得结论.
-    </li>
-    <li>
+        由 Newton 公式,
         <span class="formula">
-            `s_2 + s_3 - s_1`
-            `= s_2 + (c_2 s_1 + c_1 s_2) - s_1`
-            `= s_2 (1 + c_1) - s_1 (1 - c_2)`
-            `= 2 s_2 s_3^2 - s_1^3`
-            `= 2 (b c^2 - a^3)`
-            `= 2 (b c^2 - a(c^2 - b c))`
-            `= 2 (b c^2 - a c^2) + 2 a b c`
-            `= 2 c(b c - a c) + 2 a b c`
-            `= 4 a b c`.
+            `S_1 = a + b + c`
+            `= sigma_1 = (sqrt 7)/2`,<br/>
+            `S_2 = a^2 + b^2 + c^2`
+            `= sigma_1 S_1 - 2 sigma_2 = 7/4`,<br/>
+            `S_3 = a^3 + b^3 + c^3`
+            `= sigma_1 S_2 - sigma_2 S_1 + 3 sigma_3 = (sqrt 7)/2`.
         </span>
-    </li>
-    <li>即证
-        <span class="formula">
-            `a^2 b^3 + b^2 c^3 - c^2 a^3 = 2 sqrt 7 (a b c)^2`.
-        </span>
-        利用前面各结论, 左边等于
-        <span class="formula">
-            `b^2 (2 b-c) + c^2 (2 c+a) - a^2 (2 a+b)`
-            `= 2(b^2 + c^2 - a^2) - (b^2 c + a^2 b - c^2 a)`
-            `= 2(b+c-a) - 1/4(b+c-a)`
-            `= 7/4 (b+c-a)`
-            `= 7 a b c`.
-        </span>
-        由<a class="ref" href="#the-sin-prod"></a>有
-        `(a b c)^2 = 7/2^6`, 因此上式等于 `2 sqrt 7 (a b c)^2`.
+        从而 `2 S_3 - 1/4 S_1 = (7sqrt 7)/8`.
+        证毕.
     </li>
 </ol>
 
