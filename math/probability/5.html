@@ -85,6 +85,85 @@
 	</tr>
 </table>
 
+<ol class="example">
+    <li><b>超几何分布</b> 求数学期望和方差.</li>
+    <li><b>不放回摸球试验</b> 设有红球 `M` 个, 黑球 `N-M` 个,
+        做 `n` 次不放回摸球试验. 则恰好一共摸出 `k` 个红球的概率为
+        <span class="formula">
+            `((M;k)(N-M;n-k))/((N;n))`.
+        </span>
+    </li>
+    <li><b>抽签概率与顺序无关</b> 在 `n` 次不放回摸球试验中,
+        每次摸出红球的概率都是 `M//N`.
+    </li>
+    <li><b>Knuth 抽样算法</b> 从 `1~N` 中随机抽取 `M` 个数字,
+        可以取红球 `M` 个, 黑球 `N-M` 个, 做 `N` 次不放回摸球试验.
+        若第 `n` 次摸出红球, 则选中数字 `n`, 否则不选中它.
+        由 3. 知, 每个数字被选中的概率都相等.
+        <pre>
+# rand() 产生 (0,1) 间的随机数
+sample(arr, M):
+    N = arr.len
+    for i = 0..N:
+        if rand() &lt; M/(N-i):
+            print(arr[i])
+            --M
+        </pre>
+    </li>
+</ol>
+
+<ol class="solution">
+    <li>利用等式 `k (M;k) = M (M-1; k-1)` `(k gt 0)` 和
+        <a href="../combinatorics/2.html#the-vandermonde">
+            Vandermonde 恒等式
+        </a>有:
+        <span class="formula">
+            `E X = sum_(k=0)^n k((M;k) (N-M;n-k))/((N;n))`
+            `= (N;n)^-1 sum_(k=1)^n M (M-1; k-1) (N-M; n-k)`
+            `= (N;n)^-1 M (N-1;n-1)`
+            `= (n M)/N`.
+        </span>
+        类似由 `k(k-1) (M;k) = M(M-1) (M-2;k-2)` `(k gt 1)` 有
+        <span class="formula">
+            `E(X(X-1)) = (n(n-1)M(M-1))/(N(N-1))`.
+        </span>
+        于是
+        <span class="formula">
+            `D X = E(X^2) - (E X)^2`
+            `= E(X(X-1)) + E X - (E X)^2`
+            `= (n M)/N (((n-1)(M-1))/(N-1) + 1 - (n M)/N)`
+            `= (n M)/N (1-M/N) * (N-n)/(N-1)`.
+        </span>
+    </li>
+    <li>记 `n` 次不放回摸球试验中, 恰好摸出 `k` 个红球的概率为 `p_(n,k)`,
+        可得递推关系:
+        <span class="formula">
+            `p_(n,k) = p_(n-1,k) (N-M-(n-1-k))/(N-n+1)
+            + p_(n-1,k-1) (M-k+1)/(N-n+1)`.
+        </span>
+        和边界条件:
+        <span class="formula">
+            `p_(n,0) = (N-M)^(ul n)/N^(ul n)`,
+            `quad p_(n,n) = M^(ul n)/N^(ul n)`.
+        </span>
+        其中 `x^(ul n) = x(x-1)cdots(x-n+1)` 为 `x` 的 `n` 次下降幂.
+        可以验证答案适合上面的递推关系.<br/>
+        直观地看, 恰好摸出 `k` 个红球的概率, 相当于所有的 `(N;n)`
+        种取法中, 先摸 `k` 个红球 (有 `(M;k)` 种取法),
+        再摸 `n-k` 个黑球 (有 `(N-M;n-k)` 种取法) 的取法所占的比例.
+        不过, 我们还没有证明摸球的概率与顺序无关. 这是 3. 的内容.
+    </li>
+    <li>设
+        <span class="formula">
+            `X_i = {1, if 第 i 次摸出红球; 0, "otherwise":}`,<br/>
+        </span>
+        由 2, `sum_(i=1)^n X_i` 满足超几何分布, 由 1,
+        `E(sum_(i=1)^n X_i) = (n M)/N`.
+        于是 `E(X_n) = E(sum_(i=1)^n X_i) - E(sum_(i=1)^(n-1) X_i)`
+        `= M/N`, 即 `P{X_n=1} = M/N`.
+    </li>
+</ol>
+
 <table>
 	<caption>常用连续型分布</caption>
 	<tr>
