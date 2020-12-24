@@ -324,7 +324,14 @@ var article = $('#article'),
   favicon = $('#favicon');
 
 var UUID = 'io.zmx0142857.';
-var tableOfContents, src, title, pos;
+var tableOfContents;
+
+// 加载 toc.js 中的目录
+for (var key in tocData) {
+  var option = $('<option>', tocData[key].title);
+  option.value = key;
+  book.appendChild(option);
+}
 
 function hideNav(flag) {
   if (!nav.hidden || flag) {
@@ -350,7 +357,7 @@ function headerVisible(flag) {
   }
 }
 
-function jump() {
+function loading() {
   var notify = $('#notify');
   if (!notify) {
     notify = $('<div>');
@@ -359,24 +366,45 @@ function jump() {
     document.body.appendChild(notify);
   }
   iframe.onload = function() { document.body.removeChild(notify) };
+}
 
-  localStorage[UUID+'src'] = src;
+function load(key, defaultVal) {
+  return localStorage[UUID+key] || defaultVal;
+}
+
+function save(key, val) {
+  localStorage[UUID+key] = val;
+}
+
+function jump(src, title) {
+  //console.log('jump: ' + src + ' ' + title);
+  loading();
+  save('src', src);
   iframe.setAttribute('src', book.value + '/' + src);
   artitle.innerText = title;
   hideNav(true);
   setTimeout(headerVisible, 1000);
 }
 
-function jumpto(i, j) {
+function jumpPos(pos) {
+  var item = tableOfContents[pos[0]].articles[pos[1]];
+  jump(item.src, item.title);
+}
+
+function redirect(pos) {
+  var src = tableOfContents[pos[0]].articles[pos[1]].src.replace(/\.html$/, '');
+  window.history.pushState({}, '', '#' + book.value + '/' + src);
+  jumpPos(pos);
+}
+
+function jumpto(pos) {
   return function() {
-    var item = tableOfContents[i].articles[j];
-    src = item.src, title = item.title;
-    pos = [i, j];
-    jump();
+    redirect(pos);
   };
 }
 
-function loadToc() {
+function loadBook() {
+  //console.log('load book');
   var bookData = tocData[book.value];
   tableOfContents = bookData.toc;
   document.title = 'zmx0142857 的' + bookData.title + '笔记';
@@ -391,7 +419,7 @@ function loadToc() {
     var ul = $('<ul>');
     for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
       var li = $('<li>', tableOfContents[i].articles[j].title);
-      li.onclick = jumpto(i, j);
+      li.onclick = jumpto([i, j]);
       if (tableOfContents[i].articles[j].isnew)
         li.classList.add('isnew');
       ul.appendChild(li);
@@ -405,11 +433,41 @@ function loadToc() {
   toc = newtoc;
 }
 
+function getPos(src) {
+  //console.log('getPos');
+  for (var i = 0; i < tableOfContents.length; ++i) {
+    for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
+      if (tableOfContents[i].articles[j].src == src) {
+        return [i, j];
+      }
+    }
+  }
+  return [0, 0];
+}
+
+function parseHash() {
+  var index = location.href.indexOf('#');
+  if (index != -1) {
+    var hash = location.href.slice(index+1);
+    if (/^[^/]+\/[^/]+\/[^/]+$/.test(hash)) { // book/group/article
+      var path = hash.split('/');
+      if (path[0] != book.value) {
+        book.value = path[0];
+        save('book', path[0]);
+        loadBook();
+      }
+      var src = path[1] + '/' + path[2] + '.html';
+      return getPos(src);
+    }
+  }
+}
+
 // bind event listener
 header.onmouseover = function() {headerVisible(true)};
 header.onmouseout = function() {headerVisible(false)};
 yinyang.onclick = function() {hideNav()};
 prevArticle.onclick = function() {
+  var pos = parseHash();
   if (pos[1] == 0) {
     if (pos[0] == 0) {
       console.warn('already at first article.');
@@ -418,10 +476,11 @@ prevArticle.onclick = function() {
     pos[1] = tableOfContents[--pos[0]].articles.length;
   }
   --pos[1];
-  jumpto(pos[0], pos[1])();
+  redirect(pos);
 };
 
 nextArticle.onclick = function() {
+  var pos = parseHash();
   if (pos[1] == tableOfContents[pos[0]].articles.length-1) {
     if (pos[0] == tableOfContents.length-1) {
       console.warn('no more articles.');
@@ -431,83 +490,28 @@ nextArticle.onclick = function() {
     pos[1] = -1;
   }
   ++pos[1];
-  jumpto(pos[0], pos[1])();
+  redirect(pos);
 };
 
 book.onchange = function() {
-  localStorage[UUID+'book'] = book.value;
-  loadToc();
-  src = tableOfContents[0].articles[0].src;
-  title = tableOfContents[0].articles[0].title;
-  pos = [0,0];
-  jump();
+  var pos = [0, 0];
+  save('book', book.value);
+  loadBook();
+  redirect(pos);
 }
 
-// load data & find pos
-function init() {
-  for (var key in tocData) {
-    var option = $('<option>', tocData[key].title);
-    option.value = key;
-    book.appendChild(option);
+window.onpopstate = function() {
+  var pos = parseHash();
+  if (pos) {
+    jumpPos(pos);
+  } else { // fallback
+    book.value = load('book', 'math');
+    book.onchange();
   }
-
-  var success = false;
-  var index = location.href.indexOf('?');
-  if (index != -1) {
-    var params = location.href.slice(index+1);
-    if (/^[^/]+\/[^/]+\/[^/]+$/.test(params)) { // ***/***/***
-      var path = params.split('/');
-      book.value = path[0];
-      loadToc();
-      src = path[1] + '/' + path[2] + '.html';
-      success = true;
-    }
-  }
-  if (!success) {
-    book.value = localStorage[UUID+'book'] || 'math';
-    loadToc();
-    src = localStorage[UUID+'src'] || tableOfContents[0].articles[0].src;
-  }
-  pos = [0, 0];
-  for (var i = 0; i < tableOfContents.length; ++i) {
-    for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
-      if (tableOfContents[i].articles[j].src == src) {
-        pos = [i, j];
-        title = tableOfContents[i].articles[j].title;
-        break;
-      }
-    }
-  }
-  jump();
 }
 
-init();
-
-//function loadScript(url, callback) {
-//  var script = document.createElement('script');
-//  script.type = 'application/javascript';
-//  if (typeof(callback) != 'undefined') {
-//    if (script.readyState) { // IE
-//      script.onreadystatechange = function() {
-//        if (script.readyState == 'loaded'
-//            || script.readyState == 'complete') {
-//          script.onreadystatechange = null;
-//          callback();
-//        }
-//      }
-//    } else { // others
-//      script.onload = function() { callback(); }
-//    }
-//  }
-//  script.src = url;
-//  document.body.appendChild(script);
-//}
-
-//try{
-//  loadScript('js/toc.js', init); // 加载 tocData
-//} catch (e) {
-//  alert(e);
-//}
+book.value = '';
+window.onpopstate();
 
 })();
 </script>
