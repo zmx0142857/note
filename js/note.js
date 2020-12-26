@@ -515,5 +515,8 @@ makeReference(); // call makeReference() after decorate()
 wrap(document.getElementsByClassName('formula'));
 wrap(document.getElementsByTagName('table'));
 
+// event handler from parent window
+document.onkeyup = window.handleKeyboard || null;
+
 })();
 

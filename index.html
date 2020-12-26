@@ -179,6 +179,15 @@ li.isnew::after {
   height: 100%;
 }
 
+#eclipse {
+  height: 100%;
+  width: 100%;
+  /*background: rgba(0,0,0,0.2);*/
+  display: none;
+  position: absolute;
+  top: 0;
+}
+
 #yinyang {
   transition: .5s;
 }
@@ -271,11 +280,12 @@ li.isnew::after {
 <article id="article">
   <iframe id="iframe"></iframe>
   <header id="header">
-    <a id="yinyang" title="目录">&#x262f;</a>
+    <a id="yinyang" title="M 键切换目录">&#x262f;</a>
     <span id="article-title"></span>
     <a href="mailto:892298182@qq.com" title="报错与反馈" style="font-size:1.5em; line-height:1.5em">&#x2709;</a>
     <!--<img src="img/envelope.svg" alt="&#x2709;" style="width: 20px; height: 20px; margin: 12px">-->
   </header>
+  <div id="eclipse"></div>
 </article>
 
 <script src="js/toc.js"></script>
@@ -321,7 +331,8 @@ var article = $('#article'),
   prevArticle = $('#prev-article'),
   nextArticle = $('#next-article'),
   book = $('#book'),
-  favicon = $('#favicon');
+  favicon = $('#favicon'),
+  eclipse = $('#eclipse');
 
 var UUID = 'io.zmx0142857.';
 var tableOfContents;
@@ -339,11 +350,15 @@ function hideNav(flag) {
     nav.style.width = '0';
     article.style.marginLeft = '0';
     yinyang.style.transform = 'none';
+    eclipse.style.display = 'none';
+    headerVisible(false);
   } else {
     nav.removeAttribute('hidden');
     nav.style.width = '16em';
     article.style.marginLeft = '16em';
     yinyang.style.transform = 'rotate(540deg)';
+    eclipse.style.display = 'block';
+    headerVisible(true);
   }
 }
 
@@ -463,9 +478,15 @@ function parseHash() {
 }
 
 // bind event listener
+function handleKeyboard(e) {
+  if (e.keyCode == 'M'.charCodeAt(0)) {
+    hideNav();
+  }
+}
+document.onkeyup = iframe.contentWindow.handleKeyboard = handleKeyboard;
 header.onmouseover = function() {headerVisible(true)};
 header.onmouseout = function() {headerVisible(false)};
-yinyang.onclick = function() {hideNav()};
+yinyang.onclick = eclipse.onclick = function() {hideNav()};
 prevArticle.onclick = function() {
   var pos = parseHash();
   if (pos[1] == 0) {
