@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>Logistic 回归</title>
+    <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<ol class="example">
+    <b>Sigmoid 函数</b>
+    `sigma(x) = (1+"e"^-x)^-1`
+    <canvas id="canvas" width="450" height="150"></canvas>
+    <li>`sigma(x) - 1/2 = 1/2 tanh(x/2)` 是奇函数;</li>
+    <li>`sigma(x)` 满足 Logistic 方程 `dy/dx = y (1-y)`. 于是
+        <span class="formula">
+            `sigma'(x) = sigma(1-sigma)`,
+            `quad (ln sigma(x))' = 1 - sigma`,
+            `quad (ln (1-sigma(x)))' = -sigma`.
+        </span>
+    </li>
+</ol>
+
+<p class="example">
+    考虑二分类问题. 已知训练集 `(x^((i)), y^((i)))`...
+    简记 `h^((i)) = sigma(W x^((i)) + b)`, 则
+    <span class="formula">
+        `L(W, b) = -1/n sum_(i=1)^n (y^((i)) ln h^((i))
+        + (1-y^((i))) ln(1-h^((i))))`,<br/>
+        `(del L)/(del W_j)`
+        `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) (1-h^((i))) - (1-y^((i))) h^((i)))`
+        `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) - h^((i)))`,<br/>
+        `(del L)/(del b)`
+        `= -1/n sum_(i=1)^n (y^((i)) - h^((i)))`.
+    </span>
+</p>
+
+<script src="../../js/note.js?type="></script>
+<script src="../../js/plot.js"></script>
+<script>
+new Plot('canvas', {keepRatio: false, xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5}).axis()
+    .plot(x => 1/(1+Math.exp(-x)));
+</script>
+</body>
+</html>

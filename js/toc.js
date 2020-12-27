@@ -225,6 +225,11 @@ cs: {
     {title:'数论算法', src:'ds/13.html'},
   ]
 }, {
+  title:'机器学习',
+  articles: [
+    {title:'Logistic 回归', src:'ml/1.html'},
+  ]
+}, {
   title:'操作系统',
   articles: [
     {title:'引论', src:'os/1.html'},
@@ -285,34 +290,34 @@ lang: {
   toc: [ {
     title: '汉语',
     articles: [
-        {title:'易读错字词整理', src:'zh/words.html',isnew:true},
+      {title:'易读错字词整理', src:'zh/words.html',isnew:true},
     ]
-}, {
+  }, {
     title: '日语',
     articles: [
-        {title:'学五十音', src:'jp/kana.html',isnew:true},
-        {title:'日语动词', src:'jp/words.html',isnew:true},
+      {title:'学五十音', src:'jp/kana.html',isnew:true},
+      {title:'日语动词', src:'jp/words.html',isnew:true},
     ]
-}, {
+  }, {
     title: '歌词',
     articles: [
-        {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html',isnew:true},
+      {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html',isnew:true},
     ]
 }]},
 
 music: {
-    title: '音乐 (开发中)',
-    color: 'pink',
-    toc: [ {
-        title: '工具',
-        articles: [
-            {title:'播放器', src:'utils/player.html',isnew:true},
-            {title:'简谱', src:'utils/jianpu.html',isnew:true},
-            {title:'乐谱编辑器', src:'utils/lywriter.html',isnew:true},
-            {title:'练耳', src:'utils/ear-training.html',isnew:true},
-            {title:'键盘', src:'utils/piano.html',isnew:true},
-        ]
-    }]
+  title: '音乐 (开发中)',
+  color: 'pink',
+  toc: [ {
+    title: '工具',
+    articles: [
+      {title:'播放器', src:'utils/player.html',isnew:true},
+      {title:'简谱', src:'utils/jianpu.html',isnew:true},
+      {title:'乐谱编辑器', src:'utils/lywriter.html',isnew:true},
+      {title:'练耳', src:'utils/ear-training.html',isnew:true},
+      {title:'键盘', src:'utils/piano.html',isnew:true},
+    ]
+  }]
 }
 // 全新的开始?
 };

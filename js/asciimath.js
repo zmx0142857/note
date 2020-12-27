@@ -266,7 +266,7 @@ AM.symbols = AM.symbols.concat([
 {input:":'",tag:'mo',output:'\u2235',tex:'because',ttype:CONST},
 {input:'/_',tag:'mo',output:'\u2220',tex:'angle',ttype:CONST},
 {input:'/_\\',tag:'mo',output:'\u25B3',tex:'triangle',ttype:CONST},
-{input:'\\ ',tag:'mo',output:'\u00A0',tex:null,ttype:CONST,val:true},
+{input:'\\ ',tag:'mtext',output:'\u00A0',tex:null,ttype:CONST,val:true},
 {input:'quad',tag:'mo',output:'\u00A0\u00A0',tex:null,ttype:CONST},
 {input:'qquad',tag:'mo',output:'\u00A0\u00A0\u00A0\u00A0',tex:null,ttype:CONST},
 {input:'cdots',tag:'mo',output:'\u22EF',tex:null,ttype:CONST},

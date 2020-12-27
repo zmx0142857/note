@@ -501,13 +501,13 @@ hideAnswer([
 	{name:'collapse', word:'&nbsp;'},
 ]);
 
-if (params.type == 'math' || params.loadmath) {
+//if (params.type == 'math' || params.loadmath) {
 	loadMath();
-}
+//}
 
-if (params.type == 'cs') {
+//if (params.type == 'cs') {
 	enableCopyCode();
-}
+//}
 
 makeReference(); // call makeReference() after decorate()
 //wrapIOS(); // call this after decorate()
