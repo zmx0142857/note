@@ -140,63 +140,6 @@ merge(M, N):
 </pre>
 </li>
 
-<li><b>折半查找1</b>. 在升序数组中查找值 <code>val</code>, 确认它是否存在.
-<pre class="solution">
-# n = L.len; 时间 O(log n), 空间 O(1)
-# 每次把查找范围 [lo..hi] 缩小一半
-L.binary_search1(val):
-	lo = 0, hi = L.len-1
-	while lo &lt;= hi:
-		mid = lo + (hi-lo)//2
-		if L[mid] == val:
-			return True
-		elif: L[mid] &lt; val:
-			lo = mid+1
-		else:
-			hi = mid-1
-	return False
-</pre>
-</li>
-
-<li><b>折半查找2</b>. 在升序数组中查找值 <code>val</code> 的优先插入位置.
-	即求下标 <code>i</code>, 使得 <code>L[i]</code> (如果存在的话)
-	是第一个大于等于 <code>val</code> 的元素.
-<pre class="solution">
-# n = L.len; 时间 O(log n), 空间 O(1)
-L.binary_search2(val):
-	lo = 0, hi = L.len-1
-	while lo &lt;= hi:
-		mid = lo + (hi-lo)//2
-		if L[mid] &lt; val:
-			lo = mid+1
-		else:
-			hi = mid-1
-	return lo
-
-# 1. 我们来证明循环结束后有 hi+1 == lo.
-# 假设 L 初始为空, 则循环结束后 hi+1 == 0 == lo.
-# 若 L 初始不空, 则每一步循环中有
-# L[lo-1] &lt; val &le; L[hi+1]
-# 因此 lo-1 &lt; hi+1.
-# 又循环结束时有 hi &lt; lo, 故
-# hi &lt; lo &lt; hi+2, 可见 hi+1 == lo.
-
-# 2. 显然 L 初始为空时, 所求的插入位置是 lo == 0.
-# L 初始不空时, 最后有 L[lo-1] &lt; val &le; L[lo]
-# 因此 L[lo] 是第一个大于等于 val 的元素.
-</pre>
-</li>
-
-<li><b>折半查找3</b>. 在升序数组中查找值 <code>val</code> 的次后 (即,
-	不优先) 插入位置.
-	即求下标 <code>i</code>, 使得 <code>L[i]</code> (如果存在的话)
-	是第一个大于 <code>val</code> 的元素.
-	<p class="solution">
-		将上面解法的 <code>if L[mid] &lt; val</code> 一句
-		换成 <code>if L[mid] &lt;= val</code> 即可.
-	</p>
-</li>
-
 <li><b>未出现的最小正整数</b>
 	给定一个长度为 <code>n</code> 的整数数组, 求数组中未出现的最小正整数.
 	<p class="solution">

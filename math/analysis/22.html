@@ -82,6 +82,8 @@
 	</tr>
 </table>
 
+<p>满足 `laplace f -= 0` 的函数称为<b>调和函数</b>.</p>
+
 <h3>径向函数</h3>
 
 <p>	设 `bm r = (x_1, cdots, x_m)`, `r = |bm r|`, 则
@@ -90,8 +92,13 @@
         `quad grad * bm r = m`, `quad laplace r = (m-1)/r`;<br/>
 		`grad f(r) = ("d"f)/("d"r) grad r`,
 		`quad laplace f(r) = ("d"^2 f)/("d"r^2) + (m-1)/r ("d"f)/("d"r)`;<br/>
-		`r laplace f = "d"^2/("d"r^2) (rf) quad (m = 3)`
 	</span>
+    特别当 `m = 3`, 在三维空间中有
+    <span class="formula">
+		`r laplace f = "d"^2/("d"r^2) (rf)`,
+    </span>
+    因此, `1//r` 是三维空间中的调和函数; 类似可证 `ln r`
+    是二维空间的调和函数.
 </p>
 
 <p class="proof">
@@ -198,6 +205,8 @@
 
 <p>在二维空间中, 约定 `"d"V = dx dy`, 三维空间中则 `"d"V = dx dy dz`.</p>
 
+<h3>Green, Gauss, Stokes</h3>
+
 <p>	Leibniz:
 	<span class="formula">
 		`"d"/dt int_(alpha(t))^(beta(t)) f(x, t) dx`
@@ -235,8 +244,16 @@
     取 `dz = 0` 就得到 Green 公式.
 </p>
 
-<p class="remark">
-    在 Gauss 公式中取 `bm F = grad f`, 得到常用的方向导数形式:
+<h3>Green 三大公式</h3>
+
+<p> 回忆方向导数的定义: `(del f)/(del bm n) = grad f * bm n`,
+    在 Gauss 公式中取 `bm F = grad f`, 则
+    <span class="formula">
+        `bm F * "d"bm S`
+        `= grad f * bm n |"d"bm S|`
+        `= (del f)/(del bm n) "d"sigma`,
+    </span>
+    得到有用的方向导数形式:
     <span class="formula">
 		`iiint_V Delta f "d"V
 		= oiint_(del V) (del f)/(del bm n) "d" sigma`,
@@ -250,27 +267,22 @@
     这个公式实际是下面 Green 第一公式的特殊情形.
 </p>
 
-<p class="proof">
-    回忆方向导数的定义: `(del f)/(del bm n) = grad f * bm n`, 因此
-    <span class="formula">
-        `bm F * "d"bm S`
-        `= grad f * bm n |"d"bm S|`
-        `= (del f)/(del bm n) "d"sigma`.
-    </span>
-</p>
-
-<p class="theorem">
+<ol class="theorem">
     <b>Green 第一公式</b>
-	<span class="formula">
-		`iint_V grad f * grad g "d"V
+    类比于分部积分公式将导数从一个因子转移到另一个因子上,
+    此公式将 nabla 算子从 `g` 转移到 `f` 上:
+    <li>(2d) `iint_V grad f * grad g "d"V
 		= int_(del V) g{::} (del f)/(del bm n) "d"s
-        - iint_V g laplace f "d"V`.
-	</span>
-    类比于分部积分公式 (将导数转移到另一个因子上), Green 第一公式将 nabla
-    算子从 `g` 转移到 `f` 上.
-</p>
+        - iint_V g laplace f "d"V`;
+    </li>
+    <li>(3d) `iiint_V grad f * grad g "d"V
+		= iint_(del V) g{::} (del f)/(del bm n) "d"sigma
+        - iiint_V g laplace f "d"V`.
+    </li>
+</ol>
 
 <p class="proof">
+    只证 2d 情形 (3d 情形其实更简单).
     利用方向导数的定义和 `bm n = (dy/("d"s), -dx/("d"s))`,
     <span class="formula">
         `int_(del V) g{::} (del f)/(del bm n) "d"s`
@@ -280,6 +292,57 @@
         + del/(del y)(g{::}(del f)/(del y))] "d"V`
         `= iint_V grad f * grad g "d"V + iint_V g laplace f "d"V`.
     </span>
+</p>
+
+<ol class="theorem">
+    <b>Green 第二公式</b>
+    <li>(2d) `iint_V |laplace f, laplace g; f, g| "d"V
+        = int_(del V) |(del f)/(del bm n), (del g)/(del bm n);
+        f, g| "d"s`;
+    </li>
+    <li>(3d) `iiint_V |laplace f, laplace g; f, g| "d"V
+        = iint_(del V) |(del f)/(del bm n), (del g)/(del bm n);
+        f, g| "d"sigma`.
+    </li>
+</ol>
+
+<p class="proof">
+    分别对函数 `f, g` 应用 Green 第一公式即可.
+    `grad f * grad g` 的积分刚好抵消.
+</p>
+
+<ol class="theorem">
+    <b>Green 第三公式</b>
+    设 `u` 为调和函数, `r` 是点 `(x,y)` 或 `(x,y,z)` 到 `del V`
+    上积分变动点的距离.
+    <li>(2d) `u(x,y) = 1/(2pi) int_(del V) (u (del ln r)/(del bm n)
+        - ln r (del u)/(del bm n)) "d"s`;
+    </li>
+    <li>(3d) `u(x,y,z) = 1/(4pi) iint_(del V) (1/r (del u)/(del bm n)
+        - u (del(1//r))/(del bm n)) "d"sigma`.
+    </li>
+</ol>
+
+<p class="proof">
+    只证 2d 情形.
+    取 `C` 是以 `(x,y)` 为心, `rho` 为半径的圆周.
+    对函数 `u` 和 `ln r`, 在 `C` 和 `del V` 所夹的区域上应用 Green
+    第二公式, 注意 `ln r` 是二维空间的调和函数, 有
+    <span class="formula">
+        `int_(del V) - int_C = 0`,
+    </span>
+    其中被积函数是 `|(del ln r)/(del bm n), (del u)/(del bm n);
+    ln r, u|`.
+    于是
+    <span class="formula">
+        `int_(del V)`
+        `= int_C (u (del ln r)/(del bm n) - ln r (del u)/(del bm n)) "d"s`
+        `= int_C (u (del ln r)/(del r) - ln rho (del u)/(del bm n)) "d"s`
+        `= 1/rho int_C u "d"s`.
+    </span>
+    令 `rho to 0`, 则 `u` 在 `C` 上的平均值
+    `1/(2pi rho) int_C u "d"s` 趋于 `u(x,y)`,
+    从而 `u(x,y) = 1/(2pi) int_(del V)`.
 </p>
 
 <p class="example">
@@ -304,24 +367,6 @@
         - 2 iint_V grad f * grad g "d"V`
 		`= iint_V |grad g - grad f|^2 "d"V ge 0`.
 	</span>
-</p>
-
-<p class="theorem">
-    <b>Green 第二公式</b>
-    <span class="formula">
-        `iint_V |laplace f, laplace g; f, g| "d"V
-        = oint_(grad V) |(del f)/(del bm n), (del g)/(del bm n);
-        f, g| "d"s`.
-    </span>
-</p>
-
-<p class="theorem">
-    <b>Green 第三公式</b>
-    <span class="formula">
-        `u(x, y) = 1/(2pi) oint_(del V) (u (del ln r)/(del bm n) - ln
-        r (del u)/(del bm n)) "d"s`,
-    </span>
-    其中 `laplace u = 0`, `r` 是 `(x, y)` 到边界 `del V` 上一点的距离.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

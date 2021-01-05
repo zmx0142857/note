@@ -7,6 +7,14 @@
 </head>
 <body>
 
+<p class="example">
+    <b>倒代换</b>
+    令 `t = 1/x`. 于是
+    <span class="formula">
+        `x t = 1` `rArr x dt + t dx = 0` `rArr dt/t = -dx/x`.
+    </span>
+</p>
+
 <ol class="example">
 	<b>Euler 代换</b>
 	设 `R(x, y)` 是有理函数, 对于 `R(x, sqrt(a x^2+b x+c))` 的不定积分:
@@ -276,7 +284,7 @@
 <p class="example">`I = int x/(x+1)^3 dx`.</p>
 
 <p class="solution">
-	常规做法是令 `t = x+1`, 但也可以:
+	常规做法是令 `t = x+1`, 也可以直接将 `x+1` 视为整体:
 	<span class="formula">
 		`I = int (x+1)/(x+1)^3 dx - int (dx)/(x+1)^3`
 		`= -1/(x+1) + 1/(2(x+1)^2) + C`.
@@ -311,6 +319,52 @@
 	</li>
 </ol>
 
+<p class="example">
+    求不定积分 `int dx/(1+x^n)`, 其中 `n = 3, 4, 6`.
+</p>
+
+<ol class="solution">
+    <li>原式等于
+        <span class="formula">
+            `1/3 int(1/(1+x) + (2-x)/(1-x+x^2)) dx`
+            `= 1/3 int dx/(1+x) -1/6 int (2x-1)/(x^2-x+1) dx + 1/2 int
+            dx/(x^2-x+1)`
+            `= 1/6 ln |1+x|^2/|x^2-x+1| + 1/(sqrt3)
+            arctan{:(2x-1)/(sqrt3):} + C`.
+        </span>
+    </li>
+    <li>原式等于
+        <span class="formula">
+            `1/2 int (1+x^2)/(1+x^4) dx + 1/2 int (1-x^2)/(1+x^4) dx`
+            `= 1/2 int (1+1/x^2)/(x^2+1/x^2) dx
+            - 1/2 int (1-1/x^2)/(x^2+1/x^2) dx`
+            `= 1/2 int ("d"(x-1/x))/((x-1/x)^2+2) dx
+            - 1/2 int ("d"(x+1/x))/((x+1/x)^2-2) dx`
+            `= 1/(2sqrt2) arctan{:(x-1/x)/2:}
+            -1/(4sqrt2) ln|(x+1/x-sqrt2)/(x+1/x+sqrt2)| + C`.
+        </span>
+    </li>
+    <li>原式等于
+        <span class="formula">
+            `1/3 int dx/(x^2+1) + 1/3 (2-x^2)/(x^4-x^2+1) dx`
+            `= 1/3 arctan x
+            + 1/3 * 1/2 int (1+x^2)/(x^4-x^2+1) dx
+            + 1/3 * 3/2 int (1-x^2)/(x^4-x^2+1) dx`
+            `= 1/3 arctan x + 1/6 arctan(x-1/x) - 1/(4sqrt3)
+            ln |(x+1/x-sqrt3)/(x+1/x+sqrt3)| + C`,
+        </span>
+        其中
+        <span class="formula">
+            `int (1+x^2)/(x^4-x^2+1) dx`
+            `= int ("d"(x-1/x))/((x-1/x)^2+1) dx`
+            `= arctan (x-1/x)`,<br/>
+            `int (1-x^2)/(x^4-x^2+1) dx`
+            `= -int ("d"(x+1/x))/((x+1/x)^2-3)`
+            `= -1/(2sqrt3) ln |(x+1/x-sqrt3)/(x+1/x+sqrt3)| + C`.
+        </span>
+    </li>
+</ol>
+
 <h3>分式分解方法</h3>
 
 <p class="example">
@@ -332,8 +386,8 @@
 
 <p>	一般地, 我们有如下定理:</p>
 
-<p class="theorem">
-	设 `p(x), q(x)` 为多项式. 若 `a` 是 `q(x)` 的 `r` 重根, 设 
+<p class="theorem" id="the-rat-decom">
+	设 `p(x), q(x)` 为多项式. 若 `a` 是 `q(x)` 的 `r` 重根, 设
 	`q(x) = (x-a)^r q_1(x)`, 其中 `q_1(a) != 0`.
 	容易知道函数 `f(x) = p(x) // q_1(x)` 在 `x = a` 处全纯,
 	将它在这一点 Taylor 展开得
@@ -408,6 +462,38 @@
 		</span>
 	</li>
 </ol>
+
+<p class="example">
+    `1/(1+-x^n)` 在 `CC` 上的的有理分式分解为
+    <span class="formula">
+        `1/(1+-x^n) = -1/n sum_r r/(x-r)`,
+    </span>
+    其中 `r` 取遍分母的 `n` 个根.
+    因此 `int dx/(1+-x^n) = -1/n sum_r r ln (x-r) + C`.
+</p>
+
+<p class="proof">
+    只证 `1//(1+x^n)` 的情形.
+    记 `omega = "e"^(pi"i"//n)`, 则 `omega^n = -1`,
+    且 `x^n+1` 的 `n` 个根为
+    <span class="formula">
+        `r_k = omega^(2k+1)`, `quad k = 0, 1, cdots, n-1`.
+    </span>
+    由<a class="ref" href="#the-rat-decom"></a>,
+    <span class="formula">
+        `1/(1+x^n) = sum_(0 le k lt n) A_k/(x-r_k)`,
+    </span>
+    其中
+    <span class="formula">
+        `A_k = prod_(0 le j lt n; j != k) (r_k-r_j)^-1`
+        `= prod (omega^(2k+1) - omega^(2j+1))^-1`
+        `= omega^((2k+1) (1-n)) prod (1-omega^(2(j-k)))^-1`
+        `= -omega^(2k+1) prod_(0 lt j lt n) (1-omega^(2j))^-1`
+        `= -r_k/n`.
+    </span>
+    最后一步利用了恒等式 `prod_s (1-s) = n`, 其中 `s` 取遍 `x^n-1` 除了
+    1 以外的所有根.
+</p>
 
 <h3>三角/指数函数的有理式</h3>
 

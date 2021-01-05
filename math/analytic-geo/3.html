@@ -114,51 +114,64 @@
 
 <h3>椭圆的方程</h3>
 
-<p class="theorem">
+<ol class="theorem">
 	设 `P(x, y)` 到点 `F_1(-c, 0)` 和点 `F_2(c, 0)` 的距离分别为
 	`r_1`, `r_2`, 且
 	<span class="formula">
 		`r_1 + r_2 = 2a`, `quad 0 lt c lt a`.
 	</span>
-	则 `P` 的轨迹方程是
-	<span class="formula">
-		`x^2/a^2 + y^2/b^2 = 1`.
-	</span>
-</p>
+    则 `P` 的轨迹为
+    <li>极坐标方程 `r_(1,2) = p/(1&mp;e cos theta_(1,2))`;</li>
+    <li>直角坐标方程 `x^2/a^2 + y^2/b^2 = 1`.</li>
+    其中, 半短轴 `b = sqrt(a^2-c^2)`, 通径 `p = a - c e = b^2/a`,
+    离心率 `e = c/a`, 极角 `theta_i` 表示 `r_i` 与 `x` 轴的夹角,
+    `i = 1, 2`.
+</ol>
 
-<p class="solution">
-	由已知
-	<span class="formula">
-		`r_1 = sqrt ((x+c)^2 + y^2)`,
-		`quad r_2 = sqrt ((x-c)^2 + y^2)`.
-	</span>
-	所以
-	<span class="formula">
-		`r_1^2 - r_2^2 = 4cx`,
-		`quad r_1 - r_2 = (r_1^2 - r_2^2)/(r_1 + r_2)`
-		`= (4 c x)/(2 a) = 2ex`.
-	</span>
-	其中 `e = c/a`.  于是
-	<span class="formula">
-		`r_1^2 + r_2^2`
-		`= 1/2 [(r_1 - r_2)^2 + (r_1 + r_2)^2]`
-		`= 1/2 [(2e x)^2 + (2 a)^2]`
-		`= 2(e^2 x^2 + a^2)`.
-	</span>
-	而另一方面, 由 `r_1, r_2` 的表达式直接得到
-	<span class="formula">
-		`r_1^2 + r_2^2 = 2(x^2 + y^2 + c^2)`
-	</span>
-	(也可以说是 “平行四边形四边的平方和, 等于其对角线的平方和”), 所以
-	<span class="formula">
-		`x^2 + y^2 + c^2 = e^2 x^2 + a^2`,
-	</span>
-	即
-	<span class="formula">
-		`x^2 / a^2 + y^2 / b^2 = 1`.
-	</span>
-	其中 `b = sqrt (a^2 - c^2)`.
-</p>
+<ol class="solution">
+    <li>由已知
+        <span class="formula">
+            `r_(1,2) = sqrt ((x+-c)^2 + y^2)`,
+        </span>
+        所以
+        <span class="formula">
+            `r_1^2 - r_2^2 = 4cx`,
+            `quad r_1 - r_2 = (r_1^2 - r_2^2)/(r_1 + r_2)`
+            `= (4 c x)/(2 a) = 2ex`.
+        </span>
+        由 `r_1 + r_2 = 2 a`, `r_1 - r_2 = 2e x` 解得
+        <span class="formula">
+            `r_(1,2) = a +- e x`.
+        </span>
+        于是
+        <span class="formula">
+            `r_2 = a - e(x-c) - c e`
+            `= a - c e - e r_2 cos theta_2`
+            `= (a - c e)/(1+e cos theta_2)`
+            `= p/(1+e cos theta_2)`,
+        </span>
+        `r_1` 的方程类似.
+    </li>
+    <li>为得到直角坐标方程, 求 `r_1, r_2` 的平方和
+        <span class="formula">
+            `r_1^2 + r_2^2`
+            `= 1/2 [(r_1 - r_2)^2 + (r_1 + r_2)^2]`
+            `= 2(e^2 x^2 + a^2)`.
+        </span>
+        另一方面, 由 `r_1, r_2` 的表达式直接得到
+        <span class="formula">
+            `r_1^2 + r_2^2 = 2(x^2 + y^2 + c^2)`
+        </span>
+        (上式实际上是三角形的中线长公式), 总之
+        <span class="formula">
+            `x^2 + y^2 + c^2 = e^2 x^2 + a^2`,
+        </span>
+        即
+        <span class="formula">
+            `x^2 / a^2 + y^2 / b^2 = 1`.
+        </span>
+    </li>
+</ol>
 
 <p class="definition">
 	<b>圆锥曲线的统一定义</b>
@@ -189,9 +202,9 @@
 		<span class="formula">
 			`r_1 = a + ex`, `quad r_2 = a - ex`.
 		</span>
-		设 `p = a//e`, 则点 `P` 到焦点 `F_2` 与到准线 `x = p` 的距离之比
+		设 `l = a//e`, 则点 `P` 到焦点 `F_2` 与到准线 `x = l` 的距离之比
 		<span class="formula">
-			`r_2/(p-x) = (a-ex)/(a//e - x) = e`.
+			`r_2/(l-x) = (a-ex)/(a//e - x) = e`.
 		</span>
 	</li>
 	<li>设两焦半径的夹角为 `theta`.

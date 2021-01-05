@@ -91,7 +91,7 @@ is_prime(n):
 </pre>
 
 <p class="algorithm">
-	<b>简单的因数分解</b>
+	<b>平凡因数分解</b>
 	设 n 是正整数, 返回 n 的所有素因子及其次数.
 	在 linux 系统中, 可以用 <code>factor</code> 命令分解整数.
 </p>
@@ -228,6 +228,22 @@ Euler_sieve():
 	内循环应当执行 break 语句. 换言之, 不可能使内层循环继续迭代,
 	从而排除合数 `k = j q`. 矛盾. 所以 `k` 必定由它的最小素因子排除.<br/>
 	由数学归纳法, 结论对所有 `i = 2, 3, 4, cdots` 成立.
+</p>
+
+<p class="example">
+    已知正整数 `n`, 求最大的正整数 `m | n`, 且 `m` 无平方因子,
+    即不存在素数 `p` 使得 `p^2 | m`.
+</p>
+
+<p class="proof">
+    为避免对 `n` 作因子分解, 可以求出 `2` 到 `sqrt n` 间所有素数的乘积
+    `M`, 然后 `m = gcd(M, n)`.
+    这里 `M` 是一个很大的数; 如果 `n` 的范围已知, 可以通过查表得到 `M`.
+    如果 `M` 过大, 可以考虑每三个素数乘积求一次
+    gcd, 再将结果相乘, 即
+    <span class="formula">
+        `m = gcd(2*3*5, n) * gcd(7*11*13, n) * cdots`
+    </span>
 </p>
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>

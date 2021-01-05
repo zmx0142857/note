@@ -297,6 +297,31 @@
 	</li>
 </ol>
 
+<p class="example">
+    `I(s) = int_0^pi ln(s + cos x) dx`, `s gt 1`.
+</p>
+
+<p class="proof">
+    对参数求导, 利用万能公式积分
+    <span class="formula">
+        `I'(s)`
+        `= int_0^pi dx/(s + cos x)`
+        `= cdots = pi/sqrt(s^2-1)`.
+    </span>
+    注意
+    <span class="formula">
+        `I(1) = int_0^pi ln(1+cos x) dx`
+        `= int_0^pi ln(2 cos^2{:x/2:}) dx`
+        `= -pi ln 2`,
+    </span>
+    所以
+    <span class="formula">
+        `I(s) = I(1) + int_1^s I'(t) dt`
+        `= -pi ln 2 + pi ln (s + sqrt(s^2-1))`
+        `= pi ln {:(s+sqrt(s^2-1))/2:}`.
+    </span>
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

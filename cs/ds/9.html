@@ -38,61 +38,71 @@ L.find(key):
 </pre>
 
 <p class="algorithm">
-	<b>折半查找 (二分查找, binary serach)</b>
-	适用于按关键字有序的顺序表. 思想是确定查找元素下标的上界
-	<code>hi</code> 与下界 <code>lo</code>,
-	每次将上下界中间的那个元素 <code>mid = |_ (lo+hi)/2 _|</code>
-	与待查元素比较, 可将范围缩小一半.
-	下面设 <code>L</code> 是按关键字有序的顺序表,
-	函数 <code>bsearch</code> 返回具有值 <code>val</code>
-	的元素下标 (当多个元素都具有值 <code>val</code> 时,
-	返回其中任意一个即可).  找不到匹配元素时, 返回该值在表中的插入位置.
+    <b>折半查找 (二分查找, binary search)</b>
+    设函数 <code>f</code> 是 <code>[a, b]</code> 到
+    <code>{0, 1}</code> 的单调增函数,
+    下面的 <code>bsearch</code> 算法在区间中寻找满足
+    <code>f(n) = 1</code> 的最小整数 <code>hi</code>
+    和满足 <code>f(n) = 0</code> 的最大整数 <code>lo</code>.
+    我们不妨设 <code>f(a) = 0, f(b) = 1</code>, 这样所求的数就总是存在的.
+    思路是令初值 <code>lo = a, hi = b</code>, 每次将区间缩小一半,
+    直到 <code>hi-lo = 1</code>.
 </p>
 
 <pre>
-L.bsearch(val):
-	lo, hi = 0, L.length-1
-	while lo &lt;= hi:               # 查找范围不空
-		mid = lo + ((hi-lo) &gt;&gt; 1) # 避免上溢; 另外, 指针不能相加
-		if val == L[mid]:
-			return mid
-		elif val &lt; L[mid]:
-			hi = mid-1
-		else:
-			lo = mid+1
-	return lo                     # L[hi] &lt; val &lt; L[lo]
+# f 是增函数, f(lo) = 0, f(hi) = 1
+bsearch(f, lo, hi):
+    while hi-lo &gt; 1:
+        mid = lo + &lfloor;(hi-lo)/2&rfloor;
+        if !f(mid):
+            lo = mid
+        else:
+            hi = mid
+    return lo, hi
 </pre>
 
-<p>	我们来说明为什么查找失败时, 返回值是 <code>lo</code>.
-	假如循环一次也不执行, 说明表为空, 应当返回 0, 算法是正确的.
-	假如循环至少执行了一次, 则由 <code>lo &lt;= mid &lt;= hi</code> 知道,
-	不论最后一次循环中执行的是 <code>hi = mid-1</code> 还是
-	<code>lo = mid+1</code>, 退出循环后都必有 <code>hi+1 == lo</code>.
-	此时 <code>L[hi] == L[lo-1] &lt; val</code>, <code>L[lo] == L[hi+1]
-	&gt; val</code>, 按约定应当在 <code>lo</code> 处插入.
-	运行结果如下:
+<ol class="proof">
+    <li>在 while 循环末尾处维持不变式: <code>f(lo) = 0, f(hi) = 1</code>.
+        由 <code>f</code> 的单调性有 <code>lo &lt; hi</code>.
+    </li>
+    <li>循环一定会结束, 因为 <code>hi-lo &gt; 1</code> 保证了
+        <code>lo &lt; mid &lt; hi</code>.
+    </li>
+    <li>一旦循环结束, 有 <code>lo &lt; hi &le; lo+1</code>,
+        即 <code>hi-lo = 1</code>.
+    </li>
+    <li>结合循环不变式, <code>lo, hi</code> 即为所求.
+    </li>
+</ol>
+
+<p> 例如, 为了在升序数组 <code>L</code> 中找到第一个大于 (大于等于, 等于)
+    <code>val</code> 的元素,
+    我们取 <code>f(n) = L[n] &gt;(&ge;,=) val</code>,
+    初值可以设定为 <code>lo = -1, hi = L.length</code>;
+    若算法返回 <code>L.length</code>, 则表示该元素不存在.
+</p>
+<p> 又例如, <code>f</code> 在正整数集上有定义,
+    要求满足 <code>f(n) = 1</code> 的最小正整数.
+    我们只知道这个数存在, 而 <code>n</code> 的上界尚不清楚.
+    这时可以用如下的函数得到一对初值:
 </p>
 
 <pre>
-[1, 3, 5].bsearch(0) = 0
-[1, 3, 5].bsearch(1) = 0
-[1, 3, 5].bsearch(4) = 2
-[1, 3, 5].bsearch(5) = 2
-[1, 3, 5].bsearch(6) = 3
+# 规定 f(0) = 0
+init(f):
+    n = 1
+    while !f(n):
+        n *= 2
+    return &lfloor;n/2&rfloor;, n # 检验: f(lo) = 0, f(hi) = 1;
 </pre>
 
 <ol>折半查找的思路看似简单, 实现起来有许多陷阱.
-	<li>直接令 <code>mid = |_ (lo+hi)/2 _|</code> 可能导致整数上溢.
-		更进一步, 若 <code>lo, hi</code> 是指针或迭代器类型,
-		相加是不可能的.
+	<li>令 <code>mid = &lfloor;(lo+hi)/2&rfloor;</code>
+        可能导致整数上溢. 更进一步, 若 <code>lo, hi</code>
+        是指针或迭代器类型, 相加是不可能的.
 	</li>
-	<li>使用无符号整型下标, 会带来什么问题?
-		首先, 必须在函数开头对 <code>L.length == 0</code> 进行检查,
-		否则会导致 <code>hi == -1</code>. 在无符号整型中, <code>-1</code>
-		是一个很大的正数, 与我们 <code>hi &lt; lo</code> 的期望相背!
-		同理, 代码 <code>hi = mid-1</code> 也将在 <code>mid == 0</code>
-		时出错. 如果你还想使用无符号整型下标,
-		一个补救的措施是把数组头空出不用, 从下标 1 开始使用它.
+	<li>由于算法涉及到 -1, 我们不推荐使用无符号整型下标.
+        如果非要用, 一个补救的措施是把数组头空出不用, 从下标 1 开始使用它.
 	</li>
 </ol>
 
@@ -101,9 +111,9 @@ L.bsearch(val):
 	同样仅适用于按关键字有序的顺序表.
 	利用 Fibonacci 数列
 	<span class="formula">`F_n = {
-		(0, if n = 0),
-		(1, if n = 1),
-		(F_(n-1) + F_(n-2), if n ge 2)
+		0, if n = 0;
+		1, if n = 1;
+		F_(n-1) + F_(n-2), if n ge 2;
 	:}`</span>
 	假设表中记录数 `n = F_k-1`, 以 `F_(k-1)` 为分点,
 	将表分为长 `F_(k-1)-1` 的左半部分
