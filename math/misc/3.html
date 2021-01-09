@@ -1175,7 +1175,22 @@
 <ol class="example">
 	<li>三角形 ABC 中, `sum_"cyc" cos A le 3//2`;</li>
 	<li>三角形的外接圆半径为 `R`, 内接圆半径为 `r`, 则 `R ge 2r`.</li>
-	(证明?)
+</ol>
+
+<ol class="proof">
+    <li>
+        <span class="formula">
+            `sum cos A = sum (b^2+c^2-a^2)/(2b c)`
+            `= (sum a(b^2+c^2) - sum a^3)/(2a b c)`
+            `= (sum a^2(b+c) - sum a^3)/(2a b c)`.
+        </span>
+        在 Schur 不等式中取 `t = 1` 有
+        <span class="formula">
+            `sum a^3 - sum a^2(b+c) ge sum a b c = 3 a b c`,
+        </span>
+        代入上式即得证.
+    </li>
+    <li>??</li>
 </ol>
 
 <h3>`uvw` 方法</h3>
@@ -1350,6 +1365,7 @@
 	<li>已知 `x^2 + y^2 = 1`, 求 `max(x+1)(y+2)`;</li>
 	<li>已知 `x gt -1`, 求 `min(x^2+7x+10)/(x+1)`;</li>
 	<li>已知 `x in (0, 1/2)`, 求 `min(2/x + 9/(1-2x))`;</li>
+    <li>已知 `x^2 - 4 x y - 5 y^2 = 5`, 求 `min(x^2+2y^2)`;</li>
 </ol>
 
 <ol class="solution">
@@ -1389,6 +1405,14 @@
 		</span>
 		后面的处理是容易的.
 	</li>
+    <li>通过因式分解, 条件化为 `(x-5y)(x+y) = 5`.
+        令 `m = x-5y`, `n = x+y`, 可解出 `x, y`, 进而
+        <span class="formula">
+            `x^2 + 2 y^2 = (m^2 + 9 n^2 + 2 m n)/12`
+            `ge (2 * 3 m n + 2 m n)/12`
+            `= 10/3`.
+        </span>
+    </li>
 </ol>
 
 <ol class="example">

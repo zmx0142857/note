@@ -204,25 +204,49 @@
 	</span>
 </p>
 
-<p class="example">
-    记 `r = |bm r|`, `hat bm r = bm r//r`, 用字母上的一点表示对 `t`
-    的导数，则
-    <span class="formula">
-        `(:bm r, dot bm r:)`
-        `= 1/2 "d"/dt (:bm r, bm r:)`
-        `= 1/2 "d"/dt (r^2)`
-        `= r dot r`,
-    </span>
-    换言之, `dot r = (:bm r, dot bm r:)//r`.
-    <span class="formula">
-        `dot hat bm r`
-        `= "d"/dt(bm r/r)`
-        `= (r dot bm r - dot r bm r) / r^2`
-        `= (dot bm r (:bm r, bm r:) - bm r (:bm r, dot bm r:)) / r^3`
-        `= ((bm r ^^ dot bm r) ^^ bm r) / r^3`.
-    </span>
-    其中 `bm h = bm r ^^ dot bm r` 称为角动量.
-    此例应当作为公式记忆.
+<ol class="example" id="exp-dot-r">
+    <b>极坐标下的矢量分析</b>
+    <li>记 `r = |bm r|`, `hat bm r = bm r//r`, 用字母上的一点表示对 `t`
+        的导数，则
+        <span class="formula">
+            `(:bm r, dot bm r:)`
+            `= 1/2 "d"/dt (:bm r, bm r:)`
+            `= "d"/dt (r^2/2)`
+            `= r dot r`,
+        </span>
+        换言之, `dot r = (:bm r, dot bm r:)//r`.
+    </li>
+    <li>`bm h = bm r ^^ dot bm r` 称为角动量,
+        它垂直于 `bm r, dot bm r` 所在的平面.
+        记 `bm theta = dot hat bm r`, 则
+        <span class="formula">
+            `bm theta`
+            `= "d"/dt(bm r/r)`
+            `= (r dot bm r - dot r bm r) / r^2`
+            `= (dot bm r (:bm r, bm r:) - bm r (:bm r, dot bm r:)) / r^3`
+            `= ((bm r ^^ dot bm r) ^^ bm r) / r^3`.
+            `= (bm h ^^ bm r)/r^3`.
+        </span>
+        因此, `bm r, bm theta, bm h` 两两垂直成右手系.
+    </li>
+    <li>将 `dot bm r` 正交分解. 设 `dot bm r = a hat bm r + b hat bm
+        theta`, 分别和 `bm r` 作内积, 外积:
+        <span class="formula">
+            `(:bm r, dot bm r:) = r a`,
+            `quad bm r ^^ dot bm r = r b hat bm h`.
+        </span>
+        由已知 `a = dot r`, `b = h/r`, 即
+        <span class="formula">
+            `dot bm r = dot r hat bm r + h/r hat bm theta`.
+        </span>
+        另一方面,
+        <span class="formula">
+            `dot bm r = "d"/dt(r hat bm r)`
+            `= dot r hat bm r + r dot hat bm r`
+            `= dot r hat bm r + r theta hat bm theta`.
+        </span>
+        两式相减得 `h = r^2 theta`.
+    </li>
 </p>
 
 <ol class="corollary">

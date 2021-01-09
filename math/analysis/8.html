@@ -65,7 +65,7 @@
 	</li>
 	<li>计算. 将二重积分
 		<span class="formula">
-			`iint_D "e"^(-x y) sin x dx`,
+			`iint_D "e"^(-x y) sin x dx dy`,
 			`quad D = [0, +oo) xx [0, +oo)`
 		</span>
 		分别写为 `x` 型和 `y` 型, 有
@@ -75,7 +75,7 @@
 		</span>
 		即
 		<span class="formula">
-			`int_0^oo (sin x)/x dx = int_0^oo dy/(y^2+1) = pi/2`.
+			`int_0^oo (sin x)/x dx = int_0^oo dy/(y^2+1) = pi/2`,
 		</span>
 		于是原式等于 `pi`.
 	</li>
@@ -225,8 +225,7 @@
 	<span class="formula">
 		`Gamma(x+1) = x Gamma(x)`.
 	</span>
-	从而其定义域可以推广到 `ZZ^+ uu (RR\\ZZ)`,
-	即除了零和负整数外的所有实数:
+	从而其定义域可以推广到除了零和负整数外的所有实数:
 	<span class="formula">
 		`Gamma(x) = (Gamma(x+n+1))/(x(x+1)cdots(x+n))`.
 	</span>
@@ -382,8 +381,9 @@
 
 <p class="theorem">
     乘积公式右边的极限, 只要分母不为零, 对任意复数 `x` 都收敛.
-    因此借助此公式, 可以将 `Gamma(z)` 的定义拓展到复平面上, `z != 0, -1,
-    -2, cdots`. `Gamma(z)` 没有零点, 它的倒数 `1/Gamma(z)` 在 `CC` 上解析.
+    因此借助此公式, 可以将 `Gamma(s)` 的定义拓展到复平面上,
+    `s != 0, -1, -2, cdots`. `Gamma(s)` 没有零点, 它的倒数
+    `1/(Gamma(s))` 在 `CC` 上解析.
 </p>
 
 <p class="proof">
@@ -397,7 +397,24 @@
         `= 1/x prod_(n ge 1) n/(x+n) ((n+1)/n)^x`
         `= 1/x prod_(n ge 1) (1+x/n)^-1 (1+1/n)^x`.
     </span>
-    (??)
+    (收敛性的说明??)
+</p>
+
+<p class="theorem">
+    <b>Weierstrass 公式</b>
+    <span class="formula">
+        `1/(Gamma(s)) = "e"^(gamma s) s prod_(n ge 1) (1+s/n) "e"^(-s/n)`.
+    </span>
+    `gamma` 为 Euler-Mascheroni 常数.
+</p>
+
+<p class="proof">
+    利用乘积公式, 左边等于
+    <span class="formula">
+        `lim_(n to oo) (s(s+1)cdots(s+n))/(n^s n!)`
+        `= lim_(n to oo) "e"^(-s ln n) * s prod_(1 le k le n) (1 + s/k)`
+        `= lim_(n to oo) "e"^(s (gamma - H_n)) * s prod_(1 le k le n) (1 + s/k) =` 右边.
+    </span>
 </p>
 
 <p class="property">
@@ -420,13 +437,18 @@
 		`= B(x, 1-x) Gamma(1)`
 		`= int_0^oo u^(x-1)/(1+u) "d"u`.
 	</span>
-	???
+	利用含参积分?? 利用 Fourier 展开??
 </p>
 
 <ol class="property">
 	<b>Gauss-Legendre 倍元公式</b>
 	<li>`Gamma(x) Gamma(x+1/2) = (Gamma(2x))/2^(2x) 2 sqrt pi`;</li>
 	<li>`prod_(0 le k lt n) Gamma(x+k/n) = (Gamma(n x))/n^(n x) sqrt n (2pi)^((n-1)/2)`.</li>
+    令 `x = z + b//n` 得
+    <span class="formula">
+        `Gamma(n z + b) = n^(n z+b-1//2) (2pi)^((1-n)//2) prod_(0 le k lt
+        n) Gamma(z + (b+k)/n)`.
+    </span>
 </ol>
 
 <ol class="proof">

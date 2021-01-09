@@ -244,8 +244,31 @@
 </p>
 
 <p class="example">
-    设整数 `n gt 1`. 证明: `sum_(k=1)^n 1/k` 不是整数.
+    设整数 `n gt 1`. 证明: `H_n = sum_(j=1)^n 1/j` 不是整数.
 </p>
+
+<ol class="proof">
+    利用如下事实:
+    每个正整数 `j` 都可以唯一地写为 `j = 2^(m_j) a_j`,
+    其中 `m_j ge 0`, `a_j` 为奇数.
+    <li>下证 `m_j` 在 `1 le j le n` 中有唯一的最大值 `m`.
+        设 `m_j = m_k = m`, `j le k`, 则
+        <span class="formula">
+            `k - j = 2^(m_k) a_k - 2^(m_j) a_j`
+            `= 2^m (a_k - a_j)`,
+        </span>
+        其中 `a_k, a_j` 为奇数, 因此 `k - j` 为偶数. 若 `k - j gt 0`,
+        则它所含的 2 的次数大于 `m`, 矛盾; 因此 `k = j`.
+    </li>
+    <li>设 `m = m_k = max_(1 le j le n) m_j`,
+        `M = 2^(m-1) prod a_j`. 由 1. 知,
+        `j = 2^(m_j) a_j | M` 当且仅当 `j != k`. 于是
+        <span class="formula">
+            `M H_n = sum M/j -= M/k (mod 1)`
+        </span>
+        上式右边不是整数, 因此左边也不能是整数, 证毕.
+    </li>
+</ol>
 
 <h3>取整函数</h3>
 
@@ -340,14 +363,32 @@
 	应用同样的推理知 `b` 是偶数, 从而 `a`, `b` 有公因子 `2`. 矛盾.
 </p>
 
-<p class="theorem">
+<p class="theorem" id="the-rational-root">
+    记整系数多项式的有理根 (如果存在) 的最简分数为 `c//d`,
+    则 `d` 是首项系数的因子, `c` 是常数项的因子.
+    特别首项系数为一的整系数多项式, 其有理根 (如果存在) 必为整数,
+    且这个整数是常数项的因子.<br/>
+    例如 `d x - c` 的根为 `c//d`, 其中分母是首项的因子,
+    分子是常数项的因子.
+</p>
+
+<p class="proof">
+    设 `f(x) = a_n x^n + cdots + a_1 x_1 + a_0`.
+    将 `x = c//d` 代入, 两边同乘 `d^n` 得
+    <span class="formula">
+        `a_n c^n + cdots + a_1 c d^(n-1) + a_0 d^n = 0`,
+    </span>
+    从而 `d | a_n c^n`. 但 `(c, d) = 1`, 所以 `d | a_n`. 同理
+    `c | a_0 d^n rArr c | a_0`.
+</p>
+
+<p class="corollary">
 	设 `n, k` 是正整数. 则 `root k n` 是整数或无理数.
     因此, `sqrt 2, sqrt 5, sqrt 12, root 3 2` 都是无理数.
 </p>
 
 <p class="proof">
-    注意 `root k n` 是多项式 `x^k - n` 的根,
-	利用这一事实: "首一的整系数多项式, 其有理根只能是整数" 立即得到结论.
+    注意 `root k n` 是多项式 `x^k - n` 的根. 若它为有理数, 则必为整数.
 </p>
 
 <p class="proof">
