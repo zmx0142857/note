@@ -305,7 +305,7 @@
 </ol>
 
 <ol class="proof">
-	<li>先设 `0 le l lt `. 取实数 `r` 使得 `l lt r lt 1`,
+	<li>先设 `0 le l lt 1`. 取实数 `r` 使得 `l lt r lt 1`,
 		则由条件知存在正整数 `N`, 使当 `n ge N` 时 `root n (u_n) le r`.
 		即 `u_n le r^n`. 由 `r lt 1` 知 `sum_(n=1)^oo r^n` 收敛, 从而
 		`sum_(n=1)^oo u_n` 也收敛.
@@ -318,6 +318,11 @@
 		所以它发散.
 	</li>
 </ol>
+
+<p class="remark">
+    `l = 1` 时, D'Alembert 和 Cauchy 判别法均失败.
+    为了判断更精细的级数的敛散性, 可以考虑下一节的 Gauss 判别法.
+</p>
 
 <h3>`p` 级数与调和级数</h3>
 
@@ -408,17 +413,23 @@
 <p class="example">
 	利用 `p` 级数敛散性的第二种证明的思路,
 	可以得到更精细的级数的敛散性. 如 `sum_(n=2)^oo 1/(n ln^p n)`
-	在 `p gt 1` 时收敛, `p le 1` 时发散. 一般地, 记 `f_0(n) = n`,
-	`f_m(n) = ln f_(m-1)(n)`, `m = 1, 2, cdots`.
-	又设 `M` 是某个使得 `f_m(n)` 有定义的正整数. 则级数
+	在 `p gt 1` 时收敛, `p le 1` 时发散. 一般地, 记 `ln_0 x = x`,
+	`ln_m x = ln ln_(m-1) x`, `m = 1, 2, cdots`. 则有
+    <span class="formula">
+        `(ln_m x)' = prod_(0 le k lt m) ln_k^-1 x
+    </span>
+	又设 `M` 是某个使得 `ln_m n` 有定义的正整数. 则级数
 	<span class="formula">
-		`sum_(n=M)^oo 1/(f_0(n) f_1(n) cdots f_(m-1)(n) f_m^p(n)`.
+		`sum_(n ge M) ln_m^-p n (ln_m n)'`
+		`= sum_(n ge M) 1/(n ln n ln_2 n cdots ln_(m-1) n ln_m^p n)`
 	</span>
-	在 `p gt 1` 时收敛, `p le 1` 时发散.
+	在 `p gt 1` 时收敛, `p le 1` 时发散.<br/>
+    `ln_m n` 是增长十分缓慢的函数, 不过它仍趋向正无穷大.
+    本题表明以它的导函数为通项的级数恰好发散.
 </p>
 
 <ol class="proof">
-	`m = 1` 的证明如下. 一般的情形, 可对 `m` 进行归纳证明.
+    简明起见只证 `m = 1` 情形. 一般情形是类似的.
 	<li>`p le 0` 时, 对充分大的 `n` 有 `1/(n ln^p n) ge 1/n`,
 		而调和级数发散; 由比较判别法一, 原级数发散.
 	</li>
@@ -457,6 +468,86 @@
 		故原级数的部分和有上界, 因此收敛.
 	</li>
 </ol>
+
+<p class="proof">
+    使用积分判别法, 本题是显然的
+    , 以 `p = 1` 为例,
+    <span class="formula">
+        `sum_(n ge M) ln_m^-1 n (ln_m n)'`
+        `= sum_(n ge M) (ln_(m+1) n)'`
+        `= sum_(n ge M) int_n^(n+1) (ln_(m+1) n)' dx`
+        `ge sum_(n ge M) int_n^(n+1) (ln_(m+1) x)' dx`
+        `= int_M^oo (ln_(m+1) x)' dx = oo`.
+    </span>
+</p>
+
+<p class="lemma">
+    等价无穷小 `(ln_m(n+1))/(ln_m n) - 1 ~ (ln_(m+1) n)'`, `n to oo`.
+</p>
+
+<p class="proof">
+    对 `m` 进行归纳, `m = 0` 时得 `(n+1)/n - 1 ~ 1/n`, 显然成立;
+    设结论对 `m-1` 成立, 考虑 `m` 的情形, `n to oo` 时有:
+    <span class="formula">
+        `(ln_m(n+1))/(ln_m n) - 1`
+        `= (ln_m(n+1) - ln_m n)/(ln_m n)`
+        `= (ln{:(ln_(m-1)(n+1))/(ln_(m-1) n):})/(ln_m n)`
+        `~ ((ln_m n)')/(ln_m n)`
+        `= (ln_(m+1) n)'`.
+    </span>
+</p>
+
+<ol class="theorem">
+    <b>Gauss 检比法</b>
+    将正项级数 `sum u_n` 的相邻两项比以 `f_m(n) = (ln_m n)'` 的阶渐近展开:
+    <span class="formula">
+        `u_n//u_(n+1) = sum_(m=0)^N G_m f_m(n) + o(f_N(n))`
+        `= G_0 + G_1/n + G_2/(n ln n) + G_3/(n ln n ln ln n) + cdots + o(f_N(n))`.
+    </span>
+    若存在 `M` 使得 `G_0 = G_1 = cdots = G_(M-1) = 1`, 而 `G_M != 1`, 则
+    <li>`G_M gt 1` (含 `G_M = +oo`) 时, 原级数收敛;</li>
+    <li>`G_M lt 1` (含 `G_M = -oo`) 时, 原级数发散.</li>
+</ol>
+
+<ol class="proof">
+    <li>设 `G_M gt 1`, 取 `1 lt p lt G_M`, 则级数
+        `sum v_n = sum ln_(M-1)^-p n (ln_(M-1) n)'` 收敛.
+        考察它的前后项比, 利用引理将乘积展开:
+        <span class="formula">
+            `v_n // v_(n+1)`
+            `= (n+1)/n (ln(n+1))/(ln n) cdots
+            (ln_(M-2) (n+1))/(ln_(M-2) n) ((ln_(M-1) (n+1))/(ln_(M-1) n))^p`
+            `= (1 + f_M(n) + o(f_M(n)))^p
+            prod_(m=1)^(M-1) (1+f_m(n) + o(f_m(n)))`
+        </span>
+        注意 `p lt G_M`, 故 `n` 充分大时, 上式小于等于
+        <span class="formula">
+            `u_n // u_(n+1)`
+            `= 1 + 1/n + 1/(n ln n) + cdots + G_M f_M(n) + o(f_M(n))`.
+        </span>
+        由第三比较判别法知 `sum u_n` 收敛.
+    </li>
+    <li>`G_m lt 1` 的证明类似.</li>
+</ol>
+
+<p class="remark">
+    系数 `G_m` 可以通过计算极限 `lim_(n to oo) r_n^((m))` 得到, 其中
+    <span class="formula">
+        `r_n^((0)) = u_n // u_(n+1)`,
+        `quad r_n^((m+1)) = (r_n^((m)) - G_m) ln_m n`.
+    </span>
+</p>
+
+<p class="theorem">
+    <b>积分判别法</b>
+    设 `f` 在 `[M, +oo)` 上单调减, 于是
+    <span class="formula">
+        `f(n) = int_n^(n+1) f(n) dx ge int_n^(n+1) f(x) dx`,
+    </span>
+    对 `n` 求和得到 `sum_(n ge M) f(n) ge int_M^oo f(x) dx`,
+    这是级数的下界; 类似可得到上界.
+    于是无穷级数的敛散性归结为无穷积分的敛散性.
+</p>
 
 <h2>任意项级数</h2>
 

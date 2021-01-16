@@ -210,6 +210,68 @@
 	</li>
 </ol>
 
+<ol class="theorem">
+    <b>齐次函数的 Euler 定理</b>
+    设 `f(bm x)` 是 `D sube RR^n` 到 `RR` 的可微函数, `alpha in RR`, 则
+    <li>若 `f` 是 `alpha` 次齐次函数, 即 `f` 满足以下函数方程:
+        <span class="formula">
+            `f(k bm x) = k^alpha f(bm x)`, `quad AA k in RR`,
+            <span class="label" id="eq-homogeneous"></span>
+        </span>
+        则 `(del f)/(del bm x)
+        := ((del f)/(del x_1), cdots, (del f)/(del x_n))`
+        是 `alpha-1` 次齐次函数.
+    </li>
+    <li>`f` 是齐次函数当且仅当它满足下面的偏微分方程 (Euler 方程):
+        <span class="formula">
+            `(del f)/(del bm x) * bm x = alpha f(bm x)`.
+            <span class="label" id="eq-euler"></span>
+        </span>
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>在函数方程 <a class="ref" href="#eq-homogeneous"></a>
+        两边对 `bm x` 求导,
+        <span class="formula">
+            `k (del f)/(del bm x) (k bm x) = k^alpha (del f)/(del bm x)`,
+        </span>
+        这指出 `(del f)/(del bm x)` 是 `alpha-1` 次齐次的.
+    </li>
+    <li>先设 `f` 为 `alpha` 次齐次函数.  在函数方程
+        <a class="ref" href="#eq-homogeneous"></a> 两边对 `k` 求导,
+        <span class="formula">
+            `(del f)/(del bm x)(k bm x) * bm x = alpha k^(alpha-1) f(bm x)`,
+        </span>
+        取 `k = 1` 即得 <a class="ref" href="#eq-euler"></a>.<br/>
+        再设 Euler 方程成立, 取 `bm x = k bm x` 有
+        <span class="formula">
+            `(del f)/(del bm x)(k bm x) * (k bm x) = alpha f(k bm x)`,
+        </span>
+        于是
+        <span class="formula">
+            `"d"/("d"k) f(k bm x)`
+            `= (del f)/(del bm x)(k bm x) * bm x`
+            `= alpha/k f(k bm x)`.
+        </span>
+        这是关于函数 `g(k) = f(k bm x)` 的常微分方程, 通解为
+        <span class="formula">
+            `f(k bm x) = c k^alpha`.
+        </span>
+        取 `k = 1` 即得 `c = f(bm x)`, 因此
+        <span class="formula">
+            `f(k bm x) = k^alpha f(bm x)`.
+        </span>
+    </li>
+</ol>
+
+<p class="example">
+    `f(x, y) = x^2 + 3 x y + y^2` 是二次齐次函数, 我们有
+    <span class="formula">
+        `(del f)/(del x) x + (del f)/(del y) y = 2 f`.
+    </span>
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

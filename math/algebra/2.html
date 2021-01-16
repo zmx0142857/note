@@ -9,13 +9,15 @@
 
 <p class="example">
 	<span class="formula">
-		`|
+		`R_n = |
 			, , ,1;
 			, ,1, ;
 			,&#8944;, , ;
 			1, , , ;
 		|_(n xx n) = (-1)^((n(n-1))/2)`.
 	</span>
+    设 `bm R_n` 是这个行列式对应的矩阵,
+    左乘 (右乘) `bm R_n` 的效果相当于将原矩阵的各行 (列) 倒排.
 </p>
 
 <p class="example">
@@ -161,6 +163,50 @@
     <span class="formula">
         `D_n = (z(x-y)^n - y(x-z)^n)/(z-y)`.
     </span>
+</p>
+
+<p class="example">
+    对正整数 `n ge 2`,
+    <span class="formula">
+    `|
+        1, 2, cdots, n-1, n;
+        2, 3, cdots, n, 1;
+        vdots, vdots, , vdots, vdots;
+        n-1, n, cdots, n-3, n-2;
+        n, 1, cdots, n-2, n-1;
+    | = (-1)^((n(n-1))/2) (n^(n-1) (n+1))/2`.
+    </span>
+</p>
+
+<p class="proof">
+    [来自 颓废] 因为行列式行和相等, 我们将各列加到第一列. 原式等于
+    <span class="formula">
+    `(n(n+1))/2 |
+        1, 2, 3, cdots, n-1, n;
+        1, 3, 4, cdots, n, 1;
+        1, 4, 5, cdots, 1, 2;
+        vdots, vdots, vdots, , vdots, vdots;
+        1, n, 1, cdots, n-3, n-2;
+        1, 1, 2, cdots, n-2, n-1;
+    |_n`
+    `= (n(n+1))/2 |
+        1, 0, 0, cdots, 0, 0;
+        1, 1, 1, cdots, 1, 1-n;
+        1, 2, 2, cdots, 2-n, 2-n;
+        vdots, vdots, vdots, , vdots, vdots;
+        1, n-2, -2, cdots, -2, -2;
+        1, -1, -1, cdots, -1, -1;
+    |_n`
+    `= (n(n+1))/2 |
+        1, 0, cdots, 0, -n;
+        2, 0, cdots, -n, -n;
+        vdots, vdots, , vdots, vdots;
+        n-2, -n, cdots, -n, -n;
+        -1, 0, cdots, 0, 0;
+    |_(n-1)`
+    `= (n(n+1))/2 R_(n-1) (-1)^(n-1) n^(n-2)`.
+    </span> 
+    其中 `R_(n-1)` 表示将行列式各行倒排.
 </p>
 
 <p class="example">

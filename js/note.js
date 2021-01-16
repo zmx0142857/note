@@ -346,29 +346,33 @@ function toggleShowAnswer(button, id) {
 
 function refPreview(elem, refed) {
 	var div = document.createElement('div');
+  var preview = document.createElement('div');
 	elem.onmouseover = function(e) {
 		if (refed.classList.contains('img')) {
+      div.classList.add('img');
 			div.innerHTML = refed.innerHTML;
 		} else {
+      div.classList.remove('img');
 			div.innerHTML = '';
 			div.appendChild(refed.cloneNode(true));
 		}
-		div.classList.add('ref-preview');
-		var left = e.clientX + 20;
-		var top = e.clientY - 110;
-		if (window.innerWidth - e.clientX < 150)
-			left = e.clientX - 280;
-		if (window.innerHeight - e.clientY < 110)
-			top = e.clientY - 250;
-		else if (e.clientY < 110)
-			top = e.clientY + 10;
-		div.style.left = left + 'px';
-		div.style.top = top + 'px';
-		document.body.appendChild(div);
+    preview.appendChild(div);
+    preview.classList.add('ref-preview');
+		preview.style.left = e.clientX + 'px';
+    if (window.innerHeight - e.clientY < 200) {
+      preview.style.top = e.clientY - 50 + 'px';
+      preview.classList.add('ref-preview-top');
+      preview.classList.remove('ref-preview-bottom');
+    } else {
+      preview.style.top = e.clientY + 'px';
+      preview.classList.add('ref-preview-bottom');
+      preview.classList.remove('ref-preview-top');
+    }
+		document.body.appendChild(preview);
 	};
 	elem.onmouseout = function() {
-		if (div) {
-			document.body.removeChild(div);
+		if (preview) {
+			document.body.removeChild(preview);
 		}
 	};
 }

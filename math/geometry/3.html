@@ -975,7 +975,7 @@
 </p>
 
 <ol class="corollary">
-	`A, B, C, D` 四点构成调和点列, `M` 是 `AB` 中点, 则
+	`A, B, C, D` 四点构成调和点列, `M` 是 `AB` 中点, 直接计算知
 	<li>`vec(AC) * vec(BD) = vec(AD) * vec(CB) = (vec(AB) * vec(CD))//2`;
     </li>
 	<li>`vec(CA) * vec(CB) = vec(CM) * vec(CD)`;</li>
@@ -1013,9 +1013,24 @@
 	设直线上依次有 `A, C, B, D` 四点, 若以下命题中有两个为真,
 	则四个命题都为真:
 	<li>`A, B, C, D` 成调和点列;</li>
-	<li>平面上存在一点 `O`, 使 `OB` 平分 `/_ AOC`;</li>
-	<li>平面上存在一点 `O`, 使 `OB _|_ OD`;</li>
-	<li>平面上存在一点 `O`, 使 `OD` 平分 `/_AOC` 的补角.</li>
+	<li>平面上存在一点 `O`, 使 `OC` 平分 `/_ AOB`;</li>
+	<li>平面上存在一点 `O`, 使 `OC _|_ OD`;</li>
+	<li>平面上存在一点 `O`, 使 `OD` 平分 `/_AOB` 的补角.</li>
+</ol>
+
+<ol class="proof">
+    <li>易知 2, 3, 4 中的任意两个能推出第三个.</li>
+    <li>下证 2, 3, 4 中的任意两个能推出全部四个命题, 只需证
+        2, 3 `rArr` 1. 设 `/_ BOC = alpha`, `CB = 1`, `BD = y`,
+        由 3,  `OB = sqrt y`, `tan alpha = 1/(sqrt y)`.
+        又设 `AC = x`, 由 2, `tan 2 alpha = (x+1)/(sqrt y)`
+        利用二倍角公式
+        <span class="formula">
+            `(x+1)/(sqrt y) = (2//sqrt y)/(1- 1//y)`,
+        </span>
+        化简得 `x y = x + y + 1`, 因此 `A, B, C, D` 为调和点列.
+    </li>
+    <li>若已知 2, 3, 4 中的一个和 1, 也可以推出其它命题, 不再赘述.</li>
 </ol>
 
 <h2>四边形的面积</h2>
@@ -1160,11 +1175,12 @@
 
 <p class="corollary">
 	<b>Euler 定理</b>
-	在直线上顺次有 `A, B, C, D` 四点, 则
+	在直线上顺次有 `A, C, B, D` 四点, 则
 	<span class="formula">
-		`AD * BC + AB * CD = AC * BD`.
+		`AD * CB + AC * BD ge AB * CD`,
 	</span>
-	这是 Ptolemy 定理的退化情形.
+    这是 Ptolemy 定理的退化情形. 特别当等号成立时,
+    四点构成调和点列, 这时左边两项相等.
 </p>
 
 <ol class="theorem">

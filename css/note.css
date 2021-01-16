@@ -170,16 +170,47 @@ hr {
 
 .ref-preview {
 	position: fixed;
-	width: 220px;
-	height: 220px !important;
+    border-radius: 5px;
+    border: 1px #ccc solid;
+    box-shadow: 3px 3px 5px #aaa;
+}
+.ref-preview > img {
+	height: 90%;
+}
+.ref-preview > div {
 	padding: 10px;
-	background: aliceblue;
+    background: white;
+	max-width: 350px;
+	max-height: 220px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
-.ref-preview > img {
-	height: 90%;
+.ref-preview > div.img {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.ref-preview::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    transform: translateX(-50%);
+}
+.ref-preview-bottom {
+    transform: translate(-50%, 40px);
+}
+.ref-preview-bottom::before {
+    top: -15px;
+    border-bottom: 15px solid white;
+}
+.ref-preview-top {
+    transform: translate(-50%, -100%);
+}
+.ref-preview-top::before {
+    bottom: -15px;
+    border-top: 15px solid white;
 }
 
 button.toggle-answer {
