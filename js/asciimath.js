@@ -48,7 +48,7 @@ Default Configurations & API
 ASCIIMathML.js
 ==============
 This file contains JavaScript functions to convert ASCII math notation
-and (some) LaTeX to Presentation MathML. The conversion is done while the 
+and (some) LaTeX to Presentation MathML. The conversion is done while the
 HTML page loads, and should work with Firefox and other browsers that can
 render MathML.
 
@@ -417,7 +417,7 @@ AM.symbols = AM.symbols.concat([
   for (var i = 0; i < len; i++) {
     if (AM.symbols[i].tex && !AM.symbols[i].notexcopy) {
       AM.symbols.push({
-        input: AM.symbols[i].tex, 
+        input: AM.symbols[i].tex,
         tag: AM.symbols[i].tag,
         output: AM.symbols[i].output,
         ttype: AM.symbols[i].ttype,
@@ -521,7 +521,7 @@ function hasMathML() {
       new ActiveXObject('MathPlayer.Factory.1');
       return true;
     } catch (e) {}
-  else if (isOpera) 
+  else if (isOpera)
     return navigator.appVersion.slice(0,3) >= '9.5';
   else
     return false;
@@ -628,7 +628,7 @@ function braced(s) {
 
 // assumes arr is sorted
 // return position >= lo where str appears or would be inserted
-function position(arr, str, lo) { 
+function position(arr, str, lo) {
   var hi = arr.length-1;
   while (lo <= hi) {
     var mid = lo + ((hi-lo) >> 1);
@@ -692,7 +692,7 @@ function getSymbol() {
   }
   AMprevSym = AMcurSym;
   if (typeof pos != 'undefined') {
-    var sym = AM.symbols[pos]; 
+    var sym = AM.symbols[pos];
     AMcurSym = sym.ttype;
     return sym;
   }
@@ -750,7 +750,7 @@ function parseS() {
       return (node[0] == '\\' || sym.tag == 'mo' ? node : b(node));
     }
   case LEFTBRACKET:
-    skip(len); 
+    skip(len);
     ++AMnestingDepth;
     res = parseExpr(true);
     --AMnestingDepth;
@@ -763,7 +763,7 @@ function parseS() {
           '{\\left' + getTexBracket(sym) + res + '}';
       }
     } else {
-      if (sym.invisible) 
+      if (sym.invisible)
         node = $math('mrow', res);
       else {
         node = $math('mo', $text(sym.output));
@@ -872,9 +872,9 @@ function parseS() {
             var newst = [];
             for (var j = 0; j < st.length; j++) {
               var code = st.charCodeAt(j);
-              if (code > 64 && code < 91) 
+              if (code > 64 && code < 91)
                 newst.push(sym.codes[code-65]);
-              else if (code > 96 && code < 123) 
+              else if (code > 96 && code < 123)
                 newst.push(sym.codes[code-71]);
               else
                 newst.push(st.charAt(j));
@@ -891,7 +891,7 @@ function parseS() {
     }
     return node;
   case BINARY:
-    skip(len); 
+    skip(len);
     var rewind = AMbegin;
     res = parseS();
     if (res == null)
@@ -921,7 +921,7 @@ function parseS() {
       node.setAttribute('mathcolor', color);
       return node;
     }
-    if (sym.input == 'root' || sym.output == 'stackrel') 
+    if (sym.input == 'root' || sym.output == 'stackrel')
       frag.appendChild(res2);
     frag.appendChild(res);
     if (sym.input == 'frac')
@@ -939,7 +939,7 @@ function parseS() {
     frag.appendChild(mspace());
     return $math('mrow', frag);
   case LEFTRIGHT:
-    skip(len); 
+    skip(len);
     var rewind = AMbegin;
     AMnestingDepth++;
     res = parseExpr(false);

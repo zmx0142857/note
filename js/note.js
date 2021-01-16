@@ -198,6 +198,7 @@ function decorate(list) {
 
 		if (list[i].style === Sformula) {
 			for (var j = 0; j < elem.length; ++j) {
+        if (elem[j].innerHTML) continue;
 				elem[j].caption = elem[j].innerHTML
 					= list[i].style(list[i].word, j);
 			}

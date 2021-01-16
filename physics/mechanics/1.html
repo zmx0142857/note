@@ -322,7 +322,7 @@
 	</span>
 </p>
 
-<p class="example">
+<p class="example" id="exp-pendulum">
     <b>单摆的周期</b>
 </p>
 <p class="solution">
@@ -330,11 +330,39 @@
     <span class="formula">
         `"d"s = sqrt(dx^2 + dy^2) = r`,<br/>
         `v = sqrt(2 g Delta y) = sqrt(2 g r(cos theta - cos theta_0))`,<br/>
-        `T/4 = int_(theta=0)^(theta_0) ("d"s)/v`
-        `= sqrt(r/(2g)) int_0^(theta_0) ("d"theta)/sqrt(cos theta-cos
-        theta_0)`.
+        `T = 4 int_(theta=0)^(theta_0) ("d"s)/v`
+        `= 4 sqrt(r/(2g)) int_0^(theta_0) ("d"theta)/sqrt(cos theta-cos
+        theta_0)`
+        `= 2 sqrt(r/g) int_0^(theta_0) ("d"theta)/sqrt(sin^2(theta_0//2)
+        - sin^2(theta//2))`.
     </span>
-    这并非初等积分, 我们采用近似 `cos theta ~~ 1 - theta^2/2`,
+    这并非初等积分, 我们令 `sin xi = sin(theta//2) / sin(theta_0//2)`,
+    于是 `cos xi "d"xi = cos(theta//2)/sin(theta_0//2) ("d"theta)/2`,
+    <span class="formula">
+        `int_0^(theta_0) ("d"theta)/sqrt(sin^2(theta_0//2)
+        - sin^2(theta//2))`
+        `= int_0^(theta_0) ("d"theta)/(sin(theta_0//2) cos xi)`
+        `= 2 int_0^(pi/2) ("d"xi)/cos(theta//2)`
+        `= 2 int_0^(pi/2) ("d"xi)/sqrt(1-sin^2(theta//2))`
+        `= 2 int_0^(pi/2) ("d"xi)/sqrt(1-sin^2(theta_0//2) sin^2 xi)`
+        `= 2 K(sin {:theta_0/2:})`,
+    </span>
+    其中
+    <span class="formula">
+        `K(z) = int_0^(pi/2) ("d"xi)/sqrt(1-z^2 sin^2 xi)`
+    </span>
+    是第一类完全椭圆积分. 当摆幅足够小时, `sin theta_0 ~~ theta_0`,
+    利用展式 `K(z) = pi/2(1 + z^2/4 + cdots)` 得
+    <span class="formula">
+        `T ~~ 2 pi sqrt(r/g) (1 + theta_0^2/16 + cdots)`.
+    </span>
+    由此看出, 单摆周期与起始位置 `theta_0` 有关, 它只有近似的等时性,
+    而摆线才具有严格的等时性.
+</p>
+
+<p class="solution">
+    积分展开式的首项可以这样得到:
+    由 `cos theta ~~ 1 - theta^2/2`,
     <span class="formula">
         `(cos theta - cos theta_0)^(-1//2)`
         `~~ sqrt(2/(theta_0^2 - theta^2))`,
@@ -346,12 +374,6 @@
         `= sqrt(r/g) pi/2`,
     </span>
     因此 `T ~~ 2pi sqrt(r/g)`.
-    若使用 `cos theta` 的更高阶近似, 则可求出更高精度的公式
-    <span class="formula">
-        `T = 2pi sqrt(r/g) (1 + sum_(k ge 1) a_k theta_0^k)`.
-    </span>
-    由此看出, 单摆周期并非与起始位置 `theta_0` 无关,
-    而摆线才具有严格的等时性.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

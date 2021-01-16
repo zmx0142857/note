@@ -2,27 +2,66 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8" />
-    <title>椭圆函数</title>
+    <title>椭圆函数, 超几何函数</title>
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>Jacobi 椭圆函数</h2>
+<h2>椭圆函数</h2>
+
+<p class="remark">
+    作换元 `t = pi/2 - x`, 显然有
+    <span class="formula">
+        `int_0^(pi/2) f(sin t) dt = int_0^(pi/2) f(cos x) dx`,
+    </span>
+    这一结论在下文直接应用, 不再说明.
+</p>
+
+<h3>第一类椭圆积分</h3>
 
 [<a href="https://zhuanlan.zhihu.com/p/130428825">原文来自知乎</a>]
 
-<p class="proposition">
+<p class="definition">
 	<b>第一类椭圆积分</b>
-    (不完全椭圆积分)
+    不完全椭圆积分:
     <span class="formula">
         `F(varphi, m) := int_0^varphi ("d"theta)/sqrt(1-m sin^2 theta)`,
     </span>
-    (完全椭圆积分)
+    完全椭圆积分:
 	<span class="formula">
-		`K(z) := F(pi/2, z^2)`
-        `= int_0^(pi/2) ("d"theta)/sqrt(1-z^2 cos^2 theta)`
-		`= int_0^(pi/2) ("d"varphi)/sqrt(1+z^2-2z cos 2 varphi)`,
+		`K(z) := int_0^(pi/2) ("d"theta)/sqrt(1-z^2 sin^2 theta)`,
 		`quad "Re"(z) lt 1`.
+        <span class="label">(第一形式)</span>
+	</span>
+    令 `t = sin theta` 立即得到:
+    <span class="formula">
+        `K(z) = int_0^1 dt/(sqrt(1-t^2) sqrt(1-z^2 t^2))`.
+        <span class="label">(Jacobi 形式)</span>
+    </span>
+</p>
+
+<p class="proposition">
+	<b>Euler 变换</b>
+	<span class="formula">
+		`K("i"x) = 1/sqrt(1+x^2) K(sqrt(x^2/(1+x^2)))`.
+	</span>
+</p>
+
+<p class="proof">
+	<span class="formula">
+        右边
+		`= 1/sqrt(1+x^2) int_0^(pi/2) ("d"theta)/sqrt(1-x^2/(1+x^2) cos^2
+		theta)`
+		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2-x^2 cos^2 theta)`
+		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2 sin^2 theta)`
+        `=` 左边.
+	</span>
+</p>
+
+<p class="proposition">
+    <b>`K(z)` 的第二形式</b>
+	<span class="formula">
+		`K(z) = int_0^(pi/2) ("d"varphi)/sqrt(1+z^2-2z cos 2 varphi)`.
 	</span>
 </p>
 
@@ -76,64 +115,36 @@
 </p>
 
 <p class="proposition">
-	<b>Euler 变换</b>
+    定义
 	<span class="formula">
-		`K("i"x) = 1/sqrt(1+x^2) K(sqrt(x^2/(1+x^2)))`.
-	</span>
-</p>
-
-<p class="proof">
-	利用 `K(z)` 的第一形式,
-	<span class="formula">
-		`K("i"x) = int_0^(pi/2) ("d"theta)/sqrt(1+x^2 cos^2 theta)`,<br/>
-		`1/sqrt(1+x^2) K(sqrt(x^2/(1+x^2)))`
-		`1/sqrt(1+x^2) int_0^(pi/2) ("d"theta)/sqrt(1-x^2/(1+x^2) cos^2
-		theta)`
-		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2-x^2 cos^2 theta)`
-		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2 sin^2 theta)`.
-	</span>
-	因此左右两边相等.
-</p>
-
-<p class="proposition">
-	椭圆积分
-	<span class="formula">
-		`M(a, b)
-		:= int_0^(pi/2)("d"theta)/sqrt(a^2 cos^2 theta+b^2 sin^2 theta)`
-		`= int_0^(pi/2)("d"theta)/sqrt(a^2 sin^2 theta+b^2 cos^2 theta)`.
+		`M(a, b) := int_0^(pi/2)("d"theta)/sqrt(a^2 cos^2 theta+b^2 sin^2 theta)`,
 	</span>
 	则
 	<span class="formula">
 		`M((a+b)/2, sqrt(a b)) = 2/(a+b) K((a-b)/(a+b)) = M(a, b)`.
 	</span>
+    取 `a, b = 1 +- k`:
+    <span class="formula">
+        `M(1, sqrt(1-k^2)) = K(k) = M(1+k, 1-k)`.
+    </span>
 </p>
 
 <p class="proof">
 	首先
 	<span class="formula">
 		`a^2 cos^2 theta + b^2 sin^2 theta`
-		`= b^2 + (a^2-b^2) cos^2 theta`,
+		`= a^2 - (a^2-b^2) sin^2 theta`,
 	</span>
 	故
 	<span class="formula">
 		`((a+b)/2)^2 cos^2 theta + a b sin^2 theta`
-		`= a b + ((a-b)/2)^2 cos^2 theta`.
+		`= ((a+b)/2)^2 - ((a-b)/2)^2 sin^2 theta`.
 	</span>
-	利用 `K(z)` 的第一形式,
+    于是
 	<span class="formula">
 		`M((a+b)/2, sqrt(a b))`
-		`= int_0^(pi/2) ("d"theta)/sqrt(a b + ((a-b)/2)^2 cos^2 theta)`
-		`= 1/sqrt(a b) K((a-b)/(2sqrt(a b)) "i")`.
-	</span>
-	因为
-	<span class="formula">
-		`1 + ((a-b)/2)^2 1/(a b)`
-		`= ((a+b)/2)^2 1/(a b)`,
-	</span>
-	利用 Euler 变换得
-	<span class="formula">
-		`1/sqrt(a b) K((a-b)/(2sqrt(a b)) "i")`
-		`= 2/(a+b) K((a-b)/(a+b))`.
+		`= int_0^(pi/2) ("d"theta) / sqrt(((a+b)/2)^2 - ((a-b)/2)^2 sin^2 theta)`
+        `= 2/(a+b) K((a-b)/(a+b))`.
 	</span>
 	这就证明了第一个等号. 接下来利用 `K(z)` 的第二形式,
 	<span class="formula">
@@ -158,10 +169,14 @@
 		`quad n ge 0`,
 	</span>
 	则两数列收敛到同一极限. 此极限称为
-	`a_0` 与 `b_0` 的<b>算术几何平均值</b> `AGM(a_0, b_0)`, 我们有
+	`a_0` 与 `b_0` 的<b>算术几何平均值</b> `"agm"(a_0, b_0)`, 我们有
 	<span class="formula">
-		`AGM(a_0, b_0) M(a_0, b_0) = pi/2`.
+		`"agm"(a_0, b_0) M(a_0, b_0) = pi/2`.
 	</span>
+    从而得到高效求 `K(k)` 的公式
+    <span class="formula">
+        `K(k) = pi/2 1/("agm"(1, sqrt(1-k^2)))`.
+    </span>
 </p>
 
 <ol class="proof">
@@ -189,13 +204,38 @@
 <p class="proposition">
 	<b>Gauss 常数</b>
 	<span class="formula">
-		`G = AGM(1, sqrt 2)^-1 = (Gamma^2(1/4))/(2pi)^(3/2)`.
+		`G = "agm"(1, sqrt 2)^-1 = (Gamma^2(1/4))/(2pi)^(3/2)`.
 	</span>
 </p>
 
 <p class="proposition">
 	`K(z) = pi/2 sum_(n ge 0) [((2n-1)!!)/((2n)!!) z^n]^2`.
 </p>
+
+<p>一道经典例题: <a href="../../physics/mechanics/1.html">`K(z)` 与单摆周期</a>.</p>
+
+<h3>第二类椭圆积分</h3>
+
+<p class="definition">
+    <b>第二类椭圆积分</b>
+    <span class="formula">
+        `E(z) = int_0^(pi/2) sqrt(1-z^2 sin^2 theta) "d"theta`
+        `= int_0^1 sqrt((1-z^2 t^2)/(1-t^2)) dt`.
+    </span>
+</p>
+
+<p class="example">
+    <b>椭圆的周长</b>
+    记椭圆的离心率为 `k = sqrt(a^2-b^2) // a`, 则椭圆周长
+    <span class="formula">
+        `L = 4 int_0^(pi/2) sqrt(a^2 cos^2 theta + b^2 sin^2 theta)
+        "d"theta`
+        `= 4 a int_0^(pi/2) sqrt (1 - k^2 sin^2 theta) "d"theta`
+        `= 4 a E(k)`.
+    </span>
+</p>
+
+<h3>第三类椭圆积分</h3>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
