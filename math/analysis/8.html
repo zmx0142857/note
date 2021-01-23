@@ -310,25 +310,25 @@
 <p class="property">
 	<b>Euler 的乘积表达式</b>
 	<span class="formula">
-		`Gamma(x) = lim_(n to oo) n^x B(x, n+1)`
-		`= lim_(n to oo) (n^x n!)/(x(x+1) cdots (x+n))`.
+		`Gamma(s) = lim_(n to oo) n^s B(s, n+1)`
+		`= lim_(n to oo) (n^s n!)/(s(s+1) cdots (s+n))`.
 	</span>
-    使用 Gauss 的记号 `Pi(x) = Gamma(x+1)`,
-	此结论简记为 `Pi(x+n) // Pi(n) ~ n^x`.
+    使用 Gauss 的记号 `Pi(s) = Gamma(s+1)`,
+	此结论简记为 `Pi(s+n) // Pi(n) ~ n^s`.
 </p>
 
 <p class="proof">
 	<span class="formula">
-		`Gamma(x) = int_0^oo "e"^-t t^(x-1) dt`
-		`overset ? = lim_(n to oo) int_0^n (1-t/n)^n t^(x-1) dt`
-		`= lim_(n to oo) n^x int_0^1 (1-u)^n u^(x-1) "d"u`
-		`= lim_(n to oo) n^x B(x, n+1)`.
+		`Gamma(s) = int_0^oo "e"^-t t^(s-1) dt`
+		`overset ? = lim_(n to oo) int_0^n (1-t/n)^n t^(s-1) dt`
+		`= lim_(n to oo) n^s int_0^1 (1-u)^n u^(s-1) "d"u`
+		`= lim_(n to oo) n^s B(s, n+1)`.
 	</span>
 	下面证明问号处的等式. 考虑
 	<span class="formula">
-		`|int_0^oo "e"^-t t^(x-1) dt - int_0^n (1-t/n)^n t^(x-1) dt|`
-		`le |int_0^oo ["e"^-t - (1-t/n)^n] t^(x-1) dt|`
-		`+ |int_n^oo (1-t/n)^n t^(x-1) dt|`.
+		`|int_0^oo "e"^-t t^(s-1) dt - int_0^n (1-t/n)^n t^(s-1) dt|`
+		`le |int_0^oo ["e"^-t - (1-t/n)^n] t^(s-1) dt|`
+		`+ |int_n^oo (1-t/n)^n t^(s-1) dt|`.
 	</span>
 	先看第一项. 由于
 	<span class="formula">
@@ -345,8 +345,8 @@
 	</span>
 	第一项等于
 	<span class="formula">
-		`|O(1/n) int_0^oo "e"^-t t^(x-1) dt|`
-		`= O(1/n) Gamma(x) to 0`.
+		`|O(1/n) int_0^oo "e"^-t t^(s-1) dt|`
+		`= O(1/n) Gamma(s) to 0`.
 	</span>
 	再看第二项, 由均值不等式
 	<span class="formula">
@@ -357,12 +357,12 @@
 	知道, 数列 `(1-t/n)^n` 单调递增趋于 `"e"^-t`, 即 `"e"^-t`
 	是它的一个上界. 从而第二项小于等于
 	<span class="formula">
-		`|int_n^oo "e"^-t t^(x-1) dt|`,
+		`|int_n^oo "e"^-t t^(s-1) dt|`,
 	</span>
 	它是收敛的 Gamma 积分的尾部, 因此当 `n to oo` 时上式趋于零.
 	综上有
 	<span class="formula">
-		`|int_0^oo "e"^-t t^(x-1) dt - int_0^n (1-t/n)^n t^(x-1) dt|`
+		`|int_0^oo "e"^-t t^(s-1) dt - int_0^n (1-t/n)^n t^(s-1) dt|`
 		`to 0`.
 	</span>
 </p>
@@ -370,32 +370,32 @@
 <p class="proof">
 	只需证
 	<span class="formula">
-		`lim_(n to oo) (n!)/(Gamma(x+n+1)) n^x = 1`.
+		`lim_(n to oo) (n!)/(Gamma(s+n+1)) n^s = 1`.
 	</span>
 	用 Striling 公式, 上式左边等于
 	<span class="formula">
-		`lim_(n to oo) (sqrt n (n/"e")^n)/(sqrt(x+n) ((x+n)/"e")^(x+n)) n^x`
-		`= lim_(n to oo) ("e"^x)/(1+x/n)^n (n/(x+n))^(x+1/2) = 1`.
+		`lim_(n to oo) (sqrt n (n/"e")^n)/(sqrt(s+n) ((s+n)/"e")^(s+n)) n^s`
+		`= lim_(n to oo) ("e"^s)/(1+s/n)^n (n/(s+n))^(s+1/2) = 1`.
 	</span>
 </p>
 
 <p class="theorem">
-    乘积公式右边的极限, 只要分母不为零, 对任意复数 `x` 都收敛.
+    乘积公式右边的极限, 只要分母不为零, 对任意复数 `s` 都收敛.
     因此借助此公式, 可以将 `Gamma(s)` 的定义拓展到复平面上,
     `s != 0, -1, -2, cdots`. `Gamma(s)` 没有零点, 它的倒数
     `1/(Gamma(s))` 在 `CC` 上解析.
 </p>
 
 <p class="proof">
-    用 `(n+1)^x` 等价代替乘积公式的 `n^x`, 记
+    用 `(n+1)^s` 等价代替乘积公式的 `n^s`, 记
     <span class="formula">
-        `f(n) = (n!)/(x(x+1)cdots(x+n)) (n+1)^x`,
+        `f(n) = (n!)/(s(s+1)cdots(s+n)) (n+1)^s`,
     </span>
     将公式写为无穷乘积
     <span class="formula">
-        `Gamma(x) = f(0) prod_(n ge 1) (f(n))/(f(n-1))`
-        `= 1/x prod_(n ge 1) n/(x+n) ((n+1)/n)^x`
-        `= 1/x prod_(n ge 1) (1+x/n)^-1 (1+1/n)^x`.
+        `Gamma(s) = f(0) prod_(n ge 1) (f(n))/(f(n-1))`
+        `= 1/s prod_(n ge 1) n/(s+n) ((n+1)/n)^s`
+        `= 1/s prod_(n ge 1) (1+s/n)^-1 (1+1/n)^s`.
     </span>
     (收敛性的说明??)
 </p>
@@ -415,6 +415,42 @@
         `= lim_(n to oo) "e"^(-s ln n) * s prod_(1 le k le n) (1 + s/k)`
         `= lim_(n to oo) "e"^(s (gamma - H_n)) * s prod_(1 le k le n) (1 + s/k) =` 右边.
     </span>
+</p>
+
+<p class="definition">
+	Gamma 函数的对数的导数称为 <b>digamma 函数</b>:
+	<span class="formula">
+		`psi(s) = "d"/("d"s) ln Gamma(s)`
+		`= (Gamma'(s))/(Gamma(s))`,
+	</span>
+	digamma 函数的高阶导数 `psi^((n))` 称为 polygamma 函数.
+	计算知
+	<span class="formula">
+		`psi(s+1) = "d"/("d"s) ln Gamma(s+1)`
+		`= "d"/("d"s)(ln s + ln Gamma(s))`
+		`= 1/s + psi(s)`.
+	</span>
+	对任意非负整数 `n`,
+	<span class="formula">
+		`psi(n+1) = psi(1) + sum_(k=1)^n 1/k = psi(1) + H_n`.
+	</span>
+    为求出 `psi(1)`, 使用 Weierstrass 公式:
+    <span class="formula">
+        `ln Gamma(s) = -gamma s - ln s + sum_(n ge 1)(s/n - ln(1+s/n))`,
+        <br/>
+        `psi(s) = -gamma - 1/s + sum_(n ge 1)(1/n - 1/(n+s))`,<br/>
+        即 `psi(s+1) = -gamma + sum_(n ge 1)(1/n - 1/(n+s))`.
+    </span>
+    因此 `psi(1) = -gamma`.<br/>
+    从另一角度, 交换积分与求和,
+    <span class="formula">
+        `int_0^1 sum_(n ge 1) (1/n - 1/(n+s)) "d"s`
+        `= sum_(n ge 1) (1/n - ln(1+1/n))`
+        `= lim_(n to oo) H_n - ln(n+1)`
+        `= gamma`.
+    </span>
+    但 `int_0^1 psi(s+1) "d"s = ln Gamma(2) - ln Gamma(1) = 0`,
+    两式相减, 再次印证了 `psi(1) = -gamma`.
 </p>
 
 <p class="property">
@@ -614,31 +650,6 @@
 	</span>
 </p>
 
-<p class="definition">
-	Gamma 函数的对数的导数称为 <b>digamma 函数</b>:
-	<span class="formula">
-		`psi(z) = "d"/dz ln Gamma(z)`
-		`= (Gamma'(z))/(Gamma(z))`,
-	</span>
-	digamma 函数的高阶导数 `psi^((n))` 称为 polygamma 函数.
-	计算知
-	<span class="formula">
-		`psi(z+1) = "d"/dz ln Gamma(z+1)`
-		`= "d"/dz(ln z + ln Gamma(z))`
-		`= 1/z + psi(z)`.
-	</span>
-	对任意非负整数 `n`,
-	<span class="formula">
-		`psi(n+1) = psi(1) + sum_(k=1)^n 1/k = psi(1) + H_n`.
-	</span>
-	其中
-	<span class="formula">
-		`psi(1) = (Gamma'(1))/(Gamma(1)) = int_0^oo "e"^-t ln t dt`
-		`= -gamma`,
-	</span>
-	`gamma` 是 Euler 常数.
-</p>
-
 <h2>超越函数的积分</h2>
 
 <p class="definition">
@@ -791,6 +802,7 @@
 		`= -K`;
 	</li>
 	<li>`int_0^(pi/4) ln sin x dx` 和 `int_0^(pi/4) ln cos x dx`;</li>
+    <li>`int_0^(pi/2) ln(1+cos x) dx` `= int_0^(pi/2) ln(1+sin x) dx`;</li>
 	<li>`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`,
 		`int_0^(sqrt 2/2) (arcsin x)/x dx` 和 `int_0^(pi/4) x cot x dx`;
 	</li>
@@ -832,8 +844,9 @@
 			`= - pi/2 ln 2`,<br/>
 			`I-J = int_0^(pi/4) ln tan x dx = -K`.
 		</span>
-		解线性方程组即得到 `I, J` 的值.
+		解线性方程组即得到 `I, J = -pi/4 ln 2 -+ K/2`.
 	</li>
+    <li>由上题易得结果为 `2K - pi/2 ln 2`.</li>
 	<li>令 `x = sin t`,
 		<span class="formula">
 			`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`
@@ -845,7 +858,7 @@
 			`int_0^(sqrt2/2) (arcsin x)/x dx`
 			`= int_0^(pi/4) t cot t dt`
 			`= -pi/8 ln 2 - int_0^(pi/4) ln sin t dt`
-			`= pi/8 ln 2 + K/2`. 
+			`= pi/8 ln 2 + K/2`.
 		</span>
 	</li>
 	<li>原式等于

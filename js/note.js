@@ -7,11 +7,11 @@ var asciimath;
 // ---- globals ----
 
 var explorer = navigator.userAgent;
-var url;		// 'A2', '%234', '3-1'
-var filename;	// 'A2', '#4',   '3-1'	// replace leading '%23' with '#'
-var abbr;		// 'A',  '#',    '3-'
-var urlAbbr;	// 'A',  '%234', '3-'
-var index;		// 2,    4,      1
+var url;    // 'A2', '%234', '3-1'
+var filename; // 'A2', '#4',   '3-1'  // replace leading '%23' with '#'
+var abbr;   // 'A',  '#',    '3-'
+var urlAbbr;  // 'A',  '%234', '3-'
+var index;    // 2,    4,      1
 var scripts = document.getElementsByTagName('script');
 var scriptName = scripts[scripts.length-1].getAttribute('src');
 var prefix = scriptName.slice(0, scriptName.indexOf('js'));
@@ -19,7 +19,7 @@ var prefix = scriptName.slice(0, scriptName.indexOf('js'));
 if (typeof asciimath == 'undefined')
     asciimath = {};
 if (typeof asciimath.katexpath == 'undefined')
-	asciimath.katexpath = prefix + 'js/katex.min.js';
+  asciimath.katexpath = prefix + 'js/katex.min.js';
 
 
 // ---- functions ----
@@ -39,327 +39,328 @@ function getParams(str) {
 }
 
 function init() {
-	url = window.location.href.split('/');
-	url = url[url.length-1].split('.')[0];
-	filename = unescape(url);
+  url = window.location.href.split('/');
+  url = url[url.length-1].split('.')[0];
+  filename = unescape(url);
 
-	// locate first digit, or the first char after '-'
-	var indexOfMinus = filename.indexOf('-');
-	var i = filename.search(/[0-9]/);
-	if (indexOfMinus > i) {
-		i = indexOfMinus + 1;
-	}
+  // locate first digit, or the first char after '-'
+  var indexOfMinus = filename.indexOf('-');
+  var i = filename.search(/[0-9]/);
+  if (indexOfMinus > i) {
+    i = indexOfMinus + 1;
+  }
 
-	abbr = filename.substring(0, i);
-	urlAbbr = (abbr === '#' ? '%23' : abbr);
-	index = parseInt(filename.substring(i));
+  abbr = filename.substring(0, i);
+  urlAbbr = (abbr === '#' ? '%23' : abbr);
+  index = parseInt(filename.substring(i));
 }
 
 function loadMath() {
-	var newScript = document.createElement('script');
-	newScript.src = prefix + 'js/asciimath.js';
-	document.body.appendChild(newScript);
+  var newScript = document.createElement('script');
+  newScript.src = prefix + 'js/asciimath.js';
+  document.body.appendChild(newScript);
 }
 
 function makeModified() {
-	var modified = document.createElement('p');
-	modified.id = 'last-modified';
-	modified.innerHTML = document.lastModified;
-	document.body.insertBefore(modified, document.body.firstChild);
+  var modified = document.createElement('p');
+  modified.id = 'last-modified';
+  modified.innerHTML = document.lastModified;
+  document.body.insertBefore(modified, document.body.firstChild);
 }
 
 function makeH1() {
-	var zhname = {
-		'#': '附录篇',
-		'A': '分析篇',
-		'AL': '算法篇',
-		'D': '离散篇',
-		'E': '方程篇',
-		'G': '几何篇',
-		'I': '代数篇',
-		'S': '概率统计篇'
-	};
-	var h1 = document.createElement('h1');
-	var title = document.getElementsByTagName('title');
-	if (title[0].classList.contains('nonu')) {
-		h1.innerHTML = document.title;
-	} else {
-		h1.innerHTML = zhname[abbr] || '';
-		h1.innerHTML += filename + ' ' + document.title;
-	}
-	document.body.insertBefore(h1, document.body.firstChild);
+  var zhname = {
+    '#': '附录篇',
+    'A': '分析篇',
+    'AL': '算法篇',
+    'D': '离散篇',
+    'E': '方程篇',
+    'G': '几何篇',
+    'I': '代数篇',
+    'S': '概率统计篇'
+  };
+  var h1 = document.createElement('h1');
+  var title = document.getElementsByTagName('title');
+  if (title[0].classList.contains('nonu')) {
+    h1.innerHTML = document.title;
+  } else {
+    h1.innerHTML = zhname[abbr] || '';
+    h1.innerHTML += filename + ' ' + document.title;
+  }
+  document.body.insertBefore(h1, document.body.firstChild);
 }
 
 /*
-	<div id="nav">
-		<a href="prev.html" style="float:left">&lt;&lt;&lt;</a>
-		<a href="index.html" target="_blank">· · ·</a>
-		<a href="next.html" style="float:right">&gt;&gt;&gt;</a>
-	</div>
+  <div id="nav">
+    <a href="prev.html" style="float:left">&lt;&lt;&lt;</a>
+    <a href="index.html" target="_blank">· · ·</a>
+    <a href="next.html" style="float:right">&gt;&gt;&gt;</a>
+  </div>
 
 function makeNav() {
-	var nav = document.createElement('div');
-	nav.id = 'nav';
-	document.body.insertBefore(nav, document.body.firstChild);
+  var nav = document.createElement('div');
+  nav.id = 'nav';
+  document.body.insertBefore(nav, document.body.firstChild);
 
-	var prev = document.createElement('a');
-	prev.style.float = 'left';
-	prev.innerHTML = '&lt;&lt;&lt;';
-	if (index > 1) {
-		prev.href = urlAbbr + (index-1) + '.html';
-	} else {
-		prev.style.color = 'rgba(0,0,0,0)';
-	}
-	nav.appendChild(prev);
+  var prev = document.createElement('a');
+  prev.style.float = 'left';
+  prev.innerHTML = '&lt;&lt;&lt;';
+  if (index > 1) {
+    prev.href = urlAbbr + (index-1) + '.html';
+  } else {
+    prev.style.color = 'rgba(0,0,0,0)';
+  }
+  nav.appendChild(prev);
 
-	var indexPage = document.createElement('a');
-	indexPage.href = '../index.html';
-	indexPage.target = '_blank';
-	indexPage.innerHTML = '· · ·';
-	nav.appendChild(indexPage);
+  var indexPage = document.createElement('a');
+  indexPage.href = '../index.html';
+  indexPage.target = '_blank';
+  indexPage.innerHTML = '· · ·';
+  nav.appendChild(indexPage);
 
-	var buttonToc = document.createElement('a');
-	buttonToc.innerHTML = '· · ·';
-	buttonToc.onclick = function() {
-		var toc = document.getElementById('toc');
-		if (toc.hidden) {
-			toc.removeAttribute('hidden');
-		} else {
-			toc.hidden = true;
-		}
-	}
-	nav.appendChild(buttonToc);
+  var buttonToc = document.createElement('a');
+  buttonToc.innerHTML = '· · ·';
+  buttonToc.onclick = function() {
+    var toc = document.getElementById('toc');
+    if (toc.hidden) {
+      toc.removeAttribute('hidden');
+    } else {
+      toc.hidden = true;
+    }
+  }
+  nav.appendChild(buttonToc);
 
-	var next = document.createElement('a');
-	next.href = urlAbbr + (index+1) + '.html';
-	next.style.float = 'right';
-	next.innerHTML = '&gt;&gt;&gt;';
-	nav.appendChild(next);
+  var next = document.createElement('a');
+  next.href = urlAbbr + (index+1) + '.html';
+  next.style.float = 'right';
+  next.innerHTML = '&gt;&gt;&gt;';
+  nav.appendChild(next);
 
-	// table of contents
-	var toc = document.createElement('iframe');
-	toc.id = 'toc';
-	toc.hidden = true;
-	toc.src = '../index.html';
-	document.body.insertBefore(toc, document.body.firstChild);
+  // table of contents
+  var toc = document.createElement('iframe');
+  toc.id = 'toc';
+  toc.hidden = true;
+  toc.src = '../index.html';
+  document.body.insertBefore(toc, document.body.firstChild);
 }
 */
 
 function alignLabel() {
-	var labels = document.getElementsByClassName('label');
-	for (var i = 0; i < labels.length; ++i) {
-		var p = labels[i].parentElement;
-		var labelPhantom = document.createElement('span');
-		labelPhantom.className = 'label-phantom';
-		labelPhantom.innerHTML = labels[i].innerHTML;
-		p.insertBefore(labelPhantom, p.firstChild);
-	}
+  var labels = document.getElementsByClassName('label');
+  for (var i = 0; i < labels.length; ++i) {
+    var p = labels[i].parentElement;
+    var labelPhantom = document.createElement('span');
+    labelPhantom.className = 'label-phantom';
+    labelPhantom.innerHTML = labels[i].innerHTML;
+    p.insertBefore(labelPhantom, p.firstChild);
+  }
 }
 
 var Sname = function() {
-	return document.createTextNode(filename);
+  return document.createTextNode(filename);
 };
 
 var Sname_num = function(word, i) {
-	var newItem = document.createElement('b');
-	newItem.innerHTML = word + filename + '-' + (i+1);
-	return newItem;
+  var newItem = document.createElement('b');
+  newItem.innerHTML = word + filename + '-' + (i+1);
+  return newItem;
 };
 
 var Snum = function(word, i) {
-	var newItem = document.createElement('b');
-	newItem.innerHTML = word + (i+1);
-	return newItem;
+  var newItem = document.createElement('b');
+  newItem.innerHTML = word + (i+1);
+  return newItem;
 };
 
 var Svoid = function(word) {
-	var newItem = document.createElement('b');
-	newItem.innerHTML = word;
-	return newItem;
+  var newItem = document.createElement('b');
+  newItem.innerHTML = word;
+  return newItem;
 };
 
 var Slarge = function(word) {
-	var newItem = document.createElement('span');
-	newItem.style.fontSize = '2em';
-	newItem.innerHTML = word;
-	return newItem;
+  var newItem = document.createElement('span');
+  newItem.style.fontSize = '2em';
+  newItem.innerHTML = word;
+  return newItem;
 };
 
 var Sformula = function(word, i) {
-	return '(' + filename + '-' + (i+1) + ')';
+  return '(' + filename + '-' + (i+1) + ')';
 };
 
 function decorate(list) {
-	for (var i = 0; i < list.length; ++i) {
-		var elem = ( list[i].getBy === 'class'
-			? document.getElementsByClassName(list[i].name)
-			: document.getElementsByTagName(list[i].name)
-		);
+  for (var i = 0; i < list.length; ++i) {
+    var elem = ( list[i].getBy === 'class'
+      ? document.getElementsByClassName(list[i].name)
+      : document.getElementsByTagName(list[i].name)
+    );
 
-		if (list[i].style === Sformula) {
-			for (var j = 0; j < elem.length; ++j) {
-        if (elem[j].innerHTML) continue;
-				elem[j].caption = elem[j].innerHTML
-					= list[i].style(list[i].word, j);
-			}
-		} else {
-			for (var j = 0; j < elem.length; ++j) {
-				if (elem[j].classList.contains('nonu')) {
-					continue;
-				}
-				var newNode = list[i].style(list[i].word, j);
-				elem[j].caption = newNode.innerHTML;
-				if (list[i].placeAfter) {
-					elem[j].appendChild(newNode); 
-				} else {
-					var space = document.createTextNode(' ');
-					elem[j].insertBefore(space, elem[j].firstChild);
-					elem[j].insertBefore(newNode, elem[j].firstChild);
-				}
-			}
-		}
-	}
+    if (list[i].style === Sformula) {
+      for (var j = 0; j < elem.length; ++j) {
+        if (!elem[j].innerText) {
+          elem[j].innerText = list[i].style(list[i].word, j);
+        }
+        elem[j].caption = elem[j].innerText
+      }
+    } else {
+      for (var j = 0; j < elem.length; ++j) {
+        if (elem[j].classList.contains('nonu')) {
+          continue;
+        }
+        var newNode = list[i].style(list[i].word, j);
+        elem[j].caption = newNode.innerHTML;
+        if (list[i].placeAfter) {
+          elem[j].appendChild(newNode);
+        } else {
+          var space = document.createTextNode(' ');
+          elem[j].insertBefore(space, elem[j].firstChild);
+          elem[j].insertBefore(newNode, elem[j].firstChild);
+        }
+      }
+    }
+  }
 }
 
 function decorateHeading(maxLevel) {
-	if (maxLevel < 2)
-		return;
-	if (maxLevel > 6)
-		maxLevel = 6;
-	var select = "h2,h3,h4,h5,h6".substr(0, (maxLevel-2)*3 + 2);
-	//console.log(select);
-	var elem = document.querySelectorAll(select);
+  if (maxLevel < 2)
+    return;
+  if (maxLevel > 6)
+    maxLevel = 6;
+  var select = "h2,h3,h4,h5,h6".substr(0, (maxLevel-2)*3 + 2);
+  //console.log(select);
+  var elem = document.querySelectorAll(select);
 
-	var i = 0;
-	if (i == elem.length) return;
-	var level = parseInt(elem[i].nodeName[1]);
-	var nums = [filename];
-	function decorateH(lastLevel) {
-		var cnt = 0;
-		if (level > lastLevel) {
-			nums.push(cnt);
-			decorateH(lastLevel+1);
-		}
-		while (level == lastLevel) {
-			if (!elem[i].classList.contains('nonu')) {
-				var space = document.createTextNode(' ');
-				elem[i].insertBefore(space, elem[i].firstChild);
-				var newNode = document.createElement('b');
-				elem[i].caption = newNode.innerHTML
-					= nums.join('-') + '-' + (++cnt);
-				elem[i].insertBefore(newNode, elem[i].firstChild);
-				//console.log(elem[i]);
-			}
-			++i;
-			if (i == elem.length) return;
-			level = parseInt(elem[i].nodeName[1]);
-			if (level > lastLevel) {
-				nums.push(cnt);
-				decorateH(lastLevel+1);
-			}
-		}
-		nums.pop();
-	}
-	decorateH(2);
+  var i = 0;
+  if (i == elem.length) return;
+  var level = parseInt(elem[i].nodeName[1]);
+  var nums = [filename];
+  function decorateH(lastLevel) {
+    var cnt = 0;
+    if (level > lastLevel) {
+      nums.push(cnt);
+      decorateH(lastLevel+1);
+    }
+    while (level == lastLevel) {
+      if (!elem[i].classList.contains('nonu')) {
+        var space = document.createTextNode(' ');
+        elem[i].insertBefore(space, elem[i].firstChild);
+        var newNode = document.createElement('b');
+        elem[i].caption = newNode.innerHTML
+          = nums.join('-') + '-' + (++cnt);
+        elem[i].insertBefore(newNode, elem[i].firstChild);
+        //console.log(elem[i]);
+      }
+      ++i;
+      if (i == elem.length) return;
+      level = parseInt(elem[i].nodeName[1]);
+      if (level > lastLevel) {
+        nums.push(cnt);
+        decorateH(lastLevel+1);
+      }
+    }
+    nums.pop();
+  }
+  decorateH(2);
 }
 
 /* select text on click
 function selectText(id) {
-	var text = document.getElementById(id);
-	var range;
-	if (document.body.createTextRange) {
-		range = document.body.createTextRange();
-		range.moveToElementText(text);
-		range.select();
-	} else if (window.getSelection) {
-		var selection = window.getSelection();
-		range = document.createRange();
-		range.selectNodeContents(text);
-		selection.removeAllRanges();
-		selection.addRange(range);
-	}
+  var text = document.getElementById(id);
+  var range;
+  if (document.body.createTextRange) {
+    range = document.body.createTextRange();
+    range.moveToElementText(text);
+    range.select();
+  } else if (window.getSelection) {
+    var selection = window.getSelection();
+    range = document.createRange();
+    range.selectNodeContents(text);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
 }
 element.onclick = function() {
-	 selectText("output");
+   selectText("output");
 }
 */
 
 function enableCopyCode()
 {
-	function copyCode(pre)
-	{
-		return function() {
-			var textarea = document.createElement('textarea');
-			textarea.value = pre.innerText;
-			document.body.appendChild(textarea);
-			textarea.select();
-			document.execCommand('copy');
-			document.body.removeChild(textarea);
-			var notify = document.createElement('div');
-			notify.innerText = '复制成功';
-			notify.id = 'notify';
-			document.body.appendChild(notify);
-			setTimeout(function(){document.body.removeChild(notify)}, 1000);
-		}
-	}
+  function copyCode(pre)
+  {
+    return function() {
+      var textarea = document.createElement('textarea');
+      textarea.value = pre.innerText;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      var notify = document.createElement('div');
+      notify.innerText = '复制成功';
+      notify.id = 'notify';
+      document.body.appendChild(notify);
+      setTimeout(function(){document.body.removeChild(notify)}, 1000);
+    }
+  }
 
-	var pres = document.getElementsByTagName('pre');
-	for (var i = 0; i < pres.length; ++i) {
-		pres[i].ondblclick = copyCode(pres[i]);
-		pres[i].title = '双击复制';
-	}
+  var pres = document.getElementsByTagName('pre');
+  for (var i = 0; i < pres.length; ++i) {
+    pres[i].ondblclick = copyCode(pres[i]);
+    pres[i].title = '双击复制';
+  }
 }
 
 function hideAnswer(list) {
-	for (var i = 0; i < list.length; ++i) {
-		var answers = document.getElementsByClassName(list[i].name);
-		for (var j = 0; j < answers.length; ++j) {
-			var button = document.createElement('button');
-			var id = answers[j].id;
-			if (!id) {
-				id = list[i].name + '-' + filename + '-' + (j+1);
-				answers[j].id = id;
-			}
-			button.onclick = toggleShowAnswer(button, id);
-			button.innerHTML = list[i].word;
-			button.className = 'toggle-answer answer-hidden';
-			answers[j].parentElement.insertBefore(button, answers[j]);
-			answers[j].classList.add('hidden');
-		}
-	}
+  for (var i = 0; i < list.length; ++i) {
+    var answers = document.getElementsByClassName(list[i].name);
+    for (var j = 0; j < answers.length; ++j) {
+      var button = document.createElement('button');
+      var id = answers[j].id;
+      if (!id) {
+        id = list[i].name + '-' + filename + '-' + (j+1);
+        answers[j].id = id;
+      }
+      button.onclick = toggleShowAnswer(button, id);
+      button.innerHTML = list[i].word;
+      button.className = 'toggle-answer answer-hidden';
+      answers[j].parentElement.insertBefore(button, answers[j]);
+      answers[j].classList.add('hidden');
+    }
+  }
 }
 
 function toggleShowAnswer(button, id) {
-	return function() {
-		var answer = document.getElementById(id);
-		var str = button.innerHTML;
-		if (answer.classList.contains('hidden')) {
-			button.classList.remove('answer-hidden');
-			button.classList.add('answer-shown');
-			answer.classList.remove('hidden');
-		} else {
-			button.classList.remove('answer-shown');
-			button.classList.add('answer-hidden');
-			answer.classList.add('hidden');
-		}
-	};
+  return function() {
+    var answer = document.getElementById(id);
+    var str = button.innerHTML;
+    if (answer.classList.contains('hidden')) {
+      button.classList.remove('answer-hidden');
+      button.classList.add('answer-shown');
+      answer.classList.remove('hidden');
+    } else {
+      button.classList.remove('answer-shown');
+      button.classList.add('answer-hidden');
+      answer.classList.add('hidden');
+    }
+  };
 }
 
 function refPreview(elem, refed) {
-	var div = document.createElement('div');
+  var div = document.createElement('div');
   var preview = document.createElement('div');
-	elem.onmouseover = function(e) {
-		if (refed.classList.contains('img')) {
+  elem.onmouseover = function(e) {
+    if (refed.classList.contains('img')) {
       div.classList.add('img');
-			div.innerHTML = refed.innerHTML;
-		} else {
+      div.innerHTML = refed.innerHTML;
+    } else {
       div.classList.remove('img');
-			div.innerHTML = '';
-			div.appendChild(refed.cloneNode(true));
-		}
+      div.innerHTML = '';
+      div.appendChild(refed.cloneNode(true));
+    }
     preview.appendChild(div);
     preview.classList.add('ref-preview');
-		preview.style.left = e.clientX + 'px';
+    preview.style.left = e.clientX + 'px';
     if (window.innerHeight - e.clientY < 200) {
       preview.style.top = e.clientY - 50 + 'px';
       preview.classList.add('ref-preview-top');
@@ -369,95 +370,95 @@ function refPreview(elem, refed) {
       preview.classList.add('ref-preview-bottom');
       preview.classList.remove('ref-preview-top');
     }
-		document.body.appendChild(preview);
-	};
-	elem.onmouseout = function() {
-		if (preview) {
-			document.body.removeChild(preview);
-		}
-	};
+    document.body.appendChild(preview);
+  };
+  elem.onmouseout = function() {
+    if (preview) {
+      document.body.removeChild(preview);
+    }
+  };
 }
 
 function makeReference() {
-	var refs = document.getElementsByClassName('ref');
-	for (var i = 0; i < refs.length; ++i) {
-		var j = refs[i].href.indexOf('#');
-		var id = refs[i].href.substring(j+1);
-		var refed = document.getElementById(id);
-		if (refed) {
-			refs[i].innerHTML = refed.caption || '??';
-			if (refed.classList.contains('label')) {
-				refPreview(refs[i], refed.parentNode);
-			} else {
-				refPreview(refs[i], refed);
-			}
-		} else {
-			console.warn('reference "' + id + '" not found');
-		}
-	}
+  var refs = document.getElementsByClassName('ref');
+  for (var i = 0; i < refs.length; ++i) {
+    var j = refs[i].href.indexOf('#');
+    var id = refs[i].href.substring(j+1);
+    var refed = document.getElementById(id);
+    if (refed) {
+      refs[i].innerHTML = refed.caption || '??';
+      if (refed.classList.contains('label')) {
+        refPreview(refs[i], refed.parentNode);
+      } else {
+        refPreview(refs[i], refed);
+      }
+    } else {
+      console.warn('reference "' + id + '" not found');
+    }
+  }
 }
 
 function setDefaults(elem, dict) {
-	for (var attr in dict) {
-		if (!elem.getAttribute(attr))
-			elem.setAttribute(attr, dict[attr]);
-	}
+  for (var attr in dict) {
+    if (!elem.getAttribute(attr))
+      elem.setAttribute(attr, dict[attr]);
+  }
 }
 
 function makeSvg() {
-	var rects = document.getElementsByTagName('rect');
-	for (var i = 0; i < rects.length; ++i) {
-		setDefaults(rects[i], {
-			height: '30',
-			width: '80',
-			rx: '10',
-			ry: '10'
-		});
-	}
+  var rects = document.getElementsByTagName('rect');
+  for (var i = 0; i < rects.length; ++i) {
+    setDefaults(rects[i], {
+      height: '30',
+      width: '80',
+      rx: '10',
+      ry: '10'
+    });
+  }
 }
 
 /*
 function wrapIOS() {
-	if (/iphone|ipad|ipod/i.test(explorer)) {
-		// move everything into wrapper
-		var wrapper = document.createElement('div');
-		wrapper.id = 'ios-wrapper';
-		var node;
-		while (node = document.body.firstChild) {
-			wrapper.appendChild(node);
-		}
-		document.body.appendChild(wrapper);
-	}
+  if (/iphone|ipad|ipod/i.test(explorer)) {
+    // move everything into wrapper
+    var wrapper = document.createElement('div');
+    wrapper.id = 'ios-wrapper';
+    var node;
+    while (node = document.body.firstChild) {
+      wrapper.appendChild(node);
+    }
+    document.body.appendChild(wrapper);
+  }
 }
 
 function toggleHideHeader() {
-	var prevScrollTop = document.documentElement.scrollTop
-		|| document.body.scrollTop;
-	var threshod = 100;
-	var prevHide = false;
-	var button = parent.document.getElementById('toggle-show-header');
-	if (parent != window) {
-		document.body.onscroll = function() {
-			var scrollTop = document.documentElement.scrollTop
-				|| document.body.scrollTop;
-			var hide = (scrollTop >= prevScrollTop);
-			if (hide != prevHide)
-				button.onclick(hide);
-			prevScrollTop = scrollTop;
-			prevHide = hide;
-		};
-	}
+  var prevScrollTop = document.documentElement.scrollTop
+    || document.body.scrollTop;
+  var threshod = 100;
+  var prevHide = false;
+  var button = parent.document.getElementById('toggle-show-header');
+  if (parent != window) {
+    document.body.onscroll = function() {
+      var scrollTop = document.documentElement.scrollTop
+        || document.body.scrollTop;
+      var hide = (scrollTop >= prevScrollTop);
+      if (hide != prevHide)
+        button.onclick(hide);
+      prevScrollTop = scrollTop;
+      prevHide = hide;
+    };
+  }
 }
 */
 
 // make formula/table scrollable on overflow
 function wrap(L) {
-	for (var i = 0; i < L.length; ++i) {
-		var div = document.createElement('div');
-		div.className = 'scroll-wrapper';
-		L[i].parentElement.insertBefore(div, L[i]);
-		div.appendChild(L[i]);
-	}
+  for (var i = 0; i < L.length; ++i) {
+    var div = document.createElement('div');
+    div.className = 'scroll-wrapper';
+    L[i].parentElement.insertBefore(div, L[i]);
+    div.appendChild(L[i]);
+  }
 }
 
 // ---- data & function call ----
@@ -468,7 +469,7 @@ var params = getParams(scriptName);
 init();
 //makeNav();
 makeModified();
-makeH1();		// call makeH1() before decorate()
+makeH1();   // call makeH1() before decorate()
 
 decorateHeading(3);
 makeSvg();
@@ -476,42 +477,42 @@ makeSvg();
 alignLabel(); // call alignLabel() before decorate()
 
 decorate([
-	//{name:'read-important',getBy:'class',word:'&#x1f4d6;',style:Slarge},
-	{name:'title', getBy:'tag', word:'', style:Sname},
-	{name:'example', getBy:'class', word:'例', style:Sname_num},
-	{name:'remark', getBy:'class', word:'注', style:Sname_num},
-	{name:'question', getBy:'class', word:'问题', style:Sname_num},
-	{name:'conjecture', getBy:'class', word:'猜想', style:Sname_num},
-	{name:'hypothesis', getBy:'class', word:'假设', style:Sname_num},
-	{name:'theorem', getBy:'class', word:'定理', style:Sname_num},
-	{name:'proposition', getBy:'class', word:'命题', style:Sname_num},
-	{name:'definition', getBy:'class', word:'定义', style:Sname_num},
-	{name:'lemma', getBy:'class', word:'引理', style:Sname_num},
-	{name:'corollary', getBy:'class', word:'推论', style:Sname_num},
-	{name:'algorithm', getBy:'class', word:'算法', style:Sname_num},
-	{name:'data-structure', getBy:'class', word:'数据结构', style:Sname_num},
-	{name:'construction',getBy:'class', word:'作图', style:Sname_num},
-	{name:'img', getBy:'class', word:'图', style:Sname_num, placeAfter:true},
-	{name:'principle', getBy:'class', word:'原理', style:Sname_num},
-	{name:'axiom', getBy:'class', word:'公理', style:Sname_num},
-	{name:'property', getBy:'class', word:'性质', style:Sname_num},
-	{name:'label', getBy:'class', word:'', style:Sformula},
-	{name:'label-phantom', getBy:'class', word:'', style:Sformula},
+  //{name:'read-important',getBy:'class',word:'&#x1f4d6;',style:Slarge},
+  {name:'title', getBy:'tag', word:'', style:Sname},
+  {name:'example', getBy:'class', word:'例', style:Sname_num},
+  {name:'remark', getBy:'class', word:'注', style:Sname_num},
+  {name:'question', getBy:'class', word:'问题', style:Sname_num},
+  {name:'conjecture', getBy:'class', word:'猜想', style:Sname_num},
+  {name:'hypothesis', getBy:'class', word:'假设', style:Sname_num},
+  {name:'theorem', getBy:'class', word:'定理', style:Sname_num},
+  {name:'proposition', getBy:'class', word:'命题', style:Sname_num},
+  {name:'definition', getBy:'class', word:'定义', style:Sname_num},
+  {name:'lemma', getBy:'class', word:'引理', style:Sname_num},
+  {name:'corollary', getBy:'class', word:'推论', style:Sname_num},
+  {name:'algorithm', getBy:'class', word:'算法', style:Sname_num},
+  {name:'data-structure', getBy:'class', word:'数据结构', style:Sname_num},
+  {name:'construction',getBy:'class', word:'作图', style:Sname_num},
+  {name:'img', getBy:'class', word:'图', style:Sname_num, placeAfter:true},
+  {name:'principle', getBy:'class', word:'原理', style:Sname_num},
+  {name:'axiom', getBy:'class', word:'公理', style:Sname_num},
+  {name:'property', getBy:'class', word:'性质', style:Sname_num},
+  {name:'label', getBy:'class', word:'', style:Sformula},
+  {name:'label-phantom', getBy:'class', word:'', style:Sformula},
 ]);
 
 hideAnswer([
-	{name:'proof', word:'证'},
-	{name:'solution', word:'解'},
-	{name:'answer', word:'答'},
-	{name:'collapse', word:'&nbsp;'},
+  {name:'proof', word:'证'},
+  {name:'solution', word:'解'},
+  {name:'answer', word:'答'},
+  {name:'collapse', word:'&nbsp;'},
 ]);
 
 //if (params.type == 'math' || params.loadmath) {
-	loadMath();
+  loadMath();
 //}
 
 //if (params.type == 'cs') {
-	enableCopyCode();
+  enableCopyCode();
 //}
 
 makeReference(); // call makeReference() after decorate()

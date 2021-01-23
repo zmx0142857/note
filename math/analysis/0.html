@@ -302,6 +302,13 @@
 </ol>
 
 <p class="example">
+    由 <a href="8.html">digamma 函数</a>的展式得
+    <span class="formula">
+        `sum_(n ge 1)(1/n - 1/(n+s)) = psi(s+1) + gamma`.
+    </span>
+</p>
+
+<p class="example">
 	<span class="formula">
 		`prod_(n ge 1) (1-x^2/n^2) = (sin pi x)/(pi x)`,
 	</span>
@@ -333,9 +340,13 @@
 
 <h3>Fourier 级数</h3>
 
+<p class="remark">
+    [TODO: 错误计算] 以下两例从发散级数出发, 却凑巧得到有用的结论...??
+</p>
+<div class="collapse">
 <ol class="example">
 	设 `x in (0, 2pi)`, 则
-	<li>`sum_(n ge 1) cos n x = -1/2` (`x != 1/2`);</li>
+	<li>`sum_(n ge 1) cos n x = -1/2` (然而此级数除特殊点外处处发散);</li>
 	<li>`sum_(n ge 1) (sin n x)/n = (pi-x)/2`;</li>
 	<li>`sum_(n ge 1) (cos n x)/n^2 = x^2/4 - (pi x)/2 + pi^2/6`.</li>
 	<li>`sum_(n ge 1) (sin n x)/n^3 = x^3/12 - (pi x^2)/4 + (pi^2 x)/6`.</li>
@@ -349,6 +360,8 @@
 			`sum_(n ge 1) ("e"^(n x"i") + "e"^(-n x"i"))/2`
 			`= 1/2 ("e"^(x"i")/(1-"e"^(x"i"))
 			+ "e"^(-x"i")/(1-"e"^(-x"i")))`
+            `= 1/2 ("e"^(x"i"//2)/("e"^(-x"i"//2)-"e"^(x"i"//2))
+            + "e"^(-x"i"//2)/("e"^(x"i"//2)-"e"^(-x"i"//2)))`
 			`= -1/2`.
 		</span>
 	</li>
@@ -378,6 +391,26 @@
 		</span>
 	</li>
 </ol>
+
+<ol class="example">
+    类似上题有
+    <li>`sum_(n ge 1) sin n x = 1/2 cot {:x/2:}`;
+        (然而此级数除特殊点外处处发散)
+    </li>
+    <li>`sum_(n ge 1) (cos n x)/n = -ln(2 sin{:x/2:})`;</li>
+    <li>`sum_(n ge 1) (sin n x)/n^2 = -int_pi^x ln(2 sin{:t/2:}) dt`;<br/>
+    </li>
+    令 `x = pi-x`, 又得到
+    <li>`sum_(n ge 1) (-1)^(n-1) sin n x = 1/2 tan {:x/2:}`
+        (然而此级数除特殊点外处处发散);
+    </li>
+    <li>`sum_(n ge 1) (-1)^n (cos n x)/n = -ln(2 cos{:x/2:})`;</li>
+    <li>`sum_(n ge 1) (-1)^(n-1) (sin n x)/n^2 = int_0^x ln(2 cos{:t/2:}) dt`;<br/>
+        `x = 0, pi` 时, 等式两边等于 `0`;
+        `x = pi/2` 时, 等于 Calatan 常数 `K`.
+    </li>
+</p>
+</div>
 
 <p>一般地, `f` 在 `(-pi,pi)` 上的 Fourier 级数可以由以下公式计算:
 	<span class="formula">
@@ -458,8 +491,14 @@
 </table>
 
 <p class="remark">
-	提示: `x sin x` 和 `x cos x` 积分时需借助积化和差;
-	`"e"^(a x) = sinh a x + cosh a x`.
+	提示: 1. `x sin x` 和 `x cos x` 积分时需借助积化和差;
+	2. `"e"^(a x) = sinh a x + cosh a x`.
+</p>
+
+<p class="remark">
+    在 `x` 的展式中取 `x = pi/2`, 得到 `pi//4 = sum_(n ge 1)
+    (-1)^(n-1)/(2n-1)`;
+    在 `x^2` 的展式中取 `x = pi`, 得到 `sum_(n ge 1) n^-2 = pi^2//6`.
 </p>
 
 <h2>连分数</h2>
