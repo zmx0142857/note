@@ -208,6 +208,10 @@
 	</span>
 </p>
 
+<p class="example">
+    归纳法可证: 对任意正整数 `n`, `((2n-1)!!)/((2n)!!) lt 1/sqrt(2n+1)`.
+</p>
+
 <p class="proposition">
 	`K(z) = pi/2 sum_(n ge 0) [((2n-1)!!)/((2n)!!) z^n]^2`.
 </p>
@@ -224,6 +228,11 @@
     </span>
 </p>
 
+<p class="corollary">
+    <b>Euler 变换</b>
+    `E("i"x) = sqrt(1+x^2) E(sqrt(x^2/(1+x^2)))`.
+</p>
+
 <p class="example">
     <b>椭圆的周长</b>
     记椭圆的离心率为 `k = sqrt(a^2-b^2) // a`, 则椭圆周长
@@ -232,6 +241,29 @@
         "d"theta`
         `= 4 a int_0^(pi/2) sqrt (1 - k^2 sin^2 theta) "d"theta`
         `= 4 a E(k)`.
+    </span>
+</p>
+
+<p class="example">
+    求 `int_0^1 sqrt((1+x^2)/(1-x^2)) dx`.
+</p>
+
+<p class="solution">
+    原式等于
+    <span class="formula">
+        `int_0^1 (1+x^2)/sqrt(1-x^4) dx`
+        `= int_0^1 1/sqrt(1-x^4) dx + int_0^1 x^2/sqrt(1-x^4) dx`
+        `= I_1 + I_2`.
+    </span>
+    令 `t = x^4`, `dt = 4x^3 dx`, `dx = dt/(4 t^(3//4))`,
+    <span class="formula">
+        `I_1 = 1/4 int_0^1 t^(-3//4)(1-t)^(-1//2) dt = 1/4 B(1/4, 1/2)`.
+    </span>
+    类似 `I_2 = 1/4 B(3/4, 1/2)`.<br/>
+    另一方面, 令 `x = sin theta`, 原式等于
+    <span class="formula">
+        `int_0^(pi/2) sqrt(1+sin^2 theta) "d"theta`
+        `= E("i") = sqrt 2 E(1/sqrt 2)`.
     </span>
 </p>
 

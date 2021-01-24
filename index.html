@@ -278,7 +278,6 @@ li.isnew::after {
 </nav>
 
 <article id="article">
-  <iframe id="iframe"></iframe>
   <header id="header">
     <a id="yinyang" title="M 键切换目录">&#x262f;</a>
     <span id="article-title"></span>
@@ -324,7 +323,6 @@ function $(str, children) {
 var article = $('#article'),
   artitle = $('#article-title'),
   header = $('#header'),
-  iframe = $('#iframe'),
   nav = $('#nav'),
   toc = $('#table-of-contents'),
   yinyang = $('#yinyang'),
@@ -372,6 +370,22 @@ function headerVisible(flag) {
   }
 }
 
+function createIframe(src) {
+  // 全新创建的 iframe 不会影响 history
+  var iframe = $('<iframe>');
+  iframe.id = 'iframe';
+  iframe.setAttribute('src', src);
+  iframe.onload = function() {
+    var notify = $('#notify');
+    if (notify) {
+      document.body.removeChild(notify);
+      notify = null;
+    }
+  };
+  article.insertBefore(iframe, header);
+  iframe.contentWindow.handleKeyboard = handleKeyboard;
+}
+
 function loading() {
   var notify = $('#notify');
   if (!notify) {
@@ -380,7 +394,6 @@ function loading() {
     notify.id = 'notify';
     document.body.appendChild(notify);
   }
-  iframe.onload = function() { document.body.removeChild(notify) };
 }
 
 function load(key, defaultVal) {
@@ -395,7 +408,9 @@ function jump(src, title) {
   //console.log('jump: ' + src + ' ' + title);
   loading();
   save('src', src);
-  iframe.setAttribute('src', book.value + '/' + src);
+  var iframe = $('#iframe');
+  if (iframe) article.removeChild(iframe);
+  createIframe(book.value + '/' + src)
   artitle.innerText = title;
   hideNav(true);
   setTimeout(headerVisible, 1000);
@@ -408,7 +423,8 @@ function jumpPos(pos) {
 
 function redirect(pos) {
   var src = tableOfContents[pos[0]].articles[pos[1]].src.replace(/\.html$/, '');
-  window.history.pushState({}, '', '#' + book.value + '/' + src);
+  var hash = '#' + book.value + '/' + src;
+  window.history.replaceState(null, null, hash);
   jumpPos(pos);
 }
 
@@ -483,7 +499,7 @@ function handleKeyboard(e) {
     hideNav();
   }
 }
-document.onkeyup = iframe.contentWindow.handleKeyboard = handleKeyboard;
+document.onkeyup = handleKeyboard;
 header.onmouseover = function() {headerVisible(true)};
 header.onmouseout = function() {headerVisible(false)};
 yinyang.onclick = eclipse.onclick = function() {hideNav()};
@@ -521,7 +537,7 @@ book.onchange = function() {
   redirect(pos);
 }
 
-window.onpopstate = function(e) {
+window.onhashchange = function(e) {
   var pos = parseHash();
   if (pos) {
     jumpPos(pos);
@@ -532,7 +548,7 @@ window.onpopstate = function(e) {
 }
 
 book.value = '';
-window.onpopstate();
+window.onhashchange();
 
 })();
 </script>
