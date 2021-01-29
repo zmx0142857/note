@@ -107,6 +107,20 @@ push(val):
 	</li>
 </ol>
 
+<p class="proof">
+  考虑数字 1 在出栈序列中的位置 k. 整个过程描述如下:
+  数字 1 进栈;
+  `k-1` 个数字进栈后又出栈: `C_(k-1)` 种组合;
+  数字 1 出栈;
+  `n-k` 个数字进栈后又出栈: `C_(n-k)` 种组合；
+  因此全部的组合数目是
+  <span class="formula">
+    `C_n = sum_(k=1)^n C_(k-1) C_(n-k)`,
+    `quad C_0 = 1`.
+  </span>
+  这是 Catalan 数的递推关系.
+</p>
+
 <p class="example" id="exp-stack-1234">
 	求进栈序列为 1 2 3 4 时, 所有不可能的出栈序列.
 </p>
