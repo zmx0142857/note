@@ -198,7 +198,7 @@
 	<span class="formula">
 		`kappa(t) = |bm v ^^ dot bm v|/v^3`,
 		`quad`
-    `tau(t) = -{:(bm v, dot bm v, ddot bm v):}/|bm v ^^ dot bm v|^2`.
+    `tau(t) = {:(bm v, dot bm v, ddot bm v):}/|bm v ^^ dot bm v|^2`.
 	</span>
   其中 `bm v = dot bm r`.
 </p>
@@ -243,22 +243,23 @@
       `dot bm b`
       `= (bm beta ^^ dot bm beta) ^^ bm beta // beta^3`
       `= gamma/beta^3 bm v ^^ bm beta`
-      `= (gamma v)/beta^2 bm n`.
+      `= -(gamma v)/beta^2 bm n`.
     </span>
     最终
     <span class="formula">
       `tau = (:("d"bm n)/("d"s), bm b:)`
-      `= 1/v (:dot bm n, bm b:)`
-      `= -1/v (:bm n, dot bm b:)`
-      `= -gamma/beta^2`.
+      `= -1/v (:dot bm n, bm b:)`
+      `= 1/v (:bm n, dot bm b:)`
+      `= gamma/beta^2`.
     </span>
   </li>
 </ol>
 
 <p class="example">
-	设 `bm r(t) = (x(t), y(t))`, 下式各导数均表示对 t 求导, 则曲率
+	`E^2` 的正则曲线 `bm r(t) = (x(t), y(t))` 的曲率
 	<span class="formula">
-		`kappa(t) = (x'y'' - x''y')/(x'^2 + y'^2)^(3//2)`.
+		`kappa(t) = (dot x ddot y - ddot x dot y)/
+    ({:dot x:}^2 + {:dot y:}^2)^(3//2)`.
 	</span>
 </p>
 
@@ -267,18 +268,18 @@
 	关于 `x, y` 的表达式来求得. 不过也可以将二维问题视为三维问题,
 	利用上题结论,
 	<span class="formula">
-		`kappa(t) = +- (x' y'' - x'' y')/(x'^2 + y'^2)^(3/2)`.
+    `kappa(t) = +- (dot x ddot y - ddot x dot y)/
+    ({:dot x:}^2 + {:dot y:}^2)^(3/2)`.
 	</span>
-	为确定其符号, 设 `kappa != 0`, 因为 `{bm t, bm n}` 为正定向的,
-	所以
+	为确定其符号, 设 `kappa != 0`, 因为 `{bm t, bm n}` 为正定向的, 所以
 	<span class="formula">
 		`(bm t, bm n, bm k) gt 0`, `bm k` 是 `z` 轴的单位向量.
 	</span>
-	由于 `bm n = 1/kappa ("d"bm t)/{:"d"s:}`, 上式化为
+	由于 `bm n = 1/kappa ("d"bm t)/("d"s)`, 上式化为 (??)
 	<span class="formula">
-		`(bm r', bm r'', kappa bm k) gt 0`,
+		`(dot bm r, ddot bm r, kappa bm k) gt 0`,
 		即
-		`|x', y', 0; x'', y'', 0; 0, 0, kappa| gt 0`.
+		`|dot x, dot y, 0; ddot x, ddot y, 0; 0, 0, kappa| gt 0`.
 	</span>
 	可见前述式子应当取正号.
 </p>
