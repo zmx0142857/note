@@ -19,47 +19,13 @@
 
 <p class="remark">以后我们提到曲线, 如无特别说明, 都指正则曲线.</p>
 
-<ol class="example" id="exp-dot-r">
-  <b>极坐标下的矢量分析</b>
-  <li>记 `r = |bm r|`, `hat bm r = bm r//r`, 用字母上的一点表示对 `t`
-    的导数，则
-    <span class="formula">
-      `(:bm r, dot bm r:)`
-      `= 1/2 "d"/dt (:bm r, bm r:)`
-      `= "d"/dt (r^2/2)`
-      `= r dot r`,
-    </span>
-    换言之, `dot r = (:bm r, dot bm r:)//r`.
-  </li>
-  <li>`bm h = bm r ^^ dot bm r` 称为<b>角动量</b>,
-    它垂直于 `bm r, dot bm r` 所在的平面.
-    记 `bm theta = dot hat bm r`, 则
-    <span class="formula">
-      `bm theta`
-      `= "d"/dt(bm r/r)`
-      `= (r dot bm r - dot r bm r) / r^2`
-      `= (dot bm r (:bm r, bm r:) - bm r (:bm r, dot bm r:)) / r^3`
-      `= ((bm r ^^ dot bm r) ^^ bm r) / r^3`.
-      `= (bm h ^^ bm r)/r^3`.
-    </span>
-    因此, `bm r, bm theta, bm h` 两两垂直成右手系. 此外, 上式两边取模得 `h = r^2 theta`.
-  </li>
-</p>
-
-<ol class="corollary" id="cor-dot-r">
-	<li>`bm r` 的长度不变, 即 `r` 为常数当且仅当 `(:bm r, dot bm r:) = 0`;
-	</li>
-	<li>`bm r` 的方向不变, 即 `hat bm r` 为常向量当且仅当
-		`bm r ^^ dot bm r = bb 0`;
-	</li>
-</ol>
-
 <p class="definition">
   正则曲线在 `(0, T)` 上的弧长为
   <span class="formula">
-    `s = int_0^T "d"s = int_0^T v dt`
+    `s = int_0^T "d"s = int_0^T |"d"bm r| = int_0^T v dt`.
   </span>
-  由于 `v gt 0`, 上式确定了时间 `T` 关于 `s` 的隐函数. 利用上式可令曲线以 `s` 为参数, 则
+  由于 `v gt 0`, 上式确定了时间 `T` 关于 `s` 的隐函数.
+  故可令曲线以 `s` 为参数, 有
   <span class="formula">
     `("d"bm r)/("d"s)`
     `= dt/("d"s) ("d"bm r)/dt`
@@ -70,154 +36,152 @@
 
 <p class="remark">
   今后我们用字母右上角的撇表示对 `s` 求导, 如 `bm r' = ("d"bm r)/("d"s)`;
-  用头上的点表示对 `t` 求导, 如 `dot bm r = ("d"bm r)/dt`;
+  用字母上的点表示对 `t` 求导, 如 `dot bm r = ("d"bm r)/dt`;
   用未加粗的字母表示向量的模, 如 `v = |bm v|`;
   用帽子表示单位向量, 如 `hat bm v = (bm v)/v`.
 </p>
 
-<h2>平面正则曲线</h2>
+<ol class="example" id="exp-dot-r">
+  <b>极坐标下的矢量分析</b>
+  我们来求 `dot r` 和 `dot hat bm r`. 它们分别代表 `bm r`
+  在长度和方向上的变化.
+  <li>
+    因为
+    <span class="formula">
+      `(:bm r, dot bm r:)`
+      `= 1/2 "d"/dt (:bm r, bm r:)`
+      `= "d"/dt (r^2/2)`
+      `= r dot r`,
+    </span>
+    所以 `dot r = (:bm r, dot bm r:)//r`.
+  </li>
+  <li>
+    记 `bm theta = dot hat bm r`, 则
+    <span class="formula">
+      `bm theta`
+      `= "d"/dt(bm r/r)`
+      `= (r dot bm r - dot r bm r) / r^2`
+      `= (dot bm r (:bm r, bm r:) - bm r (:bm r, dot bm r:)) / r^3`
+      `= ((bm r ^^ dot bm r) ^^ bm r) / r^3`.
+      `= (bm h ^^ bm r)/r^3`.
+    </span>
+    其中 `bm h = bm r ^^ dot bm r` 称为<b>角动量</b>,
+    它垂直于 `bm r, dot bm r` 所在的平面.
+    我们从长度和方向两方面来看上式:
+    长度上, 两边取模得 `h = r^2 theta`;
+    方向上, `bm r, bm theta, bm h` 两两垂直成右手系.
+  </li>
+</p>
 
-<span class="formula">
-	`bm r(t) = (x(t), y(t))`, `quad t in (a, b)`.
-</span>
+<ol class="corollary" id="cor-dot-r">
+	<li>`bm r` 的长度不变, 即 `r` 为常数当且仅当 `(:bm r, dot bm r:) = 0`,
+      即 `bm r` 与 `dot bm r` 垂直;
+	</li>
+	<li>`bm r` 的方向不变, 即 `hat bm r` 为常向量当且仅当
+		  `bm r ^^ dot bm r = bb 0`, 即 `bm r` 与 `dot bm r` 平行.
+	</li>
+</ol>
+
+<h2>平面与空间正则曲线</h2>
 
 <h3>相关记号</h3>
 
-<p>参考 <a href="../mathnote-old/%236.html">场论常用公式</a>.</p>
-
-<table>
-	<tr>
-		<td>曲线参数微元 (时间)</td>
-		<td>`dt`</td>
-	</tr>
-	<tr>
-		<td>坐标长度微元</td>
-		<td>`dx, dy`</td>
-	</tr>
-	<tr>
-		<td>位移矢量微元</td>
-		<td>`"d" bm r = (dx, dy)`</td>
-	</tr>
-	<tr>
-		<td>切向量</td>
-		<td>`("d" bm r)/(dt) = ((dx)/(dt), (dy)/(dt))`</td>
-	</tr>
-	<tr>
-		<td>弧长微元</td>
-		<td>`"d"s = |("d" bm r)/dt| dt`</td>
-	</tr>
-	<tr>
-		<td>单位切向量</td>
-		<td>`bm t = ("d" bm r)/dt |(d bm r)/(dt)|^-1`</td>
-	</tr>
-	<tr>
-		<td>联系</td>
-		<td>`"d" bm r = bm t "d"s`</td>
-	</tr>
-	<tr>
-		<td>验证</td>
-		<td>`"d" bm r = (d bm r)/dt dt = bm t "d"s.`</td>
-	</tr>
-	<tr>
-		<td>法向量</td>
-		<td>`(dy/dt, -dx/dt)`</td>
-	</tr>
-	<tr>
-		<td>单位正法向量</td>
-		<td>`bm n = (-dy/("d"s), dx/("d"s))`</td>
-	</tr>
-	<tr>
-		<td>Frenet 标架</td>
-		<td>`{bm r";" bm t, bm n}`</td>
-	</tr>
-</table>
-
-<p class="remark">
-	记号 `bm n` 的含义与参考链接中的不同, 这里表示单位正法向量,
-	它是与 `bm t` 正交的单位向量, 且 `{bm t, bm n}` 成右手系.
+<p class="definition">
+  先设 `bm r` 为平面曲线.
+  取弧长参数 `s`, 这时切向量 `bm v` 恰为单位向量.  记 `bm t = hat bm v`,
+  由 `bm t` 的长度不变知 `bm t _|_ bm t'`.
+  令 `bm n` 是 `bm t` 的法向量, (规定 `bm t, bm n` 成右手系),
+  则存在标量函数 `kappa(s)` 使得
+  <span class="formula">
+    `bm t' = kappa bm n`.
+  </span>
+  `kappa` 称为<b>曲率</b>. `{bm r"; " bm t, bm n}` 称为曲线的
+  <b>Frenet 标架</b>.
+  `kappa gt 0` 时, `bm n` 沿逆时针转动 (曲线沿逆时针绕行).
 </p>
 
-<h3>曲率</h3>
+<p class="remark">
+  直角坐标系下,
+  <span class="formula">
+    `bm r = (x, y)`, `quad "d"bm r = (dx, dy)`,
+    `quad "d"s = |"d"bm r| = sqrt(dx^2+dy^2)`<br/>
+    `quad bm n = [cos pi//2, -sin pi//2; sin pi//2, cos pi//2] bm t`
+    `= [0, -1; 1, 0] ("d"bm r)/("d"s)`
+    `= (-dy/("d"s), dx/("d"s))`.
+  </span>
+</p>
 
-<p>取弧长参数, 则速度 `bm v` 是单位向量: `bm v = hat bm v`.</p>
+<p class="definition">
+  三维情形时, 同样取弧长参数 `s`, 令 `bm t` 为单位切向量.
+  因 `bm t' _|_ bm t`, 可令 `bm n = hat (bm t')`, 则 `bm n`
+  是垂直于 `bm t` 的单位向量, 称为<b>主法向量</b>, `kappa(s) = |bm t'|`
+  称为<b>曲率</b>; 因此
+  <span class="formula">
+    `bm t' = kappa bm n`.
+  </span>
+  又记 `bm b = bm t ^^ bm n`, 称为<b>副法向量</b>.
+  `bm n'` 在 `bm b` 上的投影 `tau = (:bm n', bm b:)` 称为<b>挠率</b>.
+  `{bm r"; " bm t, bm n, bm b}` 称为曲线的 <b>Frenet 标架</b>.
+</p>
 
 <p>
-	因为 `bm t` 的长度不变, 所以 `(:bm t, bm t':) = 0`.
-	但 `(:bm t, bm n:) = 0`, 所以 `bm t'` 与 `bm n` 线性相关.
-	设 `("d" bm t)/("d"s) = kappa(s) bm n`. 称 `kappa(s)` 为<b>曲率</b>.
-	显然 `|kappa(s)| = |("d" bm t)/("d"s)|`.
+  `bm t, bm n, bm b` 形成右手系, 且均为单位向量.
+  以这三个向量为法向量的平面分别称为<b>法平面</b>,
+  <b>从切平面</b>和<b>密切平面</b>.
+</p>
+
+<p>
+  `tau gt 0` 时, 曲线沿正向穿越密切平面 (即在 `(bm t, bm b)`
+  平面的投影是上升曲线).
+  不同于平面曲线, 在空间曲线中, 总有 `kappa ge 0`.
+</p>
+
+<p class="remark">
+	直观上, 空间曲线的曲率可以理解为向心力,
+	挠率则可以理解为密切平面的运动速率.
 </p>
 
 <h3>Frenet 方程</h3>
 
+<ol class="lemma">
+  设 `bm e_1, bm e_2, cdots, bm e_m` 是参数 `t` 的向量函数,
+  且不论 `t` 取何值, 它们始终都是两两正交的单位向量, 即
+  <span class="formula">
+    `(:bm e_i, bm e_j:) = delta_(i j)`
+    `= {1, if i = j; 0, if i != j:}`.
+  </span>
+  记 `omega_(i j) = (:dot bm e_i, bm e_j:)`, 则
+    <li>`omega_(i j) + omega_(j i) = 0`; 特别地 `omega_(i i) = 0`.
+    </li>
+    <li>
+        `"d"/dt [bm e_1; vdots; bm e_m]`
+        `= (omega_(i j)) [bm e_1; vdots; bm e_m]`.
+    </li>
+</ol>
+
+<ol class="proof">
+  <li>由 `(:bm e_i, bm e_j:) = 0` 求导即得;</li>
+  <li>设 `dot bm e_i = sum_(k=1)^m c_k bm e_k`, 两边与 `bm e_j` 作内积,
+    <span class="formula">
+      `omega_(i j) = sum_(k=1)^m c_k delta_(k j)`
+      `= c_j`.
+    </span>
+    即得证.
+  </li>
+</ol>
+
+<p>现在可以导出二维和三维的 Frenet 方程:</p>
+
 <p>
-	对 `(:bm t, bm n:) = 0` 求导知 `(:bm t', bm n:) + (:bm t, bm n') = 0`,
-	故
+  二维情形: 由已知 `bm t' = kappa bm n = 0 bm t + kappa bm n`, 借助引理得
 	<span class="formula">
 		`"d"/("d"s) [bm t; bm n] = [0, kappa; -kappa, 0][bm t; bm n]`.
 	</span>
-	`kappa gt 0` 时, `bm n` 沿逆时针转动 (曲线沿逆时针绕行).
 </p>
-
-<h2>三维正则曲线</h2>
-
-<span class="formula">
-	`bm r(t) = (x(t), y(t), z(t))`
-</span>
-
-<h3>相关记号</h3>
-
-<table>
-	<tr>
-		<td>位移矢量微元</td>
-		<td>`"d" bm r = (dx, dy, dz)`</td>
-	</tr>
-	<tr>
-		<td>单位切向量</td>
-		<td>`bm t = ("d" bm r)/("d"s)`</td>
-	</tr>
-	<tr>
-		<td>曲率向量</td>
-		<td>`("d" bm t)/("d"s) = (d^2 bm r)/{:"d"s:}^2`</td>
-	</tr>
-	<tr>
-		<td>曲率</td>
-		<td>`kappa(s) = |("d" bm t)/("d"s)|`</td>
-	</tr>
-	<tr>
-		<td>主法向量</td>
-		<td>`bm n = 1/kappa ("d" bm t)/("d"s)`</td>
-	</tr>
-	<tr>
-		<td>副法向量</td>
-		<td>`bm b = bm t ^^ bm n`</td>
-	</tr>
-	<tr>
-		<td>挠率</td>
-		<td>`tau = (:("d" bm n)/("d"s), bm b:)`</td>
-	</tr>
-	<tr>
-		<td>Frenet 标架</td>
-		<td>`{bm r";" bm t, bm n, bm b}`</td>
-	</tr>
-</table>
-
-<p>	`{bm t, bm n, bm b}` 形成右手系, 且均为单位向量.
-	以这三个向量为法向量的平面分别称为<b>法平面</b>,
-	<b>从切平面</b>和<b>密切平面</b>.
-</p>
-
-<h3>Frenet 方程</h3>
 
 <p>
-	设
-	<span class="formula">
-		`"d"/("d"s) [bm t; bm n; bm b] = (omega)_(ij)
-		[bm t; bm n; bm b]`,
-	</span>
-	由于 `bm t, bm n, bm b` 是两两正交的单位向量, 所以 `omega_(ij) =
-	-omega_(ji)`. 又由主法向量的定义知 `omega_(12) = kappa`, `omega_(13) =
-	0`. 设 `omega_(23) = (:("d" bm n)/("d"s), bm b:) = tau`, 综上得到
+  三维情形: 由主法向量的定义知 `omega_(12) = kappa`, `omega_(13) = 0`.
+  又 `omega_(23) = (:bm n', bm b:) = tau`, 于是
 	<span class="formula">
 		`"d"/("d"s) [bm t; bm n; bm b] = [
 			0, kappa, 0;
@@ -227,76 +191,69 @@
 	</span>
 </p>
 
-<p>不同于平面曲线, 空间曲线总有 `kappa ge 0`. `tau gt 0` 时,
-	曲线沿正向穿越密切平面 (即在 `(bm t, bm b)` 平面的投影是上升曲线).
-</p>
-
-<p class="remark">
-	直观上, 空间曲线的曲率可以理解为向心力,
-	挠率则可以理解为密切平面的运动速率.
-</p>
+<h3>杂例</h3>
 
 <p class="example">
 	`E^3` 的正则曲线 `bm r(t)` 的曲率和挠率分别为
-	(以下导数均表示对 `t` 求导)
 	<span class="formula">
-		`kappa(t) = |bm r' ^^ bm r''|/|bm r'|^3`,
+		`kappa(t) = |bm v ^^ dot bm v|/v^3`,
 		`quad`
-		`tau(t) = ("("bm r', bm r'', bm r'''")")/|bm r' ^^ bm r''|^2`.
+    `tau(t) = -{:(bm v, dot bm v, ddot bm v):}/|bm v ^^ dot bm v|^2`.
 	</span>
+  其中 `bm v = dot bm r`.
 </p>
 
-<p class="solution">
-	<span class="formula">
-		`{:"d"s:}/dt = |bm r'|`, `quad`
-		` bm t
-		= {:"d"bm r:}/{:"d"s:}
-		= {:"d"bm r:}/dt dt/{:"d"s:}
-		= (bm r')/|bm r'|`
-	</span>
-	应用例1-1,
-	<span class="formula">
-		` {"d"^2 bm r:}/{:"d"s:}^2
-		= "d"/dt ({:"d"bm r:}/{:"d"s:}) dt/{:"d"s:}
-		= 1/|bm r'| "d"/dt ((bm r')/|bm r'|)
-		= (bm r' ^^ (bm r'' ^^ bm r')) / |bm r'|^4`.
-	</span>
-	注意到 `(:bm r', bm r'' ^^ bm r':) = 0`, 所以
-	<span class="formula">
-		` kappa(t)
-		= |{:"d"^2 bm r:}/{:"d"s:}^2|
-		= (|bm r'| |bm r'' ^^ bm r'|)/|bm r'|^4
-		= |bm r'' ^^ bm r'|/|bm r'|^3`,<br/>
-		` bm n
-		= (bm r' ^^ (bm r'' ^^ bm r'))/(|bm r'| |bm r'' ^^ bm r'|)`,<br/>
-		` bm b
-		= bm t ^^ bm n
-		= (bm r' ^^ (bm r' ^^ (bm r'' ^^ bm r')))
-		  / (|bm r'|^2 |bm r'' ^^ bm r'|)
-		= ((:bm r',bm r'' ^^bm r':)bm r'-(:bm r',bm r':)(bm r'' ^^bm r'))
-		  / (|bm r'|^2 |bm r'' ^^ bm r'|)`
-		`= -(bm r'' ^^ bm r')/|bm r'' ^^ bm r'|`.
-	</span>
-	记 `bm beta = bm r'' ^^ bm r'`, 所以
-	<span class="formula">
-		`bm beta' = bm r''' ^^ bm r'`,<br/>
-		` -bm beta' ^^ bm beta
-		= bm beta ^^ (bm r''' ^^ bm r')
-		= (:bm beta, bm r':) bm r''' - (:bm beta, bm r''':)bm r'`
-		`= -(:bm beta, bm r''':)bm r'
-		= (bm r', bm r'', bm r''') bm r'`.
-	</span>
-	利用已有结果,
-	<span class="formula">
-		` {:"d"bm b:}/{:"d"s:}
-		= "d"/dt (-(bm beta)/|bm beta|) dt/{:"d"s:}
-		= -(bm beta ^^ (bm beta' ^^ bm beta))/(|bm r'| |bm beta|^3)
-		= ((bm r', bm r'', bm r''') bm beta ^^ bm r')
-		  / (|bm r'| |bm beta|^3)`.
-	</span>
-	联系 `bm n = (bm r ^^ bm beta)/(|bm r'| |bm beta|)` 和
-	`{:"d"bm b:}/{:"d"s:} = -tau(t) bm n` 即得到 `tau(t)` 的表达式.
-</p>
+<ol class="proof">
+  <li>
+    记 `bm beta = bm v ^^ dot bm v`, 由
+    <span class="formula">
+      `kappa bm n`
+      `= ("d"bm t)/("d"s)`
+      `= ("d"bm t)/dt dt/("d"s)`
+      `= dot hat bm v // v`
+      `= bm beta ^^ bm v // v^4`,
+      <span class="label" id="for-kappa-n"></span>
+    </span>
+    注意 `(:bm v, bm beta:) = 0`, 两边取模即得结论.
+  </li>
+  <li>
+    将 <a class="ref" href="#for-kappa-n"></a> 单位化, 得
+    <span class="formula">
+      `bm n = (bm beta ^^ bm v)/(beta v)`
+      `= (bm beta)/beta ^^ bm t`.
+    </span>
+    我们知道 `bm n = bm b ^^ bm t`, 下证 `bm b = bm beta // beta`:
+    <span class="formula">
+      `bm b = bm t ^^ bm n`
+      `= (bm v)/v ^^ (bm beta ^^ bm v) / (beta v)`
+      `= ((:bm v, bm v:) bm beta - (:bm v, bm beta:) bm v)/(v^2 beta)`
+      `= bm beta // beta`.
+    </span>
+    进一步,
+    <span class="formula">
+      `dot bm beta = bm v ^^ ddot bm v`,<br/>
+      `bm beta ^^ dot bm beta`
+      `= bm beta ^^ (bm v ^^ ddot bm v)`
+      `= (:bm beta, ddot bm v:) bm v - (:bm beta, bm v:)ddot bm v`
+      `= (:bm beta, ddot bm v:) bm v`
+      `= (bm v, dot bm v, ddot bm v) bm v`.
+    </span>
+    记 `gamma = (bm v, dot bm v, ddot bm v)`, 有
+    <span class="formula">
+      `dot bm b`
+      `= (bm beta ^^ dot bm beta) ^^ bm beta // beta^3`
+      `= gamma/beta^3 bm v ^^ bm beta`
+      `= (gamma v)/beta^2 bm n`.
+    </span>
+    最终
+    <span class="formula">
+      `tau = (:("d"bm n)/("d"s), bm b:)`
+      `= 1/v (:dot bm n, bm b:)`
+      `= -1/v (:bm n, dot bm b:)`
+      `= -gamma/beta^2`.
+    </span>
+  </li>
+</ol>
 
 <p class="example">
 	设 `bm r(t) = (x(t), y(t))`, 下式各导数均表示对 t 求导, 则曲率
