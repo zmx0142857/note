@@ -13,8 +13,8 @@
   <b>曲线</b> `bm r(t)` 是参数 `t` (可以视为时间) 的一元向量函数,
   `bm v = ("d"bm r)/dt` 称为曲线的<b>切向量</b> (或速度), `v = |bm v|` 是切向量的模 (即速率).<br/>
   <b>正则曲线</b> 是满足下面条件的曲线:
-	<li>无穷可微: 每一分量是 `C^oo` 函数;</li>
-	<li>速率不为零: `v = |bm v| = |("d" bm r)/dt| gt 0`, `AA t in (a, b)`.</li>
+  <li>无穷可微: 每一分量是 `C^oo` 函数;</li>
+  <li>速率不为零: `v = |bm v| = |("d" bm r)/dt| gt 0`, `AA t in (a, b)`.</li>
 </ol>
 
 <p class="remark">以后我们提到曲线, 如无特别说明, 都指正则曲线.</p>
@@ -74,12 +74,12 @@
 </p>
 
 <ol class="corollary" id="cor-dot-r">
-	<li>`bm r` 的长度不变, 即 `r` 为常数当且仅当 `(:bm r, dot bm r:) = 0`,
+  <li>`bm r` 的长度不变, 即 `r` 为常数当且仅当 `(:bm r, dot bm r:) = 0`,
       即 `bm r` 与 `dot bm r` 垂直;
-	</li>
-	<li>`bm r` 的方向不变, 即 `hat bm r` 为常向量当且仅当
-		  `bm r ^^ dot bm r = bb 0`, 即 `bm r` 与 `dot bm r` 平行.
-	</li>
+  </li>
+  <li>`bm r` 的方向不变, 即 `hat bm r` 为常向量当且仅当
+      `bm r ^^ dot bm r = bb 0`, 即 `bm r` 与 `dot bm r` 平行.
+  </li>
 </ol>
 
 <h2>平面与空间正则曲线</h2>
@@ -119,6 +119,7 @@
   <span class="formula">
     `bm t' = kappa bm n`.
   </span>
+  `bm t' = ("d"^2bm r)/("d"s^2)` 称为<b>曲率向量</b>.
   又记 `bm b = bm t ^^ bm n`, 称为<b>副法向量</b>.
   `bm n'` 在 `bm b` 上的投影 `tau = (:bm n', bm b:)` 称为<b>挠率</b>.
   `{bm r"; " bm t, bm n, bm b}` 称为曲线的 <b>Frenet 标架</b>.
@@ -137,13 +138,25 @@
 </p>
 
 <p class="remark">
-	直观上, 空间曲线的曲率可以理解为向心力,
-	挠率则可以理解为密切平面的运动速率.
+  直观上, 空间曲线的曲率可以理解为向心力,
+  挠率则可以理解为密切平面的运动速率.
 </p>
 
 <h3>Frenet 方程</h3>
 
-<ol class="lemma">
+<p class="lemma">
+  <b>分部积分</b>
+  设 `bm a, bm b` 为 `t` 的函数, 则
+  <span class="formula">
+    `(:bm a, dot bm b:) = "d"/dt (:bm a, bm b:) - (:dot bm a, bm b:)`.
+  </span>
+  特别当 `(:bm a, bm b:)` 为常数 (特别的特别, 当两向量正交) 时,
+  <span class="formula">
+    `(:bm a, dot bm b:) = -(:dot bm a, bm b:)`.
+  </span>
+</p>
+
+<ol class="theorem">
   设 `bm e_1, bm e_2, cdots, bm e_m` 是参数 `t` 的向量函数,
   且不论 `t` 取何值, 它们始终都是两两正交的单位向量, 即
   <span class="formula">
@@ -151,12 +164,13 @@
     `= {1, if i = j; 0, if i != j:}`.
   </span>
   记 `omega_(i j) = (:dot bm e_i, bm e_j:)`, 则
-    <li>`omega_(i j) + omega_(j i) = 0`; 特别地 `omega_(i i) = 0`.
-    </li>
-    <li>
-        `"d"/dt [bm e_1; vdots; bm e_m]`
-        `= (omega_(i j)) [bm e_1; vdots; bm e_m]`.
-    </li>
+  <li>`omega_(i j) + omega_(j i) = 0`; 特别地 `omega_(i i) = 0`.
+  </li>
+  <li>
+      `"d"/dt [bm e_1; vdots; bm e_m]`
+      `= (omega_(i j)) [bm e_1; vdots; bm e_m]`.
+  </li>
+  此定理表明, 微分算子 `"d"` 在正交基底下的矩阵是反对称矩阵.
 </ol>
 
 <ol class="proof">
@@ -170,36 +184,37 @@
   </li>
 </ol>
 
-<p>现在可以导出二维和三维的 Frenet 方程:</p>
+<p>现在可以导出二维和三维的 Frenet 方程, 由引理知道, 它们的系数矩阵是反对称的:
+</p>
 
 <p>
   二维情形: 由已知 `bm t' = kappa bm n = 0 bm t + kappa bm n`, 借助引理得
-	<span class="formula">
-		`"d"/("d"s) [bm t; bm n] = [0, kappa; -kappa, 0][bm t; bm n]`.
-	</span>
+  <span class="formula">
+    `"d"/("d"s) [bm t; bm n] = [0, kappa; -kappa, 0][bm t; bm n]`.
+  </span>
 </p>
 
 <p>
   三维情形: 由主法向量的定义知 `omega_(12) = kappa`, `omega_(13) = 0`.
   又 `omega_(23) = (:bm n', bm b:) = tau`, 于是
-	<span class="formula">
-		`"d"/("d"s) [bm t; bm n; bm b] = [
-			0, kappa, 0;
-			-kappa, 0, tau;
-			0, -tau, 0;
-		][bm t; bm n; bm b]`.
-	</span>
+  <span class="formula">
+    `"d"/("d"s) [bm t; bm n; bm b] = [
+      0, kappa, 0;
+      -kappa, 0, tau;
+      0, -tau, 0;
+    ][bm t; bm n; bm b]`.
+  </span>
 </p>
 
 <h3>杂例</h3>
 
 <p class="example">
-	`E^3` 的正则曲线 `bm r(t)` 的曲率和挠率分别为
-	<span class="formula">
-		`kappa(t) = |bm v ^^ dot bm v|/v^3`,
-		`quad`
+  `E^3` 的正则曲线 `bm r(t)` 的曲率和挠率分别为
+  <span class="formula">
+    `kappa(t) = |bm v ^^ dot bm v|/v^3`,
+    `quad`
     `tau(t) = {:(bm v, dot bm v, ddot bm v):}/|bm v ^^ dot bm v|^2`.
-	</span>
+  </span>
   其中 `bm v = dot bm r`.
 </p>
 
@@ -256,109 +271,117 @@
 </ol>
 
 <p class="example">
-	`E^2` 的正则曲线 `bm r(t) = (x(t), y(t))` 的曲率
-	<span class="formula">
-		`kappa(t) = (dot x ddot y - ddot x dot y)/
+  `E^2` 的正则曲线 `bm r(t) = (x(t), y(t))` 的曲率
+  <span class="formula">
+    `kappa(t) = (dot x ddot y - ddot x dot y)/
     ({:dot x:}^2 + {:dot y:}^2)^(3//2)`.
-	</span>
+  </span>
 </p>
 
 <p class="solution">
-	自然, `kappa` 可以通过计算 `("d"^2 bm r)/{:"d"s:}^2` 与 `bm n`
-	关于 `x, y` 的表达式来求得. 不过也可以将二维问题视为三维问题,
-	利用上题结论,
-	<span class="formula">
+  自然, `kappa` 可以通过计算 `("d"^2 bm r)/{:"d"s:}^2` 与 `bm n`
+  关于 `x, y` 的表达式来求得. 不过也可以将二维问题视为三维问题,
+  利用上题结论,
+  <span class="formula">
     `kappa(t) = +- (dot x ddot y - ddot x dot y)/
     ({:dot x:}^2 + {:dot y:}^2)^(3/2)`.
-	</span>
-	为确定其符号, 设 `kappa != 0`, 因为 `{bm t, bm n}` 为正定向的, 所以
-	<span class="formula">
-		`(bm t, bm n, bm k) gt 0`, `bm k` 是 `z` 轴的单位向量.
-	</span>
-	由于 `bm n = 1/kappa ("d"bm t)/("d"s)`, 上式化为 (??)
-	<span class="formula">
-		`(dot bm r, ddot bm r, kappa bm k) gt 0`,
-		即
-		`|dot x, dot y, 0; ddot x, ddot y, 0; 0, 0, kappa| gt 0`.
-	</span>
-	可见前述式子应当取正号.
+  </span>
+  为确定其符号, 设 `kappa != 0`, 因为 `{bm t, bm n}` 为正定向的, 所以
+  <span class="formula">
+    `(bm t, bm n, bm k) gt 0`, `bm k` 是 `z` 轴的单位向量.
+  </span>
+  由于 `bm n = 1/kappa ("d"bm t)/("d"s)`, 上式化为 (??)
+  <span class="formula">
+    `(dot bm r, ddot bm r, kappa bm k) gt 0`,
+    即
+    `|dot x, dot y, 0; ddot x, ddot y, 0; 0, 0, kappa| gt 0`.
+  </span>
+  可见前述式子应当取正号.
 </p>
 
 <p class="example">
-	在极坐标下, 曲线 `r = f(theta)` 的曲率
-	<span class="formula">
-		`kappa(theta) = (r^2 + 2r'^2 - rr'')/(r^2 + r'^2)^(3//2)`.
-	</span>
-	其中各导数均表示对 `theta` 求导.
+  在极坐标下, 曲线 `r = f(theta)` 的曲率
+  <span class="formula">
+    `kappa(theta) = (r^2 + 2r'^2 - rr'')/(r^2 + r'^2)^(3//2)`.
+  </span>
+  其中各导数均表示对 `theta` 求导.
 </p>
 
 <div class="proof">
-	<span class="formula"> `{
-		x = r(theta) cos theta;
-		y = r(theta) sin theta;
-	:}`</span>
-	<span class="formula"> `{
-		x' = r' cos theta - r sin theta;
-		y' = r' sin theta + r cos theta;
-	:}` </span>
-	<span class="formula"> `{
-		x'' = r'' cos theta - r' sin theta - y';
-		y'' = r'' sin theta + r' cos theta + x';
-	:}` </span>
-	易知
-	<span class="formula">
-		`x'^2 + y'^2 = r^2 + r'^2`,
-	</span>
-	将这些计算结果代入上一题, 有
-	<span class="formula">
-		`kappa = (r^2 + r'^2)^(-3/2)(x'^2 + x'(r'' sin theta + r' cos
-		theta) - y'(r'' cos theta - r' sin theta) + y'^2)`,
-	</span>
-	即为所求.
+  <span class="formula"> `{
+    x = r(theta) cos theta;
+    y = r(theta) sin theta;
+  :}`</span>
+  <span class="formula"> `{
+    x' = r' cos theta - r sin theta;
+    y' = r' sin theta + r cos theta;
+  :}` </span>
+  <span class="formula"> `{
+    x'' = r'' cos theta - r' sin theta - y';
+    y'' = r'' sin theta + r' cos theta + x';
+  :}` </span>
+  易知
+  <span class="formula">
+    `x'^2 + y'^2 = r^2 + r'^2`,
+  </span>
+  将这些计算结果代入上一题, 有
+  <span class="formula">
+    `kappa = (r^2 + r'^2)^(-3/2)(x'^2 + x'(r'' sin theta + r' cos
+    theta) - y'(r'' cos theta - r' sin theta) + y'^2)`,
+  </span>
+  即为所求.
 </div>
 
 <p class="example">
-	圆柱螺旋线 `bm r(t) = (a cos t, a sin t, bt)` (`a gt 0`) 的曲率等于
-	`a/(a^2+b^2)`, 挠率等于 `b/(a^2+b^2)`.
+  圆柱螺旋线 `bm r(t) = (a cos t, a sin t, bt)` (`a gt 0`)
+  的曲率的挠率分别为
+  <span class="formula">
+    `kappa = a/(a^2+b^2)`, `quad tau = b/(a^2+b^2)`.
+  </span>
+  有趣的是, 上式的反函数具有相同形式:
+  <span class="formula">
+    `a = kappa/(kappa^2+tau^2)`, `quad b = tau/(kappa^2+tau^2)`.
+  </span>
+  事实上, `f(bm r) = bm r//r^2` 正是关于单位圆的反演变换.
 </p>
 
 <p class="theorem">
-	平面曲线的曲率恒等于 0 当且仅当它是直线;
-	恒等于非零常数当且仅当它是半径为 `1/kappa` 的圆.
+  平面曲线的曲率恒等于 0 当且仅当它是直线;
+  恒等于非零常数当且仅当它是半径为 `1/kappa` 的圆.
 </p>
 
 <p class="theorem">
-	设空间曲线 `bm r` 的曲率 `kappa` 和挠率 `tau` 为常数, 则
+  设空间曲线 `bm r` 的曲率 `kappa` 和挠率 `tau` 为常数, 则
 </p>
 
 <ol>
-	<li>`kappa = 0`, `bm r` 是直线;</li>
-	<li>`kappa gt 0`, `tau = 0`, `bm r` 是半径为 `1/kappa` 的圆;</li>
-	<li>`kappa gt 0`, `tau != 0`, `bm r` 是半径为
-		`kappa/(kappa^2+tau^2)`, 速率为 `tau/(kappa^2+tau^2)`
-		圆柱螺旋线.
-	</li>
+  <li>`kappa = 0`, `bm r` 是直线;</li>
+  <li>`kappa gt 0`, `tau = 0`, `bm r` 是半径为 `1/kappa` 的圆;</li>
+  <li>`kappa gt 0`, `tau != 0`, `bm r` 是半径为
+    `kappa/(kappa^2+tau^2)`, 速率为 `tau/(kappa^2+tau^2)`
+    圆柱螺旋线.
+  </li>
 </ol>
 
 <p class="theorem">
-	空间曲线的曲率恒不等于 0 时,
-	它落在一张平面上当且仅当其挠率恒等于 0.
+  空间曲线的曲率恒不等于 0 时,
+  它落在一张平面上当且仅当其挠率恒等于 0.
 </p>
 
 <p class="proof">
-	设曲线 `bm r` 落在以 `bm a` 为单位法向量的平面上,
-	则 `bm r` 的切向量与 `bm a` 垂直,
-	即 `(:bm t, bm a:) = 0`.
-	求导得 `kappa (:bm n, bm a:) = 0`.
-	假设 `kappa(s) != 0`, 得到 `(:bm n, bm a:) = 0`.
-	再求导得 `(:-kappa bm t + tau bm b, bm a:) = 0`,
-	因此 `tau (:bm b, bm a:) = 0`.
-	由 `bm a` 与 `bm t, bm n` 垂直知 `bm a` 与 `bm b` 平行,
-	从而 `(:bm b, bm a:) = 1`, `tau -= 0`.
-	<br/>
-	反之设 `tau -= 0`, 由 `("d"bm b)/{:"d"s"} = -tau bm n` 知 `bm b`
-	是常向量. 因为 `bm t` 与 `bm b` 垂直, `bm t` 只能落在同一平面内,
-	即曲线 `bm r` 落在同一平面内.
+  设曲线 `bm r` 落在以 `bm a` 为单位法向量的平面上,
+  则 `bm r` 的切向量与 `bm a` 垂直,
+  即 `(:bm t, bm a:) = 0`.
+  求导得 `kappa (:bm n, bm a:) = 0`.
+  由假设 `kappa(s) != 0`, 得到 `(:bm n, bm a:) = 0`.
+  再求导得 `(:-kappa bm t + tau bm b, bm a:) = 0`,
+  因此 `tau (:bm b, bm a:) = 0`.
+  由 `bm a` 与 `bm t, bm n` 垂直知 `bm a` 与 `bm b` 平行,
+  从而 `(:bm b, bm a:) = +-1`, `tau -= 0`.
+  <br/>
+  反之设 `tau -= 0`, 由 `("d"bm b)/("d"s) = -tau bm n` 知 `bm b`
+  是常向量. 因为 `bm t` 与 `bm b` 垂直, `bm t` 只能落在同一平面内,
+  即曲线 `bm r` 落在同一平面内.
 </p>
 
 <p class="remark">常用 "不屈 (曲) 不挠" 形容一个人很顽强.</p>
@@ -366,29 +389,29 @@
 <h2>曲线论基本定理</h2>
 
 <p class="theorem">
-	曲线的弧长, 曲率和挠率在刚体运动 (同向合同变换) 下不变.
+  曲线的弧长, 曲率和挠率在刚体运动 (同向合同变换) 下不变.
 </p>
 
 <p> 平面和空间的 Frenet 方程给出了各自 Frenet 标架的运动方程,
-	它们是一阶线性常微分方程组. 下面的两个定理说明,
-	我们可以通过求解此方程组来重建曲线, 且此曲线是唯一的.
-	换言之, <b>在相差一个刚体运动下, 曲线由曲率和挠率唯一决定</b>.
+  它们是一阶线性常微分方程组. 下面的两个定理说明,
+  我们可以通过求解此方程组来重建曲线, 且此曲线是唯一的.
+  换言之, <b>在相差一个刚体运动下, 曲线由曲率和挠率唯一决定</b>.
 </p>
 
 <p class="theorem">
-	设 `E^3` 中有两条弧长参数曲线 `bm r_1(s), bm r_2(s)`
-	定义在同一参数区间 `(a, b)` 上, 且它们的曲率与挠率在 `(a, b)` 上恒等:
-	<span class="formula">
-		`kappa_1(s) = kappa_2(s) gt 0`, `tau_1(s) = tau_2(s)`, `AA s in
-		(a, b)`.
-	</span>
-	则存在 `E^3` 的一个刚体运动使两条曲线相等.
+  设 `E^3` 中有两条弧长参数曲线 `bm r_1(s), bm r_2(s)`
+  定义在同一参数区间 `(a, b)` 上, 且它们的曲率与挠率在 `(a, b)` 上恒等:
+  <span class="formula">
+    `kappa_1(s) = kappa_2(s) gt 0`, `tau_1(s) = tau_2(s)`, `AA s in
+    (a, b)`.
+  </span>
+  则存在 `E^3` 的一个刚体运动使两条曲线相等.
 
 </p>
 
 <p class="theorem">
-	设 `kappa(s), tau(s) in C^1(a, b)`, `kappa(s) gt 0`. 则存在 `E^3`
-	的弧长参数曲线, 它以 `s` 为弧长参数, 以 `kappa` 为曲率, `tau` 的挠率.
+  设 `kappa(s), tau(s) in C^1(a, b)`, `kappa(s) gt 0`. 则存在 `E^3`
+  的弧长参数曲线, 它以 `s` 为弧长参数, 以 `kappa` 为曲率, `tau` 的挠率.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

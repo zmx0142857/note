@@ -12,375 +12,504 @@
 <h3>曲面的定义及参数变换</h3>
 
 <p class="definition">
-	<b>曲面</b>是平面区域 `D` 到 `E^3` 的映射
-	`bm r(u,v) = (x(u,v), y(u,v), z(u,v))`, 满足
-	<ol>
-		<li>`x, y, z in C^oo(D)`;</li>
-		<li>`bm r_u = ((del x)/(del u), (del y)/(del u), (del z)/(del u))`
-			与
-			`bm r_v = ((del x)/(del v), (del y)/(del v), (del z)/(del v))`
-			线性无关, 即 `bm r_u ^^ bm r_v != bb 0`.
-		</li>
-	</ol>
+  <b>曲面</b>是平面区域 `D` 到 `E^3` 的映射
+  `bm r(u,v) = (x(u,v), y(u,v), z(u,v))`, 满足
+  <ol>
+    <li>`x, y, z in C^oo(D)`;</li>
+    <li>`bm r_u = ((del x)/(del u), (del y)/(del u), (del z)/(del u))`
+      与
+      `bm r_v = ((del x)/(del v), (del y)/(del v), (del z)/(del v))`
+      线性无关, 即 `bm r_u ^^ bm r_v != bb 0`.
+    </li>
+  </ol>
 </p>
 
-<p class="definition"> <b>曲面的参数变换</b><br/>
-	设 `bm r(u, v): D |-> E^3`,
-	<span class="formula">
-		`sigma: bar D |-> D`<br/>
-		`(bar u, bar v) |-> (u, v)`,
-	</span>
-	其中 `sigma` 一阶连续可微, 且 `|J| = (del(u,v))/(del(bar u, bar v)) !=
-	0`, 则 `bm r` 有新参数表示
-	`bm r(u(bar u, bar v), v(bar u, bar v))`.
-	视两个曲面相同, 如果存在满足上述条件的参数变换使它们相同.
+<p class="definition">
+  <b>曲面的参数变换</b>
+  设 `bm r(u, v): D |-> E^3`,
+  <span class="formula">
+    `sigma: bar D |-> D`<br/>
+    `(bar u, bar v) |-> (u, v)`,
+  </span>
+  若 `sigma` 一阶连续可微,
+  则切向量微元具有变换
+  <span class="formula">
+    `["d"u; "d"v] = J ["d"bar u; "d"bar v]`,
+    `quad J = (del(u,v))/(del(bar u, bar v))`
+    `= [u_(bar u), u_(bar v); v_(bar u), v_(bar v)]`.
+  </span>
+  `|J| != 0` 时, `bm r` 有新参数表示
+  `bm r(u(bar u, bar v), v(bar u, bar v))`.
+  如果存在满足上述条件的参数变换使两个曲面的表达式相同,
+  则视它们为相同的曲面.
 </p>
 
-<p>设参数变换如前述. 坐标切向量 `bm r_u` 和 `bm r_v` 的变换公式为
-	<span class="formula">
-		`[bm r_(bar u); bm r_(bar v)] = J [bm r_u; bm r_v]`,<br/>
-		`bm r_(bar u) ^^ bm r_(bar v) = |J| bm r_u ^^ bm r_v`.
-	</span>
+<p>在上述变换下, 坐标切向量 `bm r_u` 和 `bm r_v` 的变换公式为
+  <span class="formula">
+    `[bm r_(bar u), bm r_(bar v)] = [bm r_u, bm r_v] J`,<br/>
+    `bm r_(bar u) ^^ bm r_(bar v) = bm r_u ^^ bm r_v |J|`.
+  </span>
+</p>
+
+<p class="remark">
+  形象记忆: 由
+  <span class="formula">
+    `["d"u; "d"v] = (del(u, v))/(del(bar u, bar v)) ["d"bar u; "d"bar v]`,
+  </span>
+  得到
+  <span class="formula">
+    `[bm r_(bar u), bm r_(bar v)]`
+    `= (del bm r)/(del(bar u,bar v))`
+    `= (del bm r)/(del(u, v)) (del(u, v))/(del(bar u, bar v))`
+    `= [bm r_u, bm r_v] J`.
+  </span>
 </p>
 
 <p class="example">
-	球面 `x^2 + y^2 + z^2 = a^2` 有球坐标表示
-	<span class="formula">`{
-		x = a cos u cos v;
-		y = a cos u sin v;
-		z = a sin u;
-	:}`,
-	`u in [-pi/2, pi/2]`, `v in [0, 2pi]`.
-	</span>
-	和球极投影坐标表示:
-	<span class="formula">`{
-		x = 2a^2 u // d^2;
-		y = 2a^2 v // d^2;
-		z = a delta^2 // d^2;
-	:}`, `u, v in RR`.
-	</span>
-	其中 `d = sqrt(u^2 + v^2 + a^2)` 是 `(u, v)` 到北极的距离,
-	`delta = sqrt(u^2 + v^2 - a^2)` 是 `(u, v)` 到球面的切线长.
+  球面 `x^2 + y^2 + z^2 = a^2` 有球坐标表示
+  <span class="formula">`{
+    x = a cos u cos v;
+    y = a cos u sin v;
+    z = a sin u;
+  :}`,
+  `quad u in [-pi/2, pi/2]`, `v in [0, 2pi]`.
+  </span>
+  和球极投影坐标表示:
+  <span class="formula">`{
+    x = 2a^2 u // d^2;
+    y = 2a^2 v // d^2;
+    z = a delta^2 // d^2;
+  :}`, `quad u, v in RR`.
+  </span>
+  其中 `P(u, v, 0)` 是赤道平面上的一点,
+  `(x, y, z)` 是 `P` 到北极 `N(0, 0, a)` 的连线与球面的交点.
+  `d = sqrt(u^2 + v^2 + a^2)` 是 `P` 到 `N` 的距离,
+  `delta = sqrt(u^2 + v^2 - a^2)` 是 `P` 到球面的切线长.
 </p>
 <img src="pic/sphere-coordinal.png" />
 <img src="pic/sphere-polar-coordinal.png" />
 
 <p class="example"> <b>旋转面</b><br/>
-	`xz` 平面上与 `z` 轴无交的曲线 `{x = x(u); z = z(u) :}`
-	绕 `z` 轴旋转得到
-	<span class="formula">
-		`{x = x(u) cos v; y = x(u) sin v; z = z(u) :}`.
-	</span>
-	特别当 `x(u) = a cos u`, `z(u) = a sin u` 时, 得到球面.
+  `xz` 平面上与 `z` 轴无交的曲线 `{x = x(u); z = z(u) :}`
+  绕 `z` 轴旋转得到
+  <span class="formula">
+    `{x = x(u) cos v; y = x(u) sin v; z = z(u) :}`.
+  </span>
+  特别当 `x(u) = a cos u`, `z(u) = a sin u` 时, 得到球面.
 </p>
 
 <p class="example"> <b>柱面</b><br/>
-	`xy` 平面上的曲线 `{x = x(u); y = y(u) :}` 沿 `z` 轴平移得到
-	<span class="formula">
-		`{x = x(u); y = y(u); z = v :}`.
-	</span>
+  `xy` 平面上的曲线 `{x = x(u); y = y(u) :}` 沿 `z` 轴平移得到
+  <span class="formula">
+    `{x = x(u); y = y(u); z = v :}`.
+  </span>
 </p>
 
 <p class="example"> <b>直纹面</b><br/>
-	称直线沿空间曲线 `bm r = bm a(u)` 滑动扫过的曲面
-	`bm r(u,v) = bm a(u) + v bm b(u)` 为直纹面. 取定 `u` 时,
-	就确定一条直母线. 当 `bm a` 为常向量时, 为锥面; 当 `bm b/|bm b|`
-	为常向量时, 为柱面.
-</p>
-
-<p class="example"> <b>切线面</b><br/>
-	空间曲线 `bm r(u)` 的切线的全体 `bm r(u,v) = bm r(u) + v bm r'(u)`.
-	切线面也是直纹面的一种.
+  称直线沿空间曲线 `bm r = bm a(u)` 滑动扫过的曲面
+  <span class="formula">
+    `bm r(u,v) = bm a(u) + v bm b(u)`
+  </span>
+  为直纹面. 其中 `bm a` 表示直线与曲线的交点, `bm b` 表示直线在该点的方向.
+  方程中取定一个 `u`, 就确定一条直母线. 当 `bm a` 为常向量时, 为锥面;
+  当 `bm b` 方向不变时, 为柱面. 当 `bm b` 始终沿曲线切向时, 方程形如
+  <span class="formula">
+    `bm r(u,v) = bm a(u) + v bm a'(u)`,
+  </span>
+  称为曲线 `bm r(u)` 的<b>切线面</b>, 它包含了 `bm r(u)` 的全体切线.
 </p>
 
 <h3>切向量, 切平面, 法向量</h3>
 
 <p class="definition">
-	称 `bm r_u`, `bm r_v` 为<b>坐标切向量</b>. 它们线性无关,
-	从而确定了曲面 `S` 在点 `P_0 = (u, v)` 处的<b>切平面</b> `T_(P_0)S`.
-	`S` 上过 `P_0` 的任一曲线在 `P_0` 的切向量落在切平面 `T_(P_0)S` 上;
-	反之, 对切平面 `T_(P_0)S` 上的任一切向量 `bm t`,
-	存在曲面上过 `P_0` 的一曲线, 它在 `P_0` 的切向量与 `bm t` 同向.
+  称 `bm r_u`, `bm r_v` 为<b>坐标切向量</b>. 它们线性无关,
+  从而确定了曲面 `S` 在点 `P_0 = (u, v)` 处的<b>切平面</b> `T_0`.
+  `S` 上过 `P_0` 的任一曲线在 `P_0` 的切向量落在切平面 `T_0` 上;
+  反之, 对切平面 `T_0` 上的任一向量 `bm t`,
+  存在曲面上过 `P_0` 的一曲线, 它在 `P_0` 的切向量与 `bm t` 同向.
 </p>
 
 <p class="definition">
-	`bm r_u ^^ bm r_v` 是曲面的一个<b>法向量</b>.
-	`bm n = (bm r_u ^^ bm r_v)/|bm r_u ^^ bm r_v|`
-	是曲面的一个<b>单位法向量</b>.
+  `bm r_u ^^ bm r_v` 是曲面的一个<b>法向量</b>.
+  `bm n = (bm r_u ^^ bm r_v)/|bm r_u ^^ bm r_v|`
+  是曲面的一个<b>单位法向量</b>. 法向量所在直线称为<b>法线</b>.
 </p>
 
 <p class="example">
-	当曲面由方程 `F(bm r) = c` 给出时,
-	法向量为 `grad F(bm r_0)`,
-	切平面为 `(:grad F, bm r - bm r_0:) = 0`.
+  当曲面由方程 `F(bm r) = c` 给出时,
+  方程两边对 `u, v` 分别求导得
+  <span class="formula">
+    `(:grad F, bm r_u:) = (:grad F, bm r_v:) = 0`,
+  </span>
+  故 `grad F` 是曲面的法向量,
+  `(:grad F, bm r - bm r_0:) = 0` 是 `bm r_0` 处的切平面.
 </p>
 
 <p class="theorem">
-	曲面的切平面, 法线与参数选取无关.
+  曲面的切平面, 法线与参数选取无关.
 </p>
 
-<h2>曲面的第一基本形式 (The first fundamental form)</h2>
+<h2>曲面的基本形式</h2>
 
-<span class="formula">
-	`"I" = "d"s^2 = "d" bm r^2 = (bm r_u "d"u + bm r_v "d" v)^2`
-	`= E "d"u"d"u + 2F "d"u"d"v + G"d"v"d"v
-	= ["d"u, "d"v][E, F; F, G]["d"u; "d"v]`.
-</span>
+<h3>第一基本形式 (The first fundamental form)</h3>
 
-<p>其中
-	<span class="formula">
-		`E = (:bm r_u, bm r_u:)`,<br/>
-		`F = (:bm r_u, bm r_v:)`,<br/>
-		`G = (:bm r_v, bm r_v:)`.
-	</span>
+<p class="definition">
+  <span class="formula">
+    `"I" = "d"s^2 = "d" bm r^2`
+    `= (bm r_u "d"u + bm r_v "d" v)^2`
+    `= ["d"u, "d"v][bm r_u^T; bm r_v^T][bm r_u, bm r_v]["d"u; "d"v]`
+    `= ["d"u, "d"v][E, F; F, G]["d"u; "d"v]`
+    `= E "d"u"d"u + 2F "d"u"d"v + G"d"v"d"v`.
+  </span>
+  其中
+  <span class="formula">
+    `E = (:bm r_u, bm r_u:)`,
+    `quad F = (:bm r_u, bm r_v:)`,
+    `quad G = (:bm r_v, bm r_v:)`.
+  </span>
+  第一基本形式是正定的二次型, 是曲面上的度量.
+  它在合同变换下不变, 与参数选取无关.
 </p>
 
-<p>	第一基本形式是正定的二次型, 是曲面上的度量. 它与参数选取无关,
-	在合同变换下不变.
+<p class="proof">
+  将参数变换
+  <span class="formula">
+    `["d"u; "d"v] = J ["d"bar u; "d"bar v]`,
+    `quad [bm r_(bar u), bm r_(bar v)] = [bm r_u, bm r_v] J`
+  </span>
+  代入得
+  <span class="formula">
+    `"I" = ["d"bar u, "d"bar v][bm r_(bar u)^T; bm r_(bar v)^T]
+    [bm r_(bar u), bm r_(bar v)]["d"u; "d"v]`,
+  </span>
+  第一基本形式不变.
 </p>
 
-<p class="example">
-	平面 `bm r(u,v) = (u, v, 0)` 的第一基本形式
-	`"I" = "d"u"d"u + "d"v"d"v`.
-</p>
-
-<p class="example">
-	柱面 `bm r(u,v) = (x(u), y(u), v)` 的第一基本形式
-	`"I" = (x'^2 + y'^2)"d"u"d"u + "d"v"d"v`.
-	取 `u` 是弧长参数时, `"I" = "d"u"d"u + "d"v"d"v`.
-</p>
-
-<p class="example">
-	球面 `bm r(theta, varphi) = (a cos theta cos varphi, a cos theta sin
-	varphi, a sin varphi)` 的第一基本形式
-	`"I" = a^2 "d"theta"d"theta + a^2 cos^2 theta "d"varphi"d"varphi`.
-	球面 `bm r(u,v) = (2a^2u//d^2, 2a^2v//d^2, a(d^2-2a^2)//d^2)` `(d^2 =
-	u^2 + v^2 + a^2)` 的第一基本形式
-	`"I" = ((2a^2)/d^2)^2 ("d"u"d"u + "d"v"d"v)`.
-</p>
-
-<h2>曲面的第二基本形式 (The second fundamental form)</h2>
-
-<span class="formula">
-	`"II" = -(:"d"bm r, "d"bm n:) = L"d"u"d"u + 2M"d"u"d"v + N"d"u"d"v
-	= ["d"u, "d"v][L, M; M, N]["d"u; "d"v]`.
-</span>
-
-<p>其中
-	<span class="formula">
-		`L = (:bm r_(u u)"," bm n:) = -(:bm r_u"," bm n_u:)`,<br/>
-		`M = (:bm r_(uv)"," bm n:) = -(:bm r_u"," bm n_v:)
-			= -(:bm r_v"," bm n_u:)`,<br/>
-		`N = (:bm r_(v v)"," bm n:) = -(:bm r_v"," bm n_v:)`.
-	</span>
-</p>
 <p class="remark">
-	以上等式可由 `(:bm r_u, bm n:) = (:bm r_v, bm n:) = 0` 求导推得.
+  第一基本形式和下文的第二基本形式是所谓的 "微分形式",
+  即微分 `"d"u`, `"d"v` 等与函数的算术组合.
+  设 `bm v` 是曲面上一点处的切向量, 将它分解为 `bm r_u, bm r_v`
+  的线性组合 `bm v = xi bm r_u + eta bm r_v`, 则
+  <span class="formula">
+    `v^2 = (:bm v, bm v:)`
+    `= E xi^2 + 2F xi eta + G eta^2`.
+  </span>
 </p>
 
-<p>	第二基本形式在同向参数变换 (`|J| gt 0`) 下不变,
-	反向则变号; 在同向刚体运动 (`|T| = 1`) 下不变, 反向则变号.
-	根据曲面在一点处第二基本形式系数矩阵的行列式符号的不同,
-	将曲面上的点作如下分类:
-	<ol>
-		<li>`LN-M^2 gt 0`, 正定或负定, 凸或凹, 椭圆点;</li>
-		<li>`LN-M^2 lt 0`, 不定, 马鞍型, 双曲点;</li>
-		<li>`LN-M^2 = 0`, 退化, 抛物点; 若 `L = M = N = 0`, 为平点.</li>
-	</ol>
+<p class="example">
+  平面 `bm r(u,v) = (u, v, 0)` 的第一基本形式
+  `"I" = "d"u"d"u + "d"v"d"v`.
 </p>
+
+<p class="example">
+  柱面 `bm r(u,v) = (x(u), y(u), v)` 的第一基本形式
+  `"I" = (x'^2 + y'^2)"d"u"d"u + "d"v"d"v`.
+  取 `u` 是弧长参数时, `"I" = "d"u"d"u + "d"v"d"v`.
+</p>
+
+<p class="example">
+  球面 `bm r(theta, varphi) = (a cos theta cos varphi, a cos theta sin
+  varphi, a sin varphi)` 的第一基本形式
+  `"I" = a^2 "d"theta"d"theta + a^2 cos^2 theta "d"varphi"d"varphi`.
+  球面 `bm r(u,v) = (2a^2u//d^2, 2a^2v//d^2, a(d^2-2a^2)//d^2)` `(d^2 =
+  u^2 + v^2 + a^2)` 的第一基本形式
+  `"I" = ((2a^2)/d^2)^2 ("d"u"d"u + "d"v"d"v)`.
+</p>
+
+<h3>第二基本形式 (The second fundamental form)</h3>
+
+<p class="definition">
+  <span class="formula">
+    `"II" = -(:"d"bm r, "d"bm n:)`
+    `= - ["d"u, "d"v][bm r_u^T; bm r_v^T][bm n_u, bm n_v]["d"u; "d"v]`
+    `= ["d"u, "d"v][L, M; M, N]["d"u; "d"v]`
+    `= L"d"u"d"u + 2M"d"u"d"v + N"d"u"d"v`.
+  </span>
+  其中 (通过分部积分)
+  <span class="formula">
+    `L = -(:bm r_u"," bm n_u:) = (:bm r_(u u)"," bm n:)`,<br/>
+    `M = -(:bm r_v"," bm n_u:)`
+    `= -(:bm r_u"," bm n_v:)`
+    `= (:bm r_(uv)"," bm n:)`,<br/>
+    `N = -(:bm r_v"," bm n_v:) = (:bm r_(v v)"," bm n:)`.
+  </span>
+  第二基本形式在同向参数变换 (`|J| gt 0`) 下不变,
+  反向则变号; 在同向刚体运动 (`|T| = 1`) 下不变, 反向则变号.
+</p>
+
+<p class="remark">
+  因为 `bm n` 的长度不变, 所以 `(:bm n_u, bm n:) = (:bm n_v, bm n:) = 0`,
+  故 `bm n_u, bm n_v` 落在切平面上, 它们也是切向量.
+</p>
+
+<ol>
+  根据第二基本形式行列式符号的不同, 将曲面上的点作如下分类:
+  <li>`LN-M^2 gt 0`, 正定或负定, 凸或凹, 椭圆点;</li>
+  <li>`LN-M^2 lt 0`, 不定, 马鞍型, 双曲点;</li>
+  <li>`LN-M^2 = 0`, 退化, 抛物点; 若 `L = M = N = 0`, 为平点.</li>
+</ol>
 
 <p class="example"> 记 `bm r = bm r(u,v)`, `bm r_0 = bm r(u_0, v_0)`,
-	`bm n_0 = bm n(u_0, v_0)`, 定义曲面高度函数
-	<span class="formula">
-		`f(u, v) = (:bm r - bm r_0, bm n_0:)`,
-	</span>
-	则 `f_u = (:bm r_u, bm n_0:)`, `f_v = (:bm r_v, bm n_0:)`,
-	`"II" = ["d"u, "d"v]
-	[f_(u u), f_(uv); f_(vu), f_(v v)]["d"u; "d"v]`.
-</p> 
-
-<p class="example">
-	平面 `bm r(u,v) = (u, v, 0)`. 注意 `bm n` 为常向量, 故
-	`"II" = -(:"d"bm r, "d"bm n:) = 0`.
+  `bm n_0 = bm n(u_0, v_0)`, 定义曲面高度函数
+  <span class="formula">
+    `f(u, v) = (:bm r - bm r_0, bm n_0:)`,
+  </span>
+  则 `f_u = (:bm r_u, bm n_0:)`, `f_v = (:bm r_v, bm n_0:)`,
+  `"II" = ["d"u, "d"v]
+  [{:f_(u u):}, {:f_(uv):}; {:f_(vu):}, {:f_(v v):}]["d"u; "d"v]`.
 </p>
 
 <p class="example">
-	柱面 `bm r(u,v) = (x(u), y(u), v)`. 记 `kappa = |x_u, y_u; x_(u u),
-	y_(u u)|`, 有 `"II" = -kappa "d"u"d"u`.
+  平面 `bm r(u,v) = (u, v, 0)`. 注意 `bm n` 为常向量, 故
+  `"II" = -(:"d"bm r, "d"bm n:) = 0`.
+</p>
+
+<p class="example" id="exp-pillar-II">
+  柱面 `bm r(u,v) = (x(u), y(u), v)`. 记 `kappa = |x_u, y_u; x_(u u),
+  y_(u u)|`, 有 `"II" = -kappa "d"u"d"u`.
 </p>
 
 <p class="example">
-	球面 `bm r(theta, varphi) = (a cos theta cos varphi, a cos theta sin
-	varphi, a sin theta)`.
-	`"II" = a "d"theta"d"theta + a cos^2 theta "d"varphi"d"varphi`.
+  球面 `bm r(theta, varphi) = (a cos theta cos varphi, a cos theta sin
+  varphi, a sin theta)`.
+  `"II" = a "d"theta"d"theta + a cos^2 theta "d"varphi"d"varphi`.
 </p>
 
 <h2>法曲率与 Weingarten 变换</h2>
 
 <h3>法曲率</h3>
 
-<p class="definition"> 设曲面 `S` 上有一曲线 `bm r(s)`, `s` 是其弧长参数.
-	`bm r(s)` 在一点的单位切向量为 `("d"bm r)/("d"s)`,
-	曲率向量为 `("d"^2 bm r)/{:"d"s:}^2`.
-	由 `(: ("d"bm r)/("d"s), bm n:) = 0` 求导得
-	<span class="formula">
-		` (: ("d"^2 bm r)/{:"d"s:}^2, bm n :)
-		= -(:("d"bm r)/("d"s), ("d"bm n)/("d"s):)
-		= L(("d"u)/("d"s))^2 + 2M("d"u)/("d"s)("d"v)/("d"s)
-		  + N(("d"u)/("d"s))^2`.
-	</span>
-	记上式的结果为 `k_n`,
-	它只与曲线在一点处的单位切向量以及曲面的第二基本形式有关,
-	而与曲线选取无关. 称 `k_n` 为曲面在一点处沿单位切向量
-	`(("d"u)/("d"s), ("d"v)/("d"s))` 的<b>法曲率</b>.
-</p>
-
-<p>	对任意非零切向量 `bm t = ("d"bm r)/("d"s) = xi bm r_u + eta bm r_v`,
-	定义
-	<span class="formula">
-		`k_n(bm t) = k_n(bm t/|bm t|) = 1/|bm t|^2 (L xi^2 + 2M xi eta + N
-		eta^2) = (L xi^2 + 2M xi eta + N eta^2)/(E xi^2 + 2F xi eta + G
-		eta^2)`.
-	</span>
-</p>
-
-<p> 从直观上, 法曲率反映了曲面沿给定方向的弯曲程度. 若将曲面沿着该方向
-	"切开", 则剖面边缘 (视为平面曲线) 的曲率就是 `k_n`.
-	法曲率在同向参数变换/刚体运动下不变, 反向则变号.
-</p>
-
-<p class="example">
-	半径为 `a` 的球面: `k_n = 1/a`. 平面: `k_n = 0`. 柱面 `bm r(u,v) =
-	(x(u), y(u), v)`, 其中 `u` 为弧长参数. 这时 `|bm r_u| = |bm r_v| = 1`,
-	对单位切向量 `bm w = cos theta bm r_u + sin theta bm r_v` (`theta` 是
-	`bm w` 与 `bm r_u` 夹角), `k_n(bm w) = k_n(theta) = -kappa cos^2
-	theta`.
-</p>
-
-<h3>Gauss 映射, Weingarten 变换</h3>
-
-<p class="definition">
-	Gauss 映射定义为曲面 `S` 到 `E^3` 的单位球面 `S^2` 的映射:
-	<span class="formula">
-		`bm g: S |-> S^2`<br/>
-		`bm r(u, v) |-> bm n(u, v)`.
-	</span>
+<p>
+  设曲面上有一曲线 `bm r`, `s` 是其弧长参数.
+  `bm r` 在一点的单位切向量为 `("d"bm r)/("d"s)`,
+  曲率向量为 `("d"^2 bm r)/{:"d"s:}^2`.
+  利用分部积分计算曲率向量与法向量的内积:
+  <span class="formula">
+    ` (: ("d"^2 bm r)/{:"d"s:}^2, bm n :)
+    = -(:("d"bm r)/("d"s), ("d"bm n)/("d"s):)
+    = L(("d"u)/("d"s))^2 + 2M("d"u)/("d"s)("d"v)/("d"s)
+      + N(("d"u)/("d"s))^2`.
+  </span>
+  上式只与曲线在一点处的单位切向量
+  `("d"bm r)/("d"s) = (("d"u)/("d"s), ("d"v)/("d"s))`
+  以及曲面的第二基本形式有关, 而与曲线选取无关.
+  这启发我们作出如下定义:
 </p>
 
 <p class="definition">
-	Weingarten 变换是 Gauss 映射的导映射 (取反). 它是切平面上的线性变换:
-	<span class="formula">
-		`cc W: T_P S |-> T_P S`<br/>
-		`lambda bm r_u + mu bm r_v |-> -(lambda bm n_u + mu bm n_v).
-	</span>
-	特别, `cc W(bm r_u) = -bm n_u`, `cc W(bm r_v) = -bm n_v`,
-	`cc W("d"bm r) = -"d"bm n`.
-	<br/>
+  已知曲面上一点处的单位切向量 `bm v = xi bm r_u + eta bm r_v`, 定义
+  <span class="formula">
+    `k_n(bm v) = L xi^2 + 2M xi eta + N eta^2`,
+  </span>
+  称为曲面在该点处沿给定方向的<b>法曲率</b>.
+  若 `bm v` 是任意非零切向量, 则沿 `bm v` 方向的法曲率等于
+  <span class="formula">
+    `k_n(bm v) = k_n(bm v/v) = 1/v^2 (L xi^2 + 2M xi eta + N
+    eta^2) = (L xi^2 + 2M xi eta + N eta^2)/(E xi^2 + 2F xi eta + G
+    eta^2)`.
+  </span>
+</p>
+
+<p>
+  法曲率反映了曲面沿给定方向的弯曲程度. 将曲面沿 `bm v, bm n` 所在平面
+  "切开", 则剖面边缘 (视为平面曲线) 的曲率就是 `k_n`.
+  法曲率在同向参数变换/刚体运动下不变, 反向则变号.
 </p>
 
 <p class="remark">
-	也有定义 Weingarten 变换为 `cc W("d"bm r) = "d"bm n` 的.
+  类比于微积分中, 导数 `dy/dx` 是微分 `dy` 与 `dx` 之商,
+  法曲率 `k_n` 是第二基本形式与第一基本形式之商.
 </p>
 
-<p class="theorem">
-	Weingarten 变换与曲面的参数选取无关.
-</p>
+<ol class="example">
+  <li>半径为 `a` 的球面: `k_n = 1/a`.</li>
+  <li>平面: `k_n = 0`.</li>
+  <li>柱面 `bm r(u,v) = (x(u), y(u), v)`, 其中 `u` 为弧长参数.
+    此时 `bm r_u, bm r_v` 是正交的单位向量,
+    取单位切向量 `bm w = cos theta bm r_u + sin theta bm r_v` 得
+    `k_n(bm w) = -kappa cos^2 theta`
+    (`kappa` 的定义参见<a class="ref" href="#exp-pillar-II"></a>).
+  </li>
+</ol>
 
-<p class="theorem">
-	曲面沿单位切向量 `bm t` 的法曲率
-	<span class="formula">
-		`k_n(bm t) = (:cc W(bm t), bm t:)`.
-	</span>
-</p>
+<h3>Weingarten 变换</h3>
 
-<p class="theorem">
-	Weingarten 变换是自共轭变换: `AA bm v, bm w in T_P S`,
-	<span class="formula">
-		`(:cc W(bm v), bm w:) = (:cc W(bm w), bm v:)`.
-	</span>
-	特别取两个向量为切平面的单位正交基底 `bm e_1, bm e_2` 时, 由上式知
-	Weingarten 变换在正交基底下的矩阵为二阶实对称阵.
+<p class="definition">
+  <b>Gauss 映射</b> 将曲面上的一点映为该点处的法向量 (`S_2` 为单位球面):
+  <span class="formula">
+    `bm g: S |-> S^2`<br/>
+    `bm r(u, v) |-> bm n(u, v)`.
+  </span>
+  <b>Weingarten 变换</b> `cc W` 是 Gauss 映射的导映射 (符号取反),
+  它是切平面上切向量间的线性变换.  我们定义 `cc W(bm r_u) = -bm n_u`,
+  `cc W(bm r_v) = -bm n_v`; 一般地,
+  <span class="formula">
+    `cc W: T_0 |-> T_0`<br/>
+    `a bm r_u + b bm r_v |-> -a bm n_u - b bm n_v.
+  </span>
+  Weingarten 变换也可以用于微分形式:
+  <span class="formula">
+    `cc W("d"bm r)`
+    `= cc W(bm r_u "d"u + bm r_v "d"v)`
+    `= -bm n_u "d"u - bm n_v "d"v`
+    `= -"d"bm n`.
+  </span>
 </p>
 
 <p class="remark">
-	Weingarten 变换的矩阵即 Gauss 映射的 Jacobi 阵 (取反).
+  也有定义 Weingarten 变换为 `cc W("d"bm r) = "d"bm n` 的.
+</p>
+
+<p class="corollary">
+  Weingarten 变换与曲面的参数选取无关.
+</p>
+
+<p class="proof">
+  在参数替换 `["d"u; "d"v] = J ["d"bar u; "d"bar v]` 下,
+  <span class="formula">
+    `a bm r_u + b bm r_v`
+    `= [bm r_u, bm r_v] [a; b]`
+    `= [bm r_(bar u), bm r_(bar v)] J^-1 [a; b]`,<br/>
+    `-a bm n_u - b bm n_v`
+    `= -[bm n_u, bm n_v] [a; b]`
+    `= -[bm n_(bar u), bm n_(bar v)] J^-1 [a; b]`,
+  </span>
+  替换后的两向量仍满足 Weingarten 变换的定义.
+</p>
+
+<p class="corollary" id="col-weingarten-normal-curvature">
+  曲面沿单位切向量 `bm t` 的法曲率可用 Weingarten 变换刻画:
+  <span class="formula">
+    `k_n(bm t) = (:cc W(bm t), bm t:)`.
+  </span>
+</p>
+
+<p class="proof">
+  设 `bm t = a bm r_u + b bm r_v`, 则 `cc W(bm t) = -a bm n_u -b bm n_v`,
+  <span class="formula">
+    `(:cc W(bm t), bm t:)`
+    `= a^2 L + 2 a b M + b^2 N`
+    `= k_n(bm t)`.
+  </span>
 </p>
 
 <p class="theorem">
-	Weingarten 变换的两个特征值是实数. 它们不相等时,
-	有两个相互正交的特征向量; 相等时, 任一个切向量都是特征向量.
+  Weingarten 变换是自共轭变换: `AA bm v, bm w in T_0`,
+  <span class="formula">
+    `(:cc W(bm v), bm w:) = (:cc W(bm w), bm v:)`.
+  </span>
+  特别取两个向量为切平面的单位正交基底 `bm e_1, bm e_2` 时, 由上式知
+  Weingarten 变换在正交基底下的矩阵为二阶实对称阵.
+</p>
+
+<p class="proof">
+  设 `bm v = a bm r_u + b bm r_v`, `bm w = c bm r_u + d bm r_v`,
+  则 `cc W(bm v) = -a bm n_u -b bm n_v`, `cc W(bm w) = -c bm n_u - d bm
+  n_v`,
+  <span class="formula">
+    `(:cc W(bm v), bm w:)`
+    `= a c L + (a d + b c) M + b d N`
+    `= (:cc W(bm w), bm v:)`.
+  </span>
+</p>
+
+<p class="remark">
+  Weingarten 变换的矩阵即 Gauss 映射的 Jacobi 阵 (取反).
+</p>
+
+<p class="corollary">
+  由线性代数中实对称矩阵的结论知,
+  Weingarten 变换的两个特征值是实数. 它们不相等时,
+  有两个相互正交的特征向量; 相等时, 任一切向量都是特征向量.
 </p>
 
 <h3>主曲率</h3>
 
 <p class="definition">
-	称 Weingarten 变换的两个特征值 `k_1, k_2` 为<b>主曲率</b>,
-	相应的特征向量为<b>主方向</b>. 称 `K = k_1 k_2` 为 <b>Gauss 曲率</b>,
-	`H = (k_1 + k_2)/2` 为<b>平均曲率</b>.
-</p>
-
-<p> 主曲率实质上是主方向上的法曲率, 是法曲率的特殊情形.
-	我们有下面的定理:
+  称 Weingarten 变换的两个特征值 `k_1, k_2` 为<b>主曲率</b>,
+  相应的特征向量为<b>主方向</b>.
+  由<a class="ref" href="#col-weingarten-normal-curvature"></a> 知道,
+  主曲率就是主方向上的法曲率.
 </p>
 
 <p class="theorem">
-	<b>Euler 公式</b> 设 `k_1, k_2` 为主曲率, `bm e_1, bm e_2`
-	为相应的主方向, 则法曲率
-	<span class="formula">
-		` k_n(cos theta bm e_1 + sin theta bm e_2)
-		= k_1 cos^2 theta + k_2 sin^2 theta`.
-	</span>
-	可以看出, 当 `k_1 != k_2` 时, `k_n` 在主方向上取得极值; `k_1 = k_2`
-	时, 各方向上的法曲率相等.
+  <b>Euler 公式</b> 设 `k_1, k_2` 为主曲率,
+  `bm e_1, bm e_2` 为相应主方向的单位向量,
+  利用<a class="ref" href="#col-weingarten-normal-curvature"></a> 计算知,
+  法曲率可用主曲率表达:
+  <span class="formula">
+    ` k_n(bm e_1 cos theta + bm e_2 sin theta)
+    = k_1 cos^2 theta + k_2 sin^2 theta`.
+  </span>
+  可以看出, 当 `k_1 != k_2` 时, `k_n` 在主方向上取得极值;
+  `k_1 = k_2` 时, 各方向上的法曲率相等.
 </p>
 
-<h4>计算主曲率</h4>
+<p class="example">
+  计算 <b>Gauss 曲率</b> `K = k_1 k_2` 与<b>平均曲率</b>
+  `H = (k_1 + k_2)/2`.
+</p>
 
-<p>	设 Weingarten 变换在基 `(bm r_u, bm r_v)` 下的矩阵为
-	`bm A = [a, b; c, d]` (未必对称), 即
-	<span class="formula">
-		`cc W(bm r_u) = -bm n_u = a bm r_u + b bm r_v`,<br/>
-		`cc W(bm r_v) = -bm n_v = c bm r_u + d bm r_v`.
-	</span>
-	以上两式分别与 `bm r_u, bm r_v` 作内积, 得
-	<span class="formula">
-		`[L, M; M, N] = [a, b; c, d][E, F; F, G]`,
-	</span>
-	即
-	<span class="formula">
-		`[a, b; c, d] = [L, M; M, N][E, F; F, G]^-1`.
-	</span>
-	主曲率须满足特征方程 `|k bm E - bm A| = 0`, 即
-	<span class="formula">
-		`k^2 - (a+d) k + |bm A| = 0`.
-	</span>
-	易知 Gauss 曲率
-	<span class="formula">
-		`K = |a,b; c,d| = |L,M; M,N|//|E,F; F,G|`.
-	</span>
+<p class="solution">
+  由定义, Gauss 曲率等于 Weingarten 变换 `cc W` 的行列式,
+  平均曲率等于 `cc W` 的迹的一半.
+  设 `cc W` 在基 `(bm r_u, bm r_v)` 下的矩阵为
+  `bm A = [a, b; c, d]` (未必对称), 即
+  <span class="formula">
+    `cc W(bm r_u) = -bm n_u = a bm r_u + b bm r_v`,<br/>
+    `cc W(bm r_v) = -bm n_v = c bm r_u + d bm r_v`.
+  </span>
+  以上两式分别与 `bm r_u, bm r_v` 作内积, 得
+  <span class="formula">
+    `[L, M; M, N] = [a, b; c, d][E, F; F, G]`,
+  </span>
+  即
+  <span class="formula">
+    `[a, b; c, d] = [L, M; M, N][E, F; F, G]^-1`.
+  </span>
+  易知 Gauss 曲率
+  <span class="formula">
+    `K = |a,b; c,d| = |L,M; M,N|//|E,F; F,G|`.
+  </span>
+  平均曲率 `H = (a+d)//2`.
 </p>
 
 <p class="remark">
-	`K` 还满足
-	<span class="formula">
-		`bm n_u ^^ bm n_v = (a bm r_u + b bm r_v) ^^ (c bm r_u + d bm r_v)
-		= (ad-bc) bm r_u ^^ bm r_v = K bm r_u ^^ bm r_v`.
-	</span>
+  Gauss 曲率 `K` 满足
+  <span class="formula">
+    `bm n_u ^^ bm n_v = (a bm r_u + b bm r_v) ^^ (c bm r_u + d bm r_v)
+    = (ad-bc) bm r_u ^^ bm r_v = K bm r_u ^^ bm r_v`.
+  </span>
 
-	直观上, Gauss 映射将曲面上的小块邻域映到单位球面上的区域.
-	对应区域的面积之比
-	<span class="formula">
-		`K = |bm n_u ^^ bm n_v|/|bm r_u ^^ bm r_v|`
-	</span>
-	就是 Gauss 曲率.
+  直观上, Gauss 映射将曲面上的小块邻域映到单位球面上的区域.
+  对应区域的面积之比
+  <span class="formula">
+    `K = |bm n_u ^^ bm n_v|/|bm r_u ^^ bm r_v|`
+  </span>
+  就是 Gauss 曲率.
 <p>
 
 <p class="remark">
-	曲面的第三基本形式定义为 `"III" = (:"d"bm n, "d"bm n:)`,
-	它也是正定二次型. 可以证明,
-	<span class="formula">
-		`K "I" - 2H "II" + "III" = 0`.
-	</span>
+  曲面的第三基本形式定义为 `"III" = (:"d"bm n, "d"bm n:)`,
+  它也是正定二次型, 且有
+  <span class="formula">
+    `K "I" - 2H "II" + "III" = 0`.
+  </span>
+</p>
+
+<p class="proof">
+  即证
+  <span class="formula">
+    `(:("d"bm n)/("d"s), ("d"bm n)/("d"s):) - 2H(:("d"bm r)/("d"s), ("d"bm
+    n)/("d"s):) + K = 0`.
+  </span>
+  记 `("d"bm r)/("d"s) = bm e_1 cos theta + bm e_2 sin theta`,
+  则上式左边等于
+  <span class="formula">
+    `k_1^2 cos^2 theta + k_2^2 sin^2 theta - (k_1 + k_2)(k_1 cos^2 theta
+    + k_2 sin^2 theta) + k_1 k_2`
+    `= 0`.
+  </span>
 </p>
 
 <h4>主曲率的几何意义</h4>
@@ -390,50 +519,46 @@
 <h3>旋转曲面</h3>
 
 <span class="formula">
-	`bm r(u, v) = (f(u) cos v, f(u) sin v, g(u))`, `f gt 0`.
+  `bm r(u, v) = (f(u) cos v, f(u) sin v, g(u))`, `f gt 0`.
 </span>
 
-<p>	直接计算
-	<span class="formula">
-		`bm r_u = (f'(u)cos v, f'(u)sin v, g'(u))`,<br/>
-		`bm r_v = (-f(u)sin v, f(u)cos v, 0)`,<br/>
-		`E = f'^2+g'^2`, `quad F = 0`, `quad G = f^2`,<br/>
-		`L = (f' g'' - f'' g')/sqrt E`, `quad M = 0`,
-		`quad N = (fg')/sqrt E`,<br/>
-		`k_1 = L/E`, `quad k_2 = N/G`,
-		`quad K = k_1 k_2`, `quad H = (k_1 + k_2)/2`.
-	</span>
-	若取 `u` 为 `xz` 平面上曲线 `(f(u), g(u))` 的弧长参数, 则
-	`f'^2 + g'^2 = 1`, `f'f'' + g'g'' = 0`, 因此
-	<span class="formula">
-		` f'g'' - f''g'
-		= (f'g'' - f''g') (g')/(g')
-		= (f'(g''g') - f''g'^2)/(g')`
-		`= (-f'f'f'' - f''(1-f'^2))/(g')
-		= -(f'')/(g')`.
-	</span>
-	上面各式有比较简单的表达式
-	<span class="formula">
-		`E = 1`, `quad F = 0`, `quad G = f^2`,<br/>
-		`L = -(f'')/(g')`, `quad M = 0`, `quad N = fg'`,<br/>
-		`k_1 = -(f'')/(g')`, `quad k_2 = (g')/f`,
-		`quad K = -(f'')/f`, `quad H = 1/2 ((g')/f - (f'')/(g'))`.
-	</span>
+<p> 直接计算
+  <span class="formula">
+    `bm r_u = (f'(u)cos v, f'(u)sin v, g'(u))`,<br/>
+    `bm r_v = (-f(u)sin v, f(u)cos v, 0)`,<br/>
+    `E = f'^2+g'^2`, `quad F = 0`, `quad G = f^2`,<br/>
+    `L = (f' g'' - f'' g')/sqrt E`, `quad M = 0`,
+    `quad N = (fg')/sqrt E`,<br/>
+    `k_1 = L/E`, `quad k_2 = N/G`,
+    `quad K = k_1 k_2`, `quad H = (k_1 + k_2)/2`.
+  </span>
+  若取 `u` 为 `xz` 平面上曲线 `(f(u), g(u))` 的弧长参数, 则
+  `f'^2 + g'^2 = 1`, `f'f'' + g'g'' = 0`, 由此推出
+  <span class="formula">
+    ` f'g'' - f''g' = -(f'')/(g')`.
+  </span>
+  上面各式有比较简单的表达式
+  <span class="formula">
+    `E = 1`, `quad F = 0`, `quad G = f^2`,<br/>
+    `L = -(f'')/(g')`, `quad M = 0`, `quad N = fg'`,<br/>
+    `k_1 = -(f'')/(g')`, `quad k_2 = (g')/f`,
+    `quad K = -(f'')/f`, `quad H = 1/2 ((g')/f - (f'')/(g'))`.
+  </span>
 </p>
 
-<p>	下面我们总是取 `u` 为 `(f(u), g(u))` 的弧长参数, 以简化计算.</p>
+<p> 下面我们总是取 `u` 为 `(f(u), g(u))` 的弧长参数, 以简化计算.</p>
 
 <h4>常 Gauss 曲率旋转曲面</h4>
 
 <!--
-<p>	`K = c^2 gt 0` 时, 由 `K = -(f'')/f`, 有常微分方程
-	<span class="formula">
-		`f''(u) + c^2 f(u) = 0`,
-	</span>
-	通解为
-	<span class="formula">
-		`f(u) = A cos cu + B sin cu`.
-	</span>
+<p> `K = c^2 gt 0` 时, 由 `K = -(f'')/f`, 有常微分方程
+  <span class="formula">
+    `f''(u) + c^2 f(u) = 0`,
+  </span>
+  通解为
+  <span class="formula">
+    `f(u) = A cos cu + B sin cu`.
+  </span>
 </p>
 -->
 
@@ -444,13 +569,13 @@
 <h3>全脐点曲面</h3>
 
 <p class="definition">
-	若曲面在一点的两个主曲率相等,
-	则它在这一点第二基本形式与第一基本形式的系数成比例, 即
-	<span class="formula">
-		`L/E = M/F = N/G = k`,
-	</span>
-	则称该点为曲面的<b>脐点</b>. 特别 `k != 0` 时, 称为<b>圆点</b>.
-	`k = 0` 时称为<b>平点</b>.
+  曲面上两个主曲率相等的点称为<b>脐点</b>.
+  由法曲率的定义知, 脐点处第二基本形式与第一基本形式的系数成比例, 即
+  <span class="formula">
+    `L/E = M/F = N/G = a`,
+  </span>
+  `a != 0` 时, 这一点称为<b>圆点</b>, `a = 0` 时称为<b>平点</b>.
+  例如球面上各点均为圆点, 平面各点均为平点.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

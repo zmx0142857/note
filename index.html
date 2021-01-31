@@ -424,7 +424,7 @@ function jumpPos(pos) {
 function redirect(pos) {
   var src = tableOfContents[pos[0]].articles[pos[1]].src.replace(/\.html$/, '');
   var hash = '#' + book.value + '/' + src;
-  window.history.replaceState(null, null, hash);
+  window.history.pushState(null, null, hash);
   jumpPos(pos);
 }
 
