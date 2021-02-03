@@ -415,6 +415,19 @@
 
 <p class="remark">
   Weingarten 变换的矩阵即 Gauss 映射的 Jacobi 阵 (取反).
+  一般地, 函数
+  <span class="formula">
+    `(x, y, z) |-> (P(x, y, z), Q(x, y, z), R(x, y, z))`
+  </span>
+  的导线性变换为
+  <span class="formula">
+    `cc A(bm i, bm j, bm k) = (bm i, bm j, bm k)
+        [P_x, P_y, P_z;
+         Q_x, Q_y, Q_z;
+         R_x, R_y, R_z]`
+    `= (bm i, bm j, bm k) J`.
+  </span>
+  `J` 是导线性变换的矩阵, 即 Jacobi 阵.
 </p>
 
 <p class="corollary">
@@ -477,8 +490,9 @@
 <p class="remark">
   Gauss 曲率 `K` 满足
   <span class="formula">
-    `bm n_u ^^ bm n_v = (a bm r_u + b bm r_v) ^^ (c bm r_u + d bm r_v)
-    = (ad-bc) bm r_u ^^ bm r_v = K bm r_u ^^ bm r_v`.
+    `bm n_u ^^ bm n_v`
+    `= (a bm r_u + b bm r_v) ^^ (c bm r_u + d bm r_v)`
+    `= (ad-bc) bm r_u ^^ bm r_v = K bm r_u ^^ bm r_v`.
   </span>
 
   直观上, Gauss 映射将曲面上的小块邻域映到单位球面上的区域.
@@ -500,7 +514,7 @@
 <p class="proof">
   即证
   <span class="formula">
-    `(:("d"bm n)/("d"s), ("d"bm n)/("d"s):) - 2H(:("d"bm r)/("d"s), ("d"bm
+    `(:("d"bm n)/("d"s), ("d"bm n)/("d"s):) + 2H(:("d"bm r)/("d"s), ("d"bm
     n)/("d"s):) + K = 0`.
   </span>
   记 `("d"bm r)/("d"s) = bm e_1 cos theta + bm e_2 sin theta`,
