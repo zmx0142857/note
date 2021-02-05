@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+<style>
+body {
+  background: #eee;
+}
+svg {
+	stroke: #000;
+  width: 900px;
+  display: block;
+  margin: 0 auto;
+}
+svg text {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+svg text.clef {
+  font-size: 48px;
+}
+</style>
+</head>
+<body>
+<script>
+// 基础设施
+function $svg (tag, attrs) {
+	const node = document.createElementNS('http://www.w3.org/2000/svg', tag)
+	for (const s in attrs)
+		node.setAttribute(s, attrs[s])
+	return node;
+}
+
+const $text = document.createTextNode.bind(document)
+
+Text.prototype.appendTo =
+Element.prototype.appendTo = function(parent) {
+  parent.appendChild(this)
+  return parent
+}
+
+Element.prototype.addClass = function(className) {
+  this.classList.add(className)
+  return this
+}
+
+// 全局变量
+const scoreHeight = 500
+const scoreWidth = 1000
+
+// 一篇乐谱
+class Score {
+  // { id, width, height }
+  constructor (opts) {
+    for (const k in opts)
+      this[k] = opts[k]
+    this.svg = $svg('svg', {
+      id: this.id,
+      viewBox: `0 0 ${this.width} ${this.height}`
+    })
+  }
+  show () {
+    this.svg.appendTo(document.body)
+  }
+  appendChild (child) {
+    return this.svg.appendChild(child)
+  }
+}
+
+// 一行乐谱
+class Staff {
+  // { score, top, lines }
+  constructor (opts) {
+    for (const k in opts)
+      this[k] = opts[k]
+  }
+  show () {
+    for (let i = 0; i < this.lines; ++i) {
+      const y = this.top + i * 10;
+      $svg('line', {
+        x1: 0,
+        x2: this.score.width,
+        y1: y,
+        y2: y,
+        stroke: '#888'
+      }).appendTo(this.score)
+    }
+  }
+}
+
+// 音符
+class Note {
+  // { text, x, y }
+  constructor (opts) {
+    for (const k in opts)
+      this[k] = opts[k]
+  }
+  show () {
+    const note = $svg('text', {
+      x: this.x,
+      y: this.y,
+      'text-anchor': 'middle',
+      'alignment-baseline': 'middle',
+    })
+    $text(this.text).appendTo(note).appendTo(this.score)
+  }
+}
+
+// 谱号
+class Clef {
+  // { type, x, y }
+  constructor (opts) {
+    for (const k in opts)
+      this[k] = opts[k]
+  }
+  show () {
+    const clef = $svg('text', {
+      x: this.x,
+      y: this.y,
+      'text-anchor': 'middle',
+      'alignment-baseline': 'middle'
+    })
+    $text('\u{1d11e}').appendTo(clef).addClass('clef').appendTo(this.score)
+  }
+}
+
+score.show()
+const config = {
+  score: {
+    id: 'score',
+    width: 1000,
+    height: 500
+  },
+  staff: {
+    score,
+    lines: 6,
+    top: 10
+  },
+  clef: {
+    score,
+    type: 'treble',
+    x: 25,
+    y: 35
+  },
+  note: {
+    score,
+    text:'0123456789',
+    x: 100,
+    y: 22
+  }
+}
+
+const score = new Score(config.score)
+new Staff(config.staff).show()
+new Clef(config.clef).show()
+new Note(config.note).show()
+
+</script>
+</body>
+</html>
