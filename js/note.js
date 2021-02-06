@@ -24,6 +24,38 @@ if (typeof asciimath.katexpath == 'undefined')
 
 // ---- functions ----
 
+// 假装在用 jquery
+function $(str, children) {
+  if (typeof(str) == 'string') {
+    var len = str.length;
+    if (str[0] == '#')
+      return document.getElementById(str.slice(1));
+    if (str[0] == '.')
+      return document.getElementsByClassName(str.slice(1));
+    if (str[0] == '<' && str[len-1] == '>') {
+      var elem = document.createElement(str.slice(1,len-1));
+      if (typeof(children) == 'string')
+        elem.innerHTML = children;
+      else if (children instanceof Node)
+        elem.appendChild(children);
+      else if (children instanceof Array) {
+        for (c of children)
+          elem.appendChild(c);
+      }
+      return elem;
+    }
+    if (len > 0)
+      return document.getElementsByTagName(str);
+  }
+  if (typeof(str) == 'undefined') {
+    return document.createDocumentFragment();
+  }
+}
+
+function $text(str) {
+  return document.createTextNode(str);
+}
+
 function getParams(str) {
   var ret = {};
   var i = str.indexOf('?');
@@ -56,13 +88,13 @@ function init() {
 }
 
 function loadMath() {
-  var newScript = document.createElement('script');
+  var newScript = $('<script>');
   newScript.src = prefix + 'js/asciimath.js';
   document.body.appendChild(newScript);
 }
 
 function makeModified() {
-  var modified = document.createElement('p');
+  var modified = $('<p>');
   modified.id = 'last-modified';
   modified.innerHTML = document.lastModified;
   document.body.insertBefore(modified, document.body.firstChild);
@@ -79,77 +111,27 @@ function makeH1() {
     'I': '代数篇',
     'S': '概率统计篇'
   };
-  var h1 = document.createElement('h1');
-  var title = document.getElementsByTagName('title');
+  var h1 = $('<h1>');
+  var title = $('title');
   if (title[0].classList.contains('nonu')) {
     h1.innerHTML = document.title;
   } else {
     h1.innerHTML = zhname[abbr] || '';
     h1.innerHTML += filename + ' ' + document.title;
   }
+  var toc = $('<ul>');
+  toc.id = 'toc';
+  toc.classList.add('collapse');
+  document.body.insertBefore(toc, document.body.firstChild);
+  makeModified();
   document.body.insertBefore(h1, document.body.firstChild);
 }
 
-/*
-  <div id="nav">
-    <a href="prev.html" style="float:left">&lt;&lt;&lt;</a>
-    <a href="index.html" target="_blank">· · ·</a>
-    <a href="next.html" style="float:right">&gt;&gt;&gt;</a>
-  </div>
-
-function makeNav() {
-  var nav = document.createElement('div');
-  nav.id = 'nav';
-  document.body.insertBefore(nav, document.body.firstChild);
-
-  var prev = document.createElement('a');
-  prev.style.float = 'left';
-  prev.innerHTML = '&lt;&lt;&lt;';
-  if (index > 1) {
-    prev.href = urlAbbr + (index-1) + '.html';
-  } else {
-    prev.style.color = 'rgba(0,0,0,0)';
-  }
-  nav.appendChild(prev);
-
-  var indexPage = document.createElement('a');
-  indexPage.href = '../index.html';
-  indexPage.target = '_blank';
-  indexPage.innerHTML = '· · ·';
-  nav.appendChild(indexPage);
-
-  var buttonToc = document.createElement('a');
-  buttonToc.innerHTML = '· · ·';
-  buttonToc.onclick = function() {
-    var toc = document.getElementById('toc');
-    if (toc.hidden) {
-      toc.removeAttribute('hidden');
-    } else {
-      toc.hidden = true;
-    }
-  }
-  nav.appendChild(buttonToc);
-
-  var next = document.createElement('a');
-  next.href = urlAbbr + (index+1) + '.html';
-  next.style.float = 'right';
-  next.innerHTML = '&gt;&gt;&gt;';
-  nav.appendChild(next);
-
-  // table of contents
-  var toc = document.createElement('iframe');
-  toc.id = 'toc';
-  toc.hidden = true;
-  toc.src = '../index.html';
-  document.body.insertBefore(toc, document.body.firstChild);
-}
-*/
-
 function alignLabel() {
-  var labels = document.getElementsByClassName('label');
+  var labels = $('.label');
   for (var i = 0; i < labels.length; ++i) {
     var p = labels[i].parentElement;
-    var labelPhantom = document.createElement('span');
+    var labelPhantom = $('<span>');
     labelPhantom.className = 'label-phantom';
     labelPhantom.innerHTML = labels[i].innerHTML;
     p.insertBefore(labelPhantom, p.firstChild);
@@ -157,29 +139,29 @@ function alignLabel() {
 }
 
 var Sname = function() {
-  return document.createTextNode(filename);
+  return $text(filename);
 };
 
 var Sname_num = function(word, i) {
-  var newItem = document.createElement('b');
+  var newItem = $('<b>');
   newItem.innerHTML = word + filename + '-' + (i+1);
   return newItem;
 };
 
 var Snum = function(word, i) {
-  var newItem = document.createElement('b');
+  var newItem = $('<b>');
   newItem.innerHTML = word + (i+1);
   return newItem;
 };
 
 var Svoid = function(word) {
-  var newItem = document.createElement('b');
+  var newItem = $('<b>');
   newItem.innerHTML = word;
   return newItem;
 };
 
 var Slarge = function(word) {
-  var newItem = document.createElement('span');
+  var newItem = $('<span>');
   newItem.style.fontSize = '2em';
   newItem.innerHTML = word;
   return newItem;
@@ -213,7 +195,7 @@ function decorate(list) {
         if (list[i].placeAfter) {
           elem[j].appendChild(newNode);
         } else {
-          var space = document.createTextNode(' ');
+          var space = $text(' ');
           elem[j].insertBefore(space, elem[j].firstChild);
           elem[j].insertBefore(newNode, elem[j].firstChild);
         }
@@ -235,20 +217,29 @@ function decorateHeading(maxLevel) {
   if (i == elem.length) return;
   var level = parseInt(elem[i].nodeName[1]);
   var nums = [filename];
-  function decorateH(lastLevel) {
+  var toc = $('#toc');
+
+  function decorateH(lastLevel, parentNode) {
     var cnt = 0;
     if (level > lastLevel) {
       nums.push(cnt);
       decorateH(lastLevel+1);
     }
     while (level == lastLevel) {
+      var li;
       if (!elem[i].classList.contains('nonu')) {
-        var space = document.createTextNode(' ');
+        var space = $text(' ');
         elem[i].insertBefore(space, elem[i].firstChild);
-        var newNode = document.createElement('b');
+        var newNode = $('<b>');
         elem[i].caption = newNode.innerHTML
           = nums.join('-') + '-' + (++cnt);
         elem[i].insertBefore(newNode, elem[i].firstChild);
+        elem[i].id = elem[i].caption
+
+        var a = $('<a>', elem[i].innerText);
+        a.setAttribute('href', '#' + elem[i].id);
+        li = $('<li>', a);
+        parentNode.appendChild(li);
         //console.log(elem[i]);
       }
       ++i;
@@ -256,12 +247,16 @@ function decorateHeading(maxLevel) {
       level = parseInt(elem[i].nodeName[1]);
       if (level > lastLevel) {
         nums.push(cnt);
-        decorateH(lastLevel+1);
+        var ul = $('<ul>');
+        if (li) {
+          li.appendChild(ul);
+        }
+        decorateH(lastLevel+1, ul);
       }
     }
     nums.pop();
   }
-  decorateH(2);
+  decorateH(2, toc);
 }
 
 /* select text on click
@@ -290,13 +285,13 @@ function enableCopyCode()
   function copyCode(pre)
   {
     return function() {
-      var textarea = document.createElement('textarea');
+      var textarea = $('<textarea>');
       textarea.value = pre.innerText;
       document.body.appendChild(textarea);
       textarea.select();
       document.execCommand('copy');
       document.body.removeChild(textarea);
-      var notify = document.createElement('div');
+      var notify = $('<div>');
       notify.innerText = '复制成功';
       notify.id = 'notify';
       document.body.appendChild(notify);
@@ -304,7 +299,7 @@ function enableCopyCode()
     }
   }
 
-  var pres = document.getElementsByTagName('pre');
+  var pres = $('pre');
   for (var i = 0; i < pres.length; ++i) {
     pres[i].ondblclick = copyCode(pres[i]);
     pres[i].title = '双击复制';
@@ -315,7 +310,7 @@ function hideAnswer(list) {
   for (var i = 0; i < list.length; ++i) {
     var answers = document.getElementsByClassName(list[i].name);
     for (var j = 0; j < answers.length; ++j) {
-      var button = document.createElement('button');
+      var button = $('<button>');
       var id = answers[j].id;
       if (!id) {
         id = list[i].name + '-' + filename + '-' + (j+1);
@@ -347,8 +342,8 @@ function toggleShowAnswer(button, id) {
 }
 
 function refPreview(elem, refed) {
-  var div = document.createElement('div');
-  var preview = document.createElement('div');
+  var div = $('<div>');
+  var preview = $('<div>');
   elem.onmouseover = function(e) {
     if (refed.classList.contains('img')) {
       div.classList.add('img');
@@ -380,7 +375,7 @@ function refPreview(elem, refed) {
 }
 
 function makeReference() {
-  var refs = document.getElementsByClassName('ref');
+  var refs = $('.ref');
   for (var i = 0; i < refs.length; ++i) {
     var j = refs[i].href.indexOf('#');
     var id = refs[i].href.substring(j+1);
@@ -406,7 +401,7 @@ function setDefaults(elem, dict) {
 }
 
 function makeSvg() {
-  var rects = document.getElementsByTagName('rect');
+  var rects = $('rect');
   for (var i = 0; i < rects.length; ++i) {
     setDefaults(rects[i], {
       height: '30',
@@ -454,7 +449,7 @@ function toggleHideHeader() {
 // make formula/table scrollable on overflow
 function wrap(L) {
   for (var i = 0; i < L.length; ++i) {
-    var div = document.createElement('div');
+    var div = $('<div>');
     div.className = 'scroll-wrapper';
     L[i].parentElement.insertBefore(div, L[i]);
     div.appendChild(L[i]);
@@ -468,7 +463,6 @@ var params = getParams(scriptName);
 
 init();
 //makeNav();
-makeModified();
 makeH1();   // call makeH1() before decorate()
 
 decorateHeading(3);
@@ -518,8 +512,8 @@ hideAnswer([
 makeReference(); // call makeReference() after decorate()
 //wrapIOS(); // call this after decorate()
 //toggleHideHeader();
-wrap(document.getElementsByClassName('formula'));
-wrap(document.getElementsByTagName('table'));
+wrap($('.formula'));
+wrap($('table'));
 
 // event handler from parent window
 document.onkeyup = window.handleKeyboard || null;
