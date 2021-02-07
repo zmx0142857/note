@@ -799,7 +799,7 @@ function parseS() {
   case UNARY:
     skip(len);
     var rewind = AMbegin;
-    res = parseI(); // BUG: formerly, parseS() failed on `sin x_1`
+    res = parseS();
     if (res == null) {
       AMbegin = rewind;
       return AM.katex ? b(getTexSymbol(sym)) :
@@ -975,6 +975,7 @@ function parseI() {
   var underover = (sym1.ttype == UNDEROVER || sym1.ttype == UNARYUNDEROVER);
   var node = parseS();
   var sym = getSymbol();
+  // either _ or ^
   if (sym.ttype != INFIX || sym.input == '/')
     return node;
   skip(sym.input.length);
@@ -983,37 +984,37 @@ function parseI() {
     res = strip(res);
   else // show box in place of missing argument
     res = AM.katex ? '{}' : $math("mo", $text("\u25A1"));
-  var sym2;
-  if (sym.input == '_') {
-    sym2 = getSymbol();
-    if (sym2.input == '^') {
-      skip(sym2.input.length);
-      var res2 = parseS();
-      res2 = strip(res2);
-      if (AM.katex) {
-        node = '{' + node + '_{' + res + '}^{' + res2 + '}}';
-      } else {
-        node = $math((underover?'munderover':'msubsup'), node);
+  var sym2 = getSymbol();
+  var subFirst = sym.input == '_';
+  if (sym2.input == (subFirst ? '^' : '_')) {
+    skip(sym2.input.length);
+    var res2 = parseS();
+    res2 = strip(res2);
+    if (AM.katex) {
+      //var lBraces = res.split('{').length;
+      //var rBraces = res.split('}').length;
+      //node += '^' + (lBraces == 2 && rBraces == 2 ? res : b(res));
+      node = '{' + node + sym.input + '{' + res + '}' + sym2.input + '{' + res2 + '}}';
+    } else {
+      node = $math((underover?'munderover':'msubsup'), node);
+      if (subFirst) {
         node.appendChild(res);
         node.appendChild(res2);
-        node = $math('mrow', node); // so sum does not stretch
-      }
-    } else {
-      if (AM.katex) {
-        node += '_{' + res + '}';
       } else {
-        node = $math((underover?'munder':'msub'), node);
+        node.appendChild(res2);
         node.appendChild(res);
       }
+      node = $math('mrow', node); // so sum does not stretch
     }
   } else {
     if (AM.katex) {
-      var lBraces = res.split('{').length;
-      var rBraces = res.split('}').length;
-      node += '^' + (lBraces == 2 && rBraces == 2 ? res : b(res));
+      node += sym.input + '{' + res + '}';
     } else {
-      node = (sym.input == '^' && underover ?
-          $math('mover', node) : $math(sym.tag,node));
+      if (subFirst) {
+        node = $math((underover?'munder':'msub'), node);
+      } else {
+        node = $math((underover?'mover':'msup'), node);
+      }
       node.appendChild(res);
     }
   }
@@ -1116,7 +1117,7 @@ function parseMatrixTex(sym, frag) {
   }
   if (begin < i)
     row.push(frag.slice(begin,i));
-  if (row[0])
+  if (row.length > 0)
     matrix += row.join('&') + '\\\\';
   if (sym.invisible)
     return '\\begin{aligned}' + matrix + '\\end{aligned}';

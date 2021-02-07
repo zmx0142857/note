@@ -10,10 +10,10 @@
 <h2>域</h2>
 
 <ol class="definition">
-	回顾环的一章中对域的定义, 将它重新整理如下:
-	称环 `(bbb F";" +, *)` 为一<b>域 (field)</b>, 如果 `|bbb F| ge 2`, 且
-	`(bbb F, +)`, `(bbb F\\{0}, *)` 是 Abel 群, 其中 `0` 是加群的零元.
-	又记乘法群的幺元为 `1`.<br/>
+	称环 `(bbb F";" +, *)` 为一<b>域 (field)</b>, 如果它是非平凡的 (
+  `|bbb F| ge 2`), 且 `(bbb F, +)`, `(bbb F\\{0}, *)` 是 Abel 群,
+  其中 `0, 1` 分别加法群和乘法群的单位元. 易知 `0 != 1`,
+  否则 `|bbb F| = 1`, 是平凡的.<br/>
 	域上可以进行四则运算: 令 `bbb F` 为一域, `a, b in bbb F`.
 	称 `a+b` 为 `a, b` 的和, `a-b := a + (-b)` 为 `a, b` 的差,
 	`a * b` 为 `a, b` 的积, `b != 0` 时, `a//b := a b^-1` 为 `a, b` 的商.
@@ -21,6 +21,11 @@
 
 <p class="example">
 	`p` 为一素数时, `ZZ` 模 `p` 的剩余类环 `ZZ_p` 为一域.
+  这是因为 `AA a in ZZ_p\\{0}`, 有 `(a, p) = 1`, 于是同余方程
+  <span class="formula">
+    `a x -= 1 (mod p)`
+  </span>
+  有唯一解, 即 `a` 存在逆元.
 </p>
 
 <p class="definition">
@@ -34,8 +39,8 @@
 
 <p class="corollary">
 	<b>子域的判定条件</b>
-	域 `bbb F_1 le bbb F_2` 当且仅当 `(bbb F_1, +)`, `(bbb F_1\\{0}, *)`
-	分别为 `(bbb F_2, +)` 和 `(bbb F_2\\{0}, *)` 的子群, 即
+	域 `bbb F_1 le bbb F` 当且仅当 `(bbb F_1, +)`, `(bbb F_1\\{0}, *)`
+	分别为 `(bbb F, +)` 和 `(bbb F\\{0}, *)` 的子群, 即
 	<span class="formula">
 		`(AA a, b in bbb F_1)` `a - b in bbb F_1`;<br/>
 		`(AA a, b in bbb F_1\\{0})` `a b^-1 in bbb F_1\\{0}`.
@@ -45,28 +50,21 @@
 <h3>整环的分式域</h3>
 
 <p class="definition">
-	令 `R` 为一交换的无零因子环 (特别地, 整环),
+	设 `R` 为无零因子的交换环 (特别地, 整环),
 	`bbb F` 为一域, 称 `bbb F` 为 `R` 的分式域, 如果
 	在同构意义下, `R` 为 `bbb F` 的子环, 且任意 `bbb F` 中的元素 `x`
 	可以写成 `R` 中两个元素的商, 即 `EE a, b in R`, `x = a b^-1`, 其中 `b
 	!= 0`.
 </p>
 
-<p class="example">
-	`ZZ` 的分式域是 `QQ`.
-	令 `n in ZZ\\{0}`, 则 `n ZZ` 的分式域也是 `QQ`.
-	`bbb F[x]` 的分式域是
-	<span class="formula">
-		`{(f(x))/(g(x)) | f(x), g(x) in bbb F[x], g(x) != 0}`.
-	</span>
-</p>
-
 <p class="theorem">
-	令 `R` 为一交换的无零因子环 (特别地, 整环), 则 `R` 的分式域存在.
+  设 `R` 为无零因子的交换环, 则 `R` 的分式域存在且惟一.
 </p>
 
-<ol class="proof">
-	构造性证明. 模仿由整数环构造有理数域的方法, 来构造 `R` 的分式域.
+<ol class="proof enum">
+  <li>
+  <ol>
+  这里给出分式域存在性的构造性证明, 可以参考由整数环构造有理数域的方法.
 	记 `R^** = R\\{0}`, `T = R xx R^**`.
 	<li>定义 `T` 上的二元关系 `~`:
 		<span class="formula">
@@ -77,7 +75,7 @@
 		<span class="formula">
 			`a d f = b c f = b d e`,
 		</span>
-		由 `R` 可交换且无零因子, 上式消去 `d != 0` 得 `a f = b e`.
+    由 `d != 0` 得 `a f = b e`.
 	</li>
 	<li>作商集 `bbb F = T//~`, 记 `(a, b)` 所在的等价类
 		`bar ((a","b)) = a/b`, 则
@@ -103,44 +101,49 @@
 		在同构意义下是 `bbb F` 的子环, 且 `bbb F` 中任意元素可以写为 `R`
 		中两个元素的商. 因此 `bbb F` 为 `R` 的分式域.
 	</li>
+  </ol>
+  </li>
+  <li>
+  关于惟一性, 只需证分式域是包含 `R` 的最小域
+  (例如, 有理数域是包含整数环的最小域).
+	令 `bbb K` 为包含 `R` 的任一域, 则
+	<span class="formula">
+		`bbb F' = {a b^-1 | a, b in R, b != 0}`
+	</span>
+	是 `bbb K` 的子域. 事实上,
+	<span class="formula">
+		`(AA a b^-1, c d^-1 in bbb F')` `a b^-1 - c d^-1 = (a d - c b)(b d)^-1 in bbb F'`,<br/>
+		`(AA a b^-1, c d^-1 in bbb F'\\{0})`
+		`(a b^-1)(c d^-1)^-1 = (a d)(b c)^-1 in bbb F'\\{0}`.
+	</span>
+	又容易验证 `f: a/b in bbb F to a b^-1 in bbb F'` 为一同构映射,
+	这就得到: 同构意义下 `R` 的分式域惟一.
+  </li>
 </ol>
 
-<p class="theorem">
-	无零因子的交换环 `R` 的分式域 `bbb F` 是包含 `R` 的最小域.
-	因此同构意义下 `R` 的分式域惟一. 一个例子是,
-	有理数域是包含整数环的最小域.
+<p class="example">
+	`ZZ` 的分式域是 `QQ`.
+	令 `n in ZZ\\{0}`, 则 `n ZZ` 的分式域也是 `QQ`.
+	`bbb F[x]` 的分式域是
+	<span class="formula">
+		`{(f(x))/(g(x)) | f(x), g(x) in bbb F[x], g(x) != 0}`.
+	</span>
 </p>
 
-<p class="proof">
-	令 `bbb F'` 为包含 `R` 的任一域, 则
-	<span class="formula">
-		`bbb F_1 = {a b^-1 | a, b in R, b != 0}`
-	</span>
-	是 `bbb F'` 的子域. 事实上, 
-	<span class="formula">
-		`(AA a b^-1, c d^-1 in bbb F_1)` `a b^-1 - c d^-1 = (a d - c b)(b d)^-1 in bbb F_1`,<br/>
-		`(AA a b^-1, c d^-1 in bbb F_1\\{0})`
-		`(a b^-1)(c d^-1)^-1 = (a d)(b c)^-1 in bbb F_1\\{0}`.
-	</span>
-	所以 `bbb F_1 le bbb F'`.
-	又容易验证 `f: a/b in bbb F to a b^-1 in bbb F_1` 为一同构映射,
-	因此 `bbb F le bbb F'`.
-</p>
+<h3>域的<a href="6.html#6-3">特征</a>与素域</h3>
 
-<h3>域的特征与素域</h3>
-
-<p>	回顾环的特征一节,
-	因为域是无零因子的, 因此域的<b>特征</b>只能是零或素数, 如:
+<p>
+	因为域是无零因子的, 因此域的特征只能是零或素数, 如:
 	任意数域的特征为零, 数域上多项式环的分式域的特征为零,
 	有限域 `ZZ_p` 的特征为 `p`.
 	在特征为 `0` 的域中, 每个非零元的阶都为 `oo`;
 	在特征为 `p` 的域中, 每个非零元的阶都为 `p`.
 </p>
 
-<p class="corollary">
-	令域 `bbb F` 的特征为素数 `p`, 则对任意 `n in ZZ^+`, 在 `bbb F` 中
+<p class="example">
+	令域 `bbb F` 的特征为素数 `p`, 则对任意 `n in ZZ^+` 和 `a, b in bbb F`,
 	<span class="formula">
-		`(a+-b)^(p^n) -= a^(p^n) +- b^(p^n)`.
+		`(a+-b)^(p^n) = a^(p^n) +- b^(p^n)`.
 	</span>
 </p>
 

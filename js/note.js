@@ -94,7 +94,7 @@ function loadMath() {
 }
 
 function makeModified() {
-  var modified = $('<p>');
+  var modified = $('<span>');
   modified.id = 'last-modified';
   modified.innerHTML = document.lastModified;
   document.body.insertBefore(modified, document.body.firstChild);
@@ -214,10 +214,12 @@ function decorateHeading(maxLevel) {
   var elem = document.querySelectorAll(select);
 
   var i = 0;
-  if (i == elem.length) return;
+  var toc = $('#toc');
+  if (elem.length == 0) {
+    return toc.classList.remove('collapse');
+  }
   var level = parseInt(elem[i].nodeName[1]);
   var nums = [filename];
-  var toc = $('#toc');
 
   function decorateH(lastLevel, parentNode) {
     var cnt = 0;

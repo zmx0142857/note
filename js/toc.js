@@ -316,6 +316,7 @@ music: {
       {title:'乐谱编辑器', src:'utils/lywriter.html',isnew:true},
       {title:'练耳', src:'utils/ear-training.html',isnew:true},
       {title:'键盘', src:'utils/piano.html',isnew:true},
+      {title:'乐谱', src:'utils/svg-score.html',isnew:true},
     ]
   }]
 }
