@@ -121,7 +121,7 @@ function makeH1() {
   }
   var toc = $('<ul>');
   toc.id = 'toc';
-  toc.classList.add('collapse');
+  toc.classList.add('toc');
   document.body.insertBefore(toc, document.body.firstChild);
   makeModified();
   document.body.insertBefore(h1, document.body.firstChild);
@@ -216,7 +216,7 @@ function decorateHeading(maxLevel) {
   var i = 0;
   var toc = $('#toc');
   if (elem.length == 0) {
-    return toc.classList.remove('collapse');
+    return toc.classList.remove('toc');
   }
   var level = parseInt(elem[i].nodeName[1]);
   var nums = [filename];
@@ -501,6 +501,7 @@ hideAnswer([
   {name:'solution', word:'解'},
   {name:'answer', word:'答'},
   {name:'collapse', word:'&nbsp;'},
+  {name:'toc', word:'目录'},
 ]);
 
 //if (params.type == 'math' || params.loadmath) {
