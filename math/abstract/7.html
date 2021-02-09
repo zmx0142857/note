@@ -240,6 +240,8 @@
 <ol class="definition">
 	如果域 `bbb F le bbb K`, 则称 `bbb K` 为 `bbb F`
 	的一个<b>扩张</b>或<b>扩域</b>, `bbb F` 为 `bbb K` 的<b>基域</b>.
+  若 `bbb F le bbb L le bbb K`, 则 `bbb L` 称为 `bbb F` 和 `bbb K`
+  的<b>中间域</b>.
 	<li>视 `bbb K` 为 `bbb F` 上的线性空间 (加法是 `bbb K` 中的加法,
 		数乘是 `bbb F` 与 `bbb K` 中元素的乘法), 则称 `"dim"bbb K` 为
 		`bbb K` 在 `bbb F` 上的<b>扩张次数</b>, 记为 `del(bbb K, bbb F)`.
@@ -270,7 +272,16 @@
 </ol>
 
 <p class="corollary">
-	超越扩域都是无限次的; 换言之, 有限次扩域都是代数的.
+  有限次扩域都是代数扩域.
+</p>
+
+<p class="proof">
+  反设 `bbb F le bbb K` 为超越扩域, 则存在 `alpha in bbb K` 为 `bbb F`
+  上超越元, 从而对任意正整数 `n`,
+  <span class="formula">
+    `1, alpha, alpha^2, cdots, alpha^n`
+  </span>
+  线性无关. 从而 `bbb K` 只能是无穷维的.
 </p>
 
 <ol class="example">
@@ -290,7 +301,7 @@
 	`bbb F(S) := (:bbb F uu S:)`
 	(`bbb K` 中所有既含 `bbb F` 又含 `S` 的子域的交), 显然它是
 	`bbb K` 的包含 `bbb F` 和 `S` 的最小域, 称为添加 `S` 到 `bbb F`
-	上所得到的<b>中间域</b>.<br/>
+	上所得到的中间域.<br/>
 	当 `S = {a_1, a_2, cdots, a_n}` 为有限集时,
 	简记 `bbb F(S) = bbb F(a_1, a_2, cdots, a_n)`; 特别简记 `bbb F({a})
 	= bbb F(a)`, 称为 `bbb F` 的一个<b>单扩域</b>.
@@ -379,9 +390,14 @@
   </li>
 </ol>
 
-<p class="corollary">
-  由定理证明过程知, 最小多项式是全体零化多项式的公因子.
-</p>
+<ol class="corollary">
+  <li>由定理证明过程知, `alpha` 在 `bbb F`
+    上的最小多项式是其全体零化多项式的公因子;</li>
+  <li>若 `bbb F le bbb K`, `alpha` 在 `bbb F` 和 `bbb K`
+    上的最小多项式分别为 `p(x)`, `q(x)`, 则由 `bbb F` 上的零化多项式也是
+    `bbb K` 上的零化多项式, 推出 `q(x) | p(x)`.
+  </li>
+</ol>
 
 <p class="theorem">
   令 `alpha` 为域 `bbb F` 的代数元, `p(x)` 是最小多项式, 则
@@ -441,7 +457,8 @@
 
 <!-- ?? -->
 
-<h3>有限次扩域</h3>
+<h3>有限次扩域 <i>——本质是有限生成的代数扩域</i></h3>
+
 
 <p class="theorem">
 	<b>次数公式</b>
@@ -452,6 +469,45 @@
   上式对无穷次也成立.
 </p>
 
+<ol class="proof">
+  <li>视 `bbb K` 为 `bbb L` 上线性空间, `bbb L` 为 `bbb F` 上线性空间,
+    基底分别为 `alpha_1, alpha_2, cdots, alpha_n` 和 `beta_1, beta_2,
+    cdots, beta_m`. 下证
+    <span class="formula">
+      `alpha_i beta_j`, `quad i = 1, 2, cdots, n`, `j = 1, 2, cdots, m`
+    </span>
+    构成 `bbb K` 作为 `bbb F` 上线性空间的基底. `AA alpha in K`, 有
+    <span class="formula">
+      `alpha = sum_(i=1)^n l_i alpha_i`
+      `= sum_(i=1)^n alpha_i sum_(j=1)^m f_(i j) beta_j`
+      `= sum_(i=1)^n sum_(j=1)^m f_(i j) alpha_i beta_j`.
+    </span>
+    其中 `l_i in bbb L`, `f_(i j) in bbb F`. 再说明它们线性无关.  设
+    <span class="formula">
+      `sum_(i=1)^n sum_(j=1)^m f_(i j) alpha_i beta_j = 0`,
+    </span>
+    则由 `{alpha_i}_(i=1)^n` 构成 `bbb K` 在 `bbb L` 上的基底知
+    <span class="formula">
+      `sum_(j=1)^m f_(i j) beta_j = 0`, `quad i = 1, 2, cdots, n`.
+    </span>
+    又 `{beta_j}_(j=1)^m` 构成 `bbb L` 在 `bbb F` 上的基底, 故
+    <span class="formula">
+      `f_(i j) = 0`, `quad i = 1, 2, cdots, n`, `j = 1, 2, cdots, m`.
+    </span>
+  </li>
+  <li>再说明 `del(bbb K, bbb L)`, `del(bbb L, bbb F)` 有一个等于 `oo` 时,
+    `del(bbb K, bbb F)` 也等于 `oo`. 反设 `del(bbb K, bbb F) lt oo`,
+    基底为 `alpha_1, alpha_2, cdots, alpha_n`.
+    这时 `bbb L` 是 `bbb K` 在 `bbb F` 上的线性子空间, 因此是有限维的,
+    即 `del(bbb L, bbb F) lt oo`.  又 `AA alpha in bbb K`,
+    <span class="formula">
+      `alpha = sum_(i=1)^n f_i alpha_i`, `quad f_i in bbb F sube bbb L`.
+    </span>
+    因此 `bbb K` 中的向量能被 `bbb L` 中有限个向量线性表出, 从而
+    `del(bbb K, bbb L) lt oo`.
+  </li>
+</ol>
+
 <p class="corollary">
   <b>有限次扩域的传递性</b> 有限次扩域的有限次扩域还是有限次扩域.
 </p>
@@ -461,14 +517,90 @@
 	则 `bbb F` 与 `bbb K` 无真中间域. (逆命题是否成立?)
 </p>
 
+<p class="lemma">
+  设 `bbb K` 为 `bbb F` 的有限次扩域, 基底为 `alpha_1, alpha_2, cdots,
+  alpha_n`, 则 `bbb K = bbb F(alpha_1, alpha_2, cdots, alpha_n)`.
+</p>
+
+<p class="lemma">
+  `del(bbb K, bbb F) = 1` 时, `bbb K ~= bbb F`, 经常直接写作 `bbb K = bbb F`.
+</p>
+
 <p class="theorem">
-	扩域 `bbb F le bbb K` 是有限次的当且仅当存在从 `bbb F` 到 `bbb K`
+  <b>有限次扩域本质是有限生成的代数扩域</b>
+	扩域次数 `del(bbb K, bbb F) lt oo` 当且仅当存在从 `bbb F` 到 `bbb K`
 	的一个单代数扩域的有限升链:
 	<span class="formula">
 		`bbb F = bbb F_0 le bbb F_1 le bbb F_2 le cdots le bbb F_l = bbb K`,
 	</span>
 	其中 `bbb F_i` 是 `bbb F_(i-1)` 的单代数扩域, `i = 1, 2, cdots, l`.
 </p>
+
+<ol class="proof">
+  <li>充分性: 由次数公式,
+    <span class="formula">
+      `del(bbb K, bbb F) = del(bbb F_l, bbb F_(l-1)) cdots del(bbb F_1,
+      bbb F_0) lt oo`.
+    </span>
+  </li>
+  <li>必要性:
+    将 `bbb K` 在 `bbb F` 上的基底 `alpha_1, alpha_2, cdots, alpha_n`
+    (有限次扩域必为代数扩域, 因此它们都是代数元) 逐个添加进来, 得到
+    <span class="formula">
+      `bbb K = bbb F(alpha_1)(alpha_2)cdots(alpha_n)`.
+    </span>
+  </li>
+</ol>
+
+<p>什么时候有限次扩域可以由单代数扩域一步生成呢, 下面的定理告诉我们:</p>
+
+<p class="theorem">
+  <b>Artin 本原元定理</b>
+  设 `bbb F` 为无限域, `bbb K` 是其有限次扩张, 则 `bbb K` 为 `bbb F`
+  的单代数扩张当且仅当两个域之间只有有限个不同的中间域.
+</p>
+
+<ol class="proof">
+  <li>充分性: 取 `u in bbb K`, 使得 `bbb F(u)`
+    是所有单代数扩张所得的中间域里面次数最大的, 下证 `bbb F(u) = bbb K`.
+    反设结论不成立, 则存在 `bm v in bbb K\\bbb F(u)`. 由已知, 形如
+    <span class="formula">
+      `bbb F(u + a v)`, `quad a in bbb F`
+    </span>
+    的中间域只有有限个. 而 `bbb F` 为无限域, 由鸽巢原理, 存在 `a, b in bbb
+    F`, 满足
+    <span class="formula">
+      `bbb F(u + a v) = bbb F(u + b v)`, `quad a != b`.
+    </span>
+    故
+    <span class="formula">
+      `v = ((u+a v) - (u+b v))/(a-b) in bbb F(u + a v)`,<br/>
+      `u = (u+a v) - a v in bbb F(u + a v)`.
+    </span>
+    因为 `v !in bbb F(u)`, 有 `bbb F(u) lt bbb F(u + a v)`, 从而
+    `del(bbb F(u), bbb F) lt del(bbb F(u+a v), bbb F)`, 与 `u`
+    的取法矛盾.
+  </li>
+  <li>必要性: 令 `bbb K = bbb F(u)`, `bbb F le bbb L le bbb K`,
+    `u` 在 `bbb F`, `bbb L` 上的最小多项式分别为 `p(x), q(x)`,
+    则 `q(x) | p(x)`. 将
+    `q(x) = x^n + q_(n-1) x^(n-1) + cdots + q_1 x + q_0`
+    的全体系数添加到 `bbb F` 上, 记生成的域为 `bbb L'`:
+    <span class="formula">
+      `bbb L' = bbb F(q_0, q_1, cdots, q_(n-1))`,
+    </span>
+    显然 `bbb L' le bbb L`, 下证 `bbb L' = bbb L`.
+    注意到 `u` 在 `bbb L'` 上的最小多项式仍为 `q(x)`, 有
+    <span class="formula">
+      `del(bbb K, bbb L') = del q(x) = del(bbb K, bbb L)`.
+    </span>
+    借助维数公式, `del(bbb L', bbb F) = del(bbb L, bbb F)`.
+    因为具有包含关系且维数相同的线性空间是相等的, 所以 `bbb L' = bbb
+    L`.<br/>
+    我们已经证明, `bbb F` 和 `bbb K` 的任一中间域和 `p(x)` 的因式一一对应,
+    但 `p(x)` 只有有限个因式, 故中间域也是有限个.
+  </li>
+</ol>
 
 <p class="theorem">
 	<b>代数扩域的传递性</b>
