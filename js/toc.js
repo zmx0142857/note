@@ -128,7 +128,8 @@ math: {
     {title:'群 (下)', src:'abstract/4.html'},
     {title:'半群', src:'abstract/5.html'},
     {title:'环', src:'abstract/6.html'},
-    {title:'域', src:'abstract/7.html'},
+    {title:'域', src:'abstract/7.html',isnew:true},
+    {title:'Galois 理论', src:'abstract/8.html',isnew:true},
   ]
 }, {
   title:'拓扑学',

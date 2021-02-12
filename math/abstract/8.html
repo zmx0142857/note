@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>Galois 理论</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<h2>Galois 群</h2>
+
+<ol class="definition">
+  令域 `bbb F le bbb K`.
+  <li>`bbb K` 上全体自同构关于变换的通常合成构成一个群 `Aut(bbb K)`, 称为
+    `bbb K` 的<b>自同构群</b>;</li>
+  <li>`bbb K` 上全体 `bbb F`-自同构组成 `Aut(bbb K)` 的子群
+    <span class="formula">
+      `Gal(bbb K, bbb F) := {sigma in Aut(bbb K): {:sigma|_(bbb F)
+      = {:"id"|_(bbb F):}:}}`,
+    </span>
+    称为 `bbb K` 关于 `bbb F` 的 <b>Galois 群</b>.
+  </li>
+  <li>设 `G le Aut(bbb K)`, 视 `G` 为 `bbb K` 上的群作用, 则 `bbb K`
+    在 `G` 作用下的全体不动点构成 `bbb K` 的子域
+    <span class="formula">
+      `Inv(G) := {alpha in bbb K: (AA g in G) g(alpha) = alpha}`,
+    </span>
+    称为 `bbb K` 的 <b>`G`-不动子域</b>.
+  </li>
+</ol>
+
+<p class="remark">
+  固定 `bbb K` 时, `Gal` 可以视为映射, 它将 `bbb K` 的子域映为 `Aut(bbb
+  K)` 的子群; `Inv` 则将 `Aut(bbb K)` 的子群映为 `bbb K` 的子域.
+</p>
+
+<ol class="corollary" id="cor-galois-group">
+  设 `bbb E le bbb F le bbb K`, `G le H le Aut(bbb K)`, 则
+  <li>`Gal(bbb K, bbb E) ge Gal(bbb K, bbb F)`;</li>
+  <li>`Inv(G) ge Inv(H)`;</li>
+  <li>`Inv(Gal(bbb K, bbb F)) ge bbb F`;</li>
+  <li>`Gal(bbb K, Inv G) ge G`.</li>
+  <li>3 和 4 的等号未必成立, 不过我们有
+    <span class="formula">
+      `Gal(bbb K, bbb F) = Gal(bbb K, Inv(Gal(bbb K, bbb F)))`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>`bbb F` 上的恒等变换也是 `bbb E` 上的恒等变换;</li>
+  <li>在 `H` 的作用下不变, 蕴含在 `G` 的作用下不变;</li>
+  <li>由定义, Galois 群起码保证 `bbb F` 中的点不动;</li>
+  <li>设 `bbb F = Inv G`, 则 `AA g in G`, `g{:|:}_(bbb F) = "id"{:|:}_(bbb
+    F)`, 即 `g in Gal(bbb K, bbb F)`.
+  </li>
+  <li>设 `bbb E = Inv(Gal(bbb K, bbb F)) ge bbb F`, 则左边 `ge` 右边.
+    设 `G = Gal(bbb K, bbb F)`, 则右边 `= Gal(bbb K, Inv G) ge G = `左边.
+  </li>
+</ol>
+
+<p class="remark">
+  类比集合论中的: `f: X to Y`, `A sube B sube X`, `C sube D sube Y`, 则
+  <span class="formula">
+    `f(A) sube f(B)`,
+    `quad f^-1(C) sube f^-1(D)`,
+    `quad f^-1(f(A)) supe A`,
+    `quad f(f^-1(C)) sube C`.
+  </span>
+</p>
+
+<p class="definition">
+  上述推论的 3. 取等号时, `Inv` 恰为 `Gal` 的逆.
+  这时称 `bbb K` 为 `bbb F` 的 <b>Galois 扩张</b>.
+</p>
+
+<p>下面讨论 Galois 扩张的等价条件, 先证引理:</p>
+
+<p class="lemma">
+  <b>有限次扩域的 Galois 群为有限群</b>
+  设 `bbb F le bbb K` 为有限次扩域, 则 `|Gal(bbb K, bbb F)| le del(bbb K,
+  bbb F)`. 等号成立当且仅当 `bbb K` 为 `f` 上一可分多项式的分裂域.
+</p>
+
+<ol class="theorem">
+  设 `bbb F le bbb K` 为有限次扩域, `G = Gal(bbb K, bbb F)`.
+  则以下各款等价:
+  <li>`bbb K` 为 `bbb F` 的 Galois 扩张;</li>
+  <li>`bbb K` 为 `bbb F` 的可分正规扩张;</li>
+  <li>`del(bbb K, bbb F) = |G|`.</li>
+</ol>
+
+<ol class="proof enum">
+  <li>
+    <ol>
+    1 `rArr` 2:
+    只需证任意 `alpha in bbb K` 在 `bbb F` 上的最小多项式 `p(x)` 可分.
+    <li>
+      任取 `alpha in bbb K`. 由引理, `G` 为有限群, 因此轨道
+      <span class="formula">
+        `O_alpha = {sigma(alpha): sigma in G}`
+      </span>
+      是有限集. 不妨令 `O_alpha` 中所有不同的元素为
+      <span class="formula">
+        `sigma_1(alpha) = alpha`,
+        `sigma_2(alpha), cdots, sigma_r(alpha)`,
+      </span>
+      其中 `sigma_1 = {:"id"|_(bbb K)` 为 `bbb K` 上的恒等自同构.
+    </li>
+    <li>
+      设 `f(x) in bbb F[x]`,  `f(alpha) = 0`, 则
+      `AA sigma in G`, 由 `sigma` 为 `bbb F`-自同构知,
+      <span class="formula">
+        `f(sigma(alpha)) = sigma f(alpha) = sigma(0) = 0`.
+      </span>
+      从而根 `alpha` 的置换 `sigma(alpha)` 仍为 `f(x)` 的根.
+      这启发我们:
+    </li>
+    <li>
+      构作
+      <span class="formula">
+        `q(x) = prod_(i=1)^r (x - sigma_i(alpha))`
+        `= sum_(j=0)^r q_j x^j`.
+      </span>
+      显然 `q(x)` 可分, 下证 `q(x) = p(x)`.
+      由 Vieta 定理知道, `q_j` 是所有根的对称多项式:
+      <span class="formula">
+        `q_j = s(sigma_1(alpha), cdots, sigma_r(alpha))`,
+      </span>
+      `AA sigma in G`, `sigma sigma_1(alpha), cdots, sigma sigma_r(alpha)`
+      是所有根的一个排列, 因此 `q_j` 是 `sigma` 的不动点:
+      <span class="formula">
+        `sigma(q_j) = q_j`, `quad j = 0, 1, cdots, r-1`.
+      </span>
+    </li>
+    <li>
+      由假设, `bbb K` 为 `bbb F` 的 Galois 扩张, 即 `Inv(G) = bbb F`,
+      故 `sigma` 的所有不动点必属于 `bbb F`, 于是 `q_j in bbb F`, 即
+      `q(x) in bbb F[x]`. 我们得到: `q(x)` 是 `alpha` 在 `bbb F`
+      上的零化多项式因此 `p(x) | q(x)`.
+      另一方面, 由 (2) 知 `q(x)` 的任一根都是 `p(x)` 的根, 于是 `q(x)
+      | p(x)`, 从而 `p(x) = q(x)`.
+    </li>
+    </ol>
+  </li>
+  <li>2 `rArr` 3: 由分裂域的知识, `bbb K` 是 `bbb F`
+    上一可分多项式 `f(x)` 的分裂域. 故由分裂域的推论??知结论成立.
+  </li>
+  <li>
+    令 `bbb E = Inv(Gal(bbb K, bbb F)) ge bbb F`, 由<a class="ref" href="#cor-galois-group"></a>,
+    <span class="formula">
+      `Gal(bbb K, bbb F) = Gal(bbb K, bbb E)`.
+    </span>
+    从而
+    <span class="formula">
+      `del(bbb K, bbb F) = |G|`
+      `= |Gal(bbb K, bbb E)|`
+      `le del(bbb K, bbb E)`,
+    </span>
+    这推出 `bbb F ge bbb E`, 于是 `bbb F = bbb E`, 即 `bbb K` 为 `bbb F`
+    的一个 Galois 扩张.
+  </li>
+</ol>
+
+<h2>Galois 对应定理</h2>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
