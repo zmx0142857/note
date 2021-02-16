@@ -458,6 +458,17 @@ function wrap(L) {
   }
 }
 
+// span.formula.align ---> span.formula > span.align
+function makeAlign() {
+  document.querySelectorAll('.formula.align').forEach(span => {
+    var wrap = $('<span>');
+    wrap.classList.add('formula');
+    span.parentNode.replaceChild(wrap, span);
+    wrap.appendChild(span);
+    span.classList.remove('formula');
+  })
+}
+
 // ---- data & function call ----
 
 var params = getParams(scriptName);
@@ -517,6 +528,7 @@ makeReference(); // call makeReference() after decorate()
 //toggleHideHeader();
 wrap($('.formula'));
 wrap($('table'));
+makeAlign();
 
 // event handler from parent window
 document.onkeyup = window.handleKeyboard || null;
