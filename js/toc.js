@@ -17,7 +17,7 @@ math: {
     {title:'问题', src:'misc/0.html', isnew:true},
     {title:'三角函数', src:'misc/2.html'},
     {title:'不等式', src:'misc/3.html'},
-    {title:'初等代数', src:'misc/4.html', isnew:true},
+    {title:'微积分不等式', src:'misc/4.html', isnew:true},
     {title:'因式分解', src:'misc/5.html'},
     {title:'数学家', src:'misc/6.html'},
     {title:'算术与进制', src:'misc/7.html'},
@@ -25,6 +25,7 @@ math: {
 }, {
   title:'高等代数',
   articles: [
+    {title:'初等代数', src:'algebra/0.html', isnew:true},
     {title:'矩阵', src:'algebra/1.html'},
     {title:'行列式', src:'algebra/2.html'},
     {title:'向量的相关性与线性方程组', src:'algebra/3.html'},

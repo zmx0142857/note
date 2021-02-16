@@ -7,7 +7,9 @@
 </head>
 <body>
 
-<h2>Cauchy-Schwarz 不等式</h2>
+<h2>空间中的不等式</h2>
+
+<h3>Cauchy-Schwarz 不等式</h3>
 
 <p class="theorem">
 	<b>Cauchy-Schwarz 不等式</b>
@@ -74,7 +76,7 @@
 	</span>
 </ol>
 
-<h2>三角不等式</h2>
+<h3>三角不等式</h3>
 
 <p class="lemma">
 	设 `x in RR`, `M ge 0`, 则
@@ -160,6 +162,8 @@
 </p>
 
 <h2>Jensen 不等式</h2>
+
+<h3>Jensen - Young - Hölder - Minkowski</h3>
 
 <a href="https://zhuanlan.zhihu.com/p/55307171">原文来自知乎</a>, 当然,
 也来自崔尚斌. 数学分析教程 (上册). 第一版. 北京: 科学出版社.
@@ -320,7 +324,170 @@
 	利用 `1/p + 1/q = 1` 适当变形即得 Hölder 不等式.
 </p>
 
-<h2>均值不等式</h2>
+<h3>权方和不等式</h3>
+
+<p class="theorem">
+	<b>权方和不等式</b>
+	设 `x_k, y_k gt 0`, `k = 1, 2, cdots, n`, `alpha gt 0`, 则
+	<span class="formula">
+		`(sum_(k=1)^n x_k)^(alpha+1)/(sum_(k=1)^n y_k)^alpha le sum_(k=1)^n x_k^(alpha+1)/y_k^alpha`,
+	</span>
+	等号成立当且仅当所有 `x_k/y_k` 都相等 (都等于 `(sum x_k)/(sum y_k)`).
+	<br/>
+	权方和不等式等价于 Hölder 不等式,
+	是求解分式条件极值的利器, 其特征是分子幂次比分母高一次.
+	其中 `alpha = 1` 的情形 (等价于 Cauchy 不等式) 最为常用.
+</p>
+
+<p class="proof">
+	在 Hölder 不等式 (第二形式) 中取
+	`1/p = 1/(alpha+1)`, `1/q = alpha/(alpha+1)`,
+	<span class="formula">
+		`x_k = x_k^(alpha+1)/y_k^alpha`,
+		`quad y_k = y_k`,
+		`quad k = 1, 2, cdots, n`
+	</span>
+	即可, 取等条件由 Hölder 不等式的推出.
+</p>
+
+<p class="corollary">
+    设 `beta - alpha gt 1`, 其它假设同上, 则
+    <span class="formula">
+      `(sum x_k)^beta/(sum y_k)^alpha lt sum x^beta/y^alpha`.
+    </span>
+</p>
+
+<p class="proof">
+  记 `epsi = beta - alpha - 1 gt 0`, 由权方和不等式,
+  <span class="formula">
+    `(sum x_k)^beta/(sum y_k)^alpha`
+    `= (sum x_k)^beta/(sum y_k)^(beta-1-epsi)`
+    `le (sum y_k)^-epsi sum x_k^beta/y_k^(beta-1)`
+    `lt (sum y_k)^-epsi sum x_k^beta/y_k^(beta-1) ((sum y_k)/y_k)^epsi`
+    `= sum x_k^beta/y_k^alpha`.
+  </span>
+</p>
+
+<ol class="example">
+	本例可以用权方和不等式, 也可以用 Cauchy 不等式.
+	<li>设 `a, b, x, y gt 0`, `x^2 + y^2 = k`, 求 `a x + b y`
+		的最大值;
+	</li>
+	<li>[<a href="https://wenku.baidu.com/view/6a33034bfad6195f302ba618.html">权方和不等式的应用</a>]
+		设 `a, b, c, d, x, y gt 0`, 求 `min{a x^2 + b y^2 | c x + d y = k}`.
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>利用权方和不等式 (`alpha = 1`),
+		<span class="formula">
+			`(a x + b y)^2/(a^2 + b^2)`
+			`le (a x)^2/a^2 + (b y)^2/b^2`
+			`= k`,
+		</span>
+		故
+		<span class="formula">
+			`a x + b y le sqrt(k(a^2 + b^2))`,
+		</span>
+		等号成立当且仅当 `x/a = y/b`.
+	</li>
+	<li>利用权方和不等式 (`alpha = 1`),
+		<span class="formula">
+			`a x^2 + b y^2`
+			`= (c x)^2/(c^2//a) + (d y)^2/(d^2//b)`
+			`ge (c x + d y)^2/(c^2//a + d^2//b)`
+			`= k^2/(c^2//a + d^2//b)`,
+		</span>
+		等号成立当且仅当 `a/c x = b/d y = k/(c^2//a + d^2//b)`.
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>利用 Cauchy 不等式,
+		<span class="formula">
+			`(a x + b y)^2 le (a^2 + b^2)(x^2 + y^2) = k(a^2+b^2)`,
+		</span>
+		故
+		<span class="formula">
+			`a x + b y le sqrt(k(a^2+b^2))`,
+		</span>
+		等号成立当且仅当 `x/a = y/b`.
+	</li>
+	<li>利用 Cauchy 不等式,
+		<span class="formula">
+			`(c/(sqrt a) sqrt a x + d/(sqrt b) sqrt b y)^2`
+			`le (c^2/a + d^2/b)(a x^2 + b y^2)`,
+		</span>
+		故
+		<span class="formula">
+			`(a x^2 + b y^2) ge k^2/(c^2//a + d^2//b)`,
+		</span>
+		等号成立当且仅当 `c/(a x) = d/(b y)`.
+	</li>
+</ol>
+
+<p class="example">
+	设 `x in [0, pi//2]`, 求 `1/(sin x) + 8/(cos x)` 的最小值.
+</p>
+
+<p class="solution">
+	利用权方和不等式 (`alpha = 1`), 原式等于
+	<span class="formula">
+		`1^2/(sin x) + 4^2/(2 cos x)`
+		`ge (1+4)^2/(sin x + 2 cos x)`
+		`= 5^2/(sqrt 5 sin(x+varphi))`
+		`ge 5 sqrt 5`.
+	</span>
+</p>
+
+<p class="solution">
+	用 Cauchy 不等式的做法, 可能不太直观:
+	<span class="formula">
+		`(1 + 4)^2`
+		`= (1/sqrt(sin x) sqrt(sin x) + 4/sqrt(2 cos x) sqrt(2 cos x))^2`
+		`le (1^2/(sin x) + 4^2/(2 cos x))(sin x + 2 cos x)`,
+	</span>
+	因此
+	<span class="formula">
+		`1/(sin x) + 8/(cos x) ge 5^2/(sin x + 2 cos x)`.
+	</span>
+	后面的处理是一样的.
+</p>
+
+<p class="example">
+	[<a href="https://wenku.baidu.com/view/6a33034bfad6195f302ba618.html">权方和不等式的应用</a>]
+	设 `a, b, c gt 0`, `a b c = 1`, 求 `1/(a^3(b+c)) + 1/(b^3(c+a))
+	+ 1/(c^3(a+b))` 的最小值.
+</p>
+
+<p class="solution">
+	利用权方和不等式, 原式等于
+	<span class="formula">
+		`a^-2/(a(b+c)) + b^-2/(b(c+a)) + c^-2/(c(a+b))`
+		`ge (a^-1+b^-1+c^-1)^2/(2(a b+b c+c a))`
+		`= 1/2 (a b+b c+c a)/(a b c)^2`
+		`= 1/2 (a b+b c+c a)`
+		`ge 3/2 root 3 (a b b c c a)`
+		`= 3/2`,
+	</span>
+	等号成立当且仅当 `a = b = c = 1`.
+</p>
+
+<p class="example">
+	设 `a, b, c gt 0`, `a b + b c + c a = 1`, 求 `a^3/(b+c) + b^3/(c+a)
+	+ c^3/(a+b)` 的最小值.
+</p>
+
+<p class="solution">
+	由权方和不等式, 原式等于
+	<span class="formula">
+		`a^4/(a(b+c)) + b^4/(b(c+a)) + c^4/(c(a+b))`
+		`ge (a^2+b^2+c^2)^2/(2(a b+b c+c a))`
+		`ge (a b+b c+c a)/2 = 1/2`.
+	</span>
+</p>
+
+<h3>均值不等式</h3>
 
 <p class="lemma">
 	<b>一个配方不等式</b>
@@ -576,485 +743,6 @@
 	时, 分别取得最小值, 调和平均, 几何平均, 算术平均和最大值.
 </p>
 
-<h2>权方和不等式</h2>
-
-<p class="theorem">
-	<b>权方和不等式</b>
-	设 `x_k, y_k gt 0`, `k = 1, 2, cdots, n`, `alpha gt 0`, 则
-	<span class="formula">
-		`(sum_(k=1)^n x_k)^(alpha+1)/(sum_(k=1)^n y_k)^alpha le sum_(k=1)^n x_k^(alpha+1)/y_k^alpha`,
-	</span>
-	等号成立当且仅当所有 `x_k/y_k` 都相等 (都等于 `(sum x_k)/(sum y_k)`).
-	<br/>
-	权方和不等式等价于 Hölder 不等式,
-	是求解分式条件极值的利器, 其特征是分子幂次比分母高一次.
-	其中 `alpha = 1` 的情形 (等价于 Cauchy 不等式) 最为常用.
-</p>
-
-<p class="proof">
-	在 Hölder 不等式 (第二形式) 中取
-	`1/p = 1/(alpha+1)`, `1/q = alpha/(alpha+1)`,
-	<span class="formula">
-		`x_k = x_k^(alpha+1)/y_k^alpha`,
-		`quad y_k = y_k`,
-		`quad k = 1, 2, cdots, n`
-	</span>
-	即可, 取等条件由 Hölder 不等式的推出.
-</p>
-
-<p class="corollary">
-    设 `beta - alpha gt 1`, 其它假设同上, 则
-    <span class="formula">
-      `(sum x_k)^beta/(sum y_k)^alpha lt sum x^beta/y^alpha`.
-    </span>
-</p>
-
-<p class="proof">
-  记 `epsi = beta - alpha - 1 gt 0`, 由权方和不等式,
-  <span class="formula">
-    `(sum x_k)^beta/(sum y_k)^alpha`
-    `= (sum x_k)^beta/(sum y_k)^(beta-1-epsi)`
-    `le (sum y_k)^-epsi sum x_k^beta/y_k^(beta-1)`
-    `lt (sum y_k)^-epsi sum x_k^beta/y_k^(beta-1) ((sum y_k)/y_k)^epsi`
-    `= sum x_k^beta/y_k^alpha`.
-  </span>
-</p>
-
-<ol class="example">
-	本例可以用权方和不等式, 也可以用 Cauchy 不等式.
-	<li>设 `a, b, x, y gt 0`, `x^2 + y^2 = k`, 求 `a x + b y`
-		的最大值;
-	</li>
-	<li>[<a href="https://wenku.baidu.com/view/6a33034bfad6195f302ba618.html">权方和不等式的应用</a>]
-		设 `a, b, c, d, x, y gt 0`, 求 `min{a x^2 + b y^2 | c x + d y = k}`.
-	</li>
-</ol>
-
-<ol class="solution">
-	<li>利用权方和不等式 (`alpha = 1`),
-		<span class="formula">
-			`(a x + b y)^2/(a^2 + b^2)`
-			`le (a x)^2/a^2 + (b y)^2/b^2`
-			`= k`,
-		</span>
-		故
-		<span class="formula">
-			`a x + b y le sqrt(k(a^2 + b^2))`,
-		</span>
-		等号成立当且仅当 `x/a = y/b`.
-	</li>
-	<li>利用权方和不等式 (`alpha = 1`),
-		<span class="formula">
-			`a x^2 + b y^2`
-			`= (c x)^2/(c^2//a) + (d y)^2/(d^2//b)`
-			`ge (c x + d y)^2/(c^2//a + d^2//b)`
-			`= k^2/(c^2//a + d^2//b)`,
-		</span>
-		等号成立当且仅当 `a/c x = b/d y = k/(c^2//a + d^2//b)`.
-	</li>
-</ol>
-
-<ol class="solution">
-	<li>利用 Cauchy 不等式,
-		<span class="formula">
-			`(a x + b y)^2 le (a^2 + b^2)(x^2 + y^2) = k(a^2+b^2)`,
-		</span>
-		故
-		<span class="formula">
-			`a x + b y le sqrt(k(a^2+b^2))`,
-		</span>
-		等号成立当且仅当 `x/a = y/b`.
-	</li>
-	<li>利用 Cauchy 不等式,
-		<span class="formula">
-			`(c/(sqrt a) sqrt a x + d/(sqrt b) sqrt b y)^2`
-			`le (c^2/a + d^2/b)(a x^2 + b y^2)`,
-		</span>
-		故
-		<span class="formula">
-			`(a x^2 + b y^2) ge k^2/(c^2//a + d^2//b)`,
-		</span>
-		等号成立当且仅当 `c/(a x) = d/(b y)`.
-	</li>
-</ol>
-
-<p class="example">
-	设 `x in [0, pi//2]`, 求 `1/(sin x) + 8/(cos x)` 的最小值.
-</p>
-
-<p class="solution">
-	利用权方和不等式 (`alpha = 1`), 原式等于
-	<span class="formula">
-		`1^2/(sin x) + 4^2/(2 cos x)`
-		`ge (1+4)^2/(sin x + 2 cos x)`
-		`= 5^2/(sqrt 5 sin(x+varphi))`
-		`ge 5 sqrt 5`.
-	</span>
-</p>
-
-<p class="solution">
-	用 Cauchy 不等式的做法, 可能不太直观:
-	<span class="formula">
-		`(1 + 4)^2`
-		`= (1/sqrt(sin x) sqrt(sin x) + 4/sqrt(2 cos x) sqrt(2 cos x))^2`
-		`le (1^2/(sin x) + 4^2/(2 cos x))(sin x + 2 cos x)`,
-	</span>
-	因此
-	<span class="formula">
-		`1/(sin x) + 8/(cos x) ge 5^2/(sin x + 2 cos x)`.
-	</span>
-	后面的处理是一样的.
-</p>
-
-<p class="example">
-	[<a href="https://wenku.baidu.com/view/6a33034bfad6195f302ba618.html">权方和不等式的应用</a>]
-	设 `a, b, c gt 0`, `a b c = 1`, 求 `1/(a^3(b+c)) + 1/(b^3(c+a))
-	+ 1/(c^3(a+b))` 的最小值.
-</p>
-
-<p class="solution">
-	利用权方和不等式, 原式等于
-	<span class="formula">
-		`a^-2/(a(b+c)) + b^-2/(b(c+a)) + c^-2/(c(a+b))`
-		`ge (a^-1+b^-1+c^-1)^2/(2(a b+b c+c a))`
-		`= 1/2 (a b+b c+c a)/(a b c)^2`
-		`= 1/2 (a b+b c+c a)`
-		`ge 3/2 root 3 (a b b c c a)`
-		`= 3/2`,
-	</span>
-	等号成立当且仅当 `a = b = c = 1`.
-</p>
-
-<p class="example">
-	设 `a, b, c gt 0`, `a b + b c + c a = 1`, 求 `a^3/(b+c) + b^3/(c+a)
-	+ c^3/(a+b)` 的最小值.
-</p>
-
-<p class="solution">
-	由权方和不等式, 原式等于
-	<span class="formula">
-		`a^4/(a(b+c)) + b^4/(b(c+a)) + c^4/(c(a+b))`
-		`ge (a^2+b^2+c^2)^2/(2(a b+b c+c a))`
-		`ge (a b+b c+c a)/2 = 1/2`.
-	</span>
-</p>
-
-<h2>微积分不等式</h2>
-
-<p class="theorem">
-	<b>曲边梯形不等式</b>
-	设 `f` 是 `[a, b]` 上可积的下凸函数, 则
-	<span class="formula">
-		`f((a+b)/2) le 1/(b-a) int_a^b f(x) dx le (f(a)+f(b))/2`.
-	</span>
-	当 `f` 严格凸且 `a lt b` 时, 不等号严格成立.
-	这个不等式的几何意义是, `f` 的图像在 `[a,b]` 上围成的曲边梯形面积
-	大于它在 `x = (a+b)/2` 处的内切梯形面积, 但小于它的外接梯形面积.
-	<span class="img" style="height:18em">
-		<img src="../img/trapeziod-with-curve-side-inequality.svg">
-	</span>
-</p>
-
-<p class="proof">
-	记 `I = 1/(b-a) int_a^b f(x) dx`,
-	令 `x = a + t(b-a) = (1-t)a + t b`, 则
-	<span class="formula">
-		`I = int_0^1 f[(1-t)a+t b] dt`
-		`le int_0^1 [(1-t) f(a) + t f(b)] dt`
-		`= (f(a)+f(b))/2`.
-	</span>
-	另一方面, 令 `x = a+b-s`,
-	<span class="formula">
-		`(b-a) I = int_a^b f(a+b-s) "d"s`
-		`= 1/2 int_a^b [f(x) + f(a+b-x)] dx`
-		`ge int_a^b f((x+a+b-x)/2) dx`
-		`= (b-a)f((a+b)/2)`.
-	</span>
-</p>
-
-<p class="theorem">
-	<b>对数均值不等式 (ALG 不等式, <del>奥利给不等式</del>)</b>
-	设 `a, b` 是不相等的正数, 则
-	<span class="formula">
-		`sqrt(a b) lt (a-b)/(ln a - ln b) lt (a+b)/2`,
-	</span>
-	即 `A gt L gt G`. 这一不等式刻画了 `ln {:a/b:}` 的上下界.
-</p>
-
-<p class="proof">
-	积分学的证明.
-	在 `[u,v]` 上对 `f(x) = "e"^x` 应用曲边梯形不等式,
-	得到对数均值不等式的指数形式:
-	<span class="formula">
-		`"e"^((u+v)/2) lt ("e"^v-"e"^u)/(v-u) lt ("e"^u+"e"^v)/2`,
-	</span>
-	令 `"e"^u = a`, `"e"^v = b` 即得证.
-</p>
-
-<p class="proof">
-	又一积分学的证明.
-	分别在 `[a, b]` 和 `[a, sqrt(a b)]` 上对 `f(x) = 1/x`
-	应用曲边梯形不等式, 有
-	<span class="formula">
-		`2/(a+b) lt (ln b - ln a)/(b-a)`,<br/>
-		`(ln sqrt(a b) - ln a)/(sqrt(a b) - a) lt (a^-1 + (a b)^(-1/2))/2`.
-	</span>
-	整理即得结论.
-</p>
-
-<p class="proof">
-	微分学的证明. 先证明 `b = 1` 的情形:
-	<span class="formula">
-		`sqrt x lt (x-1)/(ln x) lt (x+1)/2`,
-		<span class="label" id="for-lnx-estimate"></span>
-	</span>
-	即证
-	<span class="formula">
-		`sqrt x - 1/sqrt x lt ln x lt 2(x-1)/(x+1)`, `quad 0 lt x lt 1`,<br/>
-		`2(x-1)/(x+1) lt ln x lt sqrt x - 1/sqrt x`, `quad x gt 1`.
-	</span>
-	换言之, `ln x` 的值介于 `sqrt x - 1/sqrt x` 和 `2(x-1)/(x+1)` 之间,
-	且三者的函数图像在 `x=1` 时相交.  设
-	<span class="formula">
-		`f(x) = sqrt x - 1/sqrt x - ln x`,
-		`quad g(x) = 2 (x-1)/(x+1) - ln x`.
-	</span>
-	计算知 `f(1) = g(1) = 0`, 且在 `(0, +oo)` 上
-	`f'(x) gt 0`, `g'(x) lt 0`.
-	于是 <a class="ref" href="#for-lnx-estimate"></a> 成立.<br/>
-	取 `x = a/b`, 再在不等号两边同乘 `b` 即得证.
-</p>
-
-<ol class="example">
-	证明:
-	<li>`"e"^x ge 1 + x`, 等号成立当且仅当 `x = 0`;</li>
-	<li>`prod_(n ge 1) (1 + 1/3^n) le sqrt "e"`.</li>
-</ol>
-
-<ol class="proof">
-	<li>设 `f(x) = "e"^x - x - 1`, 则 `f(0) = 0`, 且
-		<span class="formula">
-			`f'(x) = "e"^x - 1 {
-				gt 0, if x gt 0;
-				lt 0, if x lt 0
-			:}`
-		</span>
-		于是结论成立.
-	</li>
-	<li>应用 1. 的结论,
-		<span class="formula">
-			`prod_(n ge 1) (1 + 1/3^n)`
-			`le prod_(n ge 1) "e"^(3^-n)`
-			`= exp(sum_(n ge 1) 3^-n)`
-			`= sqrt "e"`.
-		</span>
-	</li>
-</ol>
-
-<p class="example">
-	证明 `x gt 1` 时, `x^2-1 gt 2 x ln x`.
-</p>
-
-<p class="proof">
-	在对数均值不等式中取 `a = x^2`, `b = 1`, 则
-	<span class="formula">
-		`sqrt(x^2) lt (x^2 - 1)/(ln x^2)`,
-	</span>
-	整理即得结果.
-</p>
-
-<p class="example">
-	若 `f(x) = "e"^x - a x` 有两个不同的零点 `x_1`, `x_2`, 则
-	<span class="formula">
-		`x_1 x_2 lt 1`, `quad 2 lt x_1 + x_2 lt 2 ln a`.
-	</span>
-</p>
-
-<p class="proof">
-	由题意
-	<span class="formula">
-		`"e"^(x_1) = a x_1`, `quad "e"^(x_2) = a x_2`,
-	</span>
-	取对数得
-	<span class="formula">
-		`x_1 = ln a + ln x_1`, `quad x_2 = ln a + ln x_2`.
-		<span class="label" id="for-zeros-e^x-ax"></span>
-	</span>
-	因此 `x_1 - x_2 = ln x_1 - ln x_2`. 由对数均值不等式有
-	<span class="formula">
-		`sqrt(x_1 x_2) lt 1 lt (x_1+x_2)/2`,
-	</span>
-	从而得 `x_1 x_2 lt 1`, `x_1 + x_2 gt 2`.
-	再由 <a class="ref" href="#for-zeros-e^x-ax"></a> 得到
-	`x_1 + x_2 = 2 ln a + ln x_1 x_2 lt 2 ln a`.
-</p>
-
-<p class="example">
-	若 `f(x) = ln x + 2/x - a` 有两个不同的零点 `x_1, x_2`, 则
-	<span class="formula">
-		`x_1 + x_2 gt 4`, `quad x_1 x_2 gt 4`.
-	</span>
-</p>
-
-<p class="proof">
-	由题意
-	<span class="formula">
-		`ln x_1 = a - 2/x_1`, `quad ln x_2 = a - 2/x_2`,
-	</span>
-	因此
-	<span class="formula">
-		`ln x_1^-1 = 2 x_1^-1 - a`, `quad ln x_2^-1 = 2 x_2^-1 - a`.
-	</span>
-	应用对数均值不等式,
-	<span class="formula">
-		`2/(x_1+x_2) lt sqrt(x_1^-1 x_2^-1)`
-		`lt (x_1^-1 - x_2^-1)/(ln x_1^-1 - ln x_2^-1) = 1/2`,
-	</span>
-	即 `x_1 + x_2 gt 4`, `x_1 x_2 gt 4`.
-</p>
-
-<p class="example">
-	设 `a, b gt 0`, `r gt 1`, 证明 `(a+b)^r gt a^r + b^r`.
-</p>
-
-<p class="proof">
-	设 `x = a/b`, 只需证 `x gt 0` 时 `(1+x)^r - x^r gt 1`.
-	设 `f(x) = (1+x)^r - x^r`, 则 `f(0) = 1`, 且 `x gt 0` 时 `f'(x)
-	= r(1+x)^(r-1) - r x^(r-1) gt 0`, 因此不等式成立.
-</p>
-
-<p class="theorem">
-	<b>Jensen 不等式的积分形式</b>
-	设 `x(t)` 在 `[a, b]` 上可积, 值域含于区间 `I`;
-	`f` 是区间 `I` 上连续的下凸函数;
-	`w(t)` 在 `[a, b]` 上可积, `w(t) gt 0`, 且 `int_a^b w(t) dt = 1`, 则
-	<span class="formula">
-		`f(int_a^b w(t) x(t) dt)`
-		`le int_a^b w(t) f(x(t)) dt`.
-	</span>
-	特别取 `w(t) -= 1/(b-a)` 得,
-	<span class="formula">
-		`f(1/(b-a) int_a^b x(t) dt)`
-		`le 1/(b-a) int_a^b f(x(t)) dt`.
-	</span>
-	取 `g = -f` 知, 对上凸函数成立反向的不等号.<br/>
-	[<a href="https://wenku.baidu.com/view/ea9c16d649649b6648d7471a.html">欧阳资考.  2011. 利用凸函数证明积分不等式. 高等教育, 第 107 期</a>]
-</p>
-
-<p class="proof">
-	易知不等式中出现的积分都有意义.
-	将 `[a, b]` `n` 等分, 记 `h = (b-a)//n`, `t_k = a+k h`,
-	`x_k = x(t_k)`, `w_k = w(t_k)`,
-	`y_k = w_k/(sum_(k=1)^n w_k)`, `k = 1, 2, cdots, n`.
-	因为 `f` 为上凸函数, 由 Jensen 不等式,
-	<span class="formula">
-		`f(sum_(k=1)^n x_k y_k)`
-		`le sum_(k=1)^n f(x_k) y_k`,
-	</span>
-	即
-	<span class="formula">
-		`f((sum_(k=1)^n w_k x_k h)/(sum_(k=1)^n w_k h))`
-		`le (sum_(k=1)^n w_k f(x_k) h)/(sum_(k=1)^n w_k h)`.
-	</span>
-	令 `n to oo`, 注意 `f` 的连续性, 极限符号可转移到 `f` 的括号内.
-	从而由定积分的定义即得结果.
-</p>
-
-<p class="remark">
-	假设定理中的 `x(t)` 在 `[a,b]` 上单调增, 于是 `f @ x` 仍是 `[a,b]`
-	上的下凸函数, 类比曲边梯形不等式的证明方法可以得到,
-	<span class="formula">
-		`1/(b-a) int_a^b f(x(t)) dt le (f(x(a)) + f(x(b)))/2`.
-	</span>
-</p>
-
-<p class="definition">
-	<b>`bm p` 方可积</b>
-	设 `p ge 1`, 函数 `f` 在定义域 `[a,b]` 上只有有限个瑕点, 且 `f`
-	在任意不含这些瑕点的闭子区间上都 Riemann 可积. 如果 `|f(x)|^p` 在
-	`[a,b]` 上广义 Riemann 可积, 即瑕积分
-	<span class="formula">
-		`int_a^b |f(x)|^p dx lt oo`,
-	</span>
-	则称 `f` 在 `[a,b]` 上 <b>`bm p` 方可积</b>. 特别当 `p = 1` 时,
-	称 `f` 在 `[a,b]` 上<b>绝对可积</b>, `p = 2` 时, 称 `f` 在 `[a,b]`
-	上<b>平方可积</b>.
-</p>
-
-<p class="corollary">
-	`p` 方可积函数的任意线性组合也 `p` 方可积.
-</p>
-
-<p class="proof">
-	设 `f,g` 在 `[a,b]` 上 `p` 方可积, 显然对任意常数 `c`,
-	函数 `c f` 也在 `[a,b]` 上 `p` 方可积. 下证函数 `f+-g` 在 `[a,b]` 上
-	`p` 方可积. 只需注意对 `AA x in [a,b]` 有
-	<span class="formula">
-		`|f(x) +- g(x)|^p`
-		`le (|f(x)|+|g(x)|)^p`
-		`le (2 max{|f(x)|, |g(x)|})^p`
-		`= 2^p max{|f(x)|^p, |g(x)|^p}`
-		`le 2^p (|f(x)|^p + |g(x)|^p)`,
-	</span>
-	据此立得结论.
-</p>
-
-<p class="corollary">
-	设 `1 le p lt q`, 若函数 `f` 在 `[a,b]` 上 `q` 方可积, 则它也在
-	`[a,b]` 上 `p` 方可积.
-</p>
-
-<p class="theorem">
-	<b>Hölder 不等式</b>
-	设 `p, q gt 1` 且 `1/p+1/q = 1`. 如果 `f` 在 `[a,b]` 上 `p` 方可积,
-	`g` 在 `[a,b]` 上 `q` 方可积, 则乘积 `f g` 在 `[a,b]` 上绝对可积,
-	且
-	<span class="formula">
-		`int_a^b |f(x)g(x)| dx`
-		`le (int_a^b |f(x)|^p dx)^(1/p) (int_a^b |g(x)|^q dx)^(1/q)`.
-	</span>
-	特别取 `p = q = 2`, 得到 Cauchy 不等式
-	<span class="formula">
-		`int_a^b |f(x) g(x)| dx`
-		`le sqrt(int_a^b |f(x)|^2 dx) sqrt(int_a^b |g(x)|^2 dx)`.
-	</span>
-</p>
-
-<p class="proof">
-	记 `int_a^b |f(x)|^p dx = A`, `int_a^b |g(x)|^q dx = B`. 使用 Young
-	不等式, 对 `AA x in [a,b]` 有
-	<span class="formula">
-		`(|f(x)|^p/A)^(1/p) (|g(x)|^q/B)^(1/q)`
-		`le 1/p |f(x)|^p/A + 1/q |g(x)|^q/B`.
-	</span>
-	因为不等式右端函数在 `[a,b]` 上广义可积, 所以左端也可以. 积分得
-	<span class="formula">
-		`1/(A^(1/p) B^(1/q)) int_a^b |f(x) g(x)| dx`
-		`le 1/p + 1/q = 1`.
-	</span>
-	所以原不等式成立.
-</p>
-
-<p>	下面两个不等式可以仿照上文对应不等式来证明.</p>
-
-<p class="theorem">
-	<b>Minkowski 不等式</b>
-	设 `p ge 1`, `f, g` 都在 `[a,b]` 上 `p` 方可积, 则
-	<span class="formula">
-		`(int_a^b |f(x) + g(x)|^p dx)^(1/p)`
-		`le (int_a^b |f(x)|^p dx)^(1/p) + (int_a^b |g(x)|^p dx)^(1/p)`.
-	</span>
-</p>
-
-<p class="theorem">
-	<b>幂平均值不等式</b>
-	设 `f` 在 `[a,b]` 上 `p` 方可积, `p ge 1`, 则函数
-	<span class="formula">
-		`(1/(b-a)int_a^b|f(x)|^alpha dx)^(1/alpha)`
-	</span>
-	关于参数 `alpha` 单调递增.
-</p>
-
 <h2>三元不等式</h2>
 
 <h3>两个记号</h3>
@@ -1291,7 +979,8 @@
 	在 `x="e"` 处等于零, 在 `(0, "e")` 上大于零, `("e", +oo)` 上小于零,
 	所以 `x = "e"` 是 `f` 的唯一极大值点.
 	根据这些信息, 在 `a, b` 同大于 `"e"` 或同小于 `"e"`
-	时就容易判断 `a^b` 和 `b^a` 的大小.
+	时就容易判断 `a^b` 和 `b^a` 的大小. 如 `ln "e"//"e" gt ln pi // pi`,
+  因此 `"e"^pi gt pi^"e"`.
 </p>
 
 <ol class="example">
@@ -1585,41 +1274,6 @@
 	又作直角 `C` 的平分线 `CP = x`. 题目条件即化为 `PA + PB le AB`.
 	这推出 `P` 位于线段 `AB` 上, `x` 即为角平分线长.
 </p>
-
-<ol class="example">
-	<b>从指对数不等式到 Lambert W 函数</b>
-	<li>
-	在不等式 `"e"^t ge t+1` 中令 `t = a x + ln x` (`a != 0`) 得
-	<span class="formula">
-		`x "e"^(a x) ge a x + ln x + 1`, 等号成立当且仅当 `t = 0`.
-	</span>
-	从而得到:
-	不等式 `x"e"^(a x) ge b x + ln x + 1` 对所有 `x gt 0`
-	成立当且仅当 `a ge b`.
-	</li>
-	<li>现在考虑等号成立的条件
-		<span class="formula">
-			`a x + ln x = 0`, 或 `x "e"^(a x) = 1`.
-		</span>
-		记 `x "e"^x` 的反函数为 Lambert W 函数 `W(x)`,
-		即 `W(x) "e"^(W(x)) = x`.
-		于是原方程化为 `a x"e"^(a x) = a`, 得到 `x = W(a)//a`.
-	</li>
-	<li>用 Lambert W 函数求解
-		<span class="formula">
-			`a/x + ln x = 0`, 或 `x "e"^(a/x) = 1`.
-		</span>
-		两边取倒数再同乘 `-a` 得 `-a/x "e"^(-a/x) = -a`,
-		于是 `-a/x = W(-a)`, `x = -a // W(-a)`.
-	</li>
-	<li>用 Lambert W 函数求解
-		<span class="formula">
-			`x^x = a`, 或 `x ln x = ln a`.
-		</span>
-		方程化为 `"e"^(ln x) ln x = ln a`,
-		于是 `ln x = W(ln a)`, `x = "e"^(W(ln a))`.
-	</li>
-</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

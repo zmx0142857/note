@@ -225,7 +225,7 @@ function decorateHeading(maxLevel) {
     var cnt = 0;
     if (level > lastLevel) {
       nums.push(cnt);
-      decorateH(lastLevel+1);
+      decorateH(lastLevel+1, parentNode);
     }
     while (level == lastLevel) {
       var li;

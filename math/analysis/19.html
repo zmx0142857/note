@@ -240,10 +240,10 @@
 	</span>
 	令 `u = h_2/sqrt(R^2-z^2)`, 则 `z = sqrt(R^2-(h_2/u)^2)`. 分部积分,
 	<span class="formula">
-		`S = 2R [sqrt(R^2-(h_2/u)^2) arccos u]_(h_2//r_1)^1 + 2R
-		int_(h_2//r_1)^1 sqrt(R^2 - (h_2/u)^2) * ("d"u)/sqrt(1-u^2)`
+		`S = 2R [sqrt(R^2-(h_2/u)^2) arccos u]_(h_2//r_1)^1`
+    `+ 2R int_(h_2//r_1)^1 sqrt(R^2 - (h_2/u)^2) ("d"u)/sqrt(1-u^2)`
 		`= -2 R h_1 arccos {:h_2/r_1:} + R int_(h_2//r_1)^1 sqrt((R^2 u^2
-		- h_2^2)/(1-u^2)) * ("d"(u^2))/u^2`.
+		- h_2^2)/(1-u^2)) ("d"(u^2))/u^2`.
 	</span>
 	因为
 	<span class="formula">
@@ -259,10 +259,10 @@
 	所以
 	<span class="formula">
 		`R int_(h_2//r_1)^1 sqrt((R^2 u^2 - h_2^2)/(1-u^2)) ("d"(u^2))/u^2`
-		`= 2R [R arctan 1/R sqrt((R^2 u^2 - h_2^2)/(1-u^2)) - h_2 arctan
-		1/h_2 ((R^2 u^2 - h_2^2)/(1-u^2))]_(h_2//r_1)^1`
-		`= pi R(R-h_2) - 2R(R arctan {:(h_1 h_2)/(R sqrt(r_1^2-h_2^2)):}
-		- h_2 arctan{:h_1/sqrt(r_1^2-h_2^2):})`
+		`= 2R [R arctan sqrt((u^2 - h_2^2//R^2)/(1-u^2)) - h_2 arctan
+		sqrt((R^2 u^2//h_2^2 - 1)/(1-u^2))]_(h_2//r_1)^1`
+		`= 2R(R "arccot" {:(h_1 h_2)/(R sqrt(r_1^2-h_2^2)):}
+		- h_2 "arccot" {:h_1/sqrt(r_1^2-h_2^2):})`
 		`= 2R(R arccos{:(h_1 h_2)/(r_1 r_2):} - h_2 arccos{:h_1/r_2:})`.
 	</span>
 	最终
@@ -295,13 +295,13 @@
 </p>
 
 <p class="solution">
-	现用垂直于 `x` 轴的平面将所求曲面分成许多小曲面,
-	转而求每个小曲面在平面 `yOz` 上投影所占的圆心角 `alpha(x)`.
+  在 `x` 方向上取微元 `dx`, 这一小块曲面在 `yOz` 平面上投影的半径为
+  `sqrt(R^2-x^2)`, 下面求圆心角 `alpha(x)`.
 	<span class="img" id="gra-sphere-area-006">
 		<img src="../img/sphere-area-006.png" />
 	</span>
-	<a class="ref" href="#gra-sphere-area-006"></a>是其中的一个截面.
-	由图知
+  如图 <a class="ref" href="#gra-sphere-area-006"></a>, (图中
+  O 点应为球心在 `yOz` 平面的投影)
 	<span class="formula">
 		`cos angle BOC = h_1/sqrt(R^2-x^2)`,
 		`quad cos angle AOD = h_2/sqrt(R^2-x^2)`.
@@ -324,31 +324,34 @@
 	</span>
 	所以
 	<span class="formula">
-		`int_0^(x_0) arccos h_1/sqrt(R^2-x^2) dx`
-		`= [sqrt(R^2-(h_1/u)^2) arccos u`
-		  `+ R arctan 1/R sqrt((R^2 u^2 - h_1^2)/(1-u^2))`
-		  `- h_1 arctan 1/h_1 sqrt((R^2 u^2-h_1^2)/(1-u^2))]
-		  _(h_1 // R)^(h_1 sin varphi // d)`
+    `int_0^(x_0) arccos{:h_1/sqrt(R^2-x^2):}dx`<br/>
+		`= x_0 arccos{:(h_1 sin varphi)/d:}`
+		  `+ [R arctan sqrt((u^2 - h_1^2//R^2)/(1-u^2))`
+		  `- h_1 arctan sqrt((R^2 u^2//h_1^2-1)/(1-u^2))]
+      _(h_1 // R)^(h_1 sin varphi // d)`<br/>
 		`= x_0 arccos{:(h_1 sin varphi)/d:}
 		  + R arctan{:(h_1 x_0 sin varphi)/(R sqrt(d^2-h_1^2 sin^2
-		  varphi)):}
-		  - h_1 arctan{:(x_0 sin varphi)/sqrt(d^2 - h_1^2 sin^2 varphi):}`
+		  varphi)):}`
+		  `- h_1 arctan{:(x_0 sin varphi)/sqrt(d^2 - h_1^2 sin^2
+      varphi):}`<br/>
 		`= x_0 arccos{:(h_1 sin varphi)/d:}
-		  + R arccos{:(R sin varphi sqrt(r_1^2 - x_0^2))/(r_1 d):}
-		  - h_1 arccos{:sqrt(r_1^2 - x_0^2)/r_1:}`.
+		  + R arcsin(x_0/r_1 (h_1 sin varphi)/d)
+		  - h_1 arcsin{:x_0/r_1:}`.
 	</span>
 	最终
 	<span class="formula">
 		`S = 2R int_0^(x_0) (arccos {:h_1/sqrt(R^2-x^2):}`
-		  `+ arccos {:h_2/sqrt(R^2-x^2):} - varphi) dx`
-		`= 2R( x_0 arccos{:(h_1 sin varphi)/d:}`
-		  `+ R arccos{:(R sin varphi sqrt(r_1^2 - x_0^2))/(r_1 d):}`
-		  `- h_1 arccos{:sqrt(r_1^2 - x_0^2)/r_1:}`
-		  `+ x_0 arccos{:(h_2 sin varphi)/d:}`
-		  `+ R arccos{:(R sin varphi sqrt(r_2^2 - x_0^2))/(r_2 d):}`
-		  `- h_2 arccos{:sqrt(r_2^2 - x_0^2)/r_2:}
-		  - x_0 varphi)`.
+    `+ arccos {:h_2/sqrt(R^2-x^2):} - varphi) dx`<br/>
+		`= 2R sum_(i=1,2) (x_0 arccos{:(h_i sin varphi)/d:}`
+		  `+ R arcsin(x_0/r_i (h_i sin varphi)/d)`
+      `- h_i arcsin{:x_0/r_i:}) - 2R x_0 varphi`<br/>
+		`= 2R x_0(pi -2varphi) + 2R sum_(i=1,2)
+    (R arcsin(x_0/r_i (h_i sin varphi)/d)
+		- h_i arcsin{:x_0/r_i:})`.
 	</span>
+  其中 `arccos {:(h_i sin varphi)/d:}` 表示直线 `O_1 O_2` 与平面 `3-i`
+  的夹角; `arcsin{:x_0/r_1:}` 表示圆 `O_i` 的圆心角的一半;
+  `arcsin(x_0/r_i (h_i sin varphi)/d)` 表示 ??
 </p>
 
 <script src="../../js/note.js?type=math"></script>
