@@ -399,7 +399,7 @@
 
 <ol class="lemma">
 	<li>`sum_(k=n)^oo 1/(k(k+1) cdots (k+m))`
-		`= 1/(m n(n+1)cdots(n+m-1))`.
+		`= 1/(m n(n+1)cdots(n+m-1))`
 	</li>
 	<li>设 `m ge 1`, 当 `n to oo` 时有 `sum_(k=n)^oo 1/k^(m+1) ~ 1/(m n^m)`.
 	</li>
@@ -407,7 +407,7 @@
 
 <ol class="proof">
 	<li>等式左边记为 `T_(m, n)`.
-		显然 `m ge 1` 时级数收敛. 直接计算
+		显然 `m ge 1` 时级数收敛. 对 `m` 归纳证明, `m = 1` 时结论成立; 直接计算
 		<span class="formula">
 			`T_(m+1,n) = sum_(k=n)^oo 1/(k(k+1)cdots(k+m+1))`
 			`= sum_(k=n)^oo 1/(k(k+1)cdots(k+m)) - sum_(k=n)^oo
@@ -436,6 +436,14 @@
 		令 `n to oo`, 由两边夹法则即得结论.
 	</li>
 </ol>
+
+<p class="remark">
+  记 `n^(ul(-m)) = prod_(1 le i le m) (n+i)^-1 = 1/((n+1)(n+2) cdots (n+m))`, 结论简记为
+  <span class="formula">
+    `sum_(k ge n) k^(ul(-m-1)) = 1/m n^(ul(-m))`.
+  </span>
+  注意类比 `int_n^oo x^(-m-1) dx = 1/m n^-m`.
+</p>
 
 <ol class="example">
 	记 `a_n = sum_(k=1)^n 1/k - ln n`, 则
