@@ -320,11 +320,11 @@
 </ol>
 
 <p class="example">
-    求不定积分 `int dx/(1+x^n)`, 其中 `n = 3, 4, 6`.
+    求不定积分 `int dx/(1+x^n)`, 其中 `n = 3, 4, 5, 6`.
 </p>
 
 <ol class="solution">
-    <li>原式等于
+    <li>`n = 3`, 原式等于
         <span class="formula">
             `1/3 int(1/(1+x) + (2-x)/(1-x+x^2)) dx`
             `= 1/3 int dx/(1+x) -1/6 int (2x-1)/(x^2-x+1) dx + 1/2 int
@@ -333,7 +333,7 @@
             arctan{:(2x-1)/(sqrt3):} + C`.
         </span>
     </li>
-    <li>原式等于
+    <li>`n = 4`, 原式等于
         <span class="formula">
             `1/2 int (1+x^2)/(1+x^4) dx + 1/2 int (1-x^2)/(1+x^4) dx`
             `= 1/2 int (1+1/x^2)/(x^2+1/x^2) dx
@@ -344,7 +344,7 @@
             -1/(4sqrt2) ln|(x+1/x-sqrt2)/(x+1/x+sqrt2)| + C`.
         </span>
     </li>
-    <li>原式等于
+    <li>`n = 6`, 原式等于
         <span class="formula">
             `1/3 int dx/(x^2+1) + 1/3 (2-x^2)/(x^4-x^2+1) dx`
             `= 1/3 arctan x
@@ -362,6 +362,16 @@
             `= -int ("d"(x+1/x))/((x+1/x)^2-3)`
             `= -1/(2sqrt3) ln |(x+1/x-sqrt3)/(x+1/x+sqrt3)| + C`.
         </span>
+    </li>
+    <li>`n = 5`, 用软件得到答案
+      <span class="formula">
+        `1/5 ln(1+x)`
+        `+ (sqrt5-1)/(sqrt5 sqrt(10-2sqrt5)) arctan{:(4x-1-sqrt5)/sqrt(10-2sqrt5):}`
+        `+ (sqrt5+1)/(sqrt5 sqrt(10+2sqrt5)) arctan{:(4x-1+sqrt5)/sqrt(10+2sqrt5):}`
+        `- (3+sqrt5)/(10(1+sqrt5)) ln(2x^2+2-(1+sqrt5)x)`
+        `- (3-sqrt5)/(10(1-sqrt5)) ln(2x^2+2-(1-sqrt5)x) + C`.
+      </span>
+      什么, 你想手算? 我是不想🥀.
     </li>
 </ol>
 
@@ -534,16 +544,16 @@
 		`2 sin n x sin m x = cos(n-m)x - cos(n+m)x`.
 	</span>
 	把两个展式相乘. 例如
-	<span class="formula">
-		`sin^4 x cos^7 x`
-		`= ((sin 2x)/2)^4 cos^3 x`
-		`= 1/128 (3 - 4 cos 4x + cos 8x) 1/4 (3 cos x + cos 3x)`
-		`= 1/512 (9 cos x + 3 cos 3x - 6(cos 3x + cos 5x)`
-		`- 2(cos x + cos 7x) + 3/2(cos 7x + cos 9x)`
-		`+ 1/2(cos 5x + cos 11x))`
-		`= 1/1024 (14 cos x -6 cos 3x -11 cos 5x`
-		`- cos 7x + 3 cos 9x + cos 11x)`.
-	</span>
+  <span class="formula">
+    `sin^4 x cos^7 x`
+    `= ((sin 2x)/2)^4 cos^3 x`
+    `= 1/128 (3 - 4 cos 4x + cos 8x) 1/4 (3 cos x + cos 3x)`
+    `= 1/512 (9 cos x + 3 cos 3x - 6(cos 3x + cos 5x):}`
+    `- 2(cos x + cos 7x) + 3/2(cos 7x + cos 9x)`
+    `+ {:1/2(cos 5x + cos 11x))`
+    `= 1/1024 (14 cos x -6 cos 3x -11 cos 5x:}`
+    `- {:cos 7x + 3 cos 9x + cos 11x)`.
+  </span>
 </p>
 
 <p class="example">

@@ -99,7 +99,6 @@
 	<li>`"e"^x ge 1 + x`, 等号成立当且仅当 `x = 0`;</li>
   <li>`"e"^x le 1/(1-x)` (`x lt 1`), 等号成立当且仅当 `x = 0`;</li>
   <li>`1-1/x le ln x le x-1`, 等号成立当且仅当 `x = 1`;</li>
-	<li>`prod_(n ge 1) (1 + 1/3^n) le sqrt "e"`.</li>
 </ol>
 
 <ol class="proof">
@@ -116,7 +115,21 @@
   <li>由 1. 取对数得 `x ge ln(1+x)`, 换元 `x = x-1`, 得 `x - 1 ge ln x`;
     再换元 `x = 1/x`, 得 `1/x - 1 ge -ln x`.
   </li>
-	<li>应用 1. 的结论,
+</ol>
+
+<p class="remark">
+  注意, 要证的不等式中含有分式时, 一般要将其线性化为整式, 再求导证明.
+  如 `"e"^x le 1//(1-x)` 直接求导只会越求越繁.
+</p>
+
+<ol class="example">
+	<li>`prod_(n ge 1) (1 + 1/3^n) le sqrt "e"`;</li>
+  <li>`1/2 3/4 5/6 cdots = 0`.</li>
+</ol>
+
+<ol class="proof">
+  利用不等式 `"e"^x gt 1 + x`,
+	<li>
 		<span class="formula">
 			`prod_(n ge 1) (1 + 1/3^n)`
 			`le prod_(n ge 1) "e"^(3^-n)`
@@ -124,12 +137,12 @@
 			`= sqrt "e"`.
 		</span>
 	</li>
+  <li>
+    原式等于 `(1-1/2)(1-1/4)(1-1/6)`
+    `le "e"^(-1/2-1/4-1/6 cdots)`
+    `to "e"^-oo = 0`.
+  </li>
 </ol>
-
-<p class="remark">
-  注意, 要证的不等式中含有分式时, 一般要将其线性化为整式, 再求导证明.
-  如 `"e"^x le 1//(1-x)` 直接求导只会越求越繁.
-</p>
 
 <p class="example">
 	证明 `x gt 1` 时, `x^2-1 gt 2 x ln x`.
