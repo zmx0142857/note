@@ -29,6 +29,24 @@
 	解出 `sqrt a`, `sqrt b` 即得结论.
 </p>
 
+<p class="example">
+  化简 `root 3 (20-14sqrt2) + root 3(20+14sqrt2)`
+</p>
+
+<p class="solution">
+  待定系数
+  <span class="formula">
+    `(a + b sqrt2)^3 = (a^3 + 6 a b^2 + (3 a^2 b + 2 b^3)) sqrt2`,
+  </span>
+  从而
+  <span class="formula">
+    `a^3 + 6 a b^2 = 20`,
+    `quad 3 a^2 b + 2 b^3 = 14`
+  </span>
+  (??)
+</p>
+
+
 <h2>三次方程与四次方程</h2>
 
 <p class="example">
@@ -240,7 +258,7 @@
 		<span class="formula">
 			`2 * root 3 r cos(theta/3 + varphi)`,
 			`quad varphi = 0, (2pi)/3, (4pi)/3`.
-		</span> 
+		</span>
 	</li>
 	<li>`Delta = 0` 时, 方程有一个一重实根 `-2 root 3(q/2)`,
 		一个两重实根 `root 3(q/2)`.
@@ -323,6 +341,7 @@
 		特别地, 首一的整系数多项式, 其有理根只能是整数.
         证明参考<a href="../number/0.html#the-rational-root">这里</a>.
 	</li>
+  <li><b>Gauss 引理</b> 若 `ZZ` 上的多项式 `f` 在 `QQ` 上可约, 则它在 `ZZ` 上可约.</li>
 	<li>`QQ` 上既约多项式的 Eisenstein 判别法.  令
     <span class="formula">
       `f(x) = a x^n + p c_(n-1)  x^(n-1) + cdots + p c_1 x + p b`
@@ -332,6 +351,32 @@
     上既约.
 	</li>
 </ol>
+
+<p class="example">
+  [题源网络] 郭小弟有四個女朋友，恰好一個比一個大兩歲，且他們年齡的乘積是 3465，請問最大的女孩年齡是多少？
+</p>
+
+<p class="solution">
+  设她们年龄的平均值是 `x`, 则
+  <span class="formula">
+    `(x+1)(x-1)(x+3)(x-3) = 3465`,
+  </span>
+  上式可轻松化为 `x^2` 的二次方程, 这就避免了四次方程.
+  解得 `x = 8`, 于是四个女朋友的年龄分别是 <span class="box">5, 7, 9, 11</span> 😅.
+</p>
+
+<p class="example">
+  解方程 `x^4 + 5 x^3 + 2 x^2 + 20 x + 16 = 0`.
+</p>
+
+<p class="solution">
+  假设左边可以分解为 `(x^2 + a x + 4)(x^2 + b x + 4)`, 则
+  <span class="formula">
+    `a + b = 5`, `quad a b + 8 = 2`, `quad 4(a + b) = 20`.
+  </span>
+  于是 `a, b` 是方程 `y^2 - 5 y - 6 = 0` 的两根, `a, b in {6, -1}.
+  后面的处理是容易的.
+</p>
 
 <h2>对称多项式</h2>
 
