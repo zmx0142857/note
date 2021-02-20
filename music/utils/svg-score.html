@@ -15,7 +15,7 @@ svg {
   margin: 0 auto;
 }
 svg text {
-  font-family: "Noto Music", "Noto Sans" sans-serif;
+  font-family: "Noto Music", "Noto Sans", "Microsoft YaHei", sans-serif;
   font-size: 14px;
   letter-spacing: 0.1em;
 }
@@ -114,8 +114,8 @@ class Note {
     const note = $svg('text', {
       x: this.x,
       y: this.y,
-      'text-anchor': 'middle',
-      'alignment-baseline': 'middle',
+      //'text-anchor': 'middle',
+      //'alignment-baseline': 'middle',
     })
     $text(this.dict[this.type]).appendTo(note).addClass('note').appendTo(this.score)
   }
@@ -136,14 +136,31 @@ class Clef {
     const clef = $svg('text', {
       x: this.x,
       y: this.y,
-      'text-anchor': 'middle',
-      'alignment-baseline': 'middle'
+      //'text-anchor': 'middle',
+      //'alignment-baseline': 'middle'
     })
     $text(this.dict[this.type]).appendTo(clef).addClass('clef').appendTo(this.score)
   }
 }
 
-const config = {
+function init(config) {
+  const score = new Score(config.score)
+  const classes = ['Staff', 'Clef', 'Note']
+  classes.forEach(cls => {
+    const constructor = eval(cls)
+    const key = cls.toLowerCase()
+    if (Array.isArray(config[key])) {
+      config[key].forEach(obj => {
+        new constructor({...obj, score}).show()
+      })
+    } else {
+      new constructor({...config[key], score}).show()
+    }
+  })
+  score.show()
+}
+
+init({
   score: {
     id: 'score',
     width: 1000,
@@ -155,28 +172,19 @@ const config = {
     { lines: 5, top: 230 },
   ],
   clef: [
-    { type: 'treble', x: 25, y: 70 },
-    { type: 'treble', x: 25, y: 170 },
-    { type: 'treble', x: 25, y: 270 },
+    { type: 'treble', x: 15, y: 70 },
+    { type: 'treble', x: 15, y: 170 },
+    { type: 'treble', x: 15, y: 270 },
   ],
-  note: { type: '8', x: 100, y: 50 }
-}
-
-const score = new Score(config.score)
-const classes = ['Staff', 'Clef', 'Note']
-classes.forEach(cls => {
-  const constructor = eval(cls)
-  const key = cls.toLowerCase()
-  if (Array.isArray(config[key])) {
-    config[key].forEach(obj => {
-      new constructor({...obj, score}).show()
-    })
-  } else {
-    new constructor({...config[key], score}).show()
-  }
+  note: [
+    { type: '8', x: 80, y: 79 },
+    { type: '8', x: 120, y: 74 },
+    { type: '8', x: 160, y: 69 },
+    { type: '8', x: 200, y: 64 },
+    { type: '8', x: 240, y: 59 },
+    { type: '4', x: 280, y: 54 },
+  ]
 })
-score.show()
-
 </script>
 </body>
 </html>
