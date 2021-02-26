@@ -221,12 +221,47 @@
 	`tan x tan y = (cos(x-y) - cos(x+y))/(cos(x-y)-cos(x+y))`.
 </span>
 
-<p class="theorem" id="the-sin-prod">
-	`prod_(0 lt k lt n) sin {:(k pi)/n:} = (2n)/2^n`,
-	`prod_(1 le k le n) cos {:(k pi)/(2n+1):} = 2^-n`.
+<p class="theorem">
+  <b>三角函数求和公式</b>
+  `x` 不等于 `2pi` 的整数倍时,
+	<span class="formula">
+		`sum_(k=1)^n cos kx`
+		`= cos {:((n+1)x)/2:} sin {:(nx)/2:} // sin{:x/2:}`,<br/>
+		` sum_(k=1)^n sin kx
+		= sin {:((n+1)x)/2:} sin {:(nx)/2:} // sin {:x/2:}`.
+	</span>
+  特别取 `x = 2pi//n`,
+	<span class="formula">
+		`sum_(k=1)^n cos {:(2k pi)/n:}`
+		`= sum_(k=1)^n sin {:(2k pi)/n:} = 0`.
+	</span>
+	这个等式的几何意义是,
+	向量组 `( cos {:(2k pi)/n:}, sin {:(2k pi)/n:} )`,
+	`k = 1, 2, cdots, n`, 中所有向量之和为零, 因为它们恰好围成一个正 `n`
+  边形.
 </p>
 
 <p class="proof">
+	只证第一式. 第二式类似. 利用积化和差与和差化积:
+	<span class="formula">
+		`2 sin{:x/2:} sum_(k=1)^n cos kx`
+		`=	sum_(k=1)^n [sin(k+1/2)x - sin(k-1/2)x]`
+		`= sin(n+1/2)x - sin{:x/2:}`
+		`= 2 cos {:((n+1)x)/2:} sin {:(nx)/2:}`.
+	</span>
+</p>
+
+<ol class="theorem" id="the-sin-prod">
+  <b>三角函数乘积公式</b>
+  <li>`prod_(0 lt k lt n) sin {:(k pi)/n:} = (2n)/2^n`;</li>
+  <li>`prod_(1 le k le n) cos {:(k pi)/(2n+1):} = 2^-n`.</li>
+  <li> `prod_(0 le k lt n) sin(theta + (k pi)/n) = 2^(1-n) sin n theta`.
+    [来自群友 我是薛定谔的猫]
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
 	取 `n` 次单位根 `x_k = "e"^((2k pi)/n "i")`, 则多项式 `x^n-1`
 	可以分解为
 	<span class="formula">
@@ -245,12 +280,29 @@
     <span class="formula">
         `n = 2^(n-1) prod_(0 lt k lt n) sin {:(k pi)/n:}`.
     </span>
+  </li>
+  <li>
 	如果令 `x = -1`, 再用 `2n+1` 替换 `n`, 同理可证
 	<span class="formula">
         `1 = 2^(2n) prod_(1 le k le 2n) cos{:(k pi)/(2n+1):}`,
 	</span>
 	从而第二个等式成立.
-</p>
+  </li>
+  <li>方程 `x^n = "e"^(-2"i"n theta)` 的 `n` 个根为 `"e"^(-2"i"(theta+(k
+    pi)/n))`, `k = 0, cdots, n-1`, 故有多项式分解
+    <span class="formula">
+      `prod_(0 le k lt n) (x-"e"^(-2"i"(theta+(k pi)/n)))`
+      `= x^n - "e"^(-2"i"n theta)`.
+    </span>
+    上式取 `x = 1`, 两边同乘 `exp("i"sum_(0 le k lt n) (theta+(k pi)/n))`
+    `= exp("i"(n theta + pi/2 (n-1)))`,
+    <span class="formula">
+      `prod_(0 le k lt n) ("e"^("i"(theta+(k pi)/n))-"e"^(-"i"(theta+(k pi)/n)))`
+      `= ("e"^("i"n theta) - "e"^(-"i"n theta)) "i"^(n-1)`,
+    </span>
+    即得证.
+  </li>
+</ol>
 
 <p>
 	<span class="formula">
@@ -926,34 +978,6 @@
 </p>
 
 <h2>杂例</h2>
-
-<p class="example">
-	证明 `x != 2m pi`, `m in ZZ` 时,
-	<span class="formula">
-		`sum_(k=1)^n cos kx`
-		`= (cos {:((n+1)x)/2:} sin {:(nx)/2:}) / sin{:x/2:}`;<br/>
-		` sum_(k=1)^n sin kx
-		= (sin {:((n+1)x)/2:} sin {:(nx)/2:}) / sin {:x/2:}`.
-	</span>
-	从而对 `AA n in ZZ^+`,
-	<span class="formula">
-		`sum_(k=1)^n cos {:(2k pi)/n:}`
-		`= sum_(k=1)^n sin {:(2k pi)/n:} = 0`.
-	</span>
-	这个等式的几何意义是,
-	向量组 `bm e_k = ( cos {:(2k pi)/n:}, sin {:(2k pi)/n:} )`,
-	`k = 1, 2, cdots, n`, 中所有向量之和为零.
-</p>
-
-<p class="proof">
-	只证第一式. 第二式类似. 利用积化和差与和差化积:
-	<span class="formula">
-		`2 sin{:x/2:} sum_(k=1)^n cos kx`
-		`=	sum_(k=1)^n [sin(k+1/2)x - sin(k-1/2)x]`
-		`= sin(n+1/2)x - sin{:x/2:}`
-		`= 2 cos {:((n+1)x)/2:} sin {:(nx)/2:}`.
-	</span>
-</p>
 
 <p class="example">
 	计算 `sin 20^@ * sin40^@ * sin80^@`.

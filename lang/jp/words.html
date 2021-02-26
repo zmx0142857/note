@@ -5,6 +5,24 @@
 <meta charset="utf-8" />
 <title>日语动词</title>
 <link rel="stylesheet" href="../../css/phonic.css"/>
+<style>
+#compares {
+  font-size: 24px;
+  margin: 0 auto;
+}
+#compares tr > td {
+  border: 1px solid #888;
+  height: 40px;
+  width: 40px;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 40px;
+}
+#compares tr:nth-child(3n) td {
+  height: 20px;
+  border: none;
+}
+</style>
 </head>
 <body>
 
@@ -470,21 +488,74 @@
 </span>
 
 <p>中日汉字对比</p>
-<p>
-壞 壊,
-乘 乗,
-步 歩,
-弹 弾,
-卷 巻,
-污 汚,
-增 増,
-赖 頼,
-歡 歓,
-劳 労,
-带 帯,
-别 別,
-每 毎,
-</p>
+<div id="compares">
+壞 壊
+乘 乗
+步 歩
+单 単
+卷 巻
+污 汚
+曾 曽
+賴 頼
+歡 歓
+劳 労
+带 帯
+别 別
+每 毎
+市 巿
+黑 黒
+对 対
+亞 亜
+换 換
+边 辺
+变 変
+樣 様
+</div>
+<script>
+function $(str) {
+  if (str[0] === '<')
+    return document.createElement(str.slice(1,-1))
+  else if (str[0] === '#')
+    return document.getElementById(str.slice(1))
+}
+
+// 数据初始化
+var compares = $('#compares')
+var data = compares.innerHTML.split('\n').filter(row => row).map(row => row.split(' '))
+
+// 数据处理
+var rowSize = 10
+var data1 = [], row1 = [], row2 = []
+for (var i = 0; i < data.length; ++i) {
+  if (i && i % rowSize == 0) {
+    data1.push(row1)
+    data1.push(row2)
+    data1.push([''])
+    row1 = []
+    row2 = []
+  }
+  row1.push(data[i][0])
+  row2.push(data[i][1])
+}
+if (i % rowSize) {
+  data1.push(row1)
+  data1.push(row2)
+}
+
+// 数据展示
+var table = $('<table>')
+table.id = 'compares'
+data1.forEach(row => {
+  var tr = $('<tr>')
+  row.forEach(cell => {
+    var td = $('<td>')
+    td.innerText = cell
+    tr.appendChild(td)
+  })
+  table.appendChild(tr)
+})
+document.body.replaceChild(table, compares)
+</script>
 <script src="../../js/phonic.js"></script>
 </body>
 </html>
