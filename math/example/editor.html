@@ -6,6 +6,12 @@
 <meta charset="utf-8"/>
 <link rel="stylesheet" href="../../css/note.css"/>
 <style type="text/css">
+button {
+  padding: 5px 17px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: linear-gradient(0,#eee,#fafafa);
+}
 #outputWrapper {
   border: 1px solid #ccc;
   background: white;
@@ -24,16 +30,22 @@
 }
 #keyboard {
   padding: 0;
+  transition: .3s ease height;
+}
+#keyboard.hidden {
+  height: 0;
 }
 #keyboard button {
   margin: 5px 0;
-  border-width: 1px;
   text-align: center;
-  min-width: 40px;
+  min-width: 20px;
   height: 40px;
 }
 #input {
   margin: 10px 0;
+}
+#output.error {
+  border: 1px solid crimson;
 }
 @media print {
   #outputWrapper {
@@ -59,27 +71,29 @@
   <button id="deleteFormula">remove</button>
   <button id="lang">asciimath</button>
   <button id="savePng">save PNG</button>
-  <div id="keyboard" hidden>
-    <button>+</button>
-    <button>-</button>
-    <button>*</button>
-    <button>/</button>
-    <button>=</button>
-    <button>^</button>
-    <button>_</button>
-    <button name="sqrt">&#x221a;</button>
-    <button name="root n"><sup>n</sup>&#x221a;</button>
-    <button name="int">&#x222b;</button>
-    <button name="sum">&Sigma;</button>
-    <button name="prod">&Pi;</button>
-    <button name="oo">&#x221e;</button>
-    <button value="1">()</button>
-    <button value="1">[]</button>
-    <button value="1">{}</button>
-    <button name="[a,b;c,d]">[..]</button>
-    <button name="``" value="1">T</button>
+  <div id="keyboard" class="hidden">
+    <button title="plus">+</button>
+    <button title="minus">-</button>
+    <button name="xx" title="times">x</button>
+    <button title="division">/</button>
+    <button title="equals">=</button>
+    <button title="supscript">^</button>
+    <button title="subscript">_</button>
+    <button name="sqrt" title="square root">&#x221a;</button>
+    <button name="root n" title="root"><sup>n</sup>&#x221a;</button>
+    <button name="int" title="integral">&#x222b;</button>
+    <button name="sum" title="summation">&Sigma;</button>
+    <button name="prod" title="product">&Pi;</button>
+    <button name="oo" title="infinity">&#x221e;</button>
+    <button value="1" title="parenthesis">()</button>
+    <button value="1" title="bracket">[]</button>
+    <button value="1" title="brace">{}</button>
+    <button value="2" title="invisible group">{::}</button>
+    <button name="[a,b;c,d]" title="matrix">[..]</button>
+    <button name="``" value="1" title="text">T</button>
+    <button name="`<br>&#10;`" title="linebreak">\n</button>
   </div>
-  <textarea id="input" rows="5" lang="asciimath"></textarea>
+  <textarea id="input" rows="5" lang="asciimath" spellcheck="false"></textarea>
 </div>
 
 <p id="help">
@@ -87,6 +101,17 @@
 </p>
 
 <script>
+function $(el) {
+  if (el[0] == '#')
+    return document.getElementById(el.slice(1));
+}
+var input = $('#input');
+var output = $('#output');
+var copy = $('#copy');
+var lang = $('#lang');
+var keyboard = $('#keyboard');
+var outputWrapper = $('#outputWrapper');
+
 function render() {
   if (input.lang == 'asciimath') {
     output.asciimath = input.value;
@@ -102,42 +127,27 @@ function render() {
   }
 }
 
+// debounce
+var timeout;
+input.oninput = function(event) {
+  if (timeout) clearTimeout(timeout);
+  timeout = setTimeout(render, 300);
+};
+
 var asciimath = {
   katexpath: '../../js/katex.min.js',
   katex: true,
-  onload: render,
+  onload: input.oninput,
 };
 </script>
 <script src="../../js/asciimath.js"></script>
 <script src="../../js/html2canvas.min.js"></script>
 <script>
-function $(el) {
-  if (el[0] == '#')
-    return document.getElementById(el.slice(1));
-}
-var input = $('#input');
-var output = $('#output');
-var copy = $('#copy');
-var lang = $('#lang');
-var keyboard = $('#keyboard');
-var outputWrapper = $('#outputWrapper');
-
-// debounce
-var timeout;
-input.onkeyup = function(event) {
-  if (timeout)
-    clearTimeout(timeout);
-  timeout = setTimeout(function() {
-    if (event.keyCode || event.which)
-      render();
-  }, 500);
-};
-
 function toggleKeyboard() {
-  if (keyboard.hidden) {
-    keyboard.removeAttribute('hidden');
+  if (keyboard.classList.contains('hidden')) {
+    keyboard.classList.remove('hidden');
   } else {
-    keyboard.hidden = true;
+    keyboard.classList.add('hidden');
   }
 }
 
@@ -181,7 +191,15 @@ function appendText(b) {
   return function() {
     input.focus();
     var i = getCaret(input);
-    input.value = input.value.substr(0,i) + text + input.value.substr(i);
+    var leftStr = input.value.substr(0,i)
+    var rightStr = input.value.substr(i)
+    var startsWithAlpha = /^[A-Za-z]/
+    var endsWithAlpha = /[A-Za-z]$/
+    if (startsWithAlpha.test(text) && endsWithAlpha.test(leftStr))
+      leftStr += ' ';
+    if (startsWithAlpha.test(rightStr) && endsWithAlpha.test(text))
+      text += ' ';
+    input.value = leftStr + text + rightStr;
     var pos = b.value ? i + parseInt(b.value): i + text.length;
     setCaret(input, pos);
     render();
@@ -275,17 +293,31 @@ savePng.onclick = function () {
     scale: 2,
     dpi: 300
   }).then(canvas => {
-      // document.body.appendChild(canvas)
-      var a = document.createElement('a')
-      a.download = getuuid(12) + '.png'
-      a.href = canvas.toDataURL()
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
+    // document.body.appendChild(canvas)
+    var a = document.createElement('a')
+    a.download = getuuid(12) + '.png'
+    a.href = canvas.toDataURL()
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
   });
 }
 
+function typewrite(str) {
+  var i = 1;
+  var interval = setInterval(() => {
+    input.value = str.slice(0, i);
+    if (i <= str.length) {
+      ++i;
+    } else {
+      clearInterval(interval);
+      render();
+    }
+  }, 50);
+}
+
 newFormula.onclick();
+//typewrite('x = (-b+-sqrt(b^2-4ac))/(2a)');
 input.value = 'x = (-b+-sqrt(b^2-4ac))/(2a)';
 </script>
 </body>

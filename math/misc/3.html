@@ -1265,6 +1265,62 @@
 </p>
 
 <p class="example">
+    `triangle ABC` 中 `/_ A = 120^@`, 求 `max(2AB + 3AC)`.
+</p>
+
+<p class="solution">
+  设 `x = AB, y = AC`, 由余弦定理 `a^2 = x^2 + y^2 - 2 x y cos A`,
+  原问题化为条件极值问题
+  <span class="formula">
+    `max{2x+3y | x^2+y^2+x y = 16}`.
+  </span>
+  待定系数配方,
+  <span class="formula">
+    `x^2+y^2+x y`
+    `=a(2x+3y)^2 + b(x+c)^2`
+    `= 3/28(2x+3y)^2+4/7(x-y/4)^2`
+    `ge 3/28(2x+3y)^2`,
+  </span>
+  因此 `2x+3y le 8 sqrt(7/3)`.
+</p>
+
+<p class="solution">
+  [来自 我是没学过数学的cxz]
+  设 `x = AB, y = AC`, 由正弦定理
+  <span class="formula">
+    `x/(sin C) = y/(sin B) = a/(sin A)`,
+  </span>
+  令 `m, n` 为常数, 于是
+  <span class="formula">
+    `m x + n y`
+    `= a/(sin A) (m sin C + n sin B)`
+    `= a/(sin A) (m sin C + n sin A cos C + n sin C cos A)`
+    `= a/(sin A)[(m + n cos A) sin C + n sin A cos C]`.
+  </span>
+  记 `k_1, k_2, k_3` 分别为 `a/(sin A)`, `m + n cos A`, `n sin A`,
+  由辅助角公式, `m x + n y le k_1 sqrt(k_2^2 + k_3^2)`.
+  代入题目数值, 得到同样的结果 `8 sqrt(7/3)`.
+</p>
+
+<p class="solution">
+  [来自 我是函数的单调性]
+  延长 `CA` 到 `D` 使得 `(AD)/(AB) = 2/3`, 在 `triangle BAD` 中由正弦定理
+  <span class="formula">
+    `(sin D)/(sin(D + pi/3)) = 3/2`,
+  </span>
+  解得 `tan D = 3sqrt3`, 因此 `cos D = 1/sqrt(1+tan^2D) = 1/sqrt(28)`,
+  `sin D = sqrt(27/28)`.
+  由于 `/_D` 和 `BC` 的长均为定值, `D` 的轨迹为一圆,
+  特别当 `CD` 为圆的直径时, 不等式
+  <span class="formula">
+    `2AB + 3AC = 3(AC + 2/3 AB) = 3 CD`
+    `le 3 (BC)/(sin D)`
+    `= 8 sqrt(7/3)`.
+  </span>
+  取得最大值.
+</p>
+
+<p class="example">
 	三角形的三边长分别为 `a, b, c`, 边 `c` 上的中线长为 `1`, 且 `/_
 	C = 45^@`. 求 `max(a+b)`.
 </p>
