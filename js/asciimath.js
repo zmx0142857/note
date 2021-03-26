@@ -415,13 +415,14 @@ AM.symbols = AM.symbols.concat([
 
   var len = AM.symbols.length; // static length
   for (var i = 0; i < len; i++) {
-    if (AM.symbols[i].tex && !AM.symbols[i].notexcopy) {
+    var sym = AM.symbols[i];
+    if (sym.tex && !sym.notexcopy) {
       AM.symbols.push({
-        input: AM.symbols[i].tex,
-        tag: AM.symbols[i].tag,
-        output: AM.symbols[i].output,
-        ttype: AM.symbols[i].ttype,
-        acc: AM.symbols[i].acc
+        input: sym.tex,
+        tag: sym.tag,
+        output: sym.output,
+        ttype: sym.ttype,
+        acc: sym.acc
       });
     }
   }
@@ -435,25 +436,26 @@ AM.symbols = AM.symbols.concat([
 
 // ----------------------------------------------------------------------
 
-var body = document.body;
+var doc = document;
+var body = doc.body;
 var MATHML = 'http://www.w3.org/1998/Math/MathML';
 var XHTML = 'http://www.w3.org/1999/xhtml';
 var isIE = (navigator.appName.slice(0,9) == 'Microsoft');
 
-if (!document.getElementById) {
+if (!doc.getElementById) {
   alert("This webpage requires a recent browser such as Mozilla Firefox");
   return;
 }
 
 if (isIE) {
   // add MathPlayer info to IE webpages
-  document.write('<object id="mathplayer" classid="clsid:32F66A20-7614-11D4-BD11-00104BD3F987"></object>');
-  document.write('<?import namespace="m" implementation="#mathplayer"?>');
+  doc.write('<object id="mathplayer" classid="clsid:32F66A20-7614-11D4-BD11-00104BD3F987"></object>');
+  doc.write('<?import namespace="m" implementation="#mathplayer"?>');
   // redefine functions
-  document.createElementNS = function(namespace, tag) {
+  doc.createElementNS = function(namespace, tag) {
     if (namespace == MATHML)
-      return document.createElement('m:' + tag);
-    return document.createElement(tag);
+      return doc.createElement('m:' + tag);
+    return doc.createElement(tag);
   }
 }
 
@@ -461,24 +463,24 @@ if (isIE) {
 function $(str, children, namespace) {
   if (typeof(str) == 'string') {
     if (str[0] == '#')
-      return document.getElementById(str.slice(1));
+      return doc.getElementById(str.slice(1));
     if (str[0] == '.')
-      return document.getElementsByClassName(str.slice(1));
+      return doc.getElementsByClassName(str.slice(1));
     if (str[0] == '"' && str.slice(-1) == '"')
-      return document.createTextNode(str.slice(1,-1));
+      return doc.createTextNode(str.slice(1,-1));
     if (str[0] == '<' && str.slice(-1) == '>') {
       var elem;
       str = str.slice(1,-1);
       if (namespace == MATHML)
-        elem = document.createElementNS(MATHML, str);
+        elem = doc.createElementNS(MATHML, str);
       else if (!namespace)
-        elem = document.createElement(str);
+        elem = doc.createElement(str);
       else if (namespace == XHTML)
-        elem = document.createElementNS(XHTML, str);
+        elem = doc.createElementNS(XHTML, str);
       if (!children)
         ;
       else if (typeof(children) == 'string')
-        elem.appendChild(document.createTextNode(children));
+        elem.appendChild(doc.createTextNode(children));
       else if (children instanceof Node)
         elem.appendChild(children);
       else if (children instanceof Array)
@@ -487,21 +489,21 @@ function $(str, children, namespace) {
       return elem;
     }
     if (str.length > 0)
-      return document.getElementsByTagName(str);
+      return doc.getElementsByTagName(str);
   } else if (typeof(str) == 'undefined') {
-    return document.createDocumentFragment();
+    return doc.createDocumentFragment();
   }
 }
 
 function $math(str, children) {
-  elem = document.createElementNS(MATHML, str);
+  elem = doc.createElementNS(MATHML, str);
   if (children)
     elem.appendChild(children);
   return elem;
 }
 
 function $text(str) {
-  return document.createTextNode(str);
+  return doc.createTextNode(str);
 }
 
 function hasMathML() {
@@ -1281,14 +1283,14 @@ function autorender() {
 }
 
 function loadCss(url) {
-  var link = document.createElement('link');
+  var link = doc.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('href', url);
-  document.body.appendChild(link);
+  body.appendChild(link);
 }
 
 function loadScript(url, callback) {
-  var script = document.createElement('script');
+  var script = doc.createElement('script');
   script.type = 'application/javascript';
   if (typeof(callback) != 'undefined') {
     if (script.readyState) { // IE
@@ -1304,7 +1306,7 @@ function loadScript(url, callback) {
     }
   }
   script.src = url;
-  document.body.appendChild(script);
+  body.appendChild(script);
 }
 
 function setDefaults(target, dict) {
@@ -1364,9 +1366,9 @@ function init() {
 if (typeof window.addEventListener == 'function') {
   // gecko, safari, konqueror and standard
   window.addEventListener('load', init, false);
-} else if (typeof document.addEventListener == 'function') {
+} else if (typeof doc.addEventListener == 'function') {
   // opera 7
-  document.addEventListener('load', init, false);
+  doc.addEventListener('load', init, false);
 } else if (typeof window.attachEvent == 'function') {
   // win/ie
   window.attachEvent('onload', init);

@@ -9,6 +9,11 @@
 
 <h2>三大广义积分</h2>
 
+<p class="remark">
+  虽然是一维的积分, 却应当考虑用重积分来解决,
+  从更高的维度上给原问题以降维打击.
+</p>
+
 <p class="example">
 	<b>Poisson 积分 (或 Euler-Poisson 积分, 概率积分)</b>
 	`int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
@@ -90,6 +95,20 @@
 <p class="example">
 	<b>菲涅尔积分</b>
 </p>
+
+<ol class="example">
+  <li>`int_0^oo x^(-ln x) dx`</li>
+</ol>
+
+<ol class="solution">
+  <li>令 `x = "e"^t`, 原式等于
+      <span class="formula">
+        `int_-oo^oo "e"^(t-t^2) dt`
+        `= int_-oo^oo "e"^(-(t-1//2)^2+1//4) dt`
+        `= "e"^(1//4) sqrt pi`.
+      </span>
+  </li>
+</ol>
 
 <h2>Euler 积分</h2>
 
@@ -303,7 +322,7 @@
 	</span>
 </p>
 
-<h3>Gamma 函数的乘积表示*</h3>
+<h3>Gamma 函数的乘积表示</h3>
 
 <p class="property">
 	<b>Euler 的乘积表达式</b>
@@ -650,6 +669,8 @@
 
 <h2>超越函数的积分</h2>
 
+<h3>n 重指数与对数积分</h3>
+
 <p class="definition">
 	设 `n` 为非负整数, `n` 阶指数积分定义为
 	<span class="formula">
@@ -657,11 +678,47 @@
 	</span>
 </p>
 
+<p class="definition">
+  `n` 阶多重对数积分在单位圆盘上定义为
+  <span class="formula">
+    `"Li"_n(z) = sum_(k ge 1) z^k/k^n`, `quad |z| lt 1`,
+  </span>
+  通过解析延拓可以将定义域扩展到整个复平面.
+</p>
+
+<ol class="corollary">
+  <li>`"Li"_1(x) = -ln(1-x)`;</li>
+  <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -eta(n)`;</li>
+  <li>`"Li"_n(x) = int_0^x ("Li"_(n-1)(t))/t dt`;
+    换言之 `"d"/dx "Li"_n(x) = ("Li"_(n-1)(x))/x`.
+  </li>
+</ol>
+
+<p class="proof">
+  只证最后一个结论,
+  <span class="formula">
+    `"Li"_n(x) = sum_(k ge 1) int_0^x t^(k-1)/k^(n-1) dt`
+    `= int_0^x sum_(k ge 1) t^k/k^(n-1) dt/t`
+    `= ("Li"_(n-1)(t))/t`.
+  </span>
+</p>
+
+<ol class="example">
+  <li>`"Li"_2(1/2) = pi^2/12 - (ln^2 2)/2`;</li>
+  <li>`"Li"_3(1/2) = (ln^3 2)/6 - pi^2/12 ln 2 + 7/8 zeta(3)`;</li>
+  <li>`int_0^(pi/2) x ln sin x dx = 1/16(7 zeta(3) - 2 pi^2 ln 2)`;</li>
+  <li>`int_0^(pi/2) arctan(sin x) dx = pi^2/8 - 1/2 ln^2(1+sqrt2)`.</li>
+</ol>
+
+<h3>指数积分与对数积分</h3>
+
 <ol class="definition">
     <li><b>指数积分</b> `"Ei"(x) = -E_1(-x) = int_(-oo)^x "e"^t/t dt`.</li>
     <li><b>对数积分</b> `"li"(x) = int_0^x dt/(ln t)`
     (`x gt 1` 时, 取 Cauchy 主值
     `lim_(epsi to 0^+) int_0^(1-epsi) + int_(1+epsi)^x`).
+    在复平面上, `"li"(z)` 于 `z=1` 处有唯一极点.
+    (注意与多重对数积分相区别)
     </li>
     <li><b>正弦积分</b> `"Si"(x) = int_0^x (sin t)/t dt`.  </li>
     <li><b>余弦积分</b> `"Ci"(x) = gamma + ln x + int_0^x (cos t - 1)/t dt`.
@@ -722,8 +779,6 @@
     则 `x to oo` 时, `pi(x) ~ "Li"(x)`.
 </p>
 
-<h2>不完全 Gamma 函数</h2>
-
 <h2>Riemann zeta 函数</h2>
 
 <p class="example">
@@ -737,61 +792,7 @@
 	</span>
 </p>
 
-<h2>杂例</h2>
-
-<ol class="example" id="exp-lnsinx">
-	<li>`int_0^(pi/2) ln sin x dx`
-		`= int_0^(pi/2) ln cos x dx`
-		`= -pi/2 ln 2`;
-	</li>
-    <li>`int_0^pi ln(1+-cos x) dx = -pi ln 2`;</li>
-	<li>`-int_0^1 (ln x)/sqrt(1-x^2) dx`
-		`= int_0^(pi/2) x cot x dx`
-		`= int_0^1 (arcsin x)/x dx = pi/2 ln 2`.
-	</li>
-</ol>
-
-<ol class="solution">
-	<li>先说明瑕积分 `I = int_0^(pi/2) ln sin x dx` 的收敛性.
-		由于 `x to 0` 时 `ln sin x ~ ln x`,
-		而 `int_0^(pi/2) |ln x| dx` 收敛,
-		故 `int_0^(pi/2) ln sin x dx` 也收敛.
-		<br/>
-		现在由反向积分知 `I = int_0^(pi/2) ln cos t dt`.
-		注意到 `[0, pi]` 是 `sin x` 的对称区间,
-		所以又有 `int_0^pi ln sin x = 2I`.
-		于是
-		<span class="formula">
-			`2I = int_0^(pi/2) (ln sin x + ln cos x) dx`
-			`= 1/2 int_0^(pi/2) (ln sin 2x - ln 2) "d" (2x)`
-			`= 1/2 int_0^(pi) ln sin x "d" x - pi/2 ln 2`
-			`= I - pi/2 ln 2`,
-		</span>
-		故 `I = -pi/2 ln2`.
-	</li>
-    <li>只证加号的情形.
-        <span class="formula">
-            `int_0^pi ln(1+cos x) dx`
-            `= int_0^pi ln(2 cos^2{:x/2:}) dx`
-            `= pi ln 2 + 2 int_0^pi ln cos{:x/2:} dx`
-            `= pi ln 2 + 4 int_0^(pi//2) ln cos x dx`
-            `= - pi ln 2`.
-        </span>
-    </li>
-	<li>直接令 `t = sin x` 有:
-		<span class="formula">
-			`int_0^(pi/2) ln sin x dx = int_0^1 (ln t)/sqrt(1-t^2)`.
-		</span>
-		另一方面, 若先分部积分,
-		<span class="formula">
-			`int_0^(pi/2) ln sin x dx = - int_0^(pi/2) x cot x dx`,
-		</span>
-		这时令 `t = sin x`, 有:
-		<span class="formula">
-			`int_0^(pi/2) x cot x dx = int_0^1 (arcsin t)/t dt`.
-		</span>
-	</li>
-</ol>
+<h2>Catalan 常数</h2>
 
 <ol class="example">
 	[来自 论文哥]
@@ -876,6 +877,80 @@
 	</li>
 </ol>
 
+<h2>杂例</h2>
+
+<ol class="example">
+  <li>`int_0^1 x^(n-1) ln x dx = -1/n^2`;</li>
+  <li>`int_0^1 x^(n-1) ln (1-x) dx = -H_n/n`.</li>
+</ol>
+
+<ol class="solution">
+  <li>分部积分即可.</li>
+  <li>左边等于
+    <span class="formula">
+      `- int_0^1 x^(n-1) sum_(k ge 1) x^k/k dx`
+      `= -sum_(k ge 1) 1/k int_0^1 x^(n+k-1) dx`
+      `= -sum_(k ge 1) 1/(k(n+k))`
+      `= -1/n sum_(k ge 1) (1/k - 1/(n+k)) = `
+      右边.
+    </span>
+  </li>
+</ol>
+
+<ol class="example" id="exp-lnsinx">
+	<li>`int_0^(pi/2) ln sin x dx`
+		`= int_0^(pi/2) ln cos x dx`
+		`= -pi/2 ln 2`;
+	</li>
+    <li>`int_0^pi ln(1+-cos x) dx = -pi ln 2`;</li>
+	<li>`-int_0^1 (ln x)/sqrt(1-x^2) dx`
+		`= int_0^(pi/2) x cot x dx`
+		`= int_0^1 (arcsin x)/x dx = pi/2 ln 2`.
+	</li>
+</ol>
+
+<ol class="solution">
+	<li>先说明瑕积分 `I = int_0^(pi/2) ln sin x dx` 的收敛性.
+		由于 `x to 0` 时 `ln sin x ~ ln x`,
+		而 `int_0^(pi/2) |ln x| dx` 收敛,
+		故 `int_0^(pi/2) ln sin x dx` 也收敛.
+		<br/>
+		现在由反向积分知 `I = int_0^(pi/2) ln cos t dt`.
+		注意到 `[0, pi]` 是 `sin x` 的对称区间,
+		所以又有 `int_0^pi ln sin x = 2I`.
+		于是
+		<span class="formula">
+			`2I = int_0^(pi/2) (ln sin x + ln cos x) dx`
+			`= 1/2 int_0^(pi/2) (ln sin 2x - ln 2) "d" (2x)`
+			`= 1/2 int_0^(pi) ln sin x "d" x - pi/2 ln 2`
+			`= I - pi/2 ln 2`,
+		</span>
+		故 `I = -pi/2 ln2`.
+	</li>
+    <li>只证加号的情形.
+        <span class="formula">
+            `int_0^pi ln(1+cos x) dx`
+            `= int_0^pi ln(2 cos^2{:x/2:}) dx`
+            `= pi ln 2 + 2 int_0^pi ln cos{:x/2:} dx`
+            `= pi ln 2 + 4 int_0^(pi//2) ln cos x dx`
+            `= - pi ln 2`.
+        </span>
+    </li>
+	<li>直接令 `t = sin x` 有:
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = int_0^1 (ln t)/sqrt(1-t^2)`.
+		</span>
+		另一方面, 若先分部积分,
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = - int_0^(pi/2) x cot x dx`,
+		</span>
+		这时令 `t = sin x`, 有:
+		<span class="formula">
+			`int_0^(pi/2) x cot x dx = int_0^1 (arcsin t)/t dt`.
+		</span>
+	</li>
+</ol>
+
 <ol class="example">
 	<li>`1 - 1/(n!) int_0^n t^n "e"^-t dt = "e"^-n sum_(k=0)^n n^k/(k!)`;
 	</li>
@@ -924,10 +999,6 @@
 		`(X-n)/sqrt n to Z`, `quad Z ~ N(0, 1)`,
 	</span>
 	于是 `P{X le n} to P{Z le 0} = 1/2`.
-</p>
-
-<p class="example">
-    `int_0^(pi/2) x ln sin x dx = 1/16(7 zeta(3) - 2 pi^2 ln 2)`
 </p>
 
 <script src="../../js/note.js?type=math"></script>
