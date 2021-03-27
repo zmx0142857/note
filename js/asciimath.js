@@ -91,7 +91,7 @@ if (typeof asciimath == 'undefined')
 (function(){
 
 var AM = asciimath; // shorthand for 'asciimath'
-var AMnames = [];   // input entry for symbols
+var AMnames = {};   // input entry for symbols
 
 // token types
 var CONST = 0,
@@ -136,9 +136,9 @@ AM.symbols = AM.symbols.concat([
 {input:'Gamma',tag:'mo',output:'\u0393',tex:null,ttype:CONST},
 {input:'delta',tag:'mi',output:'\u03B4',tex:null,ttype:CONST},
 {input:'Delta',tag:'mtext',output:'\u0394',tex:null,ttype:CONST},
-{input:'epsi',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',tex:AM.fixepsi?'varepsilon':'epsilon',ttype:CONST},
-{input:'epsilon',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',tex:AM.fixepsi?'varepsilon':'epsilon',ttype:CONST},
-{input:'varepsilon',tag:'mi',output:AM.fixepsi?'\u03F5':'\u03B5',tex:AM.fixepsi?'epsilon':'varepsilon',ttype:CONST},
+{input:'epsi',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',ttype:CONST},
+{input:'epsilon',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',ttype:CONST},
+{input:'varepsilon',tag:'mi',output:AM.fixepsi?'\u03F5':'\u03B5',ttype:CONST},
 {input:'zeta',tag:'mi',output:'\u03B6',tex:null,ttype:CONST},
 {input:'eta',tag:'mi',output:'\u03B7',tex:null,ttype:CONST},
 {input:'theta',tag:'mi',output:'\u03B8',tex:null,ttype:CONST},
@@ -247,8 +247,8 @@ AM.symbols = AM.symbols.concat([
 //{input:'||',tag:'mo',output:'||',tex:null,ttype:LEFTRIGHT},
 {input:'(:',tag:'mo',output:'\u2329',tex:'langle',ttype:LEFTBRACKET},
 {input:':)',tag:'mo',output:'\u232A',tex:'rangle',ttype:RIGHTBRACKET},
-{input:'<<',tag:'mo',output:'\u2329',tex:'langle',ttype:LEFTBRACKET},
-{input:'>>',tag:'mo',output:'\u232A',tex:'rangle',ttype:RIGHTBRACKET},
+{input:'<<',tag:'mo',output:'\u2329',ttype:LEFTBRACKET},
+{input:'>>',tag:'mo',output:'\u232A',ttype:RIGHTBRACKET},
 {input:'{:',tag:'mo',output:'{:',tex:null,ttype:LEFTBRACKET,invisible:true},
 {input:':}',tag:'mo',output:':}',tex:null,ttype:RIGHTBRACKET,invisible:true},
 
@@ -274,7 +274,7 @@ AM.symbols = AM.symbols.concat([
 {input:'ddots',tag:'mo',output:'\u22F1',tex:null,ttype:CONST},
 {input:'diamond',tag:'mo',output:'\u22C4',tex:null,ttype:CONST},
 {input:'Lap',tag:'mo',output:'\u2112',tex:'mathscr{L}',ttype:CONST,notexcopy:true},
-{input:'square',tag:'mo',output:'\u25A1',tex:'square',ttype:CONST},
+{input:'square',tag:'mo',output:'\u25A1',ttype:CONST},
 {input:'|__',tag:'mo',output:'\u230A',tex:'lfloor',ttype:CONST},
 {input:'__|',tag:'mo',output:'\u230B',tex:'rfloor',ttype:CONST},
 {input:'|~',tag:'mo',output:'\u2308',tex:'lceil',ttype:CONST},
@@ -349,7 +349,6 @@ AM.symbols = AM.symbols.concat([
 {input:'root',tag:'mroot',output:'root',tex:null,ttype:BINARY},
 {input:'frac',tag:'mfrac',output:'/',tex:null,ttype:BINARY},
 {input:'/',tag:'mfrac',output:'/',tex:null,ttype:INFIX},
-{input:'stackrel',tag:'mover',output:'stackrel',tex:null,ttype:BINARY},
 {input:'_',tag:'msub',output:'_',tex:null,ttype:INFIX},
 {input:'^',tag:'msup',output:'^',tex:null,ttype:INFIX},
 
@@ -365,11 +364,11 @@ AM.symbols = AM.symbols.concat([
 {input:'dot',tag:'mover',output:'.',tex:null,ttype:UNARY,acc:true},
 {input:'ddot',tag:'mover',output:'..',tex:null,ttype:UNARY,acc:true},
 {input:'ul',tag:'munder',output:'\u0332',tex:'underline',ttype:UNARY,acc:true},
-{input:'underbrace',tag:'munder',output:'\u23DF',tex:'underbrace',ttype:UNARYUNDEROVER,acc:true},
-{input:'overbrace',tag:'mover',output:'\u23DE',tex:'overbrace',ttype:UNARYUNDEROVER,acc:true},
+{input:'underbrace',tag:'munder',output:'\u23DF',ttype:UNARYUNDEROVER,acc:true},
+{input:'overbrace',tag:'mover',output:'\u23DE',ttype:UNARYUNDEROVER,acc:true},
 {input:'color',tag:'mstyle',ttype:BINARY},
 {input:'cancel',tag:'menclose',output:'cancel',tex:null,ttype:UNARY},
-{input:'phantom',tag:'mphantom',tex:'phantom',ttype:UNARY},
+{input:'phantom',tag:'mphantom',ttype:UNARY},
 {input:'text',tag:'mtext',output:'text',tex:null,ttype:TEXT},
 {input:'mbox',tag:'mtext',output:'mbox',tex:null,ttype:TEXT},
 {input:'"',tag:'mtext',output:'mbox',tex:null,ttype:TEXT},
@@ -396,7 +395,7 @@ AM.symbols = AM.symbols.concat([
 {input:'iiint',tag:'mo',output:'\u222D',tex:null,ttype:CONST,val:true},
 {input:'oiint',tag:'mo',output:'\u222F',tex:null,ttype:CONST,val:true},
 {input:'oiiint',tag:'mo',output:'\u2230',tex:null,ttype:CONST,val:true},
-{input:'laplace',tag:'mtext',output:'\u0394',tex:'Delta',ttype:CONST},
+{input:'laplace',tag:'mtext',output:'\u0394',ttype:CONST},
 {input:'==',tag:'mo',output:'\u2550'.repeat(2),tex:null,ttype:CONST,val:true},
 {input:'====',tag:'mo',output:'\u2550'.repeat(4),tex:null,ttype:CONST,val:true},
 {input:'////',tag:'mo',output:'\u2225',tex:null,ttype:CONST,val:true},
@@ -426,11 +425,17 @@ AM.symbols = AM.symbols.concat([
       });
     }
   }
-  AM.symbols.sort(function (s1,s2) {
-    return s1.input > s2.input ? 1 : -1;
-  });
-  for (var i = 0; i < AM.symbols.length; i++)
-    AMnames.push(AM.symbols[i].input);
+  // build trie
+  AM.symbols.forEach(function (sym) {
+    var node = AMnames;
+    sym.input.split('').forEach(function (ch) {
+      if (!node[ch]) node[ch] = {}; // new Object()
+      node = node[ch];
+    })
+    node['\0'] = sym; // preserved key
+  })
+
+  AM.symbols = null // free space
 
 } // initSymbols()
 
@@ -442,20 +447,20 @@ var MATHML = 'http://www.w3.org/1998/Math/MathML';
 var XHTML = 'http://www.w3.org/1999/xhtml';
 var isIE = (navigator.appName.slice(0,9) == 'Microsoft');
 
-if (!doc.getElementById) {
+if (!document.getElementById) {
   alert("This webpage requires a recent browser such as Mozilla Firefox");
   return;
 }
 
 if (isIE) {
   // add MathPlayer info to IE webpages
-  doc.write('<object id="mathplayer" classid="clsid:32F66A20-7614-11D4-BD11-00104BD3F987"></object>');
-  doc.write('<?import namespace="m" implementation="#mathplayer"?>');
+  document.write('<object id="mathplayer" classid="clsid:32F66A20-7614-11D4-BD11-00104BD3F987"></object>');
+  document.write('<?import namespace="m" implementation="#mathplayer"?>');
   // redefine functions
-  doc.createElementNS = function(namespace, tag) {
+  document.createElementNS = function(namespace, tag) {
     if (namespace == MATHML)
-      return doc.createElement('m:' + tag);
-    return doc.createElement(tag);
+      return document.createElement('m:' + tag);
+    return document.createElement(tag);
   }
 }
 
@@ -496,14 +501,14 @@ function $(str, children, namespace) {
 }
 
 function $math(str, children) {
-  elem = doc.createElementNS(MATHML, str);
+  elem = document.createElementNS(MATHML, str);
   if (children)
     elem.appendChild(children);
   return elem;
 }
 
 function $text(str) {
-  return doc.createTextNode(str);
+  return document.createTextNode(str);
 }
 
 function hasMathML() {
@@ -628,20 +633,6 @@ function braced(s) {
   return false;
 }
 
-// assumes arr is sorted
-// return position >= lo where str appears or would be inserted
-function position(arr, str, lo) {
-  var hi = arr.length-1;
-  while (lo <= hi) {
-    var mid = lo + ((hi-lo) >> 1);
-    if (arr[mid] < str)
-      lo = mid+1;
-    else
-      hi = mid-1;
-  }
-  return lo;
-}
-
 // ----------------------------------------------------------------------
 
 /*Parsing ASCII math expressions with the following grammar
@@ -681,20 +672,15 @@ function getArg(begin) {
 // return maximal initial substring of str that appears in names
 // or return null if there is none
 function getSymbol() {
-  var k = 0, len = AMstr.length-AMbegin, pos;
-  for (var i = 1; i <= len; i++) {
-    k = position(AMnames, AMstr.substr(AMbegin,i), k);
-    if (AMstr.startsWith(AMnames[k], AMbegin)) {
-      pos = k;
-      i = AMnames[k].length;
-    }
-    if (k == AMnames.length
-      || AMstr.substr(AMbegin, AMnames[k].length) < AMnames[k])
-      break;
+  var sym;
+  var node = AMnames, i = AMbegin, end = AMstr.length;
+  while (i < end) {
+    node = node[AMstr[i++]];
+    if (!node) break;
+    if (node['\0']) sym = node['\0'];
   }
   AMprevSym = AMcurSym;
-  if (typeof pos != 'undefined') {
-    var sym = AM.symbols[pos];
+  if (sym) {
     AMcurSym = sym.ttype;
     return sym;
   }
@@ -1283,14 +1269,14 @@ function autorender() {
 }
 
 function loadCss(url) {
-  var link = doc.createElement('link');
+  var link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('href', url);
-  body.appendChild(link);
+  document.body.appendChild(link);
 }
 
 function loadScript(url, callback) {
-  var script = doc.createElement('script');
+  var script = document.createElement('script');
   script.type = 'application/javascript';
   if (typeof(callback) != 'undefined') {
     if (script.readyState) { // IE
@@ -1306,7 +1292,7 @@ function loadScript(url, callback) {
     }
   }
   script.src = url;
-  body.appendChild(script);
+  document.body.appendChild(script);
 }
 
 function setDefaults(target, dict) {
@@ -1366,9 +1352,9 @@ function init() {
 if (typeof window.addEventListener == 'function') {
   // gecko, safari, konqueror and standard
   window.addEventListener('load', init, false);
-} else if (typeof doc.addEventListener == 'function') {
+} else if (typeof document.addEventListener == 'function') {
   // opera 7
-  doc.addEventListener('load', init, false);
+  document.addEventListener('load', init, false);
 } else if (typeof window.attachEvent == 'function') {
   // win/ie
   window.attachEvent('onload', init);
