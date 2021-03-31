@@ -279,6 +279,65 @@
 	</li>
 </ol>
 
+<h2>Gronwall 引理</h2>
+
+<ol class="example">
+  设 `f` 在 `x ge 0` 时连续,
+  <li>若 `f` 在 `x gt 0` 时可微, 给定初值条件 `f(0) = 1`, 解微分不等式 `f' lt f`;</li>
+  <li>若 `f` 在 `x gt 0` 时二阶可微, 给定初值条件 `f(0) = 1` 和 `f'(0) le 1`, 解微分不等式 `f'' lt f`.
+  </li>
+</ol>
+
+<ol class="solution">
+  <li>`f' lt f` 两边同乘积分因子 `"e"^-x`, 有
+    `f' "e"^-x - f "e"^-x lt 0`, 即 `"d"/dx (f "e"^-x) lt 0`.
+    令 `g(x) = f(x) "e"^-x`, 则 `g(0) = 1`, `g' lt 0`, 因此 `g le 1`,
+    即 `f le "e"^x`.
+  </li>
+  <li>设 `g = "e"^-x f`, 则
+    <span class="formula">
+      `g' = "e"^-x (f' - f)`,<br/>
+      `g'' = "e"^-x (f - 2f' + f'')`
+      `lt 2 "e"^-x(f - f') = -2 g'`.
+    </span>
+    下面解不等式 `g'' lt -2 g'`. 设 `h = "e"^(2x) g'`, 则
+    <span class="formula">
+      `h' = "e"^(2x) (2g' + g'') lt 0`,
+    </span>
+    故 `h lt h(0) = g'(0) = f'(0) - f(0) le 0`. 这推出 `g' lt 0`,
+    故 `g le g(0) = f(0) = 1`, 即 `f le "e"^x`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>Gronwall 引理</b>
+  [参见 <a href="../pde/2.html#for-gronwall-inequality-cond">Gronwall 不等式</a>]
+  设函数 `c, f in C[a, b]`, 函数 `y` 满足微分不等式
+  <span class="formula">
+    `y'(x) + c(x) y(x) le f(x)`, `quad AA x in [a, b]`,
+  </span>
+  则
+  <span class="formula">
+    `y(x) le y(a) "e"^(-int_a^x c(t) dt)`
+    `+ int_a^x f(s) "e"^(-int_s^x c(t) dt) "d"s`.
+  </span>
+</p>
+
+<p class="proof">
+  在微分不等式两边同乘积分因子 `u(x) = "e"^(int_a^x c(t) dt)` 得
+  <span class="formula">
+    `"d"/dx (y(x) u(x)) le f(x) u(x)`.
+  </span>
+  上式两边在 `[a, x]` 上积分得
+  <span class="formula">
+    `y(x) u(x) - y(a) le int_a^x f(s) u(s) "d"s`,
+  </span>
+  整理得
+  <span class="formula">
+    `y(x) le y(a) // u(x) + int_a^x f(s) u(s) // u(x) "d"s`.
+  </span>
+</p>
+
 <h2>Jensen 不等式 (积分形式)</h2>
 
 <p class="theorem">

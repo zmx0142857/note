@@ -412,9 +412,7 @@ AM.symbols = AM.symbols.concat([
 
 ]); // AM.symbols
 
-  var len = AM.symbols.length; // static length
-  for (var i = 0; i < len; i++) {
-    var sym = AM.symbols[i];
+  AM.symbols.forEach(function (sym) {
     if (sym.tex && !sym.notexcopy) {
       AM.symbols.push({
         input: sym.tex,
@@ -424,7 +422,7 @@ AM.symbols = AM.symbols.concat([
         acc: sym.acc
       });
     }
-  }
+  })
   // build trie
   AM.symbols.forEach(function (sym) {
     var node = AMnames;

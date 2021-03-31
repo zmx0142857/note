@@ -256,7 +256,7 @@
 <h2>积分余项的 Taylor 公式</h2>
 
 <p class="theorem">
-    <b>积分余项的 Taylor 公式</b>
+  <b>积分余项的 Taylor 公式</b>
 	设 `R_n(x) = 1/(n!) int_(x_0)^x (x-t)^n f^((n+1))(t) dt`.
 	分部积分,
 	<span class="formula">
@@ -270,6 +270,11 @@
 		`= sum_(k=1)^n (R_(k-1)(x) - R_k(x)) + R_n(x)`
 		`= sum_(k=1)^n (f^((k))(x_0))/(k!) (x-x_0)^k + R_n(x)`.
 	</span>
+  由此公式知道, 连续函数 `f` 的 `n` 阶原函数为
+  <span class="formula">
+    `1/((n-1)!) int_a^x (x-t)^(n-1) f(t) dt + p(x)`,
+  </span>
+  其中 `p(x)` 是次数小于 `n` 的多项式.
 </p>
 
 <p class="theorem">
@@ -309,65 +314,6 @@
     x]`, `g(y) = (y-x_0)^n` 时, 得到 Taylor 公式;
     取 Bernoulli 多项式, 就得到
     <a href="../number/10.html#the-euler-maclaurin">Euler-Maclaurin 公式</a>.
-</p>
-
-<h2>含参积分</h2>
-
-<ol class="example">
-	<li>`int_0^1 (ln(1+x))/(1+x^2) dx`;</li>
-	<li>`int_(-oo)^oo "e"^(-x^2)/(1+x^2) dx`;</li>
-</ol>
-
-<ol class="solution">
-	<li>令 `I(s) = int_0^1 (ln(1+s x))/(1+x^2) dx`, 积分号下求导,
-		<span class="formula">
-			`I(1) = int_0^1 I'(s) "d"s`
-			`= int_0^1 (int_0^1 x/(1+x^2) dx/(1+s x) dx) "d"s`
-			`= int_0^1 ((ln 2)/2 1/(1+s^2) + pi/4 s/(1+s^2)
-			- (ln(1+s))/(1+s^2) ) "d"s`
-			`= pi/4 ln 2 - I(1)`.
-		</span>
-		所以 `I(1) = pi/8 ln 2`.
-	</li>
-	<li>令 `I(s) = int_0^oo "e"^(-s x^2)/(1+x^2) dx`, 积分号下求导,
-		<span class="formula">
-			`I'(s) = int_0^oo (-x^2 "e"^(-s x^2))/(1+x^2) dx`
-			`= I(s) - int_0^oo "e"^(-s x^2) dx`
-			`= I(s) - 1/2 sqrt(pi/s)`.
-		</span>
-		上述常微分方程通解为 `I(s) = sqrt pi "e"^s int_s^c "e"^(-y^2) dy`.
-		代入 `I(0) = pi/2` 知 `c = +oo`. 因此 `I(1) = sqrt pi "e"
-		int_1^oo "e"^(-y^2) dy`, 原式等于
-		<span class="formula">
-			`2 I(1) = pi "e" 2/sqrt pi int_1^oo "e"^(-y^2) dy`
-			`= pi "e"\ "erfc"(1)`.
-		</span>
-	</li>
-</ol>
-
-<p class="example">
-    `I(s) = int_0^pi ln(s + cos x) dx`, `s gt 1`.
-</p>
-
-<p class="proof">
-    对参数求导, 利用万能公式积分
-    <span class="formula">
-        `I'(s)`
-        `= int_0^pi dx/(s + cos x)`
-        `= cdots = pi/sqrt(s^2-1)`.
-    </span>
-    注意
-    <span class="formula">
-        `I(1) = int_0^pi ln(1+cos x) dx`
-        `= int_0^pi ln(2 cos^2{:x/2:}) dx`
-        `= -pi ln 2`,
-    </span>
-    所以
-    <span class="formula">
-        `I(s) = I(1) + int_1^s I'(t) dt`
-        `= -pi ln 2 + pi ln (s + sqrt(s^2-1))`
-        `= pi ln {:(s+sqrt(s^2-1))/2:}`.
-    </span>
 </p>
 
 <script src="../../js/note.js?type=math"></script>

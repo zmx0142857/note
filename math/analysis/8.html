@@ -1,31 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>特殊函数</title>
+    <title>含参积分与特殊函数</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>三大广义积分</h2>
-
-<p class="remark">
-  虽然是一维的积分, 却应当考虑用重积分来解决,
-  从更高的维度上给原问题以降维打击.
-</p>
+<h2>含参积分</h2>
 
 <p class="example">
 	<b>Poisson 积分 (或 Euler-Poisson 积分, 概率积分)</b>
-	`int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
-	其中 `"e"^(-x^2)` 又称为 <b>Gauss 函数</b>,
-	<span class="formula">
-		`"erf"(x) = 2/(sqrt pi) int_0^x "e"^(-t^2) dt`,<br/>
-		`"erfc"(x) = 1-"erf"(x) = 2/(sqrt pi) int_x^oo "e"^(-t^2) dt`
-	</span>
-	分别称为<b>误差函数</b>和<b>互补误差函数</b>.
+  <span class="formula">
+    `int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
+  </span>
+  推广:
+  <span class="formula">
+    `int_(-oo)^oo "e"^(-a x^2) cos b x dx`
+    `= sqrt(pi/a) "e"^(-b^2/(4a))`.
+  </span>
 </p>
 
-<p class="solution">
+<p class="proof">
 	利用重积分.  设 `D` 是圆心在原点, 半径为 `R` 的圆域,
 	<span class="formula">
 		`iint_D "e"^(-x^2-y^2) dx dy`
@@ -42,7 +38,7 @@
 	令 `R to +oo`, 得 `int_(-oo)^(+oo) "e"^(-x^2) dx = sqrt pi`.
 </p>
 
-<p class="solution">
+<p class="proof">
 	利用积分号下求导.
 	<span class="formula">
 		`"d"/dt int_(-oo)^(+oo) "e"^(-tx^2) dx`
@@ -50,9 +46,29 @@
 	</span>
 </p>
 
+<p class="remark">
+	`"e"^(-x^2)` 称为 <b>Gauss 函数</b>,
+	<span class="formula">
+		`"erf"(x) = 2/(sqrt pi) int_0^x "e"^(-t^2) dt`,
+		`quad "erfc"(x) = 1-"erf"(x) = 2/(sqrt pi) int_x^oo "e"^(-t^2) dt`
+	</span>
+	分别称为<b>误差函数</b>和<b>互补误差函数</b>.
+</p>
+
+<p class="remark">
+  虽然是一维的积分, 却应当考虑用重积分来解决,
+  从更高的维度上给原问题以降维打击.
+</p>
+
 <p class="example">
 	<b>Dirichlet 积分</b>
-	`int_(-oo)^(+oo) (sin x)/x dx = pi`.
+  <span class="formula">
+    `int_(-oo)^(+oo) (sin x)/x dx = pi`.
+  </span>
+  推广:
+  <span class="formula">
+    `int_0^oo "e"^(-a x) (sin b x)/x dx = arctan{:b/a:}`.
+  </span>
 </p>
 
 <ol class="proof">
@@ -68,45 +84,137 @@
 		</span>
 		因此原积分收敛.
 	</li>
-	<li>计算. 将二重积分
+	<li>计算. 利用
+    <span class="formula">
+      `int_0^oo "e"^(-x y) dy = 1/x`,
+    </span>
+    交换积分次序得
 		<span class="formula">
-			`iint_D "e"^(-x y) sin x dx dy`,
-			`quad D = [0, +oo) xx [0, +oo)`
-		</span>
-		分别写为 `x` 型和 `y` 型, 有
-		<span class="formula">
-			`int_0^oo sin x dx int_0^oo "e"^(-x y) dy`
-			`= int_0^oo dy int_0^oo "e"^(-x y) sin x dx`.
-		</span>
-		即
-		<span class="formula">
-			`int_0^oo (sin x)/x dx = int_0^oo dy/(y^2+1) = pi/2`,
+      `int_0^oo (sin x)/x dx`
+			`= int_0^oo sin x dx int_0^oo "e"^(-x y) dy`
+			`= int_0^oo dy int_0^oo "e"^(-x y) sin x dx`
+			`= int_0^oo dy/(y^2+1) = pi/2`.
 		</span>
 		于是原式等于 `pi`.
 	</li>
+  <li>合理性??</li>
 </ol>
 
 <p class="example">
-	`int_(-oo)^oo (1-cos x)/x^2 dx`
-	`= -(1-cos x)/x |_(-oo)^oo + int_(-oo)^oo (sin x)/x dx`
-	`= pi`.
+	<b>Fresnel 积分</b>
+  <span class="formula">
+    `int_(-oo)^oo sin x^2 dx = int_(-oo)^oo cos x^2 dx = sqrt(pi/2)`.
+  </span>
+  推广:
+  <span class="formula">
+    `int_0^oo sin x^n dx // sin{:pi/(2n):}`
+    `= int_0^oo cos x^n dx // cos{:pi/(2n):}`
+    `= 1/n Gamma(1/n)`, `quad n gt 1`.
+  </span>
+</p>
+
+<p class="proof">
+  令 `t = x^2`,
+  <span class="formula">
+    `int_(-oo)^oo sin x^2 dx = int_0^oo sin t dt/sqrt t`.
+  </span>
+  利用
+  <span class="formula">
+    `2/sqrt pi int_0^oo "e"^(-t u^2) "d"u = 1/sqrt t`,
+  </span>
+  交换积分次序得
+  <span class="formula">
+    `int_0^oo sin t dt/sqrt t`
+    `= 2/sqrt pi int_0^oo sin t dt int_0^oo "e"^(-t u^2) "d"u`
+    `= 2/sqrt pi int_0^oo "d"u int_0^oo "e"^(-t u^2) sin t dt`
+    `= 2/sqrt pi int_0^oo ("d"u)/(1+u^2)`
+    `= 2/sqrt pi * pi/(2 sqrt 2)`
+    `= sqrt(pi / 2)`.
+  </span>
+  合理性??
 </p>
 
 <p class="example">
-	<b>菲涅尔积分</b>
+  <b>Froullani 积分</b>
+  设 `a, b gt 0`, `f` 在 `x ge 0` 时连续, 且 `f(+oo)` 有限, 则
+  <span class="formula">
+    `int_0^oo (f(a x) - f(b x))/x dx = (f(0) - f(+oo)) ln{:b/a:}`.
+  </span>
+  例如, `int_0^oo ("e"^(-a x) - "e"^(-b x))/x dx = ln{:b/a:}`.
 </p>
 
+<ol class="corollary">
+  <li>`int_0^oo x^(-ln x) dx`
+      `overset (x="e"^t) == int_-oo^oo "e"^(t-t^2) dt`
+      `= int_-oo^oo "e"^(-(t-1//2)^2+1//4) dt`
+      `= "e"^(1//4) sqrt pi`.
+  </li>
+  <li>
+    `int_(-oo)^oo (1-cos x)/x^2 dx`
+    `= -(1-cos x)/x |_(-oo)^oo + int_(-oo)^oo (sin x)/x dx`
+    `= pi`.
+  </li>
+</ol>
+
 <ol class="example">
-  <li>`int_0^oo x^(-ln x) dx`</li>
+	<li>`int_0^1 (ln(1+x))/(1+x^2) dx`;</li>
+	<li>`int_(-oo)^oo "e"^(-x^2)/(1+x^2) dx`;</li>
+  <li>`I(s) = int_0^pi ln(s + cos x) dx`, `s gt 1`.</li>
 </ol>
 
 <ol class="solution">
-  <li>令 `x = "e"^t`, 原式等于
-      <span class="formula">
-        `int_-oo^oo "e"^(t-t^2) dt`
-        `= int_-oo^oo "e"^(-(t-1//2)^2+1//4) dt`
-        `= "e"^(1//4) sqrt pi`.
-      </span>
+	<li>令 `I(s) = int_0^1 (ln(1+s x))/(1+x^2) dx`, 积分号下求导,
+		<span class="formula">
+			`I(1) = int_0^1 I'(s) "d"s`
+			`= int_0^1 (int_0^1 x/(1+x^2) dx/(1+s x) dx) "d"s`
+			`= int_0^1 ((ln 2)/2 1/(1+s^2) + pi/4 s/(1+s^2)
+			- (ln(1+s))/(1+s^2) ) "d"s`
+			`= pi/4 ln 2 - I(1)`.
+		</span>
+		所以 `I(1) = pi/8 ln 2`.
+	</li>
+	<li>令 `I(s) = int_0^oo "e"^(-s x^2)/(1+x^2) dx`, 积分号下求导,
+		<span class="formula">
+			`I'(s) = int_0^oo (-x^2 "e"^(-s x^2))/(1+x^2) dx`
+			`= I(s) - int_0^oo "e"^(-s x^2) dx`
+			`= I(s) - 1/2 sqrt(pi/s)`.
+		</span>
+		上述常微分方程通解为 `I(s) = sqrt pi "e"^s int_s^c "e"^(-y^2) dy`.
+		代入 `I(0) = pi/2` 知 `c = +oo`. 因此 `I(1) = sqrt pi "e"
+		int_1^oo "e"^(-y^2) dy`, 原式等于
+		<span class="formula">
+			`2 I(1) = pi "e" 2/sqrt pi int_1^oo "e"^(-y^2) dy`
+			`= pi "e"\ "erfc"(1)`.
+		</span>
+	</li>
+  <li>
+    对参数求导, 利用万能公式积分
+    <span class="formula">
+      `I'(s)`
+      `= int_0^pi dx/(s + cos x)`
+      `= cdots = pi/sqrt(s^2-1)`.
+    </span>
+    注意
+    <span class="formula">
+      `I(1) = int_0^pi ln(1+cos x) dx`
+      `= int_0^pi ln(2 cos^2{:x/2:}) dx`
+      `= -pi ln 2`,
+    </span>
+    所以
+    <span class="formula">
+      `I(s) = I(1) + int_1^s I'(t) dt`
+      `= -pi ln 2 + pi ln (s + sqrt(s^2-1))`
+      `= pi ln {:(s+sqrt(s^2-1))/2:}`.
+    </span>
+  </li>
+</ol>
+
+<ol class="example">
+  <b>一些较难的积分</b>  
+  <li>
+  <a href="https://math.stackexchange.com/questions/2733923/evaluate-int-0-infty-frac-ln-x-sin-xxdx" target="_blank">
+    `int_0^oo (ln x sin x)/x dx = -(gamma pi)/2`;
+  </a>
   </li>
 </ol>
 
@@ -165,6 +273,7 @@
 </ol>
 
 <p class="example">
+  <b>点火公式</b>
 	`I_n = int_0^(pi/2) sin^n x dx = int_0^(pi/2) cos^n x dx`
 	`= 1/2 B((n+1)/2, 1/2)`
 	`= {
@@ -780,6 +889,12 @@
 </p>
 
 <h2>Riemann zeta 函数</h2>
+
+<span class="formula">
+  Riemann zeta 函数: `zeta(s) = sum_(n ge 1) 1/n^s`,<br/>
+  Dirichlet eta 函数: `eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s`,<br/>
+  `beta(s) = sum_(n ge 0) (-1)^n/(2n+1)^s`.
+</span>
 
 <p class="example">
   [来自 论文哥]
