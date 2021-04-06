@@ -320,6 +320,26 @@
 </ol>
 
 <p class="example">
+  求 `int dx/(1+x+x^2)^2`.
+</p>
+
+<p class="solution">
+  记 `I_n = int x^n/(1+x+x^2)^2 dx`, 于是
+  <span class="formula">
+    `I_0 + I_1 + I_2 = int dx/(1+x+x^2) := J`,<br/>
+    `J = x/cdots + int (x(2x+1))/cdots^2 dx`
+    `= x/cdots + I_1 + 2 I_2`,<br/>
+    `2 I_1 + I_0 = int (2x+1)/cdots^2 dx := K`.
+  </span>
+  解得 `3 I_0 = 2J - K + (2x)/cdots`, 其中
+  <span class="formula">
+    `J = int dx/((x+1/2)^2 + 3/4)`
+    `= 2/sqrt 3 arctan{:(2x+1)/sqrt 3:}`,
+    `quad K = -1/cdots`.
+  </span>
+</p>
+
+<p class="example">
     求不定积分 `int dx/(1+x^n)`, 其中 `n = 3, 4, 5, 6`.
 </p>
 

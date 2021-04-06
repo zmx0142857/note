@@ -7,8 +7,8 @@ function getDefault(val, defaultVal) {
 }
 
 function Plot(el, config={}) {
-  this.canvas = document.getElementById('canvas');
-  this.ctx = canvas.getContext('2d');
+  this.canvas = document.getElementById(el);
+  this.ctx = this.canvas.getContext('2d');
   this.ctx.font = "12px sans-serif";
   this.color = getDefault(config.color, '#337ab7');
 
@@ -146,16 +146,17 @@ Plot.prototype.discrete = function(f, config={}) {
 }
 
 // plot continuously
-Plot.prototype.plot = function(f, config={}) {
-  var xmin = this.xmin - this.padding / this.xscale;
-  var xmax = this.xmax + this.padding / this.xscale;
-  var x = xmin, y = f(x);
+Plot.prototype.plot = function(f, config={
+  xmin: this.xmin - this.padding / this.xscale,
+  xmax: this.xmax + this.padding / this.xscale
+}) {
+  var x = config.xmin, y = f(x);
   var step = getDefault(config.step, this.step);
   var continuity = getDefault(config.continuity, 100);
   this.ctx.strokeStyle = getDefault(config.color, this.color);
   this.ctx.beginPath();
   this.moveTo(x, y);
-  while (x <= xmax) {
+  while (x <= config.xmax) {
     x += step;
     var newy = f(x);
     // 斜率过大处断开

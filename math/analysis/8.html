@@ -796,7 +796,7 @@
 </p>
 
 <ol class="corollary">
-  <li>`"Li"_1(x) = -ln(1-x)`;</li>
+  <li>`"Li"_0(x) = x/(1-x)`, `"Li"_1(x) = -ln(1-x)`;</li>
   <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -eta(n)`;</li>
   <li>`"Li"_n(x) = int_0^x ("Li"_(n-1)(t))/t dt`;
     换言之 `"d"/dx "Li"_n(x) = ("Li"_(n-1)(x))/x`.
@@ -808,15 +808,27 @@
   <span class="formula">
     `"Li"_n(x) = sum_(k ge 1) int_0^x t^(k-1)/k^(n-1) dt`
     `= int_0^x sum_(k ge 1) t^k/k^(n-1) dt/t`
-    `= ("Li"_(n-1)(t))/t`.
+    `= int_0^x ("Li"_(n-1)(t))/t dt`.
   </span>
 </p>
 
 <ol class="example">
-  <li>`"Li"_2(1/2) = pi^2/12 - (ln^2 2)/2`;</li>
+  <li>`"Li"_2(x) + "Li"_2(1-x) = pi^2/6 - ln x ln(1-x)`, 特别
+  `"Li"_2(1/2) = pi^2/12 - (ln^2 2)/2`;</li>
   <li>`"Li"_3(1/2) = (ln^3 2)/6 - pi^2/12 ln 2 + 7/8 zeta(3)`;</li>
   <li>`int_0^(pi/2) x ln sin x dx = 1/16(7 zeta(3) - 2 pi^2 ln 2)`;</li>
   <li>`int_0^(pi/2) arctan(sin x) dx = pi^2/8 - 1/2 ln^2(1+sqrt2)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    两边求导,
+    <span class="formula">
+      `("Li"_1(x))/x - ("Li"_1(1-x))/(1-x)`
+      `= -ln(1-x)/x + ln x/(1-x)`
+    </span>
+    等号成立; 且 `x to 0^+` 时原式等号成立, 证毕.
+  </li>
 </ol>
 
 <h3>指数积分与对数积分</h3>
@@ -935,10 +947,11 @@
 	<li>将分母以几何级数展开, 原式等于
 		<span class="formula">
 			`int_0^1 int_0^1 sum_(n ge 0) (-x^2 y^2)^n dx dy`
-			`overset ? = sum_(n ge 0) (-1)^n
+			`= sum_(n ge 0) (-1)^n
 			int_0^1 x^(2n) dx int_0^1 y^(2n) dy`
 			`= sum_(n ge 0) (-1)^n/(2n+1)^2 = K`.
 		</span>
+    几何级数在 `(-1, 1)` 中内闭一致收敛, 因此可以逐项积分.
 	</li>
 	<li>利用 `arctan x = sum_(n ge 0) (-1)^n x^(2n+1)/(2n+1)`, 原式等于
 		<span class="formula">

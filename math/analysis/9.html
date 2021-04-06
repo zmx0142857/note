@@ -19,25 +19,35 @@
 
 <h3>第一类椭圆积分</h3>
 
+<div>
+  <canvas id="plt-elliptic" width="150" height="150"></canvas>
+</div>
+
 [<a href="https://zhuanlan.zhihu.com/p/130428825">原文来自知乎</a>]
 
 <p class="definition">
 	<b>第一类椭圆积分</b>
-    不完全椭圆积分:
-    <span class="formula">
-        `F(varphi, m) := int_0^varphi ("d"theta)/sqrt(1-m sin^2 theta)`,
-    </span>
-    完全椭圆积分:
+  完全椭圆积分:
 	<span class="formula">
-		`K(z) := int_0^(pi/2) ("d"theta)/sqrt(1-z^2 sin^2 theta)`,
-		`quad "Re"(z) lt 1`.
-        <span class="label">(第一形式)</span>
+		`K(k) := int_0^(pi/2) ("d"theta)/sqrt(1-k^2 sin^2 theta)`,
+		`quad "Re"(k) lt 1`.
+    <span class="label">(第一形式)</span>
 	</span>
-    令 `t = sin theta` 立即得到:
-    <span class="formula">
-        `K(z) = int_0^1 dt/(sqrt(1-t^2) sqrt(1-z^2 t^2))`.
-        <span class="label">(Jacobi 形式)</span>
-    </span>
+  其中变元 `k` 称为<b>模</b>.
+  令 `t = sin theta` 得到:
+  <span class="formula">
+    `K(k) = int_0^1 dt/(sqrt(1-t^2) sqrt(1-k^2 t^2))`.
+    <span class="label">(Jacobi 形式)</span>
+  </span>
+  利用下文的朗登变换得到:
+	<span class="formula">
+		`K(z) = int_0^(pi/2) ("d"theta)/sqrt(1+z^2 +- 2z cos 2 theta)`.
+    <span class="label">(第二形式)</span>
+	</span>
+  不完全椭圆积分:
+  <span class="formula">
+    `F(varphi, k) := int_0^varphi ("d"theta)/sqrt(1-k^2 sin^2 theta)`.
+  </span>
 </p>
 
 <p class="proposition">
@@ -49,68 +59,58 @@
 
 <p class="proof">
 	<span class="formula">
-        右边
+    右边
 		`= 1/sqrt(1+x^2) int_0^(pi/2) ("d"theta)/sqrt(1-x^2/(1+x^2) cos^2
 		theta)`
 		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2-x^2 cos^2 theta)`
 		`= int_0^(pi/2) ("d"theta)/sqrt(1+x^2 sin^2 theta)`
-        `=` 左边.
+    `=` 左边.
 	</span>
 </p>
 
 <p class="proposition">
-    <b>`K(z)` 的第二形式</b>
-	<span class="formula">
-		`K(z) = int_0^(pi/2) ("d"varphi)/sqrt(1+z^2-2z cos 2 varphi)`.
-	</span>
+  <b>朗登变换</b>
+  取共轭模 `k' = sqrt(1-k^2)`.
+  令 `z = (1-k')/(1+k')`, 则
+  <span class="formula">
+    `K(z) = (1+k')/2 K(k)`
+    `= 1/(1+z) K((2sqrt z)/(1+z))`.
+  </span>
 </p>
 
 <p class="proof">
-	令 `t = cos theta`, 左边等于
-	<span class="formula">
-		`int_0^1 dt/(sqrt(1-t^2) sqrt(1-z^2 t^2)`,
-	</span>
-	设 `k' = (1-z)/(1+z) = sqrt(1 - k^2)`, 有
-	<span class="formula">`{:
-		,1 + z^2 - 2 z cos 2 varphi;
-		=, (1+z)^2 - 2 z(1 + cos 2 varphi);
-		=, (1+z)^2 (1 - (4 z)/(1+z)^2 cos^2 varphi);
-		=, (1+z)^2 [1 - (1 - (1-z)^2/(1+z)^2) cos^2 varphi];
-		=, (1+z)^2 (1 - k^2 cos^2 varphi).
-	:}` </span>
-	令 `s = cos varphi`, 则右边等于
-	<span class="formula">
-		`1/(1+z) int_0^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`.
-	</span>
-	下面来证 `K(k) = (1+z) K(z)`.  利用朗登型变换
+  令
 	<span class="formula">
 		`t = (1+k') (s sqrt(1-s^2))/sqrt(1-k^2 s^2)`,
 	</span>
-	求微分,
+  求微分,
 	<span class="formula">
 		`dt = (1+k')/sqrt(1-s^2)
 		(1-2s^2 + k^2 s^4)/(1-k^2 s^2)^(3//2) "d"s`,
 	</span>
-	又
+  从 Jacobi 形式出发, 令 `z = (1-k')/(1+k')`,
+  <span class="collapse">
+    由
+    <span class="formula">
+      `1-k^2 s^2 - (1+-k')^2 s^2 (1-s^2)`
+      `= 1 - k^2 s^2 + (s^4 - s^2) (1 + k'^2 +- 2 k')`
+      `= 1 - 2(1+-k') s^2 + (1+-k')^2 s^4`
+      `= [1 - (1+-k') s^2]^2`,
+    </span>
+    有
+    <span class="formula">
+      `sqrt(1-t^2) = (1 - (1+k') s^2)/sqrt(1-k^2 s^2)`,
+      `quad sqrt(1-z^2 t^2) = (1 - (1-k') s^2)/sqrt(1-k^2 s^2)`.
+    </span>
+    当 `t = 0` 时, 相应的 `s = 0` 或 `1`;
+    当 `t = 1` 时, 解二次方程知, 相应的 `s = 1/sqrt(1+k')`.
+  </span>
 	<span class="formula">
-		`1-k^2 s^2 - (1+-k')^2 s^2 (1-s^2)`
-		`= 1 - k^2 s^2 + (s^4 - s^2) (1 + k'^2 +- 2 k')`
-		`= 1 - 2(1+-k') s^2 + (1+-k')^2 s^4`
-		`= [1 - (1+-k') s^2]^2`,
-	</span>
-	有
-	<span class="formula">
-		`sqrt(1-t^2) = (1 - (1+k') s^2)/sqrt(1-k^2 s^2)`,
-		`quad sqrt(1-z^2 t^2) = (1 - (1-k') s^2)/sqrt(1-k^2 s^2)`.
-	</span>
-	当 `t = 0` 时, 相应的 `s = 0` 或 `1`;
-	当 `t = 1` 时, 解二次方程知, 相应的 `s = 1/sqrt(1+k')`. 于是
-	<span class="formula">
-		`int_0^1 dt/(sqrt(1-t^2) sqrt(1-z^2 t^2))`
+    `K(z)`
+		`= int_0^1 dt/(sqrt(1-t^2) sqrt(1-z^2 t^2))`
 		`= (1+k') int_0^(1//sqrt(1+k')) ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`
 		`= (1+k') int_(1//sqrt(1+k'))^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`
-		`= (1+k')/2 int_0^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`
-		`= 1/(1+z) int_0^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`.
+		`= (1+k')/2 int_0^1 ("d"s)/(sqrt(1-s^2) sqrt(1-k^2 s^2))`.
 	</span>
 </p>
 
@@ -208,6 +208,15 @@
 	</span>
 </p>
 
+<p class="proof">
+  `pi/2 G`
+  `= pi/2 "agm"(1, sqrt 2)^-1`
+  `= K("i")`
+  `= int_0^1 dt/(sqrt(1-t^2) sqrt(1+t^2))`
+  `= 1/4 B(1/4, 1/2)`
+  `= (sqrt pi Gamma(1/4)^2 sin{:pi/4:})/(4 pi)`.
+</p>
+
 <p class="example">
     归纳法可证: 对任意正整数 `n`, `((2n-1)!!)/((2n)!!) lt 1/sqrt(2n+1)`.
 </p>
@@ -267,8 +276,32 @@
     </span>
 </p>
 
+<p class="theorem">
+  <b>Legendre 关系式</b>
+  [菲赫金哥尔茨 第二册 511 目 12)]
+  <span class="formula">
+    `E K' + E' K - K K' = pi/2`.
+  </span>
+  其中 `K = K(k)`, `K' = K(k')`, `E = E(k)`, `E' = E(k')`.
+</p>
+
 <h3>第三类椭圆积分</h3>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script>
+function agm (a, b) {
+  while (Math.abs(a-b) > 1e-6) {
+    var tmp = Math.sqrt(a*b)
+    b = (a+b)/2
+    a = tmp
+  }
+  return a
+}
+function ellipticK(k) {
+  return Math.PI/(2 * agm(1, Math.sqrt(1-k*k)))
+}
+new Plot('plt-elliptic', {keepRatio: false, xmin: -1, xmax: 1, ymin: -0.5, ymax: 4}).axis().plot(ellipticK, {xmin: -1, xmax: 1})
+</script>
 </body>
 </html>
