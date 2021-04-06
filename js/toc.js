@@ -15,7 +15,7 @@ math: {
   title:'未分类',
   articles: [
     {title:'问题', src:'misc/0.html', isnew:true},
-    {title:'三角函数', src:'misc/2.html'},
+    {title:'三角函数', src:'misc/2.html', isnew:true},
     {title:'不等式', src:'misc/3.html'},
     {title:'微积分不等式', src:'misc/4.html', isnew:true},
     {title:'因式分解', src:'misc/5.html'},
@@ -25,7 +25,7 @@ math: {
 }, {
   title:'高等代数',
   articles: [
-    {title:'初等代数', src:'algebra/0.html', isnew:true},
+    {title:'初等代数', src:'algebra/0.html'},
     {title:'矩阵', src:'algebra/1.html'},
     {title:'行列式', src:'algebra/2.html'},
     {title:'向量的相关性与线性方程组', src:'algebra/3.html'},
@@ -44,18 +44,18 @@ math: {
     {title:'数列的极限', src:'analysis/2.html'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
     {title:'导数的应用', src:'analysis/5.html'},
-    {title:'不定积分', src:'analysis/6.html'},
+    {title:'不定积分', src:'analysis/6.html', isnew:true},
     {title:'定积分', src:'analysis/7.html'},
     {title:'含参积分与特殊函数', src:'analysis/8.html', isnew:true},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html', isnew:true},
-    {title:'常数项级数', src:'analysis/10.html'},
-    {title:'函数项级数', src:'analysis/13.html', isnew:true},
+    {title:'常数项级数', src:'analysis/10.html', isnew:true},
+    {title:'函数项级数', src:'analysis/13.html'},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
     {title:'多元数量函数微分学', src:'analysis/15.html'},
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
-    {title:'曲线与曲面积分', src:'analysis/20.html', isnew:true},
-    {title:'场论初步', src:'analysis/22.html', isnew:true},
+    {title:'曲线与曲面积分', src:'analysis/20.html'},
+    {title:'场论初步', src:'analysis/22.html'},
     {title:'分数阶微积分', src:'analysis/23.html'},
     {title:'函数方程', src:'analysis/24.html'},
   ]
@@ -64,10 +64,10 @@ math: {
   articles: [
     {title:'整数, 有理数, 代数数', src:'number/0.html'},
     {title:'数论的基本概念', src:'number/1.html'},
-    {title:'指数与原根', src:'number/4.html', isnew:true},
-    {title:'不定方程', src:'number/5.html', isnew:true},
-    {title:'积性数论函数', src:'number/9.html', isnew:true},
-    {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html', isnew:true},
+    {title:'指数与原根', src:'number/4.html'},
+    {title:'不定方程', src:'number/5.html'},
+    {title:'积性数论函数', src:'number/9.html'},
+    {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html'},
   ]
 }, {
   title:'集合论与点集拓扑',
@@ -81,13 +81,13 @@ math: {
   title:'复变函数',
   articles: [
     {title:'复数与复变函数', src:'complex/1.html'},
-    {title:'全纯函数', src:'complex/2.html', isnew:true},
+    {title:'全纯函数', src:'complex/2.html'},
   ]
 }, {
   title:'实变函数',
   articles: [
     {title:'预备知识', src:'real/1.html'},
-    {title:'Lebesgue 测度', src:'real/2.html', isnew:true},
+    {title:'Lebesgue 测度', src:'real/2.html'},
   ]
 }, {
   title:'概率论',
@@ -129,8 +129,8 @@ math: {
     {title:'群 (下)', src:'abstract/4.html'},
     {title:'半群', src:'abstract/5.html'},
     {title:'环', src:'abstract/6.html'},
-    {title:'域', src:'abstract/7.html',isnew:true},
-    {title:'Galois 理论', src:'abstract/8.html',isnew:true},
+    {title:'域', src:'abstract/7.html'},
+    {title:'Galois 理论', src:'abstract/8.html'},
   ]
 }, {
   title:'拓扑学',
@@ -147,7 +147,7 @@ math: {
 }, {
   title:'偏微分方程',
   articles: [
-    {title:'方程的导出', src:'pde/1.html', isnew:true},
+    {title:'方程的导出', src:'pde/1.html'},
     {title:'波动方程', src:'pde/2.html'},
     {title:'热传导方程', src:'pde/3.html'},
     {title:'位势方程', src:'pde/4.html'},
@@ -157,8 +157,8 @@ math: {
   title:'初等几何',
   articles: [
     {title:'五组公理', src:'geometry/1.html'},
-    {title:'三角形, 四边形', src:'geometry/3.html', isnew:true},
-    {title:'圆', src:'geometry/4.html', isnew:true},
+    {title:'三角形, 四边形', src:'geometry/3.html'},
+    {title:'圆', src:'geometry/4.html'},
     {title:'抛物线', src:'geometry/5.html'},
   ]
 }, {
@@ -190,7 +190,7 @@ math: {
     {title:'排列与组合', src:'combinatorics/2.html'},
     {title:'求解递推式', src:'combinatorics/3.html'},
     {title:'容斥原理', src:'combinatorics/4.html'},
-    {title:'离散微积分与 Stirling 数', src:'combinatorics/5.html', isnew:true},
+    {title:'离散微积分与 Stirling 数', src:'combinatorics/5.html'},
   ]
 }, {
   title:'图论',
@@ -292,18 +292,18 @@ lang: {
   toc: [ {
     title: '汉语',
     articles: [
-      {title:'易读错字词整理', src:'zh/words.html',isnew:true},
+      {title:'易读错字词整理', src:'zh/words.html'},
     ]
   }, {
     title: '日语',
     articles: [
-      {title:'学五十音', src:'jp/kana.html',isnew:true},
-      {title:'日语动词', src:'jp/words.html',isnew:true},
+      {title:'学五十音', src:'jp/kana.html'},
+      {title:'日语动词', src:'jp/words.html'},
     ]
   }, {
     title: '歌词',
     articles: [
-      {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html',isnew:true},
+      {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html'},
     ]
 }]},
 
@@ -313,12 +313,12 @@ music: {
   toc: [ {
     title: '工具',
     articles: [
-      {title:'播放器', src:'utils/player.html',isnew:true},
-      {title:'简谱', src:'utils/jianpu.html',isnew:true},
-      {title:'乐谱编辑器', src:'utils/lywriter.html',isnew:true},
-      {title:'练耳', src:'utils/ear-training.html',isnew:true},
-      {title:'键盘', src:'utils/piano.html',isnew:true},
-      {title:'乐谱', src:'utils/svg-score.html',isnew:true},
+      {title:'播放器', src:'utils/player.html'},
+      {title:'简谱', src:'utils/jianpu.html'},
+      {title:'乐谱编辑器', src:'utils/lywriter.html'},
+      {title:'练耳', src:'utils/ear-training.html'},
+      {title:'键盘', src:'utils/piano.html'},
+      {title:'乐谱', src:'utils/svg-score.html'},
     ]
   }]
 }
