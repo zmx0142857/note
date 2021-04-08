@@ -7,9 +7,8 @@
 </head>
 <body>
 
-<h2>定积分的定义与理论</h2>
+<h2>定积分的定义与理论*</h2>
 
-<!-- 一段对新手不友好的长、难定义 -->
 <p class="definition">
   设函数 `f` 定义在 `[a, b]` 上. 若存在实数 `I`, `AA epsi gt 0`,
   对于 `[a, b]` 的任意<b>分割</b>
@@ -20,7 +19,7 @@
   和关于此分割的任意<b>介点集</b>
   <span class="formula">
     `Xi = {xi_1, xi_2, cdots, xi_n}`,
-    `quad xi_k in [x_(k-1), x_k],
+    `quad xi_k in [x_(k-1), x_k]`,
   </span>
   都存在 `delta gt 0`, 使当<b>分割的模</b>
   <span class="formula">
@@ -55,57 +54,46 @@
   Lebesgue 积分, 这种积分将在实变函数中介绍.
 </p>
 
-<h2>实用的定积分公式</h2>
+<h2>积分换元</h2>
 
-<ul>
-	设下面的各个 `f` 在积分区间上有定义且可积.
-	<li>如果 `f` 有对称轴 `x = u`, 即 `f(x) = f(2u-x)`,
-		那么
-		<span class="formula">
-			`int_(u-a)^u f(x) dx = int_u^(u+a) f(x) dx`.
-		</span>
-		特别若 `f` 是偶函数, 则
-		<span class="formula">
-			`int_(-a)^a f(x) dx = 2 int_0^a f(x) dx`.
-		</span>
-	</li>
-	<li>如果 `f` 有对称中心 `(u, v)`, 即 `f(x) = 2v - f(2u-x)`,
-		那么
-		<span class="formula">
-			`int_(u-a)^u f(x) dx + int_u^(u+a) f(x) dx = 2va`.
-		</span>
-		特别若 `f` 是奇函数, 则
-		<span class="formula">
-			`int_(-a)^a f(x) dx = 0`.
-		</span>
-	</li>
-	<li>如果 `f` 是以 `T` 为周期的周期函数, 则对任意常数 `a`,
-		<span class="formula">
-			`int_a^(a+T) f(x) dx = int_0^T f(x) dx`.
-		</span>
-		且 `int_a^x f(t) dt` 以 `T` 为周期当且仅当 `int_0^T f(t) dt = 0`.
-	</li>
-	<li>区间再现. 作变元替换 `x = a+b-t`, 有
-		<span class="formula">
-			`int_a^b f(x) dx = int_a^b f(a+b-t) dt`.
-		</span>
-		这个公式的一个推论是, 对任意使得 `f(sin x), f(cos x)` 可积的函数
-		`f`,
-		<span class="formula">
-			`int_0^(pi/2) f(sin x) dx = int_0^(pi/2) f(cos x) dx`.
-		</span>
-        如果 `f` 和 `g` 在同一区间上的积分相等, 我们可以用 `(f+g)//2`
-        的积分来替代它, 例如
-		<span class="formula">
-			`int_0^pi x f(sin x) dx`
-            `= int_0^pi (pi-x) f(sin(pi-x)) dx`
-            `= pi/2 int_0^pi f(sin x) dx`.
-		</span>
-	</li>
-</ul>
+<h3>利用对称性</h3>
+
+<p>设下面的各个 `f` 在积分区间上有定义且可积.</p>
+
+<p>
+  <b>偶函数</b>
+  如果 `f` 有对称轴 `x = u`, 即 `f(x) = f(2u-x)`, 那么
+  <span class="formula">
+    `int_(u-a)^u f(x) dx = int_u^(u+a) f(x) dx`.
+  </span>
+  特别若 `f` 是偶函数, 则
+  <span class="formula">
+    `int_(-a)^a f(x) dx = 2 int_0^a f(x) dx`.
+  </span>
+</p>
+
+<p>
+  <b>奇函数</b>
+  如果 `f` 有对称中心 `(u, v)`, 即 `f(x) = 2v - f(2u-x)`, 那么
+  <span class="formula">
+    `int_(u-a)^u f(x) dx + int_u^(u+a) f(x) dx = 2va`.
+  </span>
+  特别若 `f` 是奇函数, 则
+  <span class="formula">
+    `int_(-a)^a f(x) dx = 0`.
+  </span>
+</p>
+
+<p>
+  <b>周期函数</b>
+  如果 `f` 是以 `T` 为周期的周期函数, 则对任意常数 `a`,
+  <span class="formula">
+    `int_a^(a+T) f(x) dx = int_0^T f(x) dx`.
+  </span>
+  且 `int_a^x f(t) dt` 以 `T` 为周期当且仅当 `int_0^T f(t) dt = 0`.
+</p>
 
 <ol class="proof">
-    只证周期函数的相关结论.
 	<li>结论一: 由周期性,
 		<span class="formula">
 			`int_T^(a+T) f(x) dx`
@@ -133,7 +121,26 @@
 	</li>
 </ol>
 
-<h2>杂例</h2>
+<p>
+  <b>区间再现</b> 作变元替换 `x = a+b-t`, 有
+  <span class="formula">
+    `int_a^b f(x) dx = int_a^b f(a+b-t) dt`.
+  </span>
+  这个公式的一个推论是, 对任意使得 `f(sin x), f(cos x)` 可积的函数
+  `f`,
+  <span class="formula">
+    `int_0^(pi/2) f(sin x) dx = int_0^(pi/2) f(cos x) dx`.
+  </span>
+      如果 `f` 和 `g` 在同一区间上的积分相等, 我们可以用 `(f+g)//2`
+      的积分来替代它, 例如
+  <span class="formula">
+    `int_0^pi x f(sin x) dx`
+          `= int_0^pi (pi-x) f(sin(pi-x)) dx`
+          `= pi/2 int_0^pi f(sin x) dx`.
+  </span>
+</li>
+
+<h3>杂例</h3>
 
 <ol class="example">
 	<li>`I_1 = int dx / sqrt((a+x)(b-x))`;</li>
@@ -251,6 +258,48 @@
         `= 16 pi * 3/4 * 1/2 * pi/2`
 		`= 3 pi^2`.
 	</span>
+</p>
+
+<ol class="example">
+  [来自 刀哥]
+  `n` 为正整数, 证明:
+  <li>`int_0^(pi/2) (sin (2n-1)x)/sin x dx = pi/2`;</li>
+  <li>`int_0^(pi/2) ((sin n x)/sin x)^2 dx = (n pi)/2`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    只需验证 `n = 1` 时结论成立, 且有
+    <span class="formula">
+      `int_0^(pi/2) (sin (2n+1)x - sin(2n-1)x)/sin x dx`
+      `= int_0^(pi/2) 2 cos 2n x dx = 0`.
+    </span>
+  </li>
+  <li>
+    只需验证 `n = 1` 时结论成立, 且由 1. 有
+    <span class="formula align">
+      `int_0^(pi/2) (sin^2 (n+1) x - sin^2 n x) dx/(sin^2 x)`<br/>
+      `= int_0^(pi/2) (sin (n+1) x + sin n x)(sin (n+1) x - sin n x) dx/(sin^2 x)`<br/>
+      `= 4 int_0^(pi/2) sin(n+1/2)x cos{:x/2:} cos(n+1/2)x sin{:x/2:} dx/(sin^2 x)`<br/>
+      `= int_0^(pi/2) (sin(2n+1)x)/sin x dx = pi/2`.<br/>
+    </span>
+  </li>
+</ol>
+
+<p class="example">
+  [来自 暗恋你的高中生]
+  `int_0^1 f(2x sqrt(1-x^2)) dx = int_0^1 f(1-x^2) dx`.
+</p>
+
+<p class="proof">
+  左边等于
+  <span class="formula">
+    `int_0^(pi/2) f(sin 2x) cos x dx`
+    `= int_0^(pi/4) + int_(pi/4)^(pi/2)`
+    `= int_0^(pi/4) f(sin 2x) (sin x+cos x) dx`
+    `= int_0^(pi/4) f(1 - (sin x - cos x)^2) "d"(sin x - cos x)`
+  </span>
+  等于右边.
 </p>
 
 <h2>积分余项的 Taylor 公式</h2>

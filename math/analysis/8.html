@@ -9,6 +9,8 @@
 
 <h2>含参积分</h2>
 
+<h3>几个著名积分</h3>
+
 <p class="example">
 	<b>Poisson 积分 (或 Euler-Poisson 积分, 概率积分)</b>
   <span class="formula">
@@ -156,6 +158,8 @@
   </li>
 </ol>
 
+<h3>杂例</h3>
+
 <ol class="example">
 	<li>`int_0^1 (ln(1+x))/(1+x^2) dx`;</li>
 	<li>`int_(-oo)^oo "e"^(-x^2)/(1+x^2) dx`;</li>
@@ -209,12 +213,34 @@
   </li>
 </ol>
 
+<p class="example">
+  [武理 叶子昊 bilibili: 努力math]<br/>
+  `int_0^(pi/2) (x sin x)/(1+cos^2 x) dx`
+  `= int_0^(pi/2) arctan(cos x) dx = pi^2/8 - 1/2 ln^2(1+sqrt2)`.</p>
+
+<p class="proof">
+  记 `I(s) = int_0^(pi/2) arctan(s cos x) dx`, 则
+  <span class="formula">
+    `I(1) = int_0^1 I'(s) "d"s`
+    `= int_0^1 int_0^(pi/2) cos x/(1 + s^2 cos^2 x) dx "d"s`
+    `= int_0^1 int_0^1 dt/(1 + s^2 - s^2 t^2) "d"s`
+    `= int_0^1 1/(2s^2 sqrt(1+s^-2)) ln{:(sqrt(1+s^-2) + 1)/(sqrt(1+s^-2)
+    - 1):} "d"s`
+    `= int_0^1 ("arsh" s)/(s^2 sqrt(1+s^-2)) "d"s`
+    `= -int_0^1 ("arsh" s)/sqrt(1+s^-2) "d"(1/s)`
+    `= -["arsh" s * "arsh" 1/s]_0^1 + int_0^1 ("arsh"1/s)/sqrt(1+s^2) "d"s`
+    `= -ln^2(1+sqrt 2) + int_1^oo ("arsh"s)/(s^2 sqrt(1+s^-2)) "d"s`
+    `= -ln^2(1+sqrt 2) + I(+oo) - I(1)`
+    `= -ln^2(1+sqrt 2) + int_0^oo (pi dx)/(2 sqrt(1-x^2)) - I(1)`,
+  </span>
+  整理即得结论.
+</p>
+
 <ol class="example">
-  <b>一些较难的积分</b>  
+  <b>一些较难的积分</b>
   <li>
-  <a href="https://math.stackexchange.com/questions/2733923/evaluate-int-0-infty-frac-ln-x-sin-xxdx" target="_blank">
+    [<a href="https://math.stackexchange.com/questions/2733923/evaluate-int-0-infty-frac-ln-x-sin-xxdx" target="_blank">stack exchange</a>]
     `int_0^oo (ln x sin x)/x dx = -(gamma pi)/2`;
-  </a>
   </li>
 </ol>
 
@@ -778,26 +804,21 @@
 
 <h2>超越函数的积分</h2>
 
-<h3>n 重指数与对数积分</h3>
-
-<p class="definition">
-	设 `n` 为非负整数, `n` 阶指数积分定义为
-	<span class="formula">
-		`E_n(z) = int_1^oo "e"^(-z t)/t^n dt`.
-	</span>
-</p>
+<h3>多重对数积分</h3>
 
 <p class="definition">
   `n` 阶多重对数积分在单位圆盘上定义为
   <span class="formula">
-    `"Li"_n(z) = sum_(k ge 1) z^k/k^n`, `quad |z| lt 1`,
+    `"Li"_n(z) = sum_(k ge 1) z^k/k^n`, `quad n in ZZ, |z| lt 1`,
   </span>
   通过解析延拓可以将定义域扩展到整个复平面.
 </p>
 
 <ol class="corollary">
-  <li>`"Li"_0(x) = x/(1-x)`, `"Li"_1(x) = -ln(1-x)`;</li>
-  <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -eta(n)`;</li>
+  <li>`"Li"_(-1)(x) = x/(1-x)^2`,
+    `"Li"_0(x) = x/(1-x)`,
+    `"Li"_1(x) = -ln(1-x)`;</li>
+  <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -` <a href="#for-zeta-function">`eta(n)`</a> `= (2^(1-n)-1)zeta(n)`;</li>
   <li>`"Li"_n(x) = int_0^x ("Li"_(n-1)(t))/t dt`;
     换言之 `"d"/dx "Li"_n(x) = ("Li"_(n-1)(x))/x`.
   </li>
@@ -817,7 +838,6 @@
   `"Li"_2(1/2) = pi^2/12 - (ln^2 2)/2`;</li>
   <li>`"Li"_3(1/2) = (ln^3 2)/6 - pi^2/12 ln 2 + 7/8 zeta(3)`;</li>
   <li>`int_0^(pi/2) x ln sin x dx = 1/16(7 zeta(3) - 2 pi^2 ln 2)`;</li>
-  <li>`int_0^(pi/2) arctan(sin x) dx = pi^2/8 - 1/2 ln^2(1+sqrt2)`.</li>
 </ol>
 
 <ol class="proof">
@@ -830,6 +850,15 @@
     等号成立; 且 `x to 0^+` 时原式等号成立, 证毕.
   </li>
 </ol>
+
+<h3>多重指数积分</h3>
+
+<p class="definition">
+	设 `n` 为非负整数, `n` 阶指数积分定义为
+	<span class="formula">
+		`E_n(z) = int_1^oo "e"^(-z t)/t^n dt`.
+	</span>
+</p>
 
 <h3>指数积分与对数积分</h3>
 
@@ -902,9 +931,10 @@
 
 <h2>Riemann zeta 函数</h2>
 
-<span class="formula">
+<span class="formula" id="for-zeta-function">
   Riemann zeta 函数: `zeta(s) = sum_(n ge 1) 1/n^s`,<br/>
-  Dirichlet eta 函数: `eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s`,<br/>
+  Dirichlet eta 函数: `eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s`
+  `= (1-2^(1-n)) zeta(s)`,<br/>
   `beta(s) = sum_(n ge 0) (-1)^n/(2n+1)^s`.
 </span>
 
@@ -919,15 +949,15 @@
 	</span>
 </p>
 
-<h2>Catalan 常数</h2>
+<h3>Catalan 常数</h3>
 
 <ol class="example">
 	[来自 论文哥]
-	无穷级数 `sum_(n ge 0) (-1)^n/(2n+1)^2` 的和称为 <b>Catalan 常数</b>
+	`beta(2) = sum_(n ge 0) (-1)^n/(2n+1)^2` 称为 <b>Catalan 常数</b>:
 	<span class="formula">
 		`K = 0.915965594177...`
 	</span>
-	由此计算:
+  也有用 `G` 或 `C` 表示 Catalan 常数的. 由此计算:
 	<li>`int_0^1 int_0^1 1/(1+x^2 y^2) dx dy = K`;</li>
 	<li>`int_0^1 (arctan x)/x dx = K`;</li>
 	<li>`int_0^1 (ln x)/(1+x^2) dx`
@@ -944,14 +974,13 @@
 </ol>
 
 <ol class="solution">
-	<li>将分母以几何级数展开, 原式等于
+	<li>将分母以几何级数展开, 收敛域为 `[-1, 1]`, 可以逐项积分.  原式等于
 		<span class="formula">
 			`int_0^1 int_0^1 sum_(n ge 0) (-x^2 y^2)^n dx dy`
 			`= sum_(n ge 0) (-1)^n
 			int_0^1 x^(2n) dx int_0^1 y^(2n) dy`
 			`= sum_(n ge 0) (-1)^n/(2n+1)^2 = K`.
 		</span>
-    几何级数在 `(-1, 1)` 中内闭一致收敛, 因此可以逐项积分.
 	</li>
 	<li>利用 `arctan x = sum_(n ge 0) (-1)^n x^(2n+1)/(2n+1)`, 原式等于
 		<span class="formula">

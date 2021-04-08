@@ -221,10 +221,6 @@
     归纳法可证: 对任意正整数 `n`, `((2n-1)!!)/((2n)!!) lt 1/sqrt(2n+1)`.
 </p>
 
-<p class="proposition">
-	`K(z) = pi/2 sum_(n ge 0) [((2n-1)!!)/((2n)!!) z^n]^2`.
-</p>
-
 <p>一道经典例题: <a href="../../physics/mechanics/1.html">`K(z)` 与单摆周期</a>.</p>
 
 <h3>第二类椭圆积分</h3>
@@ -276,13 +272,32 @@
     </span>
 </p>
 
-<p class="theorem">
+<p class="proposition">
   <b>Legendre 关系式</b>
   [菲赫金哥尔茨 第二册 511 目 12)]
   <span class="formula">
     `E K' + E' K - K K' = pi/2`.
   </span>
   其中 `K = K(k)`, `K' = K(k')`, `E = E(k)`, `E' = E(k')`.
+</p>
+
+<ol class="proposition">
+  `|z| lt 1` 时, 椭圆积分展开为幂级数:
+  <li>`K(z) = pi/2 sum_(n ge 0) [((2n-1)!!)/((2n)!!) z^n]^2`;</li>
+  <li>`E(z) = -pi/2 sum_(n ge 0) 1/(2n-1) [((2n-1)!!)/((2n)!!) z^n]^2`.</li>
+</ol>
+
+<p class="proof">
+  只证第一式. 利用幂级数
+  <span class="formula">
+    `1/sqrt(1-z) = sum_(n ge 0) ((2n-1)!!)/((2n)!!) z^n`,
+    `quad |z| lt 1`
+  </span>
+  和积分
+  <span class="formula">
+    `int_0^(pi/2) sin^(2n) theta "d"theta = pi/2 ((2n-1)!!)/((2n)!!)`
+  </span>
+  对 `K(z)` 逐项积分即可.
 </p>
 
 <h3>第三类椭圆积分</h3>
