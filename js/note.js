@@ -531,7 +531,7 @@ wrap($('table'));
 makeAlign();
 
 // event handler from parent window
-document.onkeyup = window.handleKeyboard || null;
+//document.onkeyup = window.handleKeyboard || null;
 
 })();
 
