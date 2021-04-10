@@ -224,6 +224,7 @@ AM.symbols = AM.symbols.concat([
 
 // logical symbols
 {input:'if',tag:'mtext',output:'if',tex:null,ttype:SPACE},
+{input:'otherwise',tag:'mtext',output:'otherwise',tex:null,ttype:SPACE},
 {input:'and',tag:'mtext',output:'and',tex:null,ttype:SPACE},
 {input:'or',tag:'mtext',output:'or',tex:null,ttype:SPACE},
 {input:'not',tag:'mo',output:'\u00AC',tex:'neg',ttype:CONST},
@@ -398,8 +399,8 @@ AM.symbols = AM.symbols.concat([
 {input:'laplace',tag:'mtext',output:'\u0394',ttype:CONST},
 {input:'==',tag:'mo',output:'\u2550'.repeat(2),tex:null,ttype:CONST,val:true},
 {input:'====',tag:'mo',output:'\u2550'.repeat(4),tex:null,ttype:CONST,val:true},
-{input:'////',tag:'mo',output:'\u2225',tex:null,ttype:CONST,val:true},
-{input:'!//',tag:'mo',output:'\u2226',tex:null,ttype:CONST,val:true},
+{input:'||',tag:'mo',output:'\u2225',tex:null,ttype:CONST,val:true},
+{input:'!||',tag:'mo',output:'\u2226',tex:null,ttype:CONST,val:true},
 {input:'S=',tag:'mo',output:'\u224C',tex:null,ttype:CONST,val:true},
 {input:'S~',tag:'mo',output:'\u223D',tex:null,ttype:CONST,val:true},
 {input:'!-=',tag:'mo',output:'\u2262',tex:null,ttype:CONST,val:true},

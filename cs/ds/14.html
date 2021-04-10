@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>动态规划</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p class="example">
+  <b>分拆数</b>
+  求将非负整数 m 拆成 n 个非负整数之和的方法数 (n &ge; 1).
+  如, 将 m 个相同苹果放入 n 个相同篮子.
+</p>
+
+<div class="solution">
+  不妨设和式已经按大小排好序:
+  <span class="formula">
+    `m = m_1 + m_2 + cdots + m_n`,
+    `quad m_1 le m_2 le cdots le m_n`.
+  </span>
+  若和式中含有 0, 则 `m_1 = 0`, 此时只需将 `m` 拆成 `n-1` 个非负整数之和,
+  方法数为 `F_(m, n-1)`; 若和式中不含 0, 此时只需将 `m-n` 拆成 `n`
+  个非负整数之和, 然后给每个数加 1 即可, 方法数为 `F_(m-n, n)`:
+  <span class="formula">
+    `F_(m, n) = {
+      1, if m = 0 or n = 1;
+      F_(m, m), if n gt m;
+      F_(m, n-1) + F_(m-n, n), otherwise
+    :}`
+  </span>
+<pre>
+int break_number(int m, int n) {
+    if (n &gt; m) {
+        n = m;
+    }
+    for (int j = 1; j &lt;= n; ++j) {
+        dp[0][j] = 1;
+    }
+    for (int i = 0; i &lt;= m; ++i) {
+        dp[i][1] = 1;
+    }
+    for (int i = 1; i &lt;= m; ++i) {
+        for (int j = 2; j &lt;= n; ++j) {
+            if (j &gt; i) dp[i][j] = dp[i][i];
+            else dp[i][j] = dp[i][j-1] + dp[i-j][j];
+        }
+    }
+    return dp[m][n];
+}
+</pre>
+</div>
+
+<p class="example">
+  <b>双蛋问题</b>
+  设有 f (floors) 层楼, e (eggs) 个鸡蛋, 从 `1 le k le f` 层将鸡蛋丢下.
+  假设存在一个临界楼层 `1 le n le f`, 当 `k lt n` 时鸡蛋不碎,
+  当 `k ge n` 时鸡蛋破碎. 现在利用手中的鸡蛋做试验, 寻找临界楼层 `n`.
+  在最坏情况下, 所需的试验次数最少是多少?
+</p>
+
+<div class="solution">
+  从 k 层丢下鸡蛋, 若鸡蛋破碎, 范围缩小到 [1..k-1], 并且鸡蛋数减 1;
+  若鸡蛋不碎, 范围缩小到 [k+1..f], 鸡蛋数不变.
+  由于事先不知道鸡蛋是否破碎, 考虑最坏情况, 应取两种情况的最大值.
+  最后, 关于 k 求最小值, 再加 1 就得到试验的最少次数.
+  <span class="formula">
+    `F_(f, e) = {
+      f, if e = 1 or f = 1;
+      1 + min_k max(F_(k-1, e-1), F_(f-k, e)), otherwise
+    :}`
+  </span>
+<pre>
+def drop_eggs(floors, eggs):
+    dp = [[1 for j in range(eggs+1)] for i in range(floors+1)]
+    for i in range(1, floors+1):
+        dp[i][1] = i
+    for i in range(2, floors+1):
+        for j in range(2, eggs+1):
+            dp[i][j] = 1 + min(
+                # 从第 k 层扔鸡蛋. 碎与不碎未知, 应该取最大
+                max(dp[k-1][j-1], dp[i-k][j])
+                for k in range(1, i)
+            )
+    return dp[floors][eggs]
+</pre>
+</div>
+
+<script src="../../js/note.js?type=cs"></script>
+</body>
+</html>

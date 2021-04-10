@@ -309,11 +309,11 @@
 
 <p class="example">
 	已知点 `C` 在椭圆 `x^2/a^2 + y^2/b^2 = 1` 上,
-	过 `C` 作弦 `C A`, `C B`, 使得 `k_(C A) k_(C B) := z` 为定值.
-	讨论直线 `A B` 过一定点的条件.
+	过 `C` 作弦 `C A`, `C B`, 使得 `k_(C A) k_(C B)` 为一常数 `z`.
+  证明: `z != b^2//a^2` 时, 直线 `AB` 恒过一定点.
 </p>
 
-<p class="proof">
+<ol class="proof">
 	设 `A(x_1,y_1)`, `B(x_2,y_2)`, `C(x_0,y_0)`, 直线 `A B: y = k x + t`.
 	联立直线与椭圆方程, 利用 Vieta 定理求得 `x_1+x_2`, `y_1+y_2`,
 	`x_1 x_2` 和 `y_1 y_2`. 注意 `C` 在椭圆上, 有
@@ -330,26 +330,26 @@
 		 / (a^2(t^2-b^2) + 2a^2 t k x_0 + x_0^2(a^2 k^2 + b^2))`
 		`= b^2/a^2 ((t-y_0)^2 -(k x_0^2))/((t+k x_0)^2 - y_0^2)`.
 	</span>
-	变形得
-	<span class="formula">
-		`(b^2 + z a^2)/(b^2 - z a^2) = t/(y_0 + k x_0)`.
-	</span>
-	注意 `z` 为定值, 因此上式左边为定值, 记为 `lambda`.
-	我们要求上式右边与 `k` 无关.
-	设 `P(x_P,y_P) in l_(A B)`, 则 `t = y_P - k x_P`. 于是
-	<span class="formula">
-		`lambda = (y_P - k x_P)/(y_0 + k x_0)`, `AA k in RR`.
-	</span>
-	即
-	<span class="formula">
-		`lambda y_0 - y_P + k(lambda x_0 + x_P) = 0`, `AA k in RR`.
-	</span>
-	解得 `x_P = - lambda x_0`, `y_P = lambda y_0`. `P` 点即为所求的定点.
-	可以看到 `P` 是 `A B` 与直线 `O C'` 的交点, 其中 `C'(-x_0,y_0)`.<br/>
-	特别地, 令 `z = -b^2//a^2`, 有 `lambda = 0`, `P` 与原点重合.
-	`z = b^2//a^2` 时, `A B // O C'`, 此时定点不存在.
-	当 `A B` 的斜率不存在时, 容易验证上面的结论仍成立.
-</p>
+  <li>`z != b^2//a^2` 时,
+    取 `P(x_P,y_P) in l_(A B)`, 上式变形得
+    <span class="formula">
+      `lambda := (b^2 + z a^2)/(b^2 - z a^2)`
+      `= t/(y_0 + k x_0)`
+      `= (y_P - k x_P)/(y_0 + k x_0)`.
+    </span>
+    其中 `lambda` 为一常数.  当 `x_P = - lambda x_0`, `y_P = lambda y_0`,
+    上式对任意 `k in RR` 成立, 即直线 `AB` 恒过 `P` 点.
+    可以看到 `P` 是 `A B` 与直线 `O C'` 的交点, 其中 `C'(-x_0,y_0)`.
+    特别地, 令 `z = -b^2//a^2`, 则 `lambda = x_P = y_P = 0`,
+    这时直线 `AB` 恒过原点.
+  </li>
+  <li>
+    `z = b^2//a^2` 时, `A B || O C'`, 此时定点不存在.
+    (从射影几何的角度看, 此时 `AB` 与 `OC'` 相交于 `OC'` 方向上的无穷远处,
+    亦可视为一定点)
+  </li>
+  <li>最后, 当 `A B` 的斜率不存在时, 容易验证上面的结论仍成立.</li>
+</ol>
 
 <h2>二次曲线 (面) 的切线 (面)</h2>
 
