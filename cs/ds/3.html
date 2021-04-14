@@ -341,8 +341,8 @@ a   b -   g
 	将结果存入栈中. 处理完表达式后, 栈顶元素就是计算的结果.
 </p>
 
-<div class="playground" run="evalSuffix" value="1 23 + 5 -"></div>
-<script>
+<div class="playground" run="evalSuffix" value="1 23 + 5 -">
+<script defer>
 function tokenize (str) {
   let match = str.match(/\d+|[+\-*/()]/g)
   if (!match) return []
@@ -372,6 +372,7 @@ function evalSuffix (str) {
   return stack.slice(-1)[0]
 }
 </script>
+</div>
 
 <ol class="algorithm">
 	<b>中缀表达式化为后缀表达式</b>
@@ -398,8 +399,8 @@ function evalSuffix (str) {
 	<code>+(-*</code>.
 </ol>
 
-<div class="playground" run="prefix2Suffix" value="1 - (3 + 6)"></div>
-<script>
+<div class="playground" run="prefix2Suffix" value="1 - (3 + 6)">
+<script defer>
 function prefix2Suffix (str) {
   let out = []
   let stack = []
@@ -435,6 +436,7 @@ function prefix2Suffix (str) {
   return out.join(' ')
 }
 </script>
+</div>
 
 <p class="algorithm">
 	<b>算符优先法</b>
@@ -537,8 +539,8 @@ function prefix2Suffix (str) {
 	<code>operand</code> 保存值.
 </p>
 
-<div class="playground" run="evalPrecede" value="1 - (3 + 6)"></div>
-<script>
+<div class="playground" run="evalPrecede" value="1 - (3 + 6)">
+<script defer>
 (function(){
 const symbols = {
   '+': 0,
@@ -590,6 +592,7 @@ window.evalPrecede = function (str) {
 }
 })()
 </script>
+</div>
 
 <pre>
 struct Token:
