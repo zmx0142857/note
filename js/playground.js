@@ -1,13 +1,15 @@
 ;(function(window, document){
 
 const list = document.querySelectorAll('.playground')
+const $ = document.createElement.bind(document)
 for (let playground of list) {
   const frag = document.createDocumentFragment(),
-        input = document.createElement('input'),
-        run = document.createElement('input'),
-        showSrc = document.createElement('input'),
-        output = document.createElement('pre'),
-        src = document.createElement('pre'),
+        ctrl = $('div'),
+        input = $('input'),
+        run = $('input'),
+        showSrc = $('input'),
+        output = $('pre'),
+        src = $('pre'),
         script = Array.from(playground.children).find(n => n.nodeName === 'SCRIPT')
   input.type = 'text'
   input.value = playground.getAttribute('value')
@@ -31,7 +33,7 @@ for (let playground of list) {
   showSrc.onclick = function () {
     src.classList.toggle('hidden')
   }
-  let onkeyup = function (e) {
+  const onkeyup = function (e) {
     if (e.keyCode == 13) {
       run.onclick();
     }
@@ -43,9 +45,11 @@ for (let playground of list) {
     document.removeEventListener('keyup', onkeyup)
   }
 
-  frag.appendChild(input)
-  frag.appendChild(run)
-  frag.appendChild(showSrc)
+  ctrl.classList.add('ctrl')
+  ctrl.appendChild(input)
+  ctrl.appendChild(run)
+  ctrl.appendChild(showSrc)
+  frag.appendChild(ctrl)
   frag.appendChild(output)
   frag.appendChild(src)
   playground.appendChild(frag)

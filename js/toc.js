@@ -225,7 +225,7 @@ cs: {
     {title:'外排序', src:'ds/11.html'},
     {title:'文件', src:'ds/12.html'},
     {title:'数论算法', src:'ds/13.html'},
-    {title:'动态规划', src:'ds/14.html'},
+    {title:'动态规划与贪心算法', src:'ds/14.html'},
   ]
 }, {
   title:'机器学习',
