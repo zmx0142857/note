@@ -96,20 +96,6 @@
     <li><b>抽签概率与顺序无关</b> 在 `n` 次不放回摸球试验中,
         每次摸出红球的概率都是 `M//N`.
     </li>
-    <li><b>Knuth 抽样算法</b> 从 `1~N` 中随机抽取 `M` 个数字,
-        可以取红球 `M` 个, 黑球 `N-M` 个, 做 `N` 次不放回摸球试验.
-        若第 `n` 次摸出红球, 则选中数字 `n`, 否则不选中它.
-        由 3. 知, 每个数字被选中的概率都相等.
-        <pre>
-# rand() 产生 (0,1) 间的随机数
-sample(arr, M):
-    N = arr.len
-    for i = 0 to N-1:
-        if rand() &lt; M/(N-i):
-            print(arr[i])
-            --M
-        </pre>
-    </li>
 </ol>
 
 <ol class="solution">
@@ -155,7 +141,7 @@ sample(arr, M):
     </li>
     <li>设
         <span class="formula">
-            `X_i = {1, if 第 i 次摸出红球; 0, "otherwise":}`,<br/>
+            `X_i = {1, if "第 "i" 次摸出红球"; 0, otherwise :}`,<br/>
         </span>
         由 2, `sum_(i=1)^n X_i` 满足超几何分布, 由 1,
         `E(sum_(i=1)^n X_i) = (n M)/N`.

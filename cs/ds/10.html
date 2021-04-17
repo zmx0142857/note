@@ -1,129 +1,204 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>内排序</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+  <meta charset="utf-8" />
+  <title>随机算法</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
 </head>
+
 <body>
 
+<h2>随机生成排列组合</h2>
+
+<p class="remark">
+  假设 <code>random(a, b)</code> 以相同概率随机返回闭区间
+  <code>[a, b]</code> 内的整数.
+</p>
+
 <p class="algorithm">
-    <b>冒泡排序</b>
-    每执行一次外层循环, 当前最大的数就会下沉到数组末尾.
+  <b>均匀随机排列 (洗牌算法), O(n)</b>
+  如果 1~n 的每一种排列都以 1/n! 的概率出现, 则称该算法实现了均匀随机排列.
+  注意, 只证明每个元素被选中概率为 1/n 是不充分的.
+  算法的思路是为每个元素随机生成唯一关键字, 再按关键字排序.
+  时间复杂度取决于排序算法.  一般的排序算法为 O(n log n),
+  也有特殊算法可以在 O(n) 时间内对 1 ~ n<sup>3</sup> 的整数排序.
 </p>
 
 <pre>
-bubble_sort(L):
-    for i = L.len-1 .. 1:
-        for j = 0 .. i-1:
-            if L[j] &gt; L[j+1]:
-                swap(L, j, j+1)
+shuffle_by_sort(L):
+    n = L.len
+    sort(L, key=[random(1, n**3) for i = 0..n-1])
 </pre>
 
+<p class="proof">
+  设 `n` 个关键字为 `k_1, cdots, k_n`.
+  用 `A_i` 表示 <code>L[i+1]</code> 分配到 `k_i` 这一事件. 则
+  <span class="formula">
+    `P(nnn_(i=1)^n A_i)`
+    `= P(A_1) P(A_2 | A_1) cdots P(A_n | nnn_(i=1)^(n-1) A_i)`
+    `= 1/n 1/(n-1) cdots 1/2 1/1 = 1/(n!)`.
+  </span>
+  即每一特定排列出现的概率都是 `1//n!`.
+</p>
+
 <p class="algorithm">
-	<b>快速排序</b>
+  <b>均匀随机 k 排列, O(k)</b>
+  从 1~n 选出 k 个元素, 它们的任一排列称为一个 k 排列.
+  该算法在线性时间 O(k) 内实现了均匀随机 k 排列, 每个可能的
+  k 排列出现的概率都是 (n-k)! / n!.
+  其中每一步迭代时将下标为 i 的元素与下标 &ge; i
+  的元素随机交换. 最后生成的 k 排列保存在数组的前 k 个位置中.
+  特别取 k = n (或 k = n-1), 就得到均匀随机排列.
 </p>
 
 <pre>
-# 对 L[lo..hi] 排序
-qsort(L, lo, hi):
-	if lo &lt; hi:
-		pivot = partition(L, lo, hi)
-		qsort(L, lo, pivot-1)
-		qsort(L, pivot+1, hi)
-
-# 一趟划分, 返回主元下标
-partition(L, lo, hi):
-	pivot = L[lo]
-	while lo &lt; hi:
-		while lo &lt; hi and L[hi] &gt;= pivot:
-			--hi
-		L[lo] = L[hi]
-		while lo &lt; hi and L[lo] &lt;= pivot:
-			++lo
-		L[hi] = L[lo]
-	L[lo] = pivot
-	return lo # 事实上 lo == hi
+shuffle(L, k):
+    n = L.len
+    for i = 0..k-1:
+        swap(L, i, random(i, n-1))
 </pre>
+  </li>
+</ol>
+
+<p class="proof">
+  只需证:
+  当第 `i` 次循环结束时, 子数组 <code>[0..i]</code> 包含一个均匀随机 `i+1`
+  排列.<br/>
+  `i = 0` 时, 我们将 <code>L[0]</code> 与数组的任意元素随机交换, 结论成立.
+  设结论对 `i-1` 成立, 来证 `i` 的情形. 任取一个 `i+1` 排列 `x_0, x_1,
+  cdots, x_i`, 记子数组 <code>[0..i]</code> 恰好包含这个排列的事件为
+  `A_i`. 子数组 <code>[0..i-1]</code> 恰好包含排列 `x_0, x_1, cdots,
+  x_(i-1)` 的事件为 `A_(i-1)`.  由条件概率公式,
+  <span class="formula">
+    `P(A_i) = P(A_(i-1)) P(A_i|A_(i-1))`
+    `= ((n-i)!)/(n!) 1/(n-i)`
+    `= ((n-i-1)!)/(n!)`.
+  </span>
+  最后, 令 `i = k-1` 即得算法的正确性.
+</p>
+
+<p>希望借助下例, 扫除一些盲区:</p>
+
+<ol class="example">
+  从 1~n 中随机选取 k 个数,
+  <li>每个 k 子集被选中的概率相等, 蕴含每个数被选中的概率相等, 反之不对;</li>
+  <li>若每个数被选中的概率都相等, 则这个概率等于 k/n 吗.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    设每个 `k` 子集被选中的概率相等, 由于对任意数字 `n_i`, 含有
+    `n_i` 的子集数为 `(n-1; k-1)`, 从而 `n_i` 被选中的概率为
+    <span class="formula">
+      `(n-1;k-1) // (n;k) = k/n`.
+    </span>
+    反之, 从 `1~4` 中以相等概率 `1//4` 选取子集 `{1, 2}`, `{2, 3}`, `{3,
+    4}`, `{4, 1}`, 则每个数被选中的概率都等于 `1//2`, 但 `{1, 3}`, `{2,
+    4}` 的组合并未出现, 所以并不是每个子集被选中的概率都相等.
+  </li>
+  <li>??</li>
+</ol>
 
 <p class="algorithm">
-	<b>链式基数排序</b>
-	对 <code>N</code> 个 <code>RADIX</code> 进制的 <code>KEYS</code>
-	位数进行排序, 这些数字的每一位数放在数组 <code>key</code> 中,
-	以 <code>next</code> 指针链接起来.
-	算法按低位优先格式依次对各关键字进行分配和收集, 经过 <code>KEYS</code>
-	轮排序后完成.
+  <b>Knuth 抽样算法, O(n)</b>
+  从 1~n 中随机抽取 k 个数字, 使得每个数被选中的概率都等于 k/n.
+  上文的均匀随机 k 排列算法可以解决此问题.
+  现假设数据只能顺序读取, 不能通过下标随机访问,
+  如何实现随机抽样?<br/>
+  我们取红球 k 个, 黑球 n-k 个, 做 n 次不放回摸球试验.
+  若第 i 次摸出红球, 则选中数字 i, 否则不选中它.
+  由于<a href="../../math/probability/5">抽签概率与顺序无关</a>,
+  每个数字被选中的概率都相等. 每个 k 子集出现的概率相等吗?
 </p>
 
 <pre>
-smallint key[N+1][KEYS]	# 关键字, 取值为 0..RADIX-1
-int next[N+1]				# 下一结点的下标
-int first[RADIX]			# RADIX 个子表的头
-int last[RADIX]				# RADIX 个子表的尾
-
-# 按第 i 位数将各数字链成 RADIX 个子表, 每个表中 key[*][i] 值相同
-# first[j], last[j] 指向各子表的第一个和最后一个记录
-distribute(i):
-	# 清空 RADIX 个子表
-	for j = 0 to RADIX-1:
-		first[j] = 0
-	# 从头结点起遍历静态链表, 将结点打散重新链接
-	p = next[0]
-	while p:
-		d = key[p][i]			# 取出第 i 位数
-		if first[d]:			# 当第 d 个子表不空
-			next[last[d]] = p	# 接到子表尾
-		else:
-			first[d] = p		# 作为子表头
-		last[d] = p				# 更新子表尾指针
-		p = next[p]
-
-# 按分配结果依次链接各子表
-collect(i):
-	tail = 0
-	for j = 0 to RADIX-1:
-		if first[j]:
-			next[tail] = first[j]
-			tail = last[j]
-	next[tail] = 0
-
-radix_sort():
-	# 静态链表初始化, 下标 0 为头结点
-	for i = 0 to N-1:
-		next[i] = i+1
-	next[N] = 0
-	# 从低位至高位进行排序
-	for i = 0 to KEYS-1:
-		distribute(i)
-		collect(i)
+sample(L, k):
+    n = L.len
+    for i = 0 to n-1:
+        if random(1, n-i) &le; k:
+            print(L[i])
+            --k
 </pre>
 
 <p class="algorithm">
-	<b>地址排序</b> 原记录表 <code>L</code> 占空间较大时,
-	可以只排序指向记录的指针表 <code>adr</code>,
-	再通过地址排序调整原记录的位置. 下面假设 <code>adr</code>
-	给出了 <code>L</code> 中元素的次序, 即
-	<code>L[adr[i]], i = 0..L.length-1</code> 是
-	<code>L</code> 的一个单调增序列.
-	算法实际上将各个静态循环链表逆向调整了一个位置.
+  <b>蓄水池抽样算法, O(n)</b>
+  现假设数据是流式的, 只能顺序读取, 而且总数 n 未知. 为实现随机抽样
+  (使得每个数被选中的概率都是 k/n),
+  我们维护一个大小为 k 的蓄水池, 初始时装着前 k 个元素.
+  从 <code>i = k</code> 开始, 每次循环随机生成 <code>[0, i]</code>
+  中的下标 d, 若 d 落在蓄水池范围内, 则该元素将取代蓄水池中的对应元素.
 </p>
 
 <pre>
-rearrange(L, adr):
-	for i = 0 to L.length-1:
-		if adr[i] != i:		# 没有归位, 需要调整
-			j = i
-			tmp = L[j]
-			k = adr[j]
-			do:
-				L[j] = L[k]
-				adr[j] = j	# 作标记, 表示已经归位
-				j = k
-				k = adr[k]
-			while k != i
-			L[j] = tmp
-			adr[j] = j
+reservoir(L, k):
+    buf = [L[i] for i = 0..k-1]
+    for (i = k; L[i] != null; ++i):
+        d = random(0, i)
+        if d &lt; k:
+            buf[d] = L[i]
 </pre>
+
+<p class="proof">
+  注意每个元素只进入蓄水池一次, 而且只有后面的元素能替换前面的元素,
+  我们得到:
+  每个元素被选取的概率等于它晋级的概率乘以它不被替换的概率. 于是
+  <code>L[i]</code> 被选取的概率等于
+  <span class="formula">
+    `{ 1 * k/(k+1) (k+1)/(k+2) cdots (n-k)/n = k/n, if i lt k;
+    k/i * i/(i+1) (i+1)/(i+2) cdots (n-k)/n = k/n, if i ge k :}`
+  </span>
+  每个 k 子集出现的概率相等吗?
+</p>
+
+<p class="algorithm">
+  <b>并行蓄水池算法</b>
+  [<a href="https://www.jianshu.com/p/7a9ea6ece2af">简书 邱simple</a>]<br/>
+  令 `t` 个线程分别用蓄水池算法处理 `n_i` 份数据,
+  每个线程各得到 `k` 份样本, 其中 `sum_(i=1)^t n_i = n`, `n_i ge k`.
+  作累加 `m_i = sum_(j=1)^i n_j`.
+  随机选取 `d in [0, n)`, 若 `d in [m_(i-1), m_i)`, 则在第 `i`
+  个线程的蓄水池中等概率不放回地选取一个数据,
+  如此重复 `k` 次, 最终得到 `k` 个样本.
+</p>
+
+<p class="proof">
+  m/N的概率验证如下：<br/>
+
+  第k台机器中的蓄水池数据被选取的概率为m/Nk。<br/>
+  从第k台机器的蓄水池中选取一个数据放进最终蓄水池的概率为Nk/N。<br/>
+  第k台机器蓄水池的一个数据被选中的概率为1/m。（不放回选取时等概率的）<br/>
+  重复m次选取，则每个数据被选中的概率为m*(m/Nk*Nk/N*1/m)=m/N。
+</p>
+
+<h2>伪随机数</h2>
+
+<p class="algorithm">
+  <b>线性同余法生成伪随机数 (D. H. 莱默, 1949)</b><br/>
+  选取整数 `2 le a lt m` 和 `0 le c lt m`, <b>种子</b> `0 le x_0 lt m`,
+  则递推公式
+  <span class="formula">
+    `x_(n+1) = a x_n + c (mod m)`
+  </span>
+  确定了一组伪随机数 `{x_n}`.
+  注意一旦有 `x_i = x_j`, 就有 `x_(i+1) = x_(j+1)`, 序列将会重复.
+  我们把序列出现重复前的最大长度称为它的<b>周期</b>. 由鸽巢原理,
+  周期不超过 `m`. <a class="ref" href="#period-m-iff"></a>给出周期恰好为
+  `m` 的充要条件.
+  特别, 当 `c = 0` 时, 称为<b>纯乘性同余方法</b>.
+  下面是一个实用的递推公式
+  <span class="formula">
+    `x_(n+1) = 252,246,292 x_n (mod 2^31-1)`.
+  </span>
+  密码学中要求伪随机数不可预测. 线性同余方法<b>不能</b>用于密码学,
+  因为已知连续的若干项就可以求得其它项.
+</p>
+
+<ol class="theorem" id="period-m-iff">
+  线性同余生成器产生的伪随机序列周期为 `m` 当且仅当以下三条同时满足:
+  <li>`(c, m) = 1`;</li>
+  <li>若素数 `p | m`, 则 `a -= 1 (mod p)`;</li>
+  <li>若 `4 | m`, 则 `a -= 1 (mod 4)`.</li>
+</ol>
 
 <script src="../../js/note.js?type=cs"></script>
 </body>

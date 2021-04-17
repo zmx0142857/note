@@ -5,38 +5,68 @@
 <title>公式编辑器</title>
 <meta charset="utf-8"/>
 <link rel="stylesheet" href="../../css/note.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <style type="text/css">
+.control {
+  white-space: nowrap;
+  overflow: auto;
+  display: flex;
+}
 button {
   padding: 0.3em 1em;
+  margin: 5px 0;
+  height: 40px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 0;
+}
+.control button {
+  border-left: none;
+  color: #444;
+}
+.control button:first-child {
+  border-left: 1px solid #d0d0d0;
+  border-radius: 7px 0 0 7px;
+}
+.control button:last-child {
+  border-radius: 0 7px 7px 0;
+}
+#keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+#keyboard.hidden {
+  display: none;
+}
+#keyboard button:first-child {
+  border-left: 1px solid #d0d0d0;
+}
+#keyboard button {
+  border-left: none;
+  text-align: center;
+  padding: 0;
+  width: 36px;
+  height: 36px;
 }
 #outputWrapper {
   border: 1px solid #ccc;
   background: white;
   margin: 55px 0 10px 0;
+  max-height: 400px;
+  overflow: auto;
 }
 #outputWrapper div {
   padding: 10px 0;
   text-align: center;
 }
-#outputWrapper div:hover {
-  background: #dde;
-  cursor: default;
-}
 #outputWrapper div.highlight {
   border-left: 5px solid #56a;
+  background: #f8f8ff;
 }
-#keyboard {
-  padding: 0;
-  transition: .3s ease height;
-}
-#keyboard.hidden {
-  height: 0;
-}
-#keyboard button {
-  margin: 5px 0;
-  text-align: center;
-  min-width: 20px;
-  height: 40px;
+#outputWrapper div:hover,
+#outputWrapper div.hightlight:hover {
+  background: #dde;
+  cursor: default;
 }
 #input {
   margin: 10px 0;
@@ -62,12 +92,14 @@ button {
 <div id="outputWrapper"></div>
 
 <div id="inputWrapper">
-  <button onclick="toggleKeyboard()">keyboard</button>
-  <button id="copy">copy</button>
-  <button id="newFormula">add</button>
-  <button id="deleteFormula">remove</button>
-  <button id="lang">asciimath</button>
-  <button id="savePng">save PNG</button>
+  <div class="control">
+    <button onclick="toggleKeyboard()" class="fa fa-keyboard-o" title="键盘">
+    </button><button id="copy" class="fa fa-copy" title="复制">
+    </button><button id="newFormula" class="fa fa-plus" title="新增">
+    </button><button id="deleteFormula" class="fa fa-minus" title="删除">
+    </button><button id="savePng" class="fa fa-download" title="保存 (试验)">
+    </button><button id="lang">asciimath</button>
+  </div>
   <div id="keyboard" class="hidden">
     <button title="plus">+</button>
     <button title="minus">-</button>
@@ -95,6 +127,7 @@ button {
 
 <p id="help">
   <a target="_blank" href="../../index.html#math/example/asciimath">更多示例帮助?</a>
+  <a href="https://fontawesome.com" style="float:right">Font Awesome</a>
 </p>
 
 <script>
@@ -254,6 +287,7 @@ newFormula.onclick = function() {
   }
   highlight(div);
   outputWrapper.appendChild(div);
+  outputWrapper.scrollTop = outputWrapper.offsetHeight
 };
 
 function getuuid(len, radix) {

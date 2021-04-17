@@ -7,7 +7,7 @@ math: {
   toc: [ {
   title:'示例',
   articles: [
-    {title:'公式编辑器', src:'example/editor.html'},
+    {title:'公式编辑器', src:'example/editor.html',isnew:true},
     {title:'Asciimath', src:'example/asciimath.html'},
     {title:'Mathml', src:'example/mathml.html'},
   ]
@@ -221,8 +221,8 @@ cs: {
     {title:'矩阵与广义表', src:'ds/7.html'},
     {title:'图', src:'ds/8.html'},
     {title:'查找', src:'ds/9.html'},
-    {title:'内排序', src:'ds/10.html'},
-    {title:'外排序', src:'ds/11.html'},
+    {title:'随机算法', src:'ds/10.html',isnew:true},
+    {title:'排序', src:'ds/11.html',isnew:true},
     {title:'文件', src:'ds/12.html'},
     {title:'数论算法', src:'ds/13.html'},
     {title:'动态规划与贪心算法', src:'ds/14.html'},
@@ -278,7 +278,7 @@ physics: {
 }, {
   title:'力学',
   articles: [
-    {title:'质点运动学', src:'mechanics/1.html'},
+    {title:'质点运动学', src:'mechanics/1.html',isnew:true},
   ]
 }, {
   title:'光学',

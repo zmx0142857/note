@@ -7,6 +7,8 @@
 </head>
 <body>
 
+<h2>例子</h2>
+
 <p class="example">
 	<b>直线运动</b>
 	作直线运动的质点, 其位置 `s`, 速度 `v`, 加速度 `a` 是时间 `t` 的函数,
@@ -109,11 +111,11 @@
 
 <ol class="example">
   <b>天体运动</b>
+  [崔尚斌 数学分析教程 8.3.4 从开普勒定律推导万有引力定律] <br/>
   利用万有引力定律和牛顿三大定律, 推导天体运动的开普勒三大定律, 即
   <li>椭圆轨道;</li>
   <li>单位时间内, 向径 `bm r` 扫过的面积为常数;</li>
   <li>周期正比于 `a^(3/2)`, `a` 为半长轴;</li>
-  [参见 崔尚斌《数学分析教程》8.3.4 节，从开普勒定律推导万有引力定律]
 </ol>
 
 <ol class="solution">
@@ -202,9 +204,58 @@
 
 <h2>变分原理</h2>
 
-<p class="example">
-	<b>Euler-Lagrange 方程</b>
-	设 `y(x) in C^1[a,b]`, `F(x, y, y') in C^2[a,b]`,
+<p class="definition">
+  每个力学系统可以用一个确定的 <b>Lagrange 函数</b> `L(q, dot q, t)`
+  表征, 其中 `q` 为广义坐标, 可以是多维的.
+</p>
+
+<p class="principle">
+  Lagrange 函数具有<b>可加性</b>:
+  设力学系统由 A, B 两部分组成, Lagrange 函数分别为 `L_A`, `L_B`,
+  当两部分趋于无穷远, 之间的相互作用可以忽略时, 系统的 Lagrange
+  函数趋于它们的和:
+  <span class="formula">
+    `lim L = L_A + L_B`.
+  </span>
+</p>
+
+<p class="principle">
+  <b>最小作用量原理 (又名变分原理, Hamilton 原理)</b>
+  给出了力学系统运动规律的最一般表述:
+  在任意时刻 `t_1, t_2`, 之间, 系统的运动总是使 Lagrange 函数的积分
+  (称为<b>作用量</b>)
+  <span class="formula">
+    `S = int_(t_1)^(t_2) L(q, dot q, t) dt`
+  </span>
+  取得最小值.
+</p>
+
+<p class="lemma">
+  <b>变分引理</b>
+  设 `f in L^2[a, b]`, `varphi in C_0[a, b]`, 即 `varphi` 是 `[a, b]`
+  上在两个端点处等于零的连续函数. 若
+  <span class="formula">
+    `int_a^b f(x) varphi(x) dx = 0`,
+  </span>
+  则 `f` 几乎处处为零.
+</p>
+
+<ol class="proof">
+  根据逼近定理??, 存在函数列 `varphi_n in C_0[a, b]`
+  使得 `varphi_n overset (L^2) rarr f`, `n to oo`.
+  由 Cauchy 不等式,
+  <span class="formula">
+    `int_a^b f^2(x) dx`
+    `int_a^b f(x) [f(x) - varphi_n(x)] dx`
+    `le sqrt(int_a^b f^2(x) dx) sqrt(int_a^b |f(x) - varphi_n(x)|^2 dx)`.
+  </span>
+  令 `n to oo`, 就有 `int_a^b f^2(x) dx = 0`. 由定理??,
+  这当且仅当 `f` 几乎处处为零.
+</ol>
+
+<p class="theorem">
+	<b>Euler-Lagrange 方程 (第一形式)</b>
+	设 `q(t) in C^1[a,b]`, `L(q, dot q, t) in C^2[a,b]`,
 	用 `C_0^1[a,b]` 表示在 `[a,b]`
 	上连续可微, 且满足齐次边界条件的全体函数:
 	<span class="formula">
@@ -212,40 +263,66 @@
 	</span>
 	则泛函
 	<span class="formula">
-		`J(y) = int_a^b F(x, y, y') dx`
+		`S(q) = int_a^b L(q, dot q, t) dt`
 	</span>
-	在 `y = y^**` 时取极值当且仅当对任意 `eta(x) in C_0^1[a,b]`, 函数
+  取极值的充分条件是下式成立:
 	<span class="formula">
-		`varphi(epsi) = J(y^** + epsi eta)`
+		`(del L)/(del q) = "d"/dt (del L)/(del dot q)`.
+	</span>
+</p>
+
+<p class="proof">
+	`S(q)` 在 `q = q^**` 时取极值当且仅当对任意 `eta(t) in C_0^1[a,b]`, 函数
+	<span class="formula">
+		`varphi(epsi) = S(q^** + epsi eta)`
 	</span>
 	在 `epsi = 0` 处取极值, 这时有 `varphi'(0) = 0`.
 	积分与求导换序, 再应用分部积分, 注意 `eta` 满足齐次边界条件, 有
 	<span class="formula">
-		`0 = int_a^b "d"/("d"epsi) F(x, y^**+epsi eta, y^**' + epsi eta')
-		dx`
-		`= int_a^b ((del F)/(del y) eta(x) + (del F)/(del y') eta'(x)) dx`
-		`= int_a^b [(del F)/(del y)-"d"/dx((del F)/(del y'))] eta(x) dx`.
+		`0 = int_a^b "d"/("d"epsi) L(q^**+epsi eta, dot q^** + epsi dot eta, t) dt`
+		`= int_a^b ((del L)/(del q) eta + (del L)/(del dot q) dot eta) dt`
+		`= int_a^b [(del L)/(del q)-"d"/dt (del L)/(del dot q)] eta dt`.
 	</span>
-	上式对任意 `eta(x) in C_0^1[a, b]` 成立, 从而
+  由函数 `eta` 的任意性, 按变分引理有
 	<span class="formula">
-		`(del F)/(del y) - "d"/dx((del F)/(del y')) = 0`
+		`(del L)/(del q) - "d"/dt (del L)/(del dot q) = 0`
 	</span>
 	几乎处处成立.
-	当 `F` 二阶连续可微时, 上式左边连续, "几乎处处为零" 可以加强为
+	当 `L` 二阶连续可微时, 上式左边连续, "几乎处处为零" 可以加强为
 	"处处为零".
-	这个等式称为 Euler-Lagrange 方程 (第一形式).
-	利用 Euler-Lagrange 方程, 计算
+</p>
+
+<p class="remark">
+  在定理的证明中, 函数 `eta` 称为 `q` 的<b>变分</b>, 通常记作 `delta q`.
+  变分可以表示函数的微小扰动, 由于 `delta q` 满足边界条件,
+  所以函数与变分的叠加 `q + delta` 仍属于 `C_0^1[a, b]`.
+  因此, 最小作用量原理可以写成
+  <span class="formula">
+    `delta S = int_a^b ((del L)/(del q) delta q + (del L)/(del dot q) delta dot q) dt = 0`.
+  </span>
+  其中, 一阶变分记号 `delta` 遵循类似微分的链式法则, 且 `delta dot
+  q = "d"/dt delta q`.
+</p>
+
+<p class="corollary">
+  <b>Euler-Lagrange 方程 (第二形式)</b>
 	<span class="formula">
-		`"d"/dx(F - y'(del F)/(del y'))`
-		`= (del F)/(del x) + y' (del F)/(del y)
-		- y' "d"/dx((del F)/(del y'))`
-		`= (del F)/(del x)`.
+		`"d"/dt(L - dot q(del L)/(del dot q))`
+		`= (del L)/(del t)`.
 	</span>
-	这称为 Euler-Lagrange 方程的第二形式. 特别当 `F` 不显含 `x` 时,
-	`(del F)/(del x) = 0`, 得到
+  特别当 `L` 不显含 `t` 时, `(del L)/(del t) = 0`, 得
 	<span class="formula">
-		`F - y' (del F)/(del y') = c`.
+		`L - dot q (del L)/(del dot q) = c`.
 	</span>
+</p>
+
+<p class="proof">
+  直接计算, 左边等于
+  <span class="formula">
+		`(del L)/(del t) + dot q (del L)/(del q) + ddot q (del L)/(del dot q)`
+    `- ddot q (del L)/(del dot q)  - dot q "d"/dt (del L)/(del dot q)`,
+  </span>
+  由 Euler-Lagrange 方程第一形式知, 上式等于 `(del L)/(del t)`.
 </p>
 
 <p class="example">
@@ -265,7 +342,7 @@
 	<span class="formula">
 		`dt = sqrt((1+y'^2)/(2g y)) dx`.
 	</span>
-	令 `F(x, y, y') = sqrt((1+y'^2)/(2g y))`, 因为 `F` 不显含 `x`,
+	令 `L(x, y, y') = sqrt((1+y'^2)/(2g y))`, 因为 `L` 不显含 `x`,
 	由 Euler-Lagrange 方程的第二形式,
 	<span class="formula">
 		`sqrt((1+y'^2)/(2g y)) - (y'^2)/sqrt((2g y)(1+y'^2))`

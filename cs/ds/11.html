@@ -1,50 +1,176 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>外排序</title>
+    <title>内排序</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
+<h2>`O(n^2)` 的算法</h2>
+
 <p class="algorithm">
-	<b>败者树</b>
+    <b>冒泡排序</b>
+    每执行一次外层循环, 当前最大的数就会下沉到数组末尾.
 </p>
 
 <pre>
-int loser[N]			# loser[1] 是根结点, loser[0] 是冠军
-int leaf[N+1]			# leaf[N] 作特殊用途, 见 init()
+bubble_sort(L):
+    for i = L.len-1 .. 1:
+        for j = 0 .. i-1:
+            if L[j] &gt; L[j+1]:
+                swap(L, j, j+1)
+</pre>
+
+<h2>`O(n lg n)` 的算法</h2>
+
+<p class="algorithm">
+	<b>快速排序</b>
+</p>
+
+<pre>
+# 对 L[lo..hi] 排序
+qsort(L, lo, hi):
+	if lo &lt; hi:
+		pivot = partition(L, lo, hi)
+		qsort(L, lo, pivot-1)
+		qsort(L, pivot+1, hi)
+
+# 一趟划分, 返回主元下标
+partition(L, lo, hi):
+	pivot = L[lo]
+	while lo &lt; hi:
+		while lo &lt; hi and L[hi] &gt;= pivot:
+			--hi
+		L[lo] = L[hi]
+		while lo &lt; hi and L[lo] &lt;= pivot:
+			++lo
+		L[hi] = L[lo]
+	L[lo] = pivot
+	return lo # 事实上 lo == hi
+</pre>
+
+<h2>`O(n)` 的算法</h2>
+
+<p class="algorithm">
+	<b>链式基数排序</b>
+	对 <code>N</code> 个 <code>RADIX</code> 进制的 <code>KEYS</code>
+	位数进行排序, 这些数字的每一位数放在数组 <code>key</code> 中,
+	以 <code>next</code> 指针链接起来.
+	算法按低位优先格式依次对各关键字进行分配和收集, 经过 <code>KEYS</code>
+	轮排序后完成.
+</p>
+
+<pre>
+smallint key[N+1][KEYS]	# 关键字, 取值为 0..RADIX-1
+int next[N+1]				# 下一结点的下标
+int first[RADIX]			# RADIX 个子表的头
+int last[RADIX]				# RADIX 个子表的尾
+
+# 按第 i 位数将各数字链成 RADIX 个子表, 每个表中 key[*][i] 值相同
+# first[j], last[j] 指向各子表的第一个和最后一个记录
+distribute(i):
+	# 清空 RADIX 个子表
+	for j = 0 to RADIX-1:
+		first[j] = 0
+	# 从头结点起遍历静态链表, 将结点打散重新链接
+	p = next[0]
+	while p:
+		d = key[p][i]			# 取出第 i 位数
+		if first[d]:			# 当第 d 个子表不空
+			next[last[d]] = p	# 接到子表尾
+		else:
+			first[d] = p		# 作为子表头
+		last[d] = p				# 更新子表尾指针
+		p = next[p]
+
+# 按分配结果依次链接各子表
+collect(i):
+	tail = 0
+	for j = 0 to RADIX-1:
+		if first[j]:
+			next[tail] = first[j]
+			tail = last[j]
+	next[tail] = 0
+
+radix_sort():
+	# 静态链表初始化, 下标 0 为头结点
+	for i = 0 to N-1:
+		next[i] = i+1
+	next[N] = 0
+	# 从低位至高位进行排序
+	for i = 0 to KEYS-1:
+		distribute(i)
+		collect(i)
+</pre>
+
+<h2>外排序</h2>
+
+<p class="algorithm">
+	<b>地址排序</b> 原记录表 <code>L</code> 占空间较大时,
+	可以只排序指向记录的指针表 <code>adr</code>,
+	再通过地址排序调整原记录的位置. 下面假设 <code>adr</code>
+	给出了 <code>L</code> 中元素的次序, 即
+	<code>L[adr[i]], i = 0..L.length-1</code> 是
+	<code>L</code> 的一个单调增序列.
+	算法实际上将各个静态循环链表逆向调整了一个位置.
+</p>
+
+<pre>
+rearrange(L, adr):
+	for i = 0 to L.length-1:
+		if adr[i] != i:		# 没有归位, 需要调整
+			j = i
+			tmp = L[j]
+			k = adr[j]
+			do:
+				L[j] = L[k]
+				adr[j] = j	# 作标记, 表示已经归位
+				j = k
+				k = adr[k]
+			while k != i
+			L[j] = tmp
+			adr[j] = j
+</pre>
+
+<p class="algorithm">
+    <b>败者树</b>
+</p>
+
+<pre>
+int loser[N]            # loser[1] 是根结点, loser[0] 是冠军
+int leaf[N+1]           # leaf[N] 作特殊用途, 见 init()
 
 # 从 leaf[i] 出发向上调整, 败者留在结点中, 胜者向上继续比赛
 adjust(i):
-	p = (N+i+1) &gt;&gt; 1    # 求父结点下标
-	while p:
-		if leaf[i] &gt; leaf[loser[p]]:
-			swap(i, loser[p])
-		p &gt;&gt;= 1
-	loser[0] = i		# 选出冠军
+    p = (N+i+1) &gt;&gt; 1    # 求父结点下标
+    while p:
+        if leaf[i] &gt; leaf[loser[p]]:
+            swap(i, loser[p])
+        p &gt;&gt;= 1
+    loser[0] = i        # 选出冠军
 
 init():
-	# 在虚拟结点中存储"负无穷大", 让所有的 loser 指针指向它
-	leaf[N] = -INF
-	for i = 0 to N-1:
-		loser[i] = N
-	# 从后往前依次读入记录, 并调整叶子结点
-	for i = N-1 downto 0:
-		input(leaf[i])		# 读取输入, 该路已无数据时, 得到 INF
-		adjust(i)
-	# 调整 N 次后, 产生第一个冠军
+    # 在虚拟结点中存储"负无穷大", 让所有的 loser 指针指向它
+    leaf[N] = -INF
+    for i = 0 to N-1:
+        loser[i] = N
+    # 从后往前依次读入记录, 并调整叶子结点
+    for i = N-1 downto 0:
+        input(leaf[i])      # 读取输入, 该路已无数据时, 得到 INF
+        adjust(i)
+    # 调整 N 次后, 产生第一个冠军
 
 # 利用败者树将 leaf[0..N-1] 的记录进行 N 路归并
 N_merge():
-	init()
-	# 每输出一个冠军, 就读入新的记录代替它, 直到没有新数据
-	i = loser[0]
-	while leaf[i] != INF:
-		output(leaf[i])
-		input(leaf[i])
-		adjust(i)
-		i = loser[0]
+    init()
+    # 每输出一个冠军, 就读入新的记录代替它, 直到没有新数据
+    i = loser[0]
+    while leaf[i] != INF:
+        output(leaf[i])
+        input(leaf[i])
+        adjust(i)
+        i = loser[0]
 </pre>
 
 <pre>
@@ -52,80 +178,80 @@ N_merge():
 从上而下, 从左而右, loser 结点和 leaf 结点的下标分别是 0, 1, 2, ...
 为直观起见, loser 结点上写的是值而不是指针.
 
-       ( )            ( )            ( )            ( )     
-	    |              |              |              |      
-       ( )            ( )            ( )            (3)     
-	  /   \    	     /   \    	    /   \   	   /   \     
-    ( )   ( )      (2)   ( )      (2)   (9)      (2)   (9)  
-   /   \  /  \    /   \  /  \    /   \  /  \    /   \  /  \ 
+       ( )            ( )            ( )            ( )
+        |              |              |              |
+       ( )            ( )            ( )            (3)
+      /   \          /   \          /   \          /   \
+    ( )   ( )      (2)   ( )      (2)   (9)      (2)   (9)
+   /   \  /  \    /   \  /  \    /   \  /  \    /   \  /  \
   (7) [ ][ ][ ]  (7) [ ][ ][ ]  (7) [ ][ ][9]  (7) [ ][3][9]
-  / \            / \            / \            / \          
-[ ][7]         [2][7]         [2][7]         [2][7]         
- 
-       (2)     
-        |      
-       (3)     
-      /   \    
-    (5)   (9)  
-   /   \  /  \ 
+  / \            / \            / \            / \
+[ ][7]         [2][7]         [2][7]         [2][7]
+
+       (2)
+        |
+       (3)
+      /   \
+    (5)   (9)
+   /   \  /  \
   (7) [5][3][9]
-  / \          
-[2][7]         
+  / \
+[2][7]
 </pre>
 
 <p class="algorithm">
-	<b>置换-选择排序</b>
+    <b>置换-选择排序</b>
 </p>
 
 <pre>
-int loser[N]	# 败者树
-int key[N]		# 关键字, 放在败者树的叶结点
-int tag[N]		# 归并段号
-int cur_tag = 1	# 当前段号
-int max_tag = 1	# 最大段号
+int loser[N]    # 败者树
+int key[N]      # 关键字, 放在败者树的叶结点
+int tag[N]      # 归并段号
+int cur_tag = 1 # 当前段号
+int max_tag = 1 # 最大段号
 
 lose(i, j):
-	return tag[i] &gt; tag[j]\
-		or (tag[i] == tag[j] and key[i] &gt; key[j])
+    return tag[i] &gt; tag[j]\
+        or (tag[i] == tag[j] and key[i] &gt; key[j])
 
 adjust(i):
-	p = (N+i+1) &gt;&gt; 1
-	while p:
-		if lose(i, loser[p]):
-			swap(i, loser[p])
-		p &gt;&gt;= 1
-	loser[0] = i
+    p = (N+i+1) &gt;&gt; 1
+    while p:
+        if lose(i, loser[p]):
+            swap(i, loser[p])
+        p &gt;&gt;= 1
+    loser[0] = i
 
 init():
-	for i = 0 to N-1:
-		tag[i] = key[i] = loser[i] = 0
-	for i = N-1 downto 0:
-		if input(key[i]):
-			tag[i] = cur_tag
-		else:
-			tag[i] = max_tag + 1
-		adjust(i)
+    for i = 0 to N-1:
+        tag[i] = key[i] = loser[i] = 0
+    for i = N-1 downto 0:
+        if input(key[i]):
+            tag[i] = cur_tag
+        else:
+            tag[i] = max_tag + 1
+        adjust(i)
 
 # 求下一归并段
 next_segment():
-	w = loser[0]				# w = winner
-	while tag[w] == cur_tag:	# 选得的冠军属于当前段时
-		key_to_put = key[w]
-		output(key_to_put)
-		if !input(key[w]):		# 输入文件结束, 虚设段号为 max_tag + 1
-			tag[w] = max_tag + 1
-		elif key[w] &lt; key_to_put:	# 读入数据较小, 应属于下一段
-			max_tag = cur_tag + 1
-			tag[w] = max_tag
-		adjust(w)
-		w = loser[0]
-	output(SEGMENT_DILIMITER)	# 将段结束标志写入输出文件
-	cur_tag = tag[w]
+    w = loser[0]                # w = winner
+    while tag[w] == cur_tag:    # 选得的冠军属于当前段时
+        key_to_put = key[w]
+        output(key_to_put)
+        if !input(key[w]):      # 输入文件结束, 虚设段号为 max_tag + 1
+            tag[w] = max_tag + 1
+        elif key[w] &lt; key_to_put:    # 读入数据较小, 应属于下一段
+            max_tag = cur_tag + 1
+            tag[w] = max_tag
+        adjust(w)
+        w = loser[0]
+    output(SEGMENT_DILIMITER)   # 将段结束标志写入输出文件
+    cur_tag = tag[w]
 
 replace_select_sort():
-	init()
-	while cur_tag &lt;= max_tag:
-		next_segment()
+    init()
+    while cur_tag &lt;= max_tag:
+        next_segment()
 </pre>
 
 <script src="../../js/note.js?type=cs"></script>
