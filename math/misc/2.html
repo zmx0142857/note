@@ -202,6 +202,34 @@
 	`= tan x tan(pi/3-x) tan(pi/3+x)`.
 </span>
 
+<p class="proof">
+  在<a class="ref" href="#the-sin-prod"></a> 的 2 中取 `n = 3`,
+  就得到正弦函数的三倍角公式:
+  <span class="formula">
+    `sin theta sin(theta+60^@) sin(theta+120^@)`
+    `= sin theta sin(60^@+theta) sin(60^@-theta)`
+    `= sin(3 theta)// 4`.
+  </span>
+  在 4. 中取 `n=1` 就得到余弦的三倍角公式;
+  两式相除得到正切的三倍角公式.
+</p>
+
+<p class="example">
+	`sin 20^@ sin40^@ sin80^@ = (sqrt 3)/8`.
+</p>
+
+<p class="proof">
+  这是三倍角公式的直接推论, 也可以用积化和差验证: 记 `x = 10^@`, 有
+	<span class="formula">
+    `sin 20^@ * sin40^@ * sin80^@`.
+		`1/2 [ cos (4-2)x - cos (4+2)x ] cos x`
+		`= 1/2 (cos 2 x - 1/2) cos x`
+		`= 1/2 cos 2 x cos x - 1/4 cos x`
+		`= 1/4 [ cos(2+1)x + cos(2-1)x ] - 1/4 cos x`
+		`= (sqrt 3)/8`.
+	</span>
+</p>
+
 <h4>半角公式</h4>
 
 <span class="formula">
@@ -282,9 +310,13 @@
 <ol class="theorem" id="the-sin-prod">
   <b>三角函数乘积公式</b>
   <li>`prod_(0 lt k lt n) sin {:(k pi)/n:} = (2n)/2^n`;</li>
-  <li>`prod_(1 le k le n) cos {:(k pi)/(2n+1):} = 2^-n`.</li>
-  <li> `prod_(0 le k lt n) sin(theta + (k pi)/n) = 2^(1-n) sin n theta`.
+  <li> `prod_(0 le k lt n) sin(theta + (k pi)/n) = 2^(1-n) sin n theta`;
     [来自群友 我是薛定谔的猫]
+  </li>
+  <li>`prod_(1 le k le n) cos {:(k pi)/(2n+1):} = 2^-n`;</li>
+  <li>`prod_(0 le k le 2n) cos(theta + (k pi)/(2n+1)) = (-4)^-n cos (2n+1) theta`;</li>
+  <li>`prod_(k=1)^n cos x_k = 1/2^n sum_(e in S)
+      cos(e_1 x_1 + cdots + e_n x_n)`, `S = {1, -1}^n`.
   </li>
 </ol>
 
@@ -309,13 +341,6 @@
         `n = 2^(n-1) prod_(0 lt k lt n) sin {:(k pi)/n:}`.
     </span>
   </li>
-  <li>
-	如果令 `x = -1`, 再用 `2n+1` 替换 `n`, 同理可证
-	<span class="formula">
-        `1 = 2^(2n) prod_(1 le k le 2n) cos{:(k pi)/(2n+1):}`,
-	</span>
-	从而第二个等式成立.
-  </li>
   <li>方程 `x^n = "e"^(-2"i"n theta)` 的 `n` 个根为 `"e"^(-2"i"(theta+(k
     pi)/n))`, `k = 0, cdots, n-1`, 故有多项式分解
     <span class="formula">
@@ -330,15 +355,15 @@
     </span>
     即得证.
   </li>
+  <li>
+    在 1. 中令 `x = -1`, 再用 `2n+1` 替换 `n`, 同理可证
+    <span class="formula">
+          `1 = (-4)^n prod_(1 le k le 2n) cos{:(k pi)/(2n+1):}`,
+    </span>
+    从而结论成立.
+  </li>
+  <li>在 2. 中令 `x = -1` 再用 `2n+1` 替换 `n`.</li>
 </ol>
-
-<p>
-	<span class="formula">
-		`prod_(k=1)^n cos x_k = 1/2^n sum_(e in S)
-		cos(e_1 x_1 + cdots + e_n x_n)`,
-	</span>
-	其中 `S = {1, -1}^n`.
-</p>
 
 <h4>辅助角公式</h4>
 
@@ -1008,26 +1033,11 @@
 <h2>杂例</h2>
 
 <p class="example">
-	计算 `sin 20^@ * sin40^@ * sin80^@`.
-</p>
-
-<p class="solution">
-	记 `x = 10^@`, 注意到 `sin 8x = cos x`, 利用积化和差, 上式即
-	<span class="formula">
-		`1/2 [ cos (4-2)x - cos (4+2)x ] cos x`
-		`= 1/2 (cos 2 x - 1/2) cos x`
-		`= 1/2 cos 2 x cos x - 1/4 cos x`
-		`= 1/4 [ cos(2+1)x + cos(2-1)x ] - 1/4 cos x`
-		`= (sqrt 3)/8`.
-	</span>
-</p>
-
-<p class="example">
 	计算 `1/(2sin 10^@) ( 3/(sin^2 40^@) - 1/(cos^2 40^@) )`.
 </p>
 
 <p class="solution">
-	同样设 `x = 10^@`. 利用三倍角公式
+	设 `x = 10^@`. 利用三倍角公式
 	<span class="formula">
 		` 1/2 = sin 3x`
 		`= 3 cos^2 x sin x - sin^3 x`

@@ -142,7 +142,7 @@ math: {
   articles: [
     {title:'一阶微分方程的初等解法', src:'ode/2.html'},
     {title:'高阶微分方程', src:'ode/4.html'},
-    {title:'线性微分方程组', src:'ode/5.html'},
+    {title:'线性微分方程组', src:'ode/5.html',isnew:true},
   ]
 }, {
   title:'偏微分方程',

@@ -104,39 +104,86 @@
 	`exp At = Phi(t) C`, 再由 `exp A0 = E` 知 `exp At = Phi(t) Phi^-1(0)`.
 </p>
 
-<h3>利用特征子空间求 `exp At`</h3>
+<h3>利用根子空间求矩阵指数</h3>
 
-<p>	先求方程 `x' = Ax` 满足初值条件 `varphi(0) = eta` 的解
-	`varphi(t) = (exp At) eta`.
+<p>
+  矩阵指数
+  <span class="formula">
+    `exp bm A = sum_(k ge 0) bm A^k/(k!)`
+  </span>
+  是无穷级数, 直接计算比较困难.  但如果存在某个 `k_0`, 使得 `bm A = bm O`,
+  `AA k ge k_0`, 则只需计算有限项.  根子空间就具有这样的性质. 具体来说,
+  设 `lambda` 是 `bm A` 的一个特征值, 重数为 `r_lambda`,
+  <span class="formula">
+    `V_lambda = "Ker"(bm A-lambda bm E)^(r_lambda)`
+    `:= {bm v: (bm A-lambda bm E)^(r_lambda) bm v = bb 0}`
+  </span>
+  是对应的根子空间 (特别 `r_lambda = 1` 时, 根子空间就是特征子空间),
+  则对任意 `bm v in V_lambda` 有
+  <span class="formula">
+    `(bm A-lambda bm E)^k bm v = bb 0`, `AA k ge r_lambda`.
+  </span>
+  根据线性代数知识, `n` 维线性空间在根子空间上具有直和分解, 即任意
+  `n` 维向量 `bm x` 可以唯一写成
+  <span class="formula">
+    `bm x = sum_lambda bm x_lambda`, `quad bm x_lambda in V_lambda`.
+  </span>
+  上式表示对 `bm A` 的不同特征值求和. 从而
+  <span class="formula">
+    `bm x exp bm A`
+    `= sum_lambda bm x_lambda exp bm A`
+    `= sum_lambda "e"^lambda bm x_lambda exp(bm A-lambda bm E)`
+    `= sum_lambda "e"^lambda bm x_lambda sum_(k lt r_lambda) (bm A-lambda
+    bm E)^k // k!`.
+  </span>
+  特别取 `bm x = bm epsi_j`, 就得到矩阵 `exp bm A` 的第 `j` 列.
 </p>
 
-<p>	设 `{lambda_j}_(j=1)^k` 是 `A` 的不同特征值, 重数分别为
-	`{n_j}_(j=1)^k`, 这里 `sum_(j=1)^k n_j = n`.
-	则方程组
-	<span class="formula">
-		`(A - lambda_j E)^(n_j) u = 0`
-	</span>
-	的解的全体构成 `n` 维 Euclid 空间的一个 `n_j` 维子空间 `U_j`.
-	换言之, `eta` 有直和分解
-	<span class="formula">
-		`eta = sum_(j=1)^k v_j`, `quad v_j in U_j`.
-	</span>
-	即
-	<span class="formula">
-		`(A - lambda_j E)^l v_j = 0`, `quad l ge n_j`, `j = 1, 2, cdots, k`.
-	</span>
-	所以
-	<span class="formula">
-		`(exp At) eta = (exp At)E sum_(j=1)^k v_j`
-					 `= sum_(j=1)^k (exp At) "e"^(lambda_j t)
-						exp(-lambda_j Et) v_j`
-					 `= sum_(j=1)^k "e"^(lambda_j t)
-						[exp(A-lambda_j E)t] v_j`
-					 `= sum_(j=1)^k "e"^(lambda_j t)
-						sum_(i=0)^(n_j-1) t^i/(i!) (A-lambda_j E)^i v_j`.
-	</span>
-	记 `E = (epsi_1, epsi_2, cdots, epsi_n)`, 在上式中依次取
-	`eta = epsi_i`, 就得到 `exp At` 的第 `i` 列.
+<p class="example">
+  求 `exp bm A t`, `bm A = [cos a, -sin a; sin a, cos a]`.
+  例如, `exp[, -pi/2; pi/2,] = [, -1; 1, 0]`.<br/>
+</p>
+
+<p class="solution">
+  `bm A` 的特征值是 `lambda_(1,2) = cos a +- "i" sin a`,
+  先设 `lambda_1 = lambda_2 = cos a`, 则 `bm A = lambda bm E`,
+  <span class="formula">
+    `exp(bm A - lambda bm E) = exp bm O = bm E`.
+  </span>
+  从而
+  <span class="formula">
+    `[1;0] exp bm A t = [1;0] "e"^(lambda t)`,<br/>
+    `[0;1] exp bm A t = [0;1] "e"^(lambda t)`,<br/>
+    `exp bm A t = "e"^(t cos a) bm E`.
+  </span>
+  再设 `lambda_1 != lambda_2`, 对应的特征向量为
+  <span class="formula">
+    `bm v_1 = ["i";1]`, `bm v_2 = [1;"i"]`.
+  </span>
+  将单位向量分解到特征子空间,
+  <span class="formula">
+    `[1;0] = 1/2 [1;"i"] - "i"/2 ["i";1]`,<br/>
+    `[0;1] = -"i"/2 [1;"i"] + 1/2 ["i";1]`.
+  </span>
+  由于特征值都是一重的, 指数的无穷级数中实际上只有一项:
+  <span class="formula">
+    `exp(bm A - lambda bm E) = bm E`.
+  </span>
+  从而
+  <span class="formula">
+    `[1;0] exp bm A t`
+    `= 1/2 [1;"i"] "e"^(lambda_2 t) - "i"/2 ["i";1] "e"^(lambda_1 t)`
+    `= 1/2 ["e"^(lambda_2 t) + "e"^(lambda_1 t); "i"("e"^(lambda_2 t)
+    - "e"^(lambda_1 t))]`
+    `= "e"^(t cos a) [cos(t sin a); sin(t sin a)]`.
+  </span>
+  同理可求得第二列, 于是
+  <span class="formula">
+    `exp bm A t`
+    `= "e"^(t cos a) [cos(t sin a), -sin(t sin a);
+    sin(t sin a), cos(t sin a)]`.
+  </span>
+  易知上式对重根的情形也成立.
 </p>
 
 <p class="example">

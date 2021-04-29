@@ -158,6 +158,19 @@
   </li>
 </ol>
 
+<p class="example">
+  `int_0^1 (x^b - x^a)/(ln x) dx`, `a, b gt 0`.
+</p>
+
+<p class="solution">
+  交换积分次序, 原式等于
+  <span class="formula">
+    `int_0^1 dx int_a^b x^y dy`
+    `= int_a^b dy/(y+1)`
+    `= ln{:(b+1)/(a+1):}`.
+  </span>
+</p>
+
 <h3>杂例</h3>
 
 <ol class="example">
@@ -175,7 +188,16 @@
 			- (ln(1+s))/(1+s^2) ) "d"s`
 			`= pi/4 ln 2 - I(1)`.
 		</span>
-		所以 `I(1) = pi/8 ln 2`.
+    所以 `I(1) = pi/8 ln 2`.<br/>
+    方法二 [来自 群友 ζ(me)=0] 令 `x = tan t`, 原式化为
+    <span class="formula">
+      `int_0^(pi/4) ln(1+tan t) dt`
+      `= int_0^(pi/8) + int_(pi/8)^(pi/4)`
+      `= int_0^(pi/8) (ln(1+tan t) + ln(1+tan(pi/4-t))) dt`
+      `= int_0^(pi/8) (ln(1+tan t) + ln(2/(1+tan t))) dt`
+      `= int_0^(pi/8) ln 2 dt`
+      `= pi/8 ln 2`.
+    </span>
 	</li>
 	<li>令 `I(s) = int_0^oo "e"^(-s x^2)/(1+x^2) dx`, 积分号下求导,
 		<span class="formula">
