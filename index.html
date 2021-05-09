@@ -135,7 +135,8 @@ header span {
   height: 100%;
   overflow: auto;
   list-style-type: none;
-  color: #45a;
+  color: #259;
+  box-shadow: inset -14px 0px 5px -12px rgb(210,210,210);
 }
 
 #table-of-contents ul {
@@ -143,7 +144,7 @@ header span {
 }
 
 #table-of-contents li {
-  padding-left: 1em;
+  text-indent: 1em;
   line-height: 2em;
   /* both of the following are required for text-overflow */
   white-space: nowrap;
@@ -152,7 +153,8 @@ header span {
 }
 
 #table-of-contents ul li {
-  color: black;
+  padding-left: 1em;
+  color: #444;
 /* 折叠目录
   height: 0;
   overflow-y: hidden;
@@ -165,16 +167,21 @@ header span {
 */
 }
 
-#table-of-contents ul li:hover {
-  background: #dde;
+#table-of-contents ul li:hover,
+#table-of-contents ul li.active {
+  background: #eef;
   cursor: pointer;
 }
-
 li.isnew::after {
-  content: "NEW";
-  color: red;
-  font-size: 0.7em;
-  padding: 0 0.3em;
+  content: '';
+  background: #d34;
+  border-radius: 50%;
+  display: inline-block;
+  height: 6px;
+  width: 6px;
+  position: relative;
+  top: -5px;
+  left: 3px;
 }
 
 #article {
@@ -437,6 +444,17 @@ function jump(src, title) {
 function jumpPos(pos) {
   var item = tableOfContents[pos[0]].articles[pos[1]];
   jump(item.src, item.title);
+
+  // clear active li's
+  var active = document.querySelectorAll('#table-of-contents li.active')
+  for (var i = 0; i < active.length; ++i) {
+    active[i].classList.remove('active')
+  }
+  // set new active li
+  toc.children[pos[0]] // li
+     .children[0]      // ul
+     .children[pos[1]] // li
+     .classList.add('active')
 }
 
 function redirect(pos) {

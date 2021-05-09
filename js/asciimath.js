@@ -440,128 +440,6 @@ AM.symbols = AM.symbols.concat([
 
 // ----------------------------------------------------------------------
 
-var doc = document;
-var body = doc.body;
-var MATHML = 'http://www.w3.org/1998/Math/MathML';
-var XHTML = 'http://www.w3.org/1999/xhtml';
-var isIE = (navigator.appName.slice(0,9) == 'Microsoft');
-
-if (!document.getElementById) {
-  alert("This webpage requires a recent browser such as Mozilla Firefox");
-  return;
-}
-
-if (isIE) {
-  // add MathPlayer info to IE webpages
-  document.write('<object id="mathplayer" classid="clsid:32F66A20-7614-11D4-BD11-00104BD3F987"></object>');
-  document.write('<?import namespace="m" implementation="#mathplayer"?>');
-  // redefine functions
-  document.createElementNS = function(namespace, tag) {
-    if (namespace == MATHML)
-      return document.createElement('m:' + tag);
-    return document.createElement(tag);
-  }
-}
-
-// imitate jquery (迫真)
-function $(str, children, namespace) {
-  if (typeof(str) == 'string') {
-    if (str[0] == '#')
-      return doc.getElementById(str.slice(1));
-    if (str[0] == '.')
-      return doc.getElementsByClassName(str.slice(1));
-    if (str[0] == '"' && str.slice(-1) == '"')
-      return doc.createTextNode(str.slice(1,-1));
-    if (str[0] == '<' && str.slice(-1) == '>') {
-      var elem;
-      str = str.slice(1,-1);
-      if (namespace == MATHML)
-        elem = doc.createElementNS(MATHML, str);
-      else if (!namespace)
-        elem = doc.createElement(str);
-      else if (namespace == XHTML)
-        elem = doc.createElementNS(XHTML, str);
-      if (!children)
-        ;
-      else if (typeof(children) == 'string')
-        elem.appendChild(doc.createTextNode(children));
-      else if (children instanceof Node)
-        elem.appendChild(children);
-      else if (children instanceof Array)
-        for (c of children)
-          elem.appendChild(c);
-      return elem;
-    }
-    if (str.length > 0)
-      return doc.getElementsByTagName(str);
-  } else if (typeof(str) == 'undefined') {
-    return doc.createDocumentFragment();
-  }
-}
-
-function $math(str, children) {
-  elem = document.createElementNS(MATHML, str);
-  if (children)
-    elem.appendChild(children);
-  return elem;
-}
-
-function $text(str) {
-  return document.createTextNode(str);
-}
-
-function hasMathML() {
-  var explorer = navigator.userAgent;
-  var foundSafari = explorer.indexOf('Safari') >= 0;
-  var isFirefox = explorer.indexOf('Firefox') >= 0;
-  var isChrome = explorer.indexOf('Chrome') >= 0;
-  var isIE = navigator.appName.slice(0,9) == 'Microsoft';
-  var isOpera = navigator.appName.slice(0,5) == 'Opera';
-
-  if (isChrome)
-    return false;
-  else if (isFirefox || findSafari)
-    return navigator.appVersion.slice(0,1) >= '5';
-  else if (isIE)
-    try {
-      new ActiveXObject('MathPlayer.Factory.1');
-      return true;
-    } catch (e) {}
-  else if (isOpera)
-    return navigator.appVersion.slice(0,3) >= '9.5';
-  else
-    return false;
-}
-
-function notify(msgs) {
-  var revert = body.onclick;
-  body.onclick = function() {
-    body.removeChild($('#AMnotify'));
-    body.onclick = revert;
-  }
-  var div = $('<div>', null, XHTML);
-  div.id = 'AMnotify';
-  div.style = 'position:absolute; width:100%; top:0; left:0; z-index:200; text-align:center; font-size:1em; padding:0.5em 0 0.5em 0; color:#f00; background:#f99';
-
-  var msg = 'To view the ASCIIMathML notation, use Mozilla Firefox >= 2.0 or latest version of Safari or Internet Explorer + MathPlayer.';
-  var line = $('<div>', msg, XHTML);
-  line.style.paddingBottom = '1em';
-  div.appendChild(line);
-
-  div.appendChild($('<p>', null, XHTML));
-  div.appendChild($('"For instructions see the "'));
-  var elem = $('<a>', 'ASCIIMathML', XHTML);
-  elem.setAttribute('href', 'http://www.chapman.edu/~jipsen/asciimath.html');
-  div.appendChild(elem);
-  div.appendChild($('" homepage"'));
-  elem = $('<div>', '(click anywhere to close)', XHTML);
-  elem.style = 'font-size:0.8em; padding-top:1em; color:#014';
-  div.appendChild(elem);
-  body.insertBefore(div, body.firstChild);
-}
-
-// ---------------------------------------------------------------------
-
 var isLeftBrace = /\(|\[|\{/;
 var isRightBrace = /\)|\]|\}/;
 
@@ -1175,6 +1053,8 @@ function parseExpr(rightbracket) {
 // str -> <math>
 function parseMath(str) {
   AMnestingDepth = 0;
+  for (d of AM.define)
+    str = str.replace(d[0], d[1]);
   AMstr = str.trimLeft();
   AMbegin = 0;
   var node = $math('mstyle', parseExpr(false));
@@ -1191,6 +1071,9 @@ function parseMath(str) {
 }
 
 function am2tex(str) {
+  AMnestingDepth = 0;
+  for (d of AM.define)
+    str = str.replace(d[0], d[1]);
   AMstr = str.trimLeft();
   AMbegin = 0;
   str = parseExpr(false);
@@ -1206,7 +1089,6 @@ function am2tex(str) {
 }
 
 function parseMathTex(str) {
-  AMnestingDepth = 0;
   str = am2tex(str);
   var node = $('<span>', str);
   try {
@@ -1234,8 +1116,6 @@ function parseNode(node) {
     for (var i = 0; i < arr.length; ++i) {
       arr[i] = arr[i].replace(/AMesc1/g, AM.delim1);
       if (math) {
-        for (d of AM.define)
-          arr[i] = arr[i].replace(d[0], d[1]);
         frag.appendChild(parseMath(arr[i]));
       } else {
         frag.appendChild($text(arr[i]));
@@ -1265,33 +1145,6 @@ function render(node) {
 
 function autorender() {
   render(body);
-}
-
-function loadCss(url) {
-  var link = document.createElement('link');
-  link.setAttribute('rel', 'stylesheet');
-  link.setAttribute('href', url);
-  document.body.appendChild(link);
-}
-
-function loadScript(url, callback) {
-  var script = document.createElement('script');
-  script.type = 'application/javascript';
-  if (typeof(callback) != 'undefined') {
-    if (script.readyState) { // IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded'
-            || script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      }
-    } else { // others
-      script.onload = function() { callback(); }
-    }
-  }
-  script.src = url;
-  document.body.appendChild(script);
 }
 
 function setDefaults(target, dict) {
@@ -1342,34 +1195,189 @@ function init() {
   parseMatrix = parseMatrixTex;
   parseMath = parseMathTex;
 
-  // local fonts cause CORS error
-  loadCss('https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css');
-  loadScript(AM.katexpath, AM.onload);
+  if (typeof document !== 'undefined') {
+    // local fonts cause CORS error
+    loadCss('https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css');
+    loadScript(AM.katexpath, AM.onload);
+  }
 }
 
-// setup onload function
-if (typeof window.addEventListener == 'function') {
-  // gecko, safari, konqueror and standard
-  window.addEventListener('load', init, false);
-} else if (typeof document.addEventListener == 'function') {
-  // opera 7
-  document.addEventListener('load', init, false);
-} else if (typeof window.attachEvent == 'function') {
-  // win/ie
-  window.attachEvent('onload', init);
-} else {
-  // mac/ie5 and anything else that gets this far
-  // if there's an existing onload function
-  if (typeof window.onload == 'function') {
-    // store it
-    var existing = onload;
-    // add new onload handler
-    window.onload = function() {
-      existing(); // call existing onload function
-      init();     // call init onload function
-    };
+if (typeof document === 'undefined') { // nodejs
+  AM.katex = true
+  AM.displaystyle = true
+  init()
+} else { // browser
+  var doc = document;
+  var body = doc.body;
+  var MATHML = 'http://www.w3.org/1998/Math/MathML';
+  var XHTML = 'http://www.w3.org/1999/xhtml';
+  var isIE = (navigator.appName.slice(0,9) == 'Microsoft');
+
+  if (!doc.getElementById) {
+    alert('This webpage requires a recent browser such as Mozilla Firefox');
+    return;
+  }
+
+  if (isIE) {
+    // add MathPlayer info to IE webpages
+    doc.write('<object id="mathplayer" classid="clsid:32F66A20-7614-11D4-BD11-00104BD3F987"></object>');
+    doc.write('<?import namespace="m" implementation="#mathplayer"?>');
+    // redefine functions
+    doc.createElementNS = function(namespace, tag) {
+      if (namespace == MATHML)
+        return doc.createElement('m:' + tag);
+      return doc.createElement(tag);
+    }
+  }
+
+  function loadCss(url) {
+    var link = doc.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('href', url);
+    body.appendChild(link);
+  }
+
+  function loadScript(url, callback) {
+    var script = doc.createElement('script');
+    script.type = 'application/javascript';
+    if (typeof(callback) != 'undefined') {
+      if (script.readyState) { // IE
+        script.onreadystatechange = function() {
+          if (script.readyState == 'loaded'
+              || script.readyState == 'complete') {
+            script.onreadystatechange = null;
+            callback();
+          }
+        }
+      } else { // others
+        script.onload = function() { callback(); }
+      }
+    }
+    script.src = url;
+    body.appendChild(script);
+  }
+
+  // imitate jquery (迫真)
+  function $(str, children, namespace) {
+    if (typeof(str) == 'string') {
+      if (str[0] == '#')
+        return doc.getElementById(str.slice(1));
+      if (str[0] == '.')
+        return doc.getElementsByClassName(str.slice(1));
+      if (str[0] == '"' && str.slice(-1) == '"')
+        return doc.createTextNode(str.slice(1,-1));
+      if (str[0] == '<' && str.slice(-1) == '>') {
+        var elem;
+        str = str.slice(1,-1);
+        if (namespace == MATHML)
+          elem = doc.createElementNS(MATHML, str);
+        else if (!namespace)
+          elem = doc.createElement(str);
+        else if (namespace == XHTML)
+          elem = doc.createElementNS(XHTML, str);
+        if (!children)
+          ;
+        else if (typeof(children) == 'string')
+          elem.appendChild(doc.createTextNode(children));
+        else if (children instanceof Node)
+          elem.appendChild(children);
+        else if (children instanceof Array)
+          for (c of children)
+            elem.appendChild(c);
+        return elem;
+      }
+      if (str.length > 0)
+        return doc.getElementsByTagName(str);
+    } else if (typeof(str) == 'undefined') {
+      return doc.createDocumentFragment();
+    }
+  }
+
+  function $math(str, children) {
+    elem = doc.createElementNS(MATHML, str);
+    if (children)
+      elem.appendChild(children);
+    return elem;
+  }
+
+  function $text(str) {
+    return doc.createTextNode(str);
+  }
+
+  function hasMathML() {
+    var explorer = navigator.userAgent;
+    var foundSafari = explorer.indexOf('Safari') >= 0;
+    var isFirefox = explorer.indexOf('Firefox') >= 0;
+    var isChrome = explorer.indexOf('Chrome') >= 0;
+    var isIE = navigator.appName.slice(0,9) == 'Microsoft';
+    var isOpera = navigator.appName.slice(0,5) == 'Opera';
+
+    if (isChrome)
+      return false;
+    else if (isFirefox || findSafari)
+      return navigator.appVersion.slice(0,1) >= '5';
+    else if (isIE)
+      try {
+        new ActiveXObject('MathPlayer.Factory.1');
+        return true;
+      } catch (e) {}
+    else if (isOpera)
+      return navigator.appVersion.slice(0,3) >= '9.5';
+    else
+      return false;
+  }
+
+  function notify(msgs) {
+    var revert = body.onclick;
+    body.onclick = function() {
+      body.removeChild($('#AMnotify'));
+      body.onclick = revert;
+    }
+    var div = $('<div>', null, XHTML);
+    div.id = 'AMnotify';
+    div.style = 'position:absolute; width:100%; top:0; left:0; z-index:200; text-align:center; font-size:1em; padding:0.5em 0 0.5em 0; color:#f00; background:#f99';
+
+    var msg = 'To view the ASCIIMathML notation, use Mozilla Firefox >= 2.0 or latest version of Safari or Internet Explorer + MathPlayer.';
+    var line = $('<div>', msg, XHTML);
+    line.style.paddingBottom = '1em';
+    div.appendChild(line);
+
+    div.appendChild($('<p>', null, XHTML));
+    div.appendChild($('"For instructions see the "'));
+    var elem = $('<a>', 'ASCIIMathML', XHTML);
+    elem.setAttribute('href', 'http://www.chapman.edu/~jipsen/asciimath.html');
+    div.appendChild(elem);
+    div.appendChild($('" homepage"'));
+    elem = $('<div>', '(click anywhere to close)', XHTML);
+    elem.style = 'font-size:0.8em; padding-top:1em; color:#014';
+    div.appendChild(elem);
+    body.insertBefore(div, body.firstChild);
+  }
+
+  // setup onload function
+  if (typeof window.addEventListener == 'function') {
+    // gecko, safari, konqueror and standard
+    window.addEventListener('load', init, false);
+  } else if (typeof document.addEventListener == 'function') {
+    // opera 7
+    document.addEventListener('load', init, false);
+  } else if (typeof window.attachEvent == 'function') {
+    // win/ie
+    window.attachEvent('onload', init);
   } else {
-    window.onload = init;
+    // mac/ie5 and anything else that gets this far
+    // if there's an existing onload function
+    if (typeof window.onload == 'function') {
+      // store it
+      var existing = onload;
+      // add new onload handler
+      window.onload = function() {
+        existing(); // call existing onload function
+        init();     // call init onload function
+      };
+    } else {
+      window.onload = init;
+    }
   }
 }
 
@@ -1377,3 +1385,6 @@ if (typeof window.addEventListener == 'function') {
 AM.render = render;
 AM.am2tex = am2tex;
 })();
+
+if (typeof module !== 'undefined')
+  module.exports = asciimath

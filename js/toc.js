@@ -164,7 +164,7 @@ math: {
 }, {
   title:'解析几何',
   articles: [
-    {title:'向量与坐标系', src:'analytic-geo/1.html'},
+    {title:'向量与坐标系', src:'analytic-geo/1.html',isnew:true},
     {title:'平面与直线', src:'analytic-geo/2.html'},
     {title:'圆锥曲线与二次曲面', src:'analytic-geo/3.html'},
     {title:'平面几何的复数解法', src:'analytic-geo/6.html'},

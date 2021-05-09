@@ -406,7 +406,7 @@
 	</span>
 </p>
 
-<ol class="example">
+<ol class="theorem">
 	[<a href="https://www.cut-the-knot.org/m/Geometry/InequalitiesInTriangle.shtml">几何不等式</a>]
 	`triangle ABC` 中以下不等式成立, 其中等号成立当且仅当 `ABC`
 	是正三角形.
@@ -494,7 +494,7 @@
 	在 `[0,pi]` 上对 `sin x` 应用 Jensen 不等式
 	<span class="formula">
 		`sqrt(3)/2 = sin{:(A+B+C)/3:}`
-		`le (sin A + sin B + sin C)/3`.
+		`ge (sin A + sin B + sin C)/3`.
 	</span>
 	于是, 完全可以从 2. 的系列不等式出发, 导出 1. 的不等式.
 </p>
@@ -539,6 +539,63 @@
 		`sin x_0 sin x_2 + sin x_1 sin x_3 = sin(x_i+x_j) sin(x_j+x_k)`.
 	</span>
 	其中 `j -= i+1 (mod 4)`, `k -= j+1 (mod 4)`.
+</p>
+
+<ol class="theorem">
+  <b>带系数的几何不等式</b> [来自 <a href="http://blog.sina.cn/dpool/blog/s/blog_560882210100li8w.html">新浪博客</a>]
+  对任意正数 `x, y, z` 和三角形内角 `A, B, C` 有
+  <li>
+    <span class="formula">
+      `2 sum_"cyc" x y cos C le sum_"cyc" x^2`,
+    </span>
+    等号成立当且仅当
+    <span class="formula">
+      `sin A // x = sin B // y = sin C // z`.
+    </span>
+    把 `x, y, z` 换成自身的倒数, 得
+    <span class="formula">
+      `2 sum_"cyc" x cos A le sum_"cyc" y z // x`.
+    </span>
+    取 `x = a, y = b, z = c` 得到三角形 `ABC` 的垂足三角形周长上界:
+    <span class="formula">
+      `sum_"cyc" a cos A le 1/2 sum_"cyc" b c // a`.
+    </span>
+    取 `x = sin A, y = sin B, z = sin C` 得
+    <span class="formula">
+      `sum_"cyc" sin 2A le sum_"cyc" sin B sin C // sin A`.
+    </span>
+    分别取 `x = cos A, y = cos B, z = cos C` 和 `x = cos C // cos B`... 得
+    <span class="formula">
+      `2 sum_"cyc" cos^2 A le sum_"cyc" cos B cos C // cos A`
+      `le 1/2 sum_"cyc" (cos B//cos C)^2`.
+    </span>
+  </li>
+  <li>
+    <span class="formula">
+      `-2 sum_"cyc" x y cos 2 C le sum_"cyc" x^2`,
+    </span>
+    等号成立当且仅当
+    <span class="formula">
+      `(y z)/(y+z-x) sin^2 A = (z x)/(z+x-y) sin^2 B = (x y)/(x+y-z) sin^2 C`.
+    </span>
+    应用二倍角公式得
+    <span class="formula">
+      `sum_"cyc" x sin^2 A le 1/4 sum_"cyc" x y`.
+    </span>
+  </li>
+</ol>
+
+<p class="proof">
+  由下式知 1. 成立:
+  <span class="formula">
+    `x^2 + y^2 + z^2 - 2 sum_"cyc" x y cos C`
+    `= (x-z cos B-y cos C)^2 + (y sin C - z sin B)^2`.
+  </span>
+  由下式知 2. 成立:
+  <span class="formula">
+    `x^2 + y^2 + z^2 + 2 sum_"cyc" x y cos 2C`
+    `= (x+z cos 2B+y cos 2C)^2 + (y sin 2C - z sin 2B)^2`.
+  </span>
 </p>
 
 <h2>反三角函数</h2>
