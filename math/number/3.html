@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>指数与原根</title>
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>指数的定义与性质</h2>
+
+<p class="definition">
+    设 `m` 为正整数, `(a, m) = 1`, 称满足
+    <span class="formula">
+        `a^d -= 1 (mod m)`
+        <span class="label" id="for-index"></span>
+    </span>
+    的最小正整数 `d` 为 `a` 对模 `m` 的<b>指数</b>或<b>阶</b>,
+    记为 `delta_m(a)`. 下文涉及到指数 `delta_m(a)` 时,
+    总假定 `(a, m) = 1`.
+</p>
+
+<p class="proposition">
+    满足<a class="ref" href="#for-index"></a>的正整数 `d` 是存在的,
+    且 `delta_m(a) lt m`.
+</p>
+
+<p class="proof">
+    `m = 1` 的情形是平凡的, 下设 `m gt 1`,
+    因为 `(a, m) = 1`, 可设
+    <span class="formula">
+        `a^i -= r_i (mod m)`,
+        `quad 0 lt r_i lt m`,
+        `quad i = 0, 1, cdots, m-1`,
+    </span>
+    `m` 个余数 `r_i` 只能取 `m-1` 个值, 由鸽巢原理, 必有两个余数相等,
+    设 `a^i -= a^j (mod m)`, `i gt j`. 同余式两边同乘 `a^-j` 得
+    <span class="formula">
+        `a^(i-j) -= 1 (mod m)`.
+    </span>
+    取 `d = i-j` 即得结论.
+</p>
+
+<p> 事实上 `delta_m(a)` 的上界可进一步降低,
+    这就是下面的 Euler-Fermat 定理:
+</p>
+
+<p class="theorem">
+    <b>Euler-Fermat 定理</b>
+    设 `m` 为正整数, `(a, m) = 1`, 则
+    <span class="formula">
+        `a^(varphi(m)) -= 1 (mod m)`.
+    </span>
+    特别当 `m` 为素数 `p` 时, 上式即 Fermat 小定理 `a^(p-1) -= 1 (mod p)`.
+</p>
+
+<p class="proof">
+    设 `r_i`, `i = 1, 2, cdots, varphi(m)` 是模 `m` 的既约剩余系, 由
+    `(a, m) = 1` 知, `a r_i` `i = 1, 2, cdots, varphi(m)` 也是模 `m`
+    的既约剩余系. 从而
+    <span class="formula">
+        `prod r_i -= prod (a r_i) -= a^(varphi(m)) prod r_i` `(mod m)`,
+    </span>
+    上式两边同乘 `prod r_i` 关于模 `m` 的逆就得到结论.
+</p>
+
+<p class="definition">
+    由 Euler-Fermat 定理, `delta_m(a) le varphi(m)`.
+    当等号成立时, 称 `a` 是模 `m` 的<b>原根 (primitive root)</b>.
+</p>
+
+<p class="remark">
+    从群论的观点, 模 `m` 的既约剩余系构成一个乘法群, `delta_m(a)` 就是
+    `a` 在群中的阶. 若 `a` 为原根, 则 `a` 的阶等于群的阶 `varphi(m)`,
+    此时 `a` 是群的生成元, 既约剩余系具有循环群的简单结构.
+</p>
+
+<ol class="corollary" id="cor-index">
+    设 `(a, m) = 1`, `delta_m(a) = delta`.
+    <li>`a^n -= 1 (mod m)` 当且仅当 `delta | n`.
+        因此 `delta | varphi(m)`, 且 `a^n` (`n = 0, 1, 2, cdots`)
+        模 `m` 的余数以指数 `delta` 为周期.
+    </li>
+    <li>若 `a^i -= a^j (mod m)`, 则 `i -= j (mod delta)`.
+        因此, 在一个周期内, `a^n` (`n = 0, 1, cdots, delta-1`)
+        模 `m` 的 `delta` 个余数两两不同.
+        特别当 `a` 是原根时, `a^n` (`n = 0, 2, cdots, varphi(m)-1`)
+        构成模 `m` 的既约剩余系.
+    </li>
+</ol>
+
+<ol class="proof">
+    这里给出利用同余性质的证明. 也可以用基本的带余除法和整除性质来证,
+    但较繁琐.
+    <li>只证必要性. 设 `n = delta q + r` (`0 le r lt delta`),
+        若 `a^n -= 1 (mod m)`, 同余式两边同乘 `a^(-delta q)` 得
+        `a^r -= 1 (mod m)`, 再由 `delta` 的最小性知 `r = 0`.
+    </li>
+    <li>不妨取 `0 le j le i lt delta`, 则
+        `a^i -= a^j (mod m) iff a^(i-j) -= 1 (mod m)`, 由 `delta`
+        的最小性知 `i-j = 0`, 即 `i -= j (mod delta)`.
+    </li>
+</ol>
+
+<ol class="example">
+    讨论模 `m = 2^n` 的指数与原根.
+    <li>模 `m = 1, 2, 4` 时有原根;</li>
+    <li>`n ge 3` 时, 模 `m = 2^n` 无原根.
+        此时对任意奇数 `a` 有
+        <span class="formula">
+            `a^(2^(n-2)) -= 1 (mod 2^n)`;
+        </span>
+    </li>
+    <li>`n ge 3` 时, `delta_m(5) = 2^(n-2)`.
+        这时数字 5 是原根这一角色的一个 "替代品".
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>`n lt 3` 的情形列表如下:
+    <table>
+        <tr>
+            <th>`n`</th>
+            <th>`m`</th>
+            <th>`varphi(m)`</th>
+            <th>`delta_m(1)`</th>
+            <th>`delta_m(-1)`</th>
+            <th>原根</th>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>平凡情形, 所有整数都是原根</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>4</td>
+            <td>2</td>
+            <td>1</td>
+            <td>2</td>
+            <td>-1</td>
+        </tr>
+    </table>
+    </li>
+    <li>对 `n` 进行归纳. 设 `a = 2t+1`, 则 `n = 3` 时
+        <span class="formula">
+            `a^2 = 4t(t+1) + 1 -= 1 (mod 2^3)`,
+        </span>
+        结论成立. 假设结论对整数 `n ge 3` 成立, 则对 `n+1` 有
+        <span class="formula">
+            `2^(n+1) | (a^(2^(n-2))-1)(a^(2^(n-2))+1)`
+            `= a^(2^(n-1)) - 1`,
+        </span>
+        结论也成立.
+        由于 `varphi(2^n) = 2^(n-1) gt 2^(n-2)`, 故此时无原根.
+    </li>
+    <li>2. 中已经证明 `delta_m(5) | 2^(n-2)`, 因而只需证 `delta_m(5) !|
+        2^(n-3)`, 即证
+        <span class="formula">
+            `5^(2^(n-3)) !-= 1 (mod 2^n)`, `quad n ge 3`.
+        </span>
+        对 `n` 进行归纳. `n=3` 时结论成立. 假设结论对整数 `n ge 3` 成立,
+        则 `n+1` 时, 由于
+        <span class="formula">
+            `5^(2^(n-3)) -= 1 (mod 2^(n-1))`, `quad n ge 3`.
+        </span>
+        可设 `5^(2^(n-3)) = 2^(n-1) s + 1`, 于是
+        <span class="formula">
+            `5^(2^(n-2)) = (2^(n-1) s + 1)^2`
+            `= 2^n s(2^(n-2) s + 1) + 1`.
+        </span>
+        由归纳假设, `2 !| s`, 因此 `5^(2^(n-2)) !-= 1 (mod 2^(n+1))`.
+    </li>
+</ol>
+
+<ol class="property">
+    指数的若干计算性质.
+    <li>若 `a, b` 模 `m` 同余, 则它们的指数相等.
+        因此, 指数是既约剩余系中的性质, 两个数只要模 `m` 同余,
+        就可以视作是等价的.
+    </li>
+    <li>设 `a^-1` 是 `a` 模 `m` 的逆, 则它与 `a` 的指数相等;</li>
+    <li>`n | m rArr` `delta_n(a) | delta_m(a)`;</li>
+    <li>若 `(m, n) = 1`, 则 `delta_(m n)(a) = [delta_m(a), delta_n(a)]`;
+    </li>
+    <li>`delta_m(a b) = delta_m(a) delta(b)` 当且仅当 `(delta_m(a),
+        delta_m(b)) = 1`;
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>只需注意对任意 `k ge 0`, `a^k -= b^k (mod m)`.</li>
+    <li>只需注意对任意 `k ge 0`, `a^k -= 1 (mod m)`
+        当且仅当 `a^-k -= 1 (mod m)`.
+    </li>
+    <li>只需注意 `n | m` 时, `a^delta -= 1 (mod m) rArr
+        a^delta -= 1 (mod n)`;
+    </li>
+    <li>分别记 `delta_m(a) = M`, `delta_n(a) = N`, `delta_(m n)(a)
+        = delta`. 由 3. 得 `[M, N] | delta`. 另一方面, 有
+        <span class="formula">
+            `a^([M,N]) -= 1 (mod m)`,
+            `quad a^([M,N]) -= 1 (mod n)`,
+        </span>
+        由 `(m, n) = 1` 得 `a^([M,N]) -= 1 (mod m n)`, 因此 `delta
+        | [M,N]`.
+    </li>
+    <li>分别记 `a, b, a b` 的指数为 `A, B, delta`. 先证必要性:
+        我们有 `(a b)^([A,B]) -= 1 (mod m)`, 故 `A B = delta | [A,B]`.
+        这推出 `(A, B) = 1`.<br/>
+        再证充分性. 一方面有
+        <span class="formula">
+            `(a b)^(A B) -= 1 (mod m)`,
+        </span>
+        故 `delta | A B`; 另一方面
+        <span class="formula">
+            `a^(delta B) = a^(delta B) b^(delta B) -= (a b)^(delta B) -= 1 (mod m)`,
+        </span>
+        故 `A | delta B`, 再由 `(A, B) = 1` 得 `A | delta`;
+        同理 `B | delta`. 再次由 `(A, B) = 1` 得 `A B | delta`.
+    </li>
+</ol>
+
+<p class="remark">
+    由计算性质4, 求模 `m` 的指数, 只需把 `m` 进行标准分解
+    `m = prod p_i^(n_i)`, 就有
+    <span class="formula">
+        `delta_m(a) = [delta_(p_1^(n_1))(a), cdots, delta_(p_r^(n_r))(a)]`.
+    </span>
+</p>
+
+<ol class="theorem">
+    <b>元素幂的阶数公式</b> 设 `n ge 0`, `delta_m(a) = delta`, 则
+    <span class="formula">
+        `delta_m(a^n) = delta//(n, delta)`;
+    </span>
+    特别地,
+    <li>若 `delta = s t`, 则 `delta_m(a^s) = t`;</li>
+    <li>`delta_m(a^n) = delta_m(a)` 当且仅当 `(n, delta) = 1`.
+        于是模 `m` 的既约剩余系中, 至少有
+        <span class="formula">
+            `a^n`, `quad 0 le n lt delta`, `(n, delta) = 1`
+        </span>
+        这 `varphi(delta)` 个数的指数等于 `delta`.
+    </li>
+</ol>
+
+<p class="proof">
+    记 `delta_m(a^n) = k`, `(n, delta) = d`. 一方面,
+    <span class="formula">
+        `(a^n)^(delta // d) = (a^delta)^(n//d) -= 1 (mod m)`,
+    </span>
+    故 `k | delta/d`; 另一方面
+    <span class="formula">
+        `a^(n k) = (a^n)^k -= 1 (mod m)`,
+    </span>
+    故 `delta | n k`, 即 `delta/d | n/d k`.
+    因为 `(delta/d, n/d) = 1`, 所以 `delta/d | k`.
+    综上有 `k = delta/d`.
+</p>
+
+<ol class="theorem">
+    <b>给定阶元素的存在性定理</b>
+    <li>若 `(m, n) = 1`, 则对任意 `a, b`, 存在 `c` 使得
+            `delta_(m n)(c) = [delta_m(a), delta_n(b)]`.
+    </li>
+    <li>对任意 `a, b`, 存在 `c` 使得
+            `delta_m(c) = [delta_m(a), delta_m(b)]`.
+    </li>
+</ol>
+
+<ol class="proof">
+    <li>因为 `(m, n) = 1`, 由孙子定理, 同余方程组
+        <span class="formula">
+            `x -= a (mod m)`, `quad x -= b (mod n)`
+        </span>
+        存在唯一解 `x -= c (mod m n)`.
+        因为 `c` 和 `a, b` 分别关于模 `m, n` 同余, 所以
+        `delta_m(c) = delta_m(a)`, `delta_n(c) = delta_n(b)`.
+        再由计算性质4 即得结论.
+    </li>
+    <li>分别记 `A = delta_m(a)`, `B = delta_m(b)`, `eta = [A, B]`. 作分解
+        <span class="formula">
+            `A = a_1 a_2`, `quad B = b_1 b_2`,<br/>
+            其中 `(a_2, b_2) = 1`, `quad a_2 b_2 = eta`.
+        </span>
+        这样的分解是可行的: 设素因子 `p` 在 `eta` 中的次数为 `n`,
+        则 `p` 在 `A, B` 中的次数较高的那个也等于 `n`.
+        对 `eta` 的每个素因子都如此分类即可得到 `a_2, b_2`.<br/>
+        现在由阶数公式,
+        <span class="formula">
+            `delta_m(a^(a_1)) = a_2`, `quad delta_m(b^(b_1)) = b_2`,
+        </span>
+        取 `c = a^(a_1) b^(b_1)`, 由计算性质5,
+        <span class="formula">
+            `delta_m(c) = delta_m(a^(a_1) b^(b_1)) = a_2 b_2 = eta`.
+        </span>
+    </li>
+</ol>
+
+<h2>原根存在的充要条件</h2>
+
+<p class="theorem">
+    模 `m` 有原根的充要条件是
+    <span class="formula">
+        `m = 1, 2, 4, p^n, 2p^n`.
+    </span>
+    其中 `p` 是奇素数, `n ge 1`.
+</p>
+
+<p class="proof">
+    先证必要性, 充分性将在下文分几个定理完成证明.
+    ??
+</p>
+
+<p class="example">
+    我们知道, `1//7 = 0. dot 1 4285 dot 7`, 其循环节恰有 `7-1 = 6` 位.
+    在 100 以内, 除 2 以外, 满足 `1//n` 的循环节恰有 `n-1`
+    位这一性质的正整数 `n` 有:
+    <span class="formula">
+        7, 17, 19, 23, 29, 47, 59, 61, 97.
+    </span>
+    它们都是素数以外, 还有什么共同特点?
+</p>
+
+<p class="solution">
+    共同特点是: 10 是模 `n` 的原根.
+    原因是若 `10^d -= 1 (mod n)`, 即 `n | 10^d - 1`, 则分数 `1//n`
+    可以化为循环节 `d` 位的循环小数. 如 `10^6 -= 1 (mod 7)`, 则
+    <span class="formula">
+        `1/7 = 142857/999999 = 0. dot 1 4285 dot 7`.
+    </span>
+    又如 `10^6 -= 1 (mod 13)`, 则
+    <span class="formula">
+        `1/13 = 076923/999999 = 0. dot 0 7692 dot 3`.
+    </span>
+    因此, 当 `(10, n) = 1` 时, 循环节的长度就是 10 模 `n` 的指数.
+    要使循环节恰有 `n-1` 位, 就要求 10 模 `n` 的指数等于 `n-1`;
+    这当且仅当 `n` 是素数, 且 10 是模 `n` 的原根.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

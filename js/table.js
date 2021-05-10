@@ -48,7 +48,13 @@ Table.create = function(config) {
   if (typeof sortBy == 'function') {
     data.sort(sortBy);
   } else if (typeof sortBy != 'undefined') {
-    data.sort(function(r1, r2) { return r1[sortBy]-r2[sortBy] });
+    data.sort(function(r1, r2) {
+      var a = r1[sortBy], b = r2[sortBy]
+      a = a == undefined ? Infinity : a
+      b = b == undefined ? Infinity : b
+      return a - b
+    });
+    //console.table(data)
   }
 
   var frag = $();

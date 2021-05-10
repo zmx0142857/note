@@ -62,10 +62,12 @@ math: {
 }, {
   title:'数论',
   articles: [
-    {title:'整数, 有理数, 代数数', src:'number/0.html'},
-    {title:'数论的基本概念', src:'number/1.html'},
-    {title:'指数与原根', src:'number/4.html'},
-    {title:'不定方程', src:'number/5.html'},
+    {title:'整数, 有理数, 代数数, 连分数', src:'number/0.html', isnew: true},
+    {title:'整除, 最大公约数, 素数', src:'number/1.html'},
+    {title:'同余和线性方程', src:'number/2.html', isnew: true},
+    {title:'指数与原根', src:'number/3.html'},
+    {title:'二次剩余', src:'number/4.html', isnew: true},
+    {title:'非线性不定方程', src:'number/5.html', isnew: true},
     {title:'积性数论函数', src:'number/9.html'},
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html'},
   ]

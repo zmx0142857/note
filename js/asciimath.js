@@ -1165,10 +1165,11 @@ function init() {
     displaystyle:true,
     viewsource: false,
     define: {
-      'dx':'{:"d"x:}',
-      'dy':'{:"d"y:}',
-      'dz':'{:"d"z:}',
-      'dt':'{:"d"t:}',
+      'dx': '{:"d"x:}',
+      'dy': '{:"d"y:}',
+      'dz': '{:"d"z:}',
+      'dt': '{:"d"t:}',
+      '√': 'sqrt',
     }
   });
 

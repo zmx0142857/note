@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>不定方程</title>
+    <title>非线性不定方程</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -411,7 +411,7 @@
 	(Lagrange, 1770; Euler, 1773)
 	任何非负整数都可以表示为四个整数的平方之和, 即不定方程
 	<span class="formula">
-		`x_1^2 + x_2^2 + x_3^2 + x_4^2 = n`, `quad n in ZZ^+ uu {0}`
+		`x_1^2 + x_2^2 + x_3^2 + x_4^2 = n`, `quad n ge 0`
 	</span>
 	恒有整数解.
 </p>
@@ -423,11 +423,9 @@
 			`1 = 0^2 + 0^2 + 0^2 + 1^2`,<br/>
 			`2 = 0^2 + 0^2 + 1^2 + 1^2`.
 		</span>
-		从而由四平方和恒等式知, 只需证定理对任意奇素数成立.
+		从而由四平方和恒等式知, 只需证定理对任意奇素数 `p` 成立.
 		又由<a class="ref" href="#lem-4-square-odd-prime"></a>,
-		对任意奇素数 `p`, 存在正整数 `m` 使得 `m p`
-		能表示为四个整数的平方和, 且 `m lt p`.
-		不妨设 `m` 是这些整数中最小的, 且
+    存在最小的正整数 `m lt p` 使得 `m p` 能表示为四个整数的平方和:
 		<span class="formula">
 			`m p = x_1^2 + x_2^2 + x_3^2 + x_4^2`.
 		</span>
@@ -437,21 +435,19 @@
 		不失一般性, 设 `x_1, x_2` 奇偶性相同, 且 `x_3, x_4` 奇偶性相同, 则
 		`x_1+-x_2`, `x_3+-x_4` 均为偶数, 得到
 		<span class="formula">
-			`(m p)/2 = ((x_1+x_2)/2)^2 + ((x_1-x_2)/2)^2`
+			`(m//2)p = ((x_1+x_2)/2)^2 + ((x_1-x_2)/2)^2`
 			`+ ((x_3+x_4)/2)^2 + ((x_3-x_4)/2)^2`.
 		</span>
-		从而有 `m/2 lt m` 使得 `(m p)/2` 被表示为四个整数的平方和,
-		与 `m` 的最小性矛盾.
+		然而 `m//2 lt m`, 这与 `m` 的最小性矛盾.
 	</li>
-	<li>下证 `m = 1`. 我们反设 `m gt 1`.
-		首先, `m` 不是 `x_1, x_2, x_3, x_4` 的公因数,
-		否则有 `m^2 | m p rArr m | p`, 一个矛盾.
-		故存在不全为零, 且绝对值小于 `m//2` (注意 `m` 是奇数) 的整数
-		`y_i`, `i = 1, 2, 3, 4`, 使得
+  <li>下证 `m = 1`.  首先, 若 `m` 为 `x_1, x_2, x_3, x_4` 的公因数, 则有
+    `m^2 | m p` `rArr m | p`, 再由 `m lt p` 推出 `m = 1`.
+    下设 `m` 不是它们的公因数, 我们来导出矛盾.
+		取 `y_i` 为 `x_i` 除以 `m` 的绝对最小余数, `i = 1, 2, 3, 4`:
 		<span class="formula">
 			`y_i -= x_i` `(mod m)`, `quad i = 1, 2, 3, 4`.
 		</span>
-		(取 `y_i` 为 `x_i` 除以 `m` 的绝对最小余数即可). 因此
+    则 `y_i` 不全为零, 且绝对值小于 `m//2` (注意 `m` 是奇数).  因此
 		<span class="formula">
 			`0 lt sum_(i=1)^4 y_i^2 lt 4(m/2)^2 = m^2`,
 		</span>
@@ -462,8 +458,8 @@
 		从而
 		<span class="formula">
 			`sum_(i=1)^4 y_i^2 = m q`,
+      `quad 0 lt q lt m`.
 		</span>
-		其中整数 `q` 满足 `0 lt q lt m`.
 	</li>
 	<li>下证 `p q` 可以表示成四个整数的平方和, 从而推翻假设.
 		由四平方和恒等式, 令
@@ -480,16 +476,103 @@
 		</span>
 		由 `x_i -= y_i (mod m)`, `i = 1, 2, 3, 4`, 有
 		<span class="formula">
-			`z_1 -= sum_(i=1)^4 x_i^2 -= 0` `(mod m)`.<br/>
-			`z_i -= 0`, `i = 2, 3, 4`.
+			`z_1 -= sum_(i=1)^4 x_i^2 -= 0` `(mod m)`,<br/>
+			`z_i -= 0 (mod m)`, `i = 2, 3, 4`.
 		</span>
-		设 `z_i = m t_i`, `i = 1, 2, 3, 4`, 则
+    这指出 `m` 是 `z_1, z_2, z_3, z_4` 的公因数, 从而
 		<span class="formula">
-			`p q = sum_(i=1)^4 t_i^2`,
+			`p q = sum_(i=1)^4 (z_i//m)^2`.
 		</span>
 		但 `q lt m`, 与 `m` 的最小性矛盾. 证毕.
 	</li>
 </ol>
+
+<h2>Pell 方程</h2>
+
+<p class="definition">
+  设 `d` 为正整数, 且不是平方数, 下面的不定方程称为 <b>Pell 方程</b>:
+  <span class="formula">
+    `x^2 - d y^2 = 1`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Pell 方程的幂形式解</b>
+  将 Pell 方程的全部正整数解 `x_k, y_k`
+  按 `lambda_k = x_k + sqrt d y_k` 的值由小到大排列, 有
+  <span class="formula">
+    `lambda_k = lambda_1^k`, `quad k = 1, 2, cdots`.
+  </span>
+  因此, 由 Pell 方程的最小正整数解可以轻松得到全部正整数解.
+</p>
+
+<ol class="proof">
+  取共轭 `lambda_k' = x_k - sqrt d y_k`, 由 `x_k, y_k` 满足 Pell 方程知道
+  `lambda_k lambda_k' = 1`. 下面证明, Pell 方程的正整数解 `x, y` 均满足
+  `x + sqrt d y = lambda_1^k`, 其中 `k` 为某个正整数.
+  <li>记 `x + sqrt d y = lambda_1^k`, 由于
+    <span class="formula">
+      `(x + sqrt d y)(x - sqrt d y)`
+      `= lambda_1^k (lambda_1^k)'`
+      `= lambda_1^k (lambda_1')^k`
+      `= (lambda_1 lambda_1')^k = 1`,
+    </span>
+    所以 `x, y` 是一组正整数解.
+  </li>
+  <li>反之令 `x, y` 是一组正整数解, 且
+    `lambda = x + sqrt d y` 不等于任何一个 `lambda_1^k`. 因为
+    `lim_(k to oo) lambda_1^k = oo`, 可以设
+    <span class="formula">
+      `lambda_1^n lt lambda lt lambda_1^(n+1)`
+    </span>
+    同乘以 `lambda_1^-n = (lambda_1')^n` 得
+    <span class="formula">
+      `1 lt s + sqrt d t lt lambda_1`,
+    </span>
+    其中 `s + sqrt d t = lambda (lambda_1')^n`, 于是
+    <span class="formula">
+      `(s + sqrt d t)(s - sqrt d t)`
+      `= lambda (lambda_1')^n lambda' lambda_1^n = 1`,
+    </span>
+    说明 `s, t` 也是一组正整数解, 然而 `s + sqrt d t lt lambda_1`,
+    与 `lambda_1` 的最小性矛盾.
+  </li>
+</ol>
+
+<p class="example">
+  稍加尝试可以知道,
+  不定方程 `x^2 - 2 y^2 = 1` 的最小正整数解为 `(3, 2)`.
+  记 `lambda = 3 + 2 sqrt 2`, 则
+  <span class="formula">
+    `lambda^2 = 17+12√2`,
+    `lambda^3 = 99+70√2`,
+    `lambda^4 = 577+408√2`,
+    `cdots`
+  </span>
+  对应于正整数解 `(17, 12)`, `(99, 70)`, `(577, 408)`, `cdots`.
+</p>
+
+<p class="theorem">
+  <b>Pell 方程的连分数解</b>
+  设 `d in ZZ^+` 不是平方数, `p_k//q_k` 是 `sqrt d` 的简单连分数的第 `k`
+  个收敛子. 记这个连分数的循环节长度为 `n`, 则
+  <span class="formula">
+    `p_(j n-1)^2 - d q_(j n-1)^2 = (-1)^(j n)`,
+    `quad j = 1, 2, 3, cdots`.
+  </span>
+  `n` 为偶数时, 取 `j = 1, 2, 3, cdots`, 就得到 Pell 方程
+  <span class="formula">
+    `x^2 - d y^2 = 1`
+    <span class="label" id="eq-pell1"></span>
+  </span>
+  的全部正整数解; 且不定方程
+  <span class="formula">
+    `x^2 - d y^2 = -1`
+    <span class="label" id="eq-pell-1"></span>
+  </span>
+  无解.
+  `n` 为奇数时, 取 `j = 2, 4, 6, cdots`, 就得到 <a class="ref" href="#eq-pell1"></a> 的全部正整数解, 取 `j = 1, 3, 5, cdots`, 就得到 <a class="ref" href="#eq-pell-1"></a> 的全部正整数解.
+</p>
 
 <h2>椭圆曲线</h2>
 
