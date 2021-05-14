@@ -572,10 +572,11 @@ function getSymbol() {
     st = AMstr.slice(AMbegin, i);
     tagst = 'mn';
   } else {
-    st = AMstr.charAt(AMbegin);
+    var cp = AMstr.codePointAt(AMbegin)
+    st = isNaN(cp) ? '' : String.fromCodePoint(cp)
     if (/[a-zA-Z]/.test(st))
       tagst = 'mi';
-    else if (st.charCodeAt(0) > 0x4e00)
+    else if (cp > 0x4e00)
       tagst = 'mtext';
     else
       tagst = 'mo';

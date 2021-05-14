@@ -146,10 +146,9 @@ Plot.prototype.discrete = function(f, config={}) {
 }
 
 // plot continuously
-Plot.prototype.plot = function(f, config={
-  xmin: this.xmin - this.padding / this.xscale,
-  xmax: this.xmax + this.padding / this.xscale
-}) {
+Plot.prototype.plot = function(f, config={}) {
+  config.xmin = getDefault(config.xmin, this.xmin - this.padding / this.xscale)
+  config.xmax = getDefault(config.xmax, this.xmax + this.padding / this.xscale)
   var x = config.xmin, y = f(x);
   var step = getDefault(config.step, this.step);
   var continuity = getDefault(config.continuity, 100);

@@ -194,6 +194,7 @@ function decorate(list) {
         elem[j].caption = newNode.innerHTML;
         if (list[i].placeAfter) {
           elem[j].appendChild(newNode);
+          newNode.innerHTML += ' ' + elem[j].title
         } else {
           var space = $text(' ');
           elem[j].insertBefore(space, elem[j].firstChild);

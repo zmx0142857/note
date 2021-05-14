@@ -2,15 +2,17 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8" />
-    <title>傅里叶级数</title>
+    <title>Fourier 级数</title>
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<p>	设函数 `f in L^2[a, b]`, 记 `T = b-a`, `omega = 2pi//T`,
+<p class="definition">
+  <b>一般区间上的 Fourier 级数</b>
+  设函数 `f in R[a, b]`, 记 `T = b-a`, `omega = 2pi//T`,
 	则 `f` 的 Fourier 级数为
 	<span class="formula">
-		`f(x) = sum_(n ge 0) a_n cos n omega x + b_n sin n omega x`.
+		`f(x) ~ sum_(n ge 0) a_n cos n omega x + b_n sin n omega x`.
 	</span>
 	其中系数
 	<span class="formula">
@@ -34,6 +36,155 @@
 	</span>
 </p>
 
+<p class="definition">
+  <b>圆周上的 Fourier 级数</b>
+  若 `f` 以 `2pi` 为周期, 在任意有限区间上可积,
+  则称 `f` 为定义在<b>圆周上的函数</b>, 它的 Fourier 级数为
+  <span class="formula">
+    `f(theta) ~ sum_(n in ZZ) hat(f)(n) "e"^(i n theta)`,
+  </span>
+  其中, Fourier 系数
+  <span class="formula">
+    `hat(f)(n) = 1/(2pi) int_(-pi)^pi f(theta) "e"^(-i n theta) "d"theta`.
+  </span>
+</p>
+
+<p class="proof">
+  利用积分
+  <span class="formula">
+    `int_(-pi)^pi "e"^(i n theta) "d"theta`
+    `= { 0, n != 0; 2 pi, n = 0 :}`
+  </span>
+  暂不考虑收敛性问题, 形式地处理 Fourier 系数, 两边乘以 `"e"^(-i
+  m theta)` 再逐项积分:
+  <span class="formula">
+    `int_(-pi)^pi f(theta) "e"^(-i m theta) "d"theta`
+    `= int_(-pi)^pi sum_(n in ZZ) hat(f)(n) "e"^(i(n-m)theta) "d"theta`
+    `= sum_(n in ZZ) hat(f)(n) int_(-pi)^pi "e"^(i(n-m)theta) "d"theta`
+    `= 2 pi hat(f)(m)`.
+  </span>
+</p>
+
+<ol class="property">
+  设 `f` 是圆周上的函数,
+  <li>若 `f` 连续可微, 则可以逐项求导 `hat(f')(n) = i n hat(f)(n)`;</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    `n != 0` 时, 分部积分
+    <span class="formula">
+      `2pi hat(f)(n)`
+      `int_(-pi)^pi f(x) "e"^(-i n x) dx`
+      `1/(i n) int_(-pi)^pi f'(x) "e"^(-i n x) dx`
+      `= 1/(i n) hat(f')(n)`.
+    </span>
+    `n = 0` 时, 由周期性
+    <span class="formula">
+      `hat(f')(0) = int_(-pi)^pi f'(x) dx = 0`.
+    </span>
+  </li>
+</ol>
+
+<h2>核函数</h2>
+
+<ol class="definition">
+  <b>核函数</b> 是指以 `n` 为参数的一族函数,
+  当 `n` 取极限 (比如 `n to oo`) 时, 核函数的值集中于原点附近.
+  在圆周上, 一族<b>好的核函数</b> `K_n(x)` 满足以下性质:
+  <li>规范性: `1/(2pi) int_(-pi)^pi K_n(x) dx = 1`, `AA n ge 1`;</li>
+  <li>一致有界: 存在 `M gt 0` 使得 `int_(-pi)^pi |K_n(x)| dx le M`, `AA
+    n ge 1`;</li>
+  <li>趋于 `delta` 函数: 对任意 `epsi gt 0`,
+    `lim_(n to oo) int_(epsi le |x| le pi) |K_n(x)| dx = 0`.</li>
+  易知当 `K_n` 为非负函数时, 1 已经蕴含了 2.
+</ol>
+
+<p class="remark">
+  dirac `delta` 函数是一个广义函数, 用于描述集中于一点的量,
+  如质点或脉冲等. 核函数是对 `delta` 函数的近似.
+</p>
+
+<p class="definition">
+  Dirichlet 核定义为
+  <span class="formula">
+    `D_n(x) := sum_(k=-n)^n "e"^(i k x)`
+    `= (sin(n+1//2)x)/(sin(x//2))`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `omega = "e"^(i x)`, 左边等于
+  <span class="formula">
+    `sum_(k=0)^n omega^k + sum_(k=1)^n omega^(-k)`
+    `= (1-omega^(n+1))/(1-omega) + (1-omega^-n)/(1-omega^-1) omega^-1`
+    `= (omega^(n+1)-omega^-n)/(omega-1)`
+    `= (omega^(n+1//2)-omega^(-n-1//2))/(omega^(1//2)-omega^(-1//2))`
+  </span>
+  等于右边.
+</p>
+
+<p class="definition">
+  Fejér 核定义为
+  <span class="formula">
+    `F_n(x) := 1/n sum_(0 le k lt n) D_k(x)`
+    `= 1/n (sin^2(n x//2))/(sin^2(x//2))`.
+  </span>
+</p>
+
+<p class="proof">
+  左边等于
+  <span class="formula">
+    `1/(2 n sin^2(x//2)) sum_(0 le k lt n) 2 sin{:x/2:} sin(k+1/2)x`
+    `= 1/(2 n sin^2(x//2)) sum_(0 le k lt n) [ cos k x - cos(k+1)x ]`
+    `= (1-cos n x)/(2 n sin^2 (x//2))`
+  </span>
+  等于右边.
+</p>
+
+<div class="img" style="height:max-content"
+  title="Dirichlet 核 (蓝色), Fejér 核 (红色)">
+  <canvas id="graph-good-kenel" width="600" height="350"></canvas>
+</div>
+
+<p class="definition">
+  Poisson 核定义为
+  <span class="formula">
+    `P_r(x) := sum_(n=-oo)^oo r^|n| "e"^(i n x)`
+    `= (1-r^2)/(1-2 r cos x + r^2)`,
+    `quad 0 le r lt 1`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `omega = r"e"^(i x)`, 左边等于
+  <span class="formula">
+    `sum_(n ge 0) omega^n + sum_(n ge 1) bar(omega)^n`
+    `= 1/(1-omega) + (bar omega)/(1-bar omega)`
+    `= (1 - omega bar omega)/((1-omega)(1-bar omega))`
+  </span>
+  等于右边.
+</p>
+
+<div class="img" style="height:max-content"
+  title="Poisson 核">
+  <canvas id="graph-poisson-kenel" width="600" height="350"></canvas>
+</div>
+
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script>
+const { sin, cos } = Math
+var D = n => x => sin((n+0.5)*x)/sin(0.5*x) // Dirichlet kernel
+var F = n => x => (sin(n*x*0.5)/sin(x*0.5))**2/n // Fejér kernel
+var P = r => x => (1-r**2)/(1-2*r*cos(x)+r**2) // Poisson kernel
+new Plot('graph-good-kenel')
+  .geometry({xmin: -5, xmax: 5, ymin: -5, ymax: 22}).axis({ytick: 5})
+  .plot(D(10))
+  .plot(F(10), { color: 'red' })
+new Plot('graph-poisson-kenel')
+  .geometry({xmin: -3, xmax: 3, ymin: -5, ymax: 20}).axis({ytick: 5})
+  .plot(P(0.9), { color: '#3a4', continuity: 1e4 })
+</script>
 </body>
 </html>

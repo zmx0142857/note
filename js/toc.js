@@ -7,17 +7,17 @@ math: {
   toc: [ {
   title:'示例',
   articles: [
-    {title:'公式编辑器', src:'example/editor.html',isnew:true},
+    {title:'公式编辑器', src:'example/editor.html'},
     {title:'Asciimath', src:'example/asciimath.html'},
     {title:'Mathml', src:'example/mathml.html'},
   ]
 }, {
   title:'未分类',
   articles: [
-    {title:'问题', src:'misc/0.html', isnew:true},
-    {title:'三角函数', src:'misc/2.html', isnew:true},
-    {title:'不等式', src:'misc/3.html',isnew:true},
-    {title:'微积分不等式', src:'misc/4.html', isnew:true},
+    {title:'问题', src:'misc/0.html'},
+    {title:'三角函数', src:'misc/2.html'},
+    {title:'不等式', src:'misc/3.html'},
+    {title:'微积分不等式', src:'misc/4.html'},
     {title:'因式分解', src:'misc/5.html'},
     {title:'数学家', src:'misc/6.html'},
     {title:'算术与进制', src:'misc/7.html'},
@@ -39,17 +39,17 @@ math: {
 }, {
   title:'数学分析',
   articles: [
-    {title:'附录', src:'analysis/0.html', isnew:true},
+    {title:'附录', src:'analysis/0.html'},
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
     {title:'导数的应用', src:'analysis/5.html'},
-    {title:'不定积分', src:'analysis/6.html', isnew:true},
-    {title:'定积分', src:'analysis/7.html', isnew:true},
-    {title:'含参积分与特殊函数', src:'analysis/8.html', isnew:true},
-    {title:'椭圆函数, 超几何函数', src:'analysis/9.html', isnew:true},
+    {title:'不定积分', src:'analysis/6.html'},
+    {title:'定积分', src:'analysis/7.html'},
+    {title:'含参积分与特殊函数', src:'analysis/8.html'},
+    {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
     {title:'常数项级数', src:'analysis/10.html', isnew:true},
-    {title:'傅里叶级数', src:'analysis/13.html'},
+    {title:'Fourier 级数', src:'analysis/13.html', isnew:true},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
     {title:'多元数量函数微分学', src:'analysis/15.html'},
     {title:'多元函数的极值', src:'analysis/17.html'},
@@ -223,8 +223,8 @@ cs: {
     {title:'矩阵与广义表', src:'ds/7.html'},
     {title:'图', src:'ds/8.html'},
     {title:'查找', src:'ds/9.html'},
-    {title:'随机算法', src:'ds/10.html',isnew:true},
-    {title:'排序', src:'ds/11.html',isnew:true},
+    {title:'随机算法', src:'ds/10.html'},
+    {title:'排序', src:'ds/11.html'},
     {title:'文件', src:'ds/12.html'},
     {title:'数论算法', src:'ds/13.html'},
     {title:'动态规划与贪心算法', src:'ds/14.html'},
@@ -280,7 +280,7 @@ physics: {
 }, {
   title:'力学',
   articles: [
-    {title:'质点运动学', src:'mechanics/1.html',isnew:true},
+    {title:'质点运动学', src:'mechanics/1.html'},
   ]
 }, {
   title:'光学',

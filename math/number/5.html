@@ -498,12 +498,12 @@
 
 <p class="theorem">
   <b>Pell 方程的幂形式解</b>
-  将 Pell 方程的全部正整数解 `x_k, y_k`
+  将 Pell 方程的全部正整数解 `x_k, y_k` (后面会证明 Pell 方程确实有解)
   按 `lambda_k = x_k + sqrt d y_k` 的值由小到大排列, 有
   <span class="formula">
     `lambda_k = lambda_1^k`, `quad k = 1, 2, cdots`.
   </span>
-  因此, 由 Pell 方程的最小正整数解可以轻松得到全部正整数解.
+  因此, 由 Pell 方程的<b>最小正整数解</b> `x_1, y_1` 可以轻松得到通解.
 </p>
 
 <ol class="proof">
@@ -523,24 +523,50 @@
     `lambda = x + sqrt d y` 不等于任何一个 `lambda_1^k`. 因为
     `lim_(k to oo) lambda_1^k = oo`, 可以设
     <span class="formula">
-      `lambda_1^n lt lambda lt lambda_1^(n+1)`
+      `lambda_1^k lt lambda lt lambda_1^(k+1)`
     </span>
-    同乘以 `lambda_1^-n = (lambda_1')^n` 得
+    同乘以 `lambda_1^-k = (lambda_1')^k` 得
     <span class="formula">
       `1 lt s + sqrt d t lt lambda_1`,
     </span>
-    其中 `s + sqrt d t = lambda (lambda_1')^n`, 于是
+    其中 `s + sqrt d t = lambda (lambda_1')^k`, 于是
     <span class="formula">
       `(s + sqrt d t)(s - sqrt d t)`
-      `= lambda (lambda_1')^n lambda' lambda_1^n = 1`,
+      `= lambda (lambda_1')^k lambda' lambda_1^k = 1`,<br>
+      `s = 1/2((s + sqrt d t) + (s-sqrt d t)) gt 0`,<br>
+      `t = 1/(2 sqrt d) ((s + sqrt d t) - (s - sqrt d t)) gt 0`,
     </span>
     说明 `s, t` 也是一组正整数解, 然而 `s + sqrt d t lt lambda_1`,
     与 `lambda_1` 的最小性矛盾.
   </li>
 </ol>
 
-<p class="example">
-  稍加尝试可以知道,
+<p class="corollary">
+  设不定方程 `x^2 - d y^2 = n` 有最小正整数解 `x_0, y_0`,
+  则通解 `mu_k = x_0 + sqrt d y_0` 由下式给出:
+  <span class="formula">
+    `mu_k = mu_0 lambda_1^k`, `quad k = 0, 1, 2, cdots`.
+  </span>
+  其中 `lambda_1` 对应 Pell 方程 `x^2 - d y^2 = 1` 的最小正整数解.
+</p>
+
+<ol class="proof">
+  <li>首先验证 `mu_k = x + sqrt d y` 确实给出方程的解. 我们有
+    <span class="formula">
+      `(x + sqrt d y)(x - sqrt d y)`
+      `= mu_k mu_k'`
+      `= mu_0 mu_0' lambda_1^k (lambda_1')^k`
+      `= mu_0 mu_0'`
+      `= n`.
+    </span>
+  </li>
+  <li>反之令 `x, y` 是一组正整数解, 且 `mu = x + sqrt d y`, 类似可证
+    ??
+  </li>
+</ol>
+
+<ol class="example">
+  <li>稍加尝试可以知道,
   不定方程 `x^2 - 2 y^2 = 1` 的最小正整数解为 `(3, 2)`.
   记 `lambda = 3 + 2 sqrt 2`, 则
   <span class="formula">
@@ -550,7 +576,21 @@
     `cdots`
   </span>
   对应于正整数解 `(17, 12)`, `(99, 70)`, `(577, 408)`, `cdots`.
-</p>
+  </li>
+  <li>不定方程 `x^2 - 2 y^2 = 2` 的最小正整数解为 `(2, 1)`.
+    这个方程的通解由下式生成:
+    <span class="formula">
+      `(2+√2)(3+2√2)^n`, `quad n = 0, 1, 2, cdots`
+    </span>
+    即
+    <span class="formula">
+      `2+√2`, `10+7√2`, `58+41√2`, `338+239√2`, `1970+1393√2`, `cdots`
+    </span>
+    其中 `(3, 2)` 是 1. 中方程的最小正整数解.
+  </li>
+</ol>
+
+<p>我们来说明 Pell 方程确实有解.</p>
 
 <p class="theorem">
   <b>Pell 方程的连分数解</b>
