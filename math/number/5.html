@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>非线性不定方程</title>
+    <title>不定方程</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -529,12 +529,16 @@
     <span class="formula">
       `1 lt s + sqrt d t lt lambda_1`,
     </span>
-    其中 `s + sqrt d t = lambda (lambda_1')^k`, 于是
+    其中 `s + sqrt d t = lambda (lambda_1')^k`.
+    注意到 `0 lt s - sqrt d t lt 1 lt s + sqrt d t`, 有
     <span class="formula">
-      `(s + sqrt d t)(s - sqrt d t)`
-      `= lambda (lambda_1')^k lambda' lambda_1^k = 1`,<br>
       `s = 1/2((s + sqrt d t) + (s-sqrt d t)) gt 0`,<br>
       `t = 1/(2 sqrt d) ((s + sqrt d t) - (s - sqrt d t)) gt 0`,
+    </span>
+    且
+    <span class="formula">
+      `(s + sqrt d t)(s - sqrt d t)`
+      `= lambda (lambda_1')^k lambda' lambda_1^k = 1`,
     </span>
     说明 `s, t` 也是一组正整数解, 然而 `s + sqrt d t lt lambda_1`,
     与 `lambda_1` 的最小性矛盾.
@@ -542,8 +546,8 @@
 </ol>
 
 <p class="corollary">
-  设不定方程 `x^2 - d y^2 = n` 有最小正整数解 `x_0, y_0`,
-  则通解 `mu_k = x_0 + sqrt d y_0` 由下式给出:
+  设 `d in ZZ^+` 不是平方数, 若不定方程 `x^2 - d y^2 = n` 有最小正整数解
+  `x_0, y_0`, 则通解 `mu_k = x_0 + sqrt d y_0` 由下式给出:
   <span class="formula">
     `mu_k = mu_0 lambda_1^k`, `quad k = 0, 1, 2, cdots`.
   </span>
@@ -589,6 +593,36 @@
     其中 `(3, 2)` 是 1. 中方程的最小正整数解.
   </li>
 </ol>
+
+<p class="example">
+  化简 `root 3 (20+14sqrt2)`.
+</p>
+
+<p class="solution">
+  记 `lambda = x + y sqrt2`, 其共轭 `lambda' = x - y sqrt2`.
+  如果 `lambda^3 = 20+14 sqrt2`, 则有
+  <span class="formula">
+    `(x^2 - 2 y^2)^3`
+    `= (lambda lambda')^3`
+    `= lambda^3 (lambda^3)'`
+    `= (20 + 14 sqrt2)(20-14 sqrt2) = 2^3`.
+  </span>
+  解不定方程
+  <span class="formula">
+    `x^2 - 2 y^2 = 2`,
+  </span>
+  得到最小正整数解 `x = 2`, `y = 1`,
+  发现恰有 `root 3 (20+14sqrt2) = 2 + sqrt 2`.
+</p>
+
+<p class="remark">
+  若 `d` 是正整数且不是平方数, 不定方程 `x^2 - d y^2 = n^k`
+  有正整数解 `x_k, y_k`,
+  问 `x^2 - d y^2 = n` 是否有正整数解 `x_1, y_1`, 使得
+  <span class="formula">
+    `(x_1 + sqrt d y_1)^k = x_k + sqrt d y_k` ?
+  </span>
+</p>
 
 <p>我们来说明 Pell 方程确实有解.</p>
 

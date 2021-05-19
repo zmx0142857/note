@@ -85,35 +85,6 @@ header span {
   white-space: nowrap;
 }
 
-#notify {
-  position: fixed;
-  top: 10px;
-  left: 40%;
-  width: 20%;
-  padding: 5px;
-  border-radius: 5px;
-  text-align: center;
-  z-index: 10;
-  color: white;
-  background: #444;
-  overflow: hidden;
-}
-
-#notify::before {
-  content: '';
-  position: absolute;
-  background: white;
-  bottom: 2px;
-  left: -25%;
-  height: 2px;
-  width: 50%;
-  animation: whitebar 1.5s infinite ease;
-}
-
-@keyframes whitebar {
-  50% { left: 75% }
-}
-
 #nav {
   position: absolute;
   top: 0;
@@ -124,7 +95,7 @@ header span {
   flex-flow: column nowrap;
   overflow-y: hidden;
   background: #fcfcfc;
-  box-shadow: inset -14px 0px 5px -12px rgb(210,210,210);
+  /*box-shadow: inset -14px 0px 5px -12px rgb(210,210,210);*/
   border-right: 1px #444;
   transition: .5s;
   z-index: 0;
@@ -169,7 +140,7 @@ header span {
 
 #table-of-contents ul li:hover,
 #table-of-contents ul li.active {
-  background: #eef;
+  background: linear-gradient(90deg, #eef 80%, transparent);
   cursor: pointer;
 }
 li.isnew::after {
@@ -204,7 +175,6 @@ li.isnew::after {
 #eclipse {
   height: 100%;
   width: 100%;
-  /*background: rgba(0,0,0,0.2);*/
   display: none;
   position: absolute;
   top: 0;
@@ -260,7 +230,7 @@ li.isnew::after {
 }
 
 #body-green {
-  background: #dfb;
+  background: #e4fbe8;
 }
 
 #body-purple {
@@ -280,6 +250,33 @@ li.isnew::after {
 
 /* iphone */
 @media screen and (-webkit-min-device-pixel-ratio:2) {}
+
+#about .img {
+  border-radius: 50%;
+  background: #eec;
+  margin: 10px auto 20px auto;
+  height: 80px;
+  width: 80px;
+}
+#about .links {
+  font-size: 0.9em;
+  color: #888;
+  text-align: center;
+}
+#about a {
+  font-size: 0.9em;
+  color: #259;
+  text-decoration: none;
+}
+#about hr {
+  border-color: #eee;
+  margin: 10px 0;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
 
 </head>
@@ -305,13 +302,29 @@ li.isnew::after {
   <header id="header">
     <a id="yinyang" title="M 键切换目录">&#x262f;</a>
     <span id="article-title"></span>
-    <a href="mailto:892298182@qq.com" title="报错与反馈" style="font-size:1.5em; line-height:1.5em">&#x2709;</a>
-    <!--<img src="img/envelope.svg" alt="&#x2709;" style="width: 20px; height: 20px; margin: 12px">-->
+    <a id="show-about" title="About" style="font-size:1.5em">&#x2767;</a>
   </header>
   <div id="eclipse"></div>
+  <div id="about" style="display:none">
+    <div class="img flex-center">
+      <img src="img/pikachu.png" alt="头像">
+    </div>
+    <center>zmx0142857</center>
+    <p class="links">
+      <a href="mailto:892298182@qq.com">邮箱</a>・<a href="https://github.com/zmx0142857">github</a>・<a href="https://gitee.com/zmx0142857">gitee</a>
+    </p>
+    <hr>
+    <div class="links">
+      友情链接:
+      <ul>
+        <li>數心 <a href="https://github.com/Matheart">github</a>・<a href="https://space.bilibili.com/346660989">bilibili</a></li>
+      </ul>
+    </div>
+  </div>
 </article>
 
 <script src="js/toc.js"></script>
+<script src="js/ui.js"></script>
 <script>
 'use strict';
 (function(){
@@ -354,7 +367,13 @@ var article = $('#article'),
   nextArticle = $('#next-article'),
   book = $('#book'),
   favicon = $('#favicon'),
-  eclipse = $('#eclipse');
+  eclipse = $('#eclipse'),
+  notify;
+
+var aboutDlg = new Modal('about')
+$('#show-about').onclick = function () {
+  aboutDlg.show()
+}
 
 var UUID = 'io.zmx0142857.';
 var tableOfContents;
@@ -401,24 +420,10 @@ function createIframe(src) {
   iframe.id = 'iframe';
   iframe.setAttribute('src', src);
   iframe.onload = function() {
-    var notify = $('#notify');
-    if (notify) {
-      document.body.removeChild(notify);
-      notify = null;
-    }
+    notify.remove()
   };
   article.insertBefore(iframe, header);
   iframe.contentWindow.handleKeyboard = handleKeyboard;
-}
-
-function loading() {
-  var notify = $('#notify');
-  if (!notify) {
-    notify = $('<div>');
-    notify.innerText = '加载中...';
-    notify.id = 'notify';
-    document.body.appendChild(notify);
-  }
 }
 
 function load(key, defaultVal) {
@@ -431,7 +436,7 @@ function save(key, val) {
 
 function jump(src, title) {
   //console.log('jump: ' + src + ' ' + title);
-  loading();
+  notify = new Notify('加载中...');
   save('src', src);
   var iframe = $('#iframe');
   if (iframe) article.removeChild(iframe);
