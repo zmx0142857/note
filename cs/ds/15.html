@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>计算几何</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p class="algorithm">
+  <b>Cordic 算法</b> 是一种计算 `arctan x` 的查表法.
+  事先将 `theta_n = arctan 2^-n`, `n = 0, 1, 2, cdots` 存于表中,
+  然后逐步旋转逼近.  此方法可以逼近任意一个不超过 `sum_(n ge 0) arctan
+  2^-n ~~ 99.88^@` 的角度.<br>
+  从平面向量的旋转公式
+  <span class="formula">
+    `bm v_1 = [cos theta, -sin theta; sin theta, cos theta] bm v`
+  </span>
+  两边同除以 `cos theta` 得到伪旋转公式:
+  <span class="formula">
+    `bm v' = [1, -tan theta; tan theta, 1] bm v`.
+  </span>
+  取 `bm v_n = (x_n, y_n)`, `tan theta_n = 2^(-n)`. 上式写成
+  <span class="formula">
+    `{ x_(n+1) = x_n - y_n // 2^n;
+    y_(n+1) = y_n + x_n // 2^n :}`
+  </span>
+  当 `|y_n|` 足够小时就中止迭代.
+</p>
+
+<div class="playground" run="atan2" value="{ y: 2, x: 1 }">
+<p>结果约为: 63.43494882292201 度</p>
+<script defer>
+const degTable = Array.from(
+  { length: 60 },
+  (m, n) => Math.atan(0.5**n)*180/Math.PI
+)
+const epsi = degTable.slice(-1)[0]
+//console.log(degTable.reduce((x, y) => x+y, 0))
+
+function atan2 (str) {
+  let { y, x } = Playground.parse(str)
+  if (x < 0) {
+    x = -x
+    y = -y
+  }
+  let tan = 1
+  let ret = 0
+  for (const deg of degTable) {
+    if (y > epsi) {
+      [x, y] = [x + y * tan, y - x * tan]
+      ret += deg
+    } else if (y < -epsi) {
+      [x, y] = [x - y * tan, y + x * tan]
+      ret -= deg
+    } else {
+      break
+    }
+    tan *= 0.5
+  }
+  return ret
+}
+</script>
+</div>
+
+<script src="../../js/note.js?type=cs"></script>
+<script src="../../js/playground.js"></script>
+</body>
+</html>

@@ -39,7 +39,7 @@ math: {
 }, {
   title:'数学分析',
   articles: [
-    {title:'附录', src:'analysis/0.html'},
+    {title:'附录', src:'analysis/0.html', isnew: true},
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
@@ -228,6 +228,7 @@ cs: {
     {title:'文件', src:'ds/12.html'},
     {title:'数论算法', src:'ds/13.html'},
     {title:'动态规划与贪心算法', src:'ds/14.html'},
+    {title:'计算几何', src:'ds/15.html', isnew: true},
   ]
 }, {
   title:'机器学习',

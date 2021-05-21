@@ -311,6 +311,27 @@
 </ol>
 
 <p class="example">
+	[<a href="https://brilliant.org/practice/algebraic-manipulation-level-3-challenges/?p=1">题源 brilliant.org</a>]
+	求 `(sum_(n=1)^oo n/((2n+1)!))/(sum_(n=1)^oo n/((2n-1)!))`.
+</p>
+
+<p class="solution">
+  将求和写成
+  <span class="formula">
+    `(2/(3!) + 4/(5!) + 6/(7!) + cdots)/
+    (2/(1!) + 4/(3!) + 6/(5!) + cdots)`
+  </span>
+  分子等于
+  <span class="formula">
+    `(3-1)/(3!) + (5-1)/(5!) + (7-1)/(7!) + cdots`
+    `= 1/(2!) - 1/(3!) + 1/(4!) - 1/(5!) + 1/(6!) - 1/(7!) + cdots`
+    `= "e"^-1 - 1 + 1/(1!)`
+    `= "e"^-1`.
+  </span>
+  类似可得分母等于 `"e"`, 于是结果为 `"e"^-2`.
+</p>
+
+<p class="example">
     由 <a href="8.html">digamma 函数</a>的展式得
     <span class="formula">
         `sum_(n ge 1)(1/n - 1/(n+s)) = psi(s+1) + gamma`.
@@ -513,7 +534,8 @@
 
 <h2>连分数</h2>
 
-[来自 <a href="https://www.bilibili.com/video/BV1N7411L7Ho">數心《无限套娃的连分数》</a>]
+[<a href="https://dlmf.nist.gov/3.10">DLMF</a>, <a href="https://www.bilibili.com/video/BV1N7411L7Ho">數心《无限套娃的连分数》</a>,
+<a href="https://zhuanlan.zhihu.com/p/109945861">知乎: 连分数展开的一点公式</a>]
 
 <p class="theorem">
   <b>Euler 连分数公式</b>
@@ -542,9 +564,40 @@
   连续运用上式即得原式成立.
 </p>
 
+<p class="corollary">
+  <b>级数化为连分数</b>
+  用 `u_i` 替换 Euler 连分数中的乘积 `prod_(j=0)^i a_j`, 得到
+  <span class="formula">
+    `sum_(i=0)^n u_i`
+    `= a_0/(1-) a_1/(b_1-) a_2/(b_2-) cdots a_n/b_n`,
+  </span>
+  其中 `a_0 = u_0`, `b_0 = 1`,
+  <span class="formula">
+    `a_n = u_n//u_(n-1)`, `quad b_n = 1 + a_n`, `quad n ge 1`.
+  </span>
+  故一个各项不为零的级数, 形式上可以表示为连分数,
+  使得其第 `n` 个部分和等于连分数的第 `n` 项近似.
+</p>
+
+<p class="corollary">
+  <b>无穷乘积化为连分数</b>
+  利用下式将无穷乘积写为级数:
+  <span class="formula">
+    `prod_(n ge 1) (1 + a_n/b_n)`
+    `= 1 + a_1/b_1 + a_2/b_2(1+a_1/b_1) + a_3/b_3(1+a_1/b_1)(1+a_2/b_2)
+    + cdots`
+  </span>
+  再将级数化为连分数, 得
+  <span class="formula">
+    `1/(1-) (a_1//b_1)/(1+a_1//b_1-)`
+    `(a_2//b_2 (1+b_1//a_1))/(1+a_2//b_2(1+b_1//a_1)-)`
+    `(a_3//b_3 (1+b_2//a_2))/(1+a_3//b_3(1+b_2//a_2)-) cdots`.
+  </span>
+</p>
+
 <ol class="example">
   利用 Taylor 展开,
-  <li>
+  <li>指数函数
     <span class="formula align">
       `"e"^x = 1 + 1 * x + 1 * x * x^2/2 + cdots`<br>
       `= 1/(1-) x/(1+x-) (x//2)/(1+x//2-) (x//3)/(1+x//3-) cdots`<br>
@@ -559,14 +612,14 @@
     和 `"e"` 的无穷级数一样, 该连分数收敛很快, 取 n = 12 就得到
     `"e"` 的近似值 2.718281828703704.
   </li>
-  <li>
+  <li>正弦函数
     <span class="formula align">
       `sin x = x + x * (-x^2)/3 + x * (-x^2)/3 * (-x^2)/5 + cdots`<br>
       `= x/(1-) ((-x^2)//(2*3))/(1-x^2//(2*3)-) ((-x^2)//(4*5))/(1-x^2//(4*5)-) cdots`<br>
       `= x/(1+) x^2/(2*3-x^2+) (2*3 x^2)/(4*5-x^2+) cdots`
     </span>
   </li>
-  <li>
+  <li>反正切函数
     <span class="formula align">
       `arctan x = x + x * (-x^2)/3 + x * (-x^2)/3 * (-3x^2)/5 + cdots`<br>
       `= x/(1-) (-x^2//3)/(1-x^2//3-) (-3x^2//5)/(1-3x^2//5-) cdots`<br>
@@ -580,6 +633,115 @@
     只得到 `pi` 的近似值 3.143584671557847.
   </li>
 </ol>
+
+<p class="theorem">
+  <b>连分数的第 `n` 项近似</b>
+  记 `y_n/x_n = b_1/(a_1+) b_2/(a_2+) cdots b_n/a_n` (不约分),
+  则分子和分母均满足二阶线性递推关系:
+  <span class="formula">
+    `x_0 = 1`, `quad x_1 = a_1`, `quad x_n = a_n x_(n-1) + b_n x_(n-2)`,<br>
+    `y_0 = 0`, `quad y_1 = b_1`, `quad y_n = a_n y_(n-1) + b_n y_(n-2)`.
+  </span>
+  上式给出连分数第 `n` 项近似的算法.
+  反之, 任意两个满足上面递推关系的数列, 补充定义 `x_0, y_0` 后,
+  它们商可以展开为连分数. 例如 Fibonacci
+  数列满足 `F_0 = 0`, `F_1 = 1`, `F_n = F_(n-1) + F_(n-2)`, 因此
+  <span class="formula">
+    `F_n/F_(n+1)`
+    `= F_n/(F_n + F_(n-1))`
+    `= 1/(1+F_(n-1)//F_n)`
+    `= cdots`
+    `= 1/(1+) 1/(1+) cdots 1/1`.
+  </span>
+</p>
+
+<p class="proof">
+  容易验证边界条件成立. 假设成立
+  <span class="formula">
+    `y_n/x_n = (a_n y_(n-1) + b_n y_(n-2))/(a_n x_(n-1) + b_n x_(n-2))`,
+  </span>
+  用 `a_n + b_(n+1)//a_(n+1)` 替换公式中的 `a_n` 得
+  <span class="formula">
+    `y_(n+1)/x_(n+1)`
+    `= ((a_n + b_(n+1)//a_(n+1)) y_(n-1) + y_n - a_n y_(n-1)) /
+    ((a_n + b_(n+1)//a_(n+1)) x_(n-1) + x_n - a_n x_(n-1))`
+    `= (a_(n+1) y_n + b_(n+1) y_(n-1))/(a_(n+1) x_n + b_(n+1) x_(n-1))`.
+  </span>
+</p>
+
+<p class="example">
+  考虑超几何函数
+  <span class="formula">
+    `{::}_2 F_1(a,b";"c";"z)`
+    `= 1 + (a b)/c z + (a(a+1)b(b+1))/(c(c+1)) z^2/(2!) + cdots`,
+  </span>
+  取
+  <span class="formula">
+    `f_(2n) = {::}_2 F_1(a+n,b+n";"c+2n-1";"z)`,<br>
+    `f_(2n+1) = {::}_2 F_1(a+n+1,b+n";"c+2n";"z)`,<br>
+    `n = 0, 1, 2, cdots`,
+  </span>
+  则 `f_n = f_(n+1) + k_n z f_(n+2)`, 其中
+  <span class="formula">
+    `k_(2n) = ((a-c-n+1)(b+n))/((c+2n-1)(c+2n))`,
+    `quad k_(2n+1) = ((b-c-n-1)(a+n+1))/((c+2n)(c+2n+1))`.
+  </span>
+  于是 `f_0/f_1` 可以展开为
+  <span class="formula">
+    `f_0/(f_1)`
+    `= (f_1 + k_0 z f_2)/(f_1)`
+    `= 1 + (k_0 z)/(f_1 // f_2)`
+    `= cdots`
+    `= 1 + (k_0 z)/(1+) (k_1 z)/(1+) cdots`.
+  </span>
+  特别取 `a = 0`, 则 `f_1 = 1`, 我们就得到 `f_0` 的连分数.
+  鉴于许多初等函数都能写成超几何函数, 如
+  `arctan z = {::}_2 F_1(1,1/2";"3/2";"-z^2)`.
+  我们得到一些初等函数的连分数:
+</p>
+
+<span class="formula">
+  `"e"^z = 1/(1-) z/(color(blue)1+) z/(color(red)2-) z/(color(blue)3+) z/(color(red)2-) z/(color(blue)5+) z/(color(red)2-) cdots`,<br>
+  `ln(1+z) = z/(1+) z/(2+) z/(3+) (4z)/(4+) (4z)/(5+) (9z)/(6+) (9z)/(7+)
+  cdots`,<br>
+  `tan z = z/(1-) z^2/(3-) z^2/(5-) z^2/(7-) cdots`, `quad z != (n+1/2)pi, n in ZZ`,<br>
+  `arctan z = z/(1+) z^2/(3+) (2z)^2/(5+) (3z)^2/(7+) cdots`,
+  `quad "i"z !in (-oo, -1) uu (1, oo)`,<br>
+  `arcsin z/sqrt(1-z^2) = z/(1-) (1*2 z^2)/(3-) (1*2 z^2)/(5-)
+  (3*4z^2)/(7-) (3*4z^2)/(9-) cdots`,
+  `quad z !in (-oo, -1) uu (1, oo)`.
+  <br>
+</span>
+
+<p class="proof">
+  `tanh x` 的连分数的另一证明: 记 `a_(n,k)
+  = 1//(2n)!(2n+1)(2n+3)cdots(2n+2k-1)`, 则
+  <span class="formula">
+    `a_(n,k-1) - (2k-1) a_(n,k)`
+    `= { a_(n-1,k-1), if n ge 1; 0, if n = 0 :}`
+  </span>
+  进而有
+  <span class="formula">
+    `s_k - (2k-1)`
+    `:= (sum_(n ge 0) a_(n,k-1) x^(2n))/(sum_(n ge 0) a_(n,k) x^(2n))
+    - (2k-1)`
+    `= (sum_(n ge 1) a_(n-1,k+1)x^(2n))/(sum_(n ge 0) a_(n,k) x^(2n))`
+    `= x^2(sum_(n ge 0) a_(n,k+1)x^(2n))/(sum_(n ge 0) a_(n,k) x^(2n))`
+    `= x^2 // s_(k+1)`,
+  </span>
+  即 `s_k = (2k-1) + x^2//s_(k+1)`.
+  将 `sinh x` 和 `cosh x` 的 Taylor 展式相除,
+  <span class="formula">
+    `tanh x = x (1 + x^2/(3!) + x^4/(5!) + cdots)/(1 + x^2/(2!) + x^4/(4!)
+    + cdots)`
+    `= x (sum_(n ge 0) a_(n,1) x^(2n))/(sum_(n ge 0) a_(n,0) x^(2n))`
+    `= x // s_1`,
+  </span>
+  递推得
+  <span class="formula">
+    `tanh x = x/(1+) x^2/(3+) x^2/(5+) x^2/(7+) cdots`.
+  </span>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
