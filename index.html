@@ -251,6 +251,26 @@ li.isnew::after {
 /* iphone */
 @media screen and (-webkit-min-device-pixel-ratio:2) {}
 
+#about {
+  transition: .3s;
+  transform: rotateY(calc(var(--flag) * 180deg));
+  --flag: 0;
+}
+#about > .back {
+  display: none;
+  position: absolute;
+  background: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 20px;
+  text-align: center;
+  transform: scaleX(-1);
+}
+#about.back > .back {
+  display: block;
+}
 #about .img {
   border-radius: 50%;
   background: #eec;
@@ -320,6 +340,9 @@ li.isnew::after {
         <li>數心 <a href="matheart.github.io">github</a>・<a href="https://space.bilibili.com/346660989">bilibili</a></li>
       </ul>
     </div>
+    <div class="back">
+      广告位招租
+    </div>
   </div>
 </article>
 
@@ -368,12 +391,19 @@ var article = $('#article'),
   book = $('#book'),
   favicon = $('#favicon'),
   eclipse = $('#eclipse'),
-  notify;
+  notify,
+  about = $('#about')
 
 var aboutDlg = new Modal('about')
 $('#show-about').onclick = function () {
   aboutDlg.show()
 }
+about.addEventListener('click', function () {
+  var degY = parseInt(about.style.getPropertyValue('--flag'))
+  degY = !degY ? 1 : 0
+  degY ? about.classList.add('back') : about.classList.remove('back')
+	about.style.setProperty('--flag', degY);
+}, true) // 向上冒泡
 
 var UUID = 'io.zmx0142857.';
 var tableOfContents;

@@ -8,9 +8,9 @@
 
 <body>
 
-<h2>Hadamard 不等式</h2>
+<h2>指对数函数及其不等式</h2>
 
-<p class="theorem">
+<p class="lemma">
 	<b>Hadamard 不等式 (曲边梯形不等式)</b>
 	设 `f` 是 `[a, b]` 上可积的下凸函数, 则
 	<span class="formula">
@@ -100,6 +100,15 @@
   <li>`"e"^x le 1/(1-x)` (`x lt 1`), 等号成立当且仅当 `x = 0`;</li>
   <li>`1-1/x le ln x le x-1`, 等号成立当且仅当 `x = 1`;</li>
 </ol>
+
+<div class="flex">
+  <div class="img" title="指数函数的估计">
+    <canvas id="img-exp-approx" width="300" height="300"></canvas>
+  </div>
+  <div class="img" title="对数函数的估计">
+    <canvas id="img-log-approx" width="300" height="300"></canvas>
+  </div>
+</div>
 
 <ol class="proof">
 	<li>设 `f(x) = "e"^x - x - 1`, 则 `f(0) = 0`, 且
@@ -192,58 +201,6 @@
   </li>
 </ol>
 
-<h2>指对数函数的零点与极值</h2>
-
-<p class="example">
-	若 `f(x) = "e"^x - a x` 有两个不同的零点 `x_1`, `x_2`, 则
-	<span class="formula">
-		`x_1 x_2 lt 1`, `quad 2 lt x_1 + x_2 lt 2 ln a`.
-	</span>
-</p>
-
-<p class="proof">
-	由题意
-	<span class="formula">
-		`"e"^(x_1) = a x_1`, `quad "e"^(x_2) = a x_2`,
-	</span>
-	取对数得
-	<span class="formula">
-		`x_1 = ln a + ln x_1`, `quad x_2 = ln a + ln x_2`.
-		<span class="label" id="for-zeros-e^x-ax"></span>
-	</span>
-	因此 `x_1 - x_2 = ln x_1 - ln x_2`. 由对数均值不等式有
-	<span class="formula">
-		`sqrt(x_1 x_2) lt 1 lt (x_1+x_2)/2`,
-	</span>
-	从而得 `x_1 x_2 lt 1`, `x_1 + x_2 gt 2`.
-	再由 <a class="ref" href="#for-zeros-e^x-ax"></a> 得到
-	`x_1 + x_2 = 2 ln a + ln x_1 x_2 lt 2 ln a`.
-</p>
-
-<p class="example">
-	若 `f(x) = ln x + 2/x - a` 有两个不同的零点 `x_1, x_2`, 则
-	<span class="formula">
-		`x_1 + x_2 gt 4`, `quad x_1 x_2 gt 4`.
-	</span>
-</p>
-
-<p class="proof">
-	由题意
-	<span class="formula">
-		`ln x_1 = a - 2/x_1`, `quad ln x_2 = a - 2/x_2`,
-	</span>
-	因此
-	<span class="formula">
-		`ln x_1^-1 = 2 x_1^-1 - a`, `quad ln x_2^-1 = 2 x_2^-1 - a`.
-	</span>
-	应用对数均值不等式,
-	<span class="formula">
-		`2/(x_1+x_2) lt sqrt(x_1^-1 x_2^-1)`
-		`lt (x_1^-1 - x_2^-1)/(ln x_1^-1 - ln x_2^-1) = 1/2`,
-	</span>
-	即 `x_1 + x_2 gt 4`, `x_1 x_2 gt 4`.
-</p>
-
 <ol class="example">
 	<li>`x gt 0` 时, `ln(1+x) gt (2x)/(x+2)`.</li>
 	<li>`"e"^x gt ln x + 2x +1/sqrt 2`.</li>
@@ -259,7 +216,7 @@
 </ol>
 
 <ol class="example">
-	<b>从指对数不等式到 Lambert W 函数</b>
+	<b>Lambert W 函数</b>
 	<li>
 	在不等式 `"e"^t ge t+1` 中令 `t = a x + ln x` (`a != 0`) 得
 	<span class="formula">
@@ -292,6 +249,115 @@
 		于是 `ln x = W(ln a)`, `x = "e"^(W(ln a))`.
 	</li>
 </ol>
+
+<div class="img" title="Lambert W 函数以 `y = -1` 为界有两个分支">
+  <canvas id="img-lambert-w" width="300" height="300"
+  ></canvas>
+</div>
+
+<h3>极值点偏移</h3>
+
+[<a href="http://www.360doc.cn/mip/759704114.html">高中数学：极值点偏移问题有什么好的解决办法？</a>]
+
+<p class="definition">
+  <b>极值点偏移</b>
+  设函数 `f` 有两个零点 `a lt b`, 且在开区间 `(a, b)`
+  上有唯一的极值点 `x_0`. 考虑区间中点 `(a+b)//2`, 若 `x_0`
+  位于中点左侧 (右侧), 则称 `f` 在 `(a, b)` 上极值点左偏 (右偏).
+</p>
+
+<p>
+  为研究极值点偏移, 构造奇函数
+  <span class="formula">
+    `F(x) = f(x_0 + x) - f(x_0 - x)`,
+  </span>
+  其中 `F(0) = 0`. 如果 `f` 关于 `x_0` 对称, 则 `F` 应该恒等于零.
+  若 `F` 单调 (如单增), 则对任意 `x gt 0` 有 `F(x) ge 0`.
+  特别地 `F(x_0-a) ge 0`, 即
+  <span class="formula">
+    `f(2x_0-a) = f(2x_0-a) - f(a) ge 0 = f(b)`
+  </span>
+  由极值点 `x_0` 的唯一性知道,
+  `f` 在 `[x_0, b]` 上单调. 进一步假定存在充分大的数 `M`, 使得
+  `f` 在 `[x_0, M]` 上单调 (如单增), 则上式推出
+  <span class="formula">
+    `2 x_0 - a ge b`, 即 `x_0 ge (a+b)//2`,
+  </span>
+  因此极值点右偏.
+</p>
+
+<p class="example">
+	若 `f(x) = "e"^x - a x` 有两个不同的零点 `x_1`, `x_2`, 则
+	<span class="formula">
+		`x_1 x_2 lt 1`, `quad 2 lt x_1 + x_2 lt 2 ln a`.
+	</span>
+</p>
+
+<p class="proof">
+	使用对数均值不等式.  由题意
+	<span class="formula">
+		`"e"^(x_1) = a x_1`, `quad "e"^(x_2) = a x_2`,
+	</span>
+	取对数得
+	<span class="formula">
+		`x_1 = ln a + ln x_1`, `quad x_2 = ln a + ln x_2`.
+		<span class="label" id="for-zeros-e^x-ax"></span>
+	</span>
+	因此 `x_1 - x_2 = ln x_1 - ln x_2`. 由对数均值不等式有
+	<span class="formula">
+		`sqrt(x_1 x_2) lt 1 lt (x_1+x_2)/2`,
+	</span>
+	从而得 `x_1 x_2 lt 1`, `x_1 + x_2 gt 2`.
+	再由 <a class="ref" href="#for-zeros-e^x-ax"></a> 得到
+	`x_1 + x_2 = 2 ln a + ln x_1 x_2 lt 2 ln a`.
+</p>
+
+<p class="proof">
+  可以构造对称函数证明 `x_1 + x_2 gt 2`.
+  不妨设 `x_1 lt x_2`,
+  由题意知 `f` 在 `[x_1, x_2]` 上有唯一极值点 `x_0`.
+  令 `F(x) = f(x_0 + x) - f(x_0 - x)`, 由于
+  <span class="formula">
+    `F'(x) = "e"^(x_0+x) + "e"^(x_0-x) - 2 a`
+    `= 2 ("e"^(x_0) cosh x - a)`
+    `= ge 2("e"^(x_0) - a)`.
+  </span>
+  由于直线 `y = a x` 和曲线 `y = "e"^x` 相交,
+  其斜率应大于曲线在切点的导数, 即 `a gt "e"^(x_0)`, 从而 `F'(x) lt 0`,
+  `F` 单调减. 又显然 `f` 在 `(-oo, x_0)` 和 `(x_0, oo)` 上分别单调,
+  因此 `F` 和 `f` 的单调性都已得到满足.<br>
+  由 `F` 的单调性, `f(2x_0 - x_1) lt f(x_2)`; 再由 `f` 的单调性,
+  `x_1 + x_2 gt 2 x_0`.<br>
+  由 `y = a x` 和 `y = "e"^x` 在 `x_0` 处相切得
+  <span class="formula">
+    `a = "e"^(x_0)`, `quad "e"^(x_0) - a x_0 = 0`,
+  </span>
+  解得 `x_0 = 1`.
+</p>
+
+<p class="example">
+	若 `f(x) = ln x + 2/x - a` 有两个不同的零点 `x_1, x_2`, 则
+	<span class="formula">
+		`x_1 + x_2 gt 4`, `quad x_1 x_2 gt 4`.
+	</span>
+</p>
+
+<p class="proof">
+	由题意
+	<span class="formula">
+		`ln x_1 = a - 2/x_1`, `quad ln x_2 = a - 2/x_2`,
+	</span>
+	因此
+	<span class="formula">
+		`ln x_1^-1 = 2 x_1^-1 - a`, `quad ln x_2^-1 = 2 x_2^-1 - a`.
+	</span>
+	应用对数均值不等式,
+	<span class="formula">
+		`2/(x_1+x_2) lt sqrt(x_1^-1 x_2^-1)`
+		`lt (x_1^-1 - x_2^-1)/(ln x_1^-1 - ln x_2^-1) = 1/2`,
+	</span>
+	即 `x_1 + x_2 gt 4`, `x_1 x_2 gt 4`.
+</p>
 
 <h2>Gronwall 引理</h2>
 
@@ -507,5 +573,25 @@
 </p>
 
 <script src="../../js/note.js?type="></script>
+<script src="../../js/plot.js"></script>
+<script>
+const { exp, log } = Math
+
+new Plot('img-exp-approx')
+  .geometry({xmin: -2, xmax: 2, ymin: -0.1, ymax: 5}).axis()
+  .plot(exp)
+  .plot(x => 1+x, { color: 'grey' })
+  .plot(x => 1/(1-x), { color: 'grey' })
+
+new Plot('img-log-approx')
+  .geometry({xmin: -0.1, xmax: 5, ymin: -2, ymax: 2}).axis()
+  .plot(log, { continuity: 1e5 })
+  .plot(x => 1-1/x, { color: 'grey' })
+  .plot(x => x-1, { color: 'grey' })
+
+new Plot('img-lambert-w')
+  .geometry({xmin: -0.5, xmax: 5, ymin: -5, ymax: 2}).axis()
+  .plot(t => t*exp(t), t => t, {min:-5.5, max:2})
+</script>
 </body>
 </html>

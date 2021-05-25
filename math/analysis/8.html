@@ -352,7 +352,7 @@
 
 <p class="example" id="for-wallis">
 	<b>Wallis 公式</b>
-	`lim_(n to oo) ((2n)!!)^2/((2n-1)!!(2n+1)!!) = pi/2`.
+  `lim_(n to oo) {:(2n)!!:}^2/((2n-1)!!(2n+1)!!) = pi/2`.
 	尽管只有乘除法因而计算简便, 但 Wallis 公式的收敛速度不快,
 	不适合直接用来计算 `pi`.
 </p>
@@ -379,6 +379,10 @@
 </p>
 
 <h3>第二类 Euler 积分: Gamma 函数</h3>
+
+<div class="img fit" title="Gamma 函数">
+  <canvas id="img-gamma" width="300" height="400"></canvas>
+</div>
 
 <span class="formula">
 	`Gamma(x+1) = int_0^oo "e"^-t t^x dt`.
@@ -876,31 +880,13 @@
 <h3>多重指数积分</h3>
 
 <p class="definition">
-	设 `n` 为非负整数, `n` 阶指数积分定义为
+	设 `n` 为非负整数, (Schlömilch's) `n` 阶指数积分定义为
 	<span class="formula">
-		`E_n(z) = int_1^oo "e"^(-z t)/t^n dt`.
+		`E_n(x) = int_1^oo "e"^(-x t)/t^n dt`, `quad x gt 0`.
 	</span>
+  特别 `E_0(x) = "e"^-x/x`, `E_n(x) = x^(n-1) int_x^oo "e"^-u/u "d"u` (`n
+  ge 1`).
 </p>
-
-<h3>指数积分与对数积分</h3>
-
-<ol class="definition">
-    <li><b>指数积分</b> `"Ei"(x) = -E_1(-x) = int_(-oo)^x "e"^t/t dt`.</li>
-    <li><b>对数积分</b> `"li"(x) = int_0^x dt/(ln t)`
-    (`x gt 1` 时, 取 Cauchy 主值
-    `lim_(epsi to 0^+) int_0^(1-epsi) + int_(1+epsi)^x`).
-    在复平面上, `"li"(z)` 于 `z=1` 处有唯一极点.
-    (注意与多重对数积分相区别)
-    </li>
-    <li><b>正弦积分</b> `"Si"(x) = int_0^x (sin t)/t dt`.  </li>
-    <li><b>余弦积分</b> `"Ci"(x) = gamma + ln x + int_0^x (cos t - 1)/t dt`.
-    </li>
-</p>
-
-<ol class="proposition">
-    <li>`"li"(x) = "Ei"(ln x)`;</li>
-    <li>`"Ei"("i"x) = "Ci"(x) + "i"(pi/2 + "Si"(x))`;</li>
-</ol>
 
 <p class="proposition">
 	分部积分可证, `n E_(n+1)(z) = "e"^-z - z E_n(z)`.
@@ -911,6 +897,7 @@
 	<span class="formula">
 		`1/(x+n) lt "e"^x E_n(x) lt 1/(x+n-1)`.
 	</span>
+  此外 `n = 0` 时左边的等号成立.
 </p>
 
 <p class="proof">
@@ -928,8 +915,36 @@
 		`lt int_1^oo t^(-n-x) dt`
 		`= 1/(n+x-1)`.
 	</span>
-	另一边??
+  利用已证得的 `E_(n+1)(x) lt ("e"^-x)/(x+n)`, `n ge 1`, 有
+  <span class="formula">
+    `E_n(x) = ("e"^-x - n E_(n+1)(x))/x`
+    `gt "e"^-x/x (1 - n/(x+n))`
+    `= "e"^-x/(x+n)`, `quad n ge 1`.
+  </span>
 </p>
+
+<h3>指数积分与对数积分</h3>
+
+<ol class="definition">
+    <li><b>指数积分</b> `"Ei"(x) = -E_1(-x) = int_(-oo)^x "e"^t/t dt`.
+      `x gt 0` 时, 取 Cauchy 主值 `lim_(epsi to 0+)
+      int_(-oo)^-epsi + int_epsi^x`. 在复平面上, `"Ei"(z)` 有唯一极点
+      `z = 0`.
+    </li>
+    <li><b>对数积分</b> `"li"(x) = int_0^x dt/(ln t)`.
+      `x gt 1` 时, 取 Cauchy 主值
+      `lim_(epsi to 0^+) int_0^(1-epsi) + int_(1+epsi)^x`.
+      在复平面上, `"li"(z)` 有唯一极点 `z = 1`.
+    </li>
+    <li><b>正弦积分</b> `"Si"(x) = int_0^x (sin t)/t dt`.  </li>
+    <li><b>余弦积分</b> `"Ci"(x) = gamma + ln x + int_0^x (cos t - 1)/t dt`.
+    </li>
+</p>
+
+<ol class="proposition">
+    <li>`"li"(x) = "Ei"(ln x)`;</li>
+    <li>`"Ei"("i"x) = "Ci"(x) + "i"(pi/2 + "Si"(x))`;</li>
+</ol>
 
 <p class="proposition">
     `"Ei"(z) = gamma + ln z + sum_(k ge 1) z^k/(k * k!)`.
@@ -1181,5 +1196,20 @@
 </p>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script>
+const Gamma = s => {
+  const N = 1000
+  let ret = N**s/s
+  for (let n = 1; n <= N; ++n) {
+    ret *= n / (s+n)
+  }
+  return ret
+}
+
+new Plot('img-gamma')
+  .geometry({xmin: -5, xmax: 5, ymin: -5, ymax: 7}).axis({ytick: 2})
+  .plot(Gamma, {continuity: 1e3})
+</script>
 </body>
 </html>

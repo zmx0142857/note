@@ -35,7 +35,8 @@ win.Modal = function Modal (id, config = {}) {
     background: 'rgba(0,0,0,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex
+    zIndex,
+    perspective: '1000px'
   })
   Object.assign(this.elem.style, {
     background: '#f4f8fb',
