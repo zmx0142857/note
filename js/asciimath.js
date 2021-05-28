@@ -1236,6 +1236,7 @@ if (typeof document === 'undefined') { // nodejs
     var link = doc.createElement('link');
     link.setAttribute('rel', 'stylesheet');
     link.setAttribute('href', url);
+    link.setAttribute('crossorigin', '');
     body.appendChild(link);
   }
 

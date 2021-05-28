@@ -29,9 +29,9 @@
   当 `|y_n|` 足够小时就中止迭代.
 </p>
 
-<div class="playground" run="atan2" value="{ y: 2, x: 1 }">
+<div class="playground" value="{ y: 2, x: 1 }">
 <p>结果约为: 63.43494882292201 度</p>
-<script defer>
+<script type="text">
 const degTable = Array.from(
   { length: 60 },
   (m, n) => Math.atan(0.5**n)*180/Math.PI
@@ -39,7 +39,7 @@ const degTable = Array.from(
 const epsi = degTable.slice(-1)[0]
 //console.log(degTable.reduce((x, y) => x+y, 0))
 
-function atan2 (str) {
+module.exports = function atan2 (str) {
   let { y, x } = Playground.parse(str)
   if (x < 0) {
     x = -x

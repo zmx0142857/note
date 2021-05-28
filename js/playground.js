@@ -18,7 +18,9 @@ for (let playground of list) {
   run.onclick = function () {
     output.classList.remove('hidden')
     try {
-      output.textContent = window[playground.getAttribute('run')](input.value)
+      const module = {}
+      Function(['module'], '"use strict";' + src.textContent)(module)
+      output.textContent = module.exports(input.value)
       output.classList.remove('error')
     } catch (e) {
       output.textContent = e + '\n' + e.stack
@@ -28,6 +30,8 @@ for (let playground of list) {
   output.classList.add('hidden')
   src.textContent = script.textContent.trim()
   src.classList.add('hidden')
+  src.setAttribute('contenteditable', 'true')
+  src.setAttribute('spellcheck', 'false')
   showSrc.type = 'button'
   showSrc.value = '源码'
   showSrc.onclick = function () {
@@ -66,6 +70,26 @@ let Playground = {
       return Array(head).fill(value)
     }
   },
+  *range (...args) {
+    let start = 0, stop, step = 1;
+    if (args.length === 1) {
+      stop = args[0]
+    } else if (args.length === 2) {
+      start = args[0]
+      stop = args[1]
+    } else if (args.length === 3) {
+      start = args[0]
+      stop = args[1]
+      step = args[2]
+    }
+    if (step > 0) {
+      for (let x = start; x < stop; x += step)
+        yield x
+    } else if (step < 0) {
+      for (let x = start; x > stop; x += step)
+        yield x
+    }
+  }
 }
 Playground.zeros = Playground.fill(0)
 Playground.ones = Playground.fill(1)

@@ -8,6 +8,28 @@
 <body>
 
 <p class="algorithm">
+  <b>n 次方根取整</b>
+  求 `|__ root n a __|`, 其中整数 `a ge 0`, `n ge 2`.
+  使用牛顿迭代法 `x = ((n-1)x + a//x^(n-1))//n`, 其中除法均向下取整.
+</p>
+
+<div class="playground" value="{ n: 2, a: 55555 }">
+<p>说明: `235^2 = 55225`, `236^2 = 55696`, 因此 `|__ sqrt 55555 __| = 235`</p>
+<script type="text">
+module.exports = function floorRoot (str) {
+  const { n, a } = Playground.parse(str)
+  if (a < 0) return NaN
+  let x = 1
+  do x = Math.floor(
+    ((n-1)*x + Math.floor(a/x**(n-1))) / n
+  )
+  while (x**n > a)
+  return x
+}
+</script>
+</div>
+
+<p class="algorithm">
 	<b>辗转相除法</b> 设 a, b 为正整数, 求最大公约数.
 </p>
 
@@ -247,5 +269,6 @@ Euler_sieve():
 </p>
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>
