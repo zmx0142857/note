@@ -230,29 +230,6 @@
   取得最小值.
 </p>
 
-<p class="lemma">
-  <b>变分引理</b>
-  设 `f in L^2[a, b]`, `varphi in C_0[a, b]`, 即 `varphi` 是 `[a, b]`
-  上在两个端点处等于零的连续函数. 若
-  <span class="formula">
-    `int_a^b f(x) varphi(x) dx = 0`,
-  </span>
-  则 `f` 几乎处处为零.
-</p>
-
-<ol class="proof">
-  根据逼近定理??, 存在函数列 `varphi_n in C_0[a, b]`
-  使得 `varphi_n overset (L^2) rarr f`, `n to oo`.
-  由 Cauchy 不等式,
-  <span class="formula">
-    `int_a^b f^2(x) dx`
-    `int_a^b f(x) [f(x) - varphi_n(x)] dx`
-    `le sqrt(int_a^b f^2(x) dx) sqrt(int_a^b |f(x) - varphi_n(x)|^2 dx)`.
-  </span>
-  令 `n to oo`, 就有 `int_a^b f^2(x) dx = 0`. 由定理??,
-  这当且仅当 `f` 几乎处处为零.
-</ol>
-
 <p class="theorem">
 	<b>Euler-Lagrange 方程 (第一形式)</b>
 	设 `q(t) in C^1[a,b]`, `L(q, dot q, t) in C^2[a,b]`,
@@ -283,7 +260,7 @@
 		`= int_a^b ((del L)/(del q) eta + (del L)/(del dot q) dot eta) dt`
 		`= int_a^b [(del L)/(del q)-"d"/dt (del L)/(del dot q)] eta dt`.
 	</span>
-  由函数 `eta` 的任意性, 按变分引理有
+  由函数 `eta` 的任意性, 按<a href="../../math/analysis/11.html">变分引理</a>有
 	<span class="formula">
 		`(del L)/(del q) - "d"/dt (del L)/(del dot q) = 0`
 	</span>

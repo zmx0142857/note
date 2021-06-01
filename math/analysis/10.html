@@ -493,38 +493,56 @@
     </span>
 </p>
 
+<ol class="lemma">
+  [群友 卡尔・夏洛克]
+  设 `x` 是使得下式有意义的任意实数, `n ge 0`, 则
+  <li>`(ln_n (x+1))/(ln_n x) - 1 le (ln_(n+1) x)'`;</li>
+  <li>`ln{:(ln_n (x+1))/(ln_n x):} ge ((ln_(n+1) x)')/(sum_(k=0)^(n+1)
+    (ln_k x)')`;
+  </li>
+  <li>`prod_(k=0)^n (ln_k (x+1))/(ln_k x) ge sum_(k=0)^(n+1) (ln_k x)'`.</li>
+</ol>
+
+<ol class="proof">
+  <li>对 `n` 归纳并利用不等式 `ln(1+x) le x`;</li>
+  <li>对 `n` 归纳并利用不等式 `ln(1+1/x) ge 1/(x+1)`;</li>
+  <li>对 `n` 归纳并利用 2. 的结果.</li>
+</ol>
+
 <ol class="theorem">
     <b>Gauss 检比法</b>
-    将正项级数 `sum u_n` 的相邻两项比以 `f_m(n) = (ln_m n)'` 的阶渐近展开:
+    利用函数列 `f_m(n) = (ln_m n)'`,
+    将正项级数 `sum u_n` 的相邻两项比渐近展开:
     <span class="formula">
         `u_n//u_(n+1) = sum_(m=0)^N G_m f_m(n) + o(f_N(n))`
-        `= G_0 + G_1/n + G_2/(n ln n) + G_3/(n ln n ln ln n) + cdots + o(f_N(n))`.
+        `= G_0 + G_1/n + G_2/(n ln n) + G_3/(n ln n ln ln n) + cdots`
+        `+ o(f_N(n))`.
     </span>
     若存在 `M` 使得 `G_0 = G_1 = cdots = G_(M-1) = 1`, 而 `G_M != 1`, 则
     <li>`G_M gt 1` (含 `G_M = +oo`) 时, 原级数收敛;</li>
     <li>`G_M lt 1` (含 `G_M = -oo`) 时, 原级数发散.</li>
 </ol>
 
-<ol class="proof">
-    <li>设 `G_M gt 1`, 取 `1 lt s lt G_M`, 则级数
-        `sum v_n = sum ln_(M-1)^-s n (ln_(M-1) n)'` 收敛.
-        考察它的前后项比, 利用引理将乘积展开:
-        <span class="formula">
-            `v_n // v_(n+1)`
-            `= (n+1)/n (ln(n+1))/(ln n) cdots
-            (ln_(M-2) (n+1))/(ln_(M-2) n) ((ln_(M-1) (n+1))/(ln_(M-1) n))^s`
-            `= (1 + f_M(n) + o(f_M(n)))^s
-            prod_(m=1)^(M-1) (1+f_m(n) + o(f_m(n)))`
-        </span>
-        注意 `s lt G_M`, 故 `n` 充分大时, 上式小于等于
-        <span class="formula">
-            `u_n // u_(n+1)`
-            `= 1 + 1/n + 1/(n ln n) + cdots + G_M f_M(n) + o(f_M(n))`.
-        </span>
-        由第三比较判别法知 `sum u_n` 收敛.
-    </li>
-    <li>`G_m lt 1` 的证明类似.</li>
-</ol>
+<p class="proof">
+  只证 `G_M gt 1` 的情形. 取 `1 lt s lt G_M`, 则级数
+  `sum v_n = sum ln_(M-1)^-s n (ln_(M-1) n)'` 收敛.
+  考察它的前后项比, 利用引理将乘积展开:
+  <span class="formula">
+    `v_n // v_(n+1)`
+    `= (n+1)/n (ln(n+1))/(ln n) cdots`
+    `(ln_(M-2) (n+1))/(ln_(M-2) n)`
+    `((ln_(M-1) (n+1))/(ln_(M-1) n))^s`
+    `= (1 + f_M(n) + o(f_M(n)))^s`
+    `prod_(m=1)^(M-1) (1+f_m(n) + o(f_m(n)))`
+  </span>
+  注意 `s lt G_M`, 故 `n` 充分大时, 上式小于等于
+  <span class="formula">
+    `u_n // u_(n+1)`
+    `= 1 + 1/n + 1/(n ln n) + cdots`
+    `+ G_M f_M(n) + o(f_M(n))`.
+  </span>
+  由第三比较判别法知 `sum u_n` 收敛.
+</p>
 
 <p class="remark">
     系数 `G_m` 可以通过计算极限 `lim_(n to oo) r_n^((m))` 得到, 其中

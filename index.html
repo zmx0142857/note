@@ -435,7 +435,9 @@ function hideNav(flag) {
 }
 
 function headerVisible(flag) {
-  if (location.hash === '#math/example/editor') return; // 首页导航条不隐藏
+  // 首页导航条不隐藏
+  if (location.hash === '#math/example/editor')
+      flag = true;
   if (!nav.hidden || flag) {
     header.removeAttribute('hidden');
     header.style.opacity = '1';

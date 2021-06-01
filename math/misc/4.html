@@ -552,6 +552,49 @@
   </span>
 </p>
 
+<p class="example">
+  设 `f in C[0, 1]`, 且 `AA x in [0, 1]`, `int_x^1 f(t) dt ge (1-x^2)/2`.
+  证明: `int_0^1 f(x)^2 dx ge 1/3`.
+</p>
+
+<ol class="proof">
+  1, 2 是两个较松的下界, 3 是正解.
+  <li>在 `[0, 1]` 上应用 Cauchy 不等式,
+    <span class="formula">
+      `int_0^1 f(x)^2 dx int_0^1 1^2 dx`
+      `ge (int_0^1 f(x) dx)^2`
+      `ge (int_0^1 (1-0^2)/2 dx)^2 = 1/4`.
+    </span>
+  </li>
+  <li>在 `[x, 1]` 上应用 Cauchy 不等式,
+    <span class="formula">
+      `((1-x^2)/2)^2`
+      `le (int_x^1 f(t) dt)^2`
+      `le int_x^1 1^2 dt int_x^1 f(t)^2 dt`
+      `le (1-x) int_0^1 f(t)^2 dt`.
+    </span>
+    于是 `int_0^1 f(t)^2 dt ge "sup" (1-x^2)(1+x)//4 = 8//27`.
+  </li>
+  <li>
+    [群友 我是卑微不敢说话的飞矢不动]
+    将已知的不等式在 `[0, 1]` 上积分,
+    <span class="formula">
+      `1/3 = int_0^1 (1-x^2)/2 dx`
+      `le int_0^1 int_x^1 f(t) dt dx`
+      `= int_0^1 int_0^t f(t) dx dt`
+      `= int_0^1 t f(t) dt`,
+    </span>
+    从而
+    <span class="formula">
+      `int_0^1 f(x)^2 dx int_0^1 x^2 dx`
+      `ge (int_0^1 x f(x) dx)^2`
+      `ge 1/9`,
+    </span>
+    即 `int_0^1 f(x)^2 dx ge 1//3`.
+    注意 `f(x) -= x` 时等号成立, 故 `1//3` 是最优下界.
+  </li>
+</ol>
+
 <p>	下面两个不等式可以仿照上文对应不等式来证明.</p>
 
 <p class="theorem">
@@ -592,6 +635,7 @@ new Plot('img-log-approx')
 new Plot('img-lambert-w')
   .geometry({xmin: -0.5, xmax: 5, ymin: -5, ymax: 2}).axis()
   .plot(t => t*exp(t), t => t, {min:-5.5, max:2})
+  .plot(t => -1, {color: 'grey'})
 </script>
 </body>
 </html>

@@ -49,6 +49,7 @@ math: {
     {title:'含参积分与特殊函数', src:'analysis/8.html'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
     {title:'常数项级数', src:'analysis/10.html', isnew:true},
+    {title:'函数列与函数项级数', src:'analysis/11.html', isnew:true},
     {title:'Fourier 级数', src:'analysis/13.html', isnew:true},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
     {title:'多元数量函数微分学', src:'analysis/15.html'},

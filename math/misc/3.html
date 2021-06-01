@@ -189,8 +189,7 @@
 
 <h3>Jensen - Young - Hölder - Minkowski</h3>
 
-<a href="https://zhuanlan.zhihu.com/p/55307171">原文来自知乎</a>, 当然,
-也来自崔尚斌. 数学分析教程 (上册). 第一版. 北京: 科学出版社.
+[<a href="https://zhuanlan.zhihu.com/p/55307171">知乎</a>, 崔尚斌《数学分析教程》上册]
 
 <p class="theorem">
 	<b>Jensen 不等式</b>
@@ -302,7 +301,7 @@
 	不等式的取等条件.
 </p>
 
-<p class="theorem">
+<p class="corollary">
 	<b>Minkowski 不等式</b>
 	设 `x_k, y_k gt 0`, `k = 1, 2, cdots, n`. 又设 `p ge 1`, 则
 	<span class="formula">
@@ -328,6 +327,22 @@
 		`(sum_(k=1)^n (x_k+y_k)^p)^(1/q)`.
 	</span>
 	两边同乘以 `(sum_(k=1)^n (x_k+y_k)^p)^(-1/q)` 即得结果.
+</p>
+
+<p class="example">
+  求 `y = sqrt(x^2+1) + sqrt((2-x)^2 + 4)` 的最小值.
+  类似地, `sqrt(x^2-2x+2) + sqrt(x^2-8x+20) ge 3 sqrt2`.
+</p>
+
+<p class="solution">
+  利用 Minkowski 不等式, `y ge sqrt((x+2-x)^2 + (1+2)^2) = sqrt 13`.
+  当然也可以用 Cauchy 不等式. 毕竟 Minkowski 不等式是 Hölder
+  不等式的推论.
+</p>
+
+<p class="solution">
+  `y` 等于点 `(x, 0)` 到 `A(0, 1)` 与 `B(2, 2)` 的距离之和. 为求最小值,
+  作 `(0, 1)` 关于 `x` 轴的对称点 `A'(0, -1)`, 则 `y ge |A'B| = sqrt 13`.
 </p>
 
 <p class="remark">
@@ -1289,7 +1304,8 @@
 </p>
 
 <p class="example">
-    `triangle ABC` 中 `/_ A = 120^@`, 求 `max(2AB + 3AC)`.
+  <b>定角构圆问题</b>
+  `triangle ABC` 中 `/_ A = 120^@`, `BC = 4`, 求 `max(2AB + 3AC)`.
 </p>
 
 <p class="solution">
@@ -1301,7 +1317,7 @@
   待定系数配方,
   <span class="formula">
     `x^2+y^2+x y`
-    `=a(2x+3y)^2 + b(x+c)^2`
+    `=a(2x+3y)^2 + b(x-c y)^2`
     `= 3/28(2x+3y)^2+4/7(x-y/4)^2`
     `ge 3/28(2x+3y)^2`,
   </span>
@@ -1342,6 +1358,29 @@
     `= 8 sqrt(7/3)`.
   </span>
   取得最大值.
+</p>
+
+<p class="example">
+  已知 `4x^2 + y^2 + x y = 1`, 求 `2x+y` 的范围.
+</p>
+
+<p class="solution">
+  `2x+y` 取得最值当且仅当直线和椭圆相切, 即直线斜率为 `-2`.
+  求导得 `|2x+y| le sqrt(8/5)`.
+</p>
+
+<p class="solution">
+  配方 `1 = 4x^2 + y^2 + x y`
+  `= a(2x+y)^2 + b(x-c y)^2`.
+  解得 `a = 5/8`, 于是 `|2x+y| le sqrt(8/5)`.
+</p>
+
+<p class="solution">
+  化为定角构圆问题: 三角形三边长为 `2x, y, 1`, 其中 `1` 所对的角满足 `cos
+  theta = -1/4`, 故
+  <span class="formula">
+    `max(2x+y) = 1//sin{:theta/2:} = sqrt(8/5)`.
+  </span>
 </p>
 
 <p class="example">
