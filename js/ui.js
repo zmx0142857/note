@@ -64,18 +64,16 @@ Modal.prototype.show = function () {
  * Notify
  */
 win.Notify = function Notify (text) {
-  this.notify = doc.createElement('div')
-  this.notify.classList.add('notify')
-  this.notify.textContent = text
-  this.notify.id = 'notify'
-  body.appendChild(this.notify)
+  var notify = doc.createElement('div')
+  notify.classList.add('notify')
+  notify.textContent = text
+  notify.id = 'notify'
+  body.appendChild(notify)
 }
 
 Notify.prototype.remove = function () {
-  if (this.notify) {
-    body.removeChild(this.notify)
-    this.notify = null
-  }
+  var notify = doc.getElementById('notify')
+  notify && body.removeChild(notify)
 }
 
 addStyle(`

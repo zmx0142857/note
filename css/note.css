@@ -295,23 +295,6 @@ button.answer-shown::after {
   content: ' \25bc';
 }
 
-.img {
-  display: block;
-  margin: 2em 0;
-  text-align: center;
-  font-size: 0.9em;
-  height: 24em;
-}
-.img.fit {
-  height: max-content;
-}
-
-.img img {
-  display: block;
-  margin: 0 auto;
-  height: 90%;
-}
-
 span.box {
   display: inline-block;
   padding: 0.5em;
@@ -406,10 +389,34 @@ dl dd {
   margin-left: 2em;
 }
 
+.img {
+  display: block;
+  margin: 2em 0;
+  text-align: center;
+  font-size: 0.9em;
+  height: max-content;
+  overflow: auto;
+}
+.img.lg {
+  height: 30rem;
+}
+.img.md {
+  height: 20rem;
+}
+.img.sm {
+  height: 13rem;
+}
+.img img {
+  display: block;
+  margin: 0 auto;
+  height: 90%;
+}
+
 /* multi-columns */
 .flex {
   display: flex;
   justify-content: space-between;
+  overflow: auto;
 }
 .flex > div + div {
   margin-left: 10px;
@@ -676,41 +683,29 @@ div.tree li {
 }
 
 /* mobile phone */
-@media screen and (min-resolution: 150dpi) {
+@media screen and ((min-resolution: 150dpi) or (-webkit-min-device-pixel-ratio:2)) {
   math {
     font-size: 1em;
   }
-
   pre {
     font-size: 0.9em;
     padding: 0.5em;
   }
-
-  .img {
-    height: 20em;
+  .img.lg {
+    height: 22rem;
   }
-
-  .col2 .img {
-    height: 12em;
+  .img.md {
+    height: 15rem;
   }
-}
-
-/* iphone */
-@media screen and (-webkit-min-device-pixel-ratio:2) {
-  math {
-    font-size: 1em;
+  .img.sm {
+    height: 10rem;
   }
-
-  pre {
-    font-size: 0.9em;
-    padding: 0.5em;
+  .img > canvas {
+    width: 75%;
+    height: 75%;
   }
-
-  .img {
-    height: 20em;
-  }
-
-  .col2 .img {
-    height: 12em;
+  .flex canvas {
+    width: 100%;
+    height: 100%;
   }
 }
