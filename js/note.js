@@ -533,6 +533,11 @@ makeAlign();
 
 // event handler from parent window
 //document.onkeyup = window.handleKeyboard || null;
+document.onkeyup = function (e) {
+  if (e.keyCode == 'D'.charCodeAt(0)) {
+    document.body.classList.toggle('dark')
+  }
+}
 
 })();
 

@@ -371,21 +371,18 @@
 
 <h3>Fourier 级数</h3>
 
-<p class="remark">
-    [TODO: 错误计算] 以下两例从发散级数出发, 却凑巧得到有用的结论...??
-</p>
-<div class="collapse">
 <ol class="example">
 	设 `x in (0, 2pi)`, 则
-	<li>`sum_(n ge 1) cos n x = -1/2` (然而此级数除特殊点外处处发散);</li>
+  <!--<li>`sum_(n ge 1) cos n x = -1/2` (然而此级数除特殊点外处处发散);</li>-->
 	<li>`sum_(n ge 1) (sin n x)/n = (pi-x)/2`;</li>
 	<li>`sum_(n ge 1) (cos n x)/n^2 = x^2/4 - (pi x)/2 + pi^2/6`.</li>
 	<li>`sum_(n ge 1) (sin n x)/n^3 = x^3/12 - (pi x^2)/4 + (pi^2 x)/6`.</li>
-	在 2. 中把 `x` 换成 `pi-x`, 就得到 `x` 在 `|x| lt pi` 上的 Fourier
-	展开.  类似地, 由 3, 4 分别得 `x^2, x^3` 的 Fourier 展开.
+  在 1. 中替换 `x |-> pi-x`, 就得到 `x` 在 `|x| lt pi` 上的 Fourier
+	展开.  类似地, 由 2, 3 分别得 `x^2, x^3` 的 Fourier 展开.
 </ol>
 
 <ol class="proof">
+  <!--
 	<li>利用 Euler 公式, 原式等于
 		<span class="formula">
 			`sum_(n ge 1) ("e"^(n x"i") + "e"^(-n x"i"))/2`
@@ -404,44 +401,35 @@
 			`int_pi^x (-1/2) dt = (pi-x)/2`.
 		</span>
 	</li>
-	<li>由 2. 两边积分,
-		<span class="formula">
-			`int_0^x sum_(n ge 1) (sin n t)/n dt`
-			`= sum_(n ge 1) int_0^x (sin n t)/n dt`
-			`= sum_(n ge 1) (1-cos n x)/n^2`,<br/>
-			`int_0^x (pi-t)/2 dt = pi/2 x - x^2/4`,
-		</span>
+  -->
+  <li>直接计算 `(pi-x)//2` 的 Fourier 级数即可.</li>
+	<li>上题结果在 `[0, x]` 上逐项积分得
+    <span class="formula">
+      `sum_(n ge 1) (1-cos n x)/n^2 = pi/2 x - x^2/4`,
+    </span>
 		再利用 `sum_(n ge 1) n^-2 = pi^2//6` 即得结论.
 	</li>
-	<li>由 3. 两边积分,
-		<span class="formula">
-			`int_pi^x sum_(n ge 1) (cos n t)/n^2 dt`
-			`= sum_(n ge 1) (sin n x)/n^3`,<br/>
-			`int_pi^x (t^2/4 - (pi t)/2 + pi^2/6) dx`
-			`= x^3/12 - pi/4 x^2 + pi^2/6 x`.
-		</span>
-	</li>
+	<li>由上题结果在 `[0, x]` 上积分即得.</li>
 </ol>
 
 <ol class="example">
     类似上题有
-    <li>`sum_(n ge 1) sin n x = 1/2 cot {:x/2:}`;
+    <!--<li>`sum_(n ge 1) sin n x = 1/2 cot {:x/2:}`;
         (然而此级数除特殊点外处处发散)
-    </li>
+    </li>-->
     <li>`sum_(n ge 1) (cos n x)/n = -ln(2 sin{:x/2:})`;</li>
     <li>`sum_(n ge 1) (sin n x)/n^2 = -int_pi^x ln(2 sin{:t/2:}) dt`;<br/>
     </li>
     令 `x = pi-x`, 又得到
-    <li>`sum_(n ge 1) (-1)^(n-1) sin n x = 1/2 tan {:x/2:}`
+    <!--<li>`sum_(n ge 1) (-1)^(n-1) sin n x = 1/2 tan {:x/2:}`
         (然而此级数除特殊点外处处发散);
-    </li>
+    </li>-->
     <li>`sum_(n ge 1) (-1)^n (cos n x)/n = -ln(2 cos{:x/2:})`;</li>
     <li>`sum_(n ge 1) (-1)^(n-1) (sin n x)/n^2 = int_0^x ln(2 cos{:t/2:}) dt`;<br/>
         `x = 0, pi` 时, 等式两边等于 `0`;
         `x = pi/2` 时, 等于 Calatan 常数 `K`.
     </li>
 </p>
-</div>
 
 <p>一般地, `f` 在 `(-pi,pi)` 上的 Fourier 级数可以由以下公式计算:
 	<span class="formula">
