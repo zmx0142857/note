@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>复变函数的展开</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<h2>留数及其应用</h2>
+
+<h3>用留数计算广义积分</h3>
+
+<p class="proposition">
+  `int_(-oo)^oo R(x) dx = 2pi"i"sum_("Im" z gt 0) "Res"(z)`.
+</p>
+
+<p class="example">
+  [群友 我是与数学陷入爱河的人]
+  求 `I = int_0^oo (sqrt x)/(x^2+2x+5) dx`.
+</p>
+
+<p class="solution">
+  `I = int_(-oo)^oo z^2/(z^4+2z^2+5) dz`
+  `= 2pi"i"sum_("Im" z gt 0) "Res"(z)`.
+  被积函数的奇点即为分母的零点, 它们都是一重的, 且关于坐标轴对称.
+  设第一象限中的零点为
+  <span class="formula">
+    `z_1 = a + b"i"` `= sqrt(-1+2"i")`.
+  </span>
+  则 `z_2 = -bar z_1`, `z_3 = - z_1`, `z_4 = bar z_1`.
+  计算上半平面奇点的留数:
+  <span class="formula">
+    `"Res" z_1 = (z_1^2)/((z_1-z_2)(z_1-z_3)(z_1-z_4))`
+    `= (-1+2"i")/(8a b"i"(a+b"i"))`,<br/>
+    `"Res" z_2 = (z_2^2)/((z_2-z_1)(z_2-z_3)(z_2-z_4))`
+    `= (-1-2"i")/(8a b"i"(a-b"i"))`.
+  </span>
+  又由 `(a+b"i")^2 = -1+2"i"` 知
+  <span class="formula">
+    `a^2+b^2 = sqrt 5`, `quad a^2-b^2 = -1`, `quad a b = 1`.
+  </span>
+  于是
+  <span class="formula">
+    `I = (2pi"i")/(8a b"i") (2"Re"(-1+2"i")(a-b"i"))/(a^2+b^2)`
+    `= pi/(2sqrt 5) (2b-a)`
+    `= pi/(2sqrt 5) sqrt(a^2-4a b+b^2)`
+    `= pi/(2sqrt 5) sqrt(5/2 (sqrt 5-1))`
+    `= pi/sqrt(2sqrt5+2)`.
+  </span>
+</p>
+
+<p class="solution">
+  [群友 我是薛定谔的猪]
+  <span class="formula">
+    `I = int_0^oo (t^2+sqrt 5)/(t^4+2t^2+5) dt`
+    `+ int_0^oo (t^2-sqrt 5)/(t^4+2t^2+5) dt`.
+  </span>
+  第一项等于
+  <span class="formula">
+    `int_0^oo ("d"(t - sqrt 5/t))/((t-sqrt 5/t)^2+(2+2sqrt 5))`
+    `= {:1/sqrt(2sqrt 5+2) arctan{:(t-sqrt 5/t)/sqrt(2sqrt 5 + 2):}|_0^oo`
+    `= pi/sqrt(2sqrt 5+2)`.
+  </span>
+  类似地, 第二项等于 0`.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

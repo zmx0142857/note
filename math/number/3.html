@@ -350,6 +350,49 @@
     这当且仅当 `n` 是素数, 且 10 是模 `n` 的原根.
 </p>
 
+<p class="example">
+  [<a href="https://www.bilibili.com/video/BV1SK4y1974A">manim 短篇 离散猫变换</a>]
+  设 `bm A = [2, 1; 1, 1]`, `bm I = [1, 0; 0, 1]`.
+  依次取 `m = 11, 59, 2855`,
+  求 `"ord"_m bm A`, 即求最小的正整数 `n` 使得
+  <span class="formula">
+    `bm A^n -= bm I (mod m)`.
+  </span>
+</p>
+
+<ol class="solution">
+  `bm A` 是对称矩阵, 因此可以对角化, 即存在模 `m` 可逆矩阵 `bm P` 使得
+  <span class="formula">
+    `bm A = bm P^-1 bm D bm P`,
+    `quad bm D = [x, ; , y]`.
+  </span>
+  其中 `x, y` 是 `bm A` 模 `m` 的特征值.
+  若 `bm A^n -= bm I (mod m)`, 必有 `bm D^n -= bm I (mod m)`, 即
+  <span class="formula">
+    `{ x^n -= 1; y^n -= 1 :} (mod m)`.
+  </span>
+  注意 `|bm A| = 1`, 所以不论 `m`
+  取何值, `bm A` 总是非奇异的, 这蕴含 `x^n !-= 0, y^n !-= 0 (mod m)`,
+  特别当 `m` 为素数时, 上面的方程组总是有解.
+  <li>`m = 11` 时, 由 `x + y -= 3, x y -= 1(mod 11)`, 利用求根公式得
+    <span class="formula">
+      `x, y -= (3 +- sqrt 5)//2`
+      `-= (3 +- 4) * 6`
+      `= -2, 5 (mod 11)`
+    </span>
+    `mod 11` 下 `"ord" (-2) = "ord" 5 = 5`, 取最小公倍数得到
+    `"ord"_11 bm A = 5`.
+  </li>
+  <li>`m = 59` 时特征值为 `(3 +- 8) * 30 -= -24, -32 (mod 59)`.
+    从而 `"ord"_59 bm A` `= lcm("ord"(-24), "ord"(-32))`
+    `= lcm(29, 29) = 29`.
+  </li>
+  <li>`m = 2855 = 5 * 571` 时, 模 `5` 的特征值为 `-1 (mod 5)` (2 重根),
+    `"ord"_5 (-1) = 2`. 模 `571` 的特征值为 `(3 +- 24) * 286 -= 299, 275
+    (mod 571)`, 且 `"ord"_571 299 = "ord"_571 275 = 285`.
+    从而 `"ord"_2855 bm A = 2 * 285 = 570`.
+  </li>
+</ol>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

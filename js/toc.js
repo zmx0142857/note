@@ -85,6 +85,7 @@ math: {
   articles: [
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
+    {title:'复变函数的展开', src:'complex/3.html'},
   ]
 }, {
   title:'实变函数',
@@ -189,11 +190,11 @@ math: {
 }, {
   title:'组合数学',
   articles: [
-    {title:'组合数学', src:'combinatorics/1.html'},
-    {title:'排列与组合', src:'combinatorics/2.html'},
-    {title:'求解递推式', src:'combinatorics/3.html'},
-    {title:'容斥原理', src:'combinatorics/4.html'},
-    {title:'离散微积分与 Stirling 数', src:'combinatorics/5.html'},
+    {title:'组合数学', src:'comb/1.html'},
+    {title:'排列与组合', src:'comb/2.html'},
+    {title:'求解递推式', src:'comb/3.html'},
+    {title:'容斥原理', src:'comb/4.html'},
+    {title:'离散微积分与 Stirling 数', src:'comb/5.html'},
   ]
 }, {
   title:'图论',
