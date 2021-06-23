@@ -152,11 +152,32 @@
       `= "e"^(1//4) sqrt pi`.
   </li>
   <li>
-    `int_(-oo)^oo (1-cos x)/x^2 dx`
-    `= -(1-cos x)/x |_(-oo)^oo + int_(-oo)^oo (sin x)/x dx`
-    `= pi`.
+    `int_0^oo (1-cos x)/x^2 dx`
+    `= -(1-cos x)/x |_0^oo + int_0^oo (sin x)/x dx`
+    `= pi/2`.<br>
+    `int_0^oo (cos a x - cos b x)/x^2 dx`
+    `= int_0^oo ((1-cos b x) - (1-cos a x))/x^2 dx`
+    `= pi/2(b - a)`.
   </li>
 </ol>
+
+<p class="example">
+  `2n-1 lt 15` 时,
+  <span class="formula">
+    `int_0^oo prod_(k=1)^n (sin(x//(2k-1)))/(x//(2k-1)) dx = pi/2`.
+  </span>
+  然而 `2n-1 = 15` 时, 等号不成立.
+</p>
+
+<p class="proof">
+  `2n-1 = 3` 时, 运用积化和差,
+  <span class="formula">
+    `int_0^oo (sin x)/x (sin(x//3))/(x//3) dx`
+    `= 3/2 int_0^oo (cos (2x//3) - cos (4x//3))/x^2 dx`
+    `= 3/2 (4/3 - 2/3) pi/2 = pi/2`.
+  </span>
+  ??
+</p>
 
 <p class="example">
   `int_0^1 (x^b - x^a)/(ln x) dx`, `a, b gt 0`.
