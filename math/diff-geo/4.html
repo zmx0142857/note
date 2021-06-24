@@ -520,7 +520,13 @@
 		`"I" = (:"d"bm r, "d"bm r:) = omega_1 omega_1 + omega_2 omega_2`.
 	</span>
 	又定义一阶微分形式 `omega_(ij)` 满足
-	`"d"bm e_i = sum_(j=1)^3 omega_(ij) bm e_j`,
+  <span class="formula">
+    `"d"bm e_i = sum_(j=1)^3 omega_(ij) bm e_j`,
+  </span>
+  换言之,
+  <span class="formula">
+    `omega_(i j) = (:"d"bm e_i, bm e_j:)`,
+  </span>
   则由<a href="2.html#the-unit-vec">这个关于单位向量微分的定理</a>, 有
   `omega_(ij) + omega_(ji) = 0`, 故
 	<span class="formula">
@@ -683,7 +689,7 @@
 	由 `bm e_1, bm e_2, bm e_3` 线性无关知,
 	<span class="formula">
 		`"d"omega_j = sum_(i=1)^2 omega_i ^^ omega_(ij)`, `quad j = 1, 2`;
-		<span class="label" id="for-omega-12"></span>
+		<span class="label" id="for-omega-1-2"></span>
 	</span>
 	<span class="formula">
 		`0 = sum_(i=1)^2 omega_i ^^ omega_(i3)`.
@@ -699,12 +705,12 @@
 	所以 `h_12 = h_21`, <a class="ref" href="#for-omega-i3"></a>
   等价于矩阵 `bm B = (h_(ij))^T` 是对称的.
 	另一方面, 因为 `omega_11 = omega_22 = 0`,
-  <a class="ref" href="#for-omega-12"></a> 简化为
+  <a class="ref" href="#for-omega-1-2"></a> 简化为
 	<span class="formula">`{
 		"d" omega_1 = omega_2 ^^ omega_21;
 		"d" omega_2 = omega_1 ^^ omega_12;
 	:}`.
-	<span class="label" id="for-d-omega-12"></span>
+	<span class="label" id="for-d-omega-1-2"></span>
 	</span>
 </p>
 
@@ -738,7 +744,7 @@
 	:}`.
 		<span class="label" id="for-otho-codazzi"></span>
 	</span>
-	<a class="ref" href="#for-d-omega-12"></a>,
+	<a class="ref" href="#for-d-omega-1-2"></a>,
   <a class="ref" href="#for-otho-gauss"></a>,
   <a class="ref" href="#for-otho-codazzi"></a>
   合称为曲面<b>正交标架的结构方程式</b>,
@@ -760,7 +766,7 @@
 		      = [L//E, M//sqrt(EG); M//sqrt(EG),N//G]`.
 	</span>
 	于是 `omega_1 = sqrt E "d"u`, `omega_2 = sqrt G"d"v`.
-	利用 <a class="ref" href="#for-d-omega-12"></a> 有
+	利用 <a class="ref" href="#for-d-omega-1-2"></a> 有
 	<span class="formula">
 		` omega_12 ^^ omega_2 = "d"omega_1 = -(sqrt E)_v "d"u ^^ "d"v
 		= -(sqrt E)_v/sqrt G "d"u ^^ omega_2`,<br/>
@@ -779,6 +785,7 @@
 	<span class="formula">
 		`omega_12 = beta + gamma = -(sqrt E)_v/sqrt G "d"u + (sqrt
 		G)_u/sqrt E "d"v`.
+    <span class="label" id="for-omega-12"></span>
 	</span>
 	再利用 `[omega_13, omega_23] = [omega_1, omega_2] bm B` 得
 	<span class="formula">
@@ -840,7 +847,7 @@
   我们将在下一章研究曲面的内蕴几何学时进一步讨论.
 	由 `bar omega_12 = (:"d"bm bar e_1, bm bar e_2:)` 计算知
 	<span class="formula">
-		`bar omega_12 = omega_12 - "d"theta`.
+		`bar omega_12 = omega_12 + "d"theta`.
 	</span>
 	故 `omega_12` 依赖于正交标架的选取, 不是几何量.
 </p>

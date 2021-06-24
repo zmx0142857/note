@@ -588,35 +588,6 @@
     反之, 也可以用级数对积分进行估计.
 </p>
 
-<p class="example">
-  <b>用级数估计积分的一例</b>
-  [来自群友 群句号、刀哥]<br/>
-  求极限 `lim_(n to oo) int_pi^(2pi) |sin n x + cos n x|/x dx`.
-</p>
-
-<p class="solution">
-  极限符号下的式子等于
-  <span class="formula">
-    `int_pi^(2pi) |sqrt 2 sin(n x+pi/4)|/x dx`
-    `= sqrt 2 int_(n pi)^(2n pi) |sin(x + pi/4)|/x dx`
-    `= sqrt 2 sum_(n le k lt 2n) int_(k pi)^((k+1)pi) |sin(x + pi/4)|/x dx`.
-    <span class="label">`(**)`</span>
-  </span>
-  利用不等式
-  <span class="formula">
-    `1/((k+1)pi) int_(k pi)^((k+1)pi) f(x) dx`
-    `le int_(k pi)^((k+1)pi) f(x)/x dx`
-    `le 1/(k pi) int_(k pi)^((k+1)pi) f(x) dx`,
-  </span>
-  以及 `int_(k pi)^((k+1)pi) |sin(x+pi/4)| dx = 2`, 得
-  <span class="formula">
-    `(2sqrt 2)/pi sum_(n le k lt 2n) 1/(k+1)`
-    `le (**)`
-    `le (2sqrt 2)/pi sum_(n le k lt 2n) 1/k`.
-  </span>
-  令 `n to oo`, 应用两边夹得到原式等于 `(2sqrt 2)/pi ln 2`.
-</p>
-
 <h2>任意项级数</h2>
 
 <p class="theorem">

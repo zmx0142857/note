@@ -377,6 +377,57 @@
     <a href="../number/10.html#the-euler-maclaurin">Euler-Maclaurin 公式</a>.
 </p>
 
+<h2>定积分的极限</h2>
+
+<p class="example">
+  <b>用级数估计积分</b>
+  [来自群友 群句号、刀哥]<br/>
+  求极限 `lim_(n to oo) int_pi^(2pi) |sin n x + cos n x|/x dx`.
+</p>
+
+<p class="solution">
+  极限符号下的式子等于
+  <span class="formula">
+    `int_pi^(2pi) |sqrt 2 sin(n x+pi/4)|/x dx`
+    `= sqrt 2 int_(n pi)^(2n pi) |sin(x + pi/4)|/x dx`
+    `= sqrt 2 sum_(n le k lt 2n) int_(k pi)^((k+1)pi) |sin(x + pi/4)|/x dx`.
+    <span class="label">`(**)`</span>
+  </span>
+  利用不等式
+  <span class="formula">
+    `1/((k+1)pi) int_(k pi)^((k+1)pi) f(x) dx`
+    `le int_(k pi)^((k+1)pi) f(x)/x dx`
+    `le 1/(k pi) int_(k pi)^((k+1)pi) f(x) dx`,
+  </span>
+  以及 `int_(k pi)^((k+1)pi) |sin(x+pi/4)| dx = 2`, 得
+  <span class="formula">
+    `(2sqrt 2)/pi sum_(n le k lt 2n) 1/(k+1)`
+    `le (**)`
+    `le (2sqrt 2)/pi sum_(n le k lt 2n) 1/k`.
+  </span>
+  令 `n to oo`, 应用两边夹得到原式等于 `(2sqrt 2)/pi ln 2`.
+</p>
+
+<p class="example">
+  <b>周期函数的平均值</b>
+  设 `f` 周期为 `T`, 在 `[0, T]` 上可积, 则
+  <span class="formula">
+    `lim_(x to +oo) 1/x int_0^x f(t) dt = 1/T int_0^T f(t) dt`.
+  </span>
+  等号右边称为这个周期函数的<b>平均值</b>.
+  例如有 `lim_(x to +oo) 1/x int_0^x |sin t| dt = 2/pi`.
+  注意洛必达法则对这个极限失效.
+</p>
+
+<p class="proof">
+  记 `I = int_0^T f(t) dt`, `x = n T + y` (`y lt T`), 则
+  <span class="formula">
+    `1/x int_0^x f(t) dt`
+    `= (n I + int_0^y f(t)dt)/(n T + y)`.
+  </span>
+  `int_0^y f(t) dt` 和 `y` 均为有界量, 当 `n to oo` 时上式趋于 `I//T`.
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
