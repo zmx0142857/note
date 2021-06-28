@@ -898,55 +898,95 @@
   等于右边.
 </p>
 
-<p class="proposition">
-  <b>用四元数乘法共轭刻画三维旋转</b>
+<ol class="proposition">
+  <b>三维旋转公式</b>
   三维向量 `bm v` 绕单位向量 `bm e` 按右手螺旋方向旋转 `theta`
-  角所得的结果向量 `bm v'` 用四元数乘法表示为
-  <span class="formula">
-    `bm v' = q bm v q^-1`, `quad q = cos(theta//2) + bm e sin(theta//2)`.
-  </span>
-</p>
+  角, 所得结果向量 `bm v'` 有
+  <li><b>向量表示</b>
+    <span class="formula">
+      `bm v' = bm v^|| + bm v^_|_ cos theta + bm e xx bm v sin theta`,
+    </span>
+    其中 `bm v^||`, `bm v^_|_` 分别是 `bm v` 的平行和垂直 `bm e` 的分量.
+  </li>
+  <li><b>矩阵表示</b> `bm v' = bm T bm v`, 其中 `bm e = (a, b, c)^T`,
+    <span class="formula">
+      `bm T = (1-cos theta) bm e bm e^T`
+      `+ cos theta bm I`
+      `+ sin theta [
+        0, -c, b;
+        c, 0, -a;
+        -b, a, 0
+      ]`.
+    </span>
+  </li>
+  <li><b>四元数表示</b>
+    <span class="formula">
+      `bm v' = q bm v q^-1`,
+      `quad q = cos(theta//2) + bm e sin(theta//2)`.
+    </span>
+    <span class="img md" title="三维旋转 [制图: 一碗星空汤]">
+      <img src="../img/quaternion-rotate.png"/>
+    </span>
+  </li>
+</ol>
 
-<p class="proof">
-  先计算 `bm v'`.
-  设 `bm e` 与 `bm v` 不共线, 由二重外积公式,
-  将 `bm v` 分解到平行 `bm e` 和垂直 `bm e` 的方向上:
-  <span class="formula">
-    `bm v = bm v^T + bm v^(_|_)`
-    `= (bm v * bm e) bm e + (bm e xx bm v) xx bm e`.
-  </span>
-  如图, `bm e, bm v^(_|_), bm e xx bm v` 成右手系.
-  `bm v'` 等于将 `bm v^(_|_)` 旋转 `theta` 角后, 再加上 `bm v^T`:
-  <span class="formula">
-    `bm v' = bm v^T + bm v^(_|_) cos theta + bm e xx bm v sin theta`.
-  </span>
-  下面我们计算四元数乘法来得到同一结果.
-  记 `alpha = theta//2`, 有
-  <span class="formula align">
-    `q bm v q^-1`
-    `= (cos alpha + bm e sin alpha) bm v (cos alpha - bm e sin alpha)`
-    <br/>
-    `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
-    `+ (bm e bm v - bm v bm e) sin alpha cos alpha`<br/>
-    `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
-    `+ 2 bm e xx bm v sin alpha cos alpha`.
-  </span>
-  `bm (e v e)` 可以分解为以下两式之和:
-  <span class="formula">
-    `bm (e v)^T bm e`
-    `= -(bm v * bm e) bm e`
-    `= - bm v^T`,<br/>
-    `bm (e v^(_|_) e)`
-    `= (bm e xx bm v^(_|_)) xx bm e`
-    `= bm v^(_|_)`,
-  </span>
-  从而
-  <span class="formula">
-    `q bm v q^-1`
-    `= (bm v^T + bm v^(_|_))cos^2 alpha + (bm v^T - bm v^(_|_))sin^2 alpha`
-    `+ bm e xx bm v sin theta`
-    `= bm v'`.
-  </span>
+<ol class="proof">
+  <li> 设 `bm e` 与 `bm v` 不共线, 由二重外积公式,
+    将 `bm v` 分解到平行 `bm e` 和垂直 `bm e` 的方向上:
+    <span class="formula">
+      `bm v = bm v^|| + bm v^(_|_)`
+      `= (bm v * bm e) bm e + (bm e xx bm v) xx bm e`.
+    </span>
+    如图, `bm e, bm v^(_|_), bm e xx bm v` 成右手系.
+    `bm v'` 等于将 `bm v^(_|_)` 旋转 `theta` 角后, 再加上 `bm v^||`:
+    <span class="formula">
+      `bm v' = bm v^|| + bm v^(_|_) cos theta + bm e xx bm v sin theta`.
+    </span>
+  </li>
+  <li>记 `bm v = (x, y, z)`, `k = bm v * bm e` `= a x + b y + c z`,
+    于是
+    <span class="formula">
+      `bm v^|| = (k a, k b, k c)`,
+      `quad bm v^_|_ = bm v - bm v^||`
+      `= (x - k a, y - k b, z - k c)`.
+    </span>
+    由 1. 得
+    <span class="formula">
+      `bm v' = [
+        k a + (x-k a) cos theta + (b z-c y) sin theta;
+        k b + (y-k b) cos theta - (a z-c x) sin theta;
+        k c + (z-k c) cos theta + (a y-b x) sin theta;
+      ]`,
+    </span>
+    考虑各分量中 `x, y, z` 的系数, 就得到矩阵 `bm T`.
+  </li>
+  <li>记 `alpha = theta//2`, 有
+    <span class="formula align">
+      `q bm v q^-1`
+      `= (cos alpha + bm e sin alpha) bm v (cos alpha - bm e sin alpha)`
+      <br/>
+      `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
+      `+ (bm e bm v - bm v bm e) sin alpha cos alpha`<br/>
+      `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
+      `+ 2 bm e xx bm v sin alpha cos alpha`.
+    </span>
+    `bm (e v e)` 可以分解为以下两式之和:
+    <span class="formula">
+      `bm (e v)^|| bm e`
+      `= -(bm v * bm e) bm e`
+      `= - bm v^||`,<br/>
+      `bm (e v^(_|_) e)`
+      `= (bm e xx bm v^(_|_)) xx bm e`
+      `= bm v^(_|_)`,
+    </span>
+    从而
+    <span class="formula">
+      `q bm v q^-1`
+      `= (bm v^|| + bm v^(_|_))cos^2 alpha + (bm v^|| - bm v^(_|_))sin^2 alpha`
+      `+ bm e xx bm v sin theta`
+      `= bm v'`.
+    </span>
+  </li>
 </p>
 
 <script src="../../js/note.js?type=math"></script>

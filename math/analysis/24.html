@@ -49,49 +49,57 @@
 </ol>
 
 <ol class="theorem">
-	设 `f` 在 `RR` 上满足 Cauchy 方程, 若 `f` 满足下面某一条件,
-	则 `f` 在 `RR` 上是线性函数:
-	<li>`f` 在某一点连续;</li>
-	<li>`f` 在某一开区间上单调;</li>
-	<li>`f` 在某一开区间上有上界或有下界;</li>
-	<li>点集 `{(x, f(x)): x in RR}` 不是 `RR^2` 的稠密子集.
-		形象地说, 就是 `f` 的图像没有占满整个 `xOy` 平面.
-	</li>
-	由此可见, Cauchy 方程在 `RR` 上除了线性解之外, 其它解是病态的:
-	处处不连续, 而且图像在 `RR^2` 中稠密.
+  <b>`RR` 上的 Cauchy 方程</b>
+	设 `f` 在 `RR` 上满足 Cauchy 方程, 但它不是线性函数 `y = c x`,
+  则其图像 `{(x, f(x)}` 是 `RR^2` 的稠密子集. 反过来, 只要 `f`
+  具有稍微好一点的性质, 如下面的任一条成立, 都能推出 `f` 为线性函数:
+	<li>在某一点连续;</li>
+	<li>在某一开区间上单调;</li>
+	<li>在某一开区间上有上界或有下界.</li>
 </ol>
 
 <ol class="proof">
-	<li>设 `f` 在 `x_0` 处连续, 有
-		<span class="formula">
-			`lim_(h to x_0) f(x-x_0+h)`
-			`= lim_(h to x_0) (f(x-x_0) + f(h))`
-			`= f(x-x_0) + lim_(h to x_0) f(h)`
-			`= f(x-x_0) + f(x_0)`
-			`= f(x)`.
-		</span>
-		这说明 `f` 在 `RR` 上连续. 对任意 `x in RR`,
-		取有理点列 `{x_n}` 趋于 `x`, 则
-		<span class="formula">
-			`f(x) = lim_(n to oo) f(x_n)`
-			`= lim_(n to oo) k x_n`
-			`= k lim_(n to oo) x_n`
-			`= k x`.
-		</span>
+  <li>[来自 <a href="https://www.zhihu.com/question/61919178/answer/194142949">知乎</a>]
+    由 `f` 不是线性函数知道, `bm u = (x, f(x))`,
+    `bm v = (y, f(y))` 构成 `RR^2` 的基.
+    从而平面上任意一点都可以被下面的点列逼近:
+    <span class="formula">
+      `p_i bm u + q_i bm v`
+      `= (p_i x + q_i y, f(p_i x + q_i y))`,
+      `quad p_i, q_i in QQ`.
+    </span>
 	</li>
+  <li>反之, 由于单调函数除可数个点外处处连续,
+    很容易找到一个使 `f` 连续的点;
+    若 `f` 在某一点连续, 则 `f` 在这一点的某邻域上有界;
+    若 `f` 在某个开区间上有上界或有下界,
+    这蕴含 `f` 的图像不在 `RR^2` 上稠密.
+  </li>
 </ol>
 
-<p class="example">
-	<b>Cauchy 方程的病态解</b>
-	定义
-	<span class="formula">
-		`f: QQ(sqrt2) to QQ(sqrt2)`<br/>
-		`a+b sqrt 2 to b+a sqrt 2`,
-	</span>
-	其中 `a, b` 是有理数.
-	`f` 满足 Cauchy 方程, 但 `f(1) = sqrt 2`, `f(sqrt2) = 1`,
-	因此 `f` 不是线性函数.
-</p>
+<ol class="example">
+	<b>Cauchy 方程的不连续解</b>
+  <li>定义
+    <span class="formula">
+      `f: QQ(sqrt2) to QQ(sqrt2)`<br/>
+      `a+b sqrt 2 |-> b+a sqrt 2`,
+    </span>
+    其中 `a, b` 是有理数.
+    `f` 满足 Cauchy 方程, 但 `f(1) = sqrt 2`, `f(sqrt2) = 1`,
+    因此 `f` 不是线性函数.
+  </li>
+  <li>将 `RR` 视为 `QQ` 上的线性空间, 如果承认选择公理, 则存在一个
+    <b>Hamel 基</b> `H sube RR`, 满足对任意 `x in RR` 都存在正整数 `n` 和
+    `x_1, cdots, x_n in H` 和 `k_1, cdots, k_n in QQ` 使得
+    <span class="formula">
+      `r = sum k_i x_i`.
+    </span>
+    任取 `h in H`, 将 `x in R` 按 Hamel 基展开后 `h` 的系数记为
+    `f(x)`, 则 `f(x)` 是 Cauchy 方程的不连续解
+    (注意连续函数的值域是 `RR` 上的区间, 而 `f(x)` 的值域 `sube QQ`.
+    又 `f(x)` 不恒为零, 所以它的值域不是区间).
+  </li>
+</ol>
 
 <ol class="example">
 	设 `f` 是连续函数, 在 `RR` 上解函数方程
@@ -165,6 +173,24 @@
 	</ol>
 	</li>
 </ol>
+
+<p class="remark">
+  假设 `f` 可微且 `f(x + y) = f(x) f(y)`, 可以这样导出它的微分方程:
+  两边积分,
+  <span class="formula">
+    `int_0^1 f(x+y) dy = f(x) int_0^1 f(y) dy`,
+  </span>
+  对 `x` 求导,
+  <span class="formula">
+    `int_0^1 f'(x+y) dy = f'(x) int_0^1 f(y) dy`.
+  </span>
+  于是
+  <span class="formula">
+    `f'(x) = (f(x+1) - f(x))/(int_0^1 f(y) dy)`
+    `= (f(1) - f(0))/(int_0^1 f(y) dy) f(x)`
+    `= c f(x)`.
+  </span>
+</p>
 
 <p class="example">
 	设 `f` 定义在 `RR` 上, 若 `p` 是 `f @ f` 的唯一不动点, 则它也是 `f`

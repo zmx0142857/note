@@ -82,6 +82,85 @@
   这当且仅当 `f` 几乎处处为零.
 </ol>
 
+<p class="example">
+  <b>Weierstrass 函数</b>
+	<span class="formula">
+		`f(x) = sum_(n ge 0) a^n cos(b^n pi x)`,
+		`quad 0 lt a lt 1`, `b` 为正奇数
+	</span>
+  在 `RR` 上处处连续, 且 `ab gt 1 + 3/2 pi` (即, `b ge 7`) 时处处不可导.
+  `f(x)` 是 Hölder 连续的, 但不是 Lipschitz 连续的.
+</p>
+
+<div class="img md" title="随着 b 的增大, Weierstrass 函数变得充满锯齿而不可导 [来自 wikipedia]">
+  <img src="https://pic4.zhimg.com/50/v2-2b9f78f214f7f857befdd22acd324c82_hd.webp"/>
+</div>
+
+<ol class="proof">
+  [来自 <a href="https://zhuanlan.zhihu.com/p/112726225">知乎</a>]
+  <li>连续性:
+    由优级数 `sum_(n=0)^(oo) a^n`, 利用 Weierstrass 判别法知
+    `f(x)` 在 `RR` 上内闭一致收敛.  由于每个函数项是 `RR` 上的连续函数,
+    所以 `f(x)` 也是 `RR` 上的连续函数.
+  </li>
+  <li>下证 `f` 处处不可导. 为此, 记
+    <span class="formula">
+      `(f(x+h) - f(x))/h`
+      `= sum_(n ge 0) a^n [cos b^n pi (x+h) - cos b^n pi x] // h`
+      `= sum_(n=0)^(m-1) + sum_(n ge m)`
+      `= S_m + R_m`.
+    </span>
+  </li>
+  <li>`|S_m|` 的上界.
+    由微分中值定理,
+    <span class="formula">
+      `|cos b^n pi (x+h) - cos b^n pi x|`
+      `= |b^n pi h sin b^n pi (x+theta h)|`
+      `le b^n pi |h|`, `quad theta in (0, 1)`,
+    </span>
+    有
+    <span class="formula">
+      `|S_m| le sum_(n=0)^(m-1) a^n b^n pi`
+      `= pi (a^m b^m -1)/(a b -1)`
+      `le pi (a^m b^m)/(a b-1)`.
+    </span>
+  </li>
+  <li>`|R_m|` 的下界.
+    将 `b^m x` 写为整数部分和小数部分:
+    <span class="formula">
+      `b^m x = A_m + B_m`,
+      `quad A_m in ZZ`, `B_m in [-1/2, 1/2)`.
+    </span>
+    令 `h = (1-B_m)/b^m`, 则 `h in (0, 3/(2 b^m)]`.
+    注意 `b` 是奇数, 有
+    <span class="formula">
+      `cos b^n pi (x+h)`
+      `= cos b^(n-m) pi (b^m x + b^m h)`
+      `= cos b^(n-m) pi (1 + A_m)`
+      `= (-1)^(1+A_m)`,<br>
+      `cos b^n pi x`
+      `= cos b^(n-m) pi (A_m + B_m)`
+      `= (-1)^(A_m) cos b^(n-m) pi B_m`.
+    </span>
+    因此
+    <span class="formula">
+      `|R_m| = 1/|h| sum_(n ge m) a^n (1 + cos b^(n-m) pi B_m)`
+      `ge a^m/|h| (1+cos b^0 pi B_m)`
+      `ge a^m/|h|`
+      `ge 2/3 a^m b^m`.
+    </span>
+  </li>
+  <li>综上
+    <span class="formula">
+      `|(f(x+h) - f(x))/h|`
+      `ge |R_m| - |S_m|`
+      `ge (2/3 - pi/(a b-1)) a^m b^m`.
+    </span>
+    令 `m to oo`, 则 `h` 是一个趋于零的数列.
+    只要 `2/3 - pi/(a b-1) gt 0`, 上式右边就趋于正无穷, 因此 `f` 不可微.
+  </li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

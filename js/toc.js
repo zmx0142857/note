@@ -58,7 +58,7 @@ math: {
     {title:'曲线与曲面积分', src:'analysis/20.html'},
     {title:'场论初步', src:'analysis/22.html'},
     {title:'分数阶微积分', src:'analysis/23.html'},
-    {title:'函数方程', src:'analysis/24.html'},
+    {title:'函数方程', src:'analysis/24.html',isnew:true},
   ]
 }, {
   title:'数论',
