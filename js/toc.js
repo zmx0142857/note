@@ -45,7 +45,7 @@ math: {
     {title:'函数的极限与连续性', src:'analysis/3.html'},
     {title:'导数的应用', src:'analysis/5.html'},
     {title:'不定积分', src:'analysis/6.html'},
-    {title:'定积分', src:'analysis/7.html'},
+    {title:'定积分与广义积分', src:'analysis/7.html'},
     {title:'含参积分与特殊函数', src:'analysis/8.html'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
     {title:'常数项级数', src:'analysis/10.html', isnew:true},
@@ -190,7 +190,7 @@ math: {
 }, {
   title:'组合数学',
   articles: [
-    {title:'组合数学', src:'comb/1.html'},
+    {title:'引言, 计数原理, 鸽巢原理', src:'comb/1.html'},
     {title:'排列与组合', src:'comb/2.html'},
     {title:'求解递推式', src:'comb/3.html'},
     {title:'容斥原理', src:'comb/4.html'},

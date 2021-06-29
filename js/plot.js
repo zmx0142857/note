@@ -145,8 +145,37 @@ Plot.prototype.discrete = function(f, config={}) {
   return this
 }
 
+function isPlainObject (o) {
+  return Object.prototype.toString.call(o) === '[object Object]'
+}
+
+// 散点图
+Plot.prototype.plotPoints = function (map, config={}) {
+  const keys = Object.keys(map),
+        values = Object.values(map)
+  this.geometry({
+    xmin: Math.min.apply(null, keys),
+    xmax: Math.max.apply(null, keys),
+    ymin: Math.min.apply(null, values),
+    ymax: Math.max.apply(null, values)
+  })
+
+  //var step = getDefault(config.step, this.step)
+  //var continuity = getDefault(config.continuity, 100)
+  this.ctx.strokeStyle = getDefault(config.color, this.color)
+  this.ctx.beginPath()
+  let x = this.xmin
+  this.moveTo(x, map[x])
+  for (x of keys) {
+    this.lineTo(x, map[x])
+  }
+  this.ctx.stroke()
+  return this
+}
+
 // plot continuously
 Plot.prototype.plot = function(f, g, config={}) {
+  if (isPlainObject(f)) return this.plotPoints(f, config)
   if (typeof g !== 'function') {
     config = g || {}
     g = f

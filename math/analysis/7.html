@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>定积分</title>
+    <title>定积分与广义积分</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -314,6 +314,76 @@
   等于右边.
 </p>
 
+<ol class="example">
+  <li>`int_0^1 x^(n-1) ln x dx = -1/n^2`;</li>
+  <li>`int_0^1 x^(n-1) ln (1-x) dx = -H_n/n`.</li>
+</ol>
+
+<ol class="solution">
+  <li>分部积分即可.</li>
+  <li>左边等于
+    <span class="formula">
+      `- int_0^1 x^(n-1) sum_(k ge 1) x^k/k dx`
+      `= -sum_(k ge 1) 1/k int_0^1 x^(n+k-1) dx`
+      `= -sum_(k ge 1) 1/(k(n+k))`
+      `= -1/n sum_(k ge 1) (1/k - 1/(n+k)) = `
+      右边.
+    </span>
+  </li>
+</ol>
+
+<p class="example" id="exp-pi-ln2">
+  记 `p(x) = -ln|x|`,
+  则以下每个积分的值均为 `pi ln 2`:
+  <span class="formula">
+    `int_0^pi p(sin x) dx`,
+		`int_0^pi p(cos x) dx`,
+    `int_0^pi p(1+-cos x) dx`,<br>
+    `int_(-1)^1 (p(x))/sqrt(1-x^2) dx`,
+		`int_(-pi/2)^(pi/2) x cot x dx`,
+		`int_(-1)^1 (arcsin x)/x dx`.
+  </span>
+</p>
+
+<ol class="solution">
+	<li>`x to 0` 时 `ln sin x ~ ln x`,
+		由 `int_0^(pi/2) |ln x| dx` 收敛知, 瑕积分
+    <span class="formula">
+      `I = int_0^(pi/2) ln sin x dx` `= int_0^(pi/2) ln cos x dx`
+    </span>
+    在 `0` 处收敛.  注意到 `[0, pi]` 是 `sin x` 的对称区间, 有
+		<span class="formula">
+			`2I`
+      `= int_0^pi ln sin x dx`
+      `= int_0^(pi/2) ln sin 2x "d"(2x)`
+      `= 2 int_0^(pi/2) (ln 2 + ln sin x + ln cos x) dx`
+      `= pi ln 2 + 4 I`,
+		</span>
+		故 `-2I = pi ln 2`.
+	</li>
+  <li>只证加号的情形:
+    <span class="formula">
+      `int_0^pi ln(1+cos x) dx`
+      `= int_0^pi ln(2 cos^2{:x/2:}) dx`
+      `= pi ln 2 + 2 int_0^pi ln cos{:x/2:} dx`
+      `= pi ln 2 + 4 int_0^(pi/2) ln cos x dx`
+      `= - pi ln 2`.
+    </span>
+  </li>
+	<li>直接令 `t = sin x` 有:
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = int_0^1 (ln t)/sqrt(1-t^2)`.
+		</span>
+		另一方面, 若先分部积分,
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = - int_0^(pi/2) x cot x dx`,
+		</span>
+		这时令 `t = sin x`, 有:
+		<span class="formula">
+			`int_0^(pi/2) x cot x dx = int_0^1 (arcsin t)/t dt`.
+		</span>
+	</li>
+</ol>
 <h2>积分余项的 Taylor 公式</h2>
 
 <p class="theorem">

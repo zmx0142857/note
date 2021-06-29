@@ -136,15 +136,6 @@
   合理性??
 </p>
 
-<p class="example">
-  <b>Froullani 积分</b>
-  设 `a, b gt 0`, `f` 在 `x ge 0` 时连续, 且 `f(+oo)` 有限, 则
-  <span class="formula">
-    `int_0^oo (f(a x) - f(b x))/x dx = (f(0) - f(+oo)) ln{:b/a:}`.
-  </span>
-  例如, `int_0^oo ("e"^(-a x) - "e"^(-b x))/x dx = ln{:b/a:}`.
-</p>
-
 <ol class="corollary">
   <li>`int_0^oo x^(-ln x) dx`
       `overset (x="e"^t) == int_-oo^oo "e"^(t-t^2) dt`
@@ -162,6 +153,28 @@
 </ol>
 
 <p class="example">
+  <b>Froullani 积分</b>
+  设 `a, b gt 0`, `f` 在 `x ge 0` 时连续, 且 `f(+oo)` 有限, 则
+  <span class="formula">
+    `int_0^oo (f(a x) - f(b x))/x dx = (f(0) - f(+oo)) ln{:b/a:}`.
+  </span>
+  例如, `int_0^oo ("e"^(-a x) - "e"^(-b x))/x dx = ln{:b/a:}`.
+</p>
+
+<p class="example">
+  `int_0^1 (x^b - x^a)/(ln x) dx`, `a, b gt 0`.
+</p>
+
+<p class="solution">
+  交换积分次序, 原式等于
+  <span class="formula">
+    `int_0^1 dx int_a^b x^y dy`
+    `= int_a^b dy/(y+1)`
+    `= ln{:(b+1)/(a+1):}`.
+  </span>
+</p>
+
+<p class="example">
   `2n-1 lt 15` 时,
   <span class="formula">
     `int_0^oo prod_(k=1)^n (sin(x//(2k-1)))/(x//(2k-1)) dx = pi/2`.
@@ -177,19 +190,6 @@
     `= 3/2 (4/3 - 2/3) pi/2 = pi/2`.
   </span>
   ??
-</p>
-
-<p class="example">
-  `int_0^1 (x^b - x^a)/(ln x) dx`, `a, b gt 0`.
-</p>
-
-<p class="solution">
-  交换积分次序, 原式等于
-  <span class="formula">
-    `int_0^1 dx int_a^b x^y dy`
-    `= int_a^b dy/(y+1)`
-    `= ln{:(b+1)/(a+1):}`.
-  </span>
 </p>
 
 <h3>杂例</h3>
@@ -280,11 +280,11 @@
 </p>
 
 <ol class="example">
-  <b>一些较难的积分</b>
+  [<a href="https://math.stackexchange.com/questions/2733923/evaluate-int-0-infty-frac-ln-x-sin-xxdx" target="_blank">stack exchange</a>], `gamma` 为 Euler 常数:
   <li>
-    [<a href="https://math.stackexchange.com/questions/2733923/evaluate-int-0-infty-frac-ln-x-sin-xxdx" target="_blank">stack exchange</a>]
-    `int_0^oo (ln x sin x)/x dx = -(gamma pi)/2`;
+    `int_0^oo sin x/x ln x dx = -pi/2 gamma`;
   </li>
+  <li>`int_0^oo sin x/x ln^2 x dx = pi/2 gamma^2 + pi^3/24`.</li>
 </ol>
 
 <h2>Euler 积分</h2>
@@ -654,8 +654,8 @@
 
 <p class="property">
 	<b>余元公式</b>
-	`Gamma(x) Gamma(1-x) = pi/(sin pi x)`.
-    这是复变量正弦函数的乘积公式.
+  `Gamma(x) Gamma(1-x) = pi/(sin pi x)`.
+  这是复变量正弦函数的乘积公式.
 </p>
 
 <p class="proof">
@@ -1074,8 +1074,9 @@
 			`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`
 			`= int_0^(pi/4) ln sin t dt`.
 		</span>
-		另外两个积分的处理方法和<a class="ref"
-			href="#exp-lnsinx"></a>一样, 先换元再分部积分, 得
+		另外两个积分的处理方法和
+    <a href="7.html#exp-pi-ln2">`int_0^(pi/2) ln sin x dx`</a>
+    一样, 先换元再分部积分, 得
 		<span class="formula">
 			`int_0^(sqrt2/2) (arcsin x)/x dx`
 			`= int_0^(pi/4) t cot t dt`
@@ -1088,80 +1089,6 @@
 			`int_0^(1/2) x Gamma(x) Gamma(1-x) dx`
 			`= int_0^(1/2) (pi x)/(sin pi x) dx` (余元公式)
 			`= 2/pi K` (由 3).
-		</span>
-	</li>
-</ol>
-
-<h2>杂例</h2>
-
-<ol class="example">
-  <li>`int_0^1 x^(n-1) ln x dx = -1/n^2`;</li>
-  <li>`int_0^1 x^(n-1) ln (1-x) dx = -H_n/n`.</li>
-</ol>
-
-<ol class="solution">
-  <li>分部积分即可.</li>
-  <li>左边等于
-    <span class="formula">
-      `- int_0^1 x^(n-1) sum_(k ge 1) x^k/k dx`
-      `= -sum_(k ge 1) 1/k int_0^1 x^(n+k-1) dx`
-      `= -sum_(k ge 1) 1/(k(n+k))`
-      `= -1/n sum_(k ge 1) (1/k - 1/(n+k)) = `
-      右边.
-    </span>
-  </li>
-</ol>
-
-<ol class="example" id="exp-lnsinx">
-	<li>`int_0^(pi/2) ln sin x dx`
-		`= int_0^(pi/2) ln cos x dx`
-		`= -pi/2 ln 2`;
-	</li>
-    <li>`int_0^pi ln(1+-cos x) dx = -pi ln 2`;</li>
-	<li>`-int_0^1 (ln x)/sqrt(1-x^2) dx`
-		`= int_0^(pi/2) x cot x dx`
-		`= int_0^1 (arcsin x)/x dx = pi/2 ln 2`.
-	</li>
-</ol>
-
-<ol class="solution">
-	<li>先说明瑕积分 `I = int_0^(pi/2) ln sin x dx` 的收敛性.
-		由于 `x to 0` 时 `ln sin x ~ ln x`,
-		而 `int_0^(pi/2) |ln x| dx` 收敛,
-		故 `int_0^(pi/2) ln sin x dx` 也收敛.
-		<br/>
-		现在由反向积分知 `I = int_0^(pi/2) ln cos t dt`.
-		注意到 `[0, pi]` 是 `sin x` 的对称区间,
-		所以又有 `int_0^pi ln sin x = 2I`.
-		于是
-		<span class="formula">
-			`2I = int_0^(pi/2) (ln sin x + ln cos x) dx`
-			`= 1/2 int_0^(pi/2) (ln sin 2x - ln 2) "d" (2x)`
-			`= 1/2 int_0^(pi) ln sin x "d" x - pi/2 ln 2`
-			`= I - pi/2 ln 2`,
-		</span>
-		故 `I = -pi/2 ln2`.
-	</li>
-    <li>只证加号的情形.
-        <span class="formula">
-            `int_0^pi ln(1+cos x) dx`
-            `= int_0^pi ln(2 cos^2{:x/2:}) dx`
-            `= pi ln 2 + 2 int_0^pi ln cos{:x/2:} dx`
-            `= pi ln 2 + 4 int_0^(pi//2) ln cos x dx`
-            `= - pi ln 2`.
-        </span>
-    </li>
-	<li>直接令 `t = sin x` 有:
-		<span class="formula">
-			`int_0^(pi/2) ln sin x dx = int_0^1 (ln t)/sqrt(1-t^2)`.
-		</span>
-		另一方面, 若先分部积分,
-		<span class="formula">
-			`int_0^(pi/2) ln sin x dx = - int_0^(pi/2) x cot x dx`,
-		</span>
-		这时令 `t = sin x`, 有:
-		<span class="formula">
-			`int_0^(pi/2) x cot x dx = int_0^1 (arcsin t)/t dt`.
 		</span>
 	</li>
 </ol>
