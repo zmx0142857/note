@@ -103,7 +103,8 @@ function loadComment () {
     new Valine({
       el: '#vcomments',
       appId: 'Tcw3DWs4zVh0M2U3LCQhYjGY-gzGzoHsz',
-      appKey: 'DJRTO1w97BJxyEq01LRXuBys'
+      appKey: 'DJRTO1w97BJxyEq01LRXuBys',
+      placeholder: '欢迎留言! 支持 **mardown** 和 asciimath 公式: \\`a^2 + b^2 = c^2\\`'
     })
     renderComment()
   }, true) // defer
@@ -114,6 +115,9 @@ function renderComment() {
   var renderInterval = setInterval(function () {
     var commentDOM = doc.querySelector('#vcomments .vcards')
     if (commentDOM) {
+      //console.log('render comment')
+      doc.querySelector('#vcomments .vsubmit')
+         .addEventListener('click', renderComment)
       asciimath.render(commentDOM)
       clearInterval(renderInterval)
     }
