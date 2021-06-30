@@ -95,23 +95,51 @@ function loadMath() {
   body.appendChild(newScript);
 }
 
-function loadScript(url, callback) {
-  var script = doc.createElement('script');
-  script.type = 'application/javascript';
-  if (typeof(callback) != 'undefined') {
-    if (script.readyState) { // IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded'
-          || script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
+function loadComment () {
+  var vcomments = $('<div>')
+  vcomments.id = 'vcomments'
+  body.appendChild(vcomments)
+  loadScript('https://unpkg.com/valine/dist/Valine.min.js', function () {
+    new Valine({
+      el: '#vcomments',
+      appId: 'Tcw3DWs4zVh0M2U3LCQhYjGY-gzGzoHsz',
+      appKey: 'DJRTO1w97BJxyEq01LRXuBys'
+    })
+    renderComment()
+  }, true) // defer
+}
+
+// Valine 官方未提供 API, 故采用轮询方式渲染公式
+function renderComment() {
+  var renderInterval = setInterval(function () {
+    var commentDOM = doc.querySelector('#vcomments .vcards')
+    if (commentDOM) {
+      asciimath.render(commentDOM)
+      clearInterval(renderInterval)
+    }
+  }, 1000)
+}
+
+function loadScript(url, callback, defer) {
+  var script = doc.createElement('script')
+  script.type = 'application/javascript'
+  script.src = url;
+  if (!defer) {
+    script.onload = callback
+  } else {
+    script.setAttribute('defer', 'true')
+    script.onload = function () {
+      if (typeof window.onload == 'function') {
+        var existing = window.onload
+        window.onload = function() {
+          existing()
+          callback()
         }
+      } else {
+        window.onload = callback
       }
-    } else { // others
-      script.onload = function() { callback(); }
     }
   }
-  script.src = url;
   body.appendChild(script);
 }
 
@@ -562,17 +590,8 @@ doc.onkeyup = function (e) {
   }
 }*/
 
-// load comments
-var vcomments = $('<div>')
-vcomments.id = 'vcomments'
-body.appendChild(vcomments)
-loadScript('https://unpkg.com/valine/dist/Valine.min.js', function () {
-  new Valine({
-    el: '#vcomments',
-    appId: 'Tcw3DWs4zVh0M2U3LCQhYjGY-gzGzoHsz',
-    appKey: 'DJRTO1w97BJxyEq01LRXuBys'
-  })
-})
+// 在 load math 之后调用
+loadComment()
 
 })(window);
 
