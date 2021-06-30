@@ -2,17 +2,19 @@
 
 var asciimath;
 
-(function() {
+(function(window) {
 
 // ---- globals ----
 
+var doc = window.document;
+var body = doc.body;
 var explorer = navigator.userAgent;
 var url;    // 'A2', '%234', '3-1'
 var filename; // 'A2', '#4',   '3-1'  // replace leading '%23' with '#'
 var abbr;   // 'A',  '#',    '3-'
 var urlAbbr;  // 'A',  '%234', '3-'
 var index;    // 2,    4,      1
-var scripts = document.getElementsByTagName('script');
+var scripts = doc.getElementsByTagName('script');
 var scriptName = scripts[scripts.length-1].getAttribute('src');
 var prefix = scriptName.slice(0, scriptName.indexOf('js'));
 
@@ -29,11 +31,11 @@ function $(str, children) {
   if (typeof(str) == 'string') {
     var len = str.length;
     if (str[0] == '#')
-      return document.getElementById(str.slice(1));
+      return doc.getElementById(str.slice(1));
     if (str[0] == '.')
-      return document.getElementsByClassName(str.slice(1));
+      return doc.getElementsByClassName(str.slice(1));
     if (str[0] == '<' && str[len-1] == '>') {
-      var elem = document.createElement(str.slice(1,len-1));
+      var elem = doc.createElement(str.slice(1,len-1));
       if (typeof(children) == 'string')
         elem.innerHTML = children;
       else if (children instanceof Node)
@@ -45,15 +47,15 @@ function $(str, children) {
       return elem;
     }
     if (len > 0)
-      return document.getElementsByTagName(str);
+      return doc.getElementsByTagName(str);
   }
   if (typeof(str) == 'undefined') {
-    return document.createDocumentFragment();
+    return doc.createDocumentFragment();
   }
 }
 
 function $text(str) {
-  return document.createTextNode(str);
+  return doc.createTextNode(str);
 }
 
 function getParams(str) {
@@ -90,14 +92,34 @@ function init() {
 function loadMath() {
   var newScript = $('<script>');
   newScript.src = prefix + 'js/asciimath.js';
-  document.body.appendChild(newScript);
+  body.appendChild(newScript);
+}
+
+function loadScript(url, callback) {
+  var script = doc.createElement('script');
+  script.type = 'application/javascript';
+  if (typeof(callback) != 'undefined') {
+    if (script.readyState) { // IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded'
+          || script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      }
+    } else { // others
+      script.onload = function() { callback(); }
+    }
+  }
+  script.src = url;
+  body.appendChild(script);
 }
 
 function makeModified() {
   var modified = $('<span>');
   modified.id = 'last-modified';
-  modified.innerHTML = document.lastModified;
-  document.body.insertBefore(modified, document.body.firstChild);
+  modified.innerHTML = doc.lastModified;
+  body.insertBefore(modified, body.firstChild);
 }
 
 function makeH1() {
@@ -114,17 +136,17 @@ function makeH1() {
   var h1 = $('<h1>');
   var title = $('title');
   if (title[0].classList.contains('nonu')) {
-    h1.innerHTML = document.title;
+    h1.innerHTML = doc.title;
   } else {
     h1.innerHTML = zhname[abbr] || '';
-    h1.innerHTML += filename + ' ' + document.title;
+    h1.innerHTML += filename + ' ' + doc.title;
   }
   var toc = $('<ul>');
   toc.id = 'toc';
   toc.classList.add('toc');
-  document.body.insertBefore(toc, document.body.firstChild);
+  body.insertBefore(toc, body.firstChild);
   makeModified();
-  document.body.insertBefore(h1, document.body.firstChild);
+  body.insertBefore(h1, body.firstChild);
 }
 
 function alignLabel() {
@@ -174,8 +196,8 @@ var Sformula = function(word, i) {
 function decorate(list) {
   for (var i = 0; i < list.length; ++i) {
     var elem = ( list[i].getBy === 'class'
-      ? document.getElementsByClassName(list[i].name)
-      : document.getElementsByTagName(list[i].name)
+      ? doc.getElementsByClassName(list[i].name)
+      : doc.getElementsByTagName(list[i].name)
     );
 
     if (list[i].style === Sformula) {
@@ -212,7 +234,7 @@ function decorateHeading(maxLevel) {
     maxLevel = 6;
   var select = "h2,h3,h4,h5,h6".substr(0, (maxLevel-2)*3 + 2);
   //console.log(select);
-  var elem = document.querySelectorAll(select);
+  var elem = doc.querySelectorAll(select);
 
   var i = 0;
   var toc = $('#toc');
@@ -264,15 +286,15 @@ function decorateHeading(maxLevel) {
 
 /* select text on click
 function selectText(id) {
-  var text = document.getElementById(id);
+  var text = doc.getElementById(id);
   var range;
-  if (document.body.createTextRange) {
-    range = document.body.createTextRange();
+  if (body.createTextRange) {
+    range = body.createTextRange();
     range.moveToElementText(text);
     range.select();
   } else if (window.getSelection) {
     var selection = window.getSelection();
-    range = document.createRange();
+    range = doc.createRange();
     range.selectNodeContents(text);
     selection.removeAllRanges();
     selection.addRange(range);
@@ -290,15 +312,15 @@ function enableCopyCode()
     return function() {
       var textarea = $('<textarea>');
       textarea.value = pre.innerText;
-      document.body.appendChild(textarea);
+      body.appendChild(textarea);
       textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
+      doc.execCommand('copy');
+      body.removeChild(textarea);
       var notify = $('<div>');
       notify.innerText = '复制成功';
       notify.id = 'notify';
-      document.body.appendChild(notify);
-      setTimeout(function(){document.body.removeChild(notify)}, 1000);
+      body.appendChild(notify);
+      setTimeout(function(){body.removeChild(notify)}, 1000);
     }
   }
 
@@ -311,7 +333,7 @@ function enableCopyCode()
 
 function hideAnswer(list) {
   for (var i = 0; i < list.length; ++i) {
-    var answers = document.getElementsByClassName(list[i].name);
+    var answers = doc.getElementsByClassName(list[i].name);
     for (var j = 0; j < answers.length; ++j) {
       var button = $('<button>');
       var id = answers[j].id;
@@ -330,7 +352,7 @@ function hideAnswer(list) {
 
 function toggleShowAnswer(button, id) {
   return function() {
-    var answer = document.getElementById(id);
+    var answer = doc.getElementById(id);
     var str = button.innerHTML;
     if (answer.classList.contains('hidden')) {
       button.classList.remove('answer-hidden');
@@ -368,11 +390,11 @@ function refPreview(elem, refed) {
       preview.classList.add('ref-preview-bottom');
       preview.classList.remove('ref-preview-top');
     }
-    document.body.appendChild(preview);
+    body.appendChild(preview);
   };
   elem.onmouseout = function() {
     if (preview) {
-      document.body.removeChild(preview);
+      body.removeChild(preview);
     }
   };
 }
@@ -382,7 +404,7 @@ function makeReference() {
   for (var i = 0; i < refs.length; ++i) {
     var j = refs[i].href.indexOf('#');
     var id = refs[i].href.substring(j+1);
-    var refed = document.getElementById(id);
+    var refed = doc.getElementById(id);
     if (refed) {
       refs[i].innerHTML = refed.caption || '??';
       if (refed.classList.contains('label')) {
@@ -419,26 +441,26 @@ function makeSvg() {
 function wrapIOS() {
   if (/iphone|ipad|ipod/i.test(explorer)) {
     // move everything into wrapper
-    var wrapper = document.createElement('div');
+    var wrapper = doc.createElement('div');
     wrapper.id = 'ios-wrapper';
     var node;
-    while (node = document.body.firstChild) {
+    while (node = body.firstChild) {
       wrapper.appendChild(node);
     }
-    document.body.appendChild(wrapper);
+    body.appendChild(wrapper);
   }
 }
 
 function toggleHideHeader() {
-  var prevScrollTop = document.documentElement.scrollTop
-    || document.body.scrollTop;
+  var prevScrollTop = doc.docElement.scrollTop
+    || body.scrollTop;
   var threshod = 100;
   var prevHide = false;
-  var button = parent.document.getElementById('toggle-show-header');
+  var button = parent.doc.getElementById('toggle-show-header');
   if (parent != window) {
-    document.body.onscroll = function() {
-      var scrollTop = document.documentElement.scrollTop
-        || document.body.scrollTop;
+    body.onscroll = function() {
+      var scrollTop = doc.documentElement.scrollTop
+        || body.scrollTop;
       var hide = (scrollTop >= prevScrollTop);
       if (hide != prevHide)
         button.onclick(hide);
@@ -461,7 +483,7 @@ function wrap(L) {
 
 // span.formula.align ---> span.formula > span.align
 function makeAlign() {
-  document.querySelectorAll('.formula.align').forEach(span => {
+  doc.querySelectorAll('.formula.align').forEach(span => {
     var wrap = $('<span>');
     wrap.classList.add('formula');
     span.parentNode.replaceChild(wrap, span);
@@ -532,12 +554,25 @@ wrap($('table'));
 makeAlign();
 
 // event handler from parent window
-//document.onkeyup = window.handleKeyboard || null;
-document.onkeyup = function (e) {
+//doc.onkeyup = window.handleKeyboard || null;
+/*
+doc.onkeyup = function (e) {
   if (e.keyCode == 'D'.charCodeAt(0)) {
-    document.body.classList.toggle('dark')
+    body.classList.toggle('dark')
   }
-}
+}*/
 
-})();
+// load comments
+var vcomments = $('<div>')
+vcomments.id = 'vcomments'
+body.appendChild(vcomments)
+loadScript('https://unpkg.com/valine/dist/Valine.min.js', function () {
+  new Valine({
+    el: '#vcomments',
+    appId: 'Tcw3DWs4zVh0M2U3LCQhYjGY-gzGzoHsz',
+    appKey: 'DJRTO1w97BJxyEq01LRXuBys'
+  })
+})
+
+})(window);
 
