@@ -104,7 +104,7 @@ function loadComment () {
       el: '#vcomments',
       appId: 'Tcw3DWs4zVh0M2U3LCQhYjGY-gzGzoHsz',
       appKey: 'DJRTO1w97BJxyEq01LRXuBys',
-      placeholder: '欢迎留言! 支持 **mardown** 和 asciimath 公式: \\`a^2 + b^2 = c^2\\`'
+      placeholder: '欢迎留言! 支持 **markdown** 和 asciimath 公式: \\`a^2 + b^2 = c^2\\`'
     })
     renderComment()
   }, true) // defer
@@ -115,7 +115,7 @@ function renderComment() {
   var renderInterval = setInterval(function () {
     var commentDOM = doc.querySelector('#vcomments .vcards')
     if (commentDOM) {
-      //console.log('render comment')
+      console.log('render comment')
       doc.querySelector('#vcomments .vsubmit')
          .addEventListener('click', renderComment)
       asciimath.render(commentDOM)
@@ -131,7 +131,7 @@ function loadScript(url, callback, defer) {
   if (!defer) {
     script.onload = callback
   } else {
-    script.setAttribute('defer', 'true')
+    script.setAttribute('async', 'true') // defer 对于动态 script 是无效的
     script.onload = function () {
       if (typeof window.onload == 'function') {
         var existing = window.onload
@@ -595,7 +595,8 @@ doc.onkeyup = function (e) {
 }*/
 
 // 在 load math 之后调用
-loadComment()
+if (location.protocol === 'http:' && location.hostname !== 'localhost')
+  loadComment()
 
 })(window);
 
