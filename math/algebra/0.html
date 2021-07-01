@@ -30,7 +30,9 @@
 	解出 `sqrt a`, `sqrt b` 即得结论.
 </p>
 
-<h2>三次方程与四次方程</h2>
+<h2>一元多项式方程</h2>
+
+<h3>二次方程</h3>
 
 <p class="example">
 	熟知一元二次方程 `a x^2 + b x + c = 0`, `a, b, c in RR`, `a != 0`
@@ -78,6 +80,8 @@
 	下面我们就从首一的, `n-1` 次项系数为零的方程入手,
 	讨论三次和四次方程的解法.
 </p>
+
+<h3>三次方程</h3>
 
 <p class="example">
 	<b>解三次方程</b> `x^3 + p x + q = 0`.
@@ -234,7 +238,7 @@
 
 <ol class="remark">
 	三次方程 `x^3 + p x + q = 0` (`p, q in RR`)
-	的判别式记为 `Delta = (q/2)^2 + (p/3)^3`.
+	的判别式记为 `Delta = (q//2)^2 + (p//3)^3`.
 	<li>`Delta gt 0` 时, 方程有一实根, 一对共轭复根;</li>
 	<li>`Delta lt 0` 时, 方程有三个不同的实根; 记 Cardano 公式中的
 		`alpha, beta = r "e"^(+-"i"theta)`, 则三个根是
@@ -243,8 +247,8 @@
 			`quad varphi = 0, (2pi)/3, (4pi)/3`.
 		</span>
 	</li>
-	<li>`Delta = 0` 时, 方程有一个一重实根 `-2 root 3(q/2)`,
-		一个两重实根 `root 3(q/2)`.
+	<li>`Delta = 0` 时, 方程有一个一重实根 `-2 root 3(q//2)`,
+		一个两重实根 `root 3(q//2)`.
 	</li>
 </ol>
 
@@ -270,6 +274,8 @@
 	所以三个实根为 `4, -2-sqrt3, -2+sqrt3`.
 	而原方程的根为 `10/3, -8/3-sqrt3, -8/3+sqrt3`.
 </p>
+
+<h3>四次方程</h3>
 
 <p class="example">
 	<b>解四次方程</b> `x^4 + p x^2 + q x + r = 0`.
@@ -303,16 +309,48 @@
 	上式看作关于 `k^2` 的一元三次方程, 取它的任一根 (比如实根),
 	就可得到 `m, n` 的值, 进而解两个一元二次方程
 	<span class="formula">
-		`x^2 - k x + m = 0`, `x^2 + k x + n = 0`
+		`x^2 - k x + m = 0`, `quad x^2 + k x + n = 0`
 	</span>
 	得到原方程的根.
 </p>
 
-<!--
-<p class="remark">
-	Lagrange 预解式法
+<p class="solution">
+  [<a href="https://www.bilibili.com/video/BV1MU4y1s7AK">来自 bilibili:千梓猫鹿</a>]
+  一个类似三次方程 Cardano 公式的解法. 设 `x = u + v + w` 是方程的解, 则
+  <span class="formula">
+    `x^2 = sum u^2 + 2 sum u v`,<br>
+    `x^4 = (sum u^2)^2 + 4(sum u^2)(sum u v)`
+    `+ 4 sum u^2 v^2 + 8 u v w sum u`,
+  </span>
+  代入原方程得
+  <span class="formula">
+    `(sum u^2)^2 + 4 sum u^2 v^2`
+    `+ (8 u v w + q) sum u
+    + (4 sum u^2 + 2 p) sum u v`
+    `+ p sum u^2 + r = 0`.
+  </span>
+  因此 `x` 是方程的解的充分条件为
+  <span class="formula">
+  `{
+    (sum u^2)^2 + 4 sum u^2 v^2 + p sum u^2 + r = 0;
+    8 u v w + q = 0;
+    4 sum u^2 + 2 p = 0;
+  :}`
+  </span>
+  化简得到 `u^2, v^2, w^2` 满足的方程组:
+  <span class="formula">
+  `{
+    sum u^2 = -p // 2;
+    u^2 v^2 w^2 = (q//8)^2;
+    sum u^2 v^2 = (p//4)^2 - r//4;
+  :}`
+  </span>
+  利用 Vieta 定理, 它们是三次方程
+  <span class="formula">
+    `z^3 + p/2 z^2 + [(p/4)^2 - r/4] z - (q/8)^2 = 0`
+  </span>
+  的三根. 至此问题化为求解三次方程.
 </p>
--->
 
 <ol class="example">
   <b>解高次方程的实用策略</b>
@@ -376,6 +414,57 @@
   于是 `a, b` 是方程 `y^2 - 5 y - 6 = 0` 的两根, `{a, b} = {6, -1}`.
   后面的处理是容易的.
 </p>
+
+<h3>Lagrange 预解式</h3>
+
+<h3>五次及以上一般方程无根式解的证明思路</h3>
+
+<h4>根式可解</h4>
+
+<p>
+  设 `a^n in bbb F`, 即 `a` 是 `bbb F` 中某个元素的 `n` 次方根.
+  把 `a` 加到 `bbb F` 中生成的域 `bbb F(a)` 称为 `bbb F`
+  的一个<b>单根式扩域</b>.  若存在单根式扩张的链条
+  <span class="formula">
+    `bbb F sube bbb F_1 sube bbb F_2 sube cdots sube bbb K`,
+  </span>
+  则 `bbb K` 称为 `bbb F` 的一个<b>根式扩域</b>.
+</p>
+
+<p>设 `f` 是 `bbb F` 上的 `n` 次多项式, 且在 `bbb F` 的扩域 `bbb K`
+  上能被完全因式分解:
+  <span class="formula">
+    `f(x) = a(x-k_1)cdots(x-k_n)`, `quad k_1, cdots, k_n in bbb K`,
+  </span>
+  满足上式的最小域 `bbb K` 称为 `bbb F` 的<b>分裂域</b>.
+</p>
+
+<p>
+  于是, `f in bbb F[x]` <b>根式可解</b>定义为:
+  `f` 的分裂域 `bbb K` 是 `bbb F` 的一个根式扩域.
+  换言之, 存在 `bbb F` 的一个根式扩域包含 `f` 的所有根.
+</p>
+
+<h4>可解群与 Galois 群</h4>
+
+<p>一个群是 `G` <b>可解</b>的, 是指存在正规子群的链条
+  <span class="formula">
+    `{e} normal H_1 normal H_2 normal cdots normal G`,
+  </span>
+  且相邻两个群之商 `H_(i+1) // H_i` 都是 Abel 群.
+</p>
+
+<p>设 `bbb K` 是 `bbb F` 的扩域, 则 `bbb K` 上全体保持 `bbb F`
+中元素不变的自同构组成一个群, 称为 `bbb K` 在 `bbb F` 上的 <b>Galois 群</b> `Gal(bbb K, bbb F)`.
+</p>
+
+<p class="theorem">
+  <b>Galois 定理</b>
+  `f in bbb F[x]` 根式可解当且仅当其分裂域 `bbb K` 在 `bbb F` 上的 Galois
+  群可解.
+</p>
+
+<p>由于一般的五次多项式的 Galois 群不可解, 故一般五次方程无根式解.</p>
 
 <h2>对称多项式</h2>
 

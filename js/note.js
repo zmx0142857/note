@@ -595,7 +595,7 @@ doc.onkeyup = function (e) {
 }*/
 
 // 在 load math 之后调用
-if (location.protocol === 'http:' && location.hostname !== 'localhost')
+if (/^https?:$/.test(location.protocol) && location.hostname !== 'localhost')
   loadComment()
 
 })(window);
