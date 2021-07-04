@@ -490,15 +490,16 @@
 
 <ol class="definition">
 	<b>三角形的五心</b> 三角形的
-	<li>三条中线交于一点, 称为三角形的<b>重心</b>;</li>
-	<li>三条角平分线交于一点, 称为三角形的<b>内心</b>;
+	<li>三条中线交于一点, 称为<b>重心</b>;</li>
+	<li>三条角平分线交于一点, 称为<b>内心</b>;
 		内心是三角形内切圆的心;</li>
-	<li>三条高所在的直线交于一点, 称为三角形的<b>垂心</b>;</li>
-	<li>三角形的三边的中垂线交于一点, 称为三角形的<b>外心</b>;
+	<li>三条高所在的直线交于一点, 称为<b>垂心</b>;</li>
+	<li>三边的中垂线交于一点, 称为<b>外心</b>;
 		外心是三角形外接圆的心;</li>
-	<li>三角形的任一内角平分线与另外两个外角平分线交于一点,
-		称为三角形的<b>旁心</b>;
-		旁心共有三个，分别是三角形三个外切圆的心.</li>
+	<li>任一内角平分线与另外两个外角平分线交于一点,
+		称为<b>旁心</b>;
+		旁心共有三个，分别是三角形三个外切圆的心;</li>
+  <li>三个顶点到对边上旁切圆切点的连线交于一点, 称为<b>界心</b>.</li>
 </ol>
 
 <ul class="proof">
@@ -555,20 +556,20 @@
 
 <ol class="corollary">
 	利用<a class="ref" href="#the-heart"></a>和<a class="ref" href="#lem-proportion"></a> 容易算出 `triangle ABC` 各心的齐次坐标:
-	<li>重心 `G`: `1/3(1, 1, 1)`;</li>
-	<li>内心 `I`: `1/(a+b+c)(a, b, c) = ((sin A, sin B, sin C))/(sin A + sin B + sin C)`;</li>
-	<li>垂心 `H`: `1/(tan A+tan B+tan C)(tan A, tan B, tan C)`,
-		如果 `tan A = oo`, 则坐标视为 `(1, 0, 0)`;
+	<li>重心 `G`: `(1, 1, 1)`;</li>
+	<li>内心 `I`: `(a, b, c) = (sin A, sin B, sin C)`;</li>
+	<li>垂心 `H`: `(tan A, tan B, tan C)`,
+		如果 `A` 为直角, 此时 `tan A = oo`, 坐标视为 `(1, 0, 0)`;
 	</li>
-	<li>外心 `O`: `1/(sin 2A+sin 2B+sin 2C)(sin 2A, sin 2B, sin 2C)`;
+	<li>外心 `O`: `(sin 2A, sin 2B, sin 2C)`;
 	</li>
-	<li>旁心 `J_A`: `1/(-a+b+c)(-a, b, c)`.
-		其中 `J_A` 与 `A` 在直线 `BC` 异侧;
+	<li>旁心 `J_A`: `(-a, b, c)`. 其中 `J_A` 与 `A` 在直线 `BC` 异侧;
 		`J_B`, `J_C` 的坐标可以轮换得到.
 	</li>
+  <li>界心 `N`: `(p-a, p-b, p-c)` `= (cot{:A/2:}, cot{:B/2:}, cot{:C/2:})`, 其中 `p = (a+b+c)//2`.</li>
 </ol>
 
-<ol class="remark">
+<ol class="proof">
 	<li>外心的 `lambda` 值的计算思路是:
 		<span class="formula">
 			`lambda = S_(AOC)/S_(COB) = (sin /_AOC)/(sin /_COB)`
@@ -579,9 +580,11 @@
 		<span class="formula">
 			`lambda = sigma_(A J_A C)/sigma_(C J_A B)`
 			`= - (b sin{:(pi-C)/2:})/(a sin{:(pi-C)/2:})`
-			`= -b/a`.
+			`= -b/a`,
 		</span>
+    以及 `mu = c//b`, `nu = -a//b`.
 	</li>
+  <li>界心的 `lambda = (p-b)/(p-a)`.</li>
 </ol>
 
 <p class="remark">
@@ -850,6 +853,23 @@
 		`= beta + gamma`.
 	</span>
 	证毕.
+</p>
+
+<p class="theorem">
+  三角形的内心 `I`, 重心 `G`, 界心 `N` 满足 `vec(I N) = 3 vec(I G)`,
+  因此 `triangle IGO S~ triangle NGH`.
+</p>
+
+<div class="img md">
+  <img src="../img/triangle-centers.svg" alt="triangle-centers">
+</div>
+
+<p class="proof">
+  利用齐次坐标立即得到:
+  <span class="formula">
+    `vec(I N) = 1/(a+b+c) (b+c-2a; c+a-2b; a+b-2c)`,
+    `3 vec(I G) = 1/(a+b+c) (a+b+c-3a; a+b+c-3b; a+b+c-3c)`.
+  </span>
 </p>
 
 <h3>到三个顶点的距离之和</h3>

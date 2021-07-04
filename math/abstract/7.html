@@ -632,7 +632,7 @@
 <h2>有限域</h2>
 
 <p class="definition">
-  <b>有限域</b>又称 <b>Galois 域</b>, 是指阶数 (即元素个数) 有限的域,
+  <b>有限域</b>又称 <b>Galois 域</b>, 是指阶 (即元素个数) 有限的域,
   其特征为一素数 `p`, 其素域同构于 `ZZ_p`.
 </p>
 
@@ -648,7 +648,55 @@
   <span class="formula">
     `bbb F = {sum k_i alpha_i: k_i in ZZ_p, i = 1, 2, cdots, n}`.
   </span>
-  于是 `|bbb F| = p^n`.
+  `n` 个系数中, 每个都有 `p` 种取法, 于是 `|bbb F| = p^n`.
+</p>
+
+<p class="remark">
+  `p` 阶有限域就是 `ZZ_p`.
+  一般地, `p^n` 阶有限域同构于
+  <span class="formula">
+    `bbb ZZ_p[x] // (: m(x) :)`, `quad m` 为 `n` 次不可约多项式.
+  </span>
+  即 `GF(p^n)` 的元素是 `ZZ_p` 上次数小于 `n` 的多项式,
+  且多项式运算是模 `m(x)` 的.<br>
+  例如, `x^n + x + 1` 为 `ZZ_2` 上不可约多项式
+  (代入 `x = 0, 1` 都不能令它为 0). `n` 为偶数时,
+  `x^n + x^(n-1) + cdots + x + 1` 是 `ZZ_2` 上不可约多项式.
+  又如, 有限域 `GF(2^2)` 中的所有元素为 `0, 1, x, x+1`,
+  其中
+  <span class="formula">
+    `x + (x+1) = 2 x + 1 = 1`,<br>
+    `x(x+1) = x^2 + x = -1 = 1`.
+  </span>
+</p>
+
+<p class="remark">
+  有限域 `GF(p^n)` 中存在一个<b>生成元 (或原根)</b> `g`,
+  它生成域中所有非零元素, 即
+  <span class="formula">
+    `GF(p^n) = {0, g, g^2, cdots, g^(q-1) = 1}`,
+    `quad q = p^n`.
+  </span>
+  例如, 取 `ZZ_2` 上不可约多项式 `m(x) = x^3 + x + 1`, 令 `g` 是 `m(x)`
+  的一个根, 则通过反复乘以 `g` 再取模得到:
+  <span class="formula">
+    `g^1 = g`,
+    `quad g^2 = g^2`,
+    `quad g^3 = g+1`,
+    `quad g^4 = g^2+g`,<br>
+    `quad g^5 = g^2+g+1`,
+    `quad g^6 = g^2+1`,
+    `quad g^7 = 1`.
+  </span>
+</p>
+
+<p class="remark">
+  由于有限域 `GL(2^n)` 中的元素是 `ZZ_2` 上的多项式, 系数非 0 即 1,
+  我们可以用 `n` 位二进制数来表示它们. 如上例的 `g^1` 到 `g^7`
+  用二进制表示为
+  <span class="formula">
+    010, 100, 011, 110, 111, 101, 001.
+  </span>
 </p>
 
 <h2>可分扩域</h2>

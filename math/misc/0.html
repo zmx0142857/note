@@ -175,6 +175,12 @@
 </p>
 
 <p class="example">
+  证明 `sqrt 5 + sqrt(22+2sqrt5)`
+  `= sqrt(11+2sqrt29)`
+  `+ sqrt(16-2sqrt29+2sqrt(55-10sqrt29))`.
+</p>
+
+<p class="example">
   抛物线 `y = x^2` 中有一系列圆 `omega_n`, 半径为 `r_n`, `n = 1, 2, 3,
   cdots`.  其中序号相邻的两圆相切. 又, 每个圆都和抛物线在左右两边相切.
   若 `r_1 = 1`, 证明: `r_n = n`.
@@ -207,6 +213,58 @@
   </span>
   由归纳法显然有 `r_n = n`.
 </p>
+
+<p class="example">
+  <b>模函数</b>
+  记 `K = K(k)` (第一类椭圆积分), `K' = K(k') = K(sqrt(1-k^2))`,
+  `omega = "i"K' // K`, 则 `k, k'` 可表为 `omega` 的函数:
+  <span class="formula">
+    `varphi(omega) = root 4 k`, `quad psi(omega) = root 4(k')`.
+  </span>
+  这是两个全纯的复变函数, 称为模函数.
+  记 `q = "e"^("i"pi omega)`, 可定义 `q`-级数
+  <span class="formula">
+    `varphi(omega) = sqrt2 q^(1/8) sum q^(2 n^2 + n) // sum q^(n^2)`,<br>
+    `psi(omega) = sum (-1)^n q^(2n^2) // sum q^(n^2)`.
+  </span>
+  模函数满足函数方程
+  <span class="formula">
+  `{
+    varphi^8 + psi^8 = 1;
+    varphi(-1//omega) = psi(omega);
+    varphi(omega+1) = "e"^("i"pi//8) varphi // psi;
+    psi(omega+1) = 1//varphi
+  :}`
+  </span>
+</p>
+
+<p class="example">
+  设 `x_0 = 1`, `x_(n+1) = a^(x_n)`, `a gt 0`. 讨论 `x_n` 的极限.
+</p>
+
+<ol class="solution">
+  <li>如果极限存在, 将收敛到 `a^x` 的不动点. `a^x` 在 `b` 处的切线为
+  <span class="formula">
+    `y - a^b = (a^b ln a)(x-b)`,
+  </span>
+  因此 `a^x` 和 `x` 相切当且仅当
+  <span class="formula">
+  `{
+    a^b ln a = 1;
+    a^b(1- b ln a) = 0;
+  :}`
+  </span>
+  由第二式得 `b ln a = 1`, `a^b = "e"`, 再由第一式 `a = "e"^(1//"e")`.
+  因此 `a gt c = "e"^(1//"e")` 时, `a^x` 没有不动点, 数列发散;
+  `a = c` 时, 数列有唯一的不动点 `"e"`.
+  `a lt c` 时, 数列有两个不动点.
+  </li>
+  <li>
+    下面设 `a le c`, 讨论极限的存在性.
+    ??, 因此数列在 `a in [1//c, c]` 时收敛,
+    `a in (0, 1//c)` 时在两点间振荡.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
