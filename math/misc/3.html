@@ -530,6 +530,35 @@
 	</span>
 </p>
 
+<p class="example">
+  [群友 我是蒟蒻的泰博定理]
+  设正数 `a, b, c, d` 之和为 `2`, 证明:
+  <span class="formula">
+    `(a+c)^2/(a d+b c) + (b+d)^2/(a c+b d) + 4 ge 4((a+b+1)/(c+d+1)
+    + (c+d+1)/(a+b+1))`.
+  </span>
+</p>
+
+<p class="proof">
+  [群友 我是无敌的白金之星] 先用权方和不等式将左边缩小为
+  <span class="formula">
+    `(a+c+b+d)^2/(a d+b c+a c+b d) + 4`
+    `= 4(1/((a+b)(c+d)) + 1)`,
+  </span>
+  设 `x = a+b`, `y = c+d`, 于是 `x+y = 2`. 下证
+  <span class="formula">
+    `1/(x y) + 1 ge (x+1)/(y+1) + (y+1)/(x+1)`.
+  </span>
+  将它通分称项, 化为关于 `x y` 的二次式:
+  <span class="formula">
+    `(1 + x y)(1+x)(1+y) - x y((x+1)^2+(y+1)^2)`
+    `= (1 + x y)(x y + x+y+1) - x y ((x+y)^2-2x y + 2x + 2 y + 2)`
+    `= (1 + x y)(3 + x y) - 2 x y (5 - x y)`
+    `= 3(1-x y)^2 ge 0`,
+  </span>
+  证毕.
+</p>
+
 <h3>均值不等式</h3>
 
 <p class="lemma">
@@ -863,6 +892,103 @@
 	</ol>
 	</li>
 </ol>
+
+<h3>排序不等式</h3>
+
+<p class="theorem">
+  <b>排序不等式</b>
+  假设有实数 `x_1 le x_2 le cdots le x_n` 和 `y_1 le y_2 le cdots le y_n`,
+  `sigma(1), sigma(2), cdots, sigma(n)` 是 `1` 到 `n` 的任一排列, 则
+  <span class="formula">
+    `sum_(k=1)^n x_k y_(n+1-k)`
+    `le sum_(k=1)^n x_k y_(sigma(k))`
+    `le sum_(k=1)^n x_k y_k`,
+  </span>
+  即反序和 `le` 乱序和 `le` 顺序和.
+  等号成立当且仅当所有 `x_k` 都相等, 或所有 `y_k` 都相等.
+</p>
+
+<p class="proof">
+  记 `z_k = y_(sigma(k))`, 考虑数组 `{z_k}` 的排序过程.
+  若 `i lt j` 且 `z_i gt z_j`, 则交换两个数的位置.
+  交换前后求和的变化为
+  <span class="formula">
+    `(x_i z_j - x_j z_i) - (x_i z_i + x_j z_j)`
+    `= (x_j-x_i)(z_i-z_j) ge 0`.
+  </span>
+  反复进行上述的交换, 和式的值单调增加, 直到数组变得完全有序, 即得到最大值.<br>
+  显然当所有 `x_k` 都相等, 或所有 `y_k` 都相等时, 等号成立. 反之,
+  若 `x_k` 不全相等, `y_k` 也不全相等, 必有
+  <span class="formula">
+    `x_1 lt x_n`, `quad y_1 lt y_n`
+  </span>
+  假如将顺序和 `sum x_k y_k` 中 `y_1` 与 `y_n` 对调, 和式的变化为
+  <span class="formula">
+    `(x_1 y_n + x_n y_1) - (x_1 y_1 + x_n y_n)`
+    `= -(x_1-x_n)(y_1-y_n) lt 0`,
+  </span>
+  即和式严格减小. 因此等号不成立.
+</p>
+
+<p class="corollary">
+  <b>Chebyshev 不等式</b>
+  设 `x_1 le x_2 le cdots le x_n`, `y_1 le y_2 le cdots le y_n`, 则
+  <span class="formula">
+    `n sum x_k y_k ge (sum x_k)(sum y_k)`,
+  </span>
+  等号成立当且仅当所有 `x_k` 都相等, 或所有 `y_k` 都相等.
+</p>
+
+<p class="proof">
+  不等式左边是 `n` 倍的顺序和. 右边是下面的所有元素之和:
+  <span class="formula">
+  `{:
+    x_1 y_1, x_1 y_2, cdots, x_1 y_n;
+    x_2 y_1, x_2 y_2, cdots, x_2 y_n;
+    vdots, vdots, , vdots;
+    x_n y_1, x_n y_2, cdots, x_n y_n;
+  :}`
+  </span>
+  这事实上是一个顺序和加上 `n-1` 个乱序和:
+  <span class="formula">
+  `{:
+    x_1 y_1, x_1 y_2, cdots, x_1 y_n, , , ;
+    , x_2 y_2, x_2 y_3, cdots, x_2 y_1, , ;
+    , , ddots, ddots, , ddots, ;
+    , , , x_n y_n, x_n y_1, cdots, x_n y_(n-1);
+  :}`
+  </span>
+</p>
+
+<ol class="example">
+  排序不等式特别适合于对称不变的 (`S_n`) 不等式. 由于 `a, b, c`
+  的地位是对称的, 不妨设 `a le b le c`:
+  <li>`a^2+b^2+c^2 ge a b+b c+c a`;</li>
+  <li>`(a b)^2 + (b c)^2 + (c a)^2`
+    `ge (a b)(a c)+(b c)(a b)+(c a)(b c)`
+    `= (a + b + c)a b c`;</li>
+  以下几条假定 `a, b, c` 非负.
+  <li>`2 sum a^3 ge sum a^2(b+c)`;
+    这是因为由非负假定 `a^2 le b^2 le c^2`,
+    进而 `a^3+b^3+c^3 ge a^2 b + b^2 c + c^2 a`; 类似得到另一半不等式,
+    两式相加即得结论.
+  </li>
+  <li>`sum a^3 + 3 sum a^2(b+c) ge 21 a b c`;</li>
+</ol>
+
+<p class="corollary">
+  ?? 设矩阵 `bm X = (x_(i j))_(m xx n)` 的每一行都非负单增, 即
+  <span class="formula">
+    `0 le x_(i 1) le x_(i 2) le cdots le x_(i n)`,
+    `quad i = 1, 2, cdots, m`.
+  </span>
+  又设 `(y_(i j))_(m xx n)` 的第 `i` 行是 `bm X` 第 `i` 行的任意排列,
+  `i = 1, 2, cdots, m`, 则
+  <span class="formula">
+    `sum_(j=1)^n prod_(i=1)^m x_(i j)`
+    `ge sum_(j=1)^n prod_(i=1)^m y_(i j)`.
+  </span>
+</p>
 
 <h3>Schur 不等式</h3>
 

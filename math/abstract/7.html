@@ -10,38 +10,40 @@
 <h2>域</h2>
 
 <ol class="definition">
-	称环 `(bbb F";" +, *)` 为一<b>域 (field)</b>, 如果它是非平凡的 (
-  `|bbb F| ge 2`), 且 `(bbb F, +)`, `(bbb F\\{0}, *)` 是 Abel 群,
-  其中 `0, 1` 分别加法群和乘法群的单位元. 易知 `0 != 1`,
-  否则 `|bbb F| = 1`, 是平凡的.<br/>
+	设 `(bbb F";" +, *)` 为一环, 加法和乘法的单位元分别为 `0, 1`.
+  如果
+  <li>`bbb F` 非平凡, 即 `|bbb F| gt 1`;</li>
+  <li>`(bbb F, +)`, `(bbb F^**, *)` 是 Abel 群, 其中 `bbb F^** = bbb F\\{0}`;</li>
+  则称 `bbb F` 为一<b>域 (field)</b>.
+</ol>
+
+<p class="remark">
+  易知 `0 != 1`, 否则 `|bbb F| = 1`, `bbb F` 是平凡的.<br/>
 	域上可以进行四则运算: 令 `bbb F` 为一域, `a, b in bbb F`.
 	称 `a+b` 为 `a, b` 的和, `a-b := a + (-b)` 为 `a, b` 的差,
 	`a * b` 为 `a, b` 的积, `b != 0` 时, `a//b := a b^-1` 为 `a, b` 的商.
-</ol>
+</p>
 
 <p class="example">
-	`p` 为一素数时, `ZZ` 模 `p` 的剩余类环 `ZZ_p` 为一域.
-  这是因为 `AA a in ZZ_p\\{0}`, 有 `(a, p) = 1`, 于是同余方程
-  <span class="formula">
-    `a x -= 1 (mod p)`
-  </span>
-  有唯一解, 即 `a` 存在逆元.
+  `ZZ` 模素数 `p` 的剩余类环 `ZZ_p` 为一域.
+  这是因为 `AA a in ZZ_p^**`, 有 `(a, p) = 1`, 于是同余方程
+  `a x -= 1 (mod p)` 有唯一解, 即 `a` 存在逆元.
 </p>
 
 <p class="definition">
-	令 `bbb F` 为一域. 称 `bbb F_1 sube bbb F` 为 `bbb F`
-	的一个<b>子域</b>, 如果它关于 `bbb F` 的加法和乘法也成域, 记作
-	`bbb F_1 le bbb F`.  没有真子域的域称为<b>素域</b>,
-	如 `QQ` 和 `ZZ_p` 都是素域.
+  称 `bbb K sube bbb F` 为域 `bbb F` 的一个<b>子域</b>,
+  如果它关于 `bbb F` 的加法和乘法也成域, 记作 `bbb K le bbb F`.
+  没有真子域的域称为<b>素域</b>, 如 `QQ` 和 `ZZ_p` 都是素域.
+  后面将证明, 它们也是同构意义下仅有的两种素域.
 </p>
 
 <p class="corollary">
-	<b>子域的判定条件</b>
-	域 `bbb F_1 le bbb F` 当且仅当 `(bbb F_1, +)`, `(bbb F_1\\{0}, *)`
-	分别为 `(bbb F, +)` 和 `(bbb F\\{0}, *)` 的子群, 即
+	<b>子域的判定</b>
+	域 `bbb K le bbb F` 当且仅当 `(bbb K, +)`, `(bbb K^**, *)`
+	分别为 `(bbb F, +)` 和 `(bbb F^**, *)` 的子群, 即
 	<span class="formula">
-		`(AA a, b in bbb F_1)` `a - b in bbb F_1`;<br/>
-		`(AA a, b in bbb F_1\\{0})` `a b^-1 in bbb F_1\\{0}`.
+		`(AA a, b in bbb K)` `a - b in bbb K`,
+		`quad (AA a, b in bbb K^**)` `a b^-1 in bbb K^**`.
 	</span>
 </p>
 
@@ -233,8 +235,8 @@
 <h3>扩域的分类</h3>
 
 <p class="definition">
-    复数域中, 全体整系数多项式的根的集合记为 `A_QQ`.
-    `x in A_QQ` 称为<b>代数数</b>, `x in CC\\A_QQ` 称为<b>超越数</b>.
+  若一个复数是某个整系数多项式的根, 则称它是一个<b>代数数</b>,
+  否则是一个<b>超越数</b>. 全体代数数记为 `A_QQ`.
 </p>
 
 <ol class="definition">
@@ -244,18 +246,19 @@
   的<b>中间域</b>.
 	<li>视 `bbb K` 为 `bbb F` 上的线性空间 (加法是 `bbb K` 中的加法,
 		数乘是 `bbb F` 与 `bbb K` 中元素的乘法), 则称 `"dim"bbb K` 为
-		`bbb K` 在 `bbb F` 上的<b>扩张次数</b>, 记为 `del(bbb K, bbb F)`.
+		`bbb K` 在 `bbb F` 上的<b>(扩张) 次数</b>, 记为 `del(bbb K, bbb F)`.
 		按扩张次数, 扩域可以分为有限次和无限次两类.
 	</li>
 	<li>
     设 `alpha in bbb K`, 若 `alpha` 是 `bbb F`
     上某个 (次数大于零的) 多项式的根:
     <span class="formula">
-      `(EE f(x) in bbb F[x]\\F)` `quad f(alpha) = 0`,
+      `(EE f(x) in bbb F[x]\\bbb F)` `quad f(alpha) = 0`,
     </span>
     则称 `alpha` 为 `bbb F` 上的<b>代数元</b>,
     `f` 为 `alpha` 的<b>零化多项式</b>. 若不存在这样的多项式,
     则称 `alpha `为<b>超越元</b>.
+    代数数和超越数分别是 `QQ` 上的代数元和超越元.
     若 `bbb K` 的每一元素都是 `bbb F` 上的代数元,
 		则称 `bbb K` 为 `bbb F` 的一个<b>代数扩域</b>,
 		否则为<b>超越扩域</b>. 特别当 `bbb K \\ bbb F` 的元素都为 `bbb F`
@@ -277,7 +280,7 @@
 
 <p class="proof">
   反设 `bbb F le bbb K` 为超越扩域, 则存在 `alpha in bbb K` 为 `bbb F`
-  上超越元, 从而对任意正整数 `n`,
+  上超越元, 因此对任意正整数 `n`,
   <span class="formula">
     `1, alpha, alpha^2, cdots, alpha^n`
   </span>
@@ -285,7 +288,7 @@
 </p>
 
 <ol class="example">
-	<li>`CC` 为 `RR` 的 2 次正规扩域;</li>
+	<li>`CC` 为 `RR` 的二次正规扩域;</li>
 	<li>`RR` 和 `CC` 都是 `QQ` 的超越扩域;</li>
   <li>`A_QQ` 为 `QQ` 的无限次、代数、正规扩域;</li>
 </ol>
@@ -300,7 +303,7 @@
 	令 `bbb K` 为 `bbb F` 的一个扩域, `S sube bbb K`, 记
 	`bbb F(S) := (:bbb F uu S:)`
 	(`bbb K` 中所有既含 `bbb F` 又含 `S` 的子域的交), 显然它是
-	`bbb K` 的包含 `bbb F` 和 `S` 的最小域, 称为添加 `S` 到 `bbb F`
+	`bbb K` 中包含 `bbb F` 和 `S` 的最小域, 称为添加 `S` 到 `bbb F`
 	上所得到的中间域.<br/>
 	当 `S = {a_1, a_2, cdots, a_n}` 为有限集时,
 	简记 `bbb F(S) = bbb F(a_1, a_2, cdots, a_n)`; 特别简记 `bbb F({a})
@@ -331,7 +334,7 @@
 
 <p>按 `alpha` 为 `bbb F` 上的代数元或超越元,
 	单扩域 `bbb F(alpha)` 又分为<b>单代数扩域</b>和<b>单超越扩域</b>.
-  先看单超越扩域:
+  先看单超越扩域 (单代数扩域在下小节介绍):
 </p>
 
 <p class="theorem">
@@ -345,8 +348,6 @@
     `bbb F(alpha) ~= bbb F(x)`.
   </span>
 </p>
-
-<p>单代数扩域在下小节介绍.</p>
 
 <h3>单代数扩域</h3>
 
@@ -366,7 +367,7 @@
 
 <p class="theorem">
   首一的零化多项式是最小多项式当且仅当它不可约.
-  换言之, 域上代数元的最小多项式就是它的即约多项式.
+  换言之, 域上代数元的最小多项式就是它的即约的零化多项式.
 </p>
 
 <ol class="proof">
@@ -380,10 +381,10 @@
     与 `p(x)` 的最小性矛盾.
   </li>
   <li>
-    设 `p(x), q(x)` 都是零化多项式,
-    又记 `d(x) = (p(x), q(x))`, 则存在 `s, t in bbb F[x]` 使得
+    设 `f(x), g(x)` 都是零化多项式,
+    又记 `d(x) = (f(x), g(x))`, 则存在 `s, t in bbb F[x]` 使得
     <span class="formula">
-      `d(x) = s(x) p(x) + t(x) q(x)`.
+      `d(x) = s(x) f(x) + t(x) g(x)`.
     </span>
     因此 `d(alpha) = 0`, 即 `d(x)` 也是零化多项式.<br/>
     若 `p(x)` 在 `bbb F` 上不可约, 则对任意零化多项式 `q(x) in bbb F[x]`,
@@ -421,9 +422,9 @@
     `~= bbb F[x] // "Ker"f`
     `= bbb F[x] // (: p(x) :)`.
   </span>
-  又 `bbb F[x]` 为主理想整环, `p(x)` 在 `bbb F` 上不可约, 从而
-  `(:p(x):)` 是 `bbb F[x]` 的极大理想, `bbb F[x] // (: p(x) :)` 为一域
-  (??). 因此, `bbb F[alpha] = bbb F(alpha)`.
+  由 `bbb F[x]` 为主理想整环 (PID) 和 `p(x)` 在 `bbb F` 上不可约得到,
+  `(:p(x):)` 是 `bbb F[x]` 的极大理想, `bbb F[x] // (: p(x) :)` 为一域.
+  因此, `bbb F[alpha] = bbb F(alpha)`.
 </p>
 
 <p class="theorem">
@@ -671,7 +672,7 @@
 </p>
 
 <p class="remark">
-  有限域 `GF(p^n)` 中存在一个<b>生成元 (或原根)</b> `g`,
+  有限域 `GF(p^n)` 中存在一个<b>生成元 (或本原元、原根)</b> `g`,
   它生成域中所有非零元素, 即
   <span class="formula">
     `GF(p^n) = {0, g, g^2, cdots, g^(q-1) = 1}`,

@@ -21,12 +21,13 @@
 </p>
 
 <p class="example">
+  <b>鸡爪形行列式</b>
 	对正整数 `n ge 2`,
 	<span class="formula">`|
 		a,x,cdots,x;
-		y,z,cdots,0;
-		vdots,vdots,,vdots;
-		y,0,cdots,z;
+		y,z, , ;
+		vdots, ,ddots, ;
+		y, , ,z;
 	|_n`
 	`= {
 		(a z-(n-1)x y) z^(n-2), if z != 0;
@@ -41,9 +42,9 @@
 	<span class="formula">
 	`|
 		a-(n-1)x y z^-1,x,cdots,x;
-		0,z,cdots,0;
-		vdots,vdots,,vdots;
-		0,0,cdots,z;
+		,z, , ;
+		, , ddots, ;
+		, , ,z;
 	|`.
 	</span>
 	于是得到第一种情形. 另外两种情形是显然的.
@@ -205,20 +206,19 @@
         -1, 0, cdots, 0, 0;
     |_(n-1)`
     `= (n(n+1))/2 R_(n-1) (-1)^(n-1) n^(n-2)`.
-    </span> 
+    </span>
     其中 `R_(n-1)` 表示将行列式各行倒排.
 </p>
 
 <p class="example">
-	对正整数 `n ge 1`, 三对角形行列式
+  <b>三对角形行列式</b> `n` 为正整数, 求
 	<span class="formula">
 	`|
-		y,z,0,cdots,0,0;
-		x,y,z,cdots,0,0;
-		0,x,y,cdots,0,0;
-		vdots,vdots,vdots, ,vdots,vdots;
-		0,0,0,cdots,y,z;
-		0,0,0,cdots,x,y;
+		y,z;
+		x,y,z;
+		 ,x,ddots,ddots;
+		 , ,ddots,y,z;
+		 , , ,x,y;
 	|_n`
 	</span>
 </p>
@@ -233,11 +233,11 @@
 		0,,,;
 	|`,
 	</span>
-	最后一个行列式再按第一列展开得
+	上面的行列式再按第一列展开得
 	<span class="formula">
 		`D_n = y D_(n-1) - x z D_(n-2)`.
 	</span>
-	下面求解这个线性递推式,
+	求解这个线性递推式.
 	若 `x z = 0`, 方程退化为 `D_n = y D_(n-1)`, 从而 `D_n = y^n`.
 	否则解特征方程
 	<span class="formula">
@@ -264,6 +264,7 @@
 </p>
 
 <p class="example" id="exp-friend-det">
+  <b>友阵的特征多项式</b> 令 `f(x) = sum_(i=0)^n a_i x^i`, `a_n = 1`, 则
 	<span class="formula">
 	`|
 		x,0,cdots,0,a_0;
@@ -271,9 +272,8 @@
 		0,-1,cdots,0,a_2;
 		vdots,vdots, ,vdots,vdots;
 		0,0,cdots,-1,x+a_(n-1);
-	| = f(x)`,
+	| = f(x)`.
 	</span>
-	其中 `f(x) = sum_(i=0)^n a_i x^i`, `a_n = 1`.
 </p>
 
 <p class="solution">
@@ -334,8 +334,8 @@
 </p>
 
 <p class="solution">
-	因为 `(x;k)` 可以看成是关于 `x` 的 `k` 次多项式,
-	因此依次将原式的前 `i` 列的某个线性组合加到第 `i+1` 列, 就可以消去
+	将 `(x;k)` 看作关于 `x` 的 `k` 次多项式,
+	依次将原式的前 `i` 列的某个线性组合加到第 `i+1` 列, 就可以消去
 	第 `i+1` 列中的低次项, 使其只剩 `i` 次项, `i = 2, 3, cdots, n-1`.
 	从而得到
 	<span class="formula">`|

@@ -216,11 +216,12 @@
 </ol>
 
 <ol class="example">
-	<li>`G normal G`, `{e} normal G`, 它们称为 `G`
-		的<b>平凡正规子群</b>;
-	</li>
-	<li>`G` 的中心 `Z(G) normal G`;</li>
-	<li>Abel 群的任一子群都是正规子群.</li>
+	<li>`G`, `{e}`, 是 `G` 的两个<b>平凡正规子群</b>;</li>
+	<li>群的中心 `Z(G)` 是正规子群;</li>
+	<li>Abel 群的任一子群都是正规子群;</li>
+  <li>指数为 2 (即阶为 `|G|//2`) 的子群是正规子群;</li>
+  <li>`A_n` 是 `S_n` 的正规子群;</li>
+  <li>`SL_n(bbb F)` 是 `GL_n(bbb F)` 的正规子群.</li>
 </ol>
 
 <p class="theorem">
@@ -606,13 +607,25 @@
 
 <h2>群的直积</h2>
 
-<h3>内直积</h3>
+<p class="definition">
+	令 `G_1`, `G_2` 为两个群, 定义 `G_1 xx G_2` 上的二元合成 `*` 如下:
+	<span class="formula">
+		`(a, b) * (c, d) := (a c, b d)`.
+	</span>
+	可以验证 `(G_1 xx G_2, *)` 成一群, 称其为群 `G_1, G_2` 的<b>直积</b>.
+  特别当 `G_1, G_2` 为 Abel 群时, `G_1 xx G_2` 也为 Abel 群,
+	称为 `G_1, G_2` 的<b>直和</b> `G_1 o+ G_2`.
+</p>
+
+<p class="remark">
+  群的直积在形式上类似于平面向量的内积.
+	直积的概念容易推广到多个群的情形.
+</p>
 
 <p class="definition">
 	令 `G` 为一群, `G_1, G_2 normal G`. 若
 	`G = G_1 G_2`, 且 `G` 的任一元素表为 `G_1, G_2` 中元素乘积的方式惟一,
-	则称 `G` 是 `G_1, G_2` 的<b>内直积</b>. 特别当 `G` 为 Abel 群时,
-	内直积也称为<b>内直和</b>.
+	则称 `G` 是 `G_1, G_2` 的<b>内直积</b>.
 </p>
 
 <p class="remark">
@@ -675,45 +688,34 @@
 	因此 `g_1 g_2 g_1^-1 g_2^-1 = e`, 即 `g_1 g_2 = g_2 g_1`.
 </p>
 
-<h3>外直积</h3>
-
-<p class="definition">
-	令 `G_1`, `G_2` 为两个群, 定义 `G_1 xx G_2` 上的二元合成 `*` 如下:
-	<span class="formula">
-		`(a, b) * (c, d) -= (a c, b d)`.
-	</span>
-	可以验证 `(G_1 xx G_2, *)` 成一群, 称其为群 `G_1, G_2` 的 <b>(外)
-	直积</b>. 特别当 `G_1, G_2` 为 Abel 群时, `G_1 xx G_2` 也为 Abel 群,
-	直积也称为 <b>(外) 直和</b>, 也记为 `G_1 o+ G_2`.
-</p>
-
-<p class="remark">
-	虽然形式上与平面向量的内积相似, 这种运算却被称作群的 "外" 直积!
-	当然, 后面将要证明外直积与内直积在同构意义上是一致的.
-</p>
-
-<ol class="theorem">
+<p class="lemma">
 	设 `e_1, e_2` 分别为群 `G_1, G_2` 的幺元. 定义
 	<span class="formula">
 		`bar G_1 = {(a, e_2) | a in G_1}`,
-		`bar G_2 = {(e_1, b) | b in G_2}`.
+		`quad bar G_2 = {(e_1, b) | b in G_2}`.
 	</span>
-	则
-	<li>`G_1 ~= bar G_1`, `G_2 ~= bar G_2`;</li>
-	<li>`G_1 xx G_1` 是 `bar G_1, bar G_2` 的内直积.</li>
-</ol>
+	则 `G_1 ~= bar G_1`, `G_2 ~= bar G_2`.
+</p>
+
+<p class="proof">
+	作 `varphi: g in G_1 to (g, e_2) in bar G_1`, 显然 `varphi`
+  为一双射. 又 `AA g, h in G_1`,
+  <span class="formula">
+    `varphi(g h) = (g h, e_2) = (g, e_2) (h, e_2) = varphi(g)
+    varphi(h)`.
+  </span>
+  从而 `varphi` 为一同态. 因此 `varphi` 是同构映射, 从而 `G_1 ~= bar
+  G_1`. 同理 `G_2 ~= bar G_2`.
+</p>
+
+<p class="theorem">
+	`G_1 xx G_2` 是 `G_1, G_2` 的内直积;
+  反之, `G_1, G_2` 的任一内直积同构于 `G_1 xx G_2`.
+  此定理表明, 内直积与直积是一样的, 我们对它们不作区分.
+</p>
 
 <ol class="proof">
-	<li>作 `varphi: g in G_1 to (g, e_2) in bar G_1`, 显然 `varphi`
-		为一双射. 又 `AA g, h in G_1`,
-		<span class="formula">
-			`varphi(g h) = (g h, e_2) = (g, e_2) (h, e_2) = varphi(g)
-			varphi(h)`.
-		</span>
-		从而 `varphi` 为一同态. 因此 `varphi` 是同构映射, 从而 `G_1 ~= bar
-		G_1`. 同理 `G_2 ~= bar G_2`.
-	</li>
-	<li>由 1. 知, `bar G_1, bar G_2 le G_1 xx G_2`.
+	<li>由引理知, `bar G_1, bar G_2 le G_1 xx G_2`.
 		又 `AA (g_1, g_2) in G_1 xx G_2`, `(g, e_2) in bar G_1`,
 		<span class="formula">
 			`(g_1, g_2)(g, e_2)(g_1, g_2)^-1`
@@ -728,13 +730,6 @@
 		所以 `G_1 xx G_2 = bar G_1 bar G_2`, 且 `G_1 xx G_2`
 		中的任意元素表为 `bar G_1, bar G_2` 中元素乘积的方式惟一.
 	</li>
-</ol>
-
-<p class="theorem">
-	令群 `G` 是 `G_1, G_2` 的内直积, 则 `G ~= G_1 xx G_2`.
-</p>
-
-<ol class="proof">
 	<li>作映射 `varphi (g_1, g_2) in G_1 xx G_2 to g_1 g_2 in G`.
 		由于 `G` 中元素都能表为 `G_1, G_2` 中元素乘积, 所以 `varphi`
 		为一满射. 再由 `G` 中元素表为 `G_1, G_2` 中元素乘积的惟一性,
@@ -760,11 +755,6 @@
 		于是 `varphi` 为一同态映射, 从而是同构映射.
 	</li>
 </ol>
-
-<p class="remark">
-	有时对内, 外直积不加区分, 都称作直积, 记为 `G_1 xx G_2`.
-	最后, 直积的概念容易推广到多个群的情形.
-</p>
 
 <h2>1 到 10 阶群的结构</h2>
 

@@ -466,6 +466,80 @@
 
 <p>由于一般的五次多项式的 Galois 群不可解, 故一般五次方程无根式解.</p>
 
+<p class="example">
+  <b>五次方程的 Bring-Jerrard 标准形</b> `x^5 +- x + k = 0`.
+  一般地, `n` 次方程可以化简消去 `n-1`, `n-2`, `n-3` 次项.
+  [来自 <a href=https://math.stackexchange.com/questions/542108/how-to-transform-a-general-higher-degree-five-or-higher-equation-to-normal-form">stackexchange</a>]
+</p>
+
+<ol class="proof">
+  <li>对方程的根作 Tschirnhaus 变换, 消去 4 次和 3 次项.
+    设 `x_i`, `i = 1, cdots, 5` 是原方程的根,
+    令 `y_i = x_i^2 + m x_i + n`, 只需将原方程与
+    <span class="formula">
+      `y = x^2 + m x + n`
+    </span>
+    联立, 求解<b>结式 (resultant)</b>, 比如使用
+    <a href="https://wolframalpha.com">wolfram</a> 语言:
+    <pre>Collect[Resultant[x^5+ax^4+bx^3+cx^2+dx+e, y-(x^2+mx+n), x],y]</pre>
+    就得到
+    <span class="formula">
+      `y^5 + c_1 y^4 + c_2 y^3 + c_3 y^2 + c_4 y + c_5 = 0`.
+    </span>
+    其中
+    <span class="formula">
+      `c_1 = -a^2 + 2 b + a m - 5 n`,<br>
+      `c_2 = b^2 - 2 a c + 2 d + (3c - a b)m + (4a-8b)n
+      + b m^2 - 4 a m n + 10 n^2`.
+    </span>
+    通过求解二次方程组,
+    选择适当的 `m, n`, 就能使 `c_1 = c_2 = 0`, 得到
+    <span class="formula">
+      `y^5 + u y^2 + v y + w = 0`.
+      <span class="label" id="for-principal-quintic-form"></span>
+    </span>
+  </li>
+  <li>要继续消去方程的 2 次项, 一个简单的想法是使用 3 次 Tschirnhaus 变换,
+    但这会引出 1 次, 2 次和 3 次方程的方程组, 最终需要求解一个 6 次方程.
+    Bring 与 Jerrard 另辟蹊径, 使用 4 次 Tschirnhaus 变换,
+    利用额外多出的一个参数来避免高次方程:
+    <span class="formula">
+      `z = y^4 + p y^3 + q y^2 + r y + s`,
+    </span>
+    与 <a class="ref" href="#for-principal-quintic-form"></a> 联立有
+    <span class="formula">
+      `z^5 + d_1 z^4 + d_2 z^3 + d_3 z^2 + d_4 z + d_5 = 0`,
+    </span>
+    其中
+    <span class="formula">
+      `d_1 = -5s + 3p u + 4v`,<br>
+      `d_2 = 10s^2 - 12p s  u + 3p^2 u^2 - 3q u^2 + 2q^2 v - 16 s v`
+      `+ 5 p u v + 6 v^2 + 5p q w - 4u w + r(color(#823)(3q u + 4p v + 5 w))`,<br>
+      `d_3 = ** r^3 + ** r^2 + ** r + **`.
+    </span>
+    令 `d_1 = d_2 = 0` 以及 `color(#823)(3q u + 4p v + 5 w) = 0`,
+    只需求解二次方程组即可得到 `p, q, s` 的值.
+    注意我们的条件使得前两个方程与变量 `r` 无关, 因此可以独立地使用 `d_3
+    = 0` 的任一解作为 `r` 的值. 总之我们有
+    <span class="formula">
+      `z^5 + d_4 z + d_5 = 0`.
+    </span>
+  </li>
+  <li>最后, 应用伸缩变换 `z = t // f`,
+    <span class="formula">
+      `t^5 + d_4 f^4 t + d_5 f^5 = 0`,
+    </span>
+    再令 `d_4 f^4 = +-1` 解出 `f` 的值即可.
+  </li>
+  <li>注: 如果你想手动得到 1. 中的结式, 可以展开
+    <span class="formula">
+      `prod (y - x_i^2 - m x_i - n) = 0`,
+    </span>
+    利用 Vieta 定理和 Newton 多项式消去展式中的 `x_i`, 便得到 `y`
+    的五次方程.
+  </li>
+</ol>
+
 <h2>对称多项式</h2>
 
 <p class="definition">

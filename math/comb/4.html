@@ -101,6 +101,57 @@
 	</span>
 </p>
 
+<p class="example">
+  [群友 我是蒟蒻的泰博定理]
+  设集合 `A` 有 `n` 个元素, 取 `A` 的子集满足真包含关系:
+  <span class="formula">
+    `A_1 sub A_2 sub cdots sub A_k`,
+  </span>
+  这样的取法有几种? 换言之, `A` 的全体子集按包含关系组成的偏序中, 长度为
+  `k` 的链有几条?
+</p>
+
+<ol class="solution">
+  <li>[群友 我是某用户的零壹叁]
+    答案 `f(n, k)` 满足递推关系
+    <span class="formula">
+      `f(n, k) = {
+        2^n, if k = 1;
+        n!, if k = n+1;
+        (k+1) f(n-1, k) + (k-1) f(n-1, k-1), otherwise;
+      :}`
+    </span>
+    `k = 1` 时, 只要任取 `A` 的一个子集, 有 `2^n` 种取法;
+    `k = n+1` 时, 相当于确定 `A` 的一个排列, 有 `n!` 种.<br>
+    其它情况, 取定 `a in A`.
+    满足题目条件的链中, 不含元素 `a` 的链有 `f(n-1, k)` 条.
+    含有元素 `a` 的链, 我们将 `a` 去掉,
+    剩余部分要么是 `n-1` 的集合上长为 `k` 的链, 要么是长为 `k-1`
+    的链, 这是因为去掉 `a` 的操作可能破坏相邻两个集合的真包含关系.
+    前者的取法有 `k f(n-1, k)` 种, 后者为 `(k-1) f(n-1, k-1)` 种.<br>
+    从递推式可以得到特殊情况 `f(n, 2) = 3^n - 2^n`, `f(n, n) = (n+3)/2 n!`
+    等等.
+  </li>
+  <li>`f(n, k)` 的显式表达式为
+    <span class="formula">
+      `f(n, k) = sum_(j=0)^(k-1) (-1)^j (k-1;j) (k-j+1)^n`.
+    </span>
+    我们考虑允许相等的子集链
+    <span class="formula">
+      `A_1 sube A_2 sube cdots sube A_k`,
+    </span>
+    这给出集合 `A` 的划分
+    <span class="formula">
+      `A_1, A_2 - A_1, A_3 - A_2, cdots, A - A_k`,
+    </span>
+    且 `A` 的每个元素都可以自由进入到任一划分, 因此这样的链共有
+    `(k+1)^n` 条. 假如上面的链的 `k-1` 个 `sube` 符号中有 `j` 个取等,
+    则此链相当于一个长度为 `k-j` 的允许相等的子集链, 共有 `(k-j+1)^n` 条.
+    由容斥原理即得结论.
+  </li>
+  更详细的内容参见 <a href="http://oeis.org/A038719">oeis A038719</a>.
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

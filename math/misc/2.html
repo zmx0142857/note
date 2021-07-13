@@ -913,6 +913,25 @@
 	</span>
 </p>
 
+<p class="theorem">
+  <span class="formula">
+    `sin n x = |
+      sin x, 0;
+      0, 2 cos x, 1;
+      , 1, 2 cos x, 1;
+      , , 1, ddots, 1;
+      , , , 1, 2 cos x;
+    |_n`,<br>
+    `cos n x = |
+      cos x, 1;
+      1, 2 cos x, 1;
+      , 1, 2 cos x, 1;
+      , , 1, ddots, 1;
+      , , , 1, 2 cos x;
+    |_n`.
+  </span>
+</p>
+
 <p>	下面主要讨论 Chebyshev 多项式. 它来源于 `n` 倍角问题,
 	在数值分析中作为一类 "最佳多项式" 有着重要应用.
 	使用和差化积公式, 便得到求 `n` 倍角正余弦值的 Chebyshev 算法:
@@ -1387,6 +1406,44 @@
         证毕.
     </li>
 </ol>
+
+<p class="example">
+  在三角形 `A B C` 中, 已知 `(sin B-sin C)^2 = sin A^2 - sin B sin C`,
+  求角 `A`.
+</p>
+
+<p class="solution">
+  先用正弦定理得 `(b-c)^2 = a^2 - b c`, 即
+  <span class="formula">
+    `b c = b^2+c^2-a^2`,
+  </span>
+  再用余弦定理
+  <span class="formula">
+    `cos A = (b^2+c^2-a^2)/(2b c) = 1/2`,
+  </span>
+  即 `A = pi//3`.
+</p>
+
+<p class="example">
+  在锐角三角形 `A B C` 中, 已知 `cos^2 A + cos^2 B - cos A cos B = 3/4`,
+  求角 `C`.
+</p>
+
+<p class="solution">
+  设 `x, y, z = cos A, cos B, cos C`, 将已知条件与恒等式联立:
+  <span class="formula">
+  `{
+    x^2 + y^2 - x y = 3/4;
+    x^2 + y^2 + z^2 + 2 x y z = 1
+  :}`
+  </span>
+  解得 `x y = (1-2 z)//4`, `x^2 + y^2 = 1 - z // 2`. 于是
+  <span class="formula">
+    `z = sqrt(1-x^2)sqrt(1-y^2) - x y`
+    `= sqrt(1-x^2 y^2 - (3/4 + x y)) - x y`,
+  </span>
+  代入 `x y = (1-2 z)//4` 解得 `z = 1/2`, 即 `C = pi//3`.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

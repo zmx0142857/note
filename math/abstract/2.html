@@ -351,7 +351,7 @@
 	因为有限集上的变换为一单射当且仅当它为一满射.
 </p>
 
-<h2>群与群元的阶数</h2>
+<h2>群与群元的阶</h2>
 
 <p class="definition">
 	<b>群上的幂运算</b>
@@ -372,12 +372,13 @@
 </p>
 
 <p class="definition">
-	群 `G` 中元素 `a` 的<b>阶数</b>定义为
+	群 `G` 中元素 `a` 的<b>阶 (order)</b>定义为
 	<span class="formula">
 		`|a| = min{m in ZZ^+ | a^m = e}`;
 	</span>
 	若上式右端的集合为空, 称 `a` 的阶为无限, 记为 `|a| = oo`.<br/>
-	有限群 `G` 的<b>阶数</b>定义为它的元素个数 `|G|`.
+	有限群 `G` 的<b>阶</b>定义为它的元素个数 `|G|`.
+  阶的另一种记号是 `"ord" a`, `"ord" G`.
 </p>
 
 <ol class="corollary">
@@ -439,6 +440,9 @@
 	特别地,
 	<li>若 `|a| = s t`, `s, t in ZZ^+`, 则 `|a^s| = t`;</li>
 	<li>`|a^m| = n` 当且仅当 `(m, n) = 1`.</li>
+  例如, `a = (1\ 2)(3\ 4\ 5\ 6\ 7)` 的阶是 `lcm(2, 5) = 10`.
+  既然 `|a| = 10 = 2 xx 5`, 那么 `|a^5| = 2`, 这是因为 `a` 连续作用
+  5 次以后, 它所含的 5-轮换被抵消了.
 </ol>
 
 <p class="proof">
@@ -1070,11 +1074,58 @@
 	</li>
 </ol>
 
+<p class="definition">
+  <b>轮换型号</b>
+  将 `n` 阶置换 `sigma` 表为不相交轮换的乘积, 这些轮换中
+  `k`-轮换的个数记为 `l_k(sigma)`, `k = 1, 2, cdots, n`.
+  由于它们互不相交, 有
+  <span class="formula">
+    `n = sum_(k=1)^n l_k(sigma) * k`.
+  </span>
+  因此, `n` 阶置换所有可能的型号个数等于分拆数 `p_n`.
+</p>
+
+<p class="corollary">
+  <b>一般置换的阶</b>
+  若置换 `sigma` 被分解为不相交的轮换,
+  则 `sigma` 的阶等于这些轮换的阶的最小公倍数.
+  由于 `k`-轮换的阶是 `k`, 我们便得到一般置换的阶的计算方法.
+</p>
+
+<p class="proof">
+  直观上 `sigma^n` 相当于将这些不相交轮换独立地轮转,
+  当所有轮换恰好复位时, 有 `sigma^n = e`. 我们来严格证明之.<br>
+  ??
+</p>
+
+<p class="theorem">
+  <b>Cauchy 公式</b>
+  对称群 `S_n` 中型号为 `(l_1, l_2, cdots, l_n)` 的置换个数为
+  <span class="formula">
+    `n! // prod_(k=1)^n l_k! k^(l_k)`.
+  </span>
+</p>
+
+<p class="proof">
+  首先把 `{1, 2, cdots, n}` 分成 `l_1` 个 1-子集, `l_2` 个 2-子集, ...,
+  `l_n` 个 `n`-子集, 方法数为 (多项系数):
+  <span class="formula">
+    `c := n! // prod_(k=1)^n l_k! (k!)^(l_k)`.
+  </span>
+  然后, 由于每个 `k`-子集可产生 `(k-1)!` 个不同的轮换, 所以型号为
+  `(l_1, l_2, cdots, l_n)` 的置换个数为
+  <span class="formula">
+    `c * prod_(k=1)^n (k-1)!^(l_k)`,
+  </span>
+  即得结论.
+</p>
+
 <h3>`S_n` 与 `A_n` 的结构</h3>
 
 <p class="lemma">
+  <b>`r`-轮换的共轭仍为 `r`-轮换</b>
 	令 `pi` 为一 `n` 阶置换, `(i_1 i_2 cdots i_r)` 为一 `r` 轮换,
-	`r le n`, `n in ZZ^+`. 则两个置换相等:
+  `r le n`, 则
 	<span class="formula">
 		`pi (i_1 i_2 cdots i_r) pi^-1`
 		`= (pi(i_1) pi(i_2) cdots pi(i_r))`.
@@ -1101,6 +1152,33 @@
 		`= (pi(i_1) pi(i_2) cdots pi(i_r))(i)`.
 	</span>
 	所以两个置换相等.
+</p>
+
+<p class="corollary">
+  两个 `n` 阶置换具有相同型号当且仅当它们相互共轭.
+  换言之, 相同型号的元素即为一个共轭类. 共轭类的大小可以用 Cauchy
+  公式计算.
+</p>
+
+<p class="proof">
+  在共轭变换下, 每个 `k`-轮换仍变为 `k`-轮换, 故置换的型号不变.
+  反之??
+</p>
+
+<p class="example">
+  <b>置换群中 `k` 阶元的个数</b>
+  以 `S_3` 为例, 列出 3 的所有分拆, 每个分拆对应一种轮换型号,
+  即一个共轭类:
+  <span class="formula">
+    3 = 1 + 1 + 1 = 1 + 2.
+  </span>
+  三个共轭类中元素的阶分别为
+  <span class="formula">
+    `lcm(1, 1, 1) = 1`,
+    `quad lcm(1, 2) = 2`,
+    `quad lcm(3) = 3`.
+  </span>
+  结合 Cauchy 公式知, `S_3 有 1 个 1 阶元, 3 个 2 阶元, 2 个 3 阶元.
 </p>
 
 <ol><b>`S_n` 的生成元</b>
@@ -1170,6 +1248,17 @@
 	所以 `pi(1) = 1`.
 	故 `pi(k) = k`, `k = 2, 3, cdots, n`. 即 `pi = (1)`.
 </p>
+
+<ol class="example">
+  <b>正多面体的对称性群</b>
+  此概念是二面体群的扩展. 在空间中,
+  所有使一个正多面体与自身重合的刚体运动构成这个正多面体的对称性群.
+  <li>立方体和正八面体的对称性群是 `S_4`, 相当于其 4 条对角线的任意置换;</li>
+  <li>正四面体的对称性群是 `A_4`,
+    通过将正四面体内接于一个正方体可以看出这一点;
+  </li>
+  <li>正十二面体和正二十面体的对称性群是 `A_5` (足球烯).</li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
