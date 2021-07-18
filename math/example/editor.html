@@ -154,6 +154,8 @@ function render() {
     output.innerHTML = input.value;
     katex.render(input.value, output);
   }
+  // 调整输入框大小
+  input.setAttribute('rows', Math.max(5, input.value.split('\n').length))
 }
 
 // debounce

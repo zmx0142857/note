@@ -39,124 +39,132 @@
 </ol>
 -->
 
-<h2>左右陪集与 Lagrange 定理</h2>
+<h2>陪集与 Lagrange 定理</h2>
+
+<h3>陪集</h3>
 
 <p class="definition">
-	令 `G` 为一群, `a in G`, `H le G`, 称
+	设群 `H le G`, `a in G`,
 	<span class="formula">
-		`a H := {a h | h in H}`<br/>
-		(`H a := {h a | h in H}`)
+		`a H := {a h | h in H}`, `quad H a := {h a | h in H}`
 	</span>
-	为 `G` 中 `H` 的含 `a` 的<b>左 (右) 陪集</b>.
-	另一种等价的定义是, 规定映射 `l_a: h in H to a h in G`, 则 `a H :=
-	"Im" l_a`. 右陪集类似.
+  分别称为 `H` 关于 `a` 的<b>左陪集</b>和<b>右陪集</b>.
+  左陪集 `a H` 是 `H` 中全体元素在左平移变换 `l_a: h to a h` 下的像.
+  一般情况下, 陪集并不是 `G` 的子群.
 </p>
 
-<ol class="corollary">
-	令 `G` 为一群, `H le G`, 则下列各款等价:
-	<li>`b in a H` (`b in H a`);</li>
-	<li>`a H = b H` (`H a = H b`);</li>
-	<li>`a^-1 b in H` (`b a^-1 in H`).</li>
-</ol>
+<p class="remark">
+  以下主要讨论左陪集, 右陪集是完全类似的.
+</p>
+
+<p class="definition">
+  群 `G` 中, 子集的乘积和逆分别定义为
+  <span class="formula">
+    `H K = {h k | h in H, k in K}`,
+    `quad H^-1 = {h^-1 | h in H}`;
+  </span>
+  显然 `H le G` 当且仅当 `H H = H` 且 `H^-1 = H`.
+</p>
+
+<p class="corollary">
+	设群 `H le G`, `a, b in G`, 则
+  <span class="formula">
+    `b in a H` `iff a H = b H` `iff a^-1 b in H`.
+  </span>
+</p>
 
 <ol class="proof">
-	用元素的语言证明左陪集情形:
-	<li>`rArr` 2. 由 `b in a H` 知 `EE h in H` 使 `b = a h`.
-		任取 `a h_1 in a H`, 则 `a h_1 = a h h^-1 h_1 = b(h^-1 h_1) in b
-		H`, 即 `a H sube b H`;
-		另一方面, 任取 `b h_2 in b H`, 则 `b h_2 = a (h h_2)
-		in a H`, 即 `b H sube a H`, 所以 `a H = b H`.
+	用元素的语言:
+	<li>`rArr` 2. 由 `b in a H` 知 `EE h in H` 使 `b = a h`, `a = b h^-1`.
+		任取 `a h_1 in a H` 有 `a h_1 = b h^-1 h_1 in b H`;
+		另一方面, 任取 `b h_2 in b H` 有 `b h_2 = a h h_2 in a H`,
+    所以 `a H = b H`.
 	</li>
-	<li>`rArr` 3. 任取 `a h_1 in a H`, 则 `EE h_2 in H` 使 `a h_1 = b h_2`
+	<li>`rArr` 3. 任取 `a h_1 in a H`, 则 `EE h_2 in H` 使 `a h_1 = b h_2`.
 		所以 `a^-1 b = h_1 h_2^-1 in H`.
 	</li>
 	<li>`rArr` 1. 因为 `a^-1 b in H`, 所以 `b = a a^-1 b in a H`.</li>
 </ol>
 
 <ol class="proof">
-	用集合的语言证明右陪集情形:
-	<li>`rArr` 2. 
-		由 `b in H a` 有 `H b sube H (H a) = (H H) a = H a`;
-		另一方面, 由 `b in H a` 知 `a in H^-1 b = H b`,
-		用类似的论证得 `H a sube H b`, 故 `H a = H b`.
+	用集合的语言:
+	<li>`rArr` 2.
+		由 `b in a H` 有 `b H sube (a H) H = a H`;
+		另一方面, 由 `b in a H` 知 `a in b H^-1 = b H`,
+		用类似的论证得 `a H sube b H`, 故 `a H = b H`.
 	</li>
-	<li>`rArr` 3.
-		由 `H a = H b` 得 `H = H b a^-1`, 进而 `b a^-1 in H^-1 H = H`.
-	</li>
-	<li>`rArr` 1.
-		同时右乘 `a` 即可.
-	</li>
-</ol>
-
-<ol class="corollary" id="cor-group-partition">
-	令 `G` 为一群, `H le G`, 则
-	<li>`(AA a in G)` `a in a H`;</li>
-	<li>`(AA a, b in H)` `a H nn b H != O/` `iff a H = b H`.</li>
-	右陪集也有平行的结论.
-</ol>
-
-<ol class="proof">
-	<li>因为 `e in H`;</li>
-	<li>设 `c in a H nn b H`, 则 `c H = a H = b H`; 反之, 若 `a H = b H`,
-		则 `b in a H nn b H`.
-	</li>
+	<li>`rArr` 3.  由 `a H = b H` 得 `b^-1 a in H H^-1 = H`.</li>
+	<li>`rArr` 1.  同时左乘 `a` 即可.</li>
 </ol>
 
 <p class="definition">
-	<b>群的一个分划</b>
-	由<a class="ref" href="#cor-group-partition"></a>的 2. 知道,
-	所有形如 `a H` 的左陪集要么相等, 要么不相交.
-	又显然 `uuu_(a in G) a H = G`, 于是
-	<span class="formula">
-		`pi_H^l := {a H | a in G}`
-	</span>
-	形成 `G` 的一个分划. 同理
-	<span class="formula">
-		`pi_H^r := {H a | a in G}`
-	</span>
-	亦形成 `G` 的一个分划.
-	我们把由 `pi_H^l`, `pi_H^r` 确定的 `G` 上的等价关系分别记为
-	`sigma_H^l`, `sigma_H^r`.
+  <b>子群 `H` 确定的陪集划分</b>
+  设 `H` 是 `G` 的子群,
+  定义 `sigma_H^l`: `a ~ b iff a H = b H`,
+  可以验证 `sigma_H^l` 构成 `G` 上的等价关系.
+  因为 `b ~ a` 当且仅当 `b in a H`, 所以 `a in G` 所在的等价类就是 `a H`.
+  该等价关系给出 `G` 上的划分:
+  <span class="formula">
+    `pi_H^l := { a H | a in G }`.
+  </span>
+  类似地, `H` 的右陪集确定了等价关系 `sigma_H^r` 和相应的划分 `pi_H^r`.
 </p>
 
+<p class="remark">
+  在有限群 `G` 中, 任意元素属于且仅属于下面的一个陪集:
+  <span class="formula">
+    `H, a_1 H, a_2 H, cdots, a_n H`.
+  </span>
+  其中只有 `H` 是子群, 其它的陪集不含单位元, 因而不构成子群.
+  我们将很快看到, 陪集的结构和 `H` 非常类似, 它是 `H` 在平移变换下的像,
+  是 `H` 在 `G` 中的“陪衬”.
+</p>
+
+<h3>Lagrange 定理</h3>
+
+<p>陪集有多少个? 每个陪集中有多少元素? Lagrange 定理可以回答这些问题.</p>
+
 <p class="lemma">
-	令 `G` 为一群, `H le G`, 则 `|pi_H^l| = |pi_H^r|`.
-	当 `G` 为有限群时, 这个等式告诉我们 `G` 中 `H`
-	的不同的左陪集数等于其不同的右陪集数. 这个数称为 `H` 在 `G`
-	中的<b>指数</b>, 记为 `[G : H]`.
+	子群 `H` 在 `G` 中左右陪集数相等, 称为它的<b>指数</b>
+  <span class="formula">
+    `[G : H] := |pi_H^l| = |pi_H^r|`.
+  </span>
 </p>
 
 <p class="proof">
+  为证明两个集合基数相等, 我们构造它们之间的双射.
 	作 `varphi: a H in pi_H^l to H a^-1 in pi_H^r`.
 	由 `a H = b H iff a^-1 b in H`
 	`iff b^-1 (a^-1)^-1 in H`
 	`iff H a^-1 = H b^-1` 知, `varphi` 为一映射, 且为一单射.
 	又, 关于任意 `H a in pi_H^r`, `a^-1 H` 是其原像, 从而 `varphi`
-	为一满射. 所以 `varphi` 为双射, 于是 `|pi_H^l| = |pi_H^r|`.
+	为一满射. 所以 `varphi` 为双射.
 </p>
 
 <p class="lemma">
-	令 `G` 为一群, `a in G`, `H le G`, 则
-	`|a H| = |H a| = |H|`.
-	这一定理告诉我们, 群上的左 (右) 陪集对群的划分是均匀的.
+  子群 `H` 的每个陪集大小相同, 即 `AA a in G`,
+  <span class="formula">
+    `|a H| = |H a| = |H|`.
+  </span>
+  这说明陪集对群的划分是均匀的.
 </p>
 
 <p class="proof">
-	作映射 `varphi: h in H to a h in a H`. 显然 `varphi` 为一满射. 又
-	`AA h_1, h_2 in H`, 若 `varphi(h_1) = varphi(h_2)`, 即 `a h_1 = a
-	h_2`, 消去 `a` 得 `h_1 = h_2`, 所以 `varphi` 为一单射. 因此 `varphi`
-	是双射, `|H| = |a H|`. 同理 `|H| = |H a|`.
+	考虑左平移变换 `l_a: h in H to a h in a H`. 显然它是满射.
+  又因为群上的左平移变换是单射 (根据消去律), 所以 `l_a` 是双射,
+  `|H| = |a H|`.  同理 `|H| = |H a|`.
 </p>
 
 <p class="theorem">
 	<b>Lagrange 定理</b>
-	令 `G` 为一有限群, `H le G`, 则由两个引理立即推得
+	令 `G` 为一有限群, `H le G`, 则由两个引理,
+  `G` 的大小等于每个陪集的大小乘以陪集数, 即
 	<span class="formula">
 		`|G| = [G : H] |H|`.
 	</span>
 	因此, `G` 的任意子群的阶和指数都整除 `|G|`.
-	特别 `G` 的任意元素的阶都整除 `|G|` (设它是 `a`, 则
-	`|a| = |(:a:)|`, 后者是 `G` 的子群).
+	特别 `G` 的任意元素 `a` 的阶都整除 `|G|` (考虑 `a` 生成的循环群,
+  该子群的阶等于 `|a|`, 且整除 `|G|`).
 </p>
 
 <p class="corollary">

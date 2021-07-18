@@ -378,14 +378,26 @@
 	</span>
 	若上式右端的集合为空, 称 `a` 的阶为无限, 记为 `|a| = oo`.<br/>
 	有限群 `G` 的<b>阶</b>定义为它的元素个数 `|G|`.
-  阶的另一种记号是 `"ord" a`, `"ord" G`.
+  阶的另一种记号是 `"ord " a`, `"ord " G`.
 </p>
+
+<p class="definition">
+  若 `a, b in G`, 且存在 `g in G` 使得 `b = g a g^-1`,
+  则称 `a, b` (关于 `g`) <b>共轭</b>.
+</p>
+
+<ol class="remark">
+  <li>`a, b` 在 `G` 中共轭, 但在 `G` 的子群中可能不共轭.</li>
+  <li>`a, b` 可以关于不止一个元素是共轭的, 比如 `e` 和自身共轭,
+    可以是 `e = g e g^-1`, 也可以是 `e = h e h^-1`.
+  </li>
+</ol>
 
 <ol class="corollary">
 	令 `G` 为一群, `e` 是幺元, `a, b in G`, 则
 	<li>`|e| = 1`;</li>
 	<li>`|a| = |a^-1|`;</li>
-	<li>`|a| = |b a b^-1|`;</li>
+	<li>`|a| = |b a b^-1|`, 即共轭元素的阶相等;</li>
 	<li>`|a b| = |b a|`.</li>
 </ol>
 
@@ -402,7 +414,7 @@
 		`a^m = b^-1 (b a^m b^-1) b` `= b^-1 (b a b^-1)^m b = e`
 		得 `m ge n`.
 	</li>
-	<li>`|a b| = |b (a b) b^-1| = |b a|`.</li>
+	<li>只需说明 `a b` 与 `b a` 共轭: `b a = b (a b) b^-1`.</li>
 </ol>
 
 <p class="theorem">
@@ -1155,14 +1167,30 @@
 </p>
 
 <p class="corollary">
-  两个 `n` 阶置换具有相同型号当且仅当它们相互共轭.
-  换言之, 相同型号的元素即为一个共轭类. 共轭类的大小可以用 Cauchy
-  公式计算.
+  两个 `n` 阶置换具有相同型号当且仅当它们在 `S_n` 中相互共轭.
+  换言之, 相同型号的元素即为 `S_n` 中的一个共轭类.
+  共轭类的大小可以用 Cauchy 公式计算.
 </p>
 
 <p class="proof">
   在共轭变换下, 每个 `k`-轮换仍变为 `k`-轮换, 故置换的型号不变.
-  反之??
+  反之若两个置换具有相同型号, 我们考察它们对应的轮换
+  <span class="formula">
+    `sigma = (i_1, i_2, cdots, i_k)` 和
+    `tau = (j_1, j_2, cdots, j_k)`.
+  </span>
+  只要取置换 `pi in S_n`, 使得
+  <span class="formula">
+    `pi(i_1) = j_1`, `cdots, pi(i_k) = j_k`,
+  </span>
+  就有 `pi sigma pi^-1 = tau`.
+  因为各个轮换不相交, 很容易将 `pi` 的定义扩展到 `{1, 2, cdots, n}` 上.
+  这些关于 `pi` 共轭的轮换相乘以后, 整个置换也是关于 `pi` 共轭的.
+</p>
+
+<p class="remark">
+  这里的结论不适用于 `S_n` 的子群. 因为当 `S_n` 中存在 `g` 使得
+  `a = g b g^-1` 时, 并不保证 `g` 一定在子群中.
 </p>
 
 <p class="example">
@@ -1178,7 +1206,7 @@
     `quad lcm(1, 2) = 2`,
     `quad lcm(3) = 3`.
   </span>
-  结合 Cauchy 公式知, `S_3 有 1 个 1 阶元, 3 个 2 阶元, 2 个 3 阶元.
+  结合 Cauchy 公式知, `S_3` 有 1 个 1 阶元, 3 个 2 阶元, 2 个 3 阶元.
 </p>
 
 <ol><b>`S_n` 的生成元</b>

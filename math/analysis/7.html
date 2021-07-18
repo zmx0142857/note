@@ -10,6 +10,7 @@
 <h2>定积分的定义与理论*</h2>
 
 <p class="definition">
+  <b>Riemann 积分的经典定义</b>
   设函数 `f` 定义在 `[a, b]` 上. 若存在实数 `I`, `AA epsi gt 0`,
   对于 `[a, b]` 的任意<b>分割</b>
   <span class="formula">
@@ -52,6 +53,67 @@
 <p class="remark">
   Riemann 积分理论有其局限性和不便之处, 为此, 提出了新的积分理论——
   Lebesgue 积分, 这种积分将在实变函数中介绍.
+</p>
+
+<ol class="definition">
+  <b>Riemann 积分的第二定义</b>
+  <li>记 `I_k = [x_(k-1), x_k]`. 分别称
+    <span class="formula">
+      `bar S(f, Delta) = sum_(k=1)^n underset (x in I_k)"sup" f(x) |I_k|`,
+      `quad ul S(f, Delta) = sum_(k=1)^n underset (x in I_k)"inf" f(x) |I_k|`
+    </span>
+    为 `f` 关于分割 `Delta` 的 (Darbux) <b>上和</b>与<b>下和</b>.
+  </li>
+  <li>对介点集加细, 会使上和减小, 下和增加.  这是因为
+    <span class="formula">
+      `underset ([a, b])"sup" f ge max(underset ([a,c])"sup" f, underset
+      ([c, b])"sup" f)`.
+    </span>
+  </li>
+  <li>任意一个上和总是大于任意一个下和. 比较 `bar S(f, Delta_1)` 和 `ul
+    S(f, Delta_2)`, 只需取 `Delta_1, Delta_2` 的公共加细 `Delta`, 则
+    <span class="formula">
+      `bar S(f, Delta_1)`
+      `ge bar S(f, Delta)`
+      `ge ul S(f, Delta)`
+      `ge ul S(f, Delta_2)`.
+    </span>
+    这指出上和有下界, 下和有上界.  定义上和的下确界为<b>上积分</b>,
+    下和的上确界为<b>下积分</b>:
+    <span class="formula">
+      `bar(int_a^b) f(x) dx = underset Delta "inf" bar S(f, Delta)`
+      `ge ul(int_a^b) f(x) dx = underset Delta "sup" ul S(f, Delta)`.
+    </span>
+    如果上积分等于下积分, 就称 `f` 的积分存在, 且等于上、下积分的值.
+  </li>
+  <li>
+    上和与下和之差的下确界称为 `f` 在区间上的<b>振幅</b>:
+    <span class="formula">
+      `omega(f) = underset Delta "inf" (bar S(f, Delta)-ul S(f, Delta))`
+      `= underset Delta "inf" sum_(k=1)^n omega(f, I_k) |I_k|`,
+    </span>
+    其中
+    <span class="formula">
+      `omega(f, I_k) = underset (x in I_k)"sup" f(x) - underset (x in I_k)
+      "inf" f(x)`.
+    </span>
+    因此 `f` Riemann 可积当且仅当 `omega(f) = 0`.
+  </li>
+</ol>
+
+<p class="corollary">
+  <b>连续必可积</b>
+  若 `f in C[a, b]`, 则 `f in R[a, b]`.
+</p>
+
+<p class="proof">
+  闭区间 `[a, b]` 上的连续函数是一致连续的:
+  对任意 `epsi gt 0`, 存在 `delta gt 0`, 使得
+  <span class="formula">
+    `|f(x) - f(y)| lt epsi`, `quad AA |x-y| lt delta`.
+  </span>
+  因此只要分割足够细 (小于 `delta`), 在每个区间上的振幅就小于 `epsi`,
+  从而总的振幅小于 `epsi(b-a)`.
 </p>
 
 <h2>积分换元</h2>
