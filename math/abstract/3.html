@@ -41,7 +41,7 @@
 
 <h2>陪集与 Lagrange 定理</h2>
 
-<h3>陪集</h3>
+<h3>陪集 (coset)</h3>
 
 <p class="definition">
 	设群 `H le G`, `a in G`,
@@ -55,6 +55,14 @@
 
 <p class="remark">
   以下主要讨论左陪集, 右陪集是完全类似的.
+</p>
+
+<p class="example">
+  整数加群 `ZZ` 中, 子群 `3ZZ` 表示所有 3 的倍数. 它的陪集有 3 个:
+  <span class="formula">
+    `3 ZZ`, `3 ZZ + 1`, `3 ZZ + 2`,
+  </span>
+  每个陪集中的元素是模 3 同余的.
 </p>
 
 <p class="definition">
@@ -100,8 +108,8 @@
 <p class="definition">
   <b>子群 `H` 确定的陪集划分</b>
   设 `H` 是 `G` 的子群,
-  定义 `sigma_H^l`: `a ~ b iff a H = b H`,
-  可以验证 `sigma_H^l` 构成 `G` 上的等价关系.
+  定义 `sigma_H^l`: `a ~ b iff a H = b H`, 可以验证 `sigma_H^l` 构成
+  `G` 上的等价关系, 称为 `G` 上的一个<b>同余</b>.
   因为 `b ~ a` 当且仅当 `b in a H`, 所以 `a in G` 所在的等价类就是 `a H`.
   该等价关系给出 `G` 上的划分:
   <span class="formula">
@@ -176,64 +184,78 @@
 	由 Lagrange 定理, `|a| = p`, 故 `(:a:) = G`.
 </p>
 
-<h2>正规子群</h2>
+<h2>正规子群与商群</h2>
+
+<h3>正规子群</h3>
+
+<p> 一般来说, 由于群的乘法未必可交换, 左, 右陪集 `a H, H a` 是不相等的.
+  但如果它们相等的话, 会带来许多好的性质, 这就引出正规子群的定义.
+</p>
 
 <p class="definition">
-	令 `G` 为一群, `H le G`. 如果
-	<span class="formula">
-		`(AA a in G)` `a H = H a`,
-	</span>
+	如果 `G` 的子群 `H` 满足 `AA a in G`, `a H = H a`,
 	则称 `H` 为 `G` 的一个<b>正规子群 (normal subgroup, 或不变子群,
 	或自共轭子群)</b>, 记为 `H normal G`.
-	一般地, 含同一元素的左, 右陪集 `a H, H a` 是不相等的.
-	这就体现了正规子群的特殊性.
 </p>
 
 <p class="remark">
-	正规子群的定义可以 "减弱" 为: `H` 的每一个左陪集都是一个右陪集, 即
+	正规子群的定义可以减弱为: `H` 的每一个左陪集都是一个右陪集, 即
 	<span class="formula">
 		`(AA a in G)` `(EE b in G)` `a H = H b`.
 	</span>
-	事实上, 由 `a in a H = H b` 知, `H b = H a = a H`.
-	这就证明了那个存在的右陪集其实是 `H a` 自己.
+	事实上, 由 `a in a H = H b` 知 `H b = H a`
+	这就证明了那个存在的右陪集其实就是 `H a` 自己.
 </p>
 
 <ol class="corollary">
 	<b>正规子群的等价条件</b>
-	令 `G` 为一群, `H le G`, 则下列各款等价:
+	令 `H` 是 `G` 的子群, 则下列各款等价:
 	<li>`H normal G`;</li>
 	<li>`(AA a in G)` `a H a^-1 = H`;
 		这就是正规子群又称自共轭子群的原因;
 	</li>
 	<li>`(AA a in G)` `a H a^-1 sube H`;
-		这是实用的判定条件. 也可以写成 `G H G^-1 sube H`.
+		这是实用的判定条件, 也可以写成 `G H G^-1 sube H`.
 	</li>
 </ol>
 
 <ol class="proof">
 	<li>`rArr` 2. `AA a in G`, 由 `a H = H a` 知
 		<span class="formula">
-			`a H a^-1 = (a H) a^-1 = (H a) a^-1 = H`.
+			`a H a^-1 = H a a^-1 = H`.
 		</span>
 	</li>
-	<li>`rArr` 3. 显然</li>
-	<li>`rArr` 1. `AA a in G`, 由 `a H a^-1 sube H` 同时右乘 `a` 有
-		`a H sube H a`; 另一方面, 由 `a^-1 H (a^-1)^-1 sube H`
-		同时左乘 `a` 有 `H a sube a H`. 于是 `a H = H a`.
+	<li>`rArr` 3. 显然.</li>
+	<li>`rArr` 1.
+    `AA a in G`, 由 `a H a^-1 sube H` 同时右乘 `a` 有 `a H sube H a`;
+    另一方面, 由 `a^-1 H (a^-1)^-1 sube H` 同时左乘 `a` 有 `H a sube a H`.
+    于是 `a H = H a`.
 	</li>
 </ol>
+
+<p class="remark">
+  正规子群是由若干不相交共轭类组成的. 为寻找一个群的正规子群,
+  可以从共轭类着手.
+</p>
 
 <ol class="example">
 	<li>`G`, `{e}`, 是 `G` 的两个<b>平凡正规子群</b>;</li>
 	<li>群的中心 `Z(G)` 是正规子群;</li>
 	<li>Abel 群的任一子群都是正规子群;</li>
-  <li>指数为 2 (即阶为 `|G|//2`) 的子群是正规子群;</li>
-  <li>`A_n` 是 `S_n` 的正规子群;</li>
-  <li>`SL_n(bbb F)` 是 `GL_n(bbb F)` 的正规子群.</li>
+  <li>`SL_n(bbb F) normal GL_n(bbb F)`.</li>
+  <li>`2n` 阶群中, `n` 阶子群是正规子群, 如 `A_n normal S_n`.
+    不是所有 `2n` 阶群都有这样的子群, 如, 后面将证明 `A_5`
+    只有平凡正规子群, 但它的确是偶数阶 (60) 的.
+  </li>
 </ol>
 
+<p class="proof">
+  5. 任取 `g in G\\H`, 则 `g H != H`, 因此 `g H = G\\H`.
+	同理 `H g = G\\H`, 因此 `g H = H g`.
+</p>
+
 <p class="theorem">
-	令 `G, H` 为两个群, `f: G to H` 为一群同态映射, 则
+	令 `G, H` 为两个群, `f: G to H` 为群同态, 则
 	<span class="formula">
 		`G_1 normal G rArr f(G_1) normal f(G)`,<br/>
 		`H_1 normal H rArr f^-1(H_1) normal f^-1(H) = G`.
@@ -260,7 +282,7 @@
 </p>
 
 <p class="corollary">
-	令 `f: G to H` 为一群同态映射, 则 `"Ker"f = f^-1(e_H) normal G`.
+  群同态的核是正规子群: `"Ker"f = f^-1(e_H) normal G`.
 </p>
 
 <ol class="theorem">
@@ -304,13 +326,18 @@
 </ol>
 
 <p class="remark">
+  从群中选出一个正规子群的过程好比选举班干部: 比如 `H le K le G`,
+  如果 `H normal G`, 代表 `H` 的“正规性”已经在 `G` 中得到认可,
+  那么 `H` 在 `G` 的子群 `K` 中自然也是正规的, 即 `H normal K`.
+</p>
+
+<p class="remark">
 	子群的正规性一般不具有传递性, 即 `K normal H normal G` 未必推出 `K
 	normal G`.
 </p>
 
 <p class="example">
-	`K_4 := {(1), (12)(34), (13)(24), (14)(23)} normal S_4`
-	(从而由 `K_4 le A_4 le S_4` 知, `K_4 normal A_4`)
+	`K_4 := {(1), (12)(34), (13)(24), (14)(23)}`
 	称为 <b>Klein 四元群</b>. 可验证 `K_4` 是 Abel 群.
 	`K_4` 又可写作 `{e, a, b, c}`, 满足下面的乘法表:
 </p>
@@ -352,6 +379,48 @@
 		<td>`e`</td>
 	</tr>
 </table>
+
+<div class="example">
+  <b>`A_4` 的正规子群</b>
+  令 `H = C_3`, 它只含偶置换, 是 `A_4` 的子群. 将 `A_4` 划分为 `H` 的陪集:
+  首先 `H` 自己是一个陪集, 然后任取 `a in A_4\\H`, 将 `a` 的左平移作用于
+  `H` 的每个元素, 就得到一个新的陪集 `aH`. 类似地,
+  在这两个陪集之外再取新的元素 `b`, 得到陪集 `bH`...
+  <table>
+    <tr>
+      <th>H</th>
+      <th>aH</th>
+      <th>bH</th>
+      <th>cH</th>
+    </tr>
+    <tr>
+      <td>(1)</td>
+      <td>(234)</td>
+      <td>(432)</td>
+      <td>(124)</td>
+    </tr>
+    <tr>
+      <td>(123)</td>
+      <td>(13)(24)</td>
+      <td>(143)</td>
+      <td>(14)(23)</td>
+    </tr>
+    <tr>
+      <td>(312)</td>
+      <td>(214)</td>
+      <td>(34)(21)</td>
+      <td>(341)</td>
+    </tr>
+  </table>
+  `(123) in C_3` 在 `sigma = (234) in A_4` 的共轭下变成
+  `(sigma(1) sigma(2) sigma(3)) = (134) !in C_3`, 因此 `C_3` 不是 `A_4`
+  的正规子群. 另一方面, 可以验证
+  <span class="formula">
+    `K_4 = {(1), (12)(34), (13)(24), (14)(23)}`
+  </span>
+  的任意元素被 `A_4` 中的元素共轭后仍属于 `K_4`, 因此 `K_4 normal A_4`.
+  事实上, `K_4` 是 `S_4` 的正规子群.
+</div>
 
 <h3>商群</h3>
 
@@ -768,44 +837,28 @@
 
 <p>每一栏的种类数恰好是 `n` 的素因子个数.</p>
 
-<table>
-	<tr>
-		<td>n</td>
-		<td>1</td>
-		<td>2</td>
-		<td>3</td>
-		<td>4</td>
-		<td>5</td>
-		<td>6</td>
-		<td>7</td>
-		<td>8</td>
-		<td>9</td>
-		<td>10</td>
-	</tr>
-	<tr>
-		<td>`G`</td>
-		<td>`{e}`</td>
-		<td>`ZZ_2`</td>
-		<td>`ZZ_3`</td>
-		<td>`ZZ_4`, `K_4`</td>
-		<td>`ZZ_5`</td>
-		<td>`ZZ_6`, `S_3`</td>
-		<td>`ZZ_7`</td>
-		<td>`ZZ_8`, `D_8`, `Q_8`</td>
-		<td>`ZZ_9`, `ZZ_2 xx ZZ_3`</td>
-		<td>`ZZ_10`, `D_10`</td>
-	</tr>
+<table class="col2">
+  <tr>
+    <td>1</td> <td>`{e}`</td>
+    <td>6</td> <td>`ZZ_6`, `D_6 ~= S_3`</td>
+  </tr>
+  <tr>
+    <td>2</td> <td>`ZZ_2`</td>
+    <td>7</td> <td>`ZZ_7`</td>
+  </tr>
+  <tr>
+    <td>3</td> <td>`ZZ_3`</td>
+    <td>8</td> <td>`ZZ_8`, `D_8`, `Q_8`</td>
+  </tr>
+  <tr>
+    <td>4</td> <td>`ZZ_4`, `D_4 ~= K_4`</td>
+    <td>9</td> <td>`ZZ_9`, `ZZ_3 xx ZZ_3`</td>
+  </tr>
+  <tr>
+    <td>5</td> <td>`ZZ_5`</td>
+    <td>10</td> <td>`ZZ_10`, `D_10`</td>
+  </tr>
 </table>
-
-<p class="example">
-	证明如果 `2n` 阶群 `G` 有 `n` 阶子群 `H`, 则 `H normal G`.
-	`2n` 阶群一定有 `n` 阶子群吗?
-</p>
-
-<p class="proof">
-	任取 `g in G\\H`, 则 `g H != H`, 因此 `g H = G\\H`.
-	同理 `H g = G\\H`, 因此 `g H = H g`.
-</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

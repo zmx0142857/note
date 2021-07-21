@@ -22,6 +22,7 @@ including this file:
 
 Default Configurations & API
 
+  env: undefined        // default to browser
   katexpath: 'katex.min.js',// use katex as fallback if no MathML.
   katex: undefined,     // true=always, false=never, undefined=auto
   onload: autorender,   // this function is called when asciimath is ready
@@ -259,7 +260,7 @@ AM.symbols = AM.symbols.concat([
 {input:'del',tag:'mo',output:'\u2202',tex:'partial',ttype:CONST},
 {input:'grad',tag:'mo',output:'\u2207',tex:'nabla',ttype:CONST},
 {input:'+-',tag:'mo',output:'\u00B1',tex:'pm',ttype:CONST},
-{input:'O/',tag:'mo',output:'\u2205',tex:'emptyset',ttype:CONST},
+{input:'O/',tag:'mo',output:'\u2205',tex:'varnothing',ttype:CONST},
 {input:'oo',tag:'mo',output:'\u221E',tex:'infty',ttype:CONST},
 {input:'aleph',tag:'mo',output:'\u2135',tex:null,ttype:CONST},
 {input:'...',tag:'mo',output:'...',tex:'ldots',ttype:CONST},
@@ -1075,6 +1076,14 @@ function am2tex(str) {
   AMnestingDepth = 0;
   for (d of AM.define)
     str = str.replace(d[0], d[1]);
+
+  // html entity
+  if (AM.env === 'nodejs') {
+    str = str.replace(/&#(x?[0-9a-fA-F]+);/g, (match, $1) =>
+      String.fromCodePoint($1[0] === 'x' ? '0' + $1 : $1)
+    )
+  }
+
   AMstr = str.trimLeft();
   AMbegin = 0;
   str = parseExpr(false);
@@ -1205,6 +1214,7 @@ function init() {
 }
 
 if (typeof document === 'undefined') { // nodejs
+  AM.env = 'nodejs'
   AM.katex = true
   AM.displaystyle = true
   init()

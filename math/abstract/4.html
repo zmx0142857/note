@@ -12,29 +12,31 @@
 <h3>单群</h3>
 
 <p class="definition">
-	设 `G` 为非平凡群, 称 `G` 为<b>单群</b>, 如果它
-	只有平凡的正规子群 `{e}` 和 `G`, 即
-	<span class="formula">
-		`H normal G rArr H = {e} or H = G`.
-	</span>
-	其中 `e` 为 `G` 的幺元.
+  如果一个非平凡的群 `G`, 它的正规子群只有 `{e}` 和 `G`, 则称 `G`
+  为<b>单群</b>.
 </p>
 
-<p class="theorem" id="the-simple-abel-is-prime-cyclic-group">
-	Abel 群 `G` 为一单群当且仅当它为一素数阶循环群.
-</p>
-
-<p class="proof">
-	因为 Abel 群的每个子群都是正规子群, 所以 `G`
-	为一单群当且仅当它没有非平凡的子群, 从而当且仅当 `G` 为一素数阶循环群.
-	事实上, 由 Lagrange 定理, 素数阶循环群显然无非平凡子群. 另一方面,
-	由 `G` 无非平凡子群知 `G` 中非幺元都是 `|G|` 阶的, 故 `G` 为循环群
-	`(:a:)`.  若 `|G| = mn`, `m, n gt 1`, 则 `(:a^m:)` 为一非平凡子群,
-	故 `|G|` 为素数.
+<p class="remark">
+  如同素数是构成整数的“基本粒子”, 单群是构成群的“基本粒子”.
+  那么有哪些单群呢? 下面的定理指出, 最简单的一种单群是素数阶循环群.
 </p>
 
 <p class="theorem">
-	单群在群同态映射下的像也为一单群.
+  素数阶循环群是单群; 反之单群中的 Abel 群必为素数阶循环群.
+  也就是说, 其它的单群都不满足交换律.
+</p>
+
+<p class="proof">
+  由 Lagrange 定理, 素数阶循环群显然只有平凡子群.<br>
+  反之设 `G` 为 Abel 群, 它的每个子群都是正规子群,
+  又 `G` 是单群, 所以 `G` 只有平凡的子群, 即 `G` 为素数阶循环群.
+	事实上, 取 `G` 中非单位元 `a`, 由于 `G` 只有平凡子群,
+  所以 `a` 生成整个群 `G`.  若 `|G| = mn`, `m, n gt 1`,
+  则 `(:a^m:)` 为一非平凡子群, 矛盾. 故 `|G|` 为素数.
+</p>
+
+<p class="theorem">
+	单群的同态像也是单群.
 </p>
 
 <p class="proof">
@@ -107,36 +109,45 @@
 	</li>
 </ol>
 
+<p class="remark">
+  [参见 有限单群分类定理]
+  除了素数阶循环群以外, `A_5` 是最小单群, 它的阶为 60, Cayley
+  图状如足球. 除此之外最小的单群是 168 阶的射影特殊线性群 `PSL(2,7)`.
+  全部的有限单群已经被人们发现并归类为 18 个族, 它们包括素数阶循环群
+  `C_p`, 交代群 `A_(n ge 5)` 等等.  在这些单群家族以外, 还有 26
+  个不便归类的散在单群, 其中最大的两个称为魔群和小魔群.
+</p>
+
 <h3>导群</h3>
 
 <p class="definition">
-	令 `G` 为一群, `a, b in G`, 定义
+	令 `G` 为一群, `a, b in G` 的<b>换位子 (commutor)</b>定义为
 	<span class="formula">
-		`[a, b] := a^-1 b^-1 a b`
+		`[a, b] := a^-1 b^-1 a b`.
 	</span>
-	为 `a, b` 确定的<b>换位子</b>. 又称由 `G` 中全体换位子生成的子群为 `G`
-	的<b>导群 (或换位子群)</b>, 记为
-	<span class="formula">
-		`G' := (: [a, b] | a, b in G:)`.
-	</span>
-	还可以规定高阶导群
-	<span class="formula">
-		`G^((0)) = G`,
-		`quad G^((i+1)) = (G^((i)))'`, `i = 0, 1, 2, cdots`.
-	</span>
-</p>
-
-<p class="corollary">
+  容易验证,
 	<span class="formula">
 		`a b = b a[a, b]`, `quad [a, b]^-1 = [b, a]`.
 	</span>
+  `G` 中全体换位子生成的子群称为 `G` 的<b>导群 (或换位子群)</b>:
+	<span class="formula">
+		`G' := (: [a, b] | a, b in G:)`.
+	</span>
+  如果 `G = G'`, 则称 `G` 是<b>完美 (perfect)</b> 的.
 </p>
 
 <ol class="corollary">
 	设 `e` 为群 `G` 的幺元, `a, b in G`. 则
 	<li>`a b = b a` 当且仅当 `[a, b] = e`;</li>
-	<li>`G` 为一 Abel 群当且仅当 `G' = {e}`.</li>
+	<li>`G` 为一 Abel 群当且仅当 `G' = {e}`;</li>
 </ol>
+
+<p class="remark">
+  由于 `a b` 乘以换位子就得到 `b a`,
+  换位子以及导群可以用来刻画一个群“不可交换”的程度.
+  换位子和导群越复杂, 就说明 `a b` 到 `b a` 相差得越远.
+  反之, 在 Abel 群中, 换位子和导群则简单到了极致.
+</p>
 
 <p class="corollary">
 	令 `G` 为一群, 则 `G' normal G`.
@@ -155,70 +166,72 @@
 </p>
 
 <p class="corollary">
+  单群中除了素数阶循环群就是完美群.
+</p>
+
+<p class="proof">
+  若 `G` 为单群, 由于单群的正规子群只有平凡群和它自身, 故
+  <span class="formula">
+    `G' = {e}` 或 `G' = G`.
+  </span>
+  前者说明 `G` 为 Abel 群, 即素数阶循环群; 后者说明 `G` 是完美群.
+</p>
+
+<p class="corollary">
 	`S_n' normal A_n`.
 </p>
 
 <p class="proof">
-	先证 `S_n' le A_n`. 这是因为 `S_n` 的任一换位子是偶置换.
-	任取换位子 `a^-1 b^-1 a b`, 由 `a, a^-1`; `b, b^-1` 的奇偶性分别相等知
-	`a^-1 b^-1 a b in A_n`.
-	再由 `S_n' normal S_n` 有 `S_n' normal A_n`.
+  由 `S_n` 的任一换位子是偶置换知 `S_n' le A_n`
+	(任取换位子 `a^-1 b^-1 a b`, 由 `a, a^-1`; `b, b^-1` 的奇偶性分别相等知
+	`a^-1 b^-1 a b in A_n`).
+	再由 `S_n' normal S_n` 推出 `S_n' normal A_n`.
 </p>
 
 <h3>可解群</h3>
 
 <p class="definition">
-	设 `e` 为群 `G` 的幺元. 称 `G` 为一<b>可解群</b>, 如果
-	存在非负整数 `n`, 使
+	群 `G` 的 `n` 阶导群定义为:
 	<span class="formula">
-		`G^((n)) = {e}`.
+		`G^((0)) = G`,
+		`quad G^((n+1)) = (G^((n)))'`,
+    `quad n = 0, 1, 2, cdots`.
 	</span>
+  如果存在非负整数 `n` 使 `G^((n)) = {e}`, 则称 `G`
+  是<b>可解群 (solvable group)</b>.
+  显然 Abel 群是可解群, 因为它的导群就是 `{e}`.
+</p>
+
+<p class="corollary">
+  非平凡的完美群不是可解群, 因为无论怎么求导都得到它自己.
+  反之任意不可解的有限群 `G` 存在一个 `n` 阶导群 `G^((n))` 是非平凡完美群.
+</p>
+
+
+<p class="proof">
+  若 `G^((n))` 不是完美群, 则它有真子群 `G^((n+1))`.
+  但 `G` 是有限群, 这一过程不可能无限进行下去,
+  必存在 `n` 使 `G^((n)) = G^((n+1))`. 由 `G` 不可解知 `G^((n))` 非平凡.
 </p>
 
 <ol class="corollary">
-	<li>若 `G'` 是可解群, 则 `G` 也是可解群;</li>
-	<li>若非平凡群 `G` 是可解群, 则 `G' != G`.</li>
-	<li>有限群 `G` 不可解的充要条件是存在非负整数 `i`, 使
-		`G^((i+1)) = G^((i)) != {e}`;
-	</li>
-	<li>Abel 群是可解群;</li>
-	<li>可解单群是素数阶循环群.</li>
-</ol>
-
-<ol class="proof">
-	<li>由定义显然.</li>
-	<li>显然.</li>
-	<li>充分性显然, 下证必要性.
-		假设对任意非负整数 `i`, `G^((i+1)) != G^((i))`, 则由
-		`G^((i+1)) le G^((i))` 知 `|G^((i+1))| lt |G^((i))|`, 但群 `G`
-		有限, 这是不可能的. 所以必存在非负整数 `i` 使 `G^((i+1)) =
-		G^((i))`. 由 `G` 不可解知 `G^((i+1)) = G^((i)) != {e}`.
-	</li>
-	<li>设 `G` 为 Abel 群, 则 `G' = {e}`.</li>
-	<li>令 `G` 是可解群, 则 `G' != G`.
-		若 `G` 为单群, 则 `G' = {e}`.
-		因此 `G` 是 Abel 群, 从而由<a class="ref"
-		href="#the-simple-abel-is-prime-cyclic-group"></a>,
-		是素数阶循环群.
-	</li>
+  单群中只有素数阶循环群是可解的, 其余单群都是完美群, 因而不可解.
 </ol>
 
 <p class="remark">
-	素数阶群是循环群; 循环群是 Abel 群; Abel
-	群是可解群; 可解单群是素数阶循环群.
+	可解单群 `=` 素数阶群 `sub` 循环群 `sub` Abel 群 `sub` 可解群.
 </p>
 
 <ol class="example">
 	<b>`A_n` 的可解性</b>
-	<li>`A_1, A_2` 为平凡群, 因此为可解群;</li>
-	<li>`A_3 = {(1), (123), (132)}` 为素数阶群, 也是可解群;</li>
-	<li>`A_4` 是可解群; 用换位子的定义计算可得 `A_4' = K_4`.
-		而 `K_4` 是 Abel 群, 因此是可解群.
+	<li>`A_1, A_2` 为平凡群, 是可解群;
+    `A_3` 为素数阶 (3阶) 群, 也是可解群;</li>
+	<li>`A_4` 是可解群: 用换位子的定义计算可得 `A_4' = K_4`.
+		`K_4` 是 Abel 群因而可解.
 	</li>
-	<li>`n ge 5` 时, `A_n` 不是可解群.
-		因为 `n ge 5` 时 `A_n` 为一单群, 其正规子群 `A_n' = {e}` 或 `A_n`,
-		然而 `n ge 4` 时 `A_n` 不是 Abel 群, 所以 `A_n' != {e}`, `A_n' =
-		A_n`. 从而关于任意非负整数 `k`, `A_n^((k)) = A_n`.
+	<li>`n ge 5` 时, `A_n` 为单群, 但它不是素数阶群, 因此不可解.
+    事实上, `n ge 4` 时 `A_n` 不是 Abel 群,
+    故 `n ge 5` 时 `A_n` 为完美群.
 	</li>
 </ol>
 
@@ -278,31 +291,25 @@
 
 <p class="remark">
 	在 Galois 理论中, 我们将利用 `n ge 5` 时 `S_n` 不是可解群这一结论,
-	说明五次及以上方程没有根式解.  这一推理过程是非常巧妙的.
+	说明一般五次及以上方程没有根式解.  这一推理过程是非常巧妙的.
 </p>
 
 <ol class="theorem">
-	`G` 为一群, `n` 为非负整数,
-	<li>`H le G` `rArr H^((n)) le G^((n))`.</li>
-	<li>`varphi` 是 `G` 上的群同态, 则
-		`(varphi(G))^((n)) = varphi(G^((n)))`;
-	</li>
+	令 `G` 为一群, `varphi` 是群同态, 则
+	<li>`H le G` `rArr H' le G'`;</li>
+	<li>`(varphi(G))' = varphi(G')`.</li>
 </ol>
 
 <ol class="proof">
-	<li>因为 `H le G`, `H` 的换位子都是 `G` 的换位子, 从而 `H' le G'`.
-		由数学归纳法可证 `H^((n)) le G^((n))`.
-	</li>
+	<li>因为 `H le G`, `H` 的换位子都是 `G` 的换位子, 从而 `H' le G'`.</li>
 	<li>`AA a, b in G`, `[varphi(a), varphi(b)] = varphi[a, b]`,
 		从而 `(varphi(G))' = varphi(G')`.
-		由数学归纳法可证 `(varphi(G))^((n)) = varphi(G^((n)))`.
 	</li>
 </ol>
 
-<ol class="corollary">
-	<li>可解群的子群是可解群.</li>
-	<li>可解群的同态像是可解群;</li>
-</ol>
+<p class="corollary">
+	可解群的子群和同态像均为可解群.
+</p>
 
 <ol class="corollary">
 	令 `G` 为一群, `N normal G`, 则
@@ -415,7 +422,7 @@
 	合成群列是次正规群列, 正规群列是次正规群列.
 </p>
 
-<h3>利用特征子群给出可解群的等价条件</h3>
+<h3>可解群的等价条件</h3>
 
 <p class="definition">
 	设群 `H le G`, 如果对 `G` 上任意自同构映射 `sigma` (即 `sigma in
@@ -514,6 +521,7 @@
 </p>
 
 <ol class="theorem" id="the-solvable-iff">
+  <b>可解群的等价条件</b>
 	令 `G` 为一群, 则以下几款等价:
 	<li>`G` 可解;</li>
 	<li>`G` 有一正规群列, 且它的所有正规因子都为 Abel 群;</li>
@@ -542,9 +550,10 @@
 	</li>
 </ol>
 
-<p class="theorem">
+<p class="corollary">
 	非平凡有限群 `G` 可解当且仅当 `G` 有一合成群列,
 	且它的所有合成因子都为素数阶循环群.
+  换言之, 有限可解群是由最简单的单群——素数阶循环群合成的.
 </p>
 
 <p class="proof">
@@ -589,15 +598,16 @@
 </ol>
 
 <p class="definition">
-	令 `G` 为一群, `a in G`, 定义由 `a` 确定的 `G` 的<b>内自同构</b>如下:
-	<span class="formula">
-		`tau_a: G to G`<br/>
-		`g to a g a^-1`
-	</span>
-	可以验证 `tau_a in "Aut"(G)`.
-	`G` 的全体内自同构的集合记为 `"Inn"(G)`, 可以验证 `"Inn"(G) normal
-	"Aut"(G)`, 称 `"Inn"(G)` 为 `G` 的<b>内自同构群</b>,
-	`"Aut"(G)//"Inn"(G)` 为 `G` 的<b>外自同构群</b>.
+  群 `G` 中全体共轭变换构成 `G` 的<b>内自同构群</b>
+  <span class="formula">
+    `"Inn"(G) = { tau_a | a in G }`,
+  </span>
+  其中 `tau_a: g in G mapsto a g a^-1 in G`.
+  可以验证 `"Inn"(G) normal "Aut"(G)`, 又称
+  <span class="formula">
+    `"Aut"(G)//"Inn"(G)`
+  </span>
+  为 `G` 的<b>外自同构群</b>.
 </p>
 
 <ol class="proof">
@@ -629,10 +639,7 @@
 </ol>
 
 <p class="theorem" id="the-inn-isomorphism">
-	令 `G` 为一群, 则
-	<span class="formula">
-		`"Inn"G ~= G//Z(G)`.
-	</span>
+	令 `G` 为一群, 则 `"Inn"G ~= G//Z(G)`.
 </p>
 
 <p class="proof">
@@ -657,12 +664,8 @@
 </p>
 
 <p class="definition">
-	令群 `H le G`, `g in G`, 则 `g H g^-1 le G`, 称为 `H` 在 `G`
-	中的共轭子群.
-</p>
-
-<p class="corollary">
-	令群 `H le G`, `g in G`, 则 `H ~= g H g^-1`.
+	令群 `H le G`, `g in G`, 则 `g H g^-1 ~= H`, 称为 `H` 在 `G`
+  中的<b>共轭子群</b>.
 </p>
 
 <p class="proof">
@@ -676,7 +679,8 @@
 </p>
 
 <p class="definition">
-	令群 `H le G`. 定义 `H` 的<b>正规化子</b>和<b>中心化子</b>如下:
+	令群 `H le G`. 定义 `H` 的<b>正规化子
+    (normalizer)</b>和<b>中心化子 (centralizer)</b>如下:
 	<span class="formula">
 		`N_G(H) := {g in G | g H g^-1 = H} = {g in G | g H = H g}`,<br/>
 		`Z_G(H) := {g in G | (AA h in G) g h = h g}`.
@@ -748,8 +752,8 @@
 
 <p class="remark">
 	在上面的推论中取 `H = G`, 可以看到<a class="ref"
-	href="#the-inn-isomorphism-advanced"></a>是<a class="ref"
-	href="#the-inn-isomorphism"></a>的推广.
+	href="#the-inn-isomorphism-advanced"></a> 是<a class="ref"
+	href="#the-inn-isomorphism"></a> 的推广.
 </p>
 
 <p class="example">

@@ -579,8 +579,14 @@
       `(x_(n+1) - 3) 6^(n+1)`
       `= 6/(sqrt(6+x_n) + 3) (x_n - 3) 6^n`.
     </span>
+    问题化为
+    <span class="formula">
+      `prod_(n ge 1) 6/(sqrt(6+x_n)+3)`.
+    </span>
     ??
   </li>
+  *如果把题目的 6 改成 2, 则可以找到 `x_(n+1)^2 = x_n + 2` 的解
+  `x_n = 2cos(pi//2^(n+1))`, 所求极限为 `pi^2//4`.
 </ol>
 
 <ol class="theorem">
@@ -831,8 +837,10 @@
 </p>
 
 <p class="example">
-	`lim_(n to oo) (H_(2n) - H_n)`
-	`= lim_(n to oo) sum_(k=1)^n 1/(n+k) = ln 2`.
+  设 `x_n = H_(2n) - H_n`
+  `= sum_(k=1)^n 1/(n+k)`
+  `= sum_(k=1)^(2n) (-1)^(k-1)/k`,
+  则 `lim x_n = ln 2`.
 </p>
 
 <p class="proof">
@@ -861,12 +869,12 @@
 	</span>
 </p>
 
-<p class="remark">
+<p class="remark" id="rem-cauchy">
 	用 Cauchy 不等式可以得到
 	<span class="formula">
 		`(H_(2n)-H_n)^2 lt n sum_(k=1)^n 1/(n+k)^2`
 		`lt n sum_(k=1)^n 1/((n+k)(n+k-1))`
-		`= n (1/n - 1/(2n)) = 1/2`.
+		`= n (1/n - 1/(2n)) = 1/2`
 	</span>
 	和
 	<span class="formula">
