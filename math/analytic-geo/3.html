@@ -667,6 +667,32 @@
 	</li>
 </ol>
 
+<h2>三次曲线、叶形线</h2>
+
+<p class="example">
+  平面上原点关于抛物线 `y = -ax^2` 在 `x=t` 处的切线
+  `y + a t^2 = -2a t(x-t)`
+  的对称点为
+  <span class="formula">
+    `(2at^2)/(1+4a^2 t^2) (2a t, 1)`.
+  </span>
+  利用 `y = (2at^2)/(1+4a^2 t^2)` 解出 `t^2`, 代入 `x^2` 的表达式,
+  就可以消去参数 `t`, 得到:
+  <span class="formula">
+    `y^3 = x^2(1-2a y)`.
+  </span>
+</p>
+
+<div class="img sm">
+  <canvas id="exp-parabola-cubic" width="400" height="150"></canvas>
+</div>
+
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script>
+new Plot('exp-parabola-cubic')
+  .geometry({ xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5 }).axis()
+  .plot(t => t**3/(1+t**2), t => t**2/(1+t**2), { min: -5, max: 5})
+</script>
 </body>
 </html>

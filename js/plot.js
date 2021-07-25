@@ -1,4 +1,4 @@
-(function(){
+;(function(){
 
 'use strict'
 function getDefault(val, defaultVal) {
@@ -73,10 +73,22 @@ Plot.prototype.clear = function() {
   return this
 }
 
+function getProperTick(range, pixels) {
+  const tick = range * 80 / pixels // 80px per tick
+  const properTick = Math.pow(10, Math.floor(Math.log10(tick)))
+  const ratio = tick / properTick
+  // tick 的大小总是 2, 5, 10 这样的数字
+  return properTick * (
+    ratio > 4
+    ? (ratio > 8 ? 10 : 5)
+    : (ratio > 1.5 ? 2 : 1)
+  )
+}
+
 Plot.prototype.axis = function(config) {
   config = config || {}
-  config.xtick = config.xtick || 1
-  config.ytick = config.ytick || 1
+  config.xtick = config.xtick || getProperTick(this.xmax-this.xmin, this.canvas.width)
+  config.ytick = config.ytick || getProperTick(this.ymax-this.ymin, this.canvas.height)
   config.xlabel = config.xlabel || config.xtick
   config.ylabel = config.ylabel || config.ytick
 
@@ -95,6 +107,10 @@ Plot.prototype.axis = function(config) {
 
   function myceil(x, step) {
     return Math.ceil(x / step) * step
+  }
+  // TODO round the labels
+  function myround(x) {
+    return Math.round(x * 100) / 100
   }
   // 刻度
   for (var x = myceil(this.xmin, config.xtick); x <= this.xmax; x += config.xtick) {
@@ -151,8 +167,7 @@ function isPlainObject (o) {
 
 // 散点图
 Plot.prototype.plotPoints = function (map, config={}) {
-  const keys = Object.keys(map),
-        values = Object.values(map)
+  const keys = Object.keys(map), values = Object.values(map)
   this.geometry({
     xmin: Math.min.apply(null, keys),
     xmax: Math.max.apply(null, keys),

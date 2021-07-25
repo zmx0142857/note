@@ -391,6 +391,90 @@
 	</span>
 </p>
 
+<h2>微分形式与外微分运算</h2>
+
+[来自 <a href="https://zhuanlan.zhihu.com/p/392443514">茶凉凉凉凉</a>]
+
+<ol class="definition">
+  <b>外积</b>
+  观察多元积分换元公式
+  <span class="formula">
+    `"d"u"d"v = (del(u, v))/(del(x, y)) dx dy`,
+  </span>
+  如果将 `x, y` 的次序对调, 得到
+  <span class="formula">
+    `dy dx = (del(y, x))/(del(x, y)) dx dy`
+    `= |y_x, y_y; x_x, x_y| dx dy`
+    `= |0, 1; 1, 0| dx dy`
+    `= -dx dy`.
+  </span>
+  这个性质类似于向量的外积, 我们也把它称为外积, 写作 `dx ^^ dy`.
+  外积运算满足
+  <li>线性性. `(P dx + Q dy)^^ "d"u = P dx "d"u + Q dy "d"u`;</li>
+  <li>反对称性. `dx ^^ dy = - dy ^^ dx`.</li>
+  由反对称性立即得到 `dx ^^ dx = 0`.
+</ol>
+
+<p class="definition">
+  普通的多元函数 `f` 称为<b>零阶微分形式</b>.
+  `dx, dy, dz` 以及它们的线性组合 (系数是普通函数, 如 `P dx + Q dy`)
+  称为<b>一阶微分形式</b>.
+  `dx ^^ dy`, `dy ^^ dz`, `dz ^^ dx`
+  以及它们的线性组合称为<b>二阶微分形式</b>.
+  `dx ^^ dy ^^ dz := (dx ^^ dy) ^^ dz` 以及它的线性组合 (乘以一个普通函数)
+  称为<b>三阶微分形式</b>. 在三维空间中, 最高只有三阶微分形式.
+</p>
+
+<ol class="definition">
+  一个微分形式 `omega` 的<b>外微分</b>记为 `"d"omega`.
+  用 `f` 表示一个零阶微分形式, 我们规定外微分运算满足:
+  <li>线性性: `"d"(omega_1 + omega_2) = "d"omega_1 + omega_2`;</li>
+  <li>`"d" f = grad f * "d"bm r`;</li>
+  <li>`"d"(f omega) = "d"f ^^ "d"omega`.</li>
+  第二条表明零阶微分形式的外微分就是它的全微分,
+  如二维平面上 `"d" f = (del f)/(del x) dx + (del f)/(del y) dy`.
+</ol>
+
+<ol class="example">
+  <b>外微分下的三大公式</b>
+  <li>Green: `"d"(P dx + Q dy)`
+    `= ((del Q)/(del x) - (del P)/(del y)) dx ^^ dy`.
+  </li>
+  <li>Stokes: `"d"(P dx+Q dy+R dz)`
+    `= ((del R)/(del y)-(del Q)/(del z)) dy ^^ dz`
+    `+ ((del P)/(del z)-(del R)/(del x)) dz ^^ dx`
+    `+ ((del Q)/(del x)-(del P)/(del y)) dx ^^ dy`.
+  </li>
+  <li>Gauss: `"d"(P dy^^dz + Q dz^^dx + R dx^^dy)`
+    `= ((del P)/(del x) +(del Q)/(del y) + (del R)/(del z)) dx ^^ dy ^^ dz`.</li>
+  至此三大公式, 包括 Newton-Leibniz 公式都统一写成:
+  <span class="formula">
+    `int_(del D) omega = int_D "d" omega`.
+  </span>
+</ol>
+
+<ol class="proof">
+  <li>左边等于
+    <span class="formula">
+      `"d"P ^^ dx + "d"Q ^^ dy`
+      `= ((del P)/(del x) dx + (del P)/(del y) dy) ^^ dx`
+      `+ ((del Q)/(del x) dx + (del Q)/(del y) dy) ^^ dy`
+    </span>
+    等于右边.
+  </li>
+  <li>和 Green 公式完全类似.</li>
+  <li>第一项
+    <span class="formula">
+      `"d"P ^^ dy ^^ dz`
+      `= ((del P)/(del x)dx+(del P)/(del y)dy+(del P)/(del z)dz) ^^ dy ^^
+      dz`
+      `= (del P)/(del x) dx ^^ dy ^^ dz`.
+    </span>
+    其余两项是类似的 (注意 `dx ^^ dy ^^ dz = dy ^^ dz ^^ dx = dz ^^ dx ^^
+    dy`).
+  </li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
