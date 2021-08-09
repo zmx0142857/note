@@ -601,12 +601,13 @@
 </p>
 
 <p class="theorem">
-	<b>均值不等式</b>
+	<b>均值不等式 (AM-GM)</b>
 	设 `x_1, x_2, cdots, x_n gt 0`, 则
 	<span class="formula">
 		`root n (prod_(k=1)^n x_k) le 1/n sum_(k=1)^n x_k`,
 	</span>
 	等号成立当且仅当 `x_1 = x_2 = cdots = x_n`.
+  均值不等式指出, 算术平均大于几何平均, 即 AM &ge; GM.
 </p>
 
 <p class="proof">
@@ -992,20 +993,6 @@
   <li>`sum a^3 + 3 sum a^2(b+c) ge 21 a b c`;</li>
 </ol>
 
-<p class="corollary">
-  ?? 设矩阵 `bm X = (x_(i j))_(m xx n)` 的每一行都非负单增, 即
-  <span class="formula">
-    `0 le x_(i 1) le x_(i 2) le cdots le x_(i n)`,
-    `quad i = 1, 2, cdots, m`.
-  </span>
-  又设 `(y_(i j))_(m xx n)` 的第 `i` 行是 `bm X` 第 `i` 行的任意排列,
-  `i = 1, 2, cdots, m`, 则
-  <span class="formula">
-    `sum_(j=1)^n prod_(i=1)^m x_(i j)`
-    `ge sum_(j=1)^n prod_(i=1)^m y_(i j)`.
-  </span>
-</p>
-
 <h3>Schur 不等式</h3>
 
 <p class="theorem">
@@ -1069,19 +1056,29 @@
 </ol>
 
 <ol class="proof">
-    <li>
-        <span class="formula">
-            `sum cos A = sum (b^2+c^2-a^2)/(2b c)`
-            `= (sum a(b^2+c^2) - sum a^3)/(2a b c)`
-            `= (sum a^2(b+c) - sum a^3)/(2a b c)`.
-        </span>
-        在 Schur 不等式中取 `t = 1` 有
-        <span class="formula">
-            `sum a^3 - sum a^2(b+c) ge sum a b c = 3 a b c`,
-        </span>
-        代入上式即得证.
-    </li>
-    <li>??</li>
+  <li>
+    <span class="formula">
+      `sum cos A = sum (b^2+c^2-a^2)/(2b c)`
+      `= (sum a(b^2+c^2) - sum a^3)/(2a b c)`
+      `= (sum a^2(b+c) - sum a^3)/(2a b c)`.
+    </span>
+    在 Schur 不等式中取 `t = 1` 有
+    <span class="formula">
+      `sum a^3 - sum a^2(b+c) ge sum a b c = 3 a b c`,
+    </span>
+    代入上式即得证.
+  </li>
+  <li>??</li>
+</ol>
+
+<ol class="example">
+  <b>SOS-Schur 方法</b>
+  <li>将表达式配凑成 `L(b-c)^2 + M(c-a)^2 + N(a-b)^2`,
+    若 `L, M, N ge 0`, 则整个表达式非负.</li>
+  <li>将轮换表达式配凑成 `M(a-b)^2 + N(c-a)(c-b)`,
+    若 `M, N ge 0`, 由于 `a, b, c` 轮换, 可以假定 `c` 最大 (或最小),
+    从而表达式非负.
+  </li>
 </ol>
 
 <h3>`uvw` 方法</h3>
@@ -1147,6 +1144,153 @@
 
 <p class="theorem">
 	<b>Tejs 定理</b>
+  轮换且变元非负的三元函数 `f(a, b, c)` 取得最值的必要条件是 `a = b = c`
+  或其中一个变元为零.
+</p>
+
+<p class="example">
+	已知 `a, b, c gt 0`, 则 `(a+b+c)^2 le 3(a^2 + b^2 + c^2)`.
+</p>
+
+<p class="proof">
+	这个不等式可以直接用 Cauchy 不等式得到.
+	现在用二元均值不等式证明之. 原式成立当且仅当
+	<span class="formula">
+		`a^2 + b^2 + c^2 + 2(a b + b c + c a) le 3(a^2 + b^2 + c^2)`,
+	</span>
+	即证
+	<span class="formula">
+		`a b + b c + c a le a^2 + b^2 + c^2`.
+	</span>
+	上式由 `2 a b le a^2+b^2`, `2 b c le b^2 + c^2` 和 `2 c a le c^2
+	+ a^2` 相加得到. 等号成立当且仅当 `a = b = c`.
+</p>
+
+<p class="example">
+	已知 `a, b, c gt 0` 且 `a b c = 1`, 则 `sqrt a + sqrt b + sqrt
+	c le a b + b c + c a`.
+</p>
+
+<p class="proof">
+	即证
+	<span class="formula">
+		`1/sqrt(b c) + 1/sqrt(c a) + 1/sqrt(a b)
+		le 1/a + 1/b + 1/c`,
+	</span>
+	上式由
+	<span class="formula">
+		`1/sqrt(b c) le 1/2(1/b + 1/c)`,
+		`quad 1/sqrt(c a) le 1/2(1/c + 1/a)`
+		`quad 1/sqrt(a b) le 1/2(1/a + 1/b)`
+	</span>
+	相加得到. 等号成立当且仅当 `a = b = c = 1/3`.
+</p>
+
+<p class="example">
+	已知 `a, b, c gt 0` 且 `a + b + c = 4 - sqrt(a b c)`,
+	则 `sqrt((b c)/a) + sqrt((c a)/b) + sqrt((a b)/c) ge a + b + c`.
+</p>
+
+<p class="proof">
+<!--
+	由 `a + b + c = 4 - sqrt(a b c)` 应用四元均值不等式有
+	<span class="formula">
+		`5 - sqrt(a b c) = a + b + c + 1`
+		`ge 4 root 4(a b c)`,
+	</span>
+	解得 `root4(a b c) in [0, 1]`.
+	现在原式等价于
+	<span class="formula">
+		`sqrt(a b c) (1/a + 1/b + 1/c) ge 4 - sqrt(a b c)`,
+	</span>
+	即
+	<span class="formula">
+		`1/a + 1/b + 1/c + 1 ge 4/sqrt(a b c)`.
+	</span>
+	由四元均值不等式,
+	<span class="formula">
+		`1/a + 1/b + 1/c + 1`
+		`ge 4/root4(a b c)`
+	</span>
+  ?? 放过了
+-->
+</p>
+
+<p class="example">
+  正数 `a, b, c` 满足 `a^2 + b^2 + c^2 = 1`, 证明
+  `a + b + c + 1/(a b c) ge 4 sqrt 3`.
+</p>
+
+<p class="proof">
+  用 Tejs 定理检验: `a = b = c = 1/sqrt 3` 时左边恰好等于 `4 sqrt 3`,
+  而 `c to 0` 时左边趋于正无穷大, 因而左边的最小值确实是 `4 sqrt 3`.
+  下面来证明它.  由均值不等式,
+  <span class="formula">
+    `a+b+c = (a^2+b^2+c^2)(a + b + c) ge 9 a b c`,
+  </span>
+  于是
+  <span class="formula">
+    `"LHS" ge 9 a b c + (a^2+b^2+c^2)/(a b c)`
+    `= 9 a b c + a/(b c) + b/(c a) + c/(a b)`
+    `ge 4 root 4 (9 a b c * a/(b c) * b/(c a) * c/(a b))`
+    `= 4 sqrt 3`.
+  </span>
+</p>
+
+<p class="remark">
+  如果题目的数字改成 `a^2+b^2+c^2=3`, 证明 `a+b+c+1/(a b c) ge 4`,
+  则直接用均值不等式即可. 可见只要换一换数字, 难度就完全不同.
+</p>
+
+<p class="example">
+  对正数 `a, b, c` 有
+  `(a+b+c)/root 3 (a b c)`
+  `le a/b+b/c+c/a`
+  `le (a+b+c)/(3a b c)(a^2+b^2+c^2)`.
+</p>
+
+<p class="proof">
+  利用均值不等式得
+  <span class="formula">
+    `a/b + a/b + b/c ge 3 a/root 3 (a b c)`,
+  </span>
+  上式轮换求和得到 `3(a/b + b/c + c/a) ge 3 (a+b+c)/root 3 (a b c)`.
+  另一方面,
+  <span class="formula">
+    `a/b + a/b + b/c`
+    `= a/(a b c)(b^2+2a c)`
+    `le a/(a b c)(a^2+b^2+c^2)`,
+  </span>
+  轮换求和得
+  <span class="formula">
+    `3(a/b+b/c+c/a) le (a+b+c)/(a b c) (a^2+b^2+c^2)`.
+  </span>
+</p>
+
+<p class="example">
+  设正数 `a, b, c` 满足 `a^2 + b^2 + c^2 = 3`, 则
+  <span class="formula">
+    `a/b+b/c+c/a + abc ge 4`.
+  </span>
+</p>
+
+<p class="proof">
+  先证 `sum a/b ge sqrt(3(a^2+b^2+c^2))/root 3 (a b c)`.
+  只需利用由均值不等式,
+  <span class="formula">
+    `(sum a/b)^2`
+    `= sum a^2/b^2 + sum a/c + sum a/c`
+    `ge 3 sum root 3(a^2/b^2 a/c a/c`)
+    `= 3 sum a^2/(a b c)^(2//3)`.
+  </span>
+  于是
+  <span class="formula">
+    `sum a/b + a b c`
+    `ge 3/root 3(a b c) + a b c`
+    `= 1/root 3(a b c) + 1/root 3(a b c) + 1/root 3(a b c) + a b c`
+    `ge 4`.
+  </span>
+  等号在 `a = b = c = 1` 时成立.
 </p>
 
 <h2>杂例</h2>
@@ -1409,72 +1553,6 @@
 </ol>
 
 <p class="example">
-	已知 `a, b, c gt 0`, 则 `(a+b+c)^2 le 3(a^2 + b^2 + c^2)`.
-</p>
-
-<p class="proof">
-	这个不等式可以直接用 Cauchy 不等式得到.
-	现在用二元均值不等式证明之. 原式成立当且仅当
-	<span class="formula">
-		`a^2 + b^2 + c^2 + 2(a b + b c + c a) le 3(a^2 + b^2 + c^2)`,
-	</span>
-	即证
-	<span class="formula">
-		`a b + b c + c a le a^2 + b^2 + c^2`.
-	</span>
-	上式由 `2 a b le a^2+b^2`, `2 b c le b^2 + c^2` 和 `2 c a le c^2
-	+ a^2` 相加得到. 等号成立当且仅当 `a = b = c`.
-</p>
-
-<p class="example">
-	已知 `a, b, c gt 0` 且 `a b c = 1`, 则 `sqrt a + sqrt b + sqrt
-	c le a b + b c + c a`.
-</p>
-
-<p class="proof">
-	即证
-	<span class="formula">
-		`1/sqrt(b c) + 1/sqrt(c a) + 1/sqrt(a b)
-		le 1/a + 1/b + 1/c`,
-	</span>
-	上式由
-	<span class="formula">
-		`1/sqrt(b c) le 1/2(1/b + 1/c)`,
-		`quad 1/sqrt(c a) le 1/2(1/c + 1/a)`
-		`quad 1/sqrt(a b) le 1/2(1/a + 1/b)`
-	</span>
-	相加得到. 等号成立当且仅当 `a = b = c = 1/3`.
-</p>
-
-<p class="example">
-	已知 `a, b, c gt 0` 且 `a + b + c = 4 - sqrt(a b c)`,
-	则 `sqrt((b c)/a) + sqrt((c a)/b) + sqrt((a b)/c) ge a + b + c`.
-</p>
-
-<p class="proof">
-	由 `a + b + c = 4 - sqrt(a b c)` 应用四元均值不等式有
-	<span class="formula">
-		`5 - sqrt(a b c) = a + b + c + 1`
-		`ge 4 root 4(a b c)`,
-	</span>
-	解得 `root4(a b c) in [-5, 1]`.
-	现在证明原不等式. 原式等价于
-	<span class="formula">
-		`sqrt(a b c) (1/a + 1/b + 1/c) ge 4 - sqrt(a b c)`,
-	</span>
-	即
-	<span class="formula">
-		`1/a + 1/b + 1/c + 1 ge 4/sqrt(a b c)`.
-	</span>
-	由四元均值不等式,
-	<span class="formula">
-		`1/a + 1/b + 1/c + 1`
-		`ge 4/root4(a b c)`
-	</span>
-	??
-</p>
-
-<p class="example">
 	已知 `x y^2 (x+y) = 9`, 求 `min(2x+y)`.
 </p>
 
@@ -1629,6 +1707,43 @@
 
 <p class="proof">
   提示: 用归纳法和均值不等式.
+</p>
+
+<p class="example">
+  设 `a, b gt 0`, 求 `min(1/a + a/b^2 + b)`.
+</p>
+
+<p class="solution">
+  使用四元均值不等式,
+  <span class="formula">
+    `1/a + a/b^2 + b/2 + b/2`
+    `ge 4 root (1/4) = 2 sqrt 2`.
+  </span>
+  等号成立当且仅当 `a = b = sqrt 2`.
+</p>
+
+<p class="example">
+  已知 `x^2 + 2 x y = 1`, 求 `min(x^2 + y^2)`.
+</p>
+
+<p class="solution">
+  将 `y = 1/2(1/x - x)` 代入得
+  <span class="formula">
+    `x^2 + y^2`
+    `= 5/4 x^2 + 1/(4 x^2) - 1/2`
+    `ge 2 sqrt(5/4 1/4) - 1/2`
+    `= (sqrt 5-1)/2`.
+  </span>
+</p>
+
+<p class="solution">
+  设 `a in (0, 1)` 满足 `a = sqrt(1-a)`, 于是
+  <span class="formula">
+    `a x^2 + (1-a) x^2 + y^2`
+    `ge a x^2 + 2 x y sqrt(1-a)`
+    `= a (x^2 + 2 x y) = a`.
+  </span>
+  解得 `a = (sqrt 5-1)/2`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
