@@ -589,6 +589,36 @@
   `int_0^y f(t) dt` 和 `y` 均为有界量, 当 `n to oo` 时上式趋于 `I//T`.
 </p>
 
+<p class="example">
+  [来自 我是萌萌的數心]
+  求 `I(m, n) = int_0^(pi/2) cos^m x cos n x dx`, `m, n` 为非负整数.
+</p>
+
+<p class="solution">
+  先证 `I(m, n) = m/(m+n) I(m-1, n-1)`. 这是因为由积化和差
+  <span class="formula">
+    `2 I(m, n) = I(m-1, n-1) + I(m-1, n+1)`,
+  </span>
+  另一方面, 分部积分得
+  <span class="formula">
+    `I(m, n) = m/n int_0^(pi/2) cos^(m-1) x sin x sin n x dx`
+    `= m/(2n) (I(m-1, n-1) - I(m-1, n+1))`.
+  </span>
+  两式联立消去 `I(m-1, n+1)` 得 `I(m, n) = m/(m+n) I(m-1, n-1)`.<br>
+  下证
+  <span class="formula">
+    `I(m, m + 2n + 1) = (-1)^n (2^m m! (2n)! (m+n)!)/(n! (2m+2n+1)!)`.
+  </span>
+  这只需验证 `I(0, 2n+1) = (-1)^n/(2n+1)`, 假设命题对 `m-1` 成立, 则
+  <span class="formula">
+    `I(m, m+2n+1)`
+    `m/(2m+2n+1) I(m-1, m+2n)`
+    `= m/(2m+2n+1) (-1)^n (2^(m-1) (m-1)! (2n)! (m+n-1)!)/(n! (2m+2n-1)!)`
+    `= (-1)^n (2^m m! (2n)! (m+n)!)/(n! (2m+2n+1)!)`.
+  </span>
+  又因为 `I(0, 2n) = 0`, 故 `I(m, m+2n) = 0`.
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
