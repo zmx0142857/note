@@ -1268,6 +1268,46 @@
 </p>
 
 <p class="example">
+  <span class="formula">
+    `a/b + b/c + c/a le (a+b+c)^3/(8(a b c+x y z))`,
+  </span>
+  其中 `a = x+y, b = y+z, c = z+x`, `x, y, z gt 0`.
+</p>
+
+<p class="proof">
+  [来自 我是脑子卡壳且啥都不会的废物]
+  利用恒等式 `(x+y)(y+z)(z+x) + x y z = (x+y+z)(x y+y z+z x)`,
+  原不等式化为
+  <span class="formula">
+    `sum_"cyc" (x+y)/(y+z) le (x+y+z)^3/((x+y+z)(x y+y z+z x))`
+  </span>
+  即证
+  <span class="formula">
+    `(x y+y z+z x) sum_"cyc"(x+y)/(y+z) le (x+y+z)^2`.
+  </span>
+  左边等于
+  <span class="formula">
+    `sum_"cyc" (x(x+y) + (y z)/(y+z) (x+y) )`
+    `= x^2+y^2+z^2 + x y + y z + z x + sum_"cyc" (y z)/(y+z) (x+y)`
+  </span>
+  只需证
+  <span class="formula">
+    `sum_"cyc" (y z)/(y+z) (x+y) le x y+y z+z x`.
+  </span>
+  设 `x gt y gt z`, 则
+  <span class="formula">
+    `x + y gt x + z gt y + z`,
+    `quad (x^-1+y^-1)^-1 gt (x^-1+z^-1)^-1 gt (y^-1+z^-1)^-1`.
+  </span>
+  由排序不等式得
+  <span class="formula">
+    `sum_"cyc" (y z)/(y+z) (x+y)`
+    `le sum_"cyc" (y z)/(y+z) (y+z)`
+    `= sum_"cyc" y z`.
+  </span>
+</p>
+
+<p class="example">
   设正数 `a, b, c` 满足 `a^2 + b^2 + c^2 = 3`, 则
   <span class="formula">
     `a/b+b/c+c/a + abc ge 4`.

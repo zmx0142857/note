@@ -616,7 +616,23 @@
     `= m/(2m+2n+1) (-1)^n (2^(m-1) (m-1)! (2n)! (m+n-1)!)/(n! (2m+2n-1)!)`
     `= (-1)^n (2^m m! (2n)! (m+n)!)/(n! (2m+2n+1)!)`.
   </span>
-  又因为 `I(0, 2n) = 0`, 故 `I(m, m+2n) = 0`.
+  最后, 因为 `I(0, 2n) = {pi/2, if n = 0; 0, otherwise:}`,
+  所以 `I(m, m+2n) = { pi/2^(m+1), if n = 0; 0, otherwise :}`.
+</p>
+
+<p class="example">
+  [来自 我是萌萌的數心] 求`I_n = int_(-oo)^oo  dx/(x^2+2ax+b)^n`, 其中 `Delta = 4(a^2-b) lt 0`.
+</p>
+
+<p class="solution">
+  令 `x+a = sqrt(b-a^2) tan u`,
+  <span class="formula align">
+    `I_n = int_(-pi/2)^(pi/2) sqrt(b-a^2)/cos^2 u ("d"u)/((b-a^2)^n(1+tan^2 u)^n)`<br>
+    `= (b-a^2)^(1/2-n) int_(-pi/2)^(pi/2) cos^(2n-2) u "d"u`<br>
+    `= (b-a^2)^(1/2-n) pi ((2n-3)!!)/((2n-2)!!)`<br>
+    `= (b-a^2)^(1/2-n) pi ((2n-2)!)/((n-1)!^2 2^(2n-2))`<br>
+    `= (b-a^2)^(1/2-n) pi/2^(2n-2) (2n-2;n-1)`.
+  </span>
 </p>
 
 <script src="../../js/note.js?type=math"></script>
