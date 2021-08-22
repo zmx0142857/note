@@ -713,6 +713,33 @@
 	它是幂等矩阵, 但可逆的幂等矩阵只有单位阵, 所以它不可逆.
 </p>
 
+<p class="example">
+  [来自 ζ(me)=0]
+  设方阵 `bm A` 满足 `bm A^2 = 2 bm A`, 讨论以下矩阵是否可逆:
+  <span class="formula">
+    `bm A-bm I`, `bm A+2bm I`, `bm A - 2bm I`.
+  </span>
+</p>
+
+<ol class="solution">
+  <li>`(bm A-bm I)^2 = bm A^2 - 2bm A + bm I = bm I`, 因此 `bm A - bm I`
+    的逆就是自己;
+  </li>
+  <li>设 `(bm A+2bm I)(x bm A + y bm I) = bm I`,
+    于是 `bm I = x bm A^2 + (2x+y) bm A + 2y bm I`
+    `= (4x+y) bm A + 2y bm I`. 取 `y = 1/2`, `x = -1/8` 即可.
+  </li>
+  <li>2 的方法在这里失效:
+    `(bm A - 2 bm I)(x bm A + y bm I)`
+    `x bm A^2 + (y-2x) bm A -2y bm I`
+    `= y (bm A - 2 bm I)`. 事实上, 由 `bm A^2 = 2 bm A` 知道 `bm A`
+    的零化多项式是 `x^2 - 2x`, 因此 `bm A` 可能的特征值是 0 和 2.
+    当 `bm A` 有特征值 2 时, `|bm A - 2 bm I| = 0`, 不可逆;
+    当 `bm A` 的特征值全为 0, 比如 `bm A = bm O` 或 `[0, 1; 0, 0]` 时,
+    `bm A - 2 bm I` 可逆.
+  </li>
+</ol>
+
 <h2>矩阵的初等变换</h2>
 
 <ol class="definition">

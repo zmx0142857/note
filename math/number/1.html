@@ -520,6 +520,15 @@
 
 <h3>Fermat 小定理</h3>
 
+<p class="lemma">
+  <b>Frobenius 自同构</b> ??
+  对任意整数 `a, b`, 素数 `p` 和非负整数 `n` 有
+  <span class="formula">
+    `(a+b)^(p^n) -= a^(p^n) + b^(p^n) (mod p)`,
+  </span>
+  特别 `(a+b)^p -= a^p + b^p (mod p)`.
+</p>
+
 <ol class="theorem">
     设 `p` 是素数, 则
     <li>`p | (p;k)`, `1 le k le p-1`.</li>
@@ -595,6 +604,42 @@
         `3n^5+5n^3+7n -= 5(n^3-n) + 5n + 7n -= 0 (mod 3)`,<br/>
         `3n^5+5n^3+7n -= 3(n^5-n) + 3n + 7n -= 0 (mod 5)`.
     </span>
+</p>
+
+<p class="theorem">
+  <b>Lucas 定理</b>
+  `p` 为素数, 计算组合数 `(m; n) mod p`. 先将 `m, n` 写为 `p` 进制数:
+  <span class="formula">
+    `m = sum_(i=0)^k a_i p^i`,
+    `quad n = sum_(i=0)^k b_i p^i`,
+  </span>
+  则有
+  <span class="formula">
+    `(m; n) -= prod_(i=0)^k (a_i; b_i) (mod p)`.
+  </span>
+  特别 `(m; n)` 是奇数当且仅当它们的二进制表示满足 `a_i ge b_i`, `i = 0,
+  cdots, k`.
+</p>
+
+<p class="proof">
+  考虑 `(1+x)^m` 的 `n` 次项系数 `(m; n)`, 利用 Frobenius 引理有
+  <span class="formula">
+    `(1+x)^m`
+    `= (1+x)^(sum_(i=0)^k a_i p^i)`
+    `= prod_(i=0)^k (1+x)^(a_i p^i)`
+    `-= prod_(i=0)^k (1+x^(p^i))^(a_i)`
+    `= prod_(i=0)^k sum_(j_i=0)^(a_i) (a_i; j_i) x^(j_i p^i) (mod p)`.
+  </span>
+  考虑上式右端的 `n` 次项系数, 这只需从乘积的因子中各取一项
+  `(a_i; j_i) x^(j_i p^i)` 相乘即可. 它们的次数之和满足
+  <span class="formula">
+    `sum_(i=0)^k p^i j_i = n`.
+  </span>
+  由 `p` 进制表示的唯一性知道 `j_i = b_i`, `i = 0, cdots, k`, 于是所求的
+  `n` 次项系数是
+  <span class="formula">
+    `prod_(i=0)^k (a_i; b_i) (mod p)`.
+  </span>
 </p>
 
 <h2>杂例</h2>

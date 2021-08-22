@@ -591,8 +591,8 @@
 <p class="theorem">
 	<b>Vieta 定理</b>
 	`n` 次多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根记为 `x_j`,
-	`j = 1, 2, cdots, n`. 关于这些根的<b>初等对称多项式 (elementary
-		symmetric polynomial)</b>定义为
+	`j = 1, 2, cdots, n`. 关于这些根的<b>初等对称多项式 (或基本对称多项式,
+    elementary symmetric polynomial)</b>定义为
 	<span class="formula">
 		`sigma_i(x_1, cdots, x_n) = sum_(C sube N, |C| = i) prod_(j in C) x_j`,
 		`quad i = 0, 1, cdots, n`.
@@ -616,7 +616,7 @@
 <p class="theorem">
 	<b>对称多项式基本定理</b>
 	任一 `n` 元对称多项式 `f(x_1, x_2, cdots, x_n)`
-	可以表示为初等对称多项式 `sigma_i = sigma_i(x_1, x_2, cdots, x_n)`,
+	可以唯一表示为初等对称多项式 `sigma_i = sigma_i(x_1, x_2, cdots, x_n)`,
 	`i = 1, 2, cdots, n` 的多项式.
 </p>
 
@@ -647,6 +647,49 @@
 	如果 `h` 的次数不小于 `n`, 就令 `f_1 = h//sigma_n`, 代替原来的 `f`
 	进行操作, 直到得到的 `h` 次数小于 `n`. 这时由
 	`sigma_n | h` 知 `h -= 0`. 零多项式当然是初等对称多项式的多项式, 证毕.
+</p>
+
+<p class="algorithm">
+  <b>`n` 元对称多项式的标准化</b>
+  [来自 <a href="https://www.bilibili.com/video/BV19f4y137mJ">凡人忆拾</a>]
+  设 `n` 元 `m` 次对称多项式的变元为 `x_1, cdots, x_n`.
+  用记号 `[k_s, cdots, k_1, k_0]` 表示一个对称求和, 其中有 `k_0`
+  个变元为 `0` 次, `k_1` 个变元为 `1` 次, `cdots`, `k_s` 个变元为 `s` 次,
+  满足
+  <span class="formula">
+    `k_0 + k_1 + cdots + k_s = n`,
+    `quad 0 * k_0 + 1 * k_1 + cdots + s * k_s = m`.
+  </span>
+  比如
+  <span class="formula">
+    `[1, 1, 0, 2] = sum_"sym" x_1^3 x_2^2 x_3^0 x_4^0`,
+  </span>
+  其中 3 次和 2 次的变元各有一个, 0 次的变元有两个.<br>
+</p>
+
+<p class="example">
+  化简 4 元对称式 `-[1, 1, 0, 2] - 2[1, 3, 0] + [2, 1, 1]`.
+</p>
+
+<p class="solution">
+  <span class="formula">
+    `[1, 1, 0, 2]`
+    `= sigma_1[2, 0, 2] - (2;0)(1;1)(1;0)[2, 1, 1]`
+    `= sigma_1[2, 0, 2] - [2, 1, 1]`<br>
+    `[2, 1, 1] = sigma_2[3, 1] - (1;1;)(3;1)(0;0)[1, 3, 0]`
+    `= sigma_2 sigma_3 - 3[1, 3, 0]`<br>
+    `[2, 0, 2]`
+    `= sigma_2[2, 2] - (1;1)(2;1)(1;0)[1, 2, 1] - (4;2)(0;0)[4,0]`
+    `= sigma_2^2 - 2[1, 2, 1] - 6 sigma_4`<br>
+    `[1, 3, 0] = sigma_1[4, 0] = sigma_1 sigma_4`<br>
+    `[1, 2, 1] = sigma_1[3, 1] - (4;1)(0;0)[4, 0] = sigma_1 sigma_3
+    - 4 sigma_4`,
+  </span>
+  将上面材料代入化简得
+  <span class="formula">
+    `-[1, 1, 0, 2] - 2[1, 3, 0] + [2, 1, 1]`
+    `= -sigma_1 sigma_2^2 - 10 sigma_1 sigma_4 + 2 sigma_2^2 sigma_3`.
+  </span>
 </p>
 
 <p class="theorem">
