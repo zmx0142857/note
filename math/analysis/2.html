@@ -617,10 +617,24 @@
 
 <h3>数列的差分--Stolz 定理</h3>
 
+<h3>数列的加权和--Toeplitz 定理</h3>
+
 <ol class="theorem">
-	<b>Cesaro 定理</b> 设 `lim_(n to oo) a_n = a`, 则
+	<b>Cesàro 定理</b> 设 `lim_(n to oo) a_n = a`, 则
 	<li>`lim_(n to oo) 1/n sum_(k=1)^n a_k = a`;</li>
 	<li>若 `a_n gt 0`, `a gt 0`, 则 `lim_(n to oo) root n (prod_(k=1)^n a_k) = a`;</li>
+</ol>
+
+<ol class="proof">
+  <li>记 `S_n = sum_(k=1)^n a_k`. 对任意 `epsi gt 0`,
+    取 `N` 充分大使得任意 `n gt N` 有 `|a_n - a| lt epsi`, 于是
+    <span class="formula">
+      `|S_n/n - a|`
+      `= |(S_N - N a)/n + (a_(N+1)-a)/n + cdots + (a_n - a)/n|`
+      `le |(S_N - N a)/n| + epsi`.
+    </span>
+    令 `n to oo`, 由于 `N` 是固定的, 得到 `|S_n/n - a| le epsi`.
+  </li>
 </ol>
 
 <p class="example">
@@ -631,11 +645,33 @@
 <p class="solution">
     利用 Cauchy 不等式, 原式的平方 `le 1/n^2 (sum_(k=1)^n x_k^2)
     (sum_(k=1)^n y_k^2)`.
-    由已知 `x_n^2, y_n^2` 都趋于 0, 利用 Cesaro 定理知不等式右端趋于 0,
+    由已知 `x_n^2, y_n^2` 都趋于 0, 利用 Cesàro 定理知不等式右端趋于 0,
     因此原式的平方趋于 0, 从而原式的极限是 0.
 </p>
 
-<h3>数列的加权和--Toeplitz 定理</h3>
+<p class="example">
+  [来自 我是乱序的不等式]
+  若 `a_n to a`, 且正项级数 `sum b_n` 收敛到 `S`, 那么
+  <span class="formula">
+    `sum_(k=1)^n a_(n+1-k) b_k to a S`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `b_n` 的前 `n` 项和为 `S_n`. 对任意 `epsi gt 0`,
+  取 `N` 充分大, 使得 `n gt N` 时
+  <span class="formula">
+    `|S_n - S| lt epsi`, `quad b_n lt epsi`, 且 `|a_n - a| lt epsi`.
+  </span>
+  于是 `n-N+1 gt N` 时,
+  <span class="formula">
+    `|sum_(k=1)^n a_(n+1-k) b_k - a S|`
+    `le |sum_(k=1)^n (a_(n+1-k) - a) b_k| + |a(sum_(k=1)^n b_k - S)|`
+    `le |sum_(k=1)^(n-N) (a_(n+1-k) -a) b_k| + |sum_(k=n-N+1)^n (a_(n+1-k)-a) b_k| + |a| epsi`
+    `le S epsi + |sum_(k=n-N+1)^n (a_(n+1-k) -a)| epsi + |a| epsi`.
+  </span>
+  第二项的求和只有有限项, 故原式的极限为 `a S`, 证毕.
+</p>
 
 <p class="example">
 	设 `p_k gt 0`, `k = 1, 2, cdots`, `lim_(n to oo) a_n = a`, 且
@@ -650,27 +686,19 @@
 </p>
 
 <p class="proof">
-	记 `b_n = a_n - a`, `n = 1, 2, cdots`,
-	则对任意 `epsi gt 0`, 存在正整数 `N`,
-	对任意 `n gt N` 有 `|b_n| lt epsi//2`.
-	记 `S_n = sum_(i=1)^n p_i`, 因为 `N` 有限,
-	存在正整数 `M`, 对任意 `n gt M` 有
+	记 `S_n = sum_(k=1)^n p_k`.  对任意 `epsi gt 0`, 取 `N` 充分大使得任意
+  `n gt N` 有
+  <span class="formula">
+    `|a_n - a| lt epsi`, `quad |p_n/S_n| lt epsi`.
+  </span>
+  于是 `n-N+1 gt N` 时,
 	<span class="formula">
-		`|(b_1 p_n)/S_n + cdots + (b_(N+1) p_(n-N))/S_n|`
-		`lt |(b_1 p_n)/S_n + cdots + (b_(N+1) p_(n-N))/S_(n-N)|`
-		`lt epsi/2`.
+		`|(sum_(k=1)^n p_k a_(n+1-k))/S_n - a|`
+		`|sum_(k=1)^n p_k/S_n (a_(n+1-k)-a)|`
+    `le |sum(k=1)^(n-N)| + |sum_(k=n-N+1)^n|`
+    `le epsi + epsi sum_(k=n-N+1)^n |a_(n+1-n)-a|`
 	</span>
-	从而当 `n gt max{N, M}` 时
-	<span class="formula">
-		`|(p_1 a_n + p_2 a_(n-1) + cdots + p_n a_1)/(p_1 + p_2 + cdots +
-		p_n) - a|`
-		`= |(p_1 b_n + p_2 b_(n-1) + cdots + p_n b_1)/(p_1 + p_2 + cdots +
-		p_n)|`
-		`le p_1/S_n |b_n| + p_2/S_n |b_(n-1)| + cdots + p_(n-N-1)/S_n
-		|b_(N+2)|`
-		`+ |(b_1 p_n)/S_n + cdots + (b_(N+1) p_(n-N))/S_n|`
-		`lt (p_1 + cdots + p_(n-N-1))/S_n epsi/2 + epsi/2 lt epsi`.
-	</span>
+  上式第二项求和只有有限项, 故原式极限为 `a`.
 </p>
 
 <p>	这启示我们得到如下定理:</p>

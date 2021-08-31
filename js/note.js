@@ -118,7 +118,9 @@ function renderComment() {
       console.log('render comment')
       doc.querySelector('#vcomments .vsubmit')
          .addEventListener('click', renderComment)
-      asciimath.render(commentDOM)
+      setTimeout(() => {
+        asciimath.render(commentDOM)
+      }, 1000)
       clearInterval(renderInterval)
     }
   }, 1000)
