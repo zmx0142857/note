@@ -82,6 +82,7 @@ addStyle(`
   top: 10px;
   left: 40%;
   width: 20%;
+  max-width: 150px;
   padding: 5px;
   border-radius: 5px;
   text-align: center;

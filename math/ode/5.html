@@ -219,6 +219,44 @@
 	</span>
 </p>
 
+<p class="example">
+  寻找级数 `sum_(n ge 0) x^(3n)/((3n)!)` 的闭形式.
+</p>
+
+<p class="solution">
+  记 `x_i = sum_(n ge 0) t^(3n+i)/((3n+i)!)`, `i = 0, 1, 2`, 于是
+  `x_0' = x_2`, `x_2' = x_1`, `x_1' = x_0`. 写成向量
+  `bm x = (x_0, x_1, x_2)^T`, 有
+  <span class="formula">
+    `bm x' = bm (A x)`, `quad bm A = [0, 0, 1; 1, 0, 0; 0, 1, 0]`.
+  </span>
+  容易看出 `exp bm A t = bm E x_0(t) + bm A x_1(t) + bm A^2 x_2(t)`,
+  但这只会使我们回到原点, 因此我们寻找它的另一种表示.
+  `bm A` 的特征多项式为 `lambda^3 - 1`, 三个根为 `1, omega, omega^2`,
+  对应的特征向量为
+  <span class="formula">
+    `bm v_1 = [1; 1; 1]`,
+    `bm v_2 = [1; omega^2; omega]`,
+    `bm v_3 = [1; omega; omega^2]`.
+  </span>
+  注意到 `x_0(0) = 1, x_1(0) = x_2(0) = 0`, 因此方程组的初值条件恰为
+  单位向量 `bm eta = (1, 0, 0)^T`. 将这个向量分解为
+  <span class="formula">
+    `bm eta = 1/3 (bm v_1 + bm v_2 + bm v_3)`,
+  </span>
+  从而解得
+  <span class="formula">
+    `bm x`
+    `= bm eta exp bm A t`
+    `= 1/3 (bm v_1 "e"^t + bm v_2 "e"^(omega t) + bm v_3 "e"^(omega^2 t))`
+    `= 1/3 [
+      "e"^t + 2 "e"^(t/2) cos((sqrt 3)/2 t);
+      "e"^t + 2 "e"^(t/2) cos((sqrt 3)/2 t - (2pi)/3);
+      "e"^t + 2 "e"^(t/2) cos((sqrt 3)/2 t + (2pi)/3)
+    ]`.
+  </span>
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

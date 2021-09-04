@@ -588,11 +588,9 @@
 	`x^2 y + y^2 z + z^2 x` 是轮换式.
 </p>
 
-<p class="theorem">
-	<b>Vieta 定理</b>
-	`n` 次多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根记为 `x_j`,
-	`j = 1, 2, cdots, n`. 关于这些根的<b>初等对称多项式 (或基本对称多项式,
-    elementary symmetric polynomial)</b>定义为
+<p class="definition">
+  <b>初等对称多项式 (基本对称多项式, elementary symmetric polynomial)</b>
+  关于 `n` 个变元 `x_1, cdots, x_n` 的初等对称多项式定义为
 	<span class="formula">
 		`sigma_i(x_1, cdots, x_n) = sum_(C sube N, |C| = i) prod_(j in C) x_j`,
 		`quad i = 0, 1, cdots, n`.
@@ -606,9 +604,16 @@
 		`quad cdots`,
 		`quad sigma_n = x_1 x_2 cdots x_n`.
 	</span>
-	我们有根与系数的关系:
+  初等对称多项式是每个变元最高次数为 1 的齐次对称多项式, 其中 `sigma_i`
+  的次数为 `i`, 它等于 `x_1` 到 `x_n` 中任取 `i` 个变量相乘的所有情况之和.
+</p>
+
+<p class="theorem">
+	<b>Vieta 定理</b>
+	`n` 次多项式 `f(x) = sum_(i=0)^n a_i x^i` 的全部 `n` 个根记为 `x_i`,
+	`i = 1, 2, cdots, n`.  我们有根与系数的关系:
 	<span class="formula">
-		`sigma_i = (-1)^i a_(n-i)/a_n`,
+		`sigma_i(x_1, cdots, x_n) = (-1)^i a_(n-i)/a_n`,
 		`quad i = 0, 1, cdots, n`.
 	</span>
 </p>
@@ -616,37 +621,40 @@
 <p class="theorem">
 	<b>对称多项式基本定理</b>
 	任一 `n` 元对称多项式 `f(x_1, x_2, cdots, x_n)`
-	可以唯一表示为初等对称多项式 `sigma_i = sigma_i(x_1, x_2, cdots, x_n)`,
+	可以唯一表示为初等对称多项式 `sigma_i^((n)) := sigma_i(x_1, x_2, cdots, x_n)`,
 	`i = 1, 2, cdots, n` 的多项式.
 </p>
 
 <p class="proof">
-	首先注意, 在 `n` 元初等对称多项式 `sigma_i(x_1, cdots, x_n)` 中令 `x_n
-	= 0`, 就得到 `n-1` 元初等对称多项式
+	首先注意, 令 `x_n = 0`, 就能将任一 `n` 元对称多项式降为 `n-1`
+  元对称多项式. 特别在 `sigma_i^((n))` 中令 `x_n = 0`,
+  就得到 `sigma_i^((n-1))`:
 	<span class="formula">
 		`sigma_i(x_1, cdots, x_(n-1), 0) = sigma_i(x_1, cdots, x_(n-1))`.
 	</span>
 	对 `n` 进行归纳证明. `n = 1` 时显然成立. 设 `n gt 1`, 且结论对 `n-1`
-	成立.  由定义知 `f(x_1, cdots, x_(n-1), 0)` 是 `n-1` 元对称多项式,
-	设它能表示为
+	成立.  由归纳假设, `f|_(x_n=0) := f(x_1, cdots, x_(n-1), 0)` 是
+  `n-1` 元对称多项式,
+	它能表示为
 	<span class="formula">
-		`f(x_1, cdots, x_(n-1), 0)`
-		`= p(sigma_1(x_1,cdots,x_(n-1)),cdots,sigma(x_1,cdots,x_(n-1)))`,
+		`f|_(x_n=0)`
+		`= p(sigma_1^((n-1)), cdots, sigma_(n-1)^((n-1)))`,
 	</span>
 	其中 `p` 是一个多项式.  令
 	<span class="formula">
 		`g(x_1, cdots, x_n)`
-		`= p(sigma_1(x_1,cdots,x_n), cdots, sigma(x_1,cdots,x_n))`,<br/>
-		`h = f - g`.
+		`= p(sigma_1^((n)), cdots, sigma_(n-1)^((n)))`,
 	</span>
-	则
-	<span class="formula">
-		`h(x_1, cdots, x_(n-1), 0) = 0`.
-	</span>
-	这说明 `x_n | h`. 由对称性, `sigma_n = x_1 x_2 cdots x_n | h`.
+  则
+  <span class="formula">
+    `{:g|_(x_n=0) = {:f|_(x_n=0)`.
+  </span>
+	令 `h = f - g`, 有 `h|_(x_n=0) = 0`, 这说明 `x_n | h`.
+  由对称性, `sigma_n^((n)) = x_1 x_2 cdots x_n | h`.
 	如果 `h` 的次数不小于 `n`, 就令 `f_1 = h//sigma_n`, 代替原来的 `f`
 	进行操作, 直到得到的 `h` 次数小于 `n`. 这时由
-	`sigma_n | h` 知 `h -= 0`. 零多项式当然是初等对称多项式的多项式, 证毕.
+	`sigma_n^((n)) | h` 知 `h -= 0`.
+  零多项式当然是初等对称多项式的多项式, 证毕.
 </p>
 
 <p class="algorithm">
