@@ -293,28 +293,11 @@ newFormula.onclick = function() {
   outputWrapper.scrollTop = outputWrapper.offsetHeight
 };
 
-function getuuid(len, radix) {
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
-  var uuid = []
-  var i = 0
-  radix = radix || chars.length
-
-  if (len) {
-    for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix]
-  } else {
-    var r
-
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-'
-    uuid[14] = '4'
-
-    for (i = 0; i < 36; i++) {
-      if (!uuid[i]) {
-        r = 0 | Math.random() * 16
-        uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r]
-      }
-    }
-  }
-  return uuid.join('')
+const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+function randname(length, radix = chars.length) {
+  return Array.from({ length }, () =>
+    chars[0 | Math.random() * radix]
+  ).join('')
 }
 
 savePng.onclick = function () {
@@ -329,7 +312,7 @@ savePng.onclick = function () {
   }).then(canvas => {
     // document.body.appendChild(canvas)
     var a = document.createElement('a')
-    a.download = getuuid(12) + '.png'
+    a.download = randname(12) + '.png'
     a.href = canvas.toDataURL()
     document.body.appendChild(a)
     a.click()

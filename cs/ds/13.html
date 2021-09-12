@@ -268,6 +268,127 @@ Euler_sieve():
     </span>
 </p>
 
+<div class="p algorithm">
+  <b>CRC 算法 (Cyclic Redundancy Check, 循环冗余校验)</b>
+  是用于通信的校验算法.  该算法的输入是一个 `n+1` 位二进制串 `b` 和 一个
+  `bbb F_2` 上的 `n` 次既约多项式 `f`.
+  <br>
+  所谓 `bbb F_2` 上的 `n` 次多项式是指, 系数为 0 或 1,
+  系数上的加法和乘法是模 2 的 `n` 次多项式.
+  `bbb F_2` 上所有次数不超过 `n` 的多项式共有 `2^n` 个, 它们构成一个域 `bbb
+  F_(2, n)(x)`, 可以进行四则运算. 如乘法为
+  <span class="formula">
+    `(x^3 + x^2 + 1)(x^3 + x + 1)`
+    `= x^6 + x^5 + x^4 + 3x^3 + x^2 + x + 1`
+    `= x^6 + x^5 + x^4 + x^3 + x^2 + x + 1`.
+  </span>
+  以上过程简记为 1101 &times; 1011 = 111 1111. 又, `bbb F_(2, n)(x)`
+  上的加减法恰好是异或运算:
+  <span class="formula">
+    1101 + 1011 = 1101 - 1011 = 0110.
+  </span>
+  所谓 `f` 是既约的, 是指 `f` 在 `bbb F_2` 上没有根, 这里就是说 0 和 1
+  都不是 `f` 的根. 这容易办到, 只要保证 `f` 有奇数个系数为 1 的项,
+  且常数项等于 1 即可.
+  <br>
+  当我们计算乘法所得的结果超过 `n` 次, 这个结果需要模 `f`, 使它落在 `bbb
+  F_(2, n)(x)` 中. 比如, 当 `n = 4`, 取既约多项式 `f =
+  x^4 + x + 1`, 则上面的结果化为
+  <span class="formula">
+    `x^6 + x^5 + x^4 + x^3 + x^2 + x + 1`
+    `= (x^4+x+1)(x^2+x+1) + x^2 + x`
+  </span>
+  即, 111 1111 模 `f =` 1 0011 的最终结果是  `x^2 + x =` 110.
+  这个求余数的过程很重要, 我们用竖式再算一遍 (注意减法就是异或运算,
+  不需要借位):
+<pre>
+              111 --- 商 x^2 + x + 1 不重要, 可以不写
+        ---------
+1 0011 / 111 1111
+         100 11
+         -------
+          11 001
+          10 011
+          -------
+           1 0101
+           1 0011
+           ------
+              110 --- 余数 x^2 + x
+</pre>
+  <br>
+  现在可以介绍 CRC 的计算过程了:
+  <span class="formula">
+    `CRC(b, f) = x^n b(x) mod f(x) + x^n b(x)`.
+  </span>
+  将字节串 `b` 视作多项式, 首先将它乘以 `x^n`, 这相当于在串尾补 `n` 个 0.
+  然后计算余数 `r(x) = x^n b(x) mod f(x)`, 这是一个次数不超过 `n` 的多项式.
+  最后将 `x^n b(x)` 与 `r(x)` 相加, 即用 `r(x)` 替换串尾的 `n` 个 0 即可.
+  <br>
+  将数据 `b(x)` 和校验帧 `r(x)` 相连, 一起发送到接收方,
+  接收方只需验证 `CRC(b, f) mod f(x) -= 0`, 就通过了 CRC 校验.
+  若余数不为零, 则说明通信传输出现了问题.
+</div>
+
+<p class="remark">
+  数字 `n` 称为 CRC 算法的位宽 (width),
+  比如 CRC-8 的位宽等于 8, CRC-32 的位宽等于 32 等. 多项式 `f` 称为 CRC
+  算法的生成多项式. 如 CRC-8 的生成多项式是 `x^8 + x^2 + x + 1`, CRC-32
+  的生成多项式是
+  <span class="formula">
+    `x^32 + x^26 + x^23 + x^22 + x^16 + x^12 + x^11 + x^10 + x^8 + x^7 + x^5 + x^4 + x^2 + x + 1`.
+  </span>
+  `f` 用二进制表示时, 由于首项系数必为 1, 只记录 `n` 个低次项即可.
+  如 CRC-8 和 CRC-32 的生成多项式分别记为 0x07 和 0x04C1 1DB7
+</p>
+
+
+下面这个计算 CRC-16 的例子来自 <a href="http://blog.csdn.net/liyuanbhu/article/details/7882789">CSDN</a>:
+<pre>
+#include <stdio.h>
+#include <stdint.h>
+
+const uint16_t POLY = 0x1021;
+
+/* @param data 待校验的数据
+ * @param len 数据包含的字节数
+ * @param crc 初始的 CRC 余数
+ */
+uint16_t crc16(unsigned char *data, int len, uint16_t crc) {
+  while (len--) {
+    crc = crc ^ (*data++ << 8); // fetch byte from memory, XOR into CRC top byte
+    // loop for 8 bits
+    for (int i = 0; i < 8; i++) {
+      if (crc & 0x8000) // if b15 is set
+        crc = (crc << 1) ^ POLY;
+      else // if b15 is off
+        crc <<= 1;
+    }
+    crc &= 0xffff; // ensure CRC remains 16-bit value
+  }
+  return crc;
+}
+
+int main() {
+  uint16_t c1, c2;
+
+  // 计算 data 的 CRC-16
+  unsigned char data[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+  c1 = crc16(data, 9, 0xffff);
+  printf("%04x\n", c1); // 29b1
+
+  // 分两段计算 CRC-16
+  c2 = crc16(data, 4, 0xffff);
+  c2 = crc16(data + 4, 5, c2);
+  printf("%04x\n", c2); // 29b1
+
+  return 0;
+}
+</pre>
+
+<p>
+这里是 <a href="http://www.ip33.com/crc.html">CRC 在线计算</a>.
+</p>
+
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
 <script src="../../js/playground.js"></script>
 </body>
