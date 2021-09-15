@@ -185,6 +185,30 @@
   </li>
 </ol>
 
+<p class="example">
+  [来自群友]
+  求 `sqrt(x+3) + sqrt(x+30) + sqrt(10-x)` 的最大值.
+</p>
+
+<p class="solution">
+  用 Cauchy 不等式, 选择系数 `a, b, c` 使得
+  <span class="formula">
+    `(sqrt(x+3) + sqrt(x+30) + sqrt(10-x))^2`
+    `le (a(x+3)+b(x+30)+c(10-x)) (1/a+1/b+1/c)`,
+  </span>
+  `a, b, c` 需要满足 `a + b = c` 使得右边不含 `x`, 且取等时有
+  <span class="formula">
+    `a^2 (x+3) = b^2 (x+30) = c^2 (10-x)`.
+  </span>
+  由以上三个方程解得 `x = 6`, 此时函数最大值为 `11`.
+</p>
+
+<p class="solution">
+  令导数为零得 `1/sqrt(x+3) + 1/sqrt(x+30) = 1/sqrt(10-x)`,
+  容易看出这就是上一个解法中的条件 `a + b = c`.
+  通过解同样的方程组, 仍然得到同样的结果.
+</p>
+
 <h2>Jensen 不等式</h2>
 
 <h3>Jensen - Young - Hölder - Minkowski</h3>
@@ -1345,6 +1369,43 @@
     `ge 4`.
   </span>
   等号在 `a = b = c = 1` 时成立.
+</p>
+
+<p class="example">
+  [来自 诗许] 对正数 `a, b, c` 和正整数 `n` 有
+  <span class="formula">
+    `sum_"cyc" c/(a+b)^n ge (3/2)^n 1/(a+b+c)^(n-1)`.
+  </span>
+  特别 `n=1` 时右边化为 `3/2`.
+</p>
+
+<ol class="proof">
+  <li>`n = 1` 时, 利用 `sum_"cyc" (a+b) = 2(a+b+c)` 和 Cauchy 不等式有
+    <span class="formula">
+      `sum_"cyc" c/(a+b)`
+      `= sum_"cyc"(a+b+c)/(a+b) - 3`
+      `= 1/2 sum_"cyc" (a+b) sum_"cyc" 1/(a+b) - 3`
+      `ge 1/2 (1+1+1)^2 - 3 = 3/2`.
+    </span>
+  </li>
+  <li>一般情形, 由 Hölder 不等式有
+    <span class="formula">
+      `(sum_"cyc" c)^((n-1)/n) (sum_"cyc" c/(a+b)^n)^(1/n)`
+      `ge sum_"cyc" c/(a+b) ge 3/2`
+    </span>
+    整理即得结论.
+  </li>
+</ol>
+
+<p class="proof">
+  [来自 不等式的秘密]
+  `n=1` 情形的另一证法, 由均值不等式,
+  <span class="formula">
+    `sum_"cyc" a/(b+c) + sum_"cyc" b/(b+c) ge 3`,<br>
+    `sum_"cyc" a/(b+c) + sum_"cyc" c/(b+c) ge 3`,<br>
+    `sum_"cyc" b/(b+c) + sum_"cyc" c/(b+c) = 3`.
+  </span>
+  前两式相加减去第三式即得结论.
 </p>
 
 <h2>杂例</h2>

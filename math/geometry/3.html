@@ -458,6 +458,45 @@
 	为圆周角), 即得结论.
 </p>
 
+
+<div class="example">
+  <b>角格点问题</b> 三角形 `ABC` 内有一点 `O`, 若已知六个角 `OAB`,
+  `OAC`, `OBA`, `OBC`, `OCA`, `OCB` 中的四个, 则可以用角元 Ceva
+  公式求出另外两个. 特别当六个角的度数都是 `10^@` 的倍数时, 称 `O`
+  为三角形的角格点. 如
+  <span class="formula">
+    `sin 10^@ * sin 20^@ * sin 70^@ = sin 10^@ * sin 30^@ * sin 40^@`.
+  </span>
+  上式简记为 <code>1 2 7 1 3 4</code>. 用程序穷举所有的角格点如下:
+<pre id="angle-grid-point"></pre>
+<script defer>
+;(function(){
+const { abs, sin, PI } = Math
+const x = PI/18
+const buf = []
+
+// find sin a * sin b * sin c = sin d * sin e * sin f
+for (let c = 1; c <= 15; ++c) {
+  for (let b = 1; b <= c; ++b) {
+    for (let a = 1; a <= b; ++a) {
+      for (let f = 1; f <= 18-a-b-c-2; ++f) {
+        for (let e = 1; e <= f; ++e) {
+          const d = 18 - a - b - c - e - f
+          const diff = sin(a*x) * sin(b*x) * sin(c*x) - sin(d*x) * sin(e*x) * sin(f*x)
+          if (d <= e && diff >= 0 && diff < 1e-6) {
+            // console.log(a, b, c, d, e, f)
+            buf.push([a, b, c, d, e, f].join(' '))
+          }
+        }
+      }
+    }
+  }
+}
+document.getElementById('angle-grid-point').innerText = buf.join('\n')
+})()
+</script>
+</div>
+
 <h3>三角形的心</h3>
 
 <p class="theorem" id="the-heart">

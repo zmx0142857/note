@@ -678,17 +678,36 @@
 	故 `f` 为一同态, 即 `f` 为一同构.
 </p>
 
-<p class="definition">
-	令群 `H le G`. 定义 `H` 的<b>正规化子
-    (normalizer)</b>和<b>中心化子 (centralizer)</b>如下:
-	<span class="formula">
-		`N_G(H) := {g in G | g H g^-1 = H} = {g in G | g H = H g}`,<br/>
-		`Z_G(H) := {g in G | (AA h in G) g h = h g}`.
-	</span>
-	容易验证 `N_G(H), Z_G(H) le G`.
-	由定义可见, `N_G(H)` 是 `G` 中所有 `H` 可吸收的元素,
-	`Z_G(H)` 是 `G` 中所有与 `H` 可换的元素.
+<p>令 `H` 是 `G` 的子群. 我们希望 `H` 是 `G` 的正规子群, 这当然办不到!
+  退而求其次, 希望 `H` 在 `G` 的<em>某个子群</em>中正规.
+  这就是下面要引入的正规化子. 在 `G` 的子群 `N_G(H)` 中, `H` 实现了它的
+  "正规梦".
 </p>
+
+<ol class="definition">
+  令群 `H le G`, 定义
+  <li>`H` 的<b>正规化子 (normalizer)</b>为
+    <span class="formula">
+      `N_G(H) := {g in G | g H g^-1 = H}`
+      `= {g in G | g H = H g}`.
+    </span>
+  </li>
+  <li>`H` 的<b>中心化子 (centralizer)</b>为
+    <span class="formula">
+      `Z_G(H) := {g in G | (AA h in H) g h g^-1 = h }`
+      `= {g in G | (AA h in H) g h = h g}`.
+    </span>
+  </li>
+  <li>此外, 元素 `x in G` 的中心化子定义为
+    <span class="formula">
+      `Z_G(x) := {g in G| g x g^-1 = x }` `= {g in G | g x = x g}`.
+    </span>
+  </li>
+	容易验证 `N_G(H), Z_G(H)` 均为 `G` 的子群, 且 `H` 是 `N_G(H)`
+  的正规子群, `H` 是 `Z_G(H)` 的中心.
+  这两个定义有些相似, 但请注意, `N_G(H)` 的定义只要求集合相等,
+  而 `Z_G(H)` 则达到元素级别的粒度.
+</ol>
 
 <p class="remark">
 	若 `H` 有限, 正规化子还可以定义为
@@ -775,58 +794,42 @@
 <h3>群作用</h3>
 
 <ol class="definition">
-	令 `X` 为一非空集, `e` 为群 `G` 的幺元. 称映射
+  群 `G` 在集合 `X != O/` 上的<b>作用</b>定义为一个映射
 	<span class="formula">
 		`f: G xx X to X`<br/>
-		`(g, x) to f(g, x) := g(x)`
+		`(g, x) to f(g, x) := g(x)`,
 	</span>
-	为群 `G` 在 `X` 上的<b>作用</b>, 如果 `f` 满足
-	<li>`(AA g, h in G and AA x in X)` `(g h)x = g(h x)`;</li>
-	<li>`(AA x in X)` `e x = x`.</li>
-	由两条性质立即推出
+  对任意 `g, h in G` 和任意 `x in X`, 群作用满足以下两条性质:
+	<li>`(g h)x = g(h x)`;</li>
+	<li>`e x = x`, 这里 `e` 是 `G` 的幺元.</li>
+	由此立即推出
 	<span class="formula">
 		`g^-1(g(x)) = (g^-1 g)x = e x = x`.
 	</span>
 </ol>
 
 <p class="remark">
-	群作用的概念和拓扑学中的同伦是类似的.
+	群作用的概念和拓扑学中的同伦是类似的. (??
 </p>
 
 <ol class="example">
-	<li>数域 `bbb F` 上线性空间 `V` 的数乘运算
-		<span class="formula">
-			`*_(bbb F): bbb F xx V to V`<br/>
-			`(k, alpha) to k alpha`
-		</span>
+	<li>数域 `bbb F` 上线性空间 `V` 的数乘运算 `(k, alpha) mapsto k alpha`
 		是 `bbb F` 的乘法群在 `V` 上的一个群作用.
 	</li>
-	<li>群 `G` 上的左平移变换
-		<span class="formula">
-			`f_1: G xx G to G`<br/>
-			`(g, x) to g x`
-		</span>
+	<li>群 `G` 上的左平移变换 `(g, x) mapsto g x`
 		是 `G` 在 `G` 上的一个群作用. 右平移类似.
 	</li>
-	<li>群 `G` 上的共轭变换
-		<span class="formula">
-			`f_2: G xx G to G`<br/>
-			`(g, x) to g x g^-1`
-		</span>
+	<li>群 `G` 上的共轭变换 `(g, x) mapsto g x g^-1`
 		是 `G` 在 `G` 上的一个群作用.
 	</li>
-	<li>群 `H le G`, `G` 关于 `H` 的左陪集全体 `G//H_l = {g H | g in G}`
-		称为 `G` 的一个<b>齐性空间</b>. 下述变换:
-		<span class="formula">
-			`f_3: G xx G//H_l to G//H_l`<br/>
-			`(g, a H) to (g a) H`.
-		</span>
+	<li>群 `G` 关于子群 `H` 的左陪集全体 `G//H_l = {g H | g in G}`
+		称为 `G` 的一个<b>齐性空间</b>.  `(g, a H) mapsto (g a) H`
 		是 `G` 在 `G//H_l` 上的一个群作用. 右陪集类似.
 	</li>
 </ol>
 
 <p class="theorem" id="the-group-action-homomorphism">
-	令 `X` 为一非空集, `G` 为一群. 则 `G` 在 `X` 上的群作用 `f(g, x)`
+  群 `G` 在集合 `X != O/` 上的作用 `f(g, x)`
 	与 `G` 到 `X` 上对称群 `S_X` (`X` 上全体可逆变换) 的群同态一一对应.
 </p>
 
@@ -834,7 +837,7 @@
 	设有群作用 `f(g, x) := g(x)`,
 	作 `eta: g in G to sigma_g in S_X`, 其中 `sigma_g: x to g(x)`.
 	先证 `sigma_g in S_X`, 即 `sigma_g` 为双射.
-	显然 `sigma_g in cc T(X)`. 又 `AA x in X`,
+	显然 `sigma_g` 是 `X` 上的变换. 又 `AA x in X`,
 	<span class="formula">
 		`sigma_(g^-1) @ sigma_g{::}(x)`
 		`= sigma_(g^-1)(sigma_g{::}(x))`
@@ -879,25 +882,21 @@
 	</span>
 	可以验证 `~` 为 `X` 上一等价关系.  元素 `x in X` 所在的等价类记为
 	<span class="formula">
-		`O_x := {g(x) | g in G}`
+		`O_x := {g(x) | g in G}`.
 	</span>
-	称为群作用 `f` 的一个<b>轨道</b>. 显然 `X` 是全体不同轨道的并.
-	若群作用 `f` 只有一个轨道, 则称 `f` 是<b>可迁的</b>.
+	这是 `x` 在群作用 `f` 下能到达的地方, 称为 `f` 的一个<b>轨道</b>.
+  显然 `X` 是全体不同轨道的并.
+  <!-- 若 `f` 只有一个轨道, 则称它是<b>可迁的</b>. -->
 </p>
 
 <p class="definition">
-	令 `f: G xx X to X` 为一群作用, 对任意 `x in X`, 定义
+	令 `f: G xx X to X` 为一群作用, 任取 `x in X`, 考虑 `x` 何时为不动点.
+  事实上, 定义
 	<span class="formula">
 		`H_x := {g in G | g(x) = x}`
 	</span>
-	由 `e in H_x` 知 `H_x` 非空. 容易验证 `H_x le G`, 称 `H_x` 为 `x` 在
-	`f` 下的<b>稳定子群</b>.
-	如果 `x in X` 满足
-	<span class="formula">
-		`(AA g in G) g(x) = x`
-	</span>
-	(即 `O_x = {x}`, 亦即 `H_x = G`),
-	则称 `x` 为 `f` 的一个<b>不动点</b>.
+  由 `e in H_x` 知 `H_x` 非空. 容易验证 `H_x le G`, 称为 `x` 在 `f`
+  下的<b>稳定子群</b>.
 </p>
 
 <p class="proof">
@@ -909,9 +908,18 @@
 	所以 `a b^-1 in H_x`.
 </p>
 
+<p class="definition">
+  如果 `x in X` 在任意 `g in G` 的作用下都不动, 即
+	<span class="formula">
+		`(AA g in G) g(x) = x`,
+    即 `O_x = {x}`, 亦即 `H_x = G`,
+	</span>
+	则称 `x` 为 <b>`f` 的不动点</b>.
+</p>
+
 <p class="example">
-	群 `G` 在共轭作用 `g(x) = g x g^-1` 下的稳定子群 `H_x = Z_G({x})`;
-	从而, `G` 在共轭作用下的不动点的全体就是 `Z(G)`.
+  群 `G` 在共轭作用 `g(x) = g x g^-1` 下的稳定子群 `H_x` 等于元素 `x`
+  的中心化子 `Z_G(x)`; `G` 在共轭作用下的不动点的全体就是 `Z(G)`.
 </p>
 
 <p class="definition">
@@ -921,6 +929,14 @@
 		`(AA g in G)(AA x in X)`
 		`varphi(g(x)) = g(varphi(x))`.
 	</span>
+  换言之下图可换:
+  <span class="formula">
+  `{:
+    G xx X, rarr, X;
+    darr, , darr;
+    G xx Y, rarr, Y;
+  :}`
+  </span>
 </p>
 
 <p class="lemma">
@@ -964,17 +980,17 @@
 <h3>Sylow 定理</h3>
 
 <p class="definition">
-	称群 `G` 为一<b>`bm p`-群</b>, 如果 `|G| = p^k`,
+  阶为素数幂的群称为<b>`bm p`-群</b>, 如 `|G| = p^k`,
 	其中 `p` 为一素数, `k in ZZ^+`.
 </p>
 
 <p class="theorem">
-	令 `G` 为一 `p^k` 阶 `p`-群, `X` 为一非空有限集, `|X| = n`.
-	则群作用 `f: G xx X to X` 的不动点个数 `t` 满足
+  令 `G` 为一 `p`-群, `X` 为一非空有限集, 若群作用 `f: G xx X to X`
+  有 `n` 个不动点, 则
 	<span class="formula">
-		`t -= n (mod p)`.
+		`|X| -= n (mod p)`.
 	</span>
-	从而 `p !| n` 时, 群作用有不动点.
+	从而 `p !| |X|` 时, 群作用必有不动点.
 </p>
 
 <p class="proof">
@@ -982,17 +998,15 @@
 	<span class="formula">
 		`X = uuu_(i=1)^m O_(x_i)`,
 	</span>
-	不妨令 `x_1, x_2, cdots, x_t` 为 `f` 的所有不动点, 则
+	不妨令 `x_1, x_2, cdots, x_n` 为 `f` 的所有不动点, 则
+  每个不动点所在的轨道大小为 1,
 	<span class="formula">
-		`|X| = t + sum_(i=t+1)^m |O_(x_i)|`.
+		`|X| = n + sum_(i=n+1)^m |O_(x_i)|`.
 	</span>
-	对 `i = t+1, t+2, cdots, m`,
-	由<a class="ref" href="#the-orbit-cardinal"></a>,
-	`|O_(x_i)|` 整除 `|G| = p^k`, 但 `|O_(x_i)| gt 1`, 所以
-	<span class="formula">
-		`p | |O_(x_i)|`, `i = t+1, t+2, cdots, m`.
-	</span>
-	从而 `p | n-t`, 即 `t -= n (mod p)`.
+	对任意 `n lt i le m`, `|O_(x_i)| gt 1`,
+  由<a class="ref" href="#the-orbit-cardinal"></a>,
+  `|O_(x_i)|` 整除 `|G| = p^k`, 所以 `p` 整除 `|O_(x_i)|`.
+  上式两边同时模 `p` 即得证.
 </p>
 
 <p class="corollary">
@@ -1000,30 +1014,32 @@
 </p>
 
 <p class="proof">
-	令 `G` 为一 `p^k` 阶 `p`-群, `t` 为 `G` 上共轭作用的不动点数,
-	则 `t -= p^k (mod p)`, 从而 `p | t`. 但元素 `e in G`
-	是共轭作用的不动点 (`g e g^-1 -= e`), 所以 `t gt 0`, 从而 `t gt 1`.
-	这就是说, `G` 上共轭作用的不动点数 `gt 1`, 即 `|Z(G)| gt 1`.
-	事实上 `|Z(G)| = p^l`, `1 le l le k`.
+	令 `|G| = p^k`, 只需说明 `|Z(G)| != 1`.
+  注意 `Z(G)` 是 `G` 上共轭作用的全体不动点, 因此
+	`|Z(G)| -= p^k (mod p)`, 立即推出 `|Z(G)| != 1`.
+  事实上 `|Z(G)|` 整除 `|G| = p^k`, 因此 `|Z(G)| = p^l`,
+  `l` 是某个满足 `1 le l le k` 的整数.
 </p>
 
 <p class="lemma">
-	令 `n = p^l m`, `p` 为一素数, `l, m in ZZ^+` 且 `p !| m`,
-	则 `AA 0 le k le l`, `(n;p^k)` 中仅含 `l-k` 个 `p` 因子, 即
-	<span class="formula">
-		`p^(l-k) | (n;p^k)`, 但 `p^(l-k+1) !| (n;p^k)`.
-	</span>
+  设 `n` 为正整数, `p` 为素数, 且 `p` 在 `n` 中次数为 `l`, 即
+  <span class="formula">
+    `p^l | n` 且 `p^(l+1) !| n`,
+  </span>
+  则对任意 `0 le k le l`, `p` 在 `(n; p^k)` 中的次数为 `l-k`.
 </p>
 
 <p class="proof">
-	由于
+  令 `n = p^l m`, 其中 `p !| m`, 则
 	<span class="formula">
 		`(n;p^k) = n/p^k (n-1;p^k-1)`
-		`= p^(l-k) m (n-1;p^k-1)`,
+		`= p^(l-k) m (n-1;p^k-1)`.
 	</span>
 	且 `AA 1 le i le p^k-1`, `0 le t le k`, 由于 `p^t | n`, 有
 	<span class="formula">
-		`p^t | n-i iff p^t | i iff p^t | p^k-i`
+		`p^t | n-i`
+    `iff p^t | i`
+    `iff p^t | p^k-i`,
 	</span>
 	因此
 	<span class="formula">
@@ -1031,69 +1047,80 @@
 		((n-1)cdots(n-(p^k-1)))/((p^k-1)cdots(p^k-(p^k-1)))`
 	</span>
 	分子分母含有同样多的公因子 `p`, 因而消去因子 `p` 后得到一分子分母都与
-	`p` 互素的分数. 又 `p !| m`, 所以
-	<span class="formula">
-		`p !| m * (n-1;p^k-1)`,
-	</span>
-	于是 `p^(l-k) | (n;p^k)`, 但 `p^(l-k+1) !| (n;p^k)`.
+	`p` 互素的分数 (实际上是整数). 将这结果代回 `(n; p^k)` 的表达式, 注意 `p
+  !| m`, 即知 `p` 在 `(n; p^k)` 中的次数恰为 `l-k`.
 </p>
 
 <ol class="theorem">
 	<b>Sylow 定理</b>
-	令 `G` 为一 `n` 阶群, `p` 为一素数, `l in ZZ^+`,
-	`p^l | n`, `p^(l+1) !| n`.
-	则
-	<li>`AA 1 le k le l`, `G` 必有 `p^k` 阶子群 `H`, 特别地有 `p^l` 阶子群
-		`P`, 称为 `G` 的一个 <b>Sylow `bm p`-子群</b>.
+	令 `G` 为一 `n` 阶群, 素数 `p` 在 `n` 中的次数为 `l`.  则
+  <li><b>存在性</b>
+    `G` 必有 `p^k` 阶子群, `k = 1, cdots, l`, 其中 `p^l` 阶的子群
+		称为 `G` 的 <b>Sylow `bm p`-子群</b>.
 	</li>
-	<li>如上述, `|H| = p^k le p^l = |P|`,
+  <li><b>共轭性质</b>
+    设 `G` 的子群 `|H| = p^k`, `|P| = p^l`, `k le l`.
 		则 `H` 含于 `P` 的某个共轭子群, 即
 		<span class="formula">
 			`(EE a in G)` `H sube a P a^-1`.
 		</span>
-		因为 `P` 的任意共轭子群与 `P` 同构, 从而阶数相同,
-		所以 Sylow-`p` 子群的共轭子群也是 Sylow `p`-子群.
+		因为共轭子群与原来的子群同构, 从而阶数相同,
+		所以 Sylow `p`-子群的共轭子群也是 Sylow `p`-子群.
 		特别取 `k = l` 有 `H = a P a^-1`,
 		即 `G` 的 Sylow `p`-子群都是相互共轭的.
 	</li>
-	<li>`G` 的 Sylow `p`-子群的数目 `n_p -= 1 (mod p)`,
-		且 `n_p | n//p^l`.
+  <li><b>惟一性</b>
+    由 2. 立即得到,
+    `P` 是 `G` 的惟一 Sylow `p`-子群当且仅当它的任意共轭子群都是它自身:
+    <span class="formula">
+      `(AA g in G)` `g P g^-1 = P`;
+    </span>
+    即, `P normal G`.
+  </li>
+  <li><b>数量关系</b>
+    `G` 的 Sylow `p`-子群的数目 `n_p -= 1 (mod p)`,
+		且 `n_p p^l | n`.
 	</li>
 </ol>
 
 <ol class="proof">
+  存在性的证明.
 	<li>令 `X = {A sube G {:|:} |A| = p^k}`. 则 `|X| = (n;p^k)`.
 		作映射
 		<span class="formula">
 			`f: G xx X to X`<br/>
 			`(g, A) to g A`.
 		</span>
-		(`g A = {g a | a in A}` 类似于左陪集, 但这里 `A` 是一般的集合.
-		由于 `G` 上左平移变换为单射, 故 `|g A| = |A|`).
-		`AA g, h in G`, `A in X`, 有
+    这里 `g A = {g a | a in A}` 类似于左陪集, 不同之处在于 `A`
+    是一般的集合.  由于 `G` 上左平移变换为单射, 故 `|g A| = |A|`.
+		现在 `AA g, h in G`, `A in X`, 有
 		<span class="formula">
 			`e A = A`, `quad (g h) A = g(h A)`,
 		</span>
-		故 `f` 为群 `G` 在 `X` 上的一个群作用, 令 `X` 为 `f` 轨道的无交并:
+		故 `f` 为群 `G` 在 `X` 上的一个群作用.
+  </li>
+  <li>将 `X` 写为 `f` 轨道的无交并:
 		<span class="formula">
 			`X = uuu_(i=1)^m O_(A_i)`,
 			`quad |X| = sum_(i=1)^m |O_(A_i)|`.
 		</span>
-		由引理, `p^(l-k) | |X|`, `p^(l-k+1) !| |X|`. 故存在 `1 le j le m`,
+		由引理, `p` 在 `|X|` 中的次数为 `l-k`. 故存在 `1 le j le m`,
 		<span class="formula">
 			`p^(l-k+1) !| |O_(A_j)|`,
 		</span>
-		即 `|O_(A_j)|` 至多含 `l-k` 个素因子 `p`, 根据<a class="ref"
+		即 `|O_(A_j)|` 至多含 `l-k` 个素因子 `p`. 根据<a class="ref"
 		href="#the-orbit-cardinal"></a>,
 		<span class="formula">
 			`|G| = |O_(A_j)| |H_(A_j)|`.
 		</span>
 		从而 `|H_(A_j)|` 至少含有 `l-(l-k) = k` 个素因子 `p`,
-		即 `p^k | |H_(A_j)|`. 因为
+		即 `p^k | |H_(A_j)|`.
+  </li>
+  <li>下证 `H_(A_j)` 就是我们要寻找的子群.  因为
 		<span class="formula">
 			`H_(A_j) = {g in G | g A_j = A_j}`,
 		</span>
-		所以 `AA a in A_j`, `AA g in H_(A_j)`, `g a in A_j`.
+		所以 `AA g in H_(A_j)`, `AA a in A_j`, `g a in A_j`.
 		从而 `H_(A_j)` 的右陪集 `H_(A_j) a sube A_j`, 因此
 		<span class="formula">
 			`|H_(A_j)| = |H_(A_j) a| le |A_j| = p^k`
@@ -1101,76 +1128,62 @@
 		但 `p^k | |H_(A_j)|`, 所以 `|H_(A_j)| = p^k`, 即为 `G` 的一个
 		`p^k` 阶子群.
 	</li>
-	<li>令 `X` 为 `G` 关于 Sylow `p`-子群 `P` 的全体左陪集构成的集合,
-		则 `|X| = [G:P] = n//p^l`. 作映射
-		<span class="formula">
-			`f: H xx X to X`<br/>
-			`(h, g P) to (h g)P`.
-		</span>
-		`AA h_1, h_2 in H`, `AA g P in X`,
-		<span class="formula">
-			`e(g P) = (e g) P = g P`,
-			`quad (h_1 h_2)g P = (h_1 (h_2 g)) P`.
-		</span>
-		从而 `f` 为群 `H` 在 `X` 上的一个群作用.
-		由 `p !| |X|` 知, `f` 有不动点, 记为 `a P`, 即 `AA h in H`,
-		`h (a P) = a P`. 从而 `a^-1 h a in P`, 于是
-		`a^-1 H a sube P`, 即 `H sube a P a^-1`.
-	</li>
-	<li>先证 `n_p | n`.
-		令 `X` 为 `G` 的所有 Sylow `p`-子群构成的集合. 作映射
-		<span class="formula">
-			`f_1: G xx X to X`<br/>
-			`(g, P) to g P g^-1`.
-		</span>
-		容易验证 `f_1` 为一群作用. 但 `G` 的所有 Sylow
-		`p`-子群都是相互共轭的, 所以 `f_1` 只有一个轨道 `X`,
-		从而 `n_p = |X| | |G| = n`.<br/>
-		现在令 `P_1` 为 `G` 的一个 Sylow `p`-子群,
-		`X = {P_1, P_2, cdots, P_(n_p)}`, 则
-		<span class="formula">
-			`f_2: P_1 xx X to X`<br/>
-			`(a, P_i) to a P_i a^-1`.
-		</span>
-		提供 `P_1` 在 `X` 上的一个群作用. 记 `f_2` 的不动点数为 `t`, 则
-		<span class="formula">
-			`t -= n_p (mod p)`.
-		</span>
-		下证 `t = 1`. 显然 `P_1 in X` 为 `f_2` 的一个不动点, 若 `P_j` 也为
-		`f_2` 的一个不动点, 则
-		<span class="formula">
-			`(AA g in P)` `P_j = g P_j g^-1`.
-		</span>
-		从而 `P_1 sube N_G(P_j)`. 即 `P_1` 为 `N_G(P_j)` 的一个 Sylow
-		`p`-子群. 但 `P_j` 也是 `N_G(P_j)` 的 Sylow `p`-子群, 故
-		`P_1 = P_j`. 即 `t = 1`, 即 `n_p -= 1 (mod p)`.<br/>
-		现在由 `n_p | n` 和 `n_p !| p^l` 知, `n_p | n//p^l`.
-	</li>
 </ol>
 
-<ol class="corollary">
-	假设同上. 设 `P` 是 `G` 的一个 Sylow `p`-子群, 则
-	<li>`P` 是 `G` 的惟一 Sylow `p`-子群当且仅当 `P normal G`.</li>
-	<li>`P` 是 `N_G(P) = {g in G | g P g^-1 = P}` 的惟一 Sylow
-		`p`-子群.
-	</li>
-</ol>
+<p class="proof">
+  共轭性质的证明.
+	令 `X = G//P_l` (`G` 关于 Sylow `p`-子群 `P` 的左齐性空间),
+  则 `|X| = [G:P] = n//p^l`. 作映射
+  <span class="formula">
+    `f: H xx X to X`<br/>
+    `(h, g P) to (h g)P`.
+  </span>
+  `AA h_1, h_2 in H`, `AA g P in X`,
+  <span class="formula">
+    `e(g P) = (e g) P = g P`,
+    `quad (h_1 h_2)g P = (h_1 (h_2 g)) P`.
+  </span>
+  从而 `f` 为群 `H` 在 `X` 上的一个群作用.
+  由 `p !| |X|` 知, `f` 有不动点, 记为 `a P`, 即 `AA h in H`,
+  `h (a P) = a P`. 从而 `a^-1 h a in P`, 于是
+  `a^-1 H a sube P`, 即 `H sube a P a^-1`.
+</p>
 
 <ol class="proof">
-	<li>只需证 `P` 是 `G` 的惟一 Sylow `p`-子群当且仅当
-		<span class="formula">
-			`(AA g in G)` `g P g^-1 = P`.
-		</span>
-		必要性由 Sylow-`p` 子群的共轭子群也是 Sylow-`p` 子群得知.
-		充分性由 `G` 的 Sylow-`p` 子群都是相互共轭的得知.
-	</li>
-	<li>显然 `P sube N_G(P)`, 因此 `P` 是 `N_G(P)` 的 Sylow `p`-子群.
-		由于 `N_G(P)` 的 Sylow `p`-子群都相互共轭, 所以若 `P_1` 也是
-		`N_G(P)` 的 Sylow `p`-子群, 则
-		<span class="formula">
-			`(EE g in N_G(P))` `P_1 = g P g^-1 = P`.
-		</span>
-	</li>
+  数量关系的证明.
+  <li>
+    先证 `n_p | n`.
+    令 `X` 为 `G` 的所有 Sylow `p`-子群构成的集合. 作映射
+    <span class="formula">
+      `f_1: G xx X to X`<br/>
+      `(g, P) to g P g^-1`.
+    </span>
+    容易验证 `f_1` 为一群作用. 但 `G` 的所有 Sylow
+    `p`-子群都是相互共轭的, 所以 `f_1` 只有一个轨道 `X`,
+    从而 `n_p = |X| | |G| = n`.
+  </li>
+  <li>令 `X = {P_1, P_2, cdots, P_(n_p)}`, 则
+    <span class="formula">
+      `f_2: P_1 xx X to X`<br/>
+      `(a, P_i) to a P_i a^-1`.
+    </span>
+    提供 `P_1` 在 `X` 上的一个群作用. 记 `f_2` 的不动点数为 `t`, 则
+    <span class="formula">
+      `n_p -= t (mod p)`.
+    </span>
+  </li>
+  <li>下证 `t = 1`. 显然 `P_1 in X` 为 `f_2` 的一个不动点, 若 `P_j` 也为
+    `f_2` 的不动点, 即
+    <span class="formula">
+      `(AA g in P_1)` `P_j = g P_j g^-1`,
+    </span>
+    从而 `P_1 sube N_G(P_j)`. 即 `P_1` 为 `N_G(P_j)` 的一个 Sylow
+    `p`-子群. 但 `P_j normal N_G(P_j)` 是 `N_G(P_j)` 的惟一 Sylow
+    `p`-子群, 故 `P_1 = P_j`. 这证明了不动点的惟一性.
+  </li>
+  <li>
+    最后由 `n_p | n` 和 `p !| n_p` 知 `n_p p^l | n`.
+  </li>
 </ol>
 
 <p class="example">
@@ -1178,7 +1191,7 @@
 </p>
 
 <p class="proof">
-	设 `|G| = 72 = 2^3 3^2`, 由第三 Sylow 定理, `G` 的 Sylow 3-子群的个数
+	设 `|G| = 72 = 2^3 3^2`, 由 Sylow 定理, `G` 的 Sylow 3-子群的个数
 	`n_3 = 1+3t | 2^3`, 因此, `t = 0, 1`.
 	当 `t = 0` 时, `G` 的 Sylow-3 子群只有 1 个, 为 9 阶正规子群.
 	当 `t = 1` 时, `G` 的 Sylow-3 子群有 4 个, 令 `X` 是这 4 个群的集合:
