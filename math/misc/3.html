@@ -1589,7 +1589,7 @@
 	<li>已知 `x^2 + y^2 = 1`, 求 `max(x+1)(y+2)`;</li>
 	<li>已知 `x gt -1`, 求 `min(x^2+7x+10)/(x+1)`;</li>
 	<li>已知 `x in (0, 1/2)`, 求 `min(2/x + 9/(1-2x))`;</li>
-    <li>已知 `x^2 - 4 x y - 5 y^2 = 5`, 求 `min(x^2+2y^2)`;</li>
+  <li>已知 `x^2 - 4 x y - 5 y^2 = 5`, 求 `min(x^2+2y^2)`;</li>
 </ol>
 
 <ol class="solution">
@@ -1667,29 +1667,62 @@
 	<li>`x y + x^2 = (x y)/2 + (x y)/2 + x^2`. 后面是处理是容易的.</li>
 </ol>
 
-<p class="example">
-	已知 `x y^2 (x+y) = 9`, 求 `min(2x+y)`.
-</p>
+<ol class="example">
+  <b>均值不等式 (配系数)</b>
+  <li>设 `a, b gt 0`, 求 `min(1/a + a/b^2 + b)`;</li>
+  <li>已知 `x^2 + 2 x y = 1`, 求 `min(x^2 + y^2)`;</li>
+  <li>已知 `x, y gt 0`, `x y^2(x+y) = 4`, 求 `min(2x+y)`.</li>
+</ol>
 
-<p class="proof">
-	设 `2x+y = a x + b y + b y + c(x+y)`, 我们有:
-	<span class="formula">
-		`a + c = 2`, `quad 2b + c = 1`,
-	</span>
-	注意均值不等式的取等条件 `a x = b y = c(x+y)` 必须成立, 因此有
-	<span class="formula">
-		`a x = c(x+y) = cx(1+a/b)`, 即
-		`a = c(1+a/b)`.
-	</span>
-	从 `a, b, c` 满足的三个方程中解得 `a = 1 + sqrt2/2`, `b = 1/(2sqrt2)`,
-	`c = 1-sqrt2/2`. 于是
-	<span class="formula">
-		`2x+y = (1+sqrt2/2)x + y/(2sqrt2) + y/(2sqrt2) + (1-sqrt2/2)(x+y)`
-		`ge 4[(1+sqrt2/2)x * y/(2sqrt2) * y/(2sqrt2)
-		* (1-sqrt2/2)(x+y)]^(1//4)`
-		`= 4 * root 4 (9/16) = 2sqrt3`.
-	</span>
-</p>
+<ol class="solution">
+  <li>使用四元均值不等式,
+    <span class="formula">
+      `1/a + a/b^2 + b/2 + b/2`
+      `ge 4 root 4 (1/4) = 2 sqrt 2`.
+    </span>
+    等号成立当且仅当 `a = b = sqrt 2`.
+  </li>
+  <li>
+    将 `y = 1/2(1/x - x)` 代入得
+    <span class="formula">
+      `x^2 + y^2`
+      `= 5/4 x^2 + 1/(4 x^2) - 1/2`
+      `ge 2 sqrt(5/4 1/4) - 1/2`
+      `= (sqrt 5-1)/2`.
+    </span>
+    另一种解法是设
+    <span class="formula">
+      `x^2 + y^2`
+      `= a x^2 + b x^2 + y^2`
+      `ge a x^2 + 2 sqrt b x y`.
+    </span>
+    比较系数得
+    <span class="formula">
+      `a + b = 1`, `quad a = sqrt b`,
+    </span>
+    解得 `a = (sqrt 5-1)/2`.
+  </li>
+  <li>设
+    <span class="formula">
+      `2x+y = a x + b y + b y + c(x+y)`
+      `ge 4 root 4(a c b^2 x y^2 (x+y))`
+      `= 4 root 4(4a c b^2)`,
+    </span>
+    比较系数得
+    <span class="formula">
+      `a + c = 2`, `quad 2b+c = 1`.
+    </span>
+    又注意取等条件为
+    <span class="formula">
+      `a x = b y = c (x+y) = k`, 即 `1/a + 1/b = 1/c`,
+    </span>
+    解得
+    <span class="formula">
+      `a = 1 + sqrt2/2`, `quad b = sqrt2/4`, `quad c = 1 - sqrt2/2`.
+    </span>
+    于是原式的最小值为 `2sqrt2`.
+  </li>
+</ol>
 
 <p class="example">
   <b>定角构圆问题</b>
@@ -1822,43 +1855,6 @@
 
 <p class="proof">
   提示: 用归纳法和均值不等式.
-</p>
-
-<p class="example">
-  设 `a, b gt 0`, 求 `min(1/a + a/b^2 + b)`.
-</p>
-
-<p class="solution">
-  使用四元均值不等式,
-  <span class="formula">
-    `1/a + a/b^2 + b/2 + b/2`
-    `ge 4 root (1/4) = 2 sqrt 2`.
-  </span>
-  等号成立当且仅当 `a = b = sqrt 2`.
-</p>
-
-<p class="example">
-  已知 `x^2 + 2 x y = 1`, 求 `min(x^2 + y^2)`.
-</p>
-
-<p class="solution">
-  将 `y = 1/2(1/x - x)` 代入得
-  <span class="formula">
-    `x^2 + y^2`
-    `= 5/4 x^2 + 1/(4 x^2) - 1/2`
-    `ge 2 sqrt(5/4 1/4) - 1/2`
-    `= (sqrt 5-1)/2`.
-  </span>
-</p>
-
-<p class="solution">
-  设 `a in (0, 1)` 满足 `a = sqrt(1-a)`, 于是
-  <span class="formula">
-    `a x^2 + (1-a) x^2 + y^2`
-    `ge a x^2 + 2 x y sqrt(1-a)`
-    `= a (x^2 + 2 x y) = a`.
-  </span>
-  解得 `a = (sqrt 5-1)/2`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

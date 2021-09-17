@@ -681,7 +681,9 @@
 	</li>
 </ol>
 
-<h2>三次曲线、叶形线</h2>
+<h2>高次曲线</h2>
+
+<h3>三次曲线</h3>
 
 <p class="example">
   平面上原点关于抛物线 `y = -ax^2` 在 `x=t` 处的切线
@@ -701,12 +703,46 @@
   <canvas id="exp-parabola-cubic" width="400" height="150"></canvas>
 </div>
 
+<h3>四次曲线</h3>
+
+<p class="example">
+  <b>Descartes 卵形线</b> 是平面上到两个焦点距离 `r_1, r_2` 满足 `m r_1
+  + n r_2 = b` 的点的轨迹.
+</p>
+
+<p class="example">
+  <b>Cassini 卵形线</b>
+  是平面上到两个焦点 `(+-c, 0)` 距离之积为定值 `a^2` 的点的轨迹.
+  当 `a = c` 时, 称为<b>Bernoulli 双纽线</b>. Cassini 卵形线的方程为
+  <span class="formula">
+    `((x-c)^2 + y^2)((x+c)^2+y^2) = a^4`,<br>
+    或 `(x^2+y^2)^2 - 2c^2(x^2-y^2) = a^4-c^4`,<br>
+    或 `r^4 - 2c^2 r^2 cos 2 theta = a^4 - c^4`.
+  </span>
+  特别, 双纽线的极坐标方程为
+  <span class="formula">
+    `r^2 = 2 a^2 cos 2 theta`.
+  </span>
+</p>
+
+<div class="img md">
+  <canvas id="exp-cassini" width="300" height="200"></canvas>
+</div>
+
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/plot.js"></script>
 <script>
 new Plot('exp-parabola-cubic')
   .geometry({ xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5 }).axis()
   .plot(t => t**3/(1+t**2), t => t**2/(1+t**2), { min: -5, max: 5})
+
+// r^2 = c^2 cos 2t +- sqrt(a^4-c^4 sin^2 2t)
+const { cos, sin, sqrt, abs, PI } = Math
+const f = t => sqrt(2*cos(2*t))
+new Plot('exp-cassini')
+  .geometry({ xmin: -1.5, xmax: 1.5, ymin: -1, ymax: 1}).axis()
+  .plot(t => f(t)*cos(t), t => f(t)*sin(t), { min: -PI/4, max: PI/4 }) // 右支
+  .plot(t => f(t)*cos(t), t => f(t)*sin(t), { min: 3*PI/4, max: 5*PI/4 }) // 左支
 </script>
 </body>
 </html>

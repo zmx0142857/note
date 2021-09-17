@@ -606,9 +606,105 @@
     </span>
 </p>
 
+<h3>`p` 进制数</h3>
+
+<p>[来自 <a href="http://www.aquatutoring.org/KummerTheoremLucasTheorem.pdf">KummerTheoremLucasTheorem</a>]</p>
+
+<p class="definition">
+  若素数 `p` 和正整数 `n` 满足 `p^k | n`, `p^(k+1) !| n`, 则称 `p` 在 `n`
+  中的次数是 `k`, 或者称 `n` 的 <b>`bm p` 进制值 (`bm p`-adic valuation)</b>
+  `v_p(n) = k`. 显然 `v_p` 是积性函数, 满足
+  <span class="formula">
+    `v_p(m n) = v_p(m) v_p(n)`.
+  </span>
+</p>
+
+<p class="example">
+  `n!` 末尾有多少个零?
+</p>
+
+<p class="solution">
+  即求 `5` 在 `n!` 中的次数.
+  因为 `n` 以内的正整数中, `5` 的倍数有
+  `|__n/5__|` 个, 它们为乘积 `n!` 提供了 `|__n/5__|` 个 `5` 的因子.
+  在这些 `5` 的倍数中, `5^2` 的倍数有 `|__n/5^2__|` 个, 为乘积 `n!`
+  提供了额外的 `|__n/5^2__|` 个 `5` 的因子. 依次类推, `n!` 中, `5`
+  的次数等于
+  <span class="formula">
+    `sum_(i ge 1) |__n/5^i__|`.
+  </span>
+  上次是无穷级数, 但只有有限项不为零.
+</p>
+
+<ol class="corollary">
+  <li>`v_p(n!) = sum_(i ge 1) |__n/p^i__|`;</li>
+  <li>`v_p(n;k) = v_p(n!) - v_p(k!) - v_p((n-k)!)`.</li>
+</ol>
+
+<p class="lemma">
+  <b>Legendre 公式</b>
+  `p` 为素数, 将正整数 `n` 写为 `p` 进制 `n = sum_(i=0)^k a_i p^i`,
+  记 `s_p(n) = sum_(i=0)^k a_i`, 有
+  <span class="formula">
+    `v_p(n!) = (n - s_p(n))/(p-1)`.
+  </span>
+</p>
+
+<p class="proof">
+  <span class="formula">
+    `v_p(n!) = sum_(i ge 1) |__n/p^i__|`
+    `= (a_1 + cdots + a_k p^(k-1))`
+    `+ (a_2 + cdots + a_k p^(k-2))`
+    `+ cdots + a_k`
+    `= a_1 + a_2 (1+p) + cdots + a_k(1+p+cdots+p^(k-1))`
+    `= [a_1(p-1) + a_2(p^2-1) + cdots + a_k(p^k-1)]//(p-1)`
+    `= (n - s_p(n))/(p-1)`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Kummer 定理</b> `p` 为素数,
+  将 `m, n` 写为 `p` 进制数然后相加, 进位的次数恰等于 `v_p(m+n;n)`.
+</p>
+
+<p class="proof">
+  记
+  <span class="formula">
+    `m+n = sum_(i=0)^r a_i p^i`,
+    `quad m = sum_(i=0)^r b_i p^i`,
+    `quad n = sum_(i=0)^r c_i p^i`,
+  </span>
+  如果三个数的位数不同, 可以在 `m, n` 的开头补零使它们相同.
+  定义进位函数 `gamma` 如下: `gamma_(-1) = gamma_r = 0`, `0 le i lt r` 时,
+  <span class="formula">
+  `gamma_i = {
+     1, if b_i + c_i + gamma_(i-1) ge p;
+     0, otherwise;
+  :}`
+  </span>
+  根据加法法则, 我们有
+  <span class="formula">
+    `a_i = b_i + c_i + gamma_(i-1) - p gamma_i`, `quad i = 0, cdots, r`.
+  </span>
+  求和得
+  <span class="formula">
+    `s_p(m+n) - s_p(m) - s_p(n)`
+    `= sum_(i=1)^r gamma_(i-1) - sum_(i=0)^(r-1) p gamma_i`
+    `= (1-p) sum_(i=0)^(r-1) gamma_i`.
+  </span>
+  现在应用 Legendre 公式有
+  <span class="formula">
+    `v_p (m+n; n)`
+    `= v_p((m+n)!) - v_p(m!) - v_p(n!)`
+    `= (s_p(m) + s_p(n) - s_p(m+n))/(p-1)`
+    `= sum_(i=0)^(r-1) gamma_i`,
+  </span>
+  这正是进位的次数.
+</p>
+
 <p class="theorem">
   <b>Lucas 定理</b>
-  `p` 为素数, 计算组合数 `(m; n) mod p`. 先将 `m, n` 写为 `p` 进制数:
+  `p` 为素数, 计算 `(m; n) mod p`. 先将 `m, n` 写为 `p` 进制数:
   <span class="formula">
     `m = sum_(i=0)^k a_i p^i`,
     `quad n = sum_(i=0)^k b_i p^i`,
