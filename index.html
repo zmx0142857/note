@@ -396,7 +396,8 @@ var article = $('#article'),
   favicon = $('#favicon'),
   eclipse = $('#eclipse'),
   notify,
-  about = $('#about')
+  about = $('#about'),
+  iframe
 
 var aboutDlg = new Modal('about')
 $('#show-about').onclick = function () {
@@ -427,6 +428,7 @@ function hideNav(flag) {
     yinyang.style.transform = 'none';
     eclipse.style.display = 'none';
     headerVisible(false);
+    iframe.focus();
   } else {
     nav.removeAttribute('hidden');
     nav.style.width = '16em';
@@ -452,7 +454,7 @@ function headerVisible(flag) {
 
 function createIframe(src) {
   // 全新创建的 iframe 不会影响 history
-  var iframe = $('<iframe>');
+  iframe = $('<iframe>');
   iframe.id = 'iframe';
   iframe.setAttribute('src', src);
   iframe.onload = function() {
@@ -460,6 +462,7 @@ function createIframe(src) {
   };
   article.insertBefore(iframe, header);
   iframe.contentWindow.handleKeyboard = handleKeyboard;
+  iframe.focus();
 }
 
 function load(key, defaultVal) {

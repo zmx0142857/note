@@ -16,13 +16,13 @@
         <span class="label" id="for-index"></span>
     </span>
     的最小正整数 `d` 为 `a` 对模 `m` 的<b>指数</b>或<b>阶</b>,
-    记为 `delta_m(a)`. 下文涉及到指数 `delta_m(a)` 时,
+    记为 `"ord"_m a`. 下文涉及到指数 `"ord"_m a` 时,
     总假定 `(a, m) = 1`.
 </p>
 
 <p class="proposition">
     满足<a class="ref" href="#for-index"></a>的正整数 `d` 是存在的,
-    且 `delta_m(a) lt m`.
+    且 `"ord"_m a lt m`.
 </p>
 
 <p class="proof">
@@ -41,7 +41,7 @@
     取 `d = i-j` 即得结论.
 </p>
 
-<p> 事实上 `delta_m(a)` 的上界可进一步降低,
+<p> 事实上 `"ord"_m a` 的上界可进一步降低,
     这就是下面的 Euler-Fermat 定理:
 </p>
 
@@ -65,18 +65,18 @@
 </p>
 
 <p class="definition">
-    由 Euler-Fermat 定理, `delta_m(a) le varphi(m)`.
+    由 Euler-Fermat 定理, `"ord"_m a le varphi(m)`.
     当等号成立时, 称 `a` 是模 `m` 的<b>原根 (primitive root)</b>.
 </p>
 
 <p class="remark">
-    从群论的观点, 模 `m` 的既约剩余系构成一个乘法群, `delta_m(a)` 就是
+    从群论的观点, 模 `m` 的既约剩余系构成一个乘法群, `"ord"_m a` 就是
     `a` 在群中的阶. 若 `a` 为原根, 则 `a` 的阶等于群的阶 `varphi(m)`,
     此时 `a` 是群的生成元, 既约剩余系具有循环群的简单结构.
 </p>
 
 <ol class="corollary" id="cor-index">
-    设 `(a, m) = 1`, `delta_m(a) = delta`.
+    设 `(a, m) = 1`, `"ord"_m a = delta`.
     <li>`a^n -= 1 (mod m)` 当且仅当 `delta | n`.
         因此 `delta | varphi(m)`, 且 `a^n` (`n = 0, 1, 2, cdots`)
         模 `m` 的余数以指数 `delta` 为周期.
@@ -111,7 +111,7 @@
             `a^(2^(n-2)) -= 1 (mod 2^n)`;
         </span>
     </li>
-    <li>`n ge 3` 时, `delta_m(5) = 2^(n-2)`.
+    <li>`n ge 3` 时, `"ord"_m 5 = 2^(n-2)`.
         这时数字 5 是原根这一角色的一个 "替代品".
     </li>
 </ol>
@@ -123,8 +123,8 @@
             <th>`n`</th>
             <th>`m`</th>
             <th>`varphi(m)`</th>
-            <th>`delta_m(1)`</th>
-            <th>`delta_m(-1)`</th>
+            <th>`"ord"_m 1`</th>
+            <th>`"ord"_m(-1)`</th>
             <th>原根</th>
         </tr>
         <tr>
@@ -165,7 +165,7 @@
         结论也成立.
         由于 `varphi(2^n) = 2^(n-1) gt 2^(n-2)`, 故此时无原根.
     </li>
-    <li>2. 中已经证明 `delta_m(5) | 2^(n-2)`, 因而只需证 `delta_m(5) !|
+    <li>2. 中已经证明 `"ord"_m 5 | 2^(n-2)`, 因而只需证 `"ord"_m 5 !|
         2^(n-3)`, 即证
         <span class="formula">
             `5^(2^(n-3)) !-= 1 (mod 2^n)`, `quad n ge 3`.
@@ -191,11 +191,11 @@
         就可以视作是等价的.
     </li>
     <li>设 `a^-1` 是 `a` 模 `m` 的逆, 则它与 `a` 的指数相等;</li>
-    <li>`n | m rArr` `delta_n(a) | delta_m(a)`;</li>
-    <li>若 `(m, n) = 1`, 则 `delta_(m n)(a) = [delta_m(a), delta_n(a)]`;
+    <li>`n | m rArr` `"ord"_n a | "ord"_m a`;</li>
+    <li>若 `(m, n) = 1`, 则 `"ord"_(m n) a = ["ord"_m a, "ord"_n a]`;
     </li>
-    <li>`delta_m(a b) = delta_m(a) delta(b)` 当且仅当 `(delta_m(a),
-        delta_m(b)) = 1`;
+    <li>`"ord"_m(a b) = "ord"_m a "ord"_m b` 当且仅当 `("ord"_m a,
+        "ord"_m b) = 1`;
     </li>
 </ol>
 
@@ -207,8 +207,8 @@
     <li>只需注意 `n | m` 时, `a^delta -= 1 (mod m) rArr
         a^delta -= 1 (mod n)`;
     </li>
-    <li>分别记 `delta_m(a) = M`, `delta_n(a) = N`, `delta_(m n)(a)
-        = delta`. 由 3. 得 `[M, N] | delta`. 另一方面, 有
+    <li>分别记 `"ord"_m a = M`, `"ord"_n a = N`, `"ord"_(m n) a = delta`.
+      由 3. 得 `[M, N] | delta`. 另一方面, 有
         <span class="formula">
             `a^([M,N]) -= 1 (mod m)`,
             `quad a^([M,N]) -= 1 (mod n)`,
@@ -236,18 +236,18 @@
     由计算性质4, 求模 `m` 的指数, 只需把 `m` 进行标准分解
     `m = prod p_i^(n_i)`, 就有
     <span class="formula">
-        `delta_m(a) = [delta_(p_1^(n_1))(a), cdots, delta_(p_r^(n_r))(a)]`.
+        `"ord"_m a = ["ord"_(p_1^(n_1)) a, cdots, "ord"_(p_r^(n_r)) a]`.
     </span>
 </p>
 
 <ol class="theorem">
-    <b>元素幂的阶数公式</b> 设 `n ge 0`, `delta_m(a) = delta`, 则
+    <b>元素幂的阶数公式</b> 设 `n ge 0`, `"ord"_m a = delta`, 则
     <span class="formula">
-        `delta_m(a^n) = delta//(n, delta)`;
+        `"ord"_m(a^n) = delta//(n, delta)`;
     </span>
     特别地,
-    <li>若 `delta = s t`, 则 `delta_m(a^s) = t`;</li>
-    <li>`delta_m(a^n) = delta_m(a)` 当且仅当 `(n, delta) = 1`.
+    <li>若 `delta = s t`, 则 `"ord"_m(a^s) = t`;</li>
+    <li>`"ord"_m(a^n) = "ord"_m a` 当且仅当 `(n, delta) = 1`.
         于是模 `m` 的既约剩余系中, 至少有
         <span class="formula">
             `a^n`, `quad 0 le n lt delta`, `(n, delta) = 1`
@@ -257,7 +257,7 @@
 </ol>
 
 <p class="proof">
-    记 `delta_m(a^n) = k`, `(n, delta) = d`. 一方面,
+    记 `"ord"_m(a^n) = k`, `(n, delta) = d`. 一方面,
     <span class="formula">
         `(a^n)^(delta // d) = (a^delta)^(n//d) -= 1 (mod m)`,
     </span>
@@ -271,13 +271,13 @@
 </p>
 
 <ol class="theorem">
-    <b>给定阶元素的存在性定理</b>
-    <li>若 `(m, n) = 1`, 则对任意 `a, b`, 存在 `c` 使得
-            `delta_(m n)(c) = [delta_m(a), delta_n(b)]`.
-    </li>
-    <li>对任意 `a, b`, 存在 `c` 使得
-            `delta_m(c) = [delta_m(a), delta_m(b)]`.
-    </li>
+  <b>给定阶元素的存在性定理</b>
+  <li>若 `(m, n) = 1`, 则对任意 `a, b`, 存在 `c` 使得
+    `"ord"_(m n) c = ["ord"_m a, "ord"_n b]`.
+  </li>
+  <li>对任意 `a, b`, 存在 `c` 使得
+    `"ord"_m c = ["ord"_m a, "ord"_m b]`.
+  </li>
 </ol>
 
 <ol class="proof">
@@ -287,10 +287,10 @@
         </span>
         存在唯一解 `x -= c (mod m n)`.
         因为 `c` 和 `a, b` 分别关于模 `m, n` 同余, 所以
-        `delta_m(c) = delta_m(a)`, `delta_n(c) = delta_n(b)`.
+        `"ord"_m c = "ord"_m a`, `"ord"_n c = "ord"_n b`.
         再由计算性质4 即得结论.
     </li>
-    <li>分别记 `A = delta_m(a)`, `B = delta_m(b)`, `eta = [A, B]`. 作分解
+    <li>分别记 `A = "ord"_m a`, `B = "ord"_m b`, `eta = [A, B]`. 作分解
         <span class="formula">
             `A = a_1 a_2`, `quad B = b_1 b_2`,<br/>
             其中 `(a_2, b_2) = 1`, `quad a_2 b_2 = eta`.
@@ -300,11 +300,11 @@
         对 `eta` 的每个素因子都如此分类即可得到 `a_2, b_2`.<br/>
         现在由阶数公式,
         <span class="formula">
-            `delta_m(a^(a_1)) = a_2`, `quad delta_m(b^(b_1)) = b_2`,
+            `"ord"_m(a^(a_1)) = a_2`, `quad "ord"_m(b^(b_1)) = b_2`,
         </span>
         取 `c = a^(a_1) b^(b_1)`, 由计算性质5,
         <span class="formula">
-            `delta_m(c) = delta_m(a^(a_1) b^(b_1)) = a_2 b_2 = eta`.
+            `"ord"_m c = "ord"_m(a^(a_1) b^(b_1)) = a_2 b_2 = eta`.
         </span>
     </li>
 </ol>
@@ -394,22 +394,159 @@
   </li>
 </ol>
 
-<h3>分圆多项式</h3>
+<h2>分圆多项式</h2>
 
 <p class="definition">
-  记 `omega = "e"^(2pi"i"//n)`, 则多项式 `x^n - 1` 的全部根为 `omega^k`,
-  `k = 1, cdots, n`, 它们均匀分布于单位圆上, 称为 `n` 次单位根.
-  设 `lambda` 是一个 `n` 次单位根, 若 `k` 是使得 `lambda^k = 1`
-  的最小正整数, 则称 `lambda` 的阶为 `k`, 记为 `"ord"lambda = k`.
-  收集全部阶为 `k` 的 `n` 次单位根, 定义
+  设 `lambda in CC`, 若 `n` 是使得 `lambda^n = 1` 成立的最小正整数,
+  则称 `lambda` 的阶为 `n`, 记为 `"ord"lambda = n`.
+  <b>分圆多项式 (或割圆多项式)</b>定义为
   <span class="formula">
-    `phi_k(x) = prod_("ord"lambda = k) (x - lambda)`,
+    `phi_n(x) = prod_("ord"lambda = n) (x - lambda)`.
   </span>
-  称为<b>分圆多项式 (或割圆多项式)</b>.
+  `phi_n(x)` 的所有根称为 `n` 次<b>本原单位根</b>
+  <span class="formula">
+    `Theta_n = {"e"^(2pi"i"k//n) | (k, n) = 1 }`.
+  </span>
+  因此 `phi_n(x)` 的次数就等于 `|Theta_n| = varphi(n)`.
 </p>
 
 <p class="proposition">
-  分圆多项式是首 1 的整系数多项式. `phi_n(x)` 在 `ZZ` 上不可约. ??
+  若 `lambda, mu` 是两个 `n` 次本原单位根, 则存在与 `n` 互素的整数 `m`
+  使得 `mu = lambda^m`.
+</p>
+
+<p class="proof">
+  记 `omega = "e"^(2pi"i"//n)`, `lambda = omega^j`, `mu = omega^k`,
+  `(j, n) = (k, n) = 1`, 只需取 `m` 使得 `m j -= k (mod n)`, 就有
+  `lambda^m = omega^(m j) = omega^k = mu`.
+</p>
+
+<p class="proposition">
+  `x^n-1 = prod_(d | n) phi_d(x)`.
+</p>
+
+<p class="proof">
+  首先, 注意到等号两边均无重根, 只需证两边的根的集合相等.
+  右边的多项式的根都是 `n` 次单位根, 因而包含在左边的多项式的根中.
+  反之, 任取一个 `n` 次单位根 `lambda`, 它的阶必整除 `n`,
+  因而包含在右边的多项式的根中. 于是两边相等.
+</p>
+
+<p>尽管从定义看来不很显然, 但分圆多项式的系数都是整数!</p>
+
+<p class="proposition">
+  分圆多项式 `phi_n(x)` 是首 1 的整数系数多项式, 其常数项 `in {1, -1}`.
+</p>
+
+<p class="proof">
+  首 1 性由定义立即看出. 对 `n` 进行归纳, `n=1` 时 `phi_1(x) = x-1`,
+  结论成立. 假设结论对一切 `d lt n` 成立, 考虑 `n` 的情形, 有
+  <span class="formula">
+    `x^n - 1 = prod_(d | n) phi_d(x) = F(x) phi_n(x)`,
+  </span>
+  其中
+  <span class="formula">
+    `F(x) = sum_(j=0)^l a_j x^j`,
+    `quad phi_d(x) = sum_(j=0)^(n-l) b_j x^j`,
+  </span>
+  由归纳假设, `a_0 in {1, -1}`, 比较系数得 `b_0 in {1, -1}`.
+  又假定 `b_0, b_1, cdots b_(k-1)` 已被证实为整数, 比较两边 `x^k` 的系数知
+  <span class="formula">
+    `a_0 b_k + sum_(j=0)^(k-1) a_(k-j) b_j`
+  </span>
+  为整数, 因此 `a_0 b_k` 为整数, 从而 `b_k` 为整数.
+</p>
+
+<table class="col2">
+  <tr>
+    <th>`n`</th>
+    <th>`phi_n(x)`</th>
+    <th>`n`</th>
+    <th>`phi_n(x)`</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>`x-1`</td>
+    <td>6</td>
+    <td>`x^2-x+1`</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>`x+1`</td>
+    <td>7</td>
+    <td>`x^6+x^5+x^4+x^3+x^2+x+1`</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>`x^2+x+1`</td>
+    <td>8</td>
+    <td>`x^4+1`</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>`x^2+1`</td>
+    <td>9</td>
+    <td>`x^6+x^3+1`</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>`x^4+x^3+x^2+x+1`</td>
+    <td>10</td>
+    <td>`x^4-x^3+x^2-x+1`</td>
+  </tr>
+</table>
+
+<p>`n = 105` 时, 分圆多项式的系数中首次出现 `{1, -1, 0}` 以外的数:
+  <span class="formula">
+    `phi_105(x) = x^48+x^47+x^46-x^43-x^42- color(red)2 x^41-x^40-x^39+x^36+x^35+x^34`
+    `+x^33+x^32+x^31-x^28-x^26-x^24-x^22-x^20+x^17+x^16+x^15+x^14+x^13`
+    `+x^12-x^9-x^8-color(red)2 x^7-x^6-x^5+x^2+x+1`.
+  </span>
+</p>
+
+<ol class="proposition">
+  当 `n` 为素数 `p` 或 `2p` 时, 分圆多项式的形式比较简单:
+  <li>`phi_p(x) = sum_(k=0)^(p-1) x^k`;</li>
+  <li>`phi_(2p)(x) = sum_(k=0)^(p-1) (-x)^k`.</li>
+</ol>
+
+<p class="proposition">
+  分圆多项式在 `ZZ` 上不可约, 从而由 Gauss 引理, 在 `QQ` 上也不可约.
+</p>
+
+<ol class="proof">
+  <li>反设 `phi_n(x) = g(x) h(x)`, 其中 `g, h` 是首 1 的, 次数 `ge 1`
+    的整系数多项式, 且 `g` 不可约. 任取 `g` 的一根 `lambda` 和素数 `p !|
+    n`, 下证 `lambda^p` 也是 `g` 的根.
+  </li>
+  <li>由分圆多项式定义, `lambda^p` 是 `phi_n(x)` 的根; 若它不是 `g` 的根,
+    则它是 `h` 的根, 因此 `lambda` 是 `g(x)` 和 `h(x^p)` 的公共根.
+    现在对 `p` 取模, 由 Fermat 小定理,
+    <span class="formula">
+      `h(x^p) -= h(x) -= h(x)^p (mod p)`,
+    </span>
+    即 `g` 和 `h` 在模 `p` 意义下有公共根.
+    下证 `phi_n(x) = g(x) h(x)` 在模 `p` 意义下无重根, 从而引出矛盾.
+  </li>
+  <li>`phi_n(x)` 是 `x^n-1` 的因子, 故只需证 `f(x) = x^n-1` 模 `p`
+    意义下无重根.  事实上, `(f(x), f'(x)) = (x^n-1, n x^(n-1)) = 1`,
+    因此它无重根.
+  </li>
+  <li>综上有 `lambda^p` 是 `g` 的根.
+    任取 `n` 次本原单位根 `lambda^m`, `(m, n) = 1`,
+    作素因子分解 `m = prod p_i`, 则
+    <span class="formula">
+      `lambda^m = ((lambda^(p_1))^(p_2))^cdots`
+    </span>
+    也是 `g` 的根. 这就是说 `phi_n(x)` 的所有根都是 `g` 的根,
+    从而 `phi_n(x) = g(x)` 是不可约多项式.
+  </li>
+</ol>
+
+<p class="definition">
+  <b>分圆域</b> 是多项式 `x^n - 1 in QQ[x]` (等价地, `phi_n(x)`) 的分裂域
+  `QQ(Theta_n)`. 它是 `QQ` 的 Galois 扩张, 扩张次数为 `varphi(n)`
+  分圆域的 Galois 群??
 </p>
 
 <script src="../../js/note.js?type=math"></script>
