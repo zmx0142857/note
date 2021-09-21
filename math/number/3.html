@@ -417,8 +417,13 @@
 
 <p class="proof">
   记 `omega = "e"^(2pi"i"//n)`, `lambda = omega^j`, `mu = omega^k`,
-  `(j, n) = (k, n) = 1`, 只需取 `m` 使得 `m j -= k (mod n)`, 就有
-  `lambda^m = omega^(m j) = omega^k = mu`.
+  `(j, n) = (k, n) = 1`, 只需取 `m` 使得 `j m -= k (mod n)`, 就有
+  `lambda^m = omega^(j m) = omega^k = mu`.
+</p>
+
+<p class="remark">
+  本原单位根与原根的概念不同. 原根 `r` 可以生成整个既约剩余系 `1, r, r^2,
+  cdots`, 而本原单位根无此性质.
 </p>
 
 <p class="proposition">
@@ -426,10 +431,8 @@
 </p>
 
 <p class="proof">
-  首先, 注意到等号两边均无重根, 只需证两边的根的集合相等.
-  右边的多项式的根都是 `n` 次单位根, 因而包含在左边的多项式的根中.
-  反之, 任取一个 `n` 次单位根 `lambda`, 它的阶必整除 `n`,
-  因而包含在右边的多项式的根中. 于是两边相等.
+  这个等式是对所有 `n` 次单位根按阶分类的结果.
+  注意和整数的阶一样, 我们有 `lambda^n = 1 iff "ord"lambda | n`.
 </p>
 
 <p>尽管从定义看来不很显然, 但分圆多项式的系数都是整数!</p>
@@ -505,9 +508,27 @@
 </p>
 
 <ol class="proposition">
-  当 `n` 为素数 `p` 或 `2p` 时, 分圆多项式的形式比较简单:
+  当 `n = p` (`p` 为素数) 或 `2p` (`p` 为奇素数) 时,
+  分圆多项式的形式比较简单:
   <li>`phi_p(x) = sum_(k=0)^(p-1) x^k`;</li>
   <li>`phi_(2p)(x) = sum_(k=0)^(p-1) (-x)^k`.</li>
+</ol>
+
+<ol class="proof">
+  <li>因为 `Theta_n = {"e"^(2pi"i"k//p) | (k, p) = 1}`
+    `= {"e"^(2pi"i"k//p) | k = 1, cdots, p-1}`,
+    所以 `phi_p(x) = (x^p-1)/(x-1)`.
+  </li>
+  <li>设 `p` 为奇素数. 下证 `lambda` 的阶为 `p` 当且仅当 `-lambda` 的阶为
+    `2p`.<br>
+    若 `"ord"lambda = p`, 容易验证 `(-lambda)^(2p) = 1`;
+    又对任意 `d | 2p`, 有 `d = 1, 2, p, 2p`. 若 `(-lambda)^d = 1`, 则
+    由于 `p` 是奇素数, `d` 只能等于 `2p`. 这指出 `-lambda` 的阶是
+    `2p`.<br>
+    另一方面, `varphi(p) = varphi(2p) = p-1`, 这指出 `p` 次本原单位根和
+    `2p` 次本原单位根一样多. 因此, 只要将 `phi_p(x)` 中的 `x` 换成 `-x`,
+    就得到 `phi_(2p)(x)`.
+  </li>
 </ol>
 
 <p class="proposition">
@@ -544,8 +565,9 @@
 </ol>
 
 <p class="definition">
-  <b>分圆域</b> 是多项式 `x^n - 1 in QQ[x]` (等价地, `phi_n(x)`) 的分裂域
-  `QQ(Theta_n)`. 它是 `QQ` 的 Galois 扩张, 扩张次数为 `varphi(n)`
+  <b>分圆域</b> 是多项式 `x^n - 1 in QQ[x]` 的分裂域 `QQ(Theta_n)`.
+  显然, 将任一 `n` 次本原单位根加到 `QQ` 中都得到同一个分圆域.
+  `Q(Theta_n) // QQ` 是 Galois 扩张, 扩张次数为 `varphi(n)`.
   分圆域的 Galois 群??
 </p>
 

@@ -1,102 +1,403 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="utf-8" />
-    <title>积性数论函数</title>
-    <link rel="stylesheet" href="../../css/note.css"/>
+  <meta charset="utf-8" />
+  <title>积性数论函数</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
 </head>
-
 <body>
 
 <p class="definition">
-    设 `f` 是定义在 `ZZ^+` 上的函数, 满足
-    <span class="formula">
-        `f(a b) = f(a) f(b)`, `quad AA (a,b) = 1`.
-    </span>
-    则称 `f` 为<b>积性数论函数</b>. 此时若 `n` 有素因子分解
-    <span class="formula">
-        `n = prod_(i=1)^r p_i^(alpha_i)`,
-        <span class="label" id="for-prime-factor"></span>
-    </span>
-    则
-    <span class="formula">
-        `f(n) = prod_(i=1)^r f(p_i^(alpha_i))`.
-    </span>
+  定义在正整数集合上的函数称为<b>数论函数 (或算术函数)</b>.
+</p>
+
+<p class="definition">
+  若算术函数 `f` 满足对任意互素的 `a, b` 有 `f(a b) = f(a) f(b)`,
+  则称 `f` 为<b>积性函数 (或乘性函数)</b>. 此时若 `n`
+  有素因子分解
+  <span class="formula">
+    `n = prod_(i=1)^r p_i^(alpha_i)`,
+    <span class="label" id="for-prime-factor"></span>
+  </span>
+  则
+  <span class="formula">
+    `f(n) = prod_(i=1)^r f(p_i^(alpha_i))`.
+  </span>
+  特别当 `f(a b) = f(a) f(b)` 对任意正整数 `a, b` 成立时, 称 `f`
+  为<b>完全积性函数</b>.
+</p>
+
+<ol class="example">
+  <li>幂函数 `n^s` 是完全积性函数; 特别 `1` 是完全积性函数;</li>
+  <li>下文提到的 `varphi`, `mu`, `iota`, `sigma`, `tau` 都是积性函数.</li>
+</ol>
+
+<h2>Euler 函数</h2>
+
+<p class="proposition">
+  Euler 函数 `varphi(n)` 是积性函数.
+</p>
+
+<div class="p proof">
+  设 `a, b` 互素, 我们有
+  <span class="formula">
+    `(n, a b) = 1 iff (n, a) = 1 and (n, b) = 1`.
+  </span>
+  列出 `a b` 以内的所有正整数:
+<pre>
+       1         2         3  ...    b
+     b+1       b+2       b+3  ...   2b
+     ...
+(a-1)b+1  (a-1)b+2  (a-1)b+3  ...   ab
+</pre>
+  我们来寻找与 `a b` 互素的元素.
+  表中第 `j` 列的任一元素与 `b` 的最大公约数为 `(k b+j, b) = (j, b)`,
+  因此只需看 `(j, b) = 1` 的列, 这样的列有 `varphi(b)` 个.
+  又 `(a, b) = 1`, 故该列的全体元素
+  <span class="formula">
+    `k b + j`, `quad k = 0, 1, cdots, a-1`
+  </span>
+  构成模 `a` 的完全剩余系, 其中与 `a` 互素的元素恰有 `varphi(a)` 个.
+  因此 `varphi(a b) = varphi(a) varphi(b)`.
+</div>
+
+<p class="proposition">
+  `varphi(n) = n prod_(p | n) (1-1/p)`, `p` 取遍 `n` 的所有素因子.
+</p>
+
+<p class="proof">
+  先考虑素数幂, 由于 `m` 与 `p^a` 互素当且仅当 `p !| m`, 因此只需排除
+  `p^(a-1)` 个 `p` 的倍数, 得到
+  <span class="formula">
+    `varphi(p^a) = p^a - p^(a-1) = p^a(1-1/p)`.
+  </span>
+  现在利用 `varphi` 的积性
+  <span class="formula">
+    `varphi(n)`
+    `= prod_(i=1)^r varphi(p_i^(alpha_i))`
+    `= prod_(i=1)^r p_i^(alpha_i)(1-1/p_i)`
+    `= n prod_(p | n) (1-1/p)`.
+  </span>
+</p>
+
+<table class="col2">
+  <tr>
+    <td>`n`</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+  </tr>
+  <tr>
+    <td>`varphi(n)`</td>
+    <td>1</td>
+    <td>1</td>
+    <td>2</td>
+    <td>2</td>
+    <td>4</td>
+    <td>2</td>
+    <td>6</td>
+    <td>4</td>
+    <td>6</td>
+    <td>4</td>
+    <td>10</td>
+    <td>4</td>
+  </tr>
+</table>
+
+<p class="corollary">
+  `n ge 3` 时 `varphi(n)` 是偶数.
+</p>
+
+<p class="proof">
+  若 `n` 有奇素数因子 `p`, 则 `varphi(n)` 有偶数因子 `p^a - p^(a-1)`.
+  否则, `n` 是 `2` 的幂. 设 `n = 2^a`, `a ge 2`, 则 `varphi(n)` 有偶数因子
+  `2^a - 2^(a-1)`.
+</p>
+
+<h2>和函数</h2>
+
+<p class="definition">
+  算术函数 `f(n)` 的<b>和函数</b>定义为 `S(n) = sum_(d | n) f(d)`,
+  其中 `d` 取遍 `n` 的正因子.
+</p>
+
+<p class="proposition">
+  积性函数的和函数也是积性函数.
+</p>
+
+<p class="proof">
+  设 `f` 是积性函数, `S` 是其和函数; `a, b` 互素. 则 `a b` 的每个因子 `d`
+  可以看作 `a` 的因子 `d_1` 和 `b` 的因子 `d_2` 之积, 且 `d_1, d_2` 互素:
+  <span class="formula">
+    `S(a b) = sum_(d | a b) f(d)`
+    `= sum_(d_1 | a) sum_(d_2 | b) f(d_1) f(d_2)`
+    `= S(a) S(b)`.
+  </span>
 </p>
 
 <ol class="theorem">
-    <b>积性数论函数的求和公式</b>
-    设 `f` 为积性数论函数,
-    <li>若 `n` 有 <a class="ref" href="#for-prime-factor"></a>
-        所示的素因子分解, 则
-        <span class="formula">
-            `sum_(d | n) f(d) = prod_(i=1)^r sum_(k=0)^(alpha_i)
-            f(p_i^k)`,
-        </span>
-        其中 `sum_(d | n)` 表示对 `n` 的全体正因子求和.
-    </li>
-    <li>若级数 `sum_(n ge 0) f(n)` 绝对收敛, 则
-        <span class="formula">
-            `sum_(n ge 0) f(n) = prod_p sum_(k ge 0) f(p^k)`.
-        </span>
-        其中 `prod_p` 表示对全体素数求积.
-    </li>
+  <b>积性函数的求和公式</b>
+  设 `f` 为积性函数,
+  <li>若 `n` 有 <a class="ref" href="#for-prime-factor"></a>
+    所示的素因子分解, 则
+    <span class="formula">
+      `sum_(d | n) f(d) = prod_(i=1)^r sum_(k=0)^(alpha_i)
+      f(p_i^k)`,
+    </span>
+  </li>
+  <li>若级数 `sum_(n ge 0) f(n)` 绝对收敛, 则
+    <span class="formula">
+      `sum_(n ge 0) f(n) = prod_p sum_(k ge 0) f(p^k)`.
+    </span>
+    其中 `prod_p` 表示对全体素数求积.
+  </li>
 </ol>
 
 <ol class="proof">
-    <li>`n` 的全体正因子可以表示为
-        <span class="formula">
-            `{d: d | n}`
-            `= {prod_(i=1)^r p_i^(k_i):
-            0 le k_i le alpha_i, i = 1, cdots, r}`.
-        </span>
-        因此
-        <span class="formula">
-            `sum_(d | n) f(d)`
-            `= sum_(k_1=0)^(alpha_1) cdots sum_(k_r=0)^(alpha_r)
-            f(prod_(i=1)^r p_i^(k_i))`,
-        </span>
-        再由 `f` 的积性, 上式等于
-        <span class="formula">
-            `prod_(i=1)^r sum_(k=0)^(alpha_i) f(p_i^k)`.
-        </span>
-    </li>
-    <li>设 `p_1=2, p_2=3, cdots` 是全体素数,
-        由算术基本定理, 整数 `n` 与下面的多重集合一一对应:
-        <span class="formula">
-            `{p_1: alpha_1, p_2: alpha_2, cdots}`
-        </span>
-        即公式左边的每一项, 恰对应右边的唯一一项.
-    </li>
+  <li>`n` 的全体正因子可以表示为
+    <span class="formula">
+      `{d: d | n}`
+      `= {prod_(i=1)^r p_i^(k_i):
+      0 le k_i le alpha_i, i = 1, cdots, r}`.
+    </span>
+    因此
+    <span class="formula">
+      `sum_(d | n) f(d)`
+      `= sum_(k_1=0)^(alpha_1) cdots sum_(k_r=0)^(alpha_r)
+      f(prod_(i=1)^r p_i^(k_i))`,
+    </span>
+    再由 `f` 的积性, 上式等于
+    <span class="formula">
+      `prod_(i=1)^r sum_(k=0)^(alpha_i) f(p_i^k)`.
+    </span>
+  </li>
+  <li>设 `p_1=2, p_2=3, cdots` 是全体素数,
+    由算术基本定理, 整数 `n` 与下面的多重集合一一对应:
+    <span class="formula">
+      `{p_1: alpha_1, p_2: alpha_2, cdots}`
+    </span>
+    即公式左边的每一项, 恰对应右边的唯一一项.
+  </li>
 </ol>
 
-<ol class="corollary">
-    <li>Euler 函数 `varphi(n)` 是积性函数, 有 `sum_(d | n) varphi(d) = n`.
-    </li>
-    <li>`f(n) = n^-s` 是积性函数, 因此 Riemann zeta 函数
-        <span class="formula">
-            `zeta(s) = sum_(n ge 0) n^-s`
-            `= prod_p (1-p^-s)^-1`.
-        </span>
-        这一公式将 `zeta(s)` 与素数联系在一起.
-    </li>
+<ol class="example">
+  <li>Euler 函数 `varphi(n)` 的和函数 `sum_(d | n) varphi(d) = n`;
+  </li>
+  <li><b>因子和函数</b> `sigma(n) = sum_(d | n) d`
+    `= prod_(i=1)^r (p_i^(alpha_1+1)-1)/(p_i-1)`;</li>
+  <li><b>因子个数函数</b> `tau(n) = sum_(d | n) 1`
+    `= prod_(i=1)^r (alpha_i+1)`;
+  </li>
+  <li>`f(n) = n^-s` 是积性函数, 因此 Riemann zeta 函数
+    <span class="formula">
+      `zeta(s) = sum_(n ge 0) n^-s`
+      `= prod_p (1-p^-s)^-1`.
+    </span>
+    这一公式将 `zeta(s)` 与素数联系在一起.
+  </li>
 </ol>
 
 <ol class="proof">
-    <li>利用 `varphi(p^k) = p^k - p^(k-1)`,
-        <span class="formula">
-        左边 `= prod_(i=1)^r sum_(k=0)^(alpha_i) varphi(p_i^k)`
-            `= prod_(i=1)^r (1 + sum_(k=1)^(alpha_i) (p_i^k - p_i^(k-1)))`
-            `= prod_(i=1)^r p_i^(alpha_i)`
-            `= n`.
-        </span>
-    </li>
-    <li>利用等比级数求和公式,
-        <span class="formula">
-            左边 `= prod_p sum_(k ge 0) p^(-s k) =` 右边.
-        </span>
-    </li>
+  <li>利用 `varphi(p^k) = p^k - p^(k-1)`,
+    <span class="formula">
+      左边 `= prod_(i=1)^r sum_(k=0)^(alpha_i) varphi(p_i^k)`
+      `= prod_(i=1)^r (1 + sum_(k=1)^(alpha_i) (p_i^k - p_i^(k-1)))`
+      `= prod_(i=1)^r p_i^(alpha_i)`
+      `= n`.
+    </span>
+  </li>
+  <li>`sigma(n)` 是积性函数的和函数, 因此也是积性函数. 利用等比数列求和,
+    <span class="formula">
+      `sigma(n)`
+      `= prod_(i=1)^r sum_(k=0)^(alpha_i) p_i^k`
+      `= prod_(i=1)^r (p_i^(alpha_i+1)-1)/(p_i-1)`.
+    </span>
+  </li>
+  <li>与 `sigma(n)` 类似,
+    <span class="formula">
+      `tau(n)`
+      `= prod_(i=1)^r sum_(k=0)^(alpha_i) 1`
+      `= prod_(i=1)^r (alpha_i+1)`.
+    </span>
+  </li>
+  <li>利用等比级数求和公式,
+    <span class="formula">
+      左边 `= prod_p sum_(k ge 0) p^(-s k) =` 右边.
+    </span>
+  </li>
 </ol>
+
+<h2>卷积</h2>
+
+<p class="definition">
+  两个算术函数 `f, g` 的 <b>Dirichlet 卷积</b>定义为 `sum_(d | n) f(d)
+  g(n//d)`, 记为 `f ** g`.
+</p>
+
+<ol class="proposition">
+  全体算术函数在卷积运算下构成交换幺半群, 即:
+  <li>`f ** g = g ** f`;</li>
+  <li>`(f ** g) ** h = f ** (g ** h)`;</li>
+  <li>`iota(n) := {1, if n = 1; 0, if n gt 1:}` 是卷积运算的单位元:
+    `iota ** f = f ** iota = f`.
+  </li>
+  <li>若 `f(1) != 0`, 则存在逆元 `f^-1`, 使得 `f ** f^-1 = f^-1 **
+    f = iota`.
+    又显然 `(f ** g)(1) = f(1) g(1) != 0`,
+    故全体可逆的算术函数在卷积运算下构成 Abel 群.
+  </li>
+  <li>两个积性函数的卷积也是积性函数, 故全体可逆的积性函数也构成 Abel 群.</li>
+</ol>
+
+<ol class="proof">
+  <li>这是因为 `sum_(d | n) f(d) g(n//d) = sum_(d | n) f(n // d) g(d)`,
+    这类似于定积分的区间再现方法.
+  </li>
+  <li>直接计算验证.</li>
+  <li>直接计算验证.</li>
+  <li>用归纳法. 首先由 `1 = iota(1) = f(1) f^-1(1)` 得到 `f^-1(1)
+    = 1//f(1)`. 假设 `n gt 1`, 且 `f^-1` 对一切小于 `n` 的正整数有定义, 则
+    <span class="formula">
+      `0 = iota(n) = sum_(d | n) f(n // d) f^-1(d)`
+      `= F(n) + f(1) f^-1(n)`,
+    </span>
+    故 `f^-1(n) = - F(n)//f(1)`.
+  </li>
+  <li>设 `f, g` 是积性函数, `a, b` 互素. 与前类似, 将 `d` 写成 `a`
+    的因子和 `b` 的因子之积:
+    <span class="formula">
+      `(f ** g)(a b)`
+      `= sum_(d | a b) f(d) g(a b // d)`
+      `= sum_(d_1 | a) sum_(d_2 | b) f(d_1 d_2) g(a // d_1 * b // d_2)`
+      `= sum_(d_1 | a) f(d_1) g(a // d_1) sum_(d_2 | b) f(d_2) g(b // d_2)`
+      `= (f**g)(a) (f**g)(b)`.
+    </span>
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>积性函数的卷积公式</b> 设 `f, g` 为积性函数, 则
+  <span class="formula">
+    `(f ** g)(n) = ??`
+  </span>
+</p>
+
+<h2>Möbius 反演</h2>
+
+<ul>
+  若已知和函数 `S(n) = sum_(d | n) f(d)`, 该怎样求 `f(n)` 呢?
+  这就是 Möbius 反演要解决的问题. 首先考虑素数的幂, 我们有
+  <li>`S(1) = f(1)`;</li>
+  <li>`S(p) = f(1) + f(p)`;</li>
+  <li>`S(p^a) = f(1) + f(p) + cdots + f(p^a)`.</li>
+  因此
+  <li>`f(1) = S(1)`;</li>
+  <li>`f(p) = S(p) - S(1)`;</li>
+  <li>`f(p^a) = S(p^a) - S(p^(a-1))`.</li>
+  也就是说, 如果我们在素数幂上定义
+  <span class="formula">
+  `mu(p^a) = {
+    1, if a = 0;
+    -1, if a = 1;
+    0, otherwise
+  :}`,
+  </span>
+  则当 `n` 是素数的幂时, 有
+  <span class="formula">
+    `f(n) = sum_(d | n) mu(d) S(n//d)`.
+  </span>
+  利用卷积的记号, 上式简写为 `f = mu ** S = S ** mu`.
+</ul>
+
+<p>
+  现在假设 `mu` 是积性的, 将它的定义域扩充到正整数集:
+</p>
+
+<p class="definition">
+  <b>Möbius 函数</b> 定义为
+  <span class="formula">
+    `mu(n) = {
+      1, if n = 1;
+      (-1)^r, if n = p_1 p_2 cdots p_r 是不同的素数之积;
+      0, otherwise;
+    :}`
+  </span>
+</p>
+
+<p class="proposition">
+  <b>Möbius 函数的和函数</b>
+  <span class="formula">
+    `sum_(d | n) mu(d) = {
+      1, if n = 1;
+      0, if n gt 1;
+    :}`
+  </span>
+  用卷积的记号, 上式写为 `mu ** 1 = iota`,
+  这表明 `mu` 和 `1` 在卷积运算中互为逆元.
+</p>
+
+<p class="proof">
+  等号两边都是积性函数, 因此只需在素数幂上证明它们相等即可.
+  `n = 1` 时结论显然成立. 考虑素数幂 `n = p^a`, `a ge 1`, 有
+  <span class="formula">
+    `sum_(d | n) mu(d)`
+    `= mu(1) + mu(p)`
+    `= 1 - 1 = 0`.
+  </span>
+</p>
+
+<p class="remark">
+  注意, 若 `S` 是 `f` 的和函数, 则 `S = f ** 1`.
+  两边同乘 `mu` 就得到 `S ** mu = f`, 这就是下面的 Möbius 反演公式:
+</p>
+
+<p class="theorem">
+  <b>Möbius 反演</b>
+  若 `S(n) = sum_(d | n) f(d)`, 则
+  <span class="formula">
+    `f(n) = sum_(d | n) mu(d) S(n//d)`.
+  </span>
+  用卷积的记号表述: 若 `S = f ** 1`, 则 `f = mu ** S`.
+</p>
+
+<p class="proof">
+  右边等于
+  <span class="formula">
+    `sum_(d | n) mu(d) sum_(k | n//d) f(k)`
+    `= sum_(k | n) f(k) sum_(d | n//k) mu(d)`
+    `= sum_(k | n) f(k) iota(n//k)`
+    `= f(n)`.
+  </span>
+</p>
+
+<p class="corollary">
+  若 `f` 的和函数 `S` 是积性函数, 则 `f = mu ** S` 也是积性函数.
+</p>
+
+<p class="example">
+  设 `f(n) = n^s`, 则 `mu ** f = n^s prod_(p | n) (1-p^-s)`.
+  特别 `mu ** n = varphi`, 即 `varphi ** 1 = n`.
+</p>
+
+<p class="proof">
+  等号两边都是积性函数, 只需证明 `n` 是素数幂 `p^a` 的情形即可.
+  此时
+  <span class="formula">
+    `(mu ** f)(p^a)`
+    `= mu(1) f(p^a) + mu(p) f(p^(a-1))`
+    `= p^(a s) - p^((a-1)s)`
+    `= n^s (1-p^-s)`.
+  </span>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
