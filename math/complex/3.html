@@ -8,6 +8,14 @@
 
 <body>
 
+<h2>Taylor 级数</h2>
+
+<h3>辐角原理</h3>
+
+<canvas id="arg-principle" width="550" height="400"></canvas>
+
+<h2>Laurent 级数</h2>
+
 <h2>留数及其应用</h2>
 
 <h3>用留数计算广义积分</h3>
@@ -63,9 +71,21 @@
     `= {:1/sqrt(2sqrt 5+2) arctan{:(t-sqrt 5/t)/sqrt(2sqrt 5 + 2):}|_0^oo`
     `= pi/sqrt(2sqrt 5+2)`.
   </span>
-  类似地, 第二项等于 0`.
+  类似地, 第二项等于 0.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script src="../../code/complex.js"></script>
+<script>
+const { sin, cos, PI } = Math
+const f = t => {
+  const z = Complex.i.mul(t).exp().mul(3)
+  return Complex.mul(z.pow(2).add(1), z.sub(1).pow(5))
+}
+new Plot('arg-principle')
+  .geometry({xmin: -15000, xmax: 15000, ymin: -10000, ymax: 10000}).clear().axis()
+  .plot(t => f(t).real, t => f(t).imag, {min: 0, max: PI*2, continuity: Infinity})
+</script>
 </body>
 </html>

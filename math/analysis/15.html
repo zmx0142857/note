@@ -232,66 +232,104 @@
 	</li>
 </ol>
 
+<p class="example">
+  [来自 同济高数第七版]
+  已知两个连续可微函数 `f, F`, 满足 `y = f(x, t)`,
+  且 `F(x, y, t) = 0` 确定一个隐函数 `t(x, y)`. 求 `dy/dx`.
+</p>
+
+<p class="solution">
+  由隐函数定理知 `(del t)/(del x) = -F_1' // F_3'`,
+  `(del t)/(del y) = -F_2' // F_3'`.
+  使用全微分的链式法则,
+  <span class="formula">
+    `dy/dx = f_1' + f_2' dt/dx`
+    `= f_1' + f_2'((del t)/(del x) + (del t)/(del y) dy/dx)`.
+  </span>
+  解得
+  <span class="formula">
+    `dy/dx = (f_1' + f_2' (del t)/(del x))/(1 - f_1'(del t)/(del y))`
+    `= (f_1' F_3' - f_2' F_1')/(F_3' + f_2' F_2')`.
+  </span>
+</p>
+
 <ol class="theorem">
-    <b>齐次函数的 Euler 定理</b>
-    设 `f(bm x)` 是 `D sube RR^n` 到 `RR` 的可微函数, `alpha in RR`, 则
-    <li>若 `f` 是 `alpha` 次齐次函数, 即 `f` 满足以下函数方程:
-        <span class="formula">
-            `f(k bm x) = k^alpha f(bm x)`, `quad AA k in RR`,
-            <span class="label" id="eq-homogeneous"></span>
-        </span>
-        则 `(del f)/(del bm x)
-        := ((del f)/(del x_1), cdots, (del f)/(del x_n))`
-        是 `alpha-1` 次齐次函数.
-    </li>
-    <li>`f` 是齐次函数当且仅当它满足下面的偏微分方程 (Euler 方程):
-        <span class="formula">
-            `(del f)/(del bm x) * bm x = alpha f(bm x)`.
-            <span class="label" id="eq-euler"></span>
-        </span>
-    </li>
+  <b>齐次函数的 Euler 定理</b>
+  设 `f(bm x)` 是 `D sube RR^n` 到 `RR` 的可微函数, `alpha in RR`, 则
+  <li>若 `f` 是 `alpha` 次齐次函数, 即 `f` 满足以下函数方程:
+    <span class="formula">
+      `f(k bm x) = k^alpha f(bm x)`, `quad AA k in RR`,
+      <span class="label" id="eq-homogeneous"></span>
+    </span>
+    则 `(del f)/(del bm x)
+    := ((del f)/(del x_1), cdots, (del f)/(del x_n))`
+    是 `alpha-1` 次齐次函数.
+  </li>
+  <li>`f` 是齐次函数当且仅当它满足下面的偏微分方程 (Euler 方程):
+    <span class="formula">
+      `(del f)/(del bm x) * bm x = alpha f(bm x)`.
+      <span class="label" id="eq-euler"></span>
+    </span>
+  </li>
 </ol>
 
 <ol class="proof">
-    <li>在函数方程 <a class="ref" href="#eq-homogeneous"></a>
-        两边对 `bm x` 求导,
-        <span class="formula">
-            `k (del f)/(del bm x) (k bm x) = k^alpha (del f)/(del bm x)`,
-        </span>
-        这指出 `(del f)/(del bm x)` 是 `alpha-1` 次齐次的.
-    </li>
-    <li>先设 `f` 为 `alpha` 次齐次函数.  在函数方程
-        <a class="ref" href="#eq-homogeneous"></a> 两边对 `k` 求导,
-        <span class="formula">
-            `(del f)/(del bm x)(k bm x) * bm x = alpha k^(alpha-1) f(bm x)`,
-        </span>
-        取 `k = 1` 即得 <a class="ref" href="#eq-euler"></a>.<br/>
-        再设 Euler 方程成立, 取 `bm x = k bm x` 有
-        <span class="formula">
-            `(del f)/(del bm x)(k bm x) * (k bm x) = alpha f(k bm x)`,
-        </span>
-        于是
-        <span class="formula">
-            `"d"/("d"k) f(k bm x)`
-            `= (del f)/(del bm x)(k bm x) * bm x`
-            `= alpha/k f(k bm x)`.
-        </span>
-        这是关于函数 `g(k) = f(k bm x)` 的常微分方程, 通解为
-        <span class="formula">
-            `f(k bm x) = c k^alpha`.
-        </span>
-        取 `k = 1` 即得 `c = f(bm x)`, 因此
-        <span class="formula">
-            `f(k bm x) = k^alpha f(bm x)`.
-        </span>
-    </li>
+  <li>在函数方程 <a class="ref" href="#eq-homogeneous"></a>
+    两边对 `bm x` 求导,
+    <span class="formula">
+      `k (del f)/(del bm x) (k bm x) = k^alpha (del f)/(del bm x)`,
+    </span>
+    这指出 `(del f)/(del bm x)` 是 `alpha-1` 次齐次的.
+  </li>
+  <li>先设 `f` 为 `alpha` 次齐次函数.  在函数方程
+    <a class="ref" href="#eq-homogeneous"></a> 两边对 `k` 求导,
+    <span class="formula">
+      `(del f)/(del bm x)(k bm x) * bm x = alpha k^(alpha-1) f(bm x)`,
+    </span>
+    取 `k = 1` 即得 <a class="ref" href="#eq-euler"></a>.<br/>
+    再设 Euler 方程成立, 取 `bm x = k bm x` 有
+    <span class="formula">
+      `(del f)/(del bm x)(k bm x) * (k bm x) = alpha f(k bm x)`,
+    </span>
+    于是
+    <span class="formula">
+      `"d"/("d"k) f(k bm x)`
+      `= (del f)/(del bm x)(k bm x) * bm x`
+      `= alpha/k f(k bm x)`.
+    </span>
+    这是关于函数 `g(k) = f(k bm x)` 的常微分方程, 通解为
+    <span class="formula">
+      `f(k bm x) = c k^alpha`.
+    </span>
+    取 `k = 1` 即得 `c = f(bm x)`, 因此
+    <span class="formula">
+      `f(k bm x) = k^alpha f(bm x)`.
+    </span>
+  </li>
 </ol>
 
 <p class="example">
-    `f(x, y) = x^2 + 3 x y + y^2` 是二次齐次函数, 我们有
-    <span class="formula">
-        `(del f)/(del x) x + (del f)/(del y) y = 2 f`.
-    </span>
+  `f(x, y) = x^2 + 3 x y + y^2` 是二次齐次函数, 我们有
+  <span class="formula">
+    `(del f)/(del x) x + (del f)/(del y) y = 2 f`.
+  </span>
+</p>
+
+<p class="example">
+  [来自 我是得不到的i]
+  若 `f(x, y)` 是可微的零阶齐次函数, `y != 0`,
+  则存在一元可微函数 `varphi` 使得 `f = varphi(x/y)`.
+</p>
+
+<p class="proof">
+  设 `u = x/y`, `v = y`, 换元得 `f(x, y) = varphi(u, v)`. 下证 `(del
+  varphi)/(del v) = 0`, 从而 `varphi` 仅依赖于 `u`. 事实上, 由 Euler 方程
+  <span class="formula">
+    `0 = x (del f)/(del x) + y (del f)/(del y)`
+    `= x ((del varphi)/(del u) 1/y + (del varphi)/(del v) * 0)
+    + y ((del varphi)/(del u) (-x/y^2) + (del varphi)/(del v))
+    `= y (del varphi)/(del v)`.
+  </span>
 </p>
 
 <script src="../../js/note.js?type=math"></script>

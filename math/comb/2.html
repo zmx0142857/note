@@ -241,6 +241,46 @@
 	</span>
 </p>
 
+<p class="example">
+  [来自 概率论课本] 关于 Pascal 分布的恒等式
+  <span class="formula">
+    `sum_(k ge n) (m+k-1; k) p^k q^m`
+    `= sum_(k=0)^(m-1) (n+m-1; k) p^(n+m-1-k) q^k`
+    `= sum_(k=0)^(m-1) (n+k-1; k) p^n q^k`.
+  </span>
+  其中 `p+q = 1`.
+</p>
+
+<ol class="proof">
+  上式记为 (1) = (2) = (3).
+  <li>先证 (2) = (3). 将 `p^(m-1-k) = (1-q)^(m-1-k)` 二项展开得
+    <span class="formula">
+      `(2) // p^n`
+      `= sum_(k=0)^(m-1) (n+m-1; k) p^(m-1-k) q^k`
+      `= sum_(k=0)^(m-1) (n+m-1; k) q^k sum_(j=0)^(m-1-k) (m-1-k; j) (-q)^j`
+    </span>
+    令 `t = j+k`, 利用负二项系数 `(m-1-k; j) (-1)^j = (j+k-m; j)`, 上式等于
+    <span class="formula">
+      `sum_(t=0)^(m-1) q^t sum_(j=0)^t (n+m-1; t-j) (t-m; j)`.
+    </span>
+    最后利用 Vandermonde 恒等式, 上式等于
+    <span class="formula">
+      `sum_(t=0)^(m-1) q^t (n-1+t; t) = (3) // p^n`.
+    </span>
+  </li>
+  <li>再证 (1) = (2).
+    注意到
+    <span class="formula">
+      `(1) = sum_(k ge n) (-m; k) (-p)^k q^m`
+      `= (1-p)^-m q^m - sum_(k=0)^(n-1) (-m; k) (-p)^k q^m`
+      `= 1 - sum_(k=0)^(n-1) (m+k-1; k) p^k q^m`,<br>
+      `(2) = (p+q)^(n+m-1) - sum_(k=m)^(n+m-1) (n+m-1; k) p^(n+m-1-k) q^k`
+      `= 1 - sum_(k=0)^(n-1) (n+m-1; k) p^k q^(n+m-1-k)`.
+    </span>
+    再由 (2) = (3) 即知 (1) = (2).
+  </li>
+</ol>
+
 <h2>多重指标运算与多项展开</h2>
 
 <p class="definition">

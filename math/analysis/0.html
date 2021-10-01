@@ -218,6 +218,11 @@
 	<td>`ln 2x - sum_(n ge 1) (-1)^n ((2n-1)!!)/((2n)!!) x^(-2n)/(2n) = ln 2x - 1/(4x^2) - 3/(32x^4) - 15/(288x^6) - cdots`</td>
 </tr>
 <tr>
+  <td>`|x| lt 2pi`</td>
+  <td>`x/("e"^x-1)`</td>
+  <td>`sum_(n ge 0) B_n/(n!) x^n = 1 - x/2 + x^2/6 -x^4/30 + 5/66 x^6 - cdots`</td>
+</tr>
+<tr>
 	<td>`|x| lt pi`</td>
 	<td>`coth x`</td>
 	<td>`1/x sum_(n ge 0) B_(2n)/((2n)!) (2x)^(2n) = 1/x + 1/3 x - 1/45 x^3 + 2/945 x^5 + cdots`</td>
@@ -259,7 +264,7 @@
 </ol>
 
 <p class="remark">
-  `n` 为正整数时,
+  <b>双阶乘</b> `n` 为正整数时,
   <span class="formula">
     `(2n)!! = 2 * 4 * 6 * cdots * 2n`,
     `quad (2n-1)!! = 1 * 3 * 5 * cdots * (2n-1)`.
@@ -268,19 +273,31 @@
 </p>
 
 <ol class="remark">
-	<li>
+  <li>
 	`B_(2n)` 是 <a href="../number/10.html">Bernoulli 数</a>.
+  满足 `B_0 = 1, B_1 = -1/2, B_3 = B_5 = B_7 = cdots = 0`.
+  事实上由生成函数知道
+  <span class="formula">
+    `x = ("e"^x-1) sum_(k ge 0) B_k x^k/(k!)`
+    `= (sum_(j ge 1) x^j/(j!)) (sum_(k ge 0) B_k x^k/(k!))`
+    `= sum_(n ge 1) x^n/(n!) sum_(k=0)^(n-1) B_k (n; k)`.
+  </span>
+  等号两边比较系数得
+  <span class="formula">
+    `sum_(k=0)^n (n+1; k) B_k = 0`, `quad n ge 1`.
+  </span>
+  </li>
+	<li>
 	`E_(2n)` 是 Euler 数, 它是正负号交错的整数:
 	<span class="formula">
-		`E_0 = 1, E_2 = -1, E_4 = 5, E_6 = -61, E_8 = 1385, E_10
+		`E_0 = 1`, `E_2 = -1`, `E_4 = 5`, `E_6 = -61`, `E_8 = 1385`, `E_10
 		= -50521`.
 	</span>
 	由 `E_(2n)` 的生成函数知道,
 	<span class="formula">
-		`1 = cos h x sum_(k ge 0) E_(2k)/((2k)!) x^(2k)`
-		`= (sum_(j ge 0) x^(2j)/((2j)!)) ( sum_(k ge 0) E_(2k)/((2k)!)
+		`1 = cosh x sum_(k ge 0) E_(2k)/((2k)!) x^(2k)`
+		`= (sum_(j ge 0) x^(2j)/((2j)!)) (sum_(k ge 0) E_(2k)/((2k)!)
 		x^(2k))`
-		`= sum_(n ge 0) sum_(k=0)^n E_(2k)/((2k)!(2n-2k)!)`
 		`= sum_(n ge 0) x^(2n)/((2n)!) sum_(k=0)^n (2n;2k) E_(2k)`
 	</span>
 	比较等式两边的各次项系数, 得到递推公式:
