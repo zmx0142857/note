@@ -1014,6 +1014,44 @@
 	</span>
 </p>
 
+<div class="example">
+  [来自 我是不万能的洛必达]
+  <span class="formula">
+    `2 sum_(n ge 2) H_(n-1)/n^2`
+    `= sum_(m, n ge 1) 1/(m n(m+n))`
+    `= 2 zeta(3)`.
+  </span>
+  前两个级数收敛缓慢, 取一万项后仍与目标有较大差距; 但 zeta(3) 收敛较快.
+<pre>
+&gt;&gt;&gt; sum(1/n**3 for n in range(1, 10000))
+1.202056898159098
+&gt;&gt;&gt; sum(sum(1/(m*n*(m+n)) for m in range(1, 100)) for n in range(1, 100))
+2.293828375511741
+</pre>
+</div>
+
+<ol class="proof">
+  上式记为 (1) = (2) = (3).
+  <li>令 `t = m + n` 得
+    <span class="formula">
+      `(1) = sum_(t ge 2) 1/t^2 sum_(n=1)^(t-1) (1/n + 1/(t-n))`
+      `= sum_(t ge 2) sum_(n=1)^(t-1) 1/(t n (t-n))`
+      `= (2)`.
+    </span>
+  </li>
+  <li>利用积分 `int_0^oo "e"^(-lambda x) dx = lambda` 得
+    <span class="formula">
+      `(2) = sum_(m, n ge 1) 1/(m n) int_0^oo "e"^(-(m+n)x) dx`
+      `= int_0^oo (sum_(n ge 1) "e"^(-n x)/n)^2 dx`
+      `= int_0^oo ln^2 (1-"e"^-x) dx`
+      `= -int_(-oo)^0 t^2 "d"ln (1-"e"^t)`
+      `= int_(-oo)^0 t^2 "e"^t/(1-"e"^t) dt`
+      `= int_0^oo t^2 "e"^-t/(1-"e"^-t) dt`
+      `= zeta(3) Gamma(3) = (3)`.
+    </span>
+  </li>
+</ol>
+
 <h3>Catalan 常数</h3>
 
 <ol class="example">

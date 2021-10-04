@@ -7,6 +7,9 @@ var Complex = /** @class */ (function () {
     Complex.of = function (a) {
         return typeof a === 'number' ? new Complex(a) : a;
     };
+    Complex.prototype.copy = function () {
+        return new Complex(this.real, this.imag);
+    };
     Complex.prototype.conj = function () {
         return new Complex(this.real, -this.imag);
     };
@@ -24,13 +27,12 @@ var Complex = /** @class */ (function () {
     // n is non-negative integer
     Complex.prototype.pow = function (n) {
         var ret = new Complex(1);
-        var base = this;
-        var mask = 1 << Math.floor(Math.log2(n));
-        while (mask) {
-            ret = Complex.mul(ret, ret);
-            if (n & mask)
-                ret = Complex.mul(ret, base);
-            mask >>= 1;
+        var base = this.copy();
+        while (n) {
+            if (n & 1)
+                ret = ret.mul(base);
+            base = base.mul(base);
+            n >>= 1;
         }
         return ret;
     };
@@ -69,5 +71,15 @@ var Complex = /** @class */ (function () {
     Complex.i = new Complex(0, 1);
     return Complex;
 }());
+/*
+function f (t: number): Complex {
+  const z = Complex.i.mul(t).exp().mul(3)
+  return Complex.mul(
+    z.pow(2).add(1),
+    z.sub(1).pow(5)
+  )
+}
+console.log(new Complex(2).pow(6))
+*/
 if (typeof module !== 'undefined')
-  module.exports = Complex
+    module.exports = Complex;

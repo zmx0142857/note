@@ -30,6 +30,37 @@ module.exports = function floorRoot (str) {
 </div>
 
 <p class="algorithm">
+  <b>反复平方法计算快速幂</b>
+  求 `a^n`, 先将指数 `n` 写为二进制: `n = (n_k cdots n_1 n_0)_2`
+  `= sum_(i=0)^k n_i 2^i`,
+  于是
+  <span class="formula">
+    `a^n = prod_("where "n_i = 1) a^(2^i)`.
+  </span>
+</p>
+
+<div class="playground" value="{ a: 5, n: 14 }">
+<p>
+  在算法每次迭代的开头, 变量 `a = 5, 5^2, 5^4, 5^8`,
+  对应到 `14` 的二进制表示 `0*1 + 1*2 + 1*4 + 1*8` 中系数为 `1` 的项,
+  结果为 `5^14 = 5^2 * 5^4 * 5^8`.
+</p>
+<script type="text">
+module.exports = function pow (str) {
+  let { a, n } = Playground.parse(str)
+  if (n < 0) return NaN
+  let ret = 1
+  while (n) {
+    if (n & 1) ret *= a
+    a *= a
+    n >>= 1
+  }
+  return ret
+}
+</script>
+</div>
+
+<p class="algorithm">
 	<b>辗转相除法</b> 设 a, b 为正整数, 求最大公约数.
 </p>
 

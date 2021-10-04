@@ -148,6 +148,14 @@
   如 `"e"^x le 1//(1-x)` 直接求导只会越求越繁.
 </p>
 
+<p class="example">
+  常用不等式 `x ln x gt x "e"^-x - 2//"e"`.
+</p>
+
+<p class="proof">
+  提示: 左边的最小值等于右边的最大值.
+</p>
+
 <ol class="example">
 	<li>`prod_(n ge 1) (1 + 1/3^n) le sqrt "e"`;</li>
   <li>`1/2 3/4 5/6 cdots = 0`.</li>
@@ -376,7 +384,11 @@
 	即 `x_1 + x_2 gt 4`, `x_1 x_2 gt 4`.
 </p>
 
-<h2>Gronwall 引理</h2>
+<h2>Gronwall 不等式</h2>
+
+<p>这是一类在数理方程中常用的积分不等式
+  [参见 <a href="../pde/2.html#for-gronwall-inequality-cond">Gronwall 不等式</a>], 其形式非常灵活多变, 我们只介绍最基本的情形.
+</p>
 
 <ol class="example">
   <b>微分不等式</b>
@@ -407,33 +419,67 @@
   </li>
 </ol>
 
-<p class="theorem">
+<p class="lemma">
   <b>Gronwall 引理</b>
-  [参见 <a href="../pde/2.html#for-gronwall-inequality-cond">Gronwall 不等式</a>]
-  设函数 `c, f in C[a, b]`, 函数 `y` 满足微分不等式
+  设函数 `f, p in C[a, b]`, 函数 `y` 满足微分不等式
   <span class="formula">
-    `y'(x) + c(x) y(x) le f(x)`, `quad AA x in [a, b]`,
+    `y'(t) le f(t) + p(t) y(t)`, `quad AA t in [a, b]`,
   </span>
   则
   <span class="formula">
-    `y(x) le y(a) "e"^(-int_a^x c(t) dt)`
-    `+ int_a^x f(s) "e"^(-int_s^x c(t) dt) "d"s`.
+    `y(t) le y(a) P(t) + int_a^t f(s) P(t) // P(s) "d"s`.
+  </span>
+  其中 `P(t) = exp(int_a^t p(u) "d"u)`, 因此 `P(t) // P(s) = exp(int_s^t
+  p(u) "d"u)`.
+</p>
+
+<p class="proof">
+  在微分不等式两边同乘积分因子
+  `Phi(t) = 1/(P(t)) = exp(-int_a^t p(u) "d"u)` 得
+  <span class="formula">
+    `"d"/dt (y(t) Phi(t)) le f(t) Phi(t)`.
+  </span>
+  上式两边在 `[a, t]` 上积分得
+  <span class="formula">
+    `y(t) Phi(t) - y(a) le int_a^t f(s) Phi(s) "d"s`,
+  </span>
+  整理即得结论.
+</p>
+
+<p class="theorem">
+  <b>(Gronwall 不等式, 1919)</b>
+  设 `f, g, p in C[a, b]`, `p(t) ge 0`, 且
+  <span class="formula">
+    `f(t) le g(t) + int_a^t p(s) f(s) "d"s`, `quad AA t in [a,b]`,
+  </span>
+  则
+  <span class="formula">
+    <span class="box">
+    `f(t) le g(t) + int_a^t p(s) g(s) P(t) // P(s) "d"s`,
+    </span>
+  </span>
+  其中 `P(t) = exp(int_a^t p(u) "d"u)`.
+  若 `g` 可微, 上式分部积分可得
+  <span class="formula">
+    `f(t) le g(a) P(t) + int_a^t P(t) // P(s) g'(s) "d"s`.
+  </span>
+  若 `g` 是常数, 结论简化为
+  <span class="formula">
+    `f(t) le g * P(t)`.
   </span>
 </p>
 
 <p class="proof">
-  在微分不等式两边同乘积分因子 `u(x) = "e"^(int_a^x c(t) dt)` 得
+  记 `y(t) = int_a^t p(s) f(s) "d"s`, 由已知 `f(t) le g(t) + y(t)`, 于是由
+  `p` 非负有
   <span class="formula">
-    `"d"/dx (y(x) u(x)) le f(x) u(x)`.
+    `y'(t) = p(t) f(t) le p(t) g(t) + p(t) y(t)`.
   </span>
-  上式两边在 `[a, x]` 上积分得
+  由引理,
   <span class="formula">
-    `y(x) u(x) - y(a) le int_a^x f(s) u(s) "d"s`,
+    `y(t) le int_a^t p(s) g(s) P(t)//P(s) "d"s`.
   </span>
-  整理得
-  <span class="formula">
-    `y(x) le y(a) // u(x) + int_a^x f(s) u(s) // u(x) "d"s`.
-  </span>
+  再由 `f(t) le g(t) + y(t)` 即得结论.
 </p>
 
 <h2>Jensen 不等式 (积分形式)</h2>

@@ -13,6 +13,10 @@ class Complex {
     return typeof a === 'number' ? new Complex(a) : a
   }
 
+  copy (): Complex {
+    return new Complex(this.real, this.imag)
+  }
+
   conj (): Complex {
     return new Complex(this.real, -this.imag)
   }
@@ -34,12 +38,11 @@ class Complex {
   // n is non-negative integer
   pow (n: number): Complex {
     let ret = new Complex(1)
-    const base = this
-    let mask = 1 << Math.floor(Math.log2(n))
-    while (mask) {
-      ret = Complex.mul(ret, ret)
-      if (n & mask) ret = Complex.mul(ret, base)
-      mask >>= 1
+    let base = this.copy()
+    while (n) {
+      if (n & 1) ret = ret.mul(base)
+      base = base.mul(base)
+      n >>= 1
     }
     return ret
   }

@@ -28,7 +28,9 @@
         `y = (1 + c "e"^(-r x))^-1`.
     </span>
     特别地, sigmoid 函数 `sigma(x) = (1+"e"^-x)^-1` 满足 Logistic 方程.
-    <canvas id="canvas" width="450" height="150"></canvas>
+    <canvas id="img-sigmoid" width="450" height="150"></canvas>
+    Logistic 方程最早出现于人口问题中, 它的图形是一条 S 形曲线.
+    该函数可用于动画平滑过渡, 或机器学习中的激活函数.
 </p>
 
 <ol class="example">
@@ -107,13 +109,81 @@
 
 <h2>隐式方程</h2>
 
-<p>令 `p = y'`.</p>
+<!-- <p>令 `p = y'`.</p> -->
+
+<p class="example">
+  <b>追赶问题</b>
+  [来自 <a href="https://www.zhihu.com/question/49115473">知乎</a>]
+  `xOy` 平面上, 兔子从原点出发, 以速度 `a gt 0` 沿 `x` 轴正方向运动,
+  猎犬从 `(0, 1)` 出发以速度 `b gt a` 追赶兔子,
+  猎犬的速度方向始终指向兔子, 求猎犬的运动轨迹和相遇时间.
+</p>
+
+<canvas id="img-hound" height="200" width="300"></canvas>
+
+<p class="solution">
+  在 `t` 时刻, 兔子的坐标为 `a t`.
+  设此时猎犬的坐标为 `(x, y)`, 考虑速度的大小和方向, 我们有
+  <span class="formula">
+    `dy/dx = y/(x-a t)`,
+    `quad (dx/dt)^2 + (dy/dt)^2 = b^2`.
+  </span>
+  第一式化为 `y dx/dy = x - a t`, 两边对 `y` 微分得
+  <span class="formula">
+    `dx/dy + y ("d"^2 x)/dy^2 = dx/dy - a dt/dy`, 即
+    `y ("d"^2 x)/dy^2 = - a dt/dy`.
+  </span>
+  第二式两边同乘 `(dt/dy)^2` 得
+  <span class="formula">
+    `(dx/dy)^2 + 1 = b^2 (dt/dy)^2`,
+  </span>
+  原问题中 `y` 随 `t` 减小, 故 `dt/dy = -1/b sqrt((dx/dy)^2 + 1)`.
+  代入前式, 得到不显含 `t` 的方程
+  <span class="formula">
+    `y ("d"^2 x)/dy^2 = a/b sqrt((dx/dy)^2 + 1)`.
+  </span>
+  令 `r = a//b`, `p = dx/dy` 得
+  <span class="formula">
+    `y ("d"p)/dy = r sqrt(p^2+1)`,
+  </span>
+  分离变量, 解得 `p = sinh(r ln y + c)`.
+  代入 `t = 0` 时 `x = 0, y = 1, p = 0` 得 `c = 0`, 故
+  <span class="formula">
+    `p = (y^r - y^-r)/2`.
+  </span>
+  积分得
+  <span class="formula">
+    `x = 1/2((y^(1+r)-1)/(1+r) - (y^(1-r)-1)/(1-r))`.
+  </span>
+  这就是猎犬的轨迹.
+  为求相遇时间, 令 `y = 0` 解得 `x = r/(1-r^2)`, 于是 `t = x/a`.
+</p>
+
+<p class="solution">
+  仅求相遇时间: 设二者速度夹角为 `theta`, 0 时刻距离为 `D`.
+  于是
+  <span class="formula">
+    `int_0^T (a cos theta - b) dt = -D`;
+  </span>
+  又, 在水平方向上,
+  <span class="formula">
+    `int_0^T b cos theta dt = a T`.
+  </span>
+  两式消去积分项, 解得 `T = (D b)/(b^2-a^2)`.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/plot.js"></script>
 <script>
-new Plot('canvas', {xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5}).axis()
+new Plot('img-sigmoid', {xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5}).axis()
     .plot(x => 1/(1+Math.exp(-x)));
+
+const r = 0.9
+new Plot('img-hound')
+    .geometry({ xmin: 0, xmax: 5, ymin: -0.1, ymax: 1 })
+    .axis()
+    .plot(y => ((y**(1+r)-1)/(1+r) - (y**(1-r)-1)/(1-r))/2, y => y,
+        { min: 0, max: 1, continuity: Infinity })
 </script>
 </body>
 </html>
