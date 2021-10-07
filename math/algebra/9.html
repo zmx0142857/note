@@ -1,32 +1,167 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>二次型</title>
+    <title>实二次型</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<ol class="theorem">
-	设 `bm A` 为 `n` 阶实对称矩阵, 则以下各款等价:
-	<li>`bm A` 正定;</li>
-	<li>二次型 `bm(X'A X)` 正定;</li>
-	<li>`bm A` 的特征值全为正;</li>
-	<li>`bm A` 的顺序主子式全为正;</li>
-	<li>`bm A` 的正惯性指数 `p = n`.</li>
+<p class="theorem">
+  <b>实对称矩阵可以正交对角化</b>
+  任意实对称矩阵 `bm A` 正交相似于如下矩阵:
+  <span class="formula">
+    `bm(T'A T) = "diag"(lambda_1, cdots, lambda_n)`,
+  </span>
+  其中 `bm T` 为正交矩阵, 即 `bm T' = bm T^-1`.
+  `lambda_1, cdots, lambda_n` 是 `bm A` 的 `n` 个特征值,
+  这些特征值都是实数.<br>
+  由于 `bm T` 是正交矩阵, 所以上式既是 `bm A` 的合同对角化,
+  也是它的相似对角化.
+</p>
+
+<p class="theorem">
+  <b>实对称矩阵的合同标准形</b>
+  任意实对称矩阵 `bm A` 合同于如下的<b>规范形</b>:
+  <span class="formula">
+    `bm(P'A P) = "diag"(
+      overset p overbrace(1, cdots, 1),
+      overset q overbrace(-1, cdots, -1),
+      0, cdots, 0
+    )`,
+  </span>
+  其中 `bm P` 为可逆矩阵. `p` 为<b>正惯性指数</b>, `q`
+  为<b>负惯性指数</b>, `p + q = "rank"(bm A)`.
+</p>
+
+<h2>正定</h2>
+
+<ol class="definition">
+  设 `bm A` 为 `n` 阶实对称矩阵,
+  <li>若 `bm A` 的正惯性指数 `p = n`, 则称 `bm A` <b>正定</b>;</li>
+  <li>若 `bm A` 的负惯性指数 `q = n`, 则称 `bm A` <b>负定</b>.</li>
+  由定义知正定矩阵合同于单位矩阵, 即存在可逆矩阵 `bm P` 使得
+  `bm A = bm(P'P)`,
 </ol>
 
 <p class="remark">
-	`bm A` 正定, 则 `(bm (A X), bm X) gt 0`, 从几何的角度看, 即向量
-	`bm(A X)` 与 `X` 的夹角恒为锐角. 类似地,
+  以后我们说“正定矩阵”, 总假定它是实对称矩阵.
+</p>
+
+<p class="corollary">
+  正定矩阵的行列式 `|bm A| = |bm(P'P)| = |bm P|^2 gt 0`.
+</p>
+
+<p class="corollary">
+  实对称矩阵 `bm A` 正定当且仅当二次型 `bm(x'A x)` 正定, 即
+  <span class="formula">
+    `bm(x'A x) ge 0`, 等号成立当且仅当 `bm x = bb 0`.
+  </span>
+</p>
+
+<p class="proof">
+  设 `bm A = bm(P'P)`, 则
+  <span class="formula">
+    `bm(x'A x) = bm(x'P'P x) = (bm(P x), bm(P x)) ge 0`,
+  </span>
+  等号成立当且仅当 `bm(P x) = bb 0`, 即 `bm x = bb 0`.
+  <br>
+  另一方面, 若 `bm A` 的合同标准形为
+  `bm(P'A P) = "diag"(a_1, cdots, a_n)`,
+  取 `bm y = (0, cdots, 0, 1, 0, cdots, 0)'`, `bm x = bm(P y)`, 则
+  `bm(x'A x) = bm(y'P'A P y) = a_i gt 0`.
+  这说明 `bm A` 的合同标准形中主对角线全为正, 即 `bm A` 正定.
+</p>
+
+<p class="remark">
+  正定的几何解释: 若向量 `bm x != bb 0` 且 `bm A` 正定, 则
+  `(bm (A x), bm x) = bm(x'A x) gt 0`,
+	即变换后的向量 `bm(A x)` 与原向量 `bm x` 的夹角恒为锐角. 类似地,
 	负定矩阵变换前后的向量夹角恒为一钝角.
 </p>
 
-<p class="example">
+<p class="corollary">
+  正定矩阵 `bm A` 的主子阵也是正定矩阵.
+  即, 由第 `i_1, cdots, i_k` 行和第 `i_1, cdots, i_k`
+  列相交的子阵是正定矩阵.
+</p>
+
+<p class="proof">
+  取 `bm A` 前 `k` 行前 `k` 列组成的子阵 `bm A_k`, 则二次型
+  <span class="formula">
+    `bm(x'bm A_k x) = (x_1, cdots, x_k, 0, cdots, 0) bm A (x_1, cdots, x_k, 0, cdots, 0) ge 0`
+  </span>
+  也正定. 但正定二次型与变元次序无关, 因此 `bm A` 的任意 `k`
+  阶主子式都正定.
+</p>
+
+<p class="corollary">
+  实对称矩阵 `bm A` 正定当且仅当它的特征值全为正.
+</p>
+
+<p class="proof">
+  设 `bm(A x) = lambda bm x`, `bm x != bb 0`, 则
+  `lambda bm(x'x) = bm(x'A x) gt 0`,
+  由 `bm(x'x) gt 0` 知 `lambda gt 0`.
+  <br>
+  反之, `bm A` 正交相似于对角矩阵:
+  <span class="formula">
+    `bm (T'A T) = "diag"(lambda_1, cdots, lambda_n)`,
+  </span>
+  其中 `lambda_i gt 0`, `i = 1, cdots, n`, 这说明 `bm A` 正定.
+</p>
+
+<p class="theorem">
+  实对称矩阵 `bm A` 正定当且仅当 `bm A` 的顺序主子式全为正.
+  顺序主子式是 `bm A` 的前 `k` 行前 `k` 列组成的行列式.
+</p>
+
+<p class="proof">
+  `bm A` 的前 `k` 行前 `k` 列组成的子阵记为 `bm A_k`.
+  若 `bm A` 正定, 则它的 `k` 阶主子阵 `bm A_k` 正定, 因而 `|bm A_k| gt
+  0`.<br>
+  现在设 `bm A` 的顺序主子式全为正, 要证 `bm A` 正定.
+  对 `bm A` 的阶数 `n` 归纳: `n = 1` 时显然成立.
+  设结论对 `n-1` 成立, 要证
+  <span class="formula">
+    `bm A = [bm A_(n-1), bm C; bm C', a_(n n)]`
+  </span>
+  正定, 我们对它进行合同初等变换, 将它化为对角形:<br>
+  首先第一行左乘 `-bm (C' A_(n-1)^-1)` 加到第二行, 第一列右乘
+  `-bm(A_(n-1)^-1 C)` 加到第二列得:
+  <span class="formula">
+    `bm A^((1)) = [bm A_(n-1), bb 0; bb 0, a_(n n) - bm(C'A_(n-1)^-1 C)]`.
+  </span>
+  由归纳假设和 `bm A_(n-1)` 的顺序主子式全为正知 `bm A_(n-1)` 正定,
+  记 `bm(P' A_(n-1) P) = bm E_(n-1)`. 于是上式第一行左乘 `bm P'`,
+  第一列右乘 `bm P` 得
+  <span class="formula">
+    `bm A^((2)) = [bm E_(n-1), bb 0; bb 0, a]`,
+  </span>
+  其中 `a = a_(n n) - bm(C'A_(n-1)^-1 C)`.<br>
+  由于合同变换不改变行列式的符号
+  (例如 `|bm(P'A P)| = |bm P|^2 |bm A|`), 而 `|bm A| gt 0`,
+  所以 `a = |bm A^((2))| gt 0`.<br>
+  最后上式第二行左乘 `1/sqrt a`, 第二列右乘 `1/sqrt a`, 就得到
+  `bm A^((3)) = bm E_n`. 故 `bm A` 正定.
+</p>
+
+<p class="remark">
+  综上, 对于实对称矩阵 `bm A`, 我们有
+  <span class="formula">
+    `bm A` 正定
+    `iff bm A = bm(P'P)`
+    `iff bm(x'A x)` 正定
+    `iff bm A` 顺序主子式全为正
+    `iff bm A` 的特征值全为正.
+  </span>
+</p>
+
+<ol class="example">
   [来自 ζ(me)=0] 设 `bm A, bm B` 是实正定矩阵, 则
   <li>`bm (AB)` 正定当且仅当 `bm(AB) = bm(BA)`;</li>
   <li>若 `bm A-bm B` 正定则 `bm B^-1 - bm A^-1` 也正定`;</li>
-</p>
+</ol>
 
 <ol class="proof">
   ??
