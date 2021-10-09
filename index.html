@@ -428,6 +428,7 @@ function hideNav(flag) {
     yinyang.style.transform = 'none';
     eclipse.style.display = 'none';
     headerVisible(false);
+    console.log('focus');
     iframe.focus();
   } else {
     nav.removeAttribute('hidden');
@@ -481,6 +482,7 @@ function jump(src, title) {
   if (iframe) article.removeChild(iframe);
   createIframe(book.value + '/' + src)
   artitle.innerText = title;
+  document.title = title;
   hideNav(true);
   setTimeout(headerVisible, 1000);
 }

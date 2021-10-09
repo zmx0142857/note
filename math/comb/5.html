@@ -34,6 +34,23 @@
 	下文我们只讨论向前差分.
 </p>
 
+<p class="corollary">
+  <span class="formula">
+    `Delta^k x_n = sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
+  </span>
+  向后差分、中心差分也有类似的表达式.
+</p>
+
+<p class="proof">
+  `k = 0` 时, `Delta^0 x_n = x_n` 成立; 假设等式对 `k-1` 成立, 则
+  <span class="formula">
+    `Delta^k x_n = Delta^(k-1) x_(n+1) - Delta^(k-1) x_n`
+    `= sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-j) - sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-1-j)`
+    `= x_(n+k) - (-1)^(k-1) x_n + sum_(j=1)^(k-1) (-1)^j x_(n+k-j) ((k-1; j) + (k-1; j-1))`
+    `= sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
+  </span>
+</p>
+
 <p class="example">
 	利用差分表计算 `x_n = 2 n^2 + 3 n + 1` 的各阶差分.
 </p>
@@ -371,18 +388,17 @@
 </p>
 
 <p class="proposition">
-  显式表达式为
+  Euler 数的显式表达式为
   <span class="formula">
     `A_(n, k) = sum_(j=0)^k (-1)^j (n+1; j) (k-j)^n`.
   </span>
 </p>
 
-<p class="proof">
+<div class="p proof">
   直接代入递推式验证:
   <span class="formula">
     `A_(n, 1) = (n+1; 0) 1^n - (n+1; 1) 0^n = 1`,<br>
-    `A_(n, n) = sum_(j=0)^n (-1)^j (n+1; j) (n-j)^n`
-    `= sum_(j=0)^n (-1)^(n-j) (n+1; j+1) j^n overset ?= 1`.
+    `A_(n, n) = sum_(j=0)^n (-1)^j (n+1; j) (n-j)^n = 1`.<sup>[注]</sup>
   </span>
   且
   <span class="formula align">
@@ -394,7 +410,14 @@
     `= sum_(j=0)^k (-1)^j (n+1; j) (k-j)^n`<br>
     `= A_(n, k)`.
   </span>
-</p>
+  <hr>
+  <b>注</b> [来自 破壁人五号] 记 `x_k = k^n`, 因为它是 `n` 次多项式,
+  故它在原点的 `n+1` 阶差分为零, 即
+  <span class="formula">
+    `Delta^(n+1) x_0 = sum_(j=0)^(n+1) (n+1;j) (-1)^j (n-j)^n = 0`,
+  </span>
+  从而 `A_(n,n) = 1`.
+</div>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
