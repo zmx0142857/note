@@ -85,7 +85,7 @@ math: {
   articles: [
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
-    {title:'复变函数的展开', src:'complex/3.html'},
+    {title:'全纯函数的展开', src:'complex/3.html'},
   ]
 }, {
   title:'实变函数',

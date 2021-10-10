@@ -2,13 +2,92 @@
 <html lang="zh-cn">
 <head>
   <meta charset="utf-8" />
-  <title>复变函数的展开</title>
+  <title>全纯函数的展开</title>
   <link rel="stylesheet" href="../../css/note.css"/>
 </head>
 
 <body>
 
 <h2>Taylor 级数</h2>
+
+<h3>Weierstrass 内闭一致收敛定理</h3>
+
+<p>复变函数中, 连续函数的相关级数理论与数学分析的类似、平行, 甚至连证明方法都是一样的. 然而一旦涉及复变函数的导数, 就会产生一些本质不同的结果, 比如下面的 Weierstrass 定理.
+</p>
+
+<p class="definition">
+  设 `f_n(z)` 是定义在点集 `E` 上的一列函数. 若对任意 `epsi gt 0`,
+  存在正整数 `N`, 使 `n gt N` 时
+  <span class="formula">
+    `|sum_(k=1)^n f_k(z) - f(z)| lt epsi`, `quad AA z in E`,
+  </span>
+  因为级数对于各个 `z in E` 收敛的速度是一致的,
+  我们称级数 `sum_(n ge 1) f_n(z)` 在 `E` 上<b>一致收敛</b>到 `f(z)`.<br>
+  一致收敛的要求可能过高了, 因此引入内闭一致收敛的概念:
+  若 `sum_(n ge 1) f_n(z)` 在域 `D` 的任意紧子集上一致收敛, 则称它在
+  `D` 上<b>内闭一致收敛</b>.
+</p>
+
+<p class="example">
+  级数 `1 + (- z + z) + (- z^2 + z^2) + cdots` 的部分和等于 `z^n`.
+  它在单位圆盘中内闭一致收敛到零, 但不一致收敛: 事实上对任意正整数 `n`,
+  存在 `z_0 in B(0, 1)`, 使得 `|z_0^n| ge 1//2`, 和 `0` 尚有距离.
+  `z_0` 在 `B(0, 1)` 上起到“拖后腿”的作用, 使得级数无法以一致的速度收敛.
+</p>
+
+<p class="theorem">
+  <b>(Weierstrass)</b> 设 `f_n(z)` 是域 `D` 上的一列全纯函数, 级数
+  `sum_(n ge 1) f_n(z)` 在 `D` 上内闭一致收敛到 `f(z)`, 则 `f(z)` 也是 `D`
+  上的全纯函数, 且可以逐项求任意阶导数:
+  <span class="formula">
+    `f^((k))(z) = sum_(n ge 1) f^((k))_n(z)`, `quad k in ZZ^+`,
+  </span>
+  上式也是内闭一致收敛的.
+</p>
+
+<ol class="proof">
+  <li>先证 `f in H(D)`. 任取 `a in D`, 则存在 `r gt 0` 使得 `bar(B(a, r))
+    sube D`. 由于级数在 `bar(B(a, r))` 上一致收敛, 且级数的各项是连续函数,
+    所以 `f` 也在 `bar(B(a, r))` 上连续.<br>
+    在 `B(a, r)` 中取一条可求长闭曲线 `gamma`, 则级数也在 `gamma`
+    上一致收敛, 因而可在 `gamma` 上逐项积分. 由 Cauchy 积分定理:
+    <span class="formula">
+      `int_gamma f(z) dz`
+      `= sum_(n ge 1) int_gamma f_n(z) dz`
+      `= sum_(n ge 1) 0 = 0`.
+    </span>
+    现在由 Morera 定理知 `f in H(B(a, r))`; 由 `a` 的任意性知 `f in H(D)`.
+  </li>
+  <li>下证 `f` 可逐项求导, 为此我们利用上一章的 Cauchy 不等式对 `k`
+    阶导数作出估计.
+    取紧子集 `K sube D`, 记 `rho = d(K, del D) gt 0`. 以 `K`
+    中任意点为心, `rho//2` 为半径的开圆盘都含于 `D`, 因此
+    <span class="formula">
+      `G := uuu_(z in K) B(z, rho//2) sube D`.
+    </span>
+    注意到 `bar G` 是紧集, 所以级数在 `bar G` 上一致收敛: `AA epsi gt 0`,
+    存在正整数 `N`, 当 `n gt N` 时,
+    <span class="formula">
+      `underset(z in bar G)"sup"|S_n(z) - f(z)| lt epsi`,
+    </span>
+    这里 `S_n(z) = sum_(j=1)^n f_j(z)`.  从而由 Cauchy 不等式得
+    <span class="formula">
+      `underset(z in K)"sup"|S_n^((k))(z) - f^((k))(z)|`
+      `le C underset(z in G)"sup"|S_n(z) - f(z)|`
+      `le C epsi`.
+    </span>
+    由 `K` 的任意性知 `S_n^((k))(z)` 在 `D` 上内闭一致收敛到 `f^((k))(z)`.
+  </li>
+</ol>
+
+<p class="example">
+  考虑 Riemann zeta 函数 `zeta(s) = sum_(n ge 1) 1/n^s`,
+  由于 `|n^s| = n^("Re"s)`, 因此当 `"Re"s ge sigma gt 1` 时,
+  `|1/n^s| le 1/n^sigma`, 级数在 `"Re"s gt 1` 上内闭一致收敛.
+  由 Weierstrass 定理, `zeta(s)` 是 `"Re"s gt 1` 上的全纯函数.
+</p>
+
+<h3>幂级数</h3>
 
 <h3>辐角原理</h3>
 
