@@ -199,7 +199,7 @@ AM.symbols = AM.symbols.concat([
 
 // relation symbols
 {input:'!=',tag:'mo',output:'\u2260',tex:'ne',ttype:CONST},
-{input:':=',tag:'mo',output:':=',tex:null,ttype:CONST},
+{input:':=',tag:'mo',output:':=',tex:null,ttype:CONST,val:true},
 {input:'lt',tag:'mo',output:'<',tex:null,ttype:CONST},
 {input:'<=',tag:'mo',output:'\u2264',tex:'le',ttype:CONST},
 {input:'lt=',tag:'mo',output:'\u2264',tex:'leq',ttype:CONST},
@@ -222,6 +222,7 @@ AM.symbols = AM.symbols.concat([
 {input:'~',tag:'mo',output:'~',tex:'sim',ttype:CONST},
 {input:'~~',tag:'mo',output:'\u2248',tex:'approx',ttype:CONST},
 {input:'prop',tag:'mo',output:'\u221D',tex:'propto',ttype:CONST},
+{input:'complement',tag:'mo',output:'complement',tex:null,ttype:CONST},
 
 // logical symbols
 {input:'if',tag:'mtext',output:'if',tex:null,ttype:SPACE},

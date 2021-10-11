@@ -60,7 +60,7 @@
 <p>	由 E.Zermelo (1908) 首次提出公理系统的框架,
 	A. Fraenkel (1922) 补充了一条取代公理图式, 再加上 Zermelo
 	提出的选择公理 (choice axiom), 组成今天通用的 <b>ZFC 公理系统</b>.
-	这一公理系统包括论述域, 语法符号, 造句规则与公理组:
+	这一公理系统包括论述域、语法符号、造句规则与公理组:
 </p>
 
 <h4>论述域</h4>
@@ -266,10 +266,10 @@
 		`B = {x in A: x !in x}`,
 	</span>
 	下证 `B !in A`. 我们反设 `B in A`, 则
-	<li>如果 `B in B` 真, 由 `B` 定义, `B in A ^^ B !in B` 真, 于是 `B !in
+	<li>如果 `B in B` 真, 由 `B` 定义, `(B in A) ^^ (B !in B)` 真, 于是 `B !in
 		B` 真, 矛盾;
 	</li>
-	<li>如果 `B in B` 假, 由 `B` 定义, `B in A ^^ B !in B` 假, 由于 `B in
+	<li>如果 `B in B` 假, 由 `B` 定义, `(B in A) ^^ (B !in B)` 假, 由于 `B in
 		A` 真, 所以 `B !in B` 假, 矛盾.
 	</li>
 	综上有 `B !in A`.
@@ -297,7 +297,7 @@
 	对任意非空集合 `cc A`, 存在集合 `I`, 使得 `x in I`
 	当且仅当对任意 `cc A` 的元素 `A` 都有 `x in A`:
 	<span class="formula">
-		`AA A (cc A != O/ rarr EE I AA x(x in I harr AA A(A in cc A rarr x
+		`AA cc A (cc A != O/ rarr EE I AA x(x in I harr AA A(A in cc A rarr x
 		in A)))`.
 	</span>
 	由外延公理可证集合 `I` 惟一, 称为 `cc A` 的<b>交 (intersection)</b>,
@@ -315,7 +315,7 @@
 		`= {x in A_1: AA A(A in cc A rarr x in A)}`.
 	</span>
 	于是 `x in I` 当且仅当 `x in A_1 ^^ AA A(A in cc A rarr x in A)`.
-	由于 `A_1 in A`, 这又当且仅当 `AA A(A in cc A rarr x in A)`,
+	由于 `A_1 in cc A`, 这又当且仅当 `AA A(A in cc A rarr x in A)`,
 	即为所求的集合.
 </p>
 
@@ -393,7 +393,7 @@
 	设 `X` 为全集, 对任意 `A sube X`, 称 `X\\A` 为 `A` 的<b>补集 (或余集,
 	complement)</b>, 记为
 	<span class="formula">
-		`A^c = bar A = &#8705; A := X \\ A = {x in X: x !in A}`.
+		`A^c = bar A = complement_X A := X \\ A = {x in X: x !in A}`.
 	</span>
 	定义集合 `A, B` 的<b>对称差</b>:
 	<span class="formula">

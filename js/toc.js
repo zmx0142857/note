@@ -78,6 +78,7 @@ math: {
     //      {title:'数理逻辑初步', src:'set/1.html'},
     {title:'集合及其运算', src:'set/2.html'},
     {title:'二元关系与映射', src:'set/3.html'},
+    {title:'自然数', src:'set/4.html'},
     {title:'基数', src:'set/6.html'},
   ]
 }, {
