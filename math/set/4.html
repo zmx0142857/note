@@ -7,41 +7,89 @@
 </head>
 <body>
 
-<h2>Peano 公理</h2>
+<h2>Peano 公理 <i>——自然数最早的公理化定义</i></h2>
 
-<p>	这是自然数的最早的公理化定义.</p>
-
-<ol class="axiom enum">
+<ol class="axiom">
 	(Peano, 1889) 设 `NN` 是一个非空集合, `0 in NN` 是其中某一特定的元.
-	`"++"` 是 `NN` 上一变换 (即 `NN` 到自身的映射), `(NN, 0, "++")` 满足:
-	<li>`0 !in "ran"("++")`, 即不存在 `x in NN`, 使得 `"++"x = 0`;</li>
-	<li>`"++"` 是一单射, 即 `"++"x = "++"y rArr x = y`;</li>
-	<li>`AA E sube NN`, 如果
-		<ol>
-			<li>`0 in E`;</li>
-			<li>`n in E rArr "++"n in E`.</li>
-		</ol>
-		那么 `E = NN`.
+  `+` 是 `NN` 上一变换 (即 `NN` 到自身的映射), `(NN, 0, +)` 满足:
+  <li>`0 !in "ran"(+)`, 即不存在 `x in NN`, 使得 `0 = x^+`;</li>
+  <li>`+` 是一单射, 即 `x^+ = y^+ rArr x = y`;</li>
+  <li>归纳原理: `AA E sube NN`, 如果 (1) `0 in E`; (2) `n in E rArr n^+ in
+    E`, 那么 `E = NN`.
 	</li>
 </ol>
 
-<p>	Peano 证明了, 凡是满足这三条公理的系统都彼此同构;
-	因此在同构意义下, 自然数系统是惟一的. 所谓 `(NN, 0, "++")` 与 `(NN^**,
-	0^**, "++"^**)` 同构, 是指存在一个双射 `f: NN to NN^**`, 使得
+<p class="corollary">
+  <b>零的惟一性</b>
+  设 `n in NN`,  则
+  <span class="formula">
+    `n != 0` `iff EE x in NN`, `n = x^+`.
+  </span>
+  即, `NN` 中仅有 0 满足 Peano 公理的性质 1.
+</p>
+
+<p class="proof">
+  `lArr` 由公理可知, 下证 `rArr`.
+  反设 `n in NN`, `n != 0`, 且对任意 `x in NN`, `n != x^+`.
+  用 `E` 表示与 `n` 不相等的所有自然数, 因此 `0 in E`.
+  若 `x in E`, 即 `x != n`, 由假设 `n != x^+` 成立, 故 `x^+ in E`.
+  由归纳原理知 `E = NN`, 即 `n` 不与任何自然数相等, 矛盾; 因此 `n = 0`.
+</p>
+
+<p class="theorem">
+  <b>自然数的惟一性</b>
+  满足 Peano 公理的系统都彼此同构; 因此在同构意义下, 自然数系统是惟一的.
+  所谓 `(NN, 0, +)` 与 `(NN', 0', +')` 同构, 是指存在一个双射 `f: NN to
+  NN'`, 使得
 	<span class="formula">
-		`f(0) = f(0^**)`,<br/>
-		`AA n in NN`, `f("++"n) = "++"^**(f(n))`.
+		`f(0) = 0'`,
+    `quad f(n^+) = f(n)^(+')`,
+    `quad AA n in NN`.
 	</span>
+</p>
+
+<ol class="proof">
+  <li>由于 `0'` 是惟一的, 可以令 `f(0) = 0'`. 我们把 `f` 的定义域记为 `E`,
+    因此 `0 in E`.
+    对任意 `n in E`, 定义 `f(n^+) = f(n)^(+')`, 因此 `n^+` 也有定义, `n^+
+    in E`.  由归纳原理, `E = NN`, `f` 在 `NN` 上有定义.
+  </li>
+  <li>下证 `f` 是满射, 即证 `AA n' in NN'`, `EE n in NN` 使 `n' = f(n)`.
+    若 `n' = 0'`, 结论成立; 现在设结论在 `E sube NN'` 上成立,
+    由已知 `0' in E`. 若 `n' = f(n)` 成立, 则 `{:n':}^(+') = f(n)^(+') =
+    f(n^+)`, 结论也成立. 在 `NN'` 上应用归纳原理知结论成立.
+  </li>
+  <li>下证 `f` 是单射, 即证 `AA m, n in NN`, `f(m) = f(n) rArr m = n`.
+    若 `m, n` 之中有一个为 `0`, 不妨设 `m = 0`, 则 `f(n) = f(0) = 0'`,
+    若 `n != 0`, 则存在 `x in NN` 使 `x^+ = n`. 于是 `f(n) = f(x^+) =
+    f(x)^(+') != 0`, 矛盾; 因此 `n = 0`.
+    现在设 `f(m) = f(n) rArr m = n`, 则
+    <span class="formula">
+      `f(m^+) = f(n^+)`
+      `iff f(m)^(+') = f(n)^(+')`
+      `rArr f(m) = f(n)`
+      `rArr m = n`.
+    </span>
+    在 `NN` 上应用归纳原理知结论成立.
+  </li>
+</ol>
+
+<p>自然数集 `NN` 的惟一性已经得到保证.
+  下面我们将在集合论中保证它的存在性.
 </p>
 
 <h2>在公理集合论体系内定义自然数</h2>
 
+<h3>归纳集与归纳原理</h3>
+
 <p class="definition">
 	对任意集合 `x`, 定义 `x^+ := x uu {x}`, 称为 `x` 的<b>后继元
 	(successor)</b>. 由配对公理, 并公理和外延公理, 后继元是存在惟一的.
+  后继元就是把集合 `x` "放入自身" 所得到的集合, 如
+  <span class="formula">
+    `{1, 2}^+ = {1, 2, {1, 2}}`.
+  </span>
 </p>
-
-<h3>归纳集与归纳原理</h3>
 
 <ol class="definition">
 	称 `A` 是一个<b>归纳集</b> (inductive set), 如果
@@ -56,27 +104,32 @@
 </p>
 
 <p class="remark">
-	归纳集的全体不构成集, 而是一个真类.
+	归纳集的全体不构成集, 而是一个真类. (??)
 </p>
 
 <p class="axiom">
-  <b>正则公理</b> 对任意非空集合 `X`, 存在 `x in X` 满足 `x nn X = O/`:
+  <b>正则公理</b> 对任意非空集合 `A`, 存在 `a in A` 满足 `a nn A = O/`:
   <span class="formula">
-    `AA X(X != O/ rarr EE x(x in X ^^ x nn X = O/))`.
+    `AA A(A != O/ rarr EE a(a in A ^^ a nn A = O/))`.
   </span>
   正则公理确保属于关系不会循环, 比如, 不会有 `x in x`, `x in y in x` 或 `x_0
-  &ni; x_1 &ni; x_2 &ni; cdots` 的情况.
+  &ni; x_1 &ni; x_2 &ni; cdots` 的情况. (??)
+  因为正则公理排除了 `x in x` 的情况, 所以 Russel 悖论不会出现.
 </p>
 
 <p class="definition">
 	<b>自然数的定义</b>
-	应用无限公理, 设存在归纳集 `A`, 则由子集公理和外延公理, `A` 的子集
+  由无限公理, 归纳集存在. 将最小的归纳集记为 `omega`, 称为<b>自然数集</b>,
+  它的元素称为<b>自然数</b>. 由归纳集定义,`O/ in omega`, 我们记 `0 := O/`,
+  `1 := 0^+`, `2 := 1^+`, 等等.<br>
+  但什么是 "最小" 的归纳集呢?  我们不能取 `omega` 为所有归纳集的交,
+  因为归纳集的全体不构成集.  相对地, 取归纳集 `A`, 然后定义 `omega` 为 `A`
+  的子集:
 	<span class="formula">
-		`omega = {x in A:` 对任意归纳集 `E` 有 `x in E}`
+		`omega := {x in A:` 对任意归纳集 `E` 有 `x in E}`
 	</span>
-	存在惟一. 称 `omega` 为<b>自然数集</b>, 它的元素称为<b>自然数</b>.
-	我们记 `O/ := 0`, `0^+ := 1`, `1^+ := 2`. 下面证明,
-	我们定义的自然数集 `omega` 适合 Peano 公理.
+  该集合的存在惟一性由子集公理和外延公理保证.
+  下面证明, `omega` 确是一个归纳集, 并且是最小的归纳集.
 </p>
 
 <p class="theorem">
@@ -91,6 +144,10 @@
 	`x^+ in E`. 再由 `omega` 的定义知 `x^+ in omega`.<br/>
 	由归纳集的定义, `omega` 是归纳集. 由 `omega` 的定义知对任意归纳集 `E`,
 	`omega sube E`, 因此是最小的归纳集.
+</p>
+
+<p>可以验证, 我们定义的自然数集 `omega` 适合 Peano 公理.
+先证最有用的归纳原理:
 </p>
 
 <p class="corollary">
