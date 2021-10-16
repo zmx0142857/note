@@ -353,6 +353,29 @@
 因此 `18 * 7 - 25 * 5 = 1`.
 </div>
 
+<p class="theorem">
+  <b>拉梅定理</b>
+  Fibonacci 数定义为
+  <span class="formula">
+    `F_0 = F_1 = 1`, `quad F_(n+2) = F_(n+1) + F_n`.
+  </span>
+  正整数 `a gt b` 进行辗转相除, 若 `a // b` 的余数 `r_1 le F_n`,
+  则除法的运算次数不超过 `n+1`.
+</p>
+
+<p class="proof">
+  记第 `n` 次除法的余数为 `r_n`. 假设恰好作了 `n+1` 次除法,
+  即 `r_(n+1) = 0`, 注意到辗转相除法中余数严格单调递减, 有
+  <span class="formula">
+    `r_n ge 1 = F_1`,<br>
+    `r_(n-1) ge r_n+1 ge 2 = F_2`,<br>
+    `r_(n-2) = r_(n-1) + r_n ge F_3`.
+  </span>
+  依此类推, 由归纳法得 `r_1 ge F_n`. 又注意到 `r_1 = F_n` 时,
+  上式各等号均成立, 因此当 `a, b` 是相邻的 Fibonacci 数时为辗转相除法的最坏情形.
+  于是 `r_1 le F_n` 时, 算上第一次得到 `r_1` 时所作的除法, 除法的运算次数不超过 `n+1`.
+</p>
+
 <h2>素数</h2>
 
 <p class="definition">

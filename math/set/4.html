@@ -30,7 +30,7 @@
 
 <p class="proof">
   `lArr` 由公理可知, 下证 `rArr`.
-  反设 `n in NN`, `n != 0`, 且对任意 `x in NN`, `n != x^+`.
+  反设 `n in NN`, `n != 0`, 且 `AA x in NN`, `n != x^+`.
   用 `E` 表示与 `n` 不相等的所有自然数, 因此 `0 in E`.
   若 `x in E`, 即 `x != n`, 由假设 `n != x^+` 成立, 故 `x^+ in E`.
   由归纳原理知 `E = NN`, 即 `n` 不与任何自然数相等, 矛盾; 因此 `n = 0`.
@@ -89,6 +89,7 @@
   <span class="formula">
     `{1, 2}^+ = {1, 2, {1, 2}}`.
   </span>
+  显然有 `x in x^+`, `x sube x^+`.
 </p>
 
 <ol class="definition">
@@ -107,21 +108,14 @@
 	归纳集的全体不构成集, 而是一个真类. (??)
 </p>
 
-<p class="axiom">
-  <b>正则公理</b> 对任意非空集合 `A`, 存在 `a in A` 满足 `a nn A = O/`:
-  <span class="formula">
-    `AA A(A != O/ rarr EE a(a in A ^^ a nn A = O/))`.
-  </span>
-  正则公理确保属于关系不会循环, 比如, 不会有 `x in x`, `x in y in x` 或 `x_0
-  &ni; x_1 &ni; x_2 &ni; cdots` 的情况. (??)
-  因为正则公理排除了 `x in x` 的情况, 所以 Russel 悖论不会出现.
-</p>
-
 <p class="definition">
 	<b>自然数的定义</b>
   由无限公理, 归纳集存在. 将最小的归纳集记为 `omega`, 称为<b>自然数集</b>,
   它的元素称为<b>自然数</b>. 由归纳集定义,`O/ in omega`, 我们记 `0 := O/`,
-  `1 := 0^+`, `2 := 1^+`, 等等.<br>
+  `1 := 0^+`, `2 := 1^+`, 等等:
+  <span class="formula">
+    `0 = O/`, `quad 1 = {O/}`, `quad 2 = {O/, {O/}} cdots`.
+  </span>
   但什么是 "最小" 的归纳集呢?  我们不能取 `omega` 为所有归纳集的交,
   因为归纳集的全体不构成集.  相对地, 取归纳集 `A`, 然后定义 `omega` 为 `A`
   的子集:
@@ -132,10 +126,6 @@
   下面证明, `omega` 确是一个归纳集, 并且是最小的归纳集.
 </p>
 
-<p class="theorem">
-	`omega` 是一个归纳集, 并且是最小的归纳集.
-</p>
-
 <p class="proof">
 	首先 `O/ in A`, 且对任意归纳集 `E` 有 `O/ in E`, 从而由 `omega`
 	的定义, `O/ in omega`.<br/>
@@ -144,6 +134,10 @@
 	`x^+ in E`. 再由 `omega` 的定义知 `x^+ in omega`.<br/>
 	由归纳集的定义, `omega` 是归纳集. 由 `omega` 的定义知对任意归纳集 `E`,
 	`omega sube E`, 因此是最小的归纳集.
+</p>
+
+<p class="remark">
+  由自然数集的作法知道, "交" 的概念可以从集合的交推广到更一般情形: 真类的交.
 </p>
 
 <p>可以验证, 我们定义的自然数集 `omega` 适合 Peano 公理.
@@ -167,7 +161,7 @@
 <p class="remark">
 	自然数归纳原理告诉我们, 要得到所有的自然数, 只需从 `0` 开始,
 	每次按最近得到的数 `n`, 将 `n^+` 也加入到集合中来,
-	这一过程无限地进行下去, 就得到全体自然数.
+	这一过程无限地 (合法性由无限公理保证) 进行下去, 就得到全体自然数.
 </p>
 
 <p class="corollary">
@@ -190,12 +184,12 @@
 
 <h3>传递集与单调性</h3>
 
-<p>	本小节证明 `{::}^+` 是单射. 为此引入传递集的概念.</p>
+<p>	本小节证明 `n mapsto n^+` 是单射. 为此引入传递集的概念.</p>
 
 <p class="definition">
 	称 `A` 为一<b>传递集 (transitive set)</b>, 如果
 	<span class="formula">
-		`x in A ^^ t in x rArr t in A`.
+		`EE x (t in x ^^ x in A) rArr t in A`.
 	</span>
 	由于 `x in O/` 是伪命题, 上式的前件为假, 因此对 `A = O/` 上式为真,
 	即 `O/` 是传递集.
@@ -220,11 +214,21 @@
 	<li>`rArr` 3. 设 `a in A`, 则 `a sube uuu A`. 由 2, `uuu A sube A`,
 		所以 `a sube A`.
 	</li>
-	<li>显然.</li>
-	<li>设 `x in A`, `t in x`. 由 4, `x in 2^A`, 即 `x sube A`.
+	<li>`iff` 4. 显然.</li>
+	<li>`rArr` 1. 设 `t in x`, `x in A`. 由 4, `x in 2^A`, 即 `x sube A`.
 		再由 `t in x` 得 `t in A`.
 	</li>
 </ol>
+
+<p class="axiom">
+  <b>正则公理</b> 对任意非空集合 `A`, 存在 `a in A` 满足 `a nn A = O/`:
+  <span class="formula">
+    `AA A(A != O/ rarr EE a(a in A ^^ a nn A = O/))`.
+  </span>
+  正则公理确保属于关系不会循环, 比如, 不会有 `x in x`, `x in y in x` 或 `x_0
+  &ni; x_1 &ni; x_2 &ni; cdots` 的情况. (??)
+  因为正则公理排除了 `x in x` 的情况, 所以 Russel 悖论不会出现.
+</p>
 
 <p class="theorem">
 	若 `x` 是传递集, 则 `uuu x^+ = x`.
@@ -259,7 +263,7 @@
 	所以 `omega` 也是传递集.
 </p>
 
-<p>	现在证明 Peano 公理的 2, 即变换 `{::}^+` 是单射.</p>
+<p>	现在证明 Peano 公理的 2, 即变换 `n mapsto n^+` 是单射.</p>
 
 <ol class="theorem">
 	<li>`(AA m, n in omega)` `m = n iff m^+ = n^+`;</li>
@@ -277,7 +281,7 @@
 			`0^+ = O/ uu {O/} = {O/} != O/ = 0`,
 		</span>
 		所以 `0 in T`.<br/>
-		其次若 `n in T`, 则 `n != n^+`, 由 1 有 `n^+ != (n^+)+`,
+		其次若 `n in T`, 则 `n != n^+`, 由 1 有 `n^+ != n^(+ +)`,
 		从而 `n^+ in T`, 由归纳原理, `T = omega`.
 	</li>
 </ol>
@@ -285,7 +289,6 @@
 <p>	最后, `AA n in omega`, `n^+ = n uu {n} != O/ = 0`.
 	即 `omega` 满足 Peano 公理的 1, 从而 `omega` 是一个 Peano 系统.
 </p>
-
 
 <script src="../../js/note.js?type=math"></script>
 </body>
