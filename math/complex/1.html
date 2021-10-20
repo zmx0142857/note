@@ -221,7 +221,105 @@
 	设 `z in CC`, `mu = a + "i"b`, 定义 `z^mu = "e"^(mu"Log"z)`.
 </p>
 
+<h2>分式线性变换*</h2>
+
+<p class="definition">
+  全体复数 `CC` 连同无穷远点 `oo` 一起组成<b>复球面</b> `CC^**`.
+</p>
+
+<ol class="definition">
+  复变函数 `f(z) = (a z+b)/(c z+d)` 称为一个<b>分式线性变换 (或 Möbius
+    变换)</b>, `bm A = [a, b; c, d]` 称为它的矩阵.
+  对于任意非零常数 `k`, `k bm A` 也是 `f` 的矩阵. 我们将 `bm A` 和 `k bm A`
+  视为相等的.
+  下面我们总假定
+  <li>`|bm A| = a d - b c != 0`.</li>
+  <li>若分母 `c z + d = 0`, 规定 `f(z) = oo`.</li>
+  <li>若 `z = oo`, 规定 `f(z) = a/c`; 特别当 `c = 0` 时, `f(oo) = oo`.</li>
+  若 `c = 0`, 由假设 `a d - b c != 0` 知 `a != 0`, `d != 0`. 此时 `f` 形如
+  `A z + B`, 是一次多项式.
+</ol>
+
+<ol class="remark">
+  <li>复数域上全体二阶可逆矩阵称为 (2 阶) <b>一般线性群</b> `M = GL_2(CC)`.
+  全体数量矩阵 `k bm I in M` 记为 `Z(M)`, 称为 `M` 的<b>中心</b>;
+  这是因为 `M` 中与任意矩阵乘法可交换的必为数量矩阵.
+  考虑分式线性变换时, 我们将 `bm A` 和 `k bm A` 等同, 因此分式线性变换是商群
+  `PGL_2(CC) = M // Z(M)` 中的元素, 这个群称为<b>射影一般线性群</b>.
+  </li>
+  <li>`GL_2(CC)` 中行列式等于 `+-1` 的矩阵全体组成子群 `SL_2(CC)`,
+    称为<b>特殊线性群</b>. `SL_2(CC)` 商掉其中心得到<b>射影特殊线性群</b>
+    `PSL_2(CC)`. 特别素域 `bbb F_p` 上的 `n` 阶射影特殊线性群 `PSL_n(bbb
+    F_p)` 简记为 `PSL(n, p)`.
+  </li>
+</ol>
+
+<p class="property">
+  <b>分式线性变换与矩阵</b>
+  设 `bm A, bm B` 分别为 `f, g` 的矩阵, 容易验证 `f @ g` 的矩阵即为 `bm(A
+  B)`.  又, `f^-1` 的矩阵即为 `bm A^-1 = [-d, b; c, -a]` (等价意义上), 即
+  <span class="formula">
+    `y = (a x + b)/(c x + d)`
+    `rArr x = (-d y + b)/(c y - a)`.
+  </span>
+</p>
+
+<ol class="property">
+  <b>分式线性变换的不动点</b>
+  <li>`c = 0` 时, `f` 形如 `A z + B`, `A != 0`. 显然 `oo` 是 `f`
+    的一个不动点. 若 `A != 1`, 则 `B/(1-A)` 是它的另一个不动点;
+    若 `A = 1`, 则 `oo` 是 `f` 唯一的不动点.
+  </li>
+  <li>`c != 0` 时, 令 `z = (a z + b)/(c z + d)` 得
+    <span class="formula">
+      `c z^2 + (d-a) z - b = 0`.
+    </span>
+    解之可得一或两个不动点.
+  </li>
+</ol>
+
+<p class="example">
+  `f(z) = 1/(1-z)` 满足 `f^3(z) = z`, 从矩阵的角度看,
+  <span class="formula">
+    `[0, 1; -1, 1]^3 = [-1, ; , -1]`.
+  </span>
+</p>
+
+<p class="example">
+  [来自 我是萌萌的澄]
+  设 `f: x mapsto (1+x)/x`, `g: x mapsto (1-x)/x`, 若 `x` 为非零有理数,
+  证明: 对任意有理数 `y`, 存在一系列 `f, g` 的复合将 `x` 映为 `y`.
+</p>
+
+<ol class="proof">
+  [来自 我是从北京东京到南京的向量加法]
+  <li>先证: 对任意既约分数 `p_0/q_0 = p/q`, `p, q != 0`,, 存在一系列 `f, g`
+    的复合将它映为
+    `+-1`. 事实上, 在 `f, g` 的作用下, `p/q` 分别映为
+    <span class="formula">
+      `(q+p)/p, (q-p)/p`.
+    </span>
+    若 `|p| != |q|`, 则两个数都是既约分数,
+    且至少有一个数满足分子分母的绝对值之和小于 `|p| + |q|`. 记这个数为
+    `p_1/q_1`. 若 `|p_1| != |q_1|`, 又可作同样处理, 得到一系列既约分数
+    <span class="formula">
+      `p_0/q_0, p_1/q_1, cdots`,
+    </span>
+    其分子分母绝对值之和单调递减, 这是不可能的. 因此必存在某个 `n` 使得
+    `|p_n| = |q_n|`, 即我们将 `p/q` 映为 `+-1`.
+  </li>
+  <li>由于 `(f@g@f)(x) = (g@f@g)(x) = -x`,
+    联系 1. 得到: 任意非零有理数都可以映为 `1`. 以上两式结合得
+    <span class="formula">
+      `(f@g@f@g@f@g)(x) (g@f@g@f@g@f)(x) = x`,
+    </span>
+    因此 `f^-1`, `g^-1` 也被找到.
+    现在对于任意非零有理数 `x, y`, 存在 `f, g` 复合成的映射 `varphi`, `eta`
+    使得 `varphi(x) = 1 = eta(y)`, 即 `(eta^-1 @ varphi) x = y`.
+  </li>
+  <li>最后显然 `g(1) = 0`, 因此 `0` 也是可以达到的.</li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
-
