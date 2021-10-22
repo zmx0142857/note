@@ -144,17 +144,24 @@ var keyboard = $('#keyboard');
 var outputWrapper = $('#outputWrapper');
 
 function render() {
-  if (input.lang == 'asciimath') {
-    output.asciimath = input.value;
-    output.innerHTML = '`' + output.asciimath + '`';
-    if (asciimath) {
-      asciimath.render(output);
-      output.tex = asciimath.texstr;
+  output.classList.remove('error');
+  try {
+    if (input.lang == 'asciimath') {
+      output.asciimath = input.value;
+      output.innerHTML = '`' + output.asciimath + '`';
+      if (asciimath) {
+        asciimath.render(output);
+        output.tex = asciimath.texstr;
+      }
+    } else {
+      output.tex = input.value;
+      output.innerHTML = input.value;
+      katex.render(input.value, output);
     }
-  } else {
-    output.tex = input.value;
-    output.innerHTML = input.value;
-    katex.render(input.value, output);
+  } catch (e) {
+    console.error(e);
+    output.innerText = e.message;
+    output.classList.add('error');
   }
   // 调整输入框大小
   input.setAttribute('rows', Math.max(5, input.value.split('\n').length))

@@ -292,6 +292,8 @@ AM.symbols = AM.symbols.concat([
 {input:"'''",tag:'mo',output:'\u2034',tex:null,ttype:CONST,val:true},
 
 // functions
+{input:'!!',tag:'mo',output:'!!',tex:null,ttype:UNARY,rfunc:true,val:true},
+{input:'!',tag:'mo',output:'!',tex:null,ttype:UNARY,rfunc:true,val:true},
 {input:'f',tag:'mi',output:'f',tex:null,ttype:UNARY,func:true,val:true},
 {input:'g',tag:'mi',output:'g',tex:null,ttype:UNARY,func:true,val:true},
 {input:'lim',tag:'mo',output:'lim',tex:null,ttype:UNDEROVER},
@@ -843,6 +845,20 @@ function parseI() {
   var underover = (sym1.ttype == UNDEROVER || sym1.ttype == UNARYUNDEROVER);
   var node = parseS();
   var sym = getSymbol();
+
+  // 类似于 sin, log 相对分式优先
+  // 阶乘, 或任意后缀函数也相对分式优先
+  if (sym.rfunc) {
+    skip(sym.input.length);
+    if (AM.katex) {
+      return b(node + sym.output);
+    } else {
+      node = $math('mrow', node);
+      node.appendChild($math('mo', $text(sym.output)));
+      return node
+    }
+  }
+
   // either _ or ^
   if (sym.ttype != INFIX || sym.input == '/')
     return node;
@@ -987,10 +1003,7 @@ function parseMatrixTex(sym, frag) {
     row.push(frag.slice(begin,i));
   if (row.length > 0)
     matrix += row.join('&') + '\\\\';
-  if (sym.invisible)
-    return '\\begin{aligned}' + matrix + '\\end{aligned}';
-  else
-    return '\\begin{matrix}' + matrix + '\\end{matrix}';
+  return '\\begin{matrix}' + matrix + '\\end{matrix}';
 }
 
 // -> node
@@ -1073,7 +1086,8 @@ function parseMath(str) {
   return node;
 }
 
-function am2tex(str) {
+function am2tex(str, displayStyle) {
+  if (displayStyle === undefined) displayStyle = AM.displaystyle
   AMnestingDepth = 0;
   for (d of AM.define)
     str = str.replace(d[0], d[1]);
@@ -1091,7 +1105,7 @@ function am2tex(str) {
   var args = [];
   if (AM.color)
     args.push('\\' + AM.color);
-  if (AM.displaystyle)
+  if (displayStyle)
     args.push('\\displaystyle');
   else
     args.push('\\textstyle');
@@ -1106,8 +1120,8 @@ function parseMathTex(str) {
     katex.render(str, node);
   } catch (e) {
     node.className = 'katex-error';
-    console.error(e);
     console.log(str);
+    throw e
   }
   return node;
 }
@@ -1207,19 +1221,25 @@ function init() {
   parseMatrix = parseMatrixTex;
   parseMath = parseMathTex;
 
-  if (typeof document !== 'undefined') {
+  if (AM.env === 'browser') {
     // local fonts cause CORS error
     loadCss('https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css');
     loadScript(AM.katexpath, AM.onload);
   }
 }
 
-if (typeof document === 'undefined') { // nodejs
+if (typeof document === 'undefined') {
   AM.env = 'nodejs'
   AM.katex = true
   AM.displaystyle = true
   init()
-} else { // browser
+} else if (typeof chrome !== 'undefined' && chrome.extension) {
+  AM.env = 'extension'
+  AM.katex = true
+  AM.displaystyle = true
+  init()
+} else {
+  AM.env = 'browser'
   var doc = document;
   var body = doc.body;
   var MATHML = 'http://www.w3.org/1998/Math/MathML';
