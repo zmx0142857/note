@@ -35,6 +35,7 @@ math: {
     {title:'矩阵的相似标准形', src:'algebra/7.html'},
     {title:'线性空间中的度量与内积', src:'algebra/8.html'},
     {title:'实二次型', src:'algebra/9.html'},
+    {title:'李代数初步', src:'algebra/10.html'},
   ]
 }, {
   title:'数学分析',

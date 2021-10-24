@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>李代数初步</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p>[来自 <a href="https://zhuanlan.zhihu.com/p/144789716">给大一学生的 Lie 代数</a>]</p>
+
+<h2>导子与 Lie 括积</h2>
+
+<p>
+  在微积分中, "微分", 或 "求导" 是典型的线性运算:
+  <span class="formula">
+    `(k f + l g)' = k f' + l g'`,
+  </span>
+  它最具特色的性质就是乘积的求导公式
+  <span class="formula">
+    `(f g)' = f'g + f g'`.
+  </span>
+  我们将 "求导" 运算推广到线性空间中来, 首先要求线性空间中有定义 "乘积".
+  事实上, 许多常见的线性空间都有定义乘积. 如 `bbb F[x]` 中的多项式乘法,
+  `C^oo(a,b)` 中函数的逐点乘法, `bbb F^(n xx n)` 中的矩阵乘法, 乃至
+  `"End"V` (`V` 上全体线性变换) 中线性变换间的乘法. 由此给出导子的定义:
+</p>
+
+<p class="definition">
+  设 `V` 是定义了乘法的线性空间, 若 `V` 上线性变换 `D` 满足
+  <span class="formula">
+    `D(f g) = D(f) g + f D(g)`, `quad AA f, g in V`,
+  </span>
+  则称 `D` 是 `V` 的<b>导子</b>. `V` 中全体导子
+  `"Der"V` 按线性变换的加法和数乘构成 `"End"V` 的线性子空间.
+</p>
+
+<p class="remark">
+  对于空间 `V` 上的乘法, 我们不要求它可交换, 甚至也不要求它具有结合律,
+  只要求它是满足封闭性的二元运算即可.  这样的二元运算称为一个<b>代数</b>.
+</p>
+
+<p class="corollary">
+  若 `A, B in "DerV`, 则 `A B - B A in "Der"V`.
+</p>
+
+<p class="proof">
+  `AA f, g in V`,
+  <span class="formula align">
+    `(A B - B A) (f g)`<br>
+    `= A B(f g) - B A(f g)`<br>
+    `= A(B(f)g + f B(g)) - B(A(f)g + f A(g))`<br>
+    `= A B(f)g + B(f)A(g) + A(f)B(g) + f A B(g)`<br>
+    `quad - B A(f)g - A(f)B(g) - B(f)A(g) - f B A(g)`<br>
+    `= (A B-B A)(f)g + f(A B-B A)(g)`.
+  </span>
+</p>
+
+<p class="remark">
+  这个 `A B - B A` 如此好用, 以至于有如下定义:
+</p>
+
+<p class="definition">
+  设 `V` 是定义了代数的线性空间, `A, B in V`. 称
+  <span class="formula">
+    `[A, B] := A B - B A`
+  </span>
+  为 <b>Lie 括积</b>, 简称括积.
+</p>
+
+<ol class="property">
+  Lie 括积满足:
+  <li>反对称性 `[A, B] = -[B, A]`;</li>
+  <li>双线性性 `[k A + l B, C] = k[A, C] + l[B, C]`;</li>
+  <li>二重公式 `[A, B C] = [A, B]C + B[A, C]`;</li>
+  <li>Jacobi 恒等式 `sum_"cyc"[[A, B], C] = 0`.</li>
+</ol>
+
+<p class="proof">
+  4 的证明:
+  <span class="formula">
+    `sum_"cyc" (A B-B A)C - C(A B-B A)`
+    `= sum_"cyc" (A B C - C A B) + sum_"cyc" (C B A - B A C)`
+    `= 0 + 0`.
+  </span>
+</p>
+
+<ol class="remark">
+  `RR^3` 中的向量外积也满足类似的性质:
+  <li>`bm x xx bm y = -bm y xx bm x`;</li>
+  <li>`(k bm x + l bm y) xx bm z = k bm x xx bm z + l bm y xx bm z`;</li>
+  <li>`bm x xx (bm y xx bm z) = (bm x * bm z) bm y - (bm x * bm y) bm z`.</li>
+  <li>`sum_"cyc" (bm x xx bm y) xx bm z = bb 0`.</li>
+</ol>
+
+<ol class="example">
+  在 `bbb F^(n xx n)` 中:
+  <li>若 `bm A, bm B` 是反对称矩阵, 则 `[bm A, bm B]` 是反对称矩阵;</li>
+  <li>若 `bm A, bm B` 是对称矩阵, 则 `[bm A, bm B]` 是反对称矩阵;</li>
+  <li>若 `bm A, bm B` 一个对称, 一个反对称, 则 `[bm A, bm B]` 对称.</li>
+  总之, 用 1 表示反对称, -1 表示对称, 欲知括积的对称性, 只需将两数相乘.
+</ol>
+
+<p>下面的定理将括积和导子再次联系到一起.</p>
+
+<p class="theorem">
+  在 `V` 上定义 `"ad"_A(B) = [A, B]`, 则 `"ad"_A in "Der"V`;
+  反之, 对任意 `D in "Der"V`, 存在 `A in V` 使得 `D = "ad"_A`.
+</p>
+
+<ol class="proof">
+  <li>由括积的性质 3,
+    <span class="formula">
+      `"ad"_A(B C) = "ad"_A(B) C + B "ad"_A(C)`,
+    </span>
+    即 `"ad"_A` 是导子.
+  </li>
+  <li>??</li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
