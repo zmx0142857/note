@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>其它算法</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>快速 Fourier 变换 (FFT)</h2>
+
+<p class="definition">
+  <b>`ZZ_N` 上的函数空间</b>
+  对固定的正整数 `N`, 设 `f(k)` 是定义在 `ZZ_N = 0, 1, 2, cdots, N-1`
+  上的复值函数. 这个函数也可以写成向量形式:
+  <span class="formula">
+    `f = (f_0, f_1, cdots, f_(N-1))`.
+  </span>
+  它的生成函数定义为一个多项式
+  <span class="formula">
+    `F(x) = sum_(0 le k lt N) f_k x^k`.
+  </span>
+  `ZZ_n` 上两个函数 (即向量) 的内积定义为
+  <span class="formula">
+    `(f, g) = sum_(0 le r lt N) f(r) bar(g(r))`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>正交基底</b>
+  把单位圆周平均分为 `N` 份,  第 `j` 个分点记为 `omega_j =
+  "e"^(2pi"i"j//N)`, 取 `ZZ_N` 上的一组函数
+  <span class="formula">
+    `epsi_j = (1, omega_j, cdots, omega_j^(N-1))`, `quad j in ZZ_N`,
+  </span>
+  则它们两两正交:
+  <span class="formula">
+    `(epsi_j, epsi_k) = {
+      N, if j = k; 0, otherwise
+    :}`
+  </span>
+</p>
+
+<p class="proof">
+  当 `j = k` 时 `(epsi_j, epsi_k) = sum_(0 le r lt N) omega_j^r omega_j^-r = N`.<br>
+  `j != k` 时, 记 `omega_(j-k) = q`, 有 `q != 1` 和 `q^N = 1`. 于是
+  <span class="formula">
+    `(epsi_j, epsi_k) = sum_(0 le r lt N) omega_j^r omega_k^-r`
+    `= sum_(0 le r lt N) omega_(j-k)^r`
+    `= sum_(0 le r lt N) q^r`
+    `= (1-q^N)/(1-q) = 0`,
+  </span>
+</p>
+
+<p class="theorem">
+  <b>离散 Fourier 变换</b>
+  `f` 在 `ZZ_N` 上的 Fourier 系数定义为
+  <span class="formula">
+    `a_j := a_j^N(f) = 1/N (f, epsi_j) = 1/N sum_(0 le k lt N) f_k omega_j^-k`.
+  </span>
+  向量 `(a_0, a_1, cdots, a_(N-1))` 称为 `f` 的 Fourier 变换, 记为 `a = hat
+  f`. 如果已知 `a`,
+  要求 `f`, 只需对 `a_j` 施行 Fourier 逆变换:
+  <span class="formula">
+    `f_k = sum_(0 le j lt N) a_j omega_j^k`.
+  </span>
+</p>
+
+<p class="proof">
+  `{epsi_j/sqrt N}_(j=0)^(N-1)` 构成 `ZZ_N` 上函数空间的标准正交基, 因此
+  <span class="formula">
+    `f = sum_(0 le j lt N) (f, epsi_j/sqrt N) epsi_j/sqrt N`,
+  </span>
+  取第 `k` 个分量得 `f_k = sum_(0 le j lt N) 1/N (f, epsi_j) epsi_j(k)`
+  `= sum_(0 le j lt N) a_j omega_j^k`.
+</p>
+
+<p class="remark">
+  从生成函数的角度看, `f_k` 等于多项式 `A(x) = sum_(0 le j lt N) a_j x^j`
+  在 `omega_k` 处的值, 而 `a_j` 等于多项式 `F(x) = sum_(0 le k lt N) f_k
+  x^k` 在 `omega_j^-1` 处的值除以 `N`.
+</p>
+
+<p class="example">
+  已知 `hat f = (4, 3, 2, 1)`, 求 `f`.
+</p>
+
+<p class="solution">
+  由 Fourier 逆变换公式,
+  <span class="formula">
+    `f_k = 4 * 1^k + 3 * "i"^k + 2 * (-1)^k + 1 * (-"i")^k`,
+  </span>
+  代入 `k = 0, 1, 2, 3` 得 `f = (10, 2+2"i", 2, 2-2"i")`.
+</p>
+
+<p class="theorem">
+  <b>递推公式</b>
+  设 `N = 2^n`,
+  若 `f` 是 `ZZ_(2N)` 上的函数, 则 `f_0(r) = f(2r)`, `f_1(r)
+  = f(2r+1)` 是 `ZZ_N` 上的函数.  有如下递推公式
+  <span class="formula">
+    `a_j^(2N)(f) = (a_j^N(f_0) + a_j^N(f_1) * omega_(2N)^j) // 2`,
+  </span>
+  这里 `omega_N^j = "e"^(-2pi"i"j//N)`, 和上面稍有不同.
+  对于逆变换, 也有完全类似的公式, 只需把上式 `f, a` 的地位对调,
+  再用 `omega` 的共轭代替 `omega`.
+</p>
+
+<p class="proof">
+  由
+  <span class="formula">
+    `a_j^(2N)(f) = 1/(2N) sum_(0 le r lt N) (f(2r) "e"^(-2pi"i"j 2r//2N)
+    + f(2r+1) "e"^(-2pi"i"j(2r+1)//2N))`
+  </span>
+  即得结论.
+</p>
+
+<p class="proof">
+  从生成函数的角度看, `F(x)` 是 `2N-1` 次多项式,
+  <span class="formula">
+    `F_0(x) = f_0 + f_2 x + cdots + f_(2N-2) x^(N-1)`,<br>
+    `F_1(x) = f_1 + f_3 x + cdots + f_(2N-1) x^(N-1)`
+  </span>
+  是两个 `N-1` 次多项式, 满足关系 `F(x) = F_0(x^2) + x F_1(x^2)`.
+  代入 `x = omega_(2N)^j` 有
+  <span class="formula">
+    `F(omega_(2N)^j) = F_0(omega_(2N)^(2j)) + omega_(2N)^j F_1(omega_(2N)^(2j))`
+    `= F_0(omega_N^j) + omega_(2N)^j F_1(omega_N^j)`,
+  </span>
+  同理
+  <span class="formula">
+    `F(omega_(2N)^(N+j)) = F(-omega_(2N)^(N+j))`
+    `= F_0(omega_N^j) - omega_(2N)^j F_1(omega_N^j)`.
+  </span>
+  两边同除以 `2N` 就得到结论.
+</p>
+
+<script src="../../js/note.js?type=cs"></script>
+</body>
+</html>

@@ -217,6 +217,7 @@ cs: {
   title:'数据结构',
   articles: [
     {title:'数据结构习题', src:'ds/exercise.html'},
+    {title:'其它算法', src:'ds/0.html'},
     {title:'绪论', src:'ds/1.html'},
     {title:'线性表', src:'ds/2.html'},
     {title:'栈与队列', src:'ds/3.html'},
