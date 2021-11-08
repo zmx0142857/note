@@ -8,7 +8,7 @@ math: {
   title:'示例',
   articles: [
     {title:'公式编辑器', src:'example/editor.html'},
-    {title:'Asciimath', src:'example/asciimath.html'},
+    //{title:'Asciimath', src:'example/asciimath.html'},
     {title:'Mathml', src:'example/mathml.html'},
   ]
 }, {
