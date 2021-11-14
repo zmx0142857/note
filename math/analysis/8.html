@@ -885,7 +885,7 @@
   <li>`"Li"_2(x) + "Li"_2(1-x) = pi^2/6 - ln x ln(1-x)`, 特别
   `"Li"_2(1/2) = pi^2/12 - (ln^2 2)/2`;</li>
   <li>`"Li"_3(1/2) = (ln^3 2)/6 - pi^2/12 ln 2 + 7/8 zeta(3)`;</li>
-  <li>`int_0^(pi/2) x ln sin x dx = 1/16(7 zeta(3) - 2 pi^2 ln 2)`;</li>
+  <li>`int_0^(pi/2) x ln sin x dx = 7/16 zeta(3) - pi^2/8 ln 2`;</li>
 </ol>
 
 <ol class="proof">
@@ -896,6 +896,19 @@
       `= -ln(1-x)/x + ln x/(1-x)`
     </span>
     等号成立; 且 `x to 0^+` 时原式等号成立, 证毕.
+  </li>
+  <li></li>
+  <li>[来自某数学系 dalao] 利用 Fourier 展开
+    <span class="formula">
+      `ln sin x = -ln 2 - sum_(n ge 1) (cos 2 n x)/n`
+    </span>
+    逐项积分, 原式等于
+    <span class="formula">
+      `- pi^2/8 ln 2 - sum_(n ge 1) 1/n int_0^(pi/2) x cos 2 n x dx`
+      `= - pi^2/8 ln 2 - sum_(n ge 1) 1/n ((-1)^n - 1)/(4n^2)`
+      `= - pi^2/8 ln 2 + 1/4 (zeta(3) + eta(3))`
+      `= - pi^2/8 ln 2 + 7/16 zeta(3)`.
+    </span>
   </li>
 </ol>
 
@@ -990,18 +1003,20 @@
 
 <h2>Riemann zeta 函数</h2>
 
-<p>
-  Riemann zeta 函数:
-  <span class="formula" id="for-zeta-function">
-    `zeta(s) = sum_(n ge 1) 1/n^s`,
-  </span>
-  Dirichlet eta 函数:
-  <span class="formula">
-    `eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s`
-    `= (1-2^(1-n)) zeta(s)`,<br/>
-    `beta(s) = sum_(n ge 0) (-1)^n/(2n+1)^s`.
-  </span>
-</p>
+<span class="formula" id="for-zeta-function">
+  `zeta(s) = sum_(n ge 1) 1/n^s`,
+  <span class="label">Riemann zeta 函数</span>
+</span>
+
+<span class="formula">
+  `eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s`
+  `= (1-2^(1-n)) zeta(s)`,<br/>
+  <span class="label">Dirichlet eta 函数</span>
+</span>
+
+<span class="formula">
+  `beta(s) = sum_(n ge 0) (-1)^n/(2n+1)^s`.
+</span>
 
 <p class="example">
   [来自 论文哥]
@@ -1017,11 +1032,12 @@
 <div class="example">
   [来自 我是不万能的洛必达]
   <span class="formula">
-    `2 sum_(n ge 2) H_(n-1)/n^2`
+    `sum_(n ge 1) H_n/n^2`
+    `= 2 sum_(n ge 2) H_(n-1)/n^2`
     `= sum_(m, n ge 1) 1/(m n(m+n))`
     `= 2 zeta(3)`.
   </span>
-  前两个级数收敛缓慢, 取一万项后仍与目标有较大差距; 但 zeta(3) 收敛较快.
+  前三个级数收敛缓慢, 取一万项后仍与目标有较大差距; 但 zeta(3) 收敛较快.
 <pre>
 &gt;&gt;&gt; sum(1/n**3 for n in range(1, 10000))
 1.202056898159098
@@ -1031,24 +1047,33 @@
 </div>
 
 <ol class="proof">
-  上式记为 (1) = (2) = (3).
+  上式记为 (1) = (2) = (3) = (4).
   <li>令 `t = m + n` 得
     <span class="formula">
-      `(1) = sum_(t ge 2) 1/t^2 sum_(n=1)^(t-1) (1/n + 1/(t-n))`
+      `(2) = sum_(t ge 2) 1/t^2 sum_(n=1)^(t-1) (1/n + 1/(t-n))`
       `= sum_(t ge 2) sum_(n=1)^(t-1) 1/(t n (t-n))`
-      `= (2)`.
+      `= (3)`.
     </span>
   </li>
-  <li>利用积分 `int_0^oo "e"^(-lambda x) dx = lambda` 得
+  <li>利用积分 `int_0^oo "e"^(-lambda x) dx = 1/lambda` 得
     <span class="formula">
-      `(2) = sum_(m, n ge 1) 1/(m n) int_0^oo "e"^(-(m+n)x) dx`
+      `(3) = sum_(m, n ge 1) 1/(m n) int_0^oo "e"^(-(m+n)x) dx`
       `= int_0^oo (sum_(n ge 1) "e"^(-n x)/n)^2 dx`
       `= int_0^oo ln^2 (1-"e"^-x) dx`
       `= -int_(-oo)^0 t^2 "d"ln (1-"e"^t)`
       `= int_(-oo)^0 t^2 "e"^t/(1-"e"^t) dt`
       `= int_0^oo t^2 "e"^-t/(1-"e"^-t) dt`
-      `= zeta(3) Gamma(3) = (3)`.
+      `= zeta(3) Gamma(3) = (4)`.
     </span>
+  </li>
+  <li>
+    最后
+    <span class="formula">
+      `(1) - zeta(3)`
+      `= sum_(n ge 1) (H_n - 1//n)/n^2`
+      `= sum_(n ge 2) H_(n-1)/n^2 = (2)//2`.
+    </span>
+    于是 (1) = (2).
   </li>
 </ol>
 

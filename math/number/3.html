@@ -55,8 +55,8 @@
 </p>
 
 <p class="proof">
-    设 `r_i`, `i = 1, 2, cdots, varphi(m)` 是模 `m` 的既约剩余系, 由
-    `(a, m) = 1` 知, `a r_i` `i = 1, 2, cdots, varphi(m)` 也是模 `m`
+    设 `{r_i}_(i=1)^(varphi(m))` 是模 `m` 的既约剩余系, 由
+    `(a, m) = 1` 知, `{a r_i}_(i=1)^(varphi(m))` 也是模 `m`
     的既约剩余系. 从而
     <span class="formula">
         `prod r_i -= prod (a r_i) -= a^(varphi(m)) prod r_i` `(mod m)`,
@@ -450,7 +450,7 @@
   其中
   <span class="formula">
     `F(x) = sum_(j=0)^l a_j x^j`,
-    `quad phi_d(x) = sum_(j=0)^(n-l) b_j x^j`,
+    `quad phi_n(x) = sum_(j=0)^(n-l) b_j x^j`,
   </span>
   由归纳假设, `a_0 in {1, -1}`, 比较系数得 `b_0 in {1, -1}`.
   又假定 `b_0, b_1, cdots b_(k-1)` 已被证实为整数, 比较两边 `x^k` 的系数知
@@ -525,6 +525,10 @@
     又对任意 `d | 2p`, 有 `d = 1, 2, p, 2p`. 若 `(-lambda)^d = 1`, 则
     由于 `p` 是奇素数, `d` 只能等于 `2p`. 这指出 `-lambda` 的阶是
     `2p`.<br>
+    反之若 `-lambda` 的阶为 `2p`, 则 `(-lambda)^p` 是 `1` 的因子, 只能是
+    `-1`. 两边约去 `(-1)^p` 得 `lambda^p = 1`. 显然 `lambda^1` 不等于 `1`,
+    因此 `lambda` 的阶为 `p`.
+    <br>
     另一方面, `varphi(p) = varphi(2p) = p-1`, 这指出 `p` 次本原单位根和
     `2p` 次本原单位根一样多. 因此, 只要将 `phi_p(x)` 中的 `x` 换成 `-x`,
     就得到 `phi_(2p)(x)`.
@@ -544,7 +548,7 @@
     则它是 `h` 的根, 因此 `lambda` 是 `g(x)` 和 `h(x^p)` 的公共根.
     现在对 `p` 取模, 由 Fermat 小定理,
     <span class="formula">
-      `h(x^p) -= h(x) -= h(x)^p (mod p)`,
+      `h(x^p) -= h(x) (mod p)`,
     </span>
     即 `g` 和 `h` 在模 `p` 意义下有公共根.
     下证 `phi_n(x) = g(x) h(x)` 在模 `p` 意义下无重根, 从而引出矛盾.

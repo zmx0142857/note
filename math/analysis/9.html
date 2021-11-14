@@ -269,12 +269,78 @@
 </p>
 
 <p class="proposition">
+  <b>`E` 和 `K` 的导数</b>
+  [来自 菲赫金哥尔茨 第二册511目]
+  <span class="formula">
+    `("d"E)/("d"k) = (E-K)/k`,
+    `quad ("d"K)/("d"k) = (E//{:k':}^2 - K)/k`.
+  </span>
+  其中共轭模 `k'` 满足 `k^2 + {:k':}^2 = 1`.
+  进一步可得 `E` 满足的微分方程
+  <span class="formula">
+    `("d"^2 E)/{:"d"k:}^2 + 1/k ("d"E)/("d"k) + E/{:k':}^2 = 0`.
+  </span>
+</p>
+
+<p class="proof">
+  直接计算:
+  <span class="formula">
+    `("d"E)/("d"k) = "d"/("d"k) int_0^(pi/2) sqrt(1-k^2 sin^2 t) dt`
+    `= int_0^(pi/2) (-k sin^2 t)/sqrt(1-k^2 sin^2 t) dt`
+    `= (E-K)/k`.
+  </span>
+  `K` 的导数则不太简单: 先验证等式
+  <span class="formula">
+    `"d"/dt (sin t cos t)/sqrt(1-k^2 sin^2 t)`
+    `= 1/k^2 [(1-k^2 sin^2 t)^(1/2) - (1-k^2)/k^2 (1-k^2 sin^2 t)^(-3/2)]`,
+  </span>
+  于是
+  <span class="formula">
+    `int_0^(pi/2) (1-k^2 sin^2 t)^(-3/2) dt`
+    `= E//{:k':}^2`.
+  </span>
+  从而
+  <span class="formula">
+    `("d"K)/("d"k) = "d"/("d"k) int_0^(pi/2) dt/sqrt(1-k^2 sin^2 t)`
+    `= int_0^(pi/2) k sin^2 t (1-k^2 sin^2 t)^(-3/2) dt`
+    `= 1/k int_0^(pi/2) [(1-k^2 sin^2 t)^(-3/2) - (1-k^2 sin^2 t)^(-1/2)] dt`
+    `= (E//{:k':}^2 - K)/k`.
+  </span>
+</p>
+
+<p class="proposition">
   <b>Legendre 关系式</b>
   [菲赫金哥尔茨 第二册 511 目 12)]
   <span class="formula">
     `E K' + E' K - K K' = pi/2`.
   </span>
   其中 `K = K(k)`, `K' = K(k')`, `E = E(k)`, `E' = E(k')`.
+</p>
+
+<p class="proof">
+  由
+  <span class="formula">
+    `("d"k')/("d"k) = "d"/("d"k) sqrt(1-k^2) = -k/sqrt(1-k^2) = -k/k'`,
+  </span>
+  将 `("d"E)/("d"k) = (E-K)/k`, `("d"K)/("d"k) = (E//{:k':}^2-K)/k`,
+  `("d"E')/("d"k) = (-k/k')(E'-K')/k'`, `("d"K')/("d"k) = (-k/k')(E'//k^2 - K')/k'`
+  代入整理得
+  <span class="formula">
+    `"d"/("d"k) (E K' + E' K - K K') = 0`.
+  </span>
+  即 `E K' + E' K - K K'` 等于一个常数 `c`. 现在令 `k to 0`, `k' to 1`
+  求极限, 来求出 `c`. 事实上
+  <span class="formula">
+    `lim_(k to 0) E' K = 1 * pi/2 = pi/2`,
+  </span>
+  又
+  <span class="formula">
+    `|K'(E - K)|`
+    `= |int_0^(pi/2) dt/sqrt(1-{:k':}^2 sin^2 t)| |int_0^(pi/2) (1/sqrt(1-k^2 sin^2 t) - sqrt(1-k^2 sin^2 t)) dt|`
+    `le pi/(2 k) * |int_0^(pi/2) (k^2 sin^2 t dt)/sqrt(1-k^2 sin^2 t)|`
+    `le pi/(2 k) * pi/2 * k^2/(k') to 0`,
+  </span>
+  所以极限为 `pi/2`.
 </p>
 
 <ol class="proposition">

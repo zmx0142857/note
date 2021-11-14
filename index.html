@@ -453,10 +453,11 @@ function headerVisible(flag) {
   }
 }
 
-function createIframe(src) {
+function createIframe(src, title) {
   // 全新创建的 iframe 不会影响 history
   iframe = $('<iframe>');
   iframe.id = 'iframe';
+  iframe.title = title;
   iframe.setAttribute('src', src);
   iframe.onload = function() {
     notify.remove()
@@ -480,7 +481,7 @@ function jump(src, title) {
   save('src', src);
   var iframe = $('#iframe');
   if (iframe) article.removeChild(iframe);
-  createIframe(book.value + '/' + src)
+  createIframe(book.value + '/' + src, title)
   artitle.innerText = title;
   document.title = title;
   hideNav(true);
