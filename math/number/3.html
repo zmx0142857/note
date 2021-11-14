@@ -2,352 +2,480 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8" />
-    <title>指数与原根</title>
+    <title>阶与原根</title>
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>指数的定义与性质</h2>
+<h2>既约剩余系</h2>
 
 <p class="definition">
-    设 `m` 为正整数, `(a, m) = 1`, 称满足
-    <span class="formula">
-        `a^d -= 1 (mod m)`
-        <span class="label" id="for-index"></span>
-    </span>
-    的最小正整数 `d` 为 `a` 对模 `m` 的<b>指数</b>或<b>阶</b>,
-    记为 `"ord"_m a`. 下文涉及到指数 `"ord"_m a` 时,
-    总假定 `(a, m) = 1`.
+  <b>Euler `varphi` 函数 (Euler's totient function)</b>
+  设 `n` 为正整数, `1` 到 `n` 中与 `n` 互素的整数个数记为 `varphi(n)`.<br>
+  比如, 8 以内与 8 互素的正整数有 1, 3, 5, 7 共 4 个, 于是 `varphi(8)
+  = 4`.
 </p>
 
+<ol class="corollary">
+  <li>对一切正整数 `n gt 1` 有 `varphi(n) lt n`.</li>
+  <li>对素数 `p` 有 `varphi(p) = p-1`. `varphi(p^k) = p^k - p^(k-1)`.
+    这是因为 `p^k` 以内, `p` 的倍数有 `p^(k-1)` 个.
+  </li>
+</p>
+
+<table class="col2">
+  <tr>
+    <td>`n`</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+  </tr>
+  <tr>
+    <td>`varphi(n)`</td>
+    <td>1</td>
+    <td>1</td>
+    <td>2</td>
+    <td>2</td>
+    <td>4</td>
+    <td>2</td>
+    <td>6</td>
+    <td>4</td>
+    <td>6</td>
+    <td>4</td>
+    <td>10</td>
+    <td>4</td>
+  </tr>
+</table>
+
+<p class="definition">
+  <b>既约剩余系</b>
+  若 `a -= b (mod n)`, 则由辗转相除法知道 `(a, n) = (b, n)`.
+  特别 `(a, n) = 1` 当且仅当 `(b, n) = 1`.  因此可以从模 `n` 的完全剩余系
+  `ZZ_n` 中取出一个子集, 称为模 `n` 的既约剩余系:
+  <span class="formula">
+    `ZZ_n^** = { bar a | (a, n) = 1 } sube ZZ_n`.
+  </span>
+  显然 `|ZZ_n^**| = varphi(n)`.
+</p>
+
+<p class="corollary">
+  `ZZ_n^**` 按模 `n` 的乘法构成一个 Abel 群, 单位元是 `bar 1`.
+</p>
+
+<ol class="proof">
+  乘法交换律与结合律是显然的.
+  <li>封闭性. 若 `(a, n) = (b, n) = 1`, 可设
+    <span class="formula">
+      `x_1 a + y_1 n = 1`, `quad x_2 b + y_2 n = 1`,
+    </span>
+    相乘得
+    <span class="formula">
+      `X a b + Y n = 1`,
+    </span>
+    其中 `X, Y` 为整数. 这说明 `(a b, n) = 1`.
+  </li>
+  <li>逆元的存在性. 若 `(a, n) = 1`, 可设
+    <span class="formula">
+      `x a + y n = 1`,
+    </span>
+    即 `x a -= 1 (mod n)`, `x` 即为 `a` 的逆.
+  </li>
+</ol>
+
 <p class="proposition">
-    满足<a class="ref" href="#for-index"></a>的正整数 `d` 是存在的,
-    且 `"ord"_m a lt m`.
+  若 `G` 为一群, `a in G`, 则左平移变换 `l_a: g mapsto a g` 为双射. 于是
+  <span class="formula">
+    `a G = {a g | g in G} = G`.
+  </span>
+  推论: 若 `S = {r_i}_(i=1)^s` 为模 `n` 的完全 (或既约) 剩余系, `a in S`,
+  则 `{a r_i}_(i=1)^s` 也是模 `n` 的完全 (或既约) 剩余系.
 </p>
 
 <p class="proof">
-    `m = 1` 的情形是平凡的, 下设 `m gt 1`,
-    因为 `(a, m) = 1`, 可设
-    <span class="formula">
-        `a^i -= r_i (mod m)`,
-        `quad 0 lt r_i lt m`,
-        `quad i = 0, 1, cdots, m-1`,
-    </span>
-    `m` 个余数 `r_i` 只能取 `m-1` 个值, 由鸽巢原理, 必有两个余数相等,
-    设 `a^i -= a^j (mod m)`, `i gt j`. 同余式两边同乘 `a^-j` 得
-    <span class="formula">
-        `a^(i-j) -= 1 (mod m)`.
-    </span>
-    取 `d = i-j` 即得结论.
+  由 `a g_1 = a g_2` 两边左乘 `a^-1` 得 `g_1 = g_2`, 故 `l_a` 是单射.
+  另一方面, 对任意 `g in G`, 存在 `a^-1 g in G` 被 `l_a` 映到 `g`, 故
+  `l_a` 是满射.
 </p>
 
-<p> 事实上 `"ord"_m a` 的上界可进一步降低,
+<h2>阶的定义与性质</h2>
+
+<p class="definition">
+  设 `a in ZZ_n^**`, 称满足
+  <span class="formula">
+    `a^d -= 1 (mod n)`
+    <span class="label" id="for-index"></span>
+  </span>
+  的最小正整数 `d` 为 `a` 对模 `n` 的<b>指数</b>或<b>阶</b>,
+  记为 `"ord"_n a`. 上下文确定时, 下标 `n` 可以省略.
+</p>
+
+<p class="remark">
+  对于一般的整数 `a`, 若 `a^d -= 1 (mod n)`, 则 `(a^d, n) = 1`, 也能推出
+  `(a, n) = 1`.  下面总假定 `n gt 1` 且 `(a, n) = 1`, 即 `a in
+  ZZ_n^**`.
+</p>
+
+<p class="proposition">
+  <b>阶的唯一性</b>
+  若 `a -= b (mod n)`, 则对任意 `k ge 0`, `a^k -= b^k (mod n)`.
+  从而 `a, b` 的阶相等.
+</p>
+
+<p class="proposition">
+  <b>阶的存在性</b>
+  满足 <a class="ref" href="#for-index"></a> 的正整数 `d` 是存在的,
+  且 `"ord"_n a lt n`.
+</p>
+
+<p class="proof">
+  设 `n gt 1`, 因为 `(a, n) = 1`, 可设
+  <span class="formula">
+    `a^i -= r_i (mod n)`,
+    `quad 0 lt r_i lt n`,
+    `quad i = 0, 1, cdots, n-1`,
+  </span>
+  `n` 个余数 `r_i` 只能取 `n-1` 个值, 由鸽巢原理, 必有两个余数相等,
+  设 `a^i -= a^j (mod n)`, `i gt j`. 同余式两边同乘 `a^-j` 得
+  <span class="formula">
+      `a^(i-j) -= 1 (mod n)`.
+  </span>
+  取 `d = i-j` 即得结论.
+</p>
+
+<p> 事实上 `"ord " a` 的上界可进一步降低,
     这就是下面的 Euler-Fermat 定理:
 </p>
 
 <p class="theorem">
-    <b>Euler-Fermat 定理</b>
-    设 `m` 为正整数, `(a, m) = 1`, 则
-    <span class="formula">
-        `a^(varphi(m)) -= 1 (mod m)`.
-    </span>
-    特别当 `m` 为素数 `p` 时, 上式即 Fermat 小定理 `a^(p-1) -= 1 (mod p)`.
+  <b>Euler-Fermat 定理 (Euler's totitent theorem)</b>
+  设 `a in ZZ_n^**`, 则
+  <span class="formula">
+    `a^(varphi(n)) -= 1 (mod n)`.
+  </span>
+  特别当 `n` 为素数 `p` 时, 上式即 Fermat 小定理 `a^(p-1) -= 1 (mod p)`.
 </p>
 
 <p class="proof">
-    设 `{r_i}_(i=1)^(varphi(m))` 是模 `m` 的既约剩余系, 由
-    `(a, m) = 1` 知, `{a r_i}_(i=1)^(varphi(m))` 也是模 `m`
-    的既约剩余系. 从而
-    <span class="formula">
-        `prod r_i -= prod (a r_i) -= a^(varphi(m)) prod r_i` `(mod m)`,
-    </span>
-    上式两边同乘 `prod r_i` 关于模 `m` 的逆就得到结论.
+  设 `{r_i}_(i=1)^(varphi(n))` 是模 `n` 的既约剩余系, 乘 `a` 平移,
+  `{a r_i}_(i=1)^(varphi(n))` 也是模 `n` 的既约剩余系. 从而
+  <span class="formula">
+    `prod r_i -= prod (a r_i) -= a^(varphi(n)) prod r_i` `(mod n)`,
+  </span>
+  两边约去 `prod r_i` 即得结论.
 </p>
 
 <p class="definition">
-    由 Euler-Fermat 定理, `"ord"_m a le varphi(m)`.
-    当等号成立时, 称 `a` 是模 `m` 的<b>原根 (primitive root)</b>.
+  由 Euler-Fermat 定理, `"ord"_n a le varphi(n)`.
+  当等号成立时, 称 `a` 是模 `n` 的<b>原根 (primitive root)</b>.
 </p>
 
 <p class="remark">
-    从群论的观点, 模 `m` 的既约剩余系构成一个乘法群, `"ord"_m a` 就是
-    `a` 在群中的阶. 若 `a` 为原根, 则 `a` 的阶等于群的阶 `varphi(m)`,
-    此时 `a` 是群的生成元, 既约剩余系具有循环群的简单结构.
+  `"ord"_n a` 就是 `a` 在群 `ZZ_n^**` 中的阶.
+  若 `a` 为原根, 则 `a` 的阶等于群的阶 `varphi(n)`,
+  此时 `a` 是群的生成元, 既约剩余系具有循环群的简单结构.
+</p>
+
+<p class="lemma">
+  若 `x^a -= x^b -= 1 (mod n)`, 这推出 `(x, n) = 1`.
+  运用辗转相除知 `x^((a,b)) -= 1 (mod n)`.
 </p>
 
 <ol class="corollary" id="cor-index">
-    设 `(a, m) = 1`, `"ord"_m a = delta`.
-    <li>`a^n -= 1 (mod m)` 当且仅当 `delta | n`.
-        因此 `delta | varphi(m)`, 且 `a^n` (`n = 0, 1, 2, cdots`)
-        模 `m` 的余数以指数 `delta` 为周期.
-    </li>
-    <li>若 `a^i -= a^j (mod m)`, 则 `i -= j (mod delta)`.
-        因此, 在一个周期内, `a^n` (`n = 0, 1, cdots, delta-1`)
-        模 `m` 的 `delta` 个余数两两不同.
-        特别当 `a` 是原根时, `a^n` (`n = 0, 2, cdots, varphi(m)-1`)
-        构成模 `m` 的既约剩余系.
-    </li>
+  设 `a in ZZ_n^**`, `"ord "a = delta`, 则
+  <li>整除性质. `a^k -= 1 (mod n) iff delta | k`.
+  </li>
+  <li>对数性质. 若 `a^i -= a^j (mod n)`, 则 `i -= j (mod delta)`.</li>
 </ol>
 
 <ol class="proof">
-    这里给出利用同余性质的证明. 也可以用基本的带余除法和整除性质来证,
-    但较繁琐.
-    <li>只证必要性. 设 `n = delta q + r` (`0 le r lt delta`),
-        若 `a^n -= 1 (mod m)`, 同余式两边同乘 `a^(-delta q)` 得
-        `a^r -= 1 (mod m)`, 再由 `delta` 的最小性知 `r = 0`.
-    </li>
-    <li>不妨取 `0 le j le i lt delta`, 则
-        `a^i -= a^j (mod m) iff a^(i-j) -= 1 (mod m)`, 由 `delta`
-        的最小性知 `i-j = 0`, 即 `i -= j (mod delta)`.
-    </li>
-</ol>
-
-<ol class="example">
-    讨论模 `m = 2^n` 的指数与原根.
-    <li>模 `m = 1, 2, 4` 时有原根;</li>
-    <li>`n ge 3` 时, 模 `m = 2^n` 无原根.
-        此时对任意奇数 `a` 有
-        <span class="formula">
-            `a^(2^(n-2)) -= 1 (mod 2^n)`;
-        </span>
-    </li>
-    <li>`n ge 3` 时, `"ord"_m 5 = 2^(n-2)`.
-        这时数字 5 是原根这一角色的一个 "替代品".
-    </li>
-</ol>
-
-<ol class="proof">
-    <li>`n lt 3` 的情形列表如下:
-    <table>
-        <tr>
-            <th>`n`</th>
-            <th>`m`</th>
-            <th>`varphi(m)`</th>
-            <th>`"ord"_m 1`</th>
-            <th>`"ord"_m(-1)`</th>
-            <th>原根</th>
-        </tr>
-        <tr>
-            <td>0</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>平凡情形, 所有整数都是原根</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>4</td>
-            <td>2</td>
-            <td>1</td>
-            <td>2</td>
-            <td>-1</td>
-        </tr>
-    </table>
-    </li>
-    <li>对 `n` 进行归纳. 设 `a = 2t+1`, 则 `n = 3` 时
-        <span class="formula">
-            `a^2 = 4t(t+1) + 1 -= 1 (mod 2^3)`,
-        </span>
-        结论成立. 假设结论对整数 `n ge 3` 成立, 则对 `n+1` 有
-        <span class="formula">
-            `2^(n+1) | (a^(2^(n-2))-1)(a^(2^(n-2))+1)`
-            `= a^(2^(n-1)) - 1`,
-        </span>
-        结论也成立.
-        由于 `varphi(2^n) = 2^(n-1) gt 2^(n-2)`, 故此时无原根.
-    </li>
-    <li>2. 中已经证明 `"ord"_m 5 | 2^(n-2)`, 因而只需证 `"ord"_m 5 !|
-        2^(n-3)`, 即证
-        <span class="formula">
-            `5^(2^(n-3)) !-= 1 (mod 2^n)`, `quad n ge 3`.
-        </span>
-        对 `n` 进行归纳. `n=3` 时结论成立. 假设结论对整数 `n ge 3` 成立,
-        则 `n+1` 时, 由于
-        <span class="formula">
-            `5^(2^(n-3)) -= 1 (mod 2^(n-1))`, `quad n ge 3`.
-        </span>
-        可设 `5^(2^(n-3)) = 2^(n-1) s + 1`, 于是
-        <span class="formula">
-            `5^(2^(n-2)) = (2^(n-1) s + 1)^2`
-            `= 2^n s(2^(n-2) s + 1) + 1`.
-        </span>
-        由归纳假设, `2 !| s`, 因此 `5^(2^(n-2)) !-= 1 (mod 2^(n+1))`.
-    </li>
-</ol>
-
-<ol class="property">
-    指数的若干计算性质.
-    <li>若 `a, b` 模 `m` 同余, 则它们的指数相等.
-        因此, 指数是既约剩余系中的性质, 两个数只要模 `m` 同余,
-        就可以视作是等价的.
-    </li>
-    <li>设 `a^-1` 是 `a` 模 `m` 的逆, 则它与 `a` 的指数相等;</li>
-    <li>`n | m rArr` `"ord"_n a | "ord"_m a`;</li>
-    <li>若 `(m, n) = 1`, 则 `"ord"_(m n) a = ["ord"_m a, "ord"_n a]`;
-    </li>
-    <li>`"ord"_m(a b) = "ord"_m a "ord"_m b` 当且仅当 `("ord"_m a,
-        "ord"_m b) = 1`;
-    </li>
-</ol>
-
-<ol class="proof">
-    <li>只需注意对任意 `k ge 0`, `a^k -= b^k (mod m)`.</li>
-    <li>只需注意对任意 `k ge 0`, `a^k -= 1 (mod m)`
-        当且仅当 `a^-k -= 1 (mod m)`.
-    </li>
-    <li>只需注意 `n | m` 时, `a^delta -= 1 (mod m) rArr
-        a^delta -= 1 (mod n)`;
-    </li>
-    <li>分别记 `"ord"_m a = M`, `"ord"_n a = N`, `"ord"_(m n) a = delta`.
-      由 3. 得 `[M, N] | delta`. 另一方面, 有
-        <span class="formula">
-            `a^([M,N]) -= 1 (mod m)`,
-            `quad a^([M,N]) -= 1 (mod n)`,
-        </span>
-        由 `(m, n) = 1` 得 `a^([M,N]) -= 1 (mod m n)`, 因此 `delta
-        | [M,N]`.
-    </li>
-    <li>分别记 `a, b, a b` 的指数为 `A, B, delta`. 先证必要性:
-        我们有 `(a b)^([A,B]) -= 1 (mod m)`, 故 `A B = delta | [A,B]`.
-        这推出 `(A, B) = 1`.<br/>
-        再证充分性. 一方面有
-        <span class="formula">
-            `(a b)^(A B) -= 1 (mod m)`,
-        </span>
-        故 `delta | A B`; 另一方面
-        <span class="formula">
-            `a^(delta B) = a^(delta B) b^(delta B) -= (a b)^(delta B) -= 1 (mod m)`,
-        </span>
-        故 `A | delta B`, 再由 `(A, B) = 1` 得 `A | delta`;
-        同理 `B | delta`. 再次由 `(A, B) = 1` 得 `A B | delta`.
-    </li>
-</ol>
-
-<p class="remark">
-    由计算性质4, 求模 `m` 的指数, 只需把 `m` 进行标准分解
-    `m = prod p_i^(n_i)`, 就有
-    <span class="formula">
-        `"ord"_m a = ["ord"_(p_1^(n_1)) a, cdots, "ord"_(p_r^(n_r)) a]`.
-    </span>
-</p>
-
-<ol class="theorem">
-    <b>元素幂的阶数公式</b> 设 `n ge 0`, `"ord"_m a = delta`, 则
-    <span class="formula">
-        `"ord"_m(a^n) = delta//(n, delta)`;
-    </span>
-    特别地,
-    <li>若 `delta = s t`, 则 `"ord"_m(a^s) = t`;</li>
-    <li>`"ord"_m(a^n) = "ord"_m a` 当且仅当 `(n, delta) = 1`.
-        于是模 `m` 的既约剩余系中, 至少有
-        <span class="formula">
-            `a^n`, `quad 0 le n lt delta`, `(n, delta) = 1`
-        </span>
-        这 `varphi(delta)` 个数的指数等于 `delta`.
-    </li>
+  <li>只证必要性.
+    设 `n = delta q + r` (`0 le r lt delta`),
+    若 `a^n -= 1 (mod m)`, 同余式两边同乘 `a^(-delta q)` 得
+    `a^r -= 1 (mod m)`, 再由 `delta` 的最小性知 `r = 0`.
+  </li>
+  <li>不妨取 `0 le j le i lt delta`, 则
+    `a^i -= a^j (mod m) iff a^(i-j) -= 1 (mod m)`, 由 `delta`
+    的最小性知 `i-j = 0`, 即 `i -= j (mod delta)`.
+  </li>
 </ol>
 
 <p class="proof">
-    记 `"ord"_m(a^n) = k`, `(n, delta) = d`. 一方面,
-    <span class="formula">
-        `(a^n)^(delta // d) = (a^delta)^(n//d) -= 1 (mod m)`,
-    </span>
-    故 `k | delta/d`; 另一方面
-    <span class="formula">
-        `a^(n k) = (a^n)^k -= 1 (mod m)`,
-    </span>
-    故 `delta | n k`, 即 `delta/d | n/d k`.
-    因为 `(delta/d, n/d) = 1`, 所以 `delta/d | k`.
-    综上有 `k = delta/d`.
+  1. 的另一证法. 利用引理, 若 `a^k -= a^delta -= 1 (mod n)`, 则 `a^((k,
+  delta)) -= 1 (mod n)`. 由 `delta` 的最小性知道 `(k, delta) = delta`,
+  即 `delta | k`.
+</ol>
+
+<ol class="remark">
+  <li>由结论 1 知道, `delta | varphi(m)`, 且 `a^k` (`k = 0, 1, 2, cdots`)
+    模 `n` 的余数以 `delta` 为周期重复.</li>
+  <li>由结论 2 知道, 在一个周期内, `a^k` (`k = 0, 1, cdots, delta-1`)
+    模 `n` 的 `delta` 个余数两两不同.
+    特别当 `a` 是原根时, 这 `delta = varphi(n)` 个数构成模 `n`
+    的既约剩余系.
+  </li>
+</ol>
+
+<p class="remark">
+  若 `a^x = b (mod n)`, 则 `x` 称为 `b` (关于模 `n`, 以 `a` 为底)
+  的<b>离散对数</b>. 由结论 2 知道, 离散对数若存在,
+  则它关于模 `delta = "ord "a` 是唯一的.
 </p>
 
-<ol class="theorem">
-  <b>给定阶元素的存在性定理</b>
-  <li>若 `(m, n) = 1`, 则对任意 `a, b`, 存在 `c` 使得
-    `"ord"_(m n) c = ["ord"_m a, "ord"_n b]`.
+<ol class="example">
+  讨论模 `m = 2^n` 的指数与原根. 此时有 `varphi(2^n) = 2^(n-1)`.
+  <li>模 `m = 2, 4` 时有原根;</li>
+  <li>`n ge 3` 时, 模 `m = 2^n` 无原根.  事实上对任意奇数 `a` 有
+    <span class="formula">
+      `a^(2^(n-2)) -= 1 (mod 2^n)`.
+    </span>
+    由于 `varphi(2^n) = 2^(n-1) gt 2^(n-2)`, 故此时无原根;
   </li>
-  <li>对任意 `a, b`, 存在 `c` 使得
-    `"ord"_m c = ["ord"_m a, "ord"_m b]`.
+  <li>`n ge 3` 时, `"ord"_m 5 = 2^(n-2)`.
+    这时数字 5 是原根这一角色的一个 "替代品".
   </li>
 </ol>
 
 <ol class="proof">
-    <li>因为 `(m, n) = 1`, 由孙子定理, 同余方程组
-        <span class="formula">
-            `x -= a (mod m)`, `quad x -= b (mod n)`
-        </span>
-        存在唯一解 `x -= c (mod m n)`.
-        因为 `c` 和 `a, b` 分别关于模 `m, n` 同余, 所以
-        `"ord"_m c = "ord"_m a`, `"ord"_n c = "ord"_n b`.
-        再由计算性质4 即得结论.
-    </li>
-    <li>分别记 `A = "ord"_m a`, `B = "ord"_m b`, `eta = [A, B]`. 作分解
-        <span class="formula">
-            `A = a_1 a_2`, `quad B = b_1 b_2`,<br/>
-            其中 `(a_2, b_2) = 1`, `quad a_2 b_2 = eta`.
-        </span>
-        这样的分解是可行的: 设素因子 `p` 在 `eta` 中的次数为 `n`,
-        则 `p` 在 `A, B` 中的次数较高的那个也等于 `n`.
-        对 `eta` 的每个素因子都如此分类即可得到 `a_2, b_2`.<br/>
-        现在由阶数公式,
-        <span class="formula">
-            `"ord"_m(a^(a_1)) = a_2`, `quad "ord"_m(b^(b_1)) = b_2`,
-        </span>
-        取 `c = a^(a_1) b^(b_1)`, 由计算性质5,
-        <span class="formula">
-            `"ord"_m c = "ord"_m(a^(a_1) b^(b_1)) = a_2 b_2 = eta`.
-        </span>
-    </li>
+  <li>`m = 2` 时, `1` 是原根; `m = 4` 时, `"ord"(-1) = 2`, 故 `-1` 是原根.
+  </li>
+  <li>对 `n` 进行归纳. 设 `a = 2t+1`, 则 `n = 3` 时
+    <span class="formula">
+      `a^2 = 4t(t+1) + 1 -= 1 (mod 2^3)`,
+    </span>
+    结论成立. 假设结论对整数 `n ge 3` 成立, 则对 `n+1` 有
+    <span class="formula">
+      `2^(n+1) | (a^(2^(n-2))-1)(a^(2^(n-2))+1)`
+      `= a^(2^(n-1)) - 1`,
+    </span>
+    结论也成立.
+  </li>
+  <li>
+    2. 中已经证明 `"ord"_m 5 | 2^(n-2)`, 因而只需证 `"ord"_m 5 !|
+    2^(n-3)`, 即证
+    <span class="formula">
+      `5^(2^(n-3)) !-= 1 (mod 2^n)`, `quad n ge 3`.
+    </span>
+    对 `n` 进行归纳. `n=3` 时结论成立. 假设结论对整数 `n ge 3` 成立,
+    则 `n+1` 时, 由于
+    <span class="formula">
+      `5^(2^(n-3)) -= 1 (mod 2^(n-1))`, `quad n ge 3`.
+    </span>
+    可设 `5^(2^(n-3)) = 2^(n-1) s + 1`, 于是
+    <span class="formula">
+      `5^(2^(n-2)) = (2^(n-1) s + 1)^2`
+      `= 2^n s(2^(n-2) s + 1) + 1`.
+    </span>
+    由归纳假设, `2 !| s`, 因此 `5^(2^(n-2)) !-= 1 (mod 2^(n+1))`.
+  </li>
+</ol>
+
+<ol class="property">
+  阶的若干计算性质.
+  <li>`n | m rArr` `"ord"_n a | "ord"_m a`;</li>
+  <li>若 `(m, n) = 1`, 则 `"ord"_(m n) a = ["ord"_m a, "ord"_n a]`;
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>只需注意 `n | m` 时, `a^delta -= 1 (mod m) rArr
+    a^delta -= 1 (mod n)`;
+  </li>
+  <li>分别记 `"ord"_m a = M`, `"ord"_n a = N`, `"ord"_(m n) a = delta`.
+    由 1. 得 `[M, N] | delta`. 另一方面, 有
+    <span class="formula">
+      `a^([M,N]) -= 1 (mod m)`,
+      `quad a^([M,N]) -= 1 (mod n)`,
+    </span>
+    由 `(m, n) = 1` 得 `a^([M,N]) -= 1 (mod m n)`, 因此 `delta
+    | [M,N]`.
+  </li>
+</ol>
+
+<p class="remark">
+  求模 `n` 的阶, 只需作分解 `n = prod n_i = prod p_i^(a_i)`, 就有
+  <span class="formula">
+    `"ord"_n a = ["ord"_(n_1) a, cdots, "ord"_(n_r) a]`.
+  </span>
+</p>
+
+<ol class="property enum">
+  <b>阶数公式</b> 设 `a, b in ZZ_n^**`:
+  <li>逆元的阶. `"ord"(a^-1) = "ord "a`;</li>
+  <li>乘积的阶. `"ord"(a b) = "ord "a * "ord "b` 当且仅当
+    `("ord "a, "ord "b) = 1`;
+  </li>
+  <li>幂的阶. `"ord"(a^k) = delta//(k, delta)`, 其中 `delta = "ord "a`.
+    特别,
+    <ol>
+      <li>若 `delta = s t`, 则 `"ord"(a^s) = t`;</li>
+      <li>`"ord"(a^k) = "ord "a` 当且仅当 `(k, delta) = 1`.</li>
+    </ol>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>只需注意对任意 `k ge 0`, `a^k -= 1 (mod n)`
+    当且仅当 `a^-k -= 1 (mod n)`.
+  </li>
+  <li>分别记 `a, b, a b` 的指数为 `A, B, delta`. 先证必要性:
+    我们有 `(a b)^([A,B]) -= 1 (mod n)`, 故 `A B = delta | [A,B]`.
+    这推出 `(A, B) = 1`.<br/>
+    再证充分性. 一方面有
+    <span class="formula">
+      `(a b)^(A B) -= 1 (mod n)`,
+    </span>
+    故 `delta | A B`; 另一方面
+    <span class="formula">
+      `a^(delta B) = a^(delta B) b^(delta B) -= (a b)^(delta B) -= 1 (mod n)`,
+    </span>
+    故 `A | delta B`, 再由 `(A, B) = 1` 得 `A | delta`;
+    同理 `B | delta`. 再次由 `(A, B) = 1` 得 `A B | delta`.
+  </li>
+  <li>
+    记 `"ord"(a^k) = l`, `(k, delta) = d`. 一方面,
+    <span class="formula">
+        `(a^k)^(delta // d) = (a^delta)^(k//d) -= 1 (mod n)`,
+    </span>
+    故 `l | delta/d`; 另一方面
+    <span class="formula">
+        `a^(k l) = (a^k)^l -= 1 (mod n)`,
+    </span>
+    故 `delta | k l`, 即 `delta/d | k/d l`.
+    因为 `(delta/d, k/d) = 1`, 所以 `delta/d | l`.
+    综上有 `l = delta/d`.
+  </li>
+</ol>
+
+<p class="corollary">
+  <b>原根的数目</b>
+  `ZZ_n^**` 中若存在原根, 则原根的数目为 `varphi(varphi(n))`.
+</p>
+
+<p class="proof">
+  记 `"ord "a = delta`.
+  由幂的阶数公式, `ZZ_n^**` 中至少有
+  <span class="formula">
+    `a^k`, `quad 0 le n lt delta`, `(k, delta) = 1`
+  </span>
+  这 `varphi(delta)` 个数的阶等于 `delta`.
+  特别当 `a` 为原根时即得结论.
+</p>
+
+<ol class="theorem">
+  <b>给定阶元素的存在性</b>
+  <li>若 `(m, n) = 1`, 则对任意 `a, b`, 存在 `c` 使得
+    `"ord"_(m n) c = ["ord"_m a, "ord"_n b]`.
+  </li>
+  <li>对任意 `a, b`, 存在 `c` 使得关于模 `n` 有
+    `"ord "c = ["ord "a, "ord "b]`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>因为 `(m, n) = 1`, 由孙子定理, 同余方程组
+    <span class="formula">
+      `x -= a (mod m)`, `quad x -= b (mod n)`
+    </span>
+    存在唯一解 `x -= c (mod m n)`.
+    因为 `c` 和 `a, b` 分别关于模 `m, n` 同余, 所以
+    `"ord"_m c = "ord"_m a`, `"ord"_n c = "ord"_n b`.
+    再由 `"ord"_(m n) c = ["ord"_m c, "ord"_n c]` 即得结论.
+  </li>
+  <li>分别记 `A = "ord "a`, `B = "ord "b`, `eta = [A, B]`. 作分解
+    <span class="formula">
+      `A = a_1 a_2`, `quad B = b_1 b_2`,<br/>
+      其中 `(a_2, b_2) = 1`, `quad a_2 b_2 = eta`.
+    </span>
+    这样的分解是可行的: 设素因子 `p` 在 `eta` 中的次数为 `k`,
+    则 `p` 在 `A, B` 中的次数较高的那个也等于 `k`.
+    对 `eta` 的每个素因子都如此分类即可得到 `a_2, b_2`.<br/>
+    现在由阶数公式,
+    <span class="formula">
+      `"ord"(a^(a_1)) = a_2`, `quad "ord"(b^(b_1)) = b_2`,
+    </span>
+    取 `c = a^(a_1) b^(b_1)`, 由乘积的阶数公式,
+    <span class="formula">
+      `"ord "c = "ord"(a^(a_1) b^(b_1)) = a_2 b_2 = eta`.
+    </span>
+  </li>
 </ol>
 
 <h2>原根存在的充要条件</h2>
 
 <p class="theorem">
-    模 `m` 有原根的充要条件是
-    <span class="formula">
-        `m = 1, 2, 4, p^n, 2p^n`.
-    </span>
-    其中 `p` 是奇素数, `n ge 1`.
+  模 `m` 有原根的充要条件是
+  <span class="formula">
+    `m = 1, 2, 4, p^n, 2p^n`.
+  </span>
+  其中 `p` 是奇素数, `n ge 1`.
 </p>
 
 <p class="proof">
-    先证必要性, 充分性将在下文分几个定理完成证明.
-    ??
+  先证必要性, 充分性将在下文分几个定理完成证明.
+  ??
 </p>
 
-<p class="example">
-    我们知道, `1//7 = 0. dot 1 4285 dot 7`, 其循环节恰有 `7-1 = 6` 位.
-    在 100 以内, 除 2 以外, 满足 `1//n` 的循环节恰有 `n-1`
-    位这一性质的正整数 `n` 有:
+<ol class="example">
+  `p` 为素数, `p !| n`, 则
+  <li>同余方程 `x^k -= 1 (mod p)` 共有 `(p-1, k)` 个解;</li>
+  <li>同余方程 `x^k -= n (mod p)` 有 `0` 个或 `(p-1, k)` 个解.</li>
+</ol>
+
+<ol class="proof">
+  <li>设 `g` 是模 `p` 的原根, `x = g^r`, 则
     <span class="formula">
-        7, 17, 19, 23, 29, 47, 59, 61, 97.
+      `g^(r k) -= 1(mod p)`
+      `iff p-1 | r k`
+      `iff (p-1)/((p-1,k)) | r`.
     </span>
-    它们都是素数以外, 还有什么共同特点?
+    因此这样的 `r` 共有 `(p-1, k)` 个.
+  </li>
+  <li>线性叠加原理: 若 `x^k -= n (mod p)` 有解, 设为 `a`,
+    我们可以建立"齐次方程" `x^k -= 1 (mod p)` 的解集 `S` 到 "非齐次方程"
+    `x^k -= n (mod p)` 的解集 `T` 之间的映射:
+    <span class="formula">
+      `eta: S to T`,<br>
+      `s mapsto a s`
+    </span>
+    容易验证, 若 `s^k -= 1 (mod p)`, 则 `(a s)^k -= n (mod p)`, 即 `a s in
+    T`.
+    `eta` 是左平移变换因而是双射, 这说明 `|S| = |T|`.
+  </li>
+</ol>
+
+<p class="example">
+  我们知道, `1//7 = 0. dot 1 4285 dot 7`, 其循环节恰有 `7-1 = 6` 位.
+  在 100 以内, 除 2 以外, 满足 `1//n` 的循环节恰有 `n-1`
+  位这一性质的正整数 `n` 有:
+  <span class="formula">
+    7, 17, 19, 23, 29, 47, 59, 61, 97.
+  </span>
+  它们都是素数以外, 还有什么共同特点?
 </p>
 
 <p class="solution">
-    共同特点是: 10 是模 `n` 的原根.
-    原因是若 `10^d -= 1 (mod n)`, 即 `n | 10^d - 1`, 则分数 `1//n`
-    可以化为循环节 `d` 位的循环小数. 如 `10^6 -= 1 (mod 7)`, 则
-    <span class="formula">
-        `1/7 = 142857/999999 = 0. dot 1 4285 dot 7`.
-    </span>
-    又如 `10^6 -= 1 (mod 13)`, 则
-    <span class="formula">
-        `1/13 = 076923/999999 = 0. dot 0 7692 dot 3`.
-    </span>
-    因此, 当 `(10, n) = 1` 时, 循环节的长度就是 10 模 `n` 的指数.
-    要使循环节恰有 `n-1` 位, 就要求 10 模 `n` 的指数等于 `n-1`;
-    这当且仅当 `n` 是素数, 且 10 是模 `n` 的原根.
+  共同特点是: 10 是模 `n` 的原根.
+  原因是若 `10^d -= 1 (mod n)`, 即 `n | 10^d - 1`, 则分数 `1//n`
+  可以化为循环节 `d` 位的循环小数. 如 `10^6 -= 1 (mod 7)`, 则
+  <span class="formula">
+    `1/7 = 142857/999999 = 0. dot 1 4285 dot 7`.
+  </span>
+  又如 `10^6 -= 1 (mod 13)`, 则
+  <span class="formula">
+    `1/13 = 076923/999999 = 0. dot 0 7692 dot 3`.
+  </span>
+  因此, 当 `(10, n) = 1` 时, 循环节的长度就是 10 模 `n` 的指数.
+  要使循环节恰有 `n-1` 位, 就要求 10 模 `n` 的指数等于 `n-1`;
+  这当且仅当 `n` 是素数, 且 10 是模 `n` 的原根.
 </p>
 
 <p class="example">
