@@ -1,4 +1,20 @@
 ;(function(window, document){
+const requireCache = {}
+function require (id) {
+  const module = requireCache[id] || (requireCache[id] = loadModule(
+    document.getElementById(id).textContent
+  ))
+  return module.exports
+}
+
+function loadModule (src) {
+  const module = {}
+  Function(
+    ['module', 'require'],
+    '"use strict";' + src
+  )(module, require)
+  return module
+}
 
 const list = document.querySelectorAll('.playground')
 const $ = document.createElement.bind(document)
@@ -18,8 +34,7 @@ for (let playground of list) {
   run.onclick = function () {
     output.classList.remove('hidden')
     try {
-      const module = {}
-      Function(['module'], '"use strict";' + src.textContent)(module)
+      const module = loadModule(src.innerText) // 用 innerText 而不是 textContent 可以保留换行
       output.textContent = module.exports(input.value)
       output.classList.remove('error')
     } catch (e) {

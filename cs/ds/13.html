@@ -61,242 +61,386 @@ module.exports = function pow (str) {
 </div>
 
 <p class="algorithm">
-	<b>辗转相除法</b> 设 a, b 为正整数, 求最大公约数.
+  <b>辗转相除法</b> 设 a, b 为正整数, 求最大公约数 d,
+  同时求出系数 x, y 满足 a x + b y = d.
 </p>
 
-<pre>
-gcd(a, b):
-	if b == 0:
-		return a
-	return gcd(b, a % b)
+<div class="playground" value="{ a: 75, b: 32 }">
+<p>
+75 = (1, 0)<br>
+32 = (0, 1)<br>
+11 = (1, -2)<br>
+10 = (-2, 5)<br>
+1 = (3, -7)
+</p>
+<script type="text" id="gcd">
+function gcd (a, b) {
+  if (b === 0) return a
+  return gcd(b, a % b)
+}
 
-# 计算最大公约数 d, 同时求出系数 x, y 满足 a x + b y = d
-# 比如 a = 75, b = 32:
-# 11 = (75) - 2(32) = (1,0) - 2(0,1) = (1,-2)
-# 10 = (32) - 2(11) = (0,1) - 2(1,-2) = (-2,5)
-# 1 = (11) - (10) = (1,-2) - (-2,5) = (3,-7)
-# 因此 1 = 3(75) - 7(32)
-gcd_extended(a, b):
-	if b == 0:
-		return a, 1, 0
-	d, x, y = gcd_extended(b, a % b)
-	return d, y, x - (a // b)*y
-</pre>
+function gcdExtended (a, b) {
+  if (b === 0) return { d: a, x: 1, y: 0 }
+  const { d, x, y } = gcdExtended(b, a % b)
+  // d = x * b + y * (a % b)
+  //   = x * b + y * (a - b * (a // b))
+  //   = y * a + (x - y * (a // b)) * b
+  return { d, x: y, y: x - y * Math.floor(a / b) }
+}
+
+function demo (str) {
+  const { a, b } = Playground.parse(str)
+  return JSON.stringify(gcdExtended(a, b))
+}
+
+demo.gcd = gcd
+demo.gcdExtended = gcdExtended
+module.exports = demo
+</script>
+</div>
 
 <p class="algorithm">
-	<b>辗转相除法 (非递归)</b> 设 a, b 为整数,
-	我们实现上述算法的非递归版本.
+  <b>求模 `n` 乘法逆元</b>
+  若 `a x -= 1 (mod n)`, 则称 `x` 为 `a` 模 `n` 的乘法逆元.<br>
+  若 `(a, n) = 1`, 则存在 `x, y` 使得 `a x + n y = 1`, 即
+  `a x -= 1 (mod n)`. 因此应用 gcdExtended 就可获得乘法逆.
 </p>
 
-<pre>
-# 因为任何数都是零的因子, 所以 gcd(a,0) = gcd(0,a) = a,
-# 这导致 gcd(0,0) = 0. 尽管在数学中 gcd(0,0) 是未定义的.
-gcd(a, b):
-	if a &lt; 0:
-		a = -a
-	if b &lt; 0:
-		b = -b
-	while b:
-		r = a % b
-		a = b
-		b = r
-	return a
+<div class="playground" value="{ a: 42, n: 55 }">
+<script type="text" id="inv">
+const { gcdExtended } = require('gcd')
+function inv (a, n) {
+  let { x } = gcdExtended(a, n)
+  return x < 0 ? x % n + n : x % n // 转换为最小非负剩余
+}
 
-gcd_extended(a, b):
-    coef_a = (1, 0)
-    coef_b = (0, 1)
-    if a &lt; 0:
-        a = -a
-        coef_a = (-1, 0)
-    if b &lt; 0:
-        b = -b
-        coef_b = (0, -1)
-    while b:
-		tmp = coef_a - (a//b)*coef_b
-		coef_a = coef_b
-		coef_b = tmp
-		r = a % b
-		a = b
-		b = r
-	return a, coef_a[0], coef_a[1]
-</pre>
+function demo (str) {
+  let { a, n } = Playground.parse(str)
+  return inv(a, n)
+}
+demo.inv = inv
+module.exports = demo
+</script>
+</div>
 
 <p class="algorithm">
-	<b>试除法判断素数</b>
+  <b>线性求逆</b>
+  求 `1` 到 `p-1` 的各整数模素数 `p` 的乘法逆元.<br>
+  设 `0 lt a lt p`, `x = p mod a`, `y = |__p // a__|`.
+  则 `0 lt x lt p`, 说明 `x` 模 `p` 有逆元.
+  计算知 `x + y a = p -= 0 (mod p)`,
+  `x -= -y a (mod p)`,
+  `x a^-1 -= -y (mod p)`,
+  <span class="formula">
+    `a^-1 = x^-1 (p-y) (mod p)`.
+  </span>
 </p>
 
-<pre>
-is_prime(n):
-	if n &lt; 2:
-		return False
-	if n &lt; 4: # 2, 3 是素数
-		return True
-	# 2 和 3 是特别常见的因子, 这里事先排除
-	r = n % 6
-	if r != 1 and r != 5:
-		return False
-	s = sqrt(n)
-	# 依次用 5, 7, 11, 13, 17, 19, 23, 25, ... 试除
-	for i = 5 to s step 6:
-		if n % i == 0 or n % (i+2) == 0:
-			return False
-	return True
-</pre>
+<div class="playground" value="{ p: 17 }">
+<script type="text">
+module.exports = function linearInv (str) {
+  let { p } = Playground.parse(str)
+  const inv = [NaN, 1] // 0 没有逆; 1 的逆是 1
+  for (let a = 2; a < p; ++a) {
+    const [x, y] = [p % a, Math.floor(p / a)]
+    inv[a] = inv[x] * (p-y) % p
+  }
+  return inv.slice(1)
+}
+</script>
+</div>
 
 <p class="algorithm">
-	<b>平凡因数分解</b>
-	设 n 是正整数, 返回 n 的所有素因子及其次数.
-	在 linux 系统中, 可以用 <code>factor</code> 命令分解整数.
+  <b>前缀积求逆</b>
+  求整数 `a_1, cdots a_n` 模素数 `p` 的乘法逆元, 其中每个整数都与 `p` 互素.
+  这是求逆元的一种离线算法. 记第 `i` 个<b>前缀积</b>为
+  <span class="formula">
+    `"pre"_i -= prod_(j=1)^i a_j (mod p)`.
+  </span> 
+  注意若 `(a, p) = (b, p) = 1`, 则 `a^-1 b^-1 -= (a b)^-1 (mod p)`.
+  于是前缀积的逆等于逆的前缀积, 即
+  <span class="formula">
+    `"pre"_i^-1 -= prod_(j=1)^i a_j^-1 (mod p)`.
+  </span>
+  利用这一性质设计算法如下:
+  先使用 gcdExtended 计算所有数的乘积模 `p` 的逆元 `"pre"_n^-1`, 然后递推
+  <span class="formula">
+    `a_i^-1 -= "pre"_i^-1 * "pre"_(i-1) (mod p)`,<br>
+    `"pre"_(i-1)^-1 -= "pre"_i^-1 * a_i (mod p)`.
+  </span>
+  时间复杂度为 `O(n + log p)`.
 </p>
-
-<pre>
-# 如 n = 252 时, 得到 {2:2, 3:2, 7:1}
-factor(n):
-    d = {}
-	for i = 2 to n: # 注意 n 需要在循环中更新
-        while n % i == 0:
-			++d[i] # 空的表项在这里被置为 1
-            n //= i
-		# 可选, 起加速作用
-		if is_prime(n):
-			++d[n]
-			break
-    return d
-</pre>
+<div class="playground" value="{ a: [1, 1, 4, 5, 1, 4], p: 17 }">
+<script type="text">
+const { inv } = require('inv')
+module.exports = function preProductInv (str) {
+  const { a, p } = Playground.parse(str)
+  // 初始化前缀积
+  const pre = [1] // 0 个数的乘积是 1
+  let last = 1
+  a.forEach(x => {
+    last *= x
+    pre.push(last)
+  })
+  // 计算逆元
+  let i = pre.length-1
+  pre[i] = inv(pre[i], p)
+  const ret = a.slice()
+  // 注意数组 pre 的长度是 ret 的长度加 1
+  for (i -= 1; i >= 0; --i) {
+    ret[i] = pre[i+1] * pre[i] % p
+    pre[i] = pre[i+1] * a[i] % p
+  }
+  return ret
+}
+</script>
+</div>
 
 <p class="algorithm">
-	<b>Pollard Rho因数分解, O(n^(1/4)), 1975</b>
+  <b>试除法判断素数</b>
+</p>
+
+<div class="playground" value="{ n: 143 }">
+<p>
+143 = 11 * 13 不是素数
+</p>
+<script type="text" id="is-prime">
+// 用试除法寻找 n 的最小素因子
+// n = 1 时返回 1
+function primeOf (n) {
+  if (n % 2 === 0) return 2
+  if (n % 3 === 0) return 3
+
+  // 用 6n±1 试除
+  const s = Math.sqrt(n)
+  for (let p = 5; p <= s; p += 6) {
+    if (n % p === 0) return p
+    if (n % (p+2) === 0) return p+2
+  }
+  return n // n 是素数
+}
+
+// 判断 n 是否为素数
+function isPrime (n) {
+  return n > 1 && primeOf(n) === n
+}
+
+function demo (str) {
+  const { n } = Playground.parse(str)
+  return isPrime(n)
+}
+
+demo.primeOf = primeOf
+demo.isPrime = isPrime
+module.exports = demo
+</script>
+</div>
+
+<p class="algorithm">
+  <b>遍历所有因数</b>
+</p>
+
+<div class="playground" value="{ n: 30 }">
+<p>30 的所有因数为 1, 2, 3, 5, 6, 10, 15, 30</p>
+<script type="text">
+module.exports = function factors (str) {
+  let { n } = Playground.parse(str)
+  const lo = []
+  const hi = []
+  const s = Math.sqrt(n)
+  for (let d = 1; d <= s; ++d) {
+    if (n % d === 0) {
+      lo.push(d)
+      hi.push(Math.floor(n/d))
+    }
+  }
+  if (lo[lo.length-1] === hi[hi.length-1]) {
+    lo.pop()
+  }
+  return lo.concat(hi.reverse())
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>因数分解 (暴力算法)</b>
+  设 n 是正整数, 返回 n 的所有素因子及其次数.
+</p>
+
+<div class="playground" value="{ n: 252 }">
+<p>252 = 2^2 * 3^2 * 7</p>
+<script type="text">
+const { isPrime } = require('is-prime')
+module.exports = function factorNaive (str) {
+  let { n } = Playground.parse(str)
+  const d = {}
+  for (let i = 2; i <= n; ++i) {
+    while (n % i === 0) {
+      d[i] = (d[i] || 0) + 1 // 空表项置为 1
+      n = Math.floor(n / i)
+    }
+    // 可选, 起加速作用
+    if (isPrime(n)) {
+      d[n] = (d[n] || 0) + 1
+      break
+    }
+  }
+  return JSON.stringify(d)
+}
+</script>
+</div>
+
+<p class="remark">
+  linux 系统可以用 <code>factor</code> 命令分解整数.
 </p>
 
 <p class="algorithm">
-	<b>遍历所有因数</b>
+  <b>Pollard Rho因数分解, O(n^(1/4)), 1975</b>
+  首先生成数列 `x_n`: 选取种子 `x_0`, `x_(n+1) = f(x_n) (mod n)`, 其中 `f(x) = x^2 + 1`. 设 `p | n`, 寻找整数 `x_i, x_j` 满足 `x_i = x_j (mod p)` 且 `x_i != x_j (mod n)`, 于是 `gcd(x_i - x_j, n)` 是 `n` 的非平凡因子.
+</p>
+<div class="playground" value="{ n: 65537 }">
+<p>
+65537 -&gt; prime<br>
+9379 -&gt; 113<br>
+32 -&gt; boom!
+</p>
+<script type="text">
+const { gcd } = require('gcd')
+// const { primeOf } = require('is-prime')
+module.exports = function pollardRho (str) {
+  let { n } = Playground.parse(str)
+  const f = x => ((x * x % n) + 1) % n
+  let [x, y] = [2, 1]
+  while (x != y) {
+    [x, y] = [f(x), f(y)]
+    const g = gcd(n, Math.abs(x-y))
+    if (1 < g && g < n) return g
+    x = f(x)
+  }
+  return 'failed to factor, maybe prime?'
+  // return primeOf(n) // fallback
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>Eratosthenes 筛法</b>
+  求 n 以内的所有素数.
+  注意到素数的倍数一定是合数,
+  算法先将 bool 数组 <code>flag</code> 初始化为 false,
+  一旦发现 j 是合数, 就令 <code>flag[j] = true</code>.
+  时间复杂度为 `O(n log log n)`.
 </p>
 
-<pre>
-factors(n, k):
-	if is_prime(n):
-		print(1, 1*k)
-		print(n, n*k)
-	else:
-		p = min_prime_factor(n)
-		factors(n//p, p)
-
-# 最小素因子
-min_prime_factor(n):
-	for p = 2 to n:
-		if n % p == 0:
-			return p
-</pre>
+<div class="playground" value="{ n: 100 }">
+<p>100 以内的素数为 2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97.</p>
+<script type="text">
+module.exports = function eratosthenesSieve (str) {
+  let { n } = Playground.parse(str)
+  const flag = []
+  const primes = []
+  for (let i = 2; i <= n; ++i) {
+    if (flag[i]) continue
+    primes.push(i)
+    for (let j = i*i; j <= n; j += i) {
+      flag[j] = true
+    }
+  }
+  return primes
+}
+</script>
+</div>
 
 <table>
-	<tr>
-		<td>n</td>
-		<td>pi(10^n) = 10^n 以内的素数个数</td>
-	</tr>
-	<tr>
-		<td>7</td>
-		<td>664,579</td>
-	</tr>
-	<tr>
-		<td>8</td>
-		<td>5,761,455</td>
-	</tr>
-	<tr>
-		<td>9</td>
-		<td>50,847,534</td>
-	</tr>
+  <tr>
+    <td>n</td>
+    <td>`pi(10^n) = 10^n` 以内的素数个数</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>664,579</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>5,761,455</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>50,847,534</td>
+  </tr>
 </table>
 
 <p class="algorithm">
-	<b>Eratosthenes 筛法</b>
-	素数的倍数一定不是素数. 算法使用一个 bool 数组 <code>flag[N+1]</code>,
-	如果 i 是素数则 <code>flag[i] == False</code>. 这个数组全部初始化为
-	<code>False</code>. 此算法的时间复杂度为 `O(N log log N)`.
+  <b>Euler 线性筛</b>
+  求 N 以内素数的一种线性时间的算法. 在 Eratosthenes 算法中,
+  一个合数可能被反复判断: 如 12 被 2*6 排除, 也被 3*4 排除.
+  现在规定每个合数都被自己的最小素因子排除, 从而 12 只能由 2 来排除,
+  等等. 由于每个合数只被排除一次, 所以时间复杂度为 `O(N)`.
+  <br/>
+  算法使用的数组 <code>flag[N+1]</code> 同上.
+  另有数组 <code>primes[M]</code> 用于保存已经得到的素数.
+  可以参考上表确定合适的 M 值,
+  如 <code>N = 1e9</code> 时可取 <code>M = 50847534</code>.
 </p>
 
-<pre>
-bool flag[N+1]		# i 是素数则 flag[i] == False
-
-# 打印 N 以内的素数
-Eratosthenes_sieve():
-	for i = 2 to N:
-		if !flag[i]:
-			print(i)
-			j = i*i
-			# 考虑到 int 类型有限, 这里的判断可能要改成 i &lt;= N/i
-			while j &lt;= N:
-				flag[j] = True
-				j += i
-</pre>
-
-<p class="algorithm">
-	<b>Euler 线性筛</b>
-	求 N 以内素数的一种 `O(N)` 的算法. 在 Eratosthenes 算法中,
-	一个合数可能被反复判断: 如 12 被 2*6 排除, 也被 3*4 排除.
-	现在规定每个合数都被自己的最小素因子排除, 从而 12 只能由 2 来排除,
-	等等. 这个算法实现如下.
-	<br/>
-	算法使用的数组 <code>flag[N+1]</code> 同上.
-	另有数组 <code>primes[M]</code> 用于保存已经得到的素数.
-	可以参考上表确定合适的 M 值,
-	如 <code>N = 1e9</code> 时可取 <code>M = 50,847,534</code>.
-</p>
-
-<pre>
-bool flag[N+1]		# i 是素数则 flag[i] == False
-int primes[M]		# 保存已经得到的素数
-
-# 求 N 以内的素数, 保存在数组 primes 中
-Euler_sieve():
-	for i = 2 to N:
-		if !flag[i]:
-			primes.append(i)
-		for p in primes:
-			k = i * p
-			if k &gt; N:
-				break
-			flag[k] = True
-			if i % p == 0: # 点睛之笔
-				break
-</pre>
+<div class="playground" value="{ n: 100 }">
+<script type="text">
+module.exports = function eulerSieve (str) {
+  let { n } = Playground.parse(str)
+  const flag = []
+  const primes = []
+  for (let i = 2; i <= n; ++i) {
+    if (!flag[i]) primes.push(i)
+    primes.some(p => {
+      const k = i * p              // 一个合数
+      if (k > n) return true       // k 太大了, 跳出循环
+      // console.log(k, i, p)
+      flag[k] = true               // p 是 k 的最小素因子, 将 k 标记为合数
+      if (i % p === 0) return true // 详细的证明见下文
+    })
+  }
+  return primes
+}
+</script>
+</div>
 
 <p class="proof">
-	先直观理解一下算法的关键一步:
-	若素数 `p | i`, 则对任意素数 `q gt p`, `q` 都不可能是
-	`k = i q` 的最小素因子, 所以算法内循环要在 <code>i % p == 0</code>
-	时 break.<br/>
-	现在证明这个算法确实使得每个合数都被自己的最小素因子排除.
-	由于每个合数都可以写为自己的最小素因子和一个正整数之积,
-	故只需证明对 `i = 2, 3, 4, cdots`, 任何形如 `k = i p`
-	的合数都被 `p` 排除, 其中 `p` 是 `k` 的最小素因子.<br/>
-	`i = 2` 时, 要使素数 `p` 是 `k = i p` 的最小素因子, 只有 `p = 2`.
-	显然算法将 `4 = 2 xx 2` 排除, 因此 `i = 2` 时结论成立.<br/>
-	`i gt 2` 时, 假设结论对所有小于 `i`, 大于等于 `2` 的正整数均成立,
-	由于算法的外层和内层循环分别枚举整数 `i` 和素数 `p`, 所以合数
-	`k = i p` 必然在某一时刻被排除.
-	现在设 `p` 是 `k = i p` 的最小素因子, 但 `k = j q` 却被 `q` 所排除,
-	其中 `q gt p` 是一素数. 设 `k_1 = j p`, 显然 `p` 也是 `k_1`
-	的最小素因子.  注意到 `j lt i`, 由归纳假设, `k_1` 应该由 `p` 排除.
-	然而由 `p | k = j q` 和 `p, q` 是不同素数知 `p | j`, 按算法,
-	内循环应当执行 break 语句. 换言之, 不可能使内层循环继续迭代,
-	从而排除合数 `k = j q`. 矛盾. 所以 `k` 必定由它的最小素因子排除.<br/>
-	由数学归纳法, 结论对所有 `i = 2, 3, 4, cdots` 成立.
+  算法的关键一步:
+  若素数 `p | i`, 则对任意素数 `q gt p`, `q` 都不可能是
+  `k = i q` 的最小素因子, 所以算法内循环要在 <code>i % p == 0</code>
+  时 break.<br/>
+  现在证明这个算法确实使得每个合数都被自己的最小素因子排除.
+  由于每个合数都可以写为自己的最小素因子和一个正整数之积,
+  故只需证明对 `i = 2, 3, 4, cdots`, 任何形如 `k = i p`
+  的合数都被 `p` 排除, 其中 `p` 是 `k` 的最小素因子.<br/>
+  `i = 2` 时, 要使素数 `p` 是 `k = i p` 的最小素因子, 只有 `p = 2`.
+  显然算法将 `4 = 2 xx 2` 排除, 因此 `i = 2` 时结论成立.<br/>
+  `i gt 2` 时, 假设结论对所有小于 `i`, 大于等于 `2` 的正整数均成立,
+  由于算法的外层和内层循环分别枚举整数 `i` 和素数 `p`, 所以合数
+  `k = i p` 必然在某一时刻被排除.
+  现在设 `p` 是 `k = i p` 的最小素因子, 但 `k = j q` 却被 `q` 所排除,
+  其中 `q gt p` 是一素数. 设 `k_1 = j p`, 显然 `p` 也是 `k_1`
+  的最小素因子.  注意到 `j lt i`, 由归纳假设, `k_1` 应该由 `p` 排除.
+  然而由 `p | k = j q` 和 `p, q` 是不同素数知 `p | j`, 按算法,
+  内循环应当执行 break 语句. 换言之, 不可能使内层循环继续迭代,
+  从而排除合数 `k = j q`. 矛盾. 所以 `k` 必定由它的最小素因子排除.<br/>
+  由数学归纳法, 结论对所有 `i = 2, 3, 4, cdots` 成立.
 </p>
 
 <p class="example">
-    已知正整数 `n`, 求最大的正整数 `m | n`, 且 `m` 无平方因子,
-    即不存在素数 `p` 使得 `p^2 | m`.
+  已知正整数 `n`, 求最大的正整数 `m | n`, 且 `m` 无平方因子,
+  即不存在素数 `p` 使得 `p^2 | m`.
 </p>
 
 <p class="proof">
-    为避免对 `n` 作因子分解, 可以求出 `2` 到 `sqrt n` 间所有素数的乘积
-    `M`, 然后 `m = gcd(M, n)`.
-    这里 `M` 是一个很大的数; 如果 `n` 的范围已知, 可以通过查表得到 `M`.
-    如果 `M` 过大, 可以考虑每三个素数乘积求一次
-    gcd, 再将结果相乘, 即
-    <span class="formula">
-        `m = gcd(2*3*5, n) * gcd(7*11*13, n) * cdots`
-    </span>
+  为避免对 `n` 作因子分解, 可以求出 `2` 到 `sqrt n` 间所有素数的乘积
+  `M`, 然后 `m = gcd(M, n)`.
+  这里 `M` 是一个很大的数; 如果 `n` 的范围已知, 可以通过查表得到 `M`.
+  如果 `M` 过大, 可以考虑每三个素数乘积求一次
+  gcd, 再将结果相乘, 即
+  <span class="formula">
+    `m = gcd(2*3*5, n) * gcd(7*11*13, n) * cdots`
+  </span>
 </p>
 
 <div class="p algorithm">
@@ -375,8 +519,8 @@ Euler_sieve():
 
 下面这个计算 CRC-16 的例子来自 <a href="http://blog.csdn.net/liyuanbhu/article/details/7882789">CSDN</a>:
 <pre>
-#include <stdio.h>
-#include <stdint.h>
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
 
 const uint16_t POLY = 0x1021;
 
@@ -386,15 +530,15 @@ const uint16_t POLY = 0x1021;
  */
 uint16_t crc16(unsigned char *data, int len, uint16_t crc) {
   while (len--) {
-    crc = crc ^ (*data++ << 8); // fetch byte from memory, XOR into CRC top byte
+    crc = crc ^ (*data++ &lt;&lt; 8); // fetch byte from memory, XOR into CRC top byte
     // loop for 8 bits
-    for (int i = 0; i < 8; i++) {
-      if (crc & 0x8000) // if b15 is set
-        crc = (crc << 1) ^ POLY;
+    for (int i = 0; i &lt; 8; i++) {
+      if (crc &amp; 0x8000) // if b15 is set
+        crc = (crc &lt;&lt; 1) ^ POLY;
       else // if b15 is off
-        crc <<= 1;
+        crc &lt;&lt;= 1;
     }
-    crc &= 0xffff; // ensure CRC remains 16-bit value
+    crc &amp;= 0xffff; // ensure CRC remains 16-bit value
   }
   return crc;
 }

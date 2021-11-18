@@ -151,7 +151,7 @@
 
 <ol class="theorem">
     <li><b>最小自然数原理</b> `NN` 的任意非空子集中存在最小元;</li>
-    <li><b>最大自然数原理</b> `NN` 的任意非空且有上界的子集中存在最大元.</li>
+    <li><b>最大自然数原理</b> `NN` 的任意非空且在 `NN` 中有上界的子集中存在最大元.</li>
 </ol>
 
 <ol class="proof">
@@ -171,7 +171,7 @@
         即 `m+1 le s`, 故 `m+1 in L`, 矛盾.
         `m` 即为 `S` 中的最小自然数.
     </li>
-    <li>设 `O/ != S sube NN` 且有上界, 要证
+    <li>设 `O/ != S sube NN` 且在 `NN` 中有上界, 要证
         <span class="formula">
             `(EE M in S)` `(AA s in S)` `s le M`.
         </span>
@@ -271,6 +271,39 @@
 </ol>
 
 <h3>取整函数</h3>
+
+<p class="lemma">
+  <b>阿基米德 (Archimedes) 原理</b>
+  对任意实数 `a` 和 `epsi gt 0`, 存在正整数 `n` 使得 `n epsi gt a`.
+</p>
+
+<p class="proof">
+  考虑集合 `S = { n epsi | n in ZZ^+ }`.
+  若不存在正整数 `n` 使得 `n epsi gt a`, 那么 `a` 是 `S` 的上界;
+  由确界原理, 可设 `S` 的上确界为 `A`. 则存在 `n_0 epsi in S` 使得
+  <span class="formula">
+    `n_0 epsi gt A - epsi`,
+  </span>
+  即 `(n_0+1) epsi gt A`. 但 `(n_0+1) epsi in S`, 这与 `A` 是 `S`
+  的上确界矛盾.
+</p>
+
+<p class="corollary">
+  任意给定实数 `x`, 都存在整数 `m, n` 满足 `m lt x lt n`.
+</p>
+
+<p class="proof">
+  在 Archimedes 原理中特别取 `epsi = 1` 知, 任意给定一个实数 `x`,
+  总能找到一个正整数 `n` 大于它. 另一方面, 对于实数 `-x`, 存在正整数 `-m`
+  使得 `-m gt -x`. 综上 `m lt x lt n`.
+</p>
+
+<p class="definition">
+  对任意实数 `x`, 集合 `{n in ZZ| n ge x}` 和 `{m in ZZ| m le x}` 都非空,
+  且前者在 `ZZ` 中有下界, 后者在 `ZZ` 中有上界.
+  故定义 `x` 的<b>向上取整</b> `|~ x ~|` 为不小于 `x`
+  的最小正整数, <b>向下取整</b> `|__x__|` 为不大于 `x` 的最大正整数.
+</p>
 
 <p class="example">
     已知正整数 `c`, 求正整数 `n` 满足

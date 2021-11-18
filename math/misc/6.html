@@ -39,6 +39,7 @@ var mathematician = [
   {name: 'Adrien-Marie Legendre', cnname:'勒让德', enname:'Legendre', nationality:'法国', birth:1752, decease:1833},
   {name:'Henri Lebesgue', cnname:'勒贝格', enname:'Lebesgue', nationality:'法国', birth:1875, decease:1941},
   {name:'Euclid of Alexandria', cnname:'欧几里得', enname:'Euclid', nationality:'古希腊'},
+  {name:'Archimedes', cnname:'阿基米德', enname:'Archimedes', nationality:'古希腊', birth:-287, decease: -212},
   {name:'Srīṉivāsa Rāmāṉujan Aiyaṅkār', cnname:'拉马努金', enname:'Ramanujan', nationality:'印度', birth:1887, decease:1920},
   {name:'Baron Jean Baptiste Joseph Fourier', cnname:'傅里叶', enname:'Fourier', nationality:'法国', birth:1768, decease:1830},
   {name:'Pierre de Fermat', cnname:'费马', enname:'Fermat', nationality:'法国', birth:1601, decease:1665},
@@ -49,13 +50,19 @@ var mathematician = [
   {name: 'David Hilbert', cnname:'希尔伯特', enname:'Hilbert', nationality:'德国', birth:1862, decease:1943},
 ];
 
+function getYear(y) {
+  if (y === undefined) return '??'
+  if (y < 0) return '前' + (-y)
+  return y
+}
+
 Table.create({
   parent: document.body,
   data: mathematician,
   columns: [
     'cnname', 'enname', 'nationality',
     function() {
-      return (this.birth || '??') + '-' + (this.decease || '??')
+      return getYear(this.birth) + '-' + getYear(this.decease)
     },
     'name'
   ],
