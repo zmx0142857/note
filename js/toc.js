@@ -7,7 +7,7 @@ math: {
   toc: [ {
   title:'示例',
   articles: [
-    {title:'公式编辑器', src:'example/editor.html'},
+    {title:'公式编辑器', src:'example/editor.html', date: '2021-11-12'},
     //{title:'Asciimath', src:'example/asciimath.html'},
     {title:'Mathml', src:'example/mathml.html'},
   ]
@@ -17,7 +17,7 @@ math: {
     {title:'问题', src:'misc/0.html'},
     {title:'三角函数', src:'misc/2.html'},
     {title:'不等式', src:'misc/3.html'},
-    {title:'微积分不等式', src:'misc/4.html', isnew: true},
+    {title:'微积分不等式', src:'misc/4.html'},
     {title:'因式分解', src:'misc/5.html'},
     {title:'数学家', src:'misc/6.html'},
     {title:'算术与进制', src:'misc/7.html'},
@@ -31,7 +31,7 @@ math: {
     {title:'向量的相关性与线性方程组', src:'algebra/3.html'},
     {title:'线性空间', src:'algebra/4.html'},
     {title:'线性映射与线性变换', src:'algebra/5.html'},
-    {title:'特征值与特征向量', src:'algebra/6.html', isnew:true},
+    {title:'特征值与特征向量', src:'algebra/6.html'},
     {title:'矩阵的相似标准形', src:'algebra/7.html'},
     {title:'线性空间中的度量与内积', src:'algebra/8.html'},
     {title:'实二次型', src:'algebra/9.html'},
@@ -40,7 +40,7 @@ math: {
 }, {
   title:'数学分析',
   articles: [
-    {title:'附录', src:'analysis/0.html', isnew: true},
+    {title:'附录', src:'analysis/0.html'},
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
@@ -49,27 +49,27 @@ math: {
     {title:'定积分与广义积分', src:'analysis/7.html'},
     {title:'含参积分与特殊函数', src:'analysis/8.html'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
-    {title:'常数项级数', src:'analysis/10.html', isnew:true},
-    {title:'函数列与函数项级数', src:'analysis/11.html', isnew:true},
-    {title:'Fourier 级数', src:'analysis/13.html', isnew:true},
+    {title:'常数项级数', src:'analysis/10.html'},
+    {title:'函数列与函数项级数', src:'analysis/11.html'},
+    {title:'Fourier 级数', src:'analysis/13.html'},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
-    {title:'多元数量函数微分学', src:'analysis/15.html'},
+    {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-21'},
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
     {title:'曲线与曲面积分', src:'analysis/20.html'},
     {title:'场论初步', src:'analysis/22.html'},
     {title:'分数阶微积分', src:'analysis/23.html'},
-    {title:'函数方程', src:'analysis/24.html',isnew:true},
+    {title:'函数方程', src:'analysis/24.html'},
   ]
 }, {
   title:'数论',
   articles: [
-    {title:'整数, 有理数, 代数数, 连分数', src:'number/0.html', isnew: true},
+    {title:'整数, 有理数, 代数数, 连分数', src:'number/0.html'},
     {title:'整除, 最大公约数, 素数', src:'number/1.html'},
-    {title:'同余', src:'number/2.html', isnew: true},
+    {title:'同余', src:'number/2.html'},
     {title:'阶与原根', src:'number/3.html'},
-    {title:'二次剩余', src:'number/4.html', isnew: true},
-    {title:'不定方程', src:'number/5.html', isnew: true},
+    {title:'二次剩余', src:'number/4.html'},
+    {title:'不定方程', src:'number/5.html'},
     {title:'积性数论函数', src:'number/9.html'},
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html'},
   ]
@@ -148,7 +148,7 @@ math: {
   articles: [
     {title:'一阶微分方程的初等解法', src:'ode/2.html'},
     {title:'高阶微分方程', src:'ode/4.html'},
-    {title:'线性微分方程组', src:'ode/5.html',isnew:true},
+    {title:'线性微分方程组', src:'ode/5.html'},
   ]
 }, {
   title:'偏微分方程',
@@ -170,7 +170,7 @@ math: {
 }, {
   title:'解析几何',
   articles: [
-    {title:'向量与坐标系', src:'analytic-geo/1.html',isnew:true},
+    {title:'向量与坐标系', src:'analytic-geo/1.html'},
     {title:'平面与直线', src:'analytic-geo/2.html'},
     {title:'圆锥曲线与二次曲面', src:'analytic-geo/3.html'},
     {title:'平面几何的复数解法', src:'analytic-geo/6.html'},
@@ -231,9 +231,9 @@ cs: {
     {title:'随机算法', src:'ds/10.html'},
     {title:'排序', src:'ds/11.html'},
     {title:'文件', src:'ds/12.html'},
-    {title:'数论算法', src:'ds/13.html'},
+    {title:'数论算法', src:'ds/13.html', date: '2021-11-19'},
     {title:'动态规划与贪心算法', src:'ds/14.html'},
-    {title:'计算几何', src:'ds/15.html', isnew: true},
+    {title:'计算几何', src:'ds/15.html'},
   ]
 }, {
   title:'机器学习',

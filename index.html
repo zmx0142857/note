@@ -517,6 +517,12 @@ function jumpto(pos) {
   };
 }
 
+// a month
+function isRecent (dateStr) {
+  if (!dateStr) return false
+  return new Date() - new Date(dateStr) < 30 * 86400 * 1000
+}
+
 function loadBook() {
   //console.log('load book');
   var bookData = tocData[book.value];
@@ -537,7 +543,7 @@ function loadBook() {
       // a.href = book.value + '/' + tableOfContents[i].articles[j].src;
       // var li = $('<li>', a);
       li.onclick = jumpto([i, j]);
-      if (tableOfContents[i].articles[j].isnew)
+      if (isRecent(tableOfContents[i].articles[j].date))
         li.classList.add('isnew');
       ul.appendChild(li);
     }

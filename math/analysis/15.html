@@ -1,11 +1,319 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>多元数量函数微分学</title>
+    <title>多元函数微分学</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
+
+<h2>数量函数</h2>
+
+<h3>偏导数与微分</h3>
+
+<p class="definition">
+  <b>偏导数</b>
+  将 `n` 元数量函数 `f` 视为其中一个变元 `x^i`
+  的函数, 其它变元固定, 就得到一元函数
+  `varphi: x^i mapsto f(x^1, cdots, x^n)`. 定义 `f` 关于变元 `x^i`
+  的偏导数为
+  <span class="formula">
+    `(del f)/(del x^i) = varphi'(x^i)`,<br>
+    `(del f)/(del x^i)|_(x_0)`
+    `= lim_(h to 0) (f(x_0^1, cdots, x_0^i + h, cdots, x_0^n)
+    - f(x_0^1, cdots, x_0^i, cdots, x_0^n)) / h`.
+  </span>
+</p>
+
+<p class="definition">
+  <b>微分</b>
+  设 `n` 元数量函数 `f` 在 `x_0 in RR^n` 的邻域上有定义, 若 `f` 在 `x_0`
+  附近的变化 `f(x_0 + h) - f(x_0)` 近似于一个线性函数 `varphi: h mapsto
+  alpha * h`, 其中 `alpha, h in RR^n`, "`*`" 表示向量内积,
+  就称它在该点可微:
+  <span class="formula">
+    `f(x_0 + h) = f(x_0) + alpha * h + o(|h|)`, `quad h to 0`,
+    <span class="label" id="for-diff-def"></span>
+  </span>
+  即
+  <span class="formula">
+    `lim_(h to 0) (f(x_0+h) - f(x_0) - alpha * h)/|h| = 0`.
+  </span>
+  线性函数 `varphi: h mapsto alpha * h` 称为 `f` 在 `x_0` 的微分,
+  一般记为
+  <span class="formula">
+    `"d"f(x_0) = alpha * dx = alpha_1 dx^1 + cdots + alpha_n dx^n`.
+  </span>
+</p>
+
+<p class="corollary">
+  <b>可微必连续</b>
+  设 `f` 在 `x_0` 处可微, 在 <a class="ref" href="#for-diff-def"></a>
+  两边令 `h to 0` 就得到 `lim_(h to 0) f(x_0 + h) = f(x_0)`.
+</p>
+
+<p class="corollary">
+  <b>可微则偏导数存在</b>
+  设 `f` 在 `x_0` 处可微, 在 <a class="ref" href="#for-diff-def"></a>
+  中取 `h = (0, cdots, h^i, cdots, 0)` 就有
+  <span class="formula">
+    `f(x_0 + h) = f(x_0) + alpha^i h^i + o(|h_i|)`
+  </span>
+  故
+  <span class="formula">
+    `(del f)/(del x^i)(x_0) = lim_(h to 0) (f(x_0 + h) - f(x_0))/h_i
+    = alpha^i`.
+  </span>
+</p>
+
+<p class="corollary">
+  <b>偏导连续则可微</b>
+  设 `f` 在 `x_0` 的邻域上关于各变元存在偏导数, 且这些偏导数在 `x_0`
+  处连续, 则 `f` 在 `x_0` 可微.
+</p>
+
+<p class="proof">
+  记号简单起见, 以二元函数为例.
+  在 `(x_0, y_0)` 的邻域上应用一元函数的微分中值定理,
+  <span class="formula">
+    `f(x, y) - f(x_0, y_0)`
+    `= f(x, y) - f(x_0, y) + f(x_0, y) - f(x_0, y_0)`
+    `= (del f)/(del x)(xi, y)(x-x_0) + (del f)/(del y)(x_0, eta)(y-y_0)`,
+  </span>
+  其中 `xi` 在 `x_0` 与 `x` 之间, `eta` 在 `y_0` 与 `y` 之间.
+  由于偏导数连续, 当 `(x, y) to (x_0, y_0)` 时,
+  <span class="formula">
+    `(del f)/(del x)(xi, y) to (del f)/(del x)(x_0, y_0)`,
+    `quad (del f)/(del y)(x_0, eta) to (del f)/(del y)(x_0, y_0)`.
+  </span>
+  从而
+  <span class="formula">
+    `f(x, y) - f(x_0, y_0)`
+    `= (del f)/(del x)(x_0, y_0)(x-x_0) + o(|x-x_0|)`
+    `+ (del f)/(del y)(x_0, y_0)(y-y_0) + o(|y-y_0|)`
+    `= (del f)/(del x)(x_0, y_0)(x-x_0)
+    + (del f)/(del y)(x_0, y_0)(y-y_0) + o(r)`,
+  </span>
+  其中 `r = sqrt((x-x_0)^2 + (y-y_0)^2)`, 即 `f` 在 `(x_0, y_0)` 可微.
+</p>
+
+<p class="remark">
+  若 `f` 在定义域 `D` 上关于各变元有连续的偏导数,
+  就称它<b>连续可微</b>, 记为 `f in C^1(D)`.
+</p>
+
+<h3>混合偏导数</h3>
+
+<p class="theorem">
+  <b>一阶偏导可微则混合偏导相等 (Young)</b>
+  设二元函数 `f` 在 `P_0(x_0, y_0)` 的邻域上存在偏导数, 且 `f_x`, `f_y`
+  都在 `P_0` 可微, 则
+  <span class="formula">
+    `f_(x y)(x_0, y_0) = f_(y x)(x_0, y_0)`.
+  </span>
+</p>
+
+<p class="proof">
+  构造函数
+  <span class="formula">
+    `g(h) = f(x_0+h,y_0+h) - f(x_0+h,y_0) - f(x_0,y_0+h) + f(x_0,y_0)`,
+  </span>
+  下证
+  <span class="formula">
+    `g(h) = f_(y x)(x_0,y_0) h^2 + o(h^2)`
+    `= f_(x y)(x_0,y_0) h^2 + o(h^2)`,
+    `quad h to 0`,
+  </span>
+  从而得到定理的结论. 事实上对固定的充分小的 `h`, 令
+  <span class="formula">
+    `varphi(x) = f(x, y_0 + h) - f(x, y_0)`,
+  </span>
+  则由微分中值定理,
+  <span class="formula">
+    `g(h) = varphi(x_0+h) - varphi(x_0)`
+    `= varphi'(x_0 + theta h) h`
+    `= [f_x(x_0 + theta h, y_0 + h) - f_x(x_0 + theta h, y_0)]h`.
+  </span>
+  注意在 `P_0` 处 `f_x` 可微, 故成立
+  <span class="formula">
+    `(g(h))/h`
+    `= (f_x + f_(x x)theta h + f_(y x) h + o(h))`
+    `- (f_x + f_(x x)theta h + o(h))`
+    `= f_(y x) h + o(h)`
+    `quad h to 0`.
+  </span>
+  同理考虑函数 `psi(y) = f(x_0 + h, y) - f(x_0, y)` 可得另一个等式.
+</p>
+
+<p class="theorem">
+  <b>混合偏导连续则相等 (Schwartz)</b>
+  设二元函数 `f` 在 `P_0(x_0, y_0)` 的邻域上存在二阶混合偏导数 `f_(x y)`,
+  `f_(y x)`, 且两个混合偏导数在 `P_0` 连续, 则
+  <span class="formula">
+    `f_(x y)(x_0, y_0) = f_(y x)(x_0, y_0)`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `g(h, k) = f(x_0+h,y_0+k) - f(x_0+h,y_0) - f(x_0,y_0+k)
+  + f(x_0,y_0)`,
+  则
+  <span class="formula">
+    `f_(x y)(x_0,y_0) = lim_(h to 0) lim_(k to 0) (g(h, k))/(h k)`,<br>
+    `f_(y x)(x_0,y_0) = lim_(k to 0) lim_(h to 0) (g(h, k))/(h k)`.
+  </span>
+  下面证明这两个累次极限可交换.
+  对固定的充分小的 `k`, 令
+  <span class="formula">
+    `varphi(x) = f(x, y_0 + k) - f(x, y_0)`,
+  </span>
+  运用两次微分中值定理有
+  <span class="formula">
+    `g(h, k)`
+    `= varphi(x_0+h) - varphi(x_0)`
+    `= varphi'(x_0 + theta_1 h) k`
+    `= [f_x(x_0 + theta_1 h, y_0 + k) - f_x(x_0 + theta_1 h, y_0)] k`
+    `= f_(y x)(x_0 + theta_1 h, y_0 + theta_2 k) h k`.
+  </span>
+  令 `(h, k) to (0, 0)`, 由 `f_(y x)` 在 `P_0` 连续得
+  <span class="formula">
+    `lim_((h,k) to (0,0)) g(h, k)/(h k) to f_(y x)(x_0, y_0)`.
+  </span>
+  同理考虑函数 `psi(y) = f(x_0+h, y) - f(x_0, y)` 可得
+  <span class="formula">
+    `lim_((h,k) to (0,0)) g(h, k)/(h k) to f_(x y)(x_0, y_0)`.
+  </span>
+  因此两个混合偏导数在 `(x_0, y_0)` 相等.
+</p>
+
+<ol class="definition">
+  <li><b>`k` 阶可微</b>
+    若 `n` 元数量函数 `f` 在 `x_0` 的邻域上存在各个 `k-1` 阶偏导数 (`k ge
+    2`),
+    且所有 `k-1` 阶偏导数在 `x_0` 可微, 则称 `f` 在 `x_0` 是
+    `k` 阶可微的.
+  <li><b>`k` 阶可微蕴涵 `k-1` 阶可微</b>
+    若 `f` 在 `x_0` 处二阶可微, 由定义 `f` 的所有一阶偏导数连续, 从而 `f`
+    在 `x_0` 处可微. 一般地, `k` 阶可微蕴涵 `k-1` 阶可微.
+  </li>
+  <li><b>`k` 阶连续可微</b>
+    若 `f` 在定义域 `D` 上有 `k` 阶偏导数, 且所有 `k` 阶偏导数在 `D`
+    上连续, 于是 `f` 在 `D` 上的 `k-1` 阶偏导数均可微,
+    我们称 `f` 在 `D` 上 `k` 阶连续可微, 记为 `f in C^k(D)`.
+    `k` 阶连续可微蕴涵 `k` 阶可微.
+  </li>
+</ol>
+
+<p class="corollary">
+  由 Young 定理得: 若 `f` 在 `x_0` 处 `k` 阶可微, 则它在该点直到 `k`
+  阶的所有混合偏导数都与次序无关.
+</p>
+
+<h3>隐函数</h3>
+
+<p class="example">
+  [来自 同济高数第七版]
+  已知两个连续可微函数 `f, F`, 满足 `y = f(x, t)`,
+  且 `F(x, y, t) = 0` 确定一个隐函数 `t(x, y)`. 求 `dy/dx`.
+</p>
+
+<p class="solution">
+  由隐函数定理知 `(del t)/(del x) = -F_1' // F_3'`,
+  `(del t)/(del y) = -F_2' // F_3'`.
+  使用全微分的链式法则,
+  <span class="formula">
+    `dy/dx = f_1' + f_2' dt/dx`
+    `= f_1' + f_2'((del t)/(del x) + (del t)/(del y) dy/dx)`.
+  </span>
+  解得
+  <span class="formula">
+    `dy/dx = (f_1' + f_2' (del t)/(del x))/(1 - f_1'(del t)/(del y))`
+    `= (f_1' F_3' - f_2' F_1')/(F_3' + f_2' F_2')`.
+  </span>
+</p>
+
+<h3>齐次函数</h3>
+
+<ol class="theorem">
+  <b>齐次函数的 Euler 定理</b>
+  设 `f(bm x)` 是 `D sube RR^n` 到 `RR` 的可微函数, `alpha in RR`, 则
+  <li>若 `f` 是 `alpha` 次齐次函数, 即 `f` 满足以下函数方程:
+    <span class="formula">
+      `f(k bm x) = k^alpha f(bm x)`, `quad AA k in RR`,
+      <span class="label" id="eq-homogeneous"></span>
+    </span>
+    则 `(del f)/(del bm x)
+    := ((del f)/(del x_1), cdots, (del f)/(del x_n))`
+    是 `alpha-1` 次齐次函数.
+  </li>
+  <li>`f` 是齐次函数当且仅当它满足下面的偏微分方程 (Euler 方程):
+    <span class="formula">
+      `(del f)/(del bm x) * bm x = alpha f(bm x)`.
+      <span class="label" id="eq-euler"></span>
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>在函数方程 <a class="ref" href="#eq-homogeneous"></a>
+    两边对 `bm x` 求导,
+    <span class="formula">
+      `k (del f)/(del bm x) (k bm x) = k^alpha (del f)/(del bm x)`,
+    </span>
+    这指出 `(del f)/(del bm x)` 是 `alpha-1` 次齐次的.
+  </li>
+  <li>先设 `f` 为 `alpha` 次齐次函数.  在函数方程
+    <a class="ref" href="#eq-homogeneous"></a> 两边对 `k` 求导,
+    <span class="formula">
+      `(del f)/(del bm x)(k bm x) * bm x = alpha k^(alpha-1) f(bm x)`,
+    </span>
+    取 `k = 1` 即得 <a class="ref" href="#eq-euler"></a>.<br/>
+    再设 Euler 方程成立, 取 `bm x = k bm x` 有
+    <span class="formula">
+      `(del f)/(del bm x)(k bm x) * (k bm x) = alpha f(k bm x)`,
+    </span>
+    于是
+    <span class="formula">
+      `"d"/("d"k) f(k bm x)`
+      `= (del f)/(del bm x)(k bm x) * bm x`
+      `= alpha/k f(k bm x)`.
+    </span>
+    这是关于函数 `g(k) = f(k bm x)` 的常微分方程, 通解为
+    <span class="formula">
+      `f(k bm x) = c k^alpha`.
+    </span>
+    取 `k = 1` 即得 `c = f(bm x)`, 因此
+    <span class="formula">
+      `f(k bm x) = k^alpha f(bm x)`.
+    </span>
+  </li>
+</ol>
+
+<p class="example">
+  `f(x, y) = x^2 + 3 x y + y^2` 是二次齐次函数, 我们有
+  <span class="formula">
+    `(del f)/(del x) x + (del f)/(del y) y = 2 f`.
+  </span>
+</p>
+
+<p class="example">
+  [来自 我是得不到的i]
+  若 `f(x, y)` 是可微的零阶齐次函数, `y != 0`,
+  则存在一元可微函数 `varphi` 使得 `f = varphi(x/y)`.
+</p>
+
+<p class="proof">
+  设 `u = x/y`, `v = y`, 换元得 `f(x, y) = varphi(u, v)`. 下证 `(del
+  varphi)/(del v) = 0`, 从而 `varphi` 仅依赖于 `u`. 事实上, 由 Euler 方程
+  <span class="formula">
+    `0 = x (del f)/(del x) + y (del f)/(del y)`
+    `= x ((del varphi)/(del u) 1/y + (del varphi)/(del v) * 0)
+    + y ((del varphi)/(del u) (-x/y^2) + (del varphi)/(del v))`
+    `= y (del varphi)/(del v)`.
+  </span>
+</p>
+
+<h2>向量函数</h2>
 
 <p class="example">
 	<b>Jacobi 矩阵</b>
@@ -231,106 +539,6 @@
 		</span>
 	</li>
 </ol>
-
-<p class="example">
-  [来自 同济高数第七版]
-  已知两个连续可微函数 `f, F`, 满足 `y = f(x, t)`,
-  且 `F(x, y, t) = 0` 确定一个隐函数 `t(x, y)`. 求 `dy/dx`.
-</p>
-
-<p class="solution">
-  由隐函数定理知 `(del t)/(del x) = -F_1' // F_3'`,
-  `(del t)/(del y) = -F_2' // F_3'`.
-  使用全微分的链式法则,
-  <span class="formula">
-    `dy/dx = f_1' + f_2' dt/dx`
-    `= f_1' + f_2'((del t)/(del x) + (del t)/(del y) dy/dx)`.
-  </span>
-  解得
-  <span class="formula">
-    `dy/dx = (f_1' + f_2' (del t)/(del x))/(1 - f_1'(del t)/(del y))`
-    `= (f_1' F_3' - f_2' F_1')/(F_3' + f_2' F_2')`.
-  </span>
-</p>
-
-<ol class="theorem">
-  <b>齐次函数的 Euler 定理</b>
-  设 `f(bm x)` 是 `D sube RR^n` 到 `RR` 的可微函数, `alpha in RR`, 则
-  <li>若 `f` 是 `alpha` 次齐次函数, 即 `f` 满足以下函数方程:
-    <span class="formula">
-      `f(k bm x) = k^alpha f(bm x)`, `quad AA k in RR`,
-      <span class="label" id="eq-homogeneous"></span>
-    </span>
-    则 `(del f)/(del bm x)
-    := ((del f)/(del x_1), cdots, (del f)/(del x_n))`
-    是 `alpha-1` 次齐次函数.
-  </li>
-  <li>`f` 是齐次函数当且仅当它满足下面的偏微分方程 (Euler 方程):
-    <span class="formula">
-      `(del f)/(del bm x) * bm x = alpha f(bm x)`.
-      <span class="label" id="eq-euler"></span>
-    </span>
-  </li>
-</ol>
-
-<ol class="proof">
-  <li>在函数方程 <a class="ref" href="#eq-homogeneous"></a>
-    两边对 `bm x` 求导,
-    <span class="formula">
-      `k (del f)/(del bm x) (k bm x) = k^alpha (del f)/(del bm x)`,
-    </span>
-    这指出 `(del f)/(del bm x)` 是 `alpha-1` 次齐次的.
-  </li>
-  <li>先设 `f` 为 `alpha` 次齐次函数.  在函数方程
-    <a class="ref" href="#eq-homogeneous"></a> 两边对 `k` 求导,
-    <span class="formula">
-      `(del f)/(del bm x)(k bm x) * bm x = alpha k^(alpha-1) f(bm x)`,
-    </span>
-    取 `k = 1` 即得 <a class="ref" href="#eq-euler"></a>.<br/>
-    再设 Euler 方程成立, 取 `bm x = k bm x` 有
-    <span class="formula">
-      `(del f)/(del bm x)(k bm x) * (k bm x) = alpha f(k bm x)`,
-    </span>
-    于是
-    <span class="formula">
-      `"d"/("d"k) f(k bm x)`
-      `= (del f)/(del bm x)(k bm x) * bm x`
-      `= alpha/k f(k bm x)`.
-    </span>
-    这是关于函数 `g(k) = f(k bm x)` 的常微分方程, 通解为
-    <span class="formula">
-      `f(k bm x) = c k^alpha`.
-    </span>
-    取 `k = 1` 即得 `c = f(bm x)`, 因此
-    <span class="formula">
-      `f(k bm x) = k^alpha f(bm x)`.
-    </span>
-  </li>
-</ol>
-
-<p class="example">
-  `f(x, y) = x^2 + 3 x y + y^2` 是二次齐次函数, 我们有
-  <span class="formula">
-    `(del f)/(del x) x + (del f)/(del y) y = 2 f`.
-  </span>
-</p>
-
-<p class="example">
-  [来自 我是得不到的i]
-  若 `f(x, y)` 是可微的零阶齐次函数, `y != 0`,
-  则存在一元可微函数 `varphi` 使得 `f = varphi(x/y)`.
-</p>
-
-<p class="proof">
-  设 `u = x/y`, `v = y`, 换元得 `f(x, y) = varphi(u, v)`. 下证 `(del
-  varphi)/(del v) = 0`, 从而 `varphi` 仅依赖于 `u`. 事实上, 由 Euler 方程
-  <span class="formula">
-    `0 = x (del f)/(del x) + y (del f)/(del y)`
-    `= x ((del varphi)/(del u) 1/y + (del varphi)/(del v) * 0)
-    + y ((del varphi)/(del u) (-x/y^2) + (del varphi)/(del v))
-    `= y (del varphi)/(del v)`.
-  </span>
-</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
