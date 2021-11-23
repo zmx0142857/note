@@ -18,6 +18,14 @@ var scripts = doc.getElementsByTagName('script');
 var scriptName = scripts[scripts.length-1].getAttribute('src');
 var prefix = scriptName.slice(0, scriptName.indexOf('js'));
 
+// 重定向到首页
+if (window.parent === window) {
+  var replaced = location.pathname
+    .replace(/(\/note\/|\/)/, '$1#')
+    .replace(/\.html$/, '')
+  location.href = replaced
+}
+
 if (typeof asciimath == 'undefined')
     asciimath = {};
 if (typeof asciimath.katexpath == 'undefined')
@@ -601,4 +609,3 @@ if (/^https?:$/.test(location.protocol) && location.hostname !== 'localhost')
   loadComment()
 
 })(window);
-

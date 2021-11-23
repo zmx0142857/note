@@ -53,7 +53,7 @@ math: {
     {title:'函数列与函数项级数', src:'analysis/11.html'},
     {title:'Fourier 级数', src:'analysis/13.html'},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
-    {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-21'},
+    {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-22'},
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
     {title:'曲线与曲面积分', src:'analysis/20.html'},

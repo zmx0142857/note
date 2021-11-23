@@ -400,7 +400,7 @@ AM.symbols = AM.symbols.concat([
 {input:'iiint',tag:'mo',output:'\u222D',tex:null,ttype:CONST,val:true},
 {input:'oiint',tag:'mo',output:'\u222F',tex:null,ttype:CONST,val:true},
 {input:'oiiint',tag:'mo',output:'\u2230',tex:null,ttype:CONST,val:true},
-{input:'laplace',tag:'mtext',output:'\u0394',ttype:CONST},
+{input:'laplace',tag:'mtext',output:'\u0394',tex:'Delta',ttype:CONST,notexcopy:true},
 {input:'==',tag:'mo',output:'\u2550'.repeat(2),tex:null,ttype:CONST,val:true},
 {input:'====',tag:'mo',output:'\u2550'.repeat(4),tex:null,ttype:CONST,val:true},
 {input:'||',tag:'mo',output:'\u2225',tex:null,ttype:CONST,val:true},
@@ -1120,8 +1120,8 @@ function parseMathTex(str) {
     katex.render(str, node);
   } catch (e) {
     node.className = 'katex-error';
-    console.log(str);
-    throw e
+    node.innerText = e.message;
+    console.warn('parse error:', str);
   }
   return node;
 }

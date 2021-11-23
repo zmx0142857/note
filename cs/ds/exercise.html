@@ -355,9 +355,9 @@ height_nonrec(root):
 		cur_len = queue.len
 		loop cur_len:
 			root = queue.dequeue()
-			if root-&gt;left:		
+			if root-&gt;left:
 				queue.enqueue(root-&gt;left)
-			if root-&gt;right:		
+			if root-&gt;right:
 				queue.enqueue(root-&gt;right)
 		++level
 	return level
@@ -389,7 +389,7 @@ init_pre_in(pre_lo, pre_hi, in_lo, in_hi):
 	if pre.lo &lt;= pre.hi:
 		return NULL
 	root = new BinaryTreeNode(pre[pre_lo], NULL, NULL)
-	i = in_lo 
+	i = in_lo
 	while in[i] != root-&gt;val:
 		++i
 	left_len = i - in_lo
@@ -431,7 +431,7 @@ is_complete(root):
 n2(root):
 	if !root:
 		return 0
-	return n2(root-&gt;left) + n2(root-&gt;right) + 
+	return n2(root-&gt;left) + n2(root-&gt;right) +
 		(root-&gt;left and root-&gt;right ? 1 : 0)
 </pre>
 </li>
@@ -606,7 +606,7 @@ similar(root1, root2):
 <li><b>在中序线索二叉树中寻找后序前驱</b>
 <pre class="solution">
 # p 的后序前驱是其最后一个子结点. 若 p 是叶子结点,
-# 则它是某棵树的最左下叶子结点. 先找到 p 的中序前驱  s, 若 s 有左子结点, 
+# 则它是某棵树的最左下叶子结点. 先找到 p 的中序前驱  s, 若 s 有左子结点,
 # 则 s-&gt;left 就是 p 的后序前驱; 否则再找 s 的中序前驱,
 # 直到 s 有左子结点, 或者 s 无中序前驱为止.
 post_prev(root, node):
@@ -740,6 +740,17 @@ init_levelorder_deg(val[], deg[], n):
 <p class="solution">
   思路: 保存并维护每个点的偶数最短路与奇数最短路.
 </p>
+
+<p class="example">求所有 n 位回文数.</p>
+<pre class="solution">
+# palindromes(n, 1) 返回 n 位的回文数
+def palindromes(n, start):
+    if n == 1:
+        return [i for i in range(10)]
+    if n == 2:
+        return [11*i for i in range(start, 10)]
+    return [i*10**(n-1) + 10*k + i for i in range(start, 10) for k in palindromes(n-2, 0)]
+</pre>
 
 <script src="../../js/note.js?type=cs"></script>
 </body>

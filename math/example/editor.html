@@ -72,8 +72,8 @@ button {
   font-family: monaco, consolas, monospace;
   padding: 3px;
 }
-#output.error {
-  border: 1px solid crimson;
+.katex-error {
+  color: crimson;
 }
 @media print {
   #outputWrapper {
@@ -737,24 +737,17 @@ var outputWrapper = $('#outputWrapper');
 var help = $('#help');
 
 function render() {
-  output.classList.remove('error');
-  try {
-    if (input.lang == 'asciimath') {
-      output.asciimath = input.value;
-      output.innerHTML = '`' + output.asciimath + '`';
-      if (asciimath) {
-        asciimath.render(output);
-        output.tex = asciimath.texstr;
-      }
-    } else {
-      output.tex = input.value;
-      output.innerHTML = input.value;
-      katex.render(input.value, output);
+  if (input.lang == 'asciimath') {
+    output.asciimath = input.value;
+    output.innerHTML = '`' + output.asciimath + '`';
+    if (asciimath) {
+      asciimath.render(output);
+      output.tex = asciimath.texstr;
     }
-  } catch (e) {
-    console.error(e);
-    output.innerText = e.message;
-    output.classList.add('error');
+  } else {
+    output.tex = input.value;
+    output.innerHTML = input.value;
+    katex.render(input.value, output);
   }
   // 调整输入框大小
   input.setAttribute('rows', Math.max(5, input.value.split('\n').length))
