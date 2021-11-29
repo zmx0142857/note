@@ -38,28 +38,41 @@ L.find(key):
 </pre>
 
 <p class="algorithm">
-    <b>折半查找 (二分查找, binary search)</b>
-    设函数 <code>f</code> 是 <code>[a, b]</code> 到
-    <code>{0, 1}</code> 的单调增函数,
-    下面的 <code>bsearch</code> 算法在区间中寻找满足
-    <code>f(n) = 1</code> 的最小整数 <code>hi</code>
-    和满足 <code>f(n) = 0</code> 的最大整数 <code>lo</code>.
-    我们不妨设 <code>f(a) = 0, f(b) = 1</code>, 这样所求的数就总是存在的.
-    思路是令初值 <code>lo = a, hi = b</code>, 每次将区间缩小一半,
-    直到 <code>hi-lo = 1</code>.
+  <b>折半查找 (二分查找, binary search)</b>
+  设函数 <code>f</code> 是 <code>[a, b]</code> 到
+  <code>{0, 1}</code> 的单调增函数,
+  下面的 <code>bsearch</code> 算法在区间中寻找满足
+  <code>f(n) = 1</code> 的最小整数 <code>hi</code>
+  和满足 <code>f(n) = 0</code> 的最大整数 <code>lo</code>.
+  我们不妨设 <code>f(a) = 0, f(b) = 1</code>, 这样所求的数就总是存在的.
+  思路是令初值 <code>lo = a, hi = b</code>, 每次将区间缩小一半,
+  直到 <code>hi-lo = 1</code>.
 </p>
 
-<pre>
-# f 是增函数, f(lo) = 0, f(hi) = 1
-bsearch(f, lo, hi):
-    while hi-lo &gt; 1:
-        mid = lo + &lfloor;(hi-lo)/2&rfloor;
-        if !f(mid):
-            lo = mid
-        else:
-            hi = mid
-    return lo, hi
-</pre>
+<p> 例如, 为了在升序数组 <code>L</code> 中找到第一个大于 (大于等于, 等于)
+    <code>val</code> 的元素,
+    我们取 <code>f(n) = L[n] &gt;(&ge;,=) val</code>,
+    初值可以设定为 <code>lo = -1, hi = L.length</code>;
+    若算法返回 <code>L.length</code>, 则表示该元素不存在.
+</p>
+
+<div class="playground" value="{ f: (i => [0, 1, 2, 2, 4, 6][i] >= 2), lo: -1, hi: 6 }">
+<p>寻找数组中第一个大于等于 3 的数 hi, 和最后一个小于 2 的数 lo.
+  若前者不存在, 返回数组的长度 6, 若后者不存在, 返回 -1.
+</p>
+<script type="text">
+// f 是增函数, f(lo) = 0, f(hi) = 1
+module.exports = function bsearch (str) {
+  let { f, lo, hi } = Playground.parse(str)
+  while (hi - lo > 1) {
+    const mid = lo + ((hi - lo) >> 1)
+    if (f(mid)) hi = mid
+    else lo = mid
+  }
+  return [lo, hi]
+}
+</script>
+</div>
 
 <ol class="proof">
     <li>在 while 循环末尾处维持不变式: <code>f(lo) = 0, f(hi) = 1</code>.
@@ -75,12 +88,6 @@ bsearch(f, lo, hi):
     </li>
 </ol>
 
-<p> 例如, 为了在升序数组 <code>L</code> 中找到第一个大于 (大于等于, 等于)
-    <code>val</code> 的元素,
-    我们取 <code>f(n) = L[n] &gt;(&ge;,=) val</code>,
-    初值可以设定为 <code>lo = -1, hi = L.length</code>;
-    若算法返回 <code>L.length</code>, 则表示该元素不存在.
-</p>
 <p> 又例如, <code>f</code> 在正整数集上有定义,
     要求满足 <code>f(n) = 1</code> 的最小正整数.
     我们只知道这个数存在, 而 <code>n</code> 的上界尚不清楚.
@@ -607,5 +614,6 @@ find(KeyType k):
 </p>
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>

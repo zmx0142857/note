@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>流体力学基础</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>浅水方程</h2>
+
+[<a href="https://zhuanlan.zhihu.com/p/372837854">来自 alpha 君</a>]
+
+<p>刻画浅水的水深与运动之间的关系. 关键的假设是水的深度远小于其它维度,
+如湖泊、海洋等. 此时忽略水的竖直方向运动, 只考虑水平方向的运动.
+</p>
+
+<p class="example">
+  <b>一维浅水方程</b>
+  假设重力加速度为 `g`,
+  水的密度等于 `1`, 深度为 `h(x, t)`, 速度为 `v(x, t)` (向右为正方向).
+  这里 `x` 是一维变量. 则浅水方程为
+  <span class="formula">
+  `{
+    del/(del t) h + del/(del x) (h v) = 0;
+    del/(del t) (h v) + del/(del x) (h v^2 + g h^2//2) = 0;
+  :}`
+  </span>
+</p>
+
+<ol class="proof">
+  <li>考虑任意区间 `x in [a, b]` 上质量随时间的变化率 `del/(del t) int_a^b h dx`.
+    由<b>质量守恒</b>, 这个量等于单位时间内从左端点流入的质量, 减去从右端点流出的质量: `-[h v]_(x=a)^b`. 于是
+    <span class="formula">
+      `del/(del t) int_a^b h dx + [h v]_(x=a)^b = 0`,
+    </span>
+    即
+    <span class="formula">
+      `int_a^b (del/(del t) h + del/(del x)(h v) ) dx = 0`.
+    </span>
+    由区间的任意性, 就得到第一条方程.
+  </li>
+  <li>类似地, 考虑区间 `x in [a, b]` 上动量随时间的变化率 `del/(del t)
+    int_a^b h v dx`. 由<b>动量守恒</b>, (回忆动量定理 `Delta(m v) = int F
+    dt`), 这个量等于该时刻左右端点的压力之差,
+    加上流入流出的水自身带来的动量变化率. 压力可以用压强 `rho g y = g y`
+    的积分来计算; 水带来的动量变化率是第一条方程中的 `h v` 再乘以 `v` 即 `h
+    v^2`:
+    <span class="formula">
+      `del/(del t) int_a^b h v dx`
+      `= -[F + del/(del t)(m v)]_(x=a)^b`
+      `= -[int_0^h rho g y dy + h v^2]_(x=a)^b`
+      `= -[g h^2//2 + h v^2]_(x=a)^b`.
+    </span>
+    同样由区间的任意性, 两边对 `x` 微分可得第二条方程.
+  </li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
+

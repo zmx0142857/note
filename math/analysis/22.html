@@ -15,44 +15,72 @@
     `grad := (del/(del x_1), cdots, del/(del x_m))`
 </span>
 
+<p>标量场 `f` 具有梯度 `grad f`. 梯度是矢量, 它是导数的推广,
+  只是简单地将求导运算推广到各分量,
+  其加减乘除及函数复合的运算和导数完全一致.
+</p>
+
 <table>
-	<tr>
-		<td>`grad c = 0`</td>
-		<td>`grad * bm c = 0`</td>
-	</tr>
-	<tr>
-		<td>`grad (cf) = c grad f`</td>
-		<td>`grad * (c bm F) = c (grad * bm F)`</td>
-	</tr>
-	<tr>
-		<td>`grad (f +- g) = grad f +- grad g`</td>
-		<td>`grad * (bm F +- bm G) = grad * bm F +- grad * bm G`</td>
-	</tr>
-	<tr>
-		<td>`grad (fg) = g grad f + f grad g`</td>
-		<td>`grad * (f bm F) = grad f * bm F + f (grad * bm F)`</td>
-	</tr>
-	<tr>
-		<td>`grad (f/g) = (g grad f - f grad g) / g^2`</td>
-		<td>`grad xx bm c = bm 0`</td>
-	</tr>
-	<tr>
-		<td>`grad f(g) = ("d"f)/("d"g) grad g`</td>
-		<td>`grad xx (c bm F) = c (grad xx bm F)`</td>
-	</tr>
-	<tr>
-		<td>`grad f(g_1, cdots, g_n) = sum (del f)/(del g_i) grad g_i`</td>
-		<td>`grad xx (bm F +- bm G) = grad xx bm F +- grad xx bm G`</td>
-	</tr>
-	<tr>
-		<td>`grad * (grad f) = (grad * grad) f`</td>
-		<td>`grad xx (f bm F) = grad f xx bm F + f(grad xx bm F)`</td>
-	</tr>
-	<tr>
-		<td>`grad * (grad xx bm F) = 0`</td>
-		<td>`grad xx (grad f) = bm 0`</td>
-	</tr>
+  <tr>
+    <td>`grad c = 0`</td>
+  </tr>
+  <tr>
+    <td>`grad (cf) = c grad f`</td>
+  </tr>
+  <tr>
+    <td>`grad (f +- g) = grad f +- grad g`</td>
+  </tr>
+  <tr>
+    <td>`grad (fg) = g grad f + f grad g`</td>
+  </tr>
+  <tr>
+    <td>`grad (f/g) = (g grad f - f grad g) / g^2`</td>
+  </tr>
+  <tr>
+    <td>`grad f(g) = ("d"f)/("d"g) grad g`</td>
+  </tr>
+  <tr>
+    <td>`grad f(g_1, cdots, g_n) = sum (del f)/(del g_i) grad g_i`</td>
+  </tr>
 </table>
+
+<p>矢量场 `bm F` 具有散度 `grad * bm F` 和旋度 `grad xx bm F`;
+  散度是标量而旋度是矢量.
+</p>
+
+<table>
+  <tr>
+    <td>`grad * bm c = 0`</td>
+    <td>`grad xx bm c = bm 0`</td>
+  </tr>
+  <tr>
+    <td>`grad * (c bm F) = c (grad * bm F)`</td>
+    <td>`grad xx (c bm F) = c (grad xx bm F)`</td>
+  </tr>
+  <tr>
+    <td>`grad * (bm F +- bm G) = grad * bm F +- grad * bm G`</td>
+    <td>`grad xx (bm F +- bm G) = grad xx bm F +- grad xx bm G`</td>
+  </tr>
+  <tr>
+    <td>`grad * (f bm F) = grad f * bm F + f (grad * bm F)`</td>
+    <td>`grad xx (f bm F) = grad f xx bm F + f(grad xx bm F)`</td>
+  </tr>
+  <!--
+  <tr>
+    <td>`grad xx (bm F xx bm G) = (grad * bm G) bm F - (grad * bm F) bm G`</td>
+  </tr>
+  -->
+</table>
+
+<p>
+  梯度场的散度是 laplace 算子 (见下节);
+  梯度场的旋度为零向量, 旋度场的散度为 0.
+  <span class="formula">
+    `grad * (grad f) = (grad * grad) f := grad^2 f`,<br>
+    `grad xx (grad f) = bm 0`,
+    `quad grad * (grad xx bm F) = 0`.
+  </tr>
+</p>
 
 <h3>Laplace 算子</h3>
 
@@ -81,6 +109,12 @@
 		g_i + sum (del f)/(del g_i) laplace g_i`</td>
 	</tr>
 </table>
+
+<p class="proof">
+  如 `laplace(f g) = grad^2(f g)`
+  `= grad * (f grad g + g grad f)`
+  `= f grad^2 g + g grad^2 f + 2 grad f * grad g`.
+</p>
 
 <p>满足 `laplace f -= 0` 的函数称为<b>调和函数</b>.</p>
 

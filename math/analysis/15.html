@@ -539,6 +539,96 @@
 	</li>
 </ol>
 
+<h2>多重指标</h2>
+
+<p class="definition">
+  设 `alpha = (alpha_1, alpha_2, cdots, alpha_n)`,
+  `beta = (beta_1, beta_2, cdots, beta_n)` 是非负整数组成的 `n` 维向量,
+  `x = (x_1, x_2, cdots, x_n) in RR^n`. 定义
+  <span class="formula">
+    `|alpha| = alpha_1 + alpha_2 + cdots + alpha_n`,<br>
+    `alpha! = alpha_1! alpha_2! cdots alpha_n!`,<br>
+    `alpha +- beta = (alpha_1 +- beta_1, cdots, alpha_n +- beta_n)`,<br>
+    `beta le alpha iff beta_1 le alpha_1, beta_2 le alpha_2, cdots, beta_n le alpha_n`,<br>
+    `(alpha;beta) = (alpha_1;beta_1)(alpha_2;beta_2)cdots(alpha_n;beta_n)`,<br>
+    `x^alpha = x_1^(alpha_1) x_2^(alpha_2) cdots x_n^(alpha_n)`,
+  </span>
+  有了这套多重指标的记号, 就可大大简化我们的书写. 设 `|alpha| = k`, `n` 元数量函数 `f` 在定义域上 `k` 次可微, 则 `f` 直到 `k` 阶的偏导数都与求导次序无关, 可以简记
+  <span class="formula">
+    `del^alpha = (del^|alpha|)/(del x_1^(alpha_1) cdots del x_n^(alpha_n))`
+  </span> 
+</p>
+
+<p class="example">
+  <b>多重二项公式</b>
+  <span class="formula">
+    `(x + y)^alpha = sum_(beta le alpha) (alpha; beta) x^(alpha-beta) y^beta`,
+  </span>
+  其中 `x, y in RR^n`, `alpha, beta` 是 `n` 重指标.
+</p>
+
+<p class="proof">
+  左边等于
+  <span class="formula">
+    `(x_1+y_1)^(alpha_1) cdots (x_n+y_n)^(alpha_n)`
+    `= sum_(beta_1 le alpha_1) (alpha_1;beta_1)x_1^(alpha_1-beta_1) y_1^(beta_1) cdots sum_(beta_n le alpha_n) (alpha_n;beta_n)x_n^(alpha_n-beta_n) y_n^(beta_n)`
+    `= sum_(beta_1 le alpha_1) cdots sum_(beta_n le alpha_n) (alpha_1;beta_1) cdots (alpha_n;beta_n) x_1^(alpha_1-beta_1) cdots x_n^(alpha_n-beta_n) y_1^(beta_1) cdots y_n^(beta_n)`
+  </span>
+  等于右边.
+</p>
+
+<ol class="example">
+  用 `epsi_i` 表示第 `i` 个分量为 1, 其余分量都为 0 的 `n` 重指标,
+  用 `0` 表示各分量全为 0 的 `n` 重指标, 则
+  <li>`|epsi_i| = 1`; 若 `alpha le epsi_i`, 则 `alpha = epsi_i` 或 `alpha = 0`;</li>
+  <li>Pascal 恒等式 `(alpha-epsi_i;beta-epsi_i) + (alpha-epsi_i;beta) = (alpha; beta)`.</li>
+</ol>
+
+<p class="example">
+  <b>Leibniz 公式</b>
+  <span class="formula">
+    `del^alpha(f g) = sum_(beta le alpha) (alpha;beta) del^(alpha-beta) f del^beta g`.
+  </span>
+</p>
+
+<p class="proof">
+  对 `|alpha|` 进行归纳. 若 `|alpha| = 1`, 由乘积的求导法则知结论成立;
+  现在设 `|alpha| gt 1`, `epsi_i le alpha`, 记 `gamma = alpha-epsi_i`,
+  则左边等于
+  <span class="formula">
+    `del^(epsi_i) del^gamma(f g)`
+    `= del^(epsi_i) sum_(beta le gamma) (gamma;beta) del^(gamma-beta) f del^beta g`
+    `= sum_(beta le gamma) (alpha-epsi_i;beta) del^(alpha-beta) f del^beta g`
+    `+ sum_(epsi_i le beta le alpha) (alpha-epsi_i;beta-epsi_i) del^(alpha-beta) f del^beta g`
+  </span>
+  等于右边.
+</p>
+
+<h3>多元 Taylor 公式</h3>
+
+<p class="theorem">
+  <span class="formula">
+    `f(x) = sum_(|alpha| le n) 1/alpha! del^alpha f(x) h^alpha + R_(n+1)`<br>
+    `= sum_(k le n) 1/k! (h * grad)^k f(a) + R_(n+1)`
+  </span> 
+  其中余项有三种形式:
+  <span class="formula">
+    `R_(n+1) = sum_(|alpha| = n+1) 1/alpha! del^alpha f(a + theta h) h^alpha`
+    `= 1/(n+1)! (h * grad)^(n+1) f(a + theta h)`,
+    `theta in (0, 1)`
+    <span class="label">(Lagrange 余项)</span>
+  </span>
+  <span class="formula">
+    `R_(n+1) = sum_(|alpha| = n+1) (n+1) h^alpha/alpha! int_0^1 (1-t)^n del^alpha f(a + t h) dt`
+    `= 1/n! int_0^1 (1-t)^n (h * grad)^(n+1) f(a + t h) dt`
+    <span class="label">(积分余项)</span>
+  </span>
+  <span class="formula">
+    `R_(n+1) = O(|h|^(n+1))`
+    <span class="label">(Peano 余项)</span>
+  </span>
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

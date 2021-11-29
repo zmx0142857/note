@@ -870,6 +870,149 @@
 	时, 分别取得最小值, 调和平均, 几何平均, 算术平均和最大值.
 </p>
 
+<ol class="example">
+	<b>二元均值不等式应用</b>
+	<li>已知 `x, y gt 0`, `x + y = 1`, 求 `min(3/x + 4/y)`;</li>
+	<li>已知 `x, y gt 0`, `x + x y + 2y = 30`, 求 `min 1/(x y)`;</li>
+	<li>已知 `x^2 + y^2 = 1`, 求 `max(x+1)(y+2)`;</li>
+	<li>已知 `x gt -1`, 求 `min(x^2+7x+10)/(x+1)`;</li>
+	<li>已知 `x in (0, 1/2)`, 求 `min(2/x + 9/(1-2x))`;</li>
+  <li>已知 `x^2 - 4 x y - 5 y^2 = 5`, 求 `min(x^2+2y^2)`;</li>
+</ol>
+
+<ol class="solution">
+	<li>乘上去.
+		<span class="formula">
+			`3/x + 4/y = (3/x + 4/y)(x+y)`
+			`= 3 + 4 + 3 y/x + 4 x/y`
+			`ge 7 + 2 sqrt(3 y/x * 4 x/y)`
+			`= 7 + 4 sqrt 3`,
+		</span>
+		等号成立当且仅当 `3 y/x = 4 x/y`. 联系 `x+y = 1` 可得
+		`x = 2 sqrt 3 - 3`, `y = 4 - 2 sqrt 3`.
+	</li>
+	<li>解关于 `x y` 的不等式.
+		<span class="formula">
+			`30 = x + 2y + x y ge 2 sqrt(2x y) + x y`,
+		</span>
+		解得 `sqrt(x y) in [-5sqrt2, 3sqrt2]`,
+		因此 `x y le (3sqrt2)^2 = 18`, 即 `1/(x y) ge 1/18`.
+		等号成立当且仅当 `x = 2 y`. 联系 `x + x y + 2y = 30` 可得
+		`x = 6`, `y = 3`.
+	</li>
+	<li></li>
+	<li>令 `y = x+1`, 则 `y gt 0`,
+		<span class="formula">
+			`(x^2+7x+10)/(x+1)`
+			`= ((y-1)^2 + 7(y-1) + 10)/y`
+			`= y + 4/y + 5`
+			`ge 2 sqrt (y * 4/y) + 5 = 9`,
+		</span>
+		等号成立当且仅当 `y = 4/y`, 即 `x = 1`.
+	</li>
+	<li>两个分母都是正数, 因此使用 "乘上去" 的技巧.
+		<span class="formula">
+			`2/x + 9/(1-2x)`
+			`= (2/x + 9/(1-2x)) [(2x) + (1-2x)]`.
+		</span>
+		后面的处理是容易的.
+	</li>
+  <li>通过因式分解, 条件化为 `(x-5y)(x+y) = 5`.
+    令 `m = x-5y`, `n = x+y`, 可解出 `x, y`, 进而
+    <span class="formula">
+      `x^2 + 2 y^2 = (m^2 + 9 n^2 + 2 m n)/12`
+      `ge (2 * 3 m n + 2 m n)/12`
+      `= 10/3`.
+    </span>
+  </li>
+</ol>
+
+<ol class="example">
+	<b>三元均值不等式应用</b>
+	<li>已知 `x gt 0`, 求 `min(3x + 1/(2x^2))`;</li>
+	<li>已知 `x in (0,2)`, 求 `max x^2(2-x)`;</li>
+	<li>已知实数 `x, y` 满足 `x y gt 0`, `x^2 y = 2`, 求 `min(x y + x^2)`;</li>
+</ol>
+
+<ol class="solution">
+	<li>使用三元均值不等式, 需要拆成三项, 其中两项必须相等,
+		否则不满足不等式的取等条件.
+		<span class="formula">
+			`3x + 1/(2x^2)`
+			`= 3/2 x + 3/2 x + 1/(2x^2)`
+			`ge 3 root 3 (3/2 x * 3/2 x * 1/(2x^2))`
+			`= 3/2 root 3 9`,
+		</span>
+		等号成立当且仅当 `3/2 x = 1/(2x^2)`, 解得 `x = 1/(root 3 3)`.
+	</li>
+	<li>
+		<span class="formula">
+			`(x^2 (2-x))/4`
+			`le ((x/2 + x/2 + 2-x)/3)^3 = 8/27`,
+		</span>
+		因此原式 `le 32/27`, 等号成立当且仅当 `x/2 = 2-x`, 即 `x = 4/3`.
+	</li>
+	<li>`x y + x^2 = (x y)/2 + (x y)/2 + x^2`. 后面是处理是容易的.</li>
+</ol>
+
+<ol class="example">
+  <b>均值不等式 (配系数)</b>
+  <li>设 `a, b gt 0`, 求 `min(1/a + a/b^2 + b)`;</li>
+  <li>已知 `x^2 + 2 x y = 1`, 求 `min(x^2 + y^2)`;</li>
+  <li>已知 `x, y gt 0`, `x y^2(x+y) = 4`, 求 `min(2x+y)`.</li>
+</ol>
+
+<ol class="solution">
+  <li>使用四元均值不等式,
+    <span class="formula">
+      `1/a + a/b^2 + b/2 + b/2`
+      `ge 4 root 4 (1/4) = 2 sqrt 2`.
+    </span>
+    等号成立当且仅当 `a = b = sqrt 2`.
+  </li>
+  <li>
+    将 `y = 1/2(1/x - x)` 代入得
+    <span class="formula">
+      `x^2 + y^2`
+      `= 5/4 x^2 + 1/(4 x^2) - 1/2`
+      `ge 2 sqrt(5/4 1/4) - 1/2`
+      `= (sqrt 5-1)/2`.
+    </span>
+    另一种解法是设
+    <span class="formula">
+      `x^2 + y^2`
+      `= a x^2 + b x^2 + y^2`
+      `ge a x^2 + 2 sqrt b x y`.
+    </span>
+    比较系数得
+    <span class="formula">
+      `a + b = 1`, `quad a = sqrt b`,
+    </span>
+    解得 `a = (sqrt 5-1)/2`.
+  </li>
+  <li>设
+    <span class="formula">
+      `2x+y = a x + b y + b y + c(x+y)`
+      `ge 4 root 4(a c b^2 x y^2 (x+y))`
+      `= 4 root 4(4a c b^2)`,
+    </span>
+    比较系数得
+    <span class="formula">
+      `a + c = 2`, `quad 2b+c = 1`.
+    </span>
+    又注意取等条件为
+    <span class="formula">
+      `a x = b y = c (x+y) = k`, 即 `1/a + 1/b = 1/c`,
+    </span>
+    解得
+    <span class="formula">
+      `a = 1 + sqrt2/2`, `quad b = sqrt2/4`, `quad c = 1 - sqrt2/2`.
+    </span>
+    于是原式的最小值为 `2sqrt2`.
+  </li>
+</ol>
+
+
 <h2>三元不等式</h2>
 
 <h3>两个记号</h3>
@@ -1408,6 +1551,175 @@
   前两式相加减去第三式即得结论.
 </p>
 
+<h2>zeta 函数与 eta 函数部分和的估计</h2>
+
+<p>本节通过几个例子给出 `sum_(k=1)^n 1/k^s` 和 `sum_(k=1)^n (-1)^(k-1)/k^s` 的估计.</p>
+
+<p class="example">
+  <b>`s = 2`</b>.  由
+  <span class="formula">
+    `1/k - 1/(k+1)` `= 1/(k(k+1))`
+    `lt 1/k^2`
+    `lt 1/(k(k-1))` `= 1/(k-1) - 1/k`,
+    `quad k ge 2`
+  </span>
+  可得
+  <span class="formula">
+    `3/2 - 1/(n+1) lt sum_(k=1)^n 1/k^2 lt 2 - 1/n`,
+    `quad n ge 2`.
+  </span>
+  一般地, 可以用不等式
+  <span class="formula">
+    `1/(a^2 k^2 + b k + c) lt (或 gt) 1/(a k+u) - 1/(a k+v)`
+  </span>
+  得到通项的估计. 为了使不等式右端在求和时各项可以抵消, 要求 `u-v`
+  是 `a` 的整数倍. 比如
+  <span class="formula">
+    `1/k^2 lt 1/(k^2 - 1)` 或 `1/k^2 lt 1/(k^2 - 1/4)`.
+  </span>
+</p>
+
+<p class="solution">
+  由 `1/k^2 gt 1/k - 1/(k+1)` 求和得
+  <span class="formula">
+    `sum_(k=1)^n 1/k^2 gt sum_(k=1)^n 1/(k(k+1)) = 1 - 1/(n+1)`.
+  </span>
+  然而这个结果没有什么用, 因为仅从第 1 项就可以看出它大于 1.
+  但我们可以从第 2 项开始放缩, 得到
+  <span class="formula">
+    `sum_(k=1)^n 1/k^2 gt 1 + sum_(k=2)^n 1/(k(k+1)) = 3/2 - 1/(n+1)`,
+    `quad n ge 2`.
+  </span>
+  这是一个更好的下界. 现在估计它的上界, 有
+  <span class="formula">
+    `sum_(k=1)^n 1/k^2 lt 2 - 1/n`, `quad n ge 2`.
+  </span>
+  若 `n ge 3`, 从第 3 项开始放缩, 上界可降低到 `7/4 - 1/n`.
+  若从第 4 项开始放缩, 可进一步降低至 `61/36 - 1/n`.
+  事实上, Basel 问题告诉我们,
+  <span class="formula">
+    `sum_(k=1)^oo 1/k^2 = pi^2/6 = 1.644934...`
+  </span>
+</p>
+
+<p class="example">
+  <b>`s = 1/2`</b>. 由
+  <span class="formula">
+    `1/(sqrt k + sqrt(k+1)) lt 1/(2 sqrt k) lt 1/(sqrt
+    k + sqrt(k-1))`,<br/>
+    `1/(2 sqrt k) lt 1/(sqrt(k-1/2) + sqrt(k+1/2))`
+  </span>
+  求和得到
+  <span class="formula">
+    `2(sqrt(n+1)-1) lt sum_(k=1)^n 1/sqrt k lt 2 sqrt n`,<br>
+    `sum_(k=1)^n 1/sqrt k lt sqrt 2 (sqrt(2n+1) - 1)`.
+  </span>
+</p>
+
+<p class="example">
+	`n` 是正整数, 证明: `sum_(k=1)^n 1/sqrt k lt sqrt n(1+sqrt(n/(n+1)))`.
+  这个上界只比 `2 sqrt n` 稍好一点, 但比 `sqrt 2(sqrt(2n+1) - 1)` 差.
+</p>
+
+<p class="proof">
+	记不等式右边为 `a_n`, 则
+	<span class="formula">
+		`a_n = sqrt n + sqrt(n+1) - 1/sqrt(n+1)`.
+	</span>
+	作差分
+	<span class="formula">
+		`Delta a_n = a_n - a_(n-1)`
+		`= 1/sqrt n - 1/sqrt(n+1) + sqrt(n+1) - sqrt(n-1)`.
+	</span>
+	因为 `a_0 = 0`,
+	要证 `sum 1/sqrt n lt a_n`, 只需证 `1/sqrt n lt Delta a_n`, 即证
+	<span class="formula">
+		`1/sqrt n lt 1/sqrt n - 1/sqrt(n+1) + sqrt(n+1) - sqrt(n-1)`,
+	</span>
+	即证
+	<span class="formula">
+		`1/sqrt(n+1) lt sqrt(n+1) - sqrt(n-1)`
+		`= 2/(sqrt(n+1) + sqrt(n-1))`.
+	</span>
+	上式是成立的, 因此原不等式成立.
+</p>
+
+<p class="example">
+  <b>`s = -1/2`</b>.
+  <span class="formula">
+    `sum_(k=1)^n sqrt k gt 2/3 n sqrt(n+1)`,
+  </span>
+  进而
+  <span class="formula">
+    `1/n sum_(k=1)^n sqrt(k/n) gt 1/(n+1) sum_(k=1)^(n+1) sqrt(k/(n+1))`.
+  </span>
+</p>
+
+<p class="proof">
+  `s = -1/2`. 差分, 即证
+  <span class="formula">
+    `sqrt n gt 2/3 (n sqrt(n+1) - (n-1) sqrt n)`,<br>
+    `1/3 sqrt n gt 2/3 n(sqrt(n+1) - sqrt n)`,<br>
+    `(sqrt(n+1) + sqrt n) sqrt n gt 2 n`,
+  </span>
+  显然成立. 现在记 `S_n = sum_(k=1)^n sqrt k`, 下证
+  <span class="formula">
+    `(n+1)^(3/2) S_n gt n^(3/2) S_(n+1)`.
+  </span>
+  即证
+  <span class="formula">
+    `((1+1/n)^(2/3)-1) S_n gt sqrt(n+1)`.
+  </span>
+  由 Bernoulli 不等式, 即证
+  <span class="formula">
+    `3/(2n) S_n gt sqrt(n+1)`,
+  </span>
+  这是上面已证的不等式.
+</li>
+
+<p class="example">
+  [来自 马上开学的菜狗]
+  求 `S = -1 + sqrt 2 - sqrt 3 + sqrt 4 - cdots - sqrt 99 + sqrt 100`
+  的整数部分.
+</p>
+
+<p class="solution">
+  首先给出通项 `sqrt(n+1) - sqrt n = 1/(sqrt n + sqrt(n+1))` 的估计:
+  <span class="formula">
+    `1/2 (sqrt(n+2) - sqrt n)`
+    `= 1/(sqrt(n+2) + sqrt n)`
+    `lt 1/(sqrt n + sqrt(n+1))`
+    `lt 1/(sqrt(n-1) + sqrt(n+1))`
+    `= 1/2(sqrt(n+1) - sqrt(n-1))`.
+  </span>
+  于是
+  <span class="formula">
+    `S = 1/(sqrt 1 + sqrt 2) + 1/(sqrt 3 + sqrt 4) + cdots + 1/(sqrt 99
+    + sqrt 100)`
+    `lt 1/2(sqrt 2 - 0 + sqrt 4 - sqrt 2 + cdots + sqrt 100 - sqrt 98)`
+    `= 1/2 sqrt 100 = 5`.
+  </span>
+  同理 `S gt 1/2(sqrt 101 - 1) ~~ 4.52`.
+  因此 `S` 的整数部分为 4.
+</p>
+
+<p class="example">
+  <b>`s = 1`</b>. 由
+  <span class="formula">
+    <a href="../analysis/2.html">`ln{:(k+1)/k:} lt 1/k lt ln{:k/(k-1):}`, `quad k ge 2`</a>,<br>
+    `2/(2k+1) lt 1/(sqrt(k(k+1)))` (均值不等式)
+  </span>
+  得到
+  <span class="formula">
+    `ln(n+1) lt sum_(k=1)^n 1/k lt 1 + ln n`.
+  </span>
+</p>
+
+<p class="example">
+  `n ge 2` 时
+  <a href="../analysis/2.html#rem-cauchy">`sum_(k=1)^(2n) (-1)^(k-1)/k lt 1/sqrt 2`</a>.
+</p>
+
 <h2>杂例</h2>
 
 <p class="example">
@@ -1451,278 +1763,6 @@
   </span>
   显然成立.
 </p>
-
-<ol class="example">
-	<b>zeta 函数部分和 `sum_(k=1)^n 1/k^s` 的估计</b>
-  <li><b>`s = 2`</b>.  由
-		<span class="formula">
-			`1/k - 1/(k+1)` `= 1/(k(k+1))`
-      `lt 1/k^2`
-      `lt 1/(k(k-1))` `= 1/(k-1) - 1/k`,
-      `quad k ge 2`
-		</span>
-    可得
-    <span class="formula">
-      `3/2 - 1/(n+1) lt sum_(k=1)^n 1/k^2 lt 2 - 1/n`,
-      `quad n ge 2`.
-    </span>
-    一般地, 可以用不等式
-		<span class="formula">
-			`1/(a^2 k^2 + b k + c) lt (或 gt) 1/(a k+u) - 1/(a k+v)`
-		</span>
-		得到通项的估计. 为了使不等式右端在求和时各项可以抵消, 要求 `u-v`
-		是 `a` 的整数倍. 比如
-		<span class="formula">
-			`1/k^2 lt 1/(k^2 - 1)` 或 `1/k^2 lt 1/(k^2 - 1/4)`.
-		</span>
-	</li>
-  <li><b>`s = 1/2`</b>. 由
-		<span class="formula">
-			`1/(sqrt k + sqrt(k+1)) lt 1/(2 sqrt k) lt 1/(sqrt
-			k + sqrt(k-1))`,<br/>
-			`1/(2 sqrt k) lt 1/(sqrt(k-1/2) + sqrt(k+1/2))`
-		</span>
-		求和得到
-    <span class="formula">
-      `2(sqrt(n+1)-1) lt sum_(k=1)^n 1/sqrt k lt 2 sqrt n`,<br>
-      `sum_(k=1)^n 1/sqrt k lt sqrt 2 (sqrt(2n+1) - 1)`.
-    </span>
-  </li>
-  <li><b>`s = 1`</b>. 由
-		<span class="formula">
-      <a href="../analysis/2.html">`ln{:(k+1)/k:} lt 1/k lt ln{:k/(k-1):}`, `quad k ge 2`</a>,<br>
-			`2/(2k+1) lt 1/(sqrt(k(k+1)))` (均值不等式)
-		</span>
-    得到
-    <span class="formula">
-      `ln(n+1) lt sum_(k=1)^n 1/k lt 1 + ln n`.
-    </span>
-	</li>
-  <li>
-    `n ge 2` 时
-    <a href="../analysis/2.html#rem-cauchy">`sum_(k=1)^(2n) (-1)^(k-1)/k lt 1/sqrt 2`</a>.
-  </li>
-</ol>
-
-<ol class="solution">
-  <li> 由 `1/k^2 gt 1/k - 1/(k+1)` 求和得
-		<span class="formula">
-			`sum_(k=1)^n 1/k^2 gt sum_(k=1)^n 1/(k(k+1)) = 1 - 1/(n+1)`.
-		</span>
-		然而这个结果没有什么用, 因为仅从第 1 项就可以看出它大于 1.
-		但我们可以从第 2 项开始放缩, 得到
-		<span class="formula">
-			`sum_(k=1)^n 1/k^2 gt 1 + sum_(k=2)^n 1/(k(k+1)) = 3/2 - 1/(n+1)`,
-			`quad n ge 2`.
-		</span>
-		这是一个更好的下界. 现在估计它的上界, 有
-		<span class="formula">
-			`sum_(k=1)^n 1/k^2 lt 2 - 1/n`, `quad n ge 2`.
-		</span>
-		若 `n ge 3`, 从第 3 项开始放缩, 上界可降低到 `7/4 - 1/n`.
-		若从第 4 项开始放缩, 可进一步降低至 `61/36 - 1/n`.
-		事实上, Basel 问题告诉我们,
-		<span class="formula">
-			`sum_(k=1)^oo 1/k^2 = pi^2/6 = 1.644934...`
-		</span>
-  </li>
-</ol>
-
-<p class="example">
-  [来自 马上开学的菜狗]
-  求 `S = -1 + sqrt 2 - sqrt 3 + sqrt 4 - cdots - sqrt 99 + sqrt 100`
-  的整数部分.
-</p>
-
-<p class="solution">
-  首先给出通项 `sqrt(n+1) - sqrt n = 1/(sqrt n + sqrt(n+1))` 的估计:
-  <span class="formula">
-    `1/2 (sqrt(n+2) - sqrt n)`
-    `= 1/(sqrt(n+2) + sqrt n)`
-    `lt 1/(sqrt n + sqrt(n+1))`
-    `lt 1/(sqrt(n-1) + sqrt(n+1))`
-    `= 1/2(sqrt(n+1) - sqrt(n-1))`.
-  </span>
-  于是
-  <span class="formula">
-    `S = 1/(sqrt 1 + sqrt 2) + 1/(sqrt 3 + sqrt 4) + cdots + 1/(sqrt 99
-    + sqrt 100)`
-    `lt 1/2(sqrt 2 - 0 + sqrt 4 - sqrt 2 + cdots + sqrt 100 - sqrt 98)`
-    `= 1/2 sqrt 100 = 5`.
-  </span>
-  同理 `S gt 1/2(sqrt 101 - 1) ~~ 4.52`.
-  因此 `S` 的整数部分为 4.
-</p>
-
-<p class="example">
-	`n` 是正整数, 证明: `sum_(k=1)^n 1/sqrt k lt sqrt n(1+sqrt(n/(n+1)))`.
-  这个上界只比 `2 sqrt n` 稍好一点, 但比 `sqrt 2(sqrt(2n+1) - 1)` 差.
-</p>
-
-<p class="proof">
-	记不等式右边为 `a_n`, 则
-	<span class="formula">
-		`a_n = sqrt n + sqrt(n+1) - 1/sqrt(n+1)`.
-	</span>
-	作差分
-	<span class="formula">
-		`Delta a_n = a_n - a_(n-1)`
-		`= 1/sqrt n - 1/sqrt(n+1) + sqrt(n+1) - sqrt(n-1)`.
-	</span>
-	因为 `a_0 = 0`,
-	要证 `sum 1/sqrt n lt a_n`, 只需证 `1/sqrt n lt Delta a_n`, 即证
-	<span class="formula">
-		`1/sqrt n lt 1/sqrt n - 1/sqrt(n+1) + sqrt(n+1) - sqrt(n-1)`,
-	</span>
-	即证
-	<span class="formula">
-		`1/sqrt(n+1) lt sqrt(n+1) - sqrt(n-1)`
-		`= 2/(sqrt(n+1) + sqrt(n-1))`.
-	</span>
-	上式是成立的, 因此原不等式成立.
-</p>
-
-<ol class="example">
-	<b>二元均值不等式应用</b>
-	<li>已知 `x, y gt 0`, `x + y = 1`, 求 `min(3/x + 4/y)`;</li>
-	<li>已知 `x, y gt 0`, `x + x y + 2y = 30`, 求 `min 1/(x y)`;</li>
-	<li>已知 `x^2 + y^2 = 1`, 求 `max(x+1)(y+2)`;</li>
-	<li>已知 `x gt -1`, 求 `min(x^2+7x+10)/(x+1)`;</li>
-	<li>已知 `x in (0, 1/2)`, 求 `min(2/x + 9/(1-2x))`;</li>
-  <li>已知 `x^2 - 4 x y - 5 y^2 = 5`, 求 `min(x^2+2y^2)`;</li>
-</ol>
-
-<ol class="solution">
-	<li>乘上去.
-		<span class="formula">
-			`3/x + 4/y = (3/x + 4/y)(x+y)`
-			`= 3 + 4 + 3 y/x + 4 x/y`
-			`ge 7 + 2 sqrt(3 y/x * 4 x/y)`
-			`= 7 + 4 sqrt 3`,
-		</span>
-		等号成立当且仅当 `3 y/x = 4 x/y`. 联系 `x+y = 1` 可得
-		`x = 2 sqrt 3 - 3`, `y = 4 - 2 sqrt 3`.
-	</li>
-	<li>解关于 `x y` 的不等式.
-		<span class="formula">
-			`30 = x + 2y + x y ge 2 sqrt(2x y) + x y`,
-		</span>
-		解得 `sqrt(x y) in [-5sqrt2, 3sqrt2]`,
-		因此 `x y le (3sqrt2)^2 = 18`, 即 `1/(x y) ge 1/18`.
-		等号成立当且仅当 `x = 2 y`. 联系 `x + x y + 2y = 30` 可得
-		`x = 6`, `y = 3`.
-	</li>
-	<li></li>
-	<li>令 `y = x+1`, 则 `y gt 0`,
-		<span class="formula">
-			`(x^2+7x+10)/(x+1)`
-			`= ((y-1)^2 + 7(y-1) + 10)/y`
-			`= y + 4/y + 5`
-			`ge 2 sqrt (y * 4/y) + 5 = 9`,
-		</span>
-		等号成立当且仅当 `y = 4/y`, 即 `x = 1`.
-	</li>
-	<li>两个分母都是正数, 因此使用 "乘上去" 的技巧.
-		<span class="formula">
-			`2/x + 9/(1-2x)`
-			`= (2/x + 9/(1-2x)) [(2x) + (1-2x)]`.
-		</span>
-		后面的处理是容易的.
-	</li>
-    <li>通过因式分解, 条件化为 `(x-5y)(x+y) = 5`.
-        令 `m = x-5y`, `n = x+y`, 可解出 `x, y`, 进而
-        <span class="formula">
-            `x^2 + 2 y^2 = (m^2 + 9 n^2 + 2 m n)/12`
-            `ge (2 * 3 m n + 2 m n)/12`
-            `= 10/3`.
-        </span>
-    </li>
-</ol>
-
-<ol class="example">
-	<b>三元均值不等式应用</b>
-	<li>已知 `x gt 0`, 求 `min(3x + 1/(2x^2))`;</li>
-	<li>已知 `x in (0,2)`, 求 `max x^2(2-x)`;</li>
-	<li>已知实数 `x, y` 满足 `x y gt 0`, `x^2 y = 2`, 求 `min(x y + x^2)`;</li>
-</ol>
-
-<ol class="solution">
-	<li>使用三元均值不等式, 需要拆成三项, 其中两项必须相等,
-		否则不满足不等式的取等条件.
-		<span class="formula">
-			`3x + 1/(2x^2)`
-			`= 3/2 x + 3/2 x + 1/(2x^2)`
-			`ge 3 root 3 (3/2 x * 3/2 x * 1/(2x^2))`
-			`= 3/2 root 3 9`,
-		</span>
-		等号成立当且仅当 `3/2 x = 1/(2x^2)`, 解得 `x = 1/(root 3 3)`.
-	</li>
-	<li>
-		<span class="formula">
-			`(x^2 (2-x))/4`
-			`le ((x/2 + x/2 + 2-x)/3)^3 = 8/27`,
-		</span>
-		因此原式 `le 32/27`, 等号成立当且仅当 `x/2 = 2-x`, 即 `x = 4/3`.
-	</li>
-	<li>`x y + x^2 = (x y)/2 + (x y)/2 + x^2`. 后面是处理是容易的.</li>
-</ol>
-
-<ol class="example">
-  <b>均值不等式 (配系数)</b>
-  <li>设 `a, b gt 0`, 求 `min(1/a + a/b^2 + b)`;</li>
-  <li>已知 `x^2 + 2 x y = 1`, 求 `min(x^2 + y^2)`;</li>
-  <li>已知 `x, y gt 0`, `x y^2(x+y) = 4`, 求 `min(2x+y)`.</li>
-</ol>
-
-<ol class="solution">
-  <li>使用四元均值不等式,
-    <span class="formula">
-      `1/a + a/b^2 + b/2 + b/2`
-      `ge 4 root 4 (1/4) = 2 sqrt 2`.
-    </span>
-    等号成立当且仅当 `a = b = sqrt 2`.
-  </li>
-  <li>
-    将 `y = 1/2(1/x - x)` 代入得
-    <span class="formula">
-      `x^2 + y^2`
-      `= 5/4 x^2 + 1/(4 x^2) - 1/2`
-      `ge 2 sqrt(5/4 1/4) - 1/2`
-      `= (sqrt 5-1)/2`.
-    </span>
-    另一种解法是设
-    <span class="formula">
-      `x^2 + y^2`
-      `= a x^2 + b x^2 + y^2`
-      `ge a x^2 + 2 sqrt b x y`.
-    </span>
-    比较系数得
-    <span class="formula">
-      `a + b = 1`, `quad a = sqrt b`,
-    </span>
-    解得 `a = (sqrt 5-1)/2`.
-  </li>
-  <li>设
-    <span class="formula">
-      `2x+y = a x + b y + b y + c(x+y)`
-      `ge 4 root 4(a c b^2 x y^2 (x+y))`
-      `= 4 root 4(4a c b^2)`,
-    </span>
-    比较系数得
-    <span class="formula">
-      `a + c = 2`, `quad 2b+c = 1`.
-    </span>
-    又注意取等条件为
-    <span class="formula">
-      `a x = b y = c (x+y) = k`, 即 `1/a + 1/b = 1/c`,
-    </span>
-    解得
-    <span class="formula">
-      `a = 1 + sqrt2/2`, `quad b = sqrt2/4`, `quad c = 1 - sqrt2/2`.
-    </span>
-    于是原式的最小值为 `2sqrt2`.
-  </li>
-</ol>
 
 <p class="example">
   <b>定角构圆问题</b>

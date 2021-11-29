@@ -7,7 +7,7 @@ math: {
   toc: [ {
   title:'示例',
   articles: [
-    {title:'公式编辑器', src:'example/editor.html', date: '2021-11-12'},
+    {title:'公式编辑器', src:'example/editor.html', date: '2021-11-23'},
     //{title:'Asciimath', src:'example/asciimath.html'},
     {title:'Mathml', src:'example/mathml.html'},
   ]
@@ -16,7 +16,7 @@ math: {
   articles: [
     {title:'问题', src:'misc/0.html'},
     {title:'三角函数', src:'misc/2.html'},
-    {title:'不等式', src:'misc/3.html'},
+    {title:'不等式', src:'misc/3.html', date:'2021-11-29'},
     {title:'微积分不等式', src:'misc/4.html'},
     {title:'因式分解', src:'misc/5.html'},
     {title:'数学家', src:'misc/6.html'},
@@ -53,11 +53,11 @@ math: {
     {title:'函数列与函数项级数', src:'analysis/11.html'},
     {title:'Fourier 级数', src:'analysis/13.html'},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
-    {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-22'},
+    {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-29'},
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
     {title:'曲线与曲面积分', src:'analysis/20.html'},
-    {title:'场论初步', src:'analysis/22.html'},
+    {title:'场论初步', src:'analysis/22.html', date:'2021-11-25'},
     {title:'分数阶微积分', src:'analysis/23.html'},
     {title:'函数方程', src:'analysis/24.html'},
   ]
@@ -112,7 +112,7 @@ math: {
 }, {
   title:'数值分析',
   articles: [
-    {title:'插值', src:'numeric/2.html'},
+    {title:'插值', src:'numeric/2.html', date:'2021-11-29'},
     {title:'线性方程组', src:'numeric/5.html'},
     {title:'矩阵', src:'numeric/6.html'},
     {title:'非线性方程数值解法', src:'numeric/7.html'},
@@ -194,9 +194,9 @@ math: {
   articles: [
     {title:'引言, 计数原理, 鸽巢原理', src:'comb/1.html'},
     {title:'排列与组合', src:'comb/2.html'},
-    {title:'求解递推式', src:'comb/3.html'},
+    {title:'求解递推式', src:'comb/3.html', date:'2021-11-27'},
     {title:'容斥原理', src:'comb/4.html'},
-    {title:'离散微积分与 Stirling 数', src:'comb/5.html'},
+    {title:'离散微积分与 Stirling 数', src:'comb/5.html', date:'2021-11-27'},
   ]
 }, {
   title:'图论',
@@ -217,7 +217,7 @@ cs: {
   toc: [ {
   title:'数据结构',
   articles: [
-    {title:'数据结构习题', src:'ds/exercise.html'},
+    {title:'数据结构习题', src:'ds/exercise.html', date:'2021-11-22'},
     {title:'其它算法', src:'ds/0.html'},
     {title:'绪论', src:'ds/1.html'},
     {title:'线性表', src:'ds/2.html'},
@@ -227,7 +227,7 @@ cs: {
     {title:'树与二叉树', src:'ds/6.html'},
     {title:'矩阵与广义表', src:'ds/7.html'},
     {title:'图', src:'ds/8.html'},
-    {title:'查找', src:'ds/9.html'},
+    {title:'查找', src:'ds/9.html', date: '2021-11-24'},
     {title:'随机算法', src:'ds/10.html'},
     {title:'排序', src:'ds/11.html'},
     {title:'文件', src:'ds/12.html'},
@@ -287,6 +287,11 @@ physics: {
   title:'力学',
   articles: [
     {title:'质点运动学', src:'mechanics/1.html'},
+  ]
+}, {
+  title:'流体力学',
+  articles: [
+    {title:'流体力学基础', src:'hydromechanics/1.html', date:'2021-11-24'},
   ]
 }, {
   title:'光学',

@@ -26,6 +26,8 @@ win.Modal = function Modal (id, config = {}) {
   this.elem = doc.getElementById(id)
   this.container = doc.createElement('div')
   this.container.appendChild(this.elem)
+  // 解决模态框用键盘无法关闭的问题
+  this.container.setAttribute('aria-hidden', true)
   Object.assign(this.container.style, {
     height: '100%',
     width: '100%',
@@ -56,8 +58,9 @@ win.Modal = function Modal (id, config = {}) {
   body.appendChild(this.container)
 }
 
-Modal.prototype.show = function () {
-  this.container.style.display = 'flex'
+Modal.prototype.toggle = function () {
+  this.container.style.display =
+    this.container.style.display === 'flex' ? 'none' : 'flex'
 }
 
 /**

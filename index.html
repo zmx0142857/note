@@ -313,7 +313,7 @@ li.isnew::after {
   <header>
     <a id="prev-article">&#x276e;</a>
     <div id="book-wrapper">
-      <select name="book" id="book">
+      <select name="book" id="book" title="book">
         <!--&#x2304;-->
       </select>
     </div>
@@ -401,7 +401,7 @@ var article = $('#article'),
 
 var aboutDlg = new Modal('about')
 $('#show-about').onclick = function () {
-  aboutDlg.show()
+  aboutDlg.toggle()
 }
 about.addEventListener('click', function () {
   var degY = parseInt(about.style.getPropertyValue('--flag'))
@@ -428,7 +428,7 @@ function hideNav(flag) {
     yinyang.style.transform = 'none';
     eclipse.style.display = 'none';
     headerVisible(false);
-    console.log('focus');
+    // console.log('focus');
     iframe.focus();
   } else {
     nav.removeAttribute('hidden');
@@ -461,10 +461,10 @@ function createIframe(src, title) {
   iframe.setAttribute('src', src);
   iframe.onload = function() {
     notify.remove()
+    iframe.focus();
   };
   article.insertBefore(iframe, header);
   iframe.contentWindow.handleKeyboard = handleKeyboard;
-  iframe.focus();
 }
 
 function load(key, defaultVal) {

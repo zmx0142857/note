@@ -51,6 +51,73 @@
 	<li>应用 Newton 插值公式立得.</li>
 </ol>
 
+<h2>Hermite 插值</h2>
+
+<p>假设 `f(x) = ax^3 + bx^2 + cx + d`, 于是 `f'(x) = 3ax^2 + 2bx + c`.
+  规定 `f` 及其导数在给定点处的值, 运用待定系数法可以算出 `f` 的表达式:
+</p>
+
+<table>
+<tr>
+  <td>`f(0)`</td>
+  <td>`f(1)`</td>
+  <td>`f'(0)`</td>
+  <td>`f'(1)`</td>
+  <td>`a`</td>
+  <td>`b`</td>
+  <td>`c`</td>
+  <td>`d`</td>
+</tr>
+<tr>
+  <td>1</td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+  <td>2</td>
+  <td>-3</td>
+  <td>0</td>
+  <td>1</td>
+</tr>
+<tr>
+  <td>0</td>
+  <td>1</td>
+  <td>0</td>
+  <td>0</td>
+  <td>-2</td>
+  <td>3</td>
+  <td>0</td>
+  <td>0</td>
+</tr>
+<tr>
+  <td>0</td>
+  <td>0</td>
+  <td>1</td>
+  <td>0</td>
+  <td>1</td>
+  <td>-2</td>
+  <td>1</td>
+  <td>0</td>
+</tr>
+<tr>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+  <td>1</td>
+  <td>1</td>
+  <td>-1</td>
+  <td>0</td>
+  <td>0</td>
+</table>
+
+<p>
+  一般地, 若 `f(x_1) = y_1`, `f(x_2) = y_2`, `f'(x_1) = k_1`, `f'(x_2) =
+  k_2`, 则通过线性叠加得到
+  <span class="formula">
+    `f(x) = y_1 f_1(t) + y_2 f_2(t) + k_1 f_3(t) + k_2 f_4(t)`,
+  </span>
+  其中, `x = a + (b-a) t`, `f_1` 到 `f_4` 是上面 4 个问题的解.
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

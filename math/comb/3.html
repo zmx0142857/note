@@ -456,46 +456,50 @@
 		`quad j = 0, 1, cdots, m-1`,
 	</span>
 	其中 `lambda` 取遍所有不同的特征根, `m` 是 `lambda` 的重数.
-	我们来说明它们确实是方程的解. 这只需证明下面的引理:
+	我们来说明它们确实是方程的解, 即证
+    <span class="formula">
+      `sum_(i=0)^k a_i (n+i)^j lambda^(n+i) = 0`.
+    </span>
+    这只需证明下面的引理:
 </p>
 
 <p class="lemma">
-	设 `lambda != 0` 是多项式 `f(x) = sum_(i=0)^n a_i x^i`
-	的 `m` 重根 (`m ge 1`), 那么
-	<span class="formula">
-		`sum_(i=0)^n a_i lambda^i (x+i)^j = 0`,
-		`quad j = 0, 1, cdots, m-1`.
-	</span>
+  设 `lambda != 0` 是多项式 `f(x) = sum_(i=0)^k a_i x^i`
+  的 `m` 重根 (`m ge 1`), 那么
+  <span class="formula">
+    `sum_(i=0)^k a_i (n+i)^j lambda^i = 0`,
+    `quad j = 0, 1, cdots, m-1`.
+  </span>
 </p>
 
 <ol class="proof">
-	当 `j = 0` 时, 显然 `sum_(i=0)^n a_i lambda^i = 0`. 下面证明分两步:
-	<li>先证 `lambda` 是 `sum_(i=0)^n a_i i^j x^i` 的 `m-j` 重根,
-		`j = 0, 1, cdots, m-1`. (约定 `0^0 = 1`).
-		`j = 0` 的情形, 条件已经给出.  现在设 `lambda` 是
-		`sum_(i=0)^n a_i i^(j-1) x^i` 的 `m-j+1` 重根, 则它是其导式
-		<span class="formula">
-			`sum_(i=1)^n a_i i^j x^(i-1)`
-		</span>
-		的 `m-j` 重根, 从而是
-		<span class="formula">
-			`sum_(i=0)^n a_i i^j x^i`
-			`= sum_(i=1)^n a_i i^j x^i`
-			`= x sum_(i=1)^n a_i i^j x^(i-1)`
-		</span>
-		的 `m-j` 重根 (另一个根显然是 `0`).
-	</li>
-	<li>再设引理的结论对 `j-1` 成立, 则
-		<span class="formula">
-			`sum_(i=0)^n a_i lambda^i (x+i)^j`
-			`= x sum_(i=0)^n a_i lambda^i (x+i)^(j-1)`
-			`  + sum_(i=0)^n a_i i lambda^i (x+i)^(j-1)`
-			`= x * 0 + sum_(i=0)^n a_i lambda^i sum_(k=0)^(j-1)
-			(j-1;k) i^(k+1) x^(j-1-k)`
-			`= sum_(k=0)^(j-1) (j-1;k) x^(j-1-k)
-			sum_(i=0)^n a_i lambda^i i^(k+1) = 0`.
-		</span>
-	</li>
+  当 `j = 0` 时, 显然 `sum_(i=0)^k a_i lambda^i = 0`. 下面证明分两步:
+  <li>先证 `lambda` 是 `f_j(x) = sum_(i=0)^k a_i i^j x^i` 的 `m-j` 重根,
+    `j = 0, 1, cdots, m-1` (约定 `0^0 = 1`).
+    `j = 0` 的情形, 条件已经给出.  现在设 `j gt 0`, 且 `lambda` 是
+    `f_(j-1)(x) = sum_(i=0)^k a_i i^(j-1) x^i` 的 `m-j+1` 重根, 则它是其导式
+    <span class="formula">
+      `f_(j-1)'(x) = sum_(i=1)^k a_i i^j x^(i-1)`
+    </span>
+    的 `m-j` 重根, 从而是
+    <span class="formula">
+      `f_j(x) = sum_(i=0)^k a_i i^j x^i`
+      `= sum_(i=1)^k a_i i^j x^i`
+      `= x f_(j-1)'(x)`
+    </span>
+    的 `m-j` 重根 (这是因为 `lambda != 0`).
+  </li>
+  <li>再设引理的结论对 `j-1` 成立, 则
+    <span class="formula">
+      `sum_(i=0)^k a_i (n+i)^j lambda^i`
+      `= n sum_(i=0)^k a_i (n+i)^(j-1) lambda^i`
+      `  + sum_(i=0)^k a_i i (n+i)^(j-1) lambda^i`
+      `= n * 0 + sum_(i=0)^k a_i lambda^i sum_(t=0)^(j-1)
+      (j-1;t) i^(t+1) n^(j-1-t)`
+      `= sum_(t=0)^(j-1) (j-1;t) n^(j-1-t)
+      sum_(i=0)^k a_i i^(t+1) lambda^i = 0`.
+    </span>
+  </li>
 </ol>
 
 <p class="remark">
