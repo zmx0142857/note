@@ -24,6 +24,7 @@ if (window.parent === window) {
     .replace(/(\/note\/|\/)/, '$1#')
     .replace(/\.html$/, '')
   location.href = replaced
+  console.log('redirect to index')
 }
 
 if (typeof asciimath == 'undefined')
