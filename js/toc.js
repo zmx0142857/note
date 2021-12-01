@@ -338,3 +338,6 @@ music: {
 }
 // 全新的开始?
 };
+if (typeof module !== 'undefined') {
+  module.exports = tocData;
+}
