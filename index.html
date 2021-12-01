@@ -39,7 +39,8 @@ header {
   height: 45px;
   line-height: 45px;
   font-size: 18px;
-  display: table;
+  display: flex;
+  justify-content: space-between;
   position: absolute;
   width: 100%;
   top: 0;
@@ -56,9 +57,6 @@ header {
 header a {
   height: 45px;
   width: 45px;
-  display: table-cell;
-  position: absolute;
-  top: 0;
   border: none;
   color: inherit;
   font-size: inherit;
@@ -80,11 +78,52 @@ header a:last-child {
   right: 0;
 }
 
-header span {
-  display: table-cell;
+header #article-title {
+  flex: auto;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* 站内搜索 */
+header .search {
+  position: absolute;
+  right: 45px;
+}
+#search-box {
+  font-size: 14px;
+  padding: 8px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 3px;
+  width: 16px;
+  transition: width 0.3s;
+  color: transparent;
+}
+#search-box:focus {
+  width: 160px;
+  background: #333 !important;
+  border: 1px solid #555 !important;
+  color: #fff;
+}
+#search-box::-webkit-input-placeholder {
+  color: transparent;
+}
+#search-button {
+  color: transparent;
+  vertical-align: middle;
+  border: none !important;
+  background: transparent !important;
+  transform: translate(-25px, 2px);
+  pointer-events: none;
+}
+#search-box:focus + #search-button {
+  pointer-events: unset;
+}
+#search-button > img {
+  width: 18px !important;
+  height: 18px !important;
+}
 #nav {
   position: absolute;
   top: 0;
@@ -325,6 +364,9 @@ li.isnew::after {
   <header id="header">
     <a id="yinyang" title="M 键切换目录">&#x262f;</a>
     <span id="article-title"></span>
+    <span class="search">
+      <input id="search-box"><button title="search" id="search-button"></button>
+    </span>
     <a id="show-about" title="About" style="font-size:1.5em">&#x2767;</a>
   </header>
   <div id="eclipse"></div>
@@ -644,5 +686,7 @@ window.onhashchange();
 
 })();
 </script>
+<!-- 站内搜索, 注入 dom #search-box #search-button -->
+<script async src="https://js.sitesearch360.com/plugin/bundle/1027.js"></script>
 </body>
 </html>

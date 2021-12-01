@@ -207,14 +207,19 @@ mtd {
   border-radius: 0 0.5em 0.5em 0.5em;
   background: rgba(0,0,0,0.2);
   margin-top: 0;
+  /*transition: .5s ease;*/
 }
 
 .proof pre, .solution pre, .answer pre, .collapse pre {
-  background: rgba(0,0,0,0);
+  background: transparent;
 }
 
 .hidden {
   display: none;
+  /*height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;*/
 }
 
 .phantom {
@@ -279,23 +284,20 @@ button.toggle-answer {
   color: inherit;
   background: rgba(0, 0, 0, 0.2);
   margin-bottom: 0;
+  border-radius: 0.5em;
 }
 
 button.toggle-answer:hover {
   cursor: pointer;
 }
 
-button.answer-hidden {
-  border-radius: 0.5em;
+button.toggle-answer::after {
+  content: ' \25b6';
+  font-family: 'Dejavu Serif', serif, sans-serif;
 }
 
 button.answer-shown {
   border-radius: 0.5em 0.5em 0 0;
-}
-
-button.answer-hidden::after {
-  content: ' \25b6';
-  font-family: 'Dejavu Serif', serif, sans-serif;
 }
 
 button.answer-shown::after {

@@ -383,28 +383,27 @@ function hideAnswer(list) {
         id = list[i].name + '-' + filename + '-' + (j+1);
         answers[j].id = id;
       }
-      button.onclick = toggleShowAnswer(button, id);
+      button.onclick = toggleShowAnswer(id);
       button.innerHTML = list[i].word;
-      button.className = 'toggle-answer answer-hidden';
+      button.classList.add('toggle-answer');
       answers[j].parentElement.insertBefore(button, answers[j]);
       answers[j].classList.add('hidden');
     }
   }
 }
 
-function toggleShowAnswer(button, id) {
+function toggleShowAnswer(id) {
+  var box = doc.getElementById(id);
   return function() {
-    var answer = doc.getElementById(id);
-    var str = button.innerHTML;
-    if (answer.classList.contains('hidden')) {
-      button.classList.remove('answer-hidden');
-      button.classList.add('answer-shown');
-      answer.classList.remove('hidden');
+    this.classList.toggle('answer-shown');
+    box.classList.toggle('hidden');
+    /*
+    if (box.classList.contains('hidden')) {
+      box.style.height = '0'
     } else {
-      button.classList.remove('answer-shown');
-      button.classList.add('answer-hidden');
-      answer.classList.add('hidden');
+      box.style.height = box.scrollHeight + 'px' // scrollHeight 动画有性能问题
     }
+    */
   };
 }
 
