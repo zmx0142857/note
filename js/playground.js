@@ -38,7 +38,8 @@ for (let playground of list) {
       output.textContent = module.exports(input.value)
       output.classList.remove('error')
     } catch (e) {
-      output.textContent = e + '\n' + e.stack
+      console.error(e)
+      output.textContent = e.stack
       output.classList.add('error')
     }
   }

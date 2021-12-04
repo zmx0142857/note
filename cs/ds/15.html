@@ -9,6 +9,36 @@
 <body>
 
 <p class="algorithm">
+  <b>计算正余弦函数</b>
+  sin: 当 `|x|` 充分小时, 近似有 `sin x ~~ x`; 否则使用三倍角公式递推.
+  cos: 当 `|x|` 充分小时, 近似有 `cos x ~~ 1-x^2/2`; 否则使用二倍角公式递推.
+</p>
+
+<div class="playground" value="{ x: 1 }">
+<script type="text">
+const epsi = 1e-6
+function sin (x) {
+  if (Math.abs(x) < epsi) return x
+  const s = sin(x/3)
+  return s*(3-4*s**2)
+}
+
+function cos (x) {
+  if (Math.abs(x) < epsi) return 1-x**2/2
+  return 2*cos(x/2)**2-1
+}
+
+module.exports = function demo (str) {
+  const { x } = Playground.parse(str)
+  return '     sin(x): ' + sin(x)
+    + '\nMath.sin(x): ' + Math.sin(x)
+    + '\n     cos(x): ' + cos(x)
+    + '\nMath.cos(x): ' + Math.cos(x)
+}
+</script>
+</div>
+
+<p class="algorithm">
   <b>Cordic 算法</b> 是一种计算 `arctan x` 的查表法.
   事先将 `theta_n = arctan 2^-n`, `n = 0, 1, 2, cdots` 存于表中,
   然后逐步旋转逼近.  此方法可以逼近任意一个不超过 `sum_(n ge 0) arctan

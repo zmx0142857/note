@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>算法题模板</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<h2>快读</h2>
+
+<p>快速读入一个整数</p>
+
+<pre>
+int read() {
+    char c = getchar();
+    int ret = 0, sign = 1;
+    while (c &lt; '0' || c &gt; '9') {
+        if (c == '-') sign = -1;
+        c = getchar();
+    }
+    while (c &gt;= '0' &amp;&amp; c &lt;= '9') {
+        // 相当于 ret = ret * 10 + (c - '0')
+        ret = (ret&lt;&lt;3) + (ret&lt;&lt;1) + (c^48);
+        c = getchar();
+    }
+    return ret * sign;
+}
+</pre>
+
+<h2>十进制高精度</h2>
+
+<p>由于平时输入输出都是十进制格式, 此方法简化了输入输出的操作.</p>
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define N 4010
+char buf[N];
+
+// bigint 表示非负整数
+// 低位在先, 高位在后
+typedef struct {
+    int data[N];
+    int len;
+} bigint;
+
+bigint A, B, C;
+bigint *a = &amp;A, *b = &amp;B, *c = &amp;C;
+
+void clear(bigint *a) {
+    memset(a-&gt;data, 0, sizeof(a-&gt;data));
+}
+
+void read(bigint *a) {
+    fgets(buf, N, stdin);
+    int len = strlen(buf);
+    while (buf[len-1] &lt; '0') --len; // 去掉换行符
+    clear(a);
+    for (int i = 0; i &lt; len; ++i) {
+        a-&gt;data[i] = buf[len-1-i] - '0';
+    }
+    a-&gt;len = len;
+}
+
+void print(bigint *a) {
+    for (int i = a-&gt;len-1; i &gt;= 0; --i) {
+        putchar(a-&gt;data[i] + '0');
+    }
+    putchar('
+');
+}
+
+// 相加结果保存在 a
+void add(bigint *a, bigint *b) {
+    int carry = 0;
+    if (b-&gt;len &gt; a-&gt;len) a-&gt;len = b-&gt;len; // 长度取最大
+    for (int i = 0; i &lt; a-&gt;len; ++i) {
+        carry += a-&gt;data[i] + b-&gt;data[i];
+        a-&gt;data[i] = carry % 10;
+        carry /= 10;
+    }
+    // 处理进位
+    if (carry) {
+        a-&gt;data[a-&gt;len++] = 1;
+    }
+}
+
+int iszero(bigint *a) {
+    return a-&gt;len == 1 &amp;&amp; a-&gt;data[0] == 0;
+}
+
+// a 乘 b 结果保存在 c
+void mul(bigint *a, bigint *b, bigint *c) {
+    clear(c);
+    if (iszero(a) || iszero(b)) {
+        c-&gt;len = 1;
+        return;
+    }
+    int carry = 0;
+    c-&gt;len = a-&gt;len + b-&gt;len - 1;
+    for (int k = 0; k &lt; c-&gt;len; ++k) {
+        // 卷积公式
+        int start = k - b-&gt;len + 1;
+        if (start &lt; 0) start = 0;
+        for (int i = start; i &lt;= k &amp;&amp; i &lt; a-&gt;len; ++i) {
+            carry += a-&gt;data[i] * b-&gt;data[k-i];
+        }
+        c-&gt;data[k] = carry % 10;
+        carry /= 10;
+    }
+    // 处理进位
+    if (carry) {
+        c-&gt;data[c-&gt;len++] = carry;
+    }
+}
+
+int main() {
+    read(a);
+    read(b);
+    //add(a, b);
+    //print(a)
+    mul(a, b, c);
+    print(c);
+    return 0;
+}
+</pre>
+
+<script src="../../js/note.js?type=cs"></script>
+</body>
+</html>

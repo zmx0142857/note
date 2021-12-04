@@ -1,136 +1,244 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>内排序</title>
+    <title>排序</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>`O(n^2)` 的算法</h2>
+<script type="text" id="utils">
+module.exports = {
+  swap (L, i, j) {
+    const t = L[i]
+    L[i] = L[j]
+    L[j] = t
+  }
+}
+</script>
+
+<h2>内排序</h2>
+
+<h3>`O(n^2)` 的算法</h3>
 
 <p class="algorithm">
-    <b>冒泡排序</b>
-    每执行一次外层循环, 当前最大的数就会下沉到数组末尾.
+  <b>冒泡排序</b>
+  每执行一次外层循环, 当前最大的数就会下沉到数组末尾.
+  很简单, 但效率低下. 复杂度 `O(n^2)`.
+</p>
+
+<div class="playground" value="[9, 2, 3, 0, 1, 4, 8, 7, 5, 6]">
+<script type="text">
+const { swap } = require('utils')
+module.exports = function bubbleSort (str) {
+  const L = Playground.parse(str)
+  for (let i = L.length-1; i > 0; --i) {
+    for (let j = 0; j < i; ++j) {
+      if (L[j] > L[j+1]) {
+        swap(L, j, j+1)
+      }
+    }
+  }
+  return L
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>插入排序</b>
+  第 i 步循环时, 子数组 <code>L[0..i-1]</code>已经有序, 只需将
+  <code>L[i]</code> 插入到合适位置.
+  时间复杂度 `O(n^2)`.
+  当 <code>L</code> 初始即有序时, 时间复杂度为 `O(n)`.
+</p>
+<div class="playground" value="[9, 2, 3, 0, 1, 4, 8, 7, 5, 6]">
+<script type="text">
+const { swap } = require('utils')
+module.exports = function isort (str) {
+  const L = Playground.parse(str)
+  for (let i = 1; i < L.length; ++i) {
+    const pivot = L[i]
+    let j
+    for (j = i; j >= 1 && L[j-1] > pivot; --j) {
+      L[j] = L[j-1]
+    }
+    L[j] = pivot // 把 pivot 插入到下标 j 的位置
+  }
+  return L
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>Shell 排序</b> 的时间复杂度优于 `O(n^2)`. 它由插入排序改造而来,
+  隐含的常数很小, 往往有不俗的成绩.
+</p>
+
+<div class="playground" value="[9, 2, 3, 0, 1, 4, 8, 7, 5, 6]">
+<script type="text">
+module.exports = function shellSort (str) {
+  const L = Playground.parse(str)
+  for (let gap = L.length >> 1; gap; gap >>= 1) {
+    for (let i = gap; i < L.length; ++i) {
+      const pivot = L[i]
+      let j
+      for (j = i; j >= gap && L[j-gap] > pivot; j -= gap) {
+        L[j] = L[j-gap]
+      }
+      L[j] = pivot
+    }
+  }
+  return L
+}
+</script>
+</div>
+
+<h3>`O(n log n)` 的算法</h3>
+
+<p class="algorithm">
+  <b>快速排序</b>
+</p>
+
+<div class="playground" value="[9, 2, 3, 0, 1, 4, 8, 7, 5, 6]">
+<script type="text" id="qsort">
+// 一趟划分, 返回主元下标
+function partition(L, lo, hi) {
+  const pivot = L[lo]
+  while (lo < hi) {
+    while (lo < hi && L[hi] >= pivot) --hi
+    L[lo] = L[hi]
+    while (lo < hi && L[lo] <= pivot) ++lo
+    L[hi] = L[lo]
+  }
+  L[lo] = pivot
+  return lo // 事实上 lo === hi
+}
+
+// 对 L[lo..hi] 排序
+function qsort(L, lo, hi) {
+  if (lo < hi) {
+    const pivot = partition(L, lo, hi)
+    qsort(L, lo, pivot-1)
+    qsort(L, pivot+1, hi)
+  }
+}
+
+function demo (str) {
+  const L = Playground.parse(str)
+  qsort(L, 0, L.length-1)
+  return L
+}
+
+demo.qsort = qsort
+demo.partition = partition
+module.exports = demo
+</script>
+</div>
+
+<p class="algorithm">
+  <b>次序统计量</b> 求第 k 小的元素 (最小的元素是第 0 小).
+  和快速排序使用相同的 partition 子过程. 但分治时只走一个分支, 平均时间复杂度为 `O(log n)`.
+</p>
+<div class="playground" value="{ L: [9, 2, 3, 0, 1, 4, 8, 7, 5, 6], k: 5 }">
+<script type="text">
+const { partition } = require('qsort')
+function kthElement (L, lo, hi, k) {
+  const index = partition(L, lo, hi)
+  if (k < index)
+      return kthElement(L, lo, index-1, k)
+  if (k > index)
+      return kthElement(L, index+1, hi, k)
+  return index
+}
+
+module.exports = function (str) {
+  const { L, k } = Playground.parse(str)
+  return kthElement(L, 0, L.length-1, k)
+}
+</script>
+</div>
+
+<h3>`O(n)` 的算法</h3>
+
+<p class="algorithm">
+  <b>链式基数排序</b>
+  对 <code>N</code> 个 <code>RADIX</code> 进制的 <code>KEYS</code>
+  位数进行排序, 这些数字的每一位数放在数组 <code>key</code> 中,
+  以 <code>next</code> 指针链接起来.
+  算法按低位优先格式依次对各关键字进行分配和收集, 经过 <code>KEYS</code>
+  轮排序后完成.
 </p>
 
 <pre>
-bubble_sort(L):
-    for i = L.len-1 .. 1:
-        for j = 0 .. i-1:
-            if L[j] &gt; L[j+1]:
-                swap(L, j, j+1)
-</pre>
-
-<h2>`O(n lg n)` 的算法</h2>
-
-<p class="algorithm">
-	<b>快速排序</b>
-</p>
-
-<pre>
-# 对 L[lo..hi] 排序
-qsort(L, lo, hi):
-	if lo &lt; hi:
-		pivot = partition(L, lo, hi)
-		qsort(L, lo, pivot-1)
-		qsort(L, pivot+1, hi)
-
-# 一趟划分, 返回主元下标
-partition(L, lo, hi):
-	pivot = L[lo]
-	while lo &lt; hi:
-		while lo &lt; hi and L[hi] &gt;= pivot:
-			--hi
-		L[lo] = L[hi]
-		while lo &lt; hi and L[lo] &lt;= pivot:
-			++lo
-		L[hi] = L[lo]
-	L[lo] = pivot
-	return lo # 事实上 lo == hi
-</pre>
-
-<h2>`O(n)` 的算法</h2>
-
-<p class="algorithm">
-	<b>链式基数排序</b>
-	对 <code>N</code> 个 <code>RADIX</code> 进制的 <code>KEYS</code>
-	位数进行排序, 这些数字的每一位数放在数组 <code>key</code> 中,
-	以 <code>next</code> 指针链接起来.
-	算法按低位优先格式依次对各关键字进行分配和收集, 经过 <code>KEYS</code>
-	轮排序后完成.
-</p>
-
-<pre>
-smallint key[N+1][KEYS]	# 关键字, 取值为 0..RADIX-1
-int next[N+1]				# 下一结点的下标
-int first[RADIX]			# RADIX 个子表的头
-int last[RADIX]				# RADIX 个子表的尾
+smallint key[N+1][KEYS] # 关键字, 取值为 0..RADIX-1
+int next[N+1]       # 下一结点的下标
+int first[RADIX]      # RADIX 个子表的头
+int last[RADIX]       # RADIX 个子表的尾
 
 # 按第 i 位数将各数字链成 RADIX 个子表, 每个表中 key[*][i] 值相同
 # first[j], last[j] 指向各子表的第一个和最后一个记录
 distribute(i):
-	# 清空 RADIX 个子表
-	for j = 0 to RADIX-1:
-		first[j] = 0
-	# 从头结点起遍历静态链表, 将结点打散重新链接
-	p = next[0]
-	while p:
-		d = key[p][i]			# 取出第 i 位数
-		if first[d]:			# 当第 d 个子表不空
-			next[last[d]] = p	# 接到子表尾
-		else:
-			first[d] = p		# 作为子表头
-		last[d] = p				# 更新子表尾指针
-		p = next[p]
+  # 清空 RADIX 个子表
+  for j = 0 to RADIX-1:
+    first[j] = 0
+  # 从头结点起遍历静态链表, 将结点打散重新链接
+  p = next[0]
+  while p:
+    d = key[p][i]     # 取出第 i 位数
+    if first[d]:      # 当第 d 个子表不空
+      next[last[d]] = p # 接到子表尾
+    else:
+      first[d] = p    # 作为子表头
+    last[d] = p       # 更新子表尾指针
+    p = next[p]
 
 # 按分配结果依次链接各子表
 collect(i):
-	tail = 0
-	for j = 0 to RADIX-1:
-		if first[j]:
-			next[tail] = first[j]
-			tail = last[j]
-	next[tail] = 0
+  tail = 0
+  for j = 0 to RADIX-1:
+    if first[j]:
+      next[tail] = first[j]
+      tail = last[j]
+  next[tail] = 0
 
 radix_sort():
-	# 静态链表初始化, 下标 0 为头结点
-	for i = 0 to N-1:
-		next[i] = i+1
-	next[N] = 0
-	# 从低位至高位进行排序
-	for i = 0 to KEYS-1:
-		distribute(i)
-		collect(i)
+  # 静态链表初始化, 下标 0 为头结点
+  for i = 0 to N-1:
+    next[i] = i+1
+  next[N] = 0
+  # 从低位至高位进行排序
+  for i = 0 to KEYS-1:
+    distribute(i)
+    collect(i)
 </pre>
 
 <h2>外排序</h2>
 
 <p class="algorithm">
-	<b>地址排序</b> 原记录表 <code>L</code> 占空间较大时,
-	可以只排序指向记录的指针表 <code>adr</code>,
-	再通过地址排序调整原记录的位置. 下面假设 <code>adr</code>
-	给出了 <code>L</code> 中元素的次序, 即
-	<code>L[adr[i]], i = 0..L.length-1</code> 是
-	<code>L</code> 的一个单调增序列.
-	算法实际上将各个静态循环链表逆向调整了一个位置.
+  <b>地址排序</b> 原记录表 <code>L</code> 占空间较大时,
+  可以只排序指向记录的指针表 <code>adr</code>,
+  再通过地址排序调整原记录的位置. 下面假设 <code>adr</code>
+  给出了 <code>L</code> 中元素的次序, 即
+  <code>L[adr[i]], i = 0..L.length-1</code> 是
+  <code>L</code> 的一个单调增序列.
+  算法实际上将各个静态循环链表逆向调整了一个位置.
 </p>
 
 <pre>
 rearrange(L, adr):
-	for i = 0 to L.length-1:
-		if adr[i] != i:		# 没有归位, 需要调整
-			j = i
-			tmp = L[j]
-			k = adr[j]
-			do:
-				L[j] = L[k]
-				adr[j] = j	# 作标记, 表示已经归位
-				j = k
-				k = adr[k]
-			while k != i
-			L[j] = tmp
-			adr[j] = j
+  for i = 0 to L.length-1:
+    if adr[i] != i:   # 没有归位, 需要调整
+      j = i
+      tmp = L[j]
+      k = adr[j]
+      do:
+        L[j] = L[k]
+        adr[j] = j  # 作标记, 表示已经归位
+        j = k
+        k = adr[k]
+      while k != i
+      L[j] = tmp
+      adr[j] = j
 </pre>
 
 <p class="algorithm">
@@ -255,5 +363,6 @@ replace_select_sort():
 </pre>
 
 <script src="../../js/note.js?type=cs"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>

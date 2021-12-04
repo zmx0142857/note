@@ -31,3 +31,4 @@ Object.keys(toc).forEach(book => {
 })
 buf.push('</urlset>')
 fs.writeFileSync('sitemap.xml', buf.join('\n'))
+console.log('sitemap.xml written. remember to update index.html ul#table-of-contents')

@@ -408,6 +408,64 @@
 
 <h2>Taylor 公式</h2>
 
+<p class="theorem">
+  <b>Lagrange 余项的 Taylor 公式</b>
+  设 `f^((n))` 在 `a` 到 `x` 之间的闭区间连续, 开区间可微,
+  则存在开区间中一点 `xi` 使得
+  <span class="formula">
+    `f(x) = sum_(k=0)^n (f^((k))(a))/(k!) (x-a)^k + (f^((n+1))(xi))/(n+1)! (x-a)^(n+1)`.
+  </span>
+  其中 `T(x) = sum_(k=0)^n (f^((k))(a))/k! (x-a)^k` 称为 `f` 在 `a` 处的
+  <b>Taylor 多项式</b>, `R(x) = f(x) - T(x)` 称为 <b>Lagrange 余项</b>.
+</p>
+
+<p class="proof">
+  计算可知 `R^((k))(a) = 0`, `k = 0, cdots, n`.
+  考虑函数 `g(x) = (x-a)^(n+1) // (n+1)!`, 它在 `a` 处也有
+  `g^((k))(a) = 0`, `k = 0, cdots, n`.
+  应用 Cauchy 中值定理得
+  <span class="formula">
+    `(R(x))/(g(x))`
+    `= (R(x) - R(a))/(g(x) - g(a))`
+    `= (R'(xi_1))/(g'(xi_1))`,
+  </span>
+  `xi_1` 位于 `x` 到 `a` 的开区间. 继续应用 Cauchy 中值定理, 最终得到
+  <span class="formula">
+    `(R(x))/(g(x)) = (R^((n+1))(xi))/(g^((n+1))(xi)) = f^((n+1))(xi)`.
+  </span> 
+  即
+  <span class="formula">
+    `f(x) = T(x) + (f^((n+1))(xi))/(n+1)! (x-a)^(n+1)`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Peano 余项的 Taylor 公式</b>
+  设 `f^((n))` 在 `a` 点的邻域有定义, 则对该邻域内的任意 `x` 成立
+  <span class="formula">
+    `f(x) = sum_(k=0)^n (f^((k))(a))/(k!) (x-a)^k + o((x-a)^n)`,
+    `quad x to a`.
+  </span>
+</p>
+
+<p class="proof">
+  反复使用洛必达法则,
+  <span class="formula">
+    `lim_(x to a) (R(x))/((x-a)^n//n!)`
+    `= lim_(x to a) (R^((n-1))(x))/(x-a)`
+    `= lim_(x to a) (f^((n-1))(x) - f^((n-1))(a) - f^((n))(a) (x-a))/(x-a)`
+    `= lim_(x to a) (f^((n-1))(x) - f^((n-1))(a))/(x-a) - f^((n))(a)`
+    `= 0`.
+  </span>
+</p>
+
+<p class="remark">
+  Taylor 公式用 Taylor 多项式 `T(x)` 对 `f` 进行近似, `R(x)` 是它的误差.
+  对于 Lagrange 余项, 区间 `(a, x)` 或 `(x, a)` 上恰存在中值 `xi`
+  使等式成立; 这是 Lagrange 中值定理的高阶推广.
+  而 Peano 余项指出了误差在 `a` 点附近的阶, 是对局部性质的刻画.
+</p>
+
 <p class="example">
 	对称区间上的 Taylor 公式
 	<span class="formula">

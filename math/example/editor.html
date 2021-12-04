@@ -747,7 +747,14 @@ function render() {
   } else {
     output.tex = input.value;
     output.innerHTML = input.value;
-    katex.render(input.value, output);
+    try {
+      output.classList.remove('katex-error');
+      katex.render(input.value, output);
+    } catch (e) {
+      console.error(e);
+      output.innerText = e.message;
+      output.classList.add('katex-error');
+    }
   }
   // 调整输入框大小
   input.setAttribute('rows', Math.max(5, input.value.split('\n').length))
