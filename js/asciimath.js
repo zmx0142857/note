@@ -1113,15 +1113,15 @@ function am2tex(str, displayStyle) {
   return AM.texstr;
 }
 
-function parseMathTex(str) {
-  str = am2tex(str);
+function parseMathTex(amstr) {
+  str = am2tex(amstr);
   var node = $('<span>', str);
   try {
     katex.render(str, node);
   } catch (e) {
     node.className = 'katex-error';
     node.innerText = e.message;
-    console.warn('parse error:', str);
+    console.error('parse error:', amstr);
   }
   return node;
 }
