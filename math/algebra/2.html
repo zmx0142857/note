@@ -410,7 +410,7 @@
 
 <h3>Laplace 定理</h3>
 
-<a href="https://www.jianshu.com/p/527a17b9e674">原文来自简书</a>
+[来自 <a href="https://www.jianshu.com/p/527a17b9e674">简书</a>]
 
 <p class="definition">
 	<b>子式, 余子式和代数余子式</b>
@@ -509,6 +509,41 @@
 
 <h2>Cramer 法则</h2>
 
+<p>我们从一个简单例子来看, 如何用行列式求解线性方程组.</p>
+
+<p class="example">
+  <b>三元一次方程组的 Cramer 法则</b> [2018.10] 设
+  <span class="formula">
+  `{
+    a_11 x_1 + a_12 x_2 + a_13 x_3 = b_1;
+    a_21 x_1 + a_22 x_2 + a_23 x_3 = b_2;
+    a_31 x_1 + a_32 x_2 + a_33 x_3 = b_3;
+  :}`
+  </span>
+  于是
+  <span class="formula">
+  `|b_1, a_12, a_13; b_2, a_22, a_23; b_3, a_32, a_33|`
+  `= |a_11 x_1 + a_12 x_2 + a_13 x_3, a_12, a_13;
+    a_21 x_1 + a_22 x_2 + a_23 x_3, a_22, a_23;
+    a_31 x_1 + a_32 x_2 + a_33 x_3, a_32, a_33|`
+  `= |a_11 x_1, a_12, a_13; a_21 x_1, a_22, a_23; a_31 x_1, a_32, a_33|`
+  `+ |color(red)(a_12) x_2, color(red)(a_12), a_13;
+      color(red)(a_22) x_2, color(red)(a_22), a_23;
+      color(red)(a_32) x_2, color(red)(a_32), a_33|`
+  `+ |color(red)(a_13) x_3, a_12, color(red)(a_13);
+      color(red)(a_23) x_3, a_22, color(red)(a_23);
+      color(red)(a_33) x_3, a_32, color(red)(a_33)|`
+  `= |a_11, a_12, a_13; a_21, a_22, a_23; a_31, a_32, a_33| x_1 + 0 + 0`.
+  </span>
+  后两项等于零是因为它们存在成比例的列.
+  最后, 系数行列式不为零时, 将它除到分母上得到
+  <span class="formula">
+    `x_1 = |b_1, a_12, a_13; b_2, a_22, a_23; b_3, a_32, a_33| //
+    |a_11, a_12, a_13; a_21, a_22, a_23; a_31, a_32, a_33|`.
+  </span>
+  本节我们将这种方法推广到 `n` 元线性方程组, 称为 <b>Cramer 法则</b>.
+</p>
+
 <p class="lemma">
 	令 `bm  A = (a_(i j))_(n xx n)`, 以 `A_(i j)` 记元素 `a_(i j)`
 	的代数余子式, 则
@@ -540,7 +575,7 @@
 			A_(1n),A_(2n),cdots,A_(n n);
 		]`
 	</span>
-	称为 `bm A` 的<b>伴随矩阵 (adjugate matirx)</b>, 也记为 `"adj" bm A`.
+	称为 `bm A` 的<b>伴随矩阵 (adjugate matrix)</b>, 也记为 `"adj" bm A`.
 	注意伴随矩阵的 `i j` 元等于 `a_(j i)` 的代数余子式.
 </p>
 
@@ -673,7 +708,7 @@
 		<span class="formula">
 			`bm(A epsi_1), bm(A epsi_2), cdots, bm(A epsi_n)`.
 		</span>
-		若存在列向量 
+		若存在列向量
 		<span class="formula">
 			`bm X = (x_1, x_2, cdots, x_n)'`
 		</span>

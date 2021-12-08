@@ -14,7 +14,7 @@ math: {
   title:'未分类',
   articles: [
     {title:'问题', src:'misc/0.html'},
-    {title:'三角函数', src:'misc/2.html'},
+    {title:'三角函数', src:'misc/2.html', date:'2021-12-06'},
     {title:'不等式', src:'misc/3.html', date:'2021-11-29'},
     {title:'微积分不等式', src:'misc/4.html'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
@@ -26,14 +26,14 @@ math: {
   articles: [
     {title:'初等代数', src:'algebra/0.html'},
     {title:'矩阵', src:'algebra/1.html'},
-    {title:'行列式', src:'algebra/2.html'},
+    {title:'行列式', src:'algebra/2.html', date:'2021-12-06'},
     {title:'向量的相关性与线性方程组', src:'algebra/3.html'},
     {title:'线性空间', src:'algebra/4.html'},
     {title:'线性映射与线性变换', src:'algebra/5.html'},
     {title:'特征值与特征向量', src:'algebra/6.html'},
     {title:'矩阵的相似标准形', src:'algebra/7.html'},
     {title:'线性空间中的度量与内积', src:'algebra/8.html'},
-    {title:'实二次型', src:'algebra/9.html'},
+    {title:'实二次型与正定矩阵', src:'algebra/9.html', date:'2021-12-08'},
     {title:'李代数初步', src:'algebra/10.html'},
   ]
 }, {
@@ -41,10 +41,10 @@ math: {
   articles: [
     {title:'附录', src:'analysis/0.html'},
     {title:'初等函数', src:'analysis/1.html'},
-    {title:'数列的极限', src:'analysis/2.html'},
+    {title:'数列的极限', src:'analysis/2.html', date: '2021-12-07'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
     {title:'导数的应用', src:'analysis/5.html', date: '2021-12-02'},
-    {title:'不定积分', src:'analysis/6.html'},
+    {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
     {title:'定积分与广义积分', src:'analysis/7.html'},
     {title:'含参积分与特殊函数', src:'analysis/8.html'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},

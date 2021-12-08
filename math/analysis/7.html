@@ -479,22 +479,24 @@
 
 <p class="theorem">
   <b>积分余项的 Taylor 公式</b>
-	设 `R_n(x) = 1/(n!) int_(x_0)^x (x-t)^n f^((n+1))(t) dt`.
-	分部积分,
-	<span class="formula">
-		`R_n(x) = 1/(n!) [(x-t)^n f^((n))(t)]_(x_0)^x`
-		`+ 1/((n-1)!) int_(x_0)^x (x-t)^(n-1) f^((n))(t) dt`
-		`= - (f^((n))(x_0))/(n!) (x-x_0)^n + R_(n-1)(x)`.
-	</span>
-	于是
-	<span class="formula">
-		`f(x) - f(x_0) = R_0(x)`
-		`= sum_(k=1)^n (R_(k-1)(x) - R_k(x)) + R_n(x)`
-		`= sum_(k=1)^n (f^((k))(x_0))/(k!) (x-x_0)^k + R_n(x)`.
-	</span>
+  设 `R_n(x) = f^((n+1)) *** (t^n//n!)`
+  `= 1/(n!) int_a^x (x-t)^n f^((n+1))(t) dt`.
+  分部积分,
+  <span class="formula">
+    `R_n(x) = 1/(n!) [(x-t)^n f^((n))(t)]_a^x`
+    `+ 1/((n-1)!) int_a^x (x-t)^(n-1) f^((n))(t) dt`
+    `= - (f^((n))(a))/(n!) (x-a)^n + R_(n-1)(x)`.
+  </span>
+  于是
+  <span class="formula">
+    `f(x) - f(a) = R_0(x)`
+    `= sum_(k=1)^n (R_(k-1)(x) - R_k(x)) + R_n(x)`
+    `= sum_(k=1)^n (f^((k))(a))/(k!) (x-a)^k + R_n(x)`.
+  </span>
   由此公式知道, 连续函数 `f` 的 `n` 阶原函数为
   <span class="formula">
-    `1/((n-1)!) int_a^x (x-t)^(n-1) f(t) dt + p(x)`,
+    `f *** t^(n-1)//(n-1)!`
+    `= 1/((n-1)!) int_a^x (x-t)^(n-1) f(t) dt + p(x)`,
   </span>
   其中 `p(x)` 是次数小于 `n` 的多项式.
 </p>

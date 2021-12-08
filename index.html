@@ -100,7 +100,8 @@ header .search {
   transition: width 0.3s;
   color: transparent;
 }
-#search-box:focus {
+#search-box:focus,
+#search-box.focus {
   width: 160px;
   background: #333 !important;
   border: 1px solid #555 !important;
@@ -625,19 +626,28 @@ function getPos(src) {
   return [0, 0];
 }
 
+function changeBook (value) {
+  if (value != book.value) {
+    book.value = value;
+    save('book', value);
+    loadBook();
+  }
+}
+
 function parseHash() {
   var index = location.href.indexOf('#');
   if (index != -1) {
     var hash = location.href.slice(index+1);
+    var bookValue = book.value
     if (/^[^/]+\/[^/]+\/[^/]+$/.test(hash)) { // book/group/article
       var path = hash.split('/');
-      if (path[0] != book.value) {
-        book.value = path[0];
-        save('book', path[0]);
-        loadBook();
-      }
       var src = path[1] + '/' + path[2] + '.html';
+      changeBook(path[0]);
       return getPos(src);
+    } else {
+      if (Object.keys(tocData).includes(hash)) {
+        changeBook(hash);
+      }
     }
   }
 }
@@ -652,9 +662,24 @@ document.onkeyup = handleKeyboard;*/
 header.onmouseover = function() {headerVisible(true)};
 header.onmouseout = function() {headerVisible(false)};
 yinyang.onclick = eclipse.onclick = function() {hideNav()};
+
+// 能用就行的搜索框交互
+var searchBox = $('#search-box');
 $('#search-button').addEventListener('click', function () {
+  if (searchBox.value) {
+    searchBox.classList.add('focus');
+  } else {
+    searchBox.classList.remove('focus');
+    // 模拟点击 body, 使得提示框自动关闭
+    document.body.dispatchEvent(new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true
+    }));
+  }
   this.blur();
 })
+
 prevArticle.onclick = function() {
   var pos = parseHash();
   if (pos[1] == 0) {

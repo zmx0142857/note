@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>实二次型</title>
+    <title>实二次型与正定矩阵</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
+
+<h2>合同标准形</h2>
+
+<p class="definition">
+  <b>实二次型</b> 是指实数域上的 `n` 元二次齐次多项式
+  <span class="formula">
+    `f(x_1, cdots, x_n) = sum_(i, j) a_(i j) x_i x_j`,
+  </span>
+  其中 `a_(i j) in RR`. 由于 `x_i x_j = x_j x_i`, 可以规定其系数满足
+  `a_(i j) = a_(j i)`, 于是实二次型 `f` 唯一对应于实对称矩阵
+  `bm A = (a_(i j))_(n xx n)`, 满足
+  <span class="formula">
+    `f(bm X) = bm (X' A X)`,
+    `quad bm X = (x_1, cdots, x_n)'`.
+  </span> 
+  矩阵 `bm A` 就称为 `f` 的矩阵.
+</p>
+
+<p class="remark">
+  在可逆线性变换 `bm X = bm (P Y)` 下, 实二次型 `bm (X' A X)` 变为
+  `bm (Y'P'A P Y)`, 其矩阵变为 `bm(P'A P)`,
+  即可逆线性变换下实二次型的矩阵保持合同.
+  下面证明, 存在这样的可逆线性变换, 使得实二次型变为平方和的形式 (<b>标准形</b>), 换言之, 使实对称矩阵合同于对角形矩阵.
+  实二次型化为平方和的计算过程称为它的<b>标准化</b>. 注意其标准形一般不唯一.
+</p>
+
+<h3>实对称矩阵的正交对角化</h3>
 
 <p class="theorem">
   <b>实对称矩阵可以正交对角化</b>
@@ -20,8 +47,98 @@
   也是它的相似对角化.
 </p>
 
+<ol class="algorithm">
+  <b>实对称矩阵的正交对角化</b>
+  <li>设 `bm A` 为实对称矩阵, 由上述定理, 它有 `n` 个实特征值, 我们先求这些特征值;</li>
+  <li>求出 `bm A` 的 `n` 个特征向量, 并正交化, 得到 `alpha_1, cdots, alpha_n`.</li>
+  <li>记 `bm T = (alpha_1, cdots, alpha_n)`, `bm D = "diag"(lambda_1,
+    cdots, lambda_n)`, 则 `bm T` 为正交矩阵, 且
+    <span class="formula">
+      `bm (T' A T)`
+      `= bm (T' A) (alpha_1, cdots, alpha_n)`
+      `= bm T' (alpha_1, cdots, alpha_n) "diag"(lambda_1, cdots, lambda_n)`
+      `= bm (T' T D) = bm D`.
+    </span>
+  </li>
+</ol>
+
+<h3>实二次型的标准化 (配方法)</h3>
+
+<p>本节的配方法给出另一种将实对称矩阵合同对角化的方法.
+  相比于正交对角化, 它的计算量更小.
+</p>
+
 <p class="theorem">
-  <b>实对称矩阵的合同标准形</b>
+  <b>实二次型的标准化 (配方法)</b>
+  存在可逆线性变换 `bm X = bm (P Y)`, 使得实二次型化为平方和的形式.
+</p>
+
+<ol class="proof">
+  对变量个数 `n` 作归纳. `n = 1` 时, `f(x_1) = a_11 x_1^2` 已经是平方和.
+  设结论对 `n-1` 成立, 则
+  <li>若存在某个平方项系数不为零, 不妨设 `a_11 != 0`, 有
+    <span class="formula">
+      `f = a_11 x_1^2 + 2 sum_(j=2)^n a_(1 j) x_1 x_j`
+      `+ sum_(i,j=2)^n a_(i, j) x_i x_j`.
+    </span>
+    令
+    <span class="formula">
+      `y_1 = x_1 + sum_(j=2)^n a_(1 j) a_11^-1 x_j`,<br>
+      `y_2 = x_2`, `cdots`, `y_n = x_n`,
+    </span>
+    则
+    <span class="formula">
+      `f = a_11 y_1^2 + sum_(i,j=2)^n (a_(i j) - a_(1 i) a_(1 j) a_11^-2) x_i x_j`
+      `= a_11 y_1^2 + sum_(i,j=2)^n b_(i j) y_i y_j`.
+    </span>
+    由归纳假设, 上式第二项可以配为平方和.
+  </li>
+  <li>若所有平方项系数均为零, 则任取一个交叉项系数, 不妨设 `a_(1 2) != 0`.
+    令
+    <span class="formula">
+      `x_1 = y_1 - y_2`, `x_2 = y_1 + y_2`,<br>
+      `x_3 = y_3`, `cdots`, `x_n = y_n`,
+    </span> 
+    则
+    <span class="formula">
+      `f = a_12 x_1 x_2 + sum_(i,j=3)^n a_(i j) x_i x_j`
+      `= a_12 (y_1^2 - y_2^2) + sum_(i,j=3)^n a_(i j) y_i y_j`,
+    </span>
+    同样由归纳假设, 上式第二项可以配为平方和.
+  </li>
+</ol>
+
+<ol class="proof">
+  矩阵语言的证明.
+  事实上, 上述可逆矩阵 `bm P` 可以分解为一系列初等矩阵的乘积.
+  这里给出配方法的矩阵表述. `n = 1` 时取 `bm P` 为单位矩阵即可.
+  假设对 `n-1` 阶实对称矩阵 `bm A_(n-1)`,
+  存在初等矩阵 `bm P_i`, `i = 1, cdots, n-1` 使得
+  `bm(P'A_(n-1) P)` 为对角阵, `bm P = prod_(i=1)^(n-1) bm P_i`, 则对 `n`
+  阶实对称矩阵 `bm A_n`, 有
+  <li>若 `a_11 != 0`, 将第一列的 `-a_(1 j) a_11^-1` 倍加到第 `j` 列,
+    `j = 2, cdots, n`; 对称地, 将第一行的 `-a_(i 1) a_11^-1` 倍加到第 `i` 行,
+    `i = 2, cdots, n`. 由于 `bm A_n` 为实对称矩阵, 上述初等变换将它化为
+    <span class="formula">
+      `[a_11, 0; 0, bm A_(n-1)]`.
+    </span>
+    对子矩阵 `bm A_(n-1)` 应用归纳假设即得结论.
+  </li>
+  <li>若 `bm A_n` 的对角元全为零, 但 `a_(i j) != 0`,
+    则将第 `j` 列加到第 `i` 列, 再将第 `j` 行加到第 `i` 行.
+    变换后的 `a_(i i) = 2 a_(i j) != 0`, 于是问题化为 1. 的情况,
+    证毕.
+  </li>
+  上述证明中, 每施行一个列初等变换, 就立即施行一个相同的行初等变换.
+  这样操作得到的矩阵始终合同于原矩阵, 称为<b>合同初等变换</b>.
+</ol>
+
+<h3>惯性定理与实二次型的分类</h3>
+
+<p>虽然实对称矩阵的标准形不唯一, 但其对角线上的正数与负数的数目是不变的, 这就是下面的定理:</p>
+
+<p class="theorem">
+  <b>实对称矩阵的规范形 (惯性定理)</b>
   任意实对称矩阵 `bm A` 合同于如下的<b>规范形</b>:
   <span class="formula">
     `bm(P'A P) = "diag"(
@@ -32,6 +149,62 @@
   </span>
   其中 `bm P` 为可逆矩阵. `p` 为<b>正惯性指数</b>, `q`
   为<b>负惯性指数</b>, `p + q = "rank"(bm A)`.
+  且 `p`, `q` 的值由 `bm A` 唯一确定, 与 `bm P` 的选择无关.
+</p>
+
+<ol class="proof">
+  事实上, 设 `bm A` 合同于对角阵 `bm D`, 分两步将它调整为规范形:
+  <li>通过合同初等变换调整对角元的次序: 先交换 `i, j` 两列, 再交换 `i,
+  j` 两行, 效果相当于交换了 `d_(i i)` 和 `d_(j j)`.
+  </li>
+  <li>对每个非零对角元 `d_(i i)`, 先让第 `i` 列同乘 `|d_(i i)|^(-1//2)`,
+    再让第 `i` 行同乘 `|d_(i i)|^(1//2)`, 效果是将正的对角元化为 `1`,
+    负的化为 `-1`.
+  </li>
+  `"rank"(bm A) = p + q` 不随初等变换而改变, 因此它是合同变换下的不变量
+  (相合不变量).  下证 `p`, `q` 也分别是相合不变量.
+  反设存在两种不同的可逆线性变换 `bm Y = bm(P X)` 和 `bm Z = bm(Q X)`
+  将二次型化为规范形,
+  设前者的正、负惯性指数为 `r, s`, 后者为 `p, q`, 其中 `r+s = p+q = "rank"(bm A)`.
+  若 `r lt p`, 记 `bm P = (p_(i j))`, `bm Q = (q_(i j))`.
+  考虑线性方程组
+  <span class="formula">
+    `y_1 = cdots = y_r = 0`, `z_(p+1) = cdots = z_n = 0`,
+  </span>
+  即
+  <span class="formula">
+    `[p_11, cdots, p_(1 n);
+     vdots, , vdots;
+     p_(r 1), cdots, p_(r n);
+     q_(p+1, 1), cdots, q_(p+1, n);
+     vdots, , vdots;
+     q_(n 1), cdots, q_(n n)]
+     [x_1; vdots; x_r; x_(p+1); vdots; x_n] = bb 0`.
+  </span>
+  由于方程的数目小于变元的数目, 上述线性方程组有非零解 `bm X^**`, 其对应的
+  <span class="formula">
+    `y_1^** = cdots = y_r^** = 0`, `z_(p+1)^** = cdots = z_n^** = 0`,
+  </span>
+  由 `bm X^** != bb 0` 且 `bm P`, `bm Q` 可逆知道,
+  `y_(r+1)^**, cdots, y_(r+s)^**` 不全为零, `z_1^**, cdots, z_p^**` 也不全为零.
+  于是
+  <span class="formula">
+    `bm (X'A X) = -sum_(i=1)^s y_(r+i)^**{::}^2 lt 0`,
+  </span>
+  同时
+  <span class="formula">
+    `bm (X'A X) = sum_(i=1)^p z_i^**{::}^2 gt 0`,
+  </span>
+  得到矛盾.
+</ol>
+
+<p class="corollary">
+  <b>实二次型的分类</b>
+  两个实二次型等价 (两个实对称矩阵合同) 当且仅当它们的秩相等, 且正惯性指数相等.
+</p>
+
+<p class="example">
+  <b>二次曲线的分类</b> [参看<a href="../analytic-geo/3.html#3-5">二元二次方程及其表示的曲线</a>]
 </p>
 
 <h2>正定</h2>
@@ -164,7 +337,7 @@
 </ol>
 
 <ol class="proof">
-  ??
+  <li>??</li>
 </ol>
 
 <script src="../../js/note.js?type=math"></script>
