@@ -12,12 +12,22 @@
 <h3>Nabla 算子</h3>
 
 <span class="formula">
-    `grad := (del/(del x_1), cdots, del/(del x_m))`
+  `grad := (del/(del x_1), cdots, del/(del x_m))`
 </span>
 
-<p>标量场 `f` 具有梯度 `grad f`. 梯度是矢量, 它是导数的推广,
-  只是简单地将求导运算推广到各分量,
+<p class="definition">
+  标量场 (数量场) `f` 具有梯度 `"grad" f = grad f`.
+  梯度是矢量, 其与坐标选取无关.
+  梯度是导数的推广, 它简单地将求导运算推广到各分量,
   其加减乘除及函数复合的运算和导数完全一致.
+</p>
+
+<p>方向导数定义为函数值沿某个方向的变化率:
+  <span class="formula">
+    `("d"f)/("d"bm n) = lim_(t to 0) (f(bm x_0 + t bm n) - f(bm x_0))//t`
+  </span>
+  可以证明 `("d"f)/("d"bm n) = bm n * grad f`,
+  因此梯度方向是该点处方向导数取得最大的方向, 大小等于这个最大的方向导数.
 </p>
 
 <table>
@@ -44,8 +54,41 @@
   </tr>
 </table>
 
-<p>矢量场 `bm F` 具有散度 `grad * bm F` 和旋度 `grad xx bm F`;
+<p class="definition">
+  矢量场 (向量场) `bm F` 具有散度
+  <span class="formula">
+    `"div" bm F = grad * bm F`
+    `= (del F_1)/(del x_1) + cdots + (del F_n)/(del x_n)`.
+  </span>
+  和旋度 (三维空间):
+  <span class="formula">
+    `"rot" bm F = grad xx bm F`
+    `= |bm i, bm j, bm k; del/(del x), del/(del y), del/(del z); F_1, F_2, F_3|`.
+  </span>
   散度是标量而旋度是矢量.
+</p>
+
+<p>
+  散度定义为封闭曲面包围区域趋于无穷小时, 单位体积的通量之极限,
+  规定向外为正方向:
+  <span class="formula">
+    `"div" bm F = lim_("diam"V to 0) (iint_(del V) bm F * "d"bm S)/V`.
+  </span>
+  散度的符号指出矢量场在一点处有正源/负源, 散度的大小指出源的强度.
+</p>
+
+<p>
+  方向旋量定义为给定法向量的平面上单位面积的环量之极限,
+  规定右手螺旋为正方向:
+  <span class="formula">
+    `"rot"_(bm v) bm F = lim_("diam"S to 0) (int_(del S) bm F * "d"bm r)/S`.
+  </span>
+  `bm F` 与切向 `"d"bm r` 方向越近似, 环量就越是取正值.
+  因此环量反映了矢量场沿曲线是否有旋涡, 以及旋涡的强度.
+  方向旋量反映了矢量场在一点处沿给定方向的旋转情况, 显然只要 `bm v`
+  取反方向, 方向旋量的符号就取反.
+  由 Stokes 公式可以证明 `"rot"_(bm v) bm F = bm v * "rot" bm F`.
+  旋度的方向是该点处方向旋量取得最大的方向, 大小等于这个最大的方向旋量.
 </p>
 
 <table>
@@ -65,14 +108,10 @@
     <td>`grad * (f bm F) = grad f * bm F + f (grad * bm F)`</td>
     <td>`grad xx (f bm F) = grad f xx bm F + f(grad xx bm F)`</td>
   </tr>
-  <!--
-  <tr>
-    <td>`grad xx (bm F xx bm G) = (grad * bm G) bm F - (grad * bm F) bm G`</td>
-  </tr>
-  -->
 </table>
 
-<p>
+<p class="proposition">
+  设 `f`, `bm F` 二阶连续可微, 因此二阶混合偏导相等.
   梯度场的散度是 laplace 算子 (见下节);
   梯度场的旋度为零向量, 旋度场的散度为 0.
   <span class="formula">
@@ -80,6 +119,57 @@
     `grad xx (grad f) = bm 0`,
     `quad grad * (grad xx bm F) = 0`.
   </tr>
+</p>
+
+<p class="definition">
+  `bm G * grad` 算子可以用于标量或矢量. 输入标量, 输出标量; 输入矢量, 输出矢量:
+  <span class="formula">
+    `(bm G * grad) f`
+    `= G_1 (del f)/(del x_1) + cdots + G_n (del f)/(del x_n)`,<br>
+    `(bm G * grad) bm F`
+    `= ((bm G * grad) F_1, cdots, (bm G * grad) F_n)`.
+  </span>
+</p>
+
+<p>`D` 算子作用于矢量, 得到它的导矩阵:
+  <span class="formula">
+    `D bm F`
+    `= [grad F_1; vdots; grad F_n]`
+    `= [
+      (del F_1)/(del x_1), cdots, (del F_1)/(del x_n);
+      vdots, , vdots;
+      (del F_n)/(del x_1), cdots, (del F_n)/(del x_n);
+    ]`
+  </span>
+  作用于标量时, 就是 `D f = grad f`.
+</p>
+
+<ol class="proposition">
+  <b>nabla 算子的综合公式</b>
+  以下公式都涉及旋度, 因此只限于三维空间:
+  <li>`grad(bm F * bm G)` `= bm F D bm G + bm G D bm F`
+    `= bm F xx (grad xx bm G) + bm G xx (grad xx bm F) + (bm F * grad) bm G + (bm G * grad) bm F`;
+  </li>
+  <li>`grad * (bm F xx bm G) = bm G * grad xx bm F + bm F * grad xx bm G`;</li>
+  <li>`grad xx (bm F xx bm G) = (grad * bm G) bm F - (grad * bm F) bm G + (bm G * grad) bm F - (bm F * grad) bm G`;</li>
+  <li>`grad xx (grad xx bm F) = grad(grad * bm F) - (grad * grad)bm F`</li>
+</ol>
+
+<p class="proof">
+  直接计算验证. 注意到各个分量的地位对称, 因此只验证 `x` 分量相等即可.
+  以 1. 的证明为例, 左边的 `x` 分量等于
+  <span class="formula">
+    `F_1 (del G_1)/(del x) + F_2 (del G_2)/(del x) + F_3 (del G_3)/(del x)`
+    `+ ** + ** + **`.
+  </span>
+  右边的 `x` 分量等于
+  <span class="formula">
+    `|F_2, F_3; (del G_1)/(del z) - (del G_3)/(del x), (del G_2)/(del x) - (del G_1)/(del y)|`
+    `+ (F_1 del/(del x) + F_2 del/(del y) + F_3 del/(del z)) G_1`
+    `+ | ** |`
+    `+ **`.
+  </span>
+  其中 `**` 号省略的部分, 只需将字母 `F, G` 对换就可得到. 因此两式相等.
 </p>
 
 <h3>Laplace 算子</h3>

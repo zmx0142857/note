@@ -1,4 +1,6 @@
-# note
+# Note
+
+## Introduction
 
 This is a blog site of student notes, including subjects of:
 
@@ -25,3 +27,9 @@ Please visit [github page for this repo](https://zmx0142857.github.io/note/) or 
 ![Knuth 抽样算法](img/Screenshot_from_2021-04-17_21-16-22.png)
 
 ![中日汉字对比](img/Screenshot_from_2021-02-23_13-24-02.png)
+
+## Deploy
+
+After editing / adding articles, you should make change to the table-of-content file `js/toc.js`.
+
+Run `node js/sitemap.js` to update `index.html` and `sitemap.xml` automatically once a week or so.

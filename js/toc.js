@@ -9,6 +9,7 @@ math: {
   articles: [
     {title:'公式编辑器', src:'example/editor.html', date: '2021-11-23'},
     {title:'Mathml', src:'example/mathml.html'},
+    {title:'曲面在线绘制', src:'example/surface.html', date:'2021-12-10'},
   ]
 }, {
   title:'未分类',
@@ -56,7 +57,7 @@ math: {
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
     {title:'曲线与曲面积分', src:'analysis/20.html'},
-    {title:'场论初步', src:'analysis/22.html', date:'2021-11-25'},
+    {title:'场论初步', src:'analysis/22.html', date:'2021-12-09'},
     {title:'分数阶微积分', src:'analysis/23.html'},
     {title:'函数方程', src:'analysis/24.html'},
   ]
@@ -179,7 +180,7 @@ math: {
   articles: [
     {title:'欧氏空间', src:'diff-geo/1.html'},
     {title:'曲线的局部理论', src:'diff-geo/2.html'},
-    {title:'曲面的局部理论', src:'diff-geo/3.html'},
+    {title:'曲面的局部理论', src:'diff-geo/3.html', date:'2021-12-10'},
     {title:'标架与曲面论基本定理', src:'diff-geo/4.html'},
     {title:'曲面的内蕴几何学', src:'diff-geo/5.html'},
   ]
