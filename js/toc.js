@@ -14,7 +14,7 @@ math: {
 }, {
   title:'未分类',
   articles: [
-    {title:'问题', src:'misc/0.html'},
+    {title:'问题', src:'misc/0.html', date:'2021-12-11'},
     {title:'三角函数', src:'misc/2.html', date:'2021-12-06'},
     {title:'不等式', src:'misc/3.html', date:'2021-11-29'},
     {title:'微积分不等式', src:'misc/4.html'},
@@ -69,7 +69,7 @@ math: {
     {title:'同余', src:'number/2.html'},
     {title:'阶与原根', src:'number/3.html'},
     {title:'二次剩余', src:'number/4.html'},
-    {title:'不定方程', src:'number/5.html', date:'2021-12-04'},
+    {title:'不定方程', src:'number/5.html', date:'2021-12-11'},
     {title:'积性数论函数', src:'number/9.html'},
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html'},
   ]
@@ -193,7 +193,7 @@ math: {
   title:'组合数学',
   articles: [
     {title:'引言, 计数原理, 鸽巢原理', src:'comb/1.html'},
-    {title:'排列与组合', src:'comb/2.html'},
+    {title:'排列与组合', src:'comb/2.html', date:'2021-12-11'},
     {title:'求解递推式', src:'comb/3.html', date:'2021-11-27'},
     {title:'容斥原理', src:'comb/4.html'},
     {title:'离散微积分与 Stirling 数', src:'comb/5.html', date:'2021-11-27'},
