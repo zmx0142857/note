@@ -534,8 +534,6 @@
 
 <h2>曲面举例</h2>
 
-[<a href="../example/surface.html">曲面绘制工具</a>]
-
 <h3>旋转曲面</h3>
 
 <span class="formula">
@@ -566,6 +564,8 @@
   </span>
 </p>
 
+<p> 下面我们总是取 `u` 为 `(f(u), g(u))` 的弧长参数, 以简化计算.</p>
+
 <h4>常 Gauss 曲率旋转曲面</h4>
 
 <!--
@@ -594,95 +594,6 @@
   </span>
   `a != 0` 时, 这一点称为<b>圆点</b>, `a = 0` 时称为<b>平点</b>.
   例如球面上各点均为圆点, 平面各点均为平点.
-</p>
-
-<h3>极小曲面 (平均曲率为零的曲面)</h3>
-
-[来自 Riemann Geometry an Introduction]
-
-<p class="example">
-  <b>The catenoid (Euler, 1740)</b> `sqrt(x^2+y^2) = cosh z`.
-</p>
-
-<p class="proof">
-  此为旋转曲面, 取参数
-  <span class="formula">
-    `bm r = (u cos v, u sin v, "arch "u)`
-    `= (u cos v, u sin v, ln(u + sqrt(u^2-1))`,
-  </span>
-  令 `f(u) = u`, `g(u) = ln(u + sqrt(u^2-1))`, 则
-  <span class="formula">
-    `E = {:f':}^2+{:g':}^2`
-    `= 1 + 1/(u^2-1) = u^2/(u^2-1)`,
-    `quad F = 0`, `quad G = f^2 = u^2`,<br/>
-    `L = (f' g'' - f'' g')/sqrt E`
-    `= -u/(u^2-1)^(3//2) * sqrt(u^2-1)/u = 1/(1-u^2)`,
-    `quad M = 0`,
-    `quad N = (fg')/sqrt E = u/sqrt(u^2-1) * sqrt(u^2-1)/u = 1`,<br/>
-    `k_1 = L/E = 1/(1-u^2) * (u^2-1)/u^2` `= -1/u^2`,
-    `quad k_2 = N/G = 1/u^2`,<br>
-    `quad K = k_1 k_2 = -1/u^4`, `quad H = (k_1 + k_2)/2 = 0`.
-  </span>
-</p>
-
-<p class="example">
-  <b>The helicoid (Meusnier, 1776)</b> `tan z = x//y`.
-</p>
-
-<p class="proof">
-  取参数 `bm r = (u v, v, arctan u)`, 则
-  <span class="formula">
-    `bm r_u = (v, 0, 1/(1+u^2))`,
-    `bm r_v = (u, 1, 0)`,
-    `bm r_u ^^ bm r_v = (-1/(1+u^2), u/(1+u^2) v)`,<br>
-    `bm r_(u u) = (0, 0, (-2u)/(1+u^2)^2)`,
-    `bm r_(u v) = (1, 0, 0)`,
-    `bm r_(v v) = (0, 0, 0)`.
-  </span>
-  记 `|bm r_u ^^ bm r_v| = n`, `|E, F; F, G| = Delta`, 有
-  <span class="formula">
-    `E = v^2 + 1/(1+u^2)^2`, `F = u v`, `G = u^2 + 1`,<br>
-    `L = 1/n (-2u v)/(1+u^2)^2`, `M = -1/n 1/(1+u^2)`, `N = 0`.
-  </span>
-  最终
-  <span class="formula">
-    `[a, b; c, d]`
-    `= 1/n 1/Delta [(-2 u v)/(1+u^2)^2, -1/(1+u^2); -1/(1+u^2), 0]`
-    `[u^2+1, -u v; -u v, v^2+1/(1+u^2)^2]`,<br>
-    `H = 1/n 1/Delta ((-u v)/(1+u^2) + (u v)/(1+u^2)) = 0`.
-  </span>
-</p>
-
-<p class="example">
-  <b>Scherk's surface, 1835</b> `"e"^z = (cos x)/(cos y)`,
-  即 `z = ln cos x - ln cos y`
-  `= int_y^x tan t dt`.
-</p>
-
-<p class="proof">
-  取参数 `bm r = (u, v, ln cos u - ln cos v)`, 则
-  <span class="formula">
-    `bm r_u = (1, 0, -tan u)`,
-    `bm r_v = (0, 1, tan v)`.
-    `bm r_u ^^ bm r_v = (tan u, -tan v, 1)`,<br>
-    `bm r_(u u) = (0, 0, -sec^2 u)`,
-    `bm r_(u v) = (0, 0, 0)`
-    `bm r_(v v) = (0, 0, sec^2 v)`.
-  </span>
-  于是
-  <span class="formula">
-    `E = 1 + tan^2 u = sec^2 u`,
-    `F = -tan u tan v`,
-    `G = 1 + tan^2 v = sec^2 v`,<br>
-    `L = -sec^2 u // n`, `M = 0`, `N = sec^2 v // n`
-  </span>
-  最终
-  <span class="formula">
-    `[a, b; c, d]`
-    `= 1/n 1/Delta [sec^2 u, -tan u tan v; -tan u tan v, sec^2 v]`
-    `[sec^2 v, 0; 0, -sec^2 u]`,<br>
-    `H = 1/n 1/Delta(sec^2 u sec^2 v - sec^2 u sec^2 v) = 0`.
-  </span>
 </p>
 
 <script src="../../js/note.js?type=math"></script>
