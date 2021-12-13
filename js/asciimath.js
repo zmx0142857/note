@@ -1091,6 +1091,14 @@ function am2tex(str, displayStyle) {
   AMnestingDepth = 0;
   for (d of AM.define)
     str = str.replace(d[0], d[1]);
+  // partial short hand
+  // part f x => (del f)/(del x)
+  // part^3 f (x y^2) => (del^3 f)/(del x del y^2)
+  str = str.replace(/part(\S*)\s+(\S+)\s+(\([^)]*\)|\S+)/g, (substr, $1, $2, $3) => {
+    if ($3[0] === '(')
+      $3 = $3.slice(1,-1).split(/\s+/).join(' del ');
+    return `(del${$1} ${$2})/(del ${$3})`
+  })
 
   // html entity
   if (AM.env === 'nodejs') {
