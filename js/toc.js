@@ -26,7 +26,7 @@ math: {
   title:'高等代数',
   articles: [
     {title:'初等代数', src:'algebra/0.html'},
-    {title:'矩阵', src:'algebra/1.html'},
+    {title:'矩阵', src:'algebra/1.html', date:'2021-12-13'},
     {title:'行列式', src:'algebra/2.html', date:'2021-12-06'},
     {title:'向量的相关性与线性方程组', src:'algebra/3.html'},
     {title:'线性空间', src:'algebra/4.html'},
@@ -98,16 +98,16 @@ math: {
 }, {
   title:'概率论',
   articles: [
-    {title:'事件与概率', src:'probability/1.html'},
-    {title:'随机变量', src:'probability/2.html'},
-    {title:'极限定理', src:'probability/4.html'},
-    {title:'常用分布', src:'probability/5.html'},
+    {title:'事件与概率', src:'prob/1.html'},
+    {title:'随机变量', src:'prob/2.html'},
+    {title:'极限定理', src:'prob/4.html'},
+    {title:'常用分布', src:'prob/5.html'},
   ]
 }, {
   title:'数理统计',
   articles: [
-    {title:'数理统计的基本概念', src:'statistics/1.html'},
-    {title:'参数估计与假设检验', src:'statistics/2.html'},
+    {title:'数理统计的基本概念', src:'stat/1.html', date:'2021-12-13'},
+    {title:'参数估计与假设检验', src:'stat/2.html'},
   ]
 }, {
   title:'数值分析',
@@ -193,7 +193,7 @@ math: {
   title:'组合数学',
   articles: [
     {title:'引言, 计数原理, 鸽巢原理', src:'comb/1.html'},
-    {title:'排列与组合', src:'comb/2.html', date:'2021-12-11'},
+    {title:'排列与组合', src:'comb/2.html', date:'2021-12-13'},
     {title:'求解递推式', src:'comb/3.html', date:'2021-11-27'},
     {title:'容斥原理', src:'comb/4.html'},
     {title:'离散微积分与 Stirling 数', src:'comb/5.html', date:'2021-11-27'},
