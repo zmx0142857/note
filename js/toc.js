@@ -28,7 +28,7 @@ math: {
     {title:'初等代数', src:'algebra/0.html'},
     {title:'矩阵', src:'algebra/1.html', date:'2021-12-13'},
     {title:'行列式', src:'algebra/2.html', date:'2021-12-06'},
-    {title:'向量的相关性与线性方程组', src:'algebra/3.html'},
+    {title:'向量的相关性与线性方程组', src:'algebra/3.html', date:'2021-12-14'},
     {title:'线性空间', src:'algebra/4.html'},
     {title:'线性映射与线性变换', src:'algebra/5.html'},
     {title:'特征值与特征向量', src:'algebra/6.html'},

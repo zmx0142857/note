@@ -1066,11 +1066,25 @@ function parseExpr(rightbracket) {
   return frag;
 }
 
+function partShorthand (str) {
+  // partial short hand
+  // part f x => (del f)/(del x)
+  // part^3 f (x y^2) => (del^3 f)/(del x del y^2)
+  // partial f x => del f x
+  // TODO: part 只是正则替换, 词法上没有保证; 使用时需要手动用空格分隔参数
+  return str.replace(/part(\^\S*)?\s+(\S+)\s+(\([^)]*\)|\S+)/g, (substr, $1, $2, $3) => {
+    if (!$1) $1 = '';
+    if ($3[0] === '(') $3 = $3.slice(1,-1).split(/\s+/).join(' del ');
+    return `(del${$1} ${$2})/(del ${$3})`
+  })
+}
+
 // str -> <math>
 function parseMath(str) {
   AMnestingDepth = 0;
   for (d of AM.define)
     str = str.replace(d[0], d[1]);
+  str = partShorthand(str)
   AMstr = str.trimLeft();
   AMbegin = 0;
   var node = $math('mstyle', parseExpr(false));
@@ -1091,14 +1105,7 @@ function am2tex(str, displayStyle) {
   AMnestingDepth = 0;
   for (d of AM.define)
     str = str.replace(d[0], d[1]);
-  // partial short hand
-  // part f x => (del f)/(del x)
-  // part^3 f (x y^2) => (del^3 f)/(del x del y^2)
-  str = str.replace(/part(\S*)\s+(\S+)\s+(\([^)]*\)|\S+)/g, (substr, $1, $2, $3) => {
-    if ($3[0] === '(')
-      $3 = $3.slice(1,-1).split(/\s+/).join(' del ');
-    return `(del${$1} ${$2})/(del ${$3})`
-  })
+  str = partShorthand(str)
 
   // html entity
   if (AM.env === 'nodejs') {

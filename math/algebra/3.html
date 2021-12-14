@@ -1134,6 +1134,8 @@
 	</span>
 </p>
 
+<h3>线性方程组的解法</h3>
+
 <p>	有了上面一段的铺垫, 我们可以对非齐次线性方程组的问题给出圆满解答了.
 </p>
 
@@ -1183,6 +1185,19 @@
 		然后在必要的地方用 0 或 1 填充即可.
 	</li>
 </ol>
+
+<div class="playground" value="{ mat: [
+  [1, -1, 1, -1, 1],
+  [1, -1, -1, 1, 0],
+  [1, -1, -2, 2, -0.5]
+] }">
+<script type="text">
+module.exports = function (str) {
+  const { mat } = Playground.parse(str)
+  return (new Mat(mat)).solve().toString()
+}
+</script>
+</div>
 
 <ol class="example">
 	在数域 `bbb P` 上解下列方程组:
@@ -1343,5 +1358,7 @@
 </p>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/playground.js"></script>
+<script src="../../code/mat.js"></script>
 </body>
 </html>
