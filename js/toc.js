@@ -100,7 +100,7 @@ math: {
   articles: [
     {title:'事件与概率', src:'prob/1.html'},
     {title:'随机变量', src:'prob/2.html'},
-    {title:'极限定理', src:'prob/4.html'},
+    {title:'极限定理', src:'prob/4.html',date:'2021-12-14'},
     {title:'常用分布', src:'prob/5.html'},
   ]
 }, {

@@ -21,13 +21,18 @@ const $ = document.createElement.bind(document)
 for (let playground of list) {
   const frag = document.createDocumentFragment(),
         ctrl = $('div'),
-        input = $('input'),
         run = $('input'),
         showSrc = $('input'),
         output = $('pre'),
         src = $('pre'),
         script = Array.from(playground.children).find(n => n.nodeName === 'SCRIPT')
-  input.type = 'text'
+  let input
+  if (playground.getAttribute('type') === 'textarea') {
+    input = $('textarea')
+  } else {
+    input = $('input')
+    input.type = 'text'
+  }
   input.value = playground.getAttribute('value')
   run.type = 'button'
   run.value = '运行'
