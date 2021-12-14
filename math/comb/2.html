@@ -98,7 +98,7 @@
 	一一对应, 所以选出 `k`-子集的方法数等于选出 `n-k`-子集的方法数.
 </p>
 
-<p class="theorem">	
+<p class="theorem">
 	<b>Pascal 恒等式</b>
 	<span class="formula">
 		`(n+1;k) = (n;k-1) + (n;k)`.
@@ -374,6 +374,50 @@
   <span class="formula">
     `(7;3) = (4; 1"," 3) + (4; 1"," 1"," 2) + (4; 2"," 2) + (4; 1"," 2"," 1) + (4; 4)`.
   </span>
+</p>
+
+<p class="theorem" id="the-carlson-inequality">
+  <b>Carlson 不等式</b> 设 `x_1, cdots, x_n` 为非负整数, 则
+  <span class="formula">
+    `sum_(j=1)^m (prod_(k=1)^n x_(j k))^(1/n)`
+    `le prod_(k=1)^n (sum_(j=1)^m x_(j k))^(1/n)`.
+  </span>
+  `n = 2` 时, 即为 Cauchy 不等式.
+</p>
+
+<p class="proof">
+  令 `y_j = (prod_(k=1)^n x_(j k))^(1/n)`, `lambda_(j k) = x_(j k)//y_j`,
+  原不等式化为
+  <span class="formula">
+    `(sum_(j=1)^m y_j)^n le prod_(k=1)^n sum_(j=1)^m lambda_(j k) y_j`.
+  </span>
+  使用多项展开, 左边为 `sum_(|alpha|=n) n!/alpha! y^alpha`, 右边为 `sum_(|alpha|=n) k_alpha y^alpha`.
+  为了确定其中系数 `k_alpha`, 考虑乘积
+  <span class="formula">
+    `(sum_(j_1) lambda_(j_1 1) y_(j_1)) cdots (sum_(j_n) lambda_(j_n n) y_(j_n))`
+  </span>
+  中 `y_1^1 y_2^6 y_3^5` 项的系数. 这个系数形如
+  `sum lambda_(j_1 1) cdots lambda_(j_n n)`,
+  因为 `y_1` 的次数是 1, 所以下标 `j_1, cdots, j_n` 中, `y_1` 的下标 "1"
+  出现的次数是 1. 同理 "2" 出现的次数是 6, "3" 出现的次数是 5. 总之,
+  <span class="formula">
+    `k_alpha = sum lambda_(j_1 1) cdots lambda_(j_n n)`,
+  </span>
+  其中下标 `j_1, cdots, j_n` 中, `1` 出现的次数为 `alpha_1`, ...,
+  `m` 出现的次数为 `alpha_m`. 且求和的总项数为 `n!/alpha!`.
+  下证 `n!/alpha! le k_alpha`, 从而原不等式成立.
+  事实上, 记 `N = n!/alpha!`. 由均值不等式
+  <span class="formula">
+    `1/N sum lambda_(j_1 1) cdots lambda_(j_n n)`
+    `ge (prod lambda_(j_1 1) cdots lambda_(j_n n))^(1/N)`.
+  </span>
+  上式右边所有系数 `lambda` 恰好各出现一次, 取 `N` 次方后, 等于
+  <span class="formula">
+    `prod_(j k) lambda_(j k)`
+    `= prod_(j=1)^m prod_(k=1)^n x_(j k)/y_j`
+    `= prod_(j=1)^m y_j^n/y_j^n = 1`.
+  </span>
+  证毕.
 </p>
 
 <h2>排列与组合的算法</h2>

@@ -190,12 +190,59 @@
 <p>	统计量或枢轴量的分布统称为<b>抽样分布</b>.</p>
 
 <ol class="lemma">
-	<b>Fisher 引理</b>
-	设总体 `X ~ N(mu, sigma^2)`, `X_1, X_2, cdots, X_n` 为样本,
-	`bar X` 和 `S^2` 分别为样本均值和样本方差, 则
-	<li>`bar X ~ N(mu, sigma^2/n)`;</li>
-	<li>`(n-1)/sigma^2 S^2 ~ chi_(n-1)^2`;</li>
-	<li>`bar X` 与 `S^2` 相互独立.</li>
+  <b>Fisher 引理</b>
+  设总体 `X ~ N(mu, sigma^2)`, `X_1, X_2, cdots, X_n` 为样本,
+  `bar X` 和 `S^2` 分别为样本均值和样本方差, 则
+  <li>`bar X ~ N(mu, sigma^2/n)`;</li>
+  <li>`bar X` 与 `S^2` 相互独立;</li>
+  <li>`(n-1)/sigma^2 S^2 ~ chi_(n-1)^2`.</li>
+</ol>
+
+<ol class="proof">
+  <li>由 `X_1, X_2, cdots, X_n` 的独立性知, 它们的联合密度为
+    <span class="formula">
+      `(2pi sigma^2)^(-n/2) exp sum_(i=1)^n -(x_i-mu)^2/(2sigma^2)`.
+    </span>
+    取正交变换 `bm Y = bm(A X)`, 其中矩阵 `bm A` 的第一行全为 `1//sqrt n`:
+    <span class="formula">
+      `bm A = [1/sqrt n, 1/sqrt n, 1/sqrt n, cdots, 1/sqrt n;
+        1/sqrt(1 * 2), 1/sqrt(1 * 2), 0, cdots, 0;
+        1/sqrt(2*3), 1/sqrt(2*3), 2/sqrt(2*3), cdots, 0;
+        vdots, vdots, vdots, , vdots;
+        1/sqrt(n(n-1)), 1/sqrt(n(n-1)), 1/sqrt(n(n-1)), cdots, (n-1)/sqrt(n(n-1))
+      ]`.
+    </span>
+    因此
+    <span class="formula">
+      `Y_1 = 1/sqrt n sum_(i=1)^n X_i = sqrt n * bar X`,<br>
+      `sum_(i=1)^n Y_i^2 = |bm Y|^2 = |bm X|^2 = sum_(i=1)^n X_i^2`.
+    </span>
+    在正交变换下, Jacobi 行列式为 1, 因此 `Y_1, cdots, Y_n` 的联合密度为
+    <span class="formula">
+      `(2pi sigma^2)^(-n/2) exp(-1/(2sigma^2) sum_(i=1)^n (x_i^2-2 x_i mu + mu^2))`
+      `= (2pi sigma^2)^(-n/2) exp(-1/(2sigma^2) (sum_(i=1)^n y_i^2-2 mu sqrt n y_1 + n mu^2))`
+      `= (2pi sigma^2)^(-n/2) exp(-1/(2sigma^2) (sum_(i=2)^n y_i^2 + (y_1-sqrt n mu)^2))`.
+    </span>
+    因此 `Y_1, cdots, Y_n` 相互独立且都服从正态分布, 它们的方差均为
+    `sigma^2`, 其中 `Y_1` 的均值为 `sqrt n mu`, 其它 `Y_2, cdots, Y_n`
+    的均值为 `0`. 故结论 1. 成立.
+  </li>
+  <li>
+    <span class="formula">
+      `(n-1)S^2 = sum_(i=1)^n (X_i^2 - bar X)`
+      `sum_(i=1)^n X_i^2 - n bar X^2`
+      `= sum_(i=1)^n Y_i^2 - Y_1^2`
+      `= sum_(i=2)^n Y_i^2`.
+    </span>
+    因为 `Y_1, cdots, Y_n` 相互独立, 所以 `S^2` 与 `bar X` 独立.
+  </li>
+  <li>最后由于 `Y_2, cdots, Y_n overset "iid"~ N(0, sigma^2)`, 因此
+    <span class="formula">
+      `((n-1)S^2)/sigma^2`
+      `= sum_(i=2)^n (Y_i/sigma)^2`
+      `~ chi^2(n-1)`.
+    </span>
+  </li>
 </ol>
 
 <ol class="remark">
@@ -256,7 +303,7 @@
 	正态总体的样本均值 `bar X` 与样本方差 `S^2` 独立, 所以它们各自的函数
 	`T_2 = (n-1)S^2`, `T_1-T_2 = n bar X^2` 之间是独立的.
 	又 `T_2 ~ chi_(n-1)^2`, `T_1-T_2 ~ chi_1^2`,
-	由 <a href="../probability/5.html#beta-distribution">Beta
+	由 <a href="../prob/5.html#beta-distribution">Beta
 		分布的相关定理</a>知, `T_1` 与 `T_2/T_1` 独立, 且 `T_2/T_1
 	~ Beta((n-1)/2, 1/2)`.
 </p>

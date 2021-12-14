@@ -82,7 +82,7 @@ function getParams(str) {
 }
 
 function init() {
-  url = window.location.href.split('/');
+  url = window.location.pathname.split('/');
   url = url[url.length-1].split('.')[0];
   filename = unescape(url);
 

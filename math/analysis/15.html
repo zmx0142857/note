@@ -398,27 +398,24 @@
 </p>
 
 <p class="example">
-	设 `f` 二阶连续可微, `z = f(x+y, f(x, y))`. 求 `(del^2 z)/(del x del
-	y)`.
+  设 `f` 二阶连续可微, `z = f(x+y, f(x, y))`. 求 `part^2 z (x y)`.
 </p>
 
 <p class="solution">
-	记 `u = x+y`, `v = f(x, y)`, 则
-	<span class="formula">
-		`(del z)/(del y)`
-		`= (del z)/(del u)(del u)/(del y)+(del z)/(del v)(del v)/(del y)`
-		`= (del z)/(del u) + (del z)/(del v) (del v)/(del y)`,<br/>
-		`(del^2 z)/(del x del y)`
-		`= (del^2 z)/(del u^2) (del u)/(del x) + (del^2 z)/(del v del u)
-		(del v)/(del x)`
-		`+ ((del^2 z)/(del u del v) (del u)/(del x) + (del^2 z)/(del v^2)
-		(del v)/(del x)) (del v)/(del y)`
-		`+ (del z)/(del v) (del^2 v)/(del x del y)`
-		`= f_(11)''(u, v) + f_(12)''(u, v) f_1'(x, y)`
-		`+ (f_(21)''(u, v) + f_(22)''(u, v) f_1'(x, y))f_2'(x, y)`
-		`+ f_2'(u, v) f_(21)''(x, y)`.
-	</span>
-	再将 `u, v` 用 `x, y` 代回, 即得到最终结果.
+  记 `u = x+y`, `v = f(x, y)`, 则
+  <span class="formula">
+    `part z y`
+    `= part z u part u y + part z v part v y`
+    `= part z u + part z v part v y`,<br/>
+    `part^2 z (x y)`
+    `= part^2 z u^2 part u x + part^2 z (v u) part v x`
+    `+ (part^2 z (u v) part u x + part^2 z v^2 part v x ) part v y`
+    `+ part z v part^2 v (x y)`
+    `= f_(11)''(u, v) + f_(12)''(u, v) f_1'(x, y)`
+    `+ (f_(21)''(u, v) + f_(22)''(u, v) f_1'(x, y))f_2'(x, y)`
+    `+ f_2'(u, v) f_(21)''(x, y)`.
+  </span>
+  再将 `u, v` 用 `x, y` 代回, 即得到最终结果.
 </p>
 
 <p class="example">
@@ -556,7 +553,7 @@
   有了这套多重指标的记号, 就可大大简化我们的书写. 设 `|alpha| = k`, `n` 元数量函数 `f` 在定义域上 `k` 次可微, 则 `f` 直到 `k` 阶的偏导数都与求导次序无关, 可以简记
   <span class="formula">
     `del^alpha = (del^|alpha|)/(del x_1^(alpha_1) cdots del x_n^(alpha_n))`
-  </span> 
+  </span>
 </p>
 
 <p class="example">
@@ -610,7 +607,7 @@
   <span class="formula">
     `f(x) = sum_(|alpha| le n) 1/alpha! del^alpha f(x) h^alpha + R_(n+1)`<br>
     `= sum_(k le n) 1/k! (h * grad)^k f(a) + R_(n+1)`
-  </span> 
+  </span>
   其中余项有三种形式:
   <span class="formula">
     `R_(n+1) = sum_(|alpha| = n+1) 1/alpha! del^alpha f(a + theta h) h^alpha`
