@@ -14,27 +14,35 @@ class Frac {
   num: bigint
   den: bigint
 
-  constructor (num: bigint | string, den: bigint = 1n) {
-    if (typeof num == 'string') {
-      [ num, den ] = num.split('/').map(BigInt)
+  constructor (num: int | string, den: bigint = 1n) {
+    if (typeof num === 'string') {
+      if (num.indexOf('/') > -1) {
+        [ num, den ] = num.split('/').map(BigInt)
+      } else {
+        num = BigInt(num)
+      }
+    } else if (typeof num === 'number') {
+      num = BigInt(num)
     }
     if (den === 0n) {
       throw new RangeError('frac division by zero')
-    } else if (den < 0) {
-      num = -num
-      den = -den
     }
     this.num = num
     this.den = den
     this.simp()
   }
 
-  simp (): void {
+  simp (): Frac {
+    if (this.den < 0) {
+      this.num = -this.num
+      this.den = -this.den
+    }
     const d = gcd(abs(this.num), this.den)
     if (d > 1) {
       this.num /= d
       this.den /= d
     }
+    return this
   }
 
   toString (): string {
@@ -56,7 +64,7 @@ class Frac {
   }
 
   inv (): Frac {
-    return new Frac(this.den, this.num)
+    return new Frac(this.den, this.num).simp()
   }
 
   // 连分数
@@ -71,7 +79,31 @@ class Frac {
     }
     return ret
   }
+
+  add (other: Frac): Frac {
+    return new Frac(this.num * other.den + this.den * other.num, this.den * other.den).simp()
+  }
+
+  sub (other: Frac): Frac {
+    return new Frac(this.num * other.den - this.den * other.num, this.den * other.den).simp()
+  }
+
+  mul (other: Frac): Frac {
+    return new Frac(this.num * other.num, this.den * other.den).simp()
+  }
+
+  div (other: Frac): Frac {
+    return new Frac(this.num * other.den, this.den * other.num).simp()
+  }
 }
 
-let a = new Frac('62/23')
-console.log(a.frac().map(Number))
+function testFrac () {
+  const a = new Frac('62/23')
+  console.log(a.frac().map(Number))
+}
+
+function testMath () {
+  console.log(new Frac('1/2').add(new Frac('1/3')).toString())
+  console.log(new Frac('5/6').mul(new Frac('-1/2')).toString())
+  console.log(new Frac(3).mul(new Frac('-1/2')).toString())
+}

@@ -10,15 +10,16 @@
 <h2>微分中值定理</h2>
 
 <p class="definition">
-	设函数 `f` 在 `x_0` 的某邻域内有定义, 若存在 `delta gt 0`, 使
-	`f(x_0)` 是 `B(x_0, delta)` 上的最大值, 即成立
-	<span class="formula">
-		`f(x) le f(x_0)`, `AA x in B(x_0, delta)`,
-	</span>
-	则称 `x_0` 为 `f` 的一个<b>极大值点</b>,
-	`f(x_0)` 称为 `f` 的一个<b>极大值</b>.
-	类似可以定义极小值点和极小值的概念. 极大值 (点) 和极小值 (点)
-	通称为极值 (点).
+  <b>极值</b> 设函数 `f` 在 `x_0` 的某邻域内有定义, 若存在 `delta gt 0`, 使
+  `f(x_0)` 是 `B(x_0, delta)` 上的最大值, 即成立
+  <span class="formula">
+      `f(x) le f(x_0)`, `AA x in B(x_0, delta)`,
+  </span>
+  则称 `x_0` 为 `f` 的一个<b>极大值点</b>,
+  `f(x_0)` 称为 `f` 的一个<b>极大值</b>.
+  类似可以定义极小值点和极小值的概念. 极大值 (点) 和极小值 (点)
+  通称为极值 (点).
+  若定义中的不等号换成严格不等号, 则 `x_0` 称为 `f` 的<b>严格极大值点</b>.
 </p>
 
 <p class="remark">
@@ -32,8 +33,9 @@
 	的极大值点; 极小值点也有类似结论.
 </p>
 
-<p class="theorem">
-	(Fermat) 设函数 `f` 在极值点 `x_0` 可导, 则 `f'(x_0) = 0`.
+<p class="lemma">
+  <b>函数取极值的必要条件 (Fermat)</b>
+  设函数 `f` 在极值点 `x_0` 可导, 则 `f'(x_0) = 0`.
 </p>
 
 <p class="proof">
@@ -74,9 +76,9 @@
 	和最小值 `f(x_m)`, 其中 `x_M`, `x_m in [a, b]`.
 	我们不妨设 `f` 不是 `[a, b]` 上的常值函数 (否则它的导数处处为零,
 	结论是平凡的), 则 `f(x_m) lt f(x_M)`. 这两个数必有一个与 `c`
-	不相等, 设 `f(x_m) != c`, 则 `x_m != a, b`, 即 `x_m in (a, b)`.
-	因而 `x_m` 是 `[a, b]` 的内点, 从而是 `f` 的极小值点.
-	由 Fermat 定理知 `f'(x_m) = 0`.
+	不相等, 设 `f(x_m) != c`, 则 `x_m != a, b`, 即 `x_m in (a, b)`
+    是区间的内点, 从而是 `f` 的极小值点.
+	由 Fermat 引理知 `f'(x_m) = 0`.
 </p>
 
 <p class="remark">
@@ -139,7 +141,7 @@
 <p class="proof">
 	若 `g(b) = g(a)`, 且 `f(b) = f(a)`, 则结论显然.
 	注意到定理中 `f, g` 地位对等, 我们可以设 `g(b) != g(a)`.
-	现在考虑割线方程
+	现在考虑曲线 `(g(t), f(t))`, 其割线方程为
 	<span class="formula">
 		`y = f(a) + (f(b)-f(a))/(g(b)-g(a))(x-g(a))`,
 	</span>
@@ -162,7 +164,7 @@
 </p>
 
 <p class="remark">
-	Lagrange 和 Cauchy 中值定理的证明中用到的辅助函数, 
+	Lagrange 和 Cauchy 中值定理的证明中用到的辅助函数,
 	可以从积分的思路去构造:
 	如 Lagrange 中值定理, 将 `f'(x) = (f(b) - f(a))/(b-a)` 移项并积分得
 	<span class="formula">
@@ -300,6 +302,11 @@
 
 <h2>L'Hôpital 法则</h2>
 
+<p class="theorem">
+</p>
+
+<p class="example"></p>
+
 <h2>函数的凹凸性</h2>
 
 <p class="definition">
@@ -327,7 +334,7 @@
 <ol class="theorem">
 	若 `f, g` 是区间 `I` 上的下凸函数, 则
 	<li>`-f` 是 `I` 上的上凸函数;</li>
-	<li>`f + g` 是 `I` 上的下凸函数;</li>
+	<li>`a f + b g` 是 `I` 上的下凸函数, `a, b` 为实数;</li>
 	<li>`max{f(x), g(x)}` 是 `I` 上的下凸函数;</li>
 	<li>若 `f, g` 非负且单调递增, 则 `f g` 是 `I` 上的下凸函数;</li>
 	<li>若 `f` 的值域含于 `J`, `h` 是 `J` 上单调递增的下凸函数, 则
@@ -336,27 +343,51 @@
 </ol>
 
 <ol class="theorem">
-	下面各命题等价:
-	<li>`f` 是区间 `I` 上的下凸函数;</li>
-	<li>定义在 `I` 上的差商函数 `(f(x)-f(y))/(x-y)` 关于 `x,y`
-		都单调递增;</li>
-	<li>对任意 `x,y,z in I` 有
-		<span class="formula">
-			`((z-y)f(x) + (x-z)f(y) + (y-x)f(z))/((z-y)(x-z)(y-x)) le 0`
-		</span>
-	</li>
-	<li>对 `I` 中任意 `x lt y lt z` 有
-		<span class="formula">
-			`|1,1,1;
-			  x,y,z;
-			  f(x),f(y),f(z)| ge 0`.
-		</span>
-	</li>
+  下面各命题等价:
+  <li>`f` 是区间 `I` 上的下凸函数;</li>
+  <li>对 `I` 中任意 `x lt y lt z` 有
+    <span class="formula">
+      `|1,1,1;
+      x,y,z;
+      f(x),f(y),f(z)| ge 0`;
+    </span>
+    也就是说, `(x, f(x))`, `(y, f(y))`, `(z, f(z))`
+    三点以逆时针方向围成三角形.
+  </li>
+  <li>对互不相同的 `x,y,z in I` 有
+    <span class="formula">
+      `((z-y)f(x) + (x-z)f(y) + (y-x)f(z))/((z-y)(x-z)(y-x)) le 0`;
+    </span>
+  </li>
+  <li>定义在 `I` 上的差商函数 (斜率函数) `(f(x)-f(y))/(x-y)` 关于 `x,y`
+    都单调递增.</li>
 </ol>
 
-<p class="corollary">
-	若 `f` 是`f(0) = 0`
-</p>
+<ol class="proof">
+  <li>`iff` 2. 令 `y = x + t (z-x)`, 其中 `t = (y-x)/(z-x)`, 于是
+    <span class="formula align">
+      `f(y) le f(x) + t(f(z) - f(x))`<br>
+      `iff (z-x)f(y) le (z-x) f(x) + (y-x)(f(z) - f(x))`<br>
+      `iff (z-y) f(x) + (x-z) f(y) + (y-x) f(z) ge 0`,
+    </span>
+    即得结论.
+  </li>
+  <li>`iff` 3. 注意分子就是 2. 中的行列式. 且分子分母都是交代式:
+    任意交换 `x, y, z` 中的两个字母, 所得的结果相差一个负号.
+    由于对换一次字母时, 分子分母同时变号, 因此总的结果不变.
+    我们可以通过一系列对换操作使得 `x lt y lt z`, 从而化为 2. 的情形.
+  </li>
+  <li>`iff` 4. 不妨设 `x lt y lt z`, 下证
+    <span class="formula">
+      `(f(x)-f(y))/(x-y) le (f(z) - f(y))/(z-y)`.
+    </span>
+    事实上, 上式等价于
+    <span class="formula align">
+      `(z-y)(f(y) - f(x)) le (y-x)(f(z) - f(y))`<br>
+      `iff (z-y)f(x) + (x-z)f(y) + (y-x)f(z) ge 0`.
+    </span>
+  </li>
+</ol>
 
 <p class="example">
 	设 `f` 是定义在 `[0,+oo)` 上的下凸函数, `f(0) = 0`.
@@ -387,24 +418,79 @@
 	f(|x|)+f(|y|)`, 不等式也成立.
 </p>
 
-<p class="example">
-	证明: 开区间 `I` 上的下凸函数 `f` 是连续函数.
-</p>
+<ol class="theorem">
+  设 `f` 在开区间 `I` 上可导, 则
+  <li>`f` 是 `I` 上的下凸函数当且仅当 `f'` 单调增;</li>
+  <li>`f` 在 `I` 上严格下凸当且仅当 `f'` 严格增.</li>
+</ol>
+
+<ol class="proof">
+  <li>先设 `f` 是下凸函数.
+    任取 `I` 上四点 `x lt y lt z lt w`, 下证 `f'(x) le f'(w)`.
+    以 `k_(x y)` 记 `(x, f(x))`
+    到 `(y, f(y))` 连线的斜率, 由 `f` 的凸性知道
+    `k_(x y)` 关于 `x, y` 都单调增, 从而
+    <span class="formula">
+      `k_(x y) le k_(z w)`.
+    </span>
+    令 `y to x`, `z to w`,
+    <span class="formula">
+      `f'(x) le k_(x y) le k_(z w) le f'(w)`.
+    </span>
+    若 `f` 严格凸, 则 `k_(x y) lt k_(z w)`, 不等式严格成立.
+  </li>
+  <li>再设 `f'` 单调增, 取 `x lt y lt z`.
+    由微分中值定理,
+    <span class="formula">
+      `k_(x y) = f'(xi) le f'(eta) = k_(y z)`.
+    </span>
+    即 `f` 是下凸函数. 若 `f'` 严格增, 则不等式严格成立.
+  </li>
+</ol>
+
+<ol class="corollary">
+  设 `f` 在开区间 `I` 上二阶可导, 则
+  <li>`f` 是 `I` 上的下凸函数当且仅当 `f'' ge 0`;</li>
+  <li>`f` 在 `I` 上严格下凸当且仅当 `f'' ge 0` 且在任意子区间上不恒为零.</li>
+</ol>
 
 <p class="proof">
-	任取 `x_0 in I`,
-	作闭区间 `[x_1, x_2]` 满足 `x_1 lt x_0 lt x_2`.
-	令 `g(x) = (f(x)-f(x_0))/(x-x_0)`, 我们有
-	<span class="formula">
-		`g(x_1) le g(x) le g(x_2)`, `quad x in [x_1, x_2]\\{x_0}`.
-	</span>
-	因此 `g(x)` 在 `[x_1, x_2]` 上有界, 设 `|g(x)| le M`, `x in [x_1,
-	x_2]\\{x_0}`, 有
-	<span class="formula">
-		`|f(x)-f(x_0)| le M |x-x_0|`, `quad x in [x_1, x_2]\\{x_0}`.
-	</span>
-	从而 `f` 在 `x_0` 处连续. 由 `x_0` 的任意性知, `f` 在 `I` 上连续.
+  1. 是显然的. 2. 成立是因为一个可微函数 `g` 单增当且仅当 `g' ge 0`
+  且在任意子区间上不恒为零.
 </p>
+
+<ol class="theorem">
+  设 `f` 是开区间 `I` 上的下凸函数, 则
+  <li>`f` 在 `I` 上处处有左、右导数;</li>
+  <li>`f` 在 `I` 上连续;</li>
+  <li>`f` 在 `I` 上只有可数个点处不可导.</li>
+</ol>
+
+<ol class="proof">
+  <li>任取 `x_0 in I`, 令 `g(x) = (f(x)-f(x_0))/(x-x_0)`, 则 `g` 在 `I`
+    上单调增. 任取 `x_0` 的邻域 `x_0 in B(x_0, delta) sube I`, 则
+    `g` 在 `(x_0-delta, x_0)` 和 `(x_0, x_0+delta)` 上分别单调有界, 因而
+    `f` 在 `x_0` 的左、右导数均存在.
+  </li>
+  <li>由 `g(x)` 在 `x_0` 的左、右极限存在知它在 `x_0` 附近局部有界,
+    设 `|g(x)| le M`, 则
+    <span class="formula">
+      `|f(x)-f(x_0)| le M |x-x_0|`, `quad x` 在 `x_0` 的某个邻域.
+    </span>
+    从而 `f` 在 `x_0` 处连续.
+  </li>
+  <li>由极限保序性知道 `f` 在每一点的左导数不超过其右导数,
+    又设 `x lt y lt z`, 由凸性
+    <span class="formula">
+      `f'(x+0) le k_(x y) le k_(y z) le f'(z-0)`.
+    </span>
+    因此 `f` 的全体不可导的点与 `RR` 上不相交的开区间族一一对应:
+    <span class="formula">
+      `{ (f'(x-0), f'(x+0)): f" 在 "x" 处不可导 "}`.
+    </span>
+    后者是可数的.
+  </li>
+</ol>
 
 <h2>Taylor 公式</h2>
 

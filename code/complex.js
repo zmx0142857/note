@@ -71,15 +71,9 @@ var Complex = /** @class */ (function () {
     Complex.i = new Complex(0, 1);
     return Complex;
 }());
-/*
-function f (t: number): Complex {
-  const z = Complex.i.mul(t).exp().mul(3)
-  return Complex.mul(
-    z.pow(2).add(1),
-    z.sub(1).pow(5)
-  )
+function testMath() {
+    console.log(new Complex(2).pow(6));
 }
-console.log(new Complex(2).pow(6))
-*/
-if (typeof module !== 'undefined')
-    module.exports = Complex;
+if (typeof module !== 'undefined') {
+  module.exports = Complex
+}

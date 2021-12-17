@@ -16,67 +16,93 @@ function loadModule (src) {
   return module
 }
 
-const list = document.querySelectorAll('.playground')
-const $ = document.createElement.bind(document)
-for (let playground of list) {
-  const frag = document.createDocumentFragment(),
-        ctrl = $('div'),
-        run = $('input'),
-        showSrc = $('input'),
-        output = $('pre'),
-        src = $('pre'),
-        script = Array.from(playground.children).find(n => n.nodeName === 'SCRIPT')
-  let input
-  if (playground.getAttribute('type') === 'textarea') {
-    input = $('textarea')
-  } else {
-    input = $('input')
-    input.type = 'text'
-  }
-  input.value = playground.getAttribute('value')
-  run.type = 'button'
-  run.value = '运行'
-  run.onclick = function () {
-    output.classList.remove('hidden')
-    try {
-      const module = loadModule(src.innerText) // 用 innerText 而不是 textContent 可以保留换行
-      output.textContent = module.exports(input.value)
-      output.classList.remove('error')
-    } catch (e) {
-      console.error(e)
-      output.textContent = e.stack
-      output.classList.add('error')
+// 虚拟 dom (bushi
+function $(tag, options = {}, children = []) {
+  const el = tag ? document.createElement(tag) : document.createDocumentFragment()
+  Object.keys(options).forEach(key => {
+    const value = options[key]
+    if (key === 'className') {
+      if (Array.isArray(value)) value.forEach(v => el.classList.add(v))
+      else el.classList.add(value)
+    } else if (key === 'attrs') {
+      Object.keys(value).forEach(attr => el.setAttribute(attr, value[attr]))
+    } else if (key === 'style') {
+      Object.assign(el.style, value)
+    } else {
+      el[key] = value
     }
-  }
-  output.classList.add('hidden')
-  src.textContent = script.textContent.trim()
-  src.classList.add('hidden')
-  src.setAttribute('contenteditable', 'true')
-  src.setAttribute('spellcheck', 'false')
-  showSrc.type = 'button'
-  showSrc.value = '源码'
-  showSrc.onclick = function () {
-    src.classList.toggle('hidden')
-  }
+  })
+  children.forEach(child => {
+    el.appendChild(child)
+  })
+  return el
+}
+
+const list = document.querySelectorAll('.playground')
+for (let playground of list) {
+  const script = Array.from(playground.children).find(n => n.nodeName === 'SCRIPT')
+
+  const inputType = playground.getAttribute('type') || 'text'
+  const input = $(inputType === 'textarea' ? 'textarea' : 'input', {
+    type: 'text',
+    value: playground.getAttribute('value'),
+    onfocus () {
+      document.addEventListener('keyup', onkeyup)
+    },
+    onblur () {
+      document.removeEventListener('keyup', onkeyup)
+    }
+  })
+
+  const run = $('input', {
+    type: 'button',
+    value: '运行',
+    onclick () {
+      output.classList.remove('hidden')
+      try {
+        const module = loadModule(src.innerText) // 用 innerText 而不是 textContent 可以保留换行
+        output.textContent = module.exports(input.value)
+        output.classList.remove('error')
+      } catch (e) {
+        console.error(e)
+        output.textContent = e.stack
+        output.classList.add('error')
+      }
+    },
+  })
+
+  const output = $('pre', {
+    className: 'hidden'
+  })
+
+  const src = $('pre', {
+    textContent: script.textContent.trim(),
+    className: 'hidden',
+    attr: {
+      contenteditable: 'true',
+      spellcheck: 'false',
+    },
+  })
+
+  const showSrc = $('input', {
+    type: 'button',
+    value: '源码',
+    onclick () {
+      src.classList.toggle('hidden')
+    }
+  })
+
   const onkeyup = function (e) {
-    if (e.keyCode == 13) {
+    if (inputType === 'text' && e.keyCode == 13) {
       run.onclick();
     }
   }
-  input.onfocus = function () {
-    document.addEventListener('keyup', onkeyup)
-  }
-  input.onblur = function () {
-    document.removeEventListener('keyup', onkeyup)
-  }
 
-  ctrl.classList.add('ctrl')
-  ctrl.appendChild(input)
-  ctrl.appendChild(run)
-  ctrl.appendChild(showSrc)
-  frag.appendChild(ctrl)
-  frag.appendChild(output)
-  frag.appendChild(src)
+  const ctrl = $('div', {
+    className: 'ctrl',
+  }, [input, run, showSrc])
+
+  const frag = $('', {}, [ctrl, output, src])
   playground.appendChild(frag)
 }
 
