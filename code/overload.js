@@ -38,14 +38,17 @@ function operate(op, x, y) {
   }
 }
 
-function parse (str) {
+function parse (str, context) {
   const gen = (tokenize(str).concat(['EOL']))[Symbol.iterator]() // 生成器
   let token = gen.next()
   let operator = ['EOL'], operand = []
   while (operator.length) {
     const sym2 = symbols[token.value]
     if (sym2 === undefined) {
-      const num = eval(token.value)
+      const num = Function(
+        ['context'],
+        'with(context){return ' + token.value + '}'
+      )(context)
       operand.push(num)
       token = gen.next()
     } else { // type operator
@@ -70,10 +73,24 @@ function parse (str) {
   return operand[operand.length-1]
 }
 
-const Complex = require('./complex.js')
+function testNormal () {
+  const a = 3, b = 5, c = 2
+  const res = parse('(a + b) * c', { a, b, c })
+  console.log(res) // 16
+}
 
-// const a = 3, b = 5, c = 2
-const a = new Complex(3), b = new Complex(5), c = new Complex(2)
-const str = '(a + b) * c'
-const res = parse(str)
-console.log(res) // 16
+function testComplex () {
+  const Complex = require('./complex.js')
+  const a = new Complex(3), b = new Complex(5), c = new Complex(2)
+  const res = parse('(a + b) * c', { a, b, c })
+  console.log(res) // 16
+}
+
+function testFrac () {
+  const Frac = require('./frac.js')
+  const a = new Frac('3/1'), b = new Frac('2/5'), c = new Frac('1/2')
+  const res = parse('(a + b) * c', { a, b, c })
+  console.log(res) // 1.7
+}
+
+testNormal()

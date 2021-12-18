@@ -3,17 +3,26 @@ var Mat = /** @class */ (function () {
         if (title === void 0) { title = []; }
         this.mat = mat;
         this.title = title;
-        this.simplified = false;
     }
     Mat.prototype.copy = function () {
         return new Mat(this.mat.map(function (row) { return row.slice(); }), this.title.slice());
     };
-    Mat.prototype.toString = function () {
-        var width = Math.max.apply(Math, this.mat.flat().map(function (n) { return String(n).length; }));
+    /**
+     * 输出矩阵
+     * @param digits 保留的小数位数, 传入 undefined 则不作处理
+     */
+    Mat.prototype.toString = function (digits) {
+        var str;
+        if (digits !== undefined) {
+            digits = Math.pow(10, digits);
+            str = function (n) { return String(Math.round(n * digits) / digits); };
+        }
+        else {
+            str = function (n) { return String(n); };
+        }
+        var width = Math.max.apply(Math, this.mat.flat().map(function (n) { return str(n).length; }));
         var content = this.mat.map(function (row) {
-            return row.map(function (item) {
-                return String(item).padStart(width);
-            }).join(' ');
+            return row.map(function (item) { return str(item).padStart(width); }).join(' ');
         }).join('\n');
         var title = this.title.length
             ? this.title.map(function (item) { return item.padStart(width); }).join(' ') + '\n'
@@ -30,7 +39,7 @@ var Mat = /** @class */ (function () {
         var max = 0;
         var row = -1;
         for (var r = 0; r < mat.length; ++r) {
-            if (baseRows.includes(r))
+            if (r in baseRows)
                 continue;
             var value = Math.abs(mat[r][col]);
             if (value > max) {
@@ -47,15 +56,15 @@ var Mat = /** @class */ (function () {
      * @param verbose 显示过程
      */
     Mat.prototype.solve = function (verbose) {
-        var epsi = 1e-6;
         if (verbose === void 0) { verbose = false; }
+        var epsi = 1e-6;
         var m = this.copy();
         var mat = m.mat;
         var rows = mat.length;
         var cols = mat[0].length;
-        var base = []; // 选为基向量的列
+        var base = Object.create(null); // 选为基向量的列
+        var baseRows = Object.create(null); // 基向量的 "1" 所在的行
         var nonbase = []; // 非基向量的列
-        var baseRows = []; // 基向量的 "1" 所在的行
         for (var col = 0; col < cols - 1; ++col) {
             // 选定列主元
             var row = m.colMax(col, baseRows);
@@ -63,9 +72,9 @@ var Mat = /** @class */ (function () {
                 nonbase.push(col);
                 continue;
             }
-            base.push(col);
-            baseRows.push(row);
             var pivot = mat[row][col];
+            base[col] = row;
+            baseRows[row] = col;
             // 该行同乘一个倍数
             for (var c = 0; c < cols; ++c) {
                 mat[row][c] /= pivot;
@@ -88,16 +97,15 @@ var Mat = /** @class */ (function () {
         var title = ['X0'];
         var ret = Array.from({ length: cols - 1 }, function () { return []; });
         ret.forEach(function (row, i) {
-            // TODO: 优化 indexOf 查找
-            var index = base.indexOf(i);
-            row.push(index === -1 ? 0 : mat[baseRows[index]][cols - 1]);
+            var index = base[i];
+            row.push(index !== undefined ? mat[index][cols - 1] : 0);
         });
         // 非基向量取负移到右边
         nonbase.forEach(function (col) {
             title.push('T' + col);
             ret.forEach(function (row, i) {
-                var index = base.indexOf(i);
-                row.push(index > -1 ? -mat[baseRows[index]][col] : i === col ? 1 : 0);
+                var index = base[i];
+                row.push(index !== undefined ? -mat[index][col] : i === col ? 1 : 0);
             });
         });
         return new Mat(ret, title);
@@ -115,38 +123,40 @@ function testToString() {
     console.log(m.toString());
 }
 function testSolve() {
-    /*
     console.log(new Mat([
-      [1, 1, 0, -3, -1, 0],
-      [1, -1, 2, -1, 0, 0],
-      [4, -2, 6, 3, -4, 0],
-      [2, 4, -2, 4, -7, 0]
-    ]).solve().toString())
+        [1, 1, 0, -3, -1, 0],
+        [1, -1, 2, -1, 0, 0],
+        [4, -2, 6, 3, -4, 0],
+        [2, 4, -2, 4, -7, 0]
+    ]).solve().toString());
+    /*
    X0                 T2                 T4
     0                 -1 1.1666666666666667
     0                  1 0.8333333333333334
     0                  1                  0
     0                  0 0.3333333333333333
     0                  0                  1
-
+    */
     console.log(new Mat([
-      [5, 6, -2, 7, 4, 23],
-      [2, 3, -1, 4, 2, 12],
-      [7, 9, -3, 5, 6, 23],
-      [5, 9, -3, 1, 6, 13]
-    ]).solve().toString())
+        [5, 6, -2, 7, 4, 23],
+        [2, 3, -1, 4, 2, 12],
+        [7, 9, -3, 5, 6, 23],
+        [5, 9, -3, 1, 6, 13]
+    ]).solve().toString());
+    /*
                     X0                      T2                      T4
     0.9999999999999964 -2.2204460492503136e-16   4.440892098500627e-16
     0.6666666666666685      0.3333333333333334     -0.6666666666666669
                      0                       1                       0
      2.000000000000001   5.551115123125784e-17 -1.1102230246251568e-16
                      0                       0                       1
-
+    */
     console.log(new Mat([
-      [1, -1, 1, -1, 1],
-      [1, -1, -1, 1, 0],
-      [1, -1, -2, 2, -0.5]
-    ]).solve().toString())
+        [1, -1, 1, -1, 1],
+        [1, -1, -1, 1, 0],
+        [1, -1, -2, 2, -0.5]
+    ]).solve().toString());
+    /*
      X0  T1  T3
     0.5   1   0
       0   1   0

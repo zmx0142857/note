@@ -10,15 +10,16 @@
 <h2>微分中值定理</h2>
 
 <p class="definition">
-	设函数 `f` 在 `x_0` 的某邻域内有定义, 若存在 `delta gt 0`, 使
-	`f(x_0)` 是 `B(x_0, delta)` 上的最大值, 即成立
-	<span class="formula">
-		`f(x) le f(x_0)`, `AA x in B(x_0, delta)`,
-	</span>
-	则称 `x_0` 为 `f` 的一个<b>极大值点</b>,
-	`f(x_0)` 称为 `f` 的一个<b>极大值</b>.
-	类似可以定义极小值点和极小值的概念. 极大值 (点) 和极小值 (点)
-	通称为极值 (点).
+  <b>极值</b> 设函数 `f` 在 `x_0` 的某邻域内有定义, 若存在 `delta gt 0`, 使
+  `f(x_0)` 是 `B(x_0, delta)` 上的最大值, 即成立
+  <span class="formula">
+      `f(x) le f(x_0)`, `AA x in B(x_0, delta)`,
+  </span>
+  则称 `x_0` 为 `f` 的一个<b>极大值点</b>,
+  `f(x_0)` 称为 `f` 的一个<b>极大值</b>.
+  类似可以定义极小值点和极小值的概念. 极大值 (点) 和极小值 (点)
+  通称为极值 (点).
+  若定义中的不等号换成严格不等号, 则 `x_0` 称为 `f` 的<b>严格极大值点</b>.
 </p>
 
 <p class="remark">
@@ -32,8 +33,9 @@
 	的极大值点; 极小值点也有类似结论.
 </p>
 
-<p class="theorem">
-	(Fermat) 设函数 `f` 在极值点 `x_0` 可导, 则 `f'(x_0) = 0`.
+<p class="lemma">
+  <b>函数取极值的必要条件 (Fermat 引理)</b>
+  设函数 `f` 在极值点 `x_0` 可导, 则 `f'(x_0) = 0`.
 </p>
 
 <p class="proof">
@@ -63,9 +65,9 @@
 </p>
 
 <p class="theorem">
-	(Rolle) 设函数 `f` 在闭区间 `[a, b]` 上连续, 开区间 `(a, b)` 上可微,
-	且 `f(a) = f(b)`; 则 `f'` 在 `(a, b)` 上存在零点, 换言之,
-	必存在 `xi in (a, b)`, 使 `f'(xi) = 0`.
+  <b>Rolle 定理</b> 设函数 `f` 在闭区间 `[a, b]` 上连续, 开区间 `(a, b)`
+  上可微, 且 `f(a) = f(b)`; 则 `f'` 在 `(a, b)` 上存在零点, 换言之,
+  必存在 `xi in (a, b)`, 使 `f'(xi) = 0`.
 </p>
 
 <p class="proof">
@@ -74,9 +76,9 @@
 	和最小值 `f(x_m)`, 其中 `x_M`, `x_m in [a, b]`.
 	我们不妨设 `f` 不是 `[a, b]` 上的常值函数 (否则它的导数处处为零,
 	结论是平凡的), 则 `f(x_m) lt f(x_M)`. 这两个数必有一个与 `c`
-	不相等, 设 `f(x_m) != c`, 则 `x_m != a, b`, 即 `x_m in (a, b)`.
-	因而 `x_m` 是 `[a, b]` 的内点, 从而是 `f` 的极小值点.
-	由 Fermat 定理知 `f'(x_m) = 0`.
+	不相等, 设 `f(x_m) != c`, 则 `x_m != a, b`, 即 `x_m in (a, b)`
+    是区间的内点, 从而是 `f` 的极小值点.
+	由 Fermat 引理知 `f'(x_m) = 0`.
 </p>
 
 <p class="remark">
@@ -139,7 +141,7 @@
 <p class="proof">
 	若 `g(b) = g(a)`, 且 `f(b) = f(a)`, 则结论显然.
 	注意到定理中 `f, g` 地位对等, 我们可以设 `g(b) != g(a)`.
-	现在考虑割线方程
+	现在考虑曲线 `(g(t), f(t))`, 其割线方程为
 	<span class="formula">
 		`y = f(a) + (f(b)-f(a))/(g(b)-g(a))(x-g(a))`,
 	</span>
@@ -162,7 +164,7 @@
 </p>
 
 <p class="remark">
-	Lagrange 和 Cauchy 中值定理的证明中用到的辅助函数, 
+	Lagrange 和 Cauchy 中值定理的证明中用到的辅助函数,
 	可以从积分的思路去构造:
 	如 Lagrange 中值定理, 将 `f'(x) = (f(b) - f(a))/(b-a)` 移项并积分得
 	<span class="formula">
@@ -298,7 +300,30 @@
 	</span>
 </p>
 
-<h2>L'Hôpital 法则</h2>
+<h2>洛必达 (L'Hôpital) 法则</h2>
+
+<p class="example">
+  设 `f` 在 `[0, oo)` 上可导, 且 `lim_(x to +oo) f(x) + f'(x) = a`,
+  证明 `lim_(x to +oo) f(x) = a`.
+</p>
+
+<p class="proof">
+  对 `f(x) = ("e"^x f(x))/"e"^x` 应用洛必达法则,
+  <span class="formula">
+    `lim_(x to +oo) f(x)`
+    `lim_(x to +oo) ("e"^x (f(x) + f'(x)))/"e"^x`
+    `= a`.
+  </span>
+</p>
+
+<h2>函数的极值</h2>
+
+<p class="example">
+	在原点连续的偶函数, 原点常常是其极值点. 如 `sin x sin 2x`,
+	当 `x` 接近零但不等于零时, `sin x sin 2x gt 0`, 而函数在原点等于零,
+	因此原点是它的极值点.
+	但也有反例, 这时函数在原点上下振荡. 如 `x sin{:1/x:}`.
+</p>
 
 <h2>函数的凹凸性</h2>
 
@@ -327,7 +352,7 @@
 <ol class="theorem">
 	若 `f, g` 是区间 `I` 上的下凸函数, 则
 	<li>`-f` 是 `I` 上的上凸函数;</li>
-	<li>`f + g` 是 `I` 上的下凸函数;</li>
+	<li>`a f + b g` 是 `I` 上的下凸函数, `a, b` 为实数;</li>
 	<li>`max{f(x), g(x)}` 是 `I` 上的下凸函数;</li>
 	<li>若 `f, g` 非负且单调递增, 则 `f g` 是 `I` 上的下凸函数;</li>
 	<li>若 `f` 的值域含于 `J`, `h` 是 `J` 上单调递增的下凸函数, 则
@@ -336,27 +361,51 @@
 </ol>
 
 <ol class="theorem">
-	下面各命题等价:
-	<li>`f` 是区间 `I` 上的下凸函数;</li>
-	<li>定义在 `I` 上的差商函数 `(f(x)-f(y))/(x-y)` 关于 `x,y`
-		都单调递增;</li>
-	<li>对任意 `x,y,z in I` 有
-		<span class="formula">
-			`((z-y)f(x) + (x-z)f(y) + (y-x)f(z))/((z-y)(x-z)(y-x)) le 0`
-		</span>
-	</li>
-	<li>对 `I` 中任意 `x lt y lt z` 有
-		<span class="formula">
-			`|1,1,1;
-			  x,y,z;
-			  f(x),f(y),f(z)| ge 0`.
-		</span>
-	</li>
+  下面各命题等价:
+  <li>`f` 是区间 `I` 上的下凸函数;</li>
+  <li>对 `I` 中任意 `x lt y lt z` 有
+    <span class="formula">
+      `|1,1,1;
+      x,y,z;
+      f(x),f(y),f(z)| ge 0`;
+    </span>
+    也就是说, `(x, f(x))`, `(y, f(y))`, `(z, f(z))`
+    三点以逆时针方向围成三角形.
+  </li>
+  <li>对互不相同的 `x,y,z in I` 有
+    <span class="formula">
+      `((z-y)f(x) + (x-z)f(y) + (y-x)f(z))/((z-y)(x-z)(y-x)) le 0`;
+    </span>
+  </li>
+  <li>定义在 `I` 上的差商函数 (斜率函数) `(f(x)-f(y))/(x-y)` 关于 `x,y`
+    都单调递增.</li>
 </ol>
 
-<p class="corollary">
-	若 `f` 是`f(0) = 0`
-</p>
+<ol class="proof">
+  <li>`iff` 2. 令 `y = x + t (z-x)`, 其中 `t = (y-x)/(z-x)`, 于是
+    <span class="formula align">
+      `f(y) le f(x) + t(f(z) - f(x))`<br>
+      `iff (z-x)f(y) le (z-x) f(x) + (y-x)(f(z) - f(x))`<br>
+      `iff (z-y) f(x) + (x-z) f(y) + (y-x) f(z) ge 0`,
+    </span>
+    即得结论.
+  </li>
+  <li>`iff` 3. 注意分子就是 2. 中的行列式. 且分子分母都是交代式:
+    任意交换 `x, y, z` 中的两个字母, 所得的结果相差一个负号.
+    由于对换一次字母时, 分子分母同时变号, 因此总的结果不变.
+    我们可以通过一系列对换操作使得 `x lt y lt z`, 从而化为 2. 的情形.
+  </li>
+  <li>`iff` 4. 不妨设 `x lt y lt z`, 下证
+    <span class="formula">
+      `(f(x)-f(y))/(x-y) le (f(z) - f(y))/(z-y)`.
+    </span>
+    事实上, 上式等价于
+    <span class="formula align">
+      `(z-y)(f(y) - f(x)) le (y-x)(f(z) - f(y))`<br>
+      `iff (z-y)f(x) + (x-z)f(y) + (y-x)f(z) ge 0`.
+    </span>
+  </li>
+</ol>
 
 <p class="example">
 	设 `f` 是定义在 `[0,+oo)` 上的下凸函数, `f(0) = 0`.
@@ -387,24 +436,79 @@
 	f(|x|)+f(|y|)`, 不等式也成立.
 </p>
 
-<p class="example">
-	证明: 开区间 `I` 上的下凸函数 `f` 是连续函数.
-</p>
+<ol class="theorem">
+  设 `f` 在开区间 `I` 上可导, 则
+  <li>`f` 是 `I` 上的下凸函数当且仅当 `f'` 单调增;</li>
+  <li>`f` 在 `I` 上严格下凸当且仅当 `f'` 严格增.</li>
+</ol>
+
+<ol class="proof">
+  <li>先设 `f` 是下凸函数.
+    任取 `I` 上四点 `x lt y lt z lt w`, 下证 `f'(x) le f'(w)`.
+    以 `k_(x y)` 记 `(x, f(x))`
+    到 `(y, f(y))` 连线的斜率, 由 `f` 的凸性知道
+    `k_(x y)` 关于 `x, y` 都单调增, 从而
+    <span class="formula">
+      `k_(x y) le k_(z w)`.
+    </span>
+    令 `y to x`, `z to w`,
+    <span class="formula">
+      `f'(x) le k_(x y) le k_(z w) le f'(w)`.
+    </span>
+    若 `f` 严格凸, 则 `k_(x y) lt k_(z w)`, 不等式严格成立.
+  </li>
+  <li>再设 `f'` 单调增, 取 `x lt y lt z`.
+    由微分中值定理,
+    <span class="formula">
+      `k_(x y) = f'(xi) le f'(eta) = k_(y z)`.
+    </span>
+    即 `f` 是下凸函数. 若 `f'` 严格增, 则不等式严格成立.
+  </li>
+</ol>
+
+<ol class="corollary">
+  设 `f` 在开区间 `I` 上二阶可导, 则
+  <li>`f` 是 `I` 上的下凸函数当且仅当 `f'' ge 0`;</li>
+  <li>`f` 在 `I` 上严格下凸当且仅当 `f'' ge 0` 且在任意子区间上不恒为零.</li>
+</ol>
 
 <p class="proof">
-	任取 `x_0 in I`,
-	作闭区间 `[x_1, x_2]` 满足 `x_1 lt x_0 lt x_2`.
-	令 `g(x) = (f(x)-f(x_0))/(x-x_0)`, 我们有
-	<span class="formula">
-		`g(x_1) le g(x) le g(x_2)`, `quad x in [x_1, x_2]\\{x_0}`.
-	</span>
-	因此 `g(x)` 在 `[x_1, x_2]` 上有界, 设 `|g(x)| le M`, `x in [x_1,
-	x_2]\\{x_0}`, 有
-	<span class="formula">
-		`|f(x)-f(x_0)| le M |x-x_0|`, `quad x in [x_1, x_2]\\{x_0}`.
-	</span>
-	从而 `f` 在 `x_0` 处连续. 由 `x_0` 的任意性知, `f` 在 `I` 上连续.
+  1. 是显然的. 2. 成立是因为一个可微函数 `g` 单增当且仅当 `g' ge 0`
+  且在任意子区间上不恒为零.
 </p>
+
+<ol class="theorem">
+  设 `f` 是开区间 `I` 上的下凸函数, 则
+  <li>`f` 在 `I` 上处处有左、右导数;</li>
+  <li>`f` 在 `I` 上连续;</li>
+  <li>`f` 在 `I` 上只有可数个点处不可导.</li>
+</ol>
+
+<ol class="proof">
+  <li>任取 `x_0 in I`, 令 `g(x) = (f(x)-f(x_0))/(x-x_0)`, 则 `g` 在 `I`
+    上单调增. 任取 `x_0` 的邻域 `x_0 in B(x_0, delta) sube I`, 则
+    `g` 在 `(x_0-delta, x_0)` 和 `(x_0, x_0+delta)` 上分别单调有界, 因而
+    `f` 在 `x_0` 的左、右导数均存在.
+  </li>
+  <li>由 `g(x)` 在 `x_0` 的左、右极限存在知它在 `x_0` 附近局部有界,
+    设 `|g(x)| le M`, 则
+    <span class="formula">
+      `|f(x)-f(x_0)| le M |x-x_0|`, `quad x` 在 `x_0` 的某个邻域.
+    </span>
+    从而 `f` 在 `x_0` 处连续.
+  </li>
+  <li>由极限保序性知道 `f` 在每一点的左导数不超过其右导数,
+    又设 `x lt y lt z`, 由凸性
+    <span class="formula">
+      `f'(x+0) le k_(x y) le k_(y z) le f'(z-0)`.
+    </span>
+    因此 `f` 的全体不可导的点与 `RR` 上不相交的开区间族一一对应:
+    <span class="formula">
+      `{ (f'(x-0), f'(x+0)): f" 在 "x" 处不可导 "}`.
+    </span>
+    后者是可数的.
+  </li>
+</ol>
 
 <h2>Taylor 公式</h2>
 
@@ -556,14 +660,190 @@
   由于 `AA x gt 1` 有 `x-1 gt ln x`, 上述比较的结果为 "`gt`".
 </p>
 
-<h2>函数的极值</h2>
+<h2>积分余项的 Taylor 公式*</h2>
 
-<p class="example">
-	在原点连续的偶函数, 原点常常是其极值点. 如 `sin x sin 2x`,
-	当 `x` 接近零但不等于零时, `sin x sin 2x gt 0`, 而函数在原点等于零,
-	因此原点是它的极值点.
-	但也有反例, 这时函数在原点上下振荡. 如 `x sin{:1/x:}`.
+<p class="theorem">
+  <b>积分余项的 Taylor 公式</b>
+  设 `f(t) in C^(n+1)[a, x]`, `g(t) = t^n//n!`, 考虑 `f^((n+1))` 与 `g`
+  的卷积
+  <span class="formula">
+    `R_n(x) = f^((n+1)) ** g`
+    `= 1/(n!) int_a^x (x-t)^n f^((n+1))(t) dt`.
+  </span>
+  我们有
+  <span class="formula">
+    `f(x) = sum_(k=0)^n (f^((k))(a))/(k!) (x-a)^k + R_n(x)`.
+  </span>
+  注意到 `f` 是 `f^((n+1))` 的 `n+1` 阶原函数,
+  由此公式知道, 连续函数 `varphi` 的 `n` 阶原函数为
+  <span class="formula">
+    `p(x) + R_(n-1)(x) = p(x) + varphi ** t^(n-1)//(n-1)!`,
+  </span>
+  其中 `p(x)` 是次数小于 `n` 的多项式.
 </p>
+
+<p class="proof">
+  分部积分,
+  <span class="formula align">
+    `R_n(x) = 1/(n!) [(x-t)^n f^((n))(t)]_a^x`
+    `+ 1/((n-1)!) int_a^x (x-t)^(n-1) f^((n))(t) dt`<br>
+    `= - (f^((n))(a))/(n!) (x-a)^n + R_(n-1)(x)`.
+  </span>
+  利用 `R_0(x) = sum_(k=1)^n (R_(k-1)(x) - R_k(x)) + R_n(x)` 求和即得结论.
+</p>
+
+<p class="theorem">
+  <b>Darboux 公式</b>
+  现在考虑一般情形. 设 `f(x) in C^(n+1)[a, b]`,
+  `g(y)` 是 `[c, d]` 上的 `n` 次多项式. 关于 `f^((n+1))` 和 `g` 的卷积, 有
+  <span class="formula">
+    `C (f(b) - f(a))`
+    `= sum_(k=1)^n (b-a)^k (d-c)^(n-k)
+    |f^((k))(a), f^((k))(b); g^((n-k))(c), g^((n-k))(d)|`
+    `+ int_0^1 (b-a)^(n+1) f^((n+1))(x) g(y) dt`.
+  </span>
+  其中 `C = (d-c)^n g^((n))(y)` 为一常数.
+</p>
+
+<p class="proof">
+  通过换元 `x = a + (b-a) t`, `y = d - (d-c) t` 将积分区间化为 `[0, 1]`,
+  则下面的分部积分公式刚好将一阶导数从 `f` 转移到 `g`:
+  <span class="formula">
+    `(b-a) int_0^1 f'(x) g(y) dt`
+    `= f(x) g(y) |_(t=0)^1`
+    `+ (d-c) int_0^1 f(x) g'(y) dt`.
+  </span>
+  配上适当的系数和求导的阶数, 使两边的积分形式相同:
+  <span class="formula align">
+    `I_k = int_0^1 (b-a)^(k+1) f^((k+1))(x) (d-c)^(n-k) g^((n-k))(y) dt`<br>
+    `= (b-a)^k f^((k))(x) (d-c)^(n-k) g^((n-k))(y) |_(t=0)^1`
+    `+ int_0^1 (b-a)^k f^((k))(x) (d-c)^(n-k+1) g^((n-k+1))(y) dt`<br>
+    `= -(b-a)^k (d-c)^(n-k)
+    |f^((k))(a), f^((k))(b); g^((n-k))(c), g^((n-k))(d)|`
+    `+ I_(k-1)`.
+  </span>
+  于是
+  <span class="formula">
+    `I_0 = int_0^1 (d-c)^n g^((n))(y) (b-a) f'(x) dt`
+    `= C int_a^b f'(x) dx`
+    `= C (f(b) - f(a))`,
+  </span>
+  利用 `I_n = I_0 + sum_(k=1)^n (I_k - I_(k-1))` 求和即得结论.
+</p>
+
+<p class="corollary">
+  在 Darboux 公式中, `g` 取不同的多项式, 就得到不同的求和公式.
+  如 Taylor 公式、
+  <a href="../number/10.html#the-euler-maclaurin">Euler-Maclaurin 公式</a>:
+  <span class="formula">
+    `sum_(j=1)^(N-1) psi(j)`
+    `= int_0^N psi(t) dt`
+    `- (psi(0) + psi(N))/2`
+    `+ sum_(k=1)^m B_(2k)/(2k)! [psi^((2k-1))(N) - psi^((2k-1))(0)]`
+    `- int_0^N psi^((2m))(t) (B_(2m)(t-|__t__|))/(2m)! dt`.
+    <span class="label" id="fml-euler-maclaurin"></span>
+  </span>
+</p>
+
+<ol class="solution">
+  <li>`g(y) = y^n//n!`, `[c, d] = [0, 1]` 时, 得到 Taylor 公式:
+    <span class="formula">
+      `f(b) - f(a) = sum_(k=1)^n (b-a)^k f^((k))(a)//k!` `+ R_n`,
+    </span>
+    注意 `(b-a) y = (b-a)(1-t)` `= b-a-t(b-a) = b-x`, 因此余项等于
+    <span class="formula">
+      `R_n = int_0^1 (b-a)^(n+1) f^((n+1))(x) y^n//n! dt`
+      `= int_a^b f^((n+1))(x) (b-x)^n//n! dx`.
+    </span>
+  </li>
+  <li>`g(y) = y^n//n!`, `[c, d] = [-1, 1]` 时, 得到<b>在区间两边展开的 Taylor 公式</b>:
+    <span class="formula">
+      `f(b) - f(a)`
+      `= sum_(k=1)^n ((b-a)/2)^k/k! [f^((k))(a) - (-1)^k f^((k))(b)]`
+      `+ int_a^b f^((n+1))(x) ((a+b)/2-x)^n//n! dx`.
+    </span>
+  </li>
+  <li>取 `g(y)` 为 Bernoulli 多项式 `B_n(y)//n!`, `[c, d] = [0, 1]`, 就得到
+    Euler-Maclaurin 公式:
+    事实上, `B_n(y)` 是首一的 `n` 次多项式, 且 `B_n(y)//n!` 的导数满足和
+    `x^n//n!` 相同的等式:
+    <span class="formula">
+      `"d"/dy (B_n(y))/n! = (B_(n-1)(y))/(n-1)!`,
+    </span>
+    从而
+    <span class="formula">
+      `f(b) - f(a)`
+      `= sum_(k=1)^n (b-a)^k/k! [f^((k))(a) B_k(1) - f^((k))(b) B_k(0)]`
+      `+ int_0^1 (b-a)^(n+1) f^((n+1))(x) B_n(1-t) // n! dt`.
+    </span>
+    由于 `B_1(0) = -1/2`, `B_1(1) = 1/2`, 且
+    `k ge 2` 时 `B_k(0) = B_k(1)`,
+    又对奇数 `k ge 3` 有 `B_k(0) = B_k(1) = 0`,
+    记 `B_n = B_n(0)`,  我们有
+    <span class="formula">
+      `f(b) - f(a)`
+      `= (b-a)/2 [f'(a) + f'(b)]`
+      `+ sum_(k=1)^m (b-a)^(2k)/(2k)! B_(2k) [f^((2k))(a) - f^((2k))(b)]`
+      `+ int_0^1 (b-a)^(2m+1) f^((2m+1))(x) B_(2m)(1-t) // (2m)! dt`.
+    </span>
+    其中 `n = 2m`.  利用公式 `B_(2m)(1-t) = (-1)^(2m) B_(2m)(t)`, 余项的
+    `B_(2m)(1-t)` 也可以写成 `B_(2m)(t)`.
+  </li>
+  <li>如果记 `f' = varphi`, `h = b-a`, 则有 Euler-Maclaurin 公式的积分形式:
+    <span class="formula">
+      `int_a^(a+N h) varphi(x) dx`
+      `= sum_(j=1)^N h/2 [varphi(a+(j-1)h) + varphi(a+j h)]`
+      `+ sum_(j=1)^N sum_(k=1)^m h^(2k)/(2k)! B_(2k) [varphi^((2k-1))(a+(j-1)h) - varphi^((2k-1))(a+j h)] + R_m`
+      `= sum_(j=1)^(N-1) h varphi(a+j h)`
+      `+ h/2[varphi(a) + varphi(a+N h)]`
+      `+ sum_(k=1)^m h^(2k)/(2k)! B_(2k) [varphi^((2k-1))(a) - varphi^((2k-1))(a+N h)] + R_m`.
+    </span>
+    或者记 `psi(t) = varphi(a+t h)`, 就得到形如
+    <a class="ref" href="#fml-euler-maclaurin"></a>
+    的 Euler-Maclaurin 公式.
+  </li>
+</ol>
+
+<ol class="example">
+  设 `f'(a) = f'(b) = 0`, `h = b - a`, 证明:
+  <li>当 `f` 在 `[a, b]` 上二阶可导时, 存在 `xi in [a, b]` 使得
+    <span class="formula">
+      `|f(b) - f(a)| le h^2/4 |f''(xi)|`.
+    </span>
+  </li>
+  <li>当 `f in C^3[a, b]` 时, 存在 `xi in [a, b]` 使得
+    <span class="formula">
+      `|f(b) - f(a)| le h^3/12 |f'''(xi)|`.
+    </span>
+  </li>
+</ol>
+
+<ol class="solution">
+  <li>将 `f((a+b)/2)` 在区间两边分别用 Taylor 公式展开,
+    <span class="formula">
+      `f((a+b)/2) = f(a) + (f''(xi))/2 (h/2)^2`
+      `= f(b) + (f''(eta))/2 (h/2)^2`.
+    </span>
+    两式相减得
+    <span class="formula">
+      `|f(b) - f(a)|`
+      `= |f''(xi) + f''(eta)| h^2/8`
+      `le max{|f''(xi)|, |f''(eta)|} h^2/4`.
+    </span>
+  </li>
+  <li>[来自 ζ(me)=0] 同样使用在区间两边展开的 Taylor 公式,
+    <span class="formula align">
+      `f(b) - f(a)`<br>
+      `= int_a^b f'(x) "d"(x - (a+b)/2)`<br>
+      `= - int_a^b f''(x) (x-(a+b)/2) dx`<br>
+      `= - int_a^b [f''(x) - f''((a+b)/2)] (x-(a+b)/2) dx`<br>
+      `= - int_a^b f'''(eta(x)) (x-(a+b)/2)^2 dx`<br>
+      `= - f'''(xi) int_a^b (x-(a+b)/2)^2 dx`<br>
+      `= - f'''(xi) (b-a)^3 // 12`.
+    </span>
+    于是 `|f(b) - f(a)| le h^3/12 |f'''(xi)|`.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

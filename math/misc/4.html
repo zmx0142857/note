@@ -460,10 +460,11 @@
     `f(t) le g(t) + int_a^t p(s) g(s) P(t) // P(s) "d"s`,
     </span>
   </span>
-  其中 `P(t) = exp(int_a^t p(u) "d"u)`.
-  若 `g` 可微, 上式分部积分可得
+  其中 `P(t) = exp(int_a^t p(u) "d"u)`, `P(t) // P(s) = exp(int_s^t
+  p(u) "d"u)`.
+  若 `g` 连续可微, 上式分部积分可得
   <span class="formula">
-    `f(t) le g(a) P(t) + int_a^t P(t) // P(s) g'(s) "d"s`.
+    `f(t) le g(a) P(t) + int_a^t g'(s) P(t) // P(s) "d"s`.
   </span>
   若 `g` 是常数, 结论简化为
   <span class="formula">
@@ -678,6 +679,37 @@
 		`(1/(b-a)int_a^b|f(x)|^alpha dx)^(1/alpha)`
 	</span>
 	关于参数 `alpha` 单调递增.
+</p>
+
+<p class="theorem">
+  <b>Bernoulli 不等式</b>
+  设实数 `x gt -1`, `a ge 0`, 则
+  <span class="formula">
+    `(1+x)^a ge 1 + a x`, `quad a ge 1`,<br>
+    `(1+x)^a le 1 + a x`, `quad 0 le a le 1`.
+  </span>
+  等号成立当且仅当 `a = 0, 1` 或 `x = 0`.
+</p>
+
+<p class="proof">
+  在 `0` 到 `x` 的区间上 Taylor 展开
+  <span class="formula">
+    `(1+x)^a = 1 + a x + (a(a-1))/2 xi^2`
+  </span>
+  即得结论.
+</p>
+
+<p class="proof">
+  Bernoulli 不等式是很基础的不等式, 这里就 `a` 等于正整数 `n`
+  的情形给出归纳法证明: `n = 1` 时 `(1+x)^1 = 1 + 1*x` 成立.
+  假设结论对正整数 `n-1` 成立, 则
+  <span class="formula">
+    `(1+x)^n`
+    `ge (1+x) (1 + (n-1) x)`
+    `= 1 + n x + (n-1)x^2`
+    `ge 1 + n x`.
+  </span>
+  等号成立当且仅当 `n = 1` 或 `x = 0`.
 </p>
 
 <script src="../../js/note.js?type="></script>
