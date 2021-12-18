@@ -44,7 +44,7 @@ math: {
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html', date: '2021-12-07'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
-    {title:'导数的应用', src:'analysis/5.html', date: '2021-12-17'},
+    {title:'导数的应用', src:'analysis/5.html', date: '2021-12-18'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
     {title:'定积分与广义积分', src:'analysis/7.html'},
     {title:'含参积分与特殊函数', src:'analysis/8.html'},
