@@ -9,7 +9,7 @@
 
 <h2>离散微积分</h2>
 
-<h3>差分与求和</h3>
+<h3>差分</h3>
 
 <p class="definition">
 	设 `x_n` (`n ge 0`) 是一个数列. 定义 `x_n` 的<b>差分</b>为
@@ -34,28 +34,11 @@
 	下文我们只讨论向前差分.
 </p>
 
-<p class="corollary">
-  <span class="formula">
-    `Delta^k x_n = sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
-  </span>
-  向后差分、中心差分也有类似的表达式.
-</p>
-
-<p class="proof">
-  `k = 0` 时, `Delta^0 x_n = x_n` 成立; 假设等式对 `k-1` 成立, 则
-  <span class="formula">
-    `Delta^k x_n = Delta^(k-1) x_(n+1) - Delta^(k-1) x_n`
-    `= sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-j) - sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-1-j)`
-    `= x_(n+k) - (-1)^(k-1) x_n + sum_(j=1)^(k-1) (-1)^j x_(n+k-j) ((k-1; j) + (k-1; j-1))`
-    `= sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
-  </span>
-</p>
-
 <p class="example">
 	利用差分表计算 `x_n = 2 n^2 + 3 n + 1` 的各阶差分.
 </p>
 
-<div class="solution">
+<div class="p solution">
 	将 `x_0, x_1, x_2, cdots` 列于第一行,
 	`Delta x_0, Delta x_1, cdots` 列于第二行,
 	依此类推, 每个差分值写在被减数与减数的下面:
@@ -81,46 +64,15 @@
   </span>
 </p>
 
-<ol class="proposition">
-	<li>如同积分与微分一样, <b>求和与差分具有线性性</b>:
-		<span class="formula">
-			`sum (a x_n + b y_n) = a sum x_n + b sum y_n`,
-			`quad Delta (a x_n + b y_n) = a Delta x_n + b Delta y_n`.
-		</span>
-	</li>
-	<li>如同积分与微分互逆一样, <b>求和与差分互为逆运算</b>:
-		<span class="formula">
-			`sum_(0 le k lt n) Delta x_k = [x_k]_0^n = x_n - x_0`,
-			`quad Delta sum_(0 le k lt n) x_k = x_n`.
-		</span>
-		特别当 `x_0 = 0` 时, 两式结果相等.
-	</li>
-	<li>
-		<b>分部求和公式</b>
-		因为
-		<span class="formula">
-			`Delta x_k y_k = x_(k+1) y_(k+1) - x_k y_(k+1) + x_k y_(k+1)
-			- x_k y_k`
-			`= y_(k+1) Delta x_k + x_k Delta y_k`,
-		</span>
-		所以
-		<span class="formula">
-			`sum_(0 le k lt n) x_k Delta y_k`
-			`= [x_k y_k]_0^n - sum_(0 le k lt n) y_(k+1) Delta x_k`.
-		</span>
-		分部求和的几何意义是改变矩形求和的次序.
-	</li>
-</ol>
-
-<img src="../img/sum-by-part.svg">
-
 <p>	如同微积分中我们有一张常用函数的导数表一样, 我们来推导一些常见数列的差分.</p>
 
 <p class="proposition">
 	<b>指数函数的差分公式</b>
 	直接计算,
 	<span class="formula">
-		`Delta 2^n = 2^n`, `quad Delta a^n = a^n (a-1)`.
+		`Delta 2^n = 2^n`,
+        `quad Delta a^n = a^n (a-1)`,
+        `quad Delta^k a^n = a^n (a-1)^k`.
 	</span>
 	`2^n` 的差分是它自己, 这一性质对应于微积分中的 `"e"^x`.
 	如果记 `H_n = sum_(k=1)^n 1/k`, 则
@@ -130,74 +82,133 @@
 	这一性质对应于微积分中的 `ln x`.
 </p>
 
-<p class="example">
-	求 `sum k 2^k`, 其中求和范围是 `0 le k lt n`.
-</p>
-
-<p class="solution">
-	<span class="formula">
-		`sum k 2^k = sum k Delta 2^k = [k 2^k]_0^n - sum 2^(k+1) Delta k`
-		`= n 2^n - 2 sum Delta 2^k = n 2^n - 2 [2^k]_0^n`
-		`= n 2^n - 2(2^n - 1)`.
-	</span>
-</p>
-
-<p class="example">
-	求 `sum H_k`, 求和范围是 `0 le k lt n`.
-</p>
-
-<p class="solution">
-	<span class="formula">
-		`sum H_k = sum H_k Delta k = [k H_k]_0^n - sum (k+1) Delta H_k`
-		`= n(H_n - 1)`.
-	</span>
-</p>
-
-<h3>下降幂</h3>
-
 <p class="definition">
-	<b>下降幂与上升幂</b>
-	设 `k` 为非负整数,
-	<span class="formula">
-		`n^(ul k) = prod_(0 le i lt k) (n-i) = n(n-1) cdots (n-k+1)`,<br/>
-		`n^(bar k) = prod_(0 le i lt k) (n+i) = n(n+1) cdots (n+k-1)`.
-	</span>
-	下降幂与二项式系数只相差系数 `k!`:
-	<span class="formula">
-		`n^(ul k)/(k!) = (n;k)`.
-	</span>
-	下面考虑负指数的下降幂.  设 `k` 为正整数, 定义
-	<span class="formula">
-		`n^(ul(-k)) = prod_(1 le i le k) (n+i)^-1`
-		`= 1/((n+1)(n+2) cdots (n+k))`.
-	</span>
-	特别地 `n^(ul(-1)) = 1/(n+1)`.
+  <b>下降幂与上升幂</b>
+  设 `k` 为非负整数,
+  <span class="formula">
+    `n^(ul k) = prod_(0 le i lt k) (n-i) = n(n-1) cdots (n-k+1)`,<br/>
+    `n^(bar k) = prod_(0 le i lt k) (n+i) = n(n+1) cdots (n+k-1)`.
+  </span>
+  下降幂与二项式系数只相差系数 `k!`:
+  <span class="formula">
+    `n^(ul k)/(k!) = (n;k)`.
+  </span>
+  下面考虑负指数的下降幂.  设 `k` 为正整数, 定义
+  <span class="formula">
+    `n^(ul(-k)) = prod_(1 le i le k) (n+i)^-1`
+    `= 1/((n+1)(n+2) cdots (n+k))`.
+  </span>
+  特别地 `n^(ul(-1)) = 1/(n+1)`.
 </p>
 
 <p class="proposition">
-	<b>下降幂的差分公式</b>
-	`k` 为非负整数时, 由 Pascal 公式 `(n+1; k) = (n; k) + (n; k-1)` 知
-	<span class="formula">
-		`Delta (n;k) = (n; k-1)`.
-	</span>
-	写成下降幂形式就是
-	<span class="formula">
-		`Delta n^(ul k) = k n^(ul(k-1))`.
-	</span>
-	可以验证上式对于负指数下降幂仍成立. 因此, 下降幂的差分仍是一个下降幂,
-	这对应于微分学的公式 `"d"/dx x^n = n x^(n-1)`.
-	然而 `n^k` 没有简单的差分公式, 所以在离散数学的世界里,
-	用下降幂代替普通的幂, 往往能简化计算.
+  <b>下降幂的差分公式</b>
+  `k` 为非负整数时, 由 Pascal 公式 `(n+1; k) = (n; k) + (n; k-1)` 知
+  <span class="formula">
+    `Delta (n;k) = (n; k-1)`.
+  </span>
+  写成下降幂形式就是
+  <span class="formula">
+    `Delta n^(ul k) = k n^(ul(k-1))`.
+  </span>
+  可以验证上式对于负指数下降幂仍成立. 因此, 下降幂的差分仍是一个下降幂,
+  这对应于微分学的公式 `"d"/dx x^n = n x^(n-1)`.
+  然而 `n^k` 没有简单的差分公式, 所以在离散数学的世界里,
+  用下降幂代替普通的幂, 往往能简化计算.
+</p>
+
+<table>
+  <caption>常见函数的差分</caption>
+  <tr>
+    <td>`f(n)`</td>
+    <td>`Delta f(n)`</td>
+    <td>`f(n)`</td>
+    <td>`Delta f(n)`</td>
+  </tr>
+  <tr>
+    <td>`2^n`</td>
+    <td>`2^n`</td>
+    <td>`a^n`</td>
+    <td>`a^n(a-1)`</td>
+  </tr>
+  <tr>
+    <td>`(n;k)`</td>
+    <td>`(n;k-1)`</td>
+    <td>`n^(ul k)`</td>
+    <td>`k n^(ul(k-1))`</td>
+  </tr>
+  <tr>
+    <td>`H_n`</td>
+    <td>`n^(ul(-1))`</td>
+  </tr>
+</table>
+
+<h3>求和</h3>
+
+<ol class="proposition">
+  <li>如同积分与微分一样, <b>求和与差分具有线性性</b>:
+    <span class="formula">
+      `sum (a x_n + b y_n) = a sum x_n + b sum y_n`,
+      `quad Delta (a x_n + b y_n) = a Delta x_n + b Delta y_n`.
+    </span>
+  </li>
+  <li>如同积分与微分互逆一样, <b>求和与差分互为逆运算</b>:
+    <span class="formula">
+      `sum_(0 le k lt n) Delta x_k = [x_k]_0^n = x_n - x_0`,
+      `quad Delta sum_(0 le k lt n) x_k = x_n`.
+    </span>
+    特别当 `x_0 = 0` 时, 两式结果相等.
+  </li>
+  <li>
+    <b>分部求和公式</b>
+    因为
+    <span class="formula">
+      `Delta x_k y_k = x_(k+1) y_(k+1) - x_k y_(k+1) + x_k y_(k+1)
+      - x_k y_k`
+      `= y_(k+1) Delta x_k + x_k Delta y_k`,
+    </span>
+    所以
+    <span class="formula">
+      `sum_(0 le k lt n) x_k Delta y_k`
+      `= [x_k y_k]_0^n - sum_(0 le k lt n) y_(k+1) Delta x_k`.
+    </span>
+    分部求和的几何意义是改变矩形求和的次序.
+  </li>
+</ol>
+
+<img src="../img/sum-by-part.svg">
+
+<p class="example">
+  求 `sum k 2^k`, 其中求和范围是 `0 le k lt n`.
+</p>
+
+<p class="solution">
+  <span class="formula">
+    `sum k 2^k = sum k Delta 2^k = [k 2^k]_0^n - sum 2^(k+1) Delta k`
+    `= n 2^n - 2 sum Delta 2^k = n 2^n - 2 [2^k]_0^n`
+    `= n 2^n - 2(2^n - 1)`.
+  </span>
 </p>
 
 <p class="example">
-	应用离散微积分的方法导出朱世杰恒等式:
-	<span class="formula">
-		`sum_(k=0)^n (k;p)`
-		`= sum_(k=0)^n Delta (k; p+1)`
-		`= (n+1; p+1) - (0; p+1)`
-		`= (n+1; p+1)`.
-	</span>
+  求 `sum H_k`, 求和范围是 `0 le k lt n`.
+</p>
+
+<p class="solution">
+  <span class="formula">
+    `sum H_k = sum H_k Delta k = [k H_k]_0^n - sum (k+1) Delta H_k`
+    `= n(H_n - 1)`.
+  </span>
+</p>
+
+<p class="example">
+  应用离散微积分的方法导出朱世杰恒等式:
+  <span class="formula">
+    `sum_(k=0)^n (k;p)`
+    `= sum_(k=0)^n Delta (k; p+1)`
+    `= (n+1; p+1) - (0; p+1)`
+    `= (n+1; p+1)`.
+  </span>
 </p>
 
 <p class="example">
@@ -223,67 +234,96 @@
   </li>
 </ol>
 
+<h3>几个公式</h3>
+
+<p>本节的最后导出几个有用的公式.</p>
+
 <p class="theorem">
-	<b>离散 Maclaurin 公式</b>
-	设 `x_n` 为数列通项, `m` 为非负整数, 且对任意 `k gt m` 有
-	`Delta^k x_0 = 0`, 则
-	<span class="formula">
-		`x_n = sum_(k=0)^m (n;k) Delta^k x_0`
-		`= sum_(k=0)^m (Delta^k x_0)/(k!) n^(ul k)`.
-	</span>
+  <b>`k` 阶差分公式</b>
+  <span class="formula">
+    `Delta^k x_n = sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
+  </span>
+  如果记 `x_n = x^n`, 上式形式地写为
+  <span class="formula">
+    `Delta^k x^n = x^n (x-1)^k`.
+  </span>
+  该表达式与指数函数的 `k` 阶差分一致.
+  向后差分、中心差分也有类似的表达式.
 </p>
 
 <p class="proof">
-	首先由大于 `m` 阶的差分都等于零知, `x_n` 是一个多项式 (??).<br/>
-	因为 `(n; k)` 是 `n` 的 `k` 次多项式, `k = 0, 1, cdots, m`, 所以
-	`(n;k)` 线性无关, 它们组成多项式空间 `bbb P{::}_m[x]` 的基.<br/>
-	下面计算 `(n;k)` 的差分.
-	因为 `Delta (n;k) = (n;k-1)`, 所以
-	<span class="formula">
-		`{: Delta^j (n;k) |_(n=0) = {: (n; k-j) |_(n=0)`
-		`= delta_(j k) = { 1, if j = k; 0, if j != k :}`.
-	</span>
-	现在将多项式 `x_n` 用基底线性表示为
-	<span class="formula">
-		`x_n = sum_(k=0)^m c_k (n; k)`,
-	</span>
-	则由差分的线性性知,
-	<span class="formula">
-		`Delta^j x_0 = sum_(k=0)^m c_k {:Delta^j (n;k)|_(n=0)`
-		`= sum_(k=0)^m c_k delta_(j k)`
-		`= c_j`.
-	</span>
-	所以公式成立.
+  `k = 0` 时, `Delta^0 x_n = x_n` 成立; 假设等式对 `k-1` 成立, 则
+  <span class="formula align">
+    `Delta^k x_n = Delta^(k-1) x_(n+1) - Delta^(k-1) x_n`<br>
+    `= sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-j)`
+    `- sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-1-j)`<br>
+    `= x_(n+k) - (-1)^(k-1) x_n`
+    `+ sum_(j=1)^(k-1) (-1)^j x_(n+k-j) ((k-1; j) + (k-1; j-1))`<br>
+    `= sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
+  </span>
 </p>
 
 <p class="theorem">
-	<b>带余项的离散 Maclaurin 公式</b>
-	<span class="formula">
-		`x_n = sum_(k=0)^m (n;k) Delta^k x_0 + R_m(n)`,
-	</span>
-	其中 `R_m(n) = sum_(0 le k lt n) (n-k-1; m) Delta^(m+1) x_k`.
+  <b>离散 Maclaurin 公式</b>
+  设 `x_n` 为数列通项, `m` 为非负整数, 且对任意 `k gt m` 有
+  `Delta^k x_0 = 0`, 则
+  <span class="formula">
+    `x_n = sum_(k=0)^m (n;k) Delta^k x_0`
+    `= sum_(k=0)^m (Delta^k x_0)/(k!) n^(ul k)`.
+  </span>
 </p>
 
 <p class="proof">
-	设 `m gt 0`, 对 `R_m(n)` 分部求和,
-	<span class="formula">`{:
-		R_m(n) ,= sum_(0 le k lt n-1) (n-k-1; m) Delta^(m+1) x_k;
-		,= [(n-k-1; m) Delta^m x_k]_(k=0)^(n-1)
-		+ sum_(0 le k lt n-1) (n-k-2; m-1) Delta^m x_(k+1);
-		,= -(n-1; m) Delta^m x_0 + sum_(1 le k lt n) (n-k-1; m-1)
-		Delta^m x_k;
-		,= -(n-1; m) Delta^m x_0 - (n-1; m-1) Delta^m x_0 + sum_(0 le k lt
-		n) (n-k-1; m-1) Delta^m x_k;
-		,= -(n; m) Delta^m x_0 + R_(m-1) (n).:}`
-	</span>
-	于是
-	<span class="formula">
-		`R_0(n) = sum_(1 le k le m) (R_(k-1)(n) - R_k(n)) + R_m(n)`,
-	</span>
-	即
-	<span class="formula">
-		`x_n - x_0 = sum_(1 le k le m) (n;k) Delta^k x_0 + R_m(n)`.
-	</span>
+  首先由大于 `m` 阶的差分都等于零知, `x_n` 是一个多项式 (??).<br/>
+  因为 `(n; k)` 是 `n` 的 `k` 次多项式, `k = 0, 1, cdots, m`, 所以
+  `(n;k)` 线性无关, 它们组成多项式空间 `bbb P{::}_m[x]` 的基.<br/>
+  下面计算 `(n;k)` 的差分.
+  因为 `Delta (n;k) = (n;k-1)`, 所以
+  <span class="formula">
+    `{: Delta^j (n;k) |_(n=0) = {: (n; k-j) |_(n=0)`
+    `= delta_(j k) = { 1, if j = k; 0, if j != k :}`.
+  </span>
+  现在将多项式 `x_n` 用基底线性表示为
+  <span class="formula">
+    `x_n = sum_(k=0)^m c_k (n; k)`,
+  </span>
+  则由差分的线性性知,
+  <span class="formula">
+    `Delta^j x_0 = sum_(k=0)^m c_k {:Delta^j (n;k)|_(n=0)`
+    `= sum_(k=0)^m c_k delta_(j k)`
+    `= c_j`.
+  </span>
+  所以公式成立.
+</p>
+
+<p class="theorem">
+  <b>带余项的离散 Maclaurin 公式</b>
+  <span class="formula">
+    `x_n = sum_(k=0)^m (n;k) Delta^k x_0 + R_m(n)`,
+  </span>
+  其中 `R_m(n) = sum_(0 le k lt n) (n-k-1; m) Delta^(m+1) x_k`.
+</p>
+
+<p class="proof">
+  设 `m gt 0`, 对 `R_m(n)` 分部求和,
+  <span class="formula">`{:
+    R_m(n) ,= sum_(0 le k lt n-1) (n-k-1; m) Delta^(m+1) x_k;
+    ,= [(n-k-1; m) Delta^m x_k]_(k=0)^(n-1)
+    + sum_(0 le k lt n-1) (n-k-2; m-1) Delta^m x_(k+1);
+    ,= -(n-1; m) Delta^m x_0 + sum_(1 le k lt n) (n-k-1; m-1)
+    Delta^m x_k;
+    ,= -(n-1; m) Delta^m x_0 - (n-1; m-1) Delta^m x_0 + sum_(0 le k lt
+    n) (n-k-1; m-1) Delta^m x_k;
+    ,= -(n; m) Delta^m x_0 + R_(m-1) (n).:}`
+  </span>
+  于是
+  <span class="formula">
+    `R_0(n) = sum_(1 le k le m) (R_(k-1)(n) - R_k(n)) + R_m(n)`,
+  </span>
+  即
+  <span class="formula">
+    `x_n - x_0 = sum_(1 le k le m) (n;k) Delta^k x_0 + R_m(n)`.
+  </span>
 </p>
 
 <h2>Stirling 数</h2>

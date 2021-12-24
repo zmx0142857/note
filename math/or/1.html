@@ -267,6 +267,32 @@
 	`z` 行系数非负, 算法终止. 最优解为 `(4, 2, 0, 0, 4)`, `z = 14`.
 </p>
 
+<div class="playground" type="textarea" value="max 3x - y - z
+x - 2y + z <= 11
+4x - y - 2z <= -3
+-2x + z <= 1
+2x - z <= -1">
+<p>说明:
+第一行指定目标函数.
+接下来 m 行指定约束, 可以是等式 (=) 约束或不等式 (&lt;=, &gt;=) 约束.
+默认每个变量都取非负实数 (待升级: 允许变量取任意实数).
+</p>
+<script type="text">
+module.exports = function lpSolve (str) {
+  const lp = LP.from(str)
+  const res = lp.solve()
+  if (res === LP.status.FOUND) {
+    return lp.toString() + 'solution found'
+  } else if (res === LP.status.UNBOUNDED) {
+    return lp.toString() + 'unbounded solution'
+  } else if (res === LP.status.RUNNING) {
+    return 'failed: max iterations exceeded'
+  }
+}
+</script>
+</div>
+
+
 <h3>单纯形法的正确性</h3>
 
 <ul class="definition">
@@ -352,5 +378,7 @@
 </p>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/playground.js"></script>
+<script src="../../code/lp.js"></script>
 </body>
 </html>

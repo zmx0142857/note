@@ -47,7 +47,7 @@ math: {
     {title:'导数的应用', src:'analysis/5.html', date: '2021-12-18'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
     {title:'定积分与广义积分', src:'analysis/7.html'},
-    {title:'含参积分与特殊函数', src:'analysis/8.html'},
+    {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2021-12-22'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
     {title:'常数项级数', src:'analysis/10.html'},
     {title:'函数列与函数项级数', src:'analysis/11.html'},
@@ -56,8 +56,7 @@ math: {
     {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-29'},
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
-    {title:'曲线与曲面积分', src:'analysis/20.html'},
-    {title:'场论初步', src:'analysis/22.html', date:'2021-12-09'},
+    {title:'场论初步', src:'analysis/22.html', date:'2021-12-23'},
     {title:'分数阶微积分', src:'analysis/23.html'},
     {title:'函数方程', src:'analysis/24.html'},
   ]
@@ -130,12 +129,12 @@ math: {
 }, {
   title:'抽象代数',
   articles: [
-    {title:'群 (上)', src:'abstract/2.html'},
+    {title:'群 (上)', src:'abstract/2.html', date:'2021-12-22'},
     {title:'群 (中)', src:'abstract/3.html'},
-    {title:'群 (下)', src:'abstract/4.html'},
+    {title:'群 (下)', src:'abstract/4.html', date:'2021-12-22'},
     {title:'半群', src:'abstract/5.html'},
     {title:'环', src:'abstract/6.html'},
-    {title:'域', src:'abstract/7.html'},
+    {title:'域', src:'abstract/7.html', date:'2021-12-22'},
     {title:'Galois 理论', src:'abstract/8.html'},
   ]
 }, {
@@ -187,7 +186,7 @@ math: {
 }, {
   title:'运筹学',
   articles: [
-    {title:'线性规划', src:'or/1.html'},
+    {title:'线性规划', src:'or/1.html', date:'2021-12-24'},
   ]
 }, {
   title:'组合数学',
