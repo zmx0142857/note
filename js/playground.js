@@ -28,6 +28,8 @@ function $(tag, options = {}, children = []) {
       Object.keys(value).forEach(attr => el.setAttribute(attr, value[attr]))
     } else if (key === 'style') {
       Object.assign(el.style, value)
+    } else if (typeof value === 'function') {
+      el[key] = value.bind(options)
     } else {
       el[key] = value
     }
@@ -98,9 +100,31 @@ for (let playground of list) {
     }
   }
 
+  const ctrls = [input, run, showSrc]
+
+  if (playground.getAttribute('value2')) {
+    const value1 = $('input', {
+      type: 'button',
+      value: '例1',
+      input: input.value,
+      onclick () {
+        input.value = this.input
+      }
+    })
+    const value2 = $('input', {
+      type: 'button',
+      value: '例2',
+      input: playground.getAttribute('value2'),
+      onclick () {
+        input.value = this.input
+      }
+    })
+    ctrls.push(value1, value2)
+  }
+
   const ctrl = $('div', {
     className: 'ctrl',
-  }, [input, run, showSrc])
+  }, ctrls)
 
   const frag = $('', {}, [ctrl, output, src])
   playground.appendChild(frag)

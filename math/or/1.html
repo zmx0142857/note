@@ -267,27 +267,27 @@
 	`z` 行系数非负, 算法终止. 最优解为 `(4, 2, 0, 0, 4)`, `z = 14`.
 </p>
 
-<div class="playground" type="textarea" value="max 3x - y - z
+<div class="playground" type="textarea" value2="min x3+x4+x5
+x1-3x2-x3 <= -2
+-x1+3x2-x3 <= 2
+x1+x2-x4 <= 0
+-x1-x2-x4 <= 0
+x1-x5 <= 0
+-x1-x5 <= 0
+free x1 x2 x3 x4 x5" value="max 3x - y - z
 x - 2y + z <= 11
 4x - y - 2z <= -3
 -2x + z <= 1
 2x - z <= -1">
+
 <p>说明:
 第一行指定目标函数.
-接下来 m 行指定约束, 可以是等式 (=) 约束或不等式 (&lt;=, &gt;=) 约束.
-默认每个变量都取非负实数 (待升级: 允许变量取任意实数).
+接下来 m 行指定约束, 可以是等式 (=) 或不等式 (&lt;=, &gt;=), 注意常数必须放在右边, 其余项放在左边.
+默认每个变量都取非负实数, 如果某些变量可以取全体实数, 则将它们在最后一行列出, 如: <code>free x y z</code>.
 </p>
 <script type="text">
 module.exports = function lpSolve (str) {
-  const lp = LP.from(str)
-  const res = lp.solve()
-  if (res === LP.status.FOUND) {
-    return lp.toString() + 'solution found'
-  } else if (res === LP.status.UNBOUNDED) {
-    return lp.toString() + 'unbounded solution'
-  } else if (res === LP.status.RUNNING) {
-    return 'failed: max iterations exceeded'
-  }
+  return LP.from(str).solveInfo()
 }
 </script>
 </div>
