@@ -7,7 +7,83 @@
 </head>
 <body>
 
-<h2>常用公式</h2>
+<h2>曲线/曲面积分</h2>
+
+<table>
+  <tr>
+    <td>第一类曲线积分</td>
+    <td>`int_L f(x,y,z) "d"s`</td>
+    <td>第二类曲线积分</td>
+    <td>`int_L bm F(x,y,z) * "d"bm r`</td>
+  </tr>
+  <tr>
+    <td>第一类曲面积分</td>
+    <td>`int_Sigma f(x,y,z) "d"sigma`</td>
+    <td>第二类曲面积分</td>
+    <td>`int_Sigma bm F(x,y,z) * "d"bm S`</td>
+  </tr>
+</table>
+
+<p>形式上有</p>
+
+<table>
+  <tr>
+    <td>曲线切向微元</td>
+    <td>`"d"bm r = (dx, dy, dz)`</td>
+    <td>曲线弧长微元</td>
+    <td>`"d"s = |"d"bm r|`</td>
+  </tr>
+  <tr>
+    <td>曲面法向微元</td>
+    <td>`"d"bm S = (dy dz, dz dx, dx dy)`</td>
+    <td>曲面面积微元</td>
+    <td>`"d"sigma = |"d"bm S|`</td>
+  </tr>
+</table>
+
+<p>
+  实际计算时, 为曲线 `L` (曲面 `Sigma`) 选取合适的参数, 就有
+  <span class="formula">
+    `"d"bm r = bm v dt`, `quad "d"s = |bm v| dt`;<br/>
+    `"d"bm S = bm n "d"u"d"v`, `quad "d"sigma = |bm n|"d"u"d"v`.
+  </span>
+  其中
+  <span class="formula">
+    切向量 `bm v = ("d"bm r)/dt` `= (dx/dt, dy/dt, dz/dt)`, `quad`
+    法向量 `bm n = bm r_u xx bm r_v` `= |bm i, bm j, bm k; x_u, y_u, z_u; x_v, y_v, z_v|`
+  </span>
+  依赖于参数选取.
+</p>
+
+<ol class="remark">
+  <li>
+  把曲面的单位法向量记为 `(cos alpha, cos beta, cos gamma)`, 则
+  <span class="formula">
+    `"d"bm S = (cos alpha, cos beta, cos gamma) "d"sigma`.
+  </span>
+  </li>
+  <li>对于平面曲线, 其法向微元定义为 `"d"bm n = (dy, -dx)`,
+    从而 `("d"bm r, "d"bm n)` 成左手系, 即 `|dx, dy; dy, -dx|
+    = -"d"s^2 lt 0`.
+  </li>
+</ol>
+
+<p class="example">
+  求 `int_L x y "d"s`, 其中 `L: {x+y+z = 0; x^2+y^2+z^2=1:}`
+</p>
+
+<p class="solution">
+  利用积分区域的对称性,
+  <span class="formula">
+    `int_L x y "d"s`
+    `= 1/3 int_L (x y+y z+z x) "d"s`
+    `= 1/6 int_L [(x+y+z)^2 - (x^2+y^2+z^2)] "d"s`
+    `= -1/6 int_L "d"s`
+    `= -pi/3`.
+  </span>
+</p>
+
+<h2>微分算子</h2>
 
 <h3>Nabla 算子</h3>
 
@@ -33,20 +109,14 @@
 <table>
   <tr>
     <td>`grad c = 0`</td>
-  </tr>
-  <tr>
     <td>`grad (cf) = c grad f`</td>
   </tr>
   <tr>
     <td>`grad (f +- g) = grad f +- grad g`</td>
-  </tr>
-  <tr>
     <td>`grad (fg) = g grad f + f grad g`</td>
   </tr>
   <tr>
-    <td>`grad (f/g) = (g grad f - f grad g) / g^2`</td>
-  </tr>
-  <tr>
+    <td>`grad (f//g) = (g grad f - f grad g) // g^2`</td>
     <td>`grad f(g) = ("d"f)/("d"g) grad g`</td>
   </tr>
   <tr>
@@ -244,94 +314,6 @@
     的通解 `{ c_1 x^(2-m) + c_2, if m != 2;
     c_1 ln x + c_2, if m = 2:}` 给出 `m` 维空间的调和径向函数.
 </p>
-
-
-<h2>曲线/曲面积分常用记号</h2>
-
-<h3>曲线积分</h3>
-
-<table>
-	<tr>
-		<td>曲线参数微元 (时间)</td>
-		<td>`dt`</td>
-	</tr>
-	<tr>
-		<td>坐标长度微元</td>
-		<td>`dx, dy, dz`</td>
-	</tr>
-	<tr>
-		<td>位移矢量微元</td>
-		<td>`"d" bm r = (dx, dy, dz)`</td>
-	</tr>
-	<tr>
-		<td>切向量</td>
-		<td>`("d" bm r)/(dt) = ((dx)/(dt), (dy)/(dt), (dz)/(dt))`</td>
-	</tr>
-	<tr>
-		<td>外法向量</td>
-		<td>`bm n = (dy/dt, -dx/dt)`</td>
-	</tr>
-	<tr>
-		<td>弧长微元</td>
-		<td>`"d"s = |("d" bm r)/dt| dt`</td>
-	</tr>
-	<tr>
-		<td>单位切向量</td>
-		<td>`bm t = ("d" bm r)/dt |("d" bm r)/(dt)|^-1`</td>
-	</tr>
-	<tr>
-		<td>联系</td>
-		<td>`"d" bm r = bm t "d"s`</td>
-	</tr>
-	<tr>
-		<td>验证</td>
-		<td>`"d" bm r = ("d" bm r)/dt dt = bm t "d"s.`</td>
-	</tr>
-</table>
-
-<h3>曲面积分</h3>
-
-<table>
-	<tr>
-		<td>曲面参数微元</td>
-		<td>`"d"u, "d"v`</td>
-	</tr>
-	<tr>
-		<td>坐标平面上的面积微元</td>
-		<td>`dydz, dzdx, dxdy`</td>
-	</tr>
-	<tr>
-		<td>曲面积分微元</td>
-		<td>`"d" bm S = (dydz, dzdx, dxdy)`</td>
-	</tr>
-	<tr>
-		<td>沿参数方向的切向量</td>
-		<td>`bm r_u = ((del x)/(del u), (del y)/(del u), (del z)/(del u))` `bm r_v = ((del x)/(del v), (del y)/(del v), (del z)/(del v))`</td>
-	</tr>
-	<tr>
-		<td>法向量</td>
-		<td>`bm r_u xx bm r_v`</td>
-	</tr>
-	<tr>
-		<td>曲面面积微元</td>
-		<td>`"d" sigma = |bm r_u xx bm r_v| "d"u"d"v`</td>
-	</tr>
-	<tr>
-		<td>单位外法向量</td>
-		<td>`bm n = +- (bm r_u xx bm r_v)/|bm r_u xx bm r_v|`</td>
-	</tr>
-	<tr>
-		<td>联系</td>
-		<td>`"d" bm S = bm n "d" sigma`</td>
-	</tr>
-	<tr>
-		<td>验证</td>
-		<td>`"d" bm S = ( (del(y,z))/(del(u,v)), (del(z,x))/(del(u,v)),
-			(del(x,y))/(del(u,v)) ) "d"u"d"v`
-			`= bm r_u xx bm r_v "d"u"d"v = bm n "d" sigma.`
-		</td>
-	</tr>
-</table>
 
 <h2>多元积分公式</h2>
 
@@ -534,29 +516,47 @@
   </span>
   这个性质类似于向量的外积, 我们也把它称为外积, 写作 `dx ^^ dy`.
   外积运算满足
-  <li>线性性. `(P dx + Q dy)^^ "d"u = P dx "d"u + Q dy "d"u`;</li>
+  <li>线性性. `(P dx + Q dy) ^^ "d"u = P dx ^^ "d"u + Q dy ^^ "d"u`;</li>
   <li>反对称性. `dx ^^ dy = - dy ^^ dx`.</li>
-  由反对称性立即得到 `dx ^^ dx = 0`.
+  由反对称性立即得到 `dx ^^ dx = 0`.<br>
+  一般地, 在 `n` 维空间中, 规定每交换一对变量, 外积就改变一次符号:
+  <span class="formula">
+    `dx_1 ^^ cdots ^^ color(red)(dx_i) ^^ cdots ^^ color(blue)(dx_j) ^^ cdots ^^ dx_n`
+    `= -dx_1 ^^ cdots ^^ color(blue)(dx_j) ^^ cdots ^^ color(red)(dx_i) ^^ cdots ^^ dx_n`
+  </span>
 </ol>
 
-<p class="definition">
-  普通的多元函数 `f` 称为<b>零阶微分形式</b>.
-  `dx, dy, dz` 以及它们的线性组合 (系数是普通函数, 如 `P dx + Q dy`)
-  称为<b>一阶微分形式</b>.
-  `dx ^^ dy`, `dy ^^ dz`, `dz ^^ dx`
-  以及它们的线性组合称为<b>二阶微分形式</b>.
-  `dx ^^ dy ^^ dz := (dx ^^ dy) ^^ dz` 以及它的线性组合 (乘以一个普通函数)
-  称为<b>三阶微分形式</b>. 在三维空间中, 最高只有三阶微分形式.
-</p>
+<ol class="definition">
+  <li><b>零阶微分形式</b> 就是普通的多元函数 `f`.</li>
+  <li><b>一阶微分形式</b> 是 `dx, dy, dz` 以及它们的线性组合 (系数是普通函数, 如 `P dx + Q dy`).</li>
+  <li><b>二阶微分形式</b> 是 `dx ^^ dy`, `dy ^^ dz`, `dz ^^ dx`
+  以及它们的线性组合.</li>
+  <li><b>三阶微分形式</b> 是 `dx ^^ dy ^^ dz` 以及它的线性组合 (其实在三维空间中只有一种组合).</li>
+  由 `dx ^^ dx = 0` 知道, 在 `n` 维空间中, 最高只有 `n` 阶微分形式.
+</ol>
 
 <ol class="definition">
-  一个微分形式 `omega` 的<b>外微分</b>记为 `"d"omega`.
-  用 `f` 表示一个零阶微分形式, 我们规定外微分运算满足:
-  <li>线性性: `"d"(omega_1 + omega_2) = "d"omega_1 + omega_2`;</li>
-  <li>`"d" f = grad f * "d"bm r`;</li>
-  <li>`"d"(f omega) = "d"f ^^ "d"omega`.</li>
-  第二条表明零阶微分形式的外微分就是它的全微分,
-  如二维平面上 `"d" f = (del f)/(del x) dx + (del f)/(del y) dy`.
+  设 `omega` 是微分形式, 定义<b>外微分</b>运算 `"d"omega` 如下:
+  <li>零阶微分形式 `f` 的外微分定义为它的全微分:
+    <span class="formula">
+      `"d"f = grad f * "d"bm r`
+      `= sum (del f)/(del x_i) dx_i`.
+    </span>
+  </li>
+  <li>若 `omega` 形如 `omega = dx_1 cdots dx_n`, 则单项式 `f omega`
+    的外微分定义为
+    <span class="formula">
+      `"d"(f omega) = "d"f ^^ "d"omega`.
+    </span>
+    利用外积运算的线性性, 可将 `"d"f` 展开各项与 `"d"omega` 相乘,
+    再合并同类项.
+  </li>
+  <li>最后, 规定外微分具有线性性
+    <span class="formula">
+      `"d"(omega_1 + omega_2) = "d"omega_1 + "d"omega_2`,
+    </span>
+    欲求整个微分形式的外微分, 只需将各个单项式的外微分相加.
+  </li>
 </ol>
 
 <ol class="example">

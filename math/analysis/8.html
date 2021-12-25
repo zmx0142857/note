@@ -24,29 +24,58 @@
 </p>
 
 <p class="proof">
-	利用重积分.  设 `D` 是圆心在原点, 半径为 `R` 的圆域,
-	<span class="formula">
-		`iint_D "e"^(-x^2-y^2) dx dy`
-		` = iint_D rho "e"^(-rho^2) "d"rho "d"theta`
-		` = int_0^(2pi) "d"theta int_0^R rho "e"^(-rho^2) "d"rho`
-		` = pi(1 - "e"^(-R^2))`.
-	</span>
-	另一方面,
-	<span class="formula">
-		`iint_([-R,R]xx[-R,R]) "e"^(-x^2-y^2) dx dy`
-		` = int_(-R)^R "e"^(-x^2) dx int_(-R)^R "e"^(-y^2) dy`
-		` = (int_(-R)^R "e"^(-x^2) dx)^2`.
-	</span>
-	令 `R to +oo`, 得 `int_(-oo)^oo "e"^(-x^2) dx = sqrt pi`.
+  利用重积分.  设 `D` 是以原点为心, `R` 为半径的圆盘,
+  <span class="formula">
+    `iint_D "e"^(-x^2-y^2) dx dy`
+    `= int_0^(2pi) "d"theta int_0^R "e"^(-r^2) r"d"r`
+    `= pi(1 - "e"^(-R^2))`.
+  </span>
+  另一方面,
+  <span class="formula">
+    `iint_([-R,R]xx[-R,R]) "e"^(-x^2-y^2) dx dy`
+    ` = int_(-R)^R "e"^(-x^2) dx int_(-R)^R "e"^(-y^2) dy`
+    ` = (int_(-R)^R "e"^(-x^2) dx)^2`.
+  </span>
+  令 `R to +oo`, 得 `int_(-oo)^oo "e"^(-x^2) dx = sqrt pi`.
 </p>
 
-<p class="proof">
-	利用积分号下求导.
-	<span class="formula">
-		`"d"/dt int_(-oo)^oo "e"^(-tx^2) dx`
-		`= int_(-oo)^oo -x^2 "e"^(-tx^2) dx`
-	</span>
-</p>
+<ol class="proof">
+  <li>
+  利用伸缩变换 `x = t y`,
+  <span class="formula">
+    `I = int_0^oo "e"^(-t^2 y^2) t dy`
+  </span>
+  对任意 `a gt 0`, 交换积分次序得
+  <span class="formula">
+    `int_a^oo "e"^(-t^2) I dt`
+    `= int_a^oo int_0^oo "e"^(-t^2) "e"^(-t^2 y^2) t dy dt`
+    `= int_0^oo int_a^oo "e"^(-t^2 (1+y^2)) t dt dy`
+    `= 1/2 int_0^oo "e"^(-a^2(1+y^2))/(1+y^2) dy`
+  </span>
+  等式两边令 `a to 0^+`, 右边的积分关于 `a` 一致收敛, 得
+  <span class="formula">
+    `I^2 = 1/2 int_0^oo dy/(1+y^2) = pi/4`,
+  </span>
+  即 `I = sqrt(pi)/2`.
+  </li>
+  <li>
+  现在证明积分交换的合理性. 考虑被积函数
+  <span class="formula">
+    `f(t, y) = t "e"^(-t^2(1+y^2))`,
+    `quad t ge a gt 0`, `y ge 0`.
+  </span>
+  该函数在定义域内非负连续, 设 `t "e"^(-t^2) le M`, 则被积函数可以被 `y` 的函数控制:
+  <span class="formula">
+    `f(t, y) le M "e"^(-t^2 y^2) le M "e"^(-a^2 y^2)`.
+  </span>
+  这说明积分 `int_0^oo f(t, y) dy` 关于 `t ge a` 一致收敛;
+  另一方面被积函数也可以被 `t` 的函数控制:
+  <span class="formula">
+    `f(t, y) le t "e"^(-t^2)`,
+  </span>
+  从而积分 `int_a^oo f(t, y) dt` 关于 `y ge 0` 一致收敛, 这两个一致收敛保证了积分换序可以进行.
+  </li>
+</ol>
 
 <p class="remark">
 	`"e"^(-x^2)` 称为 <b>Gauss 函数</b>,
@@ -74,36 +103,50 @@
 </p>
 
 <ol class="proof">
-	<li>收敛性. 由于被积函数是偶函数, 只需考虑 `(0, +oo)` 上的情形:
-		<span class="formula">
-			`int_0^oo (sin x)/x dx = int_0^(pi/2) + int_(pi/2)^oo`.
-		</span>
-		第一项是普通的定积分, 我们来说明第二项收敛. 分部积分:
-		<span class="formula">
-			`|int_(pi/2)^oo (sin x)/x dx|`
-			`= |int_(pi/2)^oo (cos x)/x^2 dx|`
-			`le int_(pi/2)^oo dx/x^2`.
-		</span>
-		因此原积分收敛.
-	</li>
-	<li>计算. 利用
+  <li>收敛性. 由于被积函数是偶函数, 只需考虑 `(0, +oo)` 上的情形:
+    <span class="formula">
+      `int_0^oo (sin x)/x dx = int_0^(pi/2) + int_(pi/2)^oo`.
+    </span>
+    第一项是普通的定积分, 我们来说明第二项收敛. 分部积分:
+    <span class="formula">
+      `|int_(pi/2)^oo (sin x)/x dx|`
+      `= |int_(pi/2)^oo (cos x)/x^2 dx|`
+      `le int_(pi/2)^oo dx/x^2`.
+    </span>
+    因此原积分收敛.
+    也可以利用 Dirichlet 判别法:
+    `int_0^c sin x dx` 关于积分上限 `c` 有界,
+    `1/x` 单调趋于 `0`, 因此原积分收敛.
+  </li>
+  <li>计算. 利用
     <span class="formula">
       `int_0^oo "e"^(-x y) dy = 1/x`,
     </span>
     交换积分次序得
-		<span class="formula">
+    <span class="formula">
       `int_0^oo (sin x)/x dx`
-			`= int_0^oo sin x dx int_0^oo "e"^(-x y) dy`
-			`= int_0^oo dy int_0^oo "e"^(-x y) sin x dx`
-			`= int_0^oo dy/(y^2+1) = pi/2`.
-		</span>
-		于是原式等于 `pi`.
-	</li>
-  <li>合理性??</li>
+      `= int_0^oo sin x dx int_0^oo "e"^(-x y) dy`
+      `= int_0^oo dy int_0^oo "e"^(-x y) sin x dx`
+      `= int_0^oo dy/(y^2+1) = pi/2`.
+    </span>
+    于是原式等于 `pi`.
+  </li>
+  <li>积分换序的合理性.
+    考察被积函数
+    <span class="formula">
+      `f(x, y) = sin x "e"^(-x y)`,
+      `quad x ge 0, y ge 0`.
+    </span>
+    当 `x ge a gt 0` 时, `|f(x, y)| le "e"^-a y`;
+    当 `y ge c gt 0` 时, `|f(x, y)| le sin x "e"^(-c x)`.
+    从而 `int_a^oo f(x,y) dy` 关于 `x` 一致收敛, `int_c^oo f(x,y) dx` 关于
+    `y` 一致收敛.
+    ??
+  </li>
 </ol>
 
 <p class="example">
-	<b>Fresnel 积分</b>
+  <b>Fresnel 积分</b>
   <span class="formula">
     `int_(-oo)^oo sin x^2 dx = int_(-oo)^oo cos x^2 dx = sqrt(pi/2)`.
   </span>
@@ -1076,6 +1119,10 @@
     于是 (1) = (2).
   </li>
 </ol>
+
+<p class="example">
+  `sum_(n ge 1) H_n^2/n^2 = 17/4 zeta(4) = 17/360 pi^4`.
+</p>
 
 <h3>Catalan 常数</h3>
 
