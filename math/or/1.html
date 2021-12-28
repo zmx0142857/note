@@ -267,6 +267,38 @@
 	`z` 行系数非负, 算法终止. 最优解为 `(4, 2, 0, 0, 4)`, `z = 14`.
 </p>
 
+<p class="example">
+  [来自 无懈可击99]
+  求 `|x-3y+2|+|x+y|+|x|` 的最小值.
+</p>
+
+<p class="solution">
+  因为绝对值函数 `|x| = max(x, -x)`, 问题化为线性规划
+  <span class="formula">
+    `min x3+x4+x5`,<br>
+    `x-3y+2 le x_3`,<br>
+    `-x+3y-2 le x_3`,<br>
+    `x+y le x_4`,<br>
+    `-x-y le x_4`,<br>
+    `x le x_5`,<br>
+    `-x le x_5`,<br>
+  </span>
+  其中各变量取无约束的实值.
+</p>
+
+<p class="solution">
+  记 `f = |x-3y+2|+|x+y|+|x|`, 熟知最值必在边界上取得:
+  <span class="formula">
+    `x = 0 or x = -y or 3y - x = 2`
+  </span>
+  由后两个等式得到: `y = 0.5`, `x = -0.5`, `f = 0.5`.  和
+  <span class="formula">
+    `x = 0, y = 0  rArr  f = 2`,<br>
+    `x = 0, 3y - x = 2  rArr  f = 2//3
+  </span>
+  比较知, `f` 的最小值是 `1//2`.
+</p>
+
 <div class="playground" type="textarea" value2="min x3+x4+x5
 x1-3x2-x3 <= -2
 -x1+3x2-x3 <= 2

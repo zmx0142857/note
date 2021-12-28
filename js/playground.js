@@ -98,6 +98,8 @@ for (let playground of list) {
     if (inputType === 'text' && e.keyCode == 13) {
       run.onclick();
     }
+    // auto height
+    input.setAttribute('rows', Math.max(8, input.value.split('\n').length))
   }
 
   const ctrls = [input, run, showSrc]
