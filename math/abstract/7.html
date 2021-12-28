@@ -10,8 +10,7 @@
 <h2>域</h2>
 
 <ol class="definition">
-	设 `(bbb F";" +, *)` 为一环, 加法和乘法的单位元分别为 `0, 1`.
-  如果
+  设 `(bbb F";" +, *)` 为一环, 加法和乘法的单位元分别为 `0, 1`.  如果
   <li>`bbb F` 非平凡, 即 `|bbb F| gt 1`;</li>
   <li>`(bbb F, +)`, `(bbb F^**, *)` 是 Abel 群, 其中 `bbb F^** = bbb F\\{0}`;</li>
   则称 `bbb F` 为一<b>域 (field)</b>.
@@ -19,9 +18,9 @@
 
 <p class="remark">
   易知 `0 != 1`, 否则 `|bbb F| = 1`, `bbb F` 是平凡的.<br/>
-	域上可以进行四则运算: 令 `bbb F` 为一域, `a, b in bbb F`.
-	称 `a+b` 为 `a, b` 的和, `a-b := a + (-b)` 为 `a, b` 的差,
-	`a * b` 为 `a, b` 的积, `b != 0` 时, `a//b := a b^-1` 为 `a, b` 的商.
+  域上可以进行四则运算: 令 `bbb F` 为一域, `a, b in bbb F`.
+  称 `a+b` 为 `a, b` 的和, `a-b := a + (-b)` 为 `a, b` 的差,
+  `a * b` 为 `a, b` 的积, `b != 0` 时, `a//b := a b^-1` 为 `a, b` 的商.
 </p>
 
 <p class="example">
@@ -38,22 +37,22 @@
 </p>
 
 <p class="corollary">
-	<b>子域的判定</b>
-	域 `bbb K le bbb F` 当且仅当 `(bbb K, +)`, `(bbb K^**, *)`
-	分别为 `(bbb F, +)` 和 `(bbb F^**, *)` 的子群, 即
-	<span class="formula">
-		`(AA a, b in bbb K)` `a - b in bbb K`,
-		`quad (AA a, b in bbb K^**)` `a b^-1 in bbb K^**`.
-	</span>
+  <b>子域的判定</b>
+  域 `bbb K le bbb F` 当且仅当 `(bbb K, +)`, `(bbb K^**, *)`
+  分别为 `(bbb F, +)` 和 `(bbb F^**, *)` 的子群, 即
+  <span class="formula">
+    `(AA a, b in bbb K)` `a - b in bbb K`,
+    `quad (AA a, b in bbb K^**)` `a b^-1 in bbb K^**`.
+  </span>
 </p>
 
 <h3>整环的分式域</h3>
 
 <p class="definition">
-	设 `R` 为无零因子的交换环 (特别地, 整环),
+  设 `R` 为无零因子的交换环 (特别地, 整环),
   `bbb F` 为一域, 称 `bbb F` 为 `R` 的<b>分式域</b>, 如果
-	在同构意义下, `R` 为 `bbb F` 的子环, 且任意 `bbb F` 中的元素 `x`
-	可以写成 `R` 中两个元素的商, 即
+  在同构意义下, `R` 为 `bbb F` 的子环, 且任意 `bbb F` 中的元素 `x`
+  可以写成 `R` 中两个元素的商, 即
   <span class="formula">
     `EE a in R`, `b in R\\{0}`, `quad x = a b^-1`.
   </span>
@@ -66,95 +65,120 @@
 
 <ol class="proof enum">
   <li>
-  <ol>
-  这里给出分式域存在性的构造性证明, 可以参考由整数环构造有理数域的方法.
-	记 `R^** = R\\{0}`, `T = R xx R^**`.
-	<li>定义 `T` 上的二元关系 `~`:
-		<span class="formula">
-			`(a, b) ~ (c, d) iff a d = b c`.
-		</span>
-		可以验证 `~` 为 `T` 上一等价关系. 事实上自反性与对称性显然,
-		至于传递性, 设 `a d = b c`, `c f = d e`, 则
-		<span class="formula">
-			`a d f = b c f = b d e`,
-		</span>
-    由 `d != 0` 得 `a f = b e`.
-	</li>
-	<li>作商集 `bbb F = T//~`, 记 `(a, b)` 所在的等价类
-		`bar ((a","b)) = a/b`, 则
-		<span class="formula">
-			`bbb F = {a/b | a in R, b in R^**}`.
-		</span>
-		在 `bbb F` 上定义二元合成 `+, *`:
-		<span class="formula">
-			`a/b + c/d = (a d + b c)/(b d)`,
-			`quad a/b * c/d = (a c)/(b d)`.
-		</span>
-		可以验证 `+, *` 是良定义的, 因此是二元运算. 又 `+, *`
-		都满足结合律与交换律, 且 `0 := 0/b` 为 `bbb F` 的零元,
-		`-a/b := (-a)/b` 为 `a/b` 的负元, `1:= b/b` 为 `bbb F` 的幺元,
-		`b/a` 为 `a/b != 0` 的逆元. 因此 `(bbb F, +, *)` 为一域.
-	</li>
-	<li>显然 `R' = {a/1 | a in R}` 是 `bbb F` 的子环, 且 `AA a/b in bbb
-		F`, `EE a/1, b/1 in R'`,
-		<span class="formula">
-			`a/b = a/1 * (b/1)^-1`.
-		</span>
-		容易验证 `f: a in R to a/1 in R'` 为一同构映射, 从而 `R`
-		在同构意义下是 `bbb F` 的子环, 且 `bbb F` 中任意元素可以写为 `R`
-		中两个元素的商. 因此 `bbb F` 为 `R` 的分式域.
-	</li>
-  </ol>
+    <ol>这里给出分式域存在性的构造性证明, 可以参考由整数环构造有理数域的方法.
+      记 `R^** = R\\{0}`, `T = R xx R^**`.
+      <li>定义 `T` 上的二元关系 `~`:
+        <span class="formula">
+          `(a, b) ~ (c, d) iff a d = b c`.
+        </span>
+        可以验证 `~` 为 `T` 上一等价关系. 事实上自反性与对称性显然,
+        至于传递性, 设 `a d = b c`, `c f = d e`, 则
+        <span class="formula">
+          `a d f = b c f = b d e`,
+        </span>
+        由 `d != 0` 得 `a f = b e`.
+      </li>
+      <li>作商集 `bbb F = T//~`, 记 `(a, b)` 所在的等价类
+        `bar ((a","b)) = a/b`, 则
+        <span class="formula">
+          `bbb F = {a/b | a in R, b in R^**}`.
+        </span>
+        在 `bbb F` 上定义二元合成 `+, *`:
+        <span class="formula">
+          `a/b + c/d = (a d + b c)/(b d)`,
+          `quad a/b * c/d = (a c)/(b d)`.
+        </span>
+        可以验证 `+, *` 是良定义的, 因此是二元运算. 又 `+, *`
+        都满足结合律与交换律, 且 `0 := 0/b` 为 `bbb F` 的零元,
+        `-a/b := (-a)/b` 为 `a/b` 的负元, `1:= b/b` 为 `bbb F` 的幺元,
+        `b/a` 为 `a/b != 0` 的逆元. 因此 `(bbb F, +, *)` 为一域.
+      </li>
+      <li>显然 `R' = {a/1 | a in R}` 是 `bbb F` 的子环, 且 `AA a/b in bbb
+        F`, `EE a/1, b/1 in R'`,
+        <span class="formula">
+          `a/b = a/1 * (b/1)^-1`.
+        </span>
+        容易验证 `f: a in R to a/1 in R'` 为一同构映射, 从而 `R`
+        在同构意义下是 `bbb F` 的子环, 且 `bbb F` 中任意元素可以写为 `R`
+        中两个元素的商. 因此 `bbb F` 为 `R` 的分式域.
+      </li>
+    </ol>
   </li>
   <li>
-  关于惟一性, 只需证分式域是包含 `R` 的最小域
-  (例如, 有理数域是包含整数环的最小域).
-	令 `bbb K` 为包含 `R` 的任一域, 则
-	<span class="formula">
-		`bbb F' = {a b^-1 | a, b in R, b != 0}`
-	</span>
-	是 `bbb K` 的子域. 事实上,
-	<span class="formula">
-		`(AA a b^-1, c d^-1 in bbb F')` `a b^-1 - c d^-1 = (a d - c b)(b d)^-1 in bbb F'`,<br/>
-		`(AA a b^-1, c d^-1 in bbb F'\\{0})`
-		`(a b^-1)(c d^-1)^-1 = (a d)(b c)^-1 in bbb F'\\{0}`.
-	</span>
-	又容易验证 `f: a/b in bbb F to a b^-1 in bbb F'` 为一同构映射,
-	这就得到: 同构意义下 `R` 的分式域惟一.
+    关于惟一性, 只需证分式域是包含 `R` 的最小域
+    (例如, 有理数域是包含整数环的最小域).
+    令 `bbb K` 为包含 `R` 的任一域, 则
+    <span class="formula">
+      `bbb F' = {a b^-1 | a, b in R, b != 0}`
+    </span>
+    是 `bbb K` 的子域. 事实上,
+    <span class="formula">
+      `(AA a b^-1, c d^-1 in bbb F')` `a b^-1 - c d^-1 = (a d - c b)(b d)^-1 in bbb F'`,<br/>
+      `(AA a b^-1, c d^-1 in bbb F'\\{0})`
+      `(a b^-1)(c d^-1)^-1 = (a d)(b c)^-1 in bbb F'\\{0}`.
+    </span>
+    又容易验证 `f: a/b in bbb F to a b^-1 in bbb F'` 为一同构映射,
+    这就得到: 同构意义下 `R` 的分式域惟一.
   </li>
 </ol>
 
 <p class="example">
-	`ZZ` 的分式域是 `QQ`.
-	令 `n in ZZ\\{0}`, 则 `n ZZ` 的分式域也是 `QQ`.
-	`bbb F[x]` 的分式域是
-	<span class="formula">
-		`bbb F(x) = {(f(x))/(g(x)) | f(x), g(x) in bbb F[x], g(x) != 0}`.
-	</span>
+  `ZZ` 的分式域是 `QQ`.
+  令 `n in ZZ\\{0}`, 则 `n ZZ` 的分式域也是 `QQ`.
+  `bbb F[x]` 的分式域是
+  <span class="formula">
+    `bbb F(x) = {(f(x))/(g(x)) | f(x), g(x) in bbb F[x], g(x) != 0}`.
+  </span>
 </p>
 
-<h3>域的<a href="6.html#6-3">特征</a>与素域</h3>
+<h3>域上的一元多项式环</h3>
 
-<p>
-	因为域是无零因子的, 因此域的特征只能是零或素数, 如:
-	任意数域的特征为零, 数域上多项式环的分式域的特征为零,
-	有限域 `ZZ_p` 的特征为 `p`.
-	在特征为 `0` 的域中, 每个非零元的阶都为 `oo`;
-	在特征为 `p` 的域中, 每个非零元的阶都为 `p`.
+<p>	关于一般域 `bbb F`, 由于 `bbb F` 为一交换幺环, 所以 `bbb F`
+	上存在一元多项式环 `bbb F[x]`. 数域上多项式的整除, 因式, 最大公因式,
+	不可约多项式, 互素, 因式分解以及根的相关概念和定理, 在 `bbb F[x]`
+	中都成立. 罗列部分如下:
 </p>
 
-<p class="example">
-	令域 `bbb F` 的特征为素数 `p`, 则对任意 `n in ZZ^+` 和 `a, b in bbb F`,
-	<span class="formula">
-		`(a+-b)^(p^n) = a^(p^n) +- b^(p^n)`.
-	</span>
+<p class="theorem">
+	<b>余数定理</b>
+	令 `bbb F` 为一域, `f(x) in bbb F[x]`, `a in bbb F`. 则 `x-a` 除
+	`f(x)` 的余式为一常数, 此常数等于 `f(a)`.
 </p>
 
-<p class="proof">
-	注意到 `p | (p;k)`, `k = 1, 2, cdots, p-1`;
-	且由特征的定义有 `AA a in bbb F`, `p a = 0`.
-	所以 `(a+b)^p -= a^p + b^p`.
-	对 `n` 进行归纳就得到结论.
+<p class="theorem">
+	<b>零点-因子定理</b>
+	假设同上. 则 `a` 为 `f(x)` 的根当且仅当 `(x-a) | f(x)`.
+</p>
+
+<p class="theorem">
+	<b>关于根的数目上限</b>
+	令 `bbb F` 为一域. `f(x) in bbb F[x]\\{0}`, 则 `f(x)` 在 `bbb F`
+	中最多有 `n = del f(x)` 个根 (重根以重数计).
+</p>
+
+<p class="remark">
+	下文我们会看到, 关于任意 `f(x) in bbb F[x]\\{0}`,
+	可以适当扩大域 `bbb F` 到域 `bbb G_(f(x))`, 使得 `f(x)` 在新的域中恰有
+	`n = del f(x)` 个根.
+</p>
+
+<p class="theorem">
+	域 `bbb F` 上任两个多项式的最大公因式不因域的扩大而改变.
+</p>
+
+<h3>域的特征与素域</h3>
+
+<p class="definition">
+  <b>域的特征</b> 定义为它的加法群的最大元素阶; 如果这个阶为无穷,
+  则称域的特征是零.  即
+  <span class="formula">
+    `"char"(bbb F) = { max_(a in bbb F) |a|, "如果这个最大阶存在"; 0, otherwise:}`.
+  </span>
+  域是无零因子的, 因此域的特征只能是零或素数, 如:
+  任意数域 (即 `CC` 的子域) 的特征为零, 数域上多项式环的分式域的特征为零,
+  有限域 `ZZ_p` 的特征为 `p`.
+  在特征为 `0` 的域中, 每个非零元的阶都为 `oo`;
+  在特征为 `p` 的域中, 每个非零元的阶都为 `p`.
 </p>
 
 <p class="theorem">
@@ -169,7 +193,7 @@
 </p>
 
 <p class="theorem">
-	令 `bbb F` 为一域, `bbb P` 是其素域. 则
+  令 `bbb F` 为一域, `bbb P` 是其素域. 则
   <span class="formula">
     `bbb P ~= { QQ, if "char"(bbb F) = 0; ZZ_p, if "char"(bbb F) = p:}`
   </span>
@@ -177,20 +201,49 @@
 </p>
 
 <p class="proof">
-	记 `bbb F` 的幺元为 `e`. 作映射 `f: n in ZZ to n e in bbb F`.
-	容易验证 `f` 为一同态映射.<br/>
-	若 `"char"(bbb F) = 0`, 则只有 `n = 0` 才能使 `n e = 0`, 即
-	`"Ker"f = {0}`.
-	由同态基本定理, `"Im"f ~= ZZ//"Ker"f = ZZ`, 从而 `"Im"f` 为一整环.
-	记 `"Im"f` 的分式域为 `bbb F_e`, 显然 `bbb F` 的任一子域都包含
-	`"Im"f`, 从而包含 `bbb F_e`; 于是 `bbb F_e` 为 `bbb F` 的素域.
-	又, 同构的整环有同构的分式域, 所以 `bbb F_e ~= QQ`.<br/>
-	若 `"char"(bbb F) = p` 为一素数, 则 `"Ker"f = (:p:)`,
-	类似可证 `"Im"f` 的分式域 `RR_e`
-	同构于 `ZZ//(:p:) = ZZ_p`, 因此是一素域.
+  记 `bbb F` 的幺元为 `1`. 考虑同态 `f: n in ZZ to n*1 in bbb F`.
+  若 `"char"(bbb F) = 0`, 则只有 `n = 0` 才能使 `n*1 = 0`, 即
+  `"Ker"f = {0}`.
+  由同态基本定理, `"Im"f ~= ZZ//"Ker"f = ZZ`, 从而 `"Im"f` 为一整环.
+  记 `"Im"f` 的分式域为 `bbb F_1`,
+  由于同构的整环有同构的分式域, 所以 `bbb F_1 ~= QQ`.
+  由域的封闭性知 `bbb F` 的任一子域都包含 `"Im"f`, 从而包含 `bbb F_1`,
+  于是 `bbb F_1` 为 `bbb F` 的素域.
+  <br/>
+  若 `"char"(bbb F) = p` 为一素数, 则 `"Ker"f = (:p:)`,
+  类似有 `"Im"f` 的分式域同构于 `ZZ//(:p:) = ZZ_p` 的分式域.
+  但 `ZZ_p` 中任意非零元都可逆, 它的分式域仍是 `ZZ_p`, 即一素域.
 </p>
 
-<p class="corollary">
+<p class="definition">
+  <b>域的同态与同构</b> 若 `f: bbb F to bbb K`
+  关于 `bbb F` 的加法群和乘法群都为一同态,
+  则称 `f` 是 `bbb F` 到 `bbb K` 的同态.
+  域的同态只有零同态和单同态:
+  前者将 `bbb F` 的所有元素都映到零, 后者是 `bbb F` 到 `bbb K` 的嵌入.
+</p>
+
+<p class="proof">
+  视 `f` 为 `bbb F` 上的环同态, 考虑理想 `"Ker"f`, 由于域只有平凡的理想,
+  故 `"Ker"f = bbb F` 或 `"Ker"f = {0}`, 即 `f` 为零同态或单同态.
+</p>
+
+<p class="example">
+  <b>Frobenius 自同态</b>
+  令域 `bbb F` 的特征为素数 `p`, 则对任意 `n in ZZ^+` 和 `a, b in bbb F`,
+  注意到 `p | (p;k)`, `k = 1, 2, cdots, p-1`,
+  且由特征的定义有 `p a = 0`. 故
+  <span class="formula">
+    `(a+-b)^p = a^p +- b^p`.
+  </span>
+  因此 `a mapsto a^p` 是同态. 显然它不是零同态, 因此是单同态.
+  又, 对 `n` 归纳可得
+  <span class="formula">
+    `(a+-b)^(p^n) = a^(p^n) +- b^(p^n)`.
+  </span>
+</p>
+
+<p class="example">
   `QQ` 和 `ZZ_p` 的自同构只有恒等自同构,
   因此任意素域的自同构只有恒等自同构.
 </p>
@@ -285,84 +338,82 @@
   只不过行/列发生了置换.
 </div>
 
-<h3>域上的一元多项式环</h3>
+<h2>扩域</h2>
 
-<p>	关于一般域 `bbb F`, 由于 `bbb F` 为一交换幺环, 所以 `bbb F`
-	上存在一元多项式环 `bbb F[x]`. 数域上多项式的整除, 因式, 最大公因式,
-	不可约多项式, 互素, 因式分解以及根的相关概念和定理, 在 `bbb F[x]`
-	中都成立. 罗列部分如下:
-</p>
-
-<p class="theorem">
-	<b>余数定理</b>
-	令 `bbb F` 为一域, `f(x) in bbb F[x]`, `a in bbb F`. 则 `x-a` 除
-	`f(x)` 的余式为一常数, 此常数等于 `f(a)`.
-</p>
-
-<p class="theorem">
-	<b>零点-因子定理</b>
-	假设同上. 则 `a` 为 `f(x)` 的根当且仅当 `(x-a) | f(x)`.
-</p>
-
-<p class="theorem">
-	<b>关于根的数目上限</b>
-	令 `bbb F` 为一域. `f(x) in bbb F[x]\\{0}`, 则 `f(x)` 在 `bbb F`
-	中最多有 `n = del f(x)` 个根 (重根以重数计).
-</p>
-
-<p class="remark">
-	下文我们会看到, 关于任意 `f(x) in bbb F[x]\\{0}`,
-	可以适当扩大域 `bbb F` 到域 `bbb G_(f(x))`, 使得 `f(x)` 在新的域中恰有
-	`n = del f(x)` 个根.
-</p>
-
-<p class="theorem">
-	域 `bbb F` 上任两个多项式的最大公因式不因域的扩大而改变.
-</p>
-
-<h2>域的扩张</h2>
-
-<h3>扩域的分类</h3>
+<h3>域的扩张</h3>
 
 <p class="definition">
-  若一个复数是某个整系数多项式的根, 则称它是一个<b>代数数</b>,
-  否则是一个<b>超越数</b>. 全体代数数记为 `A_QQ`.
-</p>
-
-<ol class="definition">
-	如果域 `bbb F le bbb K`, 则称 `bbb K` 为 `bbb F`
-	的一个<b>扩张</b>或<b>扩域</b>, `bbb F` 为 `bbb K` 的<b>基域</b>.
+  如果域 `bbb F le bbb K`, 则称 `bbb K` 为 `bbb F`
+  的一个<b>扩张</b>或<b>扩域</b>, 记为 `bbb K // bbb F`
+  (`bbb K` over `bbb F`).  `bbb F` 称为 `bbb K` 的<b>基域</b>,
   若 `bbb F le bbb L le bbb K`, 则 `bbb L` 称为 `bbb F` 和 `bbb K`
   的<b>中间域</b>.
-	<li>视 `bbb K` 为 `bbb F` 上的线性空间 (加法是 `bbb K` 中的加法,
-		数乘是 `bbb F` 与 `bbb K` 中元素的乘法), 则称 `"dim"bbb K` 为
-		`bbb K` 在 `bbb F` 上的<b>(扩张) 次数</b>, 记为 `del(bbb K, bbb F)`.
-		按扩张次数, 扩域可以分为有限次和无限次两类.
-	</li>
-	<li>
-    设 `alpha in bbb K`, 若 `alpha` 是 `bbb F`
-    上某个 (次数大于零的) 多项式的根:
-    <span class="formula">
-      `(EE f(x) in bbb F[x]\\bbb F)` `quad f(alpha) = 0`,
-    </span>
-    则称 `alpha` 为 `bbb F` 上的<b>代数元</b>,
-    `f` 为 `alpha` 的<b>零化多项式</b>. 若不存在这样的多项式,
-    则称 `alpha `为<b>超越元</b>.
-    代数数和超越数分别是 `QQ` 上的代数元和超越元.
-    若 `bbb K` 的每一元素都是 `bbb F` 上的代数元,
-		则称 `bbb K` 为 `bbb F` 的一个<b>代数扩域</b>,
-		否则为<b>超越扩域</b>. 特别当 `bbb K \\ bbb F` 的元素都为 `bbb F`
-		上的超越元时, 称 `bbb K` 为 `bbb F` 的<b>纯超越扩域</b>.
-	</li>
-	<li>记 `f(x) in bbb F[x] \\ bbb F` 在复数域上的全部根为 `S_(f(x))`.
-		如果关于任意不可约多项式 `p(x) in bbb F[x]`, `p(x)`
-		的全部根要么全在 `bbb K` 中, 要么全不在 `bbb K` 中:
-		<span class="formula">
-			`S_(p(x)) sube bbb K` or `S_(p(x)) nn bbb K = O/`,
-		</span>
-		则称 `bbb K` 为 `bbb F` 的一个<b>正规扩域</b>.
-	</li>
-</ol>
+</p>
+
+<p> 通过向域中添加新的元素可以实现域的扩张.
+  最简单的情形就是一次添加一个元素, 定义如下:
+</p>
+
+<p class="definition">
+  考虑扩域 `bbb K//bbb F`,
+  将 `bbb K` 的子集 `S` 添加 `bbb F` 中得到的域记为 `bbb F(S)`,
+  定义为 `bbb K` 中所有含 `bbb F uu S` 的子域的交:
+  <span class="formula">
+    `bbb F(S) := (:bbb F uu S:)`
+  </span>
+  `bbb F(S)` 是包含 `bbb F uu S` 的最小域.<br>
+  当 `S` 为有限集 `{a_1, a_2, cdots, a_n}` 时,
+  `bbb F(S)` 也记为 `bbb F(a_1, a_2, cdots, a_n)`;
+  特别 `bbb F({a}) = bbb F(a)`, 称为 `bbb F` 的一个<b>单扩域</b>.
+</p>
+
+<p class="theorem">
+  获得的中间域与子集的添加次序无关:
+  令 `bbb K` 为 `bbb F` 的一个扩域, `S, T sube bbb K`, 则
+  <span class="formula">
+    `bbb F(S)(T) = bbb F(S uu T) = bbb F(T)(S)`.
+  </span>
+</p>
+
+<p class="proof">
+  由已知 `bbb F, S, T sube bbb F(S)(T)`, 因而 `bbb F, S uu
+  T sube bbb F(S)(T)`. 由 `bbb F(S uu T)` 的最小性知 `bbb F(S uu T) sube
+  bbb F(S)(T)`.<br/>
+  另一方面, `bbb F, S, T sube bbb F(S uu T)`, 因而 `bbb F(S), T sube F(S
+  uu T)`. 由 `bbb F(S)(T)` 的最小性知 `bbb F(S)(T) sube bbb F(S uu T)`.
+  于是 `bbb F(S)(T) = bbb F(S uu T)`.
+  同理 `bbb F(T)(S) = bbb F(S uu T)`.
+</p>
+
+<p class="theorem">
+  (超限归纳法) 域 `bbb F` 上的任一扩域都可以通过一系列单扩张获得.
+</p>
+
+<h3>有限与无限、代数与超越</h3>
+
+<p class="definition">
+  <b>有限与无限</b>
+  视 `bbb K` 为 `bbb F` 上的线性空间 (加法是 `bbb K` 中的加法,
+  数乘是 `bbb F` 与 `bbb K` 中元素的乘法), 则称 `"dim"bbb K` 为
+  `bbb K` 在 `bbb F` 上的<b>(扩张) 次数</b>, 记为 `del(bbb K//bbb F)`
+  或 `[bbb K : bbb F]`.
+  按扩张次数, 扩域可以分为有限次和无限次两类.
+</p>
+
+<p class="definition">
+  <b>代数与超越</b>
+  设 `alpha in bbb K`, 若 `alpha` 是 `bbb F` 上某个多项式的根:
+  <span class="formula">
+    `(EE f(x) in bbb F[x])` `quad f(alpha) = 0`,
+  </span>
+  则称 `alpha` 为 `bbb F` 上的<b>代数元</b>,
+  `f` 为 `alpha` 的<b>零化多项式</b>. 若不存在这样的多项式,
+  则称 `alpha `为<b>超越元</b>.
+  若 `bbb K` 的每一元素都是 `bbb F` 上的代数元,
+  则称 `bbb K` 为 `bbb F` 的一个<b>代数扩域</b>,
+  否则为<b>超越扩域</b>. 特别当 `bbb K \\ bbb F` 的元素都为 `bbb F`
+  上的超越元时, 称 `bbb K` 为 `bbb F` 的<b>纯超越扩域</b>.
+</p>
 
 <p class="corollary">
   有限次扩域都是代数扩域.
@@ -377,58 +428,21 @@
   线性无关. 从而 `bbb K` 只能是无穷维的.
 </p>
 
+<p class="example">
+  若一个复数是某个整系数多项式的根, 则称它是一个<b>代数数</b>,
+  否则是一个<b>超越数</b>. 全体代数数记为 `A_QQ`.
+  代数数和超越数分别是 `QQ` 上的代数元和超越元.
+</p>
+
 <ol class="example">
-	<li>`CC` 为 `RR` 的二次正规扩域;</li>
-	<li>`RR` 和 `CC` 都是 `QQ` 的超越扩域;</li>
-  <li>`A_QQ` 为 `QQ` 的无限次、代数、正规扩域;</li>
+  <li>`CC` 为 `RR` 的二次扩域;</li>
+  <li>`RR` 和 `CC` 都是 `QQ` 的超越扩域;</li>
+  <li>`A_QQ` 为 `QQ` 的无限次代数扩域;</li>
 </ol>
 
-<h3>单扩域</h3>
-
-<p> 通过向域中添加新的元素可以实现域的扩张.
-  最简单的情形就是一次添加一个元素, 定义如下:
-</p>
-
-<p class="definition">
-	令 `bbb K` 为 `bbb F` 的一个扩域, `S sube bbb K`, 记
-	`bbb F(S) := (:bbb F uu S:)`
-	(`bbb K` 中所有既含 `bbb F` 又含 `S` 的子域的交), 显然它是
-	`bbb K` 中包含 `bbb F` 和 `S` 的最小域, 称为添加 `S` 到 `bbb F`
-	上所得到的中间域.<br/>
-	当 `S = {a_1, a_2, cdots, a_n}` 为有限集时,
-	简记 `bbb F(S) = bbb F(a_1, a_2, cdots, a_n)`; 特别简记 `bbb F({a})
-	= bbb F(a)`, 称为 `bbb F` 的一个<b>单扩域</b>.
-</p>
-
 <p class="theorem">
-	获得的中间域与子集的添加次序无关:
-	令 `bbb K` 为 `bbb F` 的一个扩域, `S, T sube bbb K`, 则
-	<span class="formula">
-		`bbb F(S)(T) = bbb F(S uu T) = bbb F(T)(S)`.
-	</span>
-</p>
-
-<p class="proof">
-	由已知 `bbb F, S, T sube bbb F(S)(T)`, 因而 `bbb F, S uu
-	T sube bbb F(S)(T)`. 由 `bbb F(S uu T)` 的最小性知 `bbb F(S uu T) sube
-	bbb F(S)(T)`.<br/>
-	另一方面, `bbb F, S, T sube bbb F(S uu T)`, 因而 `bbb F(S), T sube F(S
-	uu T)`. 由 `bbb F(S)(T)` 的最小性知 `bbb F(S)(T) sube bbb F(S uu T)`.
-	于是 `bbb F(S)(T) = bbb F(S uu T)`.
-	同理 `bbb F(T)(S) = bbb F(S uu T)`.
-</p>
-
-<p class="theorem">
-  (超限归纳法) 域 `bbb F` 上的任一扩域都可以通过一系列单扩张获得.
-</p>
-
-<p>按 `alpha` 为 `bbb F` 上的代数元或超越元,
-	单扩域 `bbb F(alpha)` 又分为<b>单代数扩域</b>和<b>单超越扩域</b>.
-  先看单超越扩域 (单代数扩域在下小节介绍):
-</p>
-
-<p class="theorem">
-  令 `alpha` 为域 `bbb F` 的超越元, 则
+  <b>单超越扩张</b> 是指在域中添加一个超越元形成的扩张.
+  设 `alpha` 在 `bbb F` 上超越, 则有环同构:
   <span class="formula">
     `bbb F[alpha] ~= bbb F[x]`.
   </span>
@@ -439,15 +453,16 @@
   </span>
 </p>
 
-<h3>单代数扩域</h3>
+<p>类似有单代数扩张, 我们在下节讨论.</p>
+
+<h2>单代数扩域</h2>
 
 <p class="definition">
-  <b>代数元的次数</b>
-  设 `bbb F le bbb K`, `alpha in bbb K` 为 `bbb F` 上的代数元,
-  则称 `alpha` 在 `bbb F`
-  上次数最低的首一的零化多项式为它的<b>最小多项式</b>.
-  最小多项式的次数称为 `alpha` 在 `bbb F` 上的次数,
-  记为 `del(alpha, bbb F)`.
+  <b>最小多项式</b>
+  考虑扩域 `bbb K//bbb F`. `alpha in bbb K` 是 `bbb F` 上的代数元,
+  在 `alpha` 的所有首一的零化多项式中,
+  次数最低的那个称为它的<b>最小多项式</b>,
+  不可约的称为它的<b>既约多项式</b>.
 </p>
 
 <p class="proof">
@@ -456,12 +471,11 @@
 </p>
 
 <p class="theorem">
-  首一的零化多项式是最小多项式当且仅当它不可约.
-  换言之, 域上代数元的最小多项式就是它的即约的零化多项式.
+  最小多项式就是既约多项式.
 </p>
 
 <ol class="proof">
-  <li>设 `alpha` 是域 `bbb F` 的代数元, `p(x)` 是最小多项式,
+  <li>设 `alpha` 是域 `bbb F` 的代数元, `p(x)` 是最小多项式.
     反设 `p(x)` 在 `bbb F` 上可约, 则存在次数大于零的 `f, g in bbb F[x]`,
     使得 `p(x) = f(x) g(x)`. 由 `f(alpha) g(alpha) = p(alpha) = 0`,
     且 `bbb F(alpha)` 无零因子 (因为它是域) 知
@@ -470,15 +484,20 @@
     </span>
     与 `p(x)` 的最小性矛盾.
   </li>
-  <li>
-    设 `f(x), g(x)` 都是零化多项式,
-    又记 `d(x) = (f(x), g(x))`, 则存在 `s, t in bbb F[x]` 使得
+  <li>设 `p(x), q(x)` 都是 `alpha` 的零化多项式,
+    又记 `d(x) = (p(x), q(x))`, 则存在 `s, t in bbb F[x]` 使得
     <span class="formula">
-      `d(x) = s(x) f(x) + t(x) g(x)`.
+      `d(x) = s(x) p(x) + t(x) q(x)`.
     </span>
     因此 `d(alpha) = 0`, 即 `d(x)` 也是零化多项式.<br/>
-    若 `p(x)` 在 `bbb F` 上不可约, 则对任意零化多项式 `q(x) in bbb F[x]`,
-    有 `p(x) = (p(x), q(x)) | q(x)`. 故 `p(x)` 是最小多项式.
+    若 `p(x)` 在 `bbb F` 上不可约, 下证 `p(x) = d(x)`.
+    事实上只需证 `p(x) | d(x)`. 由带余除法
+    <span class="formula">
+      `d(x) = a(x) p(x) + r(x)`, `quad del r lt del p`
+    </span>
+    知, `r` 为零化多项式, 因而只能 `r = 0`, 从而 `p(x) | d(x)`.
+    因此 `p(x) = d(x) | q(x)`.
+    由 `q(x)` 的任意性知 `p(x)` 是最小多项式.
   </li>
 </ol>
 
@@ -487,76 +506,76 @@
     上的最小多项式是其全体零化多项式的公因子;</li>
   <li>若 `bbb F le bbb K`, `alpha` 在 `bbb F` 和 `bbb K`
     上的最小多项式分别为 `p(x)`, `q(x)`, 则由 `bbb F` 上的零化多项式也是
-    `bbb K` 上的零化多项式, 推出 `q(x) | p(x)`.
+    `bbb K` 上的零化多项式, 推出 `q(x) | p(x)`. 因此随着域的扩大,
+    最小多项式的次数相应减小.
   </li>
 </ol>
 
 <p class="theorem">
+  <b>单代数扩张</b>
   令 `alpha` 为域 `bbb F` 的代数元, `p(x)` 是最小多项式, 则
   <span class="formula">
-    `bbb F(alpha) ~= bbb F[x] // (: p(x) :)`.
+    `bbb F(alpha) = bbb F[alpha] ~= bbb F[x] // (: p(x) :)`.
   </span>
-  `(: p(x) :)` 是最小多项式生成的环, 即 `bbb F` 上以 `p(x)`
-  为因子的全体多项式, 亦即全体零化多项式.
 </p>
 
 <p class="proof">
-  作
+  作环的<b>代入同态</b>:
   <span class="formula">
     `varphi: bbb F[x] to bbb F[alpha]`<br/>
-    `f(x) |-> f(alpha)`.
+    `f(x) mapsto f(alpha)`.
   </span>
   可以验证 `varphi` 为一满同态. 由同态基本定理,
   <span class="formula">
-    `bbb F[alpha] = "Im"varphi`
-    `~= bbb F[x] // "Ker"f`
-    `= bbb F[x] // (: p(x) :)`.
+    `bbb F[alpha] ~= bbb F[x] // "Ker"varphi`.
   </span>
+  `"Ker"varphi` 即为 `alpha` 的全体零化多项式, 它由最小多项式生成, 于是
+  `"Ker"varphi = (: p(x) :)`.<br>
   由 `bbb F[x]` 为主理想整环 (PID) 和 `p(x)` 在 `bbb F` 上不可约得到,
-  `(:p(x):)` 是 `bbb F[x]` 的极大理想, `bbb F[x] // (: p(x) :)` 为一域.
-  因此, `bbb F[alpha] = bbb F(alpha)`.
+  `(:p(x):)` 是 `bbb F[x]` 的极大理想, 故 `bbb F[x] // (: p(x) :)` 为一域.
+  从而, `bbb F[alpha]` 也是域.
 </p>
 
+<ol class="remark">
+  <li>`(: p(x) :)` 是最小多项式生成的理想,
+    它表示 `bbb F` 上以 `p(x)` 为因子的全体多项式, 亦即全体零化多项式.</li>
+  <li>单代数扩张的良好性质在于, 添加 `alpha` 得到的环 `bbb F[alpha]`
+    已经是域; 换言之, 域 `bbb F(alpha)` 中的元素都具有 `f(alpha)` 的形式,
+    其中 `f in bbb F[x]`.
+  </li>
+</ol>
+
 <p class="theorem">
-  单代数扩域的次数等于代数元 `alpha` 的次数:
+  单代数扩域 `bbb F(alpha)` 的次数等于 `alpha` 的最小多项式 `p(x)` 的次数:
   <span class="formula">
-    `del(bbb F(alpha), bbb F) = del(alpha, bbb F)`,
+    `[bbb F(alpha): bbb F] = del p(x)`.
   </span>
   故单代数扩域是有限次扩域, 从而是代数扩域.
 </p>
 
 <p class="proof">
-  记 `n = del(alpha, bbb F)`, 令最小多项式
+  任取 `f(alpha) in bbb F(alpha) = bbb F[alpha]`, 由带余除法
   <span class="formula">
-    `p(x) = x^n + a_(n-1) x^(n-1) + cdots + a_1 x + a_0`,
+    `f(x) = p(x) q(x) + r(x)`, `quad del r lt del p := n`.
   </span>
-  关于任意 `f(x) in bbb F[x]`, 作带余除法
-  <span class="formula">
-    `f(x) = p(x) q(x) + r(x)`,
-    `quad del r(x) lt del p(x) = n`.
-  </span>
-  从而对任意 `f(alpha) in bbb F(alpha) = bbb F[alpha]` 有
-  <span class="formula">
-    `f(alpha) = p(alpha) q(alpha) + r(alpha)`
-    `= r(alpha)`.
-  </span>
+  从而 `f(alpha)` `= p(alpha) q(alpha) + r(alpha)` `= r(alpha)`.
   这说明 `f(alpha)` 可以表示为 `1, alpha, cdots, alpha^(n-1)` 的线性组合;
   另一方面, 由 `p(x)` 的最小性知 `1, alpha, cdots, alpha^(n-1)` 线性无关,
   故单代数扩域 `bbb F(alpha)` 的维数等于 `n`.
 </p>
 
-<h3>两类单扩域的存在惟一性</h3>
-
-<!-- ?? -->
+<!--
+<h3>单超越扩域与单代数扩域的存在惟一性</h3>
+?? -->
 
 <h2>有限次扩域 <i>——即，有限生成的代数扩域</i></h2>
 
 <p class="theorem">
-	<b>次数公式</b>
-	令域 `bbb F le bbb L le bbb K`, 则
-	<span class="formula">
-		`del(bbb K, bbb F) = del(bbb K, bbb L) del(bbb L, bbb F)`.
-	</span>
+  <b>次数公式</b>
+  令域 `bbb F le bbb L le bbb K`, 则
+  <span class="formula">
+    `[bbb K: bbb F] = [bbb K: bbb L] [bbb L: bbb F]`.
+  </span>
   上式对无穷次也成立.
 </p>
 
@@ -586,16 +605,16 @@
       `f_(i j) = 0`, `quad i = 1, 2, cdots, n`, `j = 1, 2, cdots, m`.
     </span>
   </li>
-  <li>再说明 `del(bbb K, bbb L)`, `del(bbb L, bbb F)` 有一个等于 `oo` 时,
-    `del(bbb K, bbb F)` 也等于 `oo`. 反设 `del(bbb K, bbb F) lt oo`,
+  <li>再说明 `[bbb K: bbb L]`, `[bbb L: bbb F]` 有一个等于 `oo` 时,
+    `[bbb K: bbb F]` 也等于 `oo`. 反设 `[bbb K: bbb F] lt oo`,
     基底为 `alpha_1, alpha_2, cdots, alpha_n`.
     这时 `bbb L` 是 `bbb K` 在 `bbb F` 上的线性子空间, 因此是有限维的,
-    即 `del(bbb L, bbb F) lt oo`.  又 `AA alpha in bbb K`,
+    即 `[bbb L: bbb F] lt oo`.  又 `AA alpha in bbb K`,
     <span class="formula">
       `alpha = sum_(i=1)^n f_i alpha_i`, `quad f_i in bbb F sube bbb L`.
     </span>
     因此 `bbb K` 中的向量能被 `bbb L` 中有限个向量线性表出, 从而
-    `del(bbb K, bbb L) lt oo`.
+    `[bbb K: bbb L] lt oo`.
   </li>
 </ol>
 
@@ -604,34 +623,24 @@
 </p>
 
 <p class="corollary">
-	对于有限次扩域 `bbb F le bbb K`, 若 `del(bbb K, bbb F)` 为素数,
-	则 `bbb F` 与 `bbb K` 无真中间域. (逆命题是否成立?)
-</p>
-
-<p class="lemma">
-  设 `bbb K` 为 `bbb F` 的有限次扩域, 基底为 `alpha_1, alpha_2, cdots,
-  alpha_n`, 则 `bbb K = bbb F(alpha_1, alpha_2, cdots, alpha_n)`.
-</p>
-
-<p class="lemma">
-  `del(bbb K, bbb F) = 1` 时, `bbb K ~= bbb F`, 经常直接写作 `bbb K = bbb F`.
+  若 `[bbb K: bbb F]` 为素数, 则 `bbb F` 与 `bbb K` 无真中间域.
+  (逆命题是否成立?)
 </p>
 
 <p class="theorem">
   <b>有限次扩域本质是有限生成的代数扩域</b>
-	扩域次数 `del(bbb K, bbb F) lt oo` 当且仅当存在从 `bbb F` 到 `bbb K`
-	的一个单代数扩域的有限升链:
-	<span class="formula">
-		`bbb F = bbb F_0 le bbb F_1 le bbb F_2 le cdots le bbb F_l = bbb K`,
-	</span>
-	其中 `bbb F_i` 是 `bbb F_(i-1)` 的单代数扩域, `i = 1, 2, cdots, l`.
+  `bbb K//bbb F` 是有限次扩域当且仅当存在从 `bbb F` 到 `bbb K`
+  的一个单代数扩域的有限升链:
+  <span class="formula">
+    `bbb F = bbb F_0 le bbb F_1 le bbb F_2 le cdots le bbb F_l = bbb K`,
+  </span>
+  其中 `bbb F_i` 是 `bbb F_(i-1)` 的单代数扩域, `i = 1, 2, cdots, l`.
 </p>
 
 <ol class="proof">
   <li>充分性: 由次数公式,
     <span class="formula">
-      `del(bbb K, bbb F) = del(bbb F_l, bbb F_(l-1)) cdots del(bbb F_1,
-      bbb F_0) lt oo`.
+      `[bbb K: bbb F] = [bbb F_l: bbb F_(l-1)] cdots [bbb F_1: bbb F_0] lt oo`.
     </span>
   </li>
   <li>必要性:
@@ -643,10 +652,27 @@
   </li>
 </ol>
 
+<ol class="remark">
+  <li>设 `bbb K` 为 `bbb F` 的有限次扩域, 基底为 `alpha_1, alpha_2, cdots,
+    alpha_n`, 则 `bbb K = bbb F(alpha_1, alpha_2, cdots, alpha_n)`.
+  </li>
+  <li>`[bbb K: bbb F] = 1 iff bbb K = bbb F`.</li>
+</ol>
+
+<p class="theorem">
+  <b>代数扩域的传递性</b>
+  若 `bbb K // bbb L`, `bbb L // bbb F` 为代数扩域, 则
+  `bbb F le bbb K` 是有限次扩域, 从而是代数扩域.
+</p>
+
+<p class="corollary">
+  (`bbb F` 上) 代数元的和, 差, 积, 商 (除数不为零) 仍为 (`bbb F` 上) 代数元.
+</p>
+
 <p>什么时候有限次扩域可以由单代数扩域一步生成呢, 下面的定理告诉我们:</p>
 
 <p class="theorem">
-  <b>Artin 本原元定理</b>
+  <b>Artin 本原元定理*</b>
   设 `bbb F` 为无限域, `bbb K` 是其有限次扩张, 则 `bbb K` 为 `bbb F`
   的单代数扩张当且仅当两个域之间只有有限个不同的中间域.
 </p>
@@ -693,23 +719,23 @@
   </li>
 </ol>
 
-<p class="theorem">
-	<b>代数扩域的传递性</b>
-	若 `bbb F le bbb L`, `bbb L le bbb K` 为代数扩域, 则
-	`bbb F le bbb K` 是有限次扩域, 从而是代数扩域.
-</p>
-
-<p class="corollary">
-	设域 `bbb F le bbb K`, 则 `bbb K` 中 `bbb F` 的代数元的和, 积, 差,
-	商 (除数不为零) 仍为 `bbb F` 上的代数元.
-</p>
-
 <h2>分裂域<i>——即，有限次正规扩域</i></h2>
 
+<p class="definition">
+  <b>正规扩域</b>
+  记 `f(x) in bbb F[x] \\ bbb F` 在复数域上的全部根为 `S_(f(x))`.
+  如果关于任意不可约多项式 `p(x) in bbb F[x]`, `p(x)`
+  的全部根要么全在 `bbb K` 中, 要么全不在 `bbb K` 中:
+  <span class="formula">
+    `S_(p(x)) sube bbb K` or `S_(p(x)) nn bbb K = O/`,
+  </span>
+  则称 `bbb K` 为 `bbb F` 的一个<b>正规扩域</b>.
+</p>
+
 <ol class="definition">
-	令 `f(x)` 是域 `bbb F` 上的 `n ge 1` 次多项式, 记它的全部 `n`
-	个根组成的集合为 `S`, 则称 `bbb F(S)` 为 `bbb F`
-	的<b>分裂域</b>或<b>根域</b>.
+  令 `f(x)` 是域 `bbb F` 上的 `n ge 1` 次多项式, 记它的全部 `n`
+  个根组成的集合为 `S`, 则称 `bbb F(S)` 为 `bbb F`
+  的<b>分裂域</b>或<b>根域</b>.
 </ol>
 
 <p class="remark">
@@ -719,6 +745,10 @@
   </span>
   而且 `bbb K` 是满足上式的最小域.
 </p>
+
+<!--
+<h3>可分扩域</h3>
+-->
 
 <h2>有限域</h2>
 
@@ -794,22 +824,20 @@
   </span>
 </p>
 
-<h2>可分扩域</h2>
-
 <h2>例子</h2>
 
 <p class="example">
-	`sqrt 2 + sqrt 3` 的最小多项式是
-	`(x-sqrt2-sqrt3)(x+sqrt2+sqrt3)(x^2-5x+2sqrt6)`.
+  `sqrt 2 + sqrt 3` 的最小多项式是
+  `(x-sqrt2-sqrt3)(x+sqrt2+sqrt3)(x^2-5x+2sqrt6)`.
   `sqrt 2 + root 3 3` 是 `x^6 - 6x^4 - 6x^3 + 12x^2 - 36x + 1` 的根.
 </p>
 
 <p class="example">
-    <b>分母有理化</b>
-    记 `x = sqrt 2`, `y = root 3 3`, 则
-    <span class="formula">
-      `1/(x+y) = (x-y)(x^2-x y+y^2)(x^2+x y+y^2)//(x^6-y^6)`.
-    </span>
+  <b>分母有理化</b>
+  记 `x = sqrt 2`, `y = root 3 3`, 则
+  <span class="formula">
+    `1/(x+y) = (x-y)(x^2-x y+y^2)(x^2+x y+y^2)//(x^6-y^6)`.
+  </span>
 </p>
 
 <p class="example">
@@ -821,10 +849,10 @@
 </p>
 
 <p class="example">
-	从单位正方形到全体有理点.
-	已知平面上单位正方形的四个顶点
-	`(0, 0), (1, 0), (1, 1), (0, 1)`,
-	仅用一把无刻度直尺, 就能作出平面上任意有理点.
+  从单位正方形到全体有理点.
+  已知平面上单位正方形的四个顶点
+  `(0, 0), (1, 0), (1, 1), (0, 1)`,
+  仅用一把无刻度直尺, 就能作出平面上任意有理点.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
