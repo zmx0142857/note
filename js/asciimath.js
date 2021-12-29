@@ -1133,6 +1133,8 @@ function parseMathTex(amstr) {
   var node = $('<span>', str);
   try {
     katex.render(str, node);
+    var anno = node.querySelectorAll('annotation')[0];
+    anno.textContent = '$' + anno.textContent + '$'; // add tex delimiter for user selection
   } catch (e) {
     node.className = 'katex-error';
     node.innerText = e.message;

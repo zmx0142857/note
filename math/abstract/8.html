@@ -8,18 +8,61 @@
 
 <body>
 
-<h2>Galois 群</h2>
+<p class="remark">
+  <b>单代数扩域的 `bbb F`-自同构</b><br>
+  域 `bbb K` 上全体自同构关于变换的通常合成构成一个群 `Aut(bbb K)`, 称为
+  `bbb K` 的<b>自同构群</b>.<br>
+  下面只看单代数扩域. 记 `bbb K = bbb F(alpha)`, `alpha` 是 `bbb F`
+  上代数元. 于是 `bbb K` 中元素形如 `f(alpha)`, 其中 `f in bbb F[x]`.
+  令 `sigma in Aut(bbb K)`, `f(x) = c_n x^n + cdots + c_1 x + c_0`, 则
+  <span class="formula">
+    `sigma(f(alpha))`
+    `= sigma(c_n) sigma(alpha)^n + cdots + sigma(c_1) sigma(alpha) + sigma(c_0)`.
+  </span>
+  假如 `sigma` 保持 `f` 的系数不变: `sigma(c_i) = c_i`, `i = 0, cdots, n`,
+  则得到一个漂亮的等式:
+  <span class="formula">
+    `sigma(f(alpha)) = f(sigma(alpha))`.
+  </span>
+  进一步, 若 `sigma` 在 `bbb F` 上为恒等映射: `AA b in bbb F, sigma(b) = b`;
+  则上式对任意 `f in bbb F[x]` 成立.<br>
+  这种在 `bbb F` 上保持恒等的 `bbb K` 的自同构称为 `bbb K` 的 `bbb F`-自同构.
+  我们发现, `bbb K` 的 `bbb F`-自同构 `sigma` 由 `alpha` 的像 `sigma(alpha)`
+  完全决定. 事实上, 记 `beta = sigma(alpha)`, 则有
+  <span class="formula">
+    `sigma: bbb K to bbb K`<br>
+    `f(alpha) mapsto f(beta)`.
+  </span>
+  下面考虑 `alpha` 可能的像. 在上式中令 `f` 为 `alpha` 的最小多项式, 就有
+  <span class="formula">
+    `f(beta) = sigma(f(alpha)) = sigma(0) = 0`.
+  </span>
+  这指出 `alpha` 的像 `beta` 必为 `f` 的根.
+  `alpha` 与 `beta` 有相同的最小多项式, 我们称它们是<b>共轭</b>的.
+  `bbb F`-自同构将 `alpha` 映为它的共轭, 换言之, `bbb F`-自同构是对多项式的<b>根的置换</b>.<br>
+  本章的主题就是根的置换. 刻画这种置换的工具就是 <b>Galois 群</b>.<br>
+  最后, `bbb F`-自同构的数目不超过 `f` 的根的数目, 如果记 `bbb F`-自同构的数目为 `|Gal(bbb K // bbb F)|`, 则
+  <span class="formula">
+    `|Gal(bbb K // bbb F)| le [bbb K: bbb F] = n`,
+  </span>
+  如果上式等号成立, 则 `f` 的每个根都决定一个 `bbb F`-自同构,
+  这时我们称 `bbb K // bbb F` 是 <b>Galois 扩张</b>:
+  这当且仅当 `f` 有 `n` 个不同的根, 且这些根都属于 `bbb K`.
+  换言之, `f` <b>可分</b>, 且 `f` 的<b>分裂域</b>含于 `bbb K`.
+</p>
+
+<h2>Galois 群与 Galois 扩张</h2>
+
+<h3>Galois 群</h3>
 
 <ol class="definition">
-  令域 `bbb F le bbb K`.
-  <li>`bbb K` 上全体自同构关于变换的通常合成构成一个群 `Aut(bbb K)`, 称为
-    `bbb K` 的<b>自同构群</b>;</li>
+  考虑扩域 `bbb K // bbb F`,
   <li>`bbb K` 上全体 `bbb F`-自同构组成 `Aut(bbb K)` 的子群
     <span class="formula">
-      `Gal(bbb K, bbb F) := {sigma in Aut(bbb K): {:sigma|_(bbb F)
+      `Gal(bbb K // bbb F) := {sigma in Aut(bbb K): {:sigma|_(bbb F)
       = {:"id"|_(bbb F):}:}}`,
     </span>
-    称为 `bbb K` 关于 `bbb F` 的 <b>Galois 群</b>.
+    称为 `bbb K` 在 `bbb F` 上的 <b>Galois 群</b>.
   </li>
   <li>设 `G le Aut(bbb K)`, 视 `G` 为 `bbb K` 上的群作用, 则 `bbb K`
     在 `G` 作用下的全体不动点构成 `bbb K` 的子域
@@ -32,20 +75,21 @@
 
 <p class="remark">
   固定 `bbb K` 时, `Gal` 可以视为映射, 它将 `bbb K` 的子域映为 `Aut(bbb
-  K)` 的子群; `Inv` 则将 `Aut(bbb K)` 的子群映为 `bbb K` 的子域.
+  K)` 的子群; `Inv` 则将 `Aut(bbb K)` 的子群映为 `bbb K` 的子域:
+  <span class="formula">
+    `bbb K overset(Gal)underset(Inv)⇄ Aut(bbb K)`
+  </span>
 </p>
 
 <ol class="corollary" id="cor-galois-group">
-  设 `bbb E le bbb F le bbb K`, `G le H le Aut(bbb K)`, 则
-  <li>`Gal(bbb K, bbb E) ge Gal(bbb K, bbb F)`;</li>
-  <li>`Inv(G) ge Inv(H)`;</li>
-  <li>`Inv(Gal(bbb K, bbb F)) ge bbb F`;</li>
-  <li>`Gal(bbb K, Inv G) ge G`.</li>
-  <li>3 和 4 的等号未必成立, 不过我们有
-    <span class="formula">
-      `Gal(bbb K, bbb F) = Gal(bbb K, Inv(Gal(bbb K, bbb F)))`.
-    </span>
-  </li>
+  在域 `bbb K` 上考虑 `Gal` 与 `Inv` 这一对映射, 简记
+  `Gal(bbb F) = Gal(bbb K // bbb F)`, 则它们 (关于子域和子群) 是单调减的:
+  <li>`bbb E le bbb F rArr` `Gal(bbb E) ge Gal(bbb F)`;</li>
+  <li>`G le H rArr` `Inv(G) ge Inv(H)`;</li>
+  考虑这一对映射的复合, 有
+  <li>`Inv(Gal(bbb F)) ge bbb F`;</li>
+  <li>`Gal(Inv G) ge G`;</li>
+  <li>`Gal(bbb F) = Gal(Inv(Gal(bbb F)))`.</li>
 </ol>
 
 <ol class="proof">
@@ -53,51 +97,86 @@
   <li>在 `H` 的作用下不变, 蕴含在 `G` 的作用下不变;</li>
   <li>由定义, Galois 群起码保证 `bbb F` 中的点不动;</li>
   <li>设 `bbb F = Inv G`, 则 `AA g in G`, `g{:|:}_(bbb F) = "id"{:|:}_(bbb
-    F)`, 即 `g in Gal(bbb K, bbb F)`.
+    F)`, 即 `g in Gal(bbb F)`.
   </li>
-  <li>设 `bbb E = Inv(Gal(bbb K, bbb F)) ge bbb F`, 则左边 `ge` 右边.
-    设 `G = Gal(bbb K, bbb F)`, 则右边 `= Gal(bbb K, Inv G) ge G = `左边.
+  <li>设 `bbb E = Inv(Gal(bbb F)) ge bbb F`, 则左边 `ge` 右边.
+    设 `G = Gal(bbb F)`, 则右边 `= Gal(Inv G) ge G = `左边.
   </li>
 </ol>
 
 <p class="remark">
-  类比集合论中的: `f: X to Y`, `A sube B sube X`, `C sube D sube Y`, 则
+  比较集合论中的结果: 令 `f: X to Y`, 有
   <span class="formula">
-    `f(A) sube f(B)`,
-    `quad f^-1(C) sube f^-1(D)`,
-    `quad f^-1(f(A)) supe A`,
-    `quad f(f^-1(C)) sube C`.
+    `A sube B rArr f(A) sube f(B)`,<br>
+    `C sube D rArr f^-1(C) sube f^-1(D)`,<br>
+    `f^-1(f(A)) supe A`, 等号成立当且仅当 `f` 单,<br>
+    `f(f^-1(C)) sube C`, 等号成立当且仅当 `f` 满.
   </span>
 </p>
 
+<h3>Galois 扩张</h3>
+
 <p class="definition">
-  上述推论的 3. 取等号时, `Inv` 恰为 `Gal` 的逆.
-  这时称 `bbb K` 为 `bbb F` 的 <b>Galois 扩张</b>.
+  <b>Galois 扩张</b>
+  上述推论的 3. 取等号时, `Inv(Gal(bbb F)) = bbb F`,
+  `Inv` 恰为 `Gal` 的左逆.
+  这时称 `bbb K // bbb F` 是 <b>Galois 扩张</b>.
+  Galois 扩张有许多等价的定义, 下面就来讨论它们.
 </p>
 
-<p>下面讨论 Galois 扩张的等价条件, 先证引理:</p>
+<p class="definition">
+  若多项式 `f` 的任意不可约因式无重根, 则称 `f` <b>可分</b>.
+  若 `bbb F` 是特征为零的域, 则任意 `f in bbb F[x]` 都可分.
+</p>
+
+<p class="example">
+  <b>不可分多项式的例子</b>
+  考虑 `bbb F_p` 上的超越元 `u`, 令 `bbb K = bbb F_p(u)` 是 `bbb F_p`
+  的超越扩张, 则 `f(x) = x^p - u in bbb K[x]` 不可分.
+</p>
+
+<ol class="proof">
+  <li>先证 `f` 有重根. 取 `f` 的任一根 `alpha`, 则 `alpha^p = u`, 注意到 `K` 的特征为 `p`, 有
+    <span class="formula">
+      `f(x) = x^p - alpha^p = (x-alpha)^p`,
+    </span>
+    即 `alpha` 为 `p` 重根.
+  </li>
+  <li>再证 `f` 不可约. 若 `f` 可约, 则有非平凡分解 `f = g h`,
+    且 `alpha` 是 `g, h` 的根. 设 `g(x) = (x-alpha)^k`, 其中 `0 lt k lt p`,
+    则 `g(x)` 的常数项 `(-alpha)^k !in bbb K`. 这说明 `g !in bbb K[x]`,
+    矛盾.
+  </li>
+</ol>
 
 <p class="lemma">
   <b>有限次扩域的 Galois 群为有限群</b>
-  设 `bbb F le bbb K` 为有限次扩域, 则 `|Gal(bbb K, bbb F)| le del(bbb K,
-  bbb F)`. 等号成立当且仅当 `bbb K` 为 `f` 上一可分多项式的分裂域.
+  设 `bbb K // bbb F` 为有限次扩域, 则
+  <span class="formula">
+    `|Gal(bbb K // bbb F)| le [bbb K: bbb F]`.
+  </span>
+  等号成立当且仅当 `bbb K` 为 `bbb F` 上一可分多项式的分裂域.
 </p>
 
+<!-- ?? -->
+
 <ol class="theorem">
-  设 `bbb F le bbb K` 为有限次扩域, `G = Gal(bbb K, bbb F)`.
-  则以下各款等价:
-  <li>`bbb K` 为 `bbb F` 的 Galois 扩张;</li>
-  <li>`bbb K` 为 `bbb F` 的可分正规扩张;</li>
-  <li>`del(bbb K, bbb F) = |G|`.</li>
+  <b>Galois 扩张的等价条件</b>
+  对有限次扩域 `bbb K // bbb F`, 以下各款等价:
+  <li>`bbb K // bbb F` 是 Galois 扩张;</li>
+  <li>`bbb K` 是 `bbb F` 上一可分多项式的分裂域;</li>
+  <li>`|Gal(bbb K // bbb F)| = [bbb K: bbb F]`.</li>
+  最常用的推论是:
+  特征为零的域 `bbb F` 上任意多项式的分裂域都是 `bbb F` 的 Galois 扩张.
 </ol>
 
 <ol class="proof enum">
   <li>
-    <ol>
-    1 `rArr` 2:
-    只需证任意 `alpha in bbb K` 在 `bbb F` 上的最小多项式 `p(x)` 可分.
+    <ol>`rArr` 2:
+    只需证任意 `alpha in bbb K` 在 `bbb F` 上的最小多项式 `p(x)` 无重根,
+    且 `p(x)` 的所有根属于 `bbb K`.
     <li>
-      任取 `alpha in bbb K`. 由引理, `G` 为有限群, 因此轨道
+      由引理, `G := Gal(bbb K // bbb F)` 为有限群, 因此轨道
       <span class="formula">
         `O_alpha = {sigma(alpha): sigma in G}`
       </span>
@@ -115,15 +194,15 @@
         `f(sigma(alpha)) = sigma f(alpha) = sigma(0) = 0`.
       </span>
       从而根 `alpha` 的置换 `sigma(alpha)` 仍为 `f(x)` 的根.
-      这启发我们:
-    </li>
-    <li>
-      构作
+      这启发我们构作
       <span class="formula">
         `q(x) = prod_(i=1)^r (x - sigma_i(alpha))`
         `= sum_(j=0)^r q_j x^j`.
       </span>
-      显然 `q(x)` 可分, 下证 `q(x) = p(x)`.
+      显然 `q(x)` 无重根, 且它的所有根属于 `bbb K`.
+    </li>
+    <li>
+      下证 `q(x) = p(x)`.
       由 Vieta 定理知道, `q_j` 是所有根的对称多项式:
       <span class="formula">
         `q_j = s(sigma_1(alpha), cdots, sigma_r(alpha))`,
@@ -138,25 +217,26 @@
       由假设, `bbb K` 为 `bbb F` 的 Galois 扩张, 即 `Inv(G) = bbb F`,
       故 `sigma` 的所有不动点必属于 `bbb F`, 于是 `q_j in bbb F`, 即
       `q(x) in bbb F[x]`. 我们得到: `q(x)` 是 `alpha` 在 `bbb F`
-      上的零化多项式因此 `p(x) | q(x)`.
-      另一方面, 由 (2) 知 `q(x)` 的任一根都是 `p(x)` 的根, 于是 `q(x)
-      | p(x)`, 从而 `p(x) = q(x)`.
+      上的零化多项式, 因此 `p(x) | q(x)`.
+      另一方面, 在 (2) 中取 `f = p` 可知 `q(x)` 的任一根都是 `p(x)` 的根,
+      于是 `q(x) | p(x)`, 从而 `p(x) = q(x)`.
     </li>
     </ol>
   </li>
-  <li>2 `rArr` 3: 由分裂域的知识, `bbb K` 是 `bbb F`
-    上一可分多项式 `f(x)` 的分裂域. 故由分裂域的推论??知结论成立.
+  <li>`rArr` 3: 由引理知结论成立.
   </li>
-  <li>
-    令 `bbb E = Inv(Gal(bbb K, bbb F)) ge bbb F`, 由<a class="ref" href="#cor-galois-group"></a>,
+  <li>`rArr` 1:
+    令 `bbb E = Inv(Gal(bbb K // bbb F)) ge bbb F`,
+    由<a class="ref" href="#cor-galois-group"></a> 的 5,
     <span class="formula">
-      `Gal(bbb K, bbb F) = Gal(bbb K, bbb E)`.
+      `Gal(bbb K // bbb F) = Gal(bbb K // bbb E)`.
     </span>
     从而
     <span class="formula">
-      `del(bbb K, bbb F) = |G|`
-      `= |Gal(bbb K, bbb E)|`
-      `le del(bbb K, bbb E)`,
+      `[bbb K: bbb F]`
+      `= |Gal(bbb K // bbb F)|`
+      `= |Gal(bbb K // bbb E)|`
+      `le [bbb K: bbb E]`,
     </span>
     这推出 `bbb F ge bbb E`, 于是 `bbb F = bbb E`, 即 `bbb K` 为 `bbb F`
     的一个 Galois 扩张.

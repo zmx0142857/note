@@ -418,324 +418,253 @@ li.isnew::after {
 <script>
 'use strict';
 (function(){
-// 假装在用 jquery
-function $(str, children) {
-  if (typeof(str) == 'string') {
-    var len = str.length;
-    if (str[0] == '#')
-      return document.getElementById(str.slice(1));
-    if (str[0] == '.')
-      return document.getElementsByClassName(str.slice(1));
-    if (str[0] == '<' && str[len-1] == '>') {
-      var elem = document.createElement(str.slice(1,len-1));
-      if (typeof(children) == 'string')
-        elem.innerHTML = children;
-      else if (children instanceof Node)
-        elem.appendChild(children);
-      else if (children instanceof Array) {
-        for (c of children)
-          elem.appendChild(c);
-      }
-      return elem;
+
+// 时尚卡片
+{
+  const aboutDlg = new Modal('about')
+  $('#show-about').onclick = function () {
+    aboutDlg.toggle()
+  }
+
+  const about = $('#about').addEventListener('click', function () {
+    var degY = parseInt(this.style.getPropertyValue('--flag'))
+    degY = !degY ? 1 : 0
+    degY ? this.classList.add('back') : this.classList.remove('back')
+      this.style.setProperty('--flag', degY)
+  }, true) // 向上冒泡
+}
+
+// 能用就行的搜索框交互
+{
+  const searchBox = $('#search-box')
+  $('#search-button').addEventListener('click', function () {
+    if (searchBox.value) {
+      searchBox.classList.add('focus')
+    } else {
+      searchBox.classList.remove('focus')
+      // 模拟点击 body, 使得提示框自动关闭
+      document.body.dispatchEvent(new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }))
     }
-    if (len > 0)
-      return document.getElementsByTagName(str);
-  }
-  if (typeof(str) == 'undefined') {
-    return document.createDocumentFragment();
-  }
+    this.blur()
+  })
 }
 
 // elements
-var article = $('#article'),
-  artitle = $('#article-title'),
+let notify, iframe
+const article = $('#article'),
   header = $('#header'),
   nav = $('#nav'),
-  toc = $('#table-of-contents'),
   yinyang = $('#yinyang'),
-  prevArticle = $('#prev-article'),
-  nextArticle = $('#next-article'),
-  book = $('#book'),
-  favicon = $('#favicon'),
-  eclipse = $('#eclipse'),
-  notify,
-  about = $('#about'),
-  iframe
+  eclipse = $('#eclipse')
 
-var aboutDlg = new Modal('about')
-$('#show-about').onclick = function () {
-  aboutDlg.toggle()
-}
-about.addEventListener('click', function () {
-  var degY = parseInt(about.style.getPropertyValue('--flag'))
-  degY = !degY ? 1 : 0
-  degY ? about.classList.add('back') : about.classList.remove('back')
-	about.style.setProperty('--flag', degY);
-}, true) // 向上冒泡
+header.onmouseover = () => headerVisible(true)
+header.onmouseout = () => headerVisible(false)
+yinyang.onclick = eclipse.onclick = () => hideNav()
 
-var UUID = 'io.zmx0142857.';
-var tableOfContents;
-
-// 加载 toc.js 中的目录
-for (var key in tocData) {
-  var option = $('<option>', tocData[key].title);
-  option.value = key;
-  book.appendChild(option);
+function createIframe(src, title) {
+  if (iframe) article.removeChild(iframe)
+  // 全新创建的 iframe 不会影响 history
+  iframe = $('<iframe>', {
+    id: 'iframe',
+    title,
+    src,
+    onload () {
+      notify.remove()
+      iframe.focus()
+    }
+  })
+  //iframe.contentWindow.handleKeyboard = handleKeyboard;
+  article.insertBefore(iframe, header)
+  $('#article-title').innerText = title
+  document.title = title
 }
 
 function hideNav(flag) {
   if (!nav.hidden || flag) {
-    nav.hidden = true;
-    nav.style.width = '0';
-    article.style.marginLeft = '0';
-    yinyang.style.transform = 'none';
-    eclipse.style.display = 'none';
-    headerVisible(false);
-    // console.log('focus');
-    iframe.focus();
+    nav.hidden = true
+    nav.style.width = '0'
+    article.style.marginLeft = '0'
+    yinyang.style.transform = 'none'
+    eclipse.style.display = 'none'
+    headerVisible(false)
+    iframe.focus()
   } else {
-    nav.removeAttribute('hidden');
-    nav.style.width = '16em';
-    article.style.marginLeft = '16em';
-    yinyang.style.transform = 'rotate(540deg)';
-    eclipse.style.display = 'block';
-    headerVisible(true);
+    nav.removeAttribute('hidden')
+    nav.style.width = '16em'
+    article.style.marginLeft = '16em'
+    yinyang.style.transform = 'rotate(540deg)'
+    eclipse.style.display = 'block'
+    headerVisible(true)
   }
 }
 
 function headerVisible(flag) {
   // 首页导航条不隐藏
-  if (location.hash === '#math/example/editor')
-      flag = true;
+  if (/math\/example\/editor\.html$/.test(iframe.src)) {
+    flag = true
+  }
   if (!nav.hidden || flag) {
-    header.removeAttribute('hidden');
-    header.style.opacity = '1';
+    header.removeAttribute('hidden')
+    header.style.opacity = '1'
   } else {
-    header.hidden = true;
-    header.style.opacity = '0';
+    header.hidden = true
+    header.style.opacity = '0'
   }
 }
 
-function createIframe(src, title) {
-  // 全新创建的 iframe 不会影响 history
-  iframe = $('<iframe>');
-  iframe.id = 'iframe';
-  iframe.title = title;
-  iframe.setAttribute('src', src);
-  iframe.onload = function() {
-    notify.remove()
-    iframe.focus();
-  };
-  article.insertBefore(iframe, header);
-  //iframe.contentWindow.handleKeyboard = handleKeyboard;
-}
+// 路由加载
+const router = {
+  toc: undefined,
+  book: undefined,
+  get (pos) {
+    return this.toc[pos[0]].articles[pos[1]]
+  },
+  jump (src, title) {
+    notify = new Notify('加载中...')
+    createIframe(this.book.value + '/' + src, title)
+    hideNav(true)
+    setTimeout(headerVisible, 1000)
+  },
+  jumpPos (pos) {
+    const item = this.get(pos)
+    this.jump(item.src, item.title)
 
-function load(key, defaultVal) {
-  return localStorage[UUID+key] || defaultVal;
-}
-
-function save(key, val) {
-  localStorage[UUID+key] = val;
-}
-
-function jump(src, title) {
-  //console.log('jump: ' + src + ' ' + title);
-  notify = new Notify('加载中...');
-  save('src', src);
-  var iframe = $('#iframe');
-  if (iframe) article.removeChild(iframe);
-  createIframe(book.value + '/' + src, title)
-  artitle.innerText = title;
-  document.title = title;
-  hideNav(true);
-  setTimeout(headerVisible, 1000);
-}
-
-function jumpPos(pos) {
-  var item = tableOfContents[pos[0]].articles[pos[1]];
-  jump(item.src, item.title);
-
-  // clear active li's
-  var active = document.querySelectorAll('#table-of-contents li.active')
-  for (var i = 0; i < active.length; ++i) {
-    active[i].classList.remove('active')
-  }
-  // set new active li
-  toc.children[pos[0]] // li
-     .children[0]      // ul
-     .children[pos[1]] // li
-     .classList.add('active')
-}
-
-function redirect(pos) {
-  var src = tableOfContents[pos[0]].articles[pos[1]].src.replace(/\.html$/, '');
-  var hash = '#' + book.value + '/' + src;
-  window.history.pushState(null, null, hash);
-  jumpPos(pos);
-}
-
-function jumpto(pos) {
-  return function() {
-    redirect(pos);
-  };
-}
-
-// a month
-function isRecent (dateStr) {
-  if (!dateStr) return false
-  return new Date() - new Date(dateStr) < 30 * 86400 * 1000
-}
-
-function preventJump (e) {
-  e.preventDefault()
-}
-
-function loadBook() {
-  //console.log('load book');
-  var bookData = tocData[book.value];
-  tableOfContents = bookData.toc;
-  document.title = 'zmx0142857 的' + bookData.title + '笔记';
-  document.body.id = 'body-' + (bookData.color || 'yellow');
-  favicon.href = 'img/' + (bookData.favicon || 'pikachu.png');
-
-  // render table of contents
-  var newtoc = $('<ul>');
-  var frag = $();
-  for (var i = 0; i < tableOfContents.length; ++i) {
-    var LI = $('<li>', tableOfContents[i].title);
-    var ul = $('<ul>');
-    for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
-      // var li = $('<li>', tableOfContents[i].articles[j].title);
-      var a = $('<a>', tableOfContents[i].articles[j].title);
-      a.href = book.value + '/' + tableOfContents[i].articles[j].src;
-      a.onclick = preventJump;
-      var li = $('<li>', a);
-      li.onclick = jumpto([i, j]);
-      if (isRecent(tableOfContents[i].articles[j].date))
-        li.classList.add('isnew');
-      ul.appendChild(li);
+    // clear active li's
+    document.querySelectorAll('#table-of-contents li.active').forEach(
+      active => active.classList.remove('active')
+    )
+    // set new active li
+    $('#table-of-contents').children[pos[0]] // li
+       .children[0]      // ul
+       .children[pos[1]] // li
+       .classList.add('active')
+  },
+  redirect (pos) {
+    const src = this.get(pos).src.replace(/\.html$/, '')
+    const hash = '#' + this.book.value + '/' + src
+    window.history.pushState(null, null, hash)
+    this.jumpPos(pos)
+  },
+  jumpto (pos) {
+    return () => this.redirect(pos)
+  },
+  loadBook () {
+    // a month
+    function isRecent (dateStr) {
+      if (!dateStr) return false
+      return new Date() - new Date(dateStr) < 30 * 86400 * 1000
     }
-    LI.appendChild(ul);
-    frag.appendChild(LI);
-  }
-  newtoc.appendChild(frag);
-  nav.replaceChild(newtoc, toc);
-  newtoc.id = 'table-of-contents';
-  toc = newtoc;
-}
 
-function getPos(src) {
-  //console.log('getPos');
-  for (var i = 0; i < tableOfContents.length; ++i) {
-    for (var j = 0; j < tableOfContents[i].articles.length; ++j) {
-      if (tableOfContents[i].articles[j].src == src) {
-        return [i, j];
+    function preventJump (e) {
+      e.preventDefault()
+    }
+
+    const {
+      toc, title, color = 'yellow', favicon = 'pikachu.png'
+    } = tocData[this.book.value]
+    this.toc = toc
+    document.body.id = 'body-' + color
+    $('#favicon').href = 'img/' + favicon
+
+    // render table of contents
+    const frag = $('', {}, this.toc.map((group, i) => {
+      const ul = $('<ul>', {}, group.articles.map((article, j) => {
+        const a = $('<a>', {
+          innerText: article.title,
+          href: this.book.value + '/' + this.toc[i].articles[j].src,
+          onclick: preventJump
+        });
+        return $('<li>', {
+          onclick: this.jumpto([i, j]),
+          className: isRecent(article.date) ? ['isnew'] : []
+        }, a);
+      }))
+      return $('<li>', group.title, ul)
+    }))
+    const id = 'table-of-contents'
+    const newtoc = $('<ul>', { id }, frag)
+    nav.replaceChild(newtoc, $('#' + id))
+  },
+  getPos (src) {
+    for (let i = 0; i < this.toc.length; ++i) {
+      for (let j = 0; j < this.toc[i].articles.length; ++j) {
+        if (this.toc[i].articles[j].src == src) {
+          return [i, j]
+        }
       }
     }
-  }
-  return [0, 0];
-}
-
-function changeBook (value) {
-  if (value != book.value) {
-    book.value = value;
-    save('book', value);
-    loadBook();
-  }
-}
-
-function parseHash() {
-  var index = location.href.indexOf('#');
-  if (index != -1) {
-    var hash = location.href.slice(index+1);
-    var bookValue = book.value
-    if (/^[^/]+\/[^/]+\/[^/]+$/.test(hash)) { // book/group/article
-      var path = hash.split('/');
-      var src = path[1] + '/' + path[2] + '.html';
-      changeBook(path[0]);
-      return getPos(src);
-    } else {
-      if (Object.keys(tocData).includes(hash)) {
-        changeBook(hash);
+    return [0, 0]
+  },
+  changeBook (value) {
+    if (value !== this.book.value) {
+      this.book.value = value
+      this.loadBook()
+    }
+  },
+  parseHash() {
+    let bookValue = 'math'
+    let hash = location.hash
+    if (hash) {
+      hash = hash.slice(1)
+      if (/^[^/]+\/[^/]+\/[^/]+$/.test(hash)) { // book/group/article
+        const path = hash.split('/')
+        const src = path[1] + '/' + path[2] + '.html'
+        this.changeBook(path[0])
+        return this.getPos(src)
+      }
+      if (tocData.hasOwnProperty(hash)) {
+        bookValue = hash
       }
     }
-  }
-}
-
-/* bind event listener
-function handleKeyboard(e) {
-  if (e.keyCode == 'M'.charCodeAt(0)) {
-    hideNav();
-  }
-}
-document.onkeyup = handleKeyboard;*/
-header.onmouseover = function() {headerVisible(true)};
-header.onmouseout = function() {headerVisible(false)};
-yinyang.onclick = eclipse.onclick = function() {hideNav()};
-
-// 能用就行的搜索框交互
-var searchBox = $('#search-box');
-$('#search-button').addEventListener('click', function () {
-  if (searchBox.value) {
-    searchBox.classList.add('focus');
-  } else {
-    searchBox.classList.remove('focus');
-    // 模拟点击 body, 使得提示框自动关闭
-    document.body.dispatchEvent(new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true
-    }));
-  }
-  this.blur();
-})
-
-prevArticle.onclick = function() {
-  var pos = parseHash();
-  if (pos[1] == 0) {
-    if (pos[0] == 0) {
-      console.warn('already at first article.');
-      return;
+    this.changeBook(bookValue)
+    return [0, 0]
+  },
+  init () {
+    $('#prev-article').onclick = () => {
+      let [i, j] = this.parseHash()
+      if (j === 0) {
+        if (i === 0) return console.warn('already at first article.')
+        j = this.toc[--i].articles.length
+      }
+      --j
+      this.redirect([i, j])
     }
-    pos[1] = tableOfContents[--pos[0]].articles.length;
-  }
-  --pos[1];
-  redirect(pos);
-};
 
-nextArticle.onclick = function() {
-  var pos = parseHash();
-  if (pos[1] == tableOfContents[pos[0]].articles.length-1) {
-    if (pos[0] == tableOfContents.length-1) {
-      console.warn('no more articles.');
-      return;
+    $('#next-article').onclick = () => {
+      let [i, j] = this.parseHash()
+      if (j === this.toc[i].articles.length-1) {
+        if (i === this.toc.length-1) return console.warn('no more articles.')
+        ++i
+        j = -1
+      }
+      ++j
+      this.redirect([i, j])
     }
-    ++pos[0];
-    pos[1] = -1;
-  }
-  ++pos[1];
-  redirect(pos);
-};
 
-book.onchange = function() {
-  var pos = [0, 0];
-  save('book', book.value);
-  loadBook();
-  redirect(pos);
-}
+    window.onhashchange = () => {
+      this.jumpPos(this.parseHash())
+    }
 
-window.onhashchange = function(e) {
-  var pos = parseHash();
-  if (pos) {
-    jumpPos(pos);
-  } else { // fallback
-    book.value = load('book', 'math');
-    book.onchange();
+    this.book = $('#book', {
+      onchange () {
+        router.loadBook()
+        router.redirect([0, 0])
+      }
+    }, Object.keys(tocData).map(key => $('<option>', { // toc.js 提供 tocData 对象
+      innerText: tocData[key].title,
+      value: key
+    })))
+    this.book.value = ''
+
+    window.onhashchange()
   }
 }
 
-book.value = '';
-window.onhashchange();
+router.init()
 
 })();
 </script>

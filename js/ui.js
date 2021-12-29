@@ -1,61 +1,98 @@
-;(function (win) {
+// 虚拟 dom (bushi
+function $(tag, options = {}, children = []) {
+  const len = tag.length
+  const el = !tag
+    ? document.createDocumentFragment()
+    : tag[0] === '#'
+    ? document.getElementById(tag.slice(1))
+    : tag[0] === '.'
+    ? document.getElementsByClassName(tag.slice(1))
+    : tag[0] === '<' && tag[len-1] === '>'
+    ? document.createElement(tag.slice(1,len-1))
+    : document.getElementsByTagName(tag);
 
-var doc = win.document, body = doc.body,
-    head = doc.getElementsByTagName('head')[0]
-
-var style;
-function addStyle (css) {
-  //document.styleSheets[0].addRule('.box', 'height: 100px')
-  //document.styleSheets[0].insertRule('.box {height: 100px}', 0)
-  if (!style) {
-    style = doc.createElement('style')
-    head.appendChild(style)
+  if (typeof options === 'string') {
+    el.innerText = options
+  } else {
+    Object.keys(options).forEach(key => {
+      const value = options[key]
+      if (key === 'className') {
+        if (Array.isArray(value)) value.forEach(v => el.classList.add(v))
+        else el.classList.add(value)
+      } else if (key === 'attrs') {
+        Object.keys(value).forEach(attr => el.setAttribute(attr, value[attr]))
+      } else if (key === 'on') {
+        Object.keys(value).forEach(ev => {
+          const arr = ev.split('.')
+          el.addEventListener(arr[0], value[ev].bind(options), arr[1] === 'true')
+        })
+      } else if (key === 'style') {
+        Object.assign(el.style, value)
+      } else if (typeof value === 'function') {
+        el[key] = value.bind(options)
+      } else {
+        el[key] = value
+      }
+    })
+    options.el = el
   }
-  style.appendChild(doc.createTextNode(css))
+
+  if (Array.isArray(children)) children.forEach(c => el.appendChild(c))
+  else el.appendChild(children)
+
+  return el
 }
+
+;(function () {
 
 /**
  * Modal
  */
-win.Modal = function Modal (id, config = {}) {
+window.Modal = function Modal (id, config = {}) {
   const {
     height = 400,
     width = 300,
     zIndex = 99
   } = config
-  this.elem = doc.getElementById(id)
-  this.container = doc.createElement('div')
-  this.container.appendChild(this.elem)
-  // 解决模态框用键盘无法关闭的问题
-  this.container.setAttribute('aria-hidden', true)
-  Object.assign(this.container.style, {
-    height: '100%',
-    width: '100%',
-    display: 'none',
-    position: 'absolute',
-    top: '0',
-    background: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex,
-    perspective: '1000px'
+
+  this.elem = $('#' + id, {
+    style: {
+      background: '#f4f8fb',
+      height: `${height}px`,
+      width: `${width}px`,
+      borderRadius: '10px',
+      padding: '20px',
+      overflow: 'auto',
+      display: 'unset'
+    },
+    on: {
+      'click.true': function (e) {
+        e.stopPropagation()
+      }
+    }
   })
-  Object.assign(this.elem.style, {
-    background: '#f4f8fb',
-    height: `${height}px`,
-    width: `${width}px`,
-    borderRadius: '10px',
-    padding: '20px',
-    overflow: 'auto',
-    display: 'unset'
-  })
-  this.elem.addEventListener('click', function (e) {
-    e.stopPropagation()
-  }, true)
-  this.container.onclick = function () {
-    this.style.display = 'none'
-  }
-  body.appendChild(this.container)
+
+  this.container = $('<div>', {
+    attrs: {
+      'aria-hidden': true // 解决模态框用键盘无法关闭的问题
+    },
+    style: {
+      height: '100%',
+      width: '100%',
+      display: 'none',
+      position: 'absolute',
+      top: '0',
+      background: 'rgba(0,0,0,0.2)',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex,
+      perspective: '1000px'
+    },
+    onclick () {
+      this.el.style.display = 'none'
+    }
+  }, this.elem)
+  document.body.appendChild(this.container)
 }
 
 Modal.prototype.toggle = function () {
@@ -66,17 +103,30 @@ Modal.prototype.toggle = function () {
 /**
  * Notify
  */
-win.Notify = function Notify (text) {
-  var notify = doc.createElement('div')
-  notify.classList.add('notify')
-  notify.textContent = text
-  notify.id = 'notify'
-  body.appendChild(notify)
+window.Notify = function Notify (textContent) {
+  const notify = $('<div>', {
+    id: 'notify',
+    className: 'notify',
+    textContent,
+  })
+  document.body.appendChild(notify)
 }
 
 Notify.prototype.remove = function () {
-  var notify = doc.getElementById('notify')
-  notify && body.removeChild(notify)
+  const notify = $('#notify')
+  notify && document.body.removeChild(notify)
+}
+
+let style
+const head = $('head')[0]
+function addStyle (css) {
+  //document.styleSheets[0].addRule('.box', 'height: 100px')
+  //document.styleSheets[0].insertRule('.box {height: 100px}', 0)
+  if (!style) {
+    style = $('<style>')
+    head.appendChild(style)
+  }
+  style.appendChild(document.createTextNode(css))
 }
 
 addStyle(`
@@ -109,4 +159,4 @@ addStyle(`
 }
 `)
 
-})(window)
+})()
