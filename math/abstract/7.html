@@ -140,30 +140,40 @@
 </p>
 
 <p class="theorem">
-	<b>余数定理</b>
-	令 `bbb F` 为一域, `f(x) in bbb F[x]`, `a in bbb F`. 则 `x-a` 除
-	`f(x)` 的余式为一常数, 此常数等于 `f(a)`.
+  <b>余数定理</b>
+  令 `bbb F` 为一域, `f(x) in bbb F[x]`, `a in bbb F`. 则 `x-a` 除
+  `f(x)` 的余式为一常数, 此常数等于 `f(a)`.
 </p>
 
 <p class="theorem">
-	<b>零点-因子定理</b>
-	假设同上. 则 `a` 为 `f(x)` 的根当且仅当 `(x-a) | f(x)`.
+  <b>零点-因子定理</b>
+  假设同上. 则 `a` 为 `f(x)` 的根当且仅当 `(x-a) | f(x)`.
 </p>
 
 <p class="theorem">
-	<b>关于根的数目上限</b>
-	令 `bbb F` 为一域. `f(x) in bbb F[x]\\{0}`, 则 `f(x)` 在 `bbb F`
-	中最多有 `n = del f(x)` 个根 (重根以重数计).
+  <b>次数公式</b> `del(f g) = del f del g`.
 </p>
 
-<p class="remark">
-	下文我们会看到, 关于任意 `f(x) in bbb F[x]\\{0}`,
-	可以适当扩大域 `bbb F` 到域 `bbb G_(f(x))`, 使得 `f(x)` 在新的域中恰有
-	`n = del f(x)` 个根.
+<p class="proof">
+  这是由域的无零因子决定的.
 </p>
 
 <p class="theorem">
-	域 `bbb F` 上任两个多项式的最大公因式不因域的扩大而改变.
+  <b>关于根的数目上限</b>
+  令 `bbb F` 为一域. `f(x) in bbb F[x]\\{0}`, 则 `f(x)` 在 `bbb F`
+  中最多有 `n = del f(x)` 个根 (重根以重数计).
+</p>
+
+<p class="proof">
+  反设 `r_1, cdots, r_(n+1)` 都是 `f` 的根, 则
+  <span class="formula">
+    `(x-r_1)cdots(x-r_(n+1)) | f(x)`.
+  </span>
+  左侧为 `n+1` 次, 右侧为 `n` 次, 与次数公式矛盾.
+</p>
+
+<p class="theorem">
+  域 `bbb F` 上任两个多项式的最大公因式不因域的扩大而改变.
 </p>
 
 <h3>域的特征与素域</h3>
@@ -415,6 +425,10 @@
   上的超越元时, 称 `bbb K` 为 `bbb F` 的<b>纯超越扩域</b>.
 </p>
 
+<p class="remark">
+  我们主要研究代数扩域.
+</p>
+
 <p class="corollary">
   有限次扩域都是代数扩域.
 </p>
@@ -661,12 +675,29 @@
 
 <p class="theorem">
   <b>代数扩域的传递性</b>
-  若 `bbb K // bbb L`, `bbb L // bbb F` 为代数扩域, 则
-  `bbb F le bbb K` 是有限次扩域, 从而是代数扩域.
+  若 `bbb K // bbb L`, `bbb L // bbb F` 均为代数扩域,
+  则 `bbb K // bbb F` 也是代数扩域.
+</p>
+
+<p class="proof">
+  任取 `alpha in bbb K`, 设它在 `bbb L` 上的最小多项式为 `f`,
+  将 `f` 的系数 `a_0, a_1, cdots, a_n`
+  添加到 `bbb F` 中, 得到 `bbb L_1 = bbb F(a_0, a_1, cdots, a_n)`, 则
+  `alpha` 在 `bbb L_1` 上的最小多项式仍为 `f`, `bbb L_1(alpha) // bbb L_1`
+  为有限次扩张.
+  但 `a_0, a_1, cdots, a_n in bbb L`, 因而这些系数均为 `bbb F` 上代数元,
+  从而 `bbb L_1 // bbb F` 也是有限次扩张.
+  综上 `bbb L_1(alpha) // bbb F` 是有限次扩张, 故 `alpha` 为 `bbb F`
+  上代数元, 由 `alpha` 的任意性, 结论得证.
 </p>
 
 <p class="corollary">
-  (`bbb F` 上) 代数元的和, 差, 积, 商 (除数不为零) 仍为 (`bbb F` 上) 代数元.
+  `bbb F` 上代数元的和, 差, 积, 商 (除数不为零) 仍为 `bbb F` 上代数元.
+</p>
+
+<p class="proof">
+  设 `alpha, beta` 在 `bbb F` 上代数, 则 `bbb F(alpha, beta) // bbb F`
+  为代数扩张 (实际上是有限次扩张).
 </p>
 
 <p>什么时候有限次扩域可以由单代数扩域一步生成呢, 下面的定理告诉我们:</p>
@@ -717,6 +748,13 @@
     我们已经证明, `bbb F` 和 `bbb K` 的任一中间域和 `p(x)` 的因式一一对应,
     但 `p(x)` 只有有限个因式, 故中间域也是有限个.
   </li>
+</ol>
+
+<ol class="remark">
+  小结
+  <li>有限次扩张是代数扩张; 有限步的单代数扩张是有限次扩张.</li>
+  <li>有限次扩张、代数扩张均可传递.</li>
+  <li>代数元的四则运算结果仍为代数元.</li>
 </ol>
 
 <h2>分裂域<i>——即，有限次正规扩域</i></h2>
@@ -799,6 +837,13 @@
     `GF(p^n) = {0, g, g^2, cdots, g^(q-1) = 1}`,
     `quad q = p^n`.
   </span>
+</p>
+
+<p class="proof">
+  令 `G` 为 `GF(p^n)` 的乘法群, 由
+  <a href="2.html#the-when-abel-cyclic">Abel 群何时为循环群?</a> 这个定理,
+  只需证对任意正整数 `m`, `x^m = 1` 在 `G` 中最多有 `m` 个解.
+  由于 `GF(p^n)` 是域, `m` 次方程在域中的解不超过 `m` 个, 证毕.
 </p>
 
 <p class="example">

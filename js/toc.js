@@ -135,7 +135,7 @@ math: {
     {title:'半群', src:'abstract/5.html'},
     {title:'环', src:'abstract/6.html'},
     {title:'域', src:'abstract/7.html', date:'2021-12-28'},
-    {title:'Galois 理论', src:'abstract/8.html'},
+    {title:'Galois 理论', src:'abstract/8.html', date:'2021-12-29'},
   ]
 }, {
   title:'拓扑学',
