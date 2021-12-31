@@ -5,7 +5,8 @@ const baseUrl = 'https://zmx0142857.gitee.io/note'
 function getDateStr (date) {
   return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2)
 }
-const monthAgo = getDateStr(new Date(new Date() - 30 * 86400 * 1000)) // 减一个月
+const monthAgo = '2021-11-13' // 不变
+//const monthAgo = getDateStr(new Date(new Date() - 30 * 86400 * 1000)) // 减一个月
 const today = getDateStr(new Date())
 
 function writeSitemap () {
