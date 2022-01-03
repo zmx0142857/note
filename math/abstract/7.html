@@ -240,17 +240,20 @@
 
 <p class="example">
   <b>Frobenius 自同态</b>
-  令域 `bbb F` 的特征为素数 `p`, 则对任意 `n in ZZ^+` 和 `a, b in bbb F`,
+  令域 `bbb F` 的特征为素数 `p`,
   注意到 `p | (p;k)`, `k = 1, 2, cdots, p-1`,
-  且由特征的定义有 `p a = 0`. 故
+  对任意 `a, b in bbb F`, 由特征的定义有 `p a = 0`. 故
   <span class="formula">
     `(a+-b)^p = a^p +- b^p`.
   </span>
-  因此 `a mapsto a^p` 是同态. 显然它不是零同态, 因此是单同态.
-  又, 对 `n` 归纳可得
+  因此 `varphi: a mapsto a^p` 是 `bbb F` 到自身的同态, 称为 Frobenius 自同态.
+  显然它不是零同态, 因此是单同态.
+  又, 对正整数 `n` 归纳可得
   <span class="formula">
     `(a+-b)^(p^n) = a^(p^n) +- b^(p^n)`.
   </span>
+  由 Fermat 小定理知道, `varphi` 保持素域 `bbbF_p` 中的元素不动.
+  特别当 `bbb F` 为有限域, 单射 `varphi` 也为一满射, 称为 Frobenius 自同构.
 </p>
 
 <p class="example">
@@ -641,6 +644,15 @@
   (逆命题是否成立?)
 </p>
 
+<p class="corollary">
+  `bbb F` 上代数元的和, 差, 积, 商 (除数不为零) 仍为 `bbb F` 上代数元.
+</p>
+
+<p class="proof">
+  设 `alpha, beta` 在 `bbb F` 上代数, 则 `bbb F le bbb F(alpha) le bbb F(alpha, beta) // bbb F`
+  为有限次扩张, 从而是代数扩张.
+</p>
+
 <p class="theorem">
   <b>有限次扩域本质是有限生成的代数扩域</b>
   `bbb K//bbb F` 是有限次扩域当且仅当存在从 `bbb F` 到 `bbb K`
@@ -692,12 +704,13 @@
 </p>
 
 <p class="corollary">
-  `bbb F` 上代数元的和, 差, 积, 商 (除数不为零) 仍为 `bbb F` 上代数元.
+  设 `u` 为域 `bbb F` 上超越元, 则 `bbb F(u)`
+  是纯超越扩域, 且对任意 `alpha in bbb F(u)\\bbb F`,
+  `bbb F(u)//bbb F(alpha)` 是代数扩张.
 </p>
 
 <p class="proof">
-  设 `alpha, beta` 在 `bbb F` 上代数, 则 `bbb F(alpha, beta) // bbb F`
-  为代数扩张 (实际上是有限次扩张).
+  `bbb F(u)` 同构于分式域 `bbb F(x)`. 取 `alpha = f(u)//g(u) in bbb F(u)\\bbb F`, 则 `f(u) - g(u) alpha = 0`, 表明 `u` 在 `bbb F(alpha)` 上代数. 反设 `alpha` 在 `bbb F` 上代数, 则由代数扩张的传递性, `bbb F le bbb F(alpha) le bbb F(u)` 是代数扩张, 矛盾; 因此 `alpha` 在 `bbb F` 上超越.
 </p>
 
 <p>什么时候有限次扩域可以由单代数扩域一步生成呢, 下面的定理告诉我们:</p>
@@ -756,6 +769,43 @@
   <li>有限次扩张、代数扩张均可传递.</li>
   <li>代数元的四则运算结果仍为代数元.</li>
 </ol>
+
+<h2>代数闭域与代数闭包</h2>
+
+<ol class="definition">
+  若 `bbb L` 不存在比自身更大的代数扩域,
+  换言之它的任意扩域都是超越扩域, 则称 `bbb L`
+  是<b>代数闭域</b>.
+  代数闭域的特价表述:
+  <li>任意 `bbb L` 以外的元素在 `bbb L` 上超越;
+  换言之若 `alpha` 在 `bbb L` 上代数, 则 `alpha in bbb L`.
+  </li>
+  <li>`bbb L` 上任意次数大于零的多项式在 `bbb L`
+    中有根. 由代数学基本定理知道 `CC` 是代数闭域.</li>
+</ol>
+
+<p class="corollary">
+  代数闭域一定是无限域.
+</p>
+
+<p class="proof">
+  反设 `bbb L` 为有限域, 元素为 `a_1, cdots, a_n`,
+  则多项式 `prod (x-a_i) - 1` 在 `bbb L` 上没有根,
+  否则得到 `0=1` 的矛盾.
+</p>
+
+<p class="definition">
+  考虑扩域 `bbb K//bbb F`. 将 `bbb K` 中所有 `bbb F`
+  上代数元添加到 `bbb F` 中所得的域 `bbb F^"alg"` 称为
+  `bbb F` 在 `bbb K` 中的<b>代数闭包</b>.
+  `bbb F^"alg"//bbb F` 为代数扩张. 任取 `u in bbb K\\bbb
+  F_"alg"`, 则 `u` 在 `bbb F_"alg"` 上是超越元,
+  (否则与代数扩张的传递性矛盾), 即 `bbb K//bbb F_"alg"`
+  为纯超越扩张. 这证明了代数闭包必为代数闭域.
+  一般地, 若不限定范围, 使用超限归纳法将 `bbb F`
+  上所有代数元加到 `bbb F` 中, 得到一个很大的域, 也称为
+  `bbb F` 的代数闭包.
+</p>
 
 <h2>分裂域<i>——即，有限次正规扩域</i></h2>
 
