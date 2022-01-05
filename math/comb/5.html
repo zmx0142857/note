@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>离散微积分与 Stirling 数</title>
+    <title>离散微积分与特殊计数序列</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -274,8 +274,8 @@
 </p>
 
 <p class="proof">
-  首先由大于 `m` 阶的差分都等于零知, `x_n` 是一个多项式 (??).<br/>
-  因为 `(n; k)` 是 `n` 的 `k` 次多项式, `k = 0, 1, cdots, m`, 所以
+  首先由大于 `m` 阶的差分都等于零知, `x_n` 是关于 `n` 的多项式.<br/>
+  因为 `(n; k)` 是关于 `n` 的 `k` 次多项式, `k = 0, 1, cdots, m`, 所以
   `(n;k)` 线性无关, 它们组成多项式空间 `bbb P{::}_m[x]` 的基.<br/>
   下面计算 `(n;k)` 的差分.
   因为 `Delta (n;k) = (n;k-1)`, 所以
@@ -343,18 +343,100 @@
 	`S(n, k)` 称为<b>第二类 Stirling 数</b>.
 </p>
 
-<p class="corollary">
-	由离散 Maclaurin 公式知,
-	`S(n,k) = {: (Delta^k x^n)/(k!) |_(x=0)`.
+<pre>
+          1
+        0   1
+      0   1   1
+    0   1   3   1
+  0   1   7   6   1
+0   1  15  25  10   1
+</pre>
+
+<p class="proposition">
+  <b>递推公式</b>
+  <span class="formula">
+    `S(n, k) = {
+      1, if n = k;
+      0, if n gt 0 and k = 0;
+      S(n-1, k-1) + k S(n-1, k), otherwise;
+    :}`
+  </span>
+</p>
+
+<p class="proof">
+  从定义式 `x^n = sum_(k=0)^n S(n, k) x^(ul k)` 出发.
+  考虑两边的 `n` 次项系数和常数项分别可得 `S(n, n) = 1` (`n ge 0`) 和
+  `S(m, 0) = 0` (`m gt 0`). 现在设 `n gt 0`, 两边对 `x` 差分得到
+  <span class="formula">
+    `(x+1)^n - x^n = sum_(k=1)^n S(n, k) k x^(ul (k-1))`.
+  </span>
+  另一方面
+  <span class="formula align">
+    `(x+1)^n - x^n`
+    `= 1/(x+1) (x+1)^(n+1) - x^n`<br>
+    `= 1/(x+1) sum_(k=1)^(n+1) S(n+1, k) (x+1)^(ul k)`
+    `- sum_(k=1)^n S(n, k) x^(ul k)`<br>
+    `= sum_(k=1)^(n+1) S(n+1, k) x^(ul(k-1))`
+    `- sum_(k=2)^(n+1) S(n, k-1) x^(ul(k-1))`<br>
+    `= sum_(k=1)^n S(n+1, k) x^(ul(k-1))`
+    `- sum_(k=1)^n S(n, k-1) x^(ul(k-1))`.<br>
+  </span>
+  比较得
+  <span class="formula">
+    `k S(n, k) = S(n+1, k) - S(n, k-1)`.
+  </span>
 </p>
 
 <p class="proposition">
-	`S(n,k) = sum_(i=0)^k (-1)^(k-i) (k;i) i^n`
-	`= sum_(i=0)^k (-1)^i (k;i) (k-i)^n`.
+  <b>通项公式</b>
+  `S(n,k) = 1/k! sum_(i=0)^k (k;i) (-1)^i (k-i)^n`.
+</p>
+
+<p class="proof">
+  只需验证这个通项公式适合边界条件和递推公式, 过程略.
+</p>
+
+<p class="proof">
+  `x^n` 是关于 `x` 的 `n` 次多项式,
+  考虑数列 `1^n, 2^n, 3^n, cdots`, 由离散 Maclaurin 公式和 `k` 阶差分公式
+  <span class="formula">
+    `S(n,k) = 1/k! {:Delta_x^k x^n|_(x=0)`
+    `= 1/k! sum_(i=0)^k (k;i) (-1)^i (k-1)^n`.
+  </span>
 </p>
 
 <p class="proposition">
-	<b>前 `x` 个自然数的 `n` 次幂和</b>
+  <b>组合意义</b>
+  `n` 元集到 `k` 元集的满射数等于 `k! S(n, k)`.
+  换言之, 将 `n` 元集划分为 `k` 份, 每份不空的方法数为 `S(n, k)`.
+</p>
+
+<p class="proof">
+  应用容斥原理, `n` 元集到 `k` 元集的满射数目等于全部映射 `k^n`,
+  减去有一个元素无原像的情形 `(k;1) (k-1)^n`,
+  再加上有两个元素无原像的情形 `(k;2) (k-2)^n`,
+  再减去有三个元素无原像的情形... 最终得到
+  <span class="formula">
+    `sum_(i=0)^k (k;i) (-1)^i (k-i)^n = k! S(n, k)`.
+  </span>
+</p>
+
+<ol class="proof">
+  假设将 `n` 元集划分为 `k` 份, 每份不空的方法数为 `T(n, k)`,
+  下证 `T(n, k)` 和 `S(n, k)` 满足相同的递推公式, 从而 `T(n, k) = S(n, k)`.
+  事实上, 显然有 `T(n, n) = 1`, `T(n, 1) = 1`.
+  接下来考虑 `n` 元集中的固定元素 `x_0`,
+  <li>若 `x_0` 在划分中独占一份 (住单人间, 没有室友),
+    只需再将剩下的 `n-1` 个元素分为 `k-1` 份, 方法数为 `T(n-1, k-1)`;
+  </li>
+  <li>若 `x_0` 在划分中不是独占一份, 只需将剩下的 `n-1` 个元素分为 `k` 份,
+    然后选择一份将 `x_0` 加入其中 (选择一个房间入住), 方法数为 `k T(n-1, k)`.
+  </li>
+  综上 `T(n, k) = T(n-1, k-1) + k T(n-1, k)`, 恰好满足 `S(n, k)` 的递推公式.
+</ol>
+
+<p class="proposition">
+	<b>等幂求和</b>
 	记 `(:n;k:) = S(n,k) k!`, `S_n(x) = sum_(i=1)^x i^n`.  则
 	<span class="formula">
 		`S_n(x) = sum_(k=0)^n (:n;k:) (x+1; k+1)`, `quad n ge 1`.
@@ -391,7 +473,7 @@
 	容易验证上式对 `n=0` 也成立.
 </p>
 
-<h3>Euler 数</h3>
+<h2>Euler 数</h2>
 
 <p class="definition">
   <b>Euler 数</b> 对正整数 `n` 和 正整数 `k le n`,

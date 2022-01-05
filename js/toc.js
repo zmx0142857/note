@@ -40,7 +40,7 @@ math: {
 }, {
   title:'数学分析',
   articles: [
-    {title:'附录', src:'analysis/0.html'},
+    {title:'附录', src:'analysis/0.html', date:'2022-01-04'},
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html', date: '2021-12-07'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
@@ -135,7 +135,7 @@ math: {
     {title:'半群', src:'abstract/5.html'},
     {title:'环', src:'abstract/6.html'},
     {title:'域', src:'abstract/7.html', date:'2021-12-28'},
-    {title:'Galois 理论', src:'abstract/8.html', date:'2021-12-29'},
+    {title:'Galois 理论', src:'abstract/8.html', date:'2022-01-02'},
   ]
 }, {
   title:'拓扑学',
@@ -195,7 +195,7 @@ math: {
     {title:'排列与组合', src:'comb/2.html', date:'2021-12-13'},
     {title:'求解递推式', src:'comb/3.html', date:'2021-11-27'},
     {title:'容斥原理', src:'comb/4.html'},
-    {title:'离散微积分与 Stirling 数', src:'comb/5.html', date:'2021-11-27'},
+    {title:'离散微积分与特殊计数序列', src:'comb/5.html', date:'2022-01-05'},
   ]
 }, {
   title:'图论',
