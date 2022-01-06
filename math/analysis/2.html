@@ -787,7 +787,7 @@
 	<span class="formula">
 		`"e" = 2.718281828...`
 	</span>
-	我们已知 <a href="misc/1.html">`"e"` 是无理数</a>.
+	我们已知 <a href="../number/0.html#the-e-irrational">`"e"` 是无理数</a>.
 	这个常数有许多好的性质, 最重要的一点是, 函数 `"e"^x` 的导数是它自身.
 	人们把 `"e"` 用于自然对数的底, 即 `ln x := log_"e" x`.
 </p>
@@ -999,8 +999,10 @@
 </p>
 
 <p class="example">
-	`lim_(n to oo) sum_(k=1)^n (k/n)^n = "e"/("e"-1)`.<br/>
-	[题源 <a href="https://kexue.fm/archives/3256">苏剑林. (2015, Mar 28). 《有趣的求极限题：随心所欲的放缩 》[Blog post]. https://kexue.fm/archives/3256</a>]
+  [<a href="https://kexue.fm/archives/3256">苏剑林. (2015, Mar 28). 有趣的求极限题：随心所欲的放缩</a>]
+  <span class="formula">
+    `lim_(n to oo) sum_(k=1)^n (k/n)^n = "e"/("e"-1)`.
+  </span>
 </p>
 
 <p class="proof">
@@ -1039,6 +1041,22 @@
 	</span>
 	令 `epsi to 0`, `N to oo` 就得到要证的不等式.
 </p>
+
+<ol class="proof">
+  上一个证明中用到的两个不等式也可以这样证:
+  <li>要证 `(1-k/n)^n le "e"^-k`, 令 `x = k/n`, 只需证
+    <span class="formula">
+      `1-x le "e"^-x`,
+    </span>
+    显然成立.
+  </li>
+  <li>要证 `(1-k/n)^(n-k) ge "e"^-k`, 令 `x = 1-k/n`, 只需证: `AA x in (0, 1]`,
+    <span class="formula">
+      `x^x ge "e"^(x-1)`, 换言之 `x ln x ge x-1`
+    </span>
+    `x = 1` 时上式等号成立; 又在 `(0, 1)` 上, 导数 `ln x lt 0`, 故不等式成立.
+  </li>
+</ol>
 
 <h2>上极限与下极限</h2>
 
