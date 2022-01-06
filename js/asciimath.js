@@ -1003,7 +1003,11 @@ function parseMatrixTex(sym, frag) {
     row.push(frag.slice(begin,i));
   if (row.length > 0)
     matrix += row.join('&') + '\\\\';
-  return '\\begin{matrix}' + matrix + '\\end{matrix}';
+  if (sym.invisible && AM.env === 'browser') {
+    return '\\begin{matrix*}[l]' + matrix + '\\end{matrix*}';
+  } else {
+    return '\\begin{matrix}' + matrix + '\\end{matrix}';
+  }
 }
 
 // -> node
@@ -1240,7 +1244,7 @@ function init() {
 
   if (AM.env === 'browser') {
     // local fonts cause CORS error
-    loadCss('https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css');
+    loadCss('https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css');
     loadScript(AM.katexpath, AM.onload);
   }
 }

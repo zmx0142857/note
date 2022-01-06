@@ -239,15 +239,61 @@
 <p>本节的最后导出几个有用的公式.</p>
 
 <p class="theorem">
+  <b>组合反演公式</b>
+  关于数列 `{x_n}, {y_n}`, 若
+  <span class="formula">
+    `y_n = sum_(k=0)^n (n;k) x_k`,
+  </span>
+  则
+  <span class="formula">
+    `x_n = sum_(k=0)^n (n;k) (-1)^(n-k) y_k`.
+  </span>
+  如果记 `x_n = x^n`, `y_n = y^n`, 以上结论形式地记为
+  <span class="formula">
+    `y^n = (x+1)^n` `rArr x^n = (y-1)^n`.
+  </span>
+  或对称地,
+  <span class="formula">
+    `y^n = (1-x)^n` `rArr x^n = (1-y)^n`.
+  </span>
+</p>
+
+<p class="proof">
+  代入验证,
+  <span class="formula">
+    `sum_(k=0)^n (n;k) (-1)^(n-k) sum_(j=0)^k (k;j) x_j`
+    `= sum_(j=0)^n x_j sum_(k=j)^n (n;k)(k;j) (-1)^(n-k)`
+    `= sum_(j=0)^n x_j A_j`.
+  </span>
+  其中
+  <span class="formula">
+    `A_j = sum_(k=0)^(n-j) (n;k)(n-k;j) (-1)^k`
+    `= sum_(k=0)^(n-j) (n;j)(n-j;k) (-1)^k`
+    `= (n;j) (1-1)^(n-j)`
+    `= {1, if j = n; 0, if j lt n:}`
+  </span>
+  因此 `sum_(j=0)^n x_j A_j = x_n`.
+</p>
+
+<p class="theorem">
   <b>`k` 阶差分公式</b>
   <span class="formula">
     `Delta^k x_n = sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
   </span>
   如果记 `x_n = x^n`, 上式形式地写为
   <span class="formula">
-    `Delta^k x^n = x^n (x-1)^k`.
+    `Delta^k x^n = (x-1)^k x^n`.
   </span>
-  该表达式与指数函数的 `k` 阶差分一致.
+  该表达式与指数函数的 `k` 阶差分一致.<br>
+  反演得到<b>离散 Maclaurin 公式</b>:
+  <span class="formula">
+    `x_(n+k) = sum_(j=0)^k (k;j) Delta^j x_n`
+    `= sum_(j=0)^k (Delta^j x_n)/(j!) k^(ul j)`.
+  </span>
+  形式记为
+  <span class="formula">
+    `x^(n+k) = (Delta+1)^k x^n`.
+  </span>
   向后差分、中心差分也有类似的表达式.
 </p>
 
