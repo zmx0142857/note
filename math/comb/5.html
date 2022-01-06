@@ -278,11 +278,11 @@
 <p class="theorem">
   <b>`k` 阶差分公式</b>
   <span class="formula">
-    `Delta^k x_n = sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
+    `Delta^k x_n = sum_(j=0)^k (k;j) (-1)^(k-j) x_(n+j)`.
   </span>
   如果记 `x_n = x^n`, 上式形式地写为
   <span class="formula">
-    `Delta^k x^n = (x-1)^k x^n`.
+    `Delta^k x^n = (x-1)^k x^n`, 亦即 `Delta = x - 1`.
   </span>
   该表达式与指数函数的 `k` 阶差分一致.<br>
   反演得到<b>离散 Maclaurin 公式</b>:
@@ -292,7 +292,7 @@
   </span>
   形式记为
   <span class="formula">
-    `x^(n+k) = (Delta+1)^k x^n`.
+    `x^(n+k) = (Delta+1)^k x^n`, 亦即 `x = Delta + 1`.
   </span>
   向后差分、中心差分也有类似的表达式.
 </p>
@@ -301,11 +301,11 @@
   `k = 0` 时, `Delta^0 x_n = x_n` 成立; 假设等式对 `k-1` 成立, 则
   <span class="formula align">
     `Delta^k x_n = Delta^(k-1) x_(n+1) - Delta^(k-1) x_n`<br>
-    `= sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-j)`
-    `- sum_(j=0)^(k-1) (k-1; j) (-1)^j x_(n+k-1-j)`<br>
+    `= sum_(j=0)^(k-1) (k-1; j) (-1)^(k-1-j) x_(n+1+j)`
+    `- sum_(j=0)^(k-1) (k-1; j) (-1)^(k-1-j) x_(n+j)`<br>
     `= x_(n+k) - (-1)^(k-1) x_n`
-    `+ sum_(j=1)^(k-1) (-1)^j x_(n+k-j) ((k-1; j) + (k-1; j-1))`<br>
-    `= sum_(j=0)^k (k;j) (-1)^j x_(n+k-j)`.
+    `+ sum_(j=1)^(k-1) (-1)^(k-j) x_(n+j) ((k-1; j-1) + (k-1; j))`<br>
+    `= sum_(j=0)^k (k;j) (-1)^(k-j) x_(n+j)`.
   </span>
 </p>
 
@@ -324,9 +324,9 @@
   因为 `(n; k)` 是关于 `n` 的 `k` 次多项式, `k = 0, 1, cdots, m`, 所以
   `(n;k)` 线性无关, 它们组成多项式空间 `bbb P{::}_m[x]` 的基.<br/>
   下面计算 `(n;k)` 的差分.
-  因为 `Delta (n;k) = (n;k-1)`, 所以
+  因为 `Delta_n (n;k) = (n;k-1)`, 所以
   <span class="formula">
-    `{: Delta^j (n;k) |_(n=0) = {: (n; k-j) |_(n=0)`
+    `{: Delta_n^j (n;k) |_(n=0) = {: (n; k-j) |_(n=0)`
     `= delta_(j k) = { 1, if j = k; 0, if j != k :}`.
   </span>
   现在将多项式 `x_n` 用基底线性表示为
@@ -335,7 +335,7 @@
   </span>
   则由差分的线性性知,
   <span class="formula">
-    `Delta^j x_0 = sum_(k=0)^m c_k {:Delta^j (n;k)|_(n=0)`
+    `Delta_n^j x_0 = sum_(k=0)^m c_k {:Delta_n^j (n;k)|_(n=0)`
     `= sum_(k=0)^m c_k delta_(j k)`
     `= c_j`.
   </span>
@@ -435,7 +435,10 @@
 
 <p class="proposition">
   <b>通项公式</b>
-  `S(n,k) = 1/k! sum_(i=0)^k (k;i) (-1)^i (k-i)^n`.
+  <span class="formula">
+    `S(n,k) = 1/k! sum_(j=0)^k (k;j) (-1)^j (k-j)^n`.
+  </span>
+  令 `S^k = k^n`, 上式形式写为 `k! S(n, k) = (S-1)^k`.
 </p>
 
 <p class="proof">
@@ -443,11 +446,11 @@
 </p>
 
 <p class="proof">
-  `x^n` 是关于 `x` 的 `n` 次多项式,
-  考虑数列 `1^n, 2^n, 3^n, cdots`, 由离散 Maclaurin 公式和 `k` 阶差分公式
+  在定义式 `x^n = sum_(k=0)^n S(n, k) x^(ul k)` 中, 考虑数列 `1^n, 2^n,
+  3^n, cdots, n^n`, 由离散 Maclaurin 公式和 `k` 阶差分公式
   <span class="formula">
     `S(n,k) = 1/k! {:Delta_x^k x^n|_(x=0)`
-    `= 1/k! sum_(i=0)^k (k;i) (-1)^i (k-1)^n`.
+    `= 1/k! sum_(i=0)^k (k;j) (-1)^j (k-j)^n`.
   </span>
 </p>
 
@@ -463,7 +466,7 @@
   再加上有两个元素无原像的情形 `(k;2) (k-2)^n`,
   再减去有三个元素无原像的情形... 最终得到
   <span class="formula">
-    `sum_(i=0)^k (k;i) (-1)^i (k-i)^n = k! S(n, k)`.
+    `sum_(j=0)^k (k;j) (-1)^j (k-j)^n = k! S(n, k)`.
   </span>
 </p>
 
@@ -480,6 +483,18 @@
   </li>
   综上 `T(n, k) = T(n-1, k-1) + k T(n-1, k)`, 恰好满足 `S(n, k)` 的递推公式.
 </ol>
+
+<p class="proof">
+  `n` 元集到 `k` 元集的映射, 相当于 `n` 元集到 `j` 元集的满射总和, `j = 0, 1, cdots, k`:
+  <span class="formula">
+    `k^n = sum_(j=0)^k (k;j) S'(n, j)`,
+  </span>
+  反演得
+  <span class="formula">
+    `S'(n, k) = sum_(j=0)^k (k;j) (-1)^(k-j) j^n`,
+  </span>
+  因此 `S'(n, k) = k! S(n, k)`.
+</p>
 
 <p class="proposition">
 	<b>等幂求和</b>
@@ -571,7 +586,7 @@
 <p class="proposition">
   Euler 数的显式表达式为
   <span class="formula">
-    `A_(n, k) = sum_(j=0)^k (-1)^j (n+1; j) (k-j)^n`.
+    `A_(n, k) = sum_(j=0)^k (n+1; j) (-1)^j (k-j)^n`.
   </span>
 </p>
 

@@ -195,7 +195,7 @@ math: {
     {title:'排列与组合', src:'comb/2.html', date:'2021-12-13'},
     {title:'求解递推式', src:'comb/3.html', date:'2021-11-27'},
     {title:'容斥原理', src:'comb/4.html'},
-    {title:'离散微积分与特殊计数序列', src:'comb/5.html', date:'2022-01-05'},
+    {title:'离散微积分与特殊计数序列', src:'comb/5.html', date:'2022-01-06'},
   ]
 }, {
   title:'图论',
