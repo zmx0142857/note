@@ -533,7 +533,8 @@
   </span>
   `phi_n(x)` 的所有根称为 `n` 次<b>本原单位根</b>
   <span class="formula">
-    `Theta_n = {"e"^(2pi"i"k//n) | (k, n) = 1 }`.
+    `Theta_n = {zeta_n^k | (k, n) = 1 }`,
+    `quad zeta_n = "e"^(2pi"i"//n)`.
   </span>
   因此 `phi_n(x)` 的次数就等于 `|Theta_n| = varphi(n)`.
 </p>
@@ -544,9 +545,9 @@
 </p>
 
 <p class="proof">
-  记 `omega = "e"^(2pi"i"//n)`, `lambda = omega^j`, `mu = omega^k`,
+  `lambda = zeta_n^j`, `mu = zeta_n^k`,
   `(j, n) = (k, n) = 1`, 只需取 `m` 使得 `j m -= k (mod n)`, 就有
-  `lambda^m = omega^(j m) = omega^k = mu`.
+  `lambda^m = zeta_n^(j m) = zeta_n^k = mu`.
 </p>
 
 <p class="remark">
@@ -635,36 +636,64 @@
   </span>
 </p>
 
-<ol class="proposition">
-  当 `n = p` (`p` 为素数) 或 `2p` (`p` 为奇素数) 时,
+<p class="proposition">
+  设 `a ge 1`, 当 `n = p^a` (`p` 为素数) 或 `2p^a` (`p` 为奇素数) 时,
   分圆多项式的形式比较简单:
-  <li>`phi_p(x) = sum_(k=0)^(p-1) x^k`;</li>
-  <li>`phi_(2p)(x) = sum_(k=0)^(p-1) (-x)^k`.</li>
-</ol>
+  <span class="formula">
+  `phi_(p^a)(x) = sum_(k=0)^(p-1) x^(k p^(a-1))`
+  `= (x^(p^a)-1)/(x^(p^(a-1))-1)` `= phi(2p^a)(-x)`.
+  </span>
+</p>
 
 <ol class="proof">
-  <li>因为 `Theta_n = {"e"^(2pi"i"k//p) | (k, p) = 1}`
-    `= {"e"^(2pi"i"k//p) | k = 1, cdots, p-1}`,
-    所以 `phi_p(x) = (x^p-1)/(x-1)`.
+  <li>`n = p^a` 次的本原单位根有
+    <span class="formula">
+      `Theta_n = {zeta_n^k | (k, n) = 1}` `= {zeta_n^k | p !| k}`,
+    </span>
+    所以 `phi_n(x)` 就等于从 `x^n-1` 中排除掉以下因子:
+    <span class="formula">
+      `prod_(k=1)^(p^(a-1)) (x-zeta_n^(p k))`
+      `= prod_(k=1)^(p^(a-1)) (x-zeta_(p^(a-1))^k)`
+      `= x^(p^(a-1)) - 1`.
+    </span>
   </li>
-  <li>设 `p` 为奇素数. 下证 `lambda` 的阶为 `p` 当且仅当 `-lambda` 的阶为
-    `2p`.<br>
-    若 `"ord"lambda = p`, 容易验证 `(-lambda)^(2p) = 1`;
-    又对任意 `d | 2p`, 有 `d = 1, 2, p, 2p`. 若 `(-lambda)^d = 1`, 则
-    由于 `p` 是奇素数, `d` 只能等于 `2p`. 这指出 `-lambda` 的阶是
-    `2p`.<br>
-    反之若 `-lambda` 的阶为 `2p`, 则 `(-lambda)^p` 是 `1` 的因子, 只能是
-    `-1`. 两边约去 `(-1)^p` 得 `lambda^p = 1`. 显然 `lambda^1` 不等于 `1`,
-    因此 `lambda` 的阶为 `p`.
+  <li>设 `p` 为奇素数. 下证 `lambda` 的阶为 `p^a` 当且仅当 `-lambda` 的阶为
+    `2p^a`.<br>
+    若 `"ord"lambda = p^a`, 容易验证 `(-lambda)^(2p^a) = 1`;
+    又对任意 `d | 2p^a`, 若 `(-lambda)^d = 1`, 则 `d` 必为偶数,
+    有 `lambda^d = 1`; 因而 `2 b` 必为 `p^a` 的倍数, 只能 `d = 2 p^a`.
+    这指出 `-lambda` 的阶是 `2p^a`.<br>
+    反之若 `-lambda` 的阶为 `2p^a`, 则 `(-lambda)^(p^a)` 只能是 `-1`.
+    两边约去 `(-1)^(p^a)` 得 `lambda^(p^a) = 1`.
+    又对任意 `d | p^a`, 若 `lambda^d = 1`, 则 `(-lambda)^(2d) = 1`,
+    迫使 `d = p^a`, 即 `lambda` 的阶为 `p^a`.
     <br>
-    另一方面, `varphi(p) = varphi(2p) = p-1`, 这指出 `p` 次本原单位根和
-    `2p` 次本原单位根一样多. 因此, 只要将 `phi_p(x)` 中的 `x` 换成 `-x`,
-    就得到 `phi_(2p)(x)`.
+    另一方面, `varphi(p^a) = varphi(2p^a) = p^a-p^(a-1)`,
+    这指出 `p^a` 次本原单位根和 `2p^a` 次本原单位根一样多.
+    因此, 只要将 `phi_(p^a)(x)` 中的 `x` 换成 `-x`,
+    就得到 `phi_(2p^a)(x)`.
   </li>
 </ol>
 
+<p class="example">
+  `f(x) = phi_(p^a)(x)` 在 `QQ` 上不可约.
+</p>
+
+<p class="proof">
+  令
+  <span class="formula">
+    `g(x) = f(x+1)`
+    `= ((x+1)^(p^a)-1)/((x+1)^(p^(a-1))-1)`
+    `-= (x^(p^a)+1-1)/(x^(p^(a-1))+1-1)`
+    `-= x^(p^a - p^(a-1)) (mod p)`.
+  </span>
+  这表明 `g(x)` 除最高项系数为 1 之外, 其余系数均为 `p` 的倍数.
+  另一方面 `g(x)` 的常数项为 `g(0) = f(1) = p`; 由 Eisenstein 判别法知
+  `g` 不可约, 因此 `f` 也不可约.
+</p>
+
 <p class="proposition">
-  分圆多项式在 `ZZ` 上不可约, 从而由 Gauss 引理, 在 `QQ` 上也不可约.
+  任意分圆多项式在 `ZZ` 上不可约, 从而由 Gauss 引理, 在 `QQ` 上也不可约.
 </p>
 
 <ol class="proof">
@@ -697,10 +726,9 @@
 </ol>
 
 <p class="definition">
-  <b>分圆域</b> 是多项式 `x^n - 1 in QQ[x]` 的分裂域 `QQ(Theta_n)`.
-  显然, 将任一 `n` 次本原单位根加到 `QQ` 中都得到同一个分圆域.
-  `Q(Theta_n) // QQ` 是 Galois 扩张, 扩张次数为 `varphi(n)`.
-  分圆域的 Galois 群??
+  <b>分圆域</b> 是多项式 `x^n - 1 in QQ[x]` 的分裂域 `QQ(zeta_n)`.
+  `Q(zeta_n) // QQ` 是 Galois 扩张, 扩张次数为 `varphi(n)`.
+  分圆域的 Galois 群同构于 `ZZ_n^**`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

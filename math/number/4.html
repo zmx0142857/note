@@ -18,6 +18,32 @@
   模 `m` 存在平方根). 否则, `a` 为 `m` 的<b>二次非剩余</b>.
 </p>
 
+<div class="playground" value="{ m: 17 }">
+<p>求模 `m` 的所有平方根.
+另外, 我们有 <a href="../../cs/ds/13.html#alg-cipolla">`O(log p)` 的算法</a>来求一个数模素数 `p` 的平方根.
+</p>
+<script type="text">
+module.exports = function (str) {
+  const { m } = Playground.parse(str)
+  const dict = Object.create(null)
+  for (let s = 0; s <= m/2; ++s) {
+    const i = s * s % m
+    dict[i] = dict[i] || []
+    dict[i].push(s)
+  }
+  const buf = ['n: sqrt(n) mod ' + m]
+  for (let n = 0; n < m; ++n) {
+    if (dict[n]) {
+      buf.push(n + ': ' + dict[n].map(s => '±' + s).join(','))
+    } else {
+      buf.push(n + ': 二次非剩余')
+    }
+  }
+  return buf.join('\n')
+}
+</script>
+</div>
+
 <p class="remark">
   若 `x` 是 `a` 模 `m` 的平方根, 则任意
   `x + k m (k in ZZ)` 也是平方根.
@@ -186,5 +212,6 @@
 <h2>二次互反律</h2>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>

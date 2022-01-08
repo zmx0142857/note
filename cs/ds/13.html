@@ -30,7 +30,7 @@ module.exports = function floorRoot (str) {
 </div>
 
 <p class="algorithm">
-  <b>反复平方法计算快速幂</b>
+  <b>快速幂 (反复平方法)</b>
   求 `a^n`, 先将指数 `n` 写为二进制: `n = (n_k cdots n_1 n_0)_2`
   `= sum_(i=0)^k n_i 2^i`,
   于是
@@ -39,24 +39,31 @@ module.exports = function floorRoot (str) {
   </span>
 </p>
 
-<div class="playground" value="{ a: 5, n: 14 }">
+<div class="playground" value="{ a: 5, n: 14, mod: Infinity }">
 <p>
   在算法每次迭代的开头, 变量 `a = 5, 5^2, 5^4, 5^8`,
   对应到 `14` 的二进制表示 `0*1 + 1*2 + 1*4 + 1*8` 中系数为 `1` 的项,
   结果为 `5^14 = 5^2 * 5^4 * 5^8`.
 </p>
-<script type="text">
-module.exports = function pow (str) {
-  let { a, n } = Playground.parse(str)
+<script type="text" id="pow">
+function pow (a, n, mod = Infinity) {
   if (n < 0) return NaN
   let ret = 1
   while (n) {
-    if (n & 1) ret *= a
-    a *= a
+    if (n & 1) ret = (ret * a) % mod
+    a = (a * a) % mod
     n >>= 1
   }
   return ret
 }
+
+function demo (str) {
+  let { a, n, mod } = Playground.parse(str)
+  return pow(a, n, mod)
+}
+
+demo.pow = pow
+module.exports = demo
 </script>
 </div>
 
@@ -563,6 +570,120 @@ int main() {
 <p>
 这里是 <a href="http://www.ip33.com/crc.html">CRC 在线计算</a>.
 </p>
+
+<ol class="algorithm" id="alg-cipolla">
+  <b>Cipolla 算法: 求模 `p` 的平方根</b><br>
+  [<a href="https://www.it610.com/article/1456933759239630848.htm">来自 olderciyuan</a>]
+  设 `p` 为奇素数, `n` 为模 `p` 的二次剩余, 则 `n` 模 `p` 恰有两个平方根.
+  Cipolla 算法能在 `O(log p)` 时间内求出这两个平方根.
+  <li>取合适的 `a in bbb F_p`, 使得 `a^2 - n` 是二次非剩余.
+    由于模 `p` 的二次非剩余恰有一半, 我们只要随机选取, 然后用 Euler 判别法,
+    若 `(a^2-n)^((p-1)//2) = -1`, 即可判断它是二次非剩余.
+  </li>
+  <li>将 `a^2-n` 的一个平方根 `i = sqrt(a^2 - n)` 加到 `bbb F_p` 中,
+    得到扩域 `bbb F_p(i)`. 这个域的特征为 `p`, 其中的元素形如 `A + Bi`,
+    `A, B in bbb F_p`.
+  </li>
+  <li>可以证明 `(a+i)^(p+1) = n`, 因此 `n` 在扩域 `bbb F_p(i)`
+    中有一对平方根 `+-(a+i)^((p+1)//2)`. 事实上, 这对平方根属于 `bbb F_p`,
+    因此它们就是 `n` 模 `p` 的平方根.
+  </li>
+  <li>上述过程中应用快速幂算法, 总的时间复杂度为 `O(log p)`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>先证 `i^p = -i`. 事实上
+    <span class="formula">
+      `i * i^(p-1)`
+      `= i * (a^2-n)^((p-1)//2)`
+      `= -i`.
+    </span>
+    最后一个等式成立是因为 `a^2-n` 为二次非剩余.
+  </li>
+  <li>Fermat 小定理: `AA a in bbb F_p`, `a^p = a`.</li>
+  <li>由于 `bbb F_p(i)` 的特征为 `p`, 故 `AA a, b in bbb F_p(i)` 有
+    `(a+b)^p = a^p + b^p`.
+  </li>
+  <li>现在可以算出:
+    <span class="formula">
+      `(a+i)^(p+1)`
+      `= (a+i)(a+i)^p`
+      `= (a+i)(a^p+i^p)`
+      `= (a+i)(a-i)`
+      `= a^2-i^2`
+      `= n`.
+    </span>
+  </li>
+  <li>下证 `n` 的平方根必定属于 `bbb F_p`. 设 `(A+B i)^2 = n`,
+    即 `A^2 + B i^2 + 2A B i = n`. 比较两边虚部得 `A B = 0`, 因此 `A = 0`
+    或 `B = 0`.<br>
+    若 `A = 0`, 有 `B^2 i^2 = n`, 但 `B^2, n` 均为二次剩余, `i^2`
+    为二次非剩余, 矛盾. 故 `B = 0`, 即 `A + B i in bbb F_p`.
+  </li>
+</ol>
+
+<div class="playground" value="{ n: 8, p: 17 }">
+<p>说明: `5^2 -= 8 (mod 17)`, 因此 8 模 17 的平方根为 `+-5`. 我们只显示其中一个根 (最小正根).</p>
+<script type="text">
+const { pow } = require('pow')
+
+function legendre (n, p) {
+  return pow(n, (p-1)/2, p) === 1 ? 1 : -1
+}
+
+// 在域 F_p(i) 上求 a = A+Bi 的 n 次方
+function Field (p, ii) {
+  this.p = p
+  this.ii = ii
+}
+
+Field.prototype.mul = function (a, b) {
+  return [
+    (a[0] * b[0] + this.ii * a[1] * b[1]) % this.p,
+    (a[1] * b[0] + b[1] * a[0]) % this.p
+  ]
+}
+
+Field.prototype.pow = function (a, n) {
+  if (n < 0) return NaN
+  let ret = [1, 0]
+  while (n) {
+    if (n & 1) ret = this.mul(ret, a)
+    a = this.mul(a, a)
+    n >>= 1
+  }
+  return ret
+}
+
+// 求 n 模 p 的平方根
+function cipolla (n, p) {
+  n = (n % p + p) % p // 标准化
+  if (n < 2) return n // sqrt(0) = 0, sqrt(1) = 1
+  if (legendre(n, p) !== 1) return NaN
+
+  // 寻找 a 使得 ii = a*a-n 为二次非剩余
+  let a, ii, count = p
+  do {
+    --count
+    a = 1 + Math.floor(Math.random() * (p-1)) // a = 1, 2, ..., p-1
+    ii = (a*a - n + p) % p
+    // console.log('a:', a, 'ii:', ii)
+  } while (count && legendre(ii, p) === 1);
+  if (!count) throw new Error('计算出错, 请检查输入')
+
+  // 答案是 a+i 的 (p+1)/2 次方
+  const res = new Field(p, ii).pow([a, 1], (p+1)/2)[0]
+  return Math.min(res, p - res)
+}
+
+module.exports = function demo (str) {
+  // 注: 若要列出模 p 的所有平方根, 不必使用 cipolla, 直接打表即可.
+  const { n, p } = Playground.parse(str)
+  return cipolla(n, p)
+}
+</script>
+</div>
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
 <script src="../../js/playground.js"></script>
