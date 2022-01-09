@@ -67,7 +67,7 @@ math: {
     {title:'整除, 最大公约数, 素数', src:'number/1.html'},
     {title:'同余', src:'number/2.html'},
     {title:'阶与原根', src:'number/3.html', date:'2022-01-07'},
-    {title:'二次剩余', src:'number/4.html', date:'2022-01-07'},
+    {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
     {title:'不定方程', src:'number/5.html', date:'2021-12-11'},
     {title:'积性数论函数', src:'number/9.html'},
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html'},
