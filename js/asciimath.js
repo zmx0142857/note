@@ -401,8 +401,7 @@ AM.symbols = AM.symbols.concat([
 {input:'oiint',tag:'mo',output:'\u222F',tex:null,ttype:CONST,val:true},
 {input:'oiiint',tag:'mo',output:'\u2230',tex:null,ttype:CONST,val:true},
 {input:'laplace',tag:'mtext',output:'\u0394',tex:'Delta',ttype:CONST,notexcopy:true},
-{input:'==',tag:'mo',output:'\u2550'.repeat(2),tex:null,ttype:CONST,val:true},
-{input:'====',tag:'mo',output:'\u2550'.repeat(4),tex:null,ttype:CONST,val:true},
+{input:'==',tag:'mo',output:'\u2550\u2550',tex:'xlongequal',ttype:UNDEROVER},
 {input:'||',tag:'mo',output:'\u2225',tex:null,ttype:CONST,val:true},
 {input:'!||',tag:'mo',output:'\u2226',tex:null,ttype:CONST,val:true},
 {input:'S=',tag:'mo',output:'\u224C',tex:null,ttype:CONST,val:true},
@@ -774,29 +773,38 @@ function parseS() {
           $math('mo', $text(sym.input));
     res2 = strip(res2);
     if (AM.katex) {
-      if (sym.input == 'color')
+      if (sym.input === 'color')
         frag = '{\\color{' + res.replace(/[\{\}]/g,'') + '}' + res2 + '}';
-      else if (sym.input == 'root')
+      else if (sym.input === 'root')
         frag = '{\\sqrt[' + res + ']{' + res2 + '}}';
-      else if (sym.output == 'stackrel')
+      else if (sym.output === 'stackrel')
         frag = '{' + getTexSymbol(sym) + '{' + res + '}{' + res2 + '}}';
-      else if (sym.input == "frac")
+      else if (sym.input === 'frac')
         frag = '{\\frac{' + res + '}{' + res2 + '}}';
-      return frag;
+      //else if (sym.input === '==')
+        //frag = '{\\xlongequal[' + res + ']{' + res2 + '}}';
+      return frag
     }
 
-    if (sym.input == 'color') {
-      var color = getArg(rewind);
-      node = $math(sym.tag, res2);
-      node.setAttribute('mathcolor', color);
-      return node;
+    if (sym.input === 'color') {
+      var color = getArg(rewind)
+      node = $math(sym.tag, res2)
+      node.setAttribute('mathcolor', color)
+      return node
+    } else if (sym.input === 'root' || sym.output === 'stackrel') {
+      frag.appendChild(res2)
+      frag.appendChild(res)
+    } else if (sym.input === 'frac') {
+      frag.appendChild(res)
+      frag.appendChild(res2)
+    } else if (sym.output === 'xlongequal') {
+      node = $math('mo', $text('\u2550'.repeat(3)))
+      node = $math('munder', node)
+      node.appendChild(res)
+      frag.appendChild(node)
+      frag.appendChild(res2)
     }
-    if (sym.input == 'root' || sym.output == 'stackrel')
-      frag.appendChild(res2);
-    frag.appendChild(res);
-    if (sym.input == 'frac')
-      frag.appendChild(res2);
-    return $math(sym.tag, frag);
+    return $math(sym.tag, frag)
   case INFIX:
     skip(len);
     return AM.katex ? sym.output : $math('mo', $text(sym.output));
@@ -841,35 +849,36 @@ function parseS() {
 
 function parseI() {
   skip();
-  var sym1 = getSymbol();
-  var underover = (sym1.ttype == UNDEROVER || sym1.ttype == UNARYUNDEROVER);
+  var sym0 = getSymbol();
+  var underover = (sym0.ttype == UNDEROVER || sym0.ttype == UNARYUNDEROVER);
   var node = parseS();
-  var sym = getSymbol();
+  var sym1 = getSymbol();
 
   // 类似于 sin, log 相对分式优先
   // 阶乘, 或任意后缀函数也相对分式优先
-  if (sym.rfunc) {
-    skip(sym.input.length);
+  if (sym1.rfunc) {
+    skip(sym1.input.length);
     if (AM.katex) {
-      return b(node + sym.output);
+      return b(node + sym1.output);
     } else {
       node = $math('mrow', node);
-      node.appendChild($math('mo', $text(sym.output)));
+      node.appendChild($math('mo', $text(sym1.output)));
       return node
     }
   }
 
   // either _ or ^
-  if (sym.ttype != INFIX || sym.input == '/')
-    return node;
-  skip(sym.input.length);
+  if (sym1.ttype != INFIX || sym1.input == '/') {
+    return AM.katex && sym0.input === '==' ? node + '{}' : node
+  }
+  skip(sym1.input.length);
   var res = parseS();
   if (res)
     res = strip(res);
   else // show box in place of missing argument
     res = AM.katex ? '{}' : $math("mo", $text("\u25A1"));
   var sym2 = getSymbol();
-  var subFirst = sym.input == '_';
+  var subFirst = sym1.input == '_';
   if (sym2.input == (subFirst ? '^' : '_')) {
     skip(sym2.input.length);
     var res2 = parseS();
@@ -878,7 +887,12 @@ function parseI() {
       //var lBraces = res.split('{').length;
       //var rBraces = res.split('}').length;
       //node += '^' + (lBraces == 2 && rBraces == 2 ? res : b(res));
-      node = '{' + node + sym.input + '{' + res + '}' + sym2.input + '{' + res2 + '}}';
+      if (sym0.input === '==') {
+        node = subFirst ? `\\xlongequal[${res}]{${res2}}`
+          : `\\xlongequal[${res2}]{${res}}`
+      } else {
+        node = `{${node}${sym1.input}{${res}}${sym2.input}{${res2}}}`
+      }
     } else {
       node = $math((underover?'munderover':'msubsup'), node);
       if (subFirst) {
@@ -892,7 +906,11 @@ function parseI() {
     }
   } else {
     if (AM.katex) {
-      node += sym.input + '{' + res + '}';
+      if (sym0.input === '==') {
+        node += subFirst ? `[${res}]{}` : `{${res}}`
+      } else {
+        node += sym1.input + '{' + res + '}'
+      }
     } else {
       if (subFirst) {
         node = $math((underover?'munder':'msub'), node);
@@ -902,7 +920,7 @@ function parseI() {
       node.appendChild(res);
     }
   }
-  if (sym1.func) {
+  if (sym0.func) {
     sym2 = getSymbol();
     if (sym2.ttype != INFIX && sym2.ttype != RIGHTBRACKET) {
       res = parseI();
@@ -1091,17 +1109,24 @@ function parseMath(str) {
   str = partShorthand(str)
   AMstr = str.trimLeft();
   AMbegin = 0;
-  var node = $math('mstyle', parseExpr(false));
-  if (AM.color)
-    node.setAttribute('mathcolor', AM.color);
-  if (AM.fontfamily)
-    node.setAttribute('fontfamily', AM.fontfamily);
-  if (AM.displaystyle)
-    node.setAttribute('displaystyle', 'true');
-  node = $math("math", node);
-  if (AM.viewsource)
-    node.setAttribute('title', str);
-  return node;
+  let node
+  try {
+    node = $math('mstyle', parseExpr(false))
+    if (AM.color)
+      node.setAttribute('mathcolor', AM.color)
+    if (AM.fontfamily)
+      node.setAttribute('fontfamily', AM.fontfamily)
+    if (AM.displaystyle)
+      node.setAttribute('displaystyle', 'true')
+    node = $math("math", node)
+    if (AM.viewsource)
+      node.setAttribute('title', str)
+  } catch (e) {
+    console.error(e)
+    node = $math('math', $text('AM parse Error'))
+    node.setAttribute('mathcolor', 'red')
+  }
+  return node
 }
 
 function am2tex(str, displayStyle) {

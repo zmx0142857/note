@@ -7,7 +7,7 @@ math: {
   toc: [ {
   title:'示例',
   articles: [
-    {title:'公式编辑器', src:'example/editor.html', date: '2021-11-23'},
+    {title:'公式编辑器', src:'example/editor.html', date: '2022-01-12'},
     {title:'Mathml', src:'example/mathml.html'},
     {title:'曲面在线绘制', src:'example/surface.html', date:'2021-12-10'},
   ]
@@ -47,7 +47,7 @@ math: {
     {title:'导数的应用', src:'analysis/5.html', date: '2021-12-18'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
     {title:'定积分与广义积分', src:'analysis/7.html'},
-    {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2021-12-22'},
+    {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-01-12'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
     {title:'常数项级数', src:'analysis/10.html'},
     {title:'函数列与函数项级数', src:'analysis/11.html'},
@@ -66,7 +66,7 @@ math: {
     {title:'整数, 有理数, 代数数, 连分数', src:'number/0.html'},
     {title:'整除, 最大公约数, 素数', src:'number/1.html'},
     {title:'同余', src:'number/2.html'},
-    {title:'阶与原根', src:'number/3.html', date:'2022-01-07'},
+    {title:'阶与原根', src:'number/3.html', date:'2022-01-12'},
     {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
     {title:'不定方程', src:'number/5.html', date:'2021-12-11'},
     {title:'积性数论函数', src:'number/9.html'},

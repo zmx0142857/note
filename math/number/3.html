@@ -16,12 +16,17 @@
   = 4`.
 </p>
 
-<ol class="corollary">
+<ol class="proposition">
+  [证明参见 <a href="9.html#9-1">Euler 函数</a>]
   <li>对一切正整数 `n gt 1` 有 `varphi(n) lt n`.</li>
   <li>对素数 `p` 有 `varphi(p) = p-1`. `varphi(p^k) = p^k - p^(k-1)`.
     这是因为 `p^k` 以内, `p` 的倍数有 `p^(k-1)` 个.
   </li>
-</p>
+  <li>`varphi` 是积性函数, 即若 `a, b` 互素, 则 `varphi(a b) = varphi(a)
+    varphi(b)`.
+  </li>
+  <li>综上有 `varphi(n) = n prod_(p | n) (1-1/p)`.</li>
+</ol>
 
 <table class="col2">
   <tr>
@@ -55,6 +60,16 @@
     <td>4</td>
   </tr>
 </table>
+
+<div class="playground" value="{ n: 8 }">
+<p>求 Euler 函数的值</p>
+<script type="text">
+module.exports = function (str) {
+  let { n } = Playground.parse(str)
+  return NT.phi(n)
+}
+</script>
+</div>
 
 <p class="definition">
   <b>既约剩余系</b>
@@ -118,6 +133,16 @@
   记为 `"ord"_n a`. 上下文确定时, 下标 `n` 可以省略.
 </p>
 
+<div class="playground" value="{ a: 3, n: 7 }">
+<p>求 a 模 n 的阶; 若 a, n 不互素, 返回 NaN.</p>
+<script type="text">
+module.exports = function (str) {
+  const { a, n } = Playground.parse(str)
+  return NT.order(a, n)
+}
+</script>
+</div>
+
 <p class="remark">
   对于一般的整数 `a`, 若 `a^d -= 1 (mod n)`, 则 `(a^d, n) = 1`, 也能推出
   `(a, n) = 1`.  下面总假定 `n gt 1` 且 `(a, n) = 1`, 即 `a in
@@ -177,6 +202,15 @@
   由 Euler-Fermat 定理, `"ord"_n a le varphi(n)`.
   当等号成立时, 称 `a` 是模 `n` 的<b>原根 (primitive root)</b>.
 </p>
+<div class="playground" value="{ n: 7 }">
+<p>求模 n 的最小原根, 比如 7 的原根是 3 和 5, 我们输出 3. 若不存在原根则输出 NaN.</p>
+<script type="text">
+module.exports = function (str) {
+  const { n } = Playground.parse(str)
+  return NT.primitiveRoot(n)
+}
+</script>
+</div>
 
 <p class="remark">
   `"ord"_n a` 就是 `a` 在群 `ZZ_n^**` 中的阶.
@@ -640,8 +674,10 @@
   设 `a ge 1`, 当 `n = p^a` (`p` 为素数) 或 `2p^a` (`p` 为奇素数) 时,
   分圆多项式的形式比较简单:
   <span class="formula">
-  `phi_(p^a)(x) = sum_(k=0)^(p-1) x^(k p^(a-1))`
-  `= (x^(p^a)-1)/(x^(p^(a-1))-1)` `= phi(2p^a)(-x)`.
+    `phi_(p^a)(x)`
+    `= phi_(2p^a)(-x)`
+    `= sum_(k=0)^(p-1) x^(k p^(a-1))`
+    `= (x^(p^a)-1)/(x^(p^(a-1))-1)`.
   </span>
 </p>
 
@@ -726,11 +762,15 @@
 </ol>
 
 <p class="definition">
-  <b>分圆域</b> 是多项式 `x^n - 1 in QQ[x]` 的分裂域 `QQ(zeta_n)`.
-  `Q(zeta_n) // QQ` 是 Galois 扩张, 扩张次数为 `varphi(n)`.
-  分圆域的 Galois 群同构于 `ZZ_n^**`.
+  <b>分圆域</b> 是多项式 `x^n - 1 in QQ[x]` 的分裂域.
+  将任一本原单位根 `zeta_n` 加到 `QQ` 中都得到同一个分圆域 `QQ(zeta_n)`,
+  且 `phi_n(x)` 是 `zeta_n` 在 `QQ` 上的最小多项式.
+  `QQ(zeta_n) // QQ` 是 Galois 扩张, 扩张次数为 Euler 函数 `varphi(n)`.
+  其 Galois 群 `Gal(QQ(zeta_n)//QQ)` 同构于 `ZZ_n^**`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/playground.js"></script>
+<script src="../../code/nt.js"></script>
 </body>
 </html>
