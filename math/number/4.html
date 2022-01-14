@@ -7,6 +7,23 @@
 </head>
 <body>
 
+<p class="question">
+  考虑如下的<b>二次同余方程</b> (`a, b, c` 为整数, `p` 为奇素数):
+  <span class="formula">
+    `a x^2 + b x + c -= 0 (mod p)`.
+  </span>
+  由于 `p !| 4a`, 两边同乘 `4a` 得到等价的方程
+  <span class="formula">
+    `4a(a x^2 + b x + c) -= 0 (mod p)`,
+  </span>
+  配方, 即
+  <span class="formula">
+    `(2a x + b)^2 -= b^2 - 4a c (mod p)`.
+  </span>
+  可见, 模素数的二次同余方程归结为形如 `y^2 -= d (mod p)` 的同余方程,
+  即 `d` 关于模素数 `p` 开平方的问题. 这引出二次剩余的定义.
+</p>
+
 <h2>二次剩余的定义</h2>
 
 <p class="definition">
@@ -52,12 +69,11 @@ module.exports = function (str) {
     `a in ZZ_m^** := { a in ZZ_m : (a, m) = 1 }`.
   </span>
   我们对同余的 `a` 不作区分, 在计算二次剩余的个数时,
-  也把同余的数视为同一个.
-</p>
-
-<p class="remark">
-  下文重点讨论 `m` 为奇素数 `p` 的情形.
-  此时 `a in ZZ_p^** = { bar 1, bar 2, cdots, bar (p-1) }`,
+  也把同余的数视为同一个.<br>
+  特别当模数 `m` 为奇素数 `p` 时,
+  <span class="formula">
+    `a in ZZ_p^** = { bar 1, bar 2, cdots, bar (p-1) }`,
+  </span>
   换言之, `p !| a`.
 </p>
 
@@ -78,6 +94,20 @@ module.exports = function (str) {
   这蕴含 `p | x-y` 或 `p | x+y`, 即 `x -= +- y (mod p)`.
 </p>
 
+<p class="corollary">
+  设 `n = p q` 是两个奇素数的乘积,
+  由孙子定理知道, 同余方程
+  <span class="formula">
+    `x^2 -= a (mod n)`
+  </span>
+  等价于
+  <span class="formula">
+    `x^2 -= a (mod p)`, `x^2 -= a (mod q)`.
+  </span>
+  因此原方程有解当且仅当 `a` 同时是 `p` 和 `q` 的二次剩余,
+  且这时 `a` 关于模 `n` 恰有 4 个平方根.
+</p>
+
 <p class="proposition">
   设 `p` 为奇素数, 则在集合 `ZZ_p^**` 中,
   模 `p` 的二次剩余和非剩余各占一半.
@@ -96,15 +126,62 @@ module.exports = function (str) {
   故以上 `(p-1)//2` 个数两两不相等, 即为模 `p` 的所有二次剩余.
 </p>
 
+<p>利用 `ZZ_p^**` 中 `1` 的平方根只有 `+-1` 这个事实, 可以证明:</p>
+
+<p class="theorem">
+  <b>Wilson 定理</b> 整数 `p ge 2` 为素数的充要条件是
+  <span class="formula">
+    `(p-1)! -= -1 (mod p)`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>必要性.  `p = 2` 时显然成立. 下设 `p` 为奇素数, 在 `ZZ_p^**`
+    上考虑同余方程
+    <span class="formula">
+      `x y -= 1 (mod p)`.
+    </span>
+    对任意 `x`, 其逆元 `y` 是存在唯一的.
+    若 `x = y`, 则 `x` 是 `1` 在 `ZZ_p^**` 中的平方根, 即 `x = +-1`.
+    故 `ZZ_p^**` 的 `p-1` 个数中除 `+-1` 的逆元为自身外,
+    其它数字两两互逆, 因而它们的乘积抵消.  这 `p-1` 个数相乘得到
+    <span class="formula">
+      `(p-1)! -= 1 * (-1) -= -1 (mod p)`.
+    </span>
+  </li>
+  <li>充分性. 设 `n = a b` 为合数, `1 lt a, b lt n`.
+    若 `(n-1)! -= -1 (mod n)`, 有 `(n-1)! -= -1 (mod a)`,
+    这与 `a | (n-1)!` 矛盾.
+  </li>
+</ol>
+
+<p class="remark">
+  虽然 Wilson 定理也是素数的一种判别法, 但计算量巨大, 并不实用.
+</p>
+
+<h2>Legendre 符号</h2>
+
+<p class="definition">
+  设 `p` 为奇素数, `a in ZZ_p^**`, 定义 Legendre 符号为
+  <span class="formula">
+    `(a/p) = { 1, if a " 是 " p " 的二次剩余";
+    -1, if a " 是 " p " 的二次非剩余" :}`
+  </span>
+</p>
+
+<h3>二次剩余的判别法</h3>
+
 <p class="proposition">
-  <b>用原根判定二次剩余</b>
+  <b>原根判别法</b>
   设 `p` 为奇素数, 取 `p` 的原根 `r`, 则
   <span class="formula">
     `ZZ_p^** = {1, r, cdots, r^(p-2)}`.
   </span>
   其中 `a = r^n` 是 `p` 的二次剩余当且仅当 `n` 是偶数.
-  特别地, 原根 `r` 为 `p` 的二次非剩余. 同时,
-  我们再次验证了二次剩余和非剩余各占一半的事实.
+  这再次验证了二次剩余和非剩余各占一半的事实.  特别地,
+  <span class="formula">
+    `(r/p) = -1`.
+  </span>
 </p>
 
 <p class="proof">
@@ -116,41 +193,29 @@ module.exports = function (str) {
   因此 `n` 是偶数.
 </p>
 
-<h2>Legendre 符号</h2>
-
-<h3>二次剩余的判别法</h3>
-
-<p class="definition">
-  设 `p` 为奇素数, `a in ZZ_p^**`, 定义 Legendre 符号为
+<p class="proposition">
+  <b>Euler 判别法</b>
   <span class="formula">
-    `(a/p) = { 1, if a " 是 " p " 的二次剩余";
-    -1, if a " 是 " p " 的二次非剩余" :}`
+    `(a/p) -= a^((p-1)//2) (mod p)`.
+  </span>
+  即 `a` 为模 `p` 的二次剩余当且仅当 `sqrt a` 满足 Fermat 小定理,
+  亦即 `(sqrt a)^(p-1) -= 1 (mod p)`.
+</p>
+
+<p class="proof">
+  必要性显然, 下证充分性.
+  设 `(a/p) = -1`. 对每个 `x in ZZ_p^**`, 存在唯一的 `y in ZZ_p^**`
+  使得 `x y -= a (mod p)`, 因为 `a` 是模 `p` 的二次非剩余, 所以 `x !=
+  y`. 因此, 集合 `ZZ_p^**` 可以划分为 `(p-1)//2` 对, 每一对的乘积为 `a`.
+  由 Wilson 定理,
+  <span class="formula">
+    `a^((p-1)//2) -= (p-1)! = -1 (mod p)`.
   </span>
 </p>
 
-<p class="corollary">
-  <b>原根判别法</b> `(r/p) = -1`, `r` 为 `p` 的原根.
+<p class="remark">
+  Euler 判别法是最常用的判别法, 使用快速幂, 时间复杂度为 `O(log p)`.
 </p>
-
-<p class="theorem">
-  <b>Euler 判别法</b> `(a/p) -= a^n (mod p)`, `n = (p-1)//2`.
-</p>
-
-<ol class="proof">
-  <li>设 `(a/p) = 1`, `x` 为 `a` 模 `p` 的平方根, 由 Fermat 小定理,
-    <span class="formula">
-      `a^((p-1)//2) -= x^(p-1) -= 1 (mod p)`.
-    </span>
-  </li>
-  <li>设 `(a/p) = -1`. 对每个 `x in ZZ_p^**`, 存在唯一的 `y in ZZ_p^**`
-    使得 `x y -= a (mod p)`, 因为 `a` 是模 `p` 的二次非剩余, 所以 `x !=
-    y`. 因此, 集合 `ZZ_p^**` 可以划分为 `(p-1)//2` 对, 每一对的乘积为 `a`.
-    由 Wilson 定理,
-    <span class="formula">
-      `a^((p-1)//2) -= (p-1)! = -1 (mod p)`.
-    </span>
-  </li>
-</ol>
 
 <p class="corollary">
   Legendre 符号 `(a/p)` 是关于 `a` 的积性函数:
@@ -160,7 +225,16 @@ module.exports = function (str) {
   特别地 `(a^2/p) = 1`.
 </p>
 
-<p class="theorem">
+<p class="corollary">
+  对于素数 `p -= 3 (mod 4)`, 若 `a` 为 `p` 的二次剩余,
+  则同余方程 `x^2 -= a (mod p)` 的解为 `x = +-a^((p+1)//4)`.
+</p>
+
+<p class="proof">
+  平方得 `x = a^((p+1)//2)` `= a^((p-1)//2) * a` `= a`.
+</p>
+
+<p class="proposition">
   <b>Gauss 判别法</b>
   `(a/p) = (-1)^s`, `s` 是
   <span class="formula">
@@ -206,10 +280,141 @@ module.exports = function (str) {
 </ol>
 
 <p class="example">
-  `(2/p) = { 1, p -= +-1 (mod 8); -1, p -= +-3 (mod 8) :}`.
+  `(2/p)`
+  `= (-1)^((p^2-1)//8)`
+  `= { 1, p -= +-1 (mod 8); -1, p -= +-3 (mod 8) :}`.
 </p>
 
-<h2>二次互反律</h2>
+<h3>二次互反律</h3>
+
+<p>这是初等数论中相当精彩的结论, Gauss 曾给出至少 6 个证明.</p>
+
+<p class="lemma">
+  <b>格点计数公式</b>
+  设 `p` 为奇素数, `a` 为奇数, 则
+  <span class="formula">
+    `(a/p) = (-1)^Q`,
+    `quad Q = sum_(i=1)^((p-1)//2) |__(a i)/p__|`.
+  </span>
+  `Q` 是直线 `y = (a x)/p` 与 `x` 轴在区间 `[0, p/2]`
+  所围的三角形内部的格点数.
+</p>
+
+<p class="proof">
+  考虑 Guass 判别法中的集合
+  <span class="formula">
+    `A = {a, 2a, cdots, n a}`, `quad n = (p-1)//2`.
+  </span>
+  对任意 `1 le i le n`,
+  令 `r_i` 是 `a i` 模 `p` 的最小非负剩余,
+  `a_i` 是 `a i` 模 `p` 的绝对最小剩余, 则
+  <span class="formula">
+    `r_i = { |a_i|, if a_i gt 0; p - |a_i|, if a_i lt 0 :}`
+  </span>
+  若 `a_i` 中负的有 `s` 个, 不妨设它们是 `a_1, cdots, a_s`, 则
+  <span class="formula">
+    `sum_(i=1)^n r_i`
+    `= sum_(i=1)^s (p - |a_i|)` `+ sum_(i=s+1)^n |a_i|`
+    `= s p - 2 sum_(i=1)^s |a_i| + sum_(i=1)^n |a_i|`.
+  </span>
+  由 Gauss 判别法知道 `|a_1|, cdots, |a_n|` 是 `1` 到 `n` 的排列, 故
+  <span class="formula">
+    `sum_(i=1)^n r_i = s p - 2 sum_(i=1)^s |a_i| + n(n+1)//2`.
+  </span>
+  令一方面由 `a i = p q_i + r_i` (`q_i = |__(a i)/p__|`) 求和有
+  <span class="formula">
+    `sum_(i=1)^n r_i = a n(n+1)//2 - p Q`.
+    `quad Q = sum_(i=1)^n q_i`.
+  </span>
+  联系两式得到
+  <span class="formula">
+    `p(s + Q) = 2 sum_(i=1)^s |a_i| + (a-1) n(n+1)//2`.
+  </span>
+  由假设 `a` 是奇数, 故 `s + Q` 是偶数, 即 `s` 与 `Q` 奇偶相同.
+  因此 `(a/p) = (-1)^s = (-1)^Q`.
+</p>
+
+<div class="img sm">
+  <img src="../img/quadratic-reciprocity.svg" alt="二次互反律">
+</div>
+
+<p class="theorem">
+  <b>二次互反律</b>
+  设 `p, q` 为不同的奇素数, 则
+  <span class="formula">
+    `(p/q)(q/p) = (-1)^((p-1)/2 (q-1)/2)`.
+  </span>
+  注意 `p -= 1 (mod 4)` 当且仅当 `(p-1)/2` 是偶数, 上式写为
+  <span class="formula">
+    `(p/q)(q/p) = {
+      1, if p -= 1 (mod 4) or q -= 1(mod 4);
+      -1, if p -= q -= 3 (mod 4)
+    :}`
+  </span>
+  即 `(p/q)` 与 `(q/p)` 符号相反当且仅当 `p, q` 都是 `4n+3` 型素数.
+</p>
+
+<p class="proof">
+  由格点计数公式
+  <span class="formula">
+    `(p/q)(q/p) = (-1)^(S + T)`,
+  </span>
+  其中 `S + T` 恰好为矩形 `(0, 0) - (p//2, q//2)` 内部的格点数
+  (由于 `p, q` 互素, 该矩形的对角线上没有格点).
+  于是 `S + T = (p-1)/2 (q-1)/2`.
+</p>
+
+<p class="theorem">
+  <b>二次互反律的 Euler 表述</b>
+  设 `p, q` 为奇素数, `a in ZZ_p^**`. 则
+  <span class="formula">
+    `p -= +-q (mod 4a)`
+    `rArr (a/p) = (a/q)`.
+  </span>
+</p>
+
+<h2>Jacobi 符号</h2>
+
+<p>现在我们考虑一般的模数 `m`.</p>
+
+<p class="definition">
+  <b>Jacobi 符号</b> 是 Legendre 符号的自然推广.
+  设 `m` 是正奇数, `a in ZZ_n^**`, Jacobi 符号定义为
+  <span class="formula">
+    `(a/m) = (a/(prod_(i=1)^r p_i^(s_i)))`
+    `= prod_(i=1)^r (a/p_i)^(s_i)`.
+  </span>
+  Jacobi 符号也是积性的.
+</p>
+
+<p class="corollary">
+  若同余方程 `x^2 -= a (mod m)` 有解, 则 Jacobi 符号 `(a/m) = 1`. 反之不一定.
+</p>
+
+<p class="proof">
+  若 `x^2 -= a (mod m)`, 则对 `m` 的任意素因子 `p` 成立
+  `x^2 -= a (mod p)`, 因此 `(a/p) = 1`. `(a/m)` 是一系列 1 的乘积,
+  结果为 1.<br>
+  考虑反例 `a = 2`, `m = 15`. 其 Jacobi 符号
+  <span class="formula">
+    `(2/15) = (2/3)(2/5) -= (-1) * (-1) = 1`.
+  </span>
+  但 `x^2 -= 2 (mod 3)` 无解, 因而 `x^2 -= 2 (mod 15)` 也无解.
+</p>
+
+<p class="proposition">
+  设 `m = 2^(a_0) p_1^(a_1) cdots p_t^(a_t)`,
+  `p_1, cdots, p_t` 为不同的奇素数,
+  则同余方程 `x^2 -= 1 (mod m)` 在 `ZZ_m^**` 中的解数为
+  <span class="formula">
+    `T = {
+      2^t, if a_0 = 0 or 1;
+      2^(t+1), if a_0 = 2;
+      2^(t+2), if a_0 ge 3;
+    :}`
+  </span>
+  即 `1` 在 `ZZ_m^**` 有 `T` 个平方根.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/playground.js"></script>

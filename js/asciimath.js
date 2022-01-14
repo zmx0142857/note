@@ -4,45 +4,38 @@ asciimath.js
 
 This file is modified from ASCIIMathML.js by zmx0142857 <892298182@qq.com>
 
-put this file in the same folder with your html file and append
-following line to the <body> of the html file:
+Put this file in the same folder with your html file and paste
+following lines before the end of the <body> tag.
 
-  <script src="asciimath.js"></script>
-
-to overwrite default configurations, add following lines *BEFORE*
-including this file:
-
-  <script>
-  var asciimath = {
-    // key1: value1,
-    // key2: value2,
-    // ...
-  };
-  </script>
-
-Default Configurations & API
-
-  env: undefined        // default to browser
+<!-- the configuration is optional and can be omitted -->
+<script>
+const asciimath = {
+  env: undefined,       // default to browser
   katexpath: 'katex.min.js',// use katex as fallback if no MathML.
   katex: undefined,     // true=always, false=never, undefined=auto
-  onload: autorender,   // this function is called when asciimath is ready
 
   fixepsi: true,        // false to return to legacy epsi/varepsi mapping
   fixphi: true,         // false to return to legacy phi/varphi mapping
 
   delim1: '`',          // asciimath delimiter character 1
-  displaystyle:true,    // put limits above and below large operators
+  displaystyle: true,   // put limits above and below large operators
   viewsource: false,    // show asciimath source code on mouse hover
   fontsize: undefined,  // change to e.g. '1.2em' for larger fontsize
   fontfamily: undefined,// inherit
   color: undefined,     // inherit
-  define: Object,       // describe substitutions like c macro
+  define: [],           // preprocess substitutions
 
-  symbols: Array,       // symbols recognized by asciimath parser
-  texstr: String,       // last return value of am2tex
+  symbols: [],          // symbols recognized by asciimath parser
+  texstr: '',           // last return value of am2tex
+
+  onload: function,     // this function is called when asciimath is ready
+
+  // API
   am2tex: function,     // am2tex(str) -> texstr
   render: function,     // render(node)
-
+}
+</script>
+<script src="asciimath.js"></script>
 */
 
 /*
@@ -83,19 +76,10 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 */
 
-// API
-var asciimath;
-if (typeof asciimath == 'undefined')
-  asciimath = {};
-
-// independent namespace
-(function(){
-
-var AM = asciimath; // shorthand for 'asciimath'
-var AMnames = {};   // input entry for symbols
+;(function(){
 
 // token types
-var CONST = 0,
+const CONST = 0,
   UNARY = 1,
   BINARY = 2,
   INFIX = 3,
@@ -110,73 +94,106 @@ var CONST = 0,
   LONG = 12,
   STRETCHY = 13,
   MATRIX = 14,
-  UNARYUNDEROVER = 15;
+  UNARYUNDEROVER = 15
 
-function initSymbols() {
+const AM = window.asciimath = {
+  // configures
+  katexpath: 'katex.min.js',
+  onload: () => render(document.body),
+  fixepsi: true,
+  fixphi: true,
+  delim1: '`',
+  displaystyle: true,
+  viewsource: false,
+  ...(window.asciimath || {}),
+
+  // defines
+  define: [
+    [/dx/g, '{:"d"x:}'],
+    [/dy/g, '{:"d"y:}'],
+    [/dz/g, '{:"d"z:}'],
+    [/dt/g, '{:"d"t:}'],
+    [/√/g, 'sqrt'],
+    // partial short hand
+    // part f x => (del f)/(del x)
+    // part^3 f (x y^2) => (del^3 f)/(del x del y^2)
+    // partial f x => del f x
+    // TODO: part 只是正则替换, 词法上没有保证; 使用时需要手动用空格分隔参数
+    [/part(\^\S*)?\s+(\S+)\s+(\([^)]*\)|\S+)/g, (match, $1, $2, $3) => {
+      if (!$1) $1 = ''
+      if ($3[0] === '(') $3 = $3.slice(1,-1).split(/\s+/).join(' del ')
+      return `(del${$1} ${$2})/(del ${$3})`
+    }],
+    ...(window.asciimath && window.asciimath.define || [])
+  ],
+
+  // privates
+  names: {}, // input entry for symbols
+  str: undefined, // the asciimath string being processed
+  begin: undefined, // the beginning of AMstr
+}
 
 // character lists for Mozilla/Netscape fonts
-//AM.cal = ['\uD835\uDC9C','\u212C','\uD835\uDC9E','\uD835\uDC9F','\u2130','\u2131','\uD835\uDCA2','\u210B','\u2110','\uD835\uDCA5','\uD835\uDCA6','\u2112','\u2133','\uD835\uDCA9','\uD835\uDCAA','\uD835\uDCAB','\uD835\uDCAC','\u211B','\uD835\uDCAE','\uD835\uDCAF','\uD835\uDCB0','\uD835\uDCB1','\uD835\uDCB2','\uD835\uDCB3','\uD835\uDCB4','\uD835\uDCB5',
-//'\uD835\uDCB6','\uD835\uDCB7','\uD835\uDCB8','\uD835\uDCB9','\u212F','\uD835\uDCBB','\u210A','\uD835\uDCBD','\uD835\uDCBE','\uD835\uDCBF','\uD835\uDCC0','\uD835\uDCC1','\uD835\uDCC2','\uD835\uDCC3','\u2134','\uD835\uDCC5','\uD835\uDCC6','\uD835\uDCC7','\uD835\uDCC8','\uD835\uDCC9','\uD835\uDCCA','\uD835\uDCCB','\uD835\uDCCC','\uD835\uDCCD','\uD835\uDCCE','\uD835\uDCCF'];
+//cal: ['\uD835\uDC9C','\u212C','\uD835\uDC9E','\uD835\uDC9F','\u2130','\u2131','\uD835\uDCA2','\u210B','\u2110','\uD835\uDCA5','\uD835\uDCA6','\u2112','\u2133','\uD835\uDCA9','\uD835\uDCAA','\uD835\uDCAB','\uD835\uDCAC','\u211B','\uD835\uDCAE','\uD835\uDCAF','\uD835\uDCB0','\uD835\uDCB1','\uD835\uDCB2','\uD835\uDCB3','\uD835\uDCB4','\uD835\uDCB5',
+//'\uD835\uDCB6','\uD835\uDCB7','\uD835\uDCB8','\uD835\uDCB9','\u212F','\uD835\uDCBB','\u210A','\uD835\uDCBD','\uD835\uDCBE','\uD835\uDCBF','\uD835\uDCC0','\uD835\uDCC1','\uD835\uDCC2','\uD835\uDCC3','\u2134','\uD835\uDCC5','\uD835\uDCC6','\uD835\uDCC7','\uD835\uDCC8','\uD835\uDCC9','\uD835\uDCCA','\uD835\uDCCB','\uD835\uDCCC','\uD835\uDCCD','\uD835\uDCCE','\uD835\uDCCF']
 
-//AM.frk = ['\uD835\uDD04','\uD835\uDD05','\u212D','\uD835\uDD07','\uD835\uDD08','\uD835\uDD09','\uD835\uDD0A','\u210C','\u2111','\uD835\uDD0D','\uD835\uDD0E','\uD835\uDD0F','\uD835\uDD10','\uD835\uDD11','\uD835\uDD12','\uD835\uDD13','\uD835\uDD14','\u211C','\uD835\uDD16','\uD835\uDD17','\uD835\uDD18','\uD835\uDD19','\uD835\uDD1A','\uD835\uDD1B','\uD835\uDD1C','\u2128',
-//'\uD835\uDD1E','\uD835\uDD1F','\uD835\uDD20','\uD835\uDD21','\uD835\uDD22','\uD835\uDD23','\uD835\uDD24','\uD835\uDD25','\uD835\uDD26','\uD835\uDD27','\uD835\uDD28','\uD835\uDD29','\uD835\uDD2A','\uD835\uDD2B','\uD835\uDD2C','\uD835\uDD2D','\uD835\uDD2E','\uD835\uDD2F','\uD835\uDD30','\uD835\uDD31','\uD835\uDD32','\uD835\uDD33','\uD835\uDD34','\uD835\uDD35','\uD835\uDD36','\uD835\uDD37'];
+//frk: ['\uD835\uDD04','\uD835\uDD05','\u212D','\uD835\uDD07','\uD835\uDD08','\uD835\uDD09','\uD835\uDD0A','\u210C','\u2111','\uD835\uDD0D','\uD835\uDD0E','\uD835\uDD0F','\uD835\uDD10','\uD835\uDD11','\uD835\uDD12','\uD835\uDD13','\uD835\uDD14','\u211C','\uD835\uDD16','\uD835\uDD17','\uD835\uDD18','\uD835\uDD19','\uD835\uDD1A','\uD835\uDD1B','\uD835\uDD1C','\u2128',
+//'\uD835\uDD1E','\uD835\uDD1F','\uD835\uDD20','\uD835\uDD21','\uD835\uDD22','\uD835\uDD23','\uD835\uDD24','\uD835\uDD25','\uD835\uDD26','\uD835\uDD27','\uD835\uDD28','\uD835\uDD29','\uD835\uDD2A','\uD835\uDD2B','\uD835\uDD2C','\uD835\uDD2D','\uD835\uDD2E','\uD835\uDD2F','\uD835\uDD30','\uD835\uDD31','\uD835\uDD32','\uD835\uDD33','\uD835\uDD34','\uD835\uDD35','\uD835\uDD36','\uD835\uDD37']
 
-//AM.bbb = ['\uD835\uDD38','\uD835\uDD39','\u2102','\uD835\uDD3B','\uD835\uDD3C','\uD835\uDD3D','\uD835\uDD3E','\u210D','\uD835\uDD40','\uD835\uDD41','\uD835\uDD42','\uD835\uDD43','\uD835\uDD44','\u2115','\uD835\uDD46','\u2119','\u211A','\u211D','\uD835\uDD4A','\uD835\uDD4B','\uD835\uDD4C','\uD835\uDD4D','\uD835\uDD4E','\uD835\uDD4F','\uD835\uDD50','\u2124',
-//'\uD835\uDD52','\uD835\uDD53','\uD835\uDD54','\uD835\uDD55','\uD835\uDD56','\uD835\uDD57','\uD835\uDD58','\uD835\uDD59','\uD835\uDD5A','\uD835\uDD5B','\uD835\uDD5C','\uD835\uDD5D','\uD835\uDD5E','\uD835\uDD5F','\uD835\uDD60','\uD835\uDD61','\uD835\uDD62','\uD835\uDD63','\uD835\uDD64','\uD835\uDD65','\uD835\uDD66','\uD835\uDD67','\uD835\uDD68','\uD835\uDD69','\uD835\uDD6A','\uD835\uDD6B'];
+//bbb: ['\uD835\uDD38','\uD835\uDD39','\u2102','\uD835\uDD3B','\uD835\uDD3C','\uD835\uDD3D','\uD835\uDD3E','\u210D','\uD835\uDD40','\uD835\uDD41','\uD835\uDD42','\uD835\uDD43','\uD835\uDD44','\u2115','\uD835\uDD46','\u2119','\u211A','\u211D','\uD835\uDD4A','\uD835\uDD4B','\uD835\uDD4C','\uD835\uDD4D','\uD835\uDD4E','\uD835\uDD4F','\uD835\uDD50','\u2124',
+//'\uD835\uDD52','\uD835\uDD53','\uD835\uDD54','\uD835\uDD55','\uD835\uDD56','\uD835\uDD57','\uD835\uDD58','\uD835\uDD59','\uD835\uDD5A','\uD835\uDD5B','\uD835\uDD5C','\uD835\uDD5D','\uD835\uDD5E','\uD835\uDD5F','\uD835\uDD60','\uD835\uDD61','\uD835\uDD62','\uD835\uDD63','\uD835\uDD64','\uD835\uDD65','\uD835\uDD66','\uD835\uDD67','\uD835\uDD68','\uD835\uDD69','\uD835\uDD6A','\uD835\uDD6B']
 
-//AM.scr = ['\u1D49C','\u1D49D','\u1D49E','\u1D49F','\u1D4A0','\u1D4A1','\u1D4A2','\u1D4A3','\u1D4A4','\u1D4A5','\u1D4A6','\u1D4A7','\u1D4A8','\u1D4A9','\u1D4AA','\u1D4AB;','\u1D4AC','\u1D4AD','\u1D4AE','\u1D4AF','\u1D4B0','\u1D4B1','\u1D4B2','\u1D4B3','\u1D4B4','\u1D4B5',
-//'\u1D4B6','\u1D4B7','\u1D4B8','\u1D4B9','\u1D4BA','\u1D4BB','\u1D4BC','\u1D4BD','\u1D4BE','\u1D4BF','\u1D4C0','\u1D4C1','\u1D4C2','\u1D4C3','\u1D4C4','\u1D4C5','\u1D4C6','\u1D4C7','\u1D4C8','\u1D4C9','\u1D4CA','\u1D4CB','\u1D4CC','\u1D4CD','\u1D4CE','\u1D4CF'];
+//scr: ['\u1D49C','\u1D49D','\u1D49E','\u1D49F','\u1D4A0','\u1D4A1','\u1D4A2','\u1D4A3','\u1D4A4','\u1D4A5','\u1D4A6','\u1D4A7','\u1D4A8','\u1D4A9','\u1D4AA','\u1D4AB;','\u1D4AC','\u1D4AD','\u1D4AE','\u1D4AF','\u1D4B0','\u1D4B1','\u1D4B2','\u1D4B3','\u1D4B4','\u1D4B5',
+//'\u1D4B6','\u1D4B7','\u1D4B8','\u1D4B9','\u1D4BA','\u1D4BB','\u1D4BC','\u1D4BD','\u1D4BE','\u1D4BF','\u1D4C0','\u1D4C1','\u1D4C2','\u1D4C3','\u1D4C4','\u1D4C5','\u1D4C6','\u1D4C7','\u1D4C8','\u1D4C9','\u1D4CA','\u1D4CB','\u1D4CC','\u1D4CD','\u1D4CE','\u1D4CF']
 
-if (!AM.symbols) AM.symbols = [];
-
-AM.symbols = AM.symbols.concat([
+const symbols = [
 // greek letters
-{input:'alpha',tag:'mi',output:'\u03B1',tex:null,ttype:CONST},
-{input:'beta',tag:'mi',output:'\u03B2',tex:null,ttype:CONST},
-{input:'gamma',tag:'mi',output:'\u03B3',tex:null,ttype:CONST},
-{input:'Gamma',tag:'mo',output:'\u0393',tex:null,ttype:CONST},
-{input:'delta',tag:'mi',output:'\u03B4',tex:null,ttype:CONST},
-{input:'Delta',tag:'mtext',output:'\u0394',tex:null,ttype:CONST},
+{input:'alpha',tag:'mi',output:'\u03B1',ttype:CONST},
+{input:'beta',tag:'mi',output:'\u03B2',ttype:CONST},
+{input:'gamma',tag:'mi',output:'\u03B3',ttype:CONST},
+{input:'Gamma',tag:'mo',output:'\u0393',ttype:CONST},
+{input:'delta',tag:'mi',output:'\u03B4',ttype:CONST},
+{input:'Delta',tag:'mtext',output:'\u0394',ttype:CONST},
 {input:'epsi',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',tex:AM.fixepsi?'varepsilon':'epsilon',ttype:CONST,notexcopy:true},
 {input:'epsilon',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',tex:AM.fixepsi?'varepsilon':'epsilon',ttype:CONST,notexcopy:true},
 {input:'varepsilon',tag:'mi',output:AM.fixepsi?'\u03F5':'\u03B5',tex:AM.fixepsi?'epsilon':'varepsilon',ttype:CONST,notexcopy:true},
-{input:'zeta',tag:'mi',output:'\u03B6',tex:null,ttype:CONST},
-{input:'eta',tag:'mi',output:'\u03B7',tex:null,ttype:CONST},
-{input:'theta',tag:'mi',output:'\u03B8',tex:null,ttype:CONST},
-{input:'Theta',tag:'mo',output:'\u0398',tex:null,ttype:CONST},
-{input:'vartheta',tag:'mi',output:'\u03D1',tex:null,ttype:CONST},
-{input:'iota',tag:'mi',output:'\u03B9',tex:null,ttype:CONST},
-{input:'kappa',tag:'mi',output:'\u03BA',tex:null,ttype:CONST},
-{input:'lambda',tag:'mi',output:'\u03BB',tex:null,ttype:CONST},
-{input:'Lambda',tag:'mo',output:'\u039B',tex:null,ttype:CONST},
-{input:'mu',tag:'mi',output:'\u03BC',tex:null,ttype:CONST},
-{input:'nu',tag:'mi',output:'\u03BD',tex:null,ttype:CONST},
-{input:'xi',tag:'mi',output:'\u03BE',tex:null,ttype:CONST},
-{input:'Xi',tag:'mo',output:'\u039E',tex:null,ttype:CONST},
-{input:'pi',tag:'mi',output:'\u03C0',tex:null,ttype:CONST},
-{input:'Pi',tag:'mo',output:'\u03A0',tex:null,ttype:CONST},
-{input:'rho',tag:'mi',output:'\u03C1',tex:null,ttype:CONST},
-{input:'sigma',tag:'mi',output:'\u03C3',tex:null,ttype:CONST},
-{input:'Sigma',tag:'mo',output:'\u03A3',tex:null,ttype:CONST},
-{input:'tau',tag:'mi',output:'\u03C4',tex:null,ttype:CONST},
-{input:'upsilon',tag:'mi',output:'\u03C5',tex:null,ttype:CONST},
+{input:'zeta',tag:'mi',output:'\u03B6',ttype:CONST},
+{input:'eta',tag:'mi',output:'\u03B7',ttype:CONST},
+{input:'theta',tag:'mi',output:'\u03B8',ttype:CONST},
+{input:'Theta',tag:'mo',output:'\u0398',ttype:CONST},
+{input:'vartheta',tag:'mi',output:'\u03D1',ttype:CONST},
+{input:'iota',tag:'mi',output:'\u03B9',ttype:CONST},
+{input:'kappa',tag:'mi',output:'\u03BA',ttype:CONST},
+{input:'lambda',tag:'mi',output:'\u03BB',ttype:CONST},
+{input:'Lambda',tag:'mo',output:'\u039B',ttype:CONST},
+{input:'mu',tag:'mi',output:'\u03BC',ttype:CONST},
+{input:'nu',tag:'mi',output:'\u03BD',ttype:CONST},
+{input:'xi',tag:'mi',output:'\u03BE',ttype:CONST},
+{input:'Xi',tag:'mo',output:'\u039E',ttype:CONST},
+{input:'pi',tag:'mi',output:'\u03C0',ttype:CONST},
+{input:'Pi',tag:'mo',output:'\u03A0',ttype:CONST},
+{input:'rho',tag:'mi',output:'\u03C1',ttype:CONST},
+{input:'sigma',tag:'mi',output:'\u03C3',ttype:CONST},
+{input:'Sigma',tag:'mo',output:'\u03A3',ttype:CONST},
+{input:'tau',tag:'mi',output:'\u03C4',ttype:CONST},
+{input:'upsilon',tag:'mi',output:'\u03C5',ttype:CONST},
 {input:'phi',tag:'mi',output:AM.fixphi?'\u03D5':'\u03C6',tex:AM.fixphi?'phi':'varphi',ttype:CONST,notexcopy:true},
 {input:'varphi',tag:'mi',output:AM.fixphi?'\u03C6':'\u03D5',tex:AM.fixphi?'varphi':'phi',ttype:CONST,notexcopy:true},
-{input:'Phi',tag:'mo',output:'\u03A6',tex:null,ttype:CONST},
-{input:'chi',tag:'mi',output:'\u03C7',tex:null,ttype:CONST},
-{input:'psi',tag:'mi',output:'\u03C8',tex:null,ttype:CONST},
-{input:'Psi',tag:'mi',output:'\u03A8',tex:null,ttype:CONST},
-{input:'omega',tag:'mi',output:'\u03C9',tex:null,ttype:CONST},
-{input:'Omega',tag:'mo',output:'\u03A9',tex:null,ttype:CONST},
+{input:'Phi',tag:'mo',output:'\u03A6',ttype:CONST},
+{input:'chi',tag:'mi',output:'\u03C7',ttype:CONST},
+{input:'psi',tag:'mi',output:'\u03C8',ttype:CONST},
+{input:'Psi',tag:'mi',output:'\u03A8',ttype:CONST},
+{input:'omega',tag:'mi',output:'\u03C9',ttype:CONST},
+{input:'Omega',tag:'mo',output:'\u03A9',ttype:CONST},
 
 // binary operators
-//{input:'-',tag:'mo',output:'\u0096',tex:null,ttype:CONST},
+//{input:'-',tag:'mo',output:'\u0096',ttype:CONST},
 {input:'*',tag:'mo',output:'\u22C5',tex:'cdot',ttype:CONST},
 {input:'**',tag:'mo',output:'\u2217',tex:'ast',ttype:CONST},
 {input:'***',tag:'mo',output:'\u22C6',tex:'star',ttype:CONST},
-{input:'//',tag:'mo',output:'/',tex:'{/}',ttype:CONST,val:true},
+{input:'//',tag:'mo',output:'/',tex:'{/}',ttype:CONST,nobackslash:true},
 {input:'\\\\',tag:'mo',output:'\\',tex:'backslash',ttype:CONST},
-{input:'setminus',tag:'mo',output:'\\',tex:null,ttype:CONST},
+{input:'setminus',tag:'mo',output:'\\',ttype:CONST},
 {input:'xx',tag:'mo',output:'\u00D7',tex:'times',ttype:CONST},
 {input:'|><',tag:'mo',output:'\u22C9',tex:'ltimes',ttype:CONST},
 {input:'><|',tag:'mo',output:'\u22CA',tex:'rtimes',ttype:CONST},
@@ -186,8 +203,8 @@ AM.symbols = AM.symbols.concat([
 {input:'o+',tag:'mo',output:'\u2295',tex:'oplus',ttype:CONST},
 {input:'ox',tag:'mo',output:'\u2297',tex:'otimes',ttype:CONST},
 {input:'o.',tag:'mo',output:'\u2299',tex:'odot',ttype:CONST},
-{input:'sum',tag:'mo',output:'\u2211',tex:null,ttype:UNDEROVER},
-{input:'prod',tag:'mo',output:'\u220F',tex:null,ttype:UNDEROVER},
+{input:'sum',tag:'mo',output:'\u2211',ttype:UNDEROVER},
+{input:'prod',tag:'mo',output:'\u220F',ttype:UNDEROVER},
 {input:'^^',tag:'mo',output:'\u2227',tex:'wedge',ttype:CONST},
 {input:'^^^',tag:'mo',output:'\u22C0',tex:'bigwedge',ttype:UNDEROVER},
 {input:'vv',tag:'mo',output:'\u2228',tex:'vee',ttype:CONST},
@@ -199,19 +216,19 @@ AM.symbols = AM.symbols.concat([
 
 // relation symbols
 {input:'!=',tag:'mo',output:'\u2260',tex:'ne',ttype:CONST},
-{input:':=',tag:'mo',output:':=',tex:null,ttype:CONST,val:true},
-{input:'lt',tag:'mo',output:'<',tex:null,ttype:CONST},
+{input:':=',tag:'mo',output:':=',ttype:CONST,nobackslash:true},
+{input:'lt',tag:'mo',output:'<',ttype:CONST},
 {input:'<=',tag:'mo',output:'\u2264',tex:'le',ttype:CONST},
 {input:'lt=',tag:'mo',output:'\u2264',tex:'leq',ttype:CONST},
-{input:'gt',tag:'mo',output:'>',tex:null,ttype:CONST},
+{input:'gt',tag:'mo',output:'>',ttype:CONST},
 {input:'>=',tag:'mo',output:'\u2265',tex:'ge',ttype:CONST},
 {input:'gt=',tag:'mo',output:'\u2265',tex:'geq',ttype:CONST},
 {input:'-<',tag:'mo',output:'\u227A',tex:'prec',ttype:CONST},
-{input:'-lt',tag:'mo',output:'\u227A',tex:null,ttype:CONST},
+{input:'-lt',tag:'mo',output:'\u227A',ttype:CONST},
 {input:'>-',tag:'mo',output:'\u227B',tex:'succ',ttype:CONST},
 {input:'-<=',tag:'mo',output:'\u2AAF',tex:'preceq',ttype:CONST},
 {input:'>-=',tag:'mo',output:'\u2AB0',tex:'succeq',ttype:CONST},
-{input:'in',tag:'mo',output:'\u2208',tex:null,ttype:CONST},
+{input:'in',tag:'mo',output:'\u2208',ttype:CONST},
 {input:'!in',tag:'mo',output:'\u2209',tex:'notin',ttype:CONST},
 {input:'sub',tag:'mo',output:'\u2282',tex:'subset',ttype:CONST},
 {input:'sup',tag:'mo',output:'\u2283',tex:'supset',ttype:CONST},
@@ -222,13 +239,13 @@ AM.symbols = AM.symbols.concat([
 {input:'~',tag:'mo',output:'~',tex:'sim',ttype:CONST},
 {input:'~~',tag:'mo',output:'\u2248',tex:'approx',ttype:CONST},
 {input:'prop',tag:'mo',output:'\u221D',tex:'propto',ttype:CONST},
-{input:'complement',tag:'mo',output:'complement',tex:null,ttype:CONST},
+{input:'complement',tag:'mo',output:'complement',ttype:CONST},
 
 // logical symbols
-{input:'if',tag:'mtext',output:'if',tex:null,ttype:SPACE},
-{input:'otherwise',tag:'mtext',output:'otherwise',tex:null,ttype:SPACE},
-{input:'and',tag:'mtext',output:'and',tex:null,ttype:SPACE},
-{input:'or',tag:'mtext',output:'or',tex:null,ttype:SPACE},
+{input:'if',tag:'mtext',output:'if',ttype:SPACE},
+{input:'otherwise',tag:'mtext',output:'otherwise',ttype:SPACE},
+{input:'and',tag:'mtext',output:'and',ttype:SPACE},
+{input:'or',tag:'mtext',output:'or',ttype:SPACE},
 {input:'not',tag:'mo',output:'\u00AC',tex:'neg',ttype:CONST},
 {input:'=>',tag:'mo',output:'\u21D2',tex:'implies',ttype:CONST},
 {input:'<=>',tag:'mo',output:'\u21D4',tex:'iff',ttype:CONST},
@@ -240,42 +257,42 @@ AM.symbols = AM.symbols.concat([
 {input:'|==',tag:'mo',output:'\u22A8',tex:'models',ttype:CONST},
 
 // grouping brackets
-{input:'(',tag:'mo',output:'(',tex:null,ttype:LEFTBRACKET},
-{input:')',tag:'mo',output:')',tex:null,ttype:RIGHTBRACKET},
-{input:'[',tag:'mo',output:'[',tex:null,ttype:LEFTBRACKET},
-{input:']',tag:'mo',output:']',tex:null,ttype:RIGHTBRACKET},
+{input:'(',tag:'mo',output:'(',ttype:LEFTBRACKET},
+{input:')',tag:'mo',output:')',ttype:RIGHTBRACKET},
+{input:'[',tag:'mo',output:'[',ttype:LEFTBRACKET},
+{input:']',tag:'mo',output:']',ttype:RIGHTBRACKET},
 {input:'{',tag:'mo',output:'{',tex:'lbrace',ttype:LEFTBRACKET},
 {input:'}',tag:'mo',output:'}',tex:'rbrace',ttype:RIGHTBRACKET},
-{input:'|',tag:'mo',output:'|',tex:null,ttype:LEFTRIGHT},
-//{input:'||',tag:'mo',output:'||',tex:null,ttype:LEFTRIGHT},
+{input:'|',tag:'mo',output:'|',ttype:LEFTRIGHT},
+//{input:'||',tag:'mo',output:'||',ttype:LEFTRIGHT},
 {input:'(:',tag:'mo',output:'\u2329',tex:'langle',ttype:LEFTBRACKET},
 {input:':)',tag:'mo',output:'\u232A',tex:'rangle',ttype:RIGHTBRACKET},
 {input:'<<',tag:'mo',output:'\u2329',ttype:LEFTBRACKET},
 {input:'>>',tag:'mo',output:'\u232A',ttype:RIGHTBRACKET},
-{input:'{:',tag:'mo',output:'{:',tex:null,ttype:LEFTBRACKET,invisible:true},
-{input:':}',tag:'mo',output:':}',tex:null,ttype:RIGHTBRACKET,invisible:true},
+{input:'{:',tag:'mo',output:'{:',ttype:LEFTBRACKET,invisible:true},
+{input:':}',tag:'mo',output:':}',ttype:RIGHTBRACKET,invisible:true},
 
 // miscellaneous symbols
-{input:'int',tag:'mo',output:'\u222B',tex:null,ttype:CONST},
-{input:'oint',tag:'mo',output:'\u222E',tex:null,ttype:CONST},
+{input:'int',tag:'mo',output:'\u222B',ttype:CONST},
+{input:'oint',tag:'mo',output:'\u222E',ttype:CONST},
 {input:'del',tag:'mo',output:'\u2202',tex:'partial',ttype:CONST},
 {input:'grad',tag:'mo',output:'\u2207',tex:'nabla',ttype:CONST},
 {input:'+-',tag:'mo',output:'\u00B1',tex:'pm',ttype:CONST},
 {input:'O/',tag:'mo',output:'\u2205',tex:'varnothing',ttype:CONST},
 {input:'oo',tag:'mo',output:'\u221E',tex:'infty',ttype:CONST},
-{input:'aleph',tag:'mo',output:'\u2135',tex:null,ttype:CONST},
+{input:'aleph',tag:'mo',output:'\u2135',ttype:CONST},
 {input:'...',tag:'mo',output:'...',tex:'ldots',ttype:CONST},
 {input:':.',tag:'mo',output:'\u2234',tex:'therefore',ttype:CONST},
 {input:":'",tag:'mo',output:'\u2235',tex:'because',ttype:CONST},
 {input:'/_',tag:'mo',output:'\u2220',tex:'angle',ttype:CONST},
 {input:'/_\\',tag:'mo',output:'\u25B3',tex:'triangle',ttype:CONST},
-{input:'\\ ',tag:'mtext',output:'\u00A0',tex:null,ttype:CONST,val:true},
-{input:'quad',tag:'mo',output:'\u00A0\u00A0',tex:null,ttype:CONST},
-{input:'qquad',tag:'mo',output:'\u00A0\u00A0\u00A0\u00A0',tex:null,ttype:CONST},
-{input:'cdots',tag:'mo',output:'\u22EF',tex:null,ttype:CONST},
-{input:'vdots',tag:'mo',output:'\u22EE',tex:null,ttype:CONST},
-{input:'ddots',tag:'mo',output:'\u22F1',tex:null,ttype:CONST},
-{input:'diamond',tag:'mo',output:'\u22C4',tex:null,ttype:CONST},
+{input:'\\ ',tag:'mtext',output:'\u00A0',tex:' ',ttype:CONST},
+{input:'quad',tag:'mo',output:'\u00A0\u00A0',tex:'quad',ttype:CONST},
+{input:'qquad',tag:'mo',output:'\u00A0\u00A0\u00A0\u00A0',tex:'qquad',ttype:CONST},
+{input:'cdots',tag:'mo',output:'\u22EF',ttype:CONST},
+{input:'vdots',tag:'mo',output:'\u22EE',ttype:CONST},
+{input:'ddots',tag:'mo',output:'\u22F1',ttype:CONST},
+{input:'diamond',tag:'mo',output:'\u22C4',ttype:CONST},
 {input:'Lap',tag:'mo',output:'\u2112',tex:'mathscr{L}',ttype:CONST,notexcopy:true},
 {input:'square',tag:'mo',output:'\u25A1',ttype:CONST},
 {input:'|__',tag:'mo',output:'\u230A',tex:'lfloor',ttype:CONST},
@@ -287,50 +304,50 @@ AM.symbols = AM.symbols.concat([
 {input:'QQ',tag:'mo',output:'\u211A',tex:'mathbb{Q}',ttype:CONST,notexcopy:true},
 {input:'RR',tag:'mo',output:'\u211D',tex:'mathbb{R}',ttype:CONST,notexcopy:true},
 {input:'ZZ',tag:'mo',output:'\u2124',tex:'mathbb{Z}',ttype:CONST,notexcopy:true},
-{input:"'",tag:'mo',output:'\u2032',tex:'^\\prime',ttype:CONST,val:true},
-{input:"''",tag:'mo',output:'\u2033',tex:null,ttype:CONST,val:true},
-{input:"'''",tag:'mo',output:'\u2034',tex:null,ttype:CONST,val:true},
+{input:"'",tag:'mo',output:'\u2032',tex:'^\\prime',ttype:CONST,nobackslash:true},
+{input:"''",tag:'mo',output:'\u2033',ttype:CONST,tex:'^{\\prime\\prime}',nobackslash:true},
+{input:"'''",tag:'mo',output:'\u2034',ttype:CONST,tex:'^{\\prime\\prime\\prime}',nobackslash:true},
 
 // functions
-{input:'!!',tag:'mo',output:'!!',tex:null,ttype:UNARY,rfunc:true,val:true},
-{input:'!',tag:'mo',output:'!',tex:null,ttype:UNARY,rfunc:true,val:true},
-{input:'f',tag:'mi',output:'f',tex:null,ttype:UNARY,func:true,val:true},
-{input:'g',tag:'mi',output:'g',tex:null,ttype:UNARY,func:true,val:true},
-{input:'lim',tag:'mo',output:'lim',tex:null,ttype:UNDEROVER},
-{input:'sin',tag:'mo',output:'sin',tex:null,ttype:UNARY,func:true},
-{input:'cos',tag:'mo',output:'cos',tex:null,ttype:UNARY,func:true},
-{input:'tan',tag:'mo',output:'tan',tex:null,ttype:UNARY,func:true},
-{input:'sinh',tag:'mo',output:'sinh',tex:null,ttype:UNARY,func:true},
-{input:'cosh',tag:'mo',output:'cosh',tex:null,ttype:UNARY,func:true},
-{input:'tanh',tag:'mo',output:'tanh',tex:null,ttype:UNARY,func:true},
-{input:'cot',tag:'mo',output:'cot',tex:null,ttype:UNARY,func:true},
-{input:'sec',tag:'mo',output:'sec',tex:null,ttype:UNARY,func:true},
-{input:'csc',tag:'mo',output:'csc',tex:null,ttype:UNARY,func:true},
-{input:'arcsin',tag:'mo',output:'arcsin',tex:null,ttype:UNARY,func:true},
-{input:'arccos',tag:'mo',output:'arccos',tex:null,ttype:UNARY,func:true},
-{input:'arctan',tag:'mo',output:'arctan',tex:null,ttype:UNARY,func:true},
-{input:'coth',tag:'mo',output:'coth',tex:null,ttype:UNARY,func:true},
-{input:'sech',tag:'mo',output:'sech',tex:null,ttype:UNARY,func:true},
-{input:'csch',tag:'mo',output:'csch',tex:null,ttype:UNARY,func:true},
-{input:'exp',tag:'mo',output:'exp',tex:null,ttype:UNARY,func:true},
-{input:'log',tag:'mo',output:'log',tex:null,ttype:UNARY,func:true},
-{input:'ln',tag:'mo',output:'ln',tex:null,ttype:UNARY,func:true},
-{input:'det',tag:'mo',output:'det',tex:null,ttype:UNARY,func:true},
-{input:'dim',tag:'mo',output:'dim',tex:null,ttype:CONST},
-{input:'gcd',tag:'mo',output:'gcd',tex:null,ttype:UNARY,func:true},
+{input:'!!',tag:'mo',output:'!!',ttype:UNARY,rfunc:true,nobackslash:true},
+{input:'!',tag:'mo',output:'!',ttype:UNARY,rfunc:true,nobackslash:true},
+{input:'f',tag:'mi',output:'f',ttype:UNARY,func:true,nobackslash:true},
+{input:'g',tag:'mi',output:'g',ttype:UNARY,func:true,nobackslash:true},
+{input:'lim',tag:'mo',output:'lim',ttype:UNDEROVER},
+{input:'sin',tag:'mo',output:'sin',ttype:UNARY,func:true},
+{input:'cos',tag:'mo',output:'cos',ttype:UNARY,func:true},
+{input:'tan',tag:'mo',output:'tan',ttype:UNARY,func:true},
+{input:'sinh',tag:'mo',output:'sinh',ttype:UNARY,func:true},
+{input:'cosh',tag:'mo',output:'cosh',ttype:UNARY,func:true},
+{input:'tanh',tag:'mo',output:'tanh',ttype:UNARY,func:true},
+{input:'cot',tag:'mo',output:'cot',ttype:UNARY,func:true},
+{input:'sec',tag:'mo',output:'sec',ttype:UNARY,func:true},
+{input:'csc',tag:'mo',output:'csc',ttype:UNARY,func:true},
+{input:'arcsin',tag:'mo',output:'arcsin',ttype:UNARY,func:true},
+{input:'arccos',tag:'mo',output:'arccos',ttype:UNARY,func:true},
+{input:'arctan',tag:'mo',output:'arctan',ttype:UNARY,func:true},
+{input:'coth',tag:'mo',output:'coth',ttype:UNARY,func:true},
+{input:'sech',tag:'mo',output:'sech',ttype:UNARY,func:true},
+{input:'csch',tag:'mo',output:'csch',ttype:UNARY,func:true},
+{input:'exp',tag:'mo',output:'exp',ttype:UNARY,func:true},
+{input:'log',tag:'mo',output:'log',ttype:UNARY,func:true},
+{input:'ln',tag:'mo',output:'ln',ttype:UNARY,func:true},
+{input:'det',tag:'mo',output:'det',ttype:UNARY,func:true},
+{input:'dim',tag:'mo',output:'dim',ttype:CONST},
+{input:'gcd',tag:'mo',output:'gcd',ttype:UNARY,func:true},
 {input:'lcm',tag:'mo',output:'lcm',tex:'text{lcm}',ttype:UNARY,func:true,notexcopy:true},
-{input:'min',tag:'mo',output:'min',tex:null,ttype:UNDEROVER},
-{input:'max',tag:'mo',output:'max',tex:null,ttype:UNDEROVER},
+{input:'min',tag:'mo',output:'min',ttype:UNDEROVER},
+{input:'max',tag:'mo',output:'max',ttype:UNDEROVER},
 {input:'Sup',tag:'mo',output:'sup',tex:'text{sup}',ttype:UNDEROVER},
-{input:'inf',tag:'mo',output:'inf',tex:null,ttype:UNDEROVER},
+{input:'inf',tag:'mo',output:'inf',ttype:UNDEROVER},
 {input:'mod',tag:'mo',output:'mod',tex:'text{mod}',ttype:CONST,notexcopy:true},
 {input:'sgn',tag:'mo',output:'sgn',tex:'text{sgn}',ttype:UNARY,func:true,notexcopy:true},
-{input:'lub',tag:'mo',output:'lub',tex:null,ttype:CONST},
-{input:'glb',tag:'mo',output:'glb',tex:null,ttype:CONST},
-{input:'abs',tag:'mo',output:'abs',tex:null,ttype:UNARY,notexcopy:true,rewriteLR:['|','|']},
-{input:'norm',tag:'mo',output:'norm',tex:null,ttype:UNARY,notexcopy:true,rewriteLR:['\\|','\\|']},
-{input:'floor',tag:'mo',output:'floor',tex:null,ttype:UNARY,notexcopy:true,rewriteLR:['\\lfloor','\\rfloor']},
-{input:'ceil',tag:'mo',output:'ceil',tex:null,ttype:UNARY,notexcopy:true,rewriteLR:['\\lceil','\\rceil']},
+{input:'lub',tag:'mo',output:'lub',ttype:CONST},
+{input:'glb',tag:'mo',output:'glb',ttype:CONST},
+{input:'abs',tag:'mo',output:'abs',ttype:UNARY,rewriteLR:['|','|']},
+{input:'norm',tag:'mo',output:'norm',ttype:UNARY,rewriteLR:['\\|','\\|']},
+{input:'floor',tag:'mo',output:'floor',ttype:UNARY,rewriteLR:['\\lfloor','\\rfloor']},
+{input:'ceil',tag:'mo',output:'ceil',ttype:UNARY,rewriteLR:['\\lceil','\\rceil']},
 
 // arrows
 {input:'uarr',tag:'mo',output:'\u2191',tex:'uparrow',ttype:CONST},
@@ -350,173 +367,506 @@ AM.symbols = AM.symbols.concat([
 {input:'curvArrRt',tag:'mo',output:'\u21B7',tex:'curvearrowright',ttype:CONST},
 {input:'circArrLt',tag:'mo',output:'\u21BA',tex:'circlearrowleft',ttype:CONST},
 {input:'circArrRt',tag:'mo',output:'\u21BB',tex:'circlearrowright',ttype:CONST},
-{input:'sqrt',tag:'msqrt',output:'sqrt',tex:null,ttype:UNARY},
-{input:'root',tag:'mroot',output:'root',tex:null,ttype:BINARY},
-{input:'frac',tag:'mfrac',output:'/',tex:null,ttype:BINARY},
-{input:'/',tag:'mfrac',output:'/',tex:null,ttype:INFIX},
-{input:'_',tag:'msub',output:'_',tex:null,ttype:INFIX},
-{input:'^',tag:'msup',output:'^',tex:null,ttype:INFIX},
+{input:'sqrt',tag:'msqrt',output:'sqrt',ttype:UNARY},
+{input:'root',tag:'mroot',output:'root',ttype:BINARY},
+{input:'frac',tag:'mfrac',output:'/',ttype:BINARY},
+{input:'/',tag:'mfrac',output:'/',ttype:INFIX},
+{input:'_',tag:'msub',output:'_',ttype:INFIX},
+{input:'^',tag:'msup',output:'^',ttype:INFIX},
 
 // commands with argument
-{input:'stackrel',tag:'mover',output:'stackrel',tex:null,ttype:BINARY},
-{input:'overset',tag:'mover',output:'stackrel',tex:null,ttype:BINARY},
-{input:'underset',tag:'munder',output:'stackrel',tex:null,ttype:BINARY},
-{input:'hat',tag:'mover',output:'\u005E',tex:null,ttype:UNARY,acc:true},
+{input:'stackrel',tag:'mover',output:'stackrel',ttype:BINARY},
+{input:'overset',tag:'mover',output:'stackrel',ttype:BINARY},
+{input:'underset',tag:'munder',output:'stackrel',ttype:BINARY},
+{input:'hat',tag:'mover',output:'\u005E',ttype:UNARY,acc:true},
 {input:'arc',tag:'mover',output:'\u23DC',tex:'stackrel{\\frown}',ttype:UNARY,acc:true},
 {input:'bar',tag:'mover',output:'\u00AF',tex:'overline',ttype:UNARY,acc:true},
-{input:'vec',tag:'mover',output:'\u2192',tex:null,ttype:UNARY,acc:true},
-{input:'tilde',tag:'mover',output:'~',tex:null,ttype:UNARY,acc:true},
-{input:'dot',tag:'mover',output:'.',tex:null,ttype:UNARY,acc:true},
-{input:'ddot',tag:'mover',output:'..',tex:null,ttype:UNARY,acc:true},
+{input:'vec',tag:'mover',output:'\u2192',ttype:UNARY,acc:true},
+{input:'tilde',tag:'mover',output:'~',ttype:UNARY,acc:true},
+{input:'dot',tag:'mover',output:'.',ttype:UNARY,acc:true},
+{input:'ddot',tag:'mover',output:'..',ttype:UNARY,acc:true},
 {input:'ul',tag:'munder',output:'\u0332',tex:'underline',ttype:UNARY,acc:true},
 {input:'underbrace',tag:'munder',output:'\u23DF',ttype:UNARYUNDEROVER,acc:true},
 {input:'overbrace',tag:'mover',output:'\u23DE',ttype:UNARYUNDEROVER,acc:true},
 {input:'color',tag:'mstyle',ttype:BINARY},
-{input:'cancel',tag:'menclose',output:'cancel',tex:null,ttype:UNARY},
 {input:'phantom',tag:'mphantom',ttype:UNARY},
-{input:'text',tag:'mtext',output:'text',tex:null,ttype:TEXT},
-{input:'mbox',tag:'mtext',output:'mbox',tex:null,ttype:TEXT},
-{input:'"',tag:'mtext',output:'mbox',tex:null,ttype:TEXT},
+{input:'text',tag:'mtext',output:'text',ttype:TEXT},
+{input:'mbox',tag:'mtext',output:'mbox',ttype:TEXT},
+{input:'"',tag:'mtext',output:'mbox',ttype:TEXT},
 {input:'op',tag:'mo',output:'operatorname',tex:'operatorname',ttype:UNARY},
 
 // font commands
+{input:'cancel',tag:'menclose',output:'cancel',ttype:UNARY,atname:'notation',atval:'updiagonalstrike'},
 {input:'bb',tag:'mstyle',atname:'mathvariant',atval:'bold',output:'bb',tex:'mathbf',ttype:UNARY,notexcopy:true},
-{input:'mathbf',tag:'mstyle',atname:'mathvariant',atval:'bold',output:'mathbf',tex:null,ttype:UNARY},
+{input:'mathbf',tag:'mstyle',atname:'mathvariant',atval:'bold',output:'mathbf',ttype:UNARY},
 {input:'sf',tag:'mstyle',atname:'mathvariant',atval:'sans-serif',output:'sf',tex:'mathsf',ttype:UNARY,notexcopy:true},
-{input:'mathsf',tag:'mstyle',atname:'mathvariant',atval:'sans-serif',output:'mathsf',tex:null,ttype:UNARY},
+{input:'mathsf',tag:'mstyle',atname:'mathvariant',atval:'sans-serif',output:'mathsf',ttype:UNARY},
 {input:'bbb',tag:'mstyle',atname:'mathvariant',atval:'double-struck',output:'bbb',tex:'mathbb',ttype:UNARY,notexcopy:true},
-{input:'mathbb',tag:'mstyle',atname:'mathvariant',atval:'double-struck',output:'mathbb',tex:null,ttype:UNARY},
+{input:'mathbb',tag:'mstyle',atname:'mathvariant',atval:'double-struck',output:'mathbb',ttype:UNARY},
 {input:'cc',tag:'mstyle',atname:'mathvariant',atval:'script',output:'cc',tex:'mathcal',ttype:UNARY,notexcopy:true},
-{input:'mathcal',tag:'mstyle',atname:'mathvariant',atval:'script',output:'mathcal',tex:null,ttype:UNARY},
+{input:'mathcal',tag:'mstyle',atname:'mathvariant',atval:'script',output:'mathcal',ttype:UNARY},
 {input:'tt',tag:'mstyle',atname:'mathvariant',atval:'monospace',output:'tt',tex:'mathtt',ttype:UNARY,notexcopy:true},
-{input:'mathtt',tag:'mstyle',atname:'mathvariant',atval:'monospace',output:'mathtt',tex:null,ttype:UNARY},
+{input:'mathtt',tag:'mstyle',atname:'mathvariant',atval:'monospace',output:'mathtt',ttype:UNARY},
 {input:'fr',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'fr',tex:'mathfrak',ttype:UNARY,notexcopy:true},
-{input:'mathfrak',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'mathfrak',tex:null,ttype:UNARY},
+{input:'mathfrak',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'mathfrak',ttype:UNARY},
 {input:'bm',tag:'mstyle',atname:'mathvariant',atval:'bold-italic',output:'bm',tex:'boldsymbol',ttype:UNARY},
 {input:'rm',tag:'mstyle',atname:'mathvariant',atval:'serif',output:'rm',tex:'mathrm',ttype:UNARY},
 
 // zmx add
-{input:'iint',tag:'mo',output:'\u222C',tex:null,ttype:CONST,val:true},
-{input:'iiint',tag:'mo',output:'\u222D',tex:null,ttype:CONST,val:true},
-{input:'oiint',tag:'mo',output:'\u222F',tex:null,ttype:CONST,val:true},
-{input:'oiiint',tag:'mo',output:'\u2230',tex:null,ttype:CONST,val:true},
+{input:'iint',tag:'mo',output:'\u222C',ttype:CONST},
+{input:'iiint',tag:'mo',output:'\u222D',ttype:CONST},
+{input:'oiint',tag:'mo',output:'\u222F',ttype:CONST,nobackslash:true},
+{input:'oiiint',tag:'mo',output:'\u2230',ttype:CONST,nobackslash:true},
 {input:'laplace',tag:'mtext',output:'\u0394',tex:'Delta',ttype:CONST,notexcopy:true},
-{input:'==',tag:'mo',output:'\u2550'.repeat(2),tex:null,ttype:CONST,val:true},
-{input:'====',tag:'mo',output:'\u2550'.repeat(4),tex:null,ttype:CONST,val:true},
-{input:'||',tag:'mo',output:'\u2225',tex:null,ttype:CONST,val:true},
-{input:'!||',tag:'mo',output:'\u2226',tex:null,ttype:CONST,val:true},
-{input:'S=',tag:'mo',output:'\u224C',tex:null,ttype:CONST,val:true},
-{input:'S~',tag:'mo',output:'\u223D',tex:null,ttype:CONST,val:true},
-{input:'!-=',tag:'mo',output:'\u2262',tex:null,ttype:CONST,val:true},
-{input:'!|',tag:'mo',output:'\u2224',tex:null,ttype:CONST,val:true},
-{input:'!sube',tag:'mo',output:'\u2288',tex:null,ttype:CONST,val:true},
-{input:'!supe',tag:'mo',output:'\u2289',tex:null,ttype:CONST,val:true},
-{input:'subne',tag:'mo',output:'\u228A',tex:null,ttype:CONST,val:true},
-{input:'supne',tag:'mo',output:'\u228B',tex:null,ttype:CONST,val:true},
-{input:'normal',tag:'mo',output:'\u22B4',tex:null,ttype:CONST,val:true},
+{input:'==',tag:'mo',output:'\u2550\u2550',tex:'xlongequal',ttype:UNDEROVER},
+{input:'||',tag:'mo',output:'\u2225',tex:'Vert',ttype:CONST},
+{input:'!||',tag:'mo',output:'\u2226',ttype:CONST,nobackslash:true},
+{input:'S=',tag:'mo',output:'\u224C',ttype:CONST,nobackslash:true},
+{input:'S~',tag:'mo',output:'\u223D',ttype:CONST,nobackslash:true},
+{input:'!-=',tag:'mo',output:'\u2262',tex:'not\\equiv',ttype:CONST},
+{input:'!|',tag:'mo',output:'\u2224',ttype:CONST,nobackslash:true},
+{input:'!sube',tag:'mo',output:'\u2288',ttype:CONST,nobackslash:true},
+{input:'!supe',tag:'mo',output:'\u2289',ttype:CONST,nobackslash:true},
+{input:'subne',tag:'mo',output:'\u228A',ttype:CONST,nobackslash:true},
+{input:'supne',tag:'mo',output:'\u228B',ttype:CONST,nobackslash:true},
+{input:'lhd',tag:'mo',output:'\u22B2',tex:'lhd',ttype:CONST},
+{input:'rhd',tag:'mo',output:'\u22B3',tex:'rhd',ttype:CONST},
+{input:'normal',tag:'mo',output:'\u22B4',tex:'unlhd',ttype:CONST},
+{input:'rnormal',tag:'mo',output:'\u22B5',tex:'unrhd',ttype:CONST},
+...(window.asciimath.symbols || [])
+] // symbols
 
-]); // AM.symbols
-
-  AM.symbols.forEach(function (sym) {
+function initSymbols() {
+  // tex copy
+  symbols.forEach(sym => {
     if (sym.tex && !sym.notexcopy) {
-      AM.symbols.push({
+      symbols.push({
+        ...sym,
         input: sym.tex,
-        tag: sym.tag,
-        output: sym.output,
-        ttype: sym.ttype,
-        acc: sym.acc
-      });
+        tex: undefined,
+        notexcopy: undefined
+      })
     }
   })
+
   // build trie
-  AM.symbols.forEach(function (sym) {
-    var node = AMnames;
-    sym.input.split('').forEach(function (ch) {
-      if (!node[ch]) node[ch] = {}; // new Object()
-      node = node[ch];
+  symbols.forEach(sym => {
+    let node = AM.names
+    sym.input.split('').forEach(ch => {
+      node = node[ch] = node[ch] || Object.create(null)
     })
-    node['\0'] = sym; // preserved key
+    node['\0'] = sym // preserved key
   })
-
-  AM.symbols = null // free space
-
-} // initSymbols()
-
-// ----------------------------------------------------------------------
-
-var isLeftBrace = /\(|\[|\{/;
-var isRightBrace = /\)|\]|\}/;
-
-function strip(node) {
-  if (node.firstChild
-    && (node.nodeName == 'mrow' || node.nodeName == 'M:MROW')
-  ) {
-    var grandchild = node.firstChild.firstChild;
-    if (grandchild && isLeftBrace.test(grandchild.nodeValue))
-      node.removeChild(node.firstChild);
-    grandchild = node.lastChild.firstChild;
-    if (grandchild && isRightBrace.test(grandchild.nodeValue))
-      node.removeChild(node.lastChild);
-  }
-  return node;
 }
 
-function stripTex(node) {
-  if (node[0] != '{' || node.slice(-1) != '}')
-    return node;
-  var leftchop = 0, s;
-  if (node.startsWith('\\left', 1)) {
-    if (isLeftBrace.test(node.charAt(6)))
-      leftchop = 7;
-    else if (node.startsWith('\\lbrace', 6))
-      leftchop = 13;
-  } else {
-    s = node.charAt(1);
-    if (s == "(" || s == "[")
-      leftchop = 2;
-  }
-  if (leftchop > 0) {
-    s = node.slice(-8);
-    if (s == '\\right)}' || s == '\\right]}' || s == '\\right.}') {
-      node = '{' + node.substr(leftchop);
-      node = node.substr(0,node.length-8) + '}';
-    } else if (s == '\\rbrace}') {
-      node = '{' + node.substr(leftchop);
-      node = node.substr(0,node.length-14) + '}';
-    }
-  }
-  return node;
-}
-
-function getTexSymbol(sym) {
-  return sym.val ? (sym.tex || sym.output) : '\\' + (sym.tex || sym.input);
-}
-
-function getTexBracket(sym) {
-  return sym.tex ? '\\' + sym.tex : sym.input;
-}
+const isLeftBrace = /\(|\[|\{/
+const isRightBrace = /\)|\]|\}/
 
 function b(s) {
-  return '{' + s + '}';
+  if (s[0] === ' ') s = s.slice(1)
+  return braced(s) ? s : '{' + s + '}'
 }
 
 // return true if s begins with {, end with } and they are matched
 function braced(s) {
-  if (s[0] != '{') return false;
-  if (s.slice(-1) != '}') return false;
-  var depth = 0;
-  for (var i = 0; i < s.length; ++i) {
-    if (s[i] == '{') ++depth;
-    else if (s[i] == '}') --depth;
-    if (depth == 0)
-      return i == s.length-1;
+  if (s[0] !== '{' || s.slice(-1) !== '}') return false
+  let depth = 0
+  for (let i = 0; i < s.length; ++i) {
+    if (s[i] === '{') ++depth
+    else if (s[i] === '}') --depth
+    if (depth === 0)
+      return i === s.length-1
   }
-  return false;
+  return false
 }
 
-// ----------------------------------------------------------------------
+// backend of am; outputs mathml
+let yields = {
+  init () {
+    return $()
+  },
+  strip (node) {
+    if (node.firstChild
+      && (node.nodeName === 'mrow' || node.nodeName === 'M:MROW')
+    ) {
+      let grandchild = node.firstChild.firstChild
+      if (grandchild && isLeftBrace.test(grandchild.nodeValue))
+        node.removeChild(node.firstChild)
+      grandchild = node.lastChild.firstChild
+      if (grandchild && isRightBrace.test(grandchild.nodeValue))
+        node.removeChild(node.lastChild)
+    }
+    return node
+  },
+  consts (sym) {
+    return $math(sym.tag, sym.output)
+  },
+  leftBracket (sym, res) {
+    return sym.invisible ? $math('mrow', res)
+      : $math('mrow', [$math('mo', sym.output), res])
+  },
+  text (sym, st) {
+    const buf = []
+    if (st[0] === ' ') buf.push($mspace())
+    buf.push($math(sym.tag, st))
+    if (st.slice(-1) === ' ') buf.push($mspace())
+    return $math('mrow', buf)
+  },
+  directOutput (sym) {
+    return $math(sym.tag, sym.output)
+  },
+  moOutput (sym) {
+    return $math('mo', sym.input)
+  },
+  func (sym, res) {
+    return $math('mrow', [
+      $math(sym.tag, sym.output),
+      res
+    ])
+  },
+  unary (sym, res, rewind) {
+    if (sym.input === 'op') // op
+      return $math('mo', parse.arg(rewind))
+    if (sym.input === 'sqrt') // sqrt
+      return $math(sym.tag, res)
+    if (sym.rewriteLR) // abs, floor, ceil
+      return $math('mrow', [
+        $math('mo', sym.rewriteLR[0]),
+        res,
+        $math('mo', sym.rewriteLR[1])
+      ])
+    if (sym.acc) // accent
+      return $math(sym.tag, [
+        res,
+        $math('mo', sym.output)
+      ])
+    // font change command
+    const node = $math(sym.tag, res)
+    node.setAttribute(sym.atname, sym.atval)
+    return node
+  },
+  binary (sym, res, res2, rewind) {
+    if (sym.input === 'color') {
+      node = $math(sym.tag, res2)
+      node.setAttribute('mathcolor', parse.arg(rewind))
+      return node
+    }
+    if (sym.input === 'root' || sym.output === 'stackrel')
+      return $math(sym.tag, [res2, res])
+    if (sym.input === 'frac')
+      return $math(sym.tag, [res, res2])
+  },
+  infixOutput (sym) {
+    return $math('mo', sym.output)
+  },
+  space (sym) {
+    return $math('mrow', [
+      $mspace(),
+      $math(sym.tag, sym.output),
+      $mspace(),
+    ])
+  },
+  leftRight (sym, res, rewind) {
+    const st = res.lastChild ? res.lastChild.firstChild.nodeValue : ''
+    if (st === '|') { // absolute value subterm
+      return $math('mrow', [
+        $math('mo', sym.output),
+        res
+      ])
+    } else {
+      // the '|' is a \mid so maybe use \u2223 (divides) for spacing??
+      AM.begin = rewind
+      return $math('mo', '|')
+    }
+  },
+  rfunc (sym, res) {
+    return $math('mrow', [
+      res,
+      $math('mo', sym.output)
+    ])
+  },
+  infix (sym0, sym1, sym2, node, res, res2, subFirst, underover) {
+    // wrap in <mrow> so sum does not stretch
+    return $math('mrow',
+      $math(underover ? 'munderover' : 'msubsup',
+        subFirst ? [node, res, res2] : [node, res2, res]
+      )
+    )
+  },
+  infixHalf (sym0, sym1, node, res, subFirst, underover) {
+    if (subFirst) {
+      return $math(underover ? 'munder' : 'msub', [node, res])
+    } else {
+      return $math(underover ? 'mover' : 'msup', [node, res])
+    }
+  },
+  infixFunc (node, res) {
+    return $math('mrow', [node, res])
+  },
+  placeholder () {
+    return $math('mo', '\u25A1')
+  },
+  infixNode (sym0, node) {
+    return node
+  },
+  push (sym, frag, node, res) {
+    if (res) {
+      frag.appendChild(
+        $math(sym.tag, [node, res])
+      )
+    } else {
+      frag.appendChild(node)
+    }
+  },
+  /* new matrix grammar
+    {:
+      x ,= a + b + c + d
+      ,= abcd
+      ,= eeeee
+    :}
+  */
+  matrix (sym, frag) {
+    let ismatrix = false
+    for (let i = 0; i < frag.childNodes.length; ++i) {
+      if (frag.childNodes[i].firstChild
+        && frag.childNodes[i].firstChild.nodeValue === ';') {
+        ismatrix = true
+        break
+      }
+    }
+    if (!ismatrix)
+      return
+    let table = $(), row = $(), elem = $()
+    while (frag.firstChild) {
+      let val = frag.firstChild.firstChild.nodeValue
+      if (val === ';') {
+        frag.removeChild(frag.firstChild)
+        row.appendChild($math('mtd', elem))
+        elem = $()
+        table.appendChild($math('mtr', row))
+        row = $()
+      } else if (val === ',') {
+        frag.removeChild(frag.firstChild)
+        row.appendChild($math('mtd', elem))
+        elem = $()
+      } else {
+        elem.appendChild(frag.firstChild)
+      }
+    }
+    if (elem.firstChild)
+      row.appendChild($math('mtd', elem))
+    if (row.firstChild)
+      table.appendChild($math('mtr', row))
+    node = $math('mtable', table)
+    if (sym.invisible) {
+      node.setAttribute('columnalign', 'left')
+      node.setAttribute('displaystyle', 'true')
+    }
+    frag.appendChild(node)
+  },
+  closeMatrix (sym, frag) {
+    frag.appendChild($math('mo', sym.output))
+  },
+  join (frag, closed) {
+    return frag
+  },
+}
 
-/*Parsing ASCII math expressions with the following grammar
+// another backend of am; outputs tex
+const yieldsTex = {
+  init () {
+    return []
+  },
+  strip (node) {
+    if (node[0] !== '{' || node.slice(-1) !== '}') return node
+    let leftchop = 0, s
+    if (node.startsWith('\\left', 1)) {
+      if (isLeftBrace.test(node.charAt(6)))
+        leftchop = 7
+      else if (node.startsWith('\\lbrace', 6))
+        leftchop = 13
+    } else {
+      s = node.charAt(1)
+      if (s === "(" || s === "[")
+        leftchop = 2
+    }
+    if (leftchop > 0) {
+      s = node.slice(-8)
+      if (s === '\\right)}' || s === '\\right]}' || s === '\\right.}') {
+        node = b(node.slice(leftchop, -8))
+      } else if (s === '\\rbrace}') {
+        node = b(node.slice(leftchop, -14))
+      }
+    }
+    return node
+  },
+  consts (sym) {
+    const node = parse.texSymbol(sym)
+    // prefix consts with space, prefix control sequences with backslash
+    return node[0] === '\\' || sym.tag === 'mo' ? node : ' ' + node
+  },
+  leftBracket (sym, res) {
+    if (res.startsWith('\\right')) {
+      res = res[6] === '.' ? res.slice(7) : res.slice(6)
+      return sym.invisible ? b(res) : b(parse.texCtrl(sym) + res)
+    } else {
+      return sym.invisible ? '{\\left.' + res + '}' :
+        '{\\left' + parse.texCtrl(sym) + res + '}'
+    }
+  },
+  text (sym, st) {
+    st = st.replace(/{/g, '\\{').replace(/}/g, '\\}')
+    return (st[0] === ' ' ? '\\ ' : '')
+      + '\\text{' + st + '}'
+      + (st.slice(-1) === ' ' ? '\\ ' : '')
+  },
+  directOutput (sym) {
+    return b(parse.texSymbol(sym)) 
+  },
+  moOutput (sym) {
+    return b(parse.texSymbol(sym))
+  },
+  func (sym, res) {
+    return ' ' + parse.texSymbol(sym) + b(res)
+  },
+  unary (sym, res) {
+    if (sym.input === 'sqrt')
+      return '\\sqrt' + b(res)
+    if (sym.input === 'cancel')
+      return '\\cancel' + b(res)
+    if (sym.rewriteLR)
+      return '\\left' + sym.rewriteLR[0] + res + '\\right' + sym.rewriteLR[1]
+    if (sym.atname) // font change command
+      return '{' + parse.texSymbol(sym) + b(res) + '}'
+    return parse.texSymbol(sym) + b(res)
+  },
+  binary (sym, res, res2, rewind) {
+    if (sym.input === 'color')
+      return `{\\color{${parse.arg(rewind)}}${res2}}`
+    if (sym.input === 'root')
+      return `\\sqrt[${res}]{${res2}}`
+    if (sym.output === 'stackrel')
+      return parse.texSymbol(sym) + `{${res}}{${res2}}`
+    if (sym.input === 'frac')
+      return `\\frac{${res}}{${res2}}`
+  },
+  infixOutput (sym) {
+    return sym.output
+  },
+  space (sym) {
+    return '\\quad\\text{' + sym.input + '}\\quad'
+  },
+  leftRight (sym, res, rewind) {
+    if (res.slice(-1) === '|') {
+      return '{\\left|' + res + '}'
+    } else {
+      AM.begin = rewind
+      return '\\mid'
+    }
+  },
+  rfunc (sym, res) {
+    return b(res + sym.output)
+  },
+  infix (sym0, sym1, sym2, node, res, res2, subFirst, underover) {
+    //let lBraces = res.split('{').length
+    //let rBraces = res.split('}').length
+    //node += '^' + (lBraces === 2 && rBraces === 2 ? res : b(res))
+    if (sym0.input === '==') {
+      return subFirst ? `\\xlongequal[${res}]{${res2}}`
+        : `\\xlongequal[${res2}]{${res}}`
+    } else {
+      return node + sym1.input + b(res) + sym2.input + b(res2)
+    }
+  },
+  infixHalf (sym0, sym1, node, res, subFirst, underover) {
+    if (sym0.input === '==') {
+      return node + (subFirst ? `[${res}]{}` : b(res))
+    } else {
+      return node + sym1.input + b(res)
+    }
+  },
+  infixFunc (node, res) {
+    return b(node + res)
+  },
+  placeholder () {
+    return '{\\square}'
+  },
+  infixNode (sym0, node) {
+    return sym0.input === '==' ? node + '{}' : node
+  },
+  push (sym, frag, node, res) {
+    if (res) {
+      if (!braced(node))
+        node = b(node)
+      if (!braced(res))
+        res = b(res)
+      frag.push('\\frac' + node + res)
+    } else {
+      frag.push(node)
+    }
+  },
+  matrix (sym, frag) {
+    let ismatrix = false
+    const str = frag.join('')
+    let len = str.length
+    let depth = 0
+    for (i = 0; i < len; ++i) {
+      if (isLeftBrace.test(str[i]))
+        ++depth
+      else if (isRightBrace.test(str[i]))
+        --depth
+      else if (str[i] === ';' && depth === 0) {
+        ismatrix = true
+        break
+      }
+    }
+    if (!ismatrix) {
+      frag[0] = str
+      frag.length = 1
+      return
+    }
+    let matrix = ''
+    let begin = 0
+    let row = []
+    depth = 0
+    for (i = 0; i < len; ++i) {
+      if (isLeftBrace.test(str[i]))
+        ++depth
+      else if (isRightBrace.test(str[i]))
+        --depth
+      else if (str[i] === ';' && depth === 0) {
+        row.push(str.slice(begin, i))
+        begin = i+1
+        matrix += row.join('&') + '\\\\'
+        row = []
+      } else if (str[i] === ',' && depth === 0) {
+        row.push(str.slice(begin, i))
+        begin = i+1
+      }
+    }
+    if (begin < i)
+      row.push(str.slice(begin,i))
+    if (row.length > 0)
+      matrix += row.join('&') + '\\\\'
+    if (sym.invisible && AM.env === 'browser') {
+      frag[0] = '\\begin{matrix*}[l]' + matrix + '\\end{matrix*}'
+    } else {
+      frag[0] = '\\begin{matrix}' + matrix + '\\end{matrix}'
+    }
+    frag.length = 1
+  },
+  closeMatrix (sym, frag) {
+    frag.push('\\right' + parse.texCtrl(sym))
+  },
+  join (frag, closed) {
+    if (AM.nestingDepth > 0 && !closed)
+      frag.push('\\right.')
+    return frag.join('')
+  },
+}
+
+/* frontend of am;
+Parsing ASCII math expressions with the following grammar
 v ::= [A-Za-z] | greek letters | numbers | other constant symbols
 u ::= sqrt | text | bb | other unary symbols for font commands
 b ::= frac | root | stackrel         binary symbols
@@ -527,725 +877,480 @@ I ::= S_S | S^S | S_S^S | S          Intermediate expression
 E ::= IE | I/I                       Expression
 Each terminal symbol is translated into a corresponding mathml node.*/
 
-var AMstr, // the asciimath string being processed
-  AMbegin, // the beginning of AMstr
-  AMnestingDepth, AMprevSym, AMcurSym, AMesc1;
-
-function skip(n) {
-  if (n)
-    AMbegin += n;
-  while (AMstr.charCodeAt(AMbegin) <= 32)
-    ++AMbegin;
-}
-
-function getArg(begin) {
-  var end = AMstr.length;
-  if (AMstr[begin] == '{')
-    end = AMstr.indexOf('}', begin+1);
-  else if (AMstr[begin] == '(')
-    end = AMstr.indexOf(')', begin+1);
-  else if (AMstr[begin] == '[')
-    end = AMstr.indexOf(']', begin+1);
-  return AMstr.slice(begin+1, end);
-}
-
-// -> token or bracket or empty
-// return maximal initial substring of str that appears in names
-// or return null if there is none
-function getSymbol() {
-  var sym;
-  var node = AMnames, i = AMbegin, end = AMstr.length;
-  while (i < end) {
-    node = node[AMstr[i++]];
-    if (!node) break;
-    if (node['\0']) sym = node['\0'];
-  }
-  AMprevSym = AMcurSym;
-  if (sym) {
-    AMcurSym = sym.ttype;
-    return sym;
-  }
-
-  AMcurSym = CONST;
-  var st, tagst;
-  if (/\d/.test(AMstr[AMbegin])) {
-    var i = AMbegin;
-    while (/\d/.test(AMstr[++i]));
-    if (AMstr[i] == '.')
-      while (/\d/.test(AMstr[++i]));
-    st = AMstr.slice(AMbegin, i);
-    tagst = 'mn';
-  } else {
-    var cp = AMstr.codePointAt(AMbegin)
-    st = isNaN(cp) ? '' : String.fromCodePoint(cp)
-    if (/[a-zA-Z]/.test(st))
-      tagst = 'mi';
-    else if (cp > 0x4e00)
-      tagst = 'mtext';
-    else
-      tagst = 'mo';
-  }
-
-  var sym = {input:st, tag:tagst, output:st, ttype:CONST, val:true};
-  if (st == '-' && AMprevSym == INFIX) {
-    AMcurSym = INFIX;  // trick '/' into recognizing '-' on second parse
-    sym.ttype = UNARY;
-    sym.func = true;
-  }
-  return sym;
-}
-
-function mspace() {
-  var node = $math('mspace');
-  node.setAttribute('width', '1ex');
-  return node;
-}
-
-// -> node
-function parseS() {
-  var node, res, i, st;
-  var sym = getSymbol();
-  if (sym == null || sym.ttype == RIGHTBRACKET && AMnestingDepth > 0)
-    return null;
-  var len = sym.input.length;
-  var frag = AM.katex ? '' : $();
-  switch (sym.ttype) {
-  case UNDEROVER:
-  case CONST:
-    skip(len);
-    if (!AM.katex)
-      return $math(sym.tag, $text(sym.output));
-    else {
-      node = getTexSymbol(sym);
-      return (node[0] == '\\' || sym.tag == 'mo' ? node : b(node));
+const parse = {
+  init (str) {
+    for (d of AM.define) str = str.replace(d[0], d[1])
+    AM.nestingDepth = 0
+    AM.str = str.trimLeft()
+    AM.begin = 0
+  },
+  skip (n) {
+    if (n) AM.begin += n
+    while (AM.str.charCodeAt(AM.begin) <= 32)
+      ++AM.begin
+  },
+  arg (begin) {
+    let end
+    if (AM.str[begin] === '{')
+      end = AM.str.indexOf('}', begin+1)
+    else if (AM.str[begin] === '(')
+      end = AM.str.indexOf(')', begin+1)
+    else if (AM.str[begin] === '[')
+      end = AM.str.indexOf(']', begin+1)
+    if (end === -1) end = AM.str.length
+    return AM.str.slice(begin+1, end)
+  },
+  textArg (begin) {
+    let end
+    if (AM.str[begin] === '{')
+      end = AM.str.indexOf('}', begin+1)
+    else if (AM.str[begin] === '(')
+      end = AM.str.indexOf(')', begin+1)
+    else if (AM.str[begin] === '[')
+      end = AM.str.indexOf(']', begin+1)
+    else if (AM.str[begin] === '"')
+      end = AM.str.indexOf('"', begin+1)
+    if (end === -1) end = AM.str.length
+    return AM.str.slice(begin+1, end)
+  },
+  texCtrl (sym) {
+    return sym.tex ? '\\' + sym.tex : sym.input
+  },
+  texSymbol (sym) {
+    return sym.nobackslash ? (sym.tex || sym.output) : '\\' + (sym.tex || sym.input)
+  },
+  // -> token or bracket or empty
+  // return maximal initial substring of str that appears in names
+  // or return null if there is none
+  symbol () {
+    let sym
+    let node = AM.names, i = AM.begin, end = AM.str.length
+    while (i < end) {
+      node = node[AM.str[i++]]
+      if (!node) break
+      if (node['\0']) sym = node['\0']
     }
-  case LEFTBRACKET:
-    skip(len);
-    ++AMnestingDepth;
-    res = parseExpr(true);
-    --AMnestingDepth;
-    if (AM.katex) {
-      if (res.startsWith('\\right')) {
-        res = res[6] == '.' ? res.slice(7) : res.slice(6);
-        node = sym.invisible ? b(res) : b(getTexBracket(sym) + res);
-      } else {
-        node = sym.invisible ? '{\\left.' + res + '}' :
-          '{\\left' + getTexBracket(sym) + res + '}';
+    AM.prevSym = AM.curSym
+    if (sym) {
+      AM.curSym = sym.ttype
+      return sym
+    }
+
+    AM.curSym = CONST
+    let input, tag
+    const match = AM.str.slice(AM.begin).match(/^\d+(\.\d+)?/)
+    if (match) { // numbers
+      input = match[0]
+      tag = 'mn'
+    } else { // letters, chinese characters & symbols
+      const cp = AM.str.codePointAt(AM.begin)
+      input = isNaN(cp) ? '' : String.fromCodePoint(cp)
+      tag = /[a-zA-Z]/.test(input) ? 'mi' : cp > 0x4e00 ? 'mtext' : 'mo'
+    }
+
+    sym = { input, output: input, tag, ttype: CONST, nobackslash: true }
+    if (input === '-' && AM.prevSym === INFIX) {
+      AM.curSym = INFIX  // trick '/' into recognizing '-' on second parse
+      sym.ttype = UNARY
+      sym.func = true
+    }
+    return sym
+  },
+  simple () {
+    let res, st, rewind, sym = parse.symbol()
+    if (!sym || sym.ttype === RIGHTBRACKET && AM.nestingDepth > 0)
+      return null
+    let len = sym.input.length
+    switch (sym.ttype) {
+    case UNDEROVER:
+    case CONST:
+      parse.skip(len)
+      return yields.consts(sym)
+    case LEFTBRACKET:
+      parse.skip(len)
+      ++AM.nestingDepth
+      res = parse.expr(true)
+      --AM.nestingDepth
+      return yields.leftBracket(sym, res)
+    case TEXT:
+      if (sym.input != '"') parse.skip(len)
+      st = parse.textArg(AM.begin)
+      AM.begin += st.length + 2
+      parse.skip()
+      return yields.text(sym, st)
+    case UNARYUNDEROVER:
+    case UNARY:
+      parse.skip(len)
+      rewind = AM.begin
+      res = parse.simple()
+      if (!res) {
+        AM.begin = rewind
+        return yields.directOutput(sym)
       }
-    } else {
-      if (sym.invisible)
-        node = $math('mrow', res);
-      else {
-        node = $math('mo', $text(sym.output));
-        node = $math('mrow', node);
-        node.appendChild(res);
-      }
-    }
-    return node;
-  case TEXT:
-    if (sym.input != '"')
-      skip(len);
-    var i = AMbegin;
-    if (AMstr[i] == '{') AMbegin = AMstr.indexOf('}', i+1);
-    else if (AMstr[i] == '(') AMbegin = AMstr.indexOf(')', i+1);
-    else if (AMstr[i] == '[') AMbegin = AMstr.indexOf(']', i+1);
-    else if (sym.input == '"') AMbegin = AMstr.indexOf('"', i+1);
-    if (AMbegin == -1) {
-      AMbegin = AMstr.length;
-      st = AMstr.slice(i+1);
-    } else {
-      st = AMstr.slice(i+1, AMbegin++);
-    }
-    skip();
-    if (AM.katex)
-      return (st[0] == ' ' ? '\\ ' : '')
-        + '\\text{' + st + '}'
-        + (st.slice(-1) == ' ' ? '\\ ' : '');
-    if (st[0] == ' ') frag.appendChild(mspace());
-    frag.appendChild($math(sym.tag, $text(st)));
-    if (st.slice(-1) == ' ') frag.appendChild(mspace());
-    return $math('mrow', frag);
-  case UNARYUNDEROVER:
-  case UNARY:
-    skip(len);
-    var rewind = AMbegin;
-    res = parseS();
-    if (res == null) {
-      AMbegin = rewind;
-      return AM.katex ? b(getTexSymbol(sym)) :
-          $math(sym.tag, $text(sym.output));
-    }
-    if (sym.func) {
-      st = AMstr.charAt(rewind);
-      if (/\^|_|\/|\||,/.test(st) || (
-        len == 1 && /\w/.test(sym.input) && st != '(')
-      ) {
-        AMbegin = rewind;
-        return AM.katex ? b(getTexSymbol(sym)) :
-          $math(sym.tag, $text(sym.output));
-      } else {
-        if (AM.katex)
-          return ' ' + getTexSymbol(sym) + b(res);
-        node = $math('mrow', $math(sym.tag, $text(sym.output)));
-        node.appendChild(res);
-        return node;
-      }
-    }
-    res = strip(res);
-    if (AM.katex) {
-      if (sym.input == 'sqrt')
-        node = '\\sqrt{' + res + '}';
-      else if (sym.input == 'cancel')
-        node = '\\cancel{' + res + '}';
-      else if (sym.rewriteLR)
-        node = '{\\left' + sym.rewriteLR[0] + res + '\\right'
-          + sym.rewriteLR[1] + '}';
-      else if (sym.acc)
-        node = getTexSymbol(sym) + b(res);
-      else
-        node = '{' + getTexSymbol(sym) + '{' + res + '}}';
-      return node;
-    }
-
-    // op
-    if (sym.input == 'op') {
-      node = $math('mo', $text(getArg(rewind)));
-    }
-    // sqrt
-    else if (sym.input == 'sqrt') {
-      node = $math(sym.tag, res);
-    }
-    // abs, floor, ceil
-    else if (sym.rewriteLR) {
-      node = $math('mrow', $math('mo', $text(sym.rewriteLR[0])));
-      node.appendChild(res);
-      node.appendChild($math('mo', $text(sym.rewriteLR[1])));
-    }
-    // cancel
-    else if (sym.input == 'cancel') {
-      node = $math(sym.tag, res);
-      node.setAttribute('notation', 'updiagonalstrike');
-    }
-    // accent
-    else if (sym.acc) {
-      node = $math(sym.tag, res);
-      node.appendChild($math('mo', $text(sym.output)));
-    }
-    // font change command
-    else {
-      if (!isIE && sym.codes) {
-        for (i = 0; i < res.childNodes.length; i++) {
-          if (res.childNodes[i].nodeName == 'mi'
-              || res.nodeName == 'mi') {
-            st = res.nodeName == 'mi' ? res.firstChild.nodeValue :
-              res.childNodes[i].firstChild.nodeValue;
-            var newst = [];
-            for (var j = 0; j < st.length; j++) {
-              var code = st.charCodeAt(j);
-              if (code > 64 && code < 91)
-                newst.push(sym.codes[code-65]);
-              else if (code > 96 && code < 123)
-                newst.push(sym.codes[code-71]);
-              else
-                newst.push(st.charAt(j));
-            }
-            if (res.nodeName == 'mi')
-              res = $math('mo').appendChild($text(newst));
-            else res.replaceChild($math('mo')
-              .appendChild($text(newst)), res.childNodes[i]);
-          }
+      if (sym.func) {
+        st = AM.str.charAt(rewind)
+        if (/\^|_|\/|\||,/.test(st) || (
+          len === 1 && /\w/.test(sym.input) && st != '(')
+        ) {
+          AM.begin = rewind
+          return yields.directOutput(sym)
+        } else {
+          return yields.func(sym, res)
         }
       }
-      node = $math(sym.tag, res);
-      node.setAttribute(sym.atname, sym.atval);
+      res = yields.strip(res)
+      return yields.unary(sym, res, rewind)
+    case BINARY:
+      parse.skip(len)
+      rewind = AM.begin
+      res = parse.simple()
+      if (!res) return yields.moOutput(sym)
+      res = yields.strip(res)
+      let res2 = parse.simple()
+      if (!res2) return yields.moOutput(sym)
+      res2 = yields.strip(res2)
+      return yields.binary(sym, res, res2, rewind)
+    case INFIX:
+      parse.skip(len)
+      return yields.infixOutput(sym)
+    case SPACE:
+      parse.skip(len)
+      return yields.space(sym)
+    case LEFTRIGHT:
+      parse.skip(len)
+      rewind = AM.begin
+      AM.nestingDepth++
+      res = parse.expr(false)
+      AM.nestingDepth--
+      return yields.leftRight(sym, res, rewind)
+    default:
+      //console.warn("default")
+      parse.skip(len)
+      return yields.directOutput(sym)
     }
-    return node;
-  case BINARY:
-    skip(len);
-    var rewind = AMbegin;
-    res = parseS();
-    if (res == null)
-      return AM.katex ? b(getTexSymbol(sym)) :
-          $math('mo', $text(sym.input));
-    res = strip(res);
-    var res2 = parseS();
-    if (res2 == null)
-      return AM.katex ? b(getTexSymbol(sym)) :
-          $math('mo', $text(sym.input));
-    res2 = strip(res2);
-    if (AM.katex) {
-      if (sym.input == 'color')
-        frag = '{\\color{' + res.replace(/[\{\}]/g,'') + '}' + res2 + '}';
-      else if (sym.input == 'root')
-        frag = '{\\sqrt[' + res + ']{' + res2 + '}}';
-      else if (sym.output == 'stackrel')
-        frag = '{' + getTexSymbol(sym) + '{' + res + '}{' + res2 + '}}';
-      else if (sym.input == "frac")
-        frag = '{\\frac{' + res + '}{' + res2 + '}}';
-      return frag;
+  },
+  // for example pi_1^233!/233
+  infix () {
+    parse.skip()
+    let sym0 = parse.symbol() // for example pi
+    let node = parse.simple() // for example π
+    let sym1 = parse.symbol() // for example _
+    const underover = (sym0.ttype === UNDEROVER || sym0.ttype === UNARYUNDEROVER)
+
+    // 类似于 sin, log 相对分式优先
+    // 阶乘, 或任意后缀函数也相对分式优先
+    if (sym1.rfunc) {
+      parse.skip(sym1.input.length)
+      return yields.rfunc(sym1, node)
+    }
+    if (sym1.ttype !== INFIX || sym1.input === '/') {
+      return yields.infixNode(sym0, node)
+    }
+    parse.skip(sym1.input.length)
+
+    // now sym1 is either _ or ^
+    let res = parse.simple() // for example 1
+    if (res)
+      res = yields.strip(res)
+    else // show box in place of missing argument
+      res = yields.placeholder()
+
+    let sym2 = parse.symbol() // for example ^
+    const subFirst = sym1.input === '_'
+    if (sym2.input === (subFirst ? '^' : '_')) {
+      parse.skip(sym2.input.length)
+      let res2 = parse.simple() // for example 233
+      res2 = yields.strip(res2)
+      node = yields.infix(sym0, sym1, sym2, node, res, res2, subFirst, underover)
+    } else {
+      node = yields.infixHalf(sym0, sym1, node, res, subFirst, underover)
     }
 
-    if (sym.input == 'color') {
-      var color = getArg(rewind);
-      node = $math(sym.tag, res2);
-      node.setAttribute('mathcolor', color);
-      return node;
+    let sym3 = parse.symbol() // for example !
+    if (sym3.rfunc) {
+      parse.skip(sym3.input.length)
+      node = yields.rfunc(sym3, node)
     }
-    if (sym.input == 'root' || sym.output == 'stackrel')
-      frag.appendChild(res2);
-    frag.appendChild(res);
-    if (sym.input == 'frac')
-      frag.appendChild(res2);
-    return $math(sym.tag, frag);
-  case INFIX:
-    skip(len);
-    return AM.katex ? sym.output : $math('mo', $text(sym.output));
-  case SPACE:
-    skip(len);
-    if (AM.katex)
-      return '{\\quad\\text{' + sym.input + '}\\quad}';
-    frag.appendChild(mspace());
-    frag.appendChild($math(sym.tag,$text(sym.output)));
-    frag.appendChild(mspace());
-    return $math('mrow', frag);
-  case LEFTRIGHT:
-    skip(len);
-    var rewind = AMbegin;
-    AMnestingDepth++;
-    res = parseExpr(false);
-    AMnestingDepth--;
-    if (AM.katex) {
-      if (res.slice(-1) == '|')
-        return '{\\left|' + res + '}';
-      AMbegin = rewind;
-      return '\\mid';
-    }
-    st = res.lastChild ? res.lastChild.firstChild.nodeValue : '';
-    if (st == '|') { // absolute value subterm
-      node = $math('mo', $text(sym.output));
-      node = $math('mrow', node);
-      node.appendChild(res);
-    } else {
-      // the '|' is a \mid so maybe use \u2223 (divides) for spacing??
-      node = $math('mo', $text('|'));
-      AMbegin = rewind;
-    }
-    return node;
-  default:
-    //console.warn("default");
-    skip(len);
-    return AM.katex ? b(getTexSymbol(sym)) :
-        $math(sym.tag, $text(sym.output));
-  }
-}
-
-function parseI() {
-  skip();
-  var sym1 = getSymbol();
-  var underover = (sym1.ttype == UNDEROVER || sym1.ttype == UNARYUNDEROVER);
-  var node = parseS();
-  var sym = getSymbol();
-
-  // 类似于 sin, log 相对分式优先
-  // 阶乘, 或任意后缀函数也相对分式优先
-  if (sym.rfunc) {
-    skip(sym.input.length);
-    if (AM.katex) {
-      return b(node + sym.output);
-    } else {
-      node = $math('mrow', node);
-      node.appendChild($math('mo', $text(sym.output)));
-      return node
-    }
-  }
-
-  // either _ or ^
-  if (sym.ttype != INFIX || sym.input == '/')
-    return node;
-  skip(sym.input.length);
-  var res = parseS();
-  if (res)
-    res = strip(res);
-  else // show box in place of missing argument
-    res = AM.katex ? '{}' : $math("mo", $text("\u25A1"));
-  var sym2 = getSymbol();
-  var subFirst = sym.input == '_';
-  if (sym2.input == (subFirst ? '^' : '_')) {
-    skip(sym2.input.length);
-    var res2 = parseS();
-    res2 = strip(res2);
-    if (AM.katex) {
-      //var lBraces = res.split('{').length;
-      //var rBraces = res.split('}').length;
-      //node += '^' + (lBraces == 2 && rBraces == 2 ? res : b(res));
-      node = '{' + node + sym.input + '{' + res + '}' + sym2.input + '{' + res2 + '}}';
-    } else {
-      node = $math((underover?'munderover':'msubsup'), node);
-      if (subFirst) {
-        node.appendChild(res);
-        node.appendChild(res2);
-      } else {
-        node.appendChild(res2);
-        node.appendChild(res);
-      }
-      node = $math('mrow', node); // so sum does not stretch
-    }
-  } else {
-    if (AM.katex) {
-      node += sym.input + '{' + res + '}';
-    } else {
-      if (subFirst) {
-        node = $math((underover?'munder':'msub'), node);
-      } else {
-        node = $math((underover?'mover':'msup'), node);
-      }
-      node.appendChild(res);
-    }
-  }
-  if (sym1.func) {
-    sym2 = getSymbol();
-    if (sym2.ttype != INFIX && sym2.ttype != RIGHTBRACKET) {
-      res = parseI();
-      if (AM.katex) {
-        node = b(node + res);
-      } else {
-        node = $math('mrow', node);
-        node.appendChild(res);
+    if (sym0.func) {
+      if (sym3.ttype !== INFIX && sym3.ttype !== RIGHTBRACKET) {
+        res = parse.infix() // recur
+        node = yields.infixFunc(node, res)
       }
     }
-  }
-  return node;
-}
-
-/* new matrix grammar
-  {:
-    x ,= a + b + c + d;
-    ,= abcd;
-    ,= eeeee;
-  :}
-*/
-function parseMatrix(sym, frag) {
-  var ismatrix = false;
-  for (var i = 0; i < frag.childNodes.length; ++i) {
-    if (frag.childNodes[i].firstChild
-      && frag.childNodes[i].firstChild.nodeValue == ';') {
-      ismatrix = true;
-      break;
-    }
-  }
-  if (!ismatrix)
-    return;
-  var table = $(), row = $(), elem = $();
-  while (frag.firstChild) {
-    var val = frag.firstChild.firstChild.nodeValue;
-    if (val == ';') {
-      frag.removeChild(frag.firstChild);
-      row.appendChild($math('mtd', elem));
-      elem = $();
-      table.appendChild($math('mtr', row));
-      row = $();
-    } else if (val == ',') {
-      frag.removeChild(frag.firstChild);
-      row.appendChild($math('mtd', elem));
-      elem = $();
-    } else {
-      elem.appendChild(frag.firstChild);
-    }
-  }
-  if (elem.firstChild)
-    row.appendChild($math('mtd', elem));
-  if (row.firstChild)
-    table.appendChild($math('mtr', row));
-  node = $math('mtable', table);
-  if (sym.invisible) {
-    node.setAttribute('columnalign', 'left');
-    node.setAttribute('displaystyle', 'true');
-  }
-  frag.appendChild(node);
-}
-
-function parseMatrixTex(sym, frag) {
-  var ismatrix = false;
-  var len = frag.length;
-  var depth = 0;
-  for (i = 0; i < len; ++i) {
-    if (isLeftBrace.test(frag[i]))
-      ++depth;
-    else if (isRightBrace.test(frag[i]))
-      --depth;
-    else if (frag[i] == ';' && depth == 0) {
-      ismatrix = true;
-      break;
-    }
-  }
-  if (!ismatrix)
-    return frag;
-  var matrix = '';
-  var begin = 0;
-  var row = [];
-  depth = 0;
-  for (i = 0; i < len; ++i) {
-    if (isLeftBrace.test(frag[i]))
-      ++depth;
-    else if (isRightBrace.test(frag[i]))
-      --depth;
-    else if (frag[i] == ';' && depth == 0) {
-      row.push(frag.slice(begin, i));
-      begin = i+1;
-      matrix += row.join('&') + '\\\\';
-      row = [];
-    } else if (frag[i] == ',' && depth == 0) {
-      row.push(frag.slice(begin, i));
-      begin = i+1;
-    }
-  }
-  if (begin < i)
-    row.push(frag.slice(begin,i));
-  if (row.length > 0)
-    matrix += row.join('&') + '\\\\';
-  if (sym.invisible && AM.env === 'browser') {
-    return '\\begin{matrix*}[l]' + matrix + '\\end{matrix*}';
-  } else {
-    return '\\begin{matrix}' + matrix + '\\end{matrix}';
-  }
-}
-
-// -> node
-function parseExpr(rightbracket) {
-  var closed = false;
-  var sym;
-  var frag = AM.katex ? '' : $();
-  do {
-    skip();
-    var res = parseI();
-    var node = res;
-    sym = getSymbol();
-    // fractions
-    if (sym.input == '/' && sym.ttype == INFIX) {
-      skip(sym.input.length);
-      res = parseI();
-      if (res)
-        res = strip(res);
-      else // show box in place of missing argument
-        res = AM.katex ? '{}' : $math("mo", $text("\u25A1"));
-      node = strip(node);
-      if (AM.katex) {
-        if (!braced(node))
-          node = b(node);
-        if (!braced(res))
-          res = b(res);
-        frag += '\\frac' + node + res;
-      } else {
-        node = $math(sym.tag, node);
-        node.appendChild(res);
-        frag.appendChild(node);
+    return node
+  },
+  expr (rightbracket) {
+    let closed = false
+    let sym
+    let frag = yields.init()
+    do {
+      parse.skip()
+      let res = parse.infix()
+      let node = res
+      sym = parse.symbol()
+      // fractions
+      if (sym.input === '/' && sym.ttype === INFIX) {
+        parse.skip(sym.input.length)
+        res = parse.infix()
+        if (res)
+          res = yields.strip(res)
+        else
+          res = yields.placeholder()
+        node = yields.strip(node)
+        yields.push(sym, frag, node, res)
+        sym = parse.symbol()
+      } else if (node) {
+        yields.push(sym, frag, node)
       }
-      sym = getSymbol();
-    } else if (node) {
-      if (AM.katex)
-        frag += node;
-      else
-        frag.appendChild(node);
-    }
-  } while ((sym.ttype != RIGHTBRACKET
-    && (sym.ttype != LEFTRIGHT || rightbracket)
-    || AMnestingDepth == 0) && sym != null && sym.output != '');
+      // TODO: what is this rubbish?
+    } while ((sym.ttype !== RIGHTBRACKET
+      && (sym.ttype !== LEFTRIGHT || rightbracket)
+      || AM.nestingDepth === 0) && sym != null && sym.output != '');
 
-  if (sym.ttype == RIGHTBRACKET || sym.ttype == LEFTRIGHT) {
-    skip(sym.input.length);
-    if (AM.katex) {
-      frag = parseMatrixTex(sym, frag);
+    if (sym.ttype === RIGHTBRACKET || sym.ttype === LEFTRIGHT) {
+      parse.skip(sym.input.length)
+      yields.matrix(sym, frag)
       if (!sym.invisible) {
-        frag += '\\right' + getTexBracket(sym);
-        closed = true;
+        yields.closeMatrix(sym, frag)
+        closed = true
       }
-    } else {
-      parseMatrix(sym, frag);
-      if (!sym.invisible)
-        frag.appendChild($math('mo', $text(sym.output)));
     }
-  }
-  if (AM.katex && AMnestingDepth > 0 && !closed)
-    frag += '\\right.';
-  return frag;
+    return yields.join(frag, closed)
+  },
 }
 
-function partShorthand (str) {
-  // partial short hand
-  // part f x => (del f)/(del x)
-  // part^3 f (x y^2) => (del^3 f)/(del x del y^2)
-  // partial f x => del f x
-  // TODO: part 只是正则替换, 词法上没有保证; 使用时需要手动用空格分隔参数
-  return str.replace(/part(\^\S*)?\s+(\S+)\s+(\([^)]*\)|\S+)/g, (substr, $1, $2, $3) => {
-    if (!$1) $1 = '';
-    if ($3[0] === '(') $3 = $3.slice(1,-1).split(/\s+/).join(' del ');
-    return `(del${$1} ${$2})/(del ${$3})`
+function handleError (amstr, e) {
+  console.error(amstr + '\n', e)
+  return $('<span>', {
+    className: 'katex-error',
+    innerText: 'AM parse error'
   })
 }
 
 // str -> <math>
-function parseMath(str) {
-  AMnestingDepth = 0;
-  for (d of AM.define)
-    str = str.replace(d[0], d[1]);
-  str = partShorthand(str)
-  AMstr = str.trimLeft();
-  AMbegin = 0;
-  var node = $math('mstyle', parseExpr(false));
+function parseMath(amstr) {
+  parse.init(amstr)
+  let node
+  try {
+    node = $math('mstyle', parse.expr(false))
+  } catch (e) {
+    return handleError(amstr, e)
+  }
   if (AM.color)
-    node.setAttribute('mathcolor', AM.color);
+    node.setAttribute('mathcolor', AM.color)
   if (AM.fontfamily)
-    node.setAttribute('fontfamily', AM.fontfamily);
+    node.setAttribute('fontfamily', AM.fontfamily)
   if (AM.displaystyle)
-    node.setAttribute('displaystyle', 'true');
-  node = $math("math", node);
+    node.setAttribute('displaystyle', 'true')
+  node = $math('math', node)
   if (AM.viewsource)
-    node.setAttribute('title', str);
-  return node;
+    node.setAttribute('title', amstr)
+  return node
 }
 
-function am2tex(str, displayStyle) {
-  if (displayStyle === undefined) displayStyle = AM.displaystyle
-  AMnestingDepth = 0;
-  for (d of AM.define)
-    str = str.replace(d[0], d[1]);
-  str = partShorthand(str)
-
-  // html entity
-  if (AM.env === 'nodejs') {
-    str = str.replace(/&#(x?[0-9a-fA-F]+);/g, (match, $1) =>
-      String.fromCodePoint($1[0] === 'x' ? '0' + $1 : $1)
-    )
-  }
-
-  AMstr = str.trimLeft();
-  AMbegin = 0;
-  str = parseExpr(false);
-  var args = [];
-  if (AM.color)
-    args.push('\\' + AM.color);
-  if (displayStyle)
-    args.push('\\displaystyle');
-  else
-    args.push('\\textstyle');
-  AM.texstr = args.join('') + str.replace(/(\$|%)/g, '\\$1');
-  return AM.texstr;
+function am2tex(amstr, displaystyle = AM.displaystyle) {
+  parse.init(amstr)
+  const args = []
+  if (AM.color) args.push('\\' + AM.color)
+  args.push(displaystyle ? '\\displaystyle ' : '\\textstyle ')
+  return AM.texstr = args.join('')
+    + parse.expr(false).replace(/(\$|%)/g, '\\$1')
 }
 
 function parseMathTex(amstr) {
-  str = am2tex(amstr);
-  var node = $('<span>', str);
+  let node, texstr
   try {
-    katex.render(str, node);
-    var anno = node.querySelectorAll('annotation')[0];
+    texstr = am2tex(amstr)
+    node = $('<span>', texstr)
+  } catch (e) {
+    return handleError(amstr, e)
+  }
+  try {
+    katex.render(texstr, node)
+    const anno = node.querySelectorAll('annotation')[0]
     anno.textContent = '$' + anno.textContent + '$'; // add tex delimiter for user selection
   } catch (e) {
-    node.className = 'katex-error';
-    node.innerText = e.message;
-    console.error('parse error:', amstr);
+    node.className = 'katex-error'
+    node.innerText = 'KaTeX parse error'
+    console.error(amstr, e)
   }
-  return node;
+  return node
 }
 
-function parseNode(node) {
-  var str = node.nodeValue;
-  if (!str) return 0;
-  var escaped = false;
-  str = str.replace(AMesc1, function() {
-    escaped = true; return 'AMesc1';
-  }); // this is a problem??
+function renderNode(node) {
+  let str = node.nodeValue
+  if (!str) return 0
 
-  var arr = str.split(AM.delim1);
-  if (arr.length > 1 || escaped) {
-    var frag = $();
-    var math = false;
-    for (var i = 0; i < arr.length; ++i) {
-      arr[i] = arr[i].replace(/AMesc1/g, AM.delim1);
-      if (math) {
-        frag.appendChild(parseMath(arr[i]));
-      } else {
-        frag.appendChild($text(arr[i]));
-      }
-      math = !math;
-    }
-    if (!math)
-      console.warn('formula not closed:', str);
-    node.parentNode.replaceChild(frag, node);
-    return arr.length-1;
+  let escaped = false
+  str = str.replace(AM.esc1, () => {
+    escaped = true
+    return 'AMesc1'
+  }) // this is a problem??
+
+  const arr = str.split(AM.delim1)
+  if (!escaped && arr.length <= 1) return 0
+
+  if (arr.length % 2 === 0) console.warn('formula not closed:', str)
+
+  const frag = $()
+  for (let i = 0; i < arr.length; ++i) {
+    const s = arr[i].replace(/AMesc1/g, AM.delim1)
+    frag.appendChild(
+      i % 2 ? parseMath(s) : document.createTextNode(s)
+    )
   }
-  return 0;
+  node.parentNode.replaceChild(frag, node)
+  return arr.length-1
 }
 
 // substitute formulae with mathml
 function render(node) {
-  if (node.nodeName == 'math' || node.nodeType == 8 // comment element
+  if (node.nodeName === 'math' || node.nodeType === 8 // comment element
       || /form|textarea/i.test(node.parentNode.nodeName)
-  ) return 0;
+  ) return 0
 
   if (node.childNodes.length > 0)
-    for (var i = 0; i < node.childNodes.length; i++)
-      i += render(node.childNodes[i]);
+    for (let i = 0; i < node.childNodes.length; i++)
+      i += render(node.childNodes[i])
 
-  return parseNode(node);
+  return renderNode(node)
 }
 
-function autorender() {
-  render(body);
+function appendChildren (el, children) {
+  if (Array.isArray(children)) children.forEach(c => el.appendChild(c))
+  else el.appendChild(children)
 }
 
-function setDefaults(target, dict) {
-  for (var attr in dict) {
-    if (typeof target[attr] == 'undefined')
-      target[attr] = dict[attr];
+// 虚拟 dom (bushi
+function $(tag, options = {}, children = []) {
+  const len = tag && tag.length
+  const el = !tag
+    ? document.createDocumentFragment()
+    : tag[0] === '#'
+    ? document.getElementById(tag.slice(1))
+    : tag[0] === '.'
+    ? document.getElementsByClassName(tag.slice(1))
+    : tag[0] === '<' && tag[len-1] === '>'
+    ? (options.namespace
+      ? document.createElementNS(namespace, tag)
+      : document.createElement(tag.slice(1,len-1))
+    ) : document.getElementsByTagName(tag);
+
+  if (typeof options === 'string') {
+    el.innerText = options
+  } else {
+    Object.keys(options).forEach(key => {
+      const value = options[key]
+      if (key === 'className') {
+        if (Array.isArray(value)) value.forEach(v => el.classList.add(v))
+        else el.classList.add(value)
+      } else if (key === 'attrs') {
+        Object.keys(value).forEach(attr => el.setAttribute(attr, value[attr]))
+      } else if (key === 'on') {
+        Object.keys(value).forEach(ev => {
+          const arr = ev.split('.')
+          el.addEventListener(arr[0], value[ev].bind(options), arr[1] === 'true')
+        })
+      } else if (key === 'style') {
+        Object.assign(el.style, value)
+      } else if (typeof value === 'function') {
+        el[key] = value.bind(options)
+      } else if (key !== 'namespace') {
+        el[key] = value
+      }
+    })
+    options.el = el
   }
+
+  appendChildren(el, children)
+  return el
 }
 
-function init() {
+function $math(tag, children = []) {
+  const MATHML = 'http://www.w3.org/1998/Math/MathML'
+  const el = document.createElementNS(MATHML, tag)
+  if (typeof children === 'string')
+    children = document.createTextNode(children)
+  appendChildren(el, children)
+  return el
+}
 
-  setDefaults(AM, {
-    katexpath: 'katex.min.js',
-    onload: autorender,
-    fixepsi: true,
-    fixphi: true,
-    delim1: '`',
-    displaystyle:true,
-    viewsource: false,
-    define: {
-      'dx': '{:"d"x:}',
-      'dy': '{:"d"y:}',
-      'dz': '{:"d"z:}',
-      'dt': '{:"d"t:}',
-      '√': 'sqrt',
+function $mspace() {
+  const el = $math('mspace')
+  el.setAttribute('width', '1ex')
+  return el
+}
+
+function loadCss(href) {
+  document.body.appendChild($('<link>', {
+    attrs: { href, rel: 'stylesheet', crossorigin: '' }
+  }))
+}
+
+function loadScript(src, onload = null) {
+  document.body.appendChild($('<script>', { src, onload }))
+}
+
+function hasMathML() {
+  const { userAgent } = navigator
+  return !/chrome/i.test(userAgent) && /safari|firefox/i.test(userAgent)
+}
+
+function notify () {
+  const close = $('<button>', {
+    innerText: '×',
+    style: {
+      position: 'absolute',
+      right: '10px',
+      top: '10px',
+      border: 'none',
+      background: 'transparent',
+      cursor: 'pointer',
+    },
+    onclick () {
+      div.style.display = 'none'
     }
-  });
+  })
+  const div = $('<div>', {
+    id: 'AMnotify',
+    style: {
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      right: '0',
+      textAlign: 'center',
+      padding: '0.5em 2em',
+      background: '#f99',
+      fontFamily: 'sans-serif',
+      color: '#633',
+    },
+    innerHTML: 'To view the ASCIIMathML notation, use lastest version of Mozilla Firefox or Safari.'
+      + 'To support other browsers, please include <a href="https://katex.org">katex.min.js</a>.',
+  }, close)
+  document.body.append(div);
+}
 
-  initSymbols();
+function init () {
+  initSymbols()
 
-  var toescape = /(\(|\)|\[|\]|\{|\}|\$|\^|\/|\\|\||\.|\*|\+|\?)/g;
-  AM.delim1.replace(toescape, '\\$1');
-  AMesc1 = new RegExp('\\\\' + AM.delim1, 'g');
-
-  var def = []
-  for (d in AM.define)
-  	def.push([new RegExp(d, 'g'), AM.define[d]]);
-  AM.define = def;
+  AM.delim1.replace(/(\(|\)|\[|\]|\{|\}|\$|\^|\/|\\|\||\.|\*|\+|\?)/g, '\\$1')
+  AM.esc1 = new RegExp('\\\\' + AM.delim1, 'g')
 
   if (!AM.katex && hasMathML())
-    return AM.onload();
+    return AM.onload()
 
   if (AM.katex === false)
-    notify();
+    return notify()
 
   // use katex & tex version of functions
-  AM.katex = true;
-  strip = stripTex;
-  parseMatrix = parseMatrixTex;
-  parseMath = parseMathTex;
+  AM.katex = true
+  parseMath = parseMathTex
+  yields = yieldsTex
 
   if (AM.env === 'browser') {
     // local fonts cause CORS error
-    loadCss('https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css');
-    loadScript(AM.katexpath, AM.onload);
+    loadCss('https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css')
+    loadScript(AM.katexpath, AM.onload)
   }
 }
 
@@ -1253,6 +1358,10 @@ if (typeof document === 'undefined') {
   AM.env = 'nodejs'
   AM.katex = true
   AM.displaystyle = true
+  // html entity
+  AM.define.push([/&#(x?[0-9a-fA-F]+);/g, (match, $1) =>
+    String.fromCodePoint($1[0] === 'x' ? '0' + $1 : $1)
+  ])
   init()
 } else if (typeof chrome !== 'undefined' && chrome.extension) {
   AM.env = 'extension'
@@ -1261,184 +1370,12 @@ if (typeof document === 'undefined') {
   init()
 } else {
   AM.env = 'browser'
-  var doc = document;
-  var body = doc.body;
-  var MATHML = 'http://www.w3.org/1998/Math/MathML';
-  var XHTML = 'http://www.w3.org/1999/xhtml';
-  var isIE = (navigator.appName.slice(0,9) == 'Microsoft');
-
-  if (!doc.getElementById) {
-    alert('This webpage requires a recent browser such as Mozilla Firefox');
-    return;
-  }
-
-  if (isIE) {
-    // add MathPlayer info to IE webpages
-    doc.write('<object id="mathplayer" classid="clsid:32F66A20-7614-11D4-BD11-00104BD3F987"></object>');
-    doc.write('<?import namespace="m" implementation="#mathplayer"?>');
-    // redefine functions
-    doc.createElementNS = function(namespace, tag) {
-      if (namespace == MATHML)
-        return doc.createElement('m:' + tag);
-      return doc.createElement(tag);
-    }
-  }
-
-  function loadCss(url) {
-    var link = doc.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('href', url);
-    link.setAttribute('crossorigin', '');
-    body.appendChild(link);
-  }
-
-  function loadScript(url, callback) {
-    var script = doc.createElement('script');
-    script.type = 'application/javascript';
-    if (typeof(callback) != 'undefined') {
-      if (script.readyState) { // IE
-        script.onreadystatechange = function() {
-          if (script.readyState == 'loaded'
-              || script.readyState == 'complete') {
-            script.onreadystatechange = null;
-            callback();
-          }
-        }
-      } else { // others
-        script.onload = function() { callback(); }
-      }
-    }
-    script.src = url;
-    body.appendChild(script);
-  }
-
-  // imitate jquery (迫真)
-  function $(str, children, namespace) {
-    if (typeof(str) == 'string') {
-      if (str[0] == '#')
-        return doc.getElementById(str.slice(1));
-      if (str[0] == '.')
-        return doc.getElementsByClassName(str.slice(1));
-      if (str[0] == '"' && str.slice(-1) == '"')
-        return doc.createTextNode(str.slice(1,-1));
-      if (str[0] == '<' && str.slice(-1) == '>') {
-        var elem;
-        str = str.slice(1,-1);
-        if (namespace == MATHML)
-          elem = doc.createElementNS(MATHML, str);
-        else if (!namespace)
-          elem = doc.createElement(str);
-        else if (namespace == XHTML)
-          elem = doc.createElementNS(XHTML, str);
-        if (!children)
-          ;
-        else if (typeof(children) == 'string')
-          elem.appendChild(doc.createTextNode(children));
-        else if (children instanceof Node)
-          elem.appendChild(children);
-        else if (children instanceof Array)
-          for (c of children)
-            elem.appendChild(c);
-        return elem;
-      }
-      if (str.length > 0)
-        return doc.getElementsByTagName(str);
-    } else if (typeof(str) == 'undefined') {
-      return doc.createDocumentFragment();
-    }
-  }
-
-  function $math(str, children) {
-    elem = doc.createElementNS(MATHML, str);
-    if (children)
-      elem.appendChild(children);
-    return elem;
-  }
-
-  function $text(str) {
-    return doc.createTextNode(str);
-  }
-
-  function hasMathML() {
-    var explorer = navigator.userAgent;
-    var foundSafari = explorer.indexOf('Safari') >= 0;
-    var isFirefox = explorer.indexOf('Firefox') >= 0;
-    var isChrome = explorer.indexOf('Chrome') >= 0;
-    var isIE = navigator.appName.slice(0,9) == 'Microsoft';
-    var isOpera = navigator.appName.slice(0,5) == 'Opera';
-
-    if (isChrome)
-      return false;
-    else if (isFirefox || findSafari)
-      return navigator.appVersion.slice(0,1) >= '5';
-    else if (isIE)
-      try {
-        new ActiveXObject('MathPlayer.Factory.1');
-        return true;
-      } catch (e) {}
-    else if (isOpera)
-      return navigator.appVersion.slice(0,3) >= '9.5';
-    else
-      return false;
-  }
-
-  function notify(msgs) {
-    var revert = body.onclick;
-    body.onclick = function() {
-      body.removeChild($('#AMnotify'));
-      body.onclick = revert;
-    }
-    var div = $('<div>', null, XHTML);
-    div.id = 'AMnotify';
-    div.style = 'position:absolute; width:100%; top:0; left:0; z-index:200; text-align:center; font-size:1em; padding:0.5em 0 0.5em 0; color:#f00; background:#f99';
-
-    var msg = 'To view the ASCIIMathML notation, use Mozilla Firefox >= 2.0 or latest version of Safari or Internet Explorer + MathPlayer.';
-    var line = $('<div>', msg, XHTML);
-    line.style.paddingBottom = '1em';
-    div.appendChild(line);
-
-    div.appendChild($('<p>', null, XHTML));
-    div.appendChild($('"For instructions see the "'));
-    var elem = $('<a>', 'ASCIIMathML', XHTML);
-    elem.setAttribute('href', 'http://www.chapman.edu/~jipsen/asciimath.html');
-    div.appendChild(elem);
-    div.appendChild($('" homepage"'));
-    elem = $('<div>', '(click anywhere to close)', XHTML);
-    elem.style = 'font-size:0.8em; padding-top:1em; color:#014';
-    div.appendChild(elem);
-    body.insertBefore(div, body.firstChild);
-  }
-
-  // setup onload function
-  if (typeof window.addEventListener == 'function') {
-    // gecko, safari, konqueror and standard
-    window.addEventListener('load', init, false);
-  } else if (typeof document.addEventListener == 'function') {
-    // opera 7
-    document.addEventListener('load', init, false);
-  } else if (typeof window.attachEvent == 'function') {
-    // win/ie
-    window.attachEvent('onload', init);
-  } else {
-    // mac/ie5 and anything else that gets this far
-    // if there's an existing onload function
-    if (typeof window.onload == 'function') {
-      // store it
-      var existing = onload;
-      // add new onload handler
-      window.onload = function() {
-        existing(); // call existing onload function
-        init();     // call init onload function
-      };
-    } else {
-      window.onload = init;
-    }
-  }
+  window.addEventListener('load', init, false)
 }
 
-// expose some functions to outside
-AM.render = render;
-AM.am2tex = am2tex;
+// API
+AM.render = render
+AM.am2tex = am2tex
 })();
 
 if (typeof module !== 'undefined')

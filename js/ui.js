@@ -1,6 +1,6 @@
 // 虚拟 dom (bushi
 function $(tag, options = {}, children = []) {
-  const len = tag.length
+  const len = tag && tag.length
   const el = !tag
     ? document.createDocumentFragment()
     : tag[0] === '#'
@@ -8,8 +8,10 @@ function $(tag, options = {}, children = []) {
     : tag[0] === '.'
     ? document.getElementsByClassName(tag.slice(1))
     : tag[0] === '<' && tag[len-1] === '>'
-    ? document.createElement(tag.slice(1,len-1))
-    : document.getElementsByTagName(tag);
+    ? (options.namespace
+      ? document.createElementNS(namespace, tag)
+      : document.createElement(tag.slice(1,len-1))
+    ) : document.getElementsByTagName(tag);
 
   if (typeof options === 'string') {
     el.innerText = options
@@ -30,7 +32,7 @@ function $(tag, options = {}, children = []) {
         Object.assign(el.style, value)
       } else if (typeof value === 'function') {
         el[key] = value.bind(options)
-      } else {
+      } else if (key !== 'namespace') {
         el[key] = value
       }
     })

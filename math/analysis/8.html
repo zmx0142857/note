@@ -181,7 +181,7 @@
 
 <ol class="corollary">
   <li>`int_0^oo x^(-ln x) dx`
-      `overset (x="e"^t) == int_-oo^oo "e"^(t-t^2) dt`
+      `==^(x="e"^t) int_-oo^oo "e"^(t-t^2) dt`
       `= int_-oo^oo "e"^(-(t-1//2)^2+1//4) dt`
       `= "e"^(1//4) sqrt pi`.
   </li>
@@ -893,6 +893,93 @@
 	</span>
 </p>
 
+<h2>Riemann zeta 函数</h2>
+
+<table>
+  <tr>
+    <td>Riemann zeta 函数</td>
+    <td>`zeta(s) = sum_(n ge 1) 1/n^s`</td>
+  </tr>
+  <tr>
+    <td>Dirichlet eta 函数</td>
+    <td>`eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s` `= (1-2^(1-s)) zeta(s)`</td>
+  </tr>
+  <tr>
+    <td>`beta(s)`</td>
+    <td>`beta(s) = sum_(n ge 0) (-1)^n/(2n+1)^s`</td>
+  </tr>
+</table>
+
+<p class="example">
+  [来自 论文哥] 对 `s gt 0` 有
+  <span class="formula">
+    `zeta(s) Gamma(s) = int_0^oo x^(s-1)/("e"^x-1) dx`,<br>
+    `eta(s) Gamma(s) = int_0^oo x^(s-1)/("e"^x+1) dx`.
+  </span>
+</p>
+
+<p class="proof">
+  记第一个公式右边的积分为 `I`. 化为几何级数并逐项积分有
+  <span class="formula">
+    `I = int_0^oo x^(s-1) sum_(n ge 1) "e"^(-n x) dx`
+    `= sum_(n ge 1) 1/n^s int_0^oo t^(s-1) "e"^-t dt`
+    `= zeta(s) Gamma(s)`.
+  </span>
+  第二个公式的证明类似.
+</p>
+
+<div class="p example">
+  [来自 我是不万能的洛必达]
+  <span class="formula">
+    `sum_(n ge 1) H_n/n^2`
+    `= 2 sum_(n ge 2) H_(n-1)/n^2`
+    `= sum_(m, n ge 1) 1/(m n(m+n))`
+    `= 2 zeta(3)`.
+  </span>
+  前三个级数收敛缓慢, 取一万项后仍与目标有较大差距; 但 zeta(3) 收敛较快.
+<pre>
+&gt;&gt;&gt; sum(1/n**3 for n in range(1, 10000))
+1.202056898159098
+&gt;&gt;&gt; sum(sum(1/(m*n*(m+n)) for m in range(1, 100)) for n in range(1, 100))
+2.293828375511741
+</pre>
+</div>
+
+<ol class="proof">
+  上式记为 (1) = (2) = (3) = (4).
+  <li>令 `t = m + n` 得
+    <span class="formula">
+      `(2) = sum_(t ge 2) 1/t^2 sum_(n=1)^(t-1) (1/n + 1/(t-n))`
+      `= sum_(t ge 2) sum_(n=1)^(t-1) 1/(t n (t-n))`
+      `= (3)`.
+    </span>
+  </li>
+  <li>利用积分 `int_0^oo "e"^(-lambda x) dx = 1/lambda` 得
+    <span class="formula">
+      `(3) = sum_(m, n ge 1) 1/(m n) int_0^oo "e"^(-(m+n)x) dx`
+      `= int_0^oo (sum_(n ge 1) "e"^(-n x)/n)^2 dx`
+      `= int_0^oo ln^2 (1-"e"^-x) dx`
+      `= -int_(-oo)^0 t^2 "d"ln (1-"e"^t)`
+      `= int_(-oo)^0 t^2 "e"^t/(1-"e"^t) dt`
+      `= int_0^oo t^2 "e"^-t/(1-"e"^-t) dt`
+      `= zeta(3) Gamma(3) = (4)`.
+    </span>
+  </li>
+  <li>
+    最后
+    <span class="formula">
+      `(1) - zeta(3)`
+      `= sum_(n ge 1) (H_n - 1//n)/n^2`
+      `= sum_(n ge 2) H_(n-1)/n^2 = (2)//2`.
+    </span>
+    于是 (1) = (2).
+  </li>
+</ol>
+
+<p class="example">
+  `sum_(n ge 1) H_n^2/n^2 = 17/4 zeta(4) = 17/360 pi^4`.
+</p>
+
 <h2>超越函数的积分</h2>
 
 <h3>多重对数积分</h3>
@@ -909,7 +996,7 @@
   <li>`"Li"_(-1)(x) = x/(1-x)^2`,
     `"Li"_0(x) = x/(1-x)`,
     `"Li"_1(x) = -ln(1-x)`;</li>
-  <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -` <a href="#for-zeta-function">`eta(n)`</a> `= (2^(1-n)-1)zeta(n)`;</li>
+  <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -eta(n)`;</li>
   <li>`"Li"_n(x) = int_0^x ("Li"_(n-1)(t))/t dt`;
     换言之 `"d"/dx "Li"_n(x) = ("Li"_(n-1)(x))/x`.
   </li>
@@ -954,6 +1041,24 @@
     </span>
   </li>
 </ol>
+
+<p class="example">
+  <b>一类多重对数积分</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/396955692">知乎</a>]
+  <span class="formula">
+    `bb(i a b c 0) = int_0^1 (ln^a(1-x) ln^b ln^c(1+x))/(1-x) dx`,<br>
+    `bb(i a b c 1) = int_0^1 (ln^a(1-x) ln^b ln^c(1+x))/x dx`,<br>
+    `bb(i a b c 2) = int_0^1 (ln^a(1-x) ln^b ln^c(1+x))/(1+x) dx`.
+  </span>
+  其中 `a + b + c + 1 := n` 称为这个积分的权 (weight).
+  权为 `n` 的多重对数积分的值可以用 `"Li"_k(1) = zeta(k)` 和
+  `"Li"_k(1/2)` 表示, 其中 `k le n`. 我们仅举一例:
+  <span class="formula">
+    `bb(i n 001)`
+    `==^(x mapsto 1-x) bb(i0n00)`
+    `==^(x mapsto "e"^-x) (-1)^n Gamma(n+1)zeta(n+1)`.
+  </span>
+</p>
 
 <h3>多重指数积分</h3>
 
@@ -1042,86 +1147,6 @@
         `"Li"(x) = int_2^x dt/(ln t) = "li"(x) - "li"(2)`,
     </span>
     则 `x to oo` 时, `pi(x) ~ "Li"(x)`.
-</p>
-
-<h2>Riemann zeta 函数</h2>
-
-<span class="formula" id="for-zeta-function">
-  `zeta(s) = sum_(n ge 1) 1/n^s`,
-  <span class="label">Riemann zeta 函数</span>
-</span>
-
-<span class="formula">
-  `eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s`
-  `= (1-2^(1-n)) zeta(s)`,<br/>
-  <span class="label">Dirichlet eta 函数</span>
-</span>
-
-<span class="formula">
-  `beta(s) = sum_(n ge 0) (-1)^n/(2n+1)^s`.
-</span>
-
-<p class="example">
-  [来自 论文哥]
-	考虑积分 `I = int_0^oo t^(x-1)/("e"^t-1) dt` (`x gt 0`),
-	化为几何级数并逐项积分有
-	<span class="formula">
-		`I = int_0^oo t^(x-1) sum_(n ge 1) "e"^(-nt) dt`
-		`= sum_(n ge 1) 1/n^x int_0^oo u^(x-1) "e"^-u "d"u`
-		`= zeta(x) Gamma(x)`.
-	</span>
-</p>
-
-<div class="example">
-  [来自 我是不万能的洛必达]
-  <span class="formula">
-    `sum_(n ge 1) H_n/n^2`
-    `= 2 sum_(n ge 2) H_(n-1)/n^2`
-    `= sum_(m, n ge 1) 1/(m n(m+n))`
-    `= 2 zeta(3)`.
-  </span>
-  前三个级数收敛缓慢, 取一万项后仍与目标有较大差距; 但 zeta(3) 收敛较快.
-<pre>
-&gt;&gt;&gt; sum(1/n**3 for n in range(1, 10000))
-1.202056898159098
-&gt;&gt;&gt; sum(sum(1/(m*n*(m+n)) for m in range(1, 100)) for n in range(1, 100))
-2.293828375511741
-</pre>
-</div>
-
-<ol class="proof">
-  上式记为 (1) = (2) = (3) = (4).
-  <li>令 `t = m + n` 得
-    <span class="formula">
-      `(2) = sum_(t ge 2) 1/t^2 sum_(n=1)^(t-1) (1/n + 1/(t-n))`
-      `= sum_(t ge 2) sum_(n=1)^(t-1) 1/(t n (t-n))`
-      `= (3)`.
-    </span>
-  </li>
-  <li>利用积分 `int_0^oo "e"^(-lambda x) dx = 1/lambda` 得
-    <span class="formula">
-      `(3) = sum_(m, n ge 1) 1/(m n) int_0^oo "e"^(-(m+n)x) dx`
-      `= int_0^oo (sum_(n ge 1) "e"^(-n x)/n)^2 dx`
-      `= int_0^oo ln^2 (1-"e"^-x) dx`
-      `= -int_(-oo)^0 t^2 "d"ln (1-"e"^t)`
-      `= int_(-oo)^0 t^2 "e"^t/(1-"e"^t) dt`
-      `= int_0^oo t^2 "e"^-t/(1-"e"^-t) dt`
-      `= zeta(3) Gamma(3) = (4)`.
-    </span>
-  </li>
-  <li>
-    最后
-    <span class="formula">
-      `(1) - zeta(3)`
-      `= sum_(n ge 1) (H_n - 1//n)/n^2`
-      `= sum_(n ge 2) H_(n-1)/n^2 = (2)//2`.
-    </span>
-    于是 (1) = (2).
-  </li>
-</ol>
-
-<p class="example">
-  `sum_(n ge 1) H_n^2/n^2 = 17/4 zeta(4) = 17/360 pi^4`.
 </p>
 
 <h3>Catalan 常数</h3>
