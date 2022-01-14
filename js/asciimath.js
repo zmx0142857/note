@@ -286,9 +286,9 @@ const symbols = [
 {input:":'",tag:'mo',output:'\u2235',tex:'because',ttype:CONST},
 {input:'/_',tag:'mo',output:'\u2220',tex:'angle',ttype:CONST},
 {input:'/_\\',tag:'mo',output:'\u25B3',tex:'triangle',ttype:CONST},
-{input:'\\ ',tag:'mtext',output:'\u00A0',ttype:CONST,nobackslash:true},
-{input:'quad',tag:'mo',output:'\u00A0\u00A0',ttype:CONST},
-{input:'qquad',tag:'mo',output:'\u00A0\u00A0\u00A0\u00A0',ttype:CONST},
+{input:'\\ ',tag:'mtext',output:'\u00A0',tex:' ',ttype:CONST},
+{input:'quad',tag:'mo',output:'\u00A0\u00A0',tex:'quad',ttype:CONST},
+{input:'qquad',tag:'mo',output:'\u00A0\u00A0\u00A0\u00A0',tex:'qquad',ttype:CONST},
 {input:'cdots',tag:'mo',output:'\u22EF',ttype:CONST},
 {input:'vdots',tag:'mo',output:'\u22EE',ttype:CONST},
 {input:'ddots',tag:'mo',output:'\u22F1',ttype:CONST},
@@ -306,7 +306,7 @@ const symbols = [
 {input:'ZZ',tag:'mo',output:'\u2124',tex:'mathbb{Z}',ttype:CONST,notexcopy:true},
 {input:"'",tag:'mo',output:'\u2032',tex:'^\\prime',ttype:CONST,nobackslash:true},
 {input:"''",tag:'mo',output:'\u2033',ttype:CONST,tex:'^{\\prime\\prime}',nobackslash:true},
-{input:"'''",tag:'mo',output:'\u2034',ttype:CONST,tex:'^{\\prime\\prime\\prime}',notexbs:true},
+{input:"'''",tag:'mo',output:'\u2034',ttype:CONST,tex:'^{\\prime\\prime\\prime}',nobackslash:true},
 
 // functions
 {input:'!!',tag:'mo',output:'!!',ttype:UNARY,rfunc:true,nobackslash:true},
@@ -419,17 +419,20 @@ const symbols = [
 {input:'oiiint',tag:'mo',output:'\u2230',ttype:CONST,nobackslash:true},
 {input:'laplace',tag:'mtext',output:'\u0394',tex:'Delta',ttype:CONST,notexcopy:true},
 {input:'==',tag:'mo',output:'\u2550\u2550',tex:'xlongequal',ttype:UNDEROVER},
-{input:'||',tag:'mo',output:'\u2225',ttype:CONST,nobackslash:true},
+{input:'||',tag:'mo',output:'\u2225',tex:'Vert',ttype:CONST},
 {input:'!||',tag:'mo',output:'\u2226',ttype:CONST,nobackslash:true},
 {input:'S=',tag:'mo',output:'\u224C',ttype:CONST,nobackslash:true},
 {input:'S~',tag:'mo',output:'\u223D',ttype:CONST,nobackslash:true},
-{input:'!-=',tag:'mo',output:'\u2262',ttype:CONST,nobackslash:true},
+{input:'!-=',tag:'mo',output:'\u2262',tex:'not\\equiv',ttype:CONST},
 {input:'!|',tag:'mo',output:'\u2224',ttype:CONST,nobackslash:true},
 {input:'!sube',tag:'mo',output:'\u2288',ttype:CONST,nobackslash:true},
 {input:'!supe',tag:'mo',output:'\u2289',ttype:CONST,nobackslash:true},
 {input:'subne',tag:'mo',output:'\u228A',ttype:CONST,nobackslash:true},
 {input:'supne',tag:'mo',output:'\u228B',ttype:CONST,nobackslash:true},
-{input:'normal',tag:'mo',output:'\u22B4',ttype:CONST,nobackslash:true},
+{input:'lhd',tag:'mo',output:'\u22B2',tex:'lhd',ttype:CONST},
+{input:'rhd',tag:'mo',output:'\u22B3',tex:'rhd',ttype:CONST},
+{input:'normal',tag:'mo',output:'\u22B4',tex:'unlhd',ttype:CONST},
+{input:'rnormal',tag:'mo',output:'\u22B5',tex:'unrhd',ttype:CONST},
 ...(window.asciimath.symbols || [])
 ] // symbols
 
@@ -460,6 +463,7 @@ const isLeftBrace = /\(|\[|\{/
 const isRightBrace = /\)|\]|\}/
 
 function b(s) {
+  if (s[0] === ' ') s = s.slice(1)
   return braced(s) ? s : '{' + s + '}'
 }
 
@@ -738,7 +742,7 @@ const yieldsTex = {
   },
   binary (sym, res, res2, rewind) {
     if (sym.input === 'color')
-      return `{\\color{${res.replace(/[\{\}]/g, '')}}${res2}}`
+      return `{\\color{${parse.arg(rewind)}}${res2}}`
     if (sym.input === 'root')
       return `\\sqrt[${res}]{${res2}}`
     if (sym.output === 'stackrel')
@@ -771,21 +775,21 @@ const yieldsTex = {
       return subFirst ? `\\xlongequal[${res}]{${res2}}`
         : `\\xlongequal[${res2}]{${res}}`
     } else {
-      return `{${node}${sym1.input}{${res}}${sym2.input}{${res2}}}`
+      return node + sym1.input + b(res) + sym2.input + b(res2)
     }
   },
   infixHalf (sym0, sym1, node, res, subFirst, underover) {
     if (sym0.input === '==') {
-      return node + (subFirst ? `[${res}]{}` : `{${res}}`)
+      return node + (subFirst ? `[${res}]{}` : b(res))
     } else {
-      return node + sym1.input + '{' + res + '}'
+      return node + sym1.input + b(res)
     }
   },
   infixFunc (node, res) {
     return b(node + res)
   },
   placeholder () {
-    return '{}'
+    return '{\\square}'
   },
   infixNode (sym0, node) {
     return sym0.input === '==' ? node + '{}' : node
@@ -1025,11 +1029,12 @@ const parse = {
       return yields.directOutput(sym)
     }
   },
+  // for example pi_1^233!/233
   infix () {
     parse.skip()
-    let sym0 = parse.symbol()
-    let node = parse.simple()
-    let sym1 = parse.symbol()
+    let sym0 = parse.symbol() // for example pi
+    let node = parse.simple() // for example π
+    let sym1 = parse.symbol() // for example _
     const underover = (sym0.ttype === UNDEROVER || sym0.ttype === UNARYUNDEROVER)
 
     // 类似于 sin, log 相对分式优先
@@ -1038,31 +1043,37 @@ const parse = {
       parse.skip(sym1.input.length)
       return yields.rfunc(sym1, node)
     }
-
-    // either _ or ^
     if (sym1.ttype !== INFIX || sym1.input === '/') {
       return yields.infixNode(sym0, node)
     }
     parse.skip(sym1.input.length)
-    let res = parse.simple()
+
+    // now sym1 is either _ or ^
+    let res = parse.simple() // for example 1
     if (res)
       res = yields.strip(res)
     else // show box in place of missing argument
       res = yields.placeholder()
-    let sym2 = parse.symbol()
+
+    let sym2 = parse.symbol() // for example ^
     const subFirst = sym1.input === '_'
     if (sym2.input === (subFirst ? '^' : '_')) {
       parse.skip(sym2.input.length)
-      let res2 = parse.simple()
+      let res2 = parse.simple() // for example 233
       res2 = yields.strip(res2)
       node = yields.infix(sym0, sym1, sym2, node, res, res2, subFirst, underover)
     } else {
       node = yields.infixHalf(sym0, sym1, node, res, subFirst, underover)
     }
+
+    let sym3 = parse.symbol() // for example !
+    if (sym3.rfunc) {
+      parse.skip(sym3.input.length)
+      node = yields.rfunc(sym3, node)
+    }
     if (sym0.func) {
-      sym2 = parse.symbol()
-      if (sym2.ttype != INFIX && sym2.ttype != RIGHTBRACKET) {
-        res = parse.infix()
+      if (sym3.ttype !== INFIX && sym3.ttype !== RIGHTBRACKET) {
+        res = parse.infix() // recur
         node = yields.infixFunc(node, res)
       }
     }
@@ -1281,7 +1292,8 @@ function loadScript(src, onload = null) {
 }
 
 function hasMathML() {
-  return /safari|firefox/i.test(navigator.userAgent)
+  const { userAgent } = navigator
+  return !/chrome/i.test(userAgent) && /safari|firefox/i.test(userAgent)
 }
 
 function notify () {

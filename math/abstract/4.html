@@ -342,7 +342,7 @@
 <h3>子群列</h3>
 
 <p class="definition">
-	令 `G` 为非平凡群, `M &#8882; G` (即 `M normal G` 且 `M != G`).
+	令 `G` 为非平凡群, `M lhd G` (即 `M normal G` 且 `M != G`).
 	称 `M` 为 `G` 的一个<b>极大正规子群</b>, 如果包含 `M` 的 `G`
 	的正规子群只有 `M` 和 `G`, 即
 	<span class="formula">
@@ -356,20 +356,20 @@
 
 <p class="proof">
 	`|G| = 2` 时, `{e}` 即是 `G` 的极大正规子群; `|G| = n gt 2` 时,
-	任取 `M_1 &#8882; G`, 若 `M_1` 不极大, 则存在 `M_2 &#8882; G`,
+	任取 `M_1 lhd G`, 若 `M_1` 不极大, 则存在 `M_2 lhd G`,
 	`M_1 sub M_2`. 这蕴含 `|M_1| lt |M_2|`. 若 `M_2` 不极大, 类似可得
 	`M_3, M_4, cdots`, 且 `|M_1| lt |M_2| lt |M_3| lt cdots`. 但 `|G|`
 	有限, 这一序列也有限, 所以存在 `G` 的极大正规子群.
 </p>
 
 <p class="theorem">
-	若群 `M &#8882; G`, 则 `M` 为 `G` 的一个极大正规子群当且仅当
+	若群 `M lhd G`, 则 `M` 为 `G` 的一个极大正规子群当且仅当
 	`G//M` 为一单群.
 </p>
 
 <p class="proof">
 	充分性: 任取 `N normal G`, 且 `M sub N`,
-	由 `M &#8882; G` 知 `M &#8882; N`.
+	由 `M lhd G` 知 `M lhd N`.
 	考察 `N//M = {n M | n in N} le G//M`. 因为 `N normal G`, 所以
 	`N//M normal G//M`, 但 `G//M` 为单群, 又由 `M sub N`,
 	`N//M != {M}`, 故 `N//M = G//M`, 即 `N = G`.<br/>
@@ -382,7 +382,7 @@
 <p class="definition">
 	令 `G` 为非平凡群, `k ge 1`. 称 `G` 的子群列
 	<span class="formula">
-		`G = G_0 &#8883; G_1 &#8883; cdots &#8883; G_k = {e}`
+		`G = G_0 rhd G_1 rhd cdots rhd G_k = {e}`
 	</span>
 	为 `G` 的一个长度为 `k` 的<b>合成群列</b>,
 	如果各个<b>合成因子</b> `G_i//G_(i+1)` 为一单群,
@@ -399,9 +399,9 @@
 </p>
 
 <p class="proof">
-	`|G| = 2` 时, `G &#8883; {e}` 即为 `G` 的一个合成群列.
+	`|G| = 2` 时, `G rhd {e}` 即为 `G` 的一个合成群列.
 	`|G| = n gt 2` 时, 假设阶小于 `n` 的非平凡有限群有合成群列, 考查阶为
-	`n` 的情形. 若 `G` 为单群, 则 `G &#8883; {e}` 为 `G` 的一个合成群列;
+	`n` 的情形. 若 `G` 为单群, 则 `G rhd {e}` 为 `G` 的一个合成群列;
 	否则取 `G` 的极大正规子群 `M`, 显然 `1 lt |M| lt |G|`. 由归纳假设,
 	`M` 有合成群列. 又 `G//M` 为单群, 可以将 `G` 加入到 `M` 的合成群列中,
 	成为 `G` 的一个合成群列.
@@ -410,7 +410,7 @@
 <p class="definition">
 	令 `G` 为一群, `k ge 1`, 称 `G` 的子群列
 	<span class="formula">
-		`G = G_0 &#8885; G_1 &#8885; cdots &#8885; G_k = {e}`
+		`G = G_0 rnormal G_1 rnormal cdots rnormal G_k = {e}`
 	</span>
 	为 `G` 的一个长度为 `k` 的<b>次正规群列</b>,
 	`G_i//G_(i+1)` 称为 `G` 的<b>次正规因子</b>;
@@ -535,7 +535,7 @@
 	<li>`rArr` 3. 显然.</li>
 	<li>`rArr` 1. 令 `k ge 1`,
 		<span class="formula">
-			`G = G_0 &#8885; G_1 &#8885; cdots &#8885; G_k = {e}`
+			`G = G_0 rnormal G_1 rnormal cdots rnormal G_k = {e}`
 		</span>
 		为 `G` 的一个次正规群列, 且 `G_i//G_(i+1)` 为一 Abel 群, `i = 0,
 		1, cdots, k-1`. 下证 `G^((i)) le G_i`, `i = 1, 2, cdots, k`,
@@ -560,7 +560,7 @@
 	充分性. 素数阶循环群必为 Abel 群, 合成群列是次正规群列.
 	应用<a class="ref" href="#the-solvable-iff"></a>知 `G` 可解.<br/>
 	必要性. 由于 `G` 为非平凡有限群, 故 `G` 有一合成群列. 令 `H//K` 为 `G`
-	的一个合成因子, 其中 `K &#8882; H le G`, 则由 `G` 可解知,
+	的一个合成因子, 其中 `K lhd H le G`, 则由 `G` 可解知,
 	`G` 的子群 `K, H` 都可解, 从而 `H//K` 可解. 但 `H//K` 又是单群,
 	所以 `H//K` 为一素数阶循环群.
 </p>
