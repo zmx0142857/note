@@ -119,6 +119,32 @@ Notify.prototype.remove = function () {
   notify && document.body.removeChild(notify)
 }
 
+/**
+ * Range
+ */
+window.Range = function (id, oninput) {
+  this.span = $('<label>', {
+    className: 'ui-range-label',
+  })
+  this.range = $('<input>', {
+    className: 'ui-range-input',
+    attrs: {
+      type: 'range',
+      min: 0,
+      max: 3,
+      step: 0.05,
+      value: 0.5,
+    },
+    oninput,
+  })
+  this.el = $('#' + id)
+  this.el.appendChild(this.span)
+  this.el.appendChild(this.range)
+  setTimeout(oninput)
+}
+
+// -------------------------------
+
 let style
 const head = $('head')[0]
 function addStyle (css) {
@@ -158,6 +184,14 @@ addStyle(`
 }
 @keyframes whitebar {
   50% { left: 75% }
+}
+.ui-range-label {
+  display: inline-block;
+  width: 60px;
+  line-height: 30px;
+}
+.ui-range-input {
+  vertical-align: middle;
 }
 `)
 

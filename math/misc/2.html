@@ -444,6 +444,64 @@
   <li>在 2. 中令 `x = -1` 再用 `2n+1` 替换 `n`.</li>
 </ol>
 
+<p class="proposition" id="prop-sum-sq-cot">
+  `sum_(k=1)^n cot^2{:(k pi)/(2n+1):} = 1/3 (2n;2)`.
+  利用这个恒等式可以证明 `zeta(2) = pi^2//6`, 参见 <a href="../number/10.html#prop-basel">Basel 问题</a>.
+</p>
+
+<p class="proof">
+  记 `N = 2n+1`, 用 De Moivre 公式得到
+  <span class="formula">
+    `(cot theta + "i")^N`
+    `= (cos theta + "i" sin theta)^N/(sin^N theta)`
+    `= (cos N theta + "i" sin N theta)/(sin^N theta)`.
+  </span>
+  两边取虚部,
+  <span class="formula">
+    `(2n+1) cot^(2n) theta - (2n+1;3) cot^(2n-2) theta + cdots + (-1)^n`
+    `= (sin (2n+1) theta)/(sin^(2n+1) theta)`.
+  </span>
+  上式左边是 `cot^2 theta` 的 `n` 次多项式, 它的所有根为
+  <span class="formula">
+    `cot^2 theta_k`, `quad theta_k = (k pi)/(2n+1)`, `quad k = 1, cdots, n`.
+  </span>
+  由 Vieta 定理, 它的所有根之和为
+  <span class="formula">
+    `1/(2n+1) (2n+1;3) = 1/3 (2n;2)`.
+  </span>
+</p>
+
+<p class="proof">
+  [来自 折棒]
+  记 `N = 2n+1`, 从三角形中的恒等式 `sum_"cyc" cot A cot B = 1` 出发,
+  对全体满足 `a + b + c = N` 的正整数 `a, b, c` 求和, 用插空法得到
+  <span class="formula">
+    `sum_(stackrel(a+b+c=N)(a, b, c in ZZ^+))
+    sum_"cyc" cot{:(a pi)/N:}cot{:(b pi)/N:} = (2n;2)`.
+  </span>
+  对任意 `a != b`, 上式左边形如 `cot{:(a pi)/N:}cot{:(b pi)/N:}`
+  的非平方项有 6 个, 而形如 `cot^2{:(a pi)/N:}` 的平方项有 3 个.
+  我们来证明这些非平方项相互抵消; 事实上, 所有非平方项的集合为
+  <span class="formula">
+    `S = { (a, b): a, b in ZZ^+, a != b, a + b lt N }`
+  </span>
+  注意到 `N` 是奇数, 因而
+  <span class="formula">
+    `(a, b) mapsto {
+      (a, N-b), if a lt b;
+      (N-a, b), if a gt b;
+    :}`
+  </span>
+  是 `S` 上的双射.
+  换言之, 每个非平方项 `cot{:(a pi)/N:}cot{:(b pi)/N:}` 都对应另一项
+  `cot{:(a pi)/N:}cot{:(N-b)/N pi:}`. 这两项的和为 0, 正好抵消.
+  <br>
+  最后, 将和式左边所有平方项相加, 由于 `a + b lt N`, 故 `a = b` 的最大取值为 `n`; 我们有
+  <span class="formula">
+    `3 sum_(k=1)^n cot^2{:(a pi)/N:} = (2n;2)`.
+  </span>
+</p>
+
 <h4>辅助角公式</h4>
 
 <span class="formula">

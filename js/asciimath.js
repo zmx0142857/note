@@ -76,6 +76,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 */
 
+var asciimath // may have been decleared
+
 ;(function(){
 
 // token types
@@ -96,7 +98,7 @@ const CONST = 0,
   MATRIX = 14,
   UNARYUNDEROVER = 15
 
-const AM = window.asciimath = {
+const AM = asciimath = {
   // configures
   katexpath: 'katex.min.js',
   onload: () => render(document.body),
@@ -105,7 +107,7 @@ const AM = window.asciimath = {
   delim1: '`',
   displaystyle: true,
   viewsource: false,
-  ...(window.asciimath || {}),
+  ...(asciimath || {}),
 
   // defines
   define: [
@@ -124,7 +126,7 @@ const AM = window.asciimath = {
       if ($3[0] === '(') $3 = $3.slice(1,-1).split(/\s+/).join(' del ')
       return `(del${$1} ${$2})/(del ${$3})`
     }],
-    ...(window.asciimath && window.asciimath.define || [])
+    ...(asciimath && asciimath.define || [])
   ],
 
   // privates
@@ -433,7 +435,7 @@ const symbols = [
 {input:'rhd',tag:'mo',output:'\u22B3',tex:'rhd',ttype:CONST},
 {input:'normal',tag:'mo',output:'\u22B4',tex:'unlhd',ttype:CONST},
 {input:'rnormal',tag:'mo',output:'\u22B5',tex:'unrhd',ttype:CONST},
-...(window.asciimath.symbols || [])
+...(asciimath.symbols || [])
 ] // symbols
 
 function initSymbols() {
