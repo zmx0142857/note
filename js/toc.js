@@ -17,7 +17,7 @@ math: {
     {title:'问题', src:'misc/0.html', date:'2021-12-11'},
     {title:'三角函数', src:'misc/2.html', date:'2021-12-06'},
     {title:'不等式', src:'misc/3.html', date:'2021-11-29'},
-    {title:'微积分不等式', src:'misc/4.html', date:'2021-12-14'},
+    {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
     {title:'数学家', src:'misc/6.html'},
     {title:'算术与进制', src:'misc/7.html'},

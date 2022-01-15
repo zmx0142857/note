@@ -7,10 +7,21 @@ function getDefault(val, defaultVal) {
 }
 
 function Plot(el, config={}) {
-  this.canvas = document.getElementById(el)
+  const canvas = this.canvas = document.getElementById(el)
+
+  // 移动端分辨率处理
+  this.width = canvas.offsetWidth
+  this.height = canvas.offsetHeight
+  const dpr = window.devicePixelRatio
+  canvas.style.zoom = 1/dpr
+  canvas.setAttribute('width', this.width * dpr)
+  canvas.setAttribute('height', this.height * dpr)
+
   this.ctx = this.canvas.getContext('2d')
+  this.ctx.scale(dpr, dpr)
   this.ctx.font = "12px sans-serif"
   this.color = getDefault(config.color, '#337ab7')
+
 
   this.step = getDefault(config.step, 5e-3)
   this.padding = 10
@@ -31,8 +42,8 @@ Plot.prototype.geometry = function(config) {
   this.ymin = getDefault(config.ymin, -1)
   this.xmax = getDefault(config.xmax, 5)
   this.ymax = getDefault(config.ymax, 5)
-  this.xscale = (this.canvas.width-2*this.padding) / (this.xmax-this.xmin)
-  this.yscale = (this.canvas.height-2*this.padding) / (this.ymax-this.ymin)
+  this.xscale = (this.width-2*this.padding) / (this.xmax-this.xmin)
+  this.yscale = (this.height-2*this.padding) / (this.ymax-this.ymin)
   if (config.keepRatio) {
     this.xscale = this.yscale = Math.min(this.xscale, this.yscale)
   }
@@ -69,7 +80,7 @@ Plot.prototype.text = function(text, x, y) {
 }
 
 Plot.prototype.clear = function() {
-  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+  this.ctx.clearRect(0, 0, this.width, this.height)
   return this
 }
 
@@ -87,8 +98,8 @@ function getProperTick(range, pixels) {
 
 Plot.prototype.axis = function(config) {
   config = config || {}
-  config.xtick = config.xtick || getProperTick(this.xmax-this.xmin, this.canvas.width)
-  config.ytick = config.ytick || getProperTick(this.ymax-this.ymin, this.canvas.height)
+  config.xtick = config.xtick || getProperTick(this.xmax-this.xmin, this.width)
+  config.ytick = config.ytick || getProperTick(this.ymax-this.ymin, this.height)
   config.xlabel = config.xlabel || config.xtick
   config.ylabel = config.ylabel || config.ytick
 
@@ -97,12 +108,12 @@ Plot.prototype.axis = function(config) {
   // x 轴
   this.ctx.beginPath()
   this.ctx.moveTo(0, origin[1])
-  this.ctx.lineTo(this.canvas.width, origin[1])
+  this.ctx.lineTo(this.width, origin[1])
   this.ctx.stroke()
   // y 轴
   this.ctx.beginPath()
   this.ctx.moveTo(origin[0], 0)
-  this.ctx.lineTo(origin[0], this.canvas.height)
+  this.ctx.lineTo(origin[0], this.height)
   this.ctx.stroke()
 
   function myceil(x, step) {

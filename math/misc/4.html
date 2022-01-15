@@ -8,7 +8,7 @@
 
 <body>
 
-<h2>指对数函数及其不等式</h2>
+<h2>曲边梯形不等式</h2>
 
 <p class="lemma">
 	<b>Hadamard 不等式 (曲边梯形不等式)</b>
@@ -72,7 +72,7 @@
 </p>
 
 <p class="proof">
-	微分学的证明. 先证明 `b = 1` 的情形:
+	(比值法) 微分学的证明. 先证明 `b = 1` 的情形:
 	<span class="formula">
 		`sqrt x lt (x-1)/(ln x) lt (x+1)/2`,
 		<span class="label" id="for-lnx-estimate"></span>
@@ -111,13 +111,89 @@
   求和即得.
 </p>
 
-<ol class="example">
+<h2>一阶估计</h2>
+
+<h3>幂函数的一阶估计</h3>
+
+<p class="theorem">
+  <b>Bernoulli 不等式</b>
+  设实数 `x gt -1`, `a ge 0`, 则
+  <span class="formula">
+    `(1+x)^a ge 1 + a x`, `quad a ge 1`,<br>
+    `(1+x)^a le 1 + a x`, `quad 0 le a le 1`.
+  </span>
+  等号成立当且仅当 `a = 0, 1` (曲线与直线重合) 或
+  `x = 0` (曲线与直线相切).
+</p>
+
+<p class="proof">
+  在 `0` 到 `x` 的区间上 Taylor 展开
+  <span class="formula">
+    `(1+x)^a = 1 + a x + (a(a-1))/2 xi^2`
+  </span>
+  即得结论.
+</p>
+
+<p class="proof">
+  Bernoulli 不等式是很基础的不等式, 这里就 `a` 等于正整数 `n`
+  的情形给出归纳法证明: `n = 1` 时 `(1+x)^1 = 1 + 1*x` 成立.
+  假设结论对正整数 `n-1` 成立, 则
+  <span class="formula">
+    `(1+x)^n`
+    `ge (1+x) (1 + (n-1) x)`
+    `= 1 + n x + (n-1)x^2`
+    `ge 1 + n x`.
+  </span>
+  等号成立当且仅当 `n = 1` 或 `x = 0`.
+</p>
+
+<div class="img" title="Bernoulli 不等式">
+  <canvas id="img-bernoulli" width="300" height="300"></canvas>
+  <div id="img-bernoulli-range"></div>
+</div>
+
+<p class="example">
+  设 `a, b gt 0`, `r gt 1`, 证明 `(a+b)^r gt a^r + b^r`.
+</p>
+
+<p class="proof">
+  (比值法) 设 `x = a/b`, 只需证 `x gt 0` 时 `(1+x)^r - x^r gt 1`.
+  设 `f(x) = (1+x)^r - x^r`, 则 `f(0) = 1`, 且 `x gt 0` 时 `f'(x)
+  = r(1+x)^(r-1) - r x^(r-1) gt 0`, 因此不等式成立.
+</p>
+
+<h3>指对数函数的一阶估计</h3>
+
+<p class="theorem">
   <b>指对数函数的一阶估计</b>
-  <li>`"e"^x ge 1 + x`, 等号成立当且仅当 `x = 0`;</li>
-  <li>`"e"^x le 1/(1-x)` (`x lt 1`), 等号成立当且仅当 `x = 0`;</li>
-  <li>`1-1/x le ln x le x-1`, 等号成立当且仅当 `x = 1`;</li>
-  <li>`x^x ge "e"^(x-1)` (`x gt 0`), 等号成立当且仅当 `x = 1`;</li>
-  <li>`x gt 0` 时由 3. 得 `1/(x+1) lt ln (1+1/x) lt 1/x`, 即 `(1+1/x)^x lt "e" lt (1+1/x)^(x+1)`.</li>
+  在 `0` 到 `x` 的区间上 Taylor 展开,
+  <span class="formula">
+    `"e"^x = 1 + x + xi^2/2 ge 1 + x`,<br>
+    `ln(1+x) = x - eta^2/2 le x`.
+  </span>
+</p>
+
+<ol class="corollary">
+  <li>`1 + x le "e"^x le 1//(1-x)`, 等号成立当且仅当 `x = 0`
+    (右半不等式只对 `x lt 1` 成立);</li>
+  <li>`1-1//x le ln x le x-1`, 等号成立当且仅当 `x = 1`;</li>
+  <li>`x gt 0` 时, `1/(x+1) lt ln (1+1/x) lt 1/x`, 即 `(1+1/x)^x lt "e" lt (1+1/x)^(x+1)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>设 `f(x) = "e"^x - x - 1`, 则 `f(0) = 0`, 且
+    <span class="formula">
+      `f'(x) = "e"^x - 1 {
+        lt 0, if x lt 0;
+        gt 0, if x gt 0;
+      :}`
+    </span>
+    于是 `f(x) ge 0`. 换元 `x mapsto -x` 得 `"e"^-x ge 1 - x`,
+    当 `x lt 1` 时两边取倒数即得结论.
+  </li>
+  <li>由 1. 取对数得 `x ge ln(1+x)`, 换元 `x mapsto x-1`,
+    得 `x - 1 ge ln x`; 再换元 `x mapsto 1//x`, 得 `1//x - 1 ge -ln x`.
+  </li>
 </ol>
 
 <div class="flex">
@@ -129,50 +205,43 @@
   </div>
 </div>
 
-<ol class="proof">
-	<li>设 `f(x) = "e"^x - x - 1`, 则 `f(0) = 0`, 且
-		<span class="formula">
-			`f'(x) = "e"^x - 1 {
-				lt 0, if x lt 0;
-				gt 0, if x gt 0;
-			:}`
-		</span>
-		于是结论成立.
-	</li>
-  <li>由 1. `"e"^-x ge 1 - x`, 变形即得结论.</li>
-  <li>由 1. 取对数得 `x ge ln(1+x)`, 换元 `x = x-1`, 得 `x - 1 ge ln x`;
-    再换元 `x = 1/x`, 得 `1/x - 1 ge -ln x`.
-  </li>
-</ol>
-
 <p class="remark">
   注意, 要证的不等式中含有分式时, 一般要将其线性化为整式, 再求导证明.
   如 `"e"^x le 1//(1-x)` 直接求导只会越求越繁.
 </p>
 
-<p class="example">
-  常用不等式 `x ln x gt x "e"^-x - 2//"e"`.
-</p>
+<ol class="corollary">
+  <b>`x^x` 的两个估计</b> `x gt 0` 时有
+  <li>`x^x ge "e"^(x-1)`, 等号成立当且仅当 `x = 1`;</li>
+  <li>`x ln x gt x "e"^-x - 2//"e"`.</li>
+</ol>
 
-<p class="proof">
-  提示: 左边的最小值等于右边的最大值.
-</p>
+<ol class="proof">
+  <li>取对数, 两边同除以 `x`, 就化为对数函数的一阶估计;</li>
+  <li>(过渡法) 这是因为左边的最小值等于右边的最大值.
+    这相当于以常数函数作为证明的过渡.
+  </li>
+</ol>
+
+<div class="img" title='`x^x` 的估计. 蓝色曲线是 `x ln x`, 下方红色曲线是 `x "e"^-x - 2//"e"`.'>
+  <canvas id="img-x-pow-x-approx" width="300" height="300"></canvas>
+</div>
 
 <ol class="example">
-	<li>`prod_(n ge 1) (1 + 1/3^n) le sqrt "e"`;</li>
+  <li>`prod_(n ge 1) (1 + 1/3^n) le sqrt "e"`;</li>
   <li>`1/2 3/4 5/6 cdots = 0`.</li>
 </ol>
 
 <ol class="proof">
-  利用不等式 `"e"^x gt 1 + x`,
-	<li>
-		<span class="formula">
-			`prod_(n ge 1) (1 + 1/3^n)`
-			`le prod_(n ge 1) "e"^(3^-n)`
-			`= exp(sum_(n ge 1) 3^-n)`
-			`= sqrt "e"`.
-		</span>
-	</li>
+  利用不等式 `1 + x le "e"^x`,
+  <li>
+    <span class="formula">
+      `prod_(n ge 1) (1 + 1/3^n)`
+      `le prod_(n ge 1) "e"^(3^-n)`
+      `= exp(sum_(n ge 1) 3^-n)`
+      `= sqrt "e"`.
+    </span>
+  </li>
   <li>
     原式等于 `(1-1/2)(1-1/4)(1-1/6)`
     `le "e"^(-1/2-1/4-1/6 cdots)`
@@ -180,40 +249,32 @@
   </li>
 </ol>
 
-<p class="example">
-	证明 `x gt 1` 时, `x^2-1 gt 2 x ln x`.
-</p>
+<ol class="example">
+  <li>`x gt 1` 时, `x^2-1 gt 2 x ln x`;</li>
+  <li>`x gt 0` 时, `ln(1+x) gt (2x)/(x+2)`.</li>
+</ol>
 
-<p class="proof">
-  令 `f(x) = x^2 - 1 - 2x ln x`, 则 `f(1) = 0`, `f'(x) = 2x - 2 - 2 ln x`
-  `= 2(x-1 - ln x) gt 0`.
-</p>
-
-<p class="proof">
-	在对数均值不等式中取 `a = x^2`, `b = 1`, 则
-	<span class="formula">
-		`sqrt(x^2) lt (x^2 - 1)/(ln x^2)`,
-	</span>
-	整理即得结果.
-</p>
-
-<p class="example">
-	设 `a, b gt 0`, `r gt 1`, 证明 `(a+b)^r gt a^r + b^r`.
-</p>
-
-<p class="proof">
-	设 `x = a/b`, 只需证 `x gt 0` 时 `(1+x)^r - x^r gt 1`.
-	设 `f(x) = (1+x)^r - x^r`, 则 `f(0) = 1`, 且 `x gt 0` 时 `f'(x)
-	= r(1+x)^(r-1) - r x^(r-1) gt 0`, 因此不等式成立.
-</p>
+<ol class="proof">
+  <li>令 `f(x) = x^2 - 1 - 2x ln x`, 则 `f(1) = 0`,
+    而 `f'(x) = 2x - 2 - 2 ln x` `= 2(x-1 - ln x) gt 0`, 故结论成立.
+    也可以在对数均值不等式中取 `a = x^2`, `b = 1`, 则
+    <span class="formula">
+      `sqrt(x^2) lt (x^2 - 1)/(ln x^2)`,
+    </span>
+    整理即得结果.
+  <li>
+  <li>只需说明 `x = 0` 时两边都等于 `0`, 而 `x gt 0` 时
+    `ln(1+x) - (2x)/(x+2)` 的导数大于零即可.
+    也可以对 `a = 1+x`, `b = 1` 使用对数均值不等式.
+  </li>
+</ol>
 
 <p class="example">
   `2x "e"^(x-1) ge (x^2+1)(ln x+1)`.
 </p>
 
 <ol class="proof">
-  `x = 1` 时, 等号成立.
-  使用多项式过渡, 只需证:
+  `x = 1` 时, 等号成立.  使用多项式过渡, 只需证:
   <span class="formula">
     左边 `gt 2x^2 gt` 右边, `quad 0 lt x lt 1`;<br/>
     左边 `gt x^3 + x gt` 右边, `quad x gt 1`.
@@ -228,58 +289,53 @@
   </li>
 </ol>
 
-<ol class="example">
-	<li>`x gt 0` 时, `ln(1+x) gt (2x)/(x+2)`.</li>
-	<li>`"e"^x gt ln x + 2x +1/sqrt 2`.</li>
-</ol>
+<p class="example">
+  `"e"^x gt ln x + 2x + 1/sqrt 2`.
+</p>
 
-<ol class="proof">
-	<li>只需说明 `x = 0` 时两边都等于 `0`, 而 `x gt 0` 时 `ln(1+x)
-		- (2x)/(x+2)` 的导数大于零即可.
-		也可以对 `a = 1+x`, `b = 1` 使用对数均值不等式.
-	</li>
-	<li>??
-	</li>
-</ol>
+<p class="proof">
+  ??
+</p>
+
+<h3>Lambert W 函数</h3>
 
 <ol class="example">
-	<b>Lambert W 函数</b>
-	<li>
-	在不等式 `"e"^t ge t+1` 中令 `t = a x + ln x` (`a != 0`) 得
-	<span class="formula">
-		`x "e"^(a x) ge a x + ln x + 1`, 等号成立当且仅当 `t = 0`.
-	</span>
-	从而得到:
-	不等式 `x"e"^(a x) ge b x + ln x + 1` 对所有 `x gt 0`
-	成立当且仅当 `a ge b`.
-	</li>
-	<li>现在考虑等号成立的条件
-		<span class="formula">
-			`a x + ln x = 0`, 或 `x "e"^(a x) = 1`.
-		</span>
-		记 `x "e"^x` 的反函数为 Lambert W 函数 `W(x)`,
-		即 `W(x) "e"^(W(x)) = x`.
-		于是原方程化为 `a x"e"^(a x) = a`, 得到 `x = W(a)//a`.
-	</li>
-	<li>用 Lambert W 函数求解
-		<span class="formula">
-			`a/x + ln x = 0`, 或 `x "e"^(a/x) = 1`.
-		</span>
-		两边取倒数再同乘 `-a` 得 `-a/x "e"^(-a/x) = -a`,
-		于是 `-a/x = W(-a)`, `x = -a // W(-a)`.
-	</li>
-	<li>用 Lambert W 函数求解
-		<span class="formula">
-			`x^x = a`, 或 `x ln x = ln a`.
-		</span>
-		方程化为 `"e"^(ln x) ln x = ln a`,
-		于是 `ln x = W(ln a)`, `x = "e"^(W(ln a))`.
-	</li>
+  <b>Lambert W 函数</b>: `x "e"^x` 的反函数.
+  <li>
+    在不等式 `"e"^t ge t+1` 中令 `t = a x + ln x` (`a != 0`) 得
+    <span class="formula">
+      `x "e"^(a x) ge a x + ln x + 1`, 等号成立当且仅当 `t = 0`.
+    </span>
+    从而得到:
+    不等式 `x"e"^(a x) ge b x + ln x + 1` 对所有 `x gt 0`
+    成立当且仅当 `a ge b`.
+  </li>
+  <li>现在考虑等号成立的条件
+    <span class="formula">
+      `a x + ln x = 0`, 或 `x "e"^(a x) = 1`.
+    </span>
+    记 `x "e"^x` 的反函数为 Lambert W 函数 `W(x)`,
+    即 `W(x) "e"^(W(x)) = x`.
+    于是原方程化为 `a x"e"^(a x) = a`, 得到 `x = W(a)//a`.
+  </li>
+  <li>用 Lambert W 函数求解
+    <span class="formula">
+      `a/x + ln x = 0`, 或 `x "e"^(a/x) = 1`.
+    </span>
+    两边取倒数再同乘 `-a` 得 `-a/x "e"^(-a/x) = -a`,
+    于是 `-a/x = W(-a)`, `x = -a // W(-a)`.
+  </li>
+  <li>用 Lambert W 函数求解
+    <span class="formula">
+      `x^x = a`, 或 `x ln x = ln a`.
+    </span>
+    方程化为 `"e"^(ln x) ln x = ln a`,
+    于是 `ln x = W(ln a)`, `x = "e"^(W(ln a))`.
+  </li>
 </ol>
 
 <div class="img" title="Lambert W 函数以 `y = -1` 为界有两个分支">
-  <canvas id="img-lambert-w" width="300" height="300"
-  ></canvas>
+  <canvas id="img-lambert-w" width="300" height="300"></canvas>
 </div>
 
 <h3>极值点偏移</h3>
@@ -681,39 +737,9 @@
 	关于参数 `alpha` 单调递增.
 </p>
 
-<p class="theorem">
-  <b>Bernoulli 不等式</b>
-  设实数 `x gt -1`, `a ge 0`, 则
-  <span class="formula">
-    `(1+x)^a ge 1 + a x`, `quad a ge 1`,<br>
-    `(1+x)^a le 1 + a x`, `quad 0 le a le 1`.
-  </span>
-  等号成立当且仅当 `a = 0, 1` 或 `x = 0`.
-</p>
-
-<p class="proof">
-  在 `0` 到 `x` 的区间上 Taylor 展开
-  <span class="formula">
-    `(1+x)^a = 1 + a x + (a(a-1))/2 xi^2`
-  </span>
-  即得结论.
-</p>
-
-<p class="proof">
-  Bernoulli 不等式是很基础的不等式, 这里就 `a` 等于正整数 `n`
-  的情形给出归纳法证明: `n = 1` 时 `(1+x)^1 = 1 + 1*x` 成立.
-  假设结论对正整数 `n-1` 成立, 则
-  <span class="formula">
-    `(1+x)^n`
-    `ge (1+x) (1 + (n-1) x)`
-    `= 1 + n x + (n-1)x^2`
-    `ge 1 + n x`.
-  </span>
-  等号成立当且仅当 `n = 1` 或 `x = 0`.
-</p>
-
 <script src="../../js/note.js?type="></script>
 <script src="../../js/plot.js"></script>
+<script src="../../js/ui.js"></script>
 <script>
 const { exp, log } = Math
 
@@ -733,6 +759,22 @@ new Plot('img-lambert-w')
   .geometry({xmin: -0.5, xmax: 5, ymin: -5, ymax: 2}).axis()
   .plot(t => t*exp(t), t => t, {min:-5.5, max:2})
   .plot(t => -1, {color: 'grey'})
+
+const plotBernoulli = new Plot('img-bernoulli')
+const range = new Range('img-bernoulli-range', e => {
+  const a = e ? Number(e.target.value) : 0.5
+  range.span.innerText = 'a = ' + a
+  plotBernoulli.clear()
+    .geometry({ xmin: -1, xmax: 5, ymin: -1, ymax: 5 }).axis()
+    .plot(x => (1+x)**a)
+    .plot(x => 1+a*x, {color: 'grey'})
+})
+
+new Plot('img-x-pow-x-approx')
+  .geometry({xmin: -0.5, xmax: 4, ymin: -2, ymax: 2}).axis()
+  .plot(x => x*log(x))
+  .plot(x => x-1, {color: 'grey'})
+  .plot(x => x * exp(-x) - 2 * exp(-1), {color: 'red'})
 </script>
 </body>
 </html>
