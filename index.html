@@ -32,7 +32,7 @@ body {
   text-rendering: optimizeLegibility;
   font-size: 16px;
   font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
-  overflow-x: hidden;
+  margin: 0;
 }
 
 header {
@@ -383,7 +383,7 @@ li.isnew::after {
 
 <article id="article">
   <header id="header">
-    <a id="yinyang" title="M 键切换目录">&#x262f;</a>
+    <a id="yinyang" title="目录">&#x262f;</a>
     <span id="article-title"></span>
     <span class="search">
       <input id="search-box"><button title="search" id="search-button"></button>
@@ -494,6 +494,7 @@ function hideNav(flag) {
     article.style.marginLeft = '0'
     yinyang.style.transform = 'none'
     eclipse.style.display = 'none'
+    setTimeout(() => document.body.style.overflowX = 'unset', 500)
     headerVisible(false)
     setTimeout(() => mockClick(iframe), 100)
   } else {
@@ -502,6 +503,7 @@ function hideNav(flag) {
     article.style.marginLeft = '16em'
     yinyang.style.transform = 'rotate(540deg)'
     eclipse.style.display = 'block'
+    document.body.style.overflowX = 'hidden'
     headerVisible(true)
   }
 }
