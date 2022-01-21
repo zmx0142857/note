@@ -9,10 +9,12 @@
 
 <h2>定积分的定义与理论*</h2>
 
+<h3>定积分的定义</h3>
+
 <p class="definition">
   <b>Riemann 积分的经典定义</b>
   设函数 `f` 定义在 `[a, b]` 上. 若存在实数 `I`, `AA epsi gt 0`,
-  对于 `[a, b]` 的任意<b>分割</b>
+  对于 `[a, b]` 的任意<b>分割 (partition)</b>
   <span class="formula">
     `Delta = {x_0, x_1, cdots, x_n}`,
     `quad a = x_0 lt x_1 cdots lt x_n = b`
@@ -63,6 +65,7 @@
       `quad ul S(f, Delta) = sum_(k=1)^n underset (x in I_k)"inf" f(x) |I_k|`
     </span>
     为 `f` 关于分割 `Delta` 的 (Darbux) <b>上和</b>与<b>下和</b>.
+    这里的上、下确界取广义实值, 上确界可以取 `+oo`, 下确界可以取 `-oo`.
   </li>
   <li>对介点集加细, 会使上和减小, 下和增加.  这是因为
     <span class="formula">
@@ -87,9 +90,13 @@
     如果上积分等于下积分, 就称 `f` 的积分存在, 且等于上、下积分的值.
   </li>
   <li>
-    上和与下和之差的下确界称为 `f` 在区间上的<b>振幅</b>:
+    上和与下和的差记为
     <span class="formula">
-      `omega(f) = underset Delta "inf" (bar S(f, Delta)-ul S(f, Delta))`
+      `omega(f, Delta) = bar S(f, Delta) - ul S(f, Delta)`.
+    </span>
+    关于所有分割取下确界, 称为 `f` 在区间上的<b>振幅</b>:
+    <span class="formula">
+      `omega(f) = underset Delta "inf" omega(f, Delta)`
       `= underset Delta "inf" sum_(k=1)^n omega(f, I_k) |I_k|`,
     </span>
     其中
@@ -100,6 +107,17 @@
     因此 `f` Riemann 可积当且仅当 `omega(f) = 0`.
   </li>
 </ol>
+
+<p class="corollary">
+  <b>可积必有界</b>
+  若 `f in R[a, b]`, 则 `f` 在 `[a, b]` 上有界.
+</p>
+
+<p class="proof">
+  若 `f` 在 `[a, b]` 上无界, 考虑区间的任一分割,
+  `f` 至少在其中一个子区间 `I_k` 上无界. 从而 `omega(f, I_k) ge 1//|I_k|`,
+  进而 `omega(f) ge omega(f, I_k) |I_k| ge 1`. 这说明 `f` 不可积.
+</p>
 
 <p class="corollary">
   <b>连续必可积</b>
@@ -114,6 +132,157 @@
   </span>
   因此只要分割足够细 (小于 `delta`), 在每个区间上的振幅就小于 `epsi`,
   从而总的振幅小于 `epsi(b-a)`.
+</p>
+
+<p class="corollary">
+  <b>挖去有限个点, 不影响可积性</b>
+  设 `f` 在 `[a, b]` 上有界, `c in [a, b]`, 且对任意小的 `delta gt 0`, `f`
+  分别在 `[a, c-delta]`, `[c+delta, b]` 上可积, 则 `f` 在 `[a, b]` 上可积.
+</p>
+
+<p class="proof">
+  设 `|f| le M`. 对任意 `epsi gt 0`, 取 `delta lt epsi // M`, 下面说明
+  区间 `[c-delta, c+delta]` 长度足够小, 且 `f` 在 `[a, c-delta] uu
+  [c+delta, b]` 上的振幅足够小.<br>
+  事实上, 存在 `[a, c-delta]` 和 `[c+delta, b]` 的分割 `Delta_1, Delta_2`
+  使得
+  <span class="formula">
+    `omega(f, Delta_i) lt epsi`, `quad i = 1, 2`.
+  </span>
+  取 `Delta_1, Delta_2` 的公共加细, 并加入 `c-delta, c+delta` 两个分点,
+  组成的分割记为 `Delta`, 则
+  <span class="formula">
+    `omega(f, Delta) lt 2epsi + 2delta * 2M lt 3epsi`.
+  </span>
+</p>
+
+<p class="example">
+  Dirichlet 函数 `D(x) = chi_QQ = { 0, if x !in QQ; 1, if x in QQ :}`
+  在 `[0, 1]` 上不可积. 原因是无论分割取得多细, 每个小区间上的振幅始终等于
+  1.
+</p>
+
+<h3>定积分的性质</h3>
+
+<ol class="property">
+  <b>定积分的基本性质</b> 设 `f, g` 在 `[a, b]` 上可积, 则
+  <li>`int_a^b c f(x) dx = c int_a^b f(x) dx`, `c` 为常数;</li>
+  <li>`int_a^b [f(x) + g(x)] dx = int_a^b f(x) dx + int_a^b g(x) dx`;</li>
+  1, 2 称为积分的线性性.
+  <li>区间可加性. 若 `f in R[a,c] uu R[c,b]`, 则 `f in R[a, b]`,
+    且 `int_a^b f(x) dx = int_a^c f(x) dx + int_c^b f(x) dx`;</li>
+  <li>保序性. 若 `f(x) le g(x)`, 则 `int_a^b f(x) dx le int_a^b g(x) dx`;</li>
+</ol>
+
+<p class="lemma">
+  设 `f in R[a, b]`, 则 `f` 有界, 设它的值域含于 `[c, d]`;
+  又设 `varphi in C[c, d]`, 则复合函数 `varphi @ f in R[a, b]`.
+</p>
+
+<ol class="proof">
+  <li>由于 `varphi` 在 `[c, d]` 上一致连续, 对任意 `epsi gt 0`, 存在 `delta
+    gt 0`, 使得对任意 `s, t in [c, d]`, 只要 `|s - t| lt delta`, 就有
+    `|varphi(s) - varphi(t)| lt epsi`.
+  </li>
+  <li>考虑 `[a, b]` 的一个分割 `Delta`, 将 `[a, b]` 的子区间分为两类:
+    <span class="formula">
+      `k in {Lambda, if omega(f, I_k) lt delta; Lambda', otherwise:}`
+    </span>
+    我们来证明, 第一类区间上的振幅足够小, 而第二类区间的长度足够小.
+  </li>
+  <li>对于 `k in Lambda`, 有 `omega(f, I_k) lt delta`,
+    则 `omega(varphi @ f, I_k) lt epsi`.
+    另一方面, 若 `k in Lambda'`, 则
+    <span class="formula">
+      `delta sum_(k in Lambda') |I_k|`
+      `le sum_(k in Lambda') omega(f, I_k) |I_k|`
+    </span>
+    由 `f` 可积, 可以取分割足够细, 使得上式右边 `le delta^2`, 从而
+    `sum_(k in Lambda') |I_k| le delta`.
+  </li>
+  <li>
+    综上有
+    <span class="formula">
+      `omega(varphi @ f, Delta) le epsi(b-a) + delta * 2 B`,
+    </span>
+    其中 `B` 是 `varphi` 在 `[c, d]` 上的界.
+    我们可以取 `delta lt epsi`, 从而 `varphi @ f` 可积.
+  </li>
+</ol>
+
+<ol class="corollary">
+  <li>乘积的可积性. 若 `f, g in R[a, b]`, 则 `f g in R[a, b]`;
+    这保证了内积 `f * g = int_a^b f(t) g(t) dt` 和卷积 `f ** g = int_a^b f(t) g(x-t) dt`
+    的存在性.
+  </li>
+  <li>绝对可积. 若 `f in R[a, b]` 则  `|f| in R[a, b]`,
+    且 `|int_a^b f(x) dx| le int_a^b |f(x)| dx`.</li>
+</ol>
+
+<ol class="proof">
+  <li>取 `varphi(t) = t^2`, 则 `(f + g)^2`, `(f - g)^2 in R[a, b]`,
+    进而 `f g = [(f + g)^2 - (f - g)^2]//4 in R[a, b]`.
+  </li>
+  <li>若 `f` 可积, 取 `varphi(t) = |t|` 知 `|f|` 也可积.
+    利用不等式 `-|f| le f le |f|` 和保序性知道 `|int_a^b f(x) dx| le
+    int_a^b |f(x)| dx`.
+  </li>
+</ol>
+
+<p class="remark">
+  反之若 `|f|` 可积, 则 `f` 不一定可积. 如 `D(x) - 1//2`, `D(x)` 是
+  Dirichlet 函数. 这个问题将在 Lebesgue 积分中解决.
+</p>
+
+<h3>Riemann 积分与测度</h3>
+
+<p>我们已经看到连续必可积. 反之, 可积函数对连续性也有一定的要求, 比如
+  Dirichlet 函数处处不连续, 性质不好, 导致它不可积. 那么如果对 Riemann
+  可积函数的连续性作出适当的刻画?  本节将证明, 有界函数 `f` 在 `[a, b]`
+  上可积当且仅当它几乎处处连续.
+</p>
+
+<ol class="definition">
+  <b>零测集与几乎处处</b>
+  <li>设 `E sube RR`, 若一列开区间 `I = {I_k}_(k=1)^oo` 满足
+    `E sube uuu_(k ge 1) I_k`, 则称它为 `E` 的一个可数开区间覆盖.
+    `||I|| = sum_(k ge 1) |I_k|` 称为这个覆盖的模.
+  </li>
+  <li>关于 `E` 的所有可数开区间覆盖 `I` 的模取下确界, 称为 `E`
+    的<b>外测度</b>: `m^**(E) = underset (I) "inf"||I||`.
+    之所以叫外测度, 是因为我们从 `E` 的外部对它的大小进行度量.
+  </li>
+  <li>
+    若 `m^**(E) = 0`, 则称 `E` 为<b>零测集</b>. 换言之, `E`
+    为零测集当且仅当对任意 `epsi gt 0`, 存在一列开区间 `{I_k}`, 满足
+    <span class="formula">
+      `E sube uuu_(k ge 1) I_k`,
+      `quad sum_(k ge 1) |I_k| lt epsi`.
+    </span>
+  </li>
+  <li>若函数 `f` 在 `[a, b]` 上有定义, 且在一个零测集之外, 即在 `[a, b]\\E`
+    上处处具有性质 `P`, 则称 `f` <b>几乎处处</b>具有性质 `P`,
+    如几乎处处连续, 几乎处处可微等.
+  </li>
+</ol>
+
+<p class="corollary">
+  可数个零测集的并是零测集.
+</p>
+
+<p class="proof">
+  设 `{E_n}` 是一列零测集, 对每个正整数 `n` 取 `E_n` 的覆盖
+  `{I_(n, k)}_(k=1)^oo`, 使得 `sum_(k ge 1) |I_(n,k)| le 2^-n epsi`.
+  于是 `uuu_(n ge 1) E_n sube uuu_(n, k ge 1) I_(n,k)`, 且
+  <span class="formula">
+    `sum_(n, k ge 1) |I_(n,k)| le sum_(n ge 1) 2^-n epsi = epsi`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Lebesgue 定理</b>
+  `[a, b]` 上的有界函数 `f` Riemann 可积当且仅当它几乎处处连续, 换言之,
+  `f` 的不连续点的集合是零测集.
 </p>
 
 <h2>积分换元</h2>

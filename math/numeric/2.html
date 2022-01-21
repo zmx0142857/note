@@ -10,13 +10,27 @@
 <h2>Lagrange 插值</h2>
 
 <p class="question">
-	已知函数 `f` 在 `n+1` 个不同的点处的值 `f(x_i) = f_i`,
-	`i = 0, 1, cdots, n`, 求 `p_n in bbb P_n[x]`, 满足 `p_n(x_i) = f_i`,
-	`i = 0, 1, cdots, n`. `p_n` 称为 `f` 的 `n` 次插值多项式.
+  已知函数 `f` 在 `n+1` 个不同的点处的值 `f(x_k) = f_k`,
+  `k = 0, 1, cdots, n`, 求 `p_n in bbb P_n[x]`, 满足 `p_n(x_k) = f_k`,
+  `k = 0, 1, cdots, n`. `p_n` 称为 `f` 的 `n` 次插值多项式.
 </p>
 
 <p class="solution">
-	构造
+  构造 Lagrange 多项式
+  <span class="formula">
+    `l_i(x) = prod_(j!=i) (x-x_j)/(x_i-x_j)`,
+  </span>
+  它满足
+  <span class="formula">
+    `l_i(x_k) = delta_(i k) = { 1, if k = i; 0, otherwise :}`.
+  </span>
+  换言之, `l_i` 是函数 `delta_(i k)` 的插值多项式.
+  一般地, 将函数写成 `delta_(i k)` 的线性组合:
+  <span class="formula">
+    `f(x_k) = sum_k f_k delta_(i k)`
+    `= sum_k f_k l_i(x_k)`.
+  </span>
+  `sum_k f_k l_i(x)` 就是 `f` 的插值多项式, 称为 Lagrange 插值多项式.
 </p>
 
 <p class="example">

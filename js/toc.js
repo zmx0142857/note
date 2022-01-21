@@ -46,11 +46,12 @@ math: {
     {title:'函数的极限与连续性', src:'analysis/3.html'},
     {title:'导数的应用', src:'analysis/5.html', date: '2021-12-18'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
-    {title:'定积分与广义积分', src:'analysis/7.html'},
+    {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-01-18'},
     {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-01-12'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
-    {title:'常数项级数', src:'analysis/10.html'},
-    {title:'函数列与函数项级数', src:'analysis/11.html'},
+    {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-01-15'},
+    {title:'常数项级数', src:'analysis/11.html'},
+    {title:'函数列与函数项级数', src:'analysis/12.html'},
     {title:'Fourier 级数', src:'analysis/13.html'},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
     {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-29'},
@@ -69,8 +70,7 @@ math: {
     {title:'阶与原根', src:'number/3.html', date:'2022-01-12'},
     {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
     {title:'不定方程', src:'number/5.html', date:'2021-12-11'},
-    {title:'积性数论函数', src:'number/9.html'},
-    {title:'Bernoulli 数与 Riemann zeta 函数', src:'number/10.html', date:'2022-01-15'},
+    {title:'积性数论函数', src:'number/6.html'},
   ]
 }, {
   title:'集合论与点集拓扑',
@@ -111,7 +111,7 @@ math: {
 }, {
   title:'数值分析',
   articles: [
-    {title:'插值', src:'numeric/2.html', date:'2021-11-29'},
+    {title:'插值', src:'numeric/2.html', date:'2022-01-20'},
     {title:'线性方程组', src:'numeric/5.html'},
     {title:'矩阵', src:'numeric/6.html'},
     {title:'非线性方程数值解法', src:'numeric/7.html'},
@@ -162,7 +162,7 @@ math: {
   title:'初等几何',
   articles: [
     {title:'五组公理', src:'geometry/1.html'},
-    {title:'三角形, 四边形', src:'geometry/3.html'},
+    {title:'三角形, 四边形', src:'geometry/3.html', date:'2022-01-17'},
     {title:'圆', src:'geometry/4.html'},
     {title:'抛物线', src:'geometry/5.html'},
   ]

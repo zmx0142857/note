@@ -1317,6 +1317,29 @@ document.getElementById('angle-grid-point').innerText = buf.join('\n')
 	</li>
 </ol>
 
+<h2>几何中的物理方法</h2>
+
+<p class="example">
+  <b>杠杆原理</b>
+  和 Ceva 定理等价, 其核心思想是, 要使点 `G` 为三角形物理重心
+  (区别于几何重心), 应该怎样在顶点处分配质量.<br>
+  设有 `triangle ABC`, `P, Q, R` 分别在直线 `AB, BC, CA` 上,
+  且 `AP, BQ, CR` 交于物理重心 `G`.
+  此时 `P, Q, R` 分别为 `BC, CA, AB` 重心,
+  `A, B, C` 的质量满足
+  <span class="formula">
+    `m_A AR = m_B BR`, `m_B BP = m_C CP`, `m_C CQ = m_A AQ`,
+  </span>
+  因此
+  <span class="formula">
+    `(AR * BP * CQ)/(BR * CP * AQ)`
+    `= (m_B * m_C * m_A )/(m_A * m_B * m_C)`
+    `= 1`.
+  </span>
+</p>
+
+折射定律, 微元法
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

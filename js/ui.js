@@ -1,3 +1,8 @@
+function appendChildren (el, children) {
+  if (Array.isArray(children)) children.forEach(c => el.appendChild(c))
+  else el.appendChild(children)
+}
+
 // 虚拟 dom (bushi
 function $(tag, options = {}, children = []) {
   const len = tag && tag.length
@@ -39,8 +44,7 @@ function $(tag, options = {}, children = []) {
     options.el = el
   }
 
-  if (Array.isArray(children)) children.forEach(c => el.appendChild(c))
-  else el.appendChild(children)
+  appendChildren(el, children)
 
   return el
 }

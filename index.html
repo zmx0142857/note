@@ -434,6 +434,14 @@ li.isnew::after {
   }, true) // 向上冒泡
 }
 
+function mockClick (el) {
+  el.dispatchEvent(new MouseEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: true
+  }))
+}
+
 // 能用就行的搜索框交互
 {
   const searchBox = $('#search-box')
@@ -443,11 +451,7 @@ li.isnew::after {
     } else {
       searchBox.classList.remove('focus')
       // 模拟点击 body, 使得提示框自动关闭
-      document.body.dispatchEvent(new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }))
+      mockClick(document.body)
     }
     this.blur()
   })
@@ -491,7 +495,7 @@ function hideNav(flag) {
     yinyang.style.transform = 'none'
     eclipse.style.display = 'none'
     headerVisible(false)
-    iframe.focus()
+    setTimeout(() => mockClick(iframe), 100)
   } else {
     nav.removeAttribute('hidden')
     nav.style.width = '16em'
@@ -665,7 +669,6 @@ const router = {
 }
 
 router.init()
-
 })();
 </script>
 <!-- 站内搜索, 注入 dom #search-box #search-button -->

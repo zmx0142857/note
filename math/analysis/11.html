@@ -1,165 +1,664 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <meta charset="utf-8" />
-  <title>函数列与函数项级数</title>
-  <link rel="stylesheet" href="../../css/note.css"/>
+    <title>常数项级数</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
-
 <body>
 
-<h2>函数逼近</h2>
+<h2>无穷级数的基本概念</h2>
+
+<p class="definition">
+	<b>无穷级数</b>, 简称<b>级数</b>,
+	是用加号把数列 `{u_n}` 中的所有数依次连接起来所得到的数学表达式:
+	<span class="formula">
+		`sum_(n=1)^oo u_n = u_1 + u_2 + cdots + u_n + cdots`.
+	</span>
+	每个加数称为级数的一<b>项</b>, 一般项 `u_n` 称为级数的<b>通项</b>.
+	对每个正整数 `n`, 由级数的前 `n` 项和
+	<span class="formula">
+		`S_n = sum_(k=1)^n u_k`
+	</span>
+	组成一个数列 `{S_n}_(n=1)^oo`, 称为级数的<b>部分和 (数列)</b>.
+	当部分和数列收敛时, 则称这个级数<b>收敛</b>,
+	并称部分和数列的极限为级数的<b>和</b>. 故对收敛级数, 我们有
+	<span class="formula">
+		`sum_(k=1)^oo u_n = lim_(n to oo) sum_(k=1)^n u_k`.
+	</span>
+	另一方面, 当部分和数列发散时, 就称级数<b>发散</b>.
+	如果级数的部分和数列趋于正 (负) 无穷大, 我们也称这个级数发散到正 (负)
+	无穷大, 记为
+	<span class="formula">
+		`sum_(n=1)^oo u_n = +oo (-oo)`.
+	</span>
+</p>
+
+<p class="remark">
+  下文把 `sum_(n=1)^oo` 简记为 `sum_(n ge 1)`, 有时也完全省略上下标.
+</p>
+
+<p class="remark">
+	小数就是级数的一个例子. 比如
+	<span class="formula">
+		`3.1415926... = 3 + 1/10 + 4/10^2 + 1/10^3 + 5/10^4 + cdots`.
+	</span>
+	实际运用中, 许多问题无法求出或不需要求出精确解, 我们就常用级数估计它,
+	这和用小数近似估计一个实数是相同的思想.
+</p>
+
+<p class="remark">
+  通过考虑部分和, 可以将级数问题转化为数列问题;
+  反之, 已知一个数列 `{a_n}`,
+  通过作差分 `b_n = a_n - a_(n-1)`, 可以将数列化为级数:
+  <span class="formula">
+    `a_n = a_0 + sum_(k=1)^n b_k`,
+    `quad lim_(n to oo) a_n = sum_(n ge 1) b_n`. (如果极限存在)
+  </span>
+</p>
 
 <p class="example">
-  设 `f in C[a, b]`, 若
-  <span class="formula">
-    `int_a^b f(x) varphi(x) dx = 0`,
-    `quad AA varphi in C[a, b]`, `int_a^b varphi(x) dx = 0`,
-  </span>
-  则 `f` 为常数.
+	几何级数
+	<span class="formula">
+		`sum_(n ge 0) x^n`
+		`{
+			= (1-x)^-1, if |x| lt 1;
+			= oo, if |x| gt 1;
+			"发散", if x = -1;
+		:}`.
+	</span>
 </p>
 
-<!--
+<ol class="theorem">
+	<li>`sum_(n ge 1) c u_n = c sum_(n ge 1) u_n`;</li>
+	<li>`sum_(n ge 1) (u_n +- v_n) = sum_(n ge 1) u_n +- sum_(n ge 1) v_n`.
+	</li>
+	这两个等式表示右端级数收敛时, 左端级数也收敛, 且它们的和相等.
+	这个定理表明, 收敛级数可以进行线性运算.
+</ol>
+
 <p class="proof">
-  反设 `f` 不为常数, 记 `f` 在 `[a, b]` 上的最大值和最小值分别为 `f(x_1)`,
-  `f(x_2)`. 取 `0 lt epsi lt (f(x_1) - f(x_2))//2`, 由连续性, 存在 `delta_1,
-  delta_2 gt 0`, 使得
-  <span class="formula">
-    `|f(x) - f(x_1)| lt epsi`, `quad AA x in B_1 := B(x_1, delta_1)`,<br>
-    `|f(x) - f(x_2)| lt epsi`, `quad AA x in B_2 := B(x_2, delta_2)`.
-  </span>
-  我们可以取 `delta_1, delta_2` 充分小, 使 `B_1` 和 `B_2` 不相交.
-  现在取连续函数 `varphi`, 其中
-  <span class="formula">
-    `varphi(x) = {
-      1/(2delta_1), x in B_1;
-      -1/(2delta_2), x in B_2;
-    :}`
-  </span>
-  适当选取 `varphi` 的值, 使得 `f(x) varphi(x)` 在
-  `[a, b] \\ (B_1 uu B_2)` 上的积分恰好为零. 于是
-  <span class="formula">
-    `int_a^b f(x) varphi(x) dx`
-    `= 1/(2delta_1) int_(B_1) f(x) dx`
-    `- 1/(2delta_2) int_(B_2) f(x) dx`
-    `ge 1/(2delta_1) int_(B_1) (f(x_1) - epsi) dx`
-    `- 1/(2delta_2) int_(B_2) (f(x_2) + epsi) dx`
-    `= f(x_1) - f(x_2) - 2epsi gt 0`,
-  </span>
-  矛盾.
+	考察两个级数的部分和, 有
+	<span class="formula">
+		`sum_(k=1)^n c u_k = c sum_(k=1)^n u_k`.
+	</span>
+	在等式两边令 `n to oo`, 就证明了结论 1. 结论 2 的证明类似.
+	级数的线性可加性是由数列极限的线性可加性保证的.
 </p>
--->
+
+<ol class="corollary">
+	应用反证法, 立即得到下面的推论:
+	<li>若 `sum u_n` 发散, 则对任意 `c != 0`, `sum c u_n` 发散.</li>
+	<li>若 `sum u_n` 发散, `sum v_n` 收敛, 则 `sum (u_n +- v_n)` 发散;</li>
+</ol>
+
+<p class="theorem">
+	任意改变级数中有限项的数值, 不改变级数的敛散性;
+	换言之, 对两个级数 `sum u_n`, `sum v_n`,
+	如果存在正整数 `N`, 使对所有 `n gt N` 的项都有 `u_n = v_n`,
+	则它们的敛散性相同.
+</p>
+
 <p class="proof">
-  记 `f` 在 `[a, b]` 上的平均值为 `p = 1/(b-a) int_a^b f(x) dx`,
-  容易验证 `f-p` 是连续函数, 且 `int_a^b (f(x)-p) dx = 0`. 取 `varphi
-  = f - p` 有
+	比较它们的部分和, 有
+	<span class="formula">
+		`sum_(k=1)^n u_n`
+		`= sum_(k=1)^N (u_k - v_k) + sum_(k=1)^n v_n`.
+	</span>
+	由数列极限的运算法则知道, 这两个级数敛散性相同.
+</p>
+
+<p>	由数列收敛的 Cauchy 准则立即推出:</p>
+
+<p class="theorem">
+	<b>级数收敛的 Cauchy 准则</b>
+	级数 `sum u_n` 收敛的充要条件是 `AA epsi gt 0`, `EE N in NN`,
+	<span class="formula">
+		`|sum_(m le k le n) u_k| lt epsi`, `quad AA n gt m gt N`.
+	</span>
+</p>
+
+<ol class="definition">
+  考虑级数 `sum u_n`.
+  <li>如果 `sum |u_n|` 收敛, 则称原级数 `sum u_n` <b>绝对收敛</b>;</li>
+  <li>如果原级数收敛, 但不是绝对收敛, 则称它是<b>条件收敛</b>.</li>
+</ol>
+
+<p class="corollary">
+	级数绝对收敛蕴含它收敛.
+</p>
+
+<p class="proof">
+	应用 Cauchy 准则和三角不等式
+  `|sum_(m le k le n) u_k| le sum_(m le k le n) |u_k|` 即可.
+</p>
+
+<p class="theorem">
+	级数收敛的必要条件是其通项趋于零.
+</p>
+
+<p class="proof">
+	这当然是 Cauchy 收敛准则的推论, 但也可以这样证: 记 `S_n`
+	是级数 `sum u_n` 的部分和, 则
+	<span class="formula">
+		`lim_(n to oo) u_n`
+    `= lim_(n to oo) (S_n - S_(n-1))`
+		`= lim_(n to oo) S_n - lim_(n to oo) S_(n-1) = 0`.
+	</span>
+</p>
+
+<p class="example">
+	设级数 `sum u_n`, `sum v_n` 都收敛, 且通项
+	`u_n ge v_n`, `n = 1, 2, cdots`.
+	显然 `sum (u_n - v_n)` 收敛, 记其和为 `S`.
+	如果存在 `k in ZZ^+` 使 `u_k gt v_k`, 那么断言 `S gt 0`.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`S = sum_(n=1)^k (u_n-v_n) + sum_(n gt k) (u_n-v_n)`,
+	</span>
+	第一项大于 0, 第二项由极限的保序性非负, 因此 `S gt 0`.
+</p>
+
+<p class="remark">
+	定积分中也有类似于上例的结论, 这时要求被积函数连续.
+</p>
+
+<h2>正项级数</h2>
+
+<p>本节专注于级数的绝对收敛. 注意 `sum |u_n|` 的通项非负, 引出定义:</p>
+
+<p class="definition">
+	通项非负的级数称为<b>正项级数</b>.
+</p>
+
+<p class="remark">
+	由于去掉级数的有限项不改变其敛散性,
+	因此对除有限项外各项都是非负的级数, 也可以使用正项级数的敛散性理论.
+</p>
+
+<p>	由数列收敛的单调有界原理立即得到:</p>
+
+<p class="lemma">
+	正项级数收敛的充要条件是其部分和数列有上界. 换言之,
+  只要有界 (`sum u_n lt oo`) 即推出有极限 (`sum u_n = a`).
+</p>
+
+<h3>敛散性判别</h3>
+
+<ol class="theorem">
+	<b>比较判别法一</b>
+	设有正项级数 `sum u_n`, `sum v_n`,
+	且存在正整数 `N`, 从第 `N` 项起, 恒有 `u_n le v_n`
+  <span class="shadow">
+    注意到常数因子不改变级数敛散性, 这个条件就是说 `u_n = O(v_n)`
+  </span>, 则
+	<li>`sum v_n` 收敛 `rArr sum u_n` 收敛;</li>
+	<li>`sum u_n` 发散 `rArr sum v_n` 发散.</li>
+</ol>
+
+<p class="proof">
+	因为去掉级数的有限项不改变级数的敛散性, 所以不妨设 `N = 1`.
+	由条件知
+	<span class="formula">
+		`sum_(k=1)^n u_n le sum_(k=1)^n v_n`, `quad n = 1, 2, cdots`.
+	</span>
+	如果 `sum v_n` 收敛, 则 `sum u_n` 的部分和有上界, 从而收敛;
+  反之如果 `sum u_n` 发散, 则其部分和无上界,
+	于是 `sum v_n` 的部分和也无上界, 是发散的.
+</p>
+
+<ol class="corollary">
+	<b>比较判别法二</b>
+	设有正项级数 `sum u_n`, `sum v_n`, 其中 `v_n` 的各项严格大于零,
+  且存在 `0 le l le oo` 使成立
   <span class="formula">
-    `int_a^b |f(x) - p|^2 dx`
-    `= int_a^b f(x) (f(x) - p) dx - p int_a^b (f(x) - p) dx = 0`.
+    `lim_(n to oo) u_n/v_n = l`.
   </span>
-  由于 `f - p` 是连续函数, 上式蕴含 `f(x) -= p`.
+	<li>`l lt oo` 时, `sum v_n` 收敛 `rArr sum u_n` 收敛;</li>
+	<li>`l gt 0` 时, `sum v_n` 发散 `rArr sum u_n` 发散.</li>
+</ol>
+
+<!--
+<ol class="proof">
+	<li>若 `0 lt l lt +oo`, 由条件知存在正整数 `N`, 使
+		<span class="formula">
+			`l/2 v_n le u_n le 2l v_n`, `quad AA n ge N`.
+		</span>
+		级数 `sum_(n=1)^oo l/2 v_n` 与 `sum_(n=1)^oo 2l v_n` 都与
+		`sum_(n=1)^oo v_n` 具有相同的敛散性. 由比较判别法一知道,
+		`sum_(n=1)^oo u_n` 和 `sum_(n=1)^oo v_n` 也有相同的敛散性.
+	</li>
+	<li>若 `l = 0`, 由条件知存在正整数 `N`, 使 `u_n le v_n`, `AA n ge N`.
+		由比较判别法一知, `sum_(n=1)^oo v_n` 收敛时, `sum_(n=1)^n u_n`
+		也收敛.
+	</li>
+	<li>若 `l = +oo`, 由条件知存在正整数 `N`, 使 `u_n ge v_n`, `AA n ge
+		N`. 由比较判别法一知, `sum_(n=1)^oo v_n` 发散时, `sum_(n=1)^oo
+		u_n` 也发散.
+	</li>
+</ol>
+-->
+
+<p class="proof">
+	`l lt oo` 时, 有 `u_n = O(v_n)`,
+	`l gt 0` 时, 有 `v_n = O(u_n)`;
+	再应用比较判别法一即得结论.
+</p>
+
+<ol class="corollary">
+	<b>比较判别法三</b>
+	设有正项级数 `sum u_n`, `sum v_n`, 两个级数的各项都严格大于零,
+  且存在正整数 `N`, 从第 `N` 项起恒有 `u_(n+1)/u_n le v_(n+1)/v_n`. 则
+	<li>`sum v_n` 收敛 `rArr sum u_n` 收敛;</li>
+	<li>`sum u_n` 发散 `rArr sum v_n` 发散.</li>
+</ol>
+
+<p class="proof">
+	由条件知对任意 `n gt N` 的项都成立
+	<span class="formula">
+		`u_n/u_N = prod_(k=N+1)^n u_k/u_(k-1)`
+		`le prod_(k=N+1)^n v_k/v_(k-1) = v_n/v_N`.
+	</span>
+	即 `u_n le u_N/v_N v_n`, `AA n gt N`.
+	应用比较判别法一即得结论.
+</p>
+
+<ol class="theorem">
+	<b>D'Alembert 检比法</b>
+	设 `sum u_n` 是各项严格大于零的正项级数,
+	且存在 `0 le l le oo` 使成立
+		`lim_(n to oo) u_(n+1)/u_n = l`.
+	则
+	<li>`l lt 1` 时级数收敛;</li>
+	<li>`l gt 1` 时级数发散.</li>
+	但是 `l = 1` 时, 级数的敛散性无法用此定理判断.
+</ol>
+
+<ol class="proof">
+	我们通过与几何级数进行比较, 来证明这个定理.
+	<li>先设 `0 le l lt 1`. 取实数 `r` 使得 `l lt r lt 1`, 再令
+		`v_n = r^n`, `n = 1, 2, cdots`. 则 `sum v_n` 收敛.
+		注意到 `v_(n+1)/v_n = r gt l = lim_(n to oo) u_(n+1)/u_n`,
+		所以存在正整数 `N` 使 `u_(n+1)/u_n le v_(n+1)/v_n`, `AA n ge N`.
+		应用比较判别法三即知 `sum u_n` 收敛.
+	</li>
+	<li>再设 `1 lt l le oo`. 取实数 `r` 使得 `1 lt r lt l`,
+    类似可证 `sum u_n` 发散.
+	</li>
+</ol>
+
+<ol class="theorem">
+	<b>Cauchy 检根法</b>
+	设 `sum_(n=1)^oo u_n` 是正项级数, 且存在 `0 le l le oo` 使上极限
+		`underset(n to oo) bar lim root n (u_n) = l`.
+	则
+	<li>`l lt 1` 时级数收敛;</li>
+	<li>`l gt 1` 时级数发散.</li>
+	但是再一次, `l = 1` 时, 级数的敛散性无法用此定理判断.
+</ol>
+
+<ol class="proof">
+	<li>先设 `0 le l lt 1`. 取实数 `r` 使得 `l lt r lt 1`,
+		则由条件知存在正整数 `N`, 使当 `n ge N` 时 `root n (u_n) le r`.
+		即 `u_n le r^n`. 由 `r lt 1` 知 `sum r^n` 收敛, 从而
+		`sum u_n` 也收敛.
+	</li>
+	<li>再设 `1 lt l le +oo`. 取实数 `r` 使得 `1 lt r lt l`. 由条件知,
+		存在 `{u_n}` 的子列 `{u_(n_k)}` 使得对任意正整数
+		`k` 成立 `root (n_k) (u_(n_k)) ge r`, 即 `u_(n_k) ge r^(n_k)`.
+		因为 `r gt 1`, 所以 `k to oo` 时, `r^(n_k) to +oo`, 于是
+		`u_(n_k) to +oo`. 级数 `sum u_n` 的通项不趋于零,
+		所以它发散.
+	</li>
+</ol>
+
+<p class="remark">
+    `l = 1` 时, D'Alembert 和 Cauchy 判别法均失败.
+    为了判断更精细的级数的敛散性, 可以考虑下一节的 Gauss 判别法.
+</p>
+
+<h3>调和级数</h3>
+
+<p class="example">
+	级数 `zeta(s) = sum_(n=1)^oo 1/n^s` 在 `s gt 1` 时收敛, `s le 1` 时发散.
+</p>
+
+<ol class="proof">
+	`s le 0` 时, 级数通项不趋于零, 因而发散. 下设 `s gt 0`.
+	我们通过适当放缩, 将原级数与几何级数作比较.
+	<li>若 `0 lt s le 1`, 对任意正整数 `n ge 2`, 存在正整数 `k` 使得
+		`2^k le n lt 2^(k+1)`. 现在分析 `s` 级数的部分和, 将它从第二项起,
+		依次按 `1, 2, 4, 8, cdots, 2^(k-1)` 项组合起来, 并舍弃从 `2^k + 1`
+		项开始的后面各项:
+		<span class="formula">
+			`sum_(i=1)^n i^-s`
+			`ge 1 + sum_(j=1)^k sum_(i=2^(j-1)+1)^(2^j) i^-s`
+			`ge 1 + sum_(j=1)^k 2^(j-1) * 2^(-s j)`
+			`= 1 + 1/2 sum_(j=1)^k 2^((1-s)j)`
+			`= {
+				1 + a/2 (1-a^k)/(1-a), if 0 lt s lt 1;
+				1 + k/2, if s = 1;
+			:}`.
+		</span>
+		其中 `a = 2^(1-s) gt 1`.
+		注意 `n to oo` 时, `k to oo`, 由上述不等式即知原级数发散.
+	</li>
+	<li>`s gt 1` 时, 类似有
+		<span class="formula">
+			`sum_(i=1)^n i^-s`
+			`le sum_(j=0)^k sum_(i=2^j)^(2^(j+1)-1) i^-s`
+			`le sum_(j=0)^k 2^j * 2^(-s j)`
+			`= sum_(j=0)^k 2^((1-s)j)`
+			`= (1-a^(k+1))/(1-a)`
+			`le 1/(1-a)`.
+		</span>
+		其中 `0 lt a = 2^(1-s) lt 1`.
+		从而部分和有界, 所以原级数收敛.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>先设 `s = 1`, 此时由熟知的不等式 (见第二章)
+		<span class="formula">
+			`1/(n+1) lt ln(1+1/n) lt 1/n`
+		</span>
+		立即得到
+		<span class="formula">
+			`sum_(k=1)^n 1/k
+			gt sum_(k=1)^n [ln(k+1) - ln k]`
+			`= ln(n+1)`,
+		</span>
+		因而级数发散.
+	</li>
+	<li>`s != 1` 时, 对函数 `x^(1-s)` (它和 `x^-s`
+		的原函数只相差一个常数因子) 在区间 `[n, n+1]`
+		上应用微分中值定理得
+		<span class="formula">
+			`(n+1)^(1-s) - n^(1-s) = (1-s) xi^-s`,
+		</span>
+		其中 `n lt xi lt n+1`. 从而
+		<span class="formula">
+			`1/(n+1)^s lt ((n+1)^(1-s) - n^(1-s))/(1-s) lt 1/n^s`.
+		</span>
+		因此 `s lt 1` 时,
+		<span class="formula">
+			`sum_(k=1)^n 1/k^s`
+			`gt sum_(k=1)^n ((k+1)^(1-s) - k^(1-s))/(1-s)`
+			`= ((n+1)^(1-s) - 1)/(1-s)`,
+		</span>
+		推知级数发散, 而 `s gt 1` 时,
+		<span class="formula">
+			`sum_(k=1)^n 1/k^s`
+			`= 1 + sum_(k=1)^(n-1) 1/(k+1)^s`
+			`lt 1 + sum_(k=1)^(n-1) ((k+1)^(1-s) - k^(1-s))/(1-s)`
+			`= 1 + (n^(1-s) - 1)/(1-s)`
+			`lt 1 - 1/(1-s)`,
+		</span>
+		表明部分和有界, 所以级数收敛.
+	</li>
+</ol>
+
+<p class="remark">
+	`zeta(s)` 称为 Riemann zeta 函数, 它在数论中具有重要地位.
+  当 `s = 1` 时, 这级数称为调和级数, 我们现在知道它是发散的.
+  下面的定理估计了调和级数的发散速度.
+</p>
+
+<p class="example">
+	利用调和级数敛散性的第二种证明的思路,
+	可以得到更精细的级数的敛散性. 如 `sum_(n=2)^oo 1/(n ln^s n)`
+	在 `s gt 1` 时收敛, `s le 1` 时发散. 一般地, 记 `ln_0 x = x`,
+	`ln_m x = ln ln_(m-1) x`, `m = 1, 2, cdots`. 则有
+    <span class="formula">
+        `(ln_m x)' = prod_(0 le k lt m) ln_k^-1 x`.
+    </span>
+	又设 `M` 是某个使得 `ln_m n` 有定义的正整数. 则级数
+	<span class="formula">
+		`sum_(n ge M) ln_m^-s n (ln_m n)'`
+		`= sum_(n ge M) 1/(n ln n ln_2 n cdots ln_(m-1) n ln_m^s n)`
+	</span>
+	在 `s gt 1` 时收敛, `s le 1` 时发散.<br/>
+    `ln_m n` 是增长十分缓慢的函数, 不过它仍趋向正无穷大.
+    本题表明以它的导函数为通项的级数恰好发散.
+</p>
+
+<ol class="proof">
+    简明起见只证 `m = 1` 情形. 一般情形是类似的.
+	<li>`s le 0` 时, 对充分大的 `n` 有 `1/(n ln^s n) ge 1/n`,
+		而调和级数发散; 由比较判别法一, 原级数发散.
+	</li>
+	<li>设 `s = 1`. 对函数 `ln ln x` 在 `[n, n+1]` 上应用微分中值定理,
+		容易得到不等式
+		<span class="formula">
+			`ln ln(n+1) - ln ln n lt 1/(n ln n)`.
+		</span>
+		两边从 `2` 到 `n` 求和,
+		<span class="formula">
+			`ln ln(n+1) - ln ln 2 lt sum_(k=2)^n 1/(k ln k)`.
+		</span>
+		从而原级数的部分和趋于无穷大, 因此是发散的.
+	</li>
+	<li>设 `0 lt s lt 1`. 对函数 `ln^(1-s) x` 在 `[n, n+1]`
+		上应用微分中值定理, 得到不等式
+		<span class="formula">
+			`ln^(1-s)(n+1) - ln^(1-s) n lt (1-s)/(n ln^s n)`.
+		</span>
+		两边从 `1` 到 `n` 求和,
+		<span class="formula">
+			`ln^(1-s)(n+1) lt sum_(k=1)^n (1-s)/(k ln^s k)`.
+		</span>
+		故原级数的部分和趋于无穷大, 因此发散.
+	</li>
+	<li>`s gt 1` 时, 同样对函数 `ln^(1-s) x` 在 `[n, n+1]`
+		上应用微分中值定理, 得到不等式
+		<span class="formula">
+			`(s-1)/((n+1)ln^s(n+1)) lt ln^(1-s) n - ln^(1-s)(n+1)`.
+		</span>
+		两边从 `2` 到 `n` 求和,
+		<span class="formula">
+			`sum_(k=3)^n (s-1)/(k ln^s k) lt ln^(1-s)2 - ln^(1-s)(n+1)`
+			`lt ln^(1-s)2`.
+		</span>
+		故原级数的部分和有上界, 因此收敛.
+	</li>
+</ol>
+
+<p class="proof">
+    使用积分判别法, 本题是显然的
+    , 以 `s = 1` 为例,
+    <span class="formula">
+        `sum_(n ge M) ln_m^-1 n (ln_m n)'`
+        `= sum_(n ge M) (ln_(m+1) n)'`
+        `= sum_(n ge M) int_n^(n+1) (ln_(m+1) n)' dx`
+        `ge sum_(n ge M) int_n^(n+1) (ln_(m+1) x)' dx`
+        `= int_M^oo (ln_(m+1) x)' dx = oo`.
+    </span>
 </p>
 
 <p class="lemma">
-  <b>变分引理</b>
-  设 `f in L^2[a, b]`, 若 `AA varphi in C_0[a, b]` (即 `varphi` 是 `[a, b]` 上在两个端点处等于零的连续函数) 有
-  <span class="formula">
-    `int_a^b f(x) varphi(x) dx = 0`,
-  </span>
-  则 `f` 几乎处处为零.
+    等价无穷小 `(ln_m(n+1))/(ln_m n) - 1 ~ (ln_(m+1) n)'`, `n to oo`.
 </p>
 
-<ol class="proof">
-  根据逼近定理??, 存在函数列 `varphi_n in C_0[a, b]`
-  使得 `varphi_n overset (L^2) rarr f`, `n to oo`.
-  由 Cauchy 不等式,
-  <span class="formula">
-    `int_a^b f^2(x) dx`
-    `= int_a^b f(x) [f(x) - varphi_n(x)] dx`
-    `le sqrt(int_a^b f^2(x) dx) sqrt(int_a^b |f(x) - varphi_n(x)|^2 dx)`.
-  </span>
-  令 `n to oo`, 就有 `int_a^b f^2(x) dx = 0`. 由定理??,
-  这当且仅当 `f` 几乎处处为零.
+<p class="proof">
+    对 `m` 进行归纳, `m = 0` 时得 `(n+1)/n - 1 ~ 1/n`, 显然成立;
+    设结论对 `m-1` 成立, 考虑 `m` 的情形, `n to oo` 时有:
+    <span class="formula">
+        `(ln_m(n+1))/(ln_m n) - 1`
+        `= (ln_m(n+1) - ln_m n)/(ln_m n)`
+        `= (ln{:(ln_(m-1)(n+1))/(ln_(m-1) n):})/(ln_m n)`
+        `~ ((ln_m n)')/(ln_m n)`
+        `= (ln_(m+1) n)'`.
+    </span>
+</p>
+
+<ol class="lemma">
+  [群友 卡尔・夏洛克]
+  设 `x` 是使得下式有意义的任意实数, `n ge 0`, 则
+  <li>`(ln_n (x+1))/(ln_n x) - 1 le (ln_(n+1) x)'`;</li>
+  <li>`ln{:(ln_n (x+1))/(ln_n x):} ge ((ln_(n+1) x)')/(sum_(k=0)^(n+1)
+    (ln_k x)')`;
+  </li>
+  <li>`prod_(k=0)^n (ln_k (x+1))/(ln_k x) ge sum_(k=0)^(n+1) (ln_k x)'`.</li>
 </ol>
 
-<p class="example" id="exp-weierstrass-function">
-  <b>Weierstrass 函数</b>
+<ol class="proof">
+  <li>对 `n` 归纳并利用不等式 `ln(1+x) le x`;</li>
+  <li>对 `n` 归纳并利用不等式 `ln(1+1/x) ge 1/(x+1)`;</li>
+  <li>对 `n` 归纳并利用 2. 的结果.</li>
+</ol>
+
+<ol class="theorem">
+    <b>Gauss 检比法</b>
+    利用函数列 `f_m(n) = (ln_m n)'`,
+    将正项级数 `sum u_n` 的相邻两项比渐近展开:
+    <span class="formula">
+        `u_n//u_(n+1) = sum_(m=0)^N G_m f_m(n) + o(f_N(n))`
+        `= G_0 + G_1/n + G_2/(n ln n) + G_3/(n ln n ln ln n) + cdots`
+        `+ o(f_N(n))`.
+    </span>
+    若存在 `M` 使得 `G_0 = G_1 = cdots = G_(M-1) = 1`, 而 `G_M != 1`, 则
+    <li>`G_M gt 1` (含 `G_M = +oo`) 时, 原级数收敛;</li>
+    <li>`G_M lt 1` (含 `G_M = -oo`) 时, 原级数发散.</li>
+</ol>
+
+<p class="proof">
+  只证 `G_M gt 1` 的情形. 取 `1 lt s lt G_M`, 则级数
+  `sum v_n = sum ln_(M-1)^-s n (ln_(M-1) n)'` 收敛.
+  考察它的前后项比, 利用引理将乘积展开:
+  <span class="formula">
+    `v_n // v_(n+1)`
+    `= (n+1)/n (ln(n+1))/(ln n) cdots`
+    `(ln_(M-2) (n+1))/(ln_(M-2) n)`
+    `((ln_(M-1) (n+1))/(ln_(M-1) n))^s`
+    `= (1 + f_M(n) + o(f_M(n)))^s`
+    `prod_(m=1)^(M-1) (1+f_m(n) + o(f_m(n)))`
+  </span>
+  注意 `s lt G_M`, 故 `n` 充分大时, 上式小于等于
+  <span class="formula">
+    `u_n // u_(n+1)`
+    `= 1 + 1/n + 1/(n ln n) + cdots`
+    `+ G_M f_M(n) + o(f_M(n))`.
+  </span>
+  由第三比较判别法知 `sum u_n` 收敛.
+</p>
+
+<p class="remark">
+    系数 `G_m` 可以通过计算极限 `lim_(n to oo) r_n^((m))` 得到, 其中
+    <span class="formula">
+        `r_n^((0)) = u_n // u_(n+1)`,
+        `quad r_n^((m+1)) = (r_n^((m)) - G_m) ln_m n`.
+    </span>
+</p>
+
+<p class="example">
+  [菲赫金哥尔茨 第二册 375 目 3)]
+  [崔尚斌 数学分析教程 中册 习题 10.2 第 12 题]<br/>
+  正项级数 `sum a_n` 收敛, 且通项 `a_n` 单调趋于 0, 证明:
+  `lim_(n to oo) n a_n = 0`. 换言之, `a_n = o(1/n)`.
+  这一例题再次刻画了调和级数“刚好发散”的形象.
+</p>
+
+<p class="proof">
+  利用不等式 `n a_n // 2 le sum_(n//2 lt k le n) a_k lt epsi` 即可.
+</p>
+
+<p class="proof">
+  先由 `n a_n le sum_(1 le k le n) a_k lt oo` 知 `n a_n` 有界.<br/>
+  再由
+  <span class="formula">
+    `sum_(1 le k lt n) a_k - sum_(1 lt k le n) k (a_(k-1) - a_k)`
+    `= n a_n - a_1 lt oo`
+  </span>
+  知, 左边第二项有界, 因此正项级数 `sum n(a_(n-1) - a_n)` 收敛,
+  进而 `lim_(n to oo) n a_n` 极限存在, 设为 `a`.<br/>
+  若 `a gt 0`, 由比较判别法知 `sum a_n` 发散, 矛盾; 因此 `a = 0`.
+</p>
+
+<p class="theorem">
+    <b>积分判别法</b>
+    设 `f` 在 `[M, +oo)` 上非负单调减, 于是
+    <span class="formula">
+        `f(n) = int_n^(n+1) f(n) dx ge int_n^(n+1) f(x) dx`,
+    </span>
+    对 `n` 求和得到 `sum_(n ge M) f(n) ge int_M^oo f(x) dx`,
+    这是级数的下界; 类似可得到上界.
+    于是无穷级数的敛散性归结为无穷积分的敛散性;
+    反之, 也可以用级数对积分进行估计.
+</p>
+
+<h2>任意项级数</h2>
+
+<p class="theorem">
+	<b>级数的两边夹法则</b>
+	若级数 `sum w_n` 与 `sum v_n` 均收敛,
+	且对任意正整数 `n` 成立 `w_n le u_n le v_n`, 则 `sum u_n`
+	收敛. 进一步, 若两端的级数收敛到同一个和, 则 `sum u_n`
+	也收敛到这个和.
+</p>
+
+<p class="proof">
+  由 `w_n le u_n le v_n` 得 `0 le u_n - w_n le v_n - w_n`,
+  由已知 `sum (v_n - w_n)` 收敛, 由正项级数的比较判别法知,
+  `sum (u_n - w_n)` 也收敛, 从而 `sum u_n` 收敛.
+  进一步, 若两端级数收敛到同一个和, 则 `sum (v_n - w_n)` 收敛到零,
+  从而 `sum (u_n - w_n)` 也收敛到零, 即 `sum u_n` 收敛到同一个和.
+</p>
+
+<p class="remark">
+	数列的两边夹法则要求两端的数列具有同一极限, 级数的两边夹法则无此要求.
+</p>
+
+<p class="theorem">
+	<b>Leibniz 判别法</b>
+	如果数列 `{u_n}` 单调趋于零, 那么交错级数 `sum_(n ge 0) (-1)^n u_n`
+	收敛.
+</p>
+
+<p class="lemma">
+	<b>Abel 变换</b>
+	设 `a_1, a_2, cdots, a_n` 和 `b_1, b_2, cdots, b_n` 是两组数.
+  记 `b_0 = 0`, `Delta b_k = b_k - b_(k-1)`, `k = 1, 2, cdots n`. 则
 	<span class="formula">
-		`f(x) = sum_(n ge 0) a^n cos(b^n pi x)`,
-		`quad 0 lt a lt 1`, `b` 为正奇数
+		`sum_(k=1)^n a_k Delta b_k = a_k b_k - sum_(k=1)^(n-1) Delta
+		a_(k+1) b_k`.
 	</span>
-  在 `RR` 上处处连续, 且 `ab gt 1 + 3/2 pi` (即, `b ge 7`) 时处处不可导.
-  `f(x)` 是 Hölder 连续的, 但不是 Lipschitz 连续的.
+  Abel 变换是离散版本的“分部积分”.
 </p>
 
-<div class="img md" title="随着 b 的增大, Weierstrass 函数变得充满锯齿而不可导 [来自 wikipedia]">
-  <img src="https://pic4.zhimg.com/50/v2-2b9f78f214f7f857befdd22acd324c82_hd.webp"/>
-</div>
-
-<ol class="proof">
-  [来自 <a href="https://zhuanlan.zhihu.com/p/112726225">知乎</a>]
-  <li>连续性:
-    由优级数 `sum_(n=0)^(oo) a^n`, 利用 Weierstrass 判别法知
-    `f(x)` 在 `RR` 上内闭一致收敛.  由于每个函数项是 `RR` 上的连续函数,
-    所以 `f(x)` 也是 `RR` 上的连续函数.
-  </li>
-  <li>下证 `f` 处处不可导. 为此, 记
-    <span class="formula">
-      `(f(x+h) - f(x))/h`
-      `= sum_(n ge 0) a^n [cos b^n pi (x+h) - cos b^n pi x] // h`
-      `= sum_(n=0)^(m-1) + sum_(n ge m)`
-      `= S_m + R_m`.
-    </span>
-  </li>
-  <li>`|S_m|` 的上界.
-    由微分中值定理,
-    <span class="formula">
-      `|cos b^n pi (x+h) - cos b^n pi x|`
-      `= |b^n pi h sin b^n pi (x+theta h)|`
-      `le b^n pi |h|`, `quad theta in (0, 1)`,
-    </span>
-    有
-    <span class="formula">
-      `|S_m| le sum_(n=0)^(m-1) a^n b^n pi`
-      `= pi (a^m b^m -1)/(a b -1)`
-      `le pi (a^m b^m)/(a b-1)`.
-    </span>
-  </li>
-  <li>`|R_m|` 的下界.
-    将 `b^m x` 写为整数部分和小数部分:
-    <span class="formula">
-      `b^m x = A_m + B_m`,
-      `quad A_m in ZZ`, `B_m in [-1/2, 1/2)`.
-    </span>
-    令 `h = (1-B_m)/b^m`, 则 `h in (0, 3/(2 b^m)]`.
-    注意 `b` 是奇数, 有
-    <span class="formula">
-      `cos b^n pi (x+h)`
-      `= cos b^(n-m) pi (b^m x + b^m h)`
-      `= cos b^(n-m) pi (1 + A_m)`
-      `= (-1)^(1+A_m)`,<br>
-      `cos b^n pi x`
-      `= cos b^(n-m) pi (A_m + B_m)`
-      `= (-1)^(A_m) cos b^(n-m) pi B_m`.
-    </span>
-    因此
-    <span class="formula">
-      `|R_m| = 1/|h| sum_(n ge m) a^n (1 + cos b^(n-m) pi B_m)`
-      `ge a^m/|h| (1+cos b^0 pi B_m)`
-      `ge a^m/|h|`
-      `ge 2/3 a^m b^m`.
-    </span>
-  </li>
-  <li>综上
-    <span class="formula">
-      `|(f(x+h) - f(x))/h|`
-      `ge |R_m| - |S_m|`
-      `ge (2/3 - pi/(a b-1)) a^m b^m`.
-    </span>
-    令 `m to oo`, 则 `h` 是一个趋于零的数列.
-    只要 `2/3 - pi/(a b-1) gt 0`, 上式右边就趋于正无穷, 因此 `f` 不可微.
-  </li>
+<ol class="theorem">
+  设数列 `{u_n}` 单调有界, 级数 `sum v_n` 的部分和有界, 考虑级数
+  `(**) = sum u_n v_n`:
+  <li><b>Dirichlet 判别法</b> 若 `u_n` 趋于零, 则 `(**)` 收敛.</li>
+	<li><b>Abel 判别法</b> 若 `sum v_n` 收敛, 则 `(**)` 收敛.</li>
 </ol>
+
+<p class="remark">
+	Dirichlet 判别法是 Leibniz 判别法的推广, 它把振荡级数
+  `sum (-1)^n` 换成了部分和有界的 `sum v_n`.<br/>
+  熟知收敛级数乘以常数因子仍收敛; Abel 判别法告诉我们,
+  收敛级数乘以单调有界数列也仍收敛.
+</p>
+
+<h2>级数中的反例</h2>
+
+<p class="example">
+	`0 le u_n le 1/n`, 而 `sum_(n ge 1) (-1)^n u_n` 发散的例子:
+	`u_n = (1+(-1)^n)/(2n)`. 在这个例子中, 通项 `u_n to 0`, 但不是单调的,
+	不满足 Leibniz 判别法的条件.
+</p>
+
+<p class="example">
+  [来自<a href="https://zhuanlan.zhihu.com/p/88194615">知乎</a>]
+  若级数 `sum a_n` 条件收敛, 且 `a_n // b_n to 1`,
+  并不能推出级数 `sum b_n` 收敛.
+  比如级数 `1 - 1/sqrt 2 + 1/sqrt 3 - 1/sqrt 4 + cdots` 收敛,
+  <span class="formula">
+    `1/(sqrt2-1) - 1/(sqrt2+1) + 1/(sqrt3-1) - 1/(sqrt3+1) + cdots`
+  </span>
+  发散, 而它们通项之比趋于 `sqrt2`, 是同阶无穷小.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

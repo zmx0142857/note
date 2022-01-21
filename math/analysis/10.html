@@ -1,663 +1,1136 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>常数项级数</title>
+    <title>Bernoulli 数与 Riemann zeta 函数</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>无穷级数的基本概念</h2>
+<h2>前 `x` 个自然数 `n` 次幂的求和公式</h2>
 
 <p class="definition">
-	<b>无穷级数</b>, 简称<b>级数</b>,
-	是用加号把数列 `{u_n}` 中的所有数依次连接起来所得到的数学表达式:
+	设 `n` 为非负整数, 定义 `B_n(x) in QQ[x]` 是满足
 	<span class="formula">
-		`sum_(n=1)^oo u_n = u_1 + u_2 + cdots + u_n + cdots`.
+		`int_x^(x+1) B_n(y) dy = x^n`
+		<span class="label" id="for-def-Bn(x)"></span>
 	</span>
-	每个加数称为级数的一<b>项</b>, 一般项 `u_n` 称为级数的<b>通项</b>.
-	对每个正整数 `n`, 由级数的前 `n` 项和
-	<span class="formula">
-		`S_n = sum_(k=1)^n u_k`
-	</span>
-	组成一个数列 `{S_n}_(n=1)^oo`, 称为级数的<b>部分和 (数列)</b>.
-	当部分和数列收敛时, 则称这个级数<b>收敛</b>,
-	并称部分和数列的极限为级数的<b>和</b>. 故对收敛级数, 我们有
-	<span class="formula">
-		`sum_(k=1)^oo u_n = lim_(n to oo) sum_(k=1)^n u_k`.
-	</span>
-	另一方面, 当部分和数列发散时, 就称级数<b>发散</b>.
-	如果级数的部分和数列趋于正 (负) 无穷大, 我们也称这个级数发散到正 (负)
-	无穷大, 记为
-	<span class="formula">
-		`sum_(n=1)^oo u_n = +oo (-oo)`.
-	</span>
+	的唯一多项式, 称为 <b>Bernoulli 多项式</b>.
+	`B_n(x)` 也记为 `B_n^(-)(x)`.
 </p>
 
 <p class="remark">
-  下文把 `sum_(n=1)^oo` 简记为 `sum_(n ge 1)`, 有时也完全省略上下标.
-</p>
-
-<p class="remark">
-	小数就是级数的一个例子. 比如
+	设 `B_n(x) = sum_(k=0)^n b_k x^k`, 逐项积分得
 	<span class="formula">
-		`3.1415926... = 3 + 1/10 + 4/10^2 + 1/10^3 + 5/10^4 + cdots`.
+		`sum_(k=0)^n b_k ((x+1)^(k+1) - x^(k+1))/(k+1) = x^n`.
 	</span>
-	实际运用中, 许多问题无法求出或不需要求出精确解, 我们就常用级数估计它,
-	这和用小数近似估计一个实数是相同的思想.
+	比较等号两边的各次项系数就可得到 `B_n(x)`.
+	这就同时证明了 `B_n(x)` 的存在性与唯一性.
+	从以上证明看出, `B_n(x)` 是次数为 `n` 的首一多项式.
 </p>
 
-<p class="remark">
-  通过考虑部分和, 可以将级数问题转化为数列问题;
-  反之, 已知一个数列 `{a_n}`,
-  通过作差分 `b_n = a_n - a_(n-1)`, 可以将数列化为级数:
-  <span class="formula">
-    `a_n = a_0 + sum_(k=1)^n b_k`,
-    `quad lim_(n to oo) a_n = sum_(n ge 1) b_n`. (如果极限存在)
-  </span>
-</p>
-
-<p class="example">
-	几何级数
+<p class="definition">
+	对任意非负整数 `n, x`, 记
 	<span class="formula">
-		`sum_(n ge 0) x^n`
-		`{
-			= (1-x)^-1, if |x| lt 1;
-			= oo, if |x| gt 1;
-			"发散", if x = -1;
-		:}`.
+		`S_n(x) = sum_(i=1)^x i^n`, `quad B_n^+(x) = "d"/dx S_n(x)`.
 	</span>
+	注意 `S_n(0) -= 0`, 故有 `S_n(x) = int_0^x B_n^+(y) dy`.
 </p>
 
-<ol class="theorem">
-	<li>`sum_(n ge 1) c u_n = c sum_(n ge 1) u_n`;</li>
-	<li>`sum_(n ge 1) (u_n +- v_n) = sum_(n ge 1) u_n +- sum_(n ge 1) v_n`.
-	</li>
-	这两个等式表示右端级数收敛时, 左端级数也收敛, 且它们的和相等.
-	这个定理表明, 收敛级数可以进行线性运算.
-</ol>
-
-<p class="proof">
-	考察两个级数的部分和, 有
-	<span class="formula">
-		`sum_(k=1)^n c u_k = c sum_(k=1)^n u_k`.
-	</span>
-	在等式两边令 `n to oo`, 就证明了结论 1. 结论 2 的证明类似.
-	级数的线性可加性是由数列极限的线性可加性保证的.
-</p>
-
-<ol class="corollary">
-	应用反证法, 立即得到下面的推论:
-	<li>若 `sum u_n` 发散, 则对任意 `c != 0`, `sum c u_n` 发散.</li>
-	<li>若 `sum u_n` 发散, `sum v_n` 收敛, 则 `sum (u_n +- v_n)` 发散;</li>
-</ol>
-
-<p class="theorem">
-	任意改变级数中有限项的数值, 不改变级数的敛散性;
-	换言之, 对两个级数 `sum u_n`, `sum v_n`,
-	如果存在正整数 `N`, 使对所有 `n gt N` 的项都有 `u_n = v_n`,
-	则它们的敛散性相同.
+<p class="proposition" id="prop-relation-bernoulli-poly">
+	`B_n^+(x) = B_n(x+1)`, 因此 `B_n^+(x)` 也是次数为 `n` 的首一多项式.
 </p>
 
 <p class="proof">
-	比较它们的部分和, 有
+	在等式
 	<span class="formula">
-		`sum_(k=1)^n u_n`
-		`= sum_(k=1)^N (u_k - v_k) + sum_(k=1)^n v_n`.
+		`S_n(x) = sum_(i=1)^x i^n`
+		`= sum_(i=1)^x int_i^(i+1) B_n(y) dy`
+		`= int_1^(x+1) B_n(y) dy`
 	</span>
-	由数列极限的运算法则知道, 这两个级数敛散性相同.
+	两端求导即得.
 </p>
 
-<p>	由数列收敛的 Cauchy 准则立即推出:</p>
-
-<p class="theorem">
-	<b>级数收敛的 Cauchy 准则</b>
-	级数 `sum u_n` 收敛的充要条件是 `AA epsi gt 0`, `EE N in NN`,
+<p class="corollary" id="cor-relation-bernoulli-poly">
+	在 `B_n(x)` 的定义式<a class="ref"
+	href="#for-def-Bn(x)"></a>两端求导有
 	<span class="formula">
-		`|sum_(m le k le n) u_k| lt epsi`, `quad AA n gt m gt N`.
+		`B_n^+(x) - B_n(x) = n x^(n-1)`.
 	</span>
+</p>
+
+<p class="proposition" id="prop-Bn'(x)">
+	`"d"/dx B_n^(+-)(x) = n B_(n-1)^(+-)(x)`, `n ge 1`.<br>
+    注意类比 `"d"/dx x^n = n x^(n-1)`.
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`int_x^(x+1) "d"/dx B_n(y) dy`
+		`= "d"/dx int_x^(x+1) B_n(y) dy`
+		`= "d"/dx (x^n)`
+		`= n x^(n-1)`,
+	</span>
+	再由定义即得
+	<span class="formula">
+		`"d"/dx B_n(x) = n B_(n-1)(x)`.
+	</span>
+	利用<a class="ref" href="#prop-relation-bernoulli-poly"></a> 知,
+	`B_n^+(x)` 也满足相同的等式.
+</p>
+
+<p class="proposition" id="prop-Sn">
+	<span class="formula">
+		`S_(n-1)(x) = (B_n^+(x) - B_n^+(0))/n`, `quad n ge 1`,<br/>
+		`S_(n-1)(x-1) = (B_n^(-)(x) - B_n^(-)(0))/n`, `quad n ge 2`.
+	</span>
+</p>
+
+<p class="proof">
+	<span class="formula">
+		`S_(n-1)(x) = int_0^x B_(n-1)^+(y) dy`
+		`= int_0^x ("d"/dx B_n^+(y))/n dy`
+		`= (B_n^+(x) - B_n^+(0))/n`.
+	</span>
+	第二式的证明, 只需注意由定义, `n ge 2` 时, `int_0^1 B_n^(-)(y) dy=0`:
+	<span class="formula">
+		`S_(n-1)(x-1) = int_0^(x-1) B_(n-1)^+(y) dy`
+		`= int_1^x B_(n-1)^(-)(y) dy`
+		`= int_0^x B_(n-1)^(-)(y) dy`.
+	</span>
+	后面的步骤与第一式相同.
 </p>
 
 <ol class="definition">
-  考虑级数 `sum u_n`.
-  <li>如果 `sum |u_n|` 收敛, 则称原级数 `sum u_n` <b>绝对收敛</b>;</li>
-  <li>如果原级数收敛, 但不是绝对收敛, 则称它是<b>条件收敛</b>.</li>
+	<li><b>第一类 Bernoulli 数</b>是 `B_n^(-)(x)` 的常数项:
+		`B_n^(-) := B_n^(-)(0) = B_n^+(-1)`;
+	</li>
+	<li><b>第二类 Bernoulli 数</b>是 `B_n^+(x)` 的常数项, 也是
+		`B_n^(-)(x)` 的各项系数之和: `B_n^+ := B_n^+(0) = B_n^(-)(1)`.
+	</li>
+	由<a class="ref" href="#cor-relation-bernoulli-poly"></a>知道,
+	除了 `n=1` 时有 `B_n^+ - B_n^(-) = 1` 外, 对于 `n != 1` 均有 `B_n^+
+	= B_n^(-)`, 这时我们不区分两类 Bernoulli 数, 都简记为 `B_n`.
+</ol>
+
+<p class="proposition" id="prop-Bn(x)">
+	`B_n^(+-)(x) = sum_(k=0)^n (n;k) B_k^(+-) x^(n-k)`.
+</p>
+
+<p class="proof">
+	由<a class="ref" href="#prop-Bn'(x)"></a>,
+	<span class="formula">
+		`1/(k!) "d"^k/dx^k B_n^(+-)(x)`
+		`= (n;k) B_(n-k)^(+-)(x)`, `quad n ge k`.
+	</span>
+	从而 `B_n^(+-)(x)` 的 `n-k` 次项系数等于
+	<span class="formula">
+		`1/((n-k)!) "d"^(n-k)/dx^(n-k) B_n(x)|_(x=0)`
+		`= (n;n-k) B_k(0)`
+		`= (n;k) B_k^+`,
+	</span>
+	从而结论成立.
+</p>
+
+<p>综上有:</p>
+
+<p class="theorem">
+	设整数 `x ge 0`, `n ge 1`, 则
+	<span class="formula">
+		`sum_(i=1)^x i^(n-1) = S_(n-1)(x)`
+		`= 1/n sum_(k=0)^(n-1) (n;k) B_k^+ x^(n-k)`.
+		<span class="label" id="for-sum-powers"></span>
+	</span>
+</p>
+
+<p class="proof">
+	由<a class="ref" href="#prop-Sn"></a>知, `n S_(n-1)(x)` 等于
+	`B_n^+(x)` 减去其常数项,
+	由<a class="ref" href="#prop-Bn(x)"></a>, 此即
+	<span class="formula">
+		`n S_(n-1)(x)`
+		`= sum_(k=0)^(n-1) (n;k) B_k^+ x^(n-k)`.
+	</span>
+</p>
+
+<h2>Bernoulli 数与 Stirling 数</h2>
+
+<h2>Bernoulli 数的递推公式与生成函数</h2>
+
+<h3>递推公式</h3>
+
+<p class="proposition">
+	<b>`B_n^(+-)(x)` 的递推公式</b>
+	<span class="formula">
+		`sum_(k=0)^(n-1) (n;k) B_k^(+)(x) = n(x+1)^(n-1)`, `quad n ge 1`;
+		<br/>
+		`sum_(k=0)^(n-1) (n;k) B_k^(-)(x) = n x^(n-1)`, `quad n ge 1`.
+	</span>
+</p>
+
+<ol class="proof">
+	<li>由二项式定理
+		<span class="formula">
+			`sum_(k=0)^(n-1) (n;k) i^k`
+			`= (i+1)^n - i^n`,
+		</span>
+		令 `i` 从 `1` 到 `x` 求和,
+		<span class="formula">
+			`sum_(k=0)^(n-1) (n;k) S_n(x)`
+			`= (x+1)^n - 1`.
+		</span>
+		再求导即可.
+	</li>
+	<li>把 1. 中的 `x+1` 换成 `x` 即可.
+	</li>
 </ol>
 
 <p class="corollary">
-	级数绝对收敛蕴含它收敛.
+	<b>`B_n^(+-)` 的递推公式</b>
+	在 `B_n^(+-)(x)` 的递推公式中代入 `x=0` 得,
+	<span class="formula">
+		`sum_(k=0)^(n-1) (n; k) B_k^+ = n`, `quad n ge 1`.<br/>
+		`sum_(k=0)^(n-1) (n; k) B_k^(-) = 0`, `quad n ge 2`.
+	</span>
+	在 <a class="ref" href="#for-sum-powers"></a> 中代入 `x=1` 也能得到
+	`B_n^+` 的递推公式.
+</p>
+
+<p>	利用递推公式计算前几个 Bernoulli 数如下. 其中除了 `B_1^+ = 1/2`,
+	`B_1^(-) = -1/2` 外, 均有 `B_n^+ = B_n^(-)`.
+	有趣的是 `B_3 = B_5 = B_7 = cdots = 0`, 这一点我们稍后证明.
+</p>
+
+<table style="font-size:.85em;text-align:center">
+	<tr>
+		<td>`n`</td>
+		<td>`0`</td>
+		<td>`1`</td>
+		<td>`2`</td>
+		<td>`4`</td>
+		<td>`6`</td>
+		<td>`8`</td>
+		<td>`10`</td>
+		<td>`12`</td>
+		<td>`14`</td>
+		<td>`16`</td>
+		<td>`18`</td>
+		<td>`20`</td>
+	</tr>
+	<tr>
+		<td>`B_n`</td>
+		<td>`1`</td>
+		<td>`+-1/2`</td>
+		<td>`1/6`</td>
+		<td>`-1/30`</td>
+		<td>`1/42`</td>
+		<td>`-1/30`</td>
+		<td>`5/66`</td>
+		<td>`-691/2730`</td>
+		<td>`7/6`</td>
+		<td>`-3617/510`</td>
+		<td>`43867/798`</td>
+		<td>`-174611/330`</td>
+	</tr>
+</table>
+
+<p class="proposition">
+	`B_n(1-x) = (-1)^n B_n(x)`.
 </p>
 
 <p class="proof">
-	应用 Cauchy 准则和三角不等式
-  `|sum_(m le k le n) u_k| le sum_(m le k le n) |u_k|` 即可.
+	<span class="formula">
+		`int_x^(x+1) B_n(1-y) dy`
+		`= int_(-x)^(1-x) B_n(t) dt`
+		`= (-x)^n`,
+	</span>
+	由定义即得结论.
 </p>
+
+<ol class="corollary" id="cor-Bn-odd-zero">
+	对任意非负整数 `n` 成立:
+	<li>`B_n^(-) = (-1)^n B_n^+`;</li>
+	<li>`B_(2n+3) = 0`;</li>
+	<li>`B_(2n+1)(1/2) = 0`.</li>
+</ol>
+
+<p class="proof">
+	1, 3 显然; 2 成立是因为前文提到, 对任意 `n != 1` 有 `B_n^+ = B_n^-`.
+</p>
+
+<h3>生成函数</h3>
 
 <p class="theorem">
-	级数收敛的必要条件是其通项趋于零.
+	`B_n(x)` 的指数型生成函数是
+	<span class="formula">
+		`(t "e"^(x t))/("e"^t-1) = sum_(n=0)^oo B_n(x) t^n/(n!)`,
+		`quad |t| lt 2pi`.
+	</span>
+	分别代入 `x = 1, 0` 得:
+	<span class="formula">
+		`(t"e"^t)/("e"^t-1) = sum_(n=0)^oo B_n^+ t^n/(n!)`,
+		`quad |t| lt 2 pi`,<br/>
+		`(t)/("e"^t-1) = sum_(n=0)^oo B_n^(-) t^n/(n!)`,
+		`quad |t| lt 2 pi`.
+	</span>
 </p>
 
 <p class="proof">
-	这当然是 Cauchy 收敛准则的推论, 但也可以这样证: 记 `S_n`
-	是级数 `sum u_n` 的部分和, 则
+	直接验证
 	<span class="formula">
-		`lim_(n to oo) u_n`
-    `= lim_(n to oo) (S_n - S_(n-1))`
-		`= lim_(n to oo) S_n - lim_(n to oo) S_(n-1) = 0`.
+		`("e"^t-1) sum_(k=0)^oo B_k(x) t^k/(k!)`
+		`= (sum_(j=1)^oo t^j/(j!)) (sum_(k=0)^oo B_k(x) t^k/(k!))`
+		`= sum_(n=1)^oo sum_(k=0)^(n-1) B_k(x) t^n/(k!(n-k)!)`
+		`= sum_(n=1)^oo t^n/(n!) sum_(k=0)^(n-1) (n;k) B_k(x)`
+		`= sum_(n=1)^oo (x^(n-1) t^n)/((n-1)!)`
+		`= t sum_(n=0)^oo (x t)^n/(n!)`
+		`= t "e"^(x t)`.
+	</span>
+	注意到生成函数具有奇点 `2 k pi "i"`, `k in ZZ`, 因此收敛半径为 `2pi`.
+</p>
+
+<p class="proof">
+	(Castellanos, 1988)
+	用微分方程导出生成函数. 设
+	<span class="formula">
+		`f(x, t) = sum_(n=0)^oo (B_n(x) t^n)/(n!)`,
+	</span>
+	求偏导
+	<span class="formula">
+		`(del f)/(del x)`
+		`= sum_(n=1)^oo (B_(n-1)(x) t^n)/((n-1)!)`
+		`= t sum_(n=0)^oo (B_n(x) t^n)/(n!)`
+		`= t f(x, t)`.
+	</span>
+	此方程的解为 `f(x, t) = c(t) "e"^(x t)`. 为确定 `c(t)`, 计算积分
+	<span class="formula">
+		`int_0^1 f(x, t) dx`
+		`= c(t) int_0^1 "e"^(x t) dx`
+		`= c(t) ("e"^t-1)/t`.
+	</span>
+	另一方面,
+	<span class="formula">
+		`int_0^1 f(x, t)`
+		`= sum_(n=0)^oo t^n/(n!) int_0^1 B_n(x) dx`
+		`= 1 + sum_(n=1)^oo t^n/(n!) 0^n = 1`.
+	</span>
+	比较得 `c(t) = t/("e"^t-1)`, `f(x,t) = (t"e"^(x t))/("e"^t-1)`.
+</p>
+
+<p class="remark">
+	在 `B_n^+` 的生成函数两边用 `-t` 替换 `t`,
+	也能得到 `B_n^(-)` 的生成函数:
+	<span class="formula">
+		`sum_(n=0)^oo B_n^(-) t^n/(n!)`
+		`= sum_(n=0)^oo B_n^+ (-1)^n t^n/(n!)`
+		`= (-t"e"^-t)/("e"^-t-1)`
+		`= t/("e"^t-1)`.
+	</span>
+</p>
+
+<p class="remark">
+	也可以由生成函数来定义 `B_n(x)`, `B_n^+`, `B_n^-`,
+	并导出以上提到的全部性质.
+</p>
+
+<p class="corollary">
+	<span class="formula">
+		`t/2 coth{:t/2:}`
+		`= t/2 ("e"^t+1)/("e"^t-1)`
+		`= (t"e"^t-t/2("e"^t-1))/("e"^t-1)`
+		`= (t"e"^t)/("e"^t-1) - B_1^+ t`
+		`= sum_(n=0)^oo B_(2n) t^(2n)/((2n)!)`.
 	</span>
 </p>
 
 <p class="example">
-	设级数 `sum u_n`, `sum v_n` 都收敛, 且通项
-	`u_n ge v_n`, `n = 1, 2, cdots`.
-	显然 `sum (u_n - v_n)` 收敛, 记其和为 `S`.
-	如果存在 `k in ZZ^+` 使 `u_k gt v_k`, 那么断言 `S gt 0`.
+	一些三角函数的 Maclaurin 展式 (`"i"` 为虚数单位):
 </p>
+
+<table>
+	<tr>
+		<td>`coth x = 1/x sum_(n=0)^oo B_(2n) (2x)^(2n)/((2n)!)`,</td>
+		<td>`|x| lt pi`</td>
+	</tr>
+	<tr>
+		<td>`cot x = 1/x sum_(n=0)^oo B_(2n) (2"i"x)^(2n)/((2n)!)`,</td>
+		<td>`|x| lt pi`</td>
+	</tr>
+	<tr>
+		<td>`tanh x = 1/x sum_(n=1)^oo B_(2n) ((4^n-1) (2x)^(2n))/((2n)!)`,</td>
+		<td>`|x| lt pi/2`</td>
+	</tr>
+	<tr>
+		<td>`tan x = 1/x sum_(n=1)^oo B_(2n)((1-4^n) (2"i"x)^(2n))/((2n)!)`,</td>
+		<td>`|x| lt pi/2`</td>
+	</tr>
+</table>
 
 <p class="proof">
 	<span class="formula">
-		`S = sum_(n=1)^k (u_n-v_n) + sum_(n gt k) (u_n-v_n)`,
+		`coth x`
+		`= ("e"^(2x)+1)/("e"^(2x)-1)`
+		`= 1/x sum_(n=0)^oo B_(2n) (2x)^(2n)/((2n)!)`,<br/>
+		`tanh x`
+		`= ("e"^(2x)-1)/("e"^(2x)+1)`
+		`= 2("e"^(4x)+1)/("e"^(4x)-1) - ("e"^(2x)+1)/("e"^(2x)-1)`
+		`= 1/x sum_(n=1)^oo B_(2n) ((4^n-1) (2x)^(2n))/((2n)!)`.
 	</span>
-	第一项大于 0, 第二项由极限的保序性非负, 因此 `S gt 0`.
-</p>
-
-<p class="remark">
-	定积分中也有类似于上例的结论, 这时要求被积函数连续.
-</p>
-
-<h2>正项级数</h2>
-
-<p>本节专注于级数的绝对收敛. 注意 `sum |u_n|` 的通项非负, 引出定义:</p>
-
-<p class="definition">
-	通项非负的级数称为<b>正项级数</b>.
-</p>
-
-<p class="remark">
-	由于去掉级数的有限项不改变其敛散性,
-	因此对除有限项外各项都是非负的级数, 也可以使用正项级数的敛散性理论.
-</p>
-
-<p>	由数列收敛的单调有界原理立即得到:</p>
-
-<p class="lemma">
-	正项级数收敛的充要条件是其部分和数列有上界. 换言之,
-  只要有界 (`sum u_n lt oo`) 即推出有极限 (`sum u_n = a`).
-</p>
-
-<h3>敛散性判别</h3>
-
-<ol class="theorem">
-	<b>比较判别法一</b>
-	设有正项级数 `sum u_n`, `sum v_n`,
-	且存在正整数 `N`, 从第 `N` 项起, 恒有 `u_n le v_n`
-  <span class="shadow">
-    注意到常数因子不改变级数敛散性, 这个条件就是说 `u_n = O(v_n)`
-  </span>, 则
-	<li>`sum v_n` 收敛 `rArr sum u_n` 收敛;</li>
-	<li>`sum u_n` 发散 `rArr sum v_n` 发散.</li>
-</ol>
-
-<p class="proof">
-	因为去掉级数的有限项不改变级数的敛散性, 所以不妨设 `N = 1`.
-	由条件知
+	再利用
 	<span class="formula">
-		`sum_(k=1)^n u_n le sum_(k=1)^n v_n`, `quad n = 1, 2, cdots`.
+		`cot x = "i" coth("i"x)`,
+		`quad tan x = -"i" tanh("i"x)`,
 	</span>
-	如果 `sum v_n` 收敛, 则 `sum u_n` 的部分和有上界, 从而收敛;
-  反之如果 `sum u_n` 发散, 则其部分和无上界,
-	于是 `sum v_n` 的部分和也无上界, 是发散的.
-</p>
-
-<ol class="corollary">
-	<b>比较判别法二</b>
-	设有正项级数 `sum u_n`, `sum v_n`, 其中 `v_n` 的各项严格大于零,
-  且存在 `0 le l le oo` 使成立
-  <span class="formula">
-    `lim_(n to oo) u_n/v_n = l`.
-  </span>
-	<li>`l lt oo` 时, `sum v_n` 收敛 `rArr sum u_n` 收敛;</li>
-	<li>`l gt 0` 时, `sum v_n` 发散 `rArr sum u_n` 发散.</li>
-</ol>
-
-<!--
-<ol class="proof">
-	<li>若 `0 lt l lt +oo`, 由条件知存在正整数 `N`, 使
-		<span class="formula">
-			`l/2 v_n le u_n le 2l v_n`, `quad AA n ge N`.
-		</span>
-		级数 `sum_(n=1)^oo l/2 v_n` 与 `sum_(n=1)^oo 2l v_n` 都与
-		`sum_(n=1)^oo v_n` 具有相同的敛散性. 由比较判别法一知道,
-		`sum_(n=1)^oo u_n` 和 `sum_(n=1)^oo v_n` 也有相同的敛散性.
-	</li>
-	<li>若 `l = 0`, 由条件知存在正整数 `N`, 使 `u_n le v_n`, `AA n ge N`.
-		由比较判别法一知, `sum_(n=1)^oo v_n` 收敛时, `sum_(n=1)^n u_n`
-		也收敛.
-	</li>
-	<li>若 `l = +oo`, 由条件知存在正整数 `N`, 使 `u_n ge v_n`, `AA n ge
-		N`. 由比较判别法一知, `sum_(n=1)^oo v_n` 发散时, `sum_(n=1)^oo
-		u_n` 也发散.
-	</li>
-</ol>
--->
-
-<p class="proof">
-	`l lt oo` 时, 有 `u_n = O(v_n)`,
-	`l gt 0` 时, 有 `v_n = O(u_n)`;
-	再应用比较判别法一即得结论.
-</p>
-
-<ol class="corollary">
-	<b>比较判别法三</b>
-	设有正项级数 `sum u_n`, `sum v_n`, 两个级数的各项都严格大于零,
-  且存在正整数 `N`, 从第 `N` 项起恒有 `u_(n+1)/u_n le v_(n+1)/v_n`. 则
-	<li>`sum v_n` 收敛 `rArr sum u_n` 收敛;</li>
-	<li>`sum u_n` 发散 `rArr sum v_n` 发散.</li>
-</ol>
-
-<p class="proof">
-	由条件知对任意 `n gt N` 的项都成立
+	即得到 `cot x`, `tan x` 的展式.
+	类似地, 还可以通过恒等式
 	<span class="formula">
-		`u_n/u_N = prod_(k=N+1)^n u_k/u_(k-1)`
-		`le prod_(k=N+1)^n v_k/v_(k-1) = v_n/v_N`.
+		`csc x = cot x + tan{:x/2:}`
 	</span>
-	即 `u_n le u_N/v_N v_n`, `AA n gt N`.
-	应用比较判别法一即得结论.
-</p>
-
-<ol class="theorem">
-	<b>D'Alembert 检比法</b>
-	设 `sum u_n` 是各项严格大于零的正项级数,
-	且存在 `0 le l le oo` 使成立
-		`lim_(n to oo) u_(n+1)/u_n = l`.
-	则
-	<li>`l lt 1` 时级数收敛;</li>
-	<li>`l gt 1` 时级数发散.</li>
-	但是 `l = 1` 时, 级数的敛散性无法用此定理判断.
-</ol>
-
-<ol class="proof">
-	我们通过与几何级数进行比较, 来证明这个定理.
-	<li>先设 `0 le l lt 1`. 取实数 `r` 使得 `l lt r lt 1`, 再令
-		`v_n = r^n`, `n = 1, 2, cdots`. 则 `sum v_n` 收敛.
-		注意到 `v_(n+1)/v_n = r gt l = lim_(n to oo) u_(n+1)/u_n`,
-		所以存在正整数 `N` 使 `u_(n+1)/u_n le v_(n+1)/v_n`, `AA n ge N`.
-		应用比较判别法三即知 `sum u_n` 收敛.
-	</li>
-	<li>再设 `1 lt l le oo`. 取实数 `r` 使得 `1 lt r lt l`,
-    类似可证 `sum u_n` 发散.
-	</li>
-</ol>
-
-<ol class="theorem">
-	<b>Cauchy 检根法</b>
-	设 `sum_(n=1)^oo u_n` 是正项级数, 且存在 `0 le l le oo` 使上极限
-		`underset(n to oo) bar lim root n (u_n) = l`.
-	则
-	<li>`l lt 1` 时级数收敛;</li>
-	<li>`l gt 1` 时级数发散.</li>
-	但是再一次, `l = 1` 时, 级数的敛散性无法用此定理判断.
-</ol>
-
-<ol class="proof">
-	<li>先设 `0 le l lt 1`. 取实数 `r` 使得 `l lt r lt 1`,
-		则由条件知存在正整数 `N`, 使当 `n ge N` 时 `root n (u_n) le r`.
-		即 `u_n le r^n`. 由 `r lt 1` 知 `sum r^n` 收敛, 从而
-		`sum u_n` 也收敛.
-	</li>
-	<li>再设 `1 lt l le +oo`. 取实数 `r` 使得 `1 lt r lt l`. 由条件知,
-		存在 `{u_n}` 的子列 `{u_(n_k)}` 使得对任意正整数
-		`k` 成立 `root (n_k) (u_(n_k)) ge r`, 即 `u_(n_k) ge r^(n_k)`.
-		因为 `r gt 1`, 所以 `k to oo` 时, `r^(n_k) to +oo`, 于是
-		`u_(n_k) to +oo`. 级数 `sum u_n` 的通项不趋于零,
-		所以它发散.
-	</li>
-</ol>
-
-<p class="remark">
-    `l = 1` 时, D'Alembert 和 Cauchy 判别法均失败.
-    为了判断更精细的级数的敛散性, 可以考虑下一节的 Gauss 判别法.
-</p>
-
-<h3>调和级数</h3>
-
-<p class="example">
-	级数 `zeta(s) = sum_(n=1)^oo 1/n^s` 在 `s gt 1` 时收敛, `s le 1` 时发散.
-</p>
-
-<ol class="proof">
-	`s le 0` 时, 级数通项不趋于零, 因而发散. 下设 `s gt 0`.
-	我们通过适当放缩, 将原级数与几何级数作比较.
-	<li>若 `0 lt s le 1`, 对任意正整数 `n ge 2`, 存在正整数 `k` 使得
-		`2^k le n lt 2^(k+1)`. 现在分析 `s` 级数的部分和, 将它从第二项起,
-		依次按 `1, 2, 4, 8, cdots, 2^(k-1)` 项组合起来, 并舍弃从 `2^k + 1`
-		项开始的后面各项:
-		<span class="formula">
-			`sum_(i=1)^n i^-s`
-			`ge 1 + sum_(j=1)^k sum_(i=2^(j-1)+1)^(2^j) i^-s`
-			`ge 1 + sum_(j=1)^k 2^(j-1) * 2^(-s j)`
-			`= 1 + 1/2 sum_(j=1)^k 2^((1-s)j)`
-			`= {
-				1 + a/2 (1-a^k)/(1-a), if 0 lt s lt 1;
-				1 + k/2, if s = 1;
-			:}`.
-		</span>
-		其中 `a = 2^(1-s) gt 1`.
-		注意 `n to oo` 时, `k to oo`, 由上述不等式即知原级数发散.
-	</li>
-	<li>`s gt 1` 时, 类似有
-		<span class="formula">
-			`sum_(i=1)^n i^-s`
-			`le sum_(j=0)^k sum_(i=2^j)^(2^(j+1)-1) i^-s`
-			`le sum_(j=0)^k 2^j * 2^(-s j)`
-			`= sum_(j=0)^k 2^((1-s)j)`
-			`= (1-a^(k+1))/(1-a)`
-			`le 1/(1-a)`.
-		</span>
-		其中 `0 lt a = 2^(1-s) lt 1`.
-		从而部分和有界, 所以原级数收敛.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>先设 `s = 1`, 此时由熟知的不等式 (见第二章)
-		<span class="formula">
-			`1/(n+1) lt ln(1+1/n) lt 1/n`
-		</span>
-		立即得到
-		<span class="formula">
-			`sum_(k=1)^n 1/k
-			gt sum_(k=1)^n [ln(k+1) - ln k]`
-			`= ln(n+1)`,
-		</span>
-		因而级数发散.
-	</li>
-	<li>`s != 1` 时, 对函数 `x^(1-s)` (它和 `x^-s`
-		的原函数只相差一个常数因子) 在区间 `[n, n+1]`
-		上应用微分中值定理得
-		<span class="formula">
-			`(n+1)^(1-s) - n^(1-s) = (1-s) xi^-s`,
-		</span>
-		其中 `n lt xi lt n+1`. 从而
-		<span class="formula">
-			`1/(n+1)^s lt ((n+1)^(1-s) - n^(1-s))/(1-s) lt 1/n^s`.
-		</span>
-		因此 `s lt 1` 时,
-		<span class="formula">
-			`sum_(k=1)^n 1/k^s`
-			`gt sum_(k=1)^n ((k+1)^(1-s) - k^(1-s))/(1-s)`
-			`= ((n+1)^(1-s) - 1)/(1-s)`,
-		</span>
-		推知级数发散, 而 `s gt 1` 时,
-		<span class="formula">
-			`sum_(k=1)^n 1/k^s`
-			`= 1 + sum_(k=1)^(n-1) 1/(k+1)^s`
-			`lt 1 + sum_(k=1)^(n-1) ((k+1)^(1-s) - k^(1-s))/(1-s)`
-			`= 1 + (n^(1-s) - 1)/(1-s)`
-			`lt 1 - 1/(1-s)`,
-		</span>
-		表明部分和有界, 所以级数收敛.
-	</li>
-</ol>
-
-<p class="remark">
-	`zeta(s)` 称为 Riemann zeta 函数, 它在数论中具有重要地位.
-  当 `s = 1` 时, 这级数称为调和级数, 我们现在知道它是发散的.
-  下面的定理估计了调和级数的发散速度.
-</p>
-
-<p class="example">
-	利用调和级数敛散性的第二种证明的思路,
-	可以得到更精细的级数的敛散性. 如 `sum_(n=2)^oo 1/(n ln^s n)`
-	在 `s gt 1` 时收敛, `s le 1` 时发散. 一般地, 记 `ln_0 x = x`,
-	`ln_m x = ln ln_(m-1) x`, `m = 1, 2, cdots`. 则有
-    <span class="formula">
-        `(ln_m x)' = prod_(0 le k lt m) ln_k^-1 x`.
-    </span>
-	又设 `M` 是某个使得 `ln_m n` 有定义的正整数. 则级数
+	得到展式
 	<span class="formula">
-		`sum_(n ge M) ln_m^-s n (ln_m n)'`
-		`= sum_(n ge M) 1/(n ln n ln_2 n cdots ln_(m-1) n ln_m^s n)`
+		`csc x = sum_(n=0)^oo B_(2n) ((-1)^n (2-4^n) x^(2n-1))/((2n)!)`,
+		`quad |x| lt pi`.
 	</span>
-	在 `s gt 1` 时收敛, `s le 1` 时发散.<br/>
-    `ln_m n` 是增长十分缓慢的函数, 不过它仍趋向正无穷大.
-    本题表明以它的导函数为通项的级数恰好发散.
+	等等.
 </p>
 
-<ol class="proof">
-    简明起见只证 `m = 1` 情形. 一般情形是类似的.
-	<li>`s le 0` 时, 对充分大的 `n` 有 `1/(n ln^s n) ge 1/n`,
-		而调和级数发散; 由比较判别法一, 原级数发散.
-	</li>
-	<li>设 `s = 1`. 对函数 `ln ln x` 在 `[n, n+1]` 上应用微分中值定理,
-		容易得到不等式
-		<span class="formula">
-			`ln ln(n+1) - ln ln n lt 1/(n ln n)`.
-		</span>
-		两边从 `2` 到 `n` 求和,
-		<span class="formula">
-			`ln ln(n+1) - ln ln 2 lt sum_(k=2)^n 1/(k ln k)`.
-		</span>
-		从而原级数的部分和趋于无穷大, 因此是发散的.
-	</li>
-	<li>设 `0 lt s lt 1`. 对函数 `ln^(1-s) x` 在 `[n, n+1]`
-		上应用微分中值定理, 得到不等式
-		<span class="formula">
-			`ln^(1-s)(n+1) - ln^(1-s) n lt (1-s)/(n ln^s n)`.
-		</span>
-		两边从 `1` 到 `n` 求和,
-		<span class="formula">
-			`ln^(1-s)(n+1) lt sum_(k=1)^n (1-s)/(k ln^s k)`.
-		</span>
-		故原级数的部分和趋于无穷大, 因此发散.
-	</li>
-	<li>`s gt 1` 时, 同样对函数 `ln^(1-s) x` 在 `[n, n+1]`
-		上应用微分中值定理, 得到不等式
-		<span class="formula">
-			`(s-1)/((n+1)ln^s(n+1)) lt ln^(1-s) n - ln^(1-s)(n+1)`.
-		</span>
-		两边从 `2` 到 `n` 求和,
-		<span class="formula">
-			`sum_(k=3)^n (s-1)/(k ln^s k) lt ln^(1-s)2 - ln^(1-s)(n+1)`
-			`lt ln^(1-s)2`.
-		</span>
-		故原级数的部分和有上界, 因此收敛.
-	</li>
-</ol>
+<h2>Euler-Maclaurin 求和公式</h2>
 
-<p class="proof">
-    使用积分判别法, 本题是显然的
-    , 以 `s = 1` 为例,
-    <span class="formula">
-        `sum_(n ge M) ln_m^-1 n (ln_m n)'`
-        `= sum_(n ge M) (ln_(m+1) n)'`
-        `= sum_(n ge M) int_n^(n+1) (ln_(m+1) n)' dx`
-        `ge sum_(n ge M) int_n^(n+1) (ln_(m+1) x)' dx`
-        `= int_M^oo (ln_(m+1) x)' dx = oo`.
-    </span>
-</p>
-
-<p class="lemma">
-    等价无穷小 `(ln_m(n+1))/(ln_m n) - 1 ~ (ln_(m+1) n)'`, `n to oo`.
-</p>
-
-<p class="proof">
-    对 `m` 进行归纳, `m = 0` 时得 `(n+1)/n - 1 ~ 1/n`, 显然成立;
-    设结论对 `m-1` 成立, 考虑 `m` 的情形, `n to oo` 时有:
-    <span class="formula">
-        `(ln_m(n+1))/(ln_m n) - 1`
-        `= (ln_m(n+1) - ln_m n)/(ln_m n)`
-        `= (ln{:(ln_(m-1)(n+1))/(ln_(m-1) n):})/(ln_m n)`
-        `~ ((ln_m n)')/(ln_m n)`
-        `= (ln_(m+1) n)'`.
-    </span>
-</p>
+<h3>Bernoulli 数与调和级数</h3>
 
 <ol class="lemma">
-  [群友 卡尔・夏洛克]
-  设 `x` 是使得下式有意义的任意实数, `n ge 0`, 则
-  <li>`(ln_n (x+1))/(ln_n x) - 1 le (ln_(n+1) x)'`;</li>
-  <li>`ln{:(ln_n (x+1))/(ln_n x):} ge ((ln_(n+1) x)')/(sum_(k=0)^(n+1)
-    (ln_k x)')`;
-  </li>
-  <li>`prod_(k=0)^n (ln_k (x+1))/(ln_k x) ge sum_(k=0)^(n+1) (ln_k x)'`.</li>
+	<li>`sum_(k=n)^oo 1/(k(k+1) cdots (k+m))`
+		`= 1/(m n(n+1)cdots(n+m-1))`
+	</li>
+	<li>设 `m ge 1`, 当 `n to oo` 时有 `sum_(k=n)^oo 1/k^(m+1) ~ 1/(m n^m)`.
+	</li>
 </ol>
 
 <ol class="proof">
-  <li>对 `n` 归纳并利用不等式 `ln(1+x) le x`;</li>
-  <li>对 `n` 归纳并利用不等式 `ln(1+1/x) ge 1/(x+1)`;</li>
-  <li>对 `n` 归纳并利用 2. 的结果.</li>
+	<li>等式左边记为 `T_(m, n)`.
+		显然 `m ge 1` 时级数收敛. 对 `m` 归纳证明, `m = 1` 时结论成立; 直接计算
+		<span class="formula">
+			`T_(m+1,n) = sum_(k=n)^oo 1/(k(k+1)cdots(k+m+1))`
+			`= sum_(k=n)^oo 1/(k(k+1)cdots(k+m)) - sum_(k=n)^oo
+			(k+m)/(k(k+1)cdots(k+m+1))`
+			`= T_(m,n) - m T_(m+1,n) - sum_(k=n)^oo
+			1/((k+1)cdots(k+m+1))`.
+		</span>
+		于是
+		<span class="formula">
+			`T_(m+1,n) = 1/(m+1) (T_(m,n) - T_(m,n+1))`
+			`= 1/((m+1)n(n+1)cdots(n+m)`.
+		</span>
+	</li>
+	<li>由 1. 有
+		<span class="formula">
+			`sum_(k=n)^oo 1/k^(m+1)`
+			`le sum_(k=n)^oo 1/(k(k-1)cdots(k-m))`
+			`= 1/(m(n-1)cdots(n-m))`,
+		</span>
+		另一方面
+		<span class="formula">
+			`sum_(k=n)^oo 1/k^(m+1)`
+			`ge sum_(k=n)^oo 1/(k(k+1)cdots(k+m))`
+			`= 1/(m n(n+1)cdots(n+m-1))`,
+		</span>
+		令 `n to oo`, 由两边夹法则即得结论.
+	</li>
 </ol>
-
-<ol class="theorem">
-    <b>Gauss 检比法</b>
-    利用函数列 `f_m(n) = (ln_m n)'`,
-    将正项级数 `sum u_n` 的相邻两项比渐近展开:
-    <span class="formula">
-        `u_n//u_(n+1) = sum_(m=0)^N G_m f_m(n) + o(f_N(n))`
-        `= G_0 + G_1/n + G_2/(n ln n) + G_3/(n ln n ln ln n) + cdots`
-        `+ o(f_N(n))`.
-    </span>
-    若存在 `M` 使得 `G_0 = G_1 = cdots = G_(M-1) = 1`, 而 `G_M != 1`, 则
-    <li>`G_M gt 1` (含 `G_M = +oo`) 时, 原级数收敛;</li>
-    <li>`G_M lt 1` (含 `G_M = -oo`) 时, 原级数发散.</li>
-</ol>
-
-<p class="proof">
-  只证 `G_M gt 1` 的情形. 取 `1 lt s lt G_M`, 则级数
-  `sum v_n = sum ln_(M-1)^-s n (ln_(M-1) n)'` 收敛.
-  考察它的前后项比, 利用引理将乘积展开:
-  <span class="formula">
-    `v_n // v_(n+1)`
-    `= (n+1)/n (ln(n+1))/(ln n) cdots`
-    `(ln_(M-2) (n+1))/(ln_(M-2) n)`
-    `((ln_(M-1) (n+1))/(ln_(M-1) n))^s`
-    `= (1 + f_M(n) + o(f_M(n)))^s`
-    `prod_(m=1)^(M-1) (1+f_m(n) + o(f_m(n)))`
-  </span>
-  注意 `s lt G_M`, 故 `n` 充分大时, 上式小于等于
-  <span class="formula">
-    `u_n // u_(n+1)`
-    `= 1 + 1/n + 1/(n ln n) + cdots`
-    `+ G_M f_M(n) + o(f_M(n))`.
-  </span>
-  由第三比较判别法知 `sum u_n` 收敛.
-</p>
 
 <p class="remark">
-    系数 `G_m` 可以通过计算极限 `lim_(n to oo) r_n^((m))` 得到, 其中
+  记 `n^(ul(-m)) = prod_(1 le i le m) (n+i)^-1 = 1/((n+1)(n+2) cdots (n+m))`, 结论简记为
+  <span class="formula">
+    `sum_(k ge n) k^(ul(-m-1)) = 1/m n^(ul(-m))`.
+  </span>
+  注意类比 `int_n^oo x^(-m-1) dx = 1/m n^-m`.
+</p>
+
+<ol class="example">
+	记 `a_n = sum_(k=1)^n 1/k - ln n`, 则
+	<li>`lim_(n to oo) a_n` 存在, 记为 `gamma` (Euler 常数);</li>
+	<li>`a_n - gamma ~ 1/(2n)`;</li>
+	<li>`a_n - gamma - 1/(2n) ~ -1/(12n^2)`.</li>
+</ol>
+
+<ol	class="proof">
+	<li>见<a href="../analysis/2.html#euler-constant">Euler 常数</a>的证明.</li>
+	<li>即证 `lim_(n to oo) n (a_n - gamma) = 1/2`.
+		首先利用
+		<span class="formula">
+			`ln n = sum_(k=1)^(n-1) [ln(k+1) - ln k]`
+			`= sum_(k=1)^(n-1) ln(1+1/k)`,
+		</span>
+		把 `a_n` 写成求和的形式:
+		<span class="formula">
+			`a_n = 1 + sum_(k=1)^(n-1) [1/(k+1) - ln(1+1/k)]`.
+		</span>
+		利用 Taylor 展开 `ln(1+x) = x - x^2/2 + O(x^3)` (`x to 0`) 有
+		<span class="formula">
+			`n(a_n - gamma)`
+			`= n sum_(k=n)^oo [ln(1+1/k) - 1/(k+1)]`
+			`= n sum_(k=n)^oo [1/k - 1/(2 k^2) + O(1/k^3) - 1/(k+1)]`
+			`= n sum_(k=n)^oo [(k-1)/(2k^2(k+1)) + O(1/k^3)]`.
+		</span>
+		由引理有
+		<span class="formula">
+			`lim_(n to oo) n(a_n-gamma)`
+			`= lim_(n to oo) n * 1/(2n) = 1/2`.
+		</span>
+	</li>
+	<li>即证 `lim_(n to oo) n^2(a_n-gamma-1/(2n)) = -1/12`.
+		由 `1/(2n) = sum_(k=n)^oo (1/(2k) - 1/(2(k+1)))` 有
+		<span class="formula">
+			`n^2 (a_n-gamma-1/(2n))`
+			`= n^2 sum_(k=n)^oo [ln(1+1/k) - 1/(k+1) - 1/(2k)
+			+ 1/(2(k+1))]`
+			`= n^2 sum_(k=n)^oo [1/k - 1/(2k^2) + 1/(3k^3) + O(1/k^4)
+			- 1/(2k) - 1/(2(k+1))]`
+			`= n^2 sum_(k=n)^oo [(2-k)/(6k^3(k+1)) + O(1/k^4)]`.
+		</span>
+		由引理有
+		<span class="formula">
+			`lim_(n to oo) n^2(a_n-gamma-1/(2n))`
+			`= lim_(n to oo) n^2 (1/(3*3n^3) - 1/(6*2n^2))`
+			`= -1/12`.
+		</span>
+	</li>
+</ol>
+
+<p class="remark" id="rem-conj-harmonic">
+	继续计算, 得到:
+	<span class="formula">
+		`a_n = gamma + 1/(2n) - 1/(6*2n^2) + 1/(30*4n^4) - 1/(42*6n^6)+ cdots`.
+	</span>
+	猜想:
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^m (B_k^-)/(k n^(k)) + O(1/n^(m+1))`.
+	</span>
+</p>
+
+<h3>Euler-Maclaurin 求和公式</h3>
+
+<p>	在探讨前 `x` 个自然数 `n` 次幂的求和公式时, 采用了化求和
+	`sum_(i=1)^x i^n` 为积分 `int_0^x B_n^+(y) dy` 的方法.
+	同样的思想加以推广, 就有了下述以积分来估计求和的
+	Euler-Maclaurin 求和公式. 这一公式可以类比于积分型余项的 Taylor 公式.
+</p>
+
+<p class="theorem" id="the-euler-maclaurin">
+	<b>Euler-Maclaurin 求和公式</b>
+	设函数 `f in C^m[a,b]`, `m ge 1`, `a,b` 为整数. 则
+	<span class="formula">
+		`sum_(n=a)^b f(n) = int_a^b f(x) dx + (f(a)+f(b))/2`
+		`+ sum_(k=2)^m B_k/(k!) (f^((k-1))(b) - f^((k-1))(a))`
+		`- (-1)^m/(m!) int_a^b B_m(x-|__x__|) f^((m))(x) dx`.
+	</span>
+	上式等号右端的前两项相当于梯形公式
+	<span class="formula">
+		`int_a^b f(x) dx ~~ sum_(n=a)^(b-1) (f(n)+f(n+1))/2`,
+	</span>
+	它用一系列宽度为 `1`, 两底长分别为 `f(n)` 和 `f(n+1)`
+	的梯形面积来估计积分 `int_a^b f(x) dx`.
+</p>
+
+<p class="proof">
+	设 `g in C^m[0,1]`.
+	反复应用<a class="ref" href="#prop-Bn'(x)"></a> 和分部积分,
+	<span class="formula">
+		`int_0^1 g(x) dx`
+		`= int_0^1 B_0(x) g(x) dx`
+		`= int_0^1 B_1'(x) g(x) dx`
+		`= [B_1(x) g(x)]_0^1 - int_0^1 B_1(x) g'(x) dx`
+		`= (B_1^+ g(1) - B_1^(-) g(0)) - 1/2 int_0^1 B_2'(x) g'(x) dx`
+		`= (g(1)+g(0))/2 - 1/2 [B_2(x) g'(x)]_0^1 + 1/2 int_0^1 B_2(x)
+		g''(x) dx`
+		`= (g(1)+g(0))/2 - B_2/2 (g'(1)-g'(0)) + 1/2 int_0^1 B_2(x) g''(x) dx`
+		`= cdots`
+		`= (g(1)+g(0))/2 - sum_(k=2)^m B_k/(k!) (g^((k-1))(1)
+		- g^((k-1))(0))`
+		`+ (-1)^m/(m!) int_0^1 B_m(x) g^((m))(x) dx`.
+	</span>
+	在上式中令 `g(x) = f(x+n)`,
+	<span class="formula">
+		`int_n^(n+1) f(x) dx`
+		`= (f(n+1)+f(n))/2 - sum_(k=2)^m B_k/(k!)
+		(f^((k-1))(n+1)-f^((k-1))(n))`
+		`+ (-1)^m/(m!) int_n^(n+1) B_m(x-n) f^((m))(x) dx`.
+	</span>
+	再令 `n = a` 到 `b-1` 求和,
+	注意到对任意 `x in [n,n+1]` 有 `B_m(x-n) = B_m(x-|__x__|)`,
+	就得到结论.
+</p>
+
+<ol class="remark">
+	Euler-Maclaurin 公式的其它形式:
+	<li>在原来的公式两边同时减 `f(a)` 或同时减 `f(b)`, 分别得到
+		<span class="formula">
+			`sum_(n=a+1)^b f(n) = int_a^b f(x) dx`
+			`+ sum_(k=1)^m B_k^+/(k!) (f^((k-1))(b)-f^((k-1))(a))`
+			`+ R_m`,<br/>
+			`sum_(n=a)^(b-1) f(n) = int_a^b f(x) dx`
+			`+ sum_(k=1)^m B_k^(-)/(k!) (f^((k-1))(b)-f^((k-1))(a))`
+			`+ R_m`.
+		</span>
+		`R_m` 为余项.
+	</li>
+	<li>设 `g in C^m[alpha, beta]`, 记 `h = (beta-alpha)//n`,
+		`x_k = alpha + k h`,
+		`f(k) = g(x_k)`, 于是 `f in C^m[0,n]`, 对 `f` 应用
+		Euler-Maclaurin 公式再代回 `g`, 有
+		<span class="formula">
+			`h sum_(k=0)^n g(x_k)`
+			`= int_alpha^beta g(x) dx + h/2(g(0) + g(n))`
+			`+ sum_(k=2)^m B_k/(k!) h^k
+			(g^((k-1))(b) - g^((k-1))(a)) + R_m`.
+		</span>
+	</li>
+</ol>
+
+<p class="example">
+	<b>调和级数的估计</b>
+	<a class="ref" href="#rem-conj-harmonic"></a> 中的猜想是正确的.
+</p>
+
+<p class="proof">
+	在 Euler-Maclaurin 公式中取 `f(k) = 1/k`, `a = 1`, `b = n`. 由
+	<span class="formula">
+		`int_1^n dx/x = ln n`,
+		`quad "d"^(k-1)/dx^(k-1) (1/x)`
+		`= ((-1)^(k-1) (k-1)!)/x^k`,
+	</span>
+	得到
+	<span class="formula">
+		`a_n = sum_(k=1)^n 1/k - ln n`
+		`= 1/2(1+1/n) + sum_(k=2)^m B_k/k (1 - 1/n^k)`
+		`- int_1^n (B_m(x-|__x__|))/x^(1+m) dx`.
+	</span>
+	取极限,
+	<span class="formula">
+		`gamma = lim_(n to oo) a_n`
+		`= 1/2 + sum_(k=2)^m B_k/k`
+		`- int_1^oo (B_m(x-|__x__|))/x^(1+m) dx`.
+	</span>
+	两式相减,
+	<span class="formula">
+		`a_n - gamma`
+		`= 1/(2n) - sum_(k=2)^m B_k/(k n^k) + int_n^oo
+		(B_m(x-|__x__|))/x^(1+m) dx`.
+	</span>
+	因为 `B_m(x-|__x__|)` 是有界函数, 我们设它的模不超过 `C`, 则
+	<span class="formula">
+		`|int_n^oo (B_m(x-|__x__|))/x^(1+m) dx|`
+		`le C int_n^oo dx/x^(1+m)`
+		`= C/(m n^m)`
+		`= O(1/n^m)`.
+	</span>
+	于是
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^m B_k^(-)/(k n^k) + O(1/n^m)`.
+		<span class="label" id="for-O(1/n^m)"></span>
+	</span>
+	与
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^(m+1) B_k^(-)/(k n^k) + O(1/n^(m+1))`
+	</span>
+	比较知道, <a class="ref" href="#for-O(1/n^m)"></a> 中余项可以写为
+	`O(1/n^(m+1))`, 最终得到
+	<span class="formula">
+		`a_n = gamma - sum_(k=1)^m B_k^(-)/(k n^k) + O(1/n^(m+1))`.
+	</span>
+</p>
+
+<p class="example">
+	<b>Stirling 级数</b>
+	<span class="formula">
+		`n! = sqrt(2pi n) (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
+		1/n^k + O(1/n^(m+1)))`.
+	</span>
+	(改用 Gamma 函数??)
+</p>
+
+<ol class="proof">
+	<li>在 Euler-Maclaurin 公式中取 `f(k) = ln k`, `a = 1`, `b = n`. 由
+	<span class="formula">
+		`sum_(k=1)^n ln k = ln n!`,<br/>
+		`int_1^n ln x dx = n(ln n-1) + 1`,<br/>
+		`"d"^k/dx^k (ln x) = (-1)^(k-1) (k-1)! x^-k`, `quad k ge 1`,
+	</span>
+	得到
+	<span class="formula">
+		`ln n! - 1/2 ln n - n(ln n-1)`
+		`= 1 + sum_(k=1)^(m-1) B_(k+1)/(k(k+1)) (1/n^k-1)`
+		`+ 1/m int_1^n (B_m(x-|__x__|))/x^m dx`.
+	</span>
+	取极限
+	<span class="formula">
+		`a := lim_(n to oo) (ln n! - 1/2 ln n - n(ln n-1))`
+		`= 1-sum_(k=1)^(m-1) B_(k+1)/(k(k+1))`
+		`+ 1/m int_1^oo (B_m(x-|__x__|))/x^m dx`.
+	</span>
+	两式相减
+	<span class="formula">
+		`ln n! - ln(sqrt n(n/"e")^n) - a`
+		`= sum_(k=1)^(m-1) B_(k+1)/(k(k+1)) 1/n^k`
+		`+ O(1/n^(m-1))`,
+	</span>
+	移项后两边取指数,
+	<span class="formula">
+		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^(m-1) B_(k+1)/(k(k+1))
+		1/n^k + O(1/n^(m-1)))`.
+	</span>
+	基于估计调和级数时相同的理由, 上式余项的阶可以加一, 最终得到
+	<span class="formula">
+		`n! = "e"^a sqrt n (n/"e")^n exp(sum_(k=1)^m B_(k+1)/(k(k+1))
+		1/n^k + O(1/n^(m+1)))`.
+	</span>
+	</li>
+	<li>下面确定公式中的常数 `c = "e"^a`. 由 1. 得
+		<span class="formula">
+			`n! = c sqrt n (n/"e")^n exp(O(1/n))`
+			`~ c sqrt n (n/"e")^n`.
+		</span>
+		将其代入 <a href="../analysis/7.html#for-wallis">Wallis 公式</a>
+		<span class="formula">
+			`pi/2 = lim_(n to oo) ((2n)!!)^2/((2n-1)!!(2n+1)!!)`,
+		</span>
+		或者代入
+		<span class="formula">
+			`Gamma(n+1/2) = ((2n-1)!!)/2^n sqrt pi`
+			`= ((2n)!)/(n!) (sqrt pi)/2^(2n)`
+		</span>
+		就可算出 `c = sqrt(2pi)`. 今代入后者, 有
+		<span class="formula">
+			`c = lim_(n to oo) (sqrt pi)/2^(2n) (sqrt(2n)
+			((2n)/"e")^(2n))/(sqrt n(n/"e")^n sqrt(n-1/2) ((n-1/2)/"e")^(n-1/2))`
+			`= lim_(n to oo) sqrt((2pi)/"e") (1-1/(2n))^-n`
+			`= sqrt(2pi)`.
+		</span>
+	</li>
+</ol>
+
+<p class="example">
+	再次导出前 `x` 个自然数 `n` 次幂的和.
+</p>
+
+<p class="proof">
+	在 Euler-Maclaurin 公式中取 `f(k) = k^(m-1)`, `a = 1`, `b = n`. 由
+	<span class="formula">
+		`"d"^(k-1)/dx^(k-1) x^(m-1) = (m-1) (m-2) cdots (m-k+1) x^(m-k)`,
+		`quad k = 2, 3, cdots, m`,<br/>
+		`"d"^m/dx^m x^(m-1) = 0`,
+		`quad int_1^n x^(m-1) dx = 1/m(n^m-1)`,
+	</span>
+	得到
+	<span class="formula">
+		`sum_(k=1)^n k^(m-1)`
+		`= 1/m(n^m-1) + (1+n^(m-1))/2 + sum_(k=2)^m B_k/k (m-1;k-1) (n^(m-k)-1)`
+		`= 1/m(n^m-1) + (1+n^(m-1))/2 + sum_(k=2)^m B_k/m (m;k)
+		(n^(m-k)-1)`
+		`= 1/m sum_(k=0)^m B_k^+ (m;k) (n^(m-k)-1) + 1`.
+	</span>
+	注意到上式的 `k=m` 项等于零, 再利用 Bernoulli 数的递推公式, 上式等于
+	<span class="formula">
+		`1/m sum_(k=0)^(m-1) B_k^+ (m;k) n^(m-k)`.
+	</span>
+</p>
+
+<p> 我们已经证明 `lim_(n to oo) (sum_(k=1)^n 1/k - ln n) = gamma`,
+    不很严谨地, 写作
     <span class="formula">
-        `r_n^((0)) = u_n // u_(n+1)`,
-        `quad r_n^((m+1)) = (r_n^((m)) - G_m) ln_m n`.
+        `lim (sum n^-1 - int n^-1) = gamma`,
+    </span>
+    这个极限度量了求和与积分之间的误差.
+    下面我们将证明, `"Re"(s) gt 1` 时, 有
+    <span class="formula">
+        `lim_(N to oo) (sum_(n=1)^N n^-s - int_0^N n^-s "d"n) = zeta(s)`.
     </span>
 </p>
 
 <p class="example">
-  [菲赫金哥尔茨 第二册 375 目 3)]
-  [崔尚斌 数学分析教程 中册 习题 10.2 第 12 题]<br/>
-  正项级数 `sum a_n` 收敛, 且通项 `a_n` 单调趋于 0, 证明:
-  `lim_(n to oo) n a_n = 0`. 换言之, `a_n = o(1/n)`.
-  这一例题再次刻画了调和级数“刚好发散”的形象.
-</p>
-
-<p class="proof">
-  利用不等式 `n a_n // 2 le sum_(n//2 lt k le n) a_k lt epsi` 即可.
-</p>
-
-<p class="proof">
-  先由 `n a_n le sum_(1 le k le n) a_k lt oo` 知 `n a_n` 有界.<br/>
-  再由
-  <span class="formula">
-    `sum_(1 le k lt n) a_k - sum_(1 lt k le n) k (a_(k-1) - a_k)`
-    `= n a_n - a_1 lt oo`
-  </span>
-  知, 左边第二项有界, 因此正项级数 `sum n(a_(n-1) - a_n)` 收敛,
-  进而 `lim_(n to oo) n a_n` 极限存在, 设为 `a`.<br/>
-  若 `a gt 0`, 由比较判别法知 `sum a_n` 发散, 矛盾; 因此 `a = 0`.
-</p>
-
-<p class="theorem">
-    <b>积分判别法</b>
-    设 `f` 在 `[M, +oo)` 上非负单调减, 于是
+	将 Riemann zeta 函数
+	<span class="formula">
+		`zeta(s) = sum_(n=1)^oo 1/n^s`, `quad "Re"(s) gt 1`
+	</span>
+	的定义域延拓到 `CC\\{1}` 上, 并证明公式
     <span class="formula">
-        `f(n) = int_n^(n+1) f(n) dx ge int_n^(n+1) f(x) dx`,
+		`zeta(-n) = -B_(n+1)^+/(n+1)`, `quad n` 为非负整数.
     </span>
-    对 `n` 求和得到 `sum_(n ge M) f(n) ge int_M^oo f(x) dx`,
-    这是级数的下界; 类似可得到上界.
-    于是无穷级数的敛散性归结为无穷积分的敛散性;
-    反之, 也可以用级数对积分进行估计.
 </p>
 
-<h2>任意项级数</h2>
+<ol class="solution">
+	<li>
+	在 Euler-Maclaurin 公式中取 `f(k) = 1/k^s`, `"Re"(s) gt 1`,
+	`a = 1`, `b = n`. 由
+	<span class="formula">
+		`int_1^n dx/x^s = 1/(s-1) (1-1/n^(s-1))`,
+		`quad "d"^k/dx^k (1/x^s) = (-1)^k s(s+1) cdots (s+k-1) 1/x^(s+k)`,
+	</span>
+	得到
+	<span class="formula">
+		`sum_(k=1)^n 1/k^s`
+		`= 1/(s-1) (1-1/n^(s-1)) + 1/2(1+1/n^s)`
+		`+ sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1) (1-1/n^(s+k))`
+		`- int_1^n (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+	</span>
+	取极限,
+	<span class="formula">
+		`zeta(s) = sum_(k=1)^oo 1/k^s`
+		`= 1/(s-1) + 1/2 + sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1)`
+		`- int_1^oo (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+	</span>
+	两式相减,
+	<span class="formula">
+		`zeta(s) - sum_(k=1)^n 1/k^s`
+		`= 1/((s-1)n^(s-1)) - 1/(2n^s)`
+		`+ sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1) 1/n^(s+k)`
+		`- int_n^oo (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+		<span class="label" id="for-zeta-continuation"></span>
+	</span>
+	对任意的正整数 `m, n`, 上式都成立.
+	注意到只要取适当的 `m` 使得 `s+m gt 1`, 上式最后一项的积分就收敛.
+	假如我们以上式作为 zeta 函数的定义, 那么 `zeta(s)` 的定义域将扩大到
+	`CC \\ {1}`. 容易看出它在定义域上处处解析 (最后一项??)
+	这就是 Riemann zeta 函数的解析延拓.
+	</li>
+	<li>
+	将 `s = 1-m` 代入 <a class="ref" href="#for-zeta-continuation"></a>,
+	则最后一项的系数 `(s+m-1; m)` 变为 0, 有
+	<span class="formula">
+		`zeta(1-m) - sum_(k=1)^n k^(m-1)`
+		`= - n^m/m - n^(m-1)/2 + sum_(k=1)^(m-1) (k-m; k) B_(k+1)/(k+1) n^(m-k-1)`
+		`= - n^m/m - n^(m-1)/2 + sum_(k=2)^m (k-1-m; k-1) B_k/k n^(m-k)`
+		`= - n^m/m - n^(m-1)/2 + sum_(k=2)^m (-1)^(k-1)/m (m; k) B_k n^(m-k)`
+		`= - 1/m sum_(k=0)^m (m; k) B_k^+ n^(m-k)`.
+	</span>
+	再由 <a class="ref" href="#for-sum-powers"></a> 得
+	<span class="formula">
+		`zeta(1-m) = -B_m^+/m`, `quad m in ZZ^+`.
+	</span>
+	这一结果解释了流行的说法
+	<span class="formula">
+		`1 + 1 + 1 + cdots = zeta(0) = -B_1^+ = -1/2`,<br/>
+		`1 + 2 + 3 + cdots = zeta(-1) = -B_2/2 = -1/12`,
+	</span>
+	等等. 尽管左边的式子是荒谬的, 但它确实能通过 zeta 函数找到解释.
+	此外, 由 `B_3 = B_5 = B_7 = cdots = 0` 立即推出, 任一负偶数都是 zeta
+	函数的零点, 称为 zeta 函数的<b>平凡零点</b>.
+	</li>
+</ol>
 
-<p class="theorem">
-	<b>级数的两边夹法则</b>
-	若级数 `sum w_n` 与 `sum v_n` 均收敛,
-	且对任意正整数 `n` 成立 `w_n le u_n le v_n`, 则 `sum u_n`
-	收敛. 进一步, 若两端的级数收敛到同一个和, 则 `sum u_n`
-	也收敛到这个和.
+<p class="example">
+    证明 `int_(-1)^0 S_n(x) dx = zeta(-n)`.
 </p>
 
 <p class="proof">
-  由 `w_n le u_n le v_n` 得 `0 le u_n - w_n le v_n - w_n`,
-  由已知 `sum (v_n - w_n)` 收敛, 由正项级数的比较判别法知,
-  `sum (u_n - w_n)` 也收敛, 从而 `sum u_n` 收敛.
-  进一步, 若两端级数收敛到同一个和, 则 `sum (v_n - w_n)` 收敛到零,
-  从而 `sum (u_n - w_n)` 也收敛到零, 即 `sum u_n` 收敛到同一个和.
+    左边 `= 1/(n+1) int_(-1)^0 (B_(n+1)(x+1) - B_(n+1)(1)) dx`
+        `= 1/(n+1) int_0^1 B_(n+1)(x) dx - B_(n+1)^+/(n+1)`
+        `= 0 + zeta(-n) = ` 右边.
+</p>
+
+<h2>`zeta(2n)` 的求值</h2>
+
+<p class="proposition" id="prop-basel">
+	<b>Basel 问题</b>
+	`zeta(2) = sum_(n=1)^oo 1/n^2 = pi^2/6`.
+</p>
+
+<p class="proof">
+	利用 Euler 的无穷乘积
+	<span class="formula">
+		`(sin pi x)/(pi x) = prod_(n=1)^oo (1-x^2/n^2)`,
+	</span>
+	另一方面, 由 Taylor 公式有
+	<span class="formula">
+		`(sin pi x)/(pi x) = 1 - (pi x)^2/(3!) + O(x^3)`.
+	</span>
+	比较两式中 `x^2` 的系数即得:
+	<span class="formula">
+		`sum_(n=1)^oo 1/n^2 = pi^2/6`.
+	</span>
+</p>
+
+<p class="proof">
+    初等证明.
+	利用三角恒等式
+	<span class="formula">
+		`1/(sin^2 x)`
+		`= (sin^2{:x/2:} + cos^2{:x/2:})/(4 sin^2{:x/2:} cos^2{:x/2:})`
+		`= 1/4 (1/(sin^2{:x/2:}) + 1/(cos^2{:x/2:}))`
+		`= 1/4 (1/(sin^2{:x/2:}) + 1/(sin^2(x/2+pi/2)))`,
+	</span>
+	代入 `x = pi/2` 有
+	<span class="formula">
+		`1 = 1/4 (sin^-2{:pi/4:} + sin^-2{:(3pi)/4:})`
+		`= 1/4^2 (sin^-2{:pi/8:} + sin^-2{:(3pi)/8:} + sin^-2{:(5pi)/8:}
+		+ sin^-2{:(7pi)/8:})`<br/>
+		`= 1/4^n sum_(k=1)^(2^n) sin^-2{:((2k-1)pi)/2^(n+1):}`
+		`= 2/4^n sum_(k=1)^(2^(n-1)) sin^-2{:((2k-1)pi)/2^(n+1):}`.
+	</span>
+	其中最后一步利用了互补角的正弦值相等.
+	`AA x in (0, pi/2)`, 有 `sin^-2 x-1 = tan^-2 lt x^-2 lt sin^-2 x`,
+	代入上式得
+	<span class="formula">
+		`1-2^-n lt 8/pi^2 sum_(k=1)^(2^(n-1)) 1/(2k-1)^2 lt 1`.
+	</span>
+	由两边夹法则,
+	<span class="formula">
+		`sum_(k=1)^oo 1/(2k-1)^2 = pi^2/8`.
+	</span>
+	由收敛级数的运算法则,
+	<span class="formula">
+		`zeta(2) = sum_(n=1)^oo 1/n^2`
+		`= sum_(n=1)^oo 1/(2n-1)^2 + sum_(n=1)^oo 1/(2n)^2`
+		`= pi^2/8 + zeta(2)//4`.
+	</span>
+	于是 `zeta(2) = pi^2/6`.
+</p>
+
+<p class="proof">
+  类似的初等证明. 从下面<a href="../misc/2.html#prop-sum-sq-cot">这个恒等式</a>出发:
+  <span class="formula">
+    `sum_(k=1)^n cot^2{:(k pi)/(2n+1):} = 1/3 (2n;n)`.
+  </span>
+  利用不等式
+  <span class="formula">
+    `cot^2 x lt 1/x^2 lt cot^2 x + 1`, `quad x in (0, pi/2)`
+  </span>
+  两边夹可得极限 `pi^2/6`.
+</p>
+
+<p class="proof">
+	记 `I_n = int_0^(pi/2) cos^(2n) x dx`,
+	`J_n = int_0^(pi/2) x^2 cos^(2n) x dx`.
+	首先,
+	<span class="formula">
+		`I_n = ((2n-1)!!)/((2n)!!) pi/2`.
+	</span>
+	另一方面, 分部积分得到
+	<span class="formula">
+		`I_n = [x cos^(2n) x]_0^(pi/2) + 2n int_0^(pi/2) x cos^(2n-1)
+		x sin x dx`
+		`= n[x^2 cos^(2n-1) x sin x]_0^(pi/2)`
+		`- n int_0^(pi/2) x^2[cos^(2n) x - (2n-1) cos^(2n-2) x sin^2 x]dx`
+		`= n(2n-1) J_(n-1) - 2n^2 J_n`.
+	</span>
+	上式两边同乘以 `((2n)!!)/((2n-1)!!) 1/(2n^2)` 得到
+	<span class="formula">
+		`pi/(4n^2)`
+		`= ((2n-2)!!)/((2n-3)!!) J_(n-1) - ((2n)!!)/((2n-1)!!) J_n`.
+	</span>
+	求和, 注意 `(2n-1)!! = ((2n)!)/(2^n n!)`, 因此 `(-1)!!` 有定义.
+	我们有
+	<span class="formula">
+		`pi/4 sum_(k=1)^n 1/k^2`
+		`= J_0 - ((2n)!!)/((2k-1)!!) J_n`
+		`= J_0 - pi/2 J_n/I_n`.
+	</span>
+	`AA x in (0, pi/2)`, 有 `x lt pi/2 sin x`, 从而
+	<span class="formula">
+		`0 lt J_n lt int_0^(pi/2) (pi/2 sin x)^2 cos^(2n) x dx`
+		`= pi^2/4 (I_n - I_(n+1))`
+		`= pi^2/(8(n+1)) I_n`,
+	</span>
+	这说明 `n to oo` 时, `J_n//I_n to 0`.  综上有
+	<span class="formula">
+		`zeta(2) = 4/pi J_0 = pi^2/6`.
+	</span>
 </p>
 
 <p class="remark">
-	数列的两边夹法则要求两端的数列具有同一极限, 级数的两边夹法则无此要求.
-</p>
-
-<p class="theorem">
-	<b>Leibniz 判别法</b>
-	如果数列 `{u_n}` 单调趋于零, 那么交错级数 `sum_(n ge 0) (-1)^n u_n`
-	收敛.
+	为纪念第一个作出解答的 Euler, 人们以 Euler 的出生地 Basel
+	来命名这一问题.
 </p>
 
 <p class="lemma">
-	<b>Abel 变换</b>
-	设 `a_1, a_2, cdots, a_n` 和 `b_1, b_2, cdots, b_n` 是两组数.
-  记 `b_0 = 0`, `Delta b_k = b_k - b_(k-1)`, `k = 1, 2, cdots n`. 则
-	<span class="formula">
-		`sum_(k=1)^n a_k Delta b_k = a_k b_k - sum_(k=1)^(n-1) Delta
-		a_(k+1) b_k`.
-	</span>
-  Abel 变换是离散版本的“分部积分”.
+	`sum_(k=0)^n (2n+1;2k) B_(2k) 2^(2k) = 2n+1`.
 </p>
 
-<ol class="theorem">
-  设数列 `{u_n}` 单调有界, 级数 `sum v_n` 的部分和有界, 考虑级数
-  `(**) = sum u_n v_n`:
-  <li><b>Dirichlet 判别法</b> 若 `u_n` 趋于零, 则 `(**)` 收敛.</li>
-	<li><b>Abel 判别法</b> 若 `sum v_n` 收敛, 则 `(**)` 收敛.</li>
+<p class="proof">
+	由<a class="ref" href="#cor-Bn-odd-zero"></a> 知 `B_(2n+1)(1/2) = 0`,
+	再由<a class="ref" href="#cor-relation-bernoulli-poly"></a>,
+	<span class="formula">
+		`B_(2n+1)^+(1/2)`
+		`= B_(2n+1)(1/2) + (2n+1)/2^(2n)`
+		`= (2n+1)/2^(2n)`.
+	</span>
+	另一方面, 利用<a class="ref" href="#prop-Bn(x)"></a>,
+	将 `x = 1/2` 代入 `B_(2n+1)^+(x)` 的表达式, 有
+	<span class="formula">
+		`B_(2n+1)^+(1/2)`
+		`= sum_(k=0)^(2n+1) (2n+1;k) (B_k^+)/2^(2n+1-k)`
+		`= (2n+1;1) (B_1^+)/2^(2n)
+		+ sum_(k=0)^n (2n+1;2k) (B_(2k))/2^(2n+1-2k)`
+		`= 1/2^(2n+1) (2n+1 + sum_(k=0)^n (2n+1; 2k) B_(2k) 2^(2k))`.
+	</span>
+	令两式的右边相等, 就得到结论.
+</p>
+
+<p class="proposition">
+	`zeta(2n) = -1/2 B_(2n)/((2n)!) (2pi"i")^(2n)`.
+</p>
+
+<p class="proof">
+	从 Euler 的无穷乘积
+	<span class="formula">
+		`prod_(k ge 1) (1-t^2/k^2) = (sin pi t)/(pi t)`
+	</span>
+	出发, 两边取对数再求导, 整理得
+	<span class="formula">
+		`sum_(k ge 1) 1/(k^2-t^2) = 1/(2t^2) (1 - pi t cot pi t)`,
+		`quad |t| lt 1`.
+	</span>
+	令 `x = pi t`, 则 `|x| lt pi` 时有
+	<span class="formula">
+		`x cot x = 1 - 2 sum_(k ge 1) x^2/((k pi)^2 - x^2)`
+		`= 1 - 2 sum_(k ge 1) (x/(k pi))^2/(1-(x/(k pi))^2)`
+		`= 1 - 2 sum_(k ge 1) sum_(n ge 1) (x/(k pi))^(2n)`
+		`= 1 - 2 sum_(n ge 1) (x/pi)^(2n) sum_(k ge 1) 1/k^(2n)`
+		`= 1 - 2 sum_(n ge 1) (x/pi)^(2n) zeta(2n)`.
+	</span>
+	和 Maclaurin 展式
+	<span class="formula">
+		`x cot x = sum_(n ge 0) (-1)^n B_(2n)/((2n)!) (2x)^(2n)`
+	</span>
+	比较系数即得到 `zeta(2n)` 的值.
+</p>
+
+<ol class="proof">
+	证明分四步.
+	<li>从 De Moivre 公式出发.
+	令 `theta in (0, pi/2)`, 比较
+	<span class="formula">
+		`cos(2m+1)theta + "i" sin(2m+1)theta`
+		`= (cos theta + "i"sin theta)^(2m+1)`
+		`= sin^(2m+1) theta(cot theta + "i")^(2m+1)`
+	</span>
+	两边的虚部, 得到
+	<span class="formula">
+		`sin(2m+1)theta = sin^(2m+1) theta sum_(k=0)^m (2m+1;2k+1)
+		(-1)^k cot^(2m-2k) theta`.
+	</span>
+	容易看出上式左边等于零当且仅当 `theta = (k pi)/(2m+1)`, `k = 1, 2,
+	cdots, m`.
+	这说明多项式 `p(x) = sum_(k=0)^m (2m+1;2k+1) (-1)^k x^(m-k)`
+	的 `m` 个根恰为
+	<span class="formula">
+		`x_k = cot^2{:(k pi)/(2m+1):}`, `k = 1, 2, cdots, m`.
+	</span>
+	</li>
+	<li>用两边夹法则导出极限.
+	由 `x_k in (0, pi/2)`, 有
+	`tan^-2 x_k lt x_k^-2 lt sin^-2 x_k`, 即
+	`cot^2 x_k lt x_k^-2 lt cot^2 x_k + 1`.
+	令 `n` 为任意正整数, 求和得到
+	<span class="formula">
+		`sum_(k=1)^m cot^(2n) {:(k pi)/(2m+1):}`
+		`lt sum_(k=1)^m ((2m+1)/(k pi))^(2n)`
+		`lt sum_(k=1)^m (cot^2{:(k pi)/(2m+1):} + 1)^n`
+		`= sum_(k=1)^m cot^(2n){:(k pi)/(2m+1):} + o(m^(2n))`.
+		(`m to oo`)
+	</span>
+	记 `f(n) = (zeta(2n))/pi^(2n)`, 由两边夹法则,
+	<span class="formula">
+		`f(n)`
+		`= lim_(m to oo) sum_(k=1)^m 1/(k pi)^(2n)`
+		`= lim_(m to oo) 1/(2m)^(2n) sum_(k=1)^m cot^(2n){:(k
+		pi)/(2m+1):}`
+		`= lim_(m to oo) 1/(2m)^(2n) sum_(k=1)^m x_k^n`.
+		<span class="label" id="for-zeta(2n)-limit"></span>
+	</span>
+	</li>
+	<li>应用对称多项式的相关知识.
+	令 `S_n = sum_(k=1)^m x_k^n ~ f(n) (2m)^(2n)` (`m to oo`),
+	又令 `sigma_k` 表示 `x_1, x_2, cdots, x_m` 的对称多项式:
+	<span class="formula">
+		`sigma_0 = 1`,
+		`quad sigma_1 = sum_i x_i`,
+		`quad sigma_2 = sum_(i lt j) x_i x_j`,
+		`quad sigma_3 = sum_(i lt j lt k) x_i x_j x_k`,
+		`quad cdots`,
+		`quad sigma_m = x_1 x_2 cdots x_m`.
+	</span>
+	根据 Vieta 定理,
+	<span class="formula">
+		`sigma_k = 1/(2m+1) (2m+1;2k+1)`
+		`~ (2m)^(2k)/((2k+1)!)`, `quad m to oo`.
+	</span>
+	将这些等价无穷大量代入 Newton-Girard 公式
+	<span class="formula">
+		`sum_(k=0)^(n-1) (-1)^k sigma_k S_(n-k) + (-1)^n sigma_n n = 0`,
+	</span>
+	得到
+	<span class="formula">
+		`(-1)^(n+1) (2m)^(2n)/((2n+1)!) n`
+		`~ sum_(k=0)^(n-1) (-1)^k (2m)^(2k)/((2k+1)!) f(n-k)
+		(2m)^(2n-2k)`, `quad m to oo`,
+	</span>
+	即
+	<span class="formula">
+		`1/n sum_(k=0)^(n-1) (-1)^(k+n+1) ((2n+1)!)/((2k+1)!)f(n-k)
+		= 1`.
+	</span>
+	</li>
+	<li>
+	回到命题的证明. `n = 1` 时利用<a class="ref" href="#for-zeta(2n)-limit"></a>可以算出 `f(1) = 1/(3!)`, 结论显然成立.
+	余下只要验证 `f(n) = (-1)^(n+1) (B_(2n))/((2n)!) 2^(2n-1)`
+	适合上面的递推关系即可. 代入左边得到
+	<span class="formula">
+		`1/(2n) sum_(k=0)^(n-1) (2n+1;2n-2k) B_(2n-2k) 2^(2n-2k)`
+		`= 1/(2n) (sum_(k=0)^n (2n+1;2n-2k) B_(2n-2k) 2^(2n-2k) - 1)`
+		`= 1/(2n) (sum_(k=0)^n (2n+1;2k) B_(2k) 2^(2k) - 1)`.
+	</span>
+	由引理, 上式恰等于 `1`. 证毕.
+	</li>
 </ol>
 
 <p class="remark">
-	Dirichlet 判别法是 Leibniz 判别法的推广, 它把振荡级数
-  `sum (-1)^n` 换成了部分和有界的 `sum v_n`.<br/>
-  熟知收敛级数乘以常数因子仍收敛; Abel 判别法告诉我们,
-  收敛级数乘以单调有界数列也仍收敛.
+	`zeta(2n)` 的公式对 `n=0` 也有效.
 </p>
 
-<h2>级数中的反例</h2>
-
-<p class="example">
-	`0 le u_n le 1/n`, 而 `sum_(n ge 1) (-1)^n u_n` 发散的例子:
-	`u_n = (1+(-1)^n)/(2n)`. 在这个例子中, 通项 `u_n to 0`, 但不是单调的,
-	不满足 Leibniz 判别法的条件.
+<p class="corollary">
+	联系引理容易证明下面的递推公式:
+	<span class="formula">
+		`sum_(0 le k lt n) (pi "i")^(2k)/((2k+1)!) zeta(2n-2k)`
+		`= -n (pi "i")^(2n)/((2n+1)!)`.
+	</span>
 </p>
 
 <p class="example">
-  [来自<a href="https://zhuanlan.zhihu.com/p/88194615">知乎</a>]
-  若级数 `sum a_n` 条件收敛, 且 `a_n // b_n to 1`,
-  并不能推出级数 `sum b_n` 收敛.
-  比如级数 `1 - 1/sqrt 2 + 1/sqrt 3 - 1/sqrt 4 + cdots` 收敛,
-  <span class="formula">
-    `1/(sqrt2-1) - 1/(sqrt2+1) + 1/(sqrt3-1) - 1/(sqrt3+1) + cdots`
-  </span>
-  发散, 而它们通项之比趋于 `sqrt2`, 是同阶无穷小.
+	求 `sum_(i ge 1) sum_(j ge i) 1/(2i-1)^2 1/(2j+1)^2`.
+</p>
+
+<div class="proof">
+	考虑数表
+	<pre>
+(11) 13  15  17  ..
+ 31 (33) 35  37  ..
+ 51  53 (55) 57  ..
+ 71  73  75 (77) ..
+ ..  ..  ..  ..
+	</pre>
+	原式等于
+	<span class="formula">
+		`sum_(i lt j;i","j" 是正奇数") 1/(i j)^2`
+		`= (sum_(i,j" 是正奇数") 1/(i j)^2 - sum_(i" 是正奇数") 1/i^4)//2`
+		`= ((sum_(i" 是正奇数") 1/i^2)^2 - sum_(i" 是正奇数") 1/i^4)//2`
+		`= ((3/4 zeta(2))^2 - 15/16 zeta(4))//2`
+		`= pi^4/384`.
+	</span>
+</div>
+
+<p class="corollary">
+	`n ge 1` 时,
+	由 `zeta(2n) gt 0` 知道, `B_(2n)` 的符号是正负交错的.
+	由此还能得到 `tan x` 的 Maclaurin 展开系数全为正, 等等.
+</p>
+
+<p class="corollary">
+	因为 `lim_(n to oo) zeta(2n) = 1`, 所以
+	<span class="formula">
+		`B_(2n) ~ -2 ((2n)!)/(2pi"i")^(2n)`
+		`~ (-1)^(n-1) 4 sqrt(pi n) (n/(pi"e"))^(2n)`.
+	</span>
 </p>
 
 <script src="../../js/note.js?type=math"></script>
