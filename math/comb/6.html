@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>生成函数</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>形式幂级数</h2>
+
+<p class="definition">
+  全体形式幂级数记为 `CC[[x]]`, 其中的元素形如 `sum_(n ge 0) a_n x^n`;
+  全体形式 Laurent 级数记为 `CC((x))`, 其中元素形如 `sum_(n ge -N) a_n x^n`.
+  `CC[[x]]` 和 `CC((x))` 分别构成环和域. 在研究形式级数的时候,
+  我们只进行形式的计算, 不关心它们的收敛性.<br>
+  若 `f` 是形式级数, 我们用 `[x^n] f(x)` 表示它的 `n` 次项系数.
+  特别当 `f` 是形式幂级数时, 有
+  <span class="formula">
+    `[x^n] f(x) = 1/n! {:("d"^n f)/dx^n|_(x=0)`.
+  </span>
+</p>
+
+<ol class="lemma">
+  <li>设 `f(x)` 是形式 Laurent 级数, 则 `[x^-1] f'(x) = 0`.</li>
+  <li>设 `f(x)` 是形式幂级数, `f(0) = 0`, `f'(0) != 0`, 则对任意整数 `n`,
+    <span class="formula">
+      `[x^-1] f(x)^n f'(x) = { 1, if n = -1; 0, otherwise :}`
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>这是因为 `(x^n)' = n x^(n-1)`.</li>
+  <li>若 `n != -1`, `f(x)^n f'(x) = 1/(n+1) (f(x)^(n+1))'`, 由 1 知道它的 `-1` 次项系数等于 `0`. 若 `n = -1`, 记 `f(x) = sum_(k ge 1) a_k x^k`, 有
+    <span class="formula">
+      `(f'(x))/(f(x))`
+      `= (a_1 + 2 a_2 x + cdots)/(a_1 x + a_2 x^2 + cdots)`
+      `= (a_1 + 2 a_2 x + cdots)/(a_1 x) 1/(1 + g(x))`
+      `= (x^-1 + 2 a_2//a_1 + cdots) (1 - g(x) + g(x)^2 - cdots)`.
+    </span>
+    其中 `g(x) = (a_2 x^2 + cdots)//a_1 x`. 容易看出上式的最低次项, 即
+    `-1` 次项系数为 `1`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>Lagrange 反演公式</b>
+  设 `f(x), g(x)` 是形式幂级数,
+  `f(0) = 0`, `f'(0) != 0`, `g(0) = 0`, `g'(0) != 0`. 若 `f, g` 互逆, 即
+  `g(f(x)) = f(g(x)) = x`, 则
+  <span class="formula">
+    `[x^n] g(x) = [x^-1] 1//f(x)^n = [x^(n-1)] (x//f(x))^n`.
+  </span>
+</p>
+
+<p class="proof">
+  设 `g(x) = sum_(k ge 1) b_k x^k`, 由 `g(f(x)) = x` 知道
+  <span class="formula">
+    `sum_(k ge 1) b_k f(x)^k = x`.
+  </span>
+  两边求导, 再同除以 `f(x)^n` 得
+  <span class="formula">
+    `sum_(k ge 1) k b_k f(x)^(k-1-n) f'(x) = f(x)^-n`.
+  </span>
+  两边取 `-1` 次项系数, 由引理 `[x^-1] f(x)^(k-1-n) f'(x) = 1` 当且仅当 `k
+  = n`, 因而 `n b_n = [x^-1] f(x)^-n`. 证毕.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

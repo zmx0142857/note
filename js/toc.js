@@ -86,7 +86,7 @@ math: {
   articles: [
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
-    {title:'全纯函数的展开', src:'complex/3.html'},
+    {title:'复变函数的展开', src:'complex/3.html', date:'2022-01-21'},
   ]
 }, {
   title:'实变函数',
@@ -196,6 +196,7 @@ math: {
     {title:'求解递推式', src:'comb/3.html', date:'2021-11-27'},
     {title:'容斥原理', src:'comb/4.html'},
     {title:'离散微积分与特殊计数序列', src:'comb/5.html', date:'2022-01-06'},
+    {title:'生成函数', src:'comb/6.html', date:'2022-01-22'},
   ]
 }, {
   title:'图论',

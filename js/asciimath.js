@@ -1073,12 +1073,12 @@ const parse = {
       parse.skip(sym3.input.length)
       node = yields.rfunc(sym3, node)
     }
-    if (sym0.func) {
+    /*if (sym0.func) {
       if (sym3.ttype !== INFIX && sym3.ttype !== RIGHTBRACKET) {
         res = parse.infix() // recur
         node = yields.infixFunc(node, res)
       }
-    }
+    }*/
     return node
   },
   expr (rightbracket) {

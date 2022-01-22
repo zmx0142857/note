@@ -22,7 +22,6 @@ function Plot(el, config={}) {
   this.ctx.font = "12px sans-serif"
   this.color = getDefault(config.color, '#337ab7')
 
-
   this.step = getDefault(config.step, 5e-3)
   this.padding = 10
   this.geometry(config)
@@ -119,9 +118,11 @@ Plot.prototype.axis = function(config) {
   function myceil(x, step) {
     return Math.ceil(x / step) * step
   }
-  // TODO round the labels
-  function myround(x) {
-    return Math.round(x * 100) / 100
+  // round the labels
+  const xround = Math.pow(10, Math.ceil(-Math.log10(config.xtick)))
+  const yround = Math.pow(10, Math.ceil(-Math.log10(config.ytick)))
+  function myround(x, ratio) {
+    return Math.round(x * ratio) / ratio
   }
   // 刻度
   for (var x = myceil(this.xmin, config.xtick); x <= this.xmax; x += config.xtick) {
@@ -139,10 +140,10 @@ Plot.prototype.axis = function(config) {
     this.ctx.save()
     if (x !== 0) {
       this.ctx.translate(-2, 12)
-      this.text(''+x, x, 0)
+      this.text(''+myround(x, xround), x, 0)
     } else {
       this.ctx.translate(4, 12)
-      this.text(''+x, x, 0)
+      this.text(''+myround(x, xround), x, 0)
     }
     this.ctx.restore()
   }
@@ -151,11 +152,45 @@ Plot.prototype.axis = function(config) {
   this.ctx.translate(6, 4)
   for (var y = myceil(this.ymin, config.ylabel); y <= this.ymax; y += config.ylabel) {
     if (y !== 0) {
-      this.text(''+y, 0, y)
+      this.text(''+myround(y, yround), 0, y)
     }
   }
   this.ctx.restore()
   return this
+}
+
+// 隐函数作图 (400*400, 16ms)
+Plot.prototype.plotImp = function (fn, { color, step } = {}) {
+  const xb = this.xmin - this.padding / this.xscale
+  const yb = this.ymax + this.padding / this.yscale
+  const xa = 1 / this.xscale
+  const ya = - 1 / this.yscale
+
+  const sign = (x, y) => {
+    ++cnt
+    const eps = 1e-7
+    // x => this.xmin + (x - this.padding) / this.xscale,
+    // y => this.ymax - (y - this.padding) / this.yscale
+    const f = fn(xa * x + xb, ya * y + yb)
+    return f > eps ? 1 : f < -eps ? -1 : 0
+  }
+  const plot = (xmin, xmax, ymin, ymax, step) => {
+    for (let x = xmin; x <= xmax; x += step) {
+      for (let y = ymin; y <= ymax; y += step) {
+        const s = sign(x, y)
+        if (Math.abs(s + sign(x + step, y)) < 2
+          || Math.abs(s + sign(x, y + step)) < 2
+          || Math.abs(s + sign(x + step, y + step)) < 2) {
+          if (step === 1) this.ctx.fillRect(x, y, 1, 1)
+          else plot(x, x + step, y, y + step, 1)
+        }
+      }
+    }
+  }
+  this.ctx.fillStyle = getDefault(color, this.color)
+  let cnt = 0
+  plot(0, this.width, 0, this.height, step || 8)
+  console.log(cnt + ' loops')
 }
 
 // plot discretely
