@@ -1285,7 +1285,7 @@ function $mspace() {
 
 function loadCss(href) {
   document.body.appendChild($('<link>', {
-    attrs: { href, rel: 'stylesheet', crossorigin: '' }
+    attrs: { href, rel: 'stylesheet' }
   }))
 }
 
