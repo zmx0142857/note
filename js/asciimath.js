@@ -1354,7 +1354,8 @@ function init () {
   yields = yieldsTex
 
   if (AM.env === 'browser') {
-    // local fonts cause CORS error
+    loadCss('https://unpkg.com/katex@0.13.0/dist/katex.min.css', 'sha256-gPJfuwTULrEAAcI3X4bALVU/2qBU+QY/TpoD3GO+Exw=')
+    // jsdelivr causes CORS error
     //loadCss('https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css', 'sha256-gPJfuwTULrEAAcI3X4bALVU/2qBU+QY/TpoD3GO+Exw=')
     loadScript(AM.katexpath, AM.onload)
   }
