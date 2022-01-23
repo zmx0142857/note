@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>代数数域和代数整数</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p>本章起进入代数数论的世界.
+  读者可以先回顾一下<a href="../abstract/7.html">域</a>和
+  <a href="../abstract/8.html">Galois 理论</a>的知识.
+  代数数论研究的主要对象是<b>代数数域</b>, 即有理数域 `QQ` 的有限次扩张.
+  任意代数数域均是 `QQ^(a c)` (全体代数数组成的域) 的子域, 从而是 `CC`
+  的子域. 今后, 我们将代数数域简称为数域.
+</p>
+
+<h2>数域的扩张与嵌入</h2>
+
+<h3>单扩张定理</h3>
+
+<ol class="remark">
+  <b>单扩张</b>
+  <li>设 `L = K(gamma)` 是域的 `n` 次扩张, 则 `gamma` 在 `K`
+    上的最小多项式 `f` 是 `n` 次多项式. 由于我们讨论的数域都是特征为零的,
+    因此 `f` 可分, 即没有重根. 设 `f` 的 `n` 个根为 `gamma = gamma_1,
+    gamma_2, cdots, gamma_n in CC`, 它们称为 `gamma` 的 <b>`K`-共轭元</b>.
+  </li>
+  <li>每个共轭元 `gamma_i` 都决定一个单同态 `sigma_i: K to CC`, 其中
+    `sigma_i` 保持 `K` 中的元素不动, 即 `AA a in K`, `sigma_i(a) = a`.
+    这 `n` 个单同态称为 `L` 到 `CC` 的 <b>`K`-嵌入</b>, 每个同态像
+    `sigma_i(L) = K(gamma_i)` 称为 `L` 的 <b>`K`-共轭域</b>.
+    可以证明这些共轭域与生成元 `gamma` 的选取无关, 它们是域扩张 `L//K`
+    自身的特性.
+  </li>
+  <li>特别当 `L//K` 是 Galois 扩张时, 这些 `K`-共轭域都相等 (都等于 `L`).
+  </li>
+</ol>
+
+<p>好消息是, 数域的扩张均为单扩张.</p>
+
+<p class="theorem">
+  <b>单扩张定理</b>
+  数域的扩张 `L//K` 必是单扩张, 即存在 `gamma in L` 使得 `L = K(gamma)`.
+</p>
+
+<p class="definition">
+  <b>实嵌入与复嵌入</b>
+  令 `K = QQ(gamma)` 为数域的 `n` 次扩张, `f` 为最小多项式,
+  设 `f` 有 `r` 个实根 `gamma_1, gamma_2, cdots, gamma_r`
+  和 `s` 对复根 `beta_1, bar beta_1, cdots, beta_s, bar beta_s`,
+  其中 `r + 2 s = n`.
+  则由 `f` 的实根确定的 `K` 到 `RR` 的嵌入称为 `K` 的<b>实嵌入</b>:
+  <span class="formula">
+    `sigma_i: K to RR`, `quad sigma_i(gamma) = gamma_i`,
+  </span>
+  由复根确定的 `K` 到 `CC` 的嵌入称为 `K` 的<b>复嵌入</b>:
+  <span class="formula">
+    `tau_i: K to CC`, `quad tau_i(gamma) = beta_i`;<br>
+    `bar tau_i: K to CC`, `quad bar tau_i(gamma) = bar beta_i`.
+  </span>
+  如前述, 生成元 `gamma` 的取法可以不同, 但实嵌入与复嵌入的数目 `r`
+  和 `s` 不变, 它们是数域 `K` 本身的性质.
+  特别当 `s = 0` 时, `K` 的全体共轭域均为实域, 这时 `K` 称为<b>全实域</b>;
+  `r = 0` 时, `K` 全体共轭域均为虚域, `K` 称为<b>全虚域</b>.
+</p>
+
+<ol class="example">
+  当 `K//Q` 为 Galois 扩张时, `K` 的共轭域只有它自己, 因此:
+  <li>`n ge 3` 时, 分圆域 `QQ(zeta_n)` 是全虚域;</li>
+  <li>`d gt 0` 时, 二次域 `QQ(sqrt d)` 是全实域, `d lt 0` 时则是全虚域.</li>
+</ol>
+
+<h3>范与迹与判别式</h3>
+
+<p class="definition">
+  <b>元素关于扩张的范与迹</b>
+  考虑数域扩张 `L//K`. 将 `L` 视为 `K` 上线性空间, 任取 `alpha in L`, 则
+  `alpha` 诱导的左平移变换
+  <span class="formula">
+    `varphi_alpha: L to L`<br>
+    `x mapsto alpha x`
+  </span>
+  是 `L` 上的线性变换.
+  由线性代数知道, 在不同的基底下, 线性变换 `varphi_alpha`
+  的表示矩阵 `M_alpha` 的行列式与迹不变, 分别称为元素 `alpha` 对于扩张
+  `L//K` 的<b>范 (norm)</b> `N_(L//K)(alpha)` 与<b>迹 (trace)</b>
+  `T_(L//K)(alpha)`. 上下文明确时, 简记为 `N(alpha)` 和 `T(alpha)`.
+</p>
+
+<ol class="corollary">
+  对于数域的 `n` 次扩张 `L//K`,
+  <li>`N(1) = 1`, `T(1) = n`;</li>
+  <li>`AA a in L, k in K`, `N(k a) = k^n N(a)`, `T(k a) = k T(a)`.</li>
+  <li>`AA a, b in L`, `N(a b) = N(a) N(b)`, `T(a + b) = T(a) + T(b)`.
+    即 `N`, `T` 分别是关于乘法和加法的同态;
+  </li>
+</ol>
+
+<script src="../../js/note.js?type="></script>
+</body>
+</html>
