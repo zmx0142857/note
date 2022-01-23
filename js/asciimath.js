@@ -1284,7 +1284,7 @@ function $mspace() {
 }
 
 function loadCss(href, integrity) {
-  document.body.appendChild($('<link>', {
+  document.head.appendChild($('<link>', {
     attrs: {
       href,
       rel: 'stylesheet',
