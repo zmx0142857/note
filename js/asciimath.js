@@ -1283,9 +1283,13 @@ function $mspace() {
   return el
 }
 
-function loadCss(href) {
+function loadCss(href, integrity) {
   document.body.appendChild($('<link>', {
-    attrs: { href, rel: 'stylesheet' }
+    attrs: {
+      href,
+      rel: 'stylesheet',
+      ...(integrity ? { crossorigin: 'anonymous', integrity } : {})
+    }
   }))
 }
 
@@ -1351,7 +1355,7 @@ function init () {
 
   if (AM.env === 'browser') {
     // local fonts cause CORS error
-    loadCss('https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css')
+    loadCss('https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css', 'sha256-gPJfuwTULrEAAcI3X4bALVU/2qBU+QY/TpoD3GO+Exw=')
     loadScript(AM.katexpath, AM.onload)
   }
 }
