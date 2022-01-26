@@ -281,4 +281,13 @@ var plot = new Plot('canvas', {xmin: -10, ymin: -1, xmax: 10, ymax: 5})
   .plot(Math.cos, {color: Plot.colors.green})
   .plot(Math.tan, {color: Plot.colors.red})
   .plot(x => Math.sin(1/x), {color: 'grey', continuity:1e4})
+
+var plot = new Plot('canvas', {xmin: -2, ymin: -2, xmax: 2, ymax: 2, keepRatio: true})
+  .axis()
+  //.plotImp((x, y) => Math.abs(x) + Math.abs(y) - 1)
+  .plotImp((x, y) => 2*Math.abs(2*x+y) + 3*Math.abs(2*x-y) - 2)
+  //.plotImp((x, y) => x*x + y*y - 1)
+  //.plotImp((x, y) => (x*x + y*y - 1)**3 - x**2 * y**3, { color: 'pink' })
+  //.plotImp((x, y) => x*(x+1)**2 + y*(y+1)**2)
+  //.plotImp((x, y) => Math.sin(x**2) + Math.sin(y**2) - 1, { step: 1 })
 */
