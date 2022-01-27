@@ -191,6 +191,8 @@ Plot.prototype.plotImp = function (fn, { color, step } = {}) {
   let cnt = 0
   plot(0, this.width, 0, this.height, step || 8)
   console.log(cnt + ' loops')
+  this.ctx.strokeStyle = 'black'
+  this.ctx.fillStyle = 'black'
 }
 
 // plot discretely

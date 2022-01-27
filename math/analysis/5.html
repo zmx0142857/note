@@ -536,7 +536,7 @@
   `xi_1` 位于 `x` 到 `a` 的开区间. 继续应用 Cauchy 中值定理, 最终得到
   <span class="formula">
     `(R(x))/(g(x)) = (R^((n+1))(xi))/(g^((n+1))(xi)) = f^((n+1))(xi)`.
-  </span> 
+  </span>
   即
   <span class="formula">
     `f(x) = T(x) + (f^((n+1))(xi))/(n+1)! (x-a)^(n+1)`.
@@ -658,6 +658,126 @@
   即比较 `pi/"e"` 和 `ln pi`;<br/>
   再取对数, 即比较 `ln pi-1` 和 `ln ln pi`.<br/>
   由于 `AA x gt 1` 有 `x-1 gt ln x`, 上述比较的结果为 "`gt`".
+</p>
+
+<h2>Padé 近似*</h2>
+
+<p class="definition">
+  <b>Padé 近似</b>
+  Taylor 公式用多项式对函数在一点作近似, 而 Padé 近似是用有理函数.
+  例如, 在 `x=0` 附近考虑函数 `ln(1+x)`, 由于
+  <span class="formula">
+    `(2+x) ln (1+x)`
+    `= (2+x)(x - x^2/2 + O(x^3))`
+    `= 2x + O(x^3)`,
+  </span>
+  所以
+  <span class="formula">
+    `ln(1+x) = (2x)/(2+x) + O(x^3)`,
+    或者 `ln x = 2(x-1)/(x+1) + O((x-1)^3)`.
+  </span>
+  一般地, 希望 `x to 0` 时有
+  <span class="formula">
+    `F(x) = p(x) // q(x) + O(x^(n+1))`, `quad p, q` 为多项式, `q(0) = 1`, `del p + del q = n`.
+  </span>
+  由于 `q(0) != 0`, 上式可以写为 `q(x) F(x) = p(x) + O(x^(n+1))`,
+  将 `F` Maclaurin 展开: `F(x) = f(x) + O(x^(m+1))`, `m = del p`, 有
+  <span class="formula">
+    `q(x) f(x) = p(x) + O(x^(n+1))`.
+  </span>
+  `f, p, q` 的 `k` 次项系数分别记为 `f_k`, `p_k`, `q_k`, 比较系数得
+  `q_0 = 1` 和 `p_0 = q_0 f_0 = f_0`.
+  此外尚有 `p_1, cdots, p_r`, `q_1, cdots, q_s`, 共 `r + s = n` 个待定系数,
+  可以通过下面的方程组确定:
+  <span class="formula">
+    `q_0 f_1 + q_1 f_0 = p_1`,<br>
+    `cdots`<br>
+    `q_0 f_n + q_1 f_(n-1) + cdots + q_n f_0 = p_n`.
+  </span>
+  `p(x)//q(x)` 称为 `f` 在原点的 `r//s` 阶 Padé 近似.
+</p>
+
+<h3>常见函数在原点的 Padé 近似</h3>
+
+[来自 <a href="https://zhuanlan.zhihu.com/p/92873681">玺之的数学专栏</a>]
+
+<div class="flex">
+<div>
+<table>
+  <caption>`ln(x+1)`</caption>
+  <tr>
+    <td>`del q\\del p`</td>
+    <td>1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`x`</td>
+    <td>`(2x-x^2)/2`</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>`(2x)/(2+x)`</td>
+    <td>`(6x+x^2)/(6+4x)`</td>
+  </tr>
+</table>
+</div>
+
+<div>
+<table>
+  <caption>`"e"^x`</caption>
+  <tr>
+    <td>`del q\\del p`</td>
+    <td>0</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`1`</td>
+    <td>`x+1`</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>`1/(1-x)`</td>
+    <td>`(2+x)/(2-x)`</td>
+  </tr>
+</table>
+</div>
+
+<div>
+<table>
+  <caption>`cos x`</caption>
+  <tr>
+    <td>`del q\\del p`</td>
+    <td>0</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`1`</td>
+    <td>`(2-x^2)/2`</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>`2/(2+x^2)`</td>
+    <td>`(12-5x^2)/(12+x^2)`</td>
+  </tr>
+</table>
+</div>
+</div>
+
+<p class="solution">
+  以 `ln(1+x)` 在原点的 `2//1` 阶近似为例, 先将 `ln(1+x)` 展开到 `2+1 = 3` 阶:
+  <span class="formula">
+    `ln(1+x) ~~ x - x^2/2 + x^3/3`.
+  </span>
+  又设 `q(x) = 1 + q_1 x`, `p(x) = p_0 + p_1 x + p_2 x^2`, 得 `p_0 = 0`, 且
+  <span class="formula">
+    `p_1 = 1 * 1`,
+    `quad p_2 = q_1 - 1/2`,
+    `quad p_3 = 0 = -1/2 q_1 + 1/3`.
+  </span>
+  解得 `p_1 = 1`, `q_1 = 2/3`, `p_2 = 1/6`. 故 `(p(x))/(q(x)) = (6x+x^2)/(6+4x)`.
 </p>
 
 <h2>积分余项的 Taylor 公式*</h2>

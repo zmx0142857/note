@@ -1,22 +1,69 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>插值</title>
+    <title>插值与样条</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>Lagrange 插值</h2>
+<h2>多项式插值</h2>
 
 <p class="question">
-  已知函数 `f` 在 `n+1` 个不同的点处的值 `f(x_k) = f_k`,
-  `k = 0, 1, cdots, n`, 求 `p_n in bbb P_n[x]`, 满足 `p_n(x_k) = f_k`,
-  `k = 0, 1, cdots, n`. `p_n` 称为 `f` 的 `n` 次插值多项式.
+  已知函数 `f` 在 `n+1` 个不同的点处的值
+  <span class="formula">
+    `f(x_k) = y_k`, `quad k = 0, 1, cdots, n`,
+  </span>
+  求一个次数不超过 `n` 的多项式 `p(x)`, 满足
+  <span class="formula">
+    `p(x_k) = y_k`, `quad k = 0, 1, cdots, n`.
+  </span>
+  `p` 称为 `f` 的 `n` 次插值多项式.
 </p>
 
-<p class="solution">
-  构造 Lagrange 多项式
+<p class="theorem">
+  插值多项式的存在唯一性.
+</p>
+
+<p class="proof">
+  使用待定系数法. 设 `p` 的 `j` 次项系数为 `p_j`, 它们适合下面的线性方程组:
+  <span class="formula">
+    `[1, x_0, cdots, x_0^n;
+      1, x_1, cdots, x_1^n;
+      vdots, vdots, , vdots;
+      1, x_n, cdots, x_n^n]
+    [p_0; p_1; vdots; p_n] = [y_0; y_1; vdots; y_n]`.
+  </span>
+  方程组的系数矩阵是 `n+1` 阶 Vandermonde 矩阵, 由假设 `x_k` 两两不同,
+  故系数矩阵非奇异, 方程组有唯一解.
+</p>
+
+<p class="remark">
+  下面将要介绍各种形式的插值多项式. 虽然形式不同, 由插值多项式的唯一性知道,
+  这些插值多项式都是相等的.
+</p>
+
+<h3>Lagrange 插值</h3>
+
+<p class="example">
+  <b>线性插值</b>
+  考虑两点 `(x_0, y_0)` 和 `(x_1, y_1)`,
+  它们的一次插值多项式显然就是连接这两点的直线, 方程为
+  <span class="formula">
+    `(y-y_0)/(x-x_0) = (y_1-y_0)/(x_1-x_0)`,
+  </span>
+  或者写成
+  <span class="formula">
+    `y = (x-x_1)/(x_0-x_1) y_0 + (x-x_0)/(x_1-x_0) y_1`.
+  </span>
+  插值多项式是两个<b>基函数</b> `f_0(x) = (x-x_1)/(x_0-x_1)` 和 `f_1(x) =
+  (x-x_0)/(x_1-x_0)` 的线性组合, 系数恰为 `y_0, y_1`.
+  容易验证 `f_0(x_0) = f_1(x_1) = 1`, `f_0(x_1) = f_1(x_0) = 0`.
+</p>
+
+<p class="theorem">
+  <b>Lagrange 插值</b>
+  构造 Lagrange 基函数
   <span class="formula">
     `l_i(x) = prod_(j!=i) (x-x_j)/(x_i-x_j)`,
   </span>
@@ -27,45 +74,120 @@
   换言之, `l_i` 是函数 `delta_(i k)` 的插值多项式.
   一般地, 将函数写成 `delta_(i k)` 的线性组合:
   <span class="formula">
-    `f(x_k) = sum_k f_k delta_(i k)`
-    `= sum_k f_k l_i(x_k)`.
+    `f(x_k) = sum_k y_k delta_(i k)`
+    `= sum_k y_k l_i(x_k)`.
   </span>
-  `sum_k f_k l_i(x)` 就是 `f` 的插值多项式, 称为 Lagrange 插值多项式.
+  故 `L(x) = sum_k y_k l_i(x)` 就是 `f` 的插值多项式, 称为 Lagrange 插值多项式.
+</p>
+
+<p class="theorem">
+  <b>Neville 插值</b>
+  记函数在 `x_i, cdots, x_j` 上的插值多项式为 `p_(i j)`, 则有递推公式
+  <span class="formula align">
+    `p_(i j)(x) = y_i`,<br class="noindent">
+    `p_(i j)(x) = (x-x_j)/(x_i-x_j) p_(i,j-1)(x) + (x-x_i)/(x_j-x_i) p_(i+1,j)(x)`.
+  </span>
+  换言之, `p_(i j)` 是两个低一次的多项式 `p_(i,j-1)` 和 `p_(i+1,j)`
+  线性插值的结果.
+</p>
+
+<p class="proof">
+  对插值多项式的次数 `j-i` 进行归纳. 次数为 0 时, 插值多项式是常数 `y_i`;
+  次数为 1 时, 即为线性插值. 现在假设 `p_(i,j-1)` 和 `p_(i+1,j)`
+  是相应点集上的插值多项式, 验证可知
+  <span class="formula">
+    `p_(i j)(x_k)`
+    `= (x_k-x_j)/(x_i-x_j) p_(i,j-1)(x_k) + (x_k-x_i)/(x_j-x_i) p_(i+1,j)(x_k)`
+    `= (x_k-x_j)/(x_i-x_j) y_k + (x_k-x_i)/(x_j-x_i) y_k`
+    `= y_k`.
+  </span>
+</p>
+
+<h3>Newton 插值</h3>
+
+<p class="definition">
+  <b>差商</b>
+  设 `x_i le x_(i+1) le cdots le x_j`,
+  函数 `f` 在该点集上的 `j-i` 阶差商定义为
+  <span class="formula align">
+    `f[x_i] = f(x_i)`,<br class="noindent">
+    `f[x_i, cdots, x_j]
+    = (f[x_(i+1), cdots, x_j] - f[x_i, cdots, x_(j-1)])/(x_j-x_i)`.
+  </span>
+  差商是离散版本的导数.
+  事实上,
+  <span class="formula">
+    `lim_(x_j-x_i to 0) f[x_i, cdots, x_j]`
+    `= (f^((j-i))(x_i))/(j-i)!`.
+  </span>
+  因此定义
+  <span class="formula">
+    `f overset(n+1)overbrace([x_i, cdots, x_i]) = (f^((n))(x_i))/n!`,
+  </span>
+  我们称这里 `x_i` 的<b>重复度</b>为 `n+1`.
 </p>
 
 <p class="example">
-	设 `f(x) = (a-x)^-1`, 证明:
-	<span class="formula">
-		`f[x_0, x_1, cdots, x_n] = prod_(k=0)^n (a-x_k)^-1`,
-	</span>
-	而且
-	<span class="formula">
-		` 1/(a-x)
-		= 1/(a-x_0) + (x-x_0)/((a-x_0)(a-x_1)) + cdots`
-		  `+ ((x-x_0) cdots (x-x_(n-1))) / ((a-x_0) cdots (a-x_n))
-		  + ((x-x_0) cdots (x-x_n)) / ((a-x_0) cdots (a-x_n) (a-x))`.
-	</span>
+  设 `f(x) = (a-x)^-1`, 证明:
+  <span class="formula">
+    `f[x_0, x_1, cdots, x_n] = prod_(k=0)^n (a-x_k)^-1`,
+  </span>
 </p>
 
-<ol class="proof">
-	<li>对 `n` 进行归纳证明. `n = 0` 时， `f[x_0] = (a-x_0)^-1`, 公式成立.
-		设公式对非负整数 `n` 成立, 则对 `n+1`, 有
-		<span class="formula">
-			` f[x_0, cdots, x_(n+1)]
-			= (f[x_1, cdots, x_(n+1)] - f[x_0, cdots, x_n])
-			  / (x_(n+1) - x_0)`
-			`= 1/(x_(n+1) - x_0) (prod_(k=1)^(n+1) (a-x_k)^-1
-			  - prod_(k=0)^n (a-x_k)^-1)`
-			`= 1/(x_(n+1) - x_0) ((a-x_0) - (a-x_(n+1)))
-			  / (prod_(k=0)^(n+1) (a-x_k))`
-			`= prod_(k=0)^(n+1) (a-x_k)^-1`.
-		</span>
-		故公式对任意非负整数 `n` 成立.
-	</li>
-	<li>应用 Newton 插值公式立得.</li>
-</ol>
+<p class="proof">
+  对 `n` 进行归纳证明. `n = 0` 时， `f[x_0] = (a-x_0)^-1`, 公式成立.
+  设公式对非负整数 `n` 成立, 则对 `n+1` 有
+  <span class="formula align">
+    `f[x_0, cdots, x_(n+1)]`<br>
+    `= (f[x_1, cdots, x_(n+1)] - f[x_0, cdots, x_n]) / (x_(n+1) - x_0)`<br>
+    `= 1/(x_(n+1) - x_0) (prod_(k=1)^(n+1) (a-x_k)^-1
+      - prod_(k=0)^n (a-x_k)^-1)`<br>
+    `= 1/(x_(n+1) - x_0) ((a-x_0) - (a-x_(n+1)))
+      / (prod_(k=0)^(n+1) (a-x_k))`<br>
+    `= prod_(k=0)^(n+1) (a-x_k)^-1`.
+  </span>
+</p>
 
-<h2>Hermite 插值</h2>
+<p>下面证明 Newton 插值公式, 这是 Taylor 公式的离散版本.</p>
+
+<p class="theorem">
+  <b>Newton 插值</b>
+  `f` 在 `x_0, cdots, x_n` 上写为 `f(x) = N(x) + R_n(x)`, 其中
+  <span class="formula align">
+    `N(x) = sum_(k=0)^n f[x_0, cdots, x_k] prod_(j=0)^(k-1) (x-x_j)`<br>
+    `= f[x_0] + f[x_0, x_1](x-x_0) + cdots + f[x_0, cdots, x_n](x-x_0)cdots(x-x_(n-1))`
+  </span>
+  是 `f` 的 `n` 次插值多项式,
+  <span class="formula">
+    `R_n(x) = f[x, x_0, cdots, x_n](x-x_0)cdots(x-x_n)`
+  </span>
+  是余项.
+</p>
+
+<p class="proof">
+  从余项入手,
+  <span class="formula align">
+    `R_k(x) = f[x, x_0, cdots, x_k](x-x_0)cdots(x-x_k)`<br>
+    `= (f[x, x_0, cdots, x_(k-1)] - f[x_0, cdots, x_k]) (x-x_0) cdots(x-x_(k-1))`<br>
+    `= R_(k-1)(x) - f[x_0, cdots, x_k] prod_(j=0)^(k-1) (x-x_j)`,
+  </span>
+  求和,
+  <span class="formula">
+    `R_0(x) - R_n(x)`
+    `= sum_(k=1)^n [R_(k-1)(x) - R_k(x)]`
+    `= sum_(k=1)^n f[x_0, cdots, x_k] prod_(j=0)^(k-1) (x-x_j)`,
+  </span>
+  再代入 `R_0(x) = f(x) - f(x_0)` 即得结论.
+  最后, 注意到对 `k = 0, cdots, n` 有 `R_n(x_k) = 0`, 所以 `f(x_k) = N(x_k)`.
+</p>
+
+<p class="remark">
+  Newton 插值的特点是, 只有最后一项含有 `x_n`, 而前 `n` 项都与 `x_n` 无关.
+  因此我们可以逐点逐项地计算插值多项式. 要增加、删除最后一个节点,
+  只需增加、删除最后一项即可, 这是 Newton 插值带来的便利.
+</p>
+
+<h3>Hermite 插值</h3>
 
 <p>假设 `f(x) = ax^3 + bx^2 + cx + d`, 于是 `f'(x) = 3ax^2 + 2bx + c`.
   规定 `f` 及其导数在给定点处的值, 运用待定系数法可以算出 `f` 的表达式:
@@ -132,6 +254,221 @@
   其中, `x = a + (b-a) t`, `f_1` 到 `f_4` 是上面 4 个问题的解.
 </p>
 
+<h2>样条曲线</h2>
+
+<h3>Bezier 曲线</h3>
+
+<p class="remark">
+  区分：Bezier 曲线, <a href="../complex/3.html#exp-bessel-function">Bessel 函数</a>, <a href="../analysis/10.html#prop-basel">Basel 问题</a>.
+</p>
+
+<p class="definition">
+  <b>Bezier 曲线</b>
+  `n` 次 Bezier 曲线定义为 <b>Bernstein 基函数</b> 关于 `n+1` 个控制点
+  `P_0, P_1, cdots, P_n` 的线性组合
+  <span class="formula">
+    `P(t) = sum_k B_(k,n)(t) P_k`, `quad t in [0, 1]`.
+  </span>
+  其中
+  <span class="formula">
+    `B_(k,n)(t) = (n;k) t^k (1-t)^(n-k)`, `quad t in [0, 1]`.
+  </span>
+  容易看出 `sum_(k=0)^n B_(k,n)(t) = 1`. 且 `P(0) = P_0`, `P(1) = P_n`.
+</p>
+
+<div class="img" title="尝试拖拽 Bezier 曲线的控制点">
+  <canvas id="canvas-bezier" width="320" height="240"
+    style="border: 1px solid #aaa; background: rgba(0,0,0,0.1);
+    height:240px;width:320px">
+  </canvas>
+</div>
+
+<p class="example">
+  一次 Bezier 曲线即线段 `P_0 P_1`:
+  <span class="formula">
+    `P_(0, 1)(t)`
+    `= (1-t) P_0 + t P_1`
+    `= [t, 1][-1, 1; 1, 0][P_0; P_1]`.
+  </span>
+  二次 Bezier 曲线是 `P_0, P_2` 间的一条抛物线:
+  <span class="formula">
+    `P_(0, 1, 2)(t)`
+    `= (1-t)^2 P_0 + 2(1-t)t P_1 + t^2 P_2`
+    `= [t^2, t, 1][1, -2, 1; -2, 2, 0; 1, 0, 0][P_0; P_1; P_2]`.
+  </span> 
+  二次 Bezier 曲线还可以看作一次 Bezier 曲线的线性组合:
+  <span class="formula">
+    `P_(0, 1, 2)(t) = (1-t)P_(0,1)(t) + t P_(1,2)(t)`.
+  </span>
+  一般地, `n` 次 Bezier 曲线是两条 `n-1` 次 Bezier 曲线的线性组合.
+  工程中最常用的是 2 次和 3 次 Bezier 曲线.
+</p>
+
+<p class="remark">
+  为什么二次 Bezier 曲线是抛物线? 考虑参数方程
+  <span class="formula">
+    `x = a t^2 + b t + c`,
+    `quad y = d t^2 + e t + f`
+  </span>
+  注意到抛物线在仿射变换下的像仍为抛物线 (或退化为直线),
+  令 `u = d x - a y`, 则 `u` 是 `t` 的一次函数, 从而
+  <span class="formula">
+    `(x, t)` 是抛物线
+    `rArr (x, u)` 是抛物线
+    `rArr (x, y)` 是抛物线.
+  </span> 
+</p>
+
+<h3>B 样条曲线</h3>
+
+[来自 <a href="https://zhuanlan.zhihu.com/p/50450278">书剑飘零</a>]
+<p>
+  样条 (spline) 本来是指一些细小的有弹性的木条或者钢片, 用这些木条来设计模型结构.
+  Bezier 曲线的不足之处是, 一个控制点的变动会影响整条曲线, "牵一发而动全身".
+  B 样条曲线对这一点作了改进.
+</p>
+
+<p class="definition">
+  <b>B 样条曲线</b>
+  控制点 `P_0, cdots, P_n` 确定的 `k` 次 B
+  样条曲线是<b>样条基函数</b>的线性组合:
+  <span class="formula">
+    `P(t) = sum_(i=0)^n N_(i,k)(t) P_i`, `quad t in [t_k, t_(n+1))`.
+  </span> 
+  其中样条基函数由 <b>deBoor-Cox 公式</b> 定义:
+  <span class="formula">
+    `N_(i,0) = { 1, if t in [t_i, t_(i+1)); 0, otherwise :}`,<br>
+    `N_(i,k)(t) = (t-t_i)/(t_(j-1)-t_i) N_(i,k-1)(t) + (t_j-t)/(t_j-t_(i+1)) N_(i+1,k-1)(t)`.
+  </span>
+  其中 `j = i + k + 1`. 可以看出 `N_(i,k)` 在 `(t_i, t_j)` 上非零, 或者说
+  `[t_i, t_j]` 是 `N_(i,k)` 的支撑集.
+</p>
+
+<p class="example">
+  <b>样条曲线的计算</b>
+  <span class="formula">
+    `P(t) = sum_(i=0)^n N_(i,k)(t) P_i`
+    `= sum_(i=0)^n (t-t_i)/(t_(j-1)-t_i) N_(i,k-1)(t) P_i`
+    `+ sum_(i=0)^n (t_j-t)/(t_j-t_(i+1)) N_(i+1,k-1)(t) P_i`,
+  </span>
+  注意 `t in [t_k, t_(n+1))`, 因此上述和式的第一项与最后一项为零, 得到
+  <span class="formula align">
+    `P(t)`
+    `= sum_(i=1)^n (t-t_i)/(t_(j-1)-t_i) N_(i,k-1)(t) P_i`
+    `+ sum_(i=0)^(n-1) (t_j-t)/(t_j-t_(i+1)) N_(i+1,k-1)(t) P_i`<br>
+    `= sum_(i=1)^n [(t-t_i)/(t_(j-1)-t_i) P_i + (t_(j-1)-t)/(t_(j-1)-t_i) P_(i-1)] N_(i,k-1)(t)`.
+  </span> 
+  若定义
+  <span class="formula">
+    `tau_i^l = (t-t_i)/(t_(j-l)-t_i)`,<br>
+    `P_i^l(t) = {
+        P_i, if l = 0;
+        (1-tau_i^l) P_(i-1)^(l-1)(t) + tau_i^l P_i^(l-1)(t), if l gt 0
+    :}`,
+  </span>
+  则
+  <span class="formula">
+    `P(t) = sum_(i=1)^n P_i^1(t) N_(i,k-1)(t)`
+    `= sum_(i=2)^n P_i^2(t) N_(i,k-2)(t)`
+    `= cdots`
+    `= sum_(i=k)^n P_i^k(t) N_(i,0)(t)`.
+  </span>
+  上式右端是分段函数, `t in [t_i, t_(i+1))` 时, 有 `P(t) = P_i^k(t)`.
+</p>
+
+<p class="remark">
+  当第一个参数节点 `t_0` 和最后一个参数节点 `t_n` 的重复度为 `k+1` 时,
+  `k` 次样条曲线的首尾分别与控制点的线段相切. 这种情形称为 clamped B-spline.
+</p>
+
 <script src="../../js/note.js?type=math"></script>
+<script>
+const dpr = window.devicePixelRatio
+const canvas = document.getElementById('canvas-bezier')
+  canvas.style.zoom = 1/dpr
+  canvas.setAttribute('width', canvas.offsetWidth * dpr)
+  canvas.setAttribute('height', canvas.offsetHeight * dpr)
+const ctx = canvas.getContext('2d')
+
+  ctx.scale(dpr, dpr)
+const points = [
+  [100, 100],
+  [150, 200],
+  [200, 100],
+  [250, 200]
+]
+
+function bezier (t, n) {
+  function bez (i, j) {
+    if (i === j) return points[i]
+    const [p0, p1] = bez(i, j-1)
+    const [q0, q1] = bez(i+1, j)
+    return [
+      p0 + t * (q0 - p0),
+      p1 + t * (q1 - p1),
+    ]
+  }
+  return bez(0, n)
+}
+
+function draw () {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.strokeStyle = '#45a'
+  ctx.beginPath()
+  points.forEach(p => {
+    ctx.lineTo(p[0], p[1])
+  })
+  ctx.stroke()
+
+  ctx.strokeStyle = 'crimson'
+  ctx.beginPath()
+  for (let t = 0; t < 1; t += 0.02) {
+    ctx.lineTo(...bezier(t, 3))
+  }
+  ctx.lineTo(...bezier(1, 3))
+  ctx.stroke()
+}
+
+function getXY (e) {
+  const rect = canvas.getBoundingClientRect()
+  const x = e.clientX || e.touches[0].clientX
+  const y = e.clientY || e.touches[0].clientY
+  e.preventDefault() // causes error thus stopped event propagation, see https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
+  return [x - rect.left, y - rect.top]
+}
+
+draw()
+
+canvas.onmousedown = canvas.ontouchstart = function (e) {
+  const [x, y] = getXY(e)
+  //ctx.fillStyle = 'red'
+  //ctx.beginPath()
+  //ctx.arc(x, y, 10, 0, Math.PI*2)
+  //ctx.fill()
+  let minDis = Infinity
+  let index
+  points.forEach((p, i) => {
+    const dis = Math.hypot(p[0]-x, p[1]-y)
+    if (dis < minDis) {
+      minDis = dis
+      index = i
+    }
+  })
+  function mousemove (e) {
+    points[index] = getXY(e)
+    draw()
+  }
+  function mouseup () {
+    document.removeEventListener('mousemove', mousemove)
+    document.removeEventListener('mouseup', mouseup)
+    document.removeEventListener('touchmove', mousemove, true)
+    document.removeEventListener('touchend', mouseup, true)
+  }
+  document.addEventListener('mousemove', mousemove)
+  document.addEventListener('mouseup', mouseup)
+  document.addEventListener('touchmove', mousemove, true)
+  document.addEventListener('touchend', mouseup, true)
+}
+</script>
 </body>
 </html>

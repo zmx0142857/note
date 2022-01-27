@@ -591,6 +591,9 @@ const router = {
         }, a);
         if (isNew) {
           const copy = child.cloneNode(true)
+          // 为 copy 重新绑定事件
+          copy.firstChild.onclick = preventJump
+          copy.onclick = this.jumpto([i, j])
           copy.title = article.date
           latest.push(copy)
         }
