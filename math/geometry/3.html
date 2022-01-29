@@ -733,6 +733,35 @@ document.getElementById('angle-grid-point').innerText = buf.join('\n')
 </ol>
 
 <p class="example">
+  <b>鸡爪定理</b> [来自 <a href="https://baike.baidu.com/item/%E9%B8%A1%E7%88%AA%E5%AE%9A%E7%90%86/4249618">百度百科</a>]
+  在 `triangle ABC` 中, `/_ C` 的平分线与外接圆交于 `K`, 设内心为 `I`,
+  `/_ C` 所对的旁心为 `J`, 则 `A, B, I, J` 四点共圆, 圆心为 `K`.
+  此时线段 `KA`, `KB`, `KI`, `KJ` 形似鸡爪, 故称为鸡爪定理.
+</p>
+
+<div class="img md">
+  <img src="../img/chicken-claw.svg">
+</div>
+
+<ol class="proof">
+  <li>`KA = KB`: 相等圆周角所对的弦相等.</li>
+  <li>`KA = KI`: 只需证 `/_ KAI = /_ KIA`, 即证
+    <span class="formula">
+      `/_ KAB + /_ BAI = /_ KCA + /_ IAC`.
+    </span>
+    上式成立, 这是因为
+    <span class="formula">
+      `/_ KAB = /_ KCB = /_ KCA`,
+      `quad /_ BAI = /_ IAC`.
+    </span>
+  </li>
+  <li>由 1, 2 知道 `K` 是 `ABI` 的外心, 下证 `A, B, I, J` 四点共圆.
+    事实上由 `AI`, `AJ` 分别是三角形内角与外角的平分线知道, `/_ IAJ` 是直角.
+    同理 `/_ IBJ` 也是直角, 这就推出 `A, B, I, J` 四点共圆.
+  </li>
+</ol>
+
+<p class="example">
 	设 `A, B, C` 三点到原点 `O` 的距离分别为 `a, b, c`, 求三角形 `ABC`
 	面积的最大值.
 </p>

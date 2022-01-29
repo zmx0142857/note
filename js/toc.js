@@ -160,10 +160,10 @@ math: {
     {title:'二阶线性偏微分方程的分类', src:'pde/5.html'},
   ]
 }, {
-  title:'初等几何',
+  title:'平面几何',
   articles: [
     {title:'五组公理', src:'geometry/1.html'},
-    {title:'三角形, 四边形', src:'geometry/3.html', date:'2022-01-17'},
+    {title:'三角形, 四边形', src:'geometry/3.html', date:'2022-01-28'},
     {title:'圆', src:'geometry/4.html'},
     {title:'抛物线', src:'geometry/5.html'},
   ]
