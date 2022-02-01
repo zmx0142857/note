@@ -241,6 +241,24 @@
   得到勾股数 `(5,12,13)`... 试试看吧!
 </p>
 
+<p class="example">
+  [来自 レイ]
+  证明: 单位圆上存在无数个点, 它们两两间的距离均为有理数.
+</p>
+
+<p class="proof">
+  [来自 折棒的网友]
+  记 `A(-1, 0)`, `B(1, 0)`.
+  对于任一组勾股数 `a^2+b^2=c^2`, 可取点 `K` 使得 `KA = 2a//c`, `KB
+  = 2b//c`, 于是 `KA^2 + KB^2 = AB^2`, `K` 位于单位圆上.
+  依此法取 `K_1, K_2`, 则 `A B K_1 K_2` 是圆内接四边形, 由 Ptolemy 定理
+  <span class="formula">
+    `K_1 K_2 * AB + B K_1 * A K_2 = A K_1 * B K_2`.
+  </span>
+  因此 `K_1 K_2` 为有理数.
+  但勾股数有无穷多组, 所以这样的点有无穷多个.
+</p>
+
 <p class="lemma">
     不存在面积为平方数的勾股三角形.
 </p>
@@ -700,7 +718,7 @@
 
 <p class="corollary">
   设 `d in ZZ^+` 不是平方数, 若不定方程 `x^2 - d y^2 = n` 有最小正整数解
-  `x_0, y_0`, 则通解 `mu_k = x_0 + sqrt d y_0` 由下式给出:
+  `x_0, y_0`, 则通解 `mu = x + sqrt d y` 由下式给出:
   <span class="formula">
     `mu_k = mu_0 lambda_1^k`, `quad k = 0, 1, 2, cdots`.
   </span>
@@ -708,9 +726,9 @@
 </p>
 
 <ol class="proof">
-  <li>首先验证 `mu_k = x + sqrt d y` 确实给出方程的解. 我们有
+  <li>首先验证 `mu_k = x_k + sqrt d y_k` 确实给出方程的解. 我们有
     <span class="formula">
-      `(x + sqrt d y)(x - sqrt d y)`
+      `(x_k + sqrt d y_k)(x_k - sqrt d y_k)`
       `= mu_k mu_k'`
       `= mu_0 mu_0' lambda_1^k (lambda_1')^k`
       `= mu_0 mu_0'`
@@ -724,7 +742,8 @@
 
 <ol class="example">
   <li>稍加尝试可以知道,
-  不定方程 `x^2 - 2 y^2 = 1` 的最小正整数解为 `(3, 2)`.
+  不定方程 `x^2 - 2 y^2 = 1` 的最小正整数解为 `(3, 2)`
+  (依次尝试 `y = 1, 2, 3...`, 看 `1 + 2y^2` 何时为平方数).
   记 `lambda = 3 + 2 sqrt 2`, 则
   <span class="formula">
     `lambda^2 = 17+12√2`,
@@ -779,7 +798,7 @@
 
 <p>我们来说明 Pell 方程确实有解.</p>
 
-<p class="theorem">
+<div class="theorem p">
   <b>Pell 方程的连分数解</b>
   设 `d in ZZ^+` 不是平方数, `p_k//q_k` 是 `sqrt d` 的简单连分数的第 `k`
   个收敛子. 记这个连分数的循环节长度为 `n`, 则
@@ -787,19 +806,26 @@
     `p_(j n-1)^2 - d q_(j n-1)^2 = (-1)^(j n)`,
     `quad j = 1, 2, 3, cdots`.
   </span>
-  `n` 为偶数时, 取 `j = 1, 2, 3, cdots`, 就得到 Pell 方程
-  <span class="formula">
-    `x^2 - d y^2 = 1`
-    <span class="label" id="eq-pell1"></span>
-  </span>
-  的全部正整数解; 且不定方程
-  <span class="formula">
-    `x^2 - d y^2 = -1`
-    <span class="label" id="eq-pell-1"></span>
-  </span>
-  无解.
-  `n` 为奇数时, 取 `j = 2, 4, 6, cdots`, 就得到 <a class="ref" href="#eq-pell1"></a> 的全部正整数解, 取 `j = 1, 3, 5, cdots`, 就得到 <a class="ref" href="#eq-pell-1"></a> 的全部正整数解.
-</p>
+  上式给出了 Pell 方程 `x^2 - d y^2 = +-1` 的所有正整数解 `(p_(j n-1),
+  q_(j n-1))`.  具体列表如下:
+  <table>
+    <tr>
+      <td></td>
+      <td>`x^2 - d y^2 = 1`</td>
+      <td>`x^2 - d y^2 = -1`</td>
+    </tr>
+    <tr>
+      <td>`n` 为偶数</td>
+      <td>`j = 1, 2, 3, ...`</td>
+      <td>无解</td>
+    </tr>
+    <tr>
+      <td>`n` 为奇数</td>
+      <td>`j = 2, 4, 6, ...`</td>
+      <td>`j = 1, 3, 5, ...`</td>
+    </tr>
+  </table>
+</div>
 
 <h2>椭圆曲线</h2>
 

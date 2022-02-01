@@ -69,7 +69,7 @@ math: {
     {title:'同余', src:'number/2.html'},
     {title:'阶与原根', src:'number/3.html', date:'2022-01-12'},
     {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
-    {title:'不定方程', src:'number/5.html', date:'2021-12-11'},
+    {title:'不定方程', src:'number/5.html', date:'2022-01-31'},
     {title:'积性数论函数', src:'number/6.html'},
     {title:'代数数域和代数整数', src:'number/11.html', date:'2022-01-23'},
   ]
