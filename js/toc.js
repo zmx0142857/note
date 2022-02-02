@@ -71,7 +71,8 @@ math: {
     {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
     {title:'不定方程', src:'number/5.html', date:'2022-01-31'},
     {title:'积性数论函数', src:'number/6.html'},
-    {title:'代数数域和代数整数', src:'number/11.html', date:'2022-01-23'},
+    {title:'代数数域和代数整数', src:'number/11.html', date:'2022-02-02'},
+    {title:'理想的分解', src:'number/12.html', date:'2022-02-02'},
   ]
 }, {
   title:'集合论与点集拓扑',
