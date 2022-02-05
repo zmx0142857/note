@@ -20,7 +20,7 @@ math: {
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
     {title:'数学家', src:'misc/6.html'},
-    {title:'算术与进制', src:'misc/7.html'},
+    {title:'算术与进制', src:'misc/7.html', date:'2022-02-05'},
   ]
 }, {
   title:'高等代数',

@@ -126,7 +126,7 @@ Notify.prototype.remove = function () {
 /**
  * Range
  */
-window.Range = function (id, oninput) {
+window.Range = function (id, attrs, oninput) {
   this.span = $('<label>', {
     className: 'ui-range-label',
   })
@@ -138,6 +138,7 @@ window.Range = function (id, oninput) {
       max: 3,
       step: 0.05,
       value: 0.5,
+      ...attrs,
     },
     oninput,
   })

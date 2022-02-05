@@ -761,7 +761,11 @@ new Plot('img-lambert-w')
   .plot(t => -1, {color: 'grey'})
 
 const plotBernoulli = new Plot('img-bernoulli')
-const range = new Range('img-bernoulli-range', e => {
+const range = new Range('img-bernoulli-range', { min: 0,
+    max: 3,
+    step: 0.05,
+    value: 0.5,
+  }, e => {
   const a = e ? Number(e.target.value) : 0.5
   range.span.innerText = 'a = ' + a
   plotBernoulli.clear()
