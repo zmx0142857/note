@@ -20,7 +20,7 @@ math: {
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
     {title:'数学家', src:'misc/6.html'},
-    {title:'算术与进制', src:'misc/7.html', date:'2022-02-05'},
+    {title:'算术与进制', src:'misc/7.html', date:'2022-02-06'},
   ]
 }, {
   title:'高等代数',
@@ -44,7 +44,7 @@ math: {
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html', date: '2021-12-07'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
-    {title:'导数的应用', src:'analysis/5.html', date: '2022-01-26'},
+    {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
     {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-01-18'},
     {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-01-12'},
