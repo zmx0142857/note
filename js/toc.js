@@ -15,8 +15,8 @@ math: {
   title:'未分类',
   articles: [
     {title:'问题', src:'misc/0.html', date:'2021-12-11'},
-    {title:'三角函数', src:'misc/2.html', date:'2022-01-15'},
-    {title:'不等式', src:'misc/3.html', date:'2021-11-29'},
+    {title:'三角函数', src:'misc/2.html', date:'2022-02-11'},
+    {title:'不等式', src:'misc/3.html', date:'2022-02-11'},
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
     {title:'数学家', src:'misc/6.html'},
@@ -40,7 +40,7 @@ math: {
 }, {
   title:'数学分析',
   articles: [
-    {title:'附录', src:'analysis/0.html', date:'2022-01-04'},
+    {title:'附录', src:'analysis/0.html', date:'2022-02-07'},
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html', date: '2021-12-07'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
@@ -69,9 +69,9 @@ math: {
     {title:'同余', src:'number/2.html'},
     {title:'阶与原根', src:'number/3.html', date:'2022-01-12'},
     {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
-    {title:'不定方程', src:'number/5.html', date:'2022-01-31'},
+    {title:'不定方程', src:'number/5.html', date:'2022-02-11'},
     {title:'积性数论函数', src:'number/6.html'},
-    {title:'代数数域和代数整数', src:'number/11.html', date:'2022-02-02'},
+    {title:'代数数域和代数整数', src:'number/11.html', date:'2022-02-08'},
     {title:'理想的分解', src:'number/12.html', date:'2022-02-02'},
   ]
 }, {
@@ -148,7 +148,7 @@ math: {
   title:'常微分方程',
   articles: [
     {title:'一阶微分方程的初等解法', src:'ode/2.html'},
-    {title:'高阶微分方程', src:'ode/4.html'},
+    {title:'高阶微分方程', src:'ode/4.html', date:'2022-02-07'},
     {title:'线性微分方程组', src:'ode/5.html'},
   ]
 }, {
@@ -230,7 +230,7 @@ cs: {
     {title:'矩阵与广义表', src:'ds/7.html'},
     {title:'图', src:'ds/8.html'},
     {title:'查找', src:'ds/9.html', date: '2021-11-24'},
-    {title:'随机算法', src:'ds/10.html'},
+    {title:'随机算法', src:'ds/10.html', date:'2022-02-09'},
     {title:'排序', src:'ds/11.html', date: '2021-12-03'},
     {title:'文件', src:'ds/12.html'},
     {title:'数论算法', src:'ds/13.html', date: '2022-01-07'},

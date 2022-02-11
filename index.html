@@ -602,8 +602,8 @@ const router = {
       return $('<li>', group.title, ul)
     }))
     const latestUl = $('<ul>', {}, latest.sort((x, y) =>
-      x.title > y.title ? -1 : 1  
-    ))
+      x.title > y.title ? -1 : 1
+    ).slice(0, 10))
     frag.insertBefore(
       $('<li>', '最近', latestUl),
       frag.firstChild

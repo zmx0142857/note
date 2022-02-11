@@ -62,41 +62,30 @@ window.Modal = function Modal (id, config = {}) {
   } = config
 
   this.elem = $('#' + id, {
+    className: 'ui-modal-elem',
     style: {
-      background: '#f4f8fb',
-      height: `${height}px`,
-      width: `${width}px`,
-      borderRadius: '10px',
-      padding: '20px',
-      overflow: 'auto',
-      display: 'unset'
+      height: `${ height }px`,
+      width: `${ width }px`,
+      display: 'unset',
     },
-    on: {
-      'click.true': function (e) {
-        e.stopPropagation()
-      }
-    }
   })
 
   this.container = $('<div>', {
+    className: 'ui-modal-container',
+    style: {
+      zIndex,
+      display: 'none',
+    },
     attrs: {
       'aria-hidden': true // 解决模态框用键盘无法关闭的问题
     },
-    style: {
-      height: '100%',
-      width: '100%',
-      display: 'none',
-      position: 'absolute',
-      top: '0',
-      background: 'rgba(0,0,0,0.2)',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex,
-      perspective: '1000px'
+    on: {
+      click (e) {
+        if (e.target === this.el) {
+          this.el.style.display = 'none'
+        }
+      }
     },
-    onclick () {
-      this.el.style.display = 'none'
-    }
   }, this.elem)
   document.body.appendChild(this.container)
 }
@@ -163,6 +152,24 @@ function addStyle (css) {
 }
 
 addStyle(`
+.ui-modal-elem {
+  background: #f4f8fb;
+  color: #333;
+  border-radius: 10px;
+  padding: 20px;
+  overflow: auto;
+}
+.ui-modal-container {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.2);
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
 .notify {
   position: fixed;
   top: 10px;

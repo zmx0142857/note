@@ -660,60 +660,6 @@
     </span>
 </p>
 
-<p class="definition">
-	Gamma 函数的对数的导数称为 <b>digamma 函数</b>:
-	<span class="formula">
-		`psi(s) = "d"/("d"s) ln Gamma(s)`
-		`= (Gamma'(s))/(Gamma(s))`,
-    `quad s gt 0`.
-	</span>
-	digamma 函数的高阶导数 `psi^((n))` 称为 polygamma 函数.
-</p>
-
-<ol class="proposition">
-  <li>`psi(s+1) = psi(s) + 1//s`;</li>
-  <li>`psi(s+1) = -gamma + sum_(n ge 1) (1/n - 1/(n+s))`;
-    特别 `psi(n+1) = -gamma + H_n`.
-  </li>
-  <li>`psi^((n))(s) = sum_(k ge 0) (n!(-1)^(n+1))/(k+s)^(n+1)`;
-    特别 `psi` 在 1 附近有 Taylor 展开
-    <span class="formula">
-      `psi(s+1) = -gamma + sum_(n ge 1) (-1)^(n+1) zeta(n+1) s^n`.
-    </span>
-  </li>
-</ol>
-
-<ol class="proof">
-  <li>
-		`psi(s+1) = "d"/("d"s) ln Gamma(s+1)`
-		`= "d"/("d"s)(ln s + ln Gamma(s))`
-		`= 1/s + psi(s)`.
-  </li>
-  <li>由递推公式
-    <span class="formula">
-      `psi(n+1) = psi(1) + sum_(k=1)^n 1/k = psi(1) + H_n`.
-    </span>
-    为求出 `psi(1)`, 使用 Weierstrass 公式:
-    <span class="formula">
-      `ln Gamma(s) = -gamma s - ln s + sum_(n ge 1)(s/n - ln(1+s/n))`,
-      <br/>
-      `psi(s) = -gamma - 1/s + sum_(n ge 1)(1/n - 1/(n+s))`,<br/>
-      即 `psi(s+1) = -gamma + sum_(n ge 1)(1/n - 1/(n+s))`.
-    </span>
-    因此 `psi(1) = -gamma`.<br/>
-    从另一角度, 交换积分与求和,
-    <span class="formula">
-        `int_0^1 sum_(n ge 1) (1/n - 1/(n+s)) "d"s`
-        `= sum_(n ge 1) (1/n - ln(1+1/n))`
-        `= lim_(n to oo) H_n - ln(n+1)`
-        `= gamma`.
-    </span>
-    但 `int_0^1 psi(s+1) "d"s = ln Gamma(2) - ln Gamma(1) = 0`,
-    两式相减, 再次印证了 `psi(1) = -gamma`.
-  </li>
-  <li>直接求导即可.</li>
-</ol>
-
 <p class="property">
 	<b>余元公式</b>
   `Gamma(1+x) Gamma(1-x) = (pi x)/(sin pi x)`.
@@ -808,6 +754,64 @@
 		</span>
 	</li>
 </ol>
+
+<h3>Digamma 函数</h3>
+
+<p class="definition">
+	Gamma 函数的对数的导数称为 <b>digamma 函数</b>:
+	<span class="formula">
+		`psi(s) = "d"/("d"s) ln Gamma(s)`
+		`= (Gamma'(s))/(Gamma(s))`,
+    `quad s gt 0`.
+	</span>
+	digamma 函数的高阶导数 `psi^((n))` 称为 polygamma 函数.
+</p>
+
+<ol class="proposition">
+  <li>`psi(s+1) = psi(s) + 1//s`;</li>
+  <li>`psi(s+1) = -gamma + sum_(n ge 1) (1/n - 1/(n+s))`;
+    特别 `psi(n+1) = -gamma + H_n`.
+  </li>
+  <li>`psi^((n))(s) = sum_(k ge 0) (n!(-1)^(n+1))/(k+s)^(n+1)`;
+    特别 `psi` 在 1 附近有 Taylor 展开
+    <span class="formula">
+      `psi(s+1) = -gamma + sum_(n ge 1) (-1)^(n+1) zeta(n+1) s^n`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+		`psi(s+1) = "d"/("d"s) ln Gamma(s+1)`
+		`= "d"/("d"s)(ln s + ln Gamma(s))`
+		`= 1/s + psi(s)`.
+  </li>
+  <li>由递推公式
+    <span class="formula">
+      `psi(n+1) = psi(1) + sum_(k=1)^n 1/k = psi(1) + H_n`.
+    </span>
+    为求出 `psi(1)`, 使用 Weierstrass 公式:
+    <span class="formula">
+      `ln Gamma(s) = -gamma s - ln s + sum_(n ge 1)(s/n - ln(1+s/n))`,
+      <br/>
+      `psi(s) = -gamma - 1/s + sum_(n ge 1)(1/n - 1/(n+s))`,<br/>
+      即 `psi(s+1) = -gamma + sum_(n ge 1)(1/n - 1/(n+s))`.
+    </span>
+    因此 `psi(1) = -gamma`.<br/>
+    从另一角度, 交换积分与求和,
+    <span class="formula">
+        `int_0^1 sum_(n ge 1) (1/n - 1/(n+s)) "d"s`
+        `= sum_(n ge 1) (1/n - ln(1+1/n))`
+        `= lim_(n to oo) H_n - ln(n+1)`
+        `= gamma`.
+    </span>
+    但 `int_0^1 psi(s+1) "d"s = ln Gamma(2) - ln Gamma(1) = 0`,
+    两式相减, 再次印证了 `psi(1) = -gamma`.
+  </li>
+  <li>直接求导即可.</li>
+</ol>
+
+<h3>Stirling 公式</h3>
 
 <p>	下文推导阶乘函数的 Stirling 公式, 为此先证明一个 (冗长但实用的) 引理.</p>
 

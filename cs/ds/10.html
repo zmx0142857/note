@@ -77,6 +77,22 @@ shuffle(L, k):
   最后, 令 `i = k-1` 即得算法的正确性.
 </p>
 
+<p class="algorithm">
+  <b>Fisher-Yates 洗牌算法</b>
+  准备一个空队列, 从 `n` 个数字中随机选一个加到队尾.
+  再从剩下的 `n-1` 个数字中随机选一个加到队尾, 依此类推.
+</p>
+
+<pre>
+fisher_yates(arr):
+    i = arr.length
+    if i &lt; 2:
+        return
+    while --i:
+        j = rand() % (i+1)
+        swap(arr, i, j)
+</pre>
+
 <p>希望借助下例, 扫除一些盲区:</p>
 
 <ol class="example">

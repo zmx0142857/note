@@ -9,7 +9,6 @@ body {
     color: white;
 }
 </style>
-<script src="../../js/quiz.js"></script>
 </head>
 <body>
 
@@ -28,8 +27,12 @@ body {
 	<label for="checkbox-youon">填空</label> 待实现 -->
 </form>
 
+<div id="quiz-stat-modal" style="display:none"></div>
+
 <main id="quiz"></main>
 
+<script src="../../js/ui.js"></script>
+<script src="../../js/quiz.js"></script>
 <script>
 var dict = [
 	['a','あ','ア'], ['i','い','イ'], ['u','う','ウ'], ['e','え','エ'], ['o','お','オ'],
@@ -62,12 +65,7 @@ var dict = [
 ];
 //console.table(dict);
 
-function $(str) {
-	if (typeof str == 'string' && str[0] == '#')
-        return document.getElementById(str.slice(1));
-}
-
-var checkHiragana = $('#checkbox-hiragana'),
+const checkHiragana = $('#checkbox-hiragana'),
 	checkKatakana = $('#checkbox-katakana'),
 	checkKanaRoma = $('#checkbox-kana-roma'),
 	checkRomaKana = $('#checkbox-roma-kana'),

@@ -22,6 +22,21 @@
 
 <p>这是研究得最多的两类数域, 在我们的下文中也时时见到它们的影子.</p>
 
+<p class="example">
+  <b>二次域</b> 是指 `QQ(sqrt d)`, 其中 `d` 不是平方数.
+  `d gt 0` 时, 称为实二次域, `d lt 0` 时, 称为虚二次域.
+  `QQ(sqrt d)` 中的元素形如 `u = a + b sqrt d`, 显然 `bar u = a - b sqrt d
+  in QQ(sqrt d)`, 因此 `QQ(sqrt d)` 是 `QQ` 的二次 Galois 扩张.
+</p>
+
+<p class="example">
+  <b><a href="3.html#3-4">分圆域</a></b> 是指 `QQ(zeta_n)`, 其中 `zeta_n`
+  是 `n` 次本原单位根. `n ge 3` 时, 分圆域中含有虚数.
+  `zeta_n` 的最小多项式是分圆多项式 `phi_n(x)`, 它的次数是 `varphi(n)`
+  (Euler 函数).  又 `QQ(zeta_n)` 是 `x^n-1` 的分裂域, 因此它是 `QQ` 的
+  `varphi(n)` 次 Galois 扩张.
+</p>
+
 <h3>单扩张定理</h3>
 
 <ol class="remark">
@@ -47,6 +62,27 @@
 <p class="theorem">
   <b>单扩张定理</b>
   数域的扩张 `L//K` 必是单扩张, 即存在 `gamma in L` 使得 `L = K(gamma)`.
+</p>
+
+<p class="proof">
+  只需证 `L = K(a, b)` 的情形, 一般情形 `L = K(omega_1, cdots, omega_n)`
+  用归纳法可证. 令 `f, g` 分别是 `a, b` 在 `K` 上的最小多项式,
+  它们的根分别是
+  <span class="formula">
+    `a = a_1, cdots, a_n`,
+    `quad b = b_1, cdots, b_m`
+  </span>
+  由于 `f, g` 在 `K[x]` 中不可约, 所以它们无重根.
+  考虑有限集合
+  <span class="formula">
+    `S = {(a_i-f_j)/(b_k-b_l)}`,
+  </span>
+  取 `c in Q\\S`, 则 `m n` 个复数 `a_i + c b_j` 两两不同. 我们取 `gamma = a
+  + c b = a_1 + c b_1`, 下证 `L = K(gamma)`.<br>
+  令 `h(x) = f(gamma - c x) in K(gamma)[x]`, 有 `h(b) = f(a) = 0`,
+  且 `f(b_j) != 0`, `j = 2, cdots, m`, 因此在 `K(gamma)` 上有
+  `(h(x), g(x)) = x - b`, 这证明了 `b in K(gamma)`, `a = gamma - c b in K(gamma)`. 于是 `K(a, b) sube K(gamma)`.<br>
+  显然 `gamma = a + c b in K(a, b)`, 于是 `K(a, b) = K(gamma)`.
 </p>
 
 <p class="definition">
@@ -100,10 +136,32 @@
   <li>`AA a, b in L`, `N(a b) = N(a) N(b)`, `T(a + b) = T(a) + T(b)`.
     即 `N`, `T` 分别是关于乘法和加法的同态;
   </li>
-  <li>`AA a in L`, `N(a) = prod sigma_i(a)`, `T(a) = sum sigma_i(a)`;
-    `sigma_i` 是 `L` 到 `CC` 的 `n` 个 `K`-嵌入.
-  </li>
 </ol>
+
+<ol class="proof">
+  <li>因为元素 1 的表示矩阵是单位阵;</li>
+  <li>因为 `k a` 的表示矩阵是 `a` 的表示矩阵的 `k` 倍;</li>
+  <li>因为 `a b` 的表示矩阵是 `a, b` 的表示矩阵之积; `a + b` 的表示矩阵是 `a, b` 的表示矩阵之和;</li>
+</ol>
+
+<p class="corollary">
+  `AA a in L`,
+  设 `sigma_i` 是 `L` 到 `CC` 的 `n` 个 `K`-嵌入,
+  则 `sigma_i(a)` 是 `a` 的 `K`-共轭元; 可以证明
+  <span class="formula">
+    `N(a) = prod sigma_i(a)`, `quad T(a) = sum sigma_i(a)`.
+  </span>
+  由 Vieta 定理知道, `N(a) = (-1)^n c_0`, `T(a) = - c_(n-1)`.
+  `c_0, c_(n-1)` 分别是 `a` 的最小多项式的 `0` 次和 `n-1` 次项系数.
+</p>
+
+<p class="proof">
+  取 `L//K` 的基底 `a_1, cdots, a_n`, 在 `a` 的作用下有
+  <span class="formula">
+    `[a a_1; vdots; a a_n] = M [a_1; vdots; a_n]`,
+  </span>
+  `M` 是 `K` 上的矩阵.
+</p>
 
 <p class="corollary">
   若 `M` 是 `L//K` 的中间域, 则 `AA a in L`,
@@ -161,6 +219,11 @@
   由定义知, 若 `L//K` 是域的扩张, 则 `O_L nn K = O_K`.
 </p>
 
+<p class="remark">
+  本节将要证明 `O_K` 是环, 即代数整数的和、差、积仍为代数整数.
+  历史上正是为了证明此结论, 产生了近世代数中 "模" 的概念.
+</p>
+
 <p class="corollary">
   `ZZ` 上首一多项式的有理根必为整数, 因此 `QQ` 中的代数整数必为整数,
   即 `O_QQ = ZZ`.
@@ -171,12 +234,38 @@
   设 `a in CC`, 以下各款等价:
   <li>`a` 为代数整数;</li>
   <li>`a` 在 `QQ` 上的最小多项式属于 `ZZ[x]`;</li>
-  <li>环 `ZZ[a]` 的加法群是有限生成的, 即存在 `a_1, cdots, a_l in ZZ[a]`
-    使得 `ZZ[a] = a_1 ZZ + cdots + a_l ZZ`.
+  <li>环 `ZZ[a]` 的加法群是有限生成的, 即存在 `a_1, cdots, a_n in ZZ[a]`
+    使得 `ZZ[a] = a_1 ZZ + cdots + a_n ZZ`.
   </li>
   <li>存在 `CC` 的非零子环 `R`, 满足 `a in R`, 且 `R`
     的加法群是有限生成的;</li>
   <li>存在 `CC` 的有限生成非零加法子群 `A`, 使得 `a A sube A`.</li>
+</ol>
+
+<ol class="proof">
+  <li>`rArr 2`. 由 `a` 为代数整数知, 存在首一的 `f(x) in ZZ[x]` 使得 `f(a)
+    = 0`.
+    又设 `a` 的最小多项式为 `p(x)`, 则 `p(x) | f(x)`.
+    注意到 `p` 首一, `f` 在 `ZZ[x]` 上首一, 故有 `p(x) in ZZ[x]`.
+  </li>
+  <li>`rArr 3`. 设 `f(x) = x^n + c_(n-1) x^(n-1) + cdots + c_0`
+    是 `a` 的最小多项式,
+    于是 `a^n = -(c_(n-1) x^(n-1) + cdots + c_0)`,
+    归纳知任意 `a^m` 可以写成 `1, a, cdots, a^(n-1)` 的 `ZZ`-线性组合,
+    于是环 `ZZ[a]` 中的每个元素也是如此.
+  </li>
+  <li>`rArr 4`. 取 `R = ZZ[a]`.</li>
+  <li>`rArr 5`. 取 `A = R`.</li>
+  <li>`rArr 1`. 记 `A = a_1 ZZ + cdots + a_n ZZ`. 由 `a A sube A` 知 `a a_i
+    in A`, `i = 1, cdots, n`. 于是它们可以写成 `a_1, cdots, a_n`
+    的线性组合. 设
+    <span class="formula">
+      `[a a_1; vdots; a a_n] = M [a_1; vdots; a_n]`,
+    </span>
+    `M` 是 `ZZ` 上的 `n` 阶方阵. 由 `A != (0)` 知 `a_1, cdots, a_n`
+    不全为零, 因此 `a` 是 `M` 的特征值, `f(x) = det(x I_n - M)` 是 `ZZ`
+    上满足 `f(a) = 0` 的首一多项式.
+  </li>
 </ol>
 
 <p class="theorem">
@@ -188,7 +277,10 @@
   设 `K` 是数域, `a in K`.  若存在 `K` 的子环 `R` 上首一多项式 `f` 满足
   `f(a) = 0`, 则称 `a` <b>在 `R` 上整</b>.
   因此代数整数就是那些在 `ZZ` 上整的数.
-  若子环 `R` 满足: `AA a in K`, `a` 在 `R` 上整 `rArr` `a in R`,
+  若除了 `R` 中的数以外, `K` 中没有其它数在 `R` 上整, 即
+  <span class="formula">
+    `AA a in K`, `a` 在 `R` 上整 `rArr` `a in R`,
+  </span>
   则称 `R` 是<b>整闭</b>的.
 </p>
 
@@ -196,12 +288,15 @@
   环 `O_K` 在数域 `K` 中是整闭的.
 </p>
 
-<p class="example">
-  <b>二次域中的代数整数</b>
-</p>
+<ol class="example">
+  <b>二次域中的代数整数</b> 考虑 `K = QQ(sqrt d)`, `d` 不是平方数.
+  <li>`d -= 2, 3 (mod 4)` 时, `O_K = ZZ[sqrt d]`;</li>
+  <li>`d -= 1 (mod 4)` 时, `O_K = ZZ[(1+sqrt d)/2]`.</li>
+</ol>
 
 <p class="example">
-  <b>分圆域中的代数整数</b>
+  <b>分圆域中的代数整数</b> 考虑 `K = QQ(zeta_n)`, `n ge 3`.
+  则 `O_K = ZZ[zeta_n]`.
 </p>
 
 <h2>整基</h2>
@@ -212,7 +307,7 @@
   `O_K = omega_1 ZZ o+ cdots o+ omega_n ZZ`.
   换言之, 任意 `a in O_K` 可唯一表为
   <span class="formula">
-    `a = a_1 omega_1 + cdots a_n omega_n`, `a_i in ZZ`.
+    `a = a_1 omega_1 + cdots a_n omega_n`, `quad a_i in ZZ`.
   </span>
   `omega_1, cdots, omega_n` 称为 `K` 或 `O_K` 的一组整基.
 </p>

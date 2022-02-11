@@ -9,98 +9,118 @@
 
 <h2>常数变易法</h2>
 
-<p>	设方程
-	<span class="formula">
-		`x^((n)) + a_1(t)x^((n-1)) + cdots + a_(n-1)x' + a_n(t)x = f(t)`
-	</span>
-	或
-	<span class="formula">
-		`sum_(i=0)^n a_i(t) x^((n-i))(t) = f(t)`, `quad a_0(t) = 1`
-	</span>
-	对应的齐方程的基本解组为
-	<span class="formula">
-		`x_i(t)`, `quad i = 1, 2, cdots, n`.
-	</span>
-	我们解线性方程组
-	<span class="formula">
-		`[
-			x_1(t), x_2(t), cdots, x_n(t);
-			x_1'(t), x_2'(t), cdots, x_n'(t);
-			vdots, vdots, , vdots;
-			x_1^((n-1))(t), x_2^((n-1))(t), cdots, x_n^((n-1))(t);
-		][ c_1'(t); c_2'(t); vdots; c_n'(t) ] = [ 0; 0; vdots; f(t) ]`,
-	</span>
-	再积分, 就得到非齐方程的通解
-	<span class="formula">
-		`x = sum_(i=1)^n c_i(t) x_i(t)`.
-	</span>
+<p>
+  设方程
+  <span class="formula">
+    `x^((n))(t) + a_(n-1)(t) x^((n-1))(t) + cdots + a_0(t) x(t) = f(t),
+  </span>
+  亦即
+  <span class="formula">
+    `sum_(k=0)^n a_k(t) x^((k))(t) = f(t)`, `quad a_n(t) = 1`
+  </span>
+  对应的齐方程的基本解组为
+  <span class="formula">
+    `x_k(t)`, `quad k = 1, 2, cdots, n`.
+  </span>
+  我们解线性方程组
+  <span class="formula">
+    `[
+      x_1(t), x_2(t), cdots, x_n(t);
+      x_1'(t), x_2'(t), cdots, x_n'(t);
+      vdots, vdots, , vdots;
+      x_1^((n-1))(t), x_2^((n-1))(t), cdots, x_n^((n-1))(t);
+    ][ c_1'(t); c_2'(t); vdots; c_n'(t) ] = [ 0; 0; vdots; f(t) ]`,
+  </span>
+  再积分, 就得到非齐方程的通解
+  <span class="formula">
+    `x = sum_(k=1)^n c_k(t) x_k(t)`.
+  </span>
+</p>
+
+<p class="proof">
+  直接验证:
+  <span class="formula">
+    `x = sum c_j x_j`,<br>
+    `x' = sum c_j x_j' + c_j' x_j = sum c_j x_j'`,<br>
+    `x'' = sum c_j x_j''`,<br>
+    `cdots`<br>
+    `x^((n)) = sum c_j x_j^((n)) + c_j' x_j^((n-1))`
+    `= sum c_j x_j^((n)) + f`.
+  </span>
+  求和得
+  <span class="formula">
+    `sum_(k=0)^n a_k x^((k))`
+    `= sum_(k=0)^n a_k sum_(j=1)^n c_j x_j^((k)) + f`
+    `= f`.
+  </span>
 </p>
 
 <p class="example" id="exp-2nd-linear-nonhomogen-1">
-	解如下的常微分方程初值问题:
-	<span class="formula">`{
-		x'' + a^2 x = f(t);
-		x|_(t=0) = x_0;
-		x'|_(t=0) = x'_0;
-	:}`
-	</span>
+  <b>受迫振动</b> 解如下的常微分方程初值问题:
+  <span class="formula">`{
+    x'' + a^2 x = f(t);
+    x"|"_(t=0) = x_0;
+    x'"|"_(t=0) = x'_0;
+  :}`
+  </span>
 </p>
+
 <p class="solution">
-	`{cos at, sin at}` 构成齐方程的基本解组. 设 `x = c_1 cos at + c_2 sin
-	at`, 解线性方程组
-	<span class="formula">`{
-		c_1' cos at + c_2' sin at = 0;
-		c_1' sin at - c_2' cos at = -f/a;
-	:}`
-	</span>
-	得 `(c_1', c_2') = f/a (-sin at, cos at)`. 由初值条件有
-	<span class="formula">
-		`c_2|_(t=0) = (x_0')/a`, `quad c_1|_(t=0) = x_0`,
-	</span>
-	故
-	<span class="formula">
-		`c_1 = -1/a int_0^t f(tau) sin a tau "d"tau + x_0`,<br/>
-		`c_2 = 1/a (int_0^t f(tau) cos a tau "d"tau + x_0')`.
-	</span>
-	所以解为
-	<span class="formula">
-		`x = x_0 cos at + (x_0')/a sin at + 1/a int_0^t f(tau) sin[a(t-tau)]
-		"d"tau`.
-	</span>
+  `{cos at, sin at}` 构成齐方程的基本解组. 设 `x = c_1 cos at + c_2 sin
+  at`, 解线性方程组
+  <span class="formula">`{
+    c_1' cos at + c_2' sin at = 0;
+    c_1' sin at - c_2' cos at = -f//a;
+  :}`
+  </span>
+  得 `(c_1', c_2') = f//a (-sin at, cos at)`. 由初值条件有
+  <span class="formula">
+    `c_2|_(t=0) = (x_0')//a`, `quad c_1|_(t=0) = x_0`,
+  </span>
+  故
+  <span class="formula">
+    `c_1 = -1/a int_0^t f(tau) sin a tau "d"tau + x_0`,<br/>
+    `c_2 = 1/a (int_0^t f(tau) cos a tau "d"tau + x_0')`.
+  </span>
+  所以解为
+  <span class="formula">
+    `x = x_0 cos at + (x_0')/a sin at + 1/a int_0^t f(tau) sin[a(t-tau)]
+    "d"tau`.
+  </span>
 </p>
 
 <h2>常系数齐次线性方程</h2>
 
-<span class="formula">
-	`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = 0`,
-	`quad a_i in RR`, `i = 1, 2, cdots, n`.
-</span>
-
-<p>	设特征多项式
-	<span class="formula">
-		`lambda^n + a_1 lambda^(n-1) + cdots + a_(n-1) lambda + a_n`
-	</span>
-	的根 (即特征根) 为 `lambda_i`, 重数分别为 `n_i`,
-	`i = 1, 2, cdots, l`, 且 `sum_(i=1)^l n_i = n`.
-	则微分方程的基本解组为
-	<span class="formula">
-		`t^j "e"^(lambda_i t)`,
-		`quad j = 0, 1, cdots, n_i-1`,
-		`quad i = 1, 2, cdots, l`.
-	</span>
-	若 `lambda_i = alpha + "i" beta` 为复根, 则
-	`bar(lambda_i) = alpha - "i" beta` 也必为特征根,
-	可以将基本解组中的一对共轭复根
-		`"e"^((alpha + "i" beta) t)` 与 `"e"^((alpha - "i" beta) t)`
-	换成
-		`"e"^(alpha t) cos beta t` 与 `"e"^(alpha t) sin beta t`.
+<p>
+  解方程
+  <span class="formula">
+    `x^((n)) + a_(n-1) x^((n-1)) + cdots + a_0 x = 0`,
+    `quad a_k in RR`.
+  </span>
+  设特征多项式
+  <span class="formula">
+    `lambda^n + a_(n-1) lambda^(n-1) + cdots + a_1 lambda + a_0`
+  </span>
+  的根 (即特征根) 为 `lambda_i`, 重数分别为 `n_i`,
+  `i = 1, 2, cdots, l`, 且 `sum_(i=1)^l n_i = n`.
+  则微分方程的基本解组为
+  <span class="formula">
+    `t^j "e"^(lambda_i t)`,
+    `quad j = 0, 1, cdots, n_i-1`,
+    `quad i = 1, 2, cdots, l`.
+  </span>
+  若 `lambda_i = alpha + "i" beta` 为复根, 则
+  `bar(lambda_i) = alpha - "i" beta` 也必为特征根,
+  可以将基本解组中的一对共轭复根
+  `"e"^((alpha +- "i" beta) t)`
+  换成
+  `"e"^(alpha t) cos beta t` 与 `"e"^(alpha t) sin beta t`.
 </p>
 
 <h3>Euler 方程</h3>
 
 <span class="formula">
-	`t^n x^((n)) + a_1 t^(n-1) x^((n-1)) + cdots
-	+ a_(n-1) t x' + a_n x = 0`
+  `t^n x^((n)) + a_(n-1) t^(n-1) x^((n-1)) + cdots + a_0 x = 0`.
 </span>
 
 <p>	将 `x = t^lambda` 代入方程, 得到 `n` 个特征根. 基本解组为
@@ -113,41 +133,44 @@
 <h2>常系数非齐次线性方程</h2>
 
 <span class="formula">
-	`x^((n)) + a_1 x^((n-1)) + cdots + a_(n-1) x' + a_n x = f(t)`,
-	`quad a_i in RR`, `i = 1, 2, cdots, n`.
+  `x^((n)) + a_(n-1) x^((n-1)) + cdots + a_0 x = f(t)`, `quad a_k in RR`.
 </span>
+
+<p>非齐次方程的通解就是齐次方程的通解加上自身的一个特解; 因此我们着重介绍特解的求法.
+</p>
 
 <h3>多项式法 + 升阶法</h3>
 
-<p>	一般而言, 这两种方法计算比较繁琐, 不如比较系数法.</p>
+<p>一般而言, 这两种方法计算比较繁琐, 不如比较系数法.</p>
 
 <h4>多项式法</h4>
 
-<p>	设常系数线性微分方程 `y''+p y'+q y = P_m(x) "e"^(lambda x)`,
-	其中 `p`, `q`, `lambda` 是常数, `P_m(x)` 是 `x` 的 `m` 次多项式.
-	令 `y = z "e"^(lambda z)`, 方程化为
-	<span class="formula">
-		`(F''(lambda))/(2!) z'' + (F'(lambda))/(1!) z' + F(lambda) z
-		= P_m(x)`,
-	</span>
-	这里 `F(lambda) = lambda^2 + p lambda + q`
-	为方程对应齐次方程的特征多项式.
+<p>
+  解常系数线性微分方程 `y''+p y'+q y = P_m(x) "e"^(lambda x)`,
+  其中 `p`, `q`, `lambda` 是常数, `P_m(x)` 是 `x` 的 `m` 次多项式.
+  令 `y = z "e"^(lambda z)`, 方程化为
+  <span class="formula">
+    `(F''(lambda))/(2!) z'' + (F'(lambda))/(1!) z' + F(lambda) z = P_m(x)`,
+  </span>
+  这里 `F(lambda) = lambda^2 + p lambda + q` 为方程的特征多项式.
+  新的方程有多项式形式的特解, 可用待定系数法求解.
 </p>
 
 <h4>升阶法</h4>
 
-<p>	设 `y''+p y'+q y = P_m(x)`. 其中 `P_m(x)` 是多项式 `a_0 x^m + a_1
-	x^(m-1) + cdots + a_(m-1) x + a_m`. 方程两边同时对 `x` 求导 `m` 次得
-	<span class="formula">
-		`y''' + p y'' + q y' = P_m'(x)`,<br/>
-		`cdots`<br/>
-		`y^((m+1)) + p y^((m)) + q y^((m-1)) = a_0 m! x + a_1
-		(m-1)!`,<br/>
-		`y^((m+2)) + p y^((m+1)) + q y^((m)) = a_0 m!`.
-	</span>
-	`q != 0` 时, 取最后一个方程的特解 `y^((m)) = q^(-1) a_0 m!`,
-	和 `y^((m+1)) = 0` 一起代入倒数第二个方程求得 `y^((m-1))`,
-	如此依次代入前式, 最后可得方程的一个特解 `y(x)`.
+<p>
+  设 `y''+p y'+q y = P_m(x)`. 其中 `P_m(x)` 是 `m` 次多项式
+  `sum_(k=0)^m a_k x^k`.
+  方程两边同时对 `x` 求导 `m` 次得
+  <span class="formula">
+    `y''' + p y'' + q y' = P_m'(x)`,<br/>
+    `cdots`<br/>
+    `y^((m+1)) + p y^((m)) + q y^((m-1)) = a_m m! x + a_(m-1) (m-1)!`,<br/>
+    `y^((m+2)) + p y^((m+1)) + q y^((m)) = a_m m!`.
+  </span>
+  `q != 0` 时, 取最后一个方程的特解 `y^((m)) = q^(-1) a_m m!`,
+  和 `y^((m+1)) = 0` 一起代入倒数第二个方程求得 `y^((m-1))`,
+  如此依次代入前式, 最后可得方程的一个特解 `y(x)`.
 </p>
 
 <h3>比较系数法</h3>
@@ -173,119 +196,130 @@
 	`P_m(t), Q_m(t)` 为系数待定的 `m` 次多项式.
 </p>
 
-<p>	利用以上两种类型的非齐次项, 可以结合线性叠加原理,
-	写出更多非齐次项对应的特解.
+<p>
+  利用以上两种类型的非齐次项, 结合线性叠加原理,
+  可写出更多非齐次项对应的特解.
 </p>
 
 <p class="example">
-	解 Lanchester 方程
-	<span class="formula">`{
-		("d"A)/dt = -beta^2 B;
-		("d"B)/dt = -alpha^2 A;
-	:}`</span>
-	其中 `A(0) = A_0`, `B(0) = B_0`.
+  解 Lanchester 方程
+  <span class="formula">`{
+    ("d"A)/dt = -beta^2 B;
+    ("d"B)/dt = -alpha^2 A;
+  :}`</span>
+  其中 `A(0) = A_0`, `B(0) = B_0`.
 </p>
 
 <p class="solution">
-	令 `f' = B`, 且 `f(0) = 0`. 原方程组化为
-	<span class="formula">`{
-		("d"A)/dt = -beta^2 ("d"f)/dt;
-		("d"^2 f)/dt^2 = -alpha^2 A;
-	:}`</span>
-	第一式两边积分得 `A = -beta^2 f + A_0`, 代入第二式就有
-	<span class="formula">
-		`f'' = alpha^2 beta^2 f - alpha^2 A_0`,
-	</span>
-	它的解设为
-	<span class="formula">
-		`f = c_1 "e"^(alpha beta t) + c_2 "e"^(-alpha beta t) + c_3`.
-	</span>
-	代入前式得 `c_3 = A_0/beta^2`.
-	又
-	<span class="formula">
-		`B = f' = alpha beta (c_1 "e"^(alpha beta t) - c_2 "e"^(-alpha
-		beta t))`,
-	</span>
-	由 `f(0) = 0` 和 `B(0) = B_0` 有
-	<span class="formula">`{
-		c_1 + c_2 = -A_0/beta^2;
-		c_1 - c_2 = B_0/(alpha beta);
-	:}`</span>
-	解得
-	`c_(1, 2) = 1/(2 beta) (-A_0/beta +- B_0/alpha)`.
-	最终
-	<span class="formula">
-		`A = A_0 cosh(alpha beta t) - B_0 beta/alpha sinh(alpha beta t)`,
-		<br/>
-		`B = -A_0 alpha/beta sinh(alpha beta t) + B_0 cosh(alpha beta t)`.
-	</span>
+  令 `f' = B`, 且 `f(0) = 0`. 原方程组化为
+  <span class="formula">`{
+    ("d"A)/dt = -beta^2 ("d"f)/dt;
+    ("d"^2 f)/dt^2 = -alpha^2 A;
+  :}`</span>
+  第一式两边积分得 `A = -beta^2 f + A_0`, 代入第二式就有
+  <span class="formula">
+    `f'' = alpha^2 beta^2 f - alpha^2 A_0`,
+  </span>
+  它的解设为
+  <span class="formula">
+    `f = c_1 "e"^(alpha beta t) + c_2 "e"^(-alpha beta t) + c_3`.
+  </span>
+  代入前式得 `c_3 = A_0/beta^2`.
+  又
+  <span class="formula">
+    `B = f' = alpha beta (c_1 "e"^(alpha beta t) - c_2 "e"^(-alpha beta t))`,
+  </span>
+  由 `f(0) = 0` 和 `B(0) = B_0` 有
+  <span class="formula">`{
+    c_1 + c_2 = -A_0/beta^2;
+    c_1 - c_2 = B_0/(alpha beta);
+  :}`</span>
+  解得
+  `c_(1, 2) = 1/(2 beta) (-A_0/beta +- B_0/alpha)`.
+  最终
+  <span class="formula">
+    `A = (A_0 alpha cosh(alpha beta t) - B_0 beta sinh(alpha beta t))//alpha`,
+    <br/>
+    `B = (-A_0 alpha sinh(alpha beta t) + B_0 beta cosh(alpha beta t))//beta`.
+  </span>
 </p>
 
 <p class="remark">
-	从相平面上看, 有 `("d"A)/("d"B) = (beta^2 B)/(alpha^2 A)`,
-	解为 `alpha^2 A^2 = beta^2 B^2 + c`, 是双曲线.
+  从相平面上看, 有 `("d"A)/("d"B) = (beta^2 B)/(alpha^2 A)`,
+  解为 `alpha^2 A^2 = beta^2 B^2 + c`, 是双曲线.
 </p>
 
 <h3>Laplace 变换</h3>
 
-<span class="formula">
-	`cc L[f(t)] = F(s) = int_0^oo "e"^(-st) f(t) dt`,
-	`quad "Re"(s) gt sigma`.
-</span>
-
-<p>	若 `cc L[x(t)] = X(s)`, 则 `cc L[x'(t)]` 存在且等于 `sX(s) - x(0)`.
-	由归纳法知
-	<span class="formula">
-		` cc L[x^((n))(t)]`
-		`= s^n X(s) - sum_(k=0)^(n-1) x^((k))(0) s^(n-1-k)`
-		`= s^n X(s) - sum_(k=0)^(n-1) x^((n-1-k))(0) s^k`.
-	</span>
-	Laplace 变换将方程
-	<span class="formula">
-		`sum_(i=0)^n a_i x^((n-i))(t) = f(t)`
-	</span>
-	变为
-	<span class="formula">
-		` X(s) sum_(i=0)^n a_i s^(n-i)`
-		`= F(s) + sum_(i=0)^(n-1) a_i
-		   sum_(k=0)^(n-i-1) x^((k))(0) s^(n-i-1-k)`
-		`= F(s) + sum_(k=0)^(n-1) x^((k))(0)
-		   sum_(i=0)^(n-1-k) a_i s^(n-1-k-i)`
-		`= F(s) + sum_(k=0)^(n-1) x^((n-1-k))(0)
-		   sum_(i=0)^k a_i s^(k-i)`.
-	</span>
-	记 `p_k(x) = sum_(i=0)^k a_i s^(k-i)`, 上式可以写成
-	<span class="formula">
-		`X(s) p_n(s) = F(s) + sum_(k=0)^(n-1) x^((n-1-k))(0) p_k(s)`.
-	</span>
-	解出 `X(s)` 后, 适当分解分式, 再作 <b>Laplace 反变换</b>
-	<span class="formula">
-		`f(t) = 1/(2 pi i) lim_(T to oo) int_(gamma-iT)^(gamma+iT)
-		"e"^(st) F(s) "d"s`,
-	</span>
-	其中 `gamma in RR` 使得积分路径位于 `F(s)` 的收敛域内.
+<p class="definition">
+  函数 `f` 的 Laplace 变换记为
+  <span class="formula">
+    `cc L[f(t)] = F(s) = int_0^oo "e"^(-s t) f(t) dt`,
+    `quad "Re"(s) gt sigma`.
+  </span>
+  下文将 `f(t)` 和它的 Laplace 变换简记为 `f ~ F`.
 </p>
 
-<p class="remark">
-	<span class="formula">
-		`cc L[t^p "e"^(zt)] = (Gamma(p+1))/(s-z)^(p+1)`,
-		`quad p in (-1, +oo)`, `z in CC`, `"Re"(s) gt "Re"(z)`.
-	</span>
-	从而
-	<span class="formula">
-		`cc L["e"^(zt)] = 1/(s-z)`.
-	</span>
-	上式取 `z = a "i"`, 有
-	<span class="formula">
-		`cc L[cos at + "i" sin at]`
-		`= 1/(s-a"i")`
-		`= (s+a"i")/(s^2 + a^2)`.
-	</span>
-	分别取实部与虚部, 即
-	<span class="formula">
-		`cc L[cos at] = s/(s^2+a^2)`, `quad`
-		`cc L[sin at] = a/(s^2+a^2)`.
-	</span>
+<p class="corollary">
+  <b>导数变多项式</b>
+  若 `x(t) ~ X(s)`,
+  则 `x'(t)` 的 Laplace 变换存在, 且有
+  <span class="formula">
+    `x'(t) ~ s X(s) - x(0)`.
+  </span>
+  由归纳法知
+  <span class="formula">
+    `x^((n+1))(t) ~ s^(n+1) X(s) - sum_(k=0)^n x^((n-k))(0) s^k`,
+  </span>
+  Laplace 变换将求导化为多项式, 大大简化了运算.
+  这个性质可以与 Fourier 变换相比较.
+</p>
+
+<p class="corollary">
+  <b>Laplace 逆变换</b>
+  <span class="formula">
+    `f(t) = 1/(2 pi i) lim_(T to oo) int_(gamma-iT)^(gamma+iT)
+    "e"^(st) F(s) "d"s`,
+  </span>
+  其中 `gamma in RR` 充分大, 使得积分路径位于 `F(s)` 的收敛域内.
+</p>
+
+<p class="example">
+  <b>常见函数的 Laplace 变换</b>
+  设 `p gt 0`, `z in CC`, `"Re"(s) gt "Re"(z)`, 则
+  <span class="formula">
+    `t^(p-1) "e"^(z t) ~ (Gamma(p))/(s-z)^p`.
+  </span>
+  特别
+  <span class="formula">
+    `"e"^(z t) ~ 1/(s-z)`.
+  </span>
+  令 `z = a "i"`, 分别取实部虚部得
+  <span class="formula">
+    `cos a t ~ s/(s^2+a^2)`,
+    `quad sin a t ~ a/(s^2+a^2)`.
+  </span>
+  更完整的表格参见<a href="../analysis/0.html#0-3-1">这里</a>.
+</p>
+
+<p class="proposition">
+  用 Laplace 变换解方程
+  <span class="formula">
+    `sum_(k=0)^n a_k x^((k))(t) = f(t)`.
+  </span>
+  记 `x(t) ~ X(s)`, `f(t) ~ F(s)`,
+  Laplace 变换将方程变为
+  <span class="formula align">
+    `X(s) sum_(k=0)^n a_k s^k`<br>
+    `= F(s) + sum_(k=0)^n a_k sum_(j=0)^(k-1) x^((j))(0) s^(k-1-j)`<br>
+    `= F(s) + sum_(j=0)^(n-1) x^((j))(0) sum_(k=j+1)^n a_k s^(k-1-j)`<br>
+    `= F(s) + sum_(j=1)^n x^((j-1))(0) sum_(k=j)^n a_k s^(k-j)`.
+  </span>
+  记 `p_j(x) = sum_(k=j)^n a_k s^(k-j)`, 上式可以写成
+  <span class="formula">
+    `X(s) p_0(s) = F(s) + sum_(j=1)^n x^((j-1))(0) p_j(s)`.
+  </span>
+  解出 `X(s)` 后, 适当分解分式, 再作 Laplace 逆变换解出 `x(t)`
 </p>
 
 <p class="example">
@@ -293,17 +327,15 @@
 </p>
 
 <p class="solution">
-	对方程两边作 Laplace 变换得
-	<span class="formula">
-		`X(s) (s^2+a^2) = x_0 s + x_0' + cc L[f(t)]`,<br/>
-		`X(s) = (x_0 s)/(s^2+a^2) + (x_0')/(s^2+a^2) + (cc
-		L[f(t)])/(s^2+a^2)`.
-	</span>
-	作 Laplace 反变换得
-	<span class="formula">
-		`x = x_0 cos at + (x_0')/a sin at + int_0^t f(tau) sin
-		[a(t-tau)]"d"tau`.
-	</span>
+  对方程两边作 Laplace 变换得
+  <span class="formula">
+    `X(s) (s^2+a^2) = x_0 s + x_0' + F(s)`,<br>
+  </span>
+  作 Laplace 逆变换得
+  <span class="formula">
+    `x = x_0 cos at + (x_0')/a sin at + int_0^t f(tau) sin
+    [a(t-tau)]"d"tau`.
+  </span>
 </p>
 
 <h3>降阶法</h3>
@@ -316,12 +348,13 @@
 
 <p>此方程不显含自变元, 令 `y = x'`, 降低 1 阶.</p>
 
-<h4>齐次线性微分方程 `sum_(i=0)^n a_i(t) x^((n-i))(t) = 0`</h4>
+<h4>齐次线性微分方程 `sum_(i=0)^n a_i(t) x^((i))(t) = 0`</h4>
 
-<p>若有非零特解 `x_1, cdots, x_k`, 则令
-		`x = x_k int z dt`,
-	化为 `z` 的 `n-1` 阶方程, 有解
-		`z_i = ((x_i)/(x_k))^'`, `i = 1, 2, cdots, k-1`.
+<p>若有非零特解 `x_1, cdots, x_k`, 则令 `x = x_k int z dt`,
+  化为 `z` 的 `n-1` 阶方程, 有解
+  <span class="formula">
+    `z_i = ((x_i)/(x_k))'`, `quad i = 1, 2, cdots, k-1`.
+  </span>
 </p>
 
 <h3>幂级数解法</h3>
