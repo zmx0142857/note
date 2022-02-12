@@ -5,44 +5,48 @@
 <meta charset="utf-8" />
 <title>练耳</title>
 <link rel="stylesheet" href="../../css/quiz.css">
-<script src="../../js/quiz.js"></script>
-<script src="../../js/audio/resampler.js"></script>
-<script src="../../js/audio/XAudioServer.js"></script>
-<script src="../../js/player.js"></script>
 </head>
 <body>
 
 <main id="quiz"></main>
 
-</body>
+<script src="../../js/ui.js"></script>
+<script src="../../js/quiz.js"></script>
+<script src="../../js/audio/resampler.js"></script>
+<script src="../../js/audio/XAudioServer.js"></script>
+<script src="../../js/player.js"></script>
 <script>
-var track = [
-    {pitch: ['C4', 'E4', 'G4', 'B4'], time: 800},
-];
-var player = new Player(function() {
-    return track;
-});
+const track = [
+  { pitch: ['C4', 'E4', 'G4', 'B4'], time: 800 },
+]
+const player = new Player(function() {
+  return track;
+})
 
-function* generator() {
-    while (true) {
-        // {question: ??, choices: [ {label: ??, isAnswer: ??}... ]}
-        yield {question: '这是什么和弦? <button onclick="player.play()">&#128266;</button>', choices: [
-            {label: 'C'},
-            {label: '#C'},
-            {label: 'Cmaj7', isAnswer: true},
-            {label: 'C7'},
-        ]};
+class EarQuiz extends Quiz {
+  next () {
+    return {
+      question: '这是什么和弦? <button onclick="player.play()">&#128266;</button>',
+      choices: [
+        { label: 'C' },
+        { label: '#C' },
+        { label: 'Cmaj7', isAnswer: true },
+        { label: 'C7' },
+      ]
     }
+  }
+
+  onQuestionLoad () {
+    player.play()
+  }
+
+  onMistake () {}
 }
 
-function $(str) {
-	if (typeof str == 'string' && str[0] == '#')
-        return document.getElementById(str.slice(1));
-}
-
-var quiz = new Quiz($('#quiz'), generator(), 'ear-training');
-quiz.onQuestionLoad = function() {
-    player.play();
-}
+const quiz = new EarQuiz({
+  el: $('#quiz'),
+  uid: 'ear-training'
+})
 </script>
+</body>
 </html>

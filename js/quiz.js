@@ -1,7 +1,7 @@
+// import 'ui.js'
 class Quiz {
 
-  constructor (el, generator, uid) {
-    this.generator = generator
+  constructor ({ el, uid }) {
     this.initDom(el)
 
     const UUID = 'io.zmx0142857.' + uid + '.'
@@ -40,6 +40,30 @@ class Quiz {
         setStorage('mistakes', JSON.stringify(this.mistakes))
       }
     }
+    this.queue = []
+  }
+
+  // 产生下一题的 id
+  poll () {
+    if (this.needUpdate()) {
+      console.log('reset queue')
+      this.queue = this.gen()
+    }
+    this.questionId = this.queue.shift()
+    return this.questionId
+  }
+
+  // 产生下一题
+  next () {
+    const questionId = quiz.poll()
+    return this.mapper(questionId)
+  }
+
+  onMistake (userChoice) {
+    // 加入两个待复习的错题
+    this.queue.push(this.questionId)
+    this.queue.push(this.questionId)
+    Quiz.shuffle(this.queue)
   }
 
   // <button class="quiz-start" onclick="startTest()">开始测试</button>
@@ -49,7 +73,7 @@ class Quiz {
   //  ...
   // </p>
   // <p class="quiz-message"></p>
-  // <button class="quiz-next" onclick="next()">下一个</button>
+  // <button class="quiz-next" onclick="showNext()">下一个</button>
   // ...
   // <button class="quiz-stat" onclick="stat()">统计</button>
   initDom (el) {
@@ -58,7 +82,7 @@ class Quiz {
       className: ['btn', 'quiz-start'],
       onclick: () => {
         this.$start.style.display = 'none'
-        this.next()
+        this.showNext()
       },
     })
     this.$question = $('<p>', {
@@ -76,12 +100,18 @@ class Quiz {
       style: {
         display: 'none',
       },
-      onclick: this.next.bind(this)
+      onclick: this.showNext.bind(this)
     })
     this.$stat = $('<button>', {
       className: ['btn', 'quiz-stat'],
       innerText: '统计',
       onclick: this.stat.bind(this)
+    })
+    this.$modal = $('<div>', {
+      id: 'quiz-stat-modal',
+      style: {
+        display: 'none'
+      }
     })
     appendChildren(el, [
       this.$start,
@@ -89,12 +119,15 @@ class Quiz {
       this.$choice,
       this.$message,
       this.$next,
-      this.$stat
+      this.$stat,
+      this.$modal,
     ])
+    this.$modal = new Modal('quiz-stat-modal')
+
     document.onkeydown = (e) => {
       if (this.lastCorrect == false) {
         if (e.code == 'Enter') {
-          this.next()
+          this.showNext()
         }
         this.lastCorrect = true
       } else { // undefined, true
@@ -104,8 +137,6 @@ class Quiz {
         }
       }
     }
-
-    this.$modal = new Modal('quiz-stat-modal')
   }
 
   getMessage () {
@@ -125,15 +156,15 @@ class Quiz {
 
   choose (i) {
     if (this.value.choices[i].isAnswer) {
-      this.onCorrect && this.onCorrect() // hook
+      this.onCorrect && this.onCorrect(i) // hook
       this.$message.classList.remove('wrong')
       //this.$message.style.color = '#080'
       //this.$message.innerHTML = '正确!'
       this.info.addCorrect()
-      this.next()
+      this.showNext()
       this.lastCorrect = true
     } else {
-      this.onMistake && this.onMistake() // hook
+      this.onMistake && this.onMistake(i) // hook
       this.$message.classList.add('wrong')
       this.$message.innerHTML = this.getMessage()
       this.info.addMistake()
@@ -143,17 +174,22 @@ class Quiz {
     }
   }
 
-  next () {
-    const data = this.generator.next() // {value: ??, done: ??}
-    if (data.done) return false
+  showNext () {
+    this.value = this.next()
+    if (!this.value) {
+      alert('恭喜，您已完成最后一题！')
+      return false
+    }
 
     this.$message.innerHTML = ''
     this.$message.classList.remove('wrong')
     this.$choice.innerHTML = ''
     this.$next.style.display = 'none'
 
-    // {question: ??, choices: [ {label: ??, isAnswer: ??}... ]}
-    this.value = data.value
+    // this.value: {
+    //   question: string,
+    //   choices: [{ label: string, isAnswer: boolean }]
+    // }
     this.$question.innerHTML = this.value.question
     appendChildren(this.$choice, this.value.choices.map((c, i) => {
       return $('<button>', {
@@ -190,14 +226,35 @@ class Quiz {
   }
 
   static shuffle (arr) {
-    arr.sort(function(){return 0.5-Math.random()})
+    arr.sort(() => 0.5-Math.random())
   }
 
   static alpha (n) {
     return String.fromCharCode(65+n) // A=0, B=1
   }
 
-  static pick (arr, n) {
-    return []
+  /**
+   * 从 0 ~ n-1 中随机抽取 k 个不重复的数字,
+   * 要求含有 include 中的数字, 但不含 exclude 中的数字
+   * @param {Number} n
+   * @param {Number} k
+   * @param {Array} include
+   * @param {Array} exclude
+   */
+  static sample (n, k = 1, include = [], exclude = []) {
+    const ret = include.slice()
+    const len = n
+    n -= include.length + exclude.length
+    k -= include.length
+    for (let i = 0; i < len; ++i) {
+      if (exclude.indexOf(i) > -1 || include.indexOf(i) > -1) continue
+      if (Math.random() < k/n) {
+        ret.push(i)
+        if (--k === 0) break
+      }
+      --n
+    }
+    Quiz.shuffle(ret)
+    return ret
   }
 }

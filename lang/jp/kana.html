@@ -6,126 +6,137 @@
 <link rel="stylesheet" href="../../css/quiz.css">
 <style>
 body {
-    color: white;
+  color: white;
 }
 </style>
 </head>
 <body>
 
 <form class="settings">
-	<input type="checkbox" id="checkbox-hiragana" checked="true"/>
-	<label for="checkbox-hiragana">平假名</label>
-	<input type="checkbox" id="checkbox-katakana"/>
-	<label for="checkbox-katakana">片假名</label>
-	<input type="checkbox" id="checkbox-youon"/>
-	<label for="checkbox-youon">拗音</label>
-	<input type="checkbox" id="checkbox-kana-roma" checked="true"/>
-	<label for="checkbox-kana-roma">看假名选罗马音</label>
-	<input type="checkbox" id="checkbox-roma-kana"/>
-	<label for="checkbox-roma-kana">看罗马音选假名</label>
-	<!-- <input type="checkbox" id="checkbox-"/>
-	<label for="checkbox-youon">填空</label> 待实现 -->
+  <input type="checkbox" id="checkbox-hiragana" checked="true" />
+  <label for="checkbox-hiragana">平假名</label>
+  <input type="checkbox" id="checkbox-katakana" />
+  <label for="checkbox-katakana">片假名</label>
+  <input type="checkbox" id="checkbox-youon" />
+  <label for="checkbox-youon">拗音</label>
+  <input type="checkbox" id="checkbox-kana-roma" checked="true" />
+  <label for="checkbox-kana-roma">看假名选罗马音</label>
+  <input type="checkbox" id="checkbox-roma-kana" />
+  <label for="checkbox-roma-kana">看罗马音选假名</label>
+  <!-- <input type="checkbox" id="checkbox-"/>
+  	<label for="checkbox-youon">填空</label> 待实现 -->
 </form>
-
-<div id="quiz-stat-modal" style="display:none"></div>
 
 <main id="quiz"></main>
 
 <script src="../../js/ui.js"></script>
 <script src="../../js/quiz.js"></script>
 <script>
-var dict = [
-	['a','あ','ア'], ['i','い','イ'], ['u','う','ウ'], ['e','え','エ'], ['o','お','オ'],
-	['ka','か','カ'], ['ki','き','キ'], ['ku','く','ク'], ['ke','け','ケ'], ['ko','こ','コ'],
-	['sa','さ','サ'], ['shi','し','シ'], ['su','す','ス'], ['se','せ','セ'], ['so','そ','ソ'],
-	['ta','た','タ'], ['chi','ち','チ'], ['tsu','つ','ツ'], ['te','て','テ'], ['to','と','ト'],
-	['na','な','ナ'], ['ni','に','ニ'], ['nu','ぬ','ヌ'], ['ne','ね','ネ'], ['no','の','ノ'],
-	['ha','は','ハ'], ['hi','ひ','ヒ'], ['fu','ふ','フ'], ['he','へ','ヘ'], ['ho','ほ','ホ'],
-	['ma','ま','マ'], ['mi','み','ミ'], ['mu','む','ム'], ['me','め','メ'], ['mo','も','モ'],
-	['ya','や','ヤ'], ['yu','ゆ','ユ'], ['yo','よ','ヨ'],
-	['ra','ら','ラ'], ['ri','り','リ'], ['ru','る','ル'], ['re','れ','レ'], ['ro','ろ','ロ'],
-	['wa','わ','ワ'], ['wo','を','ヲ'], ['n','ん','ン'],
-	['ga','が','ガ'], ['gi','ぎ','ギ'], ['gu','ぐ','グ'], ['ge','げ','ゲ'], ['go','ご','ゴ'],
-	['za','ざ','ザ'], ['ji','じ','ジ'], ['zu','ず','ズ'], ['ze','ぜ','ゼ'], ['zo','ぞ','ゾ'],
-	['da','だ','ダ'], //['di','ぢ','ヂ'], //['du','づ','ヅ'],
-	['de','で','デ'], ['do','ど','ド'],
-	['ba','ば','バ'], ['bi','び','ビ'], ['bu','ぶ','ブ'], ['be','べ','ベ'], ['bo','ぼ','ボ'],
-	['pa','ぱ','パ'], ['pi','ぴ','ピ'], ['pu','ぷ','プ'], ['pe','ぺ','ペ'], ['po','ぽ','ポ'],
-	['kya','きゃ','キャ'], ['kyu','きゅ','キュ'], ['kyo','きょ','キョ'],
-	['sha','しゃ','シャ'], ['shu','しゅ','シュ'], ['sho','しょ','ショ'],
-	['cha','ちゃ','チャ'], ['chu','ちゅ','チュ'], ['cho','ちょ','チョ'],
-	['nya','にゃ','ニャ'], ['nyu','にゅ','ニュ'], ['nyo','にょ','ニョ'],
-	['hya','ひゃ','ヒャ'], ['hyu','ひゅ','ヒュ'], ['hyo','ひょ','ヒョ'],
-	['mya','みゃ','ミャ'], ['myu','みゅ','ミュ'], ['myo','みょ','ミョ'],
-	['rya','りゃ','リャ'], ['ryu','りゅ','リュ'], ['ryo','りょ','リョ'],
-	['gya','ぎゃ','ギャ'], ['gyu','ぎゅ','ギュ'], ['gyo','ぎょ','ギョ'],
-	['ja','じゃ','ジャ'], ['ju','じゅ','ジュ'], ['jo','じょ','ジョ'],
-	['bya','びゃ','ビャ'], ['byu','びゅ','ビュ'], ['byo','びょ','ビョ'],
-	['pya','ぴゃ','ピャ'], ['pyu','ぴゅ','ピュ'], ['pyo','ぴょ','ピョ'],
+const dict = [
+  ['a', 'あ', 'ア'], ['i', 'い', 'イ'], ['u', 'う', 'ウ'], ['e', 'え', 'エ'], ['o', 'お', 'オ'],
+  ['ka', 'か', 'カ'], ['ki', 'き', 'キ'], ['ku', 'く', 'ク'], ['ke', 'け', 'ケ'], ['ko', 'こ', 'コ'],
+  ['sa', 'さ', 'サ'], ['shi', 'し', 'シ'], ['su', 'す', 'ス'], ['se', 'せ', 'セ'], ['so', 'そ', 'ソ'],
+  ['ta', 'た', 'タ'], ['chi', 'ち', 'チ'], ['tsu', 'つ', 'ツ'], ['te', 'て', 'テ'], ['to', 'と', 'ト'],
+  ['na', 'な', 'ナ'], ['ni', 'に', 'ニ'], ['nu', 'ぬ', 'ヌ'], ['ne', 'ね', 'ネ'], ['no', 'の', 'ノ'],
+  ['ha', 'は', 'ハ'], ['hi', 'ひ', 'ヒ'], ['fu', 'ふ', 'フ'], ['he', 'へ', 'ヘ'], ['ho', 'ほ', 'ホ'],
+  ['ma', 'ま', 'マ'], ['mi', 'み', 'ミ'], ['mu', 'む', 'ム'], ['me', 'め', 'メ'], ['mo', 'も', 'モ'],
+  ['ya', 'や', 'ヤ'], ['yu', 'ゆ', 'ユ'], ['yo', 'よ', 'ヨ'],
+  ['ra', 'ら', 'ラ'], ['ri', 'り', 'リ'], ['ru', 'る', 'ル'], ['re', 'れ', 'レ'], ['ro', 'ろ', 'ロ'],
+  ['wa', 'わ', 'ワ'], ['wo', 'を', 'ヲ'], ['n', 'ん', 'ン'],
+  ['ga', 'が', 'ガ'], ['gi', 'ぎ', 'ギ'], ['gu', 'ぐ', 'グ'], ['ge', 'げ', 'ゲ'], ['go', 'ご', 'ゴ'],
+  ['za', 'ざ', 'ザ'], ['ji', 'じ', 'ジ'], ['zu', 'ず', 'ズ'], ['ze', 'ぜ', 'ゼ'], ['zo', 'ぞ', 'ゾ'],
+  ['da', 'だ', 'ダ'], //['di','ぢ','ヂ'], //['du','づ','ヅ'],
+  ['de', 'で', 'デ'], ['do', 'ど', 'ド'],
+  ['ba', 'ば', 'バ'], ['bi', 'び', 'ビ'], ['bu', 'ぶ', 'ブ'], ['be', 'べ', 'ベ'], ['bo', 'ぼ', 'ボ'],
+  ['pa', 'ぱ', 'パ'], ['pi', 'ぴ', 'ピ'], ['pu', 'ぷ', 'プ'], ['pe', 'ぺ', 'ペ'], ['po', 'ぽ', 'ポ'],
+  ['kya', 'きゃ', 'キャ'], ['kyu', 'きゅ', 'キュ'], ['kyo', 'きょ', 'キョ'],
+  ['sha', 'しゃ', 'シャ'], ['shu', 'しゅ', 'シュ'], ['sho', 'しょ', 'ショ'],
+  ['cha', 'ちゃ', 'チャ'], ['chu', 'ちゅ', 'チュ'], ['cho', 'ちょ', 'チョ'],
+  ['nya', 'にゃ', 'ニャ'], ['nyu', 'にゅ', 'ニュ'], ['nyo', 'にょ', 'ニョ'],
+  ['hya', 'ひゃ', 'ヒャ'], ['hyu', 'ひゅ', 'ヒュ'], ['hyo', 'ひょ', 'ヒョ'],
+  ['mya', 'みゃ', 'ミャ'], ['myu', 'みゅ', 'ミュ'], ['myo', 'みょ', 'ミョ'],
+  ['rya', 'りゃ', 'リャ'], ['ryu', 'りゅ', 'リュ'], ['ryo', 'りょ', 'リョ'],
+  ['gya', 'ぎゃ', 'ギャ'], ['gyu', 'ぎゅ', 'ギュ'], ['gyo', 'ぎょ', 'ギョ'],
+  ['ja', 'じゃ', 'ジャ'], ['ju', 'じゅ', 'ジュ'], ['jo', 'じょ', 'ジョ'],
+  ['bya', 'びゃ', 'ビャ'], ['byu', 'びゅ', 'ビュ'], ['byo', 'びょ', 'ビョ'],
+  ['pya', 'ぴゃ', 'ピャ'], ['pyu', 'ぴゅ', 'ピュ'], ['pyo', 'ぴょ', 'ピョ'],
 ];
 //console.table(dict);
 
 const checkHiragana = $('#checkbox-hiragana'),
-	checkKatakana = $('#checkbox-katakana'),
-	checkKanaRoma = $('#checkbox-kana-roma'),
-	checkRomaKana = $('#checkbox-roma-kana'),
-	checkYouon = $('#checkbox-youon');
+  checkKatakana = $('#checkbox-katakana'),
+  checkKanaRoma = $('#checkbox-kana-roma'),
+  checkRomaKana = $('#checkbox-roma-kana'),
+  checkYouon = $('#checkbox-youon')
 
-function getNext() {
-    
-	// 产生答案
-	answer = Math.floor(4*Math.random()); // 0, 1, 2, 3
-
-	// 处理参数设置
-	var len = checkYouon.checked ? dict.length: 69;
-	if (!checkHiragana.checked && !checkKatakana.checked)
-		checkHiragana.checked = true;
-	var a = checkHiragana.checked ? 1 : 2;
-	var b = checkKatakana.checked ? 3 : 2;
-	var kana = a+Math.floor((b-a)*Math.random());
-
-	if (!checkKanaRoma.checked && !checkRomaKana.checked)
-		checkKanaRoma.checked = true;
-	var chooseRoma;
-	if (checkKanaRoma.checked && !checkRomaKana.checked)
-		chooseRoma = true;
-	else if (!checkKanaRoma.checked && checkRomaKana.checked)
-		chooseRoma = false;
-	else
-		chooseRoma = Math.random() > 0.5 ? true : false;
-
-	var questionIdx = chooseRoma ? kana : 0;
-	var choiceIdx = chooseRoma ? 0 : kana;
-
-	// 产生选项
-    var visited = {};
-    var data = {choices:[]};
-	for (var n = 0; n < 4; ++n) {
-		var i;
-		do
-			i = Math.floor(len*Math.random());
-		while (visited[i]);
-		visited[i] = true;
-
-        var choice = {label:dict[i][choiceIdx]};
-		if (n == answer) {
-            choice.isAnswer = true;
-            data.question = dict[i][questionIdx];
-		}
-        data.choices.push(choice);
-	}
-    //console.log(data);
-    // {question: ??, choices: [ {label: ??, isAnswer: ??}... ]}
-    return data;
+function equals(obj1, obj2) {
+  const keys1 = Object.keys(obj1), keys2 = Object.keys(obj2)
+  return keys1.length === keys2.length && keys1.every(key => obj1[key] === obj2[key])
 }
 
-function* generator() {
-    while (true) {
-        yield getNext();
+class KanaQuiz extends Quiz {
+  settings = {}
+
+  getSettings () {
+    if (!checkHiragana.checked && !checkKatakana.checked)
+      checkHiragana.checked = true
+    const a = checkHiragana.checked ? 1 : 2
+    const b = checkKatakana.checked ? 3 : 2
+    const kana = a + Math.floor((b - a) * Math.random())
+
+    // 看假名选罗马音 / 看罗马音选假名
+    if (!checkKanaRoma.checked && !checkRomaKana.checked)
+      checkKanaRoma.checked = true;
+    let chooseRoma;
+    if (checkKanaRoma.checked && !checkRomaKana.checked)
+      chooseRoma = true;
+    else if (!checkKanaRoma.checked && checkRomaKana.checked)
+      chooseRoma = false;
+    else
+      chooseRoma = Math.random() > 0.5
+
+    return {
+      questionIdx: chooseRoma ? kana : 0,
+      choiceIdx: chooseRoma ? 0 : kana,
+      len: checkYouon.checked ? dict.length : 69,
     }
+  }
+
+  // 所有题出现两遍
+  gen () {
+    const { len } = this.settings
+    let queue = Array.from({ length: len }, (_, i) => i)
+    queue = [...queue, ...queue]
+    Quiz.shuffle(queue)
+    return queue
+  }
+
+  // 读取配置; 一旦配置改变, 就重置 queue
+  needUpdate () {
+    const newSettings = this.getSettings()
+    const need = !equals(this.settings, newSettings)
+    this.settings = newSettings
+    return need
+  }
+
+  // 产生选项
+  mapper (id) {
+    const { questionIdx, choiceIdx, len } = this.settings
+    const choicesCnt = 4
+    return {
+      question: dict[id][questionIdx],
+      choices: Quiz.sample(len, choicesCnt, [id]).map(i => ({
+        label: dict[i][choiceIdx],
+        isAnswer: i === id
+      }))
+    }
+  }
 }
 
-var quiz = new Quiz($('#quiz'), generator(), 'kana');
+const quiz = new KanaQuiz({
+  el: $('#quiz'),
+  uid: 'kana'
+})
 </script>
 </body>
 </html>
