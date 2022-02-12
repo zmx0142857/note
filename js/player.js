@@ -18,13 +18,13 @@ function mod (x, period) {
   return x < 0 ? x + period : x
 }
 
-class AudioService {
+class XAudioService {
 
-  constructor ({ sampleRate, getNode }) {
+  constructor ({ sampleRate, getNote }) {
     this.hasAudio = true
     this.sample = []
     this.sampleRate = sampleRate
-    this.getNode = getNode
+    this.getNote = getNote
     this.isPlaying = false
     this.server = new XAudioServer(
       1,              // channels
@@ -35,18 +35,21 @@ class AudioService {
       1,                   // volume
       this.failureCallback.bind(this) // callback when brower has no audio API
     )
-    setInterval(this.streaming.bind(this), 20)
   }
 
   play () {
     this.isPlaying = true
     this.server.changeVolume(1)
+    this.interval = setInterval(() => {
+      this.server.executeCallback()
+    }, 20)
   }
 
   stop () {
     this.sample = []
     this.isPlaying = false
     this.server.changeVolume(0)
+    clearInterval(this.interval)
   }
 
   failureCallback () {
@@ -55,12 +58,6 @@ class AudioService {
       alert("Sorry your browser is unable to play the audio on this page.")
     }
     this.hasAudio = false
-  }
-
-  streaming () {
-    if (this.isPlaying) {
-      this.server.executeCallback()
-    }
   }
 
   // note: { pitch, time, volume, tone }
@@ -89,7 +86,7 @@ class AudioService {
       ret = []
     } else if (this.sample.length < need) {
       while (this.sample.length < need) {
-        const node = this.getNode()
+        const node = this.getNote()
         if (node) this.makeSample(node)
         else break
       }
@@ -103,20 +100,77 @@ class AudioService {
   }
 }
 
+class WebAudioService {
+  constructor ({ sampleRate, getNote }) {
+    this.sampleRate = sampleRate
+    this.getNote = getNote
+    const AudioContext = window.AudioContext || window.webkitAudioContext
+    this.ctx = new AudioContext()
+  }
+
+  // note: { pitch, time, volume, tone }
+  makeSample (note) {
+    const time = this.ctx.currentTime // in seconds
+    const pitch = Array.isArray(note.pitch) ? note.pitch : [note.pitch]
+    const volume = note.volume / Math.sqrt(pitch.length)
+    return pitch.map(x => {
+      const osc = this.ctx.createOscillator()
+      osc.type = 'sine'
+      osc.frequency.value = x
+
+      const gainNode = this.ctx.createGain()
+      gainNode.gain.setValueAtTime(volume, time)
+      osc.connect(gainNode)
+      gainNode.connect(this.ctx.destination)
+
+      osc.start()
+      osc.stop(time + note.time / 1000)
+      return osc
+    })
+  }
+
+  play () {
+    const note = this.getNote()
+    if (!note) return
+    this.sample = this.makeSample(note)
+    let count = 0
+    const onended = () => {
+      // 当前和弦结束时, 演奏下一个和弦
+      if (++count === this.sample.length) {
+        this.play()
+      }
+    }
+    this.sample.forEach(osc => {
+      osc.onended = onended
+    })
+  }
+
+  stop () {
+    this.sample.forEach(osc => {
+      osc.onended = null
+      osc.stop()
+    })
+  }
+}
+
+// const AudioService = XAudioService
+const AudioService = WebAudioService
+
 class PlayerClass {
 
   // 音色
   static tones = { // period = 2
-    sin (x) {
+    sine (x) {
       return Math.sin(Math.PI * x)
     },
-    rect (x) {
+    square (x) {
       return mod(x, 2) < 1 ? 1 : -1
     },
-    saw (x) {
+    sawtooth (x) {
       x = mod(x + 0.5, 2)
       return x < 1 ? 1 - 2 * x : 2 * x - 3
     },
+    // triangle (x) {}
   }
 
   // 音调
@@ -151,7 +205,7 @@ class PlayerClass {
     this.defaultNote = {
       pitch: PlayerClass.pitches.A4,
       volume: 0.5,
-      tone: PlayerClass.tones.sin
+      tone: PlayerClass.tones.sine
     }
     this.setBpm(120)
 
@@ -165,7 +219,7 @@ class PlayerClass {
   initService () {
     this.audioService = new AudioService({
       sampleRate: 8000,
-      getNode: () => this.track[this.trackPos++]
+      getNote: () => this.track[this.trackPos++]
     })
   }
 

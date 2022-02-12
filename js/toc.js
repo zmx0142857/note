@@ -325,7 +325,7 @@ lang: {
 }]},
 
 music: {
-  title: '音乐 (开发中)',
+  title: '音乐',
   color: 'pink',
   toc: [ {
     title: '工具',
