@@ -1153,17 +1153,31 @@
 
 <h2>杂例</h2>
 
-<p class="example">
-	`lim_(n to oo) sin(pi sqrt(n^2+1)) = 0`.
-</p>
+<ol class="example">
+  <li>`lim_(n to oo) sin(pi sqrt(n^2+1)) = 0`;</li>
+  <li>`lim_(n to oo) cos(pi sqrt(4n^2 + n)) = (sqrt 2)/2`.</li>
+</ol>
 
-<p class="solution">
-	`|sin(pi sqrt(n^2+1))|`
-	`= |sin(n pi + (sqrt(n^2+1) - n) pi)|`
-	`= |cos(n pi) sin[(sqrt(n^2+1)-n)pi]|`
-	`= |sin {:pi/(sqrt(n^2+1)+n):}|`.
-	因此原式极限为 `0`.
-</p>
+<ol class="proof">
+  <li>
+    <span class="formula">
+      `|sin(pi sqrt(n^2+1))|`
+      `= |sin(n pi + (sqrt(n^2+1) - n) pi)|`
+      `= |cos(n pi) sin[(sqrt(n^2+1)-n)pi]|`
+      `= |sin {:pi/(sqrt(n^2+1)+n):}|`
+      `to 0`.
+    </span>
+  </li>
+  <li>
+    原式等于
+    <span class="formula">
+      `cos(2pi n sqrt(1+1/(4n)))`
+      `= cos(2pi n(1 + 1/(8n) + o(1/n)))`
+      `= cos{:pi/4:} cos o(1) - sin{:pi/4:} sin o(1)`
+      `to (sqrt 2)/2`.
+    </span>
+  </li>
+</ol>
 
 
 <script src="../../js/note.js?type=math"></script>

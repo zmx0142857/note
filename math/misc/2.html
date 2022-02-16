@@ -183,6 +183,8 @@
 
 <h2>三角恒等式</h2>
 
+<h3>基本公式</h3>
+
 <h4>勾股定理</h4>
 
 <span class="formula">
@@ -220,6 +222,8 @@
 	`sin (x + (k pi)/2) = sin x, cos x, -sin x, -cos x`,
 	`k = 0, 1, 2, 3`.
 </span>
+
+<h3>和角公式</h3>
 
 <h4>和角公式</h4>
 
@@ -345,6 +349,80 @@
 	`2 sin x sin y = cos(x-y) - cos(x+y)`,<br/>
 	`tan x tan y = (cos(x-y) - cos(x+y))/(cos(x-y)-cos(x+y))`.
 </span>
+
+<h4>万能代换</h4>
+
+<p>	令 `t = tan {:x/2:}`, 有 `x = 2 arctan t`, 从而
+	<span class="formula">
+		`dx = (2 dt)/(1+t^2)`,
+		`quad sin x = (2t)/(1+t^2)`,
+		`quad tan x = (2t)/(1-t^2)`,
+		`quad cos x = (1-t^2)/(1+t^2)`,
+		`quad "e"^("i"x) = (1+"i"t)/(1-"i"t)`.
+	</span>
+</p>
+
+<h3>辅助角公式</h3>
+
+<span class="formula">
+	`A sin x + B cos x = sqrt(A^2+B^2) sin(x+varphi)`,
+	`quad tan varphi = B/A`;<br/>
+	`(1 + C tan x)/(C - tan x) = tan (x+varphi)`,
+	`quad cot varphi = C`.
+</span>
+
+<p class="example">
+  求 `(11 sin theta + 13)/(17 cos theta + 23)` 的取值范围.
+</p>
+
+<p class="solution">
+  令结果为 `z`, 构造辅助角:
+  <span class="formula">
+    `11 sin theta + 13 = (17 cos theta + 23) z`,<br>
+    `sqrt(11^2 +(17z)^2) sin(theta + varphi) = 23z - 13`.
+  </span>
+  于是
+  <span class="formula">
+    `(23z - 13)^2 le 11^2 + (17z)^2`,
+  </span>
+  解得 `z = (299+-sqrt(77881))/240`, 约为 0.083 和 2.409.
+</p>
+
+<p class="solution">
+  考虑几何意义, 问题化为: 已知 `y = 13//11 + sin theta`, `x = 23//17 + cos
+  theta`, 求 `z = 11y//17x` 的取值范围. `(x, y)` 的轨迹是圆, 故 `z`
+  在该圆过原点的切线处取得最值.  记 `k = (13//11)/(23//17)`, `r = sqrt((13//11)^2 + (23//17)^2)`, `t = 1//sqrt(r^2-1)`, 则两条切线的斜率分别是
+  <span class="formula">
+    `(k +- t)/(1 &mp; k t)`.
+  </span>
+  `z` 的取值范围是上式乘以 `11/17`, 约为 0.083 和 2.409.
+</p>
+
+<p class="example">
+  <b>任意两个正弦波的叠加</b>
+  记 `y_i = omega_i x + varphi_i`, `i = 1, 2`,
+  假设 `omega_1 gt omega_2`, 则利用和差化积与辅助角公式有
+  <span class="formula align">
+    `A_1 sin(omega_1 x + varphi_1) + A_2 sin(omega_2 x + varphi_2)`<br>
+    `= (A_1+A_2)/2 (sin y_1 + sin y_2) + (A_1-A_2)/2 (sin y_1 - sin y_2)`<br>
+    `= (A_1+A_2) sin{:(y_1+y_2)/2:} cos{:(y_1-y_2)/2:}`
+    `+ (A_1-A_2) sin{:(y_1-y_2)/2:} cos{:(y_1+y_2)/2:}`<br>
+    `= A sin((y_1+y_2)/2 + gamma)`,
+  </span>
+  其中
+  <span class="formula align">
+    `A^2 = (A_1+A_2)^2 cos^2{:(y_1-y_2)/2:}
+    + (A_1-A_2)^2 sin^2{:(y_1-y_2):}`<br>
+    `= A_1^2 + A_2^2 + 2 A_1 A_2 cos(y_1-y_2)`,<br>
+    `tan gamma = (A_1-A_2)/(A_1+A_2) tan{:(y_1-y_2)/2:}`.
+  </span>
+  合成后的函数 `A sin((y_1+y_2)/2 + gamma)`,
+  振动频率大约是 `(omega_1 + omega_2)//2`.  观察 `A` 的表达式, 由于 `A^2`
+  的频率为 `omega_1-omega_2`, 则 `A` 的频率大约为 `(omega_1-omega_2)//2`,
+  这就是说函数的振幅被 `(omega_1-omega_2)//2` 这个低频调制.
+</p>
+
+<h3>求和公式与乘积公式</h3>
 
 <p class="theorem">
   <b>三角函数求和公式</b>
@@ -507,51 +585,6 @@
   </span>
 </p>
 
-<h4>辅助角公式</h4>
-
-<span class="formula">
-	`A sin x + B cos x = sqrt(A^2+B^2) sin(x+varphi)`,
-	`quad tan varphi = B/A`;<br/>
-	`(1 + C tan x)/(C - tan x) = tan (x+varphi)`,
-	`quad cot varphi = C`.
-</span>
-
-<p class="example">
-  <b>任意两个正弦波的叠加</b>
-  记 `y_i = omega_i x + varphi_i`, `i = 1, 2`,
-  假设 `omega_1 gt omega_2`, 则利用和差化积与辅助角公式有
-  <span class="formula">
-    `A_1 sin(omega_1 x + varphi_1) + A_2 sin(omega_2 x + varphi_2)`
-    `= (A_1+A_2)/2 (sin y_1 + sin y_2) + (A_1-A_2)/2 (sin y_1 - sin y_2)`
-    `= (A_1+A_2) sin{:(y_1+y_2)/2:} cos{:(y_1-y_2)/2:}`
-    `+ (A_1-A_2) sin{:(y_1-y_2)/2:} cos{:(y_1+y_2)/2:}`
-    `= A sin((y_1+y_2)/2 + gamma)`,
-  </span>
-  其中
-  <span class="formula">
-    `A^2 = (A_1+A_2)^2 cos^2{:(y_1-y_2)/2:}
-    + (A_1-A_2)^2 sin^2{:(y_1-y_2):}`
-    `= A_1^2 + A_2^2 + 2 A_1 A_2 cos(y_1-y_2)`,<br>
-    `tan gamma = (A_1-A_2)/(A_1+A_2) tan{:(y_1-y_2)/2:}`.
-  </span>
-  合成后的函数 `A sin((y_1+y_2)/2 + gamma)`,
-  振动频率大约是 `(omega_1 + omega_2)//2`.  观察 `A` 的表达式, 由于 `A^2`
-  的频率为 `omega_1-omega_2`, 则 `A` 的频率大约为 `(omega_1-omega_2)//2`,
-  这就是说函数的振幅被 `(omega_1-omega_2)//2` 这个低频调制.
-</p>
-
-<h4>万能代换</h4>
-
-<p>	令 `t = tan {:x/2:}`, 有 `x = 2 arctan t`, 从而
-	<span class="formula">
-		`dx = (2 dt)/(1+t^2)`,
-		`quad sin x = (2t)/(1+t^2)`,
-		`quad tan x = (2t)/(1-t^2)`,
-		`quad cos x = (1-t^2)/(1+t^2)`,
-		`quad "e"^("i"x) = (1+"i"t)/(1-"i"t)`.
-	</span>
-</p>
-
 <h3 id="equality-of-triangle">三角形中的恒等式与不等式</h3>
 
 <p class="example">
@@ -697,14 +730,6 @@
 		`le (3sqrt 3)/4 r^2`.
 	</span>
 	等号成立当且仅当 `ABC` 是正三角形.
-</p>
-
-<p class="theorem">
-	(Ptolemy, 证明见 <a href="../geometry/4.html#the-ptolemy">Ptolemy 定理</a>) 设 `sum_(n=0)^3 x_n = pi`, 则
-	<span class="formula">
-		`sin x_0 sin x_2 + sin x_1 sin x_3 = sin(x_i+x_j) sin(x_j+x_k)`.
-	</span>
-	其中 `j -= i+1 (mod 4)`, `k -= j+1 (mod 4)`.
 </p>
 
 <ol class="theorem">

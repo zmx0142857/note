@@ -15,11 +15,11 @@ math: {
   title:'未分类',
   articles: [
     {title:'问题', src:'misc/0.html', date:'2021-12-11'},
-    {title:'三角函数', src:'misc/2.html', date:'2022-02-11'},
+    {title:'三角函数', src:'misc/2.html', date:'2022-02-14'},
     {title:'不等式', src:'misc/3.html', date:'2022-02-11'},
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
-    {title:'数学家', src:'misc/6.html'},
+    {title:'数学家', src:'misc/6.html', date:'2022-02-14'},
     {title:'算术与进制', src:'misc/7.html', date:'2022-02-06'},
   ]
 }, {
@@ -42,7 +42,7 @@ math: {
   articles: [
     {title:'附录', src:'analysis/0.html', date:'2022-02-07'},
     {title:'初等函数', src:'analysis/1.html'},
-    {title:'数列的极限', src:'analysis/2.html', date: '2021-12-07'},
+    {title:'数列的极限', src:'analysis/2.html', date: '2022-02-14'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
     {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
@@ -164,7 +164,7 @@ math: {
   title:'平面几何',
   articles: [
     {title:'五组公理', src:'geometry/1.html'},
-    {title:'三角形, 四边形', src:'geometry/3.html', date:'2022-01-28'},
+    {title:'三角形, 四边形', src:'geometry/3.html', date:'2022-02-14'},
     {title:'圆', src:'geometry/4.html'},
     {title:'抛物线', src:'geometry/5.html'},
   ]
@@ -197,7 +197,7 @@ math: {
     {title:'排列与组合', src:'comb/2.html', date:'2022-01-15'},
     {title:'求解递推式', src:'comb/3.html', date:'2021-11-27'},
     {title:'容斥原理', src:'comb/4.html'},
-    {title:'离散微积分与特殊计数序列', src:'comb/5.html', date:'2022-01-06'},
+    {title:'离散微积分与特殊计数序列', src:'comb/5.html', date:'2022-02-15'},
     {title:'生成函数', src:'comb/6.html', date:'2022-01-22'},
   ]
 }, {
@@ -330,7 +330,7 @@ music: {
   toc: [ {
     title: '工具',
     articles: [
-      {title:'播放器', src:'utils/player.html'},
+      {title:'播放器', src:'utils/player.html', date:'2022-02-12'},
       {title:'简谱', src:'utils/jianpu.html'},
       {title:'乐谱编辑器', src:'utils/lywriter.html'},
       {title:'练耳', src:'utils/ear-training.html'},
