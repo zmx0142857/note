@@ -14,7 +14,7 @@ math: {
 }, {
   title:'未分类',
   articles: [
-    {title:'问题', src:'misc/0.html', date:'2021-12-11'},
+    {title:'问题', src:'misc/0.html', date:'2022-02-16'},
     {title:'三角函数', src:'misc/2.html', date:'2022-02-11'},
     {title:'不等式', src:'misc/3.html', date:'2022-02-11'},
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
@@ -26,7 +26,7 @@ math: {
   title:'高等代数',
   articles: [
     {title:'初等代数', src:'algebra/0.html'},
-    {title:'矩阵', src:'algebra/1.html', date:'2021-12-13'},
+    {title:'矩阵', src:'algebra/1.html', date:'2022-02-16'},
     {title:'行列式', src:'algebra/2.html', date:'2021-12-06'},
     {title:'向量的相关性与线性方程组', src:'algebra/3.html', date:'2021-12-14'},
     {title:'线性空间', src:'algebra/4.html'},

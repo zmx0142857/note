@@ -640,19 +640,20 @@ let yields = {
       return
     let table = $(), row = $(), elem = $()
     while (frag.firstChild) {
-      let val = frag.firstChild.firstChild.nodeValue
+      const c = frag.firstChild
+      let val = c.firstChild && c.firstChild.nodeValue
       if (val === ';') {
-        frag.removeChild(frag.firstChild)
+        frag.removeChild(c)
         row.appendChild($math('mtd', elem))
         elem = $()
         table.appendChild($math('mtr', row))
         row = $()
       } else if (val === ',') {
-        frag.removeChild(frag.firstChild)
+        frag.removeChild(c)
         row.appendChild($math('mtd', elem))
         elem = $()
       } else {
-        elem.appendChild(frag.firstChild)
+        elem.appendChild(c)
       }
     }
     if (elem.firstChild)
