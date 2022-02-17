@@ -11,19 +11,21 @@
 
 <h3>矩阵的线性运算, 矩阵的乘法</h3>
 
+<!--
 <p class="remark">
 	一个记号. 设 `n` 为正整数, 记集合
 	<span class="formula">
 		`[n] = {1, 2, cdots, n}`.
 	</span>
 </p>
+-->
 
 <p class="definition">
 	令 `bbb P` 为一数域, `bbb P` 上 `m` 行 `n` 列矩阵的全体记为 `bbb P^(m
 	xx n)`, `bbb P` 称为矩阵的<b>基础数域</b>.
 	如果 `m xx n` 矩阵 `bm A = (a_(i j))` 和 `bm B = (b_(i j))` 满足
 	<span class="formula">
-		`a_(i j) = b_(i j)`, `quad i in [m], j in [n]`,
+		`a_(i j) = b_(i j)`, `quad i = 1, cdots, m,` `quad j = 1, cdots, n`,
 	</span>
 	则称它们<b>相等</b>, 记为 `bm A = bm B`.
 </p>
@@ -35,14 +37,14 @@
 	<li>数乘.
 		定义 `c bm A := (c_(i j))_(m xx n)`, 其中
 		<span class="formula">
-			`c_(i j) = c a_(i j)`, `quad i in [m], j in [n]`.
+			`c_(i j) = c a_(i j)`, `quad i = 1, cdots, m,` `quad j = 1, cdots, n`.
 		</span>
 		即矩阵与 `c` 数乘, 相当于把每一元素都乘以 `c`.
 	</li>
 	<li>加法.
 		定义 `bm (A+B) := (s_(i j))_(m xx n)`, 其中
 		<span class="formula">
-			`s_(i j) = a_(i j) + b_(i j)`, `quad i in [m], j in [n]`.
+			`s_(i j) = a_(i j) + b_(i j)`, `quad i = 1, cdots, m,` `quad j = 1, cdots, n`.
 		</span>
 		即两矩阵相加, 相当于把对应元素相加.
 	</li>
@@ -50,26 +52,46 @@
 
 <p class="definition">
 	<b>矩阵乘法</b>
-	令 `bm A = (a_(i j))_(m xx n)`, `bm B = (b_(i j))_(n xx l)`.
-	定义 `bm (A B) := (p_(i j))_(m xx l)`, 其中
+	令 `bm A = (a_(i j))_(m xx r)`, `bm B = (b_(i j))_(r xx n)`.
+	定义 `bm (A B) := (c_(i j))_(m xx n)`, 其中
 	<span class="formula">
-		`p_(i j) = sum_(k=1)^n a_(i k) b_(k j)`,
-		`quad i in [m], j in [l]`.
+		`c_(i j) = sum_(k=1)^r a_(i k) b_(k j)`,
+		`quad i = 1, cdots, m,` `quad j = 1, cdots, n`.
 	</span>
 	这一乘法法则称为 "左行乘右列", 即矩阵 `bm (A B)` 的 `i j` 元由
-	`bm A` 的第 `i` 行与 `bm B` 的第 `j` 列作向量的一般内积得到.
+	`bm A` 的第 `i` 行与 `bm B` 的第 `j` 列作向量的一般内积得到:
+  <span class="formula">
+  `{:
+    {::},
+    [, b_(1 j), ;
+     vdots, vdots, vdots;
+     , b_(r j), ;
+    ];
+    [, cdots, ;
+    a_(i 1), cdots, a_(i r);
+    , cdots, ;
+    ],
+    [*, *, *;
+     *, c_(i j), *;
+     *, *, *;
+    ]
+  :}`
+  </span>
+</p>
+
+<p class="remark">
 	为何这样定义矩阵乘法呢, 考虑两个线性函数组
 	<span class="formula">
-		`y_i = sum_(k=1)^n a_(i k) x_k`, `quad i in [m]`;<br/>
-		`x_k = sum_(j=1)^l b_(k j) t_j`, `quad k in [n]`.
+    `y_k = sum_(j=1)^n b_(k j) x_j`, `quad k = 1, cdots, r`,<br>
+		`z_i = sum_(k=1)^r a_(i k) y_k`, `quad i = 1, cdots, m`.
 	</span>
-	将第二式代入第一式,
+  代入得
 	<span class="formula">
-		`y_i = sum_(k=1)^n a_(i k) sum_(j=1)^l b_(k j) t_j`
-		`= sum_(j=1)^l t_j sum_(k=1)^n a_(i k) b_(k j)`
-		`= sum_(j=1)^l p_(i j) t_j`.
+		`z_i = sum_(k=1)^r a_(i k) sum_(j=1)^n b_(k j) x_j`
+		`= sum_(j=1)^n x_j sum_(k=1)^r a_(i k) b_(k j)`
+		`= sum_(j=1)^n c_(i j) x_j`.
 	</span>
-	从而矩阵乘法反映了线性函数组的复合.
+	从而, 矩阵乘法反映了线性函数组的复合.
 </p>
 
 <ol class="example">
