@@ -797,43 +797,44 @@
 <h3>群作用</h3>
 
 <ol class="definition">
-  群 `G` 在集合 `X != O/` 上的<b>作用</b>定义为一个映射
-	<span class="formula">
-		`f: G xx X to X`<br/>
-		`(g, x) to f(g, x) := g(x)`,
-	</span>
-  对任意 `g, h in G` 和任意 `x in X`, 群作用满足以下两条性质:
-	<li>`(g h)x = g(h x)`;</li>
-	<li>`e x = x`, 这里 `e` 是 `G` 的幺元.</li>
-	由此立即推出
-	<span class="formula">
-		`g^-1(g(x)) = (g^-1 g)x = e x = x`.
-	</span>
+  考虑群 `G` 与非空集合 `X`, 若映射
+  <span class="formula">
+    `f: G xx X to X`<br/>
+    `(g, x) mapsto f(g, x) := g(x)`,
+  </span>
+  满足以下两条性质:
+  <li>`(g h)x = g(h x)`, `AA g, h in G, AA x in X`;</li>
+  <li>`e x = x`, `AA x in X`, `e` 是 `G` 的幺元.</li>
+  则 `f` 称为 `G` 在 `X` 上的一个<b>作用</b>.
+  由定义有
+  <span class="formula">
+    `g^-1(g(x)) = (g^-1 g)x = e x = x`.
+  </span>
 </ol>
 
-<p class="remark">
+<!-- <p class="remark">
 	群作用的概念和拓扑学中的同伦是类似的. (??
-</p>
+</p> -->
 
 <ol class="example">
-	<li>数域 `bbb F` 上线性空间 `V` 的数乘运算 `(k, alpha) mapsto k alpha`
-		是 `bbb F` 的乘法群在 `V` 上的一个群作用.
-	</li>
-	<li>群 `G` 上的左平移变换 `(g, x) mapsto g x`
-		是 `G` 在 `G` 上的一个群作用. 右平移类似.
-	</li>
-	<li>群 `G` 上的共轭变换 `(g, x) mapsto g x g^-1`
-		是 `G` 在 `G` 上的一个群作用.
-	</li>
-	<li>群 `G` 关于子群 `H` 的左陪集全体 `G//H_l = {g H | g in G}`
-		称为 `G` 的一个<b>齐性空间</b>.  `(g, a H) mapsto (g a) H`
-		是 `G` 在 `G//H_l` 上的一个群作用. 右陪集类似.
-	</li>
+  <li>线性空间 `(V";" bbb F)` 的数乘运算 `(k, alpha) mapsto k alpha`
+    是 `bbb F` 的乘法群在 `V` 上的一个群作用.
+  </li>
+  <li>群 `G` 上的左平移变换 `(g, x) mapsto g x`
+    是 `G` 对自身的群作用. 右平移类似.
+  </li>
+  <li>群 `G` 上的共轭变换 `(g, x) mapsto g x g^-1`
+    是 `G` 对自身的群作用.
+  </li>
+  <li>群 `G` 关于子群 `H` 的左陪集全体 `G//H_l = {g H | g in G}`
+    称为 `G` 的一个<b>齐性空间</b>. 齐性空间未必构成群, 它的要求低于商群.
+    `(g, a H) mapsto (g a) H` 是 `G` 在 `G//H_l` 上的一个群作用. 右陪集类似.
+  </li>
 </ol>
 
 <p class="theorem" id="the-group-action-homomorphism">
-  群 `G` 在集合 `X != O/` 上的作用 `f(g, x)`
-	与 `G` 到 `X` 上对称群 `S_X` (`X` 上全体可逆变换) 的群同态一一对应.
+ 群作用 `f: G xx X to X` 与群同态 `eta: G to S_X` 一一对应.
+ 其中 `S_X` 是 `X` 上的对称群, 亦即 `X` 上全体可逆变换.
 </p>
 
 <p class="proof">
@@ -879,45 +880,52 @@
 <h3>群作用的轨道与不动点</h3>
 
 <p class="definition">
-	令 `f: G xx X to X` 为一群作用, 定义 `X` 上二元关系 `~` 如下
-	<span class="formula">
-		`x ~ y iff (EE g in G) g(x) = y`
-	</span>
-	可以验证 `~` 为 `X` 上一等价关系.  元素 `x in X` 所在的等价类记为
-	<span class="formula">
-		`O_x := {g(x) | g in G}`.
-	</span>
-	这是 `x` 在群作用 `f` 下能到达的地方, 称为 `f` 的一个<b>轨道</b>.
-  显然 `X` 是全体不同轨道的并.
-  <!-- 若 `f` 只有一个轨道, 则称它是<b>可迁的</b>. -->
+  令 `f: G xx X to X` 为一群作用, 定义 `X` 上二元关系 `~` 如下:
+  <span class="formula">
+    `x ~ y iff (EE g in G) g(x) = y`.
+  </span>
+  可以验证 `~` 为 `X` 上一等价关系.  元素 `x in X` 所在的等价类记为
+  <span class="formula">
+    `O_x := {g(x) | g in G}`.
+  </span>
+  这是 `x` 在群作用 `f` 下能到达的地方, 称为 `f` 的一个<b>轨道</b>.
+  显然 `X` 是全体不同轨道的无交并.
+  若 `f` 只有一个轨道, 则称它是<b>可迁的</b>.
+</p>
+
+<p class="example">
+  群 `G` 在共轭作用下的轨道是其<b>共轭类</b>.
+  `G` 是全体共轭类的无交并. 正规子群是一到多个共轭类的并,
+  这是因为正规子群满足 `AA g in G`, `g H g^-1 sube H`,
+  即它的共轭像含于自身.
 </p>
 
 <p class="definition">
-	令 `f: G xx X to X` 为一群作用, 任取 `x in X`, 考虑 `x` 何时为不动点.
+  令 `f: G xx X to X` 为一群作用, 任取 `x in X`, 考虑 `x` 何时为不动点.
   事实上, 定义
-	<span class="formula">
-		`H_x := {g in G | g(x) = x}`
-	</span>
+  <span class="formula">
+    `H_x := {g in G | g(x) = x}`
+  </span>
   由 `e in H_x` 知 `H_x` 非空. 容易验证 `H_x le G`, 称为 `x` 在 `f`
   下的<b>稳定子群</b>.
 </p>
 
 <p class="proof">
-	`AA a, b in G`, 若 `a x = b x = x`,
-	则
-	<span class="formula">
-		`a b^-1 x = a b^-1(b x) = a x = x`.
-	</span>
-	所以 `a b^-1 in H_x`.
+  `AA a, b in G`, 若 `a x = b x = x`,
+  则
+  <span class="formula">
+    `a b^-1 x = a b^-1(b x) = a x = x`.
+  </span>
+  所以 `a b^-1 in H_x`.
 </p>
 
 <p class="definition">
-  如果 `x in X` 在任意 `g in G` 的作用下都不动, 即
-	<span class="formula">
-		`(AA g in G) g(x) = x`,
+  如果 `x in X` 在任意 `g in G` 的作用下都不动:
+  <span class="formula">
+    `(AA g in G) g(x) = x`,
     即 `O_x = {x}`, 亦即 `H_x = G`,
-	</span>
-	则称 `x` 为 <b>`f` 的不动点</b>.
+  </span>
+  则称 `x` 为 <b>`f` 的不动点</b>.
 </p>
 
 <p class="example">
@@ -926,12 +934,12 @@
 </p>
 
 <p class="definition">
-	设群 `G` 在非空集 `X, Y` 上各有一群作用, 称这两个群作用<b>等价</b>,
-	如果存在双射 `varphi: X to Y` 使得
-	<span class="formula">
-		`(AA g in G)(AA x in X)`
-		`varphi(g(x)) = g(varphi(x))`.
-	</span>
+  设群 `G` 在非空集 `X, Y` 上各有一群作用, 称这两个群作用<b>等价</b>,
+  如果存在双射 `varphi: X to Y` 使得
+  <span class="formula">
+    `(AA g in G)(AA x in X)`
+    `varphi(g(x)) = g(varphi(x))`.
+  </span>
   换言之下图可换:
   <span class="formula">
   `{:
@@ -943,41 +951,40 @@
 </p>
 
 <p class="lemma">
-	令 `f: G xx X to X` 为一群作用, `x in X`, 显然 `f` 在 `O_x`
-	上的限制也为一群作用, 且 `G` 在 `O_x` 上的群作用与 `G` 在齐性空间
-	`G//H_(x,l)` 上的群作用等价.
+  令 `f: G xx X to X` 为一群作用, `x in X`, 显然 `f` 在 `O_x`
+  上的限制也为一群作用, 且 `G` 在 `O_x` 上的群作用与 `G` 在齐性空间
+  `G//H_(x,l)` 上的群作用等价.
 </p>
 
 <p class="proof">
-	作 `varphi: a H_x in G//H_(x,l) to a(x) in O_x`.
-	由
-	<span class="formula">
-		`a H_x = b H_x iff a^-1 b in H_x`
-		`iff x = (a^-1 b) x`
-		`iff a(x) = b(x)`
-	</span>
-	知, `varphi` 为一映射, 且为一单射, 又由轨道定义, `varphi` 为一满射,
-	因此 `varphi` 为一双射.
-	`AA g in G, a H_x in G//H_(x,l)`,
-	<span class="formula">
-		`varphi(g(a H_x)) = varphi((g a)H_x)`
-		`= (g a)(x) = g(a(x)) = g(varphi(a H_x))`,
-	</span>
-	因此, 二群作用等价.
+  作 `varphi: a H_x in G//H_(x,l) to a(x) in O_x`.  由
+  <span class="formula">
+    `a H_x = b H_x iff a^-1 b in H_x`
+    `iff x = (a^-1 b) x`
+    `iff a(x) = b(x)`
+  </span>
+  知, `varphi` 为一映射, 且为一单射, 又由轨道定义, `varphi` 为一满射,
+  因此 `varphi` 为一双射.
+  `AA g in G, a H_x in G//H_(x,l)`,
+  <span class="formula">
+    `varphi(g(a H_x)) = varphi((g a)H_x)`
+    `= (g a)(x) = g(a(x)) = g(varphi(a H_x))`,
+  </span>
+  因此, 二群作用等价.
 </p>
 
 <p class="theorem" id="the-orbit-cardinal">
-	令 `f: G xx X to X` 为一群作用, 则
-	<span class="formula">
-		`|G| = |O_x| |H_x|`.
-	</span>
+  令 `f: G xx X to X` 为一群作用, 则
+  <span class="formula">
+    `|G| = |O_x| |H_x|`.
+  </span>
 </p>
 
 <p class="proof">
-	这是因为存在 `G//H_(x,l) to O_x` 间的双射, 故
-	<span class="formula">
-		`|O_x| = |G//H_(x,l)| = [G:H_x]`.
-	</span>
+  这是因为存在 `G//H_(x,l) to O_x` 间的双射, 故
+  <span class="formula">
+    `|O_x| = |G//H_(x,l)| = [G:H_x]`.
+  </span>
 </p>
 
 <h3>Sylow 定理</h3>
