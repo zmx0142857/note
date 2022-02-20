@@ -8,7 +8,111 @@
 
 <body>
 
+<h2>理想的基本概念</h2>
 
+<ol class="definition">
+  <b>理想</b> 称环 `R` 的子集 `A` 为理想, 如果它满足
+  <li>是 `R` 的加法子群: `AA a, b in A`, `a +- b in A`;</li>
+  <li>吸收乘法的结果: `A R sube A`, 亦即 `AA a in A, r in R`, `a r in A`.</li>
+</ol>
+
+<p class="remark">
+  我们大胆地作一个「理想」的假定——
+  以下总假定 `R` 为交换幺环.
+</p>
+
+<ol class="definition">
+  <b>理想的运算</b> 设 `R` 为交换幺环, `A, B` 是 `R` 的理想,
+  <li>`A nn B` 是同时含于 `A, B` 的最大理想;</li>
+  <li>`A + B := {a + b | a in A, b in B}` 是同时包含 `A, B` 的最小理想;</li>
+  <li>`A B := { sum_i a_i b_i (有限和) | a_i in A, b_i in B }` 也是 `R`
+    的理想.</li>
+  以上三种运算均满足交换律, 它们都能推广到有限个理想的情形.<br>
+</ol>
+
+<p class="proposition">
+  `A, B` 是环 `R` 的理想, 则 `A B sube A nn B sube A + B`.
+</p>
+
+<ol class="proof">
+  <li>`A nn B sube A sube A + B`;</li>
+  <li>由理想的吸收性质, `A B sube A R sube A`, 类似有 `A B sube B`,
+    因此 `A B sube A nn B`.<br>
+    从元素的角度, 任取 `a in A`, `b in B`
+    有 `a b in A nn B` 进而 `A B sube A nn B`.
+  </li>
+</ol>
+
+<h3>理想的互素</h3>
+
+<p class="definition">
+  若 `R` 的理想之和 `A_1 + cdots + A_n = R`, 则称它们<b>互素</b>.
+  从元素的角度, 理想互素当且仅当存在 `a_1 in A_1, cdots a_n in A_n` 使
+  `a_1 + cdots + a_n = 1`.
+</p>
+
+<p class="example">
+  取 `R = ZZ`, `A = 2 ZZ`, `B = 3 ZZ` 为例, 有
+  `A B = A nn B = 6 ZZ`, `A + B = ZZ`, 因此它们互素.
+</p>
+
+<ol class="remark">
+  <li>这里 `A B = A nn B` 是巧合吗?</li>
+  <li>`ZZ` 的理想都形如 `n ZZ` 吗, 这样的理想有什么优良性质 (主理想)?</li>
+  <li>`2, 3` 是素数; 能不能在理想中定义类似概念 (素理想)?</li>
+</ol>
+
+<p class="proposition">
+  `A, B` 是环 `R` 中互素的理想, 则 `A B = A nn B`.
+</p>
+
+<p class="proof">
+  只需证 `A B supe A nn B`.
+  由于 `A, B` 互素, 可设 `1 = a + b`,
+  任取 `s in A nn B`, 则 `s = (a + b) s = a s + s b` (有限和).
+  故 `s in A B`.
+</p>
+
+<ol class="example">
+  <li>`ZZ` 的每个理想形如 `n ZZ`, `n` 为非负整数;</li>
+  <li>`m ZZ supe n ZZ iff m | n`.</li>
+  <li>
+    <span class="formula">
+      `(m ZZ) (n ZZ) = (m n) ZZ`;<br>
+      `m ZZ nn n ZZ = [m, n] ZZ` (最小公倍数);<br>
+      `m ZZ + n ZZ = (m, n) ZZ` (最大公因数).
+    </span>
+    于是理想 `m ZZ`, `n ZZ` 互素当且仅当整数 `m, n` 互素.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>显然 `{0}` 是 `ZZ` 的理想. 设 `A` 是 `ZZ` 的非零理想, 取非零元素
+  `a in A`, 则 `-a in A`. 这指出 `A` 中存在正整数.
+  设 `n` 是 `A` 中最小正整数, 由吸收性质知道 `n ZZ sube A`.
+  另一方面, 任取 `b = n q + r in A`, `q in ZZ`, `0 le r lt n`;
+  由 `n q in A` 知 `r in A`. 这迫使 `r = 0`, 否则与 `n` 的最小性矛盾.
+  于是 `b in n ZZ`. 综上 `A = n ZZ`.</li>
+</ol>
+
+<h3>素理想与极大理想</h3>
+
+<ol class="definition">
+  设 `A` 是环 `R` 的理想, `A != R`,
+  <li>若不存在理想 `B` 满足 `A sub B sub R`, 则称 `A` 为极大理想.</li>
+  <li>若 `AA a, b in R`, `a b in A rArr a in A or b in A`,
+    则称 `A` 为素理想;</li>
+</ol>
+
+<ol class="example">
+  考虑 `ZZ` 的理想 `n ZZ`.
+  <li>若它为极大理想, 即不存在 `ZZ sup m ZZ sup n ZZ`, 亦即不存在
+    `1 lt m lt n` 使得 `m | n`, 亦即 `n` 为素数.</li>
+  <li>若它为素理想, 即 `AA a, b in ZZ`, `n | a b rArr n | a or n | b`,
+    亦即 `n` 为素数.
+  </li>
+  综上 `ZZ` 的素理想和极大理想都形如 `p ZZ`, `p` 为素数.
+</ol>
 
 <script src="../../js/note.js"></script>
 </body>
