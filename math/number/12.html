@@ -114,6 +114,79 @@
   综上 `ZZ` 的素理想和极大理想都形如 `p ZZ`, `p` 为素数.
 </ol>
 
+<p class="proposition">
+  <b>素理想的等价条件</b>
+  环 `R` 的理想 `P` 为素理想当且仅当对 `R` 的任意理想 `A`, `B` 都有
+  <span class="formula">
+    `A B sube P rArr A sube P or B sube P`.
+  </span>
+</p>
+
+<p class="proposition">
+  设 `A, B` 为环 `R` 的理想, 若 `P = A nn B` 为素理想,
+  则 `P = A` 或 `P = B`. 此结论可推广到有限个理想.
+</p>
+
+<ol class="proposition">
+  <b>用商环判定素理想/极大理想</b>
+  设 `A` 是环 `R` 的理想,
+  <li>`A` 是素理想 `iff R//A` 是整环 (Domain);</li>
+  <li>`A` 是极大理想 `iff R//A` 是域.</li>
+</ol>
+
+<p class="corollary">
+  极大理想都是素理想. 特别地, 由于<a href="../abstract/6.html#cor-finite-has-inv">有限整环是域</a>, 所以 `R` 有限时, 它的每个素理想都是极大理想.
+</p>
+
+<h3>PID 与 UFD</h3>
+
+<ol class="definition">
+  <b>有限生成理想与主理想</b>
+  设 `a_1, cdots, a_n in R`, 则
+  <span class="formula">
+    `(a_1, cdots, a_n) = a_1 R + cdots + a_n R`
+  </span>
+  是 `R` 的理想, 称为 `a_1, cdots, a_n` (有限个元素) 生成的理想.
+  特别, 由一个元素生成的理想 `(a) = a R` 称为 `R` 的<b>主理想</b>.
+  <li>每个理想均为有限生成的环称为 Noether 环;</li>
+  <li>每个理想均为主理想的环称为主理想环;</li>
+  若 `R` 是整环, 又是主理想环,
+  则称它为<b>主理想整环 (Principal Ideal Domain, PID).</b>
+</ol>
+
+<p class="example">
+  前面已经用带余除法证明 `ZZ` 是 PID;
+  `ZZ` 的理想形如 `(n) = n ZZ`, `n` 是非负整数.
+  类似可证, 域 `bbb F` 上的多项式环 `bbb F[x]` 是 PID.
+  `bbb F[x]` 的理想形如 `(f(x)) = f(x) bbb F[x]`, `f(x)` 是首一多项式.
+</p>
+
+<ol class="definition">
+  <b>素元与唯一因子分解</b>
+  设 `R` 为整环, `U(R)` 为 `R` 的单位群 (全体乘法可逆元素构成的群).
+  <li>对于 `a, b in R`, 若存在 `epsi in U(R)` 使得 `a = epsi b`,
+    则称 `a` 与 `b` 相伴, 记为 `a ~ b`.
+  </li>
+  <li>设 `p in R`, `p != 0`, `p !in U(R)`. 若 `p` 在 `R`
+    中只有平凡分解, 即对任意 `a, b in R`,
+    <span class="formula">
+      `p = a b rArr a in U(R) or b in U(R)`,
+    </span>
+    则 `p` 称为 `R` 中的一个<b>素元</b>. 区别于素理想, 素元是一个元素.
+  </li>
+  <li>整环 `R` 是<b>唯一因子分解整环 (Uniquely Factorization Domain,
+    UFD)</b>, 是指对每个 `a in R`, `a != 0`, `a !in U(R)`,
+    `a` 可以表为有限个素元的乘积:
+    <span class="formula">
+      `a = p_1 cdots p_s`.
+    </span>
+    且不计各因子的次序, 上述分解是唯一的. 换言之, 若又有
+    `a = q_1 cdots q_t`,
+    则 `s = t`, 且适当调整 `q_1, cdots, q_t` 的次序, 可使
+    `p_i ~ q_i`, `i = 1, cdots, s`.
+  </li>
+</ol>
+
 <script src="../../js/note.js"></script>
 </body>
 </html>

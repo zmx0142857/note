@@ -757,7 +757,7 @@ const yieldsTex = {
     return sym.output
   },
   space (sym) {
-    return '\\quad\\text{' + sym.input + '}\\quad'
+    return '\\;\\text{' + sym.input + '}\\;'
   },
   leftRight (sym, res, rewind) {
     if (res.slice(-1) === '|') {
