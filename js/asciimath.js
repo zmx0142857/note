@@ -381,6 +381,7 @@ const symbols = [
 {input:'overset',tag:'mover',output:'stackrel',ttype:BINARY},
 {input:'underset',tag:'munder',output:'stackrel',ttype:BINARY},
 {input:'hat',tag:'mover',output:'\u005E',ttype:UNARY,acc:true},
+{input:'widehat',tag:'mover',output:'\u005E',ttype:UNARY,acc:true},
 {input:'arc',tag:'mover',output:'\u23DC',tex:'stackrel{\\frown}',ttype:UNARY,acc:true},
 {input:'bar',tag:'mover',output:'\u00AF',tex:'overline',ttype:UNARY,acc:true},
 {input:'vec',tag:'mover',output:'\u2192',ttype:UNARY,acc:true},
@@ -757,7 +758,7 @@ const yieldsTex = {
     return sym.output
   },
   space (sym) {
-    return '\\;\\text{' + sym.input + '}\\;'
+    return '\\quad\\text{' + sym.input + '}\\quad'
   },
   leftRight (sym, res, rewind) {
     if (res.slice(-1) === '|') {

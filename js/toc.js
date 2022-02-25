@@ -40,7 +40,7 @@ math: {
 }, {
   title:'数学分析',
   articles: [
-    {title:'附录', src:'analysis/0.html', date:'2022-02-07'},
+    {title:'附录', src:'analysis/0.html', date:'2022-02-25'},
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html', date: '2022-02-14'},
     {title:'函数的极限与连续性', src:'analysis/3.html'},
@@ -89,6 +89,7 @@ math: {
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
     {title:'复变函数的展开', src:'complex/3.html', date:'2022-01-21'},
+    {title:'积分变换', src:'complex/6.html', date:'2022-02-25'},
   ]
 }, {
   title:'实变函数',

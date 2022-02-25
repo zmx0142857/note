@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>积分变换</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>Laplace 变换</h2>
+
+<p class="definition">
+  函数 `f` 的 Laplace 变换记为
+  <span class="formula">
+    `cc L[f(t)] = F(s) = int_0^oo "e"^(-s t) f(t) dt`,
+    `quad "Re"(s) gt sigma`.
+  </span>
+  下文将 `f(t)` 和它的 Laplace 变换简记为 `f ~ F`.
+</p>
+
+<p class="corollary">
+  <b>导数变多项式</b>
+  若 `x(t) ~ X(s)`,
+  则 `x'(t)` 的 Laplace 变换存在, 且有
+  <span class="formula">
+    `x'(t) ~ s X(s) - x(0)`.
+  </span>
+  由归纳法知
+  <span class="formula">
+    `x^((n+1))(t) ~ s^(n+1) X(s) - sum_(k=0)^n x^((n-k))(0) s^k`,
+  </span>
+  Laplace 变换将求导化为多项式, 大大简化了运算.
+  这个性质可以与 Fourier 变换相比较.
+</p>
+
+<ol class="property">
+  <b>Laplace 变换的运算性质</b>
+  <li>线性性质: `cc L[a f(t) + b g(t)] = a F(s) + b G(s)`;</li>
+  <li>位移性质: `cc L["e"^(-a t) f(t)] = F(s + a)`;</li>
+  <li>延时性质: `cc L[f(t - tau)] = "e"^(-tau s) F(s)`;</li>
+  <li>微分性质: `cc L[f'(t)] = s F(s) - f(0)`;</li>
+  <li>积分性质: `cc L[f^((-1))(t)] = (F(s))/s + (f^((-1))(0))/s`; `f^((-1))`
+    是 `f` 的原函数;</li>
+  <li>卷积性质: `cc L[f(t) ** g(t)] = F(s) G(s)`;</li>
+  <li>初值性质: `f(0^+) = lim_(s to oo) s F(s)`;</li>
+  <li>终值性质: `f(oo) = lim_(s to 0^+) s F(s)`;</li>
+</ol>
+
+<p class="corollary">
+  <b>Laplace 逆变换</b>
+  <span class="formula">
+    `f(t) = 1/(2 pi i) lim_(T to oo) int_(gamma-iT)^(gamma+iT)
+    "e"^(st) F(s) "d"s`,
+  </span>
+  其中 `gamma in RR` 充分大, 使得积分路径位于 `F(s)` 的收敛域内.
+</p>
+
+<p class="example">
+  <b>常见函数的 Laplace 变换</b>
+  设 `p gt 0`, `z in CC`, `"Re"(s) gt "Re"(z)`, 则
+  <span class="formula">
+    `t^(p-1) "e"^(z t) ~ (Gamma(p))/(s-z)^p`.
+  </span>
+  特别
+  <span class="formula">
+    `"e"^(z t) ~ 1/(s-z)`.
+  </span>
+  令 `z = a "i"`, 分别取实部虚部得
+  <span class="formula">
+    `cos a t ~ s/(s^2+a^2)`,
+    `quad sin a t ~ a/(s^2+a^2)`.
+  </span>
+  更完整的表格参见<a href="../analysis/0.html#0-3-1">附录</a>.
+</p>
+
+<p class="proposition">
+  用 Laplace 变换解方程
+  <span class="formula">
+    `sum_(k=0)^n a_k x^((k))(t) = f(t)`.
+  </span>
+  记 `x(t) ~ X(s)`, `f(t) ~ F(s)`,
+  Laplace 变换将方程变为
+  <span class="formula align">
+    `X(s) sum_(k=0)^n a_k s^k`<br>
+    `= F(s) + sum_(k=0)^n a_k sum_(j=0)^(k-1) x^((j))(0) s^(k-1-j)`<br>
+    `= F(s) + sum_(j=0)^(n-1) x^((j))(0) sum_(k=j+1)^n a_k s^(k-1-j)`<br>
+    `= F(s) + sum_(j=1)^n x^((j-1))(0) sum_(k=j)^n a_k s^(k-j)`.
+  </span>
+  记 `p_j(x) = sum_(k=j)^n a_k s^(k-j)`, 上式可以写成
+  <span class="formula">
+    `X(s) p_0(s) = F(s) + sum_(j=1)^n x^((j-1))(0) p_j(s)`.
+  </span>
+  解出 `X(s)` 后, 适当分解分式, 再作 Laplace 逆变换解出 `x(t)`
+</p>
+
+<p class="example">
+  用 Laplace 变换解<a class="ref" href="../ode/4.html#exp-2nd-linear-nonhomogen-1"></a>:
+  <span class="formula">`{
+    x'' + a^2 x = f(t);
+    x"|"_(t=0) = x_0;
+    x'"|"_(t=0) = x'_0;
+  :}`
+  </span>
+</p>
+
+<p class="solution">
+  对方程两边作 Laplace 变换得
+  <span class="formula">
+    `X(s) (s^2+a^2) = x_0 s + x_0' + F(s)`,<br>
+  </span>
+  作 Laplace 逆变换得
+  <span class="formula">
+    `x = x_0 cos at + (x_0')/a sin at + int_0^t f(tau) sin
+    [a(t-tau)]"d"tau`.
+  </span>
+</p>
+
+<h2>Fourier 变换</h2>
+
+<p class="definition">
+  设 `f(x) in L(-oo, oo)`, 则积分
+  <span class="formula">
+    `hat(f)(xi) = int_(-oo)^oo f(x)"e"^(-2 pi"i" x xi) dx`
+  </span>
+  有意义, 称为 `f(x)` 的 <b>Fourier 变换</b>或 Fourier 变式.
+  工程上, 常把 `x` 的定义域称为<b>时域</b>, `xi` 的定义域称为<b>频域</b>.
+  本节的主要目标是证明下面这个优美的 Fourier 反演公式:
+  <span class="formula">
+    `f(x) = int_(-oo)^oo hat(f)(xi) "e"^(2 pi "i" x xi) "d"xi`.
+  </span>
+  上式称为 Fourier 逆变换, 它与 Fourier 变换仅在 `"e"` 的指数相差一个符号.
+</p>
+
+<p class="remark">
+  `L(-oo, oo)` 表示在 `(-oo, oo)` 上可积函数的全体.
+  下面无特别说明时, 总假定进行 Fourier 变换的函数是属于 `L(-oo, oo)` 的.
+</p>
+
+<ol class="property">
+  <b>Fourier 变换的运算性质</b>
+  我们用 `f ~ hat f` 表示 `hat f` 是 `f` 的 Fourier 变换.
+  <li>线性性质: `a f + b g ~ a hat f + b hat g`;</li>
+  <li>位移性质: `f(x) "e"^(-2 pi "i" h x) ~ hat(f)(xi + h)`, `h in RR`;</li>
+  <li>延时性质: `f(x + h) ~ "e"^(2 pi "i" h xi) hat(f)(xi)`, `h in RR`;</li>
+  <li>伸缩性质: `f(delta x) ~ hat(f)(xi//delta)//delta`, `delta gt 0`;</li>
+  <li>对称性质: 若 `f(-x) = g(x)`, 则 `hat(f)(-xi) = hat(g)(xi)`;</li>
+  <li>微分性质: `f'(x) ~ 2 pi "i" xi hat(f)(xi)`, 其中 `f'` 在 `(-oo, oo)` 上连续且可积;
+  </li>
+  <li>积分性质: `-2 pi "i" x f(x) ~ "d"/("d"xi) hat(f)(xi)`;</li>
+  <li>卷积性质: `f ** g ~ hat f hat g`, 其中
+    <span class="formula">
+      `(f ** g)(x) = int_(-oo)^oo f(x-t) g(t) dt`
+      `in L(-oo, oo)`.
+    </span>
+  </li>
+</ol>
+
+<p class="remark">
+  和 Laplace 变换类似, Fourier 变换将微分运算化为乘多项式, 从而为计算带来便利.
+</p>
+
+<p class="example">
+  <b>Gauss 函数在 Fourier 变换下不变</b>
+  设 `f(x) = "e"^(-pi x^2)`, 则 `hat(f)(xi) = f(xi)`.
+</p>
+
+<p class="theorem">
+  <b>Fourier 逆变换</b>
+  若 `f(x) in L(-oo, oo) nn C^1(-oo, oo)`, 则有<b>反演公式</b>:
+  <span class="formula">
+    `f(x) = "P.V." int_(-oo)^oo hat(f)(xi) "e"^(2 pi "i" x xi) "d" xi`
+  </span>
+  其中积分取 Cauchy 主值:
+  <span class="formula">
+    `"P.V." int_(-oo)^oo = lim_(N to oo) int_(-N)^N`.
+  </span>
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

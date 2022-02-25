@@ -567,12 +567,16 @@
 
 <h2>积分变换</h2>
 
+<p>详细的讨论参见 <a href="../complex/6.html">积分变换</a>.</p>
+
 <h3>Laplace 变换</h3>
+
+<p>用 Gamma 函数的定义验证表中的第一条公式; 后面几条都是它的推论.</p>
 
 <table>
   <tr>
-    <th>`f(t)`</th>
-    <th>`F(s) = int_0^oo "e"^(-s t) f(t) dt`</th>
+    <th>原函数 `f(t)`</th>
+    <th>像函数 `F(s) = int_0^oo "e"^(-s t) f(t) dt`</th>
     <th>收敛域</th>
   </tr>
   <tr>
@@ -586,8 +590,8 @@
     <td>`"Re"s gt "Re"z`</td>
   </tr>
   <tr>
-    <td>`c`</td>
-    <td>`c//s`</td>
+    <td>`t^n` (`n` 是非负整数)</td>
+    <td>`n!/s^(n+1)`</td>
     <td>`"Re"s gt 0`</td>
   </tr>
   <tr>
@@ -600,7 +604,25 @@
     <td>`a/(s^2+a^2)`</td>
     <td>`"Re"s gt 0`</td>
   </tr>
+  <tr>
+    <td>`delta(t)` (单位脉冲函数)</td>
+    <td>`1`</td>
+  </tr>
 </table>
+
+<p class="remark">
+  严格说, `delta(t)` 是广义函数, 我们暂不追究详情;
+  直观上它是下面函数族当 `epsi to 0` 的极限:
+  <span class="formula">
+    `f_epsi(t) = { 1//epsi, if |t| lt epsi; 0, otherwise :}`
+  </span>
+  于是
+  <span class="formula">
+    `cc L[delta(t)]`
+    `= lim_(epsi to 0) int_0^epsi 1/epsi "e"^(-s t) dt`
+    `= lim_(epsi to 0) 1/(epsi s) (1-"e"^(-epsi s)) = 1`.
+  </span>
+</p>
 
 <h3>Fourier 变换</h3>
 
