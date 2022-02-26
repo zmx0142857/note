@@ -323,6 +323,11 @@ lang: {
     articles: [
       {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html'},
     ]
+  }, {
+    title: '旧作',
+    articles: [
+      {title:'鸟人', src:'sleepy/niaoren.html', date:'2022-02-26'},
+    ]
 }]},
 
 music: {
