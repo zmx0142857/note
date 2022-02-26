@@ -146,7 +146,7 @@
   <li>对称性质: 若 `f(-x) = g(x)`, 则 `hat(f)(-xi) = hat(g)(xi)`;</li>
   <li>微分性质: `f'(x) ~ 2 pi "i" xi hat(f)(xi)`, 其中 `f'` 在 `(-oo, oo)` 上连续且可积;
   </li>
-  <li>积分性质: `-2 pi "i" x f(x) ~ "d"/("d"xi) hat(f)(xi)`;</li>
+  <li>乘多项式: `-2 pi "i" x f(x) ~ hat(f)'(xi)`;</li>
   <li>卷积性质: `f ** g ~ hat f hat g`, 其中
     <span class="formula">
       `(f ** g)(x) = int_(-oo)^oo f(x-t) g(t) dt`
@@ -164,17 +164,85 @@
   设 `f(x) = "e"^(-pi x^2)`, 则 `hat(f)(xi) = f(xi)`.
 </p>
 
+<ol class="proof">
+  注意到 `f` 满足微分方程 `f'(x) = -2 pi x f(x)`, `f(0) = 1`.
+  下面证明 `hat f` 满足同样的方程:
+  <li>由 Poisson 积分,
+    <span class="formula">
+      `hat(f)(0) = int_(-oo)^oo f(x) dx`
+      `= int_(-oo)^oo "e"^(-pi x^2) dx`
+      `= 1`.
+    </span>
+  </li>
+  <li>由 Fourier 变换的运算性质及 `f'(x) = -2 pi x f(x)`,
+    <span class="formula">
+      `hat(f)'(xi) = -2 pi "i" * widehat(x f(x))`
+      `= "i" * widehat(f'(x))`
+      `= -2 pi xi hat(f)(xi)`.
+    </span>
+  </li>
+</ol>
+
+<ol class="definition">
+  <b>好的核函数</b> 令 `K_delta(x) = 1/sqrt delta "e"^(-pi x^2//delta)`,
+  `G_delta(x) = "e"^(-pi delta x^2)`, 两个函数互为 Fourier 变换.
+  `K_delta` 是一个好的核函数:
+  <li>`int_(-oo)^oo K_delta(x) dx = 1`;</li>
+  <li>`int_(-oo)^oo |K_delta(x)| dx lt oo`;</li>
+  <li>`AA epsi gt 0`, `lim_(delta to 0) int_(|x| gt epsi) |K_delta(x)| dx = 0`.</li>
+</ol>
+
+<p class="corollary">
+  若 `K_delta(x)` 是一族好的核函数, 则 `delta to 0` 时
+  `(f ** K_delta)(x)` 一致收敛到 `f(x)`.
+</p>
+
+<p class="lemma">
+  <b>内积公式</b> `(f, hat g) = (g, hat f)`, 换言之
+  <span class="formula">
+    `int_(-oo)^oo f(x) hat(g)(x) dx`
+    `= int_(-oo)^oo hat(f)(y) g(y) dy`.
+  </span>
+</p>
+
+<p class="proof">
+  积分换序的合理性由 Fubini 定理保证:
+  <span class="formula">
+    `int_(-oo)^oo f(x) hat(g)(x) dy dx`
+    `= int_(-oo)^oo f(x) int_(-oo)^oo g(y) "e"^(-2 pi i x y) dy dx`
+    `= int_(-oo)^oo g(y) int_(-oo)^oo f(x) "e"^(-2 pi i x y) dx dy`
+    `= int_(-oo)^oo g(y) hat(f)(y) dy`.
+  </span>
+</p>
+
 <p class="theorem">
   <b>Fourier 逆变换</b>
   若 `f(x) in L(-oo, oo) nn C^1(-oo, oo)`, 则有<b>反演公式</b>:
   <span class="formula">
     `f(x) = "P.V." int_(-oo)^oo hat(f)(xi) "e"^(2 pi "i" x xi) "d" xi`
   </span>
-  其中积分取 Cauchy 主值:
-  <span class="formula">
-    `"P.V." int_(-oo)^oo = lim_(N to oo) int_(-N)^N`.
-  </span>
+  其中积分取 Cauchy 主值: `"P.V." int_(-oo)^oo = lim_(N to oo) int_(-N)^N`.
 </p>
+
+<ol class="proof">
+  <li>先证公式对 `x = 0` 成立.
+    令 `K_delta(x) = 1/sqrt delta "e"^(-pi x^2//delta)`,
+    `G_delta(x) = "e"^(-pi delta x^2)`.
+    注意到两个函数互为 Fourier 变换, 应用内积公式有
+    <span class="formula">
+      `int_(-oo)^oo f(x) K_delta(x) dx`
+      `= int_(-oo)^oo hat(f)(xi) G_delta(xi) "d"xi`.
+    </span>
+    两边令 `delta to 0`, 由于 `K_delta` 是好的核函数, 上式左边趋于 `f(0)`;
+    而上式右边趋于 `int_(-oo)^oo hat(f)(xi) "d"xi = 1`.
+  </li>
+  <li>一般情形, 记 `F(y) = f(y + x)`, 平移得
+    <span class="formula">
+      `f(x) = F(0) = int_(-oo)^(oo) hat(F)(xi) "d"xi`
+      `= int_(-oo)^oo hat(f)(xi) "e"^(2 pi "i" x xi) "d"xi`.
+    </span>
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

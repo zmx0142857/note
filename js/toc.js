@@ -15,8 +15,8 @@ math: {
   title:'未分类',
   articles: [
     {title:'问题', src:'misc/0.html', date:'2022-02-16'},
-    {title:'三角函数', src:'misc/2.html', date:'2022-02-20'},
-    {title:'不等式', src:'misc/3.html', date:'2022-02-11'},
+    {title:'三角函数', src:'misc/2.html', date:'2022-02-26'},
+    {title:'不等式', src:'misc/3.html', date:'2022-02-26'},
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
     {title:'数学家', src:'misc/6.html', date:'2022-02-14'},
@@ -46,7 +46,7 @@ math: {
     {title:'函数的极限与连续性', src:'analysis/3.html'},
     {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
-    {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-01-18'},
+    {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-02-26'},
     {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-01-12'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html'},
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-01-15'},
@@ -137,7 +137,7 @@ math: {
     {title:'群 (下)', src:'abstract/4.html', date:'2021-12-22'},
     {title:'半群', src:'abstract/5.html'},
     {title:'环', src:'abstract/6.html'},
-    {title:'域', src:'abstract/7.html', date:'2021-12-28'},
+    {title:'域', src:'abstract/7.html', date:'2022-02-26'},
     {title:'Galois 理论', src:'abstract/8.html', date:'2022-01-02'},
   ]
 }, {

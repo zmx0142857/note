@@ -950,6 +950,138 @@
   仅用一把无刻度直尺, 就能作出平面上任意有理点.
 </p>
 
+<h2>尺规可作的正多边形</h2>
+
+<p>先给出 <a href="../misc/2.html#exp-cos-pi-5">`cos{:(2pi)/5:}`</a> 的另一种求法.</p>
+
+<p class="lemma">
+  `sum_(1 le k le n) cos{:(2 k pi)/(2n+1):} = -1/2`.
+</p>
+
+<p class="proof">
+  利用恒等式 `sum_(1 le k le 2n+1) "e"^(2k pi "i"//(2n+1)) = 0`,
+  因为 `2n+1` 为奇数, 所以除了 1 以外的其余 `2n` 个单位根成对共轭,
+  取实部即得结论.
+</p>
+
+<p class="example">
+  求 `cos{:(2pi)/5:}`.
+</p>
+
+<p class="solution">
+  记 `theta = (2pi)/5`.
+  在引理中取 `n = 2` 有
+  <span class="formula">
+    `cos theta + cos 2theta = -1/2`,<br>
+    `cos theta cos 2theta`
+    `= 1/2 (cos theta + cos 3theta)`
+    `= 1/2 (cos theta + cos 2theta)`
+    `= -1/4`,
+  </span>
+  解得 `cos theta = (sqrt5-1)/4`.
+</p>
+
+<p class="example">
+  求 `cos{:(2pi)/17:}`.
+</p>
+
+<div class="p solution">
+  [来自 <a href="https://baike.baidu.com/item/%E6%AD%A3%E5%8D%81%E4%B8%83%E8%BE%B9%E5%BD%A2/3202424">百度百科</a>]
+  由引理
+  <span class="formula">
+    `sum_(k=1)^8 cos k theta = -1/2`, `quad theta = (2pi)/17`.
+  </span>
+  <!--
+  使用 Chebyshev 多项式计算 `cos k theta`, 得
+  <span class="formula">
+    `-4x - 20x^2 + 40x^3 + 120x^4 - 96x^5 - 224x^6 + 64x^7 + 128x^8 = -1/2`.
+  </span>
+  -->
+  令
+  <span class="formula">
+    `x = cos theta + cos 2theta + cos 4theta + cos 8theta`,<br>
+    `y = cos 3theta + cos 6theta + cos 12theta + cos 24theta`<br>
+    `= cos 3theta + cos 6theta + cos 5theta + cos 7theta`,
+  </span>
+  则
+  <span class="formula">
+    `x + y = -1/2`, `quad x y = -1` <sup>[注]</sup>.
+  </span>
+  因此 `x, y = (-1+-sqrt 17)/4`. 继续分离 `x, y` 的项, 设
+  <span class="formula">
+    `x_1 = cos theta + cos 4theta`, `quad x_2 = cos 2theta + cos 8theta`,<br>
+    `y_1 = cos 3theta + cos 5theta`, `quad y_2 = cos 6theta + cos 7theta`,
+  </span>
+  于是
+  <span class="formula">
+    `x_1 + x_2 = x`, `quad x_1 x_2 = -1/4`, <sup>[注]</sup><br>
+    `y_1 + y_2 = y`, `quad y_1 y_2 = -1/4`. <sup>[注]</sup>
+  </span>
+  解得
+  <span class="formula">
+    `x_(1,2) = (sqrt 17-1 +- sqrt(34-2 sqrt 17))//8`,<br>
+    `y_(1,2) = (-sqrt 17-1 +- sqrt(34+2 sqrt 17))//8`.
+  </span>
+  最终, 由
+  <span class="formula">
+    `cos theta + cos 4theta = x_1`, `quad cos theta cos 4theta = y_1//2`
+  </span>
+  得到 `cos theta` 的值.
+  <hr>
+  <b>注</b> 简记 `c_n = cos n theta`, 利用积化和差暴力展开:
+  <span class="formula">
+    `x_1 x_2 = (c_1 + c_4)(c_2 + c_8)`
+    `= 1/2(c_1 + c_3 + c_7 + c_9 + c_2 + c_6 + c_4 + c_12)`,
+  </span>
+  利用共轭关系, 上式即 `1/2 sum_(n=1)^8 c_n = -1/4`. 同理 `y_1 y_2
+  = -1/4`, `x y = -1`.
+</div>
+
+<p class="theorem">
+  Fermat 素数是指形如 `2^(2^n) + 1` 的素数.
+  对于素数 `p`, 正 `p` 边形尺规可作, 换言之
+  `cos(2pi//p)` 可以通过 `QQ` 上一系列的二次扩域得到,
+  当且仅当 `p` 是 Fermat 素数.
+</p>
+
+<ol class="proof">
+  先证必要性.
+  <li>
+    [参见<a href="../number/3.html#3-4">分圆多项式</a>]
+    设 `p` 为奇素数, 则 `f(x) = 1 + cdots + x^(p-1)` 在 `QQ` 上不可约
+    (换元 `y = x - 1` 然后用 Eisenstein 判别法).
+    因此, 若记 `zeta_p = "e"^(2pi"i"//p)`, 则 `QQ(zeta_p)` 是 `QQ` 的 `p-1`
+    次扩域, `f(x)` 为它的最小多项式.
+  </li>
+  <li>记 `c = cos(2pi//p)`, 由于 `c = (zeta_p + zeta_p^-1)//2`, 所以
+    <span class="formula">
+      `QQ sub QQ(c) sub QQ(zeta_p)`.
+    </span>
+    我们断言 `QQ(zeta_p)` 是 `QQ(c)` 的二次扩域. 这是因为, 一方面
+    `QQ(c)` 中全为实数, 而 `QQ(zeta_p)` 中不全为实数,
+    所以扩张次数大于 1, 另一方面, 由于 `zeta_p` 是
+    <span class="formula">
+      `x^2 - 2 c x + 1`
+    </span>
+    的根, 所以扩张次数至多为 2. 那么, 由次数公式知道, `QQ(c)` 就是
+    `QQ` 的 `(p-1)//2` 次扩域.
+  </li>
+  <li>若正 `p` 边形尺规可作, 则 `QQ(c)` 在 `QQ` 上的扩张次数是 2
+    的幂, 这推出 `p = 2^r + 1`, `r` 为正整数. 下证 `r` 是 2 的幂.
+    事实上, 若 `r = a b`, `a ge 3` 为奇数, 则
+    <span class="formula">
+      `p = (2^(a b)+1) = (2^b+1)(2^((a-1)b) - 2^((a-2)b) + cdots + 1)`,
+    </span>
+    与 `p` 是素数相矛盾. 综上 `p` 是 Fermat 素数.
+  </li>
+</ol>
+
+<p class="remark">
+  历史上 Fermat 曾猜想形如 `2^(2^n)+1` 的整数都是素数;
+  这对于 `n = 0, cdots, 4` 均成立: 3, 5, 17, 257, 65537 都是素数.
+  然而 `n = 5` 时, Euler 指出 `2^32+1 = 641 * 6700417`.
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

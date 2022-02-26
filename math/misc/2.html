@@ -93,92 +93,30 @@
 	</tr>
 </table>
 
-此外,
-<span class="formula">
-	`16 cos{:(2pi)/17:}`
-	`= -1+sqrt 17+sqrt(34-2sqrt 17)`
-	`+sqrt(2(3+sqrt 17)(2sqrt 17-sqrt(34-2sqrt 17)))`.
-</span>
-
-<p class="proof">
-  求 `cos{:pi/5:}`:<br/>
-	设等腰 `triangle ABC` 的顶角 `A` 等于 `pi/5`, 腰长为 `1`, 底长为 `x`.
-	作角 `B` 的平分线交 `AC` 于 `D`. 易证 `triangle ABC S~ triangle BCD`,
-	所以 `BD = x`, `CD = x^2`. 又 `ABD` 也是等腰三角形, `AD = x`.
-	由 `CD+AD = AC` 列出方程 `x^2 + x = 1`, 解得 `x = (-1+sqrt 5)/2`
-	(负根舍去). 在 `triangle ABC` 中使用余弦定理:
-	<span class="formula">
-		`cos{:pi/5:} = (1+1-x^2)/2`
-		`= (1+x)/2 = (1+sqrt 5)/4`.
-	</span>
+<p class="example" id="exp-cos-pi-5">
+  求 `cos{:pi/5:}`.
 </p>
 
-<p class="proof">
-  求 `cos theta`, `theta = (2pi)/5`, 只需注意到
+<p class="solution">
+  设等腰 `triangle ABC` 的顶角 `A` 等于 `pi/5`, 腰长为 `1`, 底长为 `x`.
+  作角 `B` 的平分线交 `AC` 于 `D`. 易证 `triangle ABC S~ triangle BCD`,
+  所以 `BD = x`, `CD = x^2`. 又 `ABD` 也是等腰三角形, `AD = x`.
+  由 `CD+AD = AC` 列出方程 `x^2 + x = 1`, 解得 `x = (-1+sqrt 5)/2`
+  (负根舍去). 在 `triangle ABC` 中使用余弦定理:
   <span class="formula">
-    `cos theta + cos 2theta = -1/2`,<br>
-    `cos theta cos 2theta`
-    `= 1/2 (cos theta + cos 3theta)`
-    `= 1/2 (cos theta + cos 2theta)`
-    `= -1/4`,
+    `cos{:pi/5:} = (1+1-x^2)/2`
+    `= (1+x)/2 = (1+sqrt 5)/4`.
   </span>
-  解得 `cos theta = (sqrt5-1)/4`.
 </p>
 
-<div class="p proof">
-  [来自 <a href="https://baike.baidu.com/item/%E6%AD%A3%E5%8D%81%E4%B8%83%E8%BE%B9%E5%BD%A2/3202424">百度百科</a>]
-  求 `cos{:(2pi)/17:}`:<br>
-  注意到 `sum_(0 lt k lt n) "e"^(2k pi "i"//n) = -1`, 取 `n = 17`, 因为
-  `n` 为奇数, 所以除了 1 以外的其余 16 个 `n` 次单位根成对共轭, 这推出
+<p class="remark">
+  Gauss 在 18 岁时算出了
   <span class="formula">
-    `sum_(k=1)^8 cos k theta = -1/2`, `quad theta = (2pi)/17`.
+    `16 cos{:(2pi)/17:}`
+    `= -1+sqrt 17+sqrt(34-2sqrt 17)`
+    `+sqrt(2(3+sqrt 17)(2sqrt 17-sqrt(34-2sqrt 17)))`.
   </span>
-  <!--
-  使用 Chebyshev 多项式计算 `cos k theta`, 得
-  <span class="formula">
-    `-4x - 20x^2 + 40x^3 + 120x^4 - 96x^5 - 224x^6 + 64x^7 + 128x^8 = -1/2`.
-  </span>
-  -->
-  令
-  <span class="formula">
-    `x = cos theta + cos 2theta + cos 4theta + cos 8theta`,<br>
-    `y = cos 3theta + cos 6theta + cos 12theta + cos 24theta`<br>
-    `= cos 3theta + cos 6theta + cos 5theta + cos 7theta`,
-  </span>
-  则
-  <span class="formula">
-    `x + y = -1/2`, `quad x y = -1` <sup>[注]</sup>.
-  </span>
-  因此 `x, y = (-1+-sqrt 17)/4`. 继续分离 `x, y` 的项, 设
-  <span class="formula">
-    `x_1 = cos theta + cos 4theta`, `quad x_2 = cos 2theta + cos 8theta`,<br>
-    `y_1 = cos 3theta + cos 5theta`, `quad y_2 = cos 6theta + cos 7theta`,
-  </span>
-  于是
-  <span class="formula">
-    `x_1 + x_2 = x`, `quad x_1 x_2 = -1/4`, <sup>[注]</sup><br>
-    `y_1 + y_2 = y`, `quad y_1 y_2 = -1/4`. <sup>[注]</sup>
-  </span>
-  解得
-  <span class="formula">
-    `x_(1,2) = (sqrt 17-1 +- sqrt(34-2 sqrt 17))//8`,<br>
-    `y_(1,2) = (-sqrt 17-1 +- sqrt(34+2 sqrt 17))//8`.
-  </span>
-  最终, 由
-  <span class="formula">
-    `cos theta + cos 4theta = x_1`, `quad cos theta cos 4theta = y_1//2`
-  </span>
-  得到 `cos theta` 的值.
-  <hr>
-  <b>注</b> 简记 `c_n = cos n theta`, 利用积化和差暴力展开:
-  <span class="formula">
-    `x_1 x_2 = (c_1 + c_4)(c_2 + c_8)`
-    `= 1/2(c_1 + c_3 + c_7 + c_9 + c_2 + c_6 + c_4 + c_12)`,
-  </span>
-  利用共轭关系, 上式即 `1/2 sum_(n=1)^8 c_n = -1/4`. 同理 `y_1 y_2
-  = -1/4`, `x y = -1`.
-</div>
-
+  这是<a href="../abstract/7.html#7-9">尺规作正 17 边形</a>的依据.
 </p>
 
 <h2>三角恒等式</h2>
