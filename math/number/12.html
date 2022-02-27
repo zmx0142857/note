@@ -13,7 +13,8 @@
 <ol class="definition">
   <b>理想</b> 称环 `R` 的子集 `A` 为理想, 如果它满足
   <li>是 `R` 的加法子群: `AA a, b in A`, `a +- b in A`;</li>
-  <li>吸收乘法的结果: `A R sube A`, 亦即 `AA a in A, r in R`, `a r in A`.</li>
+  <li>吸收性质: `A R sube A`, 亦即 `AA a in A`, `AA r in R`, `a r in A`.</li>
+  因此, 理想是一个子环, 且若 `a in A`, 则 `a` 的任意倍数都属于 `A`.
 </ol>
 
 <p class="remark">
@@ -47,7 +48,7 @@
 
 <p class="definition">
   若 `R` 的理想之和 `A_1 + cdots + A_n = R`, 则称它们<b>互素</b>.
-  从元素的角度, 理想互素当且仅当存在 `a_1 in A_1, cdots a_n in A_n` 使
+  从元素的角度, 理想互素当且仅当存在 `a_1 in A_1, cdots, a_n in A_n` 使
   `a_1 + cdots + a_n = 1`.
 </p>
 
@@ -62,15 +63,33 @@
   <li>`2, 3` 是素数; 能不能在理想中定义类似概念 (素理想)?</li>
 </ol>
 
-<p class="proposition">
-  `A, B` 是环 `R` 中互素的理想, 则 `A B = A nn B`.
-</p>
+<ol class="proposition">
+  <li>`A, B` 是环 `R` 中互素的理想, 则 `A B = A nn B`;</li>
+  <li>若理想 `A, B` 互素, `A, C` 也互素, 则 `A` 与 `B C` 互素;</li>
+  <li>归纳知, 若 `A_1, cdots, A_n` 两两互素, 则
+    `A_1 cdots A_n = A_1 nn cdots nn A_n`.
+  </li>
+</ol>
 
-<p class="proof">
-  只需证 `A B supe A nn B`.
-  由于 `A, B` 互素, 可设 `1 = a + b`,
-  任取 `s in A nn B`, 则 `s = (a + b) s = a s + s b` (有限和).
-  故 `s in A B`.
+<ol class="proof">
+  <li>只需证 `A B supe A nn B`.
+    由于 `A, B` 互素, 可设 `1 = a + b`,
+    任取 `s in A nn B`, 则 `s = (a + b) s = a s + s b` (有限和).
+    故 `s in A B`.
+  </li>
+  <li>证明的启发来自初等数论. 设 `a_1 + b = 1`, `a_2 + c = 1`,
+    相乘得 `(a_1 a_2 + a_1 c + a_2 b) + (b c) = 1`, 因此 `A` 与 `B C`
+    互素.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>中国剩余定理</b>
+  设环 `R` 的理想 `A_1, cdots, A_n` 两两互素, 则有商环间的同构
+  <span class="formula">
+    `f: R // nnn A_i to R//A_1 o+ cdots o+ R//A_n`,<br>
+    `a + nnn A_i mapsto (a + A_1, cdots, a + A_n)`.
+  </span>
 </p>
 
 <ol class="example">
@@ -99,9 +118,12 @@
 
 <ol class="definition">
   设 `A` 是环 `R` 的理想, `A != R`,
-  <li>若不存在理想 `B` 满足 `A sub B sub R`, 则称 `A` 为极大理想.</li>
+  <li>若不存在理想 `B` 满足 `A sub B sub R`, 则称 `A` 为<b>极大理想</b>;
+  </li>
   <li>若 `AA a, b in R`, `a b in A rArr a in A or b in A`,
-    则称 `A` 为素理想;</li>
+    则称 `A` 为<b>素理想</b>.
+  </li>
+  整环的零理想都是素理想.
 </ol>
 
 <ol class="example">
@@ -172,6 +194,10 @@
     <span class="formula">
       `p = a b rArr a in U(R) or b in U(R)`,
     </span>
+    亦即
+    <span class="formula">
+      `p = a b rArr a ~ p or b ~ p`.
+    </span>
     则 `p` 称为 `R` 中的一个<b>素元</b>. 区别于素理想, 素元是一个元素.
   </li>
   <li>整环 `R` 是<b>唯一因子分解整环 (Uniquely Factorization Domain,
@@ -186,6 +212,58 @@
     `p_i ~ q_i`, `i = 1, cdots, s`.
   </li>
 </ol>
+
+<ol class="property">
+  <b>主理想的性质</b>
+  设 `a, b in R`, 有
+  <li>`(a) sube (b) iff b | a`;</li>
+  进一步设 `R` 为整环, 有
+  <li>`(a) = (b) iff a ~ b`;</li>
+  <li>`(a) = R iff a in U(R)`;</li>
+</ol>
+
+<ol class="proof">
+  <li>`(a) sube (b)` `iff a in (b)` `iff b | a`.</li>
+  <li>结论对零理想显然成立, 下设 `a, b != 0`.
+    由 1 知 `a | b` 且 `b | a`.
+    记 `b = epsi a`, `a = eta b`, 则
+    `b = epsi eta b`. 又 `R` 为整环, 约去 `b` 得
+    `epsi eta = 1`, 即 `epsi`, `eta` 互逆, 因此 `a ~ b`.
+  </li>
+  <li>`(a) = R` `iff 1 in (a)` `iff (a) = (1)` `iff a ~ 1` `iff a in U(R)`.</li>
+</ol>
+
+<p class="proposition">
+  <b>PID 中非零素理想都是极大理想</b>
+  设 `R` 为 PID, `(p)` 是它的非零素理想. 则 `p` 是素元, 进而
+  `(p)` 是极大理想.
+</p>
+
+<ol class="proof">
+  <li>
+    若 `p = a b`, `a, b in R`, 则 `a b in (p)`. 由 `(p)` 为素理想知道 `a in
+    (p) or b in (p)`.
+    另一方面由 `p = a b` 有 `p in (a), p in (b)`, 综上有 `(a) = (p) or (b)
+    = (p)`, 即 `a ~ p or b ~ p`. 故 `p` 是素元.
+  </li>
+  <li>若存在理想 `(q)` 使得 `(p) sube (q) sube R`, 则 `q | p`;
+    但 `p` 为素元, 只能 `q ~ p` 或 `q in U(R)`;
+    前者推出 `(q) = (p)`, 后者推出 `(q) = R`. 故 `(p)` 是极大理想.
+  </li>
+</ol>
+
+<ol class="proposition">
+  <li>PID `rArr` UFD;</li>
+  <li>`R` 是 PID `rArr R[x]` 是 UFD.</li>
+</ol>
+
+<p class="example">
+  `ZZ[x]` 是 `QQ[x, y]` 是 UFD, 但均不是 PID.
+</p>
+
+<p class="example">
+  Gauss 整环 `ZZ[sqrt(-1)]` 是 PID. 但 `ZZ[sqrt(-6)]` 甚至不是 UFD.
+</p>
 
 <script src="../../js/note.js"></script>
 </body>
