@@ -322,6 +322,10 @@ lang: {
     title: '歌词',
     articles: [
       {title:'L\'arc~en~Ciel', src:'lyric/larc~en~ciel.html'},
+      {title:'Crayon Shinchan', src:'lyric/crayon-shinchan.html', date:'2022-02-27'},
+      {title:'MUCC', src:'lyric/mucc.html', date:'2022-02-27'},
+      {title:'sadie', src:'lyric/sadie.html', date:'2022-02-27'},
+      {title:'sekima', src:'lyric/sekima.html', date:'2022-02-27'},
     ]
   }, {
     title: '旧作',
