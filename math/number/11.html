@@ -30,6 +30,22 @@
 </p>
 
 <p class="example">
+  求 `a = sqrt 2 + sqrt 3` 在 `QQ(sqrt 2, sqrt 3)` 的全体 `QQ`-共轭元.
+</p>
+
+<p class="solution">
+  先求 `a` 在 `QQ` 上的最小多项式.
+  <span class="formula">
+    `a - sqrt 2 = sqrt 3`,<br>
+    `a^2 - 2 sqrt 2 a + 2 = 3`,<br>
+    `a^2 - 1 = 2 sqrt 2 a`,<br>
+    `(a^2-1)^2 = 8a^2`.
+  </span>
+  最小多项式为 `f(x) = (x^2-1)^2 - 8x^2`.
+  `f(x)` 的全部根为 `+-sqrt 2 +- sqrt 3`, 即为 `a` 的全体 `QQ`-共轭元.
+</p>
+
+<p class="example">
   <b><a href="3.html#3-4">分圆域</a></b> 是指 `QQ(zeta_n)`, 其中 `zeta_n`
   是 `n` 次本原单位根. `n ge 3` 时, 分圆域中含有虚数.
   `zeta_n` 的最小多项式是分圆多项式 `phi_n(x)`, 它的次数是 `varphi(n)`
@@ -112,10 +128,10 @@
   <li>`d gt 0` 时, 二次域 `QQ(sqrt d)` 是全实域, `d lt 0` 时则是全虚域.</li>
 </ol>
 
-<h3>范与迹与判别式</h3>
+<h3>范与迹</h3>
 
 <p class="definition">
-  <b>元素关于扩张的范与迹</b>
+  <b>元素的范与迹</b>
   考虑数域扩张 `L//K`. 将 `L` 视为 `K` 上线性空间, 任取 `alpha in L`, 则
   `alpha` 诱导的左平移变换
   <span class="formula">
@@ -129,38 +145,51 @@
   `T_(L//K)(alpha)`. 上下文明确时, 简记为 `N(alpha)` 和 `T(alpha)`.
 </p>
 
+<ol class="example">
+  <li>对于 Gauss 数域 `QQ(sqrt(-1))`, 取 `QQ`-基 `[1, "i"]`, 有
+    <span class="formula">
+      `(a+b"i")[1, "i"]` `= [a+b"i", -b+a"i"]`;<br>
+      `N(a+b"i") = |a, b; -b, a| = a^2+b^2`,
+      `quad T(a+b"i") = 2a`.
+    </span>
+  </li>
+  <li>对于 Eisenstein 数域 `QQ(sqrt(-3))`, 取 `QQ`-基 `[1, omega]`, 其中
+    `1 + omega + omega^2 = 0`, 则
+    <span class="formula">
+      `(a+b omega)[1, omega]`
+      `= [a+b omega, a omega + b omega^2]`
+      `= [a+b omega, -b + (a-b) omega]`;<br>
+      `N(a+b omega) = |a, b; -b, a-b|` `= a^2-a b+b^2`.
+      `quad T(a+b omega) = 2a-b`.
+    </span>
+  </li>
+</ol>
+
 <ol class="corollary">
-  对于数域的 `n` 次扩张 `L//K`,
+  设 `L//K` 是数域的 `n` 次扩张, `a, b in L`, `k in K`, 有
   <li>`N(1) = 1`, `T(1) = n`;</li>
-  <li>`AA a in L, k in K`, `N(k a) = k^n N(a)`, `T(k a) = k T(a)`.</li>
-  <li>`AA a, b in L`, `N(a b) = N(a) N(b)`, `T(a + b) = T(a) + T(b)`.
-    即 `N`, `T` 分别是关于乘法和加法的同态;
+  <li>`N(k a) = k^n N(a)`, `T(k a) = k T(a)`;</li>
+  <li>`N(a b) = N(a) N(b)`, `T(a + b) = T(a) + T(b)`,
+    即 `N`, `T` 分别是关于乘法和加法的同态.
   </li>
 </ol>
 
 <ol class="proof">
   <li>因为元素 1 的表示矩阵是单位阵;</li>
   <li>因为 `k a` 的表示矩阵是 `a` 的表示矩阵的 `k` 倍;</li>
-  <li>因为 `a b` 的表示矩阵是 `a, b` 的表示矩阵之积; `a + b` 的表示矩阵是 `a, b` 的表示矩阵之和;</li>
+  <li>因为 `a b` 的表示矩阵是 `a, b` 的表示矩阵之积;
+    `a + b` 的表示矩阵是 `a, b` 的表示矩阵之和;</li>
 </ol>
 
-<p class="corollary">
+<p class="theorem">
   `AA a in L`,
   设 `sigma_i` 是 `L` 到 `CC` 的 `n` 个 `K`-嵌入,
   则 `sigma_i(a)` 是 `a` 的 `K`-共轭元; 可以证明
   <span class="formula">
     `N(a) = prod sigma_i(a)`, `quad T(a) = sum sigma_i(a)`.
   </span>
-  由 Vieta 定理知道, `N(a) = (-1)^n c_0`, `T(a) = - c_(n-1)`.
-  `c_0, c_(n-1)` 分别是 `a` 的最小多项式的 `0` 次和 `n-1` 次项系数.
-</p>
-
-<p class="proof">
-  取 `L//K` 的基底 `a_1, cdots, a_n`, 在 `a` 的作用下有
-  <span class="formula">
-    `[a a_1; vdots; a a_n] = M [a_1; vdots; a_n]`,
-  </span>
-  `M` 是 `K` 上的矩阵.
+  设 `a` 的最小多项式是 `f(x) = sum_(k=0)^n c_k x^k`,
+  则由 Vieta 定理知道, `N(a) = (-1)^n c_0`, `T(a) = - c_(n-1)`.
 </p>
 
 <p class="corollary">
@@ -171,44 +200,123 @@
   </span>
 </p>
 
+<p class="proof">
+  (??)
+  这是因为, 要求 `a` 在 `L//K` 上的全体共轭元之积,
+  可以先求 `a` 在 `L//M` 上的全体共轭元之积——记为 `b`,
+  再求 `b` 在 `M//K` 上的全体共轭元之积. 迹的情形类似.
+</p>
+
+<h3>判别式</h3>
+
 <p class="definition">
   <b>元素的判别式</b>
-  对于数域的 `n` 次扩张 `L//K`, 定义元素 `a_1, cdots, a_n in L`
-  的判别式为
+  考虑数域的 `n` 次扩张 `L//K`, 有时需要判断元素
+  `a_1, cdots, a_n in L` 是否线性相关, 为此引入判别式
   <span class="formula">
     `d(a_1, cdots, a_n)`
     `:= "det"(sigma_i(a_j))_(1 le i,j le n)^2`.
   </span>
+  对于单个元素 `a in L`, 简记
+  <span class="formula">
+    `d(a) := d(1, a, cdots, a^(n-1))`.
+  </span>
+  当 `L` 为全实域时, 判别式总是非负的.
+</p>
+
+<p class="corollary">
+  `d(a_1, cdots, a_n) = "det"(T(a_i a_j))_(1 le i,j le n) in K`.
+</p>
+
+<p class="proof">
+  <span class="formula">
+    `d(a_1, cdots, a_n)`
+    `= |sigma_1(a_1), cdots, sigma_n(a_1); , cdots, ; sigma_1(a_n), cdots, sigma_n(a_n)|`
+    `|sigma_1(a_1), cdots, sigma_1(a_n); , cdots, ; sigma_n(a_1), cdots, sigma_n(a_n)|`
+    `= "det"(sum_k sigma_k(a_i) sigma_k(a_j))_(1 le i,j le n)`
+    `= "det"(T(a_i a_j))_(1 le i,j le n)`.
+  </span> 
 </p>
 
 <ol class="corollary">
-  考虑数域的 `n` 次扩张 `L//K` 和元素 `a_1, cdots, a_n in L`.
-  <li>`d(a_1, cdots, a_n) = "det"(T(a_i a_j))_(1 le i,j le n) in K`;</li>
-  <li>`(a_1, cdots, a_n)` 构成 `L` 的一组 `K`-基当且仅当 `d(a_1, cdots, a_n) != 0`.</li>
-  <li>设 `gamma in L`, 则 `L = K(gamma)` 当且仅当
-    `(1, gamma, cdots, gamma^(n-1))` 线性无关,
-    即 `d(gamma) := d(1, gamma, cdots, gamma^(n-1)) != 0`.
-    我们可以通过判别式来判断 `gamma` 是否为 `L` 的生成元.
+  <li>`a_1, cdots, a_n` 线性无关当且仅当 `d(a_1, cdots, a_n) != 0`.
+    此时它们构成一组 `K`-基.
+  </li>
+  <li>`L = K(a)` 当且仅当 `1, a, cdots, a^(n-1)` 线性无关, 即 `d(a) != 0`.
+    此时 `a` 为 `L` 的生成元.
   </li>
 </ol>
 
-<p class="corollary">
-  <b>判别式的又一公式</b>
-  设 `L//K` 是数域的 `n` 次扩张, `a in L` 的 `n` 个 `K`-共轭元为
+<p class="proof">
+  设 `a_1, cdots, a_n` 线性相关, 则存在不全为零的 `k_1, cdots, k_n in K` 使得 `sum_j k_j a_j = 0`, 于是
   <span class="formula">
-    `a = a_1, a_2, cdots, a_n`,
+    `sum_j k_j sigma_i(a_j) = 0`, `quad i = 1, cdots, n`.
   </span>
-  则
-  <span class="formula">
-    `d(a) = prod_(1 le i lt j le n) (a_i - a_j)^2`.
-  </span>
-  从而 `d(a) != 0` 当且仅当 `a` 的共轭元两两不同.
-  特别当 `a` 为 `L` 的生成元时, `L = K(a)`, 记 `a` 的最小多项式为 `f`,
-  有
-  <span class="formula">
-    `d(a) = (-1)^(n(n-1)//2) N(f'(a))`.
-  </span>
+  这表明方阵 `(sigma_i(a_j))` 的列向量线性相关, 即 `d(a_1, cdots, a_n) = 0`.
+  <br>
+  反之若 `d(a_1, cdots, a_n) = 0`, 则方阵 `(T(a_i a_j))` 的行向量线性相关.
+  记 `R_i = (T(a_i a_1), cdots, T(a_i, a_n))`, 则存在不全为零的 `k_1,
+  cdots, k_n in K` 使得 `sum k_i R_i = 0`.
+  假设 `a_1, cdots, a_n` 线性无关, 则 `a = sum k_j a_j != 0`.
+  从 `sum k_i R_i = 0` 取第 `j` 个分量得 `sum_i k_i T(a_i a_j) = 0`,
+  即 `T(a a_j) = 0`. 又 `a_1, cdots, a_n` 是一组 `K`-基, 知对任意
+  `b in L` 有 `T(a b) = 0`. 这与 `a != 0` 矛盾. 因为只要取 `b = a^-1` 即有
+  `T(a a^-1) = T(1) = n`.
 </p>
+
+<ol class="corollary">
+  <b>判别式的又一公式</b>
+  <li>
+    设 `L//K` 是数域的 `n` 次扩张, `a in L` 的 `n` 个 `K`-共轭元为
+    `a_1, a_2, cdots, a_n`, 则
+    <span class="formula">
+      `d(a) = prod_(i lt j) (a_i - a_j)^2`.
+    </span>
+    从而 `d(a) != 0` 当且仅当 `a` 的共轭元两两不同.
+  </li>
+  <li>设 `f` 为 `a` 的最小多项式, 记 `s = n(n-1)//2`, 有
+    <span class="formula">
+      `d(a) = (-1)^s N(f'(a))`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>`d(a) = d(1, cdots, a^(n-1))` `= "det"(a_i^j)^2`,
+    利用 Vandermonde 行列式的结论即可.
+  </li>
+  <li>满足 `1 le i lt j le n` 的 `(i, j)` 共有 `s = n(n-1)//2` 对,
+    由 1. 有
+    <span class="formula">
+      `d(a) = (-1)^s prod_(i != j) (a_i - a_j)`
+      `= (-1)^s prod_(i=1)^n prod_(j=1, j != i)^n (a_i - a_j)`
+      `= (-1)^s prod_(i=1)^n f'(a_i)`
+      `= (-1)^s N(f'(a))`.
+    </span>
+  </li>
+</ol>
+
+<p class="definition">
+  <b>多项式的判别式</b>
+  设 `f(x)` 是 `K` 上的首一 `n` 次多项式, 其在 `CC` 上的全部根为 `a_1,
+  cdots, a_n`. 记 `s = n(n-1)//2`, 定义
+  <span class="formula">
+    `d(f) = prod_(i lt j) (a_i - a_j)^2`
+    `= (-1)^s prod_i f'(a_i) in K`.
+  </span>
+  于是 `f` 有重根 `iff d(f) = 0`.
+</p>
+
+<ol class="example">
+  记 `s = n(n-1)//2`,
+  <li>`x^n + a` 的判别式为 `(-1)^s n^n a^(n-1)`;</li>
+  <li>`x^n + a x + b` 的判别式为 `(-1)^s[(1-n)^(n-1) a^n + n^n b^(n-1)]`. 特别
+    <span class="formula">
+      `x^2 + a x + b` 的判别式为 `a^2 - 4 b`;<br>
+      `x^3 + a x + b` 的判别式为 `-(4a^3 + 27b^2)`.
+    </span>
+  </li>
+</ol>
 
 <h2>代数整数</h2>
 

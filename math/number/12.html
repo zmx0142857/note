@@ -262,7 +262,128 @@
 </p>
 
 <p class="example">
-  Gauss 整环 `ZZ[sqrt(-1)]` 是 PID. 但 `ZZ[sqrt(-6)]` 甚至不是 UFD.
+  Gauss 整环 `ZZ[sqrt(-1)]` 是 PID. 但 `ZZ[sqrt(-5)]`, `ZZ[sqrt(-6)]`
+  等甚至不是 UFD.
+</p>
+
+<h2>Dedekind 整环</h2>
+
+<h3>理想的唯一因子分解定理</h3>
+
+<p>代数数论的一个重要问题是: 数域 `K` 的整数环 `O_K` 是否为 UFD?
+  很遗憾, 在二次域和分圆域中都存在不是 UFD 的例子.
+  为此 Kummer 提出 "理想数", 在 `ZZ[zeta_p]` 中,
+  他的理想数有唯一因子分解的性质.
+  后来 Dedekind 为 "理想数" 找到了更合适的定义, 即为环的<b>理想</b>.
+  本节的主要结果是下述定理:
+</p>
+
+<p class="box">
+  <b>理想的唯一因子分解定理</b>
+  数域 `K` 的整数环 `O_K` 中每个非零理想都可以分解为有限个非零素理想的乘积,
+  且不计素因子的次序, 该分解是唯一的.
+</p>
+
+<p>这一结论将分成多个定理来证明. 我们从 Dedekind 整环开始.</p>
+
+<ol class="definition">
+  满足下列性质的整环 `D` 称为 <b>Dedekind 整环</b>:
+  <li>`D` 为 Noether 整环, 即它的每个理想都是有限生成的: `A = a_1 D + cdots + a_n D`;</li>
+  <li>`D` 是整闭的, 即若 `a` 是 `D` 的分式域中元素, 且 `a` 在 `D` 上整, 则
+    `a in D`;</li>
+  <li>`D` 的非零素理想都是极大理想.</li>
+</ol>
+
+<ol class="property">
+  设 `D` 是 Dedekind 整环, `A, B, C` 是它的理想, 有
+  <li>`AA A`, `EE B` 使 `A B` 为主理想;</li>
+  <li>(消去律) `A B = A C rArrB = C`;</li>
+  <li>`A | B iff A supe B`; 这里 `A | B` 指 `EE C`, `B = A C`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    ??
+  </li>
+  <li>若 `A B = A C`, 由 1. 知有理想 `I` 使 `A I = (a)`, `a != 0`.
+    于是
+    <span class="formula">
+      `a B = A I B = A B I = A C I = A I C = a C`,
+    </span>
+    由 `a != 0` 和 `D` 是整环可知 `B = C`.
+  </li>
+  <li>`rArr`: 显然. `lArr`: 若 `A supe B`, 由 1. 有理想 `I` 使 `A I = (a)`,
+    `a != 0`. 于是 `C = a^-1 B I` 是 `D` 中理想,
+    且 `A C = a^-1 I A B = a^-1 a B = B`, 即 `A | B`.
+  </li>
+</ol>
+
+<ol class="lemma">
+  <b>Noether 环的等价条件</b> 设 `R` 是交换环, 以下三条等价:
+  <li>`R` 是 Noether 环;</li>
+  <li>(理想升链条件) 若 `R` 的一列理想满足 `A_1 sube A_2 sube cdots`,
+    则存在 `n` 使得 `A_n = A_(n+1) = cdots`;
+  </li>
+  <li>(极大原则) `S` 是 `R` 中一些理想的非空集合, 则 `S` 中有极大元 A
+    (不存在 `B in S` 使 `A sub B`).</li>
+</ol>
+
+<p class="theorem">
+  整环 `D` 是 Dedekind
+  整环当且仅当它的每个非零理想都可以分解为有限个非零素理想的乘积,
+  且不计素因子的次序, 该分解是唯一的.
+</p>
+
+<ol class="proof">
+  <li>分解的存在性. 令 `S` 是 `D` 中不能表成有限个素理想之乘积的理想 `I`
+    的集合, `I != (0), D`. 反设 `S != O/`, 由 Noether 环的极大原则知 `S`
+    有极大元 `M`; 设 `M` 含于极大理想 `P` 中. 现在 `P` 是素理想且 `P supe
+    M`, 由 Dedekind 整环的性质 3. 知存在理想 `I` 使 `M = P I`, 从而 `M sube
+    I`. 由 `P != D` 及 Dedekind 整环的消去律知 `M = P I != D I = I`, 于是
+    `M sub I`. 但 `M` 是 `S` 中极大元, 因此 `I !in S`. 由 `S` 的定义,
+    存在素理想 `P_1, cdots, P_n` 使
+    <span class="formula">
+      `I = P_1 cdots P_n`,
+      `quad M = P I = P P_1 cdots P_n`,
+    </span>
+    与 `M in S` 矛盾. 因此 `S = O/`.
+  </li>
+  <li>分解的唯一性.
+    设有两组非零素理想的乘积相等 `P_1 cdots P_r = Q_1 cdots Q_s`,
+    则由 Dedekind 整环的性质 3, `P_1 sube Q_1 cdots Q_s`,
+    `P_1` 必包含 `Q_1, cdots, Q_s` 中的一个.
+    不妨设 `P_1 supe Q_1`, 由 Dedekind 整环的定义, `P_1`, `Q_1`
+    均是极大理想, 所以 `P_1 = Q_1`. 然后由消去律得 `P_2 cdots P_r = Q_2
+    cdots Q_s`. 依此进行下去, 得到 `r = s`, 且适当调整次序可使 `P_i = Q_i`,
+    `i = 1, cdots, r`.
+  </li>
+  <li>下证若 `D` 满足唯一因子分解性质, 可推出 Dedekind 整环定义中的三个条件.
+    ??
+  </li>
+</ol>
+
+<p>
+  因此, 要证 `O_K` 中理想的唯一因子分解定理, 只需验证 `O_K` 是 Dedekind
+  整环.
+</p>
+
+<p class="theorem">
+  任意数域的整数环 `O_K` 是 Dedekind 整环.
+</p>
+
+<h3>Dedekind 整环与 PID</h3>
+
+<p class="theorem">
+  PID `rArr` Dedekind 整环.
+</p>
+
+<p class="theorem">
+  若 `D` 是 Dedekind 整环, 则 `D` 为 PID 当且仅当 `D` 为 UFD.
+</p>
+
+<h3>素理想分解的例子</h3>
+
+<p class="example">
 </p>
 
 <script src="../../js/note.js"></script>
