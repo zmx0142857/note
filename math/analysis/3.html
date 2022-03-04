@@ -293,6 +293,30 @@
   </span>
 </p>
 
+<p class="example">
+  [来自 汽水]
+  `lim_(x to 0) ((sin x + "e"^(tan x))^(1/x) - (tan x + "e"^(sin x))^(1/x))/x^3`.
+</p>
+
+<p class="solution">
+  [来自 诗许] 首先
+  <span class="formula">
+    `(sin x + "e"^(tan x))^(1/x)`
+    `~ exp((sin x + "e"^(tan x) - 1)/x)`
+    `~ exp(1+1) = "e"^2`.
+  </span>
+  同理 `(tan x + "e"^(sin x))^(1/x) to "e"^2`.
+  现在利用 `f, g to 1` 时 `f - g ~ ln f - ln g`, 原式极限等价于
+  <span class="formula align">
+    `"e"^2/x^4 ln((sin x + "e"^(tan x))/(tan x + "e"^(sin x)))`<br>
+    `~ "e"^2/x^4 ((sin x + "e"^(tan x))/(tan x + "e"^(sin x)) - 1)`<br>
+    `~ "e"^2/x^4 [(sin x - "e"^(sin x)) - (tan x - "e"^(tan x))]`<br>
+    `~ "e"^2/x^4 (sin x - tan x) (xi - "e"^xi)'`, `quad sin x lt xi lt tan x<br>
+    `~ -"e"^2/2 (1-"e"^xi)/x`
+    `~ "e"^2/2`.
+  </span>
+</p>
+
 <h2>函数的连续性</h2>
 
 <ol class="theorem">

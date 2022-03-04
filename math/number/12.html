@@ -367,14 +367,85 @@
   整环.
 </p>
 
+<ol class="lemma">
+  设 `O_K` 为数域 `K` 的整数环, `A` 为 `O_K` 的非零素理想, `n = [K: QQ]`.
+  <li>`A` 的加法群是有限生成的:
+    <span class="formula">
+      `A = a_1 ZZ o+ cdots o+ a_n ZZ`,
+    </span>
+    从而 `A` 作为理想也是有限生成的:
+    <span class="formula">
+      `A = a_1 O_K + cdots + a_n O_K`.
+    </span>
+  </li>
+  <li>商环 `O_K//A` 是有限环.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    由于 `O_K` 的加群是有限生成的:
+    <span class="formula">
+      `O_K = omega_1 ZZ o+ cdots o+ omega_n ZZ`,
+    </span>
+    根据有限生成 Abel 群的理论, `O_K` 的任意理想 `A`
+    的加法群也是有限生成的, 且 `A` 可表为直和.
+  </li>
+  <li>
+    取 `0 != a in A`, 记 `m = N(a)`, 则 `m`
+    为正整数. 注意到 `m//a` 是 `a` 的一些共轭元素之积, 从而是代数整数, 又
+    `m//a in K`, 于是 `m//a in O_K`. 从而 `m = a * (m//a) in A`, 即 `m O_K
+    sube A`. 现在有
+    <span class="formula">
+      `O_K/(m O_K)`
+      `= (omega_1 ZZ o+ cdots o+ omega_n ZZ)/(m omega_1 ZZ o+ cdots o+ m omega_n ZZ)`
+      `cong (omega_1 ZZ)/(m omega_1 ZZ) o+ cdots (omega_n ZZ)/(m omega_n ZZ)`
+      `cong overset n overbrace(ZZ//m ZZ o+ cdots o+ ZZ//m ZZ)`.
+    </span>
+    由环的同态定理和 `m O_K sube A sube O_K` 可知
+    <span class="formula">
+      `O_K/A cong (O_K//m O_K)/(A//m O_K)`,
+    </span>
+    从而 `|O_K//A| le |O_K//m O_K| = m^n`, 即 `O_K//A` 是有限交换环.
+  </li>
+</ol>
+
 <p class="theorem">
   任意数域的整数环 `O_K` 是 Dedekind 整环.
 </p>
+
+<ol class="proof">
+  我们验证 `O_K` 满足 Dedekind 整环的全部三个条件.
+  记 `{omega_1, cdots, omega_n}` 是 `O_K` 的一组整基, `n = [K: QQ]`.
+  <li>`O_K` 是 Noether 环: 由引理的 1. 可知.
+  </li>
+  <li>`O_K` 是整闭的: 参见上一章.</li>
+  <li>`O_K` 的非零素理想 `P` 是极大理想:
+    由 `P` 为 `O_K` 的非零素理想可知 `O_K//P` 为整环, 又由引理知 `O_K//P`
+    有限.  但熟知有限整环是域, 所以 `O_K//P` 是域, `P` 为 `O_K` 的极大理想.
+  </li>
+</ol>
 
 <h3>Dedekind 整环与 PID</h3>
 
 <p class="theorem">
   PID `rArr` Dedekind 整环.
+</p>
+
+<p class="proof">
+  我们验证主理想整环 `D` 满足 Dedekind 整环的全部三个条件.
+  1, 3 是显然的, 下证 2.
+  设 `F` 是 `D` 的分式域, 取 `u = a//b in F`, 其中 `a, b in D`,
+  `b != 0`. 不妨令 `a, b` 互素. 若 `u` 在 `D` 上整, 设
+  <span class="formula">
+    `u^n + c_(n-1) u^(n-1) + cdots + c_1 u + c_0 = 0`,
+    `quad c_i in D`.
+  </span>
+  于是
+  <span class="formula">
+    `a^n + c_(n-1) a^(n-1) b + cdots c_0 b^n = 0`,
+  </span>
+  这推出 `b | a^n`. 又由 `a, b` 互素知 `b` 为单位 (主理想整环的性质).
+  于是 `c = a//b in D`, `D` 是整闭的.
 </p>
 
 <p class="theorem">
