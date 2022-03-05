@@ -354,9 +354,10 @@
   <li>`rArr 2`. 由 `a` 为代数整数知, 存在首一的 `f(x) in ZZ[x]` 使得 `f(a)
     = 0`.
     又设 `a` 的最小多项式为 `p(x)`, 则 `p(x) | f(x)`.
-    注意到 `p` 首一, `f` 在 `ZZ[x]` 上首一, 故有 `p(x) in ZZ[x]`.
+    假设存在正整数 `c` 使 `c p(x) in ZZ[x]`, `c p(x) | f(x)`.
+    注意到 `p` 首一, `f` 在 `ZZ[x]` 上首一, 故 `c = 1`, 即 `p(x) in ZZ[x]`.
   </li>
-  <li>`rArr 3`. 设 `f(x) = x^n + c_(n-1) x^(n-1) + cdots + c_0`
+  <li>`rArr 3`. 设 `p(x) = x^n + c_(n-1) x^(n-1) + cdots + c_0`
     是 `a` 的最小多项式,
     于是 `a^n = -(c_(n-1) x^(n-1) + cdots + c_0)`,
     归纳知任意 `a^m` 可以写成 `1, a, cdots, a^(n-1)` 的 `ZZ`-线性组合,
@@ -377,9 +378,39 @@
 </ol>
 
 <p class="theorem">
-  数域 `K` 中全体代数整数构成 `K` 的子环 `O_K`, 称为 `K` 的整数环;
-  与此同时 `K` 是环 `O_K` 的分式域.
+  数域 `K` 中全体代数整数 `O_K` 构成 `K` 的子环, 称为 `K` 的<b>整数环</b>;
+  与此同时 `K` 是环 `O_K` 的<b>分式域</b>.
 </p>
+
+<ol class="proof">
+  <li>设 `a, b in O_K`, 下证 `a+-b`, `a b in O_K`.
+    由前知 `ZZ[a]`, `ZZ[b]` 的加法子群都是有限生成的:
+    <span class="formula">
+      `ZZ[a] = a_1 ZZ + cdots + a_n ZZ`,
+      `quad ZZ[b] = b_1 ZZ + cdots + b_m ZZ`.
+    </span>
+    因此对任意整数 `u, v`, `a^u` 和 `b^v` 分别可以表为 `a_1, cdots, a_n` 和
+    `b_1, cdots, b_m` 的 `ZZ`-线性组合. 进而
+    `a^u b^v` 可表为
+    <span class="formula">
+      `{a_i b_j: 1 le i le n, 1 le j le m}`
+    </span>
+    的 `ZZ`-线性组合. 这说明环 `ZZ[a, b]` 的加法群是有限生成的,
+    因此 `a+-b`, `a b in ZZ[a, b]` 都是代数整数.
+  </li>
+  <li>任取 `u in K`, 我们来证: 存在正整数 `c` 使得 `c u in O_K`.
+    由于 `u` 为代数数, 可设
+    <span class="formula">
+      `f(u) = c_n u^n + cdots c_1 u + c_0 = 0`,
+      `quad c_i in ZZ`, `c_n gt 0`.
+    </span>
+    同乘 `c_n^(n-1)` 得
+    <span class="formula">
+      `(c_n u)^n + cdots c_n^(n-2) c_1 (c_n u) + c_n^(n-1) c_0 = 0`.
+    </span>
+    即 `c_n u in O_K`.
+  </li>
+</ol>
 
 <p class="definition">
   设 `K` 是数域, `a in K`.  若存在 `K` 的子环 `R` 上首一多项式 `f` 满足
@@ -392,34 +423,81 @@
   则称 `R` 是<b>整闭</b>的.
 </p>
 
-<p class="corollary">
-  环 `O_K` 在数域 `K` 中是整闭的.
+<p class="theorem">
+  对任意 `a in CC`, 若 `a` 在 `O_K` 上整, 则 `a` 是代数整数.
+  特别取 `a in K` 可知: 环 `O_K` 在数域 `K` 中是整闭的.
 </p>
 
 <p class="proof">
-  对 `AA u in K`, 若 `u` 在 `K` 上整, 设
+  若 `a` 在 `O_K` 上整, 设
   <span class="formula">
-    `f(u) = u^m + c_(m-1) u^(m-1) + cdots c_1 u + c_0 = 0`,
+    `f(a) = a^m + c_(m-1) a^(m-1) + cdots c_1 a + c_0 = 0`,
     `quad c_i in O_K`.
   </span>
-  由于 `c_i in O_K`, 即它们都在 `ZZ` 上整, 由引理??
-  可知 `O_K` 的子环 `R = ZZ[c_1, cdots, c_m]` 的加法群为有限生成:
+  由于 `c_i` 均为代数整数, 由代数整数的判别法可知 `O_K` 的子环 `R = ZZ[c_1,
+  cdots, c_m]` 的加法群为有限生成:
   <span class="formula">
     `R = gamma_1 ZZ + cdots + gamma_s ZZ`.
   </span>
-  另一方面由 `f(u) = 0` 知 `u^r (r ge 1)` 均可表为 `1, u, cdots, u^(m-1)` 的`R`-线性组合. 于是
+  另一方面由 `f(a) = 0` 知 `a^r (r ge 1)` 均可表为 `1, a, cdots, a^(m-1)`
+  的`R`-线性组合. 于是
   <span class="formula">
-    `R_1 := ZZ[c_1, cdots, c_m, u] = R[u]`
-    `= R + u R + cdots + u^(m-1) R`.
+    `R_1 := ZZ[c_1, cdots, c_m, a] = R[a]`
+    `= R + a R + cdots + a^(m-1) R`.
   </span>
-  即 `R_1` 的加法群也是有限生成的. 由引理?? 知 `u` 在 `ZZ` 上整, 因此 `u in
-  O_K`.
+  即 `R_1` 的加法群也是有限生成的. 由代数整数的判别法知 `a` 是代数整数.
+</p>
+
+<p class="corollary">
+  若 `a` 是代数整数, 则它的每个 `K`-共轭元素也是代数整数.
+</p>
+
+<p class="proof">
+  设 `f(x) in ZZ[x] sube O_K[x]` 是使得 `f(a) = 0` 的首一多项式, `g(x) in
+  K[x]` 是 `a` 在 `K` 上的最小多项式, 则`g(x) | f(x)`.
+  由于 `f` 是 `O_K` 上首一多项式, `g` 是 `K` 上首一多项式且 `g | f`,
+  可推出 `g in O_K[x]`.
+  由于 `a` 的 `K`-共轭元素均是 `g` 的根, 从而在 `O_K` 上整; 因此它们都是代数整数.
 </p>
 
 <ol class="example">
   <b>二次域中的代数整数</b> 考虑 `K = QQ(sqrt d)`, `d` 不是平方数.
-  <li>`d -= 2, 3 (mod 4)` 时, `O_K = ZZ[sqrt d]`;</li>
-  <li>`d -= 1 (mod 4)` 时, `O_K = ZZ[(1+sqrt d)/2]`.</li>
+  <li>`d -= 2, 3 (mod 4)` 时, `O_K = ZZ[sqrt d] = ZZ o+ ZZ sqrt d`;</li>
+  <li>`d -= 1 (mod 4)` 时, `O_K = ZZ[(1+sqrt d)/2] = ZZ o+ ZZ (1+sqrt d)/2`.</li>
+</ol>
+
+<ol class="proof">
+  设 `u = a + b sqrt d in O_K`, `a, b in QQ`.
+  若 `b = 0`, 则有 `u = a in QQ`, 但 `u` 是代数整数, 故 `u in ZZ`.
+  下设 `b != 0`, 这时 `u` 在 `QQ` 上的最小多项式为
+  <span class="formula">
+    `f(x) = x^2 - 2a x + (a^2 - b^2 d)`
+  </span>
+  `u` 为代数整数当且仅当 `f(x) in ZZ[x]`, 即 `2a in ZZ, a^2-b^2 d in ZZ`.
+  所以
+  <span class="formula align">
+    `(2a)^2 - (2b)^2 d in 4ZZ`
+    `rArr (2b)^2 d in ZZ`
+    `rArr 2b in ZZ` (因为 `d` 无平方因子)
+  </span>
+  以下假设 `a, b` 均为半整数.
+  <li>若 `d -= 2, 3 (mod 4)`. 如果 `2a, 2b` 均为奇数, 则 `(2a)^2 -= 1 (mod
+    4)`, `(2b)^2 d -= d (mod 4)`, 与 `(2a)^2 - (2b)^2 d in 4 Z` 矛盾.
+    因此 `2a, 2b` 至少有一偶数.<br>
+    又 `(2a)^2 - (2b)^2 d -= 0 (mod 4)`, `d !-= 0 (mod 4)`, 所以 `2a, 2b`
+    均为偶数, 即 `a, b in ZZ`.<br>
+    反之若 `a, b in ZZ`, 则 `2a, a^2 - b^2 d in ZZ`, 即 `u` 为代数整数.
+    这就证明了 `O_K = ZZ o+ ZZ sqrt d`.
+  </li>
+  <li>若 `d -= 1 (mod 4)`. 由 `(2a)^2 -= (2b)^2 d -= (2b)^2 (mod 4)` 知
+    `2a, 2b` 有相同的奇偶性; 反之若 `2a, 2b` 同奇偶, 有 `a^2 - b^2 d in ZZ`.
+    总之
+    <span class="formula">
+      `O_K = { a + b sqrt d: 2a, 2b in ZZ, 2a -= 2b (mod 2) }`
+      `= { (a + b sqrt d)/2: a, b in ZZ, a -= b (mod 2) }`
+      `= ZZ o+ ZZ (1+sqrt d)/2`.
+    </span>
+  </li>
 </ol>
 
 <p class="example">
@@ -437,7 +515,7 @@
   <span class="formula">
     `a = a_1 omega_1 + cdots a_n omega_n`, `quad a_i in ZZ`.
   </span>
-  `omega_1, cdots, omega_n` 称为 `K` 或 `O_K` 的一组整基.
+  `omega_1, cdots, omega_n` 称为 `K` 或 `O_K` 的一组<b>整基</b>.
 </p>
 
 <script src="../../js/note.js"></script>
