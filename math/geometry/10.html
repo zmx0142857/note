@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>射影几何</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<h2>调和点列</h2>
+
+<ol class="definition">
+  <li>
+    设 `a, b, c, d in CC uu {oo}`, 规定 `oo//oo = 1`, 这四点的<b>交比</b>定义为
+    <span class="formula">
+      `(a, b, c, d) := ((c-a)//(c-b)) / ((d-a)//(d-b))`.
+    </span>
+    交比也可以写成
+    <span class="formula">
+      `(AB, CD) = (AC//BC)/(AD//BD)`,
+    </span>
+    右边各线段是有向的, 要放在复平面上考虑.
+  </li>
+  <li>
+    当四点的交比等于 -1 时, 称它们构成<b>调和点列</b>.
+    我们也说 `AB` 调和分割 `CD`, `CD` 调和分割 `AB`, 或 `AB, CD` 调和共轭,
+    因为两条线段地位是对称的.
+  </li>
+</ol>
+
+<ol class="corollary">
+  平面上有 `A, B, C, D` 四点, 以下各款等价
+  <li>`(AB, CD) = -1`;</li>
+  <li>`(AC)/(BC) + (AD)/(BD) = 0`;</li>
+  <li>`AC * BD = AD * CB`;</li>
+  第 3 个式子是最常用的.
+</ol>
+
+<p class="remark">
+	若 `A, B, C, D` 是调和点列, `AC = x`, `AD = y`, `AB = z`. 计算得到
+	<span class="formula">
+		`z = (2x y)/(x+y), quad` 即 `1/z = 1/2 (1/x + 1/y)`.
+	</span>
+	这就是 "调和" 一词的由来.<br/>
+</p>
+
+<ol class="corollary">
+	`A, B, C, D` 四点构成调和点列, `M` 是 `AB` 中点, 直接计算知
+	<li>`AC * BD = AD * CB = AB * CD //2`;</li>
+	<li>`CA * CB = CM * CD`;</li>
+</ol>
+
+<p class="theorem">
+  <b>完全四边形</b>
+  是指平面上一般位置的四条直线, 既没有直线平行, 也没有三线共点.
+  完全四边形的每条对角线被另外两条对角线调和分割.<br/>
+  如图, 在三角形 `ABC` 中, `R, Q` 分别在直线 `AB, AC` 上, `BQ, CR`
+  交于点 `O`.  现在设 `AO, BC` 交于 `P`, `RQ, BC` 交于 `T`, 则 `BC`
+  与 `PT` 调和共轭.
+  <span class="img sm">
+    <img src="../img/complete-quadrilateral.png"/>
+  </span>
+</p>
+
+<p class="proof">
+  在 `triangle ABC` 中使用 Menelaus 定理得
+  <span class="formula">
+    `(BT)/(TC) (CQ)/(QA) (AR)/(RB) = 1`,
+  </span>
+  使用 Ceva 定理得
+  <span class="formula">
+    `(BP)/(PC) (CQ)/(QA) (AR)/(RB) = 1`.
+  </span>
+  比较得 `(BT)/(TC) = (BP)/(PC)`, 即得结论.<br/>
+  此外, 设 `AP, RT` 交于 `S`, 则在 `triangle AOB` 中应用两大定理可证
+  `AO, SP` 调和共轭; 在 `triangle ARQ` 中应用两大定理可证 `RQ, ST`
+  调和共轭.
+</p>
+
+<ol class="theorem">
+	设直线上依次有 `A, C, B, D` 四点, 若以下命题中有两个为真,
+	则四个命题都为真:
+	<li>`A, B, C, D` 成调和点列;</li>
+	<li>平面上存在一点 `O`, 使 `OC` 平分 `/_ AOB`;</li>
+	<li>平面上存在一点 `O`, 使 `OC _|_ OD`;</li>
+	<li>平面上存在一点 `O`, 使 `OD` 平分 `/_AOB` 的补角.</li>
+</ol>
+
+<ol class="proof">
+  <li>易知 2, 3, 4 中的任意两个能推出第三个.</li>
+  <li>下证 2, 3, 4 中的任意两个能推出全部四个命题, 只需证
+    2, 3 `rArr` 1. 设 `/_ BOC = alpha`, `CB = 1`, `BD = y`,
+    由 3,  `OB = sqrt y`, `tan alpha = 1/(sqrt y)`.
+    又设 `AC = x`, 由 2, `tan 2 alpha = (x+1)/(sqrt y)`
+    利用二倍角公式
+    <span class="formula">
+      `(x+1)/(sqrt y) = (2//sqrt y)/(1- 1//y)`,
+    </span>
+    化简得 `x y = x + y + 1`, 因此 `A, B, C, D` 为调和点列.
+  </li>
+  <li>若已知 2, 3, 4 中的一个和 1, 也可以推出其它命题, 不再赘述.</li>
+</ol>
+
+<h2>极点与极线</h2>
+
+<ol class="definition">
+  设二次曲线 `c` 外有一定点 `P`.
+  过 `P` 作直线 `l` 与 `c` 交于 `M, N` 两点.
+  在直线 `l` 上存在唯一的点 `Q` 使 `P, Q, M, N` 成调和点列,
+  <li>称 `P, Q` 关于曲线 `c` 调和共轭, 注意到 `P, Q` 地位是对称的.</li>
+  <li>令 `l` 绕 `P` 转动, `Q` 点的轨迹为一直线, 称为<b>极线</b>; `P`
+    点则称为<b>极点</b>.  极点与极线是一一对应的.
+  </li>
+  当 `P` 在曲线 `c` 上时, 规定它的极线为 `P` 处的切线.
+</ol>
+
+<p class="proof">
+  [来自 百度百科]
+  用齐次坐标证明 `Q` 的轨迹为直线.
+  设 `P = (p_1, p_2, p_3)'`, `Q = (q_1, q_2, q_3)'`,
+  则 `l_(P Q)` 上任意一点坐标为 `Q + k P` (`k = oo` 时, `Q + k P = P`).
+  将 `Q + k P` 代入 `c` 的方程 `bm x' bm A bm x = 0`
+  (`bm x in RR^3`, `bm A` 是三阶实对称矩阵) 得
+  <span class="formula">
+    `(Q + k P)' bm A (Q + k P) = 0`,<br>
+    `k^2 P' bm A P + 2 k (P'bm A Q) + Q' bm A Q = 0`.
+  </span>
+  设 `M = Q + m P`, `N = Q + n P`.  则 `m, n` 是上面关于 `k`
+  的二次方程的两根. 注意到
+  <span class="formula">
+    `-1 = (PQ, MN) = m // n`, 即 `m + n = 0`,
+  </span>
+  由韦达定理有 `P'bm A Q = 0`, 即 `Q` 的轨迹是直线.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
