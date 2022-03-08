@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>素数分布</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+<body>
+
+<p>关于素数分布的一个重要结论是<b>素数定理</b>:
+  <span class="formula">
+    `pi(x) ~ "li"(x) ~ x/(ln x)`, `quad x to oo`.
+  </span>
+  其中 `pi(x)` 是 `x` 以内 (即 `le x`) 的素数个数, 而
+  <span class="formula">
+    `"li"(x) = int_0^x dt/(ln t)`
+    `= lim_(epsi to 0^+) int_0^(1-epsi) + int_(1+epsi)^x`.
+  </span>
+  它的证明比较复杂, 我们只证较弱的结论 `pi(x) = Theta(x/(ln x))`.
+  换言之, `x` 充分大时, 存在正的常数 `c_1, c_2` 使
+  <span class="formula">
+    `c_1 x/(ln x) le pi(x) le c_2 x/(ln x)`.
+  </span>
+  此即著名的 Чебышев 不等式.
+</p>
+
+<h2>筛法</h2>
+
+<p class="example">
+  用 Eratosthenes 筛法求 100 以内的素数个数.
+</p>
+
+<p class="solution">
+  `sqrt 100 = 10`, 而 10 以内的素数为 2, 3, 5, 7.
+  对于 `10 lt n le 100`, 只要 `n` 与 2, 3, 5, 7 互素, 就能保证为素数.
+  而对于 `n le 10`, 只有 1 与 2, 3, 5, 7 互素. 换言之, 100 以内与 2, 3, 5,
+  7, 互素的整数个数为
+  <span class="formula">
+    `pi(100) - pi(10) + 1`.
+  </span>
+  记 `P = 2 * 3 * 5 * 7`, 称为一个筛子. `A = {1, cdots, 100}` 是待筛的整数.
+  定义筛函数为
+  <span class="formula">
+    `S(A, P) = sum_(a in A, (a,P) = 1) 1`,
+  </span>
+  表示通过了筛选的整数个数. 于是
+  <span class="formula">
+    `S(A, P) = pi(100) - pi(10) + 1`.
+  </span>
+  又记 `A_d` 为 `A` 中所有 `d` 的倍数, 则 `|A_d| = |__100/d__|`.
+  由容斥原理,
+  <span class="formula">
+    `S(A, P)`
+    `= |A| - |A_2| - |A_3| - |A_5| - |A_7|`
+    `+ |A_(2*3)| + |A_(2*5)| + |A_(2*7)|
+    + |A_(3*5)| + |A_(3*7)| + |A_(5*7)|`
+    `- |A_(2*3*5)| - |A_(2*3*7)| - |A_(2*5*7)| - |A_(3*5*7)|`
+    `+ |A_(2*3*5*7)|`
+    `= 100 - 50 - 33 - 20 - 14 + 16 + 10 + 7 + 6 + 4 + 2`
+    `- 3 - 2 - 1 - 0 + 0`
+    `= 22`.
+  </span>
+  因此 `pi(100) = S(A, P) + pi(10) - 1 = 22 + 4 - 1 = 25`.
+</p>
+
+<p class="theorem">
+  设 `A` 为有限个整数的集合, `A_d` 为 `A` 中所有 `d` 的倍数.
+  筛子 `P` 为一个正整数, 且 `P` 的所有素因子为 `p_1, cdots, p_s`.
+  那么
+  <span class="formula">
+    `S(A, P) := sum_(a in A, (a,P) = 1) 1`
+    `= sum_(r=0)^s (-1)^r sum_(i_1 lt cdots lt i_r) |A_(p_(i_1) cdots p_(i_r))|`.
+  </span>
+  使用 Möbius 函数
+  <span class="formula">
+    `mu(n) = { 1, if n = 1;
+      (-1)^r, if n = p_1 cdots p_r 为不同素数的乘积;
+      0, if n 含有平方因子
+    :}`
+  </span>
+  结论简记为
+  <span class="formula">
+    `S(A, P) = sum_(d | P) mu(d) |A_d|`.
+  </span>
+  特别当 `A = {1, cdots, n}`, `P = n` 时, 得到 Euler 函数的表达式
+  <span class="formula">
+    `varphi(n) = sum_(d | n) mu(d) n//d`
+    `= n prod_(p | n) sum_(p^a | n) mu(p^a)//p^a`
+    `= n prod_(p | n) (1 - 1//p)`.
+  </span>
+</p>
+
+<p class="proof">
+  利用公式
+  <span class="formula">
+    `sum_(d | P) mu(d) = { 1, if P = 1; 0, if P gt 1 :}`
+  </span>
+  有
+  <span class="formula">
+    `sum_(a in A, (a,P) = 1) 1`
+    `= sum_(a in A) sum_(d | (a,P)) mu(d)`
+    `= sum_(d | P) mu(d) sum_(a in A, d | a) 1`
+    `= sum_(d | P) mu(d) |A_d|`.
+  </span>
+</p>
+
+<h2>Чебышев 不等式</h2>
+
+<p class="theorem">
+  <b>Чебышев 不等式</b>
+  记 `pi(x)` 是不超过 `x` 的素数个数, `p_n` 为第 `n` 个素数. 我们有
+  <span class="formula">
+    `color(#886)(1/3 ln 2)x/(ln x)`
+    `lt pi(x)`
+    `lt color(#886)(6 ln 2)x/(ln x)`, `quad AA x ge 2`<br>
+    `color(#886)(1/(6 ln 2)) n ln n`
+    `lt p_n`
+    `lt color(#886)(8/(ln 2)) n ln n`, `quad AA n ge 2`.
+  </span>
+</p>
+
+<ol class="proof">
+  为证明 `pi(x)` 的上下界,
+  我们从 `M = (2 m; m)` 的估计入手, `m` 为正整数.
+  <li>联系第一章 Kummer 定理的相关内容, 记 `v_p(n)` 为素数 `p` 在 `n`
+    中的次数, 有
+    <span class="formula">
+      `v_p(n!) = sum_(i ge 1) |__n/p^i__|`,<br>
+      `v_p(n;k) = v_p(n!) - v_p(k!) - v_p((n-k)!)`.
+    </span>
+    取对数有
+    <span class="formula">
+      `ln M`
+      `= ln((2m)!) - 2 ln(m!)`
+      `= sum_(p lt 2m) v_p((2m)!) ln p`
+      `- 2 sum_(p le m) v_p(m!) ln p`
+      `= sum_(p le m) [v_p((2m)!) - 2 v_p(m!)] ln p`
+      `+ sum_(m lt p lt 2m) v_p((2m)!) ln p`.
+      `= A + B`.
+    </span>
+  </li>
+  <li>
+    对 `y gt 0` 有 `0 le |__2y__| - 2|__y__| le 1`, 于是
+    <span class="formula">
+      `0 le (|__(2m)/p^i__| - 2|__m/p^i__|) le 1`,
+      `quad i ge 1`.
+    </span>
+    上式求和得到 `A` 的系数的估计
+    <span class="formula">
+      `0 le v_p((2m)!) - 2 v_p(m!)`
+      `le sum_(p^i | 2m) 1`
+      `= |__ln(2m)/ln p__|`.
+    </span>
+    另一方面, `m lt p lt 2m` 时, 显然 `p` 在 `(2m)!` 中的次数为 `1`, 即 `B`
+    的系数 `v_p((2m)!) = 1`. 于是
+    <span class="formula">
+      `sum_(m lt p lt 2m) ln p`
+      `le ln M`
+      `le sum_(p lt 2m) |__ln(2m)/ln p__| ln p`.
+    </span>
+    因而
+    <span class="formula">
+      `(pi(2m)-pi(m)) ln m`
+      `le ln M`
+      `le pi(2m) ln(2m)`.
+    </span>
+  </li>
+  <li>通过直接估计 `M` 的上下界得到
+    <span class="formula">
+      `M = (2m)/m * (2m-1)/(m-1) cdots (m+1)/1 ge 2^m`;<br>
+      `M = (2m; m) lt (1+1)^(2m) = 2^(2m)`.
+    </span>
+    于是
+    <span class="formula">
+      `pi(2m) ln(2m) ge m ln 2`,<br>
+      `(pi(2m)-pi(m))ln m lt 2m ln 2`.
+    </span>
+  </li>
+  <li>当 `x ge 6` 时, 取 `m = |__x//2__| gt 2`, 此时成立 `2m lt x lt 3m`,
+    因此
+    <span class="formula">
+      `pi(x) ln x ge pi(2m) ln(2m)`
+      `ge m ln 2`
+      `gt x/3 ln 2`.
+    </span>
+    直接验算知上式对 `2 le x lt 6` 也成立; 这证明了不等式的左半部分.
+  </li>
+  <li>当 `m = 2^k` 时,
+    <span class="formula">
+      `(pi(2^(k+1)) - pi(2^k)) k lt 2^(k+1)`,
+    </span>
+    又显然 `pi(2^(k+1)) le 2^k`, 两式相加得
+    <span class="formula">
+      `(k+1)pi(2^(k+1)) - k pi(2^k) lt 3 * 2^k`.
+    </span>
+    令 `k` 从 0 到 `h-1` 求和有 `h pi(2^h) lt 3 * 2^h`.
+    设 `2^(h-1) lt x le 2^h`, 则
+    <span class="formula">
+      `pi(x) le pi(2^h)`
+      `lt 3 * 2^h//h`
+      `lt 3 * (2 x)/(ln x//ln 2)`
+      `= 6 ln 2 x/(ln x)`.
+      这证明了不等式的右半部分.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    从 `pi(x)` 的估计出发, 取 `p_n = x`, 得到
+    <span class="formula">
+      `n lt 6 ln 2 p_n/(ln p_n)`.
+    </span>
+    再由 `p_n gt n` 得 `p_n gt (n ln n)/(6 ln 2)`;
+    这证明了左半不等式.
+  </li>
+  <li>
+    `n = 2` 时直接验证右半不等式成立.
+    下设 `n ge 3`, 因此 `p_n` 为奇素数.
+    在不等式 `pi(2m) ln(2m) ge m ln 2` 中取 `2m = p_n + 1`, 得
+    <span class="formula">
+      `n ln(p_n+1) ge (p_n+1)/2 * ln 2`,
+      <span class="label" id="ref1"></span>
+    </span>
+    <span class="formula">
+      `ln(p_n+1) le ln(2n//ln 2) + ln ln(p_n+1)`.
+      <span class="label" id="ref2"></span>
+    </span>
+    利用不等式 `ln(1+s) le s`, 取 `s = y//2 - 1` 有
+    <span class="formula">
+      `ln y le y//2 - 1 + ln 2 lt y//2`, `quad y gt 0`.
+    </span>
+    再令 `y = ln(p_n+1)`, 有
+    <span class="formula">
+      `ln ln(p_n+1) lt 1/2 ln(p_n+1)`.
+    </span>
+    由 <a class="ref" href="#ref1"></a> 得
+    <span class="formula">
+      `ln(p_n+1) le 2 ln(2n//ln 2) lt 4 ln n`,
+      `quad n ge 3`.
+    </span>
+    再由 <a class="ref" href="#ref2"></a> 即完成右半不等式的证明.
+  </li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
