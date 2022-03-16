@@ -366,6 +366,94 @@
   </span>
 </p>
 
+<h2>Dirichlet 特征*</h2>
+
+<p>
+  Dirichlet 在 1837 年证明了 <b>Dirichlet 定理</b>: 任给 `(a, q) = 1`,
+  在算术数列 `n -= a (mod q)` 中一定有无穷多个素数.
+  在他的证明中, 第一次引入了数论中的重要概念: 特征.
+</p>
+
+<h3>Dirichlet 特征</h3>
+
+<ol class="definition">
+  <b>Dirichlet 特征</b>
+  设 `q` 为正整数, 模 `q` 的<b>特征 (函数)</b> `chi_q(n): ZZ to CC`
+  是不恒为零的数论函数, 满足条件:
+  <li>`(n, q) gt 1` 时, `chi_q(n) = 0`;</li>
+  <li>周期为 `q`: `chi_q(n+q) = chi_q(n)`;</li>
+  <li>完全可乘: `AA a, b in ZZ`, `chi_q(a b) = chi_q(a) chi_q(b)`.</li>
+  当 `q` 确定时, 特征也简写为 `chi`.
+  条件 1, 2 表明 `chi_q` 由它在既约剩余系 `ZZ_q^**` 上的取值完全确定.
+</ol>
+
+<ol class="example">
+  <li>`chi_q^0(n) = { 1, if (n,q) = 1; 0, otherwise :}` 是模 `q` 的特征,
+    称为<b>主特征</b>;
+  </li>
+  <li>Legendre 符号 / Jacobi 符号 `(n/q)` 是模 `q` 的特征.</li>
+</ol>
+
+<ol class="corollary">
+  <li>由完全可乘性知 `chi(1) = 1`, `chi(-1) = +-1`.</li>
+  <li>`(n, q) = 1` 时,
+    <span class="formula">
+      `chi(n)^(varphi(q))`
+      `= chi(n^(varphi(q)))`
+      `= chi(1) = 1`,
+    </span>
+    这表明 `chi(n)` 是 `varphi(q)` 次单位根, 取值只有有限个.
+    由于 `chi` 由它在 `ZZ_q^**` 上的取值完全确定, 所以模 `q`
+    的特征只有有限个.
+  </li>
+  <li>若特征 `chi` 只取实值 `+-1`, 则称它为<b>实特征</b>; 否则 `chi`
+    至少在某处取虚数, 称为<b>复特征</b>.
+  </li>
+</ol>
+
+<p class="corollary">
+  模 `q` 的全体特征关于通常的函数乘法构成一个群, 主特征是其单位元.
+  `chi` 的逆元 `bar chi` 称为它的<b>共轭特征</b>,
+  其中 `bar chi(n) = bar(chi(n))` (复数的共轭).
+</p>
+
+<ol class="corollary">
+  <li>设 `a | b`, `a, b` 由相同的素因子构成 (仅次数不同), 则模 `a`
+    的特征一定是模 `b` 的特征;</li>
+  <li>`l ge k` 时, 模 `a^k` 的特征一定是模 `a^l` 的特征;</li>
+  <li>`chi_a chi_b` 是模 (最小公倍数) `[a, b]` 的特征.</li>
+</ol>
+
+<ol class="theorem">
+  <b>特征的唯一分解定理</b>
+  设 `(q_1, q_2) = 1`, `q = q_1 q_2`, `chi_q` 是模 `q` 的特征, 则
+  <li>存在唯一的模 `q_1` 的特征 `chi_1` 使得
+     `n -= 1 (mod q_2)` 时, `chi_q(n) = chi_1(n)`;
+  </li>
+  <li>存在唯一的一对分别模 `q_1, q_2` 的特征 `chi_1, chi_2` 使得
+    <span class="formula">
+      `chi_q = chi_1 chi_2`.
+    </span>
+    且 `chi_q` 为主特征当且仅当 `chi_1`, `chi_2` 均为主特征;
+    `chi_q` 为实特征当且仅当 `chi_1`, `chi_2` 均为实特征.
+  </li>
+  <li>推广到有限个特征: 当 `q` 有素因子分解
+    `q = p_1^(a_1) cdots p_s^(a_s)` 时, 模 `q` 的特征有唯一分解
+    <span class="formula">
+      `chi_q = chi_1 cdots chi_s`,
+      `quad chi_i` 是模 `p_i^(a_i)` 的特征.
+    </span>
+  </li>
+</p>
+
+<h3>离散 Fourier 变换</h3>
+
+<ol class="lemma">
+  记 `e(x) = "e"^(2pi"i"x)`, 则
+  <li>`int_0^1 e(n x) dx = {1, if n = 0; 0, if n != 0:}`</li>
+  <li>`sum_(k=1)^N e(n/N k) = {N, if n = 0; 0, if (n, N) = 1 and N gt 1:}`</li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
