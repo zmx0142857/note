@@ -242,6 +242,64 @@
   </li>
 </ol>
 
+<ol class="definition">
+  <b>Чебышев 函数</b> 两个 Чебышев 函数定义为
+  <li>`vartheta(x) = sum_(p le x) ln p`, 其中 `p` 为素数;</li>
+  <li>`psi(x) = sum_(p^a le x) ln p`, 其中 `p` 为素数, `a` 为正整数.</li>
+  若定义 Mangoldt 函数为
+  <span class="formula">
+    `Lambda(n) = { ln p, if n = p^a; 0, "otherwise" :}`,
+  </span>
+  则 `psi(x) = sum_(n le x) Lambda(n)`.
+</ol>
+
+<p class="corollary">
+  Mangoldt 函数的和函数是对数函数:
+  `sum_(d | n) Lambda(d) = ln n`.
+</p>
+
+<p class="proof">
+  设 `p` 在 `n` 中的次数为 `a_p`, 利用算术基本定理, 左边等于
+  <span class="formula">
+    `sum_(p^a | n) ln p`
+    `= a_p sum_(p | n) ln p`
+    `= ln(prod_(p | n) p^(a_p))`
+    `= ln n`.
+  </span>
+</p>
+
+<p class="corollary">
+  `x ge 1` 时, `sum_(n le x) psi(x // n) = ln(|__x__|!)`.
+</p>
+
+<p class="proof">
+  由定义, 左边等于
+  ??
+</p>
+
+<ol class="theorem">
+  Чебышев 函数是 `pi(x)` 的良好替代, 事实上存在常数 `c_gamma gt 0` 使得
+  <li>`(ln x - c_gamma) pi(x) lt vartheta(x) lt ln x pi(x)`;</li>
+  <li>`vartheta(x) le psi(x) le vartheta(x) + sqrt x ln x`.</li>
+</ol>
+
+<ol class="corollary">
+  以下三个命题等价:
+  <li>存在常数 `d_1, d_2 gt 0` 使得
+    `d_1 x // ln x lt pi(x) lt d_2 x // ln x`;
+  </li>
+  <li>存在常数 `d_3, d_4 gt 0` 使得
+    `d_3 x lt vartheta(x) lt d_4 x`;
+  </li>
+  <li>存在常数 `d_5, d_6 gt 0` 使得
+    `d_5 x lt psi(x) lt d_6 x`;
+  </li>
+  以下三个命题等价: `x to oo` 时
+  <li>`pi(x) ~ x // ln x`;</li>
+  <li>`vartheta(x) ~ x`;</li>
+  <li>`psi(x) ~ x`.</li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
