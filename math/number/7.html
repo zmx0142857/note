@@ -24,6 +24,21 @@
   此即著名的 Чебышев 不等式.
 </p>
 
+<p class="corollary">
+  由素数定理推出 `p_n ~ n ln n`, `p_n` 是第 `n` 个素数.
+</p>
+
+<p class="proof">
+  [来自 zz] 由 `pi(x) ~ x/(ln x)` 取对数得 `ln pi(x) = ln x - ln ln x +
+  o(1)`.  于是
+  <span class="formula">
+    `p_n/(n ln n)`
+    `= p_n/(pi(p_n) ln pi(p_n)`
+    `= (ln p_n)/(ln p_n - ln ln p_n + o(1))`
+    `to 1`.
+  </span>
+</p>
+
 <h2>筛法</h2>
 
 <p class="example">
@@ -274,7 +289,13 @@
 
 <p class="proof">
   由定义, 左边等于
-  ??
+  <span class="formula">
+    `sum_(n le x) sum_(k le x//n) Lambda(k)`
+    `= sum_(n le x) sum_(n k le x) Lambda(k)`
+    `==^(n k = m) sum_(m le x) sum_(n | m) Lambda(m/n)`
+    `= sum_(m le x) ln m`
+  </span>
+  等于右边.
 </p>
 
 <ol class="theorem">

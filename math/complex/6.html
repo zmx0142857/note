@@ -7,114 +7,6 @@
 </head>
 <body>
 
-<h2>Laplace 变换</h2>
-
-<p class="definition">
-  函数 `f` 的 Laplace 变换记为
-  <span class="formula">
-    `cc L[f(t)] = F(s) = int_0^oo "e"^(-s t) f(t) dt`,
-    `quad "Re"(s) gt sigma`.
-  </span>
-  下文将 `f(t)` 和它的 Laplace 变换简记为 `f ~ F`.
-</p>
-
-<p class="corollary">
-  <b>导数变多项式</b>
-  若 `x(t) ~ X(s)`,
-  则 `x'(t)` 的 Laplace 变换存在, 且有
-  <span class="formula">
-    `x'(t) ~ s X(s) - x(0)`.
-  </span>
-  由归纳法知
-  <span class="formula">
-    `x^((n+1))(t) ~ s^(n+1) X(s) - sum_(k=0)^n x^((n-k))(0) s^k`,
-  </span>
-  Laplace 变换将求导化为多项式, 大大简化了运算.
-  这个性质可以与 Fourier 变换相比较.
-</p>
-
-<ol class="property">
-  <b>Laplace 变换的运算性质</b>
-  <li>线性性质: `cc L[a f(t) + b g(t)] = a F(s) + b G(s)`;</li>
-  <li>位移性质: `cc L["e"^(-a t) f(t)] = F(s + a)`;</li>
-  <li>延时性质: `cc L[f(t - tau)] = "e"^(-tau s) F(s)`;</li>
-  <li>微分性质: `cc L[f'(t)] = s F(s) - f(0)`;</li>
-  <li>积分性质: `cc L[f^((-1))(t)] = (F(s))/s + (f^((-1))(0))/s`; `f^((-1))`
-    是 `f` 的原函数;</li>
-  <li>卷积性质: `cc L[f(t) ** g(t)] = F(s) G(s)`;</li>
-  <li>初值性质: `f(0^+) = lim_(s to oo) s F(s)`;</li>
-  <li>终值性质: `f(oo) = lim_(s to 0^+) s F(s)`;</li>
-</ol>
-
-<p class="corollary">
-  <b>Laplace 逆变换</b>
-  <span class="formula">
-    `f(t) = 1/(2 pi i) lim_(T to oo) int_(gamma-iT)^(gamma+iT)
-    "e"^(st) F(s) "d"s`,
-  </span>
-  其中 `gamma in RR` 充分大, 使得积分路径位于 `F(s)` 的收敛域内.
-</p>
-
-<p class="example">
-  <b>常见函数的 Laplace 变换</b>
-  设 `p gt 0`, `z in CC`, `"Re"(s) gt "Re"(z)`, 则
-  <span class="formula">
-    `t^(p-1) "e"^(z t) ~ (Gamma(p))/(s-z)^p`.
-  </span>
-  特别
-  <span class="formula">
-    `"e"^(z t) ~ 1/(s-z)`.
-  </span>
-  令 `z = a "i"`, 分别取实部虚部得
-  <span class="formula">
-    `cos a t ~ s/(s^2+a^2)`,
-    `quad sin a t ~ a/(s^2+a^2)`.
-  </span>
-  更完整的表格参见<a href="../analysis/0.html#0-3-1">附录</a>.
-</p>
-
-<p class="proposition">
-  用 Laplace 变换解方程
-  <span class="formula">
-    `sum_(k=0)^n a_k x^((k))(t) = f(t)`.
-  </span>
-  记 `x(t) ~ X(s)`, `f(t) ~ F(s)`,
-  Laplace 变换将方程变为
-  <span class="formula align">
-    `X(s) sum_(k=0)^n a_k s^k`<br>
-    `= F(s) + sum_(k=0)^n a_k sum_(j=0)^(k-1) x^((j))(0) s^(k-1-j)`<br>
-    `= F(s) + sum_(j=0)^(n-1) x^((j))(0) sum_(k=j+1)^n a_k s^(k-1-j)`<br>
-    `= F(s) + sum_(j=1)^n x^((j-1))(0) sum_(k=j)^n a_k s^(k-j)`.
-  </span>
-  记 `p_j(x) = sum_(k=j)^n a_k s^(k-j)`, 上式可以写成
-  <span class="formula">
-    `X(s) p_0(s) = F(s) + sum_(j=1)^n x^((j-1))(0) p_j(s)`.
-  </span>
-  解出 `X(s)` 后, 适当分解分式, 再作 Laplace 逆变换解出 `x(t)`
-</p>
-
-<p class="example">
-  用 Laplace 变换解<a class="ref" href="../ode/4.html#exp-2nd-linear-nonhomogen-1"></a>:
-  <span class="formula">`{
-    x'' + a^2 x = f(t);
-    x"|"_(t=0) = x_0;
-    x'"|"_(t=0) = x'_0;
-  :}`
-  </span>
-</p>
-
-<p class="solution">
-  对方程两边作 Laplace 变换得
-  <span class="formula">
-    `X(s) (s^2+a^2) = x_0 s + x_0' + F(s)`,<br>
-  </span>
-  作 Laplace 逆变换得
-  <span class="formula">
-    `x = x_0 cos at + (x_0')/a sin at + int_0^t f(tau) sin
-    [a(t-tau)]"d"tau`.
-  </span>
-</p>
-
 <h2>Fourier 变换</h2>
 
 <p class="definition">
@@ -221,7 +113,7 @@
   <span class="formula">
     `f(x) = "P.V." int_(-oo)^oo hat(f)(xi) "e"^(2 pi "i" x xi) "d" xi`
   </span>
-  其中积分取 Cauchy 主值: `"P.V." int_(-oo)^oo = lim_(N to oo) int_(-N)^N`.
+  其中积分取 Cauchy 主值: `"P.V." int_(-oo)^oo = lim_(A to oo) int_(-A)^A`.
 </p>
 
 <ol class="proof">
@@ -243,6 +135,184 @@
     </span>
   </li>
 </ol>
+
+<h2>Mellin 变换</h2>
+
+<p class="definition">
+  函数 `f(x)`, `x gt 0` 的 Mellin 变换为
+  <span class="formula">
+    `F(s) = int_0^oo x^(s-1) f(x) dx`,
+    `quad "Re"s gt sigma_0`.
+  </span>
+</p>
+
+<p class="theorem">
+  当 `f` 在任一有限区间上有界变差, 且 `F(s)` 绝对收敛时, Mellin
+  变换的反转公式是
+  <span class="formula">
+    `bar(f)(x) = 1/(2pi"i") lim_(A to oo) int_(sigma-"i"A)^(sigma+"i"A) x^-s F(s) "d" s`,
+  </span>
+  其中 `sigma = "Re" s gt sigma_0`,
+  <span class="formula">
+    `bar(f)(x) = (f(x+0) + f(x-0))/2`.
+  </span>
+  由于 `f` 在任一有限区间有界变差, 因而处处有左右极限, 故 `bar f` 存在.
+  <!--
+  特别当 `int_(-oo)^oo |F(sigma+"i"tau)| "d"tau` 存在时, 反转公式为
+  <span class="formula">
+    `bar(f)(x) = 1/(2pi"i") int_sigma^(x^-s) F(s) "d"s`.
+  </span>
+  -->
+</p>
+
+<p class="proof">
+  换元 `x = "e"^(2 pi u)` 得
+  <span class="formula">
+    `F(s) = int_(-oo)^oo "e"^(2 pi u (s-1)) f("e"^(2pi u)) 2pi"e"^(2 pi u) "d"u`
+    `= int_(-oo)^oo 2pi"e"^(2 pi u s) f("e"^(2pi u)) "d"u`.
+  </span> 
+  记 `s = sigma + "i"tau`, 应用 Fourier 变换的反转公式得
+  <span class="formula">
+    `2 pi "e"^(2 pi u sigma) bar(f)("e"^(2pi u))`
+    `= lim_(A to oo) int_(-A)^A F(sigma + "i"tau) "e"^(-2pi"i"u tau) "d"tau`.
+  </span> 
+  再换回 `x = "e"^(2 pi u)` 即得第一式.
+</p>
+
+<p class="example">
+  `"e"^-x`, `x gt 0` 的 Mellin 变换是 `Gamma(s)`, `"Re"s gt 0`.
+</p>
+
+<h2>Laplace 变换</h2>
+
+<p class="definition">
+  函数 `f(t)`, `t gt 0` 的 Laplace 变换为
+  <span class="formula">
+    `cc L[f(t)] = F(s) = int_0^oo "e"^(-s t) f(t) dt`,
+    `quad "Re"(s) gt sigma_0`.
+  </span>
+  下文将 `f(t)` 和它的 Laplace 变换简记为 `f ~ F`.
+</p>
+
+<p class="corollary">
+  <b>导数变多项式</b>
+  若 `x(t) ~ X(s)`,
+  则 `x'(t)` 的 Laplace 变换存在, 且有
+  <span class="formula">
+    `x'(t) ~ s X(s) - x(0)`.
+  </span>
+  由归纳法知
+  <span class="formula">
+    `x^((n+1))(t) ~ s^(n+1) X(s) - sum_(k=0)^n x^((n-k))(0) s^k`,
+  </span>
+  Laplace 变换将求导化为多项式, 大大简化了运算.
+  这个性质可以与 Fourier 变换相比较.
+</p>
+
+<ol class="property">
+  <b>Laplace 变换的运算性质</b>
+  <li>线性性质: `cc L[a f(t) + b g(t)] = a F(s) + b G(s)`;</li>
+  <li>位移性质: `cc L["e"^(-a t) f(t)] = F(s + a)`;</li>
+  <li>延时性质: `cc L[f(t - tau)] = "e"^(-tau s) F(s)`;</li>
+  <li>微分性质: `cc L[f'(t)] = s F(s) - f(0)`;</li>
+  <li>积分性质: `cc L[f^((-1))(t)] = (F(s))/s + (f^((-1))(0))/s`; `f^((-1))`
+    是 `f` 的原函数;</li>
+  <li>卷积性质: `cc L[f(t) ** g(t)] = F(s) G(s)`;</li>
+  <li>初值性质: `f(0^+) = lim_(s to oo) s F(s)`;</li>
+  <li>终值性质: `f(oo) = lim_(s to 0^+) s F(s)`;</li>
+</ol>
+
+<p class="theorem">
+  <b>Laplace 逆变换</b>
+  当 `f` 在任一有限区间上有界变差时, Laplace 变换的反转公式为
+  <span class="formula">
+    `bar(f)(t) = 1/(2 pi i) lim_(A to oo) int_(sigma-i A)^(sigma+i A)
+    "e"^(st) F(s) "d"s`,
+  </span>
+  其中 `sigma = "Re" s gt sigma_0`,
+  <span class="formula">
+    `bar(f)(t) = {
+      (f(x+0) + f(x-0))//2, x gt 0;
+      f(0_(+)) // 2, x = 0;
+      0, x lt 0
+    :}`
+  </span>
+</p>
+
+<p class="proof">
+  在 `(-oo, 0]` 上定义 `f(x) -= 0`.
+  令 `s = sigma + "i"tau`, `x = 2pi u` 得
+  <span class="formula">
+    `F(sigma + "i"tau) = int_(-oo)^oo "e"^(-sigma x) "e"^(-"i"tau x) f(x) dx`
+    `= 2pi int_(-oo)^oo "e"^(-2pi sigma u) "e"^(-2pi"i"tau u) f(2pi u) "d"u`.
+  </span>
+  应用 Fourier 逆变换公式得
+  <span class="formula">
+    `2 pi "e"^(-2pi sigma u)`
+    `= lim_(A to oo) int_(-A)^A int_(-oo)^oo F(sigma + "i"tau) "d"tau`.
+  </span>
+  整理即得结论.
+</p>
+
+<p class="example">
+  <b>常见函数的 Laplace 变换</b>
+  设 `p gt 0`, `z in CC`, `"Re"(s) gt "Re"(z)`, 则
+  <span class="formula">
+    `t^(p-1) "e"^(z t) ~ (Gamma(p))/(s-z)^p`.
+  </span>
+  特别
+  <span class="formula">
+    `"e"^(z t) ~ 1/(s-z)`.
+  </span>
+  令 `z = a "i"`, 分别取实部虚部得
+  <span class="formula">
+    `cos a t ~ s/(s^2+a^2)`,
+    `quad sin a t ~ a/(s^2+a^2)`.
+  </span>
+  更完整的表格参见<a href="../analysis/0.html#0-3-1">附录</a>.
+</p>
+
+<p class="proposition">
+  用 Laplace 变换解方程
+  <span class="formula">
+    `sum_(k=0)^n a_k x^((k))(t) = f(t)`.
+  </span>
+  记 `x(t) ~ X(s)`, `f(t) ~ F(s)`,
+  Laplace 变换将方程变为
+  <span class="formula align">
+    `X(s) sum_(k=0)^n a_k s^k`<br>
+    `= F(s) + sum_(k=0)^n a_k sum_(j=0)^(k-1) x^((j))(0) s^(k-1-j)`<br>
+    `= F(s) + sum_(j=0)^(n-1) x^((j))(0) sum_(k=j+1)^n a_k s^(k-1-j)`<br>
+    `= F(s) + sum_(j=1)^n x^((j-1))(0) sum_(k=j)^n a_k s^(k-j)`.
+  </span>
+  记 `p_j(x) = sum_(k=j)^n a_k s^(k-j)`, 上式可以写成
+  <span class="formula">
+    `X(s) p_0(s) = F(s) + sum_(j=1)^n x^((j-1))(0) p_j(s)`.
+  </span>
+  解出 `X(s)` 后, 适当分解分式, 再作 Laplace 逆变换解出 `x(t)`
+</p>
+
+<p class="example">
+  用 Laplace 变换解<a class="ref" href="../ode/4.html#exp-2nd-linear-nonhomogen-1"></a>:
+  <span class="formula">`{
+    x'' + a^2 x = f(t);
+    x"|"_(t=0) = x_0;
+    x'"|"_(t=0) = x'_0;
+  :}`
+  </span>
+</p>
+
+<p class="solution">
+  对方程两边作 Laplace 变换得
+  <span class="formula">
+    `X(s) (s^2+a^2) = x_0 s + x_0' + F(s)`,<br>
+  </span>
+  作 Laplace 逆变换得
+  <span class="formula">
+    `x = x_0 cos at + (x_0')/a sin at + int_0^t f(tau) sin
+    [a(t-tau)]"d"tau`.
+  </span>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

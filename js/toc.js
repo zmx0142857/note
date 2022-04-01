@@ -42,7 +42,7 @@ math: {
   articles: [
     {title:'附录', src:'analysis/0.html', date:'2022-02-25'},
     {title:'初等函数', src:'analysis/1.html'},
-    {title:'数列的极限', src:'analysis/2.html', date: '2022-02-14'},
+    {title:'数列的极限', src:'analysis/2.html', date: '2022-03-31'},
     {title:'函数的极限与连续性', src:'analysis/3.html', date: '2022-03-04'},
     {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2021-12-08'},
@@ -71,7 +71,7 @@ math: {
     {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
     {title:'不定方程', src:'number/5.html', date:'2022-02-11'},
     {title:'积性数论函数', src:'number/6.html', date:'2022-03-09'},
-    {title:'素数分布', src:'number/7.html', date:'2022-03-08'},
+    {title:'素数分布', src:'number/7.html', date:'2022-03-30'},
     {title:'代数数域和代数整数', src:'number/11.html', date:'2022-03-05'},
     {title:'理想的分解', src:'number/12.html', date:'2022-03-04'},
   ]
@@ -90,7 +90,7 @@ math: {
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
     {title:'复变函数的展开', src:'complex/3.html', date:'2022-01-21'},
-    {title:'积分变换', src:'complex/6.html', date:'2022-02-25'},
+    {title:'积分变换', src:'complex/6.html', date:'2022-03-29'},
   ]
 }, {
   title:'实变函数',

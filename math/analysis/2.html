@@ -932,40 +932,60 @@
     也是一个蛮不错的放缩.
 </p>
 
-<ol class="example">
-	本例给出 `n!` 的比较粗糙的估计. 更仔细的估计参见 Stirling 公式.
-	<li>`n ge 2` 时, `(n/"e")^n lt n! lt n^(n+1)/"e"^n`.</li>
-	<li>`lim_(n to oo) n/(root n (n!)) = "e"`.</li>
-</ol>
-
-<ol class="proof">
-	<li>`n = 1` 时 `(n/"e")^n lt n!` 显然成立.
-		下面设不等式对正整数 `n` 成立, 则对于正整数 `n+1`,
-		<span class="formula">
-			`(n+1)! = n! (n+1) gt (n/"e")^n (n+1)^(n+1)/(n+1)^n`
-			`= (n+1)^(n+1)/("e"^n (1+1/n)^n)`
-			`gt (n+1)^(n+1)/"e"^(n+1)`.
-		</span>
-		类似可证, `n ge 2` 时, `n! lt n^(n+1)/"e"^n` 成立.
-	</li>
-	<li>对 1. 的结论变形得
-		<span class="formula">
-			`"e"/(root n n) lt n/(root n (n!)) lt "e"`.
-		</span>
-		再由两边夹法则即得证.
-	</li>
-</ol>
+<p class="example">
+  本例给出 `n!` 的比较粗糙的估计. 更仔细的估计参见 Stirling 公式.
+  <span class="formula">
+    `((n+1)/"e")^n lt n! lt "e" ((n+1)/"e")^(n+1)`,
+    `quad n in ZZ^+`.
+    <span class="label" id="for-n!-ineq"></span>
+  </span>
+  换言之
+  <span class="formula">
+    `(n-1)! "e"^(n-1) le n^n lt n! "e"^(n-1)`,
+    `quad n in ZZ^+`.
+    <span class="label" id="for-n^n-ineq"></span>
+  </span>
+</p>
 
 <p class="proof">
-	[来自 论文哥]
-	第 2 问的又一证明.  用定积分定义,
-	<span class="formula">
-		`1 = int_0^1 ln{:1/x:} dx`
-		`= lim_(n to oo) 1/n sum_(k=1)^n ln{:1/(k/n):}`
-		`= lim_(n to oo) 1/n ln{:n^n/(n!):}`
-		`= lim_(n to oo) ln {: n/(root n (n!)):}`.
-	</span>
-	两边取指数即可.
+  记 `a_n = ((n+1)/"e")^n`, `b_n = "e" ((n+1)/"e")^(n+1)`, 则
+  <span class="formula">
+    `a_n/a_(n-1)`
+    `= n/"e" (1+1/n)^n`
+    `lt n`,<br>
+    `a_n lt n! * a_1 = n! * 2//"e" lt n!`;
+  </span>
+  同样
+  <span class="formula">
+    `b_n/b_(n-1)`
+    `= n/"e" (1+1/n)^(n+1)`
+    `gt n`,<br>
+    `b_n gt n! * b_1 = n! * 4//"e" gt n!`.
+  </span>
+</p>
+
+<p class="example">
+  证明: `lim_(n to oo) n/(root n (n!)) = "e"`.
+</p>
+
+<p class="proof">
+  利用不等式 <a class="ref" href="#for-n!-ineq"></a> 得
+  <span class="formula">
+    `1/(root n (n+1)) * n/(n+1) "e" lt n/(root n (n!)) lt n/(n+1) "e"`.
+  </span>
+  再由两边夹法则即得证.
+</p>
+
+<p class="proof">
+  [来自 论文哥]
+  第 2 问的又一证明.  用定积分定义,
+  <span class="formula">
+    `1 = int_0^1 ln{:1/x:} dx`
+    `= lim_(n to oo) 1/n sum_(k=1)^n ln{:1/(k/n):}`
+    `= lim_(n to oo) 1/n ln{:n^n/(n!):}`
+    `= lim_(n to oo) ln {: n/(root n (n!)):}`.
+  </span>
+  两边取指数即可.
 </p>
 
 <p class="proof">
@@ -977,6 +997,35 @@
     `= lim_(n to oo) (ln(1+1/(n-1)))/(1/(n-1)) = 1`.
   </span>
   故原极限为 `"e"`.
+</p>
+
+<p class="example">
+  `lim_(x to +oo) (sum_(n ge 1) (x/n)^n)^(1/x)`.
+</p>
+
+<p class="proof">
+  记 `f(x) = sum_(n ge 1) (x/n)^n`,
+  利用不等式 <a class="ref" href="#for-n^n-ineq"></a> 得
+  <span class="formula">
+    `f(x) le sum_(n ge 1) 1/(n-1)! x^n/"e"^(n-1)`
+    `= x "e"^(x//"e")`,<br>
+    `f(x) ge sum_(n ge 1) 1/n! x^n/"e"^(n-1)`
+    `= "e"("e"^(x//"e") - 1)`.
+  </span>
+  `x to +oo` 时,
+  <span class="formula">
+    `(x "e"^(x//"e"))^(1/x)`
+    `= x^(1/x) "e"^(1/"e")`
+    `to "e"^(1/"e")`,
+  </span>
+  另一方面由洛必达法则,
+  <span class="formula">
+    `("e"("e"^(x/"e") - 1))^(1/x)`
+    `= "e"^(1/x) exp[1/x ln ("e"^(x//"e") - 1)]`
+    `~ exp[("e"^(x//"e") * (1//"e"))/("e"^(x//"e")-1)]`
+    `~ "e"^(1/"e")`.
+  </span>
+  由两边夹法则即得结论.
 </p>
 
 <p class="example">
