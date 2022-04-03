@@ -769,6 +769,7 @@
 
 <ol class="proposition">
   <li>`psi(s+1) = psi(s) + 1//s`;</li>
+  <li>余元公式 `psi(1-s) - psi(s) = pi cot pi x`;</li>
   <li>`psi(s+1) = -gamma + sum_(n ge 1) (1/n - 1/(n+s))`;
     特别 `psi(n+1) = -gamma + H_n`.
   </li>
@@ -786,6 +787,7 @@
 		`= "d"/("d"s)(ln s + ln Gamma(s))`
 		`= 1/s + psi(s)`.
   </li>
+  <li>由 Gamma 函数的余元公式取对数再求导即可.</li>
   <li>由递推公式
     <span class="formula">
       `psi(n+1) = psi(1) + sum_(k=1)^n 1/k = psi(1) + H_n`.
@@ -999,8 +1001,154 @@
 </ol>
 
 <p class="example">
+  <b>Au-Yeung 级数</b>
   `sum_(n ge 1) H_n^2/n^2 = 17/4 zeta(4) = 17/360 pi^4`.
 </p>
+
+<h3>调和和</h3>
+
+<p>我们称 `H_n = sum_(k=1)^n 1/k` 为调和数, `H_n^((m)) = sum_(k=1)^n 1/k^m` 为广义调和数.</p>
+
+<p class="example">
+  对整数 `b gt a ge 0` 有
+  `sum_(k ge 1) 1/((a+k)(b+k)) = (H_b - H_a)/(b - a)`.
+</p>
+
+<p class="proof">
+  左边等于
+    `1/(b-a) sum_(k ge 1) (1/(a+k) - 1/(b+k))`
+  等于右边.
+</p>
+
+<p class="example">
+  <b>`ln^2(1-x)` 的展开</b>
+  `ln^2 (1-x) = sum_(n ge 2) (2H_(n-1))/n x^n`.
+</p>
+
+<p class="proof">
+  左边等于
+  <span class="formula">
+    `(sum_(n ge 1) x^n/n)^2`
+    `= sum_(n ge 2) x^n sum_(k=1)^(n-1) 1/(k(n-k))`.
+  </span>
+  裂项得
+  <span class="formula">
+    `sum_(k=1)^(n-1) 1/(k(n-k))`
+    `= 1/n sum_(k=1)^(n-1) (1/k + 1/(n-k))`
+    `= (2H_(n-1))/n`.
+  </span>
+</p>
+
+<p class="example">
+  `sum_(k ge 1) 1/k (H_(n+k) - H_k)`
+  `= sum_(j=1)^n H_j/j`
+  `= sum_(k ge 2) (1/k - 1/(n+k)) H_(k-1)`.
+</p>
+
+<ol class="proof">
+  等式记为 `(1) = (2) = (3)`. 其中
+  <li>
+    <span class="formula">
+      `(1) = sum_(k ge 1) 1/k sum_(j=1)^n 1/(k+j)`
+      `= sum_(j=1)^n sum_(k ge 1) 1/(k(k+j))`
+      `= (2)`.
+    </span>
+  </li>
+  <li>[来自 乐正垂星]
+    <span class="formula">
+      `(2) = sum_(j=1)^n sum_(k ge 1) 1/(k(k+j))`
+      `==^(m=j+k) sum_(m ge 2) 1/m sum_(j=1)^s 1/(m-j)`
+      `= sum_(m ge 2) 1/m (H_(m-1) - H_(m-s))`
+      `overset ? = (3)`.
+    </span>
+    其中 `s = min(n, m-1)`. 我们用极限说明最后一个等号成立:
+    这只需证
+    <span class="formula">
+      `sum_(k ge 2) (H_(k-s)/k - H_(k-1)/(n+k)) = 0`.
+    </span>
+    事实上对任意充分大的 `N`,
+    <span class="formula align">
+      `0 le S_N = sum_(k=2)^N H_(k-s)/k - sum_(k=2)^N H_(k-1)/(n+k)`<br>
+      `= sum_(k=2)^(n+1) H_0/k + sum_(k=n+2)^N H_(k-n-1)/k - sum_(k=2)^N
+      H_(k-1)/(n+k)`<br>
+      `= sum_(j=2)^(N-n) H_(j-1)/(j+n) - sum_(k=2)^N H_(k-1)/(n+k)`<br>
+      `= sum_(j=N-n+1)^N H_(j-1)/(j+n)`<br>
+      `le n H_(N-1)/(N-1)`.
+    </span>
+    上式两边令 `N to oo` 得 `S_N to 0`.
+  </li>
+</ol>
+
+<p class="example">
+  `sum_(k=1)^(n-1) H_k/(k+1) = sum_(k=1)^(n-1) (n H_k - k H_n)/(k(n-k))`.
+</p>
+
+<p class="proof">
+  从等式
+  <span class="formula">
+    `sum_(k ge 1) 1/k (H_(n+k-1) - H_k) = sum_(k ge 1) (1/(k+1) - 1/(n+k)) H_k`
+  </span>
+  出发, 上式右边写为
+  <span class="formula">
+    `sum_(k ge 1) (H_k/(k+1) - H_(n+k-1)/(n+k))`
+    `+ 1/(n+k)(H_(n+k-1) - H_k)`
+    `= S_1 + S_2`.
+  </span>
+  于是 `S_1` 等于左边减 `S_2`, 即
+  <span class="formula">
+    `sum_(k=1)^(n-1) H_k/(k+1)`
+    `= sum_(k ge 1) (1/k - 1/(n+k)) sum_(j=1)^(n-1) 1/(k+j)`
+    `= sum_(j=1)^(n-1) (H_j/j - (H_n-H_j)/(n-j))`
+    `= sum_(j=1)^(n-1) (n H_j - j H_n)/(j(n-j))`.
+  </span>
+</p>
+
+<p class="example">
+  `sum_(k=1)^n H_k/k = 1/2 (H_n^2 + H_n^((2)))`.
+</p>
+
+<p class="proof">
+  上式左边记为 `S`, 分部求和,
+  <span class="formula align">
+    `S = [H_k H_(k-1)]_1^(n+1) - sum_(k=1)^n H_k/(k+1)`<br>
+    `= H_(n+1) H_n - H_n/(n+1) - sum_(k=1)^(n-1) H_k/(k+1)`<br>
+    `= H_n^2 + sum_(k=1)^(n-1) 1/(k+1)^2 - sum_(k=1)^(n-1)
+    H_(k+1)/(k+1)`<br>
+    `= H_n^2 + H_n^((2)) - S`.
+  </span>
+</p>
+
+<ol class="example">
+  <li>`int_0^1 x^(n-1) ln^m x dx = (-1)^m m!/n^(m+1)`;</li>
+  <li>`int_0^1 x^(n-1) ln (1-x) dx = -H_n/n`.</li>
+  <li>`int_0^1 x^(n-1) ln^2(1-x) dx = 2/n sum_(k=1)^n H_k/k = (H_n^2
+    + H_n^((2)))/n`.</li>
+</ol>
+
+<ol class="solution">
+  <li>分部积分即可.</li>
+  <li>左边等于
+    <span class="formula">
+      `- int_0^1 x^(n-1) sum_(k ge 1) x^k/k dx`
+      `= -sum_(k ge 1) 1/k int_0^1 x^(n+k-1) dx`
+      `= -sum_(k ge 1) 1/(k(n+k))`
+      `= -1/n sum_(k ge 1) (1/k - 1/(n+k)) = `
+      右边.
+    </span>
+    利用 Beta 函数, 结论可以记为
+      `del/(del y) B(n, y)|_(y=1) = -H_n/n`.
+  </li>
+  <li>利用 `ln^2(1-x)` 的展开,
+    左边等于
+    <span class="formula">
+      `sum_(k ge 2) (2H_(k-1))/k int_0^1 x^(n+k-1) dx`
+      `= sum_(k ge 2) (2H_(k-1))/(k(n+k))`
+      `= 2/n sum_(k ge 2) (1/k - 1/(n+k)) H_(k-1)`.
+    </span>
+    利用前面的例题, 上式等于 `2/n sum_(k=1)^n H_k/k`,
+    再利用 `sum_(k=1)^n H_k/k = 1/2 (H_n^2 + H_n^((2)))` 得到第二式.
+  </li>
+</ol>
 
 <h2>超越函数的积分</h2>
 
@@ -1174,15 +1322,15 @@
 	[来自 论文哥]
 	`beta(2) = sum_(n ge 0) (-1)^n/(2n+1)^2` 称为 <b>Catalan 常数</b>:
 	<span class="formula">
-		`K = 0.915965594177...`
+		`G = 0.915965594177...`
 	</span>
-  也有用 `G` 或 `C` 表示 Catalan 常数的. 由此计算:
-	<li>`int_0^1 int_0^1 1/(1+x^2 y^2) dx dy = K`;</li>
-	<li>`int_0^1 (arctan x)/x dx = K`;</li>
+  也有用 `K` 或 `C` 表示 Catalan 常数的. 由此计算:
+	<li>`int_0^1 int_0^1 1/(1+x^2 y^2) dx dy = G`;</li>
+	<li>`int_0^1 (arctan x)/x dx = G`;</li>
 	<li>`int_0^1 (ln x)/(1+x^2) dx`
 		`= -1/2 int_0^(pi/2) x csc x dx`
 		`= int_0^(pi/4) ln tan x dx`
-		`= -K`;
+		`= -G`;
 	</li>
 	<li>`int_0^(pi/4) ln sin x dx` 和 `int_0^(pi/4) ln cos x dx`;</li>
     <li>`int_0^(pi/2) ln(1+cos x) dx` `= int_0^(pi/2) ln(1+sin x) dx`;</li>
@@ -1198,7 +1346,7 @@
 			`int_0^1 int_0^1 sum_(n ge 0) (-x^2 y^2)^n dx dy`
 			`= sum_(n ge 0) (-1)^n
 			int_0^1 x^(2n) dx int_0^1 y^(2n) dy`
-			`= sum_(n ge 0) (-1)^n/(2n+1)^2 = K`.
+			`= sum_(n ge 0) (-1)^n/(2n+1)^2 = G`.
 		</span>
 	</li>
 	<li>利用 `arctan x = sum_(n ge 0) (-1)^n x^(2n+1)/(2n+1)`, 原式等于
@@ -1206,7 +1354,7 @@
 			`int_0^1 sum_(n ge 0) (-1)^n x^(2n)/(2n+1) dx`
 			`overset ? = sum_(n ge 0) (-1)^n/(2n+1) int_0^1 x^(2n) dx`
 			`= sum_(n ge 0) (-1)^n/(2n+1)^2`
-			`= K`.
+			`= G`.
 		</span>
 	</li>
 	<li>分部积分,
@@ -1225,11 +1373,11 @@
 			`I+J = int_0^(pi/4) ln{:(sin 2x)/2:} dx`
 			`= 1/2 int_0^(pi/2) ln sin x dx - pi/4 ln 2`
 			`= - pi/2 ln 2`,<br/>
-			`I-J = int_0^(pi/4) ln tan x dx = -K`.
+			`I-J = int_0^(pi/4) ln tan x dx = -G`.
 		</span>
-		解线性方程组即得到 `I, J = -pi/4 ln 2 &mp; K/2`.
+		解线性方程组即得到 `I, J = -pi/4 ln 2 &mp; G/2`.
 	</li>
-    <li>由上题易得结果为 `2K - pi/2 ln 2`.</li>
+    <li>由上题易得结果为 `2G - pi/2 ln 2`.</li>
 	<li>令 `x = sin t`,
 		<span class="formula">
 			`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`
@@ -1242,14 +1390,14 @@
 			`int_0^(sqrt2/2) (arcsin x)/x dx`
 			`= int_0^(pi/4) t cot t dt`
 			`= -pi/8 ln 2 - int_0^(pi/4) ln sin t dt`
-			`= pi/8 ln 2 + K/2`.
+			`= pi/8 ln 2 + G/2`.
 		</span>
 	</li>
 	<li>原式等于
 		<span class="formula">
 			`int_0^(1/2) x Gamma(x) Gamma(1-x) dx`
 			`= int_0^(1/2) (pi x)/(sin pi x) dx` (余元公式)
-			`= 2/pi K` (由 3).
+			`= 2/pi G` (由 3).
 		</span>
 	</li>
 </ol>
