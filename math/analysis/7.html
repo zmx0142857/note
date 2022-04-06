@@ -563,24 +563,6 @@
   等于右边.
 </p>
 
-<ol class="example">
-  <li>`int_0^1 x^(n-1) ln x dx = -1/n^2`;</li>
-  <li>`int_0^1 x^(n-1) ln (1-x) dx = -H_n/n`.</li>
-</ol>
-
-<ol class="solution">
-  <li>分部积分即可.</li>
-  <li>左边等于
-    <span class="formula">
-      `- int_0^1 x^(n-1) sum_(k ge 1) x^k/k dx`
-      `= -sum_(k ge 1) 1/k int_0^1 x^(n+k-1) dx`
-      `= -sum_(k ge 1) 1/(k(n+k))`
-      `= -1/n sum_(k ge 1) (1/k - 1/(n+k)) = `
-      右边.
-    </span>
-  </li>
-</ol>
-
 <p class="example">
   `int_0^1 ln (1-x) dx`.
 </p>
@@ -658,6 +640,73 @@
 	</li>
 </ol>
 
+<p class="example">
+  [来自 我是萌萌的數心]
+  求 `I(m, n) = int_0^(pi/2) cos^m x cos n x dx`, `m, n` 为非负整数.
+</p>
+
+<p class="solution">
+  先证 `I(m, n) = m/(m+n) I(m-1, n-1)`. 这是因为由积化和差
+  <span class="formula">
+    `2 I(m, n) = I(m-1, n-1) + I(m-1, n+1)`,
+  </span>
+  另一方面, 分部积分得
+  <span class="formula">
+    `I(m, n) = m/n int_0^(pi/2) cos^(m-1) x sin x sin n x dx`
+    `= m/(2n) (I(m-1, n-1) - I(m-1, n+1))`.
+  </span>
+  两式联立消去 `I(m-1, n+1)` 得 `I(m, n) = m/(m+n) I(m-1, n-1)`.<br>
+  下证
+  <span class="formula">
+    `I(m, m + 2n + 1) = (-1)^n (2^m m! (2n)! (m+n)!)/(n! (2m+2n+1)!)`.
+  </span>
+  这只需验证 `I(0, 2n+1) = (-1)^n/(2n+1)`, 假设命题对 `m-1` 成立, 则
+  <span class="formula">
+    `I(m, m+2n+1)`
+    `m/(2m+2n+1) I(m-1, m+2n)`
+    `= m/(2m+2n+1) (-1)^n (2^(m-1) (m-1)! (2n)! (m+n-1)!)/(n! (2m+2n-1)!)`
+    `= (-1)^n (2^m m! (2n)! (m+n)!)/(n! (2m+2n+1)!)`.
+  </span>
+  最后, 因为 `I(0, 2n) = {pi/2, if n = 0; 0, otherwise:}`,
+  所以 `I(m, m+2n) = { pi/2^(m+1), if n = 0; 0, otherwise :}`.
+</p>
+
+<p class="example">
+  [来自 我是萌萌的數心] 求`I_n = int_(-oo)^oo  dx/(x^2+2ax+b)^n`, 其中 `Delta = 4(a^2-b) lt 0`.
+</p>
+
+<p class="solution">
+  令 `x+a = sqrt(b-a^2) tan u`,
+  <span class="formula align">
+    `I_n = int_(-pi/2)^(pi/2) sqrt(b-a^2)/cos^2 u ("d"u)/((b-a^2)^n(1+tan^2 u)^n)`<br>
+    `= (b-a^2)^(1/2-n) int_(-pi/2)^(pi/2) cos^(2n-2) u "d"u`<br>
+    `= (b-a^2)^(1/2-n) pi ((2n-3)!!)/((2n-2)!!)`<br>
+    `= (b-a^2)^(1/2-n) pi ((2n-2)!)/({:(n-1)!:}^2 2^(2n-2))`<br>
+    `= (b-a^2)^(1/2-n) pi/2^(2n-2) (2n-2;n-1)`.
+  </span>
+</p>
+
+<p class="example">
+  [来自 (Almost) Impossible Integrals, Sums, and Series]
+  <span class="formula">
+    `int_0^(pi//2) dx/(1 + sin x cos y) = y/(sin y)`, `quad y in (0, pi)`.
+  </span>
+</p>
+
+<div class="p proof">
+  记 `u = cos y`, 利用万能代换, 原式等于
+  <span class="formula">
+    `int_0^1 (2 dt)/(1 + t^2 + 2 t u)`
+    `= 2 int_0^1 dt/((t+u)^2 + 1 - u^2)`
+    `= 2/sqrt(1-u^2) arctan((t+u)/sqrt(1-u^2)) |_(t=0)^1`
+    `= (arccos u)/sqrt(1-u^2)`.
+  </span>
+  最后一个等式由画图得到.
+  <div class="img md">
+    <img src="../img/7-atan2acos.png" alt="">
+  </div>
+</div>
+
 <h2>定积分的极限</h2>
 
 <p class="example">
@@ -707,52 +756,6 @@
     `= (n I + int_0^y f(t)dt)/(n T + y)`.
   </span>
   `int_0^y f(t) dt` 和 `y` 均为有界量, 当 `n to oo` 时上式趋于 `I//T`.
-</p>
-
-<p class="example">
-  [来自 我是萌萌的數心]
-  求 `I(m, n) = int_0^(pi/2) cos^m x cos n x dx`, `m, n` 为非负整数.
-</p>
-
-<p class="solution">
-  先证 `I(m, n) = m/(m+n) I(m-1, n-1)`. 这是因为由积化和差
-  <span class="formula">
-    `2 I(m, n) = I(m-1, n-1) + I(m-1, n+1)`,
-  </span>
-  另一方面, 分部积分得
-  <span class="formula">
-    `I(m, n) = m/n int_0^(pi/2) cos^(m-1) x sin x sin n x dx`
-    `= m/(2n) (I(m-1, n-1) - I(m-1, n+1))`.
-  </span>
-  两式联立消去 `I(m-1, n+1)` 得 `I(m, n) = m/(m+n) I(m-1, n-1)`.<br>
-  下证
-  <span class="formula">
-    `I(m, m + 2n + 1) = (-1)^n (2^m m! (2n)! (m+n)!)/(n! (2m+2n+1)!)`.
-  </span>
-  这只需验证 `I(0, 2n+1) = (-1)^n/(2n+1)`, 假设命题对 `m-1` 成立, 则
-  <span class="formula">
-    `I(m, m+2n+1)`
-    `m/(2m+2n+1) I(m-1, m+2n)`
-    `= m/(2m+2n+1) (-1)^n (2^(m-1) (m-1)! (2n)! (m+n-1)!)/(n! (2m+2n-1)!)`
-    `= (-1)^n (2^m m! (2n)! (m+n)!)/(n! (2m+2n+1)!)`.
-  </span>
-  最后, 因为 `I(0, 2n) = {pi/2, if n = 0; 0, otherwise:}`,
-  所以 `I(m, m+2n) = { pi/2^(m+1), if n = 0; 0, otherwise :}`.
-</p>
-
-<p class="example">
-  [来自 我是萌萌的數心] 求`I_n = int_(-oo)^oo  dx/(x^2+2ax+b)^n`, 其中 `Delta = 4(a^2-b) lt 0`.
-</p>
-
-<p class="solution">
-  令 `x+a = sqrt(b-a^2) tan u`,
-  <span class="formula align">
-    `I_n = int_(-pi/2)^(pi/2) sqrt(b-a^2)/cos^2 u ("d"u)/((b-a^2)^n(1+tan^2 u)^n)`<br>
-    `= (b-a^2)^(1/2-n) int_(-pi/2)^(pi/2) cos^(2n-2) u "d"u`<br>
-    `= (b-a^2)^(1/2-n) pi ((2n-3)!!)/((2n-2)!!)`<br>
-    `= (b-a^2)^(1/2-n) pi ((2n-2)!)/({:(n-1)!:}^2 2^(2n-2))`<br>
-    `= (b-a^2)^(1/2-n) pi/2^(2n-2) (2n-2;n-1)`.
-  </span>
 </p>
 
 <script src="../../js/note.js?type=math"></script>
