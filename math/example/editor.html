@@ -775,25 +775,57 @@ var keyboard = $('#keyboard');
 var outputWrapper = $('#outputWrapper');
 var help = $('#help');
 
+function katexTry(input, output, displayMode) {
+  try {
+    output.classList.remove('katex-error')
+      katex.render(input, output, { displayMode })
+  } catch (e) {
+    console.error(e)
+    output.innerText = e.message
+    output.classList.add('katex-error')
+  }
+}
+
 function render() {
-  if (input.lang == 'asciimath') {
+  if (input.lang === 'asciimath') {
     output.asciimath = input.value;
     output.innerHTML = '`' + output.asciimath + '`';
     if (asciimath) {
       asciimath.render(output);
       output.tex = asciimath.texstr;
     }
-  } else {
+  } else if (input.lang === 'tex') {
     output.tex = input.value;
     output.innerHTML = input.value;
-    try {
-      output.classList.remove('katex-error');
-      katex.render(input.value, output);
-    } catch (e) {
-      console.error(e);
-      output.innerText = e.message;
-      output.classList.add('katex-error');
-    }
+    katexTry(input.value, output)
+  } else if (input.lang === 'textext') { // tex, 文字模式
+    output.textext = input.value;
+    output.innerHTML = input.value;
+    const frag = document.createDocumentFragment()
+    let isDisplay = false
+    input.value.split('$$').forEach(s1 => {
+      let out
+      if (isDisplay) {
+        out = document.createElement('center')
+        katexTry(s1, out, true)
+        frag.appendChild(out)
+      } else {
+        let isFormula = false
+        s1.split('$').forEach(s2 => {
+          if (isFormula) {
+            out = document.createElement('span')
+            katexTry(s2, out)
+          } else {
+            out = document.createTextNode(s2)
+          }
+          frag.appendChild(out)
+          isFormula = !isFormula
+        })
+      }
+      isDisplay = !isDisplay
+    })
+    output.innerHTML = ''
+    output.appendChild(frag)
   }
   // 调整输入框大小
   input.setAttribute('rows', Math.max(5, input.value.split('\n').length))
@@ -888,16 +920,12 @@ for (b of keyboard.children) {
 }
 
 lang.onclick = function() {
-  if (input.lang == 'asciimath') {
-    lang.innerText = 'tex';
-    input.lang = 'tex';
-    input.value = output.tex;
-  } else {
-    lang.innerText = 'asciimath';
-    input.lang = 'asciimath';
-    input.value = output.asciimath || '';
-  }
-};
+  const langs = ['asciimath', 'tex', 'textext']
+  const nextLang = langs[(langs.indexOf(input.lang) + 1) % langs.length]
+  lang.innerText = nextLang
+  input.lang = nextLang
+  input.value = output[nextLang] || ''
+}
 
 copy.onclick = function() {
   input.select();

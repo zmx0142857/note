@@ -211,6 +211,47 @@
 </p>
 
 <p class="example">
+  [来自 我是的的是我]
+  <span class="formula">
+    `sum_(k=1)^n (H(k))/k = 1/2(H(n)^2 + H_2(n))`,
+  </span>
+  其中 `H_r(n) = sum_(k=1)^n 1/k^r` 是<b>广义调和数</b>.
+</p>
+
+<p class="proof">
+  `n = 0` 时等式显然成立;
+  右边差分得
+  <span class="formula">
+    `1/2[H(n)^2 - H(n-1)^2 + H_2(n) - H_2(n-1)]`
+    `= 1/2[1/n(2H(n-1) + 1/n) + 1/n^2]`
+    `= (H(n))/n`,
+  </span>
+  等于左边的差分; 等式得证.
+</p>
+
+<p class="solution">
+  记左边为 `S`, 于是
+  <span class="formula align">
+    `S = [H(k) H(k-1)]_1^(n+1) - sum_(k=1)^n (H(k))/(k+1)`<br>
+    `= H(n+1) H(n) - sum_(k=1)^n (H(k))/(k+1)`<br>
+    `= H(n)^2 - sum_(k=1)^(n-1) (H(k))/(k+1)`<br>
+    `= H(n)^2 + sum_(k=1)^(n-1) 1/(k+1)^2 - sum_(k=1)^(n-1) (H(k+1))/(k+1)`<br>
+    `= H(n)^2 + H_2(n) - S`.<br>
+  </span>
+</p>
+
+<p class="example">
+  一般地, 对任意正整数 `a, b`, 运用分部求和得
+  <span class="formula">
+    `sum_(k=1)^n (H_a(k))/k^b = H_a(n) H_b(n) + H_(a+b)(n) - sum_(k=1)^n (H_b(k))/k^a`.
+  </span>
+  特别当 `a = b` 时,
+  <span class="formula">
+    `sum_(k=1)^n (H_a(k))/k^a = 1/2(H_a(n)^2 + H_(2a)(n))`.
+  </span>
+</p>
+
+<p class="example">
   应用离散微积分的方法导出朱世杰恒等式:
   <span class="formula">
     `sum_(k=0)^n (k;p)`
