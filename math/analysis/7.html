@@ -707,6 +707,57 @@
   </div>
 </div>
 
+<p class="example">
+  <b>Poisson 积分</b>
+  [来自 菲赫金哥尔茨]
+  `I(r) = int_0^pi ln(1+r^2 - 2 r cos x) dx`.
+</p>
+
+<p class="solution">
+  `r != 1` 时, 被积函数连续, 积分存在.
+  利用定积分定义,
+  <span class="formula">
+    `I(r) = lim_(n to oo) pi/n sum_(k=1)^n ln (1+r^2 - 2 r cos{:(k pi)/n:})`
+    `= lim_(n to oo) pi/n ln prod_(k=1)^n (r-"e"^(k pi "i"//n))(r-"e"^(-k
+    pi "i"//n))`
+    `= lim_(n to oo) pi/n ln[(r+1)/(r-1) prod_(k=1)^(2n) (r-"e"^(k pi
+    "i"//n))]`
+    `= lim_(n to oo) pi/n ln[(r+1)/(r-1) (r^(2n)-1)]`.
+  </span>
+  若 `|r| lt 1`, 上式 `to 0`; 若 `|r| gt 1`, 上式化为
+  <span class="formula">
+    `lim_(n to oo) pi/n ln[(r+1)/(r-1) (r^(2n)-1)/r^(2n)] + pi/n * 2n * ln |r|`
+    `= 2 pi ln |r|`.
+  </span>
+</p>
+
+<p class="solution">
+  应用区间再现知 `I(-r) = I(r)`. 于是
+  <span class="formula">
+    `I(r) = 1/2(I(r) + I(-r)`
+    `= 1/2 int_0^pi ln (1+r^2+2r cos x)(1+r^2-2r cos x) dx`
+    `= 1/2 int_0^pi ln ((1+r^2)^2 - 4r^2 cos^2 x) dx`
+    `= 1/2 int_0^pi ln (1+r^4 - 2 r^2 cos 2x) dx`
+    `= 1/2 I(r^2)`.
+  </span>
+  由
+  <span class="formula">
+    `(1-|r|)^2 le 1 + r^2 - 2 r cos x le (1+|r|)^2`
+  </span>
+  两边取对数再积分得
+  <span class="formula">
+    `2 pi ln(1-|r|) le I(r) le 2 pi ln(1+|r|)`,
+  </span>
+  因此 `lim_(r to 0) I(r) = 0`.
+  现在若 `|r| lt 1`, 则 `I(r) = I(r^(2^n))//2^n`, 令 `n to oo` 而得到
+  `0`; 若 `|r| gt 1`, 则
+  <span class="formula">
+    `I(r) = int_0^pi[ ln(1+1/r^2 - 2/r cos x) + 2 ln |r| ]dx`
+    `= I(1/r) + 2 pi ln |r|`
+    `= 2 pi ln |r|`.
+  </span>
+</p>
+
 <h2>定积分的极限</h2>
 
 <p class="example">

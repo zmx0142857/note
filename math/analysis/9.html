@@ -31,7 +31,7 @@
 	<span class="formula">
 		`K(k) := int_0^(pi/2) ("d"theta)/sqrt(1-k^2 sin^2 theta)`,
 		`quad "Re"(k) lt 1`.
-    <span class="label">(第一形式)</span>
+    <span class="label">(Legendre 形式)</span>
 	</span>
   其中变元 `k` 称为<b>模</b>.
   令 `t = sin theta` 得到:
@@ -44,9 +44,9 @@
 		`K(z) = int_0^(pi/2) ("d"theta)/sqrt(1+z^2 +- 2z cos 2 theta)`.
     <span class="label">(第二形式)</span>
 	</span>
-  不完全椭圆积分:
+  不完全椭圆积分 (Legendre 积分):
   <span class="formula">
-    `F(varphi, k) := int_0^varphi ("d"theta)/sqrt(1-k^2 sin^2 theta)`.
+    `F(k, varphi) := int_0^varphi ("d"theta)/sqrt(1-k^2 sin^2 theta)`.
   </span>
 </p>
 
@@ -114,8 +114,8 @@
 	</span>
 </p>
 
-<p class="proposition">
-    定义
+<p class="theorem">
+  <b>Gauss 公式</b> 定义
 	<span class="formula">
 		`M(a, b) := int_0^(pi/2)("d"theta)/sqrt(a^2 cos^2 theta+b^2 sin^2 theta)`,
 	</span>
@@ -123,10 +123,10 @@
 	<span class="formula">
 		`M((a+b)/2, sqrt(a b)) = 2/(a+b) K((a-b)/(a+b)) = M(a, b)`.
 	</span>
-    取 `a, b = 1 +- k`:
-    <span class="formula">
-        `M(1, sqrt(1-k^2)) = K(k) = M(1+k, 1-k)`.
-    </span>
+  取 `a, b = 1 +- k`:
+  <span class="formula">
+    `M(1, k') = M(1, sqrt(1-k^2)) = K(k) = M(1+k, 1-k)`.
+  </span>
 </p>
 
 <p class="proof">
@@ -161,7 +161,62 @@
 	这就证明了第二个等号.
 </p>
 
-<p class="theorem">
+<p class="proof">
+  [来自 菲赫金哥尔茨 第二卷第 315 目] 令
+  <span class="formula">
+    `sin theta = (2 a sin varphi)/((a+b) + (a-b)sin^2 varphi)`,
+    <span class="label" id="for-landen"></span>
+  </span>
+  注意到 `varphi` 从 `0` 到 `pi//2` 时, `theta` 也在同一区间变化.
+  <span class="collapse">
+    <span class="formula align">
+      `cos^2 theta = 1 - sin^2 theta`<br>
+      `= 1/()^2 [(a+b)^2 + (a-b)^2 sin^4 varphi + 2(a^2-b^2)sin^2 varphi
+      - 4 a^2 sin^2 varphi]`<br>
+      `= 1/()^2 [(a+b)^2 (cos^2 varphi + sin^2 varphi):}<br>
+      `quad + {:(a-b)^2 sin^2 varphi (1 - cos^2 varphi) - 2(a^2+b^2) sin^2 varphi]`<br>
+      `= (cos^2 varphi)/()^2 [(a+b)^2 - (a-b)^2 sin^2 varphi]`,
+    </span>
+  </span>
+  我们得到
+  <span class="formula">
+    `cos theta = sqrt((a+b)^2 - (a-b)^2 sin^2 varphi)/((a+b) + (a-b) sin^2
+    varphi) cos varphi`.
+  </span>
+  另一方面,
+  <span class="collapse">
+    <span class="formula align">
+      `a^2 cos^2 theta + b^2 sin^2 theta`<br>
+      `= a^2/()^2 (((a+b)^2 - (a-b)^2 sin^2 varphi) cos^2 varphi + 4 b^2
+      sin^2 varphi)`<br>
+      `= a^2/()^2 ((a+b)^2 (1-sin^2 varphi) - (a-b)^2 sin^2 varphi (1-sin^2
+      varphi) 1 + 4 b^2 sin^2 varphi)`<br>
+      `= a^2/()^2 ((a+b)^2 - 2 (a^2-b^2) sin^2 varphi + (a-b)^2 sin^4
+      varphi)`<br>
+    </span>
+  </span>
+  被积函数的分母可以有理化:
+  <span class="formula">
+    `sqrt(a^2 cos^2 theta + b^2 sin^2 theta)`
+    `= a ((a+b) - (a-b) sin^2 varphi)/((a+b) + (a-b) sin^2 varphi`.
+  </span>
+  最后由 <a class="ref" href="#for-landen"></a> 微分得
+  <span class="formula">
+    `cos theta "d"theta`
+    `= 2a cos varphi ((a+b) - (a-b) sin^2 varphi)/((a+b) + (a-b) sin^2
+    varphi)^2 "d"varphi`,
+  </span>
+  于是
+  <span class="formula">
+    `("d"theta)/sqrt(a^2 cos^2 theta + b^2 sin^2 theta)`
+    `= (2 "d"varphi)/sqrt((a+b)^2 - (a-b)^2 sin^2 varphi)`
+    `= ("d"varphi)/sqrt(((a+b)/2)^2 - ((a-b)/2)^2 sin^2 varphi)`
+    `= ("d"varphi)/sqrt(((a+b)/2)^2 cos^2 varphi + a b sin^2 varphi)`.
+  </span>
+  即 `M(a, b) = M((a+b)/2, sqrt(a b))`.
+</p>
+
+<p class="corollary">
 	<b>(Gauss, 1799)</b>
 	设数列 `{a_n}`, `{b_n}` 满足: `0 lt b_0 lt a_0`, 且
 	<span class="formula">
@@ -199,6 +254,47 @@
 			`M(a_0, b_0) = M(a_1, b_1) = cdots = M(A, A) = pi/(2 A)`.
 		</span>
 	</li>
+</ol>
+
+<p class="corollary">
+  <span class="formula">
+    `K(k) = (1 + k_1) K(k_1)`,
+  </span>
+  其中 `k_1 = (1-k')/(1+k')`, `k' = sqrt(1-k^2)`.
+  反复应用此公式得
+  <span class="formula">
+    `K(k) = pi/2 prod_(n ge 1) (1+k_n)`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    由 Gauss 公式,
+    <span class="formula">
+      `K(k) = M(1, k')`
+      `= M((1+k')/2, sqrt(k'))`
+      `= int_0^(pi/2) ("d"theta)/sqrt(((1+k')/2)^2 cos^2 theta + k' sin^2 theta)`
+      `= int_0^(pi/2) ("d"theta)/sqrt(((1+k')/2)^2 - ((1-k')/2)^2 sin^2
+      theta)`
+      `= 1/(1+k') int_0^(pi/2) ("d"theta)/sqrt(1 - k_1^2 sin^2 theta)`
+      `= (1+k_1) K(k_1)`.
+    </span>
+  </li>
+  <li>
+    反复应用上式得到
+    <span class="formula">
+      `K(k) = prod_(j=1)^n (1+k_j) K(k_n)`,
+    </span>
+    其中 `k_n = (1 - k_(n-1)')/(1 + k_(n-1)')`.
+    因此 `0 lt k_n lt 1`, `k_n lt k_(n-1)^2`. 这推出 `k_n to 0`, `n to
+    oo`. 进而
+    <span class="formula">
+      `0 lt K(k_n) - pi/2`
+      `= int_0^(pi/2) (1 - sqrt(1 - k_n^2 sin^2 theta))/sqrt(1 - k_n^2
+      sin^2 theta) "d"theta`
+      `lt pi/2 (1 - sqrt(1-k_n^2))/sqrt(1-k_n^2) to 0`.
+    </span>
+  </li>
 </ol>
 
 <p class="proposition">
