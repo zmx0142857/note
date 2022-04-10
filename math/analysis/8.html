@@ -386,32 +386,24 @@
 
 <p class="example">
   <b>点火公式</b>
-	`I_n = int_0^(pi/2) sin^n x dx = int_0^(pi/2) cos^n x dx`
-	`= 1/2 B((n+1)/2, 1/2)`
-	`= {
-		((n-1)!!)/(n!!), if n " is odd";
-		((n-1)!!)/(n!!) * pi/2, if n " is even";
-	:}`
-	由此得到 Beta 函数在一些半整数点的取值.
+	给出 Beta 函数在半整数点的取值: 对非负整数 `m, n`,
+  <span class="formula">
+    `1/2 B((m+1)/2, (n+1)/2)`
+    `= int_0^(pi/2) sin^m x cos^n x dx`
+    `= ((m-1)!!(n-1)!!)/((m+n)!!) * s`,
+  </span>
+  其中 `m, n` 都为偶数时 `s = pi//2`, 否则 `s = 1`.
+  特别取 `m = 0` 得
+  <span class="formula">
+    `I_n = int_0^(pi/2) sin^n x dx`
+    `= int_0^(pi/2) cos^n x dx`
+    `= ((n-1)!!)/(n!!) * s`.
+  </span>
 </p>
 
 <p class="solution">
-	化为 Beta 函数:
-	<span class="formula">
-		`I_n` (令 `x = arcsin u`)
-		`= int_0^1 u^n/sqrt(1 - u^2) "d"u` (令 `u=sqrt v`)
-		`= 1/2 int_0^1 v^(n/2 - 1/2) / sqrt(1-v) "d"v`
-		`= 1/2 int_0^1 v^((n+1)/2 - 1) (1-v)^(1/2 - 1) "d"v`
-		`= 1/2 B((n+1)/2, 1/2)`.
-	</span>
-</p>
-
-<p class="solution">
-	利用第 6 章的 <a href="6.html#exp-int-sin-n-x">例题</a>, 容易得到
-	<span class="formula">
-		`I_n = (n-1)/n I_(n-2)`.
-	</span>
-	易求得 `I_0 = pi/2`, `I_1 = 1`. 由递推公式马上得到上面的结论.
+	利用第 6 章的<a href="6.html#exp-int-sin-n-x">例题</a>, 容易得到
+  `I_n = (n-1)/n I_(n-2)`; 而 `I_0 = pi/2`, `I_1 = 1`, 即得到上面的结论.
 </p>
 
 <p class="example" id="for-wallis">
