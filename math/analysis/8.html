@@ -1172,6 +1172,45 @@
   </span>
 </p>
 
+<ol class="example">
+  [来自 (Almost) Impossible Integrals, Sums, and Series]
+  <li>`int_0^x (ln^2(1-t))/t dt`;</li>
+</ol>
+
+<ol class="solution">
+  <li>分部积分, 原式等于
+    <span class="formula">
+      `ln x ln^2(1-x) + 2 int_0^x (ln t ln(1-t))/(1-t) dt`
+    </span>
+    其中
+    <span class="formula">
+      `int_0^x (ln t ln(1-t))/(1-t) dt`
+      `= int_(1-x)^1 (ln t ln (1-t))/t dt`
+      `= int_0^1 - int_0^(1-x)`.
+    </span>
+    第一项
+    <span class="formula">
+      `int_0^1 (ln t ln(1-t))/t dt`
+      `= int_0^1 ln t ( ln t/(1-t) - ln(1-t)/t ) dt`
+      `= - I + int_0^1 (ln^2 t)/(1-t) dt`
+      `= 1/2 int_0^oo x^2/("e"^x - 1) dx`
+      `= 1/2 Gamma(3) zeta(3)`
+      `= zeta(3)`.
+    </span>
+    第二项分部积分
+    <span class="formula">
+      `int_0^x (ln t ln(1-t))/t dt`
+      `= "Li"_3(x) - ln x "Li"_2(x)`.
+    </span>
+    综上
+    <span class="formula">
+      `int_0^x (ln^2(1-t))/t dt`
+      `= ln x ln^2(1-x)`
+      `+ 2 zeta(3) - 2 "Li"_3(1-x) + 2 ln(1-x) "Li"_2(1-x)`.
+    </span>
+  </li>
+</ol>
+
 <p class="definition">
   对正整数 `a ge 1, b ge 2`, <b>Euler 和</b>定义为
   <span class="formula">
