@@ -49,7 +49,7 @@ math: {
     {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-04-03'},
     {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-04-10'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html', data: '2022-04-10'},
-    {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-01-15'},
+    {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-04-15'},
     {title:'常数项级数', src:'analysis/11.html'},
     {title:'函数列与函数项级数', src:'analysis/12.html'},
     {title:'Fourier 级数', src:'analysis/13.html'},
