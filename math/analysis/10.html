@@ -153,7 +153,7 @@
 	</span>
 </p>
 
-<h2>Bernoulli 数与 Stirling 数</h2>
+<!-- <h2>Bernoulli 数与 Stirling 数</h2> -->
 
 <h2>Bernoulli 数的递推公式与生成函数</h2>
 
@@ -184,6 +184,15 @@
 	<li>把 1. 中的 `x+1` 换成 `x` 即可.
 	</li>
 </ol>
+
+<p class="remark">
+  前几个 Bernoulli 多项式是
+  <span class="formula">
+    `B_0(x) = 1`, `B_1(x) = x - 1/2`, `B_2(x) = x^2 - x + 1/6`,
+    `B_3(x) = x^3 - 3/2 x^2 + 1/2 x`,
+    `B_4(x) = x^4 - 2x^3 + x^2 - 1/30`.
+  </span>
+</p>
 
 <p class="corollary">
 	<b>`B_n^(+-)` 的递推公式</b>
@@ -1148,23 +1157,32 @@
 
 <p class="example">
   <b>Bernoulli 多项式的 Fourier 展开</b>
-  考虑 `B_n({x})`, 其中 `{x} = x - |__x__|` 表示 `x` 的小数部分.
-  它的周期为 1, 于是 `x !in ZZ` 时, 展开得
+  考察函数 `B_n({x})`, 其中 `{x} = x - |__x__|`. 它以 `1` 为周期,
+  当 `n ge 1`, `x !in ZZ` 时, 可以展开为
   <span class="formula">
-    `B_1({x}) = sum_(k ge 1) b_(1,k) sin(2 pi k x)`,
-  </span> 
-  其中
-  <span class="formula">
-    `b_(1,k) = (int_0^1 (x - 1/2) sin(2 pi k x) dx)/(int_0^1 sin^2(2 pi k x) dx)`
-    `= (-1//(2 k pi))/(1//2)`
-    `= -1/(k pi)`.
-  </span> 
-  利用递推关系 `B_n(x) = n int_0^x B_(n-1)(t) dt + B_n` 逐项积分,
-  <span class="formula">
-    `B_2({x}) = sum_(k ge 1) (cos 2 pi k x)/(k pi)^2`,<br>
-    `B_3({x}) = 3/2 sum_(k ge 1) (sin 2 pi k x)/(k pi)^3`,<br>
-    `B_4({x}) = -3 sum_(k ge 1) (cos 2 pi k x)/(k pi)^4`.
+    `B_(2n)({x}) = (-1)^(n-1) * 2 sum_(k ge 1) (2n)!/(2k pi)^(2n) cos 2 k pi x`,<br>
+    `B_(2n+1)({x}) = (-1)^(n-1) * 2 sum_(k ge 1) (2n+1)!/(2k pi)^(2n+1) sin 2 k pi x`.
   </span>
+</p>
+
+<p class="proof">
+  `n = 1` 时, `B_1(x) = x - 1/2`. 它的 Fourier 系数为
+  <span class="formula">
+    `(int_0^1 B_1(x) sin 2 pi k x dx)/(int_0^1 sin^2 2 pi k x dx)`
+    `= (-1//(2 k pi))/(1//2)`
+    `= -1/(k pi)`,
+  </span>
+  它是奇函数, 于是
+  <span class="formula">
+    `B_1({x}) = - sum_(k ge 1) (sin 2 pi k x)/(k pi)`.
+  </span>
+  接下来应用归纳法, 使用已知的递推公式
+  <span class="formula">
+    `B_n(x) = n int_0^x B_(n-1)(t) dt + B_n`,
+  </span>
+  以及 `B_(2n+1) = 0` 和
+    `B_(2n) = (-1)^(n-1) * 2 (2n)!/(2pi)^(2n) zeta(2n)`,
+  即可验证结论成立.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
