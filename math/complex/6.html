@@ -136,6 +136,22 @@
   </li>
 </ol>
 
+<ol class="theorem">
+  <b>Fourier 正余弦变换及其逆变换</b>
+  <li>
+    <span class="formula">
+      `F_c(xi) = sqrt(2/pi) int_0^oo f(x) cos xi x dx`,<br>
+      `f(x) = sqrt(2/pi) int_0^oo F_c(xi) cos xi x "d"xi`.
+    </span>
+  </li>
+  <li>
+    <span class="formula">
+      `F_s(xi) = sqrt(2/pi) int_0^oo f(x) sin xi x dx`,<br>
+      `f(x) = sqrt(2/pi) int_0^oo F_s(xi) sin xi x "d"xi`.
+    </span>
+  </li>
+</ol>
+
 <h2>Mellin 变换</h2>
 
 <p class="definition">
@@ -179,10 +195,6 @@
   再换回 `x = "e"^(2 pi u)` 即得第一式.
 </p>
 
-<p class="example">
-  `"e"^-x`, `x gt 0` 的 Mellin 变换是 `Gamma(s)`, `"Re"s gt 0`.
-</p>
-
 <h2>Laplace 变换</h2>
 
 <p class="definition">
@@ -214,6 +226,7 @@
   <li>线性性质: `cc L[a f(t) + b g(t)] = a F(s) + b G(s)`;</li>
   <li>位移性质: `cc L["e"^(-a t) f(t)] = F(s + a)`;</li>
   <li>延时性质: `cc L[f(t - tau)] = "e"^(-tau s) F(s)`;</li>
+  <li>伸缩性质: `cc L[f(delta t)] = F(s/delta)//delta`, `delta gt 0`;</li>
   <li>微分性质: `cc L[f'(t)] = s F(s) - f(0)`;</li>
   <li>积分性质: `cc L[f^((-1))(t)] = (F(s))/s + (f^((-1))(0))/s`; `f^((-1))`
     是 `f` 的原函数;</li>
@@ -312,6 +325,80 @@
     `x = x_0 cos at + (x_0')/a sin at + int_0^t f(tau) sin
     [a(t-tau)]"d"tau`.
   </span>
+</p>
+
+<ol class="example" id="exp-dirichlet-integral">
+  <b>Laplace 变换与 Dirichlet 积分</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/437994143">flyingczx</a>]
+  <li>积分换序可证<b>频域积分性质</b>:
+    `cc L[f(t)//t] = int_s^oo F(u) "d"u`;</li>
+  <li>`int_0^oo sin(a t)/t dt = pi/2`, `a gt 0`.</li>
+</ol>
+
+<p class="proof">
+  只需求 `sin(a t)/t` 的 Laplace 变换, 然后令 `s = 0`.
+  利用频域积分性质和伸缩变换, 我们有
+  <span class="formula">
+    `cc L[sin(a t)/t]`
+    `= int_s^oo cc L[sin a t] "d"u`
+    `= int_s^oo (1//a)/(1 + (u//a)^2) "d"u`
+    `= pi/2 - arctan(s/a)`.
+  </span>
+</p>
+
+<p class="proof">
+  对 `I(a) = int_0^oo sin(a t)/t dt` 作 Laplace 变换得
+  <span class="formula">
+    `cc L_a[I(a)] = int_0^oo t/(s^2+t^2) dt/t`
+    `= pi/2 1/s`.
+  </span>
+  两边再作 Laplace 逆变换得 `I(a) = pi/2`.
+</p>
+
+<ol class="example">
+  <b>Laplace 积分</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/150468571">Aries</a>]
+  <li>积分换序可证<b>分部 Laplace 变换</b>公式:
+    `int_0^oo f(t) G(t) dt = int_0^oo F(s) g(s) "d"s`;
+  </li>
+  <li>`a, b gt 0`, 则
+    <span class="formula">
+      `I(a, b) = int_0^oo t/(t^2+a^2) sin b t dt`
+      `= int_0^oo cos a t (b dt)/(t^2+b^2)`
+      `= pi/2 "e"^(-a b)`.
+    </span>
+  </li>
+</ol>
+
+<p class="proof">
+  对参数 `a` 求导两次,
+  <span class="formula">
+    `del/(del a) I(a, b)`
+    `= -b int_0^oo t/(t^2+b^2) sin a t dt`
+    `= -b int_0^oo (1 - b^2/(t^2+b^2)) (sin a t)/t dt`
+    `= -b pi/2 + b^2 int_0^oo b/(t^2+b^2) (sin a t)/t dt`,<br>
+    `del^2/(del a)^2 I(a, b)`
+    `= b^2 int_0^oo b/(t^2+b^2) cos a t dt`
+    `= b^2 I(a, b)`.
+  </span>
+  于是得到常微分方程
+  <span class="formula">
+    `del^2/(del a)^2 I(a, b) = b^2 I(a, b)`,
+    `quad I(0, b) = pi/2`,
+    `del/(del a) I(0, b) = -b pi/2`.
+  </span>
+  解得 `I(a, b) = pi/2 "e"^(-a b)`.
+</p>
+
+<p class="proof">
+  作 Laplace 变换,
+  <span class="formula">
+    `cc L_a[I(a, b)]`
+    `= int_0^oo s/(s^2 + t^2) b/(t^2+b^2) dt`
+    `= (s b)/(b^2-s^2) int_0^oo (1/(s^2+t^2) - 1/(t^2+b^2)) dt`
+    `= pi/2 1/(s+b)`.
+  </span>
+  再作逆变换得 `I(a, b) = pi/2 "e"^(-a b)`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

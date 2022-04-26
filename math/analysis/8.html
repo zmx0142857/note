@@ -96,9 +96,9 @@
   <span class="formula">
     `int_(-oo)^oo (sin x)/x dx = pi`.
   </span>
-  推广:
+  利用 <a href="../complex/6.html#exp-dirichlet-integral">Laplace 变换</a>推广为:
   <span class="formula">
-    `int_0^oo "e"^(-a x) (sin b x)/x dx = arctan{:b/a:}`.
+    `int_0^oo (sin a x)/x "e"^(-s x) dx = arctan{:a/s:}`.
   </span>
 </p>
 
@@ -371,11 +371,12 @@
 <ol class="property">
 	<b>Beta 函数的其它形式</b>
 	<li>令 `t = sin^2 theta`, 则
+      <span class="formula">
 		`B(x, y) = 2 int_0^(pi//2) sin^(2x-1) theta
 		cos^(2y-1) theta "d"theta`.
+      </span>
 	</li>
-	<li>令 `t = u/(1+u)`, 则 `B(x, y) = int_0^oo u^(x-1)/(1+u)^(x+y)
-		"d"u`. 特别 `B(x, 1-x) = int_0^oo u^(x-1)/(1+u) "d"u`.
+	<li>令 `t = u/(1+u)`, 则 `B(x, y) = int_0^oo u^(x-1)/(1+u)^(x+y) "d"u`.
 	</li>
 	<li>由上一式得 `B(x, y) = int_0^1 u^(x-1)/(1+u)^(x+y) "d"u`
 		`+ int_1^oo u^(x-1)/(1+u)^(x+y) "d"u`.
@@ -383,6 +384,19 @@
 		`B(x, y) = int_0^1 (u^(x-1) + u^(y-1))/(1+u)^(x+y) "d"u`.
 	</li>
 </ol>
+
+<p class="example">
+  在 Beta 函数的表达式中取 `x = s`, `y = 1-s` 得
+  <span class="formula">
+    `B(s, 1-s) = int_0^oo u^(s-1)/(1+u) "d"u`.
+  </span>
+  由后面的余元公式知道这个积分的值为 `pi/sin(pi s)`.  推论:
+  <span class="formula">
+    `int_0^oo u^(s-1)/(t+u) "d"u = t^(s-1) pi/sin(pi s)`,<br>
+    `int_0^oo u^(s-1)/(t^2+u^2) t "d"u = t^(s-1) (pi//2)/sin(pi s//2)`,<br>
+    `int_0^oo u^(s-1) ln(1+1/u) "d"u = 1/s pi/sin(pi s)`.
+  </span>
+</p>
 
 <p class="example">
   <b>点火公式</b>
