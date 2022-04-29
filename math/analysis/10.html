@@ -1194,23 +1194,57 @@
   </span>
   令
   <span class="formula">
-    `xi(s) = 1/2 s (s-1) pi^(-s/2) Gamma(s/2) zeta(s)`,
+    `xi(s) = (s (s-1))/2 pi^(-s/2) Gamma(s/2) zeta(s)`,
   </span>
-  则函数方程可写为对称的形式: `xi(s) = xi(1-s)`.
+  则 `xi` 是整函数, 上述函数方程可写为对称形式: `xi(s) = xi(1-s)`.
+</p>
+
+<p class="proof">
+  两个方程的等价性:
+  利用 Legendre 倍元公式和余元公式,
+  <span class="formula">
+    `Gamma(s) = 2^(s-1) pi^(-1/2) Gamma(s/2) Gamma((1+s)/2)`
+    `= (2^(s-1) pi^(1/2) Gamma(s/2))/(cos{:(s pi)/2:} Gamma((1-s)/2)`.
+  </span>
+  代入函数方程右边得
+  <span class="formula">
+    `zeta(1-s)`
+    `= pi^(1/2 - s) zeta(s) (Gamma(s/2))/(Gamma((1-s)/2))`,
+  </span>
+  即
+  <span class="formula">
+    `(zeta(1-s) pi^(-(1-s)//2) Gamma((1-s)/2))/(zeta(s) pi^(-s//2) Gamma(s/2)) = 1`.
+  </span> 
 </p>
 
 <ol class="proof">
+  为证 `xi(s) = xi(1-s)`, 引入级数
+  <span class="formula">
+    `theta(x) = sum_(n in ZZ) exp(-pi n^2 x)`, `quad x gt 0`.
+  </span>
+  下证 `theta(1//x) = sqrt x theta(x)`.
   <li>
-    利用 Legendre 倍元公式和余元公式,
+    函数 `exp(-pi u^2)` 的 Fourier 变换是其自身, 由伸缩变换,
+    `f(u) = exp(-pi u^2//x)` 的 Fourier 变换是 `hat(f)(v) = sqrt x exp(-pi v^2 x)`.
+    代入 Poisson 求和公式 `sum f(n) = sum hat(f)(n)` 即得结论.
+  </li>
+  <li>由 Gamma 函数的定义,
     <span class="formula">
-      `Gamma(s) = 2^(s-1) pi^(-1/2) Gamma(s/2) Gamma((1+s)/2)`
-      `= (2^(s-1) pi^(1/2) Gamma(s/2))/(cos{:(s pi)/2:} Gamma((1-s)/2)`.
+      `n^-s pi^(-s//2) Gamma(s/2)`
+      `= n^-s pi^(-s//2) int_0^oo t^(s//2-1) "e"^-t dt`
+      `= 2 int_0^oo x^(s-1) "e"^(-pi n^2 x^2) dx`.
     </span>
-    代入函数方程右边得
-    <span class="formula">
-      `zeta(1-s)`
-      `= pi^(1/2 - s) zeta(s) (Gamma(s/2))/(Gamma((1-s)/2))`
-    </span>
+    对 `n` 求和, 积分与求和换序, 并利用 `theta(x)` 的函数方程, 得
+    <span class="formula align">
+      `2/(s(s-1)) xi(s)`<br>
+      `= int_0^oo x^(s-1) (theta(x^2)-1) dx`<br>
+      `= int_1^oo y^(-s-1) (theta(y^-2)-1) dy + int_1^oo x^(s-1) (theta(x^2)-1) dx`<br>
+      `= int_1^oo (x^(-s) + x^(s-1)) (theta(x^2)-1) dx`
+      `+ int_1^oo x^-s - x^(-s-1) dx`<br>
+      `= int_1^oo (x^(-s) + x^(s-1)) (theta(x^2)-1) dx`
+      `- 1/s - 1/(1-s)`.
+    </span> 
+    最终的结果关于 `s, 1-s` 是对称的.
   </li>
 </ol>
 

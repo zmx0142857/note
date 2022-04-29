@@ -121,14 +121,13 @@ window.Range = function (id, attrs, oninput) {
   })
   this.range = $('<input>', {
     className: 'ui-range-input',
-    attrs: {
+    attrs: Object.assign({}, {
       type: 'range',
       min: 0,
       max: 3,
       step: 0.05,
       value: 0.5,
-      ...attrs,
-    },
+    }, attrs),
     oninput,
   })
   this.el = $('#' + id)

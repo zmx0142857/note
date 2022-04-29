@@ -539,7 +539,8 @@ const router = {
     const item = this.get(pos)
     this.jump(item.src, item.title)
 
-    document.querySelectorAll('#table-of-contents li').forEach(li => {
+    const lis = document.querySelectorAll('#table-of-contents li')
+    Array.from(lis).forEach(li => {
       const { href } = li.firstChild
       if (href && href.endsWith('/' + item.src)) {
         li.classList.add('active')
