@@ -90,7 +90,7 @@ math: {
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
     {title:'复变函数的展开', src:'complex/3.html', date:'2022-01-21'},
-    {title:'积分变换', src:'complex/6.html', date:'2022-04-24'},
+    {title:'积分变换', src:'complex/6.html', date:'2022-05-01'},
   ]
 }, {
   title:'实变函数',

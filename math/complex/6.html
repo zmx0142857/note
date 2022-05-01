@@ -242,6 +242,8 @@
   <li>微分性质: `cc L[f'(t)] = s F(s) - f(0)`;</li>
   <li>积分性质: `cc L[f^((-1))(t)] = (F(s))/s + (f^((-1))(0))/s`; `f^((-1))`
     是 `f` 的原函数;</li>
+  <li>频域微分性质: `cc L[t f(t)] = -F'(s)`;</li>
+  <li>频域积分性质: `cc L[f(t)//t] = int_s^oo F(u) "d"u` (积分换序可证);</li>
   <li>卷积性质: `cc L[f(t) ** g(t)] = F(s) G(s)`;</li>
   <li>初值性质: `f(0^+) = lim_(s to oo) s F(s)`;</li>
   <li>终值性质: `f(oo) = lim_(s to 0^+) s F(s)`;</li>
@@ -251,8 +253,7 @@
   <b>Laplace 逆变换</b>
   当 `f` 在任一有限区间上有界变差时, Laplace 变换的反转公式为
   <span class="formula">
-    `bar(f)(t) = 1/(2 pi i) lim_(A to oo) int_(sigma-i A)^(sigma+i A)
-    "e"^(st) F(s) "d"s`,
+    `bar(f)(t) = 1/(2 pi "i") int_(sigma-"i" oo)^(sigma+"i"oo) "e"^(s t) F(s) "d"s`,
   </span>
   其中 `sigma = "Re" s gt sigma_0`,
   <span class="formula">
@@ -261,6 +262,14 @@
       f(0_(+)) // 2, x = 0;
       0, x lt 0
     :}`
+  </span>
+  积分取主值, 即
+  <span class="formula">
+    `int_(sigma-"i"oo)^(sigma"i"oo) = lim_(A to oo) int_(sigma-"i" A)^(sigma+"i" A)`.
+  </span>
+  Laplace 逆变换亦可用留数求得:
+  <span class="formula">
+    `bar(f)(t) = sum "Res " "e"^(s t) F(s)`.
   </span>
 </p>
 
@@ -340,26 +349,27 @@
 </p>
 
 <ol class="example" id="exp-dirichlet-integral">
-  <b>Laplace 变换与 Dirichlet 积分</b>
+  <b>Dirichlet 积分</b>
   [来自 <a href="https://zhuanlan.zhihu.com/p/437994143">flyingczx</a>]
-  <li>积分换序可证<b>频域积分性质</b>:
-    `cc L[f(t)//t] = int_s^oo F(u) "d"u`;</li>
-  <li>`int_0^oo sin(a t)/t dt = pi/2`, `a gt 0`.</li>
+  `a gt 0` 时,
+  <li>`cc L[(sin a t)/t] = arctan(a/s)`;</li>
+  <li>取 `s = 0` 有 `int_0^oo (sin a t)/t dt = pi/2`.</li>
+  显然 `a lt 0` 时结论取负号.
 </ol>
 
 <p class="proof">
-  只需求 `sin(a t)/t` 的 Laplace 变换, 然后令 `s = 0`.
   利用频域积分性质和伸缩变换, 我们有
   <span class="formula">
-    `cc L[sin(a t)/t]`
+    `cc L[(sin a t)/t]`
     `= int_s^oo cc L[sin a t] "d"u`
     `= int_s^oo (1//a)/(1 + (u//a)^2) "d"u`
-    `= pi/2 - arctan(s/a)`.
+    `= pi/2 - arctan(s/a)`
+    `= arctan(a/s)`.
   </span>
 </p>
 
 <p class="proof">
-  对 `I(a) = int_0^oo sin(a t)/t dt` 作 Laplace 变换得
+  对 `I(a) = int_0^oo (sin a t)/t dt` 作 Laplace 变换得
   <span class="formula">
     `cc L_a[I(a)] = int_0^oo t/(s^2+t^2) dt/t`
     `= pi/2 1/s`.
@@ -385,19 +395,19 @@
 <p class="proof">
   对参数 `a` 求导两次,
   <span class="formula">
-    `del/(del a) I(a, b)`
+    `part {::} a I(a, b)`
     `= -b int_0^oo t/(t^2+b^2) sin a t dt`
     `= -b int_0^oo (1 - b^2/(t^2+b^2)) (sin a t)/t dt`
     `= -b pi/2 + b^2 int_0^oo b/(t^2+b^2) (sin a t)/t dt`,<br>
-    `del^2/(del a)^2 I(a, b)`
+    `part^2 {::} a I(a, b)`
     `= b^2 int_0^oo b/(t^2+b^2) cos a t dt`
     `= b^2 I(a, b)`.
   </span>
   于是得到常微分方程
   <span class="formula">
-    `del^2/(del a)^2 I(a, b) = b^2 I(a, b)`,
+    `part^2 {::} a I(a, b) = b^2 I(a, b)`,
     `quad I(0, b) = pi/2`,
-    `del/(del a) I(0, b) = -b pi/2`.
+    `part {::} a I(0, b) = -b pi/2`.
   </span>
   解得 `I(a, b) = pi/2 "e"^(-a b)`.
 </p>
@@ -412,6 +422,107 @@
   </span>
   再作逆变换得 `I(a, b) = pi/2 "e"^(-a b)`.
 </p>
+
+<ol class="example">
+  <li>`int_0^oo "e"^(-t x^2)/(1+x^2) dx = pi/2 "e"^t "erfc"sqrt t`, `t gt 0`;</li>
+  <li>`cc L["e"^t "erfc"sqrt t] = 1/sqrt s - 1/sqrt(s + 1)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    左边记为 `I(t)`, 积分号下求导,
+    <span class="formula">
+      `I'(t) = int_0^oo (-x^2 "e"^(-t x^2))/(1+x^2) dx`
+      `= I(t) - int_0^oo "e"^(-t x^2) dx`
+      `= I(t) - 1/2 sqrt(pi/t)`.
+    </span>
+    上述常微分方程通解为 `I(t) = sqrt pi "e"^t int_(sqrt t)^c "e"^(-y^2) dy`.
+    代入 `I(0) = pi/2` 知 `c = +oo`.
+  </li>
+  <li>
+    左边等于
+    <span class="formula">
+      `cc L[2/pi I(t)]`
+      `= 2/pi int_0^oo 1/(x^2+1) dx/(x^2+s)`
+      `= 2/pi int_0^oo (1/(x^2+1) - 1/(x^2+s))dx`
+      `= 1/sqrt s - 1/(sqrt s + 1)`.
+  </li>
+</ol>
+
+<ol class="example">
+  [<a href="https://math.stackexchange.com/questions/2733923/evaluate-int-0-infty-frac-ln-x-sin-xxdx" target="_blank">stack exchange</a>], `gamma` 为 Euler 常数:
+  <li>
+    `int_0^oo sin x/x ln x dx = -pi/2 gamma`;
+  </li>
+  <li>`int_0^oo sin x/x ln^2 x dx = pi/2 gamma^2 + pi^3/24`.</li>
+</ol>
+
+<ol class="proof">
+  <li>因为 `cc L^-1[ln s / s] = -gamma-ln t`,
+    `cc L [sin t] = 1/(s^2+1)`. 运用分部 Laplace 公式,
+    <span class="formula">
+      `int_0^oo ln x / x sin x dx`
+      `= int_0^oo (-gamma - ln x) dx/(x^2+1)`.
+    </span>
+    第一项为 `-pi/2 gamma`, 我们来说明第二项为零. 事实上
+    <span class="formula">
+      `int_0^oo ln x/(x^2+1) dx`
+      `= int_0^1 + int_1^oo`,
+    </span>
+    第二项倒代换 `x mapsto 1//x` 后恰与第一项抵消.
+  </li>
+  <li>
+    和上题思路类似.  因为
+    <span class="formula">
+      `cc L[ln^2 t]`
+      `= 1/s(Gamma''(1)+2gamma ln s+ ln^2 s)`,
+    </span>
+    所以
+    <span class="formula">
+      `cc L^-1[(ln^2 s)/ s]`
+      `= ln^2 t - Gamma''(1) + 2gamma (gamma+ln t)`.
+    </span>
+    利用 digamma 函数 `psi(s) = Gamma'(s)//Gamma(s)`,
+    可写出
+    <span class="formula">
+      `Gamma''(1) = psi'(1) + psi(1)^2`
+      `= pi^2/6 + gamma^2`.
+    </span>
+    原式等于
+    <span class="formula">
+      `int_0^oo (ln^2 t)/(t^2+1) dt`
+      `+ pi/2(2gamma^2-Gamma''(1))`
+      `= I + pi/2(2gamma^2-gamma^2-pi^2/6)`.
+    </span>
+    [来自 壹零叁] 最后, 我们来说明 `I = pi^3/8`.
+    取围道 `C = C_1 + C_2 + C_3 + C_4`, 其中
+    <span class="formula">
+      `C_1: [r, R]`,
+      `quad C_2: R "e"^("i"theta), theta in [0, pi]`,<br>
+      `C_3: [-R, -r]`,
+      `quad C_4: r "e"^(-"i"theta), theta in [pi,2pi]`.
+    </span>
+    `"i"` 是围道中唯一极点, 故
+    <span class="formula">
+      `int_C (ln^2 t)/(1+t^2) dt`
+      `= 2pi"i" "Res"(t="i")`
+      `= 2pi"i" lim_(t to "i") (ln^2 t)/(1+t^2) (t-"i")`
+      `= -pi^3/4`.
+    </span>
+    由长大不等式, 当 `R to oo` 和 `r to 0^+` 时,
+    大小两圆弧上积分为零.
+    再看 `C_1` 和 `C_3`, 有
+    <span class="formula">
+      `int_(C_1) to I`,<br>
+      `int_(C_3)`
+      `to int_-oo^0 (ln^2 t)/(1+t^2) dt`
+      `= int_0^oo (ln t + pi"i")^2/(1+t^2) dt`
+      `= I + int_0^oo (2 pi "i"ln t - pi^2)/(1+t^2) dt`
+      `= I + 0 - pi^3/2`.
+    </span>
+    综上 `2I - pi^3/2 = -pi^3/4`, `I = pi^3/8`.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

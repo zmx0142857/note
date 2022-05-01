@@ -585,24 +585,52 @@
     <td>`"Re"s gt 0`</td>
   </tr>
   <tr>
+    <td>`(sin a t)/t`, `a gt 0`</td>
+    <td>`arctan(a/s)`</td>
+    <td></td>
+    <td><a href="../complex/6.html#exp-dirichlet-integral">证明</a></td>
+  </tr>
+  <tr>
     <td>`delta(t)` (单位脉冲函数)</td>
     <td>`1`</td>
+    <td></td>
+    <td>证明见下</td>
+  </tr>
+  <tr>
+    <td>`t^(a-1) ln^n t`, `a gt 0`, `n in ZZ^+`</td>
+    <td>
+      `1/s^a sum_(k=0)^n (n;k) Gamma^((n-k))(a)(-ln s)^k`.
+    </td>
+    <td>`"Re"s gt 0`</td>
+  </tr>
+  <tr>
+    <td>`ln t`</td>
+    <td>`-(gamma + ln s)/s`</td>
+    <td>`"Re"s gt 0`</td>
   </tr>
 </table>
 
-<p class="remark">
-  严格说, `delta(t)` 是广义函数, 我们暂不追究详情;
-  直观上它是下面函数族当 `epsi to 0` 的极限:
-  <span class="formula">
-    `f_epsi(t) = { 1//epsi, if |t| lt epsi; 0, otherwise :}`
-  </span>
-  于是
-  <span class="formula">
-    `cc L[delta(t)]`
-    `= lim_(epsi to 0) int_0^epsi 1/epsi "e"^(-s t) dt`
-    `= lim_(epsi to 0) 1/(epsi s) (1-"e"^(-epsi s)) = 1`.
-  </span>
-</p>
+<ol class="proof">
+  <li>
+    `cc L[delta(t)]`.
+    严格说, `delta(t)` 是广义函数, 我们暂不追究详情;
+    直观上它是下面函数族当 `epsi to 0` 的极限:
+    <span class="formula">
+      `f_epsi(t) = { 1//epsi, if |t| lt epsi; 0, otherwise :}`
+    </span>
+    于是
+    <span class="formula">
+      `cc L[delta(t)]`
+      `= lim_(epsi to 0) int_0^epsi 1/epsi "e"^(-s t) dt`
+      `= lim_(epsi to 0) 1/(epsi s) (1-"e"^(-epsi s)) = 1`.
+    </span>
+  </li>
+  <li>
+    `cc L[t^(a-1) ln^n t]`.
+    由 `cc L[t^(a-1)] = (Gamma(a))/s^a` 两边对 `a` 求 `n` 阶导即得结论.
+    特别 `a = n = 1` 时 `cc L[ln t] = -(gamma + ln s)/s`
+  </li>
+</ol>
 
 <h3>Mellin 变换</h3>
 
@@ -642,7 +670,8 @@
     <td>`F(xi) = int_(-oo)^oo f(x) "e"^(-2pi"i"xi x) dx`</td>
   </tr>
   <tr>
-    <td>`"e"^(-x^2)`</td>
+    <td>`"e"^(-pi x^2)`</td>
+    <td>`"e"^(-pi xi^2)`</td>
   </tr>
 </table>
 
