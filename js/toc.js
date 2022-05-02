@@ -47,7 +47,7 @@ math: {
     {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2022-04-10'},
     {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-04-03'},
-    {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-04-24'},
+    {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-05-02'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html', data: '2022-04-10'},
     {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-04-27'},
     {title:'常数项级数', src:'analysis/11.html'},

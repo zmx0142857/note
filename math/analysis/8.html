@@ -12,11 +12,11 @@
 <h3>几个著名积分</h3>
 
 <p class="example">
-	<b>Poisson 积分 (或 Euler-Poisson 积分, 概率积分)</b>
+	<b>Euler-Poisson 积分, 概率积分</b>
   <span class="formula">
     `int_(-oo)^oo "e"^(-x^2) dx = sqrt pi`.
   </span>
-  推广:
+  推广为 <b>Poisson 积分</b> (`a gt 0`):
   <span class="formula">
     `int_(-oo)^oo "e"^(-a x^2) cos b x dx`
     `= sqrt(pi/a) "e"^(-b^2/(4a))`.
@@ -76,6 +76,28 @@
   从而积分 `int_a^oo f(t, y) dt` 关于 `y ge 0` 一致收敛, 这两个一致收敛保证了积分换序可以进行.
   </li>
 </ol>
+
+<p class="proof">
+  取矩形围道, 考虑 `"e"^(-a z^2)` 的积分
+  <span class="formula">
+    `I = I_1 + I_2 + I_3 + I_4`
+    `= int_(-R)^R + int_R^(R+"i"b//2a) + int_(R+"i"b//2a)^(-R+"i"b//2a) + int_(-R+"i"b//2a)^(-R)`,
+  </span>
+  `R to oo` 时, 利用长大不等式说明两个竖直线上积分趋于零, 如
+  <span class="formula">
+    `I_2`
+    `le b/(2a) * "e"^(-a R^2)`
+    `to 0`.
+  </span>
+  于是由 Cauchy 积分定理, `I_1 = -I_3`, 即
+  <span class="formula">
+    `sqrt(pi/a)`
+    `= int_-oo^oo "e"^(-a x^2) dx`
+    `= int_-oo^oo "e"^(-a(x+"i"b//2a)^2) dx`
+    `= "e"^(b^2/(4a)) int_-oo^oo "e"^(-a x^2)(cos b x + "i" sin b x) dx`
+    `= "e"^(b^2/(4a)) int_-oo^oo "e"^(-a x^2) cos b x dx`.
+  </span>
+</p>
 
 <p class="remark">
 	`"e"^(-x^2)` 称为 <b>Gauss 函数</b>,
@@ -172,11 +194,54 @@
     `int_0^oo sin t dt/sqrt t`
     `= 2/sqrt pi int_0^oo sin t dt int_0^oo "e"^(-t u^2) "d"u`
     `= 2/sqrt pi int_0^oo "d"u int_0^oo "e"^(-t u^2) sin t dt`
-    `= 2/sqrt pi int_0^oo ("d"u)/(1+u^2)`
+    `= 2/sqrt pi int_0^oo ("d"u)/(1+u^4)`
     `= 2/sqrt pi * pi/(2 sqrt 2)`
     `= sqrt(pi / 2)`.
   </span>
-  合理性??
+  最后, 由于 `t ge t_0 gt 0` 时
+  <span class="formula">
+    `sin t "e"^(-t u ^2)`
+    `le "e"^(-t_0 u^2)`
+  </span>
+  关于 `t` 一致收敛; `u ge u_0 gt 0` 时
+  <span class="formula">
+    `sin t "e"^(-t u^2)`
+    `le sin t "e"^(-t u_0^2)`
+  </span>
+  关于 `u` 一致收敛, 所以积分换序是可行的.
+</p>
+
+<p class="proof">
+  考虑函数 `"e"^("i"z^n)` 在扇形围道 `C = C_1 + C_2 + C_3` 上的积分, 其中
+  <span class="formula">
+    `C_1: [0, R]`, `quad C_2: z=R"e"^("i" theta), theta in [0, pi/(2n)]`,<br>
+    `C_3: z=r"e"^("i"pi//2n), 0 le r le R`.
+  </span>
+  `R to oo` 时, 我们说明 `C_2` 上的积分趋于零:
+  <span class="formula">
+    `|"e"^("i"z^n)|`
+    `= exp(-R^n sin n theta)`
+    `le exp(-R^n (2n)/pi theta)`,
+  </span>
+  所以
+  <span class="formula">
+    `|int_(C_2) "e"^("i"z^n) dz|`
+    `le int_0^(pi//2n) exp(-R^n (2n)/pi theta) R"d"theta`
+    `= pi/(R^(n-1) 2n)(1-"e"^(-R^n))`
+    `to 0`.
+  </span>
+  于是由 Cauchy 积分定理, `I_1 = -I_3`, 即
+  <span class="formula">
+    `int_0^oo "e"^("i"z^n) dz`
+    `= int_0^oo "e"^(-r^n) * "e"^("i"pi//2n) "d"r`,
+  </span>
+  其中
+  <span class="formula">
+    `int_0^oo "e"^(-r^n) "d"r`
+    `= 1/n int_0^oo "e"^-x x^(1/n-1) dx`
+    `= 1/n Gamma(1/n)`.
+  </span>
+  最后分取实部虚部即得结论.
 </p>
 
 <ol class="corollary">
@@ -195,13 +260,65 @@
   </li>
 </ol>
 
-<p class="example">
+<ol class="example">
   <b>Froullani 积分</b>
-  设 `a, b gt 0`, `f` 在 `x ge 0` 时连续, 且 `f(+oo)` 有限, 则
+  [来自 菲赫金哥尔茨]
+  设 `a, b gt 0`, `f` 在 `(0, oo)` 上连续,
+  <li>若 `f(0)` 处连续, 且 `f(+oo)` 有极限, 则
+    <span class="formula">
+      `int_0^oo (f(b x) - f(a x))/x dx`
+      `= int_a^b (f(oo) - f(0))/x dx`
+      `= {:f(x)|_0^oo ln{:b/a:}`.
+    </span>
+    例如, `int_0^oo ("e"^(-a x) - "e"^(-b x))/x dx`
+    `= ln{:b/a:}`.
+  </li>
+  <li>
+    若 `f(+oo)` 没有极限, 但 `int_A^oo f(x)/x dx` 对某个 `A` 收敛, 则
+    <span class="formula">
+      `int_0^oo (f(b x) - f(a x))/x dx`
+      `= -f(0) ln{:b/a:}`.
+    </span>
+    例如, `int_0^oo (cos a x - cos b x)/x dx`
+    `= ln{:b/a:}`.
+  </li>
+  <li>同理若 `f(0)` 处的连续性被破坏, 但积分 `int_0^B f(x)/x dx` 存在, 则
+    <span class="formula">
+      `int_0^oo (f(b x) - f(a x))/x dx`
+      `= f(oo) ln{:b/a:}`.
+    </span>
+    这一情形也可通过换元 `x mapsto 1//x` 化为上一情形.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>先考虑有限积分, 变形得
+    <span class="formula">
+      `int_delta^Delta (f(b x)-f(a x))/x dx`
+      `= int_(b delta)^(b Delta) f(x)/x dx`
+      `- int_(a delta)^(a Delta) f(x)/x dx`
+      `= int_(b delta)^(a delta) - int_(b Delta)^(a Delta)`.
+    </span>
+    两个积分各自应用中值定理得
+    <span class="formula">
+      `f(xi) int_(b delta)^(a delta) dx/x - f(eta) int_(b Delta)^(a Delta) dx/x`
+      `= (f(eta)-f(xi)) ln{:b/a:}`.
+    </span>
+    再令 `delta to 0^+`, `Delta to +oo` 即得结论.
+  </li>
+  <li>
+    和前面方法类似, 但只在 `f` 连续的一端应用中值定理.
+    另一端的积分, 由题目条件应该等于零.
+  </li>
+</ol>
+
+<p class="proof">
+  假如 `f` 可微, 交换积分次序得
   <span class="formula">
-    `int_0^oo (f(a x) - f(b x))/x dx = (f(0) - f(+oo)) ln{:b/a:}`.
+    `int_0^oo int_a^b f'(x y) dy dx`
+    `= int_a^b int_0^oo f'(x y) dx dy`
+    `= {:f(x)|_0^oo int_a^b dy/y`.
   </span>
-  例如, `int_0^oo ("e"^(-a x) - "e"^(-b x))/x dx = ln{:b/a:}`.
 </p>
 
 <p class="example">
@@ -211,7 +328,8 @@
 <p class="solution">
   交换积分次序, 原式等于
   <span class="formula">
-    `int_0^1 dx int_a^b x^y dy`
+    `int_0^1 int_a^b x^y dy dx`
+    `= int_a^b int_0^1 x^y dx dy`
     `= int_a^b dy/(y+1)`
     `= ln{:(b+1)/(a+1):}`.
   </span>
@@ -1166,7 +1284,7 @@
 <ol class="example">
   [来自 (Almost) Impossible Integrals, Sums, and Series]
   <li>`int_0^x (ln^2(1-t))/t dt`;</li>
-  <li>`int_0^x (ln^2(1+t)/t dt`.</li>
+  <li>`int_0^x (ln^2(1+t))/t dt`.</li>
 </ol>
 
 <ol class="solution">
