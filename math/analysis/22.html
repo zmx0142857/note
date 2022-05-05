@@ -520,9 +520,9 @@
   <li>反对称性. `dx ^^ dy = - dy ^^ dx`.</li>
   由反对称性立即得到 `dx ^^ dx = 0`.<br>
   一般地, 在 `n` 维空间中, 规定每交换一对变量, 外积就改变一次符号:
-  <span class="formula">
-    `dx_1 ^^ cdots ^^ color(red)(dx_i) ^^ cdots ^^ color(blue)(dx_j) ^^ cdots ^^ dx_n`
-    `= -dx_1 ^^ cdots ^^ color(blue)(dx_j) ^^ cdots ^^ color(red)(dx_i) ^^ cdots ^^ dx_n`
+  <span class="formula align">
+    `dx_1 ^^ cdots ^^ color(red)(dx_i) ^^ cdots ^^ color(blue)(dx_j) ^^ cdots ^^ dx_n`<br>
+    `= -dx_1 ^^ cdots ^^ color(blue)(dx_j) ^^ cdots ^^ color(red)(dx_i) ^^ cdots ^^ dx_n`.
   </span>
 </ol>
 
@@ -546,7 +546,7 @@
   <li>若 `omega` 形如 `omega = dx_1 cdots dx_n`, 则单项式 `f omega`
     的外微分定义为
     <span class="formula">
-      `"d"(f omega) = "d"f ^^ "d"omega`.
+      `"d"(f omega) = "d"f ^^ omega`.
     </span>
     利用外积运算的线性性, 可将 `"d"f` 展开各项与 `"d"omega` 相乘,
     再合并同类项.
@@ -556,6 +556,23 @@
       `"d"(omega_1 + omega_2) = "d"omega_1 + "d"omega_2`,
     </span>
     欲求整个微分形式的外微分, 只需将各个单项式的外微分相加.
+  </li>
+</ol>
+
+<ol class="corollary">
+  <li>零阶微分形式 (普通函数) 求两次外微分结果为零: `"d"^2 f = 0`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    <span class="formula">
+      `"d"^2 f`
+      `= "d"(sum_i part f x_i "d"x_i)`
+      `= sum_i "d"(part f x_i) ^^ "d"x_i`
+      `= sum_i sum_j part^2 f (x_i x_j) "d"x_j ^^ "d"x_i`,
+    </span>
+    从而 `"d"^2 f` 展开为 `("d"x_1, cdots, "d"x_n)` 的二次型,
+    其系数矩阵反对称, 因此结果为零.
   </li>
 </ol>
 

@@ -531,8 +531,9 @@
 	<span class="formula">
 		`sum_(n=a)^b f(n) = int_a^b f(x) dx + (f(a)+f(b))/2`
 		`+ sum_(k=2)^m B_k/(k!) (f^((k-1))(b) - f^((k-1))(a))`
-		`- (-1)^m/(m!) int_a^b B_m(x-|__x__|) f^((m))(x) dx`.
+        `- (-1)^m/(m!) int_a^b B_m({x}) f^((m))(x) dx`.
 	</span>
+    其中 `{x} = x - |__x__|`.
 	上式等号右端的前两项相当于梯形公式
 	<span class="formula">
 		`int_a^b f(x) dx ~~ sum_(n=a)^(b-1) (f(n)+f(n+1))/2`,
@@ -566,7 +567,7 @@
 		`+ (-1)^m/(m!) int_n^(n+1) B_m(x-n) f^((m))(x) dx`.
 	</span>
 	再令 `n = a` 到 `b-1` 求和,
-	注意到对任意 `x in [n,n+1]` 有 `B_m(x-n) = B_m(x-|__x__|)`,
+    注意到对任意 `x in [n,n+1]` 有 `B_m(x-n) = B_m({x})`,
 	就得到结论.
 </p>
 
@@ -612,23 +613,23 @@
 	<span class="formula">
 		`a_n = sum_(k=1)^n 1/k - ln n`
 		`= 1/2(1+1/n) + sum_(k=2)^m B_k/k (1 - 1/n^k)`
-		`- int_1^n (B_m(x-|__x__|))/x^(1+m) dx`.
+        `- int_1^n (B_m({x}))/x^(1+m) dx`.
 	</span>
 	取极限,
 	<span class="formula">
 		`gamma = lim_(n to oo) a_n`
 		`= 1/2 + sum_(k=2)^m B_k/k`
-		`- int_1^oo (B_m(x-|__x__|))/x^(1+m) dx`.
+        `- int_1^oo (B_m({x}))/x^(1+m) dx`.
 	</span>
 	两式相减,
 	<span class="formula">
 		`a_n - gamma`
 		`= 1/(2n) - sum_(k=2)^m B_k/(k n^k) + int_n^oo
-		(B_m(x-|__x__|))/x^(1+m) dx`.
+        (B_m({x}))/x^(1+m) dx`.
 	</span>
-	因为 `B_m(x-|__x__|)` 是有界函数, 我们设它的模不超过 `C`, 则
+    因为 `B_m({x})` 是有界函数, 我们设它的模不超过 `C`, 则
 	<span class="formula">
-		`|int_n^oo (B_m(x-|__x__|))/x^(1+m) dx|`
+        `|int_n^oo (B_m({x}))/x^(1+m) dx|`
 		`le C int_n^oo dx/x^(1+m)`
 		`= C/(m n^m)`
 		`= O(1/n^m)`.
@@ -669,13 +670,13 @@
 	<span class="formula">
 		`ln n! - 1/2 ln n - n(ln n-1)`
 		`= 1 + sum_(k=1)^(m-1) B_(k+1)/(k(k+1)) (1/n^k-1)`
-		`+ 1/m int_1^n (B_m(x-|__x__|))/x^m dx`.
+        `+ 1/m int_1^n (B_m({x}))/x^m dx`.
 	</span>
 	取极限
 	<span class="formula">
 		`a := lim_(n to oo) (ln n! - 1/2 ln n - n(ln n-1))`
 		`= 1-sum_(k=1)^(m-1) B_(k+1)/(k(k+1))`
-		`+ 1/m int_1^oo (B_m(x-|__x__|))/x^m dx`.
+        `+ 1/m int_1^oo (B_m({x}))/x^m dx`.
 	</span>
 	两式相减
 	<span class="formula">
@@ -780,20 +781,20 @@
 		`sum_(k=1)^n 1/k^s`
 		`= 1/(s-1) (1-1/n^(s-1)) + 1/2(1+1/n^s)`
 		`+ sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1) (1-1/n^(s+k))`
-		`- int_1^n (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+        `- int_1^n (s+m-1; m)(B_m({x}))/x^(s+m) dx`.
 	</span>
 	取极限,
 	<span class="formula">
 		`zeta(s) = sum_(k=1)^oo 1/k^s`
 		`= 1/(s-1) + 1/2 + sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1)`
-		`- int_1^oo (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+        `- int_1^oo (s+m-1; m)(B_m({x}))/x^(s+m) dx`.
 	</span>
 	两式相减,
 	<span class="formula">
 		`zeta(s) - sum_(k=1)^n 1/k^s`
 		`= 1/((s-1)n^(s-1)) - 1/(2n^s)`
 		`+ sum_(k=1)^(m-1) (s+k-1; k) B_(k+1)/(k+1) 1/n^(s+k)`
-		`- int_n^oo (s+m-1; m)(B_m(x-|__x__|))/x^(s+m) dx`.
+        `- int_n^oo (s+m-1; m)(B_m({x}))/x^(s+m) dx`.
 		<span class="label" id="for-zeta-continuation"></span>
 	</span>
 	对任意的正整数 `m, n`, 上式都成立.
@@ -857,6 +858,18 @@
 	<span class="formula">
 		`sum_(n=1)^oo 1/n^2 = pi^2/6`.
 	</span>
+</p>
+
+<p class="proof">
+  要证 `zeta(2) = pi^2/6`, 只需证
+  <span class="formula">
+    `eta(2) = sum_(n ge 1) (-1)^(n-1)/n^2 = pi^2/12`.
+  </span>
+  事实上, `|x| lt pi` 时, 将 `x^2` Fourier 展开得
+  <span class="formula">
+    `x^2 = pi^2/3 + 4 sum_(n ge 1) (-1)^n (cos n x)/n^2`,
+  </span>
+  上式两边令 `x to 0` 即得结论.
 </p>
 
 <p class="proof">
@@ -1143,7 +1156,7 @@
 </p>
 
 <p class="example">
-  <b>Bernoulli 多项式的 Fouier 展开</b>
+  <b>Bernoulli 多项式的 Fourier 展开</b>
   考察函数 `B_n({x})`, 其中 `{x} = x - |__x__|`. 它以 `1` 为周期,
   当 `n ge 1`, `x !in ZZ` 时, 可以展开为
   <span class="formula">
@@ -1171,6 +1184,69 @@
     `B_(2n) = (-1)^(n-1) * 2 (2n)!/(2pi)^(2n) zeta(2n)`,
   即可验证结论成立.
 </p>
+
+<h2>`zeta` 函数的解析延拓</h2>
+
+<p class="theorem">
+  <b>`zeta` 函数的函数方程</b>
+  <span class="formula">
+    `zeta(1-s) = 2 (2pi)^-s Gamma(s) cos{:(pi s)/2:} zeta(s)`.
+  </span>
+  令
+  <span class="formula">
+    `xi(s) = (s (s-1))/2 pi^(-s/2) Gamma(s/2) zeta(s)`,
+  </span>
+  则 `xi` 是整函数, 上述函数方程可写为对称形式: `xi(s) = xi(1-s)`.
+</p>
+
+<p class="proof">
+  两个方程的等价性:
+  利用 Legendre 倍元公式和余元公式,
+  <span class="formula">
+    `Gamma(s) = 2^(s-1) pi^(-1/2) Gamma(s/2) Gamma((1+s)/2)`
+    `= (2^(s-1) pi^(1/2) Gamma(s/2))/(cos{:(s pi)/2:} Gamma((1-s)/2)`.
+  </span>
+  代入函数方程右边得
+  <span class="formula">
+    `zeta(1-s)`
+    `= pi^(1/2 - s) zeta(s) (Gamma(s/2))/(Gamma((1-s)/2))`,
+  </span>
+  即
+  <span class="formula">
+    `(zeta(1-s) pi^(-(1-s)//2) Gamma((1-s)/2))/(zeta(s) pi^(-s//2) Gamma(s/2)) = 1`.
+  </span> 
+</p>
+
+<ol class="proof">
+  为证 `xi(s) = xi(1-s)`, 引入级数
+  <span class="formula">
+    `theta(x) = sum_(n in ZZ) exp(-pi n^2 x)`, `quad x gt 0`.
+  </span>
+  下证 `theta(1//x) = sqrt x theta(x)`.
+  <li>
+    函数 `exp(-pi u^2)` 的 Fourier 变换是其自身, 由伸缩变换,
+    `f(u) = exp(-pi u^2//x)` 的 Fourier 变换是 `hat(f)(v) = sqrt x exp(-pi v^2 x)`.
+    代入 Poisson 求和公式 `sum f(n) = sum hat(f)(n)` 即得结论.
+  </li>
+  <li>由 Gamma 函数的定义,
+    <span class="formula">
+      `n^-s pi^(-s//2) Gamma(s/2)`
+      `= n^-s pi^(-s//2) int_0^oo t^(s//2-1) "e"^-t dt`
+      `= 2 int_0^oo x^(s-1) "e"^(-pi n^2 x^2) dx`.
+    </span>
+    对 `n` 求和, 积分与求和换序, 并利用 `theta(x)` 的函数方程, 得
+    <span class="formula align">
+      `2/(s(s-1)) xi(s)`<br>
+      `= int_0^oo x^(s-1) (theta(x^2)-1) dx`<br>
+      `= int_1^oo y^(-s-1) (theta(y^-2)-1) dy + int_1^oo x^(s-1) (theta(x^2)-1) dx`<br>
+      `= int_1^oo (x^(-s) + x^(s-1)) (theta(x^2)-1) dx`
+      `+ int_1^oo x^-s - x^(-s-1) dx`<br>
+      `= int_1^oo (x^(-s) + x^(s-1)) (theta(x^2)-1) dx`
+      `- 1/s - 1/(1-s)`.
+    </span> 
+    最终的结果关于 `s, 1-s` 是对称的.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

@@ -40,16 +40,16 @@ math: {
 }, {
   title:'数学分析',
   articles: [
-    {title:'附录', src:'analysis/0.html', date:'2022-02-25'},
+    {title:'附录', src:'analysis/0.html', date:'2022-04-24'},
     {title:'初等函数', src:'analysis/1.html'},
     {title:'数列的极限', src:'analysis/2.html', date: '2022-03-31'},
     {title:'函数的极限与连续性', src:'analysis/3.html', date: '2022-03-04'},
     {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2022-04-10'},
     {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-04-03'},
-    {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-04-10'},
+    {title:'含参积分与特殊函数', src:'analysis/8.html', date:'2022-05-02'},
     {title:'椭圆函数, 超几何函数', src:'analysis/9.html', data: '2022-04-10'},
-    {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-04-15'},
+    {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-04-27'},
     {title:'常数项级数', src:'analysis/11.html'},
     {title:'函数列与函数项级数', src:'analysis/12.html'},
     {title:'Fourier 级数', src:'analysis/13.html'},
@@ -57,7 +57,7 @@ math: {
     {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-29'},
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
-    {title:'场论初步', src:'analysis/22.html', date:'2021-12-23'},
+    {title:'场论初步', src:'analysis/22.html', date:'2022-04-28'},
     {title:'分数阶微积分', src:'analysis/23.html'},
     {title:'函数方程', src:'analysis/24.html'},
   ]
@@ -90,7 +90,7 @@ math: {
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
     {title:'复变函数的展开', src:'complex/3.html', date:'2022-01-21'},
-    {title:'积分变换', src:'complex/6.html', date:'2022-03-29'},
+    {title:'积分变换', src:'complex/6.html', date:'2022-05-01'},
   ]
 }, {
   title:'实变函数',
@@ -303,6 +303,11 @@ physics: {
   title:'光学',
   articles: [
     {title:'光学', src:'optics/1.html'},
+  ]
+}, {
+  title:'相对论',
+  articles: [
+    {title:'狭义相对论', src:'relativity/1.html', date:'2022-04-18'},
   ]
 }]},
 

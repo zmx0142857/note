@@ -1,5 +1,6 @@
 :root {
   --shade: rgba(255, 255, 255, 0.1);
+  --theme-color: #88e6cf;
 }
 html {
   background: #1a1a1a;
@@ -34,6 +35,7 @@ body::after {
   width: 30px;
 }
 h1 {
+  position: relative;
   color: #aaa;
   background: #333;
   box-shadow: 0 0 5px #222;
@@ -45,6 +47,19 @@ h1 {
 h1 > small {
   font-weight: normal;
   font-size: 20px;
+}
+h1::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  top: 0;
+  left: 0;
+  background: var(--theme-color);
+  transition: width .3s;
+}
+h1:hover::after {
+  width: 100%;
 }
 h2 {
   margin: 2em 0 1em 0;

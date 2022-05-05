@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>狭义相对论</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>相对性原理</h2>
+
+<ol class="axiom">
+  <b>狭义相对论的两个假设</b>
+  <li>相对性原理: 在不同的惯性系中, 一切物理定律具有相同的形式;</li>
+  <li>光速不变: 光速永远是 `c`, 与光源运动情况无关.</li>
+</ol>
+
+<p class="definition">
+  <b>Lorentz 变换</b>
+  用四维坐标 `p = (t, x, y, z)` 描述一个<b>时空点</b>,
+  或称为一个<b>事件</b>. 同一事件在不同的惯性系 `K, K'` 中具有不同坐标:
+  `p, p'`. 这两个坐标通过变换相联系.
+  下面记 `p = (t, x, y, z)`, `p' = (t', x', y', z')`,
+  `K'` 相对于 `K` 的速度为常量 `bm v = (v, 0, 0)`,
+  则牛顿力学使用的<b>伽利略变换</b>如下:
+  <span class="formula">
+    `{
+      t' = t;
+      x' = x - v t;
+      y' = y;
+      z' = z;
+    :}`
+  </span>
+  伽利略变换是简单的平移变换.
+  相对论使用的 <b>Lorentz 变换</b>如下:
+  <span class="formula">
+    `{
+      t' = gamma (t - v x // c^2);
+      x' = gamma (x - v t);
+      y' = y;
+      z' = z;
+    :}`
+  </span>
+  其中 `gamma = 1/sqrt(1 - v^2//c^2)`, `c` 为真空中光速.
+  Lorentz 变换是一个线性变换.
+</p>
+
+<p class="remark">
+  当 `v//c to 0` 时有 `gamma to 1`,
+  这就是说, 宏观低速下 Lorentz 变换与伽利略变换效果相同, 符合我们的生活实际.
+</p>
+
+<p class="corollary">
+  <b>Lorentz 逆变换</b> 将 Lorentz 变换写成矩阵:
+  <span class="formula">
+    `[t'; x'] = gamma [1, -v//c^2; -v, 1] [t; x]`.
+  </span>
+  于是
+  <span class="formula">
+    `[t; x] = gamma [1, v//c^2; v, 1] [t'; x']`.
+  </span>
+  可见 Lorentz 逆变换无非是将 `v` 换成 `-v`.
+</p>
+
+<p class="corollary">
+  <b>速度的 Lorentz 变换</b> 物体在惯性系
+  `K` 和 `K'` 中的速度分别记为 `bm u` 和 `bm u'`, 则它们之间满足分式线性变换
+  <span class="formula">
+    `u_x' = (u_x - v)/(1 - v u_x//c^2)`,
+    `quad u_y' = u_y/(gamma(1 - v u_x//c^2))`,
+    `quad u_z' = u_z/(gamma(1 - v u_z//c^2))`.
+  </span>
+  要求该变换的逆, 只需将 `v` 换为 `-v`.
+  特别当 `u_x = c`, `u_y = u_z = 0` 时, 计算得
+  <span class="formula">
+    `u_x' = (c-v)/(1 - v//c) = c`,
+    `quad u_y' = u_z' = 0`.
+  </span>
+  此即 "光速不变".
+</p>
+
+<p class="proof">
+  `u_x' = (dx')/(dt')`
+  `= gamma(u_x - v) // (dt')/dt`
+  `= (u_x - v)/(1 - v u_x//c^2)`.
+  `u_y'` 和 `u_z'` 的计算类似.
+</p>
+
+<p class="remark">
+  下文将使用<b>自然单位制</b>.
+  该单位制下有 `c = 1`, 从而 Lorentz 变换写为
+  <span class="formula">
+    `t' = gamma(t - v x)`, `quad x = gamma(x - v t)`,
+    `quad gamma = 1/sqrt(1-v^2)`.
+  </span>
+  这使得相对论的公式书写更易.
+</p>
+
+<h2>闵氏几何</h2>
+
+<p class="definition">
+  <b>度规</b> 记 `bm x = (x, y, z)`.
+  在 Euclid 空间中, 线元 `"d"l^2 = "d"bm x^2 + dt^2`
+  与直角坐标系的选取无关, 即 `"d"l^2` 是一个几何不变量.
+  定义<b>时空间隔</b>
+  <span class="formula">
+    `"d"s^2 = "d"bm x^2 - dt^2`.
+  </span>
+  可以证明 `"d"s^2` 是 Lorentz 变换下的几何不变量.
+</p>
+
+<p class="proof">
+  <span class="formula">
+    `(dx')^2 - (dt')^2`
+    `= gamma^2[(dx - v dt)^2 - (dt - v dx)^2]`
+    `= gamma^2(dx^2 - dt^2)(1 - v^2)`
+    `= dx^2 - dt^2`.
+  </span>
+</p>
+
+<p class="remark">
+  `"d"l^2` 是 Euclid 空间的度规, 由它决定了欧氏几何;
+  `"d"s^2` 是 Minkowski 空间的度规, 由它决定了闵氏几何.
+  一般地, 一种度规就决定一种几何.
+</p>
+
+<p class="example">
+  <b>常见的线元表达式</b>
+  Euclid 空间中, 极坐标系 `{r, varphi}` 和球坐标系 `{r, theta, varphi}`
+  下的线元表达式为
+  <span class="formula">
+    `"d"l^2 = "d"r^2 + r^2 "d"varphi^2`,<br>
+    `"d"l^2 = "d"r^2 + r^2("d"theta^2 + sin^2 theta "d"varphi^2)`.
+  </span>
+  特别取 `r = 1`, 得到球面几何的线元表达式
+  <span class="formula">
+    `"d"s^2 = "d"theta^2 + sin^2 theta "d"varphi^2`.
+  </span>
+  Minkowski 空间中, 可取 `x = psi cosh eta`, `t = psi sinh eta`,
+  则线元的表达式为
+  <span class="formula">
+    `"d"s^2 = "d"psi^2 - psi^2 "d"eta^2`.
+  </span>
+</p>
+
+<h4>参考资料</h4>
+
+<ul>
+  <li>梁灿彬《从零学相对论》</li>
+</ul>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
