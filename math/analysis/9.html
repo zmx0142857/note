@@ -460,6 +460,40 @@
 
 <h3>第三类椭圆积分</h3>
 
+<h2>超几何函数</h2>
+
+<p class="definition">
+  <b>超几何函数 (超几何级数)</b> 定义为
+  <span class="formula">
+    `{::}_2 F_1(a,b";"c";"z)`
+    `= sum_(n ge 0) (a^(bar n) b^(bar n))/c^(bar n) z^n/n!`
+    `= 1 + (a b)/c z + (a(a+1)b(b+1))/(c(c+1)) z^2/(2!) + cdots`.
+  </span>
+  它可以用来表示许多初等/非初等的函数.
+  观察得到: 超几何函数中, `a, b` 的地位对称; 当 `a` 或 `b` 为 `0`
+  时, 函数值为 `1`; 当 `a` 或 `b` 为负整数时, 级数只有有限项.
+</p>
+
+<ol class="property">
+</ol>
+
+<ol class="example">
+  <li>
+    `arctan z`
+    `= sum_(n ge 0) z^(2n+1)/(2n+1)`
+    `= z {::}_2 F_1(1,1/2";"3/2";"-z^2)`.
+  </li>
+  <li>
+    [来自 某用户的壹零叁]
+    <span class="formula">
+      `int sin^(2n+1)x dx`
+      `= -int (1 - cos^2 x)^n "d"cos x`
+      `= sum_(k=0)^n (n;k) (-1)^(k+1) (cos^(2k+1) x)/(2k+1)`
+      `= -cos x * {::}_2 F_1(-n, 1/2";"3/2";"cos^2 x)`,
+    </span>
+  </li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/plot.js"></script>
 <script>
