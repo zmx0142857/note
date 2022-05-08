@@ -556,6 +556,24 @@
 </p>
 
 <p class="example">
+  `2n-1 lt 15` 时,
+  <span class="formula">
+    `int_0^oo prod_(k=1)^n (sin(x//(2k-1)))/(x//(2k-1)) dx = pi/2`.
+  </span>
+  然而 `2n-1 = 15` 时, 等号不成立.
+</p>
+
+<p class="proof">
+  `2n-1 = 3` 时, 运用积化和差,
+  <span class="formula">
+    `int_0^oo (sin x)/x (sin(x//3))/(x//3) dx`
+    `= 3/2 int_0^oo (cos (2x//3) - cos (4x//3))/x^2 dx`
+    `= 3/2 (4/3 - 2/3) pi/2 = pi/2`.
+  </span>
+  ??
+</p>
+
+<p class="example">
   [来自 暗恋你的高中生]
   `int_0^1 f(2x sqrt(1-x^2)) dx = int_0^1 f(1-x^2) dx`.
 </p>
@@ -594,60 +612,6 @@
     `= 0 - 1 = -1`.
   </span>
 </p>
-
-<p class="example" id="exp-pi-ln2">
-  <b>Euler 积分</b>
-  记 `p(x) = -ln|x|`,
-  则以下每个积分的值均为 `pi ln 2`:
-  <span class="formula">
-    `int_0^pi p(sin x) dx`,
-		`int_0^pi p(cos x) dx`,
-    `int_0^pi p(1+-cos x) dx`,<br>
-    `int_(-1)^1 (p(x))/sqrt(1-x^2) dx`,
-		`int_(-pi/2)^(pi/2) x cot x dx`,
-		`int_(-1)^1 (arcsin x)/x dx`.
-  </span>
-</p>
-
-<ol class="solution">
-	<li>`x to 0` 时 `ln sin x ~ ln x`,
-		由 `int_0^(pi/2) |ln x| dx` 收敛知, 瑕积分
-    <span class="formula">
-      `I = int_0^(pi/2) ln sin x dx` `= int_0^(pi/2) ln cos x dx`
-    </span>
-    在 `0` 处收敛.  注意到 `[0, pi]` 是 `sin x` 的对称区间, 有
-		<span class="formula">
-			`2I`
-      `= int_0^pi ln sin x dx`
-      `= int_0^(pi/2) ln sin 2x "d"(2x)`
-      `= 2 int_0^(pi/2) (ln 2 + ln sin x + ln cos x) dx`
-      `= pi ln 2 + 4 I`,
-		</span>
-		故 `-2I = pi ln 2`.
-	</li>
-  <li>只证加号的情形:
-    <span class="formula">
-      `int_0^pi ln(1+cos x) dx`
-      `= int_0^pi ln(2 cos^2{:x/2:}) dx`
-      `= pi ln 2 + 2 int_0^pi ln cos{:x/2:} dx`
-      `= pi ln 2 + 4 int_0^(pi/2) ln cos x dx`
-      `= - pi ln 2`.
-    </span>
-  </li>
-	<li>直接令 `t = sin x` 有:
-		<span class="formula">
-			`int_0^(pi/2) ln sin x dx = int_0^1 (ln t)/sqrt(1-t^2)`.
-		</span>
-		另一方面, 若先分部积分,
-		<span class="formula">
-			`int_0^(pi/2) ln sin x dx = - int_0^(pi/2) x cot x dx`,
-		</span>
-		这时令 `t = sin x`, 有:
-		<span class="formula">
-			`int_0^(pi/2) x cot x dx = int_0^1 (arcsin t)/t dt`.
-		</span>
-	</li>
-</ol>
 
 <p class="example">
   [来自 我是萌萌的數心]
@@ -716,57 +680,6 @@
   </div>
 </div>
 
-<p class="example">
-  <b>Poisson 积分</b>
-  [来自 菲赫金哥尔茨]
-  `I(r) = int_0^pi ln(1+r^2 - 2 r cos x) dx`.
-</p>
-
-<p class="solution">
-  `r != 1` 时, 被积函数连续, 积分存在.
-  利用定积分定义,
-  <span class="formula">
-    `I(r) = lim_(n to oo) pi/n sum_(k=1)^n ln (1+r^2 - 2 r cos{:(k pi)/n:})`
-    `= lim_(n to oo) pi/n ln prod_(k=1)^n (r-"e"^(k pi "i"//n))(r-"e"^(-k
-    pi "i"//n))`
-    `= lim_(n to oo) pi/n ln[(r+1)/(r-1) prod_(k=1)^(2n) (r-"e"^(k pi
-    "i"//n))]`
-    `= lim_(n to oo) pi/n ln[(r+1)/(r-1) (r^(2n)-1)]`.
-  </span>
-  若 `|r| lt 1`, 上式 `to 0`; 若 `|r| gt 1`, 上式化为
-  <span class="formula">
-    `lim_(n to oo) pi/n ln[(r+1)/(r-1) (r^(2n)-1)/r^(2n)] + pi/n * 2n * ln |r|`
-    `= 2 pi ln |r|`.
-  </span>
-</p>
-
-<p class="solution">
-  应用区间再现知 `I(-r) = I(r)`. 于是
-  <span class="formula">
-    `I(r) = 1/2(I(r) + I(-r)`
-    `= 1/2 int_0^pi ln (1+r^2+2r cos x)(1+r^2-2r cos x) dx`
-    `= 1/2 int_0^pi ln ((1+r^2)^2 - 4r^2 cos^2 x) dx`
-    `= 1/2 int_0^pi ln (1+r^4 - 2 r^2 cos 2x) dx`
-    `= 1/2 I(r^2)`.
-  </span>
-  由
-  <span class="formula">
-    `(1-|r|)^2 le 1 + r^2 - 2 r cos x le (1+|r|)^2`
-  </span>
-  两边取对数再积分得
-  <span class="formula">
-    `2 pi ln(1-|r|) le I(r) le 2 pi ln(1+|r|)`,
-  </span>
-  因此 `lim_(r to 0) I(r) = 0`.
-  现在若 `|r| lt 1`, 则 `I(r) = I(r^(2^n))//2^n`, 令 `n to oo` 而得到
-  `0`; 若 `|r| gt 1`, 则
-  <span class="formula">
-    `I(r) = int_0^pi[ ln(1+1/r^2 - 2/r cos x) + 2 ln |r| ]dx`
-    `= I(1/r) + 2 pi ln |r|`
-    `= 2 pi ln |r|`.
-  </span>
-</p>
-
 <h2>定积分的极限</h2>
 
 <p class="example">
@@ -816,6 +729,558 @@
     `= (n I + int_0^y f(t)dt)/(n T + y)`.
   </span>
   `int_0^y f(t) dt` 和 `y` 均为有界量, 当 `n to oo` 时上式趋于 `I//T`.
+</p>
+
+<h2>含参积分</h2>
+
+<h3>几个著名积分</h3>
+
+<p class="example" id="exp-pi-ln2">
+  <b>Euler 积分</b>
+  记 `p(x) = -ln|x|`,
+  则以下每个积分的值均为 `pi ln 2`:
+  <span class="formula">
+    `int_0^pi p(sin x) dx`,
+		`int_0^pi p(cos x) dx`,
+    `int_0^pi p(1+-cos x) dx`,<br>
+    `int_(-1)^1 (p(x))/sqrt(1-x^2) dx`,
+		`int_(-pi/2)^(pi/2) x cot x dx`,
+		`int_(-1)^1 (arcsin x)/x dx`.
+  </span>
+  记忆: `ln sin x` 在 `[0, pi/2]` 上的均值为 `-ln 2`.
+</p>
+
+<ol class="solution">
+	<li>`x to 0` 时 `ln sin x ~ ln x`,
+		由 `int_0^(pi/2) |ln x| dx` 收敛知, 瑕积分
+    <span class="formula">
+      `I = int_0^(pi/2) ln sin x dx` `= int_0^(pi/2) ln cos x dx`
+    </span>
+    在 `0` 处收敛.  注意到 `[0, pi]` 是 `sin x` 的对称区间, 有
+		<span class="formula">
+			`2I`
+      `= int_0^pi ln sin x dx`
+      `= int_0^(pi/2) ln sin 2x "d"(2x)`
+      `= 2 int_0^(pi/2) (ln 2 + ln sin x + ln cos x) dx`
+      `= pi ln 2 + 4 I`,
+		</span>
+		故 `-2I = pi ln 2`.
+	</li>
+  <li>只证加号的情形:
+    <span class="formula">
+      `int_0^pi ln(1+cos x) dx`
+      `= int_0^pi ln(2 cos^2{:x/2:}) dx`
+      `= pi ln 2 + 2 int_0^pi ln cos{:x/2:} dx`
+      `= pi ln 2 + 4 int_0^(pi/2) ln cos x dx`
+      `= - pi ln 2`.
+    </span>
+  </li>
+	<li>直接令 `t = sin x` 有:
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = int_0^1 (ln t)/sqrt(1-t^2)`.
+		</span>
+		另一方面, 若先分部积分,
+		<span class="formula">
+			`int_0^(pi/2) ln sin x dx = - int_0^(pi/2) x cot x dx`,
+		</span>
+		这时令 `t = sin x`, 有:
+		<span class="formula">
+			`int_0^(pi/2) x cot x dx = int_0^1 (arcsin t)/t dt`.
+		</span>
+	</li>
+</ol>
+
+<p class="example">
+  <b>Poisson 积分</b>
+  [来自 菲赫金哥尔茨] 对于积分
+  <span class="formula">
+    `I(r) = int_0^pi ln(1+r^2 - 2 r cos x) dx`,
+  </span>
+  `r != 1` 时, 被积函数连续, 积分存在. 区间再现易得 `I(r) = I(-r)`.
+  下证:
+  <span class="formula">
+    `I(r) = { 0, if |r| lt 1; 2 pi ln |r|, if |r| gt 1 :}`
+  </span>
+</p>
+
+<p class="solution">
+  利用定积分定义,
+  <span class="formula">
+    `I(r) = lim_(n to oo) pi/n sum_(k=1)^n ln (1+r^2 - 2 r cos{:(k pi)/n:})`
+    `= lim_(n to oo) pi/n ln prod_(k=1)^n (r-"e"^(k pi "i"//n))(r-"e"^(-k
+    pi "i"//n))`
+    `= lim_(n to oo) pi/n ln[(r+1)/(r-1) prod_(k=1)^(2n) (r-"e"^(k pi
+    "i"//n))]`
+    `= lim_(n to oo) pi/n ln[(r+1)/(r-1) (r^(2n)-1)]`.
+  </span>
+  若 `|r| lt 1`, 上式 `to 0`; 若 `|r| gt 1`, 上式化为
+  <span class="formula">
+    `lim_(n to oo) pi/n ln[(r+1)/(r-1) (r^(2n)-1)/r^(2n)] + pi/n * 2n * ln |r|`
+    `= 2 pi ln |r|`.
+  </span>
+</p>
+
+<p class="solution">
+  <span class="formula">
+    `I(r) = 1/2(I(r) + I(-r))`
+    `= 1/2 int_0^pi ln (1+r^2+2r cos x)(1+r^2-2r cos x) dx`
+    `= 1/2 int_0^pi ln ((1+r^2)^2 - 4r^2 cos^2 x) dx`
+    `= 1/2 int_0^pi ln (1+r^4 - 2 r^2 cos 2x) dx`
+    `= 1/2 I(r^2)`.
+  </span>
+  由
+  <span class="formula">
+    `(1-|r|)^2 le 1 + r^2 - 2 r cos x le (1+|r|)^2`
+  </span>
+  两边取对数再积分得
+  <span class="formula">
+    `2 pi ln(1-|r|) le I(r) le 2 pi ln(1+|r|)`,
+  </span>
+  因此 `lim_(r to 0) I(r) = 0`.
+  现在若 `|r| lt 1`, 则 `I(r) = I(r^(2^n))//2^n`, 令 `n to oo` 而得到
+  `0`; 若 `|r| gt 1`, 则
+  <span class="formula">
+    `I(r) = int_0^pi[ ln(1+1/r^2 - 2/r cos x) + 2 ln |r| ]dx`
+    `= I(1/r) + 2 pi ln |r|`
+    `= 2 pi ln |r|`.
+  </span>
+</p>
+
+<p class="example">
+	<b>Euler-Poisson 积分, 概率积分</b>
+  <span class="formula">
+    `int_(-oo)^oo "e"^(-x^2) dx = sqrt pi`.
+  </span>
+  推广为 <b>Poisson 积分</b> (`a gt 0`):
+  <span class="formula">
+    `int_(-oo)^oo "e"^(-a x^2) cos b x dx`
+    `= sqrt(pi/a) "e"^(-b^2/(4a))`.
+  </span>
+</p>
+
+<p class="proof">
+  利用重积分.  设 `D` 是以原点为心, `R` 为半径的圆盘,
+  <span class="formula">
+    `iint_D "e"^(-x^2-y^2) dx dy`
+    `= int_0^(2pi) "d"theta int_0^R "e"^(-r^2) r"d"r`
+    `= pi(1 - "e"^(-R^2))`.
+  </span>
+  另一方面,
+  <span class="formula">
+    `iint_([-R,R]xx[-R,R]) "e"^(-x^2-y^2) dx dy`
+    ` = int_(-R)^R "e"^(-x^2) dx int_(-R)^R "e"^(-y^2) dy`
+    ` = (int_(-R)^R "e"^(-x^2) dx)^2`.
+  </span>
+  令 `R to +oo`, 得 `int_(-oo)^oo "e"^(-x^2) dx = sqrt pi`.
+</p>
+
+<ol class="proof">
+  <li>
+  利用伸缩变换 `x = t y`,
+  <span class="formula">
+    `I = int_0^oo "e"^(-t^2 y^2) t dy`
+  </span>
+  对任意 `a gt 0`, 交换积分次序得
+  <span class="formula">
+    `int_a^oo "e"^(-t^2) I dt`
+    `= int_a^oo int_0^oo "e"^(-t^2) "e"^(-t^2 y^2) t dy dt`
+    `= int_0^oo int_a^oo "e"^(-t^2 (1+y^2)) t dt dy`
+    `= 1/2 int_0^oo "e"^(-a^2(1+y^2))/(1+y^2) dy`
+  </span>
+  等式两边令 `a to 0^+`, 右边的积分关于 `a` 一致收敛, 得
+  <span class="formula">
+    `I^2 = 1/2 int_0^oo dy/(1+y^2) = pi/4`,
+  </span>
+  即 `I = sqrt(pi)/2`.
+  </li>
+  <li>
+  现在证明积分交换的合理性. 考虑被积函数
+  <span class="formula">
+    `f(t, y) = t "e"^(-t^2(1+y^2))`,
+    `quad t ge a gt 0`, `y ge 0`.
+  </span>
+  该函数在定义域内非负连续, 设 `t "e"^(-t^2) le M`, 则被积函数可以被 `y` 的函数控制:
+  <span class="formula">
+    `f(t, y) le M "e"^(-t^2 y^2) le M "e"^(-a^2 y^2)`.
+  </span>
+  这说明积分 `int_0^oo f(t, y) dy` 关于 `t ge a` 一致收敛;
+  另一方面被积函数也可以被 `t` 的函数控制:
+  <span class="formula">
+    `f(t, y) le t "e"^(-t^2)`,
+  </span>
+  从而积分 `int_a^oo f(t, y) dt` 关于 `y ge 0` 一致收敛, 这两个一致收敛保证了积分换序可以进行.
+  </li>
+</ol>
+
+<p class="proof">
+  取矩形围道, 考虑 `"e"^(-a z^2)` 的积分
+  <span class="formula">
+    `I = I_1 + I_2 + I_3 + I_4`
+    `= int_(-R)^R + int_R^(R+"i"b//2a) + int_(R+"i"b//2a)^(-R+"i"b//2a) + int_(-R+"i"b//2a)^(-R)`,
+  </span>
+  `R to oo` 时, 利用长大不等式说明两个竖直线上积分趋于零, 如
+  <span class="formula">
+    `I_2`
+    `le b/(2a) * "e"^(-a R^2)`
+    `to 0`.
+  </span>
+  于是由 Cauchy 积分定理, `I_1 = -I_3`, 即
+  <span class="formula">
+    `sqrt(pi/a)`
+    `= int_-oo^oo "e"^(-a x^2) dx`
+    `= int_-oo^oo "e"^(-a(x+"i"b//2a)^2) dx`
+    `= "e"^(b^2/(4a)) int_-oo^oo "e"^(-a x^2)(cos b x + "i" sin b x) dx`
+    `= "e"^(b^2/(4a)) int_-oo^oo "e"^(-a x^2) cos b x dx`.
+  </span>
+</p>
+
+<p class="remark">
+	`"e"^(-x^2)` 称为 <b>Gauss 函数</b>,
+	<span class="formula">
+		`"erf"(x) = 2/(sqrt pi) int_0^x "e"^(-t^2) dt`,
+		`quad "erfc"(x) = 1-"erf"(x) = 2/(sqrt pi) int_x^oo "e"^(-t^2) dt`
+	</span>
+	分别称为<b>误差函数</b>和<b>互补误差函数</b>.
+</p>
+
+<p class="remark">
+  虽然是一维的积分, 却应当考虑用重积分来解决,
+  从更高的维度上给原问题以降维打击.
+</p>
+
+<p class="example">
+	<b>Dirichlet 积分</b>
+  <span class="formula">
+    `int_(-oo)^oo (sin x)/x dx = pi`.
+  </span>
+  利用 <a href="../complex/6.html#exp-dirichlet-integral">Laplace 变换</a>推广为:
+  <span class="formula">
+    `int_0^oo (sin a x)/x "e"^(-s x) dx = arctan{:a/s:}`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>收敛性. 由于被积函数是偶函数, 只需考虑 `(0, +oo)` 上的情形:
+    <span class="formula">
+      `int_0^oo (sin x)/x dx = int_0^(pi/2) + int_(pi/2)^oo`.
+    </span>
+    第一项是普通的定积分, 我们来说明第二项收敛. 分部积分:
+    <span class="formula">
+      `|int_(pi/2)^oo (sin x)/x dx|`
+      `= |int_(pi/2)^oo (cos x)/x^2 dx|`
+      `le int_(pi/2)^oo dx/x^2`.
+    </span>
+    因此原积分收敛.
+    也可以利用 Dirichlet 判别法:
+    `int_0^c sin x dx` 关于积分上限 `c` 有界,
+    `1/x` 单调趋于 `0`, 因此原积分收敛.
+  </li>
+  <li>计算. 利用
+    <span class="formula">
+      `int_0^oo "e"^(-x y) dy = 1/x`,
+    </span>
+    交换积分次序得
+    <span class="formula">
+      `int_0^oo (sin x)/x dx`
+      `= int_0^oo sin x dx int_0^oo "e"^(-x y) dy`
+      `= int_0^oo dy int_0^oo "e"^(-x y) sin x dx`
+      `= int_0^oo dy/(y^2+1) = pi/2`.
+    </span>
+    于是原式等于 `pi`.
+  </li>
+  <li>积分换序的合理性.
+    考察被积函数
+    <span class="formula">
+      `f(x, y) = sin x "e"^(-x y)`,
+      `quad x ge 0, y ge 0`.
+    </span>
+    当 `x ge a gt 0` 时, `|f(x, y)| le "e"^-a y`;
+    当 `y ge c gt 0` 时, `|f(x, y)| le sin x "e"^(-c x)`.
+    从而 `int_a^oo f(x,y) dy` 关于 `x` 一致收敛, `int_c^oo f(x,y) dx` 关于
+    `y` 一致收敛.
+    ??
+  </li>
+</ol>
+
+<p class="example">
+  <b>Fresnel 积分</b>
+  <span class="formula">
+    `int_(-oo)^oo sin x^2 dx = int_(-oo)^oo cos x^2 dx = sqrt(pi/2)`.
+  </span>
+  推广:
+  <span class="formula">
+    `int_0^oo sin x^n dx // sin{:pi/(2n):}`
+    `= int_0^oo cos x^n dx // cos{:pi/(2n):}`
+    `= 1/n Gamma(1/n)`, `quad n gt 1`.
+  </span>
+</p>
+
+<p class="proof">
+  令 `t = x^2`,
+  <span class="formula">
+    `int_(-oo)^oo sin x^2 dx = int_0^oo sin t dt/sqrt t`.
+  </span>
+  利用
+  <span class="formula">
+    `2/sqrt pi int_0^oo "e"^(-t u^2) "d"u = 1/sqrt t`,
+  </span>
+  交换积分次序得
+  <span class="formula">
+    `int_0^oo sin t dt/sqrt t`
+    `= 2/sqrt pi int_0^oo sin t dt int_0^oo "e"^(-t u^2) "d"u`
+    `= 2/sqrt pi int_0^oo "d"u int_0^oo "e"^(-t u^2) sin t dt`
+    `= 2/sqrt pi int_0^oo ("d"u)/(1+u^4)`
+    `= 2/sqrt pi * pi/(2 sqrt 2)`
+    `= sqrt(pi / 2)`.
+  </span>
+  最后, 由于 `t ge t_0 gt 0` 时
+  <span class="formula">
+    `sin t "e"^(-t u ^2)`
+    `le "e"^(-t_0 u^2)`
+  </span>
+  关于 `t` 一致收敛; `u ge u_0 gt 0` 时
+  <span class="formula">
+    `sin t "e"^(-t u^2)`
+    `le sin t "e"^(-t u_0^2)`
+  </span>
+  关于 `u` 一致收敛, 所以积分换序是可行的.
+</p>
+
+<p class="proof">
+  考虑函数 `"e"^("i"z^n)` 在扇形围道 `C = C_1 + C_2 + C_3` 上的积分, 其中
+  <span class="formula">
+    `C_1: [0, R]`, `quad C_2: z=R"e"^("i" theta), theta in [0, pi/(2n)]`,<br>
+    `C_3: z=r"e"^("i"pi//2n), 0 le r le R`.
+  </span>
+  `R to oo` 时, 我们说明 `C_2` 上的积分趋于零:
+  <span class="formula">
+    `|"e"^("i"z^n)|`
+    `= exp(-R^n sin n theta)`
+    `le exp(-R^n (2n)/pi theta)`,
+  </span>
+  所以
+  <span class="formula">
+    `|int_(C_2) "e"^("i"z^n) dz|`
+    `le int_0^(pi//2n) exp(-R^n (2n)/pi theta) R"d"theta`
+    `= pi/(R^(n-1) 2n)(1-"e"^(-R^n))`
+    `to 0`.
+  </span>
+  于是由 Cauchy 积分定理, `I_1 = -I_3`, 即
+  <span class="formula">
+    `int_0^oo "e"^("i"z^n) dz`
+    `= int_0^oo "e"^(-r^n) * "e"^("i"pi//2n) "d"r`,
+  </span>
+  其中
+  <span class="formula">
+    `int_0^oo "e"^(-r^n) "d"r`
+    `= 1/n int_0^oo "e"^-x x^(1/n-1) dx`
+    `= 1/n Gamma(1/n)`.
+  </span>
+  最后分取实部虚部即得结论.
+</p>
+
+<ol class="corollary">
+  <li>`int_0^oo x^(-ln x) dx`
+      `==^(x="e"^t) int_-oo^oo "e"^(t-t^2) dt`
+      `= int_-oo^oo "e"^(-(t-1//2)^2+1//4) dt`
+      `= "e"^(1//4) sqrt pi`.
+  </li>
+  <li>
+    `int_0^oo (1-cos x)/x^2 dx`
+    `= -(1-cos x)/x |_0^oo + int_0^oo (sin x)/x dx`
+    `= pi/2`.<br>
+    `int_0^oo (cos a x - cos b x)/x^2 dx`
+    `= int_0^oo ((1-cos b x) - (1-cos a x))/x^2 dx`
+    `= pi/2(b - a)`.
+  </li>
+</ol>
+
+<ol class="example">
+  <b>Froullani 积分</b>
+  [来自 菲赫金哥尔茨]
+  设 `a, b gt 0`, `f` 在 `(0, oo)` 上连续,
+  <li>若 `f(0)` 处连续, 且 `f(+oo)` 有极限, 则
+    <span class="formula">
+      `int_0^oo (f(b x) - f(a x))/x dx`
+      `= int_a^b (f(oo) - f(0))/x dx`
+      `= {:f(x)|_0^oo ln{:b/a:}`.
+    </span>
+    例如, `int_0^oo ("e"^(-a x) - "e"^(-b x))/x dx`
+    `= ln{:b/a:}`.
+  </li>
+  <li>
+    若 `f(+oo)` 没有极限, 但 `int_A^oo f(x)/x dx` 对某个 `A` 收敛, 则
+    <span class="formula">
+      `int_0^oo (f(b x) - f(a x))/x dx`
+      `= -f(0) ln{:b/a:}`.
+    </span>
+    例如, `int_0^oo (cos a x - cos b x)/x dx`
+    `= ln{:b/a:}`.
+  </li>
+  <li>同理若 `f(0)` 处的连续性被破坏, 但积分 `int_0^B f(x)/x dx` 存在, 则
+    <span class="formula">
+      `int_0^oo (f(b x) - f(a x))/x dx`
+      `= f(oo) ln{:b/a:}`.
+    </span>
+    这一情形也可通过换元 `x mapsto 1//x` 化为上一情形.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>先考虑有限积分, 变形得
+    <span class="formula">
+      `int_delta^Delta (f(b x)-f(a x))/x dx`
+      `= int_(b delta)^(b Delta) f(x)/x dx`
+      `- int_(a delta)^(a Delta) f(x)/x dx`
+      `= int_(b delta)^(a delta) - int_(b Delta)^(a Delta)`.
+    </span>
+    两个积分各自应用中值定理得
+    <span class="formula">
+      `f(xi) int_(b delta)^(a delta) dx/x - f(eta) int_(b Delta)^(a Delta) dx/x`
+      `= (f(eta)-f(xi)) ln{:b/a:}`.
+    </span>
+    再令 `delta to 0^+`, `Delta to +oo` 即得结论.
+  </li>
+  <li>
+    和前面方法类似, 但只在 `f` 连续的一端应用中值定理.
+    另一端的积分, 由题目条件应该等于零.
+  </li>
+</ol>
+
+<p class="proof">
+  假如 `f` 可微, 交换积分次序得
+  <span class="formula">
+    `int_0^oo int_a^b f'(x y) dy dx`
+    `= int_a^b int_0^oo f'(x y) dx dy`
+    `= {:f(x)|_0^oo int_a^b dy/y`.
+  </span>
+</p>
+
+<p class="example">
+  `int_0^1 (x^b - x^a)/(ln x) dx`, `a, b gt 0`.
+</p>
+
+<p class="solution">
+  交换积分次序, 原式等于
+  <span class="formula">
+    `int_0^1 int_a^b x^y dy dx`
+    `= int_a^b int_0^1 x^y dx dy`
+    `= int_a^b dy/(y+1)`
+    `= ln{:(b+1)/(a+1):}`.
+  </span>
+</p>
+
+<h3>杂例</h3>
+
+<p class="example">
+	`int_0^1 (ln(1+x))/(1+x^2) dx`.
+</p>
+
+<p class="solution">
+	令 `I(s) = int_0^1 (ln(1+s x))/(1+x^2) dx`, 积分号下求导,
+  <span class="formula">
+    `I(1) = int_0^1 I'(s) "d"s`
+    `= int_0^1 (int_0^1 x/(1+x^2) dx/(1+s x) dx) "d"s`
+    `= int_0^1 ((ln 2)/2 1/(1+s^2) + pi/4 s/(1+s^2)
+    - (ln(1+s))/(1+s^2) ) "d"s`
+    `= pi/4 ln 2 - I(1)`.
+  </span>
+  所以 `I(1) = pi/8 ln 2`.
+</p>
+
+<p class="solution">
+  [来自 群友 ζ(me)=0] 令 `x = tan t`, 原式化为
+  <span class="formula">
+    `int_0^(pi/4) ln(1+tan t) dt`
+    `= int_0^(pi/8) + int_(pi/8)^(pi/4)`
+    `= int_0^(pi/8) (ln(1+tan t) + ln(1+tan(pi/4-t))) dt`
+    `= int_0^(pi/8) (ln(1+tan t) + ln(2/(1+tan t))) dt`
+    `= int_0^(pi/8) ln 2 dt`
+    `= pi/8 ln 2`.
+  </span>
+</p>
+
+<p class="example">
+  `int_0^pi ln(2 + cos x) dx`.
+</p>
+
+<p class="solution">
+  [来自 永远的神 alaros] 考虑
+  <span class="formula">
+    `I(s) = int_0^pi ln(s + cos x) dx`, `quad s gt 1`.
+  </span>
+  对参数求导, 利用万能公式积分
+  <span class="formula">
+    `I'(s)`
+    `= int_0^pi dx/(s + cos x)`
+    `= cdots = pi/sqrt(s^2-1)`.
+  </span>
+  利用 Euler 积分 `int_0^(pi/2) cos x dx = -pi ln 2`,
+  <span class="formula">
+    `I(1) = int_0^pi ln(1+cos x) dx`
+    `= int_0^pi ln(2 cos^2{:x/2:}) dx`
+    `= -pi ln 2`,
+  </span>
+  所以
+  <span class="formula">
+    `I(s) = I(1) + int_1^s I'(t) dt`
+    `= -pi ln 2 + pi ln (s + sqrt(s^2-1))`
+    `= pi ln {:(s+sqrt(s^2-1))/2:}`.
+  </span>
+</p>
+
+<p class="solution">
+  [来自傻子・疯子・神经病] 考虑
+  <span class="formula">
+    `J(s) = int_0^pi ln(2 + s cos x) dx`, `quad |s| lt 2`.
+  </span>
+  求导后使用万能公式得
+  <span class="formula">
+    `J'(s) = int_0^pi (cos x)/(2 + s cos x) dx`
+    `= cdots = pi/s (1 - 2/sqrt(4 - s^2))`.
+  </span>
+  于是
+  <span class="formula">
+    `J(s) = J(0) + int_0^s J'(t) dt`
+    `= pi ln (1 + sqrt(4-s^2)/2)`.
+  </span>
+</p>
+
+<p class="solution">
+  利用 Poisson 积分
+  <span class="formula">
+    `f(r) = int_0^pi ln(1 + r^2 + 2 r cos x) dx = 2 pi ln r`, `quad r gt 1`.
+  </span>
+  我们要让 `1 + r^2` 恰为 `2 r` 的两倍, 于是 `r = 2 + sqrt 3`,
+  <span class="formula">
+    `int_0^pi ln(2 + cos x) dx`
+    `= f(r) - int_0^pi ln (2r) dx`
+    `= pi ln{:r^2/(2 r):}`
+    `= pi ln(1 + sqrt 3 / 2)`.
+  </span>
+</p>
+
+<p class="example">
+  [武理 叶子昊 bilibili: 努力math]<br/>
+  `int_0^(pi/2) (x sin x)/(1+cos^2 x) dx`
+  `= int_0^(pi/2) arctan(cos x) dx = pi^2/8 - 1/2 ln^2(1+sqrt2)`.</p>
+
+<p class="proof">
+  记 `I(s) = int_0^(pi/2) arctan(s cos x) dx`, 则
+  <span class="formula align">
+    `I(1) = int_0^1 I'(s) "d"s`<br>
+    `= int_0^1 int_0^(pi/2) cos x/(1 + s^2 cos^2 x) dx "d"s`<br>
+    `= int_0^1 int_0^1 dt/(1 + s^2 - s^2 t^2) "d"s`<br>
+    `= int_0^1 1/(2s^2 sqrt(1+s^-2)) ln{:(sqrt(1+s^-2) + 1)/(sqrt(1+s^-2)
+    - 1):} "d"s`<br>
+    `= int_0^1 ("arsh" s)/(s^2 sqrt(1+s^-2)) "d"s`<br>
+    `= -int_0^1 ("arsh" s)/sqrt(1+s^-2) "d"(1/s)`<br>
+    `= -["arsh" s * "arsh" 1/s]_0^1 + int_0^1 ("arsh"1/s)/sqrt(1+s^2) "d"s`<br>
+    `= -ln^2(1+sqrt 2) + int_1^oo ("arsh"s)/(s^2 sqrt(1+s^-2)) "d"s`<br>
+    `= -ln^2(1+sqrt 2) + I(+oo) - I(1)`<br>
+    `= -ln^2(1+sqrt 2) + pi^2/4 - I(1)`,
+  </span>
+  整理即得结论.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
