@@ -31,8 +31,8 @@ math: {
     {title:'向量的相关性与线性方程组', src:'algebra/3.html', date:'2021-12-14'},
     {title:'线性空间', src:'algebra/4.html'},
     {title:'线性映射与线性变换', src:'algebra/5.html'},
-    {title:'特征值与特征向量', src:'algebra/6.html'},
-    {title:'矩阵的相似标准形', src:'algebra/7.html'},
+    {title:'特征值与特征向量', src:'algebra/6.html', date:'2022-05-12'},
+    {title:'λ 矩阵与相似标准形', src:'algebra/7.html'},
     {title:'线性空间中的度量与内积', src:'algebra/8.html'},
     {title:'实二次型与正定矩阵', src:'algebra/9.html', date:'2021-12-08'},
     {title:'李代数初步', src:'algebra/10.html'},
@@ -73,7 +73,7 @@ math: {
     {title:'积性数论函数', src:'number/6.html', date:'2022-03-09'},
     {title:'素数分布', src:'number/7.html', date:'2022-03-30'},
     {title:'代数数域和代数整数', src:'number/11.html', date:'2022-03-05'},
-    {title:'理想的分解', src:'number/12.html', date:'2022-03-04'},
+    {title:'理想的分解', src:'number/12.html', date:'2022-05-14'},
   ]
 }, {
   title:'集合论与点集拓扑',

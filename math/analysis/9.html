@@ -458,7 +458,28 @@
   对 `K(z)` 逐项积分即可.
 </p>
 
-<h3>第三类椭圆积分</h3>
+<p class="example">
+  <b>第三类椭圆积分</b>
+  `int dz/((1+h z^2) sqrt((1-z^2)(1-k^2 z^2)))`
+  `= int ("d"varphi)/((1 + h sin^2 varphi)sqrt(1 - k^2 sin^2 varphi))`.
+</p>
+
+<h3>Jacobi 椭圆函数</h3>
+
+<p class="definition">
+  考虑 `u(varphi) = F(k, varphi)`
+  `= int_0^varphi ("d"theta)/sqrt(1-k^2 sin^2 theta)` 的反演.
+  其中 `0 lt k lt 1` 为常数.
+  由于被积函数恒为正, `u(varphi)` 是从 `RR` 到 `RR` 的单射,
+  将它的反函数记为 `varphi = "am" u`, 称为<b>振幅 (amplitude) 函数</b>.
+  `sin "am" u := "sn" u` 称为<b>辐角正弦</b>或<b>椭圆正弦</b>.
+  这些名称来自单摆 (数学摆) 的振幅公式
+  <span class="formula">
+    `sin {:theta/2:} = sin{:theta_0/2:} "sn" sqrt(g/l) t`,
+  </span>
+  其中 `theta` 为 `t` 时刻与竖直方向的夹角,
+  `theta_0` 为初始角, `l` 为摆长, `g` 为重力加速度.
+</p>
 
 <h2>超几何函数</h2>
 
@@ -474,14 +495,11 @@
   时, 函数值为 `1`; 当 `a` 或 `b` 为负整数时, 级数只有有限项.
 </p>
 
-<ol class="property">
-</ol>
-
 <ol class="example">
   <li>
     `arctan z`
     `= sum_(n ge 0) z^(2n+1)/(2n+1)`
-    `= z {::}_2 F_1(1,1/2";"3/2";"-z^2)`.
+    `= z {::}_2 F_1(1,1/2";"3/2";"-z^2)`;
   </li>
   <li>
     [来自 某用户的壹零叁]
@@ -489,7 +507,7 @@
       `int sin^(2n+1)x dx`
       `= -int (1 - cos^2 x)^n "d"cos x`
       `= sum_(k=0)^n (n;k) (-1)^(k+1) (cos^(2k+1) x)/(2k+1)`
-      `= -cos x * {::}_2 F_1(-n, 1/2";"3/2";"cos^2 x)`,
+      `= -cos x * {::}_2 F_1(-n, 1/2";"3/2";"cos^2 x)`.
     </span>
   </li>
 </ol>

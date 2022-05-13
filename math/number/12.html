@@ -160,7 +160,11 @@
   极大理想都是素理想. 特别地, 由于<a href="../abstract/6.html#cor-finite-has-inv">有限整环是域</a>, 所以 `R` 有限时, 它的每个素理想都是极大理想.
 </p>
 
-<h3>PID 与 UFD</h3>
+<h3>ED, PID 与 UFD</h3>
+
+<p class="definition">
+  可以进行带余除法的整环称为 <b>Euclid 环 (Euclid Domain)</b>
+</p>
 
 <ol class="definition">
   <b>有限生成理想与主理想</b>
@@ -176,12 +180,14 @@
   则称它为<b>主理想整环 (Principal Ideal Domain, PID).</b>
 </ol>
 
-<p class="example">
-  前面已经用带余除法证明 `ZZ` 是 PID;
-  `ZZ` 的理想形如 `(n) = n ZZ`, `n` 是非负整数.
-  类似可证, 域 `bbb F` 上的多项式环 `bbb F[x]` 是 PID.
-  `bbb F[x]` 的理想形如 `(f(x)) = f(x) bbb F[x]`, `f(x)` 是首一多项式.
-</p>
+<ol class="example">
+  <li>前面已经用带余除法证明 `ZZ` 是 PID;
+    `ZZ` 的理想形如 `(n) = n ZZ`, `n` 是非负整数.</li>
+  <li>类似可证, 域 `bbb F` 上的多项式环 `bbb F[x]` 是 PID.
+    `bbb F[x]` 的理想形如 `(f(x)) = f(x) bbb F[x]`, `f(x)` 是首一多项式.
+  </li>
+  <li>幂级数环 `bbb F[[x]]` 是 PID.</li>
+</ol>
 
 <ol class="definition">
   <b>素元与唯一因子分解</b>
@@ -233,6 +239,16 @@
   <li>`(a) = R` `iff 1 in (a)` `iff (a) = (1)` `iff a ~ 1` `iff a in U(R)`.</li>
 </ol>
 
+<p class="definition">
+  <b>PID 上的最大公约数</b>: 任取 `a, b` in `R\\{0}`, 则存在 `d in RR\\{0}`
+  使 `(d) = (a) + (b)`.  至多相差一个单位, 这样的 `d` 称为 `a, b`
+  的最大公约数, `d = gcd(a, b)`.  由理想的定义, `R` 上成立裴蜀等式:
+  存在 `x, y in R` 使
+  <span class="formula">
+    `a x + b y = d`.
+  </span>
+</p>
+
 <p class="proposition">
   <b>PID 中非零素理想都是极大理想</b>
   设 `R` 为 PID, `(p)` 是它的非零素理想. 则 `p` 是素元, 进而
@@ -258,12 +274,46 @@
 </ol>
 
 <p class="example">
-  `ZZ[x]` 是 `QQ[x, y]` 是 UFD, 但均不是 PID.
+  `ZZ[x]`, `bbb F[x, y]` 是 UFD, 但均不是 PID.
+  一般地, 域上的多元多项式环是 UFD 而非 PID.
 </p>
+
+<ol class="proof">
+  事实上由于 `ZZ`, `bbb F[x]` 是 PID 知道 `ZZ[x]`, `bbb F[x, y]` 是 UFD.
+  <li>
+    `ZZ[x]` 不是 PID: `(2, x)` 不是主理想.
+  </li>
+  <li>
+    `bbb F[x, y]` 不是 PID: `(x, y)` 不是主理想.
+  </li>
+</ol>
 
 <p class="example">
   Gauss 整环 `ZZ[sqrt(-1)]` 是 PID. 但 `ZZ[sqrt(-5)]`, `ZZ[sqrt(-6)]`
   等甚至不是 UFD.
+</p>
+
+<p class="example">
+  `n ge 3` 时, `ZZ[sqrt(-n)]` 不是 UFD.
+</p>
+
+<p class="proof">
+  [来自 <a href="https://www.zhihu.com/question/444706799/answer/1732594155">慎独</a>]
+  当 `n` 是大于 2 的偶数的时候，2 整除 `(sqrt(-n))^2` 但是不会整除
+  `sqrt(-n)`,
+  所以 2 是一个非素的不可约元. UFD 里不可约元都是素的, 所以不是 UFD.
+  当 `n` 是大于 2 的奇数的时候，2 整除 `1+n=(1+sqrt(-n))(1-sqrt(-n)),
+  同样的 2 是非素的不可约元, 不是 UFD.
+</p>
+
+<p class="remark">
+  当且仅当 `d = -1, -2, -3, -7, -11, -19, -43, -67, -163` 时,
+  虚二次域 `QQ(sqrt d)` 的整数环为 UFD.
+  我们将要了解到, `d -= 2, 3 (mod 4)` 时, `QQ(sqrt d)` 的整数环为 `ZZ[sqrt
+  d]`, 它是 PID;
+  而 `d -= 1 (mod 4)` 时它的整数环为 `ZZ[(1+sqrt d)/2]`, 这时 `ZZ[d]`
+  不是整闭整环, 因而不是 UFD.
+  综上 `d lt 0` 时只有 `ZZ[sqrt(-1)]`, `ZZ[sqrt(-2)]` 是 UFD.
 </p>
 
 <h2>Dedekind 整环</h2>

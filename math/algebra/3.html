@@ -367,15 +367,15 @@
 	再由<a class="ref" href="#cor-vector-group-eq"></a>知,
 	`"I"` 中所有极大无关组所含向量个数是相等的.
 	这个非负整数只与 `"I"` 有关, 而与极大无关组的选取无关, 称为
-	`"I"` 的<b>秩</b>, 记为 `r_"I"` 或 `r_({bm alpha_i}_(i=1)^s)`.
+	`"I"` 的<b>秩</b>, 记为 `r("I")` 或 `r({bm alpha_i}_(i=1)^s)`.
 	约定全由零向量组成的向量组的秩为 `0`.
 </p>
 
 <ol class="corollary" id="cor-rank-and-equality">
-	<li>由替换定理, 若向量组 `"I"` 能由 `"II"` 线性表出, 则 `r_"I" le
-		r_"II"`;
+	<li>由替换定理, 若向量组 `"I"` 能由 `"II"` 线性表出, 则 `r("I") le
+		r("II")`;
 	</li>
-	<li>若 `"I"` 与 `"II"` 等价, 则 `r_"I" = r_"II"`;</li>
+	<li>若 `"I"` 与 `"II"` 等价, 则 `r("I") = r("II")`;</li>
 	<li>若 `"I"` 与 `"II"` 有包含关系, 则 2. 是充要的.</li>
 </ol>
 
@@ -435,15 +435,15 @@
 	</span>
 	有解当且仅当
 	<span class="formula">
-		` r_({bm alpha_1, cdots, bm alpha_n})
-		= r_({bm alpha_1, cdots, bm alpha_n, bm beta})`.
+		` r({bm alpha_1, cdots, bm alpha_n})
+		= r({bm alpha_1, cdots, bm alpha_n, bm beta})`.
 		<span class="label" id="for-has-solution-iff">(3-1)</span>
 	</span>
 	进一步, 当此方程组有解时, 其解唯一当且仅当 `bm alpha_1, bm alpha_2,
 	cdots, bm alpha_n` 线性无关, 即
 	<span class="formula">
-		` r_({bm alpha_1, cdots, bm alpha_n})
-		= r_({bm alpha_1, cdots, bm alpha_n, bm beta}) = n`.
+		` r({bm alpha_1, cdots, bm alpha_n})
+		= r({bm alpha_1, cdots, bm alpha_n, bm beta}) = n`.
 	</span>
 </p>
 
@@ -553,15 +553,15 @@
 		这就证明了原向量组的任一极大无关组在 (涉及分量的)
 		初等变换下仍保持线性无关. 由<a class="ref"
 			href="#the-max-number-of-independent-vectors"></a>
-		`r_({bm alpha_i}_(i=1)^n) = r le r_({bm beta_i}_(i=1)^n)`.
+		`r({bm alpha_i}_(i=1)^n) = r le r({bm beta_i}_(i=1)^n)`.
 		但涉及分量的初等变换也是可逆的, 类似可得
-		`r_({bm alpha_i}_(i=1)^n) ge r_({bm beta_i}_(i=1)^n)`.
+		`r({bm alpha_i}_(i=1)^n) ge r({bm beta_i}_(i=1)^n)`.
 	</li>
 </ol>
 
 <p class="definition">
 	任意 `bm A in bbb P^(m xx n)` 的行秩 = 列秩 = 行列式秩,
-	简单地称这个数字为 `bm A` 的<b>秩</b>, 记作 `r_(bm A)`.
+	简单地称这个数字为 `bm A` 的<b>秩</b>, 记作 `r(bm A)`.
 </p>
 
 <ol class="proof">
@@ -613,7 +613,7 @@
 </p>
 
 <p class="definition">
-	称方阵 `bm A in bbb P^(n xx n)` <b>满秩</b>, 如果 `r_(bm A) = n`.
+	称方阵 `bm A in bbb P^(n xx n)` <b>满秩</b>, 如果 `r(bm A) = n`.
 </p>
 
 <p class="remark">
@@ -690,34 +690,34 @@
 <ol class="example">
 	<b>若干秩不等式</b>
 	假设下面各式中的加法与乘法都可以进行, 即矩阵具有合适的行, 列数:
-	<li>`max{r_(bm A),r_(bm B)} le r_((bm A,bm B))
-		le r_(bm A) + r_(bm B)`;
+	<li>`max{r(bm A),r(bm B)} le r((bm A,bm B))
+		le r(bm A) + r(bm B)`;
 	</li>
-	<li>`r_(bm A+-bm B) le r_(bm A) + r_(bm B)`;</li>
-	<li>`r_(bm(A B)) le min{r_(bm A), r_(bm B)}`;</li>
+	<li>`r(bm A+-bm B) le r(bm A) + r(bm B)`;</li>
+	<li>`r(bm(A B)) le min{r(bm A), r(bm B)}`;</li>
     <li>(Sylvester) 任意 `{:bm A:}_(m xx n)`, `{:bm B:}_(n xx s)` 满足
-		`r_(bm A) + r_(bm B) le n + r_(bm(A B))`,
+		`r(bm A) + r(bm B) le n + r(bm(A B))`,
 	</li>
 </ol>
 
 <ol class="proof">
 	<li>分别记 `bm A, bm B, (bm A,bm B)` 这三个矩阵的列向量组为
 		`"I", "II", "III"`. 因为 `"I", "II"` 都能由 `"III"` 线性表出, 所以
-		`max{r_"I",r_"II"} le r_"III"`. 另一方面, 记 `"IV"` 为 `"I", "II"`
-		中的极大线性无关组之并, 则 `r_"IV" le r_"I" + r_"II"`.
-		但 `"III"` 和 `"IV"` 能相互表出, 从而 `r_"III" = r_"IV"`.
+		`max{r("I"),r("II")} le r("III")`. 另一方面, 记 `"IV"` 为 `"I", "II"`
+		中的极大线性无关组之并, 则 `r("IV") le r("I") + r("II")`.
+		但 `"III"` 和 `"IV"` 能相互表出, 从而 `r("III") = r("IV")`.
 		综上即得到结论.
 	</li>
 	<li>分别记 `bm A, bm B, bm(A+B)` 这三个矩阵的列向量组为
 		`"I", "II", "III"`. 又记 `"IV"` 为 `"I", "II"`
-		中的极大线性无关组之并, 则 `r_"IV" le r_"I" + r_"II"`.
-		但 `"IV"` 能线性表出 `"III"`, 有 `r_"III" le r_"IV"`,
+		中的极大线性无关组之并, 则 `r("IV") le r("I") + r("II")`.
+		但 `"IV"` 能线性表出 `"III"`, 有 `r("III") le r("IV")`,
 		综上即得到结论.
 	</li>
 	<li>`bm (A B)` 的各列向量可由 `bm A` 的各列向量线性表出,
-		所以 `r_(bm(A B)) le r_(bm A)`;
+		所以 `r(bm(A B)) le r(bm A)`;
 		`bm (A B)` 的各行向量可由 `bm B` 的各行向量线性表出,
-		所以 `r_(bm(A B)) le r_(bm B)`.
+		所以 `r(bm(A B)) le r(bm B)`.
 	</li>
 	<li>考察矩阵
 		<span class="formula">
@@ -731,29 +731,29 @@
 		</span>
 		由于 `|bm P| = |bm Q| = 1`, 故 `bm P, bm Q` 均可逆, 所以
 		<span class="formula">
-			`r_(bm C) = r_(bm(P C Q)) = r_(bm E_n) + r_(-bm(A B))`
-			`= n + r_(bm(A B)`.
+			`r(bm C) = r(bm(P C Q)) = r(bm E_n) + r(-bm(A B))`
+			`= n + r(bm(A B)`.
 		</span>
 		通过初等变换可以发现, 在矩阵 `bm C` 中,
 		`bm A`, `bm B` 各自的列极大线性无关组所在的列线性无关,
-		故 `r_(bm A) + r_(bm B) le r_(bm C)`, 证毕.
+		故 `r(bm A) + r(bm B) le r(bm C)`, 证毕.
 	</li>
 	<li>现在运用线性方程组理论 (本章最后一节),
 		对 Sylvester 秩不等式的特例: `bm(A B) = bm O` 时,
-		`r_(bm A) + r_(bm B) le n` 给出另一证明. 因为 `bm(A B) = bm O`,
-		`bm B` 的每一列均为方程组 `bm(A X) = bb 0` 的解. 当 `r_(bm A) = n`
-		时, 该方程组只有零解, 所以 `bm B = bm O`, `r_(bm B) = 0`,
+		`r(bm A) + r(bm B) le n` 给出另一证明. 因为 `bm(A B) = bm O`,
+		`bm B` 的每一列均为方程组 `bm(A X) = bb 0` 的解. 当 `r(bm A) = n`
+		时, 该方程组只有零解, 所以 `bm B = bm O`, `r(bm B) = 0`,
 		不等式成立. <br/>
-		当 `r_(bm A) lt n` 时, 该方程组具有 `n-r_(bm A)`
+		当 `r(bm A) lt n` 时, 该方程组具有 `n-r(bm A)`
 		个向量组成的基础解系, 即 `bm B`
-		的每一列均能由这一基础解系线性表出. 于是 `r_(bm B) le n-r_(bm A)`,
+		的每一列均能由这一基础解系线性表出. 于是 `r(bm B) le n-r(bm A)`,
 		不等式成立.
 	</li>
 </ol>
 
 <p class="example">
 	`bm A in bbb P^(r xx r)`, `bm B in bbb P^(r xx n)`,
-	`r_(bm B) = r`, 则
+	`r(bm B) = r`, 则
 	<span class="formula">
 		`bm(A B) = bm O rArr bm A = bm O`,<br/>
 		`bm(A B) = bm B rArr bm A = bm E`.
@@ -761,8 +761,8 @@
 </p>
 
 <p class="proof">
-	若 `bm(A B) = bm O`, 由 Sylvester 秩不等式立即有 `r_(bm A) + r_(bm B)
-	le r`, 但 `r_(bm B) = r`, 故 `r_(bm A) le 0`, 即 `bm A = bm O`.<br/>
+	若 `bm(A B) = bm O`, 由 Sylvester 秩不等式立即有 `r(bm A) + r(bm B)
+	le r`, 但 `r(bm B) = r`, 故 `r(bm A) le 0`, 即 `bm A = bm O`.<br/>
 	若 `bm(A B) = bm B`, 令 `bm B_1` 为 `bm B` 中线性无关的 `r`
 	列组成的方阵, 于是 `bm B_1` 可逆, 且 `bm(A B_1) = bm B_1`.
 	两边同时右乘 `bm B_1^-1` 得 `bm A = bm E`.
@@ -771,8 +771,8 @@
 <p class="example">
 	<b>矩阵的秩因子分解 (rank factorization)</b>
 	令 `bm A in bbb P^(m xx n)`,
-	`r_(bm A) = r`, 则存在 `bm B in bbb P^(m xx r)`, `bm C in bbb
-	P^(r xx n)` 使得 `r_(bm B) = r_(bm C) = r`,
+	`r(bm A) = r`, 则存在 `bm B in bbb P^(m xx r)`, `bm C in bbb
+	P^(r xx n)` 使得 `r(bm B) = r(bm C) = r`,
 	`bm A = bm(B C)`.
 </p>
 
@@ -790,17 +790,17 @@
 		`bm C_1 = (c_(i j))_(r xx (n-r))`,
 		`quad bm C = (bm E_r, bm C_1)`,
 	</span>
-	可以验证 `r_(bm B) = r_(bm C) = r`, 且 `bm A = bm(B C)`.
+	可以验证 `r(bm B) = r(bm C) = r`, 且 `bm A = bm(B C)`.
 </p>
 
 <ol class="example">
 	<b>伴随矩阵的秩</b>
 	设 `bm A` 是阶数 `ge 2` 的方阵, `bm A^**` 是它的伴随矩阵, 则
 	<span class="formula">
-		`r_(bm A^**) = {
-			n, if r_(bm A) = n;
-			1, if r_(bm A) = n-1;
-			0, if r_(bm A) lt n-1;
+		`r(bm A^**) = {
+			n, if r(bm A) = n;
+			1, if r(bm A) = n-1;
+			0, if r(bm A) lt n-1;
 		:}`
 	</span>
 	从而 `bm A` 不可逆时, `bm A^**` 也不可逆.
@@ -809,17 +809,17 @@
 <ol class="proof">
 	<li>由方阵逆的结构公式 `bm A^-1 = (bm A^**)/|bm A|`,
 		`bm A` 可逆时, `bm A^**` 也可逆.
-		因此 `r_(bm A) = n` 时, `r_(bm A^**) = n`.
+		因此 `r(bm A) = n` 时, `r(bm A^**) = n`.
 	</li>
-	<li>由 `r_(bm A) = n-1` 知存在 `bm A` 的一个非零 `n-1` 阶子式,
-		故 `bm A^** != bm O`, `r_(bm A^**) ge 1`.
+	<li>由 `r(bm A) = n-1` 知存在 `bm A` 的一个非零 `n-1` 阶子式,
+		故 `bm A^** != bm O`, `r(bm A^**) ge 1`.
 		另一方面, 由 `bm(A A^**) = |bm A|bm E = bm O`,
 		由 Sylvester 秩不等式,
-		`r_(bm A) + r_(bm A^**) le n`, 即 `r_(bm A^**) le 1`,
-		所以 `r_(bm A^**) = 1`.
+		`r(bm A) + r(bm A^**) le n`, 即 `r(bm A^**) le 1`,
+		所以 `r(bm A^**) = 1`.
 	</li>
-	<li>`r_(bm A) lt n-1` 蕴含 `bm A` 的任一 `n-1` 阶子式为零, 从而
-		`bm A^** = bm O`, `r_(bm A^**) = 0`.
+	<li>`r(bm A) lt n-1` 蕴含 `bm A` 的任一 `n-1` 阶子式为零, 从而
+		`bm A^** = bm O`, `r(bm A^**) = 0`.
 	</li>
 </ol>
 
@@ -837,12 +837,12 @@
 	</span>
 	有解当且仅当
 	<span class="formula">
-		`r_(bm A) = r_((bm A","bm B))`,
+		`r(bm A) = r((bm A","bm B))`,
 	</span>
 	其中分块矩阵 `(bm A, bm B)` 表示方程组的增广矩阵. 进一步,
 	当此方程组有解时, 其解唯一当且仅当
 	<span class="formula">
-		`r_(bm A) = r_((bm A","bm B)) = n`.
+		`r(bm A) = r((bm A","bm B)) = n`.
 	</span>
 </p>
 
@@ -951,7 +951,7 @@
 	因为 `bm A` 的前 `r` 行线性无关,
 	由<a class="ref" href="#cor-linear-dependence-on-variation"></a> 的 2,
 	增广矩阵 `(bm A, bm B)` 的前 `r` 行也线性无关.
-	又方程组 `bm (AX) = bm B` 有解, `r = r_(bm A) = r_((bm A","bm B))`.
+	又方程组 `bm (AX) = bm B` 有解, `r = r(bm A) = r((bm A","bm B))`.
 	因此由<a class="ref" href="#the-max-number-of-independent-vectors">
 	</a>, `(bm A, bm B)` 的前 `r` 行构成其行向量组的极大无关组,
 	从而 `(bm A, bm B)` 的后 `m-r` 行是前 `r` 行的线性组合.
@@ -962,7 +962,7 @@
 
 <p class="theorem">
 	齐次线性方程组 <a class="ref" href="#for-homogeneous"></a> 中,
-	记 `r_(bm A) = r`.  令 `bm A` 左上角的 `r` 阶子式非零,
+	记 `r(bm A) = r`.  令 `bm A` 左上角的 `r` 阶子式非零,
 	`bm A_(r xx n)` 是 `bm A` 的前 `r` 行组成的矩阵, 若 `r lt n`,
 	将 `bm A_(r xx n)` 与 `bm X` 分块为
 	<span class="formula">
@@ -1039,7 +1039,7 @@
 
 <p class="theorem" id="the-structure-of-solution">
 	令齐次线性方程组 <a class="ref" href="#for-homogeneous"></a>
-	系数矩阵的秩 `r_(bm A) = r`.
+	系数矩阵的秩 `r(bm A) = r`.
 	若 `r lt n`, 则 <a class="ref" href="#for-homogeneous"></a>
 	具有由 `n-r` 个基解 `bm X_1, bm X_2, cdots, bm X_(n-r)`
 	组成的基础解系. 于是 <a class="ref" href="#for-homogeneous"></a>
@@ -1072,14 +1072,15 @@
 	</span>
 	即 <a class="ref" href="#for-homogeneous"></a> 的每个解都是
 	`{bm gamma_i}_(i=1)^(n-r)` 的线性组合.
-	又 `bm C` 的子式 `|bm E_(n-r)| != 0`, 于是 `r_(bm C) = n-r`,
+	又 `bm C` 的子式 `|bm E_(n-r)| != 0`, 于是 `r(bm C) = n-r`,
 	`{bm gamma_i}_(i=1)^(n-r)` 线性无关, 它们构成
 	<a class="ref" href="#for-homogeneous"></a> 的一个基础解系.
 </p>
 
 <p class="remark">
   用线性空间的观点, 齐次线性方程组 `bm(A X) = bb 0`
-  的解集构成线性空间 `"Ker"bm A`, 基础解系是该空间的基.
+  的解集构成线性空间 `"Ker"bm A`, 称为<b>解空间</b>.
+  基础解系是解空间的基.
 </p>
 
 <h3>非齐次线性方程组</h3>
@@ -1144,7 +1145,7 @@
 	<li>通过行初等变换, 将方程的增广矩阵 `(bm A, bm B)`
 		化为阶梯形.
 	</li>
-	<li>第一步后, 若得出 `r_(bm A) lt r_((bm A","bm B))`, 则方程组无解;
+	<li>第一步后, 若得出 `r(bm A) lt r((bm A","bm B))`, 则方程组无解;
 		否则继续将增广矩阵化为<b>行简化阶梯形矩阵</b>,
 		即每个非零行的第一个非零元素等于 1,
 		且这些 1 所在列的其他元素皆为 0 的阶梯形矩阵.
@@ -1152,7 +1153,7 @@
 	<li>由<a class="ref" href="#lem-equations-of-same-solution"></a>,
 		可以删去增广矩阵的零行, 得到一个 `r` 行的矩阵
 		`(bm A_1, bm B_1)_(n xx r)`,
-		其中 `r = r_(bm A)`.
+		其中 `r = r(bm A)`.
 		将每行第一个非零元素所在的列的标号依次记为
 		`i_1, i_2, cdots, i_r`, 其它各列的标号依次记为
 		`i_(r+1), cdots, i_n`.
@@ -1295,7 +1296,7 @@ module.exports = function (str) {
 <ol class="example">
 	设 `bm A in RR^(m xx n)`, `bm X in RR^n`, `bm B, bb 0 in RR^m`, 则
 	<li>实线性方程组 `bm (A X) = bb 0` 与 `bm (A'A X) = bb 0` 同解;</li>
-	<li>`r_(bm A) = r_(bm(A'A))`;</li>
+	<li>`r(bm A) = r(bm(A'A))`;</li>
 	<li>实线性方程组 `bm (A'A X) = bm(A'B)` 有解.</li>
 	注意在复数域中, 结论 1. 未必成立. 如 `bm A = [1,"i"; "i",-1]`.
 </ol>
@@ -1317,15 +1318,15 @@ module.exports = function (str) {
 	</li>
 	<li>运用几类秩不等式 (并上一列, 秩变大; 乘以一个矩阵, 秩变小):
 		<span class="formula">
-			`r_(bm(A'A)) le r_((bm(A'A)","bm(A'B)))`
-			`= r_(bm A'(bm A,bm B))`
-			`le r_(bm A')`
-			`= r_(bm A)`
-			`= r_(bm(A'A))`.
+			`r(bm(A'A)) le r((bm(A'A)","bm(A'B)))`
+			`= r(bm A'(bm A,bm B))`
+			`le r(bm A')`
+			`= r(bm A)`
+			`= r(bm(A'A))`.
 		</span>
 		从而上式取得等号, 特别
 		<span class="formula">
-			`r_(bm(A'A)) = r_((bm(A'A)","bm(A'B)))`,
+			`r(bm(A'A)) = r((bm(A'A)","bm(A'B)))`,
 		</span>
 		即方程组
 		<span class="formula">

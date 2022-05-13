@@ -664,6 +664,7 @@
   <span class="formula">
     `int_0^(pi//2) dx/(1 + sin x cos y) = y/(sin y)`, `quad y in (0, pi)`.
   </span>
+  作为应用, 试计算 `int_0^pi dx/(s + cos x)`, `s gt 1`.
 </p>
 
 <div class="p proof">
@@ -679,6 +680,30 @@
     <img src="../img/7-atan2acos.png" alt="">
   </div>
 </div>
+
+<p class="solution">
+  本题可用万能代换, 也可套公式
+  <span class="formula">
+    `int_0^pi dx/(s + cos x)`
+    `= 1/s int_0^(pi/2) dx/(1 + 1/s cos x) + 1/s int_0^(pi/2) dx/(1 - 1/s cos x)`
+    `= 1/s (arccos{:1/s:} + arccos(-1/s))/sqrt(1 - 1/s^2)`
+    `= pi/sqrt(s^2 - 1)`.
+  </span>
+</p>
+
+<p class="example">
+  `int_-oo^oo f(x) dx = int_-oo^oo f(x - 1/x) dx`.
+</p>
+
+<p class="proof">
+  左边等于
+  <span class="formula">
+    `int_0^oo f(y - 1/y) (1+1/y^2) dy`
+    `==^(u = 1/y) int_0^oo f(y - 1/y) dy + int_0^oo f(1/u - u) "d"u`
+    `==^(u mapsto -u) int_0^oo f(y - 1/y) dy + int_-oo^0 f(u - 1/u) "d"u`
+  </span>
+  等于右边.
+</p>
 
 <h2>定积分的极限</h2>
 
@@ -796,12 +821,51 @@
   <span class="formula">
     `I(r) = int_0^pi ln(1+r^2 - 2 r cos x) dx`,
   </span>
-  `r != 1` 时, 被积函数连续, 积分存在. 区间再现易得 `I(r) = I(-r)`.
-  下证:
+  区间再现易得 `I(r) = I(-r)`.  下证:
   <span class="formula">
-    `I(r) = { 0, if |r| lt 1; 2 pi ln |r|, if |r| gt 1 :}`
+    `I(r) = { 0, if |r| le 1; 2 pi ln |r|, if |r| gt 1 :}`
   </span>
 </p>
+
+<ol class="solution">
+  <li>
+    先证明方程 `I(r) = 1/2 I(r^2)`:
+    <span class="formula">
+      `I(r) = 1/2(I(r) + I(-r))`
+      `= 1/2 int_0^pi ln (1+r^2+2r cos x)(1+r^2-2r cos x) dx`
+      `= 1/2 int_0^pi ln ((1+r^2)^2 - 4r^2 cos^2 x) dx`
+      `= 1/2 int_0^pi ln (1+r^4 - 2 r^2 cos 2x) dx`
+      `= 1/2 I(r^2)`.
+    </span>
+  </li>
+  <li>
+    `|r| lt 1` 时, 由
+    <span class="formula">
+      `(1-|r|)^2 le 1 + r^2 - 2 r cos x le (1+|r|)^2`
+    </span>
+    两边取对数再积分得
+    <span class="formula">
+      `2 pi ln(1-|r|) le I(r) le 2 pi ln(1+|r|)`,
+    </span>
+    因此 `lim_(r to 0) I(r) = 0`.
+    现在若 `|r| lt 1`, 则 `I(r) = I(r^(2^n))//2^n`, 令 `n to oo` 而得到
+    `0`;
+  </li>
+  <li>
+    若 `|r| gt 1`, 则
+    <span class="formula">
+      `I(r) = int_0^pi[ ln(1+1/r^2 - 2/r cos x) + 2 ln |r| ]dx`
+      `= I(1/r) + 2 pi ln |r|`
+      `= 2 pi ln |r|`.
+    </span>
+  </li>
+  <li>
+    最后 `|r| = 1` 时, 化为 Euler 积分
+    <span class="formula">
+      `int_0^pi [ln(1 + cos x)  + ln 2]dx = 0`.
+    </span>
+  </li>
+</ol>
 
 <p class="solution">
   利用定积分定义,
@@ -816,32 +880,6 @@
   若 `|r| lt 1`, 上式 `to 0`; 若 `|r| gt 1`, 上式化为
   <span class="formula">
     `lim_(n to oo) pi/n ln[(r+1)/(r-1) (r^(2n)-1)/r^(2n)] + pi/n * 2n * ln |r|`
-    `= 2 pi ln |r|`.
-  </span>
-</p>
-
-<p class="solution">
-  <span class="formula">
-    `I(r) = 1/2(I(r) + I(-r))`
-    `= 1/2 int_0^pi ln (1+r^2+2r cos x)(1+r^2-2r cos x) dx`
-    `= 1/2 int_0^pi ln ((1+r^2)^2 - 4r^2 cos^2 x) dx`
-    `= 1/2 int_0^pi ln (1+r^4 - 2 r^2 cos 2x) dx`
-    `= 1/2 I(r^2)`.
-  </span>
-  由
-  <span class="formula">
-    `(1-|r|)^2 le 1 + r^2 - 2 r cos x le (1+|r|)^2`
-  </span>
-  两边取对数再积分得
-  <span class="formula">
-    `2 pi ln(1-|r|) le I(r) le 2 pi ln(1+|r|)`,
-  </span>
-  因此 `lim_(r to 0) I(r) = 0`.
-  现在若 `|r| lt 1`, 则 `I(r) = I(r^(2^n))//2^n`, 令 `n to oo` 而得到
-  `0`; 若 `|r| gt 1`, 则
-  <span class="formula">
-    `I(r) = int_0^pi[ ln(1+1/r^2 - 2/r cos x) + 2 ln |r| ]dx`
-    `= I(1/r) + 2 pi ln |r|`
     `= 2 pi ln |r|`.
   </span>
 </p>

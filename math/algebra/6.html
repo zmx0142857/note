@@ -695,47 +695,7 @@
    即线性变换何时有对角形表示矩阵的问题.
 </p>
 
-<p class="theorem">
-	设 `cc A in L(V)` 有 `r` 个不同的特征值 `{lambda_i}_(i=1)^r`,
-  对应于每个 `lambda_i`, 有 `n_i` 个线性无关的特征向量
-	`{bm alpha_(i j)}_(j=1)^(n_i)`, `i = 1, 2, cdots, r`.
-  则全部 `n = sum_(i=1)^r n_i` 个特征向量线性无关.
-	推论: 不同特征值对应的特征向量线性无关.
-</p>
-
-<p class="proof">
-	对 `r` 作归纳. `r = 1` 时结论显然成立. 假设结论对 `r-1 ge 1` 成立,
-	考察 `r` 的情形. 若
-	<span class="formula">
-		`bm theta = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`,
-	</span>
-	则
-	<span class="formula">
-		`bm theta = cc A bm theta - lambda_r bm theta`
-		`= sum_(i=1)^r lambda_i sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
-		  `- lambda_r sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
-		`= sum_(i=1)^(r-1) (lambda_i - lambda_r)
-		sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`.
-	</span>
-	由归纳假设, `bm alpha_(1 1), cdots, bm alpha_(1 n_1), cdots,
-	bm alpha_(r-1,1), cdots, bm alpha_(r-1, n_(r-1))` 线性无关,
-	又特征值两两不同, 有 `lambda_i-lambda_r != 0`, `i = 1, 2, cdots, r-1`.
-	故
-	<span class="formula">
-		`k_(i j) = 0`,
-		`quad j = 1, 2, cdots, n_i`,
-		`quad i = 1, 2, cdots, r-1`.
-	</span>
-	于是
-	<span class="formula">
-		`bm theta = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
-		`- sum_(i=1)^(r-1) sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
-		`= sum_(j=1)^(n_r) k_(r j) bm alpha_(r j)`.
-	</span>
-	再由 `bm alpha_(r 1), cdots, bm alpha_(r,n_r)` 线性无关知
-	`k_(r 1) = k_(r 2) = cdots = k_(r,n_r) = 0`,
-	即全部 `n` 个向量线性无关.
-</p>
+<h3>从特征向量来看</h3>
 
 <p class="theorem">
   `cc A in L(V)` 有对角形表示矩阵当且仅当它有 `n = "dim"V`
@@ -743,81 +703,142 @@
 </p>
 
 <p class="proof">
-	设 `cc A` 有线性无关的特征向量 `bm epsi_1, bm epsi_2, cdots, bm epsi_n`,
+  设 `cc A` 有线性无关的特征向量 `bm epsi_1, bm epsi_2, cdots, bm epsi_n`,
   其中
-	<span class="formula">
-		`cc A bm epsi_i = lambda_i bm epsi_i`, `quad i = 1, 2, cdots, n`.
-	</span>
-	从而线性变换在该基底下的矩阵为 `bm D_(lambda_i)`.
-	反之, 若线性变换在某基底下的矩阵为 `bm D_(lambda_i)`,
-	则该基底恰由 `cc A` 的 `n` 个线性无关的特征向量构成.
+  <span class="formula">
+    `cc A bm epsi_i = lambda_i bm epsi_i`, `quad i = 1, 2, cdots, n`.
+  </span>
+  从而线性变换在该基底下的矩阵为 `"diag"(lambda_i)`.
+  反之, 若线性变换在某基底下的矩阵为 `"diag"(lambda_i)`,
+  则该基底恰由 `cc A` 的 `n` 个线性无关的特征向量构成.
 </p>
 
 <p class="corollary">
-	因为不同的特征值对应的特征向量线性无关, 所以当 `cc A in L(V)`
-	有 `n = "dim"V` 个两两不同的特征值时, `cc A` 有对角形表示矩阵.
-</p>
-
-<p class="definition">
-	令 `lambda` 为 `cc A in L(V)` 的一个特征根, 则 `cc A`
-	相应于 `lambda` 的全体特征向量张成 `V` 的子空间:
-	<span class="formula">
-		`{bm alpha in V | cc A bm alpha = lambda bm alpha}`
-		`= {bm alpha in V | (lambda bb E - cc A) bm alpha = bm theta}`
-		`= "Ker"(lambda bb E - cc A) le V`,
-	</span>
-	称为 `cc A` 关于 `lambda` 的<b>特征子空间</b>.
-	`"dimKer"(lambda bb E - cc A)` 称为 `lambda`
-	的<b>几何重数</b>.<br/>
-	由定义知, 特征子空间即齐次方程
-	<span class="formula">
-		`(lambda bb E - cc A) bm alpha = bm theta`
-	</span>
-	的解空间; 取定基底后, 记 `cc A` 在基底下的矩阵为 `bm A`,
-	则特征子空间中全体向量的坐标构成齐次方程
-	<span class="formula">
-		`(lambda bm E - bm A) bm X = bb 0`
-	</span>
-	的解空间.
-</p>
-
-<p class="theorem">
-	任一特征根的几何重数 `le` 其代数重数.
+  <b>特征向量构成过渡矩阵</b>
+  设矩阵 `bm A` 有 `n` 个线性无关的特征向量
+  `bm P = (bm alpha_1, cdots, bm alpha_n)`, 则
+  `bm P^-1 bm A bm P` 为对角形.
 </p>
 
 <p class="proof">
-	令 `cc A in L(V)`, `lambda` 为一特征根, 取特征子空间
-	`"Ker"(lambda bb E - cc A)` 的基底
-	`(bm epsi_1, bm epsi_2, cdots, bm epsi_r)`,
-	扩充为 `V` 的基底
-	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`.
-	易知 `cc A` 在该基底下的矩阵为
-	<span class="formula">
-		`bm A = [lambda bm E_r, **; bm O,bm A_1]`.
-	</span>
-	因此
-	<span class="formula">
-		`Delta_(cc A)(x) = Delta_(bm A)(x)`
-		`= (x - lambda)^r Delta_(bm A)(x)`.
-	</span>
-	所以 `lambda` 的几何重数 `= r le lambda` 的代数重数.
+  把 `bm A` 看作线性变换 `cc A` 在自然基底 `(bm epsi_1, cdots, bm epsi_n)`
+  下的表示矩阵.
+  `bm P` 恰为两基底间的过渡矩阵:
+  <span class="formula">
+    `(bm alpha_1, cdots, bm alpha_n) = (bm epsi_1, codts, bm epsi_n) bm P`.
+  </span>
+  因此 `cc A` 在 `(bm alpha_1, cdots, bm alpha_n)` 下的表示矩阵为 `bm P^-1 bm A bm P`, 由定理知道它为对角形.
+</p>
+
+<p class="lemma">
+  设 `cc A in L(V)` 有 `r` 个不同的特征值 `{lambda_i}_(i=1)^r`,
+  对应于每个 `lambda_i`, 有 `n_i` 个线性无关的特征向量
+  `{bm alpha_(i j)}_(j=1)^(n_i)`, `i = 1, 2, cdots, r`.
+  则全部 `n = sum_(i=1)^r n_i` 个特征向量线性无关.
+</p>
+
+<p class="proof">
+  对 `r` 作归纳. `r = 1` 时结论显然成立. 假设结论对 `r-1 ge 1` 成立,
+  考察 `r` 的情形. 若
+  <span class="formula">
+    `bm theta = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`,
+  </span>
+  则
+  <span class="formula">
+    `bm theta = cc A bm theta - lambda_r bm theta`
+    `= sum_(i=1)^r lambda_i sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
+    `- lambda_r sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
+    `= sum_(i=1)^(r-1) (lambda_i - lambda_r)
+    sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`.
+  </span>
+  由归纳假设, `bm alpha_(1 1), cdots, bm alpha_(1 n_1), cdots,
+  bm alpha_(r-1,1), cdots, bm alpha_(r-1, n_(r-1))` 线性无关,
+  又特征值两两不同, 有 `lambda_i-lambda_r != 0`, `i = 1, 2, cdots, r-1`.
+  故
+  <span class="formula">
+    `k_(i j) = 0`,
+    `quad j = 1, 2, cdots, n_i`,
+    `quad i = 1, 2, cdots, r-1`.
+  </span>
+  于是
+  <span class="formula">
+    `bm theta = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
+    `- sum_(i=1)^(r-1) sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
+    `= sum_(j=1)^(n_r) k_(r j) bm alpha_(r j)`.
+  </span>
+  再由 `bm alpha_(r 1), cdots, bm alpha_(r,n_r)` 线性无关知
+  `k_(r 1) = k_(r 2) = cdots = k_(r,n_r) = 0`,
+  即全部 `n` 个向量线性无关.
+</p>
+
+<p class="theorem">
+  由引理马上得到: 不同特征值对应的特征向量线性无关.
+  再结合上一定理有: 当线性变换有 `n` 个不同特征值时,
+  它有对角形表示矩阵.
+</p>
+
+<h3>从几何重数看</h3>
+
+<p class="definition">
+  令 `lambda` 为 `cc A in L(V)` 的一个特征根, 则 `cc A`
+  相应于 `lambda` 的全体特征向量张成 `V` 的子空间:
+  <span class="formula">
+    `{bm alpha in V | cc A bm alpha = lambda bm alpha}`
+    `= {bm alpha in V | (lambda bb E - cc A) bm alpha = bm theta}`
+    `= "Ker"(lambda bb E - cc A) le V`,
+  </span>
+  称为 `cc A` 关于 `lambda` 的<b>特征子空间</b>.
+  `"dimKer"(lambda bb E - cc A)` 称为 `lambda`
+  的<b>几何重数</b>.
+</p>
+
+<p class="corollary">
+  <b>几何重数的计算公式</b>
+  由定义知, 特征子空间即齐次方程 `(lambda bb E - cc A) bm alpha = bm theta`
+  的解空间; 取定基底后, 即为 `(lambda bm E - bm A) bm X = bb 0` 的解空间.
+  因而有
+  <span class="formula">
+    `"dimKer"(lambda bm E - bm A) = n - r(lambda bm E - bm A)`.
+  </span>
+</p>
+
+<p class="theorem">
+  任一特征根的几何重数 `le` 其代数重数.
+</p>
+
+<p class="proof">
+  令 `cc A in L(V)`, `lambda` 为一特征根, 取特征子空间
+  `"Ker"(lambda bb E - cc A)` 的基底
+  `(bm epsi_1, bm epsi_2, cdots, bm epsi_r)`,
+  扩充为 `V` 的基底
+  `(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`.
+  易知 `cc A` 在该基底下的矩阵为
+  <span class="formula">
+    `bm A = [lambda bm E_r, **; bm O,bm A_1]`.
+  </span>
+  因此
+  <span class="formula">
+    `Delta_(cc A)(x) = Delta_(bm A)(x)`
+    `= (x - lambda)^r Delta_(bm A)(x)`.
+  </span>
+  所以 `lambda` 的几何重数 `= r le lambda` 的代数重数.
 </p>
 
 <ol class="theorem">
-	设 `V` 为 `n` 维线性空间,
-	`cc A in L(V)` 的全体特征根记为 `Lambda`, 则以下各款等价:
-	<li>`cc A` 有对角形表示矩阵;</li>
-	<li>`V` 能分解为特征子空间之直和:
-		`V = sum_(lambda in Lambda) "Ker"(lambda bb E - cc A)`;
-	</li>
-	<li>`n = sum_(lambda in Lambda) "dimKer"(lambda bb E - cc A)`;
-	</li>
-	<li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数), 且
-		`AA lambda in Lambda`, `lambda` 的几何重数等于其代数重数;
-	</li>
-	<li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数), 且
-		`m_(bm A)(x)` 无重根.
-	</li>
+  设 `V` 为 `n` 维线性空间,
+  `cc A in L(V)` 的全体特征根记为 `Lambda`, 则以下各款等价:
+  <li>`cc A` 有对角形表示矩阵;</li>
+  <li>`V` 能分解为特征子空间之直和:
+    `V = sum_(lambda in Lambda) "Ker"(lambda bb E - cc A)`;
+  </li>
+  <li>`n = sum_(lambda in Lambda) "dimKer"(lambda bb E - cc A)`;
+  </li>
+  <li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数), 且
+    每个特征根的几何重数等于其代数重数; (这是判定矩阵可对角化的标准做法)
+  </li>
+  <li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数), 且最小多项式
+    `m_(bm A)(x)` 无重根.
+  </li>
 </ol>
 
 <ol class="proof">
@@ -826,12 +847,61 @@
 	</li>
 </ol>
 
+<ol class="algorithm">
+  <b>判断矩阵可对角化, 并求过渡矩阵</b>
+  如前所述, 判断 `CC` 上方阵 `bm A` 可对角化的步骤为:
+  <li>求 `bm A` 的全部 `n` 个特征根;
+    若 `n` 个特征根两两不同, 则 `bm A` 可对角化.</li>
+  <li>否则, 对于重根 `lambda`, 设它的 (代数) 重数为 `m`.
+    几何重数为 `n - r(lambda bm E - bm A)`.
+    若每个重根的代数重数都等于几何重数, 则 `bm A` 可对角化, 否则不能.
+  </li>
+  <li>若 `bm A` 可对角化, 将它的全部 `n` 个特征向量合并为
+    <span class="formula">
+      `bm P = (bm alpha_1, cdots, bm alpha_n)`,
+    </span>
+    则 `bm P^-1 bm A bm P` 为对角形, `bm P` 就是所求的过渡矩阵.
+  </li>
+</ol>
+
+<ol class="algorithm">
+  <b>利用相似初等变换进行矩阵对角化</b>
+  这是一种投机取巧的方法, 计算量小, 但不是每次都能奏效.
+  所谓相似初等变换, 是指每进行一个行初等变换 (左乘初等矩阵),
+  就紧接着进行一个相反的列初等变换 (右乘初等矩阵的逆), 具体为:
+  <li>`i` 行乘以非零常数 `k`, 然后 `i` 列乘以 `k^-1`;</li>
+  <li>`i, j` 两行互换, 然后 `i, j` 两列互换;</li>
+  <li>`i` 行的 `k` 倍加到 `j` 行, 然后<b>`j` 列的 `-k` 倍加到 `i` 列</b>.</li>
+  如果矩阵经一系列相似初等变换后化为对角形, 自然说明它可对角化;
+  且过渡矩阵可由所施的初等变换求得: 通常在矩阵旁并置一个单位阵来记录这些变换. 请看下例.
+</ol>
+
+<p class="example">
+  将 `[3, 4; 5, 2]` 对角化并求过渡矩阵.
+</p>
+
+<p class="solution">
+  <span class="formula">
+    `[3, 4, 1, 0; 5, 2, 0, 1]`
+    `underset([2-1(1)]) overset([1+2(1)]) rarr`
+    `[7, 4, 1, 0; 0, -2, -1, 1]`
+    `underset([1+2(4/9)]) overset([2-1(4/9)]) rarr`
+    `[7, 0, 5/9, 4/9; 0, -2, -1, 1]`.
+  </span>
+  于是 `[3, 4; 5, 2] = bm Q^-1 [7, ; , -2] bm Q`,
+  其中
+  <span class="formula">
+    `bm Q = [5/9, 4/9; -1, 1]`.
+  </span>
+  这里求得的 `bm Q` 是前一种方法求得的过渡矩阵 `bm P` 的逆.
+</p>
+
 <h3>不变子空间</h3>
 
 <p class="definition">
   设 `cc A in L(V)`, `W le V`.  如果 `W` 在 `cc A` 下的像 `cc A(W) sube
   W`, 则称 `W` 为 `V` 关于 `cc A` 的<b>不变子空间</b>.
-	零空间 `{bm theta}` 和全空间 `V` 是平凡的不变子空间,
+  零空间 `{bm theta}` 和全空间 `V` 是平凡的不变子空间,
   因为它们对于任意 `V` 上的线性变换都是不变的.
   不变子空间的概念是特征子空间的推广, 特征子空间即为 1 维的不变子空间.
 </p>
@@ -882,6 +952,8 @@
 	</span>
 	所以 `cc A bm alpha in "Ker"f(cc A)`, 即 `"Ker"f(cc A)` 不变.
 </p>
+
+<h2>杂例</h2>
 
 <p class="example">
   [群友 ζ(me)=0] 设 `bm A, bm B` 均为 `n` 阶矩阵, `bm A` 有 `n`
