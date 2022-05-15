@@ -47,9 +47,9 @@ math: {
     {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2022-04-10'},
     {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-05-08'},
-    {title:'Gamma 函数, Riemann zeta 函数, 指对数积分', src:'analysis/8.html', date:'2022-05-02'},
-    {title:'椭圆函数, 超几何函数', src:'analysis/9.html', data: '2022-04-10'},
-    {title:'Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-04-27'},
+    {title:'特殊函数 (1): Gamma 函数, Euler 和, 指对数积分', src:'analysis/8.html', date:'2022-05-15'},
+    {title:'特殊函数 (2): 椭圆函数, 超几何函数', src:'analysis/9.html', data: '2022-04-10'},
+    {title:'特殊函数 (3): Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-04-27'},
     {title:'常数项级数', src:'analysis/11.html'},
     {title:'函数列与函数项级数', src:'analysis/12.html'},
     {title:'Fourier 级数', src:'analysis/13.html'},
@@ -90,7 +90,7 @@ math: {
     {title:'复数与复变函数', src:'complex/1.html'},
     {title:'全纯函数', src:'complex/2.html'},
     {title:'复变函数的展开', src:'complex/3.html', date:'2022-01-21'},
-    {title:'积分变换', src:'complex/6.html', date:'2022-05-01'},
+    {title:'积分变换', src:'complex/6.html', date:'2022-05-15'},
   ]
 }, {
   title:'实变函数',

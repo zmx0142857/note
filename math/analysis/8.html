@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>含参积分与特殊函数</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+  <title>特殊函数 (1): Gamma 函数, Euler 和, 指对数积分</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
@@ -12,66 +12,71 @@
 <h3>第一类 Euler 积分: Beta 函数</h3>
 
 <span class="formula">
-	`B(x+1, y+1) = int_0^1 t^x (1-t)^y dt`.
+	`B(p, q) = int_0^1 x^(p-1) (1-x)^(q-1) dx`.
 </span>
 
 <p class="property">
-	`0`, `1` 是 Beta 函数积分的瑕点; `B(x, y)` 在 `x, y gt 0` 时收敛.
+	`0`, `1` 是 Beta 函数积分的瑕点; `B(p, q)` 在 `p, q gt 0` 时收敛.
 </p>
 
 <p class="property">
 	<b>对称性</b>
-	作变元替换 `s = 1-t` 可得, `B(x, y) = B(y, x)`.
+	作区间再现 `x mapsto 1-x` 可得 `B(p, q) = B(q, p)`.
 </p>
 
 <p class="property">
 	<b>递推公式</b>
-	`B(x+1, y) = x/(x+y) B(x, y)`.
+	`B(p+1, q) = p/(p+1) B(p, q)`.
 </p>
 
 <p class="proof">
 	分部积分,
-	<span class="formula">
-		`B(x+1, y) = -1/y t^x (1-t)^y |_0^1
-		+ x/y int_0^1 (1-t)^y t^(x-1) dt`
-		`= x/y (int_0^1 (1-t)^(y-1) t^(x-1) dt
-		- int_0^1 (1-t)^(y-1) t^x dt)`
-		`= x/y (B(x, y) - B(x+1, y))`.
+	<span class="formula align">
+    `B(p+1, q)`<br>
+    `= -1/q x^p (1-x)^q |_0^1 + p/q int_0^1 (1-x)^q x^(p-1) dx`<br>
+		`= p/q (int_0^1 (1-x)^(q-1) x^(p-1) dx - int_0^1 (1-x)^(q-1) x^p
+    dx)`<br>
+		`= p/q (B(p, q) - B(p+1, q))`.
 	</span>
 	移项整理即得结论.
 </p>
 
 <p class="corollary">
-	`B(m+1, n+1) = (m! n!)/((m+n+1)!)`, `m, n` 是非负整数.
+  `p, q` 为非负整数时,
+  <span class="formula">
+    `B(p, q) = ((p-1)! (q-1)!)/((p+q-1)!)`.
+  </span>
+  下文将证明一般的公式
+  <span class="formula">
+    `B(p, q) = (Gamma(p) Gamma(q))/(Gamma(p+q))`.
+  </span>
 </p>
 
 <ol class="property">
 	<b>Beta 函数的其它形式</b>
-	<li>令 `t = sin^2 theta`, 则
-      <span class="formula">
-		`B(x, y) = 2 int_0^(pi//2) sin^(2x-1) theta
-		cos^(2y-1) theta "d"theta`.
-      </span>
+	<li>令 `x = sin^2 theta`, 则
+    <span class="formula">
+      `B(p, q) = 2 int_0^(pi//2) sin^(2p-1) theta
+      cos^(2q-1) theta "d"theta`.
+    </span>
 	</li>
-	<li>令 `t = u/(1+u)`, 则 `B(x, y) = int_0^oo u^(x-1)/(1+u)^(x+y) "d"u`.
-	</li>
-	<li>由上一式得 `B(x, y) = int_0^1 u^(x-1)/(1+u)^(x+y) "d"u`
-		`+ int_1^oo u^(x-1)/(1+u)^(x+y) "d"u`.
-		对第二项积分作变换 `u = 1/v` 得
-		`B(x, y) = int_0^1 (u^(x-1) + u^(y-1))/(1+u)^(x+y) "d"u`.
+	<li>令 `x = t/(1+t)`, 则
+    <span class="formula">
+      `B(p, q) = int_0^oo t^(p-1)/(1+t)^(p+q) dt`.
+    </span>
 	</li>
 </ol>
 
 <p class="example">
-  在 Beta 函数的表达式中取 `x = s`, `y = 1-s` 得
+  在 Beta 函数的表达式中取 `p = s`, `q = 1-s` 得
   <span class="formula">
-    `B(s, 1-s) = int_0^oo u^(s-1)/(1+u) "d"u`.
+    `B(s, 1-s) = int_0^oo t^(s-1)/(1+t) dt`.
   </span>
   由后面的余元公式知道这个积分的值为 `pi/sin(pi s)`.  推论:
   <span class="formula">
-    `int_0^oo u^(s-1)/(t+u) "d"u = t^(s-1) pi/sin(pi s)`,<br>
-    `int_0^oo u^(s-1)/(t^2+u^2) t "d"u = t^(s-1) (pi//2)/sin(pi s//2)`,<br>
-    `int_0^oo u^(s-1) ln(1+1/u) "d"u = 1/s pi/sin(pi s)`.
+    `int_0^oo t^(s-1)/(x+t) dt = x^(s-1) pi/sin(pi s)`,<br>
+    `int_0^oo t^(s-1)/(x^2+t^2) x dt = x^(s-1) (pi//2)/sin(pi s//2)`,<br>
+    `int_0^oo t^(s-1) ln(1+1/t) dt = 1/s pi/sin(pi s)`.
   </span>
 </p>
 
@@ -128,36 +133,46 @@
 </div>
 
 <span class="formula">
-	`Gamma(x+1) = int_0^oo "e"^-t t^x dt`.
+  `Gamma(s) = int_0^oo x^(s-1) "e"^-x dx`.
 </span>
 
-<p class="remark">也可以凑微分, 写成 `Gamma(x+1) = int_0^oo "e"^-t "d" t^x`.</p>
+<p class="remark">
+  记忆: Mellin 变换定义为
+  <span class="formula">
+    `cc M[f(x)] = int_0^oo x^(s-1) f(x) dx`,
+  </span>
+  于是 `Gamma(s) = cc M["e"^-x]`, `B(p, q) = cc M[(1+x)^(-p-q)]`.
+</p>
 
 <p class="property">
-	`Gamma(x)` 在 `x gt 0` 时收敛, 可在积分号下求任意阶导数:
+	`Gamma(s)` 在 `s gt 0` 时收敛, 可在积分号下求任意阶导数:
 	<span class="formula">
-		`Gamma^((n))(x+1) = int_0^oo "e"^-t t^x ln^n t dt`.
+		`Gamma^((n))(s) = int_0^oo x^(s-1) "e"^-x ln^n x dx`.
 	</span>
 </p>
 
 <p class="property">
-	<b>递推公式</b>
-	Gamma 函数满足函数方程
+	<b>函数方程</b>
 	<span class="formula">
-		`Gamma(x+1) = x Gamma(x)`.
+		`Gamma(s+1) = s Gamma(s)`.
 	</span>
-	从而其定义域可以推广到除了零和负整数外的所有实数:
+  特别 `n` 为非负整数时,
+  <span class="formula">
+    `Gamma(n+1) = n!`.
+  </span>
+	利用函数方程, Gamma 函数的定义域可推广到除零和负整数外的所有实数:
 	<span class="formula">
-		`Gamma(x) = (Gamma(x+n+1))/(x(x+1)cdots(x+n))`.
+		`Gamma(s) = (Gamma(s+n+1))/(s(s+1)cdots(s+n))`.
 	</span>
 </p>
 
 <p class="proof">
 	分部积分,
 	<span class="formula">
-		`Gamma(x+1) = int_0^oo "e"^-t t^x dt`
-		`= -"e"^-t t^x|_0^oo + x int_0^oo "e"^-t t^(x-1) dt`
-		`= x Gamma(x)`.
+    `Gamma(s+1)`
+    `= int_0^oo x^s "e"^-x dx`
+    `= -x^s "e"^-x |_0^oo + s int_0^oo x^(s-1) "e"^-x dx`
+		`= s Gamma(s)`.
 	</span>
 </p>
 
@@ -167,38 +182,16 @@
 </p>
 
 <p class="corollary">
-	`Gamma(n+1) = n!`, `n` 为非负整数.
-</p>
-
-<p class="corollary">
-	令 `t = u^2` 得到 Gamma 函数的另一重要形式:
+	令 `x = t^2` 得到:
 	<span class="formula">
-		`Gamma(x) = 2 int_0^oo "e"^(-u^2) u^(2x-1) "d"u`.
+		`Gamma(s) = 2 int_0^oo "e"^(-t^2) t^(2s-1) dt`.
 	</span>
-	利用 Poisson 积分知 `Gamma(1/2) = sqrt pi`, 再由递推公式可得 Gamma
-	函数在半整数点的取值:
+	利用 Euler-Poisson 积分知 `Gamma(1/2) = sqrt pi`,
+  再由函数方程递推可得 Gamma 函数在半整数点的取值:
 	<span class="formula">
-		`Gamma((2n+1)/2) = ((2n-1)!!)/2^n sqrt pi`
-		`= ((2n)!)/(4^n * n!) sqrt pi`.
+		`Gamma((2n+1)/2) = ((2n-1)!!)/2^n sqrt pi`.
 	</span>
 </p>
-
-<table class="col2">
-	<tr>
-		<td>`x`</td>
-		<td>`1/2`</td>
-		<td>`3/2`</td>
-		<td>`5/2`</td>
-		<td>`7/2`</td>
-	</tr>
-	<tr>
-		<td>`Gamma(x)//sqrt pi`</td>
-		<td>`1`</td>
-		<td>`1/2`</td>
-		<td>`1/2 * 3/2`</td>
-		<td>`1/2 * 3/2 * 5/2`</td>
-	</tr>
-</table>
 
 <p class="example">
 	`I_n = int_(-oo)^oo "e"^(-x^2) x^n dx`
@@ -214,20 +207,19 @@
 
 <p class="property">
 	<b>Dirichlet 公式</b>
-	`B(x, y) = (Gamma(x)Gamma(y))/(Gamma(x+y))`.
+	`B(p, q) = (Gamma(p)Gamma(q))/(Gamma(p+q))`.
 </p>
 
 <p class="proof">
 	应用 Gamma 函数与 Beta 函数的变化形式, 并在极坐标下积分:
-	<span class="formula">
-		`Gamma(x) Gamma(y)`
-		`= 4 int_0^oo "e"^(-u^2) u^(2x-1) "d"u
-		int_0^oo "e"^(-v^2) v^(2y-1) "d"v`
-		`= 4 int_0^oo int_0^oo "e"^-(u^2+v^2) u^(2x-1) v^(2y-1) "d"u"d"v`
-		(令 `u = r cos theta`, `v = r sin theta`)
-		`= 4 int_0^(pi//2) cos^(2x-1) theta sin^(2y-1) theta "d"theta`
-		`int_0^oo "e"^(-r^2) r^(2x+2y-1) "d"r`
-		`= B(x, y) Gamma(x+y)`.
+	<span class="formula align">
+    `Gamma(p) Gamma(q)`<br>
+		`= 4 int_0^oo "e"^(-x^2) x^(2p-1) dx
+    int_0^oo "e"^(-y^2) y^(2q-1) dy`<br>
+    `= 4 int_0^oo int_0^oo "e"^-(x^2+y^2) x^(2p-1) y^(2q-1) dx dy`<br>
+		`= 4 int_0^(pi//2) cos^(2p-1) theta sin^(2q-1) theta "d"theta`
+    `int_0^oo "e"^(-r^2) r^(2p+2q-1) "d"r`<br>
+		`= B(p, q) Gamma(p+q)`.
 	</span>
 </p>
 
@@ -306,32 +298,33 @@
 </p>
 
 <p class="theorem">
-    乘积公式右边的极限, 只要分母不为零, 对任意复数 `s` 都收敛.
-    因此借助此公式, 可以将 `Gamma(s)` 的定义拓展到复平面上,
-    `s != 0, -1, -2, cdots`. `Gamma(s)` 没有零点, 它的倒数
-    `1/(Gamma(s))` 在 `CC` 上解析.
+  <b>Gamma 函数的解析延拓</b>
+  乘积公式右边的极限, 只要分母不为零, 对任意复数 `s` 都收敛.
+  因此借助此公式, 可以将 `Gamma(s)` 的定义拓展到复平面上,
+  `s != 0, -1, -2, cdots`. `Gamma(s)` 没有零点, 它的倒数
+  `1/(Gamma(s))` 在 `CC` 上解析.
 </p>
 
 <p class="proof">
-    用 `(n+1)^s` 等价代替乘积公式的 `n^s`, 记
-    <span class="formula">
-        `f(n) = (n!)/(s(s+1)cdots(s+n)) (n+1)^s`,
-    </span>
-    将公式写为无穷乘积
-    <span class="formula">
-        `Gamma(s) = f(0) prod_(n ge 1) (f(n))/(f(n-1))`
-        `= 1/s prod_(n ge 1) n/(s+n) ((n+1)/n)^s`
-        `= 1/s prod_(n ge 1) (1+s/n)^-1 (1+1/n)^s`.
-    </span>
-    (收敛性的说明??)
+  用 `(n+1)^s` 等价代替乘积公式的 `n^s`, 记
+  <span class="formula">
+    `f(n) = (n!)/(s(s+1)cdots(s+n)) (n+1)^s`,
+  </span>
+  将公式写为无穷乘积
+  <span class="formula">
+    `Gamma(s) = f(0) prod_(n ge 1) (f(n))/(f(n-1))`
+    `= 1/s prod_(n ge 1) n/(s+n) ((n+1)/n)^s`
+    `= 1/s prod_(n ge 1) (1+s/n)^-1 (1+1/n)^s`.
+  </span>
+  (收敛性的说明??)
 </p>
 
 <p class="theorem">
-    <b>Weierstrass 公式</b>
-    <span class="formula">
-        `1/(Gamma(s)) = "e"^(gamma s) s prod_(n ge 1) (1+s/n) "e"^(-s/n)`.
-    </span>
-    `gamma` 为 Euler-Mascheroni 常数.
+  <b>Weierstrass 公式</b>
+  <span class="formula">
+    `1/(Gamma(s)) = "e"^(gamma s) s prod_(n ge 1) (1+s/n) "e"^(-s/n)`.
+  </span>
+  `gamma` 为 Euler-Mascheroni 常数.
 </p>
 
 <p class="proof">
@@ -345,25 +338,51 @@
 
 <p class="property">
 	<b>余元公式</b>
-  `Gamma(1+x) Gamma(1-x) = (pi x)/(sin pi x)`.
+  `Gamma(s) Gamma(1-s) = pi/(sin pi s)`.
   这是复变量正弦函数的乘积公式.
 </p>
 
 <p class="proof">
-	利用 Gamma 函数的极限表达式和 Euler 无穷乘积公式
+	利用乘积公式有
+  <span class="formula">
+    `Gamma(1+s) Gamma(1-s)`
+    `= lim_(n to oo) n^s/((1+s)(1+s/2) cdots (1+s/n))`
+    `n^(1-s)/((1-s)(1-s/2) cdots (1-s/n)) 1/(n+s)`
+    `= lim_(n to oo) n/(n+s) prod_(k=1)^n (1-s^2/k^2)^-1`.
+  </span>
+  再用 Euler 无穷乘积公式
 	<span class="formula">
-		`(sin pi x)/(pi x) = prod_(n=1)^oo (1-x^2/n^2)`
+		`prod_(n=1)^oo (1-s^2/n^2) = (sin pi s)/(pi s)`
 	</span>
 	即得结论.
 </p>
 
 <p class="proof">
+  [来自 无懈可击99]
+  我们通过计算下面的积分来证明余元公式:
 	<span class="formula">
-		`Gamma(x) Gamma(1-x)`
-		`= B(x, 1-x) Gamma(1)`
-		`= int_0^oo u^(x-1)/(1+u) "d"u`.
-	</span>
-	利用含参积分?? 利用 Fourier 展开??
+		`Gamma(s) Gamma(1-s)`
+		`= B(s, 1-s) Gamma(1)`
+		`= int_0^oo x^(s-1)/(1+x) dx`.
+  </span>
+  积分写为 `int_0^1 + int_1^oo`, 第二项作倒代换 `x mapsto 1//x` 得
+  <span class="formula">
+    `int_0^1 (x^(s-1) + x^-s)/(1+x) dx`.
+  </span>
+  用几何级数展开为
+  <span class="formula align">
+    `int_0^1 (x^(s-1) + x^-s) sum_(n ge 0) (-x)^n dx`<br>
+    `= sum_(n ge 0) (-1)^n int_0^1 (x^(s-1) + x^-s) x^n dx`<br>
+    `= sum_(n ge 0) (-1)^n (1/(n+s) + 1/(n-s+1))`<br>
+    `= 1/s + sum_(n ge 1) (-1)^n (1/(n+s) - 1/(n-s))`<br>
+    `= 1/s - 2s sum_(n ge 1) (-1)^n 1/(n^2-s^2)`.
+  </span>
+  比较 `cos s x` 的 Fourier 展式
+  <span class="formula">
+    `cos s x = (sin pi s)/pi (1/s - 2s sum_(n ge 1) (-1)^n (cos
+    n x)/(n^2-s^2))`
+  </span>
+  就得到结论.
 </p>
 
 <ol class="property">
@@ -438,6 +457,84 @@
 	</li>
 </ol>
 
+<p class="example">
+  <b>Raabe 积分</b> [来自 积分的方法与技巧]
+  <span class="formula">
+    `R(a) = int_a^(a+1) ln Gamma(x) dx`
+    `= a(ln a - 1) + ln sqrt(2pi)`.
+  </span>
+</p>
+
+<p class="proof">
+  对参数 `a` 求导,
+  <span class="formula">
+    `R'(a) = ln Gamma(a+1) - ln Gamma(a) = ln a`.
+  </span>
+  区间再现, 利用余元公式
+  <span class="formula">
+    `R(0) = int_0^1 ln Gamma(x) dx`
+    `= 1/2 int_0^1 ln Gamma(x) Gamma(1-x) dx`
+    `= 1/2 int_0^1 ln{:pi/(sin pi x):} dx`
+    `= 1/2 ln pi - 1/(2 pi) int_0^pi ln sin x dx`
+    `= 1/2 ln pi + 1/2 ln 2`.
+  </span>
+  最后
+  <span class="formula">
+    `R(a) = int_0^a R'(x) dx + R(0)`
+    `= a(ln a - 1) + ln sqrt(2pi)`.
+  </span>
+</p>
+
+<ol class="example">
+	<li>`1 - 1/(n!) int_0^n t^n "e"^-t dt = "e"^-n sum_(k=0)^n n^k/(k!)`;
+	</li>
+	<li>(Dobiński 公式) `n to oo` 时上式两边趋于 `1/2`.</li>
+</ol>
+
+<ol class="proof">
+	<li>一种做法是对左边反复分部积分. 第二种做法从右边出发,
+		利用 gamma 函数定义及二项式定理有
+		<span class="formula">
+			`"e"^-n sum_(k=0)^n n^k/(k!)`
+			`= "e"^-n/(n!) sum_(k=0)^n (n;k) n^k (n-k)!`
+			`= "e"^-n/(n!) sum_(k=0)^n (n;k) n^k int_0^oo t^(n-k) "e"^-t
+			dt`
+			`= "e"^-n/(n!) int_0^oo (n+t)^n "e"^-t dt`
+			`= 1/(n!) int_n^oo t^n "e"^-t dt`
+			`= 1 - 1/(n!) int_0^n t^n "e"^-t dt`.
+		</span>
+	</li>
+	<li>利用等式
+		<span class="formula">
+			`sum_(k=0)^n n^k/(k!) = sum_(k=0)^n (k^k (n-k)^(n-k))/(k!
+			(n-k)!)`, (规定 `0^0 = 1`) (??)
+		</span>
+		有
+		<span class="formula">
+			`lim_(n to oo) "e"^-n sum_(k=0)^n n^k/(k!)`
+			`= lim_(n to oo) "e"^-n sum_(k=1)^(n-1) ("e"^k
+			"e"^(n-k))/(sqrt(2pi k) sqrt(2pi(n-k)) O(1+1/k) O(1+1/(n-k)))`
+			`= lim_(n to oo) 1/(2 pi n) sum_(k=1)^(n-1) 1/sqrt(k/n
+			(1-k/n))`
+			`= 1/(2pi) int_0^1 dx/sqrt(x(1-x))`
+			`= 1/(2pi) (Gamma(1/2)^2)/(Gamma(1)) = 1/2`.
+		</span>
+	</li>
+</ol>
+
+<p class="proof">
+	2. 的另一证法. 设 `X_1, X_2, cdots, X_n` 独立服从参数为 1 的 Poisson
+	分布, 则 `X = X_1 + X_2 + cdots + X_n` 服从参数为 `n` 的 Poisson 分布.
+	<span class="formula">
+		`P{X le n} = "e"^-n sum_(k=0)^n n^k/(k!)`.
+	</span>
+	令 `n to oo`, 由中心极限定理
+	<span class="formula">
+		`(X-n)/sqrt n to Z`, `quad Z ~ N(0, 1)`,
+	</span>
+	于是 `P{X le n} to P{Z le 0} = 1/2`.
+</p>
+
 <h3>Digamma 函数</h3>
 
 <p class="definition">
@@ -451,16 +548,24 @@
 </p>
 
 <ol class="proposition">
-  <li>`psi(s+1) = psi(s) + 1//s`;</li>
+  <li>函数方程 `psi(s+1) = psi(s) + 1//s`;</li>
   <li>余元公式 `psi(1-s) - psi(s) = pi cot pi x`;</li>
-  <li>`psi(s+1) = -gamma + sum_(n ge 1) (1/n - 1/(n+s))`;
+  <li>级数表示 `psi(s+1) = -gamma + sum_(n ge 1) (1/n - 1/(n+s))`;
     特别 `psi(n+1) = -gamma + H_n`.
   </li>
-  <li>`psi^((n))(s) = sum_(k ge 0) (n!(-1)^(n+1))/(k+s)^(n+1)`;
+  <li>高阶导数 `psi^((n))(s) = sum_(k ge 0) (n!(-1)^(n+1))/(k+s)^(n+1)`;
     特别 `psi` 在 1 附近有 Taylor 展开
     <span class="formula">
       `psi(s+1) = -gamma + sum_(n ge 1) (-1)^(n+1) zeta(n+1) s^n`.
     </span>
+  </li>
+  <li>极限表示 `psi(a) = lim_(b to oo) [Gamma(b) - B(a, b)]`.</li>
+  <li>积分表示 [来自 积分的方法与技巧]
+    <span class="formula">
+      `psi(s) = int_0^oo ("e"^-x - (1+x)^-s) dx/x`
+      `= int_0^oo (("e"^-x)/x - "e"^((1-s)x)/("e"^x-1)) dx`.
+    </span>
+    特别 `int_0^oo ("e"^-x/x - "e"^(-x)/(1-"e"^-x)) dx = psi(1) = -gamma`.
   </li>
 </ol>
 
@@ -471,7 +576,7 @@
 		`= 1/s + psi(s)`.
   </li>
   <li>由 Gamma 函数的余元公式取对数再求导即可.</li>
-  <li>由递推公式
+  <li>由函数方程
     <span class="formula">
       `psi(n+1) = psi(1) + sum_(k=1)^n 1/k = psi(1) + H_n`.
     </span>
@@ -494,6 +599,21 @@
     两式相减, 再次印证了 `psi(1) = -gamma`.
   </li>
   <li>直接求导即可.</li>
+  <li>
+    <span class="formula">
+      `Gamma(b) - B(a, b)`
+      `= Gamma(b)(1 - (Gamma(a))/(Gamma(a+b)))`
+      `= (Gamma(b+1))/(Gamma(a+b)) (Gamma(a+b) - Gamma(a))/b`,
+    </span>
+    令 `b to 0` 即得 `(Gamma'(a))/(Gamma(a)) = psi(a)`.
+  </li>
+  <li>将 Gamma 函数与 Beta 函数的积分形式代入上题的极限表示,
+    <span class="formula">
+      `psi(s) = lim_(h to 0) int_0^oo ("e"^-x - (x+1)^(-s-h)) x^(h-1) dx`
+      `= int_0^oo ("e"^-x - (x+1)^-s) dx/x`.
+    </span>
+    第二项令 `1 + x = "e"^y` 就得到第二个积分.
+  </li>
 </ol>
 
 <h3>Stirling 公式</h3>
@@ -612,7 +732,7 @@
     <td>`eta(s) = sum_(n ge 1) (-1)^(n+1)/n^s` `= (1-2^(1-s)) zeta(s)`</td>
   </tr>
   <tr>
-    <td>`beta(s)`</td>
+    <td>Dirichlet beta 函数</td>
     <td>`beta(s) = sum_(n ge 0) (-1)^n/(2n+1)^s`</td>
   </tr>
 </table>
@@ -635,7 +755,194 @@
   第二个公式的证明类似.
 </p>
 
-<h3>调和和</h3>
+<h3>Dirichlet beta 函数</h3>
+
+<p class="example" id="exp-lem-beta">
+  [来自 壹零叁] `int_0^oo (ln^2 t)/(t^2+1) dt = pi^3/8`.
+</p>
+
+<p class="proof">
+  取围道 `C = C_1 + C_2 + C_3 + C_4`, 其中
+  <span class="formula">
+    `C_1: [r, R]`,
+    `quad C_2: R "e"^("i"theta), theta in [0, pi]`,<br>
+    `C_3: [-R, -r]`,
+    `quad C_4: r "e"^(-"i"theta), theta in [pi,2pi]`.
+  </span>
+  `"i"` 是围道中唯一极点, 故
+  <span class="formula">
+    `int_C (ln^2 t)/(1+t^2) dt`
+    `= 2pi"i" "Res"(t="i")`
+    `= 2pi"i" lim_(t to "i") (ln^2 t)/(1+t^2) (t-"i")`
+    `= -pi^3/4`.
+  </span>
+  由长大不等式, 当 `R to oo` 和 `r to 0^+` 时,
+  大小两圆弧上积分为零.
+  再看 `C_1` 和 `C_3`, 有
+  <span class="formula">
+    `int_(C_1) to I`,<br>
+    `int_(C_3)`
+    `to int_-oo^0 (ln^2 t)/(1+t^2) dt`
+    `= int_0^oo (ln t + pi"i")^2/(1+t^2) dt`
+    `= I + int_0^oo (2 pi "i"ln t - pi^2)/(1+t^2) dt`
+    `= I + 0 - pi^3/2`.
+  </span>
+  综上 `2I - pi^3/2 = -pi^3/4`, `I = pi^3/8`.
+</p>
+
+<p class="example">
+  记 `I_n = int_0^oo (ln^n t)/(1+t^2) dt`,
+  则 `I_奇 = 0`,
+  <span class="formula">
+    `I_(2n) = (-1)^n E_(2n) (pi/2)^(2n+1)`,
+  </span>
+  其中 `E_(2n)` 为 Euler 数.
+</p>
+
+<p class="proof">
+  我们已经计算过 `I_0 = pi/2`, `I_2 = pi^3/8`.
+  完全类似计算 `I_2` 的方法, 用留数法可得递推公式
+  <span class="formula">
+    `I_(2n) + sum_(k=0)^n (2n;2k) I_(2n-2k) (pi "i")^(2k)`
+    `= ((pi "i")/2)^(2n) * pi`.
+  </span>
+  或者, 记 `a_(2n) = (-1)^n/pi^(2n+1) I_(2n)`, 则
+  <span class="formula">
+    `a_(2n) + sum_(k=0)^n (2n;2k) a_(2k) = 1/2^(2n)`.
+  </span>
+  两边同乘 `x^(2n)/(2n)!` 并求和, 右边等于 `cosh(x/2)`, 而左边等于
+  <span class="formula align">
+    `sum_(n ge 0) a_(2n) x^(2n)/(2n)!`
+    `+ sum_(n ge 0) sum_(k=0)^n (2n; 2k) a_(2k) x^(2n)/(2n)!`<br>
+    `= sum_(n ge 0) a_(2n) x^(2n)/(2n)!`
+    `+ sum_(j ge 0) x^(2j)/(2j)! sum_(k ge 0) a_(2k) x^(2k)/(2k)!`<br>
+    `= (1 + cosh x) sum_(n ge 0) a_(2n) x^(2n)/(2n)!`.
+  </span>
+  我们求得 `a_n` 的生成函数
+  <span class="formula">
+    `sum_(n ge 0) a_(2n) x^(2n)/(2n)!`
+    `= cosh(x/2)/(1+cosh x)`
+    `= 1/(2 cosh(x/2))`.
+  </span>
+  而 Euler 数的生成函数为
+  <span class="formula">
+    `sum_(n ge 0) E_(2n) x^(2n)/(2n)!`
+    `= 1/(cosh x)`.
+  </span>
+  这推出 `a_(2n) = E_(2n)/(2^(2n+1))`.
+</p>
+
+<p class="corollary">
+  <b>Dirichlet beta 函数的特殊值</b>
+  <span class="formula">
+    `beta(2k+1) = 1/2 (-1)^k E_(2k)/(2k!) (pi/2)^(2k+1)`,
+  </span>
+  如 `beta(1) = pi/4`, `beta(3) = pi^3/32` 等等.
+</p>
+
+<p class="proof">
+  利用结论
+  <span class="formula">
+    `int_0^1 x^(n-1) ln^m x dx`
+    `= (-1)^m m!/n^(m+1)`,
+  </span>
+  将上题的积分展开为
+  <span class="formula">
+    `int_0^oo (ln^(2k) t)/(1+t^2) dt`
+    `= 2 int_0^1 (ln^(2k) t)/(1+t^2) dt`
+    `= 2 sum_(n ge 0) (-1)^n int_0^1 t^(2n) ln^(2k) t dt`
+    `= 2(2k)! sum_(n ge 0) (-1)^n/(2n+1)^(2k+1)`
+    `= 2(2k)! beta(2k+1)`.
+  </span>
+</p>
+
+<h3>Catalan 常数</h3>
+
+<ol class="example">
+	[来自 论文哥]
+	`beta(2) = sum_(n ge 0) (-1)^n/(2n+1)^2` 称为 <b>Catalan 常数</b>:
+	<span class="formula">
+		`G = 0.915965594177...`
+	</span>
+  也有用 `K` 或 `C` 表示 Catalan 常数的. 由此计算:
+	<li>`int_0^1 int_0^1 1/(1+x^2 y^2) dx dy = G`;</li>
+	<li>`int_0^1 (arctan x)/x dx = G`;</li>
+	<li>`int_0^1 (ln x)/(1+x^2) dx`
+		`= -1/2 int_0^(pi/2) x csc x dx`
+		`= int_0^(pi/4) ln tan x dx`
+		`= -G`;
+	</li>
+	<li>`int_0^(pi/4) ln sin x dx` 和 `int_0^(pi/4) ln cos x dx`;</li>
+    <li>`int_0^(pi/2) ln(1+cos x) dx` `= int_0^(pi/2) ln(1+sin x) dx`;</li>
+	<li>`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`,
+		`int_0^(sqrt 2/2) (arcsin x)/x dx` 和 `int_0^(pi/4) x cot x dx`;
+	</li>
+	<li>`int_0^(1/2) Gamma(1+x)Gamma(1-x) dx`.</li>
+</ol>
+
+<ol class="solution">
+	<li>将分母以几何级数展开, 收敛域为 `[-1, 1]`, 可以逐项积分.  原式等于
+		<span class="formula">
+			`int_0^1 int_0^1 sum_(n ge 0) (-x^2 y^2)^n dx dy`
+			`= sum_(n ge 0) (-1)^n
+			int_0^1 x^(2n) dx int_0^1 y^(2n) dy`
+			`= sum_(n ge 0) (-1)^n/(2n+1)^2 = G`.
+		</span>
+	</li>
+	<li>利用 `arctan x = sum_(n ge 0) (-1)^n x^(2n+1)/(2n+1)`, 原式等于
+		<span class="formula">
+			`int_0^1 sum_(n ge 0) (-1)^n x^(2n)/(2n+1) dx`
+			`overset ? = sum_(n ge 0) (-1)^n/(2n+1) int_0^1 x^(2n) dx`
+			`= sum_(n ge 0) (-1)^n/(2n+1)^2`
+			`= G`.
+		</span>
+	</li>
+	<li>分部积分,
+		<span class="formula">
+			`int_0^1 (arctan x)/x dx = - int_0^1 (ln x)/(1+x^2) dx`.
+		</span>
+		令 `t = arctan x`,
+		<span class="formula">
+			`int_0^1 (arctan x)/x dx = int_0^(pi/4) t/(sin t cos t) dt`
+			`= 1/2 int_0^(pi/2) (t dt)/(sin t)`,<br/>
+			`int_0^1 (ln x)/(1+x^2) dx = int_0^(pi/4) ln tan t dt`.
+		</span>
+	</li>
+	<li>两个积分分别记为 `I, J`, 于是
+		<span class="formula">
+			`I+J = int_0^(pi/4) ln{:(sin 2x)/2:} dx`
+			`= 1/2 int_0^(pi/2) ln sin x dx - pi/4 ln 2`
+			`= - pi/2 ln 2`,<br/>
+			`I-J = int_0^(pi/4) ln tan x dx = -G`.
+		</span>
+		解线性方程组即得到 `I, J = -pi/4 ln 2 &mp; G/2`.
+	</li>
+    <li>由上题易得结果为 `2G - pi/2 ln 2`.</li>
+	<li>令 `x = sin t`,
+		<span class="formula">
+			`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`
+			`= int_0^(pi/4) ln sin t dt`.
+		</span>
+		另外两个积分的处理方法和
+    <a href="7.html#exp-pi-ln2">`int_0^(pi/2) ln sin x dx`</a>
+    一样, 先换元再分部积分, 得
+		<span class="formula">
+			`int_0^(sqrt2/2) (arcsin x)/x dx`
+			`= int_0^(pi/4) t cot t dt`
+			`= -pi/8 ln 2 - int_0^(pi/4) ln sin t dt`
+			`= pi/8 ln 2 + G/2`.
+		</span>
+	</li>
+	<li>原式等于
+		<span class="formula">
+			`int_0^(1/2) x Gamma(x) Gamma(1-x) dx`
+			`= int_0^(1/2) (pi x)/(sin pi x) dx` (余元公式)
+			`= 2/pi G` (由 3).
+		</span>
+	</li>
+</ol>
+
+<h3>Euler 和 (调和和)</h3>
 
 <p>我们称 `H_n = sum_(k=1)^n 1/k` 为调和数, `H_n^((m)) = sum_(k=1)^n 1/k^m` 为广义调和数.</p>
 
@@ -798,12 +1105,12 @@
     `"Li"_1(x) = -ln(1-x)`;</li>
   <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -eta(n)`;</li>
   <li>`"Li"_n(x) = int_0^x ("Li"_(n-1)(t))/t dt`;
-    换言之 `"d"/dx "Li"_n(x) = ("Li"_(n-1)(x))/x`.
+    换言之 `"Li"_n'(x) = "Li"_(n-1)(x) // x`.
   </li>
 </ol>
 
 <p class="proof">
-  只证最后一个结论,
+  只证最后一个结论:
   <span class="formula">
     `"Li"_n(x) = sum_(k ge 1) int_0^x t^(k-1)/k^(n-1) dt`
     `= int_0^x sum_(k ge 1) t^k/k^(n-1) dt/t`
@@ -1099,142 +1406,6 @@
   <b>素数定理</b>
   记 `pi(x)` 为不超过 `x` 的素数个数,
   则 `x to oo` 时 `pi(x) ~ "li"(x) ~ x/(ln x)`.
-</p>
-
-<h3>Catalan 常数</h3>
-
-<ol class="example">
-	[来自 论文哥]
-	`beta(2) = sum_(n ge 0) (-1)^n/(2n+1)^2` 称为 <b>Catalan 常数</b>:
-	<span class="formula">
-		`G = 0.915965594177...`
-	</span>
-  也有用 `K` 或 `C` 表示 Catalan 常数的. 由此计算:
-	<li>`int_0^1 int_0^1 1/(1+x^2 y^2) dx dy = G`;</li>
-	<li>`int_0^1 (arctan x)/x dx = G`;</li>
-	<li>`int_0^1 (ln x)/(1+x^2) dx`
-		`= -1/2 int_0^(pi/2) x csc x dx`
-		`= int_0^(pi/4) ln tan x dx`
-		`= -G`;
-	</li>
-	<li>`int_0^(pi/4) ln sin x dx` 和 `int_0^(pi/4) ln cos x dx`;</li>
-    <li>`int_0^(pi/2) ln(1+cos x) dx` `= int_0^(pi/2) ln(1+sin x) dx`;</li>
-	<li>`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`,
-		`int_0^(sqrt 2/2) (arcsin x)/x dx` 和 `int_0^(pi/4) x cot x dx`;
-	</li>
-	<li>`int_0^(1/2) Gamma(1+x)Gamma(1-x) dx`.</li>
-</ol>
-
-<ol class="solution">
-	<li>将分母以几何级数展开, 收敛域为 `[-1, 1]`, 可以逐项积分.  原式等于
-		<span class="formula">
-			`int_0^1 int_0^1 sum_(n ge 0) (-x^2 y^2)^n dx dy`
-			`= sum_(n ge 0) (-1)^n
-			int_0^1 x^(2n) dx int_0^1 y^(2n) dy`
-			`= sum_(n ge 0) (-1)^n/(2n+1)^2 = G`.
-		</span>
-	</li>
-	<li>利用 `arctan x = sum_(n ge 0) (-1)^n x^(2n+1)/(2n+1)`, 原式等于
-		<span class="formula">
-			`int_0^1 sum_(n ge 0) (-1)^n x^(2n)/(2n+1) dx`
-			`overset ? = sum_(n ge 0) (-1)^n/(2n+1) int_0^1 x^(2n) dx`
-			`= sum_(n ge 0) (-1)^n/(2n+1)^2`
-			`= G`.
-		</span>
-	</li>
-	<li>分部积分,
-		<span class="formula">
-			`int_0^1 (arctan x)/x dx = - int_0^1 (ln x)/(1+x^2) dx`.
-		</span>
-		令 `t = arctan x`,
-		<span class="formula">
-			`int_0^1 (arctan x)/x dx = int_0^(pi/4) t/(sin t cos t) dt`
-			`= 1/2 int_0^(pi/2) (t dt)/(sin t)`,<br/>
-			`int_0^1 (ln x)/(1+x^2) dx = int_0^(pi/4) ln tan t dt`.
-		</span>
-	</li>
-	<li>两个积分分别记为 `I, J`, 于是
-		<span class="formula">
-			`I+J = int_0^(pi/4) ln{:(sin 2x)/2:} dx`
-			`= 1/2 int_0^(pi/2) ln sin x dx - pi/4 ln 2`
-			`= - pi/2 ln 2`,<br/>
-			`I-J = int_0^(pi/4) ln tan x dx = -G`.
-		</span>
-		解线性方程组即得到 `I, J = -pi/4 ln 2 &mp; G/2`.
-	</li>
-    <li>由上题易得结果为 `2G - pi/2 ln 2`.</li>
-	<li>令 `x = sin t`,
-		<span class="formula">
-			`int_0^(sqrt2/2) (ln x)/sqrt(1-x^2) dx`
-			`= int_0^(pi/4) ln sin t dt`.
-		</span>
-		另外两个积分的处理方法和
-    <a href="7.html#exp-pi-ln2">`int_0^(pi/2) ln sin x dx`</a>
-    一样, 先换元再分部积分, 得
-		<span class="formula">
-			`int_0^(sqrt2/2) (arcsin x)/x dx`
-			`= int_0^(pi/4) t cot t dt`
-			`= -pi/8 ln 2 - int_0^(pi/4) ln sin t dt`
-			`= pi/8 ln 2 + G/2`.
-		</span>
-	</li>
-	<li>原式等于
-		<span class="formula">
-			`int_0^(1/2) x Gamma(x) Gamma(1-x) dx`
-			`= int_0^(1/2) (pi x)/(sin pi x) dx` (余元公式)
-			`= 2/pi G` (由 3).
-		</span>
-	</li>
-</ol>
-
-<ol class="example">
-	<li>`1 - 1/(n!) int_0^n t^n "e"^-t dt = "e"^-n sum_(k=0)^n n^k/(k!)`;
-	</li>
-	<li>(Dobiński 公式) `n to oo` 时上式两边趋于 `1/2`.</li>
-</ol>
-
-<ol class="proof">
-	<li>一种做法是对左边反复分部积分. 第二种做法从右边出发,
-		利用 gamma 函数定义及二项式定理有
-		<span class="formula">
-			`"e"^-n sum_(k=0)^n n^k/(k!)`
-			`= "e"^-n/(n!) sum_(k=0)^n (n;k) n^k (n-k)!`
-			`= "e"^-n/(n!) sum_(k=0)^n (n;k) n^k int_0^oo t^(n-k) "e"^-t
-			dt`
-			`= "e"^-n/(n!) int_0^oo (n+t)^n "e"^-t dt`
-			`= 1/(n!) int_n^oo t^n "e"^-t dt`
-			`= 1 - 1/(n!) int_0^n t^n "e"^-t dt`.
-		</span>
-	</li>
-	<li>利用等式
-		<span class="formula">
-			`sum_(k=0)^n n^k/(k!) = sum_(k=0)^n (k^k (n-k)^(n-k))/(k!
-			(n-k)!)`, (规定 `0^0 = 1`) (??)
-		</span>
-		有
-		<span class="formula">
-			`lim_(n to oo) "e"^-n sum_(k=0)^n n^k/(k!)`
-			`= lim_(n to oo) "e"^-n sum_(k=1)^(n-1) ("e"^k
-			"e"^(n-k))/(sqrt(2pi k) sqrt(2pi(n-k)) O(1+1/k) O(1+1/(n-k)))`
-			`= lim_(n to oo) 1/(2 pi n) sum_(k=1)^(n-1) 1/sqrt(k/n
-			(1-k/n))`
-			`= 1/(2pi) int_0^1 dx/sqrt(x(1-x))`
-			`= 1/(2pi) (Gamma(1/2)^2)/(Gamma(1)) = 1/2`.
-		</span>
-	</li>
-</ol>
-
-<p class="proof">
-	2. 的另一证法. 设 `X_1, X_2, cdots, X_n` 独立服从参数为 1 的 Poisson
-	分布, 则 `X = X_1 + X_2 + cdots + X_n` 服从参数为 `n` 的 Poisson 分布.
-	<span class="formula">
-		`P{X le n} = "e"^-n sum_(k=0)^n n^k/(k!)`.
-	</span>
-	令 `n to oo`, 由中心极限定理
-	<span class="formula">
-		`(X-n)/sqrt n to Z`, `quad Z ~ N(0, 1)`,
-	</span>
-	于是 `P{X le n} to P{Z le 0} = 1/2`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
