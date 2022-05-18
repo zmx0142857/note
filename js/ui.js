@@ -14,7 +14,7 @@ function $(tag, options = {}, children = []) {
     ? document.getElementsByClassName(tag.slice(1))
     : tag[0] === '<' && tag[len-1] === '>'
     ? (options.namespace
-      ? document.createElementNS(namespace, tag)
+      ? document.createElementNS(namespace, tag.slice(1,len-1))
       : document.createElement(tag.slice(1,len-1))
     ) : document.getElementsByTagName(tag);
 

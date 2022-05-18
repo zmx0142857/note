@@ -484,7 +484,7 @@ function braced(s) {
 }
 
 // backend of am; outputs mathml
-let yields = {
+const yields = {
   init () {
     return $()
   },
@@ -882,6 +882,7 @@ E ::= IE | I/I                       Expression
 Each terminal symbol is translated into a corresponding mathml node.*/
 
 const parse = {
+  yields,
   init (str) {
     for (d of AM.define) str = str.replace(d[0], d[1])
     AM.nestingDepth = 0
@@ -969,19 +970,19 @@ const parse = {
     case UNDEROVER:
     case CONST:
       parse.skip(len)
-      return yields.consts(sym)
+      return parse.yields.consts(sym)
     case LEFTBRACKET:
       parse.skip(len)
       ++AM.nestingDepth
       res = parse.expr(true)
       --AM.nestingDepth
-      return yields.leftBracket(sym, res)
+      return parse.yields.leftBracket(sym, res)
     case TEXT:
       if (sym.input != '"') parse.skip(len)
       st = parse.textArg(AM.begin)
       AM.begin += st.length + 2
       parse.skip()
-      return yields.text(sym, st)
+      return parse.yields.text(sym, st)
     case UNARYUNDEROVER:
     case UNARY:
       parse.skip(len)
@@ -989,7 +990,7 @@ const parse = {
       res = parse.simple()
       if (!res) {
         AM.begin = rewind
-        return yields.directOutput(sym)
+        return parse.yields.directOutput(sym)
       }
       if (sym.func) {
         st = AM.str.charAt(rewind)
@@ -997,40 +998,40 @@ const parse = {
           len === 1 && /\w/.test(sym.input) && st != '(')
         ) {
           AM.begin = rewind
-          return yields.directOutput(sym)
+          return parse.yields.directOutput(sym)
         } else {
-          return yields.func(sym, res)
+          return parse.yields.func(sym, res)
         }
       }
-      res = yields.strip(res)
-      return yields.unary(sym, res, rewind)
+      res = parse.yields.strip(res)
+      return parse.yields.unary(sym, res, rewind)
     case BINARY:
       parse.skip(len)
       rewind = AM.begin
       res = parse.simple()
-      if (!res) return yields.moOutput(sym)
-      res = yields.strip(res)
+      if (!res) return parse.yields.moOutput(sym)
+      res = parse.yields.strip(res)
       let res2 = parse.simple()
-      if (!res2) return yields.moOutput(sym)
-      res2 = yields.strip(res2)
-      return yields.binary(sym, res, res2, rewind)
+      if (!res2) return parse.yields.moOutput(sym)
+      res2 = parse.yields.strip(res2)
+      return parse.yields.binary(sym, res, res2, rewind)
     case INFIX:
       parse.skip(len)
-      return yields.infixOutput(sym)
+      return parse.yields.infixOutput(sym)
     case SPACE:
       parse.skip(len)
-      return yields.space(sym)
+      return parse.yields.space(sym)
     case LEFTRIGHT:
       parse.skip(len)
       rewind = AM.begin
       AM.nestingDepth++
       res = parse.expr(false)
       AM.nestingDepth--
-      return yields.leftRight(sym, res, rewind)
+      return parse.yields.leftRight(sym, res, rewind)
     default:
       //console.warn("default")
       parse.skip(len)
-      return yields.directOutput(sym)
+      return parse.yields.directOutput(sym)
     }
   },
   // for example pi_1^233!/233
@@ -1045,40 +1046,40 @@ const parse = {
     // 阶乘, 或任意后缀函数也相对分式优先
     if (sym1.rfunc) {
       parse.skip(sym1.input.length)
-      return yields.rfunc(sym1, node)
+      return parse.yields.rfunc(sym1, node)
     }
     if (sym1.ttype !== INFIX || sym1.input === '/') {
-      return yields.infixNode(sym0, node)
+      return parse.yields.infixNode(sym0, node)
     }
     parse.skip(sym1.input.length)
 
     // now sym1 is either _ or ^
     let res = parse.simple() // for example 1
     if (res)
-      res = yields.strip(res)
+      res = parse.yields.strip(res)
     else // show box in place of missing argument
-      res = yields.placeholder()
+      res = parse.yields.placeholder()
 
     let sym2 = parse.symbol() // for example ^
     const subFirst = sym1.input === '_'
     if (sym2.input === (subFirst ? '^' : '_')) {
       parse.skip(sym2.input.length)
       let res2 = parse.simple() // for example 233
-      res2 = yields.strip(res2)
-      node = yields.infix(sym0, sym1, sym2, node, res, res2, subFirst, underover)
+      res2 = parse.yields.strip(res2)
+      node = parse.yields.infix(sym0, sym1, sym2, node, res, res2, subFirst, underover)
     } else {
-      node = yields.infixHalf(sym0, sym1, node, res, subFirst, underover)
+      node = parse.yields.infixHalf(sym0, sym1, node, res, subFirst, underover)
     }
 
     let sym3 = parse.symbol() // for example !
     if (sym3.rfunc) {
       parse.skip(sym3.input.length)
-      node = yields.rfunc(sym3, node)
+      node = parse.yields.rfunc(sym3, node)
     }
     /*if (sym0.func) {
       if (sym3.ttype !== INFIX && sym3.ttype !== RIGHTBRACKET) {
         res = parse.infix() // recur
-        node = yields.infixFunc(node, res)
+        node = parse.yields.infixFunc(node, res)
       }
     }*/
     return node
@@ -1086,7 +1087,7 @@ const parse = {
   expr (rightbracket) {
     let closed = false
     let sym
-    let frag = yields.init()
+    let frag = parse.yields.init()
     do {
       parse.skip()
       let res = parse.infix()
@@ -1097,14 +1098,14 @@ const parse = {
         parse.skip(sym.input.length)
         res = parse.infix()
         if (res)
-          res = yields.strip(res)
+          res = parse.yields.strip(res)
         else
-          res = yields.placeholder()
-        node = yields.strip(node)
-        yields.push(sym, frag, node, res)
+          res = parse.yields.placeholder()
+        node = parse.yields.strip(node)
+        parse.yields.push(sym, frag, node, res)
         sym = parse.symbol()
       } else if (node) {
-        yields.push(sym, frag, node)
+        parse.yields.push(sym, frag, node)
       }
       // TODO: what is this rubbish?
     } while ((sym.ttype !== RIGHTBRACKET
@@ -1113,13 +1114,13 @@ const parse = {
 
     if (sym.ttype === RIGHTBRACKET || sym.ttype === LEFTRIGHT) {
       parse.skip(sym.input.length)
-      yields.matrix(sym, frag)
+      parse.yields.matrix(sym, frag)
       if (!sym.invisible) {
-        yields.closeMatrix(sym, frag)
+        parse.yields.closeMatrix(sym, frag)
         closed = true
       }
     }
-    return yields.join(frag, closed)
+    return parse.yields.join(frag, closed)
   },
 }
 
@@ -1131,8 +1132,9 @@ function handleError (amstr, e) {
   })
 }
 
-// str -> <math>
-function parseMath(amstr) {
+// amstr -> <math>
+function am2mathml(amstr) {
+  parse.yields = yields
   parse.init(amstr)
   let node
   try {
@@ -1152,7 +1154,11 @@ function parseMath(amstr) {
   return node
 }
 
+let parseMath = am2mathml
+
+// amstr -> texstr
 function am2tex(amstr, displaystyle = AM.displaystyle) {
+  parse.yields = yieldsTex
   parse.init(amstr)
   const args = []
   if (AM.color) args.push('\\' + AM.color)
@@ -1236,7 +1242,7 @@ function $(tag, options = {}, children = []) {
     ? document.getElementsByClassName(tag.slice(1))
     : tag[0] === '<' && tag[len-1] === '>'
     ? (options.namespace
-      ? document.createElementNS(namespace, tag)
+      ? document.createElementNS(namespace, tag.slice(1,len-1))
       : document.createElement(tag.slice(1,len-1))
     ) : document.getElementsByTagName(tag);
 
@@ -1353,7 +1359,6 @@ function init () {
   // use katex & tex version of functions
   AM.katex = true
   parseMath = parseMathTex
-  yields = yieldsTex
 
   if (AM.env === 'browser') {
     loadCss('https://unpkg.com/katex@0.13.0/dist/katex.min.css', 'sha256-gPJfuwTULrEAAcI3X4bALVU/2qBU+QY/TpoD3GO+Exw=')
@@ -1377,6 +1382,8 @@ if (typeof document === 'undefined') {
   AM.katex = true
   AM.displaystyle = true
   init()
+} else if (typeof Word !== 'undefined') {
+  AM.env = 'word'
 } else {
   AM.env = 'browser'
   window.addEventListener('load', init, false)
@@ -1385,6 +1392,7 @@ if (typeof document === 'undefined') {
 // API
 AM.render = render
 AM.am2tex = am2tex
+AM.am2mathml = am2mathml
 })();
 
 if (typeof module !== 'undefined')
