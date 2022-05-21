@@ -9,6 +9,88 @@
 
 <h2>Fourier 变换</h2>
 
+<h3>从 Fourier 积分的角度</h3>
+
+<p class="theorem">
+  <b>Fourier 积分公式</b>
+  <span class="formula">
+    `f(x) = int_-oo^oo int_-oo^oo f(t) "e"^(2pi"i" xi (x-t)) dt "d"xi`.
+    <span class="label">(指数形式)</span>
+  </span>
+  <span class="formula">
+    `f(x) = int_-oo^oo int_-oo^oo f(t) cos 2pi xi(x-t) dt "d"xi`.
+    <span class="label">(实形式)</span>
+  </span>
+</p>
+
+<p class="proof">
+  将函数 `f(x)` 在 `[-l, l]` 上展开为 Fourier 级数
+  <span class="formula">
+    `f(x) = sum_(n=-oo)^oo hat(f)(n) "e"^(2 pi"i" n x // 2l)`,
+    `quad hat(f)(n) = 1/(2l) int_-l^l f(t) "e"^(-2 pi"i" n t // 2l) dt`.
+  </span>
+  记 `xi_n = n//2l`, 于是
+  <span class="formula">
+    `f(x) = sum_(n=-oo)^oo 1/(2l) int_-l^l f(t) "e"^(2pi xi_n (x - t)) dt`.
+  </span>
+  当 `l to oo` 时, 用 Riemann 积分的定义将上式写为积分, 就得到 Fourier
+  积分公式的指数形式.  利用 Euler 公式有
+  <span class="formula">
+    `"e"^(2pi"i"xi(x-t)) = cos 2pi xi (x-t) + "i" sin 2pi xi (x-t)`.
+  </span>
+  第二项是关于 `xi` 的奇函数, 它在 `(-oo, oo)` 上的积分为零. 从而得到
+  Fourier 积分公式的实形式.
+</p>
+
+<p class="corollary">
+  <b>Fourier 变换</b>
+  由 Fourier 积分公式立即得到,
+  <span class="formula">
+    `f(x) = int_-oo^oo (int_-oo^oo f(t) "e"^(-2pi"i" xi t) dt) "e"^(2pi"i"xi x) "d"xi`.
+  </span>
+  括号内的积分记为 `hat(f)(xi)`, 有
+  <span class="formula">
+    `hat(f)(xi) = int_-oo^oo f(x) "e"^(-2pi"i"xi x) dx`,
+    `quad f(x) = int_-oo^oo hat(f)(xi) "e"^(2 pi"i"xi x) "d"xi`.
+  </span>
+  两个公式分别为 Fourier 变换及其逆变换.
+</p>
+
+<ol class="corollary">
+  <b>Fourier 正余弦变换及其逆变换</b>
+  <li>余弦变换: `f` 为偶函数时,
+    <span class="formula">
+      `f_c(xi) = int_-oo^oo f(x) cos 2pi xi x dx`,
+      `quad f(x) = int_-oo^oo f_c(xi) cos 2pi xi x "d"xi`.
+    </span>
+  </li>
+  <li>正弦变换: `f` 为奇函数时,
+    <span class="formula">
+      `f_s(xi) = int_-oo^oo f(x) sin 2pi xi x dx`,
+      `quad f(x) = int_-oo^oo f_s(xi) sin 2pi xi x "d"xi`.
+    </span>
+  </li>
+</ol>
+
+<p class="proof">
+  利用 Fourier 积分公式的实形式,
+  <span class="formula">
+    `f(x) = int_-oo^oo int_-oo^oo f(t) cos 2pi xi(x-t) dt "d"xi`
+    `= int_-oo^oo int_-oo^oo f(t) cos 2pi xi x cos 2pi xi t dt "d"xi`
+    `+ int_-oo^oo int_-oo^oo f(t) sin 2pi xi x sin 2pi xi t dt "d"xi`.
+  </span> 
+  `f` 为偶函数时, 上式第二项为零, 得到:
+  <span class="formula">
+    `f(x) = int_-oo^oo cos 2pi xi x "d"xi int_-oo^oo f(t) cos 2pi xi t dt`.
+  </span>
+  同理 `f` 为奇函数时, 上式第一项为零, 得到:
+  <span class="formula">
+    `f(x) = int_-oo^oo sin 2pi xi x "d"xi int_-oo^oo f(t) sin 2pi xi t dt`.
+  </span>
+</p>
+
+<h3>从 Stein 的角度</h3>
+
 <p class="definition">
   设 `f(x) in L(-oo, oo)`, 则积分
   <span class="formula">
@@ -80,7 +162,7 @@
     `hat(f)(y)`
     `int_-oo^oo "e"^(-pi x^2 - 2 pi "i"x y) dx`
     `= "e"^(-pi y^2) int_-oo^oo "e"^(-pi(x+"i"y)^2) dx`.
-  </span> 
+  </span>
   利用 Cauchy 积分公式构造矩形围道, 上式中的积分等于
   <span class="formula">
     `int_-oo^oo "e"^(-pi x^2) dx = 1`.
@@ -148,22 +230,6 @@
   </li>
 </ol>
 
-<ol class="theorem">
-  <b>Fourier 正余弦变换及其逆变换</b>
-  <li>
-    <span class="formula">
-      `F_c(xi) = sqrt(2/pi) int_0^oo f(x) cos xi x dx`,<br>
-      `f(x) = sqrt(2/pi) int_0^oo F_c(xi) cos xi x "d"xi`.
-    </span>
-  </li>
-  <li>
-    <span class="formula">
-      `F_s(xi) = sqrt(2/pi) int_0^oo f(x) sin xi x dx`,<br>
-      `f(x) = sqrt(2/pi) int_0^oo F_s(xi) sin xi x "d"xi`.
-    </span>
-  </li>
-</ol>
-
 <h2>Mellin 变换</h2>
 
 <p class="definition">
@@ -198,7 +264,7 @@
   <span class="formula">
     `F(s) = int_(-oo)^oo "e"^(2 pi u (s-1)) f("e"^(2pi u)) 2pi"e"^(2 pi u) "d"u`
     `= int_(-oo)^oo 2pi"e"^(2 pi u s) f("e"^(2pi u)) "d"u`.
-  </span> 
+  </span>
   记 `s = sigma + "i"tau`, 应用 Fourier 变换的反转公式得
   <span class="formula">
     `2 pi "e"^(2 pi u sigma) bar(f)("e"^(2pi u))`
