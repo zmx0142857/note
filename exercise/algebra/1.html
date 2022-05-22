@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>集合论的基本概念</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="enum">
+<li>令 `A overset d = (A, le)` 为一偏序集, `S` 为 `A` 的一个非空子集. 则
+  <span class="formula">
+    `T = {a in A | (AA x in S) x lt a}`
+  </span>
+  为 `A` 的一个非空子集. 称 `T` 的极小元素为 `S` 的后续. 当 `S`
+  只含一个元素 `s` 时, `S` 的后续又称为 `s` 的后续. 证明,
+  任何良序集的任一真前段必有后续.<br>
+  <p class="proof">
+    设 `(A, le)` 为一良序集, `a in A`,
+    <span class="formula">
+      `S(a) overset d = {s in A | s lt a} sub A`
+    </span>
+    为 `A` 的一个真前段. 易知 `a in T`, 所以 `T` 非空.
+    由 `A` 为一良序集知 `T` 上必存在最小元, 从而必有极小元. 所以 `S(a)`
+    必有后续.
+  </p>
+</li>
+
+<li>令 `A, B` 为两个非空集合, 且 `|A| = m`, `|B| = n`. 试问,
+  <ol>
+    <li>`A` 到 `B` 可建立多少个映射?</li>
+    <li>`A` 到 `B` 可建立满射、单射、双射的条件各是什么? 各能建立多少个?</li>
+  </ol>
+
+  <ol class="proof">
+    <li>`n^m` 个;</li>
+    <li>`n le m`, `m le n`, `m = n`;
+      `(m;n)n!` 个, `(n;m)m!` 个, `n!` 个.
+    </li>
+  </ol>
+</li>
+
+<li>令 `bbb F` 为一数域, `A, B in bbb F^(n xx n)`, 且 `A` 与 `B` 相似, 又
+  <span class="formula">
+    `bbb F[A] = {f(A) | f(x) in bbb F[x]}`.
+  </span>
+  试问, 法则 `varphi: f(A) |-> f(B)` 是否是集合 `bbb F[A]` 到
+  `bbb F[B]` 的映射? 是的话是否为单射或满射?<br>
+  <p class="proof">
+    因为 `A` 与 `B` 相似, 所以存在可逆矩阵 `T in bbb F^(n xx n)`, 使
+    `B = TAT^-1`. 由
+    <span class="formula align">
+      `f_1(A) = f_2(A)`
+      `iff Tf_1(A)T^-1 = Tf_2(A)T^-1`<br>
+      `iff f_1(TAT^-1) = f_2(TAT^-1)`<br>
+      `iff f_1(B) = f_2(B)`
+    </span>
+    知, `varphi` 为一映射, 且为一单射. 又显然 `varphi` 为一满射,
+    故 `varphi` 为一双射.
+  </p>
+  <p class="note">
+    形如 `A rarr B: f(x) rarr g(x)` 的映射都显然为满射, 其中 `f(x)` 为
+    `X` 到 `A` 的映射, `g(x)` 为 `X` 到 `B` 的满射.
+  </p>
+</li>
+
+<li>令 `varphi: X to Y` 为一映射, `A, B != O/`, `A, B sube X`. 证明,
+  <ol>
+    <li>`varphi(A uu B) = varphi(A) uu varphi(B)`;</li>
+    <li>`varphi(A nn B) sube varphi(A) nn varphi(B)`.</li>
+  </ol>
+
+  <ol class="proof">
+    <li>
+      <span class="formula align">
+        `varphi(A uu B)`<br>
+        `= {y in Y | EE x in A uu B, y = varphi(x)}`<br>
+        `= {y in Y | EE x_1 in A, y = varphi(x_1) or EE x_2 in B, y = varphi(x_2)}`<br>
+        `= {y in Y | EE x_1 in A, y = varphi(x_1)}`
+        `uu {y in Y | EE x_2 in B, y = varphi(x_2)}`<br>
+        `= varphi(A) uu varphi(B)`.
+      </span>
+    </li>
+    <li>
+      <span class="formula align">
+        `varphi(A nn B)`<br>
+        `= {y in Y | EE x in A nn B, y = varphi(x)}`<br>
+        `sube {y in Y | EE x_1 in A, y = varphi(x_1) and EE x_2 in B, y = varphi(x_2)}`<br>
+        `= {y in Y | EE x_1 in A, y = varphi(x_1)}`
+        `nn {y in Y | EE x_2 in B, y = varphi(x_2)}`<br>
+        `= varphi(A) nn varphi(B)`.
+      </span>
+    </li>
+  </ol>
+</li>
+
+<li>令 `A, B, C` 为非空集合, `sigma: A to B` 与 `tau: B to C` 为两个映射.
+  证明,
+  <ol>
+    <li>若 `sigma`, `tau` 为单射, 则 `tau sigma` 为一单射; 反之, 若
+      `tau sigma` 为一单射, 则 `sigma` 为一单射;
+    </li>
+    <li>若 `sigma`, `tau` 为满射, 则 `tau sigma` 为一满射; 反之, 若
+      `tau sigma` 为一满射, 则 `tau` 为一满射.
+    </li>
+  </ol>
+  <ol class="proof">
+    <li>先设 `sigma, tau` 为单射, 则
+      <span class="formula">
+        `tau sigma(a) = tau sigma(b)`
+        `hArr tau(sigma(a)) = tau(sigma(b))`
+        `rArr sigma(a) = sigma(b)`
+        `rArr a = b`,
+      </span>
+      故 `tau sigma` 为一单射.
+      再设 `tau sigma` 为一单射, 则
+      <span class="formula">
+        `sigma(a) = sigma(b)`
+        `rArr tau(sigma(a)) = tau(sigma(b))`
+        `hArr tausigma(a) = tausigma(b)`
+        `rArr a = b`,
+      </span>
+      故 `tau` 为一单射.
+    </li>
+    <li>先设 `tau, sigma` 为满射, 则 `AA c in C`, `EE b in B`,
+      `tau(b) = c`; 且 `AA b in B`, `EE a in A`, `sigma(a) = b`.
+      这蕴含 `AA c in C`, `EE a in A`,
+      `tau sigma(a) = c`. 故 `tau sigma` 为一满射.
+      再设 `tau sigma` 为一满射, 则 `AA c in C`, `EE a in A`,
+      `tau sigma(a) = c`, 令 `b = sigma(a)`, 则 `b in B`, `tau(b) = c`.
+      故 `tau` 为一满射.
+    </li>
+  </ol>
+</li>
+
+<li>令 `sigma: A to B` 为一映射. 证明,
+  <ol>
+    <li>`sigma` 为一单射当且仅当关于任意集合 `X` 到 `A` 的任意映射
+      `tau_1`, `tau_2`, 若 `sigma tau_1 = sigma tau_2`, 则 `tau_1 =
+      tau_2`;
+    </li>
+    <li>`sigma` 为一满射当且仅当关于 `B` 到任意集合 `Y` 的任意映射
+      `tau_1`, `tau_2`, 若 `tau_1 sigma = tau_2 sigma`, 则 `tau_1 =
+      tau_2`.
+    </li>
+  </ol>
+  <ol class="proof">
+    <li>先设 `sigma` 为一单射, 则 `sigma tau_1 = sigma tau_2` `iff AA
+      x in X, sigma tau_1(x) = sigma tau_2(x)` `rArr AA x in X,
+      tau_1(x) = tau_2(x)` `iff tau_1 = tau_2`.<br/>
+      反之, 若关于任意集合 X 到 A 的任意映射 `tau_1`, `tau_2` ,
+      `sigma tau_1 = sigma tau_2` `rArr tau_1 = tau_2`, 令
+      `sigma(a_1) = sigma(a_2)`, 可以作 X 到 A 的映射 `tau_1`,
+      `tau_2`, 使 `tau_1(x) = a_1`, `tau_2(x) = a_2` (`AA x in X`),
+      于是 `sigma(tau_1(x)) = sigma(tau_2(x))` (`AA x in X`),
+      即 `sigma tau_1 = sigma tau_2`, 从而 `tau_1 =
+      tau_2`, 于是 `a_1 = a_2`. 故 `sigma` 为一单射.
+    </li>
+    <li>先设 `sigma` 为一满射, 则 `AA b in B`, `EE a in A`, 使
+      `sigma(a) = b`. 从而 `tau_1 sigma = tau_2 sigma` `iff AA a in
+      A, tau_1 sigma(a) = tau_2 sigma(a)` `rArr AA b in B`,
+      `tau_1(b) = tau_2(b)` `iff tau_1 = tau_2`.<br/>
+      反之, 作映射 `tau_1: B to {0, 1}: b to {1, if b in sigma(A);
+      0, otherwise:}` 和 `tau_2: B to {0,1}: b to 1`, 显然 `tau_1
+      sigma = tau_2 sigma`, 所以 `tau_1 = tau_2`. 所以 `sigma(A) =
+      B`, 即 `sigma` 为一满射.
+    </li>
+  </ol>
+</li>
+
+<li>令 `A` 为一非空集合. 证明, 不存在 `cc P(A)` 到 `A` 的双射.<br>
+  <ol class="proof">
+    事实上, 可以证明不存在 `cc P(A)` 到 `A` 的映射 (或不存在 `A` 到
+    `cc P(A)` 的满射).
+    <li>假设存在映射 `f: cc"P"(A) to A`, 令
+      <span class="formula">
+        `B = {f(S) | S in cc"P"(A), f(S) !in S} in cc"P"(A)`,
+      </span>
+      则 `f(B) in B` 和 `f(B) !in B` 都推出矛盾.
+    </li>
+    <li>
+      假设存在满射 `g: A to cc"P"(A)`, 令
+      <span class="formula">
+        `C = {a in A | a notin g(a)} in cc"P"(A)`,
+      </span>
+      则由 `g` 为一满射知存在 `c in A`, 使 `g(c) = C`. 但 `c in C`
+      和 `c !in C` 都推出矛盾.
+    </li>
+  </ol>
+</li>
+
+<li>在 `NN xx NN` 上定义关系 `~`:
+  <span class="formula">
+    `(a, b) ~ (c, d) iff a + d = b + c`.
+  </span>
+  证明, `~` 为一等价关系.<br>
+  <p class="proof">
+    自反性: (`AA (a, b) in NN xx NN`)
+      `a + b = b + a hArr (a, b) ~ (a, b)`.<br/>
+    对称性: `(a, b) ~ (c, d)`
+      `hArr a + d = b + c`
+      `hArr c + b = d + a`
+      `hArr (c, d) ~ (a, b)`.<br/>
+    传递性: `(a, b) ~ (c, d) and (c, d) ~ (e, f)`
+      `hArr a + d = b + c and c + f = d + e`
+      `rArr a + f = b + e`
+      `hArr (a, b) ~ (e, f)`.
+  </p>
+</li>
+
+<li>令 `A` 为一非空集合, `R` 为 `A` 上一二元关系. 证明, `R`
+  为一等价关系当且仅当
+  <ol>
+    <li>`(AA a in A)` `a R a`;</li>
+    <li>`a R b and b R c rArr c R a`.</li>
+  </ol>
+  <p class="proof">
+    "仅当" 显然. 下证 "当", 这只需证明对称性与传递性.<br/>
+    对称性: `a R b hArr a R b and a R b rArr b R a`.<br/>
+    传递性: `a R b and b R c rArr c R a rArr a R c`.
+  </p>
+</li>
+
+<li>在 `ZZ` 上定义关系 ~:
+  <span class="formula">
+    `a ~ b iff a + b` 为偶数.
+  </span>
+  试问, `~` 是等价关系吗? 是的话写出它的一个截面.<br>
+  <p class="answer">
+    `~` 是等价关系.<br/>
+    自反性: (`AA a in ZZ`) `a + a` 为偶数 `hArr a ~ a`.<br/>
+    对称性: `a ~ b` `hArr a + b` 为偶数 `hArr b + a` 为偶数
+      `hArr b ~ a`.<br/>
+    传递性: `a ~ b and b ~ c`
+      `hArr a + b` 为偶数 `and b + c` 为偶数
+      `hArr a, b` 的奇偶性相同 `and b, c` 的奇偶性相同
+      `rArr a, c`
+      的奇偶性相同 `hArr a + c` 为偶数.<br/>
+    `~` 的一个截面为 `{0, 1}`.
+  </p>
+</li>
+
+<li>令 `V` 为数域 `bbb F` 上一 (`n` 维) 线性空间,
+  `cc A, cc B in cc L(V)`.
+  证明,
+  <ol>
+    <li>`Ker cc A  sube Ker cc"B"`
+      `iff (EE cc C in cc L(V)) cc C @ cc A = cc B`;
+    </li>
+    <li>`Im cc B sube Im cc A`
+      `iff (EE cc C in cc L(V)) cc A @ cc C = cc B`.
+    </li>
+  </ol>
+  因此, `Ker cc A = Ker cc B` 当且仅当 `cc A`, `cc B` 互为右因子;
+  `Im cc A = Im cc B` 当且仅当 `cc A`, `cc B` 互为左因子.
+  <br>
+  <ol class="proof">
+    <li>"`lArr`": 对任意 `alpha in V`, 若 `alpha in Ker cc A`, 即
+      `cc A alpha = 0`, 则 `cc B alpha`
+      `= cc C @ cc A alpha`
+      `= cc C 0 = 0`, 即 `alpha in Ker cc B`.<br/>
+      "`rArr`": 作
+      <span class="formula">
+        `cc C: gamma |-> {
+          cc B alpha, if gamma = cc"A"alpha in Im cc A;
+          0, if gamma !in Im cc A;
+      :}`</span>
+      若 `cc A alpha = cc A beta`, 则由 `Ker cc A sube Ker cc B`
+      知 `cc B alpha = cc B beta`, 所以 `cc C` 作为 `V`
+      上一变换是良定义的. 又
+      <span class="formula">
+        `(AA 0 != k in bbb F, AA alpha in V)`
+        `k alpha in Im cc A` `iff alpha in Im cc A`, <br/>
+        `(AA alpha in Im cc A, beta in V)`
+        `beta in Im cc A` `iff alpha + beta in Im cc A`.
+      </span>
+      所以
+      <span class="formula">
+        `(AA k in bbb F)` `cc C(k alpha) = k cc C alpha`,<br/>
+        `(AA alpha, beta in V)` `cc C(alpha + beta) =
+        cc C alpha + cc C beta`.
+      </span>
+      所以 `cc C` 为 V 上一线性变换. 显然 `cc C @ cc A = cc B`.
+    </li>
+    <li></li>
+  </ol>
+</li>
+</ol>
+
+</body>
+<script src="../../js/note.js?type=math"></script>
+</html>

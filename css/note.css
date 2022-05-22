@@ -199,30 +199,28 @@ mtd {
 .shadow {
   background: rgba(0,0,0,0.2);
 }
-
 .center {
   text-align: center;
 }
-
+.right {
+  float: right;
+}
 .remark {
   padding: 0.5em;
   border-radius: 0.5em;
   background: rgba(0,0,0,0.2);
 }
-
 .proof, .solution, .answer, .collapse, .toc {
+  padding: 0.5em !important;
+  margin-top: 0 !important;
   display: block;
-  padding: 0.5em;
   border-radius: 0 0.5em 0.5em 0.5em;
   background: rgba(0,0,0,0.2);
-  margin-top: 0;
   /*transition: .5s ease;*/
 }
-
 .proof pre, .solution pre, .answer pre, .collapse pre {
   background: transparent;
 }
-
 .hidden {
   display: none;
   /*height: 0;
@@ -230,7 +228,6 @@ mtd {
   padding-bottom: 0;
   overflow: hidden;*/
 }
-
 .phantom {
   opacity: 0;
 }
@@ -238,7 +235,6 @@ mtd {
 .error, .katex-error {
   color: crimson;
 }
-
 .katex-error {
   max-width: 150px;
   display: inline-block;
@@ -302,7 +298,7 @@ button.toggle-answer {
   font-weight: bold;
   color: inherit;
   background: rgba(0, 0, 0, 0.2);
-  margin-bottom: 0;
+  margin: 0.2em 0;
   border-radius: 0.5em;
 }
 
@@ -317,6 +313,7 @@ button.toggle-answer::after {
 
 button.answer-shown {
   border-radius: 0.5em 0.5em 0 0;
+  margin-bottom: 0;
 }
 
 button.answer-shown::after {
@@ -373,23 +370,26 @@ ol li, ul li {
   margin: 0.3em 1.5em;
 }
 
-ol ol li {
-  margin: 0.3em 1em;
+ol ol > li {
+  margin: 0.3em 0;
 }
 
 /* ol style (1) (2) (3)... */
-ol.enum ol {
-  list-style-type: none;
-}
-
 ol.enum > ol {
   counter-reset: enum_cnt;
 }
-
+ol.enum > li > ol {
+  padding-left: 0;
+}
+ol.enum ol {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 1em;
+  margin: 0.4em 0;
+}
 ol.enum ol > li {
   counter-increment: enum_cnt;
 }
-
 ol.enum ol > li::before {
   content: "(" counter(enum_cnt) ") ";
 }
@@ -398,26 +398,17 @@ ol.enum ol > li::before {
 ol.subenum ol {
   counter-reset: subenum_cnt;
 }
-
 ol.subenum ol > li {
   counter-increment: subenum_cnt;
 }
-
 ol.subenum ol > li:before {
   content: "(" counter(subenum_cnt, lower-roman) ") ";
 }
-
-/*
-ol.enum ol li {
-  display: inline-block;
-}
-*/
 
 dl dt {
   font-size: 1em;
   font-weight: bold;
 }
-
 dl dd {
   margin-bottom: 0.3em;
   margin-left: 2em;
@@ -460,28 +451,26 @@ dl dd {
 .flex > div + div {
   margin-left: 10px;
 }
-.col2 li,.col2 div {
-  width: 43%;
+.col2 > *,
+.col3 > *,
+.col4 > *,
+.col5 > * {
   display: inline-block;
 }
-
+.col2 > * {
+  min-width: calc(50% - 0.5em);
+}
+.col3 > * {
+  min-width: calc(33.33% - 0.67em);
+}
+.col4 > * {
+  min-width: calc(25% - 0.75em);
+}
+.col5 > * {
+  min-width: calc(20% - 0.8em);
+}
 .col2 .img {
   height: 20em;
-}
-
-.col3 li,.col3 div {
-  width: 27%;
-  display: inline-block;
-}
-
-.col4 li,.col4 div {
-  width: 18%;
-  display: inline-block;
-}
-
-.col5 li,.col5 div {
-  width: 14%;
-  display: inline-block;
 }
 
 table {
@@ -730,7 +719,6 @@ div.tree li {
     display: inline-block;
     text-align: left;
     text-indent: 2em;
-    margin: 0 10%;
   }
 }
 
@@ -739,8 +727,6 @@ div.tree li {
   .formula > .align {
     display: inline-block;
     text-align: left;
-    /*text-indent: 2em;*/
-    margin: 0 10%;
     padding-left: 20px;
   }
   .formula > .align > br + * {

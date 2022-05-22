@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>初等函数</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="enum">
+
+<li>证明定理 1.3.2 的结论 (1), (2), (3) 和 (5).<br/>
+  <div class="proof">
+  先引入一些结论:
+  <ol class="lemma">
+    对任意 `x, y in RR^+`, 我们有
+    <li>`(x^(1/n))^n = x`;</li>
+    <li>`x^n = y^n iff x = y`;</li>
+    <li>`x^n lt y^n iff x lt y`.</li>
+  </ol>
+  现在我们来完成证明:
+  <p> (1) `a gt b` `iff (a^(1/n))^n gt (b^(1/n))^n`
+    `iff a^(1/n) gt b^(1/n)`.
+  </p>
+  <p> (2) `ab = (a^(1/n))^n (b^(1/n))^n = (a^(1/n) b^(1/n))^n`.
+    由引理的 (2), 结论成立.
+  </p>
+  <p> (3) `((a^(1/n))^(1/m))^(mn) = (((a^(1/n))^(1/m))^m)^n
+    = (a^(1/n))^n = a`.
+    由引理的 (2), `(a^(1/n))^(1/m) = a^(1/(mn))`.
+    同理 `(a^(1/m))^(1/n) = a^(1/(mn))`.
+  </p>
+  <p> (5) `((a^(1/n))^m)^n = ((a^(1/n))^n)^m = a^m`.
+    由引理的 (2), 结论成立.
+  </p>
+  </div>
+</li>
+
+<li>证明定理 1.3.4.<br/>
+  <ol class="proof">
+    <li>`a gt 1, b gt 1` 时, 利用习题 1.2 7(3) 的结果有
+      <span class="formula">
+        `(ab)^c`
+        `= underset(r in QQ nn (0,c]) "sup" (ab)^r`
+        `= underset(r in QQ nn (0,c]) "sup" a^r b^r`
+        `= underset(r in QQ nn (0,c]) "sup" a^r`
+        `* underset(r in QQ nn (0,c]) "sup" b^r`
+        `= a^c b^c`.
+      </span>
+      ???
+    </li>
+    <li>`a gt 1` 时, 由 (5), `a^b gt 1^b = 1`. 故
+      <span class="formula">
+        `(a^b)^c`
+        `= underset(r in QQ nn (0, c]) "sup" (
+          underset(s in QQ nn (0, b]) "sup" a^s)^r`
+        `?= underset(r in QQ nn (0, c]) "sup" (
+          underset(s in QQ nn (0, b]) "sup" a^(sr))`
+        `?= underset(r in QQ nn (0, bc]) "sup" a^r`
+        `= a^(bc)`.
+      </span>
+      `a lt 1` 的证明类似.
+    </li>
+    <li>`a gt 1` 时,
+      <span class="formula">
+        `a^b a^c`
+        `= underset(r in QQ nn (0, b]) "sup" a^r`
+        `* underset(s in QQ nn (0, c]) "sup" a^s`
+        `= "sup" {a^r a^s: r, s in QQ, r in (0, b], s in (0, c]}`
+        `= a^(b+c)`.
+      </span>
+      `a lt 1` 的证明类似.
+    </li>
+    <li>`a gt 1` 时,
+      <span class="formula">
+        `a^b`
+        `= underset(r in QQ nn (0, b]) "sup" a^r`
+        `ge underset(r in QQ nn (0, c]) "sup" a^r`
+        `=  a^c`;
+      </span>
+      `0 lt a lt 1` 时,
+      <span class="formula">
+        `a^b`
+        `= underset(r in QQ nn (0, b]) "inf" a^r`
+        `le underset(r in QQ nn (0, c]) "inf" a^r`
+        `= a^c`.
+      </span>
+      为证不等号严格成立, 选取有理数 `x, y` 使 `c lt x lt y lt b`,
+      则 `a gt 1` 时,
+      <span class="formula">
+        `a^c le a^x lt a^y le a^b`;
+      </span>
+      `0 lt a lt 1` 时,
+      <span class="formula">
+        `a^c ge a^x gt a^y ge a^b`.
+      </span>
+    </li>
+    <li>
+      `a gt 1` 时,
+      <span class="formula">
+        `a^c`
+        `= underset(r in QQ nn (0, c]) "sup" a^r`
+        `ge underset(r in QQ nn (0, c]) "sup" b^r`
+        `ge b^c`;
+      </span>
+      `0 lt a lt 1` 时,
+      <span class="formula">
+        `a^c`
+        `= underset(r in QQ nn (0, c]) "inf" a^r`
+        `ge underset(r in QQ nn (0, c]) "inf" b^r`
+        `= b^c`.
+      </span>
+      类似 (4) 可证不等号严格成立.
+    </li>
+  </ol>
+</li>
+
+<li>设 `a ge 0`. 证明: 对任意给定的实数 b, 方程 `x^3 + ax = b`
+  都有唯一的实数根. <br/>
+  <div class="proof">
+    <p> 唯一性: 设 `x^3 + ax = y^3 + ay = b`,
+      则 `(x-y)(x^2+xy+y^2+a) = 0`,
+      即
+      <span class="formula">
+        `(x-y)((x+y/2)^2 + 3/4 y^2 + a) = 0`.
+      </span>
+      第二个因子等于 0 当且仅当 `a = x = y = 0`,
+      所以必有 `x = y`.
+    </p>
+    <p> 存在性:
+      令 `S = {x in RR: x^3 + ax le b}`,
+      则 `b ge 0` 时, `0 in S`;
+      `b lt 0, a = 0` 时, `min{b, -1} in S`;
+      `b lt 0, a != 0` 时, `b/a in S`.
+      故 S 非空.
+    </p>
+    <p> 为证 S 有上界, 注意到 `x lt y iff x^3 + ax lt y^3 + ay`
+      以及 `(|b|+1)^3 + a(|b|+1) gt b`,
+      故对 `AA x in S`, `x lt |b| + 1`.
+      现在由确界原理, S 有上确界.
+    </p>
+    <p> 令 `s = "sup" S`, 下证 `s` 满足 `s^3 + as = b`.
+      ???
+    </p>
+  </div>
+</li>
+
+<li>设 `A` 是非空且有上界的实数集, 而 `a gt 1`. 证明:
+  `"sup" {a^x: x in A} = a^("sup"A)`.<br/>
+  <p class="proof">
+    记 `a^A = {a^x: x in A}`. 任取 `a^x in a^A`, 其中 `x in A`,
+    则 `x le "sup" A`, 从而 `a^x le a^("sup"A)`. 这说明 `a^("sup"A)`
+    是 `a^A` 的一个上界. 下证它是 `a^A` 的最小上界. 事实上, 设 `M`
+    为 `a^A` 的一个上界, 且 `M lt a^("sup"A)`.
+    取 `epsi = (a^("sup"A) - M)/(a^("sup"A) ln a) gt 0`,
+    则存在 `x_epsi in A`, `x_epsi gt "sup"A-epsi`.
+    我们有
+    <span class="formula">
+      `a^("sup"A) - a^(x_epsi)`
+      `lt a^("sup"A) - a^("sup"A-epsi)`
+      `= a^("sup"A)(1-a^-epsi)`
+      `lt a^("sup"A) epsi ln a`
+      `= a^("sup"A) - M`.
+    </span>
+    从而 `M lt a^(x_epsi) in a^A`, 矛盾.
+  </p>
+  <p class="remark">
+    类似可证 `0 lt a lt 1` 时,
+    `"inf" {a^x: x in A} = a^("sup"A)`.
+  </p>
+</li>
+
+<li>设 `0 lt x lt pi/2`. 证明下列不等式:
+  <ol class="col2">
+    <li>`cos x gt 1 - 1/2 x^2`;</li>
+    <li>`sin x gt x - 5/32 x^2`;</li>
+    <li>`tan x gt x + 5/16 x^2`.</li>
+  </ol>
+</li>
+
+<li>不要使用反三角函数, 证明下列结论:
+  <ol>
+    <li>对每个 `a in [-1, 1]`, 方程 `sin x = a` 在区间
+      `[-pi/2, pi/2]` 上有唯一的根;</li>
+    <li>对每个 `a in [-1, 1]`, 方程 `cos x = a` 在区间
+      `[0, pi]` 上有唯一的根;</li>
+    <li>对每个实数 `a`, 方程 `tan x = a` 在区间
+      `(-pi/2, pi/2)` 上有唯一的根;</li>
+    <li>对每个实数 `a`, 方程 `cot x = a` 在区间
+      `(0, pi)` 上有唯一的根.
+    </li>
+  </ol>
+</li>
+
+<li>设 `|epsilon| lt 1`. 证明: 对任意给定的实数 `a`, 方程
+  `x + epsilon sin x = a` 都有唯一的实数根.
+</li>
+
+<li><b>双曲正弦函数</b> `sinh x` 和<b>双曲余弦函数</b> `cosh x`
+  分别定义如下:
+  <span class="formula">
+    `sinh x = (e^x - e^(-x))/2`, `cosh x = (e^x + e^(-x))/2`,
+  </span>
+  其中, e 是自然对数的底 `e = 2.718281828459 cdots`. 证明:
+  <span class="formula">
+    <p>`cosh^2 x - sinh^2 x = 1`,</p>
+    <p>`sinh 2x = 2 sinh x cosh x`,</p>
+    <p>`cosh 2x = sinh^2 x + cosh^2 x`,</p>
+    <p>`sinh (x +- y) = sinh x cosh y +- cosh x sinh y`,</p>
+    <p>`cosh (x +- y) = cosh x cosh y +- sinh x sinh y`,</p>
+    <p>`(cosh x +- sinh x)^n = cosh nx +- sinh nx`.</p>
+  </span>
+
+  <ol class="proof">
+  <li>
+    `cosh^2 x - sinh^2 x`
+    `= ((e^x + e^(-x))/2)^2 - ((e^x - e^(-x))/2)^2`
+    `= 1`.
+  </li>
+  <li>
+    `sinh 2x`
+    `= (e^(2x) - e^(-2x))/2`
+    `= [(e^x + e^(-x))(e^x - e^(-x))]/2`
+    `= 2 sinh x cosh x`.
+  </li>
+  <li>
+    `cosh 2x`
+    `= (e^(2x) + e^(-2x))/2`
+    `= ((e^x - e^(-x))/2)^2 + ((e^x + e^(-x))/2)^2`
+    `= sinh^2 x + cosh^2 x`.
+  </li>
+  <li>
+    `sinh(x+-y)`
+    `= (e^(x+-y) - e^(-(x+-y)))/2`
+    `= (e^x - e^(-x))/2 (e^y + e^(-y))/2`
+    `+- (e^x + e^(-x))/2 (e^y - e^(-y))/2`
+    `= sinh x cosh y +- cosh x sinh y`.
+  </li>
+  <li>
+    `cosh(x+-y)`
+    `= (e^(x+-y) + e^(-(x+-y)))/2`
+    `= (e^x + e^(-x))/2 (e^y + e^(-y))/2`
+    `+- (e^x - e^(-x))/2 (e^y - e^(-y))/2`
+    `= cosh x cosh y +- sinh x sinh y`.
+  </li>
+  <li>
+    最后, 用归纳法证明
+    <span class="formula">
+      `(cosh x +- sinh x)^n = cosh nx +- sinh nx`.
+    </span>
+    n = 1 时上式显然成立. 若上式对正整数 n 成立, 则对 n+1,
+    <span class="formula">
+      `(cosh x +- sinh x)^(n+1)`
+      `= (cosh nx +- sinh nx)(cosh x +- sinh x)`
+      `= cosh [(n+1)x] +- sinh [(n+1)x]`.
+    </span>
+    故此式对任意正整数 n 成立.
+  </li>
+  </ol>
+</li>
+
+<li>求 `underbrace(f @ f @ cdots @ f)_(n 次)`, 已知
+  <ol class="col2">
+    <li>`f(x) = x/(sqrt(1 + x^2))`;</li>
+    <li>`f(x) = 1/(1-x)`;</li>
+    <li>`f(x) = |1+x| - |1-x|`.</li>
+  </ol>
+</li>
+
+<li>已知
+  <span class="formula">
+    `f(x) = {
+      1 - x^2, if |x| le 1;
+      |x| - 1, if |x| gt 1
+    :}`
+    `g(x) = {
+      2^x,   if x le 0;
+      x^2 + 1, if 0 lt x le 2;
+      log_2 x, if x gt 2
+    :}`
+  </span>
+  求 `g@f` 和 `f@g`.
+</li>
+
+<li>求 `f(x)`, 已知
+  <ol class="col2">
+    <li>`f(x+1) = x^2 - 3x + 2`;</li>
+    <li>`f(x + 1/x) = x^2 + 1/x^2`;</li>
+    <li>`f(1/x) = x + sqrt(1 + x^2)`.</li>
+  </ol>
+</li>
+
+<li>求下列函数的反函数:
+  <ol>
+    <li>`f(x) = {
+      -log_3(1+|x|),   if x le 0;
+      1/2 x^3,     if 0 lt x le 2;
+      2 sqrt(2x),    if x gt 2;
+    :}`</li>
+    <li>`f(x) = {
+      1 + root(3)(x),  if x le -1;
+      2(1-x),      if -1 lt x lt 1;
+      2^(x+1),     if x ge 1;
+    :}`</li>
+  </ol>
+</li>
+
+<li>在处理一些初等函数的问题时, 需要把初等函数所涉及的基本初等函数及其
+  运算与复合过程分析出来. 例如, 函数 `y = arctan(x + sqrt(1 + x^2))`
+  可分拆成
+  <span class="formula">
+    `y = arctan z`, `z = u + v`, `u = x`, `v = sqrt(w)`,
+    `w = 1 + x^2`.
+  </span>
+  求下列初等函数的这种分拆:
+  <ol>
+    <li>`y = arctan(tan^2 x)`;</li>
+    <li>`y = ln (arccos 1/sqrt(x))`;</li>
+    <li>`y = arcsin((sin a sin x) / (1 - cos a cos x))`
+      (`a` 为常数);</li>
+    <li>`y = (a^(-x^2) arcsin(a^(-x^2))) / sqrt(1 - e^(-2x^2))
+      + 1/2 ln (1 - a^(-2x^2))` (`a` 为正常数);</li>
+    <li>`y = x^(x^a) + x^(a^x) + a^(x^x)` (`a` 为正常数).</li>
+  </ol>
+</li>
+
+<li>作下列函数的图像:
+  <ol>
+    <li>`y = op(sgn) (x+1) + op(sgn) (x-2)`;</li>
+    <li>`y = arcsin op(sgn) (x^2 - 1)`;</li>
+    <li>`y = op(sgn) sin x`.</li>
+  </ol>
+</li>
+
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
+

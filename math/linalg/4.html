@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>线性空间</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>线性空间与其子空间</h2>
+
+<h3>线性空间</h3>
+
+<p>	类比于平面仿射几何系统, 我们抽象出线性空间的概念:</p>
+
+<ol class="definition" style="list-style-type:lower-roman"
+	id="def-linear-space">
+	令集合 `V != O/`, `bbb P` 为一数域 (如 `QQ`, `RR`, `CC`),
+  "`+`" 为 `V` 上的一个二元运算,
+	称为<b>加法</b>, "`*`" 为 `bbb P xx V` 到 `V` 的一个二元合成,
+	称为<b>数乘</b>.
+	称代数系统 `(V";" +, *";" bbb P)` 为数域 `bbb P`
+	上的<b>线性空间</b>, 如果它满足下面 8 条<b>基本性质</b>:
+	<li>加法交换律. `(AA bm alpha, bm beta in V)`
+		`bm alpha + bm beta = bm beta + bm alpha`;
+	</li>
+	<li>加法结合律. `(AA bm alpha, bm beta, bm gamma in V)`
+		`(bm alpha + bm beta) + bm gamma = bm alpha + (bm beta + bm
+		gamma)`;
+	</li>
+	<li>(右) 零元存在. `(EE bm theta in V)` `(AA bm alpha in V)`
+		`bm alpha + bm theta = bm alpha`;
+	</li>
+	<li>(右) 负元存在. `(AA bm alpha in V)` `(EE bm alpha' in V)`
+		`bm alpha + bm alpha' = bm theta`;
+	</li>
+	<li>数乘对 `V` 上加法的分配律.
+		`(AA bm alpha, bm beta in V, AA k in bbb P)`
+		`k * (bm alpha + bm beta) = k * bm alpha + k * bm beta`;
+	</li>
+	<li>数乘对 `bbb P` 上加法的分配律.
+		`(AA bm alpha in V,  AA k, l in bbb P)`
+		`(k + l) * bm alpha = k * bm alpha + l * bm alpha`;
+	</li>
+	<li>数乘下数字的穿越.
+		`(AA bm alpha in V, AA k, l in bbb P)`
+		`(kl) * bm alpha = k * (l * bm alpha)`;
+	</li>
+	<li>设 `1` 是 `bbb P` 中的幺元, `(AA bm alpha in V)`
+		`1 * bm alpha = bm alpha`.
+	</li>
+	不引起混淆的情况下, 把线性空间也简记简记为 `V`.
+	把线性空间中的元素称为<b>向量</b>,
+	数乘的乘号可以省略.
+</ol>
+
+<p class="remark">
+	注意, "二元运算" 与 "二元合成" 隐含 `V` 对运算封闭,
+	即对任意 `bm alpha, bm beta in V` 和任意 `k in bbb P`,
+	<span class="formula">
+		`bm alpha + bm beta in V`, `quad` `k bm alpha in V`.
+	</span>
+	这也等价于对任意 `bm alpha, bm beta in V` 和任意 `k, l in bbb P`,
+	<span class="formula">
+		`k bm alpha + l bm beta in V`.
+	</span>
+	`V != O/`, 以及 `V` 对加法和数乘封闭, 是构成线性空间的前提条件.
+</p>
+
+<p class="remark">
+	线性空间的基本性质 i - iv 指出 `(V, +)` 构成一个 Abel 群.
+  若把数域 `bbb P` 换成一般的环, 这里定义的就是抽象代数中的模.<br>
+  数域是指特征为零的域. 代数学中的域有两种, 第一种特征为零,
+  含有无穷多元素; 第二种特征为素数, 只有有限个元素, 即有限域.
+</p>
+
+<ol class="corollary" id="cor-simple-property">
+	<b>线性空间的简单性质</b>
+	<li>iii 中的 `bm theta` 是唯一的, 称为线性空间 `V` 中的<b>零向量</b>;
+	</li>
+	<li>设 `0` 是 `bbb P` 中的零元, `(AA bm alpha in V)`
+		`0 bm alpha = bm theta`.
+	</li>
+	<li>`(AA k in bbb P)` `k bm theta = bm theta`;</li>
+	<li>对任意 `bm alpha in V`, iv 中的 `bm alpha'` 是唯一的, 称为 `bm
+		alpha` 的<b>负向量</b>, 记为 `-bm alpha`; 因此, `-(-bm alpha) = bm
+		alpha`;
+	</li>
+	<li>`(AA bm alpha in V)` `(-1) bm alpha = -bm alpha`;</li>
+	<li>消去律. `(AA bm alpha, beta, gamma in V)`
+		`bm alpha + bm beta = bm alpha + bm gamma iff bm beta = bm gamma`.
+	</li>
+	<li>`(AA bm alpha in V, AA k in bbb P)`
+		`k bm alpha = bm theta rArr k = 0 or bm alpha = bm theta`;
+	</li>
+	后面我们把 `bm alpha + (-bm beta)` 简记为 `bm alpha - bm beta`.
+</ol>
+
+<ol class="proof">
+	<li>若 `bm theta'` 也是 `V` 的零向量, 则由交换律 (i) 和零元的定义
+		(iii) 有
+		<span class="formula">
+			` bm theta'
+			= bm theta' + bm theta
+			= bm theta + bm theta'
+			= bm theta`.
+		</span>
+	</li>
+	<li>由 viii 和 vi 有
+		<span class="formula">
+			` bm alpha + 0 bm alpha
+			= 1 bm alpha + 0 bm alpha
+			= (1 + 0) bm alpha
+			= 1 bm alpha
+			= bm alpha`.
+		</span>
+		由零元唯一性知 `0 bm alpha = bm theta`.
+	</li>
+	<li>任取 `bm alpha in V`, 由简单性质 2 和 vii ,
+		<span class="formula">
+			` k bm theta
+			= k (0 bm alpha)
+			= (k*0) bm alpha
+			= 0 bm alpha
+			= bm theta`.
+		</span>
+	</li>
+	<li>设 `bm alpha''` 也是 `bm alpha` 的负向量, 则由交换律,
+		结合律和零元, 负元的定义有
+		<span class="formula">
+			` bm alpha''
+			= bm alpha'' + bm theta
+			= bm theta + bm alpha''
+			= bm alpha + bm alpha' + bm alpha''
+			= bm alpha' + bm alpha + bm alpha''
+			= bm alpha' + bm theta
+			= bm alpha'`.
+		</span>
+	</li>
+	<li>由简单性质 2,
+		<span class="formula">
+			` bm alpha + (-1) bm alpha
+			= 1 bm alpha + (-1) bm alpha
+			= (1-1) bm alpha
+			= 0 bm alpha
+			= bm theta`.
+		</span>
+		由负元唯一性知 `(-1) bm alpha = -bm alpha`.
+	</li>
+	<li>`lArr`: 两边同时加上 `bm alpha`; `rArr`: 两边同时加上 `-bm alpha`.
+	</li>
+	<li>设 `k != 0`, 则由简单性质 3,
+		<span class="formula">
+			` bm alpha
+			= 1 bm alpha
+			= (k^-1 k) bm alpha
+			= k^-1 (k bm alpha)
+			= k^-1 bm theta
+			= bm theta`.
+		</span>
+	</li>
+</ol>
+
+<ol class="remark" id="rem-reduce-dependency">
+	零元, 负元的唯一性和消去律都是群的性质, 我们只由 ii, iii, iv
+	就可以推出它们:
+	<li>右负元也是左负元:
+		对 `AA bm alpha in V`, 有 `bm alpha', (bm alpha')' in V`, 满足
+		<span class="formula">
+			` bm alpha + bm alpha'
+			= bm alpha' + (bm alpha')'
+			= bm theta`.
+		</span>
+		于是
+		<span class="formula">
+			` bm alpha' + bm alpha
+			= bm alpha' + bm alpha + bm theta
+			= bm alpha' + bm alpha + bm alpha' + (bm alpha')'`
+			`= bm alpha' + bm theta + (bm alpha')'
+			= bm alpha' + (bm alpha')'
+			= bm theta`.
+		</span>
+	</li>
+	<li>右零元也是左零元:
+		对 `AA bm alpha in V`
+		<span class="formula">
+			` bm theta + bm alpha
+			= bm alpha + bm alpha' + bm alpha
+			= bm alpha + bm theta
+			= bm alpha`.
+		</span>
+	</li>
+	因此当 `bm alpha, bm beta in V` 中有一个是零元,
+	或者有一个是另一个的负元时, `bm alpha + bm beta = bm beta + bm alpha`.
+	从而上述<a class="ref" href="#cor-simple-property"></a>
+	的 1, 4, 6 的证明实际上不依赖于交换律. 
+</ol>
+
+<p class="remark">
+	线性空间定义中的 8 条基本性质不是相互独立的, 比如我们可以用 ii, iii,
+	iv, v, vi, viii 来推出 i. 
+	对任意 `bm gamma in V`, 由 vi 和 viii,
+	<span class="formula">
+		` 2 bm gamma
+		= (1+1) bm gamma
+		= 1 bm gamma + 1 bm gamma
+		= bm gamma + bm gamma`.
+	</span>
+	于是对任意 `bm alpha, bm beta in V`, 由 ii,
+	<span class="formula">
+		` 2 (bm alpha + bm beta)
+		= (bm alpha + bm beta) + (bm alpha + bm beta)
+		= bm alpha + (bm beta + bm alpha) + bm beta`.
+	</span>
+	但由 v, ii 知 
+	<span class="formula">
+		` 2 (bm alpha + bm beta)
+		= 2 bm alpha + 2 bm beta
+		= (bm alpha + bm alpha) + (bm beta + bm beta)
+		= bm alpha + (bm alpha + bm beta) + bm beta`.
+	</span>
+	由消去律 (从<a class="ref" href="#rem-reduce-dependency"></a> 知道,
+	消去律只依赖于 ii, iii, iv) 知
+	<span class="formula">
+		`bm beta + bm alpha = bm alpha + bm beta`.
+	</span>
+</p>
+
+<ol class="remark" id="rem-cancellation-law">
+	线性空间定义中的 iii, iv 可由消去律代替.
+	<li>任取 `bm alpha in V`, 记 `0 bm alpha = bm theta`.
+		对任意 `bm beta in V`, 由于
+		<span class="formula">
+			` bm beta
+			= (1+0) bm beta
+			= bm beta + 0 bm beta`,
+			<span class="label">(4-1)</span>
+		</span>
+		<span class="formula">
+			` bm theta + bm theta
+			= 0 bm alpha + 0 bm alpha
+			= (0+0) bm alpha
+			= bm theta`,
+		</span>
+		两式相加得
+		<span class="formula">
+			` bm beta + bm theta + bm theta
+			= bm beta + 0 bm beta + bm theta`,
+		</span>
+		由消去律知 `bm theta = 0 bm beta`. 代入 (4-1) 即证得 iii.
+	</li>
+	<li>对任意 `bm beta in V`, 记 `-bm beta = (-1)bm beta`,
+		则
+		<span class="formula">
+			` bm beta + (-bm beta)
+			= bm beta + (-1)bm beta
+			= 0 bm beta
+			= bm theta`.
+		</span>
+	</li>
+	因此, 联系<a class="ref" href="#rem-reduce-dependency"></a>
+	至<a class="ref" href="#rem-cancellation-law"></a>,
+	线性空间可以较弱地定义为: 满足 v - viii 的双消半群.
+</ol>
+
+<h3>线性子空间</h3>
+
+<p class="definition">
+	令 `(V";" +, *";" bbb P)` 为一线性空间, `O/ != V_1 sube V`.
+	若 `(V_1";" +, *";" bbb P)` 也为一线性空间, 则称 `V_1` 为 `V`
+	的<b>线性子空间</b>, 简称<b>子空间</b>, 记为 `V_1 le V`.
+	进一步, 若 `V_1 != V`, 称 `V_1` 为 `V` 的<b>真子空间</b>,
+	记为 `V_1 lt V`.
+	<br/>
+	显然对于任意数域 `bbb P` 上的任意线性空间 `V`, `V`
+	自身和<b>平凡线性空间</b> `{bm theta}` 都是 `V` 的子空间,
+	称为 `V` 的<b>平凡子空间</b>.
+</p>
+
+<ol class="theorem">
+	令 `V` 为一线性空间, 则 `V` 的非空子集 `V_1` 为 `V` 的子空间当且仅当
+	`V_1` 对 `V` 上的加法与数乘封闭.
+	从而我们在验证线性子空间时, 不需要烦琐地逐一验证 8 条性质.
+</ol>
+
+<p class="proof">
+	必要性显然, 今证充分性, 这只需再证明 `V_1`
+	满足<a class="ref" href="#def-linear-space"></a> 的 8 条性质.
+	由于 `V_1 sube V`, i, ii 及 v - viii 显然成立. 接下来证明 iii, iv
+	成立. 任取 `bm alpha in V_1`, 则由<a class="ref"
+		href="#cor-simple-property"></a>的 2 及 `V_1`
+	对数乘的封闭性, `bm theta = 0 bm alpha in V_1`, 故 iii 成立.
+	同理, 对任意 `bm alpha in V_1`, `-bm alpha = (-1) bm alpha in V_1`,
+	故 iv 成立.
+</p>
+
+<p class="corollary">
+	子空间的关系 "`le`" 具有传递性. 如果 `V` 为 `bbb P` 上一线性空间,
+	`V_1 le V`, `V_2 le V_1`, 则 `V_2 le V`. 另外, 若 `V_3 le V`, `V_3
+	sube V_1`, 则 `V_3 le V_1`.
+	又显然 "`le`" 满足自反性和反对称性, 故为一偏序.
+</p>
+
+<ol class="corollary">
+	令 `V` 为 `bbb P` 上一线性空间, `V_1, V_2 le V`. 则
+	<li>`V_1 nn V_2 le V`, 称 `V_1 nn V_2` 为 `V_1` 与 `V_2` 的<b>交</b>.
+		显然它是 `V` 的含于 `V_1` 也含于 `V_2` 的最大子空间.
+	</li>
+	<li>`V_1` 中元素与 `V_2` 中元素所有可能的和
+		<span class="formula">
+			`{bm alpha_1 + bm alpha_2: bm alpha_1 in V_1, bm alpha_2 in
+			V_2} le V`,
+		</span>
+		称为 `V_1` 与 `V_2` 的<b>和</b>, 记为 `V_1 + V_2`.
+		显然这是 `V` 的含 `V_1` 也含 `V_2` 的最小子空间.
+	</li>
+	<li>`V_1 uu V_2 le V` 当且仅当 `V_1 sube V_2` 或 `V_2 sube V_1`.</li>
+</ol>
+
+<ol class="proof">
+	<li>因为 `bm theta in V_1 nn V_2`, 所以 `V_1 nn V_2 != O/`;
+		再设 `bm alpha, bm beta in V_1 nn V_2`, `k, l in bbb P`,
+		则由于 `V_1, V_2 le V`, `k bm alpha + l bm beta` 必同时含于 `V_1,
+		V_2`, 即 `k bm alpha + l bm beta in V_1 nn V_2`.
+	</li>
+	<li>显然 `V_1 + V_2` 非空;
+		再设 `bm alpha_1 + bm alpha_2,bm beta_1 + bm beta_2 in V_1 + V_2`,
+		`k, l in bbb P`, 其中 `bm alpha_1, bm beta_1 in V_1`, `bm alpha_2,
+		bm beta_2 in V_2`. 则
+		<span class="formula">
+			` k (bm alpha_1 + bm alpha_2) + l (bm beta_1 + bm beta_2)
+			= (k bm alpha_1 + l bm beta_1) + (k bm alpha_2 + l bm beta_2)
+			in V_1 + V_2`.
+		</span>
+		故 `V_1 + V_2 le V`. 现在设 `V' le V`, `V_1, V_2 sube V'`,
+		则对 `AA bm alpha_1 in V_1`, `AA bm alpha_2 in V_2`, 由 `V'`
+		的封闭性有 `bm alpha_1 + bm alpha_2 in V'`, 即 `V_1 + V_2 sube
+		V'`.
+	</li>
+	<li>`lArr` 显然, 下证 `rArr`. 设 `V_1 sube V_2` 不成立,
+		则 `EE bm alpha in V_1`, `bm alpha !in V_2`.
+		对 `AA bm beta in V_2`, 由 `V_1 uu V_2 le V` 知
+		`bm alpha + bm beta in V_1 uu V_2`.
+		若 `bm alpha + bm beta in V_2`, 则
+		`bm alpha = bm alpha + bm beta - bm beta in V_2`, 矛盾, 故
+		`bm alpha + bm beta in V_1`. 于是
+		`bm beta = bm alpha + bm beta - bm alpha in V_1`,
+		得 `V_2 sube V_1`.
+	</li>
+</ol>
+
+<h3>子空间的直和, 生成子空间</h3>
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, `V_1, V_2 le V`. 若 `V_1 + V_2`
+	中每一向量写为 `V_1` 和 `V_2` 中向量之和的方法唯一, 则称 `V_1 + V_2`
+	为 `V_1` 与 `V_2` 的<b>直和</b>, 记为 `V_1 o+ V_2`.<br/>
+	换言之, `V_1 + V_2` 为直和当且仅当映射 `V_1 xx V_2 to V_1 + V_2`:
+	`(bm alpha, bm beta) to bm alpha + bm beta` 为单射; 而此映射总是满射,
+	故 `V_1 + V_2` 为直和也当且仅当此映射是双射.
+</p>
+
+<ol class="theorem" id="the-direct-sum">
+	假设如上述定义, 以下各款等价:
+	<li>`V_1 + V_2` 是直和;</li>
+	<li>存在向量 `bm alpha in V_1 + V_2`, 使得 `bm alpha` 写为 `V_1` 和
+		`V_2` 中向量之和的方法唯一;
+	</li>
+	<li>零向量 `bm theta` 写为 `V_1` 和 `V_2` 中向量之和的方法唯一, 即 `bm
+		theta = bm theta + bm theta`;
+	</li>
+	<li>`V_1 nn V_2 = {bm theta}`.</li>
+</ol>
+
+<ol class="proof">
+	<li>`rArr` 2. 显然.</li>
+	<li>`rArr` 3. 联系定理3-2 的证明,
+		令 `bm alpha = bm alpha_1 + bm alpha_2`,
+		`bm alpha_1 in V_1`, `bm alpha_2 in V_2`.
+		若 `bm theta = bm beta_1 + bm beta_2`,
+		`bm beta_1 in V_1`, `bm beta_2 in V_2`, 则
+		<span class="formula">
+			` bm alpha
+			= bm alpha + bm theta
+			= (bm alpha_1 + bm beta_1) + (bm alpha_2 + bm beta_2)`.
+		</span>
+		由 `bm alpha` 被表为 `V_1` 中向量与 `V_2` 中向量之和方式的唯一性,
+		必有 `bm beta_1 = bm beta_2 = bm theta`.
+	</li>
+	<li>`rArr` 4.
+		设 `bm alpha in V_1 nn V_2`, 则 `bm theta = bm alpha - bm alpha`,
+		其中 `bm alpha in V_1`, `-bm alpha in V_2`. 由 `bm theta` 写为
+		`V_1` 和 `V_2` 中向量之和的方法唯一, 有
+		`bm alpha = -bm alpha = bm theta`.
+	</li>
+	<li>`rArr` 1.
+		任取 `bm alpha in V_1 + V_2`,
+		设 `bm alpha = bm alpha_1 + bm alpha_2 = bm beta_1 + bm beta_2`,
+		其中 `bm alpha_1,bm beta_1 in V_1`,`bm alpha_2,bm beta_2 in V_2`.
+		则
+		<span class="formula">
+			` bm gamma
+			= bm alpha_1 - bm beta_1
+			= bm beta_2 - bm alpha_2
+			in V_1 nn V_2`.
+		</span>
+		由 4 知 `bm gamma = bm theta`. 故 `bm alpha_1 = bm beta_1`,
+		`bm alpha_2 = bm beta_2`, 即 `V_1 + V_2` 是直和.
+	</li>
+</ol>
+
+<p class="remark">
+	子空间的和与直和可以推广到 `n` 个子空间的情形. 需要特别注意,
+	<a class="ref" href="#the-direct-sum"></a>的 4 应该推广为
+	<span class="formula">
+		`V_i nn sum_(j=1,j!=i)^n V_j = {bm theta}`,
+		`quad i = 1, 2, cdots, n`.
+	</span>
+	或者
+	<span class="formula">
+		`V_i nn sum_(j=1)^(i-1) V_j = {bm theta}`,
+		`quad i = 2, 3, cdots, n`.
+	</span>
+</p>
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间,
+	若 `bm alpha_1, bm alpha_2, cdots, bm alpha_n in V`,
+	则它们的全体线性组合
+	<span class="formula">
+		`{sum_(i=1)^n k_i bm alpha_i: k_i in bbb P,
+		i = 1, 2, cdots, n} le V`,
+	</span>
+	显然它是 `V` 的含 `bm alpha_1, bm alpha_2, cdots, bm alpha_n`
+	的最小子空间, 称为<b>由 `bm alpha_1, bm alpha_2, cdots, bm alpha_n`
+	生成的子空间</b>或<b>张成的子空间</b>, 记为
+	`G[bm alpha_1, bm alpha_2, cdots, bm alpha_n]` 或
+	`"span"[bm alpha_1, bm alpha_2, cdots, bm alpha_n]`. 容易说明
+	<span class="formula">
+		` G[bm alpha_1, bm alpha_2, cdots, bm alpha_n]
+		= sum_(i=1)^n G[bm alpha_i]`.
+		<span class="label" id="for-generated-subspace">(4-2)</span>
+	</span>
+</p>
+
+<p> 子空间的直和与向量的线性无关性是很类似的概念.
+	若将线性相关 (无关) 的概念从 `bbb P^n` 上推广到一般线性空间 `V`,
+	注意<a class="ref" href="#the-direct-sum"></a>的 3, 我们有
+</p>
+
+<p class="corollary">
+	令 `V` 为 `bbb P` 上一线性空间, `n` 个非零向量
+	`bm alpha_1, bm alpha_2, cdots, bm alpha_n in V` 线性无关当且仅当
+	<a class="ref" href="#for-generated-subspace"></a> 是直和.
+</p>
+
+<p>	事实上, 将第三章各定义中的 `bbb P^n` 换成一般线性空间 `V`, 则
+	极大线性无关组, 向量组的秩,
+	等价向量组等概念以及相关结论都可以推广到线性空间中. 这里不再赘述.
+</p>
+
+<h2>线性空间的维数与基底</h2>
+
+<h3>维数与基底</h3>
+
+<!--
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, 且具有有限生成集 (定义3-4)
+	<span class="formula">
+		`S = {bm alpha_1, bm alpha_2, cdots, bm alpha_n}`,
+	</span>
+	即 `V = G[S]`.  称 `r_S` 为线性空间 `V` 的<b>维数</b>,
+	记为 `"dim"V`. 由<a href="3.html#cor-rank-and-equality">推论3-7</a>
+	的 2, 维数不依赖于生成集的选择.
+	易知 `V` 的维数等于 `V` 中极大无关组所含向量的个数. 
+	<br/>
+	由定义知道, 零维的线性空间只有平凡线性空间 `{bm theta}`.
+	称具有有限生成集的线性空间是<b>有限维的</b>,
+	否则称它是<b>无穷维的</b>.
+	我们将把讨论的重点放在有限维线性空间上.
+</p>
+
+<p class="definition" id="def-base">
+	令 `V` 为 `bbb P` 上一 `n` 维线性空间, `n ge 1`. 若 `bm epsi_1, bm
+	epsi_2, cdots, bm epsi_n in V` 线性无关, 则称有序向量组
+	<span class="formula">
+		`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`
+	</span>
+	为 `V` 的一组<b>基底</b>或<b>基</b>.
+	由 `"dim"V = n` 知, `V` 有一个含 `n` 个向量的极大无关组.
+	由<a href="3.html#the-max-number-of-independent-vectors">定理3-5</a>,
+	`bm epsi_1, bm epsi_2, cdots, bm epsi_n`
+	本身即是 `V` 的一个极大无关组, 从而对任意 `bm alpha in V`,
+	存在唯一 (唯一性由
+	<a href="3.html#the-uniqueness-of-linear-presentation">定理3-2</a>
+	保证) 的 `x_i in bbb P`,
+	`i = 1, 2, cdots, n` 使得 `bm alpha = sum_(i=1)^n x_i bm epsi_i`.
+	称
+	<span class="formula">
+		`(x_1, x_2, cdots, x_n) in bbb P^n`
+	</span>
+	为 `bm alpha` 在该基底下的<b>坐标</b>.
+</p>
+
+<ol class="remark">
+	联系<a class="ref" href="#def-base"></a>
+	<li>对于 `1, 2, cdots, n` 的任意一个排列
+		`i_1, i_2, cdots, i_n`,
+		`(bm epsi_(i_1), bm epsi_(i_2), cdots, bm epsi_(i_n))` 也是
+		`V` 的一个基底, 且 `bm alpha` 在新基底下的坐标为
+		`(x_(i_1), x_(i_2), cdots, x_(i_n))`.
+	</li>
+	<li>对于任意 `k in bbb P\\{0}`, `(k bm epsi_1, k bm epsi_2, cdots, k
+		bm epsi_n)` 也是 `V` 的一个基底, 且 `bm alpha` 在新基底下的坐标为
+		`(x_1/k, x_2/k, cdots, x_n/k)`.
+	</li>
+	因此 `n ge 1` 时, `V` 有无穷多基底.
+</ol>
+
+<p class="remark">
+	在非平凡有限维线性空间 `V` 中, 如果已知 `"dim"V = n`,
+	那么 `V` 的任意含 `n` 个向量的无关向量组按任意顺序都构成
+	`V` 的一个基底 (这也是我们的定义).
+	反之如果找到一个极大无关向量组
+	`bm epsi_1, bm epsi_2, cdots, bm epsi_n`, 就同时得到了 `"dim"V = n`
+	和一个基底 `(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`;
+	这就是定义维数与基底的另一思路 (这一思路好像更直接些? -_-||).
+</p>
+-->
+
+<p class="definition">
+	令 `V` 为 `bbb P` 上一线性空间, 如果存在无关向量组
+	`S = {bm epsi_1, bm epsi_2, cdots, bm epsi_n}`, 使得
+	`V = G[S]` (换言之, `S` 是 `V` 的一个极大无关组),
+	则由于任意极大无关组含向量个数相等, 可以定义这个数字为 `V`
+	的<b>维数</b>, 即 `"dim"V = n`.
+	称有序向量组
+	<span class="formula">
+		`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`
+	</span>
+	为 `V` 的一组<b>基底</b>或<b>基</b>.
+	由 `S` 是 `V` 的极大无关组知, 对任意 `bm alpha in V`, 存在唯一的
+	`x_i in bbb P`, `i = 1, 2, cdots, n` 使得 `bm alpha = sum_(i=1)^n x_i
+	bm epsi_i`. 称
+	<span class="formula">
+		`(x_1, x_2, cdots, x_n) in bbb P^n`
+	</span>
+	为 `bm alpha` 在该基底下的<b>坐标</b>.<br/>
+	规定平凡线性空间 `{bm theta}` 的维数为 `0`, 它的基底为空的有序组 `()`.
+	此外, 若线性空间 `V`
+	不能由有限集生成, 即不存在有限集 `S` 使得 `V = G[S]`, 则称 `V`
+	是<b>无穷维</b>的. 无穷维线性空间已经超出本文的范围,
+	将在泛函分析中进一步讨论.
+</p>
+
+<p class="remark">
+	基可以是无序的, 但为了使坐标有序, 这里要求基是一有序组.
+</p>
+
+<p class="corollary">
+	完全类似于向量组的扩充定理, 可以证明:
+	有限维线性空间 `V` 中任一无关向量组可以扩充为 `V` 的一个基底.
+</p>
+
+<p class="theorem">
+	令 `V_1, V_2` 是线性空间 `V` 的有限维子空间.
+	取 `V_1 nn V_2` 的一个基 `(bm alpha_1, cdots, bm alpha_l)`,
+	分别扩充为 `V_1` 的基
+	<span class="formula">
+		`"I" = (bm alpha_1, cdots, bm alpha_l, bm beta_1, cdots, bm
+		beta_m)`
+	</span>
+	和 `V_2` 的基
+	<span class="formula">
+		`"II" = (bm alpha_1, cdots, bm alpha_l, bm gamma_1, cdots, bm
+		gamma_n)`,
+	</span>
+	则
+	<span class="formula">
+		`"III" = (bm alpha_1, cdots, bm alpha_l, bm beta_1, cdots, bm
+		beta_m, bm gamma_1, cdots, bm gamma_n)`
+	</span>
+	为 `V_1 + V_2` 的一个基.
+</p>
+
+<p class="proof">
+	由 `V_1 = G["I"]`, `V_2 = G["II"]` 有 `V_1 + V_2 = G["III"]`.
+	下证这一向量组线性无关. 设
+	<span class="formula">
+		`sum_(i=1)^l p_i bm alpha_i + sum_(i=1)^m q_i bm beta_i
+		+ sum_(i=1)^n r_i bm gamma_i = bm theta`,
+	</span>
+	记
+	<span class="formula">
+		`bm alpha := sum_(i=1)^l p_i bm alpha_i + sum_(i=1)^m q_i bm
+		beta_i`
+		`= -sum_(i=1)^n r_i bm gamma_i`,
+	</span>
+	上式左边 `in V_1`, 右边 `in V_2`, 故 `bm alpha in V_1 nn V_2`.
+	设 `bm alpha = sum_(i=1)^l x_i bm alpha_i`, 联系上式有
+	<span class="formula">
+		`sum_(i=1)^l x_i bm alpha_i + sum_(i=1)^n r_i bm gamma_i = bm
+		theta`.
+	</span>
+	于是由 `"II"` 是 `V_2` 的基, 从而线性无关有
+	<span class="formula">
+		`x_1 = cdots = x_l = r_1 = cdots = r_n = 0`,
+	</span>
+	这指出 `bm alpha = bm theta`. 再由 `"I"` 是 `V_1` 的基, 有
+	<span class="formula">
+		`p_1 = cdots = p_l = q_1 = cdots = q_m = 0`.
+	</span>
+	从而 `"III"` 是线性无关的, 综上得到 `"III"` 是 `V_1 + V_2` 的基.
+</p>
+
+<p class="corollary">
+	<b>维数公式</b>
+	令 `V_1, V_2` 是线性空间 `V` 的有限维子空间, 则
+	<span class="formula">
+		`"dim"(V_1 + V_2) + "dim"(V_1 nn V_2) = "dim"V_1 + "dim"V_2`.
+	</span>
+</p>
+
+<ol class="corollary">
+	令 `V_1, V_2` 是线性空间 `V` 的有限维子空间, 则以下各款等价:
+	<li>`V_1 + V_2` 是直和;</li>
+	<li>`"dim"V_1 + "dim"V_2 = "dim"(V_1+V_2)`;</li>
+	<li>若 `(bm alpha_1, cdots, bm alpha_m)`, `(bm beta_1, cdots, bm
+		beta_n)` 分别是 `V_1, V_2` 的基, 则 `(bm alpha_1, cdots, bm
+		alpha_m, bm beta_1, cdots, bm beta_n)` 是 `V_1 + V_2` 的基.
+	</li>
+</ol>
+
+<p class="example">
+	从线性空间的观点来看线性方程组理论. 设 `bm A in bbb P^(m xx n)`,
+	`bm X in bbb P^(n xx 1)`. 设齐次线性方程组
+	`bm (A X) = bb 0` 的解集为 `S_0`. 记 `r = r_(bm A)`,
+	由第三章知, `S_0` 中任意两个解的线性组合仍在 `S_0` 中,
+	因此 `S_0 le bbb P^n`, 称为方程组 `bm (A X) = bb 0` 的<b>解空间</b>.
+	此外, `S_0` 中存在 `n-r` 个向量组成的极大线性无关组 (基础解系),
+	这个无关组就构成解空间 `S_0` 的一个基底, 因此 `"dim"S_0 = n-r`.
+</p>
+
+<ol class="example"> *
+	定义 `RR^n` 到 `RR` 的映射如下:
+	<span class="formula">
+		`f(X) = sum_(i=1)^r |x_i| - sum_(i=r+1)^(r+s) |x_i|`, `AA X =
+		(x_1, x_2, cdots, x_n)^T in RR^n`,
+	</span>
+	其中 `r ge s ge 0`, `r+s le n`.
+	证明:
+	<li>存在 `RR^n` 的一个 `n-r` 维子空间 `W`, 使得 `f(X) = 0`, `AA X in
+		W`;
+	</li>
+	<li>若 `W_1, W_2` 是 `RR^n` 的两个 `n-r` 维子空间, 且满足 `f(X) = 0`,
+		`AA X in W_1 uu W_2`, 则一定有 `"dim" (W_1 nn W_2) ge n - (r +
+		s)`.
+	</li>
+</ol>
+
+<ol class="proof">
+	<li>易知 `f` 是线性的. (?)
+		用 `epsi_i` 表示 `RR^n` 中第 `i` 个分量为 `1`, 其余分量为 `0`
+		的向量. 可以验证下面 `n-r` 个向量满足 `f(X) = 0`, 且线性无关:
+		<span class="formula">
+			`epsi_1 + epsi_(r+1), epsi_2 + epsi_(r+2), cdots, epsi_s +
+			epsi_(r+s), epsi_(r+s+1), cdots, epsi_n`.
+		</span>
+		将 `W` 取为由这些向量生成的子空间即可.
+	</li>
+	<li>记
+		<span class="formula">
+			`V_1 = G[epsi_1, cdots, epsi_(r+s)]`,<br/>
+			`V_2 = G[epsi_(r+s+1), cdots, epsi_n]`.
+		</span>
+		只需证任意满足 `f(X) = 0`, `AA X in W` 的 `n-r` 维子空间 `W`
+		一定包含了子空间 `V_2`.
+		首先易知 `V_1 nn V_2 = {bm theta}`, 故 `W nn V_1 nn V_2 = {bm
+		theta}`, 从而 `W` 有直和分解
+		<span class="formula">
+			`W = W nn V_1 + W nn V_2`.
+		</span>
+		得到
+		<span class="formula">
+			`"dim" W = "dim"(W nn V_1) + "dim"(W nn V_2)`.
+		</span>
+		下证
+		<span class="formula">
+			`"dim"(W nn V_1) le s`.
+		</span>
+		事实上, 取 `W nn V_1` 的基 `bm alpha_1, cdots, bm alpha_m`, 令
+		<span class="formula">
+			`bm A = [bm E_r,bm O; bm O,bm O]_(n xx n)`,
+		</span>
+		若存在 `k_i in RR`, `i = 1, 2, cdots, m` 使得
+		<span class="formula">
+			`sum_(i=1)^m k_i (bm E - bm A) bm alpha_i = bm theta`,
+		</span>
+		注意到 `bm alpha_1, cdots, bm alpha_m in W` 有
+		<span class="formula">
+			`f( sum_(i=1)^m k_i bm alpha_i ) = 0`,
+		</span>
+		于是
+		<span class="formula">
+			`  f( sum_(i=1)^m k_i bm A bm alpha_i )`
+			`= f( sum_(i=1)^m k_i bm alpha_i
+			   - sum_(i=1)^m k_i (bm E-bm A) bm alpha_i )
+			= 0`,
+		</span>
+		由 `f` 定义推出
+		<span class="formula">
+			`sum_(i=1)^m k_i bm A bm alpha_i = bm theta`,
+		</span>
+		于是
+		<span class="formula">
+			` sum_(i=1)^m k_i bm alpha_i`
+			`= sum_(i=1)^m k_i bm A bm alpha_i
+			  + sum_(i=1)^m k_i (bm E-bm A) bm alpha_i
+			= bm theta`.
+		</span>
+		由 `bm alpha_1, cdots, bm alpha_m` 线性无关知 `k_1 = cdots = k_m =
+		0`, 从而 `{(bm E - bm A) bm alpha_i}_(i=1)^m` 也线性无关.
+		注意到该向量组中向量的 `1~r`, `r+s+1~n` 分量全部为零,
+		这推出 `"dim"(W nn V_1) = m le s`.
+
+		于是
+		<span class="formula">
+			` "dim"(W nn V_2)
+			= "dim" W - "dim"(W nn V_1) ge n - r - s = "dim"V_2`.
+		</span>
+		这推出 `W nn V_2 = V_2`, 即 `V_2 sube W`.
+	</li>
+</ol>
+
+<h3>坐标变换</h3>
+
+<p class="definition">
+	令 `"I" = (bm xi_1, bm xi_2, cdots, bm xi_n)`,
+	`"II" = (bm eta_1, bm eta_2, cdots, bm eta_n)` 是有限维线性空间 `V`
+	的两个基底, 其中
+	<span class="formula">
+		`bm eta_j = sum_(i=1)^n a_(i j) bm xi_i`,
+		`quad j = 1, 2, cdots, n`.
+	</span>
+	记 `bm A = (a_(i j))_(n xx n)`
+	`= (bm A_1, bm A_2, cdots, bm A_n)`,
+	上式形式地记为
+	<span class="formula">
+		`(bm eta_1, bm eta_2, cdots, bm eta_n)`
+		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm A`,
+	</span>
+	其中
+	<span class="formula">
+		`bm eta_j = (bm xi_1, bm xi_2, cdots, bm xi_n) bm A_j`,
+		`quad j = 1, 2, cdots, n`.
+	</span>
+	矩阵 `bm A` 称为基底 `"I"` 到 `"II"` 的<b>过渡矩阵</b>.
+</p>
+
+<p class="theorem">
+	设 `V` 为有限维线性空间, `"I" = (bm xi_1, bm xi_2, cdots, bm xi_n)`
+	是一个基, 若方阵 `bm A` 和向量组
+	`"II" = (bm eta_1, bm eta_2, cdots, bm eta_n)` 满足
+	<span class="formula">
+		`(bm eta_1, bm eta_2, cdots, bm eta_n)`
+		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm A`,
+	</span>
+	则 `"II"` 是 `V` 的基当且仅当 `bm A` 可逆.
+	从而, 基底间的过渡矩阵都可逆.
+</p>
+
+<p class="proof">
+	"`rArr`": 反设 `bm A` 不可逆, 即 `r_(bm A) lt n`, 则 `bm A`
+	的某一列可以被其他列线性表出, 不妨设这一列是 `bm A_n`:
+	<span class="formula">
+		`bm A_n = sum_(j=1)^(n-1) k_j bm A_j`.
+	</span>
+	从而
+	<span class="formula">
+		`bm eta_n = (bm xi_1, cdots, bm xi_n) bm A_n`
+		`= (bm xi_1, cdots, bm xi_n) sum_(j=1)^(n-1) k_j bm A_j`
+		`= sum_(j=1)^(n-1) k_j (bm xi_1, cdots, bm xi_n) bm A_j`
+		`= sum_(j=1)^(n-1) k_j bm eta_j`.
+	</span>
+	从而 `bm eta_1, cdots, bm eta_n` 线性相关, 矛盾.<br/>
+	"`lArr`": 向量组右乘一可逆矩阵, 相当于作有限次关于向量的初等变换,
+	因此秩不变, 向量组 `"II"` 仍线性无关. 但 `"II"` 中有 `n` 个向量,
+	说明它已经极大, 因此是 `V` 的基.
+</p>
+
+<p class="theorem">
+	<b>坐标变换公式</b>
+	设 `V` 为有限维线性空间,
+	`"I" = (bm xi_1, bm xi_2, cdots, bm xi_n)`,
+	`"II" = (bm eta_1, bm eta_2, cdots, bm eta_n)`
+	是它的两个基, 则
+	<span class="formula">
+		`(bm eta_1, bm eta_2, cdots, bm eta_n) = (bm xi_1, bm xi_2,
+		cdots, bm xi_n) bm A`
+	</span>
+	当且仅当对任意 `bm alpha in V`, 其在 `"I", "II"` 下的坐标
+	`bm X, bm Y in bbb P^(n xx 1)` 满足
+	<span class="formula">
+		`bm X = bm (A Y)`, 即 `bm Y = bm (A^-1 X)`.
+	</span>
+</p>
+
+<p class="proof">
+	"`rArr`": 由已知
+	<span class="formula">
+		`(bm xi_1, bm xi_2, cdots, bm xi_n) bm X`
+		`= (bm eta_1, bm eta_2, cdots, bm eta_n) bm Y`
+		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm (A Y)`.
+	</span>
+	由同一基底下坐标的唯一性得 `bm X = bm (A Y)`.<br/>
+	"`lArr`": 取 `bm alpha = bm eta_j`, 则 `bm Y = bm epsi_j`
+	(单位列向量), `bm X = bm (A epsi)_j = bm A_j` (`bm A` 的第 `j` 列).
+	从而
+	<span class="formula">
+		`bm alpha = bm eta_j = (bm xi_1, bm xi_2, cdots, bm xi_n) bm
+		A_j`,
+		`quad j = 1, 2, cdots, n`.
+	</span>
+	即得所要证的结果.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

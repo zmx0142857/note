@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>函数的连续性</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+
+<ol class="enum">
+
+<li>根据定义 (&epsi;-&delta;) 语言证明下列函数在 `(-oo, +oo)` 上连续:
+  <ol class="col2">
+    <li>`y = sqrt(x^2+1)`;</li>
+    <li>`y = sin(2x^3-1)`;</li>
+    <li>`y = ln(1+|x|)`.</li>
+  </ol>
+</li>
+
+<li>讨论下面的初等函数在哪些点不连续, 并指出间断点的类型,
+  并画出它们的草图:
+  <ol class="col2">
+    <li>`y = x^2/(x^2-2x+1)`;</li>
+    <li>`y = (x^2-1)/(x^3+1)`;</li>
+    <li>`y = arctan{:1/x:}`;</li>
+    <li>`y = |x|/x arctan {:1/x:}`;</li>
+    <li>`y = sin x/x`;</li>
+    <li>`y = sin {:1/x:}`</li>
+    <li>`y = 1/(1-e^(x/(1-x)))`;</li>
+    <li>`y = e^(x-1/x)`;</li>
+    <li>`y = |cos x|/cos x`;</li>
+    <li>`y = (|cos x^-1|)/cos x^-1`.</li>
+  </ol>
+</li>
+
+<li>研究下列函数的连续性, 指出间断点的类型, 并画出它们的草图:
+  <ol class="col2">
+    <li>`y = [x]`;</li>
+    <li>`y = x - [x]`;</li>
+    <li>`y = [1/x]`;</li>
+    <li>`y = x[1/x]`;</li>
+    <li style="width:100%">`y = {
+      ((x-a)(b-x), "当" a le x le b),
+      (0, "当" x lt a or x gt b)
+    :}`</li>
+    <li style="width:100%">`y = {
+      (cos {:(pi x)/2:}, "当" |x| le 1),
+      (|x-1|, "当" |x| gt 1)
+    :}`</li>
+    <li style="width:100%">`y = {
+      (tan {:(pi x)/2:}, "当" x "不是整数"),
+      (0, "当" x "是整数")
+    :}`</li>
+    <li style="width:100%">`y = {
+      (sin pi x, "当" x "是有理数"),
+      (0, "当" x "是无理数")
+    :}`</li>
+  </ol>
+</li>
+
+<li>已知 `f(x), g(x)` 和 `h(x)` 都在区间 `I` 上连续. 证明下列函数也在区间
+  `I` 上连续:
+  <ol>
+    <li>`a(x) = |f(x)|`;</li>
+    <li>`m(x) = min{f(x), g(x)}`;</li>
+    <li>`M(x) = max{f(x), g(x)}`;</li>
+    <li>函数 `u(x)`, 其定义是对每个 `x in I`, `u(x)` 的值等于 `f(x),
+      g(x), h(x)` 三个数中位于另外两个中间的那个数;
+    </li>
+    <li>`f_c(x) = {
+      (f(x), "当" |f(x)| le c),
+      (c, "当" f(x) gt c),
+      (-c, "当" f(x) lt -c)
+    :}`</li>
+  </ol>
+</li>
+
+<li>设 `f` 是定义在开区间 `I` 上的函数, `x_0` 是 `I` 中一点, `f` 在 `x_0`
+  点附近有界. 对充分小的 `delta gt 0`, 令
+  <span class="formula">
+    `omega_(f, x_0)(delta) = underset(x, y in B_delta(x_0)) "sup"
+    |f(x) - f(y)|`,
+  </span>
+  这里 `B_delta(x_0) = (x_0-delta, x_0+delta)`. `omega_(f, x_0)(delta)`
+  叫做 `f` 在 `B_delta(x_0)` 上的<b>振幅</b>. 证明: 函数 `f` 在 `x_0`
+  点连续的充要条件是 `lim_(delta to 0^+) omega_(f, x_0)(delta) = 0`.
+</li>
+
+<li>设 S 是 `RR` 的非空子集. 定义点 `x in RR` 到 S 的距离为
+  <span class="formula">
+    `d(x, S) = "dist"(x, S) = "inf"{|x-y|: y in S}`.
+  </span>
+  <ol class="subenum">
+    <li>证明: 对 `RR` 的任意非空子集 S, 函数 `x |-> d(x, S)`
+      都是 `RR` 上的连续函数;
+    </li>
+    <li>对 `RR` 的下列子集 S, 作出函数 `d(x, S)` 的图像:
+      <ol class="col2">
+        <li>`S = [-1, 1]`,</li>
+        <li>`S = [-2, -1] uu [1, 2]`,</li>
+        <li style="width:100%">
+          `S = (-oo, -2] uu [2, +oo)`,</li>
+        <li style="width:100%">
+          `S = (-oo, -4] uu [-3, -1] uu [1, 2] uu [5, +oo)`,
+        </li>
+        <li>`S = uuu_(n=-oo)^oo [3n-1, 3n]`,</li>
+        <li>`S = ZZ` (全体整数组成的集合),</li>
+        <li>`S = uuu_(n=1)^oo {+- 1/n}`.</li>
+      </ol>
+    </li>
+  </ol>
+</li>
+
+<li>设 `f` 是定义在区间 `[a, +oo)` 上的连续函数. 对每个 `x ge a`, 令
+  <span class="formula">
+    `m(x) = underset(a le t le x) "inf" f(t), quad
+    M(x) = underset(a le t le x) "sup" f(t)`.
+  </span>
+  证明: 函数 `m(x)` 和 `M(x)` 都在区间 `[a, +oo)` 上连续. 对函数 `f(x) =
+  x sin x (x ge 0)`, 画出这两个函数的草图.
+</li>
+
+<li>证明: 非常数的连续周期函数必有最小正周期.</li>
+
+<li>证明: 单调函数最多只有第一类间断点.</li>
+
+<li>定义在开区间 `I` 上函数 `f` 称为<b>凸函数</b>, 如果对任意 `x,y in I`
+  和任意 `0 lt theta lt 1` 都成立不等式
+  <span class="formula">
+    `f(theta x + (1-theta)y) le theta f(x) + (1-theta) f(y)`.
+  </span>
+  在几何上, 这意味着如果 A, B, C 是曲线 `y = f(x)` 上的三个点并且 B 位于
+  A 和 C 之间, 则 B 位于弦 AC 上或 AC 的下方. 证明: 凸函数都是连续函数.
+</li>
+
+<li>设 `f` 是区间 `I` 上的连续函数, 满足下列条件: 对任意 `x,y in I`
+  都成立不等式
+  <span class="formula">
+    `f((x+y)/2) le (f(x) + f(y))/2`.
+  </span>
+  证明: `f` 是区间 `I` 上的凸函数.
+</li>
+
+<li>设 `I` 是一个闭区间, 即 `I` 是四种区间 `[a, b]`, `[a, +oo)`, `(-oo,
+  b]`, `(-oo, +oo)` 之一. 又设 `f` 是定义在 `I` 上的函数,
+  满足以下两个条件:
+  <ol>
+    <li>`f` 的值域含于 `I`, 即 `f` 把区间 `I` 映照进 `I`;</li>
+    <li>存在常数 `0 lt lambda lt 1` 使对任意 `x,y in I` 都成立
+      `|f(x) - f(y)| le lambda |x-y|`.
+    </li>
+  </ol>
+  任取 `x_0 in I`, 按以下递推公式构作数列 `{x_n}`:
+  <span class="formula">
+    `x_n = f(x_(n-1))`, `n = 1, 2, cdots`.
+  </span>
+  证明: 数列 `{x_n}` 收敛, 并且其极限 `bar x = lim_(n to oo) x_n` 是方程
+  `f(x) = x` 在 `I` 中的唯一根.
+</li>
+
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>

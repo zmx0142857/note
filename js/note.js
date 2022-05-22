@@ -492,25 +492,6 @@ function wrapIOS() {
     body.appendChild(wrapper);
   }
 }
-
-function toggleHideHeader() {
-  var prevScrollTop = doc.docElement.scrollTop
-    || body.scrollTop;
-  var threshod = 100;
-  var prevHide = false;
-  var button = parent.doc.getElementById('toggle-show-header');
-  if (parent != window) {
-    body.onscroll = function() {
-      var scrollTop = doc.documentElement.scrollTop
-        || body.scrollTop;
-      var hide = (scrollTop >= prevScrollTop);
-      if (hide != prevHide)
-        button.onclick(hide);
-      prevScrollTop = scrollTop;
-      prevHide = hide;
-    };
-  }
-}
 */
 
 // make formula/table scrollable on overflow

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>集合的运算</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="enum">
+<li>设 `A, B, E` 是全集 `X` 的子集, 则
+  <span class="formula">
+    `B = (E nn A)^C nn (E^C uu A)` 当且仅当 `B^C = E`.
+  </span>
+
+  <p class="proof">
+    <span class="formula align">
+      `B = (E nn A)^C nn (E^C uu A)`<br>
+      `= (E^C uu A^C) nn (E^C uu A)`<br>
+      `= (E^C nn E^C) uu (E^C nn A) uu (A^C nn E^C) uu (A^C nn A)`<br>
+      `= E^C`.
+    </span>
+    这等价于 `B^C = E`.
+  </p>
+</li>
+
+<li>设 `A_1 sube A_2 sube cdots sube A_n sube cdots`,
+  `B_1 sube B_2 sube cdots sube B_n sube cdots`, 则
+  <span class="formula">
+    `(uuu_(n=1)^oo A_n) nn (uuu_(n=1)^oo B_n)`
+    `= uuu_(n=1)^oo (A_n nn B_n)`.
+  </span>
+
+  <p class="proof">
+    记左边的集合为 `S`, 右边的集合为 `T`. 则
+    <span class="formula">
+      `S = {x | (EE n_1 in NN, x in A_(n_1)) and
+      (EE n_2 in NN, x in B_(n_2))},`<br/>
+      `T = {x | EE n in NN, x in A_n nn B_n}`.
+    </span>
+    显然 `T sube S`. 不妨设 `n_1 le n_2`, 则 `A_(n_1) sube A_(n_2)`,
+    此时
+    <span class="formula">
+      `S sube {x | EE n_2 in NN, x in A_(n_2) and x in B_(n_2)}=T`.
+    </span>
+    故 `S = T`.
+  </p>
+</li>
+
+<li>设 `A_1 supe A_2 supe cdots supe A_n supe cdots`,
+  `B_1 supe B_2 supe cdots supe B_n supe cdots`, 则
+  <span class="formula">
+    `(nnn_(n=1)^oo A_n) uu (nnn_(n=1)^oo B_n)`
+    `= nnn_(n=1)^oo (A_n uu B_n)`.
+  </span>
+
+  <ol class="proof">
+    记左边的集合为 `S`, 右边的集合为 `T`. 则
+    <span class="formula">
+      `S = {x | (AA n in NN, x in A_n) or
+      (AA n in NN, x in B_n)},`<br/>
+      `T = {x | AA n in NN, x in A_n uu B_n}`.
+    </span>
+    显然 `S sube T`. 现在取 `x in T`.
+    <li>若 `EE k in NN, AA n ge k, x in A_n`, 则 `x in nnn_(n=k)^oo
+      A_n = nnn_(n=1)^oo A_n sube S`.
+    </li>
+    <li>若 `AA k in NN, EE n_k ge k, x !in A_(n_k)`, 则由于 `x in
+    A_(n_k) uu B_(n_k)` 知 `x in B_(n_k) sube B_k`. 所以 `x in
+    nnn_(n=1)^oo B_n sube S`. 故 `T sube S`.
+    </li>
+    综上知 `S = T`.
+  </ol>
+</li>
+
+<li>设有集合 `A, B, E` 和 `F`.
+<ol>
+  <li>若 `A uu B = E uu F`, `A nn F = O/`, `B nn E = O/`, 则
+  <span class="formula">
+    `A = E` 且 `B = F`;
+  </span>
+  </li>
+  <li>若 `A uu B = E uu F`, 令 `A_1 = A nn E`, `A_2 = A nn F`, 则
+  <span class="formula">
+    `A_1 uu A_2 = A`.
+  </span>
+  </li>
+</ol>
+<ol class="proof">
+  <li>由 `A uu B = E uu F` 知, `(A uu B) nn A = (E uu F) nn A`, `(A uu
+    B) nn E = (E uu F) nn E`. 化简得 `A = A nn E`, `A nn E = E`, 故
+    A = E. 同理 B = F.
+  </li>
+  <li>
+    <span class="formula align">
+      `(A nn E) uu (A nn F)`<br>
+      `= A nn (E uu F)`<br>
+      `= A nn (A uu B)`<br>
+      `= A`.
+    </span>
+  </li>
+</ol>
+</li>
+</ol>
+
+<ol class="enum">
+<li>设 `{f_n(x)}` 以及 `f(x)` 都是定义在 `RR` 上的实值函数, 且有
+  <span class="formula">
+    `lim_(n to oo) f_n(x) = f(x)`, `x in RR`,
+  </span>
+  则对 `t in RR`, 有
+  <span class="formula">
+    ` {x in RR | f(x) le t}
+    = nnn_(k=1)^oo uuu_(m=1)^oo nnn_(n=m)^oo {x in RR | f_n(x) lt t +
+    1/k}`.
+  </span>
+
+  <p class="proof">
+    只需证: 对任意 `t in RR`, `f(x) le t` 的充要条件是
+    <span class="formula">
+      `AA k in NN, EE m in NN, AA n ge m, f_n(x) lt t + 1/k`.
+    </span>
+    由 `lim_(n to oo) f_n(x) = f(x)` 知, `AA epsi gt 0`, `EE m in NN`,
+    `AA n ge m`, `|f_n(x) - f(x)| lt epsi`.
+  </p>
+  <p>
+    (1) 必要性. 对 `AA k in NN`, 取 `epsi = 1//k`,
+    由上式知 `EE m in NN`, `AA n ge m`, `f_n(x) lt f(x) + epsi le t +
+    1//k`.
+  </p>
+  <p>
+    (2) 充分性. 若 `f(x) gt t`, 则可取 `epsi` 和 `1//k` 充分小, 使
+    `f(x) ge t + epsi + 1//k`, 但由条件知道, `EE m_1, m_2 in NN`, `AA
+    n ge max(m_1, m_2)`, `f(x) lt f_n(x) + epsi lt t + 1//k +
+    epsi`, 得到矛盾.
+  </p>
+</li>
+
+<li>设 `a_n to a` (`n to oo`), 则
+  <span class="formula">
+    ` nnn_(k=1)^oo uuu_(m=1)^oo nnn_(n=m)^oo (a_n - 1/k, a_n + 1/k)
+    = {a}`.
+  </span>
+
+  <p class="proof">
+    只需证: `x = a` 的充要条件是 `AA k in NN`, `EE m in NN`, `AA n ge
+    m`, `|x - a_n| lt 1/k`. 由数列极限的唯一性, 这是显然的.
+  </p>
+</li>
+</ol>
+
+<h3 class="nonu">补充</h3>
+
+<ol class="enum">
+
+<li>
+  <span class="formula">
+    `(AA i in I, A_i sube B) iff uuu_(i in I) A_i sube B`;<br/>
+    `(AA i in I, B sube A_i) iff B sube nnn_(i in I) A_i`.
+  </span>
+</li>
+
+</ol>
+
+</body>
+<script src="../../js/note.js?type=math"></script>
+</html>

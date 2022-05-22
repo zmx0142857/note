@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>算法基础</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+
+2.1-3
+<pre>
+i = 1
+while i &le; n and A[i] &ne; v
+  i = i + 1
+// 循环结束时，要么 A[i] == v, 要么 i == n+1
+if i == n + 1
+  i = NIL
+</pre>
+
+2.1-4
+<pre>
+// 整数的值为 &Sigma; A[i] * 2<sup>i-1</sup>, 小的 i 表示低位
+carry = 0
+for i = 1 to n
+  C[i] =  (A[i] + B[i] + carry) mod 2
+  carry = A[i] + B[i] + carry &gt; 1
+C[n+1] = carry
+</pre>
+
+2.2-2
+<pre>
+for i = 1 to n-1
+  min = i
+  for j = i to n
+    if A[j] &lt; A[min]
+      min = j
+  swap(A[i], A[min])
+// 最好最坏皆 &Theta;(n<sup>2</sup>).
+// 加入
+// if i &gt; 1 and A[i] == A[i-1]
+//     continue
+// 以优化算法
+</pre>
+
+2.3-3
+<p> `T(2) = 2 = lg(2)`.
+  若 `T(2^k) = k 2^k`,
+  则 `T(2^(k+1)) = 2k * 2^k + 2^(k+1) = (k+1)2^(k+1)`.
+</p>
+
+2.3-4
+<p> `T(n) = {
+  Theta(1), if n = 1;
+  T(n-1) + Theta(n), if n gt 1;
+:}`</p>
+
+2.3-5 bi-search
+<pre>
+// precondition: array A is sorted
+lo = 1
+hi = A.length
+mid = (lo + hi)/2
+while lo &le; hi and A[mid] &ne; v
+  mid = (lo + hi)/2
+    if A[mid] &gt; v
+      hi = mid
+    else  // A[mid] &lt; v
+      lo = mid + 1
+// not found?
+if lo &gt; hi
+  mid = NIL
+</pre>
+
+2.3-6
+<p> 不能，因为实现新元素的插入需要移动已有元素，那需要 `Theta(n)`.</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

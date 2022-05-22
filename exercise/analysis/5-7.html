@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>方程求根的牛顿迭代公式</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+
+<ol class="enum">
+
+<li>应用牛顿迭代法求以下方程实数根的近似值 (可借助于计算器), 精确到
+  `10^-3`:
+  <ol class="col2">
+    <li>`x^3 + 2x - 5 = 0`;</li>
+    <li>`e^x + x = 0`;</li>
+    <li>`x ln x = 1`;</li>
+    <li>`x - 1/2 sin x = 1`;</li>
+    <li>`x^4 - 10x^3 + 1 = 0`;</li>
+    <li>`tan x = x` (前两个正根).</li>
+  </ol>
+</li>
+
+<li>设函数 `f` 在区间 `(a, b)` 上有二阶导数, `f'` 在此区间上无零点, 且
+  `f(c)f(d) lt 0`, 其中 `c` 和 `d` 是区间 `(a, b)` 的两个三等分点, 即 `c =
+  (2a+b)/3`, `d = (a+2b)/3`. 再设
+  <span class="formula">
+    `q = 1/6 (underset(a lt x lt b) "sup" |f''(x)|) / (underset(a lt x
+    lt b) "inf" |f'(x)|) (b-a) lt 1`.
+  </span>
+  任取一点 `x_1 in [c, d]`, 然后按公式 (5.7.2) 定义数列 `{x_n}`.
+  证明: `x_n` 收敛于函数 `f` 在区间 `[c, d]` 中的唯一零点.
+  (这个习题说明, 定理 5.7.1 中关于函数 `f`
+  的二阶导数无零点的条件不是本质的).
+</li>
+
+<li>设函数 `f` 在区间 `[a, b]` 上可微, `|f'|` 在此区间上有正的下界, 且
+  `f(a)f(b) lt 0`. 令
+  <span class="formula">
+    `L = underset(a le x le b) "inf" |f'(x)|`.
+  </span>
+  任取一数 `0 lt c lt 1/L`, 再任取一点 `x_1 in [a, b]`, 然后定义数列
+  `{x_n}` 如下:
+  <span class="formula">
+    `x_(n+1) = x_n - theta c f(x_n)`, `n = 1, 2, cdots`.
+  </span>
+  这里当 `f' gt 0` 时 `theta = 1`, 反之 `theta = -1`. 证明: `x_n`
+  收敛于函数 `f` 在区间 [a, b] 中的唯一零点.
+  (这个习题给出了一替代牛顿迭代法的求根迭代算法, 它避免了每次都要计算
+  `f'(x_n)` 及其倒数的烦琐).
+</li>
+
+<li>设函数 `f` 在区间 `[a, b]` 上有二阶导数, 且 `f'(x) gt 0`, `f''(x) ge
+  0`, `AA x in [a, b]`. 又设 `f(a)f(b) lt 0`. 令 `bar x` 为 `f` 在 `(a,
+  b)` 中的唯一零点. 任取 `x_1 in (bar x, b)` 和 `0 lt y_1 lt 1/(f'(x_1))`,
+  然后定义数列 `{x_n}` 和 `{y_n}` 如下:
+  <span class="formula">
+    `{
+      x_(n+1) = x_n - y_n f(x_n)",";
+      y_(n+1) = y_n[2 - y_n f'(x_n)]",";
+    :}` `n = 1, 2, cdots`.
+  </span>
+  证明: `lim_(n to oo) x_n = bar x`, `lim_(n to oo) y_n = 1/(f'(bar
+  x))`. (这个习题说明, 如果在牛顿迭代公式中用 `1/(f'(x_n))` 的近似值
+  `y_n` 替代 `1/(f'(x_n))`, 所得迭代序列仍然收敛于 `f` 的零点).
+</li>
+
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>

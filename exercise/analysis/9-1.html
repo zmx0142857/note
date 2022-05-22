@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>无穷积分</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="enum">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li>
+<ol>
+  <li>设积分 `int_a^(+oo) f(x) dx` 收敛, 且 `lim_(x to +oo) f(x) = c`,
+    证明: `c = 0`.
+  </li>
+  <li>设积分 `int_a^(+oo) f(x) dx` 收敛, 且 `f(x)` 在 `[a, +oo)` 上单调,
+    证明: `lim_(x to +oo) f(x) = 0`.
+  </li>
+  <li>设积分 `int_a^(+oo) f(x) dx` 收敛, 且 `f(x)` 在 `[a, +oo)`
+    上一致连续, 证明: `lim_(x to +oo) f(x) = 0`;
+  </li>
+  <li>设积分 `int_a^(+oo) f(x) dx` 和 `int_a^(+oo) |f'(x)| dx` 都收敛,
+    证明: `lim_(x to +oo) f(x) = 0`.</li>
+</ol>
+
+<ol class="proof">
+  <li>若 `c ne 0`, 不妨设 `c gt 0`, 则存在 `M gt a`, 当 `x gt M` 时,
+    `f(x) gt c/2`. 这与 `int_a^(+oo) f(x) dx` 收敛相矛盾. 所以必有 `c =
+    0`.
+  </li>
+  <li>不妨设 `f(x)` 在 `[a, +oo)` 上单调递减, 则易知 `f(x)` 非负.
+    由无穷积分收敛的柯西准则知, 对任意 `epsi gt 0`, 存在 `A gt a`,
+    当 `b, c ge A` 时, 有
+    <span class="formula">
+      `|int_b^c f(t) dt| lt epsi`.
+    </span>
+    则 `x gt A+1` 时,
+    <span class="formula">
+      `|f(x)|`
+      `= |int_A^(A+1) f(x) dt|`
+      `le |int_A^(A+1) f(t) dt|`
+      `lt epsi`.
+    </span>
+    所以 `lim_(x to +oo) f(x) = 0`.
+    单调增的情形, 对 `-f(x)` 作相应讨论即可.
+  </li>
+  <li>由 `f(x)` 在 `[a, +oo)` 上一致连续知, 对任意 `epsi gt 0`, 存在
+    `0 lt delta le epsi`, 对任意 `x_1`, `x_2 in [a, +oo)`, 当
+    `|x_1 - x_2| le delta` 时,
+    <span class="formula">
+      `|f(x_1) - f(x_2)| lt epsi/2`.
+    </span>
+    又因为 `int_a^(+oo) f(x) dx` 收敛, 由无穷积分收敛的柯西准则知,
+    对上述 `delta gt 0`, 存在 `A gt a`, 对任意 `b, c gt A`, 有
+    <span class="formula">
+      `|int_b^c f(t) dt| lt delta^2/2`.
+    </span>
+    `x gt A` 时, 取 `x_1`, `x_2` 使 `A lt x_1 lt x lt x_2`,
+    且 `x_2 - x_1 = delta`, 则
+    <span class="formula align">
+      `|f(x)|`<br>
+      `= 1/delta |int_(x_1)^(x_2) f(x) dt|`<br>
+      `le 1/delta (|int_(x_1)^(x_2) (f(x) - f(t)) dt|`
+      `+ |int_(x_1)^(x_2) f(t) dt|)`<br>
+      `lt 1/delta (delta epsi/2 + delta^2/2) le epsi`.
+    </span>
+    故 `lim_(x to +oo) f(x) = 0`.
+  </li>
+
+  <li>`int_a^(+oo) |f'(x)| dx` 收敛蕴含 `int_a^(+oo) f'(x) dx` 收敛.
+    由无穷积分收敛的柯西准则, 对任意 `epsi gt 0`, 存在 `A gt a`, 当
+    `x_1`, `x_2 gt A` 时,
+    <span class="formula">
+      `|f(x_1) - f(x_2)| = |int_(x_1)^(x_2) f'(x) dx| lt epsi`.
+    </span>
+    再由函数极限的柯西准则, `lim_(x to +oo) f(x) = c` 存在. 由 (1) 知
+    `c = 0`.
+  </li>
+</ol>
+</li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>
+
+
+
