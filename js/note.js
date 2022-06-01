@@ -192,17 +192,6 @@ function makeH1() {
   body.insertBefore(h1, body.firstChild);
 }
 
-function alignLabel() {
-  var labels = $('.label');
-  for (var i = 0; i < labels.length; ++i) {
-    var p = labels[i].parentElement;
-    var labelPhantom = $('<span>');
-    labelPhantom.className = 'label-phantom';
-    labelPhantom.innerHTML = labels[i].innerHTML;
-    p.insertBefore(labelPhantom, p.firstChild);
-  }
-}
-
 var Sname = function() {
   return $text(filename);
 };
@@ -504,17 +493,6 @@ function wrap(L) {
   }
 }
 
-// span.formula.align ---> span.formula > span.align
-function makeAlign() {
-  doc.querySelectorAll('.formula.align').forEach(span => {
-    var wrap = $('<span>');
-    wrap.classList.add('formula');
-    span.parentNode.replaceChild(wrap, span);
-    wrap.appendChild(span);
-    span.classList.remove('formula');
-  })
-}
-
 // ---- data & function call ----
 
 var params = getParams(scriptName);
@@ -526,8 +504,6 @@ makeH1();   // call makeH1() before decorate()
 
 decorateHeading(3);
 makeSvg();
-
-alignLabel(); // call alignLabel() before decorate()
 
 decorate([
   //{name:'read-important',getBy:'class',word:'&#x1f4d6;',style:Slarge},
@@ -574,7 +550,6 @@ makeReference(); // call makeReference() after decorate()
 //toggleHideHeader();
 wrap($('.formula'));
 wrap($('table'));
-makeAlign();
 
 // event handler from parent window
 //doc.onkeyup = window.handleKeyboard || null;

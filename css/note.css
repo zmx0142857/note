@@ -168,10 +168,23 @@ pre.remark {
   line-height: 2em;
   margin: 1em 0;
 }
+.formula.align {
+  display: inline-block;
+  text-align: left;
+  width: max-content;
+  padding-left: 20px;
+}
+.formula.align > br + * {
+  margin-left: -20px; /* 等号向左对齐 */
+}
+.formula.align > br.noindent + * {
+  margin-left: 0;
+}
 
 div.scroll-wrapper {
   width: 100%;
   overflow-x: auto;
+  text-align: center;
 }
 
 @font-face {
@@ -298,7 +311,7 @@ button.toggle-answer {
   font-weight: bold;
   color: inherit;
   background: rgba(0, 0, 0, 0.2);
-  margin: 0.2em 0;
+  margin: 0.1em 0 0;
   border-radius: 0.5em;
 }
 
@@ -329,17 +342,16 @@ span.box {
   display: inline-block;
 }
 
-/* use this to number your formula */
-span.label,span.label-phantom {
-  display: table-cell;
+/* formula numbering */
+span.label {
+  display: flex;
+  align-items: center;
   text-align: right;
-  vertical-align: middle;
   white-space: nowrap;
-}
-
-/* ... and this to force align */
-span.label-phantom {
-  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
 }
 
 .pull-left {
@@ -724,17 +736,6 @@ div.tree li {
 
 /* desktop */
 @media screen and (max-resolution: 149dpi) {
-  .formula > .align {
-    display: inline-block;
-    text-align: left;
-    padding-left: 20px;
-  }
-  .formula > .align > br + * {
-    margin-left: -20px; /* 等号向左对齐 */
-  }
-  .formula > .align > br.noindent + * {
-    margin-left: 0;
-  }
 }
 
 /* mobile phone */
