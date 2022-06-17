@@ -35,7 +35,6 @@ math: {
     {title:'λ 矩阵与相似标准形', src:'linalg/7.html'},
     {title:'线性空间中的度量与内积', src:'linalg/8.html'},
     {title:'实二次型与正定矩阵', src:'linalg/9.html', date:'2021-12-08'},
-    {title:'李代数初步', src:'linalg/10.html'},
   ]
 }, {
   title:'数学分析',
@@ -140,6 +139,11 @@ math: {
     {title:'环', src:'algebra/6.html'},
     {title:'域', src:'algebra/7.html', date:'2022-02-26'},
     {title:'Galois 理论', src:'algebra/8.html', date:'2022-01-02'},
+  ]
+}, {
+  title:'李群与李代数',
+  articles: [
+    {title:'李代数初步', src:'lie/1.html', date:'2022-06-15'},
   ]
 }, {
   title:'拓扑学',
