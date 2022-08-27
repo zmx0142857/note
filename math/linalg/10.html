@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>张量初步</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p>
+[来自 <a href="https://zhuanlan.zhihu.com/p/136911724">杨树森的系列专栏</a>]
+</p>
+
+<h2>多维数组</h2>
+
+<p>多维数组的概念可以参考 C 语言之类的编程语言. 一个形状为
+  `N_1 xx cdots xx N_n` 的多维数组写作 `a[N_1]cdots[N_n]`,
+  它可以看作一个 `n` 元函数 `a(i_1, cdots, i_n)`,
+  其中第 `k` 个下标 `i_k` 的取值范围是 `1, cdots, N_k`.
+  设有多维数组 `a[N_1]cdots[N_n]` 和 `b[M_1]cdots[M_m]`, 规定它们之间的乘法 (张量积) 如下:
+  <span class="formula">
+    `a : b = c[N_1]cdots[N_n][M_1]cdots[M_m]`,
+  </span>
+  其中 `c(i_1, cdots, i_n, j_1, cdots, j_m) = a(i_1, cdots, i_n) b(j_1, cdots, j_m)`.
+  这就是说, `n` 维数组和 `m` 维数组的乘积是一个 `n+m` 维数组,
+  且这个数组 `c` 的前 `n` 个下标由 `a` 贡献, 后 `m` 个下标由 `b` 贡献.
+</p>
+
+<ol class="example">
+  <li>两个一维数组 `[1, 2]` 与 `[3, 4]` 的乘积.</li>
+  <li>三个一维数组 `[1, 2]`, `[3, 4]`, `[5, 6, 7]` 的乘积.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+<pre>
+[
+  1*[3, 4],
+  2*[3, 4]
+]
+= [
+  [1*3, 1*4],
+  [2*3, 2*4]
+]
+= [
+  [3, 4],
+  [6, 8]
+].
+</pre>
+  </li>
+  <li>
+<pre>
+[
+  [3, 4],
+  [6, 8]
+] : [5, 6, 7]
+= [
+  [3, 4] : [5, 6, 7],
+  [6, 8] : [5, 6, 7]
+]
+= [
+  [
+    [3*5, 3*6, 3*7],
+    [4*5, 4*6, 4*7],
+  ],
+  [
+    [6*5, 6*6, 6*7],
+    [8*5, 8*6, 8*7]
+  ]
+].
+</pre>
+  </li>
+</ol>
+
+<p class="example">
+  特别地, 两个一维数组的乘积又称为<b>并矢</b>. 如 `bm a = (a_1, a_2, a_3)`,
+  `bm b = (b_1, b_2, b_3)`, 则
+  <span class="formula">
+    `bm a : bm b`
+    `= [a_1; a_2; a_3] [b_1, b_2, b_3]`
+    `= [a_1 b_1, a_1 b_2, a_1 b_3;
+        a_2 b_1, a_2 b_2, a_2 b_3;
+        a_3 b_1, a_3 b_2, a_3 b_3
+    ]`.
+  </span>
+  注意这里的矩阵记号 `[a, b; c, d]` 是多维数组 <code>[[a, b], [c, d]]</code>
+  的简写.  不引起混淆的情况下, 并矢也可以简记为 `bm a bm b`.
+</p>
+
+<h2>张量的定义</h2>
+
+<p class="remark">下面讨论的线性空间默认为 `RR` 上的有限维空间.</p>
+
+<h3>对偶空间</h3>
+
+<p class="definition">
+  线性空间 `V` 上全体线性函数构成一个线性空间, 称为 `V` 的<b>对偶空间</b> `V^ast`. 对偶空间中加法与数乘的定义是
+  <span class="formula">
+    `(f + g)(x) = f(x) + g(x)`,<br>
+    `(k f)(x) = k f(x)`.
+  </span>
+</p>
+
+<p class="corollary">
+  对偶空间与原空间具有相同维数.
+</p>
+
+<p class="proof">
+  设 `e_1, cdots, e_n` 是 `V` 的一组基,
+  则线性函数 `f_1, cdots, f_n` 是 `V^ast` 的一组基,
+  其中 `f_i(e_j) = delta_(i j)`,
+  且任意 `f in V^ast` 在这组基下的坐标为 `(f(e_1), cdots, f(e_n))`.
+</p>
+
+<p class="corollary">
+  <b>自然同构</b> 对偶空间的对偶空间与原空间同构.
+</p>
+
+<p class="proof">
+  我们建立 `V` 到 `V^(ast ast)` 的同构映射.
+  前面提到 `f_1, cdots, f_n` 是 `V^ast` 的基,
+  又 `g_1, cdots, g_n` 是 `V^(ast ast)` 的基, 其中
+  `g_i(f_j) = delta_(i j)`. 可以验证
+  <span class="formula">
+    `varphi: V to V^(ast ast)`<br>
+    `e_i mapsto g_i`, `i = 1, cdots, n`
+  </span> 
+  是同构.
+</p>
+
+<p class="definition">
+  `V^ast` 中的元素, 即 `V` 上的线性函数称为 `V` 的<b>协变</b>,
+  `V^(ast ast)` 中的元素, 即 `V^ast` 上的线性函数称为 `V` 的<b>反变</b>或<b>逆变</b>.
+  根据自然同构 `V^(ast ast) cong V`, 也可以认为反变就是 `V` 中的向量.
+</p>
+
+<p class="remark">
+  今后我们不再区分 `V^(ast ast)` 与 `V`.
+</p>
+
+<h3>多重线性函数</h3>
+
+<p class="definition">
+  设 `V_1, cdots, V_p` 是 `p` 个线性空间,
+  维数分别是 `n_1, cdots, n_p`.
+  如果 `f: V_1 xx cdots xx V_p to RR` 关于它的每个分量都是线性函数,
+  则称它是<b>多重线性函数</b>.
+  `V_1 xx cdots V_p` 上全体多重线性函数的集合记为 `cc L(V_1, cdots, V_p";
+  "RR)`, 它是一个线性空间.
+</p>
+
+<p class="proof">
+  任取这 `p` 个线性的空间的基底
+  <span class="formula">
+    `(e_1^((1)), cdots, e_(n_1)^((1)))`,<br>
+    `cdots`,<br>
+    `(e_1^((p)), cdots, e_(n_p)^((p)))`.
+  </span>
+  从集合 `cc L(V_1, cdots, V_p"; "RR)` 中取 `n_1 cdots n_p` 个元素
+  <span class="formula">
+    `f_(i_1 cdots i_p)`, `quad i_k in {1, cdots, n_k}`.
+  </span>
+  其中 `f_(i_1 cdots i_p)` 将多重基向量 `(e_(i_1)^((1)), cdots,
+  e_(i_p)^((p)))` 映为 `1`, 其它多重基向量映为 `0`.
+  可以验证这些 `f_(i_1 cdots i_p)` 就构成 `cc L(V_1, cdots, V_p"; "RR)`
+  的基底.
+</p>
+
+<p class="remark">
+  从以上证明看出, 在有限维的情形, 多重线性函数的坐标就形如多维数组,
+  它的坐标运算就是多维数组的运算.
+</p>
+
+<h3>张量的定义</h3>
+
+<p class="definition">
+  线性空间 `V` 上的 `(p, q)` 型<b>张量</b>是指如下的 `p+q` 重线性函数:
+  <span class="formula">
+    `f: (V^ast)^p xx V^q to RR`, 
+  </span> 
+  其中 `p+q` 称为 `f` 的阶数, `p` 称为反变阶数, `q` 称为协变阶数.
+  `V` 上全体 `(p, q)` 型张量的集合记为 `V_p^q`.
+</p>
+
+<ol class="example">
+  <li>`(0, 1)` 型张量是一个协变, 即 `V^ast` 中的元素;</li>
+  <li>`(1, 0)` 型张量是一个反变, 根据自然同构, 它就是 `V` 中的向量;</li>
+  <li>`(0, q)` 型张量称为 `q` 阶协变张量;</li>
+  <li>`(p, 0)` 型张量称为 `p` 阶反变张量.</li>
+</ol>
+
+<p class="corollary">
+  根据自然同构, `V` 上的 `(p, q)` 型张量也可看作 `V^ast` 上的 `(q, p)` 型张量, 或者看作 `f: V^q to V^p`.
+</p>
+
+<ol class="proof">
+  <li>`f: (V^ast)^p xx V^q to RR` 即为 `f: (V^(ast ast))^q xx (V^ast)^p to RR`.</li>
+  <li>将 `q` 个 `V` 中向量喂给 `f`, 会得到一个函数 `g: (V^ast)^p to RR`,
+    即 `g in (V^(ast ast))^p`, 换言之 `g in V^p`.
+  </li>
+</ol>
+
+<p class="corollary">
+  `V` 上的 `(p, q)` 型张量在基底下写成
+  <span class="formula">
+    `f = sum_(i_1 cdots i_p j_1 cdots j_q)
+    k_(i_1, cdots, i_p; j_1, cdots, j_q)
+    f_(i_1, cdots, i_p; j_1, cdots, j_q)
+  </span>
+  上式共有 `n^(p+q)` 项相加. 其中系数 `k_(i_1, cdots, i_p; j_1, cdots,
+  j_q)` 称为这个张量的分量; 张量的分量形如一个多维数组.
+  `p+q` 重基函数 `f_(i_1, cdots, i_p; j_1, cdots, j_q)`
+  将 `q` 重基向量 `(e_(j_1), cdots, e_(j_q))` 映到
+  `p` 重基向量 `(e_(i_1), cdots, e_(i_p))`, 而将其它 `q` 重基向量映为零
+  (`p` 重零向量).
+  特别 `p = 0` 时, `p` 重基向量 `(e_(i_1), cdots, e_(i_p))` 退化为 `1`.
+</p>
+
+<p class="example">
+  <b>张量观点下欧氏空间的内积运算</b>
+  在标准正交基 `bm e_1, cdots, bm e_n` 下, 两向量的内积
+  <span class="formula">
+    `bm x * bm y`
+    `= (sum_i x_i bm e_i) * (sum_j y_j bm e_j)`
+    `= sum_(i j) x_i y_j bm e_i * bm e_j`
+    `= sum_(i j) x_i y_j delta_(i j)`.
+  </span>
+  内积运算 `f(bm x, bm y) = bm x * bm y` 接收两个 `RR^n` 中向量,
+  输出一个实数, 它是欧氏空间 `RR^n` 上的二阶协变张量.
+  其分量 `delta_(i j)` 恰为单位矩阵.
+</p>
+
+<p class="example">
+  <b>张量观点下的线性变换</b>
+  线性变换 `f(bm x) = cc A bm x` 接收一个向量, 输出一个向量,
+  它是线性空间 `V` 上的 `(1, 1)` 型张量, 其分量就是 `cc A` 的系数矩阵.
+</p>
+
+<h3>张量积</h3>
+
+<ol class="definition">
+  <li><b>多重线性函数的张量积</b> 设 `f`, `g` 分别是 `s, t` 重线性函数,
+    它们的张量积定义为
+    <span class="formula">
+      `(f : g)(x_1, cdots, x_s, y_1, cdots, y_t)`
+      `:= f(x_1, cdots, x_s) g(y_1, cdots, y_t)`.
+    </span>
+    于是 `f : g` 是 `s + t` 重线性函数. 又, 张量积满足结合律.
+  </li>
+  <li><b>线性空间的张量积</b> 设 `U, V` 分别是 `m, n` 维线性空间,
+    任取 `u in U`, `v in V`, 视它们为张量
+    (将 `u, v` 分别看作 `U^ast, V^ast` 上的线性函数),
+    于是 `u : v` 有意义, 线性空间 `U, V` 的张量积定义为
+    <span class="formula">
+      `U : V := {u : v | u in U, v in V}`.
+    </span>
+    从而 `U : V` 是一个 `m n` 维线性空间.
+  </li>
+</ol>
+
+<p class="example">
+  `V` 上全体 `(p, q)` 型张量 `V_p^q` 可以分解为线性空间的张量积:
+  <span class="formula">
+    `V_p^q = underbrace(V : cdots : V)_p : underbrace(V^ast : cdots : V^ast)_q`.
+  </span>
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
+
