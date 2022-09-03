@@ -866,8 +866,11 @@
 
 <h2>椭圆曲线</h2>
 
-<p class="example">
+[<a href="https://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/">Elliptic Curve Cryptography: a gentle introduction</a>]
+
+<ol class="definition">
   设直线 `y = k x + c` 与椭圆曲线 `y^2 = x^3 + a x + b`
+  (`4a^3 + 27b^2 != 0`)
   交于 `P_i(x_i, y_i)` `(i = 1, 2, 3)` 三点 (当其中两点重合时,
   直线与曲线相切). 联立方程, 由 Vieta 定理知
   <span class="formula">
@@ -875,14 +878,32 @@
   </span>
   于是当已知 `P_1`, `P_2` 时, `P_3` 的坐标为
   <span class="formula">
-        `x_3 = k^2 - x_1 - x_2`,<br/>
+    `x_3 = k^2 - x_1 - x_2`,<br/>
     `y_3 = y_1 + k(x_3-x_1)`
     `= y_2 + k(x_3-x_2)`.
   </span>
-  称 `P_3` 关于 `x` 轴的对称点 `Q` 为 `P_1` 与 `P_2` 的和, 记为
-  `Q = P_1 + P_2`.
-  椭圆曲线上的全体有理点关于这一 "加法" 构成 Abel 群.
-</p>
+  我们规定椭圆曲线上的点之间的加法运算, 使得它构成 Abel 群:
+  <li>加法零元是竖直方向上的无穷远点, 记为 0;</li>
+  <li>加法逆元关于 `x` 轴对称;</li>
+  <li>若椭圆曲线上 `P_1, P_2, P_3` 三点共线, 则
+    <span class="formula">
+      `P_1 + P_2 + P_3 = 0`.
+    </span>
+    上式可以写为 `P_1 + P_2 = -P_3`, 即 `P_1 + P_2` 和 `P_3` 关于 x 轴对称.
+    上式对于其中一点是切点或无穷远点的情形仍成立:
+    若 `P` 是切点, 则切线与曲线的另一交点 `Q` 满足 `2P + Q = 0`;
+    若 `P, Q` 关于 x 轴对称, 则它们可以看作与竖直方向的无穷远点共线,
+    故 `P + Q = 0`.
+  </li>
+  椭圆曲线上的全体点关于这一加法构成 Abel 群. 又 `P_3` 的坐标是 `P_1,
+  P_2` 的坐标的有理函数, 所以椭圆曲线上全体有理点是它的一个子群.
+</ol>
+
+<div class="img fit" title="`y^2 = x^3 + ax + b`">
+  <canvas id="graph-elliptic-curve" width="300" height="300"></canvas>
+  <div id="img-ec-range-a"></div>
+  <div id="img-ec-range-b"></div>
+</div>
 
 <p class="example">
   [来自 <a href="https://zhuanlan.zhihu.com/p/33853851">知乎专栏</a>]
@@ -944,6 +965,67 @@
   </span>
   放大适当倍数即得答案.
 </p>
+
+<p class="definition">
+  <b>`bbb F_p` 上的椭圆曲线</b> 是指集合
+  <span class="formula">
+    `{0} uu {(x, y) in bbb F_p^2 | y^2 -= a x^3 + b x + c (mod p)}`,
+    `quad 4a^3 + 27b^2 !-= 0 (mod p)`.
+  </span> 
+  `bbb F_p` 上的椭圆曲线的加法与 `RR` 上的定义完全相同, 只不过它的运算是模
+  `p` 的.
+  关于 `bbb F_p` 上的椭圆曲线, 一个困难的问题是:
+  <span class="formula">
+    已知两点 `P, Q`, 求 `k` 使得 `Q = k P`,
+  </span>
+  这称为椭圆曲线上的离散对数问题, 也是许多加密算法的基础.
+</p>
+
+<p class="algorithm">
+  <b>Schoof 算法</b> 可在多项式时间内求椭圆曲线群 `G` 的阶.
+  知道了群 `G` 的阶后, 元素 `P` 的阶就是 `G` 的因子中使得 `k P = 0`
+  成立的最小 `k`.
+  <br>
+  给定素数 `q`, 可按如下方法在 `G` 中找一个 `q` 阶元:
+  计算 `|G| // q = h`, 然后任取 `P in G`, 则 `q(h P) = |G| P = 0`,
+  这指出 `h P` 的阶是 `q` 的因子, 但 `q` 为素数, 所以 `h P = 0` 或 `|h P| =
+  q`.
+</p>
+
+<script src="../../js/plot.js"></script>
+<script src="../../js/ui.js"></script>
+<script>
+let a, b
+const EC = x => Math.sqrt(x**3 + a*x + b)
+const plotEC = new Plot('graph-elliptic-curve')
+const replotEC = () => {
+  plotEC.clear()
+    .geometry({ xmin: -5, xmax: 5, ymin: -5, ymax: 5 })
+    .axis()
+    .plot(EC)
+    .plot(x => -EC(x))
+}
+const rangeA = new Range('img-ec-range-a', {
+    min: -10,
+    max: 10,
+    step: 0.05,
+    value: -3,
+  }, e => {
+  a = e ? Number(e.target.value) : -3
+  rangeA.span.innerText = 'a = ' + a
+  replotEC()
+})
+const rangeB = new Range('img-ec-range-b', {
+    min: -10,
+    max: 10,
+    step: 0.05,
+    value: 1,
+  }, e => {
+  b = e ? Number(e.target.value) : 1
+  rangeB.span.innerText = 'b = ' + b
+  replotEC()
+})
+</script>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

@@ -259,10 +259,12 @@ Plot.prototype.plot = function(f, g, config={}) {
     x = f(t)
     y = g(t)
     // 斜率过大处断开
-    if ( Math.abs((x-prex)/step) > continuity ||
+    if (isNaN(x) || isNaN(y)) {
+      x = x || 0
+      y = y || 0
+      this.moveTo(x, y)
+    } else if (Math.abs((x-prex)/step) > continuity ||
       Math.abs((y-prey)/step) > continuity) {
-      this.ctx.stroke()
-      this.ctx.beginPath()
       this.moveTo(x, y)
     }
     this.lineTo(x, y)

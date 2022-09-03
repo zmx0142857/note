@@ -19,7 +19,7 @@ math: {
     {title:'不等式', src:'misc/3.html', date:'2022-07-29'},
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
-    {title:'数学家', src:'misc/6.html', date:'2022-02-14'},
+    {title:'数学家', src:'misc/6.html', date:'2022-08-29'},
     {title:'算术与进制', src:'misc/7.html', date:'2022-02-06'},
   ]
 }, {
@@ -69,7 +69,7 @@ math: {
     {title:'同余', src:'number/2.html'},
     {title:'阶与原根', src:'number/3.html', date:'2022-01-12'},
     {title:'二次剩余', src:'number/4.html', date:'2022-01-09'},
-    {title:'不定方程', src:'number/5.html', date:'2022-02-11'},
+    {title:'不定方程', src:'number/5.html', date:'2022-09-02'},
     {title:'积性数论函数', src:'number/6.html', date:'2022-03-09'},
     {title:'素数分布', src:'number/7.html', date:'2022-03-30'},
     {title:'代数数域和代数整数', src:'number/11.html', date:'2022-03-05'},
