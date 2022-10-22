@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>仿射簇</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p>[初等代数几何,Kalus Hulek 著,胥鸣伟译],
+  [<a href="https://zhuanlan.zhihu.com/p/510898808">ZCC 数学笔记</a>]
+</p>
+
+<h2>代数集</h2>
+
+<p class="definition">
+  域 `k` 上的 `n` 维<b>仿射空间 (affine space)</b> 是指
+  <span class="formula">
+    `bbb A_k^n := {(a_1, cdots, a_n): a_i in k}`.
+  </span>
+  就集合而言, `bbb A_k^n` 和 `k^n` 是一样的, 但仿射空间没有向量空间的结构.
+  基域 `k` 明确时, `bbb A_k^n` 简记为 `bbb A^n` 或干脆 `bbb A`.
+</p>
+
+<p class="definition">
+  <b>多项式的取值</b>
+  `n` 元多项式 `f(x_1, cdots, x_n) in K` 给出一个取值映射
+  <span class="formula">
+    `f: bbb A_k^n to k`,<br>
+    `a mapsto f(a)`.
+  </span>
+  反之, `a in bbb A_k^n` 给出映射
+  <span class="formula">
+    `"ev"_a: K to k`,<br>
+    `f mapsto f(a)`.
+  </span>
+</p>
+
+<p class="remark">
+  后面我们总假定 `k` 是代数闭域, 并且简记
+  `K = k[x_1, cdots, x_n]` 是 `k` 上的 `n` 元多项式环.
+</p>
+
+<ol class="definition">
+  <b>零点集</b>
+  <li>
+  `T sube K` 的零点集定义为
+  `T` 中所有多项式的公共零点:
+  <span class="formula">
+    `V(T) := {P in bbb A_k^n: AA f in T, f(P) = 0}`.
+  </span>
+  今后我们特别考虑 `T` 为 `K` 的理想的情形.
+  由于 `K` 是诺特环, 故存在有限个多项式 `f_1, cdots, f_m` 使得
+  <span class="formula">
+    `T = (f_1, cdots, f_n)`.
+  </span> 
+  </li>
+  <li>反之, 对任意 `X sube bbb A_k^n`, 以 `X` 中点为零点的多项式构成 `K` 的理想:
+    <span class="formula">
+      `I(X) := {f in K: AA P in X, f(P) = 0}`.
+    </span> 
+  </li>
+</ol>
+
+<ol class="corollary">
+  设 `I, J` 为 `K` 的理想, `X, Y` 为 `bbb A` 的子集, 则
+  <li>`I sube J` `rArr V(J) sube V(I)`;</li>
+  <li>`X sube Y` `rArr I(Y) sube I(X)`;</li>
+  <li>`X sub Y` `rArr I(Y) sub I(X)`;</li>
+  <li>`J sube I(V(J))`;</li>
+  <li>`X sube V(I(X))`; 等号成立当且仅当存在 `T sube K` 使得 `X = V(T)`, 或者用下文的话说, `X` 是代数集.
+  </li>
+</ol>
+
+<p class="definition">
+  <b>代数集</b>
+  设 `Y sube bbb A^n`, 若它是一些多项式的零点集, 即存在多项式集 `T sube K`
+  使得 `Y = V(T)`, 则称 `Y` 为 <b>(仿射) 代数集</b>或 <b>Zariski 代数闭集</b>.
+  直观上看, 代数集是一些多项式函数的图像交点.
+</p>
+
+<p class="remark">
+  `V` 是从 `K` 的全体理想到 `bbb A^n` 中全体代数集的满射,
+  `I` 是从 `bbb A^n` 是全体子集到 `V` 的全体理想的映射.
+</p>
+
+<ol class="example">
+  <b>Zariski 拓扑</b> 以下事实成立:
+  <li>`V(O/) = bbb A`, `V(K) = O/`;</li>
+  <li>有限并: `V(I nn J) = V(I) uu V(J)`;</li>
+  <li>无限交: `V(sum_(lambda in Lambda) J_lambda) = nnn_(lambda in Lambda) V(J_lambda)`.</li>
+  因此, `bbb A` 按代数集 (Zariski 代数闭集) 构成一拓扑空间, 代数集的补集称为 Zariski 开集.<br>
+  和分析中常见的拓扑不同, Zariski 拓扑远不是 Hausdorff 的.
+</ol>
+
+<p class="definition">
+  <b>根式理想</b>
+  设 `J` 为环 `R` 的理想, 则
+  <span class="formula">
+    `sqrt J := {r: EE k ge 1, r^k in J}`
+  </span>
+  也是理想, 显然 `J sube sqrt J`. 若等号成立, 则称 `J` 是根式理想.
+</p>
+
+<p class="remark">
+  实际上每个形如 `I(X)` 的理想都是根式理想; 素理想也是根式理想.
+</p>
+
+<p class="theorem">
+  设 `S sube K`, `J = (S)` 是它生成的理想, 则 `V(S) = V(J) = V(sqrt J)`.
+  定理指出 `V(S)` 和 `V(J)` 相等, 因而不妨用 `J` 代替 `S` 进行讨论.
+</p>
+
+<p class="proof">
+  由 `S sube J sube sqrt J` 知 `V(S) supe V(J) supe V(sqrt J)`, 下证 `V(S)
+  sube V(sqrt J)`.<br>
+  任取 `a !in V(sqrt J)`, 则存在 `f in sqrt J` 使 `f(a) != 0`.
+  由 `J` 是环 `K` 理想, 存在自然数 `k`, `s_i in S` 和 `f_i in K` 使得 `f^k =
+  sum s_i f_i` (有限和). 显然
+  <span class="formula">
+    `f^n(a) = f(a) cdots f(a) != 0`,
+  </span> 
+  这意味着存在某一项 `s_i f_i(a) != 0`, 即 `s_i(a) != 0`, `f_i(a) != 0`.
+  故 `a !in V(S)`, 这证明了 `V(S) sube V(sqrt J)`.
+</p>
+
+<p class="definition">
+  若代数集 `X` 可以写成两个代数真子集的并:
+  <span class="formula">
+    `X = X_1 uu X_2`, `quad X_1, X_2 sub X`,
+  </span>
+  则称它是<b>可约</b>的, 否则不可约.
+</p>
+
+<p class="theorem">
+  非空代数集 `X` 不可约 `iff I(X)` 是素理想.
+</p>
+
+<ol class="proof">
+  <li>
+    设 `X` 可约, 即 `X = X_1 uu X_2`, `X_1, X_2` 是 `X` 的代数真子集.
+    由 `X_1 sub X`, 有 `f in I(X_1) \\ I(X)`; 类似有 `g in I(X_2) \\ I(X)`.
+    因为 `f g` 在 `X_1 uu X_2 = X` 上为零, 所以 `f g in I(X)`, 表明 `I(X)`
+    不是素理想.
+  </li>
+  <li>
+    假设 `I(X)` 不是素理想, 即存在 `f, g in K` 满足 `f g in I(X)` 但 `f, g
+    !in I(X)`. 令 `J_1 := (I(X), f)`, `J_2 = (I(X), g)`,
+    则 `X_1 = V(J_1)` 和 `X_2 = V(J_2)` 都是 `X` 的真子集. 但因为对于 `P in
+    X` 有 `f g(P) = 0`, 即 `f(P) = 0` 或 `g(P) = 0`, 这表明 `P in X_1` 或
+    `P in X_2`, 从而 `X sube X_1 uu X_2`, `X` 可约.
+  </li>
+</ol>
+
+<h2>Hilbert 零点定理</h2>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

@@ -194,6 +194,11 @@ math: {
     {title:'曲面的内蕴几何学', src:'diff-geo/5.html'},
   ]
 }, {
+  title:'代数几何',
+  articles: [
+    {title:'仿射簇', src:'ag/1.html', date:'2022-10-18'},
+  ]
+}, {
   title:'运筹学',
   articles: [
     {title:'线性规划', src:'or/1.html', date:'2021-12-24'},
