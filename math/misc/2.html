@@ -366,8 +366,8 @@
 
 <h3>求和公式与乘积公式</h3>
 
-<p class="theorem">
-  <b>三角函数求和公式</b>
+<p class="example">
+  <b>正弦、余弦求和公式</b>
   `x` 不等于 `2pi` 的整数倍时,
 	<span class="formula">
 		`sum_(k=1)^n cos kx`
@@ -411,16 +411,58 @@
   </span>
 </p>
 
-<ol class="theorem" id="the-sin-prod">
-  <b>三角函数乘积公式</b>
-  <li>`prod_(0 lt k lt n) sin {:(k pi)/n:} = (2n)/2^n`;</li>
-  <li> `prod_(0 le k lt n) sin(theta + (k pi)/n) = 2^(1-n) sin n theta`;
-    [来自群友 我是薛定谔的猫]
+<ol class="example">
+  <b>正切、余切求和公式</b>
+  [来自 <a href="https://math.stackexchange.com/questions/346368/sum-of-tangent-functions-where-arguments-are-in-specific-arithmetic-series">stack exchange</a>]
+  记 `theta_k = theta + (k pi)/n`, 则
+  <li>`sum_(0 le k lt n) tan theta_k` `= n tan(n theta + (n-1)pi//2)`;<br>
+    `n` 为奇数时, 等号右边等于 `n tan n theta`;
+    `n` 为偶数时, 等于 `-n cot n theta`.
   </li>
-  <li>`prod_(1 le k le n) cos {:(k pi)/(2n+1):} = 2^-n`;</li>
-  <li>`prod_(0 le k le 2n) cos(theta + (k pi)/(2n+1)) = (-4)^-n cos (2n+1) theta`;</li>
-  <li>`prod_(k=1)^n cos x_k = 1/2^n sum_(e in S)
-      cos(e_1 x_1 + cdots + e_n x_n)`, `S = {1, -1}^n`.
+  <li>`sum_(0 le k lt n) cot theta_k` `= n cot n theta`.
+  </li>
+</ol>
+
+<p class="proof">
+  只证 1. 考虑方程 `tan n x = tan n theta`, 它的 `n` 个根为
+  <span class="formula">
+    `x = theta_k`, `quad k = 0, cdots, n-1`.
+  </span>
+  用 De Moivre 公式得到 `tan` 的 `n` 倍角公式:
+  <span class="formula">
+    `tan n x`
+    `= (sin n x)/(cos n x)`
+    `= ((n;1) cos^(n-1) x sin x - (n;3) cos^(n-3) x sin^3 x + cdots)
+    / (cos^n x - (n;2) cos^(n-2) x sin^2 x + cdots)`
+    `= ((n;1) tan x - (n;3) tan sin^3 x + cdots)
+    / (1 - (n;2) tan^2 x + cdots)`.
+  </span>
+  `n = 2m` 时, 方程写为
+  <span class="formula">
+    `((n;1) tan x - (n;3) tan^3 x + cdots + (2m;2m-1)(-1)^(m-1) tan^(2m-1)x)/(1-(2m;2)tan^2 x + cdots + (-1)^m tan^(2m) x) = tan 2m theta`.
+  </span>
+  即
+  <span class="formula">
+    `(tan 2m theta) tan^(2m) x + (2m) tan^(2m-1) x + cdots = 0`.
+  </span>
+  这是关于 `tan x` 的 `2m` 次方程, 由 Vieta 定理得到 `n` 个根之和:
+  <span class="formula">
+    `sum_(0 le k lt n) tan theta_k`
+    `= - (2m)/(tan 2m theta)`
+    `= -n cot n theta`.
+  </span>
+  `n = 2m+1` 时证明类似.
+</p>
+
+<ol class="example" id="the-sin-prod">
+  <b>三角函数乘积公式</b>
+  <li>`prod_(0 lt k lt n) sin {:(k pi)/n:} = 2^(1-n) * n`;</li>
+  <li>`prod_(0 lt k lt n) cos {:(k pi)/n:} = 2^(1-n) * cos((n-1)pi//2)`;<br>
+    `n` 为奇数时, 等号右边为 `(2"i")^(1-n)`, `n` 为偶数时, 为 `0`.
+    推论:
+    <span class="formula">
+      `prod_(1 le k le n) cos {:(k pi)/(2n+1):} = 2^-n`.
+    </span>
   </li>
 </ol>
 
@@ -445,28 +487,44 @@
     `n = 2^(n-1) prod_(0 lt k lt n) sin {:(k pi)/n:}`.
   </span>
   </li>
-  <li>方程 `x^n = "e"^(-2"i"n theta)` 的 `n` 个根为 `"e"^(-2"i"(theta+(k
-    pi)/n))`, `k = 0, cdots, n-1`, 故有多项式分解
+  <li>在 1. 中令 `x = -1`, 再分奇偶讨论.</li>
+</ol>
+
+<ol class="example">
+  [来自群友 我是薛定谔的猫]
+  记 `theta_k = theta + (k pi)/n`, 则
+  <li> `prod_(0 le k lt n) sin theta_k = 2^(1-n) sin n theta`;
+  </li>
+  <li>`prod_(0 le k le n) cos theta_k = 2^(1-n) cos(n theta + (n-1)pi//2)`;<br>
+    `n` 为奇数时, 等号右边等于 `(2"i")^(1-n) cos n theta`;
+    `n` 为偶数时, 等于 `"i"^n 2^(1-n) sin n theta`.
+  </li>
+  <li>`prod_(k=1)^n cos x_k = 1/2^n sum_(e in S)
+      cos(e_1 x_1 + cdots + e_n x_n)`, `S = {1, -1}^n`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>方程 `x^n = "e"^(-2"i"n theta)` 的 `n` 个根为 `"e"^(-2"i"theta_k)`,
+    `k = 0, cdots, n-1`, 故有多项式分解
     <span class="formula">
-      `prod_(0 le k lt n) (x-"e"^(-2"i"(theta+(k pi)/n)))`
+      `prod_(0 le k lt n) (x-"e"^(-2"i"theta_k))`
       `= x^n - "e"^(-2"i"n theta)`.
     </span>
-    上式取 `x = 1`, 两边同乘 `exp("i"sum_(0 le k lt n) (theta+(k pi)/n))`
-    `= exp("i"(n theta + pi/2 (n-1)))`,
+    上式取 `x = 1`, 两边同乘
     <span class="formula">
-      `prod_(0 le k lt n) ("e"^("i"(theta+(k pi)/n))-"e"^(-"i"(theta+(k pi)/n)))`
+      `exp("i"sum_(0 le k lt n) theta_k)`
+      `= exp("i"(n theta + pi/2 (n-1)))`
+      `= "i"^(n-1) "e"^("i" n theta)`,
+    </span>
+    得到
+    <span class="formula">
+      `prod_(0 le k lt n) ("e"^("i"theta_k)-"e"^(-"i"theta_k))`
       `= ("e"^("i"n theta) - "e"^(-"i"n theta)) "i"^(n-1)`,
     </span>
     即得证.
   </li>
-  <li>
-    在 1. 中令 `x = -1`, 再用 `2n+1` 替换 `n`, 同理可证
-    <span class="formula">
-      `1 = (-4)^n prod_(1 le k le 2n) cos{:(k pi)/(2n+1):}`,
-    </span>
-    从而结论成立.
-  </li>
-  <li>在 2. 中令 `x = -1` 再用 `2n+1` 替换 `n`.</li>
+  <li>在 2. 中令 `x = -1`, 再分奇偶讨论.</li>
 </ol>
 
 <p class="proposition" id="prop-sum-sq-cot">
@@ -526,6 +584,49 @@
     `3 sum_(k=1)^n cot^2{:(a pi)/N:} = (2n;2)`.
   </span>
 </p>
+
+<p class="example">
+  [来自 我是从物理群来潜伏的内鬼]
+  `a, b in RR`, `n ge 2` 为正整数, 证明恒等式
+  <span class="formula">
+    `n sin(a + (n-2)b)/sin(n b)`
+    `= sum_(0 le k lt n) sin(a + 2 k pi//n)/tan(b + k pi//n)`.
+  </span>
+</p>
+
+<ol class="proof">
+  [来自 COL]
+  <li>记 `a-2b = c`, `n b = Y`, 左边等于
+    <span class="formula">
+      `n sin(c + Y)/sin Y`
+      `= n (sin c cos Y + cos c sin Y)/sin Y`
+      `= n(sin c cot Y + cos c)`.
+    </span>
+    又记 `2b + 2 k pi//n = X`, 则 `sum sin X = sum cos X = 0`.
+    利用恒等式 `tan (X//2) = (sin X)/(1 + cos X)`, 右边等于
+    <span class="formula align">
+      `sum sin(c + X)/tan(X//2)`<br>
+      `= sum (sin c cos X + cos c sin X) (1+cos X)/sin X`<br>
+      `= sum (sin c cot X + cos c)(1 + cos X)`<br>
+      `= sin c sum cot X (1 + cos X) + n cos c + 0`.
+    </span>
+  </li>
+  <li>
+    比较左右两边, 下面只需证
+    <span class="formula">
+      `sum cot X (1 + cos X) = n cot Y`.
+    </span>
+    左边等于
+    <span class="formula align">
+      `sum cos X (1 + cos X)/sin X`<br>
+      `= sum cos X cot(X//2)`<br>
+      `= sum (1-2sin^2(X//2)) cot(X//2)`<br>
+      `= sum cot(X//2) - sum sin X`<br>
+      `= sum cot(X//2)`.
+    </span>
+    利用余切求和公式即得结论.
+  </li>
+</ol>
 
 <h3 id="equality-of-triangle">三角形中的恒等式与不等式</h3>
 
@@ -1170,7 +1271,7 @@
   且 `T_n(x)` 在 `x in [-1, 1]` 上的最值在
   <span class="formula">
     `cos(k/n pi)`, `quad k = 0, cdots, n`
-  </span> 
+  </span>
   处取得, 其中 `k` 为偶数时取得最大值 `1`, 奇数时取得最小值 `-1`.
 </p>
 
@@ -1190,7 +1291,7 @@
   反设 `max_(x in [-1, 1]) |P_n(x)| lt 2^(1-n)`. 考虑 `T_n(x)` 的最值点
   <span class="formula">
     `x_k = cos(k/n pi)`, `quad k = 0, cdots, n`,
-  </span> 
+  </span>
   定义 `g(x) = P_n(x) - T_n(x) * 2^(1-n)`, 于是
   <span class="formula">
     `g(x_k) { gt 0, if k " odd"; lt 0, if k " even" :}`

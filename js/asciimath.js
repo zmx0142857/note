@@ -814,6 +814,7 @@ const yieldsTex = {
     const str = frag.join('')
     let len = str.length
     let depth = 0
+    let i = 0
     for (i = 0; i < len; ++i) {
       if (isLeftBrace.test(str[i]))
         ++depth
@@ -884,7 +885,7 @@ Each terminal symbol is translated into a corresponding mathml node.*/
 const parse = {
   yields,
   init (str) {
-    for (d of AM.define) str = str.replace(d[0], d[1])
+    for (const d of AM.define) str = str.replace(d[0], d[1])
     AM.nestingDepth = 0
     AM.str = str.trimLeft()
     AM.begin = 0
@@ -1156,15 +1157,27 @@ function am2mathml(amstr) {
 
 let parseMath = am2mathml
 
+// in am2tex, we convert \n\n to a linebreak to enable multiline alignment
+// for asciimath; this feature is not available in am2mathml, though
+function lineHelper (src, fn) {
+  const convertLine = s => s.includes('&') ? fn(s) : '& ' + fn(s)
+  return '\\begin{aligned}'
+    + src.split(/\n{2,}/g).map(convertLine).join(' \\\\ ')
+    + '\\end{aligned}'
+}
+
 // amstr -> texstr
 function am2tex(amstr, displaystyle = AM.displaystyle) {
   parse.yields = yieldsTex
+  if (displaystyle && /\n\n/.test(amstr)) {
+    return AM.texstr = lineHelper(amstr, am2tex)
+  }
   parse.init(amstr)
   const args = []
   if (AM.color) args.push('\\' + AM.color)
   args.push(displaystyle ? '\\displaystyle ' : '\\textstyle ')
+  args.push(parse.expr(false).replace(/(\$|%)/g, '\\$1'))
   return AM.texstr = args.join('')
-    + parse.expr(false).replace(/(\$|%)/g, '\\$1')
 }
 
 function parseMathTex(amstr) {
@@ -1393,6 +1406,7 @@ if (typeof document === 'undefined') {
 AM.render = render
 AM.am2tex = am2tex
 AM.am2mathml = am2mathml
+AM.init = init // incase AM didn't init, call it manually
 })();
 
 if (typeof module !== 'undefined')
