@@ -15,7 +15,7 @@ math: {
   title:'未分类',
   articles: [
     {title:'问题', src:'misc/0.html', date:'2022-02-16'},
-    {title:'三角函数', src:'misc/2.html', date:'2022-02-26'},
+    {title:'三角函数', src:'misc/2.html', date:'2022-11-21'},
     {title:'不等式', src:'misc/3.html', date:'2022-07-29'},
     {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
@@ -54,7 +54,7 @@ math: {
     {title:'函数列与函数项级数', src:'analysis/12.html'},
     {title:'Fourier 级数', src:'analysis/13.html'},
     {title:'多元函数的极限与连续性', src:'analysis/14.html'},
-    {title:'多元函数微分学', src:'analysis/15.html', date:'2021-11-29'},
+    {title:'多元函数微分学', src:'analysis/15.html', date:'2022-12-01'},
     {title:'多元函数的极值', src:'analysis/17.html'},
     {title:'重积分', src:'analysis/19.html'},
     {title:'场论初步', src:'analysis/22.html', date:'2022-04-28'},
