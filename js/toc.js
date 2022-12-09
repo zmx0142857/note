@@ -31,7 +31,7 @@ math: {
     {title:'向量的相关性与线性方程组', src:'linalg/3.html', date:'2021-12-14'},
     {title:'线性空间', src:'linalg/4.html'},
     {title:'线性映射与线性变换', src:'linalg/5.html'},
-    {title:'特征值与特征向量', src:'linalg/6.html', date:'2022-05-12'},
+    {title:'特征值与特征向量', src:'linalg/6.html', date:'2022-12-09'},
     {title:'λ 矩阵与相似标准形', src:'linalg/7.html'},
     {title:'线性空间中的度量与内积', src:'linalg/8.html'},
     {title:'实二次型与正定矩阵', src:'linalg/9.html', date:'2021-12-08'},

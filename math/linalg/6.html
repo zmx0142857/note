@@ -15,7 +15,7 @@
 <h2>特征值与特征向量</h2>
 
 <p class="definition">
-  设 `cc A in L(V)`, 若存在 `lambda in bbb P` 和 `bm x != bm theta`
+  设 `cc A in L(V)`, 若存在 `lambda in bbb P` 和 `bm x != bb 0`
   使成立
 	<span class="formula">
 		`cc A bm x = lambda bm x`,
@@ -82,11 +82,11 @@
 	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)` 下的矩阵为 `bm A`.
 	若 `lambda in bbb P` 为 `cc A` 的一个特征值, 即
 	<span class="formula">
-		`(EE bm x != bm theta)` `cc A bm x = lambda bm x`.
+		`(EE bm x != bb 0)` `cc A bm x = lambda bm x`.
 	</span>
 	即关于 `bm x` 的方程
 	<span class="formula">
-		`(lambda bb E - cc A)bm x = bm theta`
+		`(lambda bb E - cc A)bm x = bb 0`
 	</span>
 	在 `V` 中有非零解.
 	这当且仅当关于 `bm X` 的方程
@@ -697,7 +697,7 @@
 
 <h3>从特征向量来看</h3>
 
-<p class="theorem">
+<p class="lemma">
   `cc A in L(V)` 有对角形表示矩阵当且仅当它有 `n = "dim"V`
   个线性无关的特征向量.
 </p>
@@ -713,21 +713,26 @@
   则该基底恰由 `cc A` 的 `n` 个线性无关的特征向量构成.
 </p>
 
-<p class="corollary">
-  <b>特征向量构成过渡矩阵</b>
-  设矩阵 `bm A` 有 `n` 个线性无关的特征向量
-  `bm P = (bm alpha_1, cdots, bm alpha_n)`, 则
-  `bm P^-1 bm A bm P` 为对角形.
+<p class="theorem">
+  <b>矩阵的特征值分解</b>
+  设方阵 `bm A` 有 `n` 个线性无关的特征向量
+  `bm Q = (bm alpha_1, cdots, bm alpha_n)`,
+  其对应的特征值为 `lambda_1, cdots, lambda_n`, 则
+  <span class="formula">
+    `bm A = bm (Q Lambda Q)^-1`.
+  </span>
+  其中 `bm Lambda = "diag"(lambda_1, cdots, lambda_n)`.
 </p>
 
 <p class="proof">
   把 `bm A` 看作线性变换 `cc A` 在自然基底 `(bm epsi_1, cdots, bm epsi_n)`
   下的表示矩阵.
-  `bm P` 恰为两基底间的过渡矩阵:
+  `bm Q` 恰为两基底间的过渡矩阵:
   <span class="formula">
-    `(bm alpha_1, cdots, bm alpha_n) = (bm epsi_1, codts, bm epsi_n) bm P`.
+    `(bm alpha_1, cdots, bm alpha_n) = (bm epsi_1, cdots, bm epsi_n) bm Q`.
   </span>
-  因此 `cc A` 在 `(bm alpha_1, cdots, bm alpha_n)` 下的表示矩阵为 `bm P^-1 bm A bm P`, 由定理知道它为对角形.
+  因此 `cc A` 在基底 `(bm alpha_1, cdots, bm alpha_n)` 下的表示矩阵为
+  `bm Lambda = bm Q^-1 bm A bm Q`, 由引理知道它为对角形.
 </p>
 
 <p class="lemma">
@@ -741,11 +746,11 @@
   对 `r` 作归纳. `r = 1` 时结论显然成立. 假设结论对 `r-1 ge 1` 成立,
   考察 `r` 的情形. 若
   <span class="formula">
-    `bm theta = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`,
+    `bb 0 = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`,
   </span>
   则
   <span class="formula">
-    `bm theta = cc A bm theta - lambda_r bm theta`
+    `bb 0 = cc A bb 0 - lambda_r bb 0`
     `= sum_(i=1)^r lambda_i sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
     `- lambda_r sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
     `= sum_(i=1)^(r-1) (lambda_i - lambda_r)
@@ -762,7 +767,7 @@
   </span>
   于是
   <span class="formula">
-    `bm theta = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
+    `bb 0 = sum_(i=1)^r sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
     `- sum_(i=1)^(r-1) sum_(j=1)^(n_i) k_(i j) bm alpha_(i j)`
     `= sum_(j=1)^(n_r) k_(r j) bm alpha_(r j)`.
   </span>
@@ -773,7 +778,7 @@
 
 <p class="theorem">
   由引理马上得到: 不同特征值对应的特征向量线性无关.
-  再结合上一定理有: 当线性变换有 `n` 个不同特征值时,
+  再结合上一引理有: 当线性变换有 `n` 个不同特征值时,
   它有对角形表示矩阵.
 </p>
 
@@ -784,7 +789,7 @@
   相应于 `lambda` 的全体特征向量张成 `V` 的子空间:
   <span class="formula">
     `{bm alpha in V | cc A bm alpha = lambda bm alpha}`
-    `= {bm alpha in V | (lambda bb E - cc A) bm alpha = bm theta}`
+    `= {bm alpha in V | (lambda bb E - cc A) bm alpha = bb 0}`
     `= "Ker"(lambda bb E - cc A) le V`,
   </span>
   称为 `cc A` 关于 `lambda` 的<b>特征子空间</b>.
@@ -794,11 +799,11 @@
 
 <p class="corollary">
   <b>几何重数的计算公式</b>
-  由定义知, 特征子空间即齐次方程 `(lambda bb E - cc A) bm alpha = bm theta`
+  由定义知, 特征子空间即齐次方程 `(lambda bb E - cc A) bm alpha = bb 0`
   的解空间; 取定基底后, 即为 `(lambda bm E - bm A) bm X = bb 0` 的解空间.
   因而有
   <span class="formula">
-    `"dimKer"(lambda bm E - bm A) = n - r(lambda bm E - bm A)`.
+    `"dimKer"(lambda bm E - bm A) = n - "rank"(lambda bm E - bm A)`.
   </span>
 </p>
 
@@ -819,22 +824,22 @@
   因此
   <span class="formula">
     `Delta_(cc A)(x) = Delta_(bm A)(x)`
-    `= (x - lambda)^r Delta_(bm A)(x)`.
+    `= (x - lambda)^r Delta_(bm A_1)(x)`.
   </span>
   所以 `lambda` 的几何重数 `= r le lambda` 的代数重数.
 </p>
 
 <ol class="theorem">
-  设 `V` 为 `n` 维线性空间,
-  `cc A in L(V)` 的全体特征根记为 `Lambda`, 则以下各款等价:
+  设 `V` 为 `n` 维线性空间, `cc A in L(V)`,
+  下标 `lambda` 表示关于 `cc A` 的全体特征根求和, 则以下各款等价:
   <li>`cc A` 有对角形表示矩阵;</li>
   <li>`V` 能分解为特征子空间之直和:
-    `V = sum_(lambda in Lambda) "Ker"(lambda bb E - cc A)`;
+    `V = sum_lambda "Ker"(lambda bb E - cc A)`;
   </li>
-  <li>`n = sum_(lambda in Lambda) "dimKer"(lambda bb E - cc A)`;
+  <li>`n = sum_lambda "dimKer"(lambda bb E - cc A)`;
   </li>
-  <li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数), 且
-    每个特征根的几何重数等于其代数重数; (这是判定矩阵可对角化的标准做法)
+  <li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数),
+    且每个特征根的几何重数等于其代数重数; (这是判定矩阵可对角化的标准做法)
   </li>
   <li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数), 且最小多项式
     `m_(bm A)(x)` 无重根.
@@ -843,8 +848,15 @@
 
 <ol class="proof">
 	<li>`rArr` 2. 设 `cc A` 有对角形表示矩阵, 则存在 `cc A`
-		的线性无关的特征向量组, 构成 `V` 的基底. 这些特征向量
+		的线性无关的特征向量组, 构成 `V` 的基底.
+        这些特征向量按其对应的特征根分属于不同的特征子空间,
+        构成各个特征子空间的基底.
+        这就给出了 `V` 在各个特征子空间上的直和分解.
 	</li>
+    <li>`rArr` 3. 使用维数公式.</li>
+    <li>`rArr` 4.</li>
+    <li>`rArr` 5.</li>
+    <li>`rArr` 1.</li>
 </ol>
 
 <ol class="algorithm">
@@ -853,7 +865,7 @@
   <li>求 `bm A` 的全部 `n` 个特征根;
     若 `n` 个特征根两两不同, 则 `bm A` 可对角化.</li>
   <li>否则, 对于重根 `lambda`, 设它的 (代数) 重数为 `m`.
-    几何重数为 `n - r(lambda bm E - bm A)`.
+    几何重数为 `n - "rank"(lambda bm E - bm A)`.
     若每个重根的代数重数都等于几何重数, 则 `bm A` 可对角化, 否则不能.
   </li>
   <li>若 `bm A` 可对角化, 将它的全部 `n` 个特征向量合并为
@@ -901,7 +913,7 @@
 <p class="definition">
   设 `cc A in L(V)`, `W le V`.  如果 `W` 在 `cc A` 下的像 `cc A(W) sube
   W`, 则称 `W` 为 `V` 关于 `cc A` 的<b>不变子空间</b>.
-  零空间 `{bm theta}` 和全空间 `V` 是平凡的不变子空间,
+  零空间 `{bb 0}` 和全空间 `V` 是平凡的不变子空间,
   因为它们对于任意 `V` 上的线性变换都是不变的.
   不变子空间的概念是特征子空间的推广, 特征子空间即为 1 维的不变子空间.
 </p>
@@ -946,11 +958,43 @@
 </p>
 
 <p class="proof">
-	若 `f(cc A)bm alpha = bm theta`, 则
+	若 `f(cc A)bm alpha = bb 0`, 则
 	<span class="formula">
-		`f(cc A)cc A bm alpha = cc A f(cc A) bm alpha = bm theta`,
+		`f(cc A)cc A bm alpha = cc A f(cc A) bm alpha = bb 0`,
 	</span>
 	所以 `cc A bm alpha in "Ker"f(cc A)`, 即 `"Ker"f(cc A)` 不变.
+</p>
+
+<h2>奇异值分解</h2>
+
+<p>
+  特征值分解在实际应用中受到限制, 这是由于只有方阵才有特征值,
+  且只有它的特征向量线性无关时才有特征值分解.
+  奇异值分解是特征值分解的推广, 它适用于任意 `m xx n` 的实矩阵.
+</p>
+
+<p class="theorem">
+  实矩阵 `bm A_(m xx n)` 有<b>奇异值分解 (singular value decomposition, SVD)</b>:
+  <span class="formula">
+    `bm A = bm U_(m xx m) bm D_(m xx n) bm V_(n xx n)^(-1)`.
+  </span>
+  其中 `bm U, bm V` 为正交矩阵, `bm D` 的主对角线以外全为零 (因而是对角矩阵的推广).<br>
+  `bm D` 的主对角元称为 `bm A` 的<b>奇异值</b>. `bm U, V` 的列向量分别称为<b>左奇异向量</b>和<b>右奇异向量</b>.
+</p>
+
+<p class="proof">
+  事实上, 考虑实对称矩阵 `bm A_1 = bm (A A)^T` 和 `bm A_2 = bm A^T bm A`,
+  由于这两个矩阵半正定, 其特征值都为非负.
+  设它们的特征值分解为
+  <span class="formula">
+    `bm A_1 = bm U bm D_1 bm U^(-1)`,
+    `quad bm A_2 = bm V bm D_2 bm V^(-1)`,
+  </span>
+  因而要使等式 `bm A = bm (U D V)^(-1)` 成立, 只需找到一个矩阵 `bm D` 使
+  <span class="formula">
+    `bm D_1 = bm D bm D^T`, `quad bm D_2 = bm D^T bm D`.
+  </span>
+  ??
 </p>
 
 <h2>杂例</h2>
