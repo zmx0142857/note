@@ -254,7 +254,7 @@ cs: {
 }, {
   title:'机器学习',
   articles: [
-    {title:'Logistic 回归', src:'ml/1.html'},
+    {title:'机器学习基础', src:'ml/1.html'},
   ]
 }, {
   title:'操作系统',

@@ -2,11 +2,42 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8" />
-    <title>Logistic 回归</title>
+    <title>机器学习基础</title>
     <link rel="stylesheet" href="../../css/note.css"/>
 </head>
 
 <body>
+
+<h2>名词解释</h2>
+
+<dl>
+  <dt>无监督学习 (unsupervised learning)</dt>
+  <dd>训练含有很多特征的数据集，然后学习出这个数据集上有用的结构性质。</dd>
+  <dt>监督学习 (supervised learning)</dt>
+  <dd>训练含有很多特征的数据集，不过数据集中的样本都有一个标签 (label) 或目标 (target)。<br>
+    无监督学习和监督学习的概念并没有明确的边界。传统上，人们将回归、分类或者结构化输出问题称为监督学习，将支持其他任务的密度估计称为无监督学习。
+  </dd>
+  <dt>强化学习 (reinforcement learning)</dt>
+  <dd>算法会和环境进行交互，学习系统和它的训练过程会有反馈回路。</dd>
+  <dt>设计矩阵 (design matrix)</dt>
+  <dd>表示数据集的常用方式。设计矩阵的每一个行表示一个样本，每一列表示样本的一项特征。<br>
+    如果每个样本大小不同，比如大小不同的照片，我们则不会将数据集表示成矩阵，而是表示成 `m` 个元素的集合：`{x^((1)), ..., x^((m))}`.
+  </dd>
+  <dt>欠拟合</dt>
+  <dd></dd>
+  <dt>过拟合</dt>
+  <dd></dd>
+</dl>
+
+<h2>案例</h2>
+
+<p class="example">
+  <b>线性回归</b>
+</p>
+
+<p class="example">
+  <b>最邻近回归</b>
+</p>
 
 <ol class="example">
     <b>Sigmoid 函数</b>
@@ -23,17 +54,18 @@
 </ol>
 
 <p class="example">
-    考虑二分类问题. 已知训练集 `(x^((i)), y^((i)))`...
-    简记 `h^((i)) = sigma(W x^((i)) + b)`, 则
-    <span class="formula">
-        `L(W, b) = -1/n sum_(i=1)^n (y^((i)) ln h^((i))
-        + (1-y^((i))) ln(1-h^((i))))`,<br/>
-        `(del L)/(del W_j)`
-        `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) (1-h^((i))) - (1-y^((i))) h^((i)))`
-        `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) - h^((i)))`,<br/>
-        `(del L)/(del b)`
-        `= -1/n sum_(i=1)^n (y^((i)) - h^((i)))`.
-    </span>
+  <b>Logistic 回归</b>
+  考虑二分类问题. 已知训练集 `(x^((i)), y^((i)))`...
+  简记 `h^((i)) = sigma(W x^((i)) + b)`, 则
+  <span class="formula">
+    `L(W, b) = -1/n sum_(i=1)^n (y^((i)) ln h^((i))
+    + (1-y^((i))) ln(1-h^((i))))`,<br/>
+    `(del L)/(del W_j)`
+    `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) (1-h^((i))) - (1-y^((i))) h^((i)))`
+    `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) - h^((i)))`,<br/>
+    `(del L)/(del b)`
+    `= -1/n sum_(i=1)^n (y^((i)) - h^((i)))`.
+  </span>
 </p>
 
 <script src="../../js/note.js?type="></script>
