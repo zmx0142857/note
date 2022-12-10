@@ -15,8 +15,8 @@
 <h2>特征值与特征向量</h2>
 
 <p class="definition">
-  设 `cc A in L(V)`, 若存在 `lambda in bbb P` 和 `bm x != bb 0`
-  使成立
+    设 `cc A in L(V)`, 若存在 `lambda in bbb P` 和 `bm x in V\\{bb 0}`
+    使成立
 	<span class="formula">
 		`cc A bm x = lambda bm x`,
 	</span>
@@ -449,14 +449,15 @@
 
 <p class="example">
   [来自 我是永远得不到的i]
-  令 `bm A, B in bbb P^(n xx n)`, 则
-  `bm (A B)` 和 `bm (B A)` 有相同的特征根.
+  矩阵 `bm (A B)` 和 `bm (B A)` 有相同的非零特征根.
+  特别当 `bm A, bm B` 都为方阵时, 它们有相同的特征根.
 </p>
 
 <p class="proof">
   设 `lambda != 0` 是 `bm (A B)` 的特征根, `bm (A B x) = lambda bm x`.
   左乘 `bm B` 得 `bm (B A) (bm (B x)) = lambda (bm (B x))`,
   因为 `lambda != 0`, 所以这里 `bm (B x) != 0`, 故 `lambda` 也是 `bm (B A)` 的特征根.<br>
+  当 `bm A, bm B` 都为方阵时,
   若 `0` 是 `bm (A B)` 的特征根, 有 `0 = |bm (A B)| = |bm (B A)|`, 因此
   `0` 也是 `bm (B A)` 的特征根.
 </p>
@@ -466,7 +467,7 @@
   和 `[1; 0; 0]`. 但它们非零的特征根是相同的.
 </p>
 
-<p class="theorem">
+<p class="theorem" id="the-AB-BA-eigen">
 	令 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 则
 	<span class="formula">
 		`x^n|x bm E_m - bm(A B)| = x^m|x bm E_n - bm(B A)|`.
@@ -965,7 +966,19 @@
 	所以 `cc A bm alpha in "Ker"f(cc A)`, 即 `"Ker"f(cc A)` 不变.
 </p>
 
-<h2>奇异值分解</h2>
+<h2>实矩阵的对角化</h2>
+
+<h3>实对称矩阵的特征值分解</h3>
+
+<p>任意实对称矩阵可以正交对角化:
+  <span class="formula">
+    `bm A = bm (T Lambda T)^-1`,
+  </span>
+  其中 `bm T` 为正交矩阵, `bm Lambda` 为对角矩阵.
+  参见<a href="9.html">第九章</a>.
+</p>
+
+<h3>一般实矩阵的奇异值分解</h3>
 
 <p>
   特征值分解在实际应用中受到限制, 这是由于只有方阵才有特征值,
@@ -979,23 +992,38 @@
     `bm A = bm U_(m xx m) bm D_(m xx n) bm V_(n xx n)^(-1)`.
   </span>
   其中 `bm U, bm V` 为正交矩阵, `bm D` 的主对角线以外全为零 (因而是对角矩阵的推广).<br>
-  `bm D` 的主对角元称为 `bm A` 的<b>奇异值</b>. `bm U, V` 的列向量分别称为<b>左奇异向量</b>和<b>右奇异向量</b>.
+  `bm D` 的主对角元称为 `bm A` 的<b>奇异值</b>. `bm (U, V)`
+  的列向量分别称为<b>左奇异向量</b>和<b>右奇异向量</b>.
 </p>
 
-<p class="proof">
-  事实上, 考虑实对称矩阵 `bm A_1 = bm (A A)^T` 和 `bm A_2 = bm A^T bm A`,
-  由于这两个矩阵半正定, 其特征值都为非负.
-  设它们的特征值分解为
-  <span class="formula">
-    `bm A_1 = bm U bm D_1 bm U^(-1)`,
-    `quad bm A_2 = bm V bm D_2 bm V^(-1)`,
-  </span>
-  因而要使等式 `bm A = bm (U D V)^(-1)` 成立, 只需找到一个矩阵 `bm D` 使
-  <span class="formula">
-    `bm D_1 = bm D bm D^T`, `quad bm D_2 = bm D^T bm D`.
-  </span>
-  ??
-</p>
+<ol class="proof">
+  <li>
+    事实上, 考虑实对称矩阵 `bm A_1 = bm (A A)^T` 和 `bm A_2 = bm A^T bm A`,
+    设它们的特征值分解为
+    <span class="formula">
+      `bm A_1 = bm U bm D_1 bm U^(-1)`,
+      `quad bm A_2 = bm V bm D_2 bm V^(-1)`,
+    </span>
+    因而要使等式 `bm A = bm (U D V)^(-1)` 成立, 只需找到一个矩阵 `bm D` 使
+    <span class="formula">
+      `bm D_1 = bm D bm D^T`, `quad bm D_2 = bm D^T bm D`.
+      <span class="label" id="for-D1-D2"></span>
+    </span>
+  </li>
+  <li>
+    由 <a class="ref" href="#the-AB-BA-eigen"></a> 知道,
+    `bm A_1, bm A_2` 的特征值中除零特征值外完全相同, 因此不妨设
+    <span class="formula">
+      `bm D_1 = "diag"(d_1, cdots, d_r, overbrace(0, cdots, 0)^(m-r))`,<br>
+      `bm D_2 = "diag"(d_1, cdots, d_r, overbrace(0, cdots, 0)^(n-r))`.
+    </span>
+    由于 `bm A_1, bm A_2` 半正定, 其特征值都为非负. 可以取
+    <span class="formula">
+      `bm D_(m xx n) = "diag"(sqrt d_1, cdots, sqrt d_r, 0, cdots, 0)`,
+    </span>
+    就使 <a class="ref" href="#for-D1-D2"></a> 成立.
+  </li>
+</ol>
 
 <h2>杂例</h2>
 
