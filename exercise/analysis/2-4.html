@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>几个重要的定理</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+
+<ol class="enum">
+
+<li>根据单调有界原理证明下列数列的极限存在, 并求这些极限(a 表示正常数
+  ):
+<ol>
+  <li>`x_1 = 0`, `x_(n+1) = 1/4 (3x_n + 2)`, `n = 1, 2, cdots`;</li>
+  <li>`x_1 = 1`, `x_(n+1) = (1+2x_n)/(1+x_n)`, `n = 1, 2, cdots`;
+  </li>
+  <li>`0 lt x_1 lt 1/a`, `x_(n+1) = x_n (2-ax_n)`, `n = 1, 2, cdots`
+    (这个迭代格式可用来计算`1/a`);
+  </li>
+  <li>`x_1 gt 0`, `x_(n+1) = (x_n (x_n^2 + 3a))/(3x_n^2 + a)`,
+    `n = 1, 2, cdots`;
+  </li>
+  <li>`x_1 gt 0`, `x_(n+1) = 1/3 (2x_n + a/x_n^2)`, `n = 1, 2 cdots`
+    (这个迭代格式可用来计算 `root 3 a`);
+  </li>
+  <li>`x_1 = sqrt 2`, `x_2 = sqrt(2 sqrt 2)`,
+    `x_3 = sqrt(2 sqrt (2 sqrt 2))`, `cdots`,
+    `x_n = underbrace(sqrt(2 sqrt(2 cdots sqrt 2)))_(n 个根号)`,
+    `cdots`;
+  </li>
+  <li>`x_1 = 1`, `x_2 = sqrt(1 + sqrt 1)`,
+    `x_3 = sqrt(1 + sqrt(1 + sqrt 1))`, `cdots`,
+    `x_n = underbrace(sqrt(1+sqrt(1+cdots+sqrt 1)))_(n 个根号)`,
+    `cdots`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>归纳法可证 `x_n in [0, 2]`; 又 `x_(n+1) - x_n = 1/2 - x_n/4 ge 0`,
+    由单调有界原理, 极限存在. 在迭代格式两边取极限, 得 `x_n to 2`.
+  </li>
+  <li>`x_n in [1, (1+sqrt 5)/2]` (这是 `lambda^2 - lambda - 1` 的正根);
+    `x_(n+1) - x_n = (1 + x_n - x_n^2)/(1+x_n) ge 0`. 极限是 `(1+sqrt
+    5)/2`.
+  </li>
+  <li>`x_n in [0, 1/a]`; `x_(n+1) - x_n = x_n(1-ax_n) ge 0`. 极限是
+    `1/a`.
+  </li>
+  <li>令 `varphi(x) = (x(x^2+3a))/(3x^2+a)`, 则 `varphi'(x) =
+    (3(x^2-a)^2)/(3x^2+a)^2 ge 0`, `varphi` 是单增函数.
+    注意到 `varphi(sqrt a) = sqrt a`,
+    所以 `x_1 ge sqrt a` 时, `x_n ge sqrt a`, `x_(n+1) - x_n =
+    (2x_n(a-x_n^2))/(3x_n^2 + a) le 0`, 数列单调递减有下界.
+    同理 `x_1 le sqrt a` 时, 数列单调递增有上界. 两种情形下的极限都是
+    `sqrt a`.
+  </li>
+  <li>`x_(n+1) ge root 3 (x_n * x_n * a/x_n^2) = root 3 a`;
+    `x_(n+1) - x_n = 1/3(a/x_n^2 - x_n) le 0`, `AA n ge 2`.
+    极限是 `root 3 a`.
+  </li>
+  <li>迭代格式为 `x_(n+1) = sqrt(2x_n)`.
+    `x_n in [0, 2]`; `x_(n+1)^2 - x_n^2 = x_n(2-x_n) ge 0`.
+    极限是 2.
+  </li>
+  <li>迭代格式为 `x_(n+1) = sqrt(1+x_n)`.
+    `x_n in [1, (1+sqrt 5)/2]`;
+    `x_(n+1)^2 - x_n^2 = 1+x_n-x_n^2 ge 0`.
+    极限是 `(1+sqrt 5)/2`.
+  </li>
+</ol>
+</li>
+
+<li>设 S 是非空有上界的实数集合, a 是 S 的上确界, 但 `a !in S`.
+  证明: 存在 S 中的单调递增数列 `{x_n}` 使 `lim_(n to oo) x_n = a`.
+
+  <br/>
+  <div class="proof">
+    由上确界定义, 对任意 `epsi gt 0`, 存在 `x in S`, 使得
+    <span class="formula">
+      `a - epsi lt x lt a`.
+    </span>
+    (由 `a !in S` 知上式右端不能取等).
+    取 `epsi_0 = 1`, 则存在 `x_0 in S` 使
+
+      `a - epsi_0 lt x_0 lt a`.
+
+    一般地, 若已有 `0 lt epsi_n le 2^-n` 和 `x_n in S` 使
+
+      `a - epsi_n lt x_n lt a`,
+
+    取 `epsi_(n+1) = min{2^-(n+1), a-x_n} gt 0`,
+    则存在 `x_(n+1) in S`, 使
+
+      `x_n le a - epsi_(n+1) lt x_(n+1) lt a`,
+
+    从而数列 `{x_n}` 严格单调递增有上界. 注意到
+    <span class="formula">
+      `|x_n - a| lt epsi_n le 2^-n`,
+    </span>
+    立即得到 `x_n to a`.
+  </div>
+</li>
+
+<li>
+<ol>
+  <li>证明: `1/(n+1) lt ln(1 + 1/n) lt 1/n`, `n = 1, 2, cdots`;</li>
+  <li>证明: `lim_(n to oo) n ln(1 + 1/n) = 1`;</li>
+  <li>证明数列 `x_n = 1 + 1/2 + 1/3 + cdots + 1/n - ln n`
+    (`n = 1, 2, cdots`) 有极限. 这个极限值叫做<b>欧拉常数</b>,
+    其值为 `c = 0.577216 cdots`;
+  </li>
+  <li>求 `lim_(n to oo) ln(1/(n+1) + 1/(n+2) + cdots + 1/(2n))`.
+  </li>
+</ol>
+<ol class="proof">
+  <li>
+    只需证
+    <span class="formula">
+      `(1+1/n)^n lt e lt (1+1/n)^(n+1)`, `AA n in NN`.
+    </span>
+    由命题 2.4.1, `{(1+1/n)^n}` 严格单增趋于 e, 故 `(1+1/n)^n lt e`.
+    另一方面, `AA n in NN`,
+    `root(n+2)(1/(1+1/n)^(n+1)) lt 1/(n+2)((n+1)/(1+1/n) + 1)
+    = 1/(1+1/(n+1))`, 故 `{(1+1/n)^(n+1)}` 严格单减; 而已知
+    `(1+1/n)^(n+1) to e`, 故 `(1+1/n)^(n+1) gt e`.
+  </li>
+  <li>由 (1) 应用两边夹法则立得结论.</li>
+  <li>`x_(n+1) - x_n = = 1/(n+1) - ln(1+1/n) lt 0`.
+    下证 0 是数列的一个下界. 注意
+    <span class="formula">
+      `prod_(k=1)^n (1+1/k) = ((n+1)!)/(n!) = n+1 gt n`,
+    </span>
+    我们有
+    <span class="formula">
+      `ln n lt sum_(k=1)^n ln(1+1/k) lt sum_(k=1)^n 1/k`.
+    </span>
+  </li>
+  <li>因为
+    <span class="formula">
+      `sum_(k=n+1)^(2n) 1/k = (sum_(k=1)^(2n) 1/k - ln(2n))
+      - (sum_(k=1)^n 1/k - ln n) + ln 2`,
+    </span>
+    所以原式 = `ln ln 2`.
+  </li>
+</ol>
+</li>
+
+<li>证明: 数列 `x_n = 1/(1+1) + 1/(2+1/2) + cdots + 1/(n+1/n)
+  - ln {:n/sqrt2:}` (`n = 1, 2, cdots`) 有位于区间 `[0, 1/2]` 的极限.
+
+  <br/>
+  <div class="proof">
+    `x_(n+1) - x_n = 1/(n+1+1/(n+1)) - ln(1+1/n) lt 1/(n+1) -
+    ln(1+1/n) lt 0`.
+    计算知 `x_3 lt 1/2`, 所以从第 3 项起, `1/2` 是数列的一个上界.
+    下证 0 是数列的一个下界.
+    因为 `1/(t + 1/t)` 在 `t gt 1` 时严格单减, 我们有
+    <span class="formula">
+      `1/(k+1/k) gt int_k^(k+1) dt/(t+1/t)
+      = 1/2 ln {:((k+1)^2+1)/(k^2+1):}`, `k = 1, 2, cdots, n`.
+    </span>
+    两边从 1 到 n 求和, 得
+    <span class="formula align">
+      `sum_(k=1)^n 1/(k+1/k)`<br>
+      `gt 1/2 sum_(k=1)^n ln {:((k+1)^2+1)/(k^2+1):}`<br>
+      `gt 1/2 sum_(k=1)^(n-1) ln {:((k+1)^2+1)/(k^2+1):}`<br>
+      `= 1/2 ln {:(n^2+1)/2:}`<br>
+      `gt ln{:n/sqrt 2:}`.
+    </span>
+  </div>
+</li>
+
+<li>设 `0 lt x_1 lt y_1`, 且
+  <div class="formula">
+    `x_(n+1) = sqrt(x_n y_n)`, `y_(n+1) = 1/2 (x_n + y_n)`,
+    `n = 1, 2, cdots`.
+  </div>
+  证明: `{x_n}` 和 `{y_n}` 都有极限并且相等.<br/>
+  <div class="proof">
+    归纳法易证 `"{"[x_n, y_n]"}"` 形成一区间套. 而
+    `y_(n+1) - x_(n+1) = (x_n + y_n)/2 - sqrt(x_n y_n)
+    le (x_n + y_n)/2 - x_n = (y_n - x_n)/2`. 故 `y_n - x_n to 0`.
+    由区间套定理知 `{x_n}` 和 `{y_n}` 趋于同一极限.
+  </div>
+</li>
+
+<li>应用区间套定理证明关于实数分划的戴德金原理.<br/>
+  <div class="proof">
+  <p> 设 (A, B) 是实数域的一个戴德金分划, 则
+    `A, B != O/`, `A uu B = RR`, `x lt y`, `AA x in A, AA y in B`.
+    因为 A, B 非空, 可以取 `a_0 in A`, `b_0 in B`, 则 `a_0 lt b_0`.
+    记 `d = b_0 - a_0`, `c_0 = (a_0 + b_0)/2`.
+    令
+    <span class="formula">
+      `[a_1, b_1] = {
+        [c_0, b_0], if c_0 in A;
+        [a_0, c_0], if c_0 in B;
+      :}`
+    </span>
+    则 `[a_1, b_1] sube [a_0, b_0]`, `b_1 - a_1 = d/2`.
+    且 `a_1 in A`, `b_1 in B`.
+    反复二分, 得到区间套 `"{"[a_n, b_n]"}"`,
+    满足 `a_n in A`, `b_n in B`, `AA n in NN`,
+    其长度 `b_n - a_n = d*2^-n to 0`.
+    由区间套定理, 存在唯一的 `c in [a_n, b_n]`, `AA n in NN`.
+  </p>
+  <p> 设 `c in A`, 则 `c lt y`, `AA y in B`.
+    若 `EE x in A`, `x gt c`, 则由 `c` 的唯一性知存在 `n_0 in NN`,
+    `x gt b_(n_0) in B`, 与 (A, B) 是一个戴德金分划相矛盾; 于是
+    `x le c le y`, `AA x in A, AA y in B`. `c in B` 时的证明类似.
+  </p>
+  </div>
+</li>
+
+<li>应用区间套定理证明确界原理.<br/>
+  <div class="proof">
+  <p> 只对上确界的情形进行证明. 设 S 是非空有上界 M 的集合,
+    取 `a_0 in S`, `b_0 = M+1`, 则 `a_0 lt b_0`,
+    `[a_0, b_0] nn S != O/`.
+    记 `d = b_0 - a_0`, `c_0 = (a_0 + b_0)/2`.
+    令
+    <span class="formula">
+      `[a_1, b_1] = {
+        [c_0, b_0], if [c_0, b_0] nn S != O/;
+        [a_0, c_0], if [c_0, b_0] nn S = O/;
+    :}`</span>
+    则 `[a_1, b_1] sube [a_0, b_0]`, `b_1 - a_1 = d/2`,
+    且 `[a_1, b_1] nn S != O/`, `b_1` 是 S 的上界.
+    反复二分, 得到区间套 `"{"[a_n, b_n]"}"`,
+    满足 `[a_n, b_n] nn S != O/`, `b_n` 是 S 的上界, `AA n in NN`.
+    其长度 `b_n - a_n = d*2^-n to 0`.
+    由区间套定理, 存在唯一的 `c in [a_n, b_n]`, `AA n in NN`.
+  </p>
+  <p>
+    设存在 `x in S`, `x gt c`, 则由 `c` 的唯一性知存在 `n_0 in NN`,
+    `x gt b_(n_0)`. 这与 `b_(n_0)` 是 S 的上界矛盾. 故 `c` 是 S
+    的上界. 对任意 `epsi gt 0`, 取 `n` 适当大使 `d*2^-n lt epsi`,
+    则存在 `x_epsi in [a_n, b_n] nn S` 使
+    <span class="formula">
+      `|x_epsi - c| le d*2^-n lt epsi`,
+    </span>
+    这蕴含 `x_epsi gt c - epsi`. 故 `c` 是 S 的上确界.
+  </p>
+  </div>
+</li>
+
+<li>集合 S 中的全部元素如果可以和全体自然数建立一一对应关系,
+  即排成一个序列, 则称 S 是<b>可数集</b>,
+  否则称 S 是<b>不可数集</b>. 应用区间套定理证明: 区间 [0, 1]
+  中的全体实数不可数.<br/>
+  <div class="proof">
+  <p> 设 [0, 1] 中的全体实数只有可数个, 记为 `x_1, x_2, cdots`.
+    记 `[a_0, b_0] = [0, 1]`, 将区间三等分, 取两边的两个子区间
+    `[a_0, a_0+1/3]` 和 `[b_0-1/3, b_0]`, 它们中必有一个区间不含
+    `x_1`, 记这个区间为 `[a_1, b_1]`. 再将 `[a_1, b_1]` 三等分,
+    取两边的子区间中不含 `x_2` 的一个, 记为 `[a_2, b_2]`.
+    反复下去, 得到一组区间套 `"{"[a_n, b_n]"}"`, 其长度
+    `b_n - a_n = 3^-n to 0`,
+    且满足 `[a_n, b_n] nn {x_1, cdots, x_n} = O/`, `AA n in NN`.
+  </p>
+  <p> 由区间套定理, 存在实数 `x in [a_n, b_n]`, `AA n in NN`.
+    显然 `x in [0, 1]`, 因此设 `x = x_N`. 这与 `x_N !in [a_N, b_N]`
+    矛盾.
+  </p>
+  </div>
+</li>
+
+<li>设数列 `{x_n}` 可以写成 `x_n = a + r_n`, `n = 1, 2, cdots`,
+  其中 `r_n` 满足 `|r_(n+1)| le lambda |r_n|` (`0 lt lambda lt 1`),
+  `n = 1, 2, cdots`. 则根据习题 2.1 第 6 题知
+  `lim_(n to oo) x_n = a`.
+  应用这个原理证明下列数列收敛并求它们的极限:
+  <ol>
+    <li>`x_1 = 0`, `x_(n+1) = 1/3(2x_n+1)`, `n = 1,2,cdots`;</li>
+    <li>`x_1 = 1`, `x_(n+1) = (a(1+x_n))/(a+x_n)` (`a gt 0`),
+      `n = 1, 2, cdots`;
+    </li>
+    <li>`x_1 = 2`, `x_2 = 2+1/2`, `x_3 = 2 + 1/(2 + 1/2)`,`cdots`.
+    </li>
+  </ol>
+
+  <ol class="proof">
+    <li>`x_(n+1) = 1 + 2/3(x_n - 1)`, 故 `|r_(n+1)| = 2/3|x_n-1| =
+      2/3|r_n|`, `x_n to 1`.
+    </li>
+    <li>由数列极限的定义容易证明,
+      当数列的奇数项和偶数项收敛到同一极限时,
+      数列本身也收敛到同一极限.
+      为此, 只需证明 `|r_(n+2)| le lambda |r_n|`, `lambda lt 1`.
+      事实上,
+      <span class="formula">
+        `x_(n+2)`
+        `= ((1+a)x_n + 2a)/(2x_n + 1+a)`
+        `= sqrt a + (1-sqrt a)^2/((1-sqrt a)^2`
+        `+ 2(x_n + a)) (x_n-sqrt a)`.
+      </span>
+      所以
+      <span class="formula">
+        `|r_(n+2)|`
+        `= (1-sqrt a)^2/((1-sqrt a)^2 + 2(x_n + sqrt a)) |r_n|`
+        `le (1-sqrt a)^2/((1-sqrt a)^2 + 2 sqrt a)|r_n|`,
+      </span>
+      其中 `lambda = (1-sqrt a)^2/((1-sqrt a)^2 + 2 sqrt a) lt 1`.
+    </li>
+    <li>思路同上题,
+      <span class="formula">
+        `x_(n+2) = 2+1/x_(n+1) = 2 + x_n/(2x_n+1)`
+        `= 1 + sqrt 2 + (3-2sqrt 2)/(2x_n+1) (x_n - 1-sqrt 2)`.
+      </span>
+      由 `x_n ge 2`, `AA n in NN`,
+      <span class="formula">
+        `|r_(n+2)|`
+        `= (3-2sqrt 2)/(2x_n+1) |r_n|`
+        `le (3-2sqrt 2)/5 |r_n|`.
+      </span>
+      其中 `lambda = (3-2sqrt 2)/5 lt 1`.
+    </li>
+  </ol>
+</li>
+
+<li>
+<ol>
+  <li>设数列 `{x_n}` 满足: 存在常数 `0 lt lambda lt 1` 使
+    `|x_(n+1) - x_n| le lambda |x_n - x_(n-1)|`, `n = 2, 3,cdots`.
+    证明该数列收敛.<br />
+    应用以上原理求以下数列的极限:
+  </li>
+  <li>`x_1 = 1`, `x_(n+1) = (2+x_n)/(1+x_n)`, `n = 1, 2,cdots`;</li>
+  <li>`x_1 = sqrt 2`, `x_(n+1) = sqrt(2 + x_n)`, `n=1,2,cdots`;</li>
+  <li>`x_1 = 1`, `x_(n+1) = 1 + 1/x_n`, `n = 1, 2, cdots`;</li>
+  <li>`x_1 = a in [0, 1]`, `x_(n+1) = 1/2 (a - x_n^2)`,
+    `n = 1, 2, cdots`;
+  </li>
+  <li>`x_1 = a in [0, 1)`, `x_(n+1) = 1/2(a + x_n^2)`,
+    `n = 1, 2, cdots`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>由已知得 `|x_(n+1)-x_n| le lambda^(n-1) |x_2 - x_1| to 0`,
+    所以对任意 `epsi gt 0`, 存在 `N in NN`, 对任意 `n gt N` 有
+    `|x_(n+1)-x_n| lt (1-lambda) epsi`.
+    任取 `m gt n`, 有
+    <span class="formula">
+      `|x_m - x_n| le sum_(k=n)^(m-1) |x_(k+1)-x_k|`
+      `le |x_(n+1)-x_n| sum_(k=0)^(m-n-1) lambda^k`
+      `lt (1-lambda) epsi sum_(k=0)^oo lambda^k`
+      `= epsi`.
+    </span>
+    由 Cauchy 收敛准则知 `x_n` 收敛.
+  </li>
+  <li>易证 `x_n ge 1`, `AA n in NN`.
+    由
+    <span class="formula">
+      `x_(n+2) - x_(n+1) = (2+x_(n+1))/(1+x_(n+1)) - (2+x_n)/(1+x_n)
+      = (x_n - x_(n+1))/((1+x_(n+1))(1+x_n))`
+    </span>
+    知 `|x_(n+2) - x_(n+1)| le 1/4 |x_(n+1) - x_n|`. 故数列收敛,
+    极限为 `sqrt 2`.
+  </li>
+  <li>易证 `x_n ge sqrt 2`, `AA n in NN`.
+    由
+    <span class="formula">
+      `|x_(n+2) - x_(n+1)| = |sqrt(2+x_(n+1)) - sqrt(2+x_n)|`
+      `= |x_(n+1) - x_n|/(sqrt(2+x_(n+1)) + sqrt(2+x_n))
+      le |x_(n+1) - x_n|/(2sqrt(2 + sqrt 2))`
+    </span>
+    知数列收敛, 极限为 2.
+  </li>
+  <li>易证 `x_n ge 1`, `AA n in NN`; 从而 `x_n x_(n+1) = x_n(1+1/x_n)
+    ge 2`. 由
+    <span class="formula">
+      `|x_(n+2) - x_(n+1)| = |1/x_(n+1) - 1/x_n|
+      = |x_n - x_(n+1)|/(x_(n+1) x_n)
+      le |x_n - x_(n+1)|/ 2`
+    </span>
+    知数列收敛, 极限为 `(1+sqrt 5)/2`.
+  </li>
+  <li>易证 `x_n ge 0`, `AA n in NN`; 从而 `x_(n+1) + x_n = 1/2(a-x_n^2 +
+    2x_n) le (a+1)/2 le 1`. 由
+    <span class="formula">
+      `|x_(n+2) - x_(n+1)| = |x_(n+1) + x_n|/2 |x_(n+1) - x_n|
+      le 1/2 |x_(n+1) - x_n|`
+    </span>
+    知数列收敛, 极限为 `sqrt(a+1) - 1`.
+  </li>
+  <li>易证 `0 le x_n le a`, `AA n in NN`. 由
+    <span class="formula">
+      `|x_(n+2) - x_(n+1)| = |x_(n+1) + x_n|/2 |x_(n+1) - x_n|
+      le a |x_(n+1) - x_n|`
+    </span>
+    知数列收敛, 极限为 `1 - sqrt(1-a)`.
+  </li>
+</ol>
+</li>
+
+<li>证明:
+  <ol>
+  <li>如果有界数列 `{x_n}` 不收敛, 则必存在两个收敛的子数列, 它们有
+    不同的极限.
+  </li>
+  <li>如果 `{x_n}` 是有界数列, 并且它的每个收敛的子数列都收敛于 `a`,
+    则 `lim_(n to oo) x_n = a`.
+  </li>
+  </ol>
+
+  <ol class="proof">
+  <li>(参考定理 2.5.2)
+    因为 `{x_n}` 不收敛, 由柯西准则知存在 `epsilon_0 gt 0`, 使对
+    任意 `N in NN`, 都存在 `m`, `n gt N` , 使
+    <span class="formula">
+      `|x_m - x_n| ge epsilon_0`.
+    </span>
+    可以取 `N_1 = 1`, `N_(k+1) = max{m_k, n_k}`,
+    这就保证 `{x_(m_k)}`, `{x_(n_k)}` 是两个子列.
+    应用列紧性原理, 从 `{x_(m_k)}` 中选出一收敛子列,
+    再从 `{x_(n_k)}` 的相应子数列中选出一收敛子列.
+    这一子列与 `{x_(m_k)}` 的相应子列保持对应项的距离不小于 `epsi_0`,
+    因此它们的极限不相等.
+    所以必有 `a != b`.
+  </li>
+  <li>若 `{x_n}` 不收敛, 由 (1) 知存在两个子数列收敛到不同的极限, 矛盾;
+    故 `{x_n}` 收敛. 因为 `{x_n}` 也是自己的子数列, 它的极限必为 a.
+  </li>
+  </ol>
+</li>
+
+<li>应用列紧性原理证明单调有界原理.<br>
+  <div class="proof">
+  <p>
+    不妨设 `{x_n}` 单调递增有上界; 显然 `x_1` 是它的下界, 所以 `{x_n}`
+    有界. 由列紧性原理, 存在 `{x_n}` 的收敛的子数列 `{x_(n_k)}`. 设
+    `lim_(k to oo) x_(n_k) = a`, 下证 `lim_(n to oo) x_n = a`.
+  </p>
+  <p> 对任意 `epsi gt 0`, 存在正整数 `K`, 使对任意 `k gt K`, 有
+    <span class="formula">
+      `|x_(n_k) - a| lt epsi`.
+    </span>
+    取 `N = n_(K+1)`, 则对任意 `n gt N`, 有
+    <span class="formula">
+      `x_n ge x_N = x_(n_(K+1))`,
+    </span>
+    从而
+    <span class="formula">
+      `|x_n - a| = a - x_n le a - x_(n_(K+1)) lt epsi`.
+    </span>
+    即得结论.
+  </p>
+  </div>
+</li>
+
+<li>证明下列数列收敛:
+<ol>
+  <li>`x_n = sum_(k=1)^n (sin (ak))/2^k` (`n = 1, 2, cdots`),
+    a 为任意常数;
+  </li>
+  <li>`x_n = sum_(k=1)^n (cos a_k)/(k(k+1))` (`n = 1, 2, cdots`),
+    其中 `{a_k}` 是任意给定的数列;
+  </li>
+  <li>`x_n = sum_(k=1)^n a_k/10^k` (`n = 1, 2, cdots`),
+    其中 `|a_k| lt 10` (`k = 1, 2, cdots`);
+  </li>
+  <li>`x_n = sum_(k=1)^n (cos(k+1)x - cos kx)/k` (`n = 1, 2,cdots`),
+    其中 x 是任意给定的实数.
+  </li>
+
+  <ol class="proof">
+    我们用 Cauchy 收敛准则判定这些数列的收敛性. 在无穷级数一章中,
+    还会更多地接触到这类极限. 设 `p` 是任意正整数. 若能证明
+    <span class="formula">
+      `|x_(n+p) - x_n| = o(1)`, 当 `n to oo`,
+    </span>
+    则 `{x_n}` 收敛.
+    <li>`|x_(n+p) - x_n| = |sum_(k=n+1)^(n+p) sin{:ak:}/2^k|
+      le sum_(k=(n+1))^(n+p) 1/2^k lt 1/2^n`.
+    </li>
+    <li>`|x_(n+p) - x_n| = |sum_(k=n+1)^(n+p) cos{:a_k:}/(k(k+1))|
+      le sum_(k=n+1)^(n+p) (1/k - 1/(k+1))`
+      `= 1/(n+1) - 1/(n+p+1)`.
+    </li>
+    <li>`|x_(n+p) - x_n| = |sum_(k=n+1)^(n+p) a_k/10^k|
+      lt sum_(k=n)^(n+p-1) 1/10^k lt 1/10^n 1/(1-1/10)`.
+    </li>
+    <li>`x_n = sum_(k=2)^(n+1) cos{:kx:}/(k-1) - sum_(k=1)^n
+      cos{:kx:}/k`
+      `= cos{:(n+1)x:}/n - cos x + sum_(k=2)^n
+      cos{:kx:}/(k(k-1))`.
+      由 (2) 知数列收敛.
+    </li>
+  </ol>
+</ol>
+</li>
+
+<li>应用柯西收敛准则证明单调有界原理.
+  <div>
+  <p class="proof">
+    不妨设 `{x_n}` 单调递增且有上界 M.
+    反设 `{x_n}` 不收敛, 由柯西准则, 存在 `epsi_0 gt 0`,
+    对任意正整数 `N`, 存在 `m, n gt N`, 使
+    <span class="formula">
+      `|x_m - x_n| ge epsi_0`.
+    </span>
+    取 `N_1 = 1`, 则 `EE m_1, n_1 gt N_1`, 使
+    <span class="formula">
+      `|x_(m_1) - x_(n_1)| ge epsi_0`.
+    </span>
+    一般地, 取 `N_k = max{m_(k-1), n_(k-1)}`,
+    则 `EE m_k, n_k gt N_k`, 使
+    <span class="formula">
+      `|x_(m_k) - x_(n_k)| ge epsi_0`.
+    </span>
+    记 `d = M-x_1`, 于是当 `k gt d/epsi_0` 时,
+    <span class="formula">
+      `d lt k epsi_0 le sum_(i=1)^k |x_(m_i) - x_(n_i)| le d`,
+    </span>
+    矛盾.
+  </p>
+  </div>
+</li>
+
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>
+

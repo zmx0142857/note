@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>定积分的计算</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+<ol class="enum">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li>设 `f(x)` 是 `[0, 1]` 上的连续函数, `f(0) = 0`, 且 `f(x)/x` 在 `[0,
+  1]` 上可积. 证明:
+  <span class="formula">
+    `lim_(n to oo) n int_0^1 f(x^n) dx = int_0^1 f(x)/x dx`.
+  </span>
+
+  <p class="proof">
+    作变元变换 `t = x^n`, 则左端积分等于
+    <span class="formula">
+      `n int_0^1 f(t) "d"(t^(1/n)) = int_0^1 f(t)/t t^(1/n) dt`.
+    </span>
+    因为 `x^(1/n)` 在 `[0, 1]` 上不一致收敛, 我们把区间分为两部分来讨论.
+    <span class="formula align">
+      `|n int_0^1 f(x^n) dx - int_0^1 f(x)/x dx|`<br>
+      `= |int_0^1 f(x)/x (x^(1/n) - 1) dx|`<br>
+      `le int_0^delta |f(x)/x| |x^(1/n) - 1| dx`
+      `+ int_delta^1 |f(x)/x| |x^(1/n) - 1| dx`.
+    </span>
+    我们记 `M` 为 `|f(x)/x|` 在 `[0, 1]` 上的上界. 对任意 `epsi gt
+    0`, 先取 `delta` 充分小, 如 `delta = epsi/(2M)`, 使第一项小于
+    `epsi/2`. 取定此 `delta` 后, 由 `lim_(n to oo) delta^(1/n) = 1`
+    知 `EE N in NN`, 当 `n gt N` 时有
+    <span class="formula">
+      `|x^(1/n) - 1|`
+      `le |delta^(1/n) - 1|`
+      `lt epsilon/(2M)`,
+      `quad AA x in [delta, 1]`.
+    </span>
+    从而第二项小于 `(1-delta) M epsi/(2M) lt epsi/2`.
+    综上可知所要证的极限成立.
+  </p>
+</li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>
+

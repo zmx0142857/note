@@ -98,6 +98,7 @@ caption {
 
 p, .p {
   margin: 0.8em 0;
+  /* content-visibility: auto; 优化: 不加载可视区域外的元素 */
 }
 
 input, button, textarea {
@@ -168,10 +169,23 @@ pre.remark {
   line-height: 2em;
   margin: 1em 0;
 }
+.formula.align {
+  display: inline-block;
+  text-align: left;
+  width: max-content;
+  padding-left: 20px;
+}
+.formula.align > br + * {
+  margin-left: -20px; /* 等号向左对齐 */
+}
+.formula.align > br.noindent + * {
+  margin-left: 0;
+}
 
 div.scroll-wrapper {
   width: 100%;
   overflow-x: auto;
+  text-align: center;
 }
 
 @font-face {
@@ -199,30 +213,28 @@ mtd {
 .shadow {
   background: rgba(0,0,0,0.2);
 }
-
 .center {
   text-align: center;
 }
-
+.right {
+  float: right;
+}
 .remark {
   padding: 0.5em;
   border-radius: 0.5em;
   background: rgba(0,0,0,0.2);
 }
-
 .proof, .solution, .answer, .collapse, .toc {
+  padding: 0.5em !important;
+  margin-top: 0 !important;
   display: block;
-  padding: 0.5em;
   border-radius: 0 0.5em 0.5em 0.5em;
   background: rgba(0,0,0,0.2);
-  margin-top: 0;
   /*transition: .5s ease;*/
 }
-
 .proof pre, .solution pre, .answer pre, .collapse pre {
   background: transparent;
 }
-
 .hidden {
   display: none;
   /*height: 0;
@@ -230,7 +242,6 @@ mtd {
   padding-bottom: 0;
   overflow: hidden;*/
 }
-
 .phantom {
   opacity: 0;
 }
@@ -238,7 +249,6 @@ mtd {
 .error, .katex-error {
   color: crimson;
 }
-
 .katex-error {
   max-width: 150px;
   display: inline-block;
@@ -302,7 +312,7 @@ button.toggle-answer {
   font-weight: bold;
   color: inherit;
   background: rgba(0, 0, 0, 0.2);
-  margin-bottom: 0;
+  margin: 0.1em 0 0;
   border-radius: 0.5em;
 }
 
@@ -317,6 +327,7 @@ button.toggle-answer::after {
 
 button.answer-shown {
   border-radius: 0.5em 0.5em 0 0;
+  margin-bottom: 0;
 }
 
 button.answer-shown::after {
@@ -332,17 +343,16 @@ span.box {
   display: inline-block;
 }
 
-/* use this to number your formula */
-span.label,span.label-phantom {
-  display: table-cell;
+/* formula numbering */
+span.label {
+  display: flex;
+  align-items: center;
   text-align: right;
-  vertical-align: middle;
   white-space: nowrap;
-}
-
-/* ... and this to force align */
-span.label-phantom {
-  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
 }
 
 .pull-left {
@@ -373,23 +383,26 @@ ol li, ul li {
   margin: 0.3em 1.5em;
 }
 
-ol ol li {
-  margin: 0.3em 1em;
+ol ol > li {
+  margin: 0.3em 0;
 }
 
 /* ol style (1) (2) (3)... */
-ol.enum ol {
-  list-style-type: none;
-}
-
 ol.enum > ol {
   counter-reset: enum_cnt;
 }
-
+ol.enum > li > ol {
+  padding-left: 0;
+}
+ol.enum ol {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 1em;
+  margin: 0.4em 0;
+}
 ol.enum ol > li {
   counter-increment: enum_cnt;
 }
-
 ol.enum ol > li::before {
   content: "(" counter(enum_cnt) ") ";
 }
@@ -398,56 +411,44 @@ ol.enum ol > li::before {
 ol.subenum ol {
   counter-reset: subenum_cnt;
 }
-
 ol.subenum ol > li {
   counter-increment: subenum_cnt;
 }
-
 ol.subenum ol > li:before {
   content: "(" counter(subenum_cnt, lower-roman) ") ";
 }
-
-/*
-ol.enum ol li {
-  display: inline-block;
-}
-*/
 
 dl dt {
   font-size: 1em;
   font-weight: bold;
 }
-
 dl dd {
   margin-bottom: 0.3em;
   margin-left: 2em;
 }
 
 .img {
-  display: flex;
-  flex-direction: column;
+  display: block;
   margin: 2em 0;
   text-align: center;
   font-size: 0.9em;
-  height: max-content;
-  overflow: auto;
-}
-.img.lg {
-  height: 30rem;
-}
-.img.md {
-  height: 20rem;
-}
-.img.sm {
-  height: 13rem;
-}
-.img.xs {
-  height: 10rem;
+  overflow-x: auto;
 }
 .img img {
   display: block;
   margin: 0 auto;
-  height: calc(100% - 1em);
+}
+.img.lg img {
+  height: 28rem;
+}
+.img.md img {
+  height: 18rem;
+}
+.img.sm img {
+  height: 12rem;
+}
+.img.xs img {
+  height: 8rem;
 }
 
 /* multi-columns */
@@ -460,29 +461,27 @@ dl dd {
 .flex > div + div {
   margin-left: 10px;
 }
-.col2 li,.col2 div {
-  width: 43%;
+.col2 > div, .col2 > li,
+.col3 > div, .col3 > li,
+.col4 > div, .col4 > li,
+.col5 > div, .col5 > li {
   display: inline-block;
 }
-
-.col2 .img {
+.col2 > div, .col2 > li {
+  min-width: calc(50% - 0.5em);
+}
+.col3 > div, .col3 > li {
+  min-width: calc(33.33% - 0.67em);
+}
+.col4 > div, .col4 > li {
+  min-width: calc(25% - 0.75em);
+}
+.col5 > div, .col5 > li {
+  min-width: calc(20% - 0.8em);
+}
+/*.col2 .img {
   height: 20em;
-}
-
-.col3 li,.col3 div {
-  width: 27%;
-  display: inline-block;
-}
-
-.col4 li,.col4 div {
-  width: 18%;
-  display: inline-block;
-}
-
-.col5 li,.col5 div {
-  width: 14%;
-  display: inline-block;
-}
+}*/
 
 table {
   margin: 2em auto;
@@ -730,25 +729,11 @@ div.tree li {
     display: inline-block;
     text-align: left;
     text-indent: 2em;
-    margin: 0 10%;
   }
 }
 
 /* desktop */
 @media screen and (max-resolution: 149dpi) {
-  .formula > .align {
-    display: inline-block;
-    text-align: left;
-    /*text-indent: 2em;*/
-    margin: 0 10%;
-    padding-left: 20px;
-  }
-  .formula > .align > br + * {
-    margin-left: -20px; /* 等号向左对齐 */
-  }
-  .formula > .align > br.noindent + * {
-    margin-left: 0;
-  }
 }
 
 /* mobile phone */
@@ -760,28 +745,17 @@ div.tree li {
     font-size: 0.9em;
     padding: 0.5em;
   }
-  .img {
-    width: 100%;
+  .img.lg img {
+    height: 20rem;
   }
-  .img.lg {
-    height: 22rem;
+  .img.md img {
+    height: 13rem;
   }
-  .img.md {
-    height: 15rem;
+  .img.sm img {
+    height: 8rem;
   }
-  .img.sm {
-    height: 10rem;
-  }
-  .img.xs {
-    height: 10rem;
-  }
-  .img > canvas {
-    width: 75%;
-    height: 75%;
-  }
-  .flex canvas {
-    width: 100%;
-    height: 100%;
+  .img.xs img {
+    height: 8rem;
   }
 }
 

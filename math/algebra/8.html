@@ -1,659 +1,256 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>线性空间中的度量与内积</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+  <meta charset="utf-8" />
+  <title>Galois 理论</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
 </head>
+
 <body>
 
-<h2>线性函数与双线性函数</h2>
-
-<h3>线性函数</h3>
-
-<p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间, 视 `bbb P` 为一维线性空间,
-	称线性映射 `f: V to bbb P` 为 `V` 上一<b>线性函数</b>.
-	`V` 上全体函数记为 `L(V, bbb P)`.
+<p class="remark">
+  <b>单代数扩域的 `bbb F`-自同构</b><br>
+  域 `bbb K` 上全体自同构关于变换的通常合成构成一个群 `Aut(bbb K)`, 称为
+  `bbb K` 的<b>自同构群</b>.<br>
+  下面只看单代数扩域. 记 `bbb K = bbb F(alpha)`, `alpha` 是 `bbb F`
+  上代数元. 于是 `bbb K` 中元素形如 `f(alpha)`, 其中 `f in bbb F[x]`.
+  令 `sigma in Aut(bbb K)`, `f(x) = c_n x^n + cdots + c_1 x + c_0`, 则
+  <span class="formula">
+    `sigma(f(alpha))`
+    `= sigma(c_n) sigma(alpha)^n + cdots + sigma(c_1) sigma(alpha) + sigma(c_0)`.
+  </span>
+  假如 `sigma` 保持 `f` 的系数不变: `sigma(c_i) = c_i`, `i = 0, cdots, n`,
+  则得到一个漂亮的等式:
+  <span class="formula">
+    `sigma(f(alpha)) = f(sigma(alpha))`.
+  </span>
+  进一步, 若 `sigma` 在 `bbb F` 上为恒等映射: `AA b in bbb F, sigma(b) = b`;
+  则上式对任意 `f in bbb F[x]` 成立.<br>
+  这种在 `bbb F` 上保持恒等的 `bbb K` 的自同构称为 `bbb K` 的 `bbb F`-自同构.
+  我们发现, `bbb K` 的 `bbb F`-自同构 `sigma` 由 `alpha` 的像 `sigma(alpha)`
+  完全决定. 事实上, 记 `beta = sigma(alpha)`, 则有
+  <span class="formula">
+    `sigma: bbb K to bbb K`<br>
+    `f(alpha) mapsto f(beta)`.
+  </span>
+  下面考虑 `alpha` 可能的像. 在上式中令 `f` 为 `alpha` 的最小多项式, 就有
+  <span class="formula">
+    `f(beta) = sigma(f(alpha)) = sigma(0) = 0`.
+  </span>
+  这指出 `alpha` 的像 `beta` 必为 `f` 的根.
+  `alpha` 与 `beta` 有相同的最小多项式, 我们称它们是<b>共轭</b>的.
+  `bbb F`-自同构将 `alpha` 映为它的共轭, 换言之, `bbb F`-自同构是对多项式的<b>根的置换</b>.<br>
+  本章的主题就是根的置换. 刻画这种置换的工具就是 <b>Galois 群</b>.<br>
+  最后, `bbb F`-自同构的数目不超过 `f` 的根的数目, 如果记 `bbb F`-自同构的数目为 `|Gal(bbb K // bbb F)|`, 则
+  <span class="formula">
+    `|Gal(bbb K // bbb F)| le [bbb K: bbb F] = n`,
+  </span>
+  如果上式等号成立, 则 `f` 的每个根都决定一个 `bbb F`-自同构,
+  这时我们称 `bbb K // bbb F` 是 <b>Galois 扩张</b>:
+  这当且仅当 `f` 有 `n` 个不同的根, 且这些根都属于 `bbb K`.
+  换言之, `f` <b>可分</b>, 且 `f` 的<b>分裂域</b>含于 `bbb K`.
 </p>
 
 <p class="example">
-	记 `bm alpha = (a_1, a_2, cdots, a_n)'`, `bm X = (x_1, x_2, cdots,
-	x_n)'`, 则 `f(bm X) = alpha' X` 是 `bbb P^n` 上的一个线性函数.<br/>
-	方阵的迹是 `bbb P^(n xx n)` 上的一个线性函数.<br/>
-	多项式在一点的取值是 `bbb P[x]` 上的一个线性函数.
+  若 `bbb K, bbb L` 都是 `bbb F` 的有限次扩域, 且 `bbb K` 到 `bbb L` 间存在
+  `bbb F`-同态 `varphi`, 则由非平凡的域同态都是单同态知 `varphi` 单;
+  又 `varphi` 是 `bbb K` 到 `bbb L` 的线性映射, 所以当 `bbb K`, `bbb L`
+  次数相同时, `varphi` 是它们之间的一个同构.
 </p>
 
-<p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间, `"I" = (bm epsi_1, bm epsi_2, cdots,
-	bm epsi_n)` 是一个基, `f` 是 `V` 上一个线性函数. 称
-	<span class="formula">
-		`bm epsi = (f(bm epsi_1), f(bm epsi_2), cdots, f(bm epsi_n))`
-	</span>
-	为 `f` 在基底 `"I"` 下的<b>表示向量</b>. 给定了表示向量,
-	任意 `bm alpha = sum_(i=1)^n x_i bm epsi_i in V` 的函数值都能确定了:
-	记 `bm X = (x_1, x_2, cdots, x_n)'`, 则
-	<span class="formula">
-		`f(bm alpha) = sum_(i=1)^n x_i f(bm epsi_i)`
-		`= bm(epsi X)`.
-	</span>
-</p>
+<h2>Galois 群与 Galois 扩张</h2>
 
-<h3>双线性函数</h3>
-
-<p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间, 称映射 `f: V xx V to bbb P`
-	为 `V` 上一<b>双线性函数</b>, 如果它对每一个变元都是线性的:
-	即对任意 `bm alpha, bm beta, bm gamma in V` 和任意 `k, l in bbb P`,
-	<span class="formula">
-		`(k bm alpha + l bm beta, bm gamma) = k(bm alpha, bm gamma) + l(bm
-		beta, bm gamma)`,<br/>
-		`(bm gamma, k bm alpha + l bm beta) = k(bm gamma, bm alpha) + l(bm
-		gamma, bm beta)`.
-	</span>
-	`V` 上全体双线性函数记为 `BL(V, bbb P)`.<br/>
-	称 `f` 为<b>对称的</b>, 如果恒有
-	<span class="formula">
-		`f(bm alpha, bm beta) = f(bm beta, bm alpha)`;
-	</span>
-	称 `f` 为<b>非奇异的</b>,
-	如果对任意非零向量 `bm alpha in V`, 存在 `bm beta in V` 使得
-	<span class="formula">
-		`f(bm alpha, bm beta) != 0`;
-	</span>
-	称 `f` 为<b>正定的</b>, 如果对任意向量 `bm alpha in V`,
-	<span class="formula">
-		`f(bm alpha, bm alpha) ge 0`, 等号成立当且仅当 `bm alpha = bm
-		theta`.
-	</span>
-	显然若 `f` 正定, 则 `f` 非奇异.
-</p>
-
-<p class="example">
-	令 `bm A in bbb P^(n xx n)`, `bm X = (x_1, x_2, cdots, x_n)'`,
-	`bm Y = (y_1, y_2, cdots, y_n)'`, 则
-	<span class="formula">
-		`f(bm X, bm Y) = bm X' bm A bm Y = sum_(i,j=1)^n a_(i j) x_i y_j`
-	</span>
-	为 `bbb P^n` 上一双线性函数. 当 `bm A` 分别为对称的,
-	非奇异的和正定的时候, `f` 也分别为对称的, 非奇异的和正定的.
-</p>
-
-<p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间, `"I" = (bm epsi_1, bm epsi_2, cdots,
-	bm epsi_n)` 是一个基, `f` 是 `V` 上一个双线性函数. 称
-	<span class="formula">
-		`bm A = (f(bm epsi_i, bm epsi_j))_(n xx n)`
-	</span>
-	为 `f` 在基底 `"I"` 下的<b>表示矩阵</b>或<b>度量矩阵</b>.
-	给定了度量矩阵, 对任意
-	<span class="formula">
-		`bm alpha = sum_(i=1)^n x_i bm epsi_i`
-		`= (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm X`,<br/>
-		`bm beta = sum_(i=1)^n y_i bm epsi_i`
-		`= (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm Y`,
-	</span>
-	其函数值都能确定了:
-	<span class="formula">
-		`f(bm alpha, bm beta)
-		= sum_(i,j=1)^n f(bm epsi_i,bm epsi_j) x_i y_j`
-		`= bm X' bm (A Y)`.
-	</span>
-</p>
-
-<p class="theorem">
-	<b>表示向量/度量矩阵与坐标变换</b>
-	设 `bbb P` 上线性空间的两个基
-	`"I" = (bm eta_1, bm eta_2, cdots, bm eta_n)`,
-	`"II" = (bm xi_1, bm xi_2, cdots, bm xi_n)` 之间的关系为
-	<span class="formula">
-		`(bm eta_1, bm eta_2, cdots, bm eta_n)`
-		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm T`,
-	</span>
-	线性函数 `f` 在 `"I"` 下的表示向量为 `bm epsi`,
-	则它在 `"II"` 下的表示向量为 `bm epsi bm T`.
-	双线性函数 `g` 在 `"I"` 下的度量矩阵为 `bm A`,
-	则它在 `"II"` 下的度量矩阵为 `bm (T'A T)`,
-	即双线性函数在不同基底下的度量矩阵是合同的.
-	注意 `bm T` 可逆, 因而 `bm A` 和 `bm(T'A T)` 的秩相同, 称为 `f`
-	的<b>秩</b>.
-</p>
-
-<p class="proof">
-	仅验证度量矩阵的变换.
-	设 `bm alpha, bm beta` 在 `"I"` 下的坐标分别为 `bm X, bm Y`,
-	在 `"II"` 下的坐标分别为 `bm X_1, bm Y_1`,  则
-	<span class="formula">
-		`g(bm alpha, bm beta)`
-		`= bm X' bm (A Y)`
-		`= bm(T X_1)' bm A bm(T Y_1)`
-		`= bm(X_1' T' A T Y_1)`.
-	</span>
-	可见 `g` 在 `"II"` 下的度量矩阵为 `bm(T'A T)`.
-</p>
-
-<ol class="corollary">
-	设 `f` 为线性空间 `V` 上的双线性函数, 
-	由于对称矩阵的合同仍为对称矩阵, 我们有以下各款等价:
-	<li>`f` 对称;</li>
-	<li>`f` 在任一基底下的度量矩阵对称;</li>
-	<li>`f` 在某一基底下的度量矩阵对称;</li>
-</ol>
-
-<ol class="corollary">
-	设 `f` 为线性空间 `V` 上的双线性函数, 则以下各款等价:
-	<li>`f` 非奇异;</li>
-	<li>`f` 在 `V` 的任意基底下的度量矩阵非奇异;</li>
-	<li>`f` 在 `V` 的某一基底下的度量矩阵非奇异;</li>
-	<li>`AA bm alpha in V\\{bm theta}`, `EE bm beta in V`,
-		`f(bm alpha, bm beta) != 0`.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>`iff` 2.
-		取 `V` 的基底 `(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`,
-		设 `f` 在该基底下的度量矩阵为 `bm A`, 则
-		<span class="formula">
-			`f` 非奇异
-			`iff bm alpha in V`, 关于 `bm beta` 的方程
-			`f(bm alpha, bm beta) = 0` 只有零解
-			`iff` 关于 `bm beta` 的方程
-			`f(bm epsi_i, bm beta) = 0`, `i = 1, 2, cdots, n`
-			`iff` 关于 `bm Y` 的方程 `bm (A Y) = bb 0` 只有零解
-			`iff bm A` 非奇异.
-		</span>
-		类似可证 1. `iff` 4.
-	</li>
-	<li>`iff` 3. 只需注意到非奇异矩阵的合同矩阵仍非奇异.
-	</li>
-</ol>
-
-<h2>对称双线性函数, 正交基底</h2>
-
-<p class="definition">
-	设 `f` 为线性空间 `V` 上的对称双线性函数, 如果
-	`f(bm alpha, bm beta) = 0`, 则称 `bm alpha, bm beta` 正交.
-	如果 `V` 的一个基底中的不同向量两两正交, 则称为<b>正交基底</b>.
-	正交基底下的度量矩阵为对角阵, 对角线上非零元的个数恰为 `f` 的秩.
-</p>
-
-<p class="corollary">
-	设 `f` 是秩为 `r` 的对称双线性函数,
-	`f` 在正交基底 `(bm epsi_1, bm epsi_2, cdots, bm
-	epsi_n)` 下的度量矩阵为 `bm D_(d_i)`,
-	不妨设 `f(bm epsi_i, bm epsi_i) != 0`, `i = 1, 2, cdots, r`.
-	令 `bm alpha = sum_(i=1)^n x_i bm epsi_i`,
-	`bm beta = sum_(i=1)^n y_i bm epsi_i`, 我们有
-	<span class="formula">
-		`f(bm alpha, bm beta) = sum_(i=1)^r d_i x_i y_i`.
-	</span>
-	在复线性空间中, 若 `f(bm epsi_i, bm epsi_i) = d_i != 0`, 则
-	`f(bm epsi_i/sqrt(d_i), bm epsi_i/sqrt(d_i)) = 1`,
-	从而在适当的基底下有
-	<span class="formula">
-		`f(bm alpha, bm beta) = sum_(i=1)^r x_i' y_i'`.
-	</span>
-	在实线性空间中, 若 `d_i != 0`, 则
-	`f(bm epsi_i/sqrt(|d_i|), bm epsi_i/sqrt(|d_i|)) = sgn(d_i)`,
-	从而在适当的基底下有
-	<span class="formula">
-		`f(bm alpha, bm beta) =
-		sum_(i=1)^p x_i'' y_i'' - sum_(i=p+1)^r x_i'' y_i''`.
-	</span>
-</p>
-
-<p class="theorem">
-	<b>Schmidt 正交化</b>
-	设 `f` 为 `n` 维线性空间 `V` 上的对称双线性函数, 则存在 `V`
-	的正交基底.  换言之, 任意对称矩阵合同于对角形矩阵.
-</p>
-
-<p class="proof">
-	若 `f` 为零函数, 则 `V` 的任何基底都是正交基底. 现在设 `f` 是非零函数,
-	则 `EE bm alpha, bm beta in V`,
-	<span class="formula">
-		`0 != f(bm alpha, bm beta)`
-		`= 1/2 [ f(bm(alpha+beta), bm(alpha+beta)) - f(bm alpha, bm alpha)
-		- f(bm beta, bm beta) ]`.
-	</span>
-	从而 `bm(alpha+beta)`, `bm alpha`, `bm beta` 三者不全为零, 即
-	<span class="formula">
-		`(EE bm epsi_1 in V)` `f(bm epsi_1, bm epsi_1) != 0`.
-	</span>
-	对 `n` 作归纳, 当 `n = 1` 时, 任何基底都是正交基底.
-	假定结论对所有维数小于 `n` 的线性空间都成立, 我们将 `bm epsi_1` 扩充为
-	`V` 的基底 `(bm epsi_1, bm eta_2, cdots, bm eta_n)`, 令
-	<span class="formula">
-		`bm epsi_i' = bm eta_i - (f(bm epsi_1, bm eta_i))/
-		(f(bm epsi_1, bm epsi_1)) bm epsi_1`, `quad i = 2, 3, cdots, n`.
-	</span>
-	设
-	<span class="formula">
-		`bm theta = k_1 bm epsi_1 + sum_(i=2)^n k_i bm epsi_i'`
-		`= (k_1-c) bm epsi_1 + sum_(i=2)^n k_i bm eta_i`,
-	</span>
-	容易推出 `bm epsi_1, bm epsi_2', cdots, bm epsi_n'` 线性无关. 又
-	<span class="formula">
-		`f(bm epsi_1, bm epsi_i')`
-		`= f(bm epsi_1, bm eta_i - (f(bm epsi_1, bm eta_i))/
-		(f(bm epsi_1, bm epsi_1)) bm epsi_1)`
-		`= 0`,<br/>
-		`i = 2, 3, cdots, n`.
-	</span>
-	因此对任意 `bm alpha in W := G[bm epsi_2', cdots, bm epsi_n']`,
-	`f(bm epsi_1, bm alpha) = 0`.
-	由归纳假设, `W` 中存在正交基底 `(bm epsi_2, cdots, bm epsi_n)`
-	但 `bm epsi_1` 与 `W` 中任意向量都正交, 因此
-	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)` 是 `V` 的一个正交基底.
-</p>
-
-<h2>非奇异对称双线性函数, 子空间的正交补</h2>
-
-<p class="definition">
-	令 `f` 为线性空间 `V` 上的非奇异对称双线性函数. 则
-	`(V, f)` 称为一个<b>对称双线性度量空间</b>, 仍简记为 `V`.
-	特别 `V` 为一实线性空间时, 称为<b>伪 Euclid 空间</b>.
-</p>
-
-<p class="corollary">
-	对称双线性度量空间存在正交基底 `(bm epsi_1, bm epsi_2, cdots, bm
-	epsi_n)`. 因为 `f` 非奇异, 有
-	<span class="formula">
-		`f(bm epsi_i,bm epsi_j) {
-			= 0, if i != j;
-			!= 0, if i = j;
-	:}`</span>
-</p>
-
-<p class="definition">
-	令 `(V, f)` 为一对称双线性度量空间, `W le V`, 则 `V` 中满足与 `W`
-	中任意向量都正交的向量的全体构成 `V` 的子空间:
-	<span class="formula">
-		`W^_|_ := {bm alpha in V | (AA bm beta in W) f(bm alpha, bm beta)
-		= 0} le V`,
-	</span>
-	称为 `W` 的<b>正交补空间</b>.
-</p>
-
-<ol class="corollary" id="cor-orthogonal-complement-and-linear-equations">
-<li>
-	令 `(V, f)` 为一对称双线性度量空间, `W le V`, `"dim"W = r ge 1`,
-	取 `W` 的基底 `(bm alpha_1, bm alpha_2, cdots, bm alpha_r)`, 则
-	<span class="formula">
-		`W^_|_ = {bm x in V | f(bm alpha_i, bm x) = 0, i = 1,
-		2, cdots, r}`,
-	</span>
-	即 `W^_|_` 是关于 `bm x in V` 的方程组
-	<span class="formula">
-		`f(bm alpha_i, bm x) = 0`, `quad i = 1, 2, cdots, r`
-	</span>
-	的解空间. 取 `V` 的基底 `(bm epsi_1, bm epsi_2, cdots, bm
-	epsi_n)`, 设 `f` 在该基底下的度量矩阵为 `bm T`
-	(显然 `bm T` 对称非奇异),
-	<span class="formula">
-		`(bm alpha_1, bm alpha_2, cdots, bm alpha_r)`
-		`= (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm A`,<br/>
-		`bm x = (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm X`,<br/>
-	</span>
-	则方程组可以表示为
-	<span class="formula">
-		`bm (A'T X) = bb 0`.
-	</span>
-	特别 `bm T = bm E` 时, 有 `f(bm x, bm y) = sum_(i=1)^n x_i y_i`,
-	方程组简化为
-	<span class="formula">
-		`bm(A'X) = bb 0`.
-	</span>
-</li>
-<li>现在考虑齐次线性方程组 `bm(A'X) = bb 0`, 记
-	<span class="formula">
-		`bm A = (bm A_1, bm A_2, cdots, bm A_r)`,
-	</span>
-	取 `bbb P^n` 上非奇异对称双线性函数 `f_(bm E)`, 使得其在自然基底
-	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)` 下的度量矩阵为 `bm E`. 则
-	<span class="formula">
-		`f_(bm E)(bm X, bm Y) = bm(X'Y)`.
-	</span>
-	齐次线性方程组 `bm(A'X) = bb 0` 写为双线性函数的形式即
-	<span class="formula">
-		`f_(bm E)(bm A_i, bm X) = 0`, `quad i = 1, 2, cdots, r`.
-	</span>
-	因此这个方程组的解空间是 `G[bm A_1, bm A_2, cdots, bm A_r]^_|_`.
-</li>
-</ol>
-
-<ol class="theorem">
-	令 `(V,f)` 为一对称双线性度量空间, `W le V`, 则
-	<li>`"dim" W + "dim" W^_|_ = "dim" V`;</li>
-	<li>`(W^_|_)^_|_ = W`.</li>
-</ol>
-
-<ol class="proof">
-	记 `"dim"V = n`, `"dim"W = r`.
-	由 `f` 非奇异知 `V^_|_ = {bm theta}`, `{bm theta}^_|_ = V`,
-	所以结论 1, 2 成立, 下设 `r ge 1`.
-	<li>假设如<a class="ref"
-		href="#cor-orthogonal-complement-and-linear-equations"></a>
-		的 1, 由于 `bm alpha_i` 线性无关, 从而 `bm A` 的列向量线性无关,
-		`r_(bm A) = r`.  由 `bm T` 非奇异知, 方程组 `bm(A'T X) = bb 0`
-		的系数矩阵的秩 `r_(bm(A'T)) = r`, 从而方程组的解空间维数为
-		`n-r`. 又显然该方程组的解空间同构于 `W`, 所以 `"dim"W^_|_ = n-r`.
-	</li>
-	<li>由 1. 有 `"dim"W^_|_ = n-r`, `"dim"(W^_|_)^_|_ = r`.  又
-		<span class="formula">
-			`W sube (W^_|_)^_|_`
-			`= {bm alpha in V | (bm beta in W^_|_) f(bm alpha, bm beta) =
-			0}`,
-		</span>
-		`V` 的两个子空间 `W` 与 `(W^_|_)^_|_` 的维数相同, 又有包含关系,
-		从而 `W` 的基也是 `(W^_|_)^_|_` 的基.
-		所以它们是同一个子空间.
-	</li>
-</ol>
-
-<p class="remark">
-	尽管有维数公式 `"dim"W + "dim"W^_|_ = "dim"V`, 但未必有
-	`V = W o+ W^_|_`. 如 `CC^2` 上的非奇异对称双线性函数
-	<span class="formula">
-		`f((x_1","y_1)","(x_2","y_2)) = x_1 x_2 + y_1 y_2`,
-	</span>
-	取 `W = G[(1","i)]`, 则 `W^_|_ = W`.
-	这暗示我们, `f(bm X, bm Y) = sum_(i=1)^n x_i y_i`
-	不是复线性空间中合适的双线性函数, 而
-	`f(bm X, bm Y) = sum_(i=1)^n bar x_i y_i`
-	更合适一些. 事实上, 后者是一个内积.
-</p>
-
-<p class="corollary">
-	设 `bm A in bbb P^(m xx n)`, `bm X in bbb P^n`, `bm B, bm Y in bbb
-	P^m`, 考虑非齐次方程组 `bm(A X) = bm B` 的<b>转置齐次线性方程组</b>
-	`bm(A' Y) = bb 0`. 在 `(bbb P^m, f_(bm E))` 中, 后者的解空间是
-	<span class="formula">
-		`W := G[bm A_1, bm A_2, cdots, bm A_n]^_|_`,
-	</span>
-	则 `bm(A X) = bm B` 有解当且仅当
-	<span class="formula">
-		`bm B in G[bm A_1, bm A_2, cdots, bm A_n] = W^_|_`.
-	</span>
-</p>
-
-<h2>内积空间</h2>
-
-<h3>内积的定义</h3>
-
-<ol class="definition enum">
-	<li>令 `V` 为一实线性空间, 称 `V` 上对称正定的双线性函数
-		`(*,*) : V xx V to RR` 为 `V` 上一<b>内积</b>.
-		`V` 连同内积 `(*,*)` 构成的代数系统称为一<b>实内积空间</b>,
-		或<b>Euclid 空间</b>.
-	</li>
-	<li>设 `V` 为一复线性空间, `V` 上的二元函数
-		`(*,*): V xx V to CC` 称为 `V` 上一内积, 如果满足
-		<ol>
-			<li>正定性. `(AA bm x in V)` `(bm x, bm x) ge 0`,
-				等号成立当且仅当 `bm x = 0`;
-			</li>
-			<li>共轭对称性. `(AA bm x, bm y in V)`
-				`(bm x, bm y) = bar((bm y","bm x))`;
-			</li>
-			<li>关于第一变元的线性性和第二变元的共轭线性性.
-				`(AA bm x, bm y, bm z in V)` `(AA k, l in bbb F)`
-				<span class="formula">
-					`(k bm x+l bm y, bm z) = k(bm x, bm z) + l(bm y, bm
-					z)`,<br/>
-					`(bm z, k bm x+l bm y) = bar k(bm z, bm x)+bar l(bm z,
-					bm y)`.
-				</span>
-			</li>
-		</ol>
-		`V` 连同内积 `(*,*)` 构成的代数系统称为一<b>复内积空间</b>.
-	</li>
-</ol>
-
-<p class="remark">
-	复线性空间中内积关于第二变元的共轭线性性可以由其它性质推出.
-</p>
-
-<ol class="example">
-	<li>`RR^n` 上的二元函数
-		`(bm X, bm Y) = sum_(i=1)^n x_i y_i = bm(X'Y)`
-		是一个内积.
-	</li>
-	<li>`CC^n` 上的二元函数
-		`(bm X, bm Y) = sum_(i=1)^n bar x_i y_i = bm(bar X'Y)`
-		是一个内积.
-	</li>
-	<li>`C[a,b]` 上的二元函数
-		`(f(x),g(x)) = int_a^b f(x) g(x) dx`
-		是一个内积.
-	</li>
-	<li>规定两个函数相等是在几乎处处意义下的,
-		则 `L^2[a,b]` 上的二元函数
-		`(f(x),g(x)) = int_a^b f(x) g(x) dx`
-		是一个内积.
-	</li>
-</ol>
-
-<h3>Cauchy-Schwarz 不等式</h3>
-
-<p class="theorem">
-	令 `V` 为 `bbb P` 上一内积空间 (`bbb P = CC` 或 `RR`), 则
-	<span class="formula">
-		`|(bm x","bm y)|^2 le (bm x, bm x)(bm y, bm y)`,
-		`quad AA bm x, bm y in V`.
-	</span>
-	等号成立当且仅当 `bm x, bm y` 线性相关.
-</p>
-
-<p class="proof">
-	当 `bm y = bm theta` 时, 不等式取得等号, 显然成立;
-	否则取 `t = -((bm x","bm y))/((bm y","bm y))`,
-	考虑向量 `bm x + t bm y`, 由正定性有
-	<span class="formula">
-		`0 le (bm x + t bm y, bm x + t bm y)`
-		`= (bm x, bm x) + bar t(bm x, bm y) + t bar((bm x","bm y))
-		+ t bar t(bm y, bm y)`
-		`= (bm x, bm x) + 2 Re(bar t (bm x","bm y)) + |t|^2(bm y, bm y)`
-		`= (bm x, bm x) -2 |(bm x","bm y)|^2/((bm y","bm y)) + |(bm x","bm
-		y)|^2/((bm y","bm y))`
-		`= (bm x, bm x) - |(bm x","bm y)|^2/((bm y","bm y))`.
-	</span>
-	变形得
-	<span class="formula">
-		`|(bm x","bm y)|^2 le (bm x, bm x)(bm y, bm y)`.
-	</span>
-	现在考虑等号成立的条件. 当 `bm x, bm y` 线性相关时,
-	`bm y = bm theta` 的情形已经考虑过. 现在设 `bm x = lambda bm y`,
-	代入有
-	<span class="formula">
-		`(lambda bm y, lambda bm y)(bm y, bm y)`
-		`= |lambda|^2 |(bm y","bm y)|^2`
-		`= |(lambda bm y","bm y)|^2`,
-	</span>
-	故等号成立. 反之设不等式中的等号成立, 不妨设 `bm y != bm theta`,
-	由内积的正定性, 这等号成立当且仅当 `bm x + t bm y = bm theta`,
-	即 `bm x, bm y` 线性相关.
-</p>
-
-<ol class="example">
-	将 Cauchy-Schwarz 不等式应用到具体的内积空间中, 有
-	<li>对任意实数 `x_i, y_i`, `i = 1, 2, cdots, n`, 有
-		<span class="formula">
-			`|sum_(i=1)^n x_i y_i| le sqrt(sum_(i=1)^n x_i^2)
-			sqrt(sum_(i=1)^n y_i^2)`.
-		</span>
-	</li>
-	<li>对任意 `f(x), g(x) in C[a,b]`, 有
-		<span class="formula">
-			`|int_a^b f(x)g(x) dx| le sqrt(int_a^b f^2(x) dx) sqrt(int_a^b
-			g^2(x) dx)`.
-		</span>
-	</li>
-</ol>
-
-<h3>线性赋范空间与度量空间</h3>
-
-<p>	我们将在内积空间中引入向量的长度, 距离, 夹角的概念.</p>
+<h3>Galois 群</h3>
 
 <ol class="definition">
-	设 `V` 为 `bbb P` 上的线性空间, 
-	实函数 `||*||: V to RR` 称为 `V` 上的<b>范数</b>, 如果满足
-	<li>正定性. `(AA bm x in V)` `||bm x|| ge 0`, 等号成立当且仅当 `bm X =
-		bm theta`.
-	</li>
-	<li>`(AA bm x in V)` `(AA c in bbb P)` `||c bm x|| = |c|` `||bm x||`.
-	</li>
-	<li>次可加性, 或三角不等式. `(AA bm x, bm y in V)`
-		`||bm x+bm y|| le ||bm x|| + ||bm y||`.
-	</li>
-	`V` 连同范数 `||*||` 构成的代数系统称为一<b>线性赋范空间</b>.
-	范数的直观意义是几何向量的长度.
-</ol>
-
-<p class="theorem">
-	在内积空间 `V` 中引入 `|bm x| = sqrt((bm x","bm x))`,
-	则 `|*|` 为一范数.
-</p>
-
-<ol class="proof">
-	<li>`|*|` 的正定性由内积的正定性保证.</li>
-	<li>容易验证.</li>
-	<li>计算
-		<span class="formula">
-			`|bm x+bm y|^2`
-			`= (bm x+bm y,bm x+bm y)`
-			`= (bm x,bm x) + 2 Re(bm x, bm y) + (bm y, bm y)`
-			`le (bm x, bm x) + |(bm x","bm y)| + (bm y, bm y)`
-			`le |bm x|^2 + |bm x|` `|bm y| + |bm y|^2`
-			`= (|bm x|+|bm y|)^2`,
-		</span>
-		所以三角不等式成立.
-	</li>
-</ol>
-
-<ol class="definition">
-	设 `X` 为一集合, 二元实函数 `d: X xx X to RR` 称为 `X`
-	上的<b>距离函数</b>或<b>度量函数</b>, 如果满足
-	<li>正定性. `(AA x, y in X)` `d(x,y) ge 0`, 等号成立当且仅当 `x=y`.
-	</li>
-	<li>对称性. `(AA x, y in X)` `d(x,y) = d(y,x)`.</li>
-	<li>三角不等式. `(AA x,y,z in X)` `d(x,y) le d(x,z) + d(z,y)`.</li>
-	`(X,d)` 称为<b>度量空间</b>.
-</ol>
-
-<p class="corollary">
-	在线性赋范空间中, 规定 `d(x,y) = ||x-y||`,
-	可以验证 `d` 是一个距离函数.
-</p>
-
-<p class="definition">
-	令 `V` 为内积空间, 规定两个非零向量 `bm x, bm y` 的夹角为
-	<span class="formula">
-		`(:bm x, bm y:) = arccos{:((bm x","bm y))/(|bm x| |bm y|):}`.
-	</span>
-	由 Cauchy-Schwarz 不等式知, 上述定义有意义, 且夹角的可能范围是
-	`[0, pi]`.
-</p>
-
-<p class="theorem">
-	<b>勾股定理</b>
-	令 `V` 为内积空间, `bm x, bm y` 正交, 则
-	<span class="formula">
-		`|bm x+bm y|^2 = |bm x|^2 + |bm y|^2`.
-	</span>
-	勾股定理可以推广到多个两两正交的向量.
-</p>
-
-<p class="proof">
-	由 `(bm x, bm y) = 0` 有
-	<span class="formula">
-		`|bm x+bm y|^2 = (bm x+bm y,bm x+bm y)`
-		`= (bm x,bm x) + 2 Re(bm x, bm y) + (bm y, bm y)`
-		`= |bm x|^2 + |bm y|^2`.
-	</span>
-</p>
-
-<h3>内积空间的标准正交基底</h3>
-
-<span class="formula">
-	`bm beta_1 = bm alpha_1`,<br/>
-	`bm beta_i = bm alpha_i - sum_(j=1)^(i-1) ((bm alpha_i","bm beta_j))
-	/((bm beta_j","bm beta_j)) bm beta_j`,
-	`quad i = 2, 3, cdots, n`.
-</span>
-
-<ol class="theorem">
-	设 `f` 为实线性空间 `V` 上的双线性函数, 则以下各款等价:
-	<li>`f` 对称正定 (根据下文的定义, 即 `f` 是一个内积);</li>
-	<li>`f` 在 `V` 的任意基底下的度量矩阵正定;</li>
-	<li>`f` 在 `V` 的某一基底下的度量矩阵正定.</li>
-</ol>
-
-<h2>向量到子空间的距离, 最小二乘法</h2>
-
-<p>	最小二乘法, 好比在平面上找一点, 使它到空间中一点距离最小.
-只不过这里的 "平面", "空间" 都指线性空间.</p>
-
-<p class="example">
-	<b>线性回归</b>
-	假设有数据点
-	<span class="formula">
-		`(x_1, y_1), (x_2, y_2), cdots, (x_n, y_n)`.
-	</span>
-	在平面上用一直线 `y = a x + b` 拟合这些数据,
-	使得每个点处误差的平方和
-	<span class="formula">
-		`E(a, b) = sum_(i=1)^n (y_i - a x_i - b)^2`
-	</span>
-	最小.
-</p>
-
-<p class="solution">
-	令偏导数等于零,
-	<span class="formula">
-		`0 = (del E)/(del b) = -2 sum_(i=1)^n (y_i - a x_i - b)`,<br/>
-		`0 = (del E)/(del a) = -2 sum_(i=1)^n x_i (y_i - a x_i - b)`.
-	</span>
-	即
-	<span class="formula">
-		`sum y_i = a sum x_i + n b`,<br/>
-		`sum x_i y_i = a sum x_i^2 + b sum x_i`
-	</span>
-	于是
-	<span class="formula">
-		`b = bar y - a bar x`,
-		`quad a = (sum x_i y_i - n bar x bar y)/(sum x_i^2 - n {:bar x:}^2)`.
+  考虑扩域 `bbb K // bbb F`,
+  <li>`bbb K` 上全体 `bbb F`-自同构组成 `Aut(bbb K)` 的子群
+    <span class="formula">
+      `Gal(bbb K // bbb F) := {sigma in Aut(bbb K): {:sigma|_(bbb F)
+      = {:"id"|_(bbb F):}:}}`,
     </span>
+    称为 `bbb K` 在 `bbb F` 上的 <b>Galois 群</b>.
+  </li>
+  <li>设 `G le Aut(bbb K)`, 视 `G` 为 `bbb K` 上的群作用, 则 `bbb K`
+    在 `G` 作用下的全体不动点构成 `bbb K` 的子域
+    <span class="formula">
+      `Inv(G) := {alpha in bbb K: (AA g in G) g(alpha) = alpha}`,
+    </span>
+    称为 `bbb K` 的 <b>`G`-不动子域</b>.
+  </li>
+</ol>
+
+<p class="remark">
+  固定 `bbb K` 时, `Gal` 可以视为映射, 它将 `bbb K` 的子域映为 `Aut(bbb
+  K)` 的子群; `Inv` 则将 `Aut(bbb K)` 的子群映为 `bbb K` 的子域:
+  <span class="formula">
+    `bbb K overset(Gal)underset(Inv)⇄ Aut(bbb K)`
+  </span>
 </p>
 
-<p class="solution">
-	用线性代数的语言, 这个问题就是:
-	设 `bm 1 = (1, 1, cdots, 1) in RR^n`,
-	`bm x = (x_1, x_2, cdots, x_n) in RR^n`,
-	`bm y = (y_1, y_2, cdots, y_n) in RR^n`,
-	内积定义为
-	<span class="formula">
-		`(bm x, bm y) = sum_(i=1)^n x_i y_i`.
-	</span>
-	在 `RR^n` 的子空间 `"span"[1, bm x]` 中寻找一向量, 使其到向量 `bm y`
-	的距离最小.
-	这一向量的坐标 `(b, a)` 满足
-	<span class="formula">
-		`[(bm 1, bm 1), (bm 1, bm x); (bm x, bm 1), (bm x, bm x)] [b;a]
-		= [(bm 1, bm y); (bm x, bm y)]`,
-	</span>
-	即
-	<span class="formula">
-		`[sum 1, sum x_i; sum x_i, sum x_i^2] [b;a] = [sum y_i; sum x_i
-		y_i]`.
-	</span>
-	解得
-	<span class="formula">
-		`b = bar y - a bar x`,
-		`quad a = (sum x_i y_i - n bar x bar y)/(sum x_i^2 - n {:bar x:}^2)`.
-	</span>
+<ol class="corollary" id="cor-galois-group">
+  在域 `bbb K` 上考虑 `Gal` 与 `Inv` 这一对映射, 简记
+  `Gal(bbb F) = Gal(bbb K // bbb F)`, 则它们 (关于子域和子群) 是单调减的:
+  <li>`bbb E le bbb F rArr` `Gal(bbb E) ge Gal(bbb F)`;</li>
+  <li>`G le H rArr` `Inv(G) ge Inv(H)`;</li>
+  考虑这一对映射的复合, 有
+  <li>`Inv(Gal(bbb F)) ge bbb F`;</li>
+  <li>`Gal(Inv G) ge G`;</li>
+  <li>`Gal(bbb F) = Gal(Inv(Gal(bbb F)))`.</li>
+</ol>
+
+<ol class="proof">
+  <li>`bbb F` 上的恒等变换也是 `bbb E` 上的恒等变换;</li>
+  <li>在 `H` 的作用下不变, 蕴含在 `G` 的作用下不变;</li>
+  <li>由定义, Galois 群起码保证 `bbb F` 中的点不动;</li>
+  <li>设 `bbb F = Inv G`, 则 `AA g in G`, `g{:|:}_(bbb F) = "id"{:|:}_(bbb
+    F)`, 即 `g in Gal(bbb F)`.
+  </li>
+  <li>设 `bbb E = Inv(Gal(bbb F)) ge bbb F`, 则左边 `ge` 右边.
+    设 `G = Gal(bbb F)`, 则右边 `= Gal(Inv G) ge G = `左边.
+  </li>
+</ol>
+
+<p class="remark">
+  比较集合论中的结果: 令 `f: X to Y`, 有
+  <span class="formula">
+    `A sube B rArr f(A) sube f(B)`,<br>
+    `C sube D rArr f^-1(C) sube f^-1(D)`,<br>
+    `f^-1(f(A)) supe A`, 等号成立当且仅当 `f` 单,<br>
+    `f(f^-1(C)) sube C`, 等号成立当且仅当 `f` 满.
+  </span>
 </p>
+
+<h3>Galois 扩张</h3>
+
+<p class="definition">
+  <b>Galois 扩张</b>
+  上述推论的 3. 取等号时, `Inv(Gal(bbb F)) = bbb F`,
+  `Inv` 恰为 `Gal` 的左逆.
+  这时称 `bbb K // bbb F` 是 <b>Galois 扩张</b>.
+  Galois 扩张有许多等价的定义, 下面就来讨论它们.
+</p>
+
+<p class="definition">
+  若多项式 `f` 的任意不可约因式无重根, 则称 `f` <b>可分</b>.
+  若 `bbb F` 是特征为零的域, 则任意 `f in bbb F[x]` 都可分.
+</p>
+
+<p class="example">
+  <b>不可分多项式的例子</b>
+  考虑 `bbb F_p` 上的超越元 `u`, 令 `bbb K = bbb F_p(u)` 是 `bbb F_p`
+  的超越扩张, 则 `f(x) = x^p - u in bbb K[x]` 不可分.
+</p>
+
+<ol class="proof">
+  <li>先证 `f` 有重根. 取 `f` 的任一根 `alpha`, 则 `alpha^p = u`, 注意到 `K` 的特征为 `p`, 有
+    <span class="formula">
+      `f(x) = x^p - alpha^p = (x-alpha)^p`,
+    </span>
+    即 `alpha` 为 `p` 重根.
+  </li>
+  <li>再证 `f` 不可约. 若 `f` 可约, 则有非平凡分解 `f = g h`,
+    且 `alpha` 是 `g, h` 的根. 设 `g(x) = (x-alpha)^k`, 其中 `0 lt k lt p`,
+    则 `g(x)` 的常数项 `(-alpha)^k !in bbb K`. 这说明 `g !in bbb K[x]`,
+    矛盾.
+  </li>
+</ol>
+
+<p class="lemma">
+  <b>有限次扩域的 Galois 群为有限群</b>
+  设 `bbb K // bbb F` 为有限次扩域, 则
+  <span class="formula">
+    `|Gal(bbb K // bbb F)| le [bbb K: bbb F]`.
+  </span>
+  等号成立当且仅当 `bbb K` 为 `bbb F` 上一可分多项式的分裂域.
+</p>
+
+<!-- ?? -->
+
+<ol class="theorem">
+  <b>Galois 扩张的等价条件</b>
+  对有限次扩域 `bbb K // bbb F`, 以下各款等价:
+  <li>`bbb K // bbb F` 是 Galois 扩张;</li>
+  <li>`bbb K` 是 `bbb F` 上一可分多项式的分裂域;</li>
+  <li>`|Gal(bbb K // bbb F)| = [bbb K: bbb F]`.</li>
+  最常用的推论是:
+  特征为零的域 `bbb F` 上任意多项式的分裂域都是 `bbb F` 的 Galois 扩张.
+</ol>
+
+<ol class="proof enum">
+  <li>
+    <ol>`rArr` 2:
+    只需证任意 `alpha in bbb K` 在 `bbb F` 上的最小多项式 `p(x)` 无重根,
+    且 `p(x)` 的所有根属于 `bbb K`.
+    <li>
+      由引理, `G := Gal(bbb K // bbb F)` 为有限群, 因此轨道
+      <span class="formula">
+        `O_alpha = {sigma(alpha): sigma in G}`
+      </span>
+      是有限集. 不妨令 `O_alpha` 中所有不同的元素为
+      <span class="formula">
+        `sigma_1(alpha) = alpha`,
+        `sigma_2(alpha), cdots, sigma_r(alpha)`,
+      </span>
+      其中 `sigma_1 = {:"id"|_(bbb K)` 为 `bbb K` 上的恒等自同构.
+    </li>
+    <li>
+      设 `f(x) in bbb F[x]`,  `f(alpha) = 0`, 则
+      `AA sigma in G`, 由 `sigma` 为 `bbb F`-自同构知,
+      <span class="formula">
+        `f(sigma(alpha)) = sigma f(alpha) = sigma(0) = 0`.
+      </span>
+      从而根 `alpha` 的置换 `sigma(alpha)` 仍为 `f(x)` 的根.
+      这启发我们构作
+      <span class="formula">
+        `q(x) = prod_(i=1)^r (x - sigma_i(alpha))`
+        `= sum_(j=0)^r q_j x^j`.
+      </span>
+      显然 `q(x)` 无重根, 且它的所有根属于 `bbb K`.
+    </li>
+    <li>
+      下证 `q(x) = p(x)`.
+      由 Vieta 定理知道, `q_j` 是所有根的对称多项式:
+      <span class="formula">
+        `q_j = s(sigma_1(alpha), cdots, sigma_r(alpha))`,
+      </span>
+      `AA sigma in G`, `sigma sigma_1(alpha), cdots, sigma sigma_r(alpha)`
+      是所有根的一个排列, 因此 `q_j` 是 `sigma` 的不动点:
+      <span class="formula">
+        `sigma(q_j) = q_j`, `quad j = 0, 1, cdots, r-1`.
+      </span>
+    </li>
+    <li>
+      由假设, `bbb K` 为 `bbb F` 的 Galois 扩张, 即 `Inv(G) = bbb F`,
+      故 `sigma` 的所有不动点必属于 `bbb F`, 于是 `q_j in bbb F`, 即
+      `q(x) in bbb F[x]`. 我们得到: `q(x)` 是 `alpha` 在 `bbb F`
+      上的零化多项式, 因此 `p(x) | q(x)`.
+      另一方面, 在 (2) 中取 `f = p` 可知 `q(x)` 的任一根都是 `p(x)` 的根,
+      于是 `q(x) | p(x)`, 从而 `p(x) = q(x)`.
+    </li>
+    </ol>
+  </li>
+  <li>`rArr` 3: 由引理知结论成立.
+  </li>
+  <li>`rArr` 1:
+    令 `bbb E = Inv(Gal(bbb K // bbb F)) ge bbb F`,
+    由<a class="ref" href="#cor-galois-group"></a> 的 5,
+    <span class="formula">
+      `Gal(bbb K // bbb F) = Gal(bbb K // bbb E)`.
+    </span>
+    从而
+    <span class="formula">
+      `[bbb K: bbb F]`
+      `= |Gal(bbb K // bbb F)|`
+      `= |Gal(bbb K // bbb E)|`
+      `le [bbb K: bbb E]`,
+    </span>
+    这推出 `bbb F ge bbb E`, 于是 `bbb F = bbb E`, 即 `bbb K` 为 `bbb F`
+    的一个 Galois 扩张.
+  </li>
+</ol>
+
+<h2>Galois 对应定理</h2>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

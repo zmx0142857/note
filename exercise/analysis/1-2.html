@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>实数域的完备性</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="enum">
+
+<li>证明: 对任意实数 a, b 都成立等式
+  <ol>
+    <li>`max{a, b} = (a+b)/2 + |a-b|/2`;</li>
+    <li>`min{a, b} = (a+b)/2 - |a-b|/2`.</li>
+  </ol>
+  <ol class="proof">
+    易知
+    <span class="formula">`max{a,b} + min{a,b} = a + b`;</span>
+    <span class="formula">`max{a,b} - min{a,b} = |a - b|`;</span>
+    解之即得所证结果.
+  </ol>
+</li>
+
+<li>证明: 对任意实数 a, b 都成立不等式
+  `max{|a-b|, |1-a|, |1+b|} ge 2/3`.<br/>
+  <div class="proof">
+    `|a-b| ge 2/3` 或 `|1-a| ge 2/3` 时不等式成立.
+    现设 `|a-b| lt 2/3`, `|1-a| lt 2/3`.
+    则由 `|a-b| + |1-a| + |1+b|` `ge |(a-b) + (1-a) + (1+b)| = 2`
+    知 `|1+b| ge 2 - |a-b| - |1-a| gt 2 - 2/3 - 2/3 = 2/3`.
+  </div>
+</li>
+
+<li>设 `a_k, b_k in RR` 且 `b_k gt 0`, `k = 1, 2, cdots, n`.
+  记 `S = {a_1/b_1, a_2/b_2, cdots, a_n/b_n}`. 证明:
+  <span class="formula">
+    `min S`
+    `le (a_1 + a_2 + cdots + a_n) / (b_1 + b_2 + cdots + b_n)`
+    `le max S`.
+  </span>
+
+  <ol class="proof">
+    此题是对习题 1.1 第 1(2) 题的推广.
+    记 `sum_(k=1)^n a_k = A`, `sum_(k=1)^n b_k = B`.
+    <li>
+      当 `EE 1 le k le n-1` 使 `a_k / b_k le A/B` 时,
+      `min S le A/B` 成立.
+      现设 `a_k gt A/B`,
+      即 `B a_k gt A b_k`, `k = 1, 2, cdots, n-1`. 所以
+      <span class="formula">
+        `B sum_(k=1)^(n-1) a_k gt A sum_(k=1)^(n-1) b_k`.
+      </span>
+      即
+      <span class="formula">`B(A-a_n) gt A(B-b_n)`.</span>
+      即
+      <span class="formula">`a_n/b_n lt A/B`.</span>
+      而 `a_n/b_n in S`, 故 `min S le A/B` 成立.
+    </li>
+
+    <li>当 `EE 1 le k le n-1` 使 `a_k/b_k ge A/B` 时,
+      `max S ge A/B` 成立.
+      现设 `a_k/b_k lt A/B`, `k = 1, 2, cdots, n-1`.
+      仿照 (1) 可证 `a_n/b_n gt A/B`,
+      从而 `max S ge A/B`.
+    </li>
+  </ol>
+</li>
+
+<li>设 (A, B) 是实数系的一个戴德金分划.
+  证明: 不可能出现既在下类 A 中有最大数,
+  又在上类 B 中有最小数的情况.<br/>
+  <div class="proof">
+    设下类 A 中有最大数 a, 上类 B 中有最小数 b,
+    则 a &lt; b,
+    但 `a lt (a+b)/2 lt b`,
+    所以 `(a+b)/2 !in A`, `(a+b)/2 !in B`,
+    与 `A uu B = RR` 矛盾.
+  </div>
+</li>
+
+<li>设 (A, B) 是实数系的一个戴德金分划.
+  证明: 满足条件 `x le c le y`, `AA x in A, AA y in B`
+  的实数 c (即分点) 唯一.<br/>
+  <div class="proof">
+    不妨设存在实数 `c_1 le c_2`
+    满足 `x le c_1 le y` 和 `x le c_2 le y`,
+    `AA x in A`, `AA y in B`.
+    若 `c_1 lt c_2`,
+    则存在实数 `c = (c_1 + c_2)/2`,
+    且 `c_1 lt c lt c_2`.
+    易知有 `x lt c lt y`, `AA x in A`, `AA y in B`.
+    所以 `c !in A`, `c !in B`,
+    与 `A uu B = RR` 矛盾.
+    所以 `c_1 = c_2`.
+  </div>
+</li>
+
+<li>令 `A = {x: x in QQ^+, x^2 lt 2}`.
+  证明: `"sup" A = sqrt 2`.<br/>
+  <ol class="proof">
+    (参考 1.3 节的定理 1.3.1)
+    容易验证 `1 in A`, 所以 A 非空.
+    由 `x^2 lt 2`, `AA x in A` 知 `sqrt 2` 是 A 的上界.
+    由确界原理知, A 有上确界. 设 `x = "sup" A`,
+    下面我们证明 `x = sqrt 2`, 这只需证明 `x lt sqrt 2`
+    与 `x gt sqrt 2` 都不可能.
+    <li>假如 `x lt sqrt 2`, 即 `x^2 lt 2`,
+      令 `epsi_1= min{1, (2 - x^2) / (2(x+1))} gt 0`,
+      再从开区间 `(x, x+epsi_1)` 中取一有理数 `y`, 则
+      <span class="formula">
+        `  y^2 - x^2
+        lt (x+epsi_1)^2 - x^2
+        =  epsi_1 (2x+epsi_1)
+        lt 2epsi_1 (x + epsi_1)
+        lt 2 - x^2`.
+      </span>
+      从而 `y^2 lt 2`, 因此 `y in A`, 与 `x = "sup" A` 矛盾.
+    </li>
+    <li>假如 `x gt sqrt 2`, 即 `x^2 gt 2`,
+      令 `epsi_2 = (x^2 - 2)/(2x)`, 则 `0 lt epsi_2 lt x`.
+      若有某个 `y in A` 使 `y ge x - epsi_2`, 则
+      <span class="formula">
+        `  x^2 - y^2
+        le x^2 - (x-epsi_2)^2
+        lt 2 epsi_2 x
+        =  x^2 - 2`.
+      </span>
+      由此得 `y^2 gt 2`, `y !in A`, 矛盾.
+      所以 `y lt x - epsi_2`, `AA y in A`,
+      而这与 `x = "sup" A` 矛盾.
+    </li>
+    `"sup" A = sqrt 2`.
+  </ol>
+</li>
+
+<li>设 A, B 是两个非空且有界的实数集.
+  <ol>
+    <li>记 `-A = {-x: x in A}`. 证明:
+      <span class="formula">
+        `"sup" (-A) = -"inf" A`,
+        `"inf"(-A) = -"sup"A`;
+      </span>
+    </li>
+    <li>记 `A+B = {x+y: x in A, y in B}`. 证明:
+      <span class="formula">
+        `"sup"(A+B) = "sup"A + "sup"B`,
+        `"inf"(A+B) = "inf" A + "inf" B`;
+      </span>
+    </li>
+    <li>记 `AB = {xy: x in A, y in B}`.
+      证明: 如果 A, B 中的数都是非负的, 则
+      <span class="formula">
+        `"sup"(AB) = "sup"A "sup"B`,
+        `"inf"(AB) = "inf" A "inf" B`;
+      </span>
+    </li>
+    <li>证明: 如果 `A sube B`, 则
+      <span class="formula">
+        `"sup"A le "sup"B`,
+        `"inf" A ge "inf" B`.
+      </span>
+    </li>
+  </ol>
+  <ol class="proof subenum">
+    <li>记 `a = "sup" A`, 则
+      <ol>
+        <li>`x le a`, `AA x in A`;</li>
+        <li>`AA epsi gt 0`, `EE x_epsi in A`,
+          使 `x_epsi gt a - epsi`.
+        </li>
+      </ol>
+      其中 (i) 等价于 `-x ge -a`, `AA -x in -A`,
+      (ii) 等价于 `AA epsi gt 0`, `EE -x_epsi in -A`,
+      使 `-x_epsi lt -a + epsi`.
+      因此 `a = "sup" A` 等价于 `-a = "inf" (-A)`,
+      所以 `"inf"(-A) = -"sup"A`.
+      由定义易见 `-(-A) = A`, 所以
+      `"sup"(-A) = -"inf"(-(-A)) = -"inf" A`.
+    </li>
+    <li>只证第一个等式, 第二个等式的证明类似.
+      记 `a = "sup" A`, `b = "sup" B`,
+      则由 `a, b` 分别是 `A, B` 的上界知
+      `a + b ge x + y`, `AA x in A, AA y in B`.
+      这说明 `a+b` 是 `A+B` 的上界.
+      再由 `a, b` 分别是 `A, B` 的上确界知, 对 `AA epsi gt 0`,
+      `EE x_epsi in A`, `EE y_epsi in B`, 使
+      `x_epsi gt a - epsi/2`, `y_epsi gt b - epsi/2`.
+      所以 `x_epsi + y_epsi gt a + b - epsi`,
+      即 `a + b = "sup"(A+B)`.
+    </li>
+    <li>只证第一个等式.
+      记 `a = "sup" A`, `b = "sup" B`,
+      显然 `a, b` 非负.
+      又由 `a, b` 分别是 `A, B` 的上界知
+      `ab ge xy`, `AA x in A, AA y in B`.
+      这说明 `ab` 是 `AB` 的上界.
+      再由 `a, b` 分别是 `A, B` 的上确界知, 对 `AA epsi gt 0`,
+      `EE x_epsi in A`, `EE y_epsi in B`, 使
+      `a - x_epsi lt epsi/(2(b+1))`,
+      `b - y_epsi lt epsi/(2(a+1))`.
+      所以
+      <span class="formula align">
+        `ab - x_epsi y_epsi`<br>
+        `= a(b - y_epsi) + y_epsi (a - x_epsi)`<br>
+        `= a (b - y_epsi) + y_epsi (a - x_epsi)`<br>
+        `lt a epsi/(2(a+1)) + b epsi/(2(b+1))`<br>
+        `lt epsi`.
+      </span>
+      即 `ab = "sup"(AB)`.
+    </li>
+    <li>只证第一个不等式.
+      记 `a = "sup" A`, `b = "sup" B`,
+      则 `b ge y, AA y in B`. 但 `A sube B`, 所以
+      `b ge x, AA x in A`. 这说明 `b` 是 `A` 的上界.
+      而 `a = "sup" A` 是 `A` 的最小上界, 所以 `a le b`.
+    </li>
+  </ol>
+</li>
+
+<li>应用确界原理证明戴德金原理.<br/>
+  <ol class="proof">
+    设 (A,B) 是实数域的一个戴德金分划,
+    则由 "`A != O/`, `B != O/`"
+    和 "对 `AA x in A, AA y in B` 都成立 `x lt y`"
+    知 A 非空有上界 (B 中任一数都是 A 的上界).
+    应用确界原理知, sup A 存在.
+    <li>当 sup A `in` A, 成立
+      <span class="formula">
+        `x le "sup" A lt y`, `AA x in A, AA y in B`.
+      </span>
+    </li>
+    <li>当 sup A `!in` A, 则 sup A `in` B.
+      由于 `AA y in B` 是 A 的上界,
+      而 sup A 是 A 的所有上界的最小者, 因此成立
+      <span class="formula">
+        `x lt "sup" A le y`, `AA x in A, AA y in B`.
+      </span>
+    </li>
+    综合以上两式有: `EE c in RR`,
+    <span class="formula">
+      `x le c le y`, `AA x in A, AA y in B`.
+    </span>
+    这就证明了戴德金原理的表述二.
+  </ol>
+</li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

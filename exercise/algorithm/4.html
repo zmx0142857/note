@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>分治策略</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+
+4.1-5
+<pre>
+// 设 [1:n] 的最大子数组为 [i:j], 则 [1:n+1] 的最大子数组为
+// [i:j] 或 [k:n+1] (1 &le; k &le; n+1)
+// 设 [1:n] 中右边界为 n 的最大子数组为 [k:n], 则 [1:n+1] 中右边界为 n+1
+// 的最大子数组为
+//     [k:n+1],   若 sum[k:n] &gt; 0
+//     [n+1:n+1], else
+MAXIMUM-SUBARRAY(A):
+  k, ksum = 1, A[1]
+  lo, hi, sum = 1, 1, A[1]
+  for n = 2 to A.length:
+    if ksum &gt; 0:
+      ksum += A[n]
+    else:
+      k = n
+      ksum = A[n]
+    if ksum &gt; sum:
+      lo, hi, sum = k, n, ksum
+  return lo, hi, sum
+</pre>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>
+
+

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>映射与基数</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="enum">
+<li>设 `f: RR to RR`, 记 `f_1(x) = f(x)`, `f_n(x) = f(f_(n-1)(x))` (`n = 2
+  , 3, cdots`). 若存在 `n_0`, 使得 `f_(n_0)(x) = x`, 则 `f` 是 `RR` 到
+  `f(RR)` 上的一一映射.<br/>
+  <div class="proof">
+  <p>
+    `n_0 = 1` 时结论显然, 下面设 `n_0 gt 1`.
+  </p>
+  <p> 设 `f(x_1) = f(x_2)`, 则 `x_1 = f_(n_0)(x_1)` `=
+    f_(n_0-1)(f(x_1))` `= f_(n_0-1)(f(x_2))` `= f_(n_0)(x_2)` `= x_2`,
+    所以 f 为单射. f 当然是 `RR` 到其象 `f(RR)` 上的满射,
+    从而是一一映射.
+  </p>
+  </div>
+</li>
+
+<li>不存在 `RR` 上的连续函数 `f`, 它在无理数集 `RR \\ QQ` 上是一一映射,
+  而在 `QQ` 上则不是一一映射.
+</li>
+
+<li>`f: X to Y` 是满射当且仅当对任意的真子集 `B sub Y`, 有
+  <span class="formula">
+    `f(f^-1(B)) = B`.
+  </span>
+
+  <p class="proof">
+    由
+    <span class="formula align">
+      `f(f^-1(B))`<br>
+      `= {f(x): x in f^-1(B)}`<br>
+      `= {f(x): x in {x in X: f(x) in B}}`<br>
+      `= {f(x): x in X, f(x) in B}`
+    </span>
+    知, `f(f^-1(B)) sube B`. 设 `f` 为满射, 则对 `AA y in B`,
+    `EE x in X`, `f(x) = y`. 故 `f(f^-1(B)) supe B`. 反之, 若对
+    `AA B sube Y`, `f(f^-1(B)) supe B`, 则对 `AA y in Y`,
+    `EE x in X`, `f(x) in {y}`, 即 `f(x) = y`. 故 `f` 为满射.
+  </p>
+</li>
+
+<li>设 `f: X to Y` 是满射, 则下述命题等价:
+  <ol>
+    <li>`f` 是一一映射;</li>
+    <li>对任意的 `A, B sube X`, 有 `f(A nn B) = f(A) nn f(B)`;</li>
+    <li>对满足 `A nn B = O/` 的 `A, B sube X`, 有 `f(A) nn f(B) = O/`;</li>
+    <li>对任意的 `A sube B sube X`, 有 `f(B\\A) = f(B) \\ f(A)`.</li>
+  </ol>
+
+  <ol class="proof">
+    <li>`rArr` (2): 由定义易知
+      `f(A cap B) sube f(A) cap f(B)`,
+      下证 `f(A) cap f(B) sube f(A cap B)`.
+      取 `y in f(A) cap f(B)`,
+      由 `f` 为一满射知, `EE x in X, f(x) = y`.
+      而由 `y in f(A)` 知, `EE x' in A, f(x') = y`.
+      再由 `f` 为一单射知 `x = x'`,
+      所以 `x in A`. 同理 `x in B`, 即 `x in A cap B`.
+      所以 `y = f(x) in f(A cap B)`. 得证.
+    </li>
+    <li>`rArr` (3): `f(A) cap f(B) = f(A cap B) = f(O/) = O/`.
+    </li>
+    <li>`rArr` (4): 由定义易知
+      `f(B) \\ f(A) sube f(B\\A)`, 下证 `f(B\\A) sube f(B) \\ f(A)`.
+      取 `y in f(B\\A)`, 则 `EE x in B\\A`, `f(x) = y`,
+      所以 `y = f(x) in f(B)`.
+      另一方面, 由 `A cap (B\A) = O/` 知
+      `f(A) cap f(B\A) = empty`,
+      所以 `y !in f(A)`, 即 `y in f(B) \\ f(A)`.
+    </li>
+    <li>`rArr` (1): 只需证 `f` 是单射.
+      任取 `x_1, x_2 in X`, `x_1 != x_2`.
+      令 `A = {x_1}`, `B = {x_1, x_2}`, 则 `A sube B sube X`.
+      由 (3) 有 `{f(x_2)} = {f(x_1), f(x_2)} \\ {f(x_1)}`.
+      这推出 `f(x_1) != f(x_2)`.
+    </li>
+  </ol>
+</li>
+
+<li>设 `f: X to Y`, `g: Y to X`. 若对任意的 `x in X`, 必有 `g(f(x)) = x`,
+  则 `f` 是单射, `g` 是满射.<br/>
+
+  <div class="proof">
+    设 `a, b in X` 满足 `f(a) = f(b)`, 则
+    <span class="formula">
+      `a = g(f(a)) = g(f(b)) = b`.
+    </span>
+    故 `f` 是单射.
+    因为对 `AA x in X`, `EE f(x) in Y`, 使
+    `g(f(x)) = x`, 所以 `g` 是满射.
+  </div>
+</li>
+</ol>
+
+<ol class="enum">
+<li>设 `A_1 sube A_2`, `B_1 sube B_2`. 若 `A_1 ~ B_1`, `A_2 ~ B_2`, 试问:
+  是否有 `(A_2 \\ A_1) ~ (B_2 \\ B_1)`?
+</li>
+
+<li>若 `(A\\B) ~ (B\\A)`, 则 `A ~ B`, 对吗?</li>
+
+<li>若 `A sube B` 且 `A ~ (A uu C)`, 试证明 `B ~ (B uu C)`.</li>
+
+<li>对于平面上的直线 `3y - 2x = 5` 来说, 它具有下述性质: 若 `x in QQ`,
+  则 `y in QQ`. 试问: 具有这种性质的直线在平面上有多少?
+</li>
+
+<li>试问: 由自然数组成且公差亦为自然数的等差数列之全体形成的集合的基数是什么?</li>
+
+<li>设 `f(x)` 在 `(a, b)` 上可微, 且除可数集外, 有 `f'(x) = 0`, 试证明
+  `f(x) = c` (常数).
+</li>
+
+<li>试问: 是否存在满足
+  <span class="formula">
+    `f(x) = {
+    无理数，x 是有理数;
+    有理数，x 是无理数;
+  :}`</span>
+  的函数 `f in C(RR)`?
+</li>
+
+<li>设 `E sube (0, 1)` 是无限集. 若从 `E`
+  中任意选取不同的数所组成的无穷正项级数总是收敛的, 试证明 `E` 是可数集.
+</li>
+
+<li>试问: 直线上所有开区间的全体形成的集合的基数是什么?
+  (设法与平面点集对应)
+</li>
+
+<li>设 `E sube RR^2` 是不可数集, 试证明存在 `x_0 in E`, 使得对于任一内含
+  `x_0` 的圆邻域 `B(x_0)`, 点集 `E nn B(x_0)` 为不可数集.
+</li>
+
+<li>设 `E sube RR`, 且 `|E| lt c`, 试证明存在实数 `a`, 使得 `E +
+  {a} = {x + a: x in E} sube RR \\ QQ`. (`a !in QQ - E
+  overset "def" = {x - y: x in QQ, y in E}`).
+</li>
+
+<li>试作由 0, 1 两个数组成的数列的全体 `E` 与 `cc P(NN)` 之间的一一映射.
+  (作映射 `f: cc"P"(NN) to E: f(A) = {x_1, x_2, cdots, x_n, cdots}`,
+  其中当 `n in A` 时, `x_n = 1`; 当 `n !in A` 时, `x_n = 0`.
+</li>
+
+<li>试问: 是否存在集合 `E`, 使得 `cc P(E)` 是可列集?</li>
+
+<li>试证明全体超越数 (即不是整系数方程 `a_n x^n + a_(n-1) x^(n-1) + cdots`
+  `+ a_1 x + a_0 = 0` 的根) 的基数是 `c`. (你知道的超越数是什么?)
+</li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

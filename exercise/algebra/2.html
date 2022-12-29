@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>抽象代数的基本概念</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="enum">
+<li>令 V 为数域 `bbb"F"` 上一线性空间, `cc"A" in cc"L"(V)`. 证明, 若
+  `cc"A"` 为一幂等变换, 则
+  <span class="formula">
+    `V = Ker\ cc"A" o+ Im\ cc"A"`.
+  </span>
+
+  <ol class="proof">
+    <li>`(AA alpha in V)` `alpha = (alpha - cc"A"alpha) + cc"A"alpha`.
+    </li>
+    <li>若 `cc"A" beta in Ker\ cc"A" nn Im\ cc"A"`, 则
+      `cc"A" beta = cc"AA" beta = 0`, 故
+      `Ker\ cc"A" nn Im\ cc"A" = {0}`,
+      所以 V 是 `Ker\ cc"A"` 与 `Im\ cc"A"` 的直和.
+    </li>
+  </ol>
+</li>
+
+<li>证明, 若半群 S 同时存在左、右幺元, 则它们相等, 即为 S 的幺元. <br>
+  <p class="proof">
+    `e = ee' = e'`.
+  </p>
+</li>
+
+<li>令 `bbb"F"` 为一数域, `B in bbb"F"^(n xx n)` 为一可逆矩阵.证明,
+  <span class="formula">
+    `G = {A in bbb"F"^(n xx n) | A'BA = B}`
+  </span>
+  关于矩阵通常乘法成一群.<br>
+
+  <p class="proof">
+    结合律显然成立.
+    封闭性: 取 `A, C in G`, 则 `(AC)'B(AC) = C'A'BAC = B`.
+    幺元: 单位矩阵 `E`. 逆元: 取 `A in G`, 由 `|A'BA| = |B|` 知 `A` 可逆.
+    于是
+    <span class="formula">
+      `(A^-1)' B A^-1 = (A^-1)'A'BA A^-1 = B`.
+    </span>
+  </p>
+</li>
+
+<li>令 `G` 为一群, `a in G`, 且 `|a| = n`. 证明,
+  <span class="formula">
+    `a^s = a^t iff n | s-t`.
+  </span>
+
+  <p class="proof">
+    `a^s = a^t iff a^(s-t) = e iff n | s-t`.
+  </p>
+</li>
+
+<li>令 `G` 为一有限群. 证明,
+  <ol>
+    <li>`G` 中阶大于 2 的元素的个数为偶数;</li>
+    <li>若 `G` 为一偶数阶群, 则 `G` 中必含阶为 2 的元素.</li>
+  </ol>
+
+  <ol class="proof">
+    <li>设 `a in G`, `|a| gt 2`, 则 `a^-1 != a`, 而 `|a^-1| = |a| gt
+      2`, 这说明 `G` 中阶大于 2 的元素是成对出现的. 据此, 定义等价关系
+      `sigma: x sigma y hArr x = y 或 xy = e`. 易知集合
+      <span class="formula">
+        `A = {a in G: |a| gt 2}`
+      </span>
+      在 `sigma` 下的各等价类中恰有 2 元素. 所以 `|A|` 是偶数.
+    </li>
+    <li>因为 `G` 中的一阶元只有 `e`, `G` 中阶大于 2 的元素 (如果存在)
+      是偶数个, 所以 `G` 中的 2 阶元的个数必为奇数. 这保证了 `G` 中存在
+      2 阶元.
+    </li>
+  </ol>
+</li>
+
+<li>令 `G` 为一群. 证明, 若 `G` 中每个元素都满足方程 `x^2 = e`, 其中 `e`
+  为 `G` 的幺元, 则 `G` 为一 Abel 群.<br>
+
+  <p class="proof">
+    任取 `a, b in G`, 则 `a, b, ab in G` 满足方程 `x^2 = e`, 即
+    `a b a b = e = a a b b`. 等式两边同时左乘 `a` 的逆, 右乘 `b` 的逆,
+    得 `b a = a b`.
+  </p>
+</li>
+
+<li>令 `G` 为一群. 证明, 若
+  <span class="formula">
+    `(ab)^2 -= a^2 b^2`,
+  </span>
+  则 `G` 为一 Abel 群.<br>
+
+  <p class="proof">
+    参见 6 的证明.
+  </p>
+</li>
+
+<li>证明, 有理数加群 `(QQ, +)` 的任一有限生成子群都为一循环群.<br>
+
+  <p class="proof">
+    不妨设这一子群的各生成元具有相同的分母, 即
+    <span class="formula">
+      `G = (:p_1/q, p_2/q, cdots, p_n/q:) le (QQ, +)`.
+    </span>
+    又设 `d = (p_1, p_2, cdots, p_n)` 为各分子的最大公因子, 则存在
+    `r_i in ZZ`, `i = 1, 2, cdots, n`, 使 `p_i = d r_i`.
+    任取 `g in G`, 由生成元的定义知, 存在 `a_i in ZZ`, `i = 1, 2,
+    cdots, n`, 使
+    <span class="formula">
+      `g = 1/q sum_(i=1)^n a_i p_i`
+      `= d/q sum_(i=1)^n a_i r_i in (:d/q:)`.
+    </span>
+    另一方面, 由 `d` 是各分子的最大公因子知存在 `b_i in ZZ`, `i = 1, 2,
+    cdots, n`, 使 `d = sum_(i=1)^n b_i p_i`. 故对任意 `n in ZZ`,
+    <span class="formula">
+      `n d/q = sum_(i=1)^n n b_i p_i/q in G`.
+    </span>
+    综上知 `G = (:d/q:)`.
+  </p>
+</li>
+
+<li>证明, 任一群 `G` 都不是它的任意两个真子群的并. 但, 是它的多于等于 3
+  个真子群的并的群是存在的, 请举例说明.<br>
+
+  <ol class="proof">
+    <li>
+      先证: 对任意 `A, B le G`, `A cup B le G` 当且仅当 `A, B`
+      有包含关系. 若 `A, B` 有包含关系, 显然 `A cup B le G`. 反之,
+      不妨设 `A` 不含于 `B`, 即 `EE a in A`, `a !in B`.
+      任取 `b in B`, 由 `A cup B le G` 知 `a b in A cup B`.
+      若 `a b in B`, 则 `a = (ab)b^-1 in B`, 矛盾. 故 `a b in A`,
+      从而 `b = a^-1(ab) in A`. 所以 `B sube A`.
+    </li>
+    <li> 由以上结论立刻知任一群 `G` 都不是它的任意两个真子群的并. 但 Klein
+      四元群可以写成它的三个真子群的并:
+      <span class="formula">
+        `K_4`
+        `= {(1), (12)(34)}` `uu {(1), (13)(24)}` `uu {(1), (14)(23)}`.
+      </span>
+    </li>
+  </ol
+</li>
+
+<li>令 `G` 为一群, `H, K le G`, `a, b in G`. 证明, 若 `H a = K b`,
+  则 `H = K`.
+</li>
+
+<li>令 `G` 为一群, `A, B, C le G`, 且 `A le C`. 证明,
+  <span class="formula">
+    `AB nn C = A (B nn C)`.
+  </span>
+
+  <ol class="proof">
+    <li>任取 `x in A B nn C`, 则 `x in C`, 且 `EE a in A`, `b in B`,
+      使 `x = a b`. 于是 `b = a^-1 x in C`, 故 `x in A(B nn C)`.
+    </li>
+    <li>任取 `x in A(B nn C)`, 则 `EE a in A`, `y in B nn C`, 使 `x
+      = a y`, 故 `x in A B nn C`.
+    </li>
+  </ol>
+</li>
+
+<li>令 `G` 为一群, `A, B, C le G`, 且 `A le B`. 证明, 若
+  `A nn C = B nn C`, `A C = B C`, 则 `A = B`.
+</li>
+
+<li>在 `S_3` 中找出两个元素 `a`, `b`, 满足 `(a b)^2 = a^2 b^2`.<br>
+  <p class="answer">
+    事实上, `a b a b = a a b b hArr b a = a b`, 因此只需找出 `S_3`
+    中可交换的元素. 而 `S_3` 中的幺元与任意元素可换,
+    所有的三阶元可换, 二阶元与其逆可换.
+  </p>
+</li>
+
+<li>令 `G` 为一群, `a in G`, `|a| = n`. 证明, 关于任意 `m in ZZ`,
+  <span class="formula">
+    `|a^m| = n/(({:m,n:}))`.
+  </span>
+  特别地,
+  <ol>
+    <li>若 `|a| = st`, `s, t in ZZ^+`, 则 `|a^s| = t`;</li>
+    <li>`|a^m| = n` 当且仅当 `(m, n) = 1`.</li>
+  </ol>
+
+  <p class="proof">
+    记 `|a^m| = k`, `(m, n) = d`. 首先,
+    <span class="formula">
+      `(a^m)^(n/d) = (a^n)^(m/d) = e`,
+    </span>
+    故 `k | n/d`. 其次, 由
+    <span class="formula">
+      `(a^m)^k = a^(mk) = e`
+    </span>
+    知, `n | m k`, 两边同除以 `d` 得 `n/d | m/d * k`.
+    因为 `(n/d, m/d) = 1`, 所以 `n/d | k`.
+    于是 `n/d = k`.
+  </p>
+</li>
+
+<li>试求出三次对称群
+  <span class="formula">
+    `S_3 = {(1), (12), (13), (23), (123), (132)}`
+  </span>
+  的所有子群.
+</li>
+
+<li>确定 n 次置换
+  <span class="formula">
+    `sigma = (
+      1, 2, cdots, n-1, n;
+      n, n-1, cdots, 2, 1;
+    )`
+  </span>
+  的奇偶性.<br>
+
+  <p class="answer">
+    <span class="formula">
+      `{
+        "even", if n = 4k, 4k+1;
+        "odd", if n = 4k+2, 4k+3
+      :}`,
+      `k in ZZ`.
+    </span>
+  </p>
+</li>
+
+<li>将置换
+  <span class="formula">
+    `(456)(567)(671)(123)(234)(345)`
+  </span>
+  写成不相连的循环之积.<br>
+
+  <p class="answer">
+    `(127)`
+  </p>
+</li>
+
+<li>令
+  <span class="formula">
+    `tau = (327)(26)(14)`, `sigma = (134)(57)`,
+  </span>
+  求 `sigma tau sigma^-1` = ? `sigma^-1 tau sigma` = ?
+
+  <p class="remark">
+    设 `pi = ((i_1, i_2, cdots, i_n), (pi(i_1), pi(i_2), cdots,
+    pi(i_n)))`, `sigma = (i_1 i_2 cdots i_n)`, 则
+    <span class="formula">
+      `pi sigma pi^-1 = (pi(i_1), pi(i_2), cdots, pi(i_n))`.
+    </span>
+    还可以利用 `pi sigma_1 sigma_2 pi^-1 = pi sigma_1 pi^-1 pi sigma_2
+    pi^-1` 使这一公式得到更广的应用.
+  </p>
+  <p class="solution">
+    运用上述公式, 注意 `sigma^-1 = (57)(143)`, 得 `sigma tau sigma^-1`
+    `= (425)(26)(31)`, `sigma^-1 tau sigma = (125)(26)(43)`.
+  </p>
+</li>
+
+<li>令 `G` 为一群, `H, K, le G`. 证明, `H nn K` 的任一左陪集是 `H`
+  的一个左陪集与 `K` 的一个左陪集的交.<br>
+
+  <p class="proof">
+    事实上, `(AA g in G)` `g(H nn K) = g H nn g K`.<br>
+    首先, 任取 `g x in g(H nn K)`, 其中 `x in H nn K`.
+    则 `g x in g H`, `g x in g K`, 即 `g x in g H nn g K`.
+    其次, 取 `y in g H nn g K`,
+    则 `EE h in H`, `EE k in K`, 使 `y = g h = g k`.
+    两边同乘 `g^-1` 得 `g^-1 y in H nn K`, 即 `y in g(H nn K)`.
+  </p>
+</li>
+
+<li>令 `G` 为一群. `H, K le G`. 证明, 若 `[G : H] lt oo`,
+  `[G : K] lt oo`, 则 `[G : H nn K] lt oo`.
+</li>
+
+<li>令 `G` 为一有限群, `H, K le G`. 证明,
+  <span class="formula">
+    `|HK| = (|H| |K|) / |H nn K|`.
+  </span>
+
+  <ol class="proof">
+    <li> 首先我们有
+      <span class="formula">
+        `HK = uuu_(k in K) Hk`,
+        `quad K = uuu_(k in K) (H nn K)k`.
+      </span>
+      尽管未必有 `H K le G`, 但由 `H le G` 有
+      `AA k_1, k_2 in K sube G`, `|H k_1| = |H k_2| = |H|`.
+      且
+      `H k_1 = H k_2` `iff k_1 in H k_2` `iff EE h in H, k_1 = h k_2`.
+      所以 `h = k_1 k_2^-1 in K`, 于是 `h in H nn K`.
+      故 `H k_1 = H k_2 rArr (H nn K)k_1 = (H nn K)k_2`.
+      反之, 易证 `(H nn K)k_1 = (H nn K)k_2 rArr Hk_1 = Hk_2`.
+    </li>
+    <li>
+      记 `A = {H k | k in K}`, `B = {(H nn K)k | k in K}`.
+      作 `f: A rarr B: H k rarr (H nn K)k`. 由上面的讨论知 `f`
+      为一映射, 且为一单射, 又显然 `f` 为一满射, 所以 `f` 是 `A` 到 `B`
+      的一个双射, 从而 `|A| = |B|`, 即 `|H K| / |H| = K / |H nn K|`,
+      亦即 `|H K| = (|H| |K|)/|H nn K|`.
+    </li>
+  </ol>
+  <p class="remark">
+    试将此结论与有限集的公式
+    <span class="formula">
+      `|A uu B| = |A| + |B| - |A nn B|`
+    </span>
+    进行类比.
+  </p>
+</li>
+
+<li>令 `G` 为一群, `H, K le G`. 证明, 若 `([G : H], [G : K]) = 1`, 则
+  `G = H K`.
+</li>
+
+<li>令 `G` 为一群, `H le G`, `x in G`. 证明, `H cong x H x^-1`.</li>
+
+<li>令 `G` 为一有限群, `O/ ne A, B sube G`. 证明, 若
+  `|A| + |B| gt |G|`, 则 `G = A B`.<br>
+
+  <p class="proof">
+    显然 `A B sube G`, 故只需证 `G sube A B`.
+    任取 `g in G`, 令
+    <span class="formula">
+      `g B^-1 = {g b^-1 | b in B}`,
+    </span>
+    则 `|g B^-1| = |B^-1| = |B|`.  若 `A nn gB^-1 = O/`,
+    则 `|A uu g B^-1|` `= |A| + |g B^-1|` `= |A| + |B| gt |G|`,
+    与 `A uu g B^-1 sube G` 的事实矛盾. 故 `A nn g B^-1 != O/`,
+    即存在 `a in A` 和 `b in B`, 使得 `a = g b^-1`, 即 `a b = g`.
+    于是 `g in A B`. 从而 `G sube A B`. 所以 `G = A B`.
+  </p>
+</li>
+
+<li>证明, 指数为 2 的子群为正规子群.<br>
+  <p class="proof">
+    设 `G` 为一群, `H le G`, 且 `[G : H] = 2`.
+    对任意 `g in G`, 若 `g in H`, 则 `g H = H = H g`.
+    若 `g in G \\ H`, 则 `g H nn H = O/`,
+    但 `[G : H] = 2`, 所以 `g H uu H = G`, 即 `g H = G \\ H`.
+    同理 `H g = G \\ H`, 故 `g H = H g`.
+  </p>
+</li>
+
+<li>证明, 不存在恰有两个指数为 2 的子群的群.</li>
+
+<li>令
+  <span class="formula">
+    `G = {((a, b),(c, d)) |:}\ a, b, c, d in ZZ, |ad-bc| = 1}`,
+    `H = {((1, x),(0, 1)) |:}\ x in ZZ}`.
+  </span>
+  证明,
+  <ol>
+    <li>`G` 关于矩阵通常乘法成群;</li>
+    <li>`H le G`, 且 `H &#8940; G`;</li>
+    <li>给出 `G` 的一个非平凡正规子群.</li>
+  </ol>
+</li>
+
+<li>令 `G` 为一群, `N = (:a:) normal G`. 证明, `N` 的任意子群都是 `G`
+  的正规子群.
+</li>
+
+<li>令 `G` 为一群, `H le K le G`. 证明,
+  <ol>
+    <li>若 `H normal G`, `K normal G`, 则 `K//H normal G//H`;</li>
+    <li>若` H normal G`, `K//H normal G//H`, 则 `K normal G`.</li>
+  </ol>
+</li>
+
+<li>找出 `S_4` 的所有正规子群.</li>
+
+<li>证明, 4 次对称群 `S_4` 关于 Klein 四元群 `K_4` 的商群与 `S_3` 同构.
+</li>
+
+<li>令 `G` 为一群. 证明,
+  <span class="formula">
+    `{:
+      varphi: ,G to G;
+      ,x |-> x^-1
+    :}`
+  </span>
+  为 `G` 的一个自同构当且仅当 `G` 为一 Abel 群.
+</li>
+
+<li>令 `G` 为一群. 证明, 若
+  <span class="formula">
+    `{:
+      varphi: ,G to G;
+      ,x |-> x^3
+    :}`
+  </span>
+  为 `G` 的一个单自同态, 则 `G` 为一 Abel 群.
+</li>
+
+<li>令 `ZZ` 为整数环. 在集合 `S = ZZ xx ZZ` 上定义
+  <span class="formula">
+    `(a, b) + (c, d) = (a+c, b+d)`, <br/>
+    `(a, b) * (c, d) = (ac + bd, ad + bc)`.
+  </span>
+  试问, `S` 关于上述两种合成是否成一幺环?
+</li>
+
+<li>在整数集 `ZZ` 上定义二元合成 `o+` 和 `o.` 如下:
+  <span class="formula">
+    `a o+ b = ab`, `a o. b = a + b`.
+  </span>
+  试问, `ZZ` 关于上述两种合成是否成一环?
+</li>
+
+<li>令 `R` 为一交换幺环. 在 `R` 上定义二元合成 `o+` 和 `o.` 如下:
+  <span class="formula">
+    `a o+ b = a + b - 1`, `a o. b = a + b - ab`.
+  </span>
+  证明, `R` 关于上述两种合成仍为一交换幺环, 并且与原来的环同构.
+</li>
+
+<li>证明, 关于幺环, 加法交换律可由定义中其他条件推出.</li>
+
+<li>令 `R` 为一环, 且关于任意 `a in R`, 都有 `a^2 = a`. 证明,
+  <ol>
+    <li>`R` 为一交换环;</li>
+    <li>若 `|R| ge 3`, 则 `R` 不是整环.</li>
+  </ol>
+  <ol class="proof">
+    <li>先证 `(AA x in R)`, `x + x = 0`.
+      因为
+      <span class="formula align">
+        `x + x = (x + x)^2`<br>
+        `= x^2 + x^2 + x^2 + x^2`<br>
+        `= x + x + x + x`.
+      </span>
+      两边消去 `x + x`, 得 `x + x = 0`.
+      其次,
+      <span class="formula align">
+        `x + y = (x + y)^2`<br>
+        `= x^2 + x y + y x + y^2`<br>
+        `= x + x y + y x + y`.
+      </span>
+      消去 `x + y` 后得 `x y + y x = 0`. 但 `x y + x y = 0`, 所以
+      `x y = y x`.
+    </li>
+    <li>设 `a in R \\ {0, 1}`, 则 `(1-a)a = 0`, 这说明 `R`
+      不是无零因子环.
+    </li>
+  </ol>
+
+  <p class="remark">
+    满足全体元素皆为幂等元的环称为布尔环 (Boolean Ring).
+  </p>
+</li>
+
+<li>(华罗庚定理) 令 `(R, +, *)` 为一环, `f in End(R, +)`. 证明,
+  <span class="formula">
+    `f in End(R, *)`, 或 `f in AntiEnd(R, *)`,
+  </span>
+  即
+  <span class="formula">
+    `f(ab) -= f(a) f(b)`, 或 `f(ab) -= f(b) f(a)`,
+  </span>
+  当且仅当
+  <span class="formula">
+    `(AA a, b, in R)` `f(ab) = f(a) f(b)`, 或 `f(b) f(a)`.
+  </span>
+  (必要性是显然的, 只需证明充分性. 提示: 联系本章习题 9)
+</li>
+
+<li>令 `R` 为一环, `a in R`. 称 `a` 为一幂零元, 如果存在 `m in ZZ^+`,
+  使得 `a^m = 0`. 证明,
+  <ol>
+    <li>若 `R` 为一幺环, `a in R` 为一幂零元, 则 `1-a` 为一单位;</li>
+    <li>若 `R` 为一交换环, 则 `R` 的全体幂零元构成的集合 `N` 为一理想,
+      且剩余类环 `R//N` 不含非零幂零元.
+    </li>
+  </ol>
+
+  <ol class="proof">
+    <li>设 `a^m = 0`. 容易验证,
+      <span class="formula">
+        `(1-a)(1 + a + a^2 + cdots + a^(m-1))`
+        `= (1 + a + a^2 + cdots + a^(m-1))(1-a)`
+        `= (1 - a^m) = 1`.
+      </span>
+    </li>
+    <li>
+      <p> 因为 (1) `AA a, b in N`, `EE m, n in ZZ^+`, 使 `a^m = b^n
+        = 0`. 于是由二项式定理, `(a - b)^(m + n) = 0`, 从而 `a - b in N`.
+        (2) `AA r in R`, `AA n in N`, `EE m in ZZ^+`, 使
+        `n^m = 0`, 所以 `(r n)^m = r^m n^m = 0`, 从而 `r n in N`.
+        所以 `N` 为一理想.
+      </p>
+      <p> 设 `r + N` 为 `R//N` 的一个幂零元, 则 `EE m in ZZ^+`,
+        `(r+N)^m = r^m + N = N`, 即 `r^m in N`. 从而 `r in N`. 故
+        `r + N = N`.
+      </p>
+    </li>
+  </ol>
+</li>
+
+<li>令 `R` 为一幺环, `a, b, in R`. 证明, 若 `1+ab` 为一单位, 则 `1+ba`
+  也为一单位.<br>
+
+  <p class="proof">
+    设 `x(1 + ab) = (1 + ab)x = 1`, 则
+    <span class="formula">
+      `b x a(1 + ba) = b x(1 + a b)a = b a`,<br>
+      `(1 + b a)b x a = b(1 + a b)x a = b a`.
+    </span>
+    故 `(1 - b x a)(1 + b a)` `= (1 + b a)(1 - b x a) = 1`.
+  </p>
+</li>
+
+<li>令 `R` 为一环, `I, H, N normal R`. 证明,
+  <span class="formula">
+    `(H + N)I = H I + N I`,
+    `I(H + N) = I H + I N`.
+  </span>
+</li>
+
+<li>令 `R` 为一至少含两个元素的环, 且关于任意 `a in R\\{0}`,
+  都存在唯一的 `b in R`, 使得 `a b a = a`. 证明,
+  <ol>
+    <li>`R` 无零因子;</li>
+    <li>`b a b = b`;</li>
+    <li>`R` 为一幺环;</li>
+    <li>`R` 为一除环.</li>
+  </ol>
+
+  <ol class="proof">
+    <li>设 `a c = 0` 且 `a ne 0`, 则 `EE! b in R`, `a b a = a`.
+      但 `a(b + c)a = a b a + a c a = a`, 故 `b + c = b`, 即 `c = 0`.
+      所以 `R` 无零因子.
+    </li>
+    <li>`(b a b)a = b(a b a) = b a`, 由 `R` 无零因子, `b a b = b`.</li>
+    <li>取 `0 ne a in R`, 则 `EE!b in R`, `a b a = a`.
+      记 `1 = a b`, 则 `AA c in R`, 由 `b ne 0`,
+      <span class="formula">
+        `(b a b)c = b c rArr a b c = c hArr 1 c = c`,<br />
+        `c(a b a) = c a rArr c a b = c hArr c 1 = c`.
+      </span>
+    </li>
+    <li>`a, b` 的取法同上. 由 `(a b)b = b = b a b` 知 `b a = a b = 1`.
+    </li>
+  </ol>
+</li>
+
+<li>在四元数除环 `H` 中, 令
+  <span class="formula">
+    `H_0 = {a + b I + c J + d K | a, b, c, d in QQ}`.
+  </span>
+  证明, `H_0` 为一除环.
+</li>
+
+<li>决定四元数除环 `H` 的中心 (即 `H` 中与所有元素乘法可交换的全体元素).
+</li>
+
+<li>证明, 四元数除环 `H` 的单位 `{+-1, +-I, +-J, +-K}`
+  关于 H 的乘法运算成群, 叫做四元数群, 记为 `Q_8`. 并进一步证明 `Q_8` 为
+  Hamilton 群 (即所有子群都正规的非 Abel 群).
+</li>
+
+<li>令 `bbb F` 为一域. 证明, `bbb F` 无非平凡的理想.<br>
+  <p class="proof">
+    设 `{0} != I normal bbb F`. 取 `0 ne i in I`, 由 `I`
+    为一理想知 `1 = i i^-1 in I`. 而交换幺环含幺元的理想是环本身
+    `bbb F`.
+  </p>
+</li>
+
+<li>令 `R` 为一交换幺环. 证明, 若 `R` 无非平凡的理想, 则 `R` 为一域.<br>
+  <p class="proof">
+    取 `a ne 0`, 考虑理想
+    <span class="formula">
+      `(:a:) = {r a | r in R}`,
+    </span>
+    显然 `a in (:a:)`, 故 `(:a:) ne {0}`,
+    于是 `(:a:) = R`.
+    从而知 `1 in (:a:)`, 即 `EE r in R, r a = 1`.
+    这说明 `R` 中的任意非零元都有逆. 故 `R` 为一域.
+  </p>
+</li>
+
+<li>令 `p` 为一素数, `bbb F` 为一特征为 `p` 的域. 证明,
+  <span class="formula">
+    `(a + b)^p -= a^p + b^p`.
+  </span>
+</li>
+
+<li>(兰大2014级拔尖本科生数学萃英班钟声明) 假设如 Kablansky 定理,
+  `a, b in R`. 证明,
+  <ol>
+    <li>`|S_a| ge 2`, 当且仅当
+      <span class="formula">
+        `(AA n in ZZ^+)` `|S_(a^n)| ge 2`,
+      </span>
+      也当且仅当
+      <span class="formula">
+        `(EE n in ZZ^+)` `|S_(a^n)| ge 2`;
+      </span>
+    </li>
+    <li>`a b = e` 时, `|S_a^r| ge 2` 当且仅当 `|S_b^l| ge 2`;</li>
+    <li>若 `a_1` 与 `a` 分别至少有一个或两个右逆元, 则 `|S_(a_1 a)| ge
+      2`.
+    </li>
+  </ol>
+</li>
+
+<li>证明, 域 `bbb F` 上的 `n` 阶矩阵环 `bbb F^(n xx n)` 为一单环
+  (即只有零理想和本身两个理想的环).
+</li>
+
+<li>令 `ZZ[i]` 为高斯整环, 即
+  <span class="formula">
+    `ZZ[i] = {a + bi | a, b in ZZ}`,
+  </span>
+  其中 `ZZ` 为整数环. 试求出剩余类环 `ZZ[i] // (:1+i:)` 的所有元素.
+</li>
+
+<li>令 `R`, `bar(R)` 为两个环, `varphi: R to bar(R)` 为一环满同态映射,
+  `I normal R`. 证明,
+  <span class="formula">
+    `varphi(I) = bar(R) iff I + Ker\ varphi = R`.
+  </span>
+</li>
+
+<li>令 `R`, `bar R` 为两个环, `varphi: R to bar R` 为一环满同态映射.
+  判断下列命题是否正确. 正确的加以证明, 不正确的请举反例.
+  <ol>
+    <li>若 `a in R` 为一幂零 (幂等) 元, 则 `varphi(a) in bar R`
+      也为一幂零 (幂等) 元;
+    </li>
+    <li>若 `a in R` 为 `R` 的一个零因子, 则 `varphi(a) in bar R` 也为
+      `bar R` 的一个零因子;
+    </li>
+    <li>若 `R` 为一整环, 则 `varphi(R) = bar R` 也为一整环;</li>
+    <li>若 `u in R` 为 `R` 的一个单位, 则 `varphi(u) in bar R` 也为
+      `bar R` 的一个单位;
+    </li>
+    <li>若 `varphi(u) in bar R` 为 `bar R` 的一个单位, 则 `u in R`
+      也为 `R` 的一个单位.
+    </li>
+  </ol>
+</li>
+
+<li>确定整数环 `ZZ` 的一切自同态映射.</li>
+
+<li>令 `R` 为一环, `phi` 为 `R` 的一个自同态满射. 证明, 若 `R`
+  仅有有限个子环, 则 `phi` 为 `R` 的一个自同构.
+</li>
+
+</ol>
+
+<h3>补充</h3>
+
+<ol>
+  <li>交换幺环的含幺元的理想是环本身.<br>
+  <p class="proof">
+    设 `1 in I normal R`, 则由交换幺环主理想的构成知
+    `I supe (:1:) = 1 R = R`.
+  </p>
+</li>
+
+<li>素数阶群是循环群.<br>
+  <p class="proof">
+    设 `|G| = p`, `p` 为一素数. 任取 `e ne a in G`, 则 `|a| ne 1`,
+    由 Lagrange 定理, `|a| = p`, 故 `(:a:) = G`.
+  </p>
+</li>
+
+<li>1 到 10 阶群
+  <table>
+    <tr>
+      <td>n</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>G</td>
+      <td>{e}</td>
+      <td>`Z_2`</td>
+      <td>`Z_3`</td>
+      <td>`Z_4`</td>
+      <td>`Z_5`</td>
+      <td>`Z_6`</td>
+      <td>`Z_7`</td>
+      <td>`Z_8`</td>
+      <td>`Z_9`</td>
+      <td>`Z_10`</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>`K_4`</td>
+      <td></td>
+      <td>`S_3`, `D_6`</td>
+      <td></td>
+      <td>`D_8`, `Q_8`</td>
+      <td>`Z_2 xx Z_3`</td>
+      <td>`D_10`</td>
+    </tr>
+  </table>
+</li>
+</ol>
+
+</body>
+<script src="../../js/note.js?type=math"></script>
+</html>
+

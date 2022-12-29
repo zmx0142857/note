@@ -1,827 +1,1225 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>线性空间</title>
+    <title>群 (下)</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>线性空间与其子空间</h2>
+<h2>可解群</h2>
 
-<h3>线性空间</h3>
-
-<p>	类比于平面仿射几何系统, 我们抽象出线性空间的概念:</p>
-
-<ol class="definition" style="list-style-type:lower-roman"
-	id="def-linear-space">
-	令集合 `V != O/`, `bbb P` 为一数域 (如 `QQ`, `RR`, `CC`),
-  "`+`" 为 `V` 上的一个二元运算,
-	称为<b>加法</b>, "`*`" 为 `bbb P xx V` 到 `V` 的一个二元合成,
-	称为<b>数乘</b>.
-	称代数系统 `(V";" +, *";" bbb P)` 为数域 `bbb P`
-	上的<b>线性空间</b>, 如果它满足下面 8 条<b>基本性质</b>:
-	<li>加法交换律. `(AA bm alpha, bm beta in V)`
-		`bm alpha + bm beta = bm beta + bm alpha`;
-	</li>
-	<li>加法结合律. `(AA bm alpha, bm beta, bm gamma in V)`
-		`(bm alpha + bm beta) + bm gamma = bm alpha + (bm beta + bm
-		gamma)`;
-	</li>
-	<li>(右) 零元存在. `(EE bm theta in V)` `(AA bm alpha in V)`
-		`bm alpha + bm theta = bm alpha`;
-	</li>
-	<li>(右) 负元存在. `(AA bm alpha in V)` `(EE bm alpha' in V)`
-		`bm alpha + bm alpha' = bm theta`;
-	</li>
-	<li>数乘对 `V` 上加法的分配律.
-		`(AA bm alpha, bm beta in V, AA k in bbb P)`
-		`k * (bm alpha + bm beta) = k * bm alpha + k * bm beta`;
-	</li>
-	<li>数乘对 `bbb P` 上加法的分配律.
-		`(AA bm alpha in V,  AA k, l in bbb P)`
-		`(k + l) * bm alpha = k * bm alpha + l * bm alpha`;
-	</li>
-	<li>数乘下数字的穿越.
-		`(AA bm alpha in V, AA k, l in bbb P)`
-		`(kl) * bm alpha = k * (l * bm alpha)`;
-	</li>
-	<li>设 `1` 是 `bbb P` 中的幺元, `(AA bm alpha in V)`
-		`1 * bm alpha = bm alpha`.
-	</li>
-	不引起混淆的情况下, 把线性空间也简记简记为 `V`.
-	把线性空间中的元素称为<b>向量</b>,
-	数乘的乘号可以省略.
-</ol>
-
-<p class="remark">
-	注意, "二元运算" 与 "二元合成" 隐含 `V` 对运算封闭,
-	即对任意 `bm alpha, bm beta in V` 和任意 `k in bbb P`,
-	<span class="formula">
-		`bm alpha + bm beta in V`, `quad` `k bm alpha in V`.
-	</span>
-	这也等价于对任意 `bm alpha, bm beta in V` 和任意 `k, l in bbb P`,
-	<span class="formula">
-		`k bm alpha + l bm beta in V`.
-	</span>
-	`V != O/`, 以及 `V` 对加法和数乘封闭, 是构成线性空间的前提条件.
-</p>
-
-<p class="remark">
-	线性空间的基本性质 i - iv 指出 `(V, +)` 构成一个 Abel 群.
-  若把数域 `bbb P` 换成一般的环, 这里定义的就是抽象代数中的模.<br>
-  数域是指特征为零的域. 代数学中的域有两种, 第一种特征为零,
-  含有无穷多元素; 第二种特征为素数, 只有有限个元素, 即有限域.
-</p>
-
-<ol class="corollary" id="cor-simple-property">
-	<b>线性空间的简单性质</b>
-	<li>iii 中的 `bm theta` 是唯一的, 称为线性空间 `V` 中的<b>零向量</b>;
-	</li>
-	<li>设 `0` 是 `bbb P` 中的零元, `(AA bm alpha in V)`
-		`0 bm alpha = bm theta`.
-	</li>
-	<li>`(AA k in bbb P)` `k bm theta = bm theta`;</li>
-	<li>对任意 `bm alpha in V`, iv 中的 `bm alpha'` 是唯一的, 称为 `bm
-		alpha` 的<b>负向量</b>, 记为 `-bm alpha`; 因此, `-(-bm alpha) = bm
-		alpha`;
-	</li>
-	<li>`(AA bm alpha in V)` `(-1) bm alpha = -bm alpha`;</li>
-	<li>消去律. `(AA bm alpha, beta, gamma in V)`
-		`bm alpha + bm beta = bm alpha + bm gamma iff bm beta = bm gamma`.
-	</li>
-	<li>`(AA bm alpha in V, AA k in bbb P)`
-		`k bm alpha = bm theta rArr k = 0 or bm alpha = bm theta`;
-	</li>
-	后面我们把 `bm alpha + (-bm beta)` 简记为 `bm alpha - bm beta`.
-</ol>
-
-<ol class="proof">
-	<li>若 `bm theta'` 也是 `V` 的零向量, 则由交换律 (i) 和零元的定义
-		(iii) 有
-		<span class="formula">
-			` bm theta'
-			= bm theta' + bm theta
-			= bm theta + bm theta'
-			= bm theta`.
-		</span>
-	</li>
-	<li>由 viii 和 vi 有
-		<span class="formula">
-			` bm alpha + 0 bm alpha
-			= 1 bm alpha + 0 bm alpha
-			= (1 + 0) bm alpha
-			= 1 bm alpha
-			= bm alpha`.
-		</span>
-		由零元唯一性知 `0 bm alpha = bm theta`.
-	</li>
-	<li>任取 `bm alpha in V`, 由简单性质 2 和 vii ,
-		<span class="formula">
-			` k bm theta
-			= k (0 bm alpha)
-			= (k*0) bm alpha
-			= 0 bm alpha
-			= bm theta`.
-		</span>
-	</li>
-	<li>设 `bm alpha''` 也是 `bm alpha` 的负向量, 则由交换律,
-		结合律和零元, 负元的定义有
-		<span class="formula">
-			` bm alpha''
-			= bm alpha'' + bm theta
-			= bm theta + bm alpha''
-			= bm alpha + bm alpha' + bm alpha''
-			= bm alpha' + bm alpha + bm alpha''
-			= bm alpha' + bm theta
-			= bm alpha'`.
-		</span>
-	</li>
-	<li>由简单性质 2,
-		<span class="formula">
-			` bm alpha + (-1) bm alpha
-			= 1 bm alpha + (-1) bm alpha
-			= (1-1) bm alpha
-			= 0 bm alpha
-			= bm theta`.
-		</span>
-		由负元唯一性知 `(-1) bm alpha = -bm alpha`.
-	</li>
-	<li>`lArr`: 两边同时加上 `bm alpha`; `rArr`: 两边同时加上 `-bm alpha`.
-	</li>
-	<li>设 `k != 0`, 则由简单性质 3,
-		<span class="formula">
-			` bm alpha
-			= 1 bm alpha
-			= (k^-1 k) bm alpha
-			= k^-1 (k bm alpha)
-			= k^-1 bm theta
-			= bm theta`.
-		</span>
-	</li>
-</ol>
-
-<ol class="remark" id="rem-reduce-dependency">
-	零元, 负元的唯一性和消去律都是群的性质, 我们只由 ii, iii, iv
-	就可以推出它们:
-	<li>右负元也是左负元:
-		对 `AA bm alpha in V`, 有 `bm alpha', (bm alpha')' in V`, 满足
-		<span class="formula">
-			` bm alpha + bm alpha'
-			= bm alpha' + (bm alpha')'
-			= bm theta`.
-		</span>
-		于是
-		<span class="formula">
-			` bm alpha' + bm alpha
-			= bm alpha' + bm alpha + bm theta
-			= bm alpha' + bm alpha + bm alpha' + (bm alpha')'`
-			`= bm alpha' + bm theta + (bm alpha')'
-			= bm alpha' + (bm alpha')'
-			= bm theta`.
-		</span>
-	</li>
-	<li>右零元也是左零元:
-		对 `AA bm alpha in V`
-		<span class="formula">
-			` bm theta + bm alpha
-			= bm alpha + bm alpha' + bm alpha
-			= bm alpha + bm theta
-			= bm alpha`.
-		</span>
-	</li>
-	因此当 `bm alpha, bm beta in V` 中有一个是零元,
-	或者有一个是另一个的负元时, `bm alpha + bm beta = bm beta + bm alpha`.
-	从而上述<a class="ref" href="#cor-simple-property"></a>
-	的 1, 4, 6 的证明实际上不依赖于交换律. 
-</ol>
-
-<p class="remark">
-	线性空间定义中的 8 条基本性质不是相互独立的, 比如我们可以用 ii, iii,
-	iv, v, vi, viii 来推出 i. 
-	对任意 `bm gamma in V`, 由 vi 和 viii,
-	<span class="formula">
-		` 2 bm gamma
-		= (1+1) bm gamma
-		= 1 bm gamma + 1 bm gamma
-		= bm gamma + bm gamma`.
-	</span>
-	于是对任意 `bm alpha, bm beta in V`, 由 ii,
-	<span class="formula">
-		` 2 (bm alpha + bm beta)
-		= (bm alpha + bm beta) + (bm alpha + bm beta)
-		= bm alpha + (bm beta + bm alpha) + bm beta`.
-	</span>
-	但由 v, ii 知 
-	<span class="formula">
-		` 2 (bm alpha + bm beta)
-		= 2 bm alpha + 2 bm beta
-		= (bm alpha + bm alpha) + (bm beta + bm beta)
-		= bm alpha + (bm alpha + bm beta) + bm beta`.
-	</span>
-	由消去律 (从<a class="ref" href="#rem-reduce-dependency"></a> 知道,
-	消去律只依赖于 ii, iii, iv) 知
-	<span class="formula">
-		`bm beta + bm alpha = bm alpha + bm beta`.
-	</span>
-</p>
-
-<ol class="remark" id="rem-cancellation-law">
-	线性空间定义中的 iii, iv 可由消去律代替.
-	<li>任取 `bm alpha in V`, 记 `0 bm alpha = bm theta`.
-		对任意 `bm beta in V`, 由于
-		<span class="formula">
-			` bm beta
-			= (1+0) bm beta
-			= bm beta + 0 bm beta`,
-			<span class="label">(4-1)</span>
-		</span>
-		<span class="formula">
-			` bm theta + bm theta
-			= 0 bm alpha + 0 bm alpha
-			= (0+0) bm alpha
-			= bm theta`,
-		</span>
-		两式相加得
-		<span class="formula">
-			` bm beta + bm theta + bm theta
-			= bm beta + 0 bm beta + bm theta`,
-		</span>
-		由消去律知 `bm theta = 0 bm beta`. 代入 (4-1) 即证得 iii.
-	</li>
-	<li>对任意 `bm beta in V`, 记 `-bm beta = (-1)bm beta`,
-		则
-		<span class="formula">
-			` bm beta + (-bm beta)
-			= bm beta + (-1)bm beta
-			= 0 bm beta
-			= bm theta`.
-		</span>
-	</li>
-	因此, 联系<a class="ref" href="#rem-reduce-dependency"></a>
-	至<a class="ref" href="#rem-cancellation-law"></a>,
-	线性空间可以较弱地定义为: 满足 v - viii 的双消半群.
-</ol>
-
-<h3>线性子空间</h3>
+<h3>单群</h3>
 
 <p class="definition">
-	令 `(V";" +, *";" bbb P)` 为一线性空间, `O/ != V_1 sube V`.
-	若 `(V_1";" +, *";" bbb P)` 也为一线性空间, 则称 `V_1` 为 `V`
-	的<b>线性子空间</b>, 简称<b>子空间</b>, 记为 `V_1 le V`.
-	进一步, 若 `V_1 != V`, 称 `V_1` 为 `V` 的<b>真子空间</b>,
-	记为 `V_1 lt V`.
-	<br/>
-	显然对于任意数域 `bbb P` 上的任意线性空间 `V`, `V`
-	自身和<b>平凡线性空间</b> `{bm theta}` 都是 `V` 的子空间,
-	称为 `V` 的<b>平凡子空间</b>.
+  如果一个非平凡的群 `G`, 它的正规子群只有 `{e}` 和 `G`, 则称 `G`
+  为<b>单群</b>.
+</p>
+
+<p class="remark">
+  如同素数是构成整数的“基本粒子”, 单群是构成群的“基本粒子”.
+  那么有哪些单群呢? 下面的定理指出, 最简单的一种单群是素数阶循环群.
+</p>
+
+<p class="theorem">
+  素数阶循环群是单群; 反之单群中的 Abel 群必为素数阶循环群.
+  也就是说, 其它的单群都不满足交换律.
+</p>
+
+<p class="proof">
+  由 Lagrange 定理, 素数阶循环群显然只有平凡子群.<br>
+  反之设 `G` 为 Abel 群, 它的每个子群都是正规子群,
+  又 `G` 是单群, 所以 `G` 只有平凡的子群, 即 `G` 为素数阶循环群.
+	事实上, 取 `G` 中非单位元 `a`, 由于 `G` 只有平凡子群,
+  所以 `a` 生成整个群 `G`.  若 `|G| = mn`, `m, n gt 1`,
+  则 `(:a^m:)` 为一非平凡子群, 矛盾. 故 `|G|` 为素数.
+</p>
+
+<p class="theorem">
+	单群的同态像也是单群.
+</p>
+
+<p class="proof">
+	不妨设 `f: G to G'` 为一群满同态 (否则 `f` 是到 `f(G)` 上的满同态).
+	取 `G'` 的正规子群 `N' != {e'}`,
+	则 `f^-1(N') normal G`, 但 `G` 为单群, 故 `f^-1(N')` 等于 `{e}` 或
+	`G`.  但由 `f` 是满射知道, `N' = f(f^-1(N')) != {e'}`, 故只能
+	`f^-1(N') = G`. 再由 `f` 是满射,
+	`N' = f(f^-1(N')) = f(G) = G'`.
+	所以 `G'` 为单群.
+</p>
+
+<p class="theorem">
+	`n ge 5` 时, `A_n` 为单群.
+</p>
+
+<ol class="proof">
+	令 `H normal A_n`, `H != {(1)}`. 下证 `H = A_n`.
+	<li>先证 `H` 中含有一 `3`-轮换. 我们通过考察 `H`
+		中元素的不动点数来证明它.
+		令 `tau in A_n`.  称 `i` 为 `tau` 的一个不动点, 如果 `tau(i) = i`.
+		`tau` 的不动点数记为 `f(tau)`. 又令 `pi` 是 `H`
+		中不动点数最多的非幺元, 下证 `f(pi) = n-3`. 事实上
+		由对换为奇置换知 `f(pi) != n-2`, 从而 `f(pi) le n-3`.
+		假设 `f(pi) lt n-3`. 由于 `pi` 能分解成互不相交的轮换的乘积, 于是
+	</li>
+	<li>若 `pi` 的分解式中只有对换, 则 `pi^-1 = pi`.
+		由于 `pi` 至少使 `3` 个点发生了移动,
+		不妨令 `pi = (12)(34) cdots`.
+		取 `sigma = (345) in A_n`. 显然除了 `5`, `pi` 的不动点也是
+		<span class="formula">
+			`tau := pi^-1 sigma pi sigma^-1 = pi (12)(45) cdots in H`
+		</span>
+		的不动点. 显然 `tau != (1)`, 否则推出 `pi = pi^-1 = sigma`.
+		又 `tau(1) = 1`, `tau(2) = 2`,
+		而 `pi(1) = 2`, `pi(2) = 1`, 因此 `f(tau) gt f(pi)`, 一个矛盾.
+	</li>
+	<li>若 `pi` 的分解式中至少有一 `k`-轮换, `k ge 3`,
+		不妨令 `pi = (123 cdots)cdots`.
+		若 `f(pi) = n-4`, 则不妨令 `4` 也不是不动点, 从而
+		<span class="formula">
+			`pi = (1234) = (14)(13)(12) !in A_n`,
+		</span>
+		一个矛盾.
+		若 `f(pi) le n-5`, 则不妨令 `4, 5` 也不是不动点.
+		令 `sigma = (345) in A_n`. 显然 `pi` 的不动点也是
+		<span class="formula">
+			`tau := pi^-1 sigma pi sigma^-1`
+			`= (pi^-1(3), pi^-1(4), pi^-1(5)) sigma^-1 in H`
+		</span>
+		的不动点.  显然 `tau != (1)`.  又 `tau(1) = 1`, 从而 `f(tau) gt
+		f(pi)`, 一个矛盾.
+		因此, `f(pi) = n-3`, 即 `pi` 为一 `3`-轮换.
+	</li>
+	<li>下证 `H` 含所有 `3`-轮换. 不妨令 `pi = (123)`, 则关于任意 `(i j
+		k) in A_n`, 取置换
+		<span class="formula">
+			`delta = (
+				1, 2, 3, 4, cdots, n;
+				i, j, k, delta(4), cdots, delta(n);
+			)`,
+		</span>
+		则 `(i j k) = delta (123) delta^-1`.
+		若 `delta` 为一偶置换, 则取 `varphi := delta`.
+		若 `delta` 为一奇置换, 则 `varphi := delta (45)` 为一偶置换, 且
+		`varphi (123) varphi^-1 = (i j k)`.
+		总之存在 `varphi in A_n`, 使得 `(i j k) = varphi pi varphi^-1 in
+		H`.
+		由于 `A_n` 由全体 `3`-轮换生成, 所以 `H = A_n`.
+	</li>
+</ol>
+
+<p class="remark">
+  [参见 有限单群分类定理]
+  除了素数阶循环群以外, `A_5` 是最小单群, 它的阶为 60, Cayley
+  图状如足球. 除此之外最小的单群是 168 阶的射影特殊线性群 `PSL(2,7)`.
+  全部的有限单群已经被人们发现并归类为 18 个族, 它们包括素数阶循环群
+  `C_p`, 交代群 `A_(n ge 5)` 等等.  在这些单群家族以外, 还有 26
+  个不便归类的散在单群, 其中最大的两个称为魔群和小魔群.
+</p>
+
+<h3>导群</h3>
+
+<p class="definition">
+	令 `G` 为一群, `a, b in G` 的<b>换位子 (commutor)</b>定义为
+	<span class="formula">
+		`[a, b] := a^-1 b^-1 a b`.
+	</span>
+  容易验证,
+	<span class="formula">
+		`a b = b a[a, b]`, `quad [a, b]^-1 = [b, a]`.
+	</span>
+  `G` 中全体换位子生成的子群称为 `G` 的<b>导群 (或换位子群)</b>:
+	<span class="formula">
+		`G' := (: [a, b] | a, b in G:)`.
+	</span>
+  如果 `G = G'`, 则称 `G` 是<b>完美 (perfect)</b> 的.
+</p>
+
+<ol class="corollary">
+	设 `e` 为群 `G` 的幺元, `a, b in G`. 则
+	<li>`a b = b a` 当且仅当 `[a, b] = e`;</li>
+	<li>`G` 为一 Abel 群当且仅当 `G' = {e}`;</li>
+</ol>
+
+<p class="remark">
+  由于 `a b` 乘以换位子就得到 `b a`,
+  换位子以及导群可以用来刻画一个群“不可交换”的程度.
+  换位子和导群越复杂, 就说明 `a b` 到 `b a` 相差得越远.
+  反之, 在 Abel 群中, 换位子和导群则简单到了极致.
+</p>
+
+<p class="corollary">
+	令 `G` 为一群, 则 `G' normal G`.
+</p>
+
+<p class="proof">
+	`AA [a, b] in G'`, `g in G`,
+	<span class="formula">
+		`g[a, b]g^-1`
+		`= g a^-1 b^-1 a b g^-1`
+		`= g a^-1 (g^-1 g) b^-1 (g^-1 g) a (g^-1 g) b g^-1`
+		`= (g a^-1 g^-1) (g b^-1 g^-1) (g a g^-1) (g b g^-1)`
+		`= [g a g^-1, g b g^-1] in G'`.
+	</span>
+	从而 `G' normal G`.
+</p>
+
+<p class="corollary">
+  单群中除了素数阶循环群就是完美群.
+</p>
+
+<p class="proof">
+  若 `G` 为单群, 由于单群的正规子群只有平凡群和它自身, 故
+  <span class="formula">
+    `G' = {e}` 或 `G' = G`.
+  </span>
+  前者说明 `G` 为 Abel 群, 即素数阶循环群; 后者说明 `G` 是完美群.
+</p>
+
+<p class="corollary">
+	`S_n' normal A_n`.
+</p>
+
+<p class="proof">
+  由 `S_n` 的任一换位子是偶置换知 `S_n' le A_n`
+	(任取换位子 `a^-1 b^-1 a b`, 由 `a, a^-1`; `b, b^-1` 的奇偶性分别相等知
+	`a^-1 b^-1 a b in A_n`).
+	再由 `S_n' normal S_n` 推出 `S_n' normal A_n`.
+</p>
+
+<h3>可解群</h3>
+
+<p class="definition">
+	群 `G` 的 `n` 阶导群定义为:
+	<span class="formula">
+		`G^((0)) = G`,
+		`quad G^((n+1)) = (G^((n)))'`,
+    `quad n = 0, 1, 2, cdots`.
+	</span>
+  如果存在非负整数 `n` 使 `G^((n)) = {e}`, 则称 `G`
+  是<b>可解群 (solvable group)</b>.
+  显然 Abel 群是可解群, 因为它的导群就是 `{e}`.
+</p>
+
+<p class="corollary">
+  非平凡的完美群不是可解群, 因为无论怎么求导都得到它自己.
+  反之任意不可解的有限群 `G` 存在一个 `n` 阶导群 `G^((n))` 是非平凡完美群.
+</p>
+
+
+<p class="proof">
+  若 `G^((n))` 不是完美群, 则它有真子群 `G^((n+1))`.
+  但 `G` 是有限群, 这一过程不可能无限进行下去,
+  必存在 `n` 使 `G^((n)) = G^((n+1))`. 由 `G` 不可解知 `G^((n))` 非平凡.
+</p>
+
+<ol class="corollary">
+  单群中只有素数阶循环群是可解的, 其余单群都是完美群, 因而不可解.
+</ol>
+
+<p class="remark">
+	可解单群 `=` 素数阶群 `sub` 循环群 `sub` Abel 群 `sub` 可解群.
+</p>
+
+<ol class="example">
+	<b>`A_n` 的可解性</b>
+	<li>`A_1, A_2` 为平凡群, 是可解群;
+    `A_3` 为素数阶 (3阶) 群, 也是可解群;</li>
+	<li>`A_4` 是可解群: 用换位子的定义计算可得 `A_4' = K_4`.
+		`K_4` 是 Abel 群因而可解.
+	</li>
+	<li>`n ge 5` 时, `A_n` 为单群, 但它不是素数阶群, 因此不可解.
+    事实上, `n ge 4` 时 `A_n` 不是 Abel 群,
+    故 `n ge 5` 时 `A_n` 为完美群.
+	</li>
+</ol>
+
+<ol class="example">
+	<b>`S_n` 的可解性</b>
+	<li>`S_1, S_2` 是 Abel 群, 因此为可解群.</li>
+	<li>`S_3` 是可解群.
+		3 阶群 `A_3` 的子群 `S_3'` 的阶只能是 1 或 3.
+		若 `|S_3'| = 1`, 则 `S_3` 为 Abel 群, 矛盾; 所以 `|S_3'| = 3`,
+		即 `S_3' = A_3`. 而 `A_3` 是可解群.
+	</li>
+	<li>`S_4` 是可解群; 因为 `S_4' le A_4`, 反之可以验证,
+		`A_4` 的任一元素都为 `S_4` 的换位子, 故 `S_4' = A_4`.
+		而 `A_4` 是可解群.
+	</li>
+	<li>`n ge 5` 时, `S_n` 不是可解群.
+		注意到 `S_n' normal A_n`, 且 `n ge 3` 时 `S_n` 不是 Abel 群,
+		所以 `S_n' = A_n`. 但是 `A_n` 的任意阶导群都是自己, 所以 `S_n`
+		不是可解群.
+	</li>
+</ol>
+
+<table>
+	<caption>`S_n` 的各阶导群</caption>
+	<tr>
+		<td></td>
+		<td>`'`</td>
+		<td>`''`</td>
+		<td>`'''`</td>
+	</tr>
+	<tr>
+		<td>`S_1`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_2`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_3`</td>
+		<td>`A_3`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_4`</td>
+		<td>`A_4`</td>
+		<td>`K_4`</td>
+		<td>`{e}`</td>
+	</tr>
+	<tr>
+		<td>`S_5`</td>
+		<td>`A_5`</td>
+		<td>`A_5`</td>
+		<td>`A_5`</td>
+	</tr>
+</table>
+
+<p class="remark">
+	在 Galois 理论中, 我们将利用 `n ge 5` 时 `S_n` 不是可解群这一结论,
+	说明一般五次及以上方程没有根式解.  这一推理过程是非常巧妙的.
 </p>
 
 <ol class="theorem">
-	令 `V` 为一线性空间, 则 `V` 的非空子集 `V_1` 为 `V` 的子空间当且仅当
-	`V_1` 对 `V` 上的加法与数乘封闭.
-	从而我们在验证线性子空间时, 不需要烦琐地逐一验证 8 条性质.
+	令 `G` 为一群, `varphi` 是群同态, 则
+	<li>`H le G` `rArr H' le G'`;</li>
+	<li>`(varphi(G))' = varphi(G')`.</li>
 </ol>
 
-<p class="proof">
-	必要性显然, 今证充分性, 这只需再证明 `V_1`
-	满足<a class="ref" href="#def-linear-space"></a> 的 8 条性质.
-	由于 `V_1 sube V`, i, ii 及 v - viii 显然成立. 接下来证明 iii, iv
-	成立. 任取 `bm alpha in V_1`, 则由<a class="ref"
-		href="#cor-simple-property"></a>的 2 及 `V_1`
-	对数乘的封闭性, `bm theta = 0 bm alpha in V_1`, 故 iii 成立.
-	同理, 对任意 `bm alpha in V_1`, `-bm alpha = (-1) bm alpha in V_1`,
-	故 iv 成立.
-</p>
+<ol class="proof">
+	<li>因为 `H le G`, `H` 的换位子都是 `G` 的换位子, 从而 `H' le G'`.</li>
+	<li>`AA a, b in G`, `[varphi(a), varphi(b)] = varphi[a, b]`,
+		从而 `(varphi(G))' = varphi(G')`.
+	</li>
+</ol>
 
 <p class="corollary">
-	子空间的关系 "`le`" 具有传递性. 如果 `V` 为 `bbb P` 上一线性空间,
-	`V_1 le V`, `V_2 le V_1`, 则 `V_2 le V`. 另外, 若 `V_3 le V`, `V_3
-	sube V_1`, 则 `V_3 le V_1`.
-	又显然 "`le`" 满足自反性和反对称性, 故为一偏序.
+	可解群的子群和同态像均为可解群.
 </p>
 
 <ol class="corollary">
-	令 `V` 为 `bbb P` 上一线性空间, `V_1, V_2 le V`. 则
-	<li>`V_1 nn V_2 le V`, 称 `V_1 nn V_2` 为 `V_1` 与 `V_2` 的<b>交</b>.
-		显然它是 `V` 的含于 `V_1` 也含于 `V_2` 的最大子空间.
-	</li>
-	<li>`V_1` 中元素与 `V_2` 中元素所有可能的和
-		<span class="formula">
-			`{bm alpha_1 + bm alpha_2: bm alpha_1 in V_1, bm alpha_2 in
-			V_2} le V`,
-		</span>
-		称为 `V_1` 与 `V_2` 的<b>和</b>, 记为 `V_1 + V_2`.
-		显然这是 `V` 的含 `V_1` 也含 `V_2` 的最小子空间.
-	</li>
-	<li>`V_1 uu V_2 le V` 当且仅当 `V_1 sube V_2` 或 `V_2 sube V_1`.</li>
+	令 `G` 为一群, `N normal G`, 则
+	<li>若 `G` 可解, 则 `G//N` 可解;</li>
+	<li>若 `N`, `G//N` 可解, 则 `G` 可解.</li>
 </ol>
 
 <ol class="proof">
-	<li>因为 `bm theta in V_1 nn V_2`, 所以 `V_1 nn V_2 != O/`;
-		再设 `bm alpha, bm beta in V_1 nn V_2`, `k, l in bbb P`,
-		则由于 `V_1, V_2 le V`, `k bm alpha + l bm beta` 必同时含于 `V_1,
-		V_2`, 即 `k bm alpha + l bm beta in V_1 nn V_2`.
+	<li>`G//N` 是 `G` 在自然同态 `eta: g in G to g N in G//N` 下的像,
+		因而可解.
 	</li>
-	<li>显然 `V_1 + V_2` 非空;
-		再设 `bm alpha_1 + bm alpha_2,bm beta_1 + bm beta_2 in V_1 + V_2`,
-		`k, l in bbb P`, 其中 `bm alpha_1, bm beta_1 in V_1`, `bm alpha_2,
-		bm beta_2 in V_2`. 则
+	<li>因为 `N`, `G//N` 都可解, 存在非负整数 `s, t`, 使
 		<span class="formula">
-			` k (bm alpha_1 + bm alpha_2) + l (bm beta_1 + bm beta_2)
-			= (k bm alpha_1 + l bm beta_1) + (k bm alpha_2 + l bm beta_2)
-			in V_1 + V_2`.
+			`N^((s)) = {e}`, `quad (G//N)^((t)) = {bar e}`.
 		</span>
-		故 `V_1 + V_2 le V`. 现在设 `V' le V`, `V_1, V_2 sube V'`,
-		则对 `AA bm alpha_1 in V_1`, `AA bm alpha_2 in V_2`, 由 `V'`
-		的封闭性有 `bm alpha_1 + bm alpha_2 in V'`, 即 `V_1 + V_2 sube
-		V'`.
-	</li>
-	<li>`lArr` 显然, 下证 `rArr`. 设 `V_1 sube V_2` 不成立,
-		则 `EE bm alpha in V_1`, `bm alpha !in V_2`.
-		对 `AA bm beta in V_2`, 由 `V_1 uu V_2 le V` 知
-		`bm alpha + bm beta in V_1 uu V_2`.
-		若 `bm alpha + bm beta in V_2`, 则
-		`bm alpha = bm alpha + bm beta - bm beta in V_2`, 矛盾, 故
-		`bm alpha + bm beta in V_1`. 于是
-		`bm beta = bm alpha + bm beta - bm alpha in V_1`,
-		得 `V_2 sube V_1`.
+		其中 `e, bar e` 分别为 `N, G//N` 的幺元.
+		因为 `G//N` 是 `G` 在自然同态 `eta` 下的像, 故对非负整数 `t`, 有
+		<span class="formula">
+			`{bar e} = (G//N)^((t)) = (eta(G))^((t))`
+			`= eta(G^((t))) = (G^((t)) N)//N`.
+		</span>
+		(注意未必有 `N normal G^((t))`, 因为未必有 `N le G^((t))`;
+		但一定有 `N normal G^((t)) N`, 这是因为 `G^((t)) N = N G^((t))`,
+		故 `N le G^((t)) N le G`, 又 `N normal G`)
+		因此 `G^((t)) N = N`, 从而 `G^((t)) le N`.
+		于是 `G^((s+t)) le N^((s)) = {e}`, 即 `G` 可解.
 	</li>
 </ol>
 
-<h3>子空间的直和, 生成子空间</h3>
+<h3>子群列</h3>
 
 <p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间, `V_1, V_2 le V`. 若 `V_1 + V_2`
-	中每一向量写为 `V_1` 和 `V_2` 中向量之和的方法唯一, 则称 `V_1 + V_2`
-	为 `V_1` 与 `V_2` 的<b>直和</b>, 记为 `V_1 o+ V_2`.<br/>
-	换言之, `V_1 + V_2` 为直和当且仅当映射 `V_1 xx V_2 to V_1 + V_2`:
-	`(bm alpha, bm beta) to bm alpha + bm beta` 为单射; 而此映射总是满射,
-	故 `V_1 + V_2` 为直和也当且仅当此映射是双射.
-</p>
-
-<ol class="theorem" id="the-direct-sum">
-	假设如上述定义, 以下各款等价:
-	<li>`V_1 + V_2` 是直和;</li>
-	<li>存在向量 `bm alpha in V_1 + V_2`, 使得 `bm alpha` 写为 `V_1` 和
-		`V_2` 中向量之和的方法唯一;
-	</li>
-	<li>零向量 `bm theta` 写为 `V_1` 和 `V_2` 中向量之和的方法唯一, 即 `bm
-		theta = bm theta + bm theta`;
-	</li>
-	<li>`V_1 nn V_2 = {bm theta}`.</li>
-</ol>
-
-<ol class="proof">
-	<li>`rArr` 2. 显然.</li>
-	<li>`rArr` 3. 联系定理3-2 的证明,
-		令 `bm alpha = bm alpha_1 + bm alpha_2`,
-		`bm alpha_1 in V_1`, `bm alpha_2 in V_2`.
-		若 `bm theta = bm beta_1 + bm beta_2`,
-		`bm beta_1 in V_1`, `bm beta_2 in V_2`, 则
-		<span class="formula">
-			` bm alpha
-			= bm alpha + bm theta
-			= (bm alpha_1 + bm beta_1) + (bm alpha_2 + bm beta_2)`.
-		</span>
-		由 `bm alpha` 被表为 `V_1` 中向量与 `V_2` 中向量之和方式的唯一性,
-		必有 `bm beta_1 = bm beta_2 = bm theta`.
-	</li>
-	<li>`rArr` 4.
-		设 `bm alpha in V_1 nn V_2`, 则 `bm theta = bm alpha - bm alpha`,
-		其中 `bm alpha in V_1`, `-bm alpha in V_2`. 由 `bm theta` 写为
-		`V_1` 和 `V_2` 中向量之和的方法唯一, 有
-		`bm alpha = -bm alpha = bm theta`.
-	</li>
-	<li>`rArr` 1.
-		任取 `bm alpha in V_1 + V_2`,
-		设 `bm alpha = bm alpha_1 + bm alpha_2 = bm beta_1 + bm beta_2`,
-		其中 `bm alpha_1,bm beta_1 in V_1`,`bm alpha_2,bm beta_2 in V_2`.
-		则
-		<span class="formula">
-			` bm gamma
-			= bm alpha_1 - bm beta_1
-			= bm beta_2 - bm alpha_2
-			in V_1 nn V_2`.
-		</span>
-		由 4 知 `bm gamma = bm theta`. 故 `bm alpha_1 = bm beta_1`,
-		`bm alpha_2 = bm beta_2`, 即 `V_1 + V_2` 是直和.
-	</li>
-</ol>
-
-<p class="remark">
-	子空间的和与直和可以推广到 `n` 个子空间的情形. 需要特别注意,
-	<a class="ref" href="#the-direct-sum"></a>的 4 应该推广为
+	令 `G` 为非平凡群, `M lhd G` (即 `M normal G` 且 `M != G`).
+	称 `M` 为 `G` 的一个<b>极大正规子群</b>, 如果包含 `M` 的 `G`
+	的正规子群只有 `M` 和 `G`, 即
 	<span class="formula">
-		`V_i nn sum_(j=1,j!=i)^n V_j = {bm theta}`,
-		`quad i = 1, 2, cdots, n`.
+		`(AA N normal G)` `M sub N rArr N = G`.
 	</span>
-	或者
-	<span class="formula">
-		`V_i nn sum_(j=1)^(i-1) V_j = {bm theta}`,
-		`quad i = 2, 3, cdots, n`.
-	</span>
-</p>
-
-<p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间,
-	若 `bm alpha_1, bm alpha_2, cdots, bm alpha_n in V`,
-	则它们的全体线性组合
-	<span class="formula">
-		`{sum_(i=1)^n k_i bm alpha_i: k_i in bbb P,
-		i = 1, 2, cdots, n} le V`,
-	</span>
-	显然它是 `V` 的含 `bm alpha_1, bm alpha_2, cdots, bm alpha_n`
-	的最小子空间, 称为<b>由 `bm alpha_1, bm alpha_2, cdots, bm alpha_n`
-	生成的子空间</b>或<b>张成的子空间</b>, 记为
-	`G[bm alpha_1, bm alpha_2, cdots, bm alpha_n]` 或
-	`"span"[bm alpha_1, bm alpha_2, cdots, bm alpha_n]`. 容易说明
-	<span class="formula">
-		` G[bm alpha_1, bm alpha_2, cdots, bm alpha_n]
-		= sum_(i=1)^n G[bm alpha_i]`.
-		<span class="label" id="for-generated-subspace">(4-2)</span>
-	</span>
-</p>
-
-<p> 子空间的直和与向量的线性无关性是很类似的概念.
-	若将线性相关 (无关) 的概念从 `bbb P^n` 上推广到一般线性空间 `V`,
-	注意<a class="ref" href="#the-direct-sum"></a>的 3, 我们有
 </p>
 
 <p class="corollary">
-	令 `V` 为 `bbb P` 上一线性空间, `n` 个非零向量
-	`bm alpha_1, bm alpha_2, cdots, bm alpha_n in V` 线性无关当且仅当
-	<a class="ref" href="#for-generated-subspace"></a> 是直和.
+	任意非平凡有限群 `G` 都有极大正规子群.
 </p>
 
-<p>	事实上, 将第三章各定义中的 `bbb P^n` 换成一般线性空间 `V`, 则
-	极大线性无关组, 向量组的秩,
-	等价向量组等概念以及相关结论都可以推广到线性空间中. 这里不再赘述.
-</p>
-
-<h2>线性空间的维数与基底</h2>
-
-<h3>维数与基底</h3>
-
-<!--
-<p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间, 且具有有限生成集 (定义3-4)
-	<span class="formula">
-		`S = {bm alpha_1, bm alpha_2, cdots, bm alpha_n}`,
-	</span>
-	即 `V = G[S]`.  称 `r_S` 为线性空间 `V` 的<b>维数</b>,
-	记为 `"dim"V`. 由<a href="3.html#cor-rank-and-equality">推论3-7</a>
-	的 2, 维数不依赖于生成集的选择.
-	易知 `V` 的维数等于 `V` 中极大无关组所含向量的个数. 
-	<br/>
-	由定义知道, 零维的线性空间只有平凡线性空间 `{bm theta}`.
-	称具有有限生成集的线性空间是<b>有限维的</b>,
-	否则称它是<b>无穷维的</b>.
-	我们将把讨论的重点放在有限维线性空间上.
-</p>
-
-<p class="definition" id="def-base">
-	令 `V` 为 `bbb P` 上一 `n` 维线性空间, `n ge 1`. 若 `bm epsi_1, bm
-	epsi_2, cdots, bm epsi_n in V` 线性无关, 则称有序向量组
-	<span class="formula">
-		`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`
-	</span>
-	为 `V` 的一组<b>基底</b>或<b>基</b>.
-	由 `"dim"V = n` 知, `V` 有一个含 `n` 个向量的极大无关组.
-	由<a href="3.html#the-max-number-of-independent-vectors">定理3-5</a>,
-	`bm epsi_1, bm epsi_2, cdots, bm epsi_n`
-	本身即是 `V` 的一个极大无关组, 从而对任意 `bm alpha in V`,
-	存在唯一 (唯一性由
-	<a href="3.html#the-uniqueness-of-linear-presentation">定理3-2</a>
-	保证) 的 `x_i in bbb P`,
-	`i = 1, 2, cdots, n` 使得 `bm alpha = sum_(i=1)^n x_i bm epsi_i`.
-	称
-	<span class="formula">
-		`(x_1, x_2, cdots, x_n) in bbb P^n`
-	</span>
-	为 `bm alpha` 在该基底下的<b>坐标</b>.
-</p>
-
-<ol class="remark">
-	联系<a class="ref" href="#def-base"></a>
-	<li>对于 `1, 2, cdots, n` 的任意一个排列
-		`i_1, i_2, cdots, i_n`,
-		`(bm epsi_(i_1), bm epsi_(i_2), cdots, bm epsi_(i_n))` 也是
-		`V` 的一个基底, 且 `bm alpha` 在新基底下的坐标为
-		`(x_(i_1), x_(i_2), cdots, x_(i_n))`.
-	</li>
-	<li>对于任意 `k in bbb P\\{0}`, `(k bm epsi_1, k bm epsi_2, cdots, k
-		bm epsi_n)` 也是 `V` 的一个基底, 且 `bm alpha` 在新基底下的坐标为
-		`(x_1/k, x_2/k, cdots, x_n/k)`.
-	</li>
-	因此 `n ge 1` 时, `V` 有无穷多基底.
-</ol>
-
-<p class="remark">
-	在非平凡有限维线性空间 `V` 中, 如果已知 `"dim"V = n`,
-	那么 `V` 的任意含 `n` 个向量的无关向量组按任意顺序都构成
-	`V` 的一个基底 (这也是我们的定义).
-	反之如果找到一个极大无关向量组
-	`bm epsi_1, bm epsi_2, cdots, bm epsi_n`, 就同时得到了 `"dim"V = n`
-	和一个基底 `(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`;
-	这就是定义维数与基底的另一思路 (这一思路好像更直接些? -_-||).
-</p>
--->
-
-<p class="definition">
-	令 `V` 为 `bbb P` 上一线性空间, 如果存在无关向量组
-	`S = {bm epsi_1, bm epsi_2, cdots, bm epsi_n}`, 使得
-	`V = G[S]` (换言之, `S` 是 `V` 的一个极大无关组),
-	则由于任意极大无关组含向量个数相等, 可以定义这个数字为 `V`
-	的<b>维数</b>, 即 `"dim"V = n`.
-	称有序向量组
-	<span class="formula">
-		`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`
-	</span>
-	为 `V` 的一组<b>基底</b>或<b>基</b>.
-	由 `S` 是 `V` 的极大无关组知, 对任意 `bm alpha in V`, 存在唯一的
-	`x_i in bbb P`, `i = 1, 2, cdots, n` 使得 `bm alpha = sum_(i=1)^n x_i
-	bm epsi_i`. 称
-	<span class="formula">
-		`(x_1, x_2, cdots, x_n) in bbb P^n`
-	</span>
-	为 `bm alpha` 在该基底下的<b>坐标</b>.<br/>
-	规定平凡线性空间 `{bm theta}` 的维数为 `0`, 它的基底为空的有序组 `()`.
-	此外, 若线性空间 `V`
-	不能由有限集生成, 即不存在有限集 `S` 使得 `V = G[S]`, 则称 `V`
-	是<b>无穷维</b>的. 无穷维线性空间已经超出本文的范围,
-	将在泛函分析中进一步讨论.
-</p>
-
-<p class="remark">
-	基可以是无序的, 但为了使坐标有序, 这里要求基是一有序组.
-</p>
-
-<p class="corollary">
-	完全类似于向量组的扩充定理, 可以证明:
-	有限维线性空间 `V` 中任一无关向量组可以扩充为 `V` 的一个基底.
+<p class="proof">
+	`|G| = 2` 时, `{e}` 即是 `G` 的极大正规子群; `|G| = n gt 2` 时,
+	任取 `M_1 lhd G`, 若 `M_1` 不极大, 则存在 `M_2 lhd G`,
+	`M_1 sub M_2`. 这蕴含 `|M_1| lt |M_2|`. 若 `M_2` 不极大, 类似可得
+	`M_3, M_4, cdots`, 且 `|M_1| lt |M_2| lt |M_3| lt cdots`. 但 `|G|`
+	有限, 这一序列也有限, 所以存在 `G` 的极大正规子群.
 </p>
 
 <p class="theorem">
-	令 `V_1, V_2` 是线性空间 `V` 的有限维子空间.
-	取 `V_1 nn V_2` 的一个基 `(bm alpha_1, cdots, bm alpha_l)`,
-	分别扩充为 `V_1` 的基
-	<span class="formula">
-		`"I" = (bm alpha_1, cdots, bm alpha_l, bm beta_1, cdots, bm
-		beta_m)`
-	</span>
-	和 `V_2` 的基
-	<span class="formula">
-		`"II" = (bm alpha_1, cdots, bm alpha_l, bm gamma_1, cdots, bm
-		gamma_n)`,
-	</span>
-	则
-	<span class="formula">
-		`"III" = (bm alpha_1, cdots, bm alpha_l, bm beta_1, cdots, bm
-		beta_m, bm gamma_1, cdots, bm gamma_n)`
-	</span>
-	为 `V_1 + V_2` 的一个基.
+	若群 `M lhd G`, 则 `M` 为 `G` 的一个极大正规子群当且仅当
+	`G//M` 为一单群.
 </p>
 
 <p class="proof">
-	由 `V_1 = G["I"]`, `V_2 = G["II"]` 有 `V_1 + V_2 = G["III"]`.
-	下证这一向量组线性无关. 设
+	充分性: 任取 `N normal G`, 且 `M sub N`,
+	由 `M lhd G` 知 `M lhd N`.
+	考察 `N//M = {n M | n in N} le G//M`. 因为 `N normal G`, 所以
+	`N//M normal G//M`, 但 `G//M` 为单群, 又由 `M sub N`,
+	`N//M != {M}`, 故 `N//M = G//M`, 即 `N = G`.<br/>
+	必要性: 作自然同态 `eta: g in G to g M in G//M`.
+	取 `H normal G//M`, 且 `H != {M}`, 又记 `K = eta^-1(H) normal G`.
+	由 `{M} sub H`, `M = eta^-1({M}) sub eta^-1(H) = K`.
+	但 `M` 是极大正规子群, 故 `K = G`, `H = eta(K) = G//M`.
+</p>
+
+<p class="definition">
+	令 `G` 为非平凡群, `k ge 1`. 称 `G` 的子群列
 	<span class="formula">
-		`sum_(i=1)^l p_i bm alpha_i + sum_(i=1)^m q_i bm beta_i
-		+ sum_(i=1)^n r_i bm gamma_i = bm theta`,
+		`G = G_0 rhd G_1 rhd cdots rhd G_k = {e}`
 	</span>
-	记
-	<span class="formula">
-		`bm alpha := sum_(i=1)^l p_i bm alpha_i + sum_(i=1)^m q_i bm
-		beta_i`
-		`= -sum_(i=1)^n r_i bm gamma_i`,
-	</span>
-	上式左边 `in V_1`, 右边 `in V_2`, 故 `bm alpha in V_1 nn V_2`.
-	设 `bm alpha = sum_(i=1)^l x_i bm alpha_i`, 联系上式有
-	<span class="formula">
-		`sum_(i=1)^l x_i bm alpha_i + sum_(i=1)^n r_i bm gamma_i = bm
-		theta`.
-	</span>
-	于是由 `"II"` 是 `V_2` 的基, 从而线性无关有
-	<span class="formula">
-		`x_1 = cdots = x_l = r_1 = cdots = r_n = 0`,
-	</span>
-	这指出 `bm alpha = bm theta`. 再由 `"I"` 是 `V_1` 的基, 有
-	<span class="formula">
-		`p_1 = cdots = p_l = q_1 = cdots = q_m = 0`.
-	</span>
-	从而 `"III"` 是线性无关的, 综上得到 `"III"` 是 `V_1 + V_2` 的基.
+	为 `G` 的一个长度为 `k` 的<b>合成群列</b>,
+	如果各个<b>合成因子</b> `G_i//G_(i+1)` 为一单群,
+	`i = 0, 1, cdots, k-1`.
+</p>
+
+<p class="remark">
+	`G_i//G_(i+1)` 为单群, 则 `G_(i+1)` 为 `G_i` 的一个极大正规子群.
+	这保证了合成群列中不能再插入其他子群.
 </p>
 
 <p class="corollary">
-	<b>维数公式</b>
-	令 `V_1, V_2` 是线性空间 `V` 的有限维子空间, 则
+	任意非平凡有限群 `G` 有合成群列.
+</p>
+
+<p class="proof">
+	`|G| = 2` 时, `G rhd {e}` 即为 `G` 的一个合成群列.
+	`|G| = n gt 2` 时, 假设阶小于 `n` 的非平凡有限群有合成群列, 考查阶为
+	`n` 的情形. 若 `G` 为单群, 则 `G rhd {e}` 为 `G` 的一个合成群列;
+	否则取 `G` 的极大正规子群 `M`, 显然 `1 lt |M| lt |G|`. 由归纳假设,
+	`M` 有合成群列. 又 `G//M` 为单群, 可以将 `G` 加入到 `M` 的合成群列中,
+	成为 `G` 的一个合成群列.
+</p>
+
+<p class="definition">
+	令 `G` 为一群, `k ge 1`, 称 `G` 的子群列
 	<span class="formula">
-		`"dim"(V_1 + V_2) + "dim"(V_1 nn V_2) = "dim"V_1 + "dim"V_2`.
+		`G = G_0 rnormal G_1 rnormal cdots rnormal G_k = {e}`
+	</span>
+	为 `G` 的一个长度为 `k` 的<b>次正规群列</b>,
+	`G_i//G_(i+1)` 称为 `G` 的<b>次正规因子</b>;
+	若进一步 `G_i normal G`, 则上述群列称为 `G` 的<b>正规群列</b>,
+	`G_i//G_(i+1)` 称为 `G` 的<b>正规因子</b>; `i = 0, 1, cdots, k-1`.
+</p>
+
+<p class="corollary">
+	合成群列是次正规群列, 正规群列是次正规群列.
+</p>
+
+<h3>可解群的等价条件</h3>
+
+<p class="definition">
+	设群 `H le G`, 如果对 `G` 上任意自同构映射 `sigma` (即 `sigma in
+	"Aut"(G)`), 有
+	<span class="formula">
+		`sigma(H) = H`.
+	</span>
+	则称 `H` 为 `G` 的一个<b>特征子群</b>, 记为 `H" char "G`.
+	换言之, `H" char "G` 当且仅当对任意 `sigma in "Aut"(G)`, 都有
+	`sigma|_H in "Aut"(H)`.
+</p>
+
+<ol class="example">
+	<li>`{e}" char "G`, `G" char "G`. 称 `{e}, G` 为 `G` 的平凡特征子群.
+	</li>
+	<li>`Z(G)" char "G`.</li>
+</ol>
+
+<ol class="proof">
+	<li>显然.</li>
+	<li>由 `sigma` 为满同态, `AA sigma(g) in G, x in Z(G)`,
+		<span class="formula">
+			`sigma(g) sigma(x) = sigma(g x) = sigma(x g) = sigma(x)
+			sigma(g)`,
+		</span>
+		故 `sigma(x) in Z(G)`, 即 `sigma(Z(G)) sube Z(G)`.<br/>
+		另一方面, `AA sigma(x) in Z(G), g in G`,
+		<span class="formula">
+			`sigma(x g) = sigma(x) sigma(g) = sigma(g) sigma(x) = sigma(g
+			x)`,
+		</span>
+		由 `sigma` 为单射知 `x g = g x`. 故 `x in Z(G)`, 即
+		`sigma^-1(Z(G)) sube Z(G)`, 从而 `Z(G) = sigma(sigma^-1(Z(G)))
+		sube sigma(Z(G))`.
+	</li>
+</ol>
+
+<p class="corollary">
+	特征子群是正规子群.
+</p>
+
+<p class="proof">
+	取 `sigma: h in H to g h g^-1 in G` 即可.
+</p>
+
+<p class="corollary">
+	<b>特征子群的传递性</b>
+	设群 `K" char "H" char "G`, 则 `K" char "G`.
+</p>
+
+<p class="proof">
+	令 `sigma in "Aut"(G)`, 由 `H" char "G` 知 `sigma|_H in "Aut"(H)`,
+	又由 `K" char "H` 知 `sigma|_K = (sigma|_H)_K in "Aut"(K)`,
+	因此 `H" char "G`.
+</p>
+
+<p class="corollary">
+	令 `G` 为一群, `n` 为非负整数, 则 `G^((n))" char "G`.
+</p>
+
+<p class="proof">
+	令 `sigma in "Aut"(G)`, 则 `sigma(G^((n))) = (sigma(G))^((n)) =
+	G^((n))`, 即 `G^((n))" char "G`.
+</p>
+
+<p class="corollary" id="cor-gn-normal-g">
+	令 `G` 为一群, `n` 为非负整数, 则 `G^((n)) normal G`.
+	于是 `G` 可解时, `G^((n))`, `n = 0, 1, cdots, k`
+	构成 `G` 的一个正规群列.
+</p>
+
+<p class="remark">
+	由于正规子群不具有传递性, 我们利用特征子群的概念才得到这一结果.
+</p>
+
+<p class="theorem">
+	令群 `N normal G`, 则 `G//N` 为一 Abel 群当且仅当 `G' sube N`.
+</p>
+
+<p class="proof">
+	`G//N` 为一 Abel 群
+	`iff (AA a, b in G) a N * b N = b N * a N`
+	`iff (AA a, b in G) (a b)N = (b a)N`
+	`iff (AA a, b in G) (b a)^-1(a b) in N`
+	`iff (AA a, b in G) a^-1 b^-1 a b in N`
+	`iff G' sube N`.
+</p>
+
+<p class="corollary" id="cor-g-mod-g1-abel">
+	`G//G'` 为一 Abel 群.
+</p>
+
+<p class="remark">
+	这个定理告诉我们, `G'` 是使得 `G//N` 为一 Abel 群的最小正规子群 `N`;
+	换言之, `G//G'` 是同构意义下最大的形如 `G//N` 的 Abel 群.
+</p>
+
+<ol class="theorem" id="the-solvable-iff">
+  <b>可解群的等价条件</b>
+	令 `G` 为一群, 则以下几款等价:
+	<li>`G` 可解;</li>
+	<li>`G` 有一正规群列, 且它的所有正规因子都为 Abel 群;</li>
+	<li>`G` 有一次正规群列, 且它的所有次正规因子都为 Abel 群.</li>
+</ol>
+
+<ol class="proof">
+	<li>`rArr` 2. 利用<a class="ref" href="#cor-gn-normal-g"></a>和<a
+		class="ref" href="#cor-g-mod-g1-abel"></a>即可.
+	</li>
+	<li>`rArr` 3. 显然.</li>
+	<li>`rArr` 1. 令 `k ge 1`,
+		<span class="formula">
+			`G = G_0 rnormal G_1 rnormal cdots rnormal G_k = {e}`
+		</span>
+		为 `G` 的一个次正规群列, 且 `G_i//G_(i+1)` 为一 Abel 群, `i = 0,
+		1, cdots, k-1`. 下证 `G^((i)) le G_i`, `i = 1, 2, cdots, k`,
+		从而 `G^((k)) le G_k = {e}`, 就推出 `G` 可解.<br/>
+		关于 `i` 应用数学归纳法. 当 `i = 1` 时, 由于 `G//G_1` 为一 Abel
+		群, 则 `G' sube G_1`, 结论成立.<br/>
+		假设 `i-1` 时结论成立, 考察 `i gt 1` 的情形, 由于
+		`G_(i-1)//G_i` 为一 Abel 群, 则 `G_(i-1)' sube G_i`, 由归纳假设
+		<span class="formula">
+			`G^((i)) = (G^((i-1)))' sube G_(i-1)' sube G_i`.
+		</span>
+	</li>
+</ol>
+
+<p class="corollary">
+	非平凡有限群 `G` 可解当且仅当 `G` 有一合成群列,
+	且它的所有合成因子都为素数阶循环群.
+  换言之, 有限可解群是由最简单的单群——素数阶循环群合成的.
+</p>
+
+<p class="proof">
+	充分性. 素数阶循环群必为 Abel 群, 合成群列是次正规群列.
+	应用<a class="ref" href="#the-solvable-iff"></a>知 `G` 可解.<br/>
+	必要性. 由于 `G` 为非平凡有限群, 故 `G` 有一合成群列. 令 `H//K` 为 `G`
+	的一个合成因子, 其中 `K lhd H le G`, 则由 `G` 可解知,
+	`G` 的子群 `K, H` 都可解, 从而 `H//K` 可解. 但 `H//K` 又是单群,
+	所以 `H//K` 为一素数阶循环群.
+</p>
+
+<h2>自同构群</h2>
+
+<p class="definition">
+  令 `G` 为一群, `G` 上的全体自同构映射 `"Aut"(G)`
+  关于变换的通常合成为一群, 称为 `G` 的<b>自同构群</b>.
+</p>
+
+<ol class="theorem">
+  <b>循环群的自同构群</b>
+  <li>循环群的自同构群为 Abel 群;</li>
+  <li>`n` 阶循环群同构于整数模 `n` 加群 `ZZ_n`.
+    `"Aut"(ZZ_n)` 为一 `varphi(n)` 阶 Abel 群,
+    `varphi(n)` 为 Euler 函数;
+  </li>
+  <li>无穷阶循环群同构于整数加群 `ZZ`.
+    `"Aut"(ZZ) = {i, sigma}`,
+    其中 `i(1) = 1`, `sigma(1) = -1`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>`AA sigma, tau in "Aut"(G)`, 其中 `sigma(a) = a^m`, `tau(a) =
+    a^n`, `m, n in ZZ`, 则 `AA a^k in G`,
+    <span class="formula">
+      `sigma tau(a^k) = a^(m n k) = tau sigma(a^k)`.
+    </span>
+  </li>
+  <li>自同构映射将群的 `k` 阶元映为 `k` 阶元; 特别地, 将生成元映为生成元.
+    由于每一对生成元之间的对应关系都决定了 `G` 的一个自同构
+    (如 `sigma(a) = b`, 则 `sigma(a^k) = b^k`),
+    从而 `|"Aut"(G)|` 等于 `G` 中生成元的个数, 即 `varphi(n)`.
+  </li>
+  <li>这是因为 `ZZ` 的生成元只有 `+-1`.</li>
+</ol>
+
+<p class="definition">
+  群 `G` 中全体共轭变换构成 `G` 的<b>内自同构群</b>
+  <span class="formula">
+    `"Inn"(G) = { tau_a | a in G }`,
+  </span>
+  其中 `tau_a: g in G mapsto a g a^-1 in G`.
+  可以验证 `"Inn"(G) normal "Aut"(G)`, 又称
+  <span class="formula">
+    `"Aut"(G)//"Inn"(G)`
+  </span>
+  为 `G` 的<b>外自同构群</b>.
+</p>
+
+<ol class="proof">
+	<li>显然 `tau_a` 为双射, 又
+		<span class="formula">
+			`tau_a(g h) = a(g h)a^-1 = a g a^-1 a h a^-1 =
+			tau_a(g)tau_a(h)`,
+		</span>
+		`tau_a` 为一同构, 故 `tau_a in "Aut"(G)`.
+	</li>
+	<li>显然 `"Inn"(G) sube "Aut"(G)`, 又 `AA tau_a, tau_b in "Inn"(G)`,
+		<span class="formula">
+			`tau_a^-1 = tau_(a^-1) in "Inn"(G)`,
+			`quad tau_a tau_b = tau_(a b) in "Inn"(G)`.
+		</span>
+		所以 `"Inn"(G) le "Aut"(G)`.
+	</li>
+	<li>`AA tau_a in "Inn"(G), sigma in "Aut"(G), x in G`,
+		<span class="formula">
+			`(sigma tau_a sigma^-1)(x)`
+			`= sigma( tau_a (sigma^-1(x)))`
+			`= sigma(a sigma^-1(x) a^-1)`
+			`= sigma(a) x sigma(a)^-1`
+			`= tau_(sigma(a))(x)`.
+		</span>
+		从而 `sigma tau_a sigma^-1 = tau_(sigma(a)) in "Inn"(G)`,
+		于是 `"Inn"(G) normal "Aut"(G)`.
+	</li>
+</ol>
+
+<p class="theorem" id="the-inn-isomorphism">
+	令 `G` 为一群, 则 `"Inn"G ~= G//Z(G)`.
+</p>
+
+<p class="proof">
+	作 `eta: a in G to tau_a in "Inn"(G)`, 由内自同构的定义知 `eta`
+	为一满射, 又 `AA g in G`,
+	<span class="formula">
+		`tau_(a b)(g) = (a b)g(a b)^-1 = (tau_a tau_b)(g)`,
+	</span>
+	故 `eta` 为一满同态.<br/>
+	下证 `"Ker"eta = Z(G)`. 这是因为
+	<span class="formula">
+		`a in "Ker"eta`
+		`iff tau_a = 1_G`
+		`iff (AA x in G) x = tau_a(x) = a x a^-1`
+		`iff (AA x in G) x a = a x`
+		`iff a in Z(G)`.
+	</span>
+	根据同态基本定理,
+	<span class="formula">
+		`"Inn"(G) = "Im"eta ~= G//"Ker"eta = G//Z(G)`.
 	</span>
 </p>
 
+<p class="definition">
+	令群 `H le G`, `g in G`, 则 `g H g^-1 ~= H`, 称为 `H` 在 `G`
+  中的<b>共轭子群</b>.
+</p>
+
+<p class="proof">
+	作映射 `f: h in H to g h g^-1 in g H g^-1`. 显然 `f` 为双射, 又
+	`AA h_1, h_2 in H`,
+	<span class="formula">
+		`f(h_1) f(h_2) = g h_1 g^-1 g h_2 g^-1`
+		`= g(h_1 h_2)g^-1 = f(h_1 h_2)`,
+	</span>
+	故 `f` 为一同态, 即 `f` 为一同构.
+</p>
+
+<p class="remark">
+  令 `H` 是 `G` 的子群. 我们希望 `H` 是 `G` 的正规子群, 这当然办不到!
+  退而求其次, 希望 `H` 在 `G` 的<em>某个子群</em>中正规.
+  这就是下面要引入的正规化子.
+  这个过程好比一场投票选举: 每个 `g in G` 都参与对 `H` 的投票: 如果等式
+  `g H g^-1 = H` 成立, 就投赞成票, 反之投反对票.
+  正规化子就是群 `H` 的正规性的拥护者.
+</p>
+
+<ol class="definition">
+  令群 `H le G`, 定义
+  <li>`H` 的<b>正规化子 (normalizer)</b>为
+    <span class="formula">
+      `N_G(H) := {g in G | g H g^-1 = H}`
+      `= {g in G | g H = H g}`.
+    </span>
+  </li>
+  <li>`H` 的<b>中心化子 (centralizer)</b>为
+    <span class="formula">
+      `Z_G(H) := {g in G | (AA h in H) g h g^-1 = h }`
+      `= {g in G | (AA h in H) g h = h g}`.
+    </span>
+  </li>
+  <li>此外, 元素 `x in G` 的中心化子定义为
+    <span class="formula">
+      `Z_G(x) := {g in G| g x g^-1 = x }` `= {g in G | g x = x g}`.
+    </span>
+  </li>
+	容易验证 `N_G(H), Z_G(H)` 均为 `G` 的子群, 且 `H` 是 `N_G(H)`
+  的正规子群, `H` 是 `Z_G(H)` 的中心.
+  这两个定义有些相似, 但请注意, `N_G(H)` 的定义只要求集合相等,
+  而 `Z_G(H)` 则达到元素级别的粒度.
+</ol>
+
+<p class="remark">
+	若 `H` 有限, 正规化子还可以定义为
+	<span class="formula">
+		`N_G = {g in G | g H g^-1 sube H}`.
+	</span>
+	事实上, 由于 `g H g^-1 ~= H` 有 `|g H g^-1| = |H|`,
+	故只能 `g H g^-1 = H`.
+</p>
+
 <ol class="corollary">
-	令 `V_1, V_2` 是线性空间 `V` 的有限维子空间, 则以下各款等价:
-	<li>`V_1 + V_2` 是直和;</li>
-	<li>`"dim"V_1 + "dim"V_2 = "dim"(V_1+V_2)`;</li>
-	<li>若 `(bm alpha_1, cdots, bm alpha_m)`, `(bm beta_1, cdots, bm
-		beta_n)` 分别是 `V_1, V_2` 的基, 则 `(bm alpha_1, cdots, bm
-		alpha_m, bm beta_1, cdots, bm beta_n)` 是 `V_1 + V_2` 的基.
+	设群 `H le G`, 则
+	<li>`H normal N_G(H)`; 特别 `H normal G iff N_G(H) = G`;</li>
+	<li>`Z_G(H) normal N_G(H)`; 特别 `H normal G` 时, `Z_G(H) normal G`;
 	</li>
+	<li>若 `K normal H`, 则 `H le N_G(K)`.</li>
+</ol>
+
+<p class="remark">
+	`N_G(H) = H` 时, `H` 在 `G` 中的正规程度最差; `N_G(H) = G` 时, `H
+	normal G`, 在 `G` 中的正规程度最好. `Z_G(H) = H` 时, `H` 为一 Abel 群;
+	`Z_G(H) = G` 时, `H le Z(G)`. 另外显然 `Z(G) = Z_G(G)`.
+</p>
+
+<p class="theorem" id="the-inn-isomorphism-advanced">
+	令群 `H le G`, 则
+	<span class="formula">
+		`N_G(H) // Z_G(H) ~= "Inn"(N_G(H))|_H le "Aut"(H)`
+	</span>
+</p>
+
+<p class="proof">
+	令 `g in N_G(H)`, 则 `tau_g(H) = g H g^-1 = H`, 其中 `tau_g in
+	"Inn"(N_G(H))`. 因此 `tau_g|_H` 为 `H` 上一自同构. 据此, 存在同态
+	<span class="formula">
+		`eta: N_G(H) to "Aut"(H)`<br/>
+		`g to tau_g|_H`.
+	</span>
+	又
+	<span class="formula">
+		`"Ker"eta = {g in N_G(H) | tau_g|_H = 1_H}`
+		`= {g in N_G(H) | (AA h in H) g h g^-1 = h}`
+		`= Z_G(H) nn N_G(H)`
+		`= Z_G(H)`.
+	</span>
+	于是由群同态基本定理
+	<span class="formula">
+		`N_G(H)//Z_G(H)`
+		`= N_G(H)//"Ker"eta ~= "Im"eta`
+		`= Inn(N_G(H))|_H le`
+		`"Aut"(H)`.
+	</span>
+</p>
+
+<p class="corollary" id="cor-inn-isomorphism-advanced">
+	令群 `H normal G`, 则 `N_G(H) = G`, 于是
+	<span class="formula">
+		`G//Z_G(H) ~= "Inn"(G)|_H le "Aut"(H)`.
+	</span>
+</p>
+
+<p class="remark">
+	在上面的推论中取 `H = G`, 可以看到<a class="ref"
+	href="#the-inn-isomorphism-advanced"></a> 是<a class="ref"
+	href="#the-inn-isomorphism"></a> 的推广.
+</p>
+
+<p class="example">
+	令 `G` 为一群, `a in G`, 且 `(:a:) normal G`.
+	则 `G' sube Z_G((:a:))`.
+</p>
+
+<p class="proof">
+	由<a class="ref" href="#cor-inn-isomorphism-advanced"></a>,
+	<span class="formula">
+		`G//Z_G((:a:)) ~= "Inn"(G)|_(:a:) le "Aut"((:a:))`
+	</span>
+	后者是循环群的自同构群, 必为 Abel 群, 所以
+	`G//Z_G((:a:))` 也是 Abel 群. 从而 `G' sube Z_G((:a:))`.
+</p>
+
+<h2>群作用与有限群的 Sylow 定理</h2>
+
+<h3>群作用</h3>
+
+<ol class="definition">
+  考虑群 `G` 与非空集合 `X`, 若映射
+  <span class="formula">
+    `f: G xx X to X`<br/>
+    `(g, x) mapsto f(g, x) := g(x)`,
+  </span>
+  满足以下两条性质:
+  <li>`(g h)x = g(h x)`, `AA g, h in G, AA x in X`;</li>
+  <li>`e x = x`, `AA x in X`, `e` 是 `G` 的幺元.</li>
+  则 `f` 称为 `G` 在 `X` 上的一个<b>作用</b>.
+  由定义有
+  <span class="formula">
+    `g^-1(g(x)) = (g^-1 g)x = e x = x`.
+  </span>
+</ol>
+
+<!-- <p class="remark">
+	群作用的概念和拓扑学中的同伦是类似的. (??
+</p> -->
+
+<ol class="example">
+  <li>线性空间 `(V";" bbb F)` 的数乘运算 `(k, alpha) mapsto k alpha`
+    是 `bbb F` 的乘法群在 `V` 上的一个群作用.
+  </li>
+  <li>群 `G` 上的左平移变换 `(g, x) mapsto g x`
+    是 `G` 对自身的群作用. 右平移类似.
+  </li>
+  <li>群 `G` 上的共轭变换 `(g, x) mapsto g x g^-1`
+    是 `G` 对自身的群作用.
+  </li>
+  <li>群 `G` 关于子群 `H` 的左陪集全体 `G//H_l = {g H | g in G}`
+    称为 `G` 的一个<b>齐性空间</b>. 齐性空间未必构成群, 它的要求低于商群.
+    `(g, a H) mapsto (g a) H` 是 `G` 在 `G//H_l` 上的一个群作用. 右陪集类似.
+  </li>
+</ol>
+
+<p class="theorem" id="the-group-action-homomorphism">
+ 群作用 `f: G xx X to X` 与群同态 `eta: G to S_X` 一一对应.
+ 其中 `S_X` 是 `X` 上的对称群, 亦即 `X` 上全体可逆变换.
+</p>
+
+<p class="proof">
+	设有群作用 `f(g, x) := g(x)`,
+	作 `eta: g in G to sigma_g in S_X`, 其中 `sigma_g: x to g(x)`.
+	先证 `sigma_g in S_X`, 即 `sigma_g` 为双射.
+	显然 `sigma_g` 是 `X` 上的变换. 又 `AA x in X`,
+	<span class="formula">
+		`sigma_(g^-1) @ sigma_g{::}(x)`
+		`= sigma_(g^-1)(sigma_g{::}(x))`
+		`= g^-1(g(x)) = x`,
+	</span>
+	所以 `sigma_(g^-1) @ sigma_g = 1_X`.
+	同理 `sigma_g @ sigma_(g^-1) = 1_X`, 于是 `sigma_g` 为一双射.
+	又 `AA g, h in G`, `x in X`,
+	<span class="formula">
+		`eta(h g)(x) = sigma_(h g)(x)`
+		`= (h g)(x) = h(g(x))`
+		`= sigma_h(sigma_g{::}(x)) = (sigma_h @ sigma_g)(x)`
+		`= [eta(h) eta(g)](x)`,
+	</span>
+	因此 `eta` 为一同态映射.<br/>
+	反之, 令 `eta: G to S_X` 为同态映射.  作映射
+	`f: (g, x) in G xx X to (eta(g))(x) in X`.
+	由于 `AA g, h in G`, `x in X`,
+	<span class="formula">
+		`(h g)(x) = eta(h g)(x) = (eta(h) @ eta(g))(x)`
+		`= eta(h)(eta(g)(x)) = h(g(x))`;<br/>
+		`e(x) = eta(e)(x) = 1_X(x) = x`.
+	</span>
+	因此 `f: G xx X to X` 为群作用.
+</p>
+
+<p class="remark">
+	定理告诉我们, 定义了群作用 `f(g, x)` 后, 每取定一个群元 `g in G`,
+	就对应有 `X` 上的一个可逆变换 `sigma_g`, 且 `G` 到 `S_X`
+	间是群同态的关系, 亦即 `sigma_g` 保持了 `g` 在 `G` 中的代数运算.
+	反之, 如果每取定一个 `g in G`, 就对应有 `X` 上的可逆变换 `sigma_g`,
+	且 `sigma_g` 保持 `g` 在 `G` 中的代数运算, 我们也就定义了一个群作用
+	`f(g, x)`.
+</p>
+
+<h3>群作用的轨道与不动点</h3>
+
+<p class="definition">
+  令 `f: G xx X to X` 为一群作用, 定义 `X` 上二元关系 `~` 如下:
+  <span class="formula">
+    `x ~ y iff (EE g in G) g(x) = y`.
+  </span>
+  可以验证 `~` 为 `X` 上一等价关系.  元素 `x in X` 所在的等价类记为
+  <span class="formula">
+    `O_x := {g(x) | g in G}`.
+  </span>
+  这是 `x` 在群作用 `f` 下能到达的地方, 称为 `f` 的一个<b>轨道</b>.
+  显然 `X` 是全体不同轨道的无交并.
+  若 `f` 只有一个轨道, 则称它是<b>可迁的</b>.
+</p>
+
+<p class="example">
+  群 `G` 在共轭作用下的轨道是其<b>共轭类</b>.
+  `G` 是全体共轭类的无交并. 正规子群是一到多个共轭类的并,
+  这是因为正规子群满足 `AA g in G`, `g H g^-1 sube H`,
+  即它的共轭像含于自身.
+</p>
+
+<p class="definition">
+  令 `f: G xx X to X` 为一群作用, 任取 `x in X`, 考虑 `x` 何时为不动点.
+  事实上, 定义
+  <span class="formula">
+    `H_x := {g in G | g(x) = x}`
+  </span>
+  由 `e in H_x` 知 `H_x` 非空. 容易验证 `H_x le G`, 称为 `x` 在 `f`
+  下的<b>稳定子群</b>.
+</p>
+
+<p class="proof">
+  `AA a, b in G`, 若 `a x = b x = x`,
+  则
+  <span class="formula">
+    `a b^-1 x = a b^-1(b x) = a x = x`.
+  </span>
+  所以 `a b^-1 in H_x`.
+</p>
+
+<p class="definition">
+  如果 `x in X` 在任意 `g in G` 的作用下都不动:
+  <span class="formula">
+    `(AA g in G) g(x) = x`,
+    即 `O_x = {x}`, 亦即 `H_x = G`,
+  </span>
+  则称 `x` 为 <b>`f` 的不动点</b>.
+</p>
+
+<p class="example">
+  群 `G` 在共轭作用 `g(x) = g x g^-1` 下的稳定子群 `H_x` 等于元素 `x`
+  的中心化子 `Z_G(x)`; `G` 在共轭作用下的不动点的全体就是 `Z(G)`.
+</p>
+
+<p class="definition">
+  设群 `G` 在非空集 `X, Y` 上各有一群作用, 称这两个群作用<b>等价</b>,
+  如果存在双射 `varphi: X to Y` 使得
+  <span class="formula">
+    `(AA g in G)(AA x in X)`
+    `varphi(g(x)) = g(varphi(x))`.
+  </span>
+  换言之下图可换:
+  <span class="formula">
+  `{:
+    G xx X, rarr, X;
+    darr, , darr;
+    G xx Y, rarr, Y;
+  :}`
+  </span>
+</p>
+
+<p class="lemma">
+  令 `f: G xx X to X` 为一群作用, `x in X`, 显然 `f` 在 `O_x`
+  上的限制也为一群作用, 且 `G` 在 `O_x` 上的群作用与 `G` 在齐性空间
+  `G//H_(x,l)` 上的群作用等价.
+</p>
+
+<p class="proof">
+  作 `varphi: a H_x in G//H_(x,l) to a(x) in O_x`.  由
+  <span class="formula">
+    `a H_x = b H_x iff a^-1 b in H_x`
+    `iff x = (a^-1 b) x`
+    `iff a(x) = b(x)`
+  </span>
+  知, `varphi` 为一映射, 且为一单射, 又由轨道定义, `varphi` 为一满射,
+  因此 `varphi` 为一双射.
+  `AA g in G, a H_x in G//H_(x,l)`,
+  <span class="formula">
+    `varphi(g(a H_x)) = varphi((g a)H_x)`
+    `= (g a)(x) = g(a(x)) = g(varphi(a H_x))`,
+  </span>
+  因此, 二群作用等价.
+</p>
+
+<p class="theorem" id="the-orbit-cardinal">
+  令 `f: G xx X to X` 为一群作用, 则
+  <span class="formula">
+    `|G| = |O_x| |H_x|`.
+  </span>
+</p>
+
+<p class="proof">
+  这是因为存在 `G//H_(x,l) to O_x` 间的双射, 故
+  <span class="formula">
+    `|O_x| = |G//H_(x,l)| = [G:H_x]`.
+  </span>
+</p>
+
+<h3>Sylow 定理</h3>
+
+<p class="definition">
+  阶为素数幂的群称为<b>`bm p`-群</b>, 如 `|G| = p^k`,
+	其中 `p` 为一素数, `k in ZZ^+`.
+</p>
+
+<p class="theorem">
+  令 `G` 为一 `p`-群, `X` 为一非空有限集, 若群作用 `f: G xx X to X`
+  有 `n` 个不动点, 则
+	<span class="formula">
+		`|X| -= n (mod p)`.
+	</span>
+	从而 `p !| |X|` 时, 群作用必有不动点.
+</p>
+
+<p class="proof">
+	令 `X` 为群作用 `f` 的轨道的如下无交并
+	<span class="formula">
+		`X = uuu_(i=1)^m O_(x_i)`,
+	</span>
+	不妨令 `x_1, x_2, cdots, x_n` 为 `f` 的所有不动点, 则
+  每个不动点所在的轨道大小为 1,
+	<span class="formula">
+		`|X| = n + sum_(i=n+1)^m |O_(x_i)|`.
+	</span>
+	对任意 `n lt i le m`, `|O_(x_i)| gt 1`,
+  由<a class="ref" href="#the-orbit-cardinal"></a>,
+  `|O_(x_i)|` 整除 `|G| = p^k`, 所以 `p` 整除 `|O_(x_i)|`.
+  上式两边同时模 `p` 即得证.
+</p>
+
+<p class="corollary">
+	`p`-群有非平凡中心.
+</p>
+
+<p class="proof">
+	令 `|G| = p^k`, 只需说明 `|Z(G)| != 1`.
+  注意 `Z(G)` 是 `G` 上共轭作用的全体不动点, 因此
+	`|Z(G)| -= p^k (mod p)`, 立即推出 `|Z(G)| != 1`.
+  事实上 `|Z(G)|` 整除 `|G| = p^k`, 因此 `|Z(G)| = p^l`,
+  `l` 是某个满足 `1 le l le k` 的整数.
+</p>
+
+<p class="lemma">
+  设 `n` 为正整数, `p` 为素数, 且 `p` 在 `n` 中次数为 `l`, 即
+  <span class="formula">
+    `p^l | n` 且 `p^(l+1) !| n`,
+  </span>
+  则对任意 `0 le k le l`, `p` 在 `(n; p^k)` 中的次数为 `l-k`.
+</p>
+
+<p class="proof">
+  令 `n = p^l m`, 其中 `p !| m`, 则
+	<span class="formula">
+		`(n;p^k) = n/p^k (n-1;p^k-1)`
+		`= p^(l-k) m (n-1;p^k-1)`.
+	</span>
+	且 `AA 1 le i le p^k-1`, `0 le t le k`, 由于 `p^t | n`, 有
+	<span class="formula">
+		`p^t | n-i`
+    `iff p^t | i`
+    `iff p^t | p^k-i`,
+	</span>
+	因此
+	<span class="formula">
+		`(n-1;p^k-1) =
+		((n-1)cdots(n-(p^k-1)))/((p^k-1)cdots(p^k-(p^k-1)))`
+	</span>
+	分子分母含有同样多的公因子 `p`, 因而消去因子 `p` 后得到一分子分母都与
+	`p` 互素的分数 (实际上是整数). 将这结果代回 `(n; p^k)` 的表达式, 注意 `p
+  !| m`, 即知 `p` 在 `(n; p^k)` 中的次数恰为 `l-k`.
+</p>
+
+<ol class="theorem">
+	<b>Sylow 定理</b>
+	令 `G` 为一 `n` 阶群, 素数 `p` 在 `n` 中的次数为 `l`.  则
+  <li><b>存在性</b>
+    `G` 必有 `p^k` 阶子群, `k = 1, cdots, l`, 其中 `p^l` 阶的子群
+		称为 `G` 的 <b>Sylow `bm p`-子群</b>.
+	</li>
+  <li><b>共轭性质</b>
+    设 `G` 的子群 `|H| = p^k`, `|P| = p^l`, `k le l`.
+		则 `H` 含于 `P` 的某个共轭子群, 即
+		<span class="formula">
+			`(EE a in G)` `H sube a P a^-1`.
+		</span>
+		因为共轭子群与原来的子群同构, 从而阶数相同,
+		所以 Sylow `p`-子群的共轭子群也是 Sylow `p`-子群.
+		特别取 `k = l` 有 `H = a P a^-1`,
+		即 `G` 的 Sylow `p`-子群都是相互共轭的.
+	</li>
+  <li><b>惟一性</b>
+    由 2. 立即得到,
+    `P` 是 `G` 的惟一 Sylow `p`-子群当且仅当它的任意共轭子群都是它自身:
+    <span class="formula">
+      `(AA g in G)` `g P g^-1 = P`, 即 `P normal G`.
+    </span>
+  </li>
+  <li><b>数量关系</b>
+    `G` 的 Sylow `p`-子群的数目 `n_p -= 1 (mod p)`,
+		且 `n_p p^l | n`.
+	</li>
+</ol>
+
+<ol class="proof">
+  存在性的证明.
+	<li>令 `X = {A sube G {:|:} |A| = p^k}`. 则 `|X| = (n;p^k)`.
+		作映射
+		<span class="formula">
+			`f: G xx X to X`<br/>
+			`(g, A) to g A`.
+		</span>
+    这里 `g A = {g a | a in A}` 类似于左陪集, 不同之处在于 `A`
+    是一般的集合.  由于 `G` 上左平移变换为单射, 故 `|g A| = |A|`.
+		现在 `AA g, h in G`, `A in X`, 有
+		<span class="formula">
+			`e A = A`, `quad (g h) A = g(h A)`,
+		</span>
+		故 `f` 为群 `G` 在 `X` 上的一个群作用.
+  </li>
+  <li>将 `X` 写为 `f` 轨道的无交并:
+		<span class="formula">
+			`X = uuu_(i=1)^m O_(A_i)`,
+			`quad |X| = sum_(i=1)^m |O_(A_i)|`.
+		</span>
+		由引理, `p` 在 `|X|` 中的次数为 `l-k`. 故存在 `1 le j le m`,
+		<span class="formula">
+			`p^(l-k+1) !| |O_(A_j)|`,
+		</span>
+		即 `|O_(A_j)|` 至多含 `l-k` 个素因子 `p`. 根据<a class="ref"
+		href="#the-orbit-cardinal"></a>,
+		<span class="formula">
+			`|G| = |O_(A_j)| |H_(A_j)|`.
+		</span>
+		从而 `|H_(A_j)|` 至少含有 `l-(l-k) = k` 个素因子 `p`,
+		即 `p^k | |H_(A_j)|`.
+  </li>
+  <li>下证 `H_(A_j)` 就是我们要寻找的子群.  因为
+		<span class="formula">
+			`H_(A_j) = {g in G | g A_j = A_j}`,
+		</span>
+		所以 `AA g in H_(A_j)`, `AA a in A_j`, `g a in A_j`.
+		从而 `H_(A_j)` 的右陪集 `H_(A_j) a sube A_j`, 因此
+		<span class="formula">
+			`|H_(A_j)| = |H_(A_j) a| le |A_j| = p^k`
+		</span>
+		但 `p^k | |H_(A_j)|`, 所以 `|H_(A_j)| = p^k`, 即为 `G` 的一个
+		`p^k` 阶子群.
+	</li>
+</ol>
+
+<p class="proof">
+  共轭性质的证明.
+	令 `X = G//P_l` (`G` 关于 Sylow `p`-子群 `P` 的左齐性空间),
+  则 `|X| = [G:P] = n//p^l`. 作映射
+  <span class="formula">
+    `f: H xx X to X`<br/>
+    `(h, g P) to (h g)P`.
+  </span>
+  `AA h_1, h_2 in H`, `AA g P in X`,
+  <span class="formula">
+    `e(g P) = (e g) P = g P`,
+    `quad (h_1 h_2)g P = (h_1 (h_2 g)) P`.
+  </span>
+  从而 `f` 为群 `H` 在 `X` 上的一个群作用.
+  由 `p !| |X|` 知, `f` 有不动点, 记为 `a P`, 即 `AA h in H`,
+  `h (a P) = a P`. 从而 `a^-1 h a in P`, 于是
+  `a^-1 H a sube P`, 即 `H sube a P a^-1`.
+</p>
+
+<ol class="proof">
+  数量关系的证明.
+  <li>
+    先证 `n_p | n`.
+    令 `X` 为 `G` 的所有 Sylow `p`-子群构成的集合. 作映射
+    <span class="formula">
+      `f_1: G xx X to X`<br/>
+      `(g, P) to g P g^-1`.
+    </span>
+    容易验证 `f_1` 为一群作用. 但 `G` 的所有 Sylow
+    `p`-子群都是相互共轭的, 所以 `f_1` 只有一个轨道 `X`,
+    从而 `n_p = |X| | |G| = n`.
+  </li>
+  <li>令 `X = {P_1, P_2, cdots, P_(n_p)}`, 则
+    <span class="formula">
+      `f_2: P_1 xx X to X`<br/>
+      `(a, P_i) to a P_i a^-1`.
+    </span>
+    提供 `P_1` 在 `X` 上的一个群作用. 记 `f_2` 的不动点数为 `t`, 则
+    <span class="formula">
+      `n_p -= t (mod p)`.
+    </span>
+  </li>
+  <li>下证 `t = 1`. 显然 `P_1 in X` 为 `f_2` 的一个不动点, 若 `P_j` 也为
+    `f_2` 的不动点, 即
+    <span class="formula">
+      `(AA g in P_1)` `P_j = g P_j g^-1`,
+    </span>
+    从而 `P_1 sube N_G(P_j)`. 即 `P_1` 为 `N_G(P_j)` 的一个 Sylow
+    `p`-子群. 但 `P_j normal N_G(P_j)` 是 `N_G(P_j)` 的惟一 Sylow
+    `p`-子群, 故 `P_1 = P_j`. 这证明了不动点的惟一性.
+  </li>
+  <li>
+    最后由 `n_p | n` 和 `p !| n_p` 知 `n_p p^l | n`.
+  </li>
 </ol>
 
 <p class="example">
-	从线性空间的观点来看线性方程组理论. 设 `bm A in bbb P^(m xx n)`,
-	`bm X in bbb P^(n xx 1)`. 设齐次线性方程组
-	`bm (A X) = bb 0` 的解集为 `S_0`. 记 `r = r_(bm A)`,
-	由第三章知, `S_0` 中任意两个解的线性组合仍在 `S_0` 中,
-	因此 `S_0 le bbb P^n`, 称为方程组 `bm (A X) = bb 0` 的<b>解空间</b>.
-	此外, `S_0` 中存在 `n-r` 个向量组成的极大线性无关组 (基础解系),
-	这个无关组就构成解空间 `S_0` 的一个基底, 因此 `"dim"S_0 = n-r`.
-</p>
-
-<ol class="example"> *
-	定义 `RR^n` 到 `RR` 的映射如下:
-	<span class="formula">
-		`f(X) = sum_(i=1)^r |x_i| - sum_(i=r+1)^(r+s) |x_i|`, `AA X =
-		(x_1, x_2, cdots, x_n)^T in RR^n`,
-	</span>
-	其中 `r ge s ge 0`, `r+s le n`.
-	证明:
-	<li>存在 `RR^n` 的一个 `n-r` 维子空间 `W`, 使得 `f(X) = 0`, `AA X in
-		W`;
-	</li>
-	<li>若 `W_1, W_2` 是 `RR^n` 的两个 `n-r` 维子空间, 且满足 `f(X) = 0`,
-		`AA X in W_1 uu W_2`, 则一定有 `"dim" (W_1 nn W_2) ge n - (r +
-		s)`.
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>易知 `f` 是线性的. (?)
-		用 `epsi_i` 表示 `RR^n` 中第 `i` 个分量为 `1`, 其余分量为 `0`
-		的向量. 可以验证下面 `n-r` 个向量满足 `f(X) = 0`, 且线性无关:
-		<span class="formula">
-			`epsi_1 + epsi_(r+1), epsi_2 + epsi_(r+2), cdots, epsi_s +
-			epsi_(r+s), epsi_(r+s+1), cdots, epsi_n`.
-		</span>
-		将 `W` 取为由这些向量生成的子空间即可.
-	</li>
-	<li>记
-		<span class="formula">
-			`V_1 = G[epsi_1, cdots, epsi_(r+s)]`,<br/>
-			`V_2 = G[epsi_(r+s+1), cdots, epsi_n]`.
-		</span>
-		只需证任意满足 `f(X) = 0`, `AA X in W` 的 `n-r` 维子空间 `W`
-		一定包含了子空间 `V_2`.
-		首先易知 `V_1 nn V_2 = {bm theta}`, 故 `W nn V_1 nn V_2 = {bm
-		theta}`, 从而 `W` 有直和分解
-		<span class="formula">
-			`W = W nn V_1 + W nn V_2`.
-		</span>
-		得到
-		<span class="formula">
-			`"dim" W = "dim"(W nn V_1) + "dim"(W nn V_2)`.
-		</span>
-		下证
-		<span class="formula">
-			`"dim"(W nn V_1) le s`.
-		</span>
-		事实上, 取 `W nn V_1` 的基 `bm alpha_1, cdots, bm alpha_m`, 令
-		<span class="formula">
-			`bm A = [bm E_r,bm O; bm O,bm O]_(n xx n)`,
-		</span>
-		若存在 `k_i in RR`, `i = 1, 2, cdots, m` 使得
-		<span class="formula">
-			`sum_(i=1)^m k_i (bm E - bm A) bm alpha_i = bm theta`,
-		</span>
-		注意到 `bm alpha_1, cdots, bm alpha_m in W` 有
-		<span class="formula">
-			`f( sum_(i=1)^m k_i bm alpha_i ) = 0`,
-		</span>
-		于是
-		<span class="formula">
-			`  f( sum_(i=1)^m k_i bm A bm alpha_i )`
-			`= f( sum_(i=1)^m k_i bm alpha_i
-			   - sum_(i=1)^m k_i (bm E-bm A) bm alpha_i )
-			= 0`,
-		</span>
-		由 `f` 定义推出
-		<span class="formula">
-			`sum_(i=1)^m k_i bm A bm alpha_i = bm theta`,
-		</span>
-		于是
-		<span class="formula">
-			` sum_(i=1)^m k_i bm alpha_i`
-			`= sum_(i=1)^m k_i bm A bm alpha_i
-			  + sum_(i=1)^m k_i (bm E-bm A) bm alpha_i
-			= bm theta`.
-		</span>
-		由 `bm alpha_1, cdots, bm alpha_m` 线性无关知 `k_1 = cdots = k_m =
-		0`, 从而 `{(bm E - bm A) bm alpha_i}_(i=1)^m` 也线性无关.
-		注意到该向量组中向量的 `1~r`, `r+s+1~n` 分量全部为零,
-		这推出 `"dim"(W nn V_1) = m le s`.
-
-		于是
-		<span class="formula">
-			` "dim"(W nn V_2)
-			= "dim" W - "dim"(W nn V_1) ge n - r - s = "dim"V_2`.
-		</span>
-		这推出 `W nn V_2 = V_2`, 即 `V_2 sube W`.
-	</li>
-</ol>
-
-<h3>坐标变换</h3>
-
-<p class="definition">
-	令 `"I" = (bm xi_1, bm xi_2, cdots, bm xi_n)`,
-	`"II" = (bm eta_1, bm eta_2, cdots, bm eta_n)` 是有限维线性空间 `V`
-	的两个基底, 其中
-	<span class="formula">
-		`bm eta_j = sum_(i=1)^n a_(i j) bm xi_i`,
-		`quad j = 1, 2, cdots, n`.
-	</span>
-	记 `bm A = (a_(i j))_(n xx n)`
-	`= (bm A_1, bm A_2, cdots, bm A_n)`,
-	上式形式地记为
-	<span class="formula">
-		`(bm eta_1, bm eta_2, cdots, bm eta_n)`
-		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm A`,
-	</span>
-	其中
-	<span class="formula">
-		`bm eta_j = (bm xi_1, bm xi_2, cdots, bm xi_n) bm A_j`,
-		`quad j = 1, 2, cdots, n`.
-	</span>
-	矩阵 `bm A` 称为基底 `"I"` 到 `"II"` 的<b>过渡矩阵</b>.
-</p>
-
-<p class="theorem">
-	设 `V` 为有限维线性空间, `"I" = (bm xi_1, bm xi_2, cdots, bm xi_n)`
-	是一个基, 若方阵 `bm A` 和向量组
-	`"II" = (bm eta_1, bm eta_2, cdots, bm eta_n)` 满足
-	<span class="formula">
-		`(bm eta_1, bm eta_2, cdots, bm eta_n)`
-		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm A`,
-	</span>
-	则 `"II"` 是 `V` 的基当且仅当 `bm A` 可逆.
-	从而, 基底间的过渡矩阵都可逆.
+	72, 36 阶群不是单群.
 </p>
 
 <p class="proof">
-	"`rArr`": 反设 `bm A` 不可逆, 即 `r_(bm A) lt n`, 则 `bm A`
-	的某一列可以被其他列线性表出, 不妨设这一列是 `bm A_n`:
+	设 `|G| = 72 = 2^3 3^2`, 由 Sylow 定理, `G` 的 Sylow 3-子群的个数
+	`n_3 = 1+3t | 2^3`, 因此, `t = 0, 1`.
+	当 `t = 0` 时, `G` 的 Sylow-3 子群只有 1 个, 为 9 阶正规子群.
+	当 `t = 1` 时, `G` 的 Sylow-3 子群有 4 个, 令 `X` 是这 4 个群的集合:
 	<span class="formula">
-		`bm A_n = sum_(j=1)^(n-1) k_j bm A_j`.
+		`X = {P_1, P_2, P_3, P_4}`.
 	</span>
-	从而
-	<span class="formula">
-		`bm eta_n = (bm xi_1, cdots, bm xi_n) bm A_n`
-		`= (bm xi_1, cdots, bm xi_n) sum_(j=1)^(n-1) k_j bm A_j`
-		`= sum_(j=1)^(n-1) k_j (bm xi_1, cdots, bm xi_n) bm A_j`
-		`= sum_(j=1)^(n-1) k_j bm eta_j`.
-	</span>
-	从而 `bm eta_1, cdots, bm eta_n` 线性相关, 矛盾.<br/>
-	"`lArr`": 向量组右乘一可逆矩阵, 相当于作有限次关于向量的初等变换,
-	因此秩不变, 向量组 `"II"` 仍线性无关. 但 `"II"` 中有 `n` 个向量,
-	说明它已经极大, 因此是 `V` 的基.
-</p>
-
-<p class="theorem">
-	<b>坐标变换公式</b>
-	设 `V` 为有限维线性空间,
-	`"I" = (bm xi_1, bm xi_2, cdots, bm xi_n)`,
-	`"II" = (bm eta_1, bm eta_2, cdots, bm eta_n)`
-	是它的两个基, 则
-	<span class="formula">
-		`(bm eta_1, bm eta_2, cdots, bm eta_n) = (bm xi_1, bm xi_2,
-		cdots, bm xi_n) bm A`
-	</span>
-	当且仅当对任意 `bm alpha in V`, 其在 `"I", "II"` 下的坐标
-	`bm X, bm Y in bbb P^(n xx 1)` 满足
-	<span class="formula">
-		`bm X = bm (A Y)`, 即 `bm Y = bm (A^-1 X)`.
-	</span>
-</p>
-
-<p class="proof">
-	"`rArr`": 由已知
-	<span class="formula">
-		`(bm xi_1, bm xi_2, cdots, bm xi_n) bm X`
-		`= (bm eta_1, bm eta_2, cdots, bm eta_n) bm Y`
-		`= (bm xi_1, bm xi_2, cdots, bm xi_n) bm (A Y)`.
-	</span>
-	由同一基底下坐标的唯一性得 `bm X = bm (A Y)`.<br/>
-	"`lArr`": 取 `bm alpha = bm eta_j`, 则 `bm Y = bm epsi_j`
-	(单位列向量), `bm X = bm (A epsi)_j = bm A_j` (`bm A` 的第 `j` 列).
-	从而
-	<span class="formula">
-		`bm alpha = bm eta_j = (bm xi_1, bm xi_2, cdots, bm xi_n) bm
-		A_j`,
-		`quad j = 1, 2, cdots, n`.
-	</span>
-	即得所要证的结果.
+	考虑 `G` 在 `X` 上的共轭作用, 则由<a class="ref"
+	href="#the-group-action-homomorphism"></a>, `G` 的每一元素提供一个 4
+	次置换, 于是我们得到一个同态映射 `varphi: G to S_4`.
+	由 `|G| = 72 gt |S_4| = 24` 知, `varphi` 不是单射, 即 `"Ker"varphi !=
+	{e}`, 又显然 `varphi(G) != {(1)}` (否则 `G` 只有一个 Sylow 3-子群,
+	矛盾). 从而 `"Ker" varphi != G`, 于是 `G`
+	有非平凡的正规子群 `"Ker"varphi` (它是 `varphi(G)` 的平凡正规子群
+	`{(1)}` 的原像, 因此是正规子群).
+	综上所述, `G` 不是单群.<br/>
+	类似可证明 36 阶群不是单群.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

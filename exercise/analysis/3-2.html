@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>函数的极限 (续)</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+
+<ol class="enum">
+
+<li>根据定义证明: `lim_(x to oo) sqrt(1 + 1/x^2) = 1`.
+  <br/>
+  <div class="proof">
+    对任意 `epsi gt 0`, 当 `|x| gt 1/sqrt(2 epsi)` 时, 有
+    <span class="formula">
+      `0 lt sqrt(1+1/x^2) - 1 = (1/x^2)/(sqrt(1+1/x^2)+1) lt
+      1/(2x^2) lt epsi`.
+    </span>
+  </div>
+</li>
+
+<li>求以下单侧极限:
+  <ol class="col2">
+    <li>`lim_(x to 0^+) (x-1)/(3x-2sqrt x - 1)`;</li>
+    <li>`lim_(x to 1^-) (root 3 (1-x) - root 4 (1-x)) /
+      (root 3 (1-x) + 3 root 4 (1-x))`;
+    </li>
+    <li>`lim_(x to 1^+) ([3x])/(x+2)`;</li>
+    <li>`lim_(x to 1^-) ([3x])/(x+2)`;</li>
+    <li>`lim_(x to 2^+) ([x]^2 - 1)/(x^2-1)`;</li>
+    <li>`lim_(x to 2^-) ([x]^2 - 1)/(x^2-1)`;</li>
+    <li>`lim_(x to 2^+) arctan {:sqrt(x-1)/(x-2):}`;</li>
+    <li>`lim_(x to 2^-) arctan {:sqrt(x-1)/(x-2):}`;</li>
+    <li>`lim_(x to 0^+) 1/(1+2^(1/x))`;</li>
+    <li>`lim_(x to 0^-) 1/(1+2^(1/x))`.</li>
+  </ol>
+
+  <ol class="solution col5">
+    <li>`1`;</li>
+    <li>`-1/3`;</li>
+    <li>`1`;</li>
+    <li>`2/3`;</li>
+    <li>`1`;</li>
+    <li>`0`;</li>
+    <li>`pi/2`;</li>
+    <li>`-pi/2`;</li>
+    <li>`0`;</li>
+    <li>`1`.</li>
+  </ol>
+  <p class="remark">
+    第 (2) 题可令 `y = root 12 (1-x)`, 转化为 `y to 0^+` 的极限.
+  </p>
+</li>
+
+<li>求以下无穷远处的极限:
+  <ol>
+    <li>`lim_(x to +oo) (sqrt((x+a)(x+b)) - x)`;</li>
+    <li>`lim_(x to +oo) (root 3 (x^3+3x^2) - sqrt(x^2-2x))`;</li>
+    <li style="width:100%">`lim_(x to +oo) (sqrt(x+sqrt(x+sqrt x)) -
+      sqrt(x-sqrt(x+sqrt x)))`;
+    </li>
+    <li style="width:100%">`lim_(x to oo) ((x+sqrt(x^2-2x))^n +
+      (x-sqrt(x^2-2x))^n) / (root 3 (x^(3n)+1) + root 3
+      (x^(3n)-1))`;
+    </li>
+    <li>`lim_(x to oo) x^(1/3) [(x+1)^(2/3) - (x-1)^(2/3)]`;</li>
+    <li>`lim_(x to oo) arcsin {:(1-x)/(1+x):}`;</li>
+    <li>`lim_(x to +oo) (sin sqrt(x+1) - sin sqrt x)`;</li>
+    <li>`lim_(x to +oo) arccos(sqrt(x^2+x)-x)`.</li>
+  </ol>
+  <ol class="solution">
+    <li>原式 = `lim_(x to +oo) ((x+a)(x+b)-x^2)/(sqrt((x+a)(x+b))+x)`
+      `= lim_(x to +oo) (a+b+(ab)/x)/(sqrt((1+a/x)(1+b/x))+1)`
+      `= (a+b)/2`;
+    </li>
+    <li>原式 = `lim_(x to +oo) ((x^3+3x^2)^2 - (x^2-2x)^3) /
+      (sum_(k=0)^5 (x^2+3x^2)^(k/3) (x^2-2x)^((5-k)/2))`
+      `= (12x^5 + o(x^5))/(6x^5 + o(x^5))` `= 2`;
+    </li>
+    <li>原式 = `lim_(x to +oo) (2sqrt(x+sqrt x))/(sqrt(x+sqrt(x+sqrt
+      x)) + sqrt(x-sqrt(x+sqrt x)))` `= lim_(x to +oo) (2(sqrt x +
+      o(sqrt x)))/(2(sqrt x + o(sqrt x)))` `= 1`;
+    </li>
+    <li>原式 = `lim_(x to oo) ((2x + o(x))^n + o(x^n))/(2x^n +
+      o(x^n))` `= 2^(n-1)`;
+    </li>
+    <li>原式 = `lim_(x to oo) (root 3 (x^3+2x^2+x) - root 3
+      (x^3-2x^2+x))` `= lim_(x to oo) (4x^2)/(3x^2 + o(x^2))`
+      `= 4/3`;
+    </li>
+    <li>原式 = `arcsin(-1) = -pi/2`;</li>
+    <li>因为 `sqrt(x+1) - sqrt x = 1/(sqrt(x+1) + sqrt x) to 0`,
+      我们有原式 = `lim_(x to +oo) 2 sin {:(sqrt(x+1) - sqrt x)/2:}
+      cos {:(sqrt(x+1) + sqrt x)/2:} = 0`;
+    </li>
+    <li>因为 `sqrt(x^2+x) - x = x/(sqrt(x^2+x)+x) to 1/2`,
+      我们有原式 = `arccos 1/2 = pi/3`.
+    </li>
+  </ol>
+</li>
+
+<li>根据极限 `lim_(x to 0) {:sin x/x :}` 求以下极限:
+  <ol class="col2">
+    <li>`lim_(x to 0) (sin ax)/(sin bx)` (`a, b != 0`);</li>
+    <li>`lim_(x to 0) (tan ax)/(tan bx)` (`a, b != 0`);</li>
+    <li>`lim_(x to 0) (sin 3x - sin 2x)/(sin 5x)`;</li>
+    <li>`lim_(x to 0) (1-cos x)/x^2`;</li>
+    <li>`lim_(x to 0) (tan x - sin x)/(sin^3 x)`;</li>
+    <li>`lim_(x to 0) (cos 3x - cos 2x)/(sin x^2)`;</li>
+    <li>`lim_(x to pi/4) tan 2x tan (pi/4 - x)`;</li>
+    <li>`lim_(x to 1) (1-x) tan {:(pi x)/2:}`;</li>
+    <li>`lim_(x to 0) sqrt(1- cos x^2)/(1-cos x)`;</li>
+    <li>`lim_(x to 0^+) (1-sqrt(cos x))/(1-cos sqrt x)^2`;</li>
+    <li>`lim_(x to 0) (arctan x)/(arcsin x)`;</li>
+    <li>`lim_(n to oo) cos{:x/2:} cos{:x/4:} cdots cos{:x/2^n:}`.</li>
+  </ol>
+  <ol class="solution">
+    <li>原式 = `lim_(x to 0) (ax)/(bx) = a/b`;</li>
+    <li>原式 = `lim_(x to 0) (ax)/(bx) = a/b`;</li>
+    <li>原式 = `lim_(x to 0) (2sin{:x/2:}cos{:(5x)/2:})/(sin 5x) =
+      1/5`;
+    </li>
+    <li>原式 = `lim_(x to 0) (1-cos2x)/(4x^2) = lim_(x to 0) (2 sin^2
+      x)/(4x^2) = 1/2`;
+    </li>
+    <li>原式 = `lim_(x to 0) (tan x(1-cos x))/x^3 = 1/2`;</li>
+    <li>原式 = `lim_(x to 0) (-2sin{:(5x)/2:}sin{:x/2:})/x^2 = -5/2`;
+    </li>
+    <li>原式 = `lim_(x to pi/4) (2tan x)/(1-tan^2 x) (1-tan x)/(1+tan
+      x) = lim_(x to pi/4) (2tan x)/(1+tan x)^2 = 1/2`;
+    </li>
+    <li>原式 = `lim_(x to 0) x tan{:(pi(1-x))/2:} = lim_(x to 0)
+      x/tan{:(pi x)/2:} = 2/pi`;
+    </li>
+    <li>原式 = `lim_(x to 0) sqrt(1-cos(4x^2))/(1-cos 2x) = lim_(x to
+      0) (sqrt 2 sin(2x^2))/(2 sin^2 x) = sqrt 2`;
+    </li>
+    <li>原式 = `lim_(x to 0^+) (1-cos x)/((1-cos sqrt x)^2(1+sqrt cos
+      x)) = lim_(x to 0^+) (1/2 x^2)/((1/2 x)^2 * 2) = 1`;</li>
+    <li>原式 = `lim_(x to 0) x/x = 1`;</li>
+    <li>`cos{:x/2:} cos{:x/4:} cdots cos{:x/2^n:} sin{:x/2^n:} = sin
+      x/2^n`, 故原式 = `lim_(n to oo) sin x/(2^n sin{:x/2^n:}) =
+      sin x / x`.
+    </li>
+  </ol>
+</li>
+
+<li>根据极限 `lim_(x to 0) (1+x)^(1/x) = e` 求以下极限
+  (必要时需作变量变换并使用对数法):
+  <ol class="col2">
+    <li>`lim_(x to 0) (1-2x)^(1/x)`;</li>
+    <li>`lim_(x to 0) (e^x + x)^(1/x)`;</li>
+    <li>`lim_(x to oo) ((x+a)/(x-a))^x`;</li>
+    <li>`lim_(x to oo) ((x^2+1)/(x^2-1))^x`;</li>
+    <li>`lim_(x to 0) ln(x^2+e^x) / ln(x^3+e^(2x)`;</li>
+    <li>`lim_(x to 0) ln(1+xe^x) / ln(x+sqrt(1+x^2))`;</li>
+    <li>`lim_(x to 0) (2e^x-1)^(1/x)`;</li>
+    <li>`lim_(x to 0) (2e^(x/(1+x))-1)^((1+x^2)/x)`;</li>
+    <li>`lim_(x to -oo) ln(1+3^x) / ln(1+2^x)`;</li>
+    <li>`lim_(x to +oo) ln(1+3^x) / ln(1+2^x)`;</li>
+    <li>`lim_(x to +oo) ln(1+2^x) ln(1+3/x)`;</li>
+    <li>`lim_(x to 1) (1-x) log_x 2`;</li>
+  </ol>
+  <ol class="solution">
+    <li>原式 = `lim_(x to 0) e^(-2x * 1/x) = e^-2`;</li>
+    <li>原式 = `lim_(x to 0) e(1+x/e^x)^(1/x) = e^2`;</li>
+    <li>原式 = `lim_(x to oo) (1+(2a)/(x-a))^x = e^(2a)`;</li>
+    <li>原式 = `lim_(x to oo) (1+2/(x^2-1))^x = 1`;</li>
+    <li>原式 = `lim_(x to 0) (x+ln(1+x^2 e^-x))/(2x+ln(1+x^3 e^(-2x)))
+      = lim_(x to 0) (x+o(x))/(2x+o(x)) = 1/2`;
+    </li>
+    <li>原式 = `lim_(x to 0) ln(1+xe^x)/(1/2 ln(1+x^2) +
+      ln(1+x/sqrt(1+x^2)))` `= lim_(x to 0) (xe^x +
+      o(x))/(x/sqrt(1+x^2) + o(x))` `= 1`;</li>
+    <li>原式 = `lim_(x to 0) (e^x + e^x - 1)^(1/x) = lim_(x to 0) e
+      (1+(e^x-1)/e^x)^(1/x) = e^2`;</li>
+    <li>原式 = `lim_(x to 0) (2e^(x/(1+x)) - 1)^{:(1+x)/x
+      (1+x^2)/(1+x)`, 由第 (7) 小题, 结果为 `e^2`;</li>
+    <li>原式 = `lim_(x to -oo) 3^x/2^x = 0`;</li>
+    <li>原式 = `lim_(x to +oo) (x ln 3 + ln(1+3^-x))/(x ln 2 +
+      ln(1+2^-x)) = ln3/ln2`;</li>
+    <li>原式 = `lim_(x to +oo) (xln2 + ln(1+2^-x))ln(1+3/x)`
+      `= lim_(x to +oo) xln2ln(1+3/x)` `= 3ln2`;</li>
+    <li>原式 = `lim_(x to 0) (xln2)/ln(1-x) = -ln2`.</li>
+  </ol>
+</li>
+
+<li>求以下综合类型的极限:
+  <ol class="col2">
+    <li>`lim_(x to 0) (1+x^2)^(cot^2 x)`;</li>
+    <li>`lim_(x to 1) (1+sin pi x)^(cot pi x)`;</li>
+    <li>`lim_(x to 0) (cos x / cos (2x))^(1/x^2)`;</li>
+    <li>`lim_(x to 0^+) (cos sqrt x)^(1/x)`;</li>
+    <li>`lim_(x to pi/4) (tan x)^(tan 2x)`;</li>
+    <li>`lim_(x to pi/2) (sin x)^(tan x)`;</li>
+    <li>`lim_(x to 0) (ln tan(pi/4 + ax)) / (sin bx)`;</li>
+    <li>`lim_(x to 0) (ln cos ax)/(ln cos bx)`;</li>
+    <li>`lim_(n to oo) cos^n {:x/sqrt n:}`;</li>
+    <li>`lim_(n to oo) tan^n (pi/4 + 1/n)`;</li>
+    <li>`lim_(n to oo) n(root n x - 1)` (`x gt 0`);</li>
+    <li>`lim_(n to oo) n^2 (root n x - root (n+1) x)` (`x gt 0`).</li>
+  </ol>
+  <ol class="solution">
+    <li>原式 = `lim_(x to 0) (1+x^2)^(1/tan^2 x) = e`;</li>
+    <li>原式 = `lim_(x to 0) (1+sin(pi(1-x)))^cot(pi(1-x))`
+      `= lim_(x to 0) (1+sin pi x)^(-cos{:pi x:}/sin{:pi x:})`
+      `= e^-1`;
+    </li>
+    <li>原式 = `lim_(x to 0) (cos x/(2cos^2 x - 1))^(1/x^2)`
+      `= lim_(x to 0) (1+(1+cos x - 2cos^2 x)/(2cos^x - 1))^(1/x^2)`
+      `= lim_(x to 0) exp(((1+2cos x)(1-cos x))/x^2)`
+      `= e^(3/2)`;
+    </li>
+    <li>原式 = `lim_(x to 0^+) (1+cos x-1)^(1/x^2) = lim_(x to 0^+)
+      e^((cos x-1)/x^2) = e^(-1/2)`;</li>
+    <li>原式 = `lim_(x to pi/4) (1+tan x-1)^((2tan x)/(1-tan^2 x))
+      = lim_(x to pi/4) e^(-(2tan x)/(1+tan x)) = e^-1`;</li>
+    <li>原式 = `lim_(x to 0) (1+cos x-1)^cot x = lim_(x to 0) e^((cos
+      x-1)/tan x) = 1`;</li>
+    <li>原式 = `lim_(x to 0) ln{:(1+tan ax)/(1-tan ax):}/sin{:bx:}
+      = lim_(x to 0) ln(1+(2tan ax)/(1-tan ax))/sin{:bx:} = (2a)/b`;
+    </li>
+    <li>原式 = `lim_(x to 0) ln(1+cos ax-1)/ln(1+cos bx-1) = a^2/b^2`;
+    </li>
+    <li>原式 = `lim_(n to oo) (1+cos{:x/n:}-1)^(n^2) = lim_(n to oo)
+      e^(n^2(cos{:x/n:}-1)) = e^(-x^2/2)`;</li>
+    <li>原式 = `lim_(n to oo) ((1+tan{:1/n:})/(1-tan{:1/n:}))^n`
+      `= lim_(n to oo) (1+(2tan{:1/n:})/(1-tan{:1/n:}))^n`
+      `= lim_(n to oo) e^((2n tan{:1/n:})/(1-tan{:1/n:})) = e^2`;
+    </li>
+    <li>原式 = `lim_(n to oo) n(e^(ln x/n) -1) = ln x`;</li>
+    <li>原式 = `lim_(n to oo) n^2(e^(ln x/n) - e^(ln x/(n+1)))
+      = lim_(n to oo) n^2 e^(ln x/(n+1))(e^(ln x/(n(n+1))) - 1)
+      = ln x`.
+    </li>
+  </ol>
+</li>
+
+<li>设 `a, b, c` 都是正数. 求以下极限:
+  <ol class="col2">
+    <li>`lim_(x to 0) (a^x-1)/x` (`a != 1`);</li>
+    <li>`lim_(x to 0) ((a^x + b^x)/2)^(1/x)`;</li>
+    <li>`lim_(x to 0) ((a^(x^2) + b^(x^2))/(a^x+b^x))^(1/x)`;</li>
+    <li>`lim_(x to 0) ((a^x + b^x + c^x)/(a+b+c))^(1/x)`;</li>
+    <li>`lim_(n to oo) n(root n a - 1)`;</li>
+    <li>`lim_(n to oo) n^2(root n a - root (n+1) a)`;</li>
+    <li>`lim_(n to oo) ((root n a + root n b + root n c)/ 3)^n`;</li>
+    <li>`lim_(n to oo) ((a - 1 + root n b)/a)^n`.</li>
+  </ol>
+  <ol class="solution">
+    <li>原式 = `lim_(x to 0) (e^(x ln a)-1)/x = ln a`;</li>
+    <li>原式 = `lim_(x to 0) (1+(a^x+b^x-2)/2)^(1/x)`
+      `= lim_(x to 0) exp{:(a^x-1+b^x-1)/(2x):}`
+      `= lim_(x to 0) exp{:(x ln (ab) + o(x))/(2x):}`
+      `= sqrt(ab)`;
+    </li>
+    <li>原式 = `lim_(x to 0) (1+(a^(x^2) + b^(x^2)
+      -a^x-b^x)/(a^x+b^x))^(1/x)` `= lim_(x to 0)
+      exp{:((x^2-x)ln(ab)+o(x))/(2x):}` `= 1/sqrt(ab)`;
+    </li>
+    <li>`a+b+c != 3` 时, 极限不存在;</li>
+    <li>由 6(11), 原式 = `ln a`.</li>
+    <li>由 6(12), 原式 = `ln a`.</li>
+    <li>原式 = `lim_(n to oo) (1+(root n a + root n b + root n c -
+      3)/3)^n`
+      `= lim_(n to oo) exp((ln(abc)/n + o(1/n))/3 * n)`
+      `= root 3 (abc)`;
+    </li>
+    <li>原式 = `lim_(n to oo) (1+(root n b - 1)/a)^n = lim_(n to oo)
+      exp(ln b/(na) * n) = b^(1/a)`.
+    </li>
+  </ol>
+</li>
+
+<li>证明: 当 `x to 0` 时,
+  <ol class="col2">
+    <li>`arcsin x ~ x`;</li>
+    <li>`arctan x ~ x`;</li>
+    <li>`e^x - 1 ~ x`;</li>
+    <li>`1 - cos x ~ 1/2 x^2`.</li>
+  </ol>
+  <ol class="prove col2">
+    <li>令 `x = sin y`;</li>
+    <li>令 `x = tan y`;</li>
+    <li>令 `x = ln(1+y)`;</li>
+    <li>见 4(4);</li>
+  </ol>
+</li>
+
+<li>运用等价无穷小量求极限:
+  <ol class="col2">
+    <li>`lim_(x to 0) (sqrt(1+x^2) - 1)/(1-cos x)`;</li>
+    <li>`lim_(x to 0) (x ln(1+x^2))/(sin x^2 tan x)`;</li>
+    <li>`lim_(x to 0) (x e^(2x) sin x)/(e^x - e^-x)^2`;</li>
+    <li>`lim_(x to oo) (x^2 arctan {:1/x:})/(2x - cos x)`.</li>
+  </ol>
+  <ol class="solution col4">
+    <li>`1`;</li>
+    <li>`1`;</li>
+    <li>`1/4`;</li>
+    <li>`1/2`.</li>
+  </ol>
+</li>
+
+<li>如果成立 `lim_(x to +-oo) [f(x) - (k_(+-) x + b_(+-))] = 0`,
+  则称直线 `y = k_(+-)x + b_(+-)` 为曲线 `y = f(x)` 在正
+  (对应于正号)、负 (对应于负号) 无穷远处的渐近线.
+  <ol class="subenum">
+    <li>推导曲线在正、负无穷远处存在渐近线的充分必要条件;</li>
+    <li>求下列函数在正、负无穷远处的渐近线:
+    <ol class="col2">
+      <li>`y = sqrt(x^2 - x + 1)`,</li>
+      <li>`y = (x^2+1)/(x+1)`,</li>
+      <li>`y = ln(1+e^x)`,</li>
+      <li>`y = x + arccos {:1/(x^2+1):}`,</li>
+      <li>`y = (xe^x)/(e^x+1)`,</li>
+      <li>`y = x^(x+1)/(1+x)^x`.</li>
+    </ol>
+    </li>
+  </ol>
+  <ol class="solution subenum">
+    <li></li>
+    <li>
+    <ol>
+      <li>`+oo`: `y = x - 1/2`, `-oo`: `y = -x + 1/2`;</li>
+      <li>`oo`: `y = x-1`;</li>
+      <li>`+oo`: `y = x`, `-oo`: `y = 0`;</li>
+      <li>`oo`: `y = x + pi/2`;</li>
+      <li>`+oo`: `y = x`, `-oo`: `y = 0`;</li>
+      <li>`oo`: `y = x/e + 1/(2e)`;</li>
+    </ol>
+    </li>
+  </ol>
+</li>
+
+<li>设函数 `f` 在 `(b, +oo)` 上单增. 证明:
+  <ol>
+    <li>如果存在数列 `{x_n}` 使 `lim_(n to oo) x_n = +oo` 且
+      `lim_(n to oo) f(x_n) = a`, 则 `lim_(x to +oo) f(x) = a`;
+    </li>
+    <li>如果 `f` 严格单增, `lim_(x to +oo) f(x) = a` 且
+      `lim_(n to oo) f(x_n) = a`, 则 `lim_(n to oo) x_n = +oo`.
+    </li>
+  </ol>
+  <ol class="proof">
+    <li>先证 `f` 有界.  如若不然, 设对任意 `M gt 0`,
+      `EE x_0 in (b, +oo)` `f(x_0) gt M`.
+      由 `x_n to +oo` 知 `EE n_0 in NN`, `x_(n_0) gt x_0`,
+      从而 `f(x_(n_0)) ge f(x_0) gt M`, 与 `f(x_n) to a` 矛盾.
+      现在由单调有界原理知 `lim_(x to +oo) f(x)` 存在, 再由 Heine
+      定理知极限等于 a.
+    </li>
+    <li></li>
+  </ol>
+</li>
+
+<li>定义在区间 `(a, +oo)` 上的函数 `f` 称为是渐近 `T` 周期的, 其中 `T`
+  是正常数, 如果存在 `T` 周期函数 `g` 使成立
+  <span class="formula">
+    `lim_(x to +oo) (f(x) - g(x)) = 0`.
+  </span>
+  证明: `f` 是渐近 `T` 周期函数的充要条件是成立
+  <span class="formula">
+    `lim_(m,n to oo) [f(x+mT) - f(x+nT)] = 0`, `AA x gt a`.
+  </span>
+</li>
+
+<li>证明柯西定理: 设函数 `f` 定义在区间 `(a, +oo)` 上, 并在每个有穷区间
+  `(a, b)` 上有界. 则当等式右端的极限存在时, 成立
+  <ol>
+    <li>`lim_(x to +oo) (f(x))/x = lim_(x to +oo) [f(x+1) - f(x)]`;
+    </li>
+    <li>`lim_(x to +oo) [f(x)]^(1/x) = lim_(x to +oo)
+      (f(x+1))/(f(x))`.
+    </li>
+  </ol>
+</li>
+
+<li>设函数 `f` 定义在区间 `(a, +oo)` 上, 并在每个有穷区间 `(a, b)` 上有界.
+  又设
+  <span class="formula">
+    `lim_(x to +oo) (f(x+1) - f(x))/x^p = c`.
+  </span>
+  其中 `p` 为正常数. 证明:
+  <span class="formula">
+    `lim_(x to +oo) (f(x))/x^(p+1) = c/(p+1)`.
+  </span>
+</li>
+
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>

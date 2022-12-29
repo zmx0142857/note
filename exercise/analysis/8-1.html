@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>定积分在分析学中的应用</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+<ol class="enum">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li>设 `f(x)` 在 `[a, b]` 上有连续的 `n+1` 阶导数, 且 `f(a) = f'(a)
+  = cdots` `= f^((n))(a) = 0`. 证明:
+  <ol>
+  <li>`underset(a le x le b)(max) |f(x)|`
+    `le (b-a)^n/(n!) int_a^b |f^((n+1))(x) dx|`;
+  </li>
+  <li>对任意 `1 le p lt oo` 成立
+    <span class="formula">
+      `(int_a^b |f(x)|^p dx)^(1/p)`
+      `le (b-a)^(n+1/p)/(n!(np+1)^(1/p)) int_a^b |f^((n+1))(x)| dx`;
+    </span>
+  </li>
+  <li>`underset(a le x le b)(max)|f(x)|`
+    `le (b-a)^(n+1/2)/(n!sqrt(2n+1)) (int_a^b |f^((n+1))(x)|^2
+    dx)^(1/2)`.
+  </li>
+  <li>对任意 `1 le p lt oo` 成立
+    <span class="formula">
+      `(int_a^b |f(x)|^p dx)^(1/p)`
+      `le (2^(1/p) (b-a)^(n+1/2+1/p)) / (n!sqrt(2n+1)(2np+p+1)^(1/p))
+         (int_a^b |f^((n+1))(x)|^2 dx)^(1/2)`.
+    </span>
+  </li>
+  </ol>
+  <ol class="proof">
+    由题目条件, `f(x)` 可以在 `a` 处展开成积分型余项的泰勒展式:
+    <span class="formula">
+      `f(x) = 1/(n!) int_a^x (x-t)^n f^((n+1))(t) dt`,
+    </span>
+    于是
+  <li>`underset(a le x le b)(max)|f(x)|`
+    `le (b-a)^n/(n!) int_a^b |f^((n+1))(t)| dt`.
+  </li>
+  <li>对任意 `1 le p lt oo`,
+    <span class="formula align">
+      `int_a^b |f(x)|^p dx`<br>
+      `le 1/(n!)^p int_a^b (x-a)^(np) (int_a^b|f^((n+1))(t)|dt)^p dx`<br>
+      `= 1/(n!)^p (int_a^b (x-a)^(np) dx) (int_a^b |f^((n+1))(t)|dt)^p`<br>
+      `= 1/(n!)^p (b-a)^(np+1)/(np+1) (int_a^b |f^((n+1))(t)|dt)^p`.
+    </span>
+    两边同取 `1/p` 次方, 即得证.
+  </li>
+  <li>利用柯西不等式. 对任意 `x in [a, b]`,
+    <span class="formula align">
+      `|f(x)|^2`<br>
+      `le 1/(n!)^2 (int_a^b (b-t)^n f^((n+1))(t) dt)^2`<br>
+      `le 1/(n!)^2 (int_a^b (b-t)^(2n) dt) (int_a^b |f^((n+1))(t)|^2 dt)`<br>
+      `= 1/(n!)^2 (b-a)^(2n+1)/(2n+1) int_a^b |f^((n+1))(t)|^2 dt`.
+    </span>
+    两边同时开平方根, 即得证.
+  </li>
+  <li>兼用 (2) (3) 中的方法,
+    <span class="formula align">
+      `int_a^b |f(x)|^p dx`<br>
+      `= 1/(n!)^p int_a^b |int_a^x (x-t)^n f^((n+1))(t) dt|^p dx`<br>
+      `le 1/(n!)^p int_a^b (int_a^x (x-t)^(2n) dt)^(p/2)`
+      `(int_a^b |f^((n+1))(t)|^2 dt)^(p/2) dx`<br>
+      `= 1/(n!)^p (int_a^b ((x-a)^(2n+1)/(2n+1))^(p/2) dx)`
+      `(int_a^b |f^((n+1))(t)|^2 dt)^(p/2)`<br>
+      `= 1/(n!)^p (b-a)^(np+p/2+1)/((2n+1)^(p/2)(np+p/2+1))`
+      `(int_a^b |f^((n+1))(t)|^2 dt)^(p/2)`<br>
+      `le 1/(n!)^p (2(b-a)^(np+p/2+1))/((2n+1)^(p/2)(2np+p+1))`
+      `(int_a^b |f^((n+1))(t)|^2 dt)^(p/2)`.
+    </span>
+    两边同取 `1/p` 次方, 即得证.
+  </li>
+  </ol>
+</li>
+<li></li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

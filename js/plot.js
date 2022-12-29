@@ -13,9 +13,11 @@ function Plot(el, config={}) {
   this.width = canvas.offsetWidth
   this.height = canvas.offsetHeight
   const dpr = window.devicePixelRatio
-  canvas.style.zoom = 1/dpr
   canvas.setAttribute('width', this.width * dpr)
   canvas.setAttribute('height', this.height * dpr)
+  canvas.style.width = this.width + 'px'
+  canvas.style.height = this.height + 'px'
+  canvas.style.zoom = 1/dpr
 
   this.ctx = this.canvas.getContext('2d')
   this.ctx.scale(dpr, dpr)
@@ -257,10 +259,12 @@ Plot.prototype.plot = function(f, g, config={}) {
     x = f(t)
     y = g(t)
     // 斜率过大处断开
-    if ( Math.abs((x-prex)/step) > continuity ||
+    if (isNaN(x) || isNaN(y)) {
+      x = x || 0
+      y = y || 0
+      this.moveTo(x, y)
+    } else if (Math.abs((x-prex)/step) > continuity ||
       Math.abs((y-prey)/step) > continuity) {
-      this.ctx.stroke()
-      this.ctx.beginPath()
       this.moveTo(x, y)
     }
     this.lineTo(x, y)

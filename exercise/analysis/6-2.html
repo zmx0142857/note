@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+
+<title>换元积分法与分部积分法</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="../../css/note.css" />
+
+</head>
+
+<body>
+
+<ol class="enum">
+
+<li>应用第一换元积分法, 求以下不定积分:
+  <ol class="col2">
+    <li>`int root 3 (1-2x) dx`;</li>
+    <li>`int dx/(3+2x^2)`;</li>
+    <li>`int dx/sqrt(3-2x^2)`;</li>
+    <li>`int (x dx)/sqrt(1+x^2)`;</li>
+    <li>`int (x dx)/(3+2x^2)`;</li>
+    <li>`int (x dx)/(1+x^4)`;</li>
+    <li>`int dx/(sqrt x (1+x))`;</li>
+    <li>`int dx/(x^2 "e"^(1/x))`;</li>
+    <li>`int dx/(x sqrt(x^2+1))`;</li>
+    <li>`int dx/(x^2+1)^(3/2)`;</li>
+    <li>`int dx/sqrt(x(1-x))`;</li>
+    <li>`int (x dx)/sqrt(1+x)`.</li>
+  </ol>
+  <ol class="solution">
+    <li>令 `t = 1-2x`, 原式 =
+      ` -1/2 int t^(1/3) dt
+      = -3/8 t^(4/3) + C
+      = -3/8 (1-2x)^(4/3) + C`;
+    </li>
+    <li>令 `t = sqrt(2/3) x`, 原式 =
+      ` 1/3 int (sqrt(3/2) dt)/(1+t^2)
+      = 1/sqrt 6 arctan t + C
+      = sqrt 6/6 arctan {:sqrt 6/3 x:} + C`;
+    </li>
+    <li>令 `t = sqrt(2/3) x`, 原式 =
+      ` 1/sqrt 3 int (sqrt (3/2) dt)/sqrt(1-t^2)`
+      `= 1/sqrt 2 arcsin t + C`
+      `= sqrt 2/2 arcsin {:sqrt 6/3 x:} + C`;
+    </li>
+    <li>令 `t = sqrt(1+x^2)`, 则 `x^2 = t^2-1`, `x dx = t dt`, 原式 =
+      `int (t dt)/t = t + C` `= sqrt(1+x^2) + C`;
+    </li>
+    <li>令 `t = 3 + 2x^2`, 则 `x^2/2 = (t-3)/4`, `x dx = dt/4`,原式 =
+      ` int dt/(4t) = 1/4 ln t + C`
+      `= 1/4 ln(3+2x^2) + C`;
+    </li>
+    <li>令 `t = x^2`, 原式 =
+      `1/2 int dt/(1+t^2) = 1/2 arctan t + C = 1/2 arctan x^2 + C`;
+    </li>
+    <li>令 `t = sqrt x`, 则 `dx = 2t dt` 原式 =
+      `int (2 dt)/(1+t^2) = 2 arctan t + C` `= 2 arctan sqrt x + C`;
+    </li>
+    <li>令 `t = 1/x`, 则 `dx = -dt/t^2`, 原式 =
+      `-int dt/"e"^t = "e"^-t + C = "e"^(-1/x) + C`;
+    </li>
+    <li>令 `t = sqrt(x^2+1)`, 则 `x dx = t dt`, 原式 =
+      ` int dt/(t^2-1)`
+      `= 1/2 int (1/(t-1) - 1/(t+1)) dt`
+      `= 1/2 ln |(t-1)/(t+1)| + C`
+      `= 1/2 ln |(sqrt(x^2+1)-1)/(sqrt(x^2+1)+1)|+C`;
+    </li>
+    <li>令 `t = 1/sqrt(x^2+1)`, 则 `dt = -(x dx)/(x^2+1)^(3/2)`,
+      `x^2 = 1/t^2 - 1`, 原式 =
+      ` -"sgn"x * int dt/sqrt(1/t^2-1)`
+      `= "sgn"x* sqrt(1-t^2) + C`
+      `= ("sgn"x *|x|)/sqrt(x^2+1) + C`
+      `= x/sqrt(x^2+1) + C`;
+    </li>
+    <li>令 `t = sqrt(1-x)`, 则 `x = 1-t^2`, 原式 =
+      ` int (-2t dt)/(t sqrt(1-t^2))`
+      `= -2 arcsin t + C`
+      `= -2 arcsin sqrt(1-x) + C`;
+    </li>
+    <li>令 `t = sqrt(1+x)`, 则 `x = t^2-1`, 原式 =
+      ` int ((t^2-1) 2t dt)/t`
+      `= 2t(t^2/3-1) + C`
+      `= 2/3 (x-2) sqrt(1+x) + C`.
+    </li>
+  </ol>
+</li>
+
+<li>应用第一换元积分法, 求以下不定积分 (续):
+  <ol class="col2">
+    <li>`int x^2 "e"^(-2x^3) dx`;</li>
+    <li>`int dx/("e"^x + "e"^-x)`;</li>
+    <li>`int (ln^3 x)/(3x) dx`;</li>
+    <li>`int cos^8 x sin x dx`;</li>
+    <li>`int cos^5 x sin^3 x dx`;</li>
+    <li>`int tan x dx`;</li>
+    <li>`int dx/(sin x)`;</li>
+    <li>`int (sin x + cos x)/sqrt(sin x - cos x) dx`;</li>
+    <li>`int dx/(sin^2 x root 3 ("cot" x))`;</li>
+    <li>`int arccos x/sqrt (1-x^2) dx`;</li>
+    <li>`int dx/(1+cos x)`;</li>
+    <li>`int dx/(1+sin x)`.</li>
+  </ol>
+  <ol class="solution">
+    <li>原式 =
+      ` 1/3 int "e"^(-2x^3) "d"(x^3)
+      = -1/6 int "e"^(-2x^3) "d"(-2x^3)
+      = -1/6 "e"^(-2x^3) + C`;
+    </li>
+    <li>原式 =
+      ` int ("d"("e"^x))/("e"^(2x)+1)
+      = arctan "e"^x + C`;
+    </li>
+    <li>原式 =
+      ` 1/3 int ln^3 x "d"(ln x)
+      = 1/12 ln^4 x + C`;
+    </li>
+    <li>原式 =
+      ` -int cos^8 x "d"(cos x)
+      = -1/9 cos^9 x + C`;
+    </li>
+    <li>原式 =
+      ` -int cos^5 x(1-cos^2 x) "d"(cos x)
+      = 1/8 cos^8 x - 1/6 cos^6 x + C`;
+    </li>
+    <li>原式 =
+      ` int sin x/cos x dx
+      = -int ("d"(cos x))/cos x
+      = -ln |cos x| + C`;
+    </li>
+    <li>原式 =
+      ` int (sin x dx)/(1-cos^2 x)
+      = int ("d"(cos x))/(cos^2 x-1)
+      = 1/2 ln {:(1-cos x)/(1+cos x):} + C`;
+    </li>
+    <li>原式 =
+      `2 sqrt(sin x - cos x) + C`;
+    </li>
+    <li>原式 =
+      `-3/2 cot^(2/3) x`;
+    </li>
+    <li>原式 =
+      ` int (pi/2 - arcsin x) "d"(arcsin x)
+      = pi/2 arcsin x - 1/2 arcsin^2 x + C`;
+    </li>
+    <li>原式 =
+      ` int dx/(2 cos^2 {:x/2:})
+      = tan {:x/2:} + C`;
+    </li>
+    <li>原式 =
+      ` int (1-sin x)/(cos^2 x) dx
+      = tan x + int ("d"(cos x))/(cos^2 x)
+      = tan x - 1/(cos x) + C`.
+    </li>
+  </ol>
+</li>
+
+<li>应用第一换元积分法, 求以下不定积分 (再续):
+  <ol class="col2">
+    <li>`int x^3 root 3 (1-2x^2) dx`;</li>
+    <li>`int x^2 root 3 (1-2x) dx`;</li>
+    <li>`int dx/((a^2+x^2)(b^2+x^2))`;</li>
+    <li>`int (x dx)/(2+3x^2+x^4)`;</li>
+    <li>`int (x^2 dx)/sqrt(3-2x)`;</li>
+    <li>`int (x^3 dx)/sqrt(1+x^2)`;</li>
+    <li>`int dx/(1+"e"^x)`;</li>
+    <li>`int (1+"e"^x)^2/(1+"e"^(2x)) dx`;</li>
+    <li>`int dx/("e"^x + sqrt ("e"^x))`;</li>
+    <li>`int dx/sqrt(1+"e"^x)`;</li>
+    <li>`int (ln^x dx)/(x sqrt(1-ln x))`;</li>
+    <li>`int (arctan sqrt x dx)/(sqrt x (1+x))`.</li>
+  </ol>
+  <ol class="solution">
+    <li>`t = 1-2x^2`, `dt = -4x dx`, 原式 =
+      ` -1/4 int (1-t)/2 t^(1/3) dt`
+      `= 1/8 int (t-1) t^(1/3) dt`
+      `= 3/56 t^(7/3) - 3/32 t^(4/3) + C`
+      `= ...`;
+    </li>
+    <li>`t = 1-2x`, 原式 =
+      ` -1/2 int ((1-t)/2)^2 t^(1/3) dt`
+      `= -1/8 int (t^2-2t+1) t^(1/3) dt`
+      `= -3/80 t^(10/3) + 3/28 t^(7/3) - 3/32 t^(4/3) + C`
+      `= ...`;
+    </li>
+    <li>`a^2 = b^2 = 0` 时, 原式 = `int x^-4 dx = -1/(3x^3) + C`;
+      `a^2 = b^2 != 0` 时, 记原式 = `I`, 应用分部积分,
+      ` int dx/(a^2 + x^2)`
+      `= x/(a^2+x^2) + 2 int (x^2+a^2-a^2)/(a^2+x^2)^2 dx`
+      `= x/(a^2+x^2) + 2 int dx/(a^2+x^2) - 2a^2 I`,
+      所以 `I = 1/(2a^2) (x/(a^2+x^2) + 1/a arctan {:x/a:})`;
+      `a^2 != b^2` 时, 原式 =
+      ` 1/(a^2-b^2) int (1/(b^2+x^2) - 1/(a^2+x^2)) dx`,
+      其中 `int dx/(a^2+x^2) = { (1/a arctan{:x/a:}+C),(-1/x+C):}`;
+    </li>
+    <li>原式 = `1/2 int ("d"(x^2))/((x^2+3/2)^2 - 1/4)
+      = 1/2 ln {:(x^2+2)/(x^2+1):} + C`;
+    </li>
+  </ol>
+</li>
+
+<li>应用第二换元积分法, 求以下不定积分:
+  <ol class="col2">
+    <li>`int dx/(a^2-x^2)^(3/2)`;</li>
+    <li>`int (x^2 dx)/(a^2-x^2)^(3/2)`;</li>
+    <li>`int (x^2 dx)/sqrt(a^2-x^2)`;</li>
+    <li>`int x^2 sqrt(a^2-x^2) dx`;</li>
+    <li>`int (x^2 dx)/sqrt(x^2-a^2)`;</li>
+    <li>`int dx/(a^2-x^2)^(3/2)`;</li>
+    <li>`int sqrt(x^2-a^2) dx`;</li>
+    <li>`int dx/(a^2+x^2)^(3/2)`;</li>
+    <li>`int (x^2 dx)/sqrt(a^2+x^2)`;</li>
+    <li>`int (x^2 dx)/(a^2+x^2)^(3/2)`;</li>
+    <li>`int sqrt(a^2-x^2)/x^2 dx`;</li>
+    <li>`int sqrt(x^2-a^2)/x^2 dx`.</li>
+  </ol>
+  <ol class="solution">
+    <li>`x = a sin t`, 原式 =
+      ` int (a cos t dt)/(a cos t)^3
+      = 1/a^2 tan t + C
+      = x/(a^2 sqrt(a^2-x^2)) + C`;
+    </li>
+    <li>`x = a sin t`, 原式 =
+      ` int (a^2(1-cos^2 t) dt)/(a^2 cos^2 t)`
+      `= int (1/(cos^2 t) - 1) dt`
+      `= tan t - t + C`
+      `= x/sqrt(a^2-x^2) - arcsin{:x/a:} + C`;
+    </li>
+    <li>`x = a sin t`, 原式 =
+      ` int a^2 sin^2 t dt`
+      `= a^2/4 int(1-cos 2t) "d"(2t)`
+      `= a^2/4 (2t - sin 2t) + C`
+      `= a^2/2 arcsin {:x/a:} - x/2 sqrt(a^2-x^2) + C`;
+    </li>
+    <li>`x = a sin t`, 原式 =
+      ` int a^4 sin^2 t cos^t dt`
+      `= a^4/8 int sin^2 2t "d"(2t)`
+      `= a^4/32 (4t-sin 4t) + C`
+      `= a^4/32 (4t-4(1-2sin^2 t) sin t cos t) + C`
+      `= a^4/8 arcsin {:x/a:} - x/8 (a^2-2x^2) sqrt(a^2-x^2) + C`;
+    </li>
+    <li>`x = a cosh t`, 原式 =
+      ` int a^2 cosh^t t dt`
+      `= a^2/4 int(cosh 2t +1) "d"(2t)`
+      `= a^2/4 (sinh 2t + 2t) + C'`
+      `= x/2 sqrt(x^2-a^2) - a^2/2 ln(x+sqrt(x^2-a^2)) + C`;
+    </li>
+    <li> 同 (1) </li>
+    <li>`x = a cosh t`, 原式 =
+      ` int a^2 sinh^2 t dt`
+      `= a^2/4 int (cosh 2t - 1)"d"(2t)`
+      `= a^2/4 (sinh 2t - 2t) + C'`
+      `= x/2 sqrt(x^2-a^2) + a^2/2 ln(x+sqrt(x^2-a^2)) + C`;
+    </li>
+    <li>`x = a sinh t`, 原式 =
+      ` int dt/(a^2 cosh^2 t)`
+      `= sinh t/(a^2 cosh t) + C`
+      `= x/(a^2 sqrt(a^2+x^2)) + C`;
+    </li>
+    <li>`x = a sinh t`, 原式 =
+      ` int a^2 sinh^2 t dt`
+      `= a^2/4 (sinh 2t - 2t) + C'`
+      `= x/2 sqrt(a^2+x^2) = a^2/2 ln(x+sqrt(a^2+x^2)) + C`;
+    </li>
+    <li>`x = a sinh t`, 原式 =
+      ` int (sinh^2 t)/(cosh^2 t) dt`
+      `= int (1-1/(cosh^2 t) dt`
+      `= t - sinh t/cosh t + C'`
+      `= ln(x+sqrt(a^2+x^2)) - x/sqrt(a^2+x^2) + C`;
+    </li>
+    <li>`x = a sin t`, 原式 =
+      ` int (cos^2 t)/(sin^2 t) dt`
+      `= int (1/(sin^2 t) - 1) dt`
+      `= -cot t - t + C`
+      `= -sqrt(a^2-x^2)/x - arcsin{:x/a:} + C`;
+    </li>
+    <li>`x = a cosh t`, 原式 =
+      ` int (sinh^2 t)/(cosh^2 t) dt`
+      `= int (1-1/(cosh^2 t)) dt`
+      `= t - tanh t + C'`
+      `= ln(x + sqrt(x^2-a^2)) - sqrt(x^2-a^2)/x + C`.
+    </li>
+  </ol>
+</li>
+
+<li>应用分部积分法, 求以下不定积分:
+  <ol class="col2">
+    <li>`int ("e"^x - 1 - x)^2 dx`;</li>
+    <li>`int x^mu ln x dx` (`mu != 1`);</li>
+    <li>`int (x-2)^2 cos x dx`;</li>
+    <li>`int x sin^x dx`;</li>
+    <li>`int x^2 sin^3 x dx`;</li>
+    <li>`int x^2 sin^x cos^x dx`;</li>
+    <li>`int arctan x dx`;</li>
+    <li>`int x^2 arcsin x dx`;</li>
+    <li>`int arcsin x/x^2 dx`;</li>
+    <li>`int x ln |(1-x)/(1+x)| dx`;</li>
+    <li>`int x^2 ln(x+sqrt(1+x^2)) dx`;</li>
+    <li>`int ln(x+sqrt(1-x^2)) dx`;</li>
+    <li>`int (sin x) ln(sin x) dx`;</li>
+    <li>`int (sin x) ln(tan x) dx`.</li>
+  </ol>
+</li>
+
+<li>综合应用变元代换和分部积分法, 求以下不定积分:
+  <ol class="col2">
+    <li>`int x^5 "e"^(x^3) dx`;</li>
+    <li>`int x "e"^(sqrt x) dx`;</li>
+    <li>`int (arcsin x)^2 dx`;</li>
+    <li>`int x (arctan x)^2 dx`;</li>
+    <li>`int (x arcsin x)^2 dx`;</li>
+    <li>`int x sin sqrt x dx`;</li>
+    <li>`int (x "e"^(arctan x))/(1+x^2)^(3/2) dx`;</li>
+    <li>`int "e"^(arctan x)/(1+x^2)^(3/2) dx`;</li>
+    <li>`int (x "e"^(arcsin x))/sqrt(1-x^2) dx`;</li>
+    <li>`int sqrt(1-x^2) "e"^(arccos x) dx`;</li>
+    <li>`int sin (ln x) dx`;</li>
+    <li>`int cos^2 (ln x) dx`;</li>
+    <li>`int ln(sin x) "cot" x dx`;</li>
+    <li>`int (arctan "e"^x)/"e"^x dx`;</li>
+    <li>`int (x^3 arccos x)/sqrt(1-x^2) dx`;</li>
+    <li>`int (x arctan x)/sqrt(1+x^2) dx`;</li>
+    <li>`int ((1+x^2)arcsin x)/(x^2 sqrt(1-x^2)) dx`;</li>
+    <li>`int (x arctan x)/(1+x^2)^2 dx`.</li>
+  </ol>
+</li>
+
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+
+</body>
+
+</html>

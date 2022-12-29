@@ -976,10 +976,11 @@
 </ol>
 
 <ol class="example">
-  <b>均值不等式 (配系数)</b>
+  <b>均值不等式 (配系数)</b> 以下各字母代表实数,
   <li>设 `a, b gt 0`, 求 `min(1/a + a/b^2 + b)`;</li>
   <li>已知 `x^2 + 2 x y = 1`, 求 `min(x^2 + y^2)`;</li>
-  <li>已知 `x, y gt 0`, `x y^2(x+y) = 4`, 求 `min(2x+y)`.</li>
+  <li>已知 `x, y gt 0`, `x y^2(x+y) = 4`, 求 `min(2x+y)`;</li>
+  <li>已知 `x^2 - 4 x y - 5 y^2 = 5`, 求 `min(x^2+2y^2)`.</li>
 </ol>
 
 <ol class="solution">
@@ -1029,6 +1030,29 @@
       `a = 1 + sqrt2/2`, `quad b = sqrt2/4`, `quad c = 1 - sqrt2/2`.
     </span>
     于是原式的最小值为 `2sqrt2`.
+  </li>
+  <li>本题可以化为二元乘积 `a b`. 事实上, 由题意 `(x-5y)(x+y) = 5`,
+    可设 `a = x-5y`, `b = x+y`, 则 `x = (5b+a)/6`, `y = (b-a)/6`, `a b = 5`.
+    有
+    <span class="formula">
+      `x^2 + 2 y^2`
+      `= (5b+a)^2/36 + (b-a)^2/18`
+      `= 1/12 a^2 + 3/4 b^2 + 1/6 a b`
+      `ge 1/4 * 2 a b + 1/6 a b`
+      `= 10/3`.
+    </span>
+    另一种解法, 待定系数
+    <span class="formula">
+      `x^2 + 2 y^2`
+      `= a (x^2 - 5 y^2) + b x^2 + c y^2`
+      `ge a (x^2 - 5 y^2) - 2 x y sqrt(b c)`
+    </span>
+    若使上式右边等于 `a(x^2 - 4x y - 5y^2) = 5a`, 系数应满足
+    <span class="formula">
+      `a + b = 1`, `c - 5 a = 2`,
+      `2 sqrt(b c) = 4 a`
+    </span>
+    我们取 `a` 的正根 `2/3`,  于是原式的最小值为 `10/3`.
   </li>
 </ol>
 
