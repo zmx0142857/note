@@ -7,7 +7,9 @@
 </head>
 <body>
 
-[来自 <a href="https://plato.stanford.edu/entries/lambda-calculus/">Lambda Calculus</a>]
+<p>[来自 <a href="https://plato.stanford.edu/entries/lambda-calculus/">Lambda Calculus</a>]</p>
+
+<h2>基本概念</h2>
 
 <ol class="definition">
   <b>λ 表达式 (λ-term)</b> 的字母表中有: 符号 `λ`, 左右括号与无限个变量 (用小写字母 `x, y, z` 表示). 它的形式定义如下:
@@ -60,6 +62,8 @@
   注意 4. 中 `x` 不是自由变量, 所以代入 `x=M` 对它不会有任何影响.
 </ol>
 
+<h2>α, β 和 η 代换</h2>
+
 <p class="definition">
   <b>约束变量的替换, α 代换 (α-convertion)</b>
   是指将 `M` 中所有形如 `lambda x.A` 的子表达式替换为 `lambda y.(A|_(x=y))`.
@@ -68,24 +72,68 @@
 
 <p class="definition">
   <b>函数的应用, β 代换 (β-convertion)</b>
-  是指将表达式 `(lambda x.M)N` 变为 `M|_(x=N)`. 记作
+  是指在保持 `N` 中自由变量的前提下, 将表达式 `(lambda x.M)N` 变为 `M|_(x=N)`. 记作
   <span class="formula">
-    `(lambda x.M)N |> M|_(x=N)`.
+    `(lambda x.M)N |>_beta M|_(x=N)`.
   </span>
+  记号 `|>_beta` 表示左边的表达式经过有限次 (含 0 次) β
+  代换可以得到右边的表达式.
+  在上下文明确时, 下标 `beta` 可以省略.
+</p>
+<p>
   β 代换可以进行的前提是, `N` 中原有的自由变量在代换后仍保持自由.
   如, 表达式 `lambda x.lambda y.(x y)` 不能直接作用于参数 `2y`, 因为将 `x`
   替换为 `2y` 会使得 `y` 成为约束变量. 但是, 我们可以先进行 α 代换,
   将 `y` 换为 `z`, 再进行 β 代换:
   <span class="formula">
     `lambda x.lambda y.(x y)(2y)`
-    `|> lambda x.lambda z.(x z)(2y)`
-    `|> lambda z.(2y z)`
+    `|>_alpha lambda x.lambda z.(x z)(2y)`
+    `|>_beta lambda z.(2y z)`.
   </span>
+</p>
+<p>
+  若一个表达式无法进行任何 β 代换, 则说它是一个 <b>β 标准形</b>.
+  <i>事实上</i>, 如果 `M, M'` 是同一个表达式的两个 β 标准形, 则 `M` 可以通过 α 代换变为 `M'`.
+</p>
+
+<table>
+  <caption>常见 Lambda 表达式</caption>
+  <tr>
+    <th>名称</th>
+    <th>表达式</th>
+    <th>说明</th>
+  </tr>
+  <tr>
+    <td>`bb I`</td>
+    <td>`lambda x.x</td>
+    <td>恒等函数</td>
+  </tr>
+  <tr>
+    <td>`bb K`</td>
+    <td>`lambda x.lambda y.x</td>
+    <td>`bb K M` 是一个常数函数: 对任意 `x` 有 `bb K M x |>_beta M`</td>
+  </tr>
+  <tr>
+    <td>`bb S`</td>
+    <td>`lambda x.lambda y.lambda z.(x z)(y z)`</td>
+    <td>Schöfinkel 证明了<i>所有</i>函数都可以只用 `bb K` 和 `bb S` 表达</td>
+  </tr>
+  <tr>
+    <td>`bb Omega`</td>
+    <td>`(lambda x.(x x))(lambda x.(x x))`</td>
+    <td>`bb Omega |>_beta bb Omega`</td>
+  </tr>
+</table>
+
+<p class="definition">
+  <b>η 代换</b>
 </p>
 
 <script>
 var asciimath = {
   define: [
+    [/\|>_alpha/g, '\\ \u22b3_alpha\\ '],
+    [/\|>_beta/g, '\\ \u22b3_beta\\ '],
     [/\|>/g, '\\ \u22b3\\ '],
   ],
 }
