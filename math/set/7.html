@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>Lambda 表达式</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+[来自 <a href="https://plato.stanford.edu/entries/lambda-calculus/">Lambda Calculus</a>]
+
+<ol class="definition">
+  <b>λ 表达式 (λ-term)</b> 的字母表中有: 符号 `λ`, 左右括号与无限个变量 (用小写字母 `x, y, z` 表示). 它的形式定义如下:
+  <li>每个字母都是一个 λ 表达式.</li>
+  <li>(application terms) 如果 `M` 和 `N` 是 λ 表达式, 则 `M N` 是 λ 表达式.
+    <blockquote>
+    `M N` 表示将<i>函数</i> `M` 作用于参数 `N`. 多个 λ 表达式连写的时候, 按从左到右的次序进行运算: 如 `P Q R = (P Q) R`.
+    </blockquote>
+  </li>
+  <li>(abstraction terms) 如果 `M` 是 λ 表达式, 则 `lambda x.M` 是 λ 表达式.
+    <blockquote>
+    `lambda x.M` 表示一个函数 `f`, 且 `f x` 的结果是 `M`.
+    </blockquote>
+  </li>
+</ol>
+
+<div class="definition">
+  <b>约束变量与自由变量</b>
+  如果变量 `x` 出现在一个形如 `lambda x.M` 的 λ 表达式的 `M` 部分, 则它是<b>约束变量 (bound variable)</b>, 否则它是<b>自由变量 (free variable)</b>.
+  我们定义两个<i>语法函数</i> `bb(F V)` 和 `bb (B V)`, 它们各接收一个 λ 表达式, 分别返回其中的自由变量与约束变量的集合. 这两个函数的形式定义如下:
+  <table>
+    <tr>
+      <th>Free variable</th>
+      <th>Bound variable</th>
+    </tr>
+    <tr>
+      <td>`bb(FV)(x) = {x}`</td>
+      <td>`bb(BV)(x) = O/`</td>
+    </tr>
+    <tr>
+      <td>`bb(FV)(MN) = bb(FV)(M) uu bb(FV)(N)`</td>
+      <td>`bb(BV)(MN) = bb(BV)(M) uu bb(BV)(N)`</td>
+    </tr>
+    <tr>
+      <td>`bb(FV)(lambda x.M) = bb(FV)(M) - {x}`</td>
+      <td>`bb(BV)(lambda x.M) = bb(BV)(M) uu {x}`</td>
+    </tr>
+  </table>
+</div>
+
+<ol class="definition">
+  <b>自由变量的代入 (substitution)</b>
+  用记号 `M|_(x=N)` 表示将 `M` 中出现的所有自由变量 `x` 替换为 `N`.
+  形式定义如下 (`y` 是不同于 `x` 的变量):
+  <li>`x|_(x=M) = M`;</li>
+  <li>`y|_(x=M) = y`;</li>
+  <li>`(AB)|_(x=M)` `= A|_(x=M)` `B|_(x=M)`;</li>
+  <li>`(lambda x.A)|_(x=M) = lambda x.A`;</li>
+  <li>`(lambda y.A)|_(x=M) = lambda y.(A|_(x=M))`.</li>
+  注意 4. 中 `x` 不是自由变量, 所以代入 `x=M` 对它不会有任何影响.
+</ol>
+
+<p class="definition">
+  <b>约束变量的替换, α 代换 (α-convertion)</b>
+  是指将 `M` 中所有形如 `lambda x.A` 的子表达式替换为 `lambda y.(A|_(x=y))`.
+  可以类比微积分中的换元 `int f(x) dx = int f(y) dy`.
+</p>
+
+<p class="definition">
+  <b>函数的应用, β 代换 (β-convertion)</b>
+  是指将表达式 `(lambda x.M)N` 变为 `M|_(x=N)`. 记作
+  <span class="formula">
+    `(lambda x.M)N |> M|_(x=N)`.
+  </span>
+  β 代换可以进行的前提是, `N` 中原有的自由变量在代换后仍保持自由.
+  如, 表达式 `lambda x.lambda y.(x y)` 不能直接作用于参数 `2y`, 因为将 `x`
+  替换为 `2y` 会使得 `y` 成为约束变量. 但是, 我们可以先进行 α 代换,
+  将 `y` 换为 `z`, 再进行 β 代换:
+  <span class="formula">
+    `lambda x.lambda y.(x y)(2y)`
+    `|> lambda x.lambda z.(x z)(2y)`
+    `|> lambda z.(2y z)`
+  </span>
+</p>
+
+<script>
+var asciimath = {
+  define: [
+    [/\|>/g, '\\ \u22b3\\ '],
+  ],
+}
+</script>
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

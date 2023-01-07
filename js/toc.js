@@ -83,6 +83,7 @@ math: {
     {title:'二元关系与映射', src:'set/3.html'},
     {title:'自然数', src:'set/4.html'},
     {title:'基数', src:'set/6.html'},
+    {title:'Lambda 表达式', src:'set/7.html', date:'2023-01-07'},
   ]
 }, {
   title:'复变函数',
