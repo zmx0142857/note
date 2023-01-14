@@ -1229,7 +1229,7 @@ function renderNode(node) {
 // substitute formulae with mathml
 function render(node) {
   if (node.nodeName === 'math' || node.nodeType === 8 // comment element
-      || /form|textarea/i.test(node.parentNode.nodeName)
+      || /form|textarea|script/i.test(node.parentNode.nodeName)
   ) return 0
 
   if (node.childNodes.length > 0)
