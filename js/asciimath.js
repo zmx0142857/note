@@ -295,7 +295,6 @@ const symbols = [
 {input:'vdots',tag:'mo',output:'\u22EE',ttype:CONST},
 {input:'ddots',tag:'mo',output:'\u22F1',ttype:CONST},
 {input:'diamond',tag:'mo',output:'\u22C4',ttype:CONST},
-{input:'Lap',tag:'mo',output:'\u2112',tex:'mathscr{L}',ttype:CONST,notexcopy:true},
 {input:'square',tag:'mo',output:'\u25A1',ttype:CONST},
 {input:'|__',tag:'mo',output:'\u230A',tex:'lfloor',ttype:CONST},
 {input:'__|',tag:'mo',output:'\u230B',tex:'rfloor',ttype:CONST},
@@ -398,20 +397,16 @@ const symbols = [
 {input:'"',tag:'mtext',output:'mbox',ttype:TEXT},
 {input:'op',tag:'mo',output:'operatorname',tex:'operatorname',ttype:UNARY},
 
-// font commands
+// font commands.  https://w3c.github.io/mathml/#presm_commatt
+// available mathvariant values are "normal" | "bold" | "italic" | "bold-italic" | "double-struck" | "bold-fraktur" | "script" | "bold-script" | "fraktur" | "sans-serif" | "bold-sans-serif" | "sans-serif-italic" | "sans-serif-bold-italic" | "monospace" | "initial" | "tailed" | "looped" | "stretched"
 {input:'cancel',tag:'menclose',output:'cancel',ttype:UNARY,atname:'notation',atval:'updiagonalstrike'},
-{input:'bb',tag:'mstyle',atname:'mathvariant',atval:'bold',output:'bb',tex:'mathbf',ttype:UNARY,notexcopy:true},
-{input:'mathbf',tag:'mstyle',atname:'mathvariant',atval:'bold',output:'mathbf',ttype:UNARY},
-{input:'sf',tag:'mstyle',atname:'mathvariant',atval:'sans-serif',output:'sf',tex:'mathsf',ttype:UNARY,notexcopy:true},
-{input:'mathsf',tag:'mstyle',atname:'mathvariant',atval:'sans-serif',output:'mathsf',ttype:UNARY},
-{input:'bbb',tag:'mstyle',atname:'mathvariant',atval:'double-struck',output:'bbb',tex:'mathbb',ttype:UNARY,notexcopy:true},
-{input:'mathbb',tag:'mstyle',atname:'mathvariant',atval:'double-struck',output:'mathbb',ttype:UNARY},
-{input:'cc',tag:'mstyle',atname:'mathvariant',atval:'script',output:'cc',tex:'mathcal',ttype:UNARY,notexcopy:true},
-{input:'mathcal',tag:'mstyle',atname:'mathvariant',atval:'script',output:'mathcal',ttype:UNARY},
-{input:'tt',tag:'mstyle',atname:'mathvariant',atval:'monospace',output:'tt',tex:'mathtt',ttype:UNARY,notexcopy:true},
-{input:'mathtt',tag:'mstyle',atname:'mathvariant',atval:'monospace',output:'mathtt',ttype:UNARY},
-{input:'fr',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'fr',tex:'mathfrak',ttype:UNARY,notexcopy:true},
-{input:'mathfrak',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'mathfrak',ttype:UNARY},
+{input:'bb',tag:'mstyle',atname:'mathvariant',atval:'bold',output:'bb',tex:'mathbf',ttype:UNARY},
+{input:'sf',tag:'mstyle',atname:'mathvariant',atval:'sans-serif',output:'sf',tex:'mathsf',ttype:UNARY},
+{input:'bbb',tag:'mstyle',atname:'mathvariant',atval:'double-struck',output:'bbb',tex:'mathbb',ttype:UNARY},
+{input:'cc',tag:'mstyle',atname:'mathvariant',atval:'script',output:'cc',tex:'mathcal',ttype:UNARY}, // NOTE: mathml cannot tell difference between cc and scr
+{input:'scr',tag:'mstyle',atname:'mathvariant',atval:'script',output:'scr',tex:'mathscr',ttype:UNARY},
+{input:'tt',tag:'mstyle',atname:'mathvariant',atval:'monospace',output:'tt',tex:'mathtt',ttype:UNARY},
+{input:'fr',tag:'mstyle',atname:'mathvariant',atval:'fraktur',output:'fr',tex:'mathfrak',ttype:UNARY},
 {input:'bm',tag:'mstyle',atname:'mathvariant',atval:'bold-italic',output:'bm',tex:'boldsymbol',ttype:UNARY},
 {input:'rm',tag:'mstyle',atname:'mathvariant',atval:'serif',output:'rm',tex:'mathrm',ttype:UNARY},
 
