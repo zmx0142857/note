@@ -209,11 +209,6 @@ button {
     <td>(del f)/(del x), (del^3 f)/(del x del y^2)</td>
   </tr>
   <tr>
-    <td>偏微分简写 (试验)</td>
-    <td>`part f x , part^3 f (x y^2), part {::} x , partial f x`</td>
-    <td>part f x , part^3 f (x y^2), part {::} x , partial f x</td>
-  </tr>
-  <tr>
     <td>矩阵</td>
     <td>`[a, b; c, d]`</td>
     <td>[a, b; c, d]</td>
@@ -233,7 +228,7 @@ const tableData = [
     caption: '希腊字母',
     data: [
       'alpha', 'beta', 'chi', 'delta',
-      'Delta', 'epsi', 'varepsilon', 'eta',
+      'Delta', 'epsilon', { am: 'epsi', src: 'epsi / varepsilon' }, 'eta',
       'gamma', 'Gamma', 'iota', 'kappa',
       'lambda', 'Lambda', 'mu', 'nu',
       'omega', 'Omega', 'phi', 'varphi',
@@ -332,18 +327,26 @@ const tableData = [
     data: [
       'hat x', 'bar x', 'ul x', 'vec x',
       'dot x', 'ddot x',
-      { am: '==_(12345)^(67890)', colspan: 3 },
-      { am: 'overbrace(12345)^n', colspan: 3 },
-      { am: 'overset "bala" x', colspan: 3 },
       { am: 'arc(12345)', colspan: 3 },
       { am: 'overset(&#x23de;)(12345)', src: 'overset(&amp;#x23de;)(12345)', colspan: 3 },
       { am: 'overset(&#x23b4;)(12345)', src: 'overset(&amp;#x23b4;)(12345)', colspan: 3 },
       { am: 'overset(&#x23e0;)(12345)', src: 'overset(&amp;#x23e0;)(12345)', colspan: 3 },
     ]
-  }
+  },
+  {
+    caption: '更多',
+    data: [
+      { am: '==_(12345)^(67890)', colspan: 3 },
+      { am: 'overbrace(12345)^n', colspan: 3 },
+      { am: 'underbrace(12345)_n', colspan: 3 },
+      { am: 'overset "bala" x', colspan: 3 },
+      { am: 'color(red)(123)', colspan: 3 },
+      { am: 'color(#4466aa)(123)', colspan: 3 },
+    ]
+  },
 ]
 
-const renderTable = data => {
+var renderTable = data => {
   const rows = []
   let row = []
   let i = 0;
@@ -397,6 +400,16 @@ document.write(tableData.map(renderTable).join('\n'))
     <td>\rightarrow 截断问题</td>
     <td>`overset(larr)(rarr)`</td>
     <td>rarr 翻译为 \rightarrow 后被截断</td>
+  </tr>
+  <tr>
+    <td>微分简写 (试验)</td>
+    <td>`dd f x , dd^2 f x , ddot x`</td>
+    <td>dd f x , dd^2 f x , ddot x</td>
+  </tr>
+  <tr>
+    <td>偏微分简写 (试验)</td>
+    <td>`pp f x , pp^3 f (x y^2), pp {::} x`</td>
+    <td>pp f x , pp^3 f (x y^2), pp {::} x</td>
   </tr>
 </table>
 </div>

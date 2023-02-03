@@ -14,9 +14,6 @@ const asciimath = {
   katexpath: 'katex.min.js',// use katex as fallback if no MathML.
   katex: undefined,     // true=always, false=never, undefined=auto
 
-  fixepsi: true,        // false to return to legacy epsi/varepsi mapping
-  fixphi: true,         // false to return to legacy phi/varphi mapping
-
   delim1: '`',          // asciimath delimiter character 1
   displaystyle: true,   // put limits above and below large operators
   viewsource: false,    // show asciimath source code on mouse hover
@@ -102,8 +99,6 @@ const AM = asciimath = {
   // configures
   katexpath: 'katex.min.js',
   onload: () => render(document.body),
-  fixepsi: true,
-  fixphi: true,
   delim1: '`',
   displaystyle: true,
   viewsource: false,
@@ -116,12 +111,19 @@ const AM = asciimath = {
     [/dz/g, '{:"d"z:}'],
     [/dt/g, '{:"d"t:}'],
     [/√/g, 'sqrt'],
+    // derivative short hand
+    // dd f x => ("d"f)/("d"x)
+    // dd^2 f x => ("d"^2 f)/("d"x)
+    [/dd(\^\S*)?\s+(\S+)\s+(\S+)/g, (match, $1, $2, $3) => {
+      if (!$1) $1 = ''
+      return `("d"${$1} ${$2})/("d" ${$3}${$1})`
+    }],
     // partial short hand
-    // part f x => (del f)/(del x)
-    // part^3 f (x y^2) => (del^3 f)/(del x del y^2)
+    // pp f x => (del f)/(del x)
+    // pp^3 f (x y^2) => (del^3 f)/(del x del y^2)
     // partial f x => del f x
-    // TODO: part 只是正则替换, 词法上没有保证; 使用时需要手动用空格分隔参数
-    [/part(\^\S*)?\s+(\S+)\s+(\([^)]*\)|\S+)/g, (match, $1, $2, $3) => {
+    // TODO: pp 和 dd 只是正则替换, 词法上没有保证; 使用时需要手动用空格分隔参数
+    [/pp(\^\S*)?\s+(\S+)\s+(\([^)]*\)|\S+)/g, (match, $1, $2, $3) => {
       if (!$1) $1 = ''
       if ($3[0] === '(') $3 = $3.slice(1,-1).split(/\s+/).join(' del ')
       return `(del${$1} ${$2})/(del ${$3})`
@@ -156,9 +158,9 @@ const symbols = [
 {input:'Gamma',tag:'mo',output:'\u0393',ttype:CONST},
 {input:'delta',tag:'mi',output:'\u03B4',ttype:CONST},
 {input:'Delta',tag:'mtext',output:'\u0394',ttype:CONST},
-{input:'epsi',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',tex:AM.fixepsi?'varepsilon':'epsilon',ttype:CONST,notexcopy:true},
-{input:'epsilon',tag:'mi',output:AM.fixepsi?'\u03B5':'\u03F5',tex:AM.fixepsi?'varepsilon':'epsilon',ttype:CONST,notexcopy:true},
-{input:'varepsilon',tag:'mi',output:AM.fixepsi?'\u03F5':'\u03B5',tex:AM.fixepsi?'epsilon':'varepsilon',ttype:CONST,notexcopy:true},
+{input:'epsi',tag:'mi',output:'\u03B5',tex:'varepsilon',ttype:CONST,notexcopy:true},
+{input:'epsilon',tag:'mi',output:'\u03F5',ttype:CONST},
+{input:'varepsilon',tag:'mi',output:'\u03B5',ttype:CONST},
 {input:'zeta',tag:'mi',output:'\u03B6',ttype:CONST},
 {input:'eta',tag:'mi',output:'\u03B7',ttype:CONST},
 {input:'theta',tag:'mi',output:'\u03B8',ttype:CONST},
@@ -179,8 +181,8 @@ const symbols = [
 {input:'Sigma',tag:'mo',output:'\u03A3',ttype:CONST},
 {input:'tau',tag:'mi',output:'\u03C4',ttype:CONST},
 {input:'upsilon',tag:'mi',output:'\u03C5',ttype:CONST},
-{input:'phi',tag:'mi',output:AM.fixphi?'\u03D5':'\u03C6',tex:AM.fixphi?'phi':'varphi',ttype:CONST,notexcopy:true},
-{input:'varphi',tag:'mi',output:AM.fixphi?'\u03C6':'\u03D5',tex:AM.fixphi?'varphi':'phi',ttype:CONST,notexcopy:true},
+{input:'phi',tag:'mi',output:'\u03D5',ttype:CONST},
+{input:'varphi',tag:'mi',output:'\u03C6',ttype:CONST},
 {input:'Phi',tag:'mo',output:'\u03A6',ttype:CONST},
 {input:'chi',tag:'mi',output:'\u03C7',ttype:CONST},
 {input:'psi',tag:'mi',output:'\u03C8',ttype:CONST},
