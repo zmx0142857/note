@@ -261,10 +261,10 @@ const symbols = [
 {input:'|==',tag:'mo',output:'\u22A8',tex:'models',ttype:CONST},
 
 // grouping brackets
-{input:'(',tag:'mo',output:'(',ttype:LEFTBRACKET},
-{input:')',tag:'mo',output:')',ttype:RIGHTBRACKET},
-{input:'[',tag:'mo',output:'[',ttype:LEFTBRACKET},
-{input:']',tag:'mo',output:']',ttype:RIGHTBRACKET},
+{input:'(',tag:'mo',output:'(',ttype:LEFTBRACKET,nobackslash:true},
+{input:')',tag:'mo',output:')',ttype:RIGHTBRACKET,nobackslash:true},
+{input:'[',tag:'mo',output:'[',ttype:LEFTBRACKET,nobackslash:true},
+{input:']',tag:'mo',output:']',ttype:RIGHTBRACKET,nobackslash:true},
 {input:'{',tag:'mo',output:'{',tex:'lbrace',ttype:LEFTBRACKET},
 {input:'}',tag:'mo',output:'}',tex:'rbrace',ttype:RIGHTBRACKET},
 {input:'|',tag:'mo',output:'|',ttype:LEFTRIGHT},
@@ -1191,8 +1191,10 @@ function parseMathTex(amstr) {
     anno.textContent = '$' + anno.textContent + '$'; // add tex delimiter for user selection
   } catch (e) {
     node.className = 'katex-error'
-    node.innerText = 'KaTeX parse error'
-    console.error(amstr, e)
+    node.innerText = texstr
+    node.title = e.message
+    console.log(`am: ${amstr}\ntex: ${texstr}`)
+    console.error(e)
   }
   return node
 }
