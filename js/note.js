@@ -449,6 +449,19 @@ function makeReference() {
   }
 }
 
+function makePhantom() {
+  var labels = $('.label');
+  for (var i = 0; i < labels.length; ++i) {
+    var label = labels[i];
+    var parent = label.parentElement;
+
+    var phantom = label.cloneNode(true);
+    phantom.className = 'label-phantom';
+    phantom.removeAttribute('id');
+    parent.insertBefore(phantom, parent.firstChild);
+  }
+}
+
 function setDefaults(elem, dict) {
   for (var attr in dict) {
     if (!elem.getAttribute(attr))
@@ -546,6 +559,7 @@ hideAnswer([
 //}
 
 makeReference(); // call makeReference() after decorate()
+makePhantom();
 //wrapIOS(); // call this after decorate()
 //toggleHideHeader();
 wrap($('.formula'));

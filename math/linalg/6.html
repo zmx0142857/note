@@ -1027,25 +1027,45 @@
 
 <h2>杂例</h2>
 
-<p class="example">
-  [群友 ζ(me)=0] 设 `bm A, bm B` 均为 `n` 阶矩阵, `bm A` 有 `n`
-  个互不相同的特征值, 且 `bm(A B)` 可交换. 证明: `bm B` 可对角化.
-</p>
+<ol class="example">
+  [群友 ζ(me)=0、中国女同] 设 `bm A, bm B` 均为 `n` 阶矩阵, `bm A` 有 `n`
+  个互不相同的特征值, 且 `bm(A B)` 可交换.  证明:
+  <li>`bm B` 可对角化;</li>
+  <li>存在多项式 `f(x)` 使 `bm B = f(bm A)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    首先 `bm A` 可对角化, 设 `bm A = bm (P D P)^-1`. 于是
+    <span class="formula">
+      `bm (P D P)^-1 bm B = bm (B P D P)^-1`.
+    </span>
+    左乘 `bm P^-1`, 右乘 `bm P`,
+    <span class="formula">
+      `bm (D P)^-1 bm (B P) = bm P^-1 bm (B P D)`.
+    </span>
+    因为 `bm D` 是对角元两两不同的对角矩阵, 和它可交换的只能是对角矩阵,
+    所以 `bm P^-1 bm (B P)` 为对角矩阵.
+  </li>
+  <li>
+    由 1. 知 `bm A, bm B` 两矩阵可被同时对角化, 设 `bm A = bm P bm D_1 bm
+    P^-1`, `bm B = bm P bm D_2 bm P^-1`.  又记 `bm D_1, bm D_2` 的对角元分别为
+    `lambda_1, cdots, lambda_n` 和 `mu_1, cdots, mu_n`, 解方程组
+    <span class="formula">
+      `[
+        1, lambda_1, cdots, lambda_1^(n-1);
+        1, lambda_2, cdots, lambda_2^(n-1);
+        vdots, vdots, , vdots;
+        1, lambda_n, cdots, lambda_n^(n-1)
+      ][a_0; a_1; vdots; a_(n-1)] = [mu_1; vdots; mu_n]`,
+    </span>
+    则 `f(x) = sum_(i=0)^(n-1) a_i x^i` 满足 `bm D_2 = f(bm D_1)`, 于是 `bm B = f(bm A)`.
+  </li>
+</ol>
 
 <p class="proof">
-  首先 `bm A` 可对角化, 设 `bm A = bm (P D P)^-1`. 于是
-  <span class="formula">
-    `bm (P D P)^-1 bm B = bm (B P D P)^-1`.
-  </span>
-  左乘 `bm P^-1`, 右乘 `bm P`,
-  <span class="formula">
-    `bm (D P)^-1 bm (B P) = bm P^-1 bm (B P D)`.
-  </span>
-  因为和对角矩阵可交换的只有对角矩阵, 所以 `bm P^-1 bm (B P)` 为对角矩阵.
-</p>
-
-<p class="proof">
-  [群友 ζ(me)=0] 我们说明 `bm A` 的特征子空间是 `bm B` 的不变子空间.
+  [群友 ζ(me)=0] 1. 的另一证明.
+  我们说明 `bm A` 的特征子空间是 `bm B` 的不变子空间.
   即, 对于方程 `bm (A x) = lambda bm x` 的任意解 `bm x`, `bm (B x)`
   仍是方程的解. 这是因为
   <span class="formula">

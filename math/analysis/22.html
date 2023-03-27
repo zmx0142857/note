@@ -192,16 +192,24 @@
 </p>
 
 <p class="definition">
-  `bm G * grad` 算子可以用于标量或矢量. 输入标量, 输出标量; 输入矢量, 输出矢量:
+  <b>`bm A * grad` 算子</b>可以用于标量或矢量. 输入标量, 输出标量; 输入矢量, 输出矢量:
   <span class="formula">
-    `(bm G * grad) f`
-    `= G_1 (del f)/(del x_1) + cdots + G_n (del f)/(del x_n)`,<br>
-    `(bm G * grad) bm F`
-    `= ((bm G * grad) F_1, cdots, (bm G * grad) F_n)`.
+    `(bm A * grad) f`
+    `= A_1 (del f)/(del x_1) + cdots + A_n (del f)/(del x_n)`,<br>
+    `(bm A * grad) bm F`
+    `= ((bm A * grad) F_1, cdots, (bm A * grad) F_n)`.
   </span>
 </p>
 
-<p>`D` 算子作用于矢量, 得到它的导矩阵:
+<p class="remark">
+  注意 `bm A * grad` 是一个算子, 而 `grad * bm A` 是一个标量. 比如在三维情形:
+  <span class="formula">
+    `bm A * grad = A_1 del/(del x) + A_2 del/(del y) + A_3 del/(del z)`,<br>
+    `grad * bm A = pp A_1 x + pp A_2 y + pp A_3 z`.
+  </span>
+</p>
+
+<p><b>`D` 算子</b>作用于矢量, 得到它的导矩阵:
   <span class="formula">
     `D bm F`
     `= [grad F_1; vdots; grad F_n]`
