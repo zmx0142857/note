@@ -203,6 +203,7 @@ math: {
   title:'运筹学',
   articles: [
     {title:'线性规划', src:'or/1.html', date:'2021-12-24'},
+    {title:'运输问题', src:'or/2.html', date:'2023-04-23'},
   ]
 }, {
   title:'组合数学',
