@@ -17,7 +17,7 @@ class TransportProblem {
         }
         else { // 供不应求
             this.type = -1;
-            cost.push(Array.from({ length: this.consume.length }, () => 0));
+            cost.push(Array.from({ length: consume.length }, () => 0));
             produce.push(-diff);
         }
         this.cost = cost;
@@ -359,4 +359,16 @@ function test2() {
     const consume = [8, 14, 12, 14];
     const tp = new TransportProblem(cost, produce, consume);
     console.log(tp.solve({ initBy: 'vogel' }));
+}
+// 退化问题
+function test3() {
+    const inf = 999999;
+    const tp = new TransportProblem([
+        [-4, 5, 3, 2, inf],
+        [5, -1, 2, inf, 4],
+        [3, 2, -3, 5, 5],
+        [2, inf, 5, -3, 6],
+        [inf, 4, 5, 6, -5],
+    ], [60, 90, 50, 50, 50], [50, 50, 50, 80, 70]);
+    console.log(tp.solve());
 }

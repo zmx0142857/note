@@ -399,5 +399,3 @@ function test3() {
   )
   console.log(tp.solve())
 }
-
-test3()
