@@ -428,9 +428,19 @@
   ],
   produce: [8, 5, 9],
   consume: [4, 3, 5, 6],
+}" value3="{
+  cost: [
+    [-4, 5, 3, 2, 999999],
+    [5, -1, 2, 999999, 4],
+    [3, 2, -3, 5, 5],
+    [2, 999999, 5, -3, 6],
+    [999999, 4, 5, 6, -5],
+  ],
+  produce: [60, 90, 50, 50, 50],
+  consume: [50, 50, 50, 80, 70],
 }">
 
-<p>说明: 分别输入运费矩阵、产量与销量. 注意输入的数字均为非负.</p>
+<p>说明: 分别输入运费矩阵、产量与销量. 若某一数值为正无穷, 不要直接写 Infinity, 而是代之以一个大数, 如 999999.</p>
 <script type="text">
 module.exports = function tpSolve (str) {
   const { cost, produce, consume } = Playground.parse(str)

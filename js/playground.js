@@ -105,24 +105,19 @@ for (let playground of list) {
 
   const ctrls = [input, run, showSrc]
 
-  if (playground.getAttribute('value2')) {
-    const value1 = $('input', {
-      type: 'button',
-      value: '例1',
-      input: input.value,
-      onclick () {
-        input.value = this.input
-      }
-    })
-    const value2 = $('input', {
-      type: 'button',
-      value: '例2',
-      input: playground.getAttribute('value2'),
-      onclick () {
-        input.value = this.input
-      }
-    })
-    ctrls.push(value1, value2)
+  const valueNames = playground.getAttributeNames().filter(v => /^value(\d+)?$/.test(v))
+  if (valueNames.length) {
+    ctrls.push(...valueNames.map(name => {
+      const num = name.slice(5) || '1'
+      return $('input', {
+        type: 'button',
+        value: '例' + num,
+        input: num === 1 ? input.value : playground.getAttribute(name),
+        onclick () {
+          input.value = this.input
+        }
+      })
+    }))
   }
 
   const ctrl = $('div', {

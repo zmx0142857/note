@@ -15,9 +15,9 @@ class TransportProblem {
 
   constructor (cost: number[][], produce: number[], consume: number[]) {
     // 保证输入非负
-    if (cost.some(row => row.some(v => v < 0)) || produce.some(v => v < 0) || consume.some(v => v < 0)) {
-      throw new Error('input numbers must >= 0')
-    }
+    // if (cost.some(row => row.some(v => v < 0)) || produce.some(v => v < 0) || consume.some(v => v < 0)) {
+    //   throw new Error('input numbers must >= 0')
+    // }
 
     // 判断类型
     const diff = produce.reduce((x, y) => x + y) - consume.reduce((x, y) => x + y)
@@ -29,7 +29,7 @@ class TransportProblem {
       consume.push(diff)
     } else { // 供不应求
       this.type = -1
-      cost.push(Array.from({ length: this.consume.length }, () => 0))
+      cost.push(Array.from({ length: consume.length }, () => 0))
       produce.push(-diff)
     }
 
@@ -40,7 +40,7 @@ class TransportProblem {
     this.n = consume.length
   }
 
-  private isZero (v) {
+  private isZero (v: number) {
     return Math.abs(v) < 1e-8
   }
 
@@ -383,3 +383,21 @@ function test2 () {
   const tp = new TransportProblem(cost, produce, consume)
   console.log(tp.solve({ initBy: 'vogel' }))
 }
+
+// 退化问题
+function test3() {
+  const inf = 999999
+  const tp = new TransportProblem([
+      [-4, 5, 3, 2, inf],
+      [5, -1, 2, inf, 4],
+      [3, 2, -3, 5, 5],
+      [2, inf, 5, -3, 6],
+      [inf, 4, 5, 6, -5],
+    ],
+    [60, 90, 50, 50, 50],
+    [50, 50, 50, 80, 70],
+  )
+  console.log(tp.solve())
+}
+
+test3()

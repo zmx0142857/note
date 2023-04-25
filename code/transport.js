@@ -2,9 +2,9 @@
 class TransportProblem {
     constructor(cost, produce, consume) {
         // 保证输入非负
-        if (cost.some(row => row.some(v => v < 0)) || produce.some(v => v < 0) || consume.some(v => v < 0)) {
-            throw new Error('input numbers must >= 0');
-        }
+        // if (cost.some(row => row.some(v => v < 0)) || produce.some(v => v < 0) || consume.some(v => v < 0)) {
+        //   throw new Error('input numbers must >= 0')
+        // }
         // 判断类型
         const diff = produce.reduce((x, y) => x + y) - consume.reduce((x, y) => x + y);
         if (this.isZero(diff)) { // 产销平衡
