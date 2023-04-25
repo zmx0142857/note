@@ -48,6 +48,7 @@ for (let playground of list) {
   const input = $(inputType === 'textarea' ? 'textarea' : 'input', {
     type: 'text',
     value: playground.getAttribute('value'),
+    rows: playground.getAttribute('rows'),
     onfocus () {
       document.addEventListener('keyup', onkeyup)
     },

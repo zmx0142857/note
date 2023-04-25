@@ -32,7 +32,7 @@
   假设我们的方案将 `x_(i j)` 件货物从第 `i` 个产地运往第 `j` 个销地.
   显然运输问题是线性规划问题的特例, 可以写成:
   <span class="formula">
-    最小化 `sum_(i,j) c_(i j) x_(i j)`, 满足<br>
+    最小化 `sum_(i,j) c_(i j) x_(i j)`, 满足 `AA i, j`:<br>
     `sum_j c_(i j) = a_i`,
     `quad sum_i c_(i j) = b_j`,
     `quad x_(i j) ge 0`.
@@ -165,7 +165,7 @@
     <center><b>运输方案表</b></center>
     <span class="formula">
       `[, , 10, 6; 8, , 2, ; , 14, , 8]`.
-    </span> 
+    </span>
   </li>
   <li>Vogel 法. 首先求得行/列罚数, 写在产量/销量的脚下.
     <span class="formula">
@@ -246,12 +246,13 @@
 <p class="example">
   从上节例题中最小元素法所得的初始可行解
   <span class="formula">
-    `[, , 10, 6; 8, , 2, ; , 14, , 8]`.
-  </span> 
+    `[, , 10, 6; 8, , 2, ; , 14, , 8]`
+  </span>
   出发, 通过具体实例介绍闭回路法.
 </p>
 
-<p class="solution">
+<ol class="solution">
+  <li>
   考虑运输方案表中的空格 `x_11`, 若 `x_11` 增加 1, 为保证货物总量的平衡, `x_21` 需减去 1,
   继而引起连锁反应, `x_23` 需加上 1, `x_13` 需减去 1.
   整个调整过程在表中体现为一个加减交替、纵横交替的闭合回路 (如下).
@@ -266,25 +267,187 @@
   又如空格 `x_31` 的调整路线为
   <span class="formula">
     `[, , 10^(red -), 6^(red +); 8^(red -), , 2^(red +), ; {::}^(red +), 14, , 8^(red -)]`.
-  </span> 
+  </span>
   检验数为
   <span class="formula">
     `sigma_31 = c_31 - c_21 + c_23 - c_13 + c_14 - c_34 = 10`.
-  </span>
-  又如空格 `x_24` 的调整路线为
-  <span class="formula">
-    `[, , 10^(red +), 6^(red -); 8, , 2^(red -), {::}^(red +); , 14, , 8]`.
-  </span> 
-  检验数为
-  <span class="formula">
-    `sigma_24 = c_24 - c_14 + c_13 - c_23 = -1`.
   </span>
   将所有检验数用红色填入运输方案表:
   <span class="formula">
     `[red 1, red 2, 10, 6; 8, red 1, 2, red(-1); red 10, 14, red 12, 8]`.
   </span>
   由于 `sigma_24 = -1 lt 0`, 当前解不是最优解.
+  </li>
+  <li>
+  考虑按 `x_24` 的调整路线进行调整:
+  <span class="formula">
+    `[, , 10^(red +), 6^(red -); 8, , 2^(red -), {::}^(red +); , 14, , 8]`.
+  </span>
+  路线中标记为 "-" 号的最小数字是 `x_23 = 2`, 这也是允许调整的货物数量上限.
+  因此我们沿该路线移动 2 件货物, 运输方案表变为:
+  <span class="formula">
+    `[, , 12, 4; 8, , , 2; , 14, , 8]`.
+  </span>
+  重新计算各检验数:
+  <span class="formula">
+    `[red 0, red 2, 12, 4; 8, red 2, red 1, 2; red 9, 14, red 12, 8]`.
+  </span>
+  此时所有检验数非负, 方案已达到最优.
+  </li>
+</ol>
+
+<ol class="remark">
+  <li>
+    上例最后的检验数 `sigma_11 = 0`, 说明沿该路线进行调整, 运费不变, 这样又可得到不同的最优解.
+    假如货物的量是无限可分的, 则该问题有无穷多组最优解.
+  </li>
+  <li>若同时有多个检验数为负, 一般选取其中最小者作为换入变量.
+  </li>
+</ol>
+
+<h4>位势法</h4>
+
+<ol>
+  <li>
+  运用对偶线性规划的知识, 在产销平衡运输问题中, 设 `u_1, cdots, u_m` 是 `m`
+  个行约束等式的对偶变量 (称为<b>行位势</b>),
+  `v_1, cdots, v_n` 是 `n` 个列约束等式的对偶变量 (称为<b>列位势</b>).
+  记对偶向量为 `bm Y = (u_1, cdots, u_m, v_1, cdots, v_n)`, 列出原问题的对偶规划:
+  <span class="formula">
+    最大化 `z' = sum_i a_i u_i + sum_j b_j v_j`, 满足 `AA i, j`:<br>
+    `u_i + v_j le c_(i j)`, `quad u_i, v_j` 符号不限.
+    <span class="label" id="dual-program-1"></span>
+  </span>
+  </li>
+  <li>
+  由对偶规划的理论, `x_(i j)` 对应的检验数为
+  <span class="formula">
+    `sigma_(i j) = c_(i j) - z_(i j) = c_(i j) - (u_i + v_j)`.
+  </span>
+  现假设已得到运输问题的一个基可行解
+  <span class="formula">
+    `x_(i_1 j_1), cdots, x_(i_s j_s)`, `quad s = m+n-1`,
+  </span>
+  利用基变量的检验数等于零, 写出方程组
+  <span class="formula">
+    `{ u_(i_1) + v_(j_1) = c_(i_1 j_1); cdots; u_(i_s) + v_(j_s) = c_(i_s j_s) :}`
+  </span>
+  由于运输表的每行每列至少含有一个基变量 (??), 可知该方程组含有全部 `m+n` 个对偶变量.
+  可以证明该方程组有解 (??). 注意到对偶变量有 `m+n` 个, 而方程有 `m+n-1` 个, 故解不唯一.
+  </li>
+  <li>
+  若该方程组的某个解满足对偶规划 <a class="ref" href="#dual-program-1"></a> 中的约束不等式
+  <span class="formula">
+    `sigma_(i j) = c_(i j) - (u_i + v_j) ge 0`, `quad AA i, j`.
+  </span>
+  这时, 我们同时得到原问题与对偶问题的最优解:
+  <span class="formula">
+    `x_(i_1 j_1), cdots, x_(i_s j_s)` 和 `u_1, cdots, u_m, v_1, cdots, v_n`.
+  </span>
+  (这时所有解都满足约束吗?)
+  反之, 若方程组的某个解不满足对偶规划的约束, 即非基变量的检验数有负值存在, 则运输问题尚未达到最优解.
+  (这时所有解都不满足约束吗?)
+  </li>
+</ol>
+
+<p class="example">
+  沿用上例, 用位势法求解运输问题
+  <span class="formula">
+  `[
+    4, 12, 4_(red 10), 11_(red 6), {:|:}, 16;
+    2_(red 8), 10, 3_(red 2), 9, {:|:}, 10;
+    8, 5_(red 14), 11, 6_(red 8), {:|:}, 22;
+    -, -, -, -, +, -;
+    8, 14, 12, 14, {:|:}, 48;
+  ]`,
+  </span>
+  红色小字是初始基可行解.
 </p>
+
+<ol class="solution">
+  <li>列出位势方程
+    <span class="formula">
+    `{
+      u_1 + v_3 = 4;
+      u_1 + v_4 = 11;
+      u_2 + v_1 = 2;
+      u_2 + v_3 = 3;
+      u_3 + v_2 = 5;
+      u_3 + v_4 = 6;
+    :}`
+    </span>
+    位势方程组有无穷多组解, 我们任取一个即可. 如取 `u_2 = 0`, 解得
+    <span class="formula">
+      `u_2 = 0`, `v_1 = 2`, `v_3 = 3`, `u_1 = 1`, `v_4 = 10`, `u_3 = -4`, `v_2 = 9`.
+    </span>
+    实际操作时, 上述解方程的过程不必写出, 直接把位势填入表中:
+    <span class="formula">
+    `[
+      4, 12, 4_(grey 10), 11_(grey 6), {:|:}, 16_(red 1);
+      2_(grey 8), 10, 3_(grey 2), 9, {:|:}, 10_(red 0);
+      8, 5_(grey 14), 11, 6_(grey 8), {:|:}, 22_(red(-4));
+      -, -, -, -, +, -;
+      8_(red 2), 14_(red 9), 12_(red 3), 14_(red(10)), {:|:}, 48;
+    ]`,
+    </span>
+  </li>
+  <li>
+    再用公式 `sigma_(i j) = c_(i j) - (u_i + v_j)` 计算空格的检验数:
+    <span class="formula">
+    `[
+      4_(red 1), 12_(red 2), 4_(grey 10), 11_(grey 6), {:|:}, 16_(grey 1);
+      2_(grey 8), 10_(red 1), 3_(grey 2), 9_(red(-1)), {:|:}, 10_(grey 0);
+      8_(red 10), 5_(grey 14), 11_(red 12), 6_(grey 8), {:|:}, 22_(grey(-4));
+      -, -, -, -, +, -;
+      8_(grey 2), 14_(grey 9), 12_(grey 3), 14_(grey(10)), {:|:}, 48;
+    ]`,
+    </span>
+    求出的检验数和闭回路法的一致.
+  </li>
+</ol>
+
+<p class="remark">
+  闭回路法直观便于理解, 而位势法计算量小.
+</p>
+
+<h3>运输问题求解器</h3>
+
+<div class="playground" type="textarea" rows="10" value="{
+  cost: [
+    [4, 12, 4, 11],
+    [2, 10, 3, 9],
+    [8, 5, 11, 6],
+  ],
+  produce: [16, 10, 22],
+  consume: [8, 14, 12, 14],
+}" value2="{
+  cost: [
+    [3, 12, 3, 4],
+    [11, 2, 5, 9],
+    [6, 7, 1, 5],
+  ],
+  produce: [8, 5, 9],
+  consume: [4, 3, 5, 6],
+}">
+
+<p>说明: 分别输入运费矩阵、产量与销量. 注意输入的数字均为非负.</p>
+<script type="text">
+module.exports = function tpSolve (str) {
+  const { cost, produce, consume } = Playground.parse(str)
+  const { type, solution, value } = new TransportProblem(cost, produce, consume).solve()
+  const typeName = {
+    '-1': '供不应求',
+    '0': '产销平衡',
+    '1': '供过于求',
+  }[type]
+  return 'type: ' + typeName +  '\n'
+    + 'solution: [\n'
+    + solution.map(row => '  [' + row.join(', ')).join('],\n')
+    + ']\n]\n'
+    + 'value: ' + value
+}
+</script>
+</div>
 
 <script>
 var asciimath = {
@@ -296,5 +459,6 @@ var asciimath = {
 </script>
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/playground.js"></script>
+<script src="../../code/transport.js"></script>
 </body>
 </html>
