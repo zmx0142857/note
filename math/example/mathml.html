@@ -8,8 +8,25 @@
 <link rel="stylesheet" href="../../css/note.css"/>
 <style type="text/css">
 math {
-	display: block;
-	text-align: center;
+  margin: 8px 0;
+  display: block;
+  text-align: center;
+}
+mrow {
+  width: max-content;
+  margin: 0 auto;
+}
+menclose[notation=box] {
+  border: 1px solid currentColor;
+  padding: .1em;
+}
+mpadded[width='+1ex'] {
+  width: max-content;
+  padding-right: 1ex;
+}
+mpadded[width='+2ex'] {
+  width: max-content;
+  padding-right: 2ex;
 }
 </style>
 
@@ -91,12 +108,15 @@ literal
 
 <p>ms: a quoted string.
 <math>
-<ms>Hello word!</ms>
+<mrow>
+  <ms>Hello word!</ms>
+</mrow>
 </math>
 </p>
 
 <p>mfrac: fractions
 <math>
+<mrow>
 <mfrac>
   <mrow>
     <mi>x</mi>
@@ -105,11 +125,13 @@ literal
   </mrow>
   <mn>100</mn>
 </mfrac>
+</mrow>
 </math>
 </p>
 
 <p>msqrt: square root, mroot: radical
 <math>
+<mrow>
 <msqrt>
   <mi>x</mi>
   <mo>+</mo>
@@ -120,11 +142,13 @@ literal
   <mi>x</mi>
   <mn>3</mn>
 </mroot>
+</mrow>
 </math>
 </p>
 
 <p>msub: subscript, msup: superscript
 <math>
+<mrow>
 <msub>
   <mi>x</mi>
   <mi>i</mi>
@@ -140,11 +164,13 @@ literal
   <mi>i</mi>
   <mi>j</mi>
 </msubsup>
+</mrow>
 </math>
 </p>
 
 <p>munder: underscript, mover: overscript
 <math>
+<mrow>
 <munder>
   <mi>x</mi>
   <mo>&#9472;</mo>
@@ -166,6 +192,7 @@ literal
   <mi>a</mi>
   <mi>b</mi>
 </munderover>
+</mrow>
 </math>
 </p>
 
@@ -396,20 +423,24 @@ literal
 
 <p>mfenced: tuple like (x, y, z)
 <math>
+<mrow>
 <mfenced>
   <mi>x</mi>
   <mi>y</mi>
   <mi>z</mi>
 </mfenced>
+</mrow>
 </math>
 </p>
 
 <p>menclose: draw box around formula
 <math>
+<mrow>
 <menclose notation="box">
   <mi>n</mi>
   <mo>!</mo>
 </menclose>
+</mrow>
 </math>
 </p>
 
@@ -475,7 +506,7 @@ literal
 				<code>fraktur</code> |
 				<code>sans-serif</code> |
 				<code>bold-sans-serif</code> |
-				<code>sans-serif-italic</code> | 
+				<code>sans-serif-italic</code> |
 				<code>sans-serif-bold-italic</code> |
 				<code>monospace</code>
 			</td>
