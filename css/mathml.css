@@ -4,10 +4,10 @@ mrow {
   margin: 0 auto;
 }
 msqrt > mrow {
-  padding-top: 2px;
+  padding-top: .1em;
 }
 mroot > *:first-child {
-  padding-top: 3px;
+  padding-top: .3em;
 }
 menclose[notation=box] {
   border: 1px solid currentColor;
@@ -23,6 +23,9 @@ mpadded[width='+2ex'] {
   padding-right: 2ex;
 }
 
+ms {
+  display: inline;
+}
 ms:before,
 ms:after {
   content: "\0022";
@@ -34,12 +37,24 @@ ms[rquote]:after {
   content: attr(rquote);
 }
 
+mfenced {
+  display: inline;
+  font-size: 0;
+}
+mfenced > * {
+  display: inline-flex;
+  font-size: initial;
+}
 mfenced::before {
   content: "(";
+  font-size: initial;
 }
 mfenced::after {
   content: ")";
+  font-size: initial;
 }
 mfenced > *:not(:first-child)::before {
-  content: ", ";
+  content: ",";
+  padding-right: .2em;
+  display: inherit;
 }
