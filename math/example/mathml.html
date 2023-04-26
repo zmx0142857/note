@@ -5,28 +5,15 @@
 
 <title>mathml test</title>
 <meta charset="utf-8" />
+<!-- 按条件加载 mathml.css, 为不支持 mathml 的浏览器提供公式样式
+<script src="https://fred-wang.github.io/mathml.css/mspace.js"></script> -->
+<script src="../../js/mathml.js?fallback=../../css/mathml-fallback.css&css=../../css/mathml.css"></script>
 <link rel="stylesheet" href="../../css/note.css"/>
-<style type="text/css">
-math {
+<style>
+.center {
   margin: 8px 0;
   display: block;
   text-align: center;
-}
-mrow {
-  width: max-content;
-  margin: 0 auto;
-}
-menclose[notation=box] {
-  border: 1px solid currentColor;
-  padding: .1em;
-}
-mpadded[width='+1ex'] {
-  width: max-content;
-  padding-right: 1ex;
-}
-mpadded[width='+2ex'] {
-  width: max-content;
-  padding-right: 2ex;
 }
 </style>
 
@@ -36,6 +23,7 @@ mpadded[width='+2ex'] {
 
 <p>mrow: a row of formula, mi: identifier, mo: operator, mn: number
 literal
+<span class="center">
 <math>
 <mrow>
   <mrow>
@@ -47,9 +35,11 @@ literal
   <mn>2</mn>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>mtext: text, mspace: space
+<span class="center">
 <math>
 <mrow>
   <mtext>if&nbsp;</mtext>
@@ -75,9 +65,11 @@ literal
   </mrow>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>mpadded: add extra space
+<span class="center">
 <math>
 <mrow>
   <mpadded width="+1ex">
@@ -104,17 +96,21 @@ literal
   </mrow>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>ms: a quoted string.
+<span class="center">
 <math>
 <mrow>
   <ms>Hello word!</ms>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>mfrac: fractions
+<span class="center">
 <math>
 <mrow>
 <mfrac>
@@ -127,15 +123,19 @@ literal
 </mfrac>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>msqrt: square root, mroot: radical
+<span class="center">
 <math>
 <mrow>
 <msqrt>
+<mrow>
   <mi>x</mi>
   <mo>+</mo>
   <mi>y</mi>
+</mrow>
 </msqrt>
 <mo>+</mo>
 <mroot>
@@ -144,9 +144,11 @@ literal
 </mroot>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>msub: subscript, msup: superscript
+<span class="center">
 <math>
 <mrow>
 <msub>
@@ -166,9 +168,11 @@ literal
 </msubsup>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>munder: underscript, mover: overscript
+<span class="center">
 <math>
 <mrow>
 <munder>
@@ -194,9 +198,11 @@ literal
 </munderover>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>mtable, mtr, mtd: used to draw matrices and grouped formulae
+<span class="center">
 <math>
 <mrow>
   <mo>[</mo>
@@ -241,7 +247,9 @@ literal
   <mo>]</mo>
 </mrow>
 </math>
+</span>
 
+<span class="center">
 <math>
 <mrow>
   <mo>[</mo>
@@ -286,7 +294,9 @@ literal
   <mo>]</mo>
 </mrow>
 </math>
+</span>
 
+<span class="center">
 <math>
 <mrow>
   <mo>{</mo>
@@ -324,9 +334,11 @@ literal
   </mtable>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>maligngroup: align formulae, currently not supported by firefox
+<span class="center">
 <math>
 <mrow>
   <mo>{</mo>
@@ -374,9 +386,11 @@ literal
   </mtable>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>mlabeledtr: labeled table row, currently not supported by firefox
+<span class="center">
 <math>
 <mtable side="left">
   <mlabeledtr>
@@ -419,9 +433,11 @@ literal
   </mlabeledtr>
 </mtable>
 </math>
+</span>
 </p>
 
 <p>mfenced: tuple like (x, y, z)
+<span class="center">
 <math>
 <mrow>
 <mfenced>
@@ -431,9 +447,11 @@ literal
 </mfenced>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>menclose: draw box around formula
+<span class="center">
 <math>
 <mrow>
 <menclose notation="box">
@@ -442,9 +460,11 @@ literal
 </menclose>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>mphantom: invisible text
+<span class="center">
 <math>
 <mrow>
   <mfrac>
@@ -472,6 +492,7 @@ literal
   </mfrac>
 </mrow>
 </math>
+</span>
 </p>
 
 <p>mstyle</p>

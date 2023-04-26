@@ -1,0 +1,45 @@
+/* style enhancement for msedge */
+mrow {
+  width: max-content;
+  margin: 0 auto;
+}
+msqrt > mrow {
+  padding-top: 2px;
+}
+mroot > *:first-child {
+  padding-top: 3px;
+}
+menclose[notation=box] {
+  border: 1px solid currentColor;
+  padding: .1em;
+}
+
+mpadded[width='+1ex'] {
+  width: max-content;
+  padding-right: 1ex;
+}
+mpadded[width='+2ex'] {
+  width: max-content;
+  padding-right: 2ex;
+}
+
+ms:before,
+ms:after {
+  content: "\0022";
+}
+ms[lquote]:before {
+  content: attr(lquote);
+}
+ms[rquote]:after {
+  content: attr(rquote);
+}
+
+mfenced::before {
+  content: "(";
+}
+mfenced::after {
+  content: ")";
+}
+mfenced > *:not(:first-child)::before {
+  content: ", ";
+}
