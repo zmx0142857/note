@@ -87,7 +87,8 @@
 <h3>相关记号</h3>
 
 <p class="definition">
-  先设 `bm r` 为平面曲线.
+  <b>二维情形</b>
+  设 `bm r` 为平面曲线.
   取弧长参数 `s`, 这时切向量 `bm v` 恰为单位向量.  记 `bm t = hat bm v`,
   由 `bm t` 的长度不变知 `bm t _|_ bm t'`.
   令 `bm n` 是 `bm t` 的法向量, (规定 `bm t, bm n` 成右手系),
@@ -111,22 +112,20 @@
   </span>
 </p>
 
-<p class="definition">
-  三维情形时, 同样取弧长参数 `s`, 令 `bm t` 为单位切向量.
-  因 `bm t' _|_ bm t`, 可令 `bm n = hat (bm t')`, 则 `bm n`
-  是垂直于 `bm t` 的单位向量, 称为<b>主法向量</b>, `kappa(s) = |bm t'|`
-  称为<b>曲率</b>; 因此
-  <span class="formula">
-    `bm t' = kappa bm n`.
-  </span>
-  `bm t' = ("d"^2bm r)/("d"s^2)` 称为<b>曲率向量</b>.
-  又记 `bm b = bm t ^^ bm n`, 称为<b>副法向量</b>.
-  `bm n'` 在 `bm b` 上的投影 `tau = (:bm n', bm b:)` 称为<b>挠率</b>.
-  `{bm r"; " bm t, bm n, bm b}` 称为曲线的 <b>Frenet 标架</b>.
-</p>
+<ul class="definition">
+  <b>三维情形</b> 同样取弧长参数 `s`, 我们有
+  <li><b>切向量</b> `bm v := bm r' = dd {:bm(r):} s`.</li>
+  <li><b>曲率向量</b> `bm t' = dd^2 {:bm(r):} s`.</li>
+  <li><b>单位切向量 (tangent)</b> `bm t := hat (bm v) = hat (bm r')`.</li>
+  <li><b>主法向量 (normal)</b> `bm n := hat (bm t')`, 它是垂直于 `bm t` 的单位向量.</li>
+  <li><b>副法向量 (binormal)</b> `bm b = bm t ^^ bm n`, 它同时垂直于 `bm t` 和 `bm n`.</li>
+  <li><b>曲率</b> `kappa(s) := |bm t'|`.</li>
+  <li><b>挠率</b> `tau := (:bm n', bm b:)` 是 `bm n'` 在 `bm b` 上的投影.</li>
+</ul>
 
 <p>
   `bm t, bm n, bm b` 形成右手系, 且均为单位向量.
+  `{bm r"; " bm t, bm n, bm b}` 称为曲线的 <b>Frenet 标架</b>.
   以这三个向量为法向量的平面分别称为<b>法平面</b>,
   <b>从切平面</b>和<b>密切平面</b>.
 </p>
