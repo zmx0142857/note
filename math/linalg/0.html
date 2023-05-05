@@ -1107,15 +1107,25 @@
 
 <p>[来自<a href="https://zhuanlan.zhihu.com/p/165459547">知乎@三维欧氏心</a>]</p>
 
-<p class="definition">
+<p>
   判断两个多项式是否互素, 一种方法是用辗转相除法求出最大公因式, 再判断其是否为常数.
   不过, 这种方法要求多项式至少是 Euclid Domain 上的, 方能进行辗转相除.
   结式给出了判断多项式是否互素的另一种方法.
 </p>
 
+<p class="remark">
+  没有另行说明的情况下, 本节始终假定 `f, g in R[x]`, `deg f, deg g ge 1`,
+  且
+  <span class="formula">
+    `f(x) = sum_(k=0)^m a_k x^k`,
+    `quad g(x) = sum_(k=0)^n b_k x^k`,
+    `quad a_m, b_n != 0`.
+  </span>
+</p>
+
 <p class="lemma">
-  设 `f, g in R[x]`, `deg f, deg g ge 1`. 则 `f, g` 不互素的充要条件是存在
-  `u, v in R[x]`, `deg u lt deg g`, `deg v lt degf` 使得 `u(x) f(x) = v(x) g(x)`.
+  `f, g` 不互素的充要条件是存在 `u, v in R[x]`, `deg u lt deg g`, `deg v lt degf`,
+  使得 `u(x) f(x) = v(x) g(x)`.
 </p>
 
 <ol class="proof">
@@ -1130,28 +1140,31 @@
 </ol>
 
 <p class="definition">
-  <b>结式</b>
-  设 `f, g in R[x]`, `deg f, deg g ge 1`.
-  若 `f(x) = sum_(k=0)^m a_k x^k`, `g(x) = sum_(k=0)^n b_k x^k`, (`a_m, b_n != 0`),
-  则称
+  `f, g` 的 <b>Sylvester 行列式</b>或<b>结式 (Resultant)</b> 定义为
   <span class="formula">
    `"Res"(f, g) = |
       a_m,  a_(m-1), a_(m-2), cdots, a_0;
       , a_m,  a_(m-1), cdots, a_1, a_0;
       , , ddots, ddots, , ddots, ddots;
       , , , a_m, a_(m-1), cdots, a_1, a_0;
-      b_n,  b_(n-1), cdots, b_0;
-      , b_n, cdots, b_1, b_0;
-      , , ddots, , ddots, ddots;
-      , , , ddots, , ddots, ddots;
-      , , , , b_n, cdots, b_1, b_0;
+      b_n,  b_(n-1), b_(n-2), cdots, b_0;
+      , b_n, b_(n-1), cdots, b_1, b_0;
+      , , ddots, ddots, , ddots, ddots;
+      , , , b_n, b_(n-1), cdots, b_1, b_0;
     | {: {:; ; ; ;} n 行; {:; ; ; ;} m 行 :}`
   </span>
-  为 `f, g` 的 <b>Sylvester 行列式</b>或<b>结式 (Resultant)</b>.
   这个行列式的阶数为 `m+n`, 前 `n` 行由 `f` 的系数组成, 后 `m` 行由 `g` 的系数组成.
+  行列式的主对角线由 `n` 个 `a_m` 和 `m` 个 `b_0` 组成.
 </p>
 
-<p class="theorem">
+<p class="corollary" id="cor-res-anbm">
+  由 Sylvester 行列式立即得到, 对于非零常数 `a, b` 有
+  <span class="formula">
+    `"Res"(a f, b g) = a^n b^m "Res"(f, g)`.
+  </span>
+</p>
+
+<p class="theorem" id="the-res">
   `f, g` 不互素 `iff "Res"(f, g) = 0`.
 </p>
 
@@ -1193,12 +1206,69 @@
   解得 `lambda = 2` 或 `lambda = -(7 +- 5 sqrt 3)/2`.
 </p>
 
+<p class="theorem">
+  <b>结式的等价定义</b>
+  <span class="formula">
+    `"Res"(f, g) = a_m^n b_n^m prod_(i,j) (x_i - y_j)`,
+  </span>
+  其中 `x_i`, `y_j` 分别是 `f, g` 的根.
+</p>
+
+<ol class="proof">
+  <li>
+    把 `"Res"(f, g)` 看成是 `x_i, y_j` 的 `m+n` 元多项式.
+    对任意 `i, j`, 若 `x_i = y_j`, 则 `f, g` 不互素,
+    由<a class="ref" href="#the-res"></a> 知 `"Res"(f, g) = 0`.
+    因此 `(x_i - y_j)` 是 `"Res"(f, g)` 的一个因式.
+  </li>
+  <li>
+    另一方面, 由 Vieta 定理, 系数 `a_i, b_j` 分别可以写成根 `x_i, y_j` 的对称多项式,
+    比如 `a_(m-1) = sum x_i`, `a_0 = prod x_i` 等.
+    注意到 Sylvester 行列式展开的每一项 (视为 `x_i, y_j` 的多项式) 次数均为 `m n`,
+    所以 `"Res"(f, g)` 的次数是 `m n`, 其形如 `(x_i - y_j)` 的因式都是一次的. 即
+    <span class="formula">
+      `"Res"(f, g) = c prod_(i,j) (x_i - y_j)`,
+      `quad c` 为待定系数.
+    </span>
+  </li>
+  <li>
+    最后来确定常数 `c`.  不妨设 `f, g` 首一,
+    Sylvester 行列式展开中主对角线的那一项为 `a_m^n b_0^m = b_0^m = prod_j y_j^m`.
+    但 `c prod_(i,j) (x_i - y_j)` 的展开式中相应的一项为 `c prod_j y_j^m`, 由此得到 `c = 1`.
+    再利用<a class="ref" href="#cor-res-anbm"></a> 得到最终结论.
+  </li>
+</ol>
+
+<p class="corollary">
+  将 `f(y_j) = a_m prod_i (x_i - y_j)` 代入结式的乘积表达式中得到
+  <span class="formula">
+    `"Res"(f, g) = b_n^m prod_j f(y_j)`
+    `= a_m^n prod_i g(x_i)`.
+  </span>
+</p>
+
+<p class="corollary">
+  <span class="formula">
+    `"Res"(f - g h, g) = b_n^(delta - m) "Res"(f, g)`,
+  </span>
+  其中 `delta = deg(f - g h)`.
+</p>
+
+<p class="proof">
+  <span class="formula">
+    `"Res"(f - g h, g) = b_n^delta prod_j (f - g h)(y_j)`
+    `= b_n^delta prod_j f(y_j)`
+    `= b_n^(delta - m) "Res"(f, g)`.
+  </span> 
+</p>
+
 <p class="definition">
   <b>判别式</b> 多项式 `f(x)` 的判别式定义为
   <span class="formula">
-    `Delta(f) = (-1)^(n(n-1)//2)/a_n "Res"(f, f')`,
+    `Delta(f) := (-1)^s/a_m "Res"(f, f')`
+    `= a_m^(2m-2) prod_(i lt j) (x_i - x_j)^2`.
   </span>
-  其中最高次项系数 `a_n != 0`, `f'` 是 `f` 的求导.
+  其中 `s = m(m-1)//2`, 最高次项系数 `a_m != 0`, `f'` 是 `f` 的求导, `x_i` 是 `f(x)` 的根.
   因此
   <span class="formula">
     `f` 有重根 `iff f` 与 `f'` 不互素 `iff Delta(f) = 0`.
@@ -1212,7 +1282,21 @@
 </p>
 
 <ol class="proof">
-  <li>
+  <li>判别式的乘积公式.
+    设 `f(x) = a_m prod_i (x-x_i)` 则
+    <span class="formula">
+      `f'(x) = a_m sum_i prod_(j != i) (x - x_j)`,<br>
+      `f'(x_i) = a_m prod_(j != i) (x_i - x_j)`.
+    </span> 
+    于是
+    <span class="formula">
+      `"Res"(f, f')`
+      `= a_m^(m-1) prod_i f'(x_i)`
+      `= a_m^(m-1) a_m^m prod_(i != j) (x_i - x_j)`
+      `= (-1)^s a_m^(2m-1) prod_(i lt j) (x_i - x_j)^2`.
+    </span>
+  </li>
+  <li>二次多项式的判别式
     <span class="formula">
       `Delta(a x^2 + b x + c)`
       `= -1/a "Res"(a x^2 + b x + c, 2a x + b)`
@@ -1225,7 +1309,7 @@
       `= b^2 - 4 a c`.
     </span>
   </li>
-  <li>
+  <li>三次多项式的判别式
 <pre>
 from sympy import *
 from sympy.abc import a, b, c, x
@@ -1233,13 +1317,6 @@ expand(resultant(a*x**3 + b*x**2 + c*x + d, 3*a*x**2 + 2*b*x + c, x)/(-a))
 </pre>
   </li>
 </ol>
-
-<p class="theorem">
-  设 `f` 为 `n` 次多项式, `a_n != 0` 为最高次项系数, `x_1, cdots, x_n` 是它的根, 则
-  <span class="formula">
-    `Delta(f) = a_n^(2n-2) prod_(1 le i lt j le n) (x_i - x_j)^2`.
-  </span>
-</p>
 
 <p class="algorithm">
   <b>二元高次方程组</b>

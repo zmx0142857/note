@@ -25,7 +25,7 @@ math: {
 }, {
   title:'高等代数',
   articles: [
-    {title:'初等代数', src:'linalg/0.html', date:'2023-05-04'},
+    {title:'初等代数', src:'linalg/0.html', date:'2023-05-05'},
     {title:'矩阵', src:'linalg/1.html', date:'2022-02-16'},
     {title:'行列式', src:'linalg/2.html', date:'2021-12-06'},
     {title:'向量的相关性与线性方程组', src:'linalg/3.html', date:'2021-12-14'},
