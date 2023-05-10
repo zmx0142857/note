@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<title>盲文</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../css/quiz.css">
+<style>
+body {
+  color: white;
+}
+.input-points {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+#output-points {
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<form class="settings">
+  <label>
+    <input type="checkbox" id="checkbox-number" checked="true" />
+    数字
+  </label>
+  <label>
+    <input type="checkbox" id="checkbox-letter" />
+    英文字母
+  </label>
+  <label>
+    <input type="checkbox" id="checkbox-pinyin" />
+    汉语拼音
+  </label>
+  <label>
+    <input type="checkbox" id="checkbox-text-braille" checked="true" />
+    看文字选盲文
+  </label>
+  <label>
+    <input type="checkbox" id="checkbox-braille-text" />
+    看盲文选文字
+  </label>
+</form>
+
+<main id="quiz"></main>
+<p id="tips"></p>
+
+<div class="input-points">
+  <input id="input-points" value="1,2,4,5">
+  <span id="output-points">⠛</span>
+</div>
+
+<script src="../../js/ui.js"></script>
+<script src="../../js/quiz.js"></script>
+<script>
+const tips = [
+  '每个数字的盲文都以 3456 点位的“数号”开头',
+  '数字盲文只用到上半截的 1245 点位',
+  '英语盲文 a-j 和数字的盲文完全相同；k-t 是 a-j 下面加上了 3 号点位',
+  '盲文符号的 unicode 范围是 U+2800 到 U+28ff，但一般只用前面的 64 个',
+  '盲文符号由 6 个点位组成。从左到右按列编号：左上角是 1 号，1 号之下是 2 号...',
+  '盲文拼音 z, c, s, r, zh, ch, sh 后的 i 省略不写',
+]
+const dict = {
+  number: [
+    [1, '⠼⠁'], [2, '⠼⠃'], [3, '⠼⠉'], [4, '⠼⠙'], [5, '⠼⠑'], [6, '⠼⠋'], [7, '⠼⠛'], [8, '⠼⠓'], [9, '⠼⠊'], [0, '⠼⠚'],
+  ],
+  letter: [
+    ['a', '⠁'], ['b', '⠃'], ['c', '⠉'], ['d', '⠙'], ['e', '⠑'], ['f', '⠋'], ['g', '⠛'], ['h', '⠓'], ['i', '⠊'], ['j', '⠚'], ['k', '⠅'], ['l', '⠇'], ['m', '⠍'], ['n', '⠝'], ['o', '⠕'], ['p', '⠏'], ['q', '⠟'], ['r', '⠗'], ['s', '⠎'], ['t', '⠞'], ['u', '⠥'], ['v', '⠧'], ['w', '⠺'], ['x', '⠭'], ['y', '⠽'], ['z', '⠵'],
+  ],
+  pinyin: [
+    ['g,j', '⠛'],
+    ['k,q', '⠅'],
+    ['h,x', '⠓'],
+    ['zh', '⠌'],
+    ['ch', '⠟'],
+    ['sh', '⠱'],
+    ['r', '⠚'],
+    ['a', '⠔'],
+    ['e', '⠢'],
+    ['i', '⠊'],
+    ['u', '⠥'],
+    ['ü', '⠬'],
+    ['er', '⠗'],
+    ['ai', '⠪'],
+    ['ao', '⠖'],
+    ['ei', '⠮'],
+    ['ou', '⠷'],
+    ['ia', '⠫'],
+    ['iao', '⠜'],
+    ['ie', '⠑'],
+    ['iu', '⠳'],
+    ['ua', '⠿'],
+    ['uai', '⠽'],
+    ['ui', '⠺'],
+    ['uo', '⠕'],
+    ['üe', '⠾'],
+    ['an', '⠧'],
+    ['ang', '⠦'],
+    ['en', '⠴'],
+    ['eng', '⠼'],
+    ['ian', '⠩'],
+    ['iang', '⠭'],
+    ['in', '⠣'],
+    ['ing', '⠡'],
+    ['uan', '⠻'],
+    ['uang', '⠶'],
+    ['uen', '⠒'],
+    ['ong', '⠲'],
+    ['üan', '⠯'],
+    ['ün', '⠸'],
+    ['iong', '⠹'],
+    ['阴平', '⠁'],
+    ['阳平', '⠂'],
+    ['上声', '⠄'],
+    ['去声', '⠆'],
+  ],
+}
+
+dict.pinyin.forEach(arr => {
+  arr[0] += ' (拼音)'
+  arr[1] += ' (拼音)'
+})
+
+//console.table(dict)
+let list = []
+
+// fromPoints(1, 2, 3, 5, 6) === '⠷'
+const fromPoints = (...args) => String.fromCodePoint(args.reduce((acc, x) => acc + 2**(x-1), 0) + 40*256)
+function debounce (fn, delay = 500) {
+  let timer
+  return function debouncedFn () {
+    clearTimeout(timer)
+    timer = setTimeout(fn, delay)
+  }
+}
+const inputPoints = $('#input-points'), outputPoints = $('#output-points')
+inputPoints.addEventListener('keydown', e => e.stopPropagation())
+inputPoints.oninput = debounce(() => {
+  const arr = inputPoints.value.split(',').map(n => Number(n))
+  outputPoints.innerText = fromPoints(...arr)
+})
+outputPoints.onclick = () => {
+  const body = document.body;
+  const textarea = $('<textarea>');
+  textarea.value = outputPoints.innerText;
+  body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  body.removeChild(textarea);
+  const notify = $('<div>');
+  notify.innerText = '复制成功';
+  notify.classList.add('notify');
+  body.appendChild(notify);
+  setTimeout(() => body.removeChild(notify), 1000);
+}
+
+const checkNumber = $('#checkbox-number'),
+  checkLetter = $('#checkbox-letter'),
+  checkPinyin = $('#checkbox-pinyin'),
+  checkTextBraille = $('#checkbox-text-braille'),
+  checkBrailleText = $('#checkbox-braille-text')
+
+function equals(obj1, obj2) {
+  const keys1 = Object.keys(obj1), keys2 = Object.keys(obj2)
+  return keys1.length === keys2.length && keys1.every(key => obj1[key] === obj2[key])
+}
+
+class BrailleQuiz extends Quiz {
+  settings = {}
+
+  getSettings () {
+    const category = []
+    if (checkNumber.checked) category.push('number')
+    if (checkLetter.checked) category.push('letter')
+    if (checkPinyin.checked) category.push('pinyin')
+    if (!category.length) category.push('number')
+
+    const len = category.reduce((acc, topic) => acc + dict[topic].length, 0)
+
+    // 看文字选盲文 / 看盲文选文字
+    if (!checkTextBraille.checked && !checkBrailleText.checked)
+      checkBrailleText.checked = true;
+    const questionIdx = !checkBrailleText.checked ? 0 : !checkTextBraille.checked ? 1 : 2
+
+    return {
+      len,
+      category,
+      questionIdx,
+    }
+  }
+
+  // 读取配置; 一旦配置改变, 就重置 queue
+  needUpdate () {
+    const newSettings = this.getSettings()
+    const need = this.settings.questionIdx != newSettings.questionIdx || !equals(this.settings.category, newSettings.category)
+    this.settings = newSettings
+    return need
+  }
+
+  // 所有题出现两遍
+  gen () {
+    const { category } = this.settings
+    list = category.map(topic => dict[topic]).flat()
+    let queue = Array.from({ length: list.length }, (_, i) => i)
+    queue = [...queue, ...queue]
+    Quiz.shuffle(queue)
+    return queue
+  }
+
+  // 产生选项
+  mapper (id) {
+    this.genTips()
+    let { len, category, questionIdx } = this.settings
+    const choicesCnt = 4
+    if (questionIdx === 2) questionIdx = Math.random() < 0.5 ? 0 : 1
+    return {
+      question: list[id][questionIdx],
+      choices: Quiz.sample(len, choicesCnt, [id]).map(i => ({
+        label: list[i][1 - questionIdx],
+        isAnswer: i === id
+      }))
+    }
+  }
+
+  genTips () {
+    $('#tips').innerText = tips[Math.random() * tips.length | 0]
+  }
+}
+
+const quiz = new BrailleQuiz({
+  el: $('#quiz'),
+  uid: 'braille'
+})
+</script>
+</body>
+</html>

@@ -180,7 +180,7 @@ math: {
 }, {
   title:'解析几何',
   articles: [
-    {title:'向量与坐标系', src:'analytic-geo/1.html'},
+    {title:'向量与坐标系', src:'analytic-geo/1.html', date:'2023-05-08'},
     {title:'平面与直线', src:'analytic-geo/2.html'},
     {title:'圆锥曲线与二次曲面', src:'analytic-geo/3.html'},
     {title:'平面几何的复数解法', src:'analytic-geo/6.html'},
@@ -350,6 +350,11 @@ lang: {
     title: '旧作',
     articles: [
       {title:'鸟人', src:'sleepy/niaoren.html', date:'2022-02-26'},
+    ]
+  }, {
+    title: '未分类',
+    articles: [
+      {title:'盲文', src:'misc/braille.html', date:'2023-05-10'},
     ]
 }]},
 
