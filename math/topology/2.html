@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>分离性、可数性、紧致性、连通性</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>分离公理</h2>
+
+<p>分离公理都是关于两个点 (或闭集) 能否用邻域来分隔的性质,
+是对拓扑空间的附加要求.</p>
+
+<p class="axiom">
+  <b>`T_1` 公理</b>
+  任何两个不同点 `x, y`: `x` 有邻域不含 `y`, `y` 有邻域不含 `x`.
+</p>
+
+<p class="axiom">
+  <b>`T_2` 公理</b>
+  任何两个不同点有不相交的 (开) 邻域.
+</p>
+
+<p class="remark">
+  满足 `T_1` 公理和 `T_2` 公理的拓扑空间分别称为 `T_1` 空间和 `T_2` 空间,
+  依此类推.
+  显然 `T_2 rArr T_1`.
+  `T_2` 公理是最重要的分离公理. `T_2` 空间又称为 <b>Hausdorff (豪斯多夫) 空间</b>.
+</p>
+
+<p class="example">
+  `(RR, T_f)` 是 `T_1` 空间, 但不是 `T_2` 的.
+  因为 `x != y` 时, `RR\\{y}` 就是 `x` 的不含 `y` 的邻域.
+  但 `x, y` 的邻域都是有限集的余集, 因此一定相交.
+</p>
+
+<p class="proposition">
+  `X` 是 `T_1` 空间 `iff X` 的有限子集是闭集.
+</p>
+
+<ol class="proof">
+  <li>`rArr`.
+    只须证单点集是闭集. 取 `x, y in X`, `x != y`, 则 `y` 有邻域不含 `x`,
+    因此 `y !in bar X`. 由 `y` 的任意性知 `bar({x}) = {x}`, 即 `{x}`
+    为闭集.
+  </li>
+  <li>`lArr`.
+    设 `x != y`. 因为 `{y}` 是闭集, 所以 `X\\{y}` 是 `x` 的不含 `y` 的开邻域; 同理 `X\\{x}` 是 `y` 的不含 `x` 的开邻域.
+  </li>
+</ol>
+
+<p class="corollary">
+  <b>`T_1` 聚点聚无穷</b>
+  设 `X` 为 `T_1` 空间, `A sube X`, `x` 是 `A` 的聚点, 则 `x` 的任一邻域与
+  `A` 的交集是无穷集.
+</p>
+
+<p class="proof">
+  反设 `x` 有邻域 `U` 使得 `U nn A` 有限, 不妨设 `U` 是开集.
+  记 `B = (U nn A) \\ {x}`, 它是有限集, 因此是闭集.
+  因此 `U\\B` 仍是 `x` 的开邻域, 它与 `A\\{x}` 的交为空.
+  这与 `x in A'` 矛盾.
+</p>
+
+<p class="proposition">
+  <b>`T_2` 空间序列极限的唯一性</b>
+  Hausdorff 空间中, 一个序列不会收敛到两个以上的点.
+</p>
+
+<p class="proof">
+  设 `{x_n}` 收敛到 `x`. 又设 `y != x`, 要证 `x_n` 不会收敛到 `y`.
+  我们取 `x, y` 的不相交邻域 `U, V`.
+  因为 `x_n to x`, 所以 `{x_n}` 除有限项外全部含于 `U`, 这样 `V` 中只有
+  `{x_n}` 的至多有限项, 不可能有 `x_n to y`.
+</p>
+
+<p class="axiom">
+  <b>`T_3` 公理</b>
+  闭集外的一点与该闭集有不相交的 (开) 邻域.
+</p>
+
+<p class="axiom">
+  <b>`T_4` 公理</b>
+  任意两个不相交闭集有不相交的 (开) 邻域.
+  (如果 `A sube U^@`, 就说 `U` 是集合 `A` 的邻域).
+</p>
+
+<p class="remark">
+  `T_1` 公理成立时, 单点集是闭集, 因此
+  <span class="formula">
+    `T_4 rArr T_3 rArr T_2`.
+  </span>
+  但 `T_1` 不成立时, 上式存在反例, 如拓扑空间 `(RR, tau)`, 其中
+  <span class="formula">
+    `tau = {(-oo, a)| -oo le a le +oo}`.
+  </span>
+  该空间是 `T_4` 的, 但不满足 `T_1` ~ `T_3` 公理.
+</p>
+
+<ol class="proof">
+  <li>`T_4` 成立: 注意到 `(RR, tau)` 的任何两个非空闭集都相交. 这就是说,
+    若 `A, B` 是两个不相交闭集, 则必有其一是空集, 设 `B = O/`, 于是 `RR`
+    和 `O/` 分别是 `A, B` 的不相交邻域.
+  </li>
+</ol>
+
+<ol class="proposition">
+  <li>`T_3` 公理 `iff` 任取点 `x` 和它的开邻域 `W`, 存在 `x` 的开邻域 `U`
+    使得 `bar U sube W`.
+  </li>
+  <li>`T_4` 公理 `iff` 任取闭集 `A` 和它的开邻域 `W`, 存在 `A` 的开邻域
+    `U` 使得 `bar U sube bar W`.</li>
+</ol>
+
+<ol class="proof">
+  两个命题的证明相同, 下面只证 2.
+  <li></li>
+  <li></li>
+</ol>
+
+<p>喜报:</p>
+<p class="proposition">
+  度量空间满足 `T_1` ~ `T_4` 公理.
+</p>
+
+<ol class="proof">
+  只需证 `T_1` 和 `T_4` 成立.
+  <li>`T_1`:</li>
+  <li>`T_4`:</li>
+</ol>
+
+<h2>可数公理</h2>
+
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

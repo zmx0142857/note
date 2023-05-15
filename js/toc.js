@@ -151,6 +151,7 @@ math: {
   title:'拓扑学',
   articles: [
     {title:'拓扑空间与连续映射', src:'topology/1.html', date:'2023-05-11'},
+    {title:'分离性、可数性、紧致性、连通性', src:'topology/2.html', date:'2023-05-14'},
   ]
 }, {
   title:'常微分方程',
