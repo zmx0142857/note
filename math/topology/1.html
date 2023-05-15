@@ -13,7 +13,7 @@
 
 <ol class="definition">
 	<b>拓扑公理</b>
-	设 `X != O/`, 称 `tau sube 2^X` 为 `X` 的一个<b>拓扑</b>, 如果它满足
+	设 `X != O/`, 称 `X` 的子集族 `tau sube 2^X` 为 `X` 的一个<b>拓扑</b>, 如果它满足
 	<li>`X, O/ in tau`;</li>
 	<li>`tau` 中任意多个集合的并仍在 `tau` 中;</li>
 	<li>`tau` 中任意有限个集合的交仍在 `tau` 中.</li>
@@ -36,17 +36,17 @@
 
 <ol class="example">
 	设 `X != O/`.
-	<li><b>平凡拓扑</b> `tau_t = {X, O/}` 是 `X` 上最小的拓扑,
+	<li><b>平凡拓扑 (trival topology)</b> `tau_t = {X, O/}` 是 `X` 上最小的拓扑,
 		它的开集只有全空间与空集;</li>
-	<li><b>离散拓扑</b> `tau_s = 2^X` 是 `X` 上最大的拓扑,
+	<li><b>离散拓扑 (discrete topology)</b> `tau_s = 2^X` 是 `X` 上最大的拓扑,
 		`X` 的任一子集都是开集;</li>
-	<li><b>余有限拓扑</b> `tau_f = {A^c: A sube X, |A| lt oo} uu {O/}`,
+	<li><b>余有限拓扑 (cofinite topology)</b> `tau_f = {A^c: A sube X, |A| lt oo} uu {O/}`,
 		`X` 为无穷集合;
 	</li>
-	<li><b>余可数拓扑</b> `tau_c = {A^c: A sube X, |A| = aleph_0} uu
+	<li><b>余可数拓扑 (cocountable topology)</b> `tau_c = {A^c: A sube X, |A| = aleph_0} uu
 		{O/}`, `X` 为不可数集合;
 	</li>
-	<li><b>欧氏拓扑</b> `tau_e = {uuu_(alpha in I) O_alpha: O_alpha
+	<li><b>欧氏拓扑 (Euclidean topology)</b> `tau_e = {uuu_(alpha in I) O_alpha: O_alpha
 		"是开区间"}`, `X = RR`. 这里 `I` 可以是空集, 因此 `O/ in tau_e`.
 	</li>
 	统一取 `X = RR` 时, `tau_f` 小于 `tau_c` 和 `tau_e`; 而 `tau_c, tau_e`
@@ -57,13 +57,10 @@
 
 <ol class="definition">
 	设 `X != O/`, 称映射 `d: X xx X to RR` 为 `X` 上的一个<b>度量</b>,
-	如果它满足
-	<li>正定性. `(AA x in X)` `d(x, x) = 0`,
-		`(AA x, y in X, x != y)` `d(x, y) gt 0`;
-	</li>
-	<li>对称性. `(AA x, y in X)` `d(x, y) = d(y, x)`;</li>
-	<li>三角不等式. `(AA x, y, z in X)` `d(x, z) le d(x, y) + d(y, z)`.
-	</li>
+	如果它对于 `AA x, y, z in X` 满足
+	<li>正定性. `d(x, y) { = 0, if x = y; gt 0, if x != y :}`;</li>
+	<li>对称性. `d(x, y) = d(y, x)`;</li>
+	<li>三角不等式. `d(x, z) le d(x, y) + d(y, z)`.</li>
 	集合 `X` 连同其上的度量 `d` 组成一个<b>度量空间</b> `(X, d)`,
 	有时也简记为 `X`.
 </ol>
@@ -314,8 +311,11 @@
 		只有有限项不在 `U` 中. 这推出 `x_n to x`.
 	</li>
 	<li>聚点原理一般不成立. 数学分析中, 当 `x` 是 `A` 的聚点时, `A`
-		中有序列收敛到 `x`. 但在 `(RR, tau_c)` 中, `x_n to x`
-		`iff EE N, AA n gt N, x_n = x`. 设 `A` 是一个不可数真子集,
+		中有序列收敛到 `x`. 但在 `(RR, tau_c)` 中可以证明 (反证法):
+        <span class="formula">
+          `x_n to x` `iff EE N, AA n gt N, x_n = x`.
+        </span>
+        设 `A` 是一个不可数真子集,
 		则包含 `A` 的闭集只有 `RR`, 这推出 `bar A = RR`.
 		取 `x in A^c`, 则 `x` 是 `A` 的聚点, 但 `A` 中不存在序列收敛到
 		`x`.
@@ -391,7 +391,7 @@
 
 <ol class="proof">
 	利用<a class="ref" href="#the-subspace-topology-eq"></a>,
-	<li>当 `B` 的 `X` 的开 (闭) 集时, `B = B nn A` 也是 `A` 的开 (闭) 集.
+	<li>当 `B` 是 `X` 的开 (闭) 集时, `B = B nn A` 也是 `A` 的开 (闭) 集.
 	</li>
 	<li>由 `B` 是 `A` 的开 (闭) 集, 存在 `X` 的开 (闭) 集 `U`,
 		使得 `B = U nn A`. 又由 `A` 是 `X` 的开 (闭) 集知, `B` 是 `X` 的开
@@ -403,28 +403,45 @@
 
 <h3>连续映射的定义</h3>
 
-<p class="definition">
-	设 `X, Y` 是两个拓扑空间, 称映射 `f: X to Y` 在 `x in X`
-	处<b>连续</b>, 如果
-	<span class="formula">
-		`V` 是 `f(x)` 在 `Y` 中的 (开) 邻域
-		`rArr f^-1(V)` 是 `x` 在 `X` 中的邻域.
-	</span>
-	即 `f(x) in V^@ rArr x in f^-1(V)^@`.
-	换言之, 对 `f(x)` 的每个开邻域 `V`, 必存在 `x` 的开邻域 `U`, 使
-	`U sube f^-1(V)`, 即 `f(U) sube V`.
-</p>
+<ol class="definition">
+  设 `X, Y` 是两个拓扑空间, 称映射 `f: X to Y` 在 `x in X`
+  处<b>连续</b>, 如果以下任一条成立:
+  <li>
+    `V` 是 `f(x)` 在 `Y` 中的 (开) 邻域 `rArr f^-1(V)` 是 `x` 在 `X` 中的邻域.
+  </li>
+  <li>`f(x) in V^@ rArr x in f^-1(V)^@`.</li>
+  <li>对 `f(x)` 的每个开邻域 `V`, 必存在 `x` 的开邻域 `U`, 使
+    `U sube f^-1(V)`, 即 `f(U) sube V`.</li>
+</ol>
 
 <p class="remark">
 	定义中的第一个"邻域"换成"开邻域"也是对的, 因为任一 `f(x)` 的邻域 `V`
 	总是包含一个开邻域 `V'`, 而 `V' sube V rArr f^-1(V') sube f^-1(V)`.
 </p>
 
+<p class="definition">
+  设 `f: X to Y`, `A sube X`. 则 `f` 在 `A` 上的限制定义为:
+  <span class="formula">
+    `f_A = f | A: A to Y`,<br>
+    `x = f(x)`.
+  </span>
+  `A` 到 `X` 的包含映射定义为:
+  <span class="formula">
+    `i_A: A to X`,<br>
+    `i_A(a) = a`.
+  </span>
+</p>
+
+<ol class="corollary">
+  <li>对任意 `V sube Y`, `f_A^-1(V) = A nn f^-1(V)`.</li>
+  <li>`f_A = f @ i_A`.</li>
+</ol>
+
 <ol class="theorem" id="the-continuity-restriction">
 	设 `A` 是拓扑空间 `X` 的子集, `x in A`, `f: X to Y`.
 	记 `f_A = f | A: A to Y` 是 `f` 在 `A` 上的限制, 则
 	<li>`f` 在 `x` 连续 `rArr f_A` 在 `x` 连续;</li>
-	<li>`A` 是 `x` 的邻域时, 1 是充要的.</li>
+	<li>`A` 是 `x` 的邻域时, 1. 是充要的.</li>
 </ol>
 
 <ol class="proof">
@@ -450,7 +467,7 @@
 </ol>
 
 <p class="remark">
-	<a class="ref" href="#the-continuity-restriction"></a>的 2 表明,
+	<a class="ref" href="#the-continuity-restriction"></a>的 2. 表明,
 	映射在一点的连续性只与它在该点附近 (即邻域内) 的情形有关.
 	因此和分析学中一样, 连续性是一种局部性概念.
 </p>
@@ -600,6 +617,7 @@
 <p class="definition">
 	称 `f: X to Y` 是<b>嵌入映射</b>, 如果 `f: X to f(X)` 是同胚映射.
 	例如, 包含映射 `i: A to X` 是嵌入映射.
+    如果存在 `X to Y` 的嵌入映射, 换言之 `X` 同胚于 `Y` 的某个子集, 就说 `X` 可以嵌入到 `Y`.
 </p>
 
 <p class="definition">
@@ -613,13 +631,12 @@
 <h2>乘积空间与拓扑基</h2>
 
 <p class="definition">
-	设 `cc B sube 2^X` 是 `X` 的子集族, 规定新子集族 (不是闭包)
+	设 `cc B sube 2^X` 是 `X` 的子集族, 规定新子集族
 	<span class="formula">
-		`bar cc B := {U sube X: U` 是 `cc B` 中若干成员的并`}`
+		`(: cc B :) := {U sube X: U` 是 `cc B` 中若干成员的并`}`
 		`= {U sube X: AA x in U, EE B in cc B, x in B sube U}`.
 	</span>
-	称为 `cc B` <b>生成</b>的子集族. 显然 `cc B sube bar cc B`, `O/ in bar
-	cc B`.
+	称为 `cc B` <b>生成</b>的子集族. 显然 `cc B sube (: cc B :)`, `O/ in (: cc B :)`.
 </p>
 
 <p class="definition">
@@ -658,13 +675,13 @@
 
 <p class="theorem">
 	令 `cc B = {U_1 xx U_2: U_i in tau_i, i = 1, 2}`, 则它生成的子集族
-	`bar cc B` 就是 `X_1 xx X_2` 上的乘积拓扑.
+	`(: cc B :)` 就是 `X_1 xx X_2` 上的乘积拓扑.
 	例如, `bm E^2` 中的开集可以表示为若干开矩体的并.
 </p>
 
 <ol class="proof">
 	<li>设 `tau` 是 `X_1 xx X_2` 上的拓扑, 使得 `j_1, j_2` 连续. 下证
-		`bar cc B sube tau`.
+		`(:cc B:) sube tau`.
 		任取 `U_i in tau_i`, `i = 1, 2`, 由于 `j_i` 连续,
 		`j_i^-1(U_i) in tau` (开集的原像也是开集).  而
 		<span class="formula">
@@ -674,12 +691,12 @@
 			`= j_1^-1(U_1) nn j_2^-1(U_2)`
 			`in tau`.
 		</span>
-		这说明 `cc B sube tau`; 由 `tau` 满足拓扑公理 2 知 `bar cc B sube
+		这说明 `cc B sube tau`; 由 `tau` 满足拓扑公理 2 知 `(:cc B:) sube
 		tau`.
 	</li>
-	<li>验证 `bar cc B` 是 `X_1 xx X_2` 上的拓扑.
+	<li>验证 `(:cc B:)` 是 `X_1 xx X_2` 上的拓扑.
 		显然, 它满足拓扑公理 1 和 2, 下证它满足拓扑公理 3.
-		设 `U, V in bar cc B`, 要证 `U nn V in bar cc B`.
+		设 `U, V in (:cc B:)`, 要证 `U nn V in (:cc B:)`.
 		任取 `(x_1, x_2) in U nn V`, 这蕴含 `(x_1, x_2) in U`,
 		从而存在 `U_i in tau_i`, `i = 1, 2`, 使 `(x_1, x_2) in U_1 xx U_2
 		sube U`; 同理存在 `V_i in tau_i`, `i = 1, 2`, 使 `(x_1, x_2) in
@@ -692,7 +709,7 @@
 			`  (U_1 xx U_2) nn (V_1 xx V_2)`
 			`= (U_1 nn V_1) xx (U_2 nn V_2) in cc B`,
 		</span>
-		这推出 `U nn V in bar cc B`.
+		这推出 `U nn V in (:cc B:)`.
 	</li>
 </ol>
 
@@ -779,10 +796,10 @@
 
 <ol class="definition">
 	<li><b>集合的拓扑基</b> 称集合 `X` 的子集族 `cc B` 为集合 `X`
-		的拓扑基, 如果 `bar cc B` 是 `X` 的一个拓扑;
+		的拓扑基, 如果 `(:cc B:)` 是 `X` 的一个拓扑;
 	</li>
 	<li><b>拓扑空间的拓扑基</b> 称拓扑空间 `(X, tau)` 的子集族 `cc B`
-		为这个拓扑空间的拓扑基, 如果 `bar cc B = tau`.
+		为这个拓扑空间的拓扑基, 如果 `(:cc B:) = tau`.
 	</li>
 	总之, 拓扑基中若干集合的并构成了 `X` 上的拓扑.
 	若两个拓扑基生成相同的拓扑, 则称它们<b>等价</b>.
@@ -791,33 +808,33 @@
 <ol class="theorem">
 	`cc B` 是集合 `X` 的拓扑基的充要条件是:
 	<li>`uuu_(B in cc B) B = X`;</li>
-	<li>`B_1, B_2 in cc B rArr B_1 nn B_2 in bar cc B`.</li>
+	<li>`B_1, B_2 in cc B rArr B_1 nn B_2 in (:cc B:)`.</li>
 </ol>
 
 <p class="proof">
 	条件 2 显然是为了使拓扑公理 3 得到满足. 我们联系度量拓扑的证明.
 	必要性显然, 下证充分性, 即验证 `cc B` 满足拓扑公理.
-	由 `bar cc B` 的定义知它满足拓扑公理 2, 且 `O/ in bar cc B`.
-	条件 1 说明 `X in bar cc B`, 因此 `bar cc B` 也满足拓扑公理 1.
-	设 `U, V in bar cc B`, 记 `U = uuu_alpha B_alpha`, `V = uuu_beta
+	由 `(:cc B:)` 的定义知它满足拓扑公理 2, 且 `O/ in (:cc B:)`.
+	条件 1 说明 `X in (:cc B:)`, 因此 `(:cc B:)` 也满足拓扑公理 1.
+	设 `U, V in (:cc B:)`, 记 `U = uuu_alpha B_alpha`, `V = uuu_beta
 	C_beta`, 其中 `B_alpha, C_beta in cc B`, `AA alpha, beta`.
 	由条件 2 得
-	`B_alpha nn C_beta in bar cc B`, `AA alpha, beta`.
+	`B_alpha nn C_beta in (:cc B:)`, `AA alpha, beta`.
 	于是
-	`U nn V = uuu_(alpha, beta) (B_alpha nn C_beta) in bar cc B`.
+	`U nn V = uuu_(alpha, beta) (B_alpha nn C_beta) in (:cc B:)`.
 	从而拓扑公理 3 成立.
 </p>
 
 <ol class="theorem">
 	`cc B` 是拓扑空间 `(X, tau)` 的拓扑基的充要条件是:
 	<li>`cc B sube tau`, 即 `cc B` 的每个成员都是开集;</li>
-	<li>`tau sube bar cc B`, 即每个开集都能表为 `cc B` 中若干成员的并.
+	<li>`tau sube (:cc B:)`, 即每个开集都能表为 `cc B` 中若干成员的并.
 	</li>
 </ol>
 
 <p class="proof">
-	必要性显然. 由拓扑公理 2 和条件 1 推出 `bar cc B sube tau`, 再结合 2
-	有 `tau = bar cc B`, 充分性得证.
+	必要性显然. 由拓扑公理 2 和条件 1 推出 `(:cc B:) sube tau`, 再结合 2
+	有 `tau = (:cc B:)`, 充分性得证.
 </p>
 
 <p class="definition">
@@ -829,7 +846,7 @@
 	是 `(A, tau_A)` 的拓扑基. 事实上, `cc B_A` 的每个成员都是 `A` 的开集;
 	设 `V` 是 `A` 的开集, 则存在 `U in tau`, 使 `V = A nn U`.
 	设 `U = uuu_alpha B_alpha`, `B_alpha in cc B`, 则
-	`V = uuu_alpha (A nn B_alpha) in bar cc B_A`.
+	`V = uuu_alpha (A nn B_alpha) in (:cc B_A:)`.
 </p>
 
 <p class="theorem">

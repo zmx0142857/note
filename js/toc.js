@@ -150,7 +150,7 @@ math: {
 }, {
   title:'拓扑学',
   articles: [
-    {title:'拓扑空间与连续映射', src:'topology/1.html'},
+    {title:'拓扑空间与连续映射', src:'topology/1.html', date:'2023-05-11'},
   ]
 }, {
   title:'常微分方程',
