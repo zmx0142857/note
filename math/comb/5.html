@@ -433,16 +433,30 @@
 	<b>Stirling 数</b>
 	从线性代数的角度, `{x^k}_(k=0)^n` 与 `{x^(ul k)}_(k=0)^n`
 	是次数不超过 `n` 的多项式组成的线性空间 `bbb P{::}_n[x]` 的两个基底.
-	为了方便离散微积分运算, 需要将多项式的基由普通幂换为由下降幂.
+	为了方便离散微积分运算, 需要将多项式的基由普通幂换为下降幂.
 	下面定义的两类 Stirling 数分别给出了两组基底之间互化的系数
 	(即过渡矩阵):
 	<span class="formula">
 		`x^(ul n) = sum_(k=0)^n (-1)^(n-k) s(n, k) x^k`,
 		`quad x^n = sum_(k=0)^n S(n, k) x^(ul k)`.
 	</span>
-	其中 `s(n, k)` 称为<b>第一类 Stirling 数</b>,
-	`S(n, k)` 称为<b>第二类 Stirling 数</b>.
+	其中 `s(n, k)` 称为<b>第一类 Stirling 数</b>, 也记为 `[n;k]`,
+    `S(n, k)` 称为<b>第二类 Stirling 数</b>, 也记为 `{n;k}`.
 </p>
+
+<p class="corollary">
+  <b>两类 Stirling 数的反演</b>
+  由两类 Stirling 数构成的系数矩阵互逆知,
+  <span class="formula">
+    `y_n = sum_(k=0)^n S(n, k) x_n`
+    `iff`
+    `x_n = sum_(k=0)^n (-1)^(n-k) s(n, k) y_n`.
+  </span>
+</p>
+
+<p>我们先讨论第二类 Stirling 数.</p>
+
+<h3>第二类 Stirling 数</h3>
 
 <pre>
           1
@@ -493,7 +507,7 @@
   <span class="formula">
     `S(n,k) = 1/k! sum_(j=0)^k (k;j) (-1)^j (k-j)^n`.
   </span>
-  令 `S^k = k^n`, 上式形式写为 `k! S(n, k) = (S-1)^k`.
+  令 `S^k = k^n`, 上式形式写为 `S(n, k) = 1/k! (S-1)^k`.
 </p>
 
 <p class="proof">
@@ -587,6 +601,52 @@
 		`B_n^(-) = sum_(k=0)^n (:n;k:) (-1)^k/(k+1)`, `quad n ge 1`.
 	</span>
 	容易验证上式对 `n=0` 也成立.
+</p>
+
+<h3>第一类 Stirling 数</h3>
+
+<pre>
+          1
+        0   1
+      0   1   1
+    0   2   3   1
+  0   6   11  6   1
+0   24  50  35  10   1
+</pre>
+
+<p class="remark">
+验算:
+<span class="formula">
+`[
+  1;
+  0, 1;
+  0, 1, 1;
+  0, 1, 3, 1;
+  0, 1, 7, 6, 1;
+  0, 1, 15, 25, 10, 1;
+]
+
+[
+  1;
+  0, 1;
+  0, -1, 1;
+  0, 2, -3, 1;
+  0, -6, 11, -6, 1;
+  0, 24, -50, 35, -10, 1;
+] = bm I`
+</span>
+</p>
+
+<p class="proposition">
+  <b>递推公式</b>
+  <span class="formula">
+    `s(n, k) = {
+      1, if n = k;
+      0, if n gt 0 and k = 0;
+      s(n-1, k-1) + (n-1) s(n-1, k), otherwise;
+    :}`
+  </span>
+  第一类 Stirling 数没有实用的通项公式.
 </p>
 
 <h2>Euler 数</h2>
