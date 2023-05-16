@@ -136,7 +136,7 @@ math: {
   articles: [
     {title:'群 (上)', src:'algebra/2.html', date:'2021-12-22'},
     {title:'群 (中)', src:'algebra/3.html'},
-    {title:'群 (下)', src:'algebra/4.html', date:'2021-12-22'},
+    {title:'群 (下)', src:'algebra/4.html', date:'2023-05-16'},
     {title:'半群', src:'algebra/5.html'},
     {title:'环', src:'algebra/6.html'},
     {title:'域', src:'algebra/7.html', date:'2022-02-26'},

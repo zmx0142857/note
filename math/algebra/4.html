@@ -897,7 +897,7 @@
 </p>
 
 <p class="example">
-  群 `G` 在共轭作用下的轨道是其<b>共轭类</b>.
+  群 `G` 在共轭作用 `g(x) = g x g^-1` 下的轨道是其<b>共轭类</b>.
   `G` 是全体共轭类的无交并. 正规子群是一到多个共轭类的并,
   这是因为正规子群满足 `AA g in G`, `g H g^-1 sube H`,
   即它的共轭像含于自身.
@@ -910,7 +910,7 @@
     `H_x := {g in G | g(x) = x}`
   </span>
   由 `e in H_x` 知 `H_x` 非空. 容易验证 `H_x le G`, 称为 `x` 在 `f`
-  下的<b>稳定子群</b>.
+  下的<b>稳定子群</b>或<b>稳定化子</b>.
 </p>
 
 <p class="proof">
@@ -936,6 +936,7 @@
   的中心化子 `Z_G(x)`; `G` 在共轭作用下的不动点的全体就是 `Z(G)`.
 </p>
 
+<!--
 <p class="definition">
   设群 `G` 在非空集 `X, Y` 上各有一群作用, 称这两个群作用<b>等价</b>,
   如果存在双射 `varphi: X to Y` 使得
@@ -975,20 +976,215 @@
   </span>
   因此, 二群作用等价.
 </p>
+-->
 
 <p class="theorem" id="the-orbit-cardinal">
+  <b>轨道-稳定子群引理</b>
   令 `f: G xx X to X` 为一群作用, 则
   <span class="formula">
     `|G| = |O_x| |H_x|`.
   </span>
 </p>
 
+<!--
 <p class="proof">
   这是因为存在 `G//H_(x,l) to O_x` 间的双射, 故
   <span class="formula">
     `|O_x| = |G//H_(x,l)| = [G:H_x]`.
   </span>
 </p>
+-->
+
+<p class="proof">
+  只需建立 `G // H_(x,l) to O_x` 的双射, 从而
+  <span class="formula">
+    `|O_x| = |G//H_(x,l)| = [G:H_x]`.
+  </span>
+  事实上, 作
+  <span class="formula">
+    `varphi: G//H_(x,l) to O_x`<br>
+    `a H_x mapsto a(x)`.
+  </span>
+  则由
+  <span class="formula">
+    `a H_x = b H_x iff a^-1 b in H_x`
+    `iff x = (a^-1 b) x`
+    `iff a(x) = b(x)`
+  </span>
+  知, `varphi` 为一映射, 且为一单射, 又由轨道定义, `varphi` 为一满射,
+  因此 `varphi` 为一双射.
+</p>
+
+<h3>Pólya 计数</h3>
+
+<p>[来自 <a href="https://zhuanlan.zhihu.com/p/268777559">知乎@Pika369</a>]</p>
+
+<p>群作用的轨道自然形成了集合 `X` 的划分
+  <span class="formula">
+    `X//G = {O_x | x in X}`.
+  </span>
+  Pólya 计数定理主要解决轨道数目 `|X//G|` 的计算问题.
+</p>
+
+<p class="definition">
+  回忆稳定子群的定义, 固定集合元素 `x`, 它的稳定子群是群 `G` 中使得 `g(x) = x` 的 `g` 的集合:
+  <span class="formula">
+    `H_x := {g in G | g(x) = x}`.
+  </span>
+  现在先固定 `G` 中元素 `g`, 用 `X^g` 表示集合 `X` 中满足 `g(x) = x` 的 `x` 的集合:
+  <span class="formula">
+    `X^g := {x in X | g(x) = x}`.
+  </span>
+</p>
+
+<p class="lemma">
+  <b>Burnside 引理</b>
+  有限集合 `X` 在有限群 `G` 作用下的轨道数目为
+  <span class="formula">
+    `|X//G| = 1/|G| sum_(g in G) |X^g|`.
+  </span>
+</p>
+
+<p class="proof">
+  引入记号
+  <span class="formula">
+    `[g(x) = x] = {1, if g(x) = x; 0, otherwise:}`
+  </span>
+  交换求和次序, 应用轨道-稳定子群引理:
+  <span class="formula">
+    `sum_(g in G) |X^g|`
+    `= sum_(g in G) sum_(x in X) [g(x) = x]`
+    `= sum_(x in X) sum_(g in G) [g(x) = x]`
+    `= sum_(x in X) |H_x|`<br>
+    `= sum_(x in X) |G|/|O_x|`
+    `= |G| sum_(O_x) sum_(x in O_x) 1/|O_x|`
+    `= |G| sum_(O_x) 1`
+    `= |G| |X//G|`.
+  </span>
+</p>
+
+<p class="question">
+  <b>集合染色问题</b>
+  用集合 `C` 中的 `m` 种颜色对集合 `X` 中的 `n` 个元素进行染色,
+  每个染色方案就是 `X` 到 `C` 的一个映射:
+  <span class="formula">
+    `f: X to C`,<br>
+    `x mapsto f(x)`.
+  </span>
+  若每个元素都独立地染色, 所有方案数为 `|C^X| = m^n`.<br>
+  现在让置换群 `G` 作用于集合 `X`, 则 `G` 诱导出染色方案集合 `C^X` 上的群作用:
+  染色方案 `x mapsto f(x)` 在 `G` 的作用下变为 `g(x) mapsto f(x)`.
+  将同一轨道中的染色方案视为相同方案, 则染色方案总数是多少?
+</p>
+
+<p class="theorem">
+  <b>Pólya 定理</b>
+  集合染色问题的方案数是:
+  <span class="formula">
+    `1/|G| sum_(g in G) m^(l(g))`.
+  </span>
+  其中 `m` 是颜色的个数, `l(g)` 表示置换 `g` 中的轮换个数.
+  如果 `g` 中的 `k`-轮换数目为 `l_k(g)`, 则 `l(g) = sum_(k=1)^n l_k(g)`.
+  参见<a href="../2.html#def-cycle-type">轮换型号</a>.
+</p>
+
+<p class="proof">
+  问题化为计算 `G` 在 `Y = C^X` 上群作用的轨道数. 由 Burnside 引理, 只需算出每个 `g in G` 对应的 
+  `|Y^g|`; 即给定一个置换 `g`, 有多少种染色方案在 `g` 的作用下不变?
+  事实上, 将 `g` 写为轮换的乘积, 则染色方案 `f` 在 `g` 作用下不变当且仅当 `f` 把 `g` 的同一个轮换中的元素映为同一种颜色.
+  <br>
+  比如 `g = (1 2 3)(5 7)(6)`, 如果我们把 `1, 2, 3` 染为同一种「颜色 `a`」, `5, 7` 染为同一种「颜色 `b`」,
+  `6` 染为「颜色 `c`」, 那么这个方案在 `g` 的置换下就是不变的.
+  反之, 要使方案在 `g` 的置换下不变, 则 `1, 2, 3` 必须染为同一种颜色, `5, 7` 必须染为同一种颜色.
+  <br>
+  这样的方案有几种? 注意到 `a, b, c` 是否是同一种颜色无关紧要,
+  即它们可以独立地染色, 因此在 `g = (1 2 3)(5 7)(6)`
+  的置换下不变的方案数有 `m^3` 种. 一般地, 就有
+  <span class="formula">
+    `|Y^g| = m^(l(g))`.
+  </span>
+</p>
+
+<p class="example">
+  [来自群友 折棒] 正四面体用四种颜色染色有几种方案?
+</p>
+
+<div class="solution">
+  总之, 把正四面体的对称性群 `A_4` 的元素用轮换写出来:
+<pre>
+()
+(12)(34)
+(13)(24)
+(14)(23)
+(123)
+(321)
+(124)
+(421)
+(134)
+(431)
+(234)
+(432)
+</pre>
+  其中没有写出的数字应该看作一个单独的轮换, 比如 `(1 2 3)` 写全了应该是 `(123)(4)`, 它由两个轮换构成.
+  代入 Pólya 公式得到答案
+  <span class="formula">
+    `1/|A_4| sum_(g in A_4) 4^(l(g))`
+    `= 1/12 (4^4 + 11*4^2)`
+    `= 36`.
+  </span>
+</div>
+
+
+<p class="example">
+  <b>Pólya 定理的循环群情形 (`G = C_n`)</b>
+  一个抽奖的圆盘均匀分成 `n` 个扇形, 求用 `m` 种颜色给这些扇形染色的方案数.
+</p>
+
+<ol class="solution">
+  <li>
+    求 `C_n` 的轮换型号. 以 `C_8` 为例, 观察置换 `sigma = (1 3 5 7)(2 4 6 8)`,
+    它的阶是 `4`, 包含两个 `4`-轮换. 一般地, 可以证明 (??) `C_n` 中的 `d` 阶元包含 `n//d` 个 `d` 轮换.
+  </li>
+  <li>
+    那么 `C_n` 有多少个 `d` 阶元呢?
+    取生成元 `a`, 利用阶数公式
+    <span class="formula">
+      `|a^m| = n/(gcd(m, n))`, `quad m = 1, cdots, n`.
+    </span>
+    知道, `a^m` 的阶为 `d` 当且仅当 `gcd(m, n) = n/d`.
+    等号两边除以 `n/d` 得 `gcd(m d/n, d) = 1`, `m d/n` in `[1, d] nn ZZ`.
+    因此 `C_n` 中的 `d` 阶元有 `varphi(d)` 个, `varphi` 是 Euler totient 函数.
+  </li>
+  <li>代入 Pólya 公式. 方案数为
+    <span class="formula">
+      `1/n sum_(g in C_n) m^(l(g))`
+      `= 1/n sum_(d | n) varphi(d) m^(n//d)`.
+    </span>
+  </li>
+</ol>
+
+<p class="example">
+  <b>Pólya 定理的二面体群情形 (`G = D_(2n)`)</b>
+  求 `n` 颗珠子的项链用 `m` 种颜色染色的方案数.
+</p>
+
+<div class="solution">
+  首先 `D_(2n)` 有一个 `n` 阶子群同构于 `C_n`, 这部分对方案数的贡献是
+  <span class="formula">
+    `1/(2n) sum_(d | n) varphi(d) m^(n//d)`.
+  </span>
+  `D_(2n)` 的剩下 `n` 个元素均为轴对称变换:
+  <ul>
+    <li>当 `n` 为奇数, 这 `n` 个轴对称变换可以分解为 `(n-1)/2` 个对换和一个 `1`-轮换, 共计 `(n+1)/2` 个轮换.
+    </li>
+    <li>当 `n` 为偶数, 这 `n` 个轴对称变换中有一半可以分解为 `n/2` 个对换, 还有一半可以分解为 `(n-2)/2` 个对换和 2 个 `1`-轮换.
+    </li>
+  </ul>
+  因此总方案数为
+  <span class="formula">
+    `1/(2n) sum_(d | n) varphi(d) m^(n//d) + { (m+1)/4 m^(n//2), if n 偶; 1/2 m^((n+1)//2), if n 奇:}`
+  </span>
+</div>
 
 <h3>Sylow 定理</h3>
 
