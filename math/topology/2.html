@@ -110,27 +110,68 @@
     使得 `bar U sube W`.
   </li>
   <li>`T_4` 公理 `iff` 任取闭集 `A` 和它的开邻域 `W`, 存在 `A` 的开邻域
-    `U` 使得 `bar U sube bar W`.</li>
+    `U` 使得 `bar U sube W`.</li>
 </ol>
 
 <ol class="proof">
   两个命题的证明相同, 下面只证 2.
-  <li></li>
-  <li></li>
+  <li>`lArr`: 设 `A, B` 是不相交的闭集, 则 `B^c` 是 `A` 的开邻域.
+    由条件, 存在 `A` 的开邻域 `U` 使得 `bar U sube B^c`.
+    我们再找一个 `B` 的开邻域 `V` 使得 `U nn V = O/`.
+    事实上, 取 `V = (bar U)^c`, 则 `V` 是开集, `B sube V` 且 `U nn
+    V = O/`.
+  </li>
+  <li>
+    `rArr`: 记 `B = W^c`, 则 `A, B` 是不相交的闭集. 由 `T_4` 公理,
+    `A, B` 存在不相交开邻域 `U, V`.
+    即 `U sube V^c`.
+    则 `U` 满足 `bar U sube bar(V^c) = V^c sube B^c = W`.
+  </li>
 </ol>
 
 <p>喜报:</p>
 <p class="proposition">
-  度量空间满足 `T_1` ~ `T_4` 公理.
+  度量空间 `X` 满足 `T_1` ~ `T_4` 公理.
 </p>
 
 <ol class="proof">
   只需证 `T_1` 和 `T_4` 成立.
-  <li>`T_1`:</li>
-  <li>`T_4`:</li>
+  <li>`T_1`: 任取 `x in X`, 下证 `bar({x}) = {x}`. `AA y in X`, 若 `y`
+    的任意邻域交 `{x}` 非空, 则 `x in y` 的任意邻域, 这推出 `d(x, y) = 0`,
+    即 `x = y`.
+  </li>
+  <li>`T_4`: 设 `A, B` 是不相交闭集, 不妨设它们非空.
+    任取 `x in X`, 则 `d(x, A) + d(x, B) gt 0` (因为度量空间的闭集外一点到该闭集有正的距离??). 规定 `X` 上连续函数
+    <span class="formula">
+      `f(x) = (d(x, A))/(d(x, A) + d(x, B))`,
+    </span>
+    则
+    <span class="formula">
+      `f(x) { = 0, if x in A;
+      = 1, if x in B;
+      in (0, 1), otherwise :}`
+    </span>
+    任取实数 `t in (0, 1)`, 则 `f^-1((-oo, t))` 和 `f^-1((t, +oo))` 是 `A,
+    B` 的不相交邻域.
+  </li>
 </ol>
 
 <h2>可数公理</h2>
+
+<p class="definition">
+  <b>邻域基</b>
+  设 `x in X`, 把 `x` 的所有邻域的集合称为 `x` 的<b>邻域系</b> `cc N(x)`.
+  `cc N(x)` 的子集 (即 `x` 的一族邻域) `cc U` 称为 `x` 的一个邻域基, 如果
+  `x` 的每个邻域至少包含 `cc U` 的一个成员.
+</p>
+
+<ol class="example">
+  <li>`cc N(x)` 本身是 `x` 的邻域基.</li>
+  <li>`x` 的所有开邻域构成 `x` 的一个邻域基.</li>
+  <li>若 `cc B` 是拓扑空间 `X` 的拓扑基, 则 `cc U = {B in cc B | x in B}`
+    是 `x` 的邻域基.
+  </li>
+</ol>
 
 
 <script src="../../js/note.js?type=math"></script>
