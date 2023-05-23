@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>矩阵李群</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p>[来自 GTM 222、Naive Lie Theory]</p>
+
+<p class="remark">
+  粗略地说, 李群是指 "连续的" 群, 即由若干实数参数描述的群. 比如线性变换构成的群 (线性群) 就是一类重要的李群.
+</p>
+
+<h2>矩阵李群</h2>
+
+<p class="definition">
+  矩阵李群是指一些 `n xx n` 的实矩阵组成的群 `G`, 且对可逆矩阵的极限运算封闭:
+  即, 对任意一列矩阵 `{A_n} sube G`, 若极限 `A = lim_(n to oo) A_n` 存在且可逆, 那么 `A in G`.
+</p>
+
+<ol class="remark">
+  <li>关于这里的矩阵极限, 只须把矩阵看作 `RR^(n^2)` 中的向量即可.</li>
+  <li>由于复数和四元数可以用实矩阵表示 (见下), 所以矩阵李群的元素也可以是 `CC` 上或 `bbb H` 上的矩阵.
+  </li>
+</ol>
+
+<ol class="example enum">
+  <b>复数与四元数的矩阵表示</b>
+  <li>复数可以用实矩阵写为 `zeta = x bb 1 + y bm I`, 其中
+    <span class="formula">
+      `bb 1 = [1, ; , 1]`, `quad bm I = [, -1; 1, ]`.
+    </span>
+    可以验证这是一个同构; 特别地,
+    <ol>
+      <li>`bm I^2 = -bb 1`;</li>
+      <li>`det zeta = x^2 + y^2 = |zeta|^2`, 因此 `|zeta_1 zeta_2| = |zeta_1| |zeta_2|;</li>
+      <li>`zeta^-1 = (x bb 1 - y bm I) // det zeta = bar zeta // |zeta|^2`, 换言之 `zeta bar zeta = |zeta|^2`;</li>
+      <li>`bar(zeta_1 zeta_2) = bar zeta_1 bar zeta_2`.</li>
+      <!--
+      <li>`exp(theta bm I) = [cos theta, -sin theta; sin theta, cos theta]`
+        `= bb 1 cos theta + bm I sin theta`.</li>
+      -->
+    </ol>
+  </li>
+  <li>四元数可以用复矩阵写为 `q = w bb 1 + x bm I + y bm J + z bm K`, 其中
+    <span class="formula">
+      `bm J = [, "i"; "i", ]`,
+      `quad bm K = [-"i", ; , "i"]`.
+    </span>
+    可以验证,
+    <ol>
+      <li>`bm I^2 = bm J^2 = bm K^2 = bm (I J K) = -bb 1`;</li>
+      <li>`det q = w^2+x^2+y^2+z^2 = |q|^2`, 因此 `|q_1 q_2| = |q_1| |q_2|`;</li>
+      <li>`q^-1 = (w bb 1 - x bm I - y bm J - z bm K) // det q = bar q // |q|^2`,
+      换言之 `q bar q = |q|^2`;</li>
+      <li>四元数的共轭 `bar q` 相当于在矩阵 `q` 的转置 `q^T` 中取复共轭, 因此由
+      `(q_1 q_2)^T = q_2^T q_1^T` 知道
+      <span class="formula">
+        `bar(q_1 q_2) = bar q_2 bar q_1`,
+      </span>
+      注意取共轭后 `q_1 q_2` 发生了交换.</li>
+    </ol>
+  </li>
+</ol>
+
+<p class="lemma">
+  <b>纯虚四元数的乘法</b>
+  若 `u = u_1 "i" + u_2 "j" + u_3 "k"`, `v = v_1 "i" + v_2 "j" + v_3 "k"`,
+  则 `u v`
+  `= -(u_1 v_1 + u_2 v_2 + u_3 v_3) + (u_2 v_3 - u_3 v_2) "i" + (u_3 v_1 - u_1 v_3) "j" + (u_1 v_2 - u_2 v_1) "k"`
+  `= - u * v + u xx v`.
+</p>
+
+<ol class="example enum">
+  <b>单位复数/四元数与旋转变换</b>
+  <li>满足 `|zeta| = 1` 的单位复数构成了单位圆 `S^1`, 这是一个矩阵李群,
+    它描述了平面上的旋转变换.
+    事实上, 设 `u` 是一个单位复数, 对任意复数 `v, w` 有
+    <span class="formula">
+      `|u v - u w|`
+      `= |u(v - w)|`
+      `= |u| |v - w|`
+      `= |v - w|`.
+    </span>
+    这指出 `v, w` 的距离在 `u` 的变换下保持不变, 因此 `u` 是一个<b>保距变换 (isometry)</b>.
+    又 `u 0 = 0`, 因此 `u` 保持原点不变. 最后, `u = cos theta + "i" sin theta` 的行列式等于
+    `cos^2 theta + sin^2 theta = 1 gt 0`, 即 `u` 的定向为正. 至此我们说 `u`
+    是一个旋转变换. 一般地, 一个线性变换如果满足<b>保距、保持原点不动、定向为正</b>,
+    我们就称它是一个<b>旋转变换 (rotation)</b>.
+  </li>
+  <li>满足 `|q| = 1` 的单位四元数构成了单位球面 `S^3`, 这也是一个矩阵李群,
+    它描述了三维空间的旋转变换.
+    虽然, 这个旋转变换不是通过直接乘 `q`, 而是通过映射 `f(v) = q v q^-1` 实现的.
+    为此, 首先注意到四元数空间的直和分解 `bbb H = RR + RR"i" + RR"j" + RR"k"`,
+    它把单位四元数 `q in bbb H` 分解为实部与虚部之和:
+    <span class="formula">
+      `q = cos theta + u sin theta`, `quad u in RR"i" + RR"j" + RR"k", |u| = 1`.
+    </span>
+    我们把目光放在 `bbb H` 的三维子空间 `RR"i" + RR"j" + RR"k"` 上面.
+    当 `v in RR` 时, 显然 `f(v) = q v q^-1 = v q q^-1 = v`, 这说明 `RR` 是 `f` 的不变子空间;
+    但 `f` 显然可逆, 因此 `RR"i" + RR"j" + RR"k"` 作为 `RR` 的正交补也是 `f` 的不变子空间:
+    总之, `f(v) = q v q^-1` 给出了 `RR "i" + RR"j" + RR"k"` 上的变换,
+    下面说明这个变换恰好是绕单位向量 `u` 转动 `2 theta` 角的旋转.
+  </li>
+</ol>
+
+<ol class="proof">
+  证明变换 `f(v) = q v q^-1` 是绕 `u` 转动 `2 theta` 角的旋转, 我们分为三步:
+  <li>`u^2 = -1`.
+    这是因为 `u` 是一个纯虚四元数, 因而 `bar u = -u`; 所以 `-u^2 = u bar u = |u|^2 = 1`.
+  </li>
+  <li>轴 `RR u` 在变换 `f` 下不变. 事实上, 利用 `u^2 = -1` 有
+    <span class="formula">
+      `f(u) = q u q^-1`
+      `= (cos theta + u sin theta) u (cos theta - u sin theta)`
+      `= u cos^2 theta - u^3 sin^2 theta`
+      `= u`.
+    </span>
+  </li>
+  <li>由 `f` 是一个保距变换知道, 将 `f` 限制在 `RR"i" + RR"j" + RR"k"` 中与轴 `RR u` 垂直的平面
+    `S_u` 上, 依然是一个保距变换. 于是, 只需证 `f` 在 `S_u` 上是一个旋转 `2 theta` 角的变换即可.
+    任取 `v in RR"i" + RR"j" + RR"k"`, 满足 `u * v = 0`, 因此
+    <span class="formula">
+      `u v = u xx v`,
+      `quad v u = v xx u = - u v`,
+      `quad u v u = - u u v = v`.
+    </span> 
+    进而
+    <span class="formula align">
+      `f(v)`
+      `= (cos theta + u sin theta) v (cos theta - u sin theta)`<br>
+      `= v cos^2 theta + (u v - v u) cos theta sin theta - u v u sin^2 theta`<br>
+      `= v cos 2 theta + u xx v sin 2theta`.
+    </span>
+    `v` 和 `u xx v` 是平面 `S_u` 的一组正交基, 上式表明 `f(v)` 正好是平面 `S_u`
+    中绕原点转动 `2 theta` 的变换.
+  </li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

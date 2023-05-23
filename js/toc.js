@@ -145,6 +145,7 @@ math: {
 }, {
   title:'李群与李代数',
   articles: [
+    {title:'矩阵李群', src:'lie/0.html', date:'2023-05-23'},
     {title:'李代数初步', src:'lie/1.html', date:'2022-06-15'},
   ]
 }, {
