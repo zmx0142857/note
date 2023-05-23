@@ -27,6 +27,8 @@
   </li>
 </ol>
 
+<h3>复数与四元数</h3>
+
 <ol class="example enum">
   <b>复数与四元数的矩阵表示</b>
   <li>复数可以用实矩阵写为 `zeta = x bb 1 + y bm I`, 其中
@@ -90,6 +92,7 @@
     `cos^2 theta + sin^2 theta = 1 gt 0`, 即 `u` 的定向为正. 至此我们说 `u`
     是一个旋转变换. 一般地, 一个线性变换如果满足<b>保距、保持原点不动、定向为正</b>,
     我们就称它是一个<b>旋转变换 (rotation)</b>.
+    平面上的所有绕原点的旋转变换构成一个群, 记为 `SO(2)`.
   </li>
   <li>满足 `|q| = 1` 的单位四元数构成了单位球面 `S^3`, 这也是一个矩阵李群,
     它描述了三维空间的旋转变换.
@@ -139,6 +142,95 @@
     中绕原点转动 `2 theta` 的变换.
   </li>
 </ol>
+
+<p class="corollary">
+  两个三维旋转的合成仍是一个三维旋转, 这是因为
+  <span class="formula">
+    `q_2 (q_1 v q_1^-1) q_2^-1`
+    `= (q_2 q_1) v (q_2 q_1)^-1`.
+  </span>
+  因此 `RR^3` 中绕原点的全体旋转构成一个群, 记为 `SO(3)`.
+</p>
+
+<h3>旋转群的推广</h3>
+
+<ol class="example">
+  <b>常见的矩阵群</b>
+  <li>一般线性群: 由全体可逆的 `n` 阶矩阵构成: `GL_n(RR) = { A in RR^(n xx n) | det A != 0 }`;</li>
+  <li>特殊线性群: 由全体行列式为 1 的 `n` 阶矩阵构成: `SL_n(RR) = { A in RR^(n xx n) | det A = 1 }`;</li>
+  <li>正交群 (orthogonal group): 由全体 `n` 阶正交矩阵构成: `O(n) = { A in RR^(n xx n) | A A^T = I }`;
+    正交群中的变换保持内积 `x * y = sum x_i y_i` 不变.
+  </li>
+  <li>特殊正交群: 由全体行列式为 1 的 `n` 阶正交矩阵构成: `SO(n) = { A in O(n) | det A = 1 }`;</li>
+  <li>酉群 (unitary group): 由全体 `n` 阶酉矩阵构成: `U(n) = { A in CC^(n xx n) | A A^H = I }`, `A^H := bar A^T` 表示 `A` 的共轭转置;
+    酉群中的变换保持内积 `x * y = sum x_i bar y_i` 不变.
+  </li>
+  <li>特殊酉群: 由全体行列式为 1 的 `n` 阶酉矩阵构成: `SU(n) = { A in U(n) | det A = 1 }`;</li>
+  <li>辛群 (symplectic group): 由 `bbb H^(n xx n)` 中全体保持内积 `x * y = sum x_i
+    bar y_i` 不变的变换构成. 这里 `bar y_i` 是指四元数的共轭:
+    <span class="formula">
+      `Sp(n) = { A in bbb H^(n xx n) | A A^H = I }`.
+    </span>
+    自然, 这里的共轭转置 `A^H` 也是四元数意义上的.
+    需要注意的是, 由于四元数乘法不可交换, `bbb H^n` 并不是 `bbb H` 上的线性空间.
+  </li>
+</ol>
+
+<p class="remark">
+  我们知道 `SO(n)` 表示 `n` 维空间中的旋转. 而 `O(n)`, `U(n)`, `SU(n)`, `Sp(n)` 均为旋转群的推广,
+  因为它们各自保持某种内积不变.
+</p>
+
+<p class="example">
+  全体单位四元数构成的群 `S^3`, 其成员可以写为
+  <span class="formula">
+    `q = [
+    a - "i"d, -b + "i"c;
+    b + "i"c, a + "i"d
+    ]`
+    `= [alpha, -beta; bar beta, bar alpha]`,
+    `quad alpha, beta in CC`,
+    `|alpha|^2 + |beta|^2 = 1`.
+  </span>
+  这恰好就是 `SU(2)`. 因此 `S^3 ~= SU(2)`.
+</p>
+
+<p class="example">
+  由四元数的复数表示
+  <span class="formula">
+    `q = [
+    a - "i"d, -b + "i"c;
+    b + "i"c, a + "i"d
+    ]`
+    `= [alpha, -beta; bar beta, bar alpha]`,
+    `quad alpha, beta in CC`,
+  </span>
+  知道, `bar q` 的复数表示
+  <span class="formula">
+    `bar q`
+    `= [
+      a + "i"d, b - "i"c;
+      -b - "i"c, a - "i"d
+    ]`
+    `= [bar alpha, beta; -bar beta, alpha]`,
+  </span>
+  就是 `q` 的复数表示的 (复) 共轭转置.
+  于是一个以四元数的矩阵 `A in bbb H^(n xx n)` 可以分块地写成其复数表示 `C(A) in CC^(2n xx 2n)`,
+  而且 `A A^H = bb 1 rArr C(A) C(A)^H = bb 1`,
+  即 `A in Sp(n) rArr C(A) in U(2n)`.
+  由此可以给出 `Sp(n)` 的另一定义: `U(2n)` 中形如 `C(A)` 的矩阵构成的子群.
+  这一定义的好处是避免了 `bbb H^n`, 它不是一个线性空间.
+</p>
+
+<h3>推广旋转群的性质</h3>
+
+<h4>最大环面</h4>
+
+<h4>连通性</h4>
+
+<h4>中心</h4>
+
+<h4>是否为单群</h4>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
