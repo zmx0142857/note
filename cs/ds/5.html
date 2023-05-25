@@ -290,6 +290,70 @@ get_next_improved(p):
 	<code>O(p.len)</code>. 总时间复杂度为两项之和.
 </p>
 
+<ol class="algorithm">
+  <b>编辑距离算法</b>
+  [来自 <a href="https://blog.csdn.net/xcxy2015/article/details/77164126">CSDN@xcxy2015</a>]
+编辑距离是指, 从一个串变为另一个串所需的增、删、改的最少次数.
+比如从 hurt 变为 heart 的编辑方案一共两步:
+<li>把 u 换成 e;</li>
+<li>在刚才的 e 后面插入 a.</li>
+算法列表如下:
+<pre>
+    h e a r t
+  0 1 2 3 4 5
+h 1
+u 2
+r 3
+t 4
+</pre>
+逐行填写, 每个格子的值 = 1 + min(左上格子的值 - s, 上方格子的值, 左方格子的值).
+若当前比较的两个字母相等, 则 s = 1, 否则 s = 0.
+<pre>
+    h e a r t
+  0 1 2 3 4 5
+h 1 0 1 2 3 4
+u 2 1 1 2 3 4
+r 3 2 2 2 2 3
+t 4 3 3 3 3 2
+</pre>
+</ol>
+<ol>
+个人理解: 这是一个动态规划算法,
+左方、上方和左上三个格子分别表示增、删、改三种选择.
+如表中的 3 行 4 列, 比较串 hur 和 hear.
+要将 hur 变为 hear, 方案有三:
+<li>「增」的方案. 先把 hur 变为 hea, 再增加一个字母 r 得到目标 hear. 编辑距离为 2 + 1.</li>
+<li>「删」的方案. 先把 hur 删去一个字母变为 hu, 再把 hu 变为 hear. 编辑距离为 1 + 3.</li>
+<li>「改」的方案. 先把 hur 的最后一个字母改成和 hear 的最后一个字母相同 (它们已经相同, 因此代价为 0),
+  再把 hur 的前面几个字母变成和 hear 的前面几个字母相同 (即把 hu 变为 hea). 编辑距离为 0 + 2.
+</li>
+从三个方案中取最小的即可.
+<br>
+py 实现:
+<pre>
+def edit_distance(s1, s2):
+    len1 = len(s1)
+    len2 = len(s2)
+    arr = [
+        [j if i == 0 else i if j == 0 else 0 for j in range(len2+1)]
+        for i in range(len1+1)
+    ]
+    for i in range(len1):
+        for j in range(len2):
+            top_left_value = arr[i][j] - (1 if s1[i] == s2[j] else 0)
+            top_value = arr[i][j+1]
+            left_value = arr[i+1][j]
+            arr[i+1][j+1] = 1 + min(top_left_value, top_value, left_value)
+    return arr[-1][-1]
+
+def similarity(s1, s2):
+    d = edit_distance(s1, s2)
+    return 1 - d / max(len(s1), len(s2), 1) # 防止分母为零
+
+print(similarity('hurt', 'heart')) # 1 - 2/5 = 0.6
+</pre>
+</ol>
+
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
 </body>
 </html>

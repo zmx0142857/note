@@ -717,6 +717,60 @@
   </li>
 </ol>
 
+<p class="example">
+  [来自群友 千帆过尽，匆忘初心]
+  设 `f` 在 `[0, 1]` 上有二阶连续导数, 且 `f(0) = f(1) = f'(0) = 0`, `f'(1) = 1`.
+  证明: `int_0^1 f''(x)^2 dx ge 4`.
+</p>
+
+<p class="proof">
+  失败的尝试. 直接使用 Cauchy 不等式只能得到一个松的下界:
+  <span class="formula">
+    `int_0^1 f''(x)^2 dx`
+    `ge (int_0^1 f''(x) dx)^2/(int_0^1 1^2 dx)`
+    `= (f'(1) - f'(0))^2 = 1`.
+  </span>
+</p>
+
+<div class="proof">
+  将 `f''(x)` 与一个待定的函数作内积:
+  <span class="formula">
+    `int_0^1 f''(x)(x+a) dx`
+    `= (1+a) - int_0^1 f'(x) dx`
+    `= 1+a`,<br>
+    `int_0^1 (x+a)^2 dx`
+    `= 1/3 + a + a^2`.
+  </span>
+  这时使用 Cauchy 不等式:
+  <span class="formula">
+    `int_0^1 f''(x)^2 dx`
+    `ge (int_0^1 f''(x)(x+a) dx)^2/(int_0^1 (x+a)^2 dx)`
+    `= (1+a)^2/(1/3 + a + a^2)`.
+  </span>
+  我们希望上式的右端是 4, 于是
+  <span class="formula">
+    `(1+a)^2 = 4(1/3 + a + a^2)`,
+  </span>
+  解得 (重根) `a = 1/3`, 证毕.
+  <hr>
+  这种方法未免有些投机取巧, 而且待定函数的形式 `x+a` 不是一下能猜到的.
+</div>
+
+<div class="proof">
+  [来自群友 乐正垂星]
+  这是经典变分问题, 极值条件是 `f'''(x) = 0`.
+  使用二阶导的 Euler-Lagrange 方程,
+  代入边界条件知 `f(x) = x^3 - x^2` 时, 积分式取得最小值 `4`.
+  这时将 `f''(x) = 6x-2` 代入 Cauchy 不等式就得到:
+  <span class="formula">
+    `int_0^1 f''(x)^2 dx`
+    `ge (int_0^1 f''(x)(6x-2) dx)^2/(int_0^1 (6x-2)^2 dx)`
+    `= 4`.
+  </span>
+  <hr>
+  家人们看懂了吗??
+</div>
+
 <p>	下面两个不等式可以仿照<a href="3.html">上一章</a>对应不等式来证明.</p>
 
 <p class="theorem">

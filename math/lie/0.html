@@ -14,8 +14,6 @@
   粗略地说, 李群是指 "连续的" 群, 即由若干实数参数描述的群. 比如线性变换构成的群 (线性群) 就是一类重要的李群.
 </p>
 
-<h2>矩阵李群</h2>
-
 <p class="definition">
   矩阵李群是指一些 `n xx n` 的实矩阵组成的群 `G`, 且对可逆矩阵的极限运算封闭:
   即, 对任意一列矩阵 `{A_n} sube G`, 若极限 `A = lim_(n to oo) A_n` 存在且可逆, 那么 `A in G`.
@@ -27,7 +25,7 @@
   </li>
 </ol>
 
-<h3>复数与四元数</h3>
+<h2>复数与四元数</h2>
 
 <ol class="example enum">
   <b>复数与四元数的矩阵表示</b>
@@ -152,7 +150,7 @@
   因此 `RR^3` 中绕原点的全体旋转构成一个群, 记为 `SO(3)`.
 </p>
 
-<h3>旋转群的推广</h3>
+<h2>旋转群的推广</h2>
 
 <ol class="example">
   <b>常见的矩阵群</b>
@@ -166,12 +164,10 @@
     酉群中的变换保持内积 `x * y = sum x_i bar y_i` 不变.
   </li>
   <li>特殊酉群: 由全体行列式为 1 的 `n` 阶酉矩阵构成: `SU(n) = { A in U(n) | det A = 1 }`;</li>
-  <li>辛群 (symplectic group): 由 `bbb H^(n xx n)` 中全体保持内积 `x * y = sum x_i
-    bar y_i` 不变的变换构成. 这里 `bar y_i` 是指四元数的共轭:
-    <span class="formula">
-      `Sp(n) = { A in bbb H^(n xx n) | A A^H = I }`.
-    </span>
-    自然, 这里的共轭转置 `A^H` 也是四元数意义上的.
+  <li>辛群 (symplectic group): 由 `bbb H^(n xx n)` 中全体 `n` 阶辛矩阵构成:
+    `Sp(n) = { A in bbb H^(n xx n) | A A^H = I }`,
+    这里的共轭转置 `A^H` 是四元数意义上的;
+    辛群中的变换保持内积 `x * y = sum x_i bar y_i` 不变, 这里的 `bar y_i` 也是四元数意义的.
     需要注意的是, 由于四元数乘法不可交换, `bbb H^n` 并不是 `bbb H` 上的线性空间.
   </li>
 </ol>
@@ -222,15 +218,67 @@
   这一定义的好处是避免了 `bbb H^n`, 它不是一个线性空间.
 </p>
 
-<h3>推广旋转群的性质</h3>
+<h2>广义旋转群的性质</h2>
 
-<h4>最大环面</h4>
+<h3>最大环面与中心</h3>
 
-<h4>连通性</h4>
+<p class="definition">
+  李群 `G` 的<b>最大环面 (maximal torus)</b>是指能够嵌入到 `G` 中最大的
+  <span class="formula">
+    `T^k = overbrace(S^1 xx S^1 xx cdots xx S^1)^k`.
+  </span>
+  例如 `SO(2) = S^1` 的最大环面就是它自身.
+</p>
 
-<h4>中心</h4>
+<p class="example">
+  `SO(3)` 的最大环面是 `T_1`.
+</p>
 
-<h4>是否为单群</h4>
+<p class="proof">
+  取定 `RR^3` 的标准正交基 `bm e_1, bm e_2, bm e_3`, 则全体绕 `bm e_3` 的旋转
+  <span class="formula">
+    `R_theta = [cos theta, - sin theta, ; sin theta, cos theta, ; , , 1]`
+  </span>
+  构成 `SO(3)` 中的一个环面 `T^1 = S^1`. 下证 `T^1` 是 `SO(3)` 的最大环面.<br>
+  事实上, 若 `T` 是 `G` 中的环面, 且 `T^1 sube T`, 任取 `A in T`, 由于环面都是可交换的 (??), 我们有
+  <span class="formula">
+    `A R_theta = R_theta A`, `quad R_theta in T^1`.
+  </span>
+  下证 `A in T^1`, 即证 `A` 是一个绕 `bm e_3` 的旋转. 这只需证
+  <span class="formula">
+    `A(bm e_1), A(bm e_2) in "span"{bm e_1, bm e_2}`.
+    <span class="label" id="for-a-rotates-t1"></span>
+  </span>
+  因为满足上式的变换只有平面 `(bm e_1, bm e_2)` 上的旋转, 或者是一个保持该平面不动的反射变换.
+  我们可以排除反射, 因为它无法与 `T_1` 中的所有元素交换.
+  现在证明式 <a class="ref" href="#for-a-rotates-t1"></a>.
+  我们设
+  <span class="formula">
+    `A(bm e_1) = a_1 bm e_1 + a_2 bm e_2 + a_3 bm e_3`.
+  </span>
+  `A` 与 `T^1` 中的任一旋转可交换, 特别地 `A R_pi(bm e_1) = R_pi A(bm e_1)`,
+  注意 `A R_pi(bm e_1) = A(-bm e_1) = -A(bm e_1)`, 所以
+  <span class="formula">
+    `- a_1 bm e_1 - a_2 bm e_2 - a_3 bm e_3`
+    `= -a_1 bm e_1 - a_2 bm e_2 + a_3 bm e_3`.
+  </span>
+  可见 `a_3 = 0`, 即 `A(bm e_1) in "span"{bm e_1, bm e_2}`.
+  同理 `A(bm e_2) in "span"{bm e_1, bm e_2}`, 所以 `T_1` 是 `SO(3)` 的最大环面.
+</p>
+
+<p class="example">
+  `Z(SO(3)) = {1}`.
+</p>
+
+<p class="proof">
+  任取 `A in Z(SO(3))`, 则 `A` 与 `SO(3)` 中的任意元素可交换, 特别地与最大环面 `T^1` 中的元素可交换.
+  从 `SO(3)` 的最大环面的证明看出, `A` 是一个绕 `bm e_3` 的旋转, 保持 `bm e_3` 不动.
+  由坐标轴的对称性, `A` 也保持 `bm e_1, bm e_2` 不动, 因此 `bm A = 1`.
+</p>
+
+<h3>连通性</h3>
+
+<h3>是否为单群</h3>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

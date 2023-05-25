@@ -17,7 +17,7 @@ math: {
     {title:'问题', src:'misc/0.html', date:'2022-02-16'},
     {title:'三角函数', src:'misc/2.html', date:'2022-11-21'},
     {title:'不等式', src:'misc/3.html', date:'2022-07-29'},
-    {title:'微积分不等式', src:'misc/4.html', date:'2022-01-14'},
+    {title:'微积分不等式', src:'misc/4.html', date:'2023-05-25'},
     {title:'因式分解', src:'misc/5.html', date:'2021-12-04'},
     {title:'数学家', src:'misc/6.html', date:'2022-08-29'},
     {title:'算术与进制', src:'misc/7.html', date:'2022-02-06'},
@@ -46,7 +46,7 @@ math: {
     {title:'函数的极限与连续性', src:'analysis/3.html', date: '2022-03-04'},
     {title:'导数的应用', src:'analysis/5.html', date: '2022-02-06'},
     {title:'不定积分', src:'analysis/6.html', date: '2022-04-10'},
-    {title:'定积分与广义积分', src:'analysis/7.html', date:'2022-05-08'},
+    {title:'定积分与广义积分', src:'analysis/7.html', date:'2023-05-25'},
     {title:'特殊函数 (1): Gamma 函数, Euler 和, 指对数积分', src:'analysis/8.html', date:'2022-05-15'},
     {title:'特殊函数 (2): 椭圆函数, 超几何函数', src:'analysis/9.html', data: '2022-04-10'},
     {title:'特殊函数 (3): Bernoulli 数与 Riemann zeta 函数', src:'analysis/10.html', date:'2022-04-27'},
@@ -145,7 +145,7 @@ math: {
 }, {
   title:'李群与李代数',
   articles: [
-    {title:'矩阵李群', src:'lie/0.html', date:'2023-05-23'},
+    {title:'矩阵李群', src:'lie/0.html', date:'2023-05-24'},
     {title:'李代数初步', src:'lie/1.html', date:'2022-06-15'},
   ]
 }, {
@@ -242,7 +242,7 @@ cs: {
     {title:'线性表', src:'ds/2.html'},
     {title:'栈与队列', src:'ds/3.html'},
     {title:'递归与回溯', src:'ds/4.html'},
-    {title:'字符串', src:'ds/5.html'},
+    {title:'字符串', src:'ds/5.html', date:'2023-05-24'},
     {title:'树与二叉树', src:'ds/6.html'},
     {title:'矩阵与广义表', src:'ds/7.html'},
     {title:'图', src:'ds/8.html'},

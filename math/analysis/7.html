@@ -1321,6 +1321,49 @@
   整理即得结论.
 </p>
 
+<ol class="example">
+  [来自 <a href="https://math.stackexchange.com/questions/1943695/prove-int-0-infty-frac-ln-xx21x31-dx-frac37432-pi2-w">stack exchange</a>]
+  <li>对任意 `z in CC\\(-oo, 0]`, 证明
+    <span class="formula">
+      `I(z) := int_0^oo ((ln x)/(x + z) - (ln x)/(x + 1)) dx = -1/2 ln^2 z`.
+    </span>
+    等号右边的对数取辐角位于 `(-pi, pi)` 的主值.
+  </li>
+  <li>利用 1. 的结论求积分 `int_0^oo (ln x)/(x^3 + 1) dx = -(2pi^2)/27`.</li>
+  <li>完全类似的方法还可求出 `int_0^oo (ln x)/((x^3+1)(x^2+1)) dx = -(37pi^2)/432`.</li>
+</ol>
+
+<ol class="solution">
+  <li>对参数 `z` 求导,
+    <span class="formula">
+      `I'(z)`
+      `= - int_0^oo (ln x)/(x+z)^2 dx`.
+    </span>
+    先求
+    <span class="formula">
+      `-int_epsi^oo (ln x)/(x+z)^2 dx`
+      `= -(ln epsi)/(epsi+z) - int_epsi^oo dx/(x(x+z))`
+      `= -(ln epsi)/(epsi+z) + 1/z ln epsi - 1/z ln(epsi+z)`,
+    </span>
+    再令 `epsi to 0` 得 `I'(z) = -1/z ln z`.
+    又 `I(1) = 0`, 所以 `I(z) = int_1^z I'(t) dt = -1/2 ln^2 z`.
+  </li>
+  <li>
+    作部分分式分解
+    <span class="formula">
+      `1/(x^3+1) = (1/3)/(x+1) - (1/6(1 + "i"sqrt 3))/(x - "e"^(pi"i"//3)) - (1/6(1 - "i"sqrt 3))/(x - "e"^(-pi"i"//3))`.
+    </span>
+    使用 1. 的结论,
+    <span class="formula">
+      `int_0^oo (ln x)/(x^3 + 1) dx`
+      `= 1/6(1+"i"sqrt 3) I(-"e"^(pi"i"//3)) - 1/6(1-"i"sqrt 3) I(-"e"^(-pi"i"//3))`
+      `= 1/6(1+"i"sqrt 3) I("e"^(-2pi"i"//3)) - 1/6(1-"i"sqrt 3) I("e"^(2pi"i"//3))`
+      `= -(2pi^2)/27`.
+    </span>
+    其中 `(ln x)/(x+1)` 的积分恰好抵消.
+  </li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
