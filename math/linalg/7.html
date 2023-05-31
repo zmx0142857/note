@@ -7,23 +7,150 @@
 </head>
 <body>
 
-<p class="remark">
-	对于 `lambda` 矩阵 `bm M(lambda)` 和方阵 `bm A`, `bm M(bm A)`
-	一般来说无意义, 这是因为矩阵的乘法一般不可交换. 如
-	<span class="formula">
-		`bm M(lambda) = lambda bm M_1`,
-	</span>
-	那么 `bm M(bm A) = bm(A M_1)` 还是 `bm(M_1 A)` 呢, 这是不确定的.
+<p class="definition">
+  <b>`lambda` 矩阵</b>
+  是指元素是 `lambda` 的一元多项式的矩阵, 也可以看作是矩阵环上的一元多项式. 如
+  <span class="formula">
+    `[lambda + 1, 2; 3, lambda^2 + 4] in RR[lambda]^(2 xx 2)`<br>
+    `= lambda^2 [0, 0; 0, 1] + lambda [1, 0; 0, 0] + [1, 2; 3, 4] in RR^(2 xx 2) [lambda]`.
+  </span>
 </p>
 
+<p class="remark">
+  对于 `lambda` 矩阵 `bm M(lambda)` 和方阵 `bm A`,
+  把 `bm A` "代入" `bm M(lambda)` 中得到的 `bm M(bm A)`
+  一般来说无意义, 这是因为矩阵的乘法一般不可交换. 如
+  <span class="formula">
+    `bm M(lambda) = lambda bm M_1`,
+  </span>
+  那么 `bm M(bm A) = bm(A M_1)` 还是 `bm(M_1 A)` 呢, 这是不确定的.
+</p>
+
+<!--
 <p class="theorem">
-	平行于多项式的零点-因子定理, 有:
-	令 `M(lambda)` 为 `lambda` 矩阵, `f` 为多项式. 若
-	<span class="formula">
-		`(lambda bm E-bm A)M(lambda) = f(lambda) bm E` 或
-		`M(lambda)(lambda bm E-bm A) = f(lambdaa) bm E`,
-	</span>
-	则 `f(bm A) = bm O`.
+  平行于多项式的零点-因子定理, 有:
+  令 `M(lambda)` 为 `lambda` 矩阵, `f` 为多项式. 若
+  <span class="formula">
+    `(lambda bm E-bm A)M(lambda) = f(lambda) bm E` 或
+    `M(lambda)(lambda bm E-bm A) = f(lambdaa) bm E`,
+  </span>
+  则 `f(bm A) = bm O`.
+</p>
+-->
+
+<h2>Smith 标准形</h2>
+
+<ol class="definition">
+  <li>
+    <b>`k` 阶子式</b>
+    是指在 `n` 阶行列式中删去 `n-k` 行 `n-k` 列所得的 `k` 阶行列式. 有 `(n;k)^2` 种取法.
+  </li>
+  <li>
+    <b>`k` 阶主子式</b>
+    和 `k` 阶子式类似, 但删去的行号与列号必须相同. 有 `(n;k)` 种取法.
+  </li>
+  <li>
+    <b>`k` 阶顺序主子式</b>
+    在 `n` 阶行列式中取前 `k` 行前 `k` 列所得的 `k` 阶行列式. 只有一种取法.
+  </li>
+</ol>
+
+<p class="definition">
+  <b>Smith 标准形</b> 即对角形 `lambda` 矩阵
+  <span class="formula">
+    `"diag"(f_1(lambda), cdots, f_n(lambda))`,
+  </span>
+  且前一个对角线元素 `f_i(lambda)` 整除后一个元素 `f_(i+1)(lambda)`.
+  比如
+  <span class="formula">
+    `"diag"(1, lambda - 1, (lambda-1)(lambda-2))`.
+  </span>
+</p>
+
+<ol class="definition">
+  <li>
+    <b>不变因子</b>
+    `d_i(lambda)` 是将 `lambda` 矩阵化为 Smith 标准形后, 对角线上的全体非零元素.
+  </li>
+  <li>
+    <b>行列式因子</b>
+    `D_i(lambda)` 是 `lambda` 矩阵的全部非零 `k` 阶子式的首一的最大公因式.
+    规定 `D_0(lambda) = 1` 的话, 则有 `d_i = D_i // D_(i-1)`.
+  </li>
+  <li>
+    <b>初等因子</b>
+    是把不变因子中的常数 1 去掉, 其余的每个不变因子进行因式分解后得到的所有形如
+    `p(lambda)^a` 的因式, 其中 `p(lambda)` 为不可约多项式.
+    两个不变因子各自分解得到的初等因子有可能相同, 如不变因子
+      `1`, `color(red)(lambda)`, `color(blue)(lambda(lambda-1))`
+    分解得到的初等因子为
+      `color(red)(lambda)`, `color(blue)(lambda)`, `color(blue)(lambda-1)`.
+  </li>
+  对于一个数字矩阵 `bm A`, 它的不变因子、行列式因子、初等因子就定义为 `lambda bm E - bm A` 的相应因子.
+</ol>
+
+<h2>有理标准形</h2>
+
+<p class="definition">
+  数域 `bbb P` 上多项式 `f(lambda) = lambda^n + sum_(k=0)^(n-1) a_k lambda^k`
+  的<b>友阵</b>定义为
+  <span class="formula">
+    `bm A = [0, 0, cdots, 0, -a_0;
+    1, , , , -a_1;
+    , 1, , , -a_2;
+    , , ddots, , vdots;
+    , , , 1, -a_(n-1)]`.
+  </span>
+  在行列式一章我们已验证过 `det(lambda bm E - bm A) = f(lambda)`,
+  事实上, 进一步有 `bm A` 的不变因子, 即 `lambda bm E - bm A` 的不变因子为
+  `overbrace(1, cdots, 1)^(n-1), f(lambda)`.
+</p>
+
+<p class="definition">
+  <b>有理标准形</b>
+  是指分块对角矩阵
+  <span class="formula">
+    `bm A_(n xx n) = "diag"(bm A_1, cdots, bm A_s)`,
+  </span>
+  其中 `bm A_1, cdots, bm A_s` 分别是数域 `bbb P` 上多项式 `f_1, cdots, f_s` 的友阵,
+  且前一个多项式 `f_i` 整除后一个 `f_(i+1)`.
+  由多项式的友阵阶数等于该多项式的次数知道, `f_1, cdots, f_s` 的次数之和等于 `n`.
+</p>
+
+<p class="corollary">
+  有理标准形 `bm A` 的不变因子为 `overbrace(1, cdots, 1)^(n-s), f_1(lambda), cdots, f_s(lambda)`,
+</p>
+
+<h2>Jordan 标准形</h2>
+
+<p class="remark">
+  Jordan 标准形是复数域上特有的标准形, 因此本节都假定矩阵是复数域上的.
+</p>
+
+<ol class="definition">
+  <li>
+    <b>Jordan 块</b> 是指形如
+    <span class="formula">
+      `bm J_m(lambda) = [lambda, 1, , , ;
+      , lambda, 1, ;
+      , , ddots, ddots, ;
+      , , , lambda, 1;
+      , , , , lambda]_(m xx m)`
+    </span>
+    的 `m` 阶方阵. 它具有 `m` 重特征值 `lambda`.
+  </li>
+  <li>
+    <b>Jordan 标准形</b>或<b>Jordan 形矩阵</b>
+    是指一个分块对角矩阵, 其中每个对角块都是 Jordan 块. 例如
+    `"diag"(J_4(2), J_3(2), J_1("i"), J_3(-5))` 就是一个 Jordan 形矩阵.
+  </li>
+</ol>
+
+<p class="theorem">
+  任意 `bm A in CC^(n xx n)` 相似于一个 Jordan 形矩阵 `bm J`,
+  其中每个 Jordan 块的特征值都是 `bm A` 的特征值.
+  不计 Jordan 块的排列顺序时, `bm J` 是唯一的,
+  称为 `bm A` 的 Jordan 标准形.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

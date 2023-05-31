@@ -7,6 +7,31 @@
 </head>
 <body>
 
+<h2>期望</h2>
+
+<p class="example">
+  [来自群友 QAQ]
+  假设有 `n` 种不同的赠券, 每盒麦片内附有其中的一张赠券. 假定每盒麦片中的赠券是从 `n` 种可能中独立且均匀随机选取的. 要集齐所有类型的赠券 (也就是每种至少一张), 期望需要购买多少盒麦片?
+</p>
+
+<p class="solution">
+  假设已经集齐 `n-k` 张, 还差 `k` 张没有收集, 这时期望再收集 `f(k)` 张才能集齐.
+  于是 `f(0) = 0`,
+  <span class="formula">
+    `f(k) = 1 + k/n f(k-1) + (n-k)/n f(k)`,
+  </span>
+  求解 `f(k)` 即可. 上式化简得 `f(k) = n/k + f(k-1)`, 所以
+  <span class="formula">
+    `f(n) = n/1 + n/2 + cdots + n/n`.
+  </span>
+</p>
+
+<p class="solution">
+  [来自 chatgpt (注: 不是原话)]
+  假设已有 `k-1` 张赠券. 为了收集到第 `k` 张赠券, 需购买的麦片盒数为随机变量 `X_k`.
+  问题化为求 `E(sum X_k)`. 由于随机变量和的期望等于期望的和, 这不依赖它们的独立性, 我们有
+  `E(sum X_k) = sum E(X_k) = sum n/k`.
+</p>
 
 
 <script src="../../js/note.js?type=math"></script>
