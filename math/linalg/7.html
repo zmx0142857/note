@@ -140,11 +140,21 @@
     的 `m` 阶方阵. 它具有 `m` 重特征值 `lambda`.
   </li>
   <li>
-    <b>Jordan 标准形</b>或<b>Jordan 形矩阵</b>
+    <b>Jordan 标准形</b>或 <b>Jordan 形矩阵</b>
     是指一个分块对角矩阵, 其中每个对角块都是 Jordan 块. 例如
     `"diag"(J_4(2), J_3(2), J_1("i"), J_3(-5))` 就是一个 Jordan 形矩阵.
   </li>
 </ol>
+
+<p class="example">
+  考虑特征值为零的 Jordan 块 `J_m(0)`, 计算知,
+  <span class="formula">
+    `J_m(0)^2 = [0, 0, 1, , ; , 0, 0, ddots, ; , , ddots, ddots, 1; , , , 0, 0; , , , , 0]`,<br>
+    `J_m(0)^(m-1) = [ ,  ,  , , 1; , , , , ; , , , , ; , , , , ; , , , , ]`,<br>
+    `J_m(0)^m = 0`.
+  </span>
+  幂次每增加 1, `J_m(0)^k` 中值为 1 的斜线就向右上方移动一格, 矩阵的秩减少 1.
+</p>
 
 <p class="theorem">
   任意 `bm A in CC^(n xx n)` 相似于一个 Jordan 形矩阵 `bm J`,
@@ -152,6 +162,55 @@
   不计 Jordan 块的排列顺序时, `bm J` 是唯一的,
   称为 `bm A` 的 Jordan 标准形.
 </p>
+
+<ol class="algorithm">
+  <b>将方阵 `bm A` 化为 Jordan 标准形 `bm J`</b>.
+  <li>求出 `bm A` 的特征多项式
+    <span class="formula">
+      `Delta_A(lambda) = prod_(k=1)^s (lambda - lambda_k)^(n_k)`,
+      `quad sum n_k = n`.
+    </span>
+  </li>
+  <li>对于一重的特征值 `lambda`, 它对应的 Jordan 块只能是一阶的 `[lambda]`;
+    对于二重的特征值, 它对应的 Jordan 块可能是两个一阶的 `[lambda, ; , lambda]` 或一个二阶的
+    `[lambda, 1; , lambda]`.
+    一般地, 对于 `m` 重特征值, 整数 `m` 的每一种分拆 `m = m_1 + cdots + m_t`
+    对应着一组可能的 Jordan 块 `"diag"(J_(m_1)(lambda), cdots, J_(m_t)(lambda))`.
+  </li>
+  <li>
+    这些不同的 Jordan 块互不相似.
+    比如两个一阶的 Jordan 块 `bm J_1 = [lambda, ; , lambda]`
+    和二阶 Jordan 块 `bm J_2 = [lambda, 1; , lambda]` 不相似.
+    这是因为如果它们相似, 则 `bm J_1 - lambda bm E` 和 `bm J_2 - lambda bm E` 也相似, 但这不可能, 因为
+    `"rank"(bm J_1 - lambda bm E) = 0`, 而 `"rank"(bm J_2 - lambda bm E) = 1`.
+  </li>
+  <li>为了判断出 2. 中究竟是哪种 Jordan 块, 考虑 `(bm J - lambda bm E)^k` 的秩
+    <span class="formula">
+       `r_k = "rank"(bm J - lambda bm E)^k`
+       `= "rank"(bm A - lambda bm E)^k`,
+       `quad k = 0, 1, cdots`.
+    </span>
+    `k = 0` 时, `(bm J - lambda bm E)^0 = bm E` 的秩为 `r_0 = n`.
+    `k = 1` 时, `bm J - lambda bm E` 把 `bm J` 的主对角线变为零, 于是所有 Jordan 块的秩都减少 1.
+    换言之, `r_0 - r_1 =` 所有 Jordan 块的数目.
+    `k` 从 1 变到 2 时, `bm J - lambda bm E` 中一阶 Jordan 块已经变成零, 阶数无法降低;
+    其他 Jordan 块的阶数都减少 1. 换言之 `r_2 - r_1 =` 阶数大于 1 的 Jordan 块的数目.
+    一般地
+    <span class="formula">
+      `r_(k+1) - r_k =` 阶数大于 `k` 的 Jordan 块的数目.
+    </span>
+    再作一阶差分就得到:
+    <span class="formula">
+      `(r_k - r_(k-1)) - (r_(k+1) - r_k) =` 阶数等于 `k` 的 Jordan 块数目.
+    </span>
+    注意: 我们事先不知道 `bm J` 的形式, 因此无法直接求出 `"rank"(bm J - lambda bm E)`,
+    但可以改为求 `"rank"(bm A - lambda bm E)`.
+  </li>
+  <li>
+    对 `bm A` 的各个不同的特征值重复上述操作.
+    得知了各阶 Jordan 块的数目后, Jordan 标准形就完全确定了.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
