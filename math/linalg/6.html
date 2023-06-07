@@ -910,6 +910,30 @@
   这里求得的 `bm Q` 是前一种方法求得的过渡矩阵 `bm P` 的逆.
 </p>
 
+<p class="example">
+  任意复方阵 `bm A` 相似于一个上三角矩阵, 它的主对角线元素是 `bm A` 的各个特征值.
+</p>
+
+<p class="proof">
+  对 `bm A` 的阶数 `n` 作归纳. `n = 1` 时显然成立.
+  假设命题对 `n-1` 阶复方阵成立, 考虑 `n` 阶方阵 `bm A`, 设 `lambda_1`, `bm X_1`
+  分别是 `bm A` 的特征值和对应的特征向量. 把 `X_1` 扩充为 `CC^n` 的一组基 `bm X_1,
+  cdots, bm X_n`. 令
+  <span class="formula">
+    `bm T = (bm X_1, cdots, bm X_n)`,
+  </span>
+  则 `bm T` 为 `n` 阶可逆方阵. 由 `bm A bm X_1 = lambda_1 bm X_1` 知
+  <span class="formula">
+    `bm (A T) = bm A(bm X_1, cdots, bm X_n)`
+    `= (lambda_1 bm X_1, bm A bm X_2, cdots, bm A bm X_n)`.
+  </span>
+  `bm (A T)` 的第一列与 `bm T` 的第一列只相差常数倍, 因此 `bm T^-1 bm (A T)` 的第一列与 `bm T^-1 bm T = bm E` 的第一列也只相差常数倍, 即
+  <span class="formula">
+    `bm T^-1 bm (A T) = [lambda_1, ast; , bm A_1]`.
+  </span>
+  由归纳假设, `bm A_1` 相似于上三角阵, 因此上式也相似于上三角阵.
+</p>
+
 <h3>不变子空间</h3>
 
 <p class="definition">
