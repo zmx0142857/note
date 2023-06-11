@@ -147,15 +147,12 @@
   </li>
 </ol>
 
-<p class="corollary">
-  由于对称矩阵的合同仍对称,
-  非奇异矩阵的合同仍非奇异.
-  我们得到: `V` 上双线性函数的度量矩阵是否对称 (是否非奇异), 与基底的选取无关.
-</p>
-
 <ol class="corollary">
+  由于对称矩阵的合同仍对称, 非奇异矩阵的合同仍非奇异, 正定矩阵的合同仍正定,
+  我们得到: `V` 上双线性函数的度量矩阵是否对称/是否非奇异/是否正定, 与基底的选取无关.
   <li>双线性函数 `f` 对称当且仅当它的某个度量矩阵对称.</li>
   <li>双线性函数 `f` 非奇异当且仅当它的某个度量矩阵非奇异.</li>
+  <li>实线性空间中, 双线性函数 `f` 正定当且仅当它的某个度量矩阵正定.</li>
 </ol>
 
 <p class="proof">
@@ -165,16 +162,16 @@
   设 `f` 在该基底下的度量矩阵为 `bm A`, 则
   <span class="formula align">
     `quad f` 非奇异<br>
-    `iff AA bm alpha in V\\{bb 0}`, 关于 `bm beta` 的方程
-    `f(bm alpha, bm beta) = 0` 只有零解<br>
-    `iff` 关于 `bm beta` 的方程组
-    `f(bm epsi_i, bm beta) = 0`, `i = 1, cdots, n` 只有零解<br>
+    `iff AA bm alpha in V\\{bb 0}`, 关于 `bm x` 的方程
+    `f(bm alpha, bm x) = 0` 只有零解<br>
+    `iff` 关于 `bm x` 的方程组
+    `f(bm epsi_i, bm x) = 0`, `i = 1, cdots, n` 只有零解<br>
     `iff` 关于 `bm X` 的方程组 `bm (A X) = bb 0` 只有零解<br>
     `iff bm A` 非奇异.
   </span>
 </p>
 
-<h2>对称双线性函数, 正交基底</h2>
+<h3>Schmidt 正交化</h3>
 
 <p class="definition">
   设 `f` 为 `V` 上的对称双线性函数, 如果
@@ -258,7 +255,7 @@
 	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)` 是 `V` 的一个正交基底.
 </p>
 
-<h2>非奇异对称双线性函数, 子空间的正交补</h2>
+<h3>正交补空间</h3>
 
 <p class="definition">
 	令 `f` 为线性空间 `V` 上的非奇异对称双线性函数. 则
@@ -266,9 +263,14 @@
 	特别 `V` 为一实线性空间时, 称为<b>伪 Euclid 空间</b>.
 </p>
 
+<p class="remark">
+  本节总假定 `(V, f)` 是一个对称双线性度量空间.
+</p>
+
 <p class="corollary">
-	对称双线性度量空间存在正交基底 `(bm epsi_1, bm epsi_2, cdots, bm
-	epsi_n)`. 因为 `f` 非奇异, 有
+	根据 Schmidt 正交化,
+  `(V, f)` 存在正交基底 `(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`.
+  因为 `f` 非奇异, 有
 	<span class="formula">
 		`f(bm epsi_i,bm epsi_j) {
 			= 0, if i != j;
@@ -277,61 +279,51 @@
 </p>
 
 <p class="definition">
-	令 `(V, f)` 为一对称双线性度量空间, `W le V`, 则 `V` 中满足与 `W`
-	中任意向量都正交的向量的全体构成 `V` 的子空间:
+  `(V, f)` 中垂直于子空间 `W` 的向量全体构成 `V` 的子空间:
 	<span class="formula">
-		`W^_|_ := {bm alpha in V | (AA bm beta in W) f(bm alpha, bm beta)
-		= 0} le V`,
+		`W^_|_ := {bm alpha in V | (AA bm w in W) f(bm alpha, bm w) = 0}`,
 	</span>
-	称为 `W` 的<b>正交补空间</b>.
+	称为 `W` 在 `V` 中的<b>正交补空间</b>.
 </p>
 
-<ol class="corollary" id="cor-orthogonal-complement-and-linear-equations">
-<li>
-	令 `(V, f)` 为一对称双线性度量空间, `W le V`, `"dim"W = r ge 1`,
-	取 `W` 的基底 `(bm alpha_1, bm alpha_2, cdots, bm alpha_r)`, 则
-	<span class="formula">
-		`W^_|_ = {bm x in V | f(bm alpha_i, bm x) = 0, i = 1,
-		2, cdots, r}`,
-	</span>
-	即 `W^_|_` 是关于 `bm x in V` 的方程组
-	<span class="formula">
-		`f(bm alpha_i, bm x) = 0`, `quad i = 1, 2, cdots, r`
-	</span>
-	的解空间. 取 `V` 的基底 `(bm epsi_1, bm epsi_2, cdots, bm
-	epsi_n)`, 设 `f` 在该基底下的度量矩阵为 `bm T`
-	(显然 `bm T` 对称非奇异),
-	<span class="formula">
-		`(bm alpha_1, bm alpha_2, cdots, bm alpha_r)`
-		`= (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm A`,<br/>
-		`bm x = (bm epsi_1, bm epsi_2, cdots, bm epsi_n) bm X`,<br/>
-	</span>
-	则方程组可以表示为
-	<span class="formula">
-		`bm (A'T X) = bb 0`.
-	</span>
-	特别 `bm T = bm E` 时, 有 `f(bm x, bm y) = sum_(i=1)^n x_i y_i`,
-	方程组简化为
-	<span class="formula">
-		`bm(A'X) = bb 0`.
-	</span>
-</li>
-<li>现在考虑齐次线性方程组 `bm(A'X) = bb 0`, 记
-	<span class="formula">
-		`bm A = (bm A_1, bm A_2, cdots, bm A_r)`,
-	</span>
-	取 `bbb P^n` 上非奇异对称双线性函数 `f_(bm E)`, 使得其在自然基底
-	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)` 下的度量矩阵为 `bm E`. 则
-	<span class="formula">
-		`f_(bm E)(bm X, bm Y) = bm(X'Y)`.
-	</span>
-	齐次线性方程组 `bm(A'X) = bb 0` 写为双线性函数的形式即
-	<span class="formula">
-		`f_(bm E)(bm A_i, bm X) = 0`, `quad i = 1, 2, cdots, r`.
-	</span>
-	因此这个方程组的解空间是 `"span"(bm A_1, bm A_2, cdots, bm A_r)^_|_`.
-</li>
-</ol>
+<p class="corollary" id="cor-orthogonal-complement-and-linear-equations">
+  取定 `W` 的基底 `bm alpha_1, cdots, bm alpha_r`,
+  则 `W^_|_` 是关于 `bm x` 的方程组
+  <span class="formula">
+    `f(bm alpha_i, bm x) = 0`, `quad i = 1, cdots r`
+  </span>
+  的解空间, 即
+  <span class="formula">
+    `W^_|_ = {bm x | f(bm alpha_i, bm x) = 0, i = 1, cdots, r}`.
+  </span>
+  取定 `V` 的基底, 设 `bm alpha_i` 的坐标为 `bm A_i`,
+  `bm x` 的坐标为 `bm X`, `f` 的度量矩阵为 `bm T`,
+  则上述方程组可以写为
+  <span class="formula">
+    `bm(A'T X) = bb 0`,
+  </span>
+  其中 `bm A = (bm A_1, cdots, bm A_n)`.
+</p>
+
+<p class="corollary">
+  方程组 `bm (A'Y) = bb 0` 的解空间
+  <span class="formula">
+    `W^_|_ := "span"(bm A_1, cdots, bm A_n)^_|_`
+  </span>
+  是方程组 `bm (A X) = bm B` 的列空间 (系数矩阵各列张成的空间)
+  <span class="formula">
+    `W := "span"(bm A_1, cdots, bm A_n)`
+  </span>
+  的正交补.
+  (这里取定的双线性函数是 `f_(bm E)(bm x, bm y) = sum x_i y_i`).
+  下面将证明对任意子空间成立 `(W^_|_)^_|_ = W`, 因此
+  <span class="formula">
+    `bm (A X) = bm B` 有解
+    `iff bm B in W = (W^_|_)^_|_`
+    `iff bm B` 垂直于 `bm (A'Y) = bb 0` 的解空间.
+  </span>
+  我们称 `bm (A'Y) = bb 0` 为 `bm (A X) = bm B` 的<b>转置线性方程组</b>.
+</p>
 
 <ol class="theorem">
 	令 `(V,f)` 为一对称双线性度量空间, `W le V`, 则
@@ -343,17 +335,19 @@
 	记 `"dim"V = n`, `"dim"W = r`.
 	由 `f` 非奇异知 `V^_|_ = {bb 0}`, `{bb 0}^_|_ = V`,
 	所以结论 1, 2 成立, 下设 `r ge 1`.
-	<li>假设如<a class="ref"
-		href="#cor-orthogonal-complement-and-linear-equations"></a>
-		的 1, 由于 `bm alpha_i` 线性无关, 从而 `bm A` 的列向量线性无关,
-		`r_(bm A) = r`.  由 `bm T` 非奇异知, 方程组 `bm(A'T X) = bb 0`
-		的系数矩阵的秩 `r_(bm(A'T)) = r`, 从而方程组的解空间维数为
-		`n-r`. 又显然该方程组的解空间同构于 `W`, 所以 `"dim"W^_|_ = n-r`.
+  <li>由<a class="ref"
+      href="#cor-orthogonal-complement-and-linear-equations"></a>
+    知道 `W^_|_` 同构于方程组 `bm(A'T X) = bb 0` 的解空间, 从而
+    `"dim"W^_|_` 等于该方程组的解空间的维数.
+    由 `bm alpha_i` 线性无关知 `bm A`
+    的列向量线性无关, `"rank"(bm A) = r`. 再由 `bm T` 非奇异知,
+    `"rank"(bm(A'T)) = r`, 于是方程组 `bm(A'T X) = bb 0`
+    的解空间维数为 `n-r`.
 	</li>
 	<li>由 1. 有 `"dim"W^_|_ = n-r`, `"dim"(W^_|_)^_|_ = r`.  又
 		<span class="formula">
 			`W sube (W^_|_)^_|_`
-			`= {bm alpha in V | (bm beta in W^_|_) f(bm alpha, bm beta) =
+			`= {bm alpha in V | (AA bm beta in W^_|_) f(bm alpha, bm beta) =
 			0}`,
 		</span>
 		`V` 的两个子空间 `W` 与 `(W^_|_)^_|_` 的维数相同, 又有包含关系,
@@ -373,19 +367,6 @@
 	不是复线性空间中合适的双线性函数, 而
 	`f(bm X, bm Y) = sum_(i=1)^n bar x_i y_i`
 	更合适一些. 事实上, 后者是一个内积.
-</p>
-
-<p class="corollary">
-	设 `bm A in bbb P^(m xx n)`, `bm X in bbb P^n`, `bm B, bm Y in bbb
-	P^m`, 考虑非齐次方程组 `bm(A X) = bm B` 的<b>转置齐次线性方程组</b>
-	`bm(A' Y) = bb 0`. 在 `(bbb P^m, f_(bm E))` 中, 后者的解空间是
-	<span class="formula">
-		`W := "span"(bm A_1, bm A_2, cdots, bm A_n)^_|_`,
-	</span>
-	则 `bm(A X) = bm B` 有解当且仅当
-	<span class="formula">
-		`bm B in "span"(bm A_1, bm A_2, cdots, bm A_n) = W^_|_`.
-	</span>
 </p>
 
 <h2>内积空间</h2>
@@ -408,7 +389,7 @@
 				`(bm x, bm y) = bar((bm y","bm x))`;
 			</li>
 			<li>关于第一变元的线性性和第二变元的共轭线性性.
-				`(AA bm x, bm y, bm z in V)` `(AA k, l in bbb F)`
+				`(AA bm x, bm y, bm z in V)` `(AA k, l in CC)`
 				<span class="formula">
 					`(k bm x+l bm y, bm z) = k(bm x, bm z) + l(bm y, bm
 					z)`,<br/>
@@ -460,29 +441,22 @@
 	当 `bm y = bb 0` 时, 不等式取得等号, 显然成立;
 	否则取 `t = -((bm x","bm y))/((bm y","bm y))`,
 	考虑向量 `bm x + t bm y`, 由正定性有
-	<span class="formula">
-		`0 le (bm x + t bm y, bm x + t bm y)`
+	<span class="formula align">
+    `0 le (bm x + t bm y, bm x + t bm y)`<br>
 		`= (bm x, bm x) + bar t(bm x, bm y) + t bar((bm x","bm y))
-		+ t bar t(bm y, bm y)`
-		`= (bm x, bm x) + 2 Re(bar t (bm x","bm y)) + |t|^2(bm y, bm y)`
+    + t bar t(bm y, bm y)`<br>
+    `= (bm x, bm x) + 2 "Re"(bar t (bm x","bm y)) + |t|^2(bm y, bm y)`<br>
 		`= (bm x, bm x) -2 |(bm x","bm y)|^2/((bm y","bm y)) + |(bm x","bm
-		y)|^2/((bm y","bm y))`
+    y)|^2/((bm y","bm y))`<br>
 		`= (bm x, bm x) - |(bm x","bm y)|^2/((bm y","bm y))`.
 	</span>
 	变形得
 	<span class="formula">
 		`|(bm x","bm y)|^2 le (bm x, bm x)(bm y, bm y)`.
 	</span>
-	现在考虑等号成立的条件. 当 `bm x, bm y` 线性相关时,
-	`bm y = bb 0` 的情形已经考虑过. 现在设 `bm x = lambda bm y`,
-	代入有
-	<span class="formula">
-		`(lambda bm y, lambda bm y)(bm y, bm y)`
-		`= |lambda|^2 |(bm y","bm y)|^2`
-		`= |(lambda bm y","bm y)|^2`,
-	</span>
-	故等号成立. 反之设不等式中的等号成立, 不妨设 `bm y != bb 0`,
-	由内积的正定性, 这等号成立当且仅当 `bm x + t bm y = bb 0`,
+	现在考虑等号成立的条件. 不妨设 `bm y != bb 0`, 则 Cauchy-Schwarz
+  不等式中等号成立等价于 `(bm x + t bm y, bm x + t bm y) = 0`.
+	由内积的正定性, 这等价于 `bm x + t bm y = bb 0`,
 	即 `bm x, bm y` 线性相关.
 </p>
 
@@ -507,14 +481,14 @@
 <p>	我们将在内积空间中引入向量的长度, 距离, 夹角的概念.</p>
 
 <ol class="definition">
-	设 `V` 为 `bbb P` 上的线性空间, 
+	设 `V` 为 `bbb P` 上的线性空间,
 	实函数 `||*||: V to RR` 称为 `V` 上的<b>范数</b>, 如果满足
 	<li>正定性. `(AA bm x in V)` `||bm x|| ge 0`, 等号成立当且仅当 `bm X =
 		bb 0`.
 	</li>
-	<li>`(AA bm x in V)` `(AA c in bbb P)` `||c bm x|| = |c|` `||bm x||`.
+	<li>齐次性. `(AA bm x in V)` `(AA c in bbb P)` `||c bm x|| = |c|` `||bm x||`.
 	</li>
-	<li>次可加性, 或三角不等式. `(AA bm x, bm y in V)`
+	<li>三角不等式. `(AA bm x, bm y in V)`
 		`||bm x+bm y|| le ||bm x|| + ||bm y||`.
 	</li>
 	`V` 连同范数 `||*||` 构成的代数系统称为一<b>线性赋范空间</b>.
@@ -522,20 +496,21 @@
 </ol>
 
 <p class="theorem">
+  <b>内积诱导的范数</b>
 	在内积空间 `V` 中引入 `|bm x| = sqrt((bm x","bm x))`,
 	则 `|*|` 为一范数.
 </p>
 
 <ol class="proof">
 	<li>`|*|` 的正定性由内积的正定性保证.</li>
-	<li>容易验证.</li>
-	<li>计算
+	<li>容易验证 `|*|` 满足齐次性.</li>
+	<li>计算, 应用 Cauchy 不等式:
 		<span class="formula">
 			`|bm x+bm y|^2`
 			`= (bm x+bm y,bm x+bm y)`
-			`= (bm x,bm x) + 2 Re(bm x, bm y) + (bm y, bm y)`
-			`le (bm x, bm x) + |(bm x","bm y)| + (bm y, bm y)`
-			`le |bm x|^2 + |bm x|` `|bm y| + |bm y|^2`
+			`= (bm x,bm x) + 2 "Re"(bm x, bm y) + (bm y, bm y)`
+			`le (bm x, bm x) + 2|(bm x","bm y)| + (bm y, bm y)`
+			`le |bm x|^2 + 2|bm x|` `|bm y| + |bm y|^2`
 			`= (|bm x|+|bm y|)^2`,
 		</span>
 		所以三角不等式成立.
@@ -553,6 +528,7 @@
 </ol>
 
 <p class="corollary">
+  <b>范数诱导的度量</b>
 	在线性赋范空间中, 规定 `d(x,y) = ||x-y||`,
 	可以验证 `d` 是一个距离函数.
 </p>
@@ -579,31 +555,70 @@
 	由 `(bm x, bm y) = 0` 有
 	<span class="formula">
 		`|bm x+bm y|^2 = (bm x+bm y,bm x+bm y)`
-		`= (bm x,bm x) + 2 Re(bm x, bm y) + (bm y, bm y)`
+		`= (bm x,bm x) + 2 "Re"(bm x, bm y) + (bm y, bm y)`
 		`= |bm x|^2 + |bm y|^2`.
 	</span>
 </p>
-
-<h3>内积空间的标准正交基底</h3>
-
-<span class="formula">
-	`bm beta_1 = bm alpha_1`,<br/>
-	`bm beta_i = bm alpha_i - sum_(j=1)^(i-1) ((bm alpha_i","bm beta_j))
-	/((bm beta_j","bm beta_j)) bm beta_j`,
-	`quad i = 2, 3, cdots, n`.
-</span>
-
-<ol class="theorem">
-	设 `f` 为实线性空间 `V` 上的双线性函数, 则以下各款等价:
-	<li>`f` 对称正定 (根据下文的定义, 即 `f` 是一个内积);</li>
-	<li>`f` 在 `V` 的任意基底下的度量矩阵正定;</li>
-	<li>`f` 在 `V` 的某一基底下的度量矩阵正定.</li>
-</ol>
 
 <h2>向量到子空间的距离, 最小二乘法</h2>
 
 <p>	最小二乘法, 好比在平面上找一点, 使它到空间中一点距离最小.
 只不过这里的 "平面", "空间" 都指线性空间.</p>
+
+<p class="question">
+  设有内积空间 `V` 和它的子空间 `W`.
+  给定向量 `bm y in V`, 寻找一向量 `bm x in W`, 使其到 `bm y` 的距离最小.
+</p>
+
+<ol class="solution">
+  <li>
+    由勾股定理知道, 当 `bm x - bm y _|_ W` 时, 这个距离最小:
+    任取 `bm x' in W`, 则 `bm x' - bm x _|_ bm x - bm y`, 于是
+    <span class="formula">
+      `|bm x' - bm y|^2 = |bm x' - bm x|^2 + |bm x - bm y|^2`
+      `ge |bm x - bm y|^2`.
+    </span>
+  </li>
+  <li>
+    现在来计算向量 `bm x`.  取 `W` 的基底 `bm alpha_1, cdots, bm alpha_r`,
+    由 `bm x - bm y _|_ W` 知,
+    <span class="formula">
+      `(bm alpha_i, bm x - bm y) = 0`,
+      即 `(bm alpha_i, bm x) = (bm alpha_i, bm y)`,
+      `quad i = 1, cdots, r`.
+    </span>
+    又取 `V` 的标准正交基底.  设 `bm x, bm y, bm alpha_i`
+    在该基底下的坐标分别为 `bm X, bm Y, bm A_i`, 则上式写为
+    <span class="formula">
+      `(bm A_i, bm X) = (bm A_i, bm Y)`,
+      `quad i = 1, cdots, r`.
+    </span>
+    或令 `bm A = (bm A_1, cdots, bm A_n)`, 得到
+    <span class="formula">
+      `bm (A' X) = bm (A' Y)`,
+    </span>
+    又设 `bm x` 在 `W` 的基底下坐标为 `bm X_W`,
+    于是 `bm X = bm (A X)_W`,
+    <span class="formula">
+      <span class="box">
+        `bm (A' A X)_W = bm (A' Y)`,
+      </span>
+    </span>
+    即
+    <span class="formula">
+      <span class="box">
+        `[(bm alpha_1, bm alpha_1), cdots, (bm alpha_1, bm alpha_r);
+        vdots, , vdots;
+        (bm alpha_r, bm alpha_1), cdots, (bm alpha_r, bm alpha_r)]`
+        `bm X_W`
+        `= [(bm alpha_1, bm y); vdots; (bm alpha_r, bm y)]`.
+      </span>
+    </span>
+    方程组的系数矩阵即为内积在子空间 `W` 的基底下的度量矩阵.
+    由<a href="3.html#exp-least-square-system">这个例题</a>知道,
+    在实线性空间中该方程组总是有解.
+  </li>
+</ol>
 
 <p class="example">
 	<b>线性回归</b>
@@ -646,7 +661,7 @@
 	<span class="formula">
 		`(bm x, bm y) = sum_(i=1)^n x_i y_i`.
 	</span>
-	在 `RR^n` 的子空间 `"span"[1, bm x]` 中寻找一向量, 使其到向量 `bm y`
+	在 `RR^n` 的子空间 `"span"(1, bm x)` 中寻找一向量, 使其到向量 `bm y`
 	的距离最小.
 	这一向量的坐标 `(b, a)` 满足
 	<span class="formula">
