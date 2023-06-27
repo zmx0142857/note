@@ -97,7 +97,7 @@ math: {
   title:'实变函数',
   articles: [
     {title:'预备知识', src:'real/1.html'},
-    {title:'Lebesgue 测度', src:'real/2.html'},
+    {title:'Lebesgue 测度', src:'real/2.html', date:'2023-06-27'},
   ]
 }, {
   title:'概率论',

@@ -80,9 +80,10 @@
 	</li>
 </ol>
 
-<h3>外测度的平移与数乘</h3>
+<h3>外测度的其它性质</h3>
 
 <p class="theorem">
+  <b>外测度的平移不变性</b>
 	设 `E sube RR^n`, `x in RR^n`, 则
 	<span class="formula">
 		`m^**(x + E) = m^**(E)`,
@@ -91,14 +92,13 @@
 </p>
 
 <p class="theorem">
-	设 `E sube RR`, `lambda in R`, 则
+  <b>外测度的数乘性质</b>
+	设 `E sube RR^n`, `lambda in RR`, 则
 	<span class="formula">
 		`m^**(lambda E) = |lambda| m^**(E)`,
 	</span>
 	其中 `lambda E = {lambda e: e in E}`.
 </p>
-
-<h3>距离外测度性质</h3>
 
 <p class="lemma">
 	设 `E sube RR^n`, `delta gt 0`, 将 `E` 的全体
@@ -121,7 +121,9 @@
 	上的一个<b>距离外测度</b>.
 </p>
 
-<h2>可测集, 测度的可列次运算</h2>
+<h2>可测集与测度空间</h2>
+
+<h3>可测集</h3>
 
 <p class="definition">
 	<b>Carathéodory 条件</b>
@@ -157,7 +159,7 @@
 		`m^**(T nn E) + m^**(T \\ E)`
 		`le m^**((uuu_(k=1)^oo I_k) nn E) + m^**((uuu_(k=1)^oo I_k) \\ E)`
 		`le sum_(k=1)^oo [m^**(I_k nn E) + m^**(I_k \\ E)]`
-		`le sum_(k=1)^oo m^**(I_k)`
+		`= sum_(k=1)^oo m^**(I_k)`
 		`le m^**(T) + epsi`.
 	</span>
 	令 `epsi to 0` 即得结论.
@@ -188,10 +190,13 @@
 <p class="proof">
 	因为 `cc M sube 2^(RR^n)`, 所以 `|cc M| le 2^(aleph_1)`;
 	另一方面 Cantor 集 `C` 是零测集, 从而其任一子集也是零测集,
-	即 `2^C sube cc M`, 所以 `|cc M| ge 2^c = 2^(aleph_1)`.
+	即 `2^C sube cc M`, 所以 `|cc M| ge 2^|C| = 2^(aleph_1)`.
 </p>
 
+<h3>测度空间</h3>
+
 <ol class="definition">
+  <b>测度空间</b>
 	设 `X != O/`, `cc A` 是 `X` 上的 `sigma`-代数, 集合函数
 	`mu: cc A to RR` 满足
 	<li>规范性: `mu(O/) = 0`;</li>
@@ -366,8 +371,14 @@
 		`le underset(k to oo)(ul lim) m(E_k)`.
 	</span>
 </p>
+
+<p class="remark">
+  今后还会学到 Lebesgue 积分的 Fatou 引理.
+</p>
  
 <h2>可测集与 Borel 集</h2>
+
+<h3>可测集是对 Borel 集的扩充</h3>
 
 <p class="lemma">
 	<b>Carathéodory 引理</b>
@@ -451,6 +462,68 @@
 		`m^**(T nn F) + m^**(T \\ F) le m^**(T)`.
 	</span>
 </p>
+
+<p class="remark">
+  开集/闭集 `sube F_sigma // G_delta` 集 `sube` Borel 集 `sube` 可测集.
+</p>
+
+<h3>Borel 集对可测集的逼近</h3>
+
+<ol class="theorem">
+  <b>用开集/闭集逼近可测集</b>
+  设 `E` 为可测集. 对 `AA epsi gt 0`,
+  <li>存在包含 `E` 的开集 `G`, 使 `m(G\\E) lt epsi`;</li>
+  <li>存在含于 `E` 的闭集 `F`, 使 `m(E\\F) lt epsi`.</li>
+</ol>
+
+<ol class="theorem">
+  <b>用 `F_sigma`/`G_delta` 集逼近可测集</b>
+  设 `E` 为可测集, 则
+  <li>存在 `G_delta` 集 `H` 使 `m(H\\E) = 0`;</li>
+  <li>存在 `F_sigma` 集 `K` 使 `m(E\\K) = 0`.</li>
+</ol>
+
+<p class="remark">
+  换言之, 存在包含 `E` 的, 与 `E` 测度相等的 `G_delta` 集, 称为 `E` 的<b>等测包</b>;
+  存在含于 `E` 的, 与 `E` 测度相等的 `F_sigma` 集, 称为 `E` 的<b>等测核</b>.
+</p>
+
+<h3>外测度的等测包</h3>
+
+<p>等测包对于一般点集的外测度也是成立的:</p>
+
+<p class="theorem">
+  <b>外测度的正则性</b>
+  对任意 `E sube RR^n`, 存在包含 `E` 的, 与 `E` 外测度相等的 `G_delta` 集, 也称为 `E` 的等测包.
+</p>
+
+<ol class="corollary">
+  <b>外测度的 Fatou 引理</b>
+  对 `RR^n` 中的集合列 `{E_k}` 有
+  <li>`m^**(underset(k to oo)(ul lim) E_k) le underset(k to oo)(ul lim) m^**(E_k)`.</li>
+  <li>`{E_k}` 递增时上式取等, 即 `m^**(lim_(k to oo) E_k) = lim_(k to oo) m^**(E_k)`.</li>
+</ol>
+
+<h3>测度的平移不变性</h3>
+
+<p class="theorem">
+  <b>测度的平移不变性</b>
+  设 `E` 为可测集, `x in RR^n`, 则 `x + E` 也是可测集且 `m(x+E) = m(E)`.
+</p>
+
+<p class="remark">
+  <b>Lebesgue 测度的某种唯一性</b>
+  在 Borel `sigma`-代数上定义的测度 `mu`, 若对紧集 `K` 有 `mu(K) lt oo`, 则称 `mu` 为 <b>Borel 测度</b>.
+  由于 `RR^n` 中的紧集就是有界闭集, 所以 Lebesgue 测度是一种 Borel 测度.
+  可以证明, 若 `mu` 是 `RR^n` 上平移不变的 Borel 测度, 则 `mu` 与 Lebesgue 测度仅相差一个常数因子;
+  即存在常数 `lambda`, 使对 `RR^n` 中任意 Borel 集 `B` 成立
+  <span class="formula">
+    `mu(B) = lambda m(B)`.
+  </span>
+  这告诉我们, 要使一个 Borel 测度满足平移不变性, 除非它和 Lebesgue 测度相差常数倍, 除此之外没有其它选择.
+</p>
+
+<h2>不可测集</h2>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
