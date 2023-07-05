@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>可测函数</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>可测函数</h2>
+
+<p class="remark">
+  Lebesgue 积分论中讨论的被积函数是可测函数. 本章先建立可测函数的相关理论.
+  与连续函数不同, 可测函数在极限运算下是封闭的, 这使得相关积分理论的使用更加便利.
+</p>
+
+<ol class="definition">
+  <b>广义实数集</b>
+  将 `+oo`, `-oo` 两个元素加到 `RR` 中, 称 `RR uu {+-oo} = RR uu {+oo, -oo}` 为广义实数集.
+  约定如下:
+  <li>`+oo` 可以简写为 `oo`;</li>
+  <li>对任意 `x in RR`, 有 `-oo lt x lt +oo`;</li>
+  <li>`-oo = -(+oo)`; `|+-oo| = +oo`;</li>
+  <li>`+-oo` 加上/减去任意实数, 结果仍为 `+-oo`;</li>
+  <li>`+-oo` 乘以/除以任意非零实数, 结果仍为 `+-oo`;</li>
+  <li>`(+oo) + (+oo) = +oo`; `(-oo) + (-oo) = -oo`; `(+oo) * (+oo) = +oo`; `(-oo) * (-oo) = +oo`;</li>
+  <li>这些运算无意义: `(+oo) - (+oo)`, `(-oo) - (-oo)`, `(+oo) * 0` 等等.</li>
+  广义实值函数是指 `E sube RR to RR uu {+-oo}` 的函数.
+</ol>
+
+<p class="definition">
+  <b>可测函数</b>
+  如果 `f` 是定义在可测集 `E sube RR` 上的广义实值函数, 且对于任意 `t in RR`, 集合
+  <span class="formula">
+    `{ x in E: f(x) gt t }` (简记为 `{ x: f(x) gt r }`)
+  </span>
+  都是可测集, 则称 `f` 是 `E` 上的可测函数, 或 `f` 在 `E` 上可测.
+</p>
+
+<p class="remark">
+  可测函数定义中的 `AA t in RR` 可以换成 `AA t in D`, 其中 `D` 是 `RR` 的一个稠密集.
+</p>
+
+<p class="proof">
+  设对任意 `r in D`, `{ x: f(x) gt r }` 都可测, 现在任取 `t in RR`, 下证 `{ x: f(x) gt r }` 可测.
+  选取 `D` 中的点列 `{r_k}`, 满足
+  <span class="formula">
+    `r_k ge t (k = 1, 2, cdots)`;
+    `quad lim_(k to oo) r_k = t`.
+  </span>
+  于是 `{ x: f(x) gt t } = uuu_(k ge 1) { x: f(x) gt r_k }` 可测.
+</p>
+
+<p class="example">
+  区间 `[a, b]` 上的单调函数可测.
+</p>
+
+<p class="proof">
+  事实上, 对 `AA t in RR`, 点集 `{ x in [a, b]: f(x) gt t }`
+  必属于下述三种情况之一: 区间、单点集或空集, 从而它是可测集.
+</p>
+
+<p class="example">
+  可测集 `E` 上的连续函数可测.
+</p>
+
+<p class="example">
+  可测集 `E` 的示性函数 `chi_E(x) = {1, if x in E; 0, otherwise:}`
+  是可测函数.
+</p>
+
+<p class="example">
+  <b>正部与负部</b>
+  设 `f` 是 `E` 上的广义实值函数, 分别定义 `f` 的正部与负部如下:
+  <span class="formula">
+    `f^(+)(x) = max(f, 0)`,
+    `quad f^(-)(x) = max(-f, 0)`.
+  </span>
+  从而 `f` 的正部负部都是非负函数, 且
+  <span class="formula">
+    `f = f^(+) - f^(-)`,
+    `quad |f| = f^(+) + f^(-)`.
+  </span>
+  我们有
+  <span class="formula">
+    `f` 可测 `iff f^(+), f^(-)` 可测.
+    `quad f` 可测 `rArr |f|` 可测.
+  </span>
+  一个 `f` 不可测, 但 `|f|` 可测的例子: `f = 2 chi_A - 1`, `A` 为不可测集.
+  这时 `f` 在 `A` 上取 `1`, `A` 外取 `-1`.
+</p>
+
+<ol class="corollary">
+  设 `t in RR`. 若 `f` 在 `E` 上可测, 则下列点集都是可测的:
+  <li>`{x: f(x) le t} = E \\ {x: f(x) gt t}`;</li>
+  <li>`{x: f(x) ge t} = nnn_(k ge 1) {x: f(x) gt t - 1/k}`;</li>
+  <li>`{x: f(x) lt t} = E \\ (2)`;</li>
+  <li>`{x: f(x) = t} = (1) nn (2)`;</li>
+  <li>`{x: f(x) lt +oo} = uuu_(k ge 1) {x: f(x) lt k}`;</li>
+  <li>`{x: f(x) = +oo} = E \\ (5)`;</li>
+  <li>`{x: f(x) gt -oo} = uuu_(k ge 1) {x: f(x) gt -k}`;</li>
+  <li>`{x: f(x) = -oo} = E \\ (7)`.</li>
+</ol>
+
+<ol class="corollary">
+  <b>定义域的拼接与限制</b>
+  <li>若 `f` 在 `E_1`, `E_2` 上都可测, 则 `f` 在 `E_1 uu E_2` 上可测;</li>
+  <li>若 `f` 在 `E` 上可测, `A` 是 `E` 中可测集, 则 `f` 在 `A` 上的限制 `f{:|_A` 也可测.</li>
+</ol>
+
+<p class="corollary">
+  <b>可测函数类形成一个环</b>
+  若 `f, g` 是 `E` 上的可测函数, `c in RR`, 则 `c * f`, `f + g`, `f * g` 可测.
+</p>
+
+<p class="corollary">
+  <b>可测函数列的极限</b>
+  若 `{f_k(x)}` 是 `E` 上的可测函数列, 则下列函数可测:
+  <span class="formula">
+    `underset(k ge 1)Sup f_k(x)`,
+    `quad inf_(k ge 1) f_k(x)`,
+    `quad underset(k to oo)(bar lim) f_k(x)`,
+    `quad underset(k to oo)(ul lim) f_k(x)`.
+  </span>
+  特别当 `f_k(x) to f(x)` 时, `f` 也可测.
+</p>
+
+<ol class="definition">
+  <b>几乎处处</b>
+  如果 `E` 是可测集, 命题 `P(x)` 在 `E` 上除了一个零测集外处处成立, 就说 `P(x)` 在 `E` 上几乎处处 (almost everywhere, a. e.) 成立. 如:
+  <li>`E` 上的可测函数 `f`, `g` 几乎处处相等, 是指 `m({ x in E: f(x) != g(x) }) = 0`, 记为 `f(x) = g(x)`, `"a.e." x in E`.</li>
+  <li>`E` 上的可测函数 `f` 几乎处处有限, 是指 `m({ x in E: |f(x)| = +oo }) = 0`, 记为 `f(x) lt oo`, `"a.e." x in E`.</li>
+</ol>
+
+<p class="corollary">
+  若 `f`, `g` 是 `E` 上几乎处处相等的广义实值函数, `f` 可测, 则 `g` 也可测.
+  换言之, 改变函数在零测集上的值时, 可测性不变.
+</p>
+
+<h2>简单函数</h2>
+
+<p class="definition">
+  <b>简单函数</b> 就是只取有限个函数值的函数. 比如 `E_1 uu cdots uu E_p` 是定义域 `E` 的不交并,
+  `f` 在它们上面分别取不同的值 `c_1, cdots, c_p`:
+  <span class="formula">
+    `f(x) = { c_1, x in E_1; cdots; c_p, x in E_p :}`,
+    `quad x in E`
+  </span>
+  用示性函数可以写为
+  <span class="formula">
+    `f(x) = sum_(i=1)^p c_i chi_(E_i)(x)`, `quad x in E`.
+    <span class="label" id="for-simple-fn"></span>
+  </span>
+  显然 `E` 上的简单函数形成一个环: 若 `f, g` 是简单函数, 则 `f +- g`, `f * g` 也是.
+</p>
+
+<p class="definition">
+  <b>可测简单函数</b>
+  就是可测的简单函数.
+  显然简单函数 `f` 可测当且仅当 <a class="ref" href="#for-simple-fn"></a> 中的每个 `E_i` 都是可测集.
+</p>
+
+<p class="definition">
+  <b>支集</b>
+  是指函数值非零的点集的闭包, 即
+  <span class="formula">
+    `"supp"(f) := bar({x: f(x) != 0})`.
+  </span>
+  若 `"supp"(f)` 是紧的 (在 `RR` 上即为有界闭集, 只需证有界), 则称 `f` 具有<b>紧支集</b>.
+</p>
+
+<ol class="definition">
+  <b>简单函数逼近定理</b> (用可测简单函数逼近可测函数)
+  设 `f` 是 `E` 上的可测函数.
+  <li>先设 `f` 非负. 则存在 `E` 上的非负可测简单函数渐升列 `{varphi_k(x)}` 逐点收敛于 `f(x)`.</li>
+  <li>对于一般情形, 存在可测简单函数列 `{varphi_k(x)}` 逐点收敛于 `f(x)`, 且
+    <span class="formula">
+      `|varphi_k(x)| le |f(x)|`,
+      `quad k = 1, 2, cdots`.
+    </span>
+    若 `f` 有界, 则上述收敛是一致的.
+  </li>
+</ol>
+
+<p class="remark">
+  上述简单函数逼近定理中的每个简单函数可以取成具有紧支集的函数.
+</p>
+
+<h2>几乎处处收敛与依测度收敛</h2>
+
+<h3>几乎处处收敛</h3>
+
+<p class="definition">
+  设 `f(x), f_k(x) (k in NN)` 是 `E` 上的广义实值函数,
+  若在一个零测集外有 `{f_k(x)}` 逐点收敛于 `f(x)`, 则称 `f_k(x)` 几乎处处收敛于 `f(x)`, 记作
+  `f_k(x) to f(x)`, `"a.e." x in E`.
+</p>
+
+<p class="remark">
+  若上述 `{f_k(x)}` 是可测函数列, 则 `f(x)` 也可测.
+</p>
+
+<p class="lemma">
+  设 `m(E) lt oo`, `f(x), f_k(x) (k in NN)` 是 `E` 上几乎处处有限的可测函数, 且
+  `f_k(x)` 几乎处处收敛于 `f(x)`.
+  对 `AA epsi gt 0`, 我们取出使 `f_k(x)` 与 `f(x)` 之差大于等于 `epsi` 的那些 `x`:
+  <span class="formula">
+    `E_k(epsi) = { x in E: |f_k(x) - f(x)| ge epsi }`,
+  </span>
+  则这些集合的测度不会太大:
+  <span class="formula">
+    `lim_(j to oo) m(uuu_(k ge j) E_k(epsi)) = 0`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Егоров (叶戈罗夫) 定理</b>
+  假设同上述引理, 则对 `AA delta gt 0`, 存在 `E` 中可测子集 `E_delta`, `m(E_delta) le delta`,
+  使 `{f_k(x)}` 在 `E\\E_delta` 中一致收敛到 `f(x)`.<br>
+  换言之, 挖去定义域中测度任意小的一个子集后, `{f_k(x)}` 在其余部分可一致收敛到 `f(x)`.
+  这个性质可以称为<b>近一致收敛</b>.
+</p>
+
+<h3>依测度收敛</h3>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
