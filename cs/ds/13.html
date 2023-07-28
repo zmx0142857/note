@@ -571,6 +571,14 @@ int main() {
 这里是 <a href="http://www.ip33.com/crc.html">CRC 在线计算</a>.
 </p>
 
+<p class="algorithm">
+  <b>求模 `p` 的平方根, `p -= 3(mod 4)`</b>
+  设 `p` 是模 4 余 3 的素数, `n` 为模 `p` 的二次剩余, 记 `s = (p-1)/2`, 由 Legendre 符号知道
+  `n^s -= 1 (mod p)`. 这里 `s` 是奇数, 容易验证 `+-n^((s+1)//2)` 就是 `n` 模 `p` 的平方根.
+</p>
+
+<p>对于模 4 余 1 的素数, 我们有如下算法:</p>
+
 <ol class="algorithm" id="alg-cipolla">
   <b>Cipolla 算法: 求模 `p` 的平方根</b><br>
   [<a href="https://www.it610.com/article/1456933759239630848.htm">来自 olderciyuan</a>]
@@ -684,6 +692,53 @@ module.exports = function demo (str) {
 }
 </script>
 </div>
+
+<p class="remark">
+  用 sympy 求模 `p` 的平方根: <code>sympy.ntheory.residue_ntheory.sqrt_mod(a, p, all_roots=False)</code>
+</p>
+
+<p class="algorithm">
+  <b>中国剩余定理</b>
+  给定两两互素的正整数 `n_1, cdots, n_k` 和任意 `k` 个整数 `a_1, cdots, a_k`, 则线性同余方程组
+  <span class="formula">
+    `{
+    x -= a_1 (mod n_1);
+    cdots;
+    x -= a_k (mod n_k);
+    :}`
+  </span>
+  在模 `N` 的意义下存在唯一解 `x`. 这里 `N = n_1 * cdots * n_k`.<br>
+  事实上, 记 `M_i = prod_(j != i) n_j`, 又记 `M_i^-1` 是 `M_i` 模 `n_i` 的逆, 则
+  <span class="formula">
+    `x -= sum_(i=1)^k a_i * M_i^-1 * M_i (mod N)`.
+  </span>
+  验证: 上式两边模 `n_i`, 由于除了 `M_i` 这一项外, 各项都是 `n_i` 的倍数, 我们得到
+  <span class="formula">
+    `x -= a_i * M_i^-1 * M_i -= a_i (mod n_i)`.
+  </span>
+</p>
+
+<div class="playground" value="{ a: [2, 3, 5], n: [5, 11, 17] }">
+<p>说明: `x -= 2 (mod 5), x -= 3 (mod 11), x -= 5 (mod 17)` 的解为 `x -= 872 (mod 935).</p>
+<script type="text">
+const { inv } = require('inv')
+module.exports = function chineseRemainder (str) {
+  const { a, n } = Playground.parse(str)
+  let prod = 1
+  for (let i = 0; i < n.length; ++i) {
+    prod *= n[i]
+  }
+
+  let res = 0
+  for (let i = 0; i < n.length; ++i) {
+    const m = prod / n[i]
+    res += a[i] * m * inv(m, n[i])
+  }
+  return res % prod
+}
+</script>
+</div>
+
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
 <script src="../../js/playground.js"></script>

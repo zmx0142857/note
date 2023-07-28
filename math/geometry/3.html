@@ -459,15 +459,17 @@
 </p>
 
 
-<div class="example">
+<p class="example">
   <b>角格点问题</b> 三角形 `ABC` 内有一点 `O`, 若已知六个角 `OAB`,
   `OAC`, `OBA`, `OBC`, `OCA`, `OCB` 中的四个, 则可以用角元 Ceva
-  公式求出另外两个. 特别当六个角的度数都是 `10^@` 的倍数时, 称 `O`
+  公式求出另外两个. 特别当六个角的度数都是有理数时, 称 `O`
   为三角形的角格点. 如
   <span class="formula">
     `sin 10^@ * sin 20^@ * sin 70^@ = sin 10^@ * sin 30^@ * sin 40^@`.
   </span>
-  上式简记为 <code>1 2 7 1 3 4</code>. 用程序穷举所有的角格点如下:
+  上式简记为 <code>1 2 7 1 3 4</code>. 用程序穷举所有 10 度的倍数的角格点如下:
+</p>
+
 <pre id="angle-grid-point"></pre>
 <script defer>
 ;(function(){
@@ -495,7 +497,6 @@ for (let c = 1; c <= 15; ++c) {
 document.getElementById('angle-grid-point').innerText = buf.join('\n')
 })()
 </script>
-</div>
 
 <h3>三角形的心</h3>
 

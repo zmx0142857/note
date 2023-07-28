@@ -188,12 +188,16 @@
 
 <h2>几乎处处收敛与依测度收敛</h2>
 
+<p class="remark">
+  没有特别说明时, 本节总假定 `f(x), f_k(x)` 等是 `E` 上几乎处处有限的可测函数.
+</p>
+
 <h3>几乎处处收敛</h3>
 
 <p class="definition">
   设 `f(x), f_k(x) (k in NN)` 是 `E` 上的广义实值函数,
-  若在一个零测集外有 `{f_k(x)}` 逐点收敛于 `f(x)`, 则称 `f_k(x)` 几乎处处收敛于 `f(x)`, 记作
-  `f_k(x) to f(x)`, `"a.e." x in E`.
+  若在一个零测集外有 `{f_k(x)}` 逐点收敛于 `f(x)`, 则称 `f_k(x)` <b>几乎处处收敛</b>于 `f(x)`, 记作
+  `f_k(x) overset "a.e." to f(x)`.
 </p>
 
 <p class="remark">
@@ -201,8 +205,7 @@
 </p>
 
 <p class="lemma">
-  设 `m(E) lt oo`, `f(x), f_k(x) (k in NN)` 是 `E` 上几乎处处有限的可测函数, 且
-  `f_k(x)` 几乎处处收敛于 `f(x)`.
+  设 `m(E) lt oo`, `f_k(x)` 在 `E` 上几乎处处收敛于 `f(x)`.
   对 `AA epsi gt 0`, 我们取出使 `f_k(x)` 与 `f(x)` 之差大于等于 `epsi` 的那些 `x`:
   <span class="formula">
     `E_k(epsi) = { x in E: |f_k(x) - f(x)| ge epsi }`,
@@ -215,13 +218,121 @@
 
 <p class="theorem">
   <b>Егоров (叶戈罗夫) 定理</b>
-  假设同上述引理, 则对 `AA delta gt 0`, 存在 `E` 中可测子集 `E_delta`, `m(E_delta) le delta`,
+  假设 `m(E) lt oo`, `f_k(x)` 在 `E` 上几乎处处收敛于 `f(x)`, 则对 `AA delta gt
+  0`, 存在 `E` 中可测子集 `E_delta`, `m(E_delta) le delta`,
   使 `{f_k(x)}` 在 `E\\E_delta` 中一致收敛到 `f(x)`.<br>
   换言之, 挖去定义域中测度任意小的一个子集后, `{f_k(x)}` 在其余部分可一致收敛到 `f(x)`.
-  这个性质可以称为<b>近一致收敛</b>.
+  这个性质可以称为<b>近一致收敛</b>, 记为 `f_k(x) overset(E\\E_delta) &#x21c9; f(x)`.
 </p>
 
 <h3>依测度收敛</h3>
+
+<p class="definition">
+  设 `m(E) lt oo`, `f(x), f_k(x) (k in NN)` 是 `E` 上几乎处处有限的可测函数,
+  考虑 Егоров 定理的引理中出现过的集合
+  <span class="formula">
+    `E_k(epsi) = { x in E: |f_k(x) - f(x)| ge epsi }`,
+  </span>
+  如果对任意 `epsi gt 0`, `k to oo` 时上述集合列的测度趋于 0, 则称 `{f_k(x)}`
+  在 `E` 上<b>依测度收敛</b>于 `f(x)`, 记为 `f_k(x) overset m to f(x)`.
+</p>
+
+<p class="remark">
+  区别于逐点收敛或几乎处处收敛, 依测度收敛的关键是点集 `E_k(epsi)` 的测度逐于零, 而不论此点集的位置状态如何.
+</p>
+
+<p class="theorem">
+  <b>依测度收敛极限的唯一性</b>
+  若 `{f_k(x)}` 在 `E` 上同时依测度收敛于 `f(x)` 和 `g(x)`, 则 `f, g` 几乎处处相等.
+</p>
+
+<p class="theorem">
+  `m(E) lt oo` 时, 在 `E` 上有: 几乎处处收敛 `rArr` 依测度收敛.
+</p>
+
+<p class="theorem">
+  近一致收敛 `rArr` 依测度收敛.
+</p>
+
+<p class="definition">
+  <b>依测度 Cauchy (基本) 列</b> 是指, 对任意 `epsi gt 0`, 有
+  <span class="formula">
+    `lim_(j, k to oo) m({ x in E: |f_k(x) - f_j(x)| ge epsi }) = 0`.
+  </span>
+</p>
+
+<p class="theorem">
+  依测度 Cauchy 列有 (依测度) 极限.
+</p>
+
+<p class="theorem">
+  <b>Riesz 定理</b>
+  依测度收敛函数列必存在几乎处处收敛的子列.
+</p>
+
+<h3>可测函数与连续函数</h3>
+
+<p class="theorem">
+  <b>Лузин (卢津) 定理</b>
+  设 `f` 是 `E sube RR^n` 上几乎处处有限的可测函数, 则对 `AA delta gt 0`, 存在 `E` 中闭集 `F`,
+  `m(E\\F) lt delta`, 使得 `f` 在 `F` 上连续.<br>
+  与 Егоров 定理不同, 这里允许 `m(E) = oo`.
+</p>
+
+<p class="corollary">
+  设 `f` 是 `E sube RR^n` 上几乎处处有限的可测函数,
+  则存在几乎处处收敛到 `f` 的连续函数列.
+</p>
+
+<p class="corollary">
+  设 `f` 是 `E sube RR^n` 上几乎处处有限的可测函数,
+  则对 `AA delta gt 0`, 存在 `RR^n` 上的一个连续函数 `g`, 使得 `f, g` 在除一个测度小于 `delta` 的集合外处处相等:
+  <span class="formula">
+    `m({ x in E: f(x) != g(x) }) lt delta`.
+  </span>
+  若 `E` 还是有界集, 则可使上述 `g` 具有紧支集.
+</p>
+
+<h3>复合函数的可测性</h3>
+
+<p class="remark">
+  我们知道 `f` 在 `RR^n` 上连续的等价条件是:
+  <span class="formula">
+    `AA` 开集 `G in RR, f^-1(G)` 为开集.
+  </span>
+  与之类似, `f` 在 `RR^n` 上可测的等价条件是:
+  <span class="formula">
+    `AA` 开集 `G in RR, f^-1(G)` 为可测集.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    `rArr`: 由于任意开集 `G` 可以写为可数个开区间之并:
+    <span class="formula">
+      `G = uuu_i (a_i, b_i)`,
+    </span>
+    因此若 `f` 是可测函数, 则对 `AA t in RR`,
+    `{x: f(x) gt t} = f^-1((t, oo))` 是可测集, 从而
+    <span class="formula">
+      `f^-1((a_i, b_i)) = f^-1((a_i, oo)) \\ f^-1([b_i, oo))`,<br>
+      `f^-1(G) = uuu_i f^-1((a_i, b_i))`
+    </span>
+    均为可测集.
+  </li>
+  <li>
+    `lArr`: 若 `AA` 开集 `G in RR`, `f^-1(G)` 为可测集, 显然 `AA t in RR`, `f^-1((t, oo))` 也是可测集, 即 `f` 可测.
+  </li>
+</ol>
+
+<p class="corollary">
+  设 `f` 在 `RR` 上连续, `g` 在 `RR` 上可测, 则 `h = f @ g` 可测.
+</p>
+
+<p class="proof">
+  `AA` 开集 `G in RR`, 由 `f` 连续知道 `f^-1(G)` 是开集, 再由 `g` 可测知道 `g^-1(f^-1(G))` 是可测集.
+  这说明 `h(x) = f(g(x)` 是 `RR` 上的可测函数.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

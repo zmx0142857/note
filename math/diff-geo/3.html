@@ -566,6 +566,100 @@
   </span>
 </p>
 
+<p class="example">
+  wgs84 标准假设地球是一个椭球体, 方程为
+  <span class="formula">
+    `(x^2+y^2)/a^2 + z^2/b^2 = 1`.
+  </span>
+  其中 `a = 6378137"m"`, `b = 6356752.31424518"m"`,
+  已知地球上一点 `P` 的经纬度和高度 `(theta, varphi, h)`, 求这点的坐标.
+</p>
+
+<ol class="solution">
+  <li>
+    这个问题的重点是得到 `P` 点处的「卯酉圈」曲率半径
+    <span class="formula">
+      `n = a^2/sqrt(a^2 cos^2 varphi + b^2 sin^2 varphi)`.
+      <span class="label">`(**)`</span>
+    </span>
+    于是这点的坐标是
+    <span class="formula">
+      `x = (n + h) cos varphi cos theta`,<br>
+      `y = (n + h) cos varphi sin theta`,<br>
+      `z = (n * b^2/a^2 + h) sin varphi`.
+    </span>
+    `z` 的求法是, 先假设 `h = 0`, 再把 `x, y` 代入椭球面方程求解.
+  </li>
+  <li>
+    现在我们来导出 `P` 点处的曲率半径公式 `(**)`.
+    取定椭球面的参数方程
+    <span class="formula">
+      `bm r = (a cos u cos v, a cos u sin v, b sin u)`,<br>
+      `bm r_u = (-a sin u cos v, -a sin u sin v, b cos u),<br>
+      `bm r_v = (-a cos u sin v, a cos u cos v, 0)`.
+    </span>
+    使用旋转曲面的公式得到
+    <span class="formula">
+      `E = a^2 sin^2 u + b^2 cos^2 u`,
+      `quad L = a b//sqrt E`,
+      `quad N = a b cos^2 u // sqrt E`.
+    </span>
+    由对称性, 我们可以任取一个子午面 (椭球过 z 轴的截面), 如 `xOz` 平面, 考虑椭球面上一点
+    `P(x_0, 0, z_0)`.
+    <div class="img md">
+      <img src="../img/wgs84-ellipsoid.png">
+    </div>
+    注意, 椭球面上过 `P` 点有无数个单位切向量, 每一个切向量都确定了 `P` 处的一个曲率.
+    我们要求的曲率是「卯酉圈」在 `P` 处的曲率, 即 `P` 点处垂直于子午面的单位切向量所确定的曲率.
+    显然, 在我们的假定下, 这个切向量就是 `bm v = (0, 1, 0)`.
+    在 `P` 处, 参数 `v = 0`, 参数 `u` 满足 `a cos u = x_0`, 于是切向量 `bm r_u, bm r_v` 等于
+    <span class="formula">
+      `bm r_u = (-a sin u, 0, b cos u)`,
+      `quad bm r_v = (0, x_0, 0)`.
+    </span>
+    将 `v` 分解为 `bm r_u, bm r_v` 的线性组合:
+    <span class="formula">
+      `bm v = 0 bm r_u + 1/x_0 bm r_v`.
+    </span>
+    则 `P` 处沿 `bm v` 的法曲率等于
+    <span class="formula">
+      `k_n(bm v) = 0^2 L + 1/x_0^2 N`
+      `= b/a 1/sqrt(a^2 sin^2 u + b^2 cos^2 u)`
+      `= 1/(a/b sqrt(a^2/b^2 z_0^2 + b^2/a^2 x_0^2))`
+      `= 1/sqrt(x_0^2 + a^4/b^4 z_0^2)`
+    </span>
+    而曲率半径 `n = 1//k_n(bm v) = sqrt(x_0^2 + a^4/b^4 z_0^2)`.
+  </li>
+  <li>又: 反向延长 `P` 处的法线, 交 `z` 轴于 `Q` 点, 则 `|PQ|` 正好等于 2. 中所求的曲率半径 `n`.
+    验证如下:
+    `P` 处的法线方程为
+    <span class="formula">
+      `(z_0 x)/b^2 - (x_0 z)/a^2 = x_0 z_0(1/b^2 - 1/a^2)`.
+    </span>
+    令 `x = 0` 得 `z_Q = -z_0(a^2/b^2 - 1)`, 于是
+    <span class="formula">
+      `|PQ| = sqrt(x_0^2 + (z_0 - z_Q)^2)`
+      `= sqrt(x_0^2 + a^4/b^4 z_0^2) = n`.
+    </span>
+  </li>
+  <li>
+    现在我们用纬度 (纬度是指法线 `PQ` 与 `x` 轴的夹角, 而不是 `/_ POx` 😭) 表示曲率半径.
+    假定 `P` 的纬度为 `varphi`, 联立 `tan varphi = z_0/x_0 a^2/b^2` 和子午圈方程
+    `x_0^2/a^2 + z_0^2/b^2 = 1` 可得
+    <span class="formula">
+      `x_0 = a/sqrt(1 + b^2/a^2 tan^2 varphi)`.
+    </span>
+    于是
+    <span class="formula">
+      `n = sqrt(x_0^2 + a^4/b^4 z_0^2)`
+      `= x_0 sqrt(1 + tan^2 B)`
+      `= x_0 // cos varphi`
+      `= a/sqrt(1 + b^2/a^2 tan^2 varphi) 1/(cos varphi)`
+      `= a^2/sqrt(a^2 cos^2 varphi + b^2 sin^2 varphi)`.
+    </span>
+  </li>
+</ol>
+
 <h4>常 Gauss 曲率旋转曲面</h4>
 
 <!--
@@ -608,7 +702,7 @@
   此为旋转曲面, 取参数
   <span class="formula">
     `bm r = (u cos v, u sin v, "arch "u)`
-    `= (u cos v, u sin v, ln(u + sqrt(u^2-1))`,
+    `= (u cos v, u sin v, ln(u + sqrt(u^2-1)))`,
   </span>
   令 `f(u) = u`, `g(u) = ln(u + sqrt(u^2-1))`, 则
   <span class="formula">

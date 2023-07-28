@@ -98,7 +98,7 @@ math: {
   articles: [
     {title:'预备知识', src:'real/1.html'},
     {title:'Lebesgue 测度', src:'real/2.html', date:'2023-06-27'},
-    {title:'可测函数', src:'real/3.html', date:'2023-07-05'},
+    {title:'可测函数', src:'real/3.html', date:'2023-07-17'},
   ]
 }, {
   title:'概率论',
@@ -193,7 +193,7 @@ math: {
   articles: [
     {title:'欧氏空间', src:'diff-geo/1.html'},
     {title:'曲线的局部理论', src:'diff-geo/2.html'},
-    {title:'曲面的局部理论', src:'diff-geo/3.html', date:'2021-12-10'},
+    {title:'曲面的局部理论', src:'diff-geo/3.html', date:'2023-07-28'},
     {title:'标架与曲面论基本定理', src:'diff-geo/4.html'},
     {title:'曲面的内蕴几何学', src:'diff-geo/5.html'},
   ]
