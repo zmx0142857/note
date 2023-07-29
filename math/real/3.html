@@ -73,8 +73,8 @@
   <b>正部与负部</b>
   设 `f` 是 `E` 上的广义实值函数, 分别定义 `f` 的正部与负部如下:
   <span class="formula">
-    `f^(+)(x) = max(f, 0)`,
-    `quad f^(-)(x) = max(-f, 0)`.
+    `f^(+) = max(f, 0)`,
+    `quad f^(-)= max(-f, 0)`.
   </span>
   从而 `f` 的正部负部都是非负函数, 且
   <span class="formula">
@@ -332,6 +332,31 @@
 <p class="proof">
   `AA` 开集 `G in RR`, 由 `f` 连续知道 `f^-1(G)` 是开集, 再由 `g` 可测知道 `g^-1(f^-1(G))` 是可测集.
   这说明 `h(x) = f(g(x)` 是 `RR` 上的可测函数.
+</p>
+
+<p class="theorem">
+  设 `T: RR^n to RR^n` 是连续变换, 满足
+  <span class="formula">
+    `Z sube RR^n, m(Z) = 0 rArr m(T^-1(Z)) = 0`.
+  </span>
+  若 `f(x)` 在 `RR^n` 上可测, 则 `f(T(x))` 也在 `RR^n` 上可测.
+</p>
+
+<p class="proof">
+  任取开集 `G in RR`, 由 `f` 可测知 `f^-1(G)` 可测. 将 `f^-1(G)` 分解为
+  <span class="formula">
+    `f^-1(G) = H \\ Z`,
+  </span>
+  其中 `m(Z) = 0`, `H` 是 `G_delta` 型集. 于是
+  <span class="formula">
+    `T^-1(f^-1(G)) = T^-1(H) \\ T^-1(Z)`,
+  </span>
+  其中 `T^-1(H)` 是 `G_delta` 型集, `T^-1(Z)` 是零测集.
+  因此 `T^-1(f^-1(G))` 是可测集, 这说明 `f(T(x))` 是 `RR^n` 上的可测函数.
+</p>
+
+<p class="corollary">
+  若 `T: RR^n to RR^n` 是非奇异线性变换, `f: RR^n to RR` 可测, 则 `f(T(x))` 可测.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

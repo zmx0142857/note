@@ -98,7 +98,8 @@ math: {
   articles: [
     {title:'预备知识', src:'real/1.html'},
     {title:'Lebesgue 测度', src:'real/2.html', date:'2023-06-27'},
-    {title:'可测函数', src:'real/3.html', date:'2023-07-17'},
+    {title:'可测函数', src:'real/3.html', date:'2023-07-23'},
+    {title:'Lebesgue 积分', src:'real/4.html', date:'2023-07-29'},
   ]
 }, {
   title:'概率论',

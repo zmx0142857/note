@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>Lebesgue 积分</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>Lebesgue 积分的定义与性质</h2>
+
+<ol class="definition">
+  <b>Lebesgue 积分</b>
+  设 `E sube RR^n` 是可测集, `f` 是 `E` 上的可测函数, 从特殊到一般, 逐步定义 `f` 的积分如下:
+  <li>设 `f` 是 `E` 上的<b>非负可测简单函数</b>:
+    <span class="formula">
+      `f(x) = sum_(i=1)^p a_i chi_(A_i)(x)`,
+      `quad uuu_(i=1)^p A_i = RR^n`,
+      `quad A_i nn A_j = O/ (i != j)`.
+    </span>
+    定义 `f` 在 `E` 上的积分为
+    <span class="formula">
+      `int_E f(x) dx := sum_(i=1)^p a_i * m(A_i nn E)`.
+    </span>
+    这里, 我们约定 `0 * oo = oo * 0 = 0`.
+    由定义立即得知, `f` 在 `E` 上的积分只与 `f` 在 `E` 上的值有关.
+  </li>  
+  <li>
+    设 `f` 是 `E` 上的<b>非负可测函数</b>, 定义
+    <span class="formula">
+      `int_E f(x) dx`
+      `:= underset(h le f)Sup int_E h(x) dx`
+    </span>
+    这里 `h(x)` 是 `E` 上的非负可测简单函数, `h le f` 是指 `AA x in E, h(x) le f(x)`.
+  </li>
+  <li>
+    一般地, 设 `f` 是 `E` 上的<b>可测函数</b>, 定义 `f` 的正部与负部:
+    <span class="formula">
+      `f^(+) = max(f, 0)`,
+      `quad f^(-)= max(-f, 0)`.
+    </span>
+    从而 `f` 的正部负部都是非负函数, 且
+    <span class="formula">
+      `f = f^(+) - f^(-)`,
+      `quad |f| = f^(+) + f^(-)`.
+    </span>
+    现在定义
+    <span class="formula">
+      `int_E f(x) dx`
+      `:= int_E f^(+)(x) dx - int_E f^(-)(x) dx`.
+    </span>
+    上式右端两个积分都有限 (`lt oo`) 时, 就称 `f` 在 `E` 上<b>(Lebesgue)
+    可积</b>, 或 `f` 是 `E` 上的可积函数.  `E` 上可积函数的全体记为 `L(E)`.
+  </li>
+</ol>
+
+<p class="remark">
+  由于 `|f| = f^(+) + f^(-)`, 所以 `f` 可积 `iff |f|` 可积.
+</p>
+
+<p class="property">
+  <b>子集上的积分</b> 若 `A sube E`, 则
+  <span class="formula">
+    `int_A f(x) dx = int_E f(x) chi_A(x) dx`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>先设 `f` 是非负可测简单函数, 在 `A_i` 上取值为 `a_i`.
+    则 `g(x) := f(x) chi_A(x)` 也是非负可测简单函数, 且
+    <span class="formula">
+      `g(x) = { a_i, if x in A_i nn A; 0, if x in E \\ A :}`
+    </span>
+    <span class="formula">
+      `int_A f(x) dx`
+      `= sum a_i m(A_i nn A)`
+      `= sum a_i m(A_i nn A) + sum 0 * m(E \\ A)`
+      `= int_E g(x) dx`.
+    </span>
+  </li>
+  <li>再设 `f` 是非负可测函数, 则
+    <span class="formula">
+      `int_A f(x) dx`
+      `= underset(h le f)Sup int_A h(x) dx`
+      `= underset(h chi_A le f chi_A)Sup int_A h(x) dx`
+      `= underset(h chi_A le f chi_A)Sup int_E h(x) dx`
+      `= int_E f(x) chi_A(x) dx`.
+    </span>
+  </li>
+</ol>
+
+<ol class="property">
+  <li>设 `f` 在 `E` 上几乎处处为零, 则 `int_E f(x) dx = 0`;</li>
+  <li>设 `m(E) = 0`, 则 `int_E f(x) dx = 0`.</li>
+</ol>
+
+<p class="property">
+  <b>积分的保序性</b>
+  `f le g rArr int_E f(x) dx le int_E g(x) dx`.
+</p>
+
+<ol class="proof">
+  <li>先设 `f, g` 是非负可测简单函数, 且 `f` 在 `A_i` 上取值 `a_i`, `g` 在 `B_j` 上取值 `b_j`.
+    为比较两个积分 `int_E f(x) dx` 和 `int_E g(x) dx`,
+    将定义域 `E` 细分为 `E = uuu_(i,j) E nn A_i nn B_j`.
+    在每一小块 `E nn A_i nn B_j` 上, `f, g` 的值都为常数且 `f(x) le g(x)`,
+    因此 `int_E f(x) dx le int_E g(x) dx`.
+  </li>
+  <li>再设 `f, g` 是非负可测函数.
+    任取非负可测简单函数 `h` 满足 `h le f le g`,
+    由于 `g` 的积分是所有 `le g` 的非负可测简单函数积分的上界, 所以
+    <span class="formula">
+      `int_E h(x) dx le int_E g(x) dx`.
+    </span>
+    上式两边取上确界得 `int_E f(x) dx le int_E g(x) dx`.
+  </li>
+</ol>
+
+<ol class="corollary">
+  <li><b>控制函数</b> 若存在可积函数 `F` 满足 `|f| le F`, 则 `f` 也可积;</li>
+  <li><b>有限测度定义域上的有界函数可积</b> 只需把控制函数取为 `|f|` 的上界即可;</li>
+</ol>
+
+<ol class="property">
+  <b>积分的线性性</b>
+  <li>`int_E c f(x) dx = c int_E f(x) dx`;</li>
+  </li>
+  <li>`int_E (f(x) + g(x)) dx = int_E f(x) dx + int_E g(x) dx`.</li>
+</ol>
+
+<ol class="proof">
+  <li>先设 `f, g` 是非负可测简单函数. 此时 1. 式直接由定义成立; 为证明 2. 式,
+    注意到 `f(x) + g(x)` 也是一个非负可测简单函数, 它在 `A_i nn B_j` 上的取值为
+    `a_i + b_i`.  于是
+    <span class="formula">
+      `int_E (f(x) + g(x)) dx`
+      `= sum_i sum_j (a_i + b_j) m(E nn A_i nn B_j)`
+      `= sum_i a_i sum_j m(E nn A_i nn B_j) + sum_j b_j sum_i m(E nn A_i nn B_j)`
+      `= sum_i a_i m(E nn A_i) + sum_j b_j m(E nn B_j)`
+      `= int_E f(x) dx + int_E g(x) dx`.
+    </span>
+  </li>
+  <li></li>
+</ol>
+
+<p class="lemma">
+  <b>递增集列上的积分</b>
+  若 `{E_k}` 是 `RR^n` 中的递增可测集合列, `f` 是 `RR^n` 上的非负可测简单函数, 则
+  <span class="formula">
+    `int_(lim_(k to oo) E_k) f(x) dx = lim_(k to oo) int_(E_k) f(x) dx`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `E = lim_(k to oo) E_k`.
+  设 `f(x)` 在 `A_i` 上取值为 `c_i`, `i = 1, 2, cdots, p`, 则
+  <span class="formula">
+    `lim_(k to oo) int_(E_k) f(x) dx`
+    `= lim_(k to oo) sum_(i=1)^p c_i m(A_i nn E_k)`
+    `= sum_(i=1)^p c_i m(A_i nn E)`
+    `= int_E f(x) dx`.
+  </span>
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
