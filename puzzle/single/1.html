@@ -4,15 +4,40 @@
   <meta charset="UTF-8">
   <title>古典密码</title>
   <link rel="stylesheet" href="../../css/note.css">
+<style>
+/* 通用 */
+.align-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 盲文 */
+.braille-input {
+  display: inline-block;
+  width: 4.5em;
+}
+.braille-dot {
+  display: inline-block;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  border: 1px solid #000;
+  cursor: pointer;
+  transition: 0.2s background;
+}
+.braille-dot.filled {
+  background: #000;
+}
+</style>
 </head>
 <body>
 
 <h2>基于字母表的变换</h2>
 
-<h3>A1Z26</h3>
+<h3>字母序 A1Z26</h3>
 
-<table id="table-a1z26" class="col2">
-</table>
+<table id="table-a1z26" class="col2"></table>
 
 <div class="playground" type="textarea" value="sleep" value2="19 12 5 5 16">
 
@@ -20,26 +45,104 @@
 <script type="text">
 module.exports = function a1z26 (str) {
   if (/[a-zA-Z]/.test(str)) {
-    return [...str].map(c => puzzle.convert(c).from('letter').to('number')).join(' ')
+    return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'number' })).join(' ')
   }
-  return str.split(/[^0-9]/).map(n => puzzle.convert(Number(n)).from('number').to('letter')).join('')
+  return str.split(/[^0-9]/).map(n => puzzle.convert(Number(n), { from: 'number', to: 'char' })).join('')
 }
 </script>
 </div>
 
 <h3>摩斯 morse</h3>
 
+<table id="table-morse" class="col2"></table>
+
+<div class="playground" type="textarea" value="--/---/.-./.../.
+-.-./---/-../." value2="morse code">
+
+<p>说明: 输入英文, 转为摩斯码; 输入摩斯码, 转为英文.</p>
+<script type="text">
+module.exports = function morse (str) {
+  if (/[a-zA-Z]/.test(str)) {
+    return str.split(/\s+/).map(line => [...line].filter(c => /[a-zA-Z]/.test(c)).map(c => puzzle.convert(c, { from: 'char', to: 'morse' })).join('/')).join('\n')
+  }
+  return str.split('\n').map(line => line.split(/[^-_.]+/).map(m => puzzle.convert(m, { from: 'morse', to: 'char' })).join('')).join(' ')
+}
+</script>
+</div>
+
 <h3>培根</h3>
 
-<h3>北约</h3>
+<h3>北约字母 NATO phonetic alphabet</h3>
+
+<table id="table-nato" class="col2"></table>
 
 <h3>手机</h3>
 
+<table id="table-cellphone" class="col2">
+  <tr>
+    <td><p>1</p><p>-</p></td>
+    <td><p>2</p><p>ABC</p></td>
+    <td><p>3</p><p>DEF</p></td>
+  </tr>
+  <tr>
+    <td><p>4</p><p>GHI</p></td>
+    <td><p>5</p><p>JKL</p></td>
+    <td><p>6</p><p>MNO</p></td>
+  </tr>
+  <tr>
+    <td><p>7</p><p>PQRS</p></td>
+    <td><p>8</p><p>TUV</p></td>
+    <td><p>9</p><p>WXYZ</p></td>
+  </tr>
+</table>
+
 <h3>旗语</h3>
 
-<h3>盲文</h3>
+<h3>盲文 braille</h3>
 
-<h3>猪圈</h3>
+<table id="table-braille" class="col2"></table>
+
+<div class="playground" type="textarea" value="⠃⠗⠁⠊⠇⠇⠑" value2="braille">
+
+<p>说明: 输入英文, 转为盲文; 输入盲文, 转为英文</p>
+<div class="braille-input">
+  <div class="braille-dot" data-index="0"></div>
+  <div class="braille-dot" data-index="3"></div>
+  <div class="braille-dot" data-index="1"></div>
+  <div class="braille-dot" data-index="4"></div>
+  <div class="braille-dot" data-index="2"></div>
+  <div class="braille-dot" data-index="5"></div>
+</div>
+<input class="braille-input-btn" type="button" value="插入" />
+<script type="text">
+const $input = container.querySelector('.braille-input')
+const $btn = container.querySelector('.braille-input-btn')
+const textarea = container.querySelector('textarea')
+$input.value = 0
+$input.onclick = e => {
+  if (e.target.classList.contains('braille-dot')) {
+    e.target.classList.toggle('filled')
+    const index = e.target.getAttribute('data-index')
+    $input.value ^= 1 << Number(index)
+  }
+}
+$btn.onclick = () => {
+  const helper = new InputHelper(textarea)
+  const code = String.fromCharCode(0x2800 + $input.value)
+  helper.insert(code)
+}
+module.exports = function braille (str) {
+  if (/[\u2800-\u28ff]/.test(str)) {
+    return [...str].map(c => puzzle.convert(c, { from: 'braille', to: 'char' })).join('')
+  }
+  return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'braille' })).join('')
+}
+</script>
+</div>
+
+<h3>猪圈 hogpen</h3>
+
+[参考 <a href="https://blog.csdn.net/weixin_47869330/article/details/111396033">CSDN</a>]
 
 <h2>基于文本的变换</h2>
 
@@ -60,12 +163,42 @@ module.exports = function caesar (str) {
 }
 </script>
 </div>
-<h3>栅栏</h3>
+
+<h3>栅栏 fence</h3>
+
+<div class="playground" type="textarea" value="tlrreelcntoattwsheee">
+<p>说明: 把文字写成矩阵, 然后对矩阵进行转置. 变换的结果取决于矩阵的宽度.</p>
+<div class="align-center">
+  <span>宽度:</span>
+  <input class="input" type="number" value="4" min="1" />
+</div>
+<script type="text">
+const $input = container.querySelector('.input')
+const $run = container.querySelector('input[type=button]')
+$input.oninput = e => {
+  $run.click()
+}
+module.exports = function fence (str) {
+  const arr = [...str]
+  const buf = []
+  const width = $input.value
+  const lines = arr.length / width
+  for (let j = 0; j < width; ++j) {
+     for (let i = 0; i < lines; ++i) {
+        const c = arr[i * width + j]
+        if (c) buf.push(c)
+     }
+     buf.push('\n')
+  }
+  return buf.join('')
+}
+</script>
+</div>
 
 <h3>倒序</h3>
 
 <div class="playground" type="textarea" value="Able was I ere I saw Elba">
-<p>说明：反转文本
+<p>说明: 反转文本
 </p>
 <script type="text">
 module.exports = function reverse (str) {
@@ -83,12 +216,20 @@ function $ (...args) {
 
 window.puzzle = (function () {
 
-function alphabetTable () {
-  return Array.from({ length: 7 }).map((_, row) => [
-    String.fromCharCode(65 + row), String(1 + row),
-    String.fromCharCode(72 + row), String(8 + row),
-    String.fromCharCode(79 + row), String(15 + row),
-    ...(22 + row <= 26 ? [String.fromCharCode(86 + row), String(22 + row)] : [])
+const brailleStr = '⠁⠃⠉⠙⠑⠋⠛⠓⠊⠚⠅⠇⠍⠝⠕⠏⠟⠗⠎⠞⠥⠧⠺⠭⠽⠵'
+const brailleDict = Object.fromEntries([...brailleStr].map((b, i) => [b, String.fromCharCode(97 + i)]))
+
+const morseArr = ['.-', '-...', '-.-.', '-..', '.', '..-.', '--.', '....', '..', '.---', '-.-', '.-..', '--', '-.', '---', '.--.', '--.-', '.-.', '...', '-', '..-', '...-', '.--', '-..-', '-.--', '--..']
+const morseDict = Object.fromEntries(morseArr.map((m, i) => [m, String.fromCharCode(97 + i)]))
+
+const natoArr = ['alpha', 'bravo', 'charlie', 'delta', 'echo', 'foxtrot', 'golf', 'hotel', 'india', 'juliet', 'kilo', 'lima', 'mike', 'november', 'oscar', 'papa', 'quebec', 'romeo', 'sierra', 'tango', 'uniform', 'victor', 'whiskey', 'x-ray', 'yankee', 'zulu']
+
+function makeTable (fn) {
+  return Array.from({ length: 7 }).map((_, i) => [
+    String.fromCharCode(65 + i), fn(0 + i),
+    String.fromCharCode(72 + i), fn(7 + i),
+    String.fromCharCode(79 + i), fn(14 + i),
+    ...(21 + i < 26 ? [String.fromCharCode(86 + i), fn(21 + i)] : [])
   ])
 }
 
@@ -98,32 +239,42 @@ function renderTable (el, rows, caption) {
 }
 
 function init () {
-    renderTable($('#table-a1z26'), alphabetTable(), 'A1Z26')
+  renderTable($('#table-a1z26'), makeTable(i => i + 1), '字母序')
+  renderTable($('#table-braille'), makeTable(i => brailleStr[i]), '盲文')
+  renderTable($('#table-morse'), makeTable(i => morseArr[i]), '摩斯')
+  renderTable($('#table-nato'), makeTable(i => natoArr[i]), '北约字母')
 }
 
 const converters = {
-  letter2number (c) {
+  char2number (c) {
     if (/[a-zA-Z]/.test(c)) return c.toUpperCase().charCodeAt(0) - 64
     return c
   },
-  number2letter (n) {
-    if (n >= 1 && n <= 26 && Number.isInteger(n)) return String.fromCharCode(n + 64)
+  number2char (n) {
+    if (n >= 1 && n <= 26 && Number.isInteger(n)) return String.fromCharCode(n + 96)
     return n
+  },
+  braille2char (c) {
+    if (/[\u2800-\u28ff]/.test(c)) return brailleDict[c] || '?'
+    return c
+  },
+  char2braille (c) {
+    if (/[a-zA-Z]/.test(c)) return brailleStr[c.toUpperCase().charCodeAt(0) - 65]
+    return c
+  },
+  char2morse (c) {
+    if (/[a-zA-Z]/.test(c)) return morseArr[c.toUpperCase().charCodeAt(0) - 65]
+    return ''
+  },
+  morse2char (m) {
+    return morseDict[m] || '?'
   },
 }
 
-function convert (data) {
-  return {
-    from: function (fromType) {
-      return {
-        to (toType) {
-          const fn = converters[fromType + '2' + toType]
-          if (fn) return fn(data)
-          console.error(`cannot convert from ${fromType} to ${toType}`)
-        }
-      }
-    }
-  }
+function convert (data, { from, to }) {
+  const fn = converters[from + '2' + to]
+  if (fn) return fn(data)
+  console.error(`cannot convert from ${from} to ${to}`)
 }
 
 return {
@@ -134,6 +285,37 @@ return {
 })();
 
 puzzle.init()
+
+class InputHelper {
+  constructor (input) {
+    this.input = input
+  }
+  getCaret () {
+    return this.input.selectionStart || 0
+  }
+  setCaret (pos) {
+    const input = this.input
+    if (input.setSelectionRange) {
+      setTimeout(function() {
+        input.setSelectionRange(pos, pos)
+        input.focus()
+      }, 0)
+    } else if (input.createTextRange) {
+      const range = input.createTextRange()
+      range.move('character', pos)
+      range.select()
+    }
+  }
+  insert (text) {
+    const input = this.input
+    input.focus();
+    const i = this.getCaret();
+    const leftStr = input.value.substr(0, i)
+    const rightStr = input.value.substr(i)
+    input.value = leftStr + text + rightStr
+    this.setCaret(input.value.length - rightStr.length)
+  }
+}
 </script>
 </body>
 </html>

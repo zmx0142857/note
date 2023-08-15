@@ -7,12 +7,17 @@ function require (id) {
   return module.exports
 }
 
-function loadModule (src) {
+function loadModule (src, container) {
   const module = {}
-  Function(
-    ['module', 'require'],
-    '"use strict";' + src
-  )(module, require)
+  try {
+    Function(
+      ['module', 'require', 'container'],
+      '"use strict";' + src
+    )(module, require, container)
+  } catch (err) {
+    console.error(src)
+    console.error(err)
+  }
   return module
 }
 
@@ -63,7 +68,6 @@ for (let playground of list) {
     onclick () {
       output.classList.remove('hidden')
       try {
-        const module = loadModule(src.innerText) // 用 innerText 而不是 textContent 可以保留换行
         output.textContent = module.exports(input.value)
         output.classList.remove('error')
       } catch (e) {
@@ -126,6 +130,9 @@ for (let playground of list) {
 
   const frag = $('', {}, [ctrl, output, src])
   playground.appendChild(frag)
+
+  // 用 innerText 而不是 textContent 可以保留换行
+  const module = loadModule(src.innerText, playground)
 }
 
 let Playground = {
