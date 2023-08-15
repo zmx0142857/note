@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>古典密码</title>
+  <link rel="stylesheet" href="../../css/note.css">
+</head>
+<body>
+
+<h2>基于字母表的变换</h2>
+
+<h3>A1Z26</h3>
+
+<table id="table-a1z26" class="col2">
+</table>
+
+<div class="playground" type="textarea" value="sleep" value2="19 12 5 5 16">
+
+<p>说明: 输入英文, 转为数字; 输入空格分隔的数字, 转为英文.</p>
+<script type="text">
+module.exports = function a1z26 (str) {
+  if (/[a-zA-Z]/.test(str)) {
+    return [...str].map(c => puzzle.convert(c).from('letter').to('number')).join(' ')
+  }
+  return str.split(/[^0-9]/).map(n => puzzle.convert(Number(n)).from('number').to('letter')).join('')
+}
+</script>
+</div>
+
+<h3>摩斯 morse</h3>
+
+<h3>培根</h3>
+
+<h3>北约</h3>
+
+<h3>手机</h3>
+
+<h3>旗语</h3>
+
+<h3>盲文</h3>
+
+<h3>猪圈</h3>
+
+<h2>基于文本的变换</h2>
+
+<h3>凯撒 caesar</h3>
+
+<div class="playground" type="textarea" value="Sleep">
+
+<p>说明: 对所有英文字母进行相同的平移. 比如 A → C, B → D, ..., Y → A, Z → B.</p>
+<script type="text">
+module.exports = function caesar (str) {
+  return Array.from({ length: 25 }).map((_, i) => {
+    return String(i + 1).padStart(2, '0') + '. ' + [...str].map(c => {
+      if (/[a-z]/.test(c)) return String.fromCharCode((c.charCodeAt(0) - 96 + i) % 26 + 97)
+      if (/[A-Z]/.test(c)) return String.fromCharCode((c.charCodeAt(0) - 64 + i) % 26 + 65)
+      return c
+    }).join('')
+  }).join('\n')
+}
+</script>
+</div>
+<h3>栅栏</h3>
+
+<h3>倒序</h3>
+
+<div class="playground" type="textarea" value="Able was I ere I saw Elba">
+<p>说明：反转文本
+</p>
+<script type="text">
+module.exports = function reverse (str) {
+  return [...str].reverse().join('')
+}
+</script>
+</div>
+
+<script src="../../js/note.js"></script>
+<script src="../../js/playground.js"></script>
+<script>
+function $ (...args) {
+  return document.querySelector(...args)
+}
+
+window.puzzle = (function () {
+
+function alphabetTable () {
+  return Array.from({ length: 7 }).map((_, row) => [
+    String.fromCharCode(65 + row), String(1 + row),
+    String.fromCharCode(72 + row), String(8 + row),
+    String.fromCharCode(79 + row), String(15 + row),
+    ...(22 + row <= 26 ? [String.fromCharCode(86 + row), String(22 + row)] : [])
+  ])
+}
+
+function renderTable (el, rows, caption) {
+  el.innerHTML = `<caption>${caption}</caption>\n` +
+    rows.map(tr => '<tr>\n' + tr.map(td => `<td>${td}</td>`).join('\n') + '\n</tr>').join('\n')
+}
+
+function init () {
+    renderTable($('#table-a1z26'), alphabetTable(), 'A1Z26')
+}
+
+const converters = {
+  letter2number (c) {
+    if (/[a-zA-Z]/.test(c)) return c.toUpperCase().charCodeAt(0) - 64
+    return c
+  },
+  number2letter (n) {
+    if (n >= 1 && n <= 26 && Number.isInteger(n)) return String.fromCharCode(n + 64)
+    return n
+  },
+}
+
+function convert (data) {
+  return {
+    from: function (fromType) {
+      return {
+        to (toType) {
+          const fn = converters[fromType + '2' + toType]
+          if (fn) return fn(data)
+          console.error(`cannot convert from ${fromType} to ${toType}`)
+        }
+      }
+    }
+  }
+}
+
+return {
+  convert,
+  init,
+}
+
+})();
+
+puzzle.init()
+</script>
+</body>
+</html>

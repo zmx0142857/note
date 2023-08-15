@@ -378,6 +378,16 @@ music: {
   }]
 },
 
+puzzle: {
+  title: '解谜',
+  toc: [{
+    title: '单表密码',
+    articles: [
+      {title: '古典密码', src:'single/1.html', date:'2023-08-15'},
+    ],
+  }]
+},
+
 exercise: {
   title: '练习',
   toc: [{

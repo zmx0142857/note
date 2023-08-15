@@ -752,6 +752,54 @@ def palindromes(n, start):
     return [i*10**(n-1) + 10*k + i for i in range(start, 10) for k in palindromes(n-2, 0)]
 </pre>
 
+<p class="example">
+[来自<a href="https://blog.csdn.net/hellocooper/article/details/48809261">CDSN</a>]
+生成排列字典序
+</p>
+
+<pre class="solution">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#define ll long long
+
+using namespace std;
+
+//一个排列在字典序全排列中的序号，输入：一个排列，输出：排列的序号
+ll perm2num(vector&lt;ll&gt; p){
+    ll n=p.size();
+    ll num=0;
+    for(ll i=n-2,k=1;i&gt;=0;i--){
+        for(ll j=i+1;j&lt;n;j++){
+            if(p[j]&lt;p[i]){  //i后面有m个比它小的数，num+=m*k;
+                num+=k;
+            }
+        }
+        k*=n-i;     //k=(n-i)!
+    }
+    return num+1;
+}
+
+//对应序号的排列，输入：排列的序号，输出：排列
+vector&lt;ll&gt; &amp;num2perm(ll n,ll num){
+    static vector&lt;ll&gt; ret;
+    vector&lt;ll&gt; candidate(n,0);
+    ll k=1,index;
+    for(ll i=0;i&lt;n;i++){
+        candidate[i]=i+1;   //candidate={1,2,...,n}
+        k*=i+1;             //k=n!
+    }
+    for(ll i=0;i&lt;n;i++){
+        k/=n-i;
+        index = (num-1)/k;      //num-1 -&gt; candidate[index]
+        num-=index*k;           //num-=index*k;
+        ret.push_back(candidate[index]);
+        candidate.erase(candidate.begin()+index);
+    }
+    return ret;
+}
+</pre>
+
+
 <script src="../../js/note.js?type=cs"></script>
 </body>
 </html>

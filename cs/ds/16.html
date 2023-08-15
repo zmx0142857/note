@@ -126,6 +126,97 @@ int main() {
 }
 </pre>
 
+<h2>线段树</h2>
+
+<pre>
+# 线段树, 维护子区间的和
+# 支持的操作:
+# update: 给某个区间的所有数加上 d
+# query: 查询某个区间的和
+class SegmentTree:
+    def __init__(self, arr):
+        self.arr = arr
+        n = self.n = len(arr) - 1 # arr 的 0 位空出不用
+        self.tree = [0 for i in range(2*n)] # 叶子数=n, 内部节点数=n-1, 0 位空出不用
+        self.mark = self.tree.copy()
+        self.init(1, n)
+
+    def init(self, l, r, p = 1):
+        if l == r:
+            self.tree[p] = self.arr[l]
+            return
+        mid = (l + r) // 2
+        self.init(l, mid, p * 2)
+        self.init(mid + 1, r, p * 2 + 1)
+        self.tree[p] = self.tree[p * 2] + self.tree[p * 2 + 1]
+
+    # 目标区间 [l, r], 当前区间 [cl, cr]
+    def update(self, l, r, d, p = 1, cl = 1, cr = None):
+        if cr is None:
+            cr = self.n
+        if cl &gt; r or cr &lt; l: # 区间无交集
+            return
+        elif cl &gt;= l and cr &lt;= r: # 当前区间含于目标区间
+            self.tree[p] += (cr - cl + 1) * d
+            if cr &gt; cl: # 如果不是叶子节点
+                self.mark[p] += d # 给当前区间打上(懒)标记
+        else: # 其他情况
+            self.push_down(p, cr - cl + 1)
+
+            # 递归, 区间细分下去, 最终会归结到无交集和包含两种情形
+            mid = (cl + cr) // 2
+            self.update(l, r, d, p * 2, cl, mid)
+            self.update(l, r, d, p * 2 + 1, mid + 1, cr)
+
+            # 根据子节点更新当前节点的值
+            self.tree[p] = self.tree[p * 2] + self.tree[p * 2 + 1]
+
+    def push_down(self, p, length):
+        # 向下更新一层
+        self.tree[p * 2] += self.mark[p] * (length - length // 2)
+        self.tree[p * 2 + 1] += self.mark[p] * (length // 2)
+        # 标记向下传递
+        self.mark[p * 2] += self.mark[p]
+        self.mark[p * 2 + 1] += self.mark[p]
+        # 清除标记
+        self.mark[p] = 0
+
+    def query(self, l, r, p = 1, cl = 1, cr = None):
+        if cr is None:
+            cr = self.n
+        if cl &gt; r or cr &lt; l:
+            return 0
+        elif cl &gt;= l and cr &lt;= r:
+            return self.tree[p]
+        else:
+            self.push_down(p, cr - cl + 1)
+            mid = (cl + cr) // 2
+            left = self.query(l, r, p * 2, cl, mid)
+            right = self.query(l, r, p * 2 + 1, mid + 1, cr)
+            return left + right
+
+def test_segment_tree():
+    arr = [i for i in range(10)]
+    t = SegmentTree(arr)
+    print(t.tree) # [0, 45, 15, 30, 6, 9, 13, 17, 3, 3, 4, 5, 6, 7, 8, 9, 1, 2]
+    print(t.query(2, 2)) # 2
+    print(t.query(3, 7)) # 25
+    t.update(3, 7, 1)
+    print(t.query(3, 7)) # 30
+    t.update(2, 5, 1)
+    print(t.query(3, 7)) # 33
+
+test_segment_tree()
+
+'''
+             45
+        15        30
+    6      9   13    17
+ 3    3  4  5 6  7  8  9
+1  2
+'''
+</pre>
+
 <script src="../../js/note.js?type=cs"></script>
 </body>
 </html>
