@@ -11,6 +11,9 @@
   align-items: center;
   gap: 8px;
 }
+.inline-block {
+  display: inline-block;
+}
 
 /* 盲文 */
 .braille-input {
@@ -26,8 +29,37 @@
   cursor: pointer;
   transition: 0.2s background;
 }
+.braille-display {
+  text-align: center;
+  font-size: 1.5em;
+}
 .braille-dot.filled {
   background: #000;
+}
+
+/* 旗语 */
+.flag-input {
+  display: inline-block;
+  width: 8em;
+}
+.flag-direction,
+.flag-center {
+  display: inline-block;
+  height: 2em;
+  width: 2em;
+  vertical-align: middle;
+  margin: 0.2em;
+}
+.flag-direction {
+  border-radius: 0.2em;
+  border: 1px solid #000;
+  cursor: pointer;
+  transition: 0.2s background;
+  text-align: center;
+  line-height: 2em;
+}
+.flag-direction.filled {
+  background: #aaa;
 }
 </style>
 </head>
@@ -52,6 +84,8 @@ module.exports = function a1z26 (str) {
 </script>
 </div>
 
+<p class="remark">二进制字母序编码又叫培根密码, 使用 5 个 bit 表示一个字母.</p>
+
 <h3>摩斯 morse</h3>
 
 <table id="table-morse" class="col2"></table>
@@ -70,13 +104,11 @@ module.exports = function morse (str) {
 </script>
 </div>
 
-<h3>培根</h3>
-
 <h3>北约字母 NATO phonetic alphabet</h3>
 
 <table id="table-nato" class="col2"></table>
 
-<h3>手机</h3>
+<h3>手机九键编码 cellphone</h3>
 
 <table id="table-cellphone" class="col2">
   <tr>
@@ -96,7 +128,75 @@ module.exports = function morse (str) {
   </tr>
 </table>
 
-<h3>旗语</h3>
+<div class="playground" type="textarea" value="233253537142636232" value2="cellphone">
+
+<p>说明: 输入英文, 转为手机九键编码; 输入手机九键编码, 转为英文.</p>
+<script type="text">
+module.exports = function cellphone (str) {
+  if (/[a-zA-Z]/.test(str)) {
+    return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'cellphone' })).join('')
+  }
+
+  // split into 2-chunks
+  const buf = puzzle.utils.chunk(str.replace(/\s/g, ''), 2)
+  return buf.map(c => puzzle.convert(c, { from: 'cellphone', to: 'char' })).join('')
+}
+</script>
+</div>
+
+<h3>旗语 flag</h3>
+
+<div class="playground" type="textarea" value="↓→↙↗↙↓↓↘" value2="flag">
+
+<p>说明: 输入英文, 转为旗语; 输入旗语, 转为英文</p>
+<div class="flag-input">
+  <div class="flag-direction">↖</div>
+  <div class="flag-direction">↑</div>
+  <div class="flag-direction">↗</div>
+  <div class="flag-direction">←</div>
+  <div class="flag-center"></div>
+  <div class="flag-direction">→</div>
+  <div class="flag-direction">↙</div>
+  <div class="flag-direction">↓</div>
+  <div class="flag-direction">↘</div>
+</div>
+<div class="inline-block">
+  <p class="flag-display"></p>
+  <input class="flag-input-btn" type="button" value="插入" />
+</div>
+<script type="text">
+const $input = container.querySelector('.flag-input')
+const $btn = container.querySelector('.flag-input-btn')
+const $display = container.querySelector('.flag-display')
+const $textarea = container.querySelector('textarea')
+$input.char = ''
+$input.value = []
+$input.onclick = e => {
+  if (!e.target.classList.contains('flag-direction')) return
+  if ($input.value.length === 2) {
+    [...container.querySelectorAll('.flag-direction')].forEach(el => el.classList.remove('filled'))
+    $input.value.length = 0
+  }
+  e.target.classList.toggle('filled')
+  const char = e.target.textContent
+  $input.char = char
+  $input.value.push(char)
+  $display.textContent = flag($input.value.join(''))
+}
+$btn.onclick = () => {
+  const helper = new InputHelper($textarea)
+  helper.insert($input.value.join(''))
+}
+function flag (str) {
+  if (/[\u2190-\u2193\u2196-\u2199]/.test(str)) {
+    const buf = puzzle.utils.chunk(str, 2)
+    return buf.map(c => puzzle.convert(c, { from: 'flag', to: 'char' })).join('')
+  }
+  return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'flag' })).join('')
+}
+module.exports = flag
+</script>
+</div>
 
 <h3>盲文 braille</h3>
 
@@ -113,30 +213,36 @@ module.exports = function morse (str) {
   <div class="braille-dot" data-index="2"></div>
   <div class="braille-dot" data-index="5"></div>
 </div>
-<input class="braille-input-btn" type="button" value="插入" />
+<div class="inline-block">
+  <p class="braille-display"></p>
+  <input class="braille-input-btn" type="button" value="插入" />
+</div>
 <script type="text">
 const $input = container.querySelector('.braille-input')
 const $btn = container.querySelector('.braille-input-btn')
-const textarea = container.querySelector('textarea')
+const $display = container.querySelector('.braille-display')
+const $textarea = container.querySelector('textarea')
 $input.value = 0
 $input.onclick = e => {
-  if (e.target.classList.contains('braille-dot')) {
-    e.target.classList.toggle('filled')
-    const index = e.target.getAttribute('data-index')
-    $input.value ^= 1 << Number(index)
-  }
+  if (!e.target.classList.contains('braille-dot')) return
+  e.target.classList.toggle('filled')
+  const index = e.target.getAttribute('data-index')
+  $input.value ^= 1 << Number(index)
+  const code = String.fromCharCode(0x2800 + $input.value)
+  $display.textContent = braille(code)
 }
 $btn.onclick = () => {
-  const helper = new InputHelper(textarea)
+  const helper = new InputHelper($textarea)
   const code = String.fromCharCode(0x2800 + $input.value)
   helper.insert(code)
 }
-module.exports = function braille (str) {
+function braille (str) {
   if (/[\u2800-\u28ff]/.test(str)) {
     return [...str].map(c => puzzle.convert(c, { from: 'braille', to: 'char' })).join('')
   }
   return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'braille' })).join('')
 }
+module.exports = braille
 </script>
 </div>
 
@@ -209,82 +315,20 @@ module.exports = function reverse (str) {
 
 <script src="../../js/note.js"></script>
 <script src="../../js/playground.js"></script>
+<script src="../../js/puzzle.js"></script>
 <script>
 function $ (...args) {
   return document.querySelector(...args)
 }
 
-window.puzzle = (function () {
-
-const brailleStr = '⠁⠃⠉⠙⠑⠋⠛⠓⠊⠚⠅⠇⠍⠝⠕⠏⠟⠗⠎⠞⠥⠧⠺⠭⠽⠵'
-const brailleDict = Object.fromEntries([...brailleStr].map((b, i) => [b, String.fromCharCode(97 + i)]))
-
-const morseArr = ['.-', '-...', '-.-.', '-..', '.', '..-.', '--.', '....', '..', '.---', '-.-', '.-..', '--', '-.', '---', '.--.', '--.-', '.-.', '...', '-', '..-', '...-', '.--', '-..-', '-.--', '--..']
-const morseDict = Object.fromEntries(morseArr.map((m, i) => [m, String.fromCharCode(97 + i)]))
-
-const natoArr = ['alpha', 'bravo', 'charlie', 'delta', 'echo', 'foxtrot', 'golf', 'hotel', 'india', 'juliet', 'kilo', 'lima', 'mike', 'november', 'oscar', 'papa', 'quebec', 'romeo', 'sierra', 'tango', 'uniform', 'victor', 'whiskey', 'x-ray', 'yankee', 'zulu']
-
-function makeTable (fn) {
-  return Array.from({ length: 7 }).map((_, i) => [
-    String.fromCharCode(65 + i), fn(0 + i),
-    String.fromCharCode(72 + i), fn(7 + i),
-    String.fromCharCode(79 + i), fn(14 + i),
-    ...(21 + i < 26 ? [String.fromCharCode(86 + i), fn(21 + i)] : [])
-  ])
-}
-
-function renderTable (el, rows, caption) {
-  el.innerHTML = `<caption>${caption}</caption>\n` +
-    rows.map(tr => '<tr>\n' + tr.map(td => `<td>${td}</td>`).join('\n') + '\n</tr>').join('\n')
-}
-
 function init () {
-  renderTable($('#table-a1z26'), makeTable(i => i + 1), '字母序')
-  renderTable($('#table-braille'), makeTable(i => brailleStr[i]), '盲文')
-  renderTable($('#table-morse'), makeTable(i => morseArr[i]), '摩斯')
-  renderTable($('#table-nato'), makeTable(i => natoArr[i]), '北约字母')
+  puzzle.renderTable($('#table-a1z26'), puzzle.makeTable(i => i + 1), '字母序')
+  puzzle.renderTable($('#table-braille'), puzzle.makeTable(i => puzzle.data.brailleStr[i]), '盲文')
+  puzzle.renderTable($('#table-morse'), puzzle.makeTable(i => puzzle.data.morseArr[i]), '摩斯')
+  puzzle.renderTable($('#table-nato'), puzzle.makeTable(i => puzzle.data.natoArr[i]), '北约字母')
 }
 
-const converters = {
-  char2number (c) {
-    if (/[a-zA-Z]/.test(c)) return c.toUpperCase().charCodeAt(0) - 64
-    return c
-  },
-  number2char (n) {
-    if (n >= 1 && n <= 26 && Number.isInteger(n)) return String.fromCharCode(n + 96)
-    return n
-  },
-  braille2char (c) {
-    if (/[\u2800-\u28ff]/.test(c)) return brailleDict[c] || '?'
-    return c
-  },
-  char2braille (c) {
-    if (/[a-zA-Z]/.test(c)) return brailleStr[c.toUpperCase().charCodeAt(0) - 65]
-    return c
-  },
-  char2morse (c) {
-    if (/[a-zA-Z]/.test(c)) return morseArr[c.toUpperCase().charCodeAt(0) - 65]
-    return ''
-  },
-  morse2char (m) {
-    return morseDict[m] || '?'
-  },
-}
-
-function convert (data, { from, to }) {
-  const fn = converters[from + '2' + to]
-  if (fn) return fn(data)
-  console.error(`cannot convert from ${from} to ${to}`)
-}
-
-return {
-  convert,
-  init,
-}
-
-})();
-
-puzzle.init()
+init()
 
 class InputHelper {
   constructor (input) {
