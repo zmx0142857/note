@@ -35,7 +35,7 @@ math: {
     {title:'λ 矩阵与相似标准形', src:'linalg/7.html', date:'2023-06-01'},
     {title:'线性空间中的度量与内积', src:'linalg/8.html', date:'2023-06-11'},
     {title:'实二次型与正定矩阵', src:'linalg/9.html', date:'2021-12-08'},
-    {title:'张量初步', src:'linalg/10.html', date:'2022-08-27'},
+    {title:'张量初步', src:'linalg/10.html', date:'2023-08-27'},
   ]
 }, {
   title:'数学分析',
