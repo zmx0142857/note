@@ -118,7 +118,7 @@ math: {
 }, {
   title:'数值分析',
   articles: [
-    {title:'插值与样条', src:'numeric/2.html', date:'2022-01-27'},
+    {title:'插值与样条', src:'numeric/2.html', date:'2023-09-07'},
     {title:'线性方程组', src:'numeric/5.html'},
     {title:'矩阵', src:'numeric/6.html'},
     {title:'非线性方程数值解法', src:'numeric/7.html'},
