@@ -10,7 +10,7 @@
 
 <p>快速读入一个整数</p>
 
-<pre>
+<pre class="collapse">
 int read() {
     char c = getchar();
     int ret = 0, sign = 1;
@@ -31,7 +31,7 @@ int read() {
 
 <p>由于平时输入输出都是十进制格式, 此方法简化了输入输出的操作.</p>
 
-<pre>
+<pre class="collapse">
 #include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
 
@@ -67,8 +67,7 @@ void print(bigint *a) {
     for (int i = a-&gt;len-1; i &gt;= 0; --i) {
         putchar(a-&gt;data[i] + '0');
     }
-    putchar('
-');
+    putchar('\n');
 }
 
 // 相加结果保存在 a
@@ -128,16 +127,21 @@ int main() {
 
 <h2>线段树</h2>
 
-<pre>
-# 线段树, 维护子区间的和
-# 支持的操作:
-# update: 给某个区间的所有数加上 d
-# query: 查询某个区间的和
+<ul>
+  线段树是一种平衡二叉树, 它的每个节点表示数组 a 的一个子区间 a[i..j] (含 a[i] 和 a[j]).
+  特别地, 叶子节点从左到右依次表示元素 a[1] 到 a[n], 其中一小半 (&lfloor;n/2&rfloor; 个) 叶子节点位于右子树, 一大半 (&lceil;n/2&rceil;) 位于左子树.
+  线段树可用于维护子区间的和. 支持的操作有:
+  <li>update: 给某个区间的所有数加上 d;</li>
+  <li>query: 查询某个区间的和.</li>
+</ul>
+
+<pre class="collapse">
 class SegmentTree:
     def __init__(self, arr):
         self.arr = arr
         n = self.n = len(arr) - 1 # arr 的 0 位空出不用
-        self.tree = [0 for i in range(2*n)] # 叶子数=n, 内部节点数=n-1, 0 位空出不用
+        N = 2**n.bit_length() # N = 2**ceil(log2(n))
+        self.tree = [0 for i in range(2*N)] # tree 的 0 位空出不用
         self.mark = self.tree.copy()
         self.init(1, n)
 
@@ -209,11 +213,18 @@ def test_segment_tree():
 test_segment_tree()
 
 '''
+9 节点的线段树:
              45
         15        30
     6      9   13    17
  3    3  4  5 6  7  8  9
 1  2
+
+6 节点的线段树:
+        6
+    3        3
+  2   1    2   1
+ 1 1      1 1
 '''
 </pre>
 

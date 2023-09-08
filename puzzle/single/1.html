@@ -111,6 +111,7 @@ module.exports = function morse (str) {
 <h3>手机九键编码 cellphone</h3>
 
 <table id="table-cellphone" class="col2">
+  <caption>手机九键编码</caption>
   <tr>
     <td><p>1</p><p>-</p></td>
     <td><p>2</p><p>ABC</p></td>
@@ -145,6 +146,8 @@ module.exports = function cellphone (str) {
 </div>
 
 <h3>旗语 flag</h3>
+
+<table id="table-flag" class="col2"></table>
 
 <div class="playground" type="textarea" value="↓→↙↗↙↓↓↘" value2="flag">
 
@@ -315,7 +318,7 @@ module.exports = function reverse (str) {
 
 <script src="../../js/note.js"></script>
 <script src="../../js/playground.js"></script>
-<script src="../../js/puzzle.js"></script>
+<script src="../../js/puzzle/classic.js"></script>
 <script>
 function $ (...args) {
   return document.querySelector(...args)
@@ -326,6 +329,7 @@ function init () {
   puzzle.renderTable($('#table-braille'), puzzle.makeTable(i => puzzle.data.brailleStr[i]), '盲文')
   puzzle.renderTable($('#table-morse'), puzzle.makeTable(i => puzzle.data.morseArr[i]), '摩斯')
   puzzle.renderTable($('#table-nato'), puzzle.makeTable(i => puzzle.data.natoArr[i]), '北约字母')
+  puzzle.renderTable($('#table-flag'), puzzle.makeTable(i => puzzle.data.flagArr[i]), '旗语')
 }
 
 init()

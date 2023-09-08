@@ -140,12 +140,13 @@ merge(M, N):
 </pre>
 </li>
 
-<li><b>未出现的最小正整数</b>
+<li><b>mex: 未出现的最小正整数</b>
 	给定一个长度为 <code>n</code> 的整数数组, 求数组中未出现的最小正整数.
 	<p class="solution">
-		先排序, 在数组中依次找 1, 2, 3, ... 即可.
+        先排序, 然后顺序遍历数组, 依次在数组中查找正整数 1, 2, 3... 即可.
 		根据<a class="ref" href="#rem-ordered-array"></a>的 2,
-		算法也可以通过开辟一个长度为 <code>n</code> 的数组来计数实现.
+        也可以开辟一个长度为 <code>n</code> 的数组, 在 <code>a[i]</code>记录数字 i 出现的次数,
+        通过计数实现算法.
 	</p>
 </li>
 
@@ -733,15 +734,15 @@ init_levelorder_deg(val[], deg[], n):
 </li>
 </ol>
 
-<p class="example">
-  求长度为奇数的最短路.
-</p>
+<h2>杂例</h2>
 
+<ol>
+<li>求长度为奇数的最短路.
 <p class="solution">
   思路: 保存并维护每个点的偶数最短路与奇数最短路.
 </p>
-
-<p class="example">求所有 n 位回文数.</p>
+</li>
+<li>求所有 n 位回文数.
 <pre class="solution">
 # palindromes(n, 1) 返回 n 位的回文数
 def palindromes(n, start):
@@ -751,54 +752,51 @@ def palindromes(n, start):
         return [11*i for i in range(start, 10)]
     return [i*10**(n-1) + 10*k + i for i in range(start, 10) for k in palindromes(n-2, 0)]
 </pre>
-
-<p class="example">
+</li>
+<li>
 [来自<a href="https://blog.csdn.net/hellocooper/article/details/48809261">CDSN</a>]
-生成排列字典序
-</p>
-
-<pre class="solution">
-#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#define ll long long
-
-using namespace std;
-
-//一个排列在字典序全排列中的序号，输入：一个排列，输出：排列的序号
-ll perm2num(vector&lt;ll&gt; p){
-    ll n=p.size();
-    ll num=0;
-    for(ll i=n-2,k=1;i&gt;=0;i--){
-        for(ll j=i+1;j&lt;n;j++){
-            if(p[j]&lt;p[i]){  //i后面有m个比它小的数，num+=m*k;
-                num+=k;
-            }
-        }
-        k*=n-i;     //k=(n-i)!
-    }
-    return num+1;
-}
-
-//对应序号的排列，输入：排列的序号，输出：排列
-vector&lt;ll&gt; &amp;num2perm(ll n,ll num){
-    static vector&lt;ll&gt; ret;
-    vector&lt;ll&gt; candidate(n,0);
-    ll k=1,index;
-    for(ll i=0;i&lt;n;i++){
-        candidate[i]=i+1;   //candidate={1,2,...,n}
-        k*=i+1;             //k=n!
-    }
-    for(ll i=0;i&lt;n;i++){
-        k/=n-i;
-        index = (num-1)/k;      //num-1 -&gt; candidate[index]
-        num-=index*k;           //num-=index*k;
-        ret.push_back(candidate[index]);
-        candidate.erase(candidate.begin()+index);
-    }
-    return ret;
-}
+<b>Cantor 展开 (康托展开)</b> 将 1 到 n 的全排列按字典序列出, 比如 1 到 4 的全排列是:
+<pre>
+1 2 3 4
+1 2 4 3
+1 3 2 4
+1 3 4 2
+1 4 2 3
+1 4 3 2
+2 1 3 4
+...
+4 3 2 1
 </pre>
+问题: 给定一个排列, 求它在列表中的第几位. 反之, 给定它在列表中的位次, 求这个排列.
+<pre class="solution">
+# 对于一个排列, 如 2 4 1 3, 它是以 2 开头的, 所以前面还有以 1 开头的 3! 个排列,
+# 故 num += 6. 再看它的后三位是由 {4, 1, 3} 的排列组成的,
+# 前面还有以 1 开头和以 3 开头的 2 * 2! = 4 个排列, 故 num += 4.
+# 再看它的后两位是由 {1, 3} 的排列组成的, 1 已经是最小的数字,
+# 前面没有其它排列, 故 num += 0. 最后由于列表的位次是从 1 开始的, 因此再给 num 加 1,
+# 得到 num = 6 + 4 + 1 = 11.
+def perm2num(arr):
+    n = len(arr)
+    num = 0
+    perms = 1
+    for i in range(n-2, -1, -1):
+        num += sum(perms for j in range(i+1, n) if arr[j] < arr[i])
+        perms *= n - i # perms = (n-i)! 是 arr[i+1:n] 的排列数
+    return num + 1
 
+def num2perm(n, num):
+    arr = []
+    candidate = [i+1 for i in range(n)] # 待插入的数
+    perms = math.factorial(n)
+    for i in range(n):
+        perms //= n-i
+        index = (num - 1) // perms
+        num -= index * perms
+        arr.append(candidate.pop(index))
+    return arr
+</pre>
+</li>
+</ol>
 
 <script src="../../js/note.js?type=cs"></script>
 </body>

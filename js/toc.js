@@ -249,7 +249,7 @@ cs: {
     {title:'矩阵与广义表', src:'ds/7.html'},
     {title:'图', src:'ds/8.html'},
     {title:'查找', src:'ds/9.html', date: '2021-11-24'},
-    {title:'随机算法', src:'ds/10.html', date:'2022-02-09'},
+    {title:'随机算法', src:'ds/10.html', date:'2023-09-05'},
     {title:'排序', src:'ds/11.html', date: '2021-12-03'},
     {title:'文件', src:'ds/12.html'},
     {title:'数论算法', src:'ds/13.html', date: '2022-01-07'},

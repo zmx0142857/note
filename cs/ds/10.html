@@ -231,6 +231,66 @@ reservoir(L, k):
   <li>若 `4 | m`, 则 `a -= 1 (mod 4)`.</li>
 </ol>
 
+<h2>正态随机数</h2>
+
+<p class="algorithm">
+  <b>Box-Muller 算法, 每次生成一对正态随机数</b>
+  设 `X, Y overset"iid"~ N(0, 1)`, 其联合密度为
+  <span class="formula">
+    `p(x, y) = 1/(2pi) "e"^(-(x^2+y^2)/2)`.
+  </span>
+  作变量替换 `X = r cos theta`, `Y = r sin theta`, 则
+  <span class="formula">
+    `1 = int_(-oo)^oo int_(-oo)^oo 1/(2pi) "e"^(-(x^2+y^2)/2) dx dy`
+    `= int_0^(2pi) int_0^oo 1/(2pi) "e"^(-r^2/2) r "d"r "d"theta`.
+  </span>
+  从而得到 `r, theta` 的分布函数
+  <span class="formula">
+    `P(r le r_0) = int_0^(2pi) int_0^(r_0) 1/(2pi) "e"^(-r^2/2) r "d"r "d"theta`
+    `= 1 - "e"^(-r_0^2/2)` `quad (r_0 ge 0),<br>
+    `P(theta le theta_0) = int_0^(theta_0) int_0^oo 1/(2pi) "e"^(-r^2/2) r "d"r "d"theta`
+    `= theta_0/(2pi)` `quad (0 le theta_0 le 2pi)`.
+  </span>
+  如何生成满足上面这两个分布的随机变量 `r, theta`?
+  注意到 `theta ~ U(0, 2pi)`; 至于 `r`, 可以利用反函数:
+  令 `z = 1 - "e"^(-r^2/2)`, 反解得 `r = sqrt(-2 ln(1-z))`.
+  于是当 `z ~ U(0, 1)` 时, `r` 的分布函数为 `1 - "e"^(-r^2/2)`.
+  总之, 当 `U_1, U_2 ~ U(0, 1)` 时, 令
+  <span class="formula">
+    `X = r cos theta = sqrt(-2 ln U_1) cos 2pi U_2`,<br>
+    `Y = r sin theta = sqrt(-2 ln U_1) sin 2pi U_2`,
+  </span>
+  则 `x, y` 服从标准正态分布.
+</p>
+
+<div class="playground" value="{ mu: 0, sigma: 1 }">
+<p>下面的代码使用 Box-Muller 算法生成一对正态随机数; 该函数直接返回其中一个随机数, 另一个被缓存, 等下次调用时返回.</p>
+<script>
+let z0, z1;
+module.exports = function gaussian (str) {
+  const { mu, sigma } = Playground.parse(str)
+  if (z1 !== undefined) {
+    const res = z1 * sigma + mu
+    z1 = undefined
+    return res
+  }
+
+  const { random, sqrt, log, cos, sin, PI } = Math
+  let u1, u2 = random()
+  // 避免计算 log(0) 得到 -Infinity
+  do {
+     u1 = random()
+  } while (u1 <= Number.EPSILON)
+
+  const two_pi = 2.0 * PI
+  z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2)
+  z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2)
+  return z0 * sigma + mu
+}
+</script>
+</div>
+
 <script src="../../js/note.js?type=cs"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>

@@ -546,7 +546,7 @@ hideAnswer([
   {name:'proof', word:'证'},
   {name:'solution', word:'解'},
   {name:'answer', word:'答'},
-  {name:'collapse', word:'&nbsp;'},
+  {name:'collapse', word:'展开'},
   {name:'toc', word:'目录'},
 ]);
 

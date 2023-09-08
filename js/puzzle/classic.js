@@ -93,6 +93,7 @@ return {
     brailleStr,
     morseArr,
     natoArr,
+    flagArr,
   },
   utils: {
     chunk: strChunk,
