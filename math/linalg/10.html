@@ -401,18 +401,24 @@
 </p>
 
 <ul class="example">
-  <b>Kronecker 符号与 Levi-Civita 符号</b>
-  <li>Kronecker 符号是一个对称 `{::}_1^1` 型张量:
+  <li><b>Kronecker 符号</b>是一个对称 `{::}_1^1` 型张量:
     <span class="formula">
       `delta_i^j := { 1, if i = j; 0, otherwise :}`
     </span>
   </li>
-  <li>Levi-Civita 符号是一个反对称 `{::}_3^0` 型张量:
+  <li><b>Levi-Civita 符号</b>是一个反对称 `{::}_3^0` 型张量:
     <span class="formula">
       `epsi_(1 2 3) = epsi_(2 3 1) = epsi_(3 1 2) = 1`,<br>
       `epsi_(1 3 2) = epsi_(2 1 3) = epsi_(3 2 1) = 1`.
     </span>
     因为它反对称, 所以任意两个指标相同时结果为零, 如 `epsi_(1 1 2) = 0`.
+  </li>
+  <li><b>Eddington 张量</b>
+    <span class="formula">
+      `cc E_(i j k) = bm e_i xx bm e_j * bm e_k`,<br>
+      `cc E^(i j k) = bm e^i xx bm e^j * bm e^k`,<br>
+      `cc E_i^(j k) = bm e_i xx bm e^j * bm e^k`.
+    </span>
   </li>
 </ul>
 
@@ -422,7 +428,7 @@
   <span class="formula">
     `C_x = A_y B_z - A_z B_y`,
   </span>
-  用 Levi-Civata 符号, 就是
+  用 Levi-Civita 符号, 就是
   <span class="formula">
     `C_c = epsi_(a b c) A^a B^b`.
   </span>
@@ -439,6 +445,18 @@
     `epsi_(y z x) A^y B^z + epsi_(z y x) A^z B^y`
     `= A^y B^z - A^z B^y`.
   </span>
+</p>
+
+<p class="example">
+  <b>对偶基底的关系</b>
+  设 `i, j, k` 互不相同且为偶排列, 如 `1, 2, 3`.
+  由于
+  <span class="formula">
+    `bm e^i * bm e_j = bm e^i * bm e_k = 0`,<br>
+    `bm e^i * bm e_i = 1 = (bm e_j xx bm e_k * bm e_i)/(bm e_j xx bm e_k * bm e_i)`,
+  </span>
+  所以 `bm e^i = (bm e_j xx bm e_k)/(bm e_j xx bm e_k * bm e_i)`
+  `= (bm e_j xx bm e_k)/(bm e_1 xx bm e_2 * bm e_3)`.
 </p>
 
 <p class="example">
@@ -462,7 +480,7 @@
 
 <h3>度规</h3>
 
-<p>
+<p class="definition">
   <b>度规</b> 定义为基底与对偶基底间的过渡矩阵:
   <span class="formula">
     `bm e_i = g_(i j) bm e^j`,
@@ -482,7 +500,7 @@
   <li>由内积的对称性, `g_(i j) = g_(j i)`;</li>
 </ol>
 
-<ol>
+<ol class="example">
   <b>张量的一些例子</b>
   <li>线性变换 `A_i^j` 是二阶混合张量 (`{::}_1^1` 型张量).
     `x^j = A_i^j x^i`.
@@ -507,11 +525,34 @@
   我们把基向量对坐标求微分, 就得到标架运动方程:
   <span class="formula">
     `{bm e_(j, i) := Gamma_(i j)^k bm e_k := Gamma_(i j k) bm e^k;
-    bm e,_i^j = -Gamma_(i k)^j bm e^k = -Gamma_(i j k) bm e_k:}`
+    bm e_(,i)^j = -Gamma_(i k)^j bm e^k = -Gamma_(i j k) bm e_k:}`
   </span>
   这里 `Gamma_(i j k)` 和 `Gamma_(i j)^k` 分别叫做第一、二类 Christoffel
   符号 (克氏符号).
 </p>
+
+<ol class="proof">
+  [来自 我是烦人精的近乎幂零群]
+  这里给出标架运动方程的第二行的证明.
+  <li>
+    设基底 `{x_i}` 到 `{bm e_i}` 的过渡矩阵为 `(a_j^i)`, 即 `bm e_j = a_j^i x_i`,
+    又设对偶基底 `{x^i}` 到 `{bm e^i}` 的过渡矩阵为 `(b_i^j)`, 即 `bm e^j = b_i^j x^i`.
+    由<a class="ref" href="#cor-dual-base">这条推论</a>知道, 矩阵 `(b_i^j)` 等于 `(a_j^i)` 的转置的逆,
+    于是 `x_i = b_i^j bm e_j`, `x^i = a_j^i bm e^j`.
+    求导得
+    <span class="formula">
+      `bm e_(j, i) = (a_j^l)_(,i) x_l = (a_j^l)_(,i) b_l^k bm e_k`,<br>
+      `bm e_(,i)^j = (b_l^j)_(,i) x^l = color(red)((b_l^j)_(,i) a_k^l) bm e^k`.
+    </span>
+    记 `Gamma_(i j)^k = (a_j^l)_(,i) b_l^k`,
+    由于 `a_k^l b_l^j = delta_k^j`, 对 `x^i` 微分得到
+    <span class="formula">
+      `color(blue)((a_k^l)_(,i) b_l^j) + color(red)(a_k^l (b_l^j)_(,i)) = 0`.
+    </span>
+    于是 `color(red)((b_l^j)_(,i) a_k^l) = - color(blue)((a_k^l)_(,i) b_l^j) = - Gamma_(i k)^j`.
+  </li>
+  <li>??</li>
+</ol>
 
 <ol class="corollary">
   <li>`Gamma_(i j k) = Gamma_(i j)^l g_(l k)`;</li>

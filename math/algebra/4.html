@@ -600,15 +600,16 @@
   <li>这是因为 `ZZ` 的生成元只有 `+-1`.</li>
 </ol>
 
+<h3>内自同构</h3>
+
 <p class="definition">
-  群 `G` 中全体共轭变换构成 `G` 的<b>内自同构群</b>
+  群 `G` 中全体共轭变换 `"int"_a(g) = a g a^-1` 构成 `G` 的<b>内自同构群</b>
   <span class="formula">
-    `"Inn"(G) = { tau_a | a in G }`,
+    `"Int"(G) = { "int"_a | a in G }`,
   </span>
-  其中 `tau_a: g in G mapsto a g a^-1 in G`.
-  可以验证 `"Inn"(G) normal "Aut"(G)`, 又称
+  可以验证 `"Int"(G) normal "Aut"(G)`, 又称
   <span class="formula">
-    `"Aut"(G)//"Inn"(G)`
+    `"Out"(G) = "Aut"(G)//"Int"(G)`
   </span>
   为 `G` 的<b>外自同构群</b>.
 </p>
@@ -621,14 +622,14 @@
 		</span>
 		`tau_a` 为一同构, 故 `tau_a in "Aut"(G)`.
 	</li>
-	<li>显然 `"Inn"(G) sube "Aut"(G)`, 又 `AA tau_a, tau_b in "Inn"(G)`,
+	<li>显然 `"Int"(G) sube "Aut"(G)`, 又 `AA tau_a, tau_b in "Int"(G)`,
 		<span class="formula">
-			`tau_a^-1 = tau_(a^-1) in "Inn"(G)`,
-			`quad tau_a tau_b = tau_(a b) in "Inn"(G)`.
+			`tau_a^-1 = tau_(a^-1) in "Int"(G)`,
+			`quad tau_a tau_b = tau_(a b) in "Int"(G)`.
 		</span>
-		所以 `"Inn"(G) le "Aut"(G)`.
+		所以 `"Int"(G) le "Aut"(G)`.
 	</li>
-	<li>`AA tau_a in "Inn"(G), sigma in "Aut"(G), x in G`,
+	<li>`AA tau_a in "Int"(G), sigma in "Aut"(G), x in G`,
 		<span class="formula">
 			`(sigma tau_a sigma^-1)(x)`
 			`= sigma( tau_a (sigma^-1(x)))`
@@ -636,17 +637,17 @@
 			`= sigma(a) x sigma(a)^-1`
 			`= tau_(sigma(a))(x)`.
 		</span>
-		从而 `sigma tau_a sigma^-1 = tau_(sigma(a)) in "Inn"(G)`,
-		于是 `"Inn"(G) normal "Aut"(G)`.
+		从而 `sigma tau_a sigma^-1 = tau_(sigma(a)) in "Int"(G)`,
+		于是 `"Int"(G) normal "Aut"(G)`.
 	</li>
 </ol>
 
-<p class="theorem" id="the-inn-isomorphism">
-	令 `G` 为一群, 则 `"Inn"G ~= G//Z(G)`.
+<p class="theorem" id="the-int-isomorphism">
+	令 `G` 为一群, 则 `"Int"G ~= G//Z(G)`.
 </p>
 
 <p class="proof">
-	作 `eta: a in G to tau_a in "Inn"(G)`, 由内自同构的定义知 `eta`
+	作 `eta: a in G to tau_a in "Int"(G)`, 由内自同构的定义知 `eta`
 	为一满射, 又 `AA g in G`,
 	<span class="formula">
 		`tau_(a b)(g) = (a b)g(a b)^-1 = (tau_a tau_b)(g)`,
@@ -662,9 +663,11 @@
 	</span>
 	根据同态基本定理,
 	<span class="formula">
-		`"Inn"(G) = "Im"eta ~= G//"Ker"eta = G//Z(G)`.
+		`"Int"(G) = "Im"eta ~= G//"Ker"eta = G//Z(G)`.
 	</span>
 </p>
+
+<h3>正规化子与中心化子</h3>
 
 <p class="definition">
 	令群 `H le G`, `g in G`, 则 `g H g^-1 ~= H`, 称为 `H` 在 `G`
@@ -738,16 +741,16 @@
 	`Z_G(H) = G` 时, `H le Z(G)`. 另外显然 `Z(G) = Z_G(G)`.
 </p>
 
-<p class="theorem" id="the-inn-isomorphism-advanced">
+<p class="theorem" id="the-int-isomorphism-advanced">
 	令群 `H le G`, 则
 	<span class="formula">
-		`N_G(H) // Z_G(H) ~= "Inn"(N_G(H))|_H le "Aut"(H)`
+		`N_G(H) // Z_G(H) ~= "Int"(N_G(H))|_H le "Aut"(H)`
 	</span>
 </p>
 
 <p class="proof">
 	令 `g in N_G(H)`, 则 `tau_g(H) = g H g^-1 = H`, 其中 `tau_g in
-	"Inn"(N_G(H))`. 因此 `tau_g|_H` 为 `H` 上一自同构. 据此, 存在同态
+	"Int"(N_G(H))`. 因此 `tau_g|_H` 为 `H` 上一自同构. 据此, 存在同态
 	<span class="formula">
 		`eta: N_G(H) to "Aut"(H)`<br/>
 		`g to tau_g|_H`.
@@ -763,22 +766,22 @@
 	<span class="formula">
 		`N_G(H)//Z_G(H)`
 		`= N_G(H)//"Ker"eta ~= "Im"eta`
-		`= Inn(N_G(H))|_H le`
+		`= Int(N_G(H))|_H le`
 		`"Aut"(H)`.
 	</span>
 </p>
 
-<p class="corollary" id="cor-inn-isomorphism-advanced">
+<p class="corollary" id="cor-int-isomorphism-advanced">
 	令群 `H normal G`, 则 `N_G(H) = G`, 于是
 	<span class="formula">
-		`G//Z_G(H) ~= "Inn"(G)|_H le "Aut"(H)`.
+		`G//Z_G(H) ~= "Int"(G)|_H le "Aut"(H)`.
 	</span>
 </p>
 
 <p class="remark">
 	在上面的推论中取 `H = G`, 可以看到<a class="ref"
-	href="#the-inn-isomorphism-advanced"></a> 是<a class="ref"
-	href="#the-inn-isomorphism"></a> 的推广.
+	href="#the-int-isomorphism-advanced"></a> 是<a class="ref"
+	href="#the-int-isomorphism"></a> 的推广.
 </p>
 
 <p class="example">
@@ -787,12 +790,31 @@
 </p>
 
 <p class="proof">
-	由<a class="ref" href="#cor-inn-isomorphism-advanced"></a>,
+	由<a class="ref" href="#cor-int-isomorphism-advanced"></a>,
 	<span class="formula">
-		`G//Z_G((:a:)) ~= "Inn"(G)|_(:a:) le "Aut"((:a:))`
+		`G//Z_G((:a:)) ~= "Int"(G)|_(:a:) le "Aut"((:a:))`
 	</span>
 	后者是循环群的自同构群, 必为 Abel 群, 所以
 	`G//Z_G((:a:))` 也是 Abel 群. 从而 `G' sube Z_G((:a:))`.
+</p>
+
+<h3>正合列</h3>
+
+<p class="definition">
+  正合列是指形如 `G_1 to G_2 to cdots to G_n` 的一列群, 相邻两个群之间带有同态映射, 且
+  每个 `G_(i-1) to G_i` 的像等于 `G_i to G_(i+1)` 的核.
+</p>
+
+<p class="example">
+  设 `G` 为一群, `H` 是 `G` 的正规子群, 则有正合列
+  <span class="formula">
+    `{e} to overset "子群" (underset "核" H) to G to overset"商群"(underset"像"(G//H)) to {e}`.
+  </span>
+  两个例子是
+  <span class="formula">
+    `{e} to Z(G) to G to "Int"(G) to {e}`,<br>
+    `{e} to "Int"(g) to "Aut"(G) to "Out"(G) to {e}`.
+  </span>
 </p>
 
 <h2>群作用与有限群的 Sylow 定理</h2>
