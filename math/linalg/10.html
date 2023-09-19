@@ -150,6 +150,63 @@
   今后我们不再区分 `V^(ast ast)` 与 `V`.
 </p>
 
+<h3>对偶基</h3>
+
+<p class="definition">
+  <b>对偶基</b>
+  设 `{v_i}_(i=1)^n` 是线性空间 `V` 的一组基, `{v_i^ast}_(i=1)^n` 是其对偶空间 `V^ast` 的一组基.
+  如果满足
+  <span class="formula">
+    `v_i^ast(v_j) = delta_(i j)`, `quad i, j = 1, cdots, n`,
+  </span>
+  则称 `{v_i^ast}` 是 `{v_i}` 的对偶基.
+</p>
+
+<ol class="corollary">
+  <b>坐标的对偶</b>
+  设 `{alpha_i}`, `{varphi_i}` 是一对对偶基,
+  <li>对 `AA alpha = sum x_i alpha_i in V`,
+    有 `varphi_i(alpha) = varphi_i(x_i alpha_i) = x_i`,
+    即 `alpha = sum varphi_i(alpha) alpha_i`.
+  </li>
+  <li>对 `AA varphi = sum y_i varphi_i in V^ast`,
+    有 `varphi(alpha_i) = (sum y_j varphi_j)(alpha_i) = y_i`,
+    即 `varphi = sum varphi(alpha_i) varphi_i`.
+  </li>
+  <li>对 `AA alpha in V` 和 `varphi in V^ast`,
+    `varphi(alpha) = (sum_i y_i varphi_i)(sum_j x_j alpha_j)`
+    `= sum_(i, j) x_j y_j varphi_i(alpha_j)`
+    `= sum_i x_i y_i`.
+  </li>
+  在对偶基下 `varphi(alpha)` 具有简单的坐标表示 `sum_i x_i y_i`.
+</ol>
+
+<p class="corollary">
+  设 `{u_i}`, `{v_i}` 是 `V` 的两组基, `{u_i^ast}`, `{v_i^ast}` 是相应的对偶基,
+  线性变换 `cc A, cc B` 满足 `cc A u_i = v_i`, `cc B u_i^ast = v_i^ast`.
+  `cc A, cc B` 在基底 `{u_i}` 下的表示矩阵记为 `bm A, bm B`, 则 `bm B^(sf T) bm A = bm I`.
+</p>
+
+<p class="proof">
+  由对偶基定义,
+  <span class="formula">
+    `u_i^ast(u_j) = delta_(i j) = v_i^ast(v_j)`,
+  </span>
+  由表示矩阵定义,
+  <span class="formula">
+    `(v_1, cdots, v_n) = (u_1, cdots, u_n) bm A`,<br>
+    `(v_1^ast, cdots, v_n^ast) = (u_1^ast, cdots, u_n^ast) bm B`.
+  </span>
+  用 `a_(i j)`, `b_(i j)` 代表矩阵 `bm A, bm B` 的元素, 计算得
+  <span class="formula">
+    `delta_(i j) = v_i^ast(v_j)`
+    `= (sum_k u_k^ast b_(k i))(sum_l u_l a_(l j))`
+    `= sum_(k, l) b_(k i) a_(l j) delta_(k l)`
+    `= sum_k b_(k i) a_(k j)`,
+  </span>
+  即 `bm B^(sf T) bm A = bm I`.
+</p>
+
 <h3>多重线性函数</h3>
 
 <p class="definition">

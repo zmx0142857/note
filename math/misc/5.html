@@ -276,7 +276,7 @@
 </p>
 
 <p class="theorem">
-  <b>Euler 公式</b>
+  <b>Euler 恒等式</b>
   <span class="formula">
     `sum a^3 - 3 a b c`
     `= (sum a)(sum a^2 - sum a b)`
@@ -284,10 +284,33 @@
   </span>
   特别当 `sum a = 0` 时, `sum a^3 = 3 a b c`;
   当 `c = 0` 时, 得到立方和公式.
-  此公式的进一步推广是<a href="../algebra/0.html">牛顿公式</a>
+  此公式的进一步推广是<a href="../algebra/0.html">牛顿公式</a>:
   <span class="formula">
-    `sum a^(n+3) = (sum a)(sum a^(n+2)) - (sum a b) (sum a^(n+1))
-    + 3 a b c sum a^n`.
+    `sum a^(n+3)`
+    `= (sum a)(sum a^(n+2)) - (sum a b) (sum a^(n+1)) + 3 a b c sum a^n`.
+  </span>
+</p>
+
+<p class="proof">
+  <span class="formula">
+    `(sum a)(sum a^2 - sum a b)`
+    `= sum(a^3 color(red)(- a^2 b + a^2 b) color(blue)(- a b^2 + a^2 c) - a b c)`
+    `= sum a^3 - 3 a b c`.
+  </span>
+</p>
+
+<p class="corollary">
+  记 `x = root 3 2`, `a, b in QQ`, 对 `(x^2 + a x + b)^-1` 进行分母有理化.
+  这指出 `QQ(x)` 是一个域.
+</p>
+
+<p class="proof">
+  应用 Euler 恒等式 `(sum a)^-1 = (sum(a^2-a b))/(sum a^3 - 3 a b c)`,
+  注意 `x^3 = 2`, 有
+  <span class="formula">
+    `(x^2 + a x + b)^-1`
+    `= (x^4 + a^2 x^2 + b^2 - 2 a - a b x - b x^2)/(4 + 2 a^3 + b^3 - 6 a b)`
+    `= ((a^2 - b) x^2 + (2 - a b) x + (b^2 - 2 a))/(4 + 2 a^3 + b^3 - 6 a b)`.
   </span>
 </p>
 

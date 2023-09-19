@@ -521,7 +521,7 @@
 	</span>
 </p>
 
-<h2>几个刻画实数完备性的定理</h2>
+<h2>实数的完备性</h2>
 
 <p class="theorem">
 	<b>单调有界原理</b>
@@ -613,9 +613,122 @@
 	证明 `{x_n}` 收敛, 且极限为 `root m A`.
 </p>
 
-<h2>数列的差分与加权和</h2>
+<h2>分步取 N 法</h2>
 
-<h3>数列的差分--Stolz 定理</h3>
+<h3>Cesàro 定理</h3>
+
+<ol class="theorem">
+	<b>Cesàro 定理</b> 设 `lim_(n to oo) a_n = a`, 则
+	<li>`lim_(n to oo) 1/n sum_(k=1)^n a_k = a`;</li>
+	<li>若 `a_n gt 0`, `a gt 0`, 由 1. 取对数得到 `lim_(n to oo) root n (prod_(k=1)^n a_k) = a`;</li>
+</ol>
+
+<div class="p proof">
+  记 `S_n = sum_(k=1)^n a_k`. 对任意 `epsi gt 0`,
+  取 `N` 充分大使得任意 `n gt N` 有 `|a_n - a| lt epsi`, 于是
+  <span class="formula">
+    `|S_n/n - a|`
+    `= |(S_N - N a)/n + (a_(N+1)-a)/n + cdots + (a_n - a)/n|`
+    `le |(S_N - N a)/n| + epsi`.
+  </span>
+  令 `n to oo`, 由于 `N` 是固定的, 得到 `|S_n/n - a| le epsi`.<br>
+  或者说, 对于给定的 `N`, 再取 `M` 使得 `n gt M` 时 `|(S_N - N a)/n| lt epsi`,
+  这样上式总的来说就小于 `2 epsi`.
+  <hr>
+  我们把和式 `sum_(k=1)^n` 分成 `sum_(k=1)^N` 和 `sum_(k=N+1)^n` 两部分, 再分别证明它们小于 `epsi`.
+  这一证明技巧将贯穿本节的内容.
+</div>
+
+<p class="example">
+  [史济怀《数学分析》]
+  设 `x_n to x, y_n to y`, 证明 `1/n (x_1 y_n + cdots + x_n y_1) to x y`.
+</p>
+
+<ol class="proof">
+  <li>
+    先设 `y = 0`.
+    利用 Cauchy 不等式, 原式的平方 `le 1/n^2 (sum_(k=1)^n x_k^2) (sum_(k=1)^n y_k^2)`.
+    而 `x_n^2, y_n^2` 的极限分别是 `x^2` 和 `y^2`, 利用 Cesàro 定理知不等式右端趋于 `x^2 y^2 = 0`,
+    因此原式的平方趋于 0, 从而原式的极限是 0.
+    <br>
+    或者, 也可以设 `|x_n|` 的上界是 `X`, 应用 Cesàro 定理得
+    <span class="formula">
+      `1/n |x_1 y_n + cdots + x_n y_1|`
+      `le X/n sum_(k=1)^n |y_k|`
+      `= X |y| = 0`,
+    </span>
+    从而原式极限为 0.
+  </li>
+  <li>
+    一般情形, 考虑以 0 为极限的数列 `{y_n - y}`, 由 1. 的结论有
+    <span class="formula">
+      `1/n (x_1 (y_n - y) + cdots + x_n (y_1 - y)) to 0`,
+    </span>
+    于是再次应用 Cesàro 定理有:
+    <span class="formula">
+      `lim_(n to oo) 1/n (x_1 y_n + cdots + x_n y_1)`
+      `= lim_(n to oo) 1/n (x_1 y + cdots + x_n y)`
+      `= x y`.
+    </span>
+  </li>
+</ol>
+
+<h3>Stolz 定理</h3>
+
+<ol class="theorem">
+  <b>Stolz 定理</b>
+  对于数列 `A_n, B_n`, 考虑两种情形:
+  <li>`A_n` 单调递增趋于 `+oo`;</li>
+  <li>`A_n` 单调递减趋于零, `B_n to 0`.</li>
+  若条件 1, 2 其中之一成立, 且下式右端极限存在, 则左端极限也存在且等号成立:
+  <span class="formula">
+    `lim_(n to oo) B_n/A_n = lim_(n to oo) (B_n - B_(n-1))/(A_n - A_(n-1)) = L`.
+  </span>
+  Stolz 定理可以看作离散版本的洛必达法则.
+  两种情形分别称为 `ast//oo` 型和 `0//0` 型极限.
+</ol>
+
+<ol class="proof">
+  <li>
+    补充定义 `A_0 = B_0 = 0`,
+    记 `a_n = A_n - A_(n-1)`, `b_n = B_n - B_(n-1)`,
+    于是 `A_n = sum_(k=1)^n a_n`, `B_n = sum_(k=1)^n b_n`.
+    只需证:
+    <span class="formula">
+      `lim_(n to oo) (sum_(k=1)^n b_k)/(sum_(k=1)^n a_k) = lim_(n to oo) b_n/a_n = L`.
+    </span>
+    对任意 `epsi gt 0`, 取 `M` 使得
+    <span class="formula">
+      `|b_n/a_n - L| lt epsi`, `quad AA n gt M`.
+    </span>
+    因为 `A_n to +oo`, 再取 `N` 使得
+    <span class="formula">
+      `1/A_n sum_(k=1)^M |b_k - L a_k| lt epsi`, `quad AA n gt N`.
+    </span>
+    于是 `n gt max{N, M}` 时,
+    <span class="formula">
+      `|(sum_(k=1)^n b_k)/(sum_(k=1)^n a_k) - L|`
+      `= |1/A_n sum_(k=1)^n (b_k - L a_k)|`
+      `le 1/A_n sum_(k=1)^M |b_k - L a_k| + 1/A_n sum_(k=M+1)^n a_k |b_k/a_k - L|`
+      `le 2 epsi`.
+    </span>
+  </li>
+  <li>
+    对任意 `epsi gt 0`, 取 `N` 使得
+    <span class="formula">
+      `|(B_(n-1) - B_n)/(A_(n-1) - A_n) - L| lt epsi`, `quad AA n gt N`.
+    </span>
+    注意 `A_n` 单调减, 上式写为
+    <span class="formula">
+      `(L - epsi) (A_(n-1) - A_n) lt B_(n-1) - B_n lt (L + epsi) (A_(n-1) - A_n)`.
+    </span>
+    取 `m gt n`, 从 `n+1` 到 `m` 求和得
+    <span class="formula">
+      `(L - epsi) (A_n - A_m) lt B_n - B_m lt (L + epsi) (A_n - A_m)`,
+    </span>
+    即 `|(B_n - B_m)/(A_n - A_m) - L| lt epsi`, 令 `m to oo` 即得结论.
+  </li>
+</ol>
 
 <ol class="example">
   设 `a_0 gt 0`, `a_(n+1) = sin(a_n)`, 求证
@@ -636,37 +749,7 @@
   </li>
 </ol>
 
-<h3>数列的加权和--Toeplitz 定理</h3>
-
-<ol class="theorem">
-	<b>Cesàro 定理</b> 设 `lim_(n to oo) a_n = a`, 则
-	<li>`lim_(n to oo) 1/n sum_(k=1)^n a_k = a`;</li>
-	<li>若 `a_n gt 0`, `a gt 0`, 则 `lim_(n to oo) root n (prod_(k=1)^n a_k) = a`;</li>
-</ol>
-
-<ol class="proof">
-  <li>记 `S_n = sum_(k=1)^n a_k`. 对任意 `epsi gt 0`,
-    取 `N` 充分大使得任意 `n gt N` 有 `|a_n - a| lt epsi`, 于是
-    <span class="formula">
-      `|S_n/n - a|`
-      `= |(S_N - N a)/n + (a_(N+1)-a)/n + cdots + (a_n - a)/n|`
-      `le |(S_N - N a)/n| + epsi`.
-    </span>
-    令 `n to oo`, 由于 `N` 是固定的, 得到 `|S_n/n - a| le epsi`.
-  </li>
-</ol>
-
-<p class="example">
-    设 `x_n, y_n` 都趋于 0, 求极限 `1/n (x_1 y_n + x_2 y_(n-1) + cdots
-    + x_n y_1)`.
-</p>
-
-<p class="solution">
-    利用 Cauchy 不等式, 原式的平方 `le 1/n^2 (sum_(k=1)^n x_k^2)
-    (sum_(k=1)^n y_k^2)`.
-    由已知 `x_n^2, y_n^2` 都趋于 0, 利用 Cesàro 定理知不等式右端趋于 0,
-    因此原式的平方趋于 0, 从而原式的极限是 0.
-</p>
+<h3>Toeplitz 定理</h3>
 
 <p class="example">
   [来自 我是乱序的不等式]
@@ -678,46 +761,65 @@
 
 <p class="proof">
   记 `b_n` 的前 `n` 项和为 `S_n`. 对任意 `epsi gt 0`,
-  取 `N` 充分大, 使得 `n gt N` 时
+  先取 `M` 使得
   <span class="formula">
-    `|S_n - S| lt epsi`, `quad b_n lt epsi`, 且 `|a_n - a| lt epsi`.
+    `|a_n - a| lt epsi`, `quad AA n gt M`,
   </span>
-  于是 `n-N+1 gt N` 时,
+  再取 `N` 使得
   <span class="formula">
-    `|sum_(k=1)^n a_(n+1-k) b_k - a S|`
-    `le |sum_(k=1)^n (a_(n+1-k) - a) b_k| + |a(sum_(k=1)^n b_k - S)|`
-    `le |sum_(k=1)^(n-N) (a_(n+1-k) -a) b_k| + |sum_(k=n-N+1)^n (a_(n+1-k)-a) b_k| + |a| epsi`
-    `le S epsi + |sum_(k=n-N+1)^n (a_(n+1-k) -a)| epsi + |a| epsi`.
+    `|S_n - S| lt epsi`, `quad b_n lt epsi/M`, `quad AA n gt N`.
   </span>
-  第二项的求和只有有限项, 故原式的极限为 `a S`, 证毕.
+  于是 `n gt M + N + 1` 时, 记 `A` 为 `|a_n - a|` 的上界, 有
+  <span class="formula align">
+    `|sum_(k=1)^n a_(n+1-k) b_k - a S|`<br>
+    `le |sum_(k=1)^n (a_(n+1-k) - a) b_k| + |a(S_n - S)|`<br>
+    `le |sum_(k=1)^(n-M) (a_(n+1-k) -a) b_k| + |sum_(k=n-M+1)^n (a_(n+1-k)-a) b_k| + |a| epsi`<br>
+    `le S epsi + M * A * epsi + |a| epsi`.
+  </span>
 </p>
 
 <p class="example">
-	设 `p_k gt 0`, `k = 1, 2, cdots`, `lim_(n to oo) a_n = a`, 且
-	<span class="formula">
-		`lim_(n to oo) p_n/(p_1 + p_2 + cdots + p_n) = 0`
-	</span>
-	证明:
-	<span class="formula">
-		`lim_(n to oo) (p_1 a_n + p_2 a_(n-1) + cdots + p_n a_1)/(p_1 +
-		p_2 + cdots + p_n) = a`.
-	</span>
+  设 `p_k gt 0`, `k = 1, 2, cdots`, `lim_(n to oo) a_n = a`, 且
+  <span class="formula">
+    `lim_(n to oo) p_n/(p_1 + p_2 + cdots + p_n) = 0`
+  </span>
+  证明:
+  <span class="formula">
+    `lim_(n to oo) (p_1 a_n + p_2 a_(n-1) + cdots + p_n a_1)/(p_1 +
+    p_2 + cdots + p_n) = a`.
+  </span>
 </p>
 
 <p class="proof">
-	记 `S_n = sum_(k=1)^n p_k`.  对任意 `epsi gt 0`, 取 `N` 充分大使得任意
-  `n gt N` 有
+  [来自群友 乐正垂星]
+  记 `S_n = sum_(k=1)^n p_k`.  对任意 `epsi gt 0`,
+  先取 `M` 使得
   <span class="formula">
-    `|a_n - a| lt epsi`, `quad |p_n/S_n| lt epsi`.
+    `|a_n - a| lt epsi`, `quad AA n gt M`.
   </span>
-  于是 `n-N+1 gt N` 时,
-	<span class="formula">
-		`|(sum_(k=1)^n p_k a_(n+1-k))/S_n - a|`
-		`|sum_(k=1)^n p_k/S_n (a_(n+1-k)-a)|`
-    `le |sum(k=1)^(n-N)| + |sum_(k=n-N+1)^n|`
-    `le epsi + epsi sum_(k=n-N+1)^n |a_(n+1-n)-a|`
-	</span>
-  上式第二项求和只有有限项, 故原式极限为 `a`.
+  再取 `N` 使得
+  <span class="formula">
+    `|p_n/S_n| lt epsi/M`, `quad AA n gt N`.
+  </span>
+  于是 `n gt M + N + 1` 时,
+  <span class="formula">
+    `|(sum_(k=1)^n p_k a_(n+1-k))/S_n - a|`
+    `= |sum_(k=1)^n p_k/S_n (a_(n+1-k)-a)|`
+    `le |sum_(k=1)^(n-M)| + |sum_(k=n-M+1)^n|`.
+  </span>
+  对上式第一项, 有
+  <span class="formula">
+    `sum_(k=1)^(n-M) |p_k/S_n| |a_(n+1-k)-a|`
+    `le sum_(k=1)^(n-M) |p_k/S_n| epsi`
+    `le epsi`.
+  </span>
+  对第二项, 记 `|a_n - a|` 的上界为 `A`, 有
+  <span class="formula">
+    `sum_(k=n-M+1)^n |p_k/S_n| |a_(n+1-k)-a|`
+    `le sum_(k=n-M+1)^n |p_k/S_k| A`
+    `le M * epsi/M * A = A epsi`.
+  </span>
+  故原式极限为 `a`.
 </p>
 
 <p>	这启示我们得到如下定理:</p>
@@ -1033,18 +1135,33 @@
 </p>
 
 <p class="proof">
-    记 `n! sum_(k=0)^n 1/(k!) = a`, 则
-    <span class="formula">
-        `2pi n! "e"`
-        `= 2pi n! (sum_(k=0)^n 1/(k!) + 1/((n+1)!) + o(1/((n+1)!)))`,
-        `= 2pi (a + 1/(n+1) + o(1/(n+1)))`.
-    </span>
-    由于 `a` 是整数, 有
-    <span class="formula">
-        `n sin(2pi n! "e")`
-        `= n sin((2pi)/(n+1) + o(1/(n+1)))`
-        `= 2 pi`.
-    </span>
+  使用 `"e"` 的级数表示,
+  <span class="formula">
+    `n! "e"`
+    `= n! (sum_(k=0)^n 1/(k!) + 1/((n+1)!) + o(1/((n+1)!)))`
+    `= A + 1/(n+1) + o(1/(n+1))`.
+  </span>
+  其中 `A := n! sum_(k=0)^n 1/(k!)` 是整数. 我们有
+  <span class="formula">
+    `n sin(2pi n! "e")`
+    `= n sin((2pi)/(n+1) + o(1/(n+1)))`
+    `to 2 pi`.
+  </span>
+</p>
+
+<p class="example">
+  [周民强《实变函数》]
+  <b>Dirichlet 函数表示为累次极限</b>
+  <span class="formula">
+    `lim_(n to oo) lim_(k to oo) (cos(2pi n! x))^(2k) = { 1, if x in QQ; 0, otherwise :}`
+  </span>
+</p>
+
+<p class="proof">
+  若 `x in QQ`, 则 `n` 充分大时, `n! x` 是整数, `cos(2pi n! x) = 1`, 此时不论 `k` 取何值,
+  `(cos(2pi n!x))^(2k)` 总是等于 1.<br>
+  若 `x !in QQ`, 则 `n! x` 永远不会是整数或整数的一半, 从而 `|cos(2pi n!x)| lt 1`,
+  `lim_(k to oo) (cos(2pi n!x))^(2k) = 0`.
 </p>
 
 <p class="example">
