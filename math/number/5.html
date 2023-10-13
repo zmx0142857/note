@@ -451,7 +451,7 @@
     <span class="formula">
       `x^2 + y^2 = m p`
     </span>
-    有解的最小正整数, 由 1. 知 `m lt p`.
+    有解的最小正整数, 由 2. 知 `m lt p`.
     下证必有 `m = 1`.  首先, 若 `m` 是 `x, y` 的公因数, 则有
     `m^2 | m p rArr m | p`, 再由 `m lt p` 推出 `m = 1`.
     下设 `m` 不是它们的公因数, 从而 `m gt 1`, 我们来导出矛盾.
@@ -554,7 +554,7 @@
     `z_1 = x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4`,<br/>
     `z_2 = x_1 y_2 - x_2 y_1 + x_3 y_4 - x_4 y_3`,<br/>
     `z_3 = x_1 y_3 - x_3 y_1 + x_4 y_2 - x_2 y_4`,<br/>
-    `z_4 = x_1 y_4 - x_4 y_1 + x_2 y_3 - x_3 x_2`.
+    `z_4 = x_1 y_4 - x_4 y_1 + x_2 y_3 - x_3 y_2`.
   </span>
   从而, 如果整数 `m, n` 能表示为四个整数的平方之和,
   则 `mn` 也能.
@@ -575,6 +575,24 @@
       y_1,y_2,y_3,y_4|`
   </span>
   得到.
+</p>
+
+<p class="remark">
+  如果令 `bm x, bm y, bm z` 表示四元数
+  <span class="formula">
+    `bm x = x_1 - x_2 bb i + x_3 bb j - x_4 bb k`,<br>
+    `bm y = y_1 + y_2 bb i - y_3 bb j + y_4 bb k`,<br>
+    `bm z = z_1 + z_2 bb i - z_3 bb j + z_4 bb k`,
+  </span>
+  则
+  <span class="formula">
+    `bm x bm y = x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4`
+    `+ (x_1 y_2 - x_2 y_1 + x_3 y_4 - x_4 y_3) bm i`
+    `- (x_1 y_3 - x_3 y_1 + x_4 y_2 - x_2 y_4) bm j`
+    `+ (x_1 y_4 - x_4 y_1 + x_2 y_3 - x_3 y_2) bm k`
+    `= bm z`.
+  </span>
+  因此四平方和恒等式可以简记为 `|bm x| |bm y| = |bm x bm y|`.
 </p>
 
 <p class="lemma" id="lem-4-square-odd-prime">
@@ -694,6 +712,33 @@
     但 `q lt m`, 与 `m` 的最小性矛盾. 证毕.
   </li>
 </ol>
+
+<div class="playground" value="{ n: 12345678 }">
+<p>说明: 将整数分解为 4 个整数的平方和, 结果不唯一, 这里只给出一个解.
+使用最朴素的暴力方法, 对于大素数性能较差.
+</p>
+<script type="text">
+const r = [0, 1, 4, 9, 16, 25, 17]
+function isSquare (n) {
+  if (!r.includes(n % 32)) return false
+  const sqrtn = Math.sqrt(n) | 0
+  return sqrtn * sqrtn === n
+}
+// naive & brute force
+module.exports = function factor4SquaresNaive (str) {
+  const { n } = Playground.parse(str)
+  const sqrtn = Math.sqrt(n) | 0
+  for (let a = 0; a <= sqrtn; ++a) {
+    for (let b = a; b <= sqrtn; ++b) {
+      for (let c = b; c <= sqrtn; ++c) {
+        let dd = n - a*a - b*b - c*c
+        if (isSquare(dd)) return [a, b, c, Math.sqrt(dd)]
+      }
+    }
+  }
+}
+</script>
+</div>
 
 <h2>Pell 方程</h2>
 
@@ -993,6 +1038,7 @@
 </p>
 
 <script src="../../js/plot.js"></script>
+<script src="../../js/playground.js"></script>
 <script src="../../js/ui.js"></script>
 <script>
 let a, b

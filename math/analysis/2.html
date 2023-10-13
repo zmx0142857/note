@@ -236,28 +236,29 @@
 	<li>只需注意到 `AA n in ZZ^+`, `(n!)/n^n le 1/n`, `n^n/((2n)!) lt
 		1/(n!)`;
 	</li>
-	<li>取正整数 `N gt |a|`, 则 `|a|/N lt 1`. 取实数 `r` 使
-		`|a|/N lt r lt 1`, 则对任意 `n gt N` 有 `|a|/n lt |a|/N lt r`.
-		于是
+	<li>取正整数 `N gt |a|`, 则存在实数 `r` 使 `|a|/N lt r lt 1`.
+        对任意 `n gt N` 有
 		<span class="formula">
-			`|a^n/(n!)| lt r^(n-N) |a|^N/(N!)`.
+			`|a^n/(n!)|`
+            `= |a|/n * |a|/(n-1) cdots |a|/(N+1) * |a|^N/(N!)`
+            `lt r^(n-N) |a|^N/(N!)`.
 		</span>
 		因为 `r^n` 是无穷小, `r^-N |a|^N/(N!)` 是有界量,
 		所以上式右端是无穷小, 因此 `a^n/(n!)` 是无穷小.
 	</li>
-	<li>设 `a = 1 + r`, `r gt 0`. 取正整数 `N gt p`, 当 `n gt N` 时,
+	<li>设 `a = 1 + r`, `r gt 0`. 取正整数 `N gt p`, 当 `n gt 2N` 时,
+        `n - N gt n/2`,
 		利用二项式定理有
-		<span class="formula">
-			`|n^p/a^n| = n^p / (1+r)^n`
-			`= n^p // sum_(k=0)^n (n;k) r^k`
-			`lt n^p // (n;N) r^N`
-			`lt (n^p N!) / ((n-N)^N r^N)`
-			`= (N!)/(n^(N-p) (1-N/n)^N r^N)`.
-		</span>
-		`n gt 2N` 时, `1-N/n gt 1/2`. 所以
-			`|n^p/a^n| lt (N!)/n^(N-p) (2/r)^N`.
-		其中 `1/n^(N-p)` 是无穷小, 其余因子为有界量. 因此 `n^p/a^n`
-		是无穷小.
+        <span class="formula">
+          `a^n = (1+r)^n`
+          `= sum_(k=0)^n (n;k) r^k`
+          `gt (n;N) r^N`
+          `= (n * (n-1) cdots (n-N+1))/(N!) r^N`
+          `gt (n-N)^N r^N // N!`
+          `gt ((n r)/2)^N // N!`.
+        </span>
+        于是 `|n^p/a^n| lt n^p N! (2/(n r))^N`, 其中 `n^(p-N)` 是无穷小,
+        其余因子为有界量. 因此 `n^p/a^n` 是无穷小.
 	</li>
 	<li>`AA epsi gt 0`, 由 3 知存在正整数 `M`, 使得
 		<span class="formula">
@@ -281,7 +282,7 @@
     <span class="formula">
         `x_(n+1) / x_n = n^n/(n+1)^n to 1/e lt 1`,
     </span>
-    则级数 `sum(n ge 1) x_n` 收敛, 其通项趋于 0.
+    则级数 `sum_(n ge 1) x_n` 收敛, 其通项趋于 0.
     2, 3 小题类似.
 </p>
 
