@@ -209,7 +209,7 @@
 </p>
 
 <p class="theorem">
-	<b>Schmidt 正交化</b>
+	<b>正交基底的存在性</b>
 	设 `f` 为 `n` 维线性空间 `V` 上的对称双线性函数, 则存在 `V`
 	的正交基底.  换言之, 任意对称矩阵合同于对角形矩阵.
 </p>
@@ -230,10 +230,8 @@
 	假定结论对所有维数小于 `n` 的线性空间都成立, 我们将 `bm epsi_1` 扩充为
 	`V` 的基底 `(bm epsi_1, bm eta_2, cdots, bm eta_n)`, 令
 	<span class="formula">
-      <span class="box">
-		`bm epsi_i' = bm eta_i - (f(bm epsi_1, bm eta_i))/
-		(f(bm epsi_1, bm epsi_1)) bm epsi_1`, `quad i = 2, 3, cdots, n`.
-      </span>
+      `bm epsi_i' = bm eta_i - (f(bm epsi_1, bm eta_i))/
+      (f(bm epsi_1, bm epsi_1)) bm epsi_1`, `quad i = 2, 3, cdots, n`.
 	</span>
 	设
 	<span class="formula">
@@ -253,6 +251,28 @@
 	由归纳假设, `W` 中存在正交基底 `(bm epsi_2, cdots, bm epsi_n)`
 	但 `bm epsi_1` 与 `W` 中任意向量都正交, 因此
 	`(bm epsi_1, bm epsi_2, cdots, bm epsi_n)` 是 `V` 的一个正交基底.
+</p>
+
+<p class="algorithm">
+  <b>Schmidt 正交化</b>
+  设 `f` 是 `V` 上的对称双线性函数, `bm eta_1, cdots, bm eta_n` 是 `V` 的基底. 令
+  `bm epsi_1 = bm eta_1`; `bm epsi_i` 等于 `bm eta_i` 减去它在各个 `bm epsi_j` 上的投影, 即
+  <span class="formula">
+    `bm epsi_i = bm eta_i - sum_(j=1)^(i-1) (f(bm eta_i, bm epsi_j))/(f(bm epsi_j, bm epsi_j)) bm epsi_j`, `quad i = 2, cdots, n`.
+  </span>
+  则 `bm epsi_1, cdots, bm epsi_n` 是 `V` 的一组正交基底.
+</p>
+
+<p class="proof">
+  对 `n` 作归纳. `n = 1` 时, `bm epsi = bm eta_1` 显然是正交基底.
+  假设 `bm epsi_1, cdots, bm epsi_(n-1)` 两两正交, 则对任意 `k lt n` 有
+  <span class="formula">
+    `f(bm epsi_n, bm epsi_k)`
+    `= f(bm eta_n, bm epsi_k) - sum_(j=1)^(n-1) (f(bm eta_n, bm epsi_j))/(f(bm epsi_j, bm epsi_j)) f(bm epsi_j, bm epsi_k)`
+    `= f(eta_n, bm epsi_k) - (f(eta_n, bm epsi_k))/(f(bm epsi_k, bm epsi_k)) f(bm epsi_k, bm epsi_k)`
+    `= 0`.
+  </span>
+  因此 `bm epsi_1, cdots, bm epsi_n` 是一组正交基底.
 </p>
 
 <h3>正交补空间</h3>

@@ -445,6 +445,276 @@
   特别当各点权重 `w_i` 均相等时, 利用样条基函数的性质 `sum_(i=0)^n N_i^k(t) = 1`, 上式化为 `P(t) = sum_(i=0)^n N_i^k(t) P_i`, 即 B 样条是 NURBS  的一个特例.
 </ul>
 
+<h2>多项式逼近</h2>
+
+<h3>Legendre 多项式</h3>
+
+<ol class="example">
+  <b>Legendre 多项式</b>
+  <li>计算 `p_n(x) = "d"^n/dx^n (x^2-1)^n` 的 `n` 次项系数.</li>
+  <li>验证 `p_n(1) = 2^n n!`, `p_n(-1) = (-2)^n n!`.</li>
+  <li>验证 `{p_n}` 的正交性:
+    <span class="formula">
+      `(p_n, p_m) = int_(-1)^1 p_n(x) p_m(x) dx`
+      `= {0, if m != n; 2^(2n+1)/(2n+1) n!^2, otherwise:}`.
+    </span>
+  </li>
+  令 `L_n(x) = 1/(2^n n!) p_n(x)`, 则
+  <span class="formula">
+    `L_n(1) = 1`, `L_n(-1) = (-1)^n`,
+    `(L_n, L_n) = 2//(2n+1)`.
+  </span>
+  称 `L_n(x)` 为 `n` 次 Legendre 多项式.
+  <li>递推公式: `L_(n+1)(x) = (2n+1)/(n+1) x L_n(x) - n/(n+1) L_(n-1)(x)`.</li>
+</ol>
+
+<table>
+  <tr>
+    <td>`n`</td>
+    <td>`L_n(x)`</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`1`</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>`x`</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>`(3x^2 - 1)//2`</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>`(5x^3 - 3x)//2`</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>`(35x^4 - 30x^2 + 3)//8`</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>`(63x^5 - 70x^3 + 15x)//8`</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>`(231x^6 - 315x^4 + 105x^2 - 5)//16`</td>
+  </tr>
+</table>
+
+<ol class="solution">
+  <li>
+    `(x^2-1)^n` 是 `2n` 次多项式, 首项系数为 1, 因此它的 `n` 阶导数的首项系数是
+    `(2n) * (2n-1) cdots (n+1) = (2n)!//n!`.
+  </li>
+  <li>
+    以 `p_n(1)` 为例,
+    <span class="formula">
+      `p_n(1) = {:"d"^n/dx^n|_(x=1) (x^2-1)^n`
+      `= {:"d"^n/dy^n|_(y=0) (y(y+2))^n`
+      `= (y(y+2))^n` 的 `n` 次项系数乘以 `n!`
+      `= 2^n n!`.
+    </span>
+  </li>
+  <li>
+    不妨设 `m le n`, 分部积分得
+    <span class="formula">
+      `(p_n, p_m)`
+      `= int_(-1)^1 "d"^n/dx^n (x^2-1)^n "d"^m/dx^m (x^2-1)^m dx`
+      `= (-1)^n int_(-1)^1 (x^2-1)^n "d"^(m+n)/dx^(m+n) (x^2-1)^m dx`,
+    </span>
+    注意, 由于 `k lt n` 时,
+    <span class="formula">
+      `{:"d"^k/dx^k|_(x=1) (x^2-1)^n`
+      `= (y(y+2))^n` 的 `k` 次项系数乘以 `k!`
+      `= 0`,<br>
+      `{:"d"^k/dx^k|_(x=-1) (x^2-1)^n`
+      `= (y(y-2))^n` 的 `k` 次项系数乘以 `k!`
+      `= 0`,
+    </span>
+    所以分部积分的中间项全部为零.
+    现在回到分部积分的结果, `(x^2-1)^m` 是 `2m` 次多项式, 我们有
+    <span class="formula">
+      `"d"^(m+n)/dx^(m+n) (x^2 - 1)^m`
+      `= { (2n)!, if m = n; 0, if m lt n :}`
+    </span>
+    于是 `m != n` 时 `(p_n, p_m) = 0`. `m = n` 时
+    <span class="formula">
+      `(p_n, p_n)`
+      `= (-1)^n (2n)! int_(-1)^1 (x^2 - 1)^n dx`
+      `= 2 (2n)! int_0^1 (1-x^2)^n dx`
+      `= 2 (2n)! int_0^(pi//2) cos^(2n+1) theta "d"theta`
+      `= 2 (2n)! ((2n)!!)/((2n+1)!!)`
+      `= 2^(2n+1)/(2n+1) n!^2`.
+    </span>
+  </li>
+</ol>
+
+<h3>Chebyshev 多项式</h3>
+
+<p>
+  下面主要讨论 Chebyshev 多项式. 它来源于三角函数的 `n` 倍角问题,
+  在数值分析中作为一类 "最佳多项式" 有着重要应用.
+  使用和差化积公式, 便得到求 `n` 倍角正余弦值的 Chebyshev 算法:
+  <span class="formula">
+    `cos n theta = 2 cos theta cos(n-1)theta - cos(n-2)theta`,<br/>
+    `sin n theta = 2 cos theta sin(n-1)theta - sin(n-2)theta`.
+  </span>
+  而初始条件为
+  <span class="formula">
+    `cos 0 theta = 1`, `quad cos 1 theta = cos theta`,<br/>
+    `sin 0 theta = 0`, `quad sin 1 theta = sin theta`.
+  </span>
+</p>
+
+<p class="definition">
+  容易看出 `cos n theta` 可以被表为 `cos theta` 的多项式, 称为
+  <b>(第一类) Chebyshev 多项式</b>:
+  <span class="formula">
+    `cos n theta = T_n(cos theta)`.
+  </span>
+  类似地, `U_n` 称为 <b>第二类 Chebyshev 多项式</b>:
+  <span class="formula">
+    `(sin n theta)/(sin theta) = U_(n-1)(cos theta)`.
+  </span>
+  <!--
+    另外, `S_n` 称为 <b>spread polynomial</b>:
+    <span class="formula">
+    `sin^2 n theta = S_n(sin^2 theta)`.
+    </span>
+  -->
+</p>
+
+<p class="proposition">
+  第一类 Chebyshev 多项式的递归定义:
+  <span class="formula">
+    `T_n(x) = {
+      1, if n = 0;
+      x, if n = 1;
+      2x T_(n-1)(x) - T_(n-2)(x), if n ge 2;
+    :}`
+  </span>
+  第二类 Chebyshev 多项式的递归定义:
+  <span class="formula">
+    `U_(n-1)(x) = {
+      0, if n = 0;
+      1, if n = 1;
+      2x U_(n-2)(x) - U_(n-3)(x), if n ge 2;
+    :}`
+  </span>
+</p>
+
+<p class="proposition">
+  显式表达式:
+  <span class="formula">
+    `T_n = [(x + sqrt(1-x^2)"i")^n + (x - sqrt(1-x^2))^n]//2`,
+    `quad x in [-1, 1]`.
+  </span>
+  代入 `x = cos theta` 即可验证.
+</p>
+
+<table>
+  <caption>Chebyshev 多项式</caption>
+  <tr>
+    <td>`n`</td>
+    <td>`T_n(x)`</td>
+    <td>`U_(n-1)(x)`</td>
+  </tr>
+  <tr>
+    <td>`0`</td>
+    <td>`1`</td>
+    <td>`0`</td>
+  </tr>
+  <tr>
+    <td>`1`</td>
+    <td>`x`</td>
+    <td>`1`</td>
+  </tr>
+  <tr>
+    <td>`2`</td>
+    <td>`2x^2-1`</td>
+    <td>`2x`</td>
+  </tr>
+  <tr>
+    <td>`3`</td>
+    <td>`4x^3 - 3x`</td>
+    <td>`4x^2-1`</td>
+  </tr>
+  <tr>
+    <td>`4`</td>
+    <td>`8x^4 - 8x^2 + 1`</td>
+    <td>`8x^3 - 4x`</td>
+  </tr>
+  <tr>
+    <td>`5`</td>
+    <td>`16x^5 - 20x^3 + 5x`</td>
+    <td>`16x^4 - 12x^2 + 1`</td>
+  </tr>
+</table>
+
+<p class="proposition">
+  <b>零点与最值</b>
+  由公式 `cos n theta = T_n(cos theta)` 知道,
+  `T_n(x)` 在 `x in [-1, 1]` 上有 `n` 个零点:
+  <span class="formula">
+    `cos((2k-1)/(2n) pi)`, `quad k = 1, cdots, n`.
+  </span>
+  且 `T_n(x)` 在 `x in [-1, 1]` 上的最值在
+  <span class="formula">
+    `cos(k/n pi)`, `quad k = 0, cdots, n`
+  </span>
+  处取得, 其中 `k` 为偶数时取得最大值 `1`, 奇数时取得最小值 `-1`.
+</p>
+
+<ol class="theorem">
+  <b>最佳一致逼近</b>
+  在 `[-1, 1]` 上全体首 1 的 `n` 次实系数多项式中, `T_n(x) * 2^(1-n)`
+  是对 `0` 的最佳一致逼近. 换言之, 对任意首 1 的 `n` 次实系数多项式
+  `P_n(x)`, 都有
+  <span class="formula">
+    `max_(x in [-1, 1]) |P_n(x)|`
+    `ge max_(x in [-1, 1]) |T_n(x)| * 2^(1-n)`
+    `= 2^(1-n)`.
+  </span>
+</ol>
+
+<p class="proof">
+  反设 `max_(x in [-1, 1]) |P_n(x)| lt 2^(1-n)`. 考虑 `T_n(x)` 的最值点
+  <span class="formula">
+    `x_k = cos(k/n pi)`, `quad k = 0, cdots, n`,
+  </span>
+  定义 `g(x) = P_n(x) - T_n(x) * 2^(1-n)`, 于是
+  <span class="formula">
+    `g(x_k) { gt 0, if k " odd"; lt 0, if k " even" :}`
+  </span>
+  `g(x)` 的值在 `x_k`, `k = 0, cdots, n` 共 `n+1` 个点处交错, 故 `g(x)` 在
+  `[-1, 1]` 上有 `n` 个零点.  但 `g(x)` 是次数不超过 `n` 的多项式,
+  因此必有 `g(x) -= 0`, 即 `P_n(x) = T_n(x) * 2^(1-n)`, 一个矛盾.
+</p>
+
+<p class="corollary">
+  <b>最大系数性质</b>
+  若 `f(x)` 是 `n` 次实系数多项式, 且 `max_(x in [-1, 1])|f(x)| le 1`,
+  则 `f` 的 `n-2k` 次项系数的绝对值不超过 `T_n(x)` 的对应系数的绝对值.
+  <br>
+  例如, 取 `n = 2`, 则 `T_n(x) = 2x^2 - 1` 在 `x = cos(k/2 pi)` 处取得最值,
+  即 `T_n(1) = T_n(-1) = 1`, `T_n(0) = -1`.
+  对于任意二次实系数多项式 `f(x) = a x^2 + b x + c`, 由于 `max_(x in
+  [-1,1])|f(x)| le 1`, 特别地
+  <span class="formula">
+    `f(1) = a + b + c le 1`,<br>
+    `f(-1) = a - b + c le 1`,<br>
+    `f(0) = c ge -1`.
+  </span>
+  前两式相加得 `a + c le 1`, 再由 `c ge -1` 得 `a le 2`.
+  类似可得 `|c| le 1`, `|a| le 2`.
+</p>
+
+<p class="proof">
+  ??
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/plot.js"></script>
 <script>
