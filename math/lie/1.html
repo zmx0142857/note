@@ -37,7 +37,7 @@
 </p>
 
 <p class="remark">
-  对于空间 `V` 上的乘法, 我们不要求它可交换, 甚至也不要求它具有结合律,
+  对于线性空间 `V` 上的乘法, 我们不要求它可交换, 甚至也不要求它具有结合律,
   只要求它是满足封闭性的二元运算即可.  这样的二元运算称为一个<b>代数</b>.
 </p>
 
@@ -71,8 +71,8 @@
 
 <ol class="property">
   Lie 括积满足:
+  <li>双线性性: `[k A + l B, C] = k [A, C] + l[B, C]`, `[A, k B + l C] = k[A, B] + l[A, C]`;</li>
   <li>反对称性 `[A, B] = -[B, A]`;</li>
-  <li>双线性性 `[k A + l B, C] = k[A, C] + l[B, C]`;</li>
   <li>二重公式 `[A, B C] = [A, B]C + B[A, C]`;</li>
   <li>Jacobi 恒等式 `sum_"cyc"[[A, B], C] = 0`.</li>
 </ol>
@@ -96,10 +96,11 @@
 
 <ol class="example">
   在 `bbb F^(n xx n)` 中:
-  <li>若 `bm A, bm B` 是反对称矩阵, 则 `[bm A, bm B]` 是反对称矩阵;</li>
-  <li>若 `bm A, bm B` 是对称矩阵, 则 `[bm A, bm B]` 是反对称矩阵;</li>
-  <li>若 `bm A, bm B` 一个对称, 一个反对称, 则 `[bm A, bm B]` 对称.</li>
+  <li>若 `A, B` 是反对称矩阵, 则 `[A, B]` 是反对称矩阵;</li>
+  <li>若 `A, B` 是对称矩阵, 则 `[A, B]` 是反对称矩阵;</li>
+  <li>若 `A, B` 一个对称, 一个反对称, 则 `[A, B]` 对称.</li>
   总之, 用 1 表示反对称, -1 表示对称, 欲知括积的对称性, 只需将两数相乘.
+  性质 1. 是重要的, 它指出 Lie 括积的运算在反对称矩阵中封闭.
 </ol>
 
 <p>下面的定理将括积和导子再次联系到一起.</p>
@@ -118,6 +119,180 @@
   </li>
   <li>??</li>
 </ol>
+
+<h2>Lie 代数</h2>
+
+<ol class="definition">
+  `bbb F` 上的线性空间 `V` 上的一个二元运算 `[A, B]`, 如果对任意 `A, B, C in V` 成立:
+  <li>双线性性: `[k A + l B, C] = k [A, C] + l[B, C]`, `[A, k B + l C] = k[A, B] + l[A, C]`,
+    `k, l in bbb F`;
+  </li>
+  <li>反对称性: `[A, B] = -[B, A]`;</li>
+  <li>Jacobi 恒等式: `sum_"cyc"[[A, B], C] = 0`.</li>
+  则称 `[A, B]` 是 `V` 上的一个 <b>Lie 括积</b>. `V` 连同其上的 Lie 括积一起构成一个 <b>Lie 代数</b>.
+</ol>
+
+<p class="remark">
+  今后没有特别说明的情况下, 矩阵构成的线性空间, 如 `CC^(n xx n)` 上面的 Lie 括积统一定义为
+  `[A, B] = A B - B A`.
+</p>
+
+<ol class="example">
+  记 `e_(i j)` 是 `i` 行 `j` 列为 1, 其它位置为 0 的 `n xx n` 矩阵.
+  <li>令 `A` 是 `n xx n` 矩阵, 则
+    <span class="formula">
+      `A e_(i j) = 把 A 的第 i 列粘贴到零矩阵的第 j 列`,<br>
+      `e_(i j) A = 把 A 的第 j 行粘贴到零矩阵的第 i 行`.
+    </span>
+    因此
+    <span class="formula">
+      `[A, e_(i j)] = A e_(i j) - e_(i j) A`
+      `= [
+        , , a_(0 i);
+        , , vdots;
+        -a_(j 0), cdots, a_(i i) - a_(j j), cdots, -a_(j n);
+        , , vdots;
+        , , a_(n i)
+      ]`.
+    </span>
+  </li>
+  <li>`e_(color(red)i color(blue)j) e_(color(blue)k color(red)l) = delta_(color(blue)(j k)) e_(color(red)(i l))`, 因此
+    <span class="formula">
+      `[e_(i j), e_(k l)] = delta_(j k) e_(i l) - delta_(l i) e_(k j)`,
+    </span>
+    特别
+    <span class="formula">
+      `[e_(i j), e_(j k)] = e_(i k) - delta_(k i) e_(j j)`
+      `= { e_(i k), if i != k; e_(i i) - e_(j j), if i = k :}`
+    </span>
+  </li>
+</ol>
+
+<h2>指数映射与切空间</h2>
+
+<p class="remark">
+  指数映射架起了 Lie 群和 Lie 代数之间的桥梁.
+  通过指数映射, 我们把一个研究弯曲空间 (Lie 群) 的问题, 简化为研究它的切空间 (Lie 代数).
+</p>
+
+<h3>矩阵范数</h3>
+
+<ol class="definition">
+  <b>矩阵范数</b> 是一个实函数 `||*||: bbb F^(n xx n) to RR` (`bbb F = RR, CC, bbb H`), 满足
+  <li>正定性: `||A|| ge 0`, `||A|| = 0 iff A = 0`;</li>
+  <li>次可加性: `||A + B|| le ||A|| + ||B||`;</li>
+  <li>齐次性: `||k A|| = |k| ||A||`, `AA k in bbb F`.</li>
+  比如, `|A| := sqrt(sum_(i, j) |a_(i j)|^2)` 就是这样一个范数. 今后我们将默认使用这个矩阵范数.
+</ol>
+
+<p class="proof">
+  只验证次可加性 (Minkowski 不等式):
+  <span class="formula align">
+    `(sqrt(sum |a_(i j)|^2) + sqrt(sum |b_(i j)|^2))^2<br>
+    `= sum |a_(i j)|^2 + sum |b_(i j)|^2 + 2 sqrt((sum |a_(i j)|^2)(sum |b_(i j)|^2))`<br>
+    `ge sum |a_(i j)|^2 + sum |b_(i j)|^2 + 2 sum |a_(i j)| |b_(i j)|` (Cauchy 不等式)<br>
+    `= sum |a_(i j) + b_(i j)|^2`.
+  </span>
+</p>
+
+<p class="corollary">
+  <b>矩阵范数的次可乘性</b> `|A B| le |A| |B|`.
+  特别 `|A^n| le |A|^n`.
+</p>
+
+<p class="proof">
+  记 `C = A B`, 使用 Cauchy 不等式,
+  <span class="formula">
+    `|C|^2 = sum_(i j) |c_(i j)|^2 = sum_(i j) |sum_k a_(i k) b_(k j)|^2`
+    `le sum_(i j) (sum_k |a_(i k)|^2)(sum_k |b_(k j)|^2)`
+    `= sum_i sum_k |a_(i k)|^2 sum_j sum_k |b_(k j)|^2`
+    `= |A| |B|`.
+  </span>
+</p>
+
+<h3>矩阵指数</h3>
+
+<p class="definition">
+  <b>矩阵指数</b>用级数定义为
+  <span class="formula">
+    `exp(A) = sum_(n ge 0) A^n/n!`,
+  </span>
+  其中 `A^0 = bb 1` (单位矩阵).
+  这个级数是绝对收敛的, 其范数可被常数项级数 `sum_(n ge 0) (|A|^n)/n!` 控制.
+</p>
+
+<p class="corollary">
+  当 `A B` 可交换时, 有 `exp(A+B) = exp(A) exp(B)`.
+</p>
+
+<ol class="corollary">
+  <b>Euler 公式</b>
+  令 `theta in RR`.
+  <li>复数情形: 记 `bb i = [, -1; 1, ]`, 则
+    `exp[, -theta; theta, ] = [cos theta, -sin theta; sin theta, cos theta]`,
+    即 `"e"^(theta bb i) = bb 1 cos theta + bb i sin theta`,
+    这说明矩阵指数的定义与复指数是兼容的;
+    反之, 任意单位复数 `z in S^1` 可以写为 `z = "e"^(theta bb i)`.
+  </li>
+  <li>四元数情形: 令 `u` 是单位纯虚四元数, 即 `u in RR bb i + RR bb j + RR bb k`, 且 `|u| = 1`.
+    则 `"e"^(theta u) = cos theta + u sin theta`;
+    反之, 任意单位四元数 `q in S^3` 可以写为 `q = "e"^(theta u)`.
+  </li>
+</ol>
+
+<p class="proof">
+  只需注意到 `bb i^2 = -bb 1`, `u^2 = -1`, 又级数绝对收敛, 所以重排后就得到 `cos` 和 `sin` 的级数.<br>
+  反之, 令 `z = a + b bb i`, `a^2 + b^2 = 1`, 因此存在 `theta` 使 `a = cos theta`, `b = sin theta`.
+  于是 `z = cos theta + bb i sin theta`.<br>
+  同理令 `q = a + b bb i + c bb j + d bb k`, `a^2 + b^2 + c^2 + d^2 = 1`, 存在
+  `theta` 使 `a = cos theta`, `sqrt(b^2 + c^2 + d^2) = sin theta`,
+  于是 `q = cos theta + u sin theta`, 其中 `u = (b bb i + c bb j + d bb k)/sqrt(b^2 + c^2 + d^2)`.
+</p>
+
+<ol class="corollary">
+  <li>`exp` 将直线 `RR bb i` 上的纯虚数映到单位圆 `SO(2) = S^1`, 且是满射.</li>
+  <li>`exp` 将 `RR bb i + RR bb j + RR bb k` 中的纯虚四元数映到单位四元数 `Sp(1) = SU(2) = S^3`, 且是满射.</li>
+  注意到 `RR bb i`, `RR bb i + RR bb j + RR bb k` 是平直空间, 而 `S^1, S^3` 等是弯曲空间, 前者可以看作后者在单位元 `bb 1` 处的切线 (切空间).
+</ol>
+
+<p>我们给出切空间的定义.</p>
+
+<h3>切空间</h3>
+
+<p class="definition">
+  设 `G` 是矩阵 Lie 群, `A(t)` 是 `G` 中经过单位元 `bb 1` 的可微曲线, `A(0) = bb 1`.
+  则称 `A'(0)` 是曲线在单位元处的切向量. `G` 在 `bb 1` 处的切空间定义为
+  <span class="formula">
+    `T_(bb 1)(G) = { A'(0): A(t) 是 G 中经过 bb 1 的可微曲线 }`.
+  </span>
+</p>
+
+<p class="example">
+  <b>Lie 括积的几何意义</b>
+  设 `u(s), v(t)` 是矩阵 Lie 群 `G` 在 `bb 1` 处的两条可微曲线, `u(0) = v(0) = bb 1`.
+  记
+  <span class="formula">
+    `w(s, t) = u(s) v(t) u(s)^-1`,
+  </span>
+  对于每一固定的 `s`, `w(s, t)` 都是一条通过 `bb 1` 的可微曲线. 关于 `t` 在 0 处求导, 就得到它在
+  `bb 1` 处的切向量 `x(s)`. 再令 `x(s)` 对 `s` 在 0 处求导, 由于矩阵 Lie 群对极限运算封闭, 可知
+  `x'(0)` 也位于切空间 `T_(bb 1)(G)` 中. 这连续两次求导的结果, 正好就是 Lie 括积:
+  <span class="formula">
+    `{:del/(del s)|_(s=0) {:del/(del t)|_(t=0) w(s, t)`
+    `= [u'(0), v'(0)]`.
+  </span>
+  因此 Lie 括积一定程度上反映了 Lie 群中的共轭运算 `A B A^-1`.
+</p>
+
+<p class="proof">
+  <span class="formula align">
+    `{:del/(del s)|_(s=0) {:del/(del t)|_(t=0) w(s, t)`<br>
+    `= {:del/(del s)|_(s=0) u(s) v'(0) u(s)^-1`<br>
+    `= {:u'(s) v'(0) u(s)^-1 + u(s) v'(0) (-u'(s) u(s)^-2)|_(s=0)`<br>
+    `= u'(0) v'(0) - v'(0) u'(0)`<br>
+    `= [u'(0), v'(0)]`.
+  </span>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

@@ -148,7 +148,7 @@ math: {
   title:'李群与李代数',
   articles: [
     {title:'矩阵李群', src:'lie/0.html', date:'2023-05-24'},
-    {title:'李代数初步', src:'lie/1.html', date:'2022-06-15'},
+    {title:'李代数初步', src:'lie/1.html', date:'2023-10-17'},
   ]
 }, {
   title:'拓扑学',
