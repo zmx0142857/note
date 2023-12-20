@@ -556,7 +556,9 @@
   </span>
   `xi_1` 位于 `x` 到 `a` 的开区间. 继续应用 Cauchy 中值定理, 最终得到
   <span class="formula">
-    `(R(x))/(g(x)) = (R^((n+1))(xi))/(g^((n+1))(xi)) = f^((n+1))(xi)`.
+    `(R(x))/(g(x)) = (R^((n+1))(xi))/(g^((n+1))(xi))`
+    `= (f^((n+1))(xi) - T^((n+1))(xi))/(1)`
+    `= f^((n+1))(xi)`.
   </span>
   即
   <span class="formula">
@@ -1006,6 +1008,19 @@
       `= - f'''(xi) (b-a)^3 // 12`.
     </span>
     于是 `|f(b) - f(a)| le h^3/12 |f'''(xi)|`.
+    <hr />
+    2. 的另一解法. 令 `g(t) = f((b-a)/2 t + (a+b)/2)`,
+    于是 `g(1) = f(b)`, `g(-1) = f(a)`, `g^((n))(eta) = (h/2)^n f^((n))((b-a)/2 eta + (a+b)/2)`.
+    接下来, 只需证存在 `eta in [-1, 1]` 使得
+    <span class="formula">
+      `|g(1) - g(-1)| le 2/3 |g^((3))(eta)|`.
+    </span>
+    事实上
+    <span class="formula">
+      `g(1) = g(0) + g'(0) + (g''(0))/2 + (g'''(eta_1))/6`,<br>
+      `g(-1) = g(0) - g'(0) + (g''(0))/2 - (g'''(eta_2))/6`,<br>
+      `|g(1) - g(-1)| = |g'''(eta_1) + g'''(eta_2)|/6 le (max|g(eta)|)/3`.
+    </span>
   </li>
 </ol>
 

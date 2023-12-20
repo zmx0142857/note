@@ -290,6 +290,53 @@ get_next_improved(p):
 	<code>O(p.len)</code>. 总时间复杂度为两项之和.
 </p>
 
+<p class="algorithm">
+  <b>Boyer-Moore 算法</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/68739462">知乎@帅地</a>]
+  文本编辑器中查找功能最常用的算法.
+</p>
+
+<div class="playground" value="{ str: 'here-is-a-simple-example', pattern: 'example' }">
+<script>
+// TODO: 只实现了坏字符规则, 未实现好后缀规则
+function matchAt(str, pattern, pos) {
+  let i = pos
+  let j = pattern.length - 1
+  while (j >= 0) {
+    if (str[i] !== pattern[j]) {
+      const badChar = str[i]
+      let k
+      for (k = j-1; k >= 0; --k) {
+        if (pattern[k] === badChar) {
+          break
+        }
+      }
+      return j - k
+    }
+    i -= 1
+    j -= 1
+  }
+  return 0 // matched
+}
+
+module.exports = function indexOf(input) {
+  const { str, pattern } = Playground.parse(input)
+  if (pattern.length > str.length) return -1
+  if (pattern.length === 0) return 0
+
+  let pos = pattern.length - 1
+  let offset
+  while (true) {
+    offset = matchAt(str, pattern, pos)
+    if (offset === 0) return pos - pattern.length + 1 // found
+    else if (pos + offset >= str.length) return -1 // not found
+    else pos += offset // continue
+  }
+  return pos
+}
+</script>
+</div>
+
 <ol class="algorithm">
   <b>编辑距离算法</b>
   [来自 <a href="https://blog.csdn.net/xcxy2015/article/details/77164126">CSDN@xcxy2015</a>]
@@ -355,5 +402,6 @@ print(similarity('hurt', 'heart')) # 1 - 2/5 = 0.6
 </ol>
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>

@@ -474,22 +474,26 @@
 </ol>
 
 <ol class="proof">
-  <li>
-	取 `n` 次单位根 `x_k = "e"^((2k pi)/n "i")`, 则多项式 `x^n-1`
-	可以分解为
-	<span class="formula">
-		`x^n-1 = prod_(0 le k lt n) (x-x_k)`
-	</span>
-	两边同除以 `x-1` 得
-	<span class="formula">
-		`sum_(0 le k lt n) x^k = prod_(0 lt k lt n) (x-x_k)`,
-	</span>
-	令 `x = 1`, 两边平方得
+<li>
+  取 `n` 次单位根 `x_k = "e"^((2k pi)/n "i")`, 则多项式 `x^n-1`
+  可以分解为
+  <span class="formula">
+    `x^n-1 = prod_(0 le k lt n) (x-x_k)`
+  </span>
+  两边同除以 `x-1` 得
+  <span class="formula">
+    `sum_(0 le k lt n) x^k = prod_(0 lt k lt n) (x-x_k)`,
+  </span>
+  令 `x = 1`, 两边平方得
+  <span class="formula">
+    `n^2 = prod_(0 lt k lt n) (1-x_k)^2`.
+  </span>
+  上式右边的乘积取遍 `0` 以外的 `n` 次单位根. 根据对称性, 可以把其中一半换成共轭:
   <span class="formula">
     `n^2 = prod_(0 lt k lt n) (1-x_k)(1-bar x_k)`
-    `= prod_(0 lt k lt n) (2 sin {: ("arg" x_k)/2 :})^2`,
+    `= prod_(0 lt k lt n) |1-x_k|^2`.
   </span>
-  故
+  再由几何关系, `|1-x_k| = 2 sin {: ("arg" x_k)/2 :} = 2 sin {:(k pi)/n:}`, 故
   <span class="formula">
     `n = 2^(n-1) prod_(0 lt k lt n) sin {:(k pi)/n:}`.
   </span>

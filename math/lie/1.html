@@ -141,30 +141,70 @@
   记 `e_(i j)` 是 `i` 行 `j` 列为 1, 其它位置为 0 的 `n xx n` 矩阵.
   <li>令 `A` 是 `n xx n` 矩阵, 则
     <span class="formula">
-      `A e_(i j) = 把 A 的第 i 列粘贴到零矩阵的第 j 列`,<br>
-      `e_(i j) A = 把 A 的第 j 行粘贴到零矩阵的第 i 行`.
+      `A e_(i j) = "把 "A" 的第 i 列粘贴到零矩阵的第 j 列`,<br>
+      `e_(i j) A = "把 "A" 的第 j 行粘贴到零矩阵的第 i 行`.
     </span>
     因此
     <span class="formula">
       `[A, e_(i j)] = A e_(i j) - e_(i j) A`
       `= [
-        , , a_(0 i);
+        , , a_(1 i);
         , , vdots;
-        -a_(j 0), cdots, a_(i i) - a_(j j), cdots, -a_(j n);
+        -a_(j 1), cdots, a_(i i) - a_(j j), cdots, -a_(j n);
         , , vdots;
         , , a_(n i)
       ]`.
     </span>
   </li>
-  <li>`e_(color(red)i color(blue)j) e_(color(blue)k color(red)l) = delta_(color(blue)(j k)) e_(color(red)(i l))`, 因此
+  <li>`e_(RED i BLUE j) e_(BLUE k RED l) = delta_(BLUE(j k)) e_(RED(i l))`, 因此
     <span class="formula">
-      `[e_(i j), e_(k l)] = delta_(j k) e_(i l) - delta_(l i) e_(k j)`,
+      `[e_(RED i BLUE j), e_(BLUE k RED l)] = delta_(BLUE(j k)) e_(RED(i l)) - delta_(RED(l i)) e_(BLUE(k j))`
+      `= {
+        0, if j != k and i != l;
+        e_(RED(i l)), if j = k and i != l;
+        -e_(BLUE(k j)), if j != k and i = l;
+        e_(RED(i i)) - e_(BLUE(j j)), if j = k and i = l;
+      :}`
     </span>
-    特别
+  </li>
+  <li>
+    记 `E_(i j) = e_(i j) - e_(j i)`, 它是反对称矩阵, `E_(i j) + E_(j i) = 0`, `E_(i i) = 0`.
+    利用 `[A, E_(i j)] = [A, e_(i j)] - [A, e_(j i)]`, 我们有
     <span class="formula">
-      `[e_(i j), e_(j k)] = e_(i k) - delta_(k i) e_(j j)`
-      `= { e_(i k), if i != k; e_(i i) - e_(j j), if i = k :}`
+    `[A, E_(i j)] = {:
+      , {: ,,,,,,,,,,, i ,,,,,,, j; :};
+      {: ;;i;;j;; :},
+      [
+        ,,,-a_(1 j),,a_(1 i);
+        ,,,-a_(2 j),,a_(2 i);
+        ,,,vdots,,vdots;
+        -a_(j 1),-a_(j 2),...,-a_(j i)-a_(i j),...,-a_(j j)+a_(i i),...,-a_(j n);
+        ,,,vdots,,vdots;
+        a_(i 1),a_(i 2),...,a_(i i)-a_(j j),...,a_(i j)+a_(j i),...,a_(i n);
+        ,,,vdots,,vdots;
+        ,,,-a_(n j),,a_(n i)
+      ]
+      :}`.
     </span>
+  </li>
+  <li>
+    暴力展开得到
+    <span class="formula">
+      `[E_(i j), E_(k l)]`
+      `= delta_(j k) E_(i l) + delta_(i l) E_(j k) + delta_(k i) E_(l j)  + delta_(l j) E_(k i)`.
+    </span>
+    特别 `i, j, k` 两两不等时,
+    <span class="formula">
+      `[E_(i j), E_(j k)] = E_(i k)`,
+      `quad [E_(i j), E_(k i)] = E_(j k)`.
+    </span>
+    `i, j, k, l` 两两不等时,
+    <span class="formula">
+      `[E_(i j), E_(k l)] = 0`.
+    </span>
+  </li>
+  <li>
+    记 `tilde E_(i j) = e_(i j) + e_(j i)`, 它是对称矩阵, `E_(i j) = E_(j i)`.
   </li>
 </ol>
 
@@ -188,7 +228,7 @@
 <p class="proof">
   只验证次可加性 (Minkowski 不等式):
   <span class="formula align">
-    `(sqrt(sum |a_(i j)|^2) + sqrt(sum |b_(i j)|^2))^2<br>
+    `(sqrt(sum |a_(i j)|^2) + sqrt(sum |b_(i j)|^2))^2`<br>
     `= sum |a_(i j)|^2 + sum |b_(i j)|^2 + 2 sqrt((sum |a_(i j)|^2)(sum |b_(i j)|^2))`<br>
     `ge sum |a_(i j)|^2 + sum |b_(i j)|^2 + 2 sum |a_(i j)| |b_(i j)|` (Cauchy 不等式)<br>
     `= sum |a_(i j) + b_(i j)|^2`.
@@ -263,7 +303,7 @@
   设 `G` 是矩阵 Lie 群, `A(t)` 是 `G` 中经过单位元 `bb 1` 的可微曲线, `A(0) = bb 1`.
   则称 `A'(0)` 是曲线在单位元处的切向量. `G` 在 `bb 1` 处的切空间定义为
   <span class="formula">
-    `T_(bb 1)(G) = { A'(0): A(t) 是 G 中经过 bb 1 的可微曲线 }`.
+    `T_(bb 1)(G) = { A'(0): A(t)" 是 "G" 中经过 "bb 1" 的可微曲线 "}`.
   </span>
 </p>
 
@@ -294,6 +334,14 @@
   </span>
 </p>
 
+<script>
+var asciimath = {
+  define: [
+    [/RED/g, 'color(#f42)'],
+    [/BLUE/g, 'color(#45a)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
