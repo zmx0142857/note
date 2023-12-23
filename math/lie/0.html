@@ -15,7 +15,7 @@
 </p>
 
 <p class="definition">
-  矩阵李群是指一些 `n xx n` 可逆实矩阵组成的群 `G`, 且对可逆矩阵的极限运算封闭:
+  <b>矩阵李群 (matrix lie group)</b> 是指一些 `n` 阶可逆实矩阵组成的群 `G`, 且对可逆矩阵的极限运算封闭:
   即, 对任意一列矩阵 `{A_n} sube G`, 若极限 `A = lim_(n to oo) A_n` 存在且可逆, 那么 `A in G`.
 </p>
 
@@ -23,6 +23,28 @@
   <li>关于这里的矩阵极限, 只须把矩阵看作 `RR^(n^2)` 中的向量即可.</li>
   <li>由于复数和四元数可以用实矩阵表示 (见下), 所以矩阵李群的元素也可以是 `CC` 上或 `bbb H` 上的矩阵.
   </li>
+</ol>
+
+<p>熟悉拓扑空间的读者, 也可以直接使用下面的正式定义:</p>
+
+<p class="definition">
+  用 `GL_n(CC)` 表示全体 `n` 阶可逆复矩阵, 则<b>矩阵李群</b>是指 `GL_n(CC)` 的闭子群.
+</p>
+
+<p class="remark">
+  这里的闭是相对于 `GL_n(CC)` 的, 而不是相对于 `CC^(n xx n)` 的.
+  这样选取的原因是 `GL_n(CC)` 作为 `CC^(n xx n)` 的子空间不是闭的,
+  比如矩阵序列 `bb 1 // n` 就以 `bb 0` 为极限, 后者不是可逆矩阵.
+</p>
+
+<ol class="remark">
+  <b>`RR^(n xx n)`, `CC^(n xx n)` 和 `bbb H^(n xx n)` 上的拓扑</b>
+  <li>度量: 把 `n` 阶实 (复, 四元数) 矩阵分别看作 `RR^(n^2)`, `RR^(2n^2)` 和 `RR^(4n^2)` 中的向量,
+    使用欧氏距离 `d(A, B) = |A - B|` 作为该空间的度量.</li>
+  <li>开集: 是指若干开球 `N_delta(A) = {B: |A-B| lt delta}` 的并集. 换言之, `O` 是开集当且仅当对任意 `X in O` 存在 `delta_X` 使得 `N_(delta_X)(X) sube O`.</li>
+  <li>闭集: `F` 是闭集当且仅当其补集 `F^c` 是开集.</li>
+  <li>`GL_n(CC)` 上的拓扑: 即子空间拓扑 `{O nn GL_n(CC): O 是 CC^(n xx n) 的开集}`.</li>
+  <li>由于四元数可以用 `2 xx 2` 的复矩阵表示 (见下), 所以把矩阵李群定义为 `GL_n(CC)` 的闭子群已经足够.</li>
 </ol>
 
 <h2>复数与四元数</h2>
@@ -36,7 +58,7 @@
     可以验证这是一个同构; 特别地,
     <ol>
       <li>`bm I^2 = -bb 1`;</li>
-      <li>`det zeta = x^2 + y^2 = |zeta|^2`, 因此 `|zeta_1 zeta_2| = |zeta_1| |zeta_2|;</li>
+      <li>`det zeta = x^2 + y^2 = |zeta|^2`, 因此 `|zeta_1 zeta_2| = |zeta_1| |zeta_2|`;</li>
       <li>`zeta^-1 = (x bb 1 - y bm I) // det zeta = bar zeta // |zeta|^2`, 换言之 `zeta bar zeta = |zeta|^2`;</li>
       <li>`bar(zeta_1 zeta_2) = bar zeta_1 bar zeta_2`.</li>
       <!--
@@ -150,10 +172,12 @@
   因此 `RR^3` 中绕原点的全体旋转构成一个群, 记为 `SO(3)`.
 </p>
 
-<h2>旋转群的推广</h2>
+<h2>典型群——旋转群的推广</h2>
+
+<p>典型群的名字出自 Weyl《The Classical Groups. Their Invariants and Representations》.</p>
 
 <ol class="example">
-  <b>常见的矩阵群</b>
+  <b>常见的典型群</b>
   <li>一般线性群: 由全体可逆的 `n` 阶矩阵构成: `GL_n(RR) = { A in RR^(n xx n) | det A != 0 }`;</li>
   <li>特殊线性群: 由全体行列式为 1 的 `n` 阶矩阵构成: `SL_n(RR) = { A in RR^(n xx n) | det A = 1 }`;</li>
   <li>正交群 (orthogonal group): 由全体 `n` 阶正交矩阵构成: `O(n) = { A in RR^(n xx n) | A A^T = I }`;
@@ -178,7 +202,7 @@
 </p>
 
 <p class="example">
-  全体单位四元数构成的群 `S^3`, 其成员可以写为
+  全体单位四元数构成的群 `Sp(1)`, 其成员可以写为
   <span class="formula">
     `q = [
     a - "i"d, -b + "i"c;
@@ -188,7 +212,7 @@
     `quad alpha, beta in CC`,
     `|alpha|^2 + |beta|^2 = 1`.
   </span>
-  这恰好就是 `SU(2)`. 因此 `S^3 ~= SU(2)`.
+  这恰好就是 `SU(2)`. 因此 `Sp(1) ~= SU(2)`.
 </p>
 
 <p class="example">
@@ -218,7 +242,7 @@
   这一定义的好处是避免了 `bbb H^n`, 它不是一个线性空间.
 </p>
 
-<h2>广义旋转群的性质</h2>
+<h2>典型群的性质</h2>
 
 <h3>最大环面与中心</h3>
 
@@ -298,76 +322,66 @@
 
 <h3>连通性</h3>
 
-<h3>是否为单群</h3>
+<h3>单群</h3>
 
-<h2>附录</h2>
-
-<h3>典型群及其李代数</h3>
+<h2>附表</h2>
 
 <table class="col2">
   <caption>典型群</caption>
   <tr>
-    <th>名称</th>
     <th>记号</th>
+    <th>名称</th>
     <th>最大环面</th>
     <th>中心</th>
-    <th>道路连通性</th>
     <th>单群</th>
   </tr>
   <tr>
-    <td>一般线性群</td>
     <td>`GL_n(CC)`</td>
-    <td></td>
+    <td>一般线性群</td>
+    <td>`T^n`</td>
     <td>`{k bb 1: k in CC}`</td>
-    <td>是</td>
     <td>否</td>
   </tr>
   <tr>
-    <td>特殊线性群</td>
     <td>`SL_n(CC)`</td>
-    <td></td>
+    <td>特殊线性群</td>
+    <td>`T^(n-1)`</td>
     <td>`{omega bb 1: omega^n = 1}`</td>
-    <td>是</td>
     <td>否</td>
   </tr>
   <tr>
-    <td>正交群</td>
     <td>`O(n)`</td>
+    <td>正交群</td>
     <td>`T^{:|__n//2__|:}`</td>
     <td>`{+-bb 1}`</td>
-    <td>否, 分为 `det=+-1` 两个分量</td>
     <td>否</td>
   </tr>
   <tr>
-    <td>特殊正交群</td>
     <td>`SO(n)`</td>
+    <td>特殊正交群</td>
     <td>`T^{:|__n//2__|:}`</td>
     <td>`n = 2`: `SO(2)`,<br>`n gt 2` 偶: `{+-bb 1}`,<br>`n` 奇: `{bb 1}`</td>
-    <td>是</td>
     <td>`n = 3, 5, 7...`</td>
   </tr>
   <tr>
-    <td>酉群</td>
     <td>`U(n)`</td>
+    <td>酉群</td>
     <td>`T^n`</td>
     <td>`{omega bb 1: |omega| = 1}`</td>
-    <td>是</td>
     <td>否</td>
   </tr>
   <tr>
-    <td>特殊酉群</td>
     <td>`SU(n)`</td>
+    <td>特殊酉群</td>
     <td>`T^(n-1)`</td>
     <td>`{omega bb 1: omega^n = 1}`</td>
-    <td>是</td>
     <td>否</td>
   </tr>
   <tr>
-    <td>辛群</td>
     <td>`Sp(n)`</td>
+    <td>辛群</td>
     <td>`T^n`</td>
     <td>`{+-bb 1}`</td>
-    <td>是</td>
     <td>否</td>
   </tr>
 </table>
@@ -377,11 +391,73 @@
     `SL_n(CC) normal GL_n(CC)`, `SO(n) normal O(n)`, `SU(n) normal U(n)`.
   </li>
   <li>李群与球面的关系: `S^1 = SO(2) = SU(1)`, `S^3 = SU(2) = Sp(1)`.</li>
-  <li>`Sp(1) cong {+-bb 1} ⋊ SO(3)`.</li>
-  <li>`Sp(1) xx Sp(1) cong {+-bb 1} ⋊ SO(4)`; `SO(4)` 不是单群,
+  <li>`Sp(1) ~= {+-bb 1} ⋊ SO(3)`.</li>
+  <li>`Sp(1) xx Sp(1) ~= {+-bb 1} ⋊ SO(4)`.</li>
+  <li>`SO(4)` 不是单群,
     事实上, `(v, 1) in Sp(1) xx Sp(1)` 是它的一个非平凡正规子群, 它是同态 `(v, w) mapsto (1, w)` 的核.
   </li>
   <li>对于 `G = SO(2m) (m ge 3), SU(n), Sp(n)`, 我们有: `G//Z(G)` 是单群. 这些群 `G` 的中心都很小, 它们几乎是单的.</li>
+</ol>
+
+<table class="col2">
+  <caption>典型群的拓扑性质</caption>
+  <tr>
+    <th>记号</th>
+    <th>道路连通</th>
+    <th>单连通</th>
+    <th>紧</th>
+  </tr>
+  <tr>
+    <td>`GL_n(CC)`</td>
+    <td>是</td>
+    <td>是</td>
+    <td>否</td>
+  </tr>
+  <tr>
+    <td>`SL_n(CC)`</td>
+    <td>是</td>
+    <td></td>
+    <td>否</td>
+  </tr>
+  <tr>
+    <td>`O(n)`</td>
+    <td>否</td>
+    <td>否</td>
+    <td>是</td>
+  </tr>
+  <tr>
+    <td>`SO(n)`</td>
+    <td>是</td>
+    <td>是</td>
+    <td>是</td>
+  </tr>
+  <tr>
+    <td>`U(n)`</td>
+    <td>是</td>
+    <td></td>
+    <td>是</td>
+  </tr>
+  <tr>
+    <td>`SU(n)`</td>
+    <td>是</td>
+    <td>是</td>
+    <td>是</td>
+  </tr>
+  <tr>
+    <td>`Sp(n)`</td>
+    <td>是</td>
+    <td>是</td>
+    <td>是</td>
+  </tr>
+</table>
+
+<ol class="remark">
+  <li>`O(n)` 不是道路连通的, 它分为 `"det" = +-1` 两个分量. `SO(n)` 就是 `"det" = 1` 的那个分量, 它是道路连通的.</li>
+  <li>圆周 `S^1 = SO(2)` 不是单连通的, 但 `n ge 2` 时, `S^n` 是单连通的.
+    特别, `S^3 = Sp(1) = SU(2)` 是单连通的.
+  </li>
+  <li>将 `S^n` 的对径点 `+-q` 粘合起来得到的拓扑空间称为射影空间 `RR P^n`. 后者不是单连通的:考虑 `S^n` 中绕赤道半圈的路径, 它对应于 `RR P^n` 中的闭路径, 但无法收缩到一点.</li>
+  <li>将 `S^3 = Sp(1)` 的对径点粘合起来就得到 `SO(3)`, 因此 `SO(3)` 拓扑同胚于 `RR P^3`. 从而 `SO(3)` 也不是单连通的 (plate trick).</li>
 </ol>
 
 <table class="col2">
@@ -389,7 +465,7 @@
   <tr>
     <th>记号</th>
     <th>成分</th>
-    <th>维数*</th>
+    <th>`RR` 上的维数</th>
     <th>单李代数</th>
   </tr>
   <tr>
@@ -438,9 +514,9 @@
 
 <ol class="remark">
   <li>`G normal H rArr fr g normal fr h`, 因此 `fr(sl)_n(CC) normal fr(gl)_n(CC)`, `fr(so)(n) normal fr(o)(n)`, `fr(su)(n) normal fr u(n)`;
-    事实上 `fr(so)(n) = fr o(n)`.
+    事实上 `fr(so)(n) = fr o(n)`, 因为 `SO(n)` 是 `O(n)` 的包含 `bb 1` 的连通分量, 它们在 `bb 1` 处的切空间相同.
   </li>
-  <li>`fr(so)(3) = fr(su)(2) = fr(sp)(1)`.</li>
+  <li>`fr(so)(3) = fr(su)(2) = fr(sp)(1)`. (叉乘李代数)</li>
   <li>`fr(gl)_n(CC) = fr u(n) + "i" fr u(n)`, `fr(sl)_n(CC) = fr(su)(n) + "i" fr(su)(n)`.</li>
   <li>`fr(so)(3)` 是单的, 因此 `fr(so)(4) = fr(so)(3) xx fr(so)(3)` 是半单的.</li>
   <li>这里的维数是指李代数作为 `RR` 上线性空间的维数.</li>
