@@ -1024,6 +1024,33 @@
   </li>
 </ol>
 
+<p class="example">
+  [来自 我是笨蛋的Always] 设函数 `f(x)` 在 `[a, b]` 上三阶可导. 证明: 存在一点 `xi in (a, b)` 使得
+  <span class="formula">
+    `f(b) = f(a) + 1/2 (b-a)(f'(a) + f'(b)) - 1/12 (b-a)^3 f^((3))(xi)`.
+  </span>
+</p>
+
+<p class="proof">
+  由题目条件知 `f^((3))(x)` 可积.
+  令 `x = a + (b-a)t`, 分部积分,
+  <span class="formula">
+    `int_0^1 (b-a)^3 f^((3))(x) g(t) dt`
+    `= [(b-a)^2 f''(x) g(t)]_(t=0)^1 - int_0^1 (b-a)^2 f''(x) g'(t) dt`
+    `= [(b-a)^2 f''(x) g(t)]_(t=0)^1 - [(b-a)f'(x)g'(t)]_(t=0)^1 + int_0^1 (b-a) f'(x) g''(t) dt`.
+  </span> 
+  现在令 `g(t)` 是一个合适的多项式, 满足 `g''(t) = 1`, `g'(1) = 1/2`, `g'(0) = -1/2`, `g(0) = g(1) = 0`.
+  于是令 `g(t) = (t^2 - t)//2`, 则上式右边等于
+  <span class="formula">
+    `-1/2 (b-a)(f'(b) + f'(a)) + f(b) - f(a)`.
+  </span>
+  另一方面, 注意到 `g(t)` 不变号, 因此左边应用积分中值定理等于
+  <span class="formula">
+    `(b-a)^3 f^((3))(xi) int_0^1 g(t) dt`
+    `= -1/12 (b-a)^3 f^((3))(xi)`.
+  </span>
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
