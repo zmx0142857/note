@@ -351,8 +351,14 @@ var tocData = {
       {
         title: '流体力学',
         articles: [
-          { title: '流体力学基础', src: 'hydromechanics/1.html', date: '2021-11-24' },
+          { title: '流体力学基础', src: 'hydro/1.html', date: '2021-11-24' },
         ]
+      },
+      {
+        title: '量子力学',
+        articles: [
+          { title: '波方程', src: 'quantum/1.html', date: '2024-01-16' },
+        ],
       },
       {
         title: '光学',
