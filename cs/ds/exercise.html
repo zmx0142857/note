@@ -796,6 +796,49 @@ def num2perm(n, num):
     return arr
 </pre>
 </li>
+<li>[来自群友 Eyelids]
+给定 `n`, `S` 是全体 `n` 维 01 向量的子集，满足 `S` 中任两个元素的距离 `≥3`，`|S|` 的最大值是？
+（距离就是两个向量相减后非零分量的个数）
+<pre class="solution">
+# 答案：https://oeis.org/A054243
+# 这题本质是计算距离 = 3 的汉明码序列 https://oeis.org/A075926
+
+buf = []
+best = 0
+
+def dist(a, b):
+    res = 0
+    n = a ^ b
+    while n:
+        res += 1
+        n &= n - 1 # 消去最右边的一个 1
+    return res
+
+def dfs(n):
+    global best
+    if len(buf) > best:
+        best = len(buf)
+    for i in range(0, n):
+        if all(dist(i, j) >= 3 for j in buf):
+            buf.append(i)
+            dfs(n)
+            return
+
+def search(n):
+    global best
+    best = 0
+    buf.clear()
+    buf.append(0)
+    dfs(n)
+    print(best, buf)
+
+def check_answer(l):
+    print([dist(a, b) for a in l for b in l if a != b])
+
+
+search(2**7)
+</pre>
+</li>
 </ol>
 
 <script src="../../js/note.js?type=cs"></script>

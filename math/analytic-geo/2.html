@@ -1008,6 +1008,118 @@
 	</span>
 </p>
 
+<h2>杂例</h2>
+
+<p class="example">
+  <b>中心投影变换: 平面凸四边形变换为矩形</b>
+  [来自 <a href="https://blog.csdn.net/u014495306/article/details/74079963">机智的小伟</a>]
+  已知四棱锥的顶点为 `bm v`, 底面为单位正方形 `R`:
+  <span class="formula">
+    `bm r_00 = (0, 0, 0)`, `bm r_01 = (0, 1, 0)`, `bm r_10 = (1, 0, 0)`, `bm r_11 = (1, 1, 0)`.
+  </span>
+  现有一个平面四边形 `Q`, 其中一个顶点与原点重合: `bm q_00 = bm r_00`,
+  另外三个顶点 `bm q_01`, `bm q_10`, `bm q_11` 分别位于四棱锥的三条棱上.
+  由于四边形 `Q` 的各顶点共面, 我们设
+  <span class="formula">
+    `bm q_11 = a_0 bm q_10 + a_1 bm q_01`.
+  </span>
+  这里的 `a_0, a_1` 为已知数.
+  <br>
+  我们的问题如下:
+  假设顶点 `bm v` 处有一光源, 使矩形与四边形处于相互射影的关系中, 试确定这个函数关系.
+  注: 矩形上一点的坐标和四边形上一点的坐标分别用基底表示为
+  <span class="formula">
+    `bm r = x_0 bm r_10 + x_1 bm r_01`,<br>
+    `bm q = y_0 bm q_10 + y_1 bm q_01`.
+  </span>
+  于是只需确定 `(x_0, x_1)` 和 `(y_0, y_1)` 之间的函数关系.
+</p>
+
+<div class="img lg">
+  <img src="../img/quad2rect.jpg" />
+</div>
+
+<ol class="solution">
+  <li>
+    四边形的顶点位于棱上的关系写出来就是:
+    <span class="formula">
+      `bm r_00 = bm v + t_00 (bm q_00 - bm v)`,<br>
+      `bm r_10 = bm v + t_10 (bm q_10 - bm v)`,<br>
+      `bm r_01 = bm v + t_01 (bm q_01 - bm v)`,<br>
+      `bm r_11 = bm v + t_11 (bm q_11 - bm v)`.
+      <span class="label" id="for-r-q-colinear"></span>
+    </span>
+    由于 `bm q_00 = bm r_00`, 所以上式的 `t_00 = 1`.<br>
+  </li>
+  <li>
+    假设四边形的法向量为 `bm n`, 于是 `bm q_01 * bm n = bm q_10 * bm n = 0`.
+    将 <a class="ref" href="#for-r-q-colinear"></a> 的后三个等式与 `bm n` 点乘, 得到
+    <span class="formula">
+      `bm r_10 * bm n = (1 - t_10) bm v * bm n`,<br>
+      `bm r_01 * bm n = (1 - t_01) bm v * bm n`,<br>
+      `bm r_11 * bm n = (1 - t_11) bm v * bm n`.
+    </span>
+    但 `bm r_11 = bm r_10 + bm r_01`, 所以 `(1-t_11) = (1-t_10) + (1-t_01)`, 即
+    <span class="formula">
+      `t_11 = t_10 + t_01 - 1`.
+    </span>
+  </li>
+  <li>
+    下面我们解出系数 `t_00` 到 `t_11`.
+    先把 <a class="ref" href="#for-r-q-colinear"></a> 的后三个等式改写为
+    <span class="formula">
+      `bm r_10 = (1 - t_10) bm v + t_10 bm q_10`,<br>
+      `bm r_01 = (1 - t_01) bm v + t_01 bm q_01`,<br>
+      `bm r_11 = (1 - t_11) bm v + (t_10 + t_01 - 1) (a_0 bm q_10 + a_1 bm q_01)`.
+    </span>
+    由 `bm r_10 + bm r_01 = bm r_11` 和 `(1-t_11) = (1-t_10) + (1-t_01)`, 得到
+    <span class="formula">
+      `t_10 bm q_10 + t_01 bm q_01 = (t_10 + t_01 - 1) (a_0 bm q_10 + a_1 bm q_01)`.
+    </span>
+    让 `bm q_10` 和 `bm q_11` 的系数分别相等, 有
+    <span class="formula">
+      `t_10 = (t_10 + t_01 - 1) a_0`,<br>
+      `t_01 = (t_10 + t_01 - 1) a_1`.
+    </span>
+    解这个二元一次方程组, 得到
+    <span class="formula">
+      `t_00 = 1`,
+      `quad t_10 = a_0//(a_0 + a_1 - 1)`,
+      `quad t_01 = a_1//(a_0 + a_1 - 1)`,
+      `quad t_11 = 1//(a_0 + a_1 - 1)`.
+    </span>
+  </li>
+  <li>
+    最后, 来确定矩形与四边形之间的射影关系.  由共线关系得到
+    <span class="formula align">
+      `x_0 bm r_10 + x_1 bm r_01`<br>
+      `= bm r = (1-t) bm v + t bm q`<br>
+      `= (1-t) bm v + t (y_0 bm q_10 + y_1 bm q_01)`<br>
+      `= (1-t) bm v + (t y_0)/t_10 (bm r_10 - (1-t_10) bm v) + (t y_1)/t_01 (bm r_01 - (1-t_01) bm v)`<br>
+    </span>
+    由于 `bm r_10, bm r_01, bm v` 线性无关, 可以让它们的系数分别相等, 有
+    <span class="formula">
+      `x_0 = (t y_0)/t_10`,
+      `quad x_1 = (t y_1)/t_01`,
+      `quad 0 = (1-t) - (t y_0)/t_10 (1-t_10) - (t y_1)/t_01(1-t_01)`.
+    </span>
+    第三式改写为 `t = 1 - x_0 (1-t_10) - x_1 (1-t_01)`, 代入前两式得
+    <span class="formula">
+      `(y_0, y_1) = ((t_10 x_0, t_01 x_1))/(1 - x_0 (1-t_10) - x_1 (1-t_01))`.
+    </span>
+    再将 `t_10, t_01` 的值代入, 最终得到
+    <span class="formula">
+      <span class="box">
+        `(y_0, y_1) = ((a_0 x_0, a_1 x_1))/(a_0 + a_1 - 1 + (1 - a_1) x_0 + (1 - a_0) x_1)`.
+      </span>
+    </span>
+    其逆变换为
+    <span class="formula">
+      `(x_0, x_1) = ((a_1(a_0+a_1 - 1) y_0, a_0(a_0 + a_1 - 1)y_1))/(a_0 a_1 + a_1 (a_1 - 1) y_0 + a_0 (a_0 - 1) y_1)`.
+    </span>
+  </li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
