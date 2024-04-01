@@ -383,6 +383,7 @@ var tocData = {
         title: '汉语',
         articles: [
           { title: '易读错字词整理', src: 'zh/words.html' },
+          { title: '打字练习', src: 'zh/typing.html' },
         ]
       },
       {
