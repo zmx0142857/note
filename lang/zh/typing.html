@@ -2,8 +2,29 @@
 * {
   box-sizing: border-box;
 }
+:root {
+  --fg: #eee;
+  --fg2: #aaa;
+  --fg3: #ccc;
+
+  --bg: #222;
+  --bg2: #333;
+  --bg3: #666;
+
+  --bd: #303030;
+  --bd2: #888;
+
+  --color-error: #e88;
+  --color-blue: #1976d2;
+}
 body {
-  background-color: #222;
+  background-color: var(--bg);
+}
+.g-inline-block {
+  display: inline-block;
+}
+.g-relative {
+  position: relative;
 }
 .g-absolute {
   position: absolute;
@@ -14,18 +35,18 @@ body {
 }
 .input {
   position: relative;
-  background: #333;
+  background: var(--bg2);
   width: 100%;
   height: 500px;
   border-radius: 4px;
-  color: #aaa;
+  color: var(--fg2);
 }
 .input-area {
   color: transparent;
   background: transparent;
   resize: none;
   border: none;
-  caret-color: #eee;
+  caret-color: var(--fg);
 }
 .input-bg,
 .input-area {
@@ -39,13 +60,16 @@ body {
 }
 
 .color-normal {
-  color: #eee;
+  color: var(--fg);
 }
 .color-dim {
-  color: #aaa;
+  color: var(--fg2);
 }
 .color-error {
-  color: #e88;
+  color: var(--color-error);
+}
+.color-transparent {
+  color: transparent;
 }
 .bg-gold {
   background-image: linear-gradient(45deg, #ff8400, gold);
@@ -72,10 +96,14 @@ body {
   border-radius: 2px;
   font-size: 14px;
   cursor: pointer;
-  background-color: #1976d2;
-  color: white;
-  border: none;
+  color: var(--fg);
+  background-color: transparent;
+  border: 1px solid var(--bd2);
   opacity: 0.9;
+}
+.btn.btn-primary {
+  background-color: var(--color-blue);
+  border-color: var(--color-blue);
 }
 .btn:active {
   opacity: 1;
@@ -89,27 +117,27 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #222;
-  border-top: 1px solid #303030;
-  color: #ccc;
+  background: var(--bg);
+  border-top: 1px solid var(--bd);
+  color: var(--fg3);
   font-size: 14px;
   line-height: 24px;
   display: flex;
   gap: 4px;
 }
 .status-badge {
-  background-color: #1976d2;
+  background-color: var(--color-blue);
   padding: 0 10px;
   margin-right: 4px;
 }
 .status-divider {
-  border-right: 1px solid #303030;
+  border-right: 1px solid var(--bd);
   margin: 4px;
 }
 
 .toast {
-  background-color: #1976d2;
-  color: #eee;
+  background-color: var(--color-blue);
+  color: var(--fg);
   border-radius: 8px;
   padding: 8px;
   transition: opacity .5s;
@@ -127,6 +155,77 @@ body {
   line-height: 50px;
   margin-bottom: 8px;
 }
+.modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  transition: opacity .2s;
+}
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, .5);
+}
+.modal-body {
+  position: fixed;
+  background-color: var(--bg2);
+  padding: 20px;
+  color: var(--fg);
+  border-radius: 16px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  overflow: hidden;
+}
+.modal-setting h3 {
+  margin-top: 0;
+}
+.modal-setting h4 {
+  position: relative;
+}
+.modal-setting h4::before {
+  content: '';
+  width: 4px;
+  height: 19px;
+  background-color: var(--color-blue);
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 4px;
+  border-radius: 2px;
+}
+.modal-history {
+  max-height: 600px;
+  overflow: auto;
+}
+.modal-history-table {
+  color: var(--fg);
+  width: 100%;
+  min-width: 500px;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+.modal-history-table tr:not(:first-child) {
+  border-top: 1px solid var(--bd);
+}
+.modal-history-table th {
+  white-space: nowrap;
+}
+.modal-history-table td {
+  padding: 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+.empty {
+  min-height: 100px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
 
 <div class="input">
@@ -135,12 +234,11 @@ body {
 </div>
 
 <div class="tool-bar">
-  <input class="btn-file" type="file" hidden />
-  <button class="btn btn-load">
-    载文
-    <span class="btn-suffix"></span>
-  </button>
-  <button class="btn btn-start" disabled>开始</button>
+  <input class="btn-file" type="file" hidden accept=".txt" />
+  <button class="btn btn-history">历史</button>
+  <button class="btn btn-setting" disabled title="施工中">设置</button>
+  <button class="btn btn-load">载文</button>
+  <button class="btn btn-primary btn-start" disabled title="请先载文">开始</button>
 </div>
 
 <div class="status-bar">
@@ -154,6 +252,12 @@ body {
   <span class="status-acc">100.00%</span>
 </div>
 
+<div class="modal" style="display: none">
+  <div class="modal-mask"></div>
+  <div class="modal-body"></div>
+</div>
+<div class="toast" style="display: none"></div>
+
 <script>
 const $ = el => document.querySelector(el)
 const $inputArea = $('.input-area')
@@ -163,22 +267,33 @@ const $statusTime = $('.status-time')
 const $statusSpeed = $('.status-speed')
 const $statusKeySpeed = $('.status-key-speed')
 const $statusAcc = $('.status-acc')
+const $btnSetting = $('.btn-setting')
 const $btnStart = $('.btn-start')
 const $btnLoad = $('.btn-load')
 const $btnFile = $('.btn-file')
+const $btnHistory = $('.btn-history')
+const $modalMask = $('.modal-mask')
 
-const TextUtils = {
+const Constants = {
+  space: '␣',
+  linebreak: '↵',
+  storage: {
+    history: 'typing.history',
+  },
+}
+
+const Utils = {
   // 处理空格与换行
   processText (text) {
     // 将最后一个空格外的所有空格换成占位符
-    // return (text.slice(0, -1).replace(/ /g, '␣') + text.slice(-1))
-    return text.replace(/ /g, '␣')
+    // return (text.slice(0, -1).replace(/ /g, Constants.space) + text.slice(-1))
+    return text.replace(/ /g, Constants.space)
       // 将换行换成占位符
-      .replace(/↵\n|\r\n|\n|\r/g, '↵')
+      .replace(/↵\n|\r\n|\n|\r/g, Constants.linebreak)
   },
   // 还原换行符
   restoreLinebreak (text) {
-    return text.replace(/↵/g, '↵\n')
+    return text.replace(/↵/g, Constants.linebreak + '\n')
   },
   // 还原空格
   restoreSpace (text) {
@@ -190,24 +305,41 @@ const TextUtils = {
   },
   // 格式化时间
   formatTime (millis) {
-    // const hh = TextUtils.pad(millis / (1000 * 3600) | 0, 2)
-    const mm = TextUtils.pad(millis % (1000 * 3600) / (1000 * 60) | 0, 2)
-    const ss = TextUtils.pad(millis % (1000 * 60) / 1000 | 0, 2)
-    const ms = TextUtils.pad(millis % 1000, 3)
+    // const hh = Utils.pad(millis / (1000 * 3600) | 0, 2)
+    const mm = Utils.pad(millis % (1000 * 3600) / (1000 * 60) | 0, 2)
+    const ss = Utils.pad(millis % (1000 * 60) / 1000 | 0, 2)
+    const ms = Utils.pad(millis % 1000, 3)
     return `${mm}:${ss}.${ms}`
+  },
+  formatDate (timestamp) {
+    const offset = -60 * 1000 * new Date().getTimezoneOffset()
+    return new Date(timestamp + offset).toISOString().slice(0, 19).replace('T', ' ')
+  },
+  parseJson (str, defaultValue = {}) {
+    if (!str) return defaultValue
+    try {
+      return JSON.parse(str)
+    } catch (err) {
+      return defaultValue
+    }
+  },
+  getStorage (key, defaultValue = {}) {
+    return Utils.parseJson(localStorage.getItem(key), defaultValue)
+  },
+  setStorage (key, value) {
+    localStorage.setItem(key, JSON.stringify(value))
   },
 }
 
 const UI = {
-  toast (html, className = 'toast') {
-    const $toast = $('.toast') || document.createElement('div')
+  toast ({ html, className = 'toast' }) {
+    const $toast = $('.toast')
     $toast.className = className
     $toast.innerHTML = html
     Object.assign($toast.style, {
       display: 'block',
       opacity: '1',
     })
-    document.body.append($toast)
     setTimeout(() => {
       $toast.style.opacity = '0'
     }, 2000)
@@ -215,18 +347,60 @@ const UI = {
       $toast.style.display = 'none'
     }, 2500)
   },
+  modal ({ show, html, className = 'modal' }) {
+    UI.modal.show = show
+    const $modal = $('.modal')
+    $modal.className = className
+    if (show) {
+      Object.assign($modal.style, {
+        display: 'block',
+        opacity: '0',
+      })
+      $modal.querySelector('.modal-body').innerHTML = html
+      setTimeout(() => {
+        $modal.style.opacity = '1'
+      }, 200)
+    } else {
+      $modal.style.opacity = '0'
+      setTimeout(() => {
+        $modal.style.display = 'none'
+      }, 200)
+    }
+  },
+  getRadioValue(name) {
+    const radioGroup = form.elements[name]
+    for (let i = 0; i < radioGroup.length; ++i) {
+      if (radioGroup[i].checked)
+        return radioGroup[i].value;
+    }
+  },
 }
 
 const Typing = {
   loadedText: '', // 当前载入的文章
+  setting: {
+    randomType: 'none',
+    blankType: 'trim',
+    limit: 0,
+  }, // 用户设置
   current: {}, // 当前打字信息
   history: [], // 历史记录
+  onLoad () {
+    Typing.history = Utils.getStorage(Constants.storage.history, [])
+  },
   // 更新背景文字
   updateBg (textArr) {
     const res = []
     const buf = []
     let className = ''
-    const flush = () => {
+    const flush = ({ alignLast } = {}) => {
+      // 最后一字如果打错, 做对齐处理, 以减少打字时的闪烁体验
+      if (alignLast && buf.length === 1 && className === 'color-error') {
+        const c2 = Typing.current.text[textArr.length - 1]
+        res.push(`<span class="g-inline-block g-relative color-transparent">${c2}<span class="g-inline-block g-absolute color-error">${buf[0]}</span></span>`)
+        buf.length = 0
+        return
+      }
       if (buf.length) {
         res.push(`<span class="${className}">${buf.join('')}</span>`)
         buf.length = 0
@@ -250,7 +424,7 @@ const Typing = {
     })
     Typing.current.correctCount = correctCount
     Typing.current.errorCount = errorCount
-    flush()
+    flush({ alignLast: true })
     className = 'color-dim'
     buf.push(...Typing.current.text.slice(textArr.length))
     flush()
@@ -258,9 +432,9 @@ const Typing = {
   },
   start () {
     if (!Typing.loadedText) return
-    const text = TextUtils.processText(Typing.loadedText)
+    const text = Utils.processText(Typing.loadedText)
     const textArr = [...text]
-    $inputBg.innerText = TextUtils.restoreLinebreak(text)
+    $inputBg.innerText = Utils.restoreLinebreak(text)
     $inputArea.value = ''
     $inputArea.disabled = false
     $inputArea.focus()
@@ -283,16 +457,17 @@ const Typing = {
     Typing.updateStatus()
     Typing.current.text = Typing.current.text.join('')
     Typing.history.push(Typing.current)
+    Utils.setStorage(Constants.storage.history, Typing.history)
 
     const badge = $statusBadge.textContent
-    const className = badge === 'φ' ? 'toast anim-gold' : 'toast'
-    UI.toast(`
-      <div class="toast-header">${$statusBadge.textContent}</div>
-      <div>${$statusSpeed.textContent}</div>
-      <div>${$statusKeySpeed.textContent}</div>
-      <div>${$statusAcc.textContent}</div>
-    `, className)
-
+    UI.toast({
+      className: badge === 'φ' ? 'toast anim-gold' : 'toast',
+      html: `<div class="toast-header">${$statusBadge.textContent}</div>
+        <div>${$statusSpeed.textContent}</div>
+        <div>${$statusKeySpeed.textContent}</div>
+        <div>${$statusAcc.textContent}</div>
+      `,
+    })
     $btnStart.focus()
   },
   pause () {
@@ -323,12 +498,12 @@ const Typing = {
     const millis = new Date().valueOf() - Typing.current.startTime
     const speed = correctCount * 1000 * 60 / millis
     const keySpeed = keyCount * 1000 / millis
-    const acc = (1 - backspaceCount / keyCount) * (correctCount / (correctCount + errorCount)) * 100
+    const acc = Math.max((1 - backspaceCount / keyCount) * (correctCount / (correctCount + errorCount) || 0) * 100, 0)
     const badge = Typing.getBadge(speed, acc, isEnglish)
     Object.assign(Typing.current, {
       millis, speed, keySpeed, acc, badge,
     })
-    $statusTime.textContent = TextUtils.formatTime(millis)
+    $statusTime.textContent = Utils.formatTime(millis)
     $statusSpeed.textContent = speed.toFixed(2) + ' 速'
     $statusKeySpeed.textContent = keySpeed.toFixed(2) + ' 击'
     $statusAcc.textContent = acc.toFixed(2) + '%'
@@ -345,13 +520,13 @@ const Typing = {
     if (!Typing.current.timer) {
       Typing.resume()
     }
-    const value = TextUtils.processText(e.target.value)
-    e.target.value = TextUtils.restoreSpace(TextUtils.restoreLinebreak(value))
+    const value = Utils.processText(e.target.value)
+    e.target.value = Utils.restoreSpace(Utils.restoreLinebreak(value))
 
     const text = [...value]
     const isFinish = text.length === Typing.current.text.length
     const isCorrect = text[text.length - 1] === Typing.current.text[text.length - 1]
-    $inputBg.innerHTML = TextUtils.restoreLinebreak(Typing.updateBg([...value]))
+    $inputBg.innerHTML = Utils.restoreLinebreak(Typing.updateBg([...value]))
     if (isFinish && isCorrect) {
       Typing.finish()
     }
@@ -361,6 +536,10 @@ const Typing = {
     if (e.ctrlKey && e.code === 'KeyV') {
       e.preventDefault()
     } else if (e.code === 'Backspace') {
+      // 多删一个换行符
+      if (e.target.value.endsWith(Constants.linebreak + '\n')) {
+        e.target.value = e.target.value.slice(0, -1)
+      }
       ++Typing.current.backspaceCount
     } else {
       ++Typing.current.keyCount
@@ -375,14 +554,78 @@ const Typing = {
     reader.onload = function () {
       Typing.loadedText = this.result
       $btnStart.disabled = false
+      $btnStart.title = ''
+      Typing.start()
     }
     reader.readAsText(file)
   },
   load () {
     $btnFile.click()
   },
+  showSetting () {
+    UI.modal({
+      show: true,
+      html: `
+        <div class="modal-setting">
+          <h3 style="margin-top: 0">设置</h3>
+          <h4>随机化</h4>
+          <label><input type="radio" name="randomType" value="none" checked /> 无</label>
+          <label><input type="radio" name="randomType" value="char" /> 字乱序</label>
+          <label><input type="radio" name="randomType" value="line" /> 行乱序</label>
+          <h4>空白处理</h4>
+          <label><input type="checkbox" name="blankType" value="trim" checked /> 去除文章前后空白</label>
+          <label><input type="checkbox" name="blankType" value="nobreak" /> 去除换行</label>
+          <label><input type="checkbox" name="blankType" value="noblank" /> 去除所有空白</label>
+          <h4>限定字数</h4>
+          <label><input type="number" name="limit" min="0" placeholder="0 代表不限字数" /></label>
+        </div>
+      `
+    })
+  },
+  showHistory () {
+    UI.modal({
+      show: true,
+      html: `
+        <div class="modal-history">
+          <table class="modal-history-table">
+            <tr>
+              <th>日期</th>
+              <th>文章</th>
+              <th>成绩</th>
+              <th>用时</th>
+              <th>速度 (字/分)</th>
+              <th>击键 (键/秒)</th>
+              <th>键准</th>
+              <th>字数</th>
+              <th>错字</th>
+              <th>键数</th>
+              <th>退格</th>
+            </tr>
+            ${[...Typing.history].reverse().map(record => (
+              `<tr>
+                <td>${Utils.formatDate(record.startTime)}</td>
+                <td>${record.text.slice(0, 10)}</td>
+                <td>${record.badge}</td>
+                <td>${Utils.formatTime(record.millis)}</td>
+                <td>${record.speed.toFixed(2)}</td>
+                <td>${record.keySpeed.toFixed(2)}</td>
+                <td>${record.acc.toFixed(2)}%</td>
+                <td>${record.text.length}</td>
+                <td>${record.errorCount}</td>
+                <td>${record.keyCount}</td>
+                <td>${record.backspaceCount}</td>
+              </tr>`
+            )).join('\n')}
+          </table>
+          ${Typing.history.length === 0 ? '<div class="empty">暂无数据</div>' : ''}
+        </div>
+      `
+    })
+  },
 }
 
+$btnHistory.onclick = Typing.showHistory
+$btnSetting.onclick = Typing.showSetting
 $btnLoad.onclick = Typing.load
 $btnStart.onclick = Typing.start
 $btnFile.onchange = Typing.onFileChange
@@ -391,4 +634,7 @@ $inputArea.onblur = Typing.pause
 $inputArea.oncontextmenu = (e) => e.preventDefault()
 $inputArea.onkeydown = Typing.onKeyDown
 $inputArea.onscroll = Typing.onScroll
+$modalMask.onclick = () => UI.modal({ show: false })
+
+Typing.onLoad()
 </script>
