@@ -112,6 +112,29 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
 }
+.btn-suffix {
+  position: relative;
+  border-left: 1px solid var(--bd2);
+  margin-left: 6px;
+  display: inline-block;
+  height: 18px;
+  width: 36px;
+  margin-right: -16px;
+  font-size: 20px;
+}
+.btn-suffix-arrow::after {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 2px;
+  left: 12px;
+  width: 8px;
+  height: 8px;
+  border-left: 1px solid var(--bd2);
+  border-top: 1px solid var(--bd2);
+  transform: rotate(-135deg);
+  transform-origin: center;
+}
 .status-bar {
   position: fixed;
   bottom: 0;
@@ -226,6 +249,35 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+.menu-mask {
+  width: 100%;
+  height: 100%;
+}
+.menu-body {
+  position: absolute;
+  background: var(--bg);
+  padding: 6px;
+  border-radius: 4px;
+  color: var(--fg);
+  transform: translate(-100%, -100%);
+}
+.menu-body-item {
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.menu-body-item:hover {
+  background: var(--bg2);
+}
 </style>
 
 <div class="input">
@@ -236,7 +288,7 @@ body {
 <div class="tool-bar">
   <button class="btn btn-history">历史</button>
   <button class="btn btn-setting">设置</button>
-  <button class="btn btn-load">载文</button>
+  <button class="btn btn-load">载文 <span class="btn-suffix btn-suffix-arrow"></span></button>
   <button class="btn btn-reload" disabled title="请先载文">重载</button>
   <button class="btn btn-primary btn-start" disabled title="请先载文">开始</button>
 </div>
@@ -259,6 +311,11 @@ body {
 
 <div class="toast" style="display: none"></div>
 
+<div class="menu" style="display: none">
+  <div class="menu-mask"></div>
+  <div class="menu-body"></div>
+</div>
+
 <script>
 const $ = el => document.querySelector(el)
 const $inputArea = $('.input-area')
@@ -271,9 +328,9 @@ const $statusAcc = $('.status-acc')
 const $btnSetting = $('.btn-setting')
 const $btnStart = $('.btn-start')
 const $btnLoad = $('.btn-load')
+const $btnLoadSuffix = $('.btn-load .btn-suffix')
 const $btnReload = $('.btn-reload')
 const $btnHistory = $('.btn-history')
-const $modalMask = $('.modal-mask')
 
 const Constants = {
   space: '␣',
@@ -340,7 +397,23 @@ const Utils = {
       arr[j] = tmp
     }
   },
+  escapeHTML (text) {
+    return text.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+  },
+  html (arr, ...args) {
+    const buf = []
+    arr.forEach((str, i) => {
+      buf.push(str)
+      if (args[i] === undefined) args[i] = ''
+      buf.push(Utils.escapeHTML(String(args[i])))
+    })
+    return buf.join('')
+  },
 }
+
 
 const UI = {
   toast ({ html, className = 'toast' }) {
@@ -368,6 +441,7 @@ const UI = {
         opacity: '0',
       })
       $modal.querySelector('.modal-body').innerHTML = html
+      $modal.querySelector('.modal-mask').onclick = () => UI.modal({ show: false })
       setTimeout(() => {
         $modal.style.opacity = '1'
       }, 200)
@@ -377,6 +451,34 @@ const UI = {
         $modal.style.display = 'none'
       }, 200)
     }
+  },
+  menu ({ show, html, className = 'menu', bodyStyle }) {
+    UI.menu.show = show
+    const $menu = $('.menu')
+    $menu.className = className
+    if (show) {
+      Object.assign($menu.style, {
+        display: 'block',
+      })
+      const $body = $menu.querySelector('.menu-body')
+      $body.innerHTML = html
+      Object.assign($body.style, { ...bodyStyle })
+      const $mask = $menu.querySelector('.menu-mask')
+      $mask.onclick = () => UI.menu({ show: false })
+    } else {
+      $menu.style.display = 'none'
+    }
+  },
+  file ({ accept, oninput }) {
+    // 创建 <input type="file" /> 后马上移除, 以免 onchange 不触发
+    const $btnFile = document.createElement('input')
+    $btnFile.hidden = true
+    $btnFile.type = 'file'
+    $btnFile.accept = accept
+    $btnFile.oninput = oninput
+    document.body.append($btnFile)
+    $btnFile.click()
+    document.body.removeChild($btnFile)
   },
 }
 
@@ -388,10 +490,14 @@ const Typing = {
   history: [], // 历史记录
   onLoad () {
     Typing.history = Utils.getStorage(Constants.storage.history, [])
-    Typing.setting = Utils.getStorage(Constants.storage.setting, Typing.defaultSetting())
+    Typing.setting = {
+      ...Typing.defaultSetting(),
+      ...Utils.getStorage(Constants.storage.setting, {})
+    }
   },
   defaultSetting () {
     return {
+      slice: 0,
       randomType: 'none',
       blankType: ['trim'],
       limit: 0,
@@ -403,15 +509,16 @@ const Typing = {
     const buf = []
     let className = ''
     const flush = ({ alignLast } = {}) => {
+      const text = Utils.restoreLinebreak(buf.join(''))
       // 最后一字如果打错, 做对齐处理, 以减少打字时的闪烁体验
       if (alignLast && buf.length === 1 && className === 'color-error') {
         const c2 = Typing.current.text[textArr.length - 1]
-        res.push(`<span class="g-inline-block g-relative color-transparent">${c2}<span class="g-inline-block g-absolute color-error">${buf[0]}</span></span>`)
+        res.push(Utils.html`<span class="g-inline-block g-relative color-transparent">${c2}<span class="g-inline-block g-absolute color-error">${text}</span></span>`)
         buf.length = 0
         return
       }
       if (buf.length) {
-        res.push(`<span class="${className}">${buf.join('')}</span>`)
+        res.push(Utils.html`<span class="${className}">${text}</span>`)
         buf.length = 0
       }
     }
@@ -471,7 +578,7 @@ const Typing = {
     const badge = $statusBadge.textContent
     UI.toast({
       className: badge === 'φ' ? 'toast anim-gold' : 'toast',
-      html: `<div class="toast-header">${$statusBadge.textContent}</div>
+      html: Utils.html`<div class="toast-header">${$statusBadge.textContent}</div>
         <div>${$statusSpeed.textContent}</div>
         <div>${$statusKeySpeed.textContent}</div>
         <div>${$statusAcc.textContent}</div>
@@ -535,7 +642,7 @@ const Typing = {
     const text = [...value]
     const isFinish = text.length === Typing.current.text.length
     const isCorrect = text[text.length - 1] === Typing.current.text[text.length - 1]
-    $inputBg.innerHTML = Utils.restoreLinebreak(Typing.updateBg([...value]))
+    $inputBg.innerHTML = Typing.updateBg([...value])
     if (isFinish && isCorrect) {
       Typing.finish()
     }
@@ -562,41 +669,65 @@ const Typing = {
     const reader = new FileReader()
     reader.onload = function () {
       Typing.loadedFile = this.result
-      $btnStart.disabled = false
-      $btnStart.title = ''
-      $btnReload.disabled = false
-      $btnReload.title = '载入同一篇文章。启用随机化时，该文章会被重排'
       Typing.reload()
     }
     reader.readAsText(file)
   },
   load () {
-    // 创建 <input type="file" /> 后马上移除, 以免 onchange 不触发
-    const $btnFile = document.createElement('input')
-    $btnFile.className = 'btn-file'
-    $btnFile.hidden = true
-    $btnFile.type = 'file'
-    $btnFile.accept = '.txt'
-    $btnFile.oninput = Typing.onFileInput
-    document.body.append($btnFile)
-    $btnFile.click()
-    document.body.removeChild($btnFile)
+    UI.file({
+      accept: '.txt',
+      oninput: Typing.onFileInput
+    })
   },
   reload () {
+    $btnStart.disabled = false
+    $btnStart.title = ''
+    $btnReload.disabled = false
+    $btnReload.title = '载入同一篇文章。启用随机化时，该文章会被重排'
     Typing.loadedText = Typing.preloadText(Typing.loadedFile)
     Typing.start()
+  },
+  openBuiltin (e) {
+    e.stopPropagation()
+    UI.menu({
+      show: true,
+      html: `<div class="menu-body-list">
+          <div class="menu-body-item" data-src="../data/zh-5000.txt">单字练习</div>
+          <div class="menu-body-item" data-src="../data/zh-words.txt">词组练习</div>
+      </div>`,
+      bodyStyle: {
+        left: e.target.offsetLeft + 37 + 'px',
+        top: e.target.offsetTop - 10 + 'px',
+      },
+    })
+    $('.menu-body-list').onclick = (e) => {
+      if ([...e.target.classList].includes('menu-body-item')) {
+        Typing.loadBuiltin(e.target.getAttribute('data-src'))
+      }
+    }
+  },
+  loadBuiltin (src) {
+    UI.menu({ show: false })
+    fetch(src).then(res => res.text()).then(text => {
+      Typing.loadedFile = text
+      Typing.reload()
+    })
   },
   preloadText (text) {
     const { setting } = Typing
     // 随机化
     if (setting.randomType === 'char') {
       text = [...text]
+      if (setting.slice > 0) text = text.slice(0, setting.slice)
       Utils.shuffle(text)
       text = text.join('')
     } else if (setting.randomType === 'line') {
       text = text.split('\n')
+      if (setting.slice > 0) text = text.slice(0, setting.slice)
       Utils.shuffle(text)
       text = text.join('\n')
+    } else {
+      if (setting.slice > 0) text = [...text].slice(0, setting.slice).join('')
     }
     // 空白处理
     if (setting.blankType.includes('trim')) text = text.trim()
@@ -615,9 +746,13 @@ const Typing = {
     const { setting } = Typing
     UI.modal({
       show: true,
-      html: `
+      html: Utils.html`
         <div class="modal-setting">
           <h3 style="margin-top: 0">设置</h3>
+          <h4>截取</h4>
+          <label>前 <input type="number" name="slice" min="0" placeholder="0 代表不截取" value="${setting.slice}" />
+            <span class="modal-setting-slice-unit">${setting.randomType === 'line' ? '行' : '字'}</span>
+          </label>
           <h4>随机化</h4>
           <label><input type="radio" name="randomType" value="none" ${setting.randomType === 'none' ? 'checked' : ''} /> 无</label>
           <label><input type="radio" name="randomType" value="char" ${setting.randomType === 'char' ? 'checked' : ''} /> 字乱序</label>
@@ -649,6 +784,11 @@ const Typing = {
           Typing.changeSetting(name, Number(value))
         }, 500)
       }
+
+      // 表单交互
+      if (name === 'randomType') {
+        $('.modal-setting-slice-unit').textContent = value === 'line' ? '行' : '字'
+      }
     }
     ;[...document.querySelectorAll('.modal-setting input')].forEach(input => {
       input.oninput = onSettingInput
@@ -674,7 +814,7 @@ const Typing = {
               <th>日期</th>
             </tr>
             ${[...Typing.history].reverse().map(record => (
-              `<tr>
+              Utils.html`<tr>
                 <td>${record.text.slice(0, 10)}</td>
                 <td>${record.badge}</td>
                 <td>${Utils.formatTime(record.millis)}</td>
@@ -699,6 +839,7 @@ const Typing = {
 $btnHistory.onclick = Typing.showHistory
 $btnSetting.onclick = Typing.showSetting
 $btnLoad.onclick = Typing.load
+$btnLoadSuffix.onclick = Typing.openBuiltin
 $btnReload.onclick = Typing.reload
 $btnStart.onclick = Typing.start
 $inputArea.oninput = Typing.onInput
@@ -706,7 +847,6 @@ $inputArea.onblur = Typing.pause
 $inputArea.oncontextmenu = (e) => e.preventDefault()
 $inputArea.onkeydown = Typing.onKeyDown
 $inputArea.onscroll = Typing.onScroll
-$modalMask.onclick = () => UI.modal({ show: false })
 
 Typing.onLoad()
 </script>
