@@ -234,10 +234,10 @@ body {
 </div>
 
 <div class="tool-bar">
-  <input class="btn-file" type="file" hidden accept=".txt" />
   <button class="btn btn-history">历史</button>
-  <button class="btn btn-setting" disabled title="施工中">设置</button>
+  <button class="btn btn-setting">设置</button>
   <button class="btn btn-load">载文</button>
+  <button class="btn btn-reload" disabled title="请先载文">重载</button>
   <button class="btn btn-primary btn-start" disabled title="请先载文">开始</button>
 </div>
 
@@ -256,6 +256,7 @@ body {
   <div class="modal-mask"></div>
   <div class="modal-body"></div>
 </div>
+
 <div class="toast" style="display: none"></div>
 
 <script>
@@ -270,7 +271,7 @@ const $statusAcc = $('.status-acc')
 const $btnSetting = $('.btn-setting')
 const $btnStart = $('.btn-start')
 const $btnLoad = $('.btn-load')
-const $btnFile = $('.btn-file')
+const $btnReload = $('.btn-reload')
 const $btnHistory = $('.btn-history')
 const $modalMask = $('.modal-mask')
 
@@ -279,6 +280,7 @@ const Constants = {
   linebreak: '↵',
   storage: {
     history: 'typing.history',
+    setting: 'typing.setting',
   },
 }
 
@@ -329,6 +331,15 @@ const Utils = {
   setStorage (key, value) {
     localStorage.setItem(key, JSON.stringify(value))
   },
+  shuffle (arr) {
+    const n = arr.length
+    for (let i = 0; i < n; ++i) {
+      const j = (i + (n-i) * Math.random()) | 0
+      const tmp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = tmp
+    }
+  },
 }
 
 const UI = {
@@ -367,26 +378,24 @@ const UI = {
       }, 200)
     }
   },
-  getRadioValue(name) {
-    const radioGroup = form.elements[name]
-    for (let i = 0; i < radioGroup.length; ++i) {
-      if (radioGroup[i].checked)
-        return radioGroup[i].value;
-    }
-  },
 }
 
 const Typing = {
+  loadedFile: '', // 当前载入的文件 (未处理)
   loadedText: '', // 当前载入的文章
-  setting: {
-    randomType: 'none',
-    blankType: 'trim',
-    limit: 0,
-  }, // 用户设置
+  setting: {}, // 用户设置
   current: {}, // 当前打字信息
   history: [], // 历史记录
   onLoad () {
     Typing.history = Utils.getStorage(Constants.storage.history, [])
+    Typing.setting = Utils.getStorage(Constants.storage.setting, Typing.defaultSetting())
+  },
+  defaultSetting () {
+    return {
+      randomType: 'none',
+      blankType: ['trim'],
+      limit: 0,
+    }
   },
   // 更新背景文字
   updateBg (textArr) {
@@ -548,38 +557,101 @@ const Typing = {
   onScroll (e) {
     $inputBg.scrollTo({ top: e.target.scrollTop, left: 0 })
   },
-  onFileChange (e) {
+  onFileInput (e) {
     const file = e.target.files[0]
     const reader = new FileReader()
     reader.onload = function () {
-      Typing.loadedText = this.result
+      Typing.loadedFile = this.result
       $btnStart.disabled = false
       $btnStart.title = ''
-      Typing.start()
+      $btnReload.disabled = false
+      $btnReload.title = '载入同一篇文章。启用随机化时，该文章会被重排'
+      Typing.reload()
     }
     reader.readAsText(file)
   },
   load () {
+    // 创建 <input type="file" /> 后马上移除, 以免 onchange 不触发
+    const $btnFile = document.createElement('input')
+    $btnFile.className = 'btn-file'
+    $btnFile.hidden = true
+    $btnFile.type = 'file'
+    $btnFile.accept = '.txt'
+    $btnFile.oninput = Typing.onFileInput
+    document.body.append($btnFile)
     $btnFile.click()
+    document.body.removeChild($btnFile)
+  },
+  reload () {
+    Typing.loadedText = Typing.preloadText(Typing.loadedFile)
+    Typing.start()
+  },
+  preloadText (text) {
+    const { setting } = Typing
+    // 随机化
+    if (setting.randomType === 'char') {
+      text = [...text]
+      Utils.shuffle(text)
+      text = text.join('')
+    } else if (setting.randomType === 'line') {
+      text = text.split('\n')
+      Utils.shuffle(text)
+      text = text.join('\n')
+    }
+    // 空白处理
+    if (setting.blankType.includes('trim')) text = text.trim()
+    if (setting.blankType.includes('nobreak')) text = text.replace(/\r|\n/g, '')
+    if (setting.blankType.includes('noblank')) text = text.replace(/\s/g, '')
+    // 限定字数
+    if (setting.limit > 0) text = text.slice(0, setting.limit)
+    console.log(text)
+    return text
+  },
+  changeSetting (name, value) {
+    Typing.setting[name] = value
+    Utils.setStorage(Constants.storage.setting, Typing.setting)
   },
   showSetting () {
+    const { setting } = Typing
     UI.modal({
       show: true,
       html: `
         <div class="modal-setting">
           <h3 style="margin-top: 0">设置</h3>
           <h4>随机化</h4>
-          <label><input type="radio" name="randomType" value="none" checked /> 无</label>
-          <label><input type="radio" name="randomType" value="char" /> 字乱序</label>
-          <label><input type="radio" name="randomType" value="line" /> 行乱序</label>
+          <label><input type="radio" name="randomType" value="none" ${setting.randomType === 'none' ? 'checked' : ''} /> 无</label>
+          <label><input type="radio" name="randomType" value="char" ${setting.randomType === 'char' ? 'checked' : ''} /> 字乱序</label>
+          <label><input type="radio" name="randomType" value="line" ${setting.randomType === 'line' ? 'checked' : ''} /> 行乱序</label>
           <h4>空白处理</h4>
-          <label><input type="checkbox" name="blankType" value="trim" checked /> 去除文章前后空白</label>
-          <label><input type="checkbox" name="blankType" value="nobreak" /> 去除换行</label>
-          <label><input type="checkbox" name="blankType" value="noblank" /> 去除所有空白</label>
+          <label><input type="checkbox" name="blankType" value="trim" ${setting.blankType.includes('trim') ? 'checked' : ''} /> 去除文章前后空白</label>
+          <label><input type="checkbox" name="blankType" value="nobreak" ${setting.blankType.includes('nobreak') ? 'checked' : ''} /> 去除换行</label>
+          <label><input type="checkbox" name="blankType" value="noblank" ${setting.blankType.includes('noblank') ? 'checked' : ''} /> 去除所有空白</label>
           <h4>限定字数</h4>
-          <label><input type="number" name="limit" min="0" placeholder="0 代表不限字数" /></label>
+          <label><input type="number" name="limit" min="0" placeholder="0 代表不限字数" value="${setting.limit}" /></label>
         </div>
       `
+    })
+    let timer
+    const onSettingInput = (e) => {
+      const { name, type, value, checked } = e.target
+      if (type === 'radio') {
+        Typing.changeSetting(name, value)
+      } else if (type === 'checkbox') {
+        if (checked) {
+          Typing.setting[name].push(value)
+          Typing.changeSetting(name, Typing.setting[name])
+        } else {
+          Typing.changeSetting(name, Typing.setting[name].filter(v => v !== value))
+        }
+      } else if (type === 'number') {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          Typing.changeSetting(name, Number(value))
+        }, 500)
+      }
+    }
+    ;[...document.querySelectorAll('.modal-setting input')].forEach(input => {
+      input.oninput = onSettingInput
     })
   },
   showHistory () {
@@ -589,7 +661,6 @@ const Typing = {
         <div class="modal-history">
           <table class="modal-history-table">
             <tr>
-              <th>日期</th>
               <th>文章</th>
               <th>成绩</th>
               <th>用时</th>
@@ -600,10 +671,10 @@ const Typing = {
               <th>错字</th>
               <th>键数</th>
               <th>退格</th>
+              <th>日期</th>
             </tr>
             ${[...Typing.history].reverse().map(record => (
               `<tr>
-                <td>${Utils.formatDate(record.startTime)}</td>
                 <td>${record.text.slice(0, 10)}</td>
                 <td>${record.badge}</td>
                 <td>${Utils.formatTime(record.millis)}</td>
@@ -614,6 +685,7 @@ const Typing = {
                 <td>${record.errorCount}</td>
                 <td>${record.keyCount}</td>
                 <td>${record.backspaceCount}</td>
+                <td>${Utils.formatDate(record.startTime)}</td>
               </tr>`
             )).join('\n')}
           </table>
@@ -627,8 +699,8 @@ const Typing = {
 $btnHistory.onclick = Typing.showHistory
 $btnSetting.onclick = Typing.showSetting
 $btnLoad.onclick = Typing.load
+$btnReload.onclick = Typing.reload
 $btnStart.onclick = Typing.start
-$btnFile.onchange = Typing.onFileChange
 $inputArea.oninput = Typing.onInput
 $inputArea.onblur = Typing.pause
 $inputArea.oncontextmenu = (e) => e.preventDefault()
