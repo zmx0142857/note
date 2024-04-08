@@ -10,6 +10,7 @@
   --bg: #222;
   --bg2: #333;
   --bg3: #666;
+  --bg4: rgba(0, 0, 0, 0.5);
 
   --bd: #303030;
   --bd2: #888;
@@ -162,6 +163,7 @@ body {
 }
 
 .toast {
+  display: none;
   background-color: var(--color-blue);
   color: var(--fg);
   border-radius: 8px;
@@ -193,7 +195,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, .5);
+  background: var(--bg4);
 }
 .modal-body {
   position: fixed;
@@ -254,6 +256,7 @@ body {
 }
 
 .menu {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -281,6 +284,31 @@ body {
 .menu-body-item:hover {
   background: var(--bg2);
 }
+.loading {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg4);
+}
+.loading::after {
+  content: '';
+  position: absolute;
+  background-color: var(--fg);
+  width: 20px;
+  height: 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: loading-anim 1.5s infinite ease-in-out;
+}
+@keyframes loading-anim {
+  0% { transform: translate(-50%, -50%) scale(1.5) rotate(0) }
+  50% { transform: translate(-50%, -50%) scale(1) rotate(45deg) }
+  100% { transform: translate(-50%, -50%) scale(1.5) rotate(90deg) }
+}
 </style>
 
 <div class="input">
@@ -307,17 +335,19 @@ body {
   <span class="status-acc">100.00%</span>
 </div>
 
-<div class="modal" style="display: none">
+<div class="modal">
   <div class="modal-mask"></div>
   <div class="modal-body"></div>
 </div>
 
-<div class="toast" style="display: none"></div>
+<div class="toast"></div>
 
-<div class="menu" style="display: none">
+<div class="menu">
   <div class="menu-mask"></div>
   <div class="menu-body"></div>
 </div>
+
+<div class="loading"></div>
 
 <script>
 const $ = el => document.querySelector(el)
@@ -482,6 +512,15 @@ const UI = {
     document.body.append($btnFile)
     $btnFile.click()
     document.body.removeChild($btnFile)
+  },
+  loading ({ show }) {
+    const $loading = $('.loading')
+    UI.loading.show = show
+    if (show) {
+      $loading.style.display = 'block'
+    } else {
+      $loading.style.display = 'none'
+    }
   },
 }
 
@@ -721,12 +760,17 @@ const Typing = {
       }
     }
   },
-  loadBuiltin (src) {
+  async loadBuiltin (src) {
     UI.menu({ show: false })
-    fetch(src).then(res => res.text()).then(text => {
+    UI.loading({ show: true })
+    try {
+      const res = await fetch(src)
+      const text = await res.text()
       Typing.loadedFile = text
       Typing.reload()
-    })
+    } finally {
+      UI.loading({ show: false })
+    }
   },
   preloadText (text) {
     const { setting } = Typing
