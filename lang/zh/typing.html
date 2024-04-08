@@ -58,6 +58,9 @@ body {
   white-space: pre-wrap;
   overflow-y: auto;
 }
+.composition-str {
+  position: absolute;
+}
 
 .color-normal {
   color: var(--fg);
@@ -488,6 +491,7 @@ const Typing = {
   setting: {}, // 用户设置
   current: {}, // 当前打字信息
   history: [], // 历史记录
+  compositionStr: '', // 未上屏的编码
   onLoad () {
     Typing.history = Utils.getStorage(Constants.storage.history, [])
     Typing.setting = {
@@ -541,6 +545,9 @@ const Typing = {
     Typing.current.correctCount = correctCount
     Typing.current.errorCount = errorCount
     flush({ alignLast: true })
+    if (Typing.compositionStr) {
+      res.push(Utils.html`<span class="color-normal composition-str">${Typing.compositionStr}</span>`)
+    }
     className = 'color-dim'
     buf.push(...Typing.current.text.slice(textArr.length))
     flush()
@@ -630,6 +637,12 @@ const Typing = {
       $statusBadge.classList.remove('bg-gold')
     }
   },
+  onCompositionUpdate (e) {
+    Typing.compositionStr = e.data
+  },
+  onCompositionEnd () {
+    Typing.compositionStr = ''
+  },
   // 文本框输入事件
   onInput (e) {
     // 用户输入时开始记时
@@ -642,7 +655,8 @@ const Typing = {
     const text = [...value]
     const isFinish = text.length === Typing.current.text.length
     const isCorrect = text[text.length - 1] === Typing.current.text[text.length - 1]
-    $inputBg.innerHTML = Typing.updateBg([...value])
+    const textArr = Typing.compositionStr ? [...value.slice(0, -Typing.compositionStr.length)] : [...value]
+    $inputBg.innerHTML = Typing.updateBg(textArr)
     if (isFinish && isCorrect) {
       Typing.finish()
     }
@@ -683,7 +697,7 @@ const Typing = {
     $btnStart.disabled = false
     $btnStart.title = ''
     $btnReload.disabled = false
-    $btnReload.title = '载入同一篇文章。启用随机化时，该文章会被重排'
+    $btnReload.title = '启用随机化时，文章会被重排。刷到满意成绩后就按重载打下一组吧！'
     Typing.loadedText = Typing.preloadText(Typing.loadedFile)
     Typing.start()
   },
@@ -754,6 +768,7 @@ const Typing = {
             <span class="modal-setting-slice-unit">${setting.randomType === 'line' ? '行' : '字'}</span>
           </label>
           <h4>随机化</h4>
+          <p>单字练习时可以选择字乱序，词组练习时可以选择行乱序</p>
           <label><input type="radio" name="randomType" value="none" ${setting.randomType === 'none' ? 'checked' : ''} /> 无</label>
           <label><input type="radio" name="randomType" value="char" ${setting.randomType === 'char' ? 'checked' : ''} /> 字乱序</label>
           <label><input type="radio" name="randomType" value="line" ${setting.randomType === 'line' ? 'checked' : ''} /> 行乱序</label>
@@ -843,6 +858,9 @@ $btnLoadSuffix.onclick = Typing.openBuiltin
 $btnReload.onclick = Typing.reload
 $btnStart.onclick = Typing.start
 $inputArea.oninput = Typing.onInput
+// $inputArea.addEventListener('compositionstart', Typing.onCompositionStart)
+$inputArea.addEventListener('compositionupdate', Typing.onCompositionUpdate)
+$inputArea.addEventListener('compositionend', Typing.onCompositionEnd)
 $inputArea.onblur = Typing.pause
 $inputArea.oncontextmenu = (e) => e.preventDefault()
 $inputArea.onkeydown = Typing.onKeyDown
