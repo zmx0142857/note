@@ -18,6 +18,27 @@
   --color-error: #e88;
   --color-blue: #1976d2;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg3);
+  background-clip: padding-box;
+  min-height: 28px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+/* firefox */
+html {
+  scrollbar-color: var(--bg3) transparent;
+}
+* {
+  scrollbar-width: thin;
+}
+
 body {
   background-color: var(--bg);
 }
@@ -57,7 +78,7 @@ body {
   line-height: 30px;
   line-break: anywhere;
   white-space: pre-wrap;
-  overflow-y: auto;
+  overflow-y: scroll; /* 保证前后两层都有滚动条, 从而有相同的宽度 */
 }
 .composition-str {
   position: absolute;
@@ -748,6 +769,7 @@ const Typing = {
       html: `<div class="menu-body-list">
           <div class="menu-body-item" data-src="../data/zh-5000.txt">单字练习</div>
           <div class="menu-body-item" data-src="../data/zh-words.txt">词组练习</div>
+          <div class="menu-body-item" data-click="loadFromClipboard">剪贴板...</div>
       </div>`,
       bodyStyle: {
         left: e.target.offsetLeft + 37 + 'px',
@@ -756,8 +778,23 @@ const Typing = {
     })
     $('.menu-body-list').onclick = (e) => {
       if ([...e.target.classList].includes('menu-body-item')) {
-        Typing.loadBuiltin(e.target.getAttribute('data-src'))
+        const dataClick = e.target.getAttribute('data-click')
+        if (dataClick) {
+          return Typing[dataClick]()
+        }
+        const dataSrc = e.target.getAttribute('data-src')
+        if (dataSrc) {
+          return Typing.loadBuiltin(dataSrc)
+        }
       }
+    }
+  },
+  loadFromClipboard () {
+    UI.menu({ show: false })
+    const res = window.prompt('在下面粘贴文章内容：')
+    if (res) {
+      Typing.loadedFile = res
+      Typing.reload()
     }
   },
   async loadBuiltin (src) {
