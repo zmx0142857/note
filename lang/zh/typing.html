@@ -640,15 +640,16 @@ const Typing = {
   onCompositionUpdate (e) {
     Typing.compositionStr = e.data
   },
-  onCompositionEnd () {
+  onCompositionEnd (e) {
     Typing.compositionStr = ''
+    Typing.onInput(e)
   },
   // 文本框输入事件
   onInput (e) {
+    // 输入禁用时不触发事件
+    if ($inputArea.disabled) return
     // 用户输入时开始记时
-    if (!Typing.current.timer) {
-      Typing.resume()
-    }
+    if (!Typing.current.timer) Typing.resume()
     const value = Utils.processText(e.target.value)
     e.target.value = Utils.restoreSpace(Utils.restoreLinebreak(value))
 
