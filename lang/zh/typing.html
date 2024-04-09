@@ -666,7 +666,7 @@ const Typing = {
   // 计算字母评分
   getBadge (speed, acc, isEnglish) {
     if (isEnglish) speed = (speed + 50) / 2
-    return speed > 200 && acc >= 100? 'φ'
+    return speed > 200 && acc >= 98 ? 'φ'
       : speed > 150 ? 'V+'
       : speed > 120 ? 'V'
       : speed > 100 ? 'S'
@@ -767,8 +767,8 @@ const Typing = {
     UI.menu({
       show: true,
       html: `<div class="menu-body-list">
-          <div class="menu-body-item" data-src="../data/zh-5000.txt">单字练习</div>
-          <div class="menu-body-item" data-src="../data/zh-words.txt">词组练习</div>
+          <div class="menu-body-item" data-src="../data/zh-char-5000.txt">单字练习</div>
+          <div class="menu-body-item" data-src="../data/zh-word.txt">词组练习</div>
           <div class="menu-body-item" data-click="loadFromClipboard">剪贴板...</div>
       </div>`,
       bodyStyle: {
@@ -783,7 +783,9 @@ const Typing = {
           return Typing[dataClick]()
         }
         const dataSrc = e.target.getAttribute('data-src')
-        if (dataSrc) {
+        if (dataSrc === '../data/zh-word.txt' && Typing.setting.slice <= 3000) {
+          return Typing.loadBuiltin(dataSrc.replace('.txt', '-3000.txt'))
+        } else {
           return Typing.loadBuiltin(dataSrc)
         }
       }
