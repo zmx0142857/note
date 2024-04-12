@@ -902,27 +902,25 @@ const Typing = {
             <tr>
               <th>文章</th>
               <th>成绩</th>
-              <th>用时</th>
-              <th>速度 (字/分)</th>
-              <th>击键 (键/秒)</th>
+              <th title="字/分">速度</th>
+              <th title="键/秒">击键</th>
               <th>键准</th>
+              <th>码长</th>
               <th>字数</th>
               <th>错字</th>
-              <th>键数</th>
-              <th>退格</th>
+              <th>回改</th>
               <th>日期</th>
             </tr>
             ${[...Typing.history].reverse().map(record => (
               Utils.html`<tr>
                 <td>${record.text.slice(0, 10)}</td>
                 <td>${record.badge}</td>
-                <td>${Utils.formatTime(record.millis)}</td>
                 <td>${record.speed.toFixed(2)}</td>
                 <td>${record.keySpeed.toFixed(2)}</td>
                 <td>${record.acc.toFixed(2)}%</td>
+                <td>${(record.keyCount / record.text.length).toFixed(2)}</td>
                 <td>${record.text.length}</td>
                 <td>${record.errorCount}</td>
-                <td>${record.keyCount}</td>
                 <td>${record.backspaceCount}</td>
                 <td>${Utils.formatDate(record.startTime)}</td>
               </tr>`

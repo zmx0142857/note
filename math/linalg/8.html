@@ -275,6 +275,77 @@
   因此 `bm epsi_1, cdots, bm epsi_n` 是一组正交基底.
 </p>
 
+<p class="example">
+  <b>正交三角分解 (QR 分解)</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/362248020">知乎@Iterator</a>]
+  设 `bm A` 是 `m xx n` 实矩阵, 且 `bm A` 的各列向量线性无关, 则存在唯一分解
+  <span class="formula">
+    `bm A_(m xx n) = bm Q_(m xx n) bm R_(n xx n)`.
+  </span>
+  其中 `bm Q` 满足各列向量单位正交, `bm R` 是主对角线全为正数的上三角矩阵.
+  QR 分解以矩阵的形式, 编码了 Schmidt 正交化的计算过程.
+</p>
+
+<ol class="proof">
+  <li>存在性.
+    对 `bm A` 的各列进行 Schmidt 正交化,
+    <span class="formula align" style="margin-top:-1em">
+      <br/>
+      `bm b_1 = bm a_1`,<br/>
+      `bm b_2 = bm a_2 - k_(2,1) bm b_1`,<br/>
+      `cdots`<br/>
+      `bm b_n = bm a_n - k_(n,1) bm b_1 - k_(n,2) bm b_2 - cdots - k_(n,n-1) bm b_(n-1)`.<br/>
+    </span>
+    再单位化,
+    <span class="formula">
+      `hat bm b_j = bm b_j/|bm b_j|`, `quad j = 1, cdots, n`.
+    </span>
+    写为矩阵形式就是
+    <span class="formula">
+      `bm A = (hat bm b_1, cdots, hat bm b_n)[
+        |bm b_1|, k_(2,1)|bm b_1|, cdots, k_(n,1)|bm b_1|;
+        , |bm b_2|, cdots, k_(n,2)|bm b_2|;
+        ,,ddots,vdots;
+        ,,,|bm b_n|
+      ].
+    </span>
+  </li>
+  <li>唯一性.
+    设 `bm A` 有 QR 分解 `bm A = bm Q_1 bm R_1 = bm Q_2 bm R_2`, 下证 `bm R_1 = bm R_2`.<br>
+    由于 `bm Q_1, bm Q_2` 的各列向量单位正交, 有 `bm Q_1^T bm Q_1 = bm Q_2^T bm Q_2 = bm E`, 于是
+    <span class="formula">
+      `bm R_1^T bm R_1`
+      `= bm R_1^T bm Q_1^T bm Q_1 bm R_1`
+      `= bm A^T bm A`
+      `= bm R_2^T bm Q_2^T bm Q_2 bm R_2`
+      `= bm R_2^T bm R_2`.
+    </span>
+    上式两边左乘 `(bm R_2^T)^-1`, 右乘 `bm R_1^-1` 得
+    <span class="formula">
+      `(bm R_2^T)^-1 bm R_1^T = bm R_2 bm R_1^-1`.
+    </span>
+    上式左边是下三角矩阵, 右边是上三角矩阵, 但两边相等, 从而只能是对角形矩阵, 记为 `bm D`. 则 `bm R_2 = bm D bm R_1`.  于是
+    <span class="formula">
+      `bm R_1^T bm R_1`
+      `= bm R_2^T bm R_2`
+      `= bm R_1^T bm D^T bm D bm R_1`,
+    </span>
+    即 `bm D^T bm D = bm E`.
+    显然 `bm D` 的主对角线全为正, 故 `bm D = bm E`, 即 `bm R_1 = bm R_2`.
+    从而 `bm Q_1 = bm A bm R_1^-1 = bm A bm R_2^-1 = bm Q_2`.
+  </li>
+</ol>
+
+<p class="remark">
+  QR 分解的 Q 源于 orthogonal 的 O, 为避免混淆而写作 Q;
+  而 R 源于 right triangular matrices.
+</p>
+
+<pre>
+# sympy
+A.QRdecomposition()
+</pre>
+
 <h3>正交补空间</h3>
 
 <p class="definition">

@@ -33,10 +33,10 @@ var tocData = {
           { title: '向量的相关性与线性方程组', src: 'linalg/3.html', date: '2021-12-14' },
           { title: '线性空间', src: 'linalg/4.html' },
           { title: '线性映射与线性变换', src: 'linalg/5.html' },
-          { title: '特征值与特征向量', src: 'linalg/6.html', date: '2022-12-09' },
+          { title: '特征值与特征向量', src: 'linalg/6.html', date: '2024-04-12' },
           { title: 'λ 矩阵与相似标准形', src: 'linalg/7.html', date: '2023-06-01' },
-          { title: '线性空间中的度量与内积', src: 'linalg/8.html', date: '2023-06-11' },
-          { title: '实二次型与正定矩阵', src: 'linalg/9.html', date: '2021-12-08' },
+          { title: '线性空间中的度量与内积', src: 'linalg/8.html', date: '2024-04-12' },
+          { title: '实二次型与正定矩阵', src: 'linalg/9.html', date: '2024-04-11' },
           { title: '张量初步', src: 'linalg/10.html', date: '2023-08-27' },
         ]
       },
@@ -383,7 +383,7 @@ var tocData = {
         title: '汉语',
         articles: [
           { title: '易读错字词整理', src: 'zh/words.html' },
-          { title: '打字练习', src: 'zh/typing.html' },
+          { title: '打字练习', src: 'zh/typing.html', date: '2024-04-09' },
         ]
       },
       {

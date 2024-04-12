@@ -34,91 +34,13 @@
 
 <h3>实对称矩阵的正交对角化</h3>
 
-<p class="lemma">
-  实对称矩阵不同特征值的特征向量相互正交.
+<p>任意实对称矩阵可以正交对角化:
+  <span class="formula">
+    `bm A = bm (T Lambda T)^-1`,
+  </span>
+  其中 `bm T` 为正交矩阵, `bm Lambda` 为对角矩阵.
+  参见<a href="6.html">第六章</a>.
 </p>
-
-<p class="proof">
-  设 `lambda_1 != lambda_2` 是实对称矩阵 `bm A` 的两个不同特征值, `bm x_1, bm x_2` 是相应的特征向量, 则
-  <span class="formula">
-    `lambda_1 (bm x_1, bm x_2)`
-    `= (bm A bm x_1, bm x_2)`
-    `==^(bm A 对称) (bm x_1, bm A bm x_2)`
-    `= lambda_2 (bm x_1, bm x_2)`.
-  </span>
-  但 `lambda_1 != lambda_2`, 所以 `(bm x_1, bm x_2) = 0`.
-</p>
-
-<p class="lemma">
-  实对称矩阵的特征值都是实数, 且相应的特征向量可以取为实的.
-</p>
-
-<ol class="proof">
-<li>
-  设 `lambda` 是实对称矩阵 `bm A` 的特征值, `bm x` 是相应的特征向量, 则
-  <span class="formula">
-    `bm A bm x = lambda bm x`.
-  </span>
-  上式两边取复共轭得 `bm A bar bm x = bar lambda bar bm x`,
-  假如 `lambda` 不是实数, `lambda != bar lambda`, 由上一个引理知 `(bm x, bar bm x) = 0`, 即
-  <span class="formula">
-    `sum x_i bar x_i = sum |x_i|^2 = 0`.
-  </span>
-  这推出 `bm x = bb 0`, 与 `bm x` 是一个特征向量矛盾.
-  因此 `lambda` 是一个实数.
-</li>
-<li>设 `lambda` 是 `bm A` 的一个实特征值, 在 `RR` 上解线性方程组 `(lambda bm E - bm A) bm x = 0`
-  即可得到实的特征向量.
-</li>
-</ol>
-
-<p class="theorem">
-  <b>实对称矩阵可以正交对角化</b>
-  任意实对称矩阵 `bm A` 正交相似于如下矩阵:
-  <span class="formula">
-    `bm(T'A T) = "diag"(lambda_1, cdots, lambda_n)`,
-  </span>
-  其中 `bm T` 为正交矩阵, 即 `bm T' = bm T^-1`.
-  `lambda_1, cdots, lambda_n` 是 `bm A` 的 `n` 个特征值,
-  这些特征值都是实数.<br>
-  由于 `bm T` 是正交矩阵, 所以上式既是 `bm A` 的合同对角化,
-  也是它的相似对角化.
-</p>
-
-<p class="proof">
-  对矩阵的阶数 `n` 作归纳. `n=1` 时命题显然成立, 现在设 `n-1` 时命题成立, 则对于 `n` 阶对称矩阵 `bm A`:<br>
-  设 `lambda_1 in RR` 是 `bm A` 的一个特征值, `bm x_1 in RR^n` 是相应的特征向量, 且 `|bm x_1| = 1`.
-  将它扩充为 `RR^n` 中的标准正交基 `bm x_1, cdots, bm x_n`, 从而得到正交矩阵
-  <span class="formula">
-    `bm T_n = (bm x_1, cdots, bm x_n)`.
-  </span>
-  注意到 `bm A` 为对称矩阵, 计算知
-  <span class="formula">
-    `bm(T_n 'A T_n) = [lambda_1, 0; 0, bm A_(n-1)]`.
-  </span>
-  其中 `bm A_(n-1)` 是 `n-1` 阶实对称矩阵. 由归纳假设, 存在 `n-1` 阶正交矩阵 `bm T_(n-1)`
-  使得 `bm T_(n-1)' bm A_(n-1) bm T_(n-1)` 为对角形.
-  现在取
-  <span class="formula">
-    `bm T = bm T_n [1, 0; 0, bm T_(n-1)]`,
-  </span>
-  则 `bm T` 是 `n` 阶正交矩阵, 使得 `bm(T'A T)` 为对角形.
-</p>
-
-<ol class="algorithm">
-  <b>实对称矩阵的正交对角化</b>
-  <li>设 `bm A` 为实对称矩阵, 由上述定理, 它有 `n` 个实特征值, 我们先求这些特征值;</li>
-  <li>求出 `bm A` 的 `n` 个特征向量, 并正交化, 得到 `alpha_1, cdots, alpha_n`.</li>
-  <li>记 `bm T = (alpha_1, cdots, alpha_n)`, `bm D = "diag"(lambda_1,
-    cdots, lambda_n)`, 则 `bm T` 为正交矩阵, 且
-    <span class="formula">
-      `bm (T' A T)`
-      `= bm (T' A) (alpha_1, cdots, alpha_n)`
-      `= bm T' (alpha_1, cdots, alpha_n) "diag"(lambda_1, cdots, lambda_n)`
-      `= bm (T' T D) = bm D`.
-    </span>
-  </li>
-</ol>
 
 <h3>实二次型的标准化 (配方法)</h3>
 

@@ -699,16 +699,16 @@
 
 <h3>从特征向量来看</h3>
 
-<p class="lemma">
+<p class="lemma" id="lem-lin-ind">
   `cc A in L(V)` 有对角形表示矩阵当且仅当它有 `n = "dim"V`
   个线性无关的特征向量.
 </p>
 
 <p class="proof">
-  设 `cc A` 有线性无关的特征向量 `bm epsi_1, bm epsi_2, cdots, bm epsi_n`,
+  设 `cc A` 有线性无关的特征向量 `bm v_1, cdots, bm v_n`,
   其中
   <span class="formula">
-    `cc A bm epsi_i = lambda_i bm epsi_i`, `quad i = 1, 2, cdots, n`.
+    `cc A bm v_i = lambda_i bm v_i`, `quad i = 1, 2, cdots, n`.
   </span>
   从而线性变换在该基底下的矩阵为 `"diag"(lambda_i)`.
   反之, 若线性变换在某基底下的矩阵为 `"diag"(lambda_i)`,
@@ -718,26 +718,39 @@
 <p class="theorem">
   <b>矩阵的特征值分解</b>
   设方阵 `bm A` 有 `n` 个线性无关的特征向量
-  `bm Q = (bm alpha_1, cdots, bm alpha_n)`,
+  `bm V = (bm v_1, cdots, bm v_n)`,
   其对应的特征值为 `lambda_1, cdots, lambda_n`, 则
   <span class="formula">
-    `bm A = bm (Q Lambda Q)^-1`.
+    `bm A = bm (V Lambda V)^-1`.
   </span>
   其中 `bm Lambda = "diag"(lambda_1, cdots, lambda_n)`.
 </p>
 
 <p class="proof">
-  把 `bm A` 看作线性变换 `cc A` 在自然基底 `(bm epsi_1, cdots, bm epsi_n)`
-  下的表示矩阵.
-  `bm Q` 恰为两基底间的过渡矩阵:
+  直接计算
   <span class="formula">
-    `(bm alpha_1, cdots, bm alpha_n) = (bm epsi_1, cdots, bm epsi_n) bm Q`.
+    `bm(A V)`
+    `= bm A(bm v_1, cdots, bm v_n)`
+    `= (lambda_1 bm v_1, cdots, lambda_n bm v_n)`
+    `= bm(V Lambda)`.
   </span>
-  因此 `cc A` 在基底 `(bm alpha_1, cdots, bm alpha_n)` 下的表示矩阵为
-  `bm Lambda = bm Q^-1 bm A bm Q`, 由引理知道它为对角形.
+  即 `bm A = bm(V Lambda V)^-1`.
 </p>
 
-<p class="lemma">
+<p class="proof">
+  把 `bm A` 看作线性变换 `cc A` 在自然基底 `(bm epsi_1, cdots, bm epsi_n)`
+  下的表示矩阵.
+  `bm V` 恰为两基底间的过渡矩阵:
+  <span class="formula">
+    `(bm v_1, cdots, bm v_n) = (bm epsi_1, cdots, bm epsi_n) bm V`.
+  </span>
+  因此 `cc A` 在基底 `(bm v_1, cdots, bm v_n)` 下的表示矩阵为
+  `bm Lambda = bm V^-1 bm A bm V`.
+  因为 `bm v_1, cdots, bm v_n` 是线性无关的特征向量,
+  由<a class="ref" href="#lem-lin-ind"></a> 知道 `bm Lambda` 为对角形.
+</p>
+
+<p class="theorem">
   设 `cc A in L(V)` 有 `r` 个不同的特征值 `{lambda_i}_(i=1)^r`,
   对应于每个 `lambda_i`, 有 `n_i` 个线性无关的特征向量
   `{bm alpha_(i j)}_(j=1)^(n_i)`, `i = 1, 2, cdots, r`.
@@ -778,9 +791,9 @@
   即全部 `n` 个向量线性无关.
 </p>
 
-<p class="theorem">
-  由引理马上得到: 不同特征值对应的特征向量线性无关.
-  再结合上一引理有: 当线性变换有 `n` 个不同特征值时,
+<p class="corollary">
+  不同特征值对应的特征向量线性无关.
+  再结合<a class="ref" href="#lem-lin-ind"></a>有: 当线性变换有 `n` 个不同特征值时,
   它有对角形表示矩阵.
 </p>
 
@@ -810,7 +823,7 @@
 </p>
 
 <p class="theorem">
-  任一特征根的几何重数 `le` 其代数重数.
+  任一特征根的几何重数 `le` 代数重数.
 </p>
 
 <p class="proof">
@@ -941,7 +954,7 @@
   W`, 则称 `W` 为 `V` 关于 `cc A` 的<b>不变子空间</b>.
   零空间 `{bb 0}` 和全空间 `V` 是平凡的不变子空间,
   因为它们对于任意 `V` 上的线性变换都是不变的.
-  不变子空间的概念是特征子空间的推广, 特征子空间即为 1 维的不变子空间.
+  不变子空间的概念是特征子空间的推广.
 </p>
 
 <p class="theorem">
@@ -991,19 +1004,102 @@
 	所以 `cc A bm alpha in "Ker"f(cc A)`, 即 `"Ker"f(cc A)` 不变.
 </p>
 
-<h2>实矩阵的对角化</h2>
-
 <h3>实对称矩阵的特征值分解</h3>
 
-<p>任意实对称矩阵可以正交对角化:
-  <span class="formula">
-    `bm A = bm (T Lambda T)^-1`,
-  </span>
-  其中 `bm T` 为正交矩阵, `bm Lambda` 为对角矩阵.
-  参见<a href="9.html">第九章</a>.
+<p class="lemma">
+  实对称矩阵不同特征值的特征向量相互正交.
 </p>
 
+<p class="proof">
+  设 `lambda_1 != lambda_2` 是实对称矩阵 `bm A` 的两个不同特征值, `bm x_1, bm x_2` 是相应的特征向量, 则
+  <span class="formula">
+    `lambda_1 (bm x_1, bm x_2)`
+    `= (bm A bm x_1, bm x_2)`
+    `==^(bm A 对称) (bm x_1, bm A bm x_2)`
+    `= lambda_2 (bm x_1, bm x_2)`.
+  </span>
+  但 `lambda_1 != lambda_2`, 所以 `(bm x_1, bm x_2) = 0`.
+</p>
+
+<p class="lemma">
+  实对称矩阵的特征值都是实数, 且相应的特征向量可以取为实的.
+</p>
+
+<ol class="proof">
+<li>
+  设 `lambda` 是实对称矩阵 `bm A` 的特征值, `bm x` 是相应的特征向量, 则
+  <span class="formula">
+    `bm A bm x = lambda bm x`.
+  </span>
+  上式两边取复共轭得 `bm A bar bm x = bar lambda bar bm x`,
+  假如 `lambda` 不是实数, `lambda != bar lambda`, 由上一个引理知 `(bm x, bar bm x) = 0`, 即
+  <span class="formula">
+    `sum x_i bar x_i = sum |x_i|^2 = 0`.
+  </span>
+  这推出 `bm x = bb 0`, 与 `bm x` 是一个特征向量矛盾.
+  因此 `lambda` 是一个实数.
+</li>
+<li>设 `lambda` 是 `bm A` 的一个实特征值, 在 `RR` 上解线性方程组 `(lambda bm E - bm A) bm x = 0`
+  即可得到实的特征向量.
+</li>
+</ol>
+
+<p class="theorem">
+  <b>实对称矩阵可以正交对角化</b>
+  任意实对称矩阵 `bm A` 正交相似于如下矩阵:
+  <span class="formula">
+    `bm(T'A T) = "diag"(lambda_1, cdots, lambda_n)`,
+  </span>
+  其中 `bm T` 为正交矩阵, 即 `bm T' = bm T^-1`.
+  `lambda_1, cdots, lambda_n` 是 `bm A` 的 `n` 个特征值,
+  这些特征值都是实数.<br>
+  由于 `bm T` 是正交矩阵, 所以上式既是 `bm A` 的合同对角化,
+  也是它的相似对角化.
+</p>
+
+<p class="proof">
+  对矩阵的阶数 `n` 作归纳. `n=1` 时命题显然成立, 现在设 `n-1` 时命题成立, 则对于 `n` 阶对称矩阵 `bm A`:<br>
+  设 `lambda_1 in RR` 是 `bm A` 的一个特征值, `bm x_1 in RR^n` 是相应的特征向量, 且 `|bm x_1| = 1`.
+  将它扩充为 `RR^n` 中的标准正交基 `bm x_1, cdots, bm x_n`, 从而得到正交矩阵
+  <span class="formula">
+    `bm T_n = (bm x_1, cdots, bm x_n)`.
+  </span>
+  注意到 `bm A` 为对称矩阵, 计算知
+  <span class="formula">
+    `bm(T_n 'A T_n) = [lambda_1, 0; 0, bm A_(n-1)]`.
+  </span>
+  其中 `bm A_(n-1)` 是 `n-1` 阶实对称矩阵. 由归纳假设, 存在 `n-1` 阶正交矩阵 `bm T_(n-1)`
+  使得 `bm T_(n-1)' bm A_(n-1) bm T_(n-1)` 为对角形.
+  现在取
+  <span class="formula">
+    `bm T = bm T_n [1, 0; 0, bm T_(n-1)]`,
+  </span>
+  则 `bm T` 是 `n` 阶正交矩阵, 使得 `bm(T'A T)` 为对角形.
+</p>
+
+<ol class="algorithm">
+  <b>实对称矩阵的正交对角化</b>
+  <li>设 `bm A` 为实对称矩阵, 我们先求它的 `n` 个实特征值 `lambda_1, cdots, lambda_n`;</li>
+  <li>接下来, 我们寻找一组正交的特征向量 `bm T = (bm v_1, cdots, bm v_n)`.
+    若特征值 `lambda_1, cdots, lambda_n` 两两不同, 则由实对称矩阵的性质, 它们对应的特征向量已经是正交的.
+    若有一个特征值 `lambda` 的重数为 `r gt 1`, 因为实对称矩阵可对角化, 几何重数 = 代数重数,
+    所以相应的特征子空间也是 `r` 维的.
+    通过求解线性方程组 `(lambda bm E - bm A)bm X = bb 0`, 可以得到特征子空间的基底, 再 Schmidt 正交化即可.
+  </li>
+  <li>将上一步得到的正交特征向量单位化 (除以模长), 仍记为 `bm T = (bm v_1, cdots, bm v_n)`.
+    由矩阵的特征值分解定理知道
+    <span class="formula">
+      `bm A = bm(T Lambda T)^-1`,
+      `quad bm Lambda = "diag"(lambda_1, cdots, lambda_n)`.
+    </span>
+  </li>
+</ol>
+
 <h3>一般实矩阵的奇异值分解</h3>
+
+<blockquote>
+  相关阅读：<a href="8.html">QR 分解</a>、满秩分解
+</blockquote>
 
 <p>
   特征值分解在实际应用中受到限制, 这是由于只有方阵才有特征值,
@@ -1049,6 +1145,35 @@
     就使 <a class="ref" href="#for-D1-D2"></a> 成立.
   </li>
 </ol>
+
+<ol class="example">
+  <b>Moore-Penrose 伪逆</b>
+  [来自 深度学习 花书]
+  假设 `bm A` 是可逆矩阵, 我们可以在方程 `bm (A x) = bm y` 两边左乘 `bm A^-1`, 得到解 `bm x = bm A^-1 bm y`.
+  下面将这一方法推广到一般的 `m xx n` 实矩阵.
+  `bm A` 的伪逆定义为
+  <span class="formula">
+    `bm A^+ = lim_(alpha to 0^+) (bm A^T bm A + alpha bm I)^-1 bm A^T`.
+  </span>
+  一个更实用的公式是
+  <span class="formula">
+    `bm A^+ = bm V bm D^+ bm U^T`,
+  </span>
+  其中 `bm A = bm(U D V)^T` 是 `bm A` 的奇异值分解, 对角矩阵 `bm D` 的伪逆 `bm D^+` 是其非零元素取倒数后再转置得到的.
+  <li>`bm A` 的列数多于行数时, 方程欠定, `bm x = bm A^+ bm y` 是方程所有可行解中欧氏距离 `|bm x|` 最小的一个.</li>
+  <li>`bm A` 的行数多于列数时, 方程超定, 可能无解. 这时 `bm x = bm A^+ bm y` 能使欧氏距离 `|bm A bm x - bm y|` 最小.</li>
+</ol>
+
+<ol class="remark">
+  <li>`bm A^T bm A` 半正定, 特征值非负. 因此对于 `alpha gt 0`, `bm A^T bm A + alpha bm I` 的特征值全为正, 是正定矩阵.</li>
+  <li>`bm A bm A^+` 是对角形矩阵, 且对角元素不是 0 就是 1.</li>
+</ol>
+
+<pre>
+# sympy
+A.singular_value_decomposition() # 奇异值分解
+A.pinv() # Moore-Penrose 伪逆
+</pre>
 
 <h2>杂例</h2>
 
