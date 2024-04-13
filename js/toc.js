@@ -426,12 +426,13 @@ var tocData = {
       {
         title: '工具',
         articles: [
-          { title: '播放器', src: 'utils/player.html', date: '2022-02-12' },
-          { title: '简谱', src: 'utils/jianpu.html' },
-          { title: '乐谱编辑器', src: 'utils/lywriter.html' },
-          { title: '练耳', src: 'utils/ear-training.html' },
-          { title: '键盘', src: 'utils/piano.html' },
-          { title: '乐谱', src: 'utils/svg-score.html' },
+          { title: '调音器', src: 'utils/tuner.html', date: '2024-04-13' },
+          // { title: '播放器', src: 'utils/player.html', date: '2022-02-12' },
+          // { title: '简谱', src: 'utils/jianpu.html' },
+          // { title: '乐谱编辑器', src: 'utils/lywriter.html' },
+          // { title: '练耳', src: 'utils/ear-training.html' },
+          // { title: '键盘', src: 'utils/piano.html' },
+          // { title: '乐谱', src: 'utils/svg-score.html' },
         ]
       }
     ]

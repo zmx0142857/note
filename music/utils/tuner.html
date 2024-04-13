@@ -1,0 +1,317 @@
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  height: 100vh;
+  background: #111;
+}
+.g-absolute {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.fg-label {
+  margin: 0;
+  position: absolute;
+  left: 0;
+  width: 20px;
+  color: #fff;
+  text-shadow: 0 0 2px #aaa;
+  transform: translateY(-50%);
+  /* text-align: center; */
+}
+.bg-rule {
+  position: absolute;
+  border-top: 1px solid #aaa;
+  width: calc(100% - 20px);
+  left: 20px;
+}
+.canvas {
+  display: block;
+  transform-origin: 0 0;
+  /* border: 4px solid #fff; */
+}
+.btn-main {
+  position: absolute;
+  top: calc(50% - 40px);
+  left: calc(50% - 40px);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  color: #fff;
+  background-color: rgba(255, 255, 255, .3);
+  border-radius: 50%;
+  border: none;
+  font-size: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.btn-main:hover {
+  background-color: rgba(255, 255, 255, .4);
+}
+.icon-start {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 36px solid #fff;
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  margin-left: 8px;
+}
+.icon-stop {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-color: #fff;
+}
+.fps {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #fff;
+}
+</style>
+
+<div class="bg g-absolute"></div>
+<canvas class="canvas g-absolute"></canvas>
+<div class="fg g-absolute"></div>
+<button class="btn-main"><span class="icon-start" aria-label="start"></span></button>
+<span class="fps"></span>
+
+<script>
+const $ = el => document.querySelector(el)
+/** @type {HTMLCanvasElement} */
+const $canvas = $('.canvas')
+const $btnMain = $('.btn-main')
+const $fps = $('.fps')
+const $bg = $('.bg')
+const $fg = $('.fg')
+
+const ctx = $canvas.getContext('2d', { willReadFrequently: true })
+
+const Utils = {
+  // hsl 的范围为 [0, 1]
+  // rgb 的范围为 [0, 255]
+  hsl2rgb([h, s, l]) {
+    h = h % 1 * 6
+    // h = h % 360 / 60
+    const C = s * (1 - Math.abs(2 * l - 1))
+    const X = C * (1 - Math.abs(h % 2 - 1))
+    let r = g = b = l - C / 2
+    if (h < 1) {
+      r += C;
+      g += X;
+    } else if (h < 2) {
+      r += X;
+      g += C;
+    } else if (h < 3) {
+      g += C;
+      b += X;
+    } else if (h < 4) {
+      g += X;
+      b += C;
+    } else if (h < 5) {
+      r += X;
+      b += C;
+    } else {
+      r += C;
+      b += X;
+    }
+    return [r, g, b].map(v => Math.round(v * 255))
+  },
+}
+
+const Tuner = {
+  isInit: false,
+  isStart: false,
+  config: {
+    a4: 440,
+    smoothingTimeConstant: 0.8,
+    sampleRate: 1 << 13, // 采样率是 bufferSize 的倍数时会造成频率空洞
+    bufferSize: 1 << 14,
+    speed: 3, // 图像平移速度
+  },
+  /** @type {AudioContext} */
+  context: undefined,
+  /** @type {MediaStream} */
+  stream: undefined,
+  /** @type {MediaStreamAudioSourceNode} */
+  source: undefined,
+  /** @type {BiquadFilterNode} */
+  lowpass: undefined,
+  /** @type {AnalyserNode} */
+  analyser: undefined,
+  // https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteFrequencyData
+  // The frequencies are spread linearly from 0 to 1/2 of the sample rate.
+  /** @type {Uint8Array} */
+  frequencyData: undefined,
+  frameId: 0,
+  fps: {
+    lastTime: 0,
+    busy: undefined,
+    update (time) {
+      const delta = time - this.lastTime
+      this.lastTime = time
+      if (this.busy) return
+      this.busy = setTimeout(() => {
+        this.busy = undefined
+      }, 300)
+      $fps.innerText = (1000 / delta | 0) + 'FPS'
+    },
+  },
+  init () {
+    const { config } = Tuner
+    config.a0 = config.a4 / 16 // lowest note on a piano
+    config.c8 = config.a4 * Math.pow(2, 3.25) // highest note on a piano
+    Tuner.context = new AudioContext({ sampleRate: config.sampleRate })
+    Tuner.highpass = new BiquadFilterNode(Tuner.context, { type: 'highpass', frequency: config.a0 })
+    Tuner.lowpass = new BiquadFilterNode(Tuner.context, { type: 'lowpass', frequency: config.c8 })
+    Tuner.analyser = new AnalyserNode(Tuner.context, { fftSize: config.bufferSize, smoothingTimeConstant: config.smoothingTimeConstant })
+    Tuner.lowpass.connect(Tuner.highpass).connect(Tuner.analyser)
+    const len = Tuner.analyser.frequencyBinCount
+    Tuner.frequencyData = new Uint8Array(len)
+    Tuner.displayLength = config.c8 * 2 / config.sampleRate * len | 0
+    console.log('displayLength', Tuner.displayLength)
+    Tuner.isInit = true
+  },
+  async start () {
+    if (!Tuner.isInit) Tuner.init()
+    Tuner.stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    Tuner.source = Tuner.context.createMediaStreamSource(Tuner.stream)
+    // source -> lowpass -> highpass -> analyser
+    Tuner.source.connect(Tuner.lowpass)
+    Tuner.isStart = true
+    Tuner.startRender()
+  },
+  stop () {
+    cancelAnimationFrame(Tuner.frameId)
+    Tuner.stream.getTracks().forEach(track => track.stop())
+    Tuner.stream.removeTrack(Tuner.stream.getAudioTracks()[0])
+    Tuner.isStart = false
+  },
+  getData () {
+    Tuner.analyser.getByteFrequencyData(Tuner.frequencyData)
+  },
+  async mockStart () {
+    const { config } = Tuner
+    config.a0 = config.a4 / 16 // lowest note on a piano
+    config.c8 = config.a4 * Math.pow(2, 3.25) // highest note on a piano
+    const len = Tuner.analyser.frequencyBinCount
+    Tuner.frequencyData = new Uint8Array(len)
+    Tuner.displayLength = len
+    Tuner.isStart = true
+    Tuner.startRender()
+  },
+  mockStop () {
+    cancelAnimationFrame(Tuner.frameId)
+    Tuner.isStart = false
+  },
+  mockGetData() {
+    const index = Tuner.displayLength * Math.random() | 0
+    Tuner.frequencyData[index] = 255 * Math.random() | 0
+  },
+  startRender () {
+    if (Tuner.isStart) Tuner.frameId = requestAnimationFrame(Tuner.render)
+  },
+  getL (H) {
+    const { a0, c8, sampleRate } = Tuner.config
+    let L = 0
+    let k = 0.05
+    for (let f = a0 * Math.pow(2, H); f <= c8; f *= 2, k *= 2) {
+      const index = Tuner.frequencyData.length * f * 2 / sampleRate | 0
+      L += Tuner.frequencyData[index] / 255 * k
+    }
+    return Math.min(0.8, L**2.5)
+
+    // const index = Tuner.displayLength * H | 0
+    // let L = Tuner.frequencyData[index] / 255 // [0, 1]
+    // return Math.min(0.8, 1.25 * L)
+  },
+  render (time) {
+    Tuner.startRender()
+    Tuner.getData()
+    Tuner.fps.update(time)
+
+    const { width, height } = $canvas
+    const image = ctx.getImageData(0, 0, width, height)
+    const speed = Tuner.config.speed
+    for (let i = 0; i < image.data.length; i += 4) {
+      const y = i / 4 / width | 0
+      const x = i / 4 - y * width
+      // 向左平移 speed * 1px
+      if (x < width - 3) {
+        image.data[i] = image.data[i + 4 * speed]
+        image.data[i + 1] = image.data[i + 4 * speed + 1]
+        image.data[i + 2] = image.data[i + 4 * speed + 2]
+        image.data[i + 3] = image.data[i + 4 * speed + 3]
+      } else {
+        // 提取频谱
+        const H = 1 - (y+1) / height
+        const S = 1
+        const L = Tuner.getL(H)
+        // if (L === 0) console.log(H, L)
+        const [r, g, b] = Utils.hsl2rgb([H, S, L])
+        image.data[i] = r
+        image.data[i + 1] = g
+        image.data[i + 2] = b
+        image.data[i + 3] = Math.round(L * 255)
+      }
+    }
+    ctx.putImageData(image, 0, 0)
+  },
+  async onToggle () {
+    try {
+      await (Tuner.isStart ? Tuner.stop() : Tuner.start())
+    } catch (err) {
+      console.error(err)
+      window.alert(err)
+      return
+    }
+    $btnMain.innerHTML = Tuner.isStart ? '<span class="icon-stop" aria-label="stop"></span>' : '<span class="icon-start" aria-label="start"></span>'
+  },
+  onResize () {
+    // const dpr = window.devicePixelRatio
+    const dpr = 1
+    $canvas.width = $canvas.style.width = window.innerWidth * dpr
+    $canvas.height = $canvas.style.height = window.innerHeight * dpr
+    $canvas.style.transform = `scale(${1 / dpr})`
+    ctx.clearRect(0, 0, $canvas.width, $canvas.height)
+  },
+  initBg () {
+    const labels = ['A', 'G♯', 'G', 'F♯', 'F', 'E', 'D♯', 'D', 'C♯', 'C', 'B', 'A♯', 'A']
+    for (let i = 0; i < 13; ++i) {
+      const top = (i * 100 / 12).toFixed(2) + '%'
+      const rule = document.createElement('div')
+      rule.className = 'bg-rule'
+      rule.style.top = top
+      $bg.appendChild(rule)
+
+      const label = document.createElement('div')
+      label.innerText = labels[i]
+      label.className = 'fg-label'
+      label.style.top = top
+      $fg.appendChild(label)
+    }
+  },
+}
+
+const mock = false
+if (mock) {
+  Tuner.start = Tuner.mockStart
+  Tuner.stop = Tuner.mockStop
+  Tuner.getData = Tuner.mockGetData
+}
+
+$btnMain.onclick = Tuner.onToggle
+window.onresize = Tuner.onResize
+
+Tuner.initBg()
+Tuner.onResize()
+</script>
