@@ -75,11 +75,12 @@ body {
   height: 28px;
   background-color: #fff;
 }
-.fps {
+.status {
   position: absolute;
   right: 0;
   top: 0;
-  color: #fff;
+  color: rgba(255, 255, 255, .8);
+  width: 120px;
 }
 </style>
 
@@ -87,18 +88,23 @@ body {
 <canvas class="canvas g-absolute"></canvas>
 <div class="fg g-absolute"></div>
 <button class="btn-main"><span class="icon-start" aria-label="start"></span></button>
-<span class="fps"></span>
+<span class="status"></span>
+<span class="pitchy"></span>
 
-<script>
+<script type="module">
+import { PitchDetector } from 'https://esm.sh/pitchy@4'
+
 const $ = el => document.querySelector(el)
 /** @type {HTMLCanvasElement} */
 const $canvas = $('.canvas')
 const $btnMain = $('.btn-main')
-const $fps = $('.fps')
+const $status = $('.status')
 const $bg = $('.bg')
 const $fg = $('.fg')
 
 const ctx = $canvas.getContext('2d', { willReadFrequently: true })
+let image
+const labels = ['A', 'G♯', 'G', 'F♯', 'F', 'E', 'D♯', 'D', 'C♯', 'C', 'B', 'A♯', 'A', 'G♯']
 
 const Utils = {
   // hsl 的范围为 [0, 1]
@@ -108,7 +114,7 @@ const Utils = {
     // h = h % 360 / 60
     const C = s * (1 - Math.abs(2 * l - 1))
     const X = C * (1 - Math.abs(h % 2 - 1))
-    let r = g = b = l - C / 2
+    let r = l - C / 2, g = r, b = r
     if (h < 1) {
       r += C;
       g += X;
@@ -132,66 +138,86 @@ const Utils = {
   },
 }
 
+const initConfig = (config) => {
+  config.a0 = config.a4 / 16 // lowest note on a piano
+  config.c8 = config.a4 * Math.pow(2, 3.25) // highest note on a piano
+  return config
+}
+
 const Tuner = {
   isInit: false,
   isStart: false,
-  config: {
+  config: initConfig({
     a4: 440,
     smoothingTimeConstant: 0.8,
-    // sampleRate: 1 << 13, // 采样率是 bufferSize 的倍数时会造成频率空洞
+    // sampleRate: 1 << 13, // 采样率是 fftSize 的倍数时会造成频率空洞
     sampleRate: 44100,
-    bufferSize: 1 << 14,
+    fftSize: 1 << 14,
     speed: 3, // 图像平移速度
-  },
+    minVolumeDecibels: -1000,
+  }),
   /** @type {AudioContext} */
   context: undefined,
   /** @type {MediaStream} */
   stream: undefined,
-  /** @type {MediaStreamAudioSourceNode} */
-  source: undefined,
   /** @type {BiquadFilterNode} */
-  lowpass: undefined,
+  node: undefined,
   /** @type {AnalyserNode} */
   analyser: undefined,
   // https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteFrequencyData
   // The frequencies are spread linearly from 0 to 1/2 of the sample rate.
   /** @type {Uint8Array} */
   frequencyData: undefined,
+  detector: undefined,
+  /** @type {Float32Array} */
+  timeData: undefined,
   frameId: 0,
-  fps: {
+  status: {
     lastTime: 0,
+    delta: 0,
+    pitch: 0,
+    clarity: 0,
     busy: undefined,
-    update (time) {
-      const delta = time - this.lastTime
-      this.lastTime = time
+    update () {
       if (this.busy) return
       this.busy = setTimeout(() => {
         this.busy = undefined
       }, 300)
-      $fps.innerText = (1000 / delta | 0) + 'FPS'
-    },
+      $status.innerText = [
+        'FPS: ' + (1000 / this.delta | 0),
+        'Pitch: ' + this.pitch.toFixed(2),
+        'Clarity: ' + (this.clarity * 100).toFixed(2) + '%',
+      ].join('\n')
+    }
   },
   init () {
     const { config } = Tuner
-    config.a0 = config.a4 / 16 // lowest note on a piano
-    config.c8 = config.a4 * Math.pow(2, 3.25) // highest note on a piano
     Tuner.context = new AudioContext() // ({ sampleRate: config.sampleRate })
-    Tuner.config.sampleRate = Tuner.context.sampleRate
-    Tuner.highpass = new BiquadFilterNode(Tuner.context, { type: 'highpass', frequency: config.a0 })
-    Tuner.lowpass = new BiquadFilterNode(Tuner.context, { type: 'lowpass', frequency: config.c8 })
-    Tuner.analyser = new AnalyserNode(Tuner.context, { fftSize: config.bufferSize, smoothingTimeConstant: config.smoothingTimeConstant })
-    Tuner.lowpass.connect(Tuner.highpass).connect(Tuner.analyser)
+    config.sampleRate = Tuner.context.sampleRate
+    Tuner.analyser = new AnalyserNode(Tuner.context, { fftSize: config.fftSize, smoothingTimeConstant: config.smoothingTimeConstant })
+    Tuner.node = Tuner.analyser
+
+    // const highpass = new BiquadFilterNode(Tuner.context, { type: 'highpass', frequency: config.a0 })
+    // const lowpass = new BiquadFilterNode(Tuner.context, { type: 'lowpass', frequency: config.c8 })
+    // lowpass.connect(highpass).connect(analyser)
+    // Tuner.node = lowpass
+
     const len = Tuner.analyser.frequencyBinCount
     Tuner.frequencyData = new Uint8Array(len)
     Tuner.displayLength = config.c8 * 2 / config.sampleRate * len | 0
+
+    Tuner.detector = PitchDetector.forFloat32Array(config.fftSize)
+    Tuner.detector.minVolumeDecibels = config.minVolumeDecibels
+    Tuner.timeData = new Float32Array(Tuner.detector.inputLength)
+
     Tuner.isInit = true
   },
   async start () {
     if (!Tuner.isInit) Tuner.init()
     Tuner.stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-    Tuner.source = Tuner.context.createMediaStreamSource(Tuner.stream)
+    const source = Tuner.context.createMediaStreamSource(Tuner.stream)
     // source -> lowpass -> highpass -> analyser
-    Tuner.source.connect(Tuner.lowpass)
+    source.connect(Tuner.node)
     Tuner.isStart = true
     Tuner.startRender()
   },
@@ -203,12 +229,13 @@ const Tuner = {
   },
   getData () {
     Tuner.analyser.getByteFrequencyData(Tuner.frequencyData)
+    Tuner.analyser.getFloatTimeDomainData(Tuner.timeData)
+    const [pitch, clarity] = Tuner.detector.findPitch(Tuner.timeData, Tuner.config.sampleRate)
+    Tuner.status.pitch = pitch
+    Tuner.status.clarity = clarity
   },
   async mockStart () {
-    const { config } = Tuner
-    config.a0 = config.a4 / 16 // lowest note on a piano
-    config.c8 = config.a4 * Math.pow(2, 3.25) // highest note on a piano
-    const len = Tuner.analyser.frequencyBinCount
+    const len = Tuner.config.fftSize / 2
     Tuner.frequencyData = new Uint8Array(len)
     Tuner.displayLength = len
     Tuner.isStart = true
@@ -228,7 +255,14 @@ const Tuner = {
   getL (H) {
     const { a0, c8, sampleRate } = Tuner.config
     const data = Tuner.frequencyData
-    H = ((H * 13 - 1)/ 12) % 1
+    H = ((H * (labels.length - 1) - 1)/ 12) % 1
+
+    if (Tuner.status.clarity > 0.9) {
+      const value = Math.log2(Tuner.status.pitch / a0) % 1
+      const diff = Math.abs(value - H)
+      if (diff < 2e-3) return 1 - (100*diff)*2
+    }
+
     let L = 0
     let k = 1
     for (let f = a0 * Math.pow(2, H); f <= c8; f *= 2, k -= 0.1) {
@@ -239,7 +273,7 @@ const Tuner = {
       L += (1-alpha) * data[index] + alpha * data[index+1]
       L += data[index] * k
     }
-    return Math.min(1, Math.max(0, 0.2 * (L / 255)**2 - 1)) * 0.8
+    return Math.min((Math.pow((L / 255 - 1), 3) + 1) * 0.3, 0.8)
 
     // const index = Tuner.displayLength * H | 0
     // let L = Tuner.frequencyData[index] / 255 // [0, 1]
@@ -248,10 +282,11 @@ const Tuner = {
   render (time) {
     Tuner.startRender()
     Tuner.getData()
-    Tuner.fps.update(time)
+    Tuner.status.delta = time - Tuner.status.lastTime
+    Tuner.status.lastTime = time
+    Tuner.status.update()
 
     const { width, height } = $canvas
-    const image = ctx.getImageData(0, 0, width, height)
     const speed = Tuner.config.speed
     for (let i = 0; i < image.data.length; i += 4) {
       const y = i / 4 / width | 0
@@ -293,10 +328,10 @@ const Tuner = {
     $canvas.width = $canvas.style.width = window.innerWidth * dpr
     $canvas.height = $canvas.style.height = window.innerHeight * dpr
     $canvas.style.transform = `scale(${1 / dpr})`
-    ctx.clearRect(0, 0, $canvas.width, $canvas.height)
+    // ctx.clearRect(0, 0, $canvas.width, $canvas.height)
+    image = ctx.getImageData(0, 0, $canvas.width, $canvas.height)
   },
   initBg () {
-    const labels = ['A', 'G♯', 'G', 'F♯', 'F', 'E', 'D♯', 'D', 'C♯', 'C', 'B', 'A♯', 'A', 'G♯']
     for (let i = 0; i < labels.length; ++i) {
       const top = (i * 100 / (labels.length - 1)).toFixed(2) + '%'
       const rule = document.createElement('div')
