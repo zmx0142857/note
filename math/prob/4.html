@@ -10,56 +10,71 @@
 <h2>收敛性</h2>
 
 <ol>设 `{xi_n}` 是随机变量序列, `xi` 是随机变量, 
-	<li>如果对任意 `epsi gt 0` 成立
-		<span class="formula">
-			`lim_(n to oo) P{|xi_n - xi| lt epsi} = 1`,
-			即 `lim_(n to oo) P{|xi_n - xi| ge epsi} = 0`,
-		</span>
-		则称 `{xi_n}` <b>依概率收敛 (convergence in probability)</b>于
-		`xi`, 记为 `xi_n overset P to xi`.
-	</li>
-	<li>设 `xi_n, xi` 的分布函数分别为 `F_n(x), F(x)`, `n = 1, 2,
-		cdots`, 如果在 `F(x)` 的每个连续点 `x` 处都成立
-		<span class="formula">
-			`lim_(n to oo) F_n(x) = F(x)`,
-		</span>
-		则称 `F_n(x)` <b>弱收敛</b>于 `F(x)`, 记为 `F_n(x) overset W to
-		F(x)`;
-		此时称 `{xi_n}` <b>依分布收敛 (convergence in distribution)</b>于
-		`xi`, 记为 `xi_n overset L to xi`.
-	</li>
-	<li>如果
-		<span class="formula">
-			`P{lim_(n to oo) xi_n = xi} = 1`,
-		</span>
-		则称 `{xi_n}` <b>以概率 1 收敛 (convergence in probability 1)</b>
-		或<b>几乎处处收敛</b>于 `xi`, 记为 `xi_n overset "a.s." to xi`.
-		上式涉及的集合
-		<span class="formula">
-			`{omega: lim_(n to oo) xi_n(omega) = xi(omega)}`
-		</span>
-		上是否一定有概率定义, 我们稍后讨论.
-	</li>
+  <li><b>几乎处处收敛 (强度: ★★★)</b> 如果
+    <span class="formula">
+      `P{lim_(n to oo) xi_n = xi} = 1`,
+    </span>
+    则称 `{xi_n}` <b>以概率 1 收敛 (convergence in probability 1)</b>
+    或几乎处处收敛于 `xi`, 记为 `xi_n overset "a.s." to xi`.
+    上式涉及的集合
+    <span class="formula">
+      `{omega: lim_(n to oo) xi_n(omega) = xi(omega)}`
+    </span>
+    上是否一定有概率定义, 我们稍后讨论.
+  </li>
+  <li><b>依概率收敛 (强度: ★★)</b> 如果对任意 `epsi gt 0` 成立
+    <span class="formula">
+      `lim_(n to oo) P{|xi_n - xi| lt epsi} = 1`,
+      即 `lim_(n to oo) P{|xi_n - xi| ge epsi} = 0`,
+    </span>
+    则称 `{xi_n}` 依概率收敛 (convergence in probability) 于
+    `xi`, 记为 `xi_n overset P to xi`.
+  </li>
+  <li><b>依分布收敛 (强度: ★)</b> 设 `xi_n, xi` 的分布函数分别为 `F_n(x), F(x)`, `n = 1, 2,
+    cdots`, 如果在 `F(x)` 的每个连续点 `x` 处都成立
+    <span class="formula">
+      `lim_(n to oo) F_n(x) = F(x)`,
+    </span>
+    则称 `F_n(x)` <b>弱收敛</b>于 `F(x)`, 记为 `F_n(x) overset W to
+    F(x)`;
+    此时称 `{xi_n}` 依分布收敛 (convergence in distribution) 于 `xi`, 记为
+    `xi_n overset L to xi`.
+  </li>
+  <li><b>积分平均收敛 (强度: ★★☆)</b>
+    设 `p gt 1`, 如果 `{xi_n}` 与 `xi` 是 `L^p` 可积的, 且
+    <span class="formula">
+      `lim_(n to oo) E[(xi_n - xi)^p] = 0`,
+    </span>
+    则称 `{xi_n}` `L^p` 收敛到 `xi`, 记为 `xi_n overset (L^p) rarr xi`. 特别 `p
+    = 2` 时, 我们称它是平方平均收敛的.  `L^2` 空间是完备的, 因此从 `{xi_n} in
+    L^2` 就能推出 `xi in L^2`.
+  </li>
 </ol>
-
-<p class="proposition">
-  依概率收敛推出弱收敛, 弱收敛推出几乎处处收敛. 即
-  <span class="formula">
-    `X_n overset P to X` `rArr X_n overset L to X`
-    `rArr X_n overset "a.s." to X`.
-  </span>
-</p>
-
-<p class="proposition">
-  若随机变量的依分布收敛于常数 `c`, 则它也依概率收敛到 `c`.
-</p>
 
 <p class="remark">
   分布函数列逐点收敛的极限函数未必是分布函数, 如 `F_n(x) = { 1, x ge n; 0, x lt n :}` 弱收敛于 0, 但 0 不是分布函数.
 </p>
 
+<p class="remark">
+  依分布收敛是几种收敛方式中最弱的一个. 直觉上, 它没有对随机变量逐点的性质作要求, 而只要求
+  <span class="formula">
+    `P(xi_n le a) to P(xi le a)`.
+  </span>
+</p>
+
 <p class="theorem">
-  <b>唯一性<b/> 分布函数列 `{ F_n }` 弱收敛于 `F, G`, 则 `F = G`.
+  <b>弱收敛极限的唯一性</b> 分布函数列 `{F_n}` 弱收敛于 `F, G`, 则 `F = G`.
+</p>
+
+<ol class="theorem">
+  <b>几种收敛方式强度的比较</b>
+  <li>几乎处处收敛 `rArr` 依概率收敛; 反之, 依概率收敛 `rArr` 存在几乎处处收敛的子列;</li>
+  <li>依概率收敛 `rArr` 依分布收敛; 反之, 若 `{xi_n}` 依分布收敛到常数 `c`, 它也依概率收敛到常数 `c`;</li>
+  <li>`r gt s gt 1` 时, `L^r` 收敛 `rArr` `L^s` 收敛 `rArr` 依概率收敛.</li>
+</ol>
+
+<p class="theorem">
+  <b>逆极限定理</b>
 </p>
 
 <h2>大数定律</h2>
@@ -69,7 +84,8 @@
 	<span class="formula">
 		`bar xi_n = 1/n sum_(i=1)^n xi_i`,
 	</span>
-	如果对任意 `epsi gt 0`, 满足
+    如果随机变量序列 `{bar xi_n - E bar xi_n}` 依概率收敛到零,
+	即对任意 `epsi gt 0`, 满足
 	<span class="formula">
 		`lim_(n to oo) P{ |bar xi_n - E bar xi_n| lt epsi } = 1`,
 		即 `lim_(n to oo) P{ |bar xi_n - E bar xi_n| ge epsi } = 0`,
@@ -84,26 +100,26 @@
 
 <h3>Bernoulli 试验情形*</h3>
 
-<p class="theorem">
-	设 `{xi_n}` 是独立同分布随机变量序列 (任意有限个变量都是独立的),
-	`xi_n ~ B(1, p)`, `n = 1, 2, cdots`, 则 `{xi_n}` 满足大数定律.
+<p class="corollary">
+  <b>Bernoulli 大数定律</b>
+  设 `{xi_n}` 是独立同分布随机变量序列 (任意有限个变量都是独立的), `xi_n ~ B(1, p)`, 则 `{xi_n}` 满足大数定律.
 </p>
 
 <p class="remark">
-	利用收敛性的语言, Bernoulli 大数定律重新叙述为: `n` 次独立试验中,
-	事件发生的频率 `bar xi` 依概率收敛于概率 `p`.
+  利用收敛性的语言, Bernoulli 大数定律重新叙述为: `n` 次独立试验中,
+  事件发生的频率 `bar xi_n` 依概率收敛于概率 `p`.
 </p>
 
-<h3>二阶矩存在的情形</h3>
+<h3>方差存在的情形</h3>
 
 <ol class="theorem">
-	<li><b>Марков 大数定律</b>
-		设 `{xi_n}` 是随机变量序列, 其方差存在且满足 <b>Марков 条件</b>
-		`lim_(n to oo) D bar xi = 0`, 则 `{xi_n}` 满足大数定律.
+	<li><b>Markov (Марков) 大数定律</b>
+		设 `{xi_n}` 是随机变量序列, 其方差存在且满足 <b>Markov 条件</b>
+		`lim_(n to oo) D bar xi_n = 0`, 则 `{xi_n}` 满足大数定律.
 	</li>
-	<li><b>Чебышев 大数定律</b>
+	<li><b>Chebyshev (Чебышев) 大数定律</b>
 		设 `{xi_n}` 是两两不相关的随机变量序列, 其方差存在且有共同的上界:
-		`D xi le C`, `i = 1, 2, cdots`, 则 `{xi_n}` 满足大数定律.
+		`D xi_n le C`, `n = 1, 2, cdots`, 则 `{xi_n}` 满足大数定律.
 	</li>
 	<li><b>Poisson 大数定律</b>
 		设 `{xi_n}` 是独立随机变量序列,
@@ -112,7 +128,7 @@
 </ol>
 
 <ol class="proof">
-	<li>利用 Чебышев 不等式,
+	<li>对任意 `epsi gt 0`, 利用 Chebyshev 不等式,
 		<span class="formula">
 			`0 le P{|bar xi_n - E bar xi_n| ge epsi}`
 			`le (D bar xi_n)/epsi^2`.
@@ -125,26 +141,25 @@
 	<li>因为 `{xi_n}` 两两不相关, 有
 		<span class="formula">
 			`D bar xi_n = D(1/n sum_(i=1)^n xi_i)`
-			`= 1/n^2 sum_(i=1)^n D xi le C/n`,
+			`= 1/n^2 sum_(i=1)^n D xi_i le C/n`,
 		</span>
-		故 Марков 条件成立.
+		故 Markov 条件成立.
 	</li>
 	<li>显然 `{xi_n}` 两两不相关. 由均值不等式
 		<span class="formula">
-			`D xi = p_n(1-p_n) le ((p_n+1-p_n)/2)^2 = 1/4`,
+			`D xi_n = p_n(1-p_n) le ((p_n+1-p_n)/2)^2 = 1/4`,
 		</span>
-		满足 Чебышев 大数定律的条件.
+		满足 Chebyshev 大数定律的条件.
 	</li>
 </ol>
 
-<p class="remark">
-	由 Poisson 大数定律立即推出 Bernoulli 大数定律.
-</p>
+<p>由 Poisson 大数定律立即推出 Bernoulli 大数定律.</p>
+
 
 <h3>独立同分布情形</h3>
 
 <p class="theorem">
-	<b>Хинчин 大数定律</b>
+	<b>Khinchin (Хинчин) 大数定律</b>
 	设 `{xi_n}` 是独立同分布随机变量序列, 其期望为 `mu`, 则 `{xi_n}`
 	服从大数定律, 即 `bar xi_n overset P to mu`.
 </p>
@@ -159,24 +174,24 @@
 	<span class="formula">
 		`[f(t/n)]^n = [1 + ("i"mu t + o(t))/n]^n`
 	</span>
-	对固定的 `t`, 令 `n to oo`, 上式趋于 `"e"^("i"mu t)` (??),
+	对固定的 `t`, 令 `n to oo`, 上式趋于 `"e"^("i"mu t)` (o(t) 哪去了??),
 	即 `bar xi_n` 的特征函数趋于退化分布 `I_mu(x)` 的特征函数.
 	由逆极限定理, `bar xi_n overset L to mu`. 但 `mu` 为一常数, 所以
 	`bar xi_n overset P to mu`.
 </p>
 
 <ol class="remark">
-	<li>Bernoulli 大数定律是 Хинчин 大数定律的特殊情形.</li>
-	<li>Хинчин 大数定律已经去掉了方差存在的假定.</li>
+	<li>Bernoulli 大数定律是 Khinchin 大数定律的特殊情形.</li>
+	<li>Khinchin 大数定律已经去掉了方差存在的假定.</li>
 	<li>在数理统计中, 假定总体 `xi` 的均值 `mu` 未知, 通常的做法是对
 		`xi` 进行 `n` 次独立重复观察, 得到样本 `xi_1, xi_2, cdots, xi_n`.
-		由 Хинчин 大数定律, 样本均值 `bar xi` 依概率收敛于 `mu`,
+		由 Khinchin 大数定律, 样本均值 `bar xi_n` 依概率收敛于 `mu`,
 		这一性质称为<b>相合性</b>. 进一步若总体的 `k` 阶矩存在, 有
 		<span class="formula">
-			`1/n sum_(i=1)^n xi^k overset P to E xi^k`,<br/>
-			`1/n sum_(i=1)^n (xi-bar xi)^k overset P to E(xi-mu)^k`.
+			`1/n sum_(i=1)^n xi_i^k overset P to E xi^k`,<br/>
+			`1/n sum_(i=1)^n (xi_i-bar xi_n)^k overset P to E(xi-mu)^k`.
 		</span>
-		因此 Хинчин 大数定律保证了矩估计的相合性.
+		因此 Khinchin 大数定律保证了矩估计的相合性.
 	</li>
 </ol>
 
@@ -216,9 +231,7 @@
 		其中 `varphi(x)` 是标准正态密度函数.
 	</li>
 	<li>
-		<span class="formula">
-			`P{a le zeta_n lt b} to int_a^b varphi(x) dx`.
-		</span>
+        `P{a le zeta_n lt b} to int_a^b varphi(x) dx`.
 	</li>
 </ol>
 
@@ -248,7 +261,7 @@
 
 <ol class="remark">
 	<li>由 Lindeberg-Lévy 中心极限定理立即得到 De Moivre-Laplace
-		积分极限定理.
+		中心极限定理.
 	</li>
 	<li>在数理统计中, 假定样本 `xi_1, xi_2, cdots, xi_n` 独立同分布,
 		由 Lindeberg-Lévy 中心极限定理, 若总体的二阶矩存在,
@@ -258,6 +271,8 @@
 			`1/n sum_(i=1)^n xi_i^k` 的分布渐近于 `N(E xi^k, 1/n D xi^k)`.
 		</span>
 	</li>
+    <li>Khinchin 大数定律和 Lindeberg-Lévy 中心极限定理适用于独立同分布情形, 这也是我们研究问题时最常见的假定, 是学习的重点.
+    </li>
 </ol>
 
 <script src="../../js/note.js?type=math"></script>

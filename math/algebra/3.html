@@ -691,7 +691,9 @@
 	从而 `"Ker"varphi = K nn H`. 于是由同态基本定理即得结论.
 </p>
 
-<h2>群的直积</h2>
+<h2>群的直积 (direct product)</h2>
+
+<p>[来自 <a href="https://wuli.wiki/changed/GrpPrd.html">小时百科</a>]</p>
 
 <p class="definition">
 	令 `G_1`, `G_2` 为两个群, 定义 `G_1 xx G_2` 上的二元合成 `*` 如下:
@@ -699,19 +701,28 @@
 		`(a, b) * (c, d) := (a c, b d)`,
 	</span>
     即对应分量相乘.
-	可以验证 `(G_1 xx G_2, *)` 成一群, 称其为群 `G_1, G_2` 的<b>直积</b>.
+	可以验证 `(G_1 xx G_2, *)` 成一群, 称其为群 `G_1, G_2` 的<b>直积 (direct product)</b>.
   特别当 `G_1, G_2` 为 Abel 群时, `G_1 xx G_2` 也为 Abel 群,
-	称为 `G_1, G_2` 的<b>直和</b> `G_1 o+ G_2`.
+	称为 `G_1, G_2` 的<b>直和 (direct sum)</b> `G_1 o+ G_2`.
 </p>
 
 <p class="remark">
   直积的概念容易推广到多个群的情形.
 </p>
 
+<p class="example">
+  <b>商群的直积</b>
+  设群 `N_1 normal G_1`, `N_2 normal G_2`, 则
+  <span class="formula">
+    `(G_1 xx G_2) // (N_1 xx N_2) ~= G_1//N_1 xx G_2 // N_2`.
+  </span>
+</p>
+
+<h3>内直积: 直积的等价定义</h3>
+
 <p class="definition">
-	令 `G` 为一群, `G_1, G_2 normal G`. 若
-	`G = G_1 G_2`, 且 `G` 的任一元素表为 `G_1, G_2` 中元素乘积的方式惟一,
-	则称 `G` 是 `G_1, G_2` 的<b>内直积</b>.
+  设群 `G_1, G_2 normal G`, 且 `G = G_1 G_2`. 若 `G_1 nn G_2 = {e}`,
+  则称 `G` 是 `G_1, G_2` 的<b>内直积 (internal direct product)</b>.
 </p>
 
 <p class="remark">
@@ -720,9 +731,8 @@
 
 <ol class="corollary">
 	<b>内直积的等价条件</b>
-	设 `e` 是群 `G` 的幺元, `G_1, G_2 normal G`, 且 `G = G_1 G_2`.
-	则以下各款等价:
-	<li>`G` 是 `G_1, G_2` 的内直积;</li>
+    设群 `G_1, G_2 normal G`, 且 `G = G_1 G_2`, 则以下各款等价:
+    <li>`G` 的任一元素表为 `G_1, G_2` 中元素乘积的方式惟一;</li>
 	<li>`G` 中存在一元素, 表为 `G_1, G_2` 中元素乘积的方式惟一;</li>
 	<li>`G` 的幺元表为 `G_1, G_2` 中元素乘积的方式是惟一的, 即 `e = e e`;
 	</li>
@@ -754,7 +764,12 @@
 	</li>
 </ol>
 
-<p class="theorem">
+<p class="remark">
+  接下来我们证明内直积和前文由笛卡尔积定义的直积是同构的.
+  为此先证两个引理:
+</p>
+
+<p class="lemma">
 	令群 `G` 是 `G_1, G_2` 的内直积, 则 `G_1, G_2` 之间元素的乘积可交换,
 	即
 	<span class="formula">
@@ -770,8 +785,8 @@
 		`g_1 g_2 g_1^-1 g_2^-1 = g_1 (g_2 g_1^-1 g_2^-1) in G_1`,<br/>
 		`g_1 g_2 g_1^-1 g_2^-1 = (g_1 g_2 g_1^-1) g_2^-1 in G_2`.
 	</span>
-	从而 `g_1 g_2 g_1^-1 g_2^-1 in G_1 nn G_2`,
-	因此 `g_1 g_2 g_1^-1 g_2^-1 = e`, 即 `g_1 g_2 = g_2 g_1`.
+    从而 `g_1 g_2 g_1^-1 g_2^-1 in G_1 nn G_2 = {e}`,
+    即 `g_1 g_2 = g_2 g_1`.
 </p>
 
 <p class="lemma">
@@ -815,8 +830,9 @@
 		`AA (a, b) in G_1 xx G_2`, `(a, b) = (a, e_2) xx (e_1, b)`.
 		所以 `G_1 xx G_2 = bar G_1 bar G_2`, 且 `G_1 xx G_2`
 		中的任意元素表为 `bar G_1, bar G_2` 中元素乘积的方式惟一.
+        于是 `G_1 xx G_2` 是 `G_1, G_2` 的内直积.
 	</li>
-	<li>作映射 `varphi (g_1, g_2) in G_1 xx G_2 to g_1 g_2 in G`.
+	<li>设 `G` 是 `G_1, G_2` 的内直积. 作映射 `varphi: (g_1, g_2) in G_1 xx G_2 to g_1 g_2 in G`.
 		由于 `G` 中元素都能表为 `G_1, G_2` 中元素乘积, 所以 `varphi`
 		为一满射. 再由 `G` 中元素表为 `G_1, G_2` 中元素乘积的惟一性,
 		<span class="formula">
@@ -827,9 +843,9 @@
 		</span>
 		从而 `varphi` 为一单射.
 		(注: 这里的证明体现了集合论中 "满射决定原像存在性,
-		单射决定原像惟一性" 的道理)
-	</li>
-	<li>`AA (g_1, g_2), (h_1, h_2) in G_1 xx G_2`,
+        单射决定原像惟一性" 的道理)<br>
+        再证 `varphi` 是同态.
+        `AA (g_1, g_2), (h_1, h_2) in G_1 xx G_2`,
 		注意到 `G_1, G_2` 之间元素的乘积可交换, 于是
 		<span class="formula">
 			`varphi((g_1, g_2)(h_1, h_2))`
@@ -842,32 +858,167 @@
 	</li>
 </ol>
 
-<h2>1 到 10 阶群的结构</h2>
+<h3>半直积: 直积的推广</h3>
 
-<p>每一栏的种类数恰好是 `n` 的素因子个数.</p>
+<p>从内直积的定义得到启发, 定义<b>半直积 (semi-direct product)</b>如下:</p>
+
+<p class="definition">
+  令 `G` 为一群, `N normal G`, `H le G`, 且 `G = N H`.
+   若 `N nn H = {e}`, 则称 `G` 是 `N` 和 `H` 的半直积, 记为 `G = N ><| H`.
+</p>
+
+<p>半直积的另一定义不依赖于预先给定的群 `G`, 这个定义稍显复杂:</p>
+
+<p class="definition">
+  给定群 `N, H` 和同态 `f: H to "Aut"N`.
+  对于任意 `h in H`, `f_h := f(h)` 是一个 `N to N` 的同构映射.
+  现在集合 `N xx H` 上定义运算 `(*)`:
+  <span class="formula">
+    `(n_1, h_1) * (n_2, h_2) := (n_1 * f_(h_1)(n_2), h_1 * h_2)`,
+  </span>
+  则 `(N xx H, *)`, 为一群, 记为 `N ><|_f H`.<br>
+  特别当同态 `f = "id"` (恒等映射) 时, 这里的半直积就是直积.
+</p>
+
+<p class="corollary">
+  在半直积群 `N ><|_f H` 中,
+  `(n, h)^-1 = (f_(h^-1)(n^-1), h^-1)`.
+</p>
+
+<p class="proof">
+  `(n, h)(f_(h^-1)(n^-1), h^-1)`
+  `= (n * f_(h)(f_(h^-1)(n^-1)), e)`
+  `= (n * n^-1, e)`
+  `= (e, e)`.
+</p>
+
+<p class="corollary">
+  验证半直积两个定义的等价性.
+</p>
+
+<ol class="proof">
+  <li>`rArr` 2.
+    设 `N normal G`, `H le G`, `G = N H`, `N nn H = {e}`.
+    作 `varphi: (n, h) in N xx H mapsto n h in G`, 然后验证它是同构即可.
+  </li>
+  <li>`rArr` 1.
+    将 `N` 与 `{(n, e): n in N}` 等同, `H` 与 `{(e, h): h in H}` 等同, 则 `N, H` 是 `N xx H` 的子群.
+    又 `AA (n_1, h) in N xx H, (n_2, e) in N`,
+    <span class="formula">
+      `(n_1, h) (n_2, e) (n_1, h)^-1 = (..., e) in N`,
+    </span>
+    所以 `N normal N xx H`.
+    一方面, 显然有 `N xx H supe N H`; 另一方面, `AA (n, h) in N xx H`,
+    `(n, e) xx (e, h) = (n * f_e(e), h) = (n, h)`, 所以 `N xx H sube N H`, 于是 `N xx H = N H`.
+    最后, 显然 `N nn H = {(e, e)}`, 所以 `N xx H` 是一个半直积.
+  </li>
+</ol>
+
+<h2>1 到 15 阶群的分类</h2>
+
+<p>[来自 <a href="https://zhuanlan.zhihu.com/p/260343968">格罗卜学数学@知乎</a>]</p>
 
 <table class="col2">
   <tr>
     <td>1</td> <td>`{e}`</td>
-    <td>6</td> <td>`ZZ_6`, `D_6 ~= S_3`</td>
+    <td>6</td> <td>`C_6`, `D_6 ~= S_3`</td>
+    <td>11</td> <td>`C_11`</td>
   </tr>
   <tr>
-    <td>2</td> <td>`ZZ_2`</td>
-    <td>7</td> <td>`ZZ_7`</td>
+    <td>2</td> <td>`C_2`</td>
+    <td>7</td> <td>`C_7`</td>
+    <td>12</td> <td>`C_4 xx C_3`, `C_2 xx C_2 xx C_3`, `D_12`, `A_4`, `T_12`</td>
   </tr>
   <tr>
-    <td>3</td> <td>`ZZ_3`</td>
-    <td>8</td> <td>`ZZ_8`, `D_8`, `Q_8`</td>
+    <td>3</td> <td>`C_3`</td>
+    <td>8</td> <td>`C_8`, `C_2 xx C_4`, `C_2 xx C_2 xx C_2`, `D_8`, `Q_8`</td>
+    <td>13</td> <td>`C_13`</td>
   </tr>
   <tr>
-    <td>4</td> <td>`ZZ_4`, `D_4 ~= K_4`</td>
-    <td>9</td> <td>`ZZ_9`, `ZZ_3 xx ZZ_3`</td>
+    <td>4</td> <td>`C_4`, `C_2 xx C_2 ~= D_4 ~= K_4`</td>
+    <td>9</td> <td>`C_9`, `C_3 xx C_3`</td>
+    <td>14</td> <td>`C_14, D_14`</td>
   </tr>
   <tr>
-    <td>5</td> <td>`ZZ_5`</td>
-    <td>10</td> <td>`ZZ_10`, `D_10`</td>
+    <td>5</td> <td>`C_5`</td>
+    <td>10</td> <td>`C_10`, `D_10`</td>
+    <td>15</td> <td>`C_15`</td>
   </tr>
 </table>
+
+<ol class="remark enum">
+  <li>有限阶交换群可以分解为循环群的直积;</li>
+  <li>`n ge 3` 时, `S_n` 是非交换群;</li>
+  <li>`n ge 6` 时, `D_n` 是非交换群;</li>
+  <li><b>四元数群</b> `Q_8 := (: x, y | x^4 = e, y^2 = x^2, y x = x^-1 y :)`;</li>
+  <li>`T_12 := (: x, y | y^4 = e, x^3 = e, y x y^-1 = x^2 :)`;</li>
+</ol>
+
+<h3>处理小阶群时有用的结论</h3>
+
+<ol class="proposition">
+  关于 2 阶元:
+  <li>群 `G` 中除 `e` 外元素阶全为 2, 则 `G` 是交换群;</li>
+  <li>偶数阶群必有奇数个 2 阶元;</li>
+  <li>群 `G` 不能只有两个 2 阶元.</li>
+</ol>
+
+<blockquote>
+  例如 `K_4` 由单位元 `e` 和 3 个 2 阶元组成, 满足 1. 的条件, 是交换群.
+  `K_4` 是偶数阶群, 满足 2. 的条件: 而它确有奇数个 2 阶元.
+  群 `G` 不能只有两个 2 阶元. 如 `C_4` 有 1 个 2 阶元, 而 `K_4` 有 3 个.
+</blockquote>
+
+<ol class="proof enum">
+  <li>在 `x y x y = e` 左边乘以 `x`, 右边乘以 `y`.</li>
+  <li>设元素 `a` 的阶 `gt 2`, 则 `a^-1 != a`, 这说明 `G` 中阶大于 2 的元素 (如果存在) 是成对出现的.
+    又 `G` 的 1 阶元只有单位元 `e`, 所以 `G` 的 2 阶元数目为奇数个.
+  </li>
+  <li>假设 `G` 只有两个 2 阶元 `x != y`.
+    <ol>
+      <li>考虑元素 `x y`. 我们有
+        <span class="formula">
+          `x y != x x = e`,<br>
+          `x y != x e = x`,<br>
+          `x y != e y = y`.
+        </span>
+        因此 `x y` 是不同于 `e, x, y` 的一个新元素.
+      </li>
+      <li>考虑元素 `x y x`. 我们有
+        <span class="formula">
+          `x y x != x e x = e`,<br>
+          `x y x != x x x = x`,<br>
+          `x y x != y`, 否则 `x y x y = y y = e`, 这推出 `x y` 是二阶元.
+        </span>
+        因此 `x y x` 也是一个不同于 `e, x, y` 的新元素.
+      </li>
+      <li>
+        计算 `(x y x)(x y x) = (x y)(y x) = x x = e`, 因此 `x y x` 是二阶元. 矛盾.
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p class="proposition">
+  指数与正规子群: 若 `G` 的子群 `H` 的指数为 `p`, 这里 `p` 是 `|G|` 的最小素因子, 那么 `H normal G`.
+  特别地, 指数为 2 的子群必为正规子群.
+</p>
+
+<ol class="proposition">
+  设 `p` 为素数:
+  <li>`p` 阶群只有一种, 那就是循环群;</li>
+  <li>`2p` 阶群只有两种, `C_(2p)` 和 `D_(2p)`;</li>
+  <li>`p^2` 阶群只有两种, `C_(p^2)` 和 `C_p xx C_p`;</li>
+</ol>
+
+<ol class="proof">
+  <li>由 Lagrange 定理, `p` 阶群的 `G` 的子群阶数只能为 `1` 或 `p`,
+    从而元素的阶也只能为 `1` 或 `p`.
+    其中的 `p` 阶元素生成了整个群 `G`, 所以 `G` 是循环群.
+  </li>
+  <li></li>
+  <li></li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
