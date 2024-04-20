@@ -86,17 +86,17 @@
 	</span>
 	即关于 `bm x` 的方程
 	<span class="formula">
-		`(lambda bb E - cc A)bm x = bb 0`
+		`(lambda bb I - cc A)bm x = bb 0`
 	</span>
 	在 `V` 中有非零解.
 	这当且仅当关于 `bm X` 的方程
 	<span class="formula">
-		`(lambda bm E - bm A)bm X = bb 0`
+		`(lambda bm I - bm A)bm X = bb 0`
 	</span>
 	在 `bbb P^n` 中有非零解 (此解就是 `bm x` 在给定基底下的坐标).
 	这当且仅当
 	<span class="formula">
-		`|lambda bm E - bm A| = 0`.
+		`|lambda bm I - bm A| = 0`.
 	</span>
 </p>
 
@@ -113,20 +113,20 @@
 	</span>
 	取 `f(x) = lambda - x`, 则
 	<span class="formula">
-		`|lambda bm E - bm(T^-1 A T)|`
-		`= |bm T^-1(lambda bm E - bm A) bm T|`
-		`= |lambda bm E- bm A|`.
+		`|lambda bm I - bm(T^-1 A T)|`
+		`= |bm T^-1(lambda bm I - bm A) bm T|`
+		`= |lambda bm I- bm A|`.
 	</span>
 	最后, 对于分块上三角矩阵 `bm U(bm A_1, cdots, bm A_r)`, 有
 	<span class="formula">
-		`|lambda bm E-bm U| = prod_(i=1)^r |lambda bm E-bm A_i|`.
+		`|lambda bm I-bm U| = prod_(i=1)^r |lambda bm I-bm A_i|`.
 	</span>
 </p>
 
 <p class="definition">
 	多项式
 	<span class="formula">
-		`Delta_(bm A)(x) := |x bm E - bm A|`
+		`Delta_(bm A)(x) := |x bm I - bm A|`
 	</span>
 	称为 `n` 阶矩阵 `bm A` 的<b>特征多项式</b>.
 	相似矩阵具有相同的特征多项式, 从而同一个 `cc A in L(V)`
@@ -157,7 +157,7 @@
 <p class="theorem">
 	`n` 阶矩阵 `bm A` 的特征多项式是首一的 `n` 次多项式:
 	<span class="formula">
-		`Delta_(bm A)(x) = |x bm E - bm A|`
+		`Delta_(bm A)(x) = |x bm I - bm A|`
 		`= x^n - ("tr"bm A) x^(n-1) + cdots + (-1)^n |bm A|`.
 	</span>
 	若记 `[n] = {1, 2, cdots, n}`, 对任意非空的
@@ -172,7 +172,7 @@
 
 <ol class="proof">
 	<li>记 `bm A = (a_(i j))_(n xx n)`.
-		把行列式 `|x bm E - bm A|` 展开, 主对角线上 `n` 个元素的乘积
+		把行列式 `|x bm I - bm A|` 展开, 主对角线上 `n` 个元素的乘积
 		<span class="formula">
 			`prod_(i=1)^n (x-a_(i i))`
 		</span>
@@ -187,11 +187,11 @@
 			`Delta_(bm A)(0) = |-bm A| = (-1)^n |bm A|`.
 		</span>
 	</li>
-	<li>分别用 `bm epsi_i`, `bm alpha_i` 表示 `bm E` 和 `bm A` 的第 `i`
+	<li>分别用 `bm epsi_i`, `bm alpha_i` 表示 `bm I` 和 `bm A` 的第 `i`
 		列, `i = 1, 2, cdots, n`.
 		从而
 		<span class="formula">
-			`|x bm E - bm A|`
+			`|x bm I - bm A|`
 			`= |x bm epsi_1-bm alpha_1, cdots, x bm epsi_n-bm alpha_n|`.
 		</span>
 		任取 `[n]` 的非空子集 `S`, 按如下方法构造行列式 `D`: 记 `D` 的第
@@ -235,9 +235,9 @@
 		`bm A` 不可逆时, `r_(bm A^**) le 1`, 于是 `bm A^**` 至少有 `n-1`
 		重的零特征根, 另一根为 `"tr"bm A^**`.
 	</li>
-	<li>现在设 `bm A = bm(alpha beta')`, 其中 `bm alpha, bm beta` 为 `n`
+	<li>现在设 `bm A = bm(alpha beta^T)`, 其中 `bm alpha, bm beta` 为 `n`
 		元列向量, 于是 `r_(bm A) le 1`, `bm A` 至少有 `n-1` 重的零特征根,
-		另一根为 `"tr"bm A = bm(beta'alpha) = bm(alpha'beta)`.
+		另一根为 `"tr"bm A = bm(beta^T alpha) = bm(alpha^T beta)`.
 	</li>
 </ol>
 
@@ -255,7 +255,7 @@
 
 <p class="corollary">
 	`f` 是 `bm A in bbb P^(n xx n)` 的一个 `k ge 1` 次的零化多项式当且仅当
-	`bm A^k` 可以表示为 `bm E, bm A, bm A^2, cdots, bm A^(k-1)`
+	`bm A^k` 可以表示为 `bm I, bm A, bm A^2, cdots, bm A^(k-1)`
 	的线性组合. 因此, 存在次数不超过 `n^2` 的非平凡的零化多项式.
 </p>
 
@@ -275,36 +275,36 @@
 		`= lambda^3[1,0;0,1] + lambda^2[0,1;0,1]`
 		`+ lambda[1,-1;1,0] + [1,3;-1,2]`.
 	</span>
-	令 `bm C(lambda)` 是 `lambda bm E - bm A` 的伴随矩阵, 则
+	令 `bm C(lambda)` 是 `lambda bm I - bm A` 的伴随矩阵, 则
 	<span class="formula">
-		`bm C(lambda)(lambda bm E-bm A) = |lambda bm E-bm A| bm E`.
+		`bm C(lambda)(lambda bm I-bm A) = |lambda bm I-bm A| bm I`.
 		<span class="label" id="for-adjoint-matrix"></span>
 	</span>
-	显然 `bm C(lambda)` 和 `lambda bm E-bm A` 都是 `lambda` 矩阵.
-	因为 `bm C(lambda)` 的元素是 `lambda bm E-bm A` 各元素的代数余子式,
+	显然 `bm C(lambda)` 和 `lambda bm I-bm A` 都是 `lambda` 矩阵.
+	因为 `bm C(lambda)` 的元素是 `lambda bm I-bm A` 各元素的代数余子式,
 	所以 `bm C(lambda)` 的各元素是次数不超过 `n-1` 的多项式, 可以表示为
 	<span class="formula">
 		`bm C(lambda) = sum_(i=0)^(n-1) lambda^i bm C_i`,
 	</span>
 	从而
 	<span class="formula">
-		`bm C(lambda)(lambda bm E-bm A)`
-		`= (sum_(i=0)^(n-1) lambda^i bm C_i)(lambda bm E-bm A)`<br/>
+		`bm C(lambda)(lambda bm I-bm A)`
+		`= (sum_(i=0)^(n-1) lambda^i bm C_i)(lambda bm I-bm A)`<br/>
 		`= lambda^n bm C_(n-1)`
 		`+ sum_(i=1)^(n-1) lambda^i(bm C_(i-1) - bm C_i bm A)`
 		`- bm (C_0 A)`.
 	</span>
 	又令 `Delta_(bm A)(lambda) = sum_(i=0)^n a_i lambda^i`, 从而
 	<span class="formula">
-		`|lambda bm E-bm A| bm E`
-		`= Delta_(bm A)(lambda) bm E`
-		`= sum_(i=0)^n lambda^i(a_i bm E)`.
+		`|lambda bm I-bm A| bm I`
+		`= Delta_(bm A)(lambda) bm I`
+		`= sum_(i=0)^n lambda^i(a_i bm I)`.
 	</span>
 	比较式 <a class="ref" href="#for-adjoint-matrix"></a> 左右两边
 	`lambda^i` 次项系数, 有
 	<span class="formula">
-		`bm C_(n-1) = a_n bm E`, `quad -bm(C_0 A) = a_0 bm E`,<br/>
-		`bm C_(i-1)-bm C_i bm A = a_i bm E`, `quad i = 1, cdots, n-1`.
+		`bm C_(n-1) = a_n bm I`, `quad -bm(C_0 A) = a_0 bm I`,<br/>
+		`bm C_(i-1)-bm C_i bm A = a_i bm I`, `quad i = 1, cdots, n-1`.
 	</span>
 	从而
 	<span class="formula">
@@ -344,8 +344,8 @@
 		`Delta_(bm B_1)(bm B_1) = bm O`, 于是
 		<span class="formula">
 			`Delta_(bm B)(bm B)`
-			`= (bm B - b bm E) Delta_(bm B_1)(bm B)`<br/>
-			`= [0, **; bb 0, bm B_1 - b bm E_(n-1)]`
+			`= (bm B - b bm I) Delta_(bm B_1)(bm B)`<br/>
+			`= [0, **; bb 0, bm B_1 - b bm I_(n-1)]`
 			`[Delta_(bm B_1)(b),**; bb 0, bm O]`
 			`= bm O`.
 		</span>
@@ -366,13 +366,13 @@
 
 <p class="solution">
 	<span class="formula">
-		`|lambda bm A-bm E|`
+		`|lambda bm A-bm I|`
 		`= lambda^2-lambda-1`.
 	</span>
-	由 Cayley-Hamilton 定理, `bm A^2 = bm A + bm E`,
+	由 Cayley-Hamilton 定理, `bm A^2 = bm A + bm I`,
 	从而 `bm A^(n+2) = bm A^(n+1) + bm A^n`.
 	这一递推公式类似于 Fibonacci 数列, 注意到初值
-	`bm A^0 = bm E`, `bm A^1 = bm A`, 得到
+	`bm A^0 = bm I`, `bm A^1 = bm A`, 得到
 	<span class="formula">
 		`bm A^n = [
 			F_(n-1),F_n;
@@ -388,27 +388,27 @@
 
 <p class="solution">
 	由 Cayley-Hamilton 定理,
-	`(bm A-lambda_1 bm E)(bm A-lambda_2 bm E) = bm O`.
+	`(bm A-lambda_1 bm I)(bm A-lambda_2 bm I) = bm O`.
 	先设 `lambda_1 != lambda_2`, 于是
 	<span class="formula">
-		`bm A^n(bm A-lambda_2 bm E) = lambda_1^n(bm A-lambda_2 bm E)`,
+		`bm A^n(bm A-lambda_2 bm I) = lambda_1^n(bm A-lambda_2 bm I)`,
 		<br/>
-		`bm A^n(bm A-lambda_1 bm E) = lambda_2^n(bm A-lambda_1 bm E)`.
+		`bm A^n(bm A-lambda_1 bm I) = lambda_2^n(bm A-lambda_1 bm I)`.
 	</span>
 	两式相减得
 	<span class="formula">
-		`bm A^n = 1/(lambda_1-lambda_2) (lambda_1^n(bm A-lambda_2 bm E)
-		-lambda_2^n(bm A-lambda_1 bm E))`.
+		`bm A^n = 1/(lambda_1-lambda_2) (lambda_1^n(bm A-lambda_2 bm I)
+		-lambda_2^n(bm A-lambda_1 bm I))`.
 	</span>
 	再看 `lambda_1 = lambda_2 != 0` 的情形. 我们有
 	<span class="formula">
 		`bm A^(n+2) - 2lambda_1 bm A^(n+1) + lambda_1^2 bm A^n = bm O`.
 	</span>
-	通解为 `bm A^n = lambda_1^n(bm C_1 + n bm C_2)`. 代入 `bm A^0 = bm E`,
+	通解为 `bm A^n = lambda_1^n(bm C_1 + n bm C_2)`. 代入 `bm A^0 = bm I`,
 	`bm A^1 = bm A` 得
 	<span class="formula">
-		`bm A^n = lambda_1^n bm E + n lambda_1^(n-1) (bm A-lambda_1 bm
-		E)`.
+		`bm A^n = lambda_1^n bm I + n lambda_1^(n-1) (bm A-lambda_1 bm
+		I)`.
 	</span>
 	最后, 若 `lambda_1 = lambda_2 = 0`, 有 `bm A^2 = bm O`, 从而 `bm A^n =
 	bm O` (`n ge 2`).
@@ -425,18 +425,18 @@
 
 <p class="solution">
 	<span class="formula">
-		`|lambda bm E - bm A|`
+		`|lambda bm I - bm A|`
 		`= (lambda-1)(lambda^2-1)`.
 	</span>
-	由 Cayley-Hamilton 定理, `(bm A-bm E)(bm A^2-bm E) = bm O`,
-	即 `bm A(bm A^2-bm E) = bm A^2-bm E`.
-	从而对任意正整数 `n`, `bm A^n(bm A^2-bm E) = bm A^2-bm E`, 即
+	由 Cayley-Hamilton 定理, `(bm A-bm I)(bm A^2-bm I) = bm O`,
+	即 `bm A(bm A^2-bm I) = bm A^2-bm I`.
+	从而对任意正整数 `n`, `bm A^n(bm A^2-bm I) = bm A^2-bm I`, 即
 	<span class="formula">
-		`bm A^(n+2) = bm A^n + bm A^2-bm E`.
+		`bm A^(n+2) = bm A^n + bm A^2-bm I`.
 	</span>
 	于是
 	<span class="formula">
-		`bm A^100 = bm A^2 + 49(bm A^2-bm E)`
+		`bm A^100 = bm A^2 + 49(bm A^2-bm I)`
 		`= [
 			1,,;
 			50,1,;
@@ -471,7 +471,7 @@
 <p class="theorem" id="the-AB-BA-eigen">
 	令 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 则
 	<span class="formula">
-		`x^n|x bm E_m - bm(A B)| = x^m|x bm E_n - bm(B A)|`.
+		`x^n|x bm I_m - bm(A B)| = x^m|x bm I_n - bm(B A)|`.
 	</span>
   特别当 `bm A`, `bm B` 均为 `n` 阶方阵时, `bm (A B)` 和 `bm (B A)`
   具有相同的特征多项式.
@@ -480,25 +480,25 @@
 <p class="proof">
 	利用分块乘法
 	<span class="formula">
-		`[bm E,bm O; -bm A,bm E]`
-		`[bm E_n,bm B; bm A,x bm E_m]`
-		`[bm E,-bm B; bm O,bm E]`
-		`= [bm E_n,bm O; bm O,x bm E_m-bm(A B)]`,
+		`[bm I,bm O; -bm A,bm I]`
+		`[bm I_n,bm B; bm A,x bm I_m]`
+		`[bm I,-bm B; bm O,bm I]`
+		`= [bm I_n,bm O; bm O,x bm I_m-bm(A B)]`,
 	</span>
 	有
 	<span class="formula">
-		`|x bm E_m-bm(A B)| = |bm E_n,bm B; bm A,x bm E_m|`.
+		`|x bm I_m-bm(A B)| = |bm I_n,bm B; bm A,x bm I_m|`.
 	</span>
 	同理
 	<span class="formula">
-		`|x bm E_n-bm(B A)| = |bm E_m,bm A; bm B,x bm E_n|`
-		(调换行列) `= |x bm E_n,bm B; bm A,bm E_m|`.
+		`|x bm I_n-bm(B A)| = |bm I_m,bm A; bm B,x bm I_n|`
+		(调换行列) `= |x bm I_n,bm B; bm A,bm I_m|`.
 	</span>
 	所以
 	<span class="formula">
-		`x^n|x bm E_m - bm(A B)|`
-		`= |x bm E_n,x bm B; bm A,x bm E_m|`
-		`= x^m|x bm E_n - bm(B A)|`.
+		`x^n|x bm I_m - bm(A B)|`
+		`= |x bm I_n,x bm B; bm A,x bm I_m|`
+		`= x^m|x bm I_n - bm(B A)|`.
 	</span>
 </p>
 
@@ -517,9 +517,9 @@
 	其中 `y_1, y_1, cdots, y_m` 是 `g(y)` 在复数域上的 `m` 个根,
 	计算可知
 	<span class="formula">
-		`|x bm E - f(bm A)|`
-		`= |c prod_(j=1)^m (bm A - y_j bm E)|`
-		`= (-1)^(m n) c^n prod_(j=1)^m |y_j bm E - bm A|`
+		`|x bm I - f(bm A)|`
+		`= |c prod_(j=1)^m (bm A - y_j bm I)|`
+		`= (-1)^(m n) c^n prod_(j=1)^m |y_j bm I - bm A|`
 		`= (-1)^(m n) c^n prod_(j=1)^m Delta_(bm A)(y_j)`
 		`= (-1)^(m n) c^n prod_(j=1)^m prod_(i=1)^n (y_j-x_i)`
 		`= c^n prod_(i=1)^n prod_(j=1)^m (x_i-y_j)`
@@ -538,7 +538,7 @@
 	令 `Delta_(bm A)(x) = x f(x) + a`, 由 `bm A` 可逆知,
 	`a = (-1)^n |bm A| != 0`. 于是由 Cayley-Hamilton 定理,
 	<span class="formula">
-		`bm A f(bm A) + a bm E = Delta_(bm A)(bm A) = bm O`,
+		`bm A f(bm A) + a bm I = Delta_(bm A)(bm A) = bm O`,
 	</span>
 	即 `bm A^-1 = -a^-1 f(bm A)`.
 	从而 `bm A^** = |bm A| bm A^-1` 也能表示为 `bm A` 的多项式.
@@ -568,7 +568,7 @@
 	</span>
 	于是 `bm A` 的特征根为 `a, b, c`.  由于 `f'(x) = 3x^2 -2x -2`, 计算
 	<span class="formula">
-		`bm B = 3 bm A^2 - 2 bm A - 2 bm E`
+		`bm B = 3 bm A^2 - 2 bm A - 2 bm I`
 		`= [-2, -3, -1; -2, 4, -1; 3, 1, 5]`.
 	</span>
 	其特征根即为 `f'(a), f'(b), f'(c)`.
@@ -665,29 +665,29 @@
 </p>
 
 <p class="theorem">
-	令 `bm A` 为方阵, 则 `Delta_(bm A')(x) = Delta_(bm A)(x)`,
-	`m_(bm A')(x) = m_(bm A)(x)`.
-	`bm A` 和 `bm A'` 的特征向量有什么关系???
+	令 `bm A` 为方阵, 则 `Delta_(bm A^T)(x) = Delta_(bm A)(x)`,
+	`m_(bm A^T)(x) = m_(bm A)(x)`.
+	`bm A` 和 `bm A^T` 的特征向量有什么关系???
 </p>
 
 <ol class="proof">
 	<li>
 		<span class="formula">
 			`Delta_(bm A)(x)`
-			`= |x bm E-bm A|`
-			`= |(x bm E-bm A)'|`
-			`= |x bm E-bm A'|`
-			`= Delta_(bm A')(x)`.
+			`= |x bm I-bm A|`
+			`= |(x bm I-bm A)^T|`
+			`= |x bm I-bm A^T|`
+			`= Delta_(bm A^T)(x)`.
 		</span>
 	</li>
 	<li>
 		<span class="formula">
-			`m_(bm A)(bm A')`
-			`= (m_(bm A)(bm A))'`
-			`= bm O' = bm O`,
+			`m_(bm A)(bm A^T)`
+			`= (m_(bm A)(bm A))^T`
+			`= bm O^T = bm O`,
 		</span>
-		这推出 `m_(bm A')(x) | m_(bm A)(x)`, 同理
-		`m_(bm A)(x) | m_(bm A')(x)`, 因此它们相等.
+		这推出 `m_(bm A^T)(x) | m_(bm A)(x)`, 同理
+		`m_(bm A)(x) | m_(bm A^T)(x)`, 因此它们相等.
 	</li>
 </ol>
 
@@ -804,21 +804,21 @@
   相应于 `lambda` 的全体特征向量张成 `V` 的子空间:
   <span class="formula">
     `{bm alpha in V | cc A bm alpha = lambda bm alpha}`
-    `= {bm alpha in V | (lambda bb E - cc A) bm alpha = bb 0}`
-    `= "Ker"(lambda bb E - cc A) le V`,
+    `= {bm alpha in V | (lambda bb I - cc A) bm alpha = bb 0}`
+    `= "Ker"(lambda bb I - cc A) le V`,
   </span>
   称为 `cc A` 关于 `lambda` 的<b>特征子空间</b>.
-  `"dimKer"(lambda bb E - cc A)` 称为 `lambda`
+  `"dimKer"(lambda bb I - cc A)` 称为 `lambda`
   的<b>几何重数</b>.
 </p>
 
 <p class="corollary">
   <b>几何重数的计算公式</b>
-  由定义知, 特征子空间即齐次方程 `(lambda bb E - cc A) bm alpha = bb 0`
-  的解空间; 取定基底后, 即为 `(lambda bm E - bm A) bm X = bb 0` 的解空间.
+  由定义知, 特征子空间即齐次方程 `(lambda bb I - cc A) bm alpha = bb 0`
+  的解空间; 取定基底后, 即为 `(lambda bm I - bm A) bm X = bb 0` 的解空间.
   因而有
   <span class="formula">
-    `"dimKer"(lambda bm E - bm A) = n - "rank"(lambda bm E - bm A)`.
+    `"dimKer"(lambda bm I - bm A) = n - "rank"(lambda bm I - bm A)`.
   </span>
 </p>
 
@@ -828,13 +828,13 @@
 
 <p class="proof">
   令 `cc A in L(V)`, `lambda` 为一特征根, 取特征子空间
-  `"Ker"(lambda bb E - cc A)` 的基底
+  `"Ker"(lambda bb I - cc A)` 的基底
   `(bm epsi_1, bm epsi_2, cdots, bm epsi_r)`,
   扩充为 `V` 的基底
   `(bm epsi_1, bm epsi_2, cdots, bm epsi_n)`.
   易知 `cc A` 在该基底下的矩阵为
   <span class="formula">
-    `bm A = [lambda bm E_r, **; bm O,bm A_1]`.
+    `bm A = [lambda bm I_r, **; bm O,bm A_1]`.
   </span>
   因此
   <span class="formula">
@@ -849,9 +849,9 @@
   下标 `lambda` 表示关于 `cc A` 的全体特征根求和, 则以下各款等价:
   <li>`cc A` 有对角形表示矩阵;</li>
   <li>`V` 能分解为特征子空间之直和:
-    `V = sum_lambda "Ker"(lambda bb E - cc A)`;
+    `V = sum_lambda "Ker"(lambda bb I - cc A)`;
   </li>
-  <li>`n = sum_lambda "dimKer"(lambda bb E - cc A)`;
+  <li>`n = sum_lambda "dimKer"(lambda bb I - cc A)`;
   </li>
   <li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数),
     且每个特征根的几何重数等于其代数重数; (这是判定矩阵可对角化的标准做法)
@@ -880,7 +880,7 @@
   <li>求 `bm A` 的全部 `n` 个特征根;
     若 `n` 个特征根两两不同, 则 `bm A` 可对角化.</li>
   <li>否则, 对于重根 `lambda`, 设它的 (代数) 重数为 `m`.
-    几何重数为 `n - "rank"(lambda bm E - bm A)`.
+    几何重数为 `n - "rank"(lambda bm I - bm A)`.
     若每个重根的代数重数都等于几何重数, 则 `bm A` 可对角化, 否则不能.
   </li>
   <li>若 `bm A` 可对角化, 将它的全部 `n` 个特征向量合并为
@@ -940,7 +940,7 @@
     `bm (A T) = bm A(bm X_1, cdots, bm X_n)`
     `= (lambda_1 bm X_1, bm A bm X_2, cdots, bm A bm X_n)`.
   </span>
-  `bm (A T)` 的第一列与 `bm T` 的第一列只相差常数倍, 因此 `bm T^-1 bm (A T)` 的第一列与 `bm T^-1 bm T = bm E` 的第一列也只相差常数倍, 即
+  `bm (A T)` 的第一列与 `bm T` 的第一列只相差常数倍, 因此 `bm T^-1 bm (A T)` 的第一列与 `bm T^-1 bm T = bm I` 的第一列也只相差常数倍, 即
   <span class="formula">
     `bm T^-1 bm (A T) = [lambda_1, ast; , bm A_1]`.
   </span>
@@ -1039,7 +1039,7 @@
   这推出 `bm x = bb 0`, 与 `bm x` 是一个特征向量矛盾.
   因此 `lambda` 是一个实数.
 </li>
-<li>设 `lambda` 是 `bm A` 的一个实特征值, 在 `RR` 上解线性方程组 `(lambda bm E - bm A) bm x = 0`
+<li>设 `lambda` 是 `bm A` 的一个实特征值, 在 `RR` 上解线性方程组 `(lambda bm I - bm A) bm x = 0`
   即可得到实的特征向量.
 </li>
 </ol>
@@ -1048,9 +1048,9 @@
   <b>实对称矩阵可以正交对角化</b>
   任意实对称矩阵 `bm A` 正交相似于如下矩阵:
   <span class="formula">
-    `bm(T'A T) = "diag"(lambda_1, cdots, lambda_n)`,
+    `bm(T^T A T) = "diag"(lambda_1, cdots, lambda_n)`,
   </span>
-  其中 `bm T` 为正交矩阵, 即 `bm T' = bm T^-1`.
+  其中 `bm T` 为正交矩阵, 即 `bm T^T = bm T^-1`.
   `lambda_1, cdots, lambda_n` 是 `bm A` 的 `n` 个特征值,
   这些特征值都是实数.<br>
   由于 `bm T` 是正交矩阵, 所以上式既是 `bm A` 的合同对角化,
@@ -1066,15 +1066,15 @@
   </span>
   注意到 `bm A` 为对称矩阵, 计算知
   <span class="formula">
-    `bm(T_n 'A T_n) = [lambda_1, 0; 0, bm A_(n-1)]`.
+    `bm(T_n^T A T_n) = [lambda_1, 0; 0, bm A_(n-1)]`.
   </span>
   其中 `bm A_(n-1)` 是 `n-1` 阶实对称矩阵. 由归纳假设, 存在 `n-1` 阶正交矩阵 `bm T_(n-1)`
-  使得 `bm T_(n-1)' bm A_(n-1) bm T_(n-1)` 为对角形.
+  使得 `bm T_(n-1)^T bm A_(n-1) bm T_(n-1)` 为对角形.
   现在取
   <span class="formula">
     `bm T = bm T_n [1, 0; 0, bm T_(n-1)]`,
   </span>
-  则 `bm T` 是 `n` 阶正交矩阵, 使得 `bm(T'A T)` 为对角形.
+  则 `bm T` 是 `n` 阶正交矩阵, 使得 `bm(T^T A T)` 为对角形.
 </p>
 
 <ol class="algorithm">
@@ -1084,7 +1084,7 @@
     若特征值 `lambda_1, cdots, lambda_n` 两两不同, 则由实对称矩阵的性质, 它们对应的特征向量已经是正交的.
     若有一个特征值 `lambda` 的重数为 `r gt 1`, 因为实对称矩阵可对角化, 几何重数 = 代数重数,
     所以相应的特征子空间也是 `r` 维的.
-    通过求解线性方程组 `(lambda bm E - bm A)bm X = bb 0`, 可以得到特征子空间的基底, 再 Schmidt 正交化即可.
+    通过求解线性方程组 `(lambda bm I - bm A)bm X = bb 0`, 可以得到特征子空间的基底, 再 Schmidt 正交化即可.
   </li>
   <li>将上一步得到的正交特征向量单位化 (除以模长), 仍记为 `bm T = (bm v_1, cdots, bm v_n)`.
     由矩阵的特征值分解定理知道
@@ -1226,6 +1226,13 @@ A.pinv() # Moore-Penrose 伪逆
   由<a class="ref" href="#the-diag-iff1"></a> 知 `bm B` 也可对角化.
 </p>
 
+<script>
+var asciimath = {
+  define: [
+    [/\^T/g, '^(sf T)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

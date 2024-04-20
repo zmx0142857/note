@@ -280,8 +280,8 @@
 	对 `k = n-1, cdots, 2, 1`, 依次将第 `k+1` 行的 `x` 倍加到第 `k` 行上,
 	原式等于
 	<span class="formula">
-		`|0, f(x); -bm E_(n-1) ,**|`
-		`= (-1)^(n-1) |f(x), 0; **, -bm E_(n-1)|`
+		`|0, f(x); -bm I_(n-1) ,**|`
+		`= (-1)^(n-1) |f(x), 0; **, -bm I_(n-1)|`
 		`= f(x)`.
 	</span>
 </p>
@@ -353,16 +353,16 @@
 <p class="example">
 	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 证明:
 	<span class="formula">
-		` |bm E_m - bm (AB)|
-		= |bm E_n, bm B; bm A, bm E_m|
-		= |bm E_m, bm A; bm B, bm E_n|
-		= |bm E_n - bm (BA)|`.
+		` |bm I_m - bm (AB)|
+		= |bm I_n, bm B; bm A, bm I_m|
+		= |bm I_m, bm A; bm B, bm I_n|
+		= |bm I_n - bm (BA)|`.
 	</span>
 	当 `m != n`, 此公式可以用于降阶.
 	如第一章的 Householder 矩阵的行列式为
 	<span class="formula">
-		`|bm E - 2 bm(alpha alpha')|`
-		`= |bm E - 2 bm(alpha'alpha)|`
+		`|bm I - 2 bm(alpha alpha^T)|`
+		`= |bm I - 2 bm(alpha^T alpha)|`
 		`= -1`.
 	</span>
 </p>
@@ -370,18 +370,18 @@
 <ol class="proof">
 	<li>先证第一个等号. 由行列式的相关性质和矩阵的分块乘法,
 		<span class="formula">
-			` |bm E_m - bm (AB)|
-			= |bm E_n, bm O; bm O, bm E_m - bm (AB)|`
-			`= |bm E_n, bm O; -bm A, bm E_m|
-			  |bm E_n, bm B; bm A, bm E_m|
-			  |bm E_n, -bm B; bm O, bm E_m|
-			= |bm E_n, bm B; bm A, bm E_m|`.
+			` |bm I_m - bm (AB)|
+			= |bm I_n, bm O; bm O, bm I_m - bm (AB)|`
+			`= |bm I_n, bm O; -bm A, bm I_m|
+			  |bm I_n, bm B; bm A, bm I_m|
+			  |bm I_n, -bm B; bm O, bm I_m|
+			= |bm I_n, bm B; bm A, bm I_m|`.
 		</span>
 		类似可以证明第三个等号.
 	</li>
 	<li>再证第二个等号.
 		先交换左边行列式的前 `n` 列与后 `m` 列, 得到
-		`|bm B, bm E_n; bm E_m, bm A|`.
+		`|bm B, bm I_n; bm I_m, bm A|`.
 		这可以通过把后 `m` 列逐列前移 `n` 个位置得到, 因此需要交换 `mn`
 		次. 再交换它的前 `n` 行与后 `m` 行来得到右边的行列式; 同样需要
 		`mn` 次交换. 由于交换行/列的次数是偶数, 行列式的值不变.
@@ -389,22 +389,22 @@
 </ol>
 
 <ol class="example">
-	正交矩阵 `bm A` 满足 `bm(A'A) = bm E`, 取行列式知 `|bm A|^2 = 1`.
+	正交矩阵 `bm A` 满足 `bm(A^T A) = bm I`, 取行列式知 `|bm A|^2 = 1`.
 	我们把行列式等于 1 的正交矩阵称为<b>第一类正交矩阵</b>, 行列式等于 -1
 	的正交矩阵称为<b>第二类正交矩阵</b>.<br/>
 	现在设 `bm A` 是 `n ge 3` 阶非零实矩阵, 则
-	<li>`bm A` 是第一类正交矩阵当且仅当 `bm A' = bm A^**`;</li>
-	<li>`bm A` 是第二类正交矩阵当且仅当 `bm A' = -bm A^**`.</li>
+	<li>`bm A` 是第一类正交矩阵当且仅当 `bm A^T = bm A^**`;</li>
+	<li>`bm A` 是第二类正交矩阵当且仅当 `bm A^T = -bm A^**`.</li>
 </ol>
 
 <p class="proof">
 	只证第一小题的充分性.
-	于 `bm(A'A) = bm(A^** A) = |bm A|bm E` 两边取行列式有
+	于 `bm(A^T A) = bm(A^** A) = |bm A|bm I` 两边取行列式有
 	`|bm A|^2 = |bm A|^n`.  因为 `bm A` 非零,
 	<span class="formula">
-		`0 lt "tr"(bm(A'A)) = "tr"(|bm A|bm E) = n|bm A|`.
+		`0 lt "tr"(bm(A^T A)) = "tr"(|bm A|bm I) = n|bm A|`.
 	</span>
-	从而 `|bm A| gt 0`, 即 `|bm A| = 1`. 于是 `bm(A'A) = bm E`,
+	从而 `|bm A| gt 0`, 即 `|bm A| = 1`. 于是 `bm(A^T A) = bm I`,
 	`bm A` 为第一类正交矩阵.
 </p>
 
@@ -595,22 +595,22 @@
 
 <p class="proof">
 	"`rArr`": 若 `bm A` 可逆, 则存在方阵 `bm B` 使得
-	`bm(A B) = bm(B A) = bm E`, 从而 `|bm A||bm B| = 1`,
+	`bm(A B) = bm(B A) = bm I`, 从而 `|bm A||bm B| = 1`,
 	所以 `|bm A| != 0`.<br/>
 	"`lArr`": 若 `bm A` 非奇异, 利用引理计算得,
-	`bm (A A^**) = bm (A^** A) = |bm A| bm E`,
+	`bm (A A^**) = bm (A^** A) = |bm A| bm I`,
 	从而得到 `bm A^-1`.
 </p>
 
 <p>	从而得到第一章注释中的推论:</p>
 
 <p class="corollary">
-	若方阵 `bm A, bm B` 满足 `bm(A B) = bm E`, 则 `bm A, bm B` 都可逆,
+	若方阵 `bm A, bm B` 满足 `bm(A B) = bm I`, 则 `bm A, bm B` 都可逆,
 	事实上它们互逆.
 </p>
 
 <p class="corollary">
-	若 `bm A_(n xx n)` 可逆, 则由 `bm A^** bm A = |bm A|bm E` 得到
+	若 `bm A_(n xx n)` 可逆, 则由 `bm A^** bm A = |bm A|bm I` 得到
 	`|bm A^**| = |bm A|^(n-1)`.
 </p>
 
@@ -657,7 +657,7 @@
 	且此时解的表达式为:
 	<span class="formula">
 		`bm X = bm(A^-1 B)`
-		`= 1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)'`,
+		`= 1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)^T`,
 	</span>
 	其中 `bm A_i` 是用 `bm B` 取代 `bm A` 的第 `i` 列所得的矩阵,
 	`i in [n]`.
@@ -688,7 +688,7 @@
 		</span>
 		从而
 		<span class="formula">
-			`1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)'`
+			`1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)^T`
 			`= 1/|bm A| [
 				(A_11, A_21, cdots, A_(n1))bm B;
 				(A_12, A_22, cdots, A_(n2))bm B;
@@ -710,7 +710,7 @@
 		</span>
 		若存在列向量
 		<span class="formula">
-			`bm X = (x_1, x_2, cdots, x_n)'`
+			`bm X = (x_1, x_2, cdots, x_n)^T`
 		</span>
 		使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
 		<span class="formula">
@@ -737,7 +737,7 @@
 		</span>
 		若存在列向量
 		<span class="formula">
-			`bm X = (x_1, x_2, cdots, x_n)'`
+			`bm X = (x_1, x_2, cdots, x_n)^T`
 		</span>
 		使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
 		<span class="formula">
@@ -763,6 +763,14 @@
 	但当方程组规模较大时, Cramer 法则的计算量很大.
 </p>
 
+<script>
+var asciimath = {
+  define: [
+    [/\^T/g, '^(sf T)'],
+    [/\^H/g, '^(sf H)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

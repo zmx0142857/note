@@ -18,15 +18,15 @@
   `a_(i j) = a_(j i)`, 于是实二次型 `f` 唯一对应于实对称矩阵
   `bm A = (a_(i j))_(n xx n)`, 满足
   <span class="formula">
-    `f(bm X) = bm (X' A X)`,
-    `quad bm X = (x_1, cdots, x_n)'`.
+    `f(bm X) = bm (X^T A X)`,
+    `quad bm X = (x_1, cdots, x_n)^T`.
   </span> 
   矩阵 `bm A` 就称为 `f` 的矩阵.
 </p>
 
 <p class="remark">
-  在可逆线性变换 `bm X = bm (P Y)` 下, 实二次型 `bm (X' A X)` 变为
-  `bm (Y'P'A P Y)`, 其矩阵变为 `bm(P'A P)`,
+  在可逆线性变换 `bm X = bm (P Y)` 下, 实二次型 `bm (X^T A X)` 变为
+  `bm (Y^T P^T A P Y)`, 其矩阵变为 `bm(P^T A P)`,
   即可逆线性变换下实二次型的矩阵保持合同.
   下面证明, 存在这样的可逆线性变换, 使得实二次型变为平方和的形式 (<b>标准形</b>), 换言之, 使实对称矩阵合同于对角形矩阵.
   实二次型化为平方和的计算过程称为它的<b>标准化</b>. 注意其标准形一般不唯一.
@@ -94,7 +94,7 @@
   这里给出配方法的矩阵表述. `n = 1` 时取 `bm P` 为单位矩阵即可.
   假设对 `n-1` 阶实对称矩阵 `bm A_(n-1)`,
   存在初等矩阵 `bm P_i`, `i = 1, cdots, n-1` 使得
-  `bm(P'A_(n-1) P)` 为对角阵, `bm P = prod_(i=1)^(n-1) bm P_i`, 则对 `n`
+  `bm(P^T A_(n-1) P)` 为对角阵, `bm P = prod_(i=1)^(n-1) bm P_i`, 则对 `n`
   阶实对称矩阵 `bm A_n`, 有
   <li>若 `a_11 != 0`, 将第一列的 `-a_(1 j) a_11^-1` 倍加到第 `j` 列,
     `j = 2, cdots, n`; 对称地, 将第一行的 `-a_(i 1) a_11^-1` 倍加到第 `i` 行,
@@ -121,7 +121,7 @@
   <b>实对称矩阵的规范形 (惯性定理)</b>
   任意实对称矩阵 `bm A` 合同于如下的<b>规范形</b>:
   <span class="formula">
-    `bm(P'A P) = "diag"(
+    `bm(P^T A P) = "diag"(
       overset p overbrace(1, cdots, 1),
       overset q overbrace(-1, cdots, -1),
       0, cdots, 0
@@ -169,11 +169,11 @@
   `y_(r+1)^**, cdots, y_(r+s)^**` 不全为零, `z_1^**, cdots, z_p^**` 也不全为零.
   于是
   <span class="formula">
-    `bm (X'A X) = -sum_(i=1)^s y_(r+i)^**{::}^2 lt 0`,
+    `bm (X^T A X) = -sum_(i=1)^s y_(r+i)^**{::}^2 lt 0`,
   </span>
   同时
   <span class="formula">
-    `bm (X'A X) = sum_(i=1)^p z_i^**{::}^2 gt 0`,
+    `bm (X^T A X) = sum_(i=1)^p z_i^**{::}^2 gt 0`,
   </span>
   得到矛盾.
 </ol>
@@ -194,7 +194,7 @@
   <li>若 `bm A` 的正惯性指数 `p = n`, 则称 `bm A` <b>正定</b>;</li>
   <li>若 `bm A` 的负惯性指数 `q = n`, 则称 `bm A` <b>负定</b>.</li>
   由定义知正定矩阵合同于单位矩阵, 即存在可逆矩阵 `bm P` 使得
-  `bm A = bm(P'P)`,
+  `bm A = bm(P^T P)`,
 </ol>
 
 <p class="remark">
@@ -202,33 +202,33 @@
 </p>
 
 <p class="corollary">
-  正定矩阵的行列式 `|bm A| = |bm(P'P)| = |bm P|^2 gt 0`.
+  正定矩阵的行列式 `|bm A| = |bm(P^T P)| = |bm P|^2 gt 0`.
 </p>
 
 <p class="corollary">
-  实对称矩阵 `bm A` 正定当且仅当二次型 `bm(x'A x)` 正定, 即
+  实对称矩阵 `bm A` 正定当且仅当二次型 `bm(x^T A x)` 正定, 即
   <span class="formula">
-    `bm(x'A x) ge 0`, 等号成立当且仅当 `bm x = bb 0`.
+    `bm(x^T A x) ge 0`, 等号成立当且仅当 `bm x = bb 0`.
   </span>
 </p>
 
 <p class="proof">
-  设 `bm A = bm(P'P)`, 则
+  设 `bm A = bm(P^T P)`, 则
   <span class="formula">
-    `bm(x'A x) = bm(x'P'P x) = (bm(P x), bm(P x)) ge 0`,
+    `bm(x^T A x) = bm(x^T P^T P x) = (bm(P x), bm(P x)) ge 0`,
   </span>
   等号成立当且仅当 `bm(P x) = bb 0`, 即 `bm x = bb 0`.
   <br>
   另一方面, 若 `bm A` 的合同标准形为
-  `bm(P'A P) = "diag"(a_1, cdots, a_n)`,
-  取 `bm y = (0, cdots, 0, 1, 0, cdots, 0)'`, `bm x = bm(P y)`, 则
-  `bm(x'A x) = bm(y'P'A P y) = a_i gt 0`.
+  `bm(P^T A P) = "diag"(a_1, cdots, a_n)`,
+  取 `bm y = (0, cdots, 0, 1, 0, cdots, 0)^T`, `bm x = bm(P y)`, 则
+  `bm(x^T A x) = bm(y^T P^T A P y) = a_i gt 0`.
   这说明 `bm A` 的合同标准形中主对角线全为正, 即 `bm A` 正定.
 </p>
 
 <p class="remark">
   正定的几何解释: 若向量 `bm x != bb 0` 且 `bm A` 正定, 则
-  `(bm (A x), bm x) = bm(x'A x) gt 0`,
+  `(bm (A x), bm x) = bm(x^T A x) gt 0`,
 	即变换后的向量 `bm(A x)` 与原向量 `bm x` 的夹角恒为锐角. 类似地,
 	负定矩阵变换前后的向量夹角恒为一钝角.
 </p>
@@ -242,7 +242,7 @@
 <p class="proof">
   取 `bm A` 前 `k` 行前 `k` 列组成的子阵 `bm A_k`, 则二次型
   <span class="formula">
-    `bm(x'bm A_k x) = (x_1, cdots, x_k, 0, cdots, 0) bm A (x_1, cdots, x_k, 0, cdots, 0) ge 0`
+    `bm(x^T bm A_k x) = (x_1, cdots, x_k, 0, cdots, 0) bm A (x_1, cdots, x_k, 0, cdots, 0) ge 0`
   </span>
   也正定. 但正定二次型与变元次序无关, 因此 `bm A` 的任意 `k`
   阶主子式都正定.
@@ -254,12 +254,12 @@
 
 <p class="proof">
   设 `bm(A x) = lambda bm x`, `bm x != bb 0`, 则
-  `lambda bm(x'x) = bm(x'A x) gt 0`,
-  由 `bm(x'x) gt 0` 知 `lambda gt 0`.
+  `lambda bm(x^T x) = bm(x^T A x) gt 0`,
+  由 `bm(x^T x) gt 0` 知 `lambda gt 0`.
   <br>
   反之, `bm A` 正交相似于对角矩阵:
   <span class="formula">
-    `bm (T'A T) = "diag"(lambda_1, cdots, lambda_n)`,
+    `bm (T^T A T) = "diag"(lambda_1, cdots, lambda_n)`,
   </span>
   其中 `lambda_i gt 0`, `i = 1, cdots, n`, 这说明 `bm A` 正定.
 </p>
@@ -277,34 +277,34 @@
   对 `bm A` 的阶数 `n` 归纳: `n = 1` 时显然成立.
   设结论对 `n-1` 成立, 要证
   <span class="formula">
-    `bm A = [bm A_(n-1), bm C; bm C', a_(n n)]`
+    `bm A = [bm A_(n-1), bm C; bm C^T , a_(n n)]`
   </span>
   正定, 我们对它进行合同初等变换, 将它化为对角形:<br>
-  首先第一行左乘 `-bm (C' A_(n-1)^-1)` 加到第二行, 第一列右乘
+  首先第一行左乘 `-bm (C^T A_(n-1)^-1)` 加到第二行, 第一列右乘
   `-bm(A_(n-1)^-1 C)` 加到第二列得:
   <span class="formula">
-    `bm A^((1)) = [bm A_(n-1), bb 0; bb 0, a_(n n) - bm(C'A_(n-1)^-1 C)]`.
+    `bm A^((1)) = [bm A_(n-1), bb 0; bb 0, a_(n n) - bm(C^T A_(n-1)^-1 C)]`.
   </span>
   由归纳假设和 `bm A_(n-1)` 的顺序主子式全为正知 `bm A_(n-1)` 正定,
-  记 `bm(P' A_(n-1) P) = bm E_(n-1)`. 于是上式第一行左乘 `bm P'`,
+  记 `bm(P^T A_(n-1) P) = bm I_(n-1)`. 于是上式第一行左乘 `bm P^T`,
   第一列右乘 `bm P` 得
   <span class="formula">
-    `bm A^((2)) = [bm E_(n-1), bb 0; bb 0, a]`,
+    `bm A^((2)) = [bm I_(n-1), bb 0; bb 0, a]`,
   </span>
-  其中 `a = a_(n n) - bm(C'A_(n-1)^-1 C)`.<br>
+  其中 `a = a_(n n) - bm(C^T A_(n-1)^-1 C)`.<br>
   由于合同变换不改变行列式的符号
-  (例如 `|bm(P'A P)| = |bm P|^2 |bm A|`), 而 `|bm A| gt 0`,
+  (例如 `|bm(P^T A P)| = |bm P|^2 |bm A|`), 而 `|bm A| gt 0`,
   所以 `a = |bm A^((2))| gt 0`.<br>
   最后上式第二行左乘 `1/sqrt a`, 第二列右乘 `1/sqrt a`, 就得到
-  `bm A^((3)) = bm E_n`. 故 `bm A` 正定.
+  `bm A^((3)) = bm I_n`. 故 `bm A` 正定.
 </p>
 
 <p class="remark">
   综上, 对于实对称矩阵 `bm A`, 我们有
   <span class="formula">
     `bm A` 正定
-    `iff bm A = bm(P'P)`
-    `iff bm(x'A x)` 正定
+    `iff bm A = bm(P^T P)`
+    `iff bm(x^T A x)` 正定
     `iff bm A` 顺序主子式全为正
     `iff bm A` 的特征值全为正.
   </span>
@@ -320,6 +320,13 @@
   <li>??</li>
 </ol>
 
+<script>
+var asciimath = {
+  define: [
+    [/\^T/g, '^(sf T)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

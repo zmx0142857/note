@@ -22,8 +22,8 @@
 </p>
 
 <ol class="example">
-  <li>记 `bm alpha = (a_1, a_2, cdots, a_n)'`, `bm X = (x_1, x_2, cdots,
-    x_n)'`, 则 `f(bm X) = bm (alpha' X)` 是 `bbb P^n` 上的一个线性函数.</li>
+  <li>记 `bm alpha = (a_1, a_2, cdots, a_n)^T`, `bm X = (x_1, x_2, cdots,
+    x_n)^T`, 则 `f(bm X) = bm (alpha^T X)` 是 `bbb P^n` 上的一个线性函数.</li>
   <li>方阵的迹是 `bbb P^(n xx n)` 上的一个线性函数.</li>
   <li>多项式在一点的取值是 `bbb P[x]` 上的一个线性函数.</li>
 </ol>
@@ -73,10 +73,10 @@
 </ol>
 
 <p class="example">
-	令 `bm A in bbb P^(n xx n)`, `bm X = (x_1, x_2, cdots, x_n)'`,
-	`bm Y = (y_1, y_2, cdots, y_n)'`, 则
+	令 `bm A in bbb P^(n xx n)`, `bm X = (x_1, x_2, cdots, x_n)^T`,
+	`bm Y = (y_1, y_2, cdots, y_n)^T`, 则
 	<span class="formula">
-		`f(bm X, bm Y) = bm X' bm A bm Y = sum_(i,j=1)^n a_(i j) x_i y_j`
+		`f(bm X, bm Y) = bm X^T bm A bm Y = sum_(i,j=1)^n a_(i j) x_i y_j`
 	</span>
 	为 `bbb P^n` 上一双线性函数. 当 `bm A` 分别为对称的,
 	非奇异的和正定的时候, `f` 也分别为对称的, 非奇异的和正定的.
@@ -99,7 +99,7 @@
   <span class="formula">
     `f(bm alpha, bm beta)
     = sum_(i,j=1)^n f(bm epsi_i,bm epsi_j) x_i y_j`
-    `= bm X' bm (A Y)`.
+    `= bm X^T bm (A Y)`.
   </span>
 </p>
 
@@ -119,9 +119,9 @@
   </li>
   <li>
     若双线性函数 `g` 在 `"I"` 下的度量矩阵为 `bm A`,
-    则它在 `"II"` 下的度量矩阵为 `bm (T'A T)`.
+    则它在 `"II"` 下的度量矩阵为 `bm (T^T A T)`.
     这表明双线性函数在不同基底下的度量矩阵是合同的.
-    注意 `bm T` 可逆, 因而 `bm A` 和 `bm(T'A T)` 的秩相同, 称为 `g`
+    注意 `bm T` 可逆, 因而 `bm A` 和 `bm(T^T A T)` 的秩相同, 称为 `g`
     的<b>秩</b>.
   </li>
 </ol>
@@ -141,9 +141,9 @@
   </li>
   <li>
     `g(bm alpha, bm beta)`
-    `= bm X_1' bm (A Y_1)`
-    `= (bm (T X_2))' bm A bm (T Y_2)`
-    `= bm(X_2' color(#4488aa)(T' A T) Y_2)`.
+    `= bm X_1^T bm (A Y_1)`
+    `= (bm (T X_2))^T bm A bm (T Y_2)`
+    `= bm(X_2^T color(#4488aa)(T^T A T) Y_2)`.
   </li>
 </ol>
 
@@ -312,7 +312,7 @@
   </li>
   <li>唯一性.
     设 `bm A` 有 QR 分解 `bm A = bm Q_1 bm R_1 = bm Q_2 bm R_2`, 下证 `bm R_1 = bm R_2`.<br>
-    由于 `bm Q_1, bm Q_2` 的各列向量单位正交, 有 `bm Q_1^T bm Q_1 = bm Q_2^T bm Q_2 = bm E`, 于是
+    由于 `bm Q_1, bm Q_2` 的各列向量单位正交, 有 `bm Q_1^T bm Q_1 = bm Q_2^T bm Q_2 = bm I`, 于是
     <span class="formula">
       `bm R_1^T bm R_1`
       `= bm R_1^T bm Q_1^T bm Q_1 bm R_1`
@@ -330,8 +330,8 @@
       `= bm R_2^T bm R_2`
       `= bm R_1^T bm D^T bm D bm R_1`,
     </span>
-    即 `bm D^T bm D = bm E`.
-    显然 `bm D` 的主对角线全为正, 故 `bm D = bm E`, 即 `bm R_1 = bm R_2`.
+    即 `bm D^T bm D = bm I`.
+    显然 `bm D` 的主对角线全为正, 故 `bm D = bm I`, 即 `bm R_1 = bm R_2`.
     从而 `bm Q_1 = bm A bm R_1^-1 = bm A bm R_2^-1 = bm Q_2`.
   </li>
 </ol>
@@ -391,13 +391,13 @@ A.QRdecomposition()
   `bm x` 的坐标为 `bm X`, `f` 的度量矩阵为 `bm T`,
   则上述方程组可以写为
   <span class="formula">
-    `bm(A'T X) = bb 0`,
+    `bm(A^T T X) = bb 0`,
   </span>
   其中 `bm A = (bm A_1, cdots, bm A_n)`.
 </p>
 
 <p class="corollary">
-  方程组 `bm (A'Y) = bb 0` 的解空间
+  方程组 `bm (A^T Y) = bb 0` 的解空间
   <span class="formula">
     `W^_|_ := "span"(bm A_1, cdots, bm A_n)^_|_`
   </span>
@@ -406,14 +406,14 @@ A.QRdecomposition()
     `W := "span"(bm A_1, cdots, bm A_n)`
   </span>
   的正交补.
-  (这里取定的双线性函数是 `f_(bm E)(bm x, bm y) = sum x_i y_i`).
+  (这里取定的双线性函数是 `f_(bm I)(bm x, bm y) = sum x_i y_i`).
   下面将证明对任意子空间成立 `(W^_|_)^_|_ = W`, 因此
   <span class="formula">
     `bm (A X) = bm B` 有解
     `iff bm B in W = (W^_|_)^_|_`
-    `iff bm B` 垂直于 `bm (A'Y) = bb 0` 的解空间.
+    `iff bm B` 垂直于 `bm (A^T Y) = bb 0` 的解空间.
   </span>
-  我们称 `bm (A'Y) = bb 0` 为 `bm (A X) = bm B` 的<b>转置线性方程组</b>.
+  我们称 `bm (A^T Y) = bb 0` 为 `bm (A X) = bm B` 的<b>转置线性方程组</b>.
 </p>
 
 <ol class="theorem">
@@ -428,11 +428,11 @@ A.QRdecomposition()
 	所以结论 1, 2 成立, 下设 `r ge 1`.
   <li>由<a class="ref"
       href="#cor-orthogonal-complement-and-linear-equations"></a>
-    知道 `W^_|_` 同构于方程组 `bm(A'T X) = bb 0` 的解空间, 从而
+    知道 `W^_|_` 同构于方程组 `bm(A^T T X) = bb 0` 的解空间, 从而
     `"dim"W^_|_` 等于该方程组的解空间的维数.
     由 `bm alpha_i` 线性无关知 `bm A`
     的列向量线性无关, `"rank"(bm A) = r`. 再由 `bm T` 非奇异知,
-    `"rank"(bm(A'T)) = r`, 于是方程组 `bm(A'T X) = bb 0`
+    `"rank"(bm(A^T T)) = r`, 于是方程组 `bm(A^T T X) = bb 0`
     的解空间维数为 `n-r`.
 	</li>
 	<li>由 1. 有 `"dim"W^_|_ = n-r`, `"dim"(W^_|_)^_|_ = r`.  又
@@ -499,11 +499,11 @@ A.QRdecomposition()
 
 <ol class="example">
 	<li>`RR^n` 上的二元函数
-		`(bm X, bm Y) = sum_(i=1)^n x_i y_i = bm(X'Y)`
+		`(bm X, bm Y) = sum_(i=1)^n x_i y_i = bm(X^T Y)`
 		是一个内积.
 	</li>
 	<li>`CC^n` 上的二元函数
-		`(bm X, bm Y) = sum_(i=1)^n bar x_i y_i = bm(bar X'Y)`
+		`(bm X, bm Y) = sum_(i=1)^n bar x_i y_i = bm(bar X^T Y)`
 		是一个内积.
 	</li>
 	<li>`C[a,b]` 上的二元函数
@@ -686,13 +686,13 @@ A.QRdecomposition()
     </span>
     或令 `bm A = (bm A_1, cdots, bm A_n)`, 得到
     <span class="formula">
-      `bm (A' X) = bm (A' Y)`,
+      `bm (A^T X) = bm (A^T Y)`,
     </span>
     又设 `bm x` 在 `W` 的基底下坐标为 `bm X_W`,
     于是 `bm X = bm (A X)_W`,
     <span class="formula">
       <span class="box">
-        `bm (A' A X)_W = bm (A' Y)`,
+        `bm (A^T A X)_W = bm (A^T Y)`,
       </span>
     </span>
     即
@@ -720,7 +720,7 @@ A.QRdecomposition()
 	在平面上用一直线 `y = a x + b` 拟合这些数据,
 	使得每个点处误差的平方和
 	<span class="formula">
-		`E(a, b) = sum_(i=1)^n (y_i - a x_i - b)^2`
+		`L(a, b) = sum_(i=1)^n (y_i - a x_i - b)^2`
 	</span>
 	最小.
 </p>
@@ -728,8 +728,8 @@ A.QRdecomposition()
 <p class="solution">
 	令偏导数等于零,
 	<span class="formula">
-		`0 = (del E)/(del b) = -2 sum_(i=1)^n (y_i - a x_i - b)`,<br/>
-		`0 = (del E)/(del a) = -2 sum_(i=1)^n x_i (y_i - a x_i - b)`.
+		`0 = (del L)/(del b) = -2 sum_(i=1)^n (y_i - a x_i - b)`,<br/>
+		`0 = (del L)/(del a) = -2 sum_(i=1)^n x_i (y_i - a x_i - b)`.
 	</span>
 	即
 	<span class="formula">
@@ -771,6 +771,13 @@ A.QRdecomposition()
 	</span>
 </p>
 
+<script>
+var asciimath = {
+  define: [
+    [/\^T/g, '^(sf T)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

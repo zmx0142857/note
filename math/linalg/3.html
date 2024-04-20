@@ -69,7 +69,7 @@
 	<li>进一步设 `m = n`, 联系 Cramer 法则一节的<a
 		href="2.html#the-homogeneous-nonzero-solution-iff">这个定理</a>,
 		`|bm A| = 0` 当且仅当 `bm (A epsi_j)` (`j = 1, 2, cdots, n`)
-		线性相关.  特别取 `bm A = bm E` 知,
+		线性相关.  特别取 `bm A = bm I` 知,
 		`bm epsi_1, bm epsi_2, cdots, bm epsi_n` 线性无关.
 	</li>
 </ol>
@@ -480,7 +480,7 @@
 
 <p class="definition">
 	称 `bm A in bbb P^(m xx n)` 的列向量组 `{bm (A epsi)_j}_(j=1)^n`
-	的秩为 `bm A` 的<b>列秩</b>, 行向量组 `{bm epsi_i' bm A)}_(i=1)^m`
+	的秩为 `bm A` 的<b>列秩</b>, 行向量组 `{bm epsi_i^T bm A)}_(i=1)^m`
 	的秩为 `bm A` 的<b>行秩</b>, 称 `bm A` 的全体非零子式的最大阶数为
 	`bm A` 的<b>行列式秩</b>. 规定零矩阵的行列式秩为 `0`.
 	因此, `bm A` 的行秩, 列秩和行列式秩都是非负整数.
@@ -538,8 +538,8 @@
 		不妨设原向量组 `{bm alpha_i}_(i=1)^n` 不全为零向量, 且
 		`{bm alpha_i}_(i=1)^r` 构成它的一个极大线性无关组. 设
 		<span class="formula">
-			`bm alpha_i = (a_(1i), a_(2i), cdots, a_(mi))'`,
-			`bm beta_i = (b_(1i), b_(2i), cdots, b_(mi))'`,
+			`bm alpha_i = (a_(1i), a_(2i), cdots, a_(mi))^T`,
+			`bm beta_i = (b_(1i), b_(2i), cdots, b_(mi))^T`,
 			`i = 1, 2, cdots, r`.
 		</span>
 		构造线性方程组
@@ -577,7 +577,7 @@
 		` bm overset ~ A
 		= [bm eta_1, bm eta_2, cdots, bm eta_n]`
 		`= [bm eta^((1)); bm eta^((2)); vdots; bm eta^((m))]`
-		`= [bm E_r, bm O; bm O, bm O]`,
+		`= [bm I_r, bm O; bm O, bm O]`,
 	</span>
 	即对列向量组 `{bm alpha_i}_(i=1)^n`
 	作有限次向量组的涉及向量的初等变换和涉及分量的初等变换后可得向量组
@@ -681,9 +681,9 @@
 	方阵 `bm A in bbb P^(n xx n)` 的秩 `le 1` 当且仅当存在 `bm alpha, bm
 	beta in bbb P^(n xx 1)`, 使得
 	<span class="formula">
-		`bm A = bm (alpha beta)'`.
+		`bm A = bm (alpha beta)^T`.
 	</span>
-	此时记 `k = bm beta' bm alpha`, 则 `bm A^2 = k bm A`.
+	此时记 `k = bm beta^T bm alpha`, 则 `bm A^2 = k bm A`.
 	可见低秩矩阵的幂运算是容易进行的.
 </p>
 
@@ -721,17 +721,17 @@
 	</li>
 	<li>考察矩阵
 		<span class="formula">
-			`bm C = [bm E_n,bm B; bm A,bm O]`,
-			`quad bm P = [bm E_n,bm O; -bm A,bm E_m]`,
-			`quad bm Q = [bm E_n,-bm B; bm O,bm E_s]`,
+			`bm C = [bm I_n,bm B; bm A,bm O]`,
+			`quad bm P = [bm I_n,bm O; -bm A,bm I_m]`,
+			`quad bm Q = [bm I_n,-bm B; bm O,bm I_s]`,
 		</span>
 		计算知
 		<span class="formula">
-			`bm(P C Q) = [bm E_n,bm O; bm O,-bm(A B)]`.
+			`bm(P C Q) = [bm I_n,bm O; bm O,-bm(A B)]`.
 		</span>
 		由于 `|bm P| = |bm Q| = 1`, 故 `bm P, bm Q` 均可逆, 所以
 		<span class="formula">
-			`r(bm C) = r(bm(P C Q)) = r(bm E_n) + r(-bm(A B))`
+			`r(bm C) = r(bm(P C Q)) = r(bm I_n) + r(-bm(A B))`
 			`= n + r(bm(A B)`.
 		</span>
 		通过初等变换可以发现, 在矩阵 `bm C` 中,
@@ -756,7 +756,7 @@
 	`r(bm B) = r`, 则
 	<span class="formula">
 		`bm(A B) = bm O rArr bm A = bm O`,<br/>
-		`bm(A B) = bm B rArr bm A = bm E`.
+		`bm(A B) = bm B rArr bm A = bm I`.
 	</span>
 </p>
 
@@ -765,7 +765,7 @@
 	le r`, 但 `r(bm B) = r`, 故 `r(bm A) le 0`, 即 `bm A = bm O`.<br/>
 	若 `bm(A B) = bm B`, 令 `bm B_1` 为 `bm B` 中线性无关的 `r`
 	列组成的方阵, 于是 `bm B_1` 可逆, 且 `bm(A B_1) = bm B_1`.
-	两边同时右乘 `bm B_1^-1` 得 `bm A = bm E`.
+	两边同时右乘 `bm B_1^-1` 得 `bm A = bm I`.
 </p>
 
 <p class="example">
@@ -788,7 +788,7 @@
 	将 `bm A` 的前 `r` 列组成的矩阵记为 `bm B`, 又记
 	<span class="formula">
 		`bm C_1 = (c_(i j))_(r xx (n-r))`,
-		`quad bm C = (bm E_r, bm C_1)`,
+		`quad bm C = (bm I_r, bm C_1)`,
 	</span>
 	可以验证 `r(bm B) = r(bm C) = r`, 且 `bm A = bm(B C)`.
 </p>
@@ -813,7 +813,7 @@
 	</li>
 	<li>由 `r(bm A) = n-1` 知存在 `bm A` 的一个非零 `n-1` 阶子式,
 		故 `bm A^** != bm O`, `r(bm A^**) ge 1`.
-		另一方面, 由 `bm(A A^**) = |bm A|bm E = bm O`,
+		另一方面, 由 `bm(A A^**) = |bm A|bm I = bm O`,
 		由 Sylvester 秩不等式,
 		`r(bm A) + r(bm A^**) le n`, 即 `r(bm A^**) le 1`,
 		所以 `r(bm A^**) = 1`.
@@ -971,7 +971,7 @@
 	</span>
 	则 <a class="ref" href="#for-homogeneous"></a> 同解于
 	<span class="formula">
-		` bm X = [-bm A_1^-1 bm A_2; bm E_(n-r)] bm X_2`.
+		` bm X = [-bm A_1^-1 bm A_2; bm I_(n-r)] bm X_2`.
 		<span class="label" id="for-homogeneous-equals">(3-4)</span>
 	</span>
 	任给定 `bm X_2 in bbb P^(n-r)`, 上式就确定 `bm X in bbb P^n`
@@ -997,11 +997,11 @@
 	<span class="formula">
 		`bm X_1 = -bm A_1^-1 bm A_2 bm X_2`
 	</span>
-	由于 `bm X_2 = bm E_(n-r) bm X_2` 恒成立, 上式又同解于
+	由于 `bm X_2 = bm I_(n-r) bm X_2` 恒成立, 上式又同解于
 	<span class="formula">
 		` bm X
 		= [bm X_1; bm X_2]
-		= [-bm A_1^-1 bm A_2; bm E_(n-r)] bm X_2`.
+		= [-bm A_1^-1 bm A_2; bm I_(n-r)] bm X_2`.
 	</span>
 	即 <a class="ref" href="#for-homogeneous-equals"></a>.
 </p>
@@ -1060,7 +1060,7 @@
 	在 <a class="ref" href="#for-homogeneous-equals"></a>
 	中依次取 `bm X_2 = bm epsi_i`, `i = 1, 2, cdots, n-r`, 把得到的解记为
 	<span class="formula">
-		`bm gamma_i = [-bm A_1^-1 bm A_2; bm E_(n-r)] bm epsi_i
+		`bm gamma_i = [-bm A_1^-1 bm A_2; bm I_(n-r)] bm epsi_i
 		= bm (C epsi_i)`,
 		`i = 1, 2, cdots, n-r`
 	</span>
@@ -1072,7 +1072,7 @@
 	</span>
 	即 <a class="ref" href="#for-homogeneous"></a> 的每个解都是
 	`{bm gamma_i}_(i=1)^(n-r)` 的线性组合.
-	又 `bm C` 的子式 `|bm E_(n-r)| != 0`, 于是 `r(bm C) = n-r`,
+	又 `bm C` 的子式 `|bm I_(n-r)| != 0`, 于是 `r(bm C) = n-r`,
 	`{bm gamma_i}_(i=1)^(n-r)` 线性无关, 它们构成
 	<a class="ref" href="#for-homogeneous"></a> 的一个基础解系.
 </p>
@@ -1179,7 +1179,7 @@
 
 		基础解系为矩阵
 
-			`(bm E_n - sigma bm A_1) tau`
+			`(bm I_n - sigma bm A_1) tau`
 
 		的各列.
 		实际计算时不必生搬硬套公式, 只需代回原变元,
@@ -1279,38 +1279,38 @@ module.exports = function (str) {
 	设有 `bbb P^(n xx 1)` 中的线性无关向量组 `"I" = {bm alpha_i}_(i=1)^r`,
 	`"II" = {bm beta_i}_(i=1)^s`, `r + s = n`, 则 `"II"` 构成方程组
 	<span class="formula">
-		`(bm alpha_1,bm alpha_2,cdots,bm alpha_r)' bm X = bb 0`
+		`(bm alpha_1,bm alpha_2,cdots,bm alpha_r)^T bm X = bb 0`
 	</span>
 	的基础解系当且仅当
 	<span class="formula">
-		`bm alpha_i' bm beta_j = 0`,
+		`bm alpha_i^T bm beta_j = 0`,
 		`quad i in [r], j in [s]`,
 	</span>
 	这当且仅当`"I"` 构成方程组
 	<span class="formula">
-		`(bm beta_1,bm beta_2,cdots,bm beta_s)' bm X = bb 0`
+		`(bm beta_1,bm beta_2,cdots,bm beta_s)^T bm X = bb 0`
 	</span>
 	的基础解系.
 </p>
 
 <ol class="example" id="exp-least-square-system">
 	设 `bm A in RR^(m xx n)`, `bm X in RR^n`, `bm B, bb 0 in RR^m`, 则
-	<li>实线性方程组 `bm (A X) = bb 0` 与 `bm (A'A X) = bb 0` 同解;</li>
-	<li>`r(bm A) = r(bm(A'A))`;</li>
-	<li>实线性方程组 `bm (A'A X) = bm(A'B)` 有解.</li>
+	<li>实线性方程组 `bm (A X) = bb 0` 与 `bm (A^T A X) = bb 0` 同解;</li>
+	<li>`r(bm A) = r(bm(A^T A))`;</li>
+	<li>实线性方程组 `bm (A^T A X) = bm(A^T B)` 有解.</li>
 	注意在复数域中, 结论 1. 未必成立. 如 `bm A = [1,"i"; "i",-1]`.
 </ol>
 
 <ol class="proof">
-	<li>显然 `bm (A X) = bb 0` 的解也是 `bm (A'A X) = bb 0` 的解. 反之设
-		`bm(A'A X) = bb 0`, 则 `bm(X'A'A X) = 0`, 即 (向量内积)
+	<li>显然 `bm (A X) = bb 0` 的解也是 `bm (A^T A X) = bb 0` 的解. 反之设
+		`bm(A^T A X) = bb 0`, 则 `bm(X^T A^T A X) = 0`, 即 (向量内积)
 		<span class="formula">
 			`(bm(A X), bm(A X)) = 0`,
 		</span>
 		这推出 `bm(A X) = bb 0`.
 		注意, 从线性变换的角度看, 两个齐次方程组同解, 即
 		<span class="formula">
-			`"Ker"bm A = "Ker"bm(A'A)`.
+			`"Ker"bm A = "Ker"bm(A^T A)`.
 		</span>
 	</li>
 	<li>由<a class="ref" href="#the-structure-of-solution"></a>
@@ -1318,19 +1318,19 @@ module.exports = function (str) {
 	</li>
 	<li>运用几类秩不等式 (并上一列, 秩变大; 乘以一个矩阵, 秩变小):
 		<span class="formula">
-			`r(bm(A'A)) le r((bm(A'A)","bm(A'B)))`
-			`= r(bm A'(bm A,bm B))`
-			`le r(bm A')`
+			`r(bm(A^T A)) le r((bm(A^T A)","bm(A^T B)))`
+			`= r(bm A^T (bm A,bm B))`
+			`le r(bm A^T )`
 			`= r(bm A)`
-			`= r(bm(A'A))`.
+			`= r(bm(A^T A))`.
 		</span>
 		从而上式取得等号, 特别
 		<span class="formula">
-			`r(bm(A'A)) = r((bm(A'A)","bm(A'B)))`,
+			`r(bm(A^T A)) = r((bm(A^T A)","bm(A^T B)))`,
 		</span>
 		即方程组
 		<span class="formula">
-			`bm(A'A X) = bm(A'B)`
+			`bm(A^T A X) = bm(A^T B)`
 		</span>
 		有解.
 	</li>
@@ -1358,6 +1358,14 @@ module.exports = function (str) {
     </span>
 </p>
 
+<script>
+var asciimath = {
+  define: [
+    [/\^T/g, '^(sf T)'],
+    [/\^H/g, '^(sf H)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/playground.js"></script>
 <script src="../../code/mat.js"></script>

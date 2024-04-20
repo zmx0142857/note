@@ -31,8 +31,8 @@
   平行于多项式的零点-因子定理, 有:
   令 `M(lambda)` 为 `lambda` 矩阵, `f` 为多项式. 若
   <span class="formula">
-    `(lambda bm E-bm A)M(lambda) = f(lambda) bm E` 或
-    `M(lambda)(lambda bm E-bm A) = f(lambdaa) bm E`,
+    `(lambda bm I-bm A)M(lambda) = f(lambda) bm I` 或
+    `M(lambda)(lambda bm I-bm A) = f(lambdaa) bm I`,
   </span>
   则 `f(bm A) = bm O`.
 </p>
@@ -86,7 +86,7 @@
     分解得到的初等因子为
       `color(red)(lambda)`, `color(blue)(lambda)`, `color(blue)(lambda-1)`.
   </li>
-  对于一个数字矩阵 `bm A`, 它的不变因子、行列式因子、初等因子就定义为 `lambda bm E - bm A` 的相应因子.
+  对于一个数字矩阵 `bm A`, 它的不变因子、行列式因子、初等因子就定义为 `lambda bm I - bm A` 的相应因子.
 </ol>
 
 <h2>有理标准形</h2>
@@ -101,8 +101,8 @@
     , , ddots, , vdots;
     , , , 1, -a_(n-1)]`.
   </span>
-  在行列式一章我们已验证过 `det(lambda bm E - bm A) = f(lambda)`,
-  事实上, 进一步有 `bm A` 的不变因子, 即 `lambda bm E - bm A` 的不变因子为
+  在行列式一章我们已验证过 `det(lambda bm I - bm A) = f(lambda)`,
+  事实上, 进一步有 `bm A` 的不变因子, 即 `lambda bm I - bm A` 的不变因子为
   `overbrace(1, cdots, 1)^(n-1), f(lambda)`.
 </p>
 
@@ -181,19 +181,19 @@
     这些不同的 Jordan 块互不相似.
     比如两个一阶的 Jordan 块 `bm J_1 = [lambda, ; , lambda]`
     和二阶 Jordan 块 `bm J_2 = [lambda, 1; , lambda]` 不相似.
-    这是因为如果它们相似, 则 `bm J_1 - lambda bm E` 和 `bm J_2 - lambda bm E` 也相似, 但这不可能, 因为
-    `"rank"(bm J_1 - lambda bm E) = 0`, 而 `"rank"(bm J_2 - lambda bm E) = 1`.
+    这是因为如果它们相似, 则 `bm J_1 - lambda bm I` 和 `bm J_2 - lambda bm I` 也相似, 但这不可能, 因为
+    `"rank"(bm J_1 - lambda bm I) = 0`, 而 `"rank"(bm J_2 - lambda bm I) = 1`.
   </li>
-  <li>为了判断出 2. 中究竟是哪种 Jordan 块, 考虑 `(bm J - lambda bm E)^k` 的秩
+  <li>为了判断出 2. 中究竟是哪种 Jordan 块, 考虑 `(bm J - lambda bm I)^k` 的秩
     <span class="formula">
-       `r_k = "rank"(bm J - lambda bm E)^k`
-       `= "rank"(bm A - lambda bm E)^k`,
+       `r_k = "rank"(bm J - lambda bm I)^k`
+       `= "rank"(bm A - lambda bm I)^k`,
        `quad k = 0, 1, cdots`.
     </span>
-    `k = 0` 时, `(bm J - lambda bm E)^0 = bm E` 的秩为 `r_0 = n`.
-    `k = 1` 时, `bm J - lambda bm E` 把 `bm J` 的主对角线变为零, 于是所有 Jordan 块的秩都减少 1.
+    `k = 0` 时, `(bm J - lambda bm I)^0 = bm I` 的秩为 `r_0 = n`.
+    `k = 1` 时, `bm J - lambda bm I` 把 `bm J` 的主对角线变为零, 于是所有 Jordan 块的秩都减少 1.
     换言之, `r_0 - r_1 =` 所有 Jordan 块的数目.
-    `k` 从 1 变到 2 时, `bm J - lambda bm E` 中一阶 Jordan 块已经变成零, 阶数无法降低;
+    `k` 从 1 变到 2 时, `bm J - lambda bm I` 中一阶 Jordan 块已经变成零, 阶数无法降低;
     其他 Jordan 块的阶数都减少 1. 换言之 `r_2 - r_1 =` 阶数大于 1 的 Jordan 块的数目.
     一般地
     <span class="formula">
@@ -203,8 +203,8 @@
     <span class="formula">
       `(r_k - r_(k-1)) - (r_(k+1) - r_k) =` 阶数等于 `k` 的 Jordan 块数目.
     </span>
-    注意: 我们事先不知道 `bm J` 的形式, 因此无法直接求出 `"rank"(bm J - lambda bm E)`,
-    但可以改为求 `"rank"(bm A - lambda bm E)`.
+    注意: 我们事先不知道 `bm J` 的形式, 因此无法直接求出 `"rank"(bm J - lambda bm I)`,
+    但可以改为求 `"rank"(bm A - lambda bm I)`.
   </li>
   <li>
     对 `bm A` 的各个不同的特征值重复上述操作.

@@ -5,38 +5,84 @@
     <title>机器学习基础</title>
     <link rel="stylesheet" href="../../css/note.css"/>
 </head>
-
 <body>
+
+<p>[来自 机器学习花书、李宏毅机器学习课]</p>
 
 <h2>名词解释</h2>
 
 <dl>
+  <dt>模型 (model)</dt>
+  <dd>是指函数空间中的一个函数. 函数空间通常是由一些参数决定的一族函数. 机器学习的目标是从函数空间中找到最优的一个函数, 即找到一组最优的参数.</dd>
   <dt>无监督学习 (unsupervised learning)</dt>
-  <dd>训练含有很多特征的数据集，然后学习出这个数据集上有用的结构性质。</dd>
+  <dd>训练含有很多特征的数据集, 然后学习出这个数据集上有用的结构性质.</dd>
   <dt>监督学习 (supervised learning)</dt>
-  <dd>训练含有很多特征的数据集，不过数据集中的样本都有一个标签 (label) 或目标 (target)。<br>
-    无监督学习和监督学习的概念并没有明确的边界。传统上，人们将回归、分类或者结构化输出问题称为监督学习，将支持其他任务的密度估计称为无监督学习。
+  <dd>训练含有很多特征的数据集, 不过数据集中的样本都有一个标签 (label) 或目标 (target).<br>
+    无监督学习和监督学习的概念并没有明确的边界. 传统上, 人们将回归、分类或者结构化输出问题称为监督学习, 将支持其他任务的密度估计称为无监督学习.
   </dd>
   <dt>强化学习 (reinforcement learning)</dt>
-  <dd>算法会和环境进行交互，学习系统和它的训练过程会有反馈回路。</dd>
+  <dd>算法会和环境进行交互, 学习系统和它的训练过程会有反馈回路.
+    比如, 让 AI 写一首诗, 然后让人类老师为它打分, AI 通过打分得知人类的审美喜好从而调整自己的参数.
+    强化学习的优点是不需要准备非常多具有标注的数据集.
+  </dd>
   <dt>设计矩阵 (design matrix)</dt>
-  <dd>表示数据集的常用方式。设计矩阵的每一个行表示一个样本，每一列表示样本的一项特征。<br>
-    如果每个样本大小不同，比如大小不同的照片，我们则不会将数据集表示成矩阵，而是表示成 `m` 个元素的集合：`{x^((1)), ..., x^((m))}`.
+  <dd>表示数据集的常用方式. 设计矩阵的每一个行表示一个样本, 每一列表示样本的一项特征.<br>
+    如果每个样本大小不同, 比如大小不同的照片, 我们则不会将数据集表示成矩阵, 而是表示成 `n` 个元素的集合：`{bm x^((1)), ..., bm x^((n))}`. 不引起误解的情况下, 有时会将上标的括号省略.
+    于是我们用上标 `bm x^i` 表示数据集中的第 `i` 个样本,
+    用下标 `bm x_i` 表示 `bm x` 的第 `i` 个分量 (feature).
   </dd>
   <dt>欠拟合</dt>
-  <dd></dd>
+  <dd>是指模型的参数过少, 函数空间的表达能力有限, 在训练集上的表现不佳.</dd>
   <dt>过拟合</dt>
-  <dd></dd>
+  <dd>是指模型的参数过多, 函数空间过大, 模型虽然能够很好地拟合训练集中的数据, 但同时也学会了训练集数据中一些无关的特征, 造成的后果是在测试集上表现不佳.</dd>
 </dl>
 
-<h2>案例</h2>
-
-<p class="example">
-  <b>线性回归</b>
-</p>
+<h2>回归模型 (Regression)</h2>
 
 <p class="example">
   <b>最邻近回归</b>
+  典型的非参数模型. 对于输入 `bm x`, 该模型取训练集中最接近的一点 `bm x^0` 所对应的 `y^0` 作为输出.
+  最邻近回归在训练集上的误差总是最小的.
+</p>
+
+<p class="example">
+  <b>线性回归</b>
+  典型的参数模型. 函数空间形如 `hat y = b + bm x^T bm w`.
+  其中 `bm w` 称为 weight, `b` 称为 bias.
+  线性回归的目标是寻求一个函数, 使下面的<b>均方误差 (mean squared error, MSE)</b>最小:
+  <span class="formula">
+    `"MSE" := 1/n sum_i (hat y^i - y^i)^2`.
+  </span>
+  其中 `n` 是数据集的大小, `y^i` 是真实值, `hat y^i` 是模型输出的预测值.
+  令 `hat bm y = (hat y^1, cdots, hat y^n)^T`, `bm y = (y^1, cdots, y^n)^T`, 上式用向量写成
+  <span class="formula">
+    `"MSE" := 1/n |hat bm y - bm y|^2`.
+  </span>
+</p>
+
+<p class="solution">
+  不妨令 `bm x` 的最后一个分量固定为 1, 再把 `b` 加到向量 `bm w` 中作为最后一个分量, 模型化为更简单的
+  <span class="formula">
+    `hat y = bm x^T bm w`.
+  </span>
+  令 `bm X = (bm x^1, cdots, bm x^n)^T`, 则
+  <span class="formula">
+    `hat bm y = bm(X w)`,<br>
+    `n "MSE" = |hat bm y - bm y|^2`
+    `= (bm (X w - y))^T (bm (X w - y))`
+    `= bm w^T bm X^T bm(X w) - 2 bm w^T bm X^T bm y + bm y^T bm y`.
+  </span>
+  为求 `"MSE"` 为最小值, 将它看作参数 `bm w` 的函数, 令梯度等于零得
+  <span class="formula">
+    `0 = n grad_(bm w) "MSE"`
+    `= 2 bm X^T bm X bm w - 2 bm X^T bm y`,
+  </span>
+  于是学习得到最优参数
+  <span class="formula">
+    `bm w = (bm X^T bm X)^-1 bm X^T bm y`.
+  </span>
+  此公式称为<b>正规方程</b>, 可以这样记忆: 解方程组 `bm(X w) = bm y`,
+  此方程组可能无解, 改为求解 `bm X^T bm (X w) = bm X^T bm y`, 这样就得到上式.
 </p>
 
 <ol class="example">
@@ -44,30 +90,51 @@
     `sigma(x) = (1+"e"^-x)^-1`
     <canvas id="canvas" width="450" height="150"></canvas>
     <li>`sigma(x) - 1/2 = 1/2 tanh(x/2)` 是奇函数;</li>
-    <li>`sigma(x)` 满足 Logistic 方程 `dy/dx = y (1-y)`. 于是
-        <span class="formula">
-            `sigma'(x) = sigma(1-sigma)`,
-            `quad (ln sigma(x))' = 1 - sigma`,
-            `quad (ln (1-sigma(x)))' = -sigma`.
-        </span>
+    <li>`sigma(x)` 满足 Logistic 方程 `sigma'(x) = sigma(1-sigma)`.
     </li>
 </ol>
 
 <p class="example">
   <b>Logistic 回归</b>
-  考虑二分类问题. 已知训练集 `(x^((i)), y^((i)))`...
-  简记 `h^((i)) = sigma(W x^((i)) + b)`, 则
+  考虑二分类问题. 已知训练集为 `(bm x^i, y^i)`,
+  令 `h^i = sigma(bm w^T bm x^i + b)`, 其中 `bm w, b` 是待优化的参数, `sigma` 是 sigmoid 函数.
+  损失函数 (loss) 定义为 (??)
   <span class="formula">
-    `L(W, b) = -1/n sum_(i=1)^n (y^((i)) ln h^((i))
-    + (1-y^((i))) ln(1-h^((i))))`,<br/>
-    `(del L)/(del W_j)`
-    `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) (1-h^((i))) - (1-y^((i))) h^((i)))`
-    `= -1/n sum_(i=1)^n x_j^((i)) (y^((i)) - h^((i)))`,<br/>
-    `(del L)/(del b)`
-    `= -1/n sum_(i=1)^n (y^((i)) - h^((i)))`.
+    `L(bm w, b) = -1/n sum_(i=1)^n (y^i ln h^i + (1-y^i) ln(1-h^i))`.
   </span>
+  目标: 寻找最优参数使 loss 最小: `bm w^**, b^** = underset (bm w, b) "argmin" L(bm w, b)`.
 </p>
 
+<ol class="solution">
+  我们再一次把 `bm x` 的最后一个分量固定为 1, 再把 `b` 合并到向量 `bm w` 中,
+  模型化为 `h = sigma(bm w^T bm x)`. 注意到
+  <span class="formula">
+    `(ln sigma(x))' = 1 - sigma`,
+    `quad (ln (1-sigma(x)))' = -sigma`.
+  </span>
+  所以损失函数的偏导数为
+  <span class="formula">
+    `(del L)/(del w_j)`
+    `= -1/n sum_(i=1)^n bm x_j^i (y^i - h^i)`,<br>
+    `-n grad_(bm w) L = (bm y - bm h)^T bm X`.
+  </span>
+  下面使用<b>梯度下降法 (gradient descent)</b> 求最优解:
+  <li>随机选取 `bm w^0`;</li>
+  <li>计算损失函数在 `bm w^0` 处的梯度 `grad_(bm w^0) L`, 然后向梯度下降的方向移动:
+    <span class="formula">
+      `bm w^1 larr bm w^0 - eta grad_(bm w^0) L`.
+    </span>
+    常数 `eta gt 0` 称为 learning rate. 梯度越大, 移动的距离就越远.
+  </li>
+</ol>
+
+<script>
+var asciimath = {
+  define: [
+    [/\^T/g, '^(sf T)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type="></script>
 <script src="../../js/plot.js"></script>
 <script>

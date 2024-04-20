@@ -263,9 +263,9 @@ var tocData = {
     favicon: 'dango.png',
     toc: [
       {
-        title: '数据结构',
+        title: '数据结构与算法',
         articles: [
-          { title: '数据结构习题', src: 'ds/exercise.html', date: '2021-11-22' },
+          { title: '习题', src: 'ds/exercise.html', date: '2021-11-22' },
           { title: '其它算法', src: 'ds/0.html' },
           { title: '绪论', src: 'ds/1.html' },
           { title: '线性表', src: 'ds/2.html' },
@@ -288,7 +288,7 @@ var tocData = {
       {
         title: '机器学习',
         articles: [
-          { title: '机器学习基础', src: 'ml/1.html' },
+          { title: '机器学习基础', src: 'ml/1.html', date: '2024-04-20' },
         ]
       },
       {
