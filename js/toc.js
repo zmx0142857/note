@@ -204,7 +204,7 @@ var tocData = {
         articles: [
           { title: '向量与坐标系', src: 'analytic-geo/1.html', date: '2023-05-08' },
           { title: '平面与直线', src: 'analytic-geo/2.html' },
-          { title: '圆锥曲线与二次曲面', src: 'analytic-geo/3.html' },
+          { title: '圆锥曲线与二次曲面', src: 'analytic-geo/3.html', date: '2024-04-24' },
           { title: '平面几何的复数解法', src: 'analytic-geo/6.html' },
         ]
       },

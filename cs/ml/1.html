@@ -86,9 +86,12 @@
 </p>
 
 <ol class="example">
-    <b>Sigmoid 函数</b>
-    `sigma(x) = (1+"e"^-x)^-1`
-    <canvas id="canvas" width="450" height="150"></canvas>
+    <b>Sigmoid 函数</b> `sigma(x) = (1+"e"^-x)^-1`
+    <div class="img fit" title="`y = sigma(a x + b)`">
+      <canvas id="img-sigmoid" width="450" height="150"></canvas>
+      <div id="img-sigmoid-range-a"></div>
+      <div id="img-sigmoid-range-b"></div>
+    </div>
     <li>`sigma(x) - 1/2 = 1/2 tanh(x/2)` 是奇函数;</li>
     <li>`sigma(x)` 满足 Logistic 方程 `sigma'(x) = sigma(1-sigma)`.
     </li>
@@ -137,9 +140,39 @@ var asciimath = {
 </script>
 <script src="../../js/note.js?type="></script>
 <script src="../../js/plot.js"></script>
+<script src="../../js/ui.js"></script>
 <script>
-new Plot('canvas', {keepRatio: false, xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5}).axis()
-    .plot(x => 1/(1+Math.exp(-x)));
+{
+let a, b
+const sigmoid = x => 1/(1+Math.exp(-(a*x+b)))
+const plotSigmoid = new Plot('img-sigmoid')
+const replotSigmoid = () => {
+  plotSigmoid.clear()
+    .geometry({ xmin: -3, xmax: 3, ymin: -0.2, ymax: 1.2, keepRatio: false })
+    .axis()
+    .plot(sigmoid)
+}
+const rangeA = new Range('img-sigmoid-range-a', {
+    min: -5,
+    max: 5,
+    step: 0.05,
+    value: 1,
+  }, e => {
+  a = e ? Number(e.target.value) : 1
+  rangeA.span.innerText = 'a = ' + a
+  replotSigmoid()
+})
+const rangeB = new Range('img-sigmoid-range-b', {
+    min: -5,
+    max: 5,
+    step: 0.05,
+    value: 0,
+  }, e => {
+  b = e ? Number(e.target.value) : 0
+  rangeB.span.innerText = 'b = ' + b
+  replotSigmoid()
+})
+}
 </script>
 </body>
 </html>

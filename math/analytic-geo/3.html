@@ -685,11 +685,60 @@
 	</li>
 </ol>
 
+<ol class="example">
+  <li>求椭圆 `x^2/a^2 + y^2/b^2 = 1` 被直线 `l x + m y = 0` 所截的弦长 `L`.</li>
+  <li>求椭球面 `x^2/a^2 + y^2/b^2 + z^2/c^2 = 1` 被平面 `l x + m y + n z = 0` 所截的椭圆的面积 `S`.</li>
+</ol>
+
+<ol class="solution">
+  <li>将弦长投影到 `x` 轴, 再利用公式 `L = sqrt(1+k^2)|x_1 - x_2|`. 为此, 先把直线方程代入椭圆方程得到
+    <span class="formula">
+      `x_(1,2) = +- sqrt(1/(1/a^2 + l^2/(m b)^2))`,
+    </span>
+    于是
+    <span class="formula">
+      `L = 2 sqrt(1+l^2/m^2) |x_1|`
+      `= 2 sqrt((l^2 + m^2)/(m^2/a^2 + l^2/b^2))`
+      `= 2 a b sqrt((l^2+m^2)/((l a)^2 + (m b)^2))`.
+    </span>
+  </li>
+  <li>[来自 泰勒猫] 将所截的椭圆投影到 `xOy` 平面, 夹角的余弦值是两平面法向量的内积:
+    <span class="formula">
+      `cos alpha = ((l, m, n) * (0, 0, 1)) / sqrt(l^2+m^2+n^2) = n/sqrt(l^2+m^2+n^2)`.
+    </span>
+    下面求投影面积. 投影的椭圆方程是
+    <span class="formula">
+      `x^2/a^2 + y^2/b^2 + (l x + m y)^2/(n c)^2 = 1`,
+    </span>
+    应用椭圆面积公式 `pi a b`, 或者 `pi/sqrt(lambda_1 lambda_2)`, 其中
+    `lambda_1, lambda_2` 是椭圆方程的二次项作为二次型的特征值.
+    例如二次型为 `A x^2 + 2 B xy + C y^2` 时, `lambda_2 lambda_2 = A C - B^2`.
+    于是投影面积
+    <span class="formula">
+      `S_1 = pi / sqrt((1/a^2 + l^2/(n c)^2)(1/b^2 + m^2/(n c)^2) - (l  m)/(n c)^2)`
+      `= pi/sqrt(1/(a b)^2 + m^2/(n a c)^2 + l^2/(n b c)^2)`.
+      `= (pi n a b c)/sqrt((l a)^2 + (m b)^2 + (n c)^2)`.
+    </span>
+    所以 `S = S_1 // cos alpha = pi a b c sqrt((l^2+m^2+n^2)/((l a)^2 + (m b)^2 + (n c)^2)`.
+  </li>
+</ol>
+
+<p class="solution">
+  2. 的另一解法: 由上一种解法我们知道 `S = S_1 // cos alpha`.
+  变换坐标系 `(x, y, z) mapsto (a x, b y, c z)`, 在新坐标下椭球面变为单位球面,
+  平面变为 `l a x + m b y + n c z = 0`. 它们的截痕是单位圆, 面积为 `pi`.
+  在新坐标系下, 把这个单位圆投影到 `xOy` 平面, 面积为
+  `S_2 = pi n c//sqrt((l a)^2 + (m b)^2 + (n c)^2)`.
+  `S_1` 和 `S_2` 相差一个坐标系的伸缩变换, 有 `S_1 = a b S_2`.
+  最终 `S = S_1 // cos alpha = a b S_2 // cos alpha`.
+</p>
+
 <h2>高次曲线</h2>
 
 <h3>三次曲线</h3>
 
 <p class="example">
+  <b>叶形线</b>
   平面上原点关于抛物线 `y = -ax^2` 在 `x=t` 处的切线
   `y + a t^2 = -2a t(x-t)`
   的对称点为
@@ -705,6 +754,11 @@
 
 <div class="img sm">
   <canvas id="exp-parabola-cubic" width="400" height="150"></canvas>
+</div>
+
+<div class="img" title="`y^2 = x^2(x+a)`">
+  <canvas id="img-cubic2" width="300" height="300"></canvas>
+  <div id="img-cubic2-range"></div>
 </div>
 
 <h3>四次曲线</h3>
@@ -792,6 +846,7 @@
 
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/plot.js"></script>
+<script src="../../js/ui.js"></script>
 <script>
 new Plot('exp-parabola-cubic')
   .geometry({ xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5 }).axis()
@@ -804,6 +859,21 @@ new Plot('exp-cassini')
   .geometry({ xmin: -1.5, xmax: 1.5, ymin: -1, ymax: 1}).axis()
   .plot(t => f(t)*cos(t), t => f(t)*sin(t), { min: -PI/4, max: PI/4 }) // 右支
   .plot(t => f(t)*cos(t), t => f(t)*sin(t), { min: 3*PI/4, max: 5*PI/4 }) // 左支
+
+const plotCubic2 = new Plot('img-cubic2')
+const rangeCubic2 = new Range('img-cubic2-range', {
+    min: -3,
+    max: 3,
+    step: 0.1,
+    value: 1.5,
+  }, e => {
+  const a = e ? Number(e.target.value) : 1.5
+  rangeCubic2.span.innerText = 'a = ' + a
+  plotCubic2.clear()
+    .geometry({ xmin: -4, xmax: 4, ymin: -4, ymax: 4 }).axis()
+    .plot(x => Math.sqrt(x*x*(x+a)))
+    .plot(x => -Math.sqrt(x*x*(x+a)))
+})
 </script>
 </body>
 </html>

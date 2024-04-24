@@ -142,11 +142,10 @@
 
 <ol class="enum">
   <li><b>Knuth 箭头 (高德纳箭头)</b>. 设 `a, r` 为正整数. 规定
-    <span class="formula align" style="margin-top:-1em">
-      <br>
-      `a uarr r := underbrace(a * cdots * a)_r`,<br>
-      `a uarr uarr r := underbrace(a uarr cdots uarr a)_r`,<br>
-      `a uarr uarr uarr r := underbrace(a uarr uarr cdots uarr uarr a)_r `,<br>
+    <span class="formula align">
+      `a uarr r` `:= underbrace(a * cdots * a)_r`,<br class="noindent">
+      `a uarr uarr r` `:= underbrace(a uarr cdots uarr a)_r`,<br class="noindent">
+      `a uarr uarr uarr r` `:= underbrace(a uarr uarr cdots uarr uarr a)_r `,
     </span>
     Knuth 箭头的结合性是从右往左计算, 如 `a uarr b uarr c = a uarr (b uarr c)` `= a^(b^c)`.<br>
     把 `n` 个箭头简记为 `uarr^n`, 则 Knuth 箭头递归定义为:
@@ -171,9 +170,10 @@
       <li>`(a) := a`;</li>
       <li>`a to b := a^b`;</li>
       <li>`a to b to c := a uarr^c b`;</li>
-      <li>`X` 是任意链, `X to 1 := X`. 这就是说链尾的 `1` 可以去掉;</li>
+      <li>`X` 是任意链, `X to 1 := X`, `X to 1 to y := X`. 这就是说末尾和倒数第二位的 `1` 可以去掉;</li>
       <li>`X` 是任意链, `X to (a+1) to (b+1) := X to (X to a to (b+1)) to b`.
-        这推出
+        此规则使得链的长度不变, 但末尾的数字减小.
+        反复展开中间的括号, 每展开一次, `a` 就减小 `1`. 注意 `X to 1 to (b+1) = X`, 我们得到
         <span class="formula">
           `X to (a+1) to (b+1)`
           `= underbrace(color(red)(X to"(") cdots color(red)(X to"("))_a
@@ -183,9 +183,9 @@
         这一条定义与 Knuth 箭头是相容的. 比如
         <span class="formula align">
           `x to (a+1) to (b+1)`<br>
-          `= x uarr^(b+1) (a+1) quad` ……Conway 链定义 (4)<br>
-          `= x uarr^b x uarr^(b+1) a quad` ……Knuth 箭头定义<br>
-          `= x to (x to a to (b+1)) to b quad` ……Conway 定义 (4).
+          `= x uarr^(b+1) (a+1)` <span class="right">……Conway 链定义 (4)</span><br>
+          `= x uarr^b x uarr^(b+1) a` <span class="right">……Knuth 箭头定义</span><br>
+          `= x to (x to a to (b+1)) to b. qquad` <span class="right">……Conway 链定义 (4)</span>
         </span>
       </li>
     </ol>
