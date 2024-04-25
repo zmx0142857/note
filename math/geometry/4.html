@@ -7,10 +7,70 @@
 </head>
 <body>
 
+<h2>圆的切线</h2>
+
+<p class="construction">
+  过不在圆上的一点 `P`, 只用直尺作出 `P` 关于圆的极线.
+  如果 `P` 在圆外, 连接 `P` 到极线与圆的交点就得到两切线.
+</p>
+
+<p class="solution">
+  过 `P` 作圆的两割线, 交圆于 `A, B, C, D` 四点. 这四点确定一个完全四边形, 其中一组对边交于 `P`.
+  设另外两组对边交于 `E, F`, 则 `EF` 就是极线.
+  <span class="img md">
+    <img src="../img/circle-polar.png">
+  </span>
+</p>
+
+<p class="construction">
+  [来自群友 幂零群、太阳花] [圆规x2, 直尺x1] 过圆上一点 `P` 作切线.
+</p>
+
+<ol class="solution enum">
+  在圆 `O` 上任取一点 `A`, 使得 `O, A, P` 不共线.
+  作圆 `AP`, 交圆 `O` 于 `P, B`; 作圆 `PB`, 交圆 `A` 于 `B, C`.
+  <li>
+    下证 `CP` 就是圆 `O` 的切线. 这只需说明 `/_ CPO = 90^@`:
+    连接 `PA, PB`, `/_ CPO` 被分为三个角. 我们证明这三个角之和等于 `90^@`.
+    <ol>
+      <li>
+        `triangle PAB S= triangle PAC (SSS)`, 所以 `PA` 平分 `/_BPC`. 设 `/_ BPC = 2alpha`.
+      </li>
+      <li>
+        `AB = AP` 所以 `/_ ABP = /_ APB = alpha`.
+      </li>
+      <li>
+        作圆 `O` 的直径 `PD`. `ABDP` 四点共圆, 所以 `/_ ADP = /_ ABP = alpha`.
+        由于 `DP` 是直径, 所以 `/_ ADP + /_APD = 90^@`.
+        于是 `/_ CPO = /_APC + /_APD = alpha + /_ APD = /_ ADP + /_ APD = 90^@`.
+      </li>
+    </ol>
+    <span class="img md">
+      <img src="../img/circle-tangent1.png">
+    </span>
+  </li>
+  <li>
+    进一步设圆 `A` 交直线 `OP` 于 `P, E`, 圆 `P` 交圆 `O` 于 `B, F`. 下证 `C, A, E, F` 四点共线.
+    <ol>
+      <li>由 1. 知 `/_ CPE = 90^@` 所以 `CE` 是圆 `A` 直径, 这说明 `C, A, E` 共线.</li>
+      <li>
+        又 `triangle BPO S= triangle FPO (SSS)`, 所以 `/_ BAF = /_ BPF = 2 /_ BPO`.
+        又在圆 `A` 中 `/_ BAC = 2/_ BPC`, 所以 `/_ BAF + /_ BAC = 2 (/_BPO + /_BPC) = 2 /_ CPO = 180^@`.
+        即 `C, A, F` 共线.
+      </li>
+    </ol>
+    <span class="img md">
+      <img src="../img/circle-tangent2.png">
+    </span>
+  </li>
+</ol>
+
+<h2>阿氏圆与反演</h2>
+
 <p class="theorem">
   <b>Apollonius 圆 (阿氏圆)</b>
   平面上到两定点距离之比为常数 `k` (`k gt 0`, `k != 1`) 的点的轨迹为圆.
-  <span class="img md">
+  <span class="img sm">
     <img src="../img/apollonius-circle.svg">
   </span>
 </p>

@@ -194,7 +194,7 @@ var tocData = {
         articles: [
           { title: '五组公理', src: 'geometry/1.html' },
           { title: '三角形, 四边形', src: 'geometry/3.html', date: '2022-02-14' },
-          { title: '圆', src: 'geometry/4.html', date: '2023-07-31' },
+          { title: '圆', src: 'geometry/4.html', date: '2024-04-25' },
           { title: '抛物线', src: 'geometry/5.html' },
           { title: '射影几何', src: 'geometry/10.html', date: '2023-07-11' },
         ]
