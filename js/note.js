@@ -481,6 +481,112 @@ function makeSvg() {
   }
 }
 
+function previewImg() {
+  [...$('.img')].forEach(v => {
+    v.onclick = () => {
+      const img = v.cloneNode(true)
+      ;[...img.querySelectorAll('img')].forEach(v => {
+        v.draggable = false
+        v.style.background = '#fff'
+      })
+      img.transform = {
+        scale: 1,
+        x: 0,
+        y: 0,
+      }
+      Object.assign(img.style, {
+        position: 'fixed',
+        background: 'rgba(0, 0, 0, 0.5)',
+        padding: '40px',
+        top: '-100%',
+        left: '-100%',
+        right: '-100%',
+        bottom: '-100%',
+        margin: '0',
+        color: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '1',
+      })
+      document.body.appendChild(img)
+      const between = (x, min, max) => {
+        if (x < min) return min
+        if (x > max) return max
+        return x
+      }
+      const getXY = (e) => {
+        return [
+          e.clientX || e.touches[0].clientX,
+          e.clientY || e.touches[0].clientY,
+          e.touches?.[1]?.clientX,
+          e.touches?.[1]?.clientY,
+        ]
+      }
+      const transform = () => {
+        const { scale, x, y } = img.transform
+        img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`
+      }
+      img.onwheel = (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        const { scale } = img.transform
+        if (e.deltaY > 0) {
+          if (scale > 1) img.transform.scale -= .5
+        } else if (e.deltaY < 0) {
+          if (scale < 4) img.transform.scale += .5
+        }
+        transform()
+      }
+      img.onmousedown = img.ontouchstart = (e) => {
+        e.preventDefault() // prevent scroll on mobile
+        const [startX, startY, startX2, startY2] = getXY(e)
+        const { x, y, scale } = img.transform
+        let dx = 0, dy = 0
+        const onPointerMove = (e) => {
+          const [moveX, moveY, moveX2, moveY2] = getXY(e)
+          if (startX2 !== undefined && startY2 !== undefined && moveX2 !== undefined && moveY2 !== undefined) {
+            // double touch
+            const rat = Math.abs(moveX2 - moveX) > Math.abs(moveY2 - moveY)
+              ? (moveX2 - moveX) / (startX2 - startX)
+              : (moveY2 - moveY) / (startY2 - startY)
+            dx = 5
+            dy = 5
+            img.transform.scale = between(scale * rat, 1, 4)
+            const k = 1 / img.transform.scale
+            img.transform.x = x + (moveX - startX) * k
+            img.transform.y = x + (moveY - startY) * k
+          } else {
+            // single touch
+            dx = moveX - startX
+            dy = moveY - startY
+            img.transform.x = x + dx
+            img.transform.y = y + dy
+          }
+          transform()
+        }
+        const onPointerUp = (e) => {
+          document.removeEventListener('mousemove', onPointerMove)
+          document.removeEventListener('mouseup', onPointerUp)
+          document.removeEventListener('touchmove', onPointerMove, true)
+          document.removeEventListener('touchend', onPointerUp, true)
+          if (Math.abs(dx) < 5 && Math.abs(dy) < 5) {
+            img.onwheel = null
+            img.onmousedown = null
+            document.body.removeChild(img)
+          }
+        }
+        document.addEventListener('mousemove', onPointerMove)
+        document.addEventListener('mouseup', onPointerUp)
+        document.addEventListener('touchmove', onPointerMove, true)
+        document.addEventListener('touchend', onPointerUp, true)
+      }
+    }
+  })
+}
+
 /*
 function wrapIOS() {
   if (/iphone|ipad|ipod/i.test(explorer)) {
@@ -517,6 +623,7 @@ makeH1();   // call makeH1() before decorate()
 
 decorateHeading(3);
 makeSvg();
+previewImg();
 
 decorate([
   //{name:'read-important',getBy:'class',word:'&#x1f4d6;',style:Slarge},
