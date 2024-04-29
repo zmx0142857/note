@@ -936,37 +936,77 @@
 <h2>包络线</h2>
 
 <p class="example">
-	设 `gamma` 是平面曲线, 它的全体切线组成直线束
-	`Gamma = {l(t): f(t) x + g(t) y = c}`,
-	则 `gamma` 称为 `Gamma` 的<b>包络 (线)</b>.
-	下面求包络线.  设 `gamma` 的参数方程为
-	`(x(t), y(t))`, 且点 `P(t) = (x(t),y(t))` 是 `gamma` 与直线
-	`l(t)` 的切点, 这时 `gamma` 在 `P(t)` 处的切向量应与 `l(t)` 平行, 有
-	<span class="formula">
-		`dy/dx = (y'(t))/(x'(t)) = -(f(t))/(g(t))`,
-	</span>
-	即
-	<span class="formula">
-		`f(t) x'(t) + g(t) y'(t) = 0`.
-		<span class="label" id="for-envelope-1"></span>
-	</span>
-	又由 `P(t)` 在切线上, 有
-	<span class="formula">
-		`f(t) x(t) + g(t) y(t) = c`.
-		<span class="label" id="for-envelope-2"></span>
-	</span>
-	上式两边对 `t` 求导, 再与 <a class="ref" href="#for-envelope-1"></a> 相减得
-	<span class="formula">
-		`f'(t) x(t) + g'(t) y(t) = 0`.
-		<span class="label" id="for-envelope-3"></span>
-	</span>
-	从 <a class="ref" href="#for-envelope-2"></a>
-	<a class="ref" href="#for-envelope-3"></a>
-	组成的方程组中解出 `x(t)`, `y(t)`, 就得到曲线的参数方程.
+  <b>曲线族的包络</b>
+  设 `gamma` 是平面曲线, 若它与曲线族 `Gamma` 中的每一条曲线 `gamma_t in Gamma` 都相切, 则称 `gamma` 是 `Gamma` 的一条<b>包络线</b>.
+  若包络线 `gamma` 存在, 且在 `(x(t), y(t))` 处与 `gamma_t: F(x, y, t) = 0` 相切, 则可以证明 `gamma` 满足下面的方程组:
+  <span class="formula">
+    `{ F(x, y, t) = 0; F_t(x, y, t) = 0 :}`
+  </span>
+  视 `t` 为参数, 从方程组中解出 `x(t), y(t)`, 则得到参数方程. 另一方面, 消去参数 `t` 也可以得到隐方程.
+  这个方程组确定的曲线称为 <b>`t`-检验曲线</b>.<br>
+  特别当 `Gamma` 为直线族时, 设 `F(x, y, t) = f(t) x + g(t) y - h(t)`, `t`-检验曲线为
+  <span class="formula">
+    `{ f(t) x + g(t) y = h(t); f'(t) x + g'(t) y = h'(t) :}`
+  </span>
+  这是线性方程组, 我们可以轻松解得包络线的参数方程.
+</p>
+
+<ol class="proof">
+  <li>
+    设 `gamma` 的参数方程为 `(x(t), y(t))`.
+    由题设 `gamma` 在 `(x(t), y(t))` 处的切向量与 `gamma_t` 的切向量平行, 即与 `gamma_t` 的法向量垂直:
+    <span class="formula">
+      `F_x x'(t) + F_y y'(t) = 0`.
+      <span class="label" id="for-envelope-1"></span>
+    </span>
+    又 `(x(t), y(t))` 落在 `gamma_t` 上, 有
+    <span class="formula">
+      `F(x(t), y(t), t) = 0`.
+    </span>
+    这是 `t`-检验曲线的第一个方程. 两边对 `t` 求导得
+    <span class="formula">
+      `F_x x'(t) + F_y y'(t) + F_t = 0`.
+    </span>
+    上式与 <a class="ref" href="#for-envelope-1"></a> 比较得 `F_t = 0`.
+    这是 `t`-检验曲线的第二个方程.
+  </li>
+  <li>`t`-检验曲线的几何解释: 假设函数 `F` 和 `F_t` 都可微,
+    把 `F(x, y, t) = 0` 和 `F_t(x, y, t) = 0` 看作 `RR^3` 中的曲面,
+    它们的交线是空间曲线 `gamma^3`.
+    联立消去 `t` 后, 得到平面曲线 `gamma`. 这里 `gamma` 是 `gamma^3` 在 `xOy` 平面的投影.
+    `gamma^3` 的方向向量是两曲面法向量的外积:
+    <span class="formula">
+      `grad F xx grad F_t`
+      `= (F_x, F_y, F_t) xx (F_(t x), F_(t y), F_(t t))`
+      `= (F_y F_(t t) - F_t F_(t y), F_t F_(t x) - F_x F_(t t), ...)`
+    </span>
+    而 `gamma` 的方向向量只需取上式的 `x, y` 分量.<br>
+    `gamma` 与 `gamma_t` 在 `(x(t), y(t))` 处是相切的. 这是因为
+    `t`-检验曲线的第一个方程告诉我们 `F(x(t), y(t), t) = 0`,
+    说明点 `(x(t), y(t))` 在 `gamma_t` 上; 另一方面
+    <span class="formula">
+      `F_x (F_y F_(t t) - F_t F_(t y)) + F_y (F_t F_(t x) - F_x F_(t t))`
+      `= F_t (F_y F_(t x) - F_x F_(t y))`,
+    </span>
+    `t`-检验曲线的第二个方程告诉我们 `F_t(x(t), y(t), t) = 0`, 因此上式在 `(x(t), y(t))` 处等于零.
+    这说明 `gamma` 的方向向量与 `gamma_t` 的法向量在这一点垂直.
+  </li>
+</ol>
+
+<p class="example">
+  求曲线族 `(x - t)^2 + y^2 = 1` 的包络.
+</p>
+
+<p class="solution">
+  直观上这是一族平移的圆, 它的包络应该是上下两条切线. 列出 `t`-检验曲线:
+  <span class="formula">
+    `{ (x-t)^2 + y^2 = 1; 2(t-x) = 0 :}`
+  </span>
+  由第二式得 `t = x`, 代入第一式得 `y^2 = 1`. 我们同时得到了两条包络线.
 </p>
 
 <p class="example">
-	求直线束 `1/2 x cos t + y sin t = 1`, `t in [0, 2pi)` 的包络.
+	求直线族 `1/2 x cos t + y sin t = 1`, `t in [0, 2pi)` 的包络.
 </p>
 
 <p class="solution">
@@ -981,6 +1021,33 @@
 	</span>
 	这是一个椭圆.
 </p>
+
+<p class="example">
+  求椭圆 `(a cos t, b sin t)` 的全体法线组成的直线族及其包络.
+</p>
+
+<ol class="solution">
+  <li>`bm r = (a cos t, b sin t)`, `bm r' = (-a sin t, b cos t)`,
+    设 `bm r` 处的法线方程为 `-a x sin t + b y cos t = c`,
+    代入 `x = a cos t, y = b sin t` 得 `c = (b^2-a^2)sin t cos t`.
+    于是椭圆的法线族为
+    <span class="formula">
+      `a x sin t - b y cos t = (a^2 - b^2) sin t cos t`,
+      `quad t in [0, 2pi)`.
+    </span>
+  </li>
+  <li>
+    解线性方程组
+    <span class="formula">
+      `{ a x sin t - b y cos t - (a^2 - b^2) sin t cos t = 0;
+      a x cos t + b y sin t - (a^2 - b^2) cos 2 t = 0 :}`
+    </span>
+    得到包络线的参数方程:
+    <span class="formula">
+      `(x, y) = (a^2 - b^2)((cos^3 t)/a, -(sin^3 t)/b)`.
+    </span>
+  </li>
+</ol>
 
 <p class="example">
 	在平面直角坐标系中, 求直线 `A_k B_k` 的包络线与坐标轴围成图形的面积,
