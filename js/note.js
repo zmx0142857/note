@@ -483,6 +483,7 @@ function makeSvg() {
 
 function previewImg() {
   [...$('.img')].forEach(v => {
+    if (v.querySelector('canvas')) return // 节点含有 canvas 时禁用预览功能
     v.onclick = () => {
       const img = v.cloneNode(true)
       ;[...img.querySelectorAll('img')].forEach(v => {

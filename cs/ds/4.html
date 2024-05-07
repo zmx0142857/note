@@ -60,6 +60,8 @@ load(n):
 
 <h2>回溯算法</h2>
 
+<b>通用模板</b>
+
 <pre>
 traceback(n):
 	if n == MAX_DEPTH:
@@ -72,22 +74,99 @@ traceback(n):
 </pre>
 
 <p class="algorithm">
-	<b>求幂集</b>
+  <b>全排列</b>
+  输入一个数组 <code>arr</code>, 输出它的全排列.
 </p>
 
-<pre>
-LinkList vec
+<div class="playground" value="{ arr: [1, 2, 3, 4] }">
+<script type="text">
+const permutation = (arr) => {
+  const res = []
+  const swap = (i, j) => {
+    const tmp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = tmp
+  }
+  const dfs = (start = 0) => {
+    if (start === arr.length) return res.push(arr.slice())
+    for (let i = start; i < arr.length; ++i) {
+      swap(start, i)
+      dfs(start + 1)
+      swap(start, i)
+    }
+  }
+  dfs()
+  return res
+}
+module.exports = (str) => {
+  const { arr } = Playground.parse(str)
+  const res = permutation(arr)
+  return res.map(arr => arr.join(' ')).join('\n')
+}
+</script>
+</div>
 
-powerset(n):
-	if n == S.len:
-		output(vec[1..k])
-	else:
-		k = vec.len
-		vec.insert(k+1, S[n])
-		powerset(n+1)
-		vec.remove(k+1)
-		powerset(n+1)
-</pre>
+<p class="algorithm">
+  <b>遍历子集</b>
+  输入一个数组 <code>arr</code>, 输出它的全部子集.
+</p>
+
+<div class="playground" value="{ arr: [1, 2, 3] }">
+<script type="text">
+const subsets = (arr) => {
+  const res = []
+  const buf = []
+  const dfs = (start = 0) => {
+    if (start === arr.length) {
+      res.push(buf.slice())
+    } else {
+      buf.push(arr[start]) // 选中该元素
+      dfs(start + 1)
+      buf.pop() // 未选中该元素
+      dfs(start + 1)
+    }
+  }
+  dfs()
+  return res
+}
+module.exports = (str) => {
+  const { arr } = Playground.parse(str)
+  const res = subsets(arr)
+  return res.map(arr => JSON.stringify(arr)).join('\n')
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>`k`-子集</b>
+  输入一个数组 <code>arr</code> 和一个数字 <code>k</code>, 输出数组的所有大小为 <code>k</code> 的子集.
+</p>
+
+<div class="playground" value="{ arr: [1, 2, 3, 4], k: 2 }">
+<script type="text">
+const choose = (arr, k) => {
+  const res = []
+  const buf = []
+  const dfs = (start = 0, count = k) => {
+    if (count === 0 || start === arr.length) {
+      if (count === 0) res.push(buf.slice())
+    } else {
+      buf.push(arr[start]) // 选中该元素
+      dfs(start + 1, count - 1)
+      buf.pop() // 未选中该元素
+      dfs(start + 1, count)
+    }
+  }
+  dfs()
+  return res
+}
+module.exports = (str) => {
+  const { arr, k } = Playground.parse(str)
+  const res = choose(arr, k)
+  return res.map(arr => JSON.stringify(arr)).join('\n')
+}
+</script>
+</div>
 
 <p class="algorithm">
 	<b>n 皇后问题</b>
@@ -98,5 +177,6 @@ powerset(n):
 </p>
 
 <script src="../../js/note.js?type=cs"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>

@@ -270,7 +270,7 @@ var tocData = {
           { title: '绪论', src: 'ds/1.html' },
           { title: '线性表', src: 'ds/2.html' },
           { title: '栈与队列', src: 'ds/3.html' },
-          { title: '递归与回溯', src: 'ds/4.html' },
+          { title: '递归与回溯', src: 'ds/4.html', date: '2024-05-07' },
           { title: '字符串', src: 'ds/5.html', date: '2023-05-24' },
           { title: '树与二叉树', src: 'ds/6.html' },
           { title: '矩阵与广义表', src: 'ds/7.html' },
