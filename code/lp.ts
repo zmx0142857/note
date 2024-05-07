@@ -8,12 +8,13 @@ class LP {
       NO_SOLUTION: 3,
       TODO: 4,
       INTERNAL_ERROR: 5
-  } 
+  }
   mat: number[][] // m 行, m+n+1 列
   base: number[] // m 个基变量的下标
   vars: string[] // m+n+1 个变量名 (n 个原变量, m 个松弛变量, 1 个人工变量)
   originVars: string[] // n 个原变量名
   sign?: number
+  log?: string[] // 计算过程日志
 
   static makeArr (length: number, callback: (i: number) => any) {
       return Array.from({ length }, (_, i) => callback(i))
@@ -31,7 +32,7 @@ class LP {
   constructor (A: number[][], b: number[], c: number[], vars: string[] = []) {
     const m = b.length
     const n = c.length
-    
+
     this.mat = A // 将 mat 改造为 (m+1) * (m+n+1) 矩阵
     this.mat.forEach((row, i) => {
       for (let j = 0; j < m; ++j) {
@@ -107,7 +108,6 @@ class LP {
   // 求解一个具有初始可行基解的松弛形
   solve_slack(instruction: number) {
     const addone = instruction === -1 ? 1 : 0
-    // console.log(this.toString())
     // 换入换出指示
     if (instruction > -1) {
       this.rotate(0, instruction, addone)
@@ -126,7 +126,7 @@ class LP {
     while (status === LP.status.RUNNING && cnt--) {
 
       // 打印计算过程
-      // console.log(this.toString())
+      if (this.log) this.log.push(this.toString())
 
       // 确定换入变量
       const swapin = this.mat[m].findIndex(x => x <= -LP.EPS)
@@ -191,7 +191,7 @@ class LP {
         for (let j = 0; j <= m+n; ++j) {
           if (!this.base.includes(j) && Math.abs(this.mat[i][j]) > LP.EPS) {
             this.rotate(j, i, 0)
-            // console.log(this.toString())
+            if (this.log) this.log.push(this.toString())
             break
           }
         }
@@ -221,9 +221,13 @@ class LP {
   }
 
   // 单纯形法求解线性规划
-  solve () {
+  solve ({ log = false } = {}) {
     console.log('solving...')
-    // console.log(this.toString())
+    this.log = undefined
+    if (log) {
+      this.log = []
+      this.log.push(this.toString())
+    }
 
     const [m, n] = this.size()
 
@@ -245,8 +249,8 @@ class LP {
   }
 
   // 调用 solve, 并整理结果
-  solveInfo () {
-    const res = this.solve()
+  solveInfo ({ log = false } = {}) {
+    const res = this.solve({ log })
     if (res === LP.status.FOUND) {
       this.sign = this.sign || 1
       const [m, n] = this.size()
@@ -261,7 +265,7 @@ class LP {
           varValues.push(v.slice(0, -1) + ': ' + (posValue - getValue(index)))
         } else varValues.push(v + ': ' + getValue(index)) // 非负变量直接使用
       })
-      return this.toString() + 'solution found\n' +
+      return (this.log ? this.log.join('\n') : this.toString()) + '\nsolution found\n' +
         'optimal value: ' + (this.sign * this.mat[m][m+n]) + '\n' +
         varValues.join('\n')
     } else if (res === LP.status.UNBOUNDED) {
