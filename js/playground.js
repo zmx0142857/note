@@ -136,8 +136,11 @@ for (let playground of list) {
 }
 
 let Playground = {
-  parse (obj) {
-    return Function('"use strict";return (' + obj + ')')()
+  parse (expr, context = {}) {
+    return Function(
+      Object.keys(context),
+      '"use strict";return (' + expr + ')'
+    )(...Object.values(context))
   },
   fill (value) {
     return function doFill (head, ...tail) {

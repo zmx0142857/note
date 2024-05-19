@@ -266,7 +266,7 @@ var tocData = {
         title: '数据结构与算法',
         articles: [
           { title: '习题', src: 'ds/exercise.html', date: '2021-11-22' },
-          { title: '其它算法', src: 'ds/0.html' },
+          { title: '硬件算法', src: 'ds/0.html', date: '2024-05-19' },
           { title: '绪论', src: 'ds/1.html' },
           { title: '线性表', src: 'ds/2.html' },
           { title: '栈与队列', src: 'ds/3.html' },

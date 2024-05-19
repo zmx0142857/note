@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>其它算法</title>
+    <title>硬件算法</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -135,6 +135,364 @@
   两边同除以 `2N` 就得到结论.
 </p>
 
+<h2>校验码</h2>
+
+<h3>CRC 校验</h3>
+
+<div class="p algorithm">
+  <b>CRC 算法 (Cyclic Redundancy Check, 循环冗余校验)</b>
+  是用于通信的校验算法.  该算法的输入是一个二进制串 `b` 和 一个
+  `bbb F_2` 上的 `n` 次既约多项式 `f`.
+  <br>
+  所谓 `bbb F_2` 上的 `n` 次多项式是指, 系数为 0 或 1,
+  系数上的加法和乘法是模 2 的 `n` 次多项式.
+  `bbb F_2` 上所有次数不超过 `n` 的多项式共有 `2^n` 个, 它们构成一个环 `bbb
+  F_(2, n)[x]`, 其上的乘法为
+  <span class="formula">
+    `(x^3 + x^2 + 1)(x^3 + x + 1)`
+    `= x^6 + x^5 + x^4 + 3x^3 + x^2 + x + 1`
+    `= x^6 + x^5 + x^4 + x^3 + x^2 + x + 1`.
+  </span>
+  以上过程简记为 1101 &times; 1011 = 111 1111. 又, `bbb F_(2, n)[x]`
+  上的加减法恰好是异或运算:
+  <span class="formula">
+    1101 + 1011 = 1101 - 1011 = 0110.
+  </span>
+  所谓 `f` 是既约的, 是指 `f` 在 `bbb F_2` 上没有根, 这里就是说 0 和 1
+  都不是 `f` 的根. 这容易办到, 只要保证 `f` 有奇数个系数为 1 的项,
+  且常数项等于 1 即可.
+  <br>
+  当我们计算乘法所得的结果超过 `n` 次, 这个结果需要模 `f`, 使它落在 `bbb
+  F_(2, n)[x]` 中. 比如, 当 `n = 4`, 取既约多项式 `f =
+  x^4 + x + 1`, 则上面的结果化为
+  <span class="formula">
+    `x^6 + x^5 + x^4 + x^3 + x^2 + x + 1`
+    `= (x^4+x+1)(x^2+x+1) + x^2 + x`
+  </span>
+  即, 111 1111 模 `f =` 1 0011 的最终结果是  `x^2 + x =` 110.
+  这个求余数的过程很重要, 我们用竖式再算一遍 (注意减法就是异或运算,
+  不需要借位):
+<pre>
+              111 --- 商 x^2 + x + 1 不重要, 可以不写
+        ---------
+1 0011 / 111 1111
+         100 11
+         -------
+          11 001
+          10 011
+          -------
+           1 0101
+           1 0011
+           ------
+              110 --- 余数 x^2 + x
+</pre>
+</div>
+
+<div class="playground"
+  value="mul2(0xb, 0x5)"
+  value2="mod2(0x7f, 0x13)"
+  value3="mod2(0x7f ^ 0x6, 0x13)"
+  value4="mod2(0x31320000, 0x11021)"
+  value5="mod2(0x310000, 0x11021)"
+  value6="mod2(0x267200 ^ 0x320000, 0x11021)"
+>
+<p>说明: mul2 表示 `bbb F_2` 上的乘法, mod2 表示 `bbb F_2` 上的取余.<br>
+  例3 表明, 若 mod2(x, y) = r, 则 mod2(x + r, y) = 0. 这里的 + 代表异或.<br>
+  例4 的结果与下文的 CRC-16 的例2 结果相同.<br>
+  例5 和例6 展示了分步求余的技巧:
+</p>
+<pre>
+ 310000          31320000
+% 11021          %  11021
+-------          --------
+   2672              20b5
++  3200
+---------
+   147200
+%   11021
+---------
+     20b5
+
+310000 = 11021 * q + 2672
+31000000 = 11021 * q * 100 + 267200
+31320000 = 11021 * q * 100 + 267200 + 320000
+
+故 mod2(31320000, 11021) 等于 mod2(267200 + 320000, 11021)
+</pre>
+
+<script type="text" id="mod2">
+// naive implementation of python bit_length
+function bitLength (x) {
+  if (x >= 2**31) throw new Error('int overflow: ' + x)
+  if (!x) return 1
+  let ret = 0
+  while (x) {
+    x >>= 1
+    ret += 1
+  }
+  return ret
+}
+
+function chunk (arr, n) {
+  const ret = []
+  for (let i = 0; i < arr.length; i += n) {
+    ret.push(arr.slice(i, i+n))
+  }
+  return ret
+}
+
+function hex2bytes (hex) {
+  return chunk(hex.replace(/^0x/, '').replace(/\s/g, ''), 2).map(n => Number('0x' + n))
+}
+
+function printHex (x) {
+  return '0x' + x.toString(16)
+}
+
+function mul2 (x, y) {
+  let ret = 0
+  while (x) {
+    if (x & 1) ret ^= y
+      x >>= 1
+      y <<= 1
+  }
+  return ret
+}
+
+function mod2 (x, y) {
+  if (y === 0) throw new Error('division by zero')
+  const lenX = bitLength(x)
+  const lenY = bitLength(y)
+  if (lenX < lenY) return x
+  let mask = 1 << lenX - 1
+  let move = lenX - lenY + 1
+  y <<= move - 1
+  while (move--) {
+    if (x & mask) x ^= y
+    mask >>= 1
+    y >>= 1
+  }
+  return x
+}
+
+function demo (str) {
+  return printHex(Playground.parse(str, { mod2, mul2 }))
+}
+demo.bitLength = bitLength
+demo.printHex = printHex
+demo.chunk = chunk
+demo.hex2bytes = hex2bytes
+module.exports = demo
+</script>
+</div>
+
+<div>
+  <br>
+  现在可以介绍 CRC 的计算过程了:
+  <span class="formula">
+    `CRC(b, f) = x^n b(x) mod f(x) + x^n b(x)`.
+  </span>
+  将字节串 `b` 视作多项式, 首先将它乘以 `x^n`, 这相当于在串尾补 `n` 个 0.
+  然后计算余数 `r(x) = x^n b(x) mod f(x)`, 这是一个次数不超过 `n` 的多项式.
+  最后将 `x^n b(x)` 与 `r(x)` 相加, 即用 `r(x)` 替换串尾的 `n` 个 0 即可.
+  <br>
+  将数据 `b(x)` 和校验帧 `r(x)` 相连, 一起发送到接收方,
+  接收方只需验证 `CRC(b, f) mod f(x) -= 0`, 就通过了 CRC 校验.
+  若余数不为零, 则说明通信传输出现了问题.
+</div>
+
+<p class="remark">
+  数字 `n` 称为 CRC 算法的位宽 (width),
+  比如 CRC-8 的位宽等于 8, CRC-32 的位宽等于 32 等. 多项式 `f` 称为 CRC
+  算法的生成多项式. 如 CRC-8 的生成多项式是 `x^8 + x^2 + x + 1`, CRC-32
+  的生成多项式是
+  <span class="formula">
+    `x^32 + x^26 + x^23 + x^22 + x^16 + x^12 + x^11 + x^10 + x^8 + x^7 + x^5 + x^4 + x^2 + x + 1`.
+  </span>
+  `f` 用二进制表示时, 由于首项系数必为 1, 只记录 `n` 个低次项即可.
+  如 CRC-8 和 CRC-32 的生成多项式分别记为 0x07 和 0x04C1 1DB7
+</p>
+
+<div class="playground" type="textarea" value="{
+  bytes: '0x3132 3334 3536 3738 39',
+  poly: 0x1021,
+  init: 0x0000,
+}" value2="{
+  bytes: '0x3132',
+  poly: 0x1021,
+  init: 0x0000,
+}" value3="{
+  bytes: '0x33343536373839',
+  poly: 0x1021,
+  init: 0x20b5,
+}" value4="{
+  bytes: '0x3132 3334 3536 3738 3931 c3',
+  poly: 0x1021,
+  init: 0x0000,
+}">
+<p>下面这个计算 CRC-16 的例子来自 <a href="http://blog.csdn.net/liyuanbhu/article/details/7882789">CSDN</a>, 其中运用了分步求余的技巧.<br>
+例2、例3 表明 bytes 可以分成多段计算, 把上一次的结果作为 init 传入下一次的计算中. <br>
+例4 表明把 CRC 附在数据后面一起计算时, 结果为 0.<br>
+</p>
+<script type="text">
+const { printHex, bitLength, hex2bytes } = require('mod2')
+
+/**
+ * @param {number[]} bytes 待校验的数据
+ * @param {object} options
+ * @param {number} options.poly 生成多项式
+ * @param {number} options.init 初始余数
+ */
+function crc16 (bytes, { poly, init }) {
+  const mask = 0xffff
+  const flag = 0x8000
+  for (let i = 0; i < bytes.length; ++i) {
+    const byte = bytes[i]
+    // fetch byte from memory, xor into crc top byte
+    init = init ^ (byte << 8)
+    for (let j = 0; j < 8; ++j) {
+      if (init & flag) { // if b15 is set
+        init = (init << 1) ^ poly
+      } else { // if b15 is off
+        init <<= 1
+      }
+    }
+    init &= mask // ensure crc remains 16-bit value
+  }
+  return init
+}
+
+module.exports = (str) => {
+  let { bytes, poly, init } = Playground.parse(str)
+  return printHex(crc16(hex2bytes(bytes), { poly, init }))
+}
+</script>
+</div>
+
+<p>
+这里是 <a href="http://www.ip33.com/crc.html">CRC 在线计算</a>.
+</p>
+
+<h3>Hamming 码</h3>
+
+<p><b>Hamming 距离</b>是指一个数据要变为另一个数据所需要翻转的 bit 数目.</p>
+
+<p><b>冗余位</b>
+  为避免数据传输过程出错, 每 `n` bit 的数据需要 `r` bit 的冗余位. 它们满足不等式:
+  <span class="formula">
+    `2^r ge n + r + 1`.
+  </span>
+  比如 `n = 7` 时, 有 `r ge 4`.
+</p>
+
+<p class="algorithm">
+  <b>Hamming 码</b> 规定数据的第 `2^i` 位 (`i = 1, 2, 4, 8, cdots`) 作为校验位, 其余位置作为数据位.
+  当数据传输时出现 1bit 的错误时, Hamming 码可以发现并修复错误.
+  当校验位本身出错时, Hamming 码不能正确修复错误.
+  以下是一个例子:
+</p>
+
+<pre>
+data: 1001 1010 // 待传输的数据, 低位在前: 0x59
+
+encode: <font color="blue">__</font>1<font color="blue">_</font> 001<font color="blue">_</font> 1010 // 1 所在的位置是 3 7 9 11
+
+parity: 3^7^9^11 = <font color="blue">0110</font> // 校验位
+
+hamming: <font color="blue">01</font>1<font color="blue">1</font> 001<font color="blue">0</font> 1010 // 从右向左填充校验位
+
+received: <font color="blue">01</font>1<font color="blue">1</font> 001<font color="blue">0</font> 1<font color="red">1</font>10 // 假设第 10 位在传输中出错
+
+parity': 3^7^9^10^11 = <font color="blue">1100</font> // 接收方计算的校验位
+
+parity xor: 1100 ^ 0110 = 1010 // 即十进制的 10, 表明第 10 位在传输中出错
+</pre>
+
+<div class="playground"
+  value="encode(0x59, 8)"
+  value2="decode(0x74e, 12)"
+>
+<script type="text">
+const { printHex, bitLength } = require('mod2')
+
+const encode = (data, len) => {
+  let parity = 0
+  let hamming = 0
+  let powof2 = 1
+  let i = 1
+  while (len--) {
+    // 跳过 2 的幂次, 这些位置是留给校验位的
+    while (i === powof2) {
+      powof2 <<= 1
+      ++i
+    }
+    // 将 data 中 1 所在的位置下标异或在一起
+    if (data & 1) {
+      parity ^= i
+      hamming |= 1 << (i - 1) // 填充数据位
+    }
+    data >>= 1
+    ++i
+  }
+
+  // 填充校验位
+  powof2 >>= 1
+  while (powof2) {
+    if (parity & powof2) {
+      hamming |= 1 << (powof2 - 1)
+    }
+    powof2 >>= 1
+  }
+
+  hamming = printHex(hamming)
+  parity = printHex(parity)
+  return { hamming, parity }
+}
+
+const decode = (hamming, len) => {
+  let data = 0
+  let parity1 = 0 // 收到的校验位
+  let parity2 = 0 // 接收方计算的校验位
+  let powof2 = 1
+  let i = 1
+  let j = 1
+  while (i <= len) {
+    const bit = hamming & 1
+    if (i === powof2) {
+      if (bit) parity1 |= i
+      powof2 <<= 1
+    } else {
+      if (bit) {
+        parity2 ^= i
+        data |= 1 << (j-1)
+      }
+      j += 1
+    }
+    hamming >>= 1
+    ++i
+  }
+  const badPos = parity1 ^ parity2
+  if (badPos) {
+    // 从 badPos 中减去校验位的数目 bitLength(badPos), 得到 bad bit 在 data 中的位置
+    data ^= 1 << (badPos-bitLength(badPos)-1)
+  }
+  data = printHex(data)
+  return {
+    badPos,
+    data,
+  }
+}
+
+module.exports = (str) => {
+  return JSON.stringify(Playground.parse(str, {
+    encode,
+    decode,
+  }))
+}
+</script>
+</div>
+
 <script src="../../js/note.js?type=cs"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>
