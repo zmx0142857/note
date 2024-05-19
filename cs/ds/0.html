@@ -221,15 +221,21 @@
 </pre>
 
 <script type="text" id="mod2">
-// naive implementation of python bit_length
+// implementation of python int.bit_length()
+const bitLengthCache = [
+  1, 1, 2, 2,
+  3, 3, 3, 3,
+  4, 4, 4, 4,
+  4, 4, 4, 4,
+]
 function bitLength (x) {
   if (x >= 2**31) throw new Error('int overflow: ' + x)
-  if (!x) return 1
   let ret = 0
-  while (x) {
-    x >>= 1
-    ret += 1
+  while (x >= 16) {
+    x >>= 4
+    ret += 4
   }
+  ret += bitLengthCache[x]
   return ret
 }
 
@@ -410,30 +416,44 @@ parity xor: 1100 ^ 0110 = 1010 // 即十进制的 10, 表明第 10 位在传输�
 
 <div class="playground"
   value="encode(0x59, 8)"
-  value2="decode(0x74e, 12)"
+  value2="digest(0x54e, 12)"
+  value3="decode(0x74e, 12)"
 >
 <script type="text">
 const { printHex, bitLength } = require('mod2')
 
+// 将数据中所有 1 的下标位置异或起来
+const digest = (hamming, len) => {
+  let ret = 0
+  let i = 1
+  while (len--) {
+    if (hamming & 1) ret ^= i
+    hamming >>= 1
+    i += 1
+  }
+  return ret
+}
+
+// 输入数据, 得到 hamming 码与校验码
 const encode = (data, len) => {
-  let parity = 0
   let hamming = 0
   let powof2 = 1
   let i = 1
   while (len--) {
-    // 跳过 2 的幂次, 这些位置是留给校验位的
+    // 跳过校验位
     while (i === powof2) {
       powof2 <<= 1
-      ++i
+      i += 1
     }
-    // 将 data 中 1 所在的位置下标异或在一起
     if (data & 1) {
-      parity ^= i
-      hamming |= 1 << (i - 1) // 填充数据位
+      hamming |= 1 << (i-1) // 填充数据位
     }
     data >>= 1
-    ++i
+    i += 1
   }
+
+  // 计算校验码
+  let parity = digest(hamming, i-1)
 
   // 填充校验位
   powof2 >>= 1
@@ -449,42 +469,34 @@ const encode = (data, len) => {
   return { hamming, parity }
 }
 
+// 输入 hamming 码, 输出出错位置及修复后的数据
 const decode = (hamming, len) => {
+  // 若 digest 为 0, 说明数据无误, 否则 digest 将指出错误位置
+  const badPos = digest(hamming, len)
+  // 修正错误
+  if (badPos) hamming ^= 1 << (badPos - 1)
+  // 提取数据
   let data = 0
-  let parity1 = 0 // 收到的校验位
-  let parity2 = 0 // 接收方计算的校验位
   let powof2 = 1
   let i = 1
   let j = 1
   while (i <= len) {
-    const bit = hamming & 1
     if (i === powof2) {
-      if (bit) parity1 |= i
       powof2 <<= 1
     } else {
-      if (bit) {
-        parity2 ^= i
-        data |= 1 << (j-1)
-      }
+      if (hamming & 1) data |= 1 << (j-1)
       j += 1
     }
     hamming >>= 1
-    ++i
-  }
-  const badPos = parity1 ^ parity2
-  if (badPos) {
-    // 从 badPos 中减去校验位的数目 bitLength(badPos), 得到 bad bit 在 data 中的位置
-    data ^= 1 << (badPos-bitLength(badPos)-1)
+    i += 1
   }
   data = printHex(data)
-  return {
-    badPos,
-    data,
-  }
+  return { badPos, data }
 }
 
 module.exports = (str) => {
   return JSON.stringify(Playground.parse(str, {
+    digest,
     encode,
     decode,
   }))
