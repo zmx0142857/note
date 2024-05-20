@@ -28,10 +28,10 @@
 
 <p class="theorem">
   <b>正交基底</b>
-  把单位圆周平均分为 `N` 份,  第 `j` 个分点记为 `omega_j =
+  把单位圆周平均分为 `N` 份,  第 `j` 个分点记为 `omega^j =
   "e"^(2pi"i"j//N)`, 取 `ZZ_N` 上的一组函数
   <span class="formula">
-    `epsi_j = (1, omega_j, cdots, omega_j^(N-1))`, `quad j in ZZ_N`,
+    `epsi_j = (1, omega^j, cdots, omega^((N-1)j))`, `quad j in ZZ_N`,
   </span>
   则它们两两正交:
   <span class="formula">
@@ -39,46 +39,49 @@
       N, if j = k; 0, otherwise
     :}`
   </span>
+  且 `epsi_0, epsi_1, cdots, epsi_(N-1)` 构成 `ZZ_N` 上的函数空间的一组正交基底.
 </p>
 
 <p class="proof">
-  当 `j = k` 时 `(epsi_j, epsi_k) = sum_(0 le r lt N) omega_j^r omega_j^-r = N`.<br>
-  `j != k` 时, 记 `omega_(j-k) = q`, 有 `q != 1` 和 `q^N = 1`. 于是
+  当 `j = k` 时 `(epsi_j, epsi_k) = sum_(0 le r lt N) omega^(j r) omega^(-j r) = N`.<br>
+  `j != k` 时, 记 `omega^(j-k) = q`, 有 `q != 1` 和 `q^N = 1`. 于是
   <span class="formula">
-    `(epsi_j, epsi_k) = sum_(0 le r lt N) omega_j^r omega_k^-r`
-    `= sum_(0 le r lt N) omega_(j-k)^r`
+    `(epsi_j, epsi_k) = sum_(0 le r lt N) omega^(j r) omega^(-k r)`
     `= sum_(0 le r lt N) q^r`
     `= (1-q^N)/(1-q) = 0`,
   </span>
+  最后, 任意 `f = (f_0, f_1, cdots, f_(N-1))` 都能被 `epsi_0, cdots, epsi_(N-1)` 线性表示,
+  这是因为假设 `f = sum_(r=0)^(N-1) k_r epsi_r`, 则方程的系数行列式为 Vandermonde 行列式, 必有唯一解.
 </p>
 
 <p class="theorem">
   <b>离散 Fourier 变换</b>
   `f` 在 `ZZ_N` 上的 Fourier 系数定义为
   <span class="formula">
-    `a_j := a_j^N(f) = 1/N (f, epsi_j) = 1/N sum_(0 le k lt N) f_k omega_j^-k`.
+    `a_N^j(f) ==^"简记" a_j`
+    `:= 1/N (f, epsi_j) = 1/N sum_(0 le k lt N) f_k omega^(-j k)`.
   </span>
   向量 `(a_0, a_1, cdots, a_(N-1))` 称为 `f` 的 Fourier 变换, 记为 `a = hat
   f`. 如果已知 `a`,
   要求 `f`, 只需对 `a_j` 施行 Fourier 逆变换:
   <span class="formula">
-    `f_k = sum_(0 le j lt N) a_j omega_j^k`.
+    `f_k = sum_(0 le j lt N) a_j omega^(j k)`.
   </span>
 </p>
 
 <p class="proof">
-  `{epsi_j/sqrt N}_(j=0)^(N-1)` 构成 `ZZ_N` 上函数空间的标准正交基, 因此
+  由于 `{epsi_j//sqrt N}_(j=0)^(N-1)` 构成 `ZZ_N` 上函数空间的标准正交基, 有
   <span class="formula">
     `f = sum_(0 le j lt N) (f, epsi_j/sqrt N) epsi_j/sqrt N`,
   </span>
   取第 `k` 个分量得 `f_k = sum_(0 le j lt N) 1/N (f, epsi_j) epsi_j(k)`
-  `= sum_(0 le j lt N) a_j omega_j^k`.
+  `= sum_(0 le j lt N) a_j omega^(j k)`.
 </p>
 
 <p class="remark">
   从生成函数的角度看, `f_k` 等于多项式 `A(x) = sum_(0 le j lt N) a_j x^j`
-  在 `omega_k` 处的值, 而 `a_j` 等于多项式 `F(x) = sum_(0 le k lt N) f_k
-  x^k` 在 `omega_j^-1` 处的值除以 `N`.
+  在 `x = omega^k` 处的值, 而 `a_j` 等于多项式 `F(x) = sum_(0 le k lt N) f_k
+  x^k` 在 `x = omega^-j` 处的值除以 `N`.
 </p>
 
 <p class="example">
@@ -96,21 +99,25 @@
 <p class="theorem">
   <b>递推公式</b>
   设 `N = 2^n`,
-  若 `f` 是 `ZZ_(2N)` 上的函数, 则 `f_0(r) = f(2r)`, `f_1(r)
-  = f(2r+1)` 是 `ZZ_N` 上的函数.  有如下递推公式
+  若 `f` 是 `ZZ_(2N)` 上的函数, 则 `g(r) := f(2r)`, `h(r)
+  := f(2r+1)` 是 `ZZ_N` 上的函数.  有如下递推公式
   <span class="formula">
-    `a_j^(2N)(f) = (a_j^N(f_0) + a_j^N(f_1) * omega_(2N)^j) // 2`,
+    `a_(2N)^j(f) = (a_N^j(g) + a_N^j(h) * omega_(2N)^-j) // 2`,<br>
+    `a_(2N)^(N+j)(f) = (a_N^j(g) - a_N^j(h) * omega_(2N)^-j) // 2`.
   </span>
-  这里 `omega_N^j = "e"^(-2pi"i"j//N)`, 和上面稍有不同.
+  这里 `omega_N^j = "e"^(2pi"i"j//N)`.
   对于逆变换, 也有完全类似的公式, 只需把上式 `f, a` 的地位对调,
   再用 `omega` 的共轭代替 `omega`.
 </p>
 
 <p class="proof">
   由
-  <span class="formula">
-    `a_j^(2N)(f) = 1/(2N) sum_(0 le r lt N) (f(2r) "e"^(-2pi"i"j 2r//2N)
-    + f(2r+1) "e"^(-2pi"i"j(2r+1)//2N))`
+  <span class="formula align">
+    `a_(2N)^j(f)`<br>
+    `= 1/(2N) sum_(0 le r lt N)
+    (f(2r) omega_(2N)^(-2r j) + f(2r+1) omega_(2N)^(-(2r+1)j))`<br>
+    `= 1/(2N) sum_(0 le r lt N)
+    (g(r) omega_N^(-r j) + h(r) omega_N^(-r j) * omega_(2N)^-j)`
   </span>
   即得结论.
 </p>
@@ -118,32 +125,141 @@
 <p class="proof">
   从生成函数的角度看, `F(x)` 是 `2N-1` 次多项式,
   <span class="formula">
-    `F_0(x) = f_0 + f_2 x + cdots + f_(2N-2) x^(N-1)`,<br>
-    `F_1(x) = f_1 + f_3 x + cdots + f_(2N-1) x^(N-1)`
+    `G(x) := f_0 + f_2 x + cdots + f_(2N-2) x^(N-1)`,<br>
+    `H(x) := f_1 + f_3 x + cdots + f_(2N-1) x^(N-1)`
   </span>
-  是两个 `N-1` 次多项式, 满足关系 `F(x) = F_0(x^2) + x F_1(x^2)`.
-  代入 `x = omega_(2N)^j` 有
+  是两个 `N-1` 次多项式, 满足关系 `F(x) = G(x^2) + x H(x^2)`.
+  代入 `x = omega_(2N)^-j` 有
   <span class="formula">
-    `F(omega_(2N)^j) = F_0(omega_(2N)^(2j)) + omega_(2N)^j F_1(omega_(2N)^(2j))`
-    `= F_0(omega_N^j) + omega_(2N)^j F_1(omega_N^j)`,
+    `F(omega_(2N)^-j) = G(omega_(2N)^(-2j)) + omega_(2N)^-j H(omega_(2N)^(-2j))`
+    `= G(omega_N^-j) + omega_(2N)^-j H(omega_N^-j)`,
   </span>
-  同理
+  上式两边同除以 `2N` 就得到结论.
+  此外还有
   <span class="formula">
-    `F(omega_(2N)^(N+j)) = F(-omega_(2N)^(N+j))`
-    `= F_0(omega_N^j) - omega_(2N)^j F_1(omega_N^j)`.
+    `F(omega_(2N)^(-N-j)) = F(-omega_(2N)^-j)`
+    `= G(omega_N^-j) - omega_(2N)^-j H(omega_N^-j)`.
   </span>
-  两边同除以 `2N` 就得到结论.
 </p>
+
+<p class="algorithm">
+  <b>快速 Fourier 变换 (FFT)</b>
+  由递推公式知道, 欲求 `ZZ_(2N)` 上的函数 `f` 的 Fourier 变换,
+  可以将它拆成两个 `ZZ_N` 上的函数 `g, h`, 分别求得 Fourier 变换后, 再合并得到
+  `hat f`. 由于 `hat f` 共有 `2N` 个分量, 所以合并操作的时间复杂度为 `O(N)`.
+  设 FFT 的时间复杂度为 `T(N)`, 则 `T(2N) = 2 T(N) + O(N)`, 解得 `T(N) = O(N log N)`.
+</p>
+
+<div class="playground"
+  value="rev(11, 16)"
+  value2="fft([4, 3, 2, 1], true)"
+  value3="convolution([4, 3, 2, 1], [4, 3, 2, 1])"
+>
+<script type="text">
+/**
+ * @param {number} i
+ * @param {number} n 是 2 的幂
+ * @returns {number} 数字 i 的二进制反转
+ * @example
+ * rev(1011, 2**4) => 1101
+ */
+const rev = (i, n) => {
+  let ret = 0
+  n >>= 1
+  while (n) {
+    ret <<= 1
+    ret |= i & 1
+    i >>= 1
+    n >>= 1
+  }
+  return ret
+}
+
+/**
+ * @param {Complex[]} a 系数向量, 长度是 2 的幂
+ * @param {boolean} reverse 是否计算逆变换
+ * @returns {Complex[]} a 的 Fourier 变换 (当 reverse 为 true 时, 返回逆变换)
+ * @example fft([4, 3, 2, 1], true) => [10, 2+2i, 2, 2-2i]
+ *
+ * 设 n 是 2 的幂, 多项式 f(x) = sum_k a_k x^k 简记为 a = [a_0, ..., a_(n-1)].
+ * reverse 为 true 时, fft 返回 f 在 n 次单位根 ω_n^j = e^(2πij/n) 处的值:
+ * f_j = sum_k a_k ω_n^(jk)
+ * reverse 为 false 时, 则返回
+ * f_j = 1/n sum_k a_k ω_n^(-jk)
+ */
+const fft = (a, reverse = false) => {
+  const pi = reverse ? Math.PI : -Math.PI
+  const n = a.length
+  const f = a.map((_, i) => a[rev(i, n)]) // f[i] = a[rev(i)]
+  let m = 1
+  while (m < n) {
+    const omega = Complex.i.mul(pi / m).exp() // omega = exp(pi*i/m)
+    for (let j = 0; j < n; j += m << 1) {
+      let omega_k = new Complex(1)
+      for (let k = 0; k < m; ++k) {
+        const s = f[j + k]
+        const t = omega_k.mul(f[j + k + m])
+        f[j + k] = s.add(t)
+        f[j + k + m] = s.sub(t)
+        omega_k = omega_k.mul(omega)
+      }
+    }
+    m <<= 1
+  }
+  return reverse ? f : f.map(v => v.div(n))
+}
+
+/**
+ * 计算 n 维向量 a, b 的卷积, n 是 2 的幂
+ * a (*) b = fft(fft^-1(a) * fft^-1(b))
+ * @param {Complex[]} a
+ * @param {Complex[]} b
+ * @returns {Complex[]} a, b 的卷积, 是一个 2n 维向量
+ * @example convolution([4, 3, 2, 1], [4, 3, 2, 1]) = [16, 24, 25, 20, 10, 4, 1, 0], 因此
+ * (x^3 + 2x^2 + 3x + 4)^2 = x^6 + 4x^5 + 10x^4 + 20x^3 + 25x^2 + 24x + 16
+ */
+const convolution = (a, b) => {
+  const n = a.length
+  a.push(...Array.from({ length: n }, () => new Complex(0)))
+  if (b !== a) {
+    b.push(...Array.from({ length: n }, () => new Complex(0)))
+  }
+  const tffA = fft(a, true)
+  const tffB = fft(b, true)
+  const tffAB = tffA.map((_, i) => tffA[i].mul(tffB[i]))
+  return fft(tffAB)
+}
+
+module.exports = (str) => {
+  return Playground.parse(str, {
+    rev,
+    fft: (a, reverse) => {
+      return fft(a.map(Complex.of), reverse).map(v => v.toString()).join('\n')
+    },
+    convolution: (a, b) => {
+      return convolution(
+        a.map(Complex.of),
+        b.map(Complex.of),
+      ).map(v => v.toString()).join('\n')
+    },
+  })
+}
+</script>
+</div>
 
 <h2>校验码</h2>
 
 <h3>CRC 校验</h3>
 
-<div class="p algorithm">
-  <b>CRC 算法 (Cyclic Redundancy Check, 循环冗余校验)</b>
+<p>
+  <b>CRC 校验 (Cyclic Redundancy Check, 循环冗余校验)</b>
   是用于通信的校验算法.  该算法的输入是一个二进制串 `b` 和 一个
-  `bbb F_2` 上的 `n` 次既约多项式 `f`.
-  <br>
+  `bbb F_2` 上的 `n` 次既约多项式 `f`, 输出是一个次数小于 `n` 的多项式.
+</p>
+
+<h4>`bbb F_(2,n)[x]` 上的运算</h4>
+
+<div>
   所谓 `bbb F_2` 上的 `n` 次多项式是指, 系数为 0 或 1,
   系数上的加法和乘法是模 2 的 `n` 次多项式.
   `bbb F_2` 上所有次数不超过 `n` 的多项式共有 `2^n` 个, 它们构成一个环 `bbb
@@ -292,8 +408,9 @@ module.exports = demo
 </script>
 </div>
 
-<div>
-  <br>
+<h4>CRC 的计算</h4>
+
+<div class="algorithm">
   现在可以介绍 CRC 的计算过程了:
   <span class="formula">
     `CRC(b, f) = x^n b(x) mod f(x) + x^n b(x)`.
@@ -381,15 +498,17 @@ module.exports = (str) => {
 
 <h3>Hamming 码</h3>
 
-<p><b>Hamming 距离</b>是指一个数据要变为另一个数据所需要翻转的 bit 数目.</p>
-
-<p><b>冗余位</b>
-  为避免数据传输过程出错, 每 `n` bit 的数据需要 `r` bit 的冗余位. 它们满足不等式:
+<dl>
+  <dt>Hamming 距离</dt>
+  <dd>是指一个数据要变为另一个数据所需要翻转的 bit 数目.</dd>
+  <dt>冗余位</dt>
+  <dd>为避免数据传输过程出错, 每 `n` bit 的数据需要 `r` bit 的冗余位. 它们满足不等式:
   <span class="formula">
     `2^r ge n + r + 1`.
   </span>
   比如 `n = 7` 时, 有 `r ge 4`.
-</p>
+  </dd>
+</dl>
 
 <p class="algorithm">
   <b>Hamming 码</b> 规定数据的第 `2^i` 位 (`i = 1, 2, 4, 8, cdots`) 作为校验位, 其余位置作为数据位.
@@ -506,5 +625,6 @@ module.exports = (str) => {
 
 <script src="../../js/note.js?type=cs"></script>
 <script src="../../js/playground.js"></script>
+<script src="../../code/complex.js"></script>
 </body>
 </html>

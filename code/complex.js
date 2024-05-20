@@ -1,33 +1,32 @@
-var Complex = /** @class */ (function () {
-    function Complex(real, imag) {
-        if (imag === void 0) { imag = 0; }
+class Complex {
+    constructor(real, imag = 0) {
         this.real = real;
         this.imag = imag;
     }
-    Complex.of = function (a) {
+    static of(a) {
         return typeof a === 'number' ? new Complex(a) : a;
-    };
-    Complex.prototype.copy = function () {
+    }
+    copy() {
         return new Complex(this.real, this.imag);
-    };
-    Complex.prototype.conj = function () {
+    }
+    conj() {
         return new Complex(this.real, -this.imag);
-    };
-    Complex.prototype.abs = function () {
+    }
+    abs() {
         return Math.hypot(this.real, this.imag);
-    };
-    Complex.prototype.neg = function () {
+    }
+    neg() {
         return this.mul(-1);
-    };
-    Complex.prototype.exp = function () {
+    }
+    exp() {
         return Complex.i.mul(Math.sin(this.imag))
             .add(Math.cos(this.imag))
             .mul(Math.exp(this.real));
-    };
+    }
     // n is non-negative integer
-    Complex.prototype.pow = function (n) {
-        var ret = new Complex(1);
-        var base = this.copy();
+    pow(n) {
+        let ret = new Complex(1);
+        let base = this.copy();
         while (n) {
             if (n & 1)
                 ret = ret.mul(base);
@@ -35,45 +34,46 @@ var Complex = /** @class */ (function () {
             n >>= 1;
         }
         return ret;
-    };
-    Complex.prototype.add = function (a) {
+    }
+    add(a) {
         return Complex.add(this, a);
-    };
-    Complex.prototype.sub = function (a) {
+    }
+    sub(a) {
         return Complex.sub(this, a);
-    };
-    Complex.prototype.mul = function (a) {
+    }
+    mul(a) {
         if (typeof a === 'number')
             return new Complex(this.real * a, this.imag * a);
         return Complex.mul(this, a);
-    };
-    Complex.prototype.div = function (a) {
+    }
+    div(a) {
         if (typeof a === 'number')
             return new Complex(this.real / a, this.imag / a);
         return Complex.div(this, a);
-    };
-    Complex.add = function (a, b) {
+    }
+    static add(a, b) {
         a = Complex.of(a);
         b = Complex.of(b);
         return new Complex(a.real + b.real, a.imag + b.imag);
-    };
-    Complex.sub = function (a, b) {
+    }
+    static sub(a, b) {
         a = Complex.of(a);
         b = Complex.of(b);
         return new Complex(a.real - b.real, a.imag - b.imag);
-    };
-    Complex.mul = function (a, b) {
+    }
+    static mul(a, b) {
         return new Complex(a.real * b.real - a.imag * b.imag, a.real * b.imag + a.imag * b.real);
-    };
-    Complex.div = function (a, b) {
+    }
+    static div(a, b) {
         return a.mul(b.conj()).mul(1 / b.abs());
-    };
-    Complex.i = new Complex(0, 1);
-    return Complex;
-}());
+    }
+    toString() {
+        const real = String(this.real);
+        const imag = String(this.imag);
+        return imag[0] === '-' ? real + imag + 'i' : real + '+' + imag + 'i';
+    }
+}
+Complex.i = new Complex(0, 1);
 function testMath() {
     console.log(new Complex(2).pow(6));
-}
-if (typeof module !== 'undefined') {
-  module.exports = Complex
 }

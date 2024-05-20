@@ -89,6 +89,12 @@ class Complex {
   static div (a: Complex, b: Complex): Complex {
     return a.mul(b.conj()).mul(1 / b.abs())
   }
+
+  toString (): string {
+    const real = String(this.real)
+    const imag = String(this.imag)
+    return imag[0] === '-' ? real + imag + 'i' : real + '+' + imag + 'i'
+  }
 }
 
 function testMath () {
