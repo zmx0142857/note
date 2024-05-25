@@ -322,13 +322,12 @@ z - y = 1">
 接下来 m 行指定约束, 可以是等式 (=) 或不等式 (&lt;=, &gt;=), 注意常数必须放在右边, 其余项放在左边.
 默认每个变量都取非负实数, 如果某些变量可以取全体实数, 则将它们在最后一行列出, 如: <code>free x y z</code>.
 </p>
-<label style="display:flex;align-items:center;gap:6px">
+<label style="display:flex;align-items:center;gap:6px;width:max-content">
   <input type="checkbox" id="lp-solver-need-log" /> 显示详细过程
 </label>
 <script type="text">
 module.exports = function lpSolve (str) {
   const log = !!document.getElementById('lp-solver-need-log').checked
-  console.log('log', log)
   return LP.from(str).solveInfo({ log })
 }
 </script>

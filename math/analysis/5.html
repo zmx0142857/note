@@ -701,10 +701,15 @@
   </span>
   一般地, 希望 `x to 0` 时有
   <span class="formula">
-    `F(x) = p(x) // q(x) + O(x^(n+1))`, `quad p, q` 为多项式, `q(0) = 1`, `del p + del q = n`.
+    `F(x) = p(x) // q(x) + O(x^(n+1))`,
+    `quad p, q` 为多项式,
+    `q(0) = 1`, 且<br>
+    `"deg" p = r`,
+    `"deg" q = s`,
+    `r + s = n`.
   </span>
   由于 `q(0) != 0`, 上式可以写为 `q(x) F(x) = p(x) + O(x^(n+1))`,
-  将 `F` Maclaurin 展开: `F(x) = f(x) + O(x^(m+1))`, `m = del p`, 有
+  将 `F` Maclaurin 展开: `F(x) = f(x) + O(x^(r+1))`, 有
   <span class="formula">
     `q(x) f(x) = p(x) + O(x^(n+1))`.
   </span>
@@ -724,14 +729,14 @@
 
 [来自 <a href="https://zhuanlan.zhihu.com/p/92873681">玺之的数学专栏</a>]
 
-`del q = 0` 时, Padé 近似就是 Taylor 公式.
+`"deg" q = 0` 时, Padé 近似就是 Taylor 公式.
 
 <div class="flex">
 <div>
 <table>
   <caption>`ln(x+1)`</caption>
   <tr>
-    <td>`del q\\del p`</td>
+    <td>`"deg" q\\"deg" p`</td>
     <td>1</td>
     <td>2</td>
   </tr>
@@ -752,7 +757,7 @@
 <table>
   <caption>`"e"^x`</caption>
   <tr>
-    <td>`del q\\del p`</td>
+    <td>`"deg" q\\"deg" p`</td>
     <td>0</td>
     <td>1</td>
   </tr>
@@ -773,7 +778,7 @@
 <table>
   <caption>`cos x`</caption>
   <tr>
-    <td>`del q\\del p`</td>
+    <td>`"deg" q\\"deg" p`</td>
     <td>0</td>
     <td>2</td>
   </tr>
@@ -794,7 +799,7 @@
 <table>
   <caption>`(1+x)^a`</caption>
   <tr>
-    <td>`del q\\del p`</td>
+    <td>`"deg" q\\"deg" p`</td>
     <td>0</td>
     <td>1</td>
   </tr>
