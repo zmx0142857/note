@@ -69,8 +69,8 @@ var tocData = {
         title: '数论',
         articles: [
           { title: '整数, 有理数, 代数数, 连分数', src: 'number/0.html' },
-          { title: '整除, 最大公约数, 素数', src: 'number/1.html' },
-          { title: '同余', src: 'number/2.html' },
+          { title: '整除, 最大公约数, 素数', src: 'number/1.html', date: '2024-06-07' },
+          { title: '同余', src: 'number/2.html', date: '2024-06-06' },
           { title: '阶与原根', src: 'number/3.html', date: '2022-01-12' },
           { title: '二次剩余', src: 'number/4.html', date: '2022-01-09' },
           { title: '不定方程', src: 'number/5.html', date: '2023-09-22' },

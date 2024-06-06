@@ -61,6 +61,15 @@
 .flag-direction.filled {
   background: #aaa;
 }
+/* 猪圈 */
+@font-face {
+  font-family: "hogpen";
+  src: url("../../font/pigpass-font.woff") format("woff");
+}
+#hogpen-playground textarea,
+#table-hogpen td:nth-child(2n) {
+  font-family: "hogpen";
+}
 </style>
 </head>
 <body class="dark">
@@ -251,7 +260,16 @@ module.exports = braille
 
 <h3>猪圈 hogpen</h3>
 
+<table id="table-hogpen" class="col2"></table>
+
 [参考 <a href="https://blog.csdn.net/weixin_47869330/article/details/111396033">CSDN</a>]
+<div id="hogpen-playground" class="playground" type="textarea" value="hogpen">
+<script type="text">
+module.exports = function hogpen (str) {
+  return str
+}
+</script>
+</div>
 
 <h2>基于文本的变换</h2>
 
@@ -330,6 +348,7 @@ function init () {
   puzzle.renderTable($('#table-morse'), puzzle.makeTable(i => puzzle.data.morseArr[i]), '摩斯')
   puzzle.renderTable($('#table-nato'), puzzle.makeTable(i => puzzle.data.natoArr[i]), '北约字母')
   puzzle.renderTable($('#table-flag'), puzzle.makeTable(i => puzzle.data.flagArr[i]), '旗语')
+  puzzle.renderTable($('#table-hogpen'), puzzle.makeTable(i => String.fromCodePoint(97 + i)), '猪圈密码')
 }
 
 init()
