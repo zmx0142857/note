@@ -5,10 +5,49 @@
   <title>同余</title>
   <link rel="stylesheet" href="../../css/note.css"/>
 </head>
-
 <body>
 
+<h2>Hensel 引理</h2>
 
+<p>
+  设 `f(x)` 为整系数多项式, `p` 是素数, `m` 是正整数, 如何求同余方程 `f(x) -= 0 (mod p^m)` 的解? Hensel 引理给出一个解答:
+</p>
+
+<p class="theorem">
+  <b>Hensel 引理</b> [来自 <a href="https://yangdong02.github.io/2019/03/10/p%E8%BF%9B%E6%95%B0-p-adic-%E4%B8%8EHensel%E5%BC%95%E7%90%86/">yangdong02</a>]
+  假设 `m ge 2`. 先求 `f(x) -= 0` `(mod p^(m-1))` 的解, 设 `x -= c` `(mod p^(m-1))` 是这样的一个解.
+  那么原方程 `f(x) -= 0` `(mod p^m)` 的解中满足 `x -= c` `(mod p^(m-1))` 的解形如
+  <span class="formula">
+    `x -= y p^(m-1) + c` `quad (mod p^m)`,
+  </span>
+  这里的 `y` 满足
+  <span class="formula">
+    `f'(c) y + f(c) p^(1-m) -= 0` `quad (mod p)`.
+  </span>
+</p>
+
+<p class="proof">
+  设 `f(x) = sum_(k=0)^n a_k x^k`, 将 `x -= y p^(m-1) + c (mod p^m)` 代入得,
+  <span class="formula align">
+    `f(x) -= sum_(k=0)^n a_k (y p^(m-1) + c)^k`
+    `-= sum_(k=0)^n a_k (c^k + k c^(k-1) y p^(m-1) + cdots)`
+    `quad (mod p^m)`,<br>
+  </span>
+  二项式展开被省略的那些项, `p` 的次数至少是 `p^m`, 因此它们模 `p^m` 余 0, 得到
+  <span class="formula align">
+    `0 -= f(x) -= f(c) + f'(c) y p^(m-1)` `quad (mod p^m)`.
+  </span>
+  由于 `f(c) -= 0 (mod p^(m-1))`, 上式同除以 `p^(m-1)` 即得结论.
+</p>
+
+<p class="remark">
+  类比于牛顿迭代的 `0 = f(x) ~~ f(c) + f'(c)(x-c)`,
+  Hensel 引理也可以写为
+  <span class="formula">
+    `x - c -= y p^(m-1)` `quad (mod p^m)`,<br>
+    `f(c) + f'(c) (x-c) -= 0` `quad (mod p^m)`.
+  </span>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
