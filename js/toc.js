@@ -401,6 +401,7 @@ var tocData = {
           { title: 'MUCC', src: 'lyric/mucc.html', date: '2022-02-27' },
           { title: 'sadie', src: 'lyric/sadie.html', date: '2022-02-27' },
           { title: 'sekima', src: 'lyric/sekima.html', date: '2022-02-27' },
+          { title: '张国荣', src: 'lyric/leslie-cheung.html', date: '2024-05-31' },
         ]
       },
       {
