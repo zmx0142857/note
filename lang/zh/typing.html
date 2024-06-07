@@ -913,13 +913,13 @@ const Typing = {
             </tr>
             ${[...Typing.history].reverse().map(record => (
               Utils.html`<tr>
-                <td>${record.text.slice(0, 10)}</td>
+                <td>${(record.text ?? '').slice(0, 10)}</td>
                 <td>${record.badge}</td>
-                <td>${record.speed.toFixed(2)}</td>
-                <td>${record.keySpeed.toFixed(2)}</td>
-                <td>${record.acc.toFixed(2)}%</td>
+                <td>${(record.speed ?? NaN).toFixed(2)}</td>
+                <td>${(record.keySpeed ?? NaN).toFixed(2)}</td>
+                <td>${(record.acc ?? NaN).toFixed(2)}%</td>
                 <td>${(record.keyCount / record.text.length).toFixed(2)}</td>
-                <td>${record.text.length}</td>
+                <td>${(record.text ?? '').length}</td>
                 <td>${record.errorCount}</td>
                 <td>${record.backspaceCount}</td>
                 <td>${Utils.formatDate(record.startTime)}</td>
