@@ -629,12 +629,13 @@
 	(<b>交代多项式</b>, <b>轮换多项式</b>).
 </ol>
 
-<p class="example">
-	`(x+y)/(x y)` 是对称式, `x+y`, `x y`, `x^2 + y^2 + z^2`, `x y+y
-	z+z x` 是对称多项式. `(x-y)/(x+y)` 是交代式, `x-y`,
-	`(x-y)(y-z)(z-x) = |1, 1, 1; x, y, z; x^2, y^2, z^2|` 是交代式.
-	`x^2 y + y^2 z + z^2 x` 是轮换式.
-</p>
+<ol class="example">
+  <li>对称式的例子: `(x+y)/(x y)`, `x+y`, `x y`, `x^2 + y^2 + z^2`, `x y+y z+z x`.</li>
+  <li>交代式的例子: `(x-y)/(x+y)`, `x-y`, `(x-y)(y-z)(z-x) = |1, 1, 1; x, y, z; x^2, y^2, z^2|`.</li>
+  <li>轮换式的例子: `x^2 y + y^2 z + z^2 x`.</li>
+</ol>
+
+<h3>初等对称多项式</h3>
 
 <p class="definition">
   <b>初等对称多项式 (基本对称多项式, elementary symmetric polynomial)</b>
@@ -729,14 +730,15 @@
   个变元为 `0` 次, `k_1` 个变元为 `1` 次, `cdots`, `k_s` 个变元为 `s` 次,
   满足
   <span class="formula">
-    `k_0 + k_1 + cdots + k_s = n`,
-    `quad 0 * k_0 + 1 * k_1 + cdots + s * k_s = m`.
+    `k_0 + k_1 + cdots + k_s = n`,<br>
+    `0 * k_0 + 1 * k_1 + cdots + s * k_s = m`.
   </span>
   比如
   <span class="formula">
     `[1, 1, 0, 2] = sum_"sym" x_1^3 x_2^2 x_3^0 x_4^0`,
   </span>
   其中 3 次和 2 次的变元各有一个, 0 次的变元有两个.<br>
+  又比如, `n` 元初等对称多项式 `sigma_k = [k, n-k]`.
 </p>
 
 <p class="example">
@@ -744,19 +746,20 @@
 </p>
 
 <p class="solution">
-  <span class="formula">
-    `[1, 1, 0, 2]`
-    `= sigma_1[2, 0, 2] - (2;0)(1;1)(1;0)[2, 1, 1]`
-    `= sigma_1[2, 0, 2] - [2, 1, 1]`<br>
-    `[2, 1, 1] = sigma_2[3, 1] - (1;1;)(3;1)(0;0)[1, 3, 0]`
-    `= sigma_2 sigma_3 - 3[1, 3, 0]`<br>
-    `[2, 0, 2]`
-    `= sigma_2[2, 2] - (1;1)(2;1)(1;0)[1, 2, 1] - (4;2)(0;0)[4,0]`
-    `= sigma_2^2 - 2[1, 2, 1] - 6 sigma_4`<br>
-    `[1, 3, 0] = sigma_1[4, 0] = sigma_1 sigma_4`<br>
-    `[1, 2, 1] = sigma_1[3, 1] - (4;1)(0;0)[4, 0] = sigma_1 sigma_3
-    - 4 sigma_4`,
-  </span>
+  关于乘法法则: 用 `sigma_k` 乘以一个对称式, 效果是给该对称式中的 `k` 个变元升阶.
+  升阶后所得的对称式前乘一个系数 `(a_s;b_s)cdots(a_0;b_0)`, 该系数和升阶的变元可能的选择数有关:
+  其中 `(a_i;b_i)` 表示结果第 `i` 阶的 `a_i` 个变元中, 有 `b_i` 个是升阶得到的.<br>
+  `[1, 1, 0, 2]`
+  `= sigma_1[2, 0, 2] - (color(red)2;0)(color(red)1;1)(color(red)1;0)[2, 1, 1]`
+  `= sigma_1[2, 0, 2] - [2, 1, 1]`,<br>
+  `[2, 1, 1] = sigma_2[3, 1] - (color(red)1;1;)(color(red)3;1)(color(red)0;0)[1, 3, 0]`
+  `= sigma_2 sigma_3 - 3[1, 3, 0]`,<br>
+  `[2, 0, 2]`
+  `= sigma_2[2, 2] - (color(red)1;1)(color(red)2;1)(color(red)1;0)[1, 2, 1] - (color(red)4;2)(color(red)0;0)[4,0]`
+  `= sigma_2^2 - 2[1, 2, 1] - 6 sigma_4`,<br>
+  `[1, 3, 0] = sigma_1[4, 0] = sigma_1 sigma_4`,<br>
+  `[1, 2, 1] = sigma_1[3, 1] - (color(red)4;1)(color(red)0;0)[4, 0] = sigma_1 sigma_3
+  - 4 sigma_4`,<br>
   将上面材料代入化简得
   <span class="formula">
     `-[1, 1, 0, 2] - 2[1, 3, 0] + [2, 1, 1]`
@@ -764,60 +767,84 @@
   </span>
 </p>
 
+<h3>Newton-Girard 公式</h3>
+
 <p class="theorem">
-	<b>Newton-Girard 公式</b>
-	设 `S_i` 是 `n` 次多项式 `f` 的全部 `n` 个根的 `i` 次方和:
-	<span class="formula">
-		`S_i = sum_(j=1)^n x_j^i`, `quad i = 0, 1, 2, cdots`.
-	</span>
-	`sigma_i` 的定义同上, 则
-	<span class="formula">`S_i = {
-		sum_(j=1)^n (-1)^(j-1) sigma_j S_(i-j), if i ge n;
-		sum_(j=1)^(i-1) (-1)^(j-1) sigma_j S_(i-j)
-		+ (-1)^(i-1) sigma_i * i, if i lt n;
-		:}`</span>
-	利用 `sigma_0 = 1`, 上式等价于
-	<span class="formula">`{
-		sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0, if i ge n;
-		sum_(j=0)^(i-1) (-1)^j sigma_j S_(i-j) + (-1)^i sigma_i * i = 0,
-		if i lt n;
-		:}`</span>
-	需要注意, 一般来说 `i lt n` 时 `S_0` 被认为是未定义的,
-	因此最后一项被单独提出.
+  <b>Newton-Girard 公式</b>
+  设 `S_i` 是 `n` 元 `i` 次对称多项式:
+  <span class="formula">
+    `S_i = sum_(j=1)^n x_j^i`, `quad i = 0, 1, 2, cdots`.
+  </span>
+  `sigma_i` 是 `n` 元 `i` 次初等对称多项式, 则
+  <span class="formula">
+  `S_i = {
+    sum_(j=1)^n (-1)^(j-1) sigma_j S_(i-j), if i ge n;
+    sum_(j=1)^(i-1) (-1)^(j-1) sigma_j S_(i-j)
+    + (-1)^(i-1) sigma_i * i, if i lt n;
+  :}`
+  </span>
+  需要注意, 一般来说 `i lt n` 时 `S_0` 被认为是未定义的,
+  因此最后一项被单独提出.
 </p>
 
-<p class="proof">
-	`i ge n` 时, 设 `f(x) = sum_(j=0)^n a_j x^j`. 代入 `f`
-	的所有根并求和得
-	<span class="formula">
-		`sum_(j=0)^n a_(n-j) S_(i-j) = 0`.
-	</span>
-	由 Vieta 定理, `a_(n-j) = (-1)^j sigma_j a_n`, 代入上式得
-	<span class="formula">
-		`sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0`.
-	</span>
-	现在设 `i lt n`. 对 `k = n-i gt 0` 作归纳, 设结论对任意 `k' lt k`
-	已经成立.
-	用 `f_(n,i)(x_1, x_2, cdots, x_n)` 表示 Newton-Girard 公式 (等价形式)
-	的左边, 因为
-	<span class="formula">
-		`sigma_j(x_1, cdots, x_(n-1), 0) = sigma_j(x_1, cdots, x_(n-1))`,
-		<br/>
-		`S_j(x_1, cdots, x_(n-1), 0) = S_j(x_1, cdots, x_(n-1))`.
-	</span>
-	有
-	<span class="formula">
-		`f_(n,i)(x_1, cdots, x_(n-1), 0)`
-		`= f_(n-1,i)(x_1, cdots, x_(n-1))`.
-	</span>
-	由归纳假设, 上式右边等于零, 这说明 `x_n | f_(n,i)`.
-	由 `f_(n,i)` 的对称性, `sigma_n = x_1 x_2 cdots x_n | f_(n,i)`.
-	注意到 `f_(n,i)` 的次数不超过 `i`, 且 `i lt n`, 我们得到
-	`f_(n,i) = 0`. 证毕.
+<ol class="proof">
+  利用 `sigma_0 = 1`, 我们只需证明公式的等价形式:
+  <span class="formula">
+    `{
+    sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0, if i ge n;
+    sum_(j=0)^(i-1) (-1)^j sigma_j S_(i-j) + (-1)^i sigma_i * i = 0,
+    if i lt n;
+    :}`
+  </span>
+  <li>
+  `i ge n` 时, 设多项式 `f(x) = sum_(j=0)^n a_(n-j) x^(n-j)`
+  的 `n` 个根恰为 `x_1, cdots, x_n`, 且 `a_n = 1`.
+  于是
+  <span class="formula">
+    `sum_(j=0)^n a_(n-j) S_(i-j)`
+    `= sum_(j=0)^n a_(n-j) sum_(k=1)^n x_k^(i-j)`
+    `= sum_(k=1)^n x_k^(i-n) f(x_k) = 0`.
+  </span>
+  由 Vieta 定理, `a_(n-j) = (-1)^j sigma_j a_n`, 代入上式得
+  <span class="formula">
+    `sum_(j=0)^n (-1)^j sigma_j S_(i-j) = 0`.
+  </span>
+  </li>
+  <li>
+  现在设 `i lt n`. 对 `k = n-i gt 0` 作归纳, 设结论对任意 `k' lt k`
+  已经成立.
+  用 `f_(n,i)(x_1, x_2, cdots, x_n)` 表示 Newton-Girard 公式 (等价形式)
+  的左边, 因为
+  <span class="formula">
+    `sigma_j(x_1, cdots, x_(n-1), 0) = sigma_j(x_1, cdots, x_(n-1))`,
+    <br/>
+    `S_j(x_1, cdots, x_(n-1), 0) = S_j(x_1, cdots, x_(n-1))`.
+  </span>
+  有
+  <span class="formula">
+    `f_(n,i)(x_1, cdots, x_(n-1), 0)`
+    `= f_(n-1,i)(x_1, cdots, x_(n-1))`.
+  </span>
+  由归纳假设, 上式右边等于零, 这说明 `x_n | f_(n,i)`.
+  由 `f_(n,i)` 的对称性, `sigma_n = x_1 x_2 cdots x_n | f_(n,i)`.
+  注意到 `f_(n,i)` 的次数不超过 `i`, 且 `i lt n`, 我们得到
+  `f_(n,i) = 0`. 证毕.
+  </li>
+</ol>
+
+<p class="example">
+  当变元数 `n = 3` 时, Newton-Girard 公式写为
+  <span class="formula">
+  `{
+    S_1 = sigma_1;
+    S_2 = sigma_1 S_1 - 2 sigma_2;
+    S_3 = sigma_1 S_2 - sigma_2 S_1 + 3 sigma_3;
+  :}`
+  </span>
 </p>
 
 <p class="example">
-	当 `n = 3` 时, `a = b = c` 当且仅当 `S_2 = sigma_2`, 即
+	当变元数 `n = 3` 时, `a = b = c` 当且仅当 `S_2 = sigma_2`, 即
 	<span class="formula">
 		`a^2+b^2+c^2 = a b+b c+c a`.
 	</span>
@@ -829,28 +856,32 @@
 </p>
 
 <p class="example">
-	设 `f(x) = (x-1)(x-2)(x-3)`
-	`= x^3 - 6x^2 + 11x - 6`. 多项式的三个根记为 `a, b, c`, 于是
-	<span class="formula">
-		`a+b+c = sigma_1 = 6`,<br/>
-		`ab+bc+ca = sigma_2 = 11`,<br/>
-		`abc = sigma_3 = 6`,<br/>
-		`1/a+1/b+1/c = sigma_(-1) = sigma_2//sigma_3 = 11/6`,<br/>
-		`1/(ab) + 1/(bc) + 1/(ca) = sigma_(-2) = sigma_1//sigma_3
-		  = 1`,<br/>
-		`1/(abc) = sigma_(-3) = 1//sigma_3 = 1/6`.
-	</span>
-	用 Newton-Girard 公式计算:
-	<span class="formula">
-		`a+b+c = S_1 = sigma_1 = 6`,<br/>
-		`a^2+b^2+c^2 = S_2 = sigma_1 S_1 - 2 sigma_2 = 14`,<br/>
-		`a^3+b^3+c^3 = S_3 = sigma_1 S_2 - sigma_2 S_1 + 3 sigma_3 = 36`,<br/>
-		`1/a+1/b+1/c = S_(-1) = sigma_(-1) = 11/6`,<br/>
-		`1/a^2+1/b^2+1/c^2 = S_(-2) = sigma_(-1) S_(-1) - 2 sigma_(-2)
-		= 49/36`,<br/>
-		`1/a^3+1/b^3+1/c^3 = S_(-3) = sigma_(-1) S_(-2) - sigma_(-2)
-		S_(-1) + 3 sigma_(-3) = 251/216`.
-	</span>
+  设 `f(x) = (x-1)(x-2)(x-3)` `= x^3 - 6x^2 + 11x - 6`.
+  分别求 `sigma_i` 和 `S_i`, `i in {1, 2, 3, -1, -2, -3}`.
+</p>
+
+<p class="solution">
+  多项式的三个根记为 `a, b, c`, 于是
+  <span class="formula">
+    `a+b+c = sigma_1 = 6`,<br/>
+    `ab+bc+ca = sigma_2 = 11`,<br/>
+    `abc = sigma_3 = 6`,<br/>
+    `1/a+1/b+1/c = sigma_(-1) = sigma_2//sigma_3 = 11/6`,<br/>
+    `1/(ab) + 1/(bc) + 1/(ca) = sigma_(-2) = sigma_1//sigma_3
+    = 1`,<br/>
+    `1/(abc) = sigma_(-3) = 1//sigma_3 = 1/6`.
+  </span>
+  用 Newton-Girard 公式计算:
+  <span class="formula">
+    `a+b+c = S_1 = sigma_1 = 6`,<br/>
+    `a^2+b^2+c^2 = S_2 = sigma_1 S_1 - 2 sigma_2 = 14`,<br/>
+    `a^3+b^3+c^3 = S_3 = sigma_1 S_2 - sigma_2 S_1 + 3 sigma_3 = 36`,<br/>
+    `1/a+1/b+1/c = S_(-1) = sigma_(-1) = 11/6`,<br/>
+    `1/a^2+1/b^2+1/c^2 = S_(-2) = sigma_(-1) S_(-1) - 2 sigma_(-2)
+    = 49/36`,<br/>
+    `1/a^3+1/b^3+1/c^3 = S_(-3) = sigma_(-1) S_(-2) - sigma_(-2)
+    S_(-1) + 3 sigma_(-3) = 251/216`.
+  </span>
 </p>
 
 <p class="example">
