@@ -89,6 +89,7 @@ var tocData = {
           { title: '自然数', src: 'set/4.html' },
           { title: '基数', src: 'set/6.html' },
           { title: 'Lambda 表达式', src: 'set/7.html', date: '2023-01-07' },
+          { title: '范畴论基础', src: 'set/8.html', date: '2024-06-12' },
         ]
       },
       {

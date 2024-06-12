@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>范畴论基础</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<p>[来自 李文威《代数学方法》]</p>
+
+<ol class="remark">
+  概括来说:
+  <li><b>范畴</b>是由对象及其间的态射组成的: `X overset f to Y`. 这里 `X, Y` 是对象, `f` 是态射.
+  <li><b>函子</b>则是范畴间保持箭头结构的“映射”: `cc C' overset F to cc C`. 这里 `cc C', cc C` 是范畴, `F` 是函子.</li>
+  <li><b>自然变换</b>描述了函子之间的关系: `F overset theta to G`, 这里 `F, G` 是函子, `theta` 是自然变换.</li>
+  箭头图表在范畴论中随处可见, 但箭头可以有以上几种不同的含义, 需根据上下文加以辨析.
+</ol>
+
+<h2>范畴</h2>
+
+<ol class="definition">
+  一个<b>范畴</b> `cc C` 由它的<b>对象</b>集合 `"Ob"(cc C)` 和<b>态射</b>集合
+  `"Mor"(cc C)` 组成, 此外还有:
+  <li><b>来源映射</b>和<b>目标映射</b> `s, t: "Mor"(cc C) to "Ob"(cc C)`.
+    若 `f` 是一个态射, 那么 `X := s(f)`, `Y := t(f)` 都是对象, `f` 称为从 `X` 到 `Y` 的态射, 记为 `X overset f to Y`.
+  </li>
+  <li>对于 `X, Y in "Ob"(cc C)`, 全体从 `X` 到 `Y` 的态射称为 `(X, Y)` 的 <b>Hom-集</b>:
+    <span class="formula">
+      `"Hom"_(cc C)(X, Y) := s^-1(X) nn t^-1(Y)`.
+    </span>
+  </li>
+  <li>对每个对象 `X`, 都指定元素 `"id"_X in "Hom"_(cc C)(X, X)`, 称为 `X` 到自身的<b>恒等态射</b>.</li>
+  <li>对任意对象 `X, Y, Z`, 定义<b>态射合成</b>为下面的二元运算, 它把 `X to Y` 和 `Y to Z` 的态射合成为 `X to Z` 的态射:
+    <span class="formula">
+      `@: "Hom"_(cc C)(Y, Z) xx "Hom"_(cc C)(X, Y) to "Hom"_(cc C)(X, Z)`<br>
+      `(f, g) mapsto f @ g`.
+    </span>
+    `f @ g` 也可以简记为 `f g`. 态射的合成满足:
+    <span class="formula">
+      `f(g h) = (f g)h quad` (结合律)<br>
+      `f @ "id"_X = f = "id"_Y @ f quad`(恒等态射的性质).
+    </span>
+    恒等态射的性质保证了 `"id"_X` 的唯一性.
+  </li>
+  <li><b>态射的逆</b> 设态射 `f: X to Y`, 若存在 `g: Y to X` 使得 `f g = "id"_Y`, `g f = "id"_X`,
+    则称 `g` 是 `f` 的逆, `f` 是可逆态射或<b>同构</b>. `X` 到 `Y`
+    的全体同构记为 `"Isom"_(cc C)(X, Y)`. 由恒等态射的性质知道,
+    逆若存在则必唯一.
+  </li>
+  <li>简记 `"End"_(cc C)(X) := "Hom"_(cc C)(X, X)`, `"Aut"_(cc C)(X) := "Isom"_(cc C)(X, X)`,
+    分别称为 `X` 的<b>自同态集</b>和<b>自同构集</b>.
+  </li>
+  <li>对象集和态射集皆空的范畴称为<b>空范畴</b>, 记为 `bb 0`.</li>
+</ol>
+
+<p>
+  以字母表示对象, 箭头表示态射, 范畴可以用<b>箭头图表</b>很好地可视化.
+  如果图表中的箭头合成殊途同归, 我们就说它是<b>交换</b>的, 故箭头图表又称为<b>交换图表</b>.
+  比如下图就有 `g f = h` 和 `v u = y x`.
+  这些图表可以用 <a href="https://q.uiver.app" target="blank">quiver</a> 在线绘制.
+</p>
+
+<div class="flex" style="justify-content:space-around">
+  <div class="img xs">
+    <img src="../img/cd-1.png">
+  </div>
+  <div class="img xs">
+    <img src="../img/cd-2.png">
+  </div>
+</div>
+
+<p class="remark">
+  条条大路通罗马，所以交换图表是不是也可以叫做罗马表（
+</p>
+
+<ol class="definition">
+  称 `cc C'` 是 `cc C` 的子范畴, 如果
+  <li>`"Ob"(cc C') sube "Ob"(C)`;</li>
+  <li>`"Mor"(cc C') sube "Mor"(cc C)`, 并保持恒等态射;</li>
+  <li>来源/目标映射是由 `cc C` 限制而来的;</li>
+  <li>`cc C'` 中态射的合成也是由 `cc C` 限制而来的.</li>
+  总之, 对任意 `X, Y in "Ob"(cc C')`, 成立
+  <span class="formula">
+    `"Hom"_(cc C')(X, Y) sube "Hom"_(cc C)(X, Y)`.
+  </span>
+  上式等号成立时称 `cc C'` 是<b>全子范畴</b>.
+  从图表上看, 子范畴就是从原图表中去掉一些点和箭头得到的图表.
+  如果仅仅移除点 (以及这些点关联的箭头), 而不去移除其它箭头的话, 得到的图表就是全子范畴.
+</ol>
+
+<p class="remark">
+  "全体集合" 这个概念太大, 已不是一个集合. 为了适用范畴的定义, 我们总是事先取定一个宇宙 `cc U`,
+  以下的集合、群、拓扑空间等, 都是在这个宇宙中进行讨论的.
+</p>
+
+<ol class="example">
+  <li><b>集合范畴 `sf(Set)`</b>: 对象为 (某个宇宙中的) 所有集合, 态射为集合间的映射.</li>
+  <li><b>群范畴 `sf(Grp)`</b>: 对象为所有群, 态射为群同态.</li>
+  <li><b>交换群范畴 `sf(Ab)`</b>: 对象为所有交换群, 态射为群同态, 它是 `sf(Grp)` 的全子范畴.</li>
+  <li><b>拓扑空间范畴 `sf(To p)`</b>: 对象为所有 Hausdorff 拓扑空间, 态射为连续映射.
+    类似定义带基点的拓扑空间范畴 `sf(To p)_"●"`.
+  </li>
+  <li>域 `bbb k` 上的<b>向量空间范畴 `sf(Vect)(bbb k)`</b>: 对象为 `bbb k` 上所有向量空间, 态射为线性映射. 类似定义有限维向量空间范畴 `sf(Vect)_(f)(bbb k)`, 它是 `sf(Vect)(bbb k)` 的全子范畴.</li>
+  <li>给定集合, 可以定义相应的<b>离散范畴 `sf(Disc)(S)`</b>: 对象集为 `S`, 态射仅有恒等态射 `{"id"_x: x in S}`.</li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
