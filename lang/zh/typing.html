@@ -24,7 +24,7 @@
   height: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--bg3);
+  background-color: #666;
   background-clip: padding-box;
   min-height: 28px;
 }
@@ -33,7 +33,7 @@
 }
 /* firefox */
 html {
-  scrollbar-color: var(--bg3) transparent;
+  scrollbar-color: var(--bg3) var(--bg2);
 }
 * {
   scrollbar-width: thin;
@@ -72,7 +72,7 @@ body {
 }
 .input-bg,
 .input-area {
-  padding: 8px;
+  padding: 8px 8px 40px 8px;
   font-family: monospace;
   font-size: 20px;
   line-height: 30px;
@@ -111,7 +111,6 @@ body {
 }
 
 .tool-bar {
-  padding: 8px 0;
   text-align: right;
 }
 .btn {
@@ -125,6 +124,7 @@ body {
   background-color: transparent;
   border: 1px solid var(--bd2);
   opacity: 0.9;
+  margin-top: 8px;
 }
 .btn.btn-primary {
   background-color: var(--color-blue);
@@ -172,6 +172,7 @@ body {
   line-height: 24px;
   display: flex;
   gap: 4px;
+  height: 25px;
 }
 .status-badge {
   background-color: var(--color-blue);
@@ -718,6 +719,7 @@ const Typing = {
     const isCorrect = text[text.length - 1] === Typing.current.text[text.length - 1]
     const textArr = Typing.compositionStr ? [...value.slice(0, -Typing.compositionStr.length)] : [...value]
     $inputBg.innerHTML = Typing.updateBg(textArr)
+    $inputArea.scrollTo({ top: $inputArea.scrollHeight, left: 0 })
     if (isFinish && isCorrect) {
       Typing.finish()
     }
