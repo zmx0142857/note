@@ -16,24 +16,23 @@
 
 <div class="playground" value="{ x: 1 }">
 <script type="text">
-const epsi = 1e-6
 function sin (x) {
-  if (Math.abs(x) < epsi) return x
+  if (Math.abs(x) < 1e-6) return x
   const s = sin(x/3)
   return s*(3-4*s**2)
 }
 
 function cos (x) {
-  if (Math.abs(x) < epsi) return 1-x**2/2
+  if (Math.abs(x) < 1e-7) return 1-x**2/2
   return 2*cos(x/2)**2-1
 }
 
 module.exports = function demo (str) {
   const { x } = Playground.parse(str)
-  return '     sin(x): ' + sin(x)
-    + '\nMath.sin(x): ' + Math.sin(x)
-    + '\n     cos(x): ' + cos(x)
-    + '\nMath.cos(x): ' + Math.cos(x)
+  return '     sin(' + x + '): ' + sin(x)
+    + '\nMath.sin(' + x + '): ' + Math.sin(x)
+    + '\n     cos(' + x + '): ' + cos(x)
+    + '\nMath.cos(' + x + '): ' + Math.cos(x)
 }
 </script>
 </div>
@@ -90,6 +89,60 @@ module.exports = function atan2 (str) {
     tan *= 0.5
   }
   return ret
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>判断多边形方向是否为顺时针 (面积法)</b> [来自 github copilot]
+  用 Green 公式求边界的曲线积分 `int_(del S) -2y dx = 2 iint_S dx dy`,
+  若结果为负, 说明曲线为顺时针.
+</p>
+
+<div class="playground" value="{ polygon: [[0,0],[1,0],[1,1],[0,1]] }">
+<script type="text">
+const isClockwise = (polygon) => {
+  let sum = 0
+  const len = polygon.length
+  for (let i = 0, j = len - 1; i < len; j = i++) {
+    const [xi, yi] = polygon[i]
+    const [xj, yj] = polygon[j]
+    sum += (xj - xi) * (yj + yi) // dx = xi - xj, 2y = yi + yj
+  }
+  return sum < 0
+}
+module.exports = (str) => {
+  const { polygon } = Playground.parse(str)
+  return isClockwise(polygon)
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>判断点是否在多边形内 (引射线法)</b> [来自 chatgpt]
+  从待判断的点向右发射一条射线, 若交点数为奇数, 则点在多边形内.
+  该算法适用于顺时针和逆时针的多边形, 甚至也适用于自相交的多边形 (重叠部分按异或计算).
+  注意, 按此算法, 边界上的点不算在多边形内.
+</p>
+
+<div class="playground" value="{ point: [0.5, 0], polygon: [[0,0],[1,0],[1,1],[0,1]] }">
+<script type="text">
+const isInPolygon = (point, polygon) => {
+  const [x, y] = point
+  let inside = false
+  const len = polygon.length
+  for (let i = 0, j = len - 1; i < len; j = i++) {
+    const [xi, yi] = polygon[i]
+    const [xj, yj] = polygon[j]
+    const intersect = (xj - xi) * (y - yi) / (yj - yi) + xi // 射线与线段交点的横坐标
+    // 若线段端点一个在上，一个在下，且射线与线段的交点是在右侧, 则交点计数加一
+    if (((yi > y && yj < y) || (yi < y && yj > y)) && x < intersect) inside = !inside
+  }
+  return inside
+}
+module.exports = (str) => {
+  const { point, polygon } = Playground.parse(str)
+  return isInPolygon(point, polygon)
 }
 </script>
 </div>
