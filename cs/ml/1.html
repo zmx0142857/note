@@ -29,7 +29,7 @@
   <dd>表示数据集的常用方式. 设计矩阵的每一个行表示一个样本, 每一列表示样本的一项特征.<br>
     如果每个样本大小不同, 比如大小不同的照片, 我们则不会将数据集表示成矩阵, 而是表示成 `n` 个元素的集合：`{bm x^((1)), ..., bm x^((n))}`. 不引起误解的情况下, 有时会将上标的括号省略.
     于是我们用上标 `bm x^i` 表示数据集中的第 `i` 个样本,
-    用下标 `bm x_i` 表示 `bm x` 的第 `i` 个分量 (feature).
+    用下标 `x_i` 表示 `bm x` 的第 `i` 个分量 (feature).
   </dd>
   <dt>欠拟合</dt>
   <dd>是指模型的参数过少, 函数空间的表达能力有限, 在训练集上的表现不佳.</dd>
@@ -109,8 +109,8 @@
 </p>
 
 <ol class="solution">
-  我们再一次把 `bm x` 的最后一个分量固定为 1, 再把 `b` 合并到向量 `bm w` 中,
-  模型化为 `h = sigma(bm w^T bm x)`. 注意到
+  我们再一次把 `bm x^i` 的最后一个分量固定为 1, 再把 `b` 合并到向量 `bm w` 中,
+  模型简化为 `h^i = sigma(bm w^T bm x^i)`. 注意到
   <span class="formula">
     `(ln sigma(x))' = 1 - sigma`,
     `quad (ln (1-sigma(x)))' = -sigma`.
@@ -118,16 +118,18 @@
   所以损失函数的偏导数为
   <span class="formula">
     `(del L)/(del w_j)`
-    `= -1/n sum_(i=1)^n bm x_j^i (y^i - h^i)`,<br>
+    `= -1/n sum_(i=1)^n x_j^i (y^i(1-h^i) + (1-y^i)(-h^i))`
+    `= -1/n sum_(i=1)^n x_j^i (y^i - h^i)`,<br>
     `-n grad_(bm w) L = (bm y - bm h)^T bm X`.
   </span>
   下面使用<b>梯度下降法 (gradient descent)</b> 求最优解:
   <li>随机选取 `bm w^0`;</li>
   <li>计算损失函数在 `bm w^0` 处的梯度 `grad_(bm w^0) L`, 然后向梯度下降的方向移动:
     <span class="formula">
-      `bm w^1 larr bm w^0 - eta grad_(bm w^0) L`.
+      `bm w^1 := bm w^0 - eta grad_(bm w^0) L`.
     </span>
     常数 `eta gt 0` 称为 learning rate. 梯度越大, 移动的距离就越远.
+    重复以上步骤直到损失函数足够小.
   </li>
 </ol>
 
@@ -153,24 +155,26 @@ const replotSigmoid = () => {
     .plot(sigmoid)
 }
 const rangeA = new Range('img-sigmoid-range-a', {
-    min: -5,
-    max: 5,
-    step: 0.05,
-    value: 1,
-  }, e => {
-  a = e ? Number(e.target.value) : 1
-  rangeA.span.innerText = 'a = ' + a
-  replotSigmoid()
+  min: -5,
+  max: 5,
+  step: 0.05,
+  defaultValue: 1,
+  onChange: value => {
+    a = value
+    rangeA.setLabel('a = ' + a)
+    replotSigmoid()
+  },
 })
 const rangeB = new Range('img-sigmoid-range-b', {
-    min: -5,
-    max: 5,
-    step: 0.05,
-    value: 0,
-  }, e => {
-  b = e ? Number(e.target.value) : 0
-  rangeB.span.innerText = 'b = ' + b
-  replotSigmoid()
+  min: -5,
+  max: 5,
+  step: 0.05,
+  value: 0,
+  onChange: value => {
+    b = value
+    rangeB.setLabel('b = ' + b)
+    replotSigmoid()
+  }
 })
 }
 </script>

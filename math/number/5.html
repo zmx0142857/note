@@ -1052,24 +1052,26 @@ const replotEC = () => {
     .plot(x => -EC(x))
 }
 const rangeA = new Range('img-ec-range-a', {
-    min: -10,
-    max: 10,
-    step: 0.05,
-    value: -3,
-  }, e => {
-  a = e ? Number(e.target.value) : -3
-  rangeA.span.innerText = 'a = ' + a
-  replotEC()
+  min: -10,
+  max: 10,
+  step: 0.05,
+  defaultValue: -3,
+  onChange: value => {
+    a = value
+    rangeA.setLabel('a = ' + a)
+    replotEC()
+  },
 })
 const rangeB = new Range('img-ec-range-b', {
-    min: -10,
-    max: 10,
-    step: 0.05,
-    value: 1,
-  }, e => {
-  b = e ? Number(e.target.value) : 1
-  rangeB.span.innerText = 'b = ' + b
-  replotEC()
+  min: -10,
+  max: 10,
+  step: 0.05,
+  defaultValue: 1,
+  onChange: value => {
+    b = value
+    rangeB.setLabel('b = ' + b)
+    replotEC()
+  },
 })
 </script>
 

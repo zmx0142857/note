@@ -862,17 +862,17 @@ new Plot('exp-cassini')
 
 const plotCubic2 = new Plot('img-cubic2')
 const rangeCubic2 = new Range('img-cubic2-range', {
-    min: -3,
-    max: 3,
-    step: 0.1,
-    value: 1.5,
-  }, e => {
-  const a = e ? Number(e.target.value) : 1.5
-  rangeCubic2.span.innerText = 'a = ' + a
-  plotCubic2.clear()
-    .geometry({ xmin: -4, xmax: 4, ymin: -4, ymax: 4 }).axis()
-    .plot(x => Math.sqrt(x*x*(x+a)))
-    .plot(x => -Math.sqrt(x*x*(x+a)))
+  min: -3,
+  max: 3,
+  step: 0.1,
+  defaultValue: 1.5,
+  onChange: a => {
+    rangeCubic2.setLabel('a = ' + a)
+    plotCubic2.clear()
+      .geometry({ xmin: -4, xmax: 4, ymin: -4, ymax: 4 }).axis()
+      .plot(x => Math.sqrt(x * x * (x + a)))
+      .plot(x => -Math.sqrt(x * x * (x + a)))
+  },
 })
 </script>
 </body>

@@ -115,25 +115,31 @@ Notify.prototype.remove = function () {
 /**
  * Range
  */
-window.Range = function (id, attrs, oninput) {
+window.Range = function (id, { type = 'range', min = -5, max = 5, step = 0.1, defaultValue = 1, onChange }) {
   this.span = $('<label>', {
     className: 'ui-range-label',
   })
+  this.setLabel = text => {
+    this.span.innerText = text
+  }
   this.range = $('<input>', {
     className: 'ui-range-input',
-    attrs: Object.assign({}, {
-      type: 'range',
-      min: 0,
-      max: 3,
-      step: 0.05,
-      value: 0.5,
-    }, attrs),
-    oninput,
+    attrs: {
+      type,
+      min,
+      max,
+      step,
+      value: defaultValue,
+    },
+    oninput: (e) => {
+      const value = e ? parseFloat(e.target.value) : defaultValue
+      onChange?.(value)
+    }
   })
   this.el = $('#' + id)
   this.el.appendChild(this.span)
   this.el.appendChild(this.range)
-  setTimeout(oninput)
+  setTimeout(this.range.oninput)
 }
 
 // -------------------------------

@@ -815,17 +815,18 @@ new Plot('img-lambert-w')
   .plot(t => -1, {color: 'grey'})
 
 const plotBernoulli = new Plot('img-bernoulli')
-const range = new Range('img-bernoulli-range', { min: 0,
-    max: 3,
-    step: 0.05,
-    value: 0.5,
-  }, e => {
-  const a = e ? Number(e.target.value) : 0.5
-  range.span.innerText = 'a = ' + a
-  plotBernoulli.clear()
-    .geometry({ xmin: -1, xmax: 5, ymin: -1, ymax: 5 }).axis()
-    .plot(x => (1+x)**a)
-    .plot(x => 1+a*x, {color: 'grey'})
+const range = new Range('img-bernoulli-range', {
+  min: 0,
+  max: 3,
+  step: 0.05,
+  defaultValue: 0.5,
+  onChange: a => {
+    range.setLabel('a = ' + a)
+    plotBernoulli.clear()
+      .geometry({ xmin: -1, xmax: 5, ymin: -1, ymax: 5 }).axis()
+      .plot(x => (1+x)**a)
+      .plot(x => 1+a*x, {color: 'grey'})
+  }
 })
 
 new Plot('img-x-pow-x-approx')
