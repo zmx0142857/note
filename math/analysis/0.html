@@ -355,31 +355,47 @@
     </span>
 </p>
 
-<p class="example">
-	<span class="formula">
-		`prod_(n ge 1) (1-x^2/n^2) = (sin pi x)/(pi x)`,
-	</span>
-	两边取对数再求导, 整理得
-	<span class="formula">
-		`sum_(n ge 1) 1/(n^2-x^2) = 1/(2x^2) (1 - pi x cot pi x)`.
-	</span>
-	容易得到
-	<span class="formula">
-		`sum_(n ge 1) 1/(n^2+1) = pi/2 "coth "pi - 1/2`.
-	</span>
-	此外可以裂项得到
-	<span class="formula">
-		`sum_(n ge 2) 1/(n^2-1) = 3/4`.
-	</span>
-</p>
-
-<p class="example">
-  [群友 我是某用户的壹零叁]
-  把 `x = "i"z` 代入正弦无穷乘积, 变成双曲正弦, 可得
+<ol class="example">
+  从 <b>Euler 的正弦无穷乘积</b>
   <span class="formula">
-    `prod_(n ge 1) (1+1/n^2) = (sinh pi)/pi`.
+    `prod_(n ge 1) (1-x^2/n^2) = (sin pi x)/(pi x)`
   </span>
-</p>
+  (参见 <a href="./8.html">Gamma 函数</a>一节) 出发, 可以得到一些推论:
+  <li>在正弦乘积公式中令 `x = "i" y`, 就得到双曲正弦的公式
+    <span class="formula">
+      `prod_(n ge 1) (1 + y^2/n^2) = (sinh pi y)/(pi y)`.
+    </span>
+  </li>
+  <li>在正弦乘积公式两边取对数再求导, 整理得到余切函数的展开:
+    <span class="formula">
+      `sum_(n ge 1) 1/(n^2 - x^2) = 1/(2x^2) (1-pi x cot pi x)`.
+    </span>
+    同样令 `x = "i" y` 得到
+    <span class="formula">
+      `sum_(n ge 1) 1/(n^2+y^2) = 1/(2y^2)(pi y coth pi y - 1)`.
+    </span>
+  </li>
+  <li>
+    一个与上式有几分神似的求和 (可以通过裂项得到):
+    <span class="formula">
+      `sum_(n ge 2) 1/(n^2-1) = 3/4`.
+    </span>
+    事实上, 这个结果也可以通过求极限得到:
+    <span class="formula">
+      `lim_(x to 1) ((1-pi x cot pi x)/(2x^2) - 1/(1-x^2)) = 3/4`.
+    </span>
+  </li>
+  <li>在余切函数的展式中令 `z = pi x`, 稍加整理可以得到更漂亮的公式
+    <span class="formula">
+      `sum_(n=-oo)^oo 1/(z-n pi) = cot z`,
+    </span>
+    这里的求和取主值, 即 `1/z + sum_(n ge 1) (1/(z+n pi) + 1/(z-n pi))`.
+    两边求导立得 <a href="https://www.bilibili.com/video/BV11i421v7D4">Jumping 恒等式</a>:
+    <span class="formula">
+      `sum_(n=-oo)^oo 1/(z-pi n)^2 = 1/(sin^2 z)`.
+    </span>
+  </li>
+</ol>
 
 <ol class="example">
     求 `f(x) = sum_(n ge 0) x^n/(n!!)` (`0!! = 1`).
