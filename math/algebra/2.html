@@ -1115,8 +1115,12 @@
 <p class="definition" id="def-cycle-type">
   <b>轮换型号</b>
   将 `n` 阶置换 `sigma` 表为不相交轮换的乘积, 这些轮换中
-  `k`-轮换的个数记为 `l_k(sigma)`, `k = 1, 2, cdots, n`.
-  由于它们互不相交, 有
+  `k`-轮换的个数记为
+  <span class="formula">
+    `l_k(sigma)`, `k = 1, 2, cdots, n`.
+  </span>
+  上面 `n` 个数字称为 `sigma` 的轮换型号, 简称型号.
+  由于这些轮换互不相交, 有
   <span class="formula">
     `n = sum_(k=1)^n l_k(sigma) * k`.
   </span>
@@ -1132,9 +1136,38 @@
 
 <p class="proof">
   直观上 `sigma^n` 相当于将这些不相交轮换独立地轮转,
-  当所有轮换恰好复位时, 有 `sigma^n = e`. 我们来严格证明之.<br>
-  ??
+  当所有轮换恰好复位时, 有 `sigma^n = e`.
+  反之, 只要有一个轮换没有复位, 由于这些轮换互不相交, 有 `sigma^n != e`.
 </p>
+
+<p class="theorem">
+  两个置换相互共轭 `iff` 它们具有相同轮换型号.
+</p>
+
+<ol class="proof">
+  <li>`rArr`:
+    先设 `a = (a_1, cdots, a_k)`, `b = (b_1, cdots, b_l)` 是不相交轮换, `sigma`
+    是置换, 经过共轭作用后,
+    <span class="formula">
+      `sigma a sigma^-1 = (sigma a_1, cdots, sigma a_k)`,<br>
+      `sigma b sigma^-1 = (sigma b_1, cdots, sigma b_l)`
+    </span>
+    仍是不相交轮换, 且轮换的阶各自不变.
+    <br>
+    现在设 `a` 是一般的置换.
+    将 `a` 写为不相交轮换的乘积 `a = a_1 cdots a_s`,
+    则 `sigma a sigma^-1` 也可以写为不相交轮换乘积:
+    `sigma a sigma^-1 = prod_(i=1)^s sigma a_i sigma^-1`.
+    这就说明共轭作用保持置换的型号不变.
+  </li>
+  <li>`lArr`:
+    先设 `a = (a_1, cdots, a_k)`, `b = (b_1, cdots, b_k)` 是两个 `k`-轮换,
+    取 `sigma` 使得 `sigma(a_i) = b_i`, `i = 1, cdots, k`, 则 `b = sigma a sigma^-1`.
+    <br>
+    进一步设 `a, b` 是一般的置换, 它们具有相同的轮换型号.
+    对 `a, b` 的每个因子都作上面的映射, 就找到一个置换 `sigma` 使得 `b = sigma a sigma^-1`.
+  </li>
+</ol>
 
 <p class="theorem">
   <b>Cauchy 公式</b>

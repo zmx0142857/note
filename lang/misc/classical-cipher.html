@@ -322,7 +322,7 @@ module.exports = function fence (str) {
 </script>
 </div>
 
-<h3>倒序</h3>
+<h3>倒序 reverse</h3>
 
 <div class="playground" type="textarea" value="Able was I ere I saw Elba">
 <p>说明: 反转文本
@@ -330,6 +330,55 @@ module.exports = function fence (str) {
 <script type="text">
 module.exports = function reverse (str) {
   return [...str].reverse().join('')
+}
+</script>
+</div>
+
+<h3>维吉尼亚 Vigenère</h3>
+
+<p>用 P 表示明文 (plaintext), C 表示密文 (cipher text), E 表示加密 (encrypt), D 表示解密 (decrypt),
+  K 表示密钥 (key). 维吉尼亚密码是一种对称加密, 可以表示为
+  <span class="formula">
+    `C = E(P, K)`,<br>
+    `P = D(C, K)`.
+  </span>
+  其中明文、密文与密钥都只含 26 个英文字母, 以 `A mapsto 0`, `Z mapsto 25` 的方式对应到数字.
+  我们假定密钥与明文是一样长的, 如果密钥太短, 则通过重复的方式使它们一样长.
+  维吉尼亚的加密、解密算法定义为:
+  <span class="formula">
+    `C_i = E(P_i, K_i) = (P_i + K_i) mod 26`,<br>
+    `P_i = D(C_i, K_i) = (C_i - K_i) mod 26`.
+  </span>
+</p>
+
+<div class="playground" type="textarea" value="vpxz giaxiv wpubtt mj pwi zitwzt">
+<div class="align-center">
+  <span>密钥:</span>
+  <input id="input-vigenere" class="input" type="text" value="cipher"/>
+  <label class="align-center">解密
+    <input id="decode-vigenere" name="radio-vigenere" type="radio" value="decode" checked />
+  </label>
+  <label class="align-center">加密
+    <input id="encode-vigenere" name="radio-vigenere" type="radio" value="encode" />
+  </label>
+</div>
+<script type="text">
+module.exports = function vigenere (plaintext) {
+  const $input = document.querySelector('#input-vigenere')
+  const isDecode = document.querySelector('#decode-vigenere').checked
+  const key = [...$input.value.toLowerCase()].map(c => c.codePointAt(0) - 97)
+  let i = 0
+  return [...plaintext.toLowerCase()].map(c => {
+    const code = c.codePointAt(0)
+    if (code >= 97 && code <= 122) {
+      let k = key[i]
+      if (isDecode) k = -k
+      i = (i + 1) % key.length
+      return String.fromCodePoint((code + 26 - 97 + k) % 26 + 97)
+    } else {
+      return c
+    }
+  }).join('')
 }
 </script>
 </div>

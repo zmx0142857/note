@@ -720,7 +720,7 @@ const Typing = {
     const textArr = Typing.compositionStr ? [...value.slice(0, -Typing.compositionStr.length)] : [...value]
     $inputBg.innerHTML = Typing.updateBg(textArr)
     $inputArea.scrollTo({ top: $inputArea.scrollHeight, left: 0 })
-    if (isFinish && isCorrect) {
+    if (isFinish && isCorrect && !Typing.compositionStr) {
       Typing.finish()
     }
   },
