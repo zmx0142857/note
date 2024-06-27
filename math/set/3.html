@@ -390,7 +390,7 @@
 <h2>等价关系</h2>
 
 <ol class="definition">
-	设 `R: X to X` 是一个二元关系, 满足:
+	设 `R` 是一个二元关系, 满足:
 	<li>自反性. `AA x in X`, `x R x`;</li>
 	<li>对称性. `x R y rArr y R x`;</li>
 	<li>传递性. `x R y and y R z rArr x R z`.</li>
@@ -444,109 +444,174 @@
 	之间存在双射.
 </p>
 
-<h2>偏序与全序</h2>
+<h2>序结构</h2>
+
+[来自 李文威《代数学方法》]
+
+<h3>预序, 偏序, 全序</h3>
 
 <ol class="definition">
-	设二元关系 `le: X to X` 满足:
-	<li>自反性. `AA x in X`, `x le x`;</li>
-	<li>反对称性. `x le y and y le x` `rArr x = y`;</li>
-	<li>传递性. `x le y and y le z` `rArr x le z`.</li>
-	则称 `le` 为一<b>偏序 (partial order)</b>, `(X, le)` 构成 `X`
-	上的<b>偏序集</b>.
-	我们记
-	<span class="formula">
-		`x ge y iff y le x`, `quad x lt y iff x le y and x != y`,
-		`quad x gt y iff x ge y and x != y`.
-	</span>
+  设二元关系 "`le`" 满足:
+  <li>自反性. `AA x in X`, `x le x`;</li>
+  <li>传递性. `x le y and y le z` `rArr x le z`.</li>
+  则称 `(X, le)` 是一个<b>预序 (preorder) 集</b>. 若它还满足
+  <li>反对称性. `x le y and y le x` `rArr x = y`;</li>
+  则称 `le` 为一<b>偏序 (partial order)</b>, `(X, le)` 为 `X` 上的<b>偏序集</b>.
+  若它进一步满足
+  <li>任意元素都可以比较大小. `AA x, y in X`, `x le y or y le x`.
+  </li>
+  则称 `le` 为 `X` 上的<b>全序 (total order) 或线序</b>.
+  <br>
+  偏序集的子集自然继承了偏序结构: `C sube X`, 则 `(C, le) := (C xx C) nn le`.
+  <br>
+  偏序集 `X` 的子集 `C` 如果是全序, 则 `C` 称为 `X` 的一条<b>链</b>.
 </ol>
 
-<p class="definition">
-	偏序集 `(X, le)` 称为 `X` 上的<b>全序 (total order) 或线序</b>,
-  如果任意 `x, y in X` 都可以比较大小, 即
-	<span class="formula">
-		`AA x, y in X`, `x le y or y le x`.
-	</span>
+<p class="remark">
+  我们记
+  <span class="formula">
+    `x ge y iff y le x`,<br>
+    `x lt y iff x le y and x != y`,<br>
+    `x gt y iff x ge y and x != y`.
+  </span>
+  在全序集中, 对任意元素 `x, y`, 三命题 `x lt y`, `x = y` 或 `x gt y` 恰有一个成立.
+</p>
+
+<p class="remark">
+  数的大小、正整数的整除、集合的包含……都是偏序的例子.
+</p>
+
+<h3>最大, 极大; 上界, 上确界</h3>
+
+<ol class="definition">
+  设 `(X, le)` 为一预序集, 非空集 `E sube X`.
+  <li>称 `m in X` 为 `E` 的一个<b>上界 (upper bound)</b>, 如果
+    `AA x in E, x le m`.</li>
+  <li>称 `m` 为 `E` 的一个<b>最大元</b>, 如果 `m in E`, 且 `m` 为 `E` 的一个上界. `E` 的最大元记为 
+  `max E`.</li>
+  <li>称 `m` 为 `E` 的一个<b>极大元</b>, 如果 `m in E`, 且不存在 `x in E` 使得 `x gt m`.
+  换言之, `AA x in E`, `x ge m rArr x = m`.</li>
+  <li>称 `s` 为 `E` 的一个<b>上确界</b>, 如果 `s` 是 `E` 的最小上界, 即 `s` 是 `E` 的上界,
+    且对任意上界 `m` 有 `s le m`. `E` 的上确界记为 `op(s u p) E`.
+  </li>
+  类似可以定义下界, 最小元 (`min E`), 极小元和下确界 (`op(i n f) E`).
+</ol>
+
+<p class="corollary">
+  在偏序集中, 由反对称性知道, 最大元若存在, 必惟一, 且为一极大元.
+  同理在偏序集中, 上 (下) 确界若存在, 必惟一.
 </p>
 
 <p class="definition">
-	设 `(X, le)` 为一偏序集, 非空集 `E sube X`.
-	称 `m in X` 为 `E` 的一个<b>上界 (upper bound)</b>, 如果
-	`AA x in E, x le m`.
-	称 `m` 为 `E` 的一个<b>最大元</b>, 如果 `m in E`, 且 `m` 为 `E` 的一个上界.
-	称 `m` 为 `E` 的一个<b>极大元</b>, 如果 `m in E`, 且 `AA x in E`,
-	`x gt m` 不成立.
-	换言之, `AA x in E`, `x ge m rArr x = m`.
-	类似可以定义下界, 最小元和极小元.
+  称预序集 `(X, le)` 是 <b>(序) 完备</b>的, 如果它满足<b>确界原理</b>:
+  (1) 任意有上界的子集必有上确界; (2) 任意有下界的子集必有下确界.
 </p>
 
 <p class="corollary">
-	最大元若存在, 必惟一, 且为一极大元.
-</p>
-
-<p class="definition">
-	设 `(X, le)` 为一全序集, `a, b in X`, 定义以 `a, b`
-	为端点的<b>闭区间</b>和开区间分别为
-	<span class="formula">
-		`[a,b] := {x in X: a le x le b}`,
-		`quad (a, b) := {x in X: a lt x lt b}`.
-	</span>
-	若 `(a, b) = O/`, 就称 `(a, b)` 是 `X` 的一个<b>间隙 (gap)</b>.
-	称 `E sube X` 为一<b>区间</b>, 如果
-	<span class="formula">
-		`AA x, y in E`, `[x, y] sube E`.
-	</span>
-	如果对任意不空的开区间 `(a, b)`, 有 `(a, b) nn E != O/`, 则称 `E`
-	是<b>(序) 稠密</b>的.
-</p>
-
-<p class="definition">
-	设 `(X, le)` 为一全序集, 非空集 `E sube X`.
-	称 `s in X` 为 `E` 的一个<b>上确界</b>, 如果 `s` 是 `E`
-	的最小上界. 换言之, `s` 是 `E` 的上界, 且对 `E` 的任意上界
-	`m`, 有 `s le m`.
-	记 `s = "sup" E`. 类似可以定义 `E` 的下确界 `"inf"E`.
-	称 `(X, le)` 是 <b>(序) 完备</b>的, 如果它满足<b>确界原理</b>:
-	(1) 任意有上界的子集必有上确界; (2) 任意有下界的子集必有下确界.
-</p>
-
-<p class="corollary">
-	上 (下) 确界若存在, 必惟一.
-</p>
-
-<p class="corollary">
-	确界原理的两个条件相互等价.
+  确界原理的两个条件相互等价.
 </p>
 
 <ol class="proof">
-	我们证明 (1) `rArr` (2).
-	设 `(X, le)` 任意有上界的子集都有上确界, 设非空集 `E sube X` 有下界.
-	下证 `E` 有下确界.
-	<li>令 `A` 是 `E` 的全体下界, 则 `A` 不空, 且
-		`AA e in E, AA a in A`, 由 `a` 是 `E` 的下界有 `a le e`,
-		从而 `E` 的任一元都是 `A` 的上界.
-	</li>
-	<li>令 `a = "sup"A`, 则由 `a` 是 `A` 的最小上界知, `AA e in E`,
-		`a le e`, 从而 `a` 是 `E` 的下界, 即 `a in A`.
-		我们已经证明 `a` 是 `A` 的最大元, 即为 `E` 的最大下界,
-		所以 `a = "inf"E`, 从而 `E` 有下确界.
-	</li>
+  我们证明 (1) `rArr` (2).
+  设 `(X, le)` 任意有上界的子集都有上确界, 设非空集 `E sube X` 有下界.
+  下证 `E` 有下确界.
+  <li>令 `A` 是 `E` 的全体下界, 则 `A` 不空, 且
+    `AA e in E, AA a in A`, 由 `a` 是 `E` 的下界有 `a le e`,
+    从而 `E` 的任一元都是 `A` 的上界.
+  </li>
+  <li>令 `a = "sup"A`, 则由 `a` 是 `A` 的最小上界知, `AA e in E`,
+    `a le e`, 从而 `a` 是 `E` 的下界, 即 `a in A`.
+    我们已经证明 `a` 是 `A` 的最大元, 即为 `E` 的最大下界,
+    所以 `a = "inf"E`, 从而 `E` 有下确界.
+  </li>
+</ol>
+
+<h3>保序映射; 区间</h3>
+
+<ol class="definition">
+  设 `(X, le)`, `(Y, &#8828;)` 是预序集.
+  <li>称 `f: X to Y` 为<b>保序映射</b>, 如果 `x_1 le x_2 rArr f(x_1) &#8828; f(x_2)`.</li>
+  <li>称 `f: X to Y` 为<b>严格增</b>的, 如果 `x_1 lt x_2 rArr f(x_1) &#8826; f(x_2)`. 全序集之间的严格增映射为单射.</li>
+  <li>若 `f` 是双射, 且 `f` 和 `f^-1` 皆保序, 则称 `f` 是 `X` 到 `Y` 的一个<b>序同构</b>, 记作 `(X, le) ~ (Y, &#8828;)`.
+  对于序同构我们有 `x le y iff f(x) le f(y)`, 特别对于全序集之间的同构有 `x lt y iff f(x) lt f(y)`, 即全序集同构都是严格增的.
+  </li>
+  偏序集的同构类称为<b>序型</b>, 如果 `X` 和 `Y` 序同构, 则它们是相同序型.
 </ol>
 
 <p class="definition">
-	设 `(X, le)` 为一偏序集, 称 `C sube X` 为一<b>链</b>, 如果 `(C, le) :=
-	(C xx C) nn le` 是一全序集.
+  设 `(X, le)` 为一全序集, `a, b in X`, 定义以 `a, b`
+  为端点的<b>闭区间</b>和<b>开区间</b>分别为
+  <span class="formula">
+    `[a,b] := {x in X: a le x le b}`,
+    `quad (a, b) := {x in X: a lt x lt b}`.
+  </span>
+  若 `(a, b) = O/`, 就称 `(a, b)` 是 `X` 的一个<b>间隙 (gap)</b>.
+  称 `E sube X` 为一<b>区间</b>, 如果
+  <span class="formula">
+    `AA x, y in E`, `[x, y] sube E`.
+  </span>
+  如果对任意不空的开区间 `(a, b)`, 有 `(a, b) nn E != O/`, 则称 `E`
+  是<b>(序) 稠密</b>的.
 </p>
 
 <p class="definition">
-	设 `(X, le)`, `(Y, &#8828;)` 是全序集. 称 `f: X to Y`
-	为<b>保序映射</b>, 如果
-	<span class="formula">
-		`x_1 le x_2 rArr f(x_1) &#8828; f(x_2)`.
-	</span>
-	由定义, 保序映射是单射. 若 `f` 还是满射, 则称它是 `X` 到 `Y`
-	上的<b>相似映射</b>, 此时称 `X, Y` 相似, 或称 `(X, le)`, `(Y,
-	&#8828;)` 是<b>序同构</b>的, 记作 `(X, le) ~ (Y, &#8828;)`.
+  若偏序集 `X` 非空, 且对任意 `x, y in X`, 子集 `{x, y}` 都有上界, 则称 `X` 是<b>滤过序集</b>. 显然全序集皆是滤过的, `max{x, y}` 就是 `{x, y}` 的一个上界.
 </p>
+
+<h3>良序</h3>
+
+<p class="definition">
+  <b>(G. Cantor)</b>
+  若全序集 `P` 的任意非空子集都有极小元, 则称它为<b>良序集</b>.
+  例如, 正整数集是良序集, 实数集 `RR` 则不是.
+  良序集的子集仍是良序集.
+</p>
+
+<p class="lemma">
+  <b>子列引理</b>
+  设 `P` 为良序集, 映射 `f: P to P` 严格增, 则对每个 `x in P` 有 `f(x) ge x`.
+  例如 `{a_(n_k)}` 是数列 `{a_n}` 的子列, 映射 `k mapsto n_k` 严格增, 那么就有 `n_k ge k`.
+</p>
+
+<p class="proof">
+  假设集合 `P_0 := { x in P: f(x) lt x }` 非空, 取 `P_0` 的极小元 `z`,
+  则 `f(z) lt z`, 由 `f` 严格增可知 `f(f(z)) lt f(z)`, 即 `f(z) in P_0`.
+  这与 `z` 的极小性矛盾.
+</p>
+
+<ol class="corollary">
+  <li>良序集仅有平凡的自同构.</li>
+  <li>设 `P` 为良序集, `P_(lt x) := { y in P: y lt x }` 称为 `P` 的一个<b>前段</b>.
+    上述引理告诉我们, 对任意 `x in P`, `P` 与 `P_(lt x)` 不同构.
+  </li>
+</ol>
+
+
+<ol class="proof">
+  <li>设 `f` 是良序集 `P` 的自同构, 由于全序集的同构都是严格增的, 所以 `f, f^-1` 都严格增. 由引理,
+    对于任意 `x in P`, `f(x) ge x`, `x = f^-1(f(x)) ge f(x)`, 所以 `f(x) = x`.
+  </li>
+  <li>如果存在 `P` 到 `P_(lt x)` 的同构 `f`, 由于全序集的同构都是严格增的, 所以 `f` 严格增.
+    然而 `f(x) lt x`, 一个矛盾.
+  </li>
+</ol>
+
+<p class="remark">
+  顾名思义, 良序集的性质十分优良.
+  设 `P` 是良序集, 取出它的极小元 `x_0` 后, 剩下的 `P\\{x_0}` 中又可取出一个极小元 `x_1`,
+  如此进行下去, 良序集可以排列成一行: `x_0, x_1, cdots`. 当然这种排列不一定唯一, 且良序集的序结构未必就和自然数集一样, 理应存在比自然数集更大的良序集.
+  我们不禁疑问, 良序集的序型到底有多少种呢, 能否从每一种序型中选出一个典型代表?
+  这就是下节的<b>序数</b>.
+</p>
+
+<h2>序数</h2>
+
+<ol class="definition">
+  <b>(von Neumann)</b>
+  称集合 `alpha` 是一个<b>序数</b>, 如果
+  <li>`alpha` 是传递集. 即 `alpha` 的每个元素都是 `alpha` 的子集, 换言之 `alpha sube cc P(alpha)`.</li>
+  <li>`(alpha, in)` 是良序集. 注意是 `in` 不是 `sube`.</li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
