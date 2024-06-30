@@ -278,7 +278,7 @@
   因此 `QQ` 的自同构只有恒等自同构. `ZZ_p` 的原因类似.
 </p>
 
-<div class="p example">
+<div class="p example" id="exp-field-aut">
   <b>一个非平凡的自同构</b>
   域 `GF(2^2) := bbb F_2[x] // (:x^2+x+1:)` 中的元素为 `0, 1, x, 1+x`,
   它们是 `x` 的多项式, 系数只取 `0` 或 `1`, 且 `x^2 = 1 + x`.
@@ -852,8 +852,8 @@
 <h2>有限域</h2>
 
 <p class="definition">
-  <b>有限域</b>又称 <b>Galois 域</b>, 是指阶 (即元素个数) 有限的域,
-  其特征为一素数 `p`, 其素域同构于 `ZZ_p`.
+  <b>有限域</b>又称 <b>Galois 域</b>, 是指阶 (即元素个数) 有限的域.
+  有限域的特征不能为无穷, 因此其特征为一素数 `p`, 其素域同构于 `ZZ_p`.
 </p>
 
 <p class="theorem">
@@ -864,30 +864,48 @@
 <p class="proof">
   令 `bbb F` 是特征为 `p` 的有限域, 视 `bbb F` 为 `bbb Z_p` 上的线性空间
   (加法是 `bbb F` 上的加法, 数乘是 `bbb Z_p` 中元素与 `bbb F`
-  中元素的乘法), 基底为 `alpha_1, alpha_2, cdots, alpha_n`.  则
+  中元素的乘法), 基底为 `x_1, cdots, x_n`.  则
   <span class="formula">
-    `bbb F = {sum k_i alpha_i: k_i in ZZ_p, i = 1, 2, cdots, n}`.
+    `bbb F = {sum a_k x_k: a_k in ZZ_p, k = 1, 2, cdots, n}`.
   </span>
   `n` 个系数中, 每个都有 `p` 种取法, 于是 `|bbb F| = p^n`.
 </p>
 
-<p class="remark">
+<p class="theorem">
   `p` 阶有限域就是 `ZZ_p`.
   一般地, `p^n` 阶有限域同构于
   <span class="formula">
     `bbb ZZ_p[x] // (: m(x) :)`, `quad m` 为 `n` 次不可约多项式.
   </span>
   即 `GF(p^n)` 的元素是 `ZZ_p` 上次数小于 `n` 的多项式,
-  且多项式运算是模 `m(x)` 的.<br>
-  例如, `x^n + x + 1` 为 `ZZ_2` 上不可约多项式
-  (代入 `x = 0, 1` 都不能令它为 0). `n` 为偶数时,
-  `x^n + x^(n-1) + cdots + x + 1` 是 `ZZ_2` 上不可约多项式.
-  又如, 有限域 `GF(2^2)` 中的所有元素为 `0, 1, x, x+1`,
-  其中
+  且多项式运算是模 `m(x)` 的.
+</p>
+
+<p class="remark">
+  所谓 `bbb F_p` 上的不可约多项式, 只要满足系数在 `0` 到 `p-1` 之间, 且 `0` 到 `p-1` 都不是它的根即可.
+  比如 `x^n + x + 1` 在 `bbb F_2` 上不可约 (代入 `x = 0, 1` 都不能使它为 `0`).
+  一般地, `bbb F_2` 上的多项式只要满足非零项个数为奇数, 就是不可约的.
+</p>
+
+<p class="example">
+  我们可以用 `p` 进制数表示有限域的元素: `sum_(k=1)^(n-1) a_k x^k` 简写为 `a_(n-1) cdots a_0`.
+  比如 `p = 2` 时, `x^2 + x` 用二进制数写为 110. 在二进制的情况下,
+  取模的运算相当于异或, 如 1000 ^ 1011 = 011.
+</p>
+
+<p class="example">
+  `GF(2^2)` 的全体元素是 `0`, `1`, `x`, `x+1`, 用二进制可以写为 00, 01, 10, 11.
+  使用不可约多项式 `m(x) = x^2+x+1 =` 111, 我们有
   <span class="formula">
-    `x + (x+1) = 2 x + 1 = 1`,<br>
-    `x(x+1) = x^2 + x = -1 = 1`.
+    `x + (x+1) = 2x+1 = 1`,<br>
+    `x * (x+1) = x^2 + x = -1 = 1`.
   </span>
+  写成二进制就是
+  <span class="formula">
+    10 + 11 = 01,<br>
+    10 * 11 = 110 ^ 111 = 01.
+  </span>
+  完整乘法表见<a class="ref" href="#exp-field-aut"></a>,
 </p>
 
 <p class="theorem">
@@ -895,8 +913,7 @@
   `GF(p^n)` 中存在一个<b>生成元 (或本原元、原根)</b> `g`,
   它生成域中所有非零元素, 即
   <span class="formula">
-    `GF(p^n) = {0, g, g^2, cdots, g^(q-1) = 1}`,
-    `quad q = p^n`.
+    `GF(p^n) = {0, g, g^2, cdots, g^(p^n-1) = 1}`.
   </span>
 </p>
 
@@ -907,28 +924,46 @@
   由于 `GF(p^n)` 是域, `m` 次方程在域中的解不超过 `m` 个, 证毕.
 </p>
 
-<p class="example">
-  取 `ZZ_2` 上不可约多项式 `m(x) = x^3 + x + 1`, 令 `g` 是 `m(x)`
-  的一个根, 则通过反复乘以 `g` 再取模得到 `GF(2^3)` 的乘法群:
-  <span class="formula">
-    `g^1 = g`,
-    `quad g^2 = g^2`,
-    `quad g^3 = g+1`,
-    `quad g^4 = g^2+g`,<br>
-    `quad g^5 = g^2+g+1`,
-    `quad g^6 = g^2+1`,
-    `quad g^7 = 1`.
-  </span>
-</p>
-
-<p class="example">
-  由于有限域 `GL(2^n)` 中的元素是 `ZZ_2` 上的多项式, 系数非 0 即 1,
-  我们可以用 `n` 位二进制数来表示它们. 如上例的 `g^1` 到 `g^7`
-  用二进制表示为
-  <span class="formula">
-    010, 100, 011, 110, 111, 101, 001.
-  </span>
-</p>
+<div class="p example">
+  考虑 `GF(2^3)`, 取不可约多项式 `x^3 + x + 1 =` 1011, 则 `x =` 010 是乘法群的一个生成元:
+  <table class="col2">
+    <tr>
+      <td>`x^1`</td>
+      <td>`x`</td>
+      <td>010</td>
+    </tr>
+    <tr>
+      <td>`x^2`</td>
+      <td>`x^2`</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>`x^3`</td>
+      <td>`x+1`</td>
+      <td>011</td>
+    </tr>
+    <tr>
+      <td>`x^4`</td>
+      <td>`x^2+x`</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <td>`x^5`</td>
+      <td>`x^2+x+1`</td>
+      <td>111</td>
+    </tr>
+    <tr>
+      <td>`x^6`</td>
+      <td>`x^2+1`</td>
+      <td>101</td>
+    </tr>
+    <tr>
+      <td>`x^7`</td>
+      <td>`1`</td>
+      <td>001</td>
+    </tr>
+  </table>
+</div>
 
 <h2>例子</h2>
 

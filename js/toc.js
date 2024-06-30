@@ -154,7 +154,7 @@ var tocData = {
           { title: '群 (下)', src: 'algebra/4.html', date: '2023-05-16' },
           { title: '环', src: 'algebra/5.html' },
           { title: '模', src: 'algebra/6.html', date: '2024-05-07' },
-          { title: '域', src: 'algebra/7.html', date: '2022-02-26' },
+          { title: '域', src: 'algebra/7.html', date: '2024-06-30' },
           { title: 'Galois 理论', src: 'algebra/8.html', date: '2022-01-02' },
         ]
       },
