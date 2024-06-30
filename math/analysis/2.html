@@ -524,20 +524,159 @@
 
 <h2>实数的完备性</h2>
 
-<p class="theorem">
-	<b>单调有界原理</b>
+<p>以下六个定理互相等价, 它们给出实数完备性的等价刻画.</p>
+
+<ol class="theorem">
+  <b>确界原理</b>
+  <li>有上界的非空实数集必有上确界;</li>
+  <li>有下界的非空实数集必有下确界.</li>
+</ol>
+
+<ol class="theorem">
+  <b>单调有界原理</b>
+  <li>单调递增且有上界的数列有极限;</li>
+  <li>单调递减且有下界的数列亦有极限.</li>
+</ol>
+
+<p class="proof">
+  我们运用确界原理对 1. 作出证明.
+  设 `{x_n}` 单调递增且有上界. 由确界原理知道 `{x_n}` 作为集合有上确界 `x`.
+  对任意 `epsi gt 0`, 由 `x` 是上确界知道: `EE N in ZZ^+`, 使得 `x_N gt x - epsi`.
+  于是对任意 `n gt N` 有 `x_n ge x_N gt x - epsi`.
+  另一方面由于 `x` 是上界, 有 `x_n le x`.
+  综上有 `AA n gt N`, `|x_n - x| lt epsi`.
 </p>
 
-<p class="theorem">
-	<b>Cantor 闭区间套定理</b>
-</p>
+<ol class="theorem">
+  <b>Cantor 闭区间套定理</b>
+  设 `{I_n}` 是一列闭区间, 满足
+  <li>每个闭区间都包含在前一个中: `I_(n+1) sube I_n`, `n = 1, 2, cdots`;</li>
+  <li>闭区间的长度趋于零: `lim_(n to oo) |I_n| = 0`.</li>
+  那么存在唯一的实数 `x`, 使得 `x in I_n`, `n = 1, 2, cdots`.
+</ol>
+
+<ol class="proof">
+  我们用单调有界原理来证明闭区间套定理.  
+  <li>
+    记 `I_n = [a_n, b_n]`, 容易知道 `a_n` 构成一单调递增数列, 且有上界 (`b_n` 的每一项都是它的上界)
+    因此 `{a_n}` 有极限, 记为 `a`. 同理 `b_n` 有极限 `b`.
+  </li>
+  <li>下证 `a = b`.
+    在不等式 `a_n le b_n` 两边取极限知道 `a le b`. 综上有不等式 `a_n le a le b le b_n`.
+    由条件 2. `|b - a| le |b_n - a_n| to 0`, 故 `a = b`.
+  </li>
+  <li>
+    令 `x = a = b`, 下证 `x` 就是满足条件的唯一实数.
+    事实上若有实数 `y` 满足 `a_n le y le b_n`, `n = 1, 2, cdots`,
+    则 `|x - y| le |b_n - a_n| to 0`, 这推出 `x = y`.
+  </li>
+</ol>
 
 <p class="theorem">
-	<b>Bolzano-Weierstrass 列紧性 (致密性) 原理</b>
+  <b>Bolzano-Weierstrass 列紧性 (致密性) 原理, 又名聚点定理</b>
+  有界数列必存在收敛子数列.
 </p>
 
+<ol class="proof">
+  我们用闭区间套定理证明列紧性原理.
+  设 `{x_n}` 有界, 下界为 `a_1`, 上界为 `b_1`.
+  <li>
+    取 `[a_1, b_1]` 的中点 `c`. 则 `[a_1, c]` 和 `[c, b_1]`
+    两个区间至少有一个含有 `{x_n}` 中的无穷多项, 这个新区间记为 `[a_2, b_2]`.
+  </li>
+  <li>对新区间重复上述操作, 得到一系列的闭区间 `[a_1, b_1], [a_2, b_2], cdots`.
+    每个区间都包含在前一个区间内, 且区间的长度趋于零, 由闭区间套定理, 存在唯一的实数 `x` 含于所有这些区间.
+  </li>
+  <li>下面选出 `{x_n}` 的一个子列, 使其收敛于 `x`.
+    由于每个区间 `[a_n, b_n]` 都含有 `{x_n}` 中的无穷多项,
+    我们可以先从 `[a_1, b_1]` 中选出一个 `x_(n_1)`,
+    再从 `[a_2, b_2]` 中选出一个 `x_(n_2)`, 使得 `n_2 gt n_1`. 这是可以做到的,
+    因为下标不大于 `n_1` 的项只有有限个, 而 `[a_2, b_2]` 中含有数列的无穷多项,
+    其中下标大于 `n_1` 的仍有无穷多项. 如此重复操作就得到子列 `{x_(n_k)}`, 满足
+    `x_(n_k) in [a_k, b_k]`.
+  </li>
+  <li>由闭区间套定理知道, `a_k to x`, `b_k to x`, 因此两边夹得到 `x_(n_k) to x`.</li>
+  <hr>
+  [群友 无懈可击99] 上述选出子列的过程中, 可以不用选择公理, 每次选择都可以是典范的.
+</ol>
+
 <p class="theorem">
-	<b>Cauchy 收敛准则</b>
+  <b>Cauchy 收敛准则</b>
+  如果数列 `{x_n}` 满足对任意 `epsi gt 0`, 存在正整数 `N`, 使得
+  <span class="formula">
+    `|x_m - x_n| lt epsi`, `quad AA m, n gt N`.
+  </span>
+  就称该数列为 <b>Cauchy 列</b>.
+  Cauchy 收敛准则是说:
+  <span class="formula">
+    `{x_n}` 是 Cauchy 列 `iff {x_n}` 收敛.
+  </span>
+  任意 Cauchy 列均收敛的域称为完备域. Cauchy 收敛准则表明实数域是一个完备域.
+</p>
+
+<ol class="proof">
+  <li>`lArr`: 收敛数列总是 Cauchy 列, 这一点与实数的完备性无关. 对任意 `epsi gt 0`, 由 `{x_n}` 收敛, 存在实数 `x` 和 `N in ZZ^+`, 使得
+    <span class="formula">
+      `|x_n - x| lt epsi // 2`,
+      `quad |x_m - x| lt epsi // 2`,
+      `quad AA m, n gt N`.
+    </span>
+    于是 `|x_m - x_n|` `lt |x_m - x| + |x - x_n|` `lt epsi`.
+  </li>
+  <li>`rArr`: 我们用列紧性原理证明 Cauchy 收敛准则.
+    设 `{x_n}` 是 Cauchy 列, 取 `epsi = 1`, 则存在正整数 `N`, 使得
+    <span class="formula">
+      `|x_n - x_(N+1)| lt 1`, `quad AA n gt N`.
+    </span> 
+    这说明数列有界. 由列紧性原理, 有一子列 `{x_(n_k)}` 收敛于 `x`.  下证 `{x_n}` 也收敛于 `x`.
+    <br>
+    对任意 `epsi gt 0`, 由 `{x_(n_k)}` 收敛于 `x` 知道, 存在正整数 `N_1` 使得
+    <span class="formula">
+      `|x_(n_k) - x| lt epsi // 2`, `quad AA k gt N_1`.
+    </span>
+    又 `{x_n}` 是 Cauchy 列, 存在正整数 `N_2` 使得
+    <span class="formula">
+      `|x_n - x_m| lt epsi // 2`, `quad AA m, n gt N_2`.
+    </span>
+    取 `N ge max{N_1, N_2}`, 则 `n gt N`, `k gt N` 时, 有 `n_k ge k gt N ge N_2`, 于是
+    <span class="formula">
+      `|x_n - x|`
+      `le |x_n - x_(n_k)| + |x_(n_k) - x|`
+      `lt epsi`.
+    </span>
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>有限覆盖定理</b>
+  <li><b>一族开区间</b> 是指一个集合 `cc U = {U_alpha: alpha in A}`,
+    其中每个元素 `U_alpha` 都是开区间. `A` 称为指标集.
+  </li>
+  <li><b>开覆盖</b>
+    如果这些开区间的并集包含了点集 `E`, 就称 `cc U` 是 `E` 的一个<b>开覆盖</b>:
+    <span class="formula">
+      `E sube uuu_(alpha in A) U_alpha`.
+    </span>
+  </li>
+  <li><b>有限子覆盖</b>
+    如果这些开区间中的<b>有限个</b>已经构成 `E` 的开覆盖:
+    <span class="formula">
+      `E sube uuu_(i=1)^n U_i`,
+    </span>
+    就称 `{U_i}_(i=1)^n` 是一个<b>有限子覆盖</b>.
+  </li>
+  <li>
+    <b>紧性</b>
+    如果点集 `E` 的任意开覆盖都存在有限子覆盖, 则称 `E` 是紧的, `E` 是一个<b>紧集</b>.
+  </li>
+  有限覆盖定理是说: 设 `E sube RR`, 则
+  <span class="formula">
+    `E` 是紧集 `iff E` 是有界闭集.
+  </span>
+</ol>
+
+<p class="proof">
+  我们只简要证明, 闭区间是紧的.
 </p>
 
 <h2>压缩映像</h2>

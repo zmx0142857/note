@@ -45,7 +45,7 @@ var tocData = {
         articles: [
           { title: '附录', src: 'analysis/0.html', date: '2022-04-24' },
           { title: '初等函数', src: 'analysis/1.html' },
-          { title: '数列的极限', src: 'analysis/2.html', date: '2023-10-12' },
+          { title: '数列的极限', src: 'analysis/2.html', date: '2024-06-30' },
           { title: '函数的极限与连续性', src: 'analysis/3.html', date: '2022-03-04' },
           { title: '导数的应用', src: 'analysis/5.html', date: '2023-10-09' },
           { title: '不定积分', src: 'analysis/6.html', date: '2022-04-10' },
