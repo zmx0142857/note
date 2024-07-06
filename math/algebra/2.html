@@ -277,13 +277,53 @@
 </p>
 
 <p class="example">
-	设
-	<span class="formula">
-		`D_(2n) = {a_0, a_1, cdots, a_(n-1), b_1, b_2, cdots, b_n}`
-	</span>
-	是正 `n` 边形 (`n ge 3`) 全体对称构成的集合, 其中 `a_i`
-	表示绕中心逆时针旋转 `2 i pi // n` 的变换, `b_j` 表示沿对称轴 `l_j`
-	的反射变换. 则 `D_(2n)` 为一群, 称为<b>二面体群</b>.
+  正 `n` 边形 (`n ge 3`) 全体对称构成的集合记为
+  <span class="formula">
+    `D_(2n) = {1 = a_0, a_1, cdots, a_(n-1), b_0, b_1, b_2, cdots, b_(n-1)}`,
+  </span>
+  其中 `a_i` 表示绕几何中心逆时针旋转 `2 pi i // n` 的变换,
+  `b_i` 表示沿第 `i` 条对称轴 `l_i` (与 `x` 轴夹角是 `pi i // n`) 的反射变换.
+  则 `D_(2n)` 为一群, 称为<b>二面体群 (dihedral group)</b>.
+  其中, `{a_0, cdots, a_(n-1)}` 是一个循环子群, `b_0, cdots, b_(n-1)` 的阶全为 2.<br>
+  <span class="flex">
+    <span class="img md">
+      <img src="../img/D_5.svg" alt="D_5">
+    </span>
+    <span class="img md">
+      <img src="../img/D_6.svg" alt="D_6">
+    </span>
+  </span>
+</p>
+<p>
+  <b>生成元</b>
+  二面体群可以由 `a := a_1` 和 `b := b_0` 生成.  事实上 `a_i = a^i`,
+  <span class="formula">
+    <span class="box">
+      `b_i = a^i b = b a^-i`.
+    </span>
+  </span>
+  上式从右向左阅读, 意思是, 沿 `l_i` 的反射变换, 可以分解为关于 `x` 轴的反射变换, 与一个旋转变换的复合.
+</p>
+<p>
+  <b>中心</b>
+  `n` 为偶数时, `a^(n//2)` 的阶恰好是 2 (转半圈), 则
+  <span class="formula">
+    `a^(n//2) b`
+    `= b a^(-n//2)`
+    `= b a^(n//2).
+  </span>
+  即 `a^(n//2)` 与 `b` 可换, 从而与群中的所有元素可换.
+  因此 `n` 为奇数时 `D_(2n)` 的中心是 `{1}`, 偶数时中心是 `{1, a^(n//2)}`.
+</p>
+<p>
+  <b>例题</b> `n = 5` 时, 求 `b_2 b_3`.
+  <span class="formula">
+    `b_2 b_3`
+    `= a^2 b a^3 b`
+    `= a^2 (b a^-2) b`
+    `= a^2 (a^2 b) b`
+    `= a^4`.
+  </span>
 </p>
 
 <p class="example">

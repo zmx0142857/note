@@ -580,8 +580,7 @@
     `varphi(n)` 为 Euler 函数;
   </li>
   <li>无穷阶循环群同构于整数加群 `ZZ`.
-    `"Aut"(ZZ) = {i, sigma}`,
-    其中 `i(1) = 1`, `sigma(1) = -1`.
+    `"Aut"(ZZ) = {n mapsto n, n mapsto -n}`.
   </li>
 </ol>
 
@@ -615,29 +614,29 @@
 </p>
 
 <ol class="proof">
-	<li>显然 `tau_a` 为双射, 又
+	<li>显然 `"int"_a` 为双射, 又
 		<span class="formula">
-			`tau_a(g h) = a(g h)a^-1 = a g a^-1 a h a^-1 =
-			tau_a(g)tau_a(h)`,
+			`"int"_a(g h) = a(g h)a^-1 = a g a^-1 a h a^-1 =
+			"int"_a(g)"int"_a(h)`,
 		</span>
-		`tau_a` 为一同构, 故 `tau_a in "Aut"(G)`.
+		`"int"_a` 为一同构, 故 `"int"_a in "Aut"(G)`.
 	</li>
-	<li>显然 `"Int"(G) sube "Aut"(G)`, 又 `AA tau_a, tau_b in "Int"(G)`,
+	<li>由 1. 知 `"Int"(G) sube "Aut"(G)`, 又 `AA "int"_a, "int"_b in "Int"(G)`,
 		<span class="formula">
-			`tau_a^-1 = tau_(a^-1) in "Int"(G)`,
-			`quad tau_a tau_b = tau_(a b) in "Int"(G)`.
+			`"int"_a^-1 = "int"_(a^-1) in "Int"(G)`,
+			`quad "int"_a "int"_b = "int"_(a b) in "Int"(G)`.
 		</span>
 		所以 `"Int"(G) le "Aut"(G)`.
 	</li>
-	<li>`AA tau_a in "Int"(G), sigma in "Aut"(G), x in G`,
+	<li>`AA "int"_a in "Int"(G), sigma in "Aut"(G), x in G`,
 		<span class="formula">
-			`(sigma tau_a sigma^-1)(x)`
-			`= sigma( tau_a (sigma^-1(x)))`
+			`(sigma "int"_a sigma^-1)(x)`
+			`= sigma( "int"_a (sigma^-1(x)))`
 			`= sigma(a sigma^-1(x) a^-1)`
 			`= sigma(a) x sigma(a)^-1`
-			`= tau_(sigma(a))(x)`.
+			`= "int"_(sigma(a))(x)`.
 		</span>
-		从而 `sigma tau_a sigma^-1 = tau_(sigma(a)) in "Int"(G)`,
+		从而 `sigma "int"_a sigma^-1 = "int"_(sigma(a)) in "Int"(G)`,
 		于是 `"Int"(G) normal "Aut"(G)`.
 	</li>
 </ol>
@@ -647,17 +646,17 @@
 </p>
 
 <p class="proof">
-	作 `eta: a in G to tau_a in "Int"(G)`, 由内自同构的定义知 `eta`
+	作 `eta: a in G to "int"_a in "Int"(G)`, 由内自同构的定义知 `eta`
 	为一满射, 又 `AA g in G`,
 	<span class="formula">
-		`tau_(a b)(g) = (a b)g(a b)^-1 = (tau_a tau_b)(g)`,
+		`"int"_(a b)(g) = (a b)g(a b)^-1 = ("int"_a "int"_b)(g)`,
 	</span>
 	故 `eta` 为一满同态.<br/>
 	下证 `"Ker"eta = Z(G)`. 这是因为
 	<span class="formula">
 		`a in "Ker"eta`
-		`iff tau_a = 1_G`
-		`iff (AA x in G) x = tau_a(x) = a x a^-1`
+		`iff "int"_a = 1_G`
+		`iff (AA x in G) x = "int"_a(x) = a x a^-1`
 		`iff (AA x in G) x a = a x`
 		`iff a in Z(G)`.
 	</span>
@@ -665,6 +664,10 @@
 	<span class="formula">
 		`"Int"(G) = "Im"eta ~= G//"Ker"eta = G//Z(G)`.
 	</span>
+</p>
+
+<p class="example">
+  [群友 千帆过尽，勿忘初心] `n ge 3` 时, 对称群 `S_n` 只有平凡的中心, 因此 `S_n ~= "Int"(S_n)`.
 </p>
 
 <h3>正规化子与中心化子</h3>
@@ -749,15 +752,15 @@
 </p>
 
 <p class="proof">
-	令 `g in N_G(H)`, 则 `tau_g(H) = g H g^-1 = H`, 其中 `tau_g in
-	"Int"(N_G(H))`. 因此 `tau_g|_H` 为 `H` 上一自同构. 据此, 存在同态
+	令 `g in N_G(H)`, 则 `"int"_g(H) = g H g^-1 = H`, 其中 `"int"_g in
+	"Int"(N_G(H))`. 因此 `"int"_g|_H` 为 `H` 上一自同构. 据此, 存在同态
 	<span class="formula">
 		`eta: N_G(H) to "Aut"(H)`<br/>
-		`g to tau_g|_H`.
+		`g to "int"_g|_H`.
 	</span>
 	又
 	<span class="formula">
-		`"Ker"eta = {g in N_G(H) | tau_g|_H = 1_H}`
+		`"Ker"eta = {g in N_G(H) | "int"_g|_H = 1_H}`
 		`= {g in N_G(H) | (AA h in H) g h g^-1 = h}`
 		`= Z_G(H) nn N_G(H)`
 		`= Z_G(H)`.
