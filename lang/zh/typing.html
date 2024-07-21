@@ -805,6 +805,10 @@ const Typing = {
     const res = window.prompt('在下面粘贴文章内容：')
     if (res) {
       Typing.loadedFile = res
+      Typing.setting.slice = 0
+      Typing.setting.randomType = 'none'
+      Typing.setting.limit = 0
+      Utils.setStorage(Constants.storage.setting, Typing.setting)
       Typing.reload()
     }
   },
