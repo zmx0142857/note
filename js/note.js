@@ -17,6 +17,9 @@ var index;    // 2,    4,      1
 var scripts = doc.getElementsByTagName('script');
 var scriptName = scripts[scripts.length-1].getAttribute('src');
 var prefix = scriptName.slice(0, scriptName.indexOf('js'));
+const settings = {
+  nonu: false,
+}
 
 // 重定向到首页
 if (window.parent === window) {
@@ -166,7 +169,7 @@ function makeModified() {
 }
 
 function makeH1() {
-  var zhname = {
+  const zhname = {
     '#': '附录篇',
     'A': '分析篇',
     'AL': '算法篇',
@@ -176,15 +179,16 @@ function makeH1() {
     'I': '代数篇',
     'S': '概率统计篇'
   };
-  var h1 = $('<h1>');
-  var title = $('title');
-  if (title[0].classList.contains('nonu')) {
+  const h1 = $('<h1>');
+  const title = $('title')[0];
+  settings.nonu = title.classList.contains('nonu-all')
+  if (settings.nonu || title.classList.contains('nonu')) {
     h1.innerHTML = doc.title;
   } else {
     h1.innerHTML = zhname[abbr] || '';
     h1.innerHTML += filename + ' ' + doc.title;
   }
-  var toc = $('<ul>');
+  const toc = $('<ul>');
   toc.id = 'toc';
   toc.classList.add('toc');
   body.insertBefore(toc, body.firstChild);
@@ -241,7 +245,7 @@ function decorate(list) {
       }
     } else {
       for (var j = 0; j < elem.length; ++j) {
-        if (elem[j].classList.contains('nonu')) {
+        if (settings.nonu || elem[j].classList.contains('nonu')) {
           continue;
         }
         var newNode = list[i].style(list[i].word, j);
@@ -284,7 +288,7 @@ function decorateHeading(maxLevel) {
     }
     while (level == lastLevel) {
       var li;
-      if (!elem[i].classList.contains('nonu')) {
+      if (!settings.nonu && !elem[i].classList.contains('nonu')) {
         var space = $text(' ');
         elem[i].insertBefore(space, elem[i].firstChild);
         var newNode = $('<b>');

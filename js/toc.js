@@ -385,6 +385,7 @@ var tocData = {
         articles: [
           { title: '易读错字词整理', src: 'zh/words.html' },
           { title: '打字练习', src: 'zh/typing.html', date: '2024-04-09' },
+          { title: '莆仙话', src: 'zh/hinghwa.html', date: '2024-07-23' },
         ]
       },
       {
