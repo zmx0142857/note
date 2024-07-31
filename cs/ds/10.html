@@ -205,30 +205,75 @@ reservoir(L, k):
 
 <p class="algorithm">
   <b>线性同余法生成伪随机数 (D. H. 莱默, 1949)</b><br/>
-  选取整数 `2 le a lt m` 和 `0 le c lt m`, <b>种子</b> `0 le x_0 lt m`,
-  则递推公式
+  设 `a, c, m, x_0` 是整数, 下面的递推公式确定了一组伪随机数 `{x_n}`:
   <span class="formula">
-    `x_(n+1) = a x_n + c (mod m)`
+    `x_(n+1) -= a x_n + c (mod m)`.
   </span>
-  确定了一组伪随机数 `{x_n}`.
+  我们一般称 `x_0` 为种子, `a` 为乘数, `c` 为增量.
   注意一旦有 `x_i = x_j`, 就有 `x_(i+1) = x_(j+1)`, 序列将会重复.
-  我们把序列出现重复前的最大长度称为它的<b>周期</b>. 由鸽巢原理,
-  周期不超过 `m`. <a class="ref" href="#period-m-iff"></a>给出周期恰好为
-  `m` 的充要条件.
-  特别, 当 `c = 0` 时, 称为<b>纯乘性同余方法</b>.
-  下面是一个实用的递推公式
-  <span class="formula">
-    `x_(n+1) = 252,246,292 x_n (mod 2^31-1)`.
-  </span>
+  我们把序列出现重复前的最大长度称为它的<b>周期</b>. 由鸽巢原理, 周期不超过 `m`.
+  <br>
+  `c != 0` 时, <a class="ref" href="#period-m-iff"></a>给出周期恰好为 `m` 的充分条件.
+  当 `c = 0` 时, 称为<b>纯乘性同余方法</b>.
+  <br>
   密码学中要求伪随机数不可预测. 线性同余方法<b>不能</b>用于密码学,
   因为已知连续的若干项就可以求得其它项.
 </p>
 
 <ol class="theorem" id="period-m-iff">
   线性同余生成器产生的伪随机序列周期为 `m` 当且仅当以下三条同时满足:
-  <li>`(c, m) = 1`;</li>
-  <li>若素数 `p | m`, 则 `a -= 1 (mod p)`;</li>
-  <li>若 `4 | m`, 则 `a -= 1 (mod 4)`.</li>
+  <li>`c` 与 `m` 互素;</li>
+  <li>`a-1` 可以被 `m` 的所有素因子整除;</li>
+  <li>如果 `m` 是 4 的倍数, `a-1` 也必须是 4 的倍数.</li>
+</ol>
+
+<ol class="proof">
+  利用等比数列的知识, 可以求出通项公式
+  <span class="formula">
+    `x_n -= a^n x_0 + (a^(n-1) + cdots + a + 1) c`
+    `-= a^n x_0 + (a^n-1)/(a-1) c`
+    `quad (mod m)`.
+  </span>
+  <li>我们先设 `a -= 1 (mod m)`. 此时条件 2, 3 已经满足.
+    由通项公式知道
+    <span class="formula">
+      `x_n -= x_0 + n c quad (mod m)`.
+    </span>
+    因此 `x_n -= x_0` 当且仅当 `n c -= 0 (mod m)`.
+    由条件 1 知道, `c` 与 `m` 互素, 所以 `n -= 0 (mod m)`, 即周期为 `m`.
+  </li>
+  <li>再设 `m` 的所有素因子各不相同. 这时条件 2 指出 `m | a-1`.  这就化为情形 1.
+  </li>
+  <li>现在设 `a gt 1`, 且 `m = p^k`.
+    如果 `x_n -= x_0`, 那么
+    <span class="formula">
+      `x_0 -= a^n x_0 + (a^n-1)/(a-1) c quad (mod m)`,
+    </span>
+    即
+    <span class="formula">
+      `(a^n-1)/(a-1) ((a-1) x_0 + c) -= 0 quad (mod m)`.
+    </span>
+    由条件 1, 2 知道, `m` 与 `(a-1) x_0 + c` 互素, 因此
+    <span class="formula">
+      `(a^n-1)/(a-1) -= 0 quad (mod m)`.
+    </span>
+    由条件 2 知 `p | a-1`, 我们设 `a-1 = f p`, 代入得
+    <span class="formula">
+      `(a^n-1)/(a-1) = sum_(r=1)^n (n;r) (f p)^(r-1)`.
+    </span>
+  </li>
+  ??未完待续...
+</ol>
+
+<ol class="example">
+  <li><code>x_(n+1) = 252,246,292 x_n % (2^31-1)</code>;</li>
+  <li><code>x_(n+1) = 9301 x_n + 49297 % 233280</code>. 这里:<br>
+    <ul>
+      <li><code>c = 49297</code> 是素数,</li>
+      <li><code>m = 233280</code> 的因子是 <code>2 2 2 2 2 2 3 3 3 3 3 3 5</code>,</li>
+      <li><code>a-1 = 9300</code> 的因子是 <code>2 2 3 5 5 31</code>.</li>
+    </ul>
+  </li>
 </ol>
 
 <h2>正态随机数</h2>

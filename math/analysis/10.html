@@ -66,7 +66,7 @@
 
 <p class="proof">
 	<span class="formula">
-		`int_x^(x+1) "d"/dx B_n(y) dy`
+		`int_x^(x+1) "d"/dy B_n(y) dy`
 		`= "d"/dx int_x^(x+1) B_n(y) dy`
 		`= "d"/dx (x^n)`
 		`= n x^(n-1)`,
@@ -448,7 +448,13 @@
 </ol>
 
 <p class="remark">
-  记 `n^(ul(-m)) = prod_(1 le i le m) (n+i)^-1 = 1/((n+1)(n+2) cdots (n+m))`, 结论简记为
+  记
+  <span class="formula">
+    `n^(ul(-m))`
+    `= prod_(1 le i le m) (n+i)^-1`
+    `= 1/((n+1)(n+2) cdots (n+m))`,
+  </span>
+  结论简记为
   <span class="formula">
     `sum_(k ge n) k^(ul(-m-1)) = 1/m n^(ul(-m))`.
   </span>
@@ -545,19 +551,19 @@
 <p class="proof">
 	设 `g in C^m[0,1]`.
 	反复应用<a class="ref" href="#prop-Bn'(x)"></a> 和分部积分,
-	<span class="formula">
-		`int_0^1 g(x) dx`
-		`= int_0^1 B_0(x) g(x) dx`
-		`= int_0^1 B_1'(x) g(x) dx`
-		`= [B_1(x) g(x)]_0^1 - int_0^1 B_1(x) g'(x) dx`
-		`= (B_1^+ g(1) - B_1^(-) g(0)) - 1/2 int_0^1 B_2'(x) g'(x) dx`
-		`= (g(1)+g(0))/2 - 1/2 [B_2(x) g'(x)]_0^1 + 1/2 int_0^1 B_2(x)
-		g''(x) dx`
-		`= (g(1)+g(0))/2 - B_2/2 (g'(1)-g'(0)) + 1/2 int_0^1 B_2(x) g''(x) dx`
-		`= cdots`
-		`= (g(1)+g(0))/2 - sum_(k=2)^m B_k/(k!) (g^((k-1))(1)
-		- g^((k-1))(0))`
-		`+ (-1)^m/(m!) int_0^1 B_m(x) g^((m))(x) dx`.
+	<span class="formula align">
+      `int_0^1 g(x) dx`<br>
+      `= int_0^1 B_0(x) g(x) dx`<br>
+      `= int_0^1 B_1'(x) g(x) dx`<br>
+      `= [B_1(x) g(x)]_0^1 - int_0^1 B_1(x) g'(x) dx`<br>
+      `= (B_1^+ g(1) - B_1^(-) g(0)) - 1/2 int_0^1 B_2'(x) g'(x) dx`<br>
+      `= (g(1)+g(0))/2 - 1/2 [B_2(x) g'(x)]_0^1 + 1/2 int_0^1 B_2(x)
+      g''(x) dx`<br>
+      `= (g(1)+g(0))/2 - B_2/2 (g'(1)-g'(0)) + 1/2 int_0^1 B_2(x) g''(x) dx`<br>
+      `= cdots`<br>
+      `= (g(1)+g(0))/2 - sum_(k=2)^m B_k/(k!) (g^((k-1))(1)
+      - g^((k-1))(0))`<br>
+      `quad + (-1)^m/(m!) int_0^1 B_m(x) g^((m))(x) dx`.
 	</span>
 	在上式中令 `g(x) = f(x+n)`,
 	<span class="formula">
@@ -571,31 +577,54 @@
 	就得到结论.
 </p>
 
-<ol class="remark">
-	Euler-Maclaurin 公式的其它形式:
-	<li>在原来的公式两边同时减 `f(a)` 或同时减 `f(b)`, 分别得到
-		<span class="formula">
-			`sum_(n=a+1)^b f(n) = int_a^b f(x) dx`
-			`+ sum_(k=1)^m B_k^+/(k!) (f^((k-1))(b)-f^((k-1))(a))`
-			`+ R_m`,<br/>
-			`sum_(n=a)^(b-1) f(n) = int_a^b f(x) dx`
-			`+ sum_(k=1)^m B_k^(-)/(k!) (f^((k-1))(b)-f^((k-1))(a))`
-			`+ R_m`.
-		</span>
-		`R_m` 为余项.
-	</li>
-	<li>设 `g in C^m[alpha, beta]`, 记 `h = (beta-alpha)//n`,
-		`x_k = alpha + k h`,
-		`f(k) = g(x_k)`, 于是 `f in C^m[0,n]`, 对 `f` 应用
-		Euler-Maclaurin 公式再代回 `g`, 有
-		<span class="formula">
-			`h sum_(k=0)^n g(x_k)`
-			`= int_alpha^beta g(x) dx + h/2(g(0) + g(n))`
-			`+ sum_(k=2)^m B_k/(k!) h^k
-			(g^((k-1))(b) - g^((k-1))(a)) + R_m`.
-		</span>
-	</li>
-</ol>
+<p class="remark">
+  Euler-Maclaurin 公式的其它形式:
+  在原来的公式两边同时减 `f(a)` 或同时减 `f(b)`, 分别得到
+  <span class="formula">
+    `sum_(n=a+1)^b f(n) = int_a^b f(x) dx`
+    `+ sum_(k=1)^m B_k^+/(k!) (f^((k-1))(b)-f^((k-1))(a))`
+    `+ R_m`,<br/>
+    `sum_(n=a)^(b-1) f(n) = int_a^b f(x) dx`
+    `+ sum_(k=1)^m B_k^(-)/(k!) (f^((k-1))(b)-f^((k-1))(a))`
+    `+ R_m`.
+  </span>
+  `R_m` 为余项.
+</p>
+
+<p class="example">
+  <b>Riemann 积分的各阶估计</b>
+  设 `g in C^m[alpha, beta]`, 记 `h := (beta-alpha)//n`,
+  `x_k := alpha + k h`, `S_n := sum_(k=0)^n g(x_k)`, `I := int_alpha^beta g(x) dx`, 有
+  <span class="formula align">
+    `lim_(n to oo) h S_n = I`,<br class="noindent">
+    `lim_(n to oo) 1/h (h S_n - I) = 1/2 (g(beta) + g(alpha))`,<br class="noindent">
+    `lim_(n to oo) 1/h^2 (h S_n - I - h/2(g(beta) + g(alpha)))`
+    `= -1/4(g'(beta) - g'(alpha))`,<br class="noindent">
+    `...`
+  </span>
+</p>
+
+<p class="proof">
+  令 `f(k) = g(x_k)`, 于是 `f in C^m[0,n]`, 对 `f` 应用
+  Euler-Maclaurin 公式再代回 `g`, 有
+  <span class="formula">
+    `h sum_(k=0)^n g(x_k)`
+    `= int_alpha^beta g(x) dx + h/2(g(beta) + g(alpha))`
+    `+ sum_(k=2)^m B_k/(k!) h^k
+    (g^((k-1))(beta) - g^((k-1))(alpha)) + R_m`.
+  </span>
+  当 `n to oo` 时, 我们来估计余项
+  <span class="formula">
+    `R_m = - (-1)^m/(m!) int_alpha^beta B_m({x}) h^(m+1) g^((m))(x) dx`.
+  </span>
+  由于 `|B_m({x})|` 是有界函数, 设上界为 `M`, 有
+  <span class="formula">
+    `|R_m| le C * h^(m+1)/(m!) (g^((m-1))(beta) - g^((m-1))(alpha))`
+    `= O(1/n^(m+1))`.
+  </span>
+  这指出 `n to oo` 时, Euler-Maclaurin 公式的每一项都是前一项的高阶无穷小,
+  从而得到结论.
+</p>
 
 <p class="example">
 	<b>调和级数的估计</b>

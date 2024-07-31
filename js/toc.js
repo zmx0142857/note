@@ -52,7 +52,7 @@ var tocData = {
           { title: '定积分与广义积分', src: 'analysis/7.html', date: '2023-05-25' },
           { title: '特殊函数 (1): Gamma 函数, Euler 和, 指对数积分', src: 'analysis/8.html', date: '2022-05-15' },
           { title: '特殊函数 (2): 椭圆函数, 超几何函数', src: 'analysis/9.html', data: '2022-04-10' },
-          { title: '特殊函数 (3): Bernoulli 数与 Riemann zeta 函数', src: 'analysis/10.html', date: '2022-04-27' },
+          { title: '特殊函数 (3): Bernoulli 数与 Riemann zeta 函数', src: 'analysis/10.html', date: '2024-07-31' },
           { title: '常数项级数', src: 'analysis/11.html' },
           { title: '函数列与函数项级数', src: 'analysis/12.html' },
           { title: 'Fourier 级数', src: 'analysis/13.html' },
@@ -276,7 +276,7 @@ var tocData = {
           { title: '矩阵与广义表', src: 'ds/7.html' },
           { title: '图', src: 'ds/8.html' },
           { title: '查找', src: 'ds/9.html', date: '2021-11-24' },
-          { title: '随机算法', src: 'ds/10.html', date: '2023-09-05' },
+          { title: '随机算法', src: 'ds/10.html', date: '2024-07-24' },
           { title: '排序', src: 'ds/11.html', date: '2021-12-03' },
           { title: '文件', src: 'ds/12.html' },
           { title: '数论算法', src: 'ds/13.html', date: '2022-01-07' },
@@ -289,7 +289,7 @@ var tocData = {
       {
         title: '机器学习',
         articles: [
-          { title: '机器学习基础', src: 'ml/1.html', date: '2024-04-20' },
+          { title: '机器学习基础', src: 'ml/1.html', date: '2024-07-29' },
         ]
       },
       {
