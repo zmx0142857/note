@@ -349,6 +349,10 @@
   位于中点左侧 (右侧), 则称 `f` 在 `(a, b)` 上极值点左偏 (右偏).
 </p>
 
+<div class="img sm" title="极值点左偏">
+  <img src="../img/extreme-point-shift.png" alt="极值点左偏">
+</div>
+
 <p>
   为研究极值点偏移, 构造奇函数
   <span class="formula">
@@ -368,6 +372,50 @@
   </span>
   因此极值点右偏.
 </p>
+
+<p class="remark">
+  判定 `F(x)` 单调性的常用方法是考察其导数的正负:
+  <span class="formula">
+    `F'(x) = f'(x_0 + x) color(red)(+) f'(x_0 - x)`,
+  </span>
+  注意中间的加号.
+</p>
+
+<div class="p remark">
+  我们将极值点偏移情况总结为下表, 它的规律和乘法法则一致, 应该是容易记忆的:
+<table>
+  <tr>
+    <th>`x_0` 是 `f` 的</th>
+    <th>`f` 在 `[x_0, M]` 上</th>
+    <th>`F` 的单调性</th>
+    <th>极值点偏移情况</th>
+  </tr>
+  <tr>
+    <td>极小值点</td>
+    <td>单增 (+)</td>
+    <td>单增 (+)</td>
+    <td>右偏 (+)</td>
+  </tr>
+  <tr>
+    <td>极小值点</td>
+    <td>单增 (+)</td>
+    <td>单减 (-)</td>
+    <td>左偏 (-)</td>
+  </tr>
+  <tr>
+    <td>极大值点</td>
+    <td>单减 (-)</td>
+    <td>单增 (+)</td>
+    <td>左偏 (-)</td>
+  </tr>
+  <tr>
+    <td>极大值点</td>
+    <td>单减 (-)</td>
+    <td>单减 (-)</td>
+    <td>右偏 (+)</td>
+  </tr>
+</table>
+</div>
 
 <p class="example">
 	若 `f(x) = "e"^x - a x` 有两个不同的零点 `x_1`, `x_2`, 则
@@ -395,28 +443,46 @@
 	`x_1 + x_2 = 2 ln a + ln x_1 x_2 lt 2 ln a`.
 </p>
 
-<p class="proof">
-  可以构造对称函数证明 `x_1 + x_2 gt 2`.
-  不妨设 `x_1 lt x_2`,
-  由题意知 `f` 在 `[x_1, x_2]` 上有唯一极值点 `x_0`.
-  令 `F(x) = f(x_0 + x) - f(x_0 - x)`, 有
-  <span class="formula">
-    `F'(x) = "e"^(x_0+x) + "e"^(x_0-x) - 2 a`
-    `= 2 ("e"^(x_0) cosh x - a)`
-    `= ge 2("e"^(x_0) - a)`.
-  </span>
-  由于直线 `y = a x` 和曲线 `y = "e"^x` 相交,
-  其斜率应大于曲线在切点的导数, 即 `a gt "e"^(x_0)`, 从而 `F'(x) lt 0`,
-  `F` 单调减. 又显然 `f` 在 `(-oo, x_0)` 和 `(x_0, oo)` 上分别单调,
-  因此 `F` 和 `f` 的单调性都已得到满足.<br>
-  由 `F` 的单调性, `f(2x_0 - x_1) lt f(x_2)`; 再由 `f` 的单调性,
-  `x_1 + x_2 gt 2 x_0`.<br>
-  由 `y = a x` 和 `y = "e"^x` 在 `x_0` 处相切得
-  <span class="formula">
-    `a = "e"^(x_0)`, `quad "e"^(x_0) - a x_0 = 0`,
-  </span>
-  解得 `x_0 = 1`.
-</p>
+<ol class="proof">
+  下面我们运用标准的极值点偏移方法证明 `x_1 + x_2 lt 2 ln a`.
+  <li><b>求极值点</b>
+    不妨设 `x_1 lt x_2`, 由题意知 `f` 在 `[x_1, x_2]` 上有唯一极小值点 `x_0`,
+    它满足 `f'(x_0) = "e"^(x_0) - a = 0`, 即 `x_0 = ln a`.
+  </li>
+  <li><b>构造对称函数, 并利用单调性</b>
+    令 `F(x) = f(x_0 + x) - f(x_0 - x)`, 有
+    <span class="formula">
+      `F'(x) = "e"^(x_0+x) + "e"^(x_0-x) - 2 a`
+      `ge 2("e"^(x_0) - a) = 0`.
+    </span>
+    上式等号只在 `x = 0` 时成立, 故 `F` 严格单调增.
+    由 `F` 的单调性有 `F(x_0 - x_1) gt 0`, 即
+    `f(2x_0 - x_1) gt f(x_2)`;
+    又 `f` 在 `(x_0, x_2)` 上严格单调增, 由 `f` 的单调性有
+    `x_1 + x_2 lt 2 x_0 = 2 ln a`.
+  </li>
+  <li>
+    <b>适当的换元, 或对方程变形</b>
+    我们再证明 `x_1 x_2 lt 1`, 即证 `ln x_1 + ln x_2 lt 0`.<br>
+    `f(x)` 的零点满足方程 `"e"^x = a x`, 即 `x = ln x + ln a`.
+    换元 `y = ln x`, 则 `"e"^y = y + ln a`.
+    令 `g(y) = "e"^y - y - ln a` 的两个零点为 `y_1, y_2`, 则 `g(y)` 有极小值点 `y_0 = 0`.
+    下证 `g'(y_0+y) + g'(y_0-y) ge 0`, 即证
+    <span class="formula">
+      `"e"^(y_0+y) + "e"^(y_0-y) ge 2`,
+    </span>
+    上式由均值不等式即可得到.
+    因此由极值点偏移的结论知 `y_1 + y_2 lt 0`, 即 `x_1 x_2 lt 1`.
+  </li>
+  <li>我们再证明 `x_1 + x_2 gt 2`,
+    为此令 `h(x) = x - ln x - ln a`, 它有极小值点 `x_0 = 1`.
+    下证 `h'(x_0+x) + h'(x_0-x) le 0`, 即证
+    <span class="formula">
+      `1/(x_0+x) + 1/(x_0-x) ge 2`.
+    </span>
+    上式用均值不等式 `2/(1//a+1//b) le (a+b)/2` 即得证.
+  </li>
+</ol>
 
 <p class="example">
 	若 `f(x) = ln x + 2/x - a` 有两个不同的零点 `x_1, x_2`, 则
@@ -441,6 +507,58 @@
 	</span>
 	即 `x_1 + x_2 gt 4`, `x_1 x_2 gt 4`.
 </p>
+
+<div class="proof p">
+  使用极值点偏移法证明 `x_1 x_2 gt 4`.<br>
+  换元 `y = ln x`, 令 `g(y) = f(x) = y + 2 "e"^-y - a`,
+  令 `y_1, y_2` 是 `g(y)` 的两个零点, 原问题化为证明 `y_1 + y_2 gt 2 ln 2`.<br>
+  `g(y)` 有极小值点 `y_0 = ln 2`. 下证 `g'(y_0+y) + g'(y_0-y) le 0`, 即证
+  <span class="formula">
+    `"e"^(-y_0-y) + "e"^(-y_0+y) le 1`.
+  </span>
+  上式由均值不等式即可得到.
+  最后由极值点偏移的结论有 `y_1 + y_2 gt 2 ln 2`.
+  有了 `x_1 x_2 gt 4`, 自然就有 `x_1 + x_2 ge 2 sqrt(x_1 x_2) gt 4`.
+  <hr>
+  我们也可以直接应用极值点偏移证明 `x_1 + x_2 gt 4`.
+  这是因为 `f` 有极小值点 `x_0 = 2`. 且
+  <span class="formula">
+    `f'(x_0+x) + f'(x_0-x) = (2x_0)/((x_0+x)(x_0-x)) - 2/(x_0+x)^2 - 2/(x_0+x)^2`,
+  </span>
+  利用均值不等式可证上式 `le 0`.
+</div>
+
+<p class="example">
+  [来自群友 Lucifer 成都2023高二月考]
+  已知函数 `f(x) = ln x - a x` 存在两个不同的零点 `x_1, x_2`, 求证
+  <span class="formula">
+    `1/sqrt x_1 + 1/sqrt x_2 lt 2/sqrt "e"`.
+  </span>
+</p>
+
+<ol class="proof">
+  使用极值点偏移法.
+  <li>
+    换元 `y = 1//sqrt x`, 即 `x = 1//y^2`, 于是 `f(x) = ln x - a x = -2 ln y - a//y^2`,
+    令 `y_1, y_2` 是这个新函数的两个零点, 原问题化为证明 `y_1 + y_2 lt 2//sqrt"e"`.
+  </li>
+  <li>
+    如果直接令 `g(y) = -2 ln y - a//y^2`, 则它的极值点是 `sqrt a`, 而不是我们期待的 `1//sqrt"e"`.
+    强行做下去只能得出下界 `y_1 + y_2 gt 2 sqrt a`, 这不是我们想要的.
+    因此我们对方程 `-2 ln y - a//y^2 = 0` 变形得到 `y^2 ln y = -a/2`, 再令 `g(y) = y^2 ln y`.
+    此时 `g'(y) = 2y ln y + y`, `g(y)` 有极小值点 `y_0 = 1//sqrt "e"`.
+  </li>
+  <li>
+    下证 `g'(y_0+y) + g'(y_0-y) ge 0`, 即证
+    <span class="formula">
+      `h(y) = (y_0+y) ln(y_0+y) + (y_0-y)ln(y_0-y) + y_0 ge 0`.
+    </span>
+    注意到 `h(0) = g'(y_0) = 0`, 因此只需证明 `h(y)` 在 `y=0` 处取得最小值.
+    为此求 `h'(y) = ln(y_0+y) - ln(y_0-y) ge 0`, 等号只在 `y=0` 处成立, 因而
+    `h(0)` 确实是 `h` 的唯一极小值, 不等式成立.
+  </li>
+  <li>由极值点偏移的结论知 `y_1 + y_2 lt 2 y_0 = 2//sqrt"e"`.</li>
+</ol>
 
 <h2>Gronwall 不等式</h2>
 

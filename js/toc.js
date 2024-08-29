@@ -18,7 +18,7 @@ var tocData = {
           { title: '问题', src: 'misc/0.html', date: '2022-02-16' },
           { title: '三角函数', src: 'misc/2.html', date: '2022-11-21' },
           { title: '不等式', src: 'misc/3.html', date: '2022-07-29' },
-          { title: '微积分不等式', src: 'misc/4.html', date: '2023-05-25' },
+          { title: '微积分不等式', src: 'misc/4.html', date: '2024-08-29' },
           { title: '因式分解', src: 'misc/5.html', date: '2022-09-18' },
           { title: '数学家', src: 'misc/6.html', date: '2022-08-29' },
           { title: '算术与进制', src: 'misc/7.html', date: '2022-02-06' },
