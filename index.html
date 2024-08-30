@@ -569,171 +569,148 @@ function toggleHideHeader(iframe) {
 
 // 路由加载
 const router = {
-  toc: undefined,
-  book: undefined,
-  get (pos) {
-    return this.toc[pos[0]].articles[pos[1]]
+  tree: { children: tocData },
+  route: [],
+  currentBook: '',
+  $book: $('#book', {
+    onchange (e) {
+      router.go(e.target.value.split('/'))
+    }
+  }, tocData.map(book => $('<option>', { innerText: book.label, value: book.value }))),
+  $prev: $('#prev-article', {
+    onclick () {
+      const node = router.find()
+      if (node?.prev) router.go(node.prev.route)
+    },
+  }),
+  $next: $('#next-article', {
+    onclick () {
+      const node = router.find()
+      if (node?.next) router.go(node.next.route)
+    },
+  }),
+  find () {
+    let node = this.tree
+    for (let i = 0; i < 3; ++i) {
+      node = node?.children?.find(v => v.value === this.route[i])
+    }
+    return node
   },
-  jump (src, title) {
-    notify = new Notify('加载中...')
-    createIframe(this.book.value + '/' + src, title)
-    hideNav(true)
-    //setTimeout(headerVisible, 1000)
+  initToc () {
+    let route = []
+    let prev
+    const initBook = (node) => {
+      route.push(node.value)
+      if (node.children) {
+        node.children.forEach(initBook)
+      } else {
+        node.route = [...route]
+        node.prev = prev
+        if (prev) prev.next = node
+        prev = node
+      }
+      route.pop()
+    }
+    this.tree.children.forEach(initBook)
   },
-  jumpPos (pos) {
-    const item = this.get(pos)
-    this.jump(item.src, item.title)
-
+  renderToc ({ value, label, children }) {
+    // within a month
+    const isRecent = (dateStr) => !!dateStr && (new Date() - new Date(dateStr) < 30 * 86400 * 1000)
+    const preventDefault = (e) => e.preventDefault()
+    const latest = []
+    const frag = $('', {}, children.map((group) => {
+      const ul = $('<ul>', {}, group.children.map((article) => {
+        const onclick = () => {
+          this.go([value, group.value, article.value])
+        }
+        const a = $('<a>', {
+          innerText: article.label,
+          href: '#' + value + '/' + group.value + '/' + article.value,
+          onclick: preventDefault,
+        });
+        const isNew = isRecent(article.date)
+        const child = $('<li>', {
+          title: article.label,
+          className: isNew ? ['isnew'] : [],
+          onclick,
+        }, a);
+        if (isNew) {
+          const copy = child.cloneNode(true)
+          // 为 copy 重新绑定事件
+          copy.firstChild.onclick = preventDefault
+          copy.onclick = onclick
+          copy.title = article.date
+          latest.push(copy)
+        }
+        return child
+      }))
+      return $('<li>', group.label, ul)
+    }))
+    const latestUl = $('<ul>', {}, latest.sort((x, y) => x.title > y.title ? -1 : 1).slice(0, 10))
+    frag.insertBefore($('<li>', '最近', latestUl), frag.firstChild)
+    const id = 'table-of-contents'
+    const newtoc = $('<ul>', { id }, frag)
+    nav.replaceChild(newtoc, $('#' + id))
+  },
+  updateToc () {
     const lis = document.querySelectorAll('#table-of-contents li')
+    const hash = window.location.hash
     Array.from(lis).forEach(li => {
       const { href } = li.firstChild
-      if (href && href.endsWith('/' + item.src)) {
+      const index = href?.indexOf('#')
+      if (index > -1 && hash.includes(href.slice(index))) {
         li.classList.add('active')
       } else {
         li.classList.remove('active')
       }
     })
   },
-  redirect (pos) {
-    const src = this.get(pos).src.replace(/\.html$/, '')
-    const hash = '#' + this.book.value + '/' + src
-    window.history.pushState(null, null, hash)
-    this.jumpPos(pos)
-  },
-  jumpto (pos) {
-    return () => this.redirect(pos)
-  },
-  loadBook () {
-    // a month
-    function isRecent (dateStr) {
-      if (!dateStr) return false
-      return new Date() - new Date(dateStr) < 30 * 86400 * 1000
-    }
+  loadBook (value) {
+    if (this.currentBook === value) return
+    const book = tocData.find(v => v.value === value)
+    if (!book) return
+    this.currentBook = value
+    this.$book.value = value
 
-    function preventJump (e) {
-      e.preventDefault()
-    }
-
-    const {
-      toc, title, color = 'yellow', favicon = 'pikachu.png'
-    } = tocData[this.book.value]
-    this.toc = toc
+    const { color = 'yellow', favicon = 'pikachu.png' } = book
     document.body.id = 'body-' + color
     $('#favicon').href = 'img/' + favicon
 
-    // render table of contents
-    const latest = []
-    const frag = $('', {}, this.toc.map((group, i) => {
-      const ul = $('<ul>', {}, group.articles.map((article, j) => {
-        const a = $('<a>', {
-          innerText: article.title,
-          href: this.book.value + '/' + this.toc[i].articles[j].src,
-          onclick: preventJump
-        });
-        const isNew = isRecent(article.date)
-        const child = $('<li>', {
-          title: article.title,
-          onclick: this.jumpto([i, j]),
-          className: isNew ? ['isnew'] : []
-        }, a);
-        if (isNew) {
-          const copy = child.cloneNode(true)
-          // 为 copy 重新绑定事件
-          copy.firstChild.onclick = preventJump
-          copy.onclick = this.jumpto([i, j])
-          copy.title = article.date
-          latest.push(copy)
-        }
-        return child
-      }))
-      return $('<li>', group.title, ul)
-    }))
-    const latestUl = $('<ul>', {}, latest.sort((x, y) =>
-      x.title > y.title ? -1 : 1
-    ).slice(0, 10))
-    frag.insertBefore(
-      $('<li>', '最近', latestUl),
-      frag.firstChild
-    )
-    const id = 'table-of-contents'
-    const newtoc = $('<ul>', { id }, frag)
-    nav.replaceChild(newtoc, $('#' + id))
+    this.renderToc(book)
   },
-  getPos (src) {
-    for (let i = 0; i < this.toc.length; ++i) {
-      for (let j = 0; j < this.toc[i].articles.length; ++j) {
-        if (this.toc[i].articles[j].src == src) {
-          return [i, j]
-        }
+  // [book, group, article, anchor]
+  go (route) {
+    let node = this.tree
+    for (let i = 0; i < 3; ++i) {
+      let child = node.children.find(v => v.value === route[i] || '')
+      if (!child) {
+        child = node.children[0]
+        route[i] = child.value
       }
+      node = child
     }
-    return [0, 0]
-  },
-  changeBook (value) {
-    if (value !== this.book.value) {
-      this.book.value = value
-      this.loadBook()
+    if (!route[3]) route[3] = ''
+    this.route = route
+    this.loadBook(route[0])
+
+    let url = route.slice(0, 3).join('/')
+    window.history.pushState(null, null, '#' + url + (route[3] ? '/' + route[3] : ''))
+    if (!url.endsWith('.html')) url += '.html'
+
+    if (node) {
+      notify = new Notify('加载中...')
+      this.updateToc()
+      hideNav(true)
+      createIframe(url + '#' + route[3], node.label)
     }
-  },
-  parseHash() {
-    let bookValue = 'math'
-    let hash = location.hash
-    if (hash) {
-      hash = hash.slice(1)
-      if (/^[^/]+\/[^/]+\/[^/]+$/.test(hash)) { // book/group/article
-        const path = hash.split('/')
-        const src = path[1] + '/' + path[2] + '.html'
-        this.changeBook(path[0])
-        return this.getPos(src)
-      }
-      if (tocData.hasOwnProperty(hash)) {
-        bookValue = hash
-      }
-    }
-    this.changeBook(bookValue)
-    return [0, 0]
   },
   init () {
-    $('#prev-article').onclick = () => {
-      let [i, j] = this.parseHash()
-      if (j === 0) {
-        if (i === 0) return console.warn('already at first article.')
-        j = this.toc[--i].articles.length
-      }
-      --j
-      this.redirect([i, j])
+    this.initToc()
+    window.onhashchange = (e) => {
+      this.go(location.hash.slice(1).split('/'))
     }
-
-    $('#next-article').onclick = () => {
-      let [i, j] = this.parseHash()
-      if (j === this.toc[i].articles.length-1) {
-        if (i === this.toc.length-1) return console.warn('no more articles.')
-        ++i
-        j = -1
-      }
-      ++j
-      this.redirect([i, j])
-    }
-
-    window.onhashchange = () => {
-      this.jumpPos(this.parseHash())
-    }
-
-    // toc.js 提供 tocData 对象
-    const books = Object.keys(tocData).map(key => $('<option>', {
-      innerText: tocData[key].title,
-      value: key
-    }))
-    this.book = $('#book', {
-      onchange () {
-        router.loadBook()
-        router.redirect([0, 0])
-      }
-    }, books)
-    this.book.value = ''
-
     window.onhashchange()
-  }
+  },
 }
 
 router.init()

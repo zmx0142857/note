@@ -19,11 +19,11 @@ function writeSitemap () {
     <lastmod>${today}</lastmod>
   </url>`)
 
-  Object.keys(toc).forEach(book => {
-    toc[book].toc.forEach(group => {
-      group.articles.forEach(article => {
+  toc.forEach(book => {
+    book.children.forEach(group => {
+      group.children.forEach(article => {
         buf.push(`  <url>
-    <loc>${baseUrl}/${book}/${article.src}</loc>
+    <loc>${baseUrl}/${book.value}/${group.value}/${article.value}.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <lastmod>${article.date || monthAgo}</lastmod>
@@ -40,11 +40,11 @@ function writeUl () {
   const index = fs.readFileSync('index.html', 'utf-8')
   const buf = []
   buf.push('<ul id="table-of-contents">')
-  Object.keys(toc).forEach(book => {
-    toc[book].toc.forEach(group => {
-      buf.push(`<li>${group.title}<ul>`)
-      group.articles.forEach(article => {
-        buf.push(`<li><a href="${book}/${article.src}">${article.title}</a></li>`)
+  toc.forEach(book => {
+    book.children.forEach(group => {
+      buf.push(`<li>${group.label}<ul>`)
+      group.children.forEach(article => {
+        buf.push(`<li><a href="${book.value}/${group.value}/${article.value}">${article.label}</a></li>`)
       })
       buf.push('</ul></li>')
     })
