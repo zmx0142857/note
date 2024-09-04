@@ -123,7 +123,7 @@ var tocData = [
         "label": "概率论",
         "children": [
           { "value": "1", "label": "事件与概率" },
-          { "value": "2", "label": "随机变量", "date": "2023-05-31" },
+          { "value": "2", "label": "随机变量", "date": "2024-09-04" },
           { "value": "4", "label": "极限定理", "date": "2021-12-14" },
           { "value": "5", "label": "常用分布" }
         ]
@@ -262,7 +262,7 @@ var tocData = [
           { "value": "2", "label": "排列与组合", "date": "2022-01-15" },
           { "value": "3", "label": "求解递推式", "date": "2024-04-26" },
           { "value": "4", "label": "容斥原理" },
-          { "value": "5", "label": "离散微积分与特殊计数序列", "date": "2023-05-15" },
+          { "value": "5", "label": "离散微积分与特殊计数序列", "date": "2024-08-31" },
           { "value": "6", "label": "生成函数", "date": "2022-01-22" }
         ]
       },
@@ -292,7 +292,7 @@ var tocData = [
         "value": "ds",
         "label": "数据结构与算法",
         "children": [
-          { "value": "exercise", "label": "习题", "date": "2021-11-22" },
+          { "value": "exercise", "label": "习题", "date": "2024-08-31" },
           { "value": "1", "label": "绪论" },
           { "value": "2", "label": "线性表" },
           { "value": "3", "label": "栈与队列" },

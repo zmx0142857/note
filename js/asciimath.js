@@ -433,6 +433,7 @@ const symbols = [
 {input:'rhd',tag:'mo',output:'\u22B3',tex:'rhd',ttype:CONST},
 {input:'normal',tag:'mo',output:'\u22B4',tex:'unlhd',ttype:CONST},
 {input:'rnormal',tag:'mo',output:'\u22B5',tex:'unrhd',ttype:CONST},
+{input:'intercal',tag:'mo',output:'\u22BA',tex:'intercal',ttype:CONST},
 ...(asciimath.symbols || [])
 ] // symbols
 

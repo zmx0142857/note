@@ -839,6 +839,70 @@ def check_answer(l):
 search(2**7)
 </pre>
 </li>
+<li>
+5个人过河，他们分别是妈妈、爸爸、哥哥、妹妹、路人。
+妈妈是魅魔单独与男性时会对男性进行侵犯；
+爸爸是鬼父单独与妹妹时会进行性行为；
+哥哥是德国骨科与妹妹单独时会进行性行为；
+妹妹也是德国骨科单独跟哥哥时会进行性行为，但妹妹身体弱不能开船；
+路人是基佬单独与哥哥时会进行侵犯；
+只有一艘船，每次只能坐两个人，船不会自己回来，过去就要有人开回来；
+如何在不发生任何性行为的情况下，5个人成功到对面？
+
+<pre class="solution">
+danger = [0b11000, 0b10100, 0b10001, 0b01010, 0b00110, 0b00101]
+available_moves = [0b10000, 0b01000, 0b00100, 0b00001, 0b10010, 0b01100, 0b01001, 0b00011]
+all_people = 0b11111
+people = all_people
+max_len = 7
+
+def explain(v):
+    buf = []
+    if v &amp; 0b10000:
+        buf.append('妈妈')
+    if v &amp; 0b01000:
+        buf.append('爸爸')
+    if v &amp; 0b00100:
+        buf.append('哥哥')
+    if v &amp; 0b00010:
+        buf.append('妹妹')
+    if v &amp; 0b00001:
+        buf.append('路人')
+    return ','.join(buf)
+
+def solution():
+    global people
+    people = all_people
+    moves = []
+    def dfs(depth):
+        global people
+        if depth &gt; max_len:
+            return
+        if people == 0:
+            return print([explain(v) for v in moves])
+        for move in available_moves:
+            if len(moves) &gt; 0 and move == moves[-1]:
+                continue
+            boat_here = len(moves) % 2 == 0
+            if boat_here and (people &amp; move == move):
+                people ^= move
+                if (people not in danger) and (all_people ^ people not in danger):
+                    moves.append(move)
+                    dfs(depth + 1)
+                    moves.pop()
+                people ^= move
+            if not boat_here and ((all_people ^ people) &amp; move == move):
+                people ^= move
+                if (people not in danger) and (all_people ^ people not in danger):
+                    moves.append(move)
+                    dfs(depth + 1)
+                    moves.pop()
+                people ^= move
+    dfs(0)
+
+solution()
+</pre>
+</li>
 </ol>
 
 <script src="../../js/note.js?type=cs"></script>
