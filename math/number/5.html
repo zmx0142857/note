@@ -548,11 +548,48 @@
   </li>
 </ol>
 
+<h3>三平方和</h3>
+
+<p class="theorem">
+  <b>三平方和定理</b>
+  正整数 `n` 不能写为 3 个整数的平方和当且仅当存在非负整数 `a, b` 使得 `n = 4^a(8b+7)`.
+</p>
+
+<ol class="proof">
+  <li>`lArr`: 对 `a` 作归纳. 当 `a = 0` 时,
+    因为对任意整数 `x` 都有
+    <span class="formula">
+      `x^2 -= 0, 1, 4 (mod 8)`,
+    </span>
+    所以不存在三个整数 `x_1, x_2, x_3` 使得
+    <span class="formula">
+      `x_1^2 + x_2^2 + x_3^2 -= 7 (mod 8)`,
+    </span>
+    命题成立.
+    <br>
+    假设命题对非负整数 `a` 已经成立, 即 `4^a(8b+7)` 不能写为 3 个整数的平方和,
+    考虑 `4^(a+1) (8b+7)`, 如果它能写为 3 个整数的平方和:
+    <span class="formula">
+      `x_1^2 + x_2^2 + x_3^2 = 4^(a+1) (8b+7)`,
+    </span>
+    则 `x_i^2 !-= 1 (mod 8)`, `i = 1, 2, 3`;
+    因此三个数均为偶数, 从而得到
+    <span class="formula">
+      `(x_1/2)^2 + (x_2/2)^2 + (x_3/2)^2 = 4^a (8b+7)`,
+    </span>
+    与假设矛盾. 因此 `4^(a+1) (8b+7)` 不能写为 3 个整数的平方和.
+  </li>
+  <li>`rArr`: 反方向的证明相当长. Gauss 给出过一个证明, 参见
+    [Gauss C F. Disquisitiones Arithmeticae, 1801 (《Gauss 全集》, 第一卷), 第 288-292 目]、
+    [Rose H E. A Course in Number Theory. Oxford University Press, 1988, 第九章定理 2.2]
+  </li>
+</ol>
+
 <h3>四平方和</h3>
 
 <p>本节将证明, 任意正整数可以表为四个整数的平方和. 其证明思路与二平方和定理类似.</p>
 
-<p>[来自 <a href="https://baike.baidu.com/item/%E5%9B%9B%E5%B9%B3%E6%96%B9%E5%92%8C%E5%AE%9A%E7%90%86?bk_fr=chain_bottom&timestamp=1568187163118" target="_blank">百度百科</a>]</p>
+<h4>预备知识</h4>
 
 <p class="lemma">
   <b>Lagrange 恒等式</b>
@@ -668,6 +705,8 @@
   使 `x^2 + y^2 + 1 -= 0` `(mod p)`.
 </p>
 
+<h4>四平方和定理</h4>
+
 <p class="theorem">
   <b>四平方和定理</b>
   (Lagrange, 1770; Euler, 1773)
@@ -749,8 +788,25 @@
   </li>
 </ol>
 
+<ol class="proof">
+  [来自 <a href="https://brilliant.org/wiki/fermats-sum-of-two-squares-theorem/" target="_blank">Brilliant</a>]
+  基于三平方和定理, 可以较简单地证明四平方和定理. 事实上我们只需考虑那些不能写为三平方和的数:
+  `n = 4^a(8b+7)`, `a, b` 为非负整数. 此时 `n` 模 4 余 0 或 3.
+  <li>若 `n -= 0 (mod 4)`, 则只要 `n//4` 可以写为四平方和:
+    <span class="formula">
+      `x^2 + y^2 + z^2 + w^2 = n//4`,
+    </span>
+    就有
+    <span class="formula">
+      `(2x)^2 + (2y)^2 + (2z)^2 + (2w)^2 = n`.
+    </span>
+    因此我们只需考虑 `n !-= 0 (mod 4)` 的情况.
+  </li>
+  <li>若 `n -= 3 (mod 4)`, 则 `n-1` 可以写为三平方和, 再加上 1 就得到四平方和.</li>
+</ol>
+
 <div class="playground" value="{ n: 12345678 }">
-<p>说明: 将整数分解为 4 个整数的平方和, 结果不唯一, 这里只给出一个解.
+<p>说明: 将正整数分解为 4 个整数的平方和, 结果不唯一, 这里只给出一个解.
 使用最朴素的暴力方法, 对于大素数性能较差.
 </p>
 <script type="text">
@@ -775,6 +831,46 @@ module.exports = function factor4SquaresNaive (str) {
 }
 </script>
 </div>
+
+<h4>推广: n 角数</h4>
+
+<ul class="example p">
+  <b>n 角数 (多边形数)</b>
+  [来自 <a href="http://www.tamagaki.com/math/Numbers_of_n-angle.html" target="_blank">tamagaki 的博客</a>]
+  考虑一组共用两条边的正 `n` 边形, 其中第 `k` 个正 `n` 边形每条边有 `k` 个点, 用 `P(n, k)` 表示这个图形中的点数, 称为 `n` 角数 (`n ge 3`, `k ge 1`).
+  <div class="img sm" title="n 角数 P(5, 4) = 22">
+    <img src="../img/n-angle-number.png" alt="n角数">
+  </div>
+  <li>递推公式: `P(n, 1) = 1`, `P(n, k) = P(n, k-1) + (n-2)(k-1)+1`;</li>
+  <li>通项公式: `P(n, k)` `= 1 + (n-2) sum_(j=2)^k (j-1) + (k-1)` `= (n-2)k(k-1)//2 + k`;</li>
+</ul>
+
+<ol class="theorem">
+  <b>费马多边形数定理 (Fermat polygonal number theorem)</b>
+  <br>
+  任意正整数都可以写为不超过 `n` 个 `n` 角数之和 (`n ge 3`).
+  考虑以下两个特例:
+  <li>`n = 4` 时, 即为四平方和定理 (Lagrange, 1770).</li>
+  <li>`n = 3` 时, 即: 任意正整数都能写成不超过三个三角形数之和 (Gauss, 1796).</li>
+  一般的情况由 Cauchy 在 1813 年证明.
+</ol>
+
+<p class="proof">
+  [来自 <a href="https://brilliant.org/wiki/fermats-polygonal-number-theorem/" target="_blank">Brilliant</a>]
+  我们给出 Gauss 对于 `n = 3` 情形的证明. 对任意正整数 `a`, 由三平方和定理知道,
+  `8a+3` 可以写成 3 个整数的平方和:
+  <span class="formula">
+    `x_1^2 + x_2^2 + x_3^2 = 8a+3`.
+  </span>
+  由于对任意整数 `x`, `x^2` 模 8 的余数只能是 0, 1 或 4, 所以由上式知道 `x_i -= 1 (mod 8)`, `i = 1, 2 , 3`, 即 `x_1, x_2, x_3` 都是奇数. 令 `x_1 = 2x+1`, `x_2 = 2y+1`, `x_3 = 2z+1`, 有:
+  <span class="formula">
+    `(2x+1)^2 + (2y+1)^2 + (2z+1)^2 = 8a+3`,
+  </span>
+  变形得到
+  <span class="formula">
+    `(x(x+1))/2 + (y(y+1))/2 + (z(z+1))/2 = a`.
+  </span>
+</p>
 
 <h2>Pell 方程</h2>
 
