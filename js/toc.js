@@ -292,7 +292,7 @@ var tocData = [
         "value": "ds",
         "label": "数据结构与算法",
         "children": [
-          { "value": "exercise", "label": "习题", "date": "2024-08-31" },
+          { "value": "exercise", "label": "习题", "date": "2024-09-06" },
           { "value": "1", "label": "绪论" },
           { "value": "2", "label": "线性表" },
           { "value": "3", "label": "栈与队列" },

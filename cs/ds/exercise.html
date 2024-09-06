@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title class="nonu">数据结构习题</title>
+    <title class="nonu">习题</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -25,27 +25,28 @@
 	</li>
 </ol>
 
-<ol>
-<li><b>逆置</b>. 使数组的元素倒序排列.
-<pre class="solution">
+<div class="tabs">
+  <div class="tabs-body">
+    <div class="tabs-body-item" id="tabs-1-1">
+      使数组的元素倒序排列
+<pre>
 # 将子数组 [0..n-1] 逆置
 # 时间 O(n), 空间 O(1)
-L.reverse(0, n):
-	cofor i = 0 to n/2-1: # 并行地
-		L.swap(i, n-1-i)
-</pre>
-<pre class="solution">
-L.reverse(0, n):
+L.reverse1(0, n):
 	b = 0, e = n
 	while b &lt; e:
 		L.swap(b, e)
 		++b, --e
-</pre>
-</li>
 
-<li><b>循环移位</b>. 设数组是两个不相交子数组 A, B 的并置,
-	要求将数组由 AB 变为 BA.
-<pre class="solution">
+L.reverse2(0, n):
+	cofor i = 0 to n/2-1: # 并行地
+		L.swap(i, n-1-i)
+</pre>
+    </div>
+    <div class="tabs-body-item" id="tabs-1-2">
+      设数组是两个不相交子数组 A, B 的并置,
+	  要求将数组由 AB 变为 BA.
+<pre>
 # 使用三次逆置, 将子数组 A = [0..i-1] 和 B = [i..n-1] 交换位置
 # AB &rarr; B<sup>-1</sup>A<sup>-1</sup> &rarr; BA
 # 时间 O(n), 空间 O(1)
@@ -55,12 +56,11 @@ L.cyclic_shift(i):
 		reverse(0, i)
 		reverse(i, n)
 </pre>
-</li>
-
-<li><b>按值删除</b>.
-	删除数组中所有使得 <code>f(x) == True</code> 的值 <code>x</code>.
-	假设 <code>f</code> 的时空复杂度均是 <code>O(1)</code>.
-<pre class="solution">
+    </div>
+    <div class="tabs-body-item" id="tabs-1-3">
+      删除数组中所有使得 <code>f(x) == True</code> 的值 <code>x</code>.
+      假设 <code>f</code> 的时空复杂度均是 <code>O(1)</code>.
+<pre>
 # n = L.len; 时间 O(n), 空间 O(1)
 L.remove_if1(f):
 	passed = 0	# f(x) == False 的元素计数
@@ -79,8 +79,14 @@ L.remove_if2(f):
 			L[i-removed] = L[i]
 	L.len -= removed
 </pre>
-</li>
-</ol>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-1-1">逆置</a>
+    <a class="tabs-footer-item" href="#tabs-1-2">循环移位</a>
+    <a class="tabs-footer-item" href="#tabs-1-3">按值删除</a>
+  </div>
+</div>
 
 <h3>有序数组</h3>
 
@@ -95,22 +101,22 @@ L.remove_if2(f):
 	</li>
 </ol>
 
-<pre class="solution">
+<div class="tabs">
+  <div class="tabs-body">
+    <div class="tabs-body-item" id="tabs-2-1">
+删除一个有序数组中值重复的元素, 使得所有元素两两不相等.
+<pre>
 # n = L.len; 时间空间均 O(n)
-L.unique():
+L.unique1():
 	HashTable set
 	for i = 0 to L.len-1:
 		set.add(i)
 	L.len = 0
 	for val in set:
 		L[L.len++] = val
-</pre>
 
-<ol>
-<li><b>去重</b>. 删除一个有序数组中值重复的元素, 使得所有元素两两不相等.
-<pre class="solution">
 # n = L.len; 时间 O(n), 空间 O(1)
-L.unique():
+L.unique2():
 	if L.len == 0:
 		return
 	i = 0 # i 指向数组的*无重复元素前缀*的最后一个单元
@@ -119,10 +125,10 @@ L.unique():
 			L[i] = L[j]
 	L.len = i+1
 </pre>
-</li>
-
-<li><b>归并</b>. 将两个升序数组合并为一个升序数组.
-<pre class="solution">
+    </div>
+    <div class="tabs-body-item" id="tabs-2-2">
+      将两个升序数组合并为一个升序数组.
+<pre>
 # m = M.len, n = N.len; 时间空间均 O(m+n)
 merge(M, N):
 	A = new array[M.len+N.len]
@@ -138,42 +144,43 @@ merge(M, N):
 	while j &lt; N.len:
 		A[k++] = N[j++]
 </pre>
-</li>
-
-<li><b>mex: 未出现的最小正整数</b>
-	给定一个长度为 <code>n</code> 的整数数组, 求数组中未出现的最小正整数.
-	<p class="solution">
-        先排序, 然后顺序遍历数组, 依次在数组中查找正整数 1, 2, 3... 即可.
-		根据<a class="ref" href="#rem-ordered-array"></a>的 2,
+    </div>
+    <div class="tabs-body-item" id="tabs-2-3">
+      <p>
+        给定一个长度为 <code>n</code> 的整数数组, 求数组中未出现的最小正整数.
+      </p>
+      <p>
+        思路：先排序, 然后顺序遍历数组, 依次在数组中查找正整数 1, 2, 3... 即可.
+        根据<a class="ref" href="#rem-ordered-array"></a>的 2,
         也可以开辟一个长度为 <code>n</code> 的数组, 在 <code>a[i]</code>记录数字 i 出现的次数,
         通过计数实现算法.
-	</p>
-</li>
-
-<li><b>偏序集的极大元</b>
-	给定一些平面上的两两不同的点 <code>(x[i], y[i])</code>, 规定
-	<span class="formula">
-		<code>(x[i], y[i])
-		&lt; (x[j], y[j])</code> 当且仅当 <code>x[i] &lt; x[j]</code> 且
-		<code>y[i] &lt; y[j]</code>.
-	</span>
-	求极大元, 即求所有的点 <code>(x[i], y[i])</code>,
-	使得不存在其它的点满足 <code>(x[j], y[j]) &gt; (x[i], y[i])</code>.
-<p class="solution">
-	将所有点关于 x 按降序排序, 取第一个点 <code>(x[0], y[0])</code>,
-	由于它关于 x 是最大的, 所以它是一个极大元. 接着正向扫描数组,
-	寻找下一个满足 <code>y[i<sub>1</sub>] &gt; y[0]</code> 的下标
-	<code>i<sub>1</sub></code>. 可以证明 <code>(x[i<sub>1</sub>],
-	y[i<sub>1</sub>])</code> 也是一个极大元. 接下来再寻找下一个满足
-	<code>y[i<sub>2</sub>] &gt; y[i<sub>1</sub>]</code> 的下标
-	<code>i<sub>2</sub></code>... 从而找到所有的极大元.
-</p>
-</li>
-
-<li><b>寻找和为给定值的两整数</b>
-	给定值 <code>val</code>, 求 <code>i, j</code> (允许 <code>i ==
-	j</code>), 使得 <code>L[i] + L[j] == val</code>.
-<pre class="solution">
+      </p>
+    </div>
+    <div id="tabs-2-4" class="tabs-body-item">
+      <p>
+        给定一些平面上的两两不同的点 <code>(x[i], y[i])</code>, 规定
+        <span class="formula">
+            <code>(x[i], y[i])
+            &lt; (x[j], y[j])</code> 当且仅当 <code>x[i] &lt; x[j]</code> 且
+            <code>y[i] &lt; y[j]</code>.
+        </span>
+        求极大元, 即求所有的点 <code>(x[i], y[i])</code>,
+        使得不存在其它的点满足 <code>(x[j], y[j]) &gt; (x[i], y[i])</code>.
+      </p>
+      <p>
+        思路：将所有点关于 x 按降序排序, 取第一个点 <code>(x[0], y[0])</code>,
+        由于它关于 x 是最大的, 所以它是一个极大元. 接着正向扫描数组,
+        寻找下一个满足 <code>y[i<sub>1</sub>] &gt; y[0]</code> 的下标
+        <code>i<sub>1</sub></code>. 可以证明 <code>(x[i<sub>1</sub>],
+        y[i<sub>1</sub>])</code> 也是一个极大元. 接下来再寻找下一个满足
+        <code>y[i<sub>2</sub>] &gt; y[i<sub>1</sub>]</code> 的下标
+        <code>i<sub>2</sub></code>... 从而找到所有的极大元.
+      </p>
+    </div>
+    <div id="tabs-2-5" class="tabs-body-item">
+      给定值 <code>val</code>, 求 <code>i, j</code> (允许 <code>i ==
+      j</code>), 使得 <code>L[i] + L[j] == val</code>.
+<pre>
 # 先排序 (时空复杂度由排序方法决定), 再执行下面的代码
 # n = L.len; 时间 O(n), 空间 O(1)
 L.two_sum(val):
@@ -187,11 +194,11 @@ L.two_sum(val):
 			--j
 	return None
 </pre>
-</li>
-<li><b>在两数组中寻找差为给定值的两整数</b>
-	给定两数组 <code>A, B</code> 和值 <code>val</code>,
-	求 <code>i, j</code>, 使得 <code>A[i] - B[j] == val</code>.
-<pre class="solution">
+    </div>
+    <div id="tabs-2-6" class="tabs-body-item">
+      给定两数组 <code>A, B</code> 和值 <code>val</code>,
+      求 <code>i, j</code>, 使得 <code>A[i] - B[j] == val</code>.
+<pre>
 # 先排序, 再执行下面的代码
 two_diff(A, B, val):
 	i = j = 0
@@ -204,30 +211,40 @@ two_diff(A, B, val):
 			++j
 	return None
 </pre>
-</li>
-
-</ol>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-2-1">去重</a>
+    <a class="tabs-footer-item" href="#tabs-2-2">归并</a>
+    <a class="tabs-footer-item" href="#tabs-2-3">mex</a>
+    <a class="tabs-footer-item" href="#tabs-2-4">偏序集的极大元</a>
+    <a class="tabs-footer-item" href="#tabs-2-5">寻找和为给定值的两整数</a>
+    <a class="tabs-footer-item" href="#tabs-2-6">在两数组中寻找差为给定值的两整数</a>
+  </div>
+</div>
 
 <h3>顺序统计量与其它</h3>
 
-<ol>
-<li><b>下中位数</b> 定义为一个长度为 <code>n</code> 的升序数组中
-	下标为 <code>&lfloor;(n-1)/2&rfloor;</code> 的元素. 类似地,
-	<b>上中位数</b>定义为该数组中下标为 <code>&lceil;(n-1)/2&rceil;</code>
-	的元素. 例如, <code>n == 5</code> 时
-	<span class="formula">
-		<code>&lfloor;(n-1)/2&rfloor; == 2</code>,
-		<code>&lceil;(n-1)/2&rceil; == 2</code>;
-	</span>
-	上, 下中位数都是中间的元素. <code>n == 6 时</code>
-	<span class="formula">
-		<code>&lfloor;(n-1)/2&rfloor; == 2</code>,
-		<code>&lceil;(n-1)/2&rceil; == 3</code>.
-	</span>
-	上, 下中位数分别是中间两个元素的后一个与前一个.
-	已知两个长度为 <code>n</code> 的升序序列.
-	求它们合并后的升序序列的下中位数.
-<pre class="solution">
+<div class="tabs">
+  <div class="tabs-body">
+    <div id="tabs-3-1" class="tabs-body-item">
+      <b>下中位数</b> 定义为一个长度为 <code>n</code> 的升序数组中
+      下标为 <code>&lfloor;(n-1)/2&rfloor;</code> 的元素. 类似地,
+      <b>上中位数</b>定义为该数组中下标为 <code>&lceil;(n-1)/2&rceil;</code>
+      的元素. 例如, <code>n == 5</code> 时
+      <span class="formula">
+          <code>&lfloor;(n-1)/2&rfloor; == 2</code>,
+          <code>&lceil;(n-1)/2&rceil; == 2</code>;
+      </span>
+      上, 下中位数都是中间的元素. <code>n == 6 时</code>
+      <span class="formula">
+          <code>&lfloor;(n-1)/2&rfloor; == 2</code>,
+          <code>&lceil;(n-1)/2&rceil; == 3</code>.
+      </span>
+      上, 下中位数分别是中间两个元素的后一个与前一个.
+      已知两个长度为 <code>n</code> 的升序序列.
+      求它们合并后的升序序列的下中位数.
+<pre>
 # n = L1.len; 时间 O(log n), 空间 O(1)
 # 设 m1, m2 是两序列 L1, L2 的下中位数.
 # 如果两个序列都只有一个元素, 则较小者就是所求的下中位数.
@@ -257,12 +274,12 @@ median(L1, L2):
 		diff = hi1 - lo1
 	return min(L1[lo1], L2[lo2])
 </pre>
-</li>
-
-<li><b>主元素</b> 定义为一个长度为 <code>n</code> 的数组中出现次数大于
-	<code>n/2</code> 的元素. 显然主元素如果存在, 必惟一.
-	求给定数组的主元素.
-<pre class="solution">
+    </div>
+    <div id="tabs-3-2" class="tabs-body-item">
+      <b>主元素</b> 定义为一个长度为 <code>n</code> 的数组中出现次数大于
+      <code>n/2</code> 的元素. 显然主元素如果存在, 必惟一.
+      求给定数组的主元素.
+<pre>
 # n = L.len; 时间 O(n), 空间 O(1)
 # 如果 candidate 是主元素, 那么数组必能分成若干段,
 # 使得 candidate 是最后一段的主元素, 且前面的每一段中 candidate
@@ -290,9 +307,13 @@ L.marjority_number():
 			return candidate
 	return None
 </pre>
-</li>
-
-</ol>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-3-1">下中位数</a>
+    <a class="tabs-footer-item" href="#tabs-3-2">主元素</a>
+  </div>
+</div>
 
 <h2>链表</h2>
 
@@ -302,10 +323,12 @@ L.marjority_number():
 	若无特别说明, 总假定链表不含头结点.
 </p>
 
-<ol>
-<li><b>按值删除</b>. 删除单链表中所有使得 <code>f(x) == True</code>
-	的值 <code>x</code>. 假设 <code>f</code> 的时空复杂度均是 O(1).
-<pre class="solution">
+<div class="tabs">
+  <div class="tabs-body">
+    <div class="tabs-body-item" id="tabs-4-1">
+      删除单链表中所有使得 <code>f(x) == True</code>
+      的值 <code>x</code>. 假设 <code>f</code> 的时空复杂度均是 O(1).
+<pre>
 # n = L.len; 时间 O(n), 空间 O(1)
 # 用指针 p 遍历链表
 L.remove_if1(f):
@@ -320,30 +343,38 @@ L.remove_if1(f):
 		else:
 			p = p-&gt;next
 </pre>
-</li>
-</ol>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-4-1">按值删除</a>
+  </div>
+</div>
 
 <h2>二叉树</h2>
 
-<ol>
-<li><b>反向层序遍历</b> 自下而上, 从右到左遍历二叉树.
-	<p class="solution">
-		设一栈. 按正常次序进行层序遍历, 结点出队后先入栈;
-		所有结点入栈后再依次弹出并访问.
-	</p>
-</li>
-<li><b>求二叉树高度</b> 各给出递归和非递归的版本.
-<pre class="solution">
+<div class="tabs">
+  <div class="tabs-body">
+    <div id="tabs-5-1" class="tabs-body-item">
+      <p>
+        自下而上, 从右到左遍历二叉树.
+      </p>
+      <p>
+        思路：设一栈. 按正常次序进行层序遍历, 结点出队后先入栈;
+        所有结点入栈后再依次弹出并访问.
+      </p>
+    </div>
+    <div id="tabs-5-2" class="tabs-body-item">
+      <p>思路1：递归</p>
+<pre>
 height_rec(root):
 	if !root:
 		return 0
 	return 1+max(height_rec(root-&gt;left), height_rec(root-&gt;right))
 </pre>
-<p class="solution">
-	用栈实现中序 (或后序) 遍历, 最大栈长度即为二叉树的高度.
-	不可用 "三位一体" 写法.
-</p>
-<pre class="solution">
+      <p>思路2：用栈实现中序 (或后序) 遍历, 最大栈长度即为二叉树的高度.
+      不可用 "三位一体" 写法.</p>
+      <p>思路3：层序遍历</p>
+<pre>
 # 使用层序遍历, 每次获取队列长度以保证严格按行遍历.
 # 空指针不可以进队列
 height_nonrec(root):
@@ -363,9 +394,10 @@ height_nonrec(root):
 		++level
 	return level
 </pre>
-</li>
-<li><b>求二叉树宽度</b>, 即二叉树结点最多的那一层的结点数.
-<pre class="solution">
+    </div>
+    <div id="tabs-5-3" class="tabs-body-item">
+      即二叉树结点最多的那一层的结点数
+<pre>
 # 类似上一题. 计数层序遍历
 width(root):
 	max = 0
@@ -382,9 +414,9 @@ width(root):
 				queue.enqueue(root-&gt;right)
 	return max
 </pre>
-</li>
-<li><b>由前序序列和中序序列确定二叉树</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-4" class="tabs-body-item">
+<pre>
 pre[], in[] # 前序和中序序列
 init_pre_in(pre_lo, pre_hi, in_lo, in_hi):
 	if pre.lo &lt;= pre.hi:
@@ -403,9 +435,9 @@ init_pre_in(pre_lo, pre_hi, in_lo, in_hi):
 			pre_hi-right_len+1, pre_hi, in_hi-right_len+1, in_hi)
 	return root
 </pre>
-</li>
-<li><b>判断二叉树是否是完全二叉树</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-5" class="tabs-body-item">
+<pre>
 # 层序遍历, 将空结点一并入队.
 # 遇到第一个空结点后, 查看队列中是否还有非空结点,
 # 如果有, 说明二叉树不完全.
@@ -426,18 +458,18 @@ is_complete(root):
 			return False
 	return True
 </pre>
-</li>
-<li><b>求二叉树的 2 度结点数</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-6" class="tabs-body-item">
+<pre>
 n2(root):
 	if !root:
 		return 0
 	return n2(root-&gt;left) + n2(root-&gt;right) +
 		(root-&gt;left and root-&gt;right ? 1 : 0)
 </pre>
-</li>
-<li><b>交换二叉树的左右子树</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-7" class="tabs-body-item">
+<pre>
 swap_left_right(root):
 	if root:
 		swap_left_right(root-&gt;left)
@@ -446,9 +478,9 @@ swap_left_right(root):
 		root-&gt;left = root-&gt;right
 		root-&gt;right = tmp
 </pre>
-</li>
-<li><b>查找前序序列的第 n 个结点</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-8" class="tabs-body-item">
+<pre>
 find_nth_preorder_node(root):
 	cnt = 0
 	stack.push(NULL)
@@ -464,10 +496,11 @@ find_nth_preorder_node(root):
 			root = stack.pop()
 	return 'not found'
 </pre>
-</li>
-<li><b>按值删除</b> 删除二叉树中所有使得 <code>f(x) == True</code>
-	的值 <code>x</code> 所在的根结点的子树. 假设 f 的时空复杂度均是 O(1).
-<pre class="solution">
+    </div>
+    <div id="tabs-5-9" class="tabs-body-item">
+      删除二叉树中所有使得 <code>f(x) == True</code>
+      的值 <code>x</code> 所在的根结点的子树. 假设 f 的时空复杂度均是 O(1).
+<pre>
 # 按层序查找待删结点
 remove_if(root, f()):
 	if !root:
@@ -488,9 +521,10 @@ remove_if(root, f()):
 			else:
 				queue.enqueue(root-&gt;right)
 </pre>
-</li>
-<li><b>求所有祖先</b> 求二叉树中某结点的所有祖先.
-<pre class="solution">
+    </div>
+    <div id="tabs-5-10" class="tabs-body-item">
+      求二叉树中某结点的所有祖先.
+<pre>
 # 以非递归中序 (或后序) 遍历二叉树, 每访问一个结点,
 # 栈中保存的都是它的全体祖先.
 ancestors(root, node):
@@ -510,10 +544,10 @@ ancestors(root, node):
 		else:
 			break
 </pre>
-</li>
-<li><b>查找两结点的最近共同祖先</b>
-<pre class="solution">
-# 顺序存储.
+    </div>
+    <div id="tabs-5-11" class="tabs-body-item">
+      <p>思路1：顺序存储.</p>
+<pre>
 nearest_common_ancestor1(i, j):
 	while i != j:
 		if i &gt; j:
@@ -522,11 +556,9 @@ nearest_common_ancestor1(i, j):
 			j &gt;&gt;= 1
 	return i
 </pre>
-<p class="solution">
-	在以父指针二叉树中查找最近共同祖先, 和单链表一样, 用错位同步法.
-</p>
-<pre class="solution">
-# 二叉链表存储
+        <p>思路2：在父指针树中查找最近共同祖先, 和单链表一样, 用错位同步法.</p>
+        <p>思路3：二叉链表存储</p>
+<pre>
 # 以非递归中序 (或后序) 遍历二叉树, 每访问一个结点,
 # 栈中保存的都是它的全体祖先.
 nearest_common_ancestor2(root, p1, p2):
@@ -559,9 +591,9 @@ nearest_common_ancestor2(root, p1, p2):
 			break
 	return 'one of node p1, p2 not found'
 </pre>
-</li>
-<li><b>给定满二叉树的前序序列, 求后序序列</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-12" class="tabs-body-item">
+<pre>
 pre[], post[]
 pre2post(pre_lo, pre_hi, post_lo, post_hi):
 	if pre_hi &gt;= pre_lo:
@@ -571,9 +603,9 @@ pre2post(pre_lo, pre_hi, post_lo, post_hi):
 		pre2post(pre_lo+1, pre_lo+half, post_lo, post_lo+half-1)
 		pre2post(pre_lo+half+1, pre_hi, post_lo+half, post_hi-1)
 </pre>
-</li>
-<li><b>将叶结点以 right 指针连成单链表</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-13" class="tabs-body-item">
+<pre>
 # 用中序 (或前序, 后序) 遍历二叉树, 设一头结点执行连接.
 # 方法类似于中序线索化
 BinaryTreeNode *pre
@@ -591,10 +623,11 @@ thread_leaf(root):
 	head = head-&gt;right
 	delete tmp
 </pre>
-</li>
-<li><b>判断二叉树相似</b> 两棵空树相似; 空树与非空树不相似;
-	两棵非空二叉树相似当且仅当它们的左子树和右子树分别对应相似.
-<pre class="solution">
+    </div>
+    <div id="tabs-5-14" class="tabs-body-item">
+      两棵空树相似; 空树与非空树不相似;
+      两棵非空二叉树相似当且仅当它们的左子树和右子树分别对应相似.
+<pre>
 similar(root1, root2):
 	if !root1 and !root2:
 		return True
@@ -603,9 +636,9 @@ similar(root1, root2):
 	return similar(root1-&gt;left, root2-&gt;left) and
 			similar(root1-&gt;right, root2-&gt;right)
 </pre>
-</li>
-<li><b>在中序线索二叉树中寻找后序前驱</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-15" class="tabs-body-item">
+<pre>
 # p 的后序前驱是其最后一个子结点. 若 p 是叶子结点,
 # 则它是某棵树的最左下叶子结点. 先找到 p 的中序前驱  s, 若 s 有左子结点,
 # 则 s-&gt;left 就是 p 的后序前驱; 否则再找 s 的中序前驱,
@@ -622,9 +655,9 @@ post_prev(root, node):
 	else: # 无中序前驱
 		return NULL
 </pre>
-</li>
-<li><b>求带权路径长度</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-5-16" class="tabs-body-item">
+<pre>
 # 递归算法
 wpl = 0
 WPL(root, depth):
@@ -635,7 +668,7 @@ WPL(root, depth):
 			WPL(root-&gt;left, depth+1)
 			WPL(root-&gt;right, depth+1)
 </pre>
-<pre class="solution">
+<pre>
 # 又一递归算法, 注意 WPL 等于分支结点权和.
 wpl = 0
 weight(root):
@@ -647,7 +680,7 @@ weight(root):
 	wpl += w
 	return w
 </pre>
-<pre class="solution">
+<pre>
 # 层序遍历
 WPL_levelorder(root):
 	wpl = 0
@@ -667,10 +700,10 @@ WPL_levelorder(root):
 			++depth
 	return wpl
 </pre>
-</li>
-<li><b>由表达式树求中缀表达式</b> 不考虑运算符优先级, 统统加括号.
-	最外层不加括号.
-<pre class="solution">
+    </div>
+    <div id="tabs-5-17" class="tabs-body-item">
+      不考虑运算符优先级, 统统加括号.  最外层不加括号.
+<pre>
 inorder_expr(root):
 	if root:
 		if if_leaf(root):
@@ -691,14 +724,35 @@ do_inorder_expr(root):
 			inorder_expr(root-&gt;right)
 			print(')')
 </pre>
-</li>
-</ol>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-5-1">反向层序遍历</a>
+    <a class="tabs-footer-item" href="#tabs-5-2">求二叉树高度</a>
+    <a class="tabs-footer-item" href="#tabs-5-3">求二叉树宽度</a>
+    <a class="tabs-footer-item" href="#tabs-5-4">由前序序列和中序序列确定二叉树</a>
+    <a class="tabs-footer-item" href="#tabs-5-5">判断二叉树是否是完全二叉树</a>
+    <a class="tabs-footer-item" href="#tabs-5-6">求二叉树的 2 度结点数</a>
+    <a class="tabs-footer-item" href="#tabs-5-7">交换二叉树的左右子树</a>
+    <a class="tabs-footer-item" href="#tabs-5-8">查找前序序列的第 n 个结点</a>
+    <a class="tabs-footer-item" href="#tabs-5-9">按值删除</a>
+    <a class="tabs-footer-item" href="#tabs-5-10">求所有祖先</a>
+    <a class="tabs-footer-item" href="#tabs-5-11">查找两结点的最近共同祖先</a>
+    <a class="tabs-footer-item" href="#tabs-5-12">给定满二叉树的前序序列, 求后序序列</a>
+    <a class="tabs-footer-item" href="#tabs-5-13">将叶结点以 right 指针连成单链表</a>
+    <a class="tabs-footer-item" href="#tabs-5-14">判断二叉树相似</a>
+    <a class="tabs-footer-item" href="#tabs-5-15">在中序线索二叉树中寻找后序前驱</a>
+    <a class="tabs-footer-item" href="#tabs-5-16">求带权路径长度</a>
+    <a class="tabs-footer-item" href="#tabs-5-17">由表达式树求中缀表达式</a>
+  </div>
+</div>
 
 <h2>树和森林</h2>
 
-<ol>
-<li><b>森林的叶结点数</b>
-<pre class="solution">
+<div class="tabs">
+  <div class="tabs-body">
+    <div id="tabs-6-1" class="tabs-body-item">
+<pre>
 count_leaves(root):
 	if !root:
 		return 0
@@ -707,18 +761,18 @@ count_leaves(root):
 	return count_leaves(root-&gt;first_child)
 		+ count_leaves(root-&gt;next_sibling)
 </pre>
-</li>
-<li><b>森林的高度</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-6-2" class="tabs-body-item">
+<pre>
 height(root):
 	if !root:
 		return 0
 	return max(1+height(root-&gt;first_child),
 		height(root-&gt;next_sibling))
 </pre>
-</li>
-<li><b>利用森林的层序序列和每个结点的度数建立森林</b>
-<pre class="solution">
+    </div>
+    <div id="tabs-6-3" class="tabs-body-item">
+<pre>
 init_levelorder_deg(val[], deg[], n):
 	nodes = new TreeNode[n](val[i], NULL, NULL)
 	j = 0
@@ -731,19 +785,24 @@ init_levelorder_deg(val[], deg[], n):
 				++j
 	return nodes[0]
 </pre>
-</li>
-</ol>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-6-1">森林的叶结点数</a>
+    <a class="tabs-footer-item" href="#tabs-6-2">森林的高度</a>
+    <a class="tabs-footer-item" href="#tabs-6-3">利用森林的层序序列和每个结点的度数建立森林</a>
+  </div>
+</div>
 
 <h2>杂例</h2>
 
-<ol>
-<li>求长度为奇数的最短路.
-<p class="solution">
-  思路: 保存并维护每个点的偶数最短路与奇数最短路.
-</p>
-</li>
-<li>求所有 n 位回文数.
-<pre class="solution">
+<div class="tabs">
+  <div class="tabs-body">
+    <div class="tabs-body-item" id="tabs-7-1">
+      思路: 保存并维护每个点的偶数最短路与奇数最短路.
+    </div>
+    <div class="tabs-body-item" id="tabs-7-2">
+<pre>
 # palindromes(n, 1) 返回 n 位的回文数
 def palindromes(n, start):
     if n == 1:
@@ -752,10 +811,10 @@ def palindromes(n, start):
         return [11*i for i in range(start, 10)]
     return [i*10**(n-1) + 10*k + i for i in range(start, 10) for k in palindromes(n-2, 0)]
 </pre>
-</li>
-<li>
+    </div>
+    <div class="tabs-body-item" id="tabs-7-3">
 [来自<a href="https://blog.csdn.net/hellocooper/article/details/48809261" target="_blank">CDSN</a>]
-<b>Cantor 展开 (康托展开)</b> 将 1 到 n 的全排列按字典序列出, 比如 1 到 4 的全排列是:
+将 1 到 n 的全排列按字典序列出, 比如 1 到 4 的全排列是:
 <pre>
 1 2 3 4
 1 2 4 3
@@ -768,7 +827,7 @@ def palindromes(n, start):
 4 3 2 1
 </pre>
 问题: 给定一个排列, 求它在列表中的第几位. 反之, 给定它在列表中的位次, 求这个排列.
-<pre class="solution">
+<pre>
 # 对于一个排列, 如 2 4 1 3, 它是以 2 开头的, 所以前面还有以 1 开头的 3! 个排列,
 # 故 num += 6. 再看它的后三位是由 {4, 1, 3} 的排列组成的,
 # 前面还有以 1 开头和以 3 开头的 2 * 2! = 4 个排列, 故 num += 4.
@@ -795,11 +854,12 @@ def num2perm(n, num):
         arr.append(candidate.pop(index))
     return arr
 </pre>
-</li>
-<li>[来自群友 Eyelids]
-给定 `n`, `S` 是全体 `n` 维 01 向量的子集，满足 `S` 中任两个元素的距离 `≥3`，`|S|` 的最大值是？
-（距离就是两个向量相减后非零分量的个数）
-<pre class="solution">
+    </div>
+    <div class="tabs-body-item" id="tabs-7-4">
+      [来自群友 Eyelids]
+      给定 `n`, `S` 是全体 `n` 维 01 向量的子集，满足 `S` 中任两个元素的距离 `≥3`，`|S|` 的最大值是？
+      （距离就是两个向量相减后非零分量的个数）
+<pre>
 # 答案：https://oeis.org/A054243
 # 这题本质是计算距离 = 3 的汉明码序列 https://oeis.org/A075926
 
@@ -811,15 +871,15 @@ def dist(a, b):
     n = a ^ b
     while n:
         res += 1
-        n &= n - 1 # 消去最右边的一个 1
+        n &amp;= n - 1 # 消去最右边的一个 1
     return res
 
 def dfs(n):
     global best
-    if len(buf) > best:
+    if len(buf) &gt; best:
         best = len(buf)
     for i in range(0, n):
-        if all(dist(i, j) >= 3 for j in buf):
+        if all(dist(i, j) &gt;= 3 for j in buf):
             buf.append(i)
             dfs(n)
             return
@@ -838,18 +898,17 @@ def check_answer(l):
 
 search(2**7)
 </pre>
-</li>
-<li>
-5个人过河，他们分别是妈妈、爸爸、哥哥、妹妹、路人。
-妈妈是魅魔单独与男性时会对男性进行侵犯；
-爸爸是鬼父单独与妹妹时会进行性行为；
-哥哥是德国骨科与妹妹单独时会进行性行为；
-妹妹也是德国骨科单独跟哥哥时会进行性行为，但妹妹身体弱不能开船；
-路人是基佬单独与哥哥时会进行侵犯；
-只有一艘船，每次只能坐两个人，船不会自己回来，过去就要有人开回来；
-如何在不发生任何性行为的情况下，5个人成功到对面？
-
-<pre class="solution">
+    </div>
+    <div class="tabs-body-item" id="tabs-7-5">
+      5个人过河，他们分别是妈妈、爸爸、哥哥、妹妹、路人。
+      妈妈是魅魔单独与男性时会对男性进行侵犯；
+      爸爸是鬼父单独与妹妹时会进行性行为；
+      哥哥是德国骨科与妹妹单独时会进行性行为；
+      妹妹也是德国骨科单独跟哥哥时会进行性行为，但妹妹身体弱不能开船；
+      路人是基佬单独与哥哥时会进行侵犯；
+      只有一艘船，每次只能坐两个人，船不会自己回来，过去就要有人开回来；
+      如何在不发生任何性行为的情况下，5个人成功到对面？
+<pre>
 danger = [0b11000, 0b10100, 0b10001, 0b01010, 0b00110, 0b00101]
 available_moves = [0b10000, 0b01000, 0b00100, 0b00001, 0b10010, 0b01100, 0b01001, 0b00011]
 all_people = 0b11111
@@ -902,8 +961,16 @@ def solution():
 
 solution()
 </pre>
-</li>
-</ol>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-7-1">求长度为奇数的最短路</a>
+    <a class="tabs-footer-item" href="#tabs-7-2">求所有 n 位回文数</a>
+    <a class="tabs-footer-item" href="#tabs-7-3">Cantor 展开</a>
+    <a class="tabs-footer-item" href="#tabs-7-4">Hamming 距离</a>
+    <a class="tabs-footer-item" href="#tabs-7-5">过河问题</a>
+  </div>
+</div>
 
 <script src="../../js/note.js?type=cs"></script>
 </body>

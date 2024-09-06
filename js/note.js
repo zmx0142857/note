@@ -592,6 +592,17 @@ function previewImg() {
   })
 }
 
+function makeTabs () {
+  const onFooterClick = (e) => {
+    if (e.target.tagName.toLowerCase() !== 'a') return
+    ;[...e.currentTarget.querySelectorAll('a')].forEach(a => a.classList.remove('active'))
+    e.target.classList.add('active')
+  }
+  ;[...document.querySelectorAll('.tabs-footer')].forEach(footer => {
+    footer.addEventListener('click', onFooterClick)
+  })
+}
+
 /*
 function wrapIOS() {
   if (/iphone|ipad|ipod/i.test(explorer)) {
@@ -629,6 +640,7 @@ makeH1();   // call makeH1() before decorate()
 decorateHeading(3);
 makeSvg();
 previewImg();
+makeTabs();
 
 decorate([
   //{name:'read-important',getBy:'class',word:'&#x1f4d6;',style:Slarge},
