@@ -94,6 +94,11 @@ body {
   height: calc(100% - 40px);
   background: #333;
 }
+
+/* 氨基酸 */
+#table-amino .bd-b {
+  border-bottom: 1px solid #aaa;
+}
 </style>
 </head>
 <body class="dark">
@@ -116,6 +121,20 @@ body {
       </script>
       </div>
       <p class="remark">二进制字母序编码又叫培根密码, 使用 5 个 bit 表示一个字母.</p>
+    </div>
+    <div id="tabs-ascii" class="tabs-body-item">
+      <div class="playground" type="textarea" value="sleep" value2="73 6c 65 65 70">
+        <p>说明: 输入英文, 转为 ascii; 输入 ascii, 转为英文.</p>
+        <script type="text">
+        module.exports = function ascii (str) {
+          const { chunk, ord, chr } = puzzle.utils
+          if (/[0-9]/.test(str)) {
+            return chunk(str.replace(/\s/g, ''), 2).map(n => chr(parseInt('0x' + n))).join('')
+          }
+          return str.replace(/\s/g, '').split('').map(c => ord(c).toString(16).padStart(2, '0')).join(' ')
+        }
+        </script>
+      </div>
     </div>
     <div id="tabs-morse" class="tabs-body-item">
       <table id="table-morse" class="col2"></table>
@@ -228,6 +247,9 @@ body {
       </script>
       </div>
     </div>
+    <div id="tabs-signal-flag" class="tabs-body-item">
+      <a href="https://baike.baidu.com/item/%E5%9B%BD%E9%99%85%E4%BF%A1%E5%8F%B7%E6%97%97/6302582" target="_blank" style="display:block;width:max-content;margin:0 auto"><img src="../img/signal-flag.gif" alt="海旗" title="来自 百度百科" style="width:100%;max-width:600px"/></a>
+    </div>
     <div id="tabs-braille" class="tabs-body-item">
       <table id="table-braille" class="col2"></table>
 
@@ -278,7 +300,33 @@ body {
       </div>
     </div>
     <div id="tabs-hogpen" class="tabs-body-item">
-      <table id="table-hogpen" class="col2"></table>
+      <table id="table-hogpen" class="col2">
+        <caption>猪圈密码</caption>
+        <tr>
+          <td>A</td> <td>A</td> <td>B</td> <td>B</td> <td>C</td> <td>C</td>
+          <td>J</td> <td>J</td> <td>K</td> <td>K</td> <td>L</td> <td>L</td>
+        </tr>
+        <tr>
+          <td>D</td> <td>D</td> <td>E</td> <td>E</td> <td>F</td> <td>F</td>
+          <td>M</td> <td>M</td> <td>N</td> <td>N</td> <td>O</td> <td>O</td>
+        </tr>
+        <tr>
+          <td>G</td> <td>G</td> <td>H</td> <td>H</td> <td>I</td> <td>I</td>
+          <td>P</td> <td>P</td> <td>Q</td> <td>Q</td> <td>R</td> <td>R</td>
+        </tr>
+        <tr>
+          <td></td> <td></td> <td>S</td> <td>S</td> <td></td> <td></td>
+          <td></td> <td></td> <td>W</td> <td>W</td> <td></td> <td></td>
+        </tr>
+        <tr>
+          <td>T</td> <td>T</td> <td></td> <td></td> <td>U</td> <td>U</td>
+          <td>X</td> <td>X</td> <td></td> <td></td> <td>Y</td> <td>Y</td>
+        </tr>
+        <tr>
+          <td></td> <td></td> <td>V</td> <td>V</td> <td></td> <td></td>
+          <td></td> <td></td> <td>Z</td> <td>Z</td> <td></td> <td></td>
+        </tr>
+      </table>
 
       [参考 <a href="https://blog.csdn.net/weixin_47869330/article/details/111396033" target="_blank">CSDN</a>]
       <div id="hogpen-playground" class="playground" type="textarea" value="hogpen">
@@ -421,6 +469,7 @@ body {
       }
 
       const init = (img) => {
+        const dpr = window.devicePixelRatio
         const draggable = draggableCanvas({
           canvas,
           ctx,
@@ -431,32 +480,33 @@ body {
             lens.y0 = lens.y
           },
           onMouseMove ({ x, y }) {
-            lens.x = lens.x0 + x - mouse.x
-            lens.y = lens.y0 + y - mouse.y
+            lens.x = lens.x0 + (x - mouse.x) * dpr
+            lens.y = lens.y0 + (y - mouse.y) * dpr
             update()
           },
         })
 
+        const rect = canvas.getBoundingClientRect()
         const r1 = img.width / img.height
-        const r2 = canvas.width / canvas.height
+        const r2 = rect.width / rect.height
         let x, y, w, h
         if (r1 < r2) { // 图片比较瘦
-          h = canvas.height | 0
+          h = rect.height | 0
           w = h * r1 | 0
           y = 0
-          x = (canvas.width - w) / 2 | 0
+          x = (rect.width - w) / 2 | 0
         } else { // 图片比较胖
-          w = canvas.width | 0
+          w = rect.width | 0
           h = w / r1 | 0
           x = 0
-          y = (canvas.height - h) / 2 | 0
+          y = (rect.height - h) / 2 | 0
         }
         Object.assign(image, { img, x, y, w, h })
 
-        lens.w = w
-        lens.h = h
-        lens.x = (canvas.width / 2 - lens.w / 2) | 0
-        lens.y = (canvas.height / 2 - lens.h / 2) | 0
+        lens.w = w * dpr
+        lens.h = h * dpr
+        lens.x = (rect.width - w) / 2 * dpr | 0
+        lens.y = (rect.height - h) / 2 * dpr | 0
         update()
       }
 
@@ -494,13 +544,80 @@ body {
       })
       </script>
     </div>
+    <div id="tabs-amino" class="tabs-body-item">
+      <table id="table-amino">
+        <caption>20 种氨基酸密码子表</caption>
+        <tr>
+          <td rowspan="2" class="bd-b">第一个字母</td>
+          <td colspan="4">第二个字母</td>
+          <td rowspan="2" class="bd-b">第三个字母</td>
+        </tr>
+        <tr>
+          <td class="bd-b">U</td>
+          <td class="bd-b">C</td>
+          <td class="bd-b">A</td>
+          <td class="bd-b">G</td>
+        </tr>
+        <tr>
+          <td>U</td>
+          <td>苯内氨酸 F<br>苯内氨酸 F<br>亮氨酸 L<br>亮氨酸 L</td>
+          <td>丝氨酸 S<br>丝氨酸 S<br>丝氨酸 S<br>丝氨酸 S</td>
+          <td>酪氨酸 Y<br>酪氨酸 Y<br>终止密码<br>终止密码</td>
+          <td>半胱氨酸 C<br>半胱氨酸 C<br>终止密码<br>色氨酸 W</td>
+          <td>U<br>C<br>A<br>G</td>
+        </tr>
+        <tr>
+          <td>C</td>
+          <td>亮氨酸 L<br>亮氨酸 L<br>亮氨酸 L<br>亮氨酸 L</td>
+          <td>脯氨酸 P<br>脯氨酸 P<br>脯氨酸 P<br>脯氨酸 P</td>
+          <td>组氨酸 H<br>组氨酸 H<br>谷氨酰胺 Q<br>谷氨酰胺 Q</td>
+          <td>精氨酸 R<br>精氨酸 R<br>精氨酸 R<br>精氨酸 R</td>
+          <td>U<br>C<br>A<br>G</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>异亮氨酸 I<br>异亮氨酸 I<br>异亮氨酸 I<br>甲硫氨酸 M</td>
+          <td>苏氨酸 T<br>苏氨酸 T<br>苏氨酸 T<br>苏氨酸 T</td>
+          <td>天冬酰胺 N<br>天冬酰胺 N<br>赖氨酸 K<br>赖氨酸 K</td>
+          <td>丝氨酸 S<br>丝氨酸 S<br>精氨酸 R<br>精氨酸 R</td>
+          <td>U<br>C<br>A<br>G</td>
+        </tr>
+        <tr>
+          <td>G</td>
+          <td>缬氨酸 V<br>缬氨酸 V<br>缬氨酸 V<br>缬氨酸 V</td>
+          <td>丙氨酸 A<br>丙氨酸 A<br>丙氨酸 A<br>丙氨酸 A</td>
+          <td>天冬氨酸 D<br>天冬氨酸 D<br>谷氨酸 E<br>谷氨酸 E</td>
+          <td>甘氨酸 G<br>甘氨酸 G<br>甘氨酸 G<br>甘氨酸 G</td>
+          <td>U<br>C<br>A<br>G</td>
+        </tr>
+      </table>
+      <div class="playground" type="textarea" value="ACG CAU GAA AAA GAG UAU">
+        <p>输入密码子, 输出英文字母</p>
+        <script type="text">
+        const dict = 'FFLLSSSSYY..CC.WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
+        module.exports = function amino (str) {
+          const { chunk } = puzzle.utils
+          str = str.replace(/\s/g, '').toUpperCase().replace(/U/g, '0').replace(/C/g, '1').replace(/A/g, '2').replace(/G/g, '3')
+          if (str.length % 3 !== 0) {
+            throw new Error('密码子的数量必须是 3 的倍数', str.length)
+          }
+          return chunk(str, 3).map(v => {
+            const index = parseInt(v[0]) * 16 + parseInt(v[1]) * 4 + parseInt(v[2])
+            return dict[index] || '?'
+          }).join('')
+        }
+        </script>
+      </div>
+    </div>
   </div>
   <div class="tabs-footer">
     <a class="tabs-footer-item active" href="#tabs-a1z26">字母序 A1Z26</a>
+    <a class="tabs-footer-item" href="#tabs-ascii">ascii</a>
     <a class="tabs-footer-item" href="#tabs-morse">摩斯 morse</a>
     <a class="tabs-footer-item" href="#tabs-nato">北约字母 nato</a>
     <a class="tabs-footer-item" href="#tabs-cellphone">手机键盘 cellphone</a>
     <a class="tabs-footer-item" href="#tabs-flag">旗语 flag</a>
+    <a class="tabs-footer-item" href="#tabs-signal-flag">海旗 signal flag</a>
     <a class="tabs-footer-item" href="#tabs-braille">盲文 braille</a>
     <a class="tabs-footer-item" href="#tabs-hogpen">猪圈 hogpen</a>
     <a class="tabs-footer-item" href="#tabs-caesar">凯撒 caesar</a>
@@ -508,6 +625,7 @@ body {
     <a class="tabs-footer-item" href="#tabs-reverse">倒序 reverse</a>
     <a class="tabs-footer-item" href="#tabs-vigenere">维吉尼亚 Vigenère</a>
     <a class="tabs-footer-item" href="#tabs-lens">透镜 lens</a>
+    <a class="tabs-footer-item" href="#tabs-amino">氨基酸密码子 amino acid</a>
 
     <!-- 实用工具 -->
 
@@ -533,7 +651,7 @@ const init = () => {
   puzzle.renderTable($('#table-morse'), puzzle.makeTable(i => puzzle.data.morseArr[i]), '摩斯')
   puzzle.renderTable($('#table-nato'), puzzle.makeTable(i => puzzle.data.natoArr[i]), '北约字母')
   puzzle.renderTable($('#table-flag'), puzzle.makeTable(i => puzzle.data.flagArr[i]), '旗语')
-  puzzle.renderTable($('#table-hogpen'), puzzle.makeTable(i => chr(97 + i)), '猪圈密码')
+  //puzzle.renderTable($('#table-hogpen'), puzzle.makeTable(i => chr(97 + i)), '猪圈密码')
 }
 
 init()
