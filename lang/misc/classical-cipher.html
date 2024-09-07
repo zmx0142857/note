@@ -5,6 +5,9 @@
   <title>古典密码</title>
   <link rel="stylesheet" href="../../css/note.css">
 <style>
+body {
+  max-width: unset;
+}
 /* 通用 */
 .align-center {
   display: flex;
@@ -25,7 +28,7 @@
   height: 2em;
   width: 2em;
   border-radius: 50%;
-  border: 1px solid #000;
+  border: 1px solid #aaa;
   cursor: pointer;
   transition: 0.2s background;
 }
@@ -34,7 +37,7 @@
   font-size: 1.5em;
 }
 .braille-dot.filled {
-  background: #000;
+  background: #555;
 }
 
 /* 旗语 */
@@ -52,14 +55,14 @@
 }
 .flag-direction {
   border-radius: 0.2em;
-  border: 1px solid #000;
+  border: 1px solid #333;
   cursor: pointer;
   transition: 0.2s background;
   text-align: center;
   line-height: 2em;
 }
 .flag-direction.filled {
-  background: #aaa;
+  background: #555;
 }
 /* 猪圈 */
 @font-face {
@@ -70,376 +73,470 @@
 #table-hogpen td:nth-child(2n) {
   font-family: "hogpen";
 }
+
+/* tabs */
+.tabs {
+  background: #181818;
+}
+.tabs .tabs-body {
+  height: 700px;
+}
+.tabs .tabs-footer {
+  border-left-color: #181818;
+}
+.tabs .tabs-body-item pre {
+  background-color: rgba(0,0,0,0.2);
+}
+
+/* lens */
+#lens-canvas {
+  width: 100%;
+  height: calc(100% - 40px);
+  background: #333;
+}
 </style>
 </head>
 <body class="dark">
 
-<h2>基于字母表的变换</h2>
+<div class="tabs">
+  <div class="tabs-body">
+    <div id="tabs-a1z26" class="tabs-body-item">
+      <table id="table-a1z26" class="col2"></table>
 
-<h3>字母序 A1Z26</h3>
+      <div class="playground" type="textarea" value="sleep" value2="19 12 5 5 16">
 
-<table id="table-a1z26" class="col2"></table>
+      <p>说明: 输入英文, 转为数字; 输入空格分隔的数字, 转为英文.</p>
+      <script type="text">
+      module.exports = function a1z26 (str) {
+        if (/[a-zA-Z]/.test(str)) {
+          return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'number' })).join(' ')
+        }
+        return str.split(/[^0-9]/).map(n => puzzle.convert(Number(n), { from: 'number', to: 'char' })).join('')
+      }
+      </script>
+      </div>
+      <p class="remark">二进制字母序编码又叫培根密码, 使用 5 个 bit 表示一个字母.</p>
+    </div>
+    <div id="tabs-morse" class="tabs-body-item">
+      <table id="table-morse" class="col2"></table>
 
-<div class="playground" type="textarea" value="sleep" value2="19 12 5 5 16">
+      <div class="playground" type="textarea" value="-- --- .-. ... .
+-.-. --- -.. ." value2="morse code">
 
-<p>说明: 输入英文, 转为数字; 输入空格分隔的数字, 转为英文.</p>
-<script type="text">
-module.exports = function a1z26 (str) {
-  if (/[a-zA-Z]/.test(str)) {
-    return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'number' })).join(' ')
-  }
-  return str.split(/[^0-9]/).map(n => puzzle.convert(Number(n), { from: 'number', to: 'char' })).join('')
-}
-</script>
+      <p>说明: 输入英文, 转为摩斯码; 输入摩斯码, 转为英文.</p>
+      <script type="text">
+      module.exports = function morse (str) {
+        if (/[a-zA-Z]/.test(str)) {
+          return str.split(/\s+/).map(line => [...line].filter(c => /[a-zA-Z]/.test(c)).map(c => puzzle.convert(c, { from: 'char', to: 'morse' })).join('/')).join('\n')
+        }
+        return str.split('\n').map(line => line.split(/[^-_.]+/).map(m => puzzle.convert(m, { from: 'morse', to: 'char' })).join('')).join(' ')
+      }
+      </script>
+      </div>
+    </div>
+    <div id="tabs-nato" class="tabs-body-item">
+      <table id="table-nato" class="col2"></table>
+    </div>
+    <div id="tabs-cellphone" class="tabs-body-item">
+      <table id="table-cellphone" class="col2">
+        <caption>手机九键编码</caption>
+        <tr>
+          <td><p>1</p><p>-</p></td>
+          <td><p>2</p><p>ABC</p></td>
+          <td><p>3</p><p>DEF</p></td>
+        </tr>
+        <tr>
+          <td><p>4</p><p>GHI</p></td>
+          <td><p>5</p><p>JKL</p></td>
+          <td><p>6</p><p>MNO</p></td>
+        </tr>
+        <tr>
+          <td><p>7</p><p>PQRS</p></td>
+          <td><p>8</p><p>TUV</p></td>
+          <td><p>9</p><p>WXYZ</p></td>
+        </tr>
+      </table>
+
+      <div class="playground" type="textarea" value="233253537142636232" value2="cellphone">
+
+      <p>说明: 输入英文, 转为手机九键编码; 输入手机九键编码, 转为英文.</p>
+      <script type="text">
+      module.exports = function cellphone (str) {
+        if (/[a-zA-Z]/.test(str)) {
+          return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'cellphone' })).join('')
+        }
+
+        // split into 2-chunks
+        const buf = puzzle.utils.chunk(str.replace(/\s/g, ''), 2)
+        return buf.map(c => puzzle.convert(c, { from: 'cellphone', to: 'char' })).join('')
+      }
+      </script>
+      </div>
+    </div>
+    <div id="tabs-flag" class="tabs-body-item">
+      <table id="table-flag" class="col2"></table>
+
+      <div class="playground" type="textarea" value="↓→↙↗↙↓↓↘" value2="flag">
+
+      <p>说明: 输入英文, 转为旗语; 输入旗语, 转为英文</p>
+      <div class="flag-input">
+        <div class="flag-direction">↖</div>
+        <div class="flag-direction">↑</div>
+        <div class="flag-direction">↗</div>
+        <div class="flag-direction">←</div>
+        <div class="flag-center"></div>
+        <div class="flag-direction">→</div>
+        <div class="flag-direction">↙</div>
+        <div class="flag-direction">↓</div>
+        <div class="flag-direction">↘</div>
+      </div>
+      <div class="inline-block">
+        <p class="flag-display"></p>
+        <input class="flag-input-btn" type="button" value="插入" />
+      </div>
+      <script type="text">
+      const $input = container.querySelector('.flag-input')
+      const $btn = container.querySelector('.flag-input-btn')
+      const $display = container.querySelector('.flag-display')
+      const $textarea = container.querySelector('textarea')
+      $input.char = ''
+      $input.value = []
+      $input.onclick = e => {
+        if (!e.target.classList.contains('flag-direction')) return
+        if ($input.value.length === 2) {
+          [...container.querySelectorAll('.flag-direction')].forEach(el => el.classList.remove('filled'))
+          $input.value.length = 0
+        }
+        e.target.classList.toggle('filled')
+        const char = e.target.textContent
+        $input.char = char
+        $input.value.push(char)
+        $display.textContent = flag($input.value.join(''))
+      }
+      $btn.onclick = () => {
+        const helper = new puzzle.InputHelper($textarea)
+        helper.insert($input.value.join(''))
+      }
+      function flag (str) {
+        if (/[\u2190-\u2193\u2196-\u2199]/.test(str)) {
+          const buf = puzzle.utils.chunk(str, 2)
+          return buf.map(c => puzzle.convert(c, { from: 'flag', to: 'char' })).join('')
+        }
+        return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'flag' })).join('')
+      }
+      module.exports = flag
+      </script>
+      </div>
+    </div>
+    <div id="tabs-braille" class="tabs-body-item">
+      <table id="table-braille" class="col2"></table>
+
+      <div class="playground" type="textarea" value="⠃⠗⠁⠊⠇⠇⠑" value2="braille">
+
+      <p>说明: 输入英文, 转为盲文; 输入盲文, 转为英文</p>
+      <div class="braille-input">
+        <div class="braille-dot" data-index="0"></div>
+        <div class="braille-dot" data-index="3"></div>
+        <div class="braille-dot" data-index="1"></div>
+        <div class="braille-dot" data-index="4"></div>
+        <div class="braille-dot" data-index="2"></div>
+        <div class="braille-dot" data-index="5"></div>
+      </div>
+      <div class="inline-block">
+        <p class="braille-display"></p>
+        <input class="braille-input-btn" type="button" value="插入" />
+      </div>
+      <script type="text">
+      const $input = container.querySelector('.braille-input')
+      const $btn = container.querySelector('.braille-input-btn')
+      const $display = container.querySelector('.braille-display')
+      const $textarea = container.querySelector('textarea')
+      $input.value = 0
+      $input.onclick = e => {
+        const { chr } = puzzle.utils
+        if (!e.target.classList.contains('braille-dot')) return
+        e.target.classList.toggle('filled')
+        const index = e.target.getAttribute('data-index')
+        $input.value ^= 1 << Number(index)
+        const code = chr(0x2800 + $input.value)
+        $display.textContent = braille(code)
+      }
+      $btn.onclick = () => {
+        const { chr } = puzzle.utils
+        const helper = new puzzle.InputHelper($textarea)
+        const code = chr(0x2800 + $input.value)
+        helper.insert(code)
+      }
+      function braille (str) {
+        if (/[\u2800-\u28ff]/.test(str)) {
+          return [...str].map(c => puzzle.convert(c, { from: 'braille', to: 'char' })).join('')
+        }
+        return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'braille' })).join('')
+      }
+      module.exports = braille
+      </script>
+      </div>
+    </div>
+    <div id="tabs-hogpen" class="tabs-body-item">
+      <table id="table-hogpen" class="col2"></table>
+
+      [参考 <a href="https://blog.csdn.net/weixin_47869330/article/details/111396033" target="_blank">CSDN</a>]
+      <div id="hogpen-playground" class="playground" type="textarea" value="hogpen">
+      <script type="text">
+      module.exports = function hogpen (str) {
+        return str
+      }
+      </script>
+      </div>
+    </div>
+    <div id="tabs-caesar" class="tabs-body-item">
+      <div class="playground" type="textarea" value="Sleep">
+
+      <p>说明: 对所有英文字母进行相同的平移. 比如 A → C, B → D, ..., Y → A, Z → B.</p>
+      <script type="text">
+      module.exports = function caesar (str) {
+        const { chr, ord } = puzzle.utils
+        return Array.from({ length: 25 }).map((_, i) => {
+          return String(i + 1).padStart(2, '0') + '. ' + [...str].map(c => {
+            if (/[a-z]/.test(c)) return chr((ord(c) - 96 + i) % 26 + 97)
+            if (/[A-Z]/.test(c)) return chr((ord(c) - 64 + i) % 26 + 65)
+            return c
+          }).join('')
+        }).join('\n')
+      }
+      </script>
+      </div>
+    </div>
+    <div id="tabs-fence" class="tabs-body-item">
+      <div class="playground" type="textarea" value="tlrreelcntoattwsheee">
+      <p>说明: 把文字写成矩阵, 然后对矩阵进行转置. 变换的结果取决于矩阵的宽度.</p>
+      <div class="align-center">
+        <span>宽度:</span>
+        <input class="input" type="number" value="4" min="1" />
+      </div>
+      <script type="text">
+      const $input = container.querySelector('.input')
+      const $run = container.querySelector('input[type=button]')
+      $input.oninput = e => {
+        $run.click()
+      }
+      module.exports = function fence (str) {
+        const arr = [...str]
+        const buf = []
+        const width = $input.value
+        const lines = arr.length / width
+        for (let j = 0; j < width; ++j) {
+           for (let i = 0; i < lines; ++i) {
+              const c = arr[i * width + j]
+              if (c) buf.push(c)
+           }
+           buf.push('\n')
+        }
+        return buf.join('')
+      }
+      </script>
+      </div>
+    </div>
+    <div id="tabs-reverse" class="tabs-body-item">
+      <div class="playground" type="textarea" value="Able was I ere I saw Elba">
+      <p>说明: 反转文本
+      </p>
+      <script type="text">
+      module.exports = function reverse (str) {
+        return [...str].reverse().join('')
+      }
+      </script>
+      </div>
+    </div>
+    <div id="tabs-vigenere" class="tabs-body-item">
+      <p>用 P 表示明文 (plaintext), C 表示密文 (cipher text), E 表示加密 (encrypt), D 表示解密 (decrypt),
+        K 表示密钥 (key). 维吉尼亚密码是一种对称加密, 可以表示为
+        <span class="formula">
+          `C = E(P, K)`,<br>
+          `P = D(C, K)`.
+        </span>
+        其中明文、密文与密钥都只含 26 个英文字母, 以 `A mapsto 0`, `Z mapsto 25` 的方式对应到数字.
+        我们假定密钥与明文是一样长的, 如果密钥太短, 则通过重复的方式使它们一样长.
+        维吉尼亚的加密、解密算法定义为:
+        <span class="formula">
+          `C_i = E(P_i, K_i) = (P_i + K_i) mod 26`,<br>
+          `P_i = D(C_i, K_i) = (C_i - K_i) mod 26`.
+        </span>
+      </p>
+
+      <div class="playground" type="textarea" value="vpxz giaxiv wpubtt mj pwi zitwzt">
+      <div class="align-center">
+        <span>密钥:</span>
+        <input id="input-vigenere" class="input" type="text" value="cipher"/>
+        <label class="align-center">解密
+          <input id="decode-vigenere" name="radio-vigenere" type="radio" value="decode" checked />
+        </label>
+        <label class="align-center">加密
+          <input id="encode-vigenere" name="radio-vigenere" type="radio" value="encode" />
+        </label>
+      </div>
+      <script type="text">
+      module.exports = function vigenere (plaintext) {
+        const { chr, ord } = puzzle.utils
+        const $input = $('#input-vigenere')
+        const isDecode = $('#decode-vigenere').checked
+        const key = [...$input.value.toLowerCase()].map(c => ord(c) - 97)
+        let i = 0
+        return [...plaintext.toLowerCase()].map(c => {
+          const code = ord(c)
+          if (code >= 97 && code <= 122) {
+            let k = key[i]
+            if (isDecode) k = -k
+            i = (i + 1) % key.length
+            return chr((code + 26 - 97 + k) % 26 + 97)
+          } else {
+            return c
+          }
+        }).join('')
+      }
+      </script>
+      </div>
+    </div>
+    <div id="tabs-lens" class="tabs-body-item">
+      <canvas id="lens-canvas"></canvas>
+      <label>
+        <input type="radio" name="lens-radio" value="0" checked> R
+      </label>
+      <label>
+        <input type="radio" name="lens-radio" value="1"> G
+      </label>
+      <label>
+        <input type="radio" name="lens-radio" value="2"> B
+      </label>
+      <input id="lens-file" type="file" accept="image/*" />
+      <script type="module" defer>
+      const canvas = $('#lens-canvas')
+      const ctx = canvas.getContext('2d', { willReadFrequently: true })
+      const image = {}
+      const lens = { x: 0, y: 0, w: 550, h: 400 }
+      const mouse = { x: 0, y: 0 }
+      let channel = 0
+
+      const updateLens = (x, y) => {
+      }
+
+      const init = (img) => {
+        const draggable = draggableCanvas({
+          canvas,
+          ctx,
+          onMouseDown ({ x, y }) {
+            mouse.x = x
+            mouse.y = y
+            lens.x0 = lens.x
+            lens.y0 = lens.y
+          },
+          onMouseMove ({ x, y }) {
+            lens.x = lens.x0 + x - mouse.x
+            lens.y = lens.y0 + y - mouse.y
+            update()
+          },
+        })
+
+        const r1 = img.width / img.height
+        const r2 = canvas.width / canvas.height
+        let x, y, w, h
+        if (r1 < r2) { // 图片比较瘦
+          h = canvas.height | 0
+          w = h * r1 | 0
+          y = 0
+          x = (canvas.width - w) / 2 | 0
+        } else { // 图片比较胖
+          w = canvas.width | 0
+          h = w / r1 | 0
+          x = 0
+          y = (canvas.height - h) / 2 | 0
+        }
+        Object.assign(image, { img, x, y, w, h })
+
+        lens.w = w
+        lens.h = h
+        lens.x = (canvas.width / 2 - lens.w / 2) | 0
+        lens.y = (canvas.height / 2 - lens.h / 2) | 0
+        update()
+      }
+
+      const update = () => {
+        ctx.drawImage(image.img, image.x, image.y, image.w, image.h)
+        const imageData = ctx.getImageData(lens.x, lens.y, lens.w, lens.h)
+        const { data } = imageData
+        for (let i = 0; i < data.length; i += 4) {
+          if (channel !== 0) data[i] = 0
+          if (channel !== 1) data[i+1] = 0
+          if (channel !== 2) data[i+2] = 0
+        }
+        ctx.putImageData(imageData, lens.x, lens.y)
+      }
+
+      document.querySelector('#lens-file').onchange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+        const reader = new FileReader()
+        const img = new Image()
+        reader.readAsDataURL(file)
+        reader.onload = function () {
+          img.src = this.result
+        }
+        img.onload = () => {
+          init(img)
+        }
+      }
+
+      ;[...document.querySelectorAll('input[name=lens-radio]')].forEach(radio => {
+        radio.onchange = (e) => {
+          channel = parseInt(e.target.value)
+          update()
+        }
+      })
+      </script>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-a1z26">字母序 A1Z26</a>
+    <a class="tabs-footer-item" href="#tabs-morse">摩斯 morse</a>
+    <a class="tabs-footer-item" href="#tabs-nato">北约字母 nato</a>
+    <a class="tabs-footer-item" href="#tabs-cellphone">手机键盘 cellphone</a>
+    <a class="tabs-footer-item" href="#tabs-flag">旗语 flag</a>
+    <a class="tabs-footer-item" href="#tabs-braille">盲文 braille</a>
+    <a class="tabs-footer-item" href="#tabs-hogpen">猪圈 hogpen</a>
+    <a class="tabs-footer-item" href="#tabs-caesar">凯撒 caesar</a>
+    <a class="tabs-footer-item" href="#tabs-fence">栅栏 fence</a>
+    <a class="tabs-footer-item" href="#tabs-reverse">倒序 reverse</a>
+    <a class="tabs-footer-item" href="#tabs-vigenere">维吉尼亚 Vigenère</a>
+    <a class="tabs-footer-item" href="#tabs-lens">透镜 lens</a>
+
+    <!-- 实用工具 -->
+
+    <a class="tabs-footer-item" href="http://nutrimatic.org/" target="_blank" title="解字母乱序 anagram">nutrimatic🔗</a>
+    <a class="tabs-footer-item" href="http://quipqiup.com/" target="_blank" title="解单表密码">quipqiup🔗</a>
+    <a class="tabs-footer-item" href="https://www.guballa.de/vigenere-solver" target="_blank" title="无密钥解维吉尼亚">vigenere-solver🔗</a>
+  </div>
 </div>
-
-<p class="remark">二进制字母序编码又叫培根密码, 使用 5 个 bit 表示一个字母.</p>
-
-<h3>摩斯 morse</h3>
-
-<table id="table-morse" class="col2"></table>
-
-<div class="playground" type="textarea" value="--/---/.-./.../.
--.-./---/-../." value2="morse code">
-
-<p>说明: 输入英文, 转为摩斯码; 输入摩斯码, 转为英文.</p>
-<script type="text">
-module.exports = function morse (str) {
-  if (/[a-zA-Z]/.test(str)) {
-    return str.split(/\s+/).map(line => [...line].filter(c => /[a-zA-Z]/.test(c)).map(c => puzzle.convert(c, { from: 'char', to: 'morse' })).join('/')).join('\n')
-  }
-  return str.split('\n').map(line => line.split(/[^-_.]+/).map(m => puzzle.convert(m, { from: 'morse', to: 'char' })).join('')).join(' ')
-}
-</script>
-</div>
-
-<h3>北约字母 NATO phonetic alphabet</h3>
-
-<table id="table-nato" class="col2"></table>
-
-<h3>手机九键编码 cellphone</h3>
-
-<table id="table-cellphone" class="col2">
-  <caption>手机九键编码</caption>
-  <tr>
-    <td><p>1</p><p>-</p></td>
-    <td><p>2</p><p>ABC</p></td>
-    <td><p>3</p><p>DEF</p></td>
-  </tr>
-  <tr>
-    <td><p>4</p><p>GHI</p></td>
-    <td><p>5</p><p>JKL</p></td>
-    <td><p>6</p><p>MNO</p></td>
-  </tr>
-  <tr>
-    <td><p>7</p><p>PQRS</p></td>
-    <td><p>8</p><p>TUV</p></td>
-    <td><p>9</p><p>WXYZ</p></td>
-  </tr>
-</table>
-
-<div class="playground" type="textarea" value="233253537142636232" value2="cellphone">
-
-<p>说明: 输入英文, 转为手机九键编码; 输入手机九键编码, 转为英文.</p>
-<script type="text">
-module.exports = function cellphone (str) {
-  if (/[a-zA-Z]/.test(str)) {
-    return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'cellphone' })).join('')
-  }
-
-  // split into 2-chunks
-  const buf = puzzle.utils.chunk(str.replace(/\s/g, ''), 2)
-  return buf.map(c => puzzle.convert(c, { from: 'cellphone', to: 'char' })).join('')
-}
-</script>
-</div>
-
-<h3>旗语 flag</h3>
-
-<table id="table-flag" class="col2"></table>
-
-<div class="playground" type="textarea" value="↓→↙↗↙↓↓↘" value2="flag">
-
-<p>说明: 输入英文, 转为旗语; 输入旗语, 转为英文</p>
-<div class="flag-input">
-  <div class="flag-direction">↖</div>
-  <div class="flag-direction">↑</div>
-  <div class="flag-direction">↗</div>
-  <div class="flag-direction">←</div>
-  <div class="flag-center"></div>
-  <div class="flag-direction">→</div>
-  <div class="flag-direction">↙</div>
-  <div class="flag-direction">↓</div>
-  <div class="flag-direction">↘</div>
-</div>
-<div class="inline-block">
-  <p class="flag-display"></p>
-  <input class="flag-input-btn" type="button" value="插入" />
-</div>
-<script type="text">
-const $input = container.querySelector('.flag-input')
-const $btn = container.querySelector('.flag-input-btn')
-const $display = container.querySelector('.flag-display')
-const $textarea = container.querySelector('textarea')
-$input.char = ''
-$input.value = []
-$input.onclick = e => {
-  if (!e.target.classList.contains('flag-direction')) return
-  if ($input.value.length === 2) {
-    [...container.querySelectorAll('.flag-direction')].forEach(el => el.classList.remove('filled'))
-    $input.value.length = 0
-  }
-  e.target.classList.toggle('filled')
-  const char = e.target.textContent
-  $input.char = char
-  $input.value.push(char)
-  $display.textContent = flag($input.value.join(''))
-}
-$btn.onclick = () => {
-  const helper = new InputHelper($textarea)
-  helper.insert($input.value.join(''))
-}
-function flag (str) {
-  if (/[\u2190-\u2193\u2196-\u2199]/.test(str)) {
-    const buf = puzzle.utils.chunk(str, 2)
-    return buf.map(c => puzzle.convert(c, { from: 'flag', to: 'char' })).join('')
-  }
-  return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'flag' })).join('')
-}
-module.exports = flag
-</script>
-</div>
-
-<h3>盲文 braille</h3>
-
-<table id="table-braille" class="col2"></table>
-
-<div class="playground" type="textarea" value="⠃⠗⠁⠊⠇⠇⠑" value2="braille">
-
-<p>说明: 输入英文, 转为盲文; 输入盲文, 转为英文</p>
-<div class="braille-input">
-  <div class="braille-dot" data-index="0"></div>
-  <div class="braille-dot" data-index="3"></div>
-  <div class="braille-dot" data-index="1"></div>
-  <div class="braille-dot" data-index="4"></div>
-  <div class="braille-dot" data-index="2"></div>
-  <div class="braille-dot" data-index="5"></div>
-</div>
-<div class="inline-block">
-  <p class="braille-display"></p>
-  <input class="braille-input-btn" type="button" value="插入" />
-</div>
-<script type="text">
-const $input = container.querySelector('.braille-input')
-const $btn = container.querySelector('.braille-input-btn')
-const $display = container.querySelector('.braille-display')
-const $textarea = container.querySelector('textarea')
-$input.value = 0
-$input.onclick = e => {
-  if (!e.target.classList.contains('braille-dot')) return
-  e.target.classList.toggle('filled')
-  const index = e.target.getAttribute('data-index')
-  $input.value ^= 1 << Number(index)
-  const code = String.fromCharCode(0x2800 + $input.value)
-  $display.textContent = braille(code)
-}
-$btn.onclick = () => {
-  const helper = new InputHelper($textarea)
-  const code = String.fromCharCode(0x2800 + $input.value)
-  helper.insert(code)
-}
-function braille (str) {
-  if (/[\u2800-\u28ff]/.test(str)) {
-    return [...str].map(c => puzzle.convert(c, { from: 'braille', to: 'char' })).join('')
-  }
-  return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'braille' })).join('')
-}
-module.exports = braille
-</script>
-</div>
-
-<h3>猪圈 hogpen</h3>
-
-<table id="table-hogpen" class="col2"></table>
-
-[参考 <a href="https://blog.csdn.net/weixin_47869330/article/details/111396033" target="_blank">CSDN</a>]
-<div id="hogpen-playground" class="playground" type="textarea" value="hogpen">
-<script type="text">
-module.exports = function hogpen (str) {
-  return str
-}
-</script>
-</div>
-
-<h2>基于文本的变换</h2>
-
-<h3>凯撒 caesar</h3>
-
-<div class="playground" type="textarea" value="Sleep">
-
-<p>说明: 对所有英文字母进行相同的平移. 比如 A → C, B → D, ..., Y → A, Z → B.</p>
-<script type="text">
-module.exports = function caesar (str) {
-  return Array.from({ length: 25 }).map((_, i) => {
-    return String(i + 1).padStart(2, '0') + '. ' + [...str].map(c => {
-      if (/[a-z]/.test(c)) return String.fromCharCode((c.charCodeAt(0) - 96 + i) % 26 + 97)
-      if (/[A-Z]/.test(c)) return String.fromCharCode((c.charCodeAt(0) - 64 + i) % 26 + 65)
-      return c
-    }).join('')
-  }).join('\n')
-}
-</script>
-</div>
-
-<h3>栅栏 fence</h3>
-
-<div class="playground" type="textarea" value="tlrreelcntoattwsheee">
-<p>说明: 把文字写成矩阵, 然后对矩阵进行转置. 变换的结果取决于矩阵的宽度.</p>
-<div class="align-center">
-  <span>宽度:</span>
-  <input class="input" type="number" value="4" min="1" />
-</div>
-<script type="text">
-const $input = container.querySelector('.input')
-const $run = container.querySelector('input[type=button]')
-$input.oninput = e => {
-  $run.click()
-}
-module.exports = function fence (str) {
-  const arr = [...str]
-  const buf = []
-  const width = $input.value
-  const lines = arr.length / width
-  for (let j = 0; j < width; ++j) {
-     for (let i = 0; i < lines; ++i) {
-        const c = arr[i * width + j]
-        if (c) buf.push(c)
-     }
-     buf.push('\n')
-  }
-  return buf.join('')
-}
-</script>
-</div>
-
-<h3>倒序 reverse</h3>
-
-<div class="playground" type="textarea" value="Able was I ere I saw Elba">
-<p>说明: 反转文本
-</p>
-<script type="text">
-module.exports = function reverse (str) {
-  return [...str].reverse().join('')
-}
-</script>
-</div>
-
-<h3>维吉尼亚 Vigenère</h3>
-
-<p>用 P 表示明文 (plaintext), C 表示密文 (cipher text), E 表示加密 (encrypt), D 表示解密 (decrypt),
-  K 表示密钥 (key). 维吉尼亚密码是一种对称加密, 可以表示为
-  <span class="formula">
-    `C = E(P, K)`,<br>
-    `P = D(C, K)`.
-  </span>
-  其中明文、密文与密钥都只含 26 个英文字母, 以 `A mapsto 0`, `Z mapsto 25` 的方式对应到数字.
-  我们假定密钥与明文是一样长的, 如果密钥太短, 则通过重复的方式使它们一样长.
-  维吉尼亚的加密、解密算法定义为:
-  <span class="formula">
-    `C_i = E(P_i, K_i) = (P_i + K_i) mod 26`,<br>
-    `P_i = D(C_i, K_i) = (C_i - K_i) mod 26`.
-  </span>
-</p>
-
-<div class="playground" type="textarea" value="vpxz giaxiv wpubtt mj pwi zitwzt">
-<div class="align-center">
-  <span>密钥:</span>
-  <input id="input-vigenere" class="input" type="text" value="cipher"/>
-  <label class="align-center">解密
-    <input id="decode-vigenere" name="radio-vigenere" type="radio" value="decode" checked />
-  </label>
-  <label class="align-center">加密
-    <input id="encode-vigenere" name="radio-vigenere" type="radio" value="encode" />
-  </label>
-</div>
-<script type="text">
-module.exports = function vigenere (plaintext) {
-  const $input = document.querySelector('#input-vigenere')
-  const isDecode = document.querySelector('#decode-vigenere').checked
-  const key = [...$input.value.toLowerCase()].map(c => c.codePointAt(0) - 97)
-  let i = 0
-  return [...plaintext.toLowerCase()].map(c => {
-    const code = c.codePointAt(0)
-    if (code >= 97 && code <= 122) {
-      let k = key[i]
-      if (isDecode) k = -k
-      i = (i + 1) % key.length
-      return String.fromCodePoint((code + 26 - 97 + k) % 26 + 97)
-    } else {
-      return c
-    }
-  }).join('')
-}
-</script>
-</div>
-
-<h2>实用工具</h2>
-
-<ul>
-  <li><a href="http://nutrimatic.org/" target="_blank">nutrimatic</a>: 解 anagram (字母乱序)</li>
-  <li><a href="http://quipqiup.com/" target="_blank">quipqiup.com</a>: 解单表密码</li>
-  <li><a href="https://www.guballa.de/vigenere-solver" target="_blank">vigenere-solver</a>: 解维吉尼亚密码</li>
-</ul>
 
 <script src="../../js/note.js"></script>
 <script src="../../js/playground.js"></script>
 <script src="../../js/puzzle/classic.js"></script>
+<script src="../../js/drag-canvas.js"></script>
 <script>
 function $ (...args) {
   return document.querySelector(...args)
 }
 
-function init () {
+const init = () => {
+  const { chr } = puzzle.utils
   puzzle.renderTable($('#table-a1z26'), puzzle.makeTable(i => i + 1), '字母序')
   puzzle.renderTable($('#table-braille'), puzzle.makeTable(i => puzzle.data.brailleStr[i]), '盲文')
   puzzle.renderTable($('#table-morse'), puzzle.makeTable(i => puzzle.data.morseArr[i]), '摩斯')
   puzzle.renderTable($('#table-nato'), puzzle.makeTable(i => puzzle.data.natoArr[i]), '北约字母')
   puzzle.renderTable($('#table-flag'), puzzle.makeTable(i => puzzle.data.flagArr[i]), '旗语')
-  puzzle.renderTable($('#table-hogpen'), puzzle.makeTable(i => String.fromCodePoint(97 + i)), '猪圈密码')
+  puzzle.renderTable($('#table-hogpen'), puzzle.makeTable(i => chr(97 + i)), '猪圈密码')
 }
 
 init()
-
-class InputHelper {
-  constructor (input) {
-    this.input = input
-  }
-  getCaret () {
-    return this.input.selectionStart || 0
-  }
-  setCaret (pos) {
-    const input = this.input
-    if (input.setSelectionRange) {
-      setTimeout(function() {
-        input.setSelectionRange(pos, pos)
-        input.focus()
-      }, 0)
-    } else if (input.createTextRange) {
-      const range = input.createTextRange()
-      range.move('character', pos)
-      range.select()
-    }
-  }
-  insert (text) {
-    const input = this.input
-    input.focus();
-    const i = this.getCaret();
-    const leftStr = input.value.substr(0, i)
-    const rightStr = input.value.substr(i)
-    input.value = leftStr + text + rightStr
-    this.setCaret(input.value.length - rightStr.length)
-  }
-}
 </script>
 </body>
 </html>

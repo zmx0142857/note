@@ -459,7 +459,7 @@ var tocData = [
         "label": "未分类",
         "children": [
           { "value": "braille", "label": "盲文", "date": "2023-05-10" },
-          { "value": "classical-cipher", "label": "古典密码", "date": "2023-08-15" }
+          { "value": "classical-cipher", "label": "古典密码", "date": "2024-09-07" }
         ]
       }
     ]

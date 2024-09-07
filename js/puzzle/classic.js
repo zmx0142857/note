@@ -85,6 +85,37 @@ function strChunk (str, len) {
   return buf
 }
 
+class InputHelper {
+  constructor (input) {
+    this.input = input
+  }
+  getCaret () {
+    return this.input.selectionStart || 0
+  }
+  setCaret (pos) {
+    const input = this.input
+    if (input.setSelectionRange) {
+      setTimeout(function() {
+        input.setSelectionRange(pos, pos)
+        input.focus()
+      }, 0)
+    } else if (input.createTextRange) {
+      const range = input.createTextRange()
+      range.move('character', pos)
+      range.select()
+    }
+  }
+  insert (text) {
+    const input = this.input
+    input.focus();
+    const i = this.getCaret();
+    const leftStr = input.value.substr(0, i)
+    const rightStr = input.value.substr(i)
+    input.value = leftStr + text + rightStr
+    this.setCaret(input.value.length - rightStr.length)
+  }
+}
+
 return {
   convert,
   renderTable,
@@ -97,7 +128,10 @@ return {
   },
   utils: {
     chunk: strChunk,
-  }
+    ord: c => c.codePointAt(0),
+    chr: String.fromCodePoint,
+  },
+  InputHelper,
 }
 
 })();
