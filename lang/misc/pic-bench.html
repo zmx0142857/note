@@ -95,23 +95,25 @@
 .workbench-resizer {
   position: absolute;
   bottom: 0;
-  right: -4px;
-  width: 8px;
-  height: 8px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
   border: 1px solid #000;
   background-color: #fff;
   cursor: nwse-resize;
+  transform-origin: center;
 }
 .workbench-rotater {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -5px;
+  right: -5px;
   border: 1px solid #000;
   background-color: #fff;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   cursor: grab; 
+  transform-origin: center;
 }
 
 .property {
@@ -210,7 +212,8 @@ const $properties = {
   $scale: $('#prop-scale', {
     onchange: (e) => {
       if (!currentImg) return
-      currentImg.scale = parseFloat(e.target.value)
+      const value = parseFloat(e.target.value)
+      updateScale(value)
       updateTransform()
     },
   }),
@@ -233,6 +236,12 @@ const updateTransform = () => {
   Object.assign(currentImg.target.style, {
     transform: `translate(${currentImg.x}px, ${currentImg.y}px) rotate(${currentImg.rotate}deg) scale(${currentImg.scale})`,
   })
+}
+
+const updateScale = (s) => {
+  currentImg.scale = s
+  currentImg.target.querySelector('.workbench-rotater').style.transform = `scale(${1/s})`
+  currentImg.target.querySelector('.workbench-resizer').style.transform = `scale(${1/s})`
 }
 
 // 选中图片
@@ -314,6 +323,7 @@ const renderWorkImg = (img) => {
     },
   })
   img.target = target
+  currentImg = img
 
   const start = { x: 0, y: 0 }
   const workImg = $('<img>', {
@@ -324,10 +334,18 @@ const renderWorkImg = (img) => {
       draggable: 'false',
     },
     onload: (e) => {
-      Object.assign(img, {
-        width: e.target.offsetWidth,
-        height: e.target.offsetHeight,
-      })
+      const width = e.target.offsetWidth
+      const height = e.target.offsetHeight
+      Object.assign(img, { width, height })
+      const rx = $workbench.offsetWidth * 0.6 / width
+      const ry = $workbench.offsetHeight * 0.6 / height
+      const s = Math.min(rx, ry)
+      if (s < 1) {
+        updateScale(s)
+        currentImg.x = (s - 1) * width / 2 | 0
+        currentImg.y = (s - 1) * height / 2 | 0
+        updateTransform()
+      }
     },
     onpointerdown: draggable({
       container: $workbench,
@@ -369,7 +387,7 @@ const renderWorkImg = (img) => {
         const sint = Math.sin(t)
         const sx = (dx * cost + dy * sint) / hw
         const sy = (-dx * sint + dy * cost) / hh
-        img.scale = Math.abs(sx) < Math.abs(sy) ? sx : sy
+        updateScale(Math.abs(sx) < Math.abs(sy) ? sx : sy)
         $properties.$scale.value = img.scale.toFixed(2)
         updateTransform()
       },
@@ -389,7 +407,7 @@ const renderWorkImg = (img) => {
         const hh = img.height * 0.5
         const dx = x - img.x - hw
         const dy = y - img.y - hh
-        img.rotate = Math.atan2(dy, dx) * 180 / Math.PI + 45
+        img.rotate = (Math.atan2(dy, dx) + Math.atan2(img.height, img.width)) * 180 / Math.PI
         $properties.$rotate.value = img.rotate.toFixed(2)
         updateTransform()
       }
