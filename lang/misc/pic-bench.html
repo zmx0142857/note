@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>拼图工作台</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+:root {
+  --color-blue: #1976d2;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #eee;
+  background-color: transparent;
+  border: 1px solid #888;
+  opacity: 0.9;
+  margin-top: 8px;
+}
+.btn.btn-primary {
+  background-color: var(--color-blue);
+  border-color: var(--color-blue);
+}
+.btn:active {
+  opacity: 1;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.img-list {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 8px;
+}
+.img-list-item {
+  position: relative;
+}
+.img-list-img {
+  height: 100px;
+  width: 100px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.img-list-btn-load {
+  cursor: pointer;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #666;
+  color: #666;
+  height: 100px;
+  width: 100px;
+  line-height: 100px;
+  font-size: 46px;
+  border-radius: 6px;
+}
+.img-list-btn-delete {
+  cursor: pointer;
+  padding: 0;
+  background: #faa;
+  width: 20px;
+  border: none;
+  color: #eee;
+  border-radius: 50%;
+  height: 20px;
+  font-size: 20px;
+  line-height: 19px;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  transform: rotate(45deg);
+}
+#workbench {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+.workbench-item {
+  position: absolute;
+  transform-origin: center;
+  user-select: none;
+}
+.workbench-resizer {
+  position: absolute;
+  bottom: 0;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #000;
+  background-color: #fff;
+  cursor: nwse-resize;
+}
+.workbench-rotater {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  border: 1px solid #000;
+  background-color: #fff;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  cursor: grab; 
+}
+
+.property {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  color: #eee;
+}
+.property-item {
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.property input[type=number] {
+  background: #333;
+  border: 1px solid #666;
+  height: 24px;
+  color: #aaa;
+}
+</style>
+</head>
+<body>
+
+<div id="workbench">
+</div>
+
+<input id="file" type="file" multiple="true" hidden>
+<div id="img-list" class="img-list">
+  <button id="btn-load" class="img-list-item img-list-btn-load">+</button>
+</div>
+
+<div class="property">
+  <div class="property-item"> opacity: <input id="prop-opacity" type="range" min="0" max="1" step="0.01" value="1"> </div>
+  <div class="property-item"> x: <input id="prop-x" type="number" step="1" value="0"> </div>
+  <div class="property-item"> y: <input id="prop-y" type="number" step="1" value="0"> </div>
+  <div class="property-item"> rotate: <input id="prop-rotate" type="number" step="1" value="0"> </div>
+  <div class="property-item"> scale: <input id="prop-scale" type="number" step="0.01" value="1"> </div>
+</div>
+
+<script src="../../js/ui.js"></script>
+<script>
+const $btnLoad = $('#btn-load', {
+  onclick: () => $file.click()
+})
+
+const $file = $('#file', {
+  onchange: (e) => {
+    [...e.target.files].forEach(file => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = function () {
+        addImg({ src: this.result, name: file.name })
+      }
+    })
+  }
+})
+
+const $imgList = $('#img-list')
+const $workbench = $('#workbench')
+const $properties = {
+  $opacity: $('#prop-opacity', {
+    onchange: (e) => {
+      if (!currentImg) return
+      const value = parseFloat(e.target.value)
+      currentImg.opacity = value
+      currentImg.target.style.opacity = value
+    },
+  }),
+  $x: $('#prop-x', {
+    onchange: (e) => {
+      if (!currentImg) return
+      currentImg.x = parseInt(e.target.value)
+      updateTransform()
+    },
+  }),
+  $y: $('#prop-y', {
+    onchange: (e) => {
+      if (!currentImg) return
+      currentImg.y = parseInt(e.target.value)
+      updateTransform()
+    },
+  }),
+  $rotate: $('#prop-rotate', {
+    onchange: (e) => {
+      if (!currentImg) return
+      currentImg.rotate = parseInt(e.target.value)
+      updateTransform()
+    },
+  }),
+  $scale: $('#prop-scale', {
+    onchange: (e) => {
+      if (!currentImg) return
+      currentImg.scale = parseFloat(e.target.value)
+      updateTransform()
+    },
+  }),
+}
+
+const uid = () => Math.random().toFixed(16).slice(2)
+const imgs = []
+let currentImg
+let maxIndex = 0
+
+const deleteImg = ({ id, item }) => {
+  $imgList.removeChild(item)
+  const index = imgs.findIndex(v => v.id === id)
+  if (index > -1) imgs.splice(index, 1)
+  const workItem = [...$workbench.children].find(v => v.getAttribute('data-id') === id)
+  if (workItem) $workbench.removeChild(workItem)
+}
+
+const updateTransform = () => {
+  Object.assign(currentImg.target.style, {
+    transform: `translate(${currentImg.x}px, ${currentImg.y}px) rotate(${currentImg.rotate}deg) scale(${currentImg.scale})`,
+  })
+}
+
+// 选中图片
+const selectImg = (target) => {
+  // 移动到最前面展示
+  if (parseInt(target.style.zIndex) !== maxIndex) {
+    Object.assign(target.style, {
+      zIndex: ++maxIndex,
+    })
+  }
+  $properties.$opacity.value = currentImg.opacity
+  $properties.$x.value = currentImg.x
+  $properties.$y.value = currentImg.y
+  $properties.$rotate.value = currentImg.rotate.toFixed(2)
+  $properties.$scale.value = currentImg.scale.toFixed(2)
+}
+
+const renderImgList = ({ id, src, name }) => {
+  const imgDelete = $('<button>', {
+    className: 'img-list-btn-delete',
+  }, '+')
+  const img = $('<img>', {
+    className: 'img-list-img',
+    attrs: {
+      src,
+      alt: name,
+    },
+  })
+  const item = $('<div>', {
+    className: 'img-list-item',
+  }, [img, imgDelete])
+  imgDelete.onclick = () => {
+    deleteImg({ id, item })
+  }
+  item.appendChild(img)
+  $imgList.appendChild(item)
+}
+
+const draggable = ({ container, target, onMouseDown, onMouseMove }) => {
+
+  const getXY = (e) => {
+    const rect = container.getBoundingClientRect()
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    }
+  }
+
+  const onPointerMove = (e) => {
+    if (!currentImg) return
+    const { x, y } = getXY(e)
+    onMouseMove?.({ x, y })
+  }
+  
+  const onPointerUp = (e) => {
+    document.removeEventListener('pointermove', onPointerMove)
+    document.removeEventListener('pointerup', onPointerUp)
+  }
+
+  return (e) => {
+    document.addEventListener('pointermove', onPointerMove)
+    document.addEventListener('pointerup', onPointerUp)
+
+    const id = target.getAttribute('data-id')
+    currentImg = imgs.find(v => v.id === id)
+    if (!currentImg) return
+
+    const { x, y } = getXY(e)
+    onMouseDown?.({ x, y })
+  }
+}
+
+const renderWorkImg = (img) => {
+  const { id, src, name } = img
+  const target = $('<div>', {
+    className: 'workbench-item',
+    attrs: {
+      'data-id': id,
+    },
+  })
+  img.target = target
+
+  const start = { x: 0, y: 0 }
+  const workImg = $('<img>', {
+    className: 'workbench-img',
+    attrs: {
+      src,
+      alt: name,
+      draggable: 'false',
+    },
+    onload: (e) => {
+      Object.assign(img, {
+        width: e.target.offsetWidth,
+        height: e.target.offsetHeight,
+      })
+    },
+    onpointerdown: draggable({
+      container: $workbench,
+      target,
+      onMouseDown: ({ x, y }) => {
+        Object.assign(start, {
+          x: img.x - x,
+          y: img.y - y,
+        })
+        selectImg(target)
+      },
+      onMouseMove: ({ x, y }) => {
+        Object.assign(img, {
+          x: start.x + x,
+          y: start.y + y,
+        })
+        $properties.$x.value = img.x
+        $properties.$y.value = img.y
+        updateTransform()
+      },
+    }),
+  })
+
+  const resizer = $('<div>', {
+    className: 'workbench-resizer',
+    onpointerdown: draggable({
+      container: $workbench,
+      target,
+      onMouseDown: () => {
+        selectImg(target)
+      },
+      onMouseMove: ({ x, y }) => {
+        const hw = img.width * 0.5
+        const hh = img.height * 0.5
+        const dx = x - img.x - hw
+        const dy = y - img.y - hh
+        const t = img.rotate * Math.PI / 180
+        const cost = Math.cos(t)
+        const sint = Math.sin(t)
+        const sx = (dx * cost + dy * sint) / hw
+        const sy = (-dx * sint + dy * cost) / hh
+        img.scale = Math.abs(sx) < Math.abs(sy) ? sx : sy
+        $properties.$scale.value = img.scale.toFixed(2)
+        updateTransform()
+      },
+    }),
+  })
+
+  const rotater = $('<div>', {
+    className: 'workbench-rotater',
+    onpointerdown: draggable({
+      container: $workbench,
+      target,
+      onMouseDown: () => {
+        selectImg(target)
+      },
+      onMouseMove: ({ x, y }) => {
+        const hw = img.width * 0.5
+        const hh = img.height * 0.5
+        const dx = x - img.x - hw
+        const dy = y - img.y - hh
+        img.rotate = Math.atan2(dy, dx) * 180 / Math.PI + 45
+        $properties.$rotate.value = img.rotate.toFixed(2)
+        updateTransform()
+      }
+    })
+  })
+
+  target.appendChild(workImg)
+  target.appendChild(resizer)
+  target.appendChild(rotater)
+  $workbench.appendChild(target)
+}
+
+const addImg = ({ src, name }) => {
+  const id = uid()
+  const img = { id, src, name, x: 0, y: 0, scale: 1, rotate: 0, opacity: 1 }
+  // console.log('img', img)
+  imgs.push(img)
+  renderImgList(img)
+  renderWorkImg(img)
+}
+</script>
+</body>
+</html>

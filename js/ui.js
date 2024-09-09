@@ -1,6 +1,13 @@
 function appendChildren (el, children) {
-  if (Array.isArray(children)) children.forEach(c => el.appendChild(c))
-  else el.appendChild(children)
+  if (Array.isArray(children)) {
+    children.forEach(c => {
+      if (typeof c === 'string') c = document.createTextNode(c)
+      el.appendChild(c)
+    })
+  } else {
+    if (typeof children === 'string') children = document.createTextNode(children)
+    el.appendChild(children)
+  }
 }
 
 // 虚拟 dom (bushi

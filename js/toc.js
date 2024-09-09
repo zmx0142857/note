@@ -458,8 +458,9 @@ var tocData = [
         "value": "misc",
         "label": "未分类",
         "children": [
+          { "value": "classical-cipher", "label": "古典密码", "date": "2024-09-07" },
+          { "value": "pic-bench", "label": "拼图工作台", "date": "2024-09-09" },
           { "value": "braille", "label": "盲文", "date": "2023-05-10" },
-          { "value": "classical-cipher", "label": "古典密码", "date": "2024-09-07" }
         ]
       }
     ]
