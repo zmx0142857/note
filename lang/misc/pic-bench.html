@@ -115,6 +115,12 @@
   cursor: grab; 
   transform-origin: center;
 }
+@media screen and ((min-resolution: 150dpi) or (-webkit-min-device-pixel-ratio:2)) {
+  .workbench-resizer, .workbench-rotater {
+    width: 20px;
+    height: 20px;
+  }
+}
 
 .property {
   position: absolute;
@@ -160,6 +166,7 @@
 </div>
 
 <script src="../../js/ui.js"></script>
+<script src="../../js/drag-canvas.js"></script>
 <script>
 const $btnLoad = $('#btn-load', {
   onclick: () => $file.click()
@@ -245,10 +252,11 @@ const updateScale = (s) => {
 }
 
 // 选中图片
-const selectImg = (target) => {
+const selectImg = (img) => {
+  currentImg = img
   // 移动到最前面展示
-  if (parseInt(target.style.zIndex) !== maxIndex) {
-    Object.assign(target.style, {
+  if (parseInt(currentImg.target.style.zIndex) !== maxIndex) {
+    Object.assign(currentImg.target.style, {
       zIndex: ++maxIndex,
     })
   }
@@ -278,40 +286,6 @@ const renderImgList = ({ id, src, name }) => {
   }
   item.appendChild(img)
   $imgList.appendChild(item)
-}
-
-const draggable = ({ container, target, onMouseDown, onMouseMove }) => {
-
-  const getXY = (e) => {
-    const rect = container.getBoundingClientRect()
-    return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    }
-  }
-
-  const onPointerMove = (e) => {
-    if (!currentImg) return
-    const { x, y } = getXY(e)
-    onMouseMove?.({ x, y })
-  }
-  
-  const onPointerUp = (e) => {
-    document.removeEventListener('pointermove', onPointerMove)
-    document.removeEventListener('pointerup', onPointerUp)
-  }
-
-  return (e) => {
-    document.addEventListener('pointermove', onPointerMove)
-    document.addEventListener('pointerup', onPointerUp)
-
-    const id = target.getAttribute('data-id')
-    currentImg = imgs.find(v => v.id === id)
-    if (!currentImg) return
-
-    const { x, y } = getXY(e)
-    onMouseDown?.({ x, y })
-  }
 }
 
 const renderWorkImg = (img) => {
@@ -347,71 +321,73 @@ const renderWorkImg = (img) => {
         updateTransform()
       }
     },
-    onpointerdown: draggable({
-      container: $workbench,
-      target,
-      onMouseDown: ({ x, y }) => {
-        Object.assign(start, {
-          x: img.x - x,
-          y: img.y - y,
-        })
-        selectImg(target)
-      },
-      onMouseMove: ({ x, y }) => {
-        Object.assign(img, {
-          x: start.x + x,
-          y: start.y + y,
-        })
-        $properties.$x.value = img.x
-        $properties.$y.value = img.y
-        updateTransform()
-      },
-    }),
+  })
+
+  draggable({
+    el: workImg,
+    container: $workbench,
+    onMouseDown: ({ x, y }) => {
+      Object.assign(start, {
+        x: img.x - x,
+        y: img.y - y,
+      })
+      selectImg(img)
+    },
+    onMouseMove: ({ x, y }) => {
+      Object.assign(img, {
+        x: start.x + x,
+        y: start.y + y,
+      })
+      $properties.$x.value = img.x
+      $properties.$y.value = img.y
+      updateTransform()
+    },
   })
 
   const resizer = $('<div>', {
     className: 'workbench-resizer',
-    onpointerdown: draggable({
-      container: $workbench,
-      target,
-      onMouseDown: () => {
-        selectImg(target)
-      },
-      onMouseMove: ({ x, y }) => {
-        const hw = img.width * 0.5
-        const hh = img.height * 0.5
-        const dx = x - img.x - hw
-        const dy = y - img.y - hh
-        const t = img.rotate * Math.PI / 180
-        const cost = Math.cos(t)
-        const sint = Math.sin(t)
-        const sx = (dx * cost + dy * sint) / hw
-        const sy = (-dx * sint + dy * cost) / hh
-        updateScale(Math.abs(sx) < Math.abs(sy) ? sx : sy)
-        $properties.$scale.value = img.scale.toFixed(2)
-        updateTransform()
-      },
-    }),
+  })
+
+  draggable({
+    el: resizer,
+    container: $workbench,
+    onMouseDown: () => {
+      selectImg(img)
+    },
+    onMouseMove: ({ x, y }) => {
+      const hw = img.width * 0.5
+      const hh = img.height * 0.5
+      const dx = x - img.x - hw
+      const dy = y - img.y - hh
+      const t = img.rotate * Math.PI / 180
+      const cost = Math.cos(t)
+      const sint = Math.sin(t)
+      const sx = (dx * cost + dy * sint) / hw
+      const sy = (-dx * sint + dy * cost) / hh
+      updateScale(Math.abs(sx) < Math.abs(sy) ? sx : sy)
+      $properties.$scale.value = img.scale.toFixed(2)
+      updateTransform()
+    },
   })
 
   const rotater = $('<div>', {
     className: 'workbench-rotater',
-    onpointerdown: draggable({
-      container: $workbench,
-      target,
-      onMouseDown: () => {
-        selectImg(target)
-      },
-      onMouseMove: ({ x, y }) => {
-        const hw = img.width * 0.5
-        const hh = img.height * 0.5
-        const dx = x - img.x - hw
-        const dy = y - img.y - hh
-        img.rotate = (Math.atan2(dy, dx) + Math.atan2(img.height, img.width)) * 180 / Math.PI
-        $properties.$rotate.value = img.rotate.toFixed(2)
-        updateTransform()
-      }
-    })
+  })
+  draggable({
+    el: rotater,
+    container: $workbench,
+    onMouseDown: () => {
+      selectImg(img)
+    },
+    onMouseMove: ({ x, y }) => {
+      const hw = img.width * 0.5
+      const hh = img.height * 0.5
+      const dx = x - img.x - hw
+      const dy = y - img.y - hh
+      img.rotate = (Math.atan2(dy, dx) + Math.atan2(img.height, img.width)) * 180 / Math.PI
+      $properties.$rotate.value = img.rotate.toFixed(2)
+      updateTransform()
+    }
   })
 
   target.appendChild(workImg)

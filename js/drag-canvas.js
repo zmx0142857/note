@@ -36,3 +36,40 @@ function draggableCanvas (options) {
     document.addEventListener('touchend', mouseup, true)
   }
 }
+
+function draggable ({ el, container, onMouseDown, onMouseMove }) {
+
+  const getXY = (e) => {
+    const rect = container.getBoundingClientRect()
+    const x = e.clientX ?? e.touches[0].clientX
+    const y = e.clientY ?? e.touches[0].clientY
+    e.preventDefault()
+    return {
+      x: x - rect.left,
+      y: y - rect.top,
+    }
+  }
+
+  const mousedown = (e) => {
+    document.addEventListener('mousemove', mousemove)
+    document.addEventListener('mouseup', mouseup)
+    document.addEventListener('touchmove', mousemove, true)
+    document.addEventListener('touchend', mouseup, true)
+    const { x, y } = getXY(e)
+    onMouseDown?.({ x, y })
+  }
+
+  const mousemove = (e) => {
+    const { x, y } = getXY(e)
+    onMouseMove?.({ x, y })
+  }
+  
+  const mouseup = (e) => {
+    document.removeEventListener('mousemove', mousemove)
+    document.removeEventListener('mouseup', mouseup)
+    document.removeEventListener('touchmove', mousemove, true)
+    document.removeEventListener('touchend', mouseup, true)
+  }
+
+  el.onmousedown = el.ontouchstart = mousedown
+}
