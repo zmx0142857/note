@@ -60,7 +60,11 @@
 <p>	由 E.Zermelo (1908) 首次提出公理系统的框架,
 	A. Fraenkel (1922) 补充了一条取代公理图式, 再加上 Zermelo
 	提出的选择公理 (choice axiom), 组成今天通用的 <b>ZFC 公理系统</b>.
-	这一公理系统包括论述域、语法符号、造句规则与公理组:
+	这一公理系统包括论述域、语法符号、造句规则与公理组.
+</p>
+
+<p class="remark">
+  ZFC 并不是唯一的公理集合论系统. 比较出名的公理系统还有 NBG (von Neumann-Bernays-Gödel)、类型论 (type theory) 等.
 </p>
 
 <h4>论述域</h4>
@@ -275,10 +279,10 @@
 	综上有 `B !in A`.
 </ol>
 
-<p class="remark">
+<p class="remark" id="rem-russel-paradox">
 	此定理的证明可以看出, 如果假定存在一个 "包罗万象" 的集合,
 	亦即假定可以用任何一个特定描述来定义一个集合, 而不指定其范围的话,
-	就会引出两难的矛盾, 这就是著名的 <b>Russell 悖论</b>.
+	就会引出两难的矛盾, 这就是著名的 <b>Russell 悖论</b> (1902).
 	Russell 悖论的一个流行的说法是: 有一理发师,
 	声称自己只给那些不给自己理发的人理发. 那么他给不给自己理发呢?
 	假如他给自己理发, 按规定他应该属于那些不给自己理发的人, 一个矛盾;
@@ -286,7 +290,10 @@
 </p>
 
 <p class="remark">
-	全体集合不构成集, 而是一个真类.
+  全体集合不构成集合,
+  这意味着 "全体集合" 的概念已是一个超越了集合的概念, 不在 ZFC 集合论的体系内.
+  我们暂时把这种不构成集合的一些集合的全体称为<b>真类</b>, 而把集合与真类统称为<b>类</b>.
+  后面还会遇到一些真类的例子, 如全体归纳集、全体序数等.
 </p>
 
 <h3>集合族的交与并</h3>
@@ -320,15 +327,19 @@
 </p>
 
 <p class="remark">
-	注意 `A = O/` 时, 无法使用子集公理. 所以 `nnn O/` 无意义. 事实上如果
-	`nnn O/` 有意义, 从逻辑上可以证明任意集合都是它的元素, 从而引出
-	Russell 悖论:
-	<span class="formula">
-		`x in nnn O/`
-		`iff AA A in O/ (x in A)`, 
-	</span>
-	然而 `A in O/` 为假, 所以上式恒为真. 但不存在包含任意元素的集合.
-	矛盾.
+  这里我们没有单独设一条公理, 而是从子集公理, 直接推出交集的存在性.
+  毕竟, 交集是一种特殊的子集.
+</p>
+
+<p class="remark">
+  注意 `A = O/` 时, 无法使用子集公理. 所以 `nnn O/` 无意义.
+  事实上如果 `nnn O/` 有意义, 从逻辑上可以证明任意集合都是它的元素:
+  <span class="formula">
+    `x in nnn O/`
+    `iff AA A in O/ (x in A)`,
+  </span>
+  然而 `A in O/` 为假, 所以 `x in A` 恒为真.
+  因而 `nnn O/` 包含了所有集合的全体, 它是一个真类, 这在 ZFC 中是犯规的.
 </p>
 
 <p class="axiom">
@@ -507,6 +518,34 @@
 			`quad (uuu cc A)^c = nnn_(A in cc A) A^c`.
 		</span>
 	</li>
+</ol>
+
+<h2>正则公理</h2>
+
+<p class="axiom">
+  <b>正则公理</b> 对任意非空集合 `A`, 存在 `a in A` 满足 `a nn A = O/`:
+  <span class="formula">
+    `AA A(A != O/ rarr EE a(a in A ^^ a nn A = O/))`.
+  </span>
+  正则公理保证了不存在无穷的从属链 `x_1 &ni; x_2 &ni; cdots`,
+  特别地, 不会有 `x in x`, `x in y in x` 的情况.
+  因为正则公理排除了 `x in x` 的情况, 所以 <a href="#rem-russel-paradox">Russel 悖论</a>不会出现.
+</p>
+
+<ol class="proof">
+  <li>我们来证明 `x in x` 是不成立的.
+    只需考虑单点集 `{x}`, 由正则公理知存在 `a in {x}` 满足 `a nn {x} = O/`.
+    这里 `a = x`, 于是 `x nn {x} = O/`, 即 `x !in x`.
+  </li>
+  <li>
+    我们证明 `x in y`, `y in x` 是不可能同时成立的.
+    否则考虑集合 `{x, y}`, 由正则公理知存在 `a in {x, y}` 满足 `a nn {x, y} = O/`.
+    但不论 `a = x` 或 `y`, 这个交集都不可能为空, 得到矛盾.
+  </li>
+  <li>我们证明无穷的从属链 `x_1 &ni; x_2 &ni; cdots` 是不可能成立的.
+    否则考虑集合 `X = {x_1, x_2, cdots}`. 由正则公理知存在 `x_n in X` 满足 `x_n nn X = O/`.
+    然而这与 `x_(n+1) in x_n` 矛盾.
+  </li>
 </ol>
 
 <script src="../../js/note.js?type=math"></script>
