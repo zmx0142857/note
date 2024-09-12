@@ -58,7 +58,7 @@
 <h2>集合论的 ZFC 公理系统</h2>
 
 <p>	由 E.Zermelo (1908) 首次提出公理系统的框架,
-	A. Fraenkel (1922) 补充了一条取代公理图式, 再加上 Zermelo
+	A. Fraenkel (1922) 补充了一条替换公理模式, 再加上 Zermelo
 	提出的选择公理 (choice axiom), 组成今天通用的 <b>ZFC 公理系统</b>.
 	这一公理系统包括论述域、语法符号、造句规则与公理组.
 </p>
@@ -106,24 +106,27 @@
 
 <h4>造句规则</h4>
 
-<ol>我们来规定什么样的命题 `P(x)` 才是合法的.
-	<li>对论述域中的任意集合 `x, y`, 规定 `x = y`, `x in y` 都是合法语句,
-		称为<b>原子语句</b>;
-	</li>
-	<li>若 `varphi, psi` 是合法语句, 则 `not varphi`, `varphi ^^ psi`,
-		`varphi vv psi` 都是合法语句;
-		由此定义, `varphi rarr psi iff not varphi vv psi` 和
-		`varphi harr psi iff (varphi rarr psi) ^^ (psi rarr varphi)`
-		都是合法语句.
-	</li>
-	<li>若 `varphi` 是合法语句, 则 `(AA x) varphi`, `(EE x) varphi`
-		是合法语句;
-	</li>
-	<li>有限次运用上面的规则所得的句子都是合法语句.</li>
+<ol class="definition">
+  <b>合式公式</b>
+  我们来规定什么样的命题 `P(x)` 才是合法的.
+  <li>对论述域中的任意集合 `x, y`, 规定 `x = y`, `x in y` 都是合式公式,
+    称为<b>原子语句</b>;
+  </li>
+  <li>若 `varphi, psi` 是合式公式, 则 `not varphi`, `varphi ^^ psi`,
+    `varphi vv psi` 都是合式公式;
+    由此定义, `varphi rarr psi iff not varphi vv psi` 和
+    `varphi harr psi iff (varphi rarr psi) ^^ (psi rarr varphi)`
+    都是合式公式.
+  </li>
+  <li>若 `varphi` 是合式公式, 则 `(AA x) varphi`, `(EE x) varphi`
+    是合式公式;
+  </li>
+  <li>有限次运用上面的规则所得的句子都是合式公式.</li>
 </ol>
 
-<p>	由于 `x in y` 恒为合法语句, 所以一切集合间都可以判断从属关系.
-	这就是集合的确定性.
+<p>
+  由于 `x in y` 恒为合式公式, 所以一切集合间都可以判断从属关系.
+  这就是集合的确定性.
 </p>
 
 <table>
@@ -156,23 +159,23 @@
 <h4>公理组</h4>
 
 <ol>
-	<li>存在公理 (existence axiom) 或空集公理 (empty axiom);</li>
-	<li>外延公理 (extensionality axiom);</li>
-	<li>配对公理 (pair axiom);</li>
-	<li>并公理 (union axiom);</li>
-	<li>幂集公理 (power set axiom);</li>
-	<li>子集公理图式 (subset axiom schema), 又称分离公理图式 (separation
-		axiom schema) 或概括公理图式 (comrehension axiom schema);
-	</li>
-	<li>无限公理 (infinity axiom);</li>
-	<li>取代公理图式 (replacement axiom schema);</li>
-	<li>选择公理 (choice axiom);</li>
-	<li>基础公理 (foundation axiom) 又称正则公理 (regularity axiom).</li>
+  <li><a class="ref" href="#axiom-ext">外延公理 (extensionality axiom)</a>;</li>
+  <li><a class="ref" href="#axiom-empty">空集公理 (empty axiom)</a>, 或存在公理 (existence axiom);</li>
+  <li><a class="ref" href="#axiom-subset">子集公理模式 (subset axiom schema)</a>, 又称分离公理模式 (separation
+      axiom schema) 或概括公理模式 (comrehension axiom schema);
+  </li>
+  <li><a class="ref" href="#axiom-replace">替换公理模式 (replacement axiom schema)</a>;</li>
+  <li><a class="ref" href="#axiom-union">并公理 (union axiom)</a>;</li>
+  <li><a class="ref" href="#axiom-pair">配对公理 (pair axiom)</a>;</li>
+  <li><a class="ref" href="#axiom-power">幂集公理 (power set axiom)</a>;</li>
+  <li><a class="ref" href="#axiom-regular">正则公理 (regularity axiom)</a>, 又称基础公理 (foundation axiom).</li>
+  <li><a href="./4.html#axiom-inf">无限公理 (infinity axiom)</a>;</li>
+  <li><a href="./5.html#axiom-choice">选择公理 (choice axiom)</a>;</li>
 </ol>
 
 <h3>集合的基本关系</h3>
 
-<p class="axiom">
+<p class="axiom" id="axiom-ext">
 	<b>外延公理</b>
 	两集合 `A, B` 相等当且仅当对任意 `a`, `a in A` 等价于 `a in B`:
 	<span class="formula">
@@ -214,7 +217,7 @@
 
 <h3>空集公理</h3>
 
-<p class="axiom">
+<p class="axiom" id="axiom-empty">
 	<!--
 	<b>存在公理</b> 存在集合与自身相等:
 	<span class="formula">
@@ -235,10 +238,12 @@
 	于是 `AA x(x in O/ harr x in O/')`, 即 `O/ = O/'`.
 </p>
 
-<h3>子集公理图式</h3>
+<h3>子集公理模式、替换公理模式</h3>
 
-<p class="axiom">
-	<b>子集公理图式</b>
+<p>之所以叫做公理模式, 是因为它们是公理的模板, 每输入一个合式公式, 就有一条相应的公理.</p>
+
+<p class="axiom" id="axiom-subset">
+	<b>子集公理模式</b>
 	设 `varphi` 是一个语句, 其中 `x` 是 `varphi` 的自由变元
 	(即 `x` 没有被量词 `EE`, `AA` 所约束),
 	且 `A` 不在 `varphi` 中出现. 则存在 `A` 的子集 `S`,
@@ -253,7 +258,7 @@
 </p>
 
 <p class="remark">
-	子集公理图式允许我们用任何一个特征描述 (即命题)
+	子集公理模式允许我们用任何一个特征描述 (即命题)
 	从一个给定集合中得到一个子集.
 </p>
 
@@ -294,6 +299,16 @@
   这意味着 "全体集合" 的概念已是一个超越了集合的概念, 不在 ZFC 集合论的体系内.
   我们暂时把这种不构成集合的一些集合的全体称为<b>真类</b>, 而把集合与真类统称为<b>类</b>.
   后面还会遇到一些真类的例子, 如全体归纳集、全体序数等.
+</p>
+
+<p id="axiom-replace" class="axiom">
+  <b>替换公理模式</b>
+  设 `F` 是一个以集合 `X` 为定义域的函数, 则存在集合 `F(X) = {F(x): x in X}`.
+</p>
+
+<p class="remark">
+  这里的函数并不是集合论中通常定义的函数, 而是由合式公式定义的. 例如, 函数 `x mapsto y`
+  可以用带有两个自由变元的合式公式 `varphi(x, y)` 解释为 `AA x EE! y varphi(x, y)`.
 </p>
 
 <h3>集合族的交与并</h3>
@@ -342,7 +357,7 @@
   因而 `nnn O/` 包含了所有集合的全体, 它是一个真类, 这在 ZFC 中是犯规的.
 </p>
 
-<p class="axiom">
+<p class="axiom" id="axiom-union">
 	<b>并公理</b>
 	对任意集合 `cc A`, 存在集合 `U`, 使得 `x in U`
 	当且仅当存在 `cc A` 的元素 `A`, 使得 `x in A`:
@@ -370,7 +385,7 @@
 </p>
 -->
 
-<p class="axiom">
+<p class="axiom" id="axiom-pair">
 	<b>配对公理</b>
 	对任意集合 `A, B`, 存在集合 `C`, 使得 `x in C` 当且仅当
 	`x = A` 或 `x = B`:
@@ -412,7 +427,7 @@
 	</span>
 </p>
 
-<p class="axiom">
+<p class="axiom" id="axiom-power">
 	<b>幂集公理</b>
 	对任意集合 `X`, 都存在集合 `P`, 使得 `S in P` 当且仅当 `S sube X`:
 	<span class="formula">
@@ -522,7 +537,7 @@
 
 <h2>正则公理</h2>
 
-<p class="axiom">
+<p class="axiom" id="axiom-regular">
   <b>正则公理</b> 对任意非空集合 `A`, 存在 `a in A` 满足 `a nn A = O/`:
   <span class="formula">
     `AA A(A != O/ rarr EE a(a in A ^^ a nn A = O/))`.

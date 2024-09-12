@@ -50,7 +50,7 @@ var tocData = [
         "children": [
           { "value": "0", "label": "附录", "date": "2022-04-24" },
           { "value": "1", "label": "初等函数" },
-          { "value": "2", "label": "数列的极限", "date": "2024-06-30" },
+          { "value": "2", "label": "数列的极限", "date": "2024-09-12" },
           { "value": "3", "label": "函数的极限与连续性", "date": "2022-03-04" },
           { "value": "5", "label": "导数的应用", "date": "2023-10-09" },
           { "value": "6", "label": "不定积分", "date": "2022-04-10" },

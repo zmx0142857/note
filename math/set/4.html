@@ -100,32 +100,33 @@
 
 <p>	在集合论体系内引入下面的公理:</p>
 
-<p class="axiom">
+<p class="axiom" id="axiom-inf">
   <b>无限公理</b> 归纳集是存在的.
 </p>
 
 <p class="corollary">
+  设非空集合 `S` 的元素均为归纳集, 则 `uuu S` 是归纳集.
+</p>
+
+<p class="proof">
+  `O/ in uuu S`; 若 `x in uuu S`, 则存在 `A in S` 使得 `x in A`.  于是 `x^+ in A sube uuu S`.
+  因此 `uuu S` 是归纳集.
+</p>
+
+<p class="remark">
   归纳集的全体不构成集, 而是一个真类.
 </p>
 
 <p class="proof">
-  考虑全体归纳集 `S`. 若 `S` 是集合, 则 `uuu S` 有定义, 它也是归纳集: 事实上, `O/ in uuu S`; 若 `x in
-  uuu S`, 则存在 `A in S` 使得 `x in A`.  于是 `x^+ in A sube uuu S`.
-  因此 `uuu S` 是归纳集, `uuu S in S`.
-
-  (如何推出矛盾??)
-  <!--
-  我们得到了: `uuu S` 是最大的归纳集, 对任意归纳集 `A` 都有 `A sube uuu S`.
-  然而, 我们可以构造一个更大的归纳集, 从而引出矛盾.
-  事实上, 令
-  <span class="formula">
-    `??`
-  </span>
-  -->
+  [来自群友 幂零群]
+  考虑全体归纳集 `S`. 若 `S` 是集合, 则定义 `S_0 := S`, `S_(n+1) := S_n^+`.
+  应用替换公理模式, 将下文的自然数集 `omega` 替换为 `T := {S_n: n in omega}`,
+  则 `omega uu T` 也是归纳集.
+  有 `S in omega uu T in S`, 与正则公理矛盾.
 </p>
 
 <p class="definition">
-	<b>自然数的定义</b>
+  <b>自然数的定义</b>
   由无限公理, 归纳集存在. 将最小的归纳集记为 `omega`, 称为<b>自然数集</b>,
   它的元素称为<b>自然数</b>. 由归纳集定义,`O/ in omega`, 我们记 `0 := O/`,
   `1 := 0^+`, `2 := 1^+`, 等等:

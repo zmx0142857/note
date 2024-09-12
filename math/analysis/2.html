@@ -524,13 +524,50 @@
 
 <h2>实数的完备性</h2>
 
-<p>以下六个定理互相等价, 它们给出实数完备性的等价刻画.</p>
+<p>以下几个定理互相等价, 它们给出实数完备性的等价刻画.</p>
+
+<div class="img lg">
+  <img src="../img/real-completeness.svg" alt="实数的完备性">
+</div>
+
+<p class="axiom">
+  <b>Dedekind 分割</b>
+  设 `X, Y` 是 `RR` 的两个非空子集, 满足:
+  <span class="formula">
+    `AA x in X`, `AA y in Y`, `x le y`,
+  </span>
+  那么存在 `a in RR`, 使得
+  <span class="formula">
+    `AA x in X`, `AA y in Y`, `x le a le y`.
+  </span>
+  特别当 `X nn Y = O/`, `X uu Y = RR` 时, 称 `(X, Y)` 是 `RR` 的一个 Dedekind 分割.
+  这时上述的 `a` 是唯一的.
+</p>
+
+<p class="proof">
+  我们证明 `a` 的唯一性. 假如还有一个 `b in RR` 满足 `AA x in X`, `AA y in Y`, `x le b le y`.
+  如果 `b != a`, 不妨设 `a lt b`, 则取 `c = (a+b)//2`, 它满足 `AA x in X`, `AA y in Y`,
+  <span class="formula">
+    `x le a lt c lt b le y`.
+  </span>
+  于是 `c !in X`, `c !in Y`, 这与 `X uu Y = RR` 矛盾.
+</p>
 
 <ol class="theorem">
   <b>确界原理</b>
   <li>有上界的非空实数集必有上确界;</li>
   <li>有下界的非空实数集必有下确界.</li>
 </ol>
+
+<p class="proof">
+  只证 1. 设 `X` 是有上界的非空实数集, 记 `X` 的全体上界为 `Y`. 由 Dedekind 分割
+  知道, 存在 `a in RR` 使得 `AA x in X`, `AA y in Y`, `x le a le y`.
+  这个 `a` 就是 `X` 的上确界, 因为首先 `AA x in X`, `x le a`, 说明它是上界.
+  其次我们证明对任意 `epsi gt 0`, 都存在 `x_epsi in X` 使得 `x_epsi gt a - epsi`.
+  否则存在 `epsi_0 gt 0`, 对任意 `x in X` 都有 `x le a - epsi_0`, 这说明
+  `a - epsi_0` 也是 `X` 的一个上界, 故 `a - epsi_0 in Y`.
+  但 `AA y in Y` 都有 `a le y`, 所以 `a le a - epsi_0`, 引出矛盾.
+</p>
 
 <ol class="theorem">
   <b>单调有界原理</b>
@@ -691,6 +728,53 @@
     `[a_n, b_n]` 被 `cc U` 有限覆盖. 这引起矛盾.
   </li>
 </ol>
+
+<p>最后, 为了闭环, 用有限覆盖定理证明 Dedekind 分割:</p>
+
+<ol class="proof enum">
+  <li>
+    假设 Dedekind 分割定理不成立, 那么应该存在 `RR` 的非空子集 `X, Y`, 满足:
+    <ol>
+      <li>`X nn Y = O/`, `X uu Y = RR`;</li>
+      <li>`AA x in X`, `AA y in Y`, `x le y`.</li>
+      <li>不存在 `a in RR` 使得 `AA x in X`, `AA y in Y`, `x le a le y`.
+        换言之对于 `Y` 的任意下界 `a`, 至少存在一个 `x in X`, 使得 `x gt a`.
+      </li>
+    </ol>
+  </li>
+  <li>
+    现在任取 `x_0 lt x_1 in X`, `y_1 lt y_0 in Y`.
+    考虑闭区间 `[x_1, y_1]` 及其开覆盖 
+    <span class="formula">
+      `cc U := { (x_0, x): x in X nn (x_1, y_1) } uu { (y, y_0): y in Y nn (x_1, y_1) }`.
+    </span>
+    任取 `t in [x_1, y_1]`, 若 `t in X`, 则 `t` 是 `Y` 的一个下界.
+    由 1. 的 (3) 知道, 存在一个 `t_0 in X` 使得 `t_0 gt t`, 于是 `t in (x_0, t_0)`.
+    若 `t in Y` 也可以同样论证, `cc U` 确实已经盖住了区间 `[x_1, y_1]`.
+  </li>
+  <li>
+    由有限覆盖定理知道, `cc U` 存在有限子覆盖
+    <span class="formula">
+      `cc F := { (x_0, x_i) }_(i=2)^m uu { (y_j, y_0) }_(j=2)^n`.
+    </span>
+    不妨设 `x_m = max_(2 le i le m) x_i`, `y_n = min_(2 le i le n) y_j`,
+    用 1. 的 (3) 可以证明 `x_m lt y_n`,
+    因此这个有限子覆盖并没有把区间 `[x_1, y_1]` 盖住, 从而矛盾.
+  </li>
+</ol>
+
+<p>以及, 用 Cauchy 收敛准则证明单调有界原理:</p>
+
+<p class="proof">
+  设 `{x_n}` 单调递增, 有上界 `M`. 为证明 `{x_n}` 有极限, 只需说明它是 Cauchy 列:
+  对任意 `epsi gt 0`, 把区间 `[x_0, M]` 平均分成 `s` 份, 使得每份的长度小于 `epsi`.
+  由于这些区间只有有限个, 而数列有无穷多项, 故至少存在一个小区间 `I`, 其中含有数列的无穷多项.
+  记 `I` 中的项的最小下标为 `N`, 下证 `AA n gt N`, `x_n in I`.
+  反设存在 `k gt N`, `x_k !in I`. 因为 `k gt N`, 由数列的单调性知道 `x_k ge
+  x_N`, 于是 `x_k` 只能位于 `I` 后面的某一区间内. 但这样一来 `x_k` 之后的所有项都不在区间 `I` 内,
+  而 `x_k` 之前只有有限项, 这与 `I` 中含有数列的无穷多项矛盾.
+</p>
+
 
 <h2>压缩映像</h2>
 

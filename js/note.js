@@ -441,7 +441,10 @@ function makeReference() {
     var id = refs[i].href.substring(j+1);
     var refed = doc.getElementById(id);
     if (refed) {
-      refs[i].innerHTML = refed.caption || '??';
+      var text = refs[i].textContent.trim();
+      if (!text) {
+        refs[i].innerHTML = refed.caption || '??';
+      }
       if (refed.classList.contains('label')) {
         refPreview(refs[i], refed.parentNode);
       } else {
