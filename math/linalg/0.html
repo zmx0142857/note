@@ -332,32 +332,32 @@
 <p class="solution">
 	设方程左侧可以因式分解为
 	<span class="formula">
-		`x^4 + p x^2 + q x + r = (x^2 - k x + m)(x^2 + k x + n)`
+		`x^4 + p x^2 + q x + r = (x^2 - a x + b)(x^2 + a x + c)`
 	</span>
 	注意我们已将两个二次因式中的一次项系数设为相反数,
 	这是因为它们相乘的结果的三次项系数为零. 比较各次项系数有:
 	<span class="formula">`{
-		m + n -k^2 = p;
-		k(m-n) = q;
-		m n = r;
+		b + c -a^2 = p;
+		a(b-c) = q;
+		b c = r;
 		:}`</span>
 	由前两式得
 	<span class="formula">
-		`2k m = k(k^2 + p) + q`,<br/>
-		`2k n = k(k^2 + p) - q`.
+		`2a b = a(a^2 + p) + q`,<br/>
+		`2a c = a(a^2 + p) - q`.
 	</span>
 	代入第三式,
 	<span class="formula">
-		`4k^2 r = k^2 (k^2 + p)^2 - q^2`,
+		`4a^2 r = a^2 (a^2 + p)^2 - q^2`,
 	</span>
 	即
 	<span class="formula">
-		`k^6 + 2p k^4 + (p^2 - 4r)k^2 - q^2 = 0`.
+		`a^6 + 2p a^4 + (p^2 - 4r)a^2 - q^2 = 0`.
 	</span>
-	上式看作关于 `k^2` 的一元三次方程, 取它的任一根 (比如实根),
-	就可得到 `m, n` 的值, 进而解两个一元二次方程
+	上式看作关于 `a^2` 的一元三次方程, 取它的任一根 (比如实根),
+	就可得到 `b, c` 的值, 进而解两个一元二次方程
 	<span class="formula">
-		`x^2 - k x + m = 0`, `quad x^2 + k x + n = 0`
+		`x^2 - a x + b = 0`, `quad x^2 + a x + c = 0`
 	</span>
 	得到原方程的根.
 </p>
@@ -413,13 +413,52 @@
   <li><b>Gauss 引理</b> 若 `ZZ` 上的多项式 `f` 在 `QQ` 上可约, 则它在 `ZZ` 上可约.</li>
 	<li>`QQ` 上既约多项式的 Eisenstein 判别法.  令
     <span class="formula">
-      `f(x) = a x^n + p c_(n-1)  x^(n-1) + cdots + p c_1 x + p b`
+      `f(x) = a x^n + p (c_(n-1)  x^(n-1) + cdots + c_1 x + b)`
     </span>
 		是次数大于 1 的整系数多项式, `p` 为一素数, 且 `(a, p) = (b, p) = 1`.
     则 `f` 在 `QQ` 上既约, 即 `f` 不存在有理根. 例如, `x^4 - p` 在 `QQ`
     上既约.
 	</li>
 </ol>
+
+<p class="example">
+  <b>策略1: 两根和等于另外两根和</b>
+  解方程 `x^4+6x^3+11x^2+6x-1 = 0`.
+</p>
+
+<p class="solution">
+  [来自群友 Gzz] 注意到左边可以写成 `(x^2+3x+1)^2-2`.  我注意不到😭
+</p>
+
+<div class="solution p">
+  待定系数法.
+  令 `y = x(x+a)`, 再令方程左边等于 `y^2 + b y -1` `= x^4 + 2a x^3 + (a^2+b) x^2 + a b x -1`,
+  于是
+  <span class="formula">
+    `2a = 6`, `quad a b = 6`, `quad a^2+b=11`.
+  </span>
+  解得 `a = 3`, `b = 2`.
+  后面的处理是容易的.
+  <hr>
+  一般地, 若四次方程的两根和等于另外两根和, 则它可以分解为 `(x^2+a x+b)(x^2+a x+c) = 0`,
+  进而可以采用上面令 `y = x(x+a)` 的换元方法.
+</div>
+
+<p class="example">
+  <b>策略2: 尝试在 `ZZ` 上分解</b>
+  解方程 `x^4 + 5 x^3 + 2 x^2 + 20 x + 16 = 0`.
+</p>
+
+<p class="solution">
+  假设左边可以分解为 `(x^2 + a x + c)(x^2 + b x + d)`, 则
+  <span class="formula">
+    `a + b = 5`, `quad a b + c + d = 2`, `quad a d + b c = 20`, `quad c d = 16`.
+  </span>
+  假设 `c, d` 均为整数, 列举 16 的因子, 发现当 `c = d = 4` 时, 上述方程组有解:
+  `a + b = 5`, `a b = -6`.
+  于是 `a, b` 是方程 `y^2 - 5 y - 6 = 0` 的两根, `{a, b} = {6, -1}`.
+  后面的处理是容易的.
+</p>
 
 <p class="example">
   [题源网络] 郭小弟有四個女朋友，恰好一個比一個大兩歲，且他們年齡的乘積是 3465，請問最大的女孩年齡是多少？
@@ -439,154 +478,15 @@
   <span class="formula">
     `x^4 + 12x^3 + 44x^2 + 48x - 3465 = 0`,
   </span>
-  没有关系! 待定系数
+  没有关系! 由题意知道方程有两根和等于另外两根和, 故可以换元 `y = x(x+a)`,
+  方程化为 `y^2 + b y - 3465 = 0`. 解方程组
   <span class="formula">
-    `(x^2 + a x + b)(x^2 + a x + c)`
-    `= x^4 + 2a x^3 + (a^2+b+c)x^2 + a(b+c)x + b c`,
+    `2a = 12`, `quad a b = 48`, `a^2 + b = 44`,
   </span>
-  得到 `a = 6`, `b+c=8`, `b c = -3465`.
-  从而 `{b, c} = {63, -55}`.
-  分别解方程 `x^2 + a x + b = 0` 和 `x^2 + a x + c = 0`,
-  其中一个方程无实根, 另一方程有两实根 -11 和 5. 只有 5 符合题意.
+  得到 `a = 6`, `b = 8`.
+  先解 `y^2 + 8 y - 3465 = 0` 得 `y = 55, -63`;
+  再解 `x(x+6) = y` 得 `x = -3+-sqrt(9+y)`, 其中只有 `x=5` 符合题意.
 </p>
-
-<p class="example">
-  解方程 `x^4 + 5 x^3 + 2 x^2 + 20 x + 16 = 0`.
-</p>
-
-<p class="solution">
-  假设左边可以分解为 `(x^2 + a x + 4)(x^2 + b x + 4)`, 则
-  <span class="formula">
-    `a + b = 5`, `quad a b + 8 = 2`, `quad 4(a + b) = 20`.
-  </span>
-  于是 `a, b` 是方程 `y^2 - 5 y - 6 = 0` 的两根, `{a, b} = {6, -1}`.
-  后面的处理是容易的.
-</p>
-
-<h3>Lagrange 预解式</h3>
-
-<h3>五次及以上一般方程无根式解的证明思路</h3>
-
-<h4>根式可解</h4>
-
-<p>
-  设 `a^n in bbb F`, 即 `a` 是 `bbb F` 中某个元素的 `n` 次方根.
-  把 `a` 加到 `bbb F` 中生成的域 `bbb F(a)` 称为 `bbb F`
-  的一个<b>单根式扩域</b>.  若存在单根式扩张的链条
-  <span class="formula">
-    `bbb F sube bbb F_1 sube bbb F_2 sube cdots sube bbb K`,
-  </span>
-  则 `bbb K` 称为 `bbb F` 的一个<b>根式扩域</b>.
-</p>
-
-<p>设 `f` 是 `bbb F` 上的 `n` 次多项式, 且在 `bbb F` 的扩域 `bbb K`
-  上能被完全因式分解:
-  <span class="formula">
-    `f(x) = a(x-k_1)cdots(x-k_n)`, `quad k_1, cdots, k_n in bbb K`,
-  </span>
-  满足上式的最小域 `bbb K` 称为 `bbb F` 的<b>分裂域</b>.
-</p>
-
-<p>
-  于是, `f in bbb F[x]` <b>根式可解</b>定义为:
-  `f` 的分裂域 `bbb K` 是 `bbb F` 的一个根式扩域.
-  换言之, 存在 `bbb F` 的一个根式扩域包含 `f` 的所有根.
-</p>
-
-<h4>可解群与 Galois 群</h4>
-
-<p>一个群是 `G` <b>可解</b>的, 是指存在正规子群的链条
-  <span class="formula">
-    `{e} normal H_1 normal H_2 normal cdots normal G`,
-  </span>
-  且相邻两个群之商 `H_(i+1) // H_i` 都是 Abel 群.
-</p>
-
-<p>设 `bbb K` 是 `bbb F` 的扩域, 则 `bbb K` 上全体保持 `bbb F`
-中元素不变的自同构组成一个群, 称为 `bbb K` 在 `bbb F` 上的 <b>Galois 群</b> `Gal(bbb K, bbb F)`.
-</p>
-
-<p class="theorem">
-  <b>Galois 定理</b>
-  `f in bbb F[x]` 根式可解当且仅当其分裂域 `bbb K` 在 `bbb F` 上的 Galois
-  群可解.
-</p>
-
-<p>由于一般的五次多项式的 Galois 群不可解, 故一般五次方程无根式解.</p>
-
-<p class="example">
-  <b>五次方程的 Bring-Jerrard 标准形</b> `x^5 +- x + k = 0`.
-  一般地, `n` 次方程可以化简消去 `n-1`, `n-2`, `n-3` 次项.
-  [来自 <a href=https://math.stackexchange.com/questions/542108/how-to-transform-a-general-higher-degree-five-or-higher-equation-to-normal-form" target="_blank">stackexchange</a>]
-</p>
-
-<ol class="proof">
-  <li>对方程的根作 Tschirnhaus 变换, 消去 4 次和 3 次项.
-    设 `x_i`, `i = 1, cdots, 5` 是原方程的根,
-    令 `y_i = x_i^2 + m x_i + n`, 只需将原方程与
-    <span class="formula">
-      `y = x^2 + m x + n`
-    </span>
-    联立, 求解<b>结式 (resultant)</b>, 比如使用
-    <a href="https://wolframalpha.com" target="_blank">wolfram</a> 语言:
-    <pre>Collect[Resultant[x^5+ax^4+bx^3+cx^2+dx+e, y-(x^2+mx+n), x],y]</pre>
-    就得到
-    <span class="formula">
-      `y^5 + c_1 y^4 + c_2 y^3 + c_3 y^2 + c_4 y + c_5 = 0`.
-    </span>
-    其中
-    <span class="formula">
-      `c_1 = -a^2 + 2 b + a m - 5 n`,<br>
-      `c_2 = b^2 - 2 a c + 2 d + (3c - a b)m + (4a-8b)n
-      + b m^2 - 4 a m n + 10 n^2`.
-    </span>
-    通过求解二次方程组,
-    选择适当的 `m, n`, 就能使 `c_1 = c_2 = 0`, 得到
-    <span class="formula">
-      `y^5 + u y^2 + v y + w = 0`.
-      <span class="label" id="for-principal-quintic-form"></span>
-    </span>
-  </li>
-  <li>要继续消去方程的 2 次项, 一个简单的想法是使用 3 次 Tschirnhaus 变换,
-    但这会引出 1 次, 2 次和 3 次方程的方程组, 最终需要求解一个 6 次方程.
-    Bring 与 Jerrard 另辟蹊径, 使用 4 次 Tschirnhaus 变换,
-    利用额外多出的一个参数来避免高次方程:
-    <span class="formula">
-      `z = y^4 + p y^3 + q y^2 + r y + s`,
-    </span>
-    与 <a class="ref" href="#for-principal-quintic-form"></a> 联立有
-    <span class="formula">
-      `z^5 + d_1 z^4 + d_2 z^3 + d_3 z^2 + d_4 z + d_5 = 0`,
-    </span>
-    其中
-    <span class="formula">
-      `d_1 = -5s + 3p u + 4v`,<br>
-      `d_2 = 10s^2 - 12p s  u + 3p^2 u^2 - 3q u^2 + 2q^2 v - 16 s v`
-      `+ 5 p u v + 6 v^2 + 5p q w - 4u w + r(color(#823)(3q u + 4p v + 5 w))`,<br>
-      `d_3 = ** r^3 + ** r^2 + ** r + **`.
-    </span>
-    令 `d_1 = d_2 = 0` 以及 `color(#823)(3q u + 4p v + 5 w) = 0`,
-    只需求解二次方程组即可得到 `p, q, s` 的值.
-    注意我们的条件使得前两个方程与变量 `r` 无关, 因此可以独立地使用 `d_3
-    = 0` 的任一解作为 `r` 的值. 总之我们有
-    <span class="formula">
-      `z^5 + d_4 z + d_5 = 0`.
-    </span>
-  </li>
-  <li>最后, 应用伸缩变换 `z = t // f`,
-    <span class="formula">
-      `t^5 + d_4 f^4 t + d_5 f^5 = 0`,
-    </span>
-    再令 `d_4 f^4 = +-1` 解出 `f` 的值即可.
-  </li>
-  <li>注: 如果你想手动得到 1. 中的结式, 可以展开
-    <span class="formula">
-      `prod (y - x_i^2 - m x_i - n) = 0`,
-    </span>
-    利用 Vieta 定理和 Newton 多项式消去展式中的 `x_i`, 便得到 `y`
-    的五次方程.
-  </li>
-</ol>
 
 <h2>对称多项式</h2>
 
@@ -943,8 +843,6 @@
 	</span>
 </p>
 
-<h2>多项式</h2>
-
 <ol class="example">
 	<li>设 `n` 为整数, 记 `x_n = t^n+t^-n`, 显然 `x_n = x_(-n)`, 即 `x`
 		关于 `n` 是偶函数.  又容易验证 `x_m x_n = x_(m+n) + x_(m-n)`,
@@ -1012,6 +910,193 @@
 		<td>`x^4-3x^2+1`</td>
 	</tr>
 </table>
+
+<h3>Lagrange 预解式</h3>
+
+<p>[来自 <a href=https://zhuanlan.zhihu.com/p/582315546" target="_blank">Hilbert@知乎</a>]</p>
+
+<p class="definition">
+  <b>预解式</b>
+  设 `f(x_1, cdots, x_n)` 是一个 `n` 元多项式,
+  `sigma, tau in S_n` 是 `1` 到 `n` 的排列.  如果
+  <span class="formula">
+    `f(x_(sigma(1)), cdots, x_(sigma(n))) = f(x_(tau(1)), cdots, x_(tau(n)))`,
+  </span>
+  则称 `sigma` 与 `tau` 是等价的, 显见 `S_n` 商掉这个等价关系后为一群 `G := { f_1, cdots, f_m }`.
+  当 `f` 为对称多项式时, `m = 1`; `f` 为交代式时, `m = 2`.
+  <br>
+  构造一个关于 `y` 的一元多项式
+  <span class="formula">
+    `g(y) = prod_(i=1)^m (y - f_i)`.
+  </span>
+  由韦达定理知道, `g(y)` 的系数是 `f_i` 的初等对称多项式, 从而是 `x_1, cdots, x_n` 的对称多项式.
+  <br>
+  现在设 `x_1, cdots, x_n` 是 `n` 次方程的 `n` 个根, 则 `f(x_1, cdots, x_n)`
+  称为原方程的一个<b>预解式</b>, `g(y) = 0` 称为原方程的一个<b>预解方程</b>.
+</p>
+
+<p class="definition">
+  <b>Lagrange 预解式</b>
+  设 `zeta` 是 `n` 次本原单位根, 则下面的 `n` 个多项式称为 <b>Lagrange 预解式</b>:
+  <span class="formula">
+    `L_i(x_1, cdots, x_n)` `:= sum_(j=0)^(n-1) zeta^(i j) x_(j+1)`,
+    `quad i = 0, cdots, n-1`.
+  </span>
+  假如知道 `L_0, cdots, L_(n-1)` 的值, 通过解线性方程组就可以得到 `x_1, cdots, x_n` 的值:
+  <span class="formula">
+    `x_(j+1) = 1/n sum_(i=1)^(n-1) zeta^(-i j) L_i`
+    `quad j = 0, cdots, n-1`.
+  </span>
+</p>
+
+<p class="proof">
+  验证矩阵互逆:
+  <span class="formula">
+    `sum_(k=0)^(n-1) zeta^(i k) zeta^(-k j)`
+    `= sum_(k=0)^(n-1) zeta^(k (i-j))`
+    `= {n, if i = j;
+      (zeta^(n(i-j)) - 1)//(zeta^(i-j) - 1) = 0, otherwise
+    :}`
+  </span>
+</p>
+
+<p class="remark">
+  Lagrange 预解式的主要应用是推导二到四次方程的求根公式;
+  因其计算过程繁琐, 可以参见本节开头的链接, 这里从略.
+</p>
+
+<h3>五次及以上一般方程无根式解的证明思路</h3>
+
+<h4>根式可解</h4>
+
+<p>
+  设 `a^n in bbb F`, 即 `a` 是 `bbb F` 中某个元素的 `n` 次方根.
+  把 `a` 加到 `bbb F` 中生成的域 `bbb F(a)` 称为 `bbb F`
+  的一个<b>单根式扩域</b>.  若存在单根式扩张的链条
+  <span class="formula">
+    `bbb F sube bbb F_1 sube bbb F_2 sube cdots sube bbb K`,
+  </span>
+  则 `bbb K` 称为 `bbb F` 的一个<b>根式扩域</b>.
+</p>
+
+<p>设 `f` 是 `bbb F` 上的 `n` 次多项式, 且在 `bbb F` 的扩域 `bbb K`
+  上能被完全因式分解:
+  <span class="formula">
+    `f(x) = a(x-k_1)cdots(x-k_n)`, `quad k_1, cdots, k_n in bbb K`,
+  </span>
+  满足上式的最小域 `bbb K` 称为 `bbb F` 的<b>分裂域</b>.
+</p>
+
+<p>
+  于是, `f in bbb F[x]` <b>根式可解</b>定义为:
+  `f` 的分裂域 `bbb K` 是 `bbb F` 的一个根式扩域.
+  换言之, 存在 `bbb F` 的一个根式扩域包含 `f` 的所有根.
+</p>
+
+<h4>可解群与 Galois 群</h4>
+
+<p>一个群是 `G` <b>可解</b>的, 是指存在正规子群的链条
+  <span class="formula">
+    `{e} normal H_1 normal H_2 normal cdots normal G`,
+  </span>
+  且相邻两个群之商 `H_(i+1) // H_i` 都是 Abel 群.
+</p>
+
+<p>设 `bbb K` 是 `bbb F` 的扩域, 则 `bbb K` 上全体保持 `bbb F`
+  中元素不变的自同构组成一个群, 称为 `bbb K` 在 `bbb F` 上的 <b>Galois 群</b> `Gal(bbb K, bbb F)`.
+</p>
+
+<p class="remark">
+  为理解 Galois 群, 任取 `f in bbb F[x]`, `k in bbb K` 和 `varphi in Gal(bbb K, bbb F)`,
+  由于 `varphi` 保持 `bbb F` 中元素不变, 所以它保持 `f` 的系数不变, `varphi(f(k)) = f(varphi(k))`.
+  特别取 `k = x_i` (`x_i` 是 `f` 的根) 时, 有
+  <span class="formula">
+    `f(varphi(x_i)) = varphi(f(x_i)) = 0`.
+  </span>
+  这推出 `varphi(x_i)` 亦是 `f` 的根. 因此 Galois 群实际就是对 `f` 的根的置换, 是 `S_n` 的一个子群.
+</p>
+
+<p class="theorem">
+  <b>Galois 定理</b>
+  `f in bbb F[x]` 根式可解当且仅当其分裂域 `bbb K` 在 `bbb F` 上的 Galois
+  群可解.
+</p>
+
+<p>由于一般的五次多项式的 Galois 群不可解, 故一般五次方程无根式解.</p>
+
+<p class="example">
+  <b>五次方程的 Bring-Jerrard 标准形</b> `x^5 +- x + k = 0`.
+  一般地, `n` 次方程可以化简消去 `n-1`, `n-2`, `n-3` 次项.
+  [来自 <a href=https://math.stackexchange.com/questions/542108/how-to-transform-a-general-higher-degree-five-or-higher-equation-to-normal-form" target="_blank">stackexchange</a>]
+</p>
+
+<ol class="proof">
+  <li>对方程的根作 Tschirnhaus 变换, 消去 4 次和 3 次项.
+    设 `x_i`, `i = 1, cdots, 5` 是原方程的根,
+    令 `y_i = x_i^2 + m x_i + n`, 只需将原方程与
+    <span class="formula">
+      `y = x^2 + m x + n`
+    </span>
+    联立, 求解<b>结式 (resultant)</b>, 比如使用
+    <a href="https://wolframalpha.com" target="_blank">wolfram</a> 语言:
+    <pre>Collect[Resultant[x^5+ax^4+bx^3+cx^2+dx+e, y-(x^2+mx+n), x],y]</pre>
+    就得到
+    <span class="formula">
+      `y^5 + c_1 y^4 + c_2 y^3 + c_3 y^2 + c_4 y + c_5 = 0`.
+    </span>
+    其中
+    <span class="formula">
+      `c_1 = -a^2 + 2 b + a m - 5 n`,<br>
+      `c_2 = b^2 - 2 a c + 2 d + (3c - a b)m + (4a-8b)n
+      + b m^2 - 4 a m n + 10 n^2`.
+    </span>
+    通过求解二次方程组,
+    选择适当的 `m, n`, 就能使 `c_1 = c_2 = 0`, 得到
+    <span class="formula">
+      `y^5 + u y^2 + v y + w = 0`.
+      <span class="label" id="for-principal-quintic-form"></span>
+    </span>
+  </li>
+  <li>要继续消去方程的 2 次项, 一个简单的想法是使用 3 次 Tschirnhaus 变换,
+    但这会引出 1 次, 2 次和 3 次方程的方程组, 最终需要求解一个 6 次方程.
+    Bring 与 Jerrard 另辟蹊径, 使用 4 次 Tschirnhaus 变换,
+    利用额外多出的一个参数来避免高次方程:
+    <span class="formula">
+      `z = y^4 + p y^3 + q y^2 + r y + s`,
+    </span>
+    与 <a class="ref" href="#for-principal-quintic-form"></a> 联立有
+    <span class="formula">
+      `z^5 + d_1 z^4 + d_2 z^3 + d_3 z^2 + d_4 z + d_5 = 0`,
+    </span>
+    其中
+    <span class="formula">
+      `d_1 = -5s + 3p u + 4v`,<br>
+      `d_2 = 10s^2 - 12p s  u + 3p^2 u^2 - 3q u^2 + 2q^2 v - 16 s v`
+      `+ 5 p u v + 6 v^2 + 5p q w - 4u w + r(color(#823)(3q u + 4p v + 5 w))`,<br>
+      `d_3 = ** r^3 + ** r^2 + ** r + **`.
+    </span>
+    令 `d_1 = d_2 = 0` 以及 `color(#823)(3q u + 4p v + 5 w) = 0`,
+    只需求解二次方程组即可得到 `p, q, s` 的值.
+    注意我们的条件使得前两个方程与变量 `r` 无关, 因此可以独立地使用 `d_3
+    = 0` 的任一解作为 `r` 的值. 总之我们有
+    <span class="formula">
+      `z^5 + d_4 z + d_5 = 0`.
+    </span>
+  </li>
+  <li>最后, 应用伸缩变换 `z = t // f`,
+    <span class="formula">
+      `t^5 + d_4 f^4 t + d_5 f^5 = 0`,
+    </span>
+    再令 `d_4 f^4 = +-1` 解出 `f` 的值即可.
+  </li>
+  <li>注: 如果你想手动得到 1. 中的结式, 可以展开
+    <span class="formula">
+      `prod (y - x_i^2 - m x_i - n) = 0`,
+    </span>
+    利用 Vieta 定理和 Newton 多项式消去展式中的 `x_i`, 便得到 `y`
+    的五次方程.
+  </li>
+</ol>
 
 <h2>代数学基本定理</h2>
 

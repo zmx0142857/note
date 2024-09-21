@@ -31,7 +31,7 @@ var tocData = [
         "value": "linalg",
         "label": "高等代数",
         "children": [
-          { "value": "0", "label": "初等代数", "date": "2023-05-05" },
+          { "value": "0", "label": "初等代数", "date": "2024-09-21" },
           { "value": "1", "label": "矩阵", "date": "2022-02-16" },
           { "value": "2", "label": "行列式", "date": "2021-12-06" },
           { "value": "3", "label": "向量的相关性与线性方程组", "date": "2021-12-14" },
@@ -93,7 +93,6 @@ var tocData = [
           { "value": "2", "label": "集合及其运算", "date": "2024-09-10" },
           { "value": "3", "label": "二元关系与映射", "date": "2024-09-10" },
           { "value": "4", "label": "自然数与序数", "date": "2024-09-11" },
-          { "value": "5", "label": "选择公理", "date": "2024-09-11" },
           { "value": "6", "label": "基数" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
           { "value": "8", "label": "范畴论基础", "date": "2024-06-12" }
@@ -382,7 +381,7 @@ var tocData = [
         "value": "mechanics",
         "label": "力学",
         "children": [
-          { "value": "1", "label": "质点运动学" }
+          { "value": "1", "label": "质点运动学", "date": "2024-09-13" }
         ]
       },
       {

@@ -431,7 +431,7 @@
   特别有 `"inf"S in S`.
 </p>
 
-<p class="proof">
+<div class="proof p">
   我们已经知道 `"inf" S`, `"sup" S` 是传递集.
   又 `(bb(On), lt)` 构成良序, 所以 `"inf" S`, `"sup" S` 都是良序集.
   <br>
@@ -439,10 +439,17 @@
   因为 `"inf"S = nnn S`, 所以对任意序数 `alpha in S` 都有 `"inf"S sube alpha`.
   但 `"inf"S`, `alpha` 皆为序数, 所以必有 `"inf"S = alpha` 或 `"inf"S in alpha`.
   我们断言必存在 `alpha in S` 使得 `"inf"S = alpha`, 假如不然, 则对任意 `alpha in S` 都有 `"inf"S in alpha`, 于是 `"inf" S in nnn S = "inf"S`, 矛盾.
-</p>
+  <hr>
+  注: 因为 `"inf"S in S`, 所以它实际是 `S` 中的最小序数. 我们还可以说明 `"sup"S` 是 `S` 的上确界.
+  这是因为对任意 `alpha in S`, `alpha sube uuu S`, 从而 `alpha le S`, 说明它是上界.
+  又任取 `beta lt "sup"S`, 则 `beta in uuu S`, 即存在 `S_0 in S` 使 `beta in
+  S_0`, 即 `beta lt S_0`, 说明它是最小上界, 即上确界.
+</div>
 
 <ol class="remark">
-  <li>我们已经学习过真类的交, 因此 `"inf" S` 定义中的 `S` 可以推广到真类.</li>
+  <li>我们已经学习过真类的交, 因此 `"inf" S` 定义中的 `S` 可以推广到真类.
+    引理告诉我们, 任意一族序数都可以取其中的最小元.
+  </li>
   <li>约定 `"sup" O/ = O/`.</li>
   <li>`"sup"S in S` 不一定成立, 比如 `"sup" omega = omega`.</li>
 </ol>
@@ -460,6 +467,17 @@
   若 `alpha != S`, 则 `alpha in S sube S^+`.
   但 `S^+` 自身也是一个序数, 这意味着 `S^+` 大于自身, 一个矛盾.
 </p>
+
+<p class="corollary">
+  `bb(On)` 不能被嵌入到集合中.
+  换言之, 对任意集合 `P`, 不存在单射 `bb(On) to P`.
+</p>
+
+<p class="proof">
+  若存在这样的单射 `f`, 分离公理模式确保 `f(bb(On)) sube P` 是集合,
+  而替换公理模式指出 `bb(On) = f^-1(f(bb(On)))` 亦是集合, 矛盾.
+</p>
+
 
 <h3>极限序数</h3>
 
@@ -479,7 +497,9 @@
 <ol class="theorem">
   <b>理解序数构造的钥匙</b>
   设 `alpha` 是序数, 则
-  <li>`alpha = {beta: beta lt alpha}`, 由此可知若 `alpha lt gamma`, 则 `alpha = {beta in gamma: beta lt alpha}` 是 `gamma` 的前段, 它恰好包含了 `gamma` 中所有小于 `alpha` 的序数.</li>
+  <li>`alpha = {beta: beta lt alpha}`, 由此可知每个序数都是一个集合, 它恰好包含了小于它的所有序数.
+    例如, `1 = {0}`, `2 = {0, 1}`, `omega = {0, 1, 2, ...}`
+  </li>
   <li>若 `alpha` 是极限序数, 则 `alpha = "sup"{beta: beta lt alpha}`.</li>
   <li>`alpha^+ = "inf"{beta: beta gt alpha}`, 因此 `alpha^+` 是大于 `alpha` 的最小序数.</li>
 </ol>
@@ -535,6 +555,68 @@
 
 <p class="proof">
   反设 `C != bb(On)`. 取不在 `C` 中的最小序数 `alpha != O/`, 则无论它是后继或极限序数都导致矛盾.
+</p>
+
+<h3>序数的运算</h3>
+
+<p>借助超穷递归原理定义序数的运算如下:</p>
+
+<ol>
+  设 `alpha, beta` 是序数, `gamma` 是极限序数:
+  <li>加法: `alpha + 0 := alpha`, `alpha + beta^+ := (alpha + beta)^+`, `alpha + gamma := "sup"{alpha + xi: xi lt gamma}`.</li>
+  <li>乘法: `alpha * 0 := 0`, `alpha * beta^+ := alpha * beta + alpha`, `alpha * gamma := "sup"{alpha * xi: xi lt gamma}`.</li>
+  <li>指数: `alpha^0 := 1`, `alpha^(beta^+) := alpha^beta * alpha`, `alpha^gamma := "sup"{alpha^xi: xi lt gamma}`.</li>
+</ol>
+
+<h2>选择公理</h2>
+
+<p class="remark">
+  在定义自然数集时, 我们用公理规定 "存在归纳集", 然后从中取出了一个归纳集
+  `A`. 一般地, 给定有限个非空集合, 我们可以分别从中取出一个元素,
+  作为它所在集合的代表. 然而, 当这样的非空集合有无限个时, 以上做法失效:
+  因为公理和推理规则只能应用有限次. 一个自然的想法是, 对于无限个非空集合,
+  也应能取出它们的代表元, 这就是选择公理.
+</p>
+
+<p class="axiom" id="axiom-choice">
+  <b>选择公理</b>
+  设集合 `X` 的每个元素皆非空, 则存在函数 `g: X to uuu X` 使得
+  `AA x in X`, `g(x) in x`.
+  这个函数称为选择函数.
+</p>
+
+<p class="theorem">
+  对任意良序集 `P`, 存在唯一的序数 `alpha` 与它同构.
+  因此序数是良序集的代表, 借助序数我们可以了解良序集的结构.
+</p>
+
+<p class="proof">
+  不妨设 `P != O/`, 因为 `P` 是集合, 然而不存在无所不包的集合, 故可选取 `u !in P`.
+  利用超穷递归定义一族元素 `A_alpha`, 其中 `alpha in bb(On)`.
+  <br>
+  首先由于 `P` 是良序集, 可以令 `A_0 := min(P)`, 这里 `min` 表示取出一个极小元.
+  对任意序数 `alpha`, 记 `P_alpha := { A_beta: beta lt alpha }`, 对应于 `alpha` 的前段.
+  递归定义
+  <span class="formula">
+    `A_alpha := {
+        min(P - P_alpha), if P_alpha subne P;
+        u, if P_alpha = P;
+    :}`
+  </span>
+  由于 `P` 是集合, 必存在最小序数 `theta` 使得 `A_theta = u`, 否则 `bb(On)` 可以嵌入 `P`, 引起矛盾.
+  于是 `A_alpha mapsto alpha` 是 `P` 到 `{beta: beta lt theta}` 之间的同构.
+</p>
+
+<p>下面的良序定理和 Zorn 引理是选择公理的等价命题:</p>
+
+<p class="theorem">
+  <b>良序定理</b>
+  (Zermelo, 1904) 对任意集合 `S`, 都存在 `S` 上的二元 `R`, 使得 `R` 是 `S` 上的良序.
+</p>
+
+<p class="theorem">
+  <b>Zorn 引理</b>
+  若非空偏序集 `X` 的任一链 (即 `X` 的全序子集) 有上界 (下界), 那么 `X` 有极大元 (极小元).
 </p>
 
 <script src="../../js/note.js?type=math"></script>

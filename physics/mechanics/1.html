@@ -204,6 +204,8 @@
 
 <h2>变分原理</h2>
 
+<h3>Lagrange 函数</h3>
+
 <p class="definition">
   每个力学系统可以用一个确定的 <b>Lagrange 函数</b> `L(q, dot q, t)`
   表征, 其中 `q` 为广义坐标, 可以是多维的.
@@ -258,7 +260,7 @@
 	<span class="formula">
 		`0 = int_a^b "d"/("d"epsi) L(q^**+epsi eta, dot q^** + epsi dot eta, t) dt`
 		`= int_a^b ((del L)/(del q) eta + (del L)/(del dot q) dot eta) dt`
-		`= int_a^b [(del L)/(del q)-"d"/dt (del L)/(del dot q)] eta dt`.
+		`= int_a^b ((del L)/(del q)-"d"/dt (del L)/(del dot q)) eta dt`.
 	</span>
   由函数 `eta` 的任意性, 按<a href="../../math/analysis/11.html">变分引理</a>有
 	<span class="formula">
@@ -302,6 +304,8 @@
   由 Euler-Lagrange 方程第一形式知, 上式等于 `(del L)/(del t)`.
 </p>
 
+<h3>最速降线</h3>
+
 <p class="example">
 	<b>最速降线</b>
 	设竖直平面内的两点 `O, A` 不在同一竖直线上, 且 `O` 位置较高.
@@ -319,7 +323,7 @@
 	<span class="formula">
       `dt = sqrt((1+{:y':}^2)/(2g y)) dx`.
 	</span>
-    令 `L(x, y, y') = sqrt((1+{:y':}^2)/(2g y))`, 因为 `L` 不显含 `x`,
+    要使下落时间 `t = int dt` 最小, 可令 `L(y, y', x) = sqrt((1+{:y':}^2)/(2g y))`, 因为 `L` 不显含 `x`,
 	由 Euler-Lagrange 方程的第二形式,
 	<span class="formula">
       `sqrt((1+{:y':}^2)/(2g y)) - ({:y':}^2)/sqrt((2g y)(1+{:y':}^2))`
@@ -430,6 +434,43 @@
     </span>
     因此 `T ~~ 2pi sqrt(r/g)`.
 </p>
+
+<h3>等周问题</h3>
+
+<ol class="example">
+  [来自群友 widcardw]
+  在一个无限大的平面上:
+  <li>由等周不等式知道, 用固定长度的篱笆围成的面积最大的菜园是圆形的, (称为 360 度最优篱笆).</li>
+  <li>如果给定一面无限长的直线形墙壁, 用墙和篱笆围成的最大菜园 (称为 180 度最优篱笆) 是半圆形的吗?</li>
+  <li>一般地, 给定两面墙, 它们之间形成一个 `x` 度的角 (`x le 180`),
+    用墙和篱笆围成的最大菜园 (称为 `x` 度最优篱笆) 是扇形的吗?</li>
+  <li>`x gt 180` 时, 最优篱笆又是怎样的?</li>
+</ol>
+
+<ol class="solution">
+  <li>
+    一面墙的情形可以利用对称性解决.
+    假设 180 度最优篱笆不是半圆形, 而是其它形状 (比如矩形), 那么将它镜像对称后应当得到 360 度最优篱笆.
+    然而 360 度最优篱笆是圆形, 这推出 180 度最优篱笆只能是半圆形.
+  </li>
+  <li>
+    在极坐标系中, 设篱笆的方程为 `r = r(theta)`, `theta in [0, 2pi]`, 且 `r(0) = r(2pi)`.
+    于是菜园的面积为
+    <span class="formula">
+      `1/2 int_0^(2pi) r(theta)^2 "d"theta`.
+    </span>
+    令 `L(r, r', theta) = r^2`, `L` 不显含自变量 `theta`, 由 Euler-Lagrange 方程的第二形式,
+    <span class="formula">
+      `r^2 = c`,
+    </span>
+    即 `r` 是常函数, 于是最优篱笆为扇形.
+  </li>
+  <li>
+    `x gt 180` 时, 最优方案应该是只靠一面墙围成一个半圆.
+  </li>
+</ol>
+
+<h3>极小曲面</h3>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
