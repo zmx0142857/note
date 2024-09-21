@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>球面几何</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<p>[来自 <a href="https://zhuanlan.zhihu.com/p/97346034" target="_blank">yangqiao@知乎</a>]</p>
+
+<p class="remark">
+  球面几何在大地测量学中有广泛应用. 数学上, 它可以作为非欧几何的一个很好的入门,
+  亦可以用作微分几何与黎曼几何的先行课程.
+</p>
+
+<h2>基本概念</h2>
+
+<ol class="definition">
+  <li>过球心的平面与球面的交线叫做<b>大圆</b>; 不过球心的平面与球面的交线 (如果存在) 叫<b>小圆</b>.
+  </li>
+  <li>过球面上任意两点可做一个大圆:
+    当这两点位于一条直径的两端时, 可做无数个大圆, 否则只能做一个.
+    大圆位于两点之间的部分叫做<b>大圆弧</b>.
+  </li>
+  <li>
+    球面上两个大圆总是相交于两点, 这两点位于一条直径的两端.
+    两个大圆所在平面的夹角叫做<b>球面角</b>.
+  </li>
+  <li>球面上的三个点用大圆弧相连, 围成的图形叫做<b>球面三角形</b>.
+    三个球面角叫做球面三角形的角, 用大写字母 `A, B, C`表示;
+    三个大圆弧叫做球面三角形的边, 用小写字母 `a, b, c` 表示.
+    注意 `a, b, c` 通常视作角度而不是弧长.
+  </li>
+</ol>
+
+<p class="remark">
+  大圆是球面上的测地线, 可类比于平面上的直线.
+</p>
+
+<h2>边角的基本性质</h2>
+
+<p class="definition">
+  过球心, 作大圆所在平面的垂线, 与球面交于两点, 称为大圆的<b>极</b>.
+  如果 `A', B', C'` 分别是球面三角形 `ABC` 三边的极, 则 `A'B'C'` 称为 `ABC` 的<b>极三角形</b>.
+</p>
+
+<ol class="lemma">
+  <li>若 `A'B'C'` 是 `ABC` 的极三角形, 则 `ABC` 也是 `A'B'C'` 的极三角形.</li>
+  <li>极三角形的边与原三角形的对应角互补，角与原三角形的对应边互补.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    由 `B'` 是 `arc(AC)` 的极, 有 `arc(B'A) = pi//2`.
+    由 `C'` 是 `arc(AB)` 的极, 有 `arc(C'A) = pi//2`.
+    由立体几何知, `AO` 垂直于 `B'C'` 所在的平面, 即 `A` 是 `B'C'` 的极.
+  </li>
+  <li>
+    设 `arc(B'C')` 交 `arc(AB)` 于 `D`, 交 `arc(AC)` 于 `E`.
+    因为 `B'` 是 `b` 的极, `C'` 是 `c` 的极, 所以 `arc(B'E) = arc(C'D) = pi//2`.
+    从而
+    <span class="formula">
+      `arc(B'C') + arc(DE)`
+      `= arc(B'E) + arc(C'D) = pi`.
+    </span>
+    由 1. 知 `A` 是 `arc(B'C')` 的极, 故 `arc(DE) = A`, 此与 `arc(B'C') = a'` 一起代入上式有
+    `a' + A = pi`.
+  </li>
+</ol>
+
+<p class="theorem">
+  球面三角形两边之和大于第三边.
+</p>
+
+<p class="proof">
+  将球面三角形 `ABC` 的顶点与球心 `O` 连接, 由立体几何知: 三面角的两个面角之和大于第三个面角,
+  从而球面三角形两边之和大于第三边.
+</p>
+
+<ol class="theorem">
+  <li>球面三角形三边之和的范围: `(0, 2pi)`.</li>
+  <li>球面三角形三角之和的范围: `(pi, 3pi)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    因为 `a, b, c` 均为正, 所以和大于 0. 又由立体几何知凸多面角各面角之和小于 `2pi`, 所以和小于 `2pi`.
+  </li>
+  <li>
+    由极三角形和原三角形的关系得: `a' + A = pi`,
+    从而 `A+B+C = 3pi - (a' + b' + c')`. 再由 1. 即得到结论.
+  </li>
+</ol>
+
+<p class="theorem">
+  球面三角形中: 等角对等边, 等边对等角; 大角对大边, 大边对大角.
+</p>
+
+<h2>六个基本公式</h2>
+
+<ol class="theorem">
+  <li>
+    <b>边的余弦公式</b> `cos a = cos b cos c + sin b sin c cos A`.<br>
+    <b>角的余弦公式</b> `cos A = - cos B cos C + sin B sin C cos a`.
+  </li>
+  <li>
+    <b>正弦公式</b> `(sin a)/(sin A) = (sin b)/(sin B) = (sin c)/(sin C)`.
+  </li>
+  <li>
+    <b>五元素公式 (1)</b> `sin a cos B = cos b sin c - sin b cos c cos A`.<br>
+    <b>五元素公式 (2)</b> `sin A cos b = cos B sin C + sin B cos C cos a`.
+  </li>
+  <li>
+    <b>四元素公式</b> `sin A cot B = sin c cot b - cos c cos A`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    过点 `A` 做 `b, c` 的切线, 分别交 `OB`, `OC` 的延长线于 `M`, `N`.
+    在平面三角形 `OMN`, `AMN` 中, 分别由余弦定理得
+    <span class="formula">
+      `MN^2 = OM^2 + ON^2 - 2 OM * ON * cos a`,<br>
+      `MN^2 = AM^2 + AN^2 - 2 AM * AN * cos A`.
+    </span>
+    将第二式代入第一式得到
+    <span class="formula align">
+      `2OM * ON * cos a`<br>
+      `= (OM^2 - AM^2) + (ON^2 - AN^2) + 2 AM * AN * cos A`<br>*
+      `= 2 OA^2 + 2AM * AN * cos A`.
+    </span>
+    于是
+    <span class="formula">
+      `cos a = (OA)/(OM) * (OA)/(ON) + (AM)/(OM) * (AN)/(ON) * cos A`
+      `= cos c cos b + sin c sin b cos A`.
+    </span>
+    利用极三角形与原三角形的关系, 将上式的 `a` 换成 `pi - A`, `A` 换成 `pi - a`,
+    依此类推; 就得到角的余弦公式.
+  </li>
+  <li>过点 `C` 作平面 `OAB` 的垂线, 垂足为 `D`, 再从 `D` 向 `OA`, `OB` 作垂线, 垂足分别为 `E, F`.
+    易知 `OA` 与平面 `CDE` 垂直, `OB` 与平面 `CDF` 垂直, 因此 `/_ CED = A`, `/_ CFD = B`.
+    由图知
+    <span class="formula">
+      `(sin a)/(sin A) = (CF//OC)/(CD//CE)`,<br>
+      `(sin b)/(sin B) = (CE//OC)/(CD//CF)`.
+    </span>
+    因此 `(sin a)/(sin A) = (sin b)/(sin B)`.
+  </li>
+  <li>
+    由边的余弦公式,
+    <span class="formula">
+      `cos a = cos b cos c + sin b sin c cos A`,<br>
+      `cos b = cos c cos a + sin c sin a cos B`.
+    </span>
+    将第一式代入第二式得到
+    <span class="formula align">
+      `sin c sin a cos B`<br>
+      `= cos b - cos c (cos b cos c + sin b sin c cos A)`<br>
+      `= cos b - cos b cos^2 c - sin b sin c cos c cos A`<br>
+      `= cos b sin^2 c - sin b sin c cos c cos A`.
+    </span>
+    两边同除以 `sin c` 即得公式 (1).
+    再利用极三角形与原三角形的关系得到公式 (2).
+  </li>
+  <li>
+    利用正弦公式, 在五元素公式 (1) 左边乘以 `(sin A)/(sin a sin B)`,
+    右边乘以 `1/(sin b)` 即得结论.
+  </li>
+</ol>
+
+<h2>球面三角的面积</h2>
+
+<p class="theorem">
+  <b>Gauss-Bonnet 公式</b>
+  球面三角形的面积 `S = R^2(A + B + C - pi)`.
+  其中 `R` 是球的半径, `A, B, C` 是三个角.
+</p>
+
+<p class="example">
+  球面三角形三个角都是 90 度时, 用 Gauss-Bonnet 公式求得面积为 `pi R^2 //2`, 恰好是球面的 `1//8`.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
