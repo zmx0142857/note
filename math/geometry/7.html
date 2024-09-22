@@ -25,7 +25,7 @@
   </li>
   <li>
     球面上两个大圆总是相交于两点, 这两点位于一条直径的两端.
-    两个大圆所在平面的夹角叫做<b>球面角</b>.
+    两个大圆交点处的切线夹角叫做<b>球面角</b>.
   </li>
   <li>球面上的三个点用大圆弧相连, 围成的图形叫做<b>球面三角形</b>.
     三个球面角叫做球面三角形的角, 用大写字母 `A, B, C`表示;
@@ -48,6 +48,9 @@
 <ol class="lemma">
   <li>若 `A'B'C'` 是 `ABC` 的极三角形, 则 `ABC` 也是 `A'B'C'` 的极三角形.</li>
   <li>极三角形的边与原三角形的对应角互补，角与原三角形的对应边互补.</li>
+  <div class="img md">
+    <img src="../img/sphere-triangle-01.svg" alt="">
+  </div>
 </ol>
 
 <ol class="proof">
@@ -99,14 +102,55 @@
 
 <h2>六个基本公式</h2>
 
+<div class="theorem p">
+  <b>边的余弦公式</b> `cos a = cos b cos c + sin b sin c cos A`.<br>
+  <b>角的余弦公式</b> `cos A = - cos B cos C + sin B sin C cos a`.
+  <div class="img md">
+    <img src="../img/sphere-triangle-cos.svg" alt="">
+  </div>
+</div>
+
+<p class="proof">
+  过点 `A` 做 `b, c` 的切线, 分别交 `OB`, `OC` 的延长线于 `M`, `N`.
+  在平面三角形 `OMN`, `AMN` 中, 分别由余弦定理得
+  <span class="formula">
+    `MN^2 = OM^2 + ON^2 - 2 OM * ON * cos a`,<br>
+    `MN^2 = AM^2 + AN^2 - 2 AM * AN * cos A`.
+  </span>
+  将第二式代入第一式得到
+  <span class="formula align">
+    `2OM * ON * cos a`<br>
+    `= (OM^2 - AM^2) + (ON^2 - AN^2) + 2 AM * AN * cos A`<br>
+    `= 2 OA^2 + 2AM * AN * cos A`.
+  </span>
+  于是
+  <span class="formula">
+    `cos a = (OA)/(OM) * (OA)/(ON) + (AM)/(OM) * (AN)/(ON) * cos A`
+    `= cos c cos b + sin c sin b cos A`.
+  </span>
+  利用极三角形与原三角形的关系, 将上式的 `a` 换成 `pi - A`, `A` 换成 `pi - a`,
+  依此类推; 就得到角的余弦公式.
+</p>
+
+<p class="theorem">
+  <b>正弦公式</b> `(sin a)/(sin A) = (sin b)/(sin B) = (sin c)/(sin C)`.
+  <div class="img md">
+    <img src="../img/sphere-triangle-sin.svg" alt="">
+  </div>
+</p>
+
+<p class="proof">
+  过点 `C` 作平面 `OAB` 的垂线, 垂足为 `D`, 再从 `D` 向 `OA`, `OB` 作垂线, 垂足分别为 `E, F`.
+  易知 `OA` 与平面 `CDE` 垂直, `OB` 与平面 `CDF` 垂直, 因此 `/_ CED = A`, `/_ CFD = B`.
+  由图知
+  <span class="formula">
+    `(sin a)/(sin A) = (CF//OC)/(CD//CE)`,<br>
+    `(sin b)/(sin B) = (CE//OC)/(CD//CF)`.
+  </span>
+  因此 `(sin a)/(sin A) = (sin b)/(sin B)`.
+</p>
+
 <ol class="theorem">
-  <li>
-    <b>边的余弦公式</b> `cos a = cos b cos c + sin b sin c cos A`.<br>
-    <b>角的余弦公式</b> `cos A = - cos B cos C + sin B sin C cos a`.
-  </li>
-  <li>
-    <b>正弦公式</b> `(sin a)/(sin A) = (sin b)/(sin B) = (sin c)/(sin C)`.
-  </li>
   <li>
     <b>五元素公式 (1)</b> `sin a cos B = cos b sin c - sin b cos c cos A`.<br>
     <b>五元素公式 (2)</b> `sin A cos b = cos B sin C + sin B cos C cos a`.
@@ -117,36 +161,6 @@
 </ol>
 
 <ol class="proof">
-  <li>
-    过点 `A` 做 `b, c` 的切线, 分别交 `OB`, `OC` 的延长线于 `M`, `N`.
-    在平面三角形 `OMN`, `AMN` 中, 分别由余弦定理得
-    <span class="formula">
-      `MN^2 = OM^2 + ON^2 - 2 OM * ON * cos a`,<br>
-      `MN^2 = AM^2 + AN^2 - 2 AM * AN * cos A`.
-    </span>
-    将第二式代入第一式得到
-    <span class="formula align">
-      `2OM * ON * cos a`<br>
-      `= (OM^2 - AM^2) + (ON^2 - AN^2) + 2 AM * AN * cos A`<br>*
-      `= 2 OA^2 + 2AM * AN * cos A`.
-    </span>
-    于是
-    <span class="formula">
-      `cos a = (OA)/(OM) * (OA)/(ON) + (AM)/(OM) * (AN)/(ON) * cos A`
-      `= cos c cos b + sin c sin b cos A`.
-    </span>
-    利用极三角形与原三角形的关系, 将上式的 `a` 换成 `pi - A`, `A` 换成 `pi - a`,
-    依此类推; 就得到角的余弦公式.
-  </li>
-  <li>过点 `C` 作平面 `OAB` 的垂线, 垂足为 `D`, 再从 `D` 向 `OA`, `OB` 作垂线, 垂足分别为 `E, F`.
-    易知 `OA` 与平面 `CDE` 垂直, `OB` 与平面 `CDF` 垂直, 因此 `/_ CED = A`, `/_ CFD = B`.
-    由图知
-    <span class="formula">
-      `(sin a)/(sin A) = (CF//OC)/(CD//CE)`,<br>
-      `(sin b)/(sin B) = (CE//OC)/(CD//CF)`.
-    </span>
-    因此 `(sin a)/(sin A) = (sin b)/(sin B)`.
-  </li>
   <li>
     由边的余弦公式,
     <span class="formula">
@@ -174,7 +188,7 @@
 <p class="theorem">
   <b>Gauss-Bonnet 公式</b>
   球面三角形的面积 `S = R^2(A + B + C - pi)`.
-  其中 `R` 是球的半径, `A, B, C` 是三个角.
+  其中 `R` 是球的半径, `A, B, C` 是三个球面角.
 </p>
 
 <p class="example">
