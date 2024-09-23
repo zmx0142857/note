@@ -61,31 +61,45 @@
 </ol>
 -->
 
-<h2>基数的定义</h2>
+<h2>等势</h2>
 
 <p>	我们知道, 有限集的元素个数可以用一个非负整数 `n` 表示,
-	<b>基数</b>或<b>势</b>就是对 "有限集的元素个数" 这个概念的扩充.
-	用 `|X|` 表示集合 `X` 的基数.
+	基数就是对 "有限集的元素个数" 这个概念的扩充.
 </p>
 
 <ol class="definition">
-	<li>设 `A, B sube X`.  如果存在 `A` 到 `B` 的双射, 就称集合 `A` 与 `B`
-		<b>等势 (或对等)</b>, 记为 `A~B`. 可以验证, 等势构成 `2^X` 上的等价关系.
+	<li>设 `X, Y sube Omega`.  如果存在 `X` 到 `Y` 的双射, 就称集合 `X` 与 `Y`
+		<b>等势</b>. 可以验证, 等势构成 `2^Omega` 上的等价关系.
+        用记号 `|X|` 表示等势的等价类.
 	</li>
-	<li>若 `X` 与 `Y` 等势, 则称 `|X| = |Y|`, 否则 `|X| != |Y|`;
-		若 `X` 与 `Y` 的一个子集等势, 则称 `|X| le |Y|`;
+	<li>若 `X` 与 `Y` 的一个子集等势, 换言之存在 `X` 到 `Y` 的单射, 则称 `|X| le |Y|`;
 		若 `|X| le |Y|` 且 `|X| != |Y|`, 则称 `|X| lt |Y|`.
-	</li>
-	<li>称一个集合 `X` 为<b>有限集</b>, 如果存在非负整数 `n`, 使得
-		`X ~ {1, 2, cdots, n}` (`n = 0` 时表示空集), 这时定义 `X`
-		的基数为它所含的元素个数: `|X| = n`.
-		如果一个集合不是有限集, 则称它为<b>无限集</b>.
-		有限集也记为 `|X| lt oo`, 无限集记为 `|X| &#8814; oo`.
+        关系 `le` 满足传递性.  下文将证明 `le` 的反对称性, 从而它构成偏序.
 	</li>
 </ol>
 
+<p class="example">
+  <b>无限旅馆</b>
+  `NN` 与 `NN uu {x}` 等势.
+</p>
+
+<p class="proof">
+  若 `x in NN` 则结论显然, 否则令
+  <span class="formula">
+    `f(y) := {
+      y + 1, if y in NN;
+      y, if y = x;
+    :}`
+  </span>
+  则 `f` 是 `NN uu {x}` 到 `NN` 的双射.
+</p>
+
+<p class="remark">
+  用形象的语言, `NN` 是一座有着无限房间的旅馆, 每个房间都住了人. `x` 是一个新来的客人, 为了给它腾出房间, 我们让 `n` 号房间的客人搬到 `n+1` 号住, 从而把 0 号房间空出来.
+</p>
+
 <p class="lemma">
-	<b>Banach 映射分解定理</b>
+	<b>Banach 映射分解定理*</b>
 	若 `f: X to Y`, `g: Y to X`, 则存在 `A sube X`,
 	`B sube Y`, 使得
 	<span class="formula">
@@ -144,15 +158,55 @@
 	:}`</span>
 </p>
 
-<p class="corollary">
-	若 `A sube B sube C` 且 `A ~ C`, 则 `A ~ B ~ C`.
-</p>
+<div class="proof">
+  考虑单射 `f: X to Y` 和 `g: Y to X`.
+  显然 `|g(Y)| = |Y|`, 因此只需证 `|X| = |g(Y)|`.
+  下设 `Y sube X`, 且 `g` 是包含映射 `y mapsto y`.
+  令 `X_0 := X`, `Y_0 := Y`, 递归定义
+  <span class="formula">
+    `X_(n+1) := f(X_n)`, `quad Y_(n+1) := f(Y_n)`.
+  </span>
+  由于 `Y_0 sube X_0`, 我们有 `f(Y_0) sube f(X_0)`, 进而对一切 `n` 有 `Y_n sube X_n`.
+  另一方面 `f(X_0) sube Y_0`, 进而对一切 `n` 有 `X_(n+1) sube Y_n`.
+  于是得到一列嵌套的子集
+  <span class="formula">
+    `X_0 supe Y_0 supe cdots supe X_n supe Y_n supe X_(n+1) supe cdots`.
+  </span>
+  定义映射
+  <span class="formula">
+    `varphi(x) := { f(x), if EE n ge 0, x in X_n - Y_n;
+    x, otherwise :}`
+  </span>
+  则 `varphi` 是 `X` 到 `Y` 的双射.
+  <div class="img lg">
+    <img src="../img/cantor-bernstein.png">
+  </div>
+</div>
 
-<p class="proof">
-	显然 `|A| le |B| le |C|`, 而 `|A| = |C|`, 所以 `|A| = |B| = |C|`.
+<p class="corollary">
+  若 `A sube B sube C` 且 `|A| = |C|`, 则 `|A| = |B| = |C|`.
 </p>
 
 <h2>可列集, 可数集</h2>
+
+<p class="definition">
+  <b>基数的定义</b>
+  一个序数 `kappa` 称为<b>基数</b>, 如果它满足 `lambda lt kappa rArr |lambda| lt |kappa|`.
+  换言之, 基数是一个等势类中的最小序数.
+</p>
+
+<p class="remark">
+  我们选取等势类中的最小序数作为代表元.
+  记号 `|X|` 有双重含义: 一是指等势类, 二是指基数.
+  如果读者尚未掌握序数的概念, 也可以把基数理解为等势类本身.
+</p>
+
+<p class="definition">
+  称一个集合 `X` 为<b>有限集</b>, 如果存在自然数 `n`, 使得
+  `X` 与 `n := {0, 1, 2, cdots, n-1}` 等势, 此时记 `|X| = n`.
+  否则称它为<b>无限集</b>.
+  有限集也记为 `|X| lt oo`, 无限集记为 `|X| &#8814; oo`.
+</p>
 
 <p class="definition">
 	记 `|NN| = aleph_0` (阿列夫·零).

@@ -93,7 +93,7 @@ var tocData = [
           { "value": "2", "label": "集合及其运算", "date": "2024-09-10" },
           { "value": "3", "label": "二元关系与映射", "date": "2024-09-10" },
           { "value": "4", "label": "自然数与序数", "date": "2024-09-11" },
-          { "value": "6", "label": "基数" },
+          { "value": "5", "label": "基数", "date": "2024-09-21" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
           { "value": "8", "label": "范畴论基础", "date": "2024-06-12" }
         ]

@@ -592,7 +592,7 @@
 
 <p class="proof">
   不妨设 `P != O/`, 因为 `P` 是集合, 然而不存在无所不包的集合, 故可选取 `u !in P`.
-  利用超穷递归定义一族元素 `A_alpha`, 其中 `alpha in bb(On)`.
+  下面利用超穷递归定义一族元素 `A_alpha`, 其中 `alpha in bb(On)`:
   <br>
   首先由于 `P` 是良序集, 可以令 `A_0 := min(P)`, 这里 `min` 表示取出一个极小元.
   对任意序数 `alpha`, 记 `P_alpha := { A_beta: beta lt alpha }`, 对应于 `alpha` 的前段.
@@ -604,20 +604,43 @@
     :}`
   </span>
   由于 `P` 是集合, 必存在最小序数 `theta` 使得 `A_theta = u`, 否则 `bb(On)` 可以嵌入 `P`, 引起矛盾.
-  于是 `A_alpha mapsto alpha` 是 `P` 到 `{beta: beta lt theta}` 之间的同构.
+  于是 `A_alpha mapsto alpha` 是 `P` 到 `{beta: beta lt theta} = theta` 之间的同构.
 </p>
 
 <p>下面的良序定理和 Zorn 引理是选择公理的等价命题:</p>
 
 <p class="theorem">
-  <b>良序定理</b>
-  (Zermelo, 1904) 对任意集合 `S`, 都存在 `S` 上的二元 `R`, 使得 `R` 是 `S` 上的良序.
+  <b>Zermelo 良序定理 (1904)</b>
+  对任意集合 `S`, 都存在 `S` 上的二元关系 `R`, 使得 `R` 是 `S` 上的良序.
 </p>
 
-<p class="theorem">
-  <b>Zorn 引理</b>
-  若非空偏序集 `X` 的任一链 (即 `X` 的全序子集) 有上界 (下界), 那么 `X` 有极大元 (极小元).
+<p class="proof">
+  事实上, 只要把证明良序集与某个序数同构时的函数 `min`
+  换成选择公理赋予我们的选择函数 `g`, 就得到 `S` 与某个序数 `theta` 之间的双射,
+  从而导出 `S` 上的良序.
 </p>
+
+<ol class="theorem">
+  <b>Zorn 引理</b>
+  设 `P` 为非空偏序集, 它的全序子集称为<b>链</b>. 我们有:
+  <li>若 `P` 中每个链都有上界, 则 `P` 有极大元;</li>
+  <li>若 `P` 中每个链都有下界, 则 `P` 有极小元.</li>
+</ol>
+
+<ol class="proof">
+  只证 1. 反设 `P` 不含极大元. 取 `A_0 in P`, 运用超穷递归定义 `A_alpha` 如下:
+  设 `P_alpha := {A_beta: beta lt alpha}` 已经被定义, 且满足 `gamma lt beta rArr A_gamma lt A_beta`.
+  于是 `P_alpha` 是 `P` 的一条链.
+  <li>若 `alpha = gamma + 1`, 由于 `P` 无极大元, 故可以选取 `A_alpha in P` 使得 `A_alpha gt A_gamma`.
+  </li>
+  <li>若 `alpha` 为极限序数, 由题设, 链 `P_alpha` 有上界, 故可以选取一个上界 `A_alpha`.
+    我们证明对任意 `beta lt alpha` 有 `A_beta lt A_alpha`.
+    事实上若存在一个 `A_beta = A_alpha`,
+    则其后继 `A_(beta^+) gt A_beta = A_alpha`, 与 `A_alpha` 是 `P_alpha` 的上界矛盾.
+  </li>
+  上述步骤中发生了无数次选取的操作, 这由选择公理保证.
+  由上述构造知真类 `bb(On)` 可以嵌入 `P`, 从而矛盾.
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
