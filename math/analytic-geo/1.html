@@ -989,6 +989,35 @@
   </li>
 </ol>
 
+<p class="corollary">
+  <b>已知旋转前后向量, 求四元数</b>
+  设 `bm v = hat q bm u hat q^-1`, `bm u, bm v in RR bm i + RR bm j + RR bm k`,
+  如果规定 `bm u, bm v` 不共线, 则
+  <span class="formula">
+    `q = |bm u| |bm v| + bm u * bm v + bm u xx bm v`,
+    `quad hat q = q//|q|`.
+  </span>
+</p>
+
+<p class="proof">
+  旋转轴 `bm e` 是 `bm u`, `bm v` 的法向量:
+  <span class="formula">
+    `bm e = (bm u xx bm v)/(|bm u xx bm v|)`
+    `= (bm u xx bm v)/(|bm u| |bm v| sin theta)`.
+  </span>
+  因此
+  <span class="formula align">
+    `hat q = cos(theta//2) + bm e sin(theta//2)`<br>
+    `= cos(theta//2) + (bm u xx bm v)/(2 |bm u| |bm v| cos(theta//2))`.
+  </span> 
+  两边同乘 `2 |bm u| |bm v| cos(theta//2)` 得到
+  <span class="formula align">
+    `q = 2 |bm u| |bm v| cos^2(theta//2) + bm u xx bm v`<br>
+    `= |bm u| |bm v|(1 + cos theta) + bm u xx bm v`<br>
+    `= |bm u| |bm v| + bm u * bm v + bm u xx bm v`.
+  </span>
+</p>
+
 <ol class="example">
   <b>Euler 角的旋转合成</b> [来自 Unity Shader 入门精要]
   给定一个旋转顺序 (例如zxy), 以及它们对应的旋转角度 `(θ_x, θ_y, θ_z)`, 有两种方式可以选择:

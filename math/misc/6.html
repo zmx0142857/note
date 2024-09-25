@@ -40,7 +40,7 @@ var mathematician = [
   {name:'Peter Gustav Lejeune-Dirichlet', cnname:'狄利克雷', enname:'Dirichlet', nationality:'德国', birth:1805, decease:1859},
   {name: 'Adrien-Marie Legendre', cnname:'勒让德', enname:'Legendre', nationality:'法国', birth:1752, decease:1833},
   {name:'Henri Lebesgue', cnname:'勒贝格', enname:'Lebesgue', nationality:'法国', birth:1875, decease:1941},
-  {name:'Euclid of Alexandria', cnname:'欧几里得', enname:'Euclid', nationality:'古希腊'},
+  {name:'Euclid of Alexandria', cnname:'欧几里得', enname:'Euclid', nationality:'古希腊', birth:-Infinity, decease:-Infinity},
   {name:'Archimedes', cnname:'阿基米德', enname:'Archimedes', nationality:'古希腊', birth:-287, decease: -212},
   {name:'Srīṉivāsa Rāmāṉujan Aiyaṅkār', cnname:'拉马努金', enname:'Ramanujan', nationality:'印度', birth:1887, decease:1920},
   {name:'Baron Jean Baptiste Joseph Fourier', cnname:'傅里叶', enname:'Fourier', nationality:'法国', birth:1768, decease:1830},
@@ -53,8 +53,8 @@ var mathematician = [
   {name: 'Hermann Amandus Schwartz', cnname:'施瓦茨', enname:'Schwartz', nationality:'德国', birth:1843, decease:1921},
   {name: 'Claudius Ptolemaeus', enname: 'Ptolemy', cnname: '托勒密', nationality: '埃及', birth:100, decease:170},
   {name:'陈景润', enname:'', cnname:'陈景润', nationality:'中国', birth:1933, decease:1996},
-  {name:'华罗庚', enname:'', cnname:'华罗庚', nationality:'中国', birth:1910, decease:1985},
-  {name:'陈省身', enname:'', cnname:'陈省身', nationality:'中国', birth:1911, decease:2004},
+  {name:'华罗庚', enname:'Loo-keng Hua', cnname:'华罗庚', nationality:'中国', birth:1910, decease:1985},
+  {name:'陈省身', enname:'Shiing-Shen Chern', cnname:'陈省身', nationality:'中国', birth:1911, decease:2004},
   {name:'Ernst Eduard Kummer', enname:'Kummer', cnname:'库默尔', nationality:'德国', birth:1810, decease:1893},
   {name:'Emmy Noether', enname:'Noether', cnname:'诺特', nationality:'德国', birth:1882, decease:1935},
   {name:'Camille Jordan', enname:'Jordan', cnname:'若尔当', nationality:'法国', birth:1838, decease: 1922},
@@ -69,10 +69,13 @@ var mathematician = [
   {name:'Nicolaus I Bernoulli', enname:'Nicolaus', cnname:'小尼古拉・伯努利', nationality:'瑞士', birth:1662, decease:1716},
   {name:'Johann Bernoulli', enname: 'Johann', cnname:'约翰・伯努利', nationality:'瑞士', birth:1667, decease:1748},
   {name:'Hermann Weyl', enname:'Weyl', cnname:'外尔', nationality:'德国', birth:1885, decease:1955},
+  {name:'Arthur Cayley', enname:'Cayley', cnname:'凯莱', nationality: '英国', birth:1821, decease:1895},
+  {name:'Elie Joseph Cartan', enname:'Cartan', cnname:'嘉当', nationality:'法国', birth:1869, decease:1951},
+  {name:'Bertrand Arthur William Russel', enname:'Russel', cnname:'罗素', nationality:'英国', birth:1872, decease:1970},
 ];
 
 function getYear(y) {
-  if (y === undefined) return '??'
+  if (!Number.isFinite(y)) return '??'
   if (y < 0) return '前' + (-y)
   return y
 }

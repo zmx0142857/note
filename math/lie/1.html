@@ -38,7 +38,12 @@
 
 <p class="remark">
   对于线性空间 `V` 上的乘法, 我们不要求它可交换, 甚至也不要求它具有结合律,
-  只要求它是满足封闭性的二元运算即可.  这样的二元运算称为一个<b>代数</b>.
+  只要求它是满足封闭性的双线性映射 `V xx V to V` 即可:
+  <span class="formula">
+    `(k A + l B) C = k A C + l B C`,<br>
+    `C (k A + l B) = k C A + l C B`.
+  </span>
+  这样的二元运算称为一个<b>代数</b>.
 </p>
 
 <p class="corollary">
@@ -106,6 +111,7 @@
 <p>下面的定理将括积和导子再次联系到一起.</p>
 
 <p class="theorem">
+  设 `V` 是定义了乘法的有限维线性空间,
   在 `V` 上定义 `"ad"_A(B) = [A, B]`, 则 `"ad"_A in "Der"V`;
   反之, 对任意 `D in "Der"V`, 存在 `A in V` 使得 `D = "ad"_A`.
 </p>
@@ -117,27 +123,11 @@
     </span>
     即 `"ad"_A` 是导子.
   </li>
-  <li>??</li>
+  <li>参见 "derivation of `fr(gl)(V)` must be inner".</li>
 </ol>
-
-<h2>Lie 代数</h2>
-
-<ol class="definition">
-  `bbb F` 上的线性空间 `V` 上的一个二元运算 `[A, B]`, 如果对任意 `A, B, C in V` 成立:
-  <li>双线性性: `[k A + l B, C] = k [A, C] + l[B, C]`, `[A, k B + l C] = k[A, B] + l[A, C]`,
-    `k, l in bbb F`;
-  </li>
-  <li>反对称性: `[A, B] = -[B, A]`;</li>
-  <li>Jacobi 恒等式: `sum_"cyc"[[A, B], C] = 0`.</li>
-  则称 `[A, B]` 是 `V` 上的一个 <b>Lie 括积</b>. `V` 连同其上的 Lie 括积一起构成一个 <b>Lie 代数</b>.
-</ol>
-
-<p class="remark">
-  今后没有特别说明的情况下, 矩阵构成的线性空间, 如 `CC^(n xx n)` 上面的 Lie 括积统一定义为
-  `[A, B] = A B - B A`.
-</p>
 
 <ol class="example">
+  <b>矩阵运算补遗</b>
   记 `e_(i j)` 是 `i` 行 `j` 列为 1, 其它位置为 0 的 `n xx n` 矩阵.
   <li>令 `A` 是 `n xx n` 矩阵, 则
     <span class="formula">
@@ -204,9 +194,173 @@
     </span>
   </li>
   <li>
-    记 `tilde E_(i j) = e_(i j) + e_(j i)`, 它是对称矩阵, `E_(i j) = E_(j i)`.
+    记 `tilde E_(i j) = e_(i j) + e_(j i)`, 它是对称矩阵, `tilde E_(i j) = tilde E_(j i)`.
   </li>
 </ol>
+
+<h2>Lie 代数</h2>
+
+<h3>Lie 代数的定义</h3>
+
+<ol class="definition">
+  `bbb F` 上的线性空间 `V` 上的一个二元运算 `[A, B]`, 如果对任意 `A, B, C in V` 成立:
+  <li>双线性性: `[k A + l B, C] = k [A, C] + l[B, C]`, `[A, k B + l C] = k[A, B] + l[A, C]`,
+    `k, l in bbb F`;
+  </li>
+  <li>自相关性: `[A, A] = 0`;</li>
+  <li>Jacobi 恒等式: `sum_"cyc"[[A, B], C] = 0`.</li>
+  则称 `[A, B]` 是 `V` 上的一个 <b>Lie 括积</b>. `V` 连同其上的 Lie 括积一起构成一个 <b>Lie 代数</b>.
+  注意到 `0 = [A+B, A+B]` `= [A, A] + [B, B] + [A, B] + [B, A]`, 因此 2. 又推出:
+  <li>反对称性: `[A, B] = -[B, A]`;</li>
+  反之, 若 `bbb F` 的特征不等于 2, 则反对称性也可以推出自相关性.
+</ol>
+
+<p class="remark">
+  今后没有特别说明的情况下, 矩阵构成的线性空间, 如 `CC^(n xx n)` 上面的 Lie 括积统一定义为
+  `[A, B] = A B - B A`.
+</p>
+
+<p class="definition">
+  设 `L` 是一个 Lie 代数, `K` 是 `L` 的线性子空间, 且对括积运算封闭, 则称 `K` 是 `L` 的<b>子代数</b>,
+  记为 `K le L`.
+</p>
+
+<ol class="example">
+  <li>`"End" V` 连同其上的括积运算构成一个 Lie 代数, 记为 `fr(gl)(V)`.</li>
+  <li>设 `V` 上有定义乘法, 则 `"Der" V` 是 `fr(gl)(V) = "End" V` 的子代数.
+    特别地, Lie 代数 `L` 上的括积运算是一种乘法, 因此 `"Der"L` 有定义.
+  </li>
+  <li>`V` 上全体迹零的线性变换构成 `fr(gl)(V)` 的子代数, 记为 `fr(sl)(V)`.</li>
+</ol>
+
+<p class="proof">
+  1, 2 已在前一节中验证过. 下证 3,
+  这只需说明 `fr(sl)(V)` 对括积运算封闭:
+  设 `A, B` 是迹零的矩阵, 则
+  <span class="formula">
+    `"tr"[A, B]`
+    `= "tr" A B - "tr" A B`
+    `= 0`.
+  </span>
+  `fr(sl)(V)` 的一个基底是
+  <span class="formula">
+    所有 `e_(i j)`, `quad i != j`,<br>
+    以及所有 `e_(i i) - e_(n n)`, `quad n = "dim"V`,
+  </span>
+  共 `n^2-1` 个矩阵.
+</p>
+
+<p class="remark">
+  `fr(gl)(V)` 的子代数统称为<b>线性 Lie 代数</b>.
+  事实上, 任意有限维 Lie 代数同构于某个线性 Lie 代数.
+</p>
+
+<ol class="example">
+  线性空间 `V` 上的反对称双线性函数是指一个双线性函数 `f: V xx V to bbb F`, 满足 `f(v, w) = -f(w, v)`.
+  对称双线性函数是指 `f(v, w) = f(w, v)`.
+  <li>设 `"dim"V = 2l`, 令 `f` 是 `V` 上的反对称双线性函数, 度量矩阵为 `s = [0, I_l; -I_l, 0]`.
+    `V` 上一切满足
+    <span class="formula">
+      `f(x(v), w) = -f(v, x(w))`
+    </span>
+    的线性变换 `x` 构成 `fr(gl)(V)` 的子代数,
+    记为 `fr(sp)(V)`.
+  </li>
+  <li>将 1. 中 `V` 的维数换成 `2l+1`, `f` 换成对称双线性型,
+    度量矩阵为 `[1, 0, 0; 0, 0, I_l; 0, I_l, 0]`,
+    条件 `f(x(v), w) = -f(v, x(w))` 不变,
+    此时得到奇数维的 Lie 代数 `fr(o)(V)`.
+  </li>
+  <li>将 1. 中维数换成 `2l`, 度量矩阵换为 `[0, I_l; I_l, 0]`.
+    此时得到偶数维的 Lie 代数 `fr(o)(V)`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    设 `x, y in fr(sp)(V)`, 则
+    <span class="formula align">
+      `f([x,y](v), w) + f(v, [x,y](w))`<br>
+      `= f(x y v - y x v, w) + f(v, x y w - y x w)`<br>
+      `= f(x y v, w) - f(y x v, w) + f(v, x y w) - f(v, y x w)`<br>
+      `= -f(y v, x w) + f(x v, y w) - f(x v, y w) + f(y v, x w)`<br>
+      `= 0`.
+    </span>
+    因此 `fr(sp)(V)` 对括积运算封闭. 用矩阵的语言,
+    `f(x(v), w) = - f(v, x(w))` 可以写为 `x(v)^(sf T) s w = -v^(sf T) s x(w)`, 即 `s x = - x^(sf T) s`.
+    设 `m, n, p, q in bbb F^(n xx n)`, 则
+    `x = [m, n; p, q] in fr(sp)(2l, bbb F)` 当且仅当 `n, p` 为对称矩阵, 且 `m^(sf T) = -q`
+    (最后一个条件推出 `"tr"(x) = 0`).<br>
+    `fr(sp)(V)` 的一个基底为
+    <span class="formula">
+      `m` 与 `q` 的部分: `e_(i j) - e_(l+j, l+i)`, `quad 1 le i le l`, `1 le j le l`,<br>
+      `n` 的部分: `e_(i, l+j) + e_(j, l+i)`, `quad 1 le i le l`, `i le j le l`,<br>
+      `p` 的部分: `e_(l+i, j) + e_(l+j, i)`, `quad 1 le i le l`, `i le j le l`.
+    </span>
+    共 `l^2 + 2 * (l(l+1))/2` `= 2l^2 + l` 个矩阵.
+  </li>
+  <li>
+    括积封闭性的证明与 1. 完全类似. 用矩阵的语言, 设 `m, n, p, q in bbb F^(n xx n)`, 则
+    `x = [a, b_1, b_2; c_1, m, n; c_2, p, q] in fr(o)(2l+1, bbb F)` 当且仅当 `s x = -x^(sf T) s`,
+    即:
+    <span class="formula">
+      `a = 0`, `c_1 = -b_2^(sf T)`, `c_2 = -b_1^(sf T)`, `m^(sf T) = -q`,
+      `n^(sf T) = -n`, `p^(sf T) = -p`.
+    </span>
+    (以上条件同样蕴含 `"tr"(x) = 0`.
+    `fr(o)(V)` (`"dim"V=2l+1`) 的一个基底为
+    <span class="formula">
+      主对角线: `e_(i i) - e_(l+i,l+i)`, `quad 2 le i le l+1`,<br>
+      `b_2` 与 `c_1`: `e_(1, l+i+1) - e_(i+1, 1)`, `quad 1 le i le l`,<br>
+      `b_1` 与 `c_2`: `e_(1, i+1) - e_(l+i+1, 1)`, `quad 1 le i le l`,<br>
+      `m^(sf T) = -q`: `e_(i+1,j+1) - e_(l+j+1, l+i+1)`, `quad 1 le i != j le l`,<br>
+      `n` 反对称: `e_(i+1,l+j+1) - e_(j+1, l+i+1)`, `quad 1 le i lt j le l`,<br>
+      `p` 反对称: `e_(i+l+1, j+1) - e_(j+l+1, i+1)`, `quad 1 le j lt i le l`.
+    </span>
+    共 `3 l + l^2-l + 2*(l(l-1))/2` `= 2l^2 + l` 个矩阵.
+  </li>
+  <li>证明与 2. 类似, 基底中共 `2l^2 - l` 个矩阵.</li>
+</ol>
+
+<ol class="example">
+  <li>`fr(t)(n, bbb F)` 是上三角矩阵构成的 Lie 代数.</li>
+  <li>`fr(n)(n, bbb F)` 是严格上三角矩阵构成的 Lie 代数.</li>
+  <li>`fr(d)(n, bbb F)` 是对角矩阵构成的 Lie 代数.</li>
+</ol>
+
+<h3>理想与同态</h3>
+
+<p>本节的内容与群论、环论的相关内容平行.</p>
+
+<p class="definition">
+  设 `L` 是 Lie 代数, `I le L`, 若对任意 `x in I`, `y in L` 有 `[x, y] in I`, 则称 `I` 是 `L` 的理想,
+  记为 `I normal L`.
+</p>
+
+<ol class="example">
+  <li>`L normal L`, `0 normal L` 是平凡的理想.</li>
+  <li>中心 `Z(L) := { x in L: AA y in L, [x, y] = 0 }` 是 `L` 的理想.</li>
+  <li>`I, J` 是 `L` 的理想, 则 `I+J`, `I nn J`,
+    <span class="formula">
+      `[I,J] := { sum [x_i, y_j]: x_i in I, y_i in J }`
+    </span>
+    皆是 `L` 的理想.
+  </li>
+</ol>
+
+<p class="definition">
+  如果 Lie 代数 `L` 的括积是非平凡的 (存在 `x, y` 使得 `[x, y] != 0`), 且 `L` 只有平凡的理想,
+  则称 `L` 是<b>单</b>的.
+</p>
+
+<p class="corollary">
+  `L` 是单的, 意味着 `Z(L) = 0`, `[L, L] = L`.
+</p>
+
+<p class="proof">
+  只需说明 `Z(L) != L`, `[L, L] != 0`.
+  这由 `L` 的括积非平凡保证.
+</p>
 
 <h2>指数映射与切空间</h2>
 

@@ -323,7 +323,8 @@
 			<li>`f` 为一满射;</li>
 			<li>`"Im" f = Y`;</li>
 			<li>`(AA y in Y)` `|f^-1(y)| ge 1`;</li>
-			<li>存在 `g: Y to  X`, 使 `f @ g = "id"_Y`.</li>
+			<li>存在右逆元 `g: Y to  X`, 使 `f @ g = "id"_Y`.</li>
+            <li>满足右消去律: 对任意集合 `Z` 和任意 `g, h: Y to Z` 有 `g f = h f iff g = h`.</li>
 		</ol>
 	</li>
 	<li>以下各款等价:
@@ -332,14 +333,16 @@
 			<li>`"Ker" f = iota_X` (`iota_X` 是 `X xx X` 上最小的等价关系,
 				每个元素只等价于自身);</li>
 			<li>`(AA y in Y)` `|f^-1(y)| le 1`;</li>
-			<li>存在 `g: Y to X`, 使 `g @ f = "id"_X`.<br/>
+			<li>存在左逆元 `g: Y to X`, 使 `g @ f = "id"_X`.<br/>
+            <li>满足左消去律: 对任意集合 `Z` 和任意 `g, h: Z to X` 有 `f g = f h iff g = h`.</li>
 		</ol>
 	</li>
 	<li>以下各款等价:
 		<ol>
 			<li>`f` 为一双射;</li>
 			<li>`(AA y in Y)`, `|f^-1(y)| = 1`;</li>
-			<li>存在 `g: Y to X`, `g @ f = "id"_X`, `f @ g = "id"_Y`.</li>
+			<li>存在左右逆元 `g: Y to X`, `g @ f = "id"_X`, `f @ g = "id"_Y`.</li>
+            <li>同时满足左右消去律.</li>
 		</ol>
 	</li>
 </ol>
@@ -358,6 +361,34 @@
 		`f^-1(f(A)) supe A`, 等号成立当且仅当 `f` 为单射.
 	</span>
 </p>
+
+<p class="theorem">
+  集合 `A` 到 `B` 有单射 `iff B` 到 `A` 有满射.
+</p>
+
+<ol class="proof">
+  <li>`rArr`:
+    设 `f: A to B` 是单射, `a_0` 是 `A` 中一个固定元素. 构造映射
+    <span class="formula">
+      `g: B to A`<br>
+      `b mapsto { 
+        f^-1(b), if b in f(A);
+        a_0, otherwise
+      :}`
+    </span>
+    容易看出 `g(f(a)) = a`, 因此 `g` 是满射.
+  </li>
+  <li>`lArr`: 反向的证明依赖选择公理.
+    设 `g: B to A` 是满射, 因此对任意 `a in A`,
+    原像 `g^-1(a) := { b in B: g(b) = a }` 非空.
+    由选择公理, 可以从每个原像中选出一个元素, 令它等于 `f(a)`, 从而定义映射
+    <span class="formula">
+      `f: A to B`<br>
+      `a mapsto f(a) in g^-1(a)`
+    </span>
+    容易看出 `g(f(a)) = a`, 因此 `f` 是单射.
+  </li>
+</ol>
 
 <h3>特征函数</h3>
 

@@ -11,13 +11,15 @@
 
 <ol class="remark">
   概括来说:
-  <li><b>范畴</b>是由对象及其间的态射组成的: `X overset f to Y`. 这里 `X, Y` 是对象, `f` 是态射.
-  <li><b>函子</b>则是范畴间保持箭头结构的“映射”: `cc C' overset F to cc C`. 这里 `cc C', cc C` 是范畴, `F` 是函子.</li>
+  <li><b>范畴 (category)</b>是由对象及其间的态射组成的: `X overset f to Y`. 这里 `X, Y` 是对象, `f` 是态射.
+  <li><b>函子 (functor)</b>则是范畴间保持箭头结构的“映射”: `cc C' overset F to cc C`. 这里 `cc C', cc C` 是范畴, `F` 是函子.</li>
   <li><b>自然变换</b>描述了函子之间的关系: `F overset theta to G`, 这里 `F, G` 是函子, `theta` 是自然变换.</li>
   箭头图表在范畴论中随处可见, 但箭头可以有以上几种不同的含义, 需根据上下文加以辨析.
 </ol>
 
 <h2>范畴</h2>
+
+<h3>范畴的定义</h3>
 
 <ol class="definition">
   一个<b>范畴</b> `cc C` 由它的<b>对象</b>集合 `"Ob"(cc C)` 和<b>态射</b>集合
@@ -43,13 +45,18 @@
     </span>
     恒等态射的性质保证了 `"id"_X` 的唯一性.
   </li>
+</ol>
+
+<ol class="definition">
   <li><b>态射的逆</b> 设态射 `f: X to Y`, 若存在 `g: Y to X` 使得 `f g = "id"_Y`, `g f = "id"_X`,
     则称 `g` 是 `f` 的逆, `f` 是可逆态射或<b>同构</b>. `X` 到 `Y`
     的全体同构记为 `"Isom"_(cc C)(X, Y)`. 由恒等态射的性质知道,
     逆若存在则必唯一.
+    若一个范畴中的所有态射都可逆, 则称它为<b>广群</b>.
   </li>
   <li>简记 `"End"_(cc C)(X) := "Hom"_(cc C)(X, X)`, `"Aut"_(cc C)(X) := "Isom"_(cc C)(X, X)`,
     分别称为 `X` 的<b>自同态集</b>和<b>自同构集</b>.
+    `"End"(X)` 是幺半群, `"Aut"(X)` 是群.
   </li>
   <li>对象集和态射集皆空的范畴称为<b>空范畴</b>, 记为 `bb 0`.</li>
 </ol>
@@ -74,6 +81,8 @@
   条条大路通罗马，所以交换图表是不是也可以叫做罗马表（
 </p>
 
+<h3>子范畴与反范畴</h3>
+
 <ol class="definition">
   称 `cc C'` 是 `cc C` 的子范畴, 如果
   <li>`"Ob"(cc C') sube "Ob"(C)`;</li>
@@ -89,6 +98,17 @@
   如果仅仅移除点 (以及这些点关联的箭头), 而不去移除其它箭头的话, 得到的图表就是全子范畴.
 </ol>
 
+<ol class="definition">
+  设 `cc C` 是范畴, 将其箭头全部反转, 定义<b>反范畴</b>如下:
+  <li>`"Ob"(cc C^"op") = "Ob"(cc C)`;</li>
+  <li>对任意对象 `X, Y`, `"Hom"_(cc C^"op")(X, Y) := "Hom"_(cc C)(Y, X)`;</li>
+  <li>恒等态射定义同 `cc C`.</li>
+  <li>`cc C^"op"` 中态射的合成 `f @^"op" g` 定义为 `cc C` 中的反向合成 `g @ f`;</li>
+  范畴与反范畴之间对称的关系也叫做对偶原理. 比如, `cc C^"op"` 中的单态射就是 `cc C` 中的满态射.
+</ol>
+
+<h3>范畴的例子</h3>
+
 <p class="remark">
   "全体集合" 这个概念太大, 已不是一个集合. 为了适用范畴的定义, 我们总是事先取定一个宇宙 `cc U`,
   以下的集合、群、拓扑空间等, 都是在这个宇宙中进行讨论的.
@@ -99,11 +119,98 @@
   <li><b>群范畴 `sf(Grp)`</b>: 对象为所有群, 态射为群同态.</li>
   <li><b>交换群范畴 `sf(Ab)`</b>: 对象为所有交换群, 态射为群同态, 它是 `sf(Grp)` 的全子范畴.</li>
   <li><b>拓扑空间范畴 `sf(To p)`</b>: 对象为所有 Hausdorff 拓扑空间, 态射为连续映射.
-    类似定义带基点的拓扑空间范畴 `sf(To p)_"●"`.
+    类似定义带基点的拓扑空间范畴 `sf(To p)^ast`.
   </li>
   <li>域 `bbb k` 上的<b>向量空间范畴 `sf(Vect)(bbb k)`</b>: 对象为 `bbb k` 上所有向量空间, 态射为线性映射. 类似定义有限维向量空间范畴 `sf(Vect)_(f)(bbb k)`, 它是 `sf(Vect)(bbb k)` 的全子范畴.</li>
   <li>给定集合, 可以定义相应的<b>离散范畴 `sf(Disc)(S)`</b>: 对象集为 `S`, 态射仅有恒等态射 `{"id"_x: x in S}`.</li>
 </ol>
+
+<h3>单态射与满态射</h3>
+
+<ol class="definition">
+  设 `X, Y in "Ob"(cc C)`, `f: X to Y`.
+  <li>称 `f` 为<b>单态射</b>, 如果它满足左消去律: 对任意 `Z in "Ob"(cc C)` 和任意 `g, h: Z to X` 有 `f g = f h iff g = h`.</li>
+  <li>称 `f` 为<b>满态射</b>, 如果它满足右消去律: 对任意 `Z in "Ob"(cc C)` 和任意 `g, h: Y to Z` 有 `g f = h f iff g = h`.</li>
+  <li>称 `f` 左可逆, 如果存在 `g` 使得 `g f = "id"_X`; 称 `f` 右可逆, 如果存在 `g` 使得 `f g = "id"_Y`. 一个态射可逆当且仅当它左右皆可逆.</li>
+</ol>
+
+<p class="corollary">
+  左可逆蕴涵单, 右可逆蕴涵满.
+</p>
+
+<p class="proof">
+  设 `f` 左可逆, 从等式 `f g = f h` 两边同乘以 `f` 的左逆就得到 `g = h`.
+</p>
+
+<p class="remark">
+  在集合论意义下, 单态射等价于左可逆, 满态射等价于右可逆.
+  范畴论中则未必: 在有些范畴中如 `sf(Set)`, `sf(Grp)`, `sf(Vect)(bbb k)` 中它们是等价的,
+  但在 `sf(To p)` 中, 态射有稠密的像便是满态射.
+</p>
+
+<ol class="proof">
+  <li>
+    设 `f, g, h` 是集合间的映射,
+    `f g = f h rArr g = h`. 可以取 `g, h` 为常值映射
+    `g: z mapsto x_1`, `h: z mapsto x_2`. 于是
+    <span class="formula">
+      `f(x_1) = f(x_2) rArr x_1 = x_2`.
+    </span>
+    这证明了 `f` 是单射.
+  </li>
+  <li>
+    又设 `g f = h f rArr g = h`,
+    反设 `f` 不是满射, 则 `EE y_0 in Y - f(X)`.
+    我们可以让 `g(y), h(y)` 在 `y in f(X)` 时相等, 但 `g(y_0) != h(y_0)`.
+    此时 `g f = h f` 但 `g != h`, 矛盾.
+    <hr>
+    假如 `g, h` 是拓扑空间之间的连续映射, 且 `f` 有稠密的像, 我们并不能找到
+    `y_0` 使 `g(y_0) != h(y_0)`. 这就是 `sf(To p)` 中满态射不等于右可逆的原因.
+  </li>
+</ol>
+
+<h2>函子与自然变换</h2>
+
+<h3>函子的定义</h3>
+
+<ol class="definition">
+  设 `cc C', cc C` 为范畴. 一个<b>函子</b> `F: cc C' to cc C` 由一对映射组成:
+  <li>对象间的映射 `F: "Ob"(cc C') to "Ob"(cc C)`;</li>
+  <li>态射间的映射, 仍用同一个字母: `F: "Mor"(cc C') to "Mor"(cc C)`.</li>
+  <li>`F` 需满足 `s F = F s`, `t F = F t`, 这里 `s, t` 是来源映射和目标映射. 换言之,
+    `F` 将态射映为一个新态射的同时, 也将原态射的来源与目标对象映为新态射的来源与目标.
+    即, 对任意对象 `X, Y in cc C'` 有映射 `F: "Hom"_(cc C')(X, Y) to "Hom"_(cc C)(F X, F, Y)`.
+  </li>
+  <li>`F` 需保持态射的合成与恒等态射:
+    `F(g @ f) = F(g) @ F(f)`, `F("id"_X) = "id"_(F X)`.
+  </li>
+</ol>
+
+<ol class="definition">
+  <li>函子的合成. 设 `F: cc C_1 to cc C_2`, `G: cc C_2 to cc C_3`,
+    将它们对象间与态射间的映射分别合成, 就得到合成函子 `G @ F`.
+  </li>
+  <li>形如 `cc C' to cc C` 的函子称为共变函子, `cc {:C':}^"op" to cc C` 称为反变函子.</li>
+  <li>由于反范畴与范畴只在箭头方向上不同, 函子 `F: cc C' to cc C` 和 `F^"op": cc {:C':}^"op" to cc C^"op"`
+    是一回事.
+  </li>
+</ol>
+
+<ol class="definition">
+  对于函子 `F: cc C' to cc C`,
+  <li>称 `F` 是<b>本质满</b>的, 若 `cc C` 中任一对象都同构于某个 `F X`. 这是把满射定义中的 "等于" 换成了 "同构于".</li>
+  <li>称 `F` 是<b>忠实</b>的, 若对所有对象 `X, Y in "Ob"(cc C')`, 映射 `"Hom"_(cc C)(X, Y) to "Hom"_(cc C)(F X, F Y)` 都是单射.
+    也就是说, `X, Y` 的箭头到 `F X, F Y` 的箭头之间是单射.
+    <p class="remark">
+    忠实是比单射弱的一个概念. 可能出现这样的情况: `X, Y, Z` 是 `cc C'` 的不同对象, 但 `F Y = F Z`,
+    这时一个忠实的函子允许箭头 `X to Y` 和 `X to Z` 被映到同一个箭头.
+    </p>
+  </li>
+  <li>称 `F` 是<b>全</b>的, 如果 2. 中的映射都是满射.</li>
+</ol>
+
+<p class="example">
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

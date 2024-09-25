@@ -95,7 +95,7 @@ var tocData = [
           { "value": "4", "label": "自然数与序数", "date": "2024-09-11" },
           { "value": "5", "label": "基数", "date": "2024-09-21" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
-          { "value": "8", "label": "范畴论基础", "date": "2024-06-12" }
+          { "value": "8", "label": "范畴论基础", "date": "2024-09-25" }
         ]
       },
       {
@@ -176,7 +176,7 @@ var tocData = [
         "label": "李群与李代数",
         "children": [
           { "value": "0", "label": "矩阵李群", "date": "2023-12-20" },
-          { "value": "1", "label": "李代数初步", "date": "2023-10-17" }
+          { "value": "1", "label": "李代数初步", "date": "2024-09-23" }
         ]
       },
       {
