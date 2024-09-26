@@ -101,8 +101,11 @@ Plot.prototype.axis = function(config) {
   config = config || {}
   config.xtick = config.xtick || getProperTick(this.xmax-this.xmin, this.width)
   config.ytick = config.ytick || getProperTick(this.ymax-this.ymin, this.height)
-  config.xlabel = config.xlabel || config.xtick
-  config.ylabel = config.ylabel || config.ytick
+  config.xnum = config.xnum || config.xtick
+  config.ynum = config.ynum || config.ytick
+  config.xlabel ||= 'x'
+  config.ylabel ||= 'y'
+  const xlabelWidth = this.ctx.measureText(config.xlabel).width
 
   var origin = this.transform(0, 0)
   this.ctx.strokeStyle = 'black'
@@ -111,11 +114,13 @@ Plot.prototype.axis = function(config) {
   this.ctx.moveTo(0, origin[1])
   this.ctx.lineTo(this.width, origin[1])
   this.ctx.stroke()
+  this.ctx.fillText(config.xlabel, this.width-xlabelWidth-4, origin[1]-4)
   // y 轴
   this.ctx.beginPath()
   this.ctx.moveTo(origin[0], 0)
   this.ctx.lineTo(origin[0], this.height)
   this.ctx.stroke()
+  this.ctx.fillText(config.ylabel, origin[0]+4, 10)
 
   function myceil(x, step) {
     return Math.ceil(x / step) * step
@@ -137,8 +142,8 @@ Plot.prototype.axis = function(config) {
       this.line(0, y, 4/this.xscale, y)
     }
   }
-  // 标签
-  for (var x = myceil(this.xmin, config.xlabel); x <= this.xmax; x += config.xlabel) {
+  // 数字
+  for (var x = myceil(this.xmin, config.xnum); x <= this.xmax; x += config.xnum) {
     this.ctx.save()
     if (x !== 0) {
       this.ctx.translate(-2, 12)
@@ -152,7 +157,7 @@ Plot.prototype.axis = function(config) {
 
   this.ctx.save()
   this.ctx.translate(6, 4)
-  for (var y = myceil(this.ymin, config.ylabel); y <= this.ymax; y += config.ylabel) {
+  for (var y = myceil(this.ymin, config.ynum); y <= this.ymax; y += config.ynum) {
     if (y !== 0) {
       this.text(''+myround(y, yround), 0, y)
     }
@@ -281,7 +286,7 @@ window.Plot = Plot
 
 /*
 var plot = new Plot('canvas', {xmin: -10, ymin: -1, xmax: 10, ymax: 5})
-  plot.axis({xlabel: 3})
+  plot.axis({xnum: 3})
   .plot(Math.floor)
   .plot(x => x*x, {color: Plot.colors.yellow})
   .plot(Math.cos, {color: Plot.colors.green})

@@ -4,6 +4,11 @@
   <title>球面几何</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+  <style>
+    body .ui-range-label {
+      width: 80px;
+    }
+  </style>
 </head>
 <body>
 
@@ -195,6 +200,280 @@
   球面三角形三个角都是 90 度时, 用 Gauss-Bonnet 公式求得面积为 `pi R^2 //2`, 恰好是球面的 `1//8`.
 </p>
 
+<h2>杂例</h2>
+
+<p class="example">
+  已知球面上两点的经纬度求弧长.
+</p>
+
+<p class="solution">
+  设它们的经纬度是 `(theta_1, varphi_1)`, `(theta_2, varphi_2)`, 化为直角坐标:
+  <span class="formula">
+    `x = R cos varphi cos theta`,<br>
+    `y = R cos varphi sin theta`,<br>
+    `z = R sin varphi`.
+  </span>
+  求球心到两个点的向量 `bm r_1, bm r_2` 夹角
+  <span class="formula align">
+    `cos alpha = cos varphi_1 cos varphi_2 (cos theta_1 cos theta_2 + sin theta_1 sin theta_2)`
+    `+ sin varphi_1 sin varphi_2`<br>
+    `= cos varphi_1 cos varphi_2 cos(theta_1 - theta_2) + sin varphi_1 sin varphi_2`<br>
+    `= cos(varphi_1 - varphi_2) - cos varphi_1 cos varphi_2(1 - cos(theta_1 - theta_2))`.<br>
+  </span>
+  而弧长等于 `R alpha`.
+</p>
+
+<p class="example">
+  已知球面上三点的经纬度求球面角 `ABC`.
+</p>
+
+<p class="example">
+  球面上两点间的大圆弧的轨迹方程.
+</p>
+
+<p class="solution">
+  球心到这两个点的向量为 `bm r_1, bm r_2`.
+  单位法向量为 `bm n = (bm r_1 xx bm r_2) / |bm r_1 xx bm r_2|`. 设 `bm r` 是 `bm r_1` 绕 `bm n` 旋转 `alpha` 角所得的向量,
+  由<a href="../analytic-geo/1.html">三维旋转公式 (矩阵形式)</a> 有 `bm r = bm T bm r_1`, 其中
+  <span class="formula">
+    `bm T = (1 - cos alpha) bm n bm n^(sf T) + cos alpha bm I + sin alpha`
+    `[0, -n_z, n_y; n_z, 0, -n_x; -n_y, n_x, 0]`.
+  </span>
+  此即关于 `alpha` 的一个参数方程. 通过反变换
+  <span class="formula">
+    `theta = arctan(y//x)`,<br>
+    `varphi = arcsin(z//R)`
+  </span>
+  即得到关于 `(theta, varphi)` 的参数方程.
+</p>
+
+<div class="img" title="大圆弧的可视化 (Mercator 投影)">
+  <canvas id="img-arc-lonlat" width="600" height="600"></canvas>
+  <div>
+    <span id="img-arc-range-lon1"></span>
+    <span id="img-arc-range-lat1"></span>
+  </div>
+  <div>
+    <span id="img-arc-range-lon2"></span>
+    <span id="img-arc-range-lat2"></span>
+  </div>
+</div>
+
+<p class="example">
+  <b>墨卡托投影 (Mercator Projection)</b>
+  假设地球是正球体, 球心处的光源将球面上的点投影到外切圆柱面上, 再把圆柱展开, 就得到地球的墨卡托投影.
+  墨卡托投影不适合高纬度地区, 因为高纬地区的图形畸变过大. 特别地,
+  南北极点被投影到无穷远处, 在地图上无法显示.
+  墨卡托投影的重要性质是<b>等角性</b>.
+</p>
+
+<p class="example">
+  wgs84 标准假设地球是一个椭球体, 方程为
+  <span class="formula">
+    `(x^2+y^2)/a^2 + z^2/b^2 = 1`.
+  </span>
+  其中 `a = 6378137"m"`, `b = 6356752.31424518"m"`,
+  已知地球上一点 `P` 的经纬度和高度 `(theta, varphi, h)`, 求这点的坐标.
+</p>
+
+<ol class="solution">
+  <li>
+    这个问题的重点是得到 `P` 点处的「卯酉圈」曲率半径
+    <span class="formula">
+      `n = a^2/sqrt(a^2 cos^2 varphi + b^2 sin^2 varphi)`.
+      <span class="label">`(**)`</span>
+    </span>
+    于是这点的坐标是
+    <span class="formula">
+      `x = (n + h) cos varphi cos theta`,<br>
+      `y = (n + h) cos varphi sin theta`,<br>
+      `z = (n * b^2/a^2 + h) sin varphi`.
+    </span>
+    `z` 的求法是, 先假设 `h = 0`, 再把 `x, y` 代入椭球面方程求解.
+  </li>
+  <li>
+    我们来导出 `P` 点处的曲率半径公式 `(**)`.
+    取定椭球面的参数方程
+    <span class="formula">
+      `bm r = (a cos u cos v, a cos u sin v, b sin u)`,<br>
+      `bm r_u = (-a sin u cos v, -a sin u sin v, b cos u)`,<br>
+      `bm r_v = (-a cos u sin v, a cos u cos v, 0)`.
+    </span>
+    使用旋转曲面的公式得到
+    <span class="formula">
+      `E = a^2 sin^2 u + b^2 cos^2 u`,
+      `quad L = a b//sqrt E`,
+      `quad N = a b cos^2 u // sqrt E`.
+    </span>
+    由对称性, 我们可以任取一个子午面 (椭球过 z 轴的截面), 如 `xOz` 平面, 考虑椭球面上一点
+    `P(x_0, 0, z_0)`.
+    <div class="img md">
+      <img src="../img/wgs84-ellipsoid.png">
+    </div>
+    注意, 椭球面上过 `P` 点有无数个单位切向量, 每一个切向量都确定了 `P` 处的一个曲率.
+    我们要求的曲率是「卯酉圈」在 `P` 处的曲率, 即 `P` 点处垂直于子午面的单位切向量所确定的曲率.
+    显然, 在我们的假定下, 这个切向量就是 `bm v = (0, 1, 0)`.
+    在 `P` 处, 参数 `v = 0`, 参数 `u` 满足 `a cos u = x_0`, 于是切向量 `bm r_u, bm r_v` 等于
+    <span class="formula">
+      `bm r_u = (-a sin u, 0, b cos u)`,
+      `quad bm r_v = (0, x_0, 0)`.
+    </span>
+    将 `v` 分解为 `bm r_u, bm r_v` 的线性组合:
+    <span class="formula">
+      `bm v = 0 bm r_u + 1/x_0 bm r_v`.
+    </span>
+    则 `P` 处沿 `bm v` 的法曲率等于
+    <span class="formula">
+      `k_n(bm v) = 0^2 L + 1/x_0^2 N`
+      `= b/a 1/sqrt(a^2 sin^2 u + b^2 cos^2 u)`
+      `= 1/(a/b sqrt(a^2/b^2 z_0^2 + b^2/a^2 x_0^2))`
+      `= 1/sqrt(x_0^2 + a^4/b^4 z_0^2)`
+    </span>
+    而曲率半径 `n = 1//k_n(bm v) = sqrt(x_0^2 + a^4/b^4 z_0^2)`.
+  </li>
+  <li>
+    现在我们用纬度 (纬度是指法线 `PQ` 与 `x` 轴的夹角, 而不是 `/_ POx` 😭) 表示曲率半径.
+    假定 `P` 的纬度为 `varphi`, 联立法线斜率 `tan varphi = z_0/x_0 a^2/b^2` 和子午圈方程
+    `x_0^2/a^2 + z_0^2/b^2 = 1` 可得
+    <span class="formula">
+      `x_0 = a/sqrt(1 + b^2/a^2 tan^2 varphi)`.
+    </span>
+    于是
+    <span class="formula">
+      `n = sqrt(x_0^2 + a^4/b^4 z_0^2)`
+      `= x_0 sqrt(1 + tan^2 varphi)`
+      `= x_0 // cos varphi`
+      `= a/sqrt(1 + b^2/a^2 tan^2 varphi) 1/(cos varphi)`
+      `= a^2/sqrt(a^2 cos^2 varphi + b^2 sin^2 varphi)`.
+    </span>
+  </li>
+  <li>最后, 反向延长 `P` 处的法线, 交 `z` 轴于 `Q` 点, 交 `x` 轴于 `R` 点,
+    则 `|PQ|` 正好等于前文所求的曲率半径 `n`, `|RQ| = (1-b^2/a^2)|PQ| = e^2 n`.
+    验证如下: `P` 处的法线方程为
+    <span class="formula">
+      `(z_0 x)/b^2 - (x_0 z)/a^2 = x_0 z_0(1/b^2 - 1/a^2)`.
+    </span>
+    即
+    <span class="formula">
+      `x/(x_0(1 - b^2/a^2)) - z/(z_0(a^2/b^2 - 1)) = 1`.
+    </span>
+    于是 `x_R = x_0 (1 - b^2/a^2)`, `z_Q = -z_0(a^2/b^2 - 1)`,
+    <span class="formula">
+      `|PQ| = sqrt(x_0^2 + (z_0 - z_Q)^2)`
+      `= sqrt(x_0^2 + a^4/b^4 z_0^2) = n`.<br>
+      `|RQ|/|PQ| = x_R/x_0 = 1-b^2/a^2 = e^2`.
+    </span>
+    运用以上几何性质不难推出 `P` 点的坐标为
+    <span class="formula">
+      `x = n cos varphi cos theta`,<br>
+      `y = n cos varphi sin theta`,<br>
+      `z = n * b^2/a^2 sin varphi`.
+    </span>
+  </li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script src="../../code/vec.js"></script>
+<script src="../../js/ui.js"></script>
+<script>
+{
+const { normalize, cross, dot, rotate3d } = Vec
+const { PI, sin, cos, tan, atan2, asin, acos } = Math
+
+const lonlat2xyz = (lonlat) => {
+  const lon = lonlat[0] / 180 * PI
+  const lat = lonlat[1] / 180 * PI
+  return [cos(lat) * cos(lon), cos(lat) * sin(lon), sin(lat)]
+}
+
+const xyz2lonlat = (xyz) => {
+  const lon = atan2(xyz[1], xyz[0]) / PI * 180
+  const lat = asin(xyz[2]) / PI * 180
+  return [lon, lat]
+}
+
+const data = {
+  lon1: 0,
+  lat1: 0,
+  lon2: 100,
+  lat2: 50,
+  begin: undefined,
+  end: undefined,
+  lat: undefined,
+}
+
+const lonFn = (a) => {
+  const res = rotate3d(data.begin, data.axis, a)
+  const lonlat = xyz2lonlat(res)
+  data.lat = lonlat[1]
+  return lonlat[0]
+}
+
+const latFn = (a) => {
+  return tan(data.lat * PI / 180)
+}
+
+const plot = new Plot('img-arc-lonlat')
+const replot = () => {
+  data.begin = lonlat2xyz([data.lon1, data.lat1])
+  data.end = lonlat2xyz([data.lon2, data.lat2])
+  data.axis = normalize(cross(data.begin, data.end))
+  data.angle = acos(dot(data.begin, data.end))
+  plot.clear()
+    .geometry({ xmin: -180, xmax: 180, ymin: -PI, ymax: PI })
+    .axis({ xlabel: 'lon', ylabel: 'tan(lat)' })
+    .plot(lonFn, latFn, { min: 0, max: data.angle, continuity: 1e4 })
+}
+
+const rangeLon1 = new Range('img-arc-range-lon1', {
+  min: -180,
+  max: 180,
+  step: 1,
+  defaultValue: -60,
+  onChange (value) {
+    data.lon1 = value
+    rangeLon1.setLabel('lon1 = ' + value)
+    if (this.inited) replot()
+    this.inited = true
+  },
+})
+const rangeLon2 = new Range('img-arc-range-lon2', {
+  min: -180,
+  max: 180,
+  step: 1,
+  defaultValue: 60,
+  onChange (value) {
+    data.lon2 = value
+    rangeLon2.setLabel('lon2 = ' + value)
+    if (this.inited) replot()
+    this.inited = true
+  },
+})
+const rangeLat1 = new Range('img-arc-range-lat1', {
+  min: -90,
+  max: 90,
+  step: 1,
+  defaultValue: 10,
+  onChange (value) {
+    data.lat1 = value
+    rangeLat1.setLabel('lat1 = ' + value)
+    if (this.inited) replot()
+    this.inited = true
+  },
+})
+const rangeLat2 = new Range('img-arc-range-lat2', {
+  min: -90,
+  max: 90,
+  step: 1,
+  defaultValue: 60,
+  onChange (value) {
+    data.lat2 = value
+    rangeLat2.setLabel('lat2 = ' + value)
+    replot()
+  },
+})
+}
+</script>
 </body>
 </html>

@@ -140,7 +140,7 @@ window.Range = function (id, { type = 'range', min = -5, max = 5, step = 0.1, de
     },
     oninput: (e) => {
       const value = e ? parseFloat(e.target.value) : defaultValue
-      onChange?.(value)
+      onChange?.call(this, value)
     }
   })
   this.el = $('#' + id)

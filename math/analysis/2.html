@@ -524,6 +524,127 @@
 
 <h2>实数的完备性</h2>
 
+<h3>预备知识</h3>
+
+<p class="definition">
+  <b>有序域</b>
+  设域 `bbb F` 上定义了一个全序 `le`, 且
+  <span class="formula">
+    `AA c in bbb F`, `quad a gt b rArr a + c gt b + c`,<br>
+    `AA c gt 0`, `quad a gt b rArr a c gt b c`.
+  </span>
+  则称 `bbb F` 是有序域.
+</p>
+
+<ol class="corollary">
+  在有序域中,
+  <li>`x, y gt 0 rArr x + y gt 0`.</li>
+  <li>`x y gt 0 iff (x gt 0 and y gt 0) or (x lt 0 and y lt 0)`.</li>
+  <li>`x gt 0 rArr -x lt 0 and x^-1 gt 0`.</li>
+  <li>
+    `x^2 ge 0`, 等号成立当且仅当 `x = 0`.  特别 `1 = 1^2 gt 0`.
+  </li>
+</ol>
+
+<p class="proof">
+  只证最后一个结论. 因 `le` 是全序, 必有 `x gt 0`, `x = 0` 或 `x lt 0` 其一成立.
+  `x gt 0` 时, 两边同乘 `x` 可知 `x^2 gt 0`. `x lt 0` 时, 两边同乘 `-x` 可知 `x^2 gt 0`.
+  最后 `x = 0` 时显然 `x^2 = 0`.
+</p>
+
+<p class="definition">
+  <b>区间</b>
+  设 `bbb F` 是有序域, `a, b in bbb F`, 定义
+  <span class="formula">
+    `[a, b] := { x in bbb F, a le x le b }`,<br>
+    `(a, b) := { x in bbb F, a lt x lt b }`,<br>
+    `[a, b) := { x in bbb F, a le x lt b }`,<br>
+    `(a, b] := { x in bbb F, a lt x le b }`,
+  </span>
+  又引入形式记号 `-oo`, `+oo`, 定义
+  <span class="formula">
+    `(a, +oo) := { x in bbb F, a lt x }`.
+  </span>
+  类似定义 `[a, +oo)`, `(-oo, a)` 和 `(-oo, a]`.
+</p>
+
+<p class="definition">
+  <b>阿基米德性质</b>
+  设 `bbb F` 是有序域.
+  若对 `bbb F` 中的任意 `a, b gt 0`, 都存在自然数 `n` 使得 `n a gt b`, 则称 `bbb F` 满足 Archimedes 性质.
+  等价的描述是: 对任意 `x gt 0` 存在自然数 `n gt x`.
+  可以验证有理数域 `QQ` 满足阿基米德性质.
+</p>
+
+<p class="corollary">
+  阿基米德有序域中无最大数 (无穷大) 和最小正数 (无穷小).
+</p>
+
+<p class="remark">
+  在非标准分析中, 会专门研究含有无穷小的数域.
+</p>
+
+<ol class="definition">
+  <b>稠密全序集</b>
+  一个全序集 `(Q, le)`, 若满足
+  <li>`Q` 不止一个元素;</li>
+  <li>对任意 `x, y in Q`, 若 `x lt y`, 则存在 `z in Q` 使得 `x lt z lt y`;</li>
+</ol>
+
+<p class="corollary">
+  若 `bbb F` 是阿基米德有序域, 则它是稠密全序集. 因此有理数域 `QQ` 是稠密全序集.
+</p>
+
+<div class="proof p">
+  显然 `0, 1 in bbb F`, 因此它不止一个元素.<br>
+  任取 `x, y in bbb F`, 且 `x lt y`.
+  因为 `y - x gt 0`, 由阿基米德性质知道存在自然数 `n gt 1//(y-x)`,
+  于是 `1//n lt y-x`, 取 `z = x + 1//n` 即满足 `x lt z lt y`.
+  <hr>
+  一般不能直接构造 `z = (x+y)//2`, 因为我们尚不了解是否有 `2=0`.
+</div>
+
+<h3>实数集的第一种构造——Dedekind 分割</h3>
+
+<p>[来自群友 幂零群] [参考 <a href="https://zhuanlan.zhihu.com/p/570231887" target="_blank">周树人v吃鱼@知乎</a>]</p>
+
+<ol class="definition">
+  <b>Dedekind 分割</b>
+  设 `Q` 是稠密全序集, 称 `Q` 的非空真子集 `alpha` 是一个<b>分割 (cut)</b>, 如果满足
+  <li>`alpha` 是 `Q` 的前段: 若 `x in alpha`, `y lt x`, 则 `y in alpha`.</li>
+  <li>`alpha` 中没有最大元.</li>
+  `Q` 的全体分割 `alpha` 组成的集合称为 `Q` 的序完备化, 记为 `D(Q)`.
+  特别取 `Q = QQ`, 定义 `RR := D(QQ)`, 就完成了实数集的构造.
+</ol>
+
+<ol class="corollary">
+  <li>任意 `x in Q`, `alpha := {y in Q: y lt x}` 就是一个分割.</li>
+  <li>若 `x in alpha`, `y in Q - alpha`, 则 `x lt y`.</li>
+  <li>`(D(Q), sube)` 构成全序.</li>
+  <li>若 `Q` 没有最大元或最小元, 则存在 `Q` 到 `D(Q)` 的保序嵌入 (保序单射).</li>
+  <li>`D(Q)` 也是稠密全序集, 且满足确界原理.</li>
+  <li>`D(D(Q))` 与 `D(Q)` 保序同构.</li>
+</ol>
+
+<h3>实数集的第二种构造——Cauchy 列</h3>
+
+<p class="definition">
+  考虑 `QQ` 上全体 Cauchy 列 (参见 Cauchy 收敛准则) 的集合 `S`.
+  Cauchy 列之间定义等价关系 `~`:
+  <span class="formula">
+    `{x_n} ~ {y_n}`
+    `iff AA epsi gt 0, EE N in NN, AA n gt N, |x_n - y_n| lt epsi`.
+  </span>
+  Cauchy 列之间的加法与乘法定义为
+  <span class="formula">
+    `{x_n} + {y_n} = {x_n + y_n}`,
+    `quad {x_n} * {y_n} = {x_n * y_n}`.
+  </span>
+  则实数集可以定义为 `RR := S // ~`.
+</p>
+
+<h3>几个等价定理*</h3>
+
 <p>以下几个定理互相等价, 它们给出实数完备性的等价刻画.</p>
 
 <div class="img lg">
