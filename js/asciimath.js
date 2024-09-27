@@ -239,6 +239,7 @@ const symbols = [
 {input:'sube',tag:'mo',output:'\u2286',tex:'subseteq',ttype:CONST},
 {input:'supe',tag:'mo',output:'\u2287',tex:'supseteq',ttype:CONST},
 {input:'-=',tag:'mo',output:'\u2261',tex:'equiv',ttype:CONST},
+{input:'~-',tag:'mo',output:'\u2243',tex:'simeq',ttype:CONST},
 {input:'~=',tag:'mo',output:'\u2245',tex:'cong',ttype:CONST},
 {input:'~',tag:'mo',output:'~',tex:'sim',ttype:CONST},
 {input:'~~',tag:'mo',output:'\u2248',tex:'approx',ttype:CONST},

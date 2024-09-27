@@ -187,19 +187,34 @@
   若 `A sube B sube C` 且 `|A| = |C|`, 则 `|A| = |B| = |C|`.
 </p>
 
-<h2>可列集, 可数集</h2>
+<h2>可数集</h2>
+
+<h3>基数的定义</h3>
 
 <p class="definition">
   <b>基数的定义</b>
   一个序数 `kappa` 称为<b>基数</b>, 如果它满足 `lambda lt kappa rArr |lambda| lt |kappa|`.
-  换言之, 基数是一个等势类中的最小序数.
+  换言之, 基数是一个等势类中的最小序数, 是等势类中的代表元.
 </p>
 
 <p class="remark">
-  我们选取等势类中的最小序数作为代表元.
   记号 `|X|` 有双重含义: 一是指等势类, 二是指基数.
   如果读者尚未掌握序数的概念, 也可以把基数理解为等势类本身.
+  利用良序定理, 对任意集合 `X`, 可取最小序数 `theta` 使 `|X| = theta`, 从而等势类和基数是一一对应的.
+  由于全体序数构成一个良序, 所以全体基数也构成良序: 对任意集合 `|X|, |Y|` 必有
+  `|X| le |Y|` 或 `|Y| le |X|`.
 </p>
+
+<p class="corollary">
+  无穷序数的后继不是基数, 换言之: 无穷基数必为极限序数.
+</p>
+
+<p class="proof">
+  设 `kappa` 是无穷序数.
+  由 `kappa + 1 := kappa uu {kappa}` 知道 `|kappa| = |kappa + 1|`, 因此 `kappa + 1` 不是基数.
+</p>
+
+<h3>有限集与可数集</h3>
 
 <p class="definition">
   称一个集合 `X` 为<b>有限集</b>, 如果存在自然数 `n`, 使得
@@ -209,41 +224,44 @@
 </p>
 
 <p class="definition">
-	记 `|NN| = aleph_0` (阿列夫·零).
-	称 `A` 为<b>可列集</b>, 如果 `A ~ NN`, 亦即 `|A| = aleph_0`.
-	可列集与有限集合称<b>可数集</b>. 如果 `|A| gt aleph_0`, 则称 `A`
-	为<b>不可数集</b>.
+  <b>阿列夫·零</b>
+  记 `aleph_0 := |NN| = omega`.
+  称 `A` 为<b>可列集</b>, 如果 `A ~ NN`, 亦即 `|A| = aleph_0`.
+  可列集与有限集合称<b>可数集</b>. 如果 `|A| gt aleph_0`, 则称 `A`
+  为<b>不可数集</b>.
 </p>
 
-<p class="theorem">
-	无限集中必含一个可列子集, 从而 `aleph_0` 是最小的无限基数:
-	`|E| &#8814; oo rArr |E| ge aleph_0`.
-</p>
+<ol class="corollary">
+  <li>
+    无限集中必含一个可列子集, 从而 `aleph_0` 是最小的无限基数:
+    `|E| &#8814; oo rArr |E| ge aleph_0`.
+  </li>
+  <li>无限集并上一可数集后, 基数不变.</li>
+  <li>一集合为无限集当且仅当它与自身的某个真子集等势.</li>
+</ol>
 
-<p class="theorem">
-	无限集并上一可数集后, 基数不变.
-</p>
-
-<p class="corollary">
-	一集合为无限集当且仅当它与自身的某个真子集等势.
-</p>
-
-<p class="theorem">
-	可列个可列集的并还是可列集.
-</p>
+<ol class="theorem">
+  <b>对角线法</b>
+  <li>设 `|X| = aleph_0`, 则 `|X xx X| = aleph_0`.</li>
+  <li>设 `|X_n| = aleph_0`, `n = 0, 2, cdots`, 则 `uuu_(n ge 0) X_n = aleph_0`.</li>
+</ol>
 
 <p class="proof">
-	设 `|A_n| = aleph_0`, `n = 1, 2, cdots`.
-	注意 `B_k = {a_(ij): i + j = k}` 为有限集, 而 `uuu_(n=1)^oo A_n =
-	uuu_(k=2)^oo B_k`, 显然后者为可列集.
+  注意到 `|X| le |uuu_(n ge 0) X_n| le |X xx X|`, 由 Cantor-Bernstein 定理, 只需证 `|X| = |X xx X|`.
+  <br>
+  使用对角线法:
+  注意 `Y_n = {(x_i, x_j) in X xx X: i + j = n}` 为有限集, 而 `X xx X = uuu_(n ge 0) Y_n`,
+  显然后者为可列集.
 </p>
 
-<p class="example">
-	`ZZ` 是可列集;
-	`NN xx NN = uuu_(m in NN) {(m, n): n in NN}` 是可列集;
-	`QQ = uuu_(k=1)^oo {n/k: n in ZZ}` 是可列集;
-	`NN^n` 是可列集 (对 `n` 归纳).
-</p>
+<ol class="example">
+  <li>`ZZ` 是可列集;</li>
+  <li>`QQ = uuu_(k=1)^oo {n/k: n in ZZ}` 是可列集;</li>
+  <li>`NN xx NN = uuu_(m in NN) {(m, n): n in NN}` 是可列集;</li>
+  <li>`NN^n` 是可列集 (对 `n` 归纳).</li>
+</ol>
+
+<h3>分析学中的可数集</h3>
 
 <ol class="example">
 	<li>`RR` 中互不相交的开区间族是可数集.</li>
@@ -253,7 +271,7 @@
 
 <ol class="proof">
 	<li>由有理数的稠密性, 从每个开区间中可以选出一有理数,
-		从而这一开区间族等势于 `QQ` 的子集.
+		从而这族开区间等势于 `QQ` 的子集.
 	</li>
 	<li>以递增函数 `f` 为例.  由函数极限的单调有界原理知,
 		单调函数在每一点的单侧极限必存在.
@@ -354,49 +372,97 @@
 </ol>
 
 <p class="definition">
-	称 `RR` 的基数为<b>连续基数</b>, 记为 `c` 或 `aleph_1`. 由上讨论,
-	任意区间的基数, 全体二进制小数的基数和全体正整数列的基数都是
-	`aleph_1`.
+  称 `RR` 的基数为<b>连续基数</b>, 记为 `2^(aleph_0)`.
+  由上讨论, `RR` 和 `RR` 中任意长度大于 0 的区间、`[0, 1]` 上全体二进制小数、全体正整数列都是等势的.
 </p>
 
-<p class="corollary">
-	`aleph_1 = 2^(aleph_0)`, 即, 可列集的幂集的基数为连续基数.
-</p>
+<ol class="corollary">
+  <li>设 `|X| = 2^(aleph_0)`, 则 `|X xx X| = 2^(aleph_0)`.</li>
+  <li>设 `|X_n| = 2^(aleph_0)`, `n = 1, 2, cdots`, 则 `|uuu_(n ge 1) X_n| = 2^(aleph_0)`.</li>
+</ol>
 
 <p class="proof">
-	记这个可列集为 `{r_n}`.
-	对于它的每个子集 `X sube {r_n}`, 令
-	<span class="formula">`a_n = {
-		1, if r_n in X;
-		0, if r_n !in X;
-	:}`</span>
-	于是 `X` 与 `[0, 1]` 中的二进制小数一一对应.
-</p>
-
-<p class="theorem">
-	可列个具有连续基数的集合之并, 仍具有连续基数.
+  使用对角线法的推广可以证明此命题. 参看下节 (基数的运算).
 </p>
 
 <ol class="example">
-	<b>Cantor 集</b>
-	记 `F_0 = [0, 1]`. 将其三等分, 移去中间部分的开区间 `(1/3, 2/3)`,
-	剩下的部分记为 `F_1 = [0, 1/3] uu [2/3, 1]`.
-	一般地, 将 `F_n` 中每个互不相交的闭区间三等分, 并移去中间部分的开区间,
-	剩下的部分记为 `F_(n+1)`.
-	定义 Cantor 集为
-	<span class="formula">
-		`C = nnn_(n=1)^oo F_n`.
-	</span>
-	Cantor 集的若干性质:
-	<li>`C` 是非空有界闭集;</li>
-	<li>`C` 是完全集, 即 `C' = C`;</li>
-	<li>`C` 无内点;</li>
-	<li>`C` 的基数是 `c`.</li>
+  <b>Cantor 集</b>
+  记 `F_0 = [0, 1]`. 将其三等分, 移去中间部分的开区间 `(1//3, 2//3)`,
+  剩下的部分记为 `F_1 = [0, 1//3] uu [2//3, 1]`.
+  一般地, 将 `F_n` 中每个互不相交的闭区间三等分, 并移去中间部分的开区间,
+  剩下的部分记为 `F_(n+1)`.
+  定义 Cantor 集为
+  <span class="formula">
+      `C = nnn_(n=1)^oo F_n`.
+  </span>
+  Cantor 集的若干性质:
+  <li>拓扑性质: `C` 是非空有界闭集, `C` 没有内点, `C` 是完全集 (即 `C' = C`);</li>
+  <li>`C` 中每个数可以用三进制小数唯一表示:
+    <span class="formula">
+      `x = sum_(n ge 1) a_n 3^-n`, `quad a_n = 0 or 2`.
+    </span>
+    因此 `C` 的基数是 `2^(aleph_0)`.
+  </li>
 </ol>
 
+<h2>基数的运算</h2>
+
+<h3>基数的运算</h3>
+
+<ol class="definition">
+  <b>基数的运算</b>
+  <li>`|X| + |Y| := |X ⊔ Y|`;</li>
+  <li>`|X| * |Y| := |X xx Y|`;</li>
+  <li>`|X|^|Y| := |X^Y|`.</li>
+</ol>
+
+<p class="corollary">
+  `|A^(B xx C)| = |(A^B)^C|`.
+</p>
+
+<ol class="corollary">
+  设 `kappa`, `lambda` 是非零基数,
+  <li>若 `lambda` 是无穷基数, 则 `lambda = lambda * lambda`, 即 `|X| = |X xx X|`.</li>
+  <li>若 `kappa`, `lambda` 至少一个是无穷基数, 则 `kappa + lambda = kappa * lambda = max{lambda, kappa}`.</li>
+  <li>若 `lambda` 是无穷基数, `2 le kappa le lambda`, 则 `kappa^lambda = 2^lambda`. 形象地说, 任意 `n` 进制小数等价于二进制小数.</li>
+</ol>
+
+<ol class="proof">
+  <li>此证明是对角线法的一个推广. 视 `lambda` 为序数,
+    我们给出 `lambda xx lambda` 的一个良序: 设 `alpha, beta, alpha', beta' in lambda`,
+    <ul>
+      <li>若 `max{alpha, beta} lt max{alpha', beta'}`, 则 `(alpha, beta) lt (alpha', beta')`;</li>
+      <li>若 `max{alpha, beta} = max{alpha', beta'}`, 则以字典序比较大小, 即先比较第一个分量, 再比较第二个分量. 如下图</li>
+    </ul>
+    <div class="img md">
+      <img src="../img/set-diagnoal.svg">
+    </div>
+    (??)
+  </li>
+  <li>不妨设 `lambda` 无穷且 `0 lt kappa le lambda`.
+    由基数运算的定义,
+    <span class="formula">
+      `lambda le kappa + lambda le kappa * lambda le lambda * lambda`.
+    </span>
+    但 `lambda = lambda * lambda`, 因此由 Cantor-Bernstein 定理知道上式取得等号.
+  </li>
+  <li>这是因为 `2^lambda le kappa^lambda`
+    `le (2^lambda)^lambda`
+    `= 2^lambda`.
+  </li>
+</ol>
+
+<p class="remark">
+  注意涉及到无穷时, 基数与序数的运算是很不相同的.
+  例如对于序数有 `2^omega = omega`,
+  但下面的定理告诉我们, `2^(aleph_0) gt aleph_0`.
+</p>
+
+<h3>如何得到更大的基数</h3>
+
 <p class="theorem">
-	<b>无最大基数定理</b>
-	`|X| lt |2^X|`. 任一集合都存在幂集, 于是无最大基数.
+  <b>无最大基数定理 (Cantor)</b>
+  对任意集合 `X` 有 `|X| lt |2^X|`. 但任一集合都存在幂集, 于是无最大基数.
 </p>
 
 <p class="proof">
@@ -404,10 +470,39 @@
 	下证 `X` 与其幂集不等势. 假设存在双射 (从而是满射) `f: X to 2^X`,
 	令
 	<span class="formula">
-		`Y = {x in X: x !in f(x)}`,
+		`Y = {x in X: x !in f(x)} in 2^X`,
 	</span>
-	则 `Y in 2^X`. 由 `f` 是满射, 存在 `y in X`, 使 `f(y) = Y`.
-	然而不论 `y in Y` 还是 `y !in Y` 均引出矛盾 (罗素悖论).
+	由 `f` 是满射, 存在 `y in X`, 使 `f(y) = Y`.
+    然而类似罗素悖论, 不论 `y in Y` 还是 `y !in Y` 均引出矛盾.
+</p>
+
+<p class="theorem">
+  若 `S` 的一个由基数构成的集合, 则 `"sup"S := uuu S` 也是基数.
+</p>
+
+<p class="proof">
+  记 `alpha = "sup"S`.
+  假定存在序数 `beta lt alpha` 使得 `|beta| = |alpha|`, 由上确界性质, 必存在 `kappa in S` 满足
+  `beta lt kappa lt alpha`, 于是 `|beta| le |kappa| le |alpha|`.
+  但 `|beta| = |alpha|`, 于是 `|beta| = |kappa|`, 这与 `kappa` 是基数矛盾.
+</p>
+
+<p class="remark">
+  在序数中, 我们得到更大序数的方法有两种: (1) 对序数 `alpha` 取后继 `alpha^+`; (2) 对序数的集合 `S` 取上确界 `"sup"S`. 在基数中, 同样有两种方法来得到更大的基数: (1) 对基数 `kappa` 取幂 `2^kappa`; (1) 对基数的集合 `S` 取上确界 `"sup"S`.
+</p>
+
+<ol class="definition">
+  使用超穷递归, 定义全体无穷基数如下:
+  <li>`aleph_0 := omega`</li>
+  <li>`aleph_(alpha+1) :=` 大于 `aleph_alpha` 的最小基数;</li>
+  <li>若 `alpha` 是极限序数, `aleph_alpha := underset (beta lt alpha) "sup" aleph_beta`.</li>
+  基数全体构成一个真类.
+</ol>
+
+<p class="remark">
+  由上定义, `aleph_0` 是最小的无穷基数, `aleph_1` 是最小的不可数基数.
+  我们知道 `2^(aleph_0) gt aleph_0`, 那么 `2^(aleph_0) = aleph_1` 吗? 这个命题被称为<b>连续统假设</b>.
+  现已证明连续统假设与 ZFC 公理系统的独立性: 它无法用 ZFC 公理来证明或证伪.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
