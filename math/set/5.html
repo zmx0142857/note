@@ -61,6 +61,8 @@
 </ol>
 -->
 
+<p>[来自周民强《实变函数论》、李文威《代数学方法》]</p>
+
 <h2>等势</h2>
 
 <p>	我们知道, 有限集的元素个数可以用一个非负整数 `n` 表示,
@@ -70,7 +72,7 @@
 <ol class="definition">
 	<li>设 `X, Y sube Omega`.  如果存在 `X` 到 `Y` 的双射, 就称集合 `X` 与 `Y`
 		<b>等势</b>. 可以验证, 等势构成 `2^Omega` 上的等价关系.
-        用记号 `|X|` 表示等势的等价类.
+        用记号 `|X|` 或者 `"card" X` 表示等势的等价类.
 	</li>
 	<li>若 `X` 与 `Y` 的一个子集等势, 换言之存在 `X` 到 `Y` 的单射, 则称 `|X| le |Y|`;
 		若 `|X| le |Y|` 且 `|X| != |Y|`, 则称 `|X| lt |Y|`.
@@ -243,16 +245,24 @@
 <ol class="theorem">
   <b>对角线法</b>
   <li>设 `|X| = aleph_0`, 则 `|X xx X| = aleph_0`.</li>
-  <li>设 `|X_n| = aleph_0`, `n = 0, 2, cdots`, 则 `uuu_(n ge 0) X_n = aleph_0`.</li>
+  <li>设 `|X_n| = aleph_0`, `n = 0, 1, 2, cdots`, 则 `uuu_(n ge 0) X_n = aleph_0`.</li>
 </ol>
 
-<p class="proof">
-  注意到 `|X| le |uuu_(n ge 0) X_n| le |X xx X|`, 由 Cantor-Bernstein 定理, 只需证 `|X| = |X xx X|`.
-  <br>
-  使用对角线法:
-  注意 `Y_n = {(x_i, x_j) in X xx X: i + j = n}` 为有限集, 而 `X xx X = uuu_(n ge 0) Y_n`,
-  显然后者为可列集.
-</p>
+<ol class="proof">
+  <li>
+    使用对角线法:
+    注意每个 `Y_n = {(x_i, x_j) in X xx X: i + j = n}` 为有限集, 而 `X xx X = uuu_(n ge 0) Y_n`,
+    显然后者为可列集.
+  </li>
+  <li>
+    只需证 `|X| le |uuu_(n ge 0) X_n| le |X xx X|`, 然后由 Cantor-Bernstein 定理即得结论.
+    第一个不等号是显然的, 为证第二个不等号, 由于每个 `X_n` 是可列集, 故存在双射 `f_n: X_n to NN`,
+    利用选择公理将这些存在的双射固定下来, 于是存在 `uuu_(n ge 0) X_n` 到 `NN xx NN` 的单射:
+    <span class="formula">
+      `x mapsto (f_n(x), n)`, `quad n` 是使得 `x in X_n` 的最小自然数.
+    </span>
+  </li>
+</ol>
 
 <ol class="example">
   <li>`ZZ` 是可列集;</li>
@@ -378,12 +388,27 @@
 
 <ol class="corollary">
   <li>设 `|X| = 2^(aleph_0)`, 则 `|X xx X| = 2^(aleph_0)`.</li>
-  <li>设 `|X_n| = 2^(aleph_0)`, `n = 1, 2, cdots`, 则 `|uuu_(n ge 1) X_n| = 2^(aleph_0)`.</li>
+  <li>设 `|X_n| = 2^(aleph_0)`, `n = 0, 1, 2, cdots`, 则 `|uuu_(n ge 0) X_n| = 2^(aleph_0)`.</li>
 </ol>
 
-<p class="proof">
-  使用对角线法的推广可以证明此命题. 参看下节 (基数的运算).
-</p>
+<div class="proof p">
+  和可列集的情形相同, 只需证 `|X| = |X xx X|`:
+  <span class="formula">
+    `|X xx X|`
+    `= |P(QQ nn [0, 1)) xx P(QQ nn [1, 2))|`
+    `= |P(QQ nn [0, 2))|`
+    `= |X|`.
+  </span>
+  中间的等号成立是因为, 设 `A nn B = O/`, `A_1 sube A`, `B_1 sube B`, 则
+  <span class="formula">
+    `f: P(A) xx P(B) to P(A uu B)`<br>
+    `f(A_1, B_1) mapsto A_1 uu B_1`
+  </span>
+  是一个双射.
+  <hr>
+  事实上, 对任意无穷集都有 `|X| = |uuu_(n ge 0) X_n| = |X xx X|`,
+  参看下节 "基数的性质".
+</div>
 
 <ol class="example">
   <b>Cantor 集</b>
@@ -405,7 +430,57 @@
   </li>
 </ol>
 
-<h2>基数的运算</h2>
+<h2>基数的性质</h2>
+
+<h3>如何得到更大的基数</h3>
+
+<p class="theorem">
+  <b>无最大基数定理 (Cantor)</b>
+  对任意集合 `X` 有 `|X| lt |2^X|`. 但任一集合都存在幂集, 于是无最大基数.
+</p>
+
+<p class="proof">
+  易知 `X ~ {{x}: x in X} sube 2^X`, 所以 `|X| le |2^X|`.
+  下证 `X` 与其幂集不等势. 假设存在双射 (从而是满射) `f: X to 2^X`,
+  令
+  <span class="formula">
+    `Y = {x in X: x !in f(x)} in 2^X`,
+  </span>
+  由 `f` 是满射, 存在 `y in X`, 使 `f(y) = Y`.
+  然而类似罗素悖论, 不论 `y in Y` 还是 `y !in Y` 均引出矛盾.
+</p>
+
+<p class="theorem">
+  若 `S` 的一个由基数构成的集合, 则 `"sup"S := uuu S` 也是基数.
+</p>
+
+<p class="proof">
+  记 `alpha = "sup"S`.
+  假定存在序数 `beta lt alpha` 使得 `|beta| = |alpha|`, 由上确界性质, 必存在 `kappa in S` 满足
+  `beta lt kappa lt alpha`, 于是 `|beta| le |kappa| le |alpha|`.
+  但 `|beta| = |alpha|`, 于是 `|beta| = |kappa|`, 这与 `kappa` 是基数矛盾.
+</p>
+
+<p class="remark">
+  在序数中, 我们得到更大序数的方法有两种:
+  (1) 对序数 `alpha` 取后继 `alpha^+`; (2) 对序数的集合 `S` 取上确界 `"sup"S`.
+  在基数中, 同样有两种方法来得到更大的基数:
+  (1) 对基数 `kappa` 取幂 `2^kappa`; (1) 对基数的集合 `S` 取上确界 `"sup"S`.
+</p>
+
+<ol class="definition">
+  使用超穷递归, 定义全体无穷基数如下:
+  <li>`aleph_0 := omega`, 这是最小的无穷基数;</li>
+  <li>`aleph_(alpha+1) :=` 大于 `aleph_alpha` 的最小基数;</li>
+  <li>若 `alpha` 是极限序数, `aleph_alpha := underset (beta lt alpha) "sup" aleph_beta`.</li>
+  基数全体构成一个真类.
+</ol>
+
+<p class="remark">
+  由上定义, `aleph_0` 是最小的无穷基数, `aleph_1` 是最小的不可数基数.
+  我们知道 `2^(aleph_0) gt aleph_0`, 那么 `2^(aleph_0) = aleph_1` 吗? 这个命题被称为<b>连续统假设 (CH)</b>.
+  现已证明连续统假设与 ZFC 公理系统的独立性: 它无法用 ZFC 公理来证明或证伪.
+</p>
 
 <h3>基数的运算</h3>
 
@@ -417,28 +492,61 @@
 </ol>
 
 <p class="corollary">
-  `|A^(B xx C)| = |(A^B)^C|`.
+  `|A^(B xx C)| = |(A^B){::}^C|`.
 </p>
+
+<p class="theorem">
+  若 `lambda` 是无穷基数, 则 `lambda = lambda * lambda`, 即 `|X| = |X xx X|`.
+</p>
+
+<div class="proof p">
+  此证明是对角线法的一个推广.
+  我们给出 `bb(On) xx bb(On)` 的一个良序 `-&lt;`: 设 `alpha, beta, alpha', beta'` 是序数,
+  <ul>
+    <li>若 `max{alpha, beta} lt max{alpha', beta'}`, 则 `(alpha, beta) -&lt; (alpha', beta')`;</li>
+    <li>若 `max{alpha, beta} = max{alpha', beta'}`, 则以字典序比较大小, 即先比较第一个分量, 再比较第二个分量.</li>
+  </ul>
+  如下图, 对任意序数 `alpha`, `alpha xx alpha` 都是 `bb(On) xx bb(On)` 的一个前段,
+  从而 `(alpha xx alpha, -&lt;)` 是良序集.
+  <div class="img md">
+    <img src="../img/set-diagnoal.svg">
+  </div>
+  反设 `alpha` 是使得 `aleph_alpha * aleph_alpha != aleph_alpha` 的最小序数.
+  由于我们已证明 `aleph_0 * aleph_0 = aleph_0`, 所以 `alpha gt 0`.
+  设良序集 `aleph_alpha xx aleph_alpha` 的序型为 `gamma`, 即存在保序同构
+  `f: gamma to aleph_alpha xx aleph_alpha`.
+  由基数定义,
+  <span class="formula">
+    `gamma ge |gamma|`
+    `= |aleph_alpha xx aleph_alpha|`
+    `= aleph_alpha * aleph_alpha`
+    `gt aleph_alpha`.
+  </span>
+  由序数的性质, `aleph_alpha subne gamma`.  根据 `-&lt;` 的定义,
+  存在无穷序数 `sigma lt aleph_alpha`, 使 `aleph_alpha` 的像 `f(aleph_alpha) sube sigma xx sigma`.
+  (为什么存在??)
+  现在考虑 `sigma` 的基数
+  <span class="formula">
+    `aleph_beta := |sigma|` `le sigma` `lt aleph_alpha`.
+  </span>
+  由假设有 `aleph_beta * aleph_beta = aleph_beta`, 于是
+  <span class="formula">
+    `aleph_alpha`
+    `= |f(aleph_alpha)|`
+    `le |sigma xx sigma|`
+    `= aleph_beta * aleph_beta`
+    `= aleph_beta`,
+  </span>
+  矛盾.
+</div>
 
 <ol class="corollary">
   设 `kappa`, `lambda` 是非零基数,
-  <li>若 `lambda` 是无穷基数, 则 `lambda = lambda * lambda`, 即 `|X| = |X xx X|`.</li>
   <li>若 `kappa`, `lambda` 至少一个是无穷基数, 则 `kappa + lambda = kappa * lambda = max{lambda, kappa}`.</li>
   <li>若 `lambda` 是无穷基数, `2 le kappa le lambda`, 则 `kappa^lambda = 2^lambda`. 形象地说, 任意 `n` 进制小数等价于二进制小数.</li>
 </ol>
 
 <ol class="proof">
-  <li>此证明是对角线法的一个推广. 视 `lambda` 为序数,
-    我们给出 `lambda xx lambda` 的一个良序: 设 `alpha, beta, alpha', beta' in lambda`,
-    <ul>
-      <li>若 `max{alpha, beta} lt max{alpha', beta'}`, 则 `(alpha, beta) lt (alpha', beta')`;</li>
-      <li>若 `max{alpha, beta} = max{alpha', beta'}`, 则以字典序比较大小, 即先比较第一个分量, 再比较第二个分量. 如下图</li>
-    </ul>
-    <div class="img md">
-      <img src="../img/set-diagnoal.svg">
-    </div>
-    (??)
-  </li>
   <li>不妨设 `lambda` 无穷且 `0 lt kappa le lambda`.
     由基数运算的定义,
     <span class="formula">
@@ -456,53 +564,6 @@
   注意涉及到无穷时, 基数与序数的运算是很不相同的.
   例如对于序数有 `2^omega = omega`,
   但下面的定理告诉我们, `2^(aleph_0) gt aleph_0`.
-</p>
-
-<h3>如何得到更大的基数</h3>
-
-<p class="theorem">
-  <b>无最大基数定理 (Cantor)</b>
-  对任意集合 `X` 有 `|X| lt |2^X|`. 但任一集合都存在幂集, 于是无最大基数.
-</p>
-
-<p class="proof">
-	易知 `X ~ {{x}: x in X} sube 2^X`, 所以 `|X| le |2^X|`.
-	下证 `X` 与其幂集不等势. 假设存在双射 (从而是满射) `f: X to 2^X`,
-	令
-	<span class="formula">
-		`Y = {x in X: x !in f(x)} in 2^X`,
-	</span>
-	由 `f` 是满射, 存在 `y in X`, 使 `f(y) = Y`.
-    然而类似罗素悖论, 不论 `y in Y` 还是 `y !in Y` 均引出矛盾.
-</p>
-
-<p class="theorem">
-  若 `S` 的一个由基数构成的集合, 则 `"sup"S := uuu S` 也是基数.
-</p>
-
-<p class="proof">
-  记 `alpha = "sup"S`.
-  假定存在序数 `beta lt alpha` 使得 `|beta| = |alpha|`, 由上确界性质, 必存在 `kappa in S` 满足
-  `beta lt kappa lt alpha`, 于是 `|beta| le |kappa| le |alpha|`.
-  但 `|beta| = |alpha|`, 于是 `|beta| = |kappa|`, 这与 `kappa` 是基数矛盾.
-</p>
-
-<p class="remark">
-  在序数中, 我们得到更大序数的方法有两种: (1) 对序数 `alpha` 取后继 `alpha^+`; (2) 对序数的集合 `S` 取上确界 `"sup"S`. 在基数中, 同样有两种方法来得到更大的基数: (1) 对基数 `kappa` 取幂 `2^kappa`; (1) 对基数的集合 `S` 取上确界 `"sup"S`.
-</p>
-
-<ol class="definition">
-  使用超穷递归, 定义全体无穷基数如下:
-  <li>`aleph_0 := omega`</li>
-  <li>`aleph_(alpha+1) :=` 大于 `aleph_alpha` 的最小基数;</li>
-  <li>若 `alpha` 是极限序数, `aleph_alpha := underset (beta lt alpha) "sup" aleph_beta`.</li>
-  基数全体构成一个真类.
-</ol>
-
-<p class="remark">
-  由上定义, `aleph_0` 是最小的无穷基数, `aleph_1` 是最小的不可数基数.
-  我们知道 `2^(aleph_0) gt aleph_0`, 那么 `2^(aleph_0) = aleph_1` 吗? 这个命题被称为<b>连续统假设</b>.
-  现已证明连续统假设与 ZFC 公理系统的独立性: 它无法用 ZFC 公理来证明或证伪.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
