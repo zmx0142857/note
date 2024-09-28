@@ -465,7 +465,7 @@
   在序数中, 我们得到更大序数的方法有两种:
   (1) 对序数 `alpha` 取后继 `alpha^+`; (2) 对序数的集合 `S` 取上确界 `"sup"S`.
   在基数中, 同样有两种方法来得到更大的基数:
-  (1) 对基数 `kappa` 取幂 `2^kappa`; (1) 对基数的集合 `S` 取上确界 `"sup"S`.
+  (1) 对基数 `kappa` 取幂 `2^kappa`; (2) 对基数的集合 `S` 取上确界 `"sup"S`.
 </p>
 
 <ol class="definition">
@@ -486,13 +486,23 @@
 
 <ol class="definition">
   <b>基数的运算</b>
-  <li>`|X| + |Y| := |X ⊔ Y|`;</li>
+  <li>`|X| + |Y| := |X ⊔ Y|` (无交并);</li>
   <li>`|X| * |Y| := |X xx Y|`;</li>
   <li>`|X|^|Y| := |X^Y|`.</li>
+  当 `|X|, |Y|` 均有限时, 基数的运算与自然数相同.
 </ol>
 
-<p class="corollary">
+<p class="lemma">
   `|A^(B xx C)| = |(A^B){::}^C|`.
+</p>
+
+<p class="proof">
+  这是因为, 给定一个 `f: B xx C to A`,
+  可以唯一确定一个函数 `g: C to (B to A)`, 满足
+  <span class="formula">
+    `f(b, c) = g(c)(b)`,
+  </span>
+  反之亦然. 因此 `A^(B xx C)` 与 `(A^B){::}^C` 之间存在双射.
 </p>
 
 <p class="theorem">
@@ -563,7 +573,146 @@
 <p class="remark">
   注意涉及到无穷时, 基数与序数的运算是很不相同的.
   例如对于序数有 `2^omega = omega`,
-  但下面的定理告诉我们, `2^(aleph_0) gt aleph_0`.
+  但 Cantor 定理告诉我们, `2^(aleph_0) gt aleph_0`.
+  基数还有一个 "奇怪" 性质是:
+  <span class="formula">
+    `beta lt alpha rArr beta^lambda le alpha^lambda`.
+  </span>
+  上述的等号是可能成立的. 例如 `beta = 2`, `alpha = 2^(aleph_0)`, `lambda = aleph_0`.
+  我们有 `alpha^lambda = (2^(aleph_0)){::}^(aleph_0)`
+  `= 2^(aleph_0 xx aleph_0)`
+  `= 2^(aleph_0)`.
+</p>
+
+<h3>强不可达基数*</h3>
+
+<p class="remark">
+  我们已经提到, 得到更大基数的方法无非两种:
+  (1) 对基数 `kappa` 取幂 `2^kappa`;
+  (2) 对基数 (或序数) 的集合 `S` 取上确界 `"sup"S`.
+  那么是否存在这样的基数, 不能通过上述两种方法构造得到呢? 这引出强不可达基数的问题.
+</p>
+
+<ol class="definition">
+  称基数 `alpha` 称为<b>正则基数</b>, 如果
+  <li>`alpha` 是无穷基数, 即 `alpha ge aleph_0`;</li>
+  <li>
+    不存在极限序数 `beta lt alpha`
+    和严格增的序数列 `S := {a_xi: xi lt beta}` 使得 `alpha = "sup"S`.
+  </li>
+  直观来看, 正则基数不能由比它小的基数通过取上确界得到.
+</ol>
+
+<p class="example">
+  设 `gamma` 是任意序数, 形如 `aleph_(gamma+omega)` 的基数均不是正则基数.
+</p>
+
+<p class="proof">
+  事实上取 `S := {aleph_xi: xi lt gamma + omega}`,
+  则 `"sup"S = "sup"{aleph_(gamma+n): n lt omega} = aleph_(gamma+omega)`.
+  又显然 `gamma + omega lt aleph_(gamma+omega)`, 且为一极限序数.
+</p>
+
+<ol class="definition">
+  称基数 `kappa` 为<b>强不可达基数</b>, 如果
+  <li>`kappa` 不可数, 即 `kappa gt aleph_0`;</li>
+  <li>`kappa` 是正则基数;</li>
+  <li>对任意基数 `lambda lt kappa` 有 `2^lambda lt kappa`.</li>
+  因此, 强不可达基数即不能通过取幂得到, 也不能通过上确界得到.
+</ol>
+
+<p class="remark">
+  已知 ZFC 中无法证明强不可达基数的存在性.
+  还有许多基数的存在性与 ZFC 相独立, 此事在【大基数理论】中亦有记载.
+  前面的路, 以后再来探索吧!
+</p>
+
+<h2>Grothendieck 宇宙*</h2>
+
+<h3>宇宙的定义</h3>
+
+<p>
+  粗略来看, 宇宙无非是一个足够大的集合, 在其中可以满足我们进行一切所需的操作,
+  从而避免在 ZFC 中对真类进行讨论. 且看 "上帝" 是如何创造宇宙的:
+</p>
+
+<ol class="definition">
+  <b>Grothendieck 宇宙</b> 定义为一个集合 `cc U`, 满足:
+  <li>`O/ in cc U`.</li>
+  <li>`cc U` 是传递集, 即 `u in cc U rArr u sube cc U`.</li>
+  <li>`cc U` 中的集合可以配对, 即 `u, v in cc U rArr {u, v} in cc U`.</li>
+  <li>`cc U` 中的集合可以取幂集, 即 `u in cc U rArr P(u) in cc U`.</li>
+  <li>`cc U` 中的集合可以取并集, 即 `I in cc U`, `AA i, u_i in cc U` `rArr uuu_(i in I) u_i in cc U`.</li>
+  称宇宙中的集合 `X in cc U` 为 `cc U`-集. 若集合 `Y` 与某个 `X in cc U` 等势, 称 `Y` 是 `cc U`-小集.
+</ol>
+
+<p class="remark">
+  我们把 `cc U`-小集比喻成来自 "平行宇宙" 的集合.
+</p>
+
+<ol class="corollary">
+  设 `cc U` 是宇宙, 则:
+  <li>`NN in cc U`;</li>
+  <li>`u sube v in cc U rArr u in cc U`;</li>
+  <li>`u in cc U rArr uuu u = uuu_(x in u) x in cc U`;</li>
+  <li>`u, v in cc U rArr u xx v in cc U`;</li>
+  <li>`I in cc U`, `AA i, u_i in cc U` `rArr prod_(i in I) u_i in cc U`.</li>
+</ol>
+
+<ol class="proof">
+  <li>由于 `cc U` 是传递集, 以及配对、并集操作的可行性, 立即推出 `NN in cc U`.</li>
+  <li>由 `cc U` 是传递集知道 `u sube v sube cc U`, 于是对任意 `x in u` 也有 `x in cc U`.
+    由配对性质知道 `{x} = {x, x} in cc U`.
+    于是由并集性质 `u = uuu_(x in u) {x} in cc U`.
+  </li>
+  <li>`u` 自身也可以作为取并集的指标集. 注意到 `x in u in cc U` `rArr x in cc U` 即可.</li>
+  <li>回顾 Descartes 积的定义, 它只涉及并集、幂集、配对和子集公理模式.</li>
+  <li>无穷 Descartes 积比 Descartes 积多要求了选择公理, 其它是一样的.</li>
+</ol>
+
+<p>宇宙的概念在解决 ZFC 中棘手的真类问题的同时, 又引入了另外的问题: 满足上述定义的宇宙是否存在?
+  它是否已经包含了我们感兴趣的全部集合? 为此引入下面这个力大砖飞的假设:
+</p>
+
+<p class="hypothesis">
+  <b>(A. Grothendieck)</b>
+  对任何集合 `X`, 存在宇宙 `cc U` 使得 `X in cc U`.
+</p>
+
+<h3>集合的层垒谱系</h3>
+
+<ol class="definition">
+  <b>集合的层垒谱系</b>
+  对每个序数 `alpha`, 以超穷递归定义集合 `V_alpha` 如下:
+  <li>`V_0 = O/`;</li>
+  <li>`V_(alpha+1) := P(V_alpha)`;</li>
+  <li>`V_alpha := uuu_(beta lt alpha) V_beta`, 若 `alpha` 为极限序数.</li>
+</ol>
+
+<ol class="example">
+  <li>`V_1 = {0} = 1`, `V_2 = {0, 1} = 2`, `V_3 = {0, 1, {1}, 2}`, ...</li>
+  <li>`V_omega` 是所有 `V_n` 之并, `n in omega`;
+    它的元素称为遗传有限集, 这些集合皆有限, 因此 `omega !in V_omega`.
+  </li>
+</ol>
+
+<ol class="theorem">
+  关于层垒谱系, 可以证明:
+  <li>每个 `V_alpha` 都是传递集, 且 `alpha sube V_alpha`;</li>
+  <li>`alpha lt beta rArr V_alpha sube V_beta`;</li>
+  <li>任意集合 `X` 都属于某个 `V_alpha`.</li>
+  如此这些集合 `V_alpha` 便囊括了所有集合! 这启发我们在 `V_alpha` 中寻找可能的宇宙.
+</ol>
+
+<ol class="proof">
+  ??
+</ol>
+
+<p class="remark">
+  Bourbaki 学派已证明, 宇宙正是形如 `V_kappa` 的集合, 其中 `kappa` 为强不可达基数.
+  因此 Grothendieck 假设等价于对任意基数 `lambda`, 存在强不可达基数 `kappa gt lambda`.
+  对于大多数范畴论构造和数学论证, 我们只要求存在一个宇宙即可, 即存在一个强不可达基数.
+  这称为<b>强不可达基数假设</b>.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
