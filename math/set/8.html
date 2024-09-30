@@ -81,7 +81,7 @@
   条条大路通罗马，所以交换图表是不是也可以叫做罗马表（
 </p>
 
-<h3>子范畴与反范畴</h3>
+<h3>子范畴、反范畴、积范畴</h3>
 
 <ol class="definition">
   称 `cc C'` 是 `cc C` 的子范畴, 如果
@@ -104,7 +104,19 @@
   <li>对任意对象 `X, Y`, `"Hom"_(cc C^"op")(X, Y) := "Hom"_(cc C)(Y, X)`;</li>
   <li>恒等态射定义同 `cc C`.</li>
   <li>`cc C^"op"` 中态射的合成 `f @^"op" g` 定义为 `cc C` 中的反向合成 `g @ f`;</li>
+  我们有 `(cc C^"op")^"op" = cc C`.
   范畴与反范畴之间对称的关系也叫做对偶原理. 比如, `cc C^"op"` 中的单态射就是 `cc C` 中的满态射.
+</ol>
+
+<ol class="definition">
+  给定范畴 `cc C_1`, `cc C_2`, 定义<b>积范畴</b>如下:
+  <li>对象: `"Ob"(cc C_1 xx cc C_2) = "Ob"(cc C_1) xx "Ob"(cc C_2)`.</li>
+  <li>态射: `"Hom"_(cc C_1 xx cc C_2)((X_1, X_2),(Y_1, Y_2))`
+    `= "Hom"_(cc C_1)(X_1, Y_1) xx "Hom"_(cc C_2)(X_2, Y_2)`.
+  </li>
+  <li>态射的合成: `(g_1, g_2) @ (f_1, f_2) := (g_1 f_1, g_2 f_2)`.</li>
+  <li>恒等态射: `"id"_(X_1, X_2) := ("id"_(X_1), "id"_(X_2))`.</li>
+  总之, 一切都是逐分量地定义的. 积范畴可以推广到有限个乘积的情形.
 </ol>
 
 <h3>范畴的例子</h3>
@@ -169,17 +181,15 @@
   </li>
 </ol>
 
-<h2>函子与自然变换</h2>
-
-<h3>函子的定义</h3>
+<h2>函子</h2>
 
 <ol class="definition">
   设 `cc C', cc C` 为范畴. 一个<b>函子</b> `F: cc C' to cc C` 由一对映射组成:
   <li>对象间的映射 `F: "Ob"(cc C') to "Ob"(cc C)`;</li>
   <li>态射间的映射, 仍用同一个字母: `F: "Mor"(cc C') to "Mor"(cc C)`.</li>
-  <li>`F` 需满足 `s F = F s`, `t F = F t`, 这里 `s, t` 是来源映射和目标映射. 换言之,
-    `F` 将态射映为一个新态射的同时, 也将原态射的来源与目标对象映为新态射的来源与目标.
-    即, 对任意对象 `X, Y in cc C'` 有映射 `F: "Hom"_(cc C')(X, Y) to "Hom"_(cc C)(F X, F, Y)`.
+  <li>`F` 需保持态射的来源与目标. 设 `s, t` 分别是来源映射和目标映射, 则 `s F = F s`, `t F = F t`.
+    <!-- `F` 将态射映为一个新态射的同时, 也将原态射的来源与目标对象映为新态射的来源与目标. -->
+    即, 对任意对象 `X, Y in cc C'` 有映射 `F: "Hom"_(cc C')(X, Y) to "Hom"_(cc C)(F X, F Y)`.
   </li>
   <li>`F` 需保持态射的合成与恒等态射:
     `F(g @ f) = F(g) @ F(f)`, `F("id"_X) = "id"_(F X)`.
@@ -189,8 +199,11 @@
 <ol class="definition">
   <li>函子的合成. 设 `F: cc C_1 to cc C_2`, `G: cc C_2 to cc C_3`,
     将它们对象间与态射间的映射分别合成, 就得到合成函子 `G @ F`.
+    函子的合成满足结合律.
   </li>
-  <li>形如 `cc C' to cc C` 的函子称为共变函子, `cc {:C':}^"op" to cc C` 称为反变函子.</li>
+  <li>形如 `cc C' to cc C` 的函子称为共变函子, `cc {:C':}^"op" to cc C` 称为反变函子.
+    反变函子的定义在对象层次与前相同, 在态射层次则要求反转箭头方向.
+  </li>
   <li>由于反范畴与范畴只在箭头方向上不同, 函子 `F: cc C' to cc C` 和 `F^"op": cc {:C':}^"op" to cc C^"op"`
     是一回事.
   </li>
@@ -199,18 +212,79 @@
 <ol class="definition">
   对于函子 `F: cc C' to cc C`,
   <li>称 `F` 是<b>本质满</b>的, 若 `cc C` 中任一对象都同构于某个 `F X`. 这是把满射定义中的 "等于" 换成了 "同构于".</li>
-  <li>称 `F` 是<b>忠实</b>的, 若对所有对象 `X, Y in "Ob"(cc C')`, 映射 `"Hom"_(cc C)(X, Y) to "Hom"_(cc C)(F X, F Y)` 都是单射.
+  <li>称 `F` 是<b>忠实</b>的, 若对所有对象 `X, Y in "Ob"(cc C')`,
+    态射之间的映射 `"Hom"_(cc C)(X, Y) to "Hom"_(cc C)(F X, F Y)` 都是单射.
     也就是说, `X, Y` 的箭头到 `F X, F Y` 的箭头之间是单射.
-    <p class="remark">
-    忠实是比单射弱的一个概念. 可能出现这样的情况: `X, Y, Z` 是 `cc C'` 的不同对象, 但 `F Y = F Z`,
-    这时一个忠实的函子允许箭头 `X to Y` 和 `X to Z` 被映到同一个箭头.
-    </p>
   </li>
   <li>称 `F` 是<b>全</b>的, 如果 2. 中的映射都是满射.</li>
+  <li>既忠实又全的函子称为<b>全忠实</b>的.</li>
 </ol>
 
-<p class="example">
+<p class="remark">
+  忠实是比单射弱的一个概念. 可能出现这样的情况: `X, Y, Z` 是 `cc C'` 的不同对象, 但 `F Y = F Z`,
+  这时一个忠实的函子允许箭头 `X to Y` 和 `X to Z` 被映到同一个箭头.
+  同理 "全" 是比满射弱的概念.
 </p>
+
+<ol class="example">
+  <li>设 `cc C'` 为 `cc C` 的子范畴, 则<b>包含函子</b> `iota: cc C' to cc C` 是忠实的,
+    它在对象和态射层次都是包含映射; 它是全忠实的当且仅当 `cc C'` 是 `cc C` 的全子范畴.
+  </li>
+  <li><b>忘却函子</b>
+    忘却环的乘法, 可以将它视为加法群; 忘却所有结构便得到底层的集合.
+    在对象层次, 这些函子忘却一部分的代数结构 (环的乘法、向量空间的纯量乘法...),
+    在态射层次, 这些函子化为箭头之间的包含映射.
+    比如 `sf(Ri ng)` 到 `sf(Ab)` 的忘却函子就把两个环 `R, R'` 之间的环同态映为两个加法群的群同态.
+    忘却函子都是忠实的.
+  </li>
+</ol>
+
+<h2>自然变换</h2>
+
+<div class="definition p">
+  <b>自然变换</b> 设函子 `F, G: cc C' to cc C`. 从 `F` 到 `G` 的自然变换 `theta: F rarr G`
+  定义为一族态射
+  <span class="formula">
+    `theta = { theta_X in "Hom"_(cc C)(F X, G X): X in "Ob"(cc C') }`.
+  </span>
+  其中 `theta_X` 表示从 `F X` 到 `G X` 的箭头.
+  自然变换要求对所有态射 `f: X to Y` 有 `theta_X @ G f = F f @ theta_Y`, 即下图交换:
+  <div class="img xs">
+    <img src="../img/natural-trans-1.png" alt="自然变换1">
+  </div>
+  另一种常见的图解方式为:
+  <div class="img xs">
+    <img src="../img/natural-trans-2.png" alt="自然变换2">
+  </div>
+  自然变换 `theta: F to G` 和 `psi: G to H` 的合成定义为
+  <span class="formula">
+    `psi theta: F to H`, 使得 `(psi theta)_X = psi_X theta_X`.
+  </span>
+  合成运算满足结合律.
+</div>
+
+<ol class="definition">
+  <li>记函子 `F: cc C' to cc C` 到自身的<b>恒等变换</b>为
+    <span class="formula">
+      `"id"_F := { "id"_(F X): X in "Ob"(cc C') }`.
+    </span>
+  </li>
+  <li>若 `theta: F to G` 中的态射皆为同构, 则称 `theta` 是<b>同构</b>, 定义其逆 `theta^-1: G to F` 为
+    <span class="formula">
+      `theta^-1 := { theta_X^-1: theta_X in theta }`.
+    </span>
+    可以验证 `theta^-1 theta = "id"_F`, `theta theta^-1 = "id"_G`.
+  </li>
+</ol>
+
+<ol class="example">
+  设 `theta: F_1 to F_2` 是自然变换. 我们可以左乘或右乘一个函子, 得到:
+  <li>`theta G := {theta_(G Y)}_Y: F_1 G to F_2 G`.</li>
+  <li>`H theta := {H theta_X}_X: H F_1 to H F_2`.</li>
+  当然, 前提是函子的合成 `F_1 G`, `F_2 G`, `H F_1`, `H F_2` 有意义.
+  我们有结合律 `(H theta) G = H (theta G)`.
+  若 `theta` 是同构, 则 `theta G, H theta` 也是同构.
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

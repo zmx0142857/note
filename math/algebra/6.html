@@ -107,6 +107,59 @@
   </li>
 </ol>
 
+<h2>外代数</h2>
+
+<ol class="definition">
+  设 `V` 是域 `bbb F` 上的线性空间. 规定运算 `^^` 满足如下性质:
+  <li>双线性性: `AA a, b in bbb F`, `AA x, y, z in V`,
+    <span class="formula">
+      `(a x + b y) ^^ z = a (x^^z) + b (y^^z)`,<br>
+      `z ^^ (a x + b y) = a (z^^x) + b (z^^y)`.
+    </span>
+    因此 `{:^^:}^2 V := { sum x ^^ y: x, y in V }` 构成线性空间.
+  </li>
+  <li>反对称性: `x ^^ y = 0 iff x = y`.<br>
+    因为 `^^` 是双线性的, 我们有
+    <span class="formula">
+      `0 = (x+y) ^^ (x+y)`
+      `= x ^^ x + y ^^ y + x ^^ y + y ^^ x`,
+    </span>
+    即 `x ^^ y = -y ^^ x`.
+  </li>
+  <li>结合性: 规定 `V` 中元素和 `^^ ^2 V` 中元素也可以进行 `^^` 运算, 且 `AA x, y, z in V`,
+    <span class="formula">
+      `(x ^^ y) ^^ z = x ^^ (y ^^ z)`;
+    </span>
+    因此 `^^ ^3 V := { sum x ^^ y ^^ z: x, y, z in V }` 也构成线性空间.
+    一般地, 可以构造出线性空间
+    <span class="formula">
+      `^^ ^k V := { sum x_1 ^^ cdots ^^ x_k: x_i in V, i = 1, cdots, k }`.
+    </span>
+  </li>
+  <li>特别地, 记 `^^ ^0 V := bbb F`, `^^ ^1 V := V`.</li>
+  由于 `V` 中两元素相乘得到的是 `V` 之外的元素,
+  我们称 `^^` 为 `V` 上的<b>外代数 (exterior algebra)</b> 或<b>楔积 (wedge product)</b>
+  或 <b>Grassmann 代数</b>.
+</ol>
+
+<ol class="corollary">
+  <b>维数公式</b>
+  设 `V` 为有限维, `{e_i}_(i=1)^n` 是 `V` 的基, 则 
+  <li>`^^ ^k V` 的基由 `k` 个基向量外积得到, 维数为 `C_n^k`. 比如 `n = 3` 时, `^^ ^2 V` 的基为
+    `{e_1 ^^ e_2, e_2 ^^ e_3, e_3 ^^ e_1}`.
+  </li>
+  <li>`k gt n = dim V` 时, `^^ ^k V = {0}`.</li>
+  <li>将所有 `^^ ^k V` 做直和得到<b>外积空间</b> `^^ V := o+_(k=0)^n ^^ ^k V`, 维数为
+    `sum_(k=0)^n C_n^k = 2^n`.
+  </li>
+</ol>
+
+<ol class="example">
+  <li><b>`RR^3` 中的叉乘</b> 注意到 `dim R^3 = dim ^^ ^2 RR^3`, 给定 `RR^3` 的标准正交基 `{i, j, k}`,
+    可以建立同构 `varphi`, 使得 `varphi(i ^^ j) = k`, `varphi(j ^^ k) = i`, `varphi(k ^^ i) = j`.
+  </li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
