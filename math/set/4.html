@@ -501,7 +501,9 @@
     例如, `1 = {0}`, `2 = {0, 1}`, `omega = {0, 1, 2, ...}`
   </li>
   <li>若 `alpha` 是极限序数, 则 `alpha = "sup"{beta: beta lt alpha}`.</li>
-  <li>`alpha^+ = "inf"{beta: beta gt alpha}`, 因此 `alpha^+` 是大于 `alpha` 的最小序数.</li>
+  <li>`alpha^+ = "inf"{beta: beta gt alpha}`, 因此 `alpha^+` 是大于 `alpha` 的最小序数.
+    推论: `beta lt alpha^+ iff beta le alpha`.
+  </li>
 </ol>
 
 <p class="proof">
@@ -559,34 +561,120 @@
 
 <h3>序数的运算</h3>
 
-<p>借助超穷递归原理定义序数的运算如下:</p>
-
-<ol>
-  设 `alpha, beta` 是序数, `gamma` 是极限序数:
-  <li>加法: `alpha + 0 := alpha`, `alpha + beta^+ := (alpha + beta)^+`, `alpha + gamma := "sup"{alpha + xi: xi lt gamma}`.</li>
-  <li>乘法: `alpha * 0 := 0`, `alpha * beta^+ := alpha * beta + alpha`, `alpha * gamma := "sup"{alpha * xi: xi lt gamma}`.</li>
-  <li>指数: `alpha^0 := 1`, `alpha^(beta^+) := alpha^beta * alpha`, `alpha^gamma := "sup"{alpha^xi: xi lt gamma}`.</li>
+<ol class="definition">
+  设 `alpha, beta` 是序数, `gamma` 是极限序数,
+  借助超穷递归原理定义序数的运算如下:
+  <li>加法: `alpha + 0 := alpha`, `quad alpha + beta^+ := (alpha + beta)^+`, `quad alpha + gamma := "sup"{alpha + xi: xi lt gamma}`.</li>
+  <li>乘法: `alpha * 0 := 0`, `quad alpha * beta^+ := alpha * beta + alpha`, `quad alpha * gamma := "sup"{alpha * xi: xi lt gamma}`.</li>
+  <li>指数: `alpha^0 := 1`, `quad alpha^(beta^+) := alpha^beta * alpha`, `quad alpha^gamma := "sup"{alpha^xi: xi lt gamma}`.</li>
   在 `alpha, beta` 有限的情况下, 它们的运算与自然数相同.
 </ol>
 
 <ol class="example">
-  <li>设 `a lt omega`, 则
+  <b>序数 `omega` 的一些运算性质</b>
+  <li>设 `alpha lt omega`, 则
     <span class="formula">
-      `a + omega = omega`,<br>
-      `a gt 0 rArr a * omega = omega`,<br>
-      `a gt 1 rArr a^omega = omega`.
+      `alpha + omega = omega`,
+      `quad alpha gt 0 rArr alpha * omega = omega`,
+      `quad alpha gt 1 rArr alpha^omega = omega`.
     </span>
   </li>
-  <li>序数运算的交换律一般不成立, 例如
+  <li>序数的加法和乘法满足结合律, 但交换律一般不成立, 例如
     `1 + omega = omega` 是一个极限序数, 但 `omega + 1` 是一个后继序数.
     乘法同理: `2 * omega = omega`, 但 `omega * 2 = omega + omega`.
+  </li>
+</ol>
+
+<ol class="example">
+  <b>序数加法的性质</b> 设 `alpha` 是任意序数,
+  <li>`0 + alpha = alpha`.</li>
+  <li>若 `beta gt 0`, 则 `alpha + "sup"{xi: xi lt beta} = "sup"{alpha + xi: xi lt beta}`.</li>
+  <li>若 `beta gt 0`, 则 `beta` 是极限序数当且仅当 `alpha + beta` 是极限序数.</li>
+</ol>
+
+<ol class="proof enum">
+  <li>
+    <ol>
+      使用超穷递归证明:
+      <li>`alpha = 0` 时, 显然成立;</li>
+      <li>若 `0 + alpha = alpha`, 则 `0 + alpha^+` `= (0 + alpha)^+` `= alpha^+`;</li>
+      <li>若 `alpha` 为极限序数, 且对一切 `xi lt alpha` 有 `0 + xi = xi`,
+        则 `0 + alpha` `= "sup"{0 + xi: xi lt alpha}` `= "sup"{xi: xi lt alpha}`
+        `= alpha`.
+      </li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>若 `beta` 是极限序数, 则 `"sup"beta = beta`, 由 `alpha + beta` 的定义知等式成立.</li>
+      <li>若 `beta = gamma^+`, 则 `"sup"beta = gamma`, 由定义 `alpha + beta = (alpha + gamma)^+`
+        `= (alpha + "sup"beta)^+`.
+        于是 `alpha + "sup"beta` `= "sup"(alpha + beta)`
+        `= "sup"{xi: xi lt alpha + beta}`
+        `overset ? = "sup"{alpha + eta: eta lt beta}`.
+      </li>
+    </ol>
+  </li>
+  <li>设 `beta = gamma^+` 是后继, 于是 `alpha + beta = (alpha + gamma)^+` 也是后继.
+    现在设 `beta` 是极限序数, 则
+    `alpha + beta`
+    `= "sup"{alpha + xi: xi lt beta}`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>序数的减法</b>
+  设序数 `beta le alpha`, 则存在唯一序数 `gamma` 使得 `beta + gamma = alpha`.
+  于是可记 `alpha - beta := gamma`.<br>
+  `gamma` 的唯一性等价于序数的加法的左消去律:
+  <span class="formula">
+    `c + a = c + b rArr a = b`.
+  </span>
+  但序数加法不满足右消去律, 比如 `1 + omega = 2 + omega = omega`.
+</p>
+
+<ol class="proof enum">
+  使用超穷递归证明:
+  <li>
+    存在性.
+    <ol>
+      <li>`alpha = 0` 时, 因 `beta le alpha` 必有 `beta = 0`, 此时取 `gamma = 0` 即可.</li>
+      <li>若对序数 `alpha` 结论成立, 则对序数 `alpha^+` 和任意 `beta le alpha^+`:
+        若 `beta = alpha^+`, 有 `beta + 0 = alpha^+`.
+        若 `beta lt alpha^+`, 则 `beta le alpha`, 有 `beta + gamma^+`
+        `= (beta + gamma)^+` `= alpha^+`.
+      </li>
+      <li>若 `alpha` 是极限序数, 且对一切 `xi lt alpha` 结论成立, 则对任意 `beta le alpha`:
+        若 `beta = alpha`, 有 `beta + 0 = alpha`.
+        若 `beta lt alpha`, 则
+        `beta + "sup"{gamma: beta + gamma = xi, xi lt alpha}`
+        `overset ? = "sup"{beta + gamma: beta + gamma = xi, xi lt alpha}`
+        `= "sup"{xi: xi lt alpha}`
+        `= alpha`.
+      </li>
+    </ol>
+  </li>
+  <li>唯一性. `beta = alpha` 时结论显然. 下设 `beta lt alpha`, 于是 `alpha gt 0`.
+    <ol>
+      <li>设 `beta + gamma_1 = beta + gamma_2 = alpha^+`.
+        此时 `gamma_1`, `gamma_2` 只能是后继序数, 分别记它们的前驱为
+        `gamma_1^(-)`, `gamma_2^(-)`, 由归纳假设 `gamma_1^(-) = gamma_2^(-)`, 于是 `gamma_1 = gamma_2`.
+      </li>
+      <li>设 `beta + gamma_1 = beta + gamma_2 = alpha`, `alpha` 为极限序数.
+        此时 `gamma_1`, `gamma_2` 必为极限序数, 于是
+        <span class="formula">
+          `alpha = "sup"{beta + xi: xi lt gamma_1}`
+          `= "sup"{xi: xi lt beta + gamma_1}`.
+        </span>
+      </li>
+    </ol>
   </li>
 </ol>
 
 <h2>选择公理</h2>
 
 <p>[来自李文威《代数学方法》]
-[参考 <a href="https://zhuanlan.zhihu.com/p/482203007" target="_blank">芷雨Chira@知乎</a>
+[参考 <a href="https://zhuanlan.zhihu.com/p/482203007" target="_blank">芷雨Chira@知乎</a>]
 </p>
 
 <p class="remark">
