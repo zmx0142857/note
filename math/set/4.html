@@ -509,10 +509,10 @@
   <li>`alpha^+ = "inf"{beta: beta gt alpha}`, 因此 `alpha^+` 是大于 `alpha` 的最小序数.</li>
   <li>`beta lt alpha^+ iff beta le alpha`. 换言之不存在 `beta` 使得 `alpha lt beta lt alpha^+`.</li>
   <li>若 `alpha` 是极限序数, `beta lt alpha`, 则 `beta^+ lt alpha`.</li>
-  <li>若 `alpha` 是极限序数, 则 `alpha = op(s u p) alpha` `= "sup"{beta: beta lt alpha}`.
+  <li>若 `alpha` 是极限序数, 则 `alpha = "sup" alpha` `= "sup"{beta: beta lt alpha}`.
     总之,
     <span class="formula">
-      `op(s u p) alpha = { beta, if alpha = beta^+; alpha, otherwise :}`.
+      `"sup" alpha = { beta, if alpha = beta^+; alpha, otherwise :}`.
     </span>
   </li>
 </ol>
@@ -629,9 +629,9 @@
 <ol class="corollary">
   <b>序数加法的性质</b> 对任意序数 `alpha`:
   <li>零元: `0 + alpha = alpha`.</li>
-  <li>`beta gt gamma iff alpha + beta gt alpha + gamma`.</li>
+  <li>右不等式: `beta ge gamma rArr beta + alpha ge gamma + alpha`.</li>
+  <li>左不等式: `beta gt gamma iff alpha + beta gt alpha + gamma`.</li>
   <li>左消去律: `beta = gamma iff alpha + beta = alpha + gamma`.</li>
-  <li>`beta gt gamma rArr beta + alpha ge gamma + alpha`.</li>
 </ol>
 
 <ol class="proof enum">
@@ -643,6 +643,21 @@
       <li>若 `alpha` 为极限序数, 且对一切 `xi lt alpha` 有 `0 + xi = xi`,
         则 `0 + alpha` `= "sup"{0 + xi: xi lt alpha}` `= "sup"{xi: xi lt alpha}`
         `= alpha`.
+      </li>
+    </ol>
+  </li>
+  <li>
+    <ol>`beta = gamma` 时结论显然. 下设 `beta gt gamma`, 对 `alpha` 归纳:
+      <li>`alpha = 0` 时显然成立;</li>
+      <li>设结论对 `alpha` 成立, 即 `beta + alpha ge gamma + alpha`,
+        下证 `beta + alpha^+ ge gamma + alpha^+`.
+        若 `beta + alpha = gamma + alpha`, 则结论已经成立. 若 `beta + alpha gt gamma + alpha`,
+        则不可能有 `beta + alpha^+ lt gamma + alpha^+`, 否则两边取上确界得到
+        `beta + alpha le gamma + alpha`, 矛盾.
+      </li>
+      <li>设 `alpha` 是极限序数, 且结论对一切 `xi lt alpha` 成立:
+        `beta + xi ge gamma + xi`.
+        两边取上确界就得到 `beta + alpha ge gamma + alpha`.
       </li>
     </ol>
   </li>
@@ -667,21 +682,6 @@
   <li>`rArr` 显然; 下证 `lArr`. 假设 `alpha + beta = alpha + gamma`, 那么不能有 `beta lt gamma`,
     否则 `alpha + beta lt alpha + gamma`; 同理不能有 `beta gt gamma`, 所以 `beta = gamma`.
   </li>
-  <li>
-    <ol>设 `beta gt gamma`, 对 `alpha` 归纳:
-      <li>`alpha = 0` 时显然成立;</li>
-      <li>设结论对 `alpha` 成立, 即 `beta + alpha ge gamma + alpha`,
-        下证 `beta + alpha^+ ge gamma + alpha^+`.
-        若 `beta + alpha = gamma + alpha`, 则结论已经成立. 若 `beta + alpha gt gamma + alpha`,
-        则不可能有 `beta + alpha^+ lt gamma + alpha^+`, 否则两边取上确界得到
-        `beta + alpha le gamma + alpha`, 矛盾.
-      </li>
-      <li>设 `alpha` 是极限序数, 且结论对一切 `xi lt alpha` 成立:
-        `beta + xi ge gamma + xi`.
-        两边取上确界就得到 `beta + alpha ge gamma + alpha`.
-      </li>
-    </ol>
-  </li>
 </ol>
 
 <p class="remark">
@@ -689,24 +689,26 @@
 </p>
 
 <ol class="corollary">
+  <b>序数加法和 sup 的性质</b> 设 `alpha` 是任意序数,
+  <li>设集合 `S` 的元素都是序数, `"sup"S` 是后继序数, 则 `"sup"S in S`.</li>
   <li>若 `beta gt 0`, 则 `beta` 是极限序数当且仅当 `alpha + beta` 是极限序数.</li>
-  <li>若 `beta gt 0`, 则
-    <span class="formula">
-      `alpha + "sup"{xi: xi lt beta}` `= "sup"{xi: xi lt alpha + beta}`.
-    </span>
-    进一步当 `beta` 是极限序数时, 它们都等于 `"sup"{alpha + xi: xi lt beta}`.
-  </li>
+  <li>若 `beta gt 0`, 则 `alpha + "sup"beta = "sup"(alpha + beta)`.</li>
+  <li>设非空集合 `S` 的元素都是序数, 则 `alpha + "sup"S = "sup"{alpha + beta: beta in S}`.</li>
 </ol>
 
 <ol class="proof enum">
+  <li>设 `"sup"S = alpha^+`, 由上确界性质知存在 `beta in S` 使得 `alpha lt beta le alpha^+`,
+    于是 `beta = alpha^+`.
+    <br>
+    逆命题不成立. 如 `S = {omega}`, `"sup"S = omega in S`, 但 `omega` 是极限序数.
+  </li>
   <li>设 `beta = gamma^+` 是后继, 于是 `alpha + beta = (alpha + gamma)^+` 也是后继.
     现在设 `beta` 是极限序数,
-    下证 `alpha + beta` 是极限序数. ??
-    <!--
-    则 `alpha + beta` `= "sup"{alpha + xi: xi lt beta}`
-    `= "sup"{xi: xi lt alpha + beta}`,
-    因此 `alpha + beta` 也是极限序数.
-    -->
+    下证 `alpha + beta` 是极限序数.
+    反设 `alpha + beta = "sup"{alpha + xi: xi lt beta}` 是后继序数,
+    则由 1. 知 `alpha + beta in {alpha + xi: xi lt beta}`,
+    即存在 `xi lt beta` 使得 `alpha + beta = alpha + xi`.
+    由左消去律知道 `beta = xi`, 矛盾.
   </li>
   <li>
     <ol>
@@ -721,25 +723,46 @@
       </li>
       <li>
         若 `beta` 是极限序数, 则 `"sup"beta = beta`, 由定义
-        <span class="formula">
-          `alpha + "sup" beta`
-          `= alpha + beta`
-          `= "sup"{alpha + xi: xi lt beta}`.
-        </span>
-        又由 3. 知 `alpha + beta` 也是极限序数, `alpha + beta = "sup"(alpha + beta)`.
+        `alpha + "sup" beta = alpha + beta`,
+        又由 2. 知 `alpha + beta` 是极限序数, 故 `alpha + beta = "sup"(alpha + beta)`.
       </li>
     </ol>
-    <!--
-      记 `S = {xi: xi lt alpha + beta}`, `T = {alpha + xi: xi lt beta}`. 任取
-      `alpha + xi in T`, 因为 `xi lt beta`, 由 2. 有 `alpha + xi lt alpha + beta`, 所以 `T sube S`,
-      `"sup"T le "sup"S`.
-      反向的不等式 `"sup"S le "sup"T` ??
-    -->
+  </li>
+  <li>
+    <ol>记 `gamma := "sup"S`, `alpha + S := {alpha + beta: beta in S}`.
+      <li>
+        对任意 `beta in S`, 我们有 `beta le gamma`.
+        从而 `alpha + beta le alpha + gamma`,
+        这说明 `alpha + gamma` 是集合 `alpha + S` 的一个上界:
+        `"sup"(alpha + S) le alpha + gamma`.
+      </li>
+      <li>另一个方向的证明??
+      </li>
+
+      <!-- 尝试1
+      <li>
+        若 `alpha + xi` 也是 `alpha + S` 的一个上界,
+        即 `AA beta in S`, `alpha + beta le alpha + xi`,
+        从而 `beta le xi`, 即 `xi` 是 `S` 的一个上界. 由上确界性质知道 `gamma le xi`, 于是
+        `alpha + gamma le alpha + xi`, 即 `alpha + gamma` 是集合 `alpha + S`
+        所有形如 `alpha + xi` 的上界中最小的.
+      </li>
+      <li>下证 `alpha + S` 的所有上界都形如 `alpha + xi`.
+        即证: 若 `alpha + beta le eta`, 则存在 `xi` 使得 `alpha + xi = eta`.
+      </li>
+      -->
+
+      <!-- 尝试2
+      <li>下证 `"sup"(alpha+gamma) le "sup"(alpha+S)`.
+        任取 `xi lt alpha + gamma`, 存在 `beta in S` 使得 `xi lt alpha + beta`
+      </li>
+      -->
+    </ol>
   </li>
 </ol>
 
 <p class="theorem">
-  <b>加法结合律<b> `(alpha + beta) + gamma = alpha + (beta + gamma)`.
+  <b>加法结合律</b> `(alpha + beta) + gamma = alpha + (beta + gamma)`.
 </p>
 
 <ol class="proof">
@@ -759,7 +782,7 @@
       `(alpha + beta) + gamma`<br>
       `= "sup"{(alpha+beta) + xi: xi lt gamma}`<br>
       `= "sup"{alpha + (beta+xi): xi lt gamma}`<br>
-      `overset (??) = alpha + "sup"{beta + xi: xi lt gamma}`<br>
+      `= alpha + "sup"{beta + xi: xi lt gamma}`<br>
       `= alpha + (beta + gamma)`.
     </span>
   </li>
@@ -785,7 +808,7 @@
       <li>若 `alpha` 是极限序数, 且对一切 `xi lt alpha` 结论成立, 则对任意 `beta lt alpha`,
         <span class="formula">
           `beta + "sup"{gamma: beta + gamma = xi, xi lt alpha}`
-          `overset (??) = "sup"{beta + gamma: beta + gamma = xi, xi lt alpha}`
+          `= "sup"{beta + gamma: beta + gamma = xi, xi lt alpha}`
           `= "sup"{xi: xi lt alpha}`
           `= alpha`.
         </span>
