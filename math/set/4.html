@@ -612,7 +612,7 @@
 </div>
 
 <ol class="example">
-  <b>序数 `omega` 的一些运算性质</b>
+  <b>序数 `omega` 的一些性质</b>
   <li>设 `alpha lt omega`, 则
     <span class="formula">
       `alpha + omega = omega`,
@@ -693,7 +693,7 @@
   <li>设集合 `S` 的元素都是序数, `"sup"S` 是后继序数, 则 `"sup"S in S`.</li>
   <li>若 `beta gt 0`, 则 `beta` 是极限序数当且仅当 `alpha + beta` 是极限序数.</li>
   <li>若 `beta gt 0`, 则 `alpha + "sup"beta = "sup"(alpha + beta)`.</li>
-  <li>设非空集合 `S` 的元素都是序数, 则 `alpha + "sup"S = "sup"{alpha + beta: beta in S}`.</li>
+  <li>设非空集合 `S` 的元素都是序数, 则 `alpha + "sup"S = "sup"(alpha + S)`, 这里 `alpha + S := {alpha + beta: beta in S}`.</li>
 </ol>
 
 <ol class="proof enum">
@@ -729,34 +729,20 @@
     </ol>
   </li>
   <li>
-    <ol>记 `gamma := "sup"S`, `alpha + S := {alpha + beta: beta in S}`.
-      <li>
-        对任意 `beta in S`, 我们有 `beta le gamma`.
-        从而 `alpha + beta le alpha + gamma`,
-        这说明 `alpha + gamma` 是集合 `alpha + S` 的一个上界:
-        `"sup"(alpha + S) le alpha + gamma`.
+    <ol>记 `gamma := "sup"S`.
+      <li>若 `gamma in S`, 则对任意 `beta in S` 有 `beta le gamma`, 从而 `alpha
+        + beta le alpha + gamma`, 即 `alpha + gamma = "sup"(alpha + S)`.
       </li>
-      <li>另一个方向的证明??
+      <li>若 `gamma !in S`, 由 1. 知道 `gamma` 是极限序数,
+        由定义 `alpha + gamma = "sup"{alpha + beta: beta lt gamma}`.
+        下证它等于 `"sup"(alpha + S)`.
       </li>
-
-      <!-- 尝试1
-      <li>
-        若 `alpha + xi` 也是 `alpha + S` 的一个上界,
-        即 `AA beta in S`, `alpha + beta le alpha + xi`,
-        从而 `beta le xi`, 即 `xi` 是 `S` 的一个上界. 由上确界性质知道 `gamma le xi`, 于是
-        `alpha + gamma le alpha + xi`, 即 `alpha + gamma` 是集合 `alpha + S`
-        所有形如 `alpha + xi` 的上界中最小的.
+      <li>记 `左 := {alpha + beta: beta lt gamma}`, `右 := alpha + S`.
+        对任意 `beta in S` 有 `beta lt gamma`, 所以右 `sube` 左, `"sup" 右 le "sup" 左`.
       </li>
-      <li>下证 `alpha + S` 的所有上界都形如 `alpha + xi`.
-        即证: 若 `alpha + beta le eta`, 则存在 `xi` 使得 `alpha + xi = eta`.
+      <li>对任意 `beta lt gamma`, 由上确界性质, 存在 `xi in S` 使得 `beta lt xi`,
+        于是 `alpha + beta lt alpha + xi`, `"sup" 左 le "sup" 右`.
       </li>
-      -->
-
-      <!-- 尝试2
-      <li>下证 `"sup"(alpha+gamma) le "sup"(alpha+S)`.
-        任取 `xi lt alpha + gamma`, 存在 `beta in S` 使得 `xi lt alpha + beta`
-      </li>
-      -->
     </ol>
   </li>
 </ol>
@@ -816,6 +802,88 @@
     </ol>
   </li>
   <li>唯一性. 这等价于序数加法的左消去律.</li>
+</ol>
+
+<h3>大序数初探*</h3>
+
+<p>[来自：<a href="https://zhuanlan.zhihu.com/p/295674553" target="_blank">core.exe@知乎</a>]</p>
+
+<ol class="example">
+  <b>序数 `epsi_alpha` 和 `zeta_alpha`</b>
+  <li>我们知道,
+    <span class="formula">
+      `omega^2 = omega * omega = "sup"{omega * n: n lt omega}`.<br>
+      `omega^n = omega^(n-1) * omega = "sup"{omega^(n-1) * k: k lt omega}`.<br>
+    </span>
+    如果对映射 `alpha mapsto omega^alpha` 进行迭代:
+    <span class="formula">
+      `omega^omega = "sup"{omega^n: n lt omega}.<br>
+      `omega^(omega^omega) = "sup"{omega^(omega^n): n lt omega}`.
+    </span>
+    最终 `epsi_0 := "sup"{1, omega, omega^omega, omega^(omega^omega), cdots}`.
+    它是满足等式 `omega^alpha = alpha` 的第一个序数.
+  </li>
+  <li>
+    `epsi_0+1` 并不是 `alpha mapsto omega^alpha` 的不动点, 依然可以取指数使它增大:
+    <span class="formula">
+      `epsi_1 := "sup"{epsi_0+1, omega^(epsi_0+1), omega^(omega^(epsi_0+1)), cdots}`.
+    </span>
+    `epsi_1` 是继 `epsi_0` 后满足等式 `omega^alpha = alpha` 的下一个序数. 现在对一切序数 `alpha`, 定义
+    <span class="formula">
+      `epsi_alpha := {
+        "sup"{epsi_beta+1, omega^(epsi_beta+1), omega^(omega^(epsi_beta+1)), cdots}, if alpha = beta+1;
+        "sup"{epsi_beta: beta lt alpha}, if alpha 是极限序数;
+      :}
+    </span>
+    一些例子:
+    <span class="formula">
+      `epsi_omega = "sup"{epsi_0, epsi_1, epsi_2, cdots}`,<br>
+      `epsi_(omega^omega) = "sup"{epsi_omega, epsi_(omega^2), epsi_(omega^3), cdots}`,<br>
+      `epsi_(epsi_0) = "sup"{epsi_omega, epsi_(omega^omega), epsi_(omega^(omega^omega)), cdots }`.
+    </span>
+  </li>
+  <li>
+    我们知 `epsi_alpha` 是比指数 `omega^alpha` 增长更快的一种运算. 对下标 `alpha` 进行迭代就得到
+    <span class="formula">
+      `zeta_0 := "sup"{epsi_0, epsi_(epsi_0), epsi_(epsi_(epsi_0)), cdots }`.
+    </span>
+    这不仅是 `alpha mapsto omega^alpha` 的不动点, 也是 `alpha mapsto epsi_alpha` 的不动点.
+  </li>
+  <li>还存在比 `zeta_alpha` 更高的层级, 其思路是使用后继跳出不动点,
+    然后不断迭代达到下一个不动点. `zeta` 层级之后分别是 `eta`, `xi`... 等等, 但希腊字母是有限个的,
+    这促使我们寻找一个统一的定义.
+    注意到 `epsi_alpha` 是迭代 `alpha mapsto omega^alpha` 的第 `alpha` 个不动点,
+    `zeta_alpha` 是迭代 `alpha mapsto epsi_alpha` 的第 `alpha` 个不动点.
+    因此我们寻求一列函数 `f_n(alpha)`, 其中 `f_(n+1)(alpha)` 是 `f_n` 的第 `alpha` 个不动点:
+  </li>
+</ol>
+
+<ol class="definition">
+  <b>Veblen 函数</b> 定义为二元函数 `varphi(x, y)`, `x, y` 为序数. 它满足:
+  <li>`varphi(0, alpha) := omega^alpha`, `varphi(1, alpha) := epsi_alpha`, `varphi(2, alpha) := zeta_alpha`.
+  </li>
+  <li>考虑第 `alpha` 层的迭代 `varphi_alpha := beta mapsto varphi(alpha, beta)`.
+    `varphi(alpha+1, 0)` 定义为 `varphi_alpha` 的第 0 个不动点.
+    `varphi(alpha+1, beta+1)` 定义为 `varphi(alpha+1, beta)` 之后, `varphi_alpha` 的下一个不动点.
+    写为公式就是
+    <span class="formula align">
+      `varphi(alpha+1, 0) := "sup"{varphi(alpha, 0)+1, varphi(alpha, varphi(alpha, 0)+1), cdots}`,<br class="noindent">
+      `varphi(alpha+1, beta+1) := "sup"{varphi(alpha+1, beta)+1, varphi(alpha, varphi(alpha+1, beta)+1), cdots}`,<br class="noindent">
+      `varphi(alpha, beta) := "sup"{varphi(alpha, gamma): gamma lt beta}`, 如果 `beta` 为极限序数.
+    </span>
+  </li>
+  <li>对于第一个变元 `alpha` 是极限序数的情形, 定义
+    <span class="formula align">
+      `varphi(alpha, 0) := "sup"{varphi(gamma, 0): gamma lt alpha}`,<br class="noindent">
+      `varphi(alpha, beta+1) := "sup"{varphi(gamma, varphi(alpha, beta)+1), gamma lt alpha}`.
+    </span>
+  </li>
+  <li>最后, 还可以考虑第一个变元的迭代 `alpha mapsto varphi(alpha, 0)`, 它的第 0 个不动点是
+    <span class="formula">
+      `Gamma_0 := "sup"{0, varphi(0, 0), varphi(varphi(0, 0), 0), cdots}`.
+    </span>
+    这也是 Veblen 函数的极限.
+  </li>
 </ol>
 
 <h2>选择公理</h2>

@@ -171,27 +171,36 @@
       <li>`a to b := a^b`;</li>
       <li>`a to b to c := a uarr^c b`;</li>
       <li>`X` 是任意链, `X to 1 := X`, `X to 1 to y := X`. 这就是说末尾和倒数第二位的 `1` 可以去掉;</li>
-      <li>`X` 是任意链, `X to (a+1) to (b+1) :=` `X to (X to a to (b+1)) to b`.
+      <li>`X` 是任意链, `X to a+1 to b+1 :=` `X to (X to a to b+1) to b`.
         此规则使得链的长度不变, 但末尾的数字减小.
-        反复展开中间的括号, 每展开一次, `a` 就减小 `1`. 注意 `X to 1 to (b+1) = X`, 我们得到
+        这一条定义与 Knuth 箭头是相容的. 比如
+        <span class="formula align">
+          `x to a+1 to b+1`<br>
+          `= x uarr^(b+1) (a+1)` <span class="right">……Conway 链定义 (4)</span><br>
+          `= x uarr^b x uarr^(b+1) a` <span class="right">……Knuth 箭头定义</span><br>
+          `= x to (x to a to b+1) to b. qquad` <span class="right">……Conway 链定义 (4)</span>
+        </span>
+        反复展开中间的括号, 每展开一次, `a` 就减小 `1`. 注意 `X to 1 to b+1 = X`, 我们得到
         <span class="formula">
-          `X to (a+1) to (b+1)`
+          `X to a+1 to b+1`
           `= underbrace(color(red)(X to"(") cdots color(red)(X to"("))_a
           X
           underbrace(color(blue)(")"to b)cdots color(blue)(")"to b))_a`.
         </span>
-        这一条定义与 Knuth 箭头是相容的. 比如
-        <span class="formula align">
-          `x to (a+1) to (b+1)`<br>
-          `= x uarr^(b+1) (a+1)` <span class="right">……Conway 链定义 (4)</span><br>
-          `= x uarr^b x uarr^(b+1) a` <span class="right">……Knuth 箭头定义</span><br>
-          `= x to (x to a to (b+1)) to b. qquad` <span class="right">……Conway 链定义 (4)</span>
+        如果定义 `f(a) := X to a+1 to b+1`, `g(a) := X to a to b`, 那么
+        <span class="formula">
+          `f(a) = X to (X to a to b+1) to b`
+          `= g(f(a-1))`
+          `= g^a(f(0))`
+          `= g^a(X)`.
         </span>
+        `g^a` 表示将函数 `g` 迭代 `a` 次.
       </li>
+      <li>最后, `underbrace(a to cdots to a)_n` 可以缩写为 `a to^n a`.</li>
     </ol>
     Conway 链的性质:
     <ol>
-      <li>Conway 链不具有结合律, 括号不能随意去掉.</li>
+      <li>Conway 链不具有结合律, 括号不能随意去掉. 计算时, 利用定义 (6) 从右向左计算.</li>
       <li>链的值总是它的第一个数的整数次方, 特别地 `1 to X = 1`.</li>
       <li>`X to 1 to Y = X`. 这就是说只要链的中间出现 `1`, 之后的部分就都可以丢弃.</li>
       <li>`2 to 2 to Y = 4`. 即 `2 uarr^n 2 = 4`.</li>
