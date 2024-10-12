@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>类型论</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+[来自《Homotopy Type Theory》, 又名 HoTT Book]
+
+<p class="remark">
+  和 ZFC 集合论类似, 类型论 (type theory) 也是数学的一门基础语言.
+</p>
+
+<ol class="definition">
+  <li><b>类型 (type)</b> 是类型论的基本概念. 用大写字母 `A, B, C...` 表示.</li>
+  <li><b>记号 `a: A`</b> 读作 "`a` 具有类型 `A`".
+    在类型论中, 每个变量都唯一地具有某种类型, 因此不能孤立地谈论一个变量 `a`.
+    类比于某些编程语言, 变量在声明时就已经决定了其类型, 我们不能引入一个变量却不声明其类型.
+    在一阶逻辑中, `a: A` 可以解释为 "命题 `A` 有一个证明", 或者说 `a` 是 `A` 有一个证明的 "证据".
+    因此在类型论中, 证明一个命题相当于构造一个变量 `a: A`.
+    <br>
+    在集合论中, `a: A` 又可以解释为 `a` 是集合 `A` 的元素.
+    一个重要的区别是, `a in A` 是一个命题而 `a: A` 不是.
+    在类型论的框架内, `a: A` 既已写出, 就是成立的. 我们不能证伪 `a: A`, 亦不能说
+    "如果 `a: A` 那么 `b: B` 不成立" 等.
+  </li>
+  <li><b>定义相等</b>
+    如果 `a, b: A` (即 `a: A`, `b: A`) 且它们根据定义是相等的, 就记作 `a := b: A` 或简写为 `a := b`.
+    例如对于函数 `f(x) = x^2`, 根据定义有 `f(3) := 3^2`.
+    同样地 `a := b` 不是一个命题, 否定它是没有意义的.
+  </li>
+  <li><b>命题相等</b> 由于类型论中的命题都是类型, 所以命题 `a = b` 也是一个类型, 记作 `a =_A b`.
+    这里 `a, b: A`.
+  </li>
+  <li><b>函数</b> 用记号 `f: A to B` 表示 `f` 是 `A` 到 `B` 的函数, 这里 `A to B` 也是一个类型.
+  </li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>
