@@ -134,7 +134,7 @@
     </li>
 </ul>
 
-<p class="remark">
+<p class="example">
     利用<a class="ref" href="#ppt-gcd"></a>,
     反复将一个数的 `k` 倍加到另一数上,
     就可以化简关系, 从而求出最大公约数.
@@ -151,7 +151,21 @@
     从而 (-30, 45, 84) = 3.
 </p>
 
-<p class="remark">
+<p class="algorithm">
+  <b>`n` 个数的 gcd 算法, 扩展 Euclid 算法</b>
+  设 `bm x = (x_1, cdots, x_n)^(sf T)` 是 `n` 个整数, 这种算法在求出它们的最大公约数 `d` 的同时, 还可以找到整数系数
+  `k_1, cdots, k_n` 使得 `sum_i k_i x_i = d`.
+  事实上, 对矩阵 `(bm I";"bm x)` 作第 2 类行初等变换 (将一行的 `k`
+  倍加到另一行上), 就能将 `bm x` 的各分量消成零, 只剩一个分量的值为 `d`. 例如
+  <span class="formula">
+    `[1, 0, 0, 4; 0, 1, 0, 6; 0, 0, 1, 8]`
+    `to [1, 0, 0, 4; -1, 1, 0, 2; -2, 0, 1, 0]`
+    `to [3, -2, 0, 0; -1, 1, 0, 2; -2, 0, 1, 0]`.
+  </span>
+  这求出了 `gcd(4, 6, 8) = 2`, 且 `-1*4+1*6+0*8 = 2`.
+</p>
+
+<p class="example">
   若 `a, b, c, d` 为正整数, 则
   <span class="formula align">
     `(a, b)(c, d)`<br>

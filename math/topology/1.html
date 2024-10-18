@@ -169,7 +169,7 @@
 <p class="definition">
 	设 `X` 为拓扑空间, `A sube X`, `x in A`. 如果存在开集 `U` 满足
 	`x in U sube A`, 则称 `x` 是 `A` 的一个<b>内点</b>, `A` 是 `x`
-	的一个<b>邻域</b>. 特别地, 若 `A` 本身是开集, 则称 `A` 是 `x`
+	的一个<b>邻域 (neighborhood)</b>. 特别地, 若 `A` 本身是开集, 则称 `A` 是 `x`
 	的<b>开邻域</b>. 由定义知道, `A` 是 `x` 的邻域当且仅当它含着
 	`x` 的一个开邻域. `A` 的全体内点的集合称为 `A` 的<b>内部</b>,
 	记为 `A^@` 或 `overset @ A` 或 `"int" A`.
@@ -208,18 +208,18 @@
 	</li>
 </ol>
 
-<h4>聚点, 导集与闭包</h4>
+<h4>导集与闭包</h4>
 
-<p class="definition">
-	设 `X` 为拓扑空间, `A sube X`, `x in X`. 如果 `x` 的任意 (开) 邻域都含
-	`A \\ {x}` 中的点, 则称 `x` 为 `A` 的<b>聚点</b>. `A`
-	的所有聚点的集合称为 `A` 的<b>导集</b>, 记作 `A'`. 称集合
-	`bar A := A uu A'` 为 `A` 的<b>闭包</b>.
-</p>
-
-<p class="corollary">
-	`x in bar A` `iff x` 的任一 (开) 邻域与 `A` 有交点.
-</p>
+<ol class="definition">
+  设 `X` 为拓扑空间, `A sube X`, `x in X`.
+  <li><b>闭包</b> `bar A` 定义为:
+    `x in bar A iff x` 的任意 (开) 邻域与 `A` 有交点.
+  </li>
+  <li><b>导集</b> `A'` 定义为: `x in A' iff x` 的任意 (开) 邻域与 `A\\{x}` 有交点.
+    `A'` 中的点称为 `A` 的<b>聚点</b>或<b>极限点</b>.
+  </li>
+  我们有 `bar A = A uu A'`.
+</ol>
 
 <p class="example">
 	拓扑空间中的聚点近旁未必聚集了 `A` 的无穷多个点.
@@ -282,10 +282,12 @@
 	</li>
 </ol>
 
-<p class="definition">
-	称拓扑空间 `X` 的子集 `A` 是<b>稠密</b>的, 如果 `bar A = X`;
-	称 `X` 是<b>可分</b>的, 如果它存在可数的稠密子集.
-</p>
+<h4>稠密与可分</h4>
+
+<ol class="definition">
+  <li>称拓扑空间 `X` 的子集 `A` 是<b>稠密 (dense)</b>的, 如果 `bar A = X`;</li>
+  <li>称 `X` 是<b>可分 (separable)</b>的, 如果它存在可数的稠密子集.</li>
+</ol>
 
 <p class="corollary">
 	`A` 在 `X` 中稠密 `iff` `X` 中的任意非空开集 `U` 与 `A` 有交点.
@@ -310,14 +312,20 @@
 	则称 `{x_n}` <b>收敛</b>到 `x`, 记为 `x_n to x`.
 </p>
 
+<p class="corollary">
+  若 `{x_n}` 两两不同, 且收敛到 `x`. 将 `{x_n}` 视为集合, 则 `x` 是 `{x_n}` 的聚点.
+</p>
+
 <ol class="remark">
 	拓扑空间中的收敛序列失去了一些重要的分析性质.
 	<li>序列可以收敛到多个点. `(RR, tau_f)` 中, 令 `{x_n}` 的项两两不同,
 		则对任意 `x in RR`, 其邻域 `U` 的余集是有限集, 从而 `{x_n}`
 		只有有限项不在 `U` 中. 这推出 `x_n to x`.
+        Hausdorff 空间中可以保证序列极限的唯一性, 见第二章.
 	</li>
 	<li>聚点原理一般不成立. 数学分析中, 当 `x` 是 `A` 的聚点时, `A`
-		中有序列收敛到 `x`. 但在 `(RR, tau_c)` 中可以证明 (反证法):
+		中有序列收敛到 `x`. 但在 `(RR, tau_c)` 中可以证明 (反证法), 收敛点列中,
+        `{x_n}` 的尾部都是同一点, 换言之不等于 `x` 的项只有有限个:
         <span class="formula">
           `x_n to x` `iff EE N, AA n gt N, x_n = x`.
         </span>
@@ -327,6 +335,25 @@
 		`x`.
 		要使聚点原理成立, 满足 `C_1` 公理是一个充分条件, 见第二章第一节.
 	</li>
+</ol>
+
+
+<ol class="theorem">
+  度量空间中,
+  <li>闭集外一点到闭集有正的距离.</li>
+  <li>开集内一点存在以该点为心的开球含于开集内.</li>
+</ol>
+
+<ol class="proof">
+  度量空间中, 点到集合的距离定义为 `d(x, A) := inf_(y in A) d(x, y)`.
+  <li>
+    假设 `A` 是闭集, `d(x, A) = 0`, 则对任意 `epsi gt 0` 存在
+    `y in A` 使得 `d(x, y) lt epsi`, 即 `x` 都任意小邻域都含有 `A` 中的点, `x in bar A = A`.
+  </li>
+  <li>
+    假设 `B` 是开集, `x in B`, 则 `B^c` 是闭集, `x` 是闭集外一点.
+    设 `d(x, B^c) = delta gt 0`, 则 `B(x, delta) nn B^c = O/`, 即 `B(x, delta) sube B`.
+  </li>
 </ol>
 
 <h3>子空间</h3>

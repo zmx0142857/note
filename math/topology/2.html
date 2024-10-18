@@ -141,7 +141,8 @@
     即 `x = y`.
   </li>
   <li>`T_4`: 设 `A, B` 是不相交闭集, 不妨设它们非空.
-    任取 `x in X`, 则 `d(x, A) + d(x, B) gt 0` (因为度量空间的闭集外一点到该闭集有正的距离??). 规定 `X` 上连续函数
+    任取 `x in X`, 因为度量空间的闭集外一点到该闭集有正的距离,
+    有 `d(x, A) + d(x, B) gt 0` . 规定 `X` 上连续函数
     <span class="formula">
       `f(x) = (d(x, A))/(d(x, A) + d(x, B))`,
     </span>
@@ -173,6 +174,228 @@
   </li>
 </ol>
 
+<p class="axiom">
+  <b>`C_1` 公理</b> 任意 `x in X` 具有可数的邻域基. 满足 `C_1` 公理的拓扑空间称为<b>第一可数</b>的.
+</p>
+
+<h2>紧致性</h2>
+
+<p class="remark">
+  本节将看到数学分析中的许多熟悉结论在拓扑空间中的推广.
+  数学分析中, 实数集 `RR` 作为拓扑空间具有许多优良性质, 然而, 在拓扑空间中这些性质的成立是有条件的.
+</p>
+
+<p class="definition">
+  <b>紧致性 (紧性, compactness)</b>
+  设 `A` 是拓扑空间 `X` 的子集. `A` (在 `X` 中) 的一个<b>开覆盖</b>是指一族开集 `{O_lambda}`, 满足
+  `A sube uuu_(lambda in Lambda) O_lambda`. 如果 `A` 的任意一个开覆盖 `{O_lambda}` 都存在有限子覆盖, 即
+  <span class="formula">
+    存在 `O_1, cdots O_n in {O_lambda}` 使得 `A sube uuu_(k=1)^n O_k`,
+  </span>
+  则称 `A` 在 `X` 中是<b>紧致 (紧, compact)</b> 的, `A` 是 `X` 中的<b>紧集</b>.
+  特别当 `X` 自身紧的时候, 称它为紧致拓扑空间.
+</p>
+
+<p class="remark">
+  注意开集的有限交仍是开集, 这就是有限覆盖中 "有限" 的用武之地.
+</p>
+
+<p class="corollary">
+  紧集的闭子集是紧的.
+</p>
+
+<p class="proof">
+  假设 `A` 紧, `B` 是闭集且 `B sube A`.
+  若 `B` 为空集, 显然它是紧的.<br>
+  下设 `B != O/`, 对 `B` 的任意开覆盖 `cc O`, 向其中加入一个开集 `B^c`, 就得到
+  `A` 的开覆盖, 后者存在有限子覆盖 `{O_k}_(k=1)^n`.<br>
+  由于 `B != O/`, 这个有限子覆盖中至少含有一个不同于 `B^c` 的开集,
+  从中排除掉开集 `B^c`, 所得的开集族仍然是不空的, 于是得到 `cc O` 的有限子覆盖.
+</p>
+
+<p class="theorem">
+  <b>闭集套定理</b>
+  设 `{K_n}` 为 `X` 中的一列非空闭集, 且 `K_1` 紧致, 且满足 `K_1 supe K_2 supe cdots`.
+  则 `nnn_(n ge 1) K_n != O/`.
+</p>
+
+<p class="proof">
+  反设它们的交集为空, 则 `{K_n^c}_(n ge 2)` 构成 `K_1` 的开覆盖.
+  由 `K_1` 的紧性, 它们当中的有限个已经把 `K_1` 盖住. 设其中下标最大的一个是 `K_n^c`.
+  由嵌套关系知 `K_n^c` 是这有限个开集中最大的一个, 所以 `K_1 sube K_n^c`, 即 `K_1 nn K_n = O/`.
+  这与已知条件 `K_1`, `K_n` 均不空矛盾.
+</p>
+
+<p class="theorem">
+  Hausdorff 空间中紧集必为闭集.
+</p>
+
+<p class="proof">
+  设 `X` 是 Hausdorff 空间, `A` 是其中的紧集. 下证 `A^c` 是开集, 为此任取
+  `y in A^c`, 我们来证明存在 `y` 的邻域 `V` 使得 `y in V sube A^c`.
+  对任意 `x in A`, 由 `T_2` 公理知存在 `x`, `y` 的不相交邻域 `U_x`, `V_x`.
+  于是 `{U_x: x in A}` 构成 `A` 的开覆盖, 由 `A` 的紧性知道存在有限子覆盖
+  `A sube uuu_(k=1)^n U_k`.
+  考虑对应的集合 `V_k`, 令 `V := nnn_(k=1)^n V_k`.
+  因为 `AA k, U_k nn V_k = O/`, 所以
+  <span class="formula">
+    `V nn (uuu_(k=1)^n U_k)`
+    `= uuu_(k=1)^n (U_k nn V)`
+    `= O/`,
+  </span>
+  从而 `V nn A = O/`.  这就是说 `y in V sube A^c`.
+</p>
+
+<h3>度量空间中的紧集</h3>
+
+[来自<a href="https://zhuanlan.zhihu.com/p/151313668" target="_blank">TOVARISHI伊里奇@知乎</a>]
+
+<p class="remark">
+  本节的主要目标是证明度量空间中, 紧性的几个等价命题, 即 紧 `iff` 列紧 `iff` 极限点紧.
+</p>
+
+<ol class="definition">
+  设 `A` 是拓扑空间 `X` 的子集,
+  <li>如果 `A` 中的任意点列 `{x_n}` 都存在子列收敛于
+    `A` 中一点, 则称 `A` 是<b>列紧</b>的.
+  </li>
+  <li>如果 `A` 中任意无限子集在 `A` 中有极限点 (即聚点), 则称 `A` 是<b>极限点紧</b>的.
+  </li>
+</ol>
+
+<h4>紧 `rArr` 列紧</h4>
+
+<p class="lemma">
+  在度量空间中,
+  `{x_n}` 有子列收敛于 `x`, 当且仅当对 `x` 的任意 (开) 邻域 `U`, `{x_n}` 有无穷多项含于 `U`.
+</p>
+
+<div class="proof p">
+  `rArr` 显然, 下证 `lArr`.<br>
+  以 `x` 为心, 取一列开球 `B_n := B(x, 1//n)`.
+  应用选择公理,
+  先取 `x_(n_1) in B_1`, 然后因为 `{x_n}` 有无穷多项含于 `B_2`, 可以取 `x_(n_2)
+  in B_2` 使得 `n_2 gt n_1`. 如此进行下去即得到子列收敛于 `x`.
+  <hr>
+  [来自群友 王凤梨] 度量空间的条件可以减弱为第一可数, 只需把开球换成邻域基即可.
+</div>
+
+<p class="theorem">
+  度量空间中, 紧 `rArr` 列紧.
+</p>
+
+<p class="proof">
+  设 `A` 是紧集, `{x_n}` 是 `A` 中的任意点列.
+  反设结论不成立, 则对任意 `x in A`, `{x_n}` 都没有子列收敛于 `x`,
+  由引理知存在 `x` 的开邻域 `U_x`, 使得 `{x_n}` 只有有限项在 `U` 中.
+  于是 `{U_x: x in A}` 构成 `A` 的开覆盖, 由于 `A` 的紧性, 存在有限子覆盖
+  <span class="formula">
+    `A sube uuu_(k=1)^n U_k`.
+  </span>
+  由假设, `{x_n}` 只有有限项包含于上式右边, 与 `{x_n} sube A` 矛盾.
+</p>
+
+<p class="theorem">
+  对度量空间中的无限集, 列紧 `iff` 极限点紧.
+</p>
+
+<ol class="proof">
+  <li>`rArr`: 设 `A` 是列紧的无限集. 取两两不同的点列 `{x_n} sube A`, 则它有子列收敛到 `x in A`.
+    容易验证 `x` 是 `A` 的极限点.
+  </li>
+  <li>`lArr`: 设 `A` 极限点紧.
+    对 `A` 中任意点列 `{x_n}`, 若它有无穷多项相同, 则它已然有子列收敛到 `A` 中.
+    否则, 把点列中相同的点都去掉, 得到两两不同的子列 `{y_n} sube A`.
+    由假设知集合 `{y_n}` 有极限点 `x in A`.
+    对 `x` 的任意邻域 `U` 我们可以证明 `{y_n}` 有无穷多项含于 `U`, 从而由引理知
+    `{y_n}` 有子列收敛于 `x in A`.
+    <br>
+    事实上, 若 `{y_n}` 只有有限项含于 `U`, 设这些项到 `x` 最近的距离为 `delta`,
+    从而 `B(x, delta) nn {y_n} = O/`, 与极限点的定义矛盾.
+  </li>
+</ol>
+
+<h4>列紧 `rArr` 紧</h4>
+
+<p>
+  列紧到紧的证明不太容易, 需要用到两个经典引理.
+</p>
+
+<p class="lemma">
+  <b>Lebesgue 数</b>
+  设 `A` 是度量空间中的列紧集, 则对 `A` 的任意开覆盖 `cc O`,
+  存在实数 `delta gt 0`, 使得 `A` 中每个点的 `delta` 邻域都被 `cc O` 中的某个开集盖住.
+  换言之,
+  <span class="formula">
+    `AA x in A`, `EE O_x in cc O`, `B(x, delta) sube O_x`.
+  </span>
+  `delta` 由 `A` 和 `cc O` 共同决定, 称为开覆盖 `cc O` 的 Lebesgue 数.
+</p>
+
+<p class="proof">
+  反设结论不成立, 则存在一个 `A` 的开覆盖 `cc O`, 它没有 Lebesgue 数.
+  取数列 `delta_n := 1//n`, 由选择公理, 存在相应的 `x_n in A`, 满足
+  <span class="formula">
+    `AA O_lambda in cc O`, `B(x_n, delta_n) ⊈ O_lambda`.
+  </span>
+  因为 `A` 列紧, 设 `{x_n}` 有子列 `{x_(n_k)}` 收敛于点 `x in A`.
+  设 `x` 被 `cc O` 中的一个开集 `O_x` 覆盖. 于是存在开球 `B(x, epsi) sube O_x`.
+  由子列收敛性, 存在 `K in NN`, 对任意 `k gt K` 有 `x_(n_k) in B(x, epsi//2)`.
+  我们不妨把 `K` 取得更大一点, 使 `delta_(n_k) = 1//n_k lt epsi//2`, 从而
+  <span class="formula">
+    `B(x_(n_k), delta_(n_k))`
+    `sube B(x_(n_k), epsi//2)`
+    `sube B(x, epsi)`
+    `sube O_x`.
+  </span>
+  与假设 `B(x_(n_k), delta_(n_k)) ⊈ O_x` 矛盾.
+</p>
+
+<p class="lemma">
+  <b>有限 `epsi`-网</b>
+  设 `A` 是度量空间的列紧集, 则对任意实数 `epsi gt 0`, 存在有限个开球 `{B(x_k, epsi)}_(k=1)^n`
+  将 `A` 覆盖, 称为 `A` 的一个有限 `epsi`-网.
+</p>
+
+<p class="proof">
+  反设对于某个 `epsi gt 0`, 不存在 `A` 的有限 `epsi`-网.
+  显然 `A` 非空, 取 `x_1 in A`. 由于不存在 `A` 的有限 `epsi`-网, 又可取 `x_2 in A - B(x_1, epsi)`...
+  如此得到点列 `{x_n}`.
+  由于 `{x_n}` 的项两两距离大于 `epsi`, 不可能存在收敛子列, 与 `A` 的列紧性矛盾.
+</p>
+
+<p class="theorem">
+  度量空间中, 列紧 `rArr` 紧.
+</p>
+
+<p class="proof">
+  设 `A` 是列紧集, 对 `A` 的任意开覆盖 `cc O`, 设 `delta` 是它的 Lebesgue 数.
+  于是 `A` 存在有限 `delta`-网, 即存在有限个开球使得 `A sube uuu_(k=1)^n B(x_k, delta)`.
+  由 Lebesgue 数定义, 这些开球都被 `cc O` 中的某个开集盖住, 记作 `B(x_k, delta) sube O_k`.
+  从而 `{O_k}_(k=1)^n` 是 `cc O` 的有限子覆盖.
+</p>
+
+<h4>紧 `rArr` 有界闭</h4>
+
+<p class="theorem">
+  度量空间中, `A` 紧 `rArr A` 是有界闭集.
+</p>
+
+<ol class="proof">
+  <li>有界性: 即证存在一个开球 `B` 使得 `A sube B`.
+    用开球族 `{B(x, 1): x in A}` 覆盖 `A`, 于是存在有限子覆盖.
+    由于任意两个开球的并是有界的, 由归纳法可知这个有限子覆盖也是有界的.
+  </li>
+  <li>闭集: 这是由于度量空间是 Hausdorff 空间.</li>
+</ol>
+
+<p class="remark">
+  度量空间中有界闭集不一定紧. 无限集上的离散度量空间就是一例:
+  整个空间是有界闭的, 每个点的邻域都只包含自己, 这些邻域构成开覆盖, 但没有有限子覆盖.
+  <a href="https://www.zhihu.com/question/67126253" target="_blank">更多反例 &rsaquo;</a>
+</p>
+
+<h2>连通性</h2>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

@@ -732,7 +732,9 @@ const yieldsTex = {
   func (sym, res) {
     return ' ' + parse.texSymbol(sym) + b(res)
   },
-  unary (sym, res) {
+  unary (sym, res, rewind) {
+    if (sym.input === 'op')
+      return '\\operatorname' + b(parse.arg(rewind))
     if (sym.input === 'sqrt')
       return '\\sqrt' + b(res)
     if (sym.input === 'cancel')
