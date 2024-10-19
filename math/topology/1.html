@@ -11,7 +11,7 @@
 
 <h2>拓扑空间</h2>
 
-<h3>拓扑空间的定义</h3>
+<h3>开集</h3>
 
 <ol class="definition">
 	<b>拓扑公理</b>
@@ -27,36 +27,59 @@
 </ol>
 
 <p class="remark">
-	应用归纳法知, 拓扑公理的 3. 等价于 `tau` 中任意两个集合的交仍在 `tau`
-	中.
+	应用归纳法知, 拓扑公理的 3. 等价于 `tau` 中任意两个集合的交仍在 `tau` 中.
 </p>
 
 <p class="remark">
   任意个开集的交未必是开集, 这一事实叫做「不可开交」.
 </p>
 
+<dl class="example">
+  设 `X != O/`.
+  <dt>平凡拓扑 (trival topology)</dt>
+  <dd>`tau_t := {X, O/}` 是 `X` 上最小的拓扑, 它的开集只有全空间与空集;</dd>
+  <dt>离散拓扑 (discrete topology)</dt>
+  <dd>`tau_s := 2^X` 是 `X` 上最大的拓扑, `X` 的任一子集都是开集;</dd>
+  <dt>余有限拓扑 (cofinite topology)</dt>
+  <dd>`tau_f := {A^c: A sube X, |A| lt oo} uu {O/}`, `X` 为无穷集合;</dd>
+  <dt>余可数拓扑 (cocountable topology)</dt>
+  <dd>`tau_c := {A^c: A sube X, |A| = aleph_0} uu {O/}`, `X` 为不可数集合;</dd>
+  <dt>欧氏拓扑 (Euclidean topology)</dt>
+  <dd>`bbb E := (RR, tau_e)`, `tau_e := {U: U 是任意多开区间的并}`.
+    `U` 可以是 0 个开区间的并, 因此 `O/ in tau_e`.
+  </dd>
+  <dt>下限拓扑 (Sorgenfrey line)</dt>
+  <dd>`RR_l := (RR, tau_l)`, `tau_l := {U: U 是任意多个左闭右开区间 [a,b) 的并}`.</dd>
+</dl>
+
 <p class="definition">
-	设 `tau_1, tau_2` 是 `X` 上的两个拓扑. 称 `tau_2` 比 `tau_1`
-	<b>大</b>或<b>精细</b>, 如果 `tau_1 sube tau_2`.
+  设 `tau_1, tau_2` 是 `X` 上的两个拓扑. 称 `tau_2` 比 `tau_1`
+  <b>大</b>或<b>精细</b>, 如果 `tau_1 sube tau_2`.
+  <br>
+  例如 `(RR, tau_f)` 小于 `(RR, tau_c)` 和 `bbb E`;
+  `bbb E` 小于 `RR_l`, 而 `(RR, tau_c)` 和 `bbb E` 不能比较大小.
+</p>
+
+
+<h3>闭集</h3>
+
+<p class="definition">
+	称拓扑空间 `X` 的子集 `A` 为<b>闭集</b>, 如果 `A^c` 是开集.
+	`(X, tau)` 的全体闭集可以写作 `{A^c: A in tau}`.
 </p>
 
 <ol class="example">
-	设 `X != O/`.
-	<li><b>平凡拓扑 (trival topology)</b> `tau_t = {X, O/}` 是 `X` 上最小的拓扑,
-		它的开集只有全空间与空集;</li>
-	<li><b>离散拓扑 (discrete topology)</b> `tau_s = 2^X` 是 `X` 上最大的拓扑,
-		`X` 的任一子集都是开集;</li>
-	<li><b>余有限拓扑 (cofinite topology)</b> `tau_f = {A^c: A sube X, |A| lt oo} uu {O/}`,
-		`X` 为无穷集合;
-	</li>
-	<li><b>余可数拓扑 (cocountable topology)</b> `tau_c = {A^c: A sube X, |A| = aleph_0} uu
-		{O/}`, `X` 为不可数集合;
-	</li>
-	<li><b>欧氏拓扑 (Euclidean topology)</b> `tau_e = {uuu_(alpha in I) O_alpha: O_alpha
-		"是开区间"}`, `X = RR`. 这里 `I` 可以是空集, 因此 `O/ in tau_e`.
-	</li>
-	统一取 `X = RR` 时, `tau_f` 小于 `tau_c` 和 `tau_e`; 而 `tau_c, tau_e`
-	不能比较大小.
+	<li>平凡拓扑空间中只有两个闭集: `X` 与 `O/`;</li>
+	<li>离散拓扑空间中, 任何子集都是闭集;</li>
+	<li>余有限拓扑空间 `(X, tau_f)` 中, 闭集是 `X` 或有限集;</li>
+	<li>余可数拓扑空间 `(X, tau_c)` 中, 闭集是 `X` 或可数集.</li>
+</ol>
+
+<ol class="corollary">
+	由拓扑公理和 De Morgan 公式, 拓扑空间的闭集满足:
+	<li>`X`, `O/` 都是闭集;</li>
+	<li>任意多个闭集的交仍是闭集;</li>
+	<li>有限个闭集的并仍是闭集.</li>
 </ol>
 
 <h3>度量拓扑</h3>
@@ -76,7 +99,7 @@
 	<span class="formula">
 		`d(x, y) = (sum_(i=1)^n (x_i - y_i)^2)^(1/2)`,
 	</span>
-	称 `E^n = (RR^n, d)` 为 <b>`n` 维欧氏空间</b>.
+	称 `bbb E^n = (RR^n, d)` 为 <b>`n` 维欧氏空间</b>.
 </p>
 
 <p class="definition">
@@ -141,30 +164,103 @@
 	再由引理知 `U nn V in tau_d`.
 </p>
 
-<h3>拓扑空间中的几个基本概念</h3>
+<ol class="theorem">
+  度量空间中,
+  <li>闭集外一点到闭集有正的距离.</li>
+  <li>开集内一点存在以该点为心的开球含于开集内.</li>
+</ol>
 
-<h4>闭集</h4>
+<ol class="proof">
+  度量空间中, 点到集合的距离定义为 `d(x, A) := inf_(y in A) d(x, y)`.
+  <li>
+    假设 `A` 是闭集, `d(x, A) = 0`, 则对任意 `epsi gt 0` 存在
+    `y in A` 使得 `d(x, y) lt epsi`, 即 `x` 都任意小邻域都含有 `A` 中的点, `x in bar A = A`.
+  </li>
+  <li>
+    假设 `B` 是开集, `x in B`, 则 `B^c` 是闭集, `x` 是闭集外一点.
+    设 `d(x, B^c) = delta gt 0`, 则 `B(x, delta) nn B^c = O/`, 即 `B(x, delta) sube B`.
+  </li>
+</ol>
+
+<h3>子空间拓扑</h3>
 
 <p class="definition">
-	称拓扑空间 `X` 的子集 `A` 为<b>闭集</b>, 如果 `A^c` 是开集.
-	`(X, tau)` 的全体闭集可以写作 `{A^c: A in tau}`.
+	设 `A` 是拓扑空间 `(X, tau)` 的非空子集. 容易验证
+	<span class="formula">
+		`tau_A := { U nn A: U in tau }`
+	</span>
+	是 `A` 上的一个拓扑, 称为 `tau` 导出的 `A` 上的<b>子空间拓扑</b>,
+	`(A, tau_A)` 称为 `(X, tau)` 的<b>子空间</b>.
 </p>
 
-<ol class="example">
-	<li>平凡拓扑空间中只有两个闭集: `X` 与 `O/`;</li>
-	<li>离散拓扑空间中, 任何子集都是闭集;</li>
-	<li>余有限拓扑空间 `(X, tau_f)` 中, 闭集是 `X` 或有限集;</li>
-	<li>余可数拓扑空间 `(X, tau_c)` 中, 闭集是 `X` 或可数集.</li>
+<ol class="remark">
+	<li>设 `A` 是拓扑空间 `(X, tau)` 的非空子集, `B` 是 `A` 的非空子集,
+		于是 `B` 有两个途径得到子空间拓扑: 一是直接作为 `X` 的子空间,
+		二是作为 `(A, tau_A)` 的子空间. 两个拓扑事实上是一样的. 记
+		`(tau_A)_B` 是 `tau_A` 导出的 `B` 上的拓扑, 则
+		<span class="formula">
+			`(tau_A)_B = { V nn B: V in tau_A }`
+			`= { (U nn A) nn B: U in tau }`
+			`= { (U nn B): U in tau } = tau_B`.
+		</span>
+	</li>
+	<li>对于度量空间 `(X, d)` 的非空子集 `A`, 也有两种途径得到拓扑:
+		一是直接作为 `(X, tau_d)` 的子空间, 二是由 `d` 在 `A` 上的限制得到
+		`A` 上的度量 `d_A`, 再决定 `A` 的度量拓扑 `tau_(d_A)`.
+		这两个拓扑也是相同的.
+	</li>
 </ol>
 
-<ol class="corollary">
-	由拓扑公理和 De Morgan 公式, 拓扑空间的闭集满足:
-	<li>`X`, `O/` 都是闭集;</li>
-	<li>任意多个闭集的交仍是闭集;</li>
-	<li>有限个闭集的并仍是闭集.</li>
+<p class="remark">
+	开集及依赖开集定义的其他概念都是相对概念, 需要指出所在的空间.
+	对于子空间 `A` 的子集 `U`, 笼统地说 `U` 是不是开集意义就不明确了,
+	必须说明在 `A` 中看还是在全空间中看.
+	如 `bm E^1` 是 `bm E^2` 的子空间,
+	开区间 `(0, 1)` 在 `bm E^1` 中是开集, 但在 `bm E^2` 中不是.
+</p>
+
+<p class="theorem" id="the-subspace-topology-eq">
+	设 `X` 是拓扑空间, `B sube A sube X`, 则
+	<span class="formula">
+		`B` 是 `A` 的开集 `iff EE X` 中开集 `U`, `B = U nn A`;<br/>
+		`B` 是 `A` 的闭集 `iff EE X` 中闭集 `C`, `B = C nn A`.
+	</span>
+</p>
+
+<p class="proof">
+	结论一由子空间拓扑的定义可得. 利用结论一,
+	<span class="formula">
+		`B` 是 `A` 的闭集
+		`iff A\\B` 是 `A` 的开集
+		`iff EE X` 中开集 `U`, `A\\B = U nn A`.
+	</span>
+	令 `C = U^c`, 等号两边同时取 `A` 中的补集, 于是上式
+	`iff EE X` 中闭集 `C`, `B = C nn A`.
+</p>
+
+<ol class="theorem">
+	设 `X` 是拓扑空间, 则
+	<li>若 `B sube A sube X`, `B` 是 `X` 的开 (闭) 集, 则 `B` 也是 `A`
+		的开 (闭) 集;
+	</li>
+	<li>传递性. 若 `A` 是 `X` 的开 (闭) 集, `B` 是 `A` 的开 (闭) 集,
+		则 `B` 也是 `X` 的开 (闭) 集.
+	</li>
 </ol>
 
-<h4>邻域, 内点与内部</h4>
+<ol class="proof">
+	利用<a class="ref" href="#the-subspace-topology-eq"></a>,
+	<li>当 `B` 是 `X` 的开 (闭) 集时, `B = B nn A` 也是 `A` 的开 (闭) 集.
+	</li>
+	<li>由 `B` 是 `A` 的开 (闭) 集, 存在 `X` 的开 (闭) 集 `U`,
+		使得 `B = U nn A`. 又由 `A` 是 `X` 的开 (闭) 集知, `B` 是 `X` 的开
+		(闭) 集.
+	</li>
+</ol>
+
+<h2>一些拓扑概念</h2>
+
+<h3>邻域与内点</h3>
 
 <p class="definition">
 	设 `X` 为拓扑空间, `A sube X`, `x in A`. 如果存在开集 `U` 满足
@@ -208,7 +304,7 @@
 	</li>
 </ol>
 
-<h4>导集与闭包</h4>
+<h3>导集与闭包</h3>
 
 <ol class="definition">
   设 `X` 为拓扑空间, `A sube X`, `x in X`.
@@ -282,12 +378,17 @@
 	</li>
 </ol>
 
-<h4>稠密与可分</h4>
+<h3>稠密与可分</h3>
 
 <ol class="definition">
   <li>称拓扑空间 `X` 的子集 `A` 是<b>稠密 (dense)</b>的, 如果 `bar A = X`;</li>
   <li>称 `X` 是<b>可分 (separable)</b>的, 如果它存在可数的稠密子集.</li>
 </ol>
+
+<p class="remark">
+  <a href="https://www.zhihu.com/question/389325070" target="_blank">“可分”这个术语并不形象</a>,
+  或许应该称为“可数稠密”, 并且称它为 `C_(1.5)` 公理?
+</p>
 
 <p class="corollary">
 	`A` 在 `X` 中稠密 `iff` `X` 中的任意非空开集 `U` 与 `A` 有交点.
@@ -303,12 +404,24 @@
 	</li>
 </ol>
 
-<h4>序列收敛性</h4>
+<ol class="example">
+  <li>`n` 维欧氏空间 `E^n` 是可分度量空间, `(q_1, cdots, q_n)`, `q_i in QQ` 是它的可数稠密子集.</li>
+  <li>Hilbert 空间 `E^omega` 空间可以看作无穷维的欧氏空间.
+    它定义为所有平方收敛的实数列构成的线性空间, 内积为
+    <span class="formula">
+      `({x_n}, {y_n}) := sum x_n y_n`.
+    </span>
+    可以验证 `{{q_n} in E^omega: q_n in QQ, 且只有有限个不为零 }` 是一个可数稠密子集,
+    因此 `E^omega` 是可分度量空间.
+  </li>
+</ol>
+
+<h3>序列收敛性</h3>
 
 <p class="definition">
 	设 `x` 是拓扑空间 `X` 中的一点, `{x_n}` 是 `X` 中的点列.
 	若对 `x` 的任意 (开) 邻域 `U`, 存在正整数 `N`, 使 `n gt N` 时,
-	都有 `x_n in U` (换言之, `{x_n}` 只有有限项不在 `U` 中),
+    都有 `x_n in U` (换言之, `{x_n}` 只有有限项不在 `U` 中, 我们也说 `{x_n}` 几乎在 `U` 中),
 	则称 `{x_n}` <b>收敛</b>到 `x`, 记为 `x_n to x`.
 </p>
 
@@ -334,101 +447,6 @@
 		取 `x in A^c`, 则 `x` 是 `A` 的聚点, 但 `A` 中不存在序列收敛到
 		`x`.
 		要使聚点原理成立, 满足 `C_1` 公理是一个充分条件, 见第二章第一节.
-	</li>
-</ol>
-
-
-<ol class="theorem">
-  度量空间中,
-  <li>闭集外一点到闭集有正的距离.</li>
-  <li>开集内一点存在以该点为心的开球含于开集内.</li>
-</ol>
-
-<ol class="proof">
-  度量空间中, 点到集合的距离定义为 `d(x, A) := inf_(y in A) d(x, y)`.
-  <li>
-    假设 `A` 是闭集, `d(x, A) = 0`, 则对任意 `epsi gt 0` 存在
-    `y in A` 使得 `d(x, y) lt epsi`, 即 `x` 都任意小邻域都含有 `A` 中的点, `x in bar A = A`.
-  </li>
-  <li>
-    假设 `B` 是开集, `x in B`, 则 `B^c` 是闭集, `x` 是闭集外一点.
-    设 `d(x, B^c) = delta gt 0`, 则 `B(x, delta) nn B^c = O/`, 即 `B(x, delta) sube B`.
-  </li>
-</ol>
-
-<h3>子空间</h3>
-
-<p class="definition">
-	设 `A` 是拓扑空间 `(X, tau)` 的非空子集. 容易验证
-	<span class="formula">
-		`tau_A := { U nn A: U in tau }`
-	</span>
-	是 `A` 上的一个拓扑, 称为 `tau` 导出的 `A` 上的<b>子空间拓扑</b>,
-	`(A, tau_A)` 称为 `(X, tau)` 的<b>子空间</b>.
-</p>
-
-<ol class="remark">
-	<li>设 `A` 是拓扑空间 `(X, tau)` 的非空子集, `B` 是 `A` 的非空子集,
-		于是 `B` 有两个途径得到子空间拓扑: 一是直接作为 `X` 的子空间,
-		二是作为 `(A, tau_A)` 的子空间. 两个拓扑事实上是一样的. 记
-		`(tau_A)_B` 是 `tau_A` 导出的 `B` 上的拓扑, 则
-		<span class="formula">
-			`(tau_A)_B = { V nn B: V in tau_A }`
-			`= { (U nn A) nn B: U in tau }`
-			`= { (U nn B): U in tau } = tau_B`.
-		</span>
-	</li>
-	<li>对于度量空间 `(X, d)` 的非空子集 `A`, 也有两种途径得到拓扑:
-		一是直接作为 `(X, tau_d)` 的子空间, 二是由 `d` 在 `A` 上的限制得到
-		`A` 上的度量 `d_A`, 再决定 `A` 的度量拓扑 `tau_(d_A)`.
-		这两个拓扑也是相同的.
-	</li>
-</ol>
-
-<p class="remark">
-	开集及依赖开集定义的其他概念都是相对概念, 需要指出所在的空间.
-	对于子空间 `A` 的子集 `U`, 笼统地说 `U` 是不是开集意义就不明确了,
-	必须说明在 `A` 中看还是在全空间中看.
-	如 `bm E^1` 是 `bm E^2` 的子空间,
-	开区间 `(0, 1)` 在 `bm E^1` 中是开集, 但在 `bm E^2` 中不是.
-</p>
-
-<p class="theorem" id="the-subspace-topology-eq">
-	设 `X` 是拓扑空间, `B sube A sube X`, 则
-	<span class="formula">
-		`B` 是 `A` 的开集 `iff EE X` 中开集 `U`, `B = U nn A`;<br/>
-		`B` 是 `A` 的闭集 `iff EE X` 中闭集 `C`, `B = C nn A`.
-	</span>
-</p>
-
-<p class="proof">
-	结论一由子空间拓扑的定义可得. 利用结论一,
-	<span class="formula">
-		`B` 是 `A` 的闭集
-		`iff A\\B` 是 `A` 的开集
-		`iff EE X` 中开集 `U`, `A\\B = U nn A`.
-	</span>
-	令 `C = U^c`, 等号两边同时取 `A` 中的补集, 于是上式
-	`iff EE X` 中闭集 `C`, `B = C nn A`.
-</p>
-
-<ol class="theorem">
-	设 `X` 是拓扑空间, 则
-	<li>若 `B sube A sube X`, `B` 是 `X` 的开 (闭) 集, 则 `B` 也是 `A`
-		的开 (闭) 集;
-	</li>
-	<li>传递性. 若 `A` 是 `X` 的开 (闭) 集, `B` 是 `A` 的开 (闭) 集,
-		则 `B` 也是 `X` 的开 (闭) 集.
-	</li>
-</ol>
-
-<ol class="proof">
-	利用<a class="ref" href="#the-subspace-topology-eq"></a>,
-	<li>当 `B` 是 `X` 的开 (闭) 集时, `B = B nn A` 也是 `A` 的开 (闭) 集.
-	</li>
-	<li>由 `B` 是 `A` 的开 (闭) 集, 存在 `X` 的开 (闭) 集 `U`,
-		使得 `B = U nn A`. 又由 `A` 是 `X` 的开 (闭) 集知, `B` 是 `X` 的开
-		(闭) 集.
 	</li>
 </ol>
 
@@ -661,6 +679,17 @@
 	`(RR, tau_f)` 可分, 而 `(RR, tau_c)` 不可分, 故它们不同胚.
 </p>
 
+<h3>开映射与闭映射</h3>
+
+<p class="definition">
+  如果 `f: X to Y` 把 `X` 的开集映为 `Y` 的开集, 就称 `f` 为开映射. 类似定义闭映射.
+  同胚映射既是开映射, 又是闭映射.
+</p>
+
+<p class="proposition">
+  当 `f` 是双射时, `f` 是开映射 `iff f` 是闭映射 `iff f^-1` 连续.
+</p>
+
 <h2>乘积空间与拓扑基</h2>
 
 <p class="definition">
@@ -679,6 +708,10 @@
 		`j_i: X_1 xx X_2 to X_i`,<br/>
 		`j_i(x_1, x_2) = x_i`.
 	</span>
+</p>
+
+<p class="remark">
+  投射是指一个“自然而然”的满射, 可以类比群论中 `G to G//N` 的自然同态.
 </p>
 
 <ol class="remark">

@@ -1,32 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <title>分离性、可数性、紧致性、连通性</title>
+  <title>常见拓扑性质</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
+
+<p>本章主题围绕常见的拓扑性质: 分离性、可数性、紧致性、度量化和连通性.</p>
 
 <h2>分离公理</h2>
 
 <p>分离公理都是关于两个点 (或闭集) 能否用邻域来分隔的性质,
 是对拓扑空间的附加要求.</p>
 
-<p class="axiom">
-  <b>`T_1` 公理</b>
-  任何两个不同点 `x, y`: `x` 有邻域不含 `y`, `y` 有邻域不含 `x`.
-</p>
+<h3>`T_0` 到 `T_2`</h3>
 
 <p class="axiom">
-  <b>`T_2` 公理</b>
-  任何两个不同点有不相交的 (开) 邻域.
+  <b>`T_0` 公理 (Kolmogorov)</b>
+  任意两个不同点, 存在其中一点的邻域不含另一点.
 </p>
 
 <p class="remark">
-  满足 `T_1` 公理和 `T_2` 公理的拓扑空间分别称为 `T_1` 空间和 `T_2` 空间,
-  依此类推.
-  显然 `T_2 rArr T_1`.
-  `T_2` 公理是最重要的分离公理. `T_2` 空间又称为 <b>Hausdorff (豪斯多夫) 空间</b>.
+  满足 `T_0` 公理的拓扑空间称为 `T_0` 空间, 依此类推.
+</p>
+
+<p class="axiom">
+  <b>`T_1` 公理 (Fréchet)</b>
+  任意两个不同点 `x, y`: `x` 有邻域不含 `y`, `y` 有邻域不含 `x`.
+</p>
+
+<p class="axiom">
+  <b>`T_2` 公理 (Hausdorff, 豪斯多夫)</b>
+  任意两个不同点有不相交的邻域.
+</p>
+
+<p class="remark">
+  以上三条公理中的邻域换成开邻域也是等价的.
+  `T_2` 公理是最重要、最常用的分离公理.
+  显然 `T_2 rArr T_1 rArr T_0`.
 </p>
 
 <p class="example">
@@ -75,6 +87,8 @@
   `{x_n}` 的至多有限项, 不可能有 `x_n to y`.
 </p>
 
+<h3>`T_3` 到 `T_6`</h3>
+
 <p class="axiom">
   <b>`T_3` 公理</b>
   闭集外的一点与该闭集有不相交的 (开) 邻域.
@@ -87,6 +101,22 @@
 </p>
 
 <p class="remark">
+  有些地方称 `T_3` 空间为正则空间 (regular), `T_4` 空间为正规空间 (normal).
+  这两个术语容易混淆, 我们避免使用.
+</p>
+
+<p class="axiom">
+  <b>`T_5` 公理</b> 每个子空间都是 `T_4` 空间.<br>
+  可以证明, 对 `i = 1, 2, 3`, `T_i` 公理具有遗传性, 即 `T_i` 空间的子空间也是 `T_i` 空间.
+  然而 `T_4` 不具有遗传性. 这就是定义 `T_5` 公理的动机.
+</p>
+
+<p class="axiom">
+  <b>`T_6` 公理</b>
+  任意两个不相交闭集 `A, B`, 存在连续函数 `X to RR` 使得 `f^-1(0) = A`, `f^-1(1) = B`.
+</p>
+
+<p class="proposition">
   `T_1` 公理成立时, 单点集是闭集, 因此
   <span class="formula">
     `T_4 rArr T_3 rArr T_2`.
@@ -131,11 +161,11 @@
 
 <p>喜报:</p>
 <p class="proposition">
-  度量空间 `X` 满足 `T_1` ~ `T_4` 公理.
+  度量空间 `X` 满足 `T_0` ~ `T_6` 公理.
 </p>
 
 <ol class="proof">
-  只需证 `T_1` 和 `T_4` 成立.
+  由于度量空间的子空间也是度量空间, 我们只需证 `T_1` 和 `T_4` 成立.
   <li>`T_1`: 任取 `x in X`, 下证 `bar({x}) = {x}`. `AA y in X`, 若 `y`
     的任意邻域交 `{x}` 非空, 则 `x in y` 的任意邻域, 这推出 `d(x, y) = 0`,
     即 `x = y`.
@@ -159,6 +189,8 @@
 
 <h2>可数公理</h2>
 
+<h3>定义</h3>
+
 <p class="definition">
   <b>邻域基</b>
   设 `x in X`, 把 `x` 的所有邻域的集合称为 `x` 的<b>邻域系</b> `cc N(x)`.
@@ -166,16 +198,128 @@
   `x` 的每个邻域至少包含 `cc U` 的一个成员.
 </p>
 
-<ol class="example">
+<ol class="example" id="exp-neiborhood-base">
   <li>`cc N(x)` 本身是 `x` 的邻域基.</li>
   <li>`x` 的所有开邻域构成 `x` 的一个邻域基.</li>
+  <li>对于度量空间, `B(x, 1//n)`, `n = 1, 2, cdots` 和 `B(x, q)`, `q in QQ` 都是 `x` 的邻域基.</li>
   <li>若 `cc B` 是拓扑空间 `X` 的拓扑基, 则 `cc U = {B in cc B | x in B}`
     是 `x` 的邻域基.
+  </li>
+  <li>若 `cc U` 是 `x` 的邻域基, `cc V` 是 `x` 的一族邻域,
+    且任意 `U in cc U`, 存在 `V in cc V` 使得 `x in V sube U`.
+    那么 `cc V` 也是 `x` 的邻域基.
   </li>
 </ol>
 
 <p class="axiom">
-  <b>`C_1` 公理</b> 任意 `x in X` 具有可数的邻域基. 满足 `C_1` 公理的拓扑空间称为<b>第一可数</b>的.
+  <b>`C_1` 公理</b> 任意 `x in X` 具有可数的邻域基.
+</p>
+
+<p class="axiom">
+  <b>`C_2` 公理</b> 具有可数的拓扑基.
+</p>
+
+<ol class="remark">
+  <li>满足 `C_1`, `C_2` 公理的拓扑空间分别称为<b>第一可数</b>和<b>第二可数</b>的.</li>
+  <li>
+    由<a class="ref" href="#exp-neiborhood-base"></a> 的 3. 知道, 度量空间是 `C_1` 的.
+    由 4. 知道 `C_2` 空间必然是 `C_1` 的.
+  </li>
+  <li>`C_2` 公理是一个很强的条件, 以至某些度量空间也不是 `C_2` 的. 如 `RR` 上的离散度量空间,
+    它的任一拓扑基必包含每个单点集 `{x}`, 从而不可数.
+  </li>
+</ol>
+
+<h3>第一可数</h3>
+
+<p class="lemma">
+  如果 `x` 点存在可数邻域基, 则该点处存在一列递减的邻域基 `V_1 supe V_2 cdots`.
+</p>
+
+<p class="proof">
+  设 `{U_n}` 是 `x` 点的邻域基. 作 `V_n := nnn_(k=1)^n U_k`,
+  则任意 `U_n` 中都包含 `V_n`, 所以 `{V_n}` 即为所求的递减邻域基.
+</p>
+
+<p class="theorem">
+  <b>`C_1` 空间中聚点原理成立</b>
+  设 `X` 第一可数, `A sube X`, `x in bar A`, 则存在 `A` 中点列趋于 `x`.
+</p>
+
+<p class="proof">
+  由引理知存在 `x` 处的递减邻域基 `{U_n}`.
+  因为 `x in bar A`, 所以对任意 `U_n`, 都存在 `x_n in A nn U_n`.
+  由选择公理选出点列 `{x_n}`, 下证 `x_n to x`.
+  <br>
+  事实上, 对 `x` 的任意邻域 `U`, 存在 `N` 使得 `x_N in U_N sube U`.
+  又 `{U_n}` 递减, 对任意 `n ge N` 都有 `x_n in U_N sube U`.
+  这说明 `x_n to x`.
+</p>
+
+<p class="theorem">
+  <b>`C_1` 空间上的 Heine 定理</b>
+  设 `X` 第一可数, `x in X`.
+  则 `f: X to Y` 在 `x` 处连续, 当且仅当对任意 `x_n to x` 都有 `f(x_n) to f(x)`,
+</p>
+
+<p class="proof">
+  `rArr` 在一般的拓扑空间中成立, 留作习题; 下证 `lArr`.<br>
+  任取 `f(x)` 的邻域 `V`, 下证原像 `f^-1(V)` 是 `x` 的邻域.
+  如若不然, 则 `x` 不是 `f^-1(V)` 的内点, `x in (f^-1(V)^@)^c = bar(f^-1(V)^c)`.
+  由聚点原理, 存在 `f^-1(V)^c` 中点列 `x_n to x`, 因此 `f(x_n) to f(x)`.
+  但 `x_n in f^-1(V)^c`, 所以 `f(x_n) !in V`, 这与 `f(x_n) to f(x)` 矛盾.
+</p>
+
+<p class="proposition">
+  若 `X` 是 `C_1` 空间, 且任意点列的极限具有唯一性, 则 `X` 是 Hausdorff 空间.
+</p>
+
+<p class="proof">
+  设 `x, y in X`, `x != y`.  取 `x, y` 处的递减邻域基 `{U_n}` 和 `{V_n}`
+  如果 `X` 不是 Hausdorff 空间, 则任意 `n`, `U_n nn V_n != O/`.
+  由选择公理可以确定点列 `{x_n}`, 使得 `x_n in U_n nn V_n`.
+  可以证明这个点列同时趋于 `x` 和 `y`, 从而矛盾.
+</p>
+
+<h3>第二可数</h3>
+
+<p class="proposition">
+  `C_2` 空间是可分空间.
+</p>
+
+<p class="proof">
+  取 `X` 的可数拓扑基 `cc B`, 对每个非空的 `B in cc B`, 取出一点 `a in B`.
+  由选择公理得到 `A := {a in B: B in cc B}`, 此即 `X` 的可数稠密子集.
+  其稠密性是因为任意开集 `U` 都含有某个 `B in cc B` 从而含有 `A` 中的点.
+</p>
+
+<p class="proposition">
+  可分度量空间是 `C_2` 空间.
+</p>
+
+<p class="proof">
+  取 `X` 的可数稠密子集 `A`, 对任意 `a in A` 作一族开球 `B(a, 1//n)`, `n = 1, 2, cdots`.
+  下证 `cc B := {B(a, 1//n): a in A, n in NN}` 是拓扑基.
+  对任意开集 `U`, 要证 `U` 可以由 `cc B` 中的开球取并得到, 只需证任意
+  `x in U`, 存在 `B in cc B` 使得 `x in B sube U`.
+  <br>
+  事实上, 由度量空间的性质, 存在开球 `B(x, epsi) sube U`.
+  取 `n` 充分大使得 `1//n le epsi//2`,
+  由于 `A` 稠密, 存在 `a in A nn B(x, 1//n)`.
+  则对任意 `y in B(a, 1//n)`,
+  <span class="formula">
+    `d(x, y)`
+    `le d(x, a) + d(a, y)`
+    `lt 1//n + 1//n`
+    `le epsi`.
+  </span>
+  这推出 `y in B(x, epsi) sube U`. 于是 `x in B(a, 1//n) sube U`.
+</p>
+
+<p class="proposition">
+  `C_2` 空间的任一拓扑基都有一个可数子集构成一个拓扑基.
+  <br>
+  <span style="color:#666">`C_1` 空间的任一邻域基是否都有一个可数子集构成邻域基呢?</span>
 </p>
 
 <h2>紧致性</h2>
@@ -184,6 +328,8 @@
   本节将看到数学分析中的许多熟悉结论在拓扑空间中的推广.
   数学分析中, 实数集 `RR` 作为拓扑空间具有许多优良性质, 然而, 在拓扑空间中这些性质的成立是有条件的.
 </p>
+
+<h3>定义</h3>
 
 <p class="definition">
   <b>紧致性 (紧性, compactness)</b>
@@ -351,6 +497,13 @@
   与假设 `B(x_(n_k), delta_(n_k)) ⊈ O_x` 矛盾.
 </p>
 
+<p class="remark">
+  记 `cc O` 的 Lebesgue 数为 `L(cc O)`. 则
+  <span class="formula">
+    `L(cc O) = min_(x in X) Sup_(U in cc O) d(x, U^c)`.
+  </span>
+</p>
+
 <p class="lemma">
   <b>有限 `epsi`-网</b>
   设 `A` 是度量空间的列紧集, 则对任意实数 `epsi gt 0`, 存在有限个开球 `{B(x_k, epsi)}_(k=1)^n`
@@ -391,11 +544,265 @@
 
 <p class="remark">
   度量空间中有界闭集不一定紧. 无限集上的离散度量空间就是一例:
-  整个空间是有界闭的, 每个点的邻域都只包含自己, 这些邻域构成开覆盖, 但没有有限子覆盖.
+  整个空间是有界闭的, 每个单点集 `{x}` 构成开覆盖, 但没有有限子覆盖.
   <a href="https://www.zhihu.com/question/67126253" target="_blank">更多反例 &rsaquo;</a>
 </p>
 
+<p class="example">
+  `n` 维欧氏空间 `bbb E^n` 中, `A` 紧 `iff A` 是有界闭集.
+</p>
+
+<h3>Lindelöf 空间*</h3>
+
+<p class="remark">
+  俗称“拎豆腐”.
+</p>
+
+<ol class="definition">
+  <li>若 `X` 的任意开覆盖都有可数子覆盖, 则称它为 <b>Lindelöf 空间</b>.
+    这个定义就是把紧致性的“有限”换成“可数”.</li>
+  <li>若 `X` 的任意可数开覆盖都存在有限子覆盖, 则称它是<b>可数紧致</b>的.</li>
+  <li>若 `X` 的任意子空间都是 <b>Lindelöf</b> 的, 则称它是<b>强 Lindelöf</b> 空间.</li>
+</ol>
+
+<ol class="example">
+  <li>`RR_l` 是强 Lindelöf 的, 但不是紧致的.</li>
+</ol>
+
+<p class="theorem">
+  `C_2 rArr "Lindelöf"`.
+</p>
+
+<p class="theorem">
+  <b>Tychonoff 定理</b>
+  `"Lindelöf" and T_3 rArr T_4`.
+</p>
+
+<p class="corollary">
+  <b>Lindelöf 定理</b> `C_2 and T_3 rArr T_4`.
+</p>
+
+<h2>度量化</h2>
+
+<p class="lemma">
+  <b>Urysohn 引理</b>
+  设 `X` 满足 `T_4, T_1` 公理, 则任意两个不相交闭集 `A, B` 被连续函数隔离,
+  即存在连续函数 `f: X to RR` 使得 `f(A) = 0`, `f(B) = 1`.
+</p>
+
+<p class="theorem">
+  <b>Urysohn 度量化定理</b>
+  `C_2 and T_3 rArr` 可度量化.
+</p>
+
 <h2>连通性</h2>
+
+<h3>连通</h3>
+
+<h3>道路连通</h3>
+
+
+<h2>拓扑性质小结</h2>
+
+<h3>拓扑空间的例子</h3>
+
+<table>
+  <tr>
+    <th></th>
+    <th>`T_1`</th>
+    <th>`T_2`</th>
+    <th>`T_3`</th>
+    <th>`T_4`</th>
+    <th>`C_1`</th>
+    <th>`C_2`</th>
+    <th>可分</th>
+    <th>紧致</th>
+    <th>Lindelöf</th>
+  </tr>
+  <tr>
+    <td>`(RR, tau_f)`</td>
+    <td>√</td>
+    <td>×</td>
+    <td>×</td>
+    <td>×</td>
+    <td>×</td>
+    <td>×</td>
+  </tr>
+  <tr>
+    <td>`(RR, tau_c)`</td>
+  </tr>
+  <tr>
+    <td>`RR_l`</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>×</td>
+    <td>√</td>
+    <td>×</td>
+    <td>√</td>
+  </tr>
+  <tr>
+    <td>`RR_l^2`</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>×</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>×</td>
+  </tr>
+  <tr>
+    <td>度量空间</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>×</td>
+    <td>×</td>
+    <td>×</td>
+    <td>×</td>
+  </tr>
+</table>
+
+<h3>遗传性与可乘性</h3>
+
+<p>[参考 <a href="https://zhuanlan.zhihu.com/p/133942288" target="_blank">ZCC@知乎</a>]</p>
+
+<ol class="definition">
+  <li>若一个拓扑性质在子空间中仍成立, 则称它具有<b>遗传性</b>;
+    把子空间换成开子空间、闭子空间, 就得到<b>开遗传</b>、<b>闭遗传</b>的定义.
+  </li>
+  <li>若一个拓扑性质在两个空间中成立, 推出它在乘积空间中也成立, 则称它具有 <b>(有限) 可乘性</b>;
+    把两个空间换成可数个空间, 就得到<b>可数可乘</b>的定义.
+  </li>
+  <li>若一个拓扑性质在连续映射 (或开映射、闭映射、商映射) 下得到保持, 我们暂时没有对应的术语,
+    但也收录在下表的“映射”一行.
+  </li>
+  <li>若一个拓扑性质在加细后的拓扑空间中保持, 我们就在下表的“加细”一行打勾
+    (若 `tau_1 sube tau_2`, 称 `tau_2` 是 `tau_1` 的加细).
+  </li>
+</ol>
+
+<table>
+  <tr>
+    <th></th>
+    <th>`T_0`</th>
+    <th>`T_1`</th>
+    <th>`T_2`</th>
+    <th>`T_3`</th>
+    <th>`T_4`</th>
+    <th>`C_1`</th>
+    <th>`C_2`</th>
+    <th>可分</th>
+    <th>紧致</th>
+    <th>Lindelöf</th>
+  </tr>
+  <tr>
+    <td>遗传性</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>×</td>
+    <td>√</td>
+    <td>√</td>
+    <td>开遗传</td>
+    <td>闭遗传</td>
+    <td>闭遗传</td>
+  </tr>
+  <tr>
+    <td>可乘性</td>
+    <td>有限</td>
+    <td>有限</td>
+    <td>有限</td>
+    <td>有限</td>
+    <td>× [注1]</td>
+    <td>可数</td>
+    <td>可数</td>
+    <td>可数</td>
+    <td>可数</td>
+    <td>× [注2]</td>
+  </tr>
+  <tr>
+    <td>映射</td>
+    <td>同胚</td>
+    <td>同胚</td>
+    <td>同胚</td>
+    <td>同胚</td>
+    <td>同胚</td>
+    <td>连续开</td>
+    <td>连续开</td>
+    <td>连续</td>
+    <td>连续</td>
+    <td>连续</td>
+  </tr>
+  <tr>
+    <td>加细</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+  </tr>
+</table>
+
+<ol class="remark">
+  <li>`X xx Y` 是 `(T_1 and T_4)` 的当且仅当 `X` 和 `Y` 都是 `(T_1 and T_4)` 的.</li>
+  <li>反例: `RR_l` 是 Lindelöf 空间, 但 `RR_l^2` 不是.
+    不过我们有:
+    Lindelöf 空间 `xx` 紧致空间 `=` Lindelöf 空间.
+  </li>
+</ol>
+
+<h3>拓扑公理的关系</h3>
+
+<ol class="example">
+  <b>分离公理</b>
+  <li>`T_2 rArr T_1 rArr T_0`.</li>
+  <li>`T_1` 成立时, `T_4 rArr T_3 rArr T_2`.</li>
+  <li>度量空间满足全部 `T_0` 到 `T_6` 公理.</li>
+</ol>
+
+<ol class="example">
+  <b>可数公理</b>
+  <li>`C_2 rArr C_1 and "Lindelöf" and 可分`.</li>
+  <li>度量空间 `rArr C_1`</li>
+  <li>度量空间中, `"Lindelöf" iff 可分 iff C_2`.</li>
+</ol>
+
+<ol class="example">
+  <b>`C_2` 与 `T_3` 是好朋友</b>
+  <li>紧致 `and T_2 rArr T_3`.</li>
+  <li>Tychonoff 定理: `"Lindelöf" and T_3 rArr T_4`.</li>
+  <li>Lindelöf 定理: `C_2 and T_3 rArr T_4`.</li>
+  <li>Urysohn 度量化定理: `C_2 and T_3 rArr` 可度量化.</li>
+</ol>
+
+<!--
+flowchart TB
+  subgraph Topo space
+    C2 --&gt; C1
+    C2 --&gt; Lindelöf
+    C2 --&gt; Seperable
+  end
+
+  subgraph Metric space
+    c1[C1]
+    c2[C2]
+    l[Lindelöf]
+    s[Seperable]
+  
+    c2 <--&gt; l
+    c2 <--&gt; s
+    c1 <--&gt; True
+  end
+-->
+<div class="img md" title="可数性的图景">
+  <img src="../img/topo-countable-axiom.svg" alt="">
+</div>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
