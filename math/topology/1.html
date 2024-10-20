@@ -690,6 +690,8 @@
   当 `f` 是双射时, `f` 是开映射 `iff f` 是闭映射 `iff f^-1` 连续.
 </p>
 
+<p class="remark">此时若 `f` 是连续的, 则它就是同胚.</p>
+
 <h2>乘积空间与拓扑基</h2>
 
 <p class="definition">
@@ -796,6 +798,32 @@
 	<span class="formula">
 		`X_1 xx X_2 xx X_3 = (X_1 xx X_2) xx X_3 = X_1 xx (X_2 xx X_3)`.
 	</span>
+</p>
+
+<h3>任意多个拓扑空间的乘积*</h3>
+
+<p>两个集合 `X, Y` 的无交并定义为
+  <span class="formula">
+    `X ⊔ Y := {(x, 1): x in X} uu {(y, 2): y in Y}`.
+  </span>
+  即, 给两个集合的元素贴上不同标签, 处理后的集合 `X'` 与 `Y'` 是无交的.
+  这一定义可以推广到集合族的无交并.
+</p>
+
+<p>任意多个集合 `{X_lambda}_(lambda in Lambda)` 的乘积定义为指标集到集族无交并的一族映射
+`f: Lambda to ⨆_(lambda in Lambda) X_lambda`:
+  <span class="formula">
+    `prod_(lambda in Lambda) X_lambda :=`
+    `{f: Lambda to ⨆_(lambda in Lambda) X_lambda: AA lambda in Lambda, f(lambda) in X_lambda}`.
+  </span>
+</p>
+
+<p>无穷乘积空间上的拓扑, 常见有两种, 它们的拓扑基分别是
+  <span class="formula">
+    `cc B_1 := {prod_(lambda in Lambda) U_lambda: U_lambda in tau_lambda}`,<br>
+    `cc B_2 := {prod_(lambda in Lambda) U_lambda: U_lambda in tau_lambda, 且只有有限个 lambda 使得 U_lambda != X_lambda}`.
+  </span>
+  后一种称为 Tychonoff 拓扑, 性质更好, 应用更广.
 </p>
 
 <h3>乘积空间的性质</h3>

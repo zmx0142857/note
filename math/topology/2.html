@@ -161,16 +161,19 @@
 
 <p>喜报:</p>
 <p class="proposition">
-  度量空间 `X` 满足 `T_0` ~ `T_6` 公理.
+  <b>度量空间具有最好的分离性</b>
+  度量空间 `X` 满足 `T_1` ~ `T_4` 公理.
 </p>
 
 <ol class="proof">
-  由于度量空间的子空间也是度量空间, 我们只需证 `T_1` 和 `T_4` 成立.
+  只需证 `T_1` 和 `T_4` 成立.
   <li>`T_1`: 任取 `x in X`, 下证 `bar({x}) = {x}`. `AA y in X`, 若 `y`
     的任意邻域交 `{x}` 非空, 则 `x in y` 的任意邻域, 这推出 `d(x, y) = 0`,
     即 `x = y`.
   </li>
-  <li>`T_4`: 设 `A, B` 是不相交闭集, 不妨设它们非空.
+  <li>`T_4`:
+    设 `A, B` 是不相交闭集, 不妨设它们非空.
+    下面我们构造 `X` 上的连续函数使得 `f(A) = 0`, `f(B) = 1` (参见下文的 Urysohn 引理).
     任取 `x in X`, 因为度量空间的闭集外一点到该闭集有正的距离,
     有 `d(x, A) + d(x, B) gt 0` . 规定 `X` 上连续函数
     <span class="formula">
@@ -318,8 +321,10 @@
 
 <p class="proposition">
   `C_2` 空间的任一拓扑基都有一个可数子集构成一个拓扑基.
-  <br>
-  <span style="color:#666">`C_1` 空间的任一邻域基是否都有一个可数子集构成邻域基呢?</span>
+</p>
+
+<p class="remark">
+  `C_1` 空间的任一邻域基是否都有一个可数子集构成邻域基呢?
 </p>
 
 <h2>紧致性</h2>
@@ -591,14 +596,23 @@
 <h2>度量化</h2>
 
 <p class="lemma">
-  <b>Urysohn 引理</b>
-  设 `X` 满足 `T_4, T_1` 公理, 则任意两个不相交闭集 `A, B` 被连续函数隔离,
+  <b>Urysohn 引理 (`T_4` 公理的等价条件)</b>
+  `X` 满足 `T_4` 公理, 当且仅当任意两个不相交闭集 `A, B` 被连续函数隔离,
   即存在连续函数 `f: X to RR` 使得 `f(A) = 0`, `f(B) = 1`.
 </p>
 
 <p class="theorem">
+  <b>Tietze 扩张定理 (`T_4` 公理的又一等价条件)</b>
+  `X` 满足 `T_4` 公理, 当且仅当任一闭子集 `F` 上的连续函数其连续地扩张到 `X` 上.
+</p>
+
+<p class="theorem">
   <b>Urysohn 度量化定理</b>
-  `C_2 and T_3 rArr` 可度量化.
+  `C_2 and T_3 and T_1 rArr` 可度量化.
+</p>
+
+<p class="remark">注: Lindelöf 定理表明 `C_2 and T_3 rArr T_4`,
+  又 `T_4 and T_1 rArr T_2`, `C_2 rArr C_1`, 因此事实上题设条件满足 `T_1 ~ T_4`, `C_1, C_2` 六个公理.
 </p>
 
 <h2>连通性</h2>
@@ -624,6 +638,8 @@
     <th>可分</th>
     <th>紧致</th>
     <th>Lindelöf</th>
+    <th>连通</th>
+    <th>道路连通</th>
   </tr>
   <tr>
     <td>`(RR, tau_f)`</td>
@@ -633,9 +649,20 @@
     <td>×</td>
     <td>×</td>
     <td>×</td>
+    <td></td>
+    <td>√</td>
   </tr>
   <tr>
     <td>`(RR, tau_c)`</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>×</td>
+    <td></td>
   </tr>
   <tr>
     <td>`RR_l`</td>
@@ -648,17 +675,19 @@
     <td>√</td>
     <td>×</td>
     <td>√</td>
+    <td>×</td>
+    <td>×</td>
   </tr>
   <tr>
     <td>`RR_l^2`</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
     <td>×</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>×</td>
     <td>×</td>
   </tr>
   <tr>
@@ -673,6 +702,34 @@
     <td>×</td>
     <td>×</td>
   </tr>
+  <tr>
+    <td>欧氏空间 `bbb E^n`</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>×</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+  </tr>
+  <tr>
+    <td>球面 `S^n`</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+    <td>√</td>
+  </tr>
 </table>
 
 <h3>遗传性与可乘性</h3>
@@ -684,10 +741,10 @@
     把子空间换成开子空间、闭子空间, 就得到<b>开遗传</b>、<b>闭遗传</b>的定义.
   </li>
   <li>若一个拓扑性质在两个空间中成立, 推出它在乘积空间中也成立, 则称它具有 <b>(有限) 可乘性</b>;
-    把两个空间换成可数个空间, 就得到<b>可数可乘</b>的定义.
+    把两个空间换成可数个空间或任意多个空间, 就得到<b>可数可乘</b>和<b>任意可乘</b>的定义.
   </li>
-  <li>若一个拓扑性质在连续映射 (或开映射、闭映射、商映射) 下得到保持, 我们暂时没有对应的术语,
-    但也收录在下表的“映射”一行.
+  <li>若一个拓扑性质在连续映射 (或开映射、闭映射、商映射) 的像当中得到保持,
+    我们就在下表的“映射”一行写上相应的映射类型.
   </li>
   <li>若一个拓扑性质在加细后的拓扑空间中保持, 我们就在下表的“加细”一行打勾
     (若 `tau_1 sube tau_2`, 称 `tau_2` 是 `tau_1` 的加细).
@@ -695,6 +752,7 @@
 </ol>
 
 <table>
+  <caption>拓扑性质的遗传性与可乘性</caption>
   <tr>
     <th></th>
     <th>`T_0`</th>
@@ -704,9 +762,6 @@
     <th>`T_4`</th>
     <th>`C_1`</th>
     <th>`C_2`</th>
-    <th>可分</th>
-    <th>紧致</th>
-    <th>Lindelöf</th>
   </tr>
   <tr>
     <td>遗传性</td>
@@ -717,9 +772,6 @@
     <td>×</td>
     <td>√</td>
     <td>√</td>
-    <td>开遗传</td>
-    <td>闭遗传</td>
-    <td>闭遗传</td>
   </tr>
   <tr>
     <td>可乘性</td>
@@ -730,28 +782,61 @@
     <td>× [注1]</td>
     <td>可数</td>
     <td>可数</td>
-    <td>可数</td>
-    <td>可数</td>
-    <td>× [注2]</td>
   </tr>
   <tr>
     <td>映射</td>
-    <td>同胚</td>
-    <td>同胚</td>
-    <td>同胚</td>
+    <td>一一开</td>
+    <td>一一开</td>
+    <td>一一开</td>
     <td>同胚</td>
     <td>同胚</td>
     <td>连续开</td>
     <td>连续开</td>
-    <td>连续</td>
-    <td>连续</td>
-    <td>连续</td>
   </tr>
   <tr>
     <td>加细</td>
     <td>√</td>
     <td>√</td>
     <td>√</td>
+  </tr>
+</table>
+
+<table>
+  <caption>续表</caption>
+  <tr>
+    <th></th>
+    <th>可分</th>
+    <th>紧致</th>
+    <th>Lindelöf</th>
+    <th>连通</th>
+    <th>道路连通</th>
+  </tr>
+  <tr>
+    <td>遗传性</td>
+    <td>开遗传</td>
+    <td>闭遗传</td>
+    <td>闭遗传</td>
+    <td>×</td>
+    <td>×</td>
+  </tr>
+  <tr>
+    <td>可乘性</td>
+    <td>可数</td>
+    <td>任意</td>
+    <td>× [注2]</td>
+    <td>有限</td>
+    <td>有限</td>
+  </tr>
+  <tr>
+    <td>映射</td>
+    <td>连续</td>
+    <td>连续</td>
+    <td>连续</td>
+    <td>连续</td>
+    <td>连续</td>
+  </tr>
+  <tr>
+    <td>加细</td>
   </tr>
 </table>
 
@@ -784,7 +869,7 @@
   <li>紧致 `and T_2 rArr T_3 and T_4`.</li>
   <li>Tychonoff 定理: `"Lindelöf" and T_3 rArr T_4`.</li>
   <li>Lindelöf 定理: `C_2 and T_3 rArr T_4`.</li>
-  <li>Urysohn 度量化定理: `C_2 and T_3 rArr` 可度量化.</li>
+  <li>Urysohn 度量化定理: `C_2 and T_3 and T_1 rArr` 可度量化.</li>
 </ol>
 
 <!--

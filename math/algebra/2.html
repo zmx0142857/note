@@ -165,7 +165,7 @@
 </ol>
 
 <ol class="example">
-  <li>设 `A` 是集合, 则 `(P(A), uuu)`, `(P(A), nnn)` 皆构成交换幺半群.
+  <li>设 `A` 是集合, 则 `(P(A), uu)`, `(P(A), nn)` 皆构成交换幺半群.
     对于前者, `O/` 是单位元, `A` 是零元; 对于后者, `O/` 是零元, `A` 是单位元.
   </li>
   <li>`(ZZ^+, max)` 是一个交换幺半群, 单位元是 1.</li>
@@ -201,18 +201,18 @@
 <h3>群</h3>
 
 <ol class="definition">
-	<b>群</b>
-	<li>称半群 `G` 为一<b>群 (group)</b>, 如果它存在幺元,
-		且每个元素都存在逆元, 即
-		<span class="formula">
-			`(EE e in G)` `e a -= a e -= a`,</br>
-			`(AA a in G)` `(EE a' in G)` `a' a = a a' = e`.
-		</span>
-		群中的元素就简称为群元.
-	</li>
-	<li>若群 `G` 的乘法还满足交换律, 则称它为 <b>Abel 群 (或交换群)</b>.
-		`G` 为 Abel 群时, 也常记作 `(G, +)`, 并把其上的运算称为加法.
-	</li>
+  <b>群</b>
+  <li>称半群 `G` 为一<b>群 (group)</b>, 如果它存在幺元,
+    且每个元素都存在逆元, 即
+    <span class="formula">
+      `(EE e in G)` `(AA a in G)` `e a = a e = a`,<br>
+      `(AA a in G)` `(EE b in G)` `b a = a b = e`.
+    </span>
+    群中的元素就简称为群元.
+  </li>
+  <li>若群 `G` 的乘法还满足交换律, 则称它为 <b>Abel 群 (或交换群)</b>.
+    Abel 群也常记作 `(G, +)`, 并把其上的运算称为加法, 把幺元记作 `0`.
+  </li>
 </ol>
 
 <ol class="corollary">
@@ -240,28 +240,19 @@
 </ol>
 
 <p class="remark">
-	<b>群的等价定义</b>
-	设 `G` 为半群, `G` 中存在左幺元, 且每个元素都存在左逆元, 即
-	<span class="formula">
-		`(EE e in G)` `e a -= a`,<br/>
-		`(AA a in G)` `(EE a' in G)` `a' a = e`.
-	</span>
-	可以证明 `G` 为一群. 事实上, 对任意 `a in G`, 先证其左逆元 `a'`
-	也是它的右逆元. 取 `a'` 的左逆元 `a''`, 有
-	<span class="formula">
-		`a a' = e a a' = a'' a' a a'`
-		`= a'' e a' = a'' a' = e`.
-	</span>
-	从而左幺元 `e` 也是右幺元:
-	<span class="formula">
-		`a e = a a' a = e a = a`.
-	</span>
-	类似可以证明, 下面也是群的一个等价定义:
-	半群 `G` 上存在右幺元, 且每个元素都存在右逆元, 即
-	<span class="formula">
-		`(EE e in G)` `a e -= a`,<br/>
-		`(AA a in G)` `(EE a' in G)` `a a' = e`;
-	</span>
+  <b>群的等价定义</b>
+  设 `G` 为半群, `G` 中存在右幺元, 且每个元素都存在右逆元, 即
+  <span class="formula">
+    `(EE e in G)` `(AA a in G)` `a e = a`,<br/>
+    `(AA a in G)` `(EE b in G)` `a b = e`.
+  </span>
+  可以证明 `G` 为一群. 事实上, 任取 `a in G`, 设 `b` 是 `a` 的右逆元, `c` 是 `b` 的右逆元, 有
+  <span class="formula">
+    `b a` `= b a (b c)` `= b (a b) c` `= b c` `= e`,<br>
+    `e a = (a b) a` `= a (b a) = a`.
+  </span>
+  所以 `e` 也是左幺元, `b` 是 `a` 的左逆元; 故 `G` 为一群.
+  类似可证: 若半群 `G` 上存在左幺元, 且每个元素都存在左逆元, 则 `G` 也为一群.
 </p>
 
 <ol class="example">
