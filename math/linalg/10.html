@@ -175,13 +175,14 @@
   </li>
   <li>对 `AA alpha in V` 和 `varphi in V^ast`,
     `varphi(alpha) = (sum_i y_i varphi_i)(sum_j x_j alpha_j)`
-    `= sum_(i, j) x_j y_j varphi_i(alpha_j)`
+    `= sum_(i, j) x_j y_i varphi_i(alpha_j)`
     `= sum_i x_i y_i`.
   </li>
-  在对偶基下 `varphi(alpha)` 具有简单的坐标表示 `sum_i x_i y_i`.
+  在对偶基下 `varphi(alpha)` 具有简单的坐标表示 `sum_i x_i y_i`,
+  这个结论将启发我们在下节给出 `bbb E^3` 中逆变和协变坐标的定义.
 </ol>
 
-<p class="corollary">
+<p class="corollary" id="cor-dual-base">
   设 `{u_i}`, `{v_i}` 是 `V` 的两组基, `{u_i^ast}`, `{v_i^ast}` 是相应的对偶基,
   线性变换 `cc A, cc B` 满足 `cc A u_i = v_i`, `cc B u_i^ast = v_i^ast`.
   `cc A, cc B` 在基底 `{u_i}` 下的表示矩阵记为 `bm A, bm B`, 则 `bm B^(sf T) bm A = bm I`.
@@ -348,22 +349,38 @@
 
 <ul>
   <li><b>矢量的基底</b>
-    我们为欧氏空间 `RR^3` 取定两组基底.
-    在基底 `{bm e_i}_(i=1)^3` 下, 矢量的坐标是 `x^i`, 称为<b>逆变坐标</b>;
-    在对偶基底 `{bm e^j}_(j=1)^3` 下, 对偶矢量的坐标是 `x_j`,
-    称为<b>协变坐标</b>.
-    `{bm e_i}`, `{bm e^j}` 未必是单位、正交矢量, 但要满足 `bm e_i * bm
-    e^j = delta_i^j = {1, if i = j; 0, otherwise:}`.
+    我们为欧氏空间 `bbb E^3` 取定两组基底.
+    在基底 `{bm e_i}_(i=1)^3` 下, 矢量的坐标记为 `x^i`, 称为<b>逆变坐标</b>;
+    再取一组基底 `{bm e^j}_(j=1)^3`, 满足
+    <span class="formula">
+      `bm e_i * bm e^j = delta_i^j = {1, if i = j; 0, otherwise:}`.
+    </span>
+    这里 `{bm e_i}`, `{bm e^j}` 未必是单位、正交矢量.
+    定义线性映射
+    <span class="formula">
+      `bm e^j: bbb E^3 to RR`,<br>
+      `bm y mapsto bm y * bm e^j`,
+    </span>
+    注意记号 `bm e^j` 含义的变化: 和向量 `bm y` 作点乘的是向量 `bm e^j in bbb E^3`,
+    而冒号前面的 `bm e^j` 是线性映射 `bm e^j in (bbb E^3)^ast`.
+    由定义, `{bm e^j}` 构成 `{bm e_i}` 的<b>对偶基</b>,
+    在对偶基底下, 对偶矢量的坐标记为 `x_j`, 称为<b>协变坐标</b>.
+    例如, 考虑线性映射 `varphi: bm y mapsto bm y * bm x`,
+    其中 `bm x = sum x_j bm e^j in bbb E^3`,
+    于是
+    <span class="formula">
+      `varphi(bm y) = bm y * bm x`
+      `= sum x_j bm y * bm e^j`
+      `= sum x_j bm e^j(bm y)`
+    </span>
+    这就是说 `varphi = sum x_j bm e^j in (bbb E^3)^ast`.
     <p class="remark">
-      <span class="formula">
-        "逆天" `rarr` 逆变是上标;<br>
-        "鞋" `rarr` 协变是下标.
-      </span>
+      "逆天" `rarr` 逆变是上标; "鞋" `rarr` 协变是下标.
     </p>
   </li>
   <li>
     <b>张量的基底</b>
-    上面取定的两组基底决定了 `RR^3` 上张量的基底:
+    上面取定的两组基底决定了 `bbb E^3` 上张量的基底:
     <span class="formula">
       `(bm e_(i_1), cdots, bm e_(i_p), bm e^(j_1), cdots, bm e^(j_q))`,
       `quad i_1, cdots, i_p, j_1, cdots, j_q in {1, 2, 3}`.
@@ -409,7 +426,7 @@
   <li><b>Levi-Civita 符号</b>是一个反对称 `{::}_3^0` 型张量:
     <span class="formula">
       `epsi_(1 2 3) = epsi_(2 3 1) = epsi_(3 1 2) = 1`,<br>
-      `epsi_(1 3 2) = epsi_(2 1 3) = epsi_(3 2 1) = 1`.
+      `epsi_(1 3 2) = epsi_(2 1 3) = epsi_(3 2 1) = -1`.
     </span>
     因为它反对称, 所以任意两个指标相同时结果为零, 如 `epsi_(1 1 2) = 0`.
   </li>
@@ -517,27 +534,51 @@
   `A,_i`.
 </p>
 
-<p>
+<p class="definition">
   <b>标架运动方程</b>
   对空间 `RR^3` 中的每一点 `P(x^1, x^2, x^3)` 都建立一个局部标架 `{P";" bm e_i";" bm e^j}`,
   `i, j = 1, 2, 3`.
-  基向量 `bm e_i` 和 `bm e^j` 是 `P` 的坐标 `x^1, x^2, x^3` 的函数,
+  基向量 `bm e_i` 和 `bm e^j` 是 `P` 的坐标 `x^1, x^2, x^3` 的函数, 且满足等式
+  <span class="formula">
+    `bm e_(j, i) = bm e_(i, j)` 和 `bm e_(,i)^j = bm e_(,j)^i`.
+    <span class="label">(`ast`)</span>
+  </span>
   我们把基向量对坐标求微分, 就得到标架运动方程:
   <span class="formula">
-    `{bm e_(j, i) := Gamma_(i j)^k bm e_k := Gamma_(i j k) bm e^k;
-    bm e_(,i)^j = -Gamma_(i k)^j bm e^k = -Gamma_(i j k) bm e_k:}`
+    `bm e_(j, i) := Gamma_(i j)^k bm e_k := Gamma_(i j k) bm e^k`.
   </span>
   这里 `Gamma_(i j k)` 和 `Gamma_(i j)^k` 分别叫做第一、二类 Christoffel
   符号 (克氏符号).
+  由假定 (`ast`), 克氏符号 `Gamma_(i j)^k` 和 `Gamma_(i j k)` 都关于 `i, j` 对称.
+</p>
+
+<ol class="corollary">
+  <li>`Gamma_(i j k) = Gamma_(i j)^l g_(l k)`;</li>
+  <li>`Gamma_(i j)^k = Gamma_(i j l) g^(l k)`.</li>
+</ol>
+
+<p class="proof">
+  先证 1. 利用度规定义,
+  <span class="formula">
+    `Gamma_(i j k) bm e^k`
+    `= Gamma_(i j)^k bm e_k`
+    `= Gamma_(i j)^k g_(k l) bm e^l`
+    `= Gamma_(i j)^l g_(l k) bm e^k`.
+  </span>
+  2. 只需在 1. 的两边同乘 `g^(l k)`.
+</p>
+
+<p class="corollary">
+  `bm e_(,i)^j = -Gamma_(i k)^j bm e^k = -Gamma_(i j k) bm e_k`.
+  ??
 </p>
 
 <ol class="proof">
-  [来自 我是烦人精的近乎幂零群]
-  这里给出标架运动方程的第二行的证明.
+  [来自群友 近乎幂零群]
   <li>
     设基底 `{x_i}` 到 `{bm e_i}` 的过渡矩阵为 `(a_j^i)`, 即 `bm e_j = a_j^i x_i`,
     又设对偶基底 `{x^i}` 到 `{bm e^i}` 的过渡矩阵为 `(b_i^j)`, 即 `bm e^j = b_i^j x^i`.
-    由<a class="ref" href="#cor-dual-base">这条推论</a>知道, 矩阵 `(b_i^j)` 等于 `(a_j^i)` 的转置的逆,
+    由<a class="ref" href="#cor-dual-base"></a> 知道, 矩阵 `(b_i^j)` 等于 `(a_j^i)` 的转置的逆,
     于是 `x_i = b_i^j bm e_j`, `x^i = a_j^i bm e^j`.
     求导得
     <span class="formula">
@@ -551,39 +592,19 @@
     </span>
     于是 `color(red)((b_l^j)_(,i) a_k^l) = - color(blue)((a_k^l)_(,i) b_l^j) = - Gamma_(i k)^j`.
   </li>
-  <li>??</li>
+  <li>
+    `Gamma_(i k)^j bm e^k`
+    `= Gamma_(i k l) g^(l j) bm e^k`
+    `= Gamma_(i k l) g^(l j) g^(k s) bm e_s`
+    `= Gamma_(i s l) g^(l j) g^(s k) bm e_k`.
+    ??
+  </li>
 </ol>
-
-<ol class="corollary">
-  <li>`Gamma_(i j k) = Gamma_(i j)^l g_(l k)`;</li>
-  <li>`Gamma_(i j)^k = Gamma_(i j l) g^(l k)`.</li>
-</ol>
-
-<p class="proof">
-  只证 1. 利用度规定义,
-  <span class="formula">
-    `Gamma_(i j k) bm e^k`
-    `= Gamma_(i j)^k bm e_k`
-    `= Gamma_(i j)^k g_(k l) bm e^l`
-    `= Gamma_(i j)^l g_(l k) bm e^k`.
-  </span>
-</p>
-
-<p class="remark">
-  [来自群友 乐正垂星]
-  澄清: 我们有 `g_(l k) Gamma_(i j)^l = Gamma_(i j)^l g_(l k)`,
-  因为 `g_(l k)` 和 `Gamma_(i j)^l` 严格说只是张量的分量, 实际就是数字,
-  它们的乘法是可以随意交换的. 而当我们说矩阵 `A B != B A` 时,
-  实际上是说
-  <span class="formula">
-    `A^i_k B^k_j != B^i_k A^k_j`,
-  </span>
-  矩阵次序的交换对应着上下指标的交换.
-</p>
 
 <p class="theorem">
   <b>用度规表示克氏符号</b>
   <span class="formula">
+    `Gamma_(i k j) = 1/2 (g_(i j,k) + g_(j k, i) - g_(k i,j))`,<br>
     `Gamma_(i k)^l = 1/2 g^(l j) (g_(i j,k) + g_(j k, i) - g_(k i,j))`.
   </span>
 </p>
@@ -608,7 +629,8 @@
     `g_(i j,k) + g_(j k,i) - g_(k i,j)`
     `= 2 bm e_(i,k) * bm e_j`
     `= 2 Gamma_(i k)^l bm e_l * bm e_j`
-    `= 2 Gamma_(i k)^l g_(l j)`.
+    `= 2 Gamma_(i k)^l g_(l j)`
+    `= 2 Gamma_(i k j)`.
   </span>
   两边同乘 `g^(l j)` 即得结论.
 </p>
