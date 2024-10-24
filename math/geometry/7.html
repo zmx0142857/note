@@ -41,6 +41,7 @@
 
 <p class="remark">
   大圆是球面上的测地线, 可类比于平面上的直线.
+  这意味着球面上连接两点的最短曲线总是大圆的一部分.
 </p>
 
 <h2>边角的基本性质</h2>
@@ -89,6 +90,7 @@
 <ol class="theorem">
   <li>球面三角形三边之和的范围: `(0, 2pi)`.</li>
   <li>球面三角形三角之和的范围: `(pi, 3pi)`.</li>
+  球面三角形的内角和大于 180 度, 这是它与平面欧氏几何的根本区别.
 </ol>
 
 <ol class="proof">
@@ -191,13 +193,49 @@
 <h2>球面三角的面积</h2>
 
 <p class="theorem">
-  <b>Gauss-Bonnet 公式</b>
-  球面三角形的面积 `S = R^2(A + B + C - pi)`.
+  <b>Harriot 公式</b>
+  球面三角形的面积 `S = (A + B + C - pi) R^2`.
   其中 `R` 是球的半径, `A, B, C` 是三个球面角.
+  在微分几何中, 这个公式的推广叫做 Gauss-Bonnet 公式.
 </p>
 
+<div class="p proof">
+  <div class="img md">
+    <img src="../img/harriot-formula.png" alt="Harriot 公式">
+  </div>
+  [来自 特里斯坦《微分几何：可视化方法》] 如图, 考虑球面三角形 `ABC`. 延长三边, 它们将相交于另外三点 `A'B'C'`, 恰好是 `ABC` 的对径点.
+  因此三角形 `A'B'C'` 与 `ABC` 全等. 同理还有三组三角形全等, 总之, 四个着色区域的面积之和等于球面面积的一半:
+  <span class="formula">
+    `S_"灰" + S_"红" + S_"绿" + S_"蓝" = 2 pi R^2`.
+    <span class="label">(`ast`)</span>
+  </span>
+  注意到灰色与红色区域合起来是一个楔形, 面积等于球面面积乘以 `C // 2pi`:
+  <span class="formula">
+    `S_"灰" + S_"红" = 2 C R^2`.
+  </span>
+  同理
+  <span class="formula">
+    `S_"灰" + S_"绿" = 2 A R^2`,<br>
+    `S_"灰" + S_"蓝" = 2 B R^2`.
+  </span>
+  三式相加, 减去 (`ast`) 式就得到
+  <span class="formula">
+    `2 S_"灰" = 2(A+B+C-pi)R^2`.
+  </span> 
+</div>
+
 <p class="example">
-  球面三角形三个角都是 90 度时, 用 Gauss-Bonnet 公式求得面积为 `pi R^2 //2`, 恰好是球面的 `1//8`.
+  在赤道上取经度相差 `theta` 的两点, 和北极一起组成球面三角形.
+  于是三个球面角分别是 `pi//2, pi//2, theta`.
+  用 Harriot 公式求得面积为 `theta R^2`, 这恰好是北半球面积乘以 `theta//(2pi)`
+</p>
+
+<p class="corollary">
+  如果球面上两个三角形相似, 则它们全等.
+</p>
+
+<p class="proof">
+  相似意味它们对应角相等. 由 Harriot 公式, 它们的面积也相等, 从而必是全等的.
 </p>
 
 <h2>杂例</h2>
@@ -248,13 +286,17 @@
 </p>
 
 <div class="img" title="大圆弧的可视化 (Mercator 投影)">
-  <canvas id="img-arc-lonlat" width="600" height="600"></canvas>
+  <canvas id="img-arc-lonlat" width="400" height="400"></canvas>
   <div>
     <span id="img-arc-range-lon1"></span>
+  </div>
+  <div>
     <span id="img-arc-range-lat1"></span>
   </div>
   <div>
     <span id="img-arc-range-lon2"></span>
+  </div>
+  <div>
     <span id="img-arc-range-lat2"></span>
   </div>
 </div>

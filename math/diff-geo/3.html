@@ -154,11 +154,11 @@
 <h3>第一基本形式 (The first fundamental form)</h3>
 
 <p class="definition">
-  <span class="formula">
-    `"I" = "d"s^2 = "d" bm r^2`
-    `= (bm r_u "d"u + bm r_v "d" v)^2`
-    `= ["d"u, "d"v][bm r_u^T; bm r_v^T][bm r_u, bm r_v]["d"u; "d"v]`
-    `= ["d"u, "d"v][E, F; F, G]["d"u; "d"v]`
+  <span class="formula align">
+    `"I" = "d"s^2 = "d" bm r^2`<br>
+    `= (bm r_u "d"u + bm r_v "d" v)^2`<br>
+    `= ["d"u, "d"v][bm r_u^T; bm r_v^T][bm r_u, bm r_v]["d"u; "d"v]`<br>
+    `= ["d"u, "d"v][E, F; F, G]["d"u; "d"v]`<br>
     `= E "d"u"d"u + 2F "d"u"d"v + G"d"v"d"v`.
   </span>
   其中
@@ -200,24 +200,76 @@
   </span>
 </p>
 
-<p class="example">
-  平面 `bm r(u,v) = (u, v, 0)` 的第一基本形式
-  `"I" = "d"u"d"u + "d"v"d"v`.
-</p>
+<ol class="example">
+  <li>
+    平面在笛卡尔坐标下 `bm r(x, y) = (x, y)` 的第一基本形式
+    <span class="formula">
+      `"I" = dx^2 + dy^2`.
+    </span>
+  </li>
+  <li>
+    平面在极坐标下 `bm r(r, theta) = (r cos theta, r sin theta)` 的第一基本形式
+    <span class="formula">
+      `"I" = "d"r^2 + r^2 "d"theta^2`.
+    </span>
+  </li>
+  <li>
+    柱面 `bm r(u,v) = (x(u), y(u), v)` 的第一基本形式
+    <span class="formula">
+      `"I" = ({:x':}^2 + {:y':}^2)"d"u^2 + "d"v^2`.
+    </span>
+    取 `u` 是弧长参数时, `"I" = "d"u^2 + "d"v^2`, 和平面一致.
+  </li>
+  <li>
+    球面在经纬度参数下
+    `bm r(theta, varphi) = (R cos varphi cos theta, R cos varphi sin theta, R sin varphi)`
+    的第一基本形式
+    <span class="formula">
+      `"I" = R^2(cos^2 varphi "d"theta^2 + "d"varphi^2)`.
+    </span>
+  </li>
+  <li>
+    球面在球极投影参数下 `bm r(u,v) = 1/d^2(2 a^2 u, 2 a^2 v, a delta^2)`
+    的第一基本形式, 其中 `d^2 = u^2 + v^2 + a^2`, `delta^2 = u^2 + v^2 - a^2`:
+    <span class="formula">
+      `"I" = ((2a^2)/d^2)^2 ("d"u^2 + "d"v^2)`.
+    </span>
+  </li>
+</ol>
 
-<p class="example">
-  柱面 `bm r(u,v) = (x(u), y(u), v)` 的第一基本形式
-  `"I" = ({:x':}^2 + {:y':}^2)"d"u"d"u + "d"v"d"v`.
-  取 `u` 是弧长参数时, `"I" = "d"u"d"u + "d"v"d"v`.
-</p>
+<div class="p solution">
+球极投影参数的第一基本形式计算:
+<pre>
+from sympy import *
 
-<p class="example">
-  球面 `bm r(theta, varphi) = (a cos theta cos varphi, a cos theta sin
-  varphi, a sin varphi)` 的第一基本形式
-  `"I" = a^2 "d"theta"d"theta + a^2 cos^2 theta "d"varphi"d"varphi`.
-  球面 `bm r(u,v) = (2a^2u//d^2, 2a^2v//d^2, a(d^2-2a^2)//d^2)` `(d^2 =
-  u^2 + v^2 + a^2)` 的第一基本形式
-  `"I" = ((2a^2)/d^2)^2 ("d"u"d"u + "d"v"d"v)`.
+u, v, a = S('u,v,a')
+
+d = sqrt(u**2+v**2+a**2)
+r = [2*a**2*u/d**2, 2*a**2*v/d**2, a*(u**2+v**2-a**2)/d**2]
+ru = [diff(ri, u) for ri in r]
+rv = [diff(ri, v) for ri in r]
+E = simplify(sum(ri*ri for ri in ru))
+G = simplify(sum(ri*ri for ri in rv))
+F = simplify(sum(ru[i] * rv[i] for i in range(3)))
+
+print('E:', E)
+print('G:', G)
+print('F:', F)
+print('E - ((2*a**2)/d**2)**2 ==', simplify(E - ((2*a**2)/d**2)**2))
+</pre>
+</div>
+
+<p>球极投影参数十分特殊, 它是一个共形映射, 定义如下:</p>
+
+<p class="definition">
+  如果在某个参数选取下第一基本形式的 `E = G` 且 `F = 0`,
+  则称这个参数为<b>等温参数</b>或<b>共形参数</b>
+  从参数空间到曲面的映射 `bm r(u, v)` 称为共形映射.
+  这个称呼的由来如下: 参数空间的每个点 `z := (u, v)` 的小位移 `dz` 被映射到曲面上的小曲线段 `"d"s`,
+  通常 `"d"s` 不仅和 `z` 的位置有关, 还和 `dz` 的方向有关.
+  但如果第一基本形式形如 `"I" = f(z) dz^2`, 它就只与 `z` 有关,
+  这意味着在参数平面上一个小三角形充分接近 `z` 的时候,
+  它在曲面上的像是一个与它相似的三角形. 即, 共形映射 `bm r(u, v)` 保持角度不变.
 </p>
 
 <h3>第二基本形式 (The second fundamental form)</h3>

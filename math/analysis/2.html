@@ -450,6 +450,11 @@
 	</span>
 </p>
 
+<p class="corollary">
+  若 `{x_n}` 是有限个子数列的无交并, 且这些子数列收敛到同一极限,
+  则 `{x_n}` 收敛; 常见的情形是它的奇数项与偶数项分别收敛到同一极限.
+</p>
+
 <p class="theorem">
 	<b>数列极限的四则运算</b>
 	若 `lim_(n to oo) x_n = a`, `lim_(n to oo) y_n = b`, 则
@@ -896,21 +901,87 @@
   而 `x_k` 之前只有有限项, 这与 `I` 中含有数列的无穷多项矛盾.
 </p>
 
+<h2>求极限的实用定理</h2>
 
-<h2>压缩映像</h2>
+<h3>压缩映像</h3>
 
-<p class="lemma">
-	设 `0 lt r lt 1`, 且对任意正整数 `n` 有 `|x_(n+1)-a| le r |x_n-a|`,
-  则 `lim_(n to oo) x_n = a`.
-</p>
+<ol class="lemma">
+  设 `0 lt r lt 1`, 且对任意非负整数 `n`, 数列 `{x_n}` 满足:
+  <li>`|x_(n+1)-a| le r |x_n-a|`, 则 `lim_(n to oo) x_n = a`.</li>
+  <li>`|x_(n+2) - x_(n+1)| le r |x_(n+1) - x_n|`, 则 `{x_n}` 收敛.</li>
+</ol>
 
-<p class="proof">
-	归纳法容易证明
-	<span class="formula">
-		`|x_n - a| le r^(n-1)|x_1 - a|`,
-	</span>
-	`r^(n-1)` 是无穷小, `|x_1 - a|` 是有界量, 因此 `|x_n - a|` 为无穷小,
-	即 `lim_(n to oo) x_n = a`.
+<ol class="proof">
+  <li>
+    归纳法容易证明
+    <span class="formula">
+      `|x_n - a| le r^n|x_0 - a|`,
+    </span>
+    `r^n` 是无穷小, `|x_0 - a|` 是有界量, 因此 `|x_n - a|` 为无穷小,
+    即 `lim_(n to oo) x_n = a`.
+  </li>
+  <li>
+    应用 Cauchy 收敛准则. 对任意 `epsi gt 0`, 取充分大的 `N` 使得 `|x_1 - x_0| r^N//(1-r) le epsi`,
+    于是对任意 `m ge n ge N` 有
+    <span class="formula align">
+      `|x_(m+1) - x_n|`<br>
+      `le sum_(k=0)^(m-n) |x_(n+k+1) - x_(n+k)|`<br>
+      `le sum_(k=0)^(m-n) r^(n+k) |x_1 - x_0|`<br>
+      `le |x_1 - x_0| r^n sum_(k ge 0) r^k`<br>
+      `= |x_1 - x_0| r^n // (1-r)`<br>
+      `le epsi`.
+    </span>
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>Banach 压缩映像原理</b>
+  设 `I` 是闭区间, `f: I to I` 是<b>压缩映射</b>, 即存在实数 `0 lt r lt 1`, 对任意 `x, y in I` 有
+  <span class="formula">
+    `|f(x) - f(y)| le r |x - y|`.
+  </span>
+  则
+  <li>`f` 在 `I` 上存在唯一<b>不动点</b>, 即存在唯一实数 `a in I` 使 `f(a) = a`.</li>
+  <li>对任意 `x in I`, 记 `f^n(x) = underbrace(f...f)_n(x)`, 则 `lim_(n to oo) f^n(x) = a`.</li>
+  <li>若 `f` 是 `g: I to I` 的迭代, 即存在正整数 `k` 使得 `f = g^k`, 则 `a` 也是 `g` 的唯一不动点.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    存在性.
+    任取 `x_0 in I`, 令 `x_(n+1) := f(x_n)`, 则对任意非负整数 `n`,
+    <span class="formula">
+      `|x_(n+2) - x_(n+1)|`
+      `= |f(x_(n+1)) - f(x_n)|`
+      `le r |x_(n+1) - x_n|`.
+    </span>
+    由引理的 2. 知 `{x_n}` 收敛, 设极限为 `a`.  由不等式
+    <span class="formula">
+      `|x_(n+1) - f(a)|`
+      `= |f(x_n) - f(a)|`
+      `le r|x_n - a|`
+    </span>
+    知道, `x_n to f(a)`. 但数列极限唯一, 故 `f(a) = a`.
+    <br>
+    唯一性. 若存在 `b in I` 使 `f(b) = b`, 则
+    <span class="formula">
+      `|x_(n+1) - b|`
+      `= |f(x_n) - f(b)|`
+      `le r |x_n - b|`,
+    </span>
+    由引理的 1. 知 `x_n to b`, 但数列极限唯一, 故 `a = b`.
+  </li>
+  <li>由 1. 的证明知道 `x_n = f^n(x_0)`, 但 `x_0` 是任意选取的, 即得证.</li>
+  <li>由函数复合运算的结合律知道 `g(f^n(a)) = f^n(g(a))`,
+    两边令 `n to oo`,
+    由于 `a` 是 `f` 的不动点, 左边等于 `g(a)`;
+    又由 2. 知右边的极限等于 `a`, 故 `g(a) = a`.
+    又 `g` 的不动点都是 `f` 的不动点, 所以 `a` 是 `g` 的唯一不动点.
+  </li>
+</ol>
+
+<p class="remark">
+  压缩映像原理可以推广到完备度量空间. 我们依然可以使用 Cauchy 收敛准则.
 </p>
 
 <ol class="example">
@@ -932,46 +1003,38 @@
     由引理知 `x_n to 3`.
   </li>
   <li>
-    类似 1. 有
+    这是一个复杂的问题, 涉及到复动力系统的相关知识,
+    完整解法参见 [<a href="https://math.stackexchange.com/questions/4097866/let-a-1-sqrt6-a-n1-sqrt6a-n-find-lim-limits-n-to-infty-a-n-3" target="_blank">stack exchange</a>].
+    在这里我们只证明极限存在.  类似 1. 有
     <span class="formula">
       `(x_(n+1) - 3) 6^(n+1)`
       `= 6/(sqrt(6+x_n) + 3) (x_n - 3) 6^n`.
     </span>
-    问题化为
+    问题化为证明无穷乘积 `prod_(n ge 1) 6/(sqrt(6+x_n)+3)` 收敛, 即证级数
     <span class="formula">
-      `prod_(n ge 1) 6/(sqrt(6+x_n)+3)`.
+      `sum_(n ge 1) ln(6/(sqrt(6+x_n)+3))`
     </span>
-    ??
+    收敛.  事实上由 1. 得 `x_n - 3 = O(3^-n)`, 于是
+    <span class="formula">
+      `ln(6/(sqrt(6+x_n)+3))`
+      `= ln(1 + (3 - sqrt(6+x_n))/(sqrt(6+x_n)+3))`
+      `= ln(1 + (3 - sqrt(6+x_n))^2/(3 - x_n))`
+      `= ln(1 + (3 - x_(n+1))^2/(3 - x_n))`
+      `= ln(1 + (O(3^(-2n-2)))/(O(3^-n)))`
+      `= ln(1 + O(3^-n))`
+      `= O(3^-n)`.
+    </span>
   </li>
-  *如果把题目的 6 改成 2, 则可以找到 `x_(n+1)^2 = x_n + 2` 的解
+  <hr>
+  注: 如果把题目的 6 改成 2, 则可以找到 `x_(n+1)^2 = x_n + 2` 的解
   `x_n = 2cos(pi//2^(n+1))`, 所求极限为 `pi^2//4`.
 </ol>
-
-<ol class="theorem">
-	设数列 `{x_n}` 满足:
-	<li>存在有限个子数列收敛到同一极限, 且 `{x_n}` 是这些子数列的并,
-		则 `{x_n}` 收敛; 常见的情形是它的奇数项与偶数项分别收敛到同一极限.
-	</li>
-	<li>存在常数 `lambda in (0, 1)` 使得
-		<span class="formula">
-			`|x_(n+1) - x_n| le lambda |x_n - x_(n-1)|`,
-			`quad n = 2, 3, cdots`.
-		</span>
-		则 `{x_n}` 收敛.
-	</li>
-</ol>
-
-<p class="theorem">
-	<b>Banach 压缩映像原理</b>
-</p>
 
 <p class="example">
 	设 `x_1 = 1`, `x_n = 1/m [(m-1) x_(n-1) + A/x_(n-1)^(m-1)]`,
 	其中 `m` 是非零整数, `A gt 0`.
 	证明 `{x_n}` 收敛, 且极限为 `root m A`.
 </p>
-
-<h2>分步取 N 法</h2>
 
 <h3>Cesàro 定理</h3>
 

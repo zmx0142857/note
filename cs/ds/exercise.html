@@ -786,11 +786,62 @@ init_levelorder_deg(val[], deg[], n):
 	return nodes[0]
 </pre>
     </div>
+    <div id="tabs-6-4" class="tabs-body-item">
+来自群友的变态图论问题:
+有向图中有 4 个节点,
+女节点入度小于等于2, 出度为0;
+男节点入度为 0, 出度为1;
+futa节点入度小于等于 2, 出度小于等于1;
+男娘节点入度小于等于 1, 出度小于等于1.
+要求不存在孤立点, 这样的图有多少个?
+假如区分 2 个洞, 这样的图又有多少个?
+<pre>
+# 没有区分两个洞时, 答案是 12, 区分时答案是 40
+import numpy as np
+
+count = 0
+for n in range(2**16):
+    bits = [int(d) for d in format(n, 'b').rjust(16, '0')]
+    a = np.array(bits).reshape((4, 4))
+    # 不可自指
+    if any(a[i][i] == 1 for i in range(4)):
+        continue
+    row_sum = a.sum(axis=0) # 出度
+    col_sum = a.sum(axis=1) # 入度
+    # 无孤立点
+    if any(row_sum[i] == 0 and col_sum[i] == 0 for i in range(4)):
+        continue
+    # 女节点
+    if col_sum[0] &gt; 2 or row_sum[0] &gt; 0:
+        continue
+    # 男节点
+    if col_sum[1] &gt; 0 or row_sum[1] != 1:
+        continue
+    # futa 节点
+    if col_sum[2] &gt; 2 or row_sum[2] &gt; 1:
+        continue
+    # 男娘节点
+    if col_sum[3] &gt; 1 or row_sum[3] &gt; 1:
+        continue
+    #print(a)
+    add = 1
+    # 区分女节点的两个洞
+    if col_sum[0] &gt; 1:
+        add *= 2
+    # 区分 futa 节点的两个洞
+    if col_sum[2] &gt; 1:
+        add *= 2
+    count += add
+
+print(count)
+</pre>
+    </div>
   </div>
   <div class="tabs-footer">
     <a class="tabs-footer-item active" href="#tabs-6-1">森林的叶结点数</a>
     <a class="tabs-footer-item" href="#tabs-6-2">森林的高度</a>
     <a class="tabs-footer-item" href="#tabs-6-3">利用森林的层序序列和每个结点的度数建立森林</a>
+    <a class="tabs-footer-item" href="#tabs-6-4">本子问题</a>
   </div>
 </div>
 

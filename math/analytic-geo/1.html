@@ -1040,6 +1040,68 @@
   </span>
 </ol>
 
+<h2>仿射空间的公理化定义*</h2>
+
+<p>[来自田宗若《张量分析》]</p>
+
+<ol class="axiom">
+  设 `P, V` 是两个集合, 其中的元素分别称为<b>点</b>和<b>向量</b>, 且满足
+  <li>`P != O/`.</li>
+  <li>存在映射 `varphi: P xx P to V`, 它将有序点对 `(A, B)` 映为一个向量 `bm v`.
+    我们记 `bm v = Vec(AB)`, 并称 `A` 是 `bm v` 的起点, `B` 是 `bm v` 的终点.
+  </li>
+  <li>对任意点 `A` 和向量 `bm v`, 存在唯一的点 `B`, 使 `bm v = Vec(AB)`.
+    换言之对任意 `A in P`, 映射 `varphi(A, *)` 是满射.
+  </li>
+  <li>平行四边形公理: `Vec(AB) = Vec(CD) rArr Vec(AC) = Vec(BD)`.</li>
+</ol>
+
+<ol class="definition">
+  <li><b>零向量</b>
+    对任意两点 `A, B`, 由平行四边形公理得 `Vec(A A) = Vec(B B)`.
+    称 `Vec(A A)` 为零向量, 记为 `bb 0`.
+  </li>
+  <li><b>逆向量</b> 由平行四边形公理
+    <span class="formula">
+      `Vec(AB) = Vec(CD)`
+      `rArr Vec(AC) = Vec(BD)`
+      `rArr Vec(BD) = Vec(AC)`
+      `rArr Vec(BA) = Vec(DC)`.
+    </span>
+    称 `Vec(BA)` 是 `Vec(AB)` 的逆向量, 则逆向量与起点的选取无关.
+    对于向量 `bm v`, 任取一点 `A`, 由公理 3 存在 `B` 使 `bm v = Vec(AB)`.
+    于是 `bm v` 的逆向量定义为 `-bm v := Vec(BA)`.
+  </li>
+  <li><b>向量加法</b>
+    任给向量 `bm x, bm y`, 选择起点 `A`, 应用公理 3, 分别存在点 `B, C` 使
+    `Vec(AB) = bm x`, `Vec(BC) = bm y`, 定义 `bm x + bm y := Vec(AC)`,
+    可以验证它与起点 `A` 的选择无关. 事实上, 另取一个起点 `D`,
+    令 `Vec(DE) = bm x`, `Vec(EF) = bm y`, 由平行四边形公理,
+    <span class="formula">
+      `Vec(AB) = Vec(DE) rArr Vec(AD) = Vec(BE)`,<br>
+      `Vec(BC) = Vec(EF) rArr Vec(BE) = Vec(CF)`,
+    </span>
+    因此 `Vec(AC) = Vec(DF)`.
+  </li>
+</ol>
+
+<p>
+  可以验证在上述定义的加法下, 向量集合是交换群.
+  如果引入实数与向量之间的数乘, 并满足下面的公理, 则 `V` 成为 `RR` 上的线性空间:
+</p>
+
+<ol class="axiom">
+  向量的数乘是一个映射 `f: RR xx V to V`. `f(k, bm x)` 记为 `k bm x`.
+  对任意 `k, l in RR` 和 `bm x, bm y in V`, 数乘运算满足:
+  <li>`1 bm x = bm x`;</li>
+  <li>`(k + l) bm x = k bm x + l bm x`;</li>
+  <li>`k(bm x + bm y) = k bm x + k bm y`;</li>
+  <li>`k (l bm x) = (k l) bm x`.</li>
+</ol>
+
+<p>满足上面所有公理的点和向量 `(P, V)` 称为一个<b>仿射空间</b>, 它的维数就定义为线性空间 `V` 的维数.
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

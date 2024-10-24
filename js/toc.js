@@ -33,7 +33,7 @@ var tocData = [
         "children": [
           { "value": "0", "label": "初等代数", "date": "2024-09-21" },
           { "value": "1", "label": "矩阵", "date": "2022-02-16" },
-          { "value": "2", "label": "行列式", "date": "2021-12-06" },
+          { "value": "2", "label": "行列式", "date": "2024-10-24" },
           { "value": "3", "label": "向量的相关性与线性方程组", "date": "2021-12-14" },
           { "value": "4", "label": "线性空间" },
           { "value": "5", "label": "线性映射与线性变换" },
@@ -216,7 +216,7 @@ var tocData = [
           { "value": "3", "label": "三角形, 四边形", "date": "2022-02-14" },
           { "value": "4", "label": "圆", "date": "2024-04-25" },
           { "value": "5", "label": "抛物线" },
-          { "value": "7", "label": "球面几何", "date": "2024-09-26" },
+          { "value": "7", "label": "球面几何", "date": "2024-10-23" },
           { "value": "10", "label": "射影几何", "date": "2023-07-11" },
         ]
       },
@@ -224,7 +224,7 @@ var tocData = [
         "value": "analytic-geo",
         "label": "解析几何",
         "children": [
-          { "value": "1", "label": "向量与坐标系", "date": "2023-05-08" },
+          { "value": "1", "label": "向量与坐标系", "date": "2024-10-21" },
           { "value": "2", "label": "平面与直线", "date": "2024-04-29" },
           { "value": "3", "label": "圆锥曲线与二次曲面", "date": "2024-04-24" },
           { "value": "4", "label": "平面代数曲线", "date": "2024-09-10" },
@@ -237,7 +237,7 @@ var tocData = [
         "children": [
           { "value": "1", "label": "欧氏空间" },
           { "value": "2", "label": "曲线的局部理论" },
-          { "value": "3", "label": "曲面的局部理论", "date": "2023-07-28" },
+          { "value": "3", "label": "曲面的局部理论", "date": "2024-10-24" },
           { "value": "4", "label": "标架与曲面论基本定理" },
           { "value": "5", "label": "曲面的内蕴几何学" }
         ]
@@ -295,7 +295,7 @@ var tocData = [
         "value": "ds",
         "label": "数据结构与算法",
         "children": [
-          { "value": "exercise", "label": "习题", "date": "2024-09-06" },
+          { "value": "exercise", "label": "习题", "date": "2024-10-24" },
           { "value": "1", "label": "绪论" },
           { "value": "2", "label": "线性表" },
           { "value": "3", "label": "栈与队列" },
@@ -383,6 +383,7 @@ var tocData = [
         "value": "mechanics",
         "label": "力学",
         "children": [
+          { "value": "0", "label": "图形推理", "date": "2024-10-23" },
           { "value": "1", "label": "质点运动学", "date": "2024-09-13" }
         ]
       },

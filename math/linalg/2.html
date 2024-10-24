@@ -7,6 +7,551 @@
 </head>
 <body>
 
+<h2>行列式的定义</h2>
+
+<h3>逆序数</h3>
+
+<div class="p definition">
+  设 `i_1 cdots i_n` 是 `1 cdots n` 的一个<b>排列</b>, 即 `1 cdots n` 到自身的双射.
+  如果存在 `j lt k` 使得 `i_j gt i_k`, 则称 `(i_j, i_k)` 是该排列的一对<b>逆序</b>.
+  该排列的所有逆序对的数目称为它的<b>逆序数</b>, 记为 `tau(i_1 cdots i_n)`.
+  例如排列 `321` 中的逆序有 `(3,2)`, `(3,1)`, `(2,1)`, 因此逆序数为 `3`.
+  我们可以用下面的朴素算法枚举逆序: 从左向右扫描这个排列, 对每个数字, 列出它前面比它大的数字:
+<pre>
+sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
+</pre>
+</div>
+
+<p class="proposition">
+  <b>冒泡排序</b>
+  交换排列中两项位置的操作称为<b>对换</b>.
+  事实上, 一个排列 `i_1 cdots i_n` 经过
+  `tau(i_1 cdots i_n)` 次对换可以变得<b>有序</b>, 即变成从小到大的排列.
+</p>
+
+<p class="proof">
+  在冒泡排序的每一步中, 检查排列中是否存在相邻两项使得 `i_j gt i_(j+1)` 并交换这两项的位置.
+  假如不存在这样的两项, 则排序已经完成.
+  由于我们的每个对换操作都使得逆序数减 1, 所以从开始状态到终止状态 (逆序数为 0)
+  恰好经历了 `tau(i_1 cdots i_n)` 次对换.
+</p>
+
+<p class="remark">
+  仍以 `321` 为例, 它的排序过程如下:
+  <span class="formula">
+    `321 to 231 to 213 to 123`.
+  </span>
+  一共 3 次对换.
+  上述排序过程并不是唯一的, 也未必是对换次数最少的. 例如对于 `321`,
+  直接交换 `1` 和 `3` 就得到 `123`.
+  然而两种排序方案所用的对换次数都是奇数.
+  事实上, 它的任一基于对换的排序方案, 所涉及的对换次数都是奇数.
+  我们引入排列的奇偶性概念:
+</p>
+
+<p class="definition">
+  称一个排列为<b>奇排列</b>, 如果它的逆序数是奇数. <b>偶排列</b>的定义类似.
+</p>
+
+<p class="proposition">
+  任意对换都改变排列的奇偶性.
+</p>
+
+<p class="proof">
+  假设 `j lt k`, 考虑 `i_j` 的移动造成的逆序数变化.
+  由于 `i_j` 的新位置是 `k`, 那么对原位置在 `j+1` 到 `k-1` 的所有数,
+  若它小于 `i_j`, 则逆序数减 1, 若它大于 `i_j`, 则逆序数加 1.
+  同理 `i_k` 的移动也造成原位置在 `j+1` 到 `k-1` 的所有数逆序数要么减 1, 要么加 1.
+  前面这两部分正好抵消, 并不改变排列的奇偶性.
+  现在考虑 `i_j, i_k` 两数之间形成的逆序. 显然交换二者要么使逆序数减 1,
+  要么加 1, 其结果都是改变排列的奇偶性.
+</p>
+
+<p class="corollary">
+  一个排列是奇排列当且仅当它经过奇数次对换变得有序.
+</p>
+
+<p class="proof">
+  由冒泡排序知道, 奇排列可以通过奇数次对换变得有序. 由对换改变排列的奇偶性知道, 如果一个奇排列经过
+  `m` 次对换变得有序, 那么 `m` 必为奇数.
+</p>
+
+<h3>行列式</h3>
+
+<p class="definition">
+  引入记号
+  <span class="formula">
+    `sigma(i_1 cdots i_n) := (-1)^(tau(i_1 cdots i_n))`,
+  </span>
+  则 `i_1 cdots i_n` 是奇排列当且仅当 `sigma(i_1 cdots i_n) = -1`.
+</p>
+
+<p class="definition">
+  设 `bm A = (a_(i j))` 是 `n` 阶矩阵, 则它的<b>行列式 (determinant)</b>
+  是一个数, 定义为
+  <span class="formula">
+    `|bm A| := "det"bm A := |a_11, cdots, a_(1n); vdots, ,vdots; a_(n1), cdots, a_(n n)|`
+    `:= sum_(i_1 cdots i_n in S_n) sigma(i_1 cdots i_n) a_(1 i_1) cdots a_(n i_n)`.
+  </span>
+  其中 `S_n` 代表 `1 cdots n` 的全部 `n!` 个排列.<br>
+  上式表明: 任取一个 `1 cdots n` 的排列, 从矩阵 `bm A` 的第 `k` 行取出第 `i_k`
+  个元素, 将每行取出的元素相乘, 就得到行列式中的一项, 它的正负号由排列的奇偶性决定.
+  由于每个乘积是由排列产生的, 所以乘积中的每个因子都来自 `bm A` 的不同行, 也来自不同列.
+</p>
+
+<ol class="example">
+  <li><b>一阶行列式</b> `"det" [a] = a`.</li>
+  <li><b>二阶行列式</b> `|a,b;c,d| = a d - b c`.</li>
+  <li><b>三阶行列式</b>
+    <span class="formula">
+      `|a_11, a_12, a_13; a_21, a_22, a_23; a_31, a_32, a_33|`
+      `= a_11 a_22 a_33 + a_12 a_23 a_31 + a_13 a_21 a_32`
+      `- a_11 a_23 a_32 - a_12 a_21 a_33 - a_13 a_22 a_31`.
+    </span>
+  </li>
+</ol>
+
+<p class="proposition">
+  `|bm A^(sf T)| = |bm A|`.
+</p>
+
+<p class="proof">
+  `bm A^(sf T)` 的行列式要从矩阵 `bm A` 的第 `i_k` 行取出第 `k` 个元素.
+  这恰好是排列 `i_1 cdots i_n` 的逆. 但排列和它的逆具有相同的奇偶性:
+  以多少次对换将一个排列变得有序, 就能以相同次数的对换将 `1 cdots n` 还原为原来的排列.
+  所以根据定义, `|bm A^(sf T)| = |bm A|`.
+</p>
+
+<p class="remark">
+  这个命题表明, 行列式关于行和列是对称的. 任何一个关于行列式的定理,
+  将其中的“行”逐字换成“列”, “列”逐字换成“行”, `a_(i j)` 逐字换成 `a_(j i)`, 得到的新命题仍然成立.
+</p>
+
+<h3>子式</h3>
+
+<p>行列式的上述定义对于计算是颇不方便的. 下面介绍行列式的展开,
+  它以递归的方式进行计算, 逐步降低行列式的阶.
+</p>
+
+<ol class="definition">
+  <b>子式, 余子式和代数余子式</b>
+  令 `D` 为一个 `n` 阶行列式, `1 le k le n`.
+  <li>
+    在 `D` 上任意选定 `k` 行
+    `k` 列, 位于这些行和列的交点上的 `k^2` 个元素按原来的 "上下左右"
+    的次序组成一个 `k` 阶行列式 `M`, 称为 `D` 的一个 <b>`k` 阶子式</b>.
+  </li>
+  <li>
+    若 `k lt n`, 在 `D` 中划去这 `k` 行 `k` 列后,
+    余下的元素按原来的次序组成一个 `n-k` 阶行列式 `N`,
+    称为 `M` 在 `D` 中的<b>余子式</b>. 由定义, `M` 也是 `N` 的余子式,
+    因此又称 `M, N` 为一对互余的子式.
+  </li>
+  <li>
+    如果 `M` 的各行, 列在原行列式 `D` 中的指标为 `i_1, i_2, cdots, i_k`
+    和 `j_1, j_2, cdots, j_k`, 则称
+    <span class="formula">
+      `(-1)^(sum_(t=1)^k (i_t + j_t)) N`
+    </span>
+    为 `M` 在 `D` 中的<b>代数余子式</b>.
+    特别当 `M` 是位于 `i` 行 `j` 列的一阶子式时, 它的代数余子式就是 `(-1)^(i+j) N`.
+  </li>
+</ol>
+
+<h3>伴随矩阵</h3>
+
+<p class="lemma">
+  令 `bm  A = (a_(i j))_(n xx n)`, 以 `A_(i j)` 记元素 `a_(i j)`
+  的代数余子式, 则对任意 `i, j in 1 cdots n`,
+  <span class="formula">
+    `sum_(k=1)^n a_(i k) A_(j k) = delta_(i j) |bm A|`.
+  </span>
+</p>
+
+<p class="proof">
+  若 `i = j`, 等式左边等于 `|bm A|` 沿第 `i` 行展开的结果,
+  自然等于右边. 若 `i != j`, 等式左边等于将 `|bm A|` 的第 `j` 行用第 `i`
+  行的拷贝替换后, 沿第 `j` 行展开的结果. 由于这个替换后的行列式的第 `j`
+  行与第 `i` 行完全相同, 所以它等于零.
+</p>
+
+<p class="definition">
+	如果 `|bm A| != 0`, 则称方阵 `bm A` <b>非奇异</b>.
+</p>
+
+<p class="definition">
+	设 `bm A` 是阶数 `ge 2` 的方阵,
+	<span class="formula">
+		`bm A^** := [
+			A_11,A_21,cdots,A_(n1);
+			A_12,A_22,cdots,A_(n2);
+			vdots,vdots, ,vdots;
+			A_(1n),A_(2n),cdots,A_(n n);
+		]`
+	</span>
+	称为 `bm A` 的<b>伴随矩阵 (adjugate matrix)</b>, 也记为 `"adj" bm A`.
+	注意伴随矩阵的 `i j` 元等于 `a_(j i)` 的代数余子式.
+</p>
+
+<p class="theorem">
+	<b>方阵逆的结构公式</b>
+	方阵 `bm A` 可逆当且仅当它非奇异, 此时有
+	<span class="formula">
+		`bm A^-1 = (bm A^**)/|bm A|`.
+	</span>
+	这个公式适用于计算二阶矩阵的逆:
+	<span class="formula">
+		`[a,b;c,d]^-1`
+		`= 1/(a d-b c) [d,-b;-c,a]`,
+	</span>
+	但是当矩阵的阶数较大时, 计算量很大, 所以并不适用.
+</p>
+
+<p class="proof">
+	"`rArr`": 若 `bm A` 可逆, 则存在方阵 `bm B` 使得
+	`bm(A B) = bm(B A) = bm I`, 从而 `|bm A| |bm B| = 1`,
+	所以 `|bm A| != 0`.<br/>
+	"`lArr`": 若 `bm A` 非奇异, 利用引理计算得,
+	`bm (A A^**) = bm (A^** A) = |bm A| bm I`,
+	从而得到 `bm A^-1`.
+</p>
+
+<p>	从而得到第一章注释中的推论:</p>
+
+<p class="corollary">
+	若方阵 `bm A, bm B` 满足 `bm(A B) = bm I`, 则 `bm A, bm B` 都可逆,
+	事实上它们互逆.
+</p>
+
+<p class="corollary">
+	若 `bm A_(n xx n)` 可逆, 则由 `bm A^** bm A = |bm A|bm I` 得到
+	`|bm A^**| = |bm A|^(n-1)`.
+</p>
+
+<p class="remark">
+	若 `bm A` 不可逆, 则 `|bm A^**| = 0`.
+	我们将在第三章利用秩的理论给出一个证明.
+</p>
+
+
+<h2>Cramer 法则</h2>
+
+<p>行列式的一个重大应用是求解 `n` 元线性方程组, 我们从一个例子入手:</p>
+
+<p class="example">
+  <b>三元一次方程组的 Cramer 法则</b> [2018.10] 设
+  <span class="formula">
+  `{
+    a_11 x_1 + a_12 x_2 + a_13 x_3 = b_1;
+    a_21 x_1 + a_22 x_2 + a_23 x_3 = b_2;
+    a_31 x_1 + a_32 x_2 + a_33 x_3 = b_3;
+  :}`
+  </span>
+  于是
+  <span class="formula">
+  `|b_1, a_12, a_13; b_2, a_22, a_23; b_3, a_32, a_33|`
+  `= |a_11 x_1 + a_12 x_2 + a_13 x_3, a_12, a_13;
+    a_21 x_1 + a_22 x_2 + a_23 x_3, a_22, a_23;
+    a_31 x_1 + a_32 x_2 + a_33 x_3, a_32, a_33|`.
+  </span>
+  将 2, 3 列的合适倍数加到第 1 列, 就可消去第 1 列的 `x_2, x_3` 项, 然后提出第 1 列的因子 `x_1`, 得到
+  <span class="formula">
+  上式 `= |a_11, a_12, a_13; a_21, a_22, a_23; a_31, a_32, a_33| x_1`.
+  </span>
+  最后, 系数行列式不为零时, 将它除到分母上得到
+  <span class="formula">
+    `x_1 = |b_1, a_12, a_13; b_2, a_22, a_23; b_3, a_32, a_33| //
+    |a_11, a_12, a_13; a_21, a_22, a_23; a_31, a_32, a_33|`.
+  </span>
+  本节我们将这种方法推广到 `n` 元线性方程组.
+</p>
+
+<p class="theorem" id="the-homogeneous-nonzero-solution-iff">
+  <b>齐次线性方程组解的唯一性条件</b>
+  设 `bm A in bbb P^(n xx n)`, `bm X, bb 0 in bbb P^(n xx 1)`,
+  则<b>齐次线性方程组</b> `bm(A X) = bb 0`
+  存在非零解当且仅当其系数矩阵 `bm A` 奇异.
+</p>
+
+<ol class="proof">
+  首先指出, 原方程组总是有解 `bm X = bb 0`, 称为<b>零解</b>.
+  <li>设 `bm A` 非奇异, 即 `bm A` 可逆.
+    设存在 `bm X` 满足 `bm(A X) = bb 0`, 则
+    <span class="formula">
+      `bm X = bm(A^-1 A X) = bm A^-1 bb 0 = bb 0`.
+    </span>
+    即原方程只有零解.
+  </li>
+  <li>设 `bm A` 奇异, 考虑 `bm A` 的等价标准形 `bm overset ~ A`.
+    我们知道, 方程组在增广矩阵的行初等变换下,
+    以及不涉及最后一列的列初等变换下保持同解 (涉及列初等变换时,
+    同解是在适当重排变量次序的意义下的).
+    注意到齐次线性方程组的增广矩阵的最后一列全为零,
+    从而原方程组可以通过上述变换变成 `bm(overset ~ A X) = bb 0`,
+    即它们同解.<br/>
+    因为初等变换不能将一个矩阵的行列式从零变成非零,
+    也不能将它从非零变成零, 所以
+    `|bm A| = 0` 当且仅当 `bm overset ~ A` 含有零列.
+    设 `bm overset ~ A` 的第 `j` 列全为零, 则单位列向量 `bm epsi_j`
+    就是 `bm(overset ~ A X) = bb 0` 的一个非零解,
+    从而也是原方程组的一个非零解.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>用逆矩阵求解线性方程组</b>
+  设 `bm A in bbb P^(n xx n)`, `bm X, bm B in bbb P^(n xx 1)`,
+  则线性方程组 `bm(A X) = bm B` 有唯一解当且仅当 `bm A` 可逆.
+  此时解为 `bm X = bm (A^-1 B)`.
+</p>
+
+<ol class="proof">
+  <li>`lArr`: 设 `bm A` 可逆,
+    `bm X = bm A^-1 bm B` 即为方程组的一个解, 这证明了解的存在性.
+    设又有 `bm Y` 满足 `bm(A Y) = bm B`, 则
+    <span class="formula">
+      `bm Y = bm(A^-1 A Y) = bm(A^-1 B) = bm X`.
+    </span>
+    这证明了解的唯一性.
+  </li>
+  <li>`rArr`: 设 `bm X` 是方程组 `bm(A X) = bm B` 的唯一解,
+    反设 `bm A` 不可逆, 即 `bm A` 奇异,
+    则由<a class="ref" href="#the-homogeneous-nonzero-solution-iff"></a>,
+    存在 `bm Y != bb 0` 使得 `bm(A Y) = bb 0`. 从而
+    <span class="formula">
+      `bm(A(X+Y)) = bm(A X) + bm(A Y) = bm B`,
+    </span>
+    而 `bm(X+Y) != bm X`, 与解的唯一性矛盾.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>Cramer 法则 (用行列式求解线性方程组)</b>
+  由上一定理知道, 线性方程组 `bm(A X) = bm B` 有唯一解当且仅当 `|bm A| != 0`,
+  此时有:
+  <span class="formula">
+    `bm X = 1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)^T`,
+  </span>
+  其中 `bm A_i` 是用 `bm B` 取代 `bm A` 的第 `i` 列所得的矩阵, `i in 1 cdots n`.
+</p>
+
+<p class="proof">
+  首先将 `|bm A_i|` 按第 `i` 列展开得
+  <span class="formula">
+    `|bm A_i| = (A_(1 i), A_(2 i), cdots, A_(n i)) bm B`.
+  </span>
+  从而
+  <span class="formula">
+    `1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)^T`
+    `= 1/|bm A| [
+    (A_11, A_21, cdots, A_(n1))bm B;
+    (A_12, A_22, cdots, A_(n2))bm B;
+    vdots;
+    (A_(1n), A_(2n), cdots, A_(n n))bm B;
+    ]`
+    `= 1/|bm A| bm A^** bm B`
+    `= bm(A^-1 B)`.
+  </span>
+</p>
+
+<p class="proof">
+  设 `bm epsi_i` 为第 `i` 个分量等于 1, 其余分量等于 0 的 `n`
+  维单位列向量, 则 `bm A` 的 `n` 个列向量可以写成
+  <span class="formula">
+    `bm(A epsi_1), bm(A epsi_2), cdots, bm(A epsi_n)`.
+  </span>
+  若存在列向量
+  <span class="formula">
+    `bm X = (x_1, x_2, cdots, x_n)^T`
+  </span>
+  使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
+  <span class="formula">
+    `bm A(bm epsi_1, cdots, bm epsi_(i-1), bm X, bm epsi_(i+1),
+    cdots, bm epsi_n)`
+    `= (bm(A epsi_1), cdots, bm(A epsi_(i-1)), bm(A X), bm(A
+    epsi_(i+1)), cdots, bm(A epsi_n))`
+    `= bm A_i`.
+  </span>
+  上式两边取行列式, 注意
+  <span class="formula">
+    `|bm epsi_1, cdots, bm epsi_(i-1), bm X, bm epsi_(i+1),
+    cdots, bm epsi_n| = x_i`,
+  </span>
+  有
+  <span class="formula">
+    `x_i = |bm A_i|/|bm A|`,
+    `quad i in [n]`.
+  </span>
+</p>
+
+<p class="proof">
+  记
+  <span class="formula">
+    `bm A = (bm alpha_1, bm alpha_2, cdots, bm alpha_n)`,
+  </span>
+  若存在列向量
+  <span class="formula">
+    `bm X = (x_1, x_2, cdots, x_n)^T`
+  </span>
+  使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
+  <span class="formula">
+    `|bm A_i|`
+    `= |bm alpha_1, cdots, bm alpha_(i-1), bm(A X),
+    bm alpha_(i+1), cdots, bm alpha_n|`
+    `= |bm alpha_1, cdots, bm alpha_(i-1), sum_(j=1)^n x_j bm
+    alpha_j, bm alpha_(i+1), cdots, bm alpha_n|`
+    `= sum_(j=1)^n |bm alpha_1, cdots, bm alpha_(i-1),
+    bm alpha_j, bm alpha_(i+1), cdots, bm alpha_n| x_j`
+    `= |bm A| x_i`.
+  </span>
+</p>
+
+<p class="remark">
+	用 Cramer 法则求解二元一次方程组
+	<span class="formula">`{
+		a x + b y = u;
+		c x + d y = v;
+	:}`</span>
+	得 `(x,y) = 1/(a d-b c)(|u,b;v,d|, |a,u;c,v|)`.
+	但当方程组规模较大时, Cramer 法则的计算量很大.
+</p>
+
+<h2>Laplace 定理*</h2>
+
+[来自 <a href="https://www.jianshu.com/p/527a17b9e674" target="_blank">简书</a>]
+
+<p class="lemma">
+	行列式 `D` 的任一子式 `M` 与它的代数余子式 `A` 的乘积中的每一项都是
+	`D` 的展开式中的一项, 且符号一致.
+</p>
+
+<ol class="proof">
+	<li>假设 `M` 是 `D_(n xx n) = |a_(ij)|` 的左上方的 `k` 阶子式, 即 `M`
+		由 `D` 的前 `k` 行和前 `k` 列交叉处的元素组成, 则 `M`
+		的每一项可以写作
+		<span class="formula">
+			`(-1)^(tau(i_1 i_2 cdots i_k))`
+			`a_(1 i_1) a_(2 i_2) cdots a_(k i_k)`,
+		</span>
+		其中 `i_1 i_2 cdots i_k` 是 `1, 2, cdots, k` 的一个排列.
+		而 `M` 的余子式 `N` 的每一项可以写作
+		<span class="formula">
+			`(-1)^(tau(j_1 j_2 cdots j_(n-k)))`
+			`a_(k+1, j_1) a_(k+2, j_2) cdots a_(n, j_(n-k))`,
+		</span>
+		其中 `j_1 j_2 cdots j_(n-k)` 是 `k+1, k+2, cdots, n` 的一个排列.
+		两个通项相乘得
+		<span class="formula">
+			`(-1)^(tau(i_1 i_2 cdots i_k j_1 j_2 cdots j_(n-k))`
+			`a_(1 i_1) a_(2 i_2) cdots a_(k i_k)`
+			`a_(k+1, j_1) a_(k+2, j_2) cdots a_(n, j_(n-k))`.
+		</span>
+		上式再乘以代数余子式的符号
+		<span class="formula">
+			`(-1)^(sum_(t=1)^k (t+t)) = 1`
+		</span>
+		即为 `D` 的展开式中的一项, 且符号一致.
+	</li>
+	<li>下证一般情形, 设 `M` 位于 `D` 的第 `i_1, i_2, cdots, i_k` 行,
+		第 `j_1, j_2, cdots j_k` 列, 其中
+		`i_1 lt i_2 lt cdots lt i_k`, `j_1 lt j_2 lt cdots lt j_k`.
+		作行列的对换, 将 `M` 移到 `D` 的左上角:
+		先把第 `i_1` 行依次与第 `i_1-1, i_1-2, cdots, 2, 1` 行对换,
+		经过 `i_1-1` 次对换而将它换到第 1 行.
+		再将第 `i_2` 行依次与第 `i_2-1, i_2-2, cdots, 2` 行对换,
+		经过 `i_2-2` 次对换而将它换到第 2 行...
+		如此下去, 经过 `sum_(t=1)^k (i_t-t)` 次对换, 把第 `i_1, i_2,
+		cdots, i_k` 行换到第 `1, 2, cdots, k` 行.
+		类似地经过 `sum_(t=1)^k (j_t-t)` 次列对换, 可将第 `j_1, j_2,
+		cdots, j_k` 列换到第 `1, 2, cdots, k` 列.
+		从而变换前后, 行列式 `D` 的值相差一个符号
+		<span class="formula">
+			`(-1)^(sum_(t=1)^k (i_t+j_t))`.
+		</span>
+		恰为 `M` 的代数余子式前的符号因子, 因此 `M`
+		与它的代数余子式乘积中的每一项都是 `D` 的展开式中的一项,
+		且符号一致.
+	</li>
+</ol>
+
+<p class="theorem">
+	<b>Laplace 定理</b>
+	`n` 阶行列式的值等于它的任意 `k` (`1 le k le n-1`) 行 (列)
+	中所含有的全体 `k` 阶子式与相应代数余子式的乘积的和.
+</p>
+
+<p class="proof">
+	由行列式行和列的对称性, 只证行的情形.
+	设 `n` 阶行列式 `D` 中取定 `k` 行后得到的子式为 `M_i`,
+	相应的代数余子式为 `A_i`, `i = 1, 2, cdots, s`. 下证
+	<span class="formula">
+		`D = sum_(i=1)^s M_i A_i`.
+	</span>
+	显然, `M_i A_i` 中每一项都是 `D` 的展开式中的一项且符号一致,
+	且 `i!=j` 时, `M_i A_i` 与 `M_j A_j` 无公共项.
+	因此要证结论成立, 只需指出等式左右含展开式的项数相等.
+	由于 `n` 阶行列式的展开式有 `n!` 项, 故等式左端有 `n!` 项.
+	而由子式的取法知 `s = (n;k)`, 故等式右端的项数为
+	<span class="formula">
+		`(n;k) k! (n-k)! = n!`.
+	</span>
+	证毕.
+</p>
+
+<p class="example">
+  设 `bm A, bm B` 是 `n` 阶矩阵, `bm C = bm (A B)`.
+  <br>
+  由 Cramer 法则知道,
+  如果将 `bm A` 的第 `i` 列换成 `bm C` 的第 `j` 列, 所得的行列式等于 `b_(i j) * |bm A|`.
+  <br>
+  推广: 设 `i_1 cdots i_s` 是不同的 `s` 列, `j_1 cdots j_s` 也是不同的 `s` 列,
+  将 `bm A` 的第 `i_1 cdots i_s` 列分别换成 `bm C` 的第 `j_1 cdots j_s` 列,
+  所得的行列式等于 `|bm B_s| * |bm A|`,
+  其中 `|bm B_s|` 是这样一个行列式: 它的第 `k` 行第 `l` 列元素等于 `bm B` 的第 `i_k` 行第 `j_l` 列元素.
+</p>
+
+<ol class="proof">
+  [来自群友 澄]
+  <li>
+    `s = 1` 的情形: 替换后的矩阵可以写为 `bm A bm E_j^i`, 其中 `bm
+    E_j^i` 是将单位矩阵的第 `i` 列换成 `bm B` 的第 `j` 列所得的矩阵:
+    <span class="formula">
+      `bm E_j^i = [
+        1, , b_(1j);
+        , ddots, vdots;
+        , , b_(i j);
+        , , vdots, ddots;
+        , , b_(n j), , 1;
+      ]`.
+    </span>
+    沿第 `i` 列展开易知 `|bm E_j^i| = b_(i j)`.
+  </li>
+  <li>
+    一般情形: 替换后的矩阵可以写为 `bm A bm E_(j_1 cdots j_s)^(i_1 cdots i_s)`,
+    后者是将单位矩阵的第 `i_1 cdots i_s` 列换成 `bm B` 的第 `j_1 cdots j_s` 列所得的矩阵.
+    用 Laplace 定理沿 `i_1 cdots i_s` 列展开, 分两种情况:
+    对于 `i_1 cdots i_s` 行确定的 `s` 阶子式 `M_s`, 它的余子式不为零;
+    其它子式的余子式皆因为主对角线出现空缺而等于零.
+  </li>
+  <li>现在确定 `M_s` 的代数余子式. 它的绝对值是 `1`, 而符号是
+    <span class="formula">
+      `(-1)^(sum_(t=1)^s (i_t+i_t)) = +1`.
+    </span>
+  </li>
+  <li>现在确定行列式 `M_s` 本身.
+    由题意, 换列操作与 `i_1 cdots i_s` 的次序无关, 不妨设 `i_1 lt cdots lt i_s`, 即有
+    <span class="formula">
+      `M_s =`
+      `|b_(i_1 j_1), cdots, b_(i_1 j_s);
+      vdots, ,vdots;
+      b_(i_s j_1), cdots, b_(i_s j_s)|`
+    </span>
+    但 `M_s` 的第 `k` 行第 `l` 列元素正好是 `b_(i_k j_l)`, 于是 `M_s = |bm B_s|`.
+  </li>
+</ol>
+
+<h2>杂例</h2>
+
 <p class="example">
 	<span class="formula">
 		`R_n = |
@@ -406,361 +951,6 @@
 	</span>
 	从而 `|bm A| gt 0`, 即 `|bm A| = 1`. 于是 `bm(A^T A) = bm I`,
 	`bm A` 为第一类正交矩阵.
-</p>
-
-<h3>Laplace 定理</h3>
-
-[来自 <a href="https://www.jianshu.com/p/527a17b9e674" target="_blank">简书</a>]
-
-<p class="definition">
-	<b>子式, 余子式和代数余子式</b>
-	令 `D` 为一个 `n` 阶行列式, `1 le k le n`. 在 `D` 上任意选定 `k` 行
-	`k` 列, 位于这些行和列的交点上的 `k^2` 个元素按原来的 "上下左右"
-	的次序组成一个 `k` 阶行列式 `M`, 称为 `D` 的一个 <b>`k` 阶子式</b>.
-	若 `k lt n`, 在 `D` 中划去这 `k` 行 `k` 列后,
-	余下的元素按原来的次序组成一个 `n-k` 阶行列式 `N`,
-	称为 `M` 在 `D` 中的<b>余子式</b>. 由定义, `M` 也是 `N` 的余子式,
-	因此又称 `M, N` 为一对互余的子式.
-	如果 `M` 的各行, 列在原行列式 `D` 中的指标为 `i_1, i_2, cdots, i_k`
-	和 `j_1, j_2, cdots, j_k`, 则称
-	<span class="formula">
-		`(-1)^(sum_(t=1)^k (i_t + j_t)) N`
-	</span>
-	为 `M` 在 `D` 中的<b>代数余子式</b>.
-</p>
-
-<p class="lemma">
-	行列式 `D` 的任一子式 `M` 与它的代数余子式 `A` 的乘积中的每一项都是
-	`D` 的展开式中的一项, 且符号一致.
-</p>
-
-<ol class="proof">
-	<li>假设 `M` 是 `D_(n xx n) = |a_(ij)|` 的左上方的 `k` 阶子式, 即 `M`
-		由 `D` 的前 `k` 行和前 `k` 列交叉处的元素组成, 则 `M`
-		的每一项可以写作
-		<span class="formula">
-			`(-1)^(tau(i_1 i_2 cdots i_k))`
-			`a_(1 i_1) a_(2 i_2) cdots a_(k i_k)`,
-		</span>
-		其中 `i_1 i_2 cdots i_k` 是 `1, 2, cdots, k` 的一个排列.
-		而 `M` 的余子式 `N` 的每一项可以写作
-		<span class="formula">
-			`(-1)^(tau(j_1 j_2 cdots j_(n-k)))`
-			`a_(k+1, j_1) a_(k+2, j_2) cdots a_(n, j_(n-k))`,
-		</span>
-		其中 `j_1 j_2 cdots j_(n-k)` 是 `k+1, k+2, cdots, n` 的一个排列.
-		两个通项相乘得
-		<span class="formula">
-			`(-1)^(tau(i_1 i_2 cdots i_k j_1 j_2 cdots j_(n-k))`
-			`a_(1 i_1) a_(2 i_2) cdots a_(k i_k)`
-			`a_(k+1, j_1) a_(k+2, j_2) cdots a_(n, j_(n-k))`.
-		</span>
-		上式再乘以代数余子式的符号
-		<span class="formula">
-			`(-1)^(sum_(t=1)^k (t+t)) = 1`
-		</span>
-		即为 `D` 的展开式中的一项, 且符号一致.
-	</li>
-	<li>下证一般情形, 设 `M` 位于 `D` 的第 `i_1, i_2, cdots, i_k` 行,
-		第 `j_1, j_2, cdots j_k` 列, 其中
-		`i_1 lt i_2 lt cdots lt i_k`, `j_1 lt j_2 lt cdots lt j_k`.
-		作行列的对换, 将 `M` 移到 `D` 的左上角:
-		先把第 `i_1` 行依次与第 `i_1-1, i_1-2, cdots, 2, 1` 行对换,
-		经过 `i_1-1` 次对换而将它换到第 1 行.
-		再将第 `i_2` 行依次与第 `i_2-1, i_2-2, cdots, 2` 行对换,
-		经过 `i_2-2` 次对换而将它换到第 2 行...
-		如此下去, 经过 `sum_(t=1)^k (i_t-t)` 次对换, 把第 `i_1, i_2,
-		cdots, i_k` 行换到第 `1, 2, cdots, k` 行.
-		类似地经过 `sum_(t=1)^k (j_t-t)` 次列对换, 可将第 `j_1, j_2,
-		cdots, j_k` 列换到第 `1, 2, cdots, k` 列.
-		从而变换前后, 行列式 `D` 的值相差一个符号
-		<span class="formula">
-			`(-1)^(sum_(t=1)^k (i_t+j_t))`.
-		</span>
-		恰为 `M` 的代数余子式前的符号因子, 因此 `M`
-		与它的代数余子式乘积中的每一项都是 `D` 的展开式中的一项,
-		且符号一致.
-	</li>
-</ol>
-
-<p class="theorem">
-	<b>Laplace 定理</b>
-	`n` 阶行列式的值等于它的任意 `k` (`1 le k le n-1`) 行 (列)
-	中所含有的全体 `k` 阶子式与相应代数余子式的乘积的和.
-</p>
-
-<p class="proof">
-	由行列式行和列的对称性, 只证行的情形.
-	设 `n` 阶行列式 `D` 中取定 `k` 行后得到的子式为 `M_i`,
-	相应的代数余子式为 `A_i`, `i = 1, 2, cdots, s`. 下证
-	<span class="formula">
-		`D = sum_(i=1)^s M_i A_i`.
-	</span>
-	显然, `M_i A_i` 中每一项都是 `D` 的展开式中的一项且符号一致,
-	且 `i!=j` 时, `M_i A_i` 与 `M_j A_j` 无公共项.
-	因此要证结论成立, 只需指出等式左右含展开式的项数相等.
-	由于 `n` 阶行列式的展开式有 `n!` 项, 故等式左端有 `n!` 项.
-	而由子式的取法知 `s = (n;k)`, 故等式右端的项数为
-	<span class="formula">
-		`(n;k) k! (n-k)! = n!`.
-	</span>
-	证毕.
-</p>
-
-<h2>Cramer 法则</h2>
-
-<p>我们从一个简单例子来看, 如何用行列式求解线性方程组.</p>
-
-<p class="example">
-  <b>三元一次方程组的 Cramer 法则</b> [2018.10] 设
-  <span class="formula">
-  `{
-    a_11 x_1 + a_12 x_2 + a_13 x_3 = b_1;
-    a_21 x_1 + a_22 x_2 + a_23 x_3 = b_2;
-    a_31 x_1 + a_32 x_2 + a_33 x_3 = b_3;
-  :}`
-  </span>
-  于是
-  <span class="formula">
-  `|b_1, a_12, a_13; b_2, a_22, a_23; b_3, a_32, a_33|`
-  `= |a_11 x_1 + a_12 x_2 + a_13 x_3, a_12, a_13;
-    a_21 x_1 + a_22 x_2 + a_23 x_3, a_22, a_23;
-    a_31 x_1 + a_32 x_2 + a_33 x_3, a_32, a_33|`
-  `= |a_11 x_1, a_12, a_13; a_21 x_1, a_22, a_23; a_31 x_1, a_32, a_33|`
-  `+ |color(red)(a_12) x_2, color(red)(a_12), a_13;
-      color(red)(a_22) x_2, color(red)(a_22), a_23;
-      color(red)(a_32) x_2, color(red)(a_32), a_33|`
-  `+ |color(red)(a_13) x_3, a_12, color(red)(a_13);
-      color(red)(a_23) x_3, a_22, color(red)(a_23);
-      color(red)(a_33) x_3, a_32, color(red)(a_33)|`
-  `= |a_11, a_12, a_13; a_21, a_22, a_23; a_31, a_32, a_33| x_1 + 0 + 0`.
-  </span>
-  后两项等于零是因为它们存在成比例的列.
-  最后, 系数行列式不为零时, 将它除到分母上得到
-  <span class="formula">
-    `x_1 = |b_1, a_12, a_13; b_2, a_22, a_23; b_3, a_32, a_33| //
-    |a_11, a_12, a_13; a_21, a_22, a_23; a_31, a_32, a_33|`.
-  </span>
-  本节我们将这种方法推广到 `n` 元线性方程组, 称为 <b>Cramer 法则</b>.
-</p>
-
-<p class="lemma">
-	令 `bm  A = (a_(i j))_(n xx n)`, 以 `A_(i j)` 记元素 `a_(i j)`
-	的代数余子式, 则
-	<span class="formula">
-		`sum_(k=1)^n a_(i k) A_(j k) = delta_(i j) |bm A|`,
-		`quad sum_(k=1)^n a_(k i) A_(k j) = delta_(i j) |bm A|`,
-		`quad i,j in [n]`.
-	</span>
-</p>
-
-<p class="proof">
-	只证第一式. 若 `i = j`, 等式左边等于 `|bm A|` 沿第 `i` 行展开的结果,
-	自然等于右边. 若 `i != j`, 等式左边等于将 `|bm A|` 的第 `j` 行用第 `i`
-	行的拷贝替换后, 沿第 `j` 行展开的结果. 由于这个替换后的行列式的第 `j`
-	行与第 `i` 行完全相同, 所以它等于零.
-</p>
-
-<p class="definition">
-	如果 `|bm A| != 0`, 则称方阵 `bm A` <b>非奇异</b>.
-</p>
-
-<p class="definition">
-	设 `bm A` 是阶数 `ge 2` 的方阵,
-	<span class="formula">
-		`bm A^** := [
-			A_11,A_21,cdots,A_(n1);
-			A_12,A_22,cdots,A_(n2);
-			vdots,vdots, ,vdots;
-			A_(1n),A_(2n),cdots,A_(n n);
-		]`
-	</span>
-	称为 `bm A` 的<b>伴随矩阵 (adjugate matrix)</b>, 也记为 `"adj" bm A`.
-	注意伴随矩阵的 `i j` 元等于 `a_(j i)` 的代数余子式.
-</p>
-
-<p class="theorem">
-	<b>方阵逆的结构公式</b>
-	方阵 `bm A` 可逆当且仅当它非奇异, 此时有
-	<span class="formula">
-		`bm A^-1 = (bm A^**)/|bm A|`.
-	</span>
-	这个公式适用于计算二阶矩阵的逆:
-	<span class="formula">
-		`[a,b;c,d]^-1`
-		`= 1/(a d-b c) [d,-b;-c,a]`,
-	</span>
-	但是当矩阵的阶数较大时, 计算量很大, 所以并不适用.
-</p>
-
-<p class="proof">
-	"`rArr`": 若 `bm A` 可逆, 则存在方阵 `bm B` 使得
-	`bm(A B) = bm(B A) = bm I`, 从而 `|bm A||bm B| = 1`,
-	所以 `|bm A| != 0`.<br/>
-	"`lArr`": 若 `bm A` 非奇异, 利用引理计算得,
-	`bm (A A^**) = bm (A^** A) = |bm A| bm I`,
-	从而得到 `bm A^-1`.
-</p>
-
-<p>	从而得到第一章注释中的推论:</p>
-
-<p class="corollary">
-	若方阵 `bm A, bm B` 满足 `bm(A B) = bm I`, 则 `bm A, bm B` 都可逆,
-	事实上它们互逆.
-</p>
-
-<p class="corollary">
-	若 `bm A_(n xx n)` 可逆, 则由 `bm A^** bm A = |bm A|bm I` 得到
-	`|bm A^**| = |bm A|^(n-1)`.
-</p>
-
-<p class="remark">
-	若 `bm A` 不可逆, 则 `|bm A^**| = 0`.
-	我们将在第三章利用秩的理论给出一个证明.
-</p>
-
-<p class="theorem" id="the-homogeneous-nonzero-solution-iff">
-	设 `bm A in bbb P^(n xx n)`, `bm X, bb 0 in bbb P^(n xx 1)`,
-	则<b>齐次线性方程组</b> `bm(A X) = bb 0`
-	存在非零解当且仅当其系数矩阵 `bm A` 奇异.
-</p>
-
-<ol class="proof">
-	首先指出, 原方程组总是有解 `bm X = bb 0`, 称为<b>零解</b>.
-	<li>设 `bm A` 非奇异, 即 `bm A` 可逆.
-		设存在 `bm X` 满足 `bm(A X) = bb 0`, 则
-		<span class="formula">
-			`bm X = bm(A^-1 A X) = bm A^-1 bb 0 = bb 0`.
-		</span>
-		即原方程只有零解.
-	</li>
-	<li>设 `bm A` 奇异, 考虑 `bm A` 的等价标准形 `bm overset ~ A`.
-		我们知道, 方程组在增广矩阵的行初等变换下,
-		以及不涉及最后一列的列初等变换下保持同解 (涉及列初等变换时,
-		同解是在适当重排变量次序的意义下的).
-		注意到齐次线性方程组的增广矩阵的最后一列全为零,
-		从而原方程组可以通过上述变换变成 `bm(overset ~ A X) = bb 0`,
-		即它们同解.<br/>
-		因为初等变换不能将一个矩阵的行列式从零变成非零,
-		也不能将它从非零变成零, 所以
-		`|bm A| = 0` 当且仅当 `bm overset ~ A` 含有零列.
-		设 `bm overset ~ A` 的第 `j` 列全为零, 则单位列向量 `bm epsi_j`
-		就是 `bm(overset ~ A X) = bb 0` 的一个非零解,
-		从而也是原方程组的一个非零解.
-	</li>
-</ol>
-
-<p class="theorem">
-	<b>Cramer 法则</b>
-	设 `bm A in bbb P^(n xx n)`, `bm X, bm B in bbb P^(n xx 1)`,
-	则线性方程组 `bm(A X) = bm B` 有唯一解当且仅当 `bm A` 非奇异,
-	且此时解的表达式为:
-	<span class="formula">
-		`bm X = bm(A^-1 B)`
-		`= 1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)^T`,
-	</span>
-	其中 `bm A_i` 是用 `bm B` 取代 `bm A` 的第 `i` 列所得的矩阵,
-	`i in [n]`.
-</p>
-
-<ol class="proof">
-	<li>"`lArr`": 设 `bm A` 非奇异, 即 `bm A` 可逆,
-		`bm X = bm A^-1 bm B` 即为方程组的一个解, 这证明了解的存在性.
-		设又有 `bm Y` 满足 `bm(A Y) = bm B`, 则
-		<span class="formula">
-			`bm Y = bm(A^-1 A Y) = bm(A^-1 B) = bm X`.
-		</span>
-		这证明了解的唯一性.
-	</li>
-	<li>"`rArr`": 设 `bm X` 是方程组 `bm(A X) = bm B` 的唯一解,
-		反设 `bm A` 奇异, 则由<a class="ref"
-		href="#the-homogeneous-nonzero-solution-iff"></a>,
-		存在 `bm Y != bb 0` 使得 `bm(A Y) = bb 0`. 从而
-		<span class="formula">
-			`bm(A(X+Y)) = bm(A X) + bm(A Y) = bm B`,
-		</span>
-		而 `bm(X+Y) != bm X`, 与解的唯一性矛盾. 故 `bm A` 非奇异.
-	</li>
-	<li>下面证明解的第二个表达式.
-		首先将 `|bm A_i|` 按第 `i` 列展开得
-		<span class="formula">
-			`|bm A_i| = (A_(1 i), A_(2 i), cdots, A_(n i)) bm B`.
-		</span>
-		从而
-		<span class="formula">
-			`1/|bm A| (|bm A_1|, |bm A_2|, cdots, |bm A_n|)^T`
-			`= 1/|bm A| [
-				(A_11, A_21, cdots, A_(n1))bm B;
-				(A_12, A_22, cdots, A_(n2))bm B;
-				vdots;
-				(A_(1n), A_(2n), cdots, A_(n n))bm B;
-			]`
-			`= 1/|bm A| bm A^** bm B`
-			`= bm(A^-1 B)`.
-		</span>
-	</li>
-</ol>
-
-<ol class="proof">
-	<li>解的表达式的另一证法.
-		设 `bm epsi_i` 为第 `i` 个分量等于 1, 其余分量等于 0 的 `n`
-		维单位列向量, 则 `bm A` 的 `n` 个列向量可以写成
-		<span class="formula">
-			`bm(A epsi_1), bm(A epsi_2), cdots, bm(A epsi_n)`.
-		</span>
-		若存在列向量
-		<span class="formula">
-			`bm X = (x_1, x_2, cdots, x_n)^T`
-		</span>
-		使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
-		<span class="formula">
-			`bm A(bm epsi_1, cdots, bm epsi_(i-1), bm X, bm epsi_(i+1),
-			cdots, bm epsi_n)`
-			`= (bm(A epsi_1), cdots, bm(A epsi_(i-1)), bm(A X), bm(A
-			epsi_(i+1)), cdots, bm(A epsi_n))`
-			`= bm A_i`.
-		</span>
-		上式两边取行列式, 注意
-		<span class="formula">
-			`|bm epsi_1, cdots, bm epsi_(i-1), bm X, bm epsi_(i+1),
-			cdots, bm epsi_n| = x_i`,
-		</span>
-		有
-		<span class="formula">
-			`x_i = |bm A_i|/|bm A|`,
-			`quad i in [n]`.
-		</span>
-	</li>
-	<li>解的表达式的又一证法. 记
-		<span class="formula">
-			`bm A = (bm alpha_1, bm alpha_2, cdots, bm alpha_n)`,
-		</span>
-		若存在列向量
-		<span class="formula">
-			`bm X = (x_1, x_2, cdots, x_n)^T`
-		</span>
-		使得 `bm(A X) = bm B`, 则对任意 `i in [n]`,
-		<span class="formula">
-			`|bm A_i|`
-			`= |bm alpha_1, cdots, bm alpha_(i-1), bm(A X),
-			bm alpha_(i+1), cdots, bm alpha_n|`
-			`= |bm alpha_1, cdots, bm alpha_(i-1), sum_(j=1)^n x_j bm
-			alpha_j, bm alpha_(i+1), cdots, bm alpha_n|`
-			`= sum_(j=1)^n |bm alpha_1, cdots, bm alpha_(i-1),
-			bm alpha_j, bm alpha_(i+1), cdots, bm alpha_n| x_j`
-			`= |bm A| x_i`.
-		</span>
-	</li>
-</ol>
-
-<p class="remark">
-	用 Cramer 法则求解二元一次方程组
-	<span class="formula">`{
-		a x + b y = u;
-		c x + d y = v;
-	:}`</span>
-	得 `(x,y) = 1/(a d-b c)(|u,b;v,d|, |a,u;c,v|)`.
-	但当方程组规模较大时, Cramer 法则的计算量很大.
 </p>
 
 <script>

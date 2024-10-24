@@ -387,6 +387,7 @@ const symbols = [
 {input:'arc',tag:'mover',output:'\u23DC',tex:'stackrel{\\frown}',ttype:UNARY,acc:true},
 {input:'bar',tag:'mover',output:'\u00AF',tex:'overline',ttype:UNARY,acc:true},
 {input:'vec',tag:'mover',output:'\u2192',ttype:UNARY,acc:true},
+{input:'Vec',tag:'mover',output:'\u2192',tex:'overrightarrow',ttype:UNARY,acc:true},
 {input:'tilde',tag:'mover',output:'~',ttype:UNARY,acc:true},
 {input:'dot',tag:'mover',output:'.',ttype:UNARY,acc:true},
 {input:'ddot',tag:'mover',output:'..',ttype:UNARY,acc:true},

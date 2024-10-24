@@ -208,6 +208,21 @@
   即 `bm B^(sf T) bm A = bm I`.
 </p>
 
+<p class="proof">
+  张量形式的证明.
+  <span class="formula">
+    `bm e_j = a_j^i bm x_i`,<br>
+    `bm e^j = b_i^j bm x^i`.
+  </span>
+  于是
+  <span class="formula">
+    `delta_i^j = bm e_i * bm e^j`
+    `= a_i^k b_l^j (bm x_k * bm x^l)`
+    `= a_i^k b_l^j delta_k^l`
+    `= a_i^k b_k^j`.
+  </span>
+</p>
+
 <h3>多重线性函数</h3>
 
 <p class="definition">
@@ -406,6 +421,22 @@
   </li>
 </ul>
 
+<p class="remark">
+  <b>Einstein 求和约定的乘积可交换</b>
+  [来自群友 乐正垂星]
+  例如下面的式子成立:
+  <span class="formula">
+    `A_i^k B_k^j = B_k^j A_i^k`.
+  </span>
+  它们作为张量的分量, 只是数字而已, 可以随意交换.
+  而当我们说矩阵 `A B != B A` 时,
+  实际上是说
+  <span class="formula">
+    `A^i_k B^k_j != B^i_k A^k_j`,
+  </span>
+  矩阵次序的交换对应着上下指标的交换.
+</p>
+
 <p class="example">
   <b>对称指标与反对称指标缩并结果为零</b>
   例如设 `X^(i j)` 对称, `Y_(i j k)` 反对称, 则
@@ -429,13 +460,6 @@
       `epsi_(1 3 2) = epsi_(2 1 3) = epsi_(3 2 1) = -1`.
     </span>
     因为它反对称, 所以任意两个指标相同时结果为零, 如 `epsi_(1 1 2) = 0`.
-  </li>
-  <li><b>Eddington 张量</b>
-    <span class="formula">
-      `cc E_(i j k) = bm e_i xx bm e_j * bm e_k`,<br>
-      `cc E^(i j k) = bm e^i xx bm e^j * bm e^k`,<br>
-      `cc E_i^(j k) = bm e_i xx bm e^j * bm e^k`.
-    </span>
   </li>
 </ul>
 
@@ -465,18 +489,6 @@
 </p>
 
 <p class="example">
-  <b>对偶基底的关系</b>
-  设 `i, j, k` 互不相同且为偶排列, 如 `1, 2, 3`.
-  由于
-  <span class="formula">
-    `bm e^i * bm e_j = bm e^i * bm e_k = 0`,<br>
-    `bm e^i * bm e_i = 1 = (bm e_j xx bm e_k * bm e_i)/(bm e_j xx bm e_k * bm e_i)`,
-  </span>
-  所以 `bm e^i = (bm e_j xx bm e_k)/(bm e_j xx bm e_k * bm e_i)`
-  `= (bm e_j xx bm e_k)/(bm e_1 xx bm e_2 * bm e_3)`.
-</p>
-
-<p class="example">
   <b>逆变、协变的由来</b>
   设 `x` 是线性空间 `V` 中的向量, `f` 是 `V` 上的线性函数.
   取定 `V` 的基底 `alpha_i` 和 `beta_i`, 有
@@ -492,13 +504,22 @@
     `= y^i A_i^j alpha_j`,<br>
     即 `x^j = A_i^j y^i`, 或 `y^i = (A_i^j)^-1 x^j`.
   </span>
-  `x^j` 到 `y^i` 间相差的变换与其底的变换相反, 是逆变.
+  `x^j` 到 `y^i` 间相差的变换与基底的变换相反, 是逆变.
 </p>
+
+<ol class="example">
+  <b>张量的一些例子</b>
+  <li>线性变换 `A_i^j` 是二阶混合张量 (`{::}_1^1` 型张量).
+    `x^j = A_i^j x^i`.
+  </li>
+  <li>度规 `g_(i j)` 是二阶协变张量, `g^(i j)` 是二阶逆变张量.</li>
+  <li>向量 `x_i`, `x^j` 分别是一阶协变、逆变张量, 标量是零阶张量.</li>
+</ol>
 
 <h3>度规</h3>
 
 <p class="definition">
-  <b>度规</b> 定义为基底与对偶基底间的过渡矩阵:
+  <b>度规</b> (或度量张量) 定义为基底与对偶基底间的过渡矩阵:
   <span class="formula">
     `bm e_i = g_(i j) bm e^j`,
     `quad bm e^i = g^(i j) bm e_j`.
@@ -515,16 +536,86 @@
 <ol class="corollary">
   <li>`(g_(i j)) = (g^(i j))^-1` (逆矩阵);</li>
   <li>由内积的对称性, `g_(i j) = g_(j i)`;</li>
+  <li>在 `bbb E^3` 中, `g = det(bm e_i * bm e_j)` `= (bm e_1 xx bm e_2 * bm e_3)^2`.
+    同理 `g^-1 = det(bm e^i * bm e^j) = (bm e^1 xx bm e^2 xx bm e^3)^2`.
+  </li>
 </ol>
 
-<ol class="example">
-  <b>张量的一些例子</b>
-  <li>线性变换 `A_i^j` 是二阶混合张量 (`{::}_1^1` 型张量).
-    `x^j = A_i^j x^i`.
+<h3>Eddington 张量</h3>
+
+<p class="definition">
+  `bbb E^3` 中, <b>Eddington 张量</b>定义为:
+  <span class="formula">
+    `cc E_(i j k) = bm e_i xx bm e_j * bm e_k`,<br>
+    `cc E^(i j k) = bm e^i xx bm e^j * bm e^k`,<br>
+    `cc E_i^(j k) = bm e_i xx bm e^j * bm e^k`.
+  </span>
+  它在叉积中的作用类似于度规在点积中的作用.
+</p>
+
+<p class="corollary">
+  设 `bm u xx bm v = a^l bm e_l = b_l bm e^l`,
+  分别点乘 `bm e^k` 和 `bm e_k` 得
+  <span class="formula">
+    `a^k = bm u xx bm v * bm e^k = u_i v_j E^(i j k)`,<br>
+    `b_k = bm u xx bm v * bm e_k = u^i v^j E_(i j k)`.
+  </span>
+</p>
+
+<ol class="corollary">
+  <li>`E_(i j k) = { sqrt g, if i, j, k 是 1, 2, 3 的奇排列;
+    -sqrt g, if i, j, k 是 1, 2, 3 的偶排列;
+    0, if i, j, k 中有两个指标相等 :}`
   </li>
-  <li>度规 `g_(i j)` 是二阶协变张量, `g^(i j)` 是二阶逆变张量.</li>
-  <li>向量 `x_i`, `x^j` 分别是一阶协变、逆变张量, 标量是零阶张量.</li>
+  <li>`E_(i j k) != 0` 时, `E^(i j k)` 也不等于 `0`, 且成立 `E_(i j k) E^(i j k) = 1`.
+  </li>
+  <li>`E_i^(j k) = bm e^j xx bm e^k * bm e_i`
+    `= bm e^j xx bm e^k * (g_(i l) bm e^l)`
+    `= E^(j k l) g_(i l)`.
+  </li>
 </ol>
+
+<p class="corollary">
+  <b>对偶基底的关系</b>
+  设 `i, j, k` 是 `1, 2, 3` 的偶排列, 则
+  由于
+  <span class="formula">
+    `bm e^i * bm e_j = bm e^i * bm e_k = 0`,<br>
+    `bm e^i * bm e_i = 1 = (bm e_j xx bm e_k * bm e_i)/(bm e_j xx bm e_k * bm e_i)`,
+  </span>
+  所以
+  <span class="formula">
+    `bm e^i = (bm e_j xx bm e_k)/(bm e_j xx bm e_k * bm e_i)`
+    `= (bm e_j xx bm e_k)/(bm e_1 xx bm e_2 * bm e_3)`
+    `= 1/sqrt g (bm e_j xx bm e_k)`,
+  </span>
+  <span class="formula">
+    `bm e_i = (bm e^j xx bm e^k)/(bm e^j xx bm e^k * bm e^i)`
+    `= (bm e^j xx bm e^k)/(bm e^1 xx bm e^2 * bm e^3)`
+    `= sqrt g (bm e^j xx bm e^k)`.
+  </span>
+</p>
+
+<p class="corollary">
+  <span class="formula">
+    `bm e_i = 1/2 E_(i j k) (bm e^j xx bm e^k)`,<br>
+    `bm e^i = 1/2 E^(i j k) (bm e_j xx bm e_k)`,<br>
+    `bm e_i xx bm e_j = E_(i j k) bm e^k`,<br>
+    `bm e^i xx bm e^j = E^(i j k) bm e_k`.
+  </span>
+</p>
+
+<p class="proof">
+  先证第一式. 右边的求和排除掉相同指标后, `j, k` 的取法共有 2 种, 一种使得 `i,
+  j, k` 是奇排列, 一种使得它是偶排列.
+  因此右边等于 `sqrt g (bm e^j xx bm e^k) = bm e_i`.
+  <br>
+  再证第三式. 右边的求和排除掉相同指标后只有一项. 如果 `i, j, k` 是偶排列, 则右边等于
+  <span class="formula">
+    `sqrt g 1/sqrt g (bm e_i xx bm e_j)`.
+  </span>
+  如果 `i, j, k` 是奇排列, 交换 `i, j` 就化为偶排列的情形.
+</p>
 
 <h3>标架运动方程</h3>
 
@@ -540,16 +631,19 @@
   `i, j = 1, 2, 3`.
   基向量 `bm e_i` 和 `bm e^j` 是 `P` 的坐标 `x^1, x^2, x^3` 的函数, 且满足等式
   <span class="formula">
-    `bm e_(j, i) = bm e_(i, j)` 和 `bm e_(,i)^j = bm e_(,j)^i`.
+    `bm e_(i, j) = bm e_(j, i)`.
     <span class="label">(`ast`)</span>
   </span>
-  我们把基向量对坐标求微分, 就得到标架运动方程:
+  例如, 当存在二阶连续可微的向量函数 `bm r(x^1, x^2, x^3)`, 使得 `bm r_(,i) = bm e_i` 时,
+  上式实际上说的是二阶混合偏导可交换: `bm r_(,i j) = bm r_(,j i)`.
+  <br>
+  我们把基向量对坐标求微分, 得到标架运动方程:
   <span class="formula">
     `bm e_(j, i) := Gamma_(i j)^k bm e_k := Gamma_(i j k) bm e^k`.
   </span>
-  这里 `Gamma_(i j k)` 和 `Gamma_(i j)^k` 分别叫做第一、二类 Christoffel
-  符号 (克氏符号).
-  由假定 (`ast`), 克氏符号 `Gamma_(i j)^k` 和 `Gamma_(i j k)` 都关于 `i, j` 对称.
+  这里 `Gamma_(i j k)` 和 `Gamma_(i j)^k` 分别叫做第一、二类 Christoffel 符号 (克氏符号).
+  由假定 (`ast`), 两类克氏符号都关于下标 `i, j` 对称.
+  它们是标架运动方程中的系数, 称为联络系数.
 </p>
 
 <ol class="corollary">
@@ -562,7 +656,7 @@
   <span class="formula">
     `Gamma_(i j k) bm e^k`
     `= Gamma_(i j)^k bm e_k`
-    `= Gamma_(i j)^k g_(k l) bm e^l`
+    `= Gamma_(i j)^l bm e_l`
     `= Gamma_(i j)^l g_(l k) bm e^k`.
   </span>
   2. 只需在 1. 的两边同乘 `g^(l k)`.
@@ -576,17 +670,21 @@
 <ol class="proof">
   [来自群友 近乎幂零群]
   <li>
-    设基底 `{x_i}` 到 `{bm e_i}` 的过渡矩阵为 `(a_j^i)`, 即 `bm e_j = a_j^i x_i`,
-    又设对偶基底 `{x^i}` 到 `{bm e^i}` 的过渡矩阵为 `(b_i^j)`, 即 `bm e^j = b_i^j x^i`.
-    由<a class="ref" href="#cor-dual-base"></a> 知道, 矩阵 `(b_i^j)` 等于 `(a_j^i)` 的转置的逆,
-    于是 `x_i = b_i^j bm e_j`, `x^i = a_j^i bm e^j`.
+    设基底 `{bm x_i}` 到 `{bm e_j}` 的过渡矩阵为 `a_j^i`, 即 `bm e_j = a_j^i bm x_i`,
+    又设对偶基底 `{bm x^i}` 到 `{bm e^j}` 的过渡矩阵为 `b_i^j`, 即 `bm e^j = b_i^j bm x^i`.
+    由<a class="ref" href="#cor-dual-base"></a> 知道,
+    <span class="formula">
+      `a_k^l b_l^j = delta_k^j`,
+      <span class="label">(`ast`)</span>
+    </span>
+    于是 `bm x_i = b_i^j bm e_j`, `bm x^i = a_j^i bm e^j`.
     求导得
     <span class="formula">
-      `bm e_(j, i) = (a_j^l)_(,i) x_l = (a_j^l)_(,i) b_l^k bm e_k`,<br>
-      `bm e_(,i)^j = (b_l^j)_(,i) x^l = color(red)((b_l^j)_(,i) a_k^l) bm e^k`.
+      `bm e_(k, i) = (a_k^l)_(,i) bm x_l = color(blue)((a_k^l)_(,i) b_l^j) bm e_j`,<br>
+      `bm e_(,i)^j = (b_l^j)_(,i) bm x^l = color(red)((b_l^j)_(,i) a_k^l) bm e^k`.
     </span>
-    记 `Gamma_(i j)^k = (a_j^l)_(,i) b_l^k`,
-    由于 `a_k^l b_l^j = delta_k^j`, 对 `x^i` 微分得到
+    现在记 `Gamma_(i k)^j = color(blue)((a_k^l)_(,i) b_l^j)`,
+    (`ast`) 式两边对坐标 `x^i` 微分得到
     <span class="formula">
       `color(blue)((a_k^l)_(,i) b_l^j) + color(red)(a_k^l (b_l^j)_(,i)) = 0`.
     </span>
@@ -604,35 +702,31 @@
 <p class="theorem">
   <b>用度规表示克氏符号</b>
   <span class="formula">
-    `Gamma_(i k j) = 1/2 (g_(i j,k) + g_(j k, i) - g_(k i,j))`,<br>
-    `Gamma_(i k)^l = 1/2 g^(l j) (g_(i j,k) + g_(j k, i) - g_(k i,j))`.
+    `Gamma_(i j k) = 1/2 (g_(i k,j) + g_(j k,i) - g_(i j,k))`,<br>
+    `Gamma_(i j)^l = 1/2 g^(k l) (g_(i k,j) + g_(j k,i) - g_(i j,k))`.
   </span>
 </p>
 
 <p class="proof">
-  写出
+  写出右边各项
   <span class="formula">
-    `g_(i j,k) = (bm e_i * bm e_j),_k`
-    `= bm e_(i,k) * bm e_j + bm e_(j,k) * bm e_i`,
-    <span class="label">①</span>
+    `g_(i k,j)`
+    `= (bm e_i * bm e_k)_(,j)`
+    `= bm e_(i,j) * bm e_k + bm e_i * bm e_(k,j)`,<br>
+    `g_(j k,i)`
+    `= bm e_(j,i) * bm e_k + bm e_j * bm e_(k,i)`,<br>
+    `g_(i j,k)`
+    `= bm e_(i,k) * bm e_j + bm e_i * bm e_(j,k)`.
   </span>
+  利用 `bm e_(i,j) = bm e_(j,i)` 有
   <span class="formula">
-    `g_(j k,i) = bm e_(j,i) * bm e_k + bm e_(k,i) * bm e_j`,
-    <span class="label">②</span>
+    `g_(i k,j) + g_(j k,i) - g_(i j,k)`
+    `= 2 bm e_(i,j) * bm e_k`
+    `= Gamma_(i j)^l bm e_l * bm e_k`
+    `= Gamma_(i j)^l g_(k l)`
+    `= Gamma_(i j k)`.
   </span>
-  <span class="formula">
-    `g_(k i,j) = bm e_(k,j) * bm e_i + bm e_(i,j) * bm e_k`.
-    <span class="label">③</span>
-  </span>
-  ①+②-③,
-  <span class="formula">
-    `g_(i j,k) + g_(j k,i) - g_(k i,j)`
-    `= 2 bm e_(i,k) * bm e_j`
-    `= 2 Gamma_(i k)^l bm e_l * bm e_j`
-    `= 2 Gamma_(i k)^l g_(l j)`
-    `= 2 Gamma_(i k j)`.
-  </span>
-  两边同乘 `g^(l j)` 即得结论.
+  两边同乘 `g^(k l)` 即得第二条公式.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
