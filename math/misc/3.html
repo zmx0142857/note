@@ -4,6 +4,11 @@
     <title>不等式</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+<style>
+.left {
+  float: left;
+}
+</style>
 </head>
 <body>
 
@@ -1806,6 +1811,30 @@
 	根据这些信息, 在 `a, b` 同大于 `"e"` 或同小于 `"e"`
 	时就容易判断 `a^b` 和 `b^a` 的大小. 如 `ln "e"//"e" gt ln pi // pi`,
   因此 `"e"^pi gt pi^"e"`.
+</p>
+
+<p class="example">
+  [来自群友 西伯利亚的猫猫] 设 `a gt b gt 1`, 证明: `a^(b^a) gt b^(a^b)`.
+</p>
+
+<p class="proof">
+  <span class="formula">
+    <span class="left">即证</span>
+    `b^a ln a gt a^b ln b`<br>
+    <span class="left">即证</span>
+    `a ln b + ln ln a gt b ln a + ln ln b`<br>
+    <span class="left">即证</span>
+    `ln ln a - ln ln b gt b ln a - a ln b`
+    `= (a+b)(ln a - ln b) - (a ln a - b ln b)`<br>
+    <span class="left">即证</span>
+    `((ln ln a + a ln a) - (ln ln b + b ln b))/(ln a - ln b) gt a + b`. 
+  </span>
+  令 `x = ln a`, `y = ln b`, 则 `x gt y gt 0`, 不等式化为
+  <span class="formula">
+    `((ln x + x "e"^x) - (ln y + y "e"^y)) / (x-y) gt "e"^x + "e"^y`.
+  </span>
+  `f(t) = 1/t + "e"^t(t + 1)` 是 `t gt 0` 时的下凸函数.
+  左边等于 `1/(x-y) int_y^x f(t) dt` 然后??
 </p>
 
 <p class="example">

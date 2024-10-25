@@ -341,9 +341,9 @@ body {
 <div class="tool-bar">
   <button class="btn btn-history">历史</button>
   <button class="btn btn-setting">设置</button>
-  <button class="btn btn-load">载文 <span class="btn-suffix btn-suffix-arrow"></span></button>
-  <button class="btn btn-reload" disabled title="请先载文">重载</button>
+  <button class="btn btn-load">载文 <a class="btn-suffix btn-suffix-arrow"></a></button>
   <button class="btn btn-primary btn-start" disabled title="请先载文">开始</button>
+  <button class="btn btn-reload" disabled title="请先载文">重载</button>
 </div>
 
 <div class="status-bar">
@@ -772,13 +772,14 @@ const Typing = {
     Typing.start()
   },
   openBuiltin (e) {
+    e.preventDefault()
     e.stopPropagation()
     UI.menu({
       show: true,
       html: `<div class="menu-body-list">
-          <div class="menu-body-item" data-src="../data/zh-char-5000.txt">单字练习</div>
-          <div class="menu-body-item" data-src="../data/zh-word.txt">词组练习</div>
-          <div class="menu-body-item" data-click="loadFromClipboard">剪贴板...</div>
+          <div class="menu-body-item" data-src="../data/zh-char-5000.txt" role="link">单字练习</div>
+          <div class="menu-body-item" data-src="../data/zh-word.txt" role="link">词组练习</div>
+          <div class="menu-body-item" data-click="loadFromClipboard" role="link">剪贴板...</div>
       </div>`,
       bodyStyle: {
         left: e.target.offsetLeft + 37 + 'px',
