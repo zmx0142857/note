@@ -459,16 +459,20 @@
 </p>
 
 <p class="corollary">
-  当 `(u,v)` 为正交参数系, 即 `F -= 0` 时, Gauss 方程化简为
-	<span class="formula">
-		`-1/sqrt(EG) [(((sqrt E)_v)/sqrt G)_v + (((sqrt G)_u)/sqrt E)_u]
-		= (LN-M^2)/(EG)`,
-	</span>
-	Codazzi 方程化简为
-	<span class="formula">`{
-		(L/sqrt E)_v - (M/sqrt E)_u = N(sqrt E)_v/G + M(sqrt G)_u/sqrt(E G);
-    (N/sqrt G)_u - (M/sqrt G)_v = L(sqrt G)_u/E + M(sqrt E)_v/sqrt(E G);
-	:}`</span>
+  当 `(u,v)` 为正交参数系, 即 `F -= 0` 时, 记 `A = sqrt E`, `B = sqrt G`, `K = (LN-M^2)/(EG)`,
+  Gauss 方程化简为
+  <span class="formula">
+    `K = -1/(A B) [del_v ((del_v A)/B) + del_u ((del_u B)/A)]`.
+  </span>
+  Codazzi 方程化简为
+  <span class="formula">`{
+    del_v (L/A) - del_u (M/A) = N (del_v A)/B^2 + M (del_u B)/(A B);
+    del_u (N/B) - del_v (M/B) = L (del_u B)/A^2 + M (del_v A)/(A B);
+  :}`</span>
+  若 `(u,v)` 为共形参数, 有 `A = B`, Gauss 方程继续化简为
+  <span class="formula">
+    `K = -1/A^2 grad^2 (ln A)`.
+  </span>
   若 `(u,v)` 为单位正交标架, 两个方程可以继续简化, 见下文.
 </p>
 

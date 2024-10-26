@@ -85,14 +85,16 @@
 
 <h2>微分算子</h2>
 
+<p>偏微分算子 `del_x := del/(del x)`, `del_i := del/(del x_i)`.</p>
+
 <h3>Nabla 算子</h3>
 
 <span class="formula">
-  `grad := (del/(del x_1), cdots, del/(del x_m))`
+  `nabla := (del_1, cdots, del_m)`
 </span>
 
 <p class="definition">
-  标量场 (数量场) `f` 具有梯度 `"grad" f = grad f`.
+  标量场 (数量场) `f` 具有梯度 `"grad" f = nabla f`.
   梯度是矢量, 其与坐标选取无关.
   梯度是导数的推广, 它简单地将求导运算推广到各分量,
   其加减乘除及函数复合的运算和导数完全一致.
@@ -102,37 +104,40 @@
   <span class="formula">
     `("d"f)/("d"bm n) = lim_(t to 0) (f(bm x_0 + t bm n) - f(bm x_0))//t`
   </span>
-  可以证明 `("d"f)/("d"bm n) = bm n * grad f`,
+  可以证明 `("d"f)/("d"bm n) = bm n * nabla f`,
   因此梯度方向是该点处方向导数取得最大的方向, 大小等于这个最大的方向导数.
 </p>
 
 <table>
   <tr>
-    <td>`grad c = 0`</td>
-    <td>`grad (cf) = c grad f`</td>
+    <td>`nabla c = 0`</td>
   </tr>
   <tr>
-    <td>`grad (f +- g) = grad f +- grad g`</td>
-    <td>`grad (fg) = g grad f + f grad g`</td>
+    <td>`nabla (a f + b g) = a nabla f + b nabla g`</td>
   </tr>
   <tr>
-    <td>`grad (f//g) = (g grad f - f grad g) // g^2`</td>
-    <td>`grad f(g) = ("d"f)/("d"g) grad g`</td>
+    <td>`nabla (fg) = g nabla f + f nabla g`</td>
   </tr>
   <tr>
-    <td>`grad f(g_1, cdots, g_n) = sum (del f)/(del g_i) grad g_i`</td>
+    <td>`nabla (f//g) = (g nabla f - f nabla g) // g^2`</td>
+  </tr>
+  <tr>
+    <td>`nabla f(g) = ("d"f)/("d"g) nabla g`</td>
+  </tr>
+  <tr>
+    <td>`nabla f(g_1, cdots, g_n) = sum (del f)/(del g_i) nabla g_i`</td>
   </tr>
 </table>
 
 <p class="definition">
   矢量场 (向量场) `bm F` 具有散度
   <span class="formula">
-    `"div" bm F = grad * bm F`
+    `"div" bm F = nabla * bm F`
     `= (del F_1)/(del x_1) + cdots + (del F_n)/(del x_n)`.
   </span>
   和旋度 (三维空间):
   <span class="formula">
-    `"rot" bm F = grad xx bm F`
+    `"rot" bm F = nabla xx bm F`
     `= |bm i, bm j, bm k; del/(del x), del/(del y), del/(del z); F_1, F_2, F_3|`.
   </span>
   散度是标量而旋度是矢量.
@@ -163,74 +168,70 @@
 
 <table>
   <tr>
-    <td>`grad * bm c = 0`</td>
-    <td>`grad xx bm c = bm 0`</td>
+    <td>`nabla * bm c = 0`</td>
+    <td>`nabla xx bm c = bm 0`</td>
   </tr>
   <tr>
-    <td>`grad * (c bm F) = c (grad * bm F)`</td>
-    <td>`grad xx (c bm F) = c (grad xx bm F)`</td>
+    <td>`nabla * (a bm F + b bm G) = a nabla * bm F + b nabla * bm G`</td>
+    <td>`nabla xx (a bm F + b bm G) = a nabla xx bm F + b nabla xx bm G`</td>
   </tr>
   <tr>
-    <td>`grad * (bm F +- bm G) = grad * bm F +- grad * bm G`</td>
-    <td>`grad xx (bm F +- bm G) = grad xx bm F +- grad xx bm G`</td>
-  </tr>
-  <tr>
-    <td>`grad * (f bm F) = grad f * bm F + f (grad * bm F)`</td>
-    <td>`grad xx (f bm F) = grad f xx bm F + f(grad xx bm F)`</td>
+    <td>`nabla * (f bm F) = nabla f * bm F + f (nabla * bm F)`</td>
+    <td>`nabla xx (f bm F) = nabla f xx bm F + f(nabla xx bm F)`</td>
   </tr>
 </table>
 
 <p class="proposition">
   设 `f`, `bm F` 二阶连续可微, 因此二阶混合偏导相等.
-  梯度场的散度是 laplace 算子 (见下节);
+  梯度场的散度是 Laplace 算子 (见下节);
   梯度场的旋度为零向量, 旋度场的散度为 0.
   <span class="formula">
-    `grad * (grad f) = (grad * grad) f := grad^2 f`,<br>
-    `grad xx (grad f) = bm 0`,
-    `quad grad * (grad xx bm F) = 0`.
+    `nabla * (nabla f) = (nabla * nabla) f := nabla^2 f`,<br>
+    `nabla xx (nabla f) = bm 0`,
+    `quad nabla * (nabla xx bm F) = 0`.
   </tr>
 </p>
 
 <p class="definition">
-  <b>`bm A * grad` 算子</b>可以用于标量或矢量. 输入标量, 输出标量; 输入矢量, 输出矢量:
+  <b>`bm A * nabla` 算子</b>可以用于标量或矢量. 输入标量, 输出标量; 输入矢量, 输出矢量:
   <span class="formula">
-    `(bm A * grad) f`
+    `(bm A * nabla) f`
     `= A_1 (del f)/(del x_1) + cdots + A_n (del f)/(del x_n)`,<br>
-    `(bm A * grad) bm F`
-    `= ((bm A * grad) F_1, cdots, (bm A * grad) F_n)`.
+    `(bm A * nabla) bm F`
+    `= ((bm A * nabla) F_1, cdots, (bm A * nabla) F_n)`.
   </span>
 </p>
 
 <p class="remark">
-  注意 `bm A * grad` 是一个算子, 而 `grad * bm A` 是一个标量. 比如在三维情形:
+  注意 `bm A * nabla` 是一个算子, 而 `nabla * bm A` 是一个标量. 比如在三维情形:
   <span class="formula">
-    `bm A * grad = A_1 del/(del x) + A_2 del/(del y) + A_3 del/(del z)`,<br>
-    `grad * bm A = pp A_1 x + pp A_2 y + pp A_3 z`.
+    `bm A * nabla = A_1 del/(del x) + A_2 del/(del y) + A_3 del/(del z)`,<br>
+    `nabla * bm A = pp A_1 x + pp A_2 y + pp A_3 z`.
   </span>
 </p>
 
 <p><b>`D` 算子</b>作用于矢量, 得到它的导矩阵:
   <span class="formula">
     `D bm F`
-    `= [grad F_1; vdots; grad F_n]`
+    `= [nabla F_1; vdots; nabla F_n]`
     `= [
       (del F_1)/(del x_1), cdots, (del F_1)/(del x_n);
       vdots, , vdots;
       (del F_n)/(del x_1), cdots, (del F_n)/(del x_n);
     ]`
   </span>
-  作用于标量时, 就是 `D f = grad f`.
+  作用于标量时, 就是 `D f = nabla f`.
 </p>
 
 <ol class="proposition">
   <b>nabla 算子的综合公式</b>
   以下公式都涉及旋度, 因此只限于三维空间:
-  <li>`grad(bm F * bm G)` `= bm F D bm G + bm G D bm F`
-    `= bm F xx (grad xx bm G) + bm G xx (grad xx bm F) + (bm F * grad) bm G + (bm G * grad) bm F`;
+  <li>`nabla(bm F * bm G)` `= bm F D bm G + bm G D bm F`
+    `= bm F xx (nabla xx bm G) + bm G xx (nabla xx bm F) + (bm F * nabla) bm G + (bm G * nabla) bm F`;
   </li>
-  <li>`grad * (bm F xx bm G) = bm G * grad xx bm F + bm F * grad xx bm G`;</li>
-  <li>`grad xx (bm F xx bm G) = (grad * bm G) bm F - (grad * bm F) bm G + (bm G * grad) bm F - (bm F * grad) bm G`;</li>
-  <li>`grad xx (grad xx bm F) = grad(grad * bm F) - (grad * grad)bm F`</li>
+  <li>`nabla * (bm F xx bm G) = bm G * nabla xx bm F + bm F * nabla xx bm G`;</li>
+  <li>`nabla xx (bm F xx bm G) = (nabla * bm G) bm F - (nabla * bm F) bm G + (bm G * nabla) bm F - (bm F * nabla) bm G`;</li>
+  <li>`nabla xx (nabla xx bm F) = nabla(nabla * bm F) - (nabla * nabla)bm F`</li>
 </ol>
 
 <p class="proof">
@@ -253,74 +254,312 @@
 <h3>Laplace 算子</h3>
 
 <span class="formula">
-    `laplace := grad^2 = grad * grad = sum del^2/(del x_i^2)`
+  `nabla^2 = nabla * nabla = sum del^2/(del x_i^2)`
 </span>
 
 <table>
-	<tr>
-		<td>`laplace c = 0`</td>
-	</tr>
-	<tr>
-		<td>`laplace (cf) = c laplace f`</td>
-	</tr>
-	<tr>
-		<td>`laplace (f +- g) = laplace f +- laplace g`</td>
-	</tr>
-	<tr>
-		<td>`laplace (fg) = f laplace g + g laplace f + 2 grad f * grad g`</td>
-	</tr>
-	<tr>
-		<td>`laplace f(g) = grad ("d"f)/("d"g) * grad g + ("d"f)/("d"g) laplace g`</td>
-	</tr>
-	<tr>
-		<td>`laplace f(g_1, cdots, g_n) = sum grad (del f)/(del g_i) * grad
-		g_i + sum (del f)/(del g_i) laplace g_i`</td>
-	</tr>
+  <tr>
+    <td>`nabla^2 c = 0`</td>
+  </tr>
+  <tr>
+    <td>`nabla^2 (a f + b g) = a nabla^2 f + b nabla^2 g`</td>
+  </tr>
+  <tr>
+    <td>`nabla^2 (fg) = f nabla^2 g + g nabla^2 f + 2 nabla f * nabla g`</td>
+  </tr>
+  <tr>
+    <td>`nabla^2 f(g) = nabla ("d"f)/("d"g) * nabla g + ("d"f)/("d"g) nabla^2 g`</td>
+  </tr>
+  <tr>
+    <td>`nabla^2 f(g_1, cdots, g_n) = sum nabla (del f)/(del g_i) * nabla
+      g_i + sum (del f)/(del g_i) nabla^2 g_i`</td>
+  </tr>
 </table>
 
 <p class="proof">
-  如 `laplace(f g) = grad^2(f g)`
-  `= grad * (f grad g + g grad f)`
-  `= f grad^2 g + g grad^2 f + 2 grad f * grad g`.
+  如 `nabla^2(f g) = nabla^2(f g)`
+  `= nabla * (f nabla g + g nabla f)`
+  `= f nabla^2 g + g nabla^2 f + 2 nabla f * nabla g`.
 </p>
 
-<p>满足 `laplace f -= 0` 的函数称为<b>调和函数</b>.</p>
+<p>满足 `nabla^2 f -= 0` 的函数称为<b>调和函数</b>.</p>
+
+<h3>不同坐标系中的微分算子</h3>
+
+<p>部分计算参见<a href="./15.html">多元函数微分学</a>.</p>
+
+<table>
+  <tr>
+    <td>微分算子</td>
+    <td>笛卡尔坐标</td>
+    <td>极坐标 `(r cos theta, r sin theta)`</td>
+    <td>球坐标 `(r cos varphi cos theta, r cos varphi sin theta, r sin varphi)`</td>
+  </tr>
+  <tr>
+    <td>`nabla`</td>
+    <td>`(del_1, cdots, del_n)`</td>
+    <td>`bm e_r del_r + 1/r bm e_theta del_theta`</td>
+    <td>`bm e_r del_r + 1/(r cos varphi) bm e_theta del_theta + 1/r bm e_varphi del_varphi`</td>
+  </tr>
+  <tr>
+    <td>`nabla^2`</td>
+    <td>`sum del_i^2`</td>
+    <td>`del_r^2 + 1/r del_r + 1/r^2 del_theta^2`</td>
+    <td>`del_r^2 + 2/r del_r + 1/r^2 (sec^2 theta del_theta^2 - tan varphi del_varphi + del_varphi^2)`</td>
+  </tr>
+</table>
+
+<p>
+  其中极坐标下
+  <span class="formula">
+    `bm e_r = (cos theta, sin theta)`,
+    `quad bm e_theta = (-sin theta, cos theta)`.
+  </span>
+  球坐标下
+  <span class="formula">
+    `bm e_r = (cos varphi cos theta, cos varphi sin theta, sin varphi)`,<br>
+    `bm e_theta = (-sin theta, cos theta, 0)`,<br>
+    `bm e_varphi = bm e_r xx bm e_theta`
+    `= (-sin varphi cos theta, -sin varphi sin theta, cos varphi)`.
+  </span>
+  有些文献中, 球坐标系的 `varphi` 不是指纬度, 而是指与北极方向的夹角. 此时应当把结论中的
+  `cos varphi`, `sin varphi` 互换, 并把 `del_varphi` 换成 `-del_varphi`.
+</p>
+
+<ol class="solution">
+  <li>极坐标的 nabla 算子.
+    根据一阶微分的形式不变性, 可以通过求解线性方程组完成此类问题, 二阶微分则没有这种做法.  列出
+    <span class="formula">
+      `del_r = cos theta del_x + sin theta del_y`,<br>
+      `del_theta = -r sin theta del_x + r cos theta del_y`,
+    </span>
+    Jacobi 行列式
+    <span class="formula">
+      `(del(x,y))/(del(r, theta))`
+      `= |cos theta, sin theta; -r sin theta, r cos theta|`
+      `= r`.
+    </span>
+    解方程组得
+    <span class="formula">
+      `del_x = (r cos theta del_r - sin theta del_theta) // r`,<br>
+      `del_y = (r sin theta del_r + cos theta del_theta) // r`.
+    </span>
+  </li>
+  <li>球坐标的 nabla 算子. 列出
+    <span class="formula">
+      `del_r = cos varphi cos theta del_x + cos varphi sin theta del_y + sin varphi del_z`,<br>
+      `del_theta = -r cos varphi sin theta del_x + r cos varphi cos theta del_y`,<br>
+      `del_varphi = -r sin varphi cos theta del_x - r sin varphi sin theta del_y + r cos varphi del_z`,
+    </span>
+    Jacobi 行列式
+    <span class="formula">
+      `(del(x,y,z))/(del(r,theta,varphi))`
+      `= |cos varphi cos theta, cos varphi sin theta, sin varphi;
+          -r cos varphi sin theta, r cos varphi cos theta, 0;
+          -r sin varphi cos theta, -r sin varphi sin theta, r cos varphi|`
+      `= r^2 cos varphi`.
+    </span>
+    解方程组 [附代码] 得
+    <span class="formula">
+      `del_x = cos varphi cos theta del_r - 1/r (sin varphi cos theta del_varphi + (sin theta)/(cos varphi) del_theta)`,<br>
+      `del_y = cos varphi sin theta del_r - 1/r (sin varphi sin theta del_varphi - (cos theta)/(cos varphi) del_theta)`,<br>
+      `del_z = sin varphi del_r + 1/r cos varphi del_varphi`.
+    </span>
+    <hr>
+    <pre>
+In[1]: [simplify(i) for i in solve([
+  cos(p)*cos(t)*x+cos(p)*sin(t)*y+sin(p)*z-dr,
+  -r*cos(p)*sin(t)*x+r*cos(p)*cos(t)*y-dt,
+  -r*sin(p)*cos(t)*x-r*sin(p)*sin(t)*y+r*cos(p)*z-dp
+], [x, y, z]).values()]
+Out[1]:
+[(-dp*sin(p)*cos(t) + dr*r*cos(p)*cos(t) - dt*sin(t)/cos(p))/r,
+(-dp*sin(p)*sin(t) + dr*r*sin(t)*cos(p) + dt*cos(t)/cos(p))/r,
+dp*cos(p)/r + dr*sin(p)]
+    </pre>
+  </li>
+</ol>
+
+<ol class="solution">
+  <li>极坐标的 Laplace 算子. 一个误区是直接计算
+    <span class="formula">
+      `nabla^2`
+      `= (bm e_r del_r + 1/r bm e_theta del_theta)^2`
+      `= del_r^2 + 1/r^2 del_theta^2`.
+    </span>
+    这种做法的问题在于忽视了 `bm e_r, bm e_theta` 是 `theta` 的函数, 正确做法是:
+    <span class="formula">
+      `nabla^2`
+      `= bm e_r del_r * (bm e_r del_r + 1/r bm e_theta del_theta)`
+      `+ 1/r bm e_theta del_theta * (bm e_r del_r + 1/r bm e_theta del_theta)`.
+    </span>
+    先求
+    <span class="formula">
+      `del_theta bm e_r = bm e_theta`,
+      `quad del_theta bm e_theta = - bm e_r`,
+    </span>
+    接下来利用 `bm e_r * bm e_theta = 0`, 分别计算
+    <span class="formula">
+      `bm e_r del_r * (bm e_r del_r)`
+      `= bm e_r * del_r (bm e_r del_r)`
+      `= (bm e_r * bm e_r) del_r^2`
+      `= del_r^2`,<br>
+      `bm e_r del_r * (1/r bm e_theta del_theta)`
+      `= bm e_r * bm e_theta del_r (1/r del_theta)`
+      `= 0`,<br>
+      `1/r bm e_theta del_theta * (bm e_r del_r)`
+      `= 1/r bm e_theta * (del_theta(bm e_r) del_r + bm e_r del_(theta r))`
+      `= 1/r bm e_theta * bm e_theta del_r`
+      `= 1/r del_r`,<br>
+      `1/r bm e_theta del_theta * (1/r bm e_theta del_theta)`
+      `= 1/r^2 bm e_theta * (del_theta(bm e_theta) del_theta + bm e_theta del_theta^2)`
+      `= 1/r^2 del_theta^2`.
+    </span>
+    四式相加即得结论.
+  </li>
+  <li>事实上, 还有两种计算极坐标下 Laplace 算子的方法. 一是分别计算 `del_x^2` 和 `del_y^2`:
+    <span class="formula align">
+      `del_x^2 = (cos theta del_r - 1/r sin theta del_theta)^2`<br class="noindent">
+      `quad = cos^2 theta del_r^2`
+      `+ 1/r^2 cos theta sin theta del_theta - 1/r cos theta sin theta del_(r theta)`<br class="noindent">
+      `qquad + 1/r sin^2 theta del_r - 1/r sin theta cos theta del_(theta r)`<br class="noindent">
+      `qquad + 1/r^2 sin theta cos theta del_theta + 1/r^2 sin^2 theta del_theta^2`.
+    </span>
+    <span class="formula align">
+      `del_y^2 = (sin theta del_r + 1/r cos theta del_theta)^2`<br class="noindent">
+      `quad = sin^2 theta del_r^2`
+      `- 1/r^2 sin theta cos theta del_theta + 1/r sin theta cos theta del_(r theta)`<br class="noindent">
+      `qquad + 1/r cos^2 theta del_r + 1/r cos theta sin theta del_(theta r)`<br class="noindent">
+      `qquad - 1/r^2 cos theta sin theta del_theta + 1/r^2 cos^2 theta del_theta^2`.
+    </span>
+    两式相加即得结论.
+  </li>
+  <li>还有一种是分别计算 `del_r^2` 和 `del_theta^2`, 注意到 `x, y` 对 `r, theta` 求导比较方便,
+    `r, theta` 对 `x, y` 求导不方便, 因此先展开平方的后一项, 把 `theta` 的函数换到前面来以后,
+    才展开前一项:
+    <span class="formula align">
+      `del_r^2 = del_r (cos theta del_x + sin theta del_y)`<br>
+      `= cos theta del_r del_x + sin theta del_r del_y`<br>
+      `= cos theta (cos theta del_x + sin theta del_y) del_x`
+      `+ sin theta (cos theta del_x + sin theta del_y) del_y`<br>
+      `= cos^2 theta del_x^2 + cos theta sin theta del_(y x)`
+      `+ sin theta cos theta del_(x y) + sin^2 theta del_y^2`.
+    </span>
+    <span class="formula align">
+      `del_theta^2 = del_theta (-r sin theta del_x + r cos theta del_y)`<br>
+      `= -r del_theta(sin theta) del_x - r sin theta del_theta del_x`
+      `+ r del_theta(cos theta) del_y + r cos theta del_theta del_y`<br>
+      `= -r cos theta del_x - r sin theta (-r sin theta del_x + r cos theta del_y) del_x`<br>
+      `quad - r sin theta del_y + r cos theta (-r sin theta del_x + r cos theta del_y) del_y`<br>
+      `= -r (cos theta del_x + sin theta del_y)`<br>
+      `quad + r^2 sin^2 theta del_x^2 - r^2 sin theta cos theta del_(y x)`<br>
+      `quad + r^2 cos^2 theta del_y^2 - r^2 cos theta sin theta del_(x y)`.
+    </span>
+    现在可以看出 `del_r^2 + 1/r del_r + 1/r^2 del_theta^2 = del_x^2 + del_y^2`.
+  </li>
+</ol>
+
+<ol class="solution">
+  <li>球坐标的 Laplace 算子.
+    利用 `bm e_r, bm e_theta, bm e_varphi` 的正交性以及
+    <span class="formula">
+      `del_varphi bm e_r = bm e_varphi`,
+      `quad del_theta bm e_r = cos varphi bm e_theta`,<br>
+      `bm e_theta * (del_theta bm e_theta) = 0`,<br>
+      `del_varphi bm e_varphi = - bm e_r`,
+      `quad del_theta bm e_varphi = -sin varphi bm e_theta`,
+    </span>
+    将下式展开:
+    <span class="formula">
+      `nabla^2 = (bm e_r del_r + 1/(r cos varphi) bm e_theta del_theta + 1/r bm e_varphi del_varphi)^2`.
+    </span>
+    分别计算以下九项:
+    <span class="formula">
+      `(bm e_r del_r)^2`
+      `= bm e_r * bm e_r del_r^2`
+      `= del_r^2`,<br>
+      `bm e_r del_r * (1/(r cos varphi) bm e_theta del_theta)`
+      `= bm e_r * bm e_theta del_r (1/(r cos varphi) del_theta)`
+      `= 0`,<br>
+      `bm e_r del_r * (1/r bm e_varphi del_varphi)`
+      `= bm e_r * bm e_varphi del_r (1/r del_varphi)`
+      `= 0`,<br>
+    </span>
+    <span class="formula">
+      `1/(r cos varphi) bm e_theta del_theta * (bm e_r del_r)`
+      `= 1/(r cos varphi) bm e_theta * (cos varphi bm e_theta del_r + bm e_r del_(theta r))`
+      `= 1/r del_r`,<br>
+      `(1/(r cos varphi) bm e_theta del_theta)^2`
+      `= 1/(r^2 cos^2 varphi) bm e_theta * ((del_theta bm e_theta) del_theta + bm e_theta del_theta^2)`
+      `= 1/(r^2 cos^2 varphi) del_theta^2`,<br>
+      `1/(r cos varphi) bm e_theta del_theta * (1/r bm e_varphi del_varphi)`
+      `= 1/(r^2 cos varphi) bm e_theta * (-sin varphi bm e_theta del_varphi + bm e_varphi del_(theta varphi))`
+      `= -1/r^2 tan varphi del_varphi`.
+    </span>
+    <span class="formula">
+      `1/r bm e_varphi del_varphi * (bm e_r del_r)`
+      `= 1/r bm e_varphi * (bm e_varphi del_r + bm e_r del_(varphi r))`
+      `= 1/r del_r`,<br>
+      `1/r bm e_varphi del_varphi * (1/(r cos varphi) bm e_theta del_theta)`
+      `= 1/r bm e_varphi * bm e_theta del_varphi (1/(r cos varphi) del_theta)`
+      `= 0`,<br>
+      `(1/r bm e_varphi del_varphi)^2`
+      `= 1/r^2 bm e_varphi * (-bm e_r del_varphi + bm e_varphi del_varphi^2)`
+      `= 1/r^2 del_varphi^2`.
+    </span>
+    九项相加得到结论.
+  </li>
+</ol>
 
 <h3>径向函数</h3>
 
-<p>	设 `bm r = (x_1, cdots, x_m)`, `r = |bm r|`, 则
-	<span class="formula">
-		`grad r = (bm r)/r`, `quad |grad r| = 1`,
-        `quad grad * bm r = m`, `quad laplace r = (m-1)/r`;<br/>
-		`grad f(r) = ("d"f)/("d"r) grad r`,
-		`quad laplace f(r) = ("d"^2 f)/("d"r^2) + (m-1)/r ("d"f)/("d"r)`;<br/>
-	</span>
+<p class="definition">
+  设 `f(x_1, cdots, x_n)` 是 `n` 元数量函数,
+  如果 `f` 是球对称的, 即函数值只和到原点的距离有关, 而与方向无关,
+  就称 `f` 是<b>径向函数</b>.
+  记 `bm r = (x_1, cdots, x_n)`, `r = |bm r|`, 则 `f` 可以记为 `r` 的一元函数 `f(r)`.
 </p>
 
-<p class="proof">
-    `laplace r = grad * grad r`
-    `= grad * (bm r)/r`
-    `= 1/r grad * bm r + bm r * grad 1/r`
-    `= m/r - 1/r^2 bm r * grad r`
-    `= m/r - 1/r^3 bm r * bm r`
-    `= (m-1)/r`.<br/>
-    `laplace f(r) = grad * grad f(r)`
-    `= grad ("d"f)/("d"r) * grad r + ("d"f)/("d"r) laplace r`
-    `= ("d"^2 f)/("d"r^2) grad r * grad r + ("d"f)/("d"r) laplace r`
-    `= ("d"^2 f)/("d"r^2) + (m-1)/r ("d"f)/("d"r)`.
-</p>
+<ol class="corollary">
+  设 `f(r)` 是 `RR^n` 上的径向函数, 注意到 `r` 本身也是径向函数, 有
+  <li>`nabla * bm r = n`, `nabla r = bm r // r`, `nabla^2 r = (n-1)/r`;</li>
+  <li>`nabla f(r) = dd f r nabla r`, `nabla^2 f(r) = dd^2 f r + (n-1)/r dd f r`.</li>
+</ol>
 
-<p> 特别当 `m = 3`, 在三维空间中有
-    <span class="formula">
-		`r laplace f = "d"^2/("d"r^2) (rf)`,
+<ol class="proof">
+  <li>只证最后一式.
+    <span class="formula align higher">
+      `nabla^2 r = nabla * nabla r`
+      `= nabla * (bm r)/r`<br>
+      `= 1/r nabla * bm r + bm r * nabla 1/r`<br>
+      `= n/r - 1/r^2 bm r * nabla r`<br>
+      `= n/r - 1/r^3 bm r * bm r`<br>
+      `= (n-1)/r`.
     </span>
-    因此, `1//r` 是三维空间中的调和函数; 类似可证 `ln r`
-    是二维空间的调和函数. 一般地, 微分方程
-    <span class="formula">
-        `f'' + (m-1)/r f' = 0`
+  </li>
+  <li>
+    只证最后一式.
+    <span class="formula align higher">
+      `nabla^2 f(r)`
+      `= nabla ("d"f)/("d"r) * nabla r + ("d"f)/("d"r) nabla^2 r`<br>
+      `= ("d"^2 f)/("d"r^2) nabla r * nabla r + ("d"f)/("d"r) nabla^2 r`<br>
+      `= ("d"^2 f)/("d"r^2) + (n-1)/r ("d"f)/("d"r)`.
     </span>
-    的通解 `{ c_1 x^(2-m) + c_2, if m != 2;
-    c_1 ln x + c_2, if m = 2:}` 给出 `m` 维空间的调和径向函数.
+    这个结果与极坐标系、球坐标系下的 Laplace 算子相吻合.
+  </li>
+</ol>
+
+<p class="corollary">
+  微分方程 `f'' + (n-1)/r f' = 0` 的通解
+  <span class="formula">
+    `f(r) = {
+      c_1 ln r + c_2, if m = 2;
+      c_1 r^(2-n) + c_2, otherwise
+    :}`
+  </span>
+  给出 `n` 维空间的径向调和函数.
+  特别 `ln r`, `1//r` 分别是二维和三维空间的径向调和函数.
+  这个例子告诉我们, 一个函数是否调和, 与它所在空间的维数有关.
 </p>
 
 <h2>多元积分公式</h2>
@@ -343,12 +582,12 @@
 	</span>
 	Gauss:
 	<span class="formula">
-		`iiint_V grad * bm F "d"V`
+		`iiint_V nabla * bm F "d"V`
 		`= oiint_(del V) bm F * "d" bm S`
 	</span>
 	Stokes:
 	<span class="formula">
-		`iint_Sigma grad xx bm F * "d" bm S
+		`iint_Sigma nabla xx bm F * "d" bm S
         = oint_(del Sigma) bm F * "d" bm r`,
 	</span>
 </p>
@@ -382,11 +621,11 @@
 
 <h3>Green 三大公式</h3>
 
-<p> 回忆方向导数的定义: `(del f)/(del bm n) = grad f * bm n`,
-    在 Gauss 公式中取 `bm F = grad f`, 则
+<p> 回忆方向导数的定义: `(del f)/(del bm n) = nabla f * bm n`,
+    在 Gauss 公式中取 `bm F = nabla f`, 则
     <span class="formula">
         `bm F * "d"bm S`
-        `= grad f * bm n |"d"bm S|`
+        `= nabla f * bm n |"d"bm S|`
         `= (del f)/(del bm n) "d"sigma`,
     </span>
     得到有用的方向导数形式:
@@ -395,7 +634,7 @@
 		= oiint_(del V) (del f)/(del bm n) "d" sigma`,
 		`quad bm n` 是单位外法向量.
     </span>
-    在 Green 公式中取 `(Q, -P) = grad f`, 也得到方向导数形式:
+    在 Green 公式中取 `(Q, -P) = nabla f`, 也得到方向导数形式:
     <span class="formula">
 		`iint_V Delta f "d"V = oint_(del V) (del f)/(del bm n) "d"s`,
         `quad bm n` 是单位外法向量 `(dy/("d"s), -dx/("d"s))`.
@@ -407,13 +646,13 @@
     <b>Green 第一公式</b>
     类比于分部积分公式将导数从一个因子转移到另一个因子上,
     此公式将 nabla 算子从 `g` 转移到 `f` 上:
-    <li>(2d) `iint_V grad f * grad g "d"V
+    <li>(2d) `iint_V nabla f * nabla g "d"V
 		= int_(del V) g{::} (del f)/(del bm n) "d"s
-        - iint_V g laplace f "d"V`;
+        - iint_V g nabla^2 f "d"V`;
     </li>
-    <li>(3d) `iiint_V grad f * grad g "d"V
+    <li>(3d) `iiint_V nabla f * nabla g "d"V
 		= iint_(del V) g{::} (del f)/(del bm n) "d"sigma
-        - iiint_V g laplace f "d"V`.
+        - iiint_V g nabla^2 f "d"V`.
     </li>
 </ol>
 
@@ -422,21 +661,21 @@
     利用方向导数的定义和 `bm n = (dy/("d"s), -dx/("d"s))`,
     <span class="formula">
         `int_(del V) g{::} (del f)/(del bm n) "d"s`
-        `= int_(del V) g grad f * bm n "d"s`
+        `= int_(del V) g nabla f * bm n "d"s`
         `= int_(del V) g ((del f)/(del x) dy - (del f)/(del y) dx)`
         `= iint_V [del/(del x)(g{::}(del f)/(del x))
         + del/(del y)(g{::}(del f)/(del y))] "d"V`
-        `= iint_V grad f * grad g "d"V + iint_V g laplace f "d"V`.
+        `= iint_V nabla f * nabla g "d"V + iint_V g nabla^2 f "d"V`.
     </span>
 </p>
 
 <ol class="theorem">
     <b>Green 第二公式</b>
-    <li>(2d) `iint_V |laplace f, laplace g; f, g| "d"V
+    <li>(2d) `iint_V |nabla^2 f, nabla^2 g; f, g| "d"V
         = int_(del V) |(del f)/(del bm n), (del g)/(del bm n);
         f, g| "d"s`;
     </li>
-    <li>(3d) `iiint_V |laplace f, laplace g; f, g| "d"V
+    <li>(3d) `iiint_V |nabla^2 f, nabla^2 g; f, g| "d"V
         = iint_(del V) |(del f)/(del bm n), (del g)/(del bm n);
         f, g| "d"sigma`.
     </li>
@@ -444,7 +683,7 @@
 
 <p class="proof">
     分别对函数 `f, g` 应用 Green 第一公式即可.
-    `grad f * grad g` 的积分刚好抵消.
+    `nabla f * nabla g` 的积分刚好抵消.
 </p>
 
 <ol class="theorem">
@@ -488,20 +727,20 @@
 </p>
 
 <p class="proof">
-	设 `laplace f = 0`, 且 `f|{::}_(del V) = g|_(del V)`.
+	设 `nabla^2 f = 0`, 且 `f|{::}_(del V) = g|_(del V)`.
 	在 Green 第一公式中令 `g = f`, 利用边界条件得
 	<span class="formula">
-		`iint_V |grad f|^2 "d"V`
+		`iint_V |nabla f|^2 "d"V`
 		`= int_(del V) f{::} (del f)/(del bm n) "d"s`
 		`= int_(del V) g{::} (del f)/(del bm n) "d"s`
-		`= iint_V grad f * grad g "d"V`.
+		`= iint_V nabla f * nabla g "d"V`.
 	</span>
 	从而
 	<span class="formula">
-		`iint_V |grad g|^2 "d"V - iint_V |grad f|^2 "d"V`
-		`= iint_V |grad g|^2 "d"V + iint_V |grad f|^2 "d"V
-        - 2 iint_V grad f * grad g "d"V`
-		`= iint_V |grad g - grad f|^2 "d"V ge 0`.
+		`iint_V |nabla g|^2 "d"V - iint_V |nabla f|^2 "d"V`
+		`= iint_V |nabla g|^2 "d"V + iint_V |nabla f|^2 "d"V
+        - 2 iint_V nabla f * nabla g "d"V`
+		`= iint_V |nabla g - nabla f|^2 "d"V ge 0`.
 	</span>
 </p>
 
@@ -547,7 +786,7 @@
   设 `omega` 是微分形式, 定义<b>外微分</b>运算 `"d"omega` 如下:
   <li>零阶微分形式 `f` 的外微分定义为它的全微分:
     <span class="formula">
-      `"d"f = grad f * "d"bm r`
+      `"d"f = nabla f * "d"bm r`
       `= sum (del f)/(del x_i) dx_i`.
     </span>
   </li>

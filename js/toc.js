@@ -65,7 +65,7 @@ var tocData = [
           { "value": "15", "label": "多元函数微分学", "date": "2022-12-01" },
           { "value": "17", "label": "多元函数的极值" },
           { "value": "19", "label": "重积分" },
-          { "value": "22", "label": "场论初步", "date": "2022-04-28" },
+          { "value": "22", "label": "场论初步", "date": "2024-10-25" },
           { "value": "23", "label": "分数阶微积分" },
           { "value": "24", "label": "函数方程" }
         ]
