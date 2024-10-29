@@ -503,9 +503,9 @@
   在全序集中, 对任意元素 `x, y`, 三命题 `x lt y`, `x = y` 或 `x gt y` 恰有一个成立.
 </p>
 
-<p class="remark">
+<div class="remark p">
   用图表示序关系: 两点连线表示可以比较大小, 在上面的点较大.
-</p>
+</div>
 
 <ol class="example">
   <li>实数集是全序集.</li>
@@ -562,6 +562,106 @@
     所以 `a = "inf"E`, 从而 `E` 有下确界.
   </li>
 </ol>
+
+<h3>格 (lattice)*</h3>
+
+<p class="definition">
+  若偏序集 `(X, le)` 中任意一对元素 `x, y` 都存在上确界和下确界, 则称 `X`
+  是<b>格序集 (lattice ordered set)</b>.
+  显然全序集是格序集.
+</p>
+
+<div class="p corollary">
+  在格序集中, 下列命题等价:
+  <span class="formula">
+    `x le y iff inf(x, y) = x iff Sup(x, y) = y`.
+  </span>
+  换言之, 如果 `x, y` 不能比较大小, 那么必存在元素 `inf(x, y)` 和 `Sup(x, y)`, 使左下的图形成立.
+  右下是格序集 `(ZZ^+, 整除)` 的部分图形.
+  <div class="space-around">
+    <div class="img sm">
+      <img src="../img/lattice-inf-sup.png" alt="">
+    </div>
+    <div class="img sm">
+      <img src="../img/lattice-division.png" alt="">
+    </div>
+  </div>
+</div>
+
+<ol class="example">
+  <li>`(RR, le)` 是格序集, 它的上、下确界运算分别是 `max, min`.</li>
+  <li>`(ZZ^+, 整除)` 是格序集, 上、下确界是 `lcm, gcd`. </li>
+  <li>`(集合的幂集, sube)` 是格序集, 上、下确界是 `uu, nn`.</li>
+</ol>
+
+<ol class="definition">
+  设有三元组 `(L, ^^, vv)`, `L` 是集合, `^^` (vee), `vv` (wedge) 是 `L` 上的二元运算.
+  且对任意 `x, y, z in L` 满足:
+  <li>交换律: `x ^^ y = y ^^ x`, `x vv y = y vv x`;</li>
+  <li>结合律: `(x ^^ y) ^^ z = x ^^ (y ^^ z)`, `(x vv y) vv z = x vv (y vv z)`;</li>
+  <li>吸收律: `x ^^ (x vv y) = x vv (x ^^ y) = x`;</li>
+  则称 `(L, ^^, vv)` 是<b>代数格 (algebraic lattice)</b>.
+</ol>
+
+<p class="corollary">
+  由吸收律推出幂等律: `x ^^ x = x vv x = x`.
+</p>
+
+<p class="proof">
+  只证第一个等号.
+  <span class="formula">
+    `x ^^ color(red)(x)`
+    `= x ^^ (color(red)(x vv (x ^^ x)))`
+    `= x`.
+  </span>
+</p>
+
+<p class="definition">
+  可以验证, 格序集 `(X, inf, Sup)` 满足代数格的定义;
+  另一方面, 在代数格 `(L, ^^, vv)` 上定义 `x le y iff x ^^ y = x`, 那么 `(L, le)` 是格序集.
+  因此我们不再区别格序集和代数格, 而是统称为<b>格 (lattice)</b>.
+</p>
+
+<ol class="corollary">
+  <b>分配律</b>
+  在格中, 下面两条等价:
+  <li>`AA x, y, z`, `(x ^^ y) vv z = (x vv z) ^^ (y vv z)`;</li>
+  <li>`AA x, y, z`, `(x vv y) ^^ z = (x ^^ z) vv (y ^^ z)`.</li>
+</ol>
+
+<p class="proof">
+  只证 1 `rArr` 2.
+  <span class="formula align">
+    右边 `= (x ^^ z) vv (y ^^ z)`<br>
+    `= (x vv (y ^^ z)) ^^ (z vv (y ^^ z))`<br>
+    `= (x vv y) ^^ (x vv z) ^^ z`<br>
+    `= (x vv y) ^^ z`
+    `=` 左边.
+  </span>
+</p>
+
+<div class="p remark">
+  [来自群友 103] 存在不满足分配律的格. 比如五元集 `{0, a, b, c, 1}` 的序定义如下:
+  `0` 最小, `1` 最大, `a, b, c` 之间不可比较. 计算知
+  <span class="formula">
+    `(a ^^ b) vv c`
+    `= 0 vv c = c`,<br>
+    `(a vv c) ^^ (b vv c)`
+    `= 1 ^^ 1`
+    `= 1`.
+  </span>
+  <div class="img sm">
+    <img src="../img/lattice-no-distrib.png" alt="">
+  </div>
+  然而, 存在弱化版本的定理:
+  <span class="formula">
+    `x le z and y ≤ z rArr x vv y le z`;
+  </span>
+  即
+  <span class="formula">
+    `x ^^ z = x and y ^^ z = y rArr (x vv y) ^^ z = (x ^^ z) vv (y ^^ z)`.
+  </span>
+</div>
 
 <h3>保序映射; 区间</h3>
 

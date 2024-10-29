@@ -19,7 +19,7 @@ var tocData = [
         "label": "未分类",
         "children": [
           { "value": "0", "label": "问题", "date": "2022-02-16" },
-          { "value": "2", "label": "三角函数", "date": "2022-11-21" },
+          { "value": "2", "label": "三角函数", "date": "2024-10-28" },
           { "value": "3", "label": "不等式", "date": "2022-07-29" },
           { "value": "4", "label": "微积分不等式", "date": "2024-08-29" },
           { "value": "5", "label": "因式分解", "date": "2022-09-18" },
@@ -58,7 +58,7 @@ var tocData = [
           { "value": "8", "label": "特殊函数 (1): Gamma 函数, Euler 和, 指对数积分", "date": "2022-05-15" },
           { "value": "9", "label": "特殊函数 (2): 椭圆函数, 超几何函数" },
           { "value": "10", "label": "特殊函数 (3): Bernoulli 数与 Riemann zeta 函数", "date": "2024-07-31" },
-          { "value": "11", "label": "常数项级数" },
+          { "value": "11", "label": "常数项级数", "date": "2024-10-28" },
           { "value": "12", "label": "函数列与函数项级数" },
           { "value": "13", "label": "Fourier 级数" },
           { "value": "14", "label": "多元函数的极限与连续性" },
@@ -91,7 +91,7 @@ var tocData = [
         "label": "集合论",
         "children": [
           { "value": "2", "label": "集合及其运算", "date": "2024-09-10" },
-          { "value": "3", "label": "二元关系与映射", "date": "2024-09-10" },
+          { "value": "3", "label": "二元关系与映射", "date": "2024-10-29" },
           { "value": "4", "label": "自然数与序数", "date": "2024-10-08" },
           { "value": "5", "label": "基数", "date": "2024-09-28" },
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
@@ -167,7 +167,7 @@ var tocData = [
           { "value": "3", "label": "群 (中)", "date": "2024-04-17" },
           { "value": "4", "label": "群 (下)", "date": "2023-05-16" },
           { "value": "5", "label": "环" },
-          { "value": "6", "label": "模", "date": "2024-05-07" },
+          { "value": "6", "label": "模与代数", "date": "2024-10-29" },
           { "value": "7", "label": "域", "date": "2024-06-30" },
           { "value": "8", "label": "Galois 理论", "date": "2022-01-02" }
         ]

@@ -4,11 +4,6 @@
     <title>不等式</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
-<style>
-.left {
-  float: left;
-}
-</style>
 </head>
 <body>
 
@@ -1818,23 +1813,32 @@
 </p>
 
 <p class="proof">
+  [来自 Mathis Wang@知乎] 即证
   <span class="formula">
-    <span class="left">即证</span>
-    `b^a ln a gt a^b ln b`<br>
-    <span class="left">即证</span>
-    `a ln b + ln ln a gt b ln a + ln ln b`<br>
-    <span class="left">即证</span>
-    `ln ln a - ln ln b gt b ln a - a ln b`
-    `= (a+b)(ln a - ln b) - (a ln a - b ln b)`<br>
-    <span class="left">即证</span>
-    `((ln ln a + a ln a) - (ln ln b + b ln b))/(ln a - ln b) gt a + b`. 
+    `b^a ln a gt a^b ln b`.
   </span>
-  令 `x = ln a`, `y = ln b`, 则 `x gt y gt 0`, 不等式化为
+  令 `t = ln a / ln b gt 1`, 于是 `a = b^t`, 不等式化为
   <span class="formula">
-    `((ln x + x "e"^x) - (ln y + y "e"^y)) / (x-y) gt "e"^x + "e"^y`.
+    `t * b^(b^t) gt b^(t b)`,
   </span>
-  `f(t) = 1/t + "e"^t(t + 1)` 是 `t gt 0` 时的下凸函数.
-  左边等于 `1/(x-y) int_y^x f(t) dt` 然后??
+  即证
+  <span class="formula">
+    `t * b^(b^t - t b) gt 1`.
+  </span> 
+  假设 `b^t ge t b`, 上式显然成立; 现在假设
+  `b^t lt t b`, 即 `t * b^(1-t) gt 1`. 由 Bernoulli 不等式有
+  <span class="formula">
+    `b^t`
+    `= (1 + (b - 1))^t`
+    `gt 1 + t(b-1)`.
+  </span>
+  于是
+  <span class="formula">
+    `t * b^(b^t - t b)`
+    `gt t * b^(1 + t(b-1) - t b)`
+    `= t * b^(1 - t)`
+    `gt 1`.
+  </span> 
 </p>
 
 <p class="example">

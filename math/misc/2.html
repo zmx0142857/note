@@ -7,6 +7,139 @@
 </head>
 <body>
 
+<h2>三角函数的定义*</h2>
+
+<ol class="definition">
+  <b>三角函数的微分方程定义</b> 设 `s(x)`, `c(x)` 是 `RR` 上的两个无穷阶可微的函数, 且满足
+  <li>`s(0) = 0`, `c(0) = 1`.</li>
+  <li>`s'(x) = c(x)`, `c'(x) = -s(x)`;</li>
+  `s(x)`, `c(x)` 的存在唯一性由常微分方程解的存在唯一性 (??) 保证.
+  定义 `sin x := s(x)`, `cos x := c(x)`.
+</ol>
+
+<ol class="proposition">
+  <b>三角函数的幂级数表达式</b> 考虑下面两个幂级数:
+  <span class="formula">
+    `s(x) := sum_(n ge 0) (-1)^n x^(2n+1)/((2n+1)!)`,<br>
+    `c(x) := sum_(n ge 0) (-1)^n x^(2n)/((2n)!)`.
+  </span>
+  我们有
+  <li>`s(0) = 0`, `c(0) = 1`.</li>
+  <li>`s(x)`, `c(x)` 在 `RR` 上绝对收敛且内闭一致收敛, 因此它们都是 `RR` 上的连续函数.</li>
+  <li>`s(x)`, `c(x)` 可以逐项求导, 且 `s'(x) = c(x)`, `c'(x) = -s(x)`; 因此它们是无穷阶可微的.</li>
+  根据三角函数的微分方程定义, 我们有 `s(x) = sin x`, `c(x) = cos x`.
+</ol>
+
+<p class="proposition">
+  和角公式
+  <span class="formula">
+    `s(x+y) = s(x) c(y) + c(x) s(y)`,<br>
+    `c(x+y) = c(x) c(y) - s(x) s(y)`.
+  </span>
+  于是立即有倍角公式:
+  <span class="formula">
+    `s(2x) = 2 s(x) c(x)`,<br>
+    `c(2x) = c(x)^2 - s(x)^2`.
+  </span>
+</p>
+
+<p class="proof">
+  直接代入幂级数计算即可. 例如
+  <span class="formula align">
+    `s(x) c(y) + c(x) s(y)`<br>
+    `= (sum_(j ge 0) (-1)^j x^(2j+1)/((2j+1)!))(sum_(k ge 0) (-1)^k y^(2k)/((2k)!))`<br>
+    `quad + (sum_(j ge 0) (-1)^j x^(2j)/((2j)!))(sum_(k ge 0) (-1)^k y^(2k+1)/((2k+1)!))`<br>
+    `= sum_(n ge 0) sum_(0 le j le n) (-1)^n (x^(2j+1) y^(2n-2j))/((2j+1)!(2n-2j)!)`<br>
+    `quad + sum_(n ge 0) sum_(0 le j le n) (-1)^n (x^(2j) y^(2n-2j+1))/((2j)!(2n-2j+1)!)`<br>
+    `= sum_(n ge 0) (-1)^n/((2n+1)!) sum_(0 le j le n) (2n+1;2j+1) x^(2j+1) y^(2n-2j)`<br>
+    `quad + sum_(n ge 0) (-1)^n/((2n+1)!) sum_(0 le j le n) (2n+1;2j) x^(2j) y^(2n-2j+1)`<br>
+    `= sum_(n ge 0) (-1)^n/((2n+1)!) sum_(0 le j le 2n+1) (2n+1;j) x^j y^(2n+1-j)`<br>
+    `= sum_(n ge 0) (-1)^n/((2n+1)!) (x+y)^(2n+1)`<br>
+    `= s(x+y)`.
+  </span>
+</p>
+
+<ol class="corollary">
+  <li>奇偶性: `s(-x) = -s(x)`, `c(-x) = c(x)`.</li>
+  <li>勾股定理: `s(x)^2 + c(x)^2 = 1`.</li>
+  <li>重要极限: `lim_(x to 0) (s(x))/x = 1`.</li>
+</ol>
+
+<ol class="proof">
+  <li>这是因为 `s(x)` 的幂级数只有奇数次项, `c(x)` 的幂级数只有偶数次项.</li>
+  <li>这是因为 `1 = c(0) = c(x-x)`
+    `= c(x) c(-x) - s(x) s(-x)`
+    `= c(x)^2 + s(x)^2`.
+  </li>
+  <li>这是级数表达式的直接推论.</li>
+</ol>
+
+<p class="definition">
+  圆周率 `pi` 的定义. 存在最小正实数 `p` 使得 `c(p//2) = 0`, `s(p//2) = 1`;
+  我们定义 `pi := p`.
+</p>
+
+<p class="proof">
+  我们证明两个不等式: `x ge 0` 时,
+  <span class="formula">
+    `s(x) ge x - x^3/6`,<br>
+    `c(x) le 1 - x^2/2 + x^4/24`.
+  </span>
+  事实上, 由 `s(x)^2 + c(x)^2 = 1` 知道 `|s(x)| le 1`, `|c(x)| le 1`.
+  反复应用求导判断单调性, 有
+  <span class="formula higher">
+    `s(0) = 0`, `s'(x) = c(x) le 1`
+    `rArr s(x) le x`;<br>
+    `c(0) = 1`, `c'(x) = -s(x) ge -x`
+    `rArr c(x) ge 1 - x^2/2`;<br>
+    `s(0) = 0`, `s'(x) = c(x) ge 1 - x^2/2`
+    `rArr s(x) ge x - x^3/6`;<br>
+    `c(0) = 1`, `c'(x) = -s(x) le -x + x^3/6`
+    `rArr c(x) le 1 - x^2/2 + x^4/24`.
+  </span>
+  现在利用 `c(0) = 1` 和
+  <span class="formula">
+    `c(2) le 1 - 2^2/2 + 2^4/24 lt 0`
+  </span>
+  知道, `c(x)` 在 `[0, 2]` 上存在一个零点.
+  又由 `x in [0, 2]` 时
+  <span class="formula">
+    `c'(x) = -s(x) le -x + x^3/6 lt 0`,
+  </span>
+  知道 `c(x)` 在 `[0, 2]` 上严格单调减, 所以这个零点是唯一的, 我们记为 `p//2`.
+  <br>
+  下面求 `s(p//2)`.
+  由勾股定理知道 `s(p//2)^2 + c(p//2)^2 = 1` 故 `s(p//2) = +-1`.
+  然而由 `s(x) ge x - x^3/6` 知道 `s(p//2) != -1`, 故 `s(p//2) = 1`.
+</p>
+
+<ol class="corollary">
+  <li>周期性. `s(x+2p) = s(x)`, `c(x+2p) = c(x)`.</li>
+  <li>诱导公式 (其一). `s(p/2-x) = c(x)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>运用倍角公式得到
+    <span class="formula">
+      `c(p) = -1`, `quad c(2p) = 1`, `quad s(p) = s(2p) = 0`.
+    </span>
+    于是用和角公式得到
+    <span class="formula">
+      `s(x+2p)` `= s(x) c(2p) + c(x) s(2p)` `= s(x)`,<br>
+      `c(x+2p)` `= c(x) c(2p) - s(x) s(2p)` `= c(x)`.
+    </span>
+  </li>
+  <li>运用和角公式
+    <span class="formula">
+      `s(p/2 - x)`
+      `= s(p/2) c(-x) + c(p/2) s(-x)`
+      `= c(x)`.
+    </span>
+    其它众多诱导公式都可以由和角公式推出, 这里略去.
+  </li>
+</ol>
+
+
 <h2>特殊角</h2>
 
 <table>

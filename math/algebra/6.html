@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>模</title>
+    <title>模与代数</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
+<style>
+td.blue {
+  color: #2077da;
+}
+</style>
 <body>
 
 <p>[来自 <a href="https://zhuanlan.zhihu.com/p/289695684" target="_blank">知乎@ZCC</a>,
@@ -89,8 +94,10 @@
   <li>同态: 若 `M`, `N` 是 `R`-代数, `f: M to N` 是 `R`-模同态,
     且满足 `AA x, y in M`, `f(x * y) = f(x) * f(y)`, 则称 `f` 是 `M` 到 `N` 的 `R`-代数同态.
   </li>
-  <li>结合、交换、可除:
-    若 `M` 上的乘法满足结合律/交换律/成一群, 则分别称代数 `M` 是结合的/交换的/可除的.
+  <li>结合、交换、含幺、可除:
+    若 `M` 上的乘法满足结合律/交换律/有幺元/无零因子, 则分别称代数 `M` 是结合的/交换的/含幺的/可除的.
+    其中幺元指 `x 1 = 1 x = x`,
+    无零因子指 `x y = 0 rArr x = 0 or y = 0`.
   </li>
 </ol>
 
@@ -107,10 +114,57 @@
   </li>
 </ol>
 
+<h3>可除代数</h3>
+
+<ol class="example">
+  <li>四元数: `bbb H = "span"{1, i, j, k}` 是 `RR` 上的 4 维可除代数, 满足
+    <span class="formula">
+      `i^2 = j^2 = k^2 = i j k = -1`.
+    </span>
+    在 `i j k = -1` 等号两边右乘 `k` 得 `i j k^2 = -k`, 即 `i j = k`.
+    同理 `j k = i`, `k i = j`.
+    四元数乘法不满足交换律.
+    <div class="space-around">
+      <div class="img sm" title="四元数的基">
+        <img src="../img/quaternion-gen.png" alt="">
+      </div>
+      <div class="img md" title="八元数的基">
+        <img src="../img/octonion-gen.png" alt="">
+      </div>
+    </div>
+  </li>
+  <li>[来自 <a href="https://zhuanlan.zhihu.com/p/110997893" target="_blank">法会因由@知乎</a>]
+    八元数: `bbb O = "span"{1, e_1, cdots, e_7}` 是 `RR` 上的 8 维可除代数.
+    它的运算法则可以用 Fano 平面 `PG(2,2)` 来记忆: Fano 平面有 7 个点和 7 条边, 每条边上有 3 个点,
+    每个点是 3 条边的交点. 顺着箭头方向: `e_1 e_2 = e_4`; 逆着箭头方向: `e_2 e_1 = -e_4`.
+    <ol>
+      <li>`e_i^2 = 1`, `e_i e_j = e_k = -e_j e_i`;</li>
+      <li>指标循环: `e_i e_j = e_k` `rArr e_(i+1) e_(j+1) = e_(k+1)`;</li>
+      <li>指标翻倍: `e_i e_j = e_k` `rArr e_(2i) e_(2j) = e_(2k)`;</li>
+      <li>不满足结合律: `e_1 (e_2 e_3) = e_6`, `(e_1 e_2) e_3 = -e_6`.</li>
+    </ol>
+  </li>
+</ol>
+
+<p class="definition">
+  若代数 `M` 上配备了一个内积 `(*,*)` 使得
+  <span class="formula">
+    `(x y, x y) = (x, x) (y, x)`,
+  </span>
+  就称 `M` 是<b>赋范</b>的.
+  设 `M` 是一个赋范可除代数, `x, y` 的实部为零, 它们的<b>叉积</b>定义为相乘取虚部:
+  <span class="formula">
+    `x xx y`
+    `:= "Im"(x y)`
+    `= 1/2 (x y - y x)`.
+    `= 1/2 [x, y]`.
+  </span>
+</p>
+
 <h2>外代数</h2>
 
 <ol class="definition">
-  设 `V` 是域 `bbb F` 上的线性空间. 规定运算 `^^` 满足如下性质:
+  设 `V` 是域 `bbb F` 上的线性空间. 规定<b>楔积</b>运算 `^^` 满足如下性质:
   <li>双线性性: `AA a, b in bbb F`, `AA x, y, z in V`,
     <span class="formula">
       `(a x + b y) ^^ z = a (x^^z) + b (y^^z)`,<br>
@@ -138,8 +192,7 @@
   </li>
   <li>特别地, 记 `^^ ^0 V := bbb F`, `^^ ^1 V := V`.</li>
   由于 `V` 中两元素相乘得到的是 `V` 之外的元素,
-  我们称 `^^` 为 `V` 上的<b>外代数 (exterior algebra)</b> 或<b>楔积 (wedge product)</b>
-  或 <b>Grassmann 代数</b>.
+  我们称 `(V, ^^)` 为<b>外代数 (exterior algebra)</b> 或 <b>Grassmann 代数</b>.
 </ol>
 
 <ol class="corollary">
@@ -154,9 +207,64 @@
   </li>
 </ol>
 
-<ol class="example">
+<ol class="example enum">
   <li><b>`RR^3` 中的叉乘</b> 注意到 `dim R^3 = dim ^^ ^2 RR^3`, 给定 `RR^3` 的标准正交基 `{i, j, k}`,
     可以建立同构 `varphi`, 使得 `varphi(i ^^ j) = k`, `varphi(j ^^ k) = i`, `varphi(k ^^ i) = j`.
+  </li>
+  <li><b>`RR^7` 中的叉乘</b> [来自 <a href="https://www.zhihu.com/question/451752263" target="_blank">知乎</a>]
+    `n` 维空间的一组单位正交基记为 `bm e_1, cdots, bm e_n`.
+    其中叉乘应该满足:
+    <ol>
+      <li>`bm e_i xx bm e_i = bm 0`;</li>
+      <li>`bm e_i xx bm e_j = -bm e_j xx bm e_i`;</li>
+      <li>`i != j` 时, 存在一个与 `i, j` 都不同的 `k`, 使得
+        <span class="formula">
+          `bm e_i xx bm e_j = +-bm e_k`,
+          `quad bm e_j xx bm e_k = +- bm e_i`,
+          `quad bm e_k xx bm e_i = +- bm e_j`.
+        </span>
+        以上三个等式要么同时取正号, 要么同时取负号.
+        形象地说, `bm e_i, bm e_j, bm e_k` 在叉乘下形成一个三角形.
+    </ol>
+    现在假定 `n gt 3`, 且 `bm e_1 xx bm e_2 = bm e_3`.
+    <br>
+    考虑另一个基矢量 `bm e_4`, 由于 `bm e_1, bm e_2, bm e_3` 已经形成三角形,
+    所以 `bm e_1 xx bm e_4` 不能等于 `+- bm e_i`, `i = 1, 2, 3, 4`. 我们设 `bm
+    e_1 xx bm e_4 = bm e_5`. 于是 `bm e_1, bm e_4, bm e_5` 形成一个三角形.
+    同理 `bm e_2 xx bm e_4` 不能等于 `+- bm e_i`, `i = 1, 2, 3, 4, 5`. 设它等于 `bm e_6`.
+    `bm e_3 xx bm e_4` 不能等于 `+- bm e_i`, `i = 1, 2, 3, 4, 5, 6`. 设它等于 `bm e_7`.
+    至此我们证明了 4 到 6 维空间不能定义叉乘. 但 7 维空间的确存在一个叉乘.
+    见下表, 上面的推理可以总结为表格中的黑色文字, 但蓝色文字还未填出.
+    考虑 `bm e_1 xx bm e_6`. 排除掉同一行的 3, 2, 5, 4, 以及自身的 1, 6, 我们发现必有 `bm e_1 xx bm e_6 = +- bm e_7`.
+    同理 `bm e_2 xx bm e_7 = +- bm e_5`, `bm e_3 xx bm e_6 = +- bm e_5`.
+    这三个等式都取正号的话, 就得到下表:
+    <table>
+      <tr>
+        <td>`xx`</td> <td>1</td> <td>2</td> <td>3</td> <td>4</td> <td>5</td> <td>6</td> <td>7</td>
+      </tr>
+      <tr>
+        <td>1</td> <td>0</td> <td>3</td> <td>-2</td> <td>5</td> <td>-4</td> <td class="blue">7</td> <td class="blue">-6</td>
+      </tr>
+      <tr>
+        <td>2</td> <td></td> <td>0</td> <td>1</td> <td>6</td> <td class="blue">-7</td> <td>-4</td> <td class="blue">5</td>
+      </tr>
+      <tr>
+        <td>3</td> <td></td> <td></td> <td>0</td> <td>7</td> <td class="blue">-6</td> <td class="blue">5</td> <td>-4</td>
+      </tr>
+      <tr>
+        <td>4</td> <td></td> <td></td> <td></td> <td>0</td> <td>1</td> <td>2</td> <td>3</td>
+      </tr>
+      <tr>
+        <td>5</td> <td></td> <td></td> <td></td> <td></td> <td>0</td> <td class="blue">-3</td> <td class="blue">-2</td>
+      </tr>
+      <tr>
+        <td>6</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>0</td> <td class="blue">1</td>
+      </tr>
+      <tr>
+        <td>7</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>0</td>
+      </tr>
+    </table>
+    <div id="7-cross-prod"></div>
   </li>
 </ol>
 

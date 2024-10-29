@@ -165,6 +165,33 @@
 	定积分中也有类似于上例的结论, 这时要求被积函数连续.
 </p>
 
+<ol class="example">
+  [来自群友 SmartPig]
+  如果题目的已知条件涉及到 `u_(2n)` 与 `u_(2n-1)`, 那么下面是一个实用的法则:
+  设 `S_n` 是级数 `sum u_n` 的部分和, `S_(2n)` 与 `S_(2n-1)` 收敛到同一个值, 则 `sum u_n` 收敛.
+  <li>`sum u_(2n)` 与 `sum u_(2n-1)` 均收敛, 证明: `sum u_n` 收敛.</li>
+  <li>通项 `u_n to 0`, 且 `sum (u_(2n-1) + u_(2n))` 收敛, 证明 `sum u_n` 收敛.</li>
+</ol>
+
+<ol class="proof">
+  <li>只需证 `S_(2n)` 和 `S_(2n-1)` 收敛到同一个值:
+    <span class="formula">
+      `lim_(n to oo) S_(2n)`
+      `= lim_(n to oo) sum_(k=1)^n u_(2k) + lim_(n to oo) sum_(k=1)^n u_(2k-1)`,<br>
+      `lim_(n to oo) S_(2n-1)`
+      `= lim_(n to oo) sum_(k=1)^(n-1) u_(2k) + lim_(n to oo) sum_(k=1)^n u_(2k-1)`.
+    </span>
+  </li>
+  <li>只需证 `S_(2n)` 和 `S_(2n+1)` 收敛到同一个值:
+    <span class="formula">
+      `lim_(n to oo) S_(2n)`
+      `= lim_(n to oo) sum_(k=1)^n (u_(2n-1) + u_(2n))`,<br>
+      `lim_(n to oo) S_(2n+1)`
+      `= lim_(n to oo) sum_(k=1)^n (u_(2n-1) + u_(2n)) + lim_(n to oo) u_(2n+1)`.
+    </span>
+  </li>
+</ol>
+
 <h2>正项级数</h2>
 
 <p>本节专注于级数的绝对收敛. 注意 `sum |u_n|` 的通项非负, 引出定义:</p>
@@ -611,31 +638,88 @@
 </p>
 
 <p class="theorem">
-	<b>Leibniz 判别法</b>
-	如果数列 `{u_n}` 单调趋于零, 那么交错级数 `sum_(n ge 0) (-1)^n u_n`
-	收敛.
+  <b>Leibniz 判别法</b>
+  如果数列 `{u_n}` 单调趋于零, 那么交错级数 `sum_(n ge 0) (-1)^n u_n` 收敛.
 </p>
 
+<ol class="proof">
+  不妨设 `u_n` 单调递减 (否则可以考虑 `-u_n`),
+  由 `u_n` 单调递减趋于零知道 `u_n ge 0`.
+  记部分和 `S_n := sum_(k=0)^n (-1)^k u_k`, 下证 `S_(2n)` 与 `S_(2n+1)` 收敛到同一个极限.
+  <li>
+    首先证明 `S_(2n+1) = sum_(k=0)^n (u_(2k) - u_(2k+1))` 单调有界.
+    这是由于 `u_n` 单调递减, 从而每个 `u_(2k) - u_(2k+1) ge 0`, 因此 `S_(2n+1)` 单调增.
+    另一方面, `S_(2n+1) = u_0 - sum_(k=1)^n (u_(2k-1) - u_(2k)) - u_(2n+1) le u_0`,
+    所以它有上界.
+  </li>
+  <li>其次证明 `S_(2n)` 与 `S_(2n+1)` 收敛到同一极限. 这是因为
+    `S_(2n) = S_(2n+1) + u_(2n+1)`, 而 `u_(2n+1) to 0`.
+  </li>
+</ol>
+
 <p class="lemma">
-	<b>Abel 变换</b>
-	设 `a_1, a_2, cdots, a_n` 和 `b_1, b_2, cdots, b_n` 是两组数.
-  记 `b_0 = 0`, `Delta b_k = b_k - b_(k-1)`, `k = 1, 2, cdots n`. 则
-	<span class="formula">
-		`sum_(k=1)^n a_k Delta b_k = a_k b_k - sum_(k=1)^(n-1) Delta
-		a_(k+1) b_k`.
-	</span>
+  <b>Abel 变换</b>
+  [参见 <a href="../comb/5.html">组合数学/离散微积分与特殊计数序列</a>]
+  设 `a_1, cdots, a_n` 和 `b_1, cdots, b_n` 是两组数.
+  记 `b_0 = 0`, `Delta b_k = b_k - b_(k-1)`, `k = 1, cdots n`. 则
+  <span class="formula">
+    `sum_(k=1)^n a_k Delta b_k = a_n b_n - sum_(k=1)^(n-1) b_k Delta a_(k+1)`.
+  </span>
   Abel 变换是离散版本的“分部积分”.
+</p>
+
+<p class="proof">
+  首先
+  <span class="formula">
+    `Delta (a_k b_k)`
+    `= a_k b_k - a_k b_(k-1) + a_k b_(k-1) - a_(k-1) b_(k-1)`
+    `= a_k Delta b_k + b_(k-1) Delta a_k`.
+  </span>
+  求和得
+  <span class="formula">
+    `sum_(k=1)^n Delta(a_k b_k)`
+    `= sum_(k=1)^n a_k Delta b_k`
+    `+ sum_(k=1)^n b_(k-1) Delta a_k`.
+  </span>
+  利用 `b_0 = 0` 即得结论.
 </p>
 
 <ol class="theorem">
   设数列 `{u_n}` 单调有界, 级数 `sum v_n` 的部分和有界, 考虑级数
-  `(**) = sum u_n v_n`:
-  <li><b>Dirichlet 判别法</b> 若 `u_n` 趋于零, 则 `(**)` 收敛.</li>
-	<li><b>Abel 判别法</b> 若 `sum v_n` 收敛, 则 `(**)` 收敛.</li>
+  `sum u_n v_n`:
+  <li><b>Dirichlet 判别法</b> 若 `u_n` 趋于零, 则 `sum u_n v_n` 收敛.</li>
+  <li><b>Abel 判别法</b> 若 `sum v_n` 收敛, 则 `sum u_n v_n` 收敛.</li>
+</ol>
+
+<ol class="proof">
+  记部分和 `S_n = sum_(k=1)^n v_k`, 且 `|S_n| le M`. 作 Abel 变换:
+  <span class="formula">
+    `sum_(k=1)^n u_k v_k`
+    `= sum_(k=1)^n u_k Delta S_k`
+    `= u_n S_n - sum_(k=1)^(n-1) S_k Delta u_(k+1)`.
+    <span class="label">(`ast`)</span>
+  </span>
+  记 `u_n to u`.
+  不妨设 `u_n` 单调递减 (否则可以考虑 `-u_n`), 于是 `u_n ge u`.
+  上式第二项当 `n to oo` 时绝对收敛. 这是因为部分和有上界:
+  <span class="formula">
+    `sum_(k=1)^(n-1) |S_k| |Delta u_(k+1)|`
+    `le M sum_(k=1)^(n-1) |Delta u_(k+1)|`
+    `= M (u_1 - u_n)`
+    `le M (u_1 - u)`.
+  </span>
+  现在, 我们在不同条件下考虑 (`ast`) 式第一项.
+  <li>
+    由于 `u_n to 0`, `S_n` 有界, 得到 `u_n S_n to 0`.
+  </li>
+  <li>
+    由于 `{u_n}` 单调有界有极限, `sum v_n` 收敛故 `S_n` 有极限, `u_n S_n` 有极限.
+  </li>
+  注意: Dirichlet 判别法/Abel 判别法把一个普通的收敛级数经过 Abel 变换得到一个绝对收敛级数.
 </ol>
 
 <p class="remark">
-	Dirichlet 判别法是 Leibniz 判别法的推广, 它把振荡级数
+  Dirichlet 判别法是 Leibniz 判别法的推广, 它把振荡级数
   `sum (-1)^n` 换成了部分和有界的 `sum v_n`.<br/>
   熟知收敛级数乘以常数因子仍收敛; Abel 判别法告诉我们,
   收敛级数乘以单调有界数列也仍收敛.
@@ -644,20 +728,43 @@
 <h2>级数中的反例</h2>
 
 <p class="example">
-	`0 le u_n le 1/n`, 而 `sum_(n ge 1) (-1)^n u_n` 发散的例子:
-	`u_n = (1+(-1)^n)/(2n)`. 在这个例子中, 通项 `u_n to 0`, 但不是单调的,
-	不满足 Leibniz 判别法的条件.
+  `0 le u_n le 1//n`, 而 `sum_(n ge 1) (-1)^n u_n` 发散的例子:
+  <span class="formula">
+    `u_n = (1+(-1)^n)/(2n)` `= { 0, if n 奇; 1//n, otherwise :}`.
+  </span>
+  在这个例子中, 通项 `u_n to 0`, 但不是单调的,
+  不满足 Leibniz 判别法的条件.
 </p>
 
 <p class="example">
   [来自<a href="https://zhuanlan.zhihu.com/p/88194615" target="_blank">知乎</a>]
   若级数 `sum a_n` 条件收敛, 且 `a_n // b_n to 1`,
   并不能推出级数 `sum b_n` 收敛.
-  比如级数 `1 - 1/sqrt 2 + 1/sqrt 3 - 1/sqrt 4 + cdots` 收敛,
+  比如级数
+  <span class="formula">
+    `1 - 1/sqrt 2 + 1/sqrt 3 - 1/sqrt 4 + cdots`
+  </span>
+  收敛, 而
   <span class="formula">
     `1/(sqrt2-1) - 1/(sqrt2+1) + 1/(sqrt3-1) - 1/(sqrt3+1) + cdots`
   </span>
-  发散, 而它们通项之比趋于 `sqrt2`, 是同阶无穷小.
+  发散;
+  这两个极限的通项之比趋于 `1//sqrt2`, 是同阶无穷小.
+</p>
+
+<p class="proof">
+  第一个级数由 Leibniz 判别法立即知道收敛.
+  第二个级数发散, 是因为部分和 `S_n` 的子数列 `S_(2n)` 不收敛:
+  <span class="formula">
+    `sum_(n ge 2) (1/(sqrt n-1) - 1/(sqrt n+1))`
+    `= sum_(n ge 2) 2/(n-1) = oo`.
+  </span>
+  为求两个级数的通项之比的极限, 分别考虑奇数项和偶数项:
+  <span class="formula">
+    `lim_(n to oo) (sqrt(n+1)-1)/sqrt(2n-1)`,
+    `quad lim_(n to oo) (sqrt(n+1)+1)/sqrt(2n)`.
+  </span>
+  显然两极限都是 `1//sqrt 2`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
