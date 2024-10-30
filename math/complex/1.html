@@ -225,6 +225,7 @@
 
 <p class="definition">
   全体复数 `CC` 连同无穷远点 `oo` 一起组成<b>复球面</b> `CC^**`.
+  [参见 <a href="../geometry/4.html">圆</a>]
 </p>
 
 <ol class="definition">
@@ -233,26 +234,46 @@
   对于任意非零常数 `k`, `k bm A` 也是 `f` 的矩阵. 我们将 `bm A` 和 `k bm A`
   视为相等的.
   下面我们总假定
-  <li>`|bm A| = a d - b c != 0`.</li>
+  <li>`|bm A| = a d - b c != 0`, 从而 `f` 是可逆的.</li>
   <li>若分母 `c z + d = 0`, 规定 `f(z) = oo`.</li>
   <li>若 `z = oo`, 规定 `f(z) = a/c`; 特别当 `c = 0` 时, `f(oo) = oo`.</li>
-  若 `c = 0`, 由假设 `a d - b c != 0` 知 `a != 0`, `d != 0`. 此时 `f` 形如
-  `A z + B`, 是一次多项式.
 </ol>
 
 <ol class="remark">
+  [参见 <a href="../lie/0.html">矩阵李群</a>]
   <li>复数域上全体二阶可逆矩阵称为 (2 阶) <b>一般线性群</b> `M = GL_2(CC)`.
   全体数量矩阵 `k bm I in M` 记为 `Z(M)`, 称为 `M` 的<b>中心</b>;
   这是因为 `M` 中与任意矩阵乘法可交换的必为数量矩阵.
   考虑分式线性变换时, 我们将 `bm A` 和 `k bm A` 等同, 因此分式线性变换是商群
   `PGL_2(CC) = M // Z(M)` 中的元素, 这个群称为<b>射影一般线性群</b>.
   </li>
-  <li>`GL_2(CC)` 中行列式等于 `+-1` 的矩阵全体组成子群 `SL_2(CC)`,
+  <li>`GL_2(CC)` 中行列式等于 `1` 的矩阵全体组成子群 `SL_2(CC)`,
     称为<b>特殊线性群</b>. `SL_2(CC)` 商掉其中心得到<b>射影特殊线性群</b>
     `PSL_2(CC)`. 特别素域 `bbb F_p` 上的 `n` 阶射影特殊线性群 `PSL_n(bbb
     F_p)` 简记为 `PSL(n, p)`.
   </li>
 </ol>
+
+<ol class="property">
+  <b>分式线性变换的分解</b>
+  设 `c != 0`, 分式线性变换
+  `f(z) = (a z + b)/(c z + d)` 可以分解为:
+  <li>平移: `z mapsto z + d//c`;</li>
+  <li>倒数: `z mapsto 1//z`;</li>
+  <li>伸缩与旋转: `z mapsto (b c - a d) z//c^2`;</li>
+  <li>平移: `z mapsto z + a//c`.</li>
+  若 `c = 0`, 由假设 `a d - b c != 0` 知 `a != 0`, `d != 0`. 此时 `f` 形如
+  `A z + B`, 是一次多项式.
+</ol>
+
+<p class="proof">
+  `c != 0` 时
+  <span class="formula">
+    `(a z + b)/(c z + d)`
+    `= (a(c z + d) - (a d - b c))/(c(c z + d))`
+    `= a/c - (a d - b c)/(c^2(z + d//c))`.
+  </span>
+</p>
 
 <p class="property">
   <b>分式线性变换与矩阵</b>
