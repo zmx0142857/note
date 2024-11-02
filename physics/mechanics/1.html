@@ -10,6 +10,26 @@
 <h2>例子</h2>
 
 <p class="example">
+  <b>微元法</b>
+  又称为牛顿几何法, 它在数学家眼中有失严谨, 但因其充满几何直观, 至今仍在物理学中使用.
+  作为例子, 我们来求 `sin theta`, `cos theta` 的导数.
+</p>
+
+<div class="p solution">
+  [来自 特里斯坦《微分几何：可视化方法》 ]
+  记 `s = sin theta`, `c = cos theta`, 在单位圆上令 `P = (sin theta, cos
+  theta)`, `Q = (sin(theta + "d"theta), cos(theta + "d"theta))`, 当 `"d"theta to 0` 时,
+  `/_OPQ to 90^@`, 由相似三角形知
+  <span class="formula">
+    `dd s theta = (cos theta)/1`,
+    `quad dd c theta = (-sin theta)/1`.
+  </span>
+  <div class="img md">
+    <img src="../img/newton-geo-01.svg" alt="">
+  </div>
+</div>
+
+<p class="example">
 	<b>直线运动</b>
 	作直线运动的质点, 其位置 `s`, 速度 `v`, 加速度 `a` 是时间 `t` 的函数,
 	其中
@@ -115,7 +135,7 @@
   利用万有引力定律和牛顿三大定律, 推导天体运动的开普勒三大定律, 即
   <li>椭圆轨道;</li>
   <li>单位时间内, 向径 `bm r` 扫过的面积为常数;</li>
-  <li>周期正比于 `a^(3/2)`, `a` 为半长轴;</li>
+  <li>周期正比于 `a^(3//2)`, `a` 为半长轴;</li>
 </ol>
 
 <ol class="solution">
@@ -144,12 +164,12 @@
         积分常数 `bm h` 称为角动量, 它垂直于轨道平面.
     </li>
     <li>拉普拉斯积分.
-        应用 <a href="../../math/diff-geo/1.html#exp-dot-r">
+        应用 <a href="../../math/diff-geo/2.html#exp-dot-r">
         矢量分析的结论</a>,
         <span class="formula">
             `dot hat bm r = (bm h xx bm r)/r^3`,
         </span>
-        其中 `hat bm r = bm r/r`.
+        其中 `hat bm r = bm r//r`.
         在 <a class="ref" href="#for-r"></a> 两边叉乘 `bm h`,
         <span class="formula">
             `ddot bm r xx bm h + mu/r^3 bm r xx bm h = bb 0`,
@@ -161,7 +181,7 @@
         积分常数 `bm f` 称为拉普拉斯矢量 (或龙格楞次矢量).
     </li>
     <li>开普勒第一定律.
-        在拉普拉斯积分两边点乘 `bm r`,
+        在拉普拉斯积分两边点乘 `bm r`, 记 `bm r, bm f` 的夹角为 `theta`, 则
         <span class="formula">
             `r f cos theta`
             `= bm r * bm f`
@@ -176,11 +196,13 @@
         这正是圆锥曲线的极坐标方程.
     </li>
     <li>开普勒第二定律.
-        将 `dot bm r` 正交分解,
-        其中 `hat bm theta` 是与 `bm r, bm h` 都垂直的单位向量:
+        令 `bm theta = bm h xx bm r`,
+        将 `dot bm r` 正交分解为 `hat bm r` 和 `hat bm theta` 的线性组合:
         <span class="formula">
             `dot bm r = dot r hat bm r + r dot theta hat bm theta`.
         </span>
+        其中沿 `bm r` 的分量可以由公式 `bm r * dot bm r = r dot r` 得到,
+        沿 `bm theta` 的分量则由微元法画图得到.
         两边叉乘 `bm r` 得
         <span class="formula">
             `bm h = r^2 dot theta (hat bm r xx hat bm theta)`,
@@ -198,7 +220,7 @@
         <span class="formula">
             `T = (2 pi a b)/h`.
         </span>
-        因为 `h^2` 正比于 `b^2/a`, 所以 `T` 正比于 `a^(3/2)`.
+        由椭圆方程知道 `h^2` 正比于 `b^2//a`, 所以 `T` 正比于 `a^(3//2)`.
     </li>
 </ol>
 

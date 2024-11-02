@@ -384,7 +384,6 @@ var tocData = [
         "value": "mechanics",
         "label": "力学",
         "children": [
-          { "value": "0", "label": "图形推理", "date": "2024-10-23" },
           { "value": "1", "label": "质点运动学", "date": "2024-09-13" }
         ]
       },
