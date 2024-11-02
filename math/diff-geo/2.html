@@ -7,17 +7,22 @@
 </head>
 <body>
 
-<h2>正则曲线与弧长参数</h2>
+<h2>平面与空间正则曲线</h2>
+
+<h3>正则曲线与弧长参数</h3>
 
 <ol class="definition">
-  <b>曲线</b> `bm r(t)` 是参数 `t` (可以视为时间) 的一元向量函数,
-  `bm v = ("d"bm r)/dt` 称为曲线的<b>切向量</b> (或速度), `v = |bm v|` 是切向量的模 (即速率).<br/>
-  <b>正则曲线</b> 是满足下面条件的曲线:
-  <li>无穷可微: 每一分量是 `C^oo` 函数;</li>
-  <li>速率不为零: `v = |bm v| = |("d" bm r)/dt| gt 0`, `AA t in (a, b)`.</li>
+  <li><b>曲线</b> 可以用参数 `t` 的一元向量函数 `bm r(t)` 来刻画.
+    它可以看作一个运动粒子在时刻 `t` 的位置矢量 (简称位矢).
+  </li>
+  <li>`bm v = ("d"bm r)/dt` 是曲线的<b>切向量</b> (或速度).
+    `v = |bm v|` 是切向量的长度 (或速率).
+    计算速度时, 只需将 `bm r(t)` 的每个分量都对 `t` 求导.
+  </li>
+  <li>如果曲线无穷可微, 且速率处处大于零, 则称它是<b>正则曲线</b>.
+    今后我们默认曲线都是正则的.
+  </li>
 </ol>
-
-<p class="remark">以后我们提到曲线, 如无特别说明, 都指正则曲线.</p>
 
 <p class="definition">
   正则曲线在 `(0, T)` 上的弧长为
@@ -34,17 +39,24 @@
   即曲线在弧长参数下, 速率恒为 1. 这一性质对今后的讨论很有帮助.
 </p>
 
-<p class="remark">
-  今后我们用字母右上角的撇表示对 `s` 求导, 如 `bm r' = ("d"bm r)/("d"s)`;
-  用字母上的点表示对 `t` 求导, 如 `dot bm r = ("d"bm r)/dt`;
-  用未加粗的字母表示向量的模, 如 `v = |bm v|`;
-  用帽子表示单位向量, 如 `hat bm v = (bm v)/v`.
-</p>
+<ol class="remark">
+  约定:
+  <li>用未加粗的字母表示向量的模, 如 `v = |bm v|`;</li>
+  <li>用字母右上角的撇表示对 `s` 求导, 如 `bm r' = ("d"bm r)/("d"s)`;</li>
+  <li>用字母上的点表示对 `t` 求导, 如 `dot bm r = ("d"bm r)/dt`;</li>
+  <li>用帽子表示单位向量, 如 `hat bm v = (bm v)/v`.</li>
+  对向量函数 `bm w(t)`, 一个简单的关系是 `dot bm w = v bm w'`.
+</ol>
 
 <ol class="example" id="exp-dot-r">
   <b>极坐标下的矢量分析</b>
-  我们来求 `dot r` 和 `dot hat bm r`. 它们分别代表 `bm r`
+  我们在 `E^3` 中求 `dot r` 和 `dot hat bm r`. 它们分别代表 `bm r`
   在长度和方向上的变化.
+  <li>`dot r = (:bm r, dot bm r:)//r`;</li>
+  <li>`dot hat bm r = (bm r ^^ dot bm r) ^^ bm r // r^3`.</li>
+</ol>
+
+<ol class="solution">
   <li>
     因为
     <span class="formula">
@@ -62,7 +74,7 @@
       `= "d"/dt(bm r/r)`
       `= (r dot bm r - dot r bm r) / r^2`
       `= (dot bm r (:bm r, bm r:) - bm r (:bm r, dot bm r:)) / r^3`
-      `= ((bm r ^^ dot bm r) ^^ bm r) / r^3`.
+      `= ((bm r ^^ dot bm r) ^^ bm r) / r^3`
       `= (bm h ^^ bm r)/r^3`.
     </span>
     其中 `bm h = bm r ^^ dot bm r` 称为<b>角动量</b>,
@@ -78,84 +90,131 @@
       即 `bm r` 与 `dot bm r` 垂直;
   </li>
   <li>`bm r` 的方向不变, 即 `hat bm r` 为常向量当且仅当
-      `bm r ^^ dot bm r = bb 0`, 即 `bm r` 与 `dot bm r` 平行.
+      `bm r ^^ dot bm r = bb 0`, 即 `bm r` 与 `dot bm r` 平行 (同向或反向).
   </li>
 </ol>
 
-<h2>平面与空间正则曲线</h2>
-
-<h3>相关记号</h3>
+<h3>平面曲线的曲率</h3>
 
 <p class="definition">
-  <b>二维情形</b>
-  设 `bm r` 为平面曲线.
-  取弧长参数 `s`, 这时切向量 `bm v` 恰为单位向量.  记 `bm t = hat bm v`,
-  由 `bm t` 的长度不变知 `bm t _|_ bm t'`.
-  令 `bm n` 是 `bm t` 的法向量, (规定 `bm t, bm n` 成右手系),
-  则存在标量函数 `kappa(s)` 使得
+  对于平面曲线上的任意一点 `P`, 定义 `P` 点处的<b>曲率 (curvature)</b>为
   <span class="formula">
-    `bm t' = kappa bm n`.
+    `kappa := dd varphi s`.
   </span>
-  `kappa` 称为<b>曲率</b>. `{bm r"; " bm t, bm n}` 称为曲线的
-  <b>Frenet 标架</b>.
-  `kappa gt 0` 时, `bm n` 沿逆时针转动 (曲线沿逆时针绕行).
+  其中 `"d"s` 是运动粒子经过的弧长, `"d"varphi` 是这期间切向量转动的角度.
+  规定逆时针为正向, 因此曲率为正意味曲线沿逆时针绕行.
+  <br>
+  直观上, 在 `P` 点, 可以作一个圆贴合曲线的形状, 称为曲率圆,
+  其弧长近似 `"d"s`, 圆心角近似 `"d"varphi`,
+  因此曲率圆的半径 `r` 刻画了 `P` 点处曲线的弯曲程度, 即曲率
+  <span class="formula">
+    `kappa = 1//r`.
+  </span>
+  曲率圆心可以这样作出: 在 `P` 附近取一点 `Q`, 然后取 `P, Q` 处法线的交点.
+  当 `Q` 趋近 `P` 时, 圆心趋于一个确定的点 `O`.
+  <span class="img md" title="曲率圆">
+    <img src="../img/curvature.svg" alt="曲率圆">
+  </span>
+</p>
+
+<p class="corollary">
+  <b>曲率的计算</b>
+  设 `bm r(s)` 为平面曲线, `s` 是弧长参数. 在曲线上一点处, `bm v` 是单位切向量.
+  另取一个单位向量 `bm n` 使得 `bm v _|_ bm n` 且 `bm v, bm n` 成右手系.
+  称 `{bm r"; " bm v, bm n}` 为点 `P` 处的 <b>Frenet 标架</b>.
+  此时曲率的公式为:
+  <span class="formula">
+    `bm v' = bm r'' = kappa bm n`.
+  </span>
+  即曲率的大小等于向量 `bm v'` 的长度, 曲率的符号取决于 `bm v'` 和 `bm n` 是否同向.
+  我们称 `bm v'` 为这一点的<b>曲率向量</b>, 又称为<b>向心力</b>.
+</p>
+
+<p class="proof">
+  弧长参数下切向量 `bm v = bm r'` 恰为单位向量.
+  由 `|"d"bm v| ~ |"d"varphi|` 两边同除以 `"d"s` 即得到 `|bm v'| = |kappa|`.
+  由 `bm v` 的长度不变知道 `bm v' _|_ bm v`.
+  由上图看出, `bm v'` 是 `P` 点处的法向量, 方向指向曲率圆心 `O`.
 </p>
 
 <p class="remark">
-  直角坐标系下,
+  Frenet 标架是局部的, 曲线上每一点都有自己的标架. 这与全局标架 (如平面直角坐标系) 不同.
+</p>
+
+<p class="example">
+  取平面直角坐标系 `bm r = (x, y)`, 则
   <span class="formula">
-    `bm r = (x, y)`, `quad "d"bm r = (dx, dy)`,
-    `quad "d"s = |"d"bm r| = sqrt(dx^2+dy^2)`<br/>
-    `quad bm n = [cos pi//2, -sin pi//2; sin pi//2, cos pi//2] bm t`
-    `= [0, -1; 1, 0] ("d"bm r)/("d"s)`
-    `= (-dy/("d"s), dx/("d"s))`.
+    `"d"bm r = (dx, dy)`,
+    `quad "d"s = |"d"bm r| = sqrt(dx^2+dy^2)`,<br>
+    `quad bm n = (-dy/("d"s), dx/("d"s))`,
+    `quad |kappa| = |("d"^2 bm r)/("d"s^2)|`.
   </span>
+</p>
+
+<p class="proof">
+  `bm n` 的推导:
+  <span class="formula">
+    `bm n = [cos pi//2, -sin pi//2; sin pi//2, cos pi//2] bm v`
+    `= [0, -1; 1, 0] ("d"bm r)/("d"s)`.
+  </span>
+</p>
+
+<h3>空间曲线的曲率与挠率</h3>
+
+<p>
+  三维空间曲线一般不能放进一个平面内, 然而在每个点的局部,
+  仍可以近似位于一个平面内, 它是在这一点处与曲线最贴近的平面,
+  称为这个点的<b>密切平面</b>.
+  在密切平面的内部, 我们依然可以按二维的思路定义它的曲率 `kappa`.
+  注意与二维不同, 三维曲线的曲率总是非负的.
+  <br>
+  与此同时, 粒子在曲线上运动时, 密切平面也随之旋转,
+  它旋转的速率定义为曲线的<b><ruby>挠率<rt style="font-size:0.8em;font-weight:normal">náo lǜ</rt></ruby> (torsion)</b>. 挠率可以为负.
+  等价地说, 挠率是曲线在垂直于前进方向 `bm v` 的平面上 (称为法平面) 扭动的速率.
+  <span class="img md" title="挠率">
+    <img src="../img/torsion.svg" alt="">
+  </span>
+  以上概念的具体定义如下:
 </p>
 
 <ul class="definition">
-  <b>三维情形</b> 同样取弧长参数 `s`, 我们有
-  <li><b>切向量</b> `bm v := bm r' = dd {:bm(r):} s`.</li>
-  <li><b>曲率向量</b> `bm t' = dd^2 {:bm(r):} s`.</li>
-  <li><b>单位切向量 (tangent)</b> `bm t := hat (bm v) = hat (bm r')`.</li>
-  <li><b>主法向量 (normal)</b> `bm n := hat (bm t')`, 它是垂直于 `bm t` 的单位向量.</li>
-  <li><b>副法向量 (binormal)</b> `bm b = bm t ^^ bm n`, 它同时垂直于 `bm t` 和 `bm n`.</li>
-  <li><b>曲率</b> `kappa(s) := |bm t'|`.</li>
-  <li><b>挠率</b> `tau := (:bm n', bm b:)` 是 `bm n'` 在 `bm b` 上的投影.</li>
+  考虑三维曲线 `bm r(s)`, `s` 为弧长参数,
+  对于曲线上的一点,
+  `bm v = bm r'` 是单位切向量,
+  `bm v' = bm r''` 是曲率向量.
+  和二维的情形相同, 我们有 `bm v' _|_ bm v`. 定义
+  <li>主法向量 (normal) `bm n := hat(bm v')`, 它是垂直于 `bm v` 的单位向量, 指向曲率圆心.</li>
+  <li>副法向量 (binormal) `bm b := bm v ^^ bm n`, 因此 `bm v, bm n, bm b` 是相互垂直的单位向量, 且成右手系.</li>
+  `{bm r"; "bm v, bm n, bm b}` 称为曲线在这一点的 <b>Frenet 标架</b>,
+  以这三个向量为法向量的平面分别称为<b>法平面</b>, <b>从切平面</b>和<b>密切平面</b>.
+  <br>
+  想象你驾驶飞机沿曲线飞行, `bm v` 指向正前方, `bm n`
+  指向你在水平面内拐弯的方向, `bm b` 由前两个向量根据右手法则确定.
+  现在可以定义:
+  <li>曲率 `kappa := |bm v'|`, 它等于曲率向量的长度, 总是非负的;</li>
+  <li>挠率 `tau := ("d"theta)/("d"s)`, 其中 `"d"theta` 表示粒子经过 `"d"s` 的弧长时,
+    向量 `bm b` 绕向量 `bm v` 转过的角度. 使用右手法则规定角度的正方向: 拇指指向 `bm v` 时,
+    四指弯曲的方向为正.
+  </li>
 </ul>
 
-<p>
-  `bm t, bm n, bm b` 形成右手系, 且均为单位向量.
-  `{bm r"; " bm t, bm n, bm b}` 称为曲线的 <b>Frenet 标架</b>.
-  以这三个向量为法向量的平面分别称为<b>法平面</b>,
-  <b>从切平面</b>和<b>密切平面</b>.
+<p class="corollary">
+  <b>曲率和挠率的计算</b> 在 Frenet 标架下,
+  <span class="formula">
+    `bm v' = kappa bm n`,
+    `quad bm b' = -tau bm n`.
+  </span>
 </p>
 
-<p>
-  `tau gt 0` 时, 曲线沿正向穿越密切平面 (即在 `(bm t, bm b)`
-  平面的投影是上升曲线).
-  不同于平面曲线, 在空间曲线中, 总有 `kappa ge 0`.
-</p>
-
-<p class="remark">
-  直观上, 空间曲线的曲率可以理解为向心力,
-  挠率则可以理解为密切平面的运动速率.
+<p class="proof">
+  第一个等式由主法向量的定义即可得知. 下证第二式.
+  在 `|"d"bm b| ~ |"d"theta|` 两边同除以 `"d"s` 得到 `|bm b'| = |tau|`.
+  由上图知道 `bm b` 变化的方向与 `bm n` 相反, 从而 `bm b' = -tau bm n`.
 </p>
 
 <h3>Frenet 方程</h3>
 
-<p class="lemma">
-  <b>分部积分</b>
-  设 `bm a, bm b` 为 `t` 的函数, 则
-  <span class="formula">
-    `(:bm a, dot bm b:) = "d"/dt (:bm a, bm b:) - (:dot bm a, bm b:)`.
-  </span>
-  特别当 `(:bm a, bm b:)` 为常数 (特别的特别, 当两向量正交) 时,
-  <span class="formula">
-    `(:bm a, dot bm b:) = -(:dot bm a, bm b:)`.
-  </span>
-</p>
-
-<ol class="theorem" id="the-unit-vec">
+<ol class="lemma" id="the-unit-vec">
   设 `bm e_1, bm e_2, cdots, bm e_m` 是参数 `t` 的向量函数,
   且不论 `t` 取何值, 它们始终都是两两正交的单位向量, 即
   <span class="formula">
@@ -183,27 +242,27 @@
   </li>
 </ol>
 
-<p>现在可以导出二维和三维的 Frenet 方程, 由引理知道, 它们的系数矩阵是反对称的:
-</p>
-
-<p>
-  二维情形: 由已知 `bm t' = kappa bm n = 0 bm t + kappa bm n`, 借助引理得
-  <span class="formula">
-    `"d"/("d"s) [bm t; bm n] = [0, kappa; -kappa, 0][bm t; bm n]`.
-  </span>
-</p>
-
-<p>
-  三维情形: 由主法向量的定义知 `omega_(12) = kappa`, `omega_(13) = 0`.
-  又 `omega_(23) = (:bm n', bm b:) = tau`, 于是
-  <span class="formula">
-    `"d"/("d"s) [bm t; bm n; bm b] = [
-      0, kappa, 0;
-      -kappa, 0, tau;
-      0, -tau, 0;
-    ][bm t; bm n; bm b]`.
-  </span>
-</p>
+<ol class="corollary">
+  现在可以导出二维和三维的 Frenet 方程, 由引理知道, 它们的系数矩阵是反对称的:
+  <li>
+    二维情形: 我们有 `bm v' = kappa bm n` `= 0 bm v + kappa bm n`,
+    借助引理得
+    <span class="formula">
+      `"d"/("d"s) [bm v; bm n] = [0, kappa; -kappa, 0][bm v; bm n]`.
+    </span>
+  </li>
+  <li>
+    三维情形: 由 `bm v' = kappa bm n` 和 `bm b' = -tau bm n` 得到
+    <span class="formula">
+      `"d"/("d"s) [bm v; bm n; bm b] = [
+        0, kappa, 0;
+        -kappa, 0, tau;
+        0, -tau, 0;
+      ][bm v; bm n; bm b]`.
+    </span>
+  </li>
+  Frenet 方程描绘了粒子沿曲线运动时, 标架旋转的速率与曲率、挠率之间的关系.
+</ol>
 
 <h3>杂例</h3>
 
@@ -219,11 +278,10 @@
 
 <ol class="proof">
   <li>
-    记 `bm beta = bm v ^^ dot bm v`, 由
+    记 `bm beta = bm v ^^ dot bm v`. 由 `dot hat bm v` 的公式 (来自例题 极坐标下的矢量分析) 知道,
     <span class="formula">
       `kappa bm n`
-      `= ("d"bm t)/("d"s)`
-      `= ("d"bm t)/dt dt/("d"s)`
+      `= (hat bm v)'`
       `= dot hat bm v // v`
       `= bm beta ^^ bm v // v^4`,
       <span class="label" id="for-kappa-n"></span>
@@ -231,17 +289,13 @@
     注意 `(:bm v, bm beta:) = 0`, 两边取模即得结论.
   </li>
   <li>
-    将 <a class="ref" href="#for-kappa-n"></a> 单位化, 得
+    将 <a class="ref" href="#for-kappa-n"></a> 单位化, 得 `bm n = hat bm beta ^^ hat bm v`.
+    由 Frenet 标架知道 `bm n = bm b ^^ hat bm v`, 下证 `bm b = hat bm beta`:
     <span class="formula">
-      `bm n = (bm beta ^^ bm v)/(beta v)`
-      `= (bm beta)/beta ^^ bm t`.
-    </span>
-    我们知道 `bm n = bm b ^^ bm t`, 下证 `bm b = bm beta // beta`:
-    <span class="formula">
-      `bm b = bm t ^^ bm n`
-      `= (bm v)/v ^^ (bm beta ^^ bm v) / (beta v)`
-      `= ((:bm v, bm v:) bm beta - (:bm v, bm beta:) bm v)/(v^2 beta)`
-      `= bm beta // beta`.
+      `bm b = hat bm v ^^ bm n`
+      `= hat bm v ^^ (hat bm beta ^^ hat bm v)`
+      `= (:hat bm v, hat bm v:) hat bm beta - (:hat bm v, hat bm beta:) hat bm v`
+      `= hat bm beta`.
     </span>
     进一步,
     <span class="formula">
@@ -255,16 +309,14 @@
     记 `gamma = (bm v, dot bm v, ddot bm v)`, 有
     <span class="formula">
       `dot bm b`
+      `= dot hat bm beta`
       `= (bm beta ^^ dot bm beta) ^^ bm beta // beta^3`
       `= gamma/beta^3 bm v ^^ bm beta`
       `= -(gamma v)/beta^2 bm n`.
     </span>
-    最终
+    与 `dot bm b = v bm b'`, `bm b' = -tau bm n` 比较得
     <span class="formula">
-      `tau = (:("d"bm n)/("d"s), bm b:)`
-      `= -1/v (:dot bm n, bm b:)`
-      `= 1/v (:bm n, dot bm b:)`
-      `= gamma/beta^2`.
+      `tau = gamma//beta^2`.
     </span>
   </li>
 </ol>
@@ -275,27 +327,42 @@
     `kappa(t) = (dot x ddot y - ddot x dot y)/
     ({:dot x:}^2 + {:dot y:}^2)^(3//2)`.
   </span>
+  特别当 `t` 为弧长参数时, `kappa = (ddot y)/(dot x) = -(ddot x)/(dot y)`.
 </p>
 
 <p class="solution">
-  自然, `kappa` 可以通过计算 `("d"^2 bm r)/{:"d"s:}^2` 与 `bm n`
-  关于 `x, y` 的表达式来求得. 不过也可以将二维问题视为三维问题,
-  利用上题结论,
+  记 `bm v = ("d"bm r)/("d"s)`, 则
   <span class="formula">
-    `kappa(t) = +- (dot x ddot y - ddot x dot y)/
-    ({:dot x:}^2 + {:dot y:}^2)^(3/2)`.
+    `kappa bm n`
+    `= ("d"bm v)/("d"s)`
+    `= ("d"bm v)/dt dt/("d"s)`
+    `= 1/v "d"/dt((dot bm r)/v)`
+    `= 1/v^3 (ddot bm r v - dot v dot bm r)`.
   </span>
-  为确定其符号, 设 `kappa != 0`, 因为 `{bm t, bm n}` 为正定向的, 所以
+  两边与 `bm n` 作内积,
   <span class="formula">
-    `(bm t, bm n, bm k) gt 0`, `bm k` 是 `z` 轴的单位向量.
+    `kappa = 1/v^2(:ddot bm r, bm n:)`
   </span>
-  由于 `bm n = 1/kappa ("d"bm t)/("d"s)`, 上式化为 (??)
+  用 `x(t), y(t)` 写出
   <span class="formula">
-    `(dot bm r, ddot bm r, kappa bm k) gt 0`,
-    即
-    `|dot x, dot y, 0; ddot x, ddot y, 0; 0, 0, kappa| gt 0`.
+    `bm n = ((-dot y, dot x))/sqrt(dot x^2+dot y^2)`,
   </span>
-  可见前述式子应当取正号.
+  结合上面两式即得第一个结论.
+  现在设 `t` 为弧长参数, 则 `dot x^2 + dot y^2 = 1`, 求导得
+  <span class="formula">
+    `dot x ddot x + dot y ddot y = 0`.
+  </span>
+  这就是说
+  <span class="formula">
+    `(ddot y)/(dot x) = -(ddot x)/(dot y)`.
+  </span> 
+  于是利用 `dot x ddot x = -dot y ddot y`,
+  <span class="formula">
+    `dot x kappa = dot x^2 ddot y - dot x ddot x dot y`
+    `= dot x^2 ddot y + dot y^2 ddot y`
+    `= ddot y`.
+  </span>
+  这证明了弧长参数的情形.
 </p>
 
 <p class="example">

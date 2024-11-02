@@ -238,6 +238,38 @@
   相似意味它们对应角相等. 由 Harriot 公式, 它们的面积也相等, 从而必是全等的.
 </p>
 
+<h3>球体的投影</h3>
+
+<p class="example">
+  假设地球是正球体, 球心处的光源将球面上的点投影到外切圆柱面上, 再把圆柱展开,
+  就得到地球的<b>中心圆柱投影</b>.  其中经纬度 `(theta, varphi)` 的点被投影到地图上的
+  <span class="formula">
+    `x = theta`, `quad y = tan varphi`.
+  </span>
+  <b>墨卡托投影 (Mercator Projection)</b>
+  是对中心圆柱投影的重大改进, 使其具有<b>保角性</b>, 即投影保持任意角度不变.  他的公式如下:
+  <span class="formula">
+    `x = theta`, `quad y = ln tan(varphi/2 + pi/4)`.
+  </span>
+  墨卡托投影和中心圆柱投影的共同缺点是: 不适合高纬度地区, 因为高纬地区的图形畸变过大.
+  特别地, 南北极点被投影到无穷远处, 在地图上无法显示.
+  <br>
+  <b>阿基米德-兰伯特投影</b> 也是将球面上的点投影到外切圆柱面上, 但是光线的方向平行于赤道平面:
+  <span class="formula">
+    `x = theta`, `quad y = sin varphi`.
+  </span>
+  它具有<b>等面积</b>的性质, 即投影保持任意区域面积不变.
+  事实上阿基米德正是用此方法发现了球体的表面积公式.
+  <br>
+  最后指出, 不存在既保角又等面积的地图. 这是因为球面的高斯曲率恒为 `K = 1//R^2`.
+  如果记三角形的内角和与 `pi` 的差值为 `cc E(Delta)` (称为<b>角盈</b>), 根据局部 Gauss-Bonnet 公式,
+  <span class="formula">
+    `K = lim_(Delta to 0) cc E(Delta) // cc A (Delta)`.
+  </span>
+  当我们把一个小三角形从球面映到平面地图上时, 曲率由正数变为零,
+  这意味上式右端的分子和分母必有一个发生改变.
+</p>
+
 <h2>杂例</h2>
 
 <p class="example">
@@ -285,7 +317,7 @@
   即得到关于 `(theta, varphi)` 的参数方程.
 </p>
 
-<div class="img" title="大圆弧的可视化 (Mercator 投影)">
+<div class="img" title="大圆弧的可视化">
   <canvas id="img-arc-lonlat" width="400" height="400"></canvas>
   <div>
     <span id="img-arc-range-lon1"></span>
@@ -300,14 +332,6 @@
     <span id="img-arc-range-lat2"></span>
   </div>
 </div>
-
-<p class="example">
-  <b>墨卡托投影 (Mercator Projection)</b>
-  假设地球是正球体, 球心处的光源将球面上的点投影到外切圆柱面上, 再把圆柱展开, 就得到地球的墨卡托投影.
-  墨卡托投影不适合高纬度地区, 因为高纬地区的图形畸变过大. 特别地,
-  南北极点被投影到无穷远处, 在地图上无法显示.
-  墨卡托投影的重要性质是<b>等角性</b>.
-</p>
 
 <p class="example">
   wgs84 标准假设地球是一个椭球体, 方程为
@@ -453,7 +477,7 @@ const lonFn = (a) => {
 }
 
 const latFn = (a) => {
-  return tan(data.lat * PI / 180)
+  return data.lat * PI / 180
 }
 
 const plot = new Plot('img-arc-lonlat')
@@ -464,7 +488,7 @@ const replot = () => {
   data.angle = acos(dot(data.begin, data.end))
   plot.clear()
     .geometry({ xmin: -180, xmax: 180, ymin: -PI, ymax: PI })
-    .axis({ xlabel: 'lon', ylabel: 'tan(lat)' })
+    .axis({ xlabel: 'lon', ylabel: 'lat' })
     .plot(lonFn, latFn, { min: 0, max: data.angle, continuity: 1e4 })
 }
 

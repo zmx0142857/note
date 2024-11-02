@@ -185,7 +185,8 @@ var tocData = [
         "label": "拓扑学",
         "children": [
           { "value": "1", "label": "拓扑空间与连续映射", "date": "2023-05-11" },
-          { "value": "2", "label": "常见拓扑性质", "date": "2024-10-19" }
+          { "value": "2", "label": "常见拓扑性质", "date": "2024-10-19" },
+          { "value": "3", "label": "滤子和网", "date": "2024-10-31" }
         ]
       },
       {
@@ -236,7 +237,7 @@ var tocData = [
         "label": "微分几何",
         "children": [
           { "value": "1", "label": "欧氏空间" },
-          { "value": "2", "label": "曲线的局部理论" },
+          { "value": "2", "label": "曲线的局部理论", "date": "2024-11-01" },
           { "value": "3", "label": "曲面的局部理论", "date": "2024-10-24" },
           { "value": "4", "label": "标架与曲面论基本定理" },
           { "value": "5", "label": "曲面的内蕴几何学" }
@@ -446,10 +447,11 @@ var tocData = [
           { "value": "larc~en~ciel", "label": "L'arc~en~Ciel" },
           { "value": "crayon-shinchan", "label": "Crayon Shinchan", "date": "2022-02-27" },
           { "value": "mucc", "label": "MUCC", "date": "2022-02-27" },
-          { "value": "sadie", "label": "sadie", "date": "2022-02-27" },
-          { "value": "sekima", "label": "sekima", "date": "2022-02-27" },
+          { "value": "sadie", "label": "Sadie", "date": "2022-02-27" },
+          { "value": "sekima", "label": "聖飢魔II", "date": "2022-02-27" },
           { "value": "leslie-cheung", "label": "张国荣", "date": "2024-05-31" },
-          { "value": "xjapan", "label": "X JAPAN", "date": "2024-09-27" }
+          { "value": "xjapan", "label": "X JAPAN", "date": "2024-09-27" },
+          { "value": "galneryus", "label": "Galneryus", "date": "2024-11-01" }
         ]
       },
       {

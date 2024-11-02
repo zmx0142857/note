@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>滤子和网*</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<p>[来自 <a href="https://zhuanlan.zhihu.com/p/558332980">sumeragi693@知乎</a>]</p>
+
+<p class="remark">
+  滤子和网是点列的抽象化概念, 常用于描述抽象拓扑空间中的收敛性.
+  本章属于<b>点集拓扑</b>的进阶内容, 初次接触拓扑学的读者了解定义即可.
+  笔者计划在下一章开始<b>代数拓扑</b>的笔记.
+</p>
+
+<h2>滤子</h2>
+
+<h3>定义</h3>
+
+<ol class="definition">
+  设 `X` 为非空集合, 子集族 `cc F sube 2^X` 满足以下 3 个条件时, 就称为 `X`
+  上的<b>真滤子</b>, 简称<b>滤子</b>:
+  <li>含全集, 不含空集: `X in cc F`, `O/ !in cc F`;</li>
+  <li>有限交: `F_1, F_2 in cc F rArr F_1 nn F_2 in cc F`;</li>
+  <li>传递性: `F sube G sube X and F in cc F rArr G in cc F`.</li>
+  可以将滤子与拓扑的定义进行比较.
+  由 1. 立即得知, `cc F != O/`, 且是 `2^X` 的真子集, 故得名真滤子.
+  由 2. 知道 `cc F` 中任意有限个集合的交都非空, 这称为滤子的<b>有限交性质</b>.
+</ol>
+
+<ol class="example">
+  <li><b>Frechet 滤子 (或余有限滤子)</b> 设 `X` 为无限集, 则 `cc F = { F sube X: F^c 为有限集 }`
+    是 `X` 的滤子.
+  </li>
+  <li><b>邻域系滤子</b> 设 `X` 为拓扑空间, `x in X`. 则 `x` 的全体邻域 `cc N_x` 是滤子.</li>
+</ol>
+
+<h3>滤子的生成</h3>
+
+<p class="definition">
+  <b>滤子的生成</b>
+  设 `X` 是非空集合, `cc F` 是 `X` 的非空子集族, 且满足有限交性质. 记
+  <span class="formula">
+    `cc F_nn := { F: F 是 cc F 中集合的有限交 }`,<br>
+    `(:cc F:) := { G sube X: EE F in cc F_nn, F sube G }`.
+  </span>
+  则 `(:cc F:)` 是滤子, 称为子集族 `cc F` <b>生成的滤子</b>. 可以验证 `cc F sube (:cc F:)`.
+  <br>
+  特别当 `x` 是 `X` 中的一点, 则 `cc F = {{x}}` 具有有限交性质, 它的有限交集合 `cc F_nn = {{x}}`.
+  生成的滤子 `(:cc F:) = { G sube X: x in G }` 即为包含点 `x` 的所有集合.
+  称它为 `x` 生成的<b>主滤子</b>.
+</p>
+
+<ol class="definition">
+  设 `cc F, cc G` 为 `X` 上的滤子.
+  <li>若 `cc F sube cc G`, 则称 `cc G` 为 `cc F` 的<b>加细</b>或<b>细分</b>;</li>
+  <li>若任意 `F in cc F`, `G in cc G` 都有 `F nn G != O/`, 则称 `cc F, cc G` 是<b>并存</b>的;</li>
+</ol>
+
+<p class="corollary">
+  滤子 `cc F, cc G` 并存当且仅当它们具有共同的加细.
+</p>
+
+<ol class="proof">
+  <li>`rArr`. 令 `cc H = cc F uu cc G`, 由 `cc F, cc G` 并存知道 `cc H` 仍满足有限交性质.
+    又由
+    <span class="formula">
+      `cc F sube cc H sube (:cc H:)`,<br>
+      `cc G sube cc H sube (:cc H:)`
+    </span>
+    知道, `(:cc H:)` 是 `cc F, cc G` 的共同加细.
+  </li>
+  <li>设 `cc H` 是它们的共同加细, 则它满足有限交性质,
+    从而 `AA F in cc F sube cc H`, `AA G in cc G sube cc H`, `F nn G != O/`.
+  </li>
+</ol>
+
+<p class="corollary">
+  我们已经知道滤子 `cc F, cc G` 并存时, `(:cc F uu cc G:)` 是它们的共同加细.
+  事实上,
+  <span class="formula">
+    `cc F ^^ cc G := { F nn G: F in cc F, G in cc G }`
+  </span>
+  也是一个共同加细, 而且是<b>最小共同加细</b>.
+</p>
+
+<ol class="proof enum">
+  <li>显然对任意 `F in cc F` 有 `F = F nn X in cc F ^^ cc G`; 对 `G in cc G` 同理.
+    所以 `cc F uu cc G sube cc F ^^ cc G`.
+  </li>
+  <li>下证 `cc F ^^ cc G` 是滤子.
+    <ol>
+      <li>`X in cc F, X in cc G rArr X in cc F ^^ cc G`.</li>
+      <li>由 `cc F, cc G` 并存知道 `O/ !in cc F ^^ cc G`.</li>
+      <li>任取 `F_1 nn G_1, F_2 nn G_2 in cc F ^^ cc G`, 由 `F_1 nn F_2 in cc F` 和 `G_1 nn G_2 in cc G` 知道四个集合的交 `in cc F ^^ cc G`.</li>
+      <li>若 `H` 满足 `F nn G sube H sube X`, 其中 `F in cc F`, `G in cc G`,
+        则由 `F sube H uu F` 和 `G sube H uu G` 知道 `H uu F in cc F`, `H uu G in cc G`, 因此
+        <span class="formula">
+          `H = (H uu F) nn (H uu G)`
+          `in cc F ^^ cc G`.
+        </span>
+      </li>
+    </ol>
+  </li>
+  <li>假设 `cc H` 也是 `cc F, cc G` 的共同加细,
+    由于滤子定义的第 2 条, `cc H` 包含了所有形如 `F nn G` 的集合, `F in cc F`, `G in cc G`.
+    这证明了 `cc F ^^ cc G sube cc H`.
+  </li>
+</ol>
+
+<p class="remark">
+  和子群的生成, 或者 `sigma` 代数的生成不同, `(:cc F:)` 未必是包含 `cc F` 的最小滤子.
+  例如 `(:cc F uu cc G:)` 和 `cc F ^^ cc G` 就是包含 `cc F uu cc G` 的两个滤子,
+  后者是最小滤子, 而前者未必.
+</p>
+
+<h3>滤子的限制与扩张</h3>
+
+<h3>超滤子</h3>
+
+<h3>滤子的像</h3>
+
+<h2>滤子的应用</h2>
+
+<h2>网</h2>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

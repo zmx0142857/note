@@ -234,9 +234,6 @@
     <span class="formula">
       `"I" = ((2a^2)/d^2)^2 ("d"u^2 + "d"v^2)`.
     </span>
-  </li>
-</ol>
-
 <div class="p solution">
 球极投影参数的第一基本形式计算:
 <pre>
@@ -258,12 +255,31 @@ print('F:', F)
 print('E - ((2*a**2)/d**2)**2 ==', simplify(E - ((2*a**2)/d**2)**2))
 </pre>
 </div>
+  </li>
+  <li>球面的墨卡托 (Mercator) 投影. 将经纬度参数的基础上令 `dy = R/(cos varphi) "d"varphi`, 于是
+    <span class="formula">
+      `y = R ln tan(varphi/2 + pi/4)`,<br>
+      `"I" = R^2 cos^2 varphi ("d"theta^2 + dy^2)`
+      `= (R/(cosh(y//R)))^2 ("d"theta^2 + dy^2)`.
+    </span>
+    <p class="solution">
+      为把 `cos varphi` 换成 `y` 的函数, 令 `t = tan(varphi/2 + pi/4)`, 则 `t = "e"^(y//R)`,
+      <span class="formula">
+        `cos varphi`
+        `= sin(varphi + pi/2)`
+        `= (2t)/(1+t^2)`
+        `= 2/("e"^(y//R) + "e"^(-y//R))`
+        `= 1//cosh(y//R)`.
+      </span>
+    </p>
+  </li>
+</ol>
 
-<p>球极投影参数十分特殊, 它是一个共形映射, 定义如下:</p>
+<p>球极投影参数和墨卡托投影十分特殊, 它们是共形映射, 定义如下:</p>
 
 <p class="definition">
   如果在某个参数选取下第一基本形式的 `E = G` 且 `F = 0`,
-  则称这个参数为<b>等温参数</b>或<b>共形参数</b>
+  则称这个参数为<b>等温参数</b>或<b>共形参数</b>.
   从参数空间到曲面的映射 `bm r(u, v)` 称为<b>共形映射 (conformal map)</b>或<b>保角映射</b>.
   这个称呼的由来如下: 参数空间的每个点 `z := (u, v)` 的小位移 `dz` 被映射到曲面上的小曲线段 `"d"s`,
   通常 `"d"s` 不仅和 `z` 的位置有关, 还和 `dz` 的方向有关.
@@ -618,19 +634,22 @@ print('E - ((2*a**2)/d**2)**2 ==', simplify(E - ((2*a**2)/d**2)**2))
   </span>
 </p>
 
-<h4>常 Gauss 曲率旋转曲面</h4>
-
-<!--
-<p> `K = c^2 gt 0` 时, 由 `K = -(f'')/f`, 有常微分方程
-  <span class="formula">
-    `f''(u) + c^2 f(u) = 0`,
-  </span>
-  通解为
-  <span class="formula">
-    `f(u) = A cos cu + B sin cu`.
-  </span>
-</p>
--->
+<ol class="example">
+  <b>常 Gauss 曲率旋转曲面</b>
+  <li>`K = k^2 gt 0` 时, 解常微分方程 `f''(u) + k^2 f(u) = 0` 得
+    <span class="formula">
+      `f(u) = A cos(k u + varphi)`.
+    </span>
+    由约束 `{:f':}^2 + {:g':}^2 = 1` 得到 `A = 1//k`,
+    <span class="formula">
+      `g(u) = A sin(k u + varphi)`.
+    </span>
+    这是半径为 `1//k` 的球面.
+  </li>
+  <li>`K = -k^2 lt 0` 时, 类似有 `f(u) = A cosh h u + B sinh k u`,
+  ??
+  </li>
+</ol>
 
 <h4>常平均曲率旋转曲面</h4>
 
