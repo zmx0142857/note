@@ -161,7 +161,10 @@
         <span class="formula">
             `bm r xx dot bm r = bm h`,
         </span>
-        积分常数 `bm h` 称为角动量, 它垂直于轨道平面.
+        `bm h` 为积分常数.
+        由于 `bm r` 始终垂直于 `bm h`, 我们推出: 地球的运动轨道在一个平面内.
+        称 `m bm h` 为地球的<b>角动量</b>, 它等于向径 `bm r` 与动量
+        `m dot bm r` 的叉乘, 并且垂直于轨道平面.
     </li>
     <li>拉普拉斯积分.
         应用 <a href="../../math/diff-geo/2.html#exp-dot-r">
@@ -195,14 +198,12 @@
         </span>
         这正是圆锥曲线的极坐标方程.
     </li>
-    <li>开普勒第二定律.
-        令 `bm theta = bm h xx bm r`,
-        将 `dot bm r` 正交分解为 `hat bm r` 和 `hat bm theta` 的线性组合:
+    <li>开普勒第二定律. 我们推导角动量的另一表达式.
+        令 `bm theta = bm h xx bm r`, 因此 `hat bm theta` 是轨道平面内与 `hat bm r` 正交的单位向量.
+        将速度 `dot bm r` 正交分解, 径向速度等于到太阳距离 `r` 的变化率, 角向速度等于半径乘以角速度 [1]:
         <span class="formula">
             `dot bm r = dot r hat bm r + r dot theta hat bm theta`.
         </span>
-        其中沿 `bm r` 的分量可以由公式 `bm r * dot bm r = r dot r` 得到,
-        沿 `bm theta` 的分量则由微元法画图得到.
         两边叉乘 `bm r` 得
         <span class="formula">
             `bm h = r^2 dot theta (hat bm r xx hat bm theta)`,
@@ -213,7 +214,20 @@
         <span class="formula">
             `("d"S)/dt = 1/2 r^2 ("d"theta)/dt = 1/2 r^2 dot theta = h/2`.
         </span>
-        由于 `h` 是常数, 所以单位时间内 `bm r` 扫过的面积为常数.
+        由于 `h` 是常数, 所以单位时间内 `bm r` 扫过的面积为常数 [2].
+        <hr>
+        [1] 这个公式也可以在笛卡尔坐标下推导: 令 `bm r = (r cos theta, r sin theta)`, 于是
+        <span class="formula">
+          `dot bm r = (del bm r)/(del r) dot r + (del bm r)/(del theta) dot theta`
+          `= (cos theta, sin theta) dot r + (-sin theta, cos theta) r dot theta`.
+        </span>
+        <br>
+        [2] 注意我们的推理过程并未用到轨道形状是椭圆的事实, 也没有用到力的大小与距离平方成反比的事实.
+        只要力的方向与向径平行: `bm r xx ddot bm r = bb 0`, 就有角动量守恒 (即单位扫过的面积相等).
+        因此开普勒第二定律可以表述为:
+        <span class="formula">
+          在有心力场的作用下, 质点的角动量守恒.
+        </span>
     </li>
     <li>开普勒第三定律.
         利用椭圆的面积 `S = pi a b = h/2 T` 得到周期的公式

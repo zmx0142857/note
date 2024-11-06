@@ -91,52 +91,15 @@
 
 <h3>辐角原理</h3>
 
-<canvas id="arg-principle" width="550" height="400"></canvas>
+<canvas id="arg-principle" width="400" height="400"></canvas>
+<span class="formula">
+  `z = 3 "e"^("i"t)`,<br>
+  `w = (z^2+1)(z-1)^5`.
+</span>
 
 <h2>Laurent 级数</h2>
 
-<p class="example" id="exp-bessel-function">
-  <b>Bessel 函数</b>
-  将 `exp(z/2(zeta-1/zeta))` 在 `CC\\{0}` 中展开为 Laurent 级数
-  <span class="formula">
-    `sum_(n=-oo)^oo J_n(z) zeta^n`,
-  </span>
-  `n ge 0` 时, `J_n(z)` 称为 (第一类) Bessel 函数, 可以证明
-  <span class="formula">
-    `J_n(z) = 1/pi int_0^pi cos(n theta - z sin theta) "d"theta`
-    `= sum_(k ge 0) (-1)^k/(k!(n+k)!) (z/2)^(n+2k)`,
-  </span>
-  `J_n(z)` 是下面 Bessel 方程的解:
-  <span class="formula">
-    `x^2 y'' + x y' + (x^2-n^2) y = 0`.
-  </span>
-</p>
-
-<ol class="proof">
-  <li>使用定义计算 Laurent 级数的系数, 在单位圆上积分:
-    <span class="formula">
-      `J_n(z) = 1/(2pi"i") int_C f(zeta)/zeta^(n+1) "d"zeta`
-      `= 1/(2pi"i") int_0^(2pi) "e"^(("e"^("i"theta)
-      - "e"^(-"i"theta))z//2)/"e"^((n+1)"i"theta) "i" "e"^("i"theta)
-      "d"theta`
-      `= 1/(2pi) int_0^(2pi) "e"^("i"(z sin theta - n theta)) "d"theta`.
-    </span>
-    区间再现, 得
-    <span class="formula">
-      `1/(2pi) int_0^pi "e"^("i"(z sin theta - n theta)) + "e"^("i"(z
-      sin(2pi-theta) - n(2pi-theta))) "d"theta`
-      `= 1/pi int_0^pi cos(z sin theta - n theta) "d"theta`.
-    </span>
-  </li>
-  <li>另一方面, 利用指数函数的幂级数展开, 令 `n = t - k` 得
-    <span class="formula">
-      `exp((z zeta)/2) exp(-z/(2zeta))`
-      `= sum_(t ge 0) ((z zeta)/2)^t/(t!) sum_(k ge 0) (-z/(2zeta))^k`
-      `= sum_(n=-oo)^oo zeta^n sum_(k ge 0) (-1)^k/(k!(n+k)!) (z/2)^(n+2k)`.
-    </span>
-  </li>
-  <li>将 `J_n(z)` 的级数形式代入微分方程, 可以验证等式成立, 过程从略.</li>
-</ol>
+关于 Laurent 级数的一个精彩应用是 <a href="../analysis/9.html#def-bessel-function">Bessel 函数</a>.
 
 <h3>孤立奇点的分类</h3>
 
@@ -225,7 +188,7 @@ const f = t => {
   return Complex.mul(z.pow(2).add(1), z.sub(1).pow(5))
 }
 new Plot('arg-principle')
-  .geometry({xmin: -15000, xmax: 15000, ymin: -10000, ymax: 10000}).clear().axis()
+  .geometry({xmin: -10000, xmax: 10000, ymin: -10000, ymax: 10000}).clear().axis()
   .plot(t => f(t).real, t => f(t).imag, {min: 0, max: PI*2, continuity: Infinity})
 </script>
 </body>

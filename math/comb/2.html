@@ -311,6 +311,42 @@
   </span>
 </p>
 
+<ol class="example">
+  [来自群友 幂零群]
+  组合数的估计
+  <li>`sum_(k=0)^m (n;k) le n^n/(m^m(n-m)^(n-m))`, `m le n//2`.</li>
+  <li>`(n;k)^-1 le k!/n^k "e"^(k^2//n)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>将 `x = m/(n-m)` 代入二项展开 `sum_(k=0)^n (n;k) x^k = (1+x)^n` 得到
+    <span class="formula">
+      `sum_(k=0)^n (n;k) (m/(n-m))^k = (n/(n-m))^n`.
+    </span>
+    于是
+    <span class="formula">
+      `(n/(n-m))^n ((n-m)/m)^m`
+      `= sum_(k=0)^n (n;k) ((n-m)/m)^(m-k)`
+      `ge sum_(k=0)^m (n;k)`.
+    </span>
+  </li>
+  <li>
+    <span class="formula">
+      `(n;k)^-1`
+      `= k!/(n(n-1) cdots (n-k+1))`
+      `= k!/n^k exp(-sum_(i=1)^(k-1) ln(1-i/n))`.
+    </span>
+    由于函数 `-ln(1-x)` 单调增, 上式 `exp` 内的和式小于等于积分
+    <span class="formula">
+      `n int_0^(k//n) -ln (1-x) dx`
+      `= n [x + (1-x)ln(1-x)]_0^(k//n)`
+      `le n [x - x (1-x)]_0^(k//n)`
+      `= k^2/n`.
+    </span>
+    在估计积分的时候又用到切线不等式 `ln(1-x) le -x`.
+  </li>
+</ol>
+
 <h2>多重指标运算与多项展开</h2>
 
 <p class="definition">

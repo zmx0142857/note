@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8" />
-    <title>特殊函数 (2): 椭圆函数, 超几何函数</title>
+    <title>特殊函数 (2): 椭圆函数, 超几何函数, Bessel 函数</title>
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
@@ -173,7 +173,7 @@
       `cos^2 theta = 1 - sin^2 theta`<br>
       `= 1/()^2 [(a+b)^2 + (a-b)^2 sin^4 varphi + 2(a^2-b^2)sin^2 varphi
       - 4 a^2 sin^2 varphi]`<br>
-      `= 1/()^2 [(a+b)^2 (cos^2 varphi + sin^2 varphi):}<br>
+      `= 1/()^2 [(a+b)^2 (cos^2 varphi + sin^2 varphi):}`<br>
       `quad + {:(a-b)^2 sin^2 varphi (1 - cos^2 varphi) - 2(a^2+b^2) sin^2 varphi]`<br>
       `= (cos^2 varphi)/()^2 [(a+b)^2 - (a-b)^2 sin^2 varphi]`,
     </span>
@@ -512,6 +512,120 @@
   </li>
 </ol>
 
+<h2>Bessel 函数</h2>
+
+<div class="img md" title="BesselJ(n, x), 灰红绿蓝分别对应 n = 0, 1, 2, 3">
+  <canvas id="plt-bessel" width="400" height="240"></canvas>
+</div>
+
+<p class="definition" id="def-bessel-function">
+  <b>第一类 Bessel 函数</b>
+  将 `exp(z/2(zeta-1/zeta))` 在 `CC\\{0}` 中展开为 Laurent 级数
+  <span class="formula">
+    `sum_(n=-oo)^oo J_n(z) zeta^n`,
+  </span>
+  `J_n(z)` 称为 (第一类) Bessel 函数.
+  `n` 为整数时, `J_(+-n)(z)` 之间有简单的关系:
+  <span class="formula">
+    `J_(-n)(z) = (-1)^n J_n(z)`.
+  </span> 
+  可以证明
+  <span class="formula">
+    `J_n(z) = 1/pi int_0^pi cos(n theta - z sin theta) "d"theta`
+    `= sum_(k ge 0) (-1)^k/(k!(n+k)!) (z/2)^(n+2k)`,
+  </span>
+  Bessel 函数的参数 `n` 也可以取非整数值, 例如
+  <span class="formula">
+    `J_(-1//2) (z) = sqrt(2/(pi z)) cos z`,<br>
+    `J_(1//2) (z) = sqrt(2/(pi z)) sin z`.
+  </span>
+  这两个式子揭示了 Bessel 函数与 `1//sqrt x` 速率衰减的三角函数形似.
+</p>
+
+<ol class="proof">
+  <li>`n` 为整数时, 令 `xi = -1//zeta`, 考虑 `exp(z/2(xi - 1/xi))` 的 Laurent 级数
+    <span class="formula">
+      `sum_(n = -oo)^oo J_n(z) xi^n`
+      `= sum_(n = -oo)^oo J_n(z) (-zeta)^-n`
+      `= sum_(n = -oo)^oo J_(-n)(z) (-zeta)^n`.
+    </span>
+    但 `xi - 1//xi = zeta - 1//zeta`, 所以上式其实就是 `exp(z/2(zeta - 1/zeta))` 的 Laurent 级数.
+  </li>
+  <li>积分表达式. 使用定义计算 Laurent 级数的系数, 在单位圆上积分:
+    <span class="formula">
+      `J_n(z) = 1/(2pi"i") int_C f(zeta)/zeta^(n+1) "d"zeta`
+      `= 1/(2pi"i") int_0^(2pi) "e"^(("e"^("i"theta)
+      - "e"^(-"i"theta))z//2)/"e"^((n+1)"i"theta) "i" "e"^("i"theta)
+      "d"theta`
+      `= 1/(2pi) int_0^(2pi) "e"^("i"(z sin theta - n theta)) "d"theta`.
+    </span>
+    区间再现, 得
+    <span class="formula">
+      `1/(2pi) int_0^pi "e"^("i"(z sin theta - n theta)) + "e"^("i"(z
+      sin(2pi-theta) - n(2pi-theta))) "d"theta`
+      `= 1/pi int_0^pi cos(z sin theta - n theta) "d"theta`.
+    </span>
+  </li>
+  <li>级数表达式. 另一方面, 利用指数函数的幂级数展开, 令 `n = t - k` 得
+    <span class="formula">
+      `exp((z zeta)/2) exp(-z/(2zeta))`
+      `= sum_(t ge 0) ((z zeta)/2)^t/(t!) sum_(k ge 0) (-z/(2zeta))^k/(k!)`
+      `= sum_(n=-oo)^oo zeta^n sum_(k ge 0) (-1)^k/(k!(n+k)!) (z/2)^(n+2k)`.
+    </span>
+  </li>
+  <li>
+    将 `J_(1//2)(z)` 与 `sin z` 的级数比较, 只需证
+    <span class="formula">
+      `(sqrt pi)/(k!(k+1//2)!) 1/2^(2k+1) = 1/(2k+1)!`.
+    </span>
+    利用 `(-1//2)! = Gamma(1//2) = sqrt pi` 得到
+    <span class="formula">
+      `2^k k! = (2k)!!`,
+      `quad 2^(k+1) (k+1//2)! = (2k+1)!! sqrt pi`.
+    </span>
+    故等式成立. `J_(-1//2)(z)` 的情形类似.
+  </li>
+</ol>
+
+<p class="example">
+  <b>Bessel 方程</b>
+  代入级数验证可知, `J_n(x)` 是下面方程的解:
+  <span class="formula">
+    `x^2 y'' + x y' + (x^2-n^2) y = 0`.
+  </span>
+  我们可以把 `n` 换成 `-n` 而不改变方程, 因此 `J_(-n)(x)` 也是一个解.
+  Bessel 方程是二阶常微分方程, 它存在一对线性无关解.
+  特别当 `n = +-1//2` 时, 我们已经找到这一对线性无关解 `J_(+-1//2)(x)`.
+  一般地, 当 `n` 不是整数时 `J_(+-n)(x)` 即为方程的一对线性无关解.
+  然而当 `n` 是整数时, 有 `J_(-n)(x) = (-1)^n J_n(x)`, 两者线性相关,
+  我们还需找到方程的另一个解.
+</p>
+
+<p class="definition">
+  Bessel 方程的另一个解称为 <b>Neumann-Weber 函数 (第二类 Bessel 函数)</b>:
+  <span class="formula">
+    `Y_n(x) := (J_n(x) cos (n pi) - J_(-n)(x))/sin(n pi)`.
+  </span>
+  `n` 为整数时, 上式右端取极限. `Y_n(x)` 与 `J_n(x)` 线性无关.
+  <br>
+  Bessel 方程的复数形式解称为 <b>Hankel 函数 (第三类 Bessel 函数)</b>:
+  <span class="formula">
+    `H_n^((1, 2))(x) := J_n(x) +- "i" Y_n(x)`.
+  </span>
+</p>
+
+<ol class="property">
+  <li>`sum_(n=-oo)^oo J_n(x)`
+    `= sum_(n=-oo)^oo J_(2n)(x)`
+    `= sum_(n=-oo)^oo J_n(x)^2 = 1`;</li>
+  <li>`"e"^("i" x cos theta) = sum_(n=-oo)^oo "i"^n J_n(x) "e"^("i"n theta)`;</li>
+  <li>`J_n(x+y) = sum_(k=-oo)^oo J_k(x) J_(n-k)(y)`.</li>
+  <li>`int_0^oo J_n(x) dx = 1`;</li>
+  <li>`J_n(x) = 1/(pi "i"^n) int_0^pi "e"^("i" x cos theta) cos(n theta) "d"theta`;</li>
+  <li>`"d"/dx (x^n J_n(x)) = x^n J_(n-1)(x)`;</li>
+  <li>`J_n(x) = "i"^n T_n("i" "d"/dx) J_0(x)`, `T_n` 是 Chebyshev 多项式.</li>
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/plot.js"></script>
 <script>
@@ -527,6 +641,32 @@ function ellipticK(k) {
   return Math.PI/(2 * agm(1, Math.sqrt(1-k*k)))
 }
 new Plot('plt-elliptic', {keepRatio: false, xmin: -1, xmax: 1, ymin: -0.5, ymax: 4}).axis().plot(ellipticK, {min: -1, max: 1})
+
+function factorial (n) {
+  ++n
+  let res = 1
+  while (n --> 1) res *= n // 让 n 趋于 1 (不是)
+  return res
+}
+
+function BesselJ (n, x) {
+  let sum = 0, kk = 1, nk = factorial(n), sign = 1, xx = Math.pow(x/2, n)
+  for (let k = 0; k < 100; ++k) {
+    sum += sign * xx / (kk * nk)
+    sign *= -1
+    kk *= k+1
+    nk *= n+k+1
+    xx *= x*x/4
+  }
+  return sum
+}
+new Plot('plt-bessel', {
+  xmin: 0, xmax: 12, ymin: -0.4, ymax: 1
+}).axis()
+  .plot(x => BesselJ(0, x), {color:'grey'})
+  .plot(x => BesselJ(1, x), {color:'red'})
+  .plot(x => BesselJ(2, x), {color:'green'})
+  .plot(x => BesselJ(3, x), {color:'blue'})
 </script>
 </body>
 </html>
