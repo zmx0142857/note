@@ -912,10 +912,15 @@
     <span class="formula">
       `bm T = (1-cos theta) bm e bm e^T`
       `+ cos theta bm I`
-      `+ sin theta [
-        0, -c, b;
-        c, 0, -a;
-        -b, a, 0
+      `+ sin theta bm X`
+      `= exp (theta bm X)`.
+    </span>
+    其中
+    <span class="formula">
+      `bm X = [
+         , -c, b;
+        c,  , -a;
+        -b, a,
       ]`.
     </span>
   </li>
@@ -930,19 +935,23 @@
   </li>
 </ol>
 
+<p class="proof">
+  向量表示的证明.
+  设 `bm e` 与 `bm v` 不共线, 由二重外积公式,
+  将 `bm v` 分解到平行 `bm e` 和垂直 `bm e` 的方向上:
+  <span class="formula">
+    `bm v = bm v^|| + bm v^(_|_)`
+    `= (bm v * bm e) bm e + (bm e xx bm v) xx bm e`.
+  </span>
+  如图, `bm e, bm v^(_|_), bm e xx bm v` 成右手系.
+  `bm v'` 等于将 `bm v^(_|_)` 旋转 `theta` 角后, 再加上 `bm v^||`:
+  <span class="formula">
+    `bm v' = bm v^|| + bm v^(_|_) cos theta + bm e xx bm v sin theta`.
+  </span>
+</p>
+
 <ol class="proof">
-  <li> 设 `bm e` 与 `bm v` 不共线, 由二重外积公式,
-    将 `bm v` 分解到平行 `bm e` 和垂直 `bm e` 的方向上:
-    <span class="formula">
-      `bm v = bm v^|| + bm v^(_|_)`
-      `= (bm v * bm e) bm e + (bm e xx bm v) xx bm e`.
-    </span>
-    如图, `bm e, bm v^(_|_), bm e xx bm v` 成右手系.
-    `bm v'` 等于将 `bm v^(_|_)` 旋转 `theta` 角后, 再加上 `bm v^||`:
-    <span class="formula">
-      `bm v' = bm v^|| + bm v^(_|_) cos theta + bm e xx bm v sin theta`.
-    </span>
-  </li>
+  矩阵表示的证明.
   <li>记 `bm v = (x, y, z)`, `k = bm v * bm e` `= a x + b y + c z`,
     于是
     <span class="formula">
@@ -960,34 +969,63 @@
     </span>
     考虑各分量中 `x, y, z` 的系数, 就得到矩阵 `bm T`.
   </li>
-  <li>记 `alpha = theta//2`, 有
+  <li>
+    [来自群友 幂零群]
+    现在证明矩阵指数形式的公式.
+    <span class="formula" style="line-height:5em">
+      `bm X^2 = [-b^2-c^2, a b, a c;
+      a b, -a^2-c^2, b c;
+      a c, b c, -a^2-b^2]`
+      `= bm e bm e^T - bm I`,<br>
+      `bm X^3 = [, c, -b;
+      -c, , a;
+      b, -a, ]`
+      `= -bm X`.
+    </span>
+    于是
     <span class="formula align">
-      `q bm v q^-1`
-      `= (cos alpha + bm e sin alpha) bm v (cos alpha - bm e sin alpha)`
-      <br/>
-      `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
-      `+ (bm e bm v - bm v bm e) sin alpha cos alpha`<br/>
-      `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
-      `+ 2 bm e xx bm v sin alpha cos alpha`.
+      `exp (theta bm X)`
+      `= bm I`
+      `+ sum_(n ge 1) (theta bm X)^(2n-1)/((2n-1)!)`
+      `+ sum_(n ge 1) (theta bm X)^(2n)/((2n)!)`<br>
+      `= bm I + sin theta bm X + (1-cos theta) bm X^2`<br>
+      `= bm I + sin theta bm X + (1-cos theta) (bm e bm e^T - bm I)`<br>
+      `= cos theta bm I + sin theta bm X + (1-cos theta) bm e bm e^T`.
     </span>
-    `bm (e v e)` 可以分解为以下两式之和:
-    <span class="formula">
-      `bm (e v)^|| bm e`
-      `= -(bm v * bm e) bm e`
-      `= - bm v^||`,<br/>
-      `bm (e v^(_|_) e)`
-      `= (bm e xx bm v^(_|_)) xx bm e`
-      `= bm v^(_|_)`,
-    </span>
-    从而
-    <span class="formula">
-      `q bm v q^-1`
-      `= (bm v^|| + bm v^(_|_))cos^2 alpha + (bm v^|| - bm v^(_|_))sin^2 alpha`
-      `+ bm e xx bm v sin theta`
-      `= bm v'`.
-    </span>
+    从李群与李代数的观点来看, 三维旋转群 `SO(3)` 的李代数由全体三阶反对称实矩阵组成.
+    因此指数映射正好将一个反对称矩阵映为一个正交矩阵.
   </li>
 </ol>
+
+<p class="proof">
+  四元数表示的证明.
+  记 `alpha = theta//2`, 有
+  <span class="formula align">
+    `q bm v q^-1`
+    `= (cos alpha + bm e sin alpha) bm v (cos alpha - bm e sin alpha)`
+    <br/>
+    `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
+    `+ (bm e bm v - bm v bm e) sin alpha cos alpha`<br/>
+    `= bm v cos^2 alpha - bm (e v e) sin^2 alpha`
+    `+ 2 bm e xx bm v sin alpha cos alpha`.
+  </span>
+  `bm (e v e)` 可以分解为以下两式之和:
+  <span class="formula">
+    `bm (e v)^|| bm e`
+    `= -(bm v * bm e) bm e`
+    `= - bm v^||`,<br/>
+    `bm (e v^(_|_) e)`
+    `= (bm e xx bm v^(_|_)) xx bm e`
+    `= bm v^(_|_)`,
+  </span>
+  从而
+  <span class="formula">
+    `q bm v q^-1`
+    `= (bm v^|| + bm v^(_|_))cos^2 alpha + (bm v^|| - bm v^(_|_))sin^2 alpha`
+    `+ bm e xx bm v sin theta`
+    `= bm v'`.
+  </span>
+</p>
 
 <p class="corollary">
   <b>已知旋转前后向量, 求四元数</b>

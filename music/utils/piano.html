@@ -1,105 +1,290 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width"/>
-    <title>piano</title>
-<script src="../../js/audio/resampler.js"></script>
-<script src="../../js/audio/XAudioServer.js"></script>
-<script src="../../js/player.js"></script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width"/>
+  <title>钢琴</title>
 <style>
 body {
-    overflow-x: scroll;
-    white-space: nowrap;
+  position: relative;
+  height: 100vh;
+  margin: 0;
 }
+.container {
+  position: relative;
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.debug {
+  position: fixed;
+  bottom: 300px;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  height: 400px;
+}
+.keyboard {
+  overflow: hidden;
+  user-select: none;
+  position: absolute;
+  white-space: nowrap;
+  width: max-content;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .white, .black {
-    display: inline-block;
-    vertical-align: top;
-    outline: none; /* 去掉焦点框 */
+  display: inline-block;
+  vertical-align: top;
+  outline: none; /* 去掉焦点框 */
 }
 @media (hover: hover) { /* 电脑端支持按下的效果 */
-    .white, .black, .white:active, .black:active {
-        transition: linear 0.05s;
-    }
-    .white:active {
-        height: 210px;
-        border-bottom-width: 20px;
-    }
-    .black:active {
-        height: 120px;
-        border-bottom-width: 10px;
-    }
-}
-.white {
-    width: 50px;
-    height: 200px;
-    background: white;
-    margin: 0;
-    border: #888 2px solid;
-    border-bottom: #ccc 30px solid;
-	box-shadow: 18px 18px 30px rgba(0,0,0,0.1),
-	  -18px -18px 30px rgba(255,255,255,1);
-}
-.white:hover {
+  .white, .black {
+    transition: linear 0.05s;
+  }
+  .white.active {
+    height: 210px;
+    border-bottom-width: 20px;
+  }
+  .white:hover {
     background: #ddd;
+  }
+  .black.active {
+    height: 120px;
+    border-bottom-width: 10px;
+  }
+  .black:hover {
+    background: #333;
+  }
 }
-#blacks {
-    position: absolute;
-    margin-left: 26px;
-    height: 0; /* 避免覆盖白键 */
+.blacks {
+  position: absolute;
+  top: 0;
+  margin-left: 26px;
+  height: 0; /* 避免覆盖白键 */
 }
 .black {
-    width: 24px;
-    height: 115px;
-    background: black;
-    margin: 0 13px;
-    border: #444 2px solid;
-    border-bottom: #444 15px solid;
+  width: 24px;
+  height: 115px;
+  background: black;
+  margin: 0 13px;
+  border: #444 2px solid;
+  border-bottom: #444 15px solid;
 	box-shadow: 3px 0px 3px rgba(0,0,0,1),
-        inset 15px 18px 24px rgba(255,255,255,0.3);
+    inset 15px 18px 24px rgba(255,255,255,0.3);
 }
-.black:hover {
-    background: #333;
+.black.active {
+  background: #333;
 }
 .black:nth-child(5n+2),
 .black:nth-child(5n) {
-    margin-right: 67px;
+  margin-right: 67px;
+}
+.white {
+  width: 50px;
+  height: 200px;
+  background: white;
+  margin: 0;
+  border: #888 2px solid;
+  border-bottom: #ccc 30px solid;
+	box-shadow: 18px 18px 30px rgba(0,0,0,0.1),
+	  -18px -18px 30px rgba(255,255,255,1);
+}
+.white.active {
+  background: #ddd;
 }
 </style>
 </head>
 <body>
-<div id="blacks"></div>
+<div class="container">
+  <!-- <div class="debug"></div> -->
+  <div class="keyboard">
+    <div class="whites"></div>
+    <div class="blacks"></div>
+  </div>
+</div>
 <script>
-var naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-var sharps = ['#C', '#D', '#F', '#G', '#A'];
-var track = [];
-var player = new Player(function() {
-    return track;
-});
-var blacks = document.getElementById('blacks');
-function playNote(pitch) {
-    return function() {
-        player.stop();
-        track = [{pitch: pitch, time: 500}];
-        player.updateTrack();
-        player.play();
-    }
+const $ = el => document.querySelector(el)
+const $container = $('.container')
+const $debug = $('.debug')
+const $keyboard = $('.keyboard')
+const $blacks = $('.blacks')
+const $whites = $('.whites')
+const naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+const sharps = ['#C', '#D', '#F', '#G', '#A']
+// const real = new Float32Array([0, 1])
+// const imag = new Float32Array([0, 0])
+const settings = {
+  letRing: 300, // ms
+  tone: 'sine', // [real, imag],
 }
-for (var i = 1; i < 7; ++i) {
-    for (var j = 0; j < 7; ++j) {
-        var white = document.createElement('span');
-        white.classList.add('white');
-        white.onclick = playNote(naturals[j] + i);
-        document.body.appendChild(white);
-    }
-    for (var j = 0; j < 5; ++j) {
-        var black = document.createElement('span');
-        black.classList.add('black');
-        black.onclick = playNote(sharps[j] + i);
-        blacks.appendChild(black);
-    }
+let ringTimer
+
+const debug = (str) => {
+  // $debug.innerHTML += str + '\n'
 }
-window.scrollTo(1500,0);
+
+const player = {
+  ctx: new (AudioContext || webkitAudioContext)(),
+  oscs: {},
+  pitches: (function initPitches () {
+    const A0 = 27.5, C1 = A0 * Math.pow(2, 1 / 4) // A4 = 440
+    const names = ['C', '#C', 'D', '#D', 'E', 'F', '#F', 'G', '#G', 'A', '#A', 'B']
+    const convert = { '#C': 'bD', '#D': 'bE', '#F': 'bG', '#G': 'bA', '#A': 'bB' }
+    const pitches = {}
+    names.forEach((name, i) => {
+      const cname = convert[name] || name
+      pitches[cname + '1'] = pitches[name + '1'] = C1 * Math.pow(2, i / 12)
+      for (let j = 2; j < 7; ++j) {
+        pitches[cname + j] = pitches[name + j] = pitches[name + (j - 1)] * 2
+      }
+    })
+    return pitches
+  })(),
+  makeGain (time, volume) {
+    const gainNode = this.ctx.createGain()
+    volume.forEach(([start, vol], i) => {
+      if (i === 0) {
+        gainNode.gain.setValueAtTime(vol, time + start / 1000)
+      } else {
+        gainNode.gain.linearRampToValueAtTime(vol, time + start / 1000)
+      }
+    })
+    return gainNode
+  },
+  /**
+   * @param {object} note
+   * @param {number} note.pitch in Hz
+   * @param {number} note.time in seconds
+   * @param {number | number[][]} note.volume between [0, 1]
+   * @param {'sine' | 'square' | 'sawtooth' | 'triangle' | Float32Array[]} note.tone default: sine
+   */
+  makeSample (note) {
+    const time = this.ctx.currentTime // in seconds
+    const volume = Array.isArray(note.volume) ? note.volume : [[0, note.volume]]
+
+    const osc = this.ctx.createOscillator()
+    if (typeof note.tone === 'string') {
+      osc.type = note.tone
+    } else if (Array.isArray(note.tone)) {
+      const wave = this.ctx.createPeriodicWave(note.tone[0], note.tone[1])
+      osc.setPeriodicWave(wave)
+    }
+    osc.frequency.value = note.pitch
+
+    const eqNode = this.ctx.createBiquadFilter()
+    eqNode.type = 'peaking'
+    eqNode.frequency.value = 120
+    eqNode.gain.value = 10
+    eqNode.Q.value = 1
+    osc.connect(eqNode)
+
+    const gainNode = this.makeGain(time, volume)
+    eqNode.connect(gainNode)
+
+    gainNode.connect(this.ctx.destination)
+
+    osc.start()
+    osc.stop(time + note.time / 1000)
+    return osc
+  },
+  play (note) {
+    if (this.oscs[note.id]) this.oscs[note.id].stop()
+    note.pitch = this.pitches[note.pitch]
+    const osc = this.makeSample(note)
+    this.oscs[note.id] = osc
+  },
+  stop (note) {
+    const osc = this.oscs[note.id]
+    if (!osc) return
+    osc.stop()
+    delete this.oscs[note.id]
+  },
+}
+
+let playing = []
+
+const playNote = (target) => {
+  const pitch = target.getAttribute('data-pitch')
+  if (!pitch) return
+  target.classList.add('active')
+  clearTimeout(ringTimer)
+  playing.push(pitch)
+  // 允许同时演奏 3 个音
+  if (playing.length > 3) {
+    const id = playing.shift()
+    player.stop({ id })
+  }
+  player.play({
+    id: pitch,
+    pitch,
+    time: 3000,
+    volume: [[0, 0.5], [3000, 0]], // 渐弱
+    tone: settings.tone,
+  })
+}
+
+const stopNote = (target) => {
+  const pitch = target.getAttribute('data-pitch')
+  debug(pitch)
+  if (!pitch) return
+  target.classList.remove('active')
+  ringTimer = setTimeout(() => {
+    playing = playing.filter(p => p !== pitch)
+    player.stop({ id: pitch })
+  }, settings.letRing)
+}
+
+const onMouseDown = (e) => {
+  e.preventDefault()
+  if (e.changedTouches) {
+    ![...e.changedTouches].forEach(t => playNote(t.target))
+  } else {
+    playNote(e.target)
+  }
+}
+
+const onMouseUp = (e) => {
+  e.preventDefault()
+  if (e.changedTouches) {
+    debug(e.changedTouches.length)
+    ![...e.changedTouches].forEach(t => stopNote(t.target))
+  } else {
+    stopNote(e.target)
+  }
+}
+
+const createNode = (container, className, pitch) => {
+  const $note = document.createElement('span')
+  $note.classList.add(className)
+  $note.setAttribute('data-pitch', pitch)
+  container.appendChild($note)
+}
+
+const main = () => {
+  for (let i = 2; i < 7; ++i) {
+    for (let j = 0; j < 7; ++j) {
+      createNode($whites, 'white', naturals[j] + i)
+    }
+    for (let j = 0; j < 5; ++j) {
+      createNode($blacks, 'black', sharps[j] + i)
+    }
+  }
+  $container.scrollTo(400, 0)
+  $keyboard.addEventListener('mousedown', onMouseDown)
+  $keyboard.addEventListener('mouseup', onMouseUp)
+  $keyboard.addEventListener('touchstart', onMouseDown)
+  $keyboard.addEventListener('touchend', onMouseUp)
+  $keyboard.addEventListener('touchcancel', (e) => {
+    debug('touch canceled')
+    onMouseUp(e)
+  })
+  $keyboard.addEventListener('contextmenu', e => e.preventDefault())
+}
+
+main()
 </script>
 </body>
 </html>

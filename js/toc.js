@@ -475,18 +475,18 @@ var tocData = [
   {
     "value": "music",
     "label": "音乐",
-    "color": "pink",
+    "color": "purple",
     "children": [
       {
         "value": "utils",
         "label": "工具",
         "children": [
           { "value": "tuner", "label": "调音器", "date": "2024-04-13" },
+          { "value": "piano", "label": "钢琴", "date": "2024-11-16" },
           // { "value": "player", "label": '播放器', "date": "2022-02-12" },
           // { "value": "jianpu", "label": '简谱' },
           // { "value": "lywriter", "label": '乐谱编辑器' },
           // { "value": "ear-training", "label": '练耳' },
-          // { "value": "piano", "label": '键盘' },
           // { "value": "svg-score", "label": '乐谱' },
         ]
       }

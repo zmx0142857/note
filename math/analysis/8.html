@@ -1170,21 +1170,178 @@
 <p>以下介绍的多重对数积分与 Euler 和最终可以用 `zeta` 函数在整数点的取值表示.</p>
 
 <p class="example">
-  [来自 <a href="https://zhuanlan.zhihu.com/p/396955692" target="_blank">知乎</a>] 定义
+  [来自 <a href="https://zhuanlan.zhihu.com/p/396955692" target="_blank">知乎@卷心汪汪队</a>] 定义
   <span class="formula">
-    `bb(i a b c 0) = int_0^1 (ln^a(1-x) ln^b ln^c(1+x))/(1-x) dx`,<br>
-    `bb(i a b c 1) = int_0^1 (ln^a(1-x) ln^b ln^c(1+x))/x dx`,<br>
-    `bb(i a b c 2) = int_0^1 (ln^a(1-x) ln^b ln^c(1+x))/(1+x) dx`.
+    `f(x";" a, b, c) = ln^a(1-x) ln^b x ln^c(1+x)`,<br>
+    `bb(i a b c 0) = int_0^1 (f(x";"a,b,c))/(1-x) dx`,<br>
+    `bb(i a b c 1) = int_0^1 (f(x";"a,b,c))/x dx`,<br>
+    `bb(i a b c 2) = int_0^1 (f(x";"a,b,c))/(1+x) dx`.
   </span>
   其中 `a + b + c + 1 := n` 称为这个积分的权 (weight).
-  权为 `n` 的多重对数积分的值可以用 `"Li"_k(1) = zeta(k)` 和
-  `"Li"_k(1/2)` 表示, 其中 `k le n`. 我们仅举一例:
+  权为 `n` 的多重对数积分的值可以用 `"Li"_k(1) = zeta(k)`,
+  `"Li"_k(-1) = -eta(k)` 和 `"Li"_k(1//2)` 表示, 其中 `k le n`.
+  <br>
+  例如
+  <span class="formula">
+    `bb(i a b 0 0)`
+    `==^(x mapsto 1-x) bb(i b a 0 1)`,
+  </span>
+  (鉴于这个公式, 下表中不收纳编号以 00 结尾的积分).
+  又如
   <span class="formula">
     `bb(i n 001)`
     `==^(x mapsto 1-x) bb(i0n00)`
     `==^(x mapsto "e"^-x) (-1)^n Gamma(n+1)zeta(n+1)`.
   </span>
 </p>
+
+<table class="col2">
+  <tr>
+    <th>编号</th>
+    <th>值</th>
+  </tr>
+  <tr>
+    <td>0n01</td>
+    <td>发散</td>
+  </tr>
+  <tr>
+    <td>n001</td>
+    <td>`(-1)^n n! zeta(n+1)`</td>
+  </tr>
+  <tr>
+    <td>0n11</td>
+    <td>`(-1)^n/(n+1) Gamma(n+2)eta(n+2)`</td>
+  </tr>
+  <tr>
+    <td>00n2</td>
+    <td>`ln^(n+1)(2)//(n+1)`</td>
+  </tr>
+  <tr>
+    <td>0n02</td>
+    <td>`(-1)^n n! eta(n+1)`</td>
+  </tr>
+  <tr>
+    <td>n002</td>
+    <td>`(-1)^n n! "Li"_(n+1)(1//2)`</td>
+  </tr>
+</table>
+
+<table class="col2">
+  <caption>weight 3</caption>
+  <tr>
+    <td>0110</td>
+    <td>`zeta(3) - pi^2/4 ln 2`</td>
+  </tr>
+  <tr>
+    <td>1011</td>
+    <td>`-5 zeta(3)//8`</td>
+  </tr>
+  <tr>
+    <td>1101</td>
+    <td>`zeta(3)`</td>
+  </tr>
+  <tr>
+    <td>0021</td>
+    <td>`zeta(3)//4`</td>
+  </tr>
+  <tr>
+    <td>0112</td>
+    <td>`-zeta(3)//8`</td>
+  </tr>
+  <tr>
+    <td>1012 形式像 `"Li"_3(1//2)`</td>
+    <td>`(zeta(3))/8 - pi^2/12 ln 2 + (ln^3 2)/3`</td>
+  </tr>
+  <tr>
+    <td>1102 = 0110 - 1011</td>
+    <td>`13/8 zeta(3) - pi^2/4 ln 2`</td>
+  </tr>
+</table>
+
+<table class="col2">
+  <caption>weight 4</caption>
+  <tr>
+    <td>0210</td>
+    <td>`(7 ln 2)/2 zeta(3) - (19pi^4)/720`</td>
+  </tr>
+  <tr>
+    <td>1021</td>
+    <td>`-pi^4//240`</td>
+  </tr>
+  <tr>
+    <td>1201</td>
+    <td>`-2 zeta(4)`</td>
+  </tr>
+  <tr>
+    <td>2101</td>
+    <td>`-zeta(4)//2`</td>
+  </tr>
+  <!--
+  <tr>
+    <td>1112 = (0120 - 1021) / 2</td>
+  </tr>
+  <tr>
+    <td>1202 = 0210 - 2 * 1111</td>
+  </tr>
+  <tr>
+    <td>0031 = -3 * 0122</td>
+  </tr>
+  <tr>
+    <td>2102 = 2 * 1110 - 2011</td>
+  </tr>
+  <tr>
+    <td>0212 = -0121</td>
+  </tr>
+  <tr>
+    <td>1022 = (0302 + 2012 + 0032 - 3002) / 3</td>
+  </tr>
+  -->
+</table>
+
+<table class="col2">
+  <caption>weight 5</caption>
+  <tr>
+    <td>1301</td>
+    <td>`pp^4 B(p,q) (p^3 q) |_(p to 0^+, q = 1) = 6 zeta(5)`</td>
+  </tr>
+  <tr>
+    <td>3101</td>
+    <td>`pp^4 B(p,q) (p q^3) |_(p to 0^+, q = 1) = 12 zeta(5) -pi^2 zeta(3)`</td>
+  </tr>
+  <tr>
+    <td>0310</td>
+    <td>`12zeta(5) - (3pi^2)/8 zeta(3) - pi^4/8 ln 2`</td>
+  </tr>
+  <tr>
+    <td>1121</td>
+    <td>`-25/16 zeta(5) + (7pi^2)/48 zeta(3)`</td>
+  </tr>
+  <tr>
+    <td>1211</td>
+    <td>`-27/16 zeta(5) + pi^2/8 zeta(3)`</td>
+  </tr>
+  <tr>
+    <td>2201</td>
+    <td>`8 zeta(5) - (2pi^2)/3 zeta(3)`</td>
+  </tr>
+  <tr>
+    <td>0221</td>
+    <td>`-29/8 zeta(5) + pi^2/3 zeta(3)`</td>
+  </tr>
+  <tr>
+    <td>0312</td>
+    <td>`87/16 zeta(5) - pi^2/2 zeta(3)`</td>
+  </tr>
+  <tr>
+    <td>1302</td>
+    <td>`273/16 zeta(5) - (3pi^2)/4 zeta(3) - pi^4/8 ln 2`</td>
+  </tr>
+  <!--
+  <tr>
+    <td>0130 = 1031</td>
+  </tr>
+  -->
+</table>
 
 <ol class="example">
   [来自 (Almost) Impossible Integrals, Sums, and Series]
