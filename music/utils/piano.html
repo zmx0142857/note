@@ -33,6 +33,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
+  transform-origin: bottom left;
+  transition: transform .2s;
 }
 
 .white, .black {
@@ -95,6 +97,38 @@ body {
 .white.active {
   background: #ddd;
 }
+.btn-settings {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  border: none;
+  background: #444;
+  color: #eee;
+  font-size: 18px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.settings {
+  position: absolute;
+  top: 40px;
+  left: -400px;
+  background: #333333bb;
+  color: #fff;
+  border-radius: 8px;
+  padding: 30px 40px;
+  width: 300px;
+  transition: left .3s;
+  transform: translateX(-50%);
+}
+.settings label {
+  display: block;
+}
+.tips {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 8px;
+}
 </style>
 </head>
 <body>
@@ -105,6 +139,8 @@ body {
     <div class="blacks"></div>
   </div>
 </div>
+<button class="btn-settings">设置</button>
+<div class="settings"></div>
 <script>
 const $ = el => document.querySelector(el)
 const $container = $('.container')
@@ -112,15 +148,18 @@ const $debug = $('.debug')
 const $keyboard = $('.keyboard')
 const $blacks = $('.blacks')
 const $whites = $('.whites')
-const naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-const sharps = ['#C', '#D', '#F', '#G', '#A']
+const $settings = $('.settings')
+const $btnSettings = $('.btn-settings')
 // const real = new Float32Array([0, 1])
 // const imag = new Float32Array([0, 0])
 const settings = {
   letRing: 300, // ms
   tone: 'sine', // [real, imag],
+  scale: 100,
+  volume: 50,
 }
 let ringTimer
+let playing = []
 
 const debug = (str) => {
   // $debug.innerHTML += str + '\n'
@@ -204,8 +243,6 @@ const player = {
   },
 }
 
-let playing = []
-
 const playNote = (target) => {
   const pitch = target.getAttribute('data-pitch')
   if (!pitch) return
@@ -221,7 +258,7 @@ const playNote = (target) => {
     id: pitch,
     pitch,
     time: 3000,
-    volume: [[0, 0.5], [3000, 0]], // 渐弱
+    volume: [[0, settings.volume / 100], [3000, 0]], // 渐弱
     tone: settings.tone,
   })
 }
@@ -264,17 +301,20 @@ const createNode = (container, className, pitch) => {
 }
 
 const main = () => {
+  const naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+  const sharps = ['#C', '#D', '#F', '#G', '#A']
   for (let i = 2; i < 7; ++i) {
-    for (let j = 0; j < 7; ++j) {
-      createNode($whites, 'white', naturals[j] + i)
-    }
-    for (let j = 0; j < 5; ++j) {
-      createNode($blacks, 'black', sharps[j] + i)
-    }
+    naturals.forEach(v => {
+      createNode($whites, 'white', v + i)
+    })
+    sharps.forEach(v => {
+      createNode($blacks, 'black', v + i)
+    })
   }
   $container.scrollTo(400, 0)
   $keyboard.addEventListener('mousedown', onMouseDown)
   $keyboard.addEventListener('mouseup', onMouseUp)
+  $keyboard.addEventListener('mouseout', onMouseUp)
   $keyboard.addEventListener('touchstart', onMouseDown)
   $keyboard.addEventListener('touchend', onMouseUp)
   $keyboard.addEventListener('touchcancel', (e) => {
@@ -282,6 +322,39 @@ const main = () => {
     onMouseUp(e)
   })
   $keyboard.addEventListener('contextmenu', e => e.preventDefault())
+
+  $settings.innerHTML = `
+    <label><input name="scale" type="range" value="100" min="80" max="200" step="20"> 按键大小</label>
+    <label><input name="volume" type="range" value="50" min="0" max="100" step="10"> 音量</label>
+    <label><input name="letRing" type="range" value="300" min="0" max="500" step="20"> 延音</label>
+    <div class="tips">*为了最佳体验，建议关闭设备的多指截图功能</div>
+  `
+  const onSettingInput = (e) => {
+    const { name, value } = e.target
+    if (name === 'volume') {
+      settings.volume = value
+    } else if (name === 'scale') {
+      settings.scale = value
+      $keyboard.style.transform = `scale(${value / 100})`
+    } else if (name === 'letRing') {
+      settings.letRing = value
+    }
+  }
+  ![...$settings.querySelectorAll('input')].forEach($input => {
+    $input.addEventListener('input', onSettingInput)
+  })
+
+  let showSettings = false
+  $btnSettings.onclick = (e) => {
+    e.stopPropagation()
+    showSettings = !showSettings
+    $settings.style.left = showSettings ? '50%' : '-400px'
+  }
+  $settings.onclick = e => e.stopPropagation()
+  document.body.onclick = () => {
+    showSettings = false
+    $settings.style.left = '-400px'
+  }
 }
 
 main()
