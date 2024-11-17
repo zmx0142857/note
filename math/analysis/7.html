@@ -64,7 +64,7 @@
       `bar S(f, Delta) = sum_(k=1)^n underset (x in I_k)"sup" f(x) |I_k|`,
       `quad ul S(f, Delta) = sum_(k=1)^n underset (x in I_k)"inf" f(x) |I_k|`
     </span>
-    为 `f` 关于分割 `Delta` 的 (Darbux) <b>上和</b>与<b>下和</b>.
+    为 `f` 关于分割 `Delta` 的 (Darboux) <b>上和</b>与<b>下和</b>.
     这里的上、下确界取广义实值, 上确界可以取 `+oo`, 下确界可以取 `-oo`.
   </li>
   <li>对介点集加细, 会使上和减小, 下和增加.  这是因为
@@ -108,7 +108,13 @@
   </li>
 </ol>
 
-<p class="corollary">
+<p class="example">
+  Dirichlet 函数 `D(x) = chi_QQ = { 0, if x !in QQ; 1, if x in QQ :}`
+  在 `[0, 1]` 上不可积. 原因是无论分割取得多细, 每个小区间上的振幅始终等于
+  1.
+</p>
+
+<p class="proposition">
   <b>可积必有界</b>
   若 `f in R[a, b]`, 则 `f` 在 `[a, b]` 上有界.
 </p>
@@ -119,7 +125,7 @@
   进而 `omega(f) ge omega(f, I_k) |I_k| ge 1`. 这说明 `f` 不可积.
 </p>
 
-<p class="corollary">
+<p class="proposition">
   <b>连续必可积</b>
   若 `f in C[a, b]`, 则 `f in R[a, b]`.
 </p>
@@ -134,7 +140,7 @@
   从而总的振幅小于 `epsi(b-a)`.
 </p>
 
-<p class="corollary">
+<p class="proposition">
   <b>挖去有限个点, 不影响可积性</b>
   设 `f` 在 `[a, b]` 上有界, `c in [a, b]`, 且对任意小的 `delta gt 0`, `f`
   分别在 `[a, c-delta]`, `[c+delta, b]` 上可积, 则 `f` 在 `[a, b]` 上可积.
@@ -156,25 +162,18 @@
   </span>
 </p>
 
-<p class="example">
-  Dirichlet 函数 `D(x) = chi_QQ = { 0, if x !in QQ; 1, if x in QQ :}`
-  在 `[0, 1]` 上不可积. 原因是无论分割取得多细, 每个小区间上的振幅始终等于
-  1.
-</p>
-
 <h3>定积分的性质</h3>
 
-<ol class="property">
+<ol class="proposition">
   <b>定积分的基本性质</b> 设 `f, g` 在 `[a, b]` 上可积, 则
-  <li>`int_a^b c f(x) dx = c int_a^b f(x) dx`, `c` 为常数;</li>
-  <li>`int_a^b [f(x) + g(x)] dx = int_a^b f(x) dx + int_a^b g(x) dx`;</li>
-  1, 2 称为积分的线性性.
+  <li>线性性. `int_a^b (k f(x) + l g(x)) dx = k int_a^b f(x) dx + l int_a^b g(x) dx`, `k, l` 为常数;</li>
   <li>区间可加性. 若 `f in R[a,c] uu R[c,b]`, 则 `f in R[a, b]`,
     且 `int_a^b f(x) dx = int_a^c f(x) dx + int_c^b f(x) dx`;</li>
   <li>保序性. 若 `f(x) le g(x)`, 则 `int_a^b f(x) dx le int_a^b g(x) dx`;</li>
 </ol>
 
-<p class="lemma">
+<p class="proposition">
+  <b>连续函数与可积函数的复合可积</b>
   设 `f in R[a, b]`, 则 `f` 有界, 设它的值域含于 `[c, d]`;
   又设 `varphi in C[c, d]`, 则复合函数 `varphi @ f in R[a, b]`.
 </p>
@@ -210,7 +209,7 @@
   </li>
 </ol>
 
-<ol class="corollary">
+<ol class="proposition">
   <li>乘积的可积性. 若 `f, g in R[a, b]`, 则 `f g in R[a, b]`;
     这保证了内积 `f * g = int_a^b f(t) g(t) dt` 和卷积 `f ** g = int_a^b f(t) g(x-t) dt`
     的存在性.
@@ -233,6 +232,104 @@
   反之若 `|f|` 可积, 则 `f` 不一定可积. 如 `D(x) - 1//2`, `D(x)` 是
   Dirichlet 函数. 这个问题将在 Lebesgue 积分中解决.
 </p>
+
+<p class="lemma">
+  设 `f` 连续非负且 `int_a^b f(x) dx = 0`, 则 `f(x)` 恒等于零.
+</p>
+
+<p class="proof">
+  反设 `f(x_0) gt 0`, 则由极限保号性, 在 `x_0` 的附近存在一个小区间 `(x_0 - delta, x_0 + delta)`
+  使得 `f(x) gt 0`. 于是积分存在一个正的达布下和, 结果必为正, 矛盾.
+</p>
+
+<ol class="proposition">
+  以下两个定理都是对函数乘积的积分的估计, 但使用的前提条件不同.
+  <li><b>积分第一中值定理</b>
+    设 `f, g in C[a, b]`, `g ge 0`, 则存在 `xi in [a, b]` 使得
+    <span class="formula">
+      `int_a^b f(x) g(x) dx`
+      `= f(xi) int_a^b g(x) dx`.
+    </span>
+  </li>
+  <li><b>积分第二中值定理*</b>
+    设 `f in R[a, b]`, `g ge 0`:
+    <br>
+    (1) 若 `g` 单减, 则存在 `xi in [a, b]` 使得
+    <span class="formula">
+      `int_a^b f(x) g(x) dx`
+      `= g(a) int_a^xi f(x) dx`.
+    </span>
+    <br>
+    (2) 若 `g` 单增, 则存在 `eta in [a, b]` 使得
+    <span class="formula">
+      `int_a^b f(x) g(x) dx`
+      `= g(b) int_eta^b f(x) dx`.
+    </span>
+  </li>
+</ol>
+
+<p class="proof">
+  积分第一中值定理的证明.
+  若 `g` 恒等于零, 结论显然成立. 下设 `g` 不恒等于零, 由引理知 `int_a^b g(x) dx gt 0`.
+  <br>
+  设 `f` 在 `[a, b]` 上的最大和最小值分别是 `M, m`, 由保序性
+  <span class="formula">
+    `int_a^b m g(x) dx`
+    `le int_a^b f(x) g(x) dx`
+    `le int_a^b M g(x) dx`
+  </span>
+  即
+  <span class="formula">
+    `m le (int_a^b f(x) g(x) dx)/(int_a^b g(x) dx) le M`.
+  </span>
+  由连续函数的介值性, 存在 `xi in [a, b]` 使得
+  <span class="formula">
+    `f(xi) = (int_a^b f(x) g(x) dx)/(int_a^b g(x) dx)`.
+  </span>
+</p>
+
+<ol class="proof">
+  积分第二中值定理的证明.
+  <li>
+    首先说明 (1) (2) 是等价的.
+    比如 `g` 单减时, 对函数 `h(x) = g(a+b-x)` 应用结论 (2). 使用区间再现的技巧, 有
+    <span class="formula align">
+      `int_a^b f(x) g(x) dx`<br>
+      `= int_a^b f(a+b-x) g(a+b-x) dx`<br>
+      `= int_a^b f(a+b-x) h(x) dx`<br>
+      `= h(b) int_eta^b f(a+b-x) dx`<br>
+      `= g(a) int_a^(a+b-eta) f(x) dx`.
+    </span>
+    令 `xi = a + b - eta` 就得到结论 (1).
+  </li>
+  <li>下证结论 (2). 若 `g` 恒等于零结论显然成立. 下设 `g` 不恒等于零, 则 `g(b) gt 0`.
+    我们先设 `g` 连续可微, 记 `F(x) = int_a^x f(t) dt`,
+    于是 `F(x)` 连续, `g'` 非负.
+    分部积分, 然后应用积分第一中值定理, 有:
+    <span class="formula align">
+      `int_a^b f(x) g(x) dx`<br>
+      `= g(b) F(b) - int_a^b F(x) g'(x) dx`<br>
+      `= g(b) F(b) - F(xi) int_a^b g'(x) dx`<br>
+      `= g(b) F(b) - F(xi) (g(b) - g(a))`.
+    </span>
+    两边同除以 `g(b) gt 0` 得到
+    <span class="formula">
+      `1/(g(b)) int_a^b f(x)g(x) dx`
+      `= F(b) - F(xi)(1 - (g(a))/(g(b)))`.
+    </span>
+    注意 `1 - g(a)//g(b)` 介于 `[0, 1]` 之间, 因此 `F(xi) (1 -
+    g(a)//g(b))` 介于 `F(xi)` 和 `F(a) = 0` 之间. 由连续函数的介值性, 存在
+    `eta in [a, xi]` 使得 `F(eta) = F(xi) (1 - g(a)//g(b))`,
+    因此上式右侧等于
+    <span class="formula">
+      `F(b) - F(eta)`
+      `= int_eta^b f(x) dx`.
+    </span>
+  </li>
+  <li>单调函数实际上具有很好的性质: 几乎处处可导. 因此我们离成功证明并不遥远.
+    为改进上述证明, 将积分写为达布上下和, 并运用 Abel 变换 (分部求和).
+  </li>
+</ol>
 
 <h3>Riemann 积分与测度</h3>
 

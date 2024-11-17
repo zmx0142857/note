@@ -111,6 +111,62 @@
   求和即得.
 </p>
 
+<p class="example">
+  <b>Stirling 公式青春版</b>
+  [来自 崔尚斌《数学分析》]
+  <span class="formula">
+    `sqrt n (n/"e")^n * "e"^(7//8) lt n! lt sqrt n (n/"e")^n * "e"`.
+  </span>
+  注: 标配版的 Stirling 公式是指 `n! ~ sqrt(2pi n) (n/"e")^n`,
+  我们有 `7/8 lt ln sqrt(2pi) lt 1`.
+</p>
+
+<p class="proof">
+  运用曲边梯形不等式估计积分 `int_1^n ln x dx`.
+  一方面
+  <span class="formula">
+    `int_1^n ln x dx`
+    `gt sum_(k=1)^(n-1) (ln k + ln(k+1))/2`
+    `= ln(n!) - 1/2 ln n`,
+  </span>
+  另一方面,
+  <span class="formula">
+    `int_1^n ln x dx`
+    `= int_1^(3//2) + int_(3//2)^(n-1//2) + int_(n-1//2)^n`
+  </span>
+  对于中间一项有
+  <span class="formula">
+    `int_(3//2)^(n-1//2) ln x dx`
+    `lt sum_(k=2)^(n-1) ln k`
+    `= ln(n!) - ln n`.
+  </span>
+  左右两项分别用 `x=1` 和 `x=n` 处的切线近似, 有
+  <span class="formula">
+    `int_1^(3//2) ln x dx`
+    `lt 1/2 * 底 * 高`
+    `= 1/2 * 1/2 * 1/2`
+    `= 1/8`,<br>
+    `int_(n-1//2)^n ln x dx`
+    `lt 1/2 * 高 * (上底 + 下底)`
+    `= 1/2 * 1/2 * (ln n + ln n - 1/(2n))`
+    `= 1/2 ln n - 1/(8n)`.
+  </span>
+  以上三式相加得
+  <span class="formula">
+    `int_1^n ln x dx`
+    `lt ln(n!) - 1/2 ln n - 1/(8n) + 1/8`.
+  </span>
+  整理得
+  <span class="formula">
+    `-1/8 lt ln(n!) - int_1^n ln x dx - 1/2 ln n lt 0`.
+  </span>
+  代入 `int_1^n ln x dx` `= n (ln n - 1) + 1` 得到
+  <span class="formula">
+    `7/8 lt ln(n!) - n ln n + n - 1/2 ln n lt 1`.
+  </span>
+  取指数即得结论.
+</p>
+
 <h2>一阶估计</h2>
 
 <h3>幂函数的一阶估计</h3>
