@@ -54,7 +54,7 @@ var tocData = [
           { "value": "3", "label": "函数的极限与连续性", "date": "2022-03-04" },
           { "value": "5", "label": "导数的应用", "date": "2023-10-09" },
           { "value": "6", "label": "不定积分", "date": "2022-04-10" },
-          { "value": "7", "label": "定积分与广义积分", "date": "2023-05-25" },
+          { "value": "7", "label": "定积分与广义积分", "date": "2024-11-18" },
           { "value": "8", "label": "特殊函数 (1): Gamma 函数, Euler 和, 指对数积分", "date": "2022-05-15" },
           { "value": "9", "label": "特殊函数 (2): 椭圆函数, 超几何函数, Bessel 函数", "date": "2024-11-06" },
           { "value": "10", "label": "特殊函数 (3): Bernoulli 数与 Riemann zeta 函数", "date": "2024-07-31" },
@@ -81,7 +81,7 @@ var tocData = [
           { "value": "4", "label": "二次剩余", "date": "2022-01-09" },
           { "value": "5", "label": "不定方程", "date": "2024-09-05" },
           { "value": "6", "label": "积性数论函数", "date": "2024-08-30" },
-          { "value": "7", "label": "素数分布", "date": "2022-03-30" },
+          { "value": "7", "label": "素数分布", "date": "2022-11-20" },
           { "value": "11", "label": "代数数域和代数整数", "date": "2022-03-05" },
           { "value": "12", "label": "理想的分解", "date": "2022-05-14" }
         ]
@@ -483,6 +483,7 @@ var tocData = [
         "children": [
           { "value": "tuner", "label": "调音器", "date": "2024-04-13" },
           { "value": "piano", "label": "钢琴", "date": "2024-11-16" },
+          { "value": "guitar", "label": "吉他", "date": "2024-11-28" },
           // { "value": "player", "label": '播放器', "date": "2022-02-12" },
           // { "value": "jianpu", "label": '简谱' },
           // { "value": "lywriter", "label": '乐谱编辑器' },

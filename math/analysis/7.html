@@ -13,7 +13,7 @@
 
 <p class="definition">
   <b>Riemann 积分的经典定义</b>
-  设函数 `f` 定义在 `[a, b]` 上. 若存在实数 `I`, `AA epsi gt 0`,
+  设函数 `f` 定义在 `[a, b]` 上. 若存在实数 `I`, `AA epsi gt 0`, `EE delta gt 0`,
   对于 `[a, b]` 的任意<b>分割 (partition)</b>
   <span class="formula">
     `Delta = {x_0, x_1, cdots, x_n}`,
@@ -24,7 +24,7 @@
     `Xi = {xi_1, xi_2, cdots, xi_n}`,
     `quad xi_k in [x_(k-1), x_k]`,
   </span>
-  都存在 `delta gt 0`, 使当<b>分割的模</b>
+  当<b>分割的模</b>
   <span class="formula">
     `||Delta||`
     `= max_(1 le k le n) Delta x_k`
@@ -43,14 +43,17 @@
   <span class="formula">
     `lim_(||Delta|| to 0) sum_(k=1)^n f(xi_k) Delta x_k = I`,
   </span>
-  其中, `S = sum_(k=1)^n f(xi_k) Delta x_k` 称为 <b>Riemann 和</b>.
+  其中, `S(f, Delta, Xi) = sum_(k=1)^n f(xi_k) Delta x_k` 称为 <b>Riemann 和</b>.
 </p>
 
-<p class="remark">
-  定积分是一个数, 与积分区间 `[a, b]` 和被积函数 `f` 有关,
-  但与被积函数的变元无关. 因此 `int_a^b f(x) dx = int_a^b f(t) dt`.
-  如果视函数 `f` 为变元, 也可以说定积分是函数的函数, 即泛函.
-</p>
+<ol class="remark">
+  <li>定义中的 `I` 和 `delta` 与分割 `Delta`、介点集 `Xi` 均无关.</li>
+  <li>
+    定积分是一个数, 与积分区间 `[a, b]` 和被积函数 `f` 有关,
+    但与被积函数的变元无关. 因此 `int_a^b f(x) dx = int_a^b f(t) dt`.
+    如果视函数 `f` 为变元, 也可以说定积分是函数的函数, 即泛函.
+  </li>
+</ol>
 
 <p class="remark">
   Riemann 积分理论有其局限性和不便之处, 为此, 提出了新的积分理论——
@@ -58,13 +61,13 @@
 </p>
 
 <ol class="definition">
-  <b>Riemann 积分的第二定义</b>
+  <b>Riemann 积分的第二定义 (Darboux 准则)</b>
   <li>记 `I_k = [x_(k-1), x_k]`. 分别称
     <span class="formula">
-      `bar S(f, Delta) = sum_(k=1)^n underset (x in I_k)"sup" f(x) |I_k|`,
-      `quad ul S(f, Delta) = sum_(k=1)^n underset (x in I_k)"inf" f(x) |I_k|`
+      `bar S(f, Delta) = sum_(k=1)^n underset (x in I_k)"sup" f(x) |I_k|`,<br>
+      `ul S(f, Delta) = sum_(k=1)^n underset (x in I_k)"inf" f(x) |I_k|`
     </span>
-    为 `f` 关于分割 `Delta` 的 (Darboux) <b>上和</b>与<b>下和</b>.
+    为 `f` 关于分割 `Delta` 的 <b>(Darboux) 上和</b>与<b>下和</b>.
     这里的上、下确界取广义实值, 上确界可以取 `+oo`, 下确界可以取 `-oo`.
   </li>
   <li>对介点集加细, 会使上和减小, 下和增加.  这是因为
@@ -84,27 +87,108 @@
     这指出上和有下界, 下和有上界.  定义上和的下确界为<b>上积分</b>,
     下和的上确界为<b>下积分</b>:
     <span class="formula">
-      `bar(int_a^b) f(x) dx = underset Delta "inf" bar S(f, Delta)`
-      `ge ul(int_a^b) f(x) dx = underset Delta "sup" ul S(f, Delta)`.
+      `bar(int_a^b) f(x) dx`
+      `= underset Delta "inf" bar S(f, Delta)`
+      `ge underset Delta "sup" ul S(f, Delta)`
+      `= ul(int_a^b) f(x) dx`.
     </span>
     如果上积分等于下积分, 就称 `f` 的积分存在, 且等于上、下积分的值.
   </li>
   <li>
-    上和与下和的差记为
-    <span class="formula">
-      `omega(f, Delta) = bar S(f, Delta) - ul S(f, Delta)`.
-    </span>
-    关于所有分割取下确界, 称为 `f` 在区间上的<b>振幅</b>:
-    <span class="formula">
-      `omega(f) = underset Delta "inf" omega(f, Delta)`
-      `= underset Delta "inf" sum_(k=1)^n omega(f, I_k) |I_k|`,
-    </span>
-    其中
+    `f` 在子区间 `I_k` 上的<b>振幅</b>记为
     <span class="formula">
       `omega(f, I_k) = underset (x in I_k)"sup" f(x) - underset (x in I_k)
       "inf" f(x)`.
     </span>
+    `f` 关于分割 `Delta` 的振幅定义为:
+    <span class="formula">
+      `omega(f, Delta)`
+      `= sum_(k=1)^n omega(f, I_k) |I_k|`
+      `= bar S(f, Delta) - ul S(f, Delta)`.
+    </span>
+    关于所有分割取下确界, 称为 `f` 在区间上的振幅:
+    <span class="formula">
+      `omega(f) = underset Delta "inf" omega(f, Delta)`
+      `= bar(int_a^b) f(x) dx - ul(int_a^b) f(x) dx`.
+    </span>
     因此 `f` Riemann 可积当且仅当 `omega(f) = 0`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>Darboux 定理</b>
+  <span class="formula">
+    `bar(int_a^b) f(x) dx = lim_(||Delta|| to 0) bar S(f, Delta)`,<br>
+    `ul(int_a^b) f(x) dx = lim_(||Delta|| to 0) ul S(f, Delta)`.
+  </span>
+</p>
+
+<p class="proof">
+  以第二式为例, 记下积分的值为 `L`, 则存在分割 `Delta_1` 使得
+  <span class="formula">
+    `|ul S(f, Delta_1) - L| lt epsi`.
+  </span>
+  由于 Darboux 准则蕴含 `f` 有界 (见下文“可积必有界”), 可设 `|f| le M`;
+  又设分割 `Delta_1` 的分点数为 `n`, 现在取 `delta = epsi // 2 n M`,
+  则当 `||Delta_2|| lt delta` 时, 取 `Delta_1, Delta_2` 的公共加细 `Delta`, 有
+  <span class="formula">
+    `|ul S(f, Delta_2) - L|`
+    `le |ul S(f, Delta_2) - ul S(f, Delta)|`
+    `+ |ul S(f, Delta) - L|`.
+  </span>
+  上式第二项, 由于 `Delta` 是 `Delta_1` 的加细, 有
+  <span class="formula">
+    `|ul S(f, Delta) - L|`
+    `le |ul S(f, Delta_1) - L|`
+    `lt epsi`.
+  </span>
+  第一项, 由于 `Delta` 比 `Delta_2` 增加的分点至多有 `n` 个, 从而 `ul S(f, Delta_2)`
+  至多在 `n` 个子区间上与 `ul S(f, Delta)` 存在差异.
+  两个下和之差不会超过区间数 &times; 区间宽度 &times; 区间上函数值的差 `le n * delta * 2M lt epsi`.
+  综上有 `|ul S(f, Delta_2) - L| lt 2 epsi`.
+</p>
+
+<p class="theorem">
+  定积分的 Riemann 定义与 Darboux 定义等价.
+</p>
+
+<ol class="proof">
+  考虑函数 `f` 在区间 `[a, b]` 上的积分.
+  <li>Riemann `rArr` Darboux:
+    对任意 `epsi gt 0`, 由 Riemann 可积知道存在实数 `I` 和 `delta gt 0`, 当 `||Delta|| lt delta` 时,
+    对任意介点集 `Xi` 成立
+    <span class="formula">
+      `|S(f, Delta, Xi) - I| lt epsi`.
+    </span>
+    我们可以取介点集 `Xi_1`, 使 `f(xi_k)` 接近 `f` 在 `I_k` 的上确界:
+    <span class="formula">
+      `|f(xi_k) - underset(x in I_k) "sup"f(x)| lt epsi`, `quad k = 1, cdots, n`.
+    </span>
+    于是
+    <span class="formula">
+      `|S(f, Delta, Xi_1) - bar S(f, Delta)| le epsi (b-a)`.
+    </span>
+    同理取 `Xi_2`, 使得
+    <span class="formula">
+      `|S(f, Delta, Xi_2) - ul S(f, Delta)| le epsi (b-a)`.
+    </span>
+    于是
+    <span class="formula align">
+      `bar S(f, Delta) - ul S(f, Delta)`<br>
+      `le |bar S(f, Delta) - S(f, Delta, Xi_1)|`
+      `+ |S(f, Delta, Xi_1) - I|`<br>
+      `+ |I - S(f, Delta, Xi_2)|`
+      `+ |bar S(f, Delta, Xi_2) - ul S(f, Delta)|`<br>
+      `le epsi(b-a) + epsi + epsi + epsi(b-a)`.
+    </span>
+  </li>
+  <li>Darboux `rArr` Riemann:
+    对任意分割 `Delta` 和介点集 `Xi`, `f` 的 Riemann 和可以被 Darboux 和控制:
+    <span class="formula">
+      `ul S(f, Delta) le S(f, Delta, Xi) le bar S(f, Delta)`.
+    </span>
+    令 `||Delta|| to 0`, 由 Darboux 定理知上式左右两边分别趋于上积分和下积分,
+    由假设它们都等于 `I`, 因此 `lim_(||Delta|| to 0) S(f, Delta, Xi) = I`.
   </li>
 </ol>
 
@@ -114,15 +198,33 @@
   1.
 </p>
 
+<h3>定积分的性质</h3>
+
 <p class="proposition">
   <b>可积必有界</b>
   若 `f in R[a, b]`, 则 `f` 在 `[a, b]` 上有界.
 </p>
 
 <p class="proof">
-  若 `f` 在 `[a, b]` 上无界, 考虑区间的任一分割,
+  若 `f` 在 `[a, b]` 上无界, 考虑区间的任意分割 `Delta`,
   `f` 至少在其中一个子区间 `I_k` 上无界. 从而 `omega(f, I_k) ge 1//|I_k|`,
-  进而 `omega(f) ge omega(f, I_k) |I_k| ge 1`. 这说明 `f` 不可积.
+  进而 `omega(f, Delta) ge omega(f, I_k) |I_k| ge 1`. 这说明 `f` 不可积.
+</p>
+
+<p class="proposition">
+  <b>单调必可积</b>
+  若 `f` 在 `[a, b]` 上单调, 则 `f in R[a, b]`.
+</p>
+
+<p class="proof">
+  对任意分割 `Delta`, 考虑
+  <span class="formula">
+    `omega(f, Delta)`
+    `= sum_(k=1)^n omega(f, I_k) |I_k|`
+    `le sum_(k=1)^n omega(f, I_k) ||Delta||`
+    `= |f(a) - f(b)| * ||Delta||`.
+  </span>
+  令 `||Delta|| to 0` 即得结论.
 </p>
 
 <p class="proposition">
@@ -147,8 +249,8 @@
 </p>
 
 <p class="proof">
-  设 `|f| le M`. 对任意 `epsi gt 0`, 取 `delta lt epsi // M`, 下面说明
-  区间 `[c-delta, c+delta]` 长度足够小, 且 `f` 在 `[a, c-delta] uu
+  设 `|f| le M`. 对任意 `epsi gt 0`, 取 `delta lt epsi // 4 M`, 下面说明区间
+  `[c-delta, c+delta]` 长度足够小, 且 `f` 在 `[a, c-delta] uu
   [c+delta, b]` 上的振幅足够小.<br>
   事实上, 存在 `[a, c-delta]` 和 `[c+delta, b]` 的分割 `Delta_1, Delta_2`
   使得
@@ -162,14 +264,23 @@
   </span>
 </p>
 
-<h3>定积分的性质</h3>
-
 <ol class="proposition">
-  <b>定积分的基本性质</b> 设 `f, g` 在 `[a, b]` 上可积, 则
-  <li>线性性. `int_a^b (k f(x) + l g(x)) dx = k int_a^b f(x) dx + l int_a^b g(x) dx`, `k, l` 为常数;</li>
-  <li>区间可加性. 若 `f in R[a,c] uu R[c,b]`, 则 `f in R[a, b]`,
-    且 `int_a^b f(x) dx = int_a^c f(x) dx + int_c^b f(x) dx`;</li>
-  <li>保序性. 若 `f(x) le g(x)`, 则 `int_a^b f(x) dx le int_a^b g(x) dx`;</li>
+  <b>定积分的运算性质</b> 设 `f, g` 在 `[a, b]` 上可积, 则
+  <li>线性性.  对任意常数 `k, l`, 下式左边的积分存在且等式成立:
+    <span class="formula">
+      `int_a^b (k f(x) + l g(x)) dx` `= k int_a^b f(x) dx + l int_a^b g(x) dx`;
+    </span>
+  </li>
+  <li>区间可加性. 若 `f in R[a,c] uu R[c,b]`, 则 `f in R[a, b]`, 且
+    <span class="formula">
+      `int_a^b f(x) dx = int_a^c f(x) dx + int_c^b f(x) dx`;
+    </span>
+  </li>
+  <li>保序性. 若 `f(x) le g(x)`, 则
+    <span class="formula">
+      `int_a^b f(x) dx le int_a^b g(x) dx`;
+    </span>
+  </li>
 </ol>
 
 <p class="proposition">
@@ -210,11 +321,9 @@
 </ol>
 
 <ol class="proposition">
-  <li>乘积的可积性. 若 `f, g in R[a, b]`, 则 `f g in R[a, b]`;
-    这保证了内积 `f * g = int_a^b f(t) g(t) dt` 和卷积 `f ** g = int_a^b f(t) g(x-t) dt`
-    的存在性.
+  <li><b>乘积的可积性</b>. 若 `f, g in R[a, b]`, 则 `f g in R[a, b]`;
   </li>
-  <li>绝对可积. 若 `f in R[a, b]` 则  `|f| in R[a, b]`,
+  <li><b>绝对可积</b>. 若 `f in R[a, b]` 则  `|f| in R[a, b]`,
     且 `|int_a^b f(x) dx| le int_a^b |f(x)| dx`.</li>
 </ol>
 
@@ -228,10 +337,18 @@
   </li>
 </ol>
 
-<p class="remark">
-  反之若 `|f|` 可积, 则 `f` 不一定可积. 如 `D(x) - 1//2`, `D(x)` 是
-  Dirichlet 函数. 这个问题将在 Lebesgue 积分中解决.
-</p>
+<ol class="remark">
+  <li>
+    乘积的可积性保证了内积 `f * g = int_a^b f(t) g(t) dt`
+    和卷积 `f ** g = int_a^b f(t) g(x-t) dt` 的存在性.
+  </li>
+  <li>
+    反之若 `|f|` 可积, 则 `f` 不一定可积. 如 `D(x) - 1//2`, `D(x)` 是
+    Dirichlet 函数. 这个问题将在 Lebesgue 积分中解决.
+  </li>
+</ol>
+
+<h3>积分中值定理</h3>
 
 <p class="lemma">
   设 `f` 连续非负且 `int_a^b f(x) dx = 0`, 则 `f(x)` 恒等于零.
@@ -242,34 +359,20 @@
   使得 `f(x) gt 0`. 于是积分存在一个正的达布下和, 结果必为正, 矛盾.
 </p>
 
-<ol class="proposition">
+<p>
   以下两个定理都是对函数乘积的积分的估计, 但使用的前提条件不同.
-  <li><b>积分第一中值定理</b>
-    设 `f, g in C[a, b]`, `g ge 0`, 则存在 `xi in [a, b]` 使得
-    <span class="formula">
-      `int_a^b f(x) g(x) dx`
-      `= f(xi) int_a^b g(x) dx`.
-    </span>
-  </li>
-  <li><b>积分第二中值定理*</b>
-    设 `f in R[a, b]`, `g ge 0`:
-    <br>
-    (1) 若 `g` 单减, 则存在 `xi in [a, b]` 使得
-    <span class="formula">
-      `int_a^b f(x) g(x) dx`
-      `= g(a) int_a^xi f(x) dx`.
-    </span>
-    <br>
-    (2) 若 `g` 单增, 则存在 `eta in [a, b]` 使得
-    <span class="formula">
-      `int_a^b f(x) g(x) dx`
-      `= g(b) int_eta^b f(x) dx`.
-    </span>
-  </li>
-</ol>
+</p>
+
+<p class="theorem">
+  <b>积分第一中值定理</b>
+  设 `f, g in C[a, b]`, `g ge 0`, 则存在 `xi in [a, b]` 使得
+  <span class="formula">
+    `int_a^b f(x) g(x) dx`
+    `= f(xi) int_a^b g(x) dx`.
+  </span>
+</p>
 
 <p class="proof">
-  积分第一中值定理的证明.
   若 `g` 恒等于零, 结论显然成立. 下设 `g` 不恒等于零, 由引理知 `int_a^b g(x) dx gt 0`.
   <br>
   设 `f` 在 `[a, b]` 上的最大和最小值分别是 `M, m`, 由保序性
@@ -288,11 +391,31 @@
   </span>
 </p>
 
+<ol class="theorem">
+  <b>积分第二中值定理*</b>
+  设 `f in R[a, b]`, 对任意 `xi in [a, b]`, 可以把 `f` 的积分掰成两半, 记为
+  `F_l(xi) = int_a^xi f(x) dx` 和 `F_r(xi) = int_xi^b f(x) dx`.
+  <li>若 `g` 非负单减, 则存在 `xi in [a, b]` 使得
+    <span class="formula">
+      `int_a^b f(x) g(x) dx = g(a) F_l(xi)`
+    </span>
+  </li>
+  <li>若 `g` 非负单增, 则存在 `eta in [a, b]` 使得
+    <span class="formula">
+      `int_a^b f(x) g(x) dx = g(b) F_r(eta)`.
+    </span>
+  </li>
+  <li>若 `g` 单调, 则存在 `xi in [a, b]`, 使得
+    <span class="formula">
+      `int_a^b f(x) g(x) dx` `= g(a) F_l(xi) + g(b) F_r(xi)`.
+    </span>
+  </li>
+</ol>
+
 <ol class="proof">
-  积分第二中值定理的证明.
   <li>
-    首先说明 (1) (2) 是等价的.
-    比如 `g` 单减时, 对函数 `h(x) = g(a+b-x)` 应用结论 (2). 使用区间再现的技巧, 有
+    首先说明结论 1. 2. 是等价的.
+    比如 `g` 单减时, 对函数 `h(x) = g(a+b-x)` 应用结论 2. 使用区间再现的技巧, 有
     <span class="formula align">
       `int_a^b f(x) g(x) dx`<br>
       `= int_a^b f(a+b-x) g(a+b-x) dx`<br>
@@ -300,9 +423,17 @@
       `= h(b) int_eta^b f(a+b-x) dx`<br>
       `= g(a) int_a^(a+b-eta) f(x) dx`.
     </span>
-    令 `xi = a + b - eta` 就得到结论 (1).
+    令 `xi = a + b - eta` 就得到结论 1.
   </li>
-  <li>下证结论 (2). 若 `g` 恒等于零结论显然成立. 下设 `g` 不恒等于零, 则 `g(b) gt 0`.
+  <li>结论 3. 是 1. 2. 的推论.
+    例如当 `g` 单减时, 对函数 `g(x) - g(b)` 应用结论 1. 有:
+    <span class="formula">
+      `int_a^b f(x) g(x) dx - int_a^b f(x) g(b) dx`
+      `= g(a) F_l(xi) - g(b) F_l(xi)`,
+    </span>
+    整理即得结论.
+  </li>
+  <li>下证结论 2. 若 `g` 恒等于零结论显然成立. 否则, 有 `g(b) gt 0`.
     我们先设 `g` 连续可微, 记 `F(x) = int_a^x f(t) dt`,
     于是 `F(x)` 连续, `g'` 非负.
     分部积分, 然后应用积分第一中值定理, 有:
@@ -317,8 +448,7 @@
       `1/(g(b)) int_a^b f(x)g(x) dx`
       `= F(b) - F(xi)(1 - (g(a))/(g(b)))`.
     </span>
-    注意 `1 - g(a)//g(b)` 介于 `[0, 1]` 之间, 因此 `F(xi) (1 -
-    g(a)//g(b))` 介于 `F(xi)` 和 `F(a) = 0` 之间. 由连续函数的介值性, 存在
+    注意 `F(xi) (1 - g(a)//g(b))` 介于 `F(xi)` 和 `F(a) = 0` 之间, 由连续函数的介值性, 存在
     `eta in [a, xi]` 使得 `F(eta) = F(xi) (1 - g(a)//g(b))`,
     因此上式右侧等于
     <span class="formula">
@@ -326,8 +456,50 @@
       `= int_eta^b f(x) dx`.
     </span>
   </li>
-  <li>单调函数实际上具有很好的性质: 几乎处处可导. 因此我们离成功证明并不遥远.
-    为改进上述证明, 将积分写为达布上下和, 并运用 Abel 变换 (分部求和).
+  <li>从《实变函数》知道, 单调函数实际上具有很好的性质: 几乎处处可导. 因此我们离成功证明并不遥远.
+    为改进上述证明, 思路是将积分改写为求和, 并运用 Abel 变换 (分部求和).
+    首先, 任取分割 `Delta = {a = x_0, cdots, x_n = b}`, 则
+    <span class="formula align">
+      `int_a^b f(x) g(x) dx`<br>
+      `= sum_(k=1)^n int_(I_k) f(x) g(x) dx`<br>
+      `= sum_(k=1)^n int_(I_k) f(x) (g(x) - g(x_k)) dx`<br>
+      `quad + sum_(k=1)^n int_(I_k) f(x) g(x_k) dx`<br>
+      `:= S_1 + S_2`.
+    </span>
+    设 `|f| le A`.
+    对任意 `epsi gt 0`, 由于 `g` 单调从而可积,
+    换言之, 存在 `delta gt 0`, 使得 `||Delta|| lt delta` 时,
+    `sum_k omega(g, I_k) |I_k| lt epsi`, 于是上式第一项
+    <span class="formula align">
+      `S_1 = sum_(k=1)^n int_(I_k) f(x) (g(x) - g(x_k)) dx`<br>
+      `le A sum_(k=1)^n omega(g, I_k) |I_k|`<br>
+      `le A epsi`.
+    </span>
+    由于 `f` 可积, `g` 单调, 积分 `int_a^b f(x) g(x) dx` 总是存在. 因此我们证明了
+    <span class="formula">
+      `lim_(||Delta|| to 0) S_2 = int_a^b f(x) g(x) dx`.
+    </span>
+    对 `S_2` 使用 Abel 变换, 注意 `F(x_0) = F(a) = 0`:
+    <span class="formula align">
+      `S_2 = sum_(k=1)^n g(x_k) int_(I_k) f(x) dx`<br>
+      `= sum_(k=1)^n g(x_k) (F(x_k) - F(x_(k-1)))`<br>
+      `= sum_(k=1)^n g(x_k) F(x_k) - sum_(k=0)^(n-1) g(x_(k+1)) F(x_k)`<br>
+      `= g(x_n) F(x_n) - g(x_1) F(x_0)`<br>
+      `quad + sum_(k=1)^(n-1) (g(x_k) - g(x_(k+1))) F(x_k)`<br>
+      `= g(b) F(b) + sum_(k=0)^(n-1) (g(x_k) - g(x_(k+1))) F(x_k)`.
+    </span>
+    设 `F` 在 `[a, b]` 的最大和最小值分别是 `M, m`, 假定 `g` 非负单减且 `g(a) gt 0`, 有
+    <span class="formula">
+      `S_2 le g(b) M + sum_(k=0)^(n-1) (g(x_k) - g(x_(k+1))) M`
+      `= g(a) M`.
+    </span>
+    同理 `S_2 ge g(a) m`.
+    令 `||Delta|| to 0`, 我们得到
+    <span class="formula">
+      `g(a) m le int_a^b f(x) g(x) dx le g(a) M`.
+    </span>
+    由连续函数的介值性, 存在 `xi in [a, b]` 使得 `1/(g(a)) int_a^b f(x) g(x) dx = F(xi)`,
+    即得结论.
   </li>
 </ol>
 
@@ -491,6 +663,24 @@
     `int_0^(pi/2) (sin^a y)/(cos ^a y + sin^a y) dy`
     `= 1/2 int_0^(pi/2) (cos^a y + sin^a y)/(cos^a y + sin^a y) dy`
     `= pi/4`.
+  </span>
+</p>
+
+<p class="example">
+  [来自群友 SmartPig]
+  `int_0^(2pi) (x - sin x)(1 - cos x)^2 dx`.
+</p>
+
+<p class="solution">
+  [来自群友 光绪三十一年钦点的武举人]
+  `sin x(1 - cos x)^2` 的周期为 `2pi`, 可以把积分区间移动到 `[-pi, pi]`; 又因为它是奇函数所以积分是零.
+  于是原积分化为
+  <span class="formula align">
+    `int_0^(2pi) x (1-cos x)^2 dx`<br>
+    `= int_0^(2pi) pi (1 - cos x)^2 dx`<br>
+    `= pi int_0^(2pi) (1 - 2 cos x + cos^2 x) dx<br>
+    `= pi (2pi - 0 + pi)`<br>
+    `= 3pi^2`.
   </span>
 </p>
 

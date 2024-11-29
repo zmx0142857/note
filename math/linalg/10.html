@@ -101,12 +101,13 @@
 
 <h2>张量的定义</h2>
 
-<p class="remark">下面讨论的线性空间默认为 `RR` 上的有限维空间.</p>
+<p class="remark">下面讨论的线性空间默认为 `bbb F` 上的有限维空间.</p>
 
 <h3>对偶空间</h3>
 
 <p class="definition">
-  线性空间 `V` 上全体线性函数构成一个线性空间, 称为 `V` 的<b>对偶空间</b> `V^ast`. 对偶空间中加法与数乘的定义是
+  线性空间 `V` 上全体线性函数构成一个线性空间, 称为 `V` 的<b>对偶空间</b> `V^ast`.
+  对偶空间中加法与数乘的定义是
   <span class="formula">
     `(f + g)(x) = f(x) + g(x)`,<br>
     `(k f)(x) = k f(x)`.
@@ -114,7 +115,7 @@
 </p>
 
 <p class="corollary">
-  对偶空间与原空间具有相同维数.
+  对偶空间与原空间同构, 但同构映射依赖基的选取.
 </p>
 
 <p class="proof">
@@ -122,23 +123,70 @@
   则线性函数 `f_1, cdots, f_n` 是 `V^ast` 的一组基,
   其中 `f_i(e_j) = delta_(i j)`,
   且任意 `f in V^ast` 在这组基下的坐标为 `(f(e_1), cdots, f(e_n))`.
+  这组基称为对偶基, 见下文. 同构映射为
+  <span class="formula">
+    `varphi := sum k_i e_i mapsto sum k_i f_i`.
+  </span>
 </p>
 
-<p class="corollary">
-  <b>自然同构</b> 对偶空间的对偶空间与原空间同构.
+<p class="theorem">
+  <b>自然同构</b> 对偶空间的对偶空间与原空间同构, 且同构映射
+  <span class="formula">
+    `varphi := bm v mapsto f mapsto f(bm v)`
+  </span>
+  不依赖基的选取.
 </p>
 
-<p class="proof">
-  我们建立 `V` 到 `V^(ast ast)` 的同构映射.
-  前面提到 `f_1, cdots, f_n` 是 `V^ast` 的基,
-  又 `g_1, cdots, g_n` 是 `V^(ast ast)` 的基, 其中
-  `g_i(f_j) = delta_(i j)`. 可以验证
+<ol class="proof">
+  我们建立 `V` 到 `V^(ast ast)` 的同构映射
   <span class="formula">
     `varphi: V to V^(ast ast)`<br>
-    `e_i mapsto g_i`, `i = 1, cdots, n`
+    `bm v mapsto varphi(bm v)`,
   </span>
-  是同构.
-</p>
+  使得
+  <span class="formula">
+    `(varphi(bm v))(f) = f(bm v)`,
+    `quad AA f in V^ast`,
+  </span>
+  <li>
+    先验证对任意固定的 `bm v`, `varphi(bm v) = f mapsto f(bm v)` 是线性的,
+    从而是 `V^(ast ast)` 的元素:
+    <span class="formula">
+      `varphi(bm v)(k f + l g)`
+      `= (k f + l g)(bm v)`
+      `= k f(bm v) + l g(bm v)`
+      `= k varphi(bm v)(f) + l varphi(bm v)(g)`.
+    </span>
+  </li>
+  <li>
+    验证 `varphi` 是线性的:
+    <span class="formula">
+      `varphi(k bm alpha + l bm beta)(f)`
+      `= f(k bm alpha + l bm beta)`
+      `= k f(bm alpha) + l f(bm beta)`
+      `= k varphi(bm alpha)(f) + l varphi(bm beta)(f)`
+      `= (k varphi(bm alpha) + l varphi(bm beta))(f)`.
+    </span>
+  </li>
+  <li>下面验证 `"Ker"varphi = 0`, 从而 `varphi` 为单射.
+    假设 `varphi(bm v) = 0`, 则对任意 `f in V^ast` 有
+    `varphi(bm v)(f) = 0`, 即 `f(bm v) = 0`.
+    由 `f` 的任意性知道 `bm v = bm 0`.
+  </li>
+  <li>
+    最后由于有限维时 `V`, `V^ast`, `V^(ast ast)` 的维数均相等, 所以 `varphi` 就是一个同构.
+  </li>
+  <li>自然同构在特定基底下的形式.
+    现在取定 `V` 的基底 `{e_i}` 和 `V^ast` 的基底 `{f_i}`, 使得 `f_i(e_j) = delta_(i j)`.
+    于是 `g_j = varphi(e_j)` 就是 `V^(ast ast)` 的基, 其中
+    <span class="formula">
+      `g_j(f_i)`
+      `= varphi(e_j)(f_i)`
+      `= f_i(e_j)`
+      `= delta_(i j)`.
+    </span>
+  </li>
+</ol>
 
 <p class="definition">
   `V^ast` 中的元素, 即 `V` 上的线性函数称为 `V` 的<b>协变</b>,
@@ -221,6 +269,49 @@
     `= a_i^k b_l^j delta_k^l`
     `= a_i^k b_k^j`.
   </span>
+</p>
+
+<p class="definition">
+  <b>对偶线性映射</b>
+  设 `cc A` 是线性空间 `V` 到 `W` 的线性映射,
+  定义它的<b>对偶映射</b> `cc A^ast` 是 `W^ast` 到 `V^ast` 的线性映射:
+  <span class="formula">
+    `cc A^ast := bm w^ast mapsto bm w^ast @ cc A`.
+  </span>
+  映射 `cc A^ast` 也称为一个拉回, 因为它把 `W to bbb F` 的映射拉回到 `V to bbb F`.
+</p>
+
+<div class="img md" title="对偶映射">
+  <img src="../img/dual-mapping.png" alt="对偶映射">
+</div>
+
+<p class="corollary">
+  <b>对偶映射的矩阵</b> 设 `cc A in "Hom"(V, W)`, `cc A^ast` 是它的对偶映射.
+  设线性映射 `cc A` 在特定基底下的矩阵为 `bm A`, 则对偶映射 `cc A^ast`
+  在对偶基下的矩阵为 `bm A^(sf T)`.
+</p>
+
+<p class="proof">
+  设 `cc A` 在 `V, W` 的基底 `{v_i}`, `{w_j}` 下的矩阵为 `bm A`, 即 
+  <span class="formula">
+    `cc A v_i = sum_j A_i^j w_j`.
+  </span>
+  又设 `cc A^ast` 在对偶基底 `{v_i^ast}`, `{w_j^ast}` 下的矩阵为 `bm B`, 即
+  <span class="formula">
+    `cc A^ast w_i^ast = sum_j B_i^j v_j^ast`.
+  </span>
+  于是
+  <span class="formula">
+    `(cc A^ast w_i^ast) v_k`
+    `= sum_j B_i^j v_j^ast v_k`
+    `= sum_j B_i^j delta_(j k)`
+    `= B_i^k`,<br>
+    `(w_i^ast @ cc A) v_k`
+    `= sum_j A_k^j w_i^ast w_j`
+    `= sum_j A_k^j delta_(i j)`
+    `= A_k^i`.
+  </span>
+  由 `cc A^ast w_i^ast = w_i^ast @ cc A` 得到 `B_i^k = A_k^i`.
 </p>
 
 <h3>多重线性函数</h3>

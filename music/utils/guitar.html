@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AlphaTab Tutorial</title>
+<style type="text/css">
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  height: 100vh;
+}
+.at-wrap {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.at-content {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+.at-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  max-width: 70px;
+  width: auto;
+  display: flex;
+  align-content: stretch;
+  z-index: 1001;
+  overflow: hidden;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  background: #f7f7f7;
+}
+.at-viewport {
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 70px;
+  right: 0;
+  bottom: 0;
+  padding-right: 20px;
+}
+.at-footer {
+  flex: 0 0 auto;
+  background: #436d9d;
+  color: #fff;
+}
+.at-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1002;
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.at-overlay-content {
+  margin-top: 20px;
+  background: #fff;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="at-wrap">
+  <div class="at-overlay">
+    <div class="at-overlay-content">
+      Music sheet is loading
+    </div>
+  </div>
+  <div class="at-content">
+    <div class="at-sidebar">
+      Track selector will go here
+    </div>
+    <div class="at-viewport">
+      <div class="at-main"></div>
+    </div>
+  </div>
+  <div class="at-controls">
+    Player controls will go here
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/alphaTab.js"></script>
+<script type="text/javascript">
+const $wrapper = document.querySelector('.at-wrap')
+const $main = $wrapper.querySelector('.at-main')
+const $overlay = $wrapper.querySelector('.at-overlay')
+
+const settings = {
+  file: 'https://www.alphatab.net/files/canon.gp',
+}
+const api = new alphaTab.AlphaTabApi($main, settings)
+api.renderStarted.on(() => {
+  $overlay.style.display = 'flex'
+})
+api.renderFinished.on(() => {
+  $overlay.style.display = 'none'
+})
+</script>
+</body>
+</html>

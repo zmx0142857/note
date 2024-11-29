@@ -7,6 +7,100 @@
 </head>
 <body>
 
+<h2>梅森素数</h2>
+
+<p class="definition">
+  <b>梅森素数 (Mersenne prime)</b>
+  是人类目前已知的最大的一类素数.
+  它是指形如 `M_p = 2^p - 1` 的素数. 若 `p = a b`, 则 `2^(a b) - 1` 可以因式分解.
+  因此 `2^p - 1` 是素数的前提条件是 `p` 为一素数.
+  前几个梅森素数的 `p` 值是
+  <span class="formula">
+    2, 3, 5, 7, 13, 17, 19, 31, 61, 89, 107, 127...
+  </span>
+  晚年的 Euler 在双目失明的情况下通过心算验证 `M_31 = 2147483647` 为素数.
+</p>
+
+<p class="definition">
+  <b>完全数 (perfect number)</b> 是指满足方程 `sigma(n) = 2n` 的正整数. 其中 `sigma(n)` 表示 `n` 的所有正因子之和.
+  前几个完全数是
+  <span class="formula">
+    6, 28, 496, 8128, 33550336...
+  </span>
+  它们正好是偶数. 奇完全数是否存在仍是一个未解之谜.
+</p>
+
+<p class="theorem">
+  <b>梅森素数与偶完全数的一一对应</b>
+  若 `M_p` 为梅森素数, 则 `M_p(M_p+1)//2` 是完全数.
+  反之, 偶完全数必然具有这种形式.
+</p>
+
+<ol class="proof">
+  <li>[古希腊, Euclid]
+    考虑 `2^(p-1) * (2^p-1)` 的全体正因子
+    <span class="formula">
+      `1, 2, cdots, 2^(p-1)`,<br>
+      `M_p, 2 M_p, cdots, 2^(p-1) M_p`.
+    </span>
+    求和即得结论.
+  </li>
+  <li>[Leonhard Euler]
+    下证偶完全数必然形如 `M_p(M_p+1)//2`.
+    设这个偶完全数是 `2^a b`, 其中 `a` 是正整数, `b` 是奇数.
+    由于 `sigma` 是积性函数, 有
+    <span class="formula">
+      `2^(a+1) b`
+      `= sigma(2^a b)`
+      `= sigma(2^a) sigma(b)`
+      `= (2^(a+1) - 1) sigma(b)`.
+    </span>
+    记 `n = a+1`, 则
+    <span class="formula">
+      `2^n b = (2^n - 1) sigma(b)`.
+    </span>
+    这指出 `2^n - 1` 整除 `b`, 且 `2^n` 整除 `sigma(b)`.
+    设 `sigma(b) = 2^n c` 则 `b = (2^n - 1) c`. 假如 `c gt 1`,
+    显然 `2^n - 1` 也大于 `1`, 则 `b` 至少有三个不同因子
+    `1, c, b`, 于是
+    <span class="formula">
+      `sigma(b) ge 1 + c + b`
+      `= 1 + c + (2^n - 1) c`
+      `= 1 + 2^n c`
+      `= 1 + sigma(b)`,
+    </span>
+    矛盾. 因此 `c = 1`, 即 `b = 2^n - 1`, `sigma(b) = 2^n`.
+    这又推出 `b` 是素数.
+  </li>
+</ol>
+
+<p class="theorem">
+  设 `p` 为奇素数, 则 `2^p - 1` 的所有因子都形如 `2n p+1`, `n` 是正整数.
+</p>
+
+<p class="proof">
+  由于两个形如 `2n p + 1` 的数相乘, 结果仍为同一形式, 我们只需对素数作出证明.
+  令 `q` 是 `2^p - 1` 的素因子, 则 `q` 是奇素数. 由费马小定理, `q | 2^(q-1) - 1`.
+  利用公式
+  <span class="formula">
+    `gcd(2^a - 1, 2^b - 1) = 2^(gcd(a,b)) - 1`,
+  </span>
+  我们有 `2^(gcd(p, q-1)) - 1` `ge q gt 1`, 即 `gcd(p, q-1) gt 1`, 即 `p | q-1`.
+  又 `q-1` 是偶数, 所以存在正整数 `n` 使得 `q = 2n p + 1`.
+</p>
+
+<p class="theorem">
+  <b>Lucas-Lehmer 算法</b>
+  用于验证 `M_p` 是否为梅森素数.
+  设 `p` 是素数, `M_p = 2^p - 1`. 令 `r_1 = 4`,
+  <span class="formula">
+    `r_n = (r_(n-1)^2 - 2) mod M_p`, (取最小非负剩余)
+  </span>
+  则 `M_p` 是素数当且仅当 `r_(p-1) = 0`.
+</p>
+
+<h2>素数定理</h2>
+
 <p>关于素数分布的一个重要结论是<b>素数定理</b>:
   <span class="formula">
     `pi(x) ~ "li"(x) ~ x/(ln x)`, `quad x to oo`.
