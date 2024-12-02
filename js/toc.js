@@ -475,7 +475,7 @@ var tocData = [
   {
     "value": "music",
     "label": "音乐",
-    "color": "purple",
+    "color": "pink",
     "children": [
       {
         "value": "utils",
