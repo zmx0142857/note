@@ -304,8 +304,8 @@
   <tr>
     <td>`nabla^2`</td>
     <td>`sum del_i^2`</td>
-    <td>`del_r^2 + 1/r del_r + 1/r^2 del_theta^2`</td>
-    <td>`del_r^2 + 2/r del_r + 1/r^2 (sec^2 theta del_theta^2 - tan varphi del_varphi + del_varphi^2)`</td>
+    <td>`1/r del_r(r del_r) + 1/r^2 del_theta^2`</td>
+    <td>`1/r^2 del_r(r^2 del r) + 1/(r^2 cos^2 varphi) del_theta^2 + 1/(r^2 cos varphi) del_varphi(cos varphi del_varphi)`</td>
   </tr>
 </table>
 
@@ -523,7 +523,9 @@ dp*cos(p)/r + dr*sin(p)]
 <ol class="corollary">
   设 `f(r)` 是 `RR^n` 上的径向函数, 注意到 `r` 本身也是径向函数, 有
   <li>`nabla * bm r = n`, `nabla r = bm r // r`, `nabla^2 r = (n-1)/r`;</li>
-  <li>`nabla f(r) = dd f r nabla r`, `nabla^2 f(r) = dd^2 f r + (n-1)/r dd f r`.</li>
+  <li>`nabla f(r) = dd f r nabla r`, `nabla^2 f(r) = dd^2 f r + (n-1)/r dd f r`
+    `= 1/r^(n-1) "d"/("d"r)(r^(n-1) dd f r)`.
+  </li>
 </ol>
 
 <ol class="proof">

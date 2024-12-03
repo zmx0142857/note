@@ -690,7 +690,7 @@
     若 `g` 连续可微, 上式分部积分可得 `f(t) le g(a) P(t) + int_a^t g'(s) P(t) // P(s) "d"s`.
   </li>
   <li>若 `g` 单调增, 结论简化为 `f(t) le g(t) P(t)`.</li>
-</p>
+</ol>
 
 <p class="proof">
   1.  记 `y(t) = int_a^t p(s) f(s) "d"s`, 由已知 `f(t) le g(t) + y(t)`, 于是由
@@ -821,6 +821,26 @@
 	所以原不等式成立.
 </p>
 
+<p>	下面两个不等式可以仿照<a href="3.html">上一章</a>对应不等式来证明.</p>
+
+<p class="theorem">
+	<b>Minkowski 不等式</b>
+	设 `p ge 1`, `f, g` 都在 `[a,b]` 上 `p` 方可积, 则
+	<span class="formula">
+		`(int_a^b |f(x) +- g(x)|^p dx)^(1/p)`
+		`le (int_a^b |f(x)|^p dx)^(1/p) + (int_a^b |g(x)|^p dx)^(1/p)`.
+	</span>
+</p>
+
+<p class="theorem">
+	<b>幂平均值不等式</b>
+	设 `f` 在 `[a,b]` 上 `p` 方可积, `p ge 1`, 则函数
+	<span class="formula">
+		`(1/(b-a)int_a^b|f(x)|^alpha dx)^(1/alpha)`
+	</span>
+	关于参数 `alpha` 单调递增.
+</p>
+
 <p class="example">
   `f` 是 `[a, b]` 上的非负可积函数, 证明:
   <span class="formula">
@@ -884,7 +904,7 @@
 </ol>
 
 <p class="example">
-  [来自群友 千帆过尽，匆忘初心]
+  [来自群友 千帆过尽，勿忘初心]
   设 `f` 在 `[0, 1]` 上有二阶连续导数, 且 `f(0) = f(1) = f'(0) = 0`, `f'(1) = 1`.
   证明: `int_0^1 f''(x)^2 dx ge 4`.
 </p>
@@ -969,24 +989,41 @@
   整理即得结论.
 </p>
 
-<p>	下面两个不等式可以仿照<a href="3.html">上一章</a>对应不等式来证明.</p>
-
-<p class="theorem">
-	<b>Minkowski 不等式</b>
-	设 `p ge 1`, `f, g` 都在 `[a,b]` 上 `p` 方可积, 则
-	<span class="formula">
-		`(int_a^b |f(x) +- g(x)|^p dx)^(1/p)`
-		`le (int_a^b |f(x)|^p dx)^(1/p) + (int_a^b |g(x)|^p dx)^(1/p)`.
-	</span>
+<p class="example">
+  <b>Wirtinger-Poincaré 不等式</b>
+  [来自群友 西伯利亚的猫猫, <a href="https://zhuanlan.zhihu.com/p/592486710" target="_blank">布丁阿茗@知乎</a>]
+  设 `f in C^1[0, 1]`, 且存在 `a in [0, 1]` 使得 `f(a) = 0`, 则
+  <span class="formula">
+    `int_0^1 f(x)^2 dx le 1/2 int_0^1 f'(x)^2 dx`.
+  </span>
+  注: 根据积分中值定理, `f(a) = 0` 的条件也可以换成 `int_0^1 f(x) dx = 0`.
 </p>
 
-<p class="theorem">
-	<b>幂平均值不等式</b>
-	设 `f` 在 `[a,b]` 上 `p` 方可积, `p ge 1`, 则函数
-	<span class="formula">
-		`(1/(b-a)int_a^b|f(x)|^alpha dx)^(1/alpha)`
-	</span>
-	关于参数 `alpha` 单调递增.
+<p class="proof">
+  [来自群友 Egregium, 澄]
+  由 Newton-Leibniz 公式有
+  <span class="formula">
+    `int_a^x f'(t) dt = f(x)`, `quad x in [0, 1]`.
+  </span>
+  而 `x in [a, 1]` 时, Cauchy 不等式告诉我们
+  <span class="formula">
+    `f(x)^2`
+    `= (int_a^x f'(t) dt)^2`
+    `le int_a^x 1^2 dt int_a^x f'(t)^2 dt`
+    `le |x-a| int_0^1 f'(t)^2 dt`.
+  </span>
+  `x in [0, a]` 时, 把上式积分限中的 `x` 和 `a` 对调, 结论不变.
+  最后两边对 `x` 在 `[0, 1]` 上积分即得结论.
+</p>
+
+<p class="remark">
+  假如 `f` 满足齐次边界条件 `f(0) = f(2pi) = 0`,
+  记 `L(f, f', x) = f(x)^2 - f'(x)^2`,
+  则 `int_0^(2pi) L(f, f', x) dx` 的极值可以由 Euler-Lagrange 方程求解:
+  极值条件是 `L = f'(del L)/(del f') = c`,
+  即 `f(x)^2 + f'(x)^2 = c^2`.
+  通解为 `f(x) = c sin(x + varphi)`,
+  代入边界条件知道 `f(x) = c sin x`.
 </p>
 
 <script src="../../js/note.js?type="></script>

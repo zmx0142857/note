@@ -1078,7 +1078,7 @@
     <span class="formula">
       `g(1) = g(0) + g'(0) + (g''(0))/2 + (g'''(eta_1))/6`,<br>
       `g(-1) = g(0) - g'(0) + (g''(0))/2 - (g'''(eta_2))/6`,<br>
-      `|g(1) - g(-1)| = |g'''(eta_1) + g'''(eta_2)|/6 le (max|g(eta)|)/3`.
+      `|g(1) - g(-1)| = |g'''(eta_1) + g'''(eta_2)|/6 le (max|g'''(eta)|)/3`.
     </span>
   </li>
 </ol>
@@ -1093,10 +1093,13 @@
 <p class="proof">
   由题目条件知 `f^((3))(x)` 可积.
   令 `x = a + (b-a)t`, 分部积分,
-  <span class="formula">
-    `int_0^1 (b-a)^3 f^((3))(x) g(t) dt`
-    `= [(b-a)^2 f''(x) g(t)]_(t=0)^1 - int_0^1 (b-a)^2 f''(x) g'(t) dt`
-    `= [(b-a)^2 f''(x) g(t)]_(t=0)^1 - [(b-a)f'(x)g'(t)]_(t=0)^1 + int_0^1 (b-a) f'(x) g''(t) dt`.
+  <span class="formula align">
+    `int_0^1 (b-a)^3 f^((3))(x) g(t) dt`<br>
+    `= [(b-a)^2 f''(x) g(t)]_(t=0)^1`
+    `- int_0^1 (b-a)^2 f''(x) g'(t) dt`<br>
+    `= [(b-a)^2 f''(x) g(t)]_(t=0)^1`
+    `- [(b-a)f'(x)g'(t)]_(t=0)^1`
+    `+ int_0^1 (b-a) f'(x) g''(t) dt`.
   </span> 
   现在令 `g(t)` 是一个合适的多项式, 满足 `g''(t) = 1`, `g'(1) = 1/2`, `g'(0) = -1/2`, `g(0) = g(1) = 0`.
   于是令 `g(t) = (t^2 - t)//2`, 则上式右边等于

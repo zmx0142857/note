@@ -653,6 +653,7 @@
 	</span>
 	则 `m_(bm A)(x) = m_(bm B)(x) = (x-1)(x-2)`,
 	但 `Delta_(bm A)(x) != Delta_(bm B)(x)`, 所以它们不相似.
+    我们似乎缺少一个判定矩阵相似的充要条件, 这个问题将在 `lambda` 矩阵的章节解决.
 </p>
 
 <p class="theorem">
@@ -800,16 +801,14 @@
 <h3>从几何重数看</h3>
 
 <p class="definition">
-  令 `lambda` 为 `cc A in L(V)` 的一个特征根, 则 `cc A`
-  相应于 `lambda` 的全体特征向量张成 `V` 的子空间:
+  令 `lambda` 为 `cc A in L(V)` 的一个特征根.
+  `cc A` 关于 `lambda` 的<b>特征子空间</b>定义为 `lambda` 的全体特征向量张成的空间:
   <span class="formula">
-    `{bm alpha in V | cc A bm alpha = lambda bm alpha}`
-    `= {bm alpha in V | (lambda bb I - cc A) bm alpha = bb 0}`
-    `= "Ker"(lambda bb I - cc A) le V`,
+    `"Ker"(lambda bb I - cc A)`
+    `:= {bm alpha in V | (lambda bb I - cc A) bm alpha = bb 0}`
+    `= {bm alpha in V | cc A bm alpha = lambda bm alpha} le V`.
   </span>
-  称为 `cc A` 关于 `lambda` 的<b>特征子空间</b>.
-  `"dimKer"(lambda bb I - cc A)` 称为 `lambda`
-  的<b>几何重数</b>.
+  特征子空间的维数 `"dim Ker"(lambda bb I - cc A)` 称为 `lambda` 的<b>几何重数</b>.
 </p>
 
 <p class="corollary">
@@ -818,7 +817,7 @@
   的解空间; 取定基底后, 即为 `(lambda bm I - bm A) bm X = bb 0` 的解空间.
   因而有
   <span class="formula">
-    `"dimKer"(lambda bm I - bm A) = n - "rank"(lambda bm I - bm A)`.
+    `"dim Ker"(lambda bm I - bm A) = n - "rank"(lambda bm I - bm A)`.
   </span>
 </p>
 
@@ -845,13 +844,14 @@
 </p>
 
 <ol class="theorem">
+  <b>矩阵可对角化的等价条件</b>
   设 `V` 为 `n` 维线性空间, `cc A in L(V)`,
   下标 `lambda` 表示关于 `cc A` 的全体特征根求和, 则以下各款等价:
   <li>`cc A` 有对角形表示矩阵;</li>
   <li>`V` 能分解为特征子空间之直和:
-    `V = sum_lambda "Ker"(lambda bb I - cc A)`;
+    `V = underset lambda O+ "Ker"(lambda bb I - cc A)`;
   </li>
-  <li>`n = sum_lambda "dimKer"(lambda bb I - cc A)`;
+  <li>`n = sum_lambda "dim Ker"(lambda bb I - cc A)`;
   </li>
   <li>`cc A` 在 `bbb P` 上有 `n` 个特征根 (含重数),
     且每个特征根的几何重数等于其代数重数; (这是判定矩阵可对角化的标准做法)
@@ -862,16 +862,70 @@
 </ol>
 
 <ol class="proof">
-	<li>`rArr` 2. 设 `cc A` 有对角形表示矩阵, 则存在 `cc A`
-		的线性无关的特征向量组, 构成 `V` 的基底.
-        这些特征向量按其对应的特征根分属于不同的特征子空间,
-        构成各个特征子空间的基底.
-        这就给出了 `V` 在各个特征子空间上的直和分解.
-	</li>
-    <li>`rArr` 3. 使用维数公式.</li>
-    <li>`rArr` 4.</li>
-    <li>`rArr` 5.</li>
-    <li>`rArr` 1.</li>
+  <li>`iff` 2. 设 `cc A` 有对角形表示矩阵, 则存在 `cc A`
+    的线性无关的特征向量组, 构成 `V` 的基底.
+    这些特征向量按其对应的特征根分属于不同的特征子空间,
+    构成各个特征子空间的基底.
+    这就给出了 `V` 在各个特征子空间上的直和分解.
+    <br>
+    反之若 `V` 有上述直和分解, 则取各个特征子空间的基底, 就组成 `V` 的基底.
+    由于这个基底是由特征向量组成的, `cc A` 在该基底下的矩阵就是对角形.
+  </li>
+  <li>`rArr` 3. 使用维数公式.</li>
+  <li>`rArr` 4.
+    因为几何重数 `le` 代数重数, 所以
+    <span class="formula">
+      `sum_lambda "dim Ker"(lambda bb I - cc A)`
+      `le sum_lambda n_lambda`
+      `le n`.
+    </span>
+    要使等号成立, 则必须每个特征根的几何重数等于代数重数, 且所有特征根的代数重数之和等于 `n`.
+  </li>
+  <li>`rArr` 5.
+    先看 `bm A = [1, 1; 0, 1]` 这个例子, 该矩阵具有二重特征根 `lambda_1 = lambda_2 = 1`.
+    其特征多项式和最小多项式都是 `(x-1)^2`. 此时, 我们发现它的特征子空间维数为
+    `n - "rank"(lambda bm I - bm A) = 1`, 即只能找到一个线性无关的特征向量.
+    <br>
+    回到命题的证明. 设 `cc A` 有 `n` 个特征根 (含重数),
+    且各自的代数重数等于几何重数. 换言之存在 `cc A` 的特征向量 `bm v_1, cdots,
+    bm v_n` 组成 `V` 的一个基底.
+    设 `lambda_1, cdots, lambda_r` 是两两不同的全部特征根,
+    考虑多项式 `p(x) = prod_(i=1)^r (x - lambda_i)`, 显然它整除 `m_(cc A)(x)`.  且
+    <span class="formula">
+      `p(cc A) bm v_i = 0`,
+      `quad i = 1, cdots, n`.
+    </span>
+    上式可以把 `p(cc A)` 中与特征向量 `bm v_i` 相应的因子 `cc A - lambda_i bb I` 移动到最右边来计算.
+    但 `{bm v_i}` 是 `V` 的基底, 这说明 `p(cc A) = 0`, `p` 是 `cc A` 的零化多项式.
+    从而由最小多项式的定义知道 `p(x) = m_(cc A)(x)`.
+  </li>
+  <li>`rArr` 2.
+    设 `m_(cc A)(x) = prod_(i=1)^r (x - lambda_i)` 无重根.
+    我们寻求 `V` 的直和分解, 即对任意 `bm v in V`, 要找到
+    <span class="formula">
+      `bm v = sum_(i=1)^r bm v_i`,
+      `quad bm v_i in "Ker"(lambda_i bb I - cc A)`.
+    </span> 
+    容易知道各个特征子空间的交为 `{0}`, 所以上式是直和.
+    但是如何找到这个分解呢? 由 Lagrange 插值得到启发, 记
+    `f_i(x) = m_(cc A)(x) // (x - lambda_i)`, `i = 1, cdots, r`.
+    则 `gcd(f_1, cdots, f_r) = 1`,
+    从而存在 `g_1, cdots, g_r` 使得
+    <span class="formula">
+      `sum_(i=1)^r f_i(x) g_i(x) = 1`,
+    </span>
+    于是
+    <span class="formula">
+      `sum_(i=1)^r f_i(cc A) g_i(cc A) bm v`
+      `= bb I bm v`
+      `= bm v`.
+    </span>
+    这就给出 `V` 的分解, 可以验证其中
+    <span class="formula">
+      `bm v_i := f_i(cc A) g_i(cc A) bm v`
+      `in "Ker"(lambda_i bb I - cc A)`.
+    </span>
+  </li>
 </ol>
 
 <ol class="algorithm">
@@ -945,63 +999,7 @@
     `bm T^-1 bm (A T) = [lambda_1, ast; , bm A_1]`.
   </span>
   由归纳假设, `bm A_1` 相似于上三角阵, 因此上式也相似于上三角阵.
-</p>
-
-<h3>不变子空间</h3>
-
-<p class="definition">
-  设 `cc A in L(V)`, `W le V`.  如果 `W` 在 `cc A` 下的像 `cc A(W) sube
-  W`, 则称 `W` 为 `V` 关于 `cc A` 的<b>不变子空间</b>.
-  零空间 `{bb 0}` 和全空间 `V` 是平凡的不变子空间,
-  因为它们对于任意 `V` 上的线性变换都是不变的.
-  不变子空间的概念是特征子空间的推广.
-</p>
-
-<p class="theorem">
-	令 `(bm epsi_1, bm epsi_2, cdots, bm epsi_n)` 为线性空间 `V` 的一个基,
-	`cc A in L(V)` 在该基底下的矩阵为
-	<span class="formula">
-		`[bm A_(r xx r),bm B; bm C,bm D]`,
-	</span>
-	其中 `1 le r le n-1`. 则子空间 `G[bm epsi_1,
-	bm epsi_2, cdots, bm epsi_r]` 在 `cc A` 下不变当且仅当 `bm C = bm O`,
-	`G[bm epsi_(r+1), cdots, bm epsi_n]` 在 `cc A` 下不变当且仅当 `bm B =
-	bm O`.
-</p>
-
-<p class="proof">
-	只证第一个结论. `W := G[bm epsi_1, bm epsi_2, cdots, bm epsi_r]`
-	在 `cc A` 下不变当且仅当 `cc A bm epsi_1, cc A bm epsi_2, cdots,
-	cc A bm epsi_r in W`, 这当且仅当 `cc A bm epsi_1, cc A bm epsi_2,
-	cdots, cc A bm epsi_r` 可以由 `bm epsi_1, bm epsi_2, cdots, bm epsi_r`
-	线性表示, 从而当且仅当 `bm C = bm O`.
-</p>
-
-<p class="remark">
-	令 `V` 为一线性空间, `cc A in L(V)`, 如果存在 `V` 的一个基底, 使
-	`cc A` 在该基底下的表示矩阵为 (分块) 对角形, 我们就说
-	`cc A` 有 (分块) 对角形矩阵表示.
-</p>
-
-<p class="theorem" id="the-diag-iff1">
-	`cc A in L(V)` 有分块对角形矩阵表示 `"diag"(bm A_1, cdots, bm A_r)`
-	当且仅当存在 `V` 关于 `cc A` 的不变子空间 `V_1, cdots, V_r`, 且
-	`V` 有直和分解 `V = sum_(i=1)^r V_i`.
-	其中 `bm A_i` 为 `"dim"V_i` 阶方阵, `i = 1, 2, cdots, r`.
-	特别当每个不变子空间都为一维时, `cc A` 有对角形矩阵表示.
-</p>
-
-<p class="example">
-	若 `cc A in L(V)`, `f` 为多项式, 则 `"Ker"f(cc A)` 是 `cc A`
-	的不变子空间.
-</p>
-
-<p class="proof">
-	若 `f(cc A)bm alpha = bb 0`, 则
-	<span class="formula">
-		`f(cc A)cc A bm alpha = cc A f(cc A) bm alpha = bb 0`,
-	</span>
-	所以 `cc A bm alpha in "Ker"f(cc A)`, 即 `"Ker"f(cc A)` 不变.
+  此命题对复方阵有效, 是因为复方阵的特征值也为复数.
 </p>
 
 <h3>实对称矩阵的特征值分解</h3>
@@ -1175,7 +1173,109 @@ A.singular_value_decomposition() # 奇异值分解
 A.pinv() # Moore-Penrose 伪逆
 </pre>
 
-<h2>杂例</h2>
+<h3>不变子空间</h3>
+
+<p class="definition">
+  设 `cc A in L(V)`, `W le V`.  如果满足 `W` 在 `cc A` 下的像
+  <span class="formula">
+    `cc A(W) sube W`,
+  </span>
+  则称子空间 `W` 对线性变换 `cc A` <b>封闭</b>, 或 `W` 是 `V` 关于 `cc A` 的<b>不变子空间</b>.
+  此概念是特征子空间的推广:  一维的不变子空间就是特征子空间.
+</p>
+
+<ol class="example">
+  <li>
+    零空间 `{bb 0}` 和全空间 `V` 是平凡的不变子空间,
+    因为它们对于任意 `V` 上的线性变换都是不变的.
+  </li>
+  <li>
+    特征子空间 `"Ker"(lambda bb I - cc A)` 是 `cc A` 的不变子空间.
+    一般地, 对任意多项式 `f`, `"Ker"f(cc A)` 是 `cc A` 的不变子空间.
+  </li>
+  <li>若 `cc A, cc B` 可交换, 则 `cc A` 的特征子空间是 `cc B` 的不变子空间, 反之亦然.</li>
+</ol>
+
+<ol class="proof">
+  <li>显然.</li>
+  <li>
+    若 `f(cc A)bm alpha = bb 0`, 则
+    <span class="formula">
+      `f(cc A)cc A bm alpha = cc A f(cc A) bm alpha = bb 0`,
+    </span>
+    所以 `cc A bm alpha in "Ker"f(cc A)`, 即 `"Ker"f(cc A)` 不变.
+  </li>
+  <li>
+    只需验证对于方程 `cc A bm x = lambda bm x` 的任意解 `bm x`, `cc B bm x`
+    仍是方程的解:
+    <span class="formula">
+      `cc (A B) bm x`
+      `= cc (B A) bm x`
+      `= cc B (lambda bm x)`
+      `= lambda cc B bm x`.
+    </span>
+  </li>
+</ol>
+
+<p class="lemma">
+  令 `(bm epsi_1, cdots, bm epsi_n)` 为线性空间 `V` 的一个基,
+  `cc A in L(V)` 在该基底下的矩阵为
+  <span class="formula">
+    `[bm A_(r xx r),bm B; bm C,bm D]`,
+  </span>
+  其中 `1 le r le n-1`. 则子空间 `"span"[bm epsi_1, cdots, bm epsi_r]` 在
+  `cc A` 下不变当且仅当 `bm C = bm O`;
+  `"span"[bm epsi_(r+1), cdots, bm epsi_n]` 在 `cc A` 下不变当且仅当 `bm B = bm O`.
+</p>
+
+<p class="proof">
+  只证第一个结论. `W := "span"[bm epsi_1, bm epsi_2, cdots, bm epsi_r]`
+  在 `cc A` 下不变当且仅当 `cc A bm epsi_1, cc A bm epsi_2, cdots,
+  cc A bm epsi_r in W`, 这当且仅当 `cc A bm epsi_1, cc A bm epsi_2,
+  cdots, cc A bm epsi_r` 可以由 `bm epsi_1, bm epsi_2, cdots, bm epsi_r`
+  线性表示, 从而当且仅当 `bm C = bm O`.
+</p>
+
+<p class="theorem" id="the-diag-iff1">
+  `cc A in L(V)` 有分块对角形矩阵表示 `"diag"(bm A_1, cdots, bm A_r)`
+  当且仅当 `V` 可以写为 `cc A` 的不变子空间的直和分解
+  <span class="formula">
+    `V = O+_(i=1)^r V_i`.
+  </span>
+  其中 `bm A_i` 为 `"dim"V_i` 阶方阵, `i = 1, 2, cdots, r`.
+  特别当每个不变子空间都为一维时, `cc A` 有对角形矩阵表示.
+</p>
+
+<h3>两个矩阵同时对角化</h3>
+
+<p class="example">
+  [来自群友 千帆过尽 勿忘初心]
+  `bm A = [1, 1, -1; 0, 1, 0; 0, -1, 2]`,
+  `bm B = [1, -2, 2; 4, -5, 4; 4, -4, 3]`.
+  求可逆矩阵 `bm P` 将 `bm A`, `bm B` 同时对角化, 即 `bm P^-1 bm (A P)`,
+  `bm P^-1 bm (B P)` 都为对角形矩阵.
+</p>
+
+<p class="proof">
+  我们寻找两个矩阵的共同特征向量. 运用 <code>sympy.Matrix</code> 类的 <code>eigenvects()</code>
+  方法可以求得两个矩阵的特征向量分别为
+  <span class="formula">
+    `lambda_1 = lambda_2 = 1`, `lambda_3 = 2`,<br>
+    `v_1 = (1, 0, 0)`, `v_2 = (0, 1, 1)`, `v_3 = (-1, 0, 1)`,<br>
+    `mu_1 = mu_2 = -1`, `mu_3 = 1`,<br>
+    `w_1 = (1, 1, 0)`, `w_2 = (-1, 0, 1)`, `w_3 = (1, 2, 2)`.
+  </span>
+  其中 `v_3 = w_2` 已经是一对共同特征向量. 构造
+  <span class="formula">
+    `v_1 + 2 v_2 = (1, 2, 2) = w_3`,<br>
+    `w_1 + w_2 = (0, 1,1 ) = v_2`.
+  </span>
+  于是 `bm P = [1, 0, -1; 2, 1, 0; 2, 1, 1]` 就满足
+  <span class="formula">
+    `bm P^-1 bm (A P) = "diag"(1, 1, 2)`,<br>
+    `bm P^-1 bm (B P) = "diag"(1, -1, -1)`.
+  </span>
+</p>
 
 <ol class="example">
   [群友 ζ(me)=0、中国女同] 设 `bm A, bm B` 均为 `n` 阶矩阵, `bm A` 有 `n`
@@ -1215,15 +1315,53 @@ A.pinv() # Moore-Penrose 伪逆
 
 <p class="proof">
   [群友 ζ(me)=0] 1. 的另一证明.
-  我们说明 `bm A` 的特征子空间是 `bm B` 的不变子空间.
-  即, 对于方程 `bm (A x) = lambda bm x` 的任意解 `bm x`, `bm (B x)`
-  仍是方程的解. 这是因为
-  <span class="formula">
-    `bm (A B x) = bm (B A x)`
-    `= bm B (lambda bm x) = lambda bm (B x)`.
-  </span>
+  由交换性知道 `bm A` 的特征子空间是 `bm B` 的不变子空间.
   由于 `bm A` 可对角化, 其每个特征值对应一个 1 维的特征子空间.
+  即空间 `V` 可以写为 `bm B` 的不变子空间的直和分解, 且每个不变子空间都是 1 维.
   由<a class="ref" href="#the-diag-iff1"></a> 知 `bm B` 也可对角化.
+</p>
+
+<p class="theorem">
+  两个实对称矩阵可以同时正交对角化, 当且仅当它们的乘法可交换.
+</p>
+
+<ol class="proof">
+  `rArr` 显然, 因为对角矩阵是可交换的. 下证 `lArr`.
+  <li>
+    沿用前题的思路, 设 `bm (A B)` 可交换, 则 `bm A` 的特征子空间 `"Ker"(lambda bm I - bm A)`
+    是 `bm B` 的不变子空间. 设 `bm P` 是正交矩阵, `bm P^-1 bm (A P)` 是对角形, 则
+    `bm P` 的列向量是 `bm A` 的特征向量.
+    由<a class="ref" href="#the-diag-iff1"></a> 知 `bm C = bm P^-1 bm (B P)` 是分块对角形.
+    由于 `bm P` 正交从而对称, 这些分块也都是实对称矩阵.
+  </li>
+  <li>
+    现在对 `bm C` 的每个分块进行正交对角化, 得到对角矩阵 `bm Q^-1 bm (C Q)`.
+    其中 `bm Q` 是分块对角形, 每个小块都是正交矩阵, 因此 `bm Q` 也正交.
+  </li>
+  <li>
+    将每个小块 `bm Q_i` 作用于矩阵 `bm P^-1 bm (A P)` 的相应分块 `lambda_i bm I`, 有
+    `bm Q_i^-1 lambda_i bm I bm Q_i = lambda_i bm I`. 因此该矩阵在 `bm Q` 的作用下不变.
+    我们同时得到两个矩阵的正交对角化:
+    <span class="formula">
+      `bm Q^-1 bm P^-1 bm (A P Q)`,<br>
+      `bm Q^-1 bm P^-1 bm (B P Q)`.
+    </span>
+  </li>
+</ol>
+
+<h2>杂例</h2>
+
+<p class="example">
+  [来自群友 SmartPig]
+  如果存在正整数 `k` 使得 `bm A^k = bm O`, 则称 `bm A` 为幂零矩阵.
+  设 `bm A` 为 `n` 阶幂零矩阵,
+  证明: `bm A != bm O` 时, 它至多有 `n-1` 个线性无关的特征向量.
+</p>
+
+<p class="proof">
+  首先, 幂零矩阵的特征值必为 0. 这是因为 `bm A^k = bm O` 的特征值是 `bm A` 的特征值的 `k` 次方.
+  如果 `bm A` 有 `n` 个线性无关的特征向量, 则它可对角化, 换言之 `bm A` 相似于 `bm O`.
+  然而 `bm O` 只和自己相似, 这推出 `bm A = bm O`, 矛盾.
 </p>
 
 <script>

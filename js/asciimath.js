@@ -205,6 +205,7 @@ const symbols = [
 {input:'-:',tag:'mo',output:'\u00F7',tex:'div',ttype:CONST},
 {input:'@',tag:'mo',output:'\u2218',tex:'circ',ttype:CONST},
 {input:'o+',tag:'mo',output:'\u2295',tex:'oplus',ttype:CONST},
+{input:'O+',tag:'mo',output:'\u2a01',tex:'bigoplus',ttype:CONST},
 {input:'ox',tag:'mo',output:'\u2297',tex:'otimes',ttype:CONST},
 {input:'o.',tag:'mo',output:'\u2299',tex:'odot',ttype:CONST},
 {input:'sum',tag:'mo',output:'\u2211',ttype:UNDEROVER},

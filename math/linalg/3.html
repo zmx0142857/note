@@ -1354,6 +1354,38 @@ module.exports = function (str) {
     </span>
 </p>
 
+<p class="example">
+  证明: 对任意 `n` 阶矩阵 `bm A` 有 `r(bm A^n) = r(bm A^(n+1))`.
+</p>
+
+<ol class="proof">
+  我们注意到等式
+  <span class="formula">
+    `"dim Ker" bm A + r(bm A) = n`,
+  </span> 
+  将问题化为对 `"Ker" bm A` 的讨论.
+  <li>首先 `"Ker" bm A^k sube "Ker" bm A^(k+1)`. 假如它们是真包含的关系, 则存在 `bm x` 使得
+    `bm A^(k+1)bm x = 0`, 但 `bm A^k bm x != 0`.
+    这推出 `"Ker" bm A^(k-1)` 真包含于 `"Ker" bm A^k`: `bm A bm x` 就是一个属于后者但不属于前者的元素.
+    运用上述结论的逆否命题得到:
+    若 `"Ker" bm A^(k-1) = "Ker" bm A^k`, 则对一切 `j gt k` 有 `"Ker"bm A^j = "Ker" bm A^k`.
+  </li>
+  <li>
+    但 `"Ker"bm A^k` 是 `bbb F^n` 的子空间, 有维数上限 `n`. 所以我们断言必有 `"Ker" bm A^n = "Ker" bm A^(n+1)`, 证明如下:
+    对于可逆矩阵 `bm A`, 显然成立 `"Ker" bm A^n = "Ker" bm A^(n+1) = 0`.
+    现在设 `bm A` 不可逆, 且 `"Ker" bm A^n lt "Ker" bm A^(n+1)`, 由 1. 有
+    <span class="formula">
+      `"Ker" bm A lt cdots lt "Ker" bm A^n lt "Ker" bm A^(n+1)`.
+    </span>
+    线性空间的两个子空间若是真包含关系, 则它们的维数不相等, 也就是说
+    <span class="formula">
+      `"dim Ker" bm A lt cdots lt "dim Ker" bm A^n lt "dim Ker" bm A^(n+1) le n`.
+    </span>
+    换言之 `"dim Ker" bm A le 0`, 即 `"Ker" bm A = 0`, 即 `bm A` 可逆, 矛盾.
+  </li>
+  将上述结论翻译为秩的语言就是 `r(bm A^n) = r(bm A^(n+1))`.
+</ol>
+
 <script>
 var asciimath = {
   define: [
