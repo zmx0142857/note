@@ -1782,6 +1782,46 @@
   </li>
 </ol>
 
+<p class="example">
+  [来自群友 壹零叁]
+  设数列 `{a_n}` 的每项都是正数, 且满足 `a_(n+2) = |a_(n+1) - a_n|`, 证明 `a_n to 0`.
+</p>
+
+<ol class="proof">
+  <li>首先 `a_0, a_1` 不可能都是正整数, 否则由辗转相除法知道数列最终会在 `0` 和
+    `gcd(a_0, a_1)` 之间振荡.
+    同理 `a_0 // a_1 !in QQ`.
+  </li>
+  <li>
+    令 `b_n = max(a_n, a_(n+1))`, 下证 `{b_n}` 单调减从而有极限.
+    这是因为
+    <span class="formula">
+      `a_(n+1) le max(a_n, a_(n+1))`
+      `= b_n`,<br>
+      `a_(n+2) = |a_(n+1) - a_n|`
+      `le max(a_n, a_(n+1))`
+      `= b_n`,
+    </span>
+    从而 `b_(n+1) = max(a_(n+1), a_(n+2))` `le b_n`.
+    设 `b_n to b`.  注意到 `a_(n+2) le b_n`, 因此只需证 `b = 0`.
+  </li>
+  <li>
+    [来自群友 西伯利亚的猫猫]
+    反设 `b gt 0`. 下证存在 `m` 使得 `a_m lt b`.
+    事实上若对任意 `n`, `a_n ge b`, 由夹逼知道 `a_n to b`.
+    从而对充分大的 `n` 有 `b lt a_n lt 2 b`, 于是 `a_(n+2) = |a_(n+1) - a_n| lt b`, 矛盾.
+  </li>
+  <li>
+    根据辗转相除法, 在 `a_m` 的有限项后, 存在 `N`, 对于任意 `n ge N` 都有 `a_n le a_m lt b`.
+    这与 `b_n to b` 矛盾. 所以必有 `b = 0`.
+  </li>
+  <hr>
+  与正文无关: 由辗转相除法知道对任意 `n` 存在整数 `x, y` 使得
+  <span class="formula">
+    `a_n = x a_0 + y a_1`
+  </span>
+  问: `x, y` 互素吗?  `|x| + |y|` 单调增吗?
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

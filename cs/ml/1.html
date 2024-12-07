@@ -35,7 +35,29 @@
   <dd>是指模型的参数过少, 函数空间的表达能力有限, 在训练集上的表现不佳.</dd>
   <dt>过拟合 (overfitting)</dt>
   <dd>是指模型的参数过多, 函数空间过大, 模型虽然能够很好地拟合训练集中的数据, 但同时也学会了训练集数据中一些无关的特征, 造成的后果是在测试集上表现不佳.</dd>
+  <dt>神经网络</dt>
+  <dd>由分层的许多神经元组成. 通常每个神经元 (可以看成矩阵) 接收一个向量并输出一个向量. 输出的向量传递给下一层的神经元进行计算.</dd>
+  <dt>激活函数</dt>
+  <dd>是一些非线性数学函数, 用于在神经网络中引入非线性因素.</dd>
 </dl>
+
+<h2>激活函数举例</h2>
+
+<ol class="example">
+    <b>Sigmoid 函数</b> `sigma(x) = (1+"e"^-x)^-1`
+    <div class="img fit" title="`y = sigma(a x + b)`">
+      <canvas id="img-sigmoid" width="450" height="150"></canvas>
+      <div id="img-sigmoid-range-a"></div>
+      <div id="img-sigmoid-range-b"></div>
+    </div>
+    <li>`sigma(x) - 1/2 = 1/2 tanh(x/2)` 是奇函数;</li>
+    <li>`sigma(x)` 满足 Logistic 方程 `sigma'(x) = sigma(1-sigma)`.
+    </li>
+</ol>
+
+<ol class="p example">
+  <li><b>ReLU 函数</b> `"ReLU"(x) = max(0, x) = (x + |x|)/2`.</li>
+</ol>
 
 <h2>回归模型 (Regression)</h2>
 
@@ -84,18 +106,6 @@
   此公式称为<b>正规方程</b>, 可以这样记忆: 解方程组 `bm(X w) = bm y`,
   此方程组可能无解, 改为求解 `bm X^T bm (X w) = bm X^T bm y`, 这样就得到上式.
 </p>
-
-<ol class="example">
-    <b>Sigmoid 函数</b> `sigma(x) = (1+"e"^-x)^-1`
-    <div class="img fit" title="`y = sigma(a x + b)`">
-      <canvas id="img-sigmoid" width="450" height="150"></canvas>
-      <div id="img-sigmoid-range-a"></div>
-      <div id="img-sigmoid-range-b"></div>
-    </div>
-    <li>`sigma(x) - 1/2 = 1/2 tanh(x/2)` 是奇函数;</li>
-    <li>`sigma(x)` 满足 Logistic 方程 `sigma'(x) = sigma(1-sigma)`.
-    </li>
-</ol>
 
 <p class="example">
   <b>Logistic 回归</b>
