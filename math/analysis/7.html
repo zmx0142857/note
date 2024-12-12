@@ -554,7 +554,287 @@
   `f` 的不连续点的集合是零测集.
 </p>
 
-<h2>积分换元</h2>
+<h3>有界变差函数</h3>
+
+[来自 菲赫金哥尔茨《微积分学教程（第三卷）》]
+
+<p class="definition">
+  <b>有界变差函数</b>
+  设 `f(x)` 在区间 `[a, b]` 上有定义. 类似 Riemann 积分, 取分割
+  <span class="formula">
+    `Delta: a = x_0 lt x_1 lt cdots lt x_n = b`.
+  </span>
+  并考虑求和
+  <span class="formula">
+    `sum_(k=1)^n |Delta f(x_k)|`
+    `= sum_(k=1)^n |f(x_k) - f(x_(k-1))|`.
+  </span>
+  关于 `[a, b]` 所有可能的分割取上确界, 称为 `f` 在 `[a, b]` 的<b>全变差</b>:
+  <span class="formula">
+    `vvv_a^b f(x) := underset Delta Sup sum_(k=1)^n |Delta f(x_k)|`.
+  </span>
+  如果 `vvv_a^b f(x) lt oo`, 就称 `f` 在 `[a, b]` 上<b>有界变差</b>, 记作 `f in B V[a, b]`.
+</p>
+
+<ol class="corollary">
+  <li>
+    设 `f` 是有界单调函数, 显然 `vvv_a^b f(x) = |f(a) - f(b)| lt oo`, 所以 `f` 有界变差.
+  </li>
+  <li>设 `f` 在 `[a, b]` 上分段单调, 则 `f` 有界变差.</li>
+  <li>设 `f` 在 `[a, b]` 上满足 Lipschitz 条件: 存在常数 `L gt 0`, 使得
+    <span class="formula">
+      `|f(x) - f(y)| le L|x - y|`, `quad AA x, y in [a, b]`,
+    </span>
+    则 `f` 有界变差.
+  </li>
+  <li>设 `f` 在 `[a, b]` 上可以写为变上限积分
+    <span class="formula">
+      `f(x) = c + int_a^x varphi(t) dt`,
+    </span>
+    且 `varphi(t)` 在 `[a, b]` 上绝对可积, 则 `f` 有界变差:
+    <span class="formula">
+      `vvv_a^b f(x) = int_a^b |varphi(t)| dt lt oo`.
+    </span>
+  </li>
+</ol>
+
+<p class="example">
+  尽管 `x^2 sin(1/x)` 在 `0` 附近无限振动, 但它的导数有界, 从而满足
+  Lipschitz 条件, 这说明它是有界变差函数.
+  另一方面, `x sin(1/x)` 不是有界变差函数, 可以取 `x_k` 让 `sin(1/x) = +-1`, 比如
+  `x_k = 1/(pi//2 + k pi)`, 这时
+  <span class="formula">
+    `|f(x_k) - f(x_(k-1))|`
+    `= 1/pi (1/(k-1//2) + 1/(k+1//2))`
+    `ge 2/(k pi)`.
+  </span>
+  对 `k` 求和得到调和级数, 它没有上界.
+</p>
+
+<ol class="proposition">
+  <b>有界变差函数的性质</b>
+  <li>有界变差函数必有界.</li>
+  <li>两个有界变差函数之和、差、乘积都是有界变差函数.</li>
+  <li>若 `f, g` 有界变差, 且 `|g(x)|` 恒大于一个正数, 则 `f // g` 也有界变差.</li>
+  <li>区间可加性. 设 `a lt c lt b`, `f` 是 `[a, b]` 上的函数, 则
+    `f in B V[a, b] iff f in B V [a, c] and f in B V[c, b]`, 且成立等式
+    <span class="formula">
+      `vvv_a^b f = vvv_a^c f + vvv_c^b f`.
+    </span>
+  </li>
+</ol>
+
+<p class="theorem">
+  `f in B V[a, b]` 当且仅当它能写成两个有界单增函数之差.
+</p>
+
+<h3>Stieltjes 积分</h3>
+
+[来自 菲赫金哥尔茨《微积分学教程（第三卷）》]
+
+<p class="definition">
+  <b>Stieltjes 积分</b> 是 Riemann 积分的直接推广, 只需把 Riemann 和
+  <span class="formula">
+    `S(f, Delta, Xi) = sum_(k=1)^n f(xi_k) Delta x_k`
+  </span>
+  换成 Stieltjes 积分和
+  <span class="formula">
+    `sigma(f, g, Delta, Xi) = sum_(k=1)^n f(xi_k) Delta g(x_k)`.
+  </span>
+  其中 `g` 是 `[a, b]` 上的有界函数, `Delta g(x_k) = g(x_k) - g(x_(k-1))`.
+  如果 `||Delta|| to 0` 时 `sigma` 有极限, 则称函数 `f` 对 `g` 在 `[a, b]` 上可积,
+  称此极限为 `f` 对 `g` 在 `[a, b]` 上的 Stieltjes 积分, 记为
+  <span class="formula">
+    `(S) int_a^b f(x) "d" g(x) = lim_(||Delta|| to o) sigma`.
+  </span>
+  积分号前的 `(S)` 表明这是一个 Stieltjes 积分, 下文中我们将省略这个记号.
+</p>
+
+<p class="remark">
+  这里定义的 Stieltjes 积分又称为 Riemann-Stieltjes 积分. 在现代积分理论中,
+  相应的还有 Lebesgue-Stieltjes 积分.
+</p>
+
+<ol class="corollary">
+  <b>Stieltjes 积分的达布准则</b>
+  假设 `g` 单调增, 则每个 `Delta g(x_k) ge 0`.
+  取定 `[a, b]` 的一个分割 `Delta`, 考虑上和与下和
+  <span class="formula">
+    `bar S(f, Delta) = sum_(k=1)^n underset(x in I_k) "sup" f(x) Delta g(x_k)`,<br>
+    `ul S(f, Delta) = sum_(k=1)^n inf_(x in I_k) f(x) Delta g(x_k)`.
+  </span>
+  我们同样有:
+  <li>加细介点集, 将使上和减小, 下和增加.</li>
+  <li>任意一个上和 `bar S(f, Delta_1)` 大于任意一个下和 `ul S(f, Delta_2)`.</li>
+  <li>Stieltjes 积分存在的充要条件是
+    <span class="formula">
+      `lim_(||Delta|| to 0) (bar S(f, Delta) - ul S(f, Delta)) = 0`.
+    </span>
+    或
+    <span class="formula">
+      `lim_(||Delta|| to 0) sum_(k=1)^n omega(f, I_k) Delta g(x_k) = 0`.
+    </span>
+  </li>
+</ol>
+
+<p class="theorem">
+  设 `f` 连续, `g` 单调有界 (或有界变差), 则 `f` 对 `g` 可积.
+</p>
+
+<p class="proof">
+  对任意 `epsi gt 0`, 由 `f` 在 `[a, b]` 一致连续知道, 存在 `delta gt 0`, 使得
+  `f` 在每个长度小于 `delta` 的区间内振幅小于 `epsi`.
+  于是只要 `||Delta|| lt delta`, 就有
+  <span class="formula">
+    `sum_(k=1)^n omega(f, I_k) Delta g(x_k)`
+    `le epsi sum_(k=1)^n Delta g(x_k)`
+    `= epsi (g(b) - g(a))`.
+  </span>
+  注: 若把 `g` 换成有界变差函数, 则 `sum Delta g(x_k)` 有界, 可积的结论不变.
+</p>
+
+<p class="theorem">
+  设 `f` Riemann 可积, `g` 满足 Lipschitz 条件,
+  则 `f` 对 `g` 可积.
+</p>
+
+<p class="theorem">
+  <b>Stieltjes 积分的计算</b>
+  设 `f` Riemann 可积, `g` 可以写为变上限积分:
+  <span class="formula">
+    `g(x) = c + int_a^x varphi(t) dt`,
+  </span>
+  其中 `varphi(t)` 在 `[a, b]` 上绝对可积, 则 `f` 对 `g` 可积, 且成立等式
+  <span class="formula">
+    `(S) int_a^b f(x) "d" g(x) = (R) int_a^b f(x) varphi(x) dx`.
+  </span>
+  上式右边是 Riemann 积分, 此定理提供了计算 Stieltjes 积分的实用方法.
+  特别当 `g(x)` 在 `[a, b]` 上除有限点处处可微, 且导函数 `g'(x)` 绝对可积时,
+  公式中的 `varphi(x)` 可以换成 `g'(x)`.
+</p>
+
+<ol class="proposition">
+  <b>Stieltjes 积分的性质</b>
+  <li>Newton-Leibniz 公式: `int_a^b "d" g = g(b) - g(a)`;</li>
+  <li>对 `f` 线性: `int_a^b (k f_1 + l f_2) "d"g`
+    `= k int_a^b f_1 "d"g + l int_a^b f_2 "d"g;</li>
+  <li>对 `g` 线性: `int_a^b f"d"(k g_1 + l g_2)`
+    `= k int_a^b f"d"g_1 + l int_a^b f "d"g_2`.</li>
+  <li>区间可加性: 若等式左边的积分存在, 则对任意 `c in [a, b]`, 等式右边的两个积分存在且等式成立:
+    <span class="formula">
+      `int_a^b f "d" g`
+      `= int_a^c f "d" g`
+      `+ int_c^b f "d" g`.
+    </span>
+    ⚠ 但是即使等式右边两个积分都存在, 左边的积分还是可能不存在.
+  </li>
+</ol>
+
+<ol class="proposition">
+  <b>Stieltjes 积分的分部积分</b>
+  若 `f` 对 `g` 可积, 则 `g` 对 `f` 也可积, 且成立等式:
+  <span class="formula">
+    `int_a^b f "d" g = f g |_a^b - int_a^b g "d"f`.
+  </span>
+  与 Riemann 积分相比, 这里去掉了函数连续可微的条件, 因此适用面更广.
+</ol>
+
+<ol class="proposition">
+  <b>Stieltjes 积分的中值定理</b>
+  设在 `[a, b]` 上 `f` 有界, `g` 单增, 且 `f` 对 `g` 可积. 则存在 `inf f le mu le Sup f` 使得
+  <span class="formula">
+    `int_a^b f "d" g = mu (g(b) - g(a))`.
+  </span>
+</ol>
+
+<h3>定积分与极限</h3>
+
+<p class="example">
+  <b>用级数估计积分</b>
+  [来自群友 群句号、刀哥]<br/>
+  求极限 `lim_(n to oo) int_pi^(2pi) |sin n x + cos n x|/x dx`.
+</p>
+
+<p class="solution">
+  极限符号下的式子等于
+  <span class="formula">
+    `int_pi^(2pi) |sqrt 2 sin(n x+pi/4)|/x dx`
+    `= sqrt 2 int_(n pi)^(2n pi) |sin(x + pi/4)|/x dx`
+    `= sqrt 2 sum_(n le k lt 2n) int_(k pi)^((k+1)pi) |sin(x + pi/4)|/x dx`.
+    <span class="label">`(**)`</span>
+  </span>
+  利用不等式
+  <span class="formula">
+    `1/((k+1)pi) int_(k pi)^((k+1)pi) f(x) dx`
+    `le int_(k pi)^((k+1)pi) f(x)/x dx`
+    `le 1/(k pi) int_(k pi)^((k+1)pi) f(x) dx`,
+  </span>
+  以及 `int_(k pi)^((k+1)pi) |sin(x+pi/4)| dx = 2`, 得
+  <span class="formula">
+    `(2sqrt 2)/pi sum_(n le k lt 2n) 1/(k+1)`
+    `le (**)`
+    `le (2sqrt 2)/pi sum_(n le k lt 2n) 1/k`.
+  </span>
+  令 `n to oo`, 应用两边夹得到原式等于 `(2sqrt 2)/pi ln 2`.
+</p>
+
+<ol class="example">
+  <b>周期函数的平均值</b>
+  <li>
+    设 `f` 周期为 `T`, 在 `[0, T]` 上可积, 则
+    <span class="formula">
+      `lim_(x to +oo) 1/x int_0^x f(t) dt = 1/T int_0^T f(t) dt`.
+    </span>
+    等号右边称为这个周期函数的<b>平均值</b>.
+    例如有 `lim_(x to +oo) 1/x int_0^x |sin t| dt = 2/pi`.
+    注意洛必达法则对这个极限失效.
+  </li>
+  <li>
+    [来自群友 玩家喵、澄] 拓展: `f` 的假设同上. 令 `g` 在 `[0, +oo)` 上非负单增, 且
+    `lim_(x to +oo) (g(x)) / (int_0^x g(t) dt) = 0`, 则有
+    <span class="formula">
+      `lim_(x to +oo) (int_0^x f(t) g(t) dt)/(int_0^x g(t) dt) = 1/T int_0^T f(t) dt`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    记 `A = 1/T int_0^T f(t) dt`, 在每个周期内 `f(t) - A` 的积分为零.
+    令 `x = n T + y`, `y in [0, T)`, 则有
+    <span class="formula">
+      `int_0^x (f(t) - A) dt`
+      `= int_0^y (f(t) - A) dt`.
+    </span>
+    `x to +oo` 时上式有界, 所以
+    <span class="formula">
+      `lim_(x to +oo) (int_0^x (f(t) - A) dt)/x = 0`,
+    </span>
+    即得证.
+  </li>
+  <li>
+    仍记 `A = 1/T int_0^T f(t) dt`, 只需证
+    <span class="formula">
+      `lim_(x to +oo) (int_0^x (f(t) - A) g(t) dt)/(int_0^x g(t) dt) = 0`.
+    </span>
+    运用积分第二中值定理, 存在 `xi in [0, x]` 使得
+    <span class="formula">
+      `int_0^x (f(t) - A) g(t) dt`
+      `= g(0) int_0^xi (f(t) - A) dt`
+      `+ g(x) int_xi^x (f(t) - A) dt`.
+    </span>
+    两边同除以 `int_0^x g(t) dt`, 由 1. 知右端 `f(t) - A` 的两个积分均有界, 再结合 `g`
+    满足的条件就得到极限为 0.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>控制收敛定理 (DCT)</b>
+</p>
+
+<h2>积分的计算</h2>
+
+<h3>换元公式</h3>
 
 <span class="formula">
   `int_0^1 dx/x ==^(y=1//x) int_1^oo dy/y`<br>
@@ -678,7 +958,7 @@
   <span class="formula align">
     `int_0^(2pi) x (1-cos x)^2 dx`<br>
     `= int_0^(2pi) pi (1 - cos x)^2 dx`<br>
-    `= pi int_0^(2pi) (1 - 2 cos x + cos^2 x) dx<br>
+    `= pi int_0^(2pi) (1 - 2 cos x + cos^2 x) dx`<br>
     `= pi (2pi - 0 + pi)`<br>
     `= 3pi^2`.
   </span>
@@ -990,57 +1270,6 @@
     `==^(u mapsto -u) int_0^oo f(y - 1/y) dy + int_-oo^0 f(u - 1/u) "d"u`
   </span>
   等于右边.
-</p>
-
-<h2>定积分的极限</h2>
-
-<p class="example">
-  <b>用级数估计积分</b>
-  [来自群友 群句号、刀哥]<br/>
-  求极限 `lim_(n to oo) int_pi^(2pi) |sin n x + cos n x|/x dx`.
-</p>
-
-<p class="solution">
-  极限符号下的式子等于
-  <span class="formula">
-    `int_pi^(2pi) |sqrt 2 sin(n x+pi/4)|/x dx`
-    `= sqrt 2 int_(n pi)^(2n pi) |sin(x + pi/4)|/x dx`
-    `= sqrt 2 sum_(n le k lt 2n) int_(k pi)^((k+1)pi) |sin(x + pi/4)|/x dx`.
-    <span class="label">`(**)`</span>
-  </span>
-  利用不等式
-  <span class="formula">
-    `1/((k+1)pi) int_(k pi)^((k+1)pi) f(x) dx`
-    `le int_(k pi)^((k+1)pi) f(x)/x dx`
-    `le 1/(k pi) int_(k pi)^((k+1)pi) f(x) dx`,
-  </span>
-  以及 `int_(k pi)^((k+1)pi) |sin(x+pi/4)| dx = 2`, 得
-  <span class="formula">
-    `(2sqrt 2)/pi sum_(n le k lt 2n) 1/(k+1)`
-    `le (**)`
-    `le (2sqrt 2)/pi sum_(n le k lt 2n) 1/k`.
-  </span>
-  令 `n to oo`, 应用两边夹得到原式等于 `(2sqrt 2)/pi ln 2`.
-</p>
-
-<p class="example">
-  <b>周期函数的平均值</b>
-  设 `f` 周期为 `T`, 在 `[0, T]` 上可积, 则
-  <span class="formula">
-    `lim_(x to +oo) 1/x int_0^x f(t) dt = 1/T int_0^T f(t) dt`.
-  </span>
-  等号右边称为这个周期函数的<b>平均值</b>.
-  例如有 `lim_(x to +oo) 1/x int_0^x |sin t| dt = 2/pi`.
-  注意洛必达法则对这个极限失效.
-</p>
-
-<p class="proof">
-  记 `I = int_0^T f(t) dt`, `x = n T + y` (`y lt T`), 则
-  <span class="formula">
-    `1/x int_0^x f(t) dt`
-    `= (n I + int_0^y f(t)dt)/(n T + y)`.
-  </span>
-  `int_0^y f(t) dt` 和 `y` 均为有界量, 当 `n to oo` 时上式趋于 `I//T`.
 </p>
 
 <h2>含参积分</h2>

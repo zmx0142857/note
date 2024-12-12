@@ -7,6 +7,217 @@
 </head>
 <body>
 
+<h2>生成函数</h2>
+
+<p class="definition">
+  设 `{a_n}` 是一个数列, 则
+  <span class="formula">
+    `sum_(n ge 0) a_n x^n`,
+    `quad sum_(n ge 0) a_n x^n/n!`,
+    `quad sum_(n ge 1) a_n /n^s`
+  </span>
+  分别称为这个数列的<b>普通型生成函数</b>, <b>指数型生成函数</b>, <b>Dirichlet 生成函数</b>.
+</p>
+
+<p class="example">
+  [来自群友 凡人比肩神明,
+  <a href="https://www.bilibili.com/video/av812833893" target="_blank">3b1b《奥数级别的数数问题》</a>]
+  求集合 `A = [1...2000]` 中, 有多少个子集的元素之和是 10 的倍数?
+</p>
+
+<ol class="solution">
+  [来自群友 subideal]
+  <li>
+    用生成函数 `f(x) = prod_(k=1)^2000 (1+x^k)` 枚举 `A` 的子集: 对于 `A` 的任一子集 `B`,
+    如果 `k in B`, 就在因子 `1+x^k` 中选择 `x^k` 的部分, 否则选择 `1` 的部分.
+    于是 `f(x)` 的 `n` 次项系数 `"coef"(f, n)` 正好表示元素和等于 `n` 的子集个数.
+  </li>
+  <li>
+    下面求 `sum_(k ge 0) "coef"(f, 10k)`.
+    回忆这个相关的问题: 求一个多项式 `f` 的偶次项系数和, 可以将 `f` 的系数和
+    `f(1)` 与系数交错和 `f(-1)` 相加再除以 `2`. 我们的问题正是此问题的推广.
+    记 `1^(1//10) = "e"^(2pi"i"//10)`, 考虑和式
+    <span class="formula">
+      `sum_(j=0)^9 1^(j k//10)`.
+    </span>
+    当 `k` 为 `10` 的倍数时, 它的值为 `10`.
+    否则记 `q = 1^(k//10) != 1`, 利用 `q^10 = 1` 有
+    <span class="formula">
+      `sum_(j=0)^9 q^j`
+      `= (1 - q^10)/(1-q) = 0`.
+    </span>
+    因此
+    <span class="formula">
+      `sum_(j=0)^9 f(1^(j//10))`
+      `= sum_(k ge 0) "coef"(f, k) sum_(j=0)^9 1^(j k//10)`
+      `= 10 sum_(k ge 0) "coef"(f, 10k)`.
+    </span>
+  </li>
+  <li>[来自 fran] 利用<a href="../misc/2.html#the-sin-prod">公式</a>
+    <span class="formula">
+      `prod_(0 lt k lt n) cos{:(k pi)/n:} = 2^(1-n) * cos((n-1)pi//2)`,
+    </span>
+    计算
+    <span class="formula align">
+      `prod_(k=0)^9 (1 + 1^(j k // 10))`<br>
+      `= prod_(k=0)^9 cos(2pi j k // 20) * 2 * 1^(j k // 20)`<br>
+      `= 2^10 "i" prod_(k=0)^9 cos(pi j k // 10)`.
+    </span>
+    `j = 0` 时, 上式为 `2^10`; `j` 与 `10` 互素, 或者 `j = 5` 时, 上式为 0;
+    `j = 2, 4, 6, 8` 时,
+    <span class="formula">
+      `prod_(k=0)^9 cos(pi j k // 10)`
+      `= (prod_(k=0)^4 cos(pi (j//2) k // 5))^2`
+      `= 2^-8`.
+    </span>
+    于是原题答案为
+    <span class="formula align higher">
+      `1/10 sum_(j=0)^9 f(1^(j//10))`<br>
+      `= 1/10 sum_(j=0)^9 prod_(k=1)^2000 (1+1^(j k//10))`<br>
+      `= 1/10 sum_(j=0)^9 (prod_(k=0)^9 (1 + 1^(j k//10)))^200`<br>
+      `= 1/10 (2^2000 + 4 * (2^2 "i")^200)`<br>
+      `= 1/10 (2^2000 + 2^402)`<br>
+      `= 1148...0288`.
+    </span>
+    一共有 602 位数.
+  </li>
+</ol>
+
+<h2>分拆数</h2>
+
+[来自 <a href="https://zhuanlan.zhihu.com/p/402759212" target="_blank">阿谦@知乎</a>]
+
+<p class="p definition">
+  <b>分拆数 (partition number)</b>
+  [<a href="../../cs/ds/14.html">在线计算</a>] [<a href="https://oeis.org/A000041" target="_blank">A000041</a>]
+  `p_n(m)` 定义为非负整数 `m` 拆成 `n ge 1` 个非负整数之和的方法数.
+  这等于将 `m` 拆成不超过 `n` 个正整数之和的方法数.
+  例如, 将 `m` 个相同苹果放入 `n` 个相同篮子.
+  特别简记 `p_n = p_n(n)`, 并约定 `p_0 = 1`.
+  例如,
+  <span class="formula">
+    5 = 5 = 4 + 1 = 3 + 2 = 3 + 1 + 1
+    = 2 + 2 + 1 = 2 + 1 + 1 + 1 = 5*1,
+  </span>
+  共 7 种分拆方法, 因此 `p_5 = 7`.
+</p>
+
+<div class="p example">
+  <b>Ferrers 图</b>
+  将分拆的每一份用一行圆点表示, 例如, 5 = 2 + 2 + 1 可以排列如下:
+<pre>
+* *
+* *
+*
+</pre>
+  上图一列一列地看, 又可得到另一种分拆 5 = 3 + 2.
+  <br>
+  将分拆的每一份按大小分类, 记 `l_k` 是分拆中大小为 `k` 的份数, 有:
+  <span class="formula">
+    `p_n = sum_(k ge 1) k * l_k`
+    `= sum_(k ge 1) sum_(j ge k) l_j`.
+  </span>
+  第一个求和是从图中按行得到的, 第二个是按列得到的.
+</div>
+
+<table>
+  <caption>分拆数</caption>
+  <tr>
+    <td>`n`</td>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+  </tr>
+  <tr>
+    <td>`p_n`</td>
+    <td>1</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>5</td>
+    <td>7</td>
+    <td>11</td>
+    <td>15</td>
+    <td>22</td>
+    <td>30</td>
+  </tr>
+</table>
+
+<p class="example">
+  <b>找零问题</b>
+  用 10 张 1 元、3 张 2 元、2 张 5 元的零钞支付 17 元, 共有几种可能的方法?
+</p>
+
+<p class="solution">
+  考虑生成函数
+  <span class="formula">
+    `f(x) = (1 + x + cdots + x^10)(1 + x^2 + x^4 + x^6)(1 + x^5 + x^10)`,
+  </span>
+  每个因子代表一种面额, 因子的项数代表该种面额的钞票可取的数目.
+  支付时, 从每种面额中取出一定的数目, 即从每个因子中取出一项相乘, 因此 `f(x)`
+  的 17 次项系数就是所求的答案.
+</p>
+
+<p class="proposition">
+  <b>分拆数的生成函数</b>
+  `sum_(n ge 0) p_n x^n`
+  `= prod_(n ge 1) 1/(1-x^n)`.
+</p>
+
+<p class="proof">
+  这是找零问题的推广. 我们有任意正整数面额的钞票, 每种钞票可取任意多张.
+  因此生成函数为
+  <span class="formula">
+    `prod_(n ge 1) (1 + x^n + x^(2n) + cdots)`
+    `= prod_(n ge 1) 1/(1-x^n)`.
+  </span>
+</p>
+
+<p class="proposition">
+  <b>Euler 等分定理</b>
+  `n` 的分拆中每份大小都不同的方法数, 等于 `n` 的分拆中每份大小都为奇数的方法数:
+  <span class="formula">
+    `p_n("distinct") = p_n("odd")`.
+  </span>
+</p>
+
+<p class="proof">
+  计算两者的生成函数. 对于 `p_n("distinct")`, 每份的大小 `l_k = 0` 或 `1`,
+  <span class="formula">
+    `sum_(n ge 0) p_n("distinct") x^n`
+    `= prod_(n ge 1) (1 + x^n)`,
+  </span>
+  对于 `p_n("odd")`, 只保留 `p_n` 的生成函数乘积中的第奇数个因子:
+  <span class="formula">
+    `sum_(n ge 0) p_n("odd") x^n`
+    `= prod_(n ge 1) 1/(1-x^(2n-1))`.
+  </span>
+  为证明两式相等, 相除等到
+  <span class="formula">
+    `prod_(n ge 1) (1 + x^n)(1-x^(2n-1))`
+    `= prod_(n ge 1) (1 + x^(2n)) (1+x^(2n-1))(1-x^(2n-1))`
+    `= prod_(n ge 1) (1 + x^(2n)) (1 - x^(4n-2))`.
+  </span>
+  上式记为 `f(x)`, 则有 `f(x) = f(x^2)`. 由连续性知道 `f(x) -= f(0) = 1`.
+</p>
+
+<p class="proposition">
+  <b>Euler 五角数定理</b>
+  <span class="formula">
+    `prod_(n ge 1) (1-x^n)`
+    `= sum_(n=-oo)^oo (-1)^n x^(n(3n-1)//2)`.
+  </span>
+  注: 将 `n=5` 代入 <a href="../number/5.html">`n` 角数</a>通项公式 `(n-2)k(k-1)//2 + k`
+  得到 `k(3k-1)//2`.
+</p>
+
 <h2>形式幂级数</h2>
 
 <p class="definition">

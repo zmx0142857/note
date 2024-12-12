@@ -1219,14 +1219,15 @@
 
 <p class="definition">
   阶为素数幂的群称为<b>`bm p`-群</b>, 如 `|G| = p^k`,
-	其中 `p` 为一素数, `k in ZZ^+`.
+  其中 `p` 为一素数, `k in ZZ^+`.
+  由 Lagrange 定理知道, `p`-群的非平凡子群都是 `p`-群.
 </p>
 
 <p class="theorem">
   令 `G` 为一 `p`-群, `X` 为一非空有限集, 若群作用 `f: G xx X to X`
   有 `n` 个不动点, 则
 	<span class="formula">
-		`|X| -= n (mod p)`.
+		`|X| -= n` `quad (mod p)`.
 	</span>
 	从而 `p !| |X|` 时, 群作用必有不动点.
 </p>
@@ -1248,15 +1249,13 @@
 </p>
 
 <p class="corollary">
-	`p`-群有非平凡中心.
+  `p`-群有非平凡中心.
 </p>
 
 <p class="proof">
-	令 `|G| = p^k`, 只需说明 `|Z(G)| != 1`.
+  令 `|G| = p^k`, 只需说明 `|Z(G)| != 1`.
   注意 `Z(G)` 是 `G` 上共轭作用的全体不动点, 因此
-	`|Z(G)| -= p^k (mod p)`, 立即推出 `|Z(G)| != 1`.
-  事实上 `|Z(G)|` 整除 `|G| = p^k`, 因此 `|Z(G)| = p^l`,
-  `l` 是某个满足 `1 le l le k` 的整数.
+  `|Z(G)| -= p^k (mod p)`, 立即推出 `|Z(G)| != 1`.
 </p>
 
 <p class="lemma">
@@ -1290,34 +1289,35 @@
 </p>
 
 <ol class="theorem">
-	<b>Sylow 定理</b>
-	令 `G` 为一 `n` 阶群, 素数 `p` 在 `n` 中的次数为 `l`.  则
+  <b>Sylow 定理</b>
+  令 `G` 为一 `n` 阶群, 素数 `p` 在 `n` 中的次数为 `l`.  则
   <li><b>存在性</b>
-    `G` 必有 `p^k` 阶子群, `k = 1, cdots, l`, 其中 `p^l` 阶的子群
-		称为 `G` 的 <b>Sylow `bm p`-子群</b>.
-	</li>
+    对任意 `k = 1, cdots, l`, 都存在 `G` 的 `p^k` 阶子群. 其中阶数最大的那些
+    (`p^l` 阶) 称为 `G` 的 <b>Sylow `bm p`-子群</b>.
+  </li>
   <li><b>共轭性质</b>
     设 `G` 的子群 `|H| = p^k`, `|P| = p^l`, `k le l`.
-		则 `H` 含于 `P` 的某个共轭子群, 即
-		<span class="formula">
-			`(EE a in G)` `H sube a P a^-1`.
-		</span>
-		因为共轭子群与原来的子群同构, 从而阶数相同,
-		所以 Sylow `p`-子群的共轭子群也是 Sylow `p`-子群.
-		特别取 `k = l` 有 `H = a P a^-1`,
-		即 `G` 的 Sylow `p`-子群都是相互共轭的.
-	</li>
+    则 `H` 含于 `P` 的某个共轭子群, 即
+    <span class="formula">
+      `(EE a in G)` `H sube a P a^-1`.
+    </span>
+    因为共轭子群与原来的子群同构, 从而阶数相同,
+    所以 Sylow `p`-子群的共轭子群也是 Sylow `p`-子群.
+    特别取 `k = l` 有 `H = a P a^-1`,
+    即 `G` 的 Sylow `p`-子群都是相互共轭的.
+  </li>
   <li><b>惟一性</b>
     由 2. 立即得到,
-    `P` 是 `G` 的惟一 Sylow `p`-子群当且仅当它的任意共轭子群都是它自身:
+    `P` 是 `G` 的惟一 Sylow `p`-子群当且仅当 `P normal G`, 即:
     <span class="formula">
-      `(AA g in G)` `g P g^-1 = P`, 即 `P normal G`.
+      `(AA g in G)` `g P g^-1 = P`.
     </span>
+    这给出寻找正规子群的一个重要方法.
   </li>
   <li><b>数量关系</b>
     `G` 的 Sylow `p`-子群的数目 `n_p -= 1 (mod p)`,
-		且 `n_p p^l | n`.
-	</li>
+    且 `n_p | n p^-l`.
+  </li>
 </ol>
 
 <ol class="proof">
@@ -1428,10 +1428,10 @@
 </p>
 
 <p class="proof">
-	设 `|G| = 72 = 2^3 3^2`, 由 Sylow 定理, `G` 的 Sylow 3-子群的个数
+	设 `|G| = 72 = 2^3 3^2`, 由 Sylow 定理, `G` 的 Sylow 3 子群的个数
 	`n_3 = 1+3t | 2^3`, 因此, `t = 0, 1`.
-	当 `t = 0` 时, `G` 的 Sylow-3 子群只有 1 个, 为 9 阶正规子群.
-	当 `t = 1` 时, `G` 的 Sylow-3 子群有 4 个, 令 `X` 是这 4 个群的集合:
+	当 `t = 0` 时, `G` 的 Sylow 3 子群只有 1 个, 为 9 阶正规子群.
+	当 `t = 1` 时, `G` 的 Sylow 3 子群有 4 个, 令 `X` 是这 4 个群的集合:
 	<span class="formula">
 		`X = {P_1, P_2, P_3, P_4}`.
 	</span>
@@ -1445,6 +1445,28 @@
 	`{(1)}` 的原像, 因此是正规子群).
 	综上所述, `G` 不是单群.<br/>
 	类似可证明 36 阶群不是单群.
+</p>
+
+<p class="example">
+  15 阶群是循环群.
+</p>
+
+<p class="proof">
+  设 `|G| = 15`. 它的 Sylow 3 子群个数为 `1+3t | 5`, Sylow 5 子群个数为 `1+5s | 3`,
+  显然只能有 `s = t = 0`. 于是 `G` 的 Sylow 3 子群和 5 子群都唯一, 构成 `G`
+  的两个正规子群 `C_3` 和 `C_5`.
+  <br>
+  考虑直积 `C_3 xx C_5` 到 `G` 的单同态 `varphi: (a, b) mapsto a b`
+  (注意两个正规子群的元素间乘积可交换).
+  由于两个群阶数相同, 所以它也是满同态, 从而是同构.
+  <br>
+  最后说明 `C_3 xx C_5` 中存在 15 阶元素. 这只需从 `C_3` 和 `C_5` 中各取一个 3 阶元和 5 阶元相乘即可.
+  设这个元素为 `(a, b)`, 于是
+  <span class="formula">
+    `(a, b)^n = (1, 1)` `iff (a^n, b^n) = (1, 1)`, `iff a^n = 1 and b^n = 1`.
+  </span>
+  从而 `n` 是 3, 5 的公倍数, 只能 `n = 15`.
+  一般地, 若 `gcd(m, n) = 1`, 则两个循环群 `C_m xx C_n ~= C_(m n)`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

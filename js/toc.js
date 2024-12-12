@@ -54,7 +54,7 @@ var tocData = [
           { "value": "3", "label": "函数的极限与连续性", "date": "2022-03-04" },
           { "value": "5", "label": "导数的应用", "date": "2023-10-09" },
           { "value": "6", "label": "不定积分", "date": "2022-04-10" },
-          { "value": "7", "label": "定积分与广义积分", "date": "2024-11-18" },
+          { "value": "7", "label": "定积分与广义积分", "date": "2024-12-09" },
           { "value": "8", "label": "特殊函数 (1): Gamma 函数, Euler 和, 指对数积分", "date": "2022-05-15" },
           { "value": "9", "label": "特殊函数 (2): 椭圆函数, 超几何函数, Bessel 函数", "date": "2024-11-06" },
           { "value": "10", "label": "特殊函数 (3): Bernoulli 数与 Riemann zeta 函数", "date": "2024-07-31" },
@@ -164,12 +164,13 @@ var tocData = [
         "label": "抽象代数",
         "children": [
           { "value": "2", "label": "群 (上)", "date": "2024-07-06" },
-          { "value": "3", "label": "群 (中)", "date": "2024-04-17" },
+          { "value": "3", "label": "群 (中)", "date": "2024-12-11" },
           { "value": "4", "label": "群 (下)", "date": "2023-05-16" },
           { "value": "5", "label": "环" },
           { "value": "6", "label": "模与代数", "date": "2024-10-29" },
           { "value": "7", "label": "域", "date": "2024-06-30" },
-          { "value": "8", "label": "Galois 理论", "date": "2022-01-02" }
+          { "value": "8", "label": "Galois 理论", "date": "2022-01-02" },
+          { "value": "10", "label": "有限群表示论", "date": "2024-12-10" },
         ]
       },
       {
@@ -268,7 +269,7 @@ var tocData = [
           { "value": "3", "label": "求解递推式", "date": "2024-04-26" },
           { "value": "4", "label": "容斥原理" },
           { "value": "5", "label": "离散微积分与特殊计数序列", "date": "2024-08-31" },
-          { "value": "6", "label": "生成函数", "date": "2022-01-22" }
+          { "value": "6", "label": "生成函数", "date": "2024-12-12" }
         ]
       },
       {
@@ -282,7 +283,7 @@ var tocData = [
         "value": "recreation",
         "label": "数学游戏",
         "children": [
-          { "value": "1", "label": "数学游戏" }
+          { "value": "1", "label": "数学游戏", "date": "2024-12-12" }
         ]
       }
     ]

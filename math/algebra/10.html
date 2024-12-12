@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>有限群表示论</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+
+<body>
+
+<p>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/165040308" target="_blank">ZCC@知乎</a>]
+</p>
+
+<ul class="definition">
+  <b>群的线性表示</b>
+  令 `G` 为一群, `V` 是 `bbb F` 上的线性空间, `GL(V)` 是 `V` 上的一般线性群 (全体可逆线性变换组成的群).
+  我们把群同态 `rho: G to GL(V)` 称为群 `G` 的一个<b>(线性) 表示 (representation)</b>.
+  注意区别于群展示 (presentation).
+  <li><b>表示空间</b> 是指线性空间 `V`.</li>
+  <li><b>表示维数</b> 定义为表示空间的维数 `"deg" rho := dim V`.</li>
+  <li><b>忠实</b> 是指 `"ker" rho = {1}`, 即 `rho` 只把 `G` 的单位元映为 `0` 线性变换.</li>
+  <li><b>模表示</b> 是指域的特征 `"char " bbb F` 整除群的阶 `|G|`. 否则称为<b>常表示</b>.</li>
+  <li><b>表示等价</b> 是指两个表示 `rho_1: G to GL(V_1)` 和 `rho_2: G to GL(V_2)` 相差一个相似变换,
+    即存在线性算子 `T: V_1 to V_2`, 使得
+    <span class="formula">
+      `rho_1(g) = T^-1 rho_2(g) T`, `quad AA g in G`.
+    </span>
+  </li>
+</ul>
+
+<p class="remark">
+  在不加说明的情况下, 下文只讨论有限群的有限维常表示 (参见 Maschke 定理). 而且通常取 `bbb F = CC`,
+  此时 `GL(V)` 相当于 `n` 阶可逆复矩阵群.
+</p>
+
+<ol class="definition">
+  <b>子表示, 商表示, 直和表示</b>
+  设 `rho: G to GL(V)` 是 `G` 的一个表示. `W` 是 `V` 的线性子空间.
+  <li>若 `W` 满足
+    <span class="formula">
+      `rho(g)(W) sube W`, `quad AA g in G`,
+    </span>
+    则称 `W` 是 `G`-不变子空间. `0` 和 `V` 是两个平凡的不变子空间.
+  </li>
+  <li>设 `W` 是 `G`-不变子空间. 将 `rho(g)` 限制在子空间 `W` 上, 得到
+    <span class="formula">
+      `rho_W := g mapsto rho(g)|_W`,
+    </span>
+    这是 `G` 在子空间 `W` 上的表示, 称为 `W` 诱导的 `rho` 的<b>子表示</b>.
+  </li>
+  <li>商空间 `V // W` 上的映射
+    <span class="formula">
+      `bar rho(g) := v + W mapsto rho(g)(v) + W`
+    </span>
+    也诱导了表示 `bar rho`, 称为 `W` 诱导的 `rho` 的<b>商表示</b>.
+  </li>
+  <li>设 `rho_1, rho_2` 是 `G` 的两个表示, 表示空间为 `V_1, V_2`. 则
+    <span class="formula">
+      `rho_1 o+ rho_2 := g mapsto rho_1(g) o+ rho_2(g)`
+    </span>
+    称为 `rho_1, rho_2` 的<b>直和表示</b>.
+  </li>
+</ol>
+
+<p class="remark">
+  在线性代数中, 线性变换 `cc A` 的不变子空间是指 `cc A(W) sube W`.
+</p>
+
+<ol class="definition">
+  <b>可约性</b>
+  <li>
+    若表示 `rho` 只有平凡的不变子空间, 则称它是<b>不可约的</b>, 否则称为可约表示.
+  </li>
+  <li>
+    若 `rho` 的表示空间 `V` 能分解为有限个 `G`-不变子空间的直和 `V = O+ V_k`,
+    则 `rho` 也可以分解为子表示的直和 `rho = O+ rho_(V_k)`.
+    若每个子表示都不可约, 则称 `rho` 是<b>完全可约</b>的, 意思是可以将它分解到不可约为止.
+  </li>
+</ol>
+
+<ol class="corollary">
+  设 `G` 有两个等价表示 `rho_1, rho_2`, 则
+  <li>`rho_1` 可约 `iff rho_2` 可约;</li>
+  <li>`rho_1` 完全可约 `iff rho_2` 完全可约.</li>
+</ol>
+
+<p class="theorem">
+  <b>(Maschke)</b> 有限群的有限维常表示是完全可约的.
+  (非常好性质!)
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

@@ -776,12 +776,11 @@ g.is_abelian # True
 </p>
 
 <p class="lemma">
-	令群 `G` 是 `G_1, G_2` 的内直积, 则 `G_1, G_2` 之间元素的乘积可交换,
-	即
-	<span class="formula">
-		`(AA g_1 in G_1, g_2 in G_2)`
-		`g_1 g_2 = g_2 g_1`.
-	</span>
+  令 `G_1, G_2 normal G`, 则 `G_1, G_2` 之间元素的乘积可交换, 即
+  <span class="formula">
+    `(AA g_1 in G_1, g_2 in G_2)`
+    `g_1 g_2 = g_2 g_1`.
+  </span>
 </p>
 
 <p class="proof">
@@ -866,7 +865,7 @@ g.is_abelian # True
 
 <h3>半直积: 直积的推广</h3>
 
-<p>从内直积的定义得到启发, 定义<b>半直积 (semi-direct product)</b>如下:</p>
+<p>将内直积定义中的其中一个正规子群减弱为子群, 定义<b>半直积 (semi-direct product)</b>如下:</p>
 
 <p class="definition">
   令 `G` 为一群, `N normal G`, `H le G`, 且 `G = N H`.
@@ -904,8 +903,18 @@ g.is_abelian # True
 
 <ol class="proof">
   <li>`rArr` 2.
-    设 `N normal G`, `H le G`, `G = N H`, `N nn H = {e}`.
+    设 `N normal G`, `H le G`, `G = N H`, `N nn H = {e}`.  取同态
+    <span class="formula">
+      `f := h mapsto n mapsto h n h^-1`,
+    </span>
     作 `varphi: (n, h) in N xx H mapsto n h in G`, 然后验证它是同构即可.
+    事实上, `G = N H` 保证它是满的, `N nn H = {e}` 保证它的核是 `{e}`. 再验证它是同态:
+    <span class="formula">
+      `varphi(n_1, h_1) varphi(n_2, h_2)`
+      `= n_1 h_1 n_2 h_2`
+      `= n_1 f_(h_1)(n_2) h_1 h_2`
+      `= varphi((n_1, h_1) * (n_2, h_2))`.
+    </span>
   </li>
   <li>`rArr` 1.
     将 `N` 与 `{(n, e): n in N}` 等同, `H` 与 `{(e, h): h in H}` 等同, 则 `N, H` 是 `N xx H` 的子群.
@@ -919,6 +928,129 @@ g.is_abelian # True
     最后, 显然 `N nn H = {(e, e)}`, 所以 `N xx H` 是一个半直积.
   </li>
 </ol>
+
+<p class="example">
+  <b>半直积与商群的关系</b>
+</p>
+
+<h2>自由群</h2>
+
+<ol class="definition">
+  <b>群展示 (presentation)</b>
+  是群的一种记号, 把群的生成元写在左边, 生成关系写在右边, 例如
+  <li>`n` 阶循环群记为 `(:a | a^n = 1:)`.</li>
+  <li>`K_4` 记为 `(:a, b | a^2 = 1, b^2 = 1, a b = b a:)`.</li>
+  同一个群往往有不同的展示. 比如 `K_4` 还可以写为 `(:a, b | a^2 = 1, b^2 = 1, (a b)^2 = 1:)`.
+  我们常常省略群展示中的 "`=1`", 比如 `K_4` 的第一种写法可以简记为 `(:a, b | a^2, b^2, a b a^-1 b^-1 :)`.
+</ol>
+
+<pre>
+from sympy.combinatorics.free_groups import free_group
+from sympy.combinatorics.fp_groups import FpGroup
+F, a, b = free_group('a, b')
+G = FpGroup(F, [a**2, b**2, a*b*a**-1*b**-1])
+G.is_abelian # True
+G.order() # 4
+</pre>
+
+<ul class="definition">
+  <b>自由乘积</b>
+  令 `A, B` 是两个群, `A ⊔ B` 是它们的无交并. 定义它们的<b>自由乘积</b>为如下集合:
+  <span class="formula">
+    `A ast B := { prod_(i=1)^n x_i: x_i in A ⊔ B }`
+  </span>
+  其中每个乘积 `prod x_i` 都只有有限项.
+  我们希望 `A ast B` 是一个群, 可作如下规定:
+  <li>当 `n = 0` 时, 记 `prod_(i=1)^0 x_i = 1` 是新群的单位元.</li>
+  <li>`n gt 0` 时, 规定乘积当中不含 `A` 或 `B` 的单位元,
+    且任意相邻两项不属于同一个群 (否则可以将它们相乘,
+    得到一个更简短的乘积).
+  </li>
+  <li>对任意 `x_1 cdots x_n in A`, `y_1 cdots y_m in B`, 定义它们的乘积为两个乘积的简单拼接:
+    <span class="formula">
+      `x_1 cdots x_n * y_1 cdots y_m`.
+    </span>
+    假如拼接后的乘积含有单位元, 或者有相邻两项属于同一个群, 就对它们进行简化, 得到一个最简的乘积为止.
+  </li>
+  可以证明, `A ast B` 关于上述乘法构成一个群. 一般地, 对一族群
+  `{G_lambda}_(lambda in Lambda)`, 也可以定义自由乘积
+  <span class="formula">
+    `prod_(lambda in Lambda)^ast G_lambda := { prod_(i=1)^n x_i: x_i in ⨆_(lambda in Lambda) G_lambda }`.
+  </span>
+  同样规定每个有限乘积中不含单位元, 且相邻两项不属于同一个群.
+</ul>
+
+<ol class="example">
+  [来自群友 问情明心] 令 `G` 是有限群.
+  <li>
+    设元素 `a in G` 生成的 `m` 阶循环群 `(:a:)` 是 `G` 的正规子群,
+    且商群 `G // (:a:)` 是 `n` 阶循环群. 取商群的一个生成元 `b (:a:)`, 证明:
+    `G` 为 `m n` 阶有限群, 且满足下面的生成关系
+    <span class="formula">
+      `G = (: a, b | a^m = 1, b^n = a^r, b a b^-1 = a^s :)`,
+      <span class="label">(`ast`)</span>
+    </span>
+    其中 `r, s in ZZ`, 且 `r(s-1)` 和 `s^n - 1` 都是 `m` 的倍数.
+  </li>
+  <li>
+    反之, 设 `G(m, n, r, s)` 由 (`ast`) 的关系生成, 其中 `m, n in ZZ_(ge 0)`, `r, s in ZZ`, 且 `m`,
+    `r(s-1)`, `s^n - 1` 不全为零. 证明: `G` 是 `q n` 阶有限群, 其中 `q = gcd(m, r(s-1), s^n - 1)`.
+    其中 `(:a:)` 是 `G` 的 `q` 阶正规子群, 且商群 `G // (:a:)` 是 `n` 阶循环群.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    由 Lagrange 定理知道 `G` 的阶数是 `m n`.
+    每个 `g in G` 都可以写成 `a^x b^y`. 这是因为 `b (:a:) = (:a:) b`
+    是商群的生成元从而存在 `y` 使得 `(:a:) g = (:a:) b^y`, 于是存在 `x` 使得 `g = a^x b^y`.
+    <br>
+    由商群的阶为 `n` 知道 `b^n (:a:) = (:a:)`, 即 `b^n in (:a:)`.
+    于是可记 `b^n = a^r`. 又由 `(:a:)` 是正规子群知道 `b a b^-1 in (:a:)`, 于是可记 `b a b^-1 = a^s`.
+    下证 `m` 整除 `r(s-1)` 和 `s^n-1`, 这只需证 `a` 的对应次方等于 `1`:
+    <span class="formula">
+      `a^(r(s-1))`
+      `= a^(s r) a^-r`
+      `= b a^r b^-1 a^-r`
+      `= b^0`
+      `= 1`,<br>
+      `a^(s^n-1)`
+      `= a^(s^n) a^-1`
+      `= b a^(s^(n-1)) b^-1 a^-1`
+      `= b^n a b^-n a^-1`
+      `= a^0`
+      `= 1`.
+    </span>
+  </li>
+  <li>
+    设 `|a| = q`,
+    下证 `q = gcd(m, r(s-1), s^n - 1)`. 由 1. 知,
+    `G` 的生成关系可以改写为 (??)
+    <span class="formula">
+      `G = (: a, b | a^m = 1, b^n = a^r, b a b^-1 = a^s, a^(r(s-1)) = a^(s^n-1) = 1 :)`,
+    </span>
+    所以 `q` 是这三个数的公约数.
+    <br>
+    下证 `(:a:)` 是正规子群.
+    利用关系 `b a b^-1 = a^s` 即 `b a = a^s b`, 可以把 `G`
+    中的元素都写成 `a^x b^y` 的形式.
+    对任意 `g = a^x b^y in G`,
+    <span class="formula">
+      `g (:a:) g^-1`
+      `= a^x b^y (:a:) b^-y a^-x`
+      `= a^x (:a:) b^y b^-y a^-x`
+      `in (:a:)`.
+    </span>
+    因此 `(:a:) normal G`.
+    <br>
+    [来自群友 幂零群]
+    下证 `G//(:a:)` 是 `n` 阶循环群.
+    `G//(:a:)` 相当于在 `G` 的生成关系中添加一条 `a = 1` (??), 于是
+    `G//(:a:) = (: a, b | a = 1, b^n = 1 :)`, 这就是 `n` 阶循环群.
+  </li>
+</ol>
+
+<h3>有限生成 Abel 群</h3>
 
 <h2>1 到 15 阶群的分类</h2>
 
