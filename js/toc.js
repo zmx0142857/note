@@ -165,12 +165,12 @@ var tocData = [
         "children": [
           { "value": "2", "label": "群 (上)", "date": "2024-07-06" },
           { "value": "3", "label": "群 (中)", "date": "2024-12-11" },
-          { "value": "4", "label": "群 (下)", "date": "2023-05-16" },
+          { "value": "4", "label": "群 (下)", "date": "2024-12-14" },
           { "value": "5", "label": "环" },
           { "value": "6", "label": "模与代数", "date": "2024-10-29" },
           { "value": "7", "label": "域", "date": "2024-06-30" },
           { "value": "8", "label": "Galois 理论", "date": "2022-01-02" },
-          { "value": "10", "label": "有限群表示论", "date": "2024-12-10" },
+          { "value": "10", "label": "有限群表示论", "date": "2024-12-14" },
         ]
       },
       {

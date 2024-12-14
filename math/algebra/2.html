@@ -484,6 +484,7 @@
 </p>
 
 <ol class="corollary" id="cor-order-of-a-m">
+  <b>幂的阶数公式</b>
 	设 `a` 是群 `G` 的 `n` 阶元, 则
 	<span class="formula">
 		`|a^m| = n/((m","n))`, `quad AA m in ZZ`.
@@ -501,6 +502,33 @@
 	得 `k | n/d`; 另一方面, 由
 	`a^(m k) = e` 知 `n | m k`, 从而 `n/d | m/d k`, 但 `(n/d, m/d) = 1`,
 	所以 `n/d | k`.
+</p>
+
+<p class="corollary">
+  <b>乘积的阶数公式</b>
+	设 `G` 为一群, `a, b in G`, 且 `a, b` 间的乘法可交换.
+	`|a| = m`, `|b| = n`, `(m, n) = 1`, 则 `|a b| = m n`.
+</p>
+
+<p class="proof">
+	记 `|a b| = k`.
+	首先由
+	<span class="formula">
+		`(a b)^(m n) = a^(m n)b^(m n) = e e = e`
+	</span>
+	有 `k | m n`.
+	其次由
+	<span class="formula">
+		`b^(m k) = a^(m k) b^(m k) = (a b)^(m k) = e`
+	</span>
+	知, `n | m k`, 而 `(m, n) = 1`, 所以 `n | k`.
+	同理 `m | k`, 再次由 `(m, n) = 1` 得 `m n | k`.
+</p>
+
+<p class="remark">
+  元素可交换的常见情形:
+  当 `a, b` 其一属于群的中心 `Z(G)` 时, `a b` 可交换;
+  或者 `a, b` 分别属于 `G` 的两个正规子群时, `a, b` 可交换.
 </p>
 
 <h2>子群</h2>
@@ -880,29 +908,11 @@
 
 <h3>Abel 群与循环群</h3>
 
-<p class="lemma">
-	设 `G` 为一群, `a, b in G`, 且 `a, b` 间的乘法可交换.
-	`|a| = m`, `|b| = n`, `(m, n) = 1`, 则 `|a b| = m n`.
-</p>
-
-<p class="proof">
-	记 `|a b| = k`.
-	首先由
-	<span class="formula">
-		`(a b)^(m n) = a^(m n)b^(m n) = e e = e`
-	</span>
-	有 `k | m n`.
-	其次由
-	<span class="formula">
-		`b^(m k) = a^(m k) b^(m k) = (a b)^(m k) = e`
-	</span>
-	知, `n | m k`, 而 `(m, n) = 1`, 所以 `n | k`.
-	同理 `m | k`, 再次由 `(m, n) = 1` 得 `m n | k`.
-</p>
-
 <p class="lemma" id="lem-abel-group-max-order">
-	令 `G` 为一 `n` 阶 Abel 群, `a` 为 `G` 中的最大阶元,
-	则对任意 `b in G`, `|b|` 整除 `|a|`.
+  <b>有限 Abel 群的指数</b>
+  令 `G` 为 `n` 阶 Abel 群, `a` 为 `G` 中的最大阶元,
+  则对任意 `b in G`, `|b|` 整除 `|a|`.
+  称 `|a|` 为有限 Abel 群 `G` 的<b>指数</b>. 注意区别于子群在群中的指数 (参见 Lagrange 定理).
 </p>
 
 <p class="proof">
@@ -918,8 +928,8 @@
 		`l = s t`, `t = p_k^(l_k)`, `m = u v`, `v = p_k^(m_k)`.
 	</span>
 	则 `|a^v| = u`, `|b^s| = t`, `(u, t) = 1`.
-	当然 `a^v` 与 `b^s` 的乘法可交换,
-	从而 `|a^v b^s| = u t gt m`, 与 `m` 是元素的最大阶矛盾.
+	当然 `a^v` 与 `b^s` 的乘法可交换, 由乘积的阶数公式有
+	`|a^v b^s| = u t gt m`, 与 `m` 是元素的最大阶矛盾.
 	因此 `l | m`.
 </p>
 

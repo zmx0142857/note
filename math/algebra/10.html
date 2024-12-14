@@ -9,8 +9,14 @@
 <body>
 
 <p>
-  [来自 <a href="https://zhuanlan.zhihu.com/p/165040308" target="_blank">ZCC@知乎</a>]
+  [来自 <a href="https://zhuanlan.zhihu.com/p/165040308" target="_blank">ZCC@知乎</a>,
+  丘维声《群表示论》
+  ]
 </p>
+
+<h2>群的线性表示</h2>
+
+<h3>线性表示的概念</h3>
 
 <ul class="definition">
   <b>群的线性表示</b>
@@ -18,21 +24,65 @@
   我们把群同态 `rho: G to GL(V)` 称为群 `G` 的一个<b>(线性) 表示 (representation)</b>.
   注意区别于群展示 (presentation).
   <li><b>表示空间</b> 是指线性空间 `V`.</li>
-  <li><b>表示维数</b> 定义为表示空间的维数 `"deg" rho := dim V`.</li>
-  <li><b>忠实</b> 是指 `"ker" rho = {1}`, 即 `rho` 只把 `G` 的单位元映为 `0` 线性变换.</li>
-  <li><b>模表示</b> 是指域的特征 `"char " bbb F` 整除群的阶 `|G|`. 否则称为<b>常表示</b>.</li>
+  <li><b>表示维数 (或次数)</b> 定义为表示空间的维数 `"deg" rho := dim V`.</li>
+  <li><b>忠实</b> 是指 `"ker" rho = {1}`, 即 `rho` 只把 `G` 的单位元映为恒等线性变换.</li>
+  <li><b>常表示</b> 是指域的特征 `"char " bbb F` 不能整除群的阶 `|G|`. 否则称为<b>模表示</b>.</li>
   <li><b>表示等价</b> 是指两个表示 `rho_1: G to GL(V_1)` 和 `rho_2: G to GL(V_2)` 相差一个相似变换,
-    即存在线性算子 `T: V_1 to V_2`, 使得
+    即存在可逆线性算子 `T: V_1 to V_2`, 使得
     <span class="formula">
       `rho_1(g) = T^-1 rho_2(g) T`, `quad AA g in G`.
     </span>
+    容易验证这是一个等价关系.
   </li>
+  <li><b>矩阵表示</b>
+    如果 `V` 是有限维的, 则 `GL(V)` 同构于 `n` 阶可逆矩阵群 `GL_n(bbb F)`.
+    `G` 到 `GL_n(bbb F)` 的同态称为 `G` 的 `n` 阶矩阵表示.
+    两个矩阵表示相互等价当且仅当它们相差一个相似变换.
+    有限维线性表示与矩阵表示是同一概念的两种不同说法: 一个是线性空间的语言, 一个是矩阵的语言.
+  </li>
+  <li><b>复/实表示</b> 是指 `bbb F = CC`/`RR` 的情形.</li>
 </ul>
 
 <p class="remark">
-  在不加说明的情况下, 下文只讨论有限群的有限维常表示 (参见 Maschke 定理). 而且通常取 `bbb F = CC`,
-  此时 `GL(V)` 相当于 `n` 阶可逆复矩阵群.
+  在不加说明的情况下, 下文只讨论有限群的有限维常表示 (参见 Maschke 定理).
 </p>
+
+<ol class="example">
+  <li><b>一次表示</b> 即群 `G` 到域 `bbb F` 的乘法群 `bbb F^xx` 的同态.
+    例如对任意 `a in RR^xx`, `f_a: x in RR^xx to "e"^("i"a x) in CC` 是实数乘法群 `RR^xx` 的一次复表示.
+  </li>
+  <li><b>置换表示: 任意一般群的线性表示</b>
+    考虑群 `G` 对有限集 `{x_1, cdots, x_n}` (视为线性空间 `V` 的基底)
+    的置换作用 `(g, x_i) mapsto g x_i`.
+    我们可以令
+    <span class="formula">
+      `rho(g)(x_i) = g x_i`.
+    </span>
+    一般地, 对任意 `v = sum a_i x_i in V`, 定义
+    <span class="formula">
+      `rho := g mapsto v mapsto sum a_i (g x_i)`,
+    </span>
+    称为 `G` 的 `n` 次置换表示.
+    `rho(g)` 在基底 `x_1, cdots, x_n` 下的矩阵是 `n` 阶置换矩阵,
+    即每行每列有一个元素是 1, 其余元素全为 0.
+  </li>
+  <li><b>正则表示: 有限群的重要表示</b> 有限群 `G` 对自身的左平移作用是 `(g, x) mapsto g x`.
+    它也是一个置换, 因此可以考虑其置换表示. `G` 的全体元素构成表示空间 `bbb F[G]` 的基底:
+    <span class="formula">
+      `sum_(g in G) a_g g in bbb F[G]`.
+    </span>
+    `G` 的正则表示 `rho` 是忠实的, 因为
+    <span class="formula">
+      `g in "Ker" rho`
+      `iff rho(g) = 1`
+      `iff (AA x in G) rho(g)(x) = x`
+      `iff (AA x in G) g x = x`
+      `iff g = 1`.
+    </span>
+  </li>
+</ol>
+
+<h3>表示的组成与分解</h3>
 
 <ol class="definition">
   <b>子表示, 商表示, 直和表示</b>
@@ -73,11 +123,22 @@
     若表示 `rho` 只有平凡的不变子空间, 则称它是<b>不可约的</b>, 否则称为可约表示.
   </li>
   <li>
-    若 `rho` 的表示空间 `V` 能分解为有限个 `G`-不变子空间的直和 `V = O+ V_k`,
-    则 `rho` 也可以分解为子表示的直和 `rho = O+ rho_(V_k)`.
-    若每个子表示都不可约, 则称 `rho` 是<b>完全可约</b>的, 意思是可以将它分解到不可约为止.
+    若 `V` 中的每个 `G`-不变子空间都有 `G`-不变补空间, 则称 `rho` 是<b>完全可约</b>的.
   </li>
 </ol>
+
+<p class="remark">
+  有限维完全可约表示可以分解为有限个不可约子表示的直和:
+  <span class="formula">
+    `V = O+ V_k`, `quad V_k` 是 `G`-不变子空间,<br>
+    `rho = O+ rho_(V_k)`, `quad rho_(V_k)` 是不可约子表示.
+  </span>
+  形象地说, 有限维完全可约, 就是可以将它完全分解到不可约为止.
+</p>
+
+<p class="remark">
+  不可约表示是群表示的基本建筑块, 也是我们研究的重点.
+</p>
 
 <ol class="corollary">
   设 `G` 有两个等价表示 `rho_1, rho_2`, 则

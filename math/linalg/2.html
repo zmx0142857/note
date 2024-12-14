@@ -989,6 +989,41 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
   </li>
 </ol>
 
+<p class="example">
+  [来自群友 vertin]
+  设实数 `a_1 lt cdots lt a_n`, `b_1 lt cdots lt b_n`,
+  矩阵 `bm A = (A_(i j)) = "e"^(a_i b_j)`, 证明: `|bm A| gt 0`.
+</p>
+
+<ol class="solution">
+  <li>
+    设 `lambda_1, cdots, lambda_n` 是不全为零的实数, 下证实函数
+    <span class="formula">
+      `f(x) = sum_(j=1)^n lambda_j "e"^(b_j x)`
+    </span>
+    至多有 `n-1` 个零点.
+  </li>
+  <li>下证 `|bm A| != 0`, 否则线性方程组 `bm (A x) = bb 0` 有非零解
+    <span class="formula">
+      `bm x = (lambda_1, cdots, lambda_n)`,
+    </span>
+    即
+    <span class="formula">
+      `sum_(j=1)^n lambda_j "e"^(a_i b_j) = 0`, `quad i = 1, cdots, n`.
+    </span>
+    与 1. 的结论矛盾. 因此 `|bm A| != 0`.
+  </li>
+  <li>行列式 `|bm A|` 关于每个 `a_i` 和 `b_j` 都是连续的,
+    根据连通空间的连续像也连通, 我们知道 `|bm A|` 的取值范围是一个连通空间.
+    但 `|bm A| != 0`, 因此只需举例说明 `|bm A| gt 0` 即可. 例如 Vandermonde 行列式
+    <span class="formula">
+      `|1, cdots, x_1^(n-1);
+        vdots, , vdots;
+        1, cdots, x_n^(n-1)| gt 0`.
+    </span>
+  </li>
+</ol>
+
 <script>
 var asciimath = {
   define: [
