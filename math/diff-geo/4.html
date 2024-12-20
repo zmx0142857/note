@@ -373,19 +373,20 @@
   上式两边置换 `beta, gamma` 并相减, 就能联系起 Codazzi 方程的两个等价形式.
 </p>
 
-<h3>Gauss-Codazzi 方程中的独立方程</h3>
+<h3>Riemann 记号与独立方程的个数</h3>
 
 <p class="definition">
   由于 `alpha, beta, gamma, xi = 1, 2`, Gauss 方程共有 16 个, Codazzi
 	方程共 8 个. 不过实质上 Gauss 方程只有 1 个独立方程, Codazzi 方程只有
-	2 个独立方程. 为说明这一点, 用 `g_(delta xi)` 乘 Gauss 方程左边, 称为
-  <b>Riemann 记号</b>:
+	2 个独立方程. 为说明这一点, 将 Gauss 方程左边记作 `R_(alpha beta gamma)^xi`,
+    乘上 `g_(delta xi)` 后, 称为 <b>Riemann 记号</b>:
 	<span class="formula">
-		`R_(delta alpha beta gamma)`
-    `= g_(delta xi)(b_(alpha beta)b_gamma^xi - b_(alpha gamma)b_beta^xi)`
-		`= b_(alpha beta) b_(gamma delta) - b_(alpha gamma) b_(beta delta)`
-    `= |b_(alpha beta), b_(alpha gamma);
-        b_(beta delta), b_(gamma delta)|`.
+      `R_(delta alpha beta gamma)`
+      `= g_(delta xi) R_(alpha beta gamma)^xi`
+      `= g_(delta xi)(b_(alpha beta)b_gamma^xi - b_(alpha gamma)b_beta^xi)`
+      `= b_(alpha beta) b_(gamma delta) - b_(alpha gamma) b_(beta delta)`
+      `= |b_(alpha beta), b_(alpha gamma);
+      b_(beta delta), b_(gamma delta)|`.
 	</span>
 </p>
 
@@ -400,7 +401,7 @@
 </p>
 
 <p class="theorem">
-  Gauss 方程的左边也满足同样的置换性质; 因此 Gauss 方程中只有一个独立方程
+  Gauss 方程的右边也满足同样的置换性质; 因此 Gauss 方程中只有一个独立方程
 	<span class="formula">
 		`R_1212 = -(b_11 b_22 - b_12^2)`.
 	</span>
@@ -409,7 +410,7 @@
 <ol class="proof">
   <li>
     利用 <a class="ref" href="#christoffel2"></a> 计算 Gauss
-    方程左边一半的项:
+    方程右边一半的项:
     <span class="formula">
       `g_(delta xi) ((del Gamma_(alpha beta)^xi)/(del u^gamma)
       + Gamma_(alpha beta)^eta Gamma_(eta gamma)^xi)`
@@ -459,6 +460,7 @@
 </p>
 
 <p class="corollary">
+  <b>特殊坐标系中的 Gauss-Codazzi 方程</b>
   当 `(u,v)` 为正交参数系, 即 `F -= 0` 时, 记 `A = sqrt E`, `B = sqrt G`, `K = (LN-M^2)/(EG)`,
   Gauss 方程化简为
   <span class="formula">
