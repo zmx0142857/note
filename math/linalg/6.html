@@ -1349,87 +1349,16 @@ A.pinv() # Moore-Penrose 伪逆
   </li>
 </ol>
 
-<h2>杂例</h2>
+<h3>根子空间</h3>
 
-<p class="example">
-  [来自群友 SmartPig]
-  如果存在正整数 `k` 使得 `bm A^k = bm O`, 则称 `bm A` 为幂零矩阵.
-  设 `bm A` 为 `n` 阶幂零矩阵,
-  证明: `bm A != bm O` 时, 它至多有 `n-1` 个线性无关的特征向量.
+<p class="definition">
+  线性变换 `cc A in L(V)` 关于特征值 `lambda` 的<b>根子空间</b>是指
+  <span class="formula">
+    `R_lambda := uuu_(k ge 1) "Ker"(cc A - lambda bb I)^k`
+    `= { bm v in V | EE k in ZZ^+, (cc A - lambda bb I)^k bm v = 0 }`.
+  </span>
+  换言之, 根子空间包含所有在 `cc A - lambda bb I` 的高次幂作用下被映射为零的向量.
 </p>
-
-<p class="proof">
-  首先, 幂零矩阵的特征值必为 0. 这是因为 `bm A^k = bm O` 的特征值是 `bm A` 的特征值的 `k` 次方.
-  如果 `bm A` 有 `n` 个线性无关的特征向量, 则它可对角化, 换言之 `bm A` 相似于 `bm O`.
-  然而 `bm O` 只和自己相似, 这推出 `bm A = bm O`, 矛盾.
-</p>
-
-<p class="example">
-  `n` 阶矩阵 `bm A` 是幂零矩阵当且仅当它的特征值全为零.
-</p>
-
-<p class="proof">
-  `rArr`: `bm A^k = bm O` 的特征值是 `bm A` 的特征值的 `k` 次方, 但 `bm O` 的特征值全为零, 所以 `bm A` 的特征值也全为零.
-  <br>
-  `lArr`: 由 `bm A` 的特征值全为零知道它的特征多项式是 `x^n`. 因此由 Cayley-Hamilton 定理得到 `bm A^n = bm O`.
-</p>
-
-<ol class="example">
-  设 `bm A` 是 `n` 阶实反对称矩阵, 则
-  <li>对任意 `bm x in RR^n` 有 `bm x^(sf T) bm A bm x = 0`.
-  </li>
-  <li>`bm A` 的特征值是零, 或成对共轭的纯虚数.</li>
-  <li>
-    作为 2. 的推论: `|bm A|` 是一个非负实数.
-    特别当 `n` 为奇数时 `bm A` 必有零特征值, `|bm A| = 0`.
-    此外, 若 `bm B` 实正定, `bm A` 实反对称, 则 `|bm A + bm B| gt 0`.
-  </li>
-  <li>设 `bm A` 的全部非零特征值是 `+-"i" b_k`, `k = 1, cdots, r`, 则 `"rank"(bm A) = 2 r`,
-    且 `bm A` 正交相似于
-    <span class="formula">
-      `"diag"(bm B_1, cdots, bm B_r, 0, cdots, 0)`.
-    </span>
-    其中 `bm B_k = [, b_k; -b_k, ]`.
-  </li>
-</ol>
-
-<ol class="proof">
-  <li>
-    这是因为
-    <span class="formula">
-      `bm x^(sf T) bm A bm x`
-      `= (bm (A x))^(sf T) bm x`
-      `= -bm x^(sf T) bm A bm x`.
-    </span>
-    移项再除以 2 就得到结论. [注]
-  </li>
-  <li>设 `bm A bm x = lambda bm x`, 两边左乘 `bm x` 的共轭转置得
-    <span class="formula">
-      `bar (bm x)^(sf T) bm (A x)`
-      `= lambda bar (bm x)^(sf T) bm x`
-      `= lambda |bm x|^2`.
-    </span>
-    上式两边取共轭转置,
-    <span class="formula">
-      `bar lambda |bm x|^2`
-      `= bar (bm (A x))^(sf T) bm x`
-      `= -bar (bm x)^(sf T) bm (A x)`.
-    </span>
-    比较两式, 同时消去 `|bm x|^2 != 0` 得到 `bar lambda = -lambda`, 因此 `lambda` 是纯虚数.
-  </li>
-  <li>
-    首先因为 `bm I + bm A` 的特征值形如 `1 +- "i"b_k`, 全部相乘就得到 `|bm I + bm A| gt 0`.
-    然后由于 `bm B` 正定可设 `bm I = bm P^(sf T) bm (B P)`, 则
-    <span class="formula">
-      `bm P^(sf T) (bm A + bm B) bm P`
-      `= bm P^(sf T) bm (A P) + bm I`.
-    </span>
-    其中 `bm P^(sf T) bm (A P)` 实反对称, 因此上式右边的行列式为正, 约去 `|bm P|^2` 就得到
-    `|bm A + bm B| gt 0`.
-  </li>
-  <hr>
-  [注] 当 `bm A` 是 `bbb F` 上的反对称矩阵时, 只要 `"char" bbb F != 2`, 1. 的结论都成立.
-</ol>
 
 <script>
 var asciimath = {

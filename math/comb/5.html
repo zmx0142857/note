@@ -772,6 +772,43 @@ print(golomb(6))
 得到的前几个尺子:
 </div>
 
+<p class="example">
+  [来自群友 光绪三十一年钦点的武举人,
+  <a href="https://math.stackexchange.com/questions/3259887/distribution-of-matrix-rank-over-finite-fields" target="_blank">MSE</a>]
+  有限域 `bbb F_q` 上, `n xx n` 可逆矩阵的数目是
+  <span class="formula">
+    `prod_(k=0)^(n-1) (q^n - q^k)`.
+  </span>
+  秩为 `k` 的 `n xx m` 矩阵的数目记为 `R_k(n, m)`, 它满足递推式
+  <span class="formula">
+    `R_k(n, m) = R_k(n-1, m) * q^k + R_(k-1)(n-1, m) * (q^m - q^(k-1))`,
+  </span>
+  和边界条件
+  <span class="formula">
+    `R_k(n, m) = {1, if k = 0; 0, if k gt min(n, m):}`,
+  </span>
+  于是
+  <span class="formula">
+    `R_k(n, m) = [n;k]_q [m;k]_q [k]_q ! q^((k;2)) (q-1)^k`.
+  </span>
+  公式涉及 q-binomial 和 q-factorial.
+</p>
+
+<ol class="proof">
+  证明草稿:
+  <li>
+    第一行不为零向量即可; 第二行不能等于第一行的倍数, 共排除 `q` 个向量;
+    第三行不能等于前两行的线性组合, 共排除 `q^2` 个向量……
+  </li>
+  <li>一个秩 `k` 的 `n xx m` 矩阵有两种情况:
+    一是前 `n-1` 行的秩为 `k`, 这时最后一行是它们的线性组合;
+    二是前 `n-1` 的秩为 `k-1`, 这时最后一行与它们线性无关.
+  </li>
+  <hr>
+  `QQ` 上的 `n` 阶可逆矩阵数目参见 <a href="https://oeis.org/A055165" target="_blank">OEIS A055165</a>.
+</ol>
+
+
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/table.js"></script>
 <script>

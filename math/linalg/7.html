@@ -183,6 +183,7 @@
     和二阶 Jordan 块 `bm J_2 = [lambda, 1; , lambda]` 不相似.
     这是因为如果它们相似, 则 `bm J_1 - lambda bm I` 和 `bm J_2 - lambda bm I` 也相似, 但这不可能, 因为
     `"rank"(bm J_1 - lambda bm I) = 0`, 而 `"rank"(bm J_2 - lambda bm I) = 1`.
+    相似矩阵的秩总是相等的: 这是因为相似矩阵间相差若干初等变换, 而初等变换不改变矩阵的秩.
   </li>
   <li>为了判断出 2. 中究竟是哪种 Jordan 块, 考虑 `(bm J - lambda bm I)^k` 的秩
     <span class="formula">
@@ -190,6 +191,10 @@
        `= "rank"(bm A - lambda bm I)^k`,
        `quad k = 0, 1, cdots`.
     </span>
+    注意: 我们事先不知道 `bm J` 的形式, 因此无法直接求出 `"rank"(bm J - lambda bm I)^k`,
+    但可以改为求 `"rank"(bm A - lambda bm I)^k`.
+  </li>
+  <li>
     `k = 0` 时, `(bm J - lambda bm I)^0 = bm I` 的秩为 `r_0 = n`.
     `k = 1` 时, `bm J - lambda bm I` 把 `bm J` 的主对角线变为零, 于是所有 Jordan 块的秩都减少 1.
     换言之, `r_0 - r_1 =` 所有 Jordan 块的数目.
@@ -203,14 +208,19 @@
     <span class="formula">
       `(r_k - r_(k-1)) - (r_(k+1) - r_k) =` 阶数等于 `k` 的 Jordan 块数目.
     </span>
-    注意: 我们事先不知道 `bm J` 的形式, 因此无法直接求出 `"rank"(bm J - lambda bm I)`,
-    但可以改为求 `"rank"(bm A - lambda bm I)`.
   </li>
   <li>
     对 `bm A` 的各个不同的特征值重复上述操作.
     得知了各阶 Jordan 块的数目后, Jordan 标准形就完全确定了.
   </li>
 </ol>
+
+<pre>
+from sympy import Matrix
+m = Matrix([[...]])
+p, d = m.jordan_form()
+simplify(p**-1*m*p - d) # zero matrix
+</pre>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

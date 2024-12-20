@@ -87,13 +87,14 @@
 <ol class="definition">
   <b>子表示, 商表示, 直和表示</b>
   设 `rho: G to GL(V)` 是 `G` 的一个表示. `W` 是 `V` 的线性子空间.
-  <li>若 `W` 满足
+  <li>若对任意 `g in G`, `W` 都是线性变换 `rho(g)` 的不变子空间, 即
     <span class="formula">
       `rho(g)(W) sube W`, `quad AA g in G`,
     </span>
-    则称 `W` 是 `G`-不变子空间. `0` 和 `V` 是两个平凡的不变子空间.
+    则称 `W` 是 <b>`G` 不变子空间</b>. `0` 和 `V` 是两个平凡的 `G` 不变子空间.
+    两个 `G` 不变子空间的交与和仍是 `G` 不变子空间.
   </li>
-  <li>设 `W` 是 `G`-不变子空间. 将 `rho(g)` 限制在子空间 `W` 上, 得到
+  <li>设 `W` 是 `G` 不变子空间. 将 `rho(g)` 限制在子空间 `W` 上, 得到
     <span class="formula">
       `rho_W := g mapsto rho(g)|_W`,
     </span>
@@ -105,6 +106,10 @@
     </span>
     也诱导了表示 `bar rho`, 称为 `W` 诱导的 `rho` 的<b>商表示</b>.
   </li>
+  <li>
+    若 `V_1, V_2` 是 `V` 的两个 `G` 不变子空间, 且 `V = V_1 o+ V_2`, 则它们互为
+    <b>`G` 不变补空间</b>.
+  </li>
   <li>设 `rho_1, rho_2` 是 `G` 的两个表示, 表示空间为 `V_1, V_2`. 则
     <span class="formula">
       `rho_1 o+ rho_2 := g mapsto rho_1(g) o+ rho_2(g)`
@@ -113,24 +118,23 @@
   </li>
 </ol>
 
-<p class="remark">
-  在线性代数中, 线性变换 `cc A` 的不变子空间是指 `cc A(W) sube W`.
-</p>
-
 <ol class="definition">
   <b>可约性</b>
   <li>
-    若表示 `rho` 只有平凡的不变子空间, 则称它是<b>不可约的</b>, 否则称为可约表示.
+    若表示 `rho` 只有平凡的不变子空间, 则称它是<b>不可约的</b>, 否则是可约的.
+    显然一次表示都是不可约的.
   </li>
   <li>
-    若 `V` 中的每个 `G`-不变子空间都有 `G`-不变补空间, 则称 `rho` 是<b>完全可约</b>的.
+    若 `V` 中的每个 `G` 不变子空间都有 `G` 不变补空间, 则称 `rho` 是<b>完全可约</b>的.
+    不可约表示都是完全可约的.
+    完全可约表示的子表示也完全可约.
   </li>
 </ol>
 
-<p class="remark">
+<p class="corollary">
   有限维完全可约表示可以分解为有限个不可约子表示的直和:
   <span class="formula">
-    `V = O+ V_k`, `quad V_k` 是 `G`-不变子空间,<br>
+    `V = O+ V_k`, `quad V_k` 是 `G` 不变子空间,<br>
     `rho = O+ rho_(V_k)`, `quad rho_(V_k)` 是不可约子表示.
   </span>
   形象地说, 有限维完全可约, 就是可以将它完全分解到不可约为止.
@@ -149,6 +153,96 @@
 <p class="theorem">
   <b>(Maschke)</b> 有限群的有限维常表示是完全可约的.
   (非常好性质!)
+</p>
+
+<ol class="proof">
+  <li>设 `(varphi, V)` 是群 `G` 的线性表示.
+    若 `varphi` 不可约, 则它完全可约.
+    下设 `varphi` 可约, 则存在非平凡的 `G` 不变子空间 `V_1 sube V`.
+    根据线性空间相关理论, 存在 `V_1` 的补空间 `V_2` 使得 `V = V_1 o+ V_2`.
+    但 `V_2` 未必是 `G` 不变的. 我们打算在 `V_2` 的基础上作出 `V_1` 的 `G` 不变补空间.
+  </li>
+  <li>
+    由线性变换相关理论知道, 如果线性变换 `bm A, bm B` 可交换, 则 `"Im"bm B` 是 `bm A` 的不变子空间.
+    因此, 如果对任意 `g in G` 有 `varphi(g) bm B = bm B varphi(g)`, 则 `"Im"bm B`
+    就是一个 `G` 不变子空间.
+  </li>
+  <li>
+    我们希望进一步有 `V = V_1 o+ "Im"bm B`. 回想投影变换的相关性质: 若 `bm B`
+    是投影变换, 则 `V = "Ker"bm B o+ "Im"bm B`. 因此只需让 `V_1 = "Ker"bm B` 即可.
+  </li>
+  <li>
+    具体做法如下: 由于 `V = V_1 o+ V_2`, 存在<a href="../linalg/1#exp-proj-map">投影变换</a>
+    `bm P` 使得
+    <span class="formula">
+      `V_1 = "Ker" bm P`, `quad V_2 = "Im" bm P`.
+    </span>
+    因为 `G` 是有限群, 可以令
+    <span class="formula">
+      `bm B = b sum_(h in G) varphi(h) bm P varphi(h)^-1`,
+    </span>
+    其中 `b in bbb F-{0}` 是一个待定系数.  于是对任意 `g in G`,
+    <span class="formula align">
+      `varphi(g) bm B varphi(g)^-1`<br>
+      `= b sum_(h in G) varphi(g h) bm P varphi(g h)^-1`<br>
+      `= b sum_(y in G) varphi(y) bm P varphi(y)^-1`<br>
+      `= bm B`.
+    </span>
+    由 2. 知 `"Im"bm B` 是一个 `G` 不变子空间.
+  </li>
+  <li>
+    根据 3. 的启发, 我们希望有 `"Ker"bm B = V_1`, 且 `bm B` 是一个投影变换.
+    下面探究 `"Ker"bm B` 与 `V_1` 的关系.  任取 `v in V_1`,
+    因为 `V_1` 是 `G` 不变子空间, `varphi(h)^-1 v in V_1`, 又 `V_1 = "Ker" bm P`, 有
+    <span class="formula">
+      `bm B v`
+      `= b sum_(h in G) varphi(h) bm P varphi(h)^-1 v`
+      `= b sum_(h in G) varphi(h) 0`
+      `= 0`,
+    </span>
+    于是 `V_1 sube "Ker"bm B`.
+  </li>
+  <li>
+    我们还需证明 (1) `"Ker"bm B sube V_1`; (2) `bm B` 是一个投影变换.
+    下面指出, 只要证明
+    <span class="formula">
+      (3) 对任意 `v in V` 有 `v - bm B v in V_1`.
+    </span>
+    就可以同时得到 (1) (2) 两个结论. 这是因为一方面对任意 `v in V`,
+    `v - bm B v in V_1 sube "Ker"bm B`,
+    所以 `bm B(v - bm B v) = 0`, 即 `bm B^2 = bm B`, 说明 `bm B` 是投影变换;
+    另一方面, 对任意 `u in "Ker"bm B`, 有 `u = u - bm B u in V_1`, 即 `"Ker"bm B sube V_1`.
+  </li>
+  <li>
+    下面证 (3). 把 `v - bm B v` 写为 `(bm(I-B)) v`, 其中
+    <span class="formula">
+      `bm(I-B)`
+      `= 1/|G| sum_(h in G) bm I - b sum_(h in G) varphi(h) bm P varphi(h)^-1`.
+    </span>
+    由于 `varphi` 是常表示, `|G| != 0_(bbb F)`, 所以 `|G|` 在 `bbb F` 中有逆元.
+    特别取 `b = 1//G` 时, 上式化为
+    <span class="formula">
+      `bm(I-B)`
+      `= 1/|G| sum_(h in G) varphi(h)(bm I - bm P)varphi(h)^-1`.
+    </span>
+    注意到 `bm(I-P)` 也是投影变换, 且 `"Im"(bm(I-P)) = "Ker"bm P = V_1`, 因此 `AA h in G`,
+    <span class="formula align">
+      `varphi(h) (bm I - bm P) varphi(h)^-1 v in V_1`
+    </span>
+    从而 `(bm(I-B)) v in V_1`.  证毕.
+  </li>
+</ol>
+
+<p class="remark">
+  由证明过程知道, 对 `V` 的任意 `G` 不变子空间 `V_1`, 令 `bm P` 是一个投影变换,
+  使得 `"Ker"bm P = V_1`, 则 `"Im"bm B` 就是 `V_1` 的一个 `G` 不变补空间, 其中
+  <span class="formula">
+    `bm B = 1/|G| sum_(h in G) varphi(h) bm P varphi(h)^-1`.
+  </span>
+</p>
+
+<p class="remark">
+  正如驴桥定理是几何原本九九八十一难的第一难一样, Maschke 定理是群表示论的第一难. 加油!
 </p>
 
 <script src="../../js/note.js?type=math"></script>

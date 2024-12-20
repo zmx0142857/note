@@ -327,64 +327,89 @@
 	<li>`(c bm A)^-1 = c^-1 bm A^-1`.</li>
 </ol>
 
-<h2>矩阵运算进阶</h2>
+<h2>矩阵的初等变换</h2>
 
-<h3>几类矩阵可交换的结论</h3>
-
-<ol class="proposition">
-	<li>设 `bm A, bm B` 是同阶对称矩阵, 则 `bm(A B)` 是对称矩阵当且仅当
-		`bm A, bm B` 可交换.
-	</li>
-	<li>如果方阵 `bm A` 满足 `bm A^2 = bm I`, 则称它为<b>对合矩阵</b>.
-		对合矩阵的逆就是自己. 设 `bm A, bm B` 是同阶对合矩阵, 则 `bm(A B)`
-		是对合矩阵当且仅当 `bm A, bm B` 可交换.
-	</li>
-	<li>如果方阵 `bm A` 满足 `bm A^2 = bm A`, 则称它为<b>幂等矩阵</b>.
-		所有幂等矩阵中只有单位阵可逆. 设 `bm A, bm B` 是同阶幂等矩阵, 则
-		`bm(A+B)` 是幂等矩阵当且仅当 `bm (A B) = bm (B A) = bm O`.
-	</li>
+<ol class="definition">
+	规定矩阵的三种行初等变换:
+	<li>将矩阵第 `i` 行的每个元素都乘以非零常数 `c`, 记作 `[i(c)]`;</li>
+	<li>将矩阵第 `j` 行的 `k` 倍加到第 `i` 行上, 记作 `[i+j(k)]`;</li>
+	<li>将矩阵第 `i`, `j` 行交换位置, 记作 `[i,j]`.</li>
+	类似可规定三种列初等变换, 分别记为 `{i(c)}`, `{i+j(k)}`, `{i,j}`.<br/>
+	将三种行 (列) 初等变换分别作用于 `n` 阶单位矩阵, 得到
+	第一类初等矩阵:
+	<span class="formula">
+		`[bm I_(i-1), , ;
+		  ,c, ;
+		  , ,bm I_(n-i)]`
+		  `= (epsi_1, cdots, epsi_(i-1), c epsi_i, epsi_(i+1), cdots,
+		  epsi_n)`.
+	</span>
+	第二类初等矩阵:
+	<span class="formula">
+		`[bm I_(i-1), , , , ;
+		  ,1,cdots,k, ;
+		  , ,ddots,vdots, ;
+		  , , ,1, ;
+		  , , , ,bm I_(n-j)]`
+		  `= (epsi_1, cdots, epsi_(j-1), k epsi_i + epsi_j, epsi_(j+1),
+		  cdots, epsi_n)`.
+	</span>
+	和第三类初等矩阵:
+	<span class="formula">
+		`[bm I_(i-1), , , , ;
+		  ,0,cdots,1, ;
+		  ,vdots,bm I_(j-i-1),vdots, ;
+		  ,1,cdots,0, ;
+		  , , , ,bm I_(n-j)]`
+		  `= (epsi_1, cdots, epsi_(i-1), epsi_j, epsi_(i+1), cdots,
+		  epsi_(j-1), epsi_i, epsi_(j+1), cdots, epsi_n)`.
+	</span>
+	容易计算验证, 用第 `i` 类初等矩阵左 (右) 乘一矩阵 `bm A`,
+	相当于对 `bm A` 施以第 `i` 类初等行 (列) 变换, `i = 1,2,3`.
+	初等矩阵都是可逆的, 它们的逆分别是同一类的初等矩阵.
 </ol>
 
-<p class="remark">
-  或许, 对合矩阵是矩阵家族中的「二次元」.
+<p class="example">
+  每行每列恰有一个元素为 1, 其他元素为 0 的方阵称为<b>置换矩阵</b>,
+  它表示 `[1..n]` 的一个置换.
+  置换矩阵是若干个第三类初等矩阵的乘积.
 </p>
 
-<ol class="proof">
-	<li>设 `bm((A B))^T = bm(A B)`, 即
-		<span class="formula">
-			`bm((A B))^T = bm((B^T A^T))^T = bm((B A))^T`,
-		</span>
-		即 `bm(A B) = bm(B A)`. 反面的证明是容易的.
-	</li>
-	<li>先设 `bm(A B A B) = bm I`,
-		于是
-		<span class="formula">
-			`bm B^-1 = bm(A B A)`, `bm A^-1 = bm(B A B)`.
-		</span>
-		因为 `bm A^2 = bm B^2 = bm I`, 有
-		<span class="formula">
-			`bm(A B A B) = bm A^2 bm B^2`,
-		</span>
-		左边同乘以 `bm A^-1`, 右边同乘以 `bm B^-1` 就得到 `bm(B A) = bm(A
-		B)`. 反之类似.
-	</li>
-	<li>先设 `bm((A+B))^2 = bm A + bm B`, 于是
-		<span class="formula">
-			`bm A + bm B`
-			`= bm A^2 + bm(A B + B A) + bm B^2`
-			`= bm A + bm(A B + B A) + bm B`.
-		</span>
-		比较得 `bm(A B) = -bm(B A)`.
-		于是
-		<span class="formula">
-			`bm(A B) = bm(A A B)`
-			`= bm(A (-B A)) = -bm((A B)A)`
-			`= bm(B A A) = bm(B A)`.
-		</span>
-		但 `bm(A B) = -bm(B A)`, 于是 `bm(A B) = bm(B A) = bm O`.
-		反面的证明的容易的.
-	</li>
-</ol>
+<p class="definition">
+	如果 `m xx n` 矩阵 `bm A` 可经有限次初等变换化为 `bm B`,
+	则称 `bm A, bm B` <b>等价</b>, 记为 `bm A ~ bm B`.
+	矩阵的等价是一种等价关系.
+</p>
+
+<p class="corollary">
+	`m xx n` 阶矩阵 `bm A, bm B` 等价当且仅当存在 `m` 阶初等矩阵
+	`{bm P_i}_(i=1)^s` 和 `n` 阶初等矩阵 `{bm Q_j}_(j=1)^t`, 使得
+	<span class="formula">
+		`bm B = bm P_s cdots bm P_2 bm P_1 bm A bm Q_1 bm Q_2 cdots bm
+		Q_t`.
+	</span>
+</p>
+
+<p class="theorem">
+	任意 `m xx n` 矩阵等价于如下形状的矩阵
+	<span class="formula">
+		`bm overset ~ A = [bm I_r, bm O; bm O, bm O]_(m xx n)`,
+	</span>
+	称为 `bm A` 的<b>等价标准形</b>, 其中 `0 le r le min{m,n}`.
+</p>
+
+<p class="example">
+	任意方阵可分解为一可逆矩阵与一对称矩阵的乘积.
+</p>
+
+<p class="proof">
+	设 `bm A = bm(P overset ~ A Q)`, 其中 `bm P, bm Q` 可逆, `bm overset
+	~A` 是 `bm A` 的等价标准形, 显然 `bm overset ~ A` 对称. 于是
+	`bm A = bm (P(Q^T)^-1 Q^T overset ~ A Q)`, 其中 `bm(P(Q^T)^-1)` 可逆,
+	`bm (Q^T overset ~ A Q)` 对称.
+</p>
+
+<h2>矩阵运算进阶</h2>
 
 <h3>正交矩阵</h3>
 
@@ -793,81 +818,309 @@
   </li>
 </ol>
 
-<h2>矩阵的初等变换</h2>
+<h2>几类特殊矩阵*</h2>
 
-<ol class="definition">
-	规定矩阵的三种行初等变换:
-	<li>将矩阵第 `i` 行的每个元素都乘以非零常数 `c`, 记作 `[i(c)]`;</li>
-	<li>将矩阵第 `j` 行的 `k` 倍加到第 `i` 行上, 记作 `[i+j(k)]`;</li>
-	<li>将矩阵第 `i`, `j` 行交换位置, 记作 `[i,j]`.</li>
-	类似可规定三种列初等变换, 分别记为 `{i(c)}`, `{i+j(k)}`, `{i,j}`.<br/>
-	将三种行 (列) 初等变换分别作用于 `n` 阶单位矩阵, 得到
-	第一类初等矩阵:
-	<span class="formula">
-		`[bm I_(i-1), , ;
-		  ,c, ;
-		  , ,bm I_(n-i)]`
-		  `= (epsi_1, cdots, epsi_(i-1), c epsi_i, epsi_(i+1), cdots,
-		  epsi_n)`.
-	</span>
-	第二类初等矩阵:
-	<span class="formula">
-		`[bm I_(i-1), , , , ;
-		  ,1,cdots,k, ;
-		  , ,ddots,vdots, ;
-		  , , ,1, ;
-		  , , , ,bm I_(n-j)]`
-		  `= (epsi_1, cdots, epsi_(j-1), k epsi_i + epsi_j, epsi_(j+1),
-		  cdots, epsi_n)`.
-	</span>
-	和第三类初等矩阵:
-	<span class="formula">
-		`[bm I_(i-1), , , , ;
-		  ,0,cdots,1, ;
-		  ,vdots,bm I_(j-i-1),vdots, ;
-		  ,1,cdots,0, ;
-		  , , , ,bm I_(n-j)]`
-		  `= (epsi_1, cdots, epsi_(i-1), epsi_j, epsi_(i+1), cdots,
-		  epsi_(j-1), epsi_i, epsi_(j+1), cdots, epsi_n)`.
-	</span>
-	容易计算验证, 用第 `i` 类初等矩阵左 (右) 乘一矩阵 `bm A`,
-	相当于对 `bm A` 施以第 `i` 类初等行 (列) 变换, `i = 1,2,3`.
-	初等矩阵都是可逆的, 它们的逆分别是同一类的初等矩阵.
-</ol>
-
-<p class="definition">
-	如果 `m xx n` 矩阵 `bm A` 可经有限次初等变换化为 `bm B`,
-	则称 `bm A, bm B` <b>等价</b>, 记为 `bm A ~ bm B`.
-	矩阵的等价是一种等价关系.
-</p>
-
-<p class="corollary">
-	`m xx n` 阶矩阵 `bm A, bm B` 等价当且仅当存在 `m` 阶初等矩阵
-	`{bm P_i}_(i=1)^s` 和 `n` 阶初等矩阵 `{bm Q_j}_(j=1)^t`, 使得
-	<span class="formula">
-		`bm B = bm P_s cdots bm P_2 bm P_1 bm A bm Q_1 bm Q_2 cdots bm
-		Q_t`.
-	</span>
-</p>
-
-<p class="theorem">
-	任意 `m xx n` 矩阵等价于如下形状的矩阵
-	<span class="formula">
-		`bm overset ~ A = [bm I_r, bm O; bm O, bm O]_(m xx n)`,
-	</span>
-	称为 `bm A` 的<b>等价标准形</b>, 其中 `0 le r le min{m,n}`.
-</p>
+<h3>幂零矩阵</h3>
 
 <p class="example">
-	任意方阵可分解为一可逆矩阵与一对称矩阵的乘积.
+  [来自群友 SmartPig]
+  如果存在正整数 `k` 使得 `bm A^k = bm O`, 则称 `bm A` 为<b>幂零矩阵 (nilpotent matrix)</b>.
+  设 `bm A` 为 `n` 阶幂零矩阵,
+  证明: `bm A != bm O` 时, 它至多有 `n-1` 个线性无关的特征向量.
 </p>
 
 <p class="proof">
-	设 `bm A = bm(P overset ~ A Q)`, 其中 `bm P, bm Q` 可逆, `bm overset
-	~A` 是 `bm A` 的等价标准形, 显然 `bm overset ~ A` 对称. 于是
-	`bm A = bm (P(Q^T)^-1 Q^T overset ~ A Q)`, 其中 `bm(P(Q^T)^-1)` 可逆,
-	`bm (Q^T overset ~ A Q)` 对称.
+  首先, 幂零矩阵的特征值必为 0. 这是因为 `bm A^k = bm O` 的特征值是 `bm A` 的特征值的 `k` 次方.
+  如果 `bm A` 有 `n` 个线性无关的特征向量, 则它可对角化, 换言之 `bm A` 相似于 `bm O`.
+  然而 `bm O` 只和自己相似, 这推出 `bm A = bm O`, 矛盾.
 </p>
+
+<p class="example">
+  `n` 阶矩阵 `bm A` 是幂零矩阵当且仅当它的特征值全为零.
+</p>
+
+<p class="proof">
+  `rArr`: `bm A^k = bm O` 的特征值是 `bm A` 的特征值的 `k` 次方, 但 `bm O` 的特征值全为零, 所以 `bm A` 的特征值也全为零.
+  <br>
+  `lArr`: 由 `bm A` 的特征值全为零知道它的特征多项式是 `x^n`. 因此由 Cayley-Hamilton 定理得到 `bm A^n = bm O`.
+</p>
+
+<h3>幂等矩阵</h3>
+
+<ol class="example">
+  <b>幂等矩阵 (idempotent matrix) 或投影矩阵 (projection matrix)</b> 是指满足 `bm A^2 = bm A` 的方阵.
+  <li>零矩阵、单位矩阵是幂等矩阵. 某行全为 1 而其他行全为 0 的矩阵是幂等矩阵.
+    可逆幂等矩阵必为单位矩阵.
+  </li>
+  <li>设 `bm A` 是幂等矩阵, 则 `bm A^T`, `bm A^H`, `bm A^ast`, `bm P^-1 bm (A P)`,
+    `bm A^k`, `bm I - bm A` 都是幂等矩阵.
+  </li>
+  <li>
+    幂等矩阵的特征值不是 1 就是 0.
+    幂等矩阵的最小多项式为 `x^2 - x`, 且无重根;
+    因此幂等矩阵总是可以对角化, 且相似于
+    <span class="formula">
+      `"diag"(1, cdots, 1, 0, cdots, 0)`.
+    </span> 
+  </li>
+  <li>相似矩阵的迹与秩均不变, 因此幂等矩阵的迹等于秩: `"tr"(bm A) = "rank"(bm A)`.</li>
+</ol>
+
+<ol class="example" id="exp-proj-map">
+  <b>投影变换的性质</b>
+  设 `cc A in L(V)` 是幂等线性变换 (投影变换), 则
+  <li>`V = "Ker" cc A o+ "Im" cc A`.</li>
+  <li>`"Ker"(bb I - cc A) = "Im" cc A`,
+    或等价地, `cc A bm v = bm v` `iff bm v in "Im"cc A`.
+    这告诉我们, 投影变换保持 `"Im" cc A` 中的向量不变, 而将 `"Ker" cc A` 中的向量映为零.
+  </li>
+  <li>反之, 若 `V = V_1 o+ V_2`, 则存在投影变换 `P` 使得 `V_1 = "Ker"P`, `V_2 = "Im"P`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    这是因为任意 `bm v in V` 可以写成 `(bm v - cc A bm v) + cc A bm v`.
+    假如 `cc A bm v in "Ker" cc A nn "Im" cc A`, 则 `cc A bm v = cc A^2 bm v = 0`,
+    这证明了 `"Ker" cc A nn "Im" cc A = {0}`.
+  </li>
+  <li>
+    由 1. 知任意 `bm v in V` 有唯一分解 `bm v = (bm v - cc A bm v) + cc A bm v`, 立即得到结论.
+  </li>
+  <li>分别取 `V_1` 和 `V_2` 的基底 `{bm u_i}` 和 `{bm v_i}`, 它们合起来组成了 `V` 的基底.
+    受 2. 的启发, 令 `P(bm u_i) = 0`, `P(bm v_i) = bm v_i`, 则 `P` 就是满足条件的投影变换.
+  </li>
+</ol>
+
+<p class="remark">
+  投影变换 `cc A` 限制在 `"Im" cc A` 上是恒等映射, 限制在 `"Ker" cc A` 上是零映射.
+  从矩阵的角度看, 相似标准形 `"diag"(1, cdots, 1, 0, cdots, 0)` 中对角线 1 的部分对应 `cc A` 的像,
+  0 的部分对应 `cc A` 的核.
+  可以将 `"Im" cc A` 想象成三维欧氏空间的平面, `"Ker" cc A` 是在原点与平面相交的直线.
+  于是 `cc A` 的作用相当于把空间中的一点沿直线方向投影到平面上.
+  `bb I - cc A` 也是一个投影变换, 它是空间中一点到 `"Ker" cc A` 的投影, 与 `cc A` 正好互补.
+</p>
+
+<ol class="example">
+  若 `bm A, bm B` 是同阶幂等矩阵, 则
+  <li>`bm A + bm B` 为幂等矩阵当且仅当 `bm (A B) = bm (B A) = bm O`.
+    此时有
+    <span class="formula">
+      `"Im"(bm(A+B)) = "Im"bm A o+ "Im"bm B`,<br>
+      `"Ker"(bm(A+B)) = "Ker"bm A nn "Ker" bm B`.
+    </span>
+  </li>
+  <li>`bm A - bm B` 为幂等矩阵当且仅当 `bm (A B) = bm (B A) = bm B`.
+    此时有
+    <span class="formula">
+      `"Im"(bm(A-B)) = "Im"bm A nn "Ker"bm B`,<br>
+      `"Ker"(bm(A-B)) = "Ker"bm A o+ "Im"bm B`.
+    </span>
+  </li>
+  <li>作为 2. 的推论, 若 `bm A` 为幂等矩阵, 则 `bm(I-A)` 也是幂等矩阵.  且
+    <span class="formula">
+      `"Im"(bm(I-A)) = "Ker"bm A`,
+      `quad "Ker"(bm(I-A)) = "Im"bm A`.
+    </span>
+  </li>
+</ol>
+
+<p class="proof">
+  只证 1. 先设 `bm((A+B))^2 = bm A + bm B`, 于是
+  <span class="formula">
+    `bm A + bm B`
+    `= bm A^2 + bm(A B + B A) + bm B^2`
+    `= bm A + bm(A B + B A) + bm B`.
+  </span>
+  比较得 `bm(A B) = -bm(B A)`.
+  于是
+  <span class="formula">
+    `bm(A B) = bm(A A B)`
+    `= bm(A (-B A)) = -bm((A B)A)`
+    `= bm(B A A) = bm(B A)`.
+  </span>
+  但 `bm(A B) = -bm(B A)`, 于是 `bm(A B) = bm(B A) = bm O`.
+  反面的证明是容易的.
+  <br>
+  像的等式:
+  显然 `"Im"(bm(A+B)) = "Im"bm A + "Im"bm B`.
+  若 `bm(A x) = bm(B y)`, 则 `bm(A x) = bm(A A x)` `= bm (A B y) = bm(O y) = 0`.
+  因此这是直和.
+  <br>
+  核的等式: 显然右 `sube` 左. 任取 `bm x in "Ker"(bm(A+B))`, 则
+  <span class="formula">
+    `bm (A x)`
+    `= bm (A x) - (bm(A+B)) bm x`
+    `= bm (A^2 x) - (bm(A+B))^2 bm x`
+    `= -bm (B^2) bm x`
+    `= bm B (-bm x)`.
+  </span>
+  等式左端 `in "Im" bm A`, 右端 `in "Im" bm B`, 因此它们都等于 `0`, 即 `bm x in "Ker"bm A nn "Ker" bm B`.
+</p>
+
+<p class="example">
+  [来自群友 SmartPig]
+  `n` 阶矩阵 `bm A, bm B` 满足
+  <span class="formula">
+    `"rank"(bm A + bm B) = "rank"bm A + "rank"bm B`,<br>
+    `(bm A + bm B)^2 = bm A + bm B`.
+  </span>
+  证明 `bm A^2 = bm A`, `bm B^2 = bm B`.
+</p>
+
+<p class="proof">
+  首先 `"Im"(bm(A+B)) le "Im"bm A + "Im"bm B`, 又由已知
+  <span class="formula">
+    `"dim Im"(bm(A+B)) = "dim Im"bm A + "dim Im"bm B`,
+  </span>
+  这推出 `"Im"(bm(A+B)) = "Im"bm A o+ "Im"bm B`.
+  <br>
+  取 `"Im"bm A` 和 `"Im"bm B` 的基底, 则两个基底合起来组成了 `"Im"(bm(A+B))`
+  的基底. 在这组基底下, `bm A, bm B` 分别相似于
+  <span class="formula">
+    `[bm A_1; bm O]`,
+    `quad [bm O; bm B_1]`.
+  </span>
+  但由于 `bm(A+B)` 是幂等矩阵, 它限制在 `"Im"(bm(A+B))` 上是恒等变换, 这推出两个矩阵之和
+  <span class="formula">
+    `[bm A_1; bm O]`
+    `+ [bm O; bm B_1]`
+    `= [bm A_1; bm B_1]`
+    `= bm I`.
+  </span>
+  于是 `bm A` 相似于 `"diag"(1, cdots, 1, 0, cdots, 0)`, `bm B` 相似于
+  `"diag"(0, cdots, 0, 1, cdots, 1)`, 正说明它们是幂等矩阵.
+</p>
+
+<h3>对合矩阵</h3>
+
+<p class="definition">
+  <b>对合矩阵</b> 是指满足 `bm A^2 = bm I` 的方阵.
+  例如, 副对角线上全为 1, 其他全为 0 的矩阵是对合矩阵, 它代表 `[1..n]` 的倒序排列.
+  对合矩阵的逆就是自己.
+  对合矩阵的特征值只能取 `+-1`.
+</p>
+
+<p class="remark">
+  或许, 对合矩阵是矩阵家族中的「二次元」.
+</p>
+
+<p class="example">
+  [来自群友 问情明心]
+  设 `n` 阶复矩阵 `bm X` 满足 `bm X^m = bm I_n`, 求 `bm X`.
+</p>
+
+<p class="solution">
+  `bm X` 有零化多项式 `x^m - 1`. 因此它的最小多项式是 `x^m - 1` 的因式, 从而是无重根的.
+  根据矩阵可对角化的等价条件, `bm X` 可以对角化, 且相似于
+  <span class="formula">
+    `"diag"(x_1, cdots, x_n)`,
+  </span>
+  其中每个对角元素都是 `m` 次单位根, 即 `x_i^m = 1`, `i = 1, cdots, n`.
+</p>
+
+<ol class="example">
+  <b>几类矩阵可交换的结论</b>
+  <li>设 `bm A, bm B` 是同阶对称矩阵, 则 `bm(A B) = bm(B A) iff bm(A B)` 是对称矩阵.</li>
+  <li>设 `bm A, bm B` 是同阶对合矩阵, 则 `bm(A B) = bm(B A) iff bm(A B)` 是对合矩阵.</li>
+  <li>设 `bm A, bm B` 是同阶幂等矩阵, 则 `bm(A B) = bm(B A) rArr bm(A B)` 是幂等矩阵.</li>
+</ol>
+
+<ol class="proof">
+  3 个小问的正面证明都是容易的, 我们只讨论反面 (`lArr`):
+  <li>设 `bm((A B))^T = bm(A B)`, 即
+    <span class="formula">
+      `bm((A B))^T = bm((B^T A^T))^T = bm((B A))^T`,
+    </span>
+    即 `bm(A B) = bm(B A)`.
+  </li>
+  <li>设 `bm(A B A B) = bm I`,
+    于是
+    <span class="formula">
+      `bm B^-1 = bm(A B A)`, `bm A^-1 = bm(B A B)`.
+    </span>
+    因为 `bm A^2 = bm B^2 = bm I`, 有
+    <span class="formula">
+      `bm(A B A B) = bm A^2 bm B^2`,
+    </span>
+    左边同乘以 `bm A^-1`, 右边同乘以 `bm B^-1` 就得到 `bm(B A) = bm(A B)`.
+  </li>
+  <li>
+    反面不成立, 反例是 `bm A = [1, 1; 0, 0]`, `bm B = [1, 0; 0, 0]`.
+    我们有 `bm (A B) = bm B`, `bm (B A) = bm A`.
+  </li>
+</ol>
+
+<h3>反对称矩阵</h3>
+
+<p class="example">
+  设 `bm A in bbb F^(n xx n)`, `"char" bbb F != 2`, 则
+  <span class="formula">
+    `bm A` 反对称 `iff AA bm x in bbb F^n`, `bm x^(sf T) bm (A x) = 0`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    `rArr`: 设 `bm A` 反对称, 则
+    <span class="formula">
+      `bm x^(sf T) bm A bm x`
+      `= (bm (A x))^(sf T) bm x`
+      `= -bm x^(sf T) bm A bm x`.
+    </span>
+    注意 `"char" bbb F != 2`, 移项再除以 2 就得到结论.
+  </li>
+  <li>
+    `lArr`:
+    在等式 `bm x^(sf T) bm (A x) = 0` 中,
+    先取 `bm x = bm e_i` 知 `A_(i i) = 0`,
+    再取 `bm x = bm e_i + bm e_j` 知 `A_(i j) + A_(j i) = 0`,
+    因此 `bm A` 是反对称矩阵.
+  </li>
+</ol>
+
+<ol class="example">
+  设 `bm A` 是 `n` 阶实反对称矩阵, 则
+  <li>`bm A` 的特征值是零, 或成对共轭的纯虚数.</li>
+  <li>
+    作为 2. 的推论: `|bm A|` 是一个非负实数.
+    特别当 `n` 为奇数时 `bm A` 必有零特征值, `|bm A| = 0`.
+    此外, 若 `bm B` 实正定, `bm A` 实反对称, 则 `|bm A + bm B| gt 0`.
+  </li>
+  <li>设 `bm A` 的全部非零特征值是 `+-"i" b_k`, `k = 1, cdots, r`, 则 `"rank"(bm A) = 2 r`,
+    且 `bm A` 正交相似于
+    <span class="formula">
+      `"diag"(bm B_1, cdots, bm B_r, 0, cdots, 0)`.
+    </span>
+    其中 `bm B_k = [, b_k; -b_k, ]`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>设 `bm A bm x = lambda bm x`, 两边左乘 `bm x` 的共轭转置得
+    <span class="formula">
+      `bar (bm x)^(sf T) bm (A x)`
+      `= lambda bar (bm x)^(sf T) bm x`
+      `= lambda |bm x|^2`.
+    </span>
+    上式两边取共轭转置,
+    <span class="formula">
+      `bar lambda |bm x|^2`
+      `= bar (bm (A x))^(sf T) bm x`
+      `= -bar (bm x)^(sf T) bm (A x)`.
+    </span>
+    比较两式, 同时消去 `|bm x|^2 != 0` 得到 `bar lambda = -lambda`, 因此 `lambda` 是纯虚数.
+  </li>
+  <li>
+    首先因为 `bm I + bm A` 的特征值形如 `1 +- "i"b_k`, 全部相乘就得到 `|bm I + bm A| gt 0`.
+    然后由于 `bm B` 正定可设 `bm I = bm P^(sf T) bm (B P)`, 则
+    <span class="formula">
+      `bm P^(sf T) (bm A + bm B) bm P`
+      `= bm P^(sf T) bm (A P) + bm I`.
+    </span>
+    其中 `bm P^(sf T) bm (A P)` 实反对称, 因此上式右边的行列式为正, 约去 `|bm P|^2` 就得到
+    `|bm A + bm B| gt 0`.
+  </li>
+</ol>
 
 <script>
 var asciimath = {
