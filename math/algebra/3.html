@@ -550,6 +550,7 @@ g.is_abelian # True
 	<span class="formula">
 		`G//"Ker"f ~= "Im"f`.
 	</span>
+    定理告诉我们, 正规子群与相应的商群总是可以看作同态的核与像.
 </p>
 
 <p class="proof">
@@ -701,48 +702,77 @@ g.is_abelian # True
 
 <p>[来自 <a href="https://wuli.wiki/changed/GrpPrd.html" target="_blank">小时百科</a>]</p>
 
+<h3>外直积</h3>
+
 <p class="definition">
-	令 `G_1`, `G_2` 为两个群, 定义 `G_1 xx G_2` 上的二元合成 `*` 如下:
-	<span class="formula">
-		`(a, b) * (c, d) := (a c, b d)`,
-	</span>
-    即对应分量相乘.
-	可以验证 `(G_1 xx G_2, *)` 成一群, 称其为群 `G_1, G_2` 的<b>直积 (direct product)</b>.
-  特别当 `G_1, G_2` 为 Abel 群时, `G_1 xx G_2` 也为 Abel 群,
-	称为 `G_1, G_2` 的<b>直和 (direct sum)</b> `G_1 o+ G_2`.
-</p>
-
-<p class="remark">
-  直积的概念容易推广到多个群的情形.
-</p>
-
-<p class="example">
-  <b>商群的直积</b>
-  设群 `N_1 normal G_1`, `N_2 normal G_2`, 则
+  令 `G_1`, `G_2` 为两个群, 考虑集合笛卡尔积 `G_1 xx G_2` 上的二元合成:
   <span class="formula">
-    `(G_1 xx G_2) // (N_1 xx N_2) ~= G_1//N_1 xx G_2 // N_2`.
+    `(a, b) * (c, d) := (a c, b d)`,
+    <span class="label">(对应分量相乘)</span>
+  </span>
+  可以验证 `(G_1 xx G_2, *)` 成一群.
+  因为它是从两个较小的群组合而来,
+  称其为群 `G_1, G_2` 的<b>外直积 (external direct product)</b>.
+</p>
+
+<p class="corollary">
+  <b>群到外直积的嵌入</b>
+  <span class="formula">
+    `G_1 ~= G_1 xx {e_2} := {(a, e_2) | a in G_1}`,<br>
+    `G_2 ~= {e_1} xx G_2 := {(e_1, b) | b in G_2}`,
+  </span>
+  其中 `e_1, e_2` 分别为群 `G_1, G_2` 的幺元.
+  上式右边的群是 `G_1 xx G_2` 的正规子群.
+</p>
+
+<p class="proof">
+  只证第一式.
+  作 `varphi: g mapsto (g, e_2)`, 显然 `varphi` 为一双射. 又 `AA g, h in G_1`,
+  <span class="formula">
+    `varphi(g h) = (g h, e_2) = (g, e_2) (h, e_2) = varphi(g) varphi(h)`.
+  </span>
+  从而 `varphi` 为一同态. 因此 `varphi` 是同构映射.
+  <br>
+  下面验证 `G_1 xx {e_2} normal G_1 xx G_2`. 这是因为
+  <span class="formula">
+    `(g_1, g_2)(a, e_2)(g_1, g_2)^-1`
+    `= (g_1 a g_1^-1, e_2)`
+    `in G_1 xx {e_2}`.
   </span>
 </p>
 
-<h3>内直积: 直积的等价定义</h3>
+<ol class="remark">
+  我们看到 `G_1 xx {e}` 和 `{e} xx G_2` 是 `G_1 xx G_2` 的正规子群,
+  且 `G_1 xx G_2` 的每个元素都能唯一地写为两个正规子群的元素乘积: 这引出下节的内直积定义.
+</ol>
 
-<p class="definition">
-  设群 `G_1, G_2 normal G`, 且 `G = G_1 G_2`. 若 `G_1 nn G_2 = {e}`,
+<h3>内直积</h3>
+
+<ol class="definition">
+  设群 `G` 的子群 `G_1, G_2` 满足:
+  <li>`G_1, G_2 normal G`;</li>
+  <li>`G = G_1 G_2`;</li>
+  <li>`G_1 nn G_2 = {e}`;</li>
   则称 `G` 是 `G_1, G_2` 的<b>内直积 (internal direct product)</b>.
-</p>
+  相比于外直积, 这里 `G` 是事先给定的群, 满足一定的内部构造.
+</ol>
 
-<p class="remark">
-	线性空间的直和就是群的内直积的一个例子.
+<ol class="example">
+  <li>`G_1 xx G_2` 是 `G_1 xx {e}` 和 `{e} xx G_2` 的内直积.</li>
+  <li>线性空间 (看作加法群) 的直和是内直积.</li>
+</ol>
+
+<p>
+  回忆线性空间直和的等价条件, 立即得到:
 </p>
 
 <ol class="corollary">
-	<b>内直积的等价条件</b>
-    设群 `G_1, G_2 normal G`, 且 `G = G_1 G_2`, 则以下各款等价:
-    <li>`G` 的任一元素表为 `G_1, G_2` 中元素乘积的方式惟一;</li>
-	<li>`G` 中存在一元素, 表为 `G_1, G_2` 中元素乘积的方式惟一;</li>
-	<li>`G` 的幺元表为 `G_1, G_2` 中元素乘积的方式是惟一的, 即 `e = e e`;
-	</li>
-	<li>`G_1 nn G_2 = {e}`.</li>
+  <b>内直积的等价条件</b>
+  内直积定义的第 3 条可以换成以下任一条:
+  <li>`G` 的任一元素表为 `G_1, G_2` 中元素乘积的方式惟一;</li>
+  <li>`G` 中存在一元素, 表为 `G_1, G_2` 中元素乘积的方式惟一;</li>
+  <li>`G` 的幺元表为 `G_1, G_2` 中元素乘积的方式是惟一的, 即 `e = e e`;</li>
+  <li>`G_1 nn G_2 = {e}`;</li>
 </ol>
 
 <ol class="proof">
@@ -768,11 +798,11 @@ g.is_abelian # True
 		则 `h_1^-1 g_1 = h_2 g_2^-1 in G_1 nn G_2`,
 		由 `G_1 nn G_2 = {e}` 知, `h_1 = g_1`, `h_2 = g_2`.
 	</li>
+    注意以上证明只有 2. `rArr` 3. 用到了子群 `G_1` 的正规性.
 </ol>
 
-<p class="remark">
-  接下来我们证明内直积和前文由笛卡尔积定义的直积是同构的.
-  为此先证两个引理:
+<p>
+  我们打算证明内直积和外直积同构, 将过程拆解为下面的引理:
 </p>
 
 <p class="lemma">
@@ -784,97 +814,93 @@ g.is_abelian # True
 </p>
 
 <p class="proof">
-	(利用换位子的概念, 见可解群一节) `AA g_1 in G_1, g_2 in G_2`,
-	由 `G_1, G_2 normal G` 知
-	<span class="formula">
-		`g_1 g_2 g_1^-1 g_2^-1 = g_1 (g_2 g_1^-1 g_2^-1) in G_1`,<br/>
-		`g_1 g_2 g_1^-1 g_2^-1 = (g_1 g_2 g_1^-1) g_2^-1 in G_2`.
-	</span>
-    从而 `g_1 g_2 g_1^-1 g_2^-1 in G_1 nn G_2 = {e}`,
-    即 `g_1 g_2 = g_2 g_1`.
-</p>
-
-<p class="lemma">
-	设 `e_1, e_2` 分别为群 `G_1, G_2` 的幺元. 定义
-	<span class="formula">
-		`bar G_1 = {(a, e_2) | a in G_1}`,
-		`quad bar G_2 = {(e_1, b) | b in G_2}`.
-	</span>
-	则 `G_1 ~= bar G_1`, `G_2 ~= bar G_2`.
-</p>
-
-<p class="proof">
-	作 `varphi: g in G_1 to (g, e_2) in bar G_1`, 显然 `varphi`
-  为一双射. 又 `AA g, h in G_1`,
+  (利用换位子的概念) `AA g_1 in G_1, g_2 in G_2`, 由 `G_1, G_2 normal G` 知
   <span class="formula">
-    `varphi(g h) = (g h, e_2) = (g, e_2) (h, e_2) = varphi(g)
-    varphi(h)`.
+    `g_1 g_2 g_1^-1 g_2^-1 = g_1 (g_2 g_1^-1 g_2^-1) in G_1`,<br/>
+    `g_1 g_2 g_1^-1 g_2^-1 = (g_1 g_2 g_1^-1) g_2^-1 in G_2`.
   </span>
-  从而 `varphi` 为一同态. 因此 `varphi` 是同构映射, 从而 `G_1 ~= bar
-  G_1`. 同理 `G_2 ~= bar G_2`.
+  从而 `g_1 g_2 g_1^-1 g_2^-1 in G_1 nn G_2 = {e}`,
+  即 `g_1 g_2 = g_2 g_1`.
 </p>
 
-<p class="theorem">
-	`G_1 xx G_2` 是 `G_1, G_2` 的内直积;
-  反之, `G_1, G_2` 的任一内直积同构于 `G_1 xx G_2`.
-  此定理表明, 内直积与直积是一样的, 我们对它们不作区分.
-</p>
-
-<ol class="proof">
-	<li>由引理知, `bar G_1, bar G_2 le G_1 xx G_2`.
-		又 `AA (g_1, g_2) in G_1 xx G_2`, `(g, e_2) in bar G_1`,
-		<span class="formula">
-			`(g_1, g_2)(g, e_2)(g_1, g_2)^-1`
-			`= (g_1, g_2)(g, e_2)(g_1^-1, g_2^-1)`
-			`= (g_1 g g_1^-1, g_2 e_2 g_2^-1)`
-			`= (g_1 g g_1^-1, e_2) in bar G_1`.
-		</span>
-		因此 `bar G_1 normal G_1 xx G_2`, 同理 `bar G_2 normal G_1 xx
-		G_2`.</br>
-		显然 `G_1 xx G_2 supe bar G_1 bar G_2`; 另一方面,
-		`AA (a, b) in G_1 xx G_2`, `(a, b) = (a, e_2) xx (e_1, b)`.
-		所以 `G_1 xx G_2 = bar G_1 bar G_2`, 且 `G_1 xx G_2`
-		中的任意元素表为 `bar G_1, bar G_2` 中元素乘积的方式惟一.
-        于是 `G_1 xx G_2` 是 `G_1, G_2` 的内直积.
-	</li>
-	<li>设 `G` 是 `G_1, G_2` 的内直积. 作映射 `varphi: (g_1, g_2) in G_1 xx G_2 to g_1 g_2 in G`.
-		由于 `G` 中元素都能表为 `G_1, G_2` 中元素乘积, 所以 `varphi`
-		为一满射. 再由 `G` 中元素表为 `G_1, G_2` 中元素乘积的惟一性,
-		<span class="formula">
-			`varphi(g_1, g_2) = varphi(h_1, h_2)`
-			`iff g_1 g_2 = h_1 h_2`
-			`iff g_1 = h_1 and g_2 = h_2`
-			`iff (g_1, g_2) = (h_1, h_2)`.
-		</span>
-		从而 `varphi` 为一单射.
-		(注: 这里的证明体现了集合论中 "满射决定原像存在性,
-        单射决定原像惟一性" 的道理)<br>
-        再证 `varphi` 是同态.
-        `AA (g_1, g_2), (h_1, h_2) in G_1 xx G_2`,
-		注意到 `G_1, G_2` 之间元素的乘积可交换, 于是
-		<span class="formula">
-			`varphi((g_1, g_2)(h_1, h_2))`
-			`= varphi(g_1 h_1, g_2 h_2)`
-			`= g_1 h_1 g_2 h_2`
-			`= g_1 g_2 h_1 h_2`
-			`= varphi(g_1, g_2) varphi(h_1, h_2)`.
-		</span>
-		于是 `varphi` 为一同态映射, 从而是同构映射.
-	</li>
+<ol class="lemma">
+  [来自群友 幂零群]
+  设 `G_1, G_2 le G`, 定义乘法映射 `varphi: (g_1, g_2) in G_1 xx G_2 mapsto g_1 g_2 in G`. 则
+  <li>`varphi` 是同态当且仅当 `G_1, G_2` 的元素可交换.</li>
+  <li>在 1. 的基础上, `varphi` 升级为同构当且仅当 `G_1 nn G_2 = {e}` 且 `G_1 G_2 = G`.</li>
 </ol>
 
-<h3>半直积: 直积的推广</h3>
+<ol class="proof">
+  <li>
+    `varphi` 是同态等价于
+    <span class="formula align">
+      `(AA g_1, h_1 in G_1, g_2, h_2 in G_2)`
+        `varphi(g_1, g_2) varphi(h_1, h_2) = varphi(g_1 h_1, g_2 h_2)`<br>
+      `iff (AA g_1, h_1 in G_1, g_2, h_2 in G_2)`
+        `g_1 g_2 h_1 h_2 -= g_1 h_1 g_2 h_2`<br>
+      `iff (AA h_1 in G_1, g_2 in G_2)`
+        `g_2 h_1 -= h_1 g_2`.
+    </span>
+  </li>
+  <li>
+    `varphi` 是满射 `iff G` 中元素总能表为 `G_1, G_2` 元素的乘积 `iff G_1 G_2 = G`.
+    <br>
+    `varphi` 是单射 `iff G` 中元素表为 `G_1, G_2` 元素乘积的方式唯一 `iff G_1 nn G_2 = {e}`.
+  </li>
+  <hr>
+  [注] 满射 `iff` 原像的存在性; 单射 `iff` 原像的唯一性.
+</ol>
+
+<ol class="theorem">
+  <b>群的直积分解定理 (内外直积的等价性)</b>
+  <li>`G_1 xx G_2` 是 `G_1 xx {e} ~= G_1` 和 `{e} xx G_2 ~= G_2` 的内直积;</li>
+  <li>反之, 设 `G` 是 `G_1, G_2` 的内直积, 则 `G ~= G_1 xx G_2`.</li>
+  如下图, 其中虚线 `A cdots B cdots C` 表示中间的群 `B` 是 `A, C` 的内直积.
+  <div class="img md" title="内直积与外直积">
+    <img src="../img/direct-product.png" alt="">
+  </div>
+</ol>
+
+<p class="proof">
+  结论 1. 已在定义内直积时给出.
+  至于 2., 由于 `G_1, G_2 normal G`, `G_1 G_2 = G` 和 `G_1 nn G_2 = {e}` 三个条件同时满足,
+  由引理知道乘法映射 `varphi: (g_1, g_2) mapsto g_1 g_2` 是同构.
+</p>
+
+<p class="remark">
+  此定理表明, 内、外直积是同构的, 我们统称为<b>直积 (direct product)</b>.
+  特别当 `G_1, G_2` 为 Abel 群时, `G_1 xx G_2` 也为 Abel 群,
+  称为 `G_1, G_2` 的<b>直和 (direct sum)</b> `G_1 o+ G_2`.
+  直积的概念容易推广到多个群的情形.
+</p>
+
+<h3>半直积</h3>
+
+<p>[来自 <a href="https://zhuanlan.zhihu.com/p/343697266" target="_blank">sola@知乎</a>]</p>
 
 <p>将内直积定义中的其中一个正规子群减弱为子群, 定义<b>半直积 (semi-direct product)</b>如下:</p>
 
 <p class="definition">
+  <b>半直积 (内)</b>
   令 `G` 为一群, `N normal G`, `H le G`, 且 `G = N H`.
-   若 `N nn H = {e}`, 则称 `G` 是 `N` 和 `H` 的半直积, 记为 `G = N ><| H`.
+  若 `N nn H = {e}`, 则称 `G` 是 `N` 和 `H` 的半直积, 记为 `G = N ><| H`.
+</p>
+
+<ol class="example">
+  <li>`C_6 ~= C_3 xx C_2`, `D_6 ~= C_3 ><| C_2`.  其中 `C_3` 是正规子群.</li>
+  <li>`RR^n` 上的刚体变换群 `M_n` 是平移变换群 `T_n` 与正交变换群 `O_n` 的半直积:
+    `M_n = T_n ><| O_n`.
+  </li>
+</ol>
+
+<p class="remark">
+  记号 `N ><| H` 中哪个群是正规的? 是 “又”的两条腿指向的那个.
 </p>
 
 <p>半直积的另一定义不依赖于预先给定的群 `G`, 这个定义稍显复杂:</p>
 
 <p class="definition">
+  <b>半直积 (外)</b>
   给定群 `N, H` 和同态 `f: H to "Aut"N`.
   对于任意 `h in H`, `f_h := f(h)` 是一个 `N to N` 的同构映射.
   现在集合 `N xx H` 上定义运算 `(*)`:
@@ -882,7 +908,15 @@ g.is_abelian # True
     `(n_1, h_1) * (n_2, h_2) := (n_1 * f_(h_1)(n_2), h_1 * h_2)`,
   </span>
   则 `(N xx H, *)`, 为一群, 记为 `N ><|_f H`.<br>
-  特别当同态 `f = "id"` (恒等映射) 时, 这里的半直积就是直积.
+</p>
+
+<p class="remark">
+  [来自群友 幂零群]
+  形式地记 `[1; n, h] := (n, h)`, 则半直积的乘法可以用矩阵乘法帮助记忆:
+  <span class="formula">
+    `[1; n_1, h_1] [1; n_2, h_2]`
+    `= [1; n_1 + h_1 n_2, h_1 h_2]`.
+  </span>
 </p>
 
 <p class="corollary">
@@ -898,12 +932,18 @@ g.is_abelian # True
 </p>
 
 <p class="corollary">
+  当同态 `f = "id"` (恒等映射) 时, 半直积退化为直积.
+  反之, 若 `f` 非平凡, 则 `N ><|_f H` 是非交换群.
+</p>
+
+<p class="theorem">
+  <b>半直积分解</b>
   验证半直积两个定义的等价性.
 </p>
 
 <ol class="proof">
   <li>`rArr` 2.
-    设 `N normal G`, `H le G`, `G = N H`, `N nn H = {e}`.  取同态
+    设 `N normal G`, `H le G`, `G = N H`, `N nn H = {e}`.  取同态 (它将 `h` 映到 `N` 上的内自同构):
     <span class="formula">
       `f := h mapsto n mapsto h n h^-1`,
     </span>
@@ -929,9 +969,60 @@ g.is_abelian # True
   </li>
 </ol>
 
-<p class="example">
-  <b>半直积与商群的关系</b>
+<p class="remark">
+  半直积仍然不能确定群的同构类, 这意味两个不同构的群可以有完全相同的 (半) 直积分解.
+  为了找到 `N ><| H` 的所有同构类, 我们必须讨论 `H to "Aut" N` 的所有可能同态.
+  利用半直积可以处理如 `2p` 阶群、12 阶群的分类问题, 但仍有一些问题是困难的,
+  例如 `2^n` 阶群的分类问题. 与其他有限群相比, `2^n` 阶群的同构类特别多.
+  例如 64 阶群有 267 种, 128 阶群多达 2328 种, 参见
+  <a href="https://mathworld.wolfram.com/FiniteGroup.html" target="_blank">Finite Group - Wolfram Math World</a>.
 </p>
+
+<p>下面两个命题常常是寻找半直积的着手点:</p>
+
+<p class="proposition">
+  <b>子群乘积的阶数公式</b>
+  `G` 为有限群, `H, K le G`, 则
+  <span class="formula">
+    `|H K| = (|H| |K|)/|H nn K|`.
+  </span>
+  注意 `H K` 未必是子群, 除非 `H K = K H`.
+</p>
+
+<p class="proof">
+  见 <a href="../../exercise/algebra/2.html">习题 21</a>.
+</p>
+
+<p class="proposition">
+  `G` 为有限群, `H, K` 是两个阶数互素的子群, 则 `H nn K = {e}`;
+  进一步若 `|H| |K| = |G|`, 则 `H K = G`.
+</p>
+
+<ol class="proof">
+  <li>由 Lagrange 定理知道, 子群元素的阶整除子群的阶, 但 `|H|, |K|` 互素, 所以它们只有平凡交.</li>
+  <li>由 1. 和阶数公式知道 `|H K| = |G|`.</li>
+</ol>
+
+<h3>积与商的关系</h3>
+
+<p class="example">
+  <b>商群的直积</b>
+  设群 `N_1 normal G_1`, `N_2 normal G_2`, 则 `N_1 xx N_2 normal G_1 xx G_2`, 且
+  <span class="formula">
+    `(G_1 xx G_2) // (N_1 xx N_2) ~= G_1//N_1 xx G_2 // N_2`.
+  </span>
+</p>
+
+<!--
+<p class="theorem">
+  <b>积是商的逆运算</b>
+  设群 `N normal G`, 则 `G` 是 `N` 与商群 `G//N` 的直积或半直积.
+</p>
+
+<p class="proof">
+  半直积是一种特殊的直积, 因此只需证明 `G ~= N ><| G//N`.
+</p>
+-->
 
 <h2>自由群</h2>
 
@@ -1098,7 +1189,7 @@ G.order() # 4
   <tr>
     <td>2</td> <td>`C_2`</td>
     <td>7</td> <td>`C_7`</td>
-    <td>12</td> <td>`C_4 xx C_3`, `C_2 xx C_2 xx C_3`, `D_12`, `A_4`, `T_12`</td>
+    <td>12</td> <td>`C_12`, `C_2 xx C_6`, `D_12`, `A_4`, `T_12`</td>
   </tr>
   <tr>
     <td>3</td> <td>`C_3`</td>
@@ -1118,11 +1209,13 @@ G.order() # 4
 </table>
 
 <ol class="remark enum">
-  <li>有限阶交换群可以分解为循环群的直积;</li>
+  <li>有限阶交换群可以分解为循环群的直积;
+    若 `p, q` 互素, 则 `C_p xx C_q ~= C_(p q)`, 因此不妨令这些循环群的阶两两不互素.
+  </li>
   <li>`n ge 3` 时, `S_n` 是非交换群;</li>
-  <li>`n ge 6` 时, `D_n` 是非交换群;</li>
+  <li>`n ge 6` 时, `D_n := (: x, y | x^n = e, y^2 = e, x y x y = e :)` 是非交换群;</li>
   <li><b>四元数群</b> `Q_8 := (: x, y | x^4 = e, y^2 = x^2, y x = x^-1 y :)`;</li>
-  <li>`T_12 := (: x, y | y^4 = e, x^3 = e, y x y^-1 = x^2 :)`;</li>
+  <li><b>Dycyclic group</b> `T_12 := (: x, y | y^4 = e, x^3 = e, y x y^-1 = x^2 :)`;</li>
 </ol>
 
 <h3>处理小阶群时有用的结论</h3>

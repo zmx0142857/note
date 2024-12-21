@@ -285,25 +285,33 @@
   </span>
 
   <ol class="proof">
-    <li> 首先我们有
+    <li>
+      待证等式变形为
+      <span class="formula">
+        `|H K| / |H| = |K| / |H nn K|`.
+      </span>
+      注意到 `H nn K` 是 `K` 的子群, 它在 `K` 中每个陪集的大小都相等.
+      另一方面, `H K` 未必是一个群, 但它是若干个 `H` 的陪集的并, 每个陪集的大小也相等:
       <span class="formula">
         `HK = uuu_(k in K) Hk`,
         `quad K = uuu_(k in K) (H nn K)k`.
       </span>
-      尽管未必有 `H K le G`, 但由 `H le G` 有
-      `AA k_1, k_2 in K sube G`, `|H k_1| = |H k_2| = |H|`.
-      且
-      `H k_1 = H k_2` `iff k_1 in H k_2` `iff EE h in H, k_1 = h k_2`.
-      所以 `h = k_1 k_2^-1 in K`, 于是 `h in H nn K`.
-      故 `H k_1 = H k_2 rArr (H nn K)k_1 = (H nn K)k_2`.
-      反之, 易证 `(H nn K)k_1 = (H nn K)k_2 rArr Hk_1 = Hk_2`.
     </li>
     <li>
-      记 `A = {H k | k in K}`, `B = {(H nn K)k | k in K}`.
-      作 `f: A rarr B: H k rarr (H nn K)k`. 由上面的讨论知 `f`
-      为一映射, 且为一单射, 又显然 `f` 为一满射, 所以 `f` 是 `A` 到 `B`
-      的一个双射, 从而 `|A| = |B|`, 即 `|H K| / |H| = K / |H nn K|`,
-      亦即 `|H K| = (|H| |K|)/|H nn K|`.
+      我们只需证两个式子中所含陪集的数目相等.  记
+      <span class="formula">
+        `A = {H k | k in K}`, `quad B = {(H nn K)k | k in K}`,
+      </span>
+      令 `f: A to B := H k mapsto (H nn K)k`. 下证 `f` 是双射:
+      任取 `k_1, k_2 in K`,
+      <span class="formula align">
+        `H k_1 = H k_2`<br>
+        `iff k_1 in H k_2`<br>
+        `iff EE h in H, k_1 = h k_2`<br>
+        `iff EE h in H nn K, h = k_1 k_2^-1`<br>
+        `iff k_1 in (H nn K) k_2`<br>
+        `iff (H nn K) k_1 = (H nn K) k_2`.
+      </span>
     </li>
   </ol>
   <p class="remark">
