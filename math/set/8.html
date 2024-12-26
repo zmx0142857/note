@@ -198,6 +198,17 @@
   </li>
 </ol>
 
+<div class="remark p">
+  在函数式编程中, 函子常见于容器间的映射.
+  例如 <code>map</code> 将一个数组映为另一个数组: <code>map show [1,2,3]</code> 得到 <code>["1","2","3"]</code>, <code>map square [1,2,3]</code> 得到 <code>[1,4,9]</code>.
+  这里 <code>map</code> 是 <code>Int</code> 范畴到 <code>Array Int</code>范畴的函子.
+  它同样满足函子对态射的性质:
+<pre>
+map identity = identity
+(map g) ∘ (map f) = map (g ∘ f)
+</pre>
+</div>
+
 <ol class="definition">
   <li>函子的合成. 设 `F: cc C_1 to cc C_2`, `G: cc C_2 to cc C_3`,
     将它们对象间与态射间的映射分别合成, 就得到合成函子 `G @ F`.

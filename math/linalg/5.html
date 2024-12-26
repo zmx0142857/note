@@ -360,6 +360,31 @@
 	</li>
 </ol>
 
+<p class="example">
+  `n` 阶矩阵 `bm(A B) = bm I`, 证明 `bm(B A) = bm I`.
+</p>
+
+<p class="proof">
+  [来自群友 幂零群]
+  `bm B` 是单射:
+  <span class="formula">
+    `bm (B x) = bm(B y)`
+    `rArr bm(A B x) = bm(A B y)`
+    `rArr bm x = bm y`.
+  </span>
+  但 `V` 的维数有限, 因此 `bm B` 是满射.
+  对任意 `bm y in V`, 存在 `bm x in V` 使得 `bm y = bm(B x)`.
+  由 `bm (B A y) = bm(B A B x) = bm (B x) = bm y` 推出 `bm y in "Ker"(bm I-bm (B A))`.
+  因此
+  <span class="formula">
+    `"rank"(bm (A B) - bm(B A))`
+    `= "rank"(bm I - bm(B A))`
+    `= n - "dim" "Ker"(bm I - bm(B A))`
+    `= 0`.
+  </span>
+  这意味 `bm(A B) = bm(B A)`.
+</p>
+
 <h2>线性空间的直和分解</h2>
 
 <p class="lemma">
@@ -572,6 +597,45 @@
 		</span>
 		可以验证 `cc(A C) = cc B`.
 	</li>
+</ol>
+
+<h2>杂例</h2>
+
+<ol class="example">
+  设矩阵 `bm A^(m xx n), bm B^(n xx s)` 满足 `bm(A B) = bm O`, 则
+  <li>`"Im"bm B le "Ker"bm A;</li>
+  <li>`"rank" bm A + "rank" bm B le n`;</li>
+  <li>若 `bm B != bm O` 则 `"rank" bm A lt n`;</li>
+</ol>
+
+<ol class="proof">
+  <li>对任意 `bm (B x) in "Im"bm B` 有
+    `bm (A B x) = bm(O x) = bb 0`,
+    故 `bm (B x) in "Ker" bm A`.
+  </li>
+  <li>在 1. 的不等号两边取维数.</li>
+  <li>由已知 `"rank" bm B gt 0`, 再由 2. 即得结论.</li>
+</ol>
+
+<ol class="example">
+  线性变换 `cc (A B) = cc (B A)` 则
+  <li>`"Im"cc B` 是 `cc A` 的不变子空间;</li>
+  <li>`cc B` 的特征子空间是 `cc A` 的不变子空间; 特别当它是一维时, 也是 `cc A` 的特征子空间;</li>
+  <li>`cc B` 的不变子空间不一定是 `cc A` 的不变子空间.</li>
+</ol>
+
+<ol class="proof">
+  <li>对任意 `cc B x in "Im" cc B`, 有 `cc (A B) x = cc (B A) x in "Im" cc B`.</li>
+  <li>对任意 `x in "Ker"(lambda bb I - cc B)` 有 `cc (B A) x = cc (A B) x = lambda cc A x`, 因此
+    `cc A x in "Ker"(bb I - lambda cc B)`.
+  </li>
+  <li>反例可取 `cc B` 为零映射或恒等映射, 如
+    <span class="formula">
+      `bm A = [1, 1; 1, 1]`,
+      `quad bm B = [0, 0; 0, 0]`.
+    </span>
+    则 `(k, 0)^(sf T)` (`k in bbb F`) 是 `cc B` 是不变子空间, 但不是 `cc A` 的.
+  </li>
 </ol>
 
 <script src="../../js/note.js?type=math"></script>
