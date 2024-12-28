@@ -21,24 +21,32 @@
 
 <h3>范畴的定义</h3>
 
+<p>
+  形象地说, 范畴是一个有向图, 图中的顶点称为对象, 有向边称为态射. 具体定义如下:
+</p>
+
 <ol class="definition">
-  一个<b>范畴</b> `cc C` 由它的<b>对象</b>集合 `"Ob"(cc C)` 和<b>态射</b>集合
-  `"Mor"(cc C)` 组成, 此外还有:
-  <li><b>来源映射</b>和<b>目标映射</b> `s, t: "Mor"(cc C) to "Ob"(cc C)`.
-    若 `f` 是一个态射, 那么 `X := s(f)`, `Y := t(f)` 都是对象, `f` 称为从 `X` 到 `Y` 的态射, 记为 `X overset f to Y`.
+  一个<b>范畴 (category)</b> `cc C` 由它的<b>对象</b>集合 `"Ob"(cc C)` 和<b>态射</b>集合
+  `"Mor"(cc C)` 组成, 此外还应满足:
+  <li>
+    <b>边与点的关系</b> `cc C` 中任意态射 `f` 都有确定的来源与目标对象.<br>
+    换言之有<b>来源映射</b>和<b>目标映射</b> `s, t: "Mor"(cc C) to "Ob"(cc C)`.
+    若 `f` 是一个态射, 那么 `X := s(f)`, `Y := t(f)` 都是对象,
+    `f` 称为从 `X` 到 `Y` 的态射, 记为 `X overset f to Y` 或 `f: X to Y`.
   </li>
-  <li>对于 `X, Y in "Ob"(cc C)`, 全体从 `X` 到 `Y` 的态射称为 `(X, Y)` 的 <b>Hom-集</b>:
+  <li>
+    <b>点与边的关系</b> `cc C` 中任意两个对象 `X, Y` 确定了一族态射.<br>
+    将全体从 `X` 到 `Y` 的态射称为 `(X, Y)` 的 <b>Hom 集</b>:
     <span class="formula">
-      `"Hom"_(cc C)(X, Y) := s^-1(X) nn t^-1(Y)`.
+      `Hom_C(X, Y) := s^-1(X) nn t^-1(Y)`.
     </span>
+    因此 `f: X to Y` 的另一种写法是 `f in Hom_C(X, Y)`.
   </li>
-  <li>对每个对象 `X`, 都指定元素 `"id"_X in "Hom"_(cc C)(X, X)`, 称为 `X` 到自身的<b>恒等态射</b>.</li>
-  <li>对任意对象 `X, Y, Z`, 定义<b>态射合成</b>为下面的二元运算, 它把 `X to Y` 和 `Y to Z` 的态射合成为 `X to Z` 的态射:
-    <span class="formula">
-      `@: "Hom"_(cc C)(Y, Z) xx "Hom"_(cc C)(X, Y) to "Hom"_(cc C)(X, Z)`<br>
-      `(f, g) mapsto f @ g`.
-    </span>
-    `f @ g` 也可以简记为 `f g`. 态射的合成满足:
+  <li>
+    <b>态射的合成与恒等态射</b>
+    设 `f: X to Y`, `g: Y to Z`, 定义 `f, g` 的二元<b>合成</b>为 `f @ g`: `X to Z`, 或简记为 `f g`.
+    对每个对象 `X`, 都存在态射 `"id"_X: X to X`, 称为 `X` 到自身的<b>恒等态射</b>.
+    态射的合成满足:
     <span class="formula">
       `f(g h) = (f g)h quad` (结合律)<br>
       `f @ "id"_X = f = "id"_Y @ f quad`(恒等态射的性质).
@@ -47,6 +55,23 @@
   </li>
 </ol>
 
+<ul class="remark">
+  总之, 范畴包含以下五元素:
+  <li>(金) 对象集 `"Ob"(cc C)`;</li>
+  <li>(木) 态射集 `"Mor"(cc C)`;</li>
+  <li>(水) 来源与目标映射 `s, t`; 或等价地, Hom 集 `(X, Y) mapsto Hom_C(X, Y)`;</li>
+  <li>(火) 态射合成 "`@`";</li>
+  <li>(土) 恒等态射 `X mapsto "id"_X`.</li>
+  不过通常验证一个结构是范畴, 只需验证结合律与恒等态射的性质.
+</ul>
+
+<p class="remark">
+  幺半群 (Monoid) 上也有二元合成, 且满足结合律, 并带有单位元.
+  范畴与幺半群的区别在于, 范畴中的恒等态射可以有许多——每个对象都带有一个恒等态射,
+  而幺半群只有一个单位元.
+  这种意义下范畴是幺半群的推广.
+</p>
+
 <ol class="definition">
   <li><b>态射的逆</b> 设态射 `f: X to Y`, 若存在 `g: Y to X` 使得 `f g = "id"_Y`, `g f = "id"_X`,
     则称 `g` 是 `f` 的逆, `f` 是可逆态射或<b>同构</b>. `X` 到 `Y`
@@ -54,7 +79,7 @@
     逆若存在则必唯一.
     若一个范畴中的所有态射都可逆, 则称它为<b>广群</b>.
   </li>
-  <li>简记 `"End"_(cc C)(X) := "Hom"_(cc C)(X, X)`, `"Aut"_(cc C)(X) := "Isom"_(cc C)(X, X)`,
+  <li>简记 `"End"_(cc C)(X) := Hom_C(X, X)`, `"Aut"_(cc C)(X) := "Isom"_(cc C)(X, X)`,
     分别称为 `X` 的<b>自同态集</b>和<b>自同构集</b>.
     `"End"(X)` 是幺半群, `"Aut"(X)` 是群.
   </li>
@@ -83,41 +108,39 @@
 
 <h3>子范畴、反范畴、积范畴</h3>
 
-<ol class="definition">
-  称 `cc C'` 是 `cc C` 的子范畴, 如果
-  <li>`"Ob"(cc C') sube "Ob"(cc C)`;</li>
-  <li>`"Mor"(cc C') sube "Mor"(cc C)`, 并保持恒等态射;</li>
-  <li>来源/目标映射是由 `cc C` 限制而来的;</li>
-  <li>`cc C'` 中态射的合成也是由 `cc C` 限制而来的.</li>
-  总之, 对任意 `X, Y in "Ob"(cc C')`, 成立
-  <span class="formula">
-    `"Hom"_(cc C')(X, Y) sube "Hom"_(cc C)(X, Y)`.
-  </span>
-  上式等号成立时称 `cc C'` 是<b>全子范畴</b>.
+<ul class="definition">
+  称 `cc C'` 是 `cc C` 的<b>子范畴</b>, 如果
+  <li>(金) `"Ob"(cc C') sube "Ob"(cc C)`;</li>
+  <li>(木) `"Mor"(cc C') sube "Mor"(cc C)`;</li>
+  <li>(水) `Hom_C'(X, Y) sube Hom_C(X, Y)`, 等号成立时称 `cc C'` 是<b>全子范畴</b>;</li>
+  <li>(火) 态射的合成也是由 `cc C` 限制而来的;</li>
+  <li>(土) 恒等态射也是由 `cc C` 限制而来的.</li>
   从图表上看, 子范畴就是从原图表中去掉一些点和箭头得到的图表.
   如果仅仅移除点 (以及这些点关联的箭头), 而不去移除其它箭头的话, 得到的图表就是全子范畴.
-</ol>
+</ul>
 
-<ol class="definition">
+<ul class="definition">
   设 `cc C` 是范畴, 将其箭头全部反转, 定义<b>反范畴</b>如下:
-  <li>`"Ob"(cc C^"op") = "Ob"(cc C)`;</li>
-  <li>对任意对象 `X, Y`, `"Hom"_(cc C^"op")(X, Y) := "Hom"_(cc C)(Y, X)`;</li>
-  <li>恒等态射定义同 `cc C`.</li>
-  <li>`cc C^"op"` 中态射的合成 `f @^"op" g` 定义为 `cc C` 中的反向合成 `g @ f`;</li>
+  <li>(金) `"Ob"(cc C^"op") := "Ob"(cc C)`;</li>
+  <li>(木) `"Mor"(cc C^"op") := "Mor"(cc C)`;</li>
+  <li>(水) `"Hom"_(cc C^"op")(X, Y) := Hom_C(Y, X)` (反转箭头);</li>
+  <li>(火) `f @^"op" g := g @ f` (反向合成);</li>
+  <li>(土) 恒等态射定义同 `cc C`.</li>
   我们有 `(cc C^"op")^"op" = cc C`.
   范畴与反范畴之间对称的关系也叫做对偶原理. 比如, `cc C^"op"` 中的单态射就是 `cc C` 中的满态射.
-</ol>
+</ul>
 
-<ol class="definition">
+<ul class="definition">
   给定范畴 `cc C_1`, `cc C_2`, 定义<b>积范畴</b>如下:
-  <li>对象: `"Ob"(cc C_1 xx cc C_2) = "Ob"(cc C_1) xx "Ob"(cc C_2)`.</li>
-  <li>态射: `"Hom"_(cc C_1 xx cc C_2)((X_1, X_2),(Y_1, Y_2))`
-    `= "Hom"_(cc C_1)(X_1, Y_1) xx "Hom"_(cc C_2)(X_2, Y_2)`.
+  <li>(金) `"Ob"(cc C_1 xx cc C_2) := "Ob"(cc C_1) xx "Ob"(cc C_2)`;</li>
+  <li>(木) `"Mor"(cc C_1 xx cc C_2) := "Mor"(cc C_1) xx "Mor"(cc C_2)`;</li>
+  <li>(水) `"Hom"_(cc C_1 xx cc C_2)((X_1, X_2),(Y_1, Y_2))`
+    `:= "Hom"_(cc C_1)(X_1, Y_1) xx "Hom"_(cc C_2)(X_2, Y_2)`;
   </li>
-  <li>态射的合成: `(g_1, g_2) @ (f_1, f_2) := (g_1 f_1, g_2 f_2)`.</li>
-  <li>恒等态射: `"id"_(X_1, X_2) := ("id"_(X_1), "id"_(X_2))`.</li>
+  <li>(火) `(g_1, g_2) @ (f_1, f_2) := (g_1 f_1, g_2 f_2)`;</li>
+  <li>(土) `"id"_(X_1, X_2) := ("id"_(X_1), "id"_(X_2))`.</li>
   总之, 一切都是逐分量地定义的. 积范畴可以推广到有限个乘积的情形.
-</ol>
+</ul>
 
 <h3>范畴的例子</h3>
 
@@ -181,26 +204,40 @@
   </li>
 </ol>
 
-<h2>函子</h2>
+<h2>函子与自然变换</h2>
+
+<h3>函子</h3>
 
 <p>函子是范畴到范畴的 "态射", 它将一个交换图表映为另一个交换图表.</p>
 
-<ol class="definition">
-  设 `cc C', cc C` 为范畴. 一个<b>函子</b> `F: cc C' to cc C` 由一对映射组成:
-  <li>对象间的映射 `F: "Ob"(cc C') to "Ob"(cc C)`;</li>
-  <li>态射间的映射, 仍用同一个字母: `F: "Mor"(cc C') to "Mor"(cc C)`.</li>
-  <li>`F` 需保持态射的来源与目标. 设 `s, t` 分别是来源映射和目标映射, 则 `s F = F s`, `t F = F t`.
-    <!-- `F` 将态射映为一个新态射的同时, 也将原态射的来源与目标对象映为新态射的来源与目标. -->
-    即, 对任意对象 `X, Y in cc C'` 有映射 `F: "Hom"_(cc C')(X, Y) to "Hom"_(cc C)(F X, F Y)`.
+<ul class="definition">
+  设 `cc C', cc C` 为范畴. 一个<b>函子 (functor)</b> `F: cc C' to cc C` 由一对映射组成:
+  <li>(金) 对象间的映射 `F: "Ob"(cc C') to "Ob"(cc C)`;</li>
+  <li>(木) 态射间的映射, 仍用同一个字母: `F: "Mor"(cc C') to "Mor"(cc C)`;</li>
+  <li>(水) 保持来源与目标映射 `s, t`: `s F = F s`, `t F = F t`.  用 Hom 集的语言就是
+    <span class="formula">
+      `F: Hom_C'(X, Y) to Hom_C(F X, F Y)`,
+    </span>
+    即 `F` 将箭头 `X to Y` 映为 `F X to F Y`;
   </li>
-  <li>`F` 需保持态射的合成与恒等态射:
-    `F(g @ f) = F(g) @ F(f)`, `F("id"_X) = "id"_(F X)`.
-  </li>
-</ol>
+  <li>(火) 保持态射的合成: `F(g @ f) = F(g) @ F(f)`;</li>
+  <li>(土) 保持恒等态射: `F("id"_X) = "id"_(F X)`.</li>
+  一般来说, 验证函子也只需验证它保持态射的合成与恒等态射.
+</ul>
+
+<p class="remark">
+  可以将函子对态射的作用类比于幺半群的同态:
+  `f(a b) = f(a) f(b)` 和 `f(1) = 1`.
+  不过如前所述, 范畴中的恒等态射和对象一样多, 但幺半群的单位元只有一个.
+</p>
 
 <div class="remark p">
   在函数式编程中, 函子常见于容器间的映射.
-  例如 <code>map</code> 将一个数组映为另一个数组: <code>map show [1,2,3]</code> 得到 <code>["1","2","3"]</code>, <code>map square [1,2,3]</code> 得到 <code>[1,4,9]</code>.
+  例如 <code>map</code> 将一个数组映为另一个数组:
+  <span class="formula">
+    <code>map (+1) [1,2,3]</code> 得到 <code>[2,3,4]</code>,<br>
+    <code>map square [1,2,3]</code> 得到 <code>[1,4,9]</code>.
+  </span>
   这里 <code>map</code> 是 <code>Int</code> 范畴到 <code>Array Int</code>范畴的函子.
   它同样满足函子对态射的性质:
 <pre>
@@ -210,27 +247,33 @@ map identity = identity
 </div>
 
 <ol class="definition">
-  <li>函子的合成. 设 `F: cc C_1 to cc C_2`, `G: cc C_2 to cc C_3`,
+  <li><b>函子的合成</b> 设 `F: cc C_1 to cc C_2`, `G: cc C_2 to cc C_3`,
     将它们对象间与态射间的映射分别合成, 就得到合成函子 `G @ F`.
     函子的合成满足结合律.
   </li>
-  <li>形如 `cc C' to cc C` 的函子称为共变函子, `cc {:C':}^"op" to cc C` 称为反变函子.
-    反变函子的定义在对象层次与前相同, 在态射层次则要求反转箭头方向.
-  </li>
-  <li>由于反范畴与范畴只在箭头方向上不同, 函子 `F: cc C' to cc C` 和 `F^"op": cc {:C':}^"op" to cc C^"op"`
-    是一回事.
+  <li><b>反变函子</b>
+    形如 `cc C' to cc C` 的函子称为共变函子, `cc {:C':}^"op" to cc C`
+    称为反变函子.  反变函子的定义在对象层次与前相同, 在态射层次则反转箭头方向, 即
+    <span class="formula">
+      `Hom_C'(X, Y) to Hom_C(F Y, F X) quad` (反转箭头),<br>
+      `F(f g) = F(g) F(f) quad` (反向合成).
+    </span>
+    由于反范畴与范畴只在箭头方向上不同,
+    函子 `cc C' to cc C` 和 `cc {:C':}^"op" to cc C^"op"` 是一回事,
+    `cc {:C':}^"op" to cc C` 和 `cc C' to cc C^"op"` 也是一回事.
   </li>
 </ol>
 
 <ol class="definition">
   对于函子 `F: cc C' to cc C`,
-  <li>称 `F` 是<b>本质满</b>的, 若 `cc C` 中任一对象都同构于某个 `F X`. 这是把满射定义中的 "等于" 换成了 "同构于".</li>
-  <li>称 `F` 是<b>忠实</b>的, 若对所有对象 `X, Y in "Ob"(cc C')`,
-    态射之间的映射 `"Hom"_(cc C)(X, Y) to "Hom"_(cc C)(F X, F Y)` 都是单射.
-    也就是说, `X, Y` 的箭头到 `F X, F Y` 的箭头之间是单射.
+  <li>在对象层次, 称 `F` 是<b>本质满</b>的, 若 `cc C` 中任一对象都同构于某个 `F X`.
+    这是把满射定义中的 "等于" 换成了 "同构于".
   </li>
-  <li>称 `F` 是<b>全</b>的, 如果 2. 中的映射都是满射.</li>
-  <li>既忠实又全的函子称为<b>全忠实</b>的.</li>
+  <li>在态射层次,
+    称 `F` 是<b>忠实</b>的, 若 `Hom_C(X, Y) to Hom_C(F X, F Y)` 都是单射.
+    称 `F` 是<b>全</b>的, 如果上述映射都是满射.
+    既忠实又全的函子称为<b>全忠实</b>的.
+  </li>
 </ol>
 
 <p class="remark">
@@ -252,29 +295,47 @@ map identity = identity
   </li>
 </ol>
 
-<h2>自然变换</h2>
+<h3>自然变换</h3>
 
 <div class="definition p">
   <b>自然变换</b> 设函子 `F, G: cc C' to cc C`. 从 `F` 到 `G` 的自然变换 `theta: F rarr G`
   定义为一族态射
   <span class="formula">
-    `theta = { theta_X in "Hom"_(cc C)(F X, G X): X in "Ob"(cc C') }`.
+    `theta = { theta_X in Hom_C(F X, G X): X in "Ob"(cc C') }`.
   </span>
-  其中 `theta_X` 表示从 `F X` 到 `G X` 的箭头.
-  自然变换要求对所有态射 `f: X to Y` 有 `theta_X @ G f = F f @ theta_Y`, 即下图交换:
-  <div class="img xs">
-    <img src="../img/natural-trans-1.png" alt="自然变换1">
+  换言之 `theta = {theta_X}_X`, 其中 `theta_X: F X to G X`.
+  自然变换要求对所有态射 `f: X to Y` 有 `theta_X @ G f = F f @ theta_Y`.
+  下面是两种常见的图解, 验证自然变换, 关键是验证下面的图表交换:
+  <div class="space-around">
+    <div class="img xs">
+      <img src="../img/natural-trans-1.png" alt="自然变换1">
+    </div>
+    <div class="img xs">
+      <img src="../img/natural-trans-2.png" alt="自然变换2">
+    </div>
   </div>
-  另一种常见的图解方式为:
-  <div class="img xs">
-    <img src="../img/natural-trans-2.png" alt="自然变换2">
-  </div>
-  自然变换 `theta: F to G` 和 `psi: G to H` 的合成定义为
-  <span class="formula">
-    `psi theta: F to H`, 使得 `(psi theta)_X = psi_X theta_X`.
-  </span>
-  合成运算满足结合律.
 </div>
+
+<ol class="definition">
+  <li>
+    <b>自然变换的合成</b>
+    `theta: F to G` 和 `psi: G to H` 的合成定义为
+    <span class="formula">
+      `psi theta: F to H`, 使得 `(psi theta)_X = psi_X theta_X`.
+    </span>
+    合成运算满足结合律.
+  </li>
+  <li>
+    <b>自然变换乘函子</b>
+    对 `theta: F_1 to F_2` 左乘或右乘一个函子, 可以得到两个新的自然变换:
+    <span class="formula">
+      `theta G := {theta_(G Y)}_Y: F_1 G to F_2 G`,<br>
+      `H theta := {H theta_X}_X: H F_1 to H F_2`.
+    </span>
+    当然, 前提是函子的合成 `F_1 G`, `F_2 G`, `H F_1`, `H F_2` 有意义.
+    我们有结合律 `(H theta) G = H (theta G)`.
+  </li>
+</ol>
 
 <ol class="definition">
   <li>记函子 `F: cc C' to cc C` 到自身的<b>恒等变换</b>为
@@ -282,27 +343,100 @@ map identity = identity
       `"id"_F := { "id"_(F X): X in "Ob"(cc C') }`.
     </span>
   </li>
-  <li>若 `theta: F to G` 中的态射皆为同构, 则称 `theta` 是<b>同构</b>, 定义其逆 `theta^-1: G to F` 为
+  <li>若 `theta: F to G` 中的态射皆为同构, 则称 `theta` 是<b>自然同构</b>,
+    定义其逆 `theta^-1: G to F` 为
     <span class="formula">
       `theta^-1 := { theta_X^-1: theta_X in theta }`.
     </span>
     可以验证 `theta^-1 theta = "id"_F`, `theta theta^-1 = "id"_G`.
+    若 `theta` 是自然同构, 则它乘以函子后 `theta G, H theta` 也是同构.
   </li>
 </ol>
 
+<h3>函子与自然变换的例子</h3>
+
 <p class="example">
-  自然变换的一个典型例子是向量空间到其对偶空间的自然同态.
+  <b>Hom 函子</b> 给定范畴 `cc C` 及其对象 `X`, 定义函子
+  <span class="formula">
+    `Hom_C(X, *): cc C to sf(Set)`,<br>
+    (对象层次) `Y mapsto Hom_C(X, Y)`,<br>
+    (态射层次) `f mapsto f_ast`,
+  </span>
+  其中 `f: Y to Z`,
+  <span class="formula">
+    `f_ast: Hom_C(X, Y) to Hom_C(X, Z)` `:= h mapsto f h`.
+  </span>
+  同理定义反变函子
+  <span class="formula">
+    `Hom_C(*, X): cc C^"op" to sf(Set)`<br>
+    (对象层次) `Y mapsto Hom_C(Y, X)`,<br>
+    (态射层次) `f mapsto f^ast`,
+  </span>
+  其中 `f: Y to Z`,
+  <span class="formula">
+    `f^ast: Hom_C(Z, X) to Hom_C(Y, X)` `:= g mapsto g f`.
+  </span>
+  `f_ast` 和 `f^ast` 互为对偶, 称为<b>前推</b>和<b>拉回</b>.
+  助记: `f_ast = (f *)`, `f^ast = (* f)`
 </p>
 
 <ol class="example">
-  设 `theta: F_1 to F_2` 是自然变换. 我们可以左乘或右乘一个函子, 得到:
-  <li>`theta G := {theta_(G Y)}_Y: F_1 G to F_2 G`.</li>
-  <li>`H theta := {H theta_X}_X: H F_1 to H F_2`.</li>
-  当然, 前提是函子的合成 `F_1 G`, `F_2 G`, `H F_1`, `H F_2` 有意义.
-  我们有结合律 `(H theta) G = H (theta G)`.
-  若 `theta` 是同构, 则 `theta G, H theta` 也是同构.
+  <b>双重对偶空间</b>
+  自然变换的一个典型例子是向量空间到其双重对偶空间的自然同态.
+  考虑 `bbb F` 上的向量空间 `V`, 它的对偶空间 `V^ast` 由全体 `V` 到 `bbb F` 的线性函数组成.
+  <li>
+    定义函子 `D` 如下
+    <span class="formula">
+      `D: sf(V ect)(bbb F)^"op" to sf(V ect)(bbb F)`<br>
+      (对象层次) `V mapsto V^ast`<br>
+      (态射层次) `cc A mapsto cc A^ast`.
+    </span>
+    其中 `cc A: V to W`,
+    <span class="formula">
+      `cc A^ast: W^ast to V^ast`
+      `:=`
+      <span class="box">
+        `f mapsto f cc A`.
+      </span>
+    </span>
+    由于 `(cc(A B))^ast = cc B^ast cc A^ast`, `"id"_V^ast = "id"_(V^ast)`, 所以 `D` 是反变函子.
+    同理可构造另一个反变函子 `D^"op" = sf(V ect)(bbb F) to sf(V ect)(bbb F)^"op"`.
+  </li>
+  <li>
+    记 `"id"_(sf(V ect)(bbb F)` 是 `bbb F` 上向量空间范畴到自射的恒等函子. 定义自然变换
+    <span class="formula">
+      `"ev": "id"_(sf(V ect)(bbb F)) to D D^"op"`,
+    </span>
+    其中
+    <span class="formula">
+      `"ev"_V: V to V^(ast ast)`
+      `:=`
+      <span class="box">
+        `v mapsto f mapsto f(v)`.
+      </span>
+    </span>
+    可以验证它满足自然变换的变换图表: `AA cc A: V to W`,
+    <span class="formula">
+      `"ev"_V @ D D^"op" cc A = "id"_(sf(V ect)(bbb F)) cc A @ "ev"_W`.
+    </span>
+    同理有另一个自然变换 `"id"_(sf(V ect)(bbb F)^"op") to D^"op" D`.
+    当线性空间限制到有限维时, 这两个自然变换都是自然同构.
+  </li>
 </ol>
 
+<p class="remark">
+  一般而言, 两个有限维线性空间只要维数相同, 都是同构的, 但这个同构依赖于基的选取.
+  但 `V` 到 `V^(ast ast)` 的同构 `v mapsto f mapsto f(v)` 不依赖于基的选择, 因此说它是<b>自然</b>的.
+</p>
+
+<script>
+var asciimath = {
+  define: [
+    [/Hom_C\'/g, '"Hom"_(cc C\')'],
+    [/Hom_C/g, '"Hom"_(cc C)'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

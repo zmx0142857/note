@@ -822,27 +822,38 @@
 
 <h3>幂零矩阵</h3>
 
-<p class="example">
-  [来自群友 SmartPig]
+<p class="definition">
   如果存在正整数 `k` 使得 `bm A^k = bm O`, 则称 `bm A` 为<b>幂零矩阵 (nilpotent matrix)</b>.
-  设 `bm A` 为 `n` 阶幂零矩阵,
-  证明: `bm A != bm O` 时, 它至多有 `n-1` 个线性无关的特征向量.
-</p>
-
-<p class="proof">
-  首先, 幂零矩阵的特征值必为 0. 这是因为 `bm A^k = bm O` 的特征值是 `bm A` 的特征值的 `k` 次方.
-  如果 `bm A` 有 `n` 个线性无关的特征向量, 则它可对角化, 换言之 `bm A` 相似于 `bm O`.
-  然而 `bm O` 只和自己相似, 这推出 `bm A = bm O`, 矛盾.
 </p>
 
 <p class="example">
-  `n` 阶矩阵 `bm A` 是幂零矩阵当且仅当它的特征值全为零.
+  `n` 阶矩阵 `bm A` 是幂零矩阵当且仅当它有 `n` 个零特征值.
 </p>
 
 <p class="proof">
   `rArr`: `bm A^k = bm O` 的特征值是 `bm A` 的特征值的 `k` 次方, 但 `bm O` 的特征值全为零, 所以 `bm A` 的特征值也全为零.
   <br>
-  `lArr`: 由 `bm A` 的特征值全为零知道它的特征多项式是 `x^n`. 因此由 Cayley-Hamilton 定理得到 `bm A^n = bm O`.
+  `lArr`: 由 `bm A` 有 `n` 个零特征值知道它的特征多项式是 `x^n`. 因此由 Cayley-Hamilton 定理得到 `bm A^n = bm O`.
+</p>
+
+<p class="example">
+  [来自群友 SmartPig]
+  设 `bm A` 为 `n` 阶幂零矩阵,
+  证明: `bm A != bm O` 时, 它至多有 `n-1` 个线性无关的特征向量.
+</p>
+
+<p class="proof">
+  首先, 幂零矩阵的特征值必为 0.
+  如果 `bm A` 有 `n` 个线性无关的特征向量, 则它可对角化, 换言之 `bm A` 相似于 `bm O`.
+  然而 `bm O` 只和自己相似, 这推出 `bm A = bm O`, 矛盾.
+</p>
+
+<p class="example">
+  若 `bm A^n = bm O`, 则 `bm (I-A)` 可逆,
+  <span class="formula">
+    `(bm(I-A))^-1`
+    `= sum_(k=0)^(n-1) bm A^k`.
+  </span>
 </p>
 
 <h3>幂等矩阵</h3>
@@ -872,9 +883,10 @@
   <li>`V = "Ker" cc A o+ "Im" cc A`.</li>
   <li>`"Ker"(bb I - cc A) = "Im" cc A`,
     或等价地, `cc A bm v = bm v` `iff bm v in "Im"cc A`.
+    <br>
     这告诉我们, 投影变换保持 `"Im" cc A` 中的向量不变, 而将 `"Ker" cc A` 中的向量映为零.
   </li>
-  <li>反之, 若 `V = V_1 o+ V_2`, 则存在投影变换 `P` 使得 `V_1 = "Ker"P`, `V_2 = "Im"P`.</li>
+  <li>反之, 若 `V = V_1 o+ V_2`, 则存在唯一的投影变换 `P` 使得 `V_1 = "Ker"P`, `V_2 = "Im"P`.</li>
 </ol>
 
 <ol class="proof">
@@ -888,14 +900,18 @@
   </li>
   <li>分别取 `V_1` 和 `V_2` 的基底 `{bm u_i}` 和 `{bm v_i}`, 它们合起来组成了 `V` 的基底.
     受 2. 的启发, 令 `P(bm u_i) = 0`, `P(bm v_i) = bm v_i`, 则 `P` 就是满足条件的投影变换.
+    若还有一个投影变换 `Q` 的像与核与 `P` 相等, 则 `Q` 也把 `V_1`
+    中的向量映为零, `V_2` 中的向量保持不变, 因此 `P = Q`.
   </li>
 </ol>
 
 <p class="remark">
+  <b>投影变换的几何解释</b>
   投影变换 `cc A` 限制在 `"Im" cc A` 上是恒等映射, 限制在 `"Ker" cc A` 上是零映射.
   从矩阵的角度看, 相似标准形 `"diag"(1, cdots, 1, 0, cdots, 0)` 中对角线 1 的部分对应 `cc A` 的像,
   0 的部分对应 `cc A` 的核.
-  可以将 `"Im" cc A` 想象成三维欧氏空间的平面, `"Ker" cc A` 是在原点与平面相交的直线.
+  可以将 `"Im" cc A` 想象成三维欧氏空间的平面 (投影屏幕), `"Ker" cc A`
+  是在原点与平面相交的直线 (投影方向).
   于是 `cc A` 的作用相当于把空间中的一点沿直线方向投影到平面上.
   `bb I - cc A` 也是一个投影变换, 它是空间中一点到 `"Ker" cc A` 的投影, 与 `cc A` 正好互补.
 </p>
@@ -959,6 +975,50 @@
 
 <p class="example">
   [来自群友 SmartPig]
+  对 `n` 阶矩阵 `bm A, bm B` 有
+  <span class="formula">
+    `"Ker"bm A = "Ker"bm B`
+    `iff bm(A B) = bm A`,
+    `bm(B A) = bm B`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>"`rArr`":
+    因为 `V = "Ker"bm B o+ "Im"bm B`,
+    可以任取 `bm (x+y) in V`, 其中 `bm x in "Ker"bm A = "Ker"bm B`, `bm y in "Im"bm B`.
+    于是 `bm(A x) = bm(B x) = 0`, `bm(B y) = bm y`.  因此
+    <span class="formula align">
+      `(bm(A B - A)) (bm(x+y))`<br>
+      `= bm(A B x) - bm(A x) + bm(A B y) - bm(A y)`<br>
+      `= 0 - 0 + bm (A y) - bm(A y)`<br>
+      `= 0`.
+    </span>
+    这推出 `bm(A B) = bm A`. 同理 `bm(B A) = bm B`.
+  </li>
+  <li>
+    "`lArr`":
+    若 `bm(B A) = bm B`, `bm(A x) = 0`, 则
+    <span class="formula">
+      `bm(B x)` `= bm(B A x)` `= 0`,
+    </span>
+    这推出 `"Ker"bm A sube "Ker"bm B`. 同理 `"Ker" bm B sube "Ker"bm A`, 所以它们相等.
+  </li>
+  <hr>
+  [来自群友 机械唯物主义]
+  1. 的另一种证法:
+  <span class="formula align">
+    `bm A^2 = bm A`<br>
+    `iff bm A(bm(A-I)) = bm O`<br>
+    `iff "Im"(bm(A-I)) sube "Ker"bm A`<br>
+    `iff "Im"(bm(A-I)) sube "Ker"bm B`<br>
+    `iff bm B(bm(A-I)) = bm O`<br>
+    `iff bm (B A) = bm A`.
+  </span>
+</ol>
+
+<p class="example">
+  [来自群友 SmartPig]
   `n` 阶矩阵 `bm A, bm B` 满足
   <span class="formula">
     `"rank"(bm A + bm B) = "rank"bm A + "rank"bm B`,<br>
@@ -968,6 +1028,7 @@
 </p>
 
 <p class="proof">
+  [来自群友 TrivialPig]
   首先 `"Im"(bm(A+B)) le "Im"bm A + "Im"bm B`, 又由已知
   <span class="formula">
     `"dim Im"(bm(A+B)) = "dim Im"bm A + "dim Im"bm B`,
@@ -989,6 +1050,33 @@
   </span>
   于是 `bm A` 相似于 `"diag"(1, cdots, 1, 0, cdots, 0)`, `bm B` 相似于
   `"diag"(0, cdots, 0, 1, cdots, 1)`, 正说明它们是幂等矩阵.
+</p>
+
+<p class="proof">
+  [来自群友 澄]
+  与前一种证法相同, 推出 `"Im"(bm(A+B)) = "Im"bm A o+ "Im"bm B`.
+  接下来, 由已知
+  <span class="formula">
+    `bm A(bm(A+B)) + bm B(bm(A+B)) = bm(A+B)`,
+  </span>
+  因此由直和分解得到
+  <span class="formula">
+    `bm A(bm(A+B)) = bm A`,<br>
+    `bm B(bm(A+B)) = bm B`.
+  </span>
+  由直和分解还能进一步得到: 对任意 `bm x, bm y in V`, 存在 `bm z in V` 使得
+  <span class="formula">
+    `bm(A x) + bm(B y) = (bm(A+B)) bm z`,<br>
+    且 `bm(A x) = bm(A z)`, `bm(B y) = bm(B z)`.
+  </span>
+  左乘 `bm A` 得到
+  <span class="formula">
+    `bm A^2 bm x + bm(A B y)`
+    `= bm A(bm(A+B)) bm z`
+    `= bm(A z)`
+    `= bm(A x)`.
+  </span>
+  特别取 `bm y = 0` 有 `bm A^2 bm x = bm (A x)`, 即 `bm A^2 = bm A`.
 </p>
 
 <h3>对合矩阵</h3>

@@ -968,6 +968,99 @@
   由上述构造知真类 `bb(On)` 可以嵌入 `P`, 从而矛盾.
 </ol>
 
+<h2>超现实数</h2>
+
+<p>[来自 <a href="https://www.bananaspace.org/wiki/%E8%B6%85%E7%8E%B0%E5%AE%9E%E6%95%B0" target="_blank">香蕉空间</a>]
+</p>
+
+<p>
+  超现实数源于博弈论, 它包含实数, 也包含无穷大、无穷小的数.
+  不严谨地说, 全体超现实数构成有序域; 但由于超现实数过多, 因此不构成集合.
+</p>
+
+<ol class="definition">
+  <b>超现实数 (surreal number)</b> 由左集和右集组成, 记为 `{L | R}`. 它的递归定义如下:
+  <li><b>超现实数的判定</b>
+    `{L | R}` 是超现实数当且仅当 `L, R` 是超现实数的两个集合, 且
+    <span class="formula">
+      `l lt r`, `quad AA l in L, r in R`.
+    </span>
+    因此, 当 `L`, `R` 其一为空时, `{L | R}` 就是超现实数.
+    特别 `{O/ | O/}` 是超现实数, 简记为 `{|}` 或者 `0`.
+    我们常常省略左右集的花括号, 比如将 `{{0}|{1}}` 简记为 `{0|1}`.
+  </li>
+  <li>
+    <b>超现实数的序</b>
+    对于 `x = {X_L|X_R}` 和 `y = {Y_L|Y_R}`, 定义 `x le y` 当且仅当下面两个条件同时成立:
+    <span class="formula">
+      `(AA x_L in X_L)` `x_L lt y`,<br>
+      `(AA y_R in Y_R)` `x lt y_R`.
+    </span>
+    这里 `lt` 意为 `ge` 的否定.
+    可以验证 `le` 满足自反性和传递性. 如果两个超现实数同时满足 `x le y` 和 `y le x`, 则视它们相等.
+    因此全体超现实数关于 `le` 是全序.
+  </li>
+  <li>
+    <b>超现实数的加法</b> 定义
+    <span class="formula">
+      `x + y = { {x_L+y}uu{x+y_L} | {x_R+y}uu{x+y_R} }`,
+    </span>
+    其中 `x_L, x_R, y_L, y_R` 分别取遍 `x, y` 的左右集.<br>
+    加法零元为 `0`; 逆元为
+    <span class="formula">
+      `-x = { {-x_R} | {-x_L} }`,
+    </span>
+    `x_L, x_R` 分别取遍 `x` 的左右集.
+  </li>
+  <li>
+    <b>超现实数的乘法</b>
+    定义 `x * y = {L|R}`, 其中
+    <span class="formula">
+      `L = {x_L * y + x * y_(color(red)(L)) - x_L * y_(color(red)(L))}`
+      `uu {x_R * y + x * y_(color(red)(R)) - x_R * y_(color(red)(R))}`,<br>
+      `R = {x_L * y + x * y_(color(red)(R)) - x_L * y_(color(red)(R))}`
+      `uu {x_R * y + x * y_(color(red)(L)) - x_R * y_(color(red)(L))}`,
+    </span>
+    `x_L, x_R, y_L, y_R` 分别取遍 `x, y` 的左右集.<br>
+    乘法单位元是 `1 := {0|}`; 乘法逆元比较复杂, 稍后讨论.
+  </li>
+</ol>
+
+<p class="remark">
+  序数的加法与乘法没有交换律, 但超现实数有.
+</p>
+
+<ol class="example">
+  <b>超现实数的运算规律</b>
+  <li>对任意自然数 `n` 有 `n+1 = {n|}`, `-n-1 = {|-n}`.</li>
+  <li>哪些超现实数是等价的?</li>
+  <li>交换左右集的效果是什么?</li>
+  <li>有理数如何嵌入超现实数?</li>
+</ol>
+
+<ul class="example">
+  对每个序数 `alpha`, 把“第 `alpha` 天造出的超现实数”记为
+  <span class="formula">
+    `S_alpha := { {L|R}: L, R sube uuu_(beta lt alpha) S_beta }`.
+  </span>
+  换言之 `AA x in L uu R`, `EE beta lt alpha`, `x in S_beta`;
+  即左右集的元素都是在前面某一天造出来的.
+  <li>第 `0` 天的超现实数只能是 `0`.</li>
+  <li>第 `1` 天的超现实数除了 `0` 还有 `1 = {0|}` 与 `-1 = {|0}`.
+    但 `{0|0}` 不是超现实数, 它违背了超现实数的判定.
+  </li>
+  <li>第 `2` 天新造出的超现实数有 `2 = {1|}`, `-2 = {|-1}`, `1/2 = {0|1}` 和 `-1/2 = {-1|0}`.</li>
+  <li>第 `3` 天新造出的超现实数有 `1/4 = {0|1/2}`, `3/4 = {1/2|1}`, `3/2`, `3` 和它们的相反数.</li>
+  <li>任意分母为 2 的幂的有理数都可以在有限天内造出.</li>
+  <li>第 `omega` 天可以造出的数包括但不限于所有实数 (通过 Dedekind 分割), 以及
+    <span class="formula">
+      无穷大 `omega = {0, 1, 2, ... |}`,<br>
+      无穷小 `epsi = {0|1,1/2,1/4,...}`.
+    </span>
+    事实上 `epsi = 1//omega`.
+  </li>
+</ul>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
