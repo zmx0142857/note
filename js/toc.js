@@ -79,7 +79,7 @@ var tocData = [
           { "value": "2", "label": "同余", "date": "2024-06-06" },
           { "value": "3", "label": "阶与原根", "date": "2022-01-12" },
           { "value": "4", "label": "二次剩余", "date": "2022-01-09" },
-          { "value": "5", "label": "不定方程", "date": "2024-12-27" },
+          { "value": "5", "label": "不定方程", "date": "2024-12-31" },
           { "value": "6", "label": "积性数论函数", "date": "2024-08-30" },
           { "value": "7", "label": "素数分布", "date": "2022-11-20" },
           { "value": "11", "label": "代数数域和代数整数", "date": "2022-03-05" },
@@ -141,7 +141,7 @@ var tocData = [
         "value": "numeric",
         "label": "数值分析",
         "children": [
-          { "value": "2", "label": "插值与样条", "date": "2023-10-16" },
+          { "value": "2", "label": "插值与样条", "date": "2024-12-30" },
           { "value": "5", "label": "线性方程组" },
           { "value": "6", "label": "矩阵" },
           { "value": "7", "label": "非线性方程数值解法" },

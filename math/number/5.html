@@ -7,184 +7,9 @@
 </head>
 <body>
 
-<p class="example">
-  解关于 `x, y` 的不定方程 `a x y+b x+c y+d = 0`, `a, b, c, d` 为整数.
-</p>
+<h2>从勾股数到 Fermat 大定理</h2>
 
-<p class="solution">
-  两边同乘 `a` 以后变形为
-  <span class="formula">
-    `(a x+c)(a y+b) = b c-a d`,
-  </span>
-  再讨论 `b c-a d` 的因子即可.
-</p>
-
-<p class="example">
-  解关于 `a, b, c, d` 的不定方程 `1/a + 1/b + 1/c + 1/d = 1`,
-  `a, b, c, d` 是两两不相等的正整数.
-</p>
-
-<p class="example">
-  解关于 `x, y` 的不定方程 `x^2 + 615 = 2^y`.
-</p>
-
-<ol class="solution">
-  <li>模 2:
-    显然 `y` 只能是正整数, 于是 `2^y` 是偶数. 这推出方程左边是偶数,
-    于是 `x` 是奇数.
-  </li>
-  <li>模 3: `2^y` 不是 3 的倍数, 但 615 是 3 的倍数, 于是 `x` 不是
-    3 的倍数.
-  </li>
-  <li>模 6: 综上可知 `x = 6n+-1`, 于是 `x^2 -= 1 (mod 6)`.
-    而 `615 -= 3 (mod 6)`, 得到 `2^y -= 4(mod 6)`. 这推出 `y` 是偶数.
-  </li>
-  <li>设 `y = 2n`, 原方程变形为
-    <span class="formula">
-      `(2^n - x)(2^n + x) = 615 = 3*5*41`,
-    </span>
-    我们只需寻找 `(a, b)` 满足 `a + b = 2^(n+1)`, 其中 `a, b in {3, 5,
-    41}`. 容易发现只有两组解 `(a, b) = (5, 123)` 或 `(123, 5)`.
-    于是
-    <span class="formula">
-      `2^n +- x = 5`, `quad 2^n &pm; x = 123`.
-    </span>
-    解得 `n = 6`, (于是 `y = 12`), `x = +-59`.
-  </li>
-</ol>
-
-<p class="example">
-  [来自 我是小学二年级的屑] 求 `{ x y = 4 n; x+y = n+2 :}` 的正整数解.
-</p>
-
-<ol class="solution">
-  [来自 CBY 博士] 由已知
-  <span class="formula">
-    `x, y = (n+2+-sqrt((n-6)^2-32))/2`.
-  </span>
-  令判别式 `(n-6)^2-32 ge 0` 得 `n ge 12`. 令 `m = n-6 ge 6`, 则
-  <span class="formula">
-    `x = 4 + (m-sqrt(m^2-32))/2`
-    `= 4 + 16/(m+sqrt(m^2-32))`.
-  </span>
-  因此
-  <span class="formula">
-    `4 lt x`
-    `le 4 + 16/(6+sqrt(6^2-32)) = 6`,
-  </span>
-  即 `x = 5, 6`.
-  <li>`x = 6` 对应 `m = 6`, `n = 12`, 这时 `y = 8`.</li>
-  <li>`x = 5` 对应 `m - sqrt(m^2 - 32) = 2`, 即 `m = 9`, `n = 15`, 这时 `y
-    = 12`.</li>
-</ol>
-
-<p class="example">
-  求 `(x+y)^2 = x^3 + y^3` 的正整数解.
-</p>
-
-<p class="solution">
-  两边同时约去正因子 `x+y` 得
-  <span class="formula">
-    `x+y = x^2 - x y + y^2`,
-  </span>
-  这是椭圆的方程, 由图像我们推测正整数解只有 `(1,2)`, `(2,1)`, `(2,2)`.
-  <span class="img sm">
-    <img src="../img/diophantine-01.png" alt="">
-  </span>
-  [来自 我是费马方程的正整数解]
-  上式视为 `x` 的方程, 令它的判别式 `ge 0`, 我们得到 `y = 1, 2`,
-  从而轻松得到结果.
-</p>
-
-<p class="example">
-  求 `x^3 + y^3 = z^2` 的正整数解.
-</p>
-
-<p class="solution">
-  令 `(x, y, z) = (a c, b c, c^2)`, 问题化为
-  <span class="formula">
-    `a^3 c^3 + b^3 c^3 = c^4`,
-  </span>
-  显然 `c != 0`, 得 `a^3 + b^3 = c`. 任取 `a, b in ZZ^+`,
-  <span class="formula">
-    `(x, y, z) = (a (a^3+b^3), b (a^3+b^3), (a^3+b^3)^2)`
-  </span>
-  都给出原方程的一组正整数解;
-  如 `a=1, b=1` 时得到 `(2, 2, 4)`, `a=1, b=2` 时得到 `(9, 18, 81)` 等.
-  其它形式的解??
-</p>
-
-<p class="example">
-  [来自 马上开学的菜狗]
-  求 `x^3 + y^3 = x^2 y^2` 的正整数解.
-</p>
-
-<p class="solution">
-  [来自 小猿搜题] 取参数 `t = x // y`, 方程化为 `(t^3+1) y^3 = t^2 y^4`,
-  从而
-  <span class="formula">
-    `{ x = t^2 + 1//t; y = t + 1//t^2 :}`
-  </span>
-  `t = 1` 时, 得到一组解 `x = y = 2`.
-  `t gt 1` 时, ??
-</p>
-
-<p class="example">
-  [来自 叉叉子]
-  证明不定方程 `2x^4 = y^4 - 17 z^4` 只有平凡解 `x = y = z = 0`.
-</p>
-
-<p class="proof">
-  由于方程齐次, 不妨令 `gcd(x, y, z) = 1`,
-  考虑 mod 17 的可能余数:
-  <span class="formula">
-    `{:
-      2x^4, y^4, 17z^4;
-      0, 0, 0;
-      +-2, +-1, ;
-      +-8, +-4, ;
-    :}`
-  </span>
-  等式不能成立, 一个矛盾.
-</p>
-
-<p class="example">
-  [<a href="https://zhuanlan.zhihu.com/p/539810211" target="_blank">来自 IMO1988 | 出题人 Stephan Beck</a>]
-  设非负整数 `a, b` 使得 `(a^2+b^2)/(1+a b)` 为整数. 求证: 这个整数必是某一整数的平方.
-</p>
-
-<div class="proof">
-  [来自 保加利亚 Emanouil Atanassov]
-  把韦达定理与费马无穷递降法结合, 创造出韦达跳跃法:
-  <ol>
-  <li>首先进行反证假设, 构造一元二次方程, 设 `(x_0, y_0)` 是其最小解</li>
-  <li>通过韦达定理推出方程的另一个新解 `(x_1, y_1)`, 如果 `x_1 lt x_0`, `y_1 lt
-    y_0`, 这与 `x` 最小的假设矛盾, 则说明原方程无解.</li>
-  </ol>
-  现在我们处理原问题.
-  <ol>
-    <li>设 `k := (a^2+b^2)/(1+a b)` 不是平方数, 我们得到方程:
-      <span class="formula">
-        `a^2 - k a b + (b^2 - k) = 0`.
-      </span>
-    </li>
-  </ol>
-  ?? 未完待续
-</div>
-
-<ol class="example">
-  <b>关于平方和的立方和的几个恒等式</b>
-  [来自群友 太阳花]
-  <li>共 8 项: `x^2 + (x+3)^2 + (x+5)^2 + (x+6)^2`
-    `= (x+1)^2 + (x+2)^2 + (x+4)^2 + (x+7)^2`;</li>
-  <li>共 12 项: `x^2 + (x+2)^2 + (x+6)^2` `+ (x+7)^2 + (x+8)^2 + (x+10)^2`
-    `= (x+1)^2 + (x+3)^2 + (x+4)^2` `+ (x+5)^2 + (x+9)^2 + (x+11)^2`.
-  </li>
-  <li>共 16 项: <code>expand(x**3 + (x+3)**3 + (x+5)**3 + (x+6)**3 + (x+9)**3 + (x+10)**3 + (x+12)**3 + (x+15)**3 - (x+1)**3 - (x+2)**3 - (x+4)**3 - (x+7)**3 - (x+8)**3 - (x+11)**3 - (x+13)**3 - (x+14)**3)</code>
-  </li>
-</ol>
-
-<h2>勾股数</h2>
+<h3>勾股数</h3>
 
 <p class="definition">
   由熟知的勾股定理 (Pythagorean theorem), 直角三角形的三边长 `a, b, c`
@@ -314,6 +139,31 @@
   得到勾股数 `(5,12,13)`... 试试看吧!
 </p>
 
+<h3>圆锥曲线上的有理点</h3>
+
+<p>[来自讲义《MIT18: Rational Points on Conics》]</p>
+
+<p>
+  将寻找勾股数的问题转化为单位圆上的有理点, 这个方法可以推广到一般的圆锥曲线.
+  具体来说, 齐次不定方程
+  <span class="formula">
+    `a x^2 + b x y + c y^2 + d x z + e y z + f z^2 = 0`
+    <span id="for-conic-eq" class="label"></span>
+  </span>
+  满足 `z != 0` 的解可以转化为寻找整系数圆锥曲线
+  <span class="formula">
+    `a x^2 + b x y + c y^2 + d x + e y + f = 0`
+    <span class="label" id="for-conic"></span>
+  </span>
+  上的有理点.
+  假设 `(x_0, y_0)` 是曲线上的一个有理点, 过该点作斜率为 `k` 的直线族, 只要 `k`
+  取遍全体有理数 (及 `+-oo`), 直线族与曲线的交点就确定了曲线上的全体有理点.
+  换言之, 令 `k = p//q`, 则上述不定方程的通解可由 `p, q` 参数化, 形如
+  <span class="formula">
+    `x = x(p, q)`, `quad y = y(p, q)`, `quad z = z(p, q)`.
+  </span>
+</p>
+
 <p class="example">
   [来自 レイ]
   证明: 单位圆上存在无数个点, 它们两两间的距离均为有理数.
@@ -356,6 +206,168 @@
     `b = 2 p q`, `quad a = q(p+q)`, `quad c = p(p+q)`.
   </span>
 </p>
+
+<ol class="algorithm">
+  <b>整系数圆锥曲线的化简</b>
+  圆锥曲线上未必存在有理点, 一个例子是 `x^2 + y^2 = -1`.
+  为判定曲线 <a class="ref" href="#for-conic"></a> 上是否存在有理点, 我们对方程
+  <a class="ref" href="#for-conic-eq"></a>
+  作进一步化简:
+  <li>配方, 将方程化为形如 `a x^2 + b y^2 + c z^2 = 0`. 这是线性代数中二次型的标准操作.
+    注意这里的系数 `a, b, c` 不再是原方程的 `a, b, c`, 变量 `x, y, z` 也不再是原方程的 `x, y, z`.
+  </li>
+  <li>
+    我们可以假定系数 `a, b, c` 无平方因子. 假如 `c` 有平方因子 `d^2`, 可以换元 `d z mapsto z`,
+    得到新方程 `a x^2 + b y^2 + (c//d^2) z^2 = 0`, 消去这个平方因子.
+  </li>
+  <li>约去公因子后, 可以假定 `gcd(a, b, c) = 1`.
+    进一步可以假定 `a, b, c` 两两互素. 假如素数 `p | a`, `p | b`,
+    方程两边模 `p` 得到 `p | c z^2`. 但 `p !| c`, 所以 `p | z`.
+    因此可以换元 `z mapsto p z`, 得到新方程 `(a // p) x^2 + (b // p) y^2 + c p z^2 = 0`.
+    这个变换使得 `a, b` 中减少一个因子 `p`, 而 `c` 增加一个因子 `p`, 总的来说因子 `p` 是减少的.
+  </li>
+  最后我们得到方程 `a x^2 + b y^2 + c z^2 = 0`, 其中 `a b c` 无平方因子
+  (这等价于 `a, b, c` 各自无平方因子, 且两两互素).
+  是时候请出 Legendre 定理了!
+</ol>
+
+<ol class="theorem">
+  <b>Legendre</b>
+  设 `a, b, c` 是非零整数, `a b c` 无平方因子, 则不定方程
+  <span class="formula">
+    `a x^2 + b y^2 + c z^2 = 0`
+  </span>
+  有非平凡解 `(x, y, z) != (0, 0, 0)` 当且仅当以下条件全部满足:
+  <li>`a, b, c` 不同号.</li>
+  <li>`-a b` 是模 `c` 的二次剩余,
+    `-b c` 是模 `a` 的二次剩余,
+    `-a c` 是模 `b` 的二次剩余.
+  </li>
+</ol>
+
+<ol class="proof">
+  "`rArr`":
+  <li>
+    假设不定方程有非平凡解, 则 `a, b, c` 不可能同号; 否则方程可以写为平方和的形式, 它只有平凡解.
+  </li>
+  <li>
+    假设 `(x, y, z)` 是一组非平凡解, 不妨设 `gcd(x, y, z) = 1`, 下证 `x, y, z` 两两互素.
+    假如素数 `p | x`, `p | y`, 则方程两边模 `p^2` 得到 `p^2 | c z^2`. 由于 `c`
+    无平方因子, 所以 `p | z`, 这与 `gcd(x, y, z) = 1` 矛盾.
+  </li>
+  <li>下证 `-b c` 是模 `a` 的二次剩余.
+    任取 `a` 的一个素因子 `p`, 则 `b y^2 + c z^2 -= 0 (mod p)`.
+    由于 `y, z` 互素, `p` 不能同时整除 `y, z`. 不妨设 `p !| y`, 于是
+    <span class="formula">
+      `b y^2 -= - c z^2 (mod p)`,<br>
+      `b -= -c z^2 y^-2 (mod p)`,<br>
+      `-b c -= c^2 z^2 y^-2 (mod p)`.
+    </span>
+    因此 `-b c` 是模 `p` 的二次剩余. 由 `p` 的任意性及中国剩余定理 (CRT) 知道
+    `-b c` 也是模 `a` 的二次剩余.
+  </li>
+</ol>
+
+<ol class="proof">
+  "`lArr`":
+  <li>
+    设 `-b c -= k^2 (mod a)`, 于是在模 `a` 的意义下, 可以对方程因式分解:
+    <span class="formula align">
+      `a x^2 + b y^2 + c z^2`<br>
+      `-= b y^2 + c z^2 (mod a)`<br>
+      `-= b(y^2 + c z^2 b^-1) (mod a)`<br>
+      `-= b(y^2 - k^2 z^2 b^-2) (mod a)`<br>
+      `-= b(y + k z b^-1) (y - k z b^-1) (mod a)`.
+    </span>
+    类似可在模 `b, c` 的意义下因式分解; 总之
+    <span class="formula align">
+      `a x^2 + b y^2 + c z^2`<br>
+      `-= (alpha_1 x + beta_1 y + gamma_1 z)(rho_1 x + sigma_1 y + tau_1 z) (mod a)`<br>
+      `-= (alpha_2 x + beta_2 y + gamma_2 z)(rho_2 x + sigma_2 y + tau_2 z) (mod b)`<br>
+      `-= (alpha_3 x + beta_3 y + gamma_3 z)(rho_3 x + sigma_3 y + tau_3 z) (mod c)`.
+    </span>
+    由于 `a, b, c` 两两互素, 应用中国剩余定理 (CRT) 知道, 存在整数 `alpha` 满足
+    <span class="formula">
+      `alpha -= alpha_1 (mod a)`,<br>
+      `alpha -= alpha_2 (mod b)`,<br>
+      `alpha -= alpha_3 (mod c)`.
+    </span>
+    对其他系数也类似处理, 得到
+    <span class="formula">
+      `a x^2 + b y^2 + c z^2`
+      `-= (alpha x + beta y + gamma z)`
+      `(rho x + sigma y + tau z)`
+      `quad (mod a b c)`.
+    </span>
+  </li>
+  <li>
+    考虑下面区域中的整数点数目:
+    <span class="formula">
+      `Omega := [0, sqrt(|b c|)) xx [0, sqrt(|c a|)) xx [0, sqrt(|a b|))`.
+    </span>
+    由于 `a, b, c` 无平方因子, `Omega` 中的整数点数目为
+    <span class="formula">
+      `prod_"cyc" (floor(sqrt(|b c|)) + 1)`
+      `gt prod_"cyc" sqrt(|b c|)`
+      `= |a b c|`.
+    </span>
+    由鸽巢原理, 存在不同的两点 `(x_1, y_1, z_1)`, `(x_2, y_2, z_2) in Omega` 使得
+    <span class="formula">
+      `alpha x_1 + beta y_1 + gamma z_1`
+      `-= alpha x_2 + beta y_2 + gamma z_2`
+      `quad (mod a b c)`
+    </span>
+    令 `(x,y,z)`
+    `= (x_1 - x_2, y_1 - y_2, z_1 - z_2)`
+    `!= (0,0,0)`,
+    则 `alpha x + beta y + gamma z -= 0` `(mod a b c)`, 从而
+    `a x^2 + b y^2 + c z^2 -= 0` `(mod a b c)`.
+  </li>
+  <li>
+    一些不等式推导. 2. 中选取的 `x, y, z` 满足
+    <span class="formula">
+      `x^2 lt |b c|`,
+      `quad y^2 lt |c a|`,
+      `quad z^2 lt |a b|`,
+    </span>
+    由于 `a, b, c` 不同号, 不妨设 `a gt 0`, `b, c lt 0`, 则
+    <span class="formula">
+      `0 le a x^2 lt a b c`,<br>
+      `-2a b c lt b y^2 + c z^2 le 0`,<br>
+      `-2 a b c lt a x^2 + b y^2 + c z^2 lt a b c`.
+    </span>
+    但 `a x^2 + b y^2 + c z^2` 是 `a b c` 的倍数, 所以它要么等于 `0`, 要么等于 `-a b c`.
+  </li>
+  <li>假设它等于 `0`, 我们已经找到原方程的非平凡解; 若它等于 `-a b c`, 作变换
+    <span class="formula">
+      `x' = x z - b y`,<br>
+      `y' = y z + a x`,<br>
+      `z' = z^2 + a b`,
+    </span>
+    可以验证
+    <span class="formula">
+      `a {:x':}^2 + b {:y':}^2 + c {:z':}^2`
+      `= (a b + z^2)(a b c + a x^2 + b y^2 + c z^2)`
+      `= 0`.
+    </span>
+  </li>
+  <li>
+    如果 `(x', y', z') = (0,0,0)`, 则由 `z' = 0` 推出 `z^2 = -a b`.
+    但 `a, b` 互素, 只能有 `a = 1`, `b = -1`.
+    这时方程 `x^2 - y^2 + c z^2 = 0` 显然有非平凡解 `(1, 1, 0)`.
+  </li>
+</ol>
+
+<p class="example">
+  不定方程 `2 x^2 + 3 y^2 = 4 z^2` 只有平凡解.
+</p>
+
+<p class="proof">
+  换元 `2z mapsto z`, 新方程 `2 x^2 + 3 y^2 - z^2 = 0` 满足 `a b c` 无平方因子, `a, b, c` 不同号,
+  但 `-a c = 2` 不是模 `b = 3` 的二次剩余, 因此由 Ledendre 定理知道新方程只有平凡解, 从而原方程也是如此.
+</p>
+
+<h3>Fermat 大定理</h3>
 
 <p class="lemma">
     不存在面积为平方数的勾股三角形.
@@ -1193,6 +1205,185 @@ module.exports = function factor4SquaresNaive (str) {
   这指出 `h P` 的阶是 `q` 的因子, 但 `q` 为素数, 所以 `h P = 0` 或 `|h P| =
   q`.
 </p>
+
+<h2>杂例</h2>
+
+<p class="example">
+  解关于 `x, y` 的不定方程 `a x y+b x+c y+d = 0`, `a, b, c, d` 为整数.
+</p>
+
+<p class="solution">
+  两边同乘 `a` 以后变形为
+  <span class="formula">
+    `(a x+c)(a y+b) = b c-a d`,
+  </span>
+  再讨论 `b c-a d` 的因子即可.
+</p>
+
+<p class="example">
+  解关于 `a, b, c, d` 的不定方程 `1/a + 1/b + 1/c + 1/d = 1`,
+  `a, b, c, d` 是两两不相等的正整数.
+</p>
+
+<p class="example">
+  解关于 `x, y` 的不定方程 `x^2 + 615 = 2^y`.
+</p>
+
+<ol class="solution">
+  <li>模 2:
+    显然 `y` 只能是正整数, 于是 `2^y` 是偶数. 这推出方程左边是偶数,
+    于是 `x` 是奇数.
+  </li>
+  <li>模 3: `2^y` 不是 3 的倍数, 但 615 是 3 的倍数, 于是 `x` 不是
+    3 的倍数.
+  </li>
+  <li>模 6: 综上可知 `x = 6n+-1`, 于是 `x^2 -= 1 (mod 6)`.
+    而 `615 -= 3 (mod 6)`, 得到 `2^y -= 4(mod 6)`. 这推出 `y` 是偶数.
+  </li>
+  <li>设 `y = 2n`, 原方程变形为
+    <span class="formula">
+      `(2^n - x)(2^n + x) = 615 = 3*5*41`,
+    </span>
+    我们只需寻找 `(a, b)` 满足 `a + b = 2^(n+1)`, 其中 `a, b in {3, 5,
+    41}`. 容易发现只有两组解 `(a, b) = (5, 123)` 或 `(123, 5)`.
+    于是
+    <span class="formula">
+      `2^n +- x = 5`, `quad 2^n &pm; x = 123`.
+    </span>
+    解得 `n = 6`, (于是 `y = 12`), `x = +-59`.
+  </li>
+</ol>
+
+<p class="example">
+  [来自 我是小学二年级的屑] 求 `{ x y = 4 n; x+y = n+2 :}` 的正整数解.
+</p>
+
+<ol class="solution">
+  [来自 CBY 博士] 由已知
+  <span class="formula">
+    `x, y = (n+2+-sqrt((n-6)^2-32))/2`.
+  </span>
+  令判别式 `(n-6)^2-32 ge 0` 得 `n ge 12`. 令 `m = n-6 ge 6`, 则
+  <span class="formula">
+    `x = 4 + (m-sqrt(m^2-32))/2`
+    `= 4 + 16/(m+sqrt(m^2-32))`.
+  </span>
+  因此
+  <span class="formula">
+    `4 lt x`
+    `le 4 + 16/(6+sqrt(6^2-32)) = 6`,
+  </span>
+  即 `x = 5, 6`.
+  <li>`x = 6` 对应 `m = 6`, `n = 12`, 这时 `y = 8`.</li>
+  <li>`x = 5` 对应 `m - sqrt(m^2 - 32) = 2`, 即 `m = 9`, `n = 15`, 这时 `y
+    = 12`.</li>
+</ol>
+
+<p class="example">
+  求 `(x+y)^2 = x^3 + y^3` 的正整数解.
+</p>
+
+<p class="solution">
+  两边同时约去正因子 `x+y` 得
+  <span class="formula">
+    `x+y = x^2 - x y + y^2`,
+  </span>
+  这是椭圆的方程, 由图像我们推测正整数解只有 `(1,2)`, `(2,1)`, `(2,2)`.
+  <span class="img sm">
+    <img src="../img/diophantine-01.png" alt="">
+  </span>
+  [来自 我是费马方程的正整数解]
+  上式视为 `x` 的方程, 令它的判别式 `ge 0`, 我们得到 `y = 1, 2`,
+  从而轻松得到结果.
+</p>
+
+<p class="example">
+  求 `x^3 + y^3 = z^2` 的正整数解.
+</p>
+
+<p class="solution">
+  令 `(x, y, z) = (a c, b c, c^2)`, 问题化为
+  <span class="formula">
+    `a^3 c^3 + b^3 c^3 = c^4`,
+  </span>
+  显然 `c != 0`, 得 `a^3 + b^3 = c`. 任取 `a, b in ZZ^+`,
+  <span class="formula">
+    `(x, y, z) = (a (a^3+b^3), b (a^3+b^3), (a^3+b^3)^2)`
+  </span>
+  都给出原方程的一组正整数解;
+  如 `a=1, b=1` 时得到 `(2, 2, 4)`, `a=1, b=2` 时得到 `(9, 18, 81)` 等.
+  其它形式的解??
+</p>
+
+<p class="example">
+  [来自 马上开学的菜狗]
+  求 `x^3 + y^3 = x^2 y^2` 的正整数解.
+</p>
+
+<p class="solution">
+  [来自 小猿搜题] 取参数 `t = x // y`, 方程化为 `(t^3+1) y^3 = t^2 y^4`,
+  从而
+  <span class="formula">
+    `{ x = t^2 + 1//t; y = t + 1//t^2 :}`
+  </span>
+  `t = 1` 时, 得到一组解 `x = y = 2`.
+  `t gt 1` 时, ??
+</p>
+
+<p class="example">
+  [来自 叉叉子]
+  证明不定方程 `2x^4 = y^4 - 17 z^4` 只有平凡解 `x = y = z = 0`.
+</p>
+
+<p class="proof">
+  由于方程齐次, 不妨令 `gcd(x, y, z) = 1`,
+  考虑 mod 17 的可能余数:
+  <span class="formula">
+    `{:
+      2x^4, y^4, 17z^4;
+      0, 0, 0;
+      +-2, +-1, ;
+      +-8, +-4, ;
+    :}`
+  </span>
+  等式不能成立, 一个矛盾.
+</p>
+
+<p class="example">
+  [<a href="https://zhuanlan.zhihu.com/p/539810211" target="_blank">来自 IMO1988 | 出题人 Stephan Beck</a>]
+  设非负整数 `a, b` 使得 `(a^2+b^2)/(1+a b)` 为整数. 求证: 这个整数必是某一整数的平方.
+</p>
+
+<div class="proof">
+  [来自 保加利亚 Emanouil Atanassov]
+  把韦达定理与费马无穷递降法结合, 创造出韦达跳跃法:
+  <ol>
+  <li>首先进行反证假设, 构造一元二次方程, 设 `(x_0, y_0)` 是其最小解</li>
+  <li>通过韦达定理推出方程的另一个新解 `(x_1, y_1)`, 如果 `x_1 lt x_0`, `y_1 lt
+    y_0`, 这与 `x` 最小的假设矛盾, 则说明原方程无解.</li>
+  </ol>
+  现在我们处理原问题.
+  <ol>
+    <li>设 `k := (a^2+b^2)/(1+a b)` 不是平方数, 我们得到方程:
+      <span class="formula">
+        `a^2 - k a b + (b^2 - k) = 0`.
+      </span>
+    </li>
+  </ol>
+  ?? 未完待续
+</div>
+
+<ol class="example">
+  <b>关于平方和的立方和的几个恒等式</b>
+  [来自群友 太阳花]
+  <li>共 8 项: `x^2 + (x+3)^2 + (x+5)^2 + (x+6)^2`
+    `= (x+1)^2 + (x+2)^2 + (x+4)^2 + (x+7)^2`;</li>
+  <li>共 12 项: `x^2 + (x+2)^2 + (x+6)^2` `+ (x+7)^2 + (x+8)^2 + (x+10)^2`
+    `= (x+1)^2 + (x+3)^2 + (x+4)^2` `+ (x+5)^2 + (x+9)^2 + (x+11)^2`.
+  </li>
+  <li>共 16 项: <code>expand(x**3 + (x+3)**3 + (x+5)**3 + (x+6)**3 + (x+9)**3 + (x+10)**3 + (x+12)**3 + (x+15)**3 - (x+1)**3 - (x+2)**3 - (x+4)**3 - (x+7)**3 - (x+8)**3 - (x+11)**3 - (x+13)**3 - (x+14)**3)</code>
+  </li>
+</ol>
 
 <script src="../../js/plot.js"></script>
 <script src="../../js/playground.js"></script>

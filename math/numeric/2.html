@@ -449,29 +449,149 @@
 
 <h3>Legendre 多项式</h3>
 
+[来自 <a href="https://math.fandom.com/zh/wiki/Legendre_%E5%A4%9A%E9%A1%B9%E5%BC%8F" target="_blank">fandom wiki</a>, <a href="https://zhuanlan.zhihu.com/p/438490439" target="_blank">FurinaWai77@知乎</a>]
+
 <ol class="example">
   <b>Legendre 多项式</b>
-  <li>计算 `p_n(x) = "d"^n/dx^n (x^2-1)^n` 的 `n` 次项系数.</li>
-  <li>验证 `p_n(1) = 2^n n!`, `p_n(-1) = (-2)^n n!`.</li>
-  <li>验证 `{p_n}` 的正交性:
+  由 Rodrigues 公式定义: `P_n(x) := 1/(2^n n!) "d"^n/dx^n (x^2-1)^n`.
+  <li>`P_n(x)` 的奇偶性与 `n` 的奇偶性相同, 这是因为 `x^2 - 1` 是偶函数.</li>
+  <li>`P_n(x)` 的 `n` 个零点全部位于区间 `(-1, 1)`.</li>
+  <li>`P_n(x)` 的 `n` 次项系数是 `(2n;n) 2^-n`.
+    <p class="solution">
+      `(x^2-1)^n` 是 `2n` 次多项式, 首项系数为 1, 因此它的 `n` 阶导数的首项系数是
+      `(2n) * (2n-1) cdots (n+1) = (2n)!//n!`.
+      再除以 `2^n n!` 得到 `(2n;n) 2^-n`.
+    </p>
+  </li>
+  <li>`P_n(1) = 1`, `P_n(-1) = (-1)^n`.
+    <p class="solution">
+      以 `P_n(1)` 为例, 简记 `del_x := "d"/dx`, `"coef"_n` 表示 `n` 次项系数, 有
+      <span class="formula">
+        `2^n n! P_n(1) = del_(x=1)^n (x^2-1)^n`
+        `= del_(y=0)^n (y(y+2))^n`
+        `= n! "coef"_n (y(y+2))^n`
+        `= 2^n n!`.
+      </span>
+    </p>
+  </li>
+  <li>正交性:
     <span class="formula">
-      `(p_n, p_m) = int_(-1)^1 p_n(x) p_m(x) dx`
-      `= {0, if m != n; 2^(2n+1)/(2n+1) n!^2, otherwise:}`.
+      `(P_n, P_m) = int_(-1)^1 P_n(x) P_m(x) dx`
+      `= {0, if m != n; 2/(2n+1), otherwise:}`.
+    </span>
+    因此类似 Fourier 展开, 可以考虑一般函数的 Legendre 展开.
+    <p class="solution">
+      记 `p_n(x) = 2^n n! P_n(x)`.
+      不妨设 `m le n`, 分部积分得
+      <span class="formula">
+        `(p_n, p_m)`
+        `= int_(-1)^1 del_x^n (x^2-1)^n del_x^m (x^2-1)^m dx`
+        `= (-1)^n int_(-1)^1 (x^2-1)^n del_x^(m+n) (x^2-1)^m dx`,
+      </span>
+      注意, 由于 `k lt n` 时,
+      <span class="formula">
+        `del_(x=1)^k (x^2-1)^n`
+        `= k! "coef"_k (y(y+2))^n`
+        `= 0`,<br>
+        `del_(x=-1)^k (x^2-1)^n`
+        `= k! "coef"_k (y(y-2))^n`
+        `= 0`,
+      </span>
+      所以分部积分的中间项全部为零.
+      现在回到分部积分的结果, `(x^2-1)^m` 是 `2m` 次多项式, 我们有
+      <span class="formula">
+        `del_x^(m+n) (x^2 - 1)^m`
+        `= { (2n)!, if m = n; 0, if m lt n :}`
+      </span>
+      于是 `m != n` 时 `(p_n, p_m) = 0`. `m = n` 时
+      <span class="formula align">
+        `(p_n, p_n)`<br>
+        `= (-1)^n (2n)! int_(-1)^1 (x^2 - 1)^n dx`<br>
+        `= 2 (2n)! int_0^1 (1-x^2)^n dx`<br>
+        `= 2 (2n)! int_0^(pi//2) cos^(2n+1) theta "d"theta`<br>
+        `= 2 (2n)! ((2n)!!)/((2n+1)!!)`<br>
+        `= 2^(2n+1)/(2n+1) n!^2`.
+      </span>
+    </p>
+  </li>
+  <li>递推公式:
+    <span class="formula">
+      `P_(n+1)(x) = (2n+1)/(n+1) x P_n(x) - n/(n+1) P_(n-1)(x)`.
+    </span>
+    <p class="solution">
+    [来自 <a href="https://zhuanlan.zhihu.com/p/675756007" target="_blank">Catalyzer@知乎</a>]
+      由于 `{P_n(x)}` 是一组正交基, 将函数 `x P_n(x)` 展开得到
+      <span class="formula">
+        `x P_n(x) = sum_(k=0)^(n+1) lambda_k P_k(x)`,<br>
+        `lambda_k = (x P_n, P_k) // (P_k, P_k)`.
+        <span class="label">(`ast`)</span>
+      </span>
+      上式实际只有 `k = n-1, n, n+1` 三项, 这是因为若 `k lt n-1`, 则
+      <span class="formula">
+        `(x P_n, P_k)`
+        `= (P_n, x P_k)`
+        `= (P_n, sum_(j=0)^(k+1) lambda_j P_j)`
+        `= sum_(j=0)^(k+1) lambda_j (P_n, P_j)`
+        `= 0`.
+      </span>
+      比较 (`ast`) 式两边的 `n+1` 次项系数得到
+      <span class="formula">
+        `(2n)!/(2^n {:n!:}^2) = lambda_(n+1) (2n+2)!/(2^(n+1) {:(n+1)!:}^2)`,
+      </span>
+      于是 `lambda_(n+1) = (n+1)/(2n+1)`.  另一方面,
+      <span class="formula">
+        `(x P_(n+1), P_n)`
+        `= (x P_n, P_(n+1))`
+        `= lambda_(n+1) (P_(n+1), P_(n+1))`
+        `= (n+1)/(2n+1) * 2/(2n+3)`.
+      </span>
+      把 `n` 换成 `n-1` 得到 `(x P_n, P_(n-1)) = n/(2n-1) * 2/(2n+1)`, 于是
+      <span class="formula">
+        `lambda_(n-1)`
+        `= (x P_n, P_(n-1)) // (P_(n-1), P_(n-1))`
+        `= n/(2n-1) * 2/(2n+1) * (2n-1)/2`
+        `= n/(2n+1)`.
+      </span>
+      最后, `x P_n^2` 是奇函数, 因此 `(x P_n, P_n) = 0`, 这推出 `lambda_n = 0`.
+      综上得到
+      <span class="formula">
+        `x P_n(x) = lambda_(n-1) P_(n-1) + lambda_(n+1) P_(n+1)`,
+      </span>
+      整理即得结论.
+    </p>
+  </li>
+  <li>
+    导数递推:
+    <span class="formula">
+      `P_(n+1)'(x) = x P_n(x) + (n+1) P_n(x)` (疑似有误, 次数不对??),<br>
+      `P_(n+1)'(x) - P_(n-1)'(x) = (2n+1) P_n(x)`,<br>
+      `(x^2 - 1) P_n'(x) = n x P_n(x) - n P_(n-1)(x)`,<br>
     </span>
   </li>
-  令 `L_n(x) = 1/(2^n n!) p_n(x)`, 则
-  <span class="formula">
-    `L_n(1) = 1`, `L_n(-1) = (-1)^n`,
-    `(L_n, L_n) = 2//(2n+1)`.
-  </span>
-  称 `L_n(x)` 为 `n` 次 Legendre 多项式.
-  <li>递推公式: `L_(n+1)(x) = (2n+1)/(n+1) x L_n(x) - n/(n+1) L_(n-1)(x)`.</li>
+  <li>生成函数: `1/sqrt(1 - 2 x s + s^2) = sum_(n ge 0) P_n(x) s^n`.</li>
+  <li>显式表达式: `P_n(x) = 1/2^n sum_(k=0)^(floor(n//2)) ((-1)^k (2n-2k)!)/(k!(n-k)!(n-2k)!) x^(n-2k)`.</li>
+  <li>`P_n(x)` 是下面 Legendre 方程的解:
+    <span class="formula">
+      `(1-x^2) y'' - 2x y' + n(n+1) y = 0`.
+    </span>
+  </li>
+  <li>积分表达式有 Schlafli 公式 (其中 `C` 是绕 `z` 点一周的简单闭曲线):
+    <span class="formula">
+      `P_n(z) = 1/(2pi"i") int_C (zeta^2 - 1)^n/(2^n(zeta-z)^(n+1) "d"zeta`,
+    </span>
+    以及 Laplace 第一、第二公式:
+    <span class="formula">
+      `P_n(z) = 1/pi int_0^pi (z + sqrt(z^2 - 1) cos theta)^n "d"theta`,<br>
+      `P_n(z) = 1/pi int_0^pi ("d"theta)/(z + sqrt(z^2 - 1) cos theta)^(n+1)`.
+    </span>
+  </li>
 </ol>
 
 <table>
+  <caption>Legendre 多项式</caption>
   <tr>
     <td>`n`</td>
-    <td>`L_n(x)`</td>
+    <td>`P_n(x)`</td>
   </tr>
   <tr>
     <td>0</td>
@@ -503,53 +623,14 @@
   </tr>
 </table>
 
-<ol class="solution">
-  <li>
-    `(x^2-1)^n` 是 `2n` 次多项式, 首项系数为 1, 因此它的 `n` 阶导数的首项系数是
-    `(2n) * (2n-1) cdots (n+1) = (2n)!//n!`.
-  </li>
-  <li>
-    以 `p_n(1)` 为例,
-    <span class="formula">
-      `p_n(1) = {:"d"^n/dx^n|_(x=1) (x^2-1)^n`
-      `= {:"d"^n/dy^n|_(y=0) (y(y+2))^n`
-      `= (y(y+2))^n` 的 `n` 次项系数乘以 `n!`
-      `= 2^n n!`.
-    </span>
-  </li>
-  <li>
-    不妨设 `m le n`, 分部积分得
-    <span class="formula">
-      `(p_n, p_m)`
-      `= int_(-1)^1 "d"^n/dx^n (x^2-1)^n "d"^m/dx^m (x^2-1)^m dx`
-      `= (-1)^n int_(-1)^1 (x^2-1)^n "d"^(m+n)/dx^(m+n) (x^2-1)^m dx`,
-    </span>
-    注意, 由于 `k lt n` 时,
-    <span class="formula">
-      `{:"d"^k/dx^k|_(x=1) (x^2-1)^n`
-      `= (y(y+2))^n` 的 `k` 次项系数乘以 `k!`
-      `= 0`,<br>
-      `{:"d"^k/dx^k|_(x=-1) (x^2-1)^n`
-      `= (y(y-2))^n` 的 `k` 次项系数乘以 `k!`
-      `= 0`,
-    </span>
-    所以分部积分的中间项全部为零.
-    现在回到分部积分的结果, `(x^2-1)^m` 是 `2m` 次多项式, 我们有
-    <span class="formula">
-      `"d"^(m+n)/dx^(m+n) (x^2 - 1)^m`
-      `= { (2n)!, if m = n; 0, if m lt n :}`
-    </span>
-    于是 `m != n` 时 `(p_n, p_m) = 0`. `m = n` 时
-    <span class="formula">
-      `(p_n, p_n)`
-      `= (-1)^n (2n)! int_(-1)^1 (x^2 - 1)^n dx`
-      `= 2 (2n)! int_0^1 (1-x^2)^n dx`
-      `= 2 (2n)! int_0^(pi//2) cos^(2n+1) theta "d"theta`
-      `= 2 (2n)! ((2n)!!)/((2n+1)!!)`
-      `= 2^(2n+1)/(2n+1) n!^2`.
-    </span>
-  </li>
-</ol>
+<p class="definition">
+  <b>正交多项式</b>
+  是指满足如下 Sturm-Liouville 型方程的本征值问题的多项式:
+  <span class="formula">
+    `1/(w(z)) "d"/dz (p(z) w(z) ("d" psi_n)/dz) + lambda_n y = 0`.
+  </span>
+  在适当的边界条件下, 这些多项式在权函数 `w(z)` 下正交: `int w(z) psi_m psi_n = delta(m, n)`.
+</p>
 
 <h3>Chebyshev 多项式</h3>
 
