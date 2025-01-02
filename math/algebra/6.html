@@ -28,20 +28,19 @@ td.blue {
 
 <p class="definition">
   <b>模 (module)</b>
-  设 `R` 为幺环<sup>[<a class="ref" href="#rem-ring-with-1"></a>]</sup>, `(M, +)` 是 Abel 群, 给定映射
+  是线性空间的推广. 它是一个 Abel 群 `M` 上配备了来自环 `R` 的数乘. 具体定义如下:
+  <br>
+  设 `R` 为幺环<sup>[<a class="ref" href="#rem-ring-with-1"></a>]</sup>, `(M, +)` 是 Abel 群, 给定<b>数乘</b> (又称<b>标量乘法</b>或<b>纯量乘法</b>):
   <span class="formula">
     `f: R xx M to M`<br>
     `(a, x) mapsto a x`
   </span>
-  满足 `AA a, b in R`, `x, y in M`,
+  满足如下规律: `AA a, b in R`, `x, y in M`,
   <span class="formula">
-    `a(x + y) = a x + a y`,<br>
-    `(a + b) x = a x + b x`,<br>
-    `(a b) x = a (b x)`,<br>
-    `1_R x = x`
+    (分配律) `quad a(x + y) = a x + a y`, `quad (a + b) x = a x + b x`,<br>
+    (结合律, 单位元) `quad (a b) x = a (b x)`, `quad 1_R x = x`,
   </span>
-  则称 `f` 是一个<b>数乘</b>或<b>标量乘法</b>, `M` 是 `R` 上的一个<b>左模</b>, 或简称<b>左 `R`-模</b>.
-  把以上定义的左乘全部改为右乘, 则可以定义<b>右 `R`-模</b>.
+  则称 `M` 是 `R` 上的一个<b>左模</b>, 或简称<b>左 `R`-模</b>.
 </p>
 
 <p class="remark" id="rem-ring-with-1">
@@ -49,6 +48,7 @@ td.blue {
 </p>
 
 <p class="remark">
+  把以上定义的左乘全部改为右乘, 则可以定义<b>右 `R`-模</b>.
   左模与右模除了乘法的次序不同外, 性质没有任何区别.
   特别当 `R` 为交换幺环时, 左模与右模没有区别. 这是因为右模有
   <span class="formula">
@@ -74,22 +74,73 @@ td.blue {
     tau(x)`. 给定映射 `"End"(M) xx M to M` 使得 `(sigma, x) mapsto sigma(x)`,
     则 `M` 是 `"End"(M)` 上的模.
   </li>
-  <li>设 `M` 为 Abel 群, `R` 为环, 则 `R` 到 `"End"(M)` 的环同态构成模.</li>
+  <li>环同态模: 设有环同态 `varphi: R to S`, 则
+    `S` 是 `R`-模, 其中加法是环 `S` 的加法, 数乘是 `r s := varphi(r) s`.
+    特别地, 环 `R` 本身是一个 `R`-模.
+  </li>
+  <li>
+    设 `M` 为 Abel 群, `R` 为环, 则 `R` 到 `"End"(M)` 的环同态构成模.
+  </li>
+  <li>Hom 模: 设 `M` 和 `N` 为 `R`-模, 将所有模同态 (见下) `M to N` 的集合记为 `"Hom"(M, N)`,
+    它是一个加法群. 若进一步设 `R` 为交换环, 则 `"Hom"(M, N)` 升级为 `R`-模.
+  </li>
 </ol>
 
 <ol class="definition">
-  <li>子模: 若 `M` 是 `R`-模, `N` 是 `M` 的子群, 且对数乘封闭: `AA a in R, y in N` 有 `a y in N`,
+  模的底层是 Abel 群加上数乘. 对 Abel 群的子群、商群、同态在数乘方面加以规定, 就得到子模、商模和模同态的定义:
+  <li><b>子模</b> 若 `M` 是 `R`-模, `N` 是 `M` 的子群, 且对数乘封闭: `AA a in R, y in N` 有 `a y in N`,
     则称 `N` 是 `M` 的子模.
   </li>
-  <li>商模: 设 `M` 是 `R`-模, `N` 是 `M` 的子模, 定义 `R` 与商群 `M // N` 之间的数乘
+  <li><b>商模</b> 设 `M` 是 `R`-模, `N` 是 `M` 的子模, 定义 `R` 与商群 `M // N` 之间的数乘
     <span class="formula">
       `R xx M // N to M // N`<br>
       `(a, x + N) mapsto a x + N`,
     </span>
     则 `M//N` 是 `R`-模, 称为 `M` 关于 `N` 的商模.
   </li>
-  <li>同态: 若 `M, N` 是 `R`-模, `f: M to N` 是 Abel 群的同态, 且满足 `AA a in R`, `x in M`, `f(a x) = a f(x)`, 则称 `f` 是 `M` 到 `N` 的 `R`-模同态, 简称模同态.</li>
+  <li><b>同态</b> 若 `M, N` 是 `R`-模, `f: M to N` 是 Abel 群的同态, 且满足 `AA a in R`, `x in M`, `f(a x) = a f(x)`, 则称 `f` 是 `M` 到 `N` 的 `R`-模同态, 简称模同态.
+    可逆的同态称为同构.
+  </li>
 </ol>
+
+<ol class="corollary">
+  <li>一族子模的交仍是子模;</li>
+  <li>一族子模的和仍是子模. 子模的和定义为
+    <span class="formula">
+      `sum_(i in I) M_i`
+      `:= { 有限和 sum_(i in I) x_i: x_i in M_i }`.
+    </span>
+  </li>
+  <li>子集 `S` 生成的子模定义为
+    <span class="formula">
+      `(:S:) := { 有限和 sum_(s in S) r_s s: r_s in R }`.
+    </span>
+    它是 `M` 是包含 `S` 的最小子模.
+    特别地, 单个元素和有限个元素生成的子模分别为
+    <span class="formula">
+      `(:x:) = R x` `:= { r x: r in R }`,<br>
+      `(:s_1, cdots, s_n:)`
+      `= R s_1 + cdots + R s_n`.
+    </span>
+  </li>
+  <li>
+    如果 `M` 由有限个元素生成, 即存在有限子集 `S` 使得 `M = (:S:)`, 则称它是<b>有限生成</b>的.
+    特别由单个元素生成的模称为<b>循环模</b>.
+  </li>
+</ol>
+
+<p class="definition">
+  同态 `f: M to N` 的<b>核</b>与<b>余核</b>定义为
+  <span class="formula">
+    `"Ker" f := { x in M: f(x) = 0 }`,<br>
+    `"coKer" f := N//"Im" f`.
+  </span>
+  余核的概念是群当中没有的.
+</p>
+
+<p class="corollary">
+  模同态 `f: M to N` 为单同态当且仅当 `"Ker" f = {0}`, 为满同态当且仅当 `"coKer" f = {0}`.
+</p>
 
 <h2>代数</h2>
 

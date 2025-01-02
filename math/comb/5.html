@@ -808,6 +808,35 @@ print(golomb(6))
   `QQ` 上的 `n` 阶可逆矩阵数目参见 <a href="https://oeis.org/A055165" target="_blank">OEIS A055165</a>.
 </ol>
 
+<p class="example">
+  <b>Goldbach 定理</b>
+  [来自 <a href="https://sites.math.rutgers.edu/~zeilberg/goldbach.pdf" target="_blank">A Proof of the Celebrated Goldbach's Theorem</a>]
+  设 `P` 是全体完美幂数 (perfect power number) 的集合:
+  <span class="formula">
+    `P := { m^n: m, n in ZZ^+, m ge 2, n ge 2 }`.
+  </span>
+  证明:
+  <span class="formula">
+    `sum_(x in P) 1/(x-1) = 1`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `R = ZZ^+ - P - {1}`. 于是任意 `ge 2` 的正整数 `n` 可以唯一地写为 `r^s`, (`r in R, s ge 1`),
+  其中 `n in P` 当且仅当 `s ge 2`. 利用几何级数计算:
+  <span class="formula">
+    `sum_(x in P) 1/(x-1)`
+    `= sum_(r in R) sum_(s ge 2) 1/(r^s - 1)`
+    `= sum_(r in R) sum_(s ge 2) sum_(i ge 1) 1/r^(s i)`
+    `= sum_(r in R) sum_(i ge 1) sum_(s ge 2) 1/r^(i s)`
+    `= sum_(r in R) sum_(i ge 1) (1//r^i)^2/(1-1//r^i)`
+    `= sum_(r in R) sum_(i ge 1) 1/(r^i(r^i-1))`
+    `= sum_(n ge 2) 1/(n(n-1))`
+    `= sum_(n ge 2) (1/(n-1) - 1/n)`
+    `= 1`.
+  </span>
+</p>
+
 
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/table.js"></script>
