@@ -264,54 +264,6 @@ module.exports = function (str) {
   则它关于模 `delta = "ord "a` 是唯一的.
 </p>
 
-<ol class="example">
-  讨论模 `m = 2^n` 的指数与原根. 此时有 `varphi(2^n) = 2^(n-1)`.
-  <li>模 `m = 2, 4` 时有原根;</li>
-  <li>`n ge 3` 时, 模 `m = 2^n` 无原根.  事实上对任意奇数 `a` 有
-    <span class="formula">
-      `a^(2^(n-2)) -= 1 (mod 2^n)`.
-    </span>
-    由于 `varphi(2^n) = 2^(n-1) gt 2^(n-2)`, 故此时无原根;
-  </li>
-  <li>`n ge 3` 时, `"ord"_m 5 = 2^(n-2)`.
-    这时数字 5 是原根这一角色的一个 "替代品".
-  </li>
-</ol>
-
-<ol class="proof">
-  <li>`m = 2` 时, `1` 是原根; `m = 4` 时, `"ord"(-1) = 2`, 故 `-1` 是原根.
-  </li>
-  <li>对 `n` 进行归纳. 设 `a = 2t+1`, 则 `n = 3` 时
-    <span class="formula">
-      `a^2 = 4t(t+1) + 1 -= 1 (mod 2^3)`,
-    </span>
-    结论成立. 假设结论对整数 `n ge 3` 成立, 则对 `n+1` 有
-    <span class="formula">
-      `2^(n+1) | (a^(2^(n-2))-1)(a^(2^(n-2))+1)`
-      `= a^(2^(n-1)) - 1`,
-    </span>
-    结论也成立.
-  </li>
-  <li>
-    2. 中已经证明 `"ord"_m 5 | 2^(n-2)`, 因而只需证 `"ord"_m 5 !|
-    2^(n-3)`, 即证
-    <span class="formula">
-      `5^(2^(n-3)) !-= 1 (mod 2^n)`, `quad n ge 3`.
-    </span>
-    对 `n` 进行归纳. `n=3` 时结论成立. 假设结论对整数 `n ge 3` 成立,
-    则 `n+1` 时, 由于
-    <span class="formula">
-      `5^(2^(n-3)) -= 1 (mod 2^(n-1))`, `quad n ge 3`.
-    </span>
-    可设 `5^(2^(n-3)) = 2^(n-1) s + 1`, 于是
-    <span class="formula">
-      `5^(2^(n-2)) = (2^(n-1) s + 1)^2`
-      `= 2^n s(2^(n-2) s + 1) + 1`.
-    </span>
-    由归纳假设, `2 !| s`, 因此 `5^(2^(n-2)) !-= 1 (mod 2^(n+1))`.
-  </li>
-</ol>
-
 <ol class="property">
   阶的若干计算性质.
   <li>`n | m rArr` `"ord"_n a | "ord"_m a`;</li>
@@ -443,22 +395,175 @@ module.exports = function (str) {
   </li>
 </ol>
 
-<h2>原根存在的充要条件</h2>
+<h2>原根的存在性</h2>
 
-<p class="theorem">
-  模 `m` 有原根的充要条件是
-  <span class="formula">
-    `m = 1, 2, 4, p^n, 2p^n`.
-  </span>
-  其中 `p` 是奇素数, `n ge 1`.
-</p>
-
-<p class="proof">
-  先证必要性, 充分性将在下文分几个定理完成证明.
-  ??
+<p>[来自<a href="https://zhuanlan.zhihu.com/p/432245024" target="_blank">铁球@知乎</a>、
+<a href="https://oi-wiki.org/math/number-theory/primitive-root/" target="_blank">OI Wiki</a>]
 </p>
 
 <ol class="example">
+  讨论模 `m = 2^n` 的指数与原根. 此时有 `varphi(2^n) = 2^(n-1)`.
+  <li>模 `m = 2, 4` 时有原根;</li>
+  <li>`n ge 3` 时, 模 `m = 2^n` 无原根.  事实上对任意奇数 `a` 有
+    <span class="formula">
+      `a^(2^(n-2)) -= 1 (mod 2^n)`.
+    </span>
+    由于 `varphi(2^n) = 2^(n-1) gt 2^(n-2)`, 故此时无原根;
+  </li>
+  <li>`n ge 3` 时, `"ord"_m 5 = 2^(n-2)`.
+    这时数字 5 是原根这一角色的一个 "替代品".
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>`m = 2` 时, `1` 是原根; `m = 4` 时, `"ord"(-1) = 2`, 故 `-1` 是原根.
+  </li>
+  <li>对 `n` 进行归纳. 设 `a = 2t+1`, 则 `n = 3` 时
+    <span class="formula">
+      `a^2 = 4t(t+1) + 1 -= 1 (mod 2^3)`,
+    </span>
+    结论成立. 假设结论对整数 `n ge 3` 成立, 则对 `n+1` 有
+    <span class="formula">
+      `2^(n+1) | (a^(2^(n-2))-1)(a^(2^(n-2))+1)`
+      `= a^(2^(n-1)) - 1`,
+    </span>
+    结论也成立.
+  </li>
+  <li>
+    2. 中已经证明 `"ord"_m 5 | 2^(n-2)`, 因而只需证 `"ord"_m 5 !|
+    2^(n-3)`, 即证
+    <span class="formula">
+      `5^(2^(n-3)) !-= 1 (mod 2^n)`, `quad n ge 3`.
+    </span>
+    对 `n` 进行归纳. `n=3` 时结论成立. 假设结论对整数 `n ge 3` 成立,
+    则 `n+1` 时, 由于
+    <span class="formula">
+      `5^(2^(n-3)) -= 1 (mod 2^(n-1))`, `quad n ge 3`.
+    </span>
+    可设 `5^(2^(n-3)) = 2^(n-1) s + 1`, 于是
+    <span class="formula">
+      `5^(2^(n-2)) = (2^(n-1) s + 1)^2`
+      `= 2^n s(2^(n-2) s + 1) + 1`.
+    </span>
+    由归纳假设, `2 !| s`, 因此 `5^(2^(n-2)) !-= 1 (mod 2^(n+1))`.
+  </li>
+</ol>
+
+<ol class="lemma">
+  <li>
+    设 `m = a b`, 其中 `a, b` 互素.
+    若 `g` 是模 `m` 的原根, 则它也是模 `a, b` 的原根, 且 `varphi(a), varphi(b)` 互素.
+  </li>
+  <li>
+    设 `g` 是模 `p^(n+1)` 的原根, 则它也是模 `p^n` 的原根.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>对任意 `g in ZZ_m^ast`, 我们有公式
+    <span class="formula">
+      `"ord"_m g = lcm("ord"_a g, "ord"_b g)`.
+    </span>
+    假如 `g` 是模 `m` 的原根, 等号左边等于 `varphi(m)`, 且右边整除
+    <span class="formula">
+      `lcm(varphi(a), varphi(b))`
+      `le varphi(a) varphi(b)`
+      `= varphi(m)`
+    </span>
+    要使左右相等, 只有让 `"ord"_a g = varphi(a)`,
+    `"ord"_b g = varphi(b)`, 即 `g` 也是模 `a`, `b` 的原根;
+    并且还要求 `varphi(a)`, `varphi(b)` 互素.
+  </li>
+  <li>
+    ??
+  </li>
+</ol>
+
+<ol class="lemma">
+  <b>模 `p` 的原根存在</b>
+  设 `p` 为素数, 则
+  <li>(Lagrange 定理) `k` 次同余方程 `f(x) -= 0 (mod p)` 最多有 `k` 个解.
+    这个性质实际上对域上的多项式方程都成立.
+  </li>
+  <li>特别当 `k | p-1` 时, `x^k -= 1 (mod p)` 恰有 `k` 个解.</li>
+  <li>对任意 `k | p-1`, 模 `p` 的 `k` 阶元数目等于 `varphi(k)`.
+    特别 `p-1` 阶元数目等于 `varphi(p-1) gt 0`, 因此模 `p` 的原根存在.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    一次同余方程 `a x + b -= 0 (mod p)` 最多有一个解.
+    假设命题对 `k-1` 成立, 考虑 `k` 次同余方程 `f(x) -= 0 (mod p)`.
+    不妨设方程有解 `x = r`, 于是 `f(x) -= (x-r) g(x) (mod p)`.
+    由于 `p` 是素数, `p | a b iff p | a or p | b`, 我们有
+    <span class="formula">
+      `f(x) -= 0 (mod p)`
+      `iff x - r -= 0 (mod p)`
+      `or g(x) -= 0 (mod p)`.
+    </span>
+    由归纳假设 `g(x) -= 0 (mod p)` 最多有 `k-1` 个解, 因此原方程最多有 `k` 个解.
+  </li>
+  <li>
+    设 `p-1 = k q`, 则
+    <span class="formula">
+      `x^(p-1) - 1`
+      `= (x^k-1)(1 + x^k + cdots + x^((q-1)k))`
+      `:= (x^k-1) g(x)`.
+    </span>
+    由 1. 知,
+    <span class="formula align">
+      `x^(p-1) -= 1 (mod p)` 的解数<br>
+      `le x^k -= 1 (mod p)` 和 `g(x) -= 0 (mod p)` 的解数<br>
+      `le k + k(q-1)`
+      `= p-1`.
+    </span>
+    但由 Fermat 小定理, 同余方程 `x^(p-1) -= 1 (mod p)` 恰有 `p-1` 个解,
+    这意味上式等号全部成立, `x^k -= 1 (mod p)` 恰有 `k` 个解.
+  </li>
+  <li>把全体成员 `ZZ_p^ast = {1, cdots, p-1}` 按阶分类.
+    记 `k` 阶元的个数为 `N(k)`.
+    例如, 1 阶元只有 1, 2 阶元只有 -1, 于是 `N(1) = N(2) = 1`.
+    由于所有阶都是 `p-1` 的因子, 有
+    <span class="formula">
+      `sum_(k | p-1) N(k) = p-1`.
+    </span>
+    另一方面, `ZZ_p^ast` 中的数还可以按与 `p-1` 的最大公约数分类.
+    若 `a` 满足 `gcd(a, p-1) = k`, 则 `gcd(a, (p-1)//k) = 1`, 因此这样的 `a`
+    共有 `varphi((p-1)//k)` 个:
+    <span class="formula">
+      `sum_(k | p-1) varphi((p-1)//k) = sum_(k | p-1) varphi(k) = p-1`.
+    </span>
+    对任意 `k | p-1`, 由 2. 知道同余方程 `x^k -= 1 (mod p)` 恰有 `k` 个解.
+    <br>
+    (1) 如果存在 `k` 阶元 `a`, 可以验证 `a^1, cdots, a^k` 就是方程的 `k` 个解,
+    因此 `k` 阶元只需从这 `k` 个解中寻找.
+    由阶数公式, `a^r` 的阶等于 `k//(gcd(r, k))`, 从而
+    <span class="formula">
+      `"ord" a^r = k iff gcd(r, k) = 1`.
+    </span>
+    这样的 `a^r` 共有 `varphi(k)` 个, 即 `N(k) = varphi(k)`.
+    <br>
+    (2) 如果不存在 `k` 阶元, 此时 `N(k) = 0`. 但这样一来等式
+    `sum_(k | p-1) N(k) = sum_(k | p-1) varphi(k)` 无法成立, 因此对任意 `k | p-1` 都存在 `k`
+    阶元. 证毕.
+  </li>
+</ol>
+
+<p class="proof">
+  另一个证明. 任取 `a, b in Z_p^ast`, 由给定阶元素的存在性定理,
+  存在 `c in Z_p^ast` 使得 `"ord" c = lcm("ord" a, "ord" b)`.
+  对 `1 ~ p-1` 反复使用结论, 可知存在 `g in Z_p^ast` 使得
+  <span class="formula">
+    `"ord" g = lcm("ord" 1, cdots, "ord"(p-1))`.
+  </span>
+  记 `"ord" g = d`, 于是 `1 ~ p-1` 都是同余方程 `x^d -= 1 (mod p)` 的解,
+  从而由 Lagrange 定理知道 `d ge p-1`.
+  又显然 `"ord" g le p-1`, 所以 `"ord" g = p-1`.
+</p>
+
+<ol class="example">
+  <b>模 `p` 的 `k` 次同余方程</b>
   `p` 为素数, `p !| n`, 则
   <li>同余方程 `x^k -= 1 (mod p)` 共有 `(p-1, k)` 个解;</li>
   <li>同余方程 `x^k -= n (mod p)` 有 `0` 个或 `(p-1, k)` 个解.</li>
@@ -486,73 +591,81 @@ module.exports = function (str) {
   </li>
 </ol>
 
-<p class="example">
-  我们知道, `1//7 = 0. dot 1 4285 dot 7`, 其循环节恰有 `7-1 = 6` 位.
-  在 100 以内, 除 2 以外, 满足 `1//n` 的循环节恰有 `n-1`
-  位这一性质的正整数 `n` 有:
+<p class="theorem">
+  <b>原根的存在性定理</b>
+  模 `m` 有原根的充要条件是
   <span class="formula">
-    7, 17, 19, 23, 29, 47, 59, 61, 97.
+    `m = 1, 2, 4, p^n, 2p^n`.
   </span>
-  它们都是素数以外, 还有什么共同特点?
+  其中 `p` 是奇素数, `n ge 1`.
 </p>
 
-<p class="solution">
-  共同特点是: 10 是模 `n` 的原根.
-  原因是若 `10^d -= 1 (mod n)`, 即 `n | 10^d - 1`, 则分数 `1//n`
-  可以化为循环节 `d` 位的循环小数. 如 `10^6 -= 1 (mod 7)`, 则
-  <span class="formula">
-    `1/7 = 142857/999999 = 0. dot 1 4285 dot 7`.
-  </span>
-  又如 `10^6 -= 1 (mod 13)`, 则
-  <span class="formula">
-    `1/13 = 076923/999999 = 0. dot 0 7692 dot 3`.
-  </span>
-  因此, 当 `(10, n) = 1` 时, 循环节的长度就是 10 模 `n` 的指数.
-  要使循环节恰有 `n-1` 位, 就要求 10 模 `n` 的指数等于 `n-1`;
-  这当且仅当 `n` 是素数, 且 10 是模 `n` 的原根.
-</p>
-
-<p class="example">
-  [<a href="https://www.bilibili.com/video/BV1SK4y1974A" target="_blank">manim 短篇 离散猫变换</a>]
-  设 `bm A = [2, 1; 1, 1]`, `bm I = [1, 0; 0, 1]`.
-  依次取 `m = 11, 59, 2855`,
-  求 `"ord"_m bm A`, 即求最小的正整数 `n` 使得
-  <span class="formula">
-    `bm A^n -= bm I (mod m)`.
-  </span>
-</p>
-
-<ol class="solution">
-  `bm A` 是对称矩阵, 因此可以对角化, 即存在模 `m` 可逆矩阵 `bm P` 使得
-  <span class="formula">
-    `bm A = bm P^-1 bm D bm P`,
-    `quad bm D = [x, ; , y]`.
-  </span>
-  其中 `x, y` 是 `bm A` 模 `m` 的特征值.
-  若 `bm A^n -= bm I (mod m)`, 必有 `bm D^n -= bm I (mod m)`, 即
-  <span class="formula">
-    `{ x^n -= 1; y^n -= 1 :} (mod m)`.
-  </span>
-  注意 `|bm A| = 1`, 所以不论 `m`
-  取何值, `bm A` 总是非奇异的, 这蕴含 `x^n !-= 0, y^n !-= 0 (mod m)`,
-  特别当 `m` 为素数时, 上面的方程组总是有解.
-  <li>`m = 11` 时, 由 `x + y -= 3, x y -= 1(mod 11)`, 利用求根公式得
+<ol class="proof">
+  <li>
+    前面例题已经讨论了 `m` 为 2 的幂的情形: 模 `2, 4` 有原根, 而 `n ge 3` 时 `2^n` 无原根.
+  </li>
+  <li>
+    设 `g` 是模 `m` 的原根, 下证 `m` 至多含有一个奇素数因子.
+    否则设 `m = p^r q^s n`, `p, q` 是不同的奇素数, 且与 `n` 互素.
+    由引理知道 `m` 也是模 `p^r`, `q^s` 的原根, 且 `varphi(p^r), varphi(q^s)` 互素.
+    但由于 `p, q` 为奇素数, 所以 `varphi(p^r), varphi(q^s)` 都是偶数, 不可能互素.
+    同理, `m` 不能同时有一个奇素数因子和一个因子 `2^n` (`n ge 2`),
+    这是因为 `varphi(p^r)` 和 `varphi(2^n)` 都是偶数.
+  </li>
+  <li>我们只剩下证明模 `p^n` 和 `2 p^n` 都是有原根的, `p` 为奇素数.
+    先取模 `p` 的原根 `g`, 对任意正整数 `n`, 记 `delta = "ord"_(p^n) g`.
+    事实上 `delta` 等于某个 `varphi(p^m)`, 这是因为 `varphi(p) | delta` 和
+    `delta | varphi(p^n)`, 所以存在 `1 le m le n` 使得
     <span class="formula">
-      `x, y -= (3 +- sqrt 5)//2`
-      `-= (3 +- 4) * 6`
-      `= -2, 5 (mod 11)`
+      `delta = p^(m-1)(p-1)` `= varphi(p^m)`.
     </span>
-    `mod 11` 下 `"ord" (-2) = "ord" 5 = 5`, 取最小公倍数得到
-    `"ord"_11 bm A = 5`.
   </li>
-  <li>`m = 59` 时特征值为 `(3 +- 8) * 30 -= -24, -32 (mod 59)`.
-    从而 `"ord"_59 bm A` `= lcm("ord"(-24), "ord"(-32))`
-    `= lcm(29, 29) = 29`.
+  <li>
+    由 Euler 定理, `g^(varphi(p^n)) -= 1 (mod p^n)`, 故存在唯一整数 `k_n` 使得
+    <span class="formula">
+      `g^(varphi(p^n)) = 1 + k_n p^n`.
+    </span>
+    下面证明 `k_1 -= k_2 -= cdots -= k_n (mod p)`.
+    利用 `varphi(p^(n+1)) = p varphi(p^n)` 有
+    <span class="formula">
+      `g^(varphi(p^(n+1)))`
+      `= (g^(varphi(p^n)))^p`
+      `= (1 + k_n p^n)^p`
+      `= 1 + k_n p^(n+1) + R p^(n+2)`
+      `= 1 + (k_n + R p) p^(n+1)`.
+    </span>
+    因此 `k_(n+1)` 和 `k_n` 模 `p` 同余.
+    <hr>
+    [注] 上述论证对 `p=2, n=1` 失效, 此时 `(1+k_n p^n)^p` 的展开中不存在 `p^(n+2)` 次项;
+    这就是为什么我们要求奇素数.
   </li>
-  <li>`m = 2855 = 5 * 571` 时, 模 `5` 的特征值为 `-1 (mod 5)` (2 重根),
-    `"ord"_5 (-1) = 2`. 模 `571` 的特征值为 `(3 +- 24) * 286 -= 299, 275
-    (mod 571)`, 且 `"ord"_571 299 = "ord"_571 275 = 285`.
-    从而 `"ord"_2855 bm A = 2 * 285 = 570`.
+  <li>
+    下证 `g` 和 `g + p` 至少有一个是模 `p^n` 的原根.
+    设 `g^(p-1) = 1 + k p`, `(g+p)^(p-1) = 1 + k' p`, 则 `k !-= k' (mod p)`, 这是因为
+    <span class="formula">
+      `(g+p)^(p-1) -= g^(p-1) + p(p-1) g^(p-2)`
+      `-= 1 + k p - g^(p-2) p (mod p^2)`,
+    </span>
+    即 `k' -= k - g^(p-2) (mod p)`, 其中 `g^(p-2) !-= 0 (mod p)`.
+    <br>
+    因此, `k` 和 `k'` 至少有一个不是 `p` 的倍数, 不妨设 `p !| k`.
+    结合上一条结论知道对任意正整数 `n` 都有
+    <span class="formula">
+      `g^(varphi(p^n)) !-= 1 (mod p^(n+1))`.
+    </span>
+    特别 `g^delta !-= 1 (mod p^(m+1))`,
+    因此 `m ge n`, 综上有 `m = n`, 即 `delta = varphi(p^n)`.
+    <hr>
+    TODO: 和 Hensel 引理的关系??
+  </li>
+  <li>最后考虑模 `2p^n` 的原根, `p` 为奇素数.
+    设 `g` 是模 `p^n` 的原根, 则两个原根 `g` 和 `g + p^n` 中有一个是奇数,
+    不妨设它是 `g`, 则 `gcd(g, 2 p^n) = 1`.
+    设 `delta = "ord"_(2 p^n) g`, 则 `g^delta -= 1 (mod 2 p^n)`, 这推出
+    <span class="formula">
+      `g^delta -= 1 (mod p^n)`.
+    </span>
+    于是 `varphi(2 p^n) = varphi(p^n) | delta`, 这说明 `g` 也是模 `2 p^n` 的原根.
   </li>
 </ol>
 
@@ -768,6 +881,78 @@ module.exports = function (str) {
   `QQ(zeta_n) // QQ` 是 Galois 扩张, 扩张次数为 Euler 函数 `varphi(n)`.
   其 Galois 群 `Gal(QQ(zeta_n)//QQ)` 同构于 `ZZ_n^**`.
 </p>
+
+<h2>杂例</h2>
+
+<p class="example">
+  我们知道, `1//7 = 0. dot 1 4285 dot 7`, 其循环节恰有 `7-1 = 6` 位.
+  在 100 以内, 除 2 以外, 满足 `1//n` 的循环节恰有 `n-1`
+  位这一性质的正整数 `n` 有:
+  <span class="formula">
+    7, 17, 19, 23, 29, 47, 59, 61, 97.
+  </span>
+  它们都是素数以外, 还有什么共同特点?
+</p>
+
+<p class="solution">
+  共同特点是: 10 是模 `n` 的原根.
+  原因是若 `10^d -= 1 (mod n)`, 即 `n | 10^d - 1`, 则分数 `1//n`
+  可以化为循环节 `d` 位的循环小数. 如 `10^6 -= 1 (mod 7)`, 则
+  <span class="formula">
+    `1/7 = 142857/999999 = 0. dot 1 4285 dot 7`.
+  </span>
+  又如 `10^6 -= 1 (mod 13)`, 则
+  <span class="formula">
+    `1/13 = 076923/999999 = 0. dot 0 7692 dot 3`.
+  </span>
+  因此, 当 `(10, n) = 1` 时, 循环节的长度就是 10 模 `n` 的指数.
+  要使循环节恰有 `n-1` 位, 就要求 10 模 `n` 的指数等于 `n-1`;
+  这当且仅当 `n` 是素数, 且 10 是模 `n` 的原根.
+</p>
+
+<p class="example">
+  [<a href="https://www.bilibili.com/video/BV1SK4y1974A" target="_blank">manim 短篇 离散猫变换</a>]
+  设 `bm A = [2, 1; 1, 1]`, `bm I = [1, 0; 0, 1]`.
+  依次取 `m = 11, 59, 2855`,
+  求 `"ord"_m bm A`, 即求最小的正整数 `n` 使得
+  <span class="formula">
+    `bm A^n -= bm I (mod m)`.
+  </span>
+</p>
+
+<ol class="solution">
+  `bm A` 是对称矩阵, 因此可以对角化, 即存在模 `m` 可逆矩阵 `bm P` 使得
+  <span class="formula">
+    `bm A = bm P^-1 bm D bm P`,
+    `quad bm D = [x, ; , y]`.
+  </span>
+  其中 `x, y` 是 `bm A` 模 `m` 的特征值.
+  若 `bm A^n -= bm I (mod m)`, 必有 `bm D^n -= bm I (mod m)`, 即
+  <span class="formula">
+    `{ x^n -= 1; y^n -= 1 :} (mod m)`.
+  </span>
+  注意 `|bm A| = 1`, 所以不论 `m`
+  取何值, `bm A` 总是非奇异的, 这蕴含 `x^n !-= 0, y^n !-= 0 (mod m)`,
+  特别当 `m` 为素数时, 上面的方程组总是有解.
+  <li>`m = 11` 时, 由 `x + y -= 3, x y -= 1(mod 11)`, 利用求根公式得
+    <span class="formula">
+      `x, y -= (3 +- sqrt 5)//2`
+      `-= (3 +- 4) * 6`
+      `= -2, 5 (mod 11)`
+    </span>
+    `mod 11` 下 `"ord" (-2) = "ord" 5 = 5`, 取最小公倍数得到
+    `"ord"_11 bm A = 5`.
+  </li>
+  <li>`m = 59` 时特征值为 `(3 +- 8) * 30 -= -24, -32 (mod 59)`.
+    从而 `"ord"_59 bm A` `= lcm("ord"(-24), "ord"(-32))`
+    `= lcm(29, 29) = 29`.
+  </li>
+  <li>`m = 2855 = 5 * 571` 时, 模 `5` 的特征值为 `-1 (mod 5)` (2 重根),
+    `"ord"_5 (-1) = 2`. 模 `571` 的特征值为 `(3 +- 24) * 286 -= 299, 275
+    (mod 571)`, 且 `"ord"_571 299 = "ord"_571 275 = 285`.
+    从而 `"ord"_2855 bm A = 2 * 285 = 570`.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/playground.js"></script>

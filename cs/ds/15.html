@@ -147,6 +147,34 @@ module.exports = (str) => {
 </script>
 </div>
 
+<p class="algorithm">
+  <b>判断线段是否相交</b>
+  以两条线段为对角线, 张成一个四边形.
+  则两线段相交当且仅当该四边形是凸四边形.
+  特别当四边形面积小于 <code>epsi</code> 时视为退化, 这时把两线段判定为不相交.
+</p>
+
+<div class="playground" value="{ edge1: [[0,-1],[0,1]], edge2: [[-1,0],[1,0]] }">
+<script type="text">
+const isCrossing = (edge1, edge2) => {
+  const [p1, p2] = edge1
+  const [p3, p4] = edge2
+  const seg = (p1, p2) => (p2[0] - p1[0]) * (p2[1] + p1[1])
+  // 四边形有向面积的两倍 (green 公式)
+  const area = (p1, p2, p3, p4) => seg(p1, p2) + seg(p2, p3) + seg(p3, p4) + seg(p4, p1)
+  const sign = (p1, p2, p3) => seg(p1, p2) + seg(p2, p3) + seg(p3, p1) > 0 // 三角形的定向
+  const epsi = 1e-4
+  return Math.abs(area(p1, p3, p2, p4)) > epsi
+    && sign(p1, p2, p3) !== sign(p1, p2, p4) // p3, p4 位于直线 p1-p2 两侧
+    && sign(p3, p4, p1) !== sign(p3, p4, p2) // p1, p2 位于直线 p3-p4 两侧
+}
+module.exports = (str) => {
+  const { edge1, edge2 } = Playground.parse(str)
+  return isCrossing(edge1, edge2)
+}
+</script>
+</div>
+
 <script src="../../js/note.js?type=cs"></script>
 <script src="../../js/playground.js"></script>
 </body>

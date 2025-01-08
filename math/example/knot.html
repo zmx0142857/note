@@ -1,0 +1,309 @@
+<html>
+<head>
+<title>Knot Editor by YossiLev</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+<style>
+* {
+  box-sizing: border-box;
+}
+:root {
+  --fg-1: #eee;
+  --bg-0: #1976d2;
+  --bd-2: #888; 
+}
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: #333;
+}
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #333;
+  cursor: crosshair;
+}
+
+.btns {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+.btns-0 > :not(.btn-0) {
+  display: none;
+}
+.btns-1 > :not(.btn-1) {
+  display: none;
+}
+.btns-2 > :not(.btn-2) {
+  display: none;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--fg-1);
+  background-color: transparent;
+  border: 1px solid var(--bd-2);
+  opacity: 0.9;
+  line-height: 20px;
+}
+.btn.btn-primary {
+  background-color: var(--bg-0);
+  border-color: var(--bg-0);
+}
+.btn:active {
+  opacity: 1;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="btns btns-0">
+  <button class="btn btn-primary btn-finish btn-1">完成绘制</button>
+  <!-- <button class="btn btn-primary btn-jones btn-2">Jones 多项式</button> -->
+</div>
+
+<script>
+const $ = el => document.querySelector(el)
+const canvas = $('#canvas')
+const ctx = canvas.getContext('2d')
+
+const Utils = {
+  between (x, min, max) {
+    if (x < min) return min
+    if (x > max) return max
+    return x
+  },
+  length2 (x, y) {
+    return x * x + y * y
+  },
+  // 判断线段相交
+  isCrossing (edge1, edge2) {
+    const [p1, p2] = edge1
+    const [p3, p4] = edge2
+    const seg = (p1, p2) => (p2[0] - p1[0]) * (p2[1] + p1[1])
+    const area = (p1, p2, p3, p4) => Math.abs(seg(p1, p2) + seg(p2, p3) + seg(p3, p4) + seg(p4, p1)) // 四边形面积的两倍 (green 公式)
+    const sign = (p1, p2, p3) => seg(p1, p2) + seg(p2, p3) + seg(p3, p1) > 0 // 三角形的定向
+    return area(p1, p3, p2, p4) > 0.1
+      && sign(p1, p2, p3) !== sign(p1, p2, p4)
+      && sign(p3, p4, p1) !== sign(p3, p4, p2)
+  },
+  // 求两直线交点
+  getIntersect (edge1, edge2) {
+    const [[x1, y1], [x2, y2]] = edge1
+    const [[x3, y3], [x4, y4]] = edge2
+    const det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+    if (det === 0) return null
+    const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / det
+    return [x1 + t * (x2 - x1), y1 + t * (y2 - y1)]
+  },
+}
+
+class Crossing {
+  constructor (type, x, y) {
+    this.type = type
+    this.x = x
+    this.y = y
+  }
+}
+
+class Knot {
+  constructor () {
+    this.init()
+  }
+
+  init () {
+    this.step = 10
+    this.points = [] // 采样点
+    this.crossings = [] // 交点
+    this.box = [Infinity, Infinity, -Infinity, -Infinity] // [xmin, ymin, xmax, ymax]
+  }
+
+  // 新增一个点
+  addPoint (x, y) {
+    const last = this.points.slice(-2)
+    const dist = Math.hypot(x - last[0], y - last[1])
+    if (dist < 1e-2) return
+    const n = dist / this.step
+    for (let i = 1; i < n; ++i) {
+      const t = i / n
+      const p = [
+        last[0] + (x - last[0]) * t,
+        last[1] + (y - last[1]) * t
+      ]
+      this.updateBox(p)
+      this.updateCrossings(p)
+      this.points.push(p)
+    }
+    const p = [x, y]
+    this.updateBox(p)
+    this.updateCrossings(p)
+    this.points.push(p)
+  }
+
+  // 更新包围盒
+  updateBox ([x, y]) {
+    this.box[0] = Math.min(this.box[0], x)
+    this.box[1] = Math.min(this.box[1], y)
+    this.box[2] = Math.max(this.box[2], x)
+    this.box[3] = Math.max(this.box[3], y)
+  }
+
+  // 计算新的边与每一条边的交点
+  updateCrossings (p) {
+    const len = this.points.length
+    if (len < 2) return
+    const lastEdge = [...this.points.slice(-1), p]
+    for (let i = 0; i < len - 2; i++) {
+      const edge = this.points.slice(i, i + 2)
+      if (Utils.isCrossing(lastEdge, edge)) {
+        const intersect = Utils.getIntersect(lastEdge, edge)
+        if (intersect) this.crossings.push(intersect)
+      }
+    }
+  }
+
+  // 闭合路径
+  closePath () {
+    const len = this.points.length
+    if (len < 2) return
+    const first = this.points[0]
+    const last = this.points[len - 1]
+    if (Utils.length2(first[0] - last[0], first[1] - last[1]) > 0.5) {
+      this.points.push(first)
+    }
+  }
+
+  draw (ctx) {
+    if (!this.points.length) return
+    ctx.strokeStyle = '#aaa'
+    ctx.fillStyle = '#aaa'
+    ctx.lineWidth = 1
+
+    ctx.beginPath()
+    ctx.moveTo(...this.points[0])
+    this.points.forEach(p => ctx.lineTo(...p))
+    ctx.stroke()
+  }
+}
+
+const app = {
+  mode: 0, // 0: none, 1: draw, 2: view
+  knot: new Knot(),
+  transform: {
+    x: 0,
+    y: 0,
+    scale: 1,
+  },
+  render () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.save()
+    const { x, y, scale } = this.transform
+    ctx.translate(x, y)
+    ctx.scale(scale, scale)
+    this.knot.draw(ctx)
+    ctx.restore()
+  },
+  setMode (mode) {
+    this.mode = mode
+    $('.btns').className = 'btns btns-' + mode
+  },
+}
+
+const initCanvas = () => {
+  canvas.width = canvas.offsetWidth
+  canvas.height = canvas.offsetHeight
+  const mouse = {
+    isDown: false,
+    x: 0,
+    y: 0,
+    rect: undefined,
+  }
+
+  /**
+   * ```
+   * 记 T 为平移变换, S 为伸缩变换, 则
+   * S(k) T(x) = T(k x) S(k)
+   * T(x) S(k) T(-x) T(y) S(m) = T((1-k) * x + k y) S(k m)
+   * ```
+   */
+  const onWheel = (e) => {
+    if (app.mode !== 2) return
+    const k = e.deltaY < 0 ? 1.1 : 1/1.1
+    app.transform.x = e.clientX - k * (e.clientX - app.transform.x)
+    app.transform.y = e.clientY - k * (e.clientY - app.transform.y)
+    app.transform.scale *= k
+    app.render()
+  }
+
+  const onMouseDown = (e) => {
+    mouse.isDown = true
+    mouse.x = e.clientX - app.transform.x
+    mouse.y = e.clientY - app.transform.y
+    mouse.rect = canvas.getBoundingClientRect()
+    app.render()
+    if (app.mode === 0) {
+      app.setMode(1)
+    }
+  }
+
+  const onMouseUp = (e) => {
+    if (!mouse.isDown) return
+    mouse.isDown = false
+  }
+
+  const onMouseMove = (e) => {
+    if (!mouse.isDown) return
+    if (app.mode === 1) {
+      app.knot.addPoint(
+        e.clientX - mouse.rect.left,
+        e.clientY - mouse.rect.top,
+      )
+      app.render()
+    } else if (app.mode === 2) {
+      app.transform.x = e.clientX - mouse.x
+      app.transform.y = e.clientY - mouse.y
+      app.render()
+    }
+  }
+
+  const onContextMenu = (e) => {
+    e.preventDefault()
+  }
+
+  canvas.addEventListener('wheel', onWheel);
+  canvas.addEventListener('pointerdown', onMouseDown);
+  canvas.addEventListener('pointerup', onMouseUp);
+  canvas.addEventListener('pointermove', onMouseMove);
+  canvas.addEventListener('contextmenu', onContextMenu);
+}
+
+const initBtns = () => {
+  $('.btn-finish').onclick = (e) => {
+    app.knot.closePath()
+    app.render()
+    app.setMode(2)
+  }
+}
+
+const main = () => {
+  initCanvas()
+  initBtns()
+}
+
+main()
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 // 运输问题
 class TransportProblem {
-  type: number // -1: 供不应求, 0: 产销平衡, 1: 供过于求'
+  type: number // -1: 供不应求, 0: 产销平衡, 1: 供过于求
   cost: number[][] // m x n 价格矩阵
   produce: number[] // m 维产量数组
   consume: number[] // n 维销量数组
@@ -23,11 +23,11 @@ class TransportProblem {
     const diff = produce.reduce((x, y) => x + y) - consume.reduce((x, y) => x + y)
     if (this.isZero(diff)) { // 产销平衡
       this.type = 0
-    } else if (diff > 0) { // 供过于求
+    } else if (diff > 0) { // 供过于求, 增加一个虚拟销地, 表格加一列
       this.type = 1
       cost.forEach(row => row.push(0))
       consume.push(diff)
-    } else { // 供不应求
+    } else { // 供不应求, 增加一个虚拟产地, 表格加一行
       this.type = -1
       cost.push(Array.from({ length: consume.length }, () => 0))
       produce.push(-diff)

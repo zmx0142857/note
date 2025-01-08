@@ -174,52 +174,53 @@
       2, 10, 3, 9, {:|:}, 10_1;
       8, 5, 11, 6, {:|:}, 22_1;
       -, -, -, -, +, -;
-      8_2, 14_5, 12_1, 14_3, {:|:}, 48;
+      8_2, 14_(blue 5), 12_1, 14_3, {:|:}, 48;
     ]`
     </span>
-    选取最大罚数 (用括号标出) 所在的行或列, 按最小运价运输, 然后重新计算罚数:
+    选取最大罚数 (蓝色) 所在的行或列, 按最小运价运输, 然后重新计算罚数
+    (划去一列后, 重新计算行罚数; 划去一行后, 重新计算列罚数):
     <span class="formula">
     `[
       4, grey 12, 4, 11, {:|:}, 16_0;
       2, grey 10, 3, 9, {:|:}, 10_1;
-      8, grey 5_(red 14), 11, 6, {:|:}, red(8_2);
+      8, grey 5_(red 14), 11, 6, {:|:}, red(8)_2;
       -, -, -, -, +, -;
-      8_2, red 0_5, 12_1, 14_3, {:|:}, 48;
+      8_2, red 0, 12_1, 14_(blue 3), {:|:}, 48;
     ]`
     `to [
       4, grey 12, 4, 11, {:|:}, 16_0;
       2, grey 10, 3, 9, {:|:}, 10_1;
-      grey 8, grey (5_14), grey 11, grey 6_(red 8), {:|:}, red 0_(grey 1);
+      grey 8, grey (5_14), grey 11, grey 6_(red 8), {:|:}, red 0;
       -, -, -, -, +, -;
-      8_2, grey (0_5), 12_1, red 6_(red 2), {:|:}, 48;
+      8_(blue 2), grey 0, 12_1, red (6)_2, {:|:}, 48;
     ]`
     `to [
-      grey 4, grey 12, 4, 11, {:|:}, 16_(red 7);
-      grey 2_(red 8), grey 10, 3, 9, {:|:}, red(2_6);
-      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey(0_2);
+      grey 4, grey 12, 4, 11, {:|:}, 16_(blue 7);
+      grey 2_(red 8), grey 10, 3, 9, {:|:}, red(2)_6;
+      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey 0;
       -, -, -, -, +, -;
-      red 0_(grey 2), grey (0_5), 12_1, 6_2, {:|:}, 48;
+      red 0, grey 0, 12_1, 6_2, {:|:}, 48;
     ]`
     `to [
-      grey 4, grey 12, grey 4_(red 12), 11, {:|:}, red 4_7;
-      grey(2_8), grey 10, grey 3, 9, {:|:}, 2_6;
-      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey(0_2);
+      grey 4, grey 12, grey 4_(red 12), 11, {:|:}, red 4;
+      grey(2_8), grey 10, grey 3, 9, {:|:}, 2;
+      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey 0;
       -, -, -, -, +, -;
-      grey(0_2), grey (0_5), red 0_(grey 1), 6_2, {:|:}, 48;
+      grey 0, grey 0, red 0, 6_(blue 2), {:|:}, 48;
     ]`
     `to [
-      grey 4, grey 12, grey(4_12), 11, {:|:}, 4_7;
-      grey(2_8), grey 10, grey 3, grey 9_(red 2), {:|:}, red 0_6;
-      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey(0_2);
+      grey 4, grey 12, grey(4_12), 11, {:|:}, 4;
+      grey(2_8), grey 10, grey 3, grey 9_(red 2), {:|:}, red 0;
+      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey 0;
       -, -, -, -, +, -;
-      grey(0_2), grey (0_5), grey(0_1), red 4_(grey 2), {:|:}, 48;
+      grey 0, grey 0, grey 0, red 4, {:|:}, 48;
     ]`
     `to [
-      grey 4, grey 12, grey(4_12), grey 11_(red 4), {:|:}, red 0_(grey 7);
-      grey(2_8), grey 10, grey 3, grey(9_2), {:|:}, grey(0_6);
-      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey(0_2);
+      grey 4, grey 12, grey(4_12), grey 11_(red 4), {:|:}, red 0;
+      grey(2_8), grey 10, grey 3, grey(9_2), {:|:}, grey 0;
+      grey 8, grey (5_14), grey 11, grey (6_8), {:|:}, grey 0;
       -, -, -, -, +, -;
-      grey(0_2), grey (0_5), grey(0_1), red 0_(grey 2), {:|:}, 48;
+      grey 0, grey 0, grey 0, red 0, {:|:}, 48;
     ]`
     </span>
     求得的初始可行解为:
@@ -446,9 +447,9 @@ module.exports = function tpSolve (str) {
   const { cost, produce, consume } = Playground.parse(str)
   const { type, solution, value } = new TransportProblem(cost, produce, consume).solve()
   const typeName = {
-    '-1': '供不应求',
+    '-1': '供不应求, 最后一行为虚拟产地',
     '0': '产销平衡',
-    '1': '供过于求',
+    '1': '供过于求, 最后一列为虚拟销地',
   }[type]
   return 'type: ' + typeName +  '\n'
     + 'solution: [\n'
@@ -464,6 +465,7 @@ var asciimath = {
   define: [
     [/red/g, 'color(red)'],
     [/grey/g, 'color(grey)'],
+    [/blue/g, 'color(blue)'],
   ]
 }
 </script>

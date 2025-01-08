@@ -11,7 +11,8 @@ var tocData = [
         "children": [
           { "value": "editor", "label": "公式编辑器", "date": "2022-01-12" },
           { "value": "mathml", "label": "Mathml" },
-          { "value": "surface", "label": "曲面在线绘制", "date": "2021-12-10" }
+          { "value": "surface", "label": "曲面在线绘制", "date": "2021-12-10" },
+          { "value": "knot", "label": "纽结编辑器", "date": "2025-01-07" },
         ]
       },
       {
@@ -77,7 +78,7 @@ var tocData = [
           { "value": "0", "label": "整数, 有理数, 代数数, 连分数" },
           { "value": "1", "label": "整除, 最大公约数, 素数", "date": "2024-06-07" },
           { "value": "2", "label": "同余", "date": "2024-06-06" },
-          { "value": "3", "label": "阶与原根", "date": "2022-01-12" },
+          { "value": "3", "label": "阶与原根", "date": "2025-01-08" },
           { "value": "4", "label": "二次剩余", "date": "2022-01-09" },
           { "value": "5", "label": "不定方程", "date": "2024-12-31" },
           { "value": "6", "label": "积性数论函数", "date": "2024-08-30" },
