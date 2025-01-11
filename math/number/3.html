@@ -233,11 +233,11 @@ module.exports = function (str) {
 <ol class="proof">
   <li>只证必要性.
     设 `n = delta q + r` (`0 le r lt delta`),
-    若 `a^n -= 1 (mod m)`, 同余式两边同乘 `a^(-delta q)` 得
-    `a^r -= 1 (mod m)`, 再由 `delta` 的最小性知 `r = 0`.
+    若 `a^n -= 1 (mod n)`, 同余式两边同乘 `a^(-delta q)` 得
+    `a^r -= 1 (mod n)`, 再由 `delta` 的最小性知 `r = 0`.
   </li>
   <li>不妨取 `0 le j le i lt delta`, 则
-    `a^i -= a^j (mod m) iff a^(i-j) -= 1 (mod m)`, 由 `delta`
+    `a^i -= a^j (mod n) iff a^(i-j) -= 1 (mod n)`, 由 `delta`
     的最小性知 `i-j = 0`, 即 `i -= j (mod delta)`.
   </li>
 </ol>
@@ -249,7 +249,7 @@ module.exports = function (str) {
 </ol>
 
 <ol class="remark">
-  <li>由结论 1 知道, `delta | varphi(m)`, 且 `a^k` (`k = 0, 1, 2, cdots`)
+  <li>由结论 1 知道, `delta | varphi(n)`, 且 `a^k` (`k = 0, 1, 2, cdots`)
     模 `n` 的余数以 `delta` 为周期重复.</li>
   <li>由结论 2 知道, 在一个周期内, `a^k` (`k = 0, 1, cdots, delta-1`)
     模 `n` 的 `delta` 个余数两两不同.
@@ -262,6 +262,15 @@ module.exports = function (str) {
   若 `a^x = b (mod n)`, 则 `x` 称为 `b` (关于模 `n`, 以 `a` 为底)
   的<b>离散对数</b>. 由结论 2 知道, 离散对数若存在,
   则它关于模 `delta = "ord "a` 是唯一的.
+</p>
+
+<p class="example">
+  [来自群友 西伯利亚的猫猫]
+  设 `n`, `a` 为正整数, `a gt 1`, 则 `n | varphi(a^n-1)`.
+</p>
+
+<p class="proof">
+  这是因为 `"ord"_(a^n-1) a = n`.
 </p>
 
 <ol class="property">

@@ -166,7 +166,7 @@ var tocData = [
         "children": [
           { "value": "2", "label": "群 (上)", "date": "2024-07-06" },
           { "value": "3", "label": "群 (中)", "date": "2024-12-11" },
-          { "value": "4", "label": "群 (下)", "date": "2024-12-14" },
+          { "value": "4", "label": "群 (下)", "date": "2025-01-10" },
           { "value": "5", "label": "环" },
           { "value": "6", "label": "模与代数", "date": "2024-10-29" },
           { "value": "7", "label": "域", "date": "2024-06-30" },
@@ -183,12 +183,13 @@ var tocData = [
         ]
       },
       {
-        "value": "topology",
+        "value": "topo",
         "label": "拓扑学",
         "children": [
           { "value": "1", "label": "拓扑空间与连续映射", "date": "2023-05-11" },
           { "value": "2", "label": "常见拓扑性质", "date": "2024-10-19" },
-          { "value": "3", "label": "滤子和网", "date": "2024-10-31" }
+          { "value": "3", "label": "滤子和网", "date": "2024-10-31" },
+          { "value": "10", "label": "纽结理论", "date": "2025-01-11" },
         ]
       },
       {
@@ -314,7 +315,7 @@ var tocData = [
           { "value": "12", "label": "文件" },
           { "value": "13", "label": "数论算法", "date": "2022-01-07" },
           { "value": "14", "label": "动态规划与贪心算法" },
-          { "value": "15", "label": "计算几何", "date": "2021-12-04" },
+          { "value": "15", "label": "计算几何", "date": "2025-01-10" },
           { "value": "16", "label": "算法题模板", "date": "2021-12-02" },
           { "value": "hardware", "label": "硬件算法", "date": "2024-05-20" }
         ]

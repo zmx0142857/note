@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>纽结理论</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+<style>
+.knot {
+  font-size: 1.5rem;
+}
+.knot-left::before {
+  content: '⤲';
+}
+.knot-right::before {
+  content: '⤱';
+}
+.knot-both::before {
+  content: '☇';
+  display: inline-block;
+  vertical-align: middle;
+  transform: scale(-1, -1);
+}
+.knot-both::after {
+  content: '☇';
+  display: inline-block;
+  vertical-align: middle;
+  transform: scaleY(-1);
+}
+</style>
+</head>
+<body>
+
+<p>[来自 姜伯驹《绳圈的数学》]</p>
+
+<h2>Jones 多项式</h2>
+
+<ol class="definition">
+  <b>Jones 多项式</b>
+  对任意链环的有向投影图 `L`, 将它对应为变元 `s` 的一元函数 `V(L)(s)`, 满足下面性质:
+  <li><b>同痕不变性</b>
+    若有向投影图 `L`, `L'` 同痕, 则 `V(L) = V(L')`.
+  </li>
+  <li><b>标准值</b> 平凡纽结 "〇" 对应的函数为 `V(〇) = 1`.</li>
+  <li><b>拆接关系式</b>
+    <span class="formula">
+      `s^2 * V(左手) - s^-2 * V(右手) + (s - s^-1) * V(双手) = 0`.
+    </span>
+    其中左手 (<span class="knot knot-left"></span>)、
+    右手 (<span class="knot knot-right"></span>)、
+    双手 (<span class="knot knot-both"></span>)
+    代表三个几乎一样的有向投影图, 只在某个交叉点附近的连接方式不同.
+    <p class="remark">
+      把这三个图形想像成面对自己的一个人<span class="knot">🙅‍♀️</span>, 左手图形代表这个人交叉双臂, 左臂在前; 右手也作类似的解释.
+    </p>
+  </li>
+  最后, 把 `s` 换成 `t^(1//2)`, 得到的关于 `t` 的函数 `J(L)(t)` 称为 <b>Jones 多项式</b>.
+  这个 "多项式" 允许 `t` 的次数是负整数和半整数, 且系数全为整数.
+  拆接关系式是 Jones 多项式的一切精华.
+</ol>
+
+<ol class="definition">
+  <b>Jones 多项式的缩写</b>
+  按各项次数从小到大连续写出系数:
+  <li>如果各项次数是整数, 就在常数项加一个下划线;
+    比如 `t^-1 -3 - t^2` 缩写为 `1 - ul 3 + 0 - 1`.
+  </li>
+  <li>如果各项次数是半整数, 就用斜杠把正负次数的项分开;
+    比如 `2 t^(-3//2) - t^(1//2)` 缩写为 `2 + 0 // -1`.
+  </li>
+</ol>
+
+<ol class="property">
+  <li>设 `L, L'` 互为镜像, 则 `J(L')(t) = J(L)(t^-1)`, 换言之次数全部添负号.
+    8 字结不具有手性, 其 Jones 多项式 `1 -1 + ul 1 -1 +1` 是完全对称的.
+  </li>
+</ol>
+
+<p class="example">
+  计算 `5_1` (左手星星结) 和 `5_2` (左手88结) 的 Jones 多项式.
+</p>
+
+<div class="p solution">
+<pre>
+from sympy import *
+s = S('s')
+A = s**2
+B = -s**-2
+C = s-s**-1
+L_5_1 = (B*(-s**-8+s**-6+s**-2)+C*(-s**-11+s**-9-s**-7-s**-3))/(-A)
+expand(L_5_1) # 左手星星结 s**(-4) + s**(-8) - 1/s**10 + s**(-12) - 1/s**14
+L_5_2 = (B*(-s**-8+s**-6+s**-2)+C*(-s**-5-s**-1))/(-A)
+expand(L_5_2) # 左手88结 s**(-2) - 1/s**4 + 2/s**6 - 1/s**8 + s**(-10) - 1/s**12
+
+# 记得把 s 换成 t**(1/2)
+</pre>
+
+<div class="space-around">
+  <div class="img md">
+    <img src="../img/knot-5-1.png" alt="左手星星结">
+  </div>
+  <div class="img md">
+    <img src="../img/knot-5-2.png" alt="左手88结">
+  </div>
+</div>
+</div>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

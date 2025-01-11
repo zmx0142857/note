@@ -97,8 +97,8 @@ const Utils = {
     const area = (p1, p2, p3, p4) => Math.abs(seg(p1, p2) + seg(p2, p3) + seg(p3, p4) + seg(p4, p1)) // 四边形面积的两倍 (green 公式)
     const sign = (p1, p2, p3) => seg(p1, p2) + seg(p2, p3) + seg(p3, p1) > 0 // 三角形的定向
     return area(p1, p3, p2, p4) > 0.1
-      && sign(p1, p2, p3) !== sign(p1, p2, p4)
-      && sign(p3, p4, p1) !== sign(p3, p4, p2)
+      && sign(p1, p2, p3) !== sign(p1, p2, p4) // p3, p4 位于直线 p1-p2 两侧
+      && sign(p3, p4, p1) !== sign(p3, p4, p2) // p1, p2 位于直线 p3-p4 两侧
   },
   // 求两直线交点
   getIntersect (edge1, edge2) {

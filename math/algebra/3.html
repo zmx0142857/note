@@ -545,17 +545,22 @@ g.is_abelian # True
 </p>
 
 <p class="theorem">
-	<b>群同态基本定理</b>
-	令 `f: G to H` 为一群同态映射, 则
-	<span class="formula">
-		`G//"Ker"f ~= "Im"f`.
-	</span>
-    定理告诉我们, 正规子群与相应的商群总是可以看作同态的核与像.
+  <b>群同态基本定理</b>
+  令 `f: G to H` 为一群同态映射, 则
+  <span class="formula">
+    `G//"Ker"f ~= "Im"f`.
+  </span>
+  反之若 `N normal G`, 则自然同态是一个 `G to G//N` 的满同态.
 </p>
 
 <p class="proof">
 	由引理, `f` 有分解 `f = g @ h`, `g` 是到 `"Im"f` 的满射. 因此
 	`g` 为到 `"Im"f` 的同构映射.
+</p>
+
+<p class="remark">
+  定理告诉我们, "商群" 的同义词是 "同态像",
+  "正规子群" 的同义词是 "同态核".
 </p>
 
 <p class="lemma">
@@ -978,7 +983,7 @@ g.is_abelian # True
   <a href="https://mathworld.wolfram.com/FiniteGroup.html" target="_blank">Finite Group - Wolfram Math World</a>.
 </p>
 
-<p>下面两个命题常常是寻找半直积的着手点:</p>
+<p>下面的命题常常是寻找半直积的着手点:</p>
 
 <p class="proposition">
   <b>子群乘积的阶数公式</b>
@@ -1002,6 +1007,17 @@ g.is_abelian # True
   <li>由 Lagrange 定理知道, 子群元素的阶整除子群的阶, 但 `|H|, |K|` 互素, 所以它们只有平凡交.</li>
   <li>由 1. 和阶数公式知道 `|H K| = |G|`.</li>
 </ol>
+
+<p class="proposition">
+  `G` 为有限群, `A, B` 是两个非空子集, `|A| + |B| gt |G|`, 则 `G = A B`.
+</p>
+
+<p class="proof">
+  `A` 的全体逆元组成的集合记为 `A^-1`, 于是 `|A^-1| + |B| gt |G|`.
+  这推出 `A^-1 nn B` 非空, 即存在 `a in A` 和 `b in B` 满足 `a b = e`.
+  于是 `e in A B`.
+  对任意 `g in G`, 将上面的 `A` 换成 `g^-1 A`, 就推出 `e in g^-1 A B` 即 `g in A B`.
+</p>
 
 <h3>积与商的关系</h3>
 
@@ -1227,10 +1243,11 @@ G.order() # 4
 <h3>处理小阶群时有用的结论</h3>
 
 <ol class="proposition">
-  关于 2 阶元:
+  <b>关于二次元</b>
   <li>群 `G` 中除 `e` 外元素阶全为 2, 则 `G` 是交换群;</li>
   <li>偶数阶群必有奇数个 2 阶元;</li>
-  <li>群 `G` 不能只有两个 2 阶元.</li>
+  <li>群 `G` 不能只有两个 2 阶元;</li>
+  <li>`2n` 阶 Abel 群 (`n` 为奇数) 恰有一个二阶元. [来自 Algebra Chapter 0]</li>
 </ol>
 
 <blockquote>
@@ -1258,21 +1275,37 @@ G.order() # 4
         <span class="formula">
           `x y x != x e x = e`,<br>
           `x y x != x x x = x`,<br>
-          `x y x != y`, 否则 `x y x y = y y = e`, 这推出 `x y` 是二阶元.
+          `x y x != y`, 否则 `x y x y = y y = e`, 这推出 `x y` 是 2 阶元.
         </span>
         因此 `x y x` 也是一个不同于 `e, x, y` 的新元素.
       </li>
       <li>
-        计算 `(x y x)(x y x) = (x y)(y x) = x x = e`, 因此 `x y x` 是二阶元. 矛盾.
+        计算 `(x y x)(x y x) = (x y)(y x) = x x = e`, 因此 `x y x` 是 2 阶元. 矛盾.
       </li>
     </ol>
+  </li>
+  <li>[来自群友 火雨] 由 2. 知道 `G` 至少有一个 2 阶元, 下证它唯一. 反设 `G`
+    有两个不同的 2 阶元 `x, y`, 由 3. 知道 `x y` 也是一个不同于 `x, y` 的 2 阶元.
+    但 `G` 是 Abel 群, 从而 `K_4 ~= {e, x, y, x y}` 是 `G` 的子群, 由 Lagrange 定理 `4` 整除 `|G|`,
+    矛盾.
   </li>
 </ol>
 
 <p class="proposition">
-  指数与正规子群: 若 `G` 的子群 `H` 的指数为 `p`, 这里 `p` 是 `|G|` 的最小素因子, 那么 `H normal G`.
+  <b>素指数与正规子群</b>
+  若 `G` 的子群 `H` 的指数为 `p`, 这里 `p` 是 `|G|` 的最小素因子, 那么 `H normal G`.
   特别地, 指数为 2 的子群必为正规子群.
 </p>
+
+<!--
+<p class="proof">
+  考虑 `G` 对全体左陪集 `(G//H)_l` 的群作用
+  <span class="formula">
+    `G xx (G//H)_l to (G//H)_l`<br>
+    `(g, a H) mapsto g a H`,
+  </span>
+</p>
+-->
 
 <ol class="proposition">
   设 `p` 为素数:

@@ -93,6 +93,8 @@ module.exports = function atan2 (str) {
 </script>
 </div>
 
+<h2>平面几何</h2>
+
 <p class="algorithm">
   <b>判断多边形方向是否为顺时针 (面积法)</b> [来自 github copilot]
   用 Green 公式求边界的曲线积分 `int_(del S) -2y dx = 2 iint_S dx dy`,
@@ -148,32 +150,115 @@ module.exports = (str) => {
 </div>
 
 <p class="algorithm">
-  <b>判断线段是否相交</b>
-  以两条线段为对角线, 张成一个四边形.
-  则两线段相交当且仅当该四边形是凸四边形.
-  特别当四边形面积小于 <code>epsi</code> 时视为退化, 这时把两线段判定为不相交.
+  <b>判断线段是否相交 (解方程法)</b>
+  直接计算两直线的交点坐标, 把它表示为参数 <code>t</code> 的函数. 两线段相交当且仅当直线相交,
+  且 <code>0 &le; t &le; 1</code>.
 </p>
 
 <div class="playground" value="{ edge1: [[0,-1],[0,1]], edge2: [[-1,0],[1,0]] }">
 <script type="text">
-const isCrossing = (edge1, edge2) => {
-  const [p1, p2] = edge1
-  const [p3, p4] = edge2
-  const seg = (p1, p2) => (p2[0] - p1[0]) * (p2[1] + p1[1])
-  // 四边形有向面积的两倍 (green 公式)
-  const area = (p1, p2, p3, p4) => seg(p1, p2) + seg(p2, p3) + seg(p3, p4) + seg(p4, p1)
-  const sign = (p1, p2, p3) => seg(p1, p2) + seg(p2, p3) + seg(p3, p1) > 0 // 三角形的定向
-  const epsi = 1e-4
-  return Math.abs(area(p1, p3, p2, p4)) > epsi
-    && sign(p1, p2, p3) !== sign(p1, p2, p4) // p3, p4 位于直线 p1-p2 两侧
-    && sign(p3, p4, p1) !== sign(p3, p4, p2) // p1, p2 位于直线 p3-p4 两侧
-}
 module.exports = (str) => {
   const { edge1, edge2 } = Playground.parse(str)
-  return isCrossing(edge1, edge2)
+  const [[x1, y1], [x2, y2]] = edge1
+  const [[x3, y3], [x4, y4]] = edge2
+  const det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+  if (det === 0) return false
+  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / det
+  // 交点为 [x1 + t * (x2 - x1), y1 + t * (y2 - y1)]
+  return 0 <= t && t <= 1
 }
 </script>
 </div>
+
+<p class="algorithm">
+  <b>判断线段是否相交 (四边形法)</b>
+  以两条线段为对角线, 张成一个四边形.
+  则两线段相交当且仅当该四边形是凸四边形.
+  具体说, 就是 p3, p4 位于直线 p1-p2 的两侧,
+  且 p1, p2 位于直线 p3-p4 的两侧.
+</p>
+
+<div class="playground" value="{ edge1: [[0,-1],[0,1]], edge2: [[-1,0],[1,0]] }">
+<script type="text">
+module.exports = (str) => {
+  const { edge1, edge2 } = Playground.parse(str)
+  const [p1, p2] = edge1
+  const [p3, p4] = edge2
+  const sign = ([x1, y1], [x2, y2], [x3, y3]) => {
+    return (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) > 0 // 叉乘的方向
+  }
+  return sign(p1, p2, p3) !== sign(p1, p2, p4) // p3, p4 位于直线 p1-p2 两侧
+    && sign(p3, p4, p1) !== sign(p3, p4, p2) // p1, p2 位于直线 p3-p4 两侧
+}
+</script>
+</div>
+
+<h2>立体几何</h2>
+
+<h3>碰撞检测</h3>
+
+<ol class="algorithm enum">
+  <b>简单几何体间的距离</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/396719279" target="_blank">李雪峰@知乎</a>]
+  约定: <code>length</code> 是向量长度 <code>dot</code>, <code>cross</code> 分别是点乘与叉乘.
+  <li><b>点-点</b> 两点 p1, p2 的距离是 <code>length(p1 - p2)</code>. 由于球体就是有厚度的点, 此公式也可以计算两球体的距离.
+  </li>
+  <li><b>点-平面</b> 设 n 是平面的单位法向量, q 是平面上一点, 则点 p 到平面的有向距离是
+    <code>dot(p - q, n)</code>, 取绝对值就得到距离. 同上所述, 此公式可以计算球体到平面的距离.
+    <br>
+    推而广之, 求凸体到平面的距离, 只需计算每个顶点到平面的有向距离,
+    如果这些距离有正有负, 说明凸体与平面相交; 否则取其中绝对值最小者, 就等于它到平面的距离.
+    许多几何体都是凸体: 线段, 长方体等等.
+  </li>
+  <li><b>点-直线</b> 设 v 是直线的单位切向量, q 是直线上一点, 则点 p 到直线的有向距离是
+    <code>cross(p - q, v)</code>, 叉乘的结果是一个向量, 取向量的模长就得到距离.
+  </li>
+  <li><b>点-线段</b> 点 p 与线段 a-b 的位置关系分成三种:
+    <ol>
+      <li>p 到 a 最近, p-a-b 为钝角, <code>dot(p-a, b-a) &lt; 0</code>;</li>
+      <li>p 到 b 最近, p-b-a 为钝角, <code>dot(p-b, a-b) &lt; 0</code>;</li>
+      <li>p 到垂足最近, 计算点到直线距离即可.</li>
+    </ol>
+    因为胶囊体就是有厚度的线段, 此方法也可以判断点到胶囊体的距离.
+  </li>
+  <li><b>点-长方体</b> 将长方体的棱无限延长, 空间被分为 27 个区域, 其中 8
+    个区域靠近顶点, 12 个区域靠近棱, 6 个区域靠近面, 还有 1 个区域在内部.
+    为判断 p 点落在哪个区域中, 取相互正交的 3 条棱, 用点到线段的算法分别判断 p 与三条棱的位置关系即可.
+    <ol>
+      <li>如果 p 靠近顶点, 问题化为求两点的距离;</li>
+      <li>如果 p 靠近棱, 问题化为求点到直线的距离;</li>
+      <li>如果 p 靠近面, 问题化为求点到平面的距离;</li>
+      <li>如果 p 在长方体内部, 需要计算点到每个面的距离, 再取最小.</li>
+    </ol>
+  </li>
+  <li><b>点-三角形</b>
+    首先将点 p 投影到三角形所在平面, 记它的投影为 q.
+    设三角形的顶点是 v1, v2, v3, 则 q 可以写为它们的线性组合
+    <span class="formula">
+      <code>q = x1 v1 + x2 v2 + x3 v3</code>, 其中 <code>x1 + x2 + x3 = 1</code>.
+    </span>
+    <code>(x1, x2, x3)</code> 就称为它的重心坐标.
+    重心坐标的一个重要性质是, 它的 3 个分量之比等于该顶点相对的小三角形的有向面积之比.
+    下面的公式中 <code>area</code> 代表三角形的有向面积:
+    <span class="formula">
+      <code>x1 / area(q, v2, v3) = x2 / area(q, v3, v1) = x3 / area(q, v1, v2)</code>
+    </span>
+    3 个小三角形有向面积之和等于三角形的面积 A, 所以
+    <span class="formula">
+      <code>A * x1 = area(q, v2, v3) = length(v2 - v3) * d23 / 2</code>,
+    </span>
+    <code>d23</code> 是 q 点到边 v2-v3 的有向距离. 同理可以求出 q 点到其他两边的有向距离.
+    综上, 点 q 到三角形的距离等于它到 3 个顶点、3 条边的距离的最小值.
+    <br>
+    优化: 如果点 q 落在三角形外部, 重心坐标至少有一个分量为负, 说明 q
+    远离这个分量对应的顶点, 我们可以排除掉这个顶点及其关联的边.
+  </li>
+</ol>
+
+<p class="remark">
+  随着场景复杂度的提高, 可以为场景生成 BVH (层次包围体树, Bounding Volume Hierarchy),
+  如四叉树, 八叉树等. 我们将待检测对象按空间位置区分管理, 每次只需检测同组对象的碰撞即可.
+</p>
 
 <script src="../../js/note.js?type=cs"></script>
 <script src="../../js/playground.js"></script>
