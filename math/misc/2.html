@@ -1009,6 +1009,22 @@
   </span>
 </p>
 
+<p class="example">
+  [来自群友 华夏独尊]
+  在锐角三角形中, 证明 `sin A + sin B + sin C gt 2`.
+</p>
+
+<p class="proof">
+  [来自 Fran]
+  即求二元函数 `sin(A+B)+sin A+sin B` 在三角形区域 `0 le A le pi/2`, `0 le B le pi/2`, `A+B ge pi/2`
+  的最小值.
+  <br>
+  对 `A` 求偏导有 `cos(A+B)+cos A=0`, 即 `cos C = cos A`; 同理 `cos C = cos B`,
+  即 `A=B=C`, 这样求出的是极大值点. 因此只有在边界上寻找最小值.
+  换言之该三角形是直角三角形. 问题化为 `sin A + cos A ge 1`, 即
+  `sqrt 2 sin(A+pi/4) ge 1`, 由于 `0 le A le pi/2`, 这是显然成立的.
+</p>
+
 <h2>反三角函数</h2>
 
 <table>
@@ -1433,6 +1449,11 @@
 	</span>
 	进行上述公式的推导.
 </p>
+
+<pre>
+&gt;&gt;&gt; fourier_series(sin(x)**4).truncate(4)
+3/8 - cos(2*x)/2 + cos(4*x)/8
+</pre>
 
 <h2>杂例</h2>
 
