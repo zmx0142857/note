@@ -11,7 +11,7 @@
   --fg-1: #eee;
   --bg-1: #333;
   --bg-2: 180 180 180;
-  --bd-2: #888; 
+  --bd-1: #888; 
   --bg-blue: #1976d2;
   --bg-danger: #f44336;
 }
@@ -53,7 +53,7 @@ body {
   cursor: pointer;
   color: var(--fg-1);
   background-color: transparent;
-  border: 1px solid var(--bd-2);
+  border: 1px solid var(--bd-1);
   opacity: 0.9;
   line-height: 20px;
   overflow: hidden;
@@ -91,6 +91,15 @@ body {
   border-radius: 16px;
   font-size: 18px;
 }
+
+.tips {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bd-1);
+  font-size: 30px;
+}
 </style>
 </head>
 <body class="app-mode-0">
@@ -98,6 +107,7 @@ body {
 <canvas id="canvas"></canvas>
 
 <div id="jones-result" class="mode mode-2"></div>
+<div class="tips mode mode-0">在空白处绘制...</div>
 
 <div class="btns">
   <button class="btn btn-primary btn-finish mode mode-1" title="完成">
@@ -547,16 +557,21 @@ class Knot {
 
   /**
    * 计算 Jones 多项式
+   * ```
+   * n: 交叉点数
+   * nLoops: 分支数
+   * n = nPos + nNeg: 正负交叉点
+   * n = a + b: 打开的 A, B 通道数
+   * ```
    * 书本上的公式:
    * ```
-   * J(A) = (-A)^(-3*交叉点符号和) * ∑ (-A^2-A^-2)^(分支数-1) * A^(A通道数-B通道数)
-   *      = (-A)^(-3*(nPos-nNeg)) * ∑ (-A^2-A^-2)^(nLoops-1) * A^(n-i-i)
+   * J(A) = ∑ (-A^2-A^-2)^(nLoops-1) * A^(a-b) * (-A)^(-3*(nPos - nNeg))
    * 其中 A = t^(-1/4)
    * ```
    * 化简后:
    * ```
-   * J(q) = ∑ (q+q^-1)^(nLoops-1) * q^(nPos - 2 * nNeg + i)
-   * 其中 q = t^(1/2)
+   * J(q) = ∑ (q+q^-1)^(nLoops-1) * q^(nPos - 2 * nNeg + b) * (-1)^(b + nNeg)
+   * 其中 q = t^(1/2) = A^-2
    * ```
    */
   jones () {
@@ -564,16 +579,16 @@ class Knot {
     const n = this.crossings.length
     const nPos = this.crossings.filter(v => v.type === 0).length
     const nNeg = n - nPos
-    for (let i = 0; i <= n; i++) {
-      // 枚举所有由 n-i 个 A 和 i 个 B 组成的字符串
-      const next = Utils.combinations(n, i)
+    for (let b = 0; b <= n; b++) {
+      // 枚举所有由 n-b 个 A 和 b 个 B 组成的字符串
+      const next = Utils.combinations(n, b)
       for (let combo; combo = next();) {
         const str = new Array(n).fill('A')
         combo.forEach(v => str[v] = 'B')
         const nLoops = this.countLoops(str)
-        const shift = nPos - 2 * nNeg + i
+        const shift = nPos - 2 * nNeg + b
         const p = Poly.from(nLoops-1).shift(shift)
-        const sign = (i + nNeg) % 2 ? -1 : 1
+        const sign = (b + nNeg) % 2 ? -1 : 1
         // console.log({ str: str.join(''), nLoops, shift, poly: p.toString() })
         poly.add(p, sign)
       }
@@ -608,6 +623,7 @@ const app = {
   setMode (mode) {
     this.mode = mode
     document.body.className = 'app-mode-' + mode
+    canvas.style.cursor = 'crosshair'
   },
   init () {
     this.initCanvas()
@@ -661,29 +677,35 @@ const app = {
       mouse.isDown = false
     }
 
+    // (T(x) S(k))^-1 = S(1/k) T(-x)
+    const pick = (e) => {
+      const { clientX, clientY } = e
+      const pos = [
+        (clientX - app.transform.x) / app.transform.scale,
+        (clientY - app.transform.y) / app.transform.scale
+      ]
+      return app.knot.crossings.find(cross => cross.isNear(pos))
+    }
+
     const onMouseMove = (e) => {
-      if (!mouse.isDown) return
       if (app.mode === 1) {
+        if (!mouse.isDown) return
         app.knot.addPoint(
           e.clientX - mouse.rect.left,
           e.clientY - mouse.rect.top,
         )
         app.render()
       } else if (app.mode === 2) {
+        canvas.style.cursor = pick(e) ? 'pointer' : 'crosshair'
+        if (!mouse.isDown) return
         app.transform.x = e.clientX - mouse.x
         app.transform.y = e.clientY - mouse.y
         app.render()
       }
     }
 
-    // (T(x) S(k))^-1 = S(1/k) T(-x)
     const onClick = (e) => {
-      const { clientX, clientY } = e
-      const pos = [
-        (clientX - app.transform.x) / app.transform.scale,
-        (clientY - app.transform.y) / app.transform.scale
-      ]
-      const cross = app.knot.crossings.find(cross => cross.isNear(pos))
+      const cross = pick(e)
       if (cross) {
         cross.type = 1 - cross.type
         app.render()
