@@ -9,20 +9,23 @@
 }
 :root {
   --fg-1: #eee;
-  --bg-0: #1976d2;
+  --bg-1: #333;
+  --bg-2: 180 180 180;
   --bd-2: #888; 
+  --bg-blue: #1976d2;
+  --bg-danger: #f44336;
 }
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
-  background: #333;
+  background: var(--bg-1);
 }
 #canvas {
   display: block;
   width: 100%;
   height: 100%;
-  background: #333;
+  background: var(--bg-1);
   cursor: crosshair;
 }
 
@@ -31,16 +34,17 @@ body {
   left: 10px;
   bottom: 10px;
 }
-.btns-0 > :not(.btn-0) {
+.app-mode-0 .mode:not(.mode-0) {
   display: none;
 }
-.btns-1 > :not(.btn-1) {
+.app-mode-1 .mode:not(.mode-1) {
   display: none;
 }
-.btns-2 > :not(.btn-2) {
+.app-mode-2 .mode:not(.mode-2) {
   display: none;
 }
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   padding: 8px 16px;
@@ -52,27 +56,59 @@ body {
   border: 1px solid var(--bd-2);
   opacity: 0.9;
   line-height: 20px;
+  overflow: hidden;
 }
 .btn.btn-primary {
-  background-color: var(--bg-0);
-  border-color: var(--bg-0);
+  background-color: var(--bg-blue);
+  border-color: var(--bg-blue);
 }
-.btn:active {
-  opacity: 1;
+.btn.btn-delete {
+  background-color: var(--bg-danger);
+  border-color: var(--bg-danger);
+}
+.btn:hover::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  background-color: rgb(var(--bg-2) / 20%);
 }
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+#jones-result {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--fg-1);
+  background: rgb(var(--bg-2) / 40%);
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 18px;
+}
 </style>
 </head>
-<body>
+<body class="app-mode-0">
 
 <canvas id="canvas"></canvas>
 
-<div class="btns btns-0">
-  <button class="btn btn-primary btn-finish btn-1">完成绘制</button>
-  <!-- <button class="btn btn-primary btn-jones btn-2">Jones 多项式</button> -->
+<div id="jones-result" class="mode mode-2"></div>
+
+<div class="btns">
+  <button class="btn btn-primary btn-finish mode mode-1" title="完成">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19L21 7l-1.41-1.41z"/></svg>
+  </button>
+  <button class="btn btn-center mode mode-2" title="回到原点">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4s4-1.79 4-4s-1.79-4-4-4m-7 7H3v4c0 1.1.9 2 2 2h4v-2H5zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2m0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2z"/></svg>
+  </button>
+  <button class="btn btn-delete mode mode-1 mode-2" title="删除">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+  </button>
 </div>
 
 <script>
@@ -86,8 +122,9 @@ const Utils = {
     if (x > max) return max
     return x
   },
-  length2 (x, y) {
-    return x * x + y * y
+  // 两点距离的平方
+  dist2 (p1, p2) {
+    return Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2)
   },
   // 判断线段相交
   isCrossing (edge1, edge2) {
@@ -109,22 +146,290 @@ const Utils = {
     const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / det
     return [x1 + t * (x2 - x1), y1 + t * (y2 - y1)]
   },
+  // 组合数 choose(n, 0) 到 choose(n, n)
+  combs(n) {
+    const comb = [1]
+    for (let i = 1; i <= n; ++i) {
+      comb[i] = comb[i - 1] * (n - i + 1) / i
+    }
+    return comb
+  },
+  /**
+   * 从 [0..n-1] 选出 i 个数字, 从小到大排列
+   * 初始组合是 [0..i-1], 每次调用按字典序生成下一个组合
+   * 比如 5 选 3 的情况下, 当前组合 [0, 1, 4], 下一个组合是 [0, 2, 3]
+   */
+  combinations (n, i) {
+    const combo = Array.from({ length: i }).map((_, j) => j)
+    let inited = false
+    return function next () {
+      if (!inited) {
+        inited = true
+        return combo
+      }
+      // 从当前组合的最后一个数字开始, 向前寻找第一个可以增加的数字
+      // 然后从这个数字开始, 后面的每一个数都等于前一个数加 1
+      for (let j = i - 1; j >= 0; j--) {
+        if (combo[j] < n - (i - j)) {
+          combo[j]++
+          for (let k = j + 1; k < i; k++) {
+            combo[k] = combo[k - 1] + 1
+          }
+          return combo
+        }
+      }
+    }
+  },
 }
 
+// jones polynomial
+// 系数和次数都是整数 (注意次数可以为负整数)
+class Poly {
+  constructor (len = 100) {
+    this.len = len
+    this.positive = new Array(len).fill(0) // 0, 1, 2... 次项系数
+    this.negative = new Array(len).fill(0) // -0, -1, -2... 次项系数, 下标 0 忽略
+  }
+
+  // 返回 (t+t^-1)^n
+  static from (n, len = 100) {
+    const res = new Poly(len)
+    const nmod2 = n % 2
+    const ndiv2 = n / 2 | 0
+    Utils.combs(n).forEach((coef, i) => {
+      const j = nmod2 + 2 * (ndiv2 - i)
+      res.positive[j] = res.negative[j] = coef
+    })
+    res.negative[0] = 0
+    return res
+  }
+
+  copy () {
+    const res = new Poly(this.len)
+    res.positive = [...this.positive]
+    res.negative = [...this.negative]
+    return res
+  }
+
+  toString(symbol = 't') {
+    const dict = '⁰¹²³⁴⁵⁶⁷⁸⁹'
+    const term = (coef, p) => {
+      if (!coef) return ''
+      const right = p === 0 ? '' : p === 1 ? symbol : symbol + String(p).split('').map(c => dict[c] || '⁻').join('')
+      const left = !right ? coef : coef === 1 ? '' : coef === -1 ? '-' : coef
+      return left + right
+    }
+    const pos = this.positive.map((coef, i) => term(coef, i)).filter(Boolean)
+    const neg = this.negative.map((coef, i) => term(coef, -i)).slice(1).filter(Boolean).reverse()
+    return [...neg, ...pos].join(' + ').replace(/\+ -/g, '- ') || '0'
+  }
+
+  add (poly, factor = 1) {
+    for (let i = 0; i < this.len; ++i) {
+      this.positive[i] += (poly.positive[i] || 0) * factor
+      this.negative[i] += (poly.negative[i] || 0) * factor
+    }
+  }
+
+  highest () {
+    for (let i = this.len - 1; i >= 0; --i) {
+      if (Math.abs(this.positive[i] > 1e-6)) return i
+    }
+    return -1
+  }
+
+  // 换元 t^2 → t
+  shrink () {
+    const half = this.len / 2 | 0
+    for (let i = 1; i < half; ++i) {
+      this.positive[i] = this.positive[i * 2]
+      this.negative[i] = this.negative[i * 2]
+    }
+    for (let i = half; i < this.len; ++i) {
+      this.positive[i] = this.negative[i] = 0
+    }
+    return this
+  }
+
+  // 乘以 t^n
+  shift (n) {
+    const { positive, negative, len } = this
+    if (n > 0) {
+      positive.unshift(...negative.splice(1, n).reverse())
+      this.positive = this.positive.slice(0, len)
+      negative.push(...new Array(n).fill(0))
+    }
+    if (n < 0) {
+      negative.splice(1, 0, ...positive.splice(0, -n).reverse())
+      this.negative = this.negative.slice(0, len)
+      positive.push(...new Array(-n).fill(0))
+    }
+    return this
+  }
+}
+
+// 交叉点
+// 每个交叉点看成一个地铁站, 共有 0-3 四个出站口
 class Crossing {
-  constructor (type, x, y) {
+  static typeEnum = [
+    /**
+     * A  2  B
+     * 0 -|- 1
+     * B  3  A
+     */
+    {
+      type: 0,
+      edge: [[0, 1], [2, 3]], // positive crossing
+      color: '#f44336',
+    },
+    {
+      type: 1,
+      edge: [[2, 3], [0, 1]], // negative crossing
+      color: '#1976d2',
+    },
+    {
+      type: 2,
+      edge: [[0, 3], [1, 2]], // = open(0, A) = open(1, B)
+      color: '#259f1e',
+    },
+    {
+      type: 3,
+      edge: [[0, 2], [1, 3]], // = open(0, B) = open(1, A)
+      color: '#e98124',
+    },
+  ]
+  static radius = 10
+
+  // 打开通道
+  static open (type, channel) {
+    const newType = channel === 'A' ? 2 + type : channel === 'B' ? 3 - type : type
+    return Crossing.typeEnum[newType]
+  }
+
+  // 找到与 i 配对的顶点序号
+  static pair (edge, i) {
+    const ln = edge.find(v => v[0] === i || v[1] === i)
+    return ln[0] === i ? ln[1] : ln[0]
+  }
+
+  /**
+   * @param {[number, number]} pos
+   * @param {0|1|2|3} type
+   */
+  constructor (pos, type = 0) {
     this.type = type
-    this.x = x
-    this.y = y
+    this.pos = pos
+    this.vertices = [] // 四个出站口
+  }
+
+  // 判断点 p 是否靠近当前交叉点
+  isNear (p) {
+    return Utils.dist2(p, this.pos) < Crossing.radius * Crossing.radius
+  }
+
+  initVertices (points) {
+    this.vertices = []
+    let flag = true
+    points.forEach((p, i) => {
+      // flag 为 true 时, 线段 (points[i-1], p) 进入圆, 否则离开圆
+      if (i > 0 && this.isNear(p) === flag) {
+        flag = !flag
+        this.vertices.push({
+          pos: this.getCross(points[i-1], p),
+          iPoint: i - Number(flag), // 圆里面那个点的序号 (points[iPoint])
+          iCross: -1, // 相邻的交叉点序号 (crossings[iCross])
+          iVert: -1, // 相邻的交叉点中的顶点序号 (vertices[iVert])
+        })
+      }
+    })
+    // 调整定向
+    if (this.vertices.length === 4) {
+      const [[x1, y1], [x2, y2], [x3, y3], [x4, y4]] = this.vertices.map(v => v.pos)
+      const det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+      if (det < 0) {
+        this.vertices = [
+          this.vertices[2],
+          this.vertices[3],
+          this.vertices[0],
+          this.vertices[1],
+        ]
+      }
+    }
+  }
+
+  initNeighbor (points, crossings) {
+    const len = points.length
+    this.vertices.forEach((vert, i) => {
+      if (vert.iCross >= 0) return
+      const sign = i % 2
+      let bestScore = len
+      crossings.forEach((cross, j) => {
+        ;[1 - sign, 3 - sign].forEach(t => {
+          // FIXME: 有时 cross.vertices[t] 是 undefined 导致出错, 曲线不能闭合
+          let dist = vert.iPoint - cross.vertices[t].iPoint
+          if (sign) dist = -dist
+          dist = (dist + len) % len
+          if (0 < dist && dist < bestScore) {
+            bestScore = dist
+            vert.iCross = j
+            vert.iVert = t
+          }
+        })
+      })
+    })
+  }
+
+  // 二分法求线段与圆的交点, 也可以改用几何法, 但需要开平方根
+  getCross (p1, p2, count = 10) {
+    const mid = [0.5 * (p1[0] + p2[0]), 0.5 * (p1[1] + p2[1])]
+    if (count < 0) return mid
+    const next = this.isNear(p1) === this.isNear(mid) ? p2 : p1
+    return this.getCross(mid, next, count - 1)
+  }
+
+  drawLine (ctx, pos, width, color) {
+    ctx.strokeStyle = color
+    ctx.lineWidth = width
+    ctx.beginPath()
+    ctx.moveTo(...this.vertices[pos[0]].pos)
+    ctx.lineTo(...this.vertices[pos[1]].pos)
+    ctx.stroke()
+  }
+
+  drawCircle (ctx, strokeColor, fillColor) {
+    ctx.beginPath()
+    ctx.arc(...this.pos, Crossing.radius, 0, 2 * Math.PI)
+    if (fillColor) {
+      ctx.fillStyle = fillColor
+      ctx.fill()
+    }
+    if (strokeColor) {
+      ctx.lineWidth = 1
+      ctx.strokeStyle = strokeColor
+      ctx.stroke()
+    }
+  }
+
+  draw (ctx, points, config, iCross) {
+    const { type, edge, color } = Crossing.open(this.type)
+    this.drawCircle(ctx, config.fg, config.bg)
+    if (this.vertices.length === 4) {
+      this.drawLine(ctx, edge[0], config.lineWidth, config.fg) // 下线
+      if (type < 2) this.drawLine(ctx, edge[1], config.lineWidth + 6, config.bg)
+      this.drawLine(ctx, edge[1], config.lineWidth, config.fg) // 上线
+      this.drawCircle(ctx, color)
+      ctx.fillStyle = color
+      ctx.fillText(String(iCross), this.pos[0] + Crossing.radius, this.pos[1] + Crossing.radius)
+    }
   }
 }
 
 class Knot {
   constructor () {
-    this.init()
+    this.dispose()
   }
 
-  init () {
+  dispose () {
     this.step = 10
     this.points = [] // 采样点
     this.crossings = [] // 交点
@@ -170,9 +475,16 @@ class Knot {
       const edge = this.points.slice(i, i + 2)
       if (Utils.isCrossing(lastEdge, edge)) {
         const intersect = Utils.getIntersect(lastEdge, edge)
-        if (intersect) this.crossings.push(intersect)
+        if (intersect) this.crossings.push(new Crossing(intersect))
       }
     }
+  }
+
+  // 处理交叉点
+  finishCrossings () {
+    const { crossings } = this
+    crossings.forEach(cross => cross.initVertices(this.points))
+    crossings.forEach(cross => cross.initNeighbor(this.points, crossings))
   }
 
   // 闭合路径
@@ -181,21 +493,93 @@ class Knot {
     if (len < 2) return
     const first = this.points[0]
     const last = this.points[len - 1]
-    if (Utils.length2(first[0] - last[0], first[1] - last[1]) > 0.5) {
+    if (Utils.dist2(first, last) > 0.5) {
       this.points.push(first)
     }
+    this.finishCrossings()
   }
 
-  draw (ctx) {
+  // 绘制
+  draw (ctx, config) {
     if (!this.points.length) return
-    ctx.strokeStyle = '#aaa'
-    ctx.fillStyle = '#aaa'
-    ctx.lineWidth = 1
+    ctx.strokeStyle = config.fg
+    ctx.lineWidth = config.lineWidth
 
     ctx.beginPath()
     ctx.moveTo(...this.points[0])
     this.points.forEach(p => ctx.lineTo(...p))
     ctx.stroke()
+
+    this.crossings.forEach((c, i) => c.draw(ctx, this.points, config, i))
+  }
+
+  /**
+   * 计算分支数
+   * @param {('A'|'B')[]} str
+   */
+  countLoops (str) {
+    // 从 v 出发不停换乘, 再回到 v, 标记路过的所有点
+    const travel = (c, iCross, v, iVert) => {
+      while (!v.visited) {
+        // 站内换乘, 从一个出站口到另一个口
+        v.visited = true
+        const edge = Crossing.open(c.type, str[iCross]).edge
+        v = c.vertices[Crossing.pair(edge, iVert)]
+        // 前往下一站
+        v.visited = true
+        c = crossings[iCross = v.iCross]
+        v = c.vertices[iVert = v.iVert]
+      }
+    }
+
+    let count = 0
+    const { crossings } = this
+    crossings.forEach(v => v.vertices.forEach(v => v.visited = false))
+    crossings.forEach((cross, i) => {
+      cross.vertices.forEach((vert, j) => {
+        if (vert.visited) return
+        travel(cross, i, vert, j)
+        ++count
+      })
+    })
+    return count || 1 // return 1 for trivial knot
+  }
+
+  /**
+   * 计算 Jones 多项式
+   * 书本上的公式:
+   * ```
+   * J(A) = (-A)^(-3*交叉点符号和) * ∑ (-A^2-A^-2)^(分支数-1) * A^(A通道数-B通道数)
+   *      = (-A)^(-3*(nPos-nNeg)) * ∑ (-A^2-A^-2)^(nLoops-1) * A^(n-i-i)
+   * 其中 A = t^(-1/4)
+   * ```
+   * 化简后:
+   * ```
+   * J(q) = ∑ (q+q^-1)^(nLoops-1) * q^(nPos - 2 * nNeg + i)
+   * 其中 q = t^(1/2)
+   * ```
+   */
+  jones () {
+    const poly = new Poly()
+    const n = this.crossings.length
+    const nPos = this.crossings.filter(v => v.type === 0).length
+    const nNeg = n - nPos
+    for (let i = 0; i <= n; i++) {
+      // 枚举所有由 n-i 个 A 和 i 个 B 组成的字符串
+      const next = Utils.combinations(n, i)
+      for (let combo; combo = next();) {
+        const str = new Array(n).fill('A')
+        combo.forEach(v => str[v] = 'B')
+        const nLoops = this.countLoops(str)
+        const shift = nPos - 2 * nNeg + i
+        const p = Poly.from(nLoops-1).shift(shift)
+        const sign = (i + nNeg) % 2 ? -1 : 1
+        // console.log({ str: str.join(''), nLoops, shift, poly: p.toString() })
+        poly.add(p, sign)
+      }
+    }
+    // console.log('sum:', poly.toString())
+    return poly.shrink()
   }
 }
 
@@ -207,103 +591,138 @@ const app = {
     y: 0,
     scale: 1,
   },
+  config: {
+    fg: '#aaa',
+    bg: '#333',
+    lineWidth: 3,
+  },
   render () {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.save()
     const { x, y, scale } = this.transform
     ctx.translate(x, y)
     ctx.scale(scale, scale)
-    this.knot.draw(ctx)
+    this.knot.draw(ctx, this.config)
     ctx.restore()
   },
   setMode (mode) {
     this.mode = mode
-    $('.btns').className = 'btns btns-' + mode
+    document.body.className = 'app-mode-' + mode
+  },
+  init () {
+    this.initCanvas()
+    this.initBtns()
+  },
+  reset () {
+    this.transform = {
+      x: 0,
+      y: 0,
+      scale: 1,
+    }
+    this.render()
+  },
+  initCanvas () {
+    const mouse = {
+      isDown: false,
+      x: 0,
+      y: 0,
+      rect: undefined,
+    }
+
+    /**
+     * ```
+     * 记 T 为平移变换, S 为伸缩变换, 则
+     * S(k) T(x) = T(k x) S(k)
+     * T(x) S(k) T(-x) T(y) S(m) = T((1-k) * x + k y) S(k m)
+     * ```
+     */
+    const onWheel = (e) => {
+      if (app.mode !== 2) return
+      const k = e.deltaY < 0 ? 1.1 : 1/1.1
+      app.transform.x = e.clientX - k * (e.clientX - app.transform.x)
+      app.transform.y = e.clientY - k * (e.clientY - app.transform.y)
+      app.transform.scale *= k
+      app.render()
+    }
+
+    const onMouseDown = (e) => {
+      mouse.isDown = true
+      mouse.x = e.clientX - app.transform.x
+      mouse.y = e.clientY - app.transform.y
+      mouse.rect = canvas.getBoundingClientRect()
+      app.render()
+      if (app.mode === 0) {
+        app.setMode(1)
+      }
+    }
+
+    const onMouseUp = (e) => {
+      if (!mouse.isDown) return
+      mouse.isDown = false
+    }
+
+    const onMouseMove = (e) => {
+      if (!mouse.isDown) return
+      if (app.mode === 1) {
+        app.knot.addPoint(
+          e.clientX - mouse.rect.left,
+          e.clientY - mouse.rect.top,
+        )
+        app.render()
+      } else if (app.mode === 2) {
+        app.transform.x = e.clientX - mouse.x
+        app.transform.y = e.clientY - mouse.y
+        app.render()
+      }
+    }
+
+    // (T(x) S(k))^-1 = S(1/k) T(-x)
+    const onClick = (e) => {
+      const { clientX, clientY } = e
+      const pos = [
+        (clientX - app.transform.x) / app.transform.scale,
+        (clientY - app.transform.y) / app.transform.scale
+      ]
+      const cross = app.knot.crossings.find(cross => cross.isNear(pos))
+      if (cross) {
+        cross.type = 1 - cross.type
+        app.render()
+        $('#jones-result').innerText = app.knot.jones()
+      }
+    }
+
+    const onContextMenu = (e) => {
+      e.preventDefault()
+    }
+
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+    canvas.addEventListener('wheel', onWheel)
+    canvas.addEventListener('pointerdown', onMouseDown)
+    canvas.addEventListener('pointerup', onMouseUp)
+    canvas.addEventListener('pointermove', onMouseMove)
+    canvas.addEventListener('contextmenu', onContextMenu)
+    canvas.addEventListener('click', onClick)
+  },
+  initBtns () {
+    $('.btn-finish').onclick = (e) => {
+      app.knot.closePath()
+      app.render()
+      $('#jones-result').innerText = app.knot.jones()
+      app.setMode(2)
+    }
+    $('.btn-delete').onclick = (e) => {
+      app.knot.dispose()
+      app.reset()
+      app.setMode(0)
+    }
+    $('.btn-center').onclick = (e) => {
+      app.reset()
+    }
   },
 }
 
-const initCanvas = () => {
-  canvas.width = canvas.offsetWidth
-  canvas.height = canvas.offsetHeight
-  const mouse = {
-    isDown: false,
-    x: 0,
-    y: 0,
-    rect: undefined,
-  }
-
-  /**
-   * ```
-   * 记 T 为平移变换, S 为伸缩变换, 则
-   * S(k) T(x) = T(k x) S(k)
-   * T(x) S(k) T(-x) T(y) S(m) = T((1-k) * x + k y) S(k m)
-   * ```
-   */
-  const onWheel = (e) => {
-    if (app.mode !== 2) return
-    const k = e.deltaY < 0 ? 1.1 : 1/1.1
-    app.transform.x = e.clientX - k * (e.clientX - app.transform.x)
-    app.transform.y = e.clientY - k * (e.clientY - app.transform.y)
-    app.transform.scale *= k
-    app.render()
-  }
-
-  const onMouseDown = (e) => {
-    mouse.isDown = true
-    mouse.x = e.clientX - app.transform.x
-    mouse.y = e.clientY - app.transform.y
-    mouse.rect = canvas.getBoundingClientRect()
-    app.render()
-    if (app.mode === 0) {
-      app.setMode(1)
-    }
-  }
-
-  const onMouseUp = (e) => {
-    if (!mouse.isDown) return
-    mouse.isDown = false
-  }
-
-  const onMouseMove = (e) => {
-    if (!mouse.isDown) return
-    if (app.mode === 1) {
-      app.knot.addPoint(
-        e.clientX - mouse.rect.left,
-        e.clientY - mouse.rect.top,
-      )
-      app.render()
-    } else if (app.mode === 2) {
-      app.transform.x = e.clientX - mouse.x
-      app.transform.y = e.clientY - mouse.y
-      app.render()
-    }
-  }
-
-  const onContextMenu = (e) => {
-    e.preventDefault()
-  }
-
-  canvas.addEventListener('wheel', onWheel);
-  canvas.addEventListener('pointerdown', onMouseDown);
-  canvas.addEventListener('pointerup', onMouseUp);
-  canvas.addEventListener('pointermove', onMouseMove);
-  canvas.addEventListener('contextmenu', onContextMenu);
-}
-
-const initBtns = () => {
-  $('.btn-finish').onclick = (e) => {
-    app.knot.closePath()
-    app.render()
-    app.setMode(2)
-  }
-}
-
-const main = () => {
-  initCanvas()
-  initBtns()
-}
-
-main()
+app.init()
 </script>
 </body>
 </html>
