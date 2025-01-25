@@ -330,8 +330,7 @@ li.isnew::after {
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 20px;
-  text-align: center;
+  padding: 20px;
   transform: scaleX(-1);
 }
 #about.back > .back {
@@ -427,9 +426,7 @@ li.isnew::after {
         <li>时度度 <a href="https://note.timedegree.cc/" target="_blank">note</a>・<a href="https://blog.timedegree.cc/" target="_blank">blog</a></li>
       </ul>
     </div>
-    <div class="back">
-      广告位招租
-    </div>
+    <div class="back"></div>
   </div>
 </article>
 
@@ -438,6 +435,40 @@ li.isnew::after {
 <script>
 'use strict';
 (function(){
+
+// elements
+let notify, iframe
+const article = $('#article'),
+  header = $('#header'),
+  nav = $('#nav'),
+  yinyang = $('#yinyang'),
+  eclipse = $('#eclipse'),
+  toggleShowHeader = $('#toggle-show-header')
+
+const settings = {
+  data: {},
+  save (data) {
+    Object.entries(data).forEach(([k, v]) => {
+      if (k === 'column2') {
+        if (!iframe) return
+        const { classList } = iframe.contentWindow.document.body
+        if (v) {
+          classList.add(k)
+        } else {
+          classList.remove(k)
+        }
+      }
+    })
+    Object.assign(this.data, data)
+    localStorage.setItem('index.setting', JSON.stringify(this.data))
+  },
+  load () {
+    const str = localStorage.getItem('index.setting') || '{}'
+    const data = JSON.parse(str)
+    this.save(data)
+    return data
+  },
+}
 
 // 时尚卡片
 {
@@ -452,6 +483,25 @@ li.isnew::after {
     degY ? this.classList.add('back') : this.classList.remove('back')
       this.style.setProperty('--flag', degY)
   }, true) // 向上冒泡
+
+  appendChildren($('#about').querySelector('.back'), [
+    $('<h3>', {
+      style: { marginBottom: '10px' },
+    }, ['设置']),
+    $('<label>', {}, [
+      $('<input>', {
+        attrs: {
+          type: 'checkbox',
+          checked: settings.load().column2,
+        },
+        onchange (e) {
+          const { checked } = e.currentTarget
+          settings.save({ column2: checked })
+        },
+      }),
+      ' 双栏',
+    ])
+  ])
 }
 
 function mockClick (el) {
@@ -477,15 +527,6 @@ function mockClick (el) {
   })
 }
 
-// elements
-let notify, iframe
-const article = $('#article'),
-  header = $('#header'),
-  nav = $('#nav'),
-  yinyang = $('#yinyang'),
-  eclipse = $('#eclipse'),
-  toggleShowHeader = $('#toggle-show-header')
-
 //header.onmouseover = () => headerVisible(true)
 //header.onmouseout = () => headerVisible(false)
 yinyang.onclick = eclipse.onclick = () => hideNav()
@@ -502,6 +543,7 @@ function createIframe(src, title) {
       iframe.focus()
       toggleHideHeader(iframe)
       //iframe.contentWindow.handleKeyboard = handleKeyboard;
+      settings.load()
     }
   })
   article.insertBefore(iframe, eclipse)
@@ -697,7 +739,12 @@ const router = {
 
     let url = route.slice(0, 3).join('/')
     window.history.pushState(null, null, '#' + url + (route[3] ? '/' + route[3] : ''))
-    if (!url.endsWith('.html')) url += '.html'
+
+    if (url.endsWith('.md')) {
+      url = 'markdown.html#' + url
+    } else if (!url.endsWith('.html')) {
+      url += '.html'
+    }
 
     if (node) {
       notify = new Notify('加载中...')

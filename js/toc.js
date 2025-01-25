@@ -461,7 +461,8 @@ var tocData = [
         "value": "sleepy",
         "label": "旧作",
         "children": [
-          { "value": "niaoren", "label": "鸟人", "date": "2022-02-26" }
+          { "value": "niaoren.md", "label": "鸟人", "date": "2022-02-26" },
+          // { "value": "lidaodianbo.md", "label": "离岛电波", "date": "2022-02-26" },
         ]
       },
       {
@@ -492,6 +493,13 @@ var tocData = [
           // { "value": "lywriter", "label": '乐谱编辑器' },
           // { "value": "ear-training", "label": '练耳' },
           // { "value": "svg-score", "label": '乐谱' },
+        ]
+      },
+      {
+        "value": "theory",
+        "label": "乐理",
+        "children": [
+          { "value": "1", "label": "Euler 音乐理论", "date": "2025-01-25" }
         ]
       }
     ]

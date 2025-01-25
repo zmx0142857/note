@@ -40,6 +40,11 @@ body {
   border-right: 1px solid rgba(0, 0, 0, 0.12);
   background: #f7f7f7;
 }
+.at-sidebar:hover {
+  max-width: 400px;
+  transition: max-width 0.2s;
+  overflow-y: auto;
+}
 .at-viewport {
   overflow-y: auto;
   position: absolute;
@@ -73,6 +78,51 @@ body {
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
   padding: 10px;
 }
+
+/** Track selector **/
+.at-track {
+  display: flex;
+  position: relative;
+  padding: 5px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.at-track:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.at-track > .at-track-icon,
+.at-track > .at-track-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.at-track > .at-track-icon {
+  flex-shrink: 0;
+  font-size: 32px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  width: 64px;
+  height: 64px;
+  margin-right: 5px;
+  align-items: center;
+}
+.at-track-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.at-track:hover > .at-track-icon {
+  opacity: 0.8;
+}
+.at-track.active {
+  background: rgba(0, 0, 0, 0.03);
+}
+.at-track.active > .at-track-icon {
+  color: #4972a1;
+  opacity: 1;
+}
+.at-track > .at-track-name {
+  font-weight: 500;
+}
 </style>
 </head>
 <body>
@@ -85,8 +135,22 @@ body {
   </div>
   <div class="at-content">
     <div class="at-sidebar">
-      Track selector will go here
+      <div class="at-sidebar-content">
+        <div class="at-track-list"></div>
+      </div>
     </div>
+    <template id="at-track-template">
+      <div class="at-track">
+        <div class="at-track-icon">
+          <i class="fas fa-guitar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 5h-3v5.5a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 1 2.5-2.5c.57 0 1.08.19 1.5.51V5h4zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z"/></svg>
+          </i>
+        </div>
+        <div class="at-track-details">
+          <div class="at-track-name"></div>
+        </div>
+      </div>
+    </template>
     <div class="at-viewport">
       <div class="at-main"></div>
     </div>
@@ -98,20 +162,56 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/alphaTab.js"></script>
 <script type="text/javascript">
-const $wrapper = document.querySelector('.at-wrap')
-const $main = $wrapper.querySelector('.at-main')
-const $overlay = $wrapper.querySelector('.at-overlay')
+const $ = el => document.querySelector(el)
+const $wrapper = $('.at-wrap')
+const $main = $('.at-main')
+const $overlay = $('.at-overlay')
+const $trackTemplate = $('#at-track-template')
+const $trackList = $('.at-track-list')
 
-const settings = {
+const api = new alphaTab.AlphaTabApi($main, {
   file: 'https://www.alphatab.net/files/canon.gp',
+})
+
+const renderTrackItem = (track) => {
+  const $track = $trackTemplate.content.cloneNode(true).firstElementChild
+  $track.querySelector('.at-track-name').innerText = track.name
+  $track.track = track
+  $track.onclick = (e) => {
+    e.stopPropagation()
+    api.renderTracks([track])
+  }
+  return $track
 }
-const api = new alphaTab.AlphaTabApi($main, settings)
-api.renderStarted.on(() => {
+
+const onScoreLoad = (score) => {
+  console.log('onScoreLoad', score)
+  $trackList.innerHTML = ''
+  score.tracks.forEach(track => {
+    $trackList.appendChild(renderTrackItem(track))
+  })
+}
+
+const onRenderStart = () => {
+  console.log('onRenderStart', api.tracks)
   $overlay.style.display = 'flex'
-})
-api.renderFinished.on(() => {
+  const map = Object.fromEntries(api.tracks.map(track => [track.index, track]))
+  ;[...$trackList.querySelectorAll('.at-track')].forEach($track => {
+    if (map[$track.track.index]) {
+      $track.classList.add('active')
+    } else {
+      $track.classList.remove('active')
+    }
+  })
+}
+
+const onRenderFinish = () => {
   $overlay.style.display = 'none'
-})
+}
+
+api.scoreLoaded.on(onScoreLoad)
+api.renderStarted.on(onRenderStart)
+api.renderFinished.on(onRenderFinish)
 </script>
 </body>
 </html>
