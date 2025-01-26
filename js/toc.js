@@ -680,6 +680,27 @@ var tocData = [
       }
     ]
   },
+  {
+    "value": "man",
+    "label": "手册",
+    "children": [
+      {
+        "value": "app",
+        "label": "软件",
+        "children": [
+          { "value": "excel.md", "label": "Excel", "date": "2025-01-26" },
+        ],
+      },
+      {
+        "value": "os",
+        "label": "系统",
+        "children": [
+          { "value": "linux.md", "label": "Linux", "date": "2025-01-26" },
+          { "value": "windows.md", "label": "Windows", "date": "2025-01-26" },
+        ],
+      },
+    ],
+  },
   // 全新的开始?
 ]
 if (typeof module !== 'undefined') {

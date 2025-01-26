@@ -10,12 +10,16 @@
 <main id="main">
 </main>
 <script src="js/markdown-it.min.js"></script>
+<script src="js/markdown-it-toc.js"></script>
 <script>
 const main = async (src) => {
-  const text = await fetch(src).then(res => res.text())
+  let text = await fetch(src).then(res => res.text())
   const md = markdownit({
-    html: true,
+    html: true, // enable html in markdown
+    linkify: true, // convert url to <a>
   })
+  .use(markdownitToc)
+  text = text.replace(/^(#.*\n)?/, ($1) => $1 + '@[toc](目录)\n')
   document.querySelector('#main').innerHTML = md.render(text)
 }
 
