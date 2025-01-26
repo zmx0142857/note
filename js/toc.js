@@ -683,6 +683,7 @@ var tocData = [
   {
     "value": "man",
     "label": "手册",
+    "color": "dark",
     "children": [
       {
         "value": "app",

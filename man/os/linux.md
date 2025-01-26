@@ -65,63 +65,6 @@ pacman 会把老的包放在 `/var/cache/pacman`, 例如:
 - `qbittorrent`: 图形界面的种子下载器
 - `scoop`: windows 的包管理器
 
-## 系统
-
-文字处理
-
-- `awk`: column editing language
-- `sed`: line streaming editing language
-- `sort`: sort lines based on column
-- `uniq`: remove repeated lines
-- `tee`: print to stdout and a file
-- `iconv`: 编码转换
-
-文件
-
-    $ trash                      # 命令行版本的回收站
-    $ find <path> -path '*.jpg'  # 查找路径下的指定文件
-    $ grep -R 'keyword'          # 在当前路径下的所有文件中, 查找指定内容
-    $ sha256sum                  # 计算文件 hash
-    $ zip, unzip                 # 压缩与解压
-
-内存
-
-    $ free -h       # 查看内存占用
-    $ ps -ef        # 查看全部进程
-    $ jobs          # 查看当前终端下的任务
-    $ lsof -i:9999  # 查看端口占用
-
-磁盘
-
-    $ df -h         # 查看磁盘占用
-    $ df -T         # 查看文件系统类型
-    $ lsblk         # 查看磁盘分区
-    $ cfdisk        # 友好的交互式磁盘分区工具
-    $ mount         # 挂载分区, 比如 u 盘
-    $ umount        # 取消挂载分区
-
-系统信息
-
-    $ screenfetch       # 显示系统信息及终端字符画
-    $ lspci             # 查看硬件信息
-    $ lscpu             # 查看 CPU 信息
-    $ nvidia-smi        # 查看显卡信息 (N卡)
-    $ getconf LONG_BIT
-    $ uname -a
-    $ lsb_release -a
-
-## 网络
-
-    $ ifconfig | grep inet   # 本机 ip 地址
-    $ ping <ip地址>          # 检查能否连接到目标 ip
-    $ nslookup www.baidu.com # 域名解析
-    $ iptables               # 查看防火墙配置
-
-局域网扫描
-
-    $ nmap -sP 192.168.1.0/24
-    $ arp | grep ether
-
 ## 远程
 
 ### ssh
@@ -198,11 +141,116 @@ file transfer protocol
     $ xelatex                           # 传统数学排版软件
     $ typst                             # 新兴数学排版软件
 
+## 文字处理
+
+- `echo`: 输出文字
+- `cat`: 无情的复读机
+- `awk`: column editing language
+- `sed`: line streaming editing language
+- `sort`: sort lines based on column
+- `uniq`: remove repeated lines
+- `tee`: print to stdout and a file
+- `tr`: 逐字替换
+  ```
+  $ echo 'C:\Users\fran\Documents\' | tr \\ /         # 把反斜杠替换为正斜杠
+  ```
+- `iconv`: 编码转换, `iconv -f` 指定来源编码, `iconv -t` 指定目标编码
+  ```
+  $ iconv -f gbk <file>                               # 把 gbk 文本转为 utf8
+  $ echo '��' | iconv -f gbk                         # 锟斤拷
+  $ echo -e '\xcc\xcc\xcc\xcc\xcc\xcc' | iconv -f gbk # 烫烫烫
+  $ echo '你好' | iconv -t gbk | iconv -f latin1      # ÄãºÃ
+  $ echo 'ÄãºÃ' | iconv -t latin1 | iconv -f gbk      # 你好
+  ```
+- `opencc`: 简繁转换
+  ```
+  $ echo '发自我的手机' | opencc -c s2t              # 發自我的手機
+  ```
+- `expand`, `unexpand`: tab -> space, space -> tab
+- `sha256sum`, `md5sum`, `base64`: 编码与 hash
+- `qrencode`: 二维码
+  ```
+  $ qrencode -t UTF8 -k "文字内容"
+  ```
+
 ## Shell
 
+> 注: 面对复杂现实, shell 显得力不从心时, 不妨使用脚本语言如 py 或 js.
 
 循环语句
 
-    $ for f in *;
-    > do ls "$f";
-    > done
+    $ for f in *; do echo $f; done
+
+文件
+
+    $ find <path> -path '*.jpg'  # 查找路径下的指定文件 (详细用法见下)
+    $ grep -R 'keyword'          # 在当前路径下的所有文件中, 查找指定内容
+    $ xxd 1.jpg | head -n 20     # 查看二进制文件 (前 20 行)
+    $ trash                      # 命令行版本的回收站 (sudo pacman -S trash-cli)
+    $ du -h --max-depth=1 <path> # 查看目录大小
+    $ rename txt svg *           # 批量重命名文件
+
+`find`: 查找文件
+
+    $ find -type f -mtime -3      # 查找 3 天内修改过的文件, 改成 +3 则表示 3 天前的文件
+    $ find -type f -size +500M    # 查找 >= 500M 的文件
+    $ find -type d -empty -delete # 删除空目录
+    $ wc -l `find -type f ! -path "./node_modules/*" ! -path "./.git/*"` # 统计项目代码行数
+
+
+压缩与解压
+
+    $ zip -r files.zip files/ -x 'files/excludes/*' # 压缩目录, 用 -x 指定排除的路径
+    $ unzip files.zip -d files/ # 解压到指定目录
+    $ vim files.zip             # 是的, vim 可以查看 zip 压缩包
+
+内存
+
+    $ free -h       # 查看内存占用
+    $ ps -ef        # 查看全部进程
+    $ jobs          # 查看当前终端下的任务
+    $ lsof -i:9999  # 查看端口占用
+
+磁盘
+
+    $ df -h         # 查看磁盘占用
+    $ df -T         # 查看文件系统类型
+    $ lsblk         # 查看磁盘分区
+    $ cfdisk        # 友好的交互式磁盘分区工具
+    $ mount         # 挂载分区, 比如 u 盘
+    $ umount        # 取消挂载分区
+
+系统信息
+
+    $ screenfetch       # 显示系统信息及终端字符画
+    $ lspci             # 查看硬件信息
+    $ lscpu             # 查看 CPU 信息
+    $ nvidia-smi        # 查看显卡信息 (N卡)
+    $ getconf LONG_BIT
+    $ uname -a
+    $ lsb_release -a
+
+网络
+
+    $ ifconfig | grep inet   # 本机 ip 地址
+    $ ping <ip地址>          # 检查能否连接到目标 ip
+    $ nslookup www.baidu.com # 域名解析
+    $ iptables               # 查看防火墙配置
+    $ nmap -sP 192.168.1.0/24 && arp | grep ether # 局域网扫描
+
+数学
+
+    $ factor 2077           # 分解质因数
+
+    $ shuf < input.txt      # 随机重排文件的每一行
+    $ shuf -i 1-10 -n 1     # 生成 [1..10] 间的随机数
+
+    $ echo {1..5}   # 1 2 3 4 5
+    $ echo {01..05} # 01 02 03 04 05
+    $ seq 1 2 9     # 1 3 5 7 9
+
+时间日期
+
+    $ date                  # 显示当前时间
+    $ date +%Y-%m-%d        # 2025-01-26
+    $ cal                   # 日历
