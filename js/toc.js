@@ -700,6 +700,13 @@ var tocData = [
           { "value": "windows.md", "label": "Windows", "date": "2025-01-26" },
         ],
       },
+      {
+        "value": "format",
+        "label": "格式",
+        "children": [
+          { "value": "jpeg.md", "label": "JPEG", "date": "2025-01-26" },
+        ],
+      },
     ],
   },
   // 全新的开始?
