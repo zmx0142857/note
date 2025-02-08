@@ -13,6 +13,7 @@ var tocData = [
           { "value": "mathml", "label": "Mathml" },
           { "value": "surface", "label": "曲面在线绘制", "date": "2021-12-10" },
           { "value": "knot", "label": "纽结编辑器", "date": "2025-01-07" },
+          { "value": "geometry", "label": "几何编辑器", "date": "2025-02-07" },
         ]
       },
       {

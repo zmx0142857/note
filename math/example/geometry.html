@@ -1,0 +1,719 @@
+<html>
+<head>
+<title>Knot Editor by YossiLev</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+<style>
+* {
+  box-sizing: border-box;
+}
+:root {
+  --fg-1: #eee;
+  --bg-1: #333;
+  --bg-2: 180 180 180;
+  --bd-1: #888; 
+  --bg-blue: #1976d2;
+  --bg-danger: #f44336;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-1);
+}
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-1);
+  cursor: crosshair;
+}
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+const $ = el => document.querySelector(el)
+
+const Utils = {
+  between (x, min, max) {
+    if (x < min) return min
+    if (x > max) return max
+    return x
+  },
+  traverse (node, callback) {
+    callback(node)
+    node.children?.forEach(v => Utils.traverse(v, callback))
+  },
+  noop () {},
+  sum (arr) {
+    return arr.reduce((a, b) => a + b, 0)
+  },
+  // 两点距离的平方
+  dist2 (p1, p2) {
+    return Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2)
+  },
+  // 两点距离
+  dist (p1, p2) {
+    return Math.hypot(p1[0] - p2[0], p1[1] - p2[1])
+  },
+  // 长度的平方
+  length2 (p) {
+    return Math.pow(p[0], 2) + Math.pow(p[1], 2)
+  },
+  // 长度
+  length (p) {
+    return Math.hypot(...p)
+  },
+  // 向量相减
+  sub (a, b) {
+    return [a[0] - b[0], a[1] - b[1]]
+  },
+  // 点乘
+  dot (a, b) {
+    return a[0] * b[0] + a[1] * b[1]
+  },
+  // 叉乘
+  cross (a, b) {
+    return a[0] * b[1] - a[1] * b[0]
+  },
+}
+
+// 解三角形
+class TriSolve {
+  constructor (points) {
+    this.points = points.map(p => p.pos)
+    this.A = this.points[0]
+    this.B = this.points[1]
+    this.C = this.points[2]
+    this.AB = Utils.sub(this.B, this.A)
+    this.BC = Utils.sub(this.C, this.B)
+    this.CA = Utils.sub(this.A, this.C)
+  }
+  get a () { return Utils.dist(this.B, this.C) }
+  get b () { return Utils.dist(this.C, this.A) }
+  get c () { return Utils.dist(this.A, this.B) }
+  get aa () { return Utils.dist2(this.B, this.C) }
+  get bb () { return Utils.dist2(this.C, this.A) }
+  get cc () { return Utils.dist2(this.A, this.B) }
+  get ab () { return Utils.dot(this.BC, this.CA) }
+  get bc () { return Utils.dot(this.CA, this.AB) }
+  get ca () { return Utils.dot(this.AB, this.BC) }
+  get axb () { return Utils.cross(this.BC, this.CA) }
+  get bxc () { return Utils.cross(this.CA, this.AB) }
+  get cxa () { return Utils.cross(this.AB, this.BC) }
+  // 重心坐标
+  center (coord) {
+    const s = Utils.sum(coord)
+    let res = [0, 0]
+    this.points.forEach((p, i) => {
+      res[0] += p[0] * coord[i]
+      res[1] += p[1] * coord[i]
+    })
+    res[0] /= s
+    res[1] /= s
+    return res
+  }
+  // 外心
+  circumcenter () {
+    const { bc, ca, ab, bxc, cxa, axb, aa, bb, cc } = this
+    return this.center([
+      -bc * Math.abs(bxc) / (bb * cc), // sin A * cos A
+      -ca * Math.abs(cxa) / (cc * aa), // sin B * cos B
+      -ab * Math.abs(axb) / (aa * bb), // sin C * cos C
+    ])
+  }
+  // 重心
+  centroid () {
+    return this.center([1, 1, 1])
+  }
+  // 内心
+  incenter () {
+    return this.center([this.a, this.b, this.c])
+  }
+  // 垂心
+  orthocenter () {
+    return this.center([
+      -Math.abs(this.bxc) / this.bc, // sin A / cos A
+      -Math.abs(this.cxa) / this.ca, // sin B / cos B
+      -Math.abs(this.axb) / this.ab, // sin C / cos C
+    ])
+  }
+  // 界心
+  nagelPoint () {
+    return this.center([
+      Math.abs(this.bxc) / (this.b * this.c + this.bc), // sin A / (1 - cos A)
+      Math.abs(this.cxa) / (this.c * this.a + this.ca), // sin B / (1 - cos B)
+      Math.abs(this.axb) / (this.a * this.b + this.ab), // sin C / (1 - cos C)
+    ])
+  }
+}
+
+class Label {
+  constructor (text = '', offset = [12, -12]) {
+    this.text = text
+    this.offset = offset
+    this.zIndex = 10
+    this.parent = undefined
+    this.show = false
+  }
+
+  render (app) {
+    if (!this.parent?.pos || !this.text || !this.show) return
+    const { ctx } = app
+    ctx.font = '18px Arial'
+    ctx.strokeStyle = '#333'
+    ctx.fillStyle = '#ccc'
+    ctx.lineWidth = 2
+    const pos = app.project(this.parent.pos)
+    pos[0] += this.offset[0]
+    pos[1] += this.offset[1]
+    ctx.strokeText(this.text, ...pos)
+    ctx.fillText(this.text, ...pos)
+  }
+}
+
+class Geometry {
+  constructor ({ def, deps, ...props } = {}) {
+    this.children = [] // 子对象
+    this.deps = [] // this 依赖的几何对象
+    this.subs = [] // 依赖于 this 的几何对象
+    this.zIndex = 0
+
+    this.label = new Label()
+    this.label.parent = this
+    this.children.push(this.label)
+    this.show = true
+    this.isDisposed = false
+    this.set(props).def(def, deps).notify()
+  }
+  set (obj = {}) {
+    Object.entries(obj).forEach(([key, value]) => {
+      let that = this
+      const arr = key.split('.')
+      arr.slice(0, -1).forEach(k => {
+        if (that === undefined) return
+        that = that[k]
+      })
+      if (that === undefined) return
+      that[arr[arr.length - 1]] = value
+    })
+    return this
+  }
+  setLabel (text, offset) {
+    this.label.text = text
+    if (offset) this.label.offset = offset
+    this.label.show = true
+    return this
+  }
+  update () {}
+  render (app) {}
+  pick (pos) {}
+  move (pos) {}
+  def (update = Utils.noop, deps = []) {
+    this.update = update
+    this.deps = deps
+    deps.forEach(v => v.subs.push(this))
+    return this
+  }
+  notify () {
+    this.update(this)
+    this.subs.forEach(v => v.notify())
+    return this
+  }
+  dispose () {
+    this.isDisposed = true
+    this.subs.forEach(v => v.dispose())
+    this.deps.forEach(v => v.subs = v.subs.filter(d => d !== this))
+  }
+}
+
+class Point extends Geometry {
+  constructor (options) {
+    super({
+      radius: 8,
+      lineWidth: 2,
+      zIndex: 4,
+      fillStyle: '#666',
+      strokeStyle: '#888',
+      ...options,
+    })
+    this.label.show = true
+  }
+
+  // 自由点
+  static free(x, y) {
+    const point = new Point({
+      fillStyle: '#1976d2',
+      strokeStyle: '#65b2ff',
+    })
+    point.pos = [x, y]
+    return point
+  }
+
+  // 固定点
+  static fixed(x, y) {
+    return new Point({
+      def: point => point.pos = [x, y],
+    }) 
+  }
+
+  // 中点
+  static midPoint(p1, p2) {
+    return new Point({
+      def: point => {
+        point.pos = [
+          0.5 * (p1.pos[0] + p2.pos[0]),
+          0.5 * (p1.pos[1] + p2.pos[1])
+        ]
+      },
+      deps: [p1, p2]
+    })
+  }
+
+  // 两直线交点
+  static fromLines (l1, l2) {
+    return new Point({
+      def: point => {
+        const [[x1, y1], [x2, y2]] = l1.edge
+        const [[x3, y3], [x4, y4]] = l2.edge
+        const det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        if (det === 0) return null
+        const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / det
+        point.pos = [x1 + t * (x2 - x1), y1 + t * (y2 - y1)]
+      },
+      deps: [l1, l2]
+    })
+  }
+
+  pick (app, screenPos) {
+    return Utils.dist2(screenPos, app.project(this.pos)) < 100
+  }
+
+  move (pos) {
+    this.pos = pos
+    this.notify()
+    app.render()
+  }
+
+  render (app) {
+    const { ctx } = app
+    ctx.beginPath()
+    const pos = app.project(this.pos)
+    ctx.arc(...pos, this.radius, 0, 2 * Math.PI)
+    ctx.fillStyle = this.fillStyle
+    ctx.strokeStyle = this.strokeStyle
+    ctx.lineWidth = this.lineWidth
+    ctx.fill()
+    ctx.stroke()
+  }
+}
+
+class Line extends Geometry {
+  constructor (options) {
+    super({
+      zIndex: 1,
+      lineWidth: 4,
+      strokeStyle: '#ccc',
+      isFinite: [false, false], // 是否为有限端点, 用于支持线段与射线
+      ...options
+    })
+  }
+
+  // TODO: 缩放后标签可能移出屏幕而不可见
+  get pos () {
+    const [[x1, y1], [x2, y2]] = this.edge
+    return [
+      0.5 * (x1 + x2),
+      0.5 * (y1 + y2)
+    ]
+  }
+
+  // 两点连线
+  static fromPoints (p1, p2) {
+    return new Line({
+      def: line => line.edge = [p1.pos, p2.pos],
+      deps: [p1, p2]
+    })
+  }
+
+  // 平行线
+  static parallel (line, point) {
+    return new Line({
+      def: that => {
+        const [[x1, y1], [x2, y2]] = line.edge
+        const [x, y] = point.pos
+        that.edge = [
+          point.pos,
+          [x + x2 - x1, y + y2 - y1]
+        ]
+      },
+      deps: [line, point]
+    })
+  }
+
+  // 垂线
+  static perpendicular (line, point) {
+    return new Line({
+      def: that => {
+        const [[x1, y1], [x2, y2]] = line.edge
+        const [x, y] = point.pos
+        that.edge = [
+          point.pos,
+          [x + y1 - y2, y + x2 - x1]
+        ]
+      },
+      deps: [line, point]
+    })
+  }
+
+  render (app) {
+    const { ctx } = app
+    ctx.beginPath()
+
+    let [x0, y0] = app.project(this.edge[0])
+    let [x1, y1] = app.project(this.edge[1])
+    const dx = x0 - x1
+    const dy = y0 - y1
+    if (dx === 0 && dy === 0) return
+
+    // 直线或射线
+    if (!this.isFinite[0] || !this.isFinite[1]) {
+      const { width, height } = app.canvas
+      let oldx0 = x0, oldy0 = y0
+      if (!this.isFinite[0]) {
+        if (Math.abs(dy) > Math.abs(dx)) {
+          y0 = dy > 0 ? height : 0
+          x0 = x1 + dx * (y0 - y1) / dy
+        } else {
+          x0 = dx > 0 ? width : 0
+          y0 = y1 + dy * (x0 - x1) / dx
+        }
+      }
+      if (!this.isFinite[1]) {
+        if (Math.abs(dy) > Math.abs(dx)) {
+          y1 = dy < 0 ? height : 0
+          x1 = oldx0 + dx * (y1 - oldy0) / dy
+        } else {
+          x1 = dx < 0 ? width : 0
+          y1 = oldy0 + dy * (x1 - oldx0) / dx
+        }
+      }
+    }
+
+    ctx.moveTo(x0, y0)
+    ctx.lineTo(x1, y1)
+
+    ctx.lineWidth = this.lineWidth
+    ctx.strokeStyle = this.strokeStyle
+    ctx.stroke()
+  }
+}
+
+class Segment {
+  static fromPoints (p1, p2) {
+    return Line.fromPoints(p1, p2).set({ isFinite: [true, true] })
+  }
+}
+
+class Ray {
+  static fromPoints (p1, p2) {
+    return Line.fromPoints(p1, p2).set({ isFinite: [true, false] })
+  }
+}
+
+class Polygon extends Geometry {
+  constructor (options) {
+    super({
+      lineWidth: 4,
+      fillStyle: '#1976d288',
+      ...options
+    })
+  }
+
+  static fromPoints (points) {
+    const polygon = new Polygon()
+    const childLen = polygon.children.length
+    return polygon.def(polygon => {
+      // TODO: 这造成大量对象的创建与回收, 优化?
+      polygon.children.splice(childLen).forEach(child => child.dispose())
+      polygon.points = points
+      const len = points.length
+      points.forEach((p, i) => {
+        const q = points[(i - 1 + len) % len]
+        polygon.children.push(
+          Segment.fromPoints(q, p).set({ strokeStyle: '#65b2ff' })
+        )
+      })
+    }, points).notify()
+  }
+
+  render (app) {
+    const { ctx } = app
+    ctx.beginPath()
+    ctx.moveTo(...app.project(this.points[0].pos))
+    this.points.forEach(p => {
+      ctx.lineTo(...app.project(p.pos))
+    })
+    ctx.closePath()
+    ctx.fillStyle = this.fillStyle
+    ctx.fill()
+  }
+}
+
+class Circle extends Geometry {
+  constructor (options) {
+    super({
+      lineWidth: 4,
+      strokeStyle: '#ccc',
+      ...options
+    })
+  }
+
+  // 指定圆心半径
+  static fromCenterRadius (center, radius) {
+    return new Circle({
+      def: circle => {
+        circle.center = center.pos
+        circle.radius = radius
+      },
+      deps: [center]
+    })
+  }
+
+  // 三角形外接圆
+  static fromPoints (p1, p2, p3) {
+    const points = [p1, p2, p3]
+    return new Circle({
+      def: circle => {
+        const tri = new TriSolve(points)
+        circle.center = tri.circumcenter()
+        circle.radius = Utils.dist(circle.center, p1.pos)
+      },
+      deps: points,
+    })
+  }
+
+  render (app) {
+    const { ctx } = app
+    const [x, y] = app.project(this.center)
+    const r = this.radius * app.transform.scale
+    ctx.beginPath()
+    ctx.strokeStyle = this.strokeStyle
+    ctx.lineWidth = this.lineWidth
+    ctx.arc(x, y, r, 0, Math.PI * 2)
+    ctx.stroke()
+  }
+}
+
+const testLine = () => {
+  const A = Point.free(0, 0).setLabel('A')
+  const B = Point.free(0, 1).setLabel('B')
+  const AB = Line.fromPoints(A, B)
+  return [AB, A, B]
+}
+
+const testParaPerp = () => {
+  const A = Point.free(0, 0).setLabel('A')
+  const B = Point.free(0, 1).setLabel('B')
+  const AB = Line.fromPoints(A, B)
+  const C = Point.free(1, 1).setLabel('C')
+  const L1 = Line.parallel(AB, C).setLabel('L1')
+  const L2 = Line.perpendicular(AB, C).setLabel('L2')
+  return [AB, L1, L2, A, B, C]
+}
+
+const testLines = () => {
+  const A = Point.free(0, 0).setLabel('A')
+  const B = Point.free(0, 1).setLabel('B')
+  const C = Point.free(1, 0).setLabel('C')
+  const D = Point.free(1, 1).setLabel('D')
+  const AB = Line.fromPoints(A, B)
+  const BC = Line.fromPoints(B, C)
+  const CA = Line.fromPoints(C, A)
+  const AD = Line.fromPoints(A, D)
+  const M = Point.midPoint(A, B).setLabel('M')
+  const P = Point.fromLines(BC, AD).setLabel('P')
+  return [
+    AB, BC, CA, AD,
+    A, B, C, D,
+    M, P
+  ]
+}
+
+const testCenter = () => {
+  const A = Point.free(0, 0).setLabel('A')
+  const B = Point.free(0, 1).setLabel('B')
+  const C = Point.free(1, 0).setLabel('C')
+  const ABC = Polygon.fromPoints([A, B, C])
+  const G = new Point({
+    def: p => p.pos = new TriSolve(ABC.points).centroid(),
+    deps: [ABC],
+  }).setLabel('G')
+  const I = new Point({
+    def: p => p.pos = new TriSolve(ABC.points).incenter(),
+    deps: [ABC],
+  }).setLabel('I')
+  const O = new Point({
+    def: p => p.pos = new TriSolve(ABC.points).circumcenter(),
+    deps: [ABC],
+  }).setLabel('O')
+  const H = new Point({
+    def: p => p.pos = new TriSolve(ABC.points).orthocenter(),
+    deps: [ABC],
+  }).setLabel('H')
+  const N = new Point({
+    def: p => p.pos = new TriSolve(ABC.points).nagelPoint(),
+    deps: [ABC],
+  }).setLabel('N')
+  return [A, B, C, ABC, G, I, H, O, N]
+}
+
+const testCircle = () => {
+  const A = Point.free(0, 0).setLabel('A')
+  const B = Point.free(0, 1).setLabel('B')
+  const C = Point.free(1, 0).setLabel('C')
+  const circle = Circle.fromPoints(A, B, C)
+  return [A, B, C, circle]
+}
+
+const testNinePointCircle = () => {
+  const A = Point.free(-1.705, -1.0975).setLabel('A')
+  const B = Point.free(-0.335, 1.9725).setLabel('B')
+  const C = Point.free(0.975, -0.7475).setLabel('C')
+  const ABC = Polygon.fromPoints([A, B, C])
+  const D = Point.midPoint(A, B).setLabel('D')
+  const E = Point.midPoint(B, C).setLabel('E')
+  const F = Point.midPoint(C, A).setLabel('F')
+  const BC = Line.fromPoints(B, C)
+  const CA = Line.fromPoints(C, A)
+  const AB = Line.fromPoints(A, B)
+  const ha = Line.perpendicular(BC, A)
+  const hb = Line.perpendicular(CA, B)
+  const hc = Line.perpendicular(AB, C)
+  const H = Point.fromLines(ha, hb).setLabel('H')
+  const fa = Point.fromLines(BC, ha)
+  const fb = Point.fromLines(CA, hb)
+  const fc = Point.fromLines(AB, hc)
+  const ma = Point.midPoint(H, A)
+  const mb = Point.midPoint(H, B)
+  const mc = Point.midPoint(H, C)
+  const circle = Circle.fromPoints(D, E, F)
+  return [A, B, C, ABC, D, E, F, ha, hb, hc, fa, fb, fc, H, ma, mb, mc, circle]
+}
+
+const app = {
+  canvas: $('#canvas'),
+  ctx: undefined,
+  // rect: undefined,
+  transform: {
+    x: 0,
+    y: 0,
+    scale: 200,
+  },
+  children: testNinePointCircle(),
+  init () {
+    this.initCanvas()
+  },
+  render () {
+    const { canvas, ctx } = this
+    const { x, y, scale } = this.transform
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const buf = []
+    this.children.forEach(child => Utils.traverse(child, v => buf.push(v)))
+    buf.filter(v => v.show && !v.isDisposed).sort((a, b) => a.zIndex - b.zIndex).forEach(v => v.render(app))
+  },
+  // world -> screen
+  project (pos) {
+    const { x, y, scale } = this.transform
+    const { width, height } = this.canvas
+    return [
+      pos[0] * scale + x + 0.5 * width,
+      pos[1] * (-scale) + y + 0.5 * height
+    ]
+  },
+  // screen -> world
+  unproject (e) {
+    const { clientX, clientY } = e
+    const { x, y, scale } = this.transform
+    const { width, height } = this.canvas
+    return [
+      (clientX - 0.5 * width - x) / scale,
+      (clientY - 0.5 * height - y) / (-scale),
+    ]
+  },
+  pick (e) {
+    const pos = [e.clientX, e.clientY]
+    return this.children.find(v => v.pick(this, pos))
+  },
+  initCanvas () {
+    this.ctx = this.canvas.getContext('2d')
+    const { canvas, ctx, transform } = this
+    const mouse = {
+      isDown: false,
+      x: 0,
+      y: 0,
+      selected: undefined,
+    }
+
+    const onWheel = (e) => {
+      const k = e.deltaY < 0 ? 1.1 : 1/1.1
+      const x = e.clientX - 0.5 * canvas.width
+      const y = e.clientY - 0.5 * canvas.height
+      transform.x = x - k * (x - transform.x)
+      transform.y = y - k * (y - transform.y)
+      transform.scale *= k
+      this.render()
+    }
+
+    const onMouseDown = (e) => {
+      mouse.isDown = true
+      mouse.x = e.clientX - transform.x
+      mouse.y = e.clientY - transform.y
+      // this.rect = canvas.getBoundingClientRect()
+      mouse.selected = this.pick(e)
+      if (mouse.selected) {
+        console.log('selected:', mouse.selected)
+      }
+      this.render()
+    }
+
+    const onMouseMove = (e) => {
+      if (!mouse.isDown) return
+      if (mouse.selected) {
+        const pos = this.unproject(e)
+        mouse.selected.move(pos)
+      } else {
+        transform.x = e.clientX - mouse.x
+        transform.y = e.clientY - mouse.y
+        this.render()
+      }
+    }
+
+    const onMouseUp = (e) => {
+      if (!mouse.isDown) return
+      mouse.isDown = false
+    }
+
+    const onContextMenu = (e) => {
+      e.preventDefault()
+    }
+
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+    canvas.addEventListener('wheel', onWheel)
+    canvas.addEventListener('pointerdown', onMouseDown)
+    canvas.addEventListener('pointermove', onMouseMove)
+    canvas.addEventListener('pointerup', onMouseUp)
+    canvas.addEventListener('contextmenu', onContextMenu)
+    this.render()
+  },
+}
+
+app.init()
+</script>
+</body>
+</html>
