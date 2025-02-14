@@ -691,6 +691,8 @@ var tocData = [
         "label": "软件",
         "children": [
           { "value": "excel.md", "label": "Excel", "date": "2025-01-26" },
+          { "value": "git.md", "label": "Git", "date": "2025-02-13" },
+          { "value": "svn.md", "label": "SVN", "date": "2025-02-14" },
         ],
       },
       {
@@ -699,6 +701,22 @@ var tocData = [
         "children": [
           { "value": "linux.md", "label": "Linux", "date": "2025-01-26" },
           { "value": "windows.md", "label": "Windows", "date": "2025-01-26" },
+        ],
+      },
+      {
+        "value": "py",
+        "label": "Python",
+        "children": [
+          { "value": "env.md", "label": "虚拟环境", "date": "2025-02-13" },
+          { "value": "data.md", "label": "数据分析", "date": "2025-02-13" },
+          { "value": "torch.md", "label": "Torch", "date": "2025-02-13" },
+        ],
+      },
+      {
+        "value": "js",
+        "label": "JS",
+        "children": [
+          { "value": "cesium.md", "label": "Cesium", "date": "2025-02-14" },
         ],
       },
       {

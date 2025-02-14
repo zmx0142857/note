@@ -86,6 +86,7 @@ pre {
   padding: .2em .6em;
   border-radius: 6px;
   overflow: auto;
+  line-height: 1em;
 }
 code {
   padding: .2em .4em;
@@ -110,6 +111,10 @@ summary {
   cursor: pointer;
   width: max-content;
   user-select: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #2a2a2a;
+  transition: border-radius .3s;
 }
 summary::marker {
   content: '';
@@ -125,22 +130,30 @@ summary::before {
   margin-right: 4px;
   transition: transform .3s;
 }
+details[open] > summary {
+  border-radius: 6px 6px 0 0;
+}
 details[open] > summary::before {
   transform: rotate(90deg);
 }
 details + div {
   display: grid;
   overflow: hidden;
-  transition: grid-template-rows .3s;
+  transition: grid-template-rows .3s, padding .3s;
   grid-template-rows: 0fr;
+  background: #2a2a2a;
+  border-radius: 0 6px 6px 6px;
+  padding: 0;
 }
 details[open] + div {
   grid-template-rows: 1fr;
+  padding: 8px 0;
 }
 details + div > ul {
   overflow: hidden;
   margin: 0;
-  padding-top: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 table {
