@@ -716,6 +716,7 @@ var tocData = [
         "value": "js",
         "label": "JS",
         "children": [
+          { "value": "three.md", "label": "ThreeJS", "date": "2025-02-18" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-14" },
         ],
       },
@@ -724,6 +725,7 @@ var tocData = [
         "label": "格式",
         "children": [
           { "value": "jpeg.md", "label": "JPEG", "date": "2025-01-26" },
+          { "value": "3dtiles.md", "label": "3dtiles", "date": "2025-02-18" },
         ],
       },
     ],

@@ -136,3 +136,11 @@ plt.gca().set_ylabel('Estimated probability')
 plt.legend()
 plt.show()
 ```
+
+## Trouble shooting
+
+- matplotlib 和 torch 同时引入时, 画图可能报错 lib 重复引入, 解决方法是设置环境变量:
+  ```py
+  import os
+  os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+  ```

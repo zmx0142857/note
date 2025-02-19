@@ -55,9 +55,9 @@
     </li>
 </ol>
 
-<ol class="p example">
-  <li><b>ReLU 函数</b> `"ReLU"(x) = max(0, x) = (x + |x|)/2`.</li>
-</ol>
+<p class="example">
+  <b>ReLU 函数</b> `"ReLU"(x) = max(0, x) = (x + |x|)/2`.
+</p>
 
 <h2>回归模型 (Regression)</h2>
 
@@ -154,6 +154,59 @@
     `P(C_1|x) = (P(x|C_1) P(C_1))/(P(x|C_1) P(C_1) + P(x|C_2) P(C_2))`.
   </span>
   其中分母可以记为 `P(x)`, 表示样本 `x` 总的出现概率.
+</p>
+
+<ol class="definition">
+  <b>信息量与熵</b> 我们考虑离散型分布 `P`.
+  <li>事件 `j` 的<b>信息量</b>定义为 `log{:1/(P(j)):} = -log P(j)`.
+    形象地说, 信息量表示我们观察到事件 `j` 发生时的惊讶程度: 事件发生的概率越小, 信息量越大.
+  </li>
+  <li>概率分布 `P` 的<b>熵</b>定义为信息量的加权和:
+    <span class="formula">
+      `H(P) = -sum_j P(j) log P(j)`.
+    </span>
+    它表示整个分布的信息量, 换言之, 从该分布随机抽取的样本, 平均需要多少个纳特 (nat) 对其进行编码.
+    纳特是 `"e"` 进制编码的单位, `1"nat" = 1 /(log 2)"bit"`.
+  </li>
+  <li>两个分布 `P, Q` 的交叉熵定义为
+    <span class="formula">
+      `H(P, Q) = - P(j) log Q(j)`.
+    </span>
+    当一个观察者主观假定的分布为 `Q`, 则他看到分布 `P` 生成的数据时平均获得的信息量就是 `H(P, Q)`.
+    特别当 `P = Q` 时, 交叉熵达到最低, `H(P, P) = H(P)`.
+  </li>
+</ol>
+
+<p class="example">
+  <b>softmax 函数</b> 定义为
+  <span class="formula">
+    `"softmax"(bm x)` `= exp(bm x) // sum_i exp x_i`.
+  </span>
+  任意一个向量经过 softmax 运算, 结果是单位向量, 且分量都为正.
+  因此它适合分类任务, 每个分量表示一个概率.
+  <br>
+  如果定义交叉熵损失 (cross-entropy loss) 如下:
+  <span class="formula">
+    `L(bm y, hat bm y) = -sum_i y_i log hat y_i`,
+  </span>
+  其中
+  <span class="formula">
+    `sum_i y_i = 1`,
+    `quad hat bm y = "softmax"(bm z)`,
+  </span>
+  则
+  <span class="formula align">
+    `L = -sum_i y_i log {: (exp z_i) / (sum_j exp z_j) :}`<br>
+    `= - sum_i y_i log exp z_i + sum_i y_i log sum_j exp z_j`<br>
+    `= log sum_j exp z_j - sum_i y_i z_i`.
+  </span>
+  求导得
+  <span class="formula">
+    `(del L)/(del z_i)`
+    `= "softmax"(bm z)_i - y_i`
+    `= hat y_i - y_i`.
+  </span>
+  因此该损失函数度量了预测值 `hat bm y` 与实际值 `bm y` 的差异.
 </p>
 
 <script>
