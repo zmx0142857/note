@@ -1,6 +1,7 @@
 # JPEG
 
-来自: [深入浅出JPEG](https://deepinout.com/camera-terms/easy-to-understand-jpeg.html)
+- [深入浅出JPEG](https://deepinout.com/camera-terms/easy-to-understand-jpeg.html)
+- [Description of Exif file format](http://www.fifi.org/doc/jhead/exif-e.html)
 
 ## 段结构
 

@@ -260,7 +260,7 @@ body {
     </div>
     <div class="at-controls-right">
       <a class="btn at-load-file" title="Load file">
-        <input class="at-load-file-input" type="file" accept=".gp" hidden />
+        <input class="at-load-file-input" type="file" accept=".gp,.tex" hidden />
         <i class="fas fa-audio-file">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 11h-3v3.75c0 1.24-1.01 2.25-2.25 2.25S8.5 17.99 8.5 16.75s1.01-2.25 2.25-2.25c.46 0 .89.14 1.25.38V11h4zm-3-4V3.5L18.5 9z"/></svg>
         </i>
@@ -333,8 +333,6 @@ const $main = $('.at-main')
 const $overlay = $('.at-overlay')
 const $trackTemplate = $('#at-track-template')
 const $trackList = $('.at-track-list')
-const $songTitle = $('.at-song-title')
-const $songArtist = $('.at-song-artist')
 const $playerProgress = $('.at-player-progress')
 const $playPause = $('.at-player-play-pause')
 const $stop = $('.at-player-stop')
@@ -353,31 +351,30 @@ const initApi = () => {
 }
 
 let api = initApi()
-
-const renderTrackItem = (track) => {
-  const $track = $trackTemplate.content.cloneNode(true).firstElementChild
-  $track.querySelector('.at-track-name').innerText = track.name
-  $track.track = track
-  $track.onclick = (e) => {
-    e.stopPropagation()
-    api.renderTracks([track])
-  }
-  return $track
-}
+window.api = api
 
 const onScoreLoad = (score) => {
   console.log('onScoreLoad', score)
   $trackList.innerHTML = ''
-  score.tracks.forEach(track => {
-    $trackList.appendChild(renderTrackItem(track))
+  score.tracks.forEach((track, i) => {
+    console.log(track)
+    const $track = $trackTemplate.content.cloneNode(true).firstElementChild
+    $track.querySelector('.at-track-name').innerText = track.name || ('Track' + (i+1))
+    $track.track = track
+    $track.onclick = (e) => {
+      e.stopPropagation()
+      api.renderTracks([track])
+    }
+    $trackList.appendChild($track)
   })
-  $songTitle.innerText = score.title
-  $songArtist.innerText = score.artist
+  $('.at-song-title').innerText = score.title || 'Unknown'
+  $('.at-song-artist').innerText = score.artist || 'Unknown'
 }
 
 const onRenderStart = () => {
   console.log('onRenderStart', api.tracks)
   $overlay.style.display = 'flex'
+  setTimeout(() => $overlay.style.display = 'none', 20 * 1000)
   const map = Object.fromEntries(api.tracks.map(track => [track.index, track]))
   ;[...$trackList.querySelectorAll('.at-track')].forEach($track => {
     if (map[$track.track.index]) {
@@ -395,13 +392,20 @@ const onRenderFinish = () => {
 $('.at-load-file').onclick = (e) => {
  $fileInput.click()
 }
-$fileInput.onchange = (e) => {
+$fileInput.oninput = (e) => {
   const file = e.target.files[0]
-  if (file) {
+  if (!file) return
+  if (file.name.endsWith('.tex')) {
+    const fileReader = new FileReader()
+    fileReader.readAsText(file)
+    fileReader.onload = (e) => {
+      api.tex(fileReader.result)
+    }
+  } else if (file.name.endsWith('.gp')) {
     const url = URL.createObjectURL(file)
     console.log(url)
-    api.destroy()
-    api = initApi()
+  } else {
+    alert('未知的文件类型')
   }
 }
 
@@ -445,8 +449,7 @@ $('.at-layout select').onchange = (e) => {
 $playPause.onclick = (e) => {
   const el = e.currentTarget
   if (el.classList.contains('disabled')) return
-  if (api.player)
-  api.playPause()
+  if (api.player) api.playPause()
 }
 
 $stop.onclick = (e) => {
@@ -488,6 +491,16 @@ api.playerPositionChanged.on((e) => {
   previousTime = currentSeconds
   $songPosition.innerText = formatDuration(e.currentTime) + " / " + formatDuration(e.endTime)
 })
+api.error.on((e) => {
+  console.log('err', e)
+  alert(e)
+})
+
+document.body.onkeyup = (e) => {
+  if (e.code === 'Space') {
+    if (api) api.playPause()
+  }
+}
 </script>
 </body>
 </html>
