@@ -47,6 +47,10 @@
   找到后返回匹配行的第 `relative_column` 列内容.
   - `fuzzy`: TRUE: 模糊匹配 (默认), FALSE: 精确匹配
 
+### 日期
+
+- `DATEDIF(TODAY(),"2025/05/03","D")`: 计算日期之差
+
 ### 其他
 
 - `IF(cond, value1, value2)`

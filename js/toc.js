@@ -693,6 +693,7 @@ var tocData = [
           { "value": "excel.md", "label": "Excel", "date": "2025-01-26" },
           { "value": "git.md", "label": "Git", "date": "2025-02-13" },
           { "value": "svn.md", "label": "SVN", "date": "2025-02-14" },
+          { "value": "blender.md", "label": "Blender", "date": "2025-02-22" },
         ],
       },
       {
@@ -716,8 +717,8 @@ var tocData = [
         "value": "js",
         "label": "JS",
         "children": [
-          { "value": "three.md", "label": "ThreeJS", "date": "2025-02-18" },
-          { "value": "cesium.md", "label": "Cesium", "date": "2025-02-14" },
+          { "value": "three.md", "label": "ThreeJS", "date": "2025-02-22" },
+          { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },
         ],
       },
       {
@@ -725,6 +726,7 @@ var tocData = [
         "label": "格式",
         "children": [
           { "value": "jpeg.md", "label": "JPEG", "date": "2025-01-26" },
+          { "value": "gltf.md", "label": "gltf", "date": "2025-02-24" },
           { "value": "3dtiles.md", "label": "3dtiles", "date": "2025-02-18" },
         ],
       },

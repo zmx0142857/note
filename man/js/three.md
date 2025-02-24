@@ -24,6 +24,19 @@ web 端流行的 3d 库.
 
 - three.js 官方 shader: three/src/renderers/shaders/ShaderChunk
 
+**第三方库**
+
+dat.gui
+```js
+import dat from 'dat.gui'
+
+const axes = app.axes()
+const gui = new dat.GUI()
+gui.add(axes.position, 'x', -30, 30, 0.1)
+gui.add(axes.position, 'y', -30, 30, 0.1)
+gui.add(axes.position, 'z', -30, 30, 0.1)
+```
+
 ## 入门
 
 准备工作
@@ -149,7 +162,7 @@ const cube = app.mesh({
 app.add(cube)
 
 app.ambient() // 环境光
-app.light() // 平行光
+app.sun() // 平行光
 app.orbitControl() // 控制器
 app.needsUpdate.push(cube) // 需要更新的对象
 
@@ -165,6 +178,8 @@ console.log('children', app.scene.children) // 场景子元素
 ```
 
 ### 案例三: gltf 模型
+
+> 注意: 模型文件放在 `public/models` 目录下
 
 ```js
 import createApp from './3js/app.js'
@@ -220,7 +235,7 @@ app.load({
   // 计算模型包围球, 并更新相机位置
   const sphere = app.mesh.boundingSphere(model)
   const box = app.mesh.boundingBox(model)
-  app.camera.fromSphere(sphere)
+  app.camera.position.fromSphere(sphere)
   app.orbitControl({ target: sphere.center, damping: true })
 
   // 绘制包围球与包围盒
@@ -229,7 +244,7 @@ app.load({
 })
 
 app.ambient()
-app.light()
+app.sun()
 app.animate()
 ```
 
@@ -256,7 +271,7 @@ const loadTileset = async (app, { url, scale = 1 }) => {
       sphere.center.multiplyScalar(scale)
       sphere.radius *= scale
       // tileset.group.position.copy(sphere.center)
-      app.camera.fromSphere(sphere)
+      app.camera.position.fromSphere(sphere)
       app.orbitControl({ target: sphere.center, damping: true })
 
       const box = new THREE.Box3()
@@ -271,13 +286,12 @@ const loadTileset = async (app, { url, scale = 1 }) => {
     model.scene.scale.set(scale, scale, scale)
   })
   app.scene.add(tileset.group)
-  app.needsUpdate.push(tileset)
 }
 
 const app = createApp()
 app.renderer.outputColorSpace = THREE.SRGBColorSpace
 app.ambient()
-app.light()
+app.sun()
 
 // 载入 Tileset 插件, 然后可以使用 app.load.tileset() 方法载入 3dtiles 数据
 Tileset(app, {
@@ -293,7 +307,12 @@ loadTileset(app, {
 app.animate()
 ```
 
-## 坐标变换
+## 控制器 controls
+
+- OrbitControls: 最常用的控制器, 相机绕一个固定中心旋转, 且保持向上方向不变. 左键: 旋转, ctrl+左键: 平移屏幕空间, 滚轮缩放.
+- MapControls: 与 Cesium 地图模式类似. 左键: 平移 xOz 平面, ctrl+左键: 旋转, 滚轮缩放. OrbitControls 经过一定配置可以达到 MapControls 的效果.
+- PointerLockControls: 第一人称射击游戏常用的控制器 (注意, 不是 FirstPersonControls, 后者视线容易飘动令人头晕).
+- TransformControls: 提供三维编辑器常用的平移、旋转、缩放功能, 类似 Blender 风格.
 
 ## 常见问题
 
@@ -301,10 +320,24 @@ app.animate()
   ```js
   renderer.outputColorSpace = THREE.SRGBColorSpace
   ```
-- 给 Sprite 指定透明贴图, 在某些视角下背景变得不透明. 解决:
+- 半透明材质:
   ```js
-  new SpriteMaterial({
-    map: imgUrl,
-    alphaTest: 0.1, // 丢弃透明度低于 0.1 的部分, 避免贴图变得不透明
-  })
+  material.transparent = true // 开启透明支持
+  material.opacity = 0.5
+  ```
+- 半透明贴图:
+  ```js
+  material.transparent = true // 开启透明支持
+  material.alphaTest = 0.1 // 丢弃透明度低于 0.1 的部分, 避免贴图异常
+  ```
+- 页面一片漆黑, 看不见模型:
+  - 试着将背景色改为白色 `renderer.setClearColor(0xffffff)`, 如能看见模型的黑影, 说明光照有问题.
+  - 模型可能不在视角内, 尝试计算模型包围球并可视化.
+  - 模型太远或太近, 尝试 `camera.near = 0.1, camera.far = 1e6`.
+  - 模型太大, 尝试 `model.scale.set(0.001, 0.001, 0.001)`.
+- 已经添加了环境光, 但模型仍是黑色的. 解决: 给 `material.metalness` 设置一个小于 1 的值;
+  已经添加了点光源, 但模型仍是黑色的. 解决: 把点光源的 `intensity` 设为 `1000` 再试试
+- 查看渲染状态信息
+  ```js
+  renderer.info
   ```
