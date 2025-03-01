@@ -197,6 +197,9 @@ file transfer protocol
     $ find -type d -empty -delete # 删除空目录
     $ wc -l `find -type f ! -path "./node_modules/*" ! -path "./.git/*"` # 统计项目代码行数
 
+`rsync`: 文件同步
+
+    $ alias cpp=`rsync -r --progress`
 
 压缩与解压
 

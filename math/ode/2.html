@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>一阶微分方程的初等解法</title>
+    <title>初等解法</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -109,7 +109,76 @@
 
 <h2>隐式方程</h2>
 
-<!-- <p>令 `p = y'`.</p> -->
+<p class="example">
+  <b>悬链线</b>
+  一根质地均匀的绳索悬挂在两个固定点间, 自然静止下垂, 求绳索方程.
+</p>
+
+<ol class="solution">
+  <li>列方程.
+    假设绳索的线密度为 `rho`, 最低点为 `P`, 让 `y` 轴经过 `P` 点.  考虑绳索在点 `A` 处的张力,
+    其水平分量与 `P` 处的张力相等, 竖直分量与 `P` 到 `A` 之间绳索的重力相等:
+    <span class="formula">
+      `T_"水平" = "常数"`,<br>
+      `T_"竖直" = rho int_0^(x_A) sqrt(1+(dy/dx)^2) dx`,
+    </span>
+    但张力沿着绳索方向, 所以 `T_"竖直" / T_"水平" = dy/dx`, 得到方程:
+    <span class="formula">
+      `dy/dx = a int_0^(x_A) sqrt(1 + (dy/dx)^2) dx`,
+      `quad` 其中 `a = rho // T_"水平"`.
+    </span>
+    两边对 `x` 微分得到:
+    <span class="formula">
+      <span class="box">
+        `dd^2 y x = a sqrt(1 + (dy/dx)^2)`.
+      </span>
+    </span>
+  </li>
+  <li>解方程.
+    令 `p = dy/dx`, 方程化为
+    <span class="formula">
+      `dd p x = a sqrt(1 + p^2)`.
+    </span>
+    分离变量解得
+    <span class="formula">
+      `a x = ln(p + sqrt(1+p^2)) + c_1`.
+    </span>
+    代入初值 `x = 0`, `p = 0` 得到 `c_1 = 0`. 于是 `p = sinh(a x)`, 再次积分得到
+    <span class="formula">
+      <span class="box">
+        `y = a cosh(a x) + c_2`.
+      </span>
+    </span>
+    由于建立坐标系时没有指定 `P` 点的纵坐标, 所以结果带有任意常数 `c_2`.
+  </li>
+</ol>
+
+<p class="example">
+  <b>曳物线</b>
+  水平面上, 在 `t = 0` 时刻, 点 `P` 位于原点, 点 `A` 位于 `(a, 0)`, `a gt 0`, 两点间以一条轻绳连接.
+  现在 `P` 向北作直线运动, 绳子拉动点 `A` 一起运动, 假设绳子全程保持拉紧, 求 `A` 的轨迹.
+</p>
+
+<ol class="solution">
+  <li>
+    列方程.
+    绳子的方向就是 `A` 轨迹的切线方向, 且 `A` 到 `y` 轴之间的切线长是定值 `a`.
+    根据这些条件列出方程
+    <span class="formula">
+      `x sqrt(1 + (dy/dx)^2) = a`.
+    </span>
+  </li>
+  <li>解方程.
+    以 `s` 表示点 `A` 的路程, 有 `dd s x = -a/x`, 积分得
+    <span class="formula">
+      `x = a "e"^(-s//a)`.
+    </span>
+    参数方程??:
+    <span class="formula">
+      `{x = a//cosh t; y = a(t - tanh t):}`.
+    </span>
+  </li>
+</ol>
 
 <p class="example">
   <b>追赶问题</b>

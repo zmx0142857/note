@@ -717,7 +717,7 @@ var tocData = [
         "value": "js",
         "label": "JS",
         "children": [
-          { "value": "three.md", "label": "ThreeJS", "date": "2025-02-22" },
+          { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },
         ],
       },

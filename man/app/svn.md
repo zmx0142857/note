@@ -43,6 +43,7 @@ tortoise svn 已经集成到 explorer 中, 不能在命令行下使用.  推荐�
 
 ### add - 添加
 
+    $ svn add <file>    # 跟踪文件
     $ svn add --force . # 跟踪当前目录全部文件
 
 ### rm - 移除

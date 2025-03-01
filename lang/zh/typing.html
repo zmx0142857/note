@@ -339,11 +339,11 @@ body {
 </div>
 
 <div class="tool-bar">
-  <button class="btn btn-history">历史</button>
-  <button class="btn btn-setting">设置</button>
-  <button class="btn btn-load">载文 <a class="btn-suffix btn-suffix-arrow"></a></button>
   <button class="btn btn-primary btn-start" disabled title="请先载文">开始</button>
   <button class="btn btn-reload" disabled title="请先载文">重载</button>
+  <button class="btn btn-load">载文 <a class="btn-suffix btn-suffix-arrow"></a></button>
+  <button class="btn btn-history">历史</button>
+  <button class="btn btn-setting">设置</button>
 </div>
 
 <div class="status-bar">
@@ -796,6 +796,10 @@ const Typing = {
         if (dataSrc === '../data/zh-word.txt' && Typing.setting.slice <= 3000) {
           return Typing.loadBuiltin(dataSrc.replace('.txt', '-3000.txt'))
         } else {
+          const { setting } = Typing
+          setting.slice = setting.slice || 500
+          setting.limit = setting.limit || 20
+          setting.randomType = setting.randomType === 'none' ? dataSrc.includes('char') ? 'char' : 'line' : setting.randomType
           return Typing.loadBuiltin(dataSrc)
         }
       }
@@ -828,7 +832,11 @@ const Typing = {
   preloadText (text) {
     const { setting } = Typing
     // 随机化
-    if (setting.randomType === 'char') {
+    if (setting.randomType === 'repeat') {
+      text = [...text]
+      if (setting.slice > 0) text = text.slice(0, setting.slice)
+      text = text[Math.random() * text.length | 0].repeat(setting.limit)
+    } else if (setting.randomType === 'char') {
       text = [...text]
       if (setting.slice > 0) text = text.slice(0, setting.slice)
       Utils.shuffle(text)
@@ -870,6 +878,7 @@ const Typing = {
           <label><input type="radio" name="randomType" value="none" ${setting.randomType === 'none' ? 'checked' : ''} /> 无</label>
           <label><input type="radio" name="randomType" value="char" ${setting.randomType === 'char' ? 'checked' : ''} /> 字乱序</label>
           <label><input type="radio" name="randomType" value="line" ${setting.randomType === 'line' ? 'checked' : ''} /> 行乱序</label>
+          <label><input type="radio" name="randomType" value="repeat" ${setting.randomType === 'repeat' ? 'checked' : ''}/> 重复</label>
           <h4>空白处理</h4>
           <label><input type="checkbox" name="blankType" value="trim" ${setting.blankType.includes('trim') ? 'checked' : ''} /> 去除文章前后空白</label>
           <label><input type="checkbox" name="blankType" value="nobreak" ${setting.blankType.includes('nobreak') ? 'checked' : ''} /> 去除换行</label>

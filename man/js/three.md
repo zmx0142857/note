@@ -6,6 +6,7 @@ web 端流行的 3d 库.
 
 - [threejs 官方教程](https://threejs.org/manual/)
 - [threejs-tutorial](https://github.com/puxiao/threejs-tutorial): 来自 github
+- [threejs 中文网](http://www.webgl3d.cn/pages/aac9ab/)
 - [discover threejs 电子书](https://discoverthreejs.com/tips-and-tricks/): 总结了许多 three.js 常用技巧
 - [webgl fundamentals](https://webglfundamentals.org/): webgl 入门教程
 - [the book of shaders](https://thebookofshaders.com/): shader 入门教程
@@ -24,25 +25,12 @@ web 端流行的 3d 库.
 
 - three.js 官方 shader: three/src/renderers/shaders/ShaderChunk
 
-**第三方库**
-
-dat.gui
-```js
-import dat from 'dat.gui'
-
-const axes = app.axes()
-const gui = new dat.GUI()
-gui.add(axes.position, 'x', -30, 30, 0.1)
-gui.add(axes.position, 'y', -30, 30, 0.1)
-gui.add(axes.position, 'z', -30, 30, 0.1)
-```
-
 ## 入门
 
 准备工作
 
     $ mkdir three-demo && cd three-demo
-    $ pnpm i three@0.145.0
+    $ pnpm i three@0.170.0
 
 `index.html`
 ```html
@@ -307,18 +295,84 @@ loadTileset(app, {
 app.animate()
 ```
 
-## 控制器 controls
+## 插件
+
+这里的插件是指除了 `import * as THREE from 'three'` 之外, 需要单独引入的文件.
+
+### 控制器 controls
 
 - OrbitControls: 最常用的控制器, 相机绕一个固定中心旋转, 且保持向上方向不变. 左键: 旋转, ctrl+左键: 平移屏幕空间, 滚轮缩放.
 - MapControls: 与 Cesium 地图模式类似. 左键: 平移 xOz 平面, ctrl+左键: 旋转, 滚轮缩放. OrbitControls 经过一定配置可以达到 MapControls 的效果.
 - PointerLockControls: 第一人称射击游戏常用的控制器 (注意, 不是 FirstPersonControls, 后者视线容易飘动令人头晕).
 - TransformControls: 提供三维编辑器常用的平移、旋转、缩放功能, 类似 Blender 风格.
 
+### 图形界面 dat.gui
+```js
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js' // 引入 three.js 自带的 dat.gui
+// import { GUI } from 'dat.gui' // 也可以用 npm 单独安装
+
+const gui = new GUI()
+
+const axes = app.axes()
+gui.add(axes.position, 'x', -30, 30, 0.1) // obj, key, min, max, step
+gui.add(axes.position, 'y', -30, 30, 0.1)
+gui.add(axes.position, 'z', -30, 30, 0.1)
+
+const obj = {
+  weight: 0,
+}
+gui.add(obj, 'weight', 0, 1).name('变胖').onChange(v => {
+  mesh.morphTargetInfluences[0] = v
+})
+```
+
+### 补间动画 tween.js
+```js
+import TWEEN from 'three/examples/jsm/libs/tween.module.js' // 引入 three.js 自带的 tween.js
+// import TWEEN from '@tweenjs/tween.js' 也可以用 npm 单独安装
+
+new TWEEN.Tween(mesh.position).to({ x: 100, y: 50 }, 2000).start()
+app.needsUpdate.push(TWEEN)
+```
+
 ## 常见问题
 
+- 页面一片漆黑, 看不见模型:
+  - 试着将背景色改为白色 `renderer.setClearColor(0xffffff)`, 如能看见模型的黑影, 说明光照有问题.
+  - 模型可能不在视角内, 尝试计算模型包围球并可视化.
+  - 模型太远或太近, 尝试 `camera.near = 0.1, camera.far = 1e6`.
+  - 模型太大, 尝试 `model.scale.set(0.001, 0.001, 0.001)`.
+  - 模型的位置或变换矩阵无效 (比如, 含有 NaN).
+- 已经添加了环境光, 但模型仍是黑色的. 解决: 给 `material.metalness` 设置一个小于 1 的值;
+- 已经添加了点光源, 但模型仍是黑色的. 解决: 增大 `intensity` 或减小 `decay`. 检查 `distance` 的值 (0 表示不限制点光源距离)
 - 升级到新版 three.js 后, 模型颜色很暗淡. 解决:
   ```js
   renderer.outputColorSpace = THREE.SRGBColorSpace
+  ```
+- 透明背景:
+
+  方法1:
+  ```js
+  const renderer = new THREE.WebGLRenderer({ alpha: true })
+  ```
+  方法2:
+  ```js
+  renderer.setClearAlpha(0)
+  ```
+- 设置背景颜色及透明度:
+
+  方法1:
+  ```js
+  renderer.setClearColor(0x0a1030, 0.5)
+  ```
+
+  方法2, 只能设置颜色:
+  ```js
+  scene.background = new THREE.Color(0x0a1030)
+  ```
+- 贴图的颜色不够鲜艳. 解决:
+  ```js
+  texture.colorSpace = THREE.SRGBColorSpace
   ```
 - 半透明材质:
   ```js
@@ -330,14 +384,59 @@ app.animate()
   material.transparent = true // 开启透明支持
   material.alphaTest = 0.1 // 丢弃透明度低于 0.1 的部分, 避免贴图异常
   ```
-- 页面一片漆黑, 看不见模型:
-  - 试着将背景色改为白色 `renderer.setClearColor(0xffffff)`, 如能看见模型的黑影, 说明光照有问题.
-  - 模型可能不在视角内, 尝试计算模型包围球并可视化.
-  - 模型太远或太近, 尝试 `camera.near = 0.1, camera.far = 1e6`.
-  - 模型太大, 尝试 `model.scale.set(0.001, 0.001, 0.001)`.
-- 已经添加了环境光, 但模型仍是黑色的. 解决: 给 `material.metalness` 设置一个小于 1 的值;
-  已经添加了点光源, 但模型仍是黑色的. 解决: 把点光源的 `intensity` 设为 `1000` 再试试
+- 半透明物体渲染时, 后面的另一个半透明物体突然消失.
+
+  原因: threejs 先渲染了前面的物体, 轮到后面物体渲染时, 由于被遮挡, 像素直接被丢弃了.
+
+  方法1:
+  ```js
+  renderer.sortObjects = true // 这是默认值
+  backObj.renderOrder = 0 // 后面物体先渲染 (这是默认值)
+  frontObj.renderOrder = 1 // 前面物体后渲染
+  ```
+
+  方法2:
+  ```js
+  frontObj.material.depthWrite = false // 不写入深度缓冲的效果就是, 前面的物体不会挡住后面的物体
+  frontObj.material.opacity += 0.1 // 适当提高不透明度, 减缓后面物体对前面物体颜色的影响
+  ```
+- 两个模型十分接近时, 出现面片闪烁 (z-fighting):
+  - 方法1: 手动调整模型位置, 让它们分开一点 (比如 0.05 米)
+  - 方法2: `material.depthWrite = false`
 - 查看渲染状态信息
   ```js
   renderer.info
+  ```
+- linewidth 设置不生效.
+
+  原因: [LineBasicMaterial](https://threejs.org/docs/index.html?q=linebasic#api/en/materials/LineBasicMaterial) 的限制: 大多数 webgl 平台只支持线宽为 1
+  > Due to limitations of the OpenGL Core Profile with the WebGL renderer on most platforms linewidth will always be 1 regardless of the set value.
+
+  解决: [粗线条绘制案例](https://threejs.org/examples/#webgl_lines_fat)
+  ```js
+  import { Line2, LineGeometry, LineMaterial } from 'three/examples/jsm/Addons.js'
+  const geometry = new LineGeometry()
+  geometry.setPositions(positions.map(v => v.toArray()).flat())
+  const material = new LineMaterial({
+    color: 0x04b6f4,
+    linewidth: 10,
+  })
+  const line = new Line2(geometry, material)
+  ```
+- v0.145.0: `line.geometry.setFromPoints` 更新线条几何体后, 在某些视角下线条不可见.
+
+  方法1:
+  ```js
+  line.geometry.setFromPoints([...]) // 更新几何顶点
+  line.geometry.computeBoundingSphere() // 更新包围球
+  ```
+  方法2:
+  ```js
+  line.frustumCulled = false // 禁用视锥剔除
+  ```
+  此问题在新版 (v0.170.0) 已经修复
+- 用 canvas 绘制的 texture 没有显示. 解决:
+  ```js
+  const texture = new THREE.Texture(canvas)
+  texture.needsUpdate = true
   ```
