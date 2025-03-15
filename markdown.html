@@ -6,7 +6,7 @@
   <title>Markdown</title>
   <link href="css/markdown.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script defer onload="onHljsLoad()" src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
 <style>
 .hljs {
   background-color: transparent;
@@ -80,11 +80,15 @@ const main = async () => {
     return text.replace(/^(#.*\n)?/, ($1) => $1 + '@[toc](目录)\n')
   })
   document.querySelector('#main').innerHTML = md.render(text)
-  hljs.highlightAll()
   document.querySelectorAll('pre').forEach(pre => copyable(pre))
 }
 
-main()
+const renderPromise = main()
+
+async function onHljsLoad () {
+  await renderPromise
+  hljs.highlightAll()
+}
 </script>
 </body>
 </html>

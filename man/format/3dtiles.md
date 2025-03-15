@@ -1,6 +1,7 @@
 # 3dtiles
 
-https://github.com/CesiumGS/3d-tiles
+- https://github.com/CesiumGS/3d-tiles
+- https://www.cnblogs.com/onsummer/p/12799366.html
 
 > 3dtiles 1.0 版本包含 cmpt, b3dm, i3dm, pnts 多种格式的文件, 而 1.1 版本改为直接包含 glb 文件.
 

@@ -1,5 +1,23 @@
 # gltf
 
+## 模型处理
+
+- gltfpack
+  ```sh
+  $ npm i -g gltfpack
+  $ gltfpack -i model.gltf -o model.min.gltf # 有损压缩
+  ```
+- gltf-pipeline
+  ```sh
+  $ npm i -g gltf-pipeline
+  $ gltf-pipeline -i model.gltf -o model.draco.gltf -d # draco 压缩
+  ```
+- 在线压缩 https://modelcompress.cn/home
+
+> draco 压缩虽然能显著减小模型, 但渲染时可能掉帧 (从 60fps 降低到 45fps): 上网搜索: "threejs draco dropped frame"
+
+## 模型结构
+
 - https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html
 
 gltf 模型由 `.gltf` 和 `.bin` 两个文件组成, 或者两者合而为一, 用一个二进制文件 `.glb` 表示.

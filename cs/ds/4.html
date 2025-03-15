@@ -80,19 +80,19 @@ traceback(n):
 
 <div class="playground" value="{ arr: [1, 2, 3, 4] }">
 <script type="text">
-const permutation = (arr) => {
+const perm = (arr) => {
   const res = []
   const swap = (i, j) => {
     const tmp = arr[i]
     arr[i] = arr[j]
     arr[j] = tmp
   }
-  const dfs = (start = 0) => {
-    if (start === arr.length) return res.push(arr.slice())
-    for (let i = start; i < arr.length; ++i) {
-      swap(start, i)
-      dfs(start + 1)
-      swap(start, i)
+  const dfs = (depth = 0) => {
+    if (depth === arr.length) return res.push(arr.slice())
+    for (let i = depth; i < arr.length; ++i) {
+      swap(depth, i)
+      dfs(depth + 1)
+      swap(depth, i)
     }
   }
   dfs()
@@ -100,8 +100,7 @@ const permutation = (arr) => {
 }
 module.exports = (str) => {
   const { arr } = Playground.parse(str)
-  const res = permutation(arr)
-  return res.map(arr => arr.join(' ')).join('\n')
+  return perm(arr).map(v => v.join(' ')).join('\n')
 }
 </script>
 </div>
@@ -113,17 +112,17 @@ module.exports = (str) => {
 
 <div class="playground" value="{ arr: [1, 2, 3] }">
 <script type="text">
-const subsets = (arr) => {
+const subset = (arr) => {
   const res = []
   const buf = []
-  const dfs = (start = 0) => {
-    if (start === arr.length) {
+  const dfs = (depth = 0) => {
+    if (depth === arr.length) {
       res.push(buf.slice())
     } else {
-      buf.push(arr[start]) // 选中该元素
-      dfs(start + 1)
-      buf.pop() // 未选中该元素
-      dfs(start + 1)
+      buf.push(arr[depth]) // 选中该元素
+      dfs(depth + 1)
+      buf.pop() // 不选中该元素
+      dfs(depth + 1)
     }
   }
   dfs()
@@ -131,8 +130,7 @@ const subsets = (arr) => {
 }
 module.exports = (str) => {
   const { arr } = Playground.parse(str)
-  const res = subsets(arr)
-  return res.map(arr => JSON.stringify(arr)).join('\n')
+  return subset(arr).map(v => JSON.stringify(v)).join('\n')
 }
 </script>
 </div>
@@ -144,17 +142,19 @@ module.exports = (str) => {
 
 <div class="playground" value="{ arr: [1, 2, 3, 4], k: 2 }">
 <script type="text">
-const choose = (arr, k) => {
+const comb = (arr, k) => {
   const res = []
   const buf = []
-  const dfs = (start = 0, count = k) => {
-    if (count === 0 || start === arr.length) {
-      if (count === 0) res.push(buf.slice())
+  const dfs = (depth = 0) => {
+    if (buf.length === k) {
+      res.push(buf.slice())
+    } else if (depth === arr.length) {
+      return
     } else {
-      buf.push(arr[start]) // 选中该元素
-      dfs(start + 1, count - 1)
-      buf.pop() // 未选中该元素
-      dfs(start + 1, count)
+      buf.push(arr[depth]) // 选中该元素
+      dfs(depth + 1)
+      buf.pop() // 不选中该元素
+      dfs(depth + 1)
     }
   }
   dfs()
@@ -162,15 +162,126 @@ const choose = (arr, k) => {
 }
 module.exports = (str) => {
   const { arr, k } = Playground.parse(str)
-  const res = choose(arr, k)
-  return res.map(arr => JSON.stringify(arr)).join('\n')
+  return comb(arr, k).map(v => JSON.stringify(v)).join('\n')
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>拉丁方 (幻方)</b>
+  把数字 1 到 N*N 填入方阵, 每个数字恰好出现一次, 且行和、列和、对角线和均相等.
+  <code>values</code> 是已经给出的数字.
+</p>
+
+<div class="playground" value="{ N: 4, values: { 0: 1, 5: 7, 10: 10, 15: 16 } }">
+<script type="text">
+const latin = (N = 4, values = {}) => {
+  const res = []
+  const magic_sum = N * (N * N + 1) / 2 // 比如 N=4 时 magic_sum=34
+  const L = new Array(N * N).fill(0)
+
+  // 保证 L[n] 大于 0 且不与前面的数字重复
+  const check = (n) => {
+    if (L[n] <= 0) return
+    for (let k = 0; k < n; k++) {
+      if (L[n] === L[k]) return
+    }
+    dfs(n + 1)
+  }
+
+  // 求和辅助函数
+  const sum_range = (n, fn) => {
+    let sum = 0
+    for (let i = 0; i < n; i++) {
+      sum += fn(i)
+    }
+    return sum
+  }
+
+  const sum_row = (i, size = N) => sum_range(size, j => L[N * i + j]) // 行和
+  const sum_col = (j, size = N) => sum_range(size, i => L[N * i + j]) // 列和
+  const sum_diag = (size = N) => sum_range(size, i => L[(N + 1) * i]) // 主对角线
+  const sum_antidiag = (size = N) => sum_range(size, i => L[(N - 1) * (i + 1)]) // 副对角线
+
+  const dfs = (n = 0) => {
+    const k = values[n]
+    const col = n % N
+    const row = (n - col) / N
+    if (n === N * N) {
+      res.push(Array.from({ length: N }).map((_, i) => L.slice(N*i, N*(i+1)).join(' ')).join('\n'))
+    } else if (col === N - 1) { // 最后一列
+      L[n] = magic_sum - sum_row(row, N - 1)
+      if (k !== undefined && L[n] !== k) return
+      if (n < N * N - 1 || (sum_row(N - 1) === magic_sum && sum_diag() === magic_sum)) {
+        check(n)
+      }
+    } else if (row === N - 1) { // 最后一行
+      L[n] = magic_sum - sum_col(col, N - 1)
+      if (k !== undefined && L[n] !== k) return
+      if (n % N > 0 || sum_antidiag() === magic_sum) {
+        check(n)
+      }
+    } else if (k !== undefined) {
+      L[n] = k
+      check(n)
+    } else {
+      for (let k = 1; k <= N * N; k++) {
+        L[n] = k
+        check(n)
+      }
+    }
+  }
+  dfs()
+  return res
+}
+
+module.exports = (str) => {
+  const { N, values } = Playground.parse(str)
+  return latin(N, values).join('\n\n')
 }
 </script>
 </div>
 
 <p class="algorithm">
 	<b>n 皇后问题</b>
+  将 n 个国际象棋的皇后放在 n*n 棋盘上, 使得她们不能互相攻击. 即每行、每列、每条斜线上最多有一个皇后.
 </p>
+
+<div class="playground" value="{ n: 5 }">
+<script type="text">
+const queen = (n) => {
+  const res = []
+  const buf = new Array(n).fill(0)
+  const check = (row, col) => {
+    for (let k = 0; k < row; k++) {
+      // 检查 (k, buf[k]) 是否与 (row, col) 冲突
+      if (buf[k] === col || Math.abs(row - k) === Math.abs(col - buf[k])) return
+    }
+    buf[row] = col
+    dfs(row + 1)
+  }
+
+  const dfs = (row = 0) => {
+    if (row === n) {
+      res.push(
+        buf.map(j => Array.from({ length: n }).map((_, i) => i === j ? 'Q' : '.').join(' ')).join('\n')
+      )
+    } else {
+      for (let col = 0; col < n; col++) {
+        check(row, col)
+      }
+    }
+  }
+  dfs()
+  return res
+}
+
+module.exports = (str) => {
+  const { n } = Playground.parse(str)
+  return queen(n).join('\n\n')
+}
+</script>
+</div>
 
 <p class="algorithm">
 	<b>走迷宫</b>

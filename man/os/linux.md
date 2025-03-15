@@ -241,6 +241,20 @@ file transfer protocol
     $ iptables               # 查看防火墙配置
     $ nmap -sP 192.168.1.0/24 && arp | grep ether # 局域网扫描
 
+防火墙 - 使用 ufw
+
+    $ sudo ufw allow 7000/tcp
+    $ sudo ufw allow 80/tcp
+    $ sudo ufw status
+
+防火墙 - 使用 firewall-cmd
+
+    $ sudo firewall-cmd --zone=public --permanent --add-port=7000/tcp
+    $ sudo firewall-cmd --list-ports
+    $ sudo firewall-cmd --reload
+
+> 注意: 如果使用云服务器, 一般需要在服务提供商的网页端控制台进行防火墙配置, 以上命令是无效的
+
 数学
 
     $ factor 2077           # 分解质因数
@@ -257,3 +271,17 @@ file transfer protocol
     $ date                  # 显示当前时间
     $ date +%Y-%m-%d        # 2025-01-26
     $ cal                   # 日历
+
+后台运行 - 使用 nohup
+
+    $ nohup ./tmp.sh > tmp.log & # 运行命令, 登出仍不挂断, 日志记入 tmp.log
+
+后台运行 - 使用 screen
+
+    $ screen -S <task-name>     # 新建 (Start) 任务: 效果是清空屏幕, 打开新的命令行
+
+使用快捷键 `ctrl-a` `d` 将当前任务切到后台; 输入 `exit` 则结束当前任务.
+
+    $ screen -ls                # 列出所有任务, 包括前台 (attached) 与后台 (detached) 任务
+    $ screen -r <task-name>     # 继续 (resume) 任务
+

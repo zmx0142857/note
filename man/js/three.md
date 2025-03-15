@@ -6,6 +6,7 @@ web 端流行的 3d 库.
 
 - [threejs 官方教程](https://threejs.org/manual/)
 - [threejs-tutorial](https://github.com/puxiao/threejs-tutorial): 来自 github
+- [threejs | sbcode.net](https://sbcode.net/threejs/)
 - [threejs 中文网](http://www.webgl3d.cn/pages/aac9ab/)
 - [discover threejs 电子书](https://discoverthreejs.com/tips-and-tricks/): 总结了许多 three.js 常用技巧
 - [webgl fundamentals](https://webglfundamentals.org/): webgl 入门教程
@@ -169,55 +170,29 @@ console.log('children', app.scene.children) // 场景子元素
 
 > 注意: 模型文件放在 `public/models` 目录下
 
+复制 draco/gltf 目录, 重命名为 draco:
+
+    $ cp -r node_modules/three/examples/jsm/libs/draco/gltf/ public/draco
+
 ```js
-import createApp from './3js/app.js'
-import * as THREE from 'three'
-
-const createSphere = (app, sphere) => {
-  app.add({
-    name: 'sphere',
-    geometry: {
-      type: 'sphere',
-      radius: sphere.radius,
-    },
-    material: {
-      type: 'MeshBasicMaterial',
-      color: 0xff8800,
-      wireframe: true, // 只显示线框
-    },
-    position: sphere.center,
-  })
-}
-
-const createBox = (app, box) => {
-  app.add({
-    name: 'box',
-    geometry: {
-      type: 'box',
-      x: box.max.x - box.min.x,
-      y: box.max.y - box.min.y,
-      z: box.max.z - box.min.z,
-    },
-    material: {
-      type: 'MeshBasicMaterial',
-      color: 0x00ff88,
-      wireframe: true, // 只显示线框
-    },
-    position: box.getCenter(new THREE.Vector3()),
-  })
-}
+import createApp from '@/3js/app.js'
+import Progress from '@/addin/progress'
+import Stats from '@/addin/stats'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 const app = createApp()
 
+const progress = Progress(app)
 app.load({
-  name: 'roof',
+  name: 'model',
   type: 'gltf',
-  url: '/models/0.glb',
+  // url: '/models/power-plant.glb',
+  url: '/models/power-plant.draco.glb',
+  dracoLoader: new DRACOLoader().setDecoderPath('/draco/'),
+  onProgress: progress.onProgress,
+  scale: 0.001, // revit 产生的模型单位为 mm, 而 threejs 单位为 m. 因此载入模型后, 将它缩小 1000 倍
 }).then(model => {
-  // revit 产生的模型单位为 mm, 而 threejs 单位为 m
-  // 因此载入模型后, 将它缩小 1000 倍
-  const scale = 0.001
-  model.scale.set(scale, scale, scale)
+  progress.end()
   app.scene.add(model)
 
   // 计算模型包围球, 并更新相机位置
@@ -227,13 +202,15 @@ app.load({
   app.orbitControl({ target: sphere.center, damping: true })
 
   // 绘制包围球与包围盒
-  createSphere(app, sphere)
-  createBox(app, box)
+  app.add(app.mesh.sphere(sphere))
+  app.add(app.mesh.box(box))
 })
 
 app.ambient()
 app.sun()
 app.animate()
+
+Stats(app)
 ```
 
 ### 案例四: 3dtiles
@@ -241,7 +218,6 @@ app.animate()
 用 three.js 载入 3dtiles
 
     $ pnpm i 3d-tiles-renderer@0.4.5
-    $ cp -r node_modules/three/examples/jsm/libs/draco/gltf/ public/draco # 复制 draco/gltf 目录, 重命名为 draco
 
 ```js
 // https://github.com/NASA-AMMOS/3DTilesRendererJS
@@ -266,8 +242,8 @@ const loadTileset = async (app, { url, scale = 1 }) => {
       tileset.getBoundingBox(box)
       box.max.multiplyScalar(scale)
       box.min.multiplyScalar(scale)
-      createBox(app, box) // 同上
-      createSphere(app, sphere) // 同上
+      app.add(app.mesh.sphere(sphere))
+      app.add(app.mesh.box(box))
     })
   })
   tileset.addEventListener('load-model', model => {
@@ -345,10 +321,14 @@ app.needsUpdate.push(TWEEN)
   - 模型的位置或变换矩阵无效 (比如, 含有 NaN).
 - 已经添加了环境光, 但模型仍是黑色的. 解决: 给 `material.metalness` 设置一个小于 1 的值;
 - 已经添加了点光源, 但模型仍是黑色的. 解决: 增大 `intensity` 或减小 `decay`. 检查 `distance` 的值 (0 表示不限制点光源距离)
-- 升级到新版 three.js 后, 模型颜色很暗淡. 解决:
-  ```js
-  renderer.outputColorSpace = THREE.SRGBColorSpace
-  ```
+- 升级到新版 three.js 后, 模型颜色很暗淡.
+  - 一个原因是色彩空间发生了变化, 解决方案是:
+    ```js
+    renderer.outputColorSpace = THREE.SRGBColorSpace
+    ```
+  - 另一个原因: 从 r155 开始, three.js 的光照模型依循国际单位, 而 legacyLights 被弃用.
+    对于环境光和平行光, 可以简单地将光照强度乘以 `Math.PI`, 以达到旧版的视觉效果,
+    其它类型的光照则没有简单的迁移方法. 详情阅读: [Updates to lighting in three.js r155](https://discourse.threejs.org/t/updates-to-lighting-in-three-js-r155/53733).
 - 透明背景:
 
   方法1:
@@ -423,7 +403,7 @@ app.needsUpdate.push(TWEEN)
   })
   const line = new Line2(geometry, material)
   ```
-- v0.145.0: `line.geometry.setFromPoints` 更新线条几何体后, 在某些视角下线条不可见.
+- r145: `line.geometry.setFromPoints` 更新线条几何体后, 在某些视角下线条不可见.
 
   方法1:
   ```js
@@ -434,9 +414,25 @@ app.needsUpdate.push(TWEEN)
   ```js
   line.frustumCulled = false // 禁用视锥剔除
   ```
-  此问题在新版 (v0.170.0) 已经修复
+  此问题在新版 (r170) 已经修复
 - 用 canvas 绘制的 texture 没有显示. 解决:
   ```js
   const texture = new THREE.Texture(canvas)
   texture.needsUpdate = true
   ```
+- THREE.DRACOLoader: Unexpected geometry type. 解决:
+  - 检查 DRACOLoader 的版本与 threejs 是否匹配
+  - 检查 DRACOLoader 的 decoderPath 是否有效
+- [来自 threejs 论坛](https://discourse.threejs.org/t/close-the-object-and-the-frame-rate-decreases/28691) 相机拉近物体时为什么帧率会下降?
+  - 原因: 使用 PBR 材质 (MeshStandardMaterial) 时, 屏幕上的片元 (像素) 越多, 渲染越慢
+  - 解决: 可以改为 MeshPhongMaterial (光滑材质) 或 MeshLambertMaterial (粗糙材质)
+- 修改个别 gltf 模型材质 `mesh.material = new THREE.MeshStandMaterial(...)` 后, 模型不受平行光照的影响.
+  - 原因: 该 gltf 模型不带法线. 猜测是 three.js 在载入不带法线的模型时会计算一次法线, 但修改材质导致法线信息丢失.
+  - 方法1: 用 blender 给模型加上法线
+  - 方法2: 仅给 material 的属性赋值, 不去修改 material:
+    ```js
+    material.color.set(0x04b6f4)
+    material.transparent = true
+    material.opacity = 0.5
+    ```
+    > 注意: 实测 draco 压缩的未带法线模型, 在修改材质 `material.transparent = true` 后渲染帧率下降, 但未压缩的模型、带法线的模型都不受影响

@@ -702,6 +702,8 @@ var tocData = [
         "children": [
           { "value": "linux.md", "label": "Linux", "date": "2025-01-26" },
           { "value": "windows.md", "label": "Windows", "date": "2025-01-26" },
+          { "value": "cmd.md", "label": "cmd", "date": "2025-03-04" },
+          { "value": "net.md", "label": "网络", "date": "2025-03-05" },
         ],
       },
       {
@@ -717,8 +719,10 @@ var tocData = [
         "value": "js",
         "label": "JS",
         "children": [
+          { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },
+          { "value": "chart.md", "label": "图表", "date": "2025-03-06" },
         ],
       },
       {

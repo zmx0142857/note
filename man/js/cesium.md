@@ -58,11 +58,13 @@ transformModelMatrix(model.modelMatrix, {
 
 生成变换矩阵 `root.transform`
 ```js
+const vec3 = Cesium.Cartesian3
+
 // 此变换矩阵将模型原点变换到指定的经纬度
 // 原模型坐标系的 x, y, z 对应到新坐标系的东、北、天
 function getTransform (lon, lat, height = 0, scale = 1) {
-  const m = Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromDegrees(lon, lat, height))
-  const s = Cesium.Matrix4.fromScale(new Cesium.Cartesian3(scale, scale, scale))
+  const m = Cesium.Transforms.eastNorthUpToFixedFrame(vec3.fromDegrees(lon, lat, height))
+  const s = Cesium.Matrix4.fromScale(new vec3(scale, scale, scale))
   Cesium.Matrix4.multiplyTransformation(m, s, m)
   return Array.from(m)
 }
@@ -72,23 +74,66 @@ const m = getTransform(116, 39, 0, 0.001)
 // -0.0003406783663463926, 0.0006984941632629673, 0.0006293203910498374, 0,
 // -2175779.497312825, 4461009.061769954, 3992317.0227517267, 1]
 
-// 验证: 两个计算结果应该相同
+// 验证: 计算结果应该相同
 console.log(
   Cesium.Matrix4.multiplyByPoint(
     Cesium.Matrix4.fromArray(m),
-    new Cesium.Cartesian3(),
-    new Cesium.Cartesian3()
+    new vec3(),
+    new vec3()
   ),
-  Cesium.Cartesian3.fromDegrees(116, 39, 0),
+  new vec3(...m.slice(12, 15)),
+  vec3.fromDegrees(116, 39, 0),
 )
 ```
 
+### 相机
+
+```js
+const vec3 = Cesium.Cartesian3
+
+// 设置相机位置
+camera.setView({
+  // camera.positionWC
+  destination: new vec3(-2181968.8903, 4385313.1784, 4072712.8241),
+  orientation: {
+    heading: 3.1756, // camera.heading
+    pitch: -0.3715, // camera.pitch
+    roll: 0, // camera.roll
+  }
+})
+
+// 让相机对准模型
+// 一个副作用是, 调用此函数后, 左键操作变成旋转, 而 ctrl-左键失效.
+const position = new vec3(...Array.from(modelMatrix).slice(12, 15))
+camera.viewBoundingSphere(
+  new Cesium.BoundingSphere(position, 300),
+  new Cesium.HeadingPitchRange(Math.PI / 4, -Math.PI / 4)
+)
+
+// 让相机对准模型, 优化版本
+const setView = (camera, { position, modelMatrix, distance = 100, heading = 0, pitch = 0, roll = 0 } = {}) => {
+  position ||= new vec3(...Array.from(modelMatrix).slice(12, 15))
+  const offset = new vec3(0, -distance, 0)
+  const rotation = mat3.fromHeadingPitchRoll(new Cesium.HeadingPitchRoll(heading, roll, pitch))
+  mat3.multiplyByVector(rotation, offset, offset)
+  const trans = Cesium.Transforms.eastNorthUpToFixedFrame(position)
+  mat4.multiplyByPoint(trans, offset, offset)
+  camera.setView({
+    destination: offset,
+    orientation: {
+      heading,
+      pitch,
+      roll,
+    }
+  })
+}
+```
 
 ### Entity
 
 entity 不好用... 比如没有 onLoad 事件.  但 debug 时用 entity 画一些简单图形还是很实用的
 
-```
+```js
 viewer.entities.add({
   name: 'point',
   position,
@@ -101,8 +146,8 @@ viewer.entities.add({
 viewer.entities.add({
   name: 'rectangle',
   rectangle: {
-    coordinates: new Cesium.Rectangle(west, south, east, north),
-    material: Cesium.Color.WHITE,
+    coordinates: Cesium.Rectangle.fromDegrees(west, south, east, north),
+    material: Cesium.Color.WHITE.withAlpha(0.5),
   },
 })
 
@@ -112,10 +157,74 @@ viewer.entities.add({
   box: {
     dimensions: new Cesium.Cartesian3(1000, 1000, 1000),
     fill: true,
-    material: Cesium.Color.WHITE,
+    material: Cesium.Color.WHITE.withAlpha(0.5),
     outline: true,
   },
 })
+```
+
+[禁用深度检测](https://community.cesium.com/t/disable-depth-test-for-polylines-and-polygons/7312/4)
+```js
+// Modify polylines so that their depth test is always disabled.
+var oldPolylineUpdate = Cesium.PolylineCollection.prototype.update;
+Cesium.PolylineCollection.prototype.update = function(frameState) {
+  var oldMorphTime = frameState.morphTime;
+  frameState.morphTime = 0.0;
+  oldPolylineUpdate.call(this, frameState);
+  frameState.morphTime = oldMorphTime;
+};
+
+// Modify polygons (and all other primitive objects) so that their depth test is always disabled.
+var oldPrimitiveUpdate = Cesium.Primitive.prototype.update;
+Cesium.Primitive.prototype.update = function (frameState) {
+this.appearance._renderState.depthTest.enabled = false;
+  oldPrimitiveUpdate.call(this, frameState);
+};
+```
+
+### Primitive
+
+用长方形铺满地球表面
+```js
+const createPrimitive = ({ instance, appearance = {}, ...options } = {}) => {
+  const geometryInstances = instance.map(({
+    id,
+    geometry,
+    modelMatrix,
+    color = Cesium.Color.WHITE,
+    ...attrs
+  }) => new Cesium.GeometryInstance({
+    id,
+    geometry: new Cesium[geometry.type](geometry),
+    modelMatrix,
+    attributes: {
+      color: Cesium.ColorGeometryInstanceAttribute.fromColor(color),
+      ...attrs,
+    },
+  }))
+  return new Cesium.Primitive({
+    geometryInstances,
+    appearance: new Cesium[appearance.type || 'PerInstanceColorAppearance'](appearance),
+    ...options,
+  })
+}
+
+const instance = []
+for (let lon = -180; lon < 180; lon += 5) {
+  for (let lat = -90; lat < 90; lat += 5) {
+    instance.push({
+      geometry: {
+        type: 'RectangleGeometry',
+        rectangle: Cesium.Rectangle.fromDegrees(lon, lat, lon + 5, lat + 5),
+      },
+      color: Cesium.Color.fromRandom({ alpha: 0.5 })
+    })
+  }
+}
+
+viewer.scene.primitives.add(
+  createPrimitive({ instance })
+)
 ```
 
 ### 背景透明
@@ -163,36 +272,10 @@ if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
 viewer.scene.postProcessStages.fxaa.enabled = true
 ```
 
+### 帧率
 
-### 实例化 Instances
-
-长方体实例化
 ```js
-var viewer = new Cesium.Viewer('cesiumContainer');
-var scene = viewer.scene;
-
-var instances = [];
-
-for (var lon = -180.0; lon < 180.0; lon += 5.0) {
-  for (var lat = -90.0; lat < 90.0; lat += 5.0) {
-    instances.push(new Cesium.GeometryInstance({
-      geometry: new Cesium.RectangleGeometry({
-        rectangle: Cesium.Rectangle.fromDegrees(lon, lat, lon + 5.0, lat + 5.0)
-      }),
-      attributes: {
-        color: Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.fromRandom({
-          alpha: 0.5
-        }))
-      }
-    }));
-  }
-}
-
-scene.primitives.add(new Cesium.Primitive({
-  geometryInstances: instances, //合并
-  //某些外观允许每个几何图形实例分别指定某个属性，例如：
-  appearance: new Cesium.PerInstanceColorAppearance()
-}));
+viewer.scene.debugShowFramesPerSecond = true
 ```
 
 ### 坐标拾取 pick
@@ -208,7 +291,7 @@ scene.primitives.add(new Cesium.Primitive({
  * 设置 scene.pickTranslucentDepth = true 后, 可以取到透明物体的坐标, 但会增加性能负担.
  */
 function pick (e, type = 0) {
-  const ray = viewer.camera.getPickRay(e.position | e.endPosition);
+  const ray = viewer.camera.getPickRay(e.position || e.endPosition);
   if (type === 0) {
     return viewer.scene.globe.pick(ray, viewer.scene);
   } else if (type === 1) {
@@ -216,7 +299,7 @@ function pick (e, type = 0) {
     return viewer.scene.pickFromRay(ray)?.position;
   } else if (type === 2) {
     // 也是一种方法, 但它有时取不到坐标
-    return viewer.scene.pickPosition(e.position | e.endPosition);
+    return viewer.scene.pickPosition(e.position || e.endPosition);
   }
 }
 ```
@@ -489,93 +572,96 @@ Feature: 特征/构件
 
 [来自右弦 GISer](https://blog.csdn.net/weixin_45782925/article/details/124450047)
 ```js
-fetch('/models/geojson/geo.json').then(res => res.json()).then(json => {
-  const data = json.features[0].geometry.coordinates[0].flat() // number[]
-  console.log(data)
-  const polygon = new Cesium.Entity({
+vec3 = Cesium.Cartesian3
+
+/**
+ * 地图遮罩 (基于 entity)
+ * @param {vec3[][]} polygons
+ */
+const mapMaskEntity = (polygons) => {
+  console.log(polygons)
+  viewer.entities.add({
     polygon: {
       hierarchy: {
-        // polygon 覆盖了 1/4 个地球 (设置为 180 会报错)
-        positions: Cesium.Cartesian3.fromDegreesArray([0, 0, 0, 90, 179, 90, 179, 0]),
+        // 覆盖 1/4 个地球 (设置为 180 会报错)
+        positions: vec3.fromDegreesArray([0, 0, 0, 90, 179, 90, 179, 0]),
+        // 或者只覆盖国内
+        // positions: vec3.fromDegreesArray([73, 90, 73, 0, 135, 0, 135, 90]),
         // 把待突出显示的区域挖空
-        holes: [
-          {
-            positions: Cesium.Cartesian3.fromDegreesArray(data)
-          }
-        ]
+        holes: polygons.map(positions => ({ positions })),
       },
       material: new Cesium.Color(15 / 255, 38 / 255, 84 / 255, 0.7),
     }
   })
-  const line = new Cesium.Entity({
+  const lines = polygons.map(positions => new Cesium.Entity({
     polyline: {
-      positions: Cesium.Cartesian3.fromDegreesArray(data),
+      positions,
       width: 4,
       material: Cesium.Color.YELLOW,
     }
-  })
-  viewer.entities.add(polygon)
-  viewer.entities.add(line)
-  viewer.flyTo(line)
-})
-```
+  }))
+  lines.forEach(line => viewer.entities.add(line))
+  viewer.flyTo(lines[0])
+}
 
-```js
-// entity 实现遮罩
-dataSource.entities.add({
-  polygon: {
-    hierarchy: {
-      positions: Cesium.Cartesian3.fromDegreesArray([73, 53, 53, 0, 135, 0, 135, 53]),
-      holes: provinceJson.features.map(feature => feature.geometry.coordinates).flat().map(coord => ({
-        positions: Cesium.Cartesian3.fromDegreesArray(coord.flat()),
-      }))
+/**
+ * 地图遮罩 (基于 primitive)
+ * @param {vec3[][]} polygons
+ */
+const mapMaskPrimitive = (polygons) => {
+  viewer.scene.primitives.add(createPrimitive([
+    {
+      geometry: {
+        type: 'PolygonGeometry',
+        polygonHierarchy: new Cesium.PolygonHierarchy(
+          vec3.fromDegreesArray([73, 90, 73, 0, 135, 0, 135, 90]),
+          polygons.map(hole => new Cesium.PolygonHierarchy(hole)),
+        ),
+      },
+      color: Cesium.Color.BLACK.withAlpha(0.5),
     },
-    material: MathUtils.rgba(maskColor),
-  }
-})
-
-// primitive 实现遮罩 (适用国内)
-function mapMask ({ holes = [], color = Cesium.Color.BLACK.withAlpha(0.5) } = {}) {
-  const rects = [
-    [-180, -90, 73, 90],
-    [135, -90, 180, 90],
-    [73, 53, 135, 90],
-    [73, -90, 135, 0],
-  ];
-  const polygon = new Cesium.PolygonGeometry({
-    polygonHierarchy: new Cesium.PolygonHierarchy(
-      Cesium.Cartesian3.fromDegreesArray([73, 53, 53, 0, 135, 0, 135, 53]),
-      holes.map(hole => new Cesium.PolygonHierarchy(hole)),
-    ),
-  })
-  const attributes = {
-    color: Cesium.ColorGeometryInstanceAttribute.fromColor(color),
-  };
-  const instances = [
-    new Cesium.GeometryInstance({
-      geometry: Cesium.PolygonGeometry.createGeometry(polygon),
-      attributes,
-    }),
-    ...rects.map(rect => new Cesium.GeometryInstance({
-      geometry: new Cesium.RectangleGeometry({
-        rectangle: Cesium.Rectangle.fromDegrees(...rect),
-      }),
-      attributes,
-    })),
-  ];
-  return new Cesium.Primitive({
-    geometryInstances: instances,
-    appearance: new Cesium.PerInstanceColorAppearance({
+    ...[
+      [-180, -90, 73, 90],
+      [135, -90, 180, 90],
+      [73, -90, 135, 0],
+    ].map(rect => ({
+      geometry: {
+          type: 'RectangleGeometry',
+          rectangle: Cesium.Rectangle.fromDegrees(...rect),
+      },
+      color: Cesium.Color.BLACK.withAlpha(0.5),
+    }))
+  ], {
+    appearance: {
       flat: true,
       translucent: false,
-    }),
-  });
+    }
+  }))
+  const lines = createPrimitive(polygons.map(positions => ({
+    geometry: {
+      type: 'PolylineGeometry',
+      positions,
+      vertexFormat: Cesium.PolylineMaterialAppearance.VERTEX_FORMAT,
+      width: 4,
+    },
+    color: Cesium.Color.YELLOW,
+  })), {
+    appearance: {
+      type: 'PolylineColorAppearance'
+    }
+  })
+  lines.readyPromise.then(() => {
+    viewer.camera.flyToBoundingSphere(lines._boundingSpheres[0])
+  })
+  viewer.scene.primitives.add(lines)
+  viewer.scene.requestRender()
 }
-const mask = mapMask({
-  holes: provinceJson.features.map(feature => feature.geometry.coordinates).flat().map(coord => Cesium.Cartesian3.fromDegreesArray(coord.flat())),
-  color: MathUtils.rgba(maskColor),
-});
-viewer.scene.primitives.add(mask);
+
+fetch('/models/geojson/geo.json').then(res => res.json()).then(json => {
+  const polygons = json.features.map(feature => feature.geometry.coordinates).flat().map(polygon => vec3.fromDegreesArray(polygon.flat()))
+  console.log(polygons)
+  mapMaskEntity(polygons)
+})
 ```
 
 ## Shader
@@ -1067,3 +1153,18 @@ tileset.style = new Cesium.Cesium3DTileStyle({
 - [cesium custom shader guide](https://github.com/CesiumGS/cesium/tree/main/Documentation/CustomShaderGuide)
 - [gltf、3d场景编辑器](https://gltf.nsdt.cloud)
 - [地理坐标系转换](https://github.com/wandergis/coordtransform/blob/master/index.js)
+
+## Trouble Shooting
+
+- this object is destroyed.
+  - 可能原因: 检查代码中是否将 dataSource 重复添加到 viewer 中:
+    ```js
+    // 错误写法
+    const ds = new Cesium.CustomDataSource()
+    ds.add(entity1)
+    viewer.dataSources.add(ds)
+    ds.add(entity2)
+    viewer.dataSources.add(ds)
+    ```
+- 使用 Cartesian3 时, 得到一个 undefined
+  - 可能原因: `Cesium.Cartesian3()` 漏掉了 `new`
