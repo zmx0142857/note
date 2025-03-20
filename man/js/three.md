@@ -11,6 +11,8 @@ web 端流行的 3d 库.
 - [discover threejs 电子书](https://discoverthreejs.com/tips-and-tricks/): 总结了许多 three.js 常用技巧
 - [webgl fundamentals](https://webglfundamentals.org/): webgl 入门教程
 - [the book of shaders](https://thebookofshaders.com/): shader 入门教程
+- [shadertoy](https://www.shadertoy.com/)
+- [iq 大佬的图形学 blog](https://www.iquilezles.org/)
 
 **工具**
 

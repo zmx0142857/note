@@ -714,6 +714,13 @@ var tocData = [
         ],
       },
       {
+        "value": "code",
+        "label": "代码",
+        "children": [
+          { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
+        ],
+      },
+      {
         "value": "py",
         "label": "Python",
         "children": [
@@ -726,6 +733,8 @@ var tocData = [
         "value": "js",
         "label": "JS",
         "children": [
+          { "value": "js.md", "label": "JavaScript", "date": "2025-03-18" },
+          { "value": "browser.md", "label": "浏览器", "date": "2025-03-18" },
           { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },

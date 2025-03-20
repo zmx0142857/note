@@ -4,7 +4,70 @@
 
 矩阵/张量运算.
 
-🚧 施工中
+- [From Python to Numpy](https://www.labri.fr/perso/nrougier/from-python-to-numpy/)
+- [100 Numpy Exercises](https://github.com/rougier/numpy-100)
+
+### 基础
+
+创建
+```py
+np.array([[1, 2, 3], [4, 5, 6]])
+np.arange(1, 7).reshape(2, 3)       # 同上
+np.linspace(1, 6, 6).reshape(2, 3)  # 同上, 但类型是 float
+np.zeros((2, 3))                    # 全 0
+np.ones((2, 3))                     # 全 1
+np.eye(4)                           # 单位阵
+np.random.random((2, 3))            # 随机
+np.random.choice([0, 1], size=(3,3), p=[0.5,0.5]) # 随机 3 阶 01 矩阵
+```
+
+信息
+```py
+a.dtype    # 元素类型
+a.ndim     # 维数
+a.size     # 元素总数
+a.shape    # 每个维度的元素数
+a.itemsize # 每个元素的字节数
+a.strides  # a.strides[i] 表示第 i 个维度下标增加 1 时, 在内存中应该前进几个字节
+```
+
+广播
+```py
+np.sin, np.cos, np.exp, np.log...
+```
+
+聚合
+```py
+a.sum(axis=0) # 列和
+a.min(axis=1)
+a.cumsum(axis=1) # cumulative sum 不改变数组形状, 相当于 itertools.accumulate
+```
+
+矩阵
+```py
+a.T # 转置
+a @ b, a.dot(b), np.matmul(a, b) # 乘法
+```
+
+切片
+```py
+a[(1,2)]                    # 取出元素
+a[::] = 0                   # 清零
+a[1:-1, 1:-1] = 0           # 指定区域清零
+a.view(np.int8)[...] = 0    # 快速清零
+a[::-1]                     # 反转
+a[(3 < a) & (a < 8)] *= -1  # 条件查询
+```
+
+其它
+```py
+a.nonzero()[0]      # 找到非零元的下标
+np.pad(a, pad_width=1, mode='constant', constant_values=0) # 加边
+np.fill_diagonal(a, np.arange(1, 5)) # 填充对角线
+np.unravel_index(99,(6,7,8)) # 找到第 100 个元素在 (6,7,8) 数组中的下标
+np.tile([[0, 1], [1, 0]], (4, 4)) # 平移填充
+np.intersect1d(a, b) # 求交集
+```
 
 ## pandas
 

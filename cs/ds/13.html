@@ -620,6 +620,40 @@ module.exports = function chineseRemainder (str) {
 </script>
 </div>
 
+<p class="algorithm">
+  <b>计算某年月日是星期几</b>
+  先把月份数减 2, 其中 1、2 月分别视为前一年的 11、12 月.
+  处理后的世纪、年、月、日分别记为 `c, y, m, d`, 则计算星期几的公式为
+  <span class="formula">
+    `w -= |__c//4__| - 2 c + |__y//4__| + y + |__2.6 m - 0.2__| + d`
+    `quad (mod 7)`.
+  </span>
+  其中 0-6 分别表示星期日到星期六.
+</p>
+
+<div class="playground" value="20250318">
+<p>说明: 2025 年 3 月 18 日是星期二.</p>
+<script type="text">
+module.exports = function weekday (str) {
+  const ymd = parseInt(str)
+  let c = ymd / 1e6 | 0
+  let y = (ymd / 1e4 | 0) % 100
+  let m = (ymd / 1e2 | 0) % 100 - 2
+  let d = ymd % 100
+  if (m < 1) {
+    m += 12
+    y -= 1
+    if (y < 0) {
+      y += 100
+      c -= 1
+    }
+  }
+  let w = (c/4|0) - 2*c + (y/4|0) + y + ((2.6*m-0.2)|0) + d
+  return w % 7
+}
+</script>
+</div>
+
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
 <script src="../../js/playground.js"></script>

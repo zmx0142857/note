@@ -198,6 +198,10 @@ push 空与 fetch 空
 
 ## 其它话题
 
+### 找回丢失的 commit
+
+    $ git fsck --lost-found # 找回的内容在 .git/lost-found 中
+
 ### git submodule
 
     $ git submodule init

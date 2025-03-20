@@ -1,11 +1,13 @@
 # JavaScript
 
-### 移动端事件
+### prototype & class
 
-禁用触摸滚动
+判断函数是否用 `new` 调用
 ```js
-const preventDefault = e => e.preventDefault()
-document.addEventListener('touchmove', preventDefault, { passive: false })
-// 恢复
-document.removeEventListener('touchmove', preventDefault)
+function foo () {
+  console.log(this?.constructor === foo)
+}
+
+foo() // false
+new foo() // true
 ```
