@@ -68,7 +68,7 @@ body {
   z-index: 1002;
   backdrop-filter: blur(3px);
   background: rgba(0, 0, 0, 0.5);
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: flex-start;
 }
@@ -259,6 +259,13 @@ body {
       <div class="at-song-position">00:00 / 00:00</div>
     </div>
     <div class="at-controls-right">
+      <!--
+      <a class="btn at-export-tex" title="Export AlphaTex">
+        <i class="fas">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M11 16V7.85l-2.6 2.6L7 9l5-5l5 5l-1.4 1.45l-2.6-2.6V16zm-5 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z"/></svg>
+        </i>
+      </a>
+      -->
       <a class="btn at-load-file" title="Load file">
         <input class="at-load-file-input" type="file" accept=".gp,.tex" hidden />
         <i class="fas fa-audio-file">
@@ -341,7 +348,7 @@ const $fileInput = $('.at-load-file-input')
 
 const initApi = () => {
   return new alphaTab.AlphaTabApi($main, {
-    file: 'https://www.alphatab.net/files/canon.gp',
+    // file: 'https://www.alphatab.net/files/canon.gp',
     player: {
       enablePlayer: true,
       soundFont: 'https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2',
@@ -389,8 +396,16 @@ const onRenderFinish = () => {
   $overlay.style.display = 'none'
 }
 
+/*
+$('.at-export-tex').onclick = (e) => {
+  const track = api.tracks[0]
+  const exporter = new alphaTab.Exporter.AlphaTexExporter()
+  exporter.Export(track)
+  return exporter.ToTex()
+}*/
+
 $('.at-load-file').onclick = (e) => {
- $fileInput.click()
+  $fileInput.click()
 }
 $fileInput.oninput = (e) => {
   const file = e.target.files[0]
