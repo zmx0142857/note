@@ -172,6 +172,14 @@ plot(
     ylabel='p(x)',
     legend=[f'mean {mu}, std {sigma}' for mu, sigma in params],
 )
+
+
+# 求解常微分方程 dy/dx = f(y, x), 经过点 (x=-5, y=2)
+from scipy.integrate import odeint
+f = lambda y, x: (2*x-y+5)/(2*y-x+4)
+x = np.arange(-5, 5, 0.1)
+y = odeint(f, 2, x)
+plot(x, y.T)
 ```
 
 `roll_dice.py`

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>常微分方程初等解法</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>分离变量</h2>
+
+<p class="example">
+  <b>Logistic 方程</b>
+  `dy/dx = r y (1-y)`, `r` 为常数.
+</p>
+
+<div class="img md">
+  <canvas id="img-sigmoid"></canvas>
+</div>
+
+<p class="solution">
+  分离变量,
+  <span class="formula">
+    `dy/(y(1-y)) = r dx`,
+  </span>
+  两边积分,
+  <span class="formula">
+    `int (1/y + 1/(1-y)) dy = r x`,<br>
+    `ln |y/(1-y)| = r x + c_1`,<br>
+    `y/(1-y) = c_2 "e"^(r x)`,<br>
+  </span>
+  即
+  <span class="formula">
+    `y = (1 + c "e"^(-r x))^-1`.
+  </span>
+  特别地, sigmoid 函数 `sigma(x) = (1+"e"^-x)^-1` 满足 Logistic 方程.
+  <br>
+  Logistic 方程最早出现于人口问题中, 它的图形是一条 S 形曲线.
+  该函数可用于动画平滑过渡, 或机器学习中的激活函数.
+</p>
+
+<ol class="example">
+  <b>齐次方程</b>
+  <li>`dy/dx = f(y/x)`;</li>
+  <li>`dy/dx = (a_1 x + b_1 y + c_1)/(a_2 x + b_2 y + c_2)`,
+    `|a_1, b_1; a_2, b_2| != 0`.
+  </li>
+</ol>
+
+<ol class="solution">
+  <li>令 `y = ux`, 则 `dy = udx + x"d"u`. 原方程化为
+    `u + x("d"u)/dx = f(u)`. 这是变量分离方程.
+  </li>
+  <li>令 `alpha, beta` 是
+    `{a_1 alpha + b_1 beta + c_1 = 0;
+    a_2 alpha + b_2 beta + c_2 = 0 :}`
+    的解, 再作代换 `{x = X + alpha; y = Y + beta :}`,
+    即化为齐次方程.
+  </li>
+</ol>
+
+<h2>线性方程</h2>
+
+<p class="example">
+  <b>一阶线性方程</b> `dy/dx = p(x)y + q(x)`.
+</p>
+
+<p class="solution">
+  先用分离变量法解齐方程 `dy/dx = p(x) y`, 得通解
+  `y = ce^(int p(x) dx)`, 再利用<b>常数变易法</b>,
+  设 `c = c(x)` 是 `x` 的函数,
+  将通解代入原方程比较, 得
+  <span class="formula">
+    `c'(x) = q(x) e^(-int p(x) dx)`,
+  </span>
+  积分得到 `c(x)` 的表达式.
+</p>
+
+<p class="example">
+  <b>Bernoulli 方程</b> `dy/dx = p(x)y + q(x) y^n`, `quad n ge 2`.
+</p>
+
+<p class="solution">
+  显然 `y = 0` 是一个特解. `y != 0` 时, 两边同除以 `y^n`, 得
+  <span class="formula">
+    `y^(-n) dy/dx = p(x) y^(1-n) + q(x)`.
+  </span>
+  再令 `z = y^(1-n)` 化为线性方程.
+</p>
+
+<ol class="example">
+  <li>`dd y x = tan x(tan y + sec x sec y)`;</li>
+  <li>`dd y x = x sin^2 y + 1/2 sin 2 y`;</li>
+</ol>
+
+<ol class="solution">
+  <li>两边同乘 `cos y` 得
+	<span class="formula">
+	  `cos y dd y x = tan x (sin y + sec x)`
+	</span>
+	换元 `u = sin y`, 即可化为线性方程.
+  </li>
+  <li>两边同除以 `cos^2 y` 得
+	<span class="formula">
+	  `sec^2 y dd y x = x tan^2 y + tan y`.
+	</span>	
+	方程左边即 `"d"/dx (tan y)`. 接下来换元 `u = tan y` 即可化为 Bernoulli 方程.
+  </li>
+</ol>
+
+<h2>积分因子</h2>
+
+<p class="example">
+  <b>恰当微分方程</b> `M(x, y) dx + N(x, y) dy = 0`.
+</p>
+
+<ol class="solution">
+  <li>如果方程满足 `(del M)/(del y) = (del N)/(del x)`,
+    此时存在二元函数 `f(x, y)`, 使 `"d"f = M dx + N dy`,
+    原方程就称为<b>恰当微分方程</b>, 通解为 `f(x, y) = c`.
+  </li>
+  <li>若上述条件不满足, 但方程两边同乘以 `mu(x, y)` 后有
+    `(del(mu M))/(del y) = (del(mu N))/(del x)`,
+    就称 `mu` 是方程的<b>积分因子</b>.
+  </li>
+  <li>若上述的 `mu` 只与 `x` 有关, 即 `(del mu)/(del y) = 0`, 则
+    `N ("d" mu)/dx = ( (del M)/(del y) - (del N)/(del x) ) mu`,
+    可以用分离变量法求出 `mu`. 注意验证 `mu = 0` 的情形.
+  </li>
+</ol>
+
+<p class="remark">
+  <b>一些常见的全微分</b>
+  <span class="formula">
+    `"d"(xy) = ydx + xdy`, <br/>
+    `"d"(x//y) = (ydx - xdy)/y^2`, <br/>
+    `"d"(x^a y^b) = a x^(a-1) y^b dx + b y^(b-1) x^a dy`.
+  </span>
+</p>
+
+<h2>参数解</h2>
+
+<p class="example">
+  `x ( dd y x )^3 = 1 + dd y x`.
+</p>
+
+<p class="solution">
+  [来自 deepseek]
+  该方程不显含 `y`, 可令 `t = dd y x`, 化为 `t` 的三次方程 `x t^3 = 1 + t`.
+  <br>
+  这个方程不易求解, 但可以将 `x` 表为 `t` 的函数 `x = t^-2 + t^-3`, 从而 
+  <span class="formula">
+	`dd x t = -2 t^-3 -3 t^-4`.
+  </span>
+  于是
+  <span class="formula">
+	`dy/dt = dy/dx dx/dt = -2 t^-2 -3 t^-3`,<br>
+	`y = 2 t^-1 + 3/2 t^-2 + c`.
+  </span>
+  方程的参数解为
+  <span class="formula">
+	`{
+		x = t^-2 + t^-3;
+		y = 2 t^-1 + 3/2 t^-2 + c;
+	:}`
+  </span>
+</p>
+
+<h2>幂级数解</h2>
+
+<p>	将
+  <span class="formula">
+	`y = sum_(n=0)^oo a_n x^n`, <br/>
+	`y' = sum_(n=1)^oo n a_n x^(n-1) = sum_(n=0)^oo (n+1) a_(n+1) x^n`, <br/>
+	`y^((k)) = sum_(n=k)^oo n(n-1)cdots(n-k+1) a_n x^(n-k)`
+	`= sum_(n=0)^oo (n+k)cdots(n+2)(n+1) a_(n+k) x^n`
+  </span>
+  代入方程并比较系数, 注意幂级数的收敛半径.
+</p>
+
+<h2>隐式方程</h2>
+
+<p>指不显含自变量的方程.</p>
+
+<p class="example">
+  <b>悬链线</b>
+  一根质地均匀的绳索悬挂在两个固定点间, 自然静止下垂, 求绳索方程.
+</p>
+
+<ol class="solution">
+  <li>列方程.
+    假设绳索的线密度为 `rho`, 最低点为 `P`, 让 `y` 轴经过 `P` 点.  考虑绳索在点 `A` 处的张力,
+    其水平分量与 `P` 处的张力相等, 竖直分量与 `P` 到 `A` 之间绳索的重力相等:
+    <span class="formula">
+      `T_"水平" = "常数"`,<br>
+      `T_"竖直" = rho int_0^(x_A) sqrt(1+(dy/dx)^2) dx`,
+    </span>
+    但张力沿着绳索方向, 所以 `T_"竖直" / T_"水平" = dy/dx`, 得到方程:
+    <span class="formula">
+      `dy/dx = a int_0^(x_A) sqrt(1 + (dy/dx)^2) dx`,
+      `quad` 其中 `a = rho // T_"水平"`.
+    </span>
+    两边对 `x` 微分得到:
+    <span class="formula">
+      <span class="box">
+        `dd^2 y x = a sqrt(1 + (dy/dx)^2)`.
+      </span>
+    </span>
+  </li>
+  <li>解方程.
+    令 `p = dy/dx`, 方程化为
+    <span class="formula">
+      `dd p x = a sqrt(1 + p^2)`.
+    </span>
+    分离变量解得
+    <span class="formula">
+      `a x = ln(p + sqrt(1+p^2)) + c_1`.
+    </span>
+    代入初值 `x = 0`, `p = 0` 得到 `c_1 = 0`. 于是 `p = sinh(a x)`, 再次积分得到
+    <span class="formula">
+      <span class="box">
+        `y = a cosh(a x) + c_2`.
+      </span>
+    </span>
+    由于建立坐标系时没有指定 `P` 点的纵坐标, 所以结果带有任意常数 `c_2`.
+  </li>
+</ol>
+
+<p class="example">
+  <b>曳物线</b>
+  水平面上, 在 `t = 0` 时刻, 点 `P` 位于原点, 点 `A` 位于 `(a, 0)`, `a gt 0`, 两点间以一条轻绳连接.
+  现在 `P` 向北作直线运动, 绳子拉动点 `A` 一起运动, 假设绳子全程保持拉紧, 求 `A` 的轨迹.
+</p>
+
+<ol class="solution">
+  <li>
+    列方程.
+    绳子的方向就是 `A` 轨迹的切线方向, 且 `A` 到 `y` 轴之间的切线长是定值 `a`.
+    根据这些条件列出方程
+    <span class="formula">
+      `x sqrt(1 + (dy/dx)^2) = a`.
+    </span>
+  </li>
+  <li>解方程.
+    以 `s` 表示点 `A` 的路程, 有 `dd s x = -a/x`, 积分得
+    <span class="formula">
+      `x = a "e"^(-s//a)`.
+    </span>
+    参数方程??:
+    <span class="formula">
+      `{x = a//cosh t; y = a(t - tanh t):}`.
+    </span>
+  </li>
+</ol>
+
+<p class="example">
+  <b>追赶问题</b>
+  [来自 <a href="https://www.zhihu.com/question/49115473" target="_blank">知乎</a>]
+  `xOy` 平面上, 兔子从原点出发, 以速度 `a gt 0` 沿 `x` 轴正方向运动,
+  猎犬从 `(0, 1)` 出发以速度 `b gt a` 追赶兔子,
+  猎犬的速度方向始终指向兔子, 求猎犬的运动轨迹和相遇时间.
+</p>
+
+<canvas id="img-hound" height="200" width="300"></canvas>
+
+<p class="solution">
+  在 `t` 时刻, 兔子的坐标为 `a t`.
+  设此时猎犬的坐标为 `(x, y)`, 考虑速度的大小和方向, 我们有
+  <span class="formula">
+    `dy/dx = y/(x-a t)`,
+    `quad (dx/dt)^2 + (dy/dt)^2 = b^2`.
+  </span>
+  第一式化为 `y dx/dy = x - a t`, 两边对 `y` 微分得
+  <span class="formula">
+    `dx/dy + y ("d"^2 x)/dy^2 = dx/dy - a dt/dy`, 即
+    `y ("d"^2 x)/dy^2 = - a dt/dy`.
+  </span>
+  第二式两边同乘 `(dt/dy)^2` 得
+  <span class="formula">
+    `(dx/dy)^2 + 1 = b^2 (dt/dy)^2`,
+  </span>
+  原问题中 `y` 随 `t` 减小, 故 `dt/dy = -1/b sqrt((dx/dy)^2 + 1)`.
+  代入前式, 得到不显含 `t` 的方程
+  <span class="formula">
+    `y ("d"^2 x)/dy^2 = a/b sqrt((dx/dy)^2 + 1)`.
+  </span>
+  令 `r = a//b`, `p = dx/dy` 得
+  <span class="formula">
+    `y ("d"p)/dy = r sqrt(p^2+1)`,
+  </span>
+  分离变量, 解得 `p = sinh(r ln y + c)`.
+  代入 `t = 0` 时 `x = 0, y = 1, p = 0` 得 `c = 0`, 故
+  <span class="formula">
+    `p = (y^r - y^-r)/2`.
+  </span>
+  积分得
+  <span class="formula">
+    `x = 1/2((y^(1+r)-1)/(1+r) - (y^(1-r)-1)/(1-r))`.
+  </span>
+  这就是猎犬的轨迹.
+  为求相遇时间, 令 `y = 0` 解得 `x = r/(1-r^2)`, 于是 `t = x/a`.
+</p>
+
+<p class="solution">
+  仅求相遇时间: 设二者速度夹角为 `theta`, 0 时刻距离为 `D`.
+  于是在猎犬方向上,
+  <span class="formula">
+    `int_0^T (a cos theta - b) dt = -D`;
+  </span>
+  又, 在兔子方向上,
+  <span class="formula">
+    `int_0^T b cos theta dt = a T`.
+  </span>
+  两式消去积分项, 解得 `T = (D b)/(b^2-a^2)`.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script>
+new Plot('img-sigmoid', {xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5}).axis()
+    .plot(x => 1/(1+Math.exp(-x)));
+
+const r = 0.9
+new Plot('img-hound')
+    .geometry({ xmin: 0, xmax: 5, ymin: -0.1, ymax: 1 })
+    .axis()
+    .plot(y => ((y**(1+r)-1)/(1+r) - (y**(1-r)-1)/(1-r))/2, y => y,
+        { min: 0, max: 1, continuity: Infinity })
+</script>
+</body>
+</html>
+

@@ -654,6 +654,7 @@ decorate([
   {name:'conjecture', getBy:'class', word:'猜想', style:Sname_num},
   {name:'hypothesis', getBy:'class', word:'假设', style:Sname_num},
   {name:'theorem', getBy:'class', word:'定理', style:Sname_num},
+  {name:'law', getBy:'class', word:'定律', style:Sname_num},
   {name:'proposition', getBy:'class', word:'命题', style:Sname_num},
   {name:'definition', getBy:'class', word:'定义', style:Sname_num},
   {name:'lemma', getBy:'class', word:'引理', style:Sname_num},

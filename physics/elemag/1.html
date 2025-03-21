@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>麦克斯韦方程组</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<p>[来自《麦克斯韦方程直观》]</p>
+
+<h2>Maxwell 方程组</h2>
+
+<p>
+  <span class="formula">
+    `nabla * bm E = rho/epsi_0`<br>
+    `nabla * bm B = 0`<br>
+    `nabla xx bm E = -pp bmB t`<br>
+    `nabla xx bm B = mu_0 (bm J + epsi_0 pp bmE t)`
+  </span>
+</p>
+
+<h3>Gauss 电场定律</h3>
+
+<p class="law">Gauss 电场定律的积分形式为
+  <span class="formula">
+    `oint_S bm E * "d"bm S = q_"enc"/epsi_0`.
+  </span> 
+  其中 `S` 为封闭曲面, `"d"bm S = bm n "d"S`, `bm E` 为电场, `q_"enc"`
+  是曲面内部的电荷量, `epsi_0` 是真空电容率常数.
+  <br>
+  方程表明, 电场在任意封闭曲面上的通量正比于曲面内部的电荷量.
+</p>
+
+<p>
+  由散度定理 (见附录), 方程左边可以写为
+  <span class="formula">
+    `int_V (nabla * bm E) "d"V`.
+  </span>
+  令 `rho` 表示单位体积的电荷量, 称为电荷密度, 于是方程右边可以写为
+  <span class="formula">
+    `1/epsi_0 int_V rho "d"V`.
+  </span>
+  由积分区域 `V` 的任意性知道被积函数必相等, 这推出 Gauss 电场定律的微分形式
+  <span class="formula">
+    `nabla * bm E = rho/epsi_0`.
+  </span>
+</p>
+
+<h3>Gauss 磁场定律</h3>
+
+<p class="law">
+  Gauss 磁场定律的积分形式为
+  <span class="formula">
+    `oint_S bm B * "d"bm S = 0`.
+  </span>
+  和电场定律相似, 方程左边是磁场在闭曲面上的通量.
+  然而方程右边是零, 这就是磁场与电场的一个重大区别.
+  自然界充斥着单独的正负电荷, 然而没有磁单极子.
+  这导致南北磁极必然成对出现, 磁感线必然要绕回自身.
+</p>
+
+<p>方程左边用散度定理改写为
+  <span class="formula">
+    `int_V (nabla * bm B) "d"V`.
+  </span>
+  由 `V` 的任意性知道 `nabla * bm B = 0`, 即得 Gauss 磁场定律的微分形式.
+</p>
+
+<h3>Faraday 电磁感应定律 (磁生电)</h3>
+
+<p class="law">
+  法拉第定律的积分形式为
+  <span class="formula">
+    `oint_l bm E * "d"bm l = -int_S pp bmB t * "d"bm S`.
+  </span> 
+  其中 `l` 是封闭环路, `"d"bm l = (dx, dy, dz)` 是曲线的切向微元.
+  <br>
+  法拉第定律告诉我们变化的磁通量感生出环绕的电场,
+  方程中的负号表示感生电场的方向要阻碍磁通量的变化 (楞次定律).
+  注意, 不论 `l` 是假想的环路还是真实的导体, 感生电场都是存在的, 导体只是形成电流的必要条件.
+</p>
+
+<p class="remark">
+  感生的电场总是绕回自身, 这一点与静电荷产生的电场有重大区别:
+  感生的电场并不由电荷产生, 由此电荷密度 `rho = 0`, 由 Gauss 电场定律有 `nabla * bm E = 0`,
+  得到与 Gauss 磁场定律 `nabla * bm B` 完全相同的形式. 这时感生的电场线也和通常的磁感线一样绕回自身.
+</p>
+
+<p>
+  方程左边用旋度定理 (见附录) 改写为
+  <span class="formula">
+    `int_S (nabla xx bm E) * "d"bm S`.
+  </span>
+  由于曲面 `S` 选择的任意性, 被积函数必然相等, 推出 Faraday 定律的微分形式:
+  <span class="formula">
+    `nabla xx bm E = -pp bmB t`.
+  </span>
+</p>
+
+<h3>Ampere-Maxwell 定律 (电生磁)</h3>
+
+<p class="law">
+  继安培总结出恒定电流使指南针偏转的安培定律后, 麦克斯韦又在公式中补充了一项, 使它适用于变化的电流.
+  安培-麦克斯韦定律的积分形式为:
+  <span class="formula">
+    `oint_l bm B * "d"bm l`
+    `= mu_0 (I_"enc" + epsi_0 "d"/dt int_S bm E * bm "d"bm S)`.
+  </span>
+  其中 `mu_0` 是真空磁导率常数, `I_"enc"` 是环路 `l` 所包围的电流, 根据右手定则确定电流方向.
+  方程右边第二项是麦克斯韦加入的, 其中 `S` 表示以 `l` 为边界的任意曲面. 整个第二项的含义是曲面 `S`
+  上的电通量的变化率.
+  <br>
+  和法拉第定律一样, 无论 `l` 是假想的还是真实的物体, 沿这条路径都会产生磁场.
+</p>
+
+<p>
+  方程左边用旋度定理改写为
+  <span class="formula">
+    `int_S (nabla xx bm B) * "d"bm S`.
+  </span>
+  令 `bm J` 表示单位面积的电流, 称为电流密度, 方向指向电流方向.
+  方程右边第一项可以写为
+  <span class="formula">
+    `mu_0 int_S bm J * "d"bm S`,
+  </span>
+  在电场足够光滑的情况下, 将求导与积分号交换, 综上有
+  <span class="formula">
+    `int_S (nabla xx bm B) * "d"bm S`
+    `= mu_0 int_S bm J * "d"bm S`
+    `+ mu_0 epsi_0 int_S pp bmE t * bm "d"bm S`.
+  </span> 
+  由曲面 `S` 的任意性得到安培-麦克斯韦定律的微分形式
+  <span class="formula">
+    `nabla xx bm B`
+    `= mu_0(bm J + epsi_0 pp bmE t)`.
+  </span>
+</p>
+
+<h2>波动方程</h2>
+
+<p class="law">
+  <b>真空中的电磁波动方程</b>
+  <span class="formula higher">
+    `nabla^2 bm E = mu_0 epsi_0 pp^2 bmE t`,<br>
+    `nabla^2 bm B = mu_0 epsi_0 pp^2 bmB t`.
+  </span>
+</p>
+
+<ol class="proof">
+  在 Faraday 定律 `nabla xx bm E = -pp bmB t` 两边求旋度.
+  <li>
+    使用附录的公式, 左边等于
+    <span class="formula">
+      `nabla xx (nabla xx bm E)`
+      `= nabla(nabla * bm E) - nabla^2 bm E`.
+    </span>
+    应用 Gauss 电场定律 `nabla * bm E = rho//epsi_0`, 由于真空中电荷密度为零, 从而上式第一项为零, 得到
+    <span class="formula">
+      左边 `= -nabla^2 bm E`.
+    </span>
+  </li>
+  <li>
+    假定电场足够光滑, 将旋度算子与对 `t` 的导数交换, 于是右边等于
+    <span class="formula">
+      `nabla xx (-pp bmB t)`
+      `= -del/(del t) (nabla xx bm B)`.
+    </span>
+    应用 Ampere-Maxwell 定律得到
+    <span class="formula">
+      右边 `= -del/(del t) mu_0(bm J + epsi_0 pp bmE t)`.
+    </span>
+    由于真空中电流密度 `bm J = bb 0`, 上式化为
+    <span class="formula">
+      右边 `= -mu_0 epsi_0 pp^2 bmE t`.
+    </span>
+  </li>
+  让左边与右边相等就得到电场的波动方程.
+  如果从 Ampere-Maxwell 定律两边求旋度, 完全类似可得磁场的波动方程.
+</ol>
+
+<p class="remark">
+  一般的波动方程形如
+  <span class="formula">
+    `nabla^2 bm A = 1/v^2 pp^2 bmA t`,
+  </span>
+  其中 `v` 是波速.
+  如果我们计算
+  <span class="formula align">
+    `v = 1/sqrt(mu_0 epsi_0)`<br>
+    `= 1/sqrt(4pi * 10^-7 * 8.8542 * 10^-12)`<br>
+    `~~ 2.9979 xx 10^8 ("m/s")`.
+  </span>
+  这正好是光速! 从而预言了光是一种电磁波.
+</p>
+
+<h2>附录</h2>
+
+<h3>散度定理与旋度定理</h3>
+
+<ol>
+  <li>
+    <b>通量</b>
+    矢量场 `bm A` 在曲面 `S` (不一定封闭) 上的通量定义为曲面积分:
+    <span class="formula">
+      `int_S bm A * "d"bm S`.
+    </span>
+    通量是标量, 刻画了通过曲面的电场线或磁感线的多少.
+    一个闭曲面的通量为正, 说明内部存在 "源", 反之通量为负说明内存存在 "汇".
+  </li>
+  <li>
+    <b>散度</b>
+    矢量场 `bm A` 在某一点处的散度定义为它在无穷小闭曲面上的通量与面积之比:
+    <span class="formula">
+      `nabla * bm A := lim_(|S| to 0) 1/|S| int_S bm A * bm n "d"S`.
+    </span>
+    散度是标量, 刻画了矢量场在一点 "散开" 的趋势.
+  </li>
+  <li>
+    <b>散度定理 (Gauss 公式)</b>
+    <span class="formula">
+      `oint_S bm A * "d"bm S`
+      `= int_V (nabla * bm A) "d"V`.
+    </span> 
+    Gauss 公式联系了面积分与体积分, 告诉我们闭曲面上的通量是由它内部细胞的通量累加得到的.
+    相邻细胞的通量相互抵消, 剩下的就是表面的通量.
+  </li>
+  <li>
+    <b>环量</b>
+    矢量场 `bm A` 沿曲线 `l` (不一定封闭) 的环量定义为曲线积分:
+    <span class="formula">
+      `int_l bm A * "d"bm l`.
+    </span>
+    环量是标量, 刻画了矢量场沿曲线切向的累加, 典型例子如力的做功.
+  </li>
+  <li>
+    <b>旋度</b>
+    矢量场 `bm A` 在某一点处的旋度是矢量,
+    它的大小定义为该点处无穷小环路的环量与环路所围区域的面积之比,
+    方向指向环路的法向:
+    <span class="formula">
+      `(nabla xx bm A) * bm n`
+      `:= lim_(|S| to 0) 1/|S| oint_l bm A * "d"bm l`
+    </span>
+    旋度刻画了矢量场在一点旋转的趋势. 想像将一个迷你螺旋桨放在矢量场中, 假如这一点处有个漩涡,
+    螺旋桨就会旋转起来. 而旋度正好给出旋转的速度与轴向.
+  </li>
+  <li><b>旋度定理 (Strokes 公式)</b>
+    <span class="formula">
+      `oint_l bm A * "d"bm l`
+      `= int_S (nabla xx bm A) * "d"bm S`.
+    </span>
+    其中 `S` 是环路 `l` 张成的任意曲面片, 以 `l` 为边界.
+    Strokes 公式联系了线积分与面积分, 告诉我们沿闭曲线的环量是由曲线内部网格的环量累加得到的.
+    相邻网格的环量相互抵消, 剩下的就是沿边界的环量.
+  </li>
+</ol>
+
+<h3>Nabla 算子</h3>
+
+<ol>
+  <li>Nabla 算子可以作用于标量或矢量, 作用方式有点乘、叉乘等.
+    <span class="formula">
+      `nabla := (del_x, del_y, del_z)`.
+    </span>
+  </li>
+  <li>散度
+    <span class="formula">
+      `nabla * "矢量" mapsto "标量"`,<br>
+      `nabla * bm A := del_x A_x + del_y A_y + del_z A_z`.
+    </span>
+  </li>
+  <li>旋度
+    <span class="formula">
+      `nabla xx "矢量" mapsto "矢量"`,<br>
+      `nabla xx bm A`
+      `:= |bm i, bm j, bm k; del_x, del_y, del_z; A_x, A_y, A_z|`
+      `= (del_y A_z - del_z A_y) bm i`
+      `+ (del_z A_x - del_x A_z) bm j`
+      `+ (del_x A_y - del_y A_x) bm k`.
+    </span>
+  </li>
+  <li>梯度
+    <span class="formula">
+      `nabla "标量" mapsto "矢量"`,<br>
+      `grad f := (del_x f, del_y f, del_z f)`.
+    </span>
+  </li>
+  <li>Laplace 算子既可作用于标量也可作用于矢量.
+    作用于矢量时, 相当于分别作用于每一个分量.
+    <span class="formula">
+      `nabla^2 := nabla * nabla`
+      `= del_x^2 + del_y^2 + del_z^2`.
+    </span>
+  </li>
+  <li>`bm A * nabla` 算子是将 Laplace 算子的第一个 `nabla` 换成 `bm A` 得到的.
+    和 Laplace 算子一样, 它可以作用于标量和矢量, 作用于标量时得到标量, 作用于矢量时得到矢量:
+    <span class="formula">
+      `bm A * nabla := A_x del_x + A_y del_y + A_z del_z`.
+    </span>
+  </li>
+</ol>
+
+<h3>场论公式</h3>
+
+<ol>
+  <li>梯度场的散度是 Laplace 算子.
+    <span class="formula">
+      `nabla * (nabla f) = (nabla * nabla) f = nabla^2 f`.
+    </span>
+  </li>
+  <li>梯度场的旋度为零向量.
+    <span class="formula">
+      `nabla xx (nabla f) = bb 0`.
+    </span> 
+    这告诉我们, 沿着梯度下降的方向一直走, 不可能回到原点.
+  </li>
+  <li>旋度场的散度为零.
+    <span class="formula">
+      `nabla * (nabla xx bm A) = 0`.
+    </span>
+    磁场就是典型的例子.
+  </li>
+  <li>旋度场的旋度场, 等于散度的梯度减去 Laplace:
+    <span class="formula">
+      `nabla xx (nabla xx bm A) = nabla(nabla * bm A) - nabla^2 bm A`.
+    </span>
+  </li>
+  更多结论参见<a href="../math/analysis/22.html">场论初步</a>.
+</ol>
+
+<h3>常见形状的电磁场</h3>
+  
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

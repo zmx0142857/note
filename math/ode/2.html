@@ -1,259 +1,278 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>初等解法</title>
+    <title>高阶微分方程</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>变量分离方程</h2>
+<h2>常数变易法</h2>
 
-<p class="example">
-    <b>Logistic 方程</b>
-    `dy/dx = r y (1-y)`, `r` 为常数.
+<p>
+  设方程
+  <span class="formula">
+    `x^((n))(t) + a_(n-1)(t) x^((n-1))(t) + cdots + a_0(t) x(t) = f(t),
+  </span>
+  亦即
+  <span class="formula">
+    `sum_(k=0)^n a_k(t) x^((k))(t) = f(t)`, `quad a_n(t) = 1`
+  </span>
+  对应的齐方程的基本解组为
+  <span class="formula">
+    `x_k(t)`, `quad k = 1, 2, cdots, n`.
+  </span>
+  我们解线性方程组
+  <span class="formula">
+    `[
+      x_1(t), x_2(t), cdots, x_n(t);
+      x_1'(t), x_2'(t), cdots, x_n'(t);
+      vdots, vdots, , vdots;
+      x_1^((n-1))(t), x_2^((n-1))(t), cdots, x_n^((n-1))(t);
+    ][ c_1'(t); c_2'(t); vdots; c_n'(t) ] = [ 0; 0; vdots; f(t) ]`,
+  </span>
+  再积分, 就得到非齐方程的通解
+  <span class="formula">
+    `x = sum_(k=1)^n c_k(t) x_k(t)`.
+  </span>
+</p>
+
+<p class="proof">
+  直接验证:
+  <span class="formula">
+    `x = sum c_j x_j`,<br>
+    `x' = sum c_j x_j' + c_j' x_j = sum c_j x_j'`,<br>
+    `x'' = sum c_j x_j''`,<br>
+    `cdots`<br>
+    `x^((n)) = sum c_j x_j^((n)) + c_j' x_j^((n-1))`
+    `= sum c_j x_j^((n)) + f`.
+  </span>
+  求和得
+  <span class="formula">
+    `sum_(k=0)^n a_k x^((k))`
+    `= sum_(k=0)^n a_k sum_(j=1)^n c_j x_j^((k)) + f`
+    `= f`.
+  </span>
+</p>
+
+<p class="example" id="exp-2nd-linear-nonhomogen-1">
+  <b>受迫振动</b> 解如下的常微分方程初值问题:
+  <span class="formula">`{
+    x'' + a^2 x = f(t);
+    x"|"_(t=0) = x_0;
+    x'"|"_(t=0) = x'_0;
+  :}`
+  </span>
 </p>
 
 <p class="solution">
-    <span class="formula">
-        <span class="fix-left">分离变量,</span>
-        `dy/(y(1-y)) = r dx`,<br/>
-        <span class="fix-left">两边积分,</span>
-        `int (1/y + 1/(1-y)) dy = r x`,<br/>
-        `ln |y/(1-y)| = r x + c_1`,<br/>
-        `y/(1-y) = c_2 "e"^(r x)`,<br/>
-    </span>
-    即
-    <span class="formula">
-        `y = (1 + c "e"^(-r x))^-1`.
-    </span>
-    特别地, sigmoid 函数 `sigma(x) = (1+"e"^-x)^-1` 满足 Logistic 方程.
-    <canvas id="img-sigmoid" width="450" height="150"></canvas>
-    Logistic 方程最早出现于人口问题中, 它的图形是一条 S 形曲线.
-    该函数可用于动画平滑过渡, 或机器学习中的激活函数.
+  `{cos at, sin at}` 构成齐方程的基本解组. 设 `x = c_1 cos at + c_2 sin
+  at`, 解线性方程组
+  <span class="formula">`{
+    c_1' cos at + c_2' sin at = 0;
+    c_1' sin at - c_2' cos at = -f//a;
+  :}`
+  </span>
+  得 `(c_1', c_2') = f//a (-sin at, cos at)`. 由初值条件有
+  <span class="formula">
+    `c_2|_(t=0) = (x_0')//a`, `quad c_1|_(t=0) = x_0`,
+  </span>
+  故
+  <span class="formula">
+    `c_1 = -1/a int_0^t f(tau) sin a tau "d"tau + x_0`,<br/>
+    `c_2 = 1/a (int_0^t f(tau) cos a tau "d"tau + x_0')`.
+  </span>
+  所以解为
+  <span class="formula">
+    `x = x_0 cos at + (x_0')/a sin at + 1/a int_0^t f(tau) sin[a(t-tau)]
+    "d"tau`.
+  </span>
 </p>
 
-<ol class="example">
-    <b>齐次方程</b>
-    <li>`dy/dx = f(y/x)`;</li>
-    <li>`dy/dx = (a_1 x + b_1 y + c_1)/(a_2 x + b_2 y + c_2)`,
-        `|a_1, b_1; a_2, b_2| != 0`.
-    </li>
-</ol>
+<h2>常系数齐次线性方程</h2>
 
-<ol class="solution">
-    <li>令 `y = ux`, 则 `dy = udx + x"d"u`. 原方程化为
-        `u + x("d"u)/dx = f(u)`. 这是变量分离方程.
-    </li>
-    <li>令 `alpha, beta` 是
-            `{a_1 alpha + b_1 beta + c_1 = 0;
-            a_2 alpha + b_2 beta + c_2 = 0 :}`
-        的解, 再作代换 `{x = X + alpha; y = Y + beta :}`,
-        即化为齐次方程.
-    </li>
-</ol>
-
-<h2>线性方程</h2>
-
-<span class="formula">
-    `dy/dx = p(x)y + q(x)`.
-</span>
-
-<p> 先用分离变量法解齐方程 `dy/dx = p(x) y`, 得通解
-    `y = ce^(int p(x) dx)`, 再利用<b>常数变易法</b>,
-    设 `c = c(x)` 是 `x` 的函数,
-    将通解代入原方程比较, 得 `c'(x) = q(x) e^(-int p(x) dx)`,
-    积分得到 `c(x)` 的表达式.
+<p>
+  解方程
+  <span class="formula">
+    `x^((n)) + a_(n-1) x^((n-1)) + cdots + a_0 x = 0`,
+    `quad a_k in RR`.
+  </span>
+  设特征多项式
+  <span class="formula">
+    `lambda^n + a_(n-1) lambda^(n-1) + cdots + a_1 lambda + a_0`
+  </span>
+  的根 (即特征根) 为 `lambda_i`, 重数分别为 `n_i`,
+  `i = 1, 2, cdots, l`, 且 `sum_(i=1)^l n_i = n`.
+  则微分方程的基本解组为
+  <span class="formula">
+    `t^j "e"^(lambda_i t)`,
+    `quad j = 0, 1, cdots, n_i-1`,
+    `quad i = 1, 2, cdots, l`.
+  </span>
+  若 `lambda_i = alpha + "i" beta` 为复根, 则
+  `bar(lambda_i) = alpha - "i" beta` 也必为特征根,
+  可以将基本解组中的一对共轭复根
+  `"e"^((alpha +- "i" beta) t)`
+  换成
+  `"e"^(alpha t) cos beta t` 与 `"e"^(alpha t) sin beta t`.
 </p>
 
-<h3>Bernoulli 方程</h3>
+<h3>Euler 方程</h3>
 
 <span class="formula">
-    `dy/dx = p(x)y + q(x)y^n`, `quad n ge 2`.
+  `t^n x^((n)) + a_(n-1) t^(n-1) x^((n-1)) + cdots + a_0 x = 0`.
 </span>
 
-<p> 显然 `y = 0` 是一个特解. `y != 0` 时, 两边同除以 `y^n`, 得
-        `y^(-n) dy/dx = p(x) y^(1-n) + q(x)`.
-    再令 `z = y^(1-n)` 化为线性方程.
+<p>	将 `x = t^lambda` 代入方程, 得到 `n` 个特征根. 基本解组为
+	<span class="formula">
+		`ln^j |t| t^(lambda_i)`.
+	</span>
+	`i, j` 的迭代范围与常系数齐次方程相同.
 </p>
 
-<h2>恰当微分方程</h2>
+<h2>常系数非齐次线性方程</h2>
 
 <span class="formula">
-    `M(x, y) dx + N(x, y) dy = 0`.
+  `x^((n)) + a_(n-1) x^((n-1)) + cdots + a_0 x = f(t)`, `quad a_k in RR`.
 </span>
 
-<ol>
-    <li>如果方程满足 `(del M)/(del y) = (del N)/(del x)`,
-        此时存在二元函数 `f(x, y)`, 使 `"d"f = M dx + N dy`,
-        原方程就称为<b>恰当微分方程</b>, 通解为 `f(x, y) = c`.
-    </li>
-    <li>若上述条件不满足, 但方程两边同乘以 `mu(x, y)` 后有
-        `(del(mu M))/(del y) = (del(mu N))/(del x)`,
-        就称 `mu` 是方程的<b>积分因子</b>.
-    </li>
-    <li>若上述的 `mu` 只与 `x` 有关, 即 `(del mu)/(del y) = 0`, 则
-        `N ("d" mu)/dx = ( (del M)/(del y) - (del N)/(del x) ) mu`,
-        可以用分离变量法求出 `mu`. 注意验证 `mu = 0` 的情形.
-    </li>
-</ol>
+<p>非齐次方程的通解就是齐次方程的通解加上自身的一个特解; 因此我们着重介绍特解的求法.
+</p>
+
+<h3>多项式法 + 升阶法</h3>
+
+<p>一般而言, 这两种方法计算比较繁琐, 不如比较系数法.</p>
+
+<h4>多项式法</h4>
+
+<p>
+  解常系数线性微分方程 `y''+p y'+q y = P_m(x) "e"^(lambda x)`,
+  其中 `p`, `q`, `lambda` 是常数, `P_m(x)` 是 `x` 的 `m` 次多项式.
+  令 `y = z "e"^(lambda z)`, 方程化为
+  <span class="formula">
+    `(F''(lambda))/(2!) z'' + (F'(lambda))/(1!) z' + F(lambda) z = P_m(x)`,
+  </span>
+  这里 `F(lambda) = lambda^2 + p lambda + q` 为方程的特征多项式.
+  新的方程有多项式形式的特解, 可用待定系数法求解.
+</p>
+
+<h4>升阶法</h4>
+
+<p>
+  设 `y''+p y'+q y = P_m(x)`. 其中 `P_m(x)` 是 `m` 次多项式
+  `sum_(k=0)^m a_k x^k`.
+  方程两边同时对 `x` 求导 `m` 次得
+  <span class="formula">
+    `y''' + p y'' + q y' = P_m'(x)`,<br/>
+    `cdots`<br/>
+    `y^((m+1)) + p y^((m)) + q y^((m-1)) = a_m m! x + a_(m-1) (m-1)!`,<br/>
+    `y^((m+2)) + p y^((m+1)) + q y^((m)) = a_m m!`.
+  </span>
+  `q != 0` 时, 取最后一个方程的特解 `y^((m)) = q^(-1) a_m m!`,
+  和 `y^((m+1)) = 0` 一起代入倒数第二个方程求得 `y^((m-1))`,
+  如此依次代入前式, 最后可得方程的一个特解 `y(x)`.
+</p>
+
+<h3>比较系数法</h3>
+
+<h4>
+	`f(t) = P_m(t) "e"^(lambda t)`, `quad P_m` 为 `m` 次多项式.
+</h4>
+
+<p> 此时有特解 `Q_m(t) t^k "e"^(lambda t)`, `k` 为 `lambda`
+	在特征多项式中的重数, `Q_m(t)` 是系数待定的 `m` 次多项式.
+</p>
+
+<h4>
+	`f(t) = A_m(t) "e"^(alpha t) cos beta t` 或
+	`f(t) = A_m(t) "e"^(alpha t) sin beta t`,
+	`quad A_m` 为 `m` 次多项式.
+</h4>
+
+<p>	此时有特解
+	`(P_m(t) cos beta t + Q_m(t) sin beta t) t^k "e"^(alpha t)`,
+	`k` 为 `lambda = alpha + "i" beta` 在特征多项式中的重数
+	(注意到 `lambda` 及其共轭在特征多项式中的重数相等),
+	`P_m(t), Q_m(t)` 为系数待定的 `m` 次多项式.
+</p>
+
+<p>
+  利用以上两种类型的非齐次项, 结合线性叠加原理,
+  可写出更多非齐次项对应的特解.
+</p>
+
+<p class="example">
+  解 Lanchester 方程
+  <span class="formula">`{
+    ("d"A)/dt = -beta^2 B;
+    ("d"B)/dt = -alpha^2 A;
+  :}`</span>
+  其中 `A(0) = A_0`, `B(0) = B_0`.
+</p>
+
+<p class="solution">
+  令 `f' = B`, 且 `f(0) = 0`. 原方程组化为
+  <span class="formula">`{
+    ("d"A)/dt = -beta^2 ("d"f)/dt;
+    ("d"^2 f)/dt^2 = -alpha^2 A;
+  :}`</span>
+  第一式两边积分得 `A = -beta^2 f + A_0`, 代入第二式就有
+  <span class="formula">
+    `f'' = alpha^2 beta^2 f - alpha^2 A_0`,
+  </span>
+  它的解设为
+  <span class="formula">
+    `f = c_1 "e"^(alpha beta t) + c_2 "e"^(-alpha beta t) + c_3`.
+  </span>
+  代入前式得 `c_3 = A_0/beta^2`.
+  又
+  <span class="formula">
+    `B = f' = alpha beta (c_1 "e"^(alpha beta t) - c_2 "e"^(-alpha beta t))`,
+  </span>
+  由 `f(0) = 0` 和 `B(0) = B_0` 有
+  <span class="formula">`{
+    c_1 + c_2 = -A_0/beta^2;
+    c_1 - c_2 = B_0/(alpha beta);
+  :}`</span>
+  解得
+  `c_(1, 2) = 1/(2 beta) (-A_0/beta +- B_0/alpha)`.
+  最终
+  <span class="formula">
+    `A = (A_0 alpha cosh(alpha beta t) - B_0 beta sinh(alpha beta t))//alpha`,
+    <br/>
+    `B = (-A_0 alpha sinh(alpha beta t) + B_0 beta cosh(alpha beta t))//beta`.
+  </span>
+</p>
 
 <p class="remark">
-    <b>一些常见的全微分</b>
-    <span class="formula">
-        `"d"(xy) = ydx + xdy`, <br/>
-        `"d"(x/y) = (ydx - xdy)/y^2`, <br/>
-        `"d"(x^a y^b) = a x^(a-1) y^b dx + b y^(b-1) x^a dy`.
-    </span>
+  从相平面上看, 有 `("d"A)/("d"B) = (beta^2 B)/(alpha^2 A)`,
+  解为 `alpha^2 A^2 = beta^2 B^2 + c`, 是双曲线.
 </p>
 
-<h2>隐式方程</h2>
+<h3>Laplace 变换</h3>
 
-<p class="example">
-  <b>悬链线</b>
-  一根质地均匀的绳索悬挂在两个固定点间, 自然静止下垂, 求绳索方程.
-</p>
+<p>参见<a href="../complex/6.html">积分变换</a>.</p>
 
-<ol class="solution">
-  <li>列方程.
-    假设绳索的线密度为 `rho`, 最低点为 `P`, 让 `y` 轴经过 `P` 点.  考虑绳索在点 `A` 处的张力,
-    其水平分量与 `P` 处的张力相等, 竖直分量与 `P` 到 `A` 之间绳索的重力相等:
-    <span class="formula">
-      `T_"水平" = "常数"`,<br>
-      `T_"竖直" = rho int_0^(x_A) sqrt(1+(dy/dx)^2) dx`,
-    </span>
-    但张力沿着绳索方向, 所以 `T_"竖直" / T_"水平" = dy/dx`, 得到方程:
-    <span class="formula">
-      `dy/dx = a int_0^(x_A) sqrt(1 + (dy/dx)^2) dx`,
-      `quad` 其中 `a = rho // T_"水平"`.
-    </span>
-    两边对 `x` 微分得到:
-    <span class="formula">
-      <span class="box">
-        `dd^2 y x = a sqrt(1 + (dy/dx)^2)`.
-      </span>
-    </span>
-  </li>
-  <li>解方程.
-    令 `p = dy/dx`, 方程化为
-    <span class="formula">
-      `dd p x = a sqrt(1 + p^2)`.
-    </span>
-    分离变量解得
-    <span class="formula">
-      `a x = ln(p + sqrt(1+p^2)) + c_1`.
-    </span>
-    代入初值 `x = 0`, `p = 0` 得到 `c_1 = 0`. 于是 `p = sinh(a x)`, 再次积分得到
-    <span class="formula">
-      <span class="box">
-        `y = a cosh(a x) + c_2`.
-      </span>
-    </span>
-    由于建立坐标系时没有指定 `P` 点的纵坐标, 所以结果带有任意常数 `c_2`.
-  </li>
-</ol>
+<h3>降阶法</h3>
 
-<p class="example">
-  <b>曳物线</b>
-  水平面上, 在 `t = 0` 时刻, 点 `P` 位于原点, 点 `A` 位于 `(a, 0)`, `a gt 0`, 两点间以一条轻绳连接.
-  现在 `P` 向北作直线运动, 绳子拉动点 `A` 一起运动, 假设绳子全程保持拉紧, 求 `A` 的轨迹.
-</p>
+<h4>n 阶方程 `F(t, x^((k)), x^((k+1)), cdots, x^((n))) = 0`</h4>
 
-<ol class="solution">
-  <li>
-    列方程.
-    绳子的方向就是 `A` 轨迹的切线方向, 且 `A` 到 `y` 轴之间的切线长是定值 `a`.
-    根据这些条件列出方程
-    <span class="formula">
-      `x sqrt(1 + (dy/dx)^2) = a`.
-    </span>
-  </li>
-  <li>解方程.
-    以 `s` 表示点 `A` 的路程, 有 `dd s x = -a/x`, 积分得
-    <span class="formula">
-      `x = a "e"^(-s//a)`.
-    </span>
-    参数方程??:
-    <span class="formula">
-      `{x = a//cosh t; y = a(t - tanh t):}`.
-    </span>
-  </li>
-</ol>
+<p>此方程不显含 `k` 阶以下的导数. 令 `y = x^((k))`, 方程降低 k 阶.</p>
 
-<p class="example">
-  <b>追赶问题</b>
-  [来自 <a href="https://www.zhihu.com/question/49115473" target="_blank">知乎</a>]
-  `xOy` 平面上, 兔子从原点出发, 以速度 `a gt 0` 沿 `x` 轴正方向运动,
-  猎犬从 `(0, 1)` 出发以速度 `b gt a` 追赶兔子,
-  猎犬的速度方向始终指向兔子, 求猎犬的运动轨迹和相遇时间.
-</p>
+<h4>n 阶方程 `F(x, x', cdots, x^((n))) = 0`</h4>
 
-<canvas id="img-hound" height="200" width="300"></canvas>
+<p>此方程不显含自变元, 令 `y = x'`, 降低 1 阶.</p>
 
-<p class="solution">
-  在 `t` 时刻, 兔子的坐标为 `a t`.
-  设此时猎犬的坐标为 `(x, y)`, 考虑速度的大小和方向, 我们有
-  <span class="formula">
-    `dy/dx = y/(x-a t)`,
-    `quad (dx/dt)^2 + (dy/dt)^2 = b^2`.
-  </span>
-  第一式化为 `y dx/dy = x - a t`, 两边对 `y` 微分得
-  <span class="formula">
-    `dx/dy + y ("d"^2 x)/dy^2 = dx/dy - a dt/dy`, 即
-    `y ("d"^2 x)/dy^2 = - a dt/dy`.
-  </span>
-  第二式两边同乘 `(dt/dy)^2` 得
-  <span class="formula">
-    `(dx/dy)^2 + 1 = b^2 (dt/dy)^2`,
-  </span>
-  原问题中 `y` 随 `t` 减小, 故 `dt/dy = -1/b sqrt((dx/dy)^2 + 1)`.
-  代入前式, 得到不显含 `t` 的方程
-  <span class="formula">
-    `y ("d"^2 x)/dy^2 = a/b sqrt((dx/dy)^2 + 1)`.
-  </span>
-  令 `r = a//b`, `p = dx/dy` 得
-  <span class="formula">
-    `y ("d"p)/dy = r sqrt(p^2+1)`,
-  </span>
-  分离变量, 解得 `p = sinh(r ln y + c)`.
-  代入 `t = 0` 时 `x = 0, y = 1, p = 0` 得 `c = 0`, 故
-  <span class="formula">
-    `p = (y^r - y^-r)/2`.
-  </span>
-  积分得
-  <span class="formula">
-    `x = 1/2((y^(1+r)-1)/(1+r) - (y^(1-r)-1)/(1-r))`.
-  </span>
-  这就是猎犬的轨迹.
-  为求相遇时间, 令 `y = 0` 解得 `x = r/(1-r^2)`, 于是 `t = x/a`.
-</p>
+<h4>齐次线性微分方程 `sum_(i=0)^n a_i(t) x^((i))(t) = 0`</h4>
 
-<p class="solution">
-  仅求相遇时间: 设二者速度夹角为 `theta`, 0 时刻距离为 `D`.
-  于是在猎犬方向上,
+<p>若有非零特解 `x_1, cdots, x_k`, 则令 `x = x_k int z dt`,
+  化为 `z` 的 `n-1` 阶方程, 有解
   <span class="formula">
-    `int_0^T (a cos theta - b) dt = -D`;
+    `z_i = ((x_i)/(x_k))'`, `quad i = 1, 2, cdots, k-1`.
   </span>
-  又, 在兔子方向上,
-  <span class="formula">
-    `int_0^T b cos theta dt = a T`.
-  </span>
-  两式消去积分项, 解得 `T = (D b)/(b^2-a^2)`.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
-<script src="../../js/plot.js"></script>
-<script>
-new Plot('img-sigmoid', {xmin: -3, xmax: 3, ymin: -0.5, ymax: 1.5}).axis()
-    .plot(x => 1/(1+Math.exp(-x)));
-
-const r = 0.9
-new Plot('img-hound')
-    .geometry({ xmin: 0, xmax: 5, ymin: -0.1, ymax: 1 })
-    .axis()
-    .plot(y => ((y**(1+r)-1)/(1+r) - (y**(1-r)-1)/(1-r))/2, y => y,
-        { min: 0, max: 1, continuity: Infinity })
-</script>
 </body>
 </html>
 
