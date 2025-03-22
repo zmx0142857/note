@@ -115,6 +115,7 @@
 </span>
 
 <p class="definition">
+  <b>梯度</b>
   标量场 (数量场) `f` 具有梯度 `"grad" f = nabla f`.
   梯度是矢量, 其与坐标选取无关.
   梯度是导数的推广, 它简单地将求导运算推广到各分量,
@@ -151,6 +152,7 @@
 </table>
 
 <p class="definition">
+  <b>散度与旋度</b>
   矢量场 (向量场) `bm F` 具有散度
   <span class="formula">
     `"div" bm F = nabla * bm F`
@@ -159,7 +161,7 @@
   和旋度 (三维空间):
   <span class="formula">
     `"rot" bm F = nabla xx bm F`
-    `= |bm i, bm j, bm k; del/(del x), del/(del y), del/(del z); F_1, F_2, F_3|`.
+    `= |bm i, bm j, bm k; del_x, del_y, del_z; F_1, F_2, F_3|`.
   </span>
   散度是标量而旋度是矢量.
 </p>
@@ -171,6 +173,7 @@
     `"div" bm F = lim_("diam"V to 0) (iint_(del V) bm F * "d"bm S)/V`.
   </span>
   散度的符号指出矢量场在一点处有正源/负源, 散度的大小指出源的强度.
+  散度处处为零的场称为无源场.
 </p>
 
 <p>
@@ -185,6 +188,7 @@
   取反方向, 方向旋量的符号就取反.
   由 Stokes 公式可以证明 `"rot"_(bm v) bm F = bm v * "rot" bm F`.
   旋度的方向是该点处方向旋量取得最大的方向, 大小等于这个最大的方向旋量.
+  旋度处处为零向量的场称为无旋场.
 </p>
 
 <table>
@@ -203,26 +207,36 @@
 </table>
 
 <ol class="proposition">
-  设 `f`, `bm F` 二阶连续可微, 因此二阶混合偏导相等.
-  <li>旋度场的散度为零, 这是混合偏导相等的推论:
-    <span class="formula">
-      `nabla * (nabla xx bm F)`
-      `= |del_x del_y del_z; del_x del_y del_z; F_x, F_y, F_z|`
-      `= 0`
-    </span>
-  </li>
+  <b>nabla 算子的复合</b>
+  设 `f`, `bm F` 二阶连续可微, 从而二阶混合偏导相等. 由此立即推出 1, 2 两条:
   <li>
     梯度场的旋度为零向量:
     <span class="formula">
-      `nabla xx (nabla f) = bm 0`,
+      `nabla xx (nabla f)`
+      `= |bm i, bm j, bm k; del_x, del_y, del_z; del_x f, del_y f, del_z f|`
+      `= bm 0`.
     </span>
     这告诉我们沿着梯度下降的方向一直走, 不可能回到原点.
+  </li>
+  <li>旋度场的散度为零:
+    <span class="formula">
+      `nabla * (nabla xx bm F)`
+      `= |del_x, del_y, del_z; del_x, del_y, del_z; F_x, F_y, F_z|`
+      `= 0`.
+    </span>
   </li>
   <li>
     梯度场的散度是 Laplace 算子 (见下节);
     <span class="formula">
       `nabla * (nabla f) = (nabla * nabla) f := nabla^2 f`.
     </tr>
+  </li>
+  <li>
+    旋度的旋度等于散度的梯度减去梯度的散度 (后一项即 Laplace):
+    <span class="formula">
+      `nabla xx (nabla xx bm F)`
+      `= nabla (nabla * bm F) - nabla^2 bm F`.
+    </span>
   </li>
 </ol>
 
@@ -265,7 +279,6 @@
   </li>
   <li>`nabla * (bm F xx bm G) = bm G * nabla xx bm F + bm F * nabla xx bm G`;</li>
   <li>`nabla xx (bm F xx bm G) = (nabla * bm G) bm F - (nabla * bm F) bm G + (bm G * nabla) bm F - (bm F * nabla) bm G`;</li>
-  <li>`nabla xx (nabla xx bm F) = nabla(nabla * bm F) - (nabla * nabla)bm F`</li>
 </ol>
 
 <p class="proof">
@@ -349,8 +362,7 @@
       `quad del_theta bm e_varphi = -bm e_theta sin varphi`,<br>
       `del_varphi bm e_r = bm e_varphi`,
       `quad del_varphi bm e_theta = 0`,<br>
-      `del_theta bm e_theta = bm e_z = bm e_r sin varphi + bm e_varphi cos varphi`,
-      `quad del_varphi bm e_varphi = -bm e_r`.
+      `del_varphi bm e_varphi = -bm e_r`.
     </span>
     有些文献中, 球坐标系的 `varphi` 不是指纬度, 而是指与北极方向的夹角. 此时应当把结论中的
     `cos varphi`, `sin varphi` 互换, 并把 `del_varphi` 换成 `-del_varphi`.
@@ -391,14 +403,14 @@
     <td>`nabla xx bm A`</td>
     <td>`sum_"cyc" (del_j A_k - del_k A_j) bm i`</td>
     <td>
-      `(1/r del_theta A_z - del_z A_theta) bm e_r`
-      `+ (del_z A_r - del_r A_z) bm e_theta`
+      `(1/r del_theta A_z - del_z A_theta) bm e_r`<br>
+      `+ (del_z A_r - del_r A_z) bm e_theta`<br>
       `+ 1/r (del_r (r A_theta) - del_theta A_r) bm e_z`
     </td>
     <td>
-      `(1/(r cos theta) del_theta (A_varphi cos theta) - del_varphi A_theta) bm r`
-      `+ 1/r(1/cos theta del_varphi A_r - del_r (r A_varphi)) bm theta`
-      `+ 1/r (del_r (r A_theta) - del_theta A_r) bm varphi`
+      `(del_theta A_varphi - del_varphi(A_theta cos varphi))/(r cos varphi) bm e_r`<br>
+      `+ (del_varphi A_r - del_r(r A_varphi))(bm e_theta)/r`<br>
+      `+ (del_r(r A_theta) - (del_theta A_r)/(cos varphi))(bm e_varphi)/r`
     </td>
   </tr>
 </table>
@@ -621,12 +633,12 @@ dp*cos(p)/r + dr*sin(p)]
       `= A_r + del_varphi A_varphi`.
     </span>
     于是
-    <span class="formula">
+    <span class="formula align">
       `nabla * bm A`
       `= (bm e_r del_r + (bm e_theta del_theta)/(r cos varphi) + (bm e_varphi del_varphi)/r)`
-      `* (A_r bm e_r + A_theta bm e_theta + A_varphi bm e_varphi)`
+      `* (A_r bm e_r + A_theta bm e_theta + A_varphi bm e_varphi)`<br>
       `= del_r A_r + A_r/r + (del_theta A_theta)/(r cos varphi) - (A_varphi sin varphi)/(r cos varphi)`
-      `+ A_r/r + (del_varphi A_varphi)/r`
+      `+ A_r/r + (del_varphi A_varphi)/r`<br>
       `= (del_r (r^2 A_r))/r^2 + (del_theta A_theta)/(r cos varphi) + (del_varphi(A_varphi cos varphi))/(r cos varphi)`.
     </span>
   </li>
@@ -647,17 +659,42 @@ dp*cos(p)/r + dr*sin(p)]
       `= bm e_theta del_z A_r - bm e_r del_z A_theta`.
     </span>
     于是
-    <span class="formula">
+    <span class="formula align">
       `nabla xx bm A`
       `= (bm e_r del_r + 1/r bm e_theta del_theta + bm e_z del_z)`
-      `xx (A_r bm e_r + A_theta bm e_theta + A_z bm e_z)`
+      `xx (A_r bm e_r + A_theta bm e_theta + A_z bm e_z)`<br>
       `= (1/r del_theta A_z - del_z A_theta) bm e_r`
       `+ (del_z A_r - del_r A_z) bm e_theta`
       `+ (del_r A_theta + A_theta/r - (del_theta A_r)/r) bm e_z`.
     </span>
   </li>
-  <li>球坐标的旋度算子. 分别计算
-    <li></li>
+  <li>球坐标的旋度算子. 需要用到结论
+    <span class="formula">
+      `bm e_theta xx del_theta bm e_theta`
+      `= bm e_z = bm e_r sin varphi + bm e_varphi cos varphi`.
+    </span>
+    然后分别计算
+    <span class="formula">
+      `bm e_r del_r xx (A_r bm e_r + A_theta bm e_theta + A_varphi bm e_varphi)`
+      `= bm e_varphi del_r A_theta - bm e_theta del_r A_varphi`,<br>
+      `bm e_theta del_theta xx (A_r bm e_r + A_theta bm e_theta + A_varphi bm e_varphi)`
+      `= -bm e_varphi del_theta A_r + (bm e_r sin varphi + bm e_varphi cos varphi) A_theta`
+      `+ bm e_r del_theta A_varphi`,<br>
+      `bm e_varphi del_varphi xx (A_r bm e_r + A_theta bm e_theta + A_varphi bm e_varphi)`
+      `= bm e_theta del_varphi A_r - bm e_r del_varphi A_theta - bm e_theta A_varphi`.
+    </span>
+    于是
+    <span class="formula align">
+      `nabla xx bm A`
+      `= (bm e_r del_r + (bm e_theta del_theta)/(r cos varphi) + (bm e_varphi del_varphi)/r)`
+      `xx (A_r bm e_r + A_theta bm e_theta + A_varphi bm e_varphi)`<br>
+      `= ((del_theta A_varphi)/(r cos varphi) + (A_theta sin varphi)/(r cos varphi) - (del_varphi A_theta)/r) bm e_r`
+      `+ ((del_varphi A_r)/r - del_r A_varphi - A_varphi/r) bm e_theta`
+      `+ (del_r A_theta + A_theta/r - (del_theta A_r)/(r cos varphi)) bm e_varphi`<br>
+      `= (del_theta A_varphi - del_varphi(A_theta cos varphi))/(r cos varphi) bm e_r`
+      `+ (del_varphi A_r - del_r(r A_varphi)) (bm e_theta)/r`
+      `+ (del_r(r A_theta) - (del_theta A_r)/(r cos varphi)) (bm e_varphi)/r`.
+    </span>
   </li>
 </ol>
 
