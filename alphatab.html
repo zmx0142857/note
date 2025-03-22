@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>AlphaTab Tutorial</title>
-<style type="text/css">
+<meta charset="utf-8" />
+<title>AlphaTab</title>
+<style>
 * {
   box-sizing: border-box;
 }
@@ -15,7 +15,6 @@ body {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  /* border: 1px solid rgba(0, 0, 0, 0.12); */
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -26,25 +25,6 @@ body {
   overflow: hidden;
   flex: 1 1 auto;
 }
-.at-sidebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  max-width: 56px;
-  width: auto;
-  display: flex;
-  align-content: stretch;
-  z-index: 1001;
-  overflow: hidden;
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-  background: #f7f7f7;
-}
-.at-sidebar:hover {
-  max-width: 400px;
-  transition: max-width 0.3s ease-out;
-  overflow-y: auto;
-}
 .at-viewport {
   overflow-y: auto;
   position: absolute;
@@ -54,83 +34,24 @@ body {
   bottom: 0;
   padding-right: 20px;
 }
-.at-footer {
-  flex: 0 0 auto;
-  background: #436d9d;
-  color: #fff;
-}
-.at-overlay {
+.at-loading {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1002;
-  backdrop-filter: blur(3px);
-  background: rgba(0, 0, 0, 0.5);
-  display: none;
-  justify-content: center;
-  align-items: flex-start;
-}
-.at-overlay-content {
-  margin-top: 20px;
-  background: #fff;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #333;
+  background-color: #fff;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
   padding: 10px;
+  z-index: 2;
+  border-radius: 6px;
 }
 
-/** Track selector **/
-.at-track {
-  display: flex;
-  position: relative;
-  padding: 5px 20px 5px 5px;
-  transition: background 0.2s;
-  cursor: pointer;
-}
-.at-track:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-.at-track > .at-track-icon,
-.at-track > .at-track-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.at-track > .at-track-icon {
-  flex-shrink: 0;
-  font-size: 32px;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-  width: 46px;
-  height: 46px;
-  margin-right: 5px;
-  align-items: center;
-}
-.at-track-name {
-  font-weight: bold;
-  margin-bottom: 5px;
-  line-height: 46px;
-}
-.at-track:hover > .at-track-icon {
-  opacity: 0.8;
-}
-.at-track.active {
-  background: rgba(0, 0, 0, 0.03);
-}
-.at-track.active > .at-track-icon {
-  color: #4972a1;
-  opacity: 1;
-}
-.at-track > .at-track-name {
-  font-weight: 500;
-}
-
-/** Footer **/
 .at-controls {
   flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
-  background: #436d9d;
+  background: #444;
   color: #fff;
 }
 .at-controls > div {
@@ -161,7 +82,7 @@ body {
   opacity: 0.5;
 }
 .at-controls a.active {
-  background: #5588c7;
+  background: #555;
   text-decoration: none;
 }
 .at-controls .btn i {
@@ -175,8 +96,8 @@ body {
   border: none;
   width: 100%;
   height: 40px;
-  background: #436d9d;
   padding: 4px 10px;
+  background-color: #444;
   color: #fff;
   font-size: 16px;
   text-align-last: center;
@@ -186,32 +107,30 @@ body {
   cursor: pointer;
 }
 
-.at-song-info {
-  gap: 4px;
-}
-.at-song-title {
-  font-weight: bold;
-}
 .at-controls .btn.disabled {
   cursor: progress;
   opacity: 0.5;
 }
-.at-player-play-pause:not(.active) > i:last-child {
+.at-player-play-pause:not(.active) > :last-child {
   display: none;
 }
-.at-player-play-pause.active > i:first-child {
+.at-player-play-pause.active > :first-child {
   display: none;
 }
+/* 当前播放小节 */
 .at-cursor-bar {
   background: rgba(255, 242, 0, 0.25);
 }
+/* 当前选中音符 */
 .at-selection div {
   background: rgba(64, 64, 255, 0.1);
 }
+/* 当前播放位置 */
 .at-cursor-beat {
   background: rgba(64, 64, 255, 0.75);
   width: 3px;
 }
+/* 当前播放音符 */
 .at-highlight * {
   fill: #0078ff;
   stroke: #0078ff;
@@ -221,17 +140,8 @@ body {
 <body>
 
 <div class="at-wrap">
-  <div class="at-overlay">
-    <div class="at-overlay-content">
-      Music sheet is loading
-    </div>
-  </div>
+  <div class="at-loading">Loading...</div>
   <div class="at-content">
-    <div class="at-sidebar">
-      <div class="at-sidebar-content">
-        <div class="at-track-list"></div>
-      </div>
-    </div>
     <div class="at-viewport">
       <div class="at-main"></div>
     </div>
@@ -239,24 +149,18 @@ body {
   <div class="at-controls">
     <div class="at-controls-left">
       <a class="btn at-player-stop disabled" title="Stop">
-        <i class="fas fa-step-backward">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6 6h12v12H6z"/></svg>
-        </i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6 6h12v12H6z"/></svg>
       </a>
       <a class="btn at-player-play-pause disabled" title="Play/Pause">
-        <i class="fas fa-play">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18a1 1 0 0 0 0-1.69L9.54 5.98A.998.998 0 0 0 8 6.82"/></svg>
-        </i>
-        <i class="fas fa-pause">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
-        </i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18a1 1 0 0 0 0-1.69L9.54 5.98A.998.998 0 0 0 8 6.82"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
       </a>
-      <span class="at-player-progress">0%</span>
-      <div class="at-song-info">
-        <span class="at-song-title"></span> -
-        <span class="at-song-artist"></span>
-      </div>
       <div class="at-song-position">00:00 / 00:00</div>
+      <div class="at-track-list">
+        <select>
+        </select>
+      </div>
+      <span class="at-sound-font-progress">0%</span>
     </div>
     <div class="at-controls-right">
       <!--
@@ -267,7 +171,7 @@ body {
       </a>
       -->
       <a class="btn at-load-file" title="Load file">
-        <input class="at-load-file-input" type="file" accept=".gp,.tex" hidden />
+        <input class="at-load-file-input" type="file" accept=".gp,.alphatex" hidden />
         <i class="fas fa-audio-file">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 11h-3v3.75c0 1.24-1.01 2.25-2.25 2.25S8.5 17.99 8.5 16.75s1.01-2.25 2.25-2.25c.46 0 .89.14 1.25.38V11h4zm-3-4V3.5L18.5 9z"/></svg>
         </i>
@@ -318,83 +222,16 @@ body {
   </div>
 </div>
 
-<template id="at-track-template">
-  <div class="at-track">
-    <div class="at-track-icon">
-      <i class="fas fa-guitar">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 5h-3v5.5a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 1 2.5-2.5c.57 0 1.08.19 1.5.51V5h4zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z"/></svg>
-      </i>
-    </div>
-    <div class="at-track-details">
-      <div class="at-track-name"></div>
-    </div>
-  </div>
-</template>
-
 <script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/alphaTab.js"></script>
 <script type="text/javascript">
 const $ = el => document.querySelector(el)
-const $wrapper = $('.at-wrap')
-const $viewport = $('.at-viewport')
-const $main = $('.at-main')
-const $overlay = $('.at-overlay')
-const $trackTemplate = $('#at-track-template')
-const $trackList = $('.at-track-list')
-const $playerProgress = $('.at-player-progress')
+const $loading = $('.at-loading')
+const $soundFontProgress = $('.at-sound-font-progress')
+const $trackList = $('.at-track-list > select')
 const $playPause = $('.at-player-play-pause')
 const $stop = $('.at-player-stop')
 const $songPosition = $('.at-song-position')
 const $fileInput = $('.at-load-file-input')
-
-const initApi = () => {
-  return new alphaTab.AlphaTabApi($main, {
-    // file: 'https://www.alphatab.net/files/canon.gp',
-    player: {
-      enablePlayer: true,
-      soundFont: 'https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2',
-      scrollElement: $viewport,
-    },
-  })
-}
-
-let api = initApi()
-window.api = api
-
-const onScoreLoad = (score) => {
-  console.log('onScoreLoad', score)
-  $trackList.innerHTML = ''
-  score.tracks.forEach((track, i) => {
-    console.log(track)
-    const $track = $trackTemplate.content.cloneNode(true).firstElementChild
-    $track.querySelector('.at-track-name').innerText = track.name || ('Track' + (i+1))
-    $track.track = track
-    $track.onclick = (e) => {
-      e.stopPropagation()
-      api.renderTracks([track])
-    }
-    $trackList.appendChild($track)
-  })
-  $('.at-song-title').innerText = score.title || 'Unknown'
-  $('.at-song-artist').innerText = score.artist || 'Unknown'
-}
-
-const onRenderStart = () => {
-  console.log('onRenderStart', api.tracks)
-  $overlay.style.display = 'flex'
-  setTimeout(() => $overlay.style.display = 'none', 20 * 1000)
-  const map = Object.fromEntries(api.tracks.map(track => [track.index, track]))
-  ;[...$trackList.querySelectorAll('.at-track')].forEach($track => {
-    if (map[$track.track.index]) {
-      $track.classList.add('active')
-    } else {
-      $track.classList.remove('active')
-    }
-  })
-}
-
-const onRenderFinish = () => {
-  $overlay.style.display = 'none'
-}
 
 /*
 $('.at-export-tex').onclick = (e) => {
@@ -410,7 +247,7 @@ $('.at-load-file').onclick = (e) => {
 $fileInput.oninput = (e) => {
   const file = e.target.files[0]
   if (!file) return
-  if (file.name.endsWith('.tex')) {
+  if (file.name.endsWith('.alphatab')) {
     const fileReader = new FileReader()
     fileReader.readAsText(file)
     fileReader.onload = (e) => {
@@ -418,7 +255,7 @@ $fileInput.oninput = (e) => {
     }
   } else if (file.name.endsWith('.gp')) {
     const url = URL.createObjectURL(file)
-    console.log(url)
+    api.load(url)
   } else {
     alert('未知的文件类型')
   }
@@ -484,38 +321,79 @@ const formatDuration = (milliseconds) => {
   )
 }
 
-api.scoreLoaded.on(onScoreLoad)
-api.renderStarted.on(onRenderStart)
-api.renderFinished.on(onRenderFinish)
-api.soundFontLoad.on(e => {
-  const percentage = e.loaded / e.total * 100 | 0
-  $playerProgress.innerText = `${percentage}%`
-})
-api.playerReady.on(() => {
-  $playerProgress.style.display = 'none'
-  $playPause.classList.remove('disabled')
-  $stop.classList.remove('disabled')
-})
-api.playerStateChanged.on(e => {
-  $playPause.classList.toggle('active', e.state === alphaTab.synth.PlayerState.Playing)
-})
-let previousTime = -1;
-api.playerPositionChanged.on((e) => {
-  const currentSeconds = e.currentTime / 1000 | 0
-  if (currentSeconds == previousTime) return
-  previousTime = currentSeconds
-  $songPosition.innerText = formatDuration(e.currentTime) + " / " + formatDuration(e.endTime)
-})
-api.error.on((e) => {
-  console.log('err', e)
-  alert(e)
-})
-
 document.body.onkeyup = (e) => {
   if (e.code === 'Space') {
     if (api) api.playPause()
   }
 }
+
+const initApi = () => {
+  const api = new alphaTab.AlphaTabApi($('.at-main'), {
+    // file: 'https://www.alphatab.net/files/canon.gp',
+    player: {
+      enablePlayer: true,
+      soundFont: 'https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2',
+      scrollElement: $('.at-viewport'),
+    },
+  })
+
+  // 一个乐谱 (score) 由多条音轨 (track) 组成
+  api.scoreLoaded.on(score => {
+    console.log('onScoreLoad', score)
+    $trackList.innerHTML = score.tracks.map((track, i) => (
+      `<option value="${i}">${track.name || 'Track' + (i+1)}</option>`
+    ))
+    $trackList.onchange = (e) => {
+      const index = parseInt(e.currentTarget.value)
+      api.renderTracks([score.tracks[index]])
+    }
+    document.title = `${score.title || 'Unknown'} - ${score.artist || 'Unknown'}`
+    window.top.postMessage({ type: 'title', data: document.title })
+  })
+
+  let timer
+  api.renderStarted.on(() => {
+    console.log('onRenderStart', api.tracks)
+    $loading.style.display = 'flex'
+    timer = setTimeout(() => $loading.style.display = 'none', 20 * 1000)
+  })
+
+  api.renderFinished.on(() => {
+    clearTimeout(timer)
+    $loading.style.display = 'none'
+  })
+
+  api.soundFontLoad.on(e => {
+    const percentage = e.loaded / e.total * 100 | 0
+    $soundFontProgress.innerText = `${percentage}%`
+  })
+  api.playerReady.on(() => {
+    $soundFontProgress.style.display = 'none'
+    $playPause.classList.remove('disabled')
+    $stop.classList.remove('disabled')
+  })
+  api.playerStateChanged.on(e => {
+    $playPause.classList.toggle('active', e.state === alphaTab.synth.PlayerState.Playing)
+  })
+  let previousTime = -1
+  api.playerPositionChanged.on((e) => {
+    const currentSeconds = e.currentTime / 1000 | 0
+    if (currentSeconds == previousTime) return
+    previousTime = currentSeconds
+    $songPosition.innerText = formatDuration(e.currentTime) + " / " + formatDuration(e.endTime)
+  })
+  api.error.on((e) => {
+    console.log('err', e)
+    alert(e)
+  })
+
+  const src = window.location.href.split('#')[1]
+  fetch(src).then(res => res.text()).then(text => api.tex(text))
+
+  return api
+}
+
+const api = initApi()
 </script>
 </body>
 </html>

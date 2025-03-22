@@ -742,6 +742,8 @@ const router = {
 
     if (url.endsWith('.md')) {
       url = 'markdown.html#' + url
+    } else if (url.endsWith('.alphatex')) {
+      url = 'alphatab.html#' + url
     } else if (!url.endsWith('.html')) {
       url += '.html'
     }
@@ -756,13 +758,23 @@ const router = {
   init () {
     this.initToc()
     window.onhashchange = (e) => {
-      this.go(location.hash.slice(1).split('/'))
+      this.go(decodeURI(location.hash.slice(1)).split('/'))
     }
     window.onhashchange()
   },
 }
 
 router.init()
+
+// iframe 消息
+window.addEventListener('message', e => {
+  if (e.origin !== window.origin) return
+  const { data, type } = e.data
+  switch (type) {
+    case 'title': $('#article-title').innerText = data
+  }
+})
+
 })();
 </script>
 <!-- 站内搜索, 注入 dom #search-box #search-button -->

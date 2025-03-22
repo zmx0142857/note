@@ -495,7 +495,6 @@ var tocData = [
         "children": [
           { "value": "tuner", "label": "调音器", "date": "2024-04-13" },
           { "value": "piano", "label": "钢琴", "date": "2024-11-16" },
-          { "value": "guitar", "label": "吉他", "date": "2024-11-28" },
           // { "value": "player", "label": '播放器', "date": "2022-02-12" },
           // { "value": "jianpu", "label": '简谱' },
           // { "value": "lywriter", "label": '乐谱编辑器' },
@@ -509,7 +508,15 @@ var tocData = [
         "children": [
           { "value": "1", "label": "Euler 音乐理论", "date": "2025-01-25" }
         ]
-      }
+      },
+      {
+        "value": "guitar",
+        "label": "吉他",
+        "children": [
+          { "value": "1.alphatex", "label": "Глас Сумеречных Озёр", "date": "2025-03-22" },
+          { "value": "春夏秋冬.alphatex", "label": "春夏秋冬", "date": "2025-03-22" },
+        ],
+      },
     ]
   },
   {

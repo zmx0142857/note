@@ -180,6 +180,7 @@ file transfer protocol
 循环语句
 
     $ for f in *; do echo $f; done
+    $ for f in *.blv; do mv $f ${f%.blv}.flv; done # 批量重命名文件: 把后缀 blv 改为 flv
 
 文件
 
@@ -188,7 +189,6 @@ file transfer protocol
     $ xxd 1.jpg | head -n 20     # 查看二进制文件 (前 20 行)
     $ trash                      # 命令行版本的回收站 (sudo pacman -S trash-cli)
     $ du -h --max-depth=1 <path> # 查看目录大小
-    $ rename txt svg *           # 批量重命名文件
 
 `find`: 查找文件
 

@@ -438,3 +438,7 @@ app.needsUpdate.push(TWEEN)
     material.opacity = 0.5
     ```
     > 注意: 实测 draco 压缩的未带法线模型, 在修改材质 `material.transparent = true` 后渲染帧率下降, 但未压缩的模型、带法线的模型都不受影响
+- Sprite 无法旋转: 设置 `sprite.rotation.z` 无效. 解决:
+  ```js
+  sprite.material.rotation += 0.01
+  ```

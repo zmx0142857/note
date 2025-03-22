@@ -14,8 +14,6 @@
   ```
 - 在线压缩 https://modelcompress.cn/home
 
-> draco 压缩虽然能显著减小模型, 但渲染时可能掉帧 (从 60fps 降低到 45fps): 上网搜索: "threejs draco dropped frame"
-
 ## 模型结构
 
 - https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html
