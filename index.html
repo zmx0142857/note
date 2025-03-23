@@ -698,7 +698,7 @@ const router = {
   },
   updateToc () {
     const lis = document.querySelectorAll('#table-of-contents li')
-    const hash = this.route.slice(0, 3).join('/')
+    const hash = encodeURI(this.route.slice(0, 3).join('/'))
     Array.from(lis).forEach(li => {
       const { href } = li.firstChild
       const index = href?.indexOf('#')

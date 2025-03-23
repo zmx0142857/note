@@ -515,6 +515,7 @@ var tocData = [
         "children": [
           { "value": "1.alphatex", "label": "Глас Сумеречных Озёр", "date": "2025-03-22" },
           { "value": "春夏秋冬.alphatex", "label": "春夏秋冬", "date": "2025-03-22" },
+          { "value": "radical-dreamer.alphatex", "label": "Radical Dreamer", "date": "2025-03-23" },
         ],
       },
     ]
