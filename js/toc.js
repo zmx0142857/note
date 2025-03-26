@@ -197,9 +197,8 @@ var tocData = [
         "value": "ode",
         "label": "常微分方程",
         "children": [
-          { "value": "1", "label": "微分方程初等解法", "date": "2025-03-20" },
-          { "value": "2", "label": "高阶微分方程", "date": "2022-02-07" },
-          { "value": "3", "label": "线性微分方程组" },
+          { "value": "1", "label": "常微分方程初等解法", "date": "2025-03-20" },
+          { "value": "2", "label": "线性方程", "date": "2025-03-26" },
         ]
       },
       {

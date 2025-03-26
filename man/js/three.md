@@ -273,6 +273,26 @@ loadTileset(app, {
 app.animate()
 ```
 
+## 几何体
+
+### 线条
+
+three.js 线条分为普通线与粗线. 在 3js 库中它们被封装为同一个函数, 如果 `linewidth` 不是 `undefined` 就使用粗线.
+```js
+const line = app.mesh.line({
+  positions: [
+    [-5, 0, -5],
+    [-5, 20, -5],
+  ],
+  material: {
+    dashed: true,
+    linewidth: 4,
+    dashSize: 0.2,
+    gapSize: 0.2,
+  },
+})
+```
+
 ## 插件
 
 这里的插件是指除了 `import * as THREE from 'three'` 之外, 需要单独引入的文件.
@@ -309,8 +329,11 @@ gui.add(obj, 'weight', 0, 1).name('变胖').onChange(v => {
 import TWEEN from 'three/examples/jsm/libs/tween.module.js' // 引入 three.js 自带的 tween.js
 // import TWEEN from '@tweenjs/tween.js' 也可以用 npm 单独安装
 
+// 注册 TWEEN
+app.needsUpdate.push({ update: () => TWEEN.update() })
+
+// 播放动画
 new TWEEN.Tween(mesh.position).to({ x: 100, y: 50 }, 2000).start()
-app.needsUpdate.push(TWEEN)
 ```
 
 ## 常见问题
@@ -382,12 +405,21 @@ app.needsUpdate.push(TWEEN)
   frontObj.material.depthWrite = false // 不写入深度缓冲的效果就是, 前面的物体不会挡住后面的物体
   frontObj.material.opacity += 0.1 // 适当提高不透明度, 减缓后面物体对前面物体颜色的影响
   ```
+- 如何让半透明物体 (如告警点位) 清晰可见, 即使它被其它半透明物体挡住:
+  ```js
+  mesh.material.depthWrite = false
+  mesh.renderOrder = 2 // 后渲染
+  ```
 - 两个模型十分接近时, 出现面片闪烁 (z-fighting):
   - 方法1: 手动调整模型位置, 让它们分开一点 (比如 0.05 米)
   - 方法2: `material.depthWrite = false`
 - 查看渲染状态信息
   ```js
   renderer.info
+  ```
+- 虚线不生效, 仍然显示为实线. 解决:
+  ```js
+  line.computeLineDistances()
   ```
 - linewidth 设置不生效.
 

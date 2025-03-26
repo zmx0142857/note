@@ -140,6 +140,7 @@ viewer.entities.add({
   point: {
     pixelSize: 10,
     color: Cesium.Color.YELLOW,
+    disableDepthTestDistance: Infinity, // 一直显示不被遮挡
   },
 });
 
