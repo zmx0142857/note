@@ -270,18 +270,30 @@
   考虑齐次线性微分方程 `sum_(i=0)^n a_i(t) x^((i))(t) = 0`, 在以下几种情形可以降低方程阶数:
   <li>方程不显含小于 `k` 阶的导数时;</li>
   <li>方程不显含自变元时;</li>
-  <li>已知方程的 `k` 个非零特解时.</li>
+  <li>已知方程的一个非零特解时.</li>
 </ol>
 
 <ol class="solution">
-  <li>令 `y = x^((k))`, 方程降低 k 阶.</li>
-  <li>令 `y = x'`, 降低 1 阶.</li>
-  <li>若有非零特解 `x_1, cdots, x_k`, 则令 `x = x_k int z dt`,
-	化为 `z` 的 `n-1` 阶方程, 附带 `k-1` 个特解
-	<span class="formula">
-	  `z_i = (x_i//x_k)'`, `quad i = 1, 2, cdots, k-1`.
-	</span>
+  <li>令 `y = x^((k))`, 方程降低 `k` 阶.</li>
+  <li>令 `y = x'`, 降低一阶.</li>
+  <li>若有非零特解 `x = x_1`, 则令 `x = x_1 y`, 化为 `y` 的方程.
+    方程左边化为
+    <span class="formula">
+      `sum_i a_i (x_1 y)^((i))`
+      `= sum_i a_i sum_j (i;j) x_1^((j)) y^((i-j))`,
+    </span>
+    其中 `y` 的系数为
+    <span class="formula">
+      `sum_i a_i (i;i) x_1^((i)) = 0`.
+    </span>
+    因此换元后的方程不显含 `y`, 可令 `z = y'`, 将方程降低一阶.
   </li>
+</ol>
+
+<ol class="example">
+  [来自群友 西伯利亚的猫猫]
+  <li>`t x'' - t x' + x = 0`. (此方程有特解 `x = t`).</li>
+  <li>`y' = -1/x + y/x + y^2/x^3`. (此方程有特解 `y = x`).</li>
 </ol>
 
 <h2>线性方程组</h2>
@@ -378,20 +390,29 @@
 
 <h3>常系数线性方程组</h3>
 
-<p class="example">
-  <b>常系数线性方程组</b> `x' = Ax`.
-</p>
-
-<ol class="solution">
-  <li>此方程有基解矩阵 `exp At`. 显然 `exp A t|_(t=0) = E`.</li>
-  <li>若 `lambda` 是 `A` 的特征值, `bm v` 为对应的特征向量, 则
-	`"e"^(lambda t) bm v` 是一个解. 特别地, 若 `A` 有 `n`
-	个线性无关的特征向量, 对应的特征值为 `lambda_1, cdots, lambda_n`,
-	则方程有基解矩阵 `["e"^(lambda_1 t) bm v_1, cdots, "e"^(lambda_n t)
-	bm v_n]`.
+<ol class="theorem">
+  <b>利用特征向量求矩阵指数</b>
+  考虑常系数线性方程组 `x' = Ax`.
+  <li>
+    `exp At` 是它的一个基解矩阵. 一般地, 若 `Phi(t)` 是它的一个基解矩阵, 则存在一常数矩阵 `C` 使得
+    `exp At = Phi(t) C`. 注意到 `exp At|_(t=0) = E`, 有
+    <span class="formula">
+      `exp At = Phi(t) Phi^-1(0)`.
+    </span>
   </li>
-  <li>若已知一个基解矩阵 `Phi(t)`, 则存在一常数矩阵 `C`, 使得
-	`exp At = Phi(t) C`, 再由 `exp A t|_(t=0) = E` 知 `exp At = Phi(t) Phi^-1(0)`.
+  <li>
+    设 `bm v` 是 `A` 的特征向量, `lambda` 是相应的特征值, 则 `"e"^(lambda t) bm v` 是方程的一个特解.
+    特别, 当 `A` 有 `n` 个线性无关的特征向量 `{bm v_i}_(i=1)^n`,
+    对应的特征值为 `{lambda_i}_(i=1)^n 时, 下式给出一个基解矩阵:
+    <span class="formula">
+      `Phi(t) = ["e"^(lambda_1 t) bm v_1, cdots, "e"^(lambda_n t) bm v_n]`.
+    </span>
+  </li>
+  <li>综上, 当 `A` 有 `n` 个线性无关的特征向量时 (例如实对称矩阵就有此性质), `exp A` 的公式为
+    <span class="formula">
+      `exp A = Phi(1) Phi^-1(0)`,
+    </span>
+    其中矩阵 `Phi(t)` 由 2. 给出.
   </li>
 </ol>
 
@@ -424,51 +445,81 @@
   特别取 `bm x = bm epsi_j`, 就得到矩阵 `exp bm A` 的第 `j` 列.
 </p>
 
+<p class="theorem">
+  若 `bm(A B) = bm(B A)`, 则
+  <span class="formula">
+    `exp(bm A + bm B) = exp bm A exp bm B`.
+  </span>
+  若 `bm A`, `bm B` 不可交换, 则上式未必成立.
+</p>
+
 <p class="example">
-  求 `exp bm A t`, `bm A = [cos a, -sin a; sin a, cos a]`.
-  推论: `exp[, -a; a,] = [cos a, -sin a; sin a, cos a]`.<br/>
+  <b>实反对称矩阵的指数是旋转矩阵</b>
+  `bm A = [, -a; a,]`, 则
+  `exp bm A = [cos a, -sin a; sin a, cos a]`.
 </p>
 
 <p class="solution">
-  `bm A` 的特征值是 `lambda_(1,2) = cos a +- "i" sin a`,
-  先设 `lambda_1 = lambda_2 = cos a`, 则 `bm A = lambda bm E`,
+  利用特征向量求指数.
+  若 `a = 0`, 则 `exp bm A = exp bm O = bm I`. 下设 `a != 0`,
+  则 `A` 有一对不相等特征值 `+-"i"a`. 对应的特征向量为
   <span class="formula">
-    `exp(bm A - lambda bm E) = exp bm O = bm E`.
+    `bm v_1 = ("i", 1)^T`,
+    `quad bm v_2 = (1, "i")^T`.
+  </span>
+  令
+  <span class="formula">
+    `Phi(t) = ["e"^("i"a t) "i", "e"^(-"i"a t);
+    "e"^("i"a t), "e"^(-"i"a t) "i"]`,<br>
+    `Phi^-1(t) = -1/2 ["e"^(-"i"a t) "i", -"e"^(-"i"a t);
+    -"e"^("i"a t), "e"^("i"a t) "i"]`.
   </span>
   从而
   <span class="formula">
-    `[1;0] exp bm A t = [1;0] "e"^(lambda t)`,<br/>
-    `[0;1] exp bm A t = [0;1] "e"^(lambda t)`,<br/>
-    `exp bm A t = "e"^(t cos a) bm E`.
+    `exp bm A = Phi(1) Phi^-1(0)`
+    `= -1/2["e"^("i"a) "i", "e"^(-"i"a);
+    "e"^("i"a), "e"^(-"i"a) "i"]`
+    `["i", -1; -1, "i"]`
+    `= [cos a, -sin a; sin a, cos a]`.
   </span>
-  再设 `lambda_1 != lambda_2`, 对应的特征向量为
-  <span class="formula">
-    `bm v_1 = ["i";1]`, `bm v_2 = [1;"i"]`.
-  </span>
+</p>
+
+<p class="solution">
+  利用根子空间求指数, 求特征向量的步骤与前面一样.
   将单位向量分解到特征子空间,
   <span class="formula">
-    `[1;0] = 1/2 [1;"i"] - "i"/2 ["i";1]`,<br/>
+    `[1;0] = 1/2 [1;"i"] - "i"/2 ["i";1]`,<br>
     `[0;1] = -"i"/2 [1;"i"] + 1/2 ["i";1]`.
   </span>
-  由于特征值都是一重的, 指数的无穷级数中实际上只有一项:
+  `k ge 1` 时 `(bm A - lambda bm I)^k bm v = bb 0`, 所以
   <span class="formula">
-    `exp(bm A - lambda bm E) = bm E`.
+    `exp(bm A - lambda bm I) bm v = bm v`.
   </span>
   从而
-  <span class="formula">
-    `[1;0] exp bm A t`
-    `= 1/2 [1;"i"] "e"^(lambda_2 t) - "i"/2 ["i";1] "e"^(lambda_1 t)`
-    `= 1/2 ["e"^(lambda_2 t) + "e"^(lambda_1 t); "i"("e"^(lambda_2 t)
-    - "e"^(lambda_1 t))]`
-    `= "e"^(t cos a) [cos(t sin a); sin(t sin a)]`.
+  <span class="formula align">
+    `(exp bm A)[1;0]`
+    `= 1/2 "e"^(lambda_2) exp(bm A-lambda_2 bm I) [1;"i"]`
+    `- "i"/2 "e"^(lambda_1) exp(bm A-lambda_1 bm I) ["i";1]`<br>
+    `= 1/2 "e"^(lambda_2) [1;"i"] - "i"/2 "e"^(lambda_1) ["i";1]`
+    `= 1/2 ["e"^(-"i"a) + "e"^("i"a); "i" ("e"^(-"i"a) - "e"^("i"a))]`
+    `= [cos a; sin a]`.
   </span>
-  同理可求得第二列, 于是
+  这就求得了 `exp bm A` 的第一列; 同理可求得第二列.
+</p>
+
+<p class="example">
+  求 `exp bm A`, `bm A = [cos a, -sin a; sin a, cos a]`.
+</p>
+
+<p class="solution">
+  `bm A = bm I cos a + bm J sin a`,
+  其中 `bm I = [1; , 1]`, `bm J = [, -1; 1]`.
+  由于 `bm I cos a` 是数量矩阵, 可以和任意矩阵的乘法交换, 所以
   <span class="formula">
-    `exp bm A t`
-    `= "e"^(t cos a) [cos(t sin a), -sin(t sin a);
-    sin(t sin a), cos(t sin a)]`.
+    `exp bm A`
+    `= exp(bm I cos a) exp(bm J sin a)`
+    `= "e"^(cos a) [cos(sin a), -sin(sin a); sin(sin a), cos(sin a)]`.
   </span>
-  易知上式对重根的情形也成立.
 </p>
 
 <p class="example">

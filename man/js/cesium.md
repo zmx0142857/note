@@ -264,13 +264,30 @@ viewer.imageryLayers._layers.forEach(layer => {
 });
 ```
 
-### 抗锯齿 fxaa
+### 抗锯齿
 
 ```
+// 提高渲染分辨率
+viewer.resolutionScale = 2.0;
+
+// fxaa, 最普通的抗锯齿算法
 if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
   viewer.resolutionScale = window.devicePixelRatio
 }
 viewer.scene.postProcessStages.fxaa.enabled = true
+
+// msaa 对线条的抗锯齿效果更好, 但需考虑平台兼容性
+viewer.scene.postProcessStages.fxaa.enabled = false; // 禁用 FXAA
+viewer.scene.msaaSamples = 4; // 或 8，取决于硬件支持
+
+// smaa
+viewer.scene.postProcessStages.fxaa.enabled = false;
+viewer.scene.postProcessStages.smaa = new Cesium.PostProcessStage({
+  fragmentShader: Cesium.SmaaStageFragmentShader,
+  uniforms: {
+    viewportDimensions: new Cesium.Cartesian2()
+  }
+});
 ```
 
 ### 帧率
@@ -360,11 +377,74 @@ getContents(tileset.root).forEach(c => getFeatures(c).forEach(f => f.show = fals
 
 ### ShapeFile (shp)
 
-shape file 由三个或更多文件组成:
-- shp: 几何形状信息
-- shx: 几何体位置索引, 记录几何体在 shp 文件中的位置
-- dbf: 几何体属性数据
-这三个文件都是二进制格式. 其他文件都是可选的.
+- [Natural Earth shp 下载](https://www.naturalearthdata.com/)
+
+shape file 由多个文件组成:
+- shp: 几何形状信息 (二进制文件)
+- shx: 几何体位置索引, 记录几何体在 shp 文件中的位置 (二进制文件)
+- dbf: 几何体属性数据 (二进制文件)
+- prj: 经纬度系统定义 (文本文件)
+
+前三个文件是必须的, 其他文件都是可选的.
+
+shapefile 转 geojson
+```sh
+$ npm i -g shapefile
+$ shp2json example.shp
+```
+
+shp 结构
+
+```text
+┌──────┬─────────┬─────────┬─────┐
+│ head │ record1 │ record2 │ ... │
+└──────┴─────────┴─────────┴─────┘
+```
+
+shp head (100 bytes)
+
+|字段名|字节数|类型|描述|
+|-|-|-|-|
+|magic|4|int32\_big|常量 `0x0000270a`|
+|unused|4\*5|int32[]|未使用|
+|length|4|int32\_big|文件字节数, 含文件头|
+|version|4|int32|版本|
+|type|4|int32|图形类型|
+|mbr|8\*4|float64[]|最小外接矩形 (xmin, ymin, xmax, ymax)|
+|zrange|8\*2|float64[]|Z坐标范围 (zmin, zmax)|
+|mrange|8\*2|float64[]|M坐标范围 (mmin, mmax)|
+
+shp record
+
+|字段名|字节数|类型|描述|
+|-|-|-|-|
+|id|4|int32\_big|记录编号 (从1开始)|
+|length|4|int32\_big|记录字节数|
+|type|4|int32|图形类型|
+|content|不定| - |图形数据|
+
+shp 图形类型
+
+- 0: 空图形
+- 1: point
+- 2: polyline
+- 3: polygon
+- 更多...
+
+shx 结构, 其中 head 与 shp 完全一致
+
+```text
+┌──────┬─────────┬─────────┬─────┐
+│ head │ record1 │ record2 │ ... │
+└──────┴─────────┴─────────┴─────┘
+```
+
+shx record (8 bytes)
+
+|字段名|字节数|类型|描述|
+|-|-|-|-|
+|offset|4|int32\_big|记录偏移|
+|length|4|inf32\_big|记录字节数|
 
 ### gltf
 
@@ -841,22 +921,74 @@ material.diffuse = czm_pbrLighting(
 
 > 评价：由于该 3dtiles 是由输入的少量 glb 组成的, 所以没有真正做到切片优化
 
+### gltf 转 3dtiles - 使用 three.js
+
+- 修改 three.js 的 gltf exporter 源码:
+  ```js
+  function processNodeAsync () {
+    // ...
+    if ( options.trs ) {
+      // ...
+    } else if (options.useMatrixWorld) { // 增加这个分支
+        if (object.matrixWorldNeedsUpdate) {
+            object.updateMatrixWorld();
+        }
+        if (isIdentityMatrix(object.matrixWorld) === false) {
+            nodeDef.matrix = object.matrixWorld.elements;
+        }
+    } else {
+      // ...
+    }
+  }
+  ```
+- 用修改过的 gltf exporter 将模型的每个构件单独导出为 glb
+  ```js
+  const exporter = new GLTFExporter()
+  const files = {}
+  const groupByMaterial = new Map()
+  obj.traverse((child) => {
+    if (!child.isMesh) return
+    const arr = groupByMaterial.get(child.material) || []
+    arr.push(child)
+    groupByMaterial.set(child.material, arr)
+  })
+  console.log('exporting...', groupByMaterial)
+  console.time('export glb')
+  let count = 0, total = 0;
+  groupByMaterial.forEach((arr) => {
+    total++
+    exporter.parse(arr, gltf => {
+      const blob = new Blob([gltf], { type: 'application/octet-stream' })
+      files[count + '.glb'] = blob
+      count++
+      if (count === total) {
+        console.timeEnd('export glb')
+        makeZip()
+      }
+    }, console.error, {
+      binary: true,
+      useMatrixWorld: true,
+    })
+  })
+  ```
+- 使用 3d-tiles-tools 生成 tileset.json
+  ```sh
+  ts-node /path-to/3d-tiles-tools/src/cli/main.ts createTilesetJson -i . -o ./tileset.json
+  ```
+
 ### gltf 转 3dtiles - 使用 gltf-to-3d-tiles.py
 
 [dreamergz/gltf-to-3d-tiles](https://github.com/dreamergz/gltf-to-3d-tiles)
 
 - 安装 python >= 3.7 <= 3.10
 - `cd gltf-to-3d-tiles && python -m pip install -r requirements.txt`
-- `python main.py tileset --up z input.gltf [outputdir]`
+- `python main.py tileset --up z input.gltf outputdir/tileset.json`
 - 坐标转换步骤同上
 
 > 评价:
 > - 该工具只支持 gltf 输入, 不支持 glb
 > - 瓦片的 boundingBox 可能有问题，在特定相机角度下无法显示. 建议用 3d-tiles-tools 重新生成 tileset.json
-> - 生成的碎片文件有点太多了，反而减慢了模型载入速度. 建议用 [cmpt.js](./cmpt.js) 合成为单个 cmpt 模型
->   ```
->   node cmpt.js make [outputdir]
->   ```
+> - 生成的碎片文件有点太多了，反而减慢了模型载入速度. 建议用 [cmpt.js](https://github.com/zmx0142857/bytes/tree/main/examples/cmpt.js) 合成为单个 cmpt 模型
 >   注：CesiumGS/3d-tiles-tools 也可以拆分 cmpt，但似乎没有合成的功能
 
 ### revit 模型转 3dtiles - 以 Bim Angle 为例
@@ -1082,8 +1214,8 @@ tileset.style = new Cesium.Cesium3DTileStyle({
 
 ## 常见问题
 
-- gltf 模型颜色不丰富, 没有立体感: 可能是模型未添加法线. 可用 blender 导入模型, 再重新导出 gltf/glb,
-  导出时需要勾选 normals 和 custom properties.
+- 标签避让: `Cesium.RectangleCollisionChecker`
+- 标签被地形遮挡: 尝试调整 pixelOffset: `entity.billboard.pixelOffset` 和中心点 `horizontalOrigin: Cesium.HorizontalOrigin.CENTER, verticalOrigin: Cesium.VerticalOrigin.CENTER`.
 
 ## 参考链接
 
@@ -1094,32 +1226,47 @@ tileset.style = new Cesium.Cesium3DTileStyle({
 ### 模型转换工具
 
 - blender: 强大的开源建模软件, 模型格式转换的多面手
+  - c4d 导出的 glb 存在树叶丢失问题. 可以先用 c4d 导出 fbx, 再用 blender 将 fbx 导出为 glb
+  - gltf 模型没有法线时, 在 cesium 中展示效果不佳, 缺少立体感, 可以用 blender 添加法线, 重新导出 gltf/glb.  导出时需要勾选 normals 和 custom properties.
 - [CesiumLab](www.cesiumlab.com)
   - revit 模型转 3dtiles: revit -> clm -> cesiumlab 通用切片 (会员功能)
   - 多个 3dtiles 模型合并: 倾斜模型切片 -> 合并多块索引
   - CesiumLab 不支持 gltf 转 3dtiles
   - CesiumLab 的 fbx 转 3dtiles 效果不理想
 - [Bim Angle](https://github.com/bimangle/forge-engine-samples): 用于 revit 模型转 3dtiles, 效果拔群, 但是 15 天试用
-- gltf 转 3dtiles
-  - [nxddsnc/gltf-to-3dtiles](https://github.com/nxddsnc/gltf-to-3dtiles)
-  - [fanvanzh/3dtiles](https://github.com/fanvanzh/3dtiles): 用 rust 编写, 号称世上最快, 但不支持 gltf 转 3dtiles
 - cesium 3dtiles tools:
   - install: `pnpm i 3d-tiles-tools`
   - glb to b3dm: `npx 3d-tiles-tools glbToB3dm -i test.gltf -o test.b3dm`
   - merge 3dtiles: `npx 3d-tiles-tools merge -i tileset1 -i tileset2 -o output`
   - create tileset.json (详见 gltf 转 3dtiles 一节)
-- 3dtiles 模型合并: [py3dtiles_merger](https://github.com/Tofull/py3dtiles_merger)
-- gltf-pipeline: `npx gltf-pipeline -i model.gltf -o model.glb`
-- gltf-pack: gltf 模型有损压缩, 效果拔群
-- assimp: 通用模型格式转换
+- 一些号称能将 gltf 转 3dtiles 的库, 但实际并不好用:
+  - [nxddsnc/gltf-to-3dtiles](https://github.com/nxddsnc/gltf-to-3dtiles): GLTF\_OPTIMIZER.exe: segmentation fault
+  - [fanvanzh/3dtiles](https://github.com/fanvanzh/3dtiles): 用 rust 编写, 号称世上最快, 但不支持 gltf 转 3dtiles, 也不支持 fbx 转 3dtiles
+  - [Obj2Tiles](https://github.com/OpenDroneMap/Obj2Tiles) 实际使用时, 遇到 Exception: Invalid texture coordinates, 然后就退出了
+  - [py3dtilers](https://github.com/VCityTeam/py3dtilers): 已停止维护
+  - [mago 3dtiler](https://github.com/Gaia3D/mago-3d-tiler)
+    ```sh
+    $ java -jar mago-3d-tiler-1.10.6-release-natives-windows.jar -i model.glb -it glb -o output/ -d
+    ```
+    生成很慢, 瓦片文件太大, 且可能会丢失一些 b3dm 瓦片, tileset.json 的变换有问题
+- Cesium ion (Cesium 官方在线切片工具)
+  [revit addin](https://github.com/CesiumGS/cesium-ion-revit-add-in)
+  [blender addon](https://github.com/CesiumGS/cesium-ion-blender-addon)
+- 其它工具
+  - 3dtiles 模型合并: [py3dtiles_merger](https://github.com/Tofull/py3dtiles_merger)
+  - gltf-pipeline: `npx gltf-pipeline -i model.gltf -o model.glb`
+  - gltf-pack: gltf 模型有损压缩, 可能造成破片, 建议还是用 draco 压缩
+  - assimp: 通用模型格式转换
+  - [更多工具清单](https://github.com/pka/awesome-3d-tiles)
 
 ### 点云
 
-- CloudCompare
+- CloudCompare: 支持 obj 模型转点云
 - MeshLab
 - PCL
 - Blender Sensor Simulation
 - [revit 转 obj](https://zhuanlan.zhihu.com/p/670651367), [revit 转 obj2](https://blog.csdn.net/Alert_feng/article/details/119462984)
+- revit 模型导出 obj 时使用的坐标系是**内部坐标系**, 因此, 在 Bim angle 导出 3dtiles 时应选择**内部坐标系**原点, 而不是选择项目基点, 更不是场景中心点.
 
 ### 天空盒
 
@@ -1170,3 +1317,9 @@ tileset.style = new Cesium.Cesium3DTileStyle({
     ```
 - 使用 Cartesian3 时, 得到一个 undefined
   - 可能原因: `Cesium.Cartesian3()` 漏掉了 `new`
+- polygon 的 lineWidth 不生效, 线宽只能为 1.
+  - 事实上这是 windows 平台 webgl 的一个问题. 可以通过这个字段看到最大允许的线宽: `viewer.scene.maximumAliasedLineWidth`
+  - https://stackoverflow.com/questions/25394677/how-do-you-change-the-width-on-an-ellipseoutlinegeometry-in-cesium-map/25405483#25405483
+  - 解决: 使用 polyline 绘制宽线条
+- pick 无法拾取半透明物体
+  - 解决: 设置 `scene.pickTranslucentDepth = true` 后再拾取

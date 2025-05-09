@@ -660,9 +660,10 @@ const app = {
     }
 
     const onWheel = (e) => {
+      const rect = canvas.getBoundingClientRect()
       const k = e.deltaY < 0 ? 1.1 : 1/1.1
-      const x = e.clientX - 0.5 * canvas.width
-      const y = e.clientY - 0.5 * canvas.height
+      const x = e.clientX - rect.left - 0.5 * canvas.width
+      const y = e.clientY - rect.top - 0.5 * canvas.height
       transform.x = x - k * (x - transform.x)
       transform.y = y - k * (y - transform.y)
       transform.scale *= k

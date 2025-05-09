@@ -64,7 +64,7 @@ bufferViews: buffer 的切片引用
 - byteLength: 切片长度
 - byteOffset: 切片在 buffer 中的起始位置
 - target: 目标类型. 有 array buffer (34962), element array buffer (34963)
-- bytestride: 可选, 顶点跨度, 单位 byte
+- byteStride: 可选, 顶点跨度, 单位 byte. 当多个 accessor 共用一个 bufferView 时, 必须指定 byteStride
 
 ```js
 {

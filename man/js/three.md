@@ -180,39 +180,51 @@ console.log('children', app.scene.children) // 场景子元素
 import createApp from '@/3js/app.js'
 import Progress from '@/addin/progress'
 import Stats from '@/addin/stats'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import * as THREE from 'three'
 
 const app = createApp()
-
 const progress = Progress(app)
-app.load({
-  name: 'model',
-  type: 'gltf',
-  // url: '/models/power-plant.glb',
-  url: '/models/power-plant.draco.glb',
-  dracoLoader: new DRACOLoader().setDecoderPath('/draco/'),
-  onProgress: progress.onProgress,
-  scale: 0.001, // revit 产生的模型单位为 mm, 而 threejs 单位为 m. 因此载入模型后, 将它缩小 1000 倍
-}).then(model => {
+
+const loadModel = async () => {
+  await app.load.setDracoLoader('/draco/') // 载入 draco 插件, 用于解压 draco 压缩格式的模型
+  const scale = 0.001 // revit 产生的模型单位为 mm, 而 threejs 单位为 m. 因此载入模型后, 将它缩小 1000 倍
+  const model = await app.load({
+    name: 'model',
+    type: 'gltf',
+    url: '/models/vew/power/power-plant.draco.glb',
+    onProgress: progress.onProgress,
+    scale,
+  })
   progress.end()
   app.scene.add(model)
 
   // 计算模型包围球, 并更新相机位置
   const sphere = app.mesh.boundingSphere(model)
-  const box = app.mesh.boundingBox(model)
+  sphere.radius *= scale
+  sphere.center.scale(scale)
   app.camera.position.fromSphere(sphere)
   app.orbitControl({ target: sphere.center, damping: true })
+
+  const box = app.mesh.boundingBox(model)
+  box.max.scale(scale)
+  box.min.scale(scale)
 
   // 绘制包围球与包围盒
   app.add(app.mesh.sphere(sphere))
   app.add(app.mesh.box(box))
-})
+  console.log(box, sphere)
+}
+
+loadModel()
 
 app.ambient()
 app.sun()
 app.animate()
 
 Stats(app)
+
+window.app = app
+window.THREE = THREE
 ```
 
 ### 案例四: 3dtiles
@@ -225,55 +237,69 @@ Stats(app)
 // https://github.com/NASA-AMMOS/3DTilesRendererJS
 import * as THREE from 'three'
 import createApp from '../3js/app.js'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import Tileset from '@/addin/tileset.js'
+import Stats from '@/addin/stats.js'
 
-const loadTileset = async (app, { url, scale = 1 }) => {
-  const tileset = await app.load.tileset({ url, name: 'tileset' })
-  tileset.addEventListener('load-tile-set', () => {
-    setTimeout(() => {
-      const sphere = new THREE.Sphere()
-      tileset.getBoundingSphere(sphere)
-      sphere.center.multiplyScalar(scale)
-      sphere.radius *= scale
-      // tileset.group.position.copy(sphere.center)
-      app.camera.position.fromSphere(sphere)
-      app.orbitControl({ target: sphere.center, damping: true })
+const models = [
+  {
+    name: 'bangonglou',
+    url: '/models/bangonglou/tileset/tileset.json',
+    scale: 1,
+  },
+  {
+    name: 'gltf-to-3d-tiles',
+    url: '/models/gltf-to-3d-tiles/output/tileset.json',
+    scale: 0.001,
+  },
+  {
+    name: '404',
+    url: '/models/404/tileset.json'
+  },
+]
 
-      const box = new THREE.Box3()
-      tileset.getBoundingBox(box)
-      box.max.multiplyScalar(scale)
-      box.min.multiplyScalar(scale)
-      app.add(app.mesh.sphere(sphere))
-      app.add(app.mesh.box(box))
-    })
-  })
-  tileset.addEventListener('load-model', model => {
-    model.scene.scale.set(scale, scale, scale)
-  })
-  app.scene.add(tileset.group)
+const loadTileset = async (app, index) => {
+  const config = models[index || 0]
+  const { scale } = config
+  const tileset = await app.load.tileset(config)
+  tileset.group.scale.fill(config.scale)
+  app.add(tileset.group)
+
+  const sphere = new THREE.Sphere()
+  tileset.getBoundingSphere(sphere)
+  sphere.radius *= scale
+  sphere.center.scale(scale)
+  app.camera.position.fromSphere(sphere)
+  app.orbitControl({ target: sphere.center, damping: true })
+
+  const box = new THREE.Box3()
+  tileset.getBoundingBox(box)
+  box.max.scale(scale)
+  box.min.scale(scale)
+
+  app.add(app.mesh.box(box))
+  app.add(app.mesh.sphere(sphere))
+  console.log(box, sphere)
 }
 
-const app = createApp()
-app.renderer.outputColorSpace = THREE.SRGBColorSpace
-app.ambient()
-app.sun()
+const main = async () => {
+  const app = createApp({
+    renderer: { antialias: true },
+  })
+  app.renderer.outputColorSpace = THREE.SRGBColorSpace
+  app.ambient()
+  app.sun()
 
-// 载入 Tileset 插件, 然后可以使用 app.load.tileset() 方法载入 3dtiles 数据
-Tileset(app, {
-  dracoLoader: new DRACOLoader().setDecoderPath('/draco/'),
-})
+  await Tileset(app, { dracoPath: '/draco/' }) // 载入 tileset 插件
+  loadTileset(app, 0)
 
-loadTileset(app, {
-  // url: '/models/output/tileset.json',
-  // scale: 0.001,
-  url: '/models/bangonglou/tileset.json',
-  scale: 1,
-})
-app.animate()
+  app.animate()
+  Stats(app)
+  window.app = app
+  window.THREE = THREE
+}
+
+main()
 ```
-
-## 几何体
 
 ### 线条
 
@@ -292,6 +318,46 @@ const line = app.mesh.line({
   },
 })
 ```
+
+### 射线拾取
+
+判断 sprite 是否被遮挡 (有性能问题, 可以用 three-mesh-bvh 加速)
+```js
+sprites.forEach((sprite) => {
+  sprite.getWorldPosition(spriteWorldPosition)
+  const vector = spriteWorldPosition.project(camera)
+  raycaster.setFromCamera(new THREE.Vector2(vector.x, vector.y), camera)
+  const intersects = raycaster.intersectObject(group, true)
+  if (intersects.length > 0 && intersects[0].object === sprite) {
+    // occluded = false
+  } else {
+    // occluded = true
+  }
+})
+```
+
+把 sprite 被遮挡部分渲染为半透明, 渲染两次的 trick:
+[codepen](https://codepen.io/boytchev/pen/QWJOBrL?editors=0010)
+```js
+function animateLoop () {
+  // render scene + all sprites as transparent
+  spriteMaterial.opacity = 0.2
+  spriteMaterial.depthTest = false
+  renderer.autoClear = true
+  renderer.render(scene, camera)
+
+  // render only front sprites
+  spriteMaterial.opacity = 1
+  spriteMaterial.depthTest = true
+  renderer.autoClear = false
+  renderer.render(spriteGroup, camera)
+}
+```
+
+### 实例化、批量化
+
+- InstancedMesh: 用于渲染大量相同材质与相同几何体, 但空间变换不同的物体
+- BatchedMash: 用于渲染大量相同材质, 但几何体与空间变换不同的物体
 
 ## 插件
 
@@ -336,6 +402,22 @@ app.needsUpdate.push({ update: () => TWEEN.update() })
 new TWEEN.Tween(mesh.position).to({ x: 100, y: 50 }, 2000).start()
 ```
 
+### three-mesh-bvh 场景层次树
+
+可以用于加速射线拾取、碰撞检测、可视查询等
+
+```js
+import { computeBoundsTree, disposeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh'
+
+// Add the extension functions
+THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree
+THREE.BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree
+THREE.Mesh.prototype.raycast = acceleratedRaycast
+
+// ... and when you load your meshes:
+mesh.geometry.computeBoundsTree()
+```
+
 ## 常见问题
 
 - 页面一片漆黑, 看不见模型:
@@ -350,6 +432,9 @@ new TWEEN.Tween(mesh.position).to({ x: 100, y: 50 }, 2000).start()
   - 一个原因是色彩空间发生了变化, 解决方案是:
     ```js
     renderer.outputColorSpace = THREE.SRGBColorSpace
+
+    // MeshBasicMaterial
+    material.color = Number(THREE.REVISION) < 155 ? new THREE.Color(0x102040).convertSRGBToLinear() : 0x102040
     ```
   - 另一个原因: 从 r155 开始, three.js 的光照模型依循国际单位, 而 legacyLights 被弃用.
     对于环境光和平行光, 可以简单地将光照强度乘以 `Math.PI`, 以达到旧版的视觉效果,
@@ -460,7 +545,7 @@ new TWEEN.Tween(mesh.position).to({ x: 100, y: 50 }, 2000).start()
 - [来自 threejs 论坛](https://discourse.threejs.org/t/close-the-object-and-the-frame-rate-decreases/28691) 相机拉近物体时为什么帧率会下降?
   - 原因: 使用 PBR 材质 (MeshStandardMaterial) 时, 屏幕上的片元 (像素) 越多, 渲染越慢
   - 解决: 可以改为 MeshPhongMaterial (光滑材质) 或 MeshLambertMaterial (粗糙材质)
-- 修改个别 gltf 模型材质 `mesh.material = new THREE.MeshStandMaterial(...)` 后, 模型不受平行光照的影响.
+- 修改个别 gltf 模型材质 `mesh.material = new THREE.MeshStandMaterial(...)` 后, 模型不受平行光照的影响或出现异常黑色闪烁.
   - 原因: 该 gltf 模型不带法线. 猜测是 three.js 在载入不带法线的模型时会计算一次法线, 但修改材质导致法线信息丢失.
   - 方法1: 用 blender 给模型加上法线
   - 方法2: 仅给 material 的属性赋值, 不去修改 material:
@@ -469,8 +554,30 @@ new TWEEN.Tween(mesh.position).to({ x: 100, y: 50 }, 2000).start()
     material.transparent = true
     material.opacity = 0.5
     ```
+  - 方法3: 重新计算法线
+    ```js
+    geometry.computeVertexNormals()
+    ```
     > 注意: 实测 draco 压缩的未带法线模型, 在修改材质 `material.transparent = true` 后渲染帧率下降, 但未压缩的模型、带法线的模型都不受影响
 - Sprite 无法旋转: 设置 `sprite.rotation.z` 无效. 解决:
   ```js
   sprite.material.rotation += 0.01
+  ```
+- 射线拾取不到坐标或坐标错误
+  - 原因: 可能是物体未初始化完成.
+  - 解决: 使用 setTimeout 等待物体加载完成再进行射线拾取.
+- sprite 固定像素大小
+  ```js
+  // 透视相机
+  const px = (2 * Math.tan(camera.fov * Math.PI / 360)) / canvas.clientHeight
+  sprite.material.sizeAttenuation = false
+  sprite.scale = vec3().fill(16 * px)
+  // 正交相机
+  const opx = (camera.top - camera.bottom) / (canvas.clientHeight * camera.zoom)
+  sprite.scale = vec3().fill(16 * opx)
+  ```
+- raycaster 忽略物体
+  ```js
+  obj.layers.set(1) // 将物体放在图层 1. 默认情况下, raycaster 只对图层 0 生效, 因此将忽略这个物体
+  camera.layers.enable(1) // 启用相机的图层 1, 这样仍能看见此物体
   ```

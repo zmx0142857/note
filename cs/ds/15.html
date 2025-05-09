@@ -121,10 +121,9 @@ module.exports = (str) => {
 </div>
 
 <p class="algorithm">
-  <b>判断点是否在多边形内 (引射线法)</b> [来自 chatgpt]
+  <b>判断点是否在多边形内 (射线法, Ray casting)</b> [来自 chatgpt]
   从待判断的点向右发射一条射线, 若交点数为奇数, 则点在多边形内.
   该算法适用于顺时针和逆时针的多边形, 甚至也适用于自相交的多边形 (重叠部分按异或计算).
-  注意, 按此算法, 边界上的点不算在多边形内.
 </p>
 
 <div class="playground" value="{ point: [0.5, 0], polygon: [[0,0],[1,0],[1,1],[0,1]] }">
@@ -150,6 +149,15 @@ module.exports = (str) => {
 </div>
 
 <p class="algorithm">
+  <b>判断点是否在多边形内 (回转数算法, Winding number)</b>
+  把待判断的点与多边形的各顶点相连, 计算相邻两边的有向夹角之和. 若结果为 0, 说明点在多边形外, 否则点在多边形内.
+</p>
+
+<p class="remark">
+  当点落在多边形边界或与某个顶点重合时, 射线法和回转数法均失效, 需作特殊判断.
+</p>
+
+<p class="algorithm">
   <b>判断线段是否相交 (解方程法)</b>
   直接计算两直线的交点坐标, 把它表示为参数 <code>t</code> 的函数. 两线段相交当且仅当直线相交,
   且 <code>0 &le; t &le; 1</code>.
@@ -171,7 +179,7 @@ module.exports = (str) => {
 </div>
 
 <p class="algorithm">
-  <b>判断线段是否相交 (四边形法)</b>
+  <b>判断线段是否相交 (四边形法, 又称跨立实验)</b>
   以两条线段为对角线, 张成一个四边形.
   则两线段相交当且仅当该四边形是凸四边形.
   具体说, 就是 p3, p4 位于直线 p1-p2 的两侧,
@@ -189,6 +197,34 @@ module.exports = (str) => {
   }
   return sign(p1, p2, p3) !== sign(p1, p2, p4) // p3, p4 位于直线 p1-p2 两侧
     && sign(p3, p4, p1) !== sign(p3, p4, p2) // p1, p2 位于直线 p3-p4 两侧
+}
+</script>
+</div>
+
+<ol class="remark">
+  <li>相比于解方程法, 四边形法的优势是避免了除法运算:
+    众所周知浮点数的除法运算容易引起数值误差.</li>
+  <li>以上两种算法均没有考虑线段重合 (或部分重合) 的情形.
+    可以这样改进: 将四边形法判断叉乘的条件从 <code>&gt; 0</code> 改为 <code>&gt;= 0</code>,
+    但这样一来会将两条共线但不重合的线段判断为相交, 因此还要结合包围盒来判断: 若两线段的包围盒不相交,
+    则线段也不相交.
+  </li>
+</ol>
+
+<p class="algorithm">
+  <b>包围盒算法 (AABB, Axis Aligned Bounding Box)</b>
+  这里的包围盒特指各边与坐标轴都平行的矩形:  <code>{ min: [x, y], max: [x, y] }</code>.
+  两个包围盒相交, 当且仅当它们在各个维度的投影都相交.
+</p>
+
+<div class="playground" value="{box1:{min:[0,0], max:[1,1]}, box2: {min:[-1,-1],max:[0,0]}}">
+<script type="text">
+module.exports = (str) => {
+  const { box1, box2 } = Playground.parse(str)
+  for (let i = 0; i < 2; i++) {
+    if (box1.min[i] > box2.max[i] || box2.min[i] > box1.max[i]) return false
+  }
+  return true
 }
 </script>
 </div>

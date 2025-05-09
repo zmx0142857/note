@@ -1,6 +1,50 @@
 # NodeJS
 
-## express
+## http 服务
+
+### http + fs
+
+经典的 SPA (single page application)
+
+```js
+const http = require('http')
+const fs = require('fs')
+const port = 1234
+
+http.createServer((req, res) => {
+  const { url } = req
+  console.log('url', url)
+  fs.promises.readFile('.' + url, 'utf-8').then(content => {
+    if (url.endsWith('.js')) {
+      res.writeHead(200, {
+        'Content-Type': 'text/javascript'
+      })
+    } else if (url.endsWith('.css')) {
+      res.writeHead(200, {
+        'Content-Type': 'text/css'
+      })
+    }
+    res.end(content)
+  }).catch(err => {
+    fs.promises.readFile('index.html', 'utf-8').then(content => {
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+      })
+      res.end(content)
+    })
+  })
+}).listen(port, () => {
+  console.log('Server listening on: http://localhost:%s', port)
+})
+```
+
+注: 使用 [vercel/serve](https://github.com/vercel/serve) 可以达到同样效果:
+```sh
+$ npm i -g serve
+$ serve -s -L -l 1234 &
+```
+
+### express
 
 文件上传 express-fileupload
 

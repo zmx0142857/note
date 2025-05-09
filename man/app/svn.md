@@ -24,6 +24,7 @@ tortoise svn 已经集成到 explorer 中, 不能在命令行下使用.  推荐�
 
     $ alias svnl='svn log -l 5' # 最近 5 次提交
     $ svn log -r 1234 -v        # 提交详情
+    $ svn log --search username -l 300 > log.txt # 查看自己的提交日志
 
 ### diff - 比较
 

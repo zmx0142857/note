@@ -158,8 +158,10 @@ plot(
     ylabel='f(x)',
     legend=('f(x)', 'tangent (x=1)'),
 )
+```
 
-# 正态密度函数
+正态密度函数
+```py
 def normal(x, mu, sigma):
     return np.exp(-0.5 / sigma**2 * (x - mu)**2) / math.sqrt(2 * math.pi * sigma**2)
 
@@ -172,15 +174,33 @@ plot(
     ylabel='p(x)',
     legend=[f'mean {mu}, std {sigma}' for mu, sigma in params],
 )
+```
 
-
-# 求解常微分方程 dy/dx = f(y, x), 经过点 (x=-5, y=2)
+求解常微分方程 dy/dx = f(y, x), 经过点 (x=-5, y=2)
+```py
 from scipy.integrate import odeint
 f = lambda y, x: (2*x-y+5)/(2*y-x+4)
 x = np.arange(-5, 5, 0.1)
 y = odeint(f, 2, x)
 plot(x, y.T)
 ```
+
+使用卷积运算实现曲线平滑
+```py
+def smooth(y, window_size):
+    kernel = np.ones(window_size) / window_size
+    return np.convolve(y, kernel, 'same')
+
+x = np.linspace(-4, 4, 100)
+y = np.sin(x) + np.random.randn(len(x)) * 0.1 # 在正弦曲线的基础上, 加入扰动项
+y_smooth = smooth(y, 10)
+plot(x, [y, y_smooth])
+```
+
+> 问题：
+> 1. 假如我的输入不是均匀区间（np.linspace）上的函数值该怎么做
+> 2. 假如我的输入是一条平面上的折线，[(x0, y0), (x1, y1), ..., (xn, yn)]，又该怎么做呢
+> 提示: 使用样条, 或参见 [THREE.CatmullRomCurve3](https://threejs.org/docs/?q=cat#api/en/extras/curves/CatmullRomCurve3)
 
 `roll_dice.py`
 ```py
