@@ -24,6 +24,15 @@ new foo() // true
 ['a', 'b', undefined, null, [], {}].join('') // "ab[object Object]"
 ```
 
+### json parse number as string
+
+```js
+JSON.parse('{"id":1231231231231231231231}', (k, v, { source }) => {
+  if (typeof v === 'number') return source;
+  return v;
+})
+```
+
 ## 逆向
 
 ### debugger: 防止页面被调试

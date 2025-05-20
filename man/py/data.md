@@ -202,6 +202,43 @@ plot(x, [y, y_smooth])
 > 2. 假如我的输入是一条平面上的折线，[(x0, y0), (x1, y1), ..., (xn, yn)]，又该怎么做呢
 > 提示: 使用样条, 或参见 [THREE.CatmullRomCurve3](https://threejs.org/docs/?q=cat#api/en/extras/curves/CatmullRomCurve3)
 
+`catmull_rom.py`
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+
+def dist(p1, p2, alpha):
+    x1, y1 = p1
+    x2, y2 = p2
+    return pow((x1 - x2)**2 + (y1 - y2)**2, 0.5 * alpha)
+
+def lerp(x, y, alpha):
+    return alpha * x + (1-alpha) * y
+
+def catmull_rom_spline(p, count = 100, alpha = 0.5):
+    assert len(p) == 4
+    t = [0]
+    for i in range(1, 4):
+        t.append(t[-1] + dist(p[i-1], p[i], alpha))
+
+    x = np.linspace(t[1], t[2], count).reshape(-1, 1) # 转为列向量
+    A1 = lerp(p[0], p[1], (t[1] - x) / (t[1] - t[0]))
+    A2 = lerp(p[1], p[2], (t[2] - x) / (t[2] - t[1]))
+    A3 = lerp(p[2], p[3], (t[3] - x) / (t[3] - t[2]))
+    B1 = lerp(A1, A2, (t[2] - x) / (t[2] - t[0]))
+    B2 = lerp(A2, A3, (t[3] - x) / (t[3] - t[1]))
+    return lerp(B1, B2, (t[2] - x) / (t[2] - t[1]))
+    return zip(*res)
+
+points = np.array([[4, 3], [3, 2], [2, 1], [5, 2.5], [5, 1.5], [7, 2], [8, 2.5]], dtype=np.float64)
+for start in range(4):
+    res = catmull_rom_spline(points[start:start+4])
+    plt.plot(*zip(*res), c='#44aaff')
+
+plt.plot(*zip(*points[1:-1]), c='#ed143d', linestyle='none', marker='o')
+plt.show()
+```
+
 `roll_dice.py`
 ```py
 %matplotlib inline

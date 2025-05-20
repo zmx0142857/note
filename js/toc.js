@@ -285,7 +285,8 @@ var tocData = [
         "value": "recreation",
         "label": "数学游戏",
         "children": [
-          { "value": "1", "label": "数学游戏", "date": "2024-12-12" }
+          { "value": "1", "label": "数学游戏", "date": "2024-12-12" },
+          { "value": "2", "label": "家庭理财", "date": "2025-05-15" }
         ]
       }
     ]
@@ -708,6 +709,9 @@ var tocData = [
           { "value": "git.md", "label": "Git", "date": "2025-02-13" },
           { "value": "svn.md", "label": "SVN", "date": "2025-02-14" },
           { "value": "blender.md", "label": "Blender", "date": "2025-02-22" },
+          { "value": "magick.md", "label": "Magick", "date": "2025-04-23" },
+          { "value": "ffmpeg.md", "label": "FFmpeg", "date": "2025-05-15" },
+          { "value": "pdf.md", "label": "PDF 工具集", "date": "2025-05-20" },
         ],
       },
       {
@@ -742,6 +746,7 @@ var tocData = [
         "label": "JS",
         "children": [
           { "value": "js.md", "label": "JavaScript", "date": "2025-03-18" },
+          { "value": "css.md", "label": "CSS", "date": "2025-03-13" },
           { "value": "browser.md", "label": "浏览器", "date": "2025-03-18" },
           { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },

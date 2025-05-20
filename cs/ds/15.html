@@ -212,7 +212,7 @@ module.exports = (str) => {
 </ol>
 
 <p class="algorithm">
-  <b>包围盒算法 (AABB, Axis Aligned Bounding Box)</b>
+  <b>包围盒相交判断 (AABB, Axis Aligned Bounding Box)</b>
   这里的包围盒特指各边与坐标轴都平行的矩形:  <code>{ min: [x, y], max: [x, y] }</code>.
   两个包围盒相交, 当且仅当它们在各个维度的投影都相交.
 </p>
@@ -225,6 +225,50 @@ module.exports = (str) => {
     if (box1.min[i] > box2.max[i] || box2.min[i] > box1.max[i]) return false
   }
   return true
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>凸包 (convex hull)</b> 是指包围所有给定点的最小凸多边形.
+  在 Andrew 算法中, 每个点入栈两次, 出栈不超过两次, 复杂度为 `O(n)`.
+  加上排序, 总复杂度 `O(n log(n))`.
+</p>
+
+<div class="playground" value="[[0,0],[1,0],[0.1,0.1],[0,1]]">
+<script type="text">
+// 叉积
+const cross = ([x1, y1], [x2, y2], [x3, y3]) => {
+  return (x2-x1)*(y3-y1)-(x3-x1)*(y2-y1)
+}
+
+const andrewConvexHull = (points) => {
+  // 按 x 排序; x 相同者按 y 排序
+  // 第一个点和最后一个点一定在凸包上
+  const p = points.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0])
+  const s = [] // 用栈维护凸包上的点
+
+  // 下凸包
+  for (let i = 0; i < points.length; ++i) {
+    // 每个点入栈前, 先将转向不正确的旧点弹出
+    while (s.length >= 2 && cross(...s.slice(-2), p[i]) <= 0) s.pop()
+    s.push(p[i])
+  }
+
+  // 上凸包
+  const count = s.length
+  for (let i = points.length - 1; i >= 0; --i) {
+    // 判断 count, 注意不要把下凸包中的点弹出
+    while (s.length > count && cross(...s.slice(-2), p[i]) <= 0) s.pop()
+    s.push(p[i])
+  }
+
+  return s // 第一个点和最后一个点重合
+}
+
+module.exports = (str) =>{
+  const points = Playground.parse(str)
+  return JSON.stringify(andrewConvexHull(points))
 }
 </script>
 </div>

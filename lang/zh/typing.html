@@ -302,9 +302,15 @@ body {
   padding: 4px 10px;
   cursor: pointer;
   border-radius: 4px;
+  white-space: nowrap;
 }
 .menu-body-item:hover {
   background: var(--bg2);
+}
+.menu-body-item-hint {
+  font-size: 0.8em;
+  color: var(--fg2);
+  pointer-events: none;
 }
 .loading {
   display: none;
@@ -779,7 +785,9 @@ const Typing = {
       html: `<div class="menu-body-list">
           <div class="menu-body-item" data-src="../data/zh-char-5000.txt" role="link">单字练习</div>
           <div class="menu-body-item" data-src="../data/zh-word.txt" role="link">词组练习</div>
-          <div class="menu-body-item" data-click="loadFromClipboard" role="link">剪贴板...</div>
+          <div class="menu-body-item" data-click="loadFromClipboard" role="link">剪贴板
+            <span class="menu-body-item-hint">(Ctrl-Shift-V)</span>
+          <div>
       </div>`,
       bodyStyle: {
         left: e.target.offsetLeft + 37 + 'px',
@@ -954,6 +962,13 @@ const Typing = {
       `
     })
   },
+  onKeyPress (e) {
+    if (e.code === 'KeyV') {
+      if (e.ctrlKey && e.shiftKey && $inputArea.disabled) {
+        Typing.loadFromClipboard()
+      }
+    }
+  },
 }
 
 $btnHistory.onclick = Typing.showHistory
@@ -970,6 +985,7 @@ $inputArea.onblur = Typing.pause
 $inputArea.oncontextmenu = (e) => e.preventDefault()
 $inputArea.onkeyup = Typing.onKeyUp // 注意: 中文输入时 onKeyDown 可能不会触发, 而 onKeyUp 可能触发两次
 $inputArea.onscroll = Typing.onScroll
+document.onkeypress = Typing.onKeyPress
 
 Typing.onLoad()
 </script>

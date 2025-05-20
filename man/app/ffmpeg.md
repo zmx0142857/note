@@ -1,48 +1,50 @@
 # ffmpeg
 
-https://itsfoss.com/ffmpeg/
-
-https://eyehere.net/2019/the-complete-guide-for-using-ffmpeg-in-linux/
+- https://itsfoss.com/ffmpeg/
+- https://eyehere.net/2019/the-complete-guide-for-using-ffmpeg-in-linux/
 
 ## info
 
     $ ffmpeg -i video.mp4 -hide_banner # show file info
     $ ffmpeg -formats # show supported formats
+    $ ffmpeg -hwaccels # 查看硬件加速选项
 
 ## convert
 
     $ ffmpeg -i video.mp4 output.avi # convert video
     $ ffmpeg -i audio.wav output1.ogg output2.mp3 # convert audio
-
     $ ffmpeg -i video.avi -qscale 0 output.mp4 # keep quality
-
-    # -c:v = coder video
-    # -c:a = coder audio
-    # copy = same as input file
     $ ffmpeg -i video.mp4 -c:v copy -c:a libvorbis output.avi
+
+- `-c:v`: coder video
+- `-c:a`: coder audio
+- `-copy`: same as input file
 
 ## video and audio
 
 extract audio
 
-    # -vn = video nope
-    # -ab / -b:a = audio bitrate
-    # -f = format
-    # -ac = audio channels
-    # -ar = audio sample ratio
     $ ffmpeg -i video.mp4 -vn [-ab 128k] audio.mp3
     $ ffmpeg -i video.mov -vn [-ar 44100] [-ac 2] [-b:a 128k] [-f mp3] audio.mp3
 
+- `-vn`: video nope
+- `-ab / -b:a`: audio bitrate
+- `-f`: format
+- `-ac`: audio channels
+- `-ar`: audio sample ratio
+
 extract video
 
-    # -an = audio nope
     $ ffmpeg -i video.mp4 -an output.mp4
+
+- `-an`: audio nope
 
 extract picture (screenshot)
 
-    # -r = rate (fps, frames per second, default=25)
-    # -f = format (image2 sequence)
     $ ffmpeg -i video.mp4 -r 1 -f image2 image-%3d.png
+
+- `-r`: rate (fps, frames per second, default=25)
+- `-f`: format (image2 sequence)
 
 video + audio
 
@@ -51,16 +53,17 @@ video + audio
 
 adjust volume
 
-`-af` means audio filter
-
     $ ffmpeg -i input.mp3 -af "volume=-3dB" output.mp3
+
+- `-af`: audio filter
 
 ## scale
 
-    # -s = scale
     $ ffmpeg -i input.mov -s 1024x576 output.mp4
     $ ffmpeg -i video.h264 -s 640x480 -c:a output.mov
     $ ffmpeg -i video.mp4 -aspect 4:3 output.mp4
+
+- `-s`: scale
 
 ## split
 

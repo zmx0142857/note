@@ -571,10 +571,10 @@ mesh.geometry.computeBoundsTree()
   // 透视相机
   const px = (2 * Math.tan(camera.fov * Math.PI / 360)) / canvas.clientHeight
   sprite.material.sizeAttenuation = false
-  sprite.scale = vec3().fill(16 * px)
+  sprite.scale.fill(16 * px)
   // 正交相机
   const opx = (camera.top - camera.bottom) / (canvas.clientHeight * camera.zoom)
-  sprite.scale = vec3().fill(16 * opx)
+  sprite.scale.fill(16 * opx)
   ```
 - raycaster 忽略物体
   ```js
