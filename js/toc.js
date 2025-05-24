@@ -22,7 +22,7 @@ var tocData = [
         "children": [
           { "value": "0", "label": "问题", "date": "2022-02-16" },
           { "value": "2", "label": "三角函数", "date": "2024-10-28" },
-          { "value": "3", "label": "不等式", "date": "2022-07-29" },
+          { "value": "3", "label": "不等式", "date": "2025-05-24" },
           { "value": "4", "label": "微积分不等式", "date": "2024-12-03" },
           { "value": "5", "label": "因式分解", "date": "2022-09-18" },
           { "value": "6", "label": "数学家", "date": "2022-08-29" },

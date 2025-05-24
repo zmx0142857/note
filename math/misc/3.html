@@ -1058,6 +1058,70 @@
   </li>
 </ol>
 
+<p class="example">
+  <b>二元不等式链</b>
+  设 `a, b gt 0`, 则
+  <span class="formula higher">
+    `(a^4+b^4)/(2 (a b)^(3//2))`
+    `ge (a^3+b^3)/(2a b)`
+    `ge (a^2+b^2)/(2 sqrt(a b))`
+    `ge (a^(a//b) b^(b//a))^(1/(a//b+b//a))`
+    `ge (a^(5//2)+b^(5//2))/(a^(3//2)+b^(3//2))`
+    `ge sqrt(a^2-ab+b^2)`
+    `ge (a^2+b^2)/(a+b)`
+    `ge root 3((a^3+b^3)/2)`
+    `ge sqrt((a^2+b^2)/2)`
+    `ge (2(a^2+a b+b^2))/(3(a+b))`
+    `ge root 3 (((a+b)(a^2+b^2))/4)`
+    `ge ((a^(3//2)+b^(3//2))/2)^(2//3)`
+    `ge sqrt((a^2+ab+b^2)/3)`
+    `ge (a+b)/2`
+    `ge sqrt((a+b)/2) * (sqrt a + sqrt b) / 2`
+    `ge (a + sqrt(a b) + b)/3`
+    `ge ((sqrt a + sqrt b)/2)^2`
+    `ge ((root 3 a + root 3 b)/2)^3`
+    `ge (a-b)/(ln a - ln b)`
+    `ge root 3 ((a b(a+b))/2)`
+    `ge sqrt(a b)`
+    `ge root 3 ((2a^2 b^2)/(a+b))`
+    `ge (a b(ln b - ln a))/(b-a)`
+    `ge 2/(1/a+1/b)`
+    `ge (sqrt 2 a b)/sqrt(a^2+b^2)`
+    `ge (a b)/(a+b-sqrt(a b))`.
+  </span>
+</p>
+
+<ol class="remark">
+  <li>当 `a = b` 时, `(a-b)/(ln a - ln b)` 取其极限值 `a`.</li>
+  <li>幂平均值 `M_p(a, b) = ((a^p+b^p)/2)^(1/p)` 多次出现在不等式链中: `p = 3, 2, 3/2, 1, 1/2, 1/3`.
+  </li>
+  <li>`S_p(a, b) = (a^(p+1)+b^(p+1))/(a^p+b^p)` 也多次出现: `p = 3/2, 1, 0, -1`</li>
+  <li>有些不等式通过简单换元就能得到另一式, 如
+    <span class="formula">
+      `root 3 ((a^3+b^3)/2) ge sqrt((a^2+b^2)/2)`,
+    </span>
+    令 `x = a^6`, `y = b^6`, 两边同时取 6 次方得
+    <span class="formula">
+      `((sqrt x + sqrt y)/2)^2 ge ((root 3 x + root 3 y)/2)^3`.
+    </span>
+  </li>
+</ol>
+
+<p class="proof">
+  思路: 不等式链中出现的所有式子都是关于 `a, b` 的齐次式, 且次数为 1. 各式同除以 `a`, 再令 `t = b//a`,
+  就化为关于 `t` 的一元不等式链, 可以简单变形, 也可用求导的方法统一解决. 以这个不等式为例:
+  <span class="formula">
+    `sqrt((a^2+a b+b^2)/3) ge (a+b)/2`,
+  </span>
+  只需证
+  <span class="formula align">
+    `sqrt((1 + t + t^2)/3) ge (1 + t)/2`,<br>
+    `(1+t+t^2)/3 ge (1+2t+t^2)/4`,<br>
+    `4(1+t+t^2) ge 3(1+2t+t^2)`,<br>
+    `t^2 - 2t + 1 ge 0`.
+  </span>
+</p>
+
 <h2>三元不等式</h2>
 
 <h3>两个记号</h3>

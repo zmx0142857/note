@@ -750,6 +750,21 @@
 <h3>定积分与极限</h3>
 
 <p class="example">
+  [来自群友 Åzazel] 求极限 `lim_(x to 0) 1/x int_0^x sin{:1/t:}dt`.
+</p>
+
+<p class="solution">
+  [来自群友 stupidpig] 被积函数在原点不连续, 不可直接洛必达. 正解是先分部积分, 原式等于
+  <span class="formula">
+    `lim_(x to 0) 1/x int_0^x t^2 "d"(cos{:1/t:})`
+    `= lim_(x to 0) 1/x (x^2 cos{:1/x:} - int_0^x 2 t cos{:1/t:} dt)`
+    `= lim_(x to 0) x cos{:1/x:} - 2 x cos{:1/x:}`
+    `= 0`.
+  </span>
+  分部积分的可行性??
+</p>
+
+<p class="example">
   <b>用级数估计积分</b>
   [来自群友 群句号、刀哥]<br/>
   求极限 `lim_(n to oo) int_pi^(2pi) |sin n x + cos n x|/x dx`.

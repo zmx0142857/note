@@ -297,7 +297,7 @@ get_next_improved(p):
 </p>
 
 <div class="playground" value="{ str: 'here-is-a-simple-example', pattern: 'example' }">
-<script>
+<script type="text">
 // TODO: 只实现了坏字符规则, 未实现好后缀规则
 function matchAt(str, pattern, pos) {
   let i = pos
@@ -375,31 +375,122 @@ t 4 3 3 3 3 2
   再把 hur 的前面几个字母变成和 hear 的前面几个字母相同 (即把 hu 变为 hea). 编辑距离为 0 + 2.
 </li>
 从三个方案中取最小的即可.
-<br>
-py 实现:
-<pre>
-def edit_distance(s1, s2):
-    len1 = len(s1)
-    len2 = len(s2)
-    arr = [
-        [j if i == 0 else i if j == 0 else 0 for j in range(len2+1)]
-        for i in range(len1+1)
-    ]
-    for i in range(len1):
-        for j in range(len2):
-            top_left_value = arr[i][j] - (1 if s1[i] == s2[j] else 0)
-            top_value = arr[i][j+1]
-            left_value = arr[i+1][j]
-            arr[i+1][j+1] = 1 + min(top_left_value, top_value, left_value)
-    return arr[-1][-1]
-
-def similarity(s1, s2):
-    d = edit_distance(s1, s2)
-    return 1 - d / max(len(s1), len(s2), 1) # 防止分母为零
-
-print(similarity('hurt', 'heart')) # 1 - 2/5 = 0.6
-</pre>
 </ol>
+
+<div class="playground" value="hurt,heart">
+<script type="text">
+function edit_distance (s1, s2) {
+  const len1 = s1.length
+  const len2 = s2.length
+  const arr = Array.from({ length: len1+1 }).map((_, i) =>
+    Array.from({ length: len2+1 }).map((_, j) => !i ? j : !j ? i : 0))
+  for (let i = 0; i < len1; ++i) {
+    for (let j = 0; j < len2; ++j) {
+      const top_left = arr[i][j] - (s1[i] === s2[j])
+      const top = arr[i][j+1]
+      const left = arr[i+1][j]
+      arr[i+1][j+1] = 1 + Math.min(top_left, top, left)
+    }
+  }
+  return arr[len1][len2]
+}
+
+function similarity (s1, s2, d) {
+  return 1 - d / Math.max(s1.length, s2.length, 1) // 防止分母为零
+}
+
+module.exports = function (input) {
+  const [s1, s2] = input.split(',')
+  const d = edit_distance(s1, s2)
+  const s = similarity(s1, s2, d)
+  return 'distance: ' + d + '\nsimilarity: ' + s.toFixed(2)
+}
+</script>
+</div>
+
+<ol class="algorithm">
+  <b>LZ77 压缩算法</b> 是基于字典的压缩算法, 也是很多现代压缩算法 (包括 zip) 的基础.
+  <li>
+    将待编码数据看作字符串, 以一个固定宽度的窗口在其中滑动, 窗口右端 <code>win[k:]</code>
+    是待编码区, 左端 <code>win[0:k]</code> 是已编码区.
+  </li>
+  <li>
+    编码时, 从待编码区的第一个字符开始, 在已编码区查找最大匹配字符串: 即寻找最大的
+    <code>length</code>, 使得 <code>win[k-offset:k-offset+length] == win[k:k+length]</code>.
+  </li>
+  <li>
+    如果匹配成功, 输出三元组 <code>(offset, length, null)</code>, 并将窗口向后滑动 <code>length</code>个字符;
+    否则输出 <code>(0, 0, win[k])</code>, 并将窗口向后滑动 1 个字符.
+  </li>
+</ol>
+
+<div class="playground" value="{ str: 'AABCBBABC', size1: 5, size2: 3 }">
+<p>压缩</p>
+<script type="text">
+function lz77 (str, size1, size2) {
+  let k = 0
+  const res = []
+  while (k < str.length) {
+    const searchBuf = str.slice(Math.max(0, k - size1), k)
+    let length = 0, offset = 0
+    while (length <= size2) {
+      const substr = str.slice(k, k+length+1)
+      const index = searchBuf.indexOf(substr)
+      if (~index) {
+        ++length
+        offset = searchBuf.length - index
+      } else {
+        break
+      }
+    }
+    length = Math.min(length, size2)
+    res.push([offset, length, str[k]])
+    k += length || 1
+  }
+  return res
+}
+
+module.exports = function (input) {
+  const { str, size1, size2 } = Playground.parse(input)
+  const res = lz77(str, size1, size2)
+  return res.join('\n')
+}
+</script>
+</div>
+
+<div class="playground" type="textarea" value="0,0,A
+1,1,A
+0,0,B
+0,0,C
+2,1,B
+3,1,B
+5,3,A">
+<p>解压缩</p>
+<script type="text">
+function unzip (data) {
+  const res = []
+  data.forEach(record => {
+    const [offset, length, ch] = record
+    if (offset === 0) {
+      res.push(ch)
+    } else {
+      const start = res.length - offset
+      const end = start + length
+      res.push(...res.slice(start, end))
+    }
+  })
+  return res.join('')
+}
+
+module.exports = function (input) {
+  const data = input.split('\n').map(v => {
+    const [offset, length, ch] = v.split(',')
+    return [Number(offset), Number(length), ch]
+  })
+  return unzip(data)
+}
+</script>
+</div>
 
 <script src="../../js/note.js?type=cs&loadmath=true"></script>
 <script src="../../js/playground.js"></script>
