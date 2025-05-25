@@ -730,6 +730,7 @@ var tocData = [
         "children": [
           { "value": "asm.md", "label": "x86 汇编语言", "date": "2025-03-19" },
           { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
+          { "value": "tex.md", "label": "LaTeX", "date": "2025-05-25" },
         ]
       },
       {
@@ -747,7 +748,7 @@ var tocData = [
         "children": [
           { "value": "js.md", "label": "JavaScript", "date": "2025-03-18" },
           { "value": "css.md", "label": "CSS", "date": "2025-03-13" },
-          { "value": "browser.md", "label": "浏览器", "date": "2025-03-18" },
+          { "value": "lib.md", "label": "工具集", "date": "2025-05-25" },
           { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },

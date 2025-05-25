@@ -47,6 +47,12 @@
   找到后返回匹配行的第 `relative_column` 列内容.
   - `fuzzy`: TRUE: 模糊匹配 (默认), FALSE: 精确匹配
 
+- `SUMIF(condition_column, condition, column)`
+
+  在列 `condition_column` 中找出满足条件 `condition` 的行, 并对 `column` 的相应行求和.
+
+  例: `SUMIF(A:A, "> 0", B:B)` 在 A 列中找出满足条件 "> 0" 的行, 然后对 B 列的相应行求和.
+
 ### 日期
 
 - `DATEDIF(TODAY(),"2025/05/03","D")`: 计算日期之差

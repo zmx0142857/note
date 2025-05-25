@@ -635,6 +635,29 @@
   等号成立当且仅当 `2/(2x+1) = 1/(y+3)` 且 `2/x = y`.
 </p>
 
+<p class="theorem">
+  设 `a, b gt 0`, `p in RR`, 记 `S_p(a, b) = (a^(p+1)+b^(p+1))/(a^p+b^p)`.
+  则 `S_p` 关于参数 `p` 单调递增.
+</p>
+
+<p class="proof">
+  设 `p lt q`, 下证 `S_p le S_q`, 即证
+  <span class="formula">
+    `(a^(p+1)+b^(p+1))(a^q+b^q) le (a^p+b^p)(a^(q+1)+b^(q+1))`.
+  </span>
+  记 `t = b//a`, 两边同除以 `a^(p+q+1)` 得
+  <span class="formula align">
+    `(1+t^(p+1))(1+t^q) le (1+t^p)(1+t^(q+1))`,<br>
+    `t^(p+1)+t^q le t^p + t^(q+1)`.
+  </span>
+  记 `s = q - p gt 0`, 两边同除以 `t^p` 得
+  <span class="formula align">
+    `t^(s+1) - t^s - t + 1 ge 0`,<br>
+    `(t - 1)(t^s - 1) ge 0`.
+  </span>
+  由 `s gt 0` 知道, `t-1` 总是和 `t^s - 1` 同号, 因此上式成立.
+</p>
+
 <h3>均值不等式</h3>
 
 <p class="lemma">
@@ -1095,7 +1118,7 @@
   <li>当 `a = b` 时, `(a-b)/(ln a - ln b)` 取其极限值 `a`.</li>
   <li>幂平均值 `M_p(a, b) = ((a^p+b^p)/2)^(1/p)` 多次出现在不等式链中: `p = 3, 2, 3/2, 1, 1/2, 1/3`.
   </li>
-  <li>`S_p(a, b) = (a^(p+1)+b^(p+1))/(a^p+b^p)` 也多次出现: `p = 3/2, 1, 0, -1`</li>
+  <li>权方和 `S_p(a, b) = (a^(p+1)+b^(p+1))/(a^p+b^p)` 也多次出现: `p = 3/2, 1, 0, -1`</li>
   <li>有些不等式通过简单换元就能得到另一式, 如
     <span class="formula">
       `root 3 ((a^3+b^3)/2) ge sqrt((a^2+b^2)/2)`,
