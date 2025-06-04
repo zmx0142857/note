@@ -8,17 +8,16 @@
 <body>
 
 <p class="definition">
-	<b>(字符)串 (string)</b> 是字符组成的有限序列, 一般记为
+	<b>字符串 (string)</b> 是字符组成的有限序列, 一般记为
 	<span class="formula">
-		`s = a_1 a_2 cdots a_n`, `quad n ge 0`.
+		`s = a_0 a_1 cdots a_(n-1)`, `quad n ge 0`.
 	</span>
 	字符数目 `n` 称为串的<b>长度</b>. 长度为 0 的串称为<b>空串 (null
 	string)</b>, 记为 `epsi`.
-	串中连续 `k` 个字符组成的子序列称为该串的<b>子串 (substring)</b>
-	(`k ge 0`). 若 `s` 为非空串, 则字符 `a_i` 在串中的<b>下标</b>定义为
-	`i-1`. 于是字符串的下标是从 0 开始的. 用 <code>str[i..j]</code>
-	表示下标 <code>i, j</code> 间的字符 (含两端) 所组成的子串.
-	特别, <code>i == j+1</code> 时表示空串.
+    若 `s` 为非空串, 我们称 `i` 是字符 `a_i` 在串中的<b>下标</b>.  字符串的下标是从 0 开始的.
+	串中连续 `k ge 0` 个字符组成的子序列称为该串的<b>子串 (substring)</b>.
+    用 <code>a[i:j]</code> 表示 `a_i, cdots, a_(j-1)` 所组成的子串, 称为字符串的一个<b>切片</b>.
+	注意切片是左闭右开的. 特别 `i = j` 时上述切片是一个空串.
 </p>
 
 <h2>字符串的存储</h2>
@@ -111,6 +110,8 @@ struct ChunkString:
 	也可以是找出所有不重叠的子串 <code>p</code> 的下标.
 </p>
 
+<h3>朴素匹配</h3>
+
 <p class="algorithm">
 	<b>朴素匹配算法</b>
 	依次将 <code>p[0]</code> 和主串的下标 0, 1, 2, ...
@@ -133,6 +134,8 @@ naive_match(s, p):
 			++i, ++j
 </pre>
 
+<h3>KMP 算法</h3>
+
 <p class="algorithm">
 	<b>KMP (Knuth-Morris-Pratt) 算法</b>
 	朴素匹配算法中, 遇到匹配失败 (失配) 时, 指针 <code>i</code> 需要回退.
@@ -143,15 +146,15 @@ naive_match(s, p):
 	应继续与 <code>p[k]</code> 相比较, <code>k &lt; j</code>.
 	则必有
 	<span class="formula">
-		<code>p[0..k-1] == s[i-k..i-1]</code>
+		<code>p[0:k] == s[i-k:i]</code>
 	</span>
 	由失配前已经完成的匹配有
 	<span class="formula">
-		<code>p[j-k..j-1] == s[i-k..i-1]</code>
+		<code>p[j-k:j] == s[i-k:i]</code>
 	</span>
 	两式比较得
 	<span class="formula">
-		<code>p[0..k-1] == p[j-k..j-1]</code>
+		<code>p[0:k] == p[j-k:j]</code>
 	</span>
 	可以看出, 当 <code>p[j]</code> 与主串对应字符发生失配时,
 	下一个参与比较的字符 <code>p[k]</code> 仅由模式串自身决定,
@@ -159,7 +162,7 @@ naive_match(s, p):
 	反之, 若模式串中存在满足上式的 <code>k, j</code>, 则当
 	<code>p[j]</code> 与主串发生失配时, 只需将模式串向右滑动, 以
 	<code>p[k]</code> 取代 <code>p[j]</code> 的位置. 这时
-	<code>p[0..k-1]</code> 已经与主串的对应字符匹配, 只需从
+	<code>p[0:k]</code> 已经与主串的对应字符匹配, 只需从
 	<code>p[k]</code> 开始继续匹配即可. 显然为减少工作量,
 	<code>k</code> 值越大越好.<br/>
 	定义 <code>next[j]</code> 为当 <code>p[j]</code> 与主串发生失配时,
@@ -171,10 +174,10 @@ naive_match(s, p):
 	<span class="formula">
 		`"next"[j] = {
 			-1, if j = 0;
-			max{k | k lt j and p[0..k-1] = p[j-k..j-1]}, otherwise
+			max{k | k lt j and p[0:k] = p[j-k:j]}, otherwise
 		:}`
 	</span>
-	在已知 <code>next[0..p.len-1]</code> 的情况下, 匹配算法的草稿如下.
+	在已知 <code>next[0:p.len]</code> 的情况下, 匹配算法的草稿如下.
 </p>
 
 <pre>
@@ -220,13 +223,13 @@ kmp_match(s, p):
 	当 <code>j &gt; 0</code>,
 	由 <code>next[j] == k</code>, 存在 <code>k &lt; j</code>, 使得
 	<span class="formula">
-		<code>p[0..k-1] == p[j-k..j-1]</code>,
+		<code>p[0:k] == p[j-k:j]</code>,
 	</span>
 	且不存在 <code>k' &gt; k</code> 满足上式.
 	考虑 <code>p[j], p[k]</code> 的关系:<br/>
 	情况一, 若 <code>p[j] == p[k]</code>, 则
 	<span class="formula">
-		<code>p[0..k] == p[j-k..j]</code>,
+		<code>p[0:k+1] == p[j-k:j+1]</code>,
 	</span>
 	且不存在 <code>k' &gt; k</code> 满足上式. 即 <code>next[j+1]
 		== k+1</code>.<br/>
@@ -241,7 +244,7 @@ kmp_match(s, p):
 	或者最终得到一个 <code>k<sub>n</sub> == -1</code>.
 	这时无法找到一个 <code>0 &lt; k &lt; j</code> 使得
 	<span class="formula">
-		<code>p[0..k] == p[j-k..j]</code>,
+		<code>p[0:k+1] == p[j-k:j+1]</code>,
 	</span>
 	因此 <code>next[j+1] = 0 (== k<sub>n</sub>+1)</code>.
 </p>
@@ -290,36 +293,37 @@ get_next_improved(p):
 	<code>O(p.len)</code>. 总时间复杂度为两项之和.
 </p>
 
+<h3>Boyer-Moore 算法</h3>
+
 <p class="algorithm">
   <b>Boyer-Moore 算法</b>
-  [来自 <a href="https://zhuanlan.zhihu.com/p/68739462" target="_blank">知乎@帅地</a>]
-  文本编辑器中查找功能最常用的算法.
+  [来自 <a href="https://zhuanlan.zhihu.com/p/68739462" target="_blank">知乎@帅地</a>,
+  <a href="https://oi-wiki.org/string/bm/" target="_blank">OI Wiki</a>]
+  优于 KMP, 这是文本编辑器中查找功能最常用的算法.
 </p>
 
 <div class="playground" value="{ str: 'here-is-a-simple-example', pattern: 'example' }">
 <script type="text">
+function badCharRule (badChar, pattern, j) {
+  for (let k = j-1; k >= 0; --k) {
+    if (pattern[k] === badChar) return j - k
+  }
+  return j + 1
+}
+
 // TODO: 只实现了坏字符规则, 未实现好后缀规则
-function matchAt(str, pattern, pos) {
-  let i = pos
-  let j = pattern.length - 1
-  while (j >= 0) {
+// 将 pattern 串的最后一个字符与 str[i] 对齐, 从尾部开始匹配. 若匹配成功返回 0, 否则返回滑动的距离
+function matchAt(str, pattern, i) {
+  for (let j = pattern.length - 1; j >= 0; --i, --j) {
     if (str[i] !== pattern[j]) {
-      const badChar = str[i]
-      let k
-      for (k = j-1; k >= 0; --k) {
-        if (pattern[k] === badChar) {
-          break
-        }
-      }
-      return j - k
+      const offset1 = badCharRule(str[i], pattern, j)
+      return offset1
     }
-    i -= 1
-    j -= 1
   }
   return 0 // matched
 }
 
-module.exports = function indexOf(input) {
+module.exports = function BoyerMoore(input) {
   const { str, pattern } = Playground.parse(input)
   if (pattern.length > str.length) return -1
   if (pattern.length === 0) return 0
@@ -336,6 +340,8 @@ module.exports = function indexOf(input) {
 }
 </script>
 </div>
+
+<h3>编辑距离算法</h3>
 
 <ol class="algorithm">
   <b>编辑距离算法</b>
@@ -407,6 +413,8 @@ module.exports = function (input) {
 }
 </script>
 </div>
+
+<h3>LZ77 压缩算法</h3>
 
 <ol class="algorithm">
   <b>LZ77 压缩算法</b> 是基于字典的压缩算法, 也是很多现代压缩算法 (包括 zip) 的基础.

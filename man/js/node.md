@@ -111,3 +111,13 @@ app.listen(3001, () => {
   console.log('server is running at port 3001')
 })
 ```
+
+## 爬虫
+
+下载图片: 在浏览器中将网络请求复制为 fetch, 拷贝 headers, 然后用下面的代码自动下载.
+```js
+const download = async ({ url, filename, headers }) => {
+  const buf = await fetch(url, { headers }).then(res => res.arrayBuffer())
+  return fs.promises.writeFile(filename, new Uint8Array(buf))
+}
+```

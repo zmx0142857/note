@@ -712,6 +712,7 @@ var tocData = [
           { "value": "magick.md", "label": "Magick", "date": "2025-04-23" },
           { "value": "ffmpeg.md", "label": "FFmpeg", "date": "2025-05-15" },
           { "value": "pdf.md", "label": "PDF 工具集", "date": "2025-05-20" },
+          { "value": "ps.md", "label": "Photoshop", "date": "2025-05-27" },
         ],
       },
       {

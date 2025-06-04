@@ -808,6 +808,37 @@
 <h3 id="equality-of-triangle">三角形中的恒等式与不等式</h3>
 
 <p class="example">
+  余弦定理的暴力证明
+  <span class="formula">
+    `cos A = (sin^2 B + sin^2 C - sin^2 A)/(2 sin B sin C)`.
+  </span>
+</p>
+
+<p class="proof">
+  本例展现了三角形中的恒等式的一般证明方法: 通常我们消去一个角, 化为其中两个角的恒等式.
+  待证的等式等价于
+  <span class="formula">
+    `2 sin B sin C cos A`
+    `= sin^2 B + sin^2 C - sin^2 A`.
+  </span>
+  首先因为 `A + B + C = pi`, 有 `cos A = - cos(B + C)`, 从而
+  <span class="formula">
+    LHS
+    `= -2 sin B sin C cos(B+C)`
+    `= 2 sin B sin C (sin B sin C - cos B cos C)`.
+  </span>
+  另一方面由 `sin A = sin(B+C)` 得到
+  <span class="formula align">
+    RHS
+    `= sin^2 B + sin^2 C - sin^2(B+C)`
+    `= sin^2 B + sin^2 C - (sin B cos C + sin C cos B)^2`
+    `= sin^2 B(1 - cos^2 C) + sin^2 C(1 - cos^2 B) - 2 sin B sin C cos B cos C`
+    `= 2 sin^2 B sin^2 C - 2 sin B sin C cos B cos C`.
+  </span>
+  故 LHS = RHS.
+</p>
+
+<p class="example">
 	设 `A + B + C = pi`, 则
 	<span class="formula">
 		`sin A + sin B + sin C = 4 cos{:A/2:} cos{:B/2:} cos{:C/2:}`,<br/>

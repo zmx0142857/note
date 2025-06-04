@@ -1,5 +1,7 @@
 # JavaScript
 
+## 语言基础
+
 ### string to number
 
 推荐使用 `parseFloat`, 更仔细的写法参见 [builtin.js](https://www.npmjs.com/package/@zmx0142857/builtin) 的 `toNumber` 函数.
@@ -31,6 +33,45 @@ JSON.parse('{"id":1231231231231231231231}', (k, v, { source }) => {
   if (typeof v === 'number') return source;
   return v;
 })
+```
+
+## 平台相关
+
+### console
+```js
+console.log('some log')
+console.warn
+console.error
+
+console.dir(str.match(/a/)) // 以对象的形式打印, 不作特殊处理
+console.dir(loaders, { depth: 4 }) // 指定对象深度 (nodejs)
+
+console.table
+
+console.group('group1')
+console.log('content')
+console.groupEnd('group1')
+
+console.time('id')
+console.timeEnd('id')
+
+// 浏览器有效, node 无效
+console.log('%c你好!', 'color:#29e;background:#233;font-weight:bold')
+// 花里胡哨
+console.log('%c Platform %c shakespeare ', 'padding: 1px; border-radius: 3px 0 0 3px; color: #fff; background: #606060;', 'padding: 1px; border-radius: 0 3px 3px 0; color: #fff; background: #248;')
+// 花里胡哨 x2
+var t = ["\n %c %c %c PixiJS 4.8.7 - ✰ WebGL ✰  %c  %c  http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n", "background: #ff66a5; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "color: #ff66a5; background: #030307; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "background: #ffc3dc; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;"];
+console.log(...t)
+```
+
+### 移动端事件
+
+禁用触摸滚动
+```js
+const preventDefault = e => e.preventDefault()
+document.addEventListener('touchmove', preventDefault, { passive: false })
+// 恢复
+document.removeEventListener('touchmove', preventDefault)
 ```
 
 ## 逆向
