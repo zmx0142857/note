@@ -373,6 +373,16 @@ function getFeatures (content) {
 getContents(tileset.root).forEach(c => getFeatures(c).forEach(f => f.show = false))
 ```
 
+### 指定坐标系
+
+```js
+Cesium.Ellipsoid.CGCS2000 = Object.freeze(new Cesium.Ellipsoid(6378137, 6356752.314245179, 6356752.31403558))
+const viewer = new Cesium.Viewer('map', {
+  globe: new Cesium.Globe(Cesium.Ellipsoid.CGCS2000),
+  ...
+})
+```
+
 ## 常见模型类型
 
 ### ShapeFile (shp)

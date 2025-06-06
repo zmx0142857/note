@@ -220,6 +220,8 @@
 
 <h2>形式幂级数</h2>
 
+<p>[来自 <a href="https://oi-wiki.org/math/poly/lagrange-inversion/" target="_blank">OI Wiki</a>]</p>
+
 <p class="definition">
   全体形式幂级数记为 `CC[[x]]`, 其中的元素形如 `sum_(n ge 0) a_n x^n`;
   全体形式 Laurent 级数记为 `CC((x))`, 其中元素形如 `sum_(n ge -N) a_n x^n`.
@@ -233,50 +235,93 @@
 </p>
 
 <ol class="lemma">
-  <li>设 `f(x)` 是形式 Laurent 级数, 则 `[x^-1] f'(x) = 0`.</li>
-  <li>设 `f(x)` 是形式幂级数, `f(0) = 0`, `f'(0) != 0`, 则对任意整数 `n`,
+  <b>形式留数</b>
+  设 `f` 是形式 Laurent 级数, 称 `[x^-1] f` 为 `f` 的形式留数.
+  若 `f != 0`, 规定 `"ord" f := min{k: f_k != 0}` 为 `f` 的最低次数.
+  我们有:
+  <li>导数的留数为零: `[x^-1] f' = 0`.</li>
+  <li>`[x^-1](f'g) = -[x^-1](f g')`.</li>
+  <li>设 `f != 0`, 则对任意整数 `n`,
     <span class="formula">
-      `[x^-1] f(x)^n f'(x) = { 1, if n = -1; 0, otherwise :}`
+      `[x^-1] f^n f' = { "ord" f, if n = -1; 0, otherwise :}`
     </span>
+  </li>
+  <li>换元公式: 设 `g != 0`, 则 `"ord" g [x^-1] f = [x^-1] (f @ g) g'`.
+    其中 `f @ g := f(g(x))`.
   </li>
 </ol>
 
 <ol class="proof">
   <li>这是因为 `(x^n)' = n x^(n-1)`.</li>
-  <li>若 `n != -1`, `f(x)^n f'(x) = 1/(n+1) (f(x)^(n+1))'`, 由 1 知道它的 `-1` 次项系数等于 `0`. 若 `n = -1`, 记 `f(x) = sum_(k ge 1) a_k x^k`, 有
+  <li>这是因为 `[x^-1](f g)' = 0`.</li>
+  <li>
+    当 `n != -1` 时, `f^n f' = 1/(n+1) (f^(n+1))'`, 由 1 知道它的 `-1` 次项系数等于 `0`.<br>
+    当 `n = -1` 时, 记 `k := "ord" f`, 那么
     <span class="formula">
-      `(f'(x))/(f(x))`
-      `= (a_1 + 2 a_2 x + cdots)/(a_1 x + a_2 x^2 + cdots)`
-      `= (a_1 + 2 a_2 x + cdots)/(a_1 x) 1/(1 + g(x))`
-      `= (x^-1 + 2 a_2//a_1 + cdots) (1 - g(x) + g(x)^2 - cdots)`.
+      `[x^-1] ((f')/f)`
+      `= [x^-1] ((k f_k x^(k-1) + cdots)/(f_k x^k + f_(k+1) x^(k+1) + cdots))`
+      `= [x^-1] ((k f_k x^-1 + cdots)/(f_k + f_(k+1) x + cdots))`
+      `= k`.
     </span>
-    其中 `g(x) = (a_2 x^2 + cdots)//a_1 x`. 容易看出上式的最低次项, 即
-    `-1` 次项系数为 `1`.
+  </li>
+  <li>
+    考虑线性性, 只需对 `f = x^k`, `k in ZZ` 的情形证明公式成立:
+    `k != -1` 时左边 `[x^-1] f = 0`, 右边 `[x^-1] g^k g' = 0`.<br>
+    `k = -1` 时左边 `"ord" g [x^-1] f = "ord" g`, 右边 `[x^-1] g^-1 g' = "ord" g`.
   </li>
 </ol>
 
-<p class="theorem">
+<ol class="theorem">
   <b>Lagrange 反演公式</b>
-  设 `f(x), g(x)` 是形式幂级数,
-  `f(0) = 0`, `f'(0) != 0`, `g(0) = 0`, `g'(0) != 0`. 若 `f, g` 互逆, 即
-  `g(f(x)) = f(g(x)) = x`, 则
-  <span class="formula">
-    `[x^n] g(x) = [x^-1] 1//f(x)^n = [x^(n-1)] (x//f(x))^n`.
-  </span>
-</p>
+  <li>
+    设 `f, g` 是形式幂级数,
+    `f(0) = 0`, `f'(0) != 0`, `g(0) = 0`, `g'(0) != 0`. 若 `f, g` 互逆, 即
+    `g(f(x)) = f(g(x)) = x`, 则
+    <span class="formula">
+      `[x^n] g = 1/n [x^-1] 1/f^n = 1/n [x^(n-1)] (x/f)^n`.
+    </span>
+  </li>
+  <li>一般地, 设 `f, g, Phi in CC[[x]]`, 且 `f, g` 互逆, 那么
+    <span class="formula">
+      `[x^n] Phi @ g = [x^-1] Phi * (f')/f^(n+1)`
+      `= 1/n [x^-1] (Phi')/f^n`.
+    </span>
+    特别取 `Phi(x) = x^k` 有
+    <span class="formula">
+      `[x^n] g^k = k/n [x^(n-k)] (x/f)^n`.
+    </span>
+  </li>
+</ol>
 
-<p class="proof">
-  设 `g(x) = sum_(k ge 1) b_k x^k`, 由 `g(f(x)) = x` 知道
-  <span class="formula">
-    `sum_(k ge 1) b_k f(x)^k = x`.
-  </span>
-  两边求导, 再同除以 `f(x)^n` 得
-  <span class="formula">
-    `sum_(k ge 1) k b_k f(x)^(k-1-n) f'(x) = f(x)^-n`.
-  </span>
-  两边取 `-1` 次项系数, 由引理 `[x^-1] f(x)^(k-1-n) f'(x) = 1` 当且仅当 `k
-  = n`, 因而 `n b_n = [x^-1] f(x)^-n`. 证毕.
-</p>
+<ol class="proof">
+  <li>
+    设 `g(x) = sum_(k ge 1) b_k x^k`, 由 `g(f(x)) = x` 知道
+    <span class="formula">
+      `sum_(k ge 1) b_k f^k = x`.
+    </span>
+    两边求导, 再同乘 `f^-n` 得
+    <span class="formula">
+      `sum_(k ge 1) k b_k f^(k-1-n) f' = f^-n`.
+    </span>
+    两边取 `-1` 次项系数, 由引理 `[x^-1] f^(k-1-n) f' = 1` 当且仅当 `k = n`,
+    因而 `n b_n = [x^-1] f^-n`.
+  </li>
+  <li>
+    由已知 `"ord" f = 1`, `g @ f = "id"`, 于是由换元公式
+    <span class="formula">
+      `[x^n] Phi @ g`
+      `= [x^-1] (Phi @ g)/x^(n+1)`
+      `= 1/("ord" f) [x^-1] (Phi @ g @ f)/f^(n+1) f'`
+      `= [x^-1] Phi * (f')/f^(n+1)`.
+    </span>
+    至于第二个等号, 只需注意到
+    <span class="formula">
+      `(Phi')/f^n - n Phi * (f')/f^(n+1)`
+      `= (Phi/f^n)'`
+    </span>
+    即可.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

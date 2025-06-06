@@ -412,6 +412,10 @@
   </li>
 </ol>
 
+<p class="remark">
+  又叫“中二定理”.
+</p>
+
 <ol class="proof">
   <li>
     首先说明结论 1. 2. 是等价的.
@@ -750,21 +754,6 @@
 <h3>定积分与极限</h3>
 
 <p class="example">
-  [来自群友 Åzazel] 求极限 `lim_(x to 0) 1/x int_0^x sin{:1/t:}dt`.
-</p>
-
-<p class="solution">
-  [来自群友 stupidpig] 被积函数在原点不连续, 不可直接洛必达. 正解是先分部积分, 原式等于
-  <span class="formula">
-    `lim_(x to 0) 1/x int_0^x t^2 "d"(cos{:1/t:})`
-    `= lim_(x to 0) 1/x (x^2 cos{:1/x:} - int_0^x 2 t cos{:1/t:} dt)`
-    `= lim_(x to 0) x cos{:1/x:} - 2 x cos{:1/x:}`
-    `= 0`.
-  </span>
-  分部积分的可行性??
-</p>
-
-<p class="example">
   <b>用级数估计积分</b>
   [来自群友 群句号、刀哥]<br/>
   求极限 `lim_(n to oo) int_pi^(2pi) |sin n x + cos n x|/x dx`.
@@ -835,13 +824,53 @@
     运用积分第二中值定理, 存在 `xi in [0, x]` 使得
     <span class="formula">
       `int_0^x (f(t) - A) g(t) dt`
-      `= g(0) int_0^xi (f(t) - A) dt`
-      `+ g(x) int_xi^x (f(t) - A) dt`.
+      `= g(x) int_xi^x (f(t) - A) dt`.
     </span>
-    两边同除以 `int_0^x g(t) dt`, 由 1. 知右端 `f(t) - A` 的两个积分均有界, 再结合 `g`
+    两边同除以 `int_0^x g(t) dt`, 由 1. 知右端积分有界, 再结合 `g`
     满足的条件就得到极限为 0.
   </li>
 </ol>
+
+<p class="example">
+  [来自群友 SmartPig] 求极限 `lim_(x to +oo) 1/x int_0^x sqrt t sin t dt`.
+</p>
+
+<div class="solution p">
+  [来自群友 火雨] 分部积分,
+  <span class="formula">
+    `1/x int_0^x sqrt t sin t dt`
+    `= 1/x(-sqrt x cos x + int_0^x cos t dt/(2 sqrt t))`
+    `= -(cos x)/sqrt x + 1/(2 x) int_0^x (cos t)/sqrt t dt`.
+  </span>
+  再让 `x to +oo`, 第一项趋于 0, 第二项是无穷小乘以有界量, 总的极限是 0.
+  <hr>
+  [注] 事实上第二项的积分正是著名的 Fresnel 积分.
+</div>
+
+<p class="solution">
+  [来自群友 火雨]
+  使用积分第二中值定理,
+  <span class="formula">
+    `1/x int_0^x sqrt t sin t dt`
+    `= 1/x * sqrt x int_xi^x sin t dt`.
+  </span> 
+  右端的积分有界, 因此 `x to +oo` 时极限为 0.
+</p>
+
+<p class="example">
+  [来自群友 Åzazel] 求极限 `lim_(x to 0) 1/x int_0^x sin{:1/t:}dt`.
+</p>
+
+<p class="solution">
+  [来自群友 stupidpig] 被积函数在原点不连续, 不可直接洛必达. 正解是先分部积分, 原式等于
+  <span class="formula">
+    `lim_(x to 0) 1/x int_0^x t^2 "d"(cos{:1/t:})`
+    `= lim_(x to 0) 1/x (x^2 cos{:1/x:} - int_0^x 2 t cos{:1/t:} dt)`
+    `= lim_(x to 0) x cos{:1/x:} - 2 x cos{:1/x:}`
+    `= 0`.
+  </span>
+  分部积分的可行性??
+</p>
 
 <p class="theorem">
   <b>控制收敛定理 (DCT)</b>

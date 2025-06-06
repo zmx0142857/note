@@ -262,53 +262,23 @@
 	从一个给定集合中得到一个子集.
 </p>
 
-<p class="theorem">
-	不存在一个包含任意元素的集合:
-	<span class="formula">
-		`AA A EE B (B !in A)`.
-	</span>
-</p>
-
-<ol class="proof">
-	令 `varphi(x) := x !in x`. 应用子集公理, 记
-	<span class="formula">
-		`B = {x in A: x !in x}`,
-	</span>
-	下证 `B !in A`. 我们反设 `B in A`, 则
-	<li>如果 `B in B` 真, 由 `B` 定义, `(B in A) ^^ (B !in B)` 真, 于是 `B !in
-		B` 真, 矛盾;
-	</li>
-	<li>如果 `B in B` 假, 由 `B` 定义, `(B in A) ^^ (B !in B)` 假, 由于 `B in
-		A` 真, 所以 `B !in B` 假, 矛盾.
-	</li>
-	综上有 `B !in A`.
-</ol>
-
-<p class="remark" id="rem-russel-paradox">
-	此定理的证明可以看出, 如果假定存在一个 "包罗万象" 的集合,
-	亦即假定可以用任何一个特定描述来定义一个集合, 而不指定其范围的话,
-	就会引出两难的矛盾, 这就是著名的 <b>Russell 悖论</b> (1902).
-	Russell 悖论的一个流行的说法是: 有一理发师,
-	声称自己只给那些不给自己理发的人理发. 那么他给不给自己理发呢?
-	假如他给自己理发, 按规定他应该属于那些不给自己理发的人, 一个矛盾;
-	假如他不给自己理发, 则按规定, 他应该给自己理发!
-</p>
-
-<p class="remark">
-  全体集合不构成集合,
-  这意味着 "全体集合" 的概念已是一个超越了集合的概念, 不在 ZFC 集合论的体系内.
-  我们暂时把这种不构成集合的一些集合的全体称为<b>真类</b>, 而把集合与真类统称为<b>类</b>.
-  后面还会遇到一些真类的例子, 如全体归纳集、全体序数等.
-</p>
-
 <p id="axiom-replace" class="axiom">
   <b>替换公理模式</b>
-  设 `F` 是一个以集合 `X` 为定义域的函数, 则存在集合 `F(X) = {F(x): x in X}`.
+  设 `F` 是一个以集合 `X` 为定义域的 "函数", 则它的值域 `F(X) = {F(x): x in X}` 也是一个集合.
+  <span class="formula">
+    `AA x EE! y varphi(x, y)`
+    `to AA A EE B AA b (b in B harr EE a (a in A ^^ varphi(a, b)))`.
+  </span>
 </p>
 
 <p class="remark">
   这里的函数并不是集合论中通常定义的函数, 而是由合式公式定义的. 例如, 函数 `x mapsto y`
   可以用带有两个自由变元的合式公式 `varphi(x, y)` 解释为 `AA x EE! y varphi(x, y)`.
+  这个公式读作: 任意 `x` 存在唯一 `y` 使得 `varphi(x, y)` 成立.
+  "存在唯一" 量词定义为:
+  <span class="formula">
+    `EE!x varphi(x) := EE x (varphi(x) ^^ AA y(varphi(y) to y = x))`..
+  </span>
 </p>
 
 <h3>集合族的交与并</h3>
@@ -535,7 +505,58 @@
 	</li>
 </ol>
 
-<h2>正则公理</h2>
+<h2>Russel 悖论与正则公理</h2>
+
+<h3>Russel 悖论</h3>
+
+<p class="theorem">
+	不存在一个包含任意元素的集合:
+	<span class="formula">
+		`AA A EE B (B !in A)`.
+	</span>
+</p>
+
+<ol class="proof">
+	令 `varphi(x) := x !in x`. 应用子集公理, 记
+	<span class="formula">
+		`B = {x in A: x !in x}`,
+	</span>
+	下证 `B !in A`. 我们反设 `B in A`, 则
+	<li>如果 `B in B` 真, 由 `B` 定义, `(B in A) ^^ (B !in B)` 真, 于是 `B !in
+		B` 真, 矛盾;
+	</li>
+	<li>如果 `B in B` 假, 由 `B` 定义, `(B in A) ^^ (B !in B)` 假, 由于 `B in
+		A` 真, 所以 `B !in B` 假, 矛盾.
+	</li>
+	综上有 `B !in A`.
+</ol>
+
+<p class="remark" id="rem-russel-paradox">
+	此定理的证明可以看出, 如果假定存在一个 "包罗万象" 的集合,
+	亦即假定可以用任何一个特定描述来定义一个集合, 而不指定其范围的话,
+	就会引出两难的矛盾, 这就是著名的 <b>Russell 悖论</b> (1902).
+	Russell 悖论的一个流行的说法是: 有一理发师,
+	声称自己只给那些不给自己理发的人理发. 那么他给不给自己理发呢?
+	假如他给自己理发, 按规定他应该属于那些不给自己理发的人, 一个矛盾;
+	假如他不给自己理发, 则按规定, 他应该给自己理发!
+</p>
+
+<p class="remark">
+  全体集合不构成集合,
+  这意味着 "全体集合" 的概念已是一个超越了集合的概念, 不在 ZFC 集合论的体系内.
+  我们暂时把这种不构成集合的一些集合的全体称为<b>真类</b>, 而把集合与真类统称为<b>类</b>.
+  后面还会遇到一些真类的例子, 如全体归纳集、全体序数等.
+</p>
+
+<p class="definition">
+  <b>类</b> 设 `varphi` 是一元谓词, 则 `{x: varphi(x)}` 是类.
+</p>
+
+<h3>正则公理</h3>
+
+<p>引入类的概念不足以解决 Russel 悖论, 因为该悖论的根源是允许集合包含自身,
+  下面引入正则公理来排除这种情况.
+</p>
 
 <p class="axiom" id="axiom-regular">
   <b>正则公理</b> 对任意非空集合 `A`, 存在 `a in A` 满足 `a nn A = O/`:
@@ -544,7 +565,7 @@
   </span>
   正则公理保证了不存在无穷的从属链 `x_1 &ni; x_2 &ni; cdots`,
   特别地, 不会有 `x in x`, `x in y in x` 的情况.
-  因为正则公理排除了 `x in x` 的情况, 所以 <a href="#rem-russel-paradox">Russel 悖论</a>不会出现.
+  因为正则公理排除了 `x in x` 的情况, 所以 Russel 悖论不会出现.
 </p>
 
 <ol class="proof">
@@ -562,6 +583,25 @@
     然而这与 `x_(n+1) in x_n` 矛盾.
   </li>
 </ol>
+
+<h3>公理的独立性</h3>
+
+<p>ZF 公理组并非完全独立. 其中一些公理是多余的.</p>
+
+<p class="theorem">
+  [来自 <a href="https://www.bananaspace.org/wiki/%E8%AE%B2%E4%B9%89:%E9%9B%86%E5%90%88%E8%AE%BA/ZFC_%E5%85%AC%E7%90%86" target="_blank">香蕉空间</a>]
+  用替换公理模式及空集公理 (空类是集合) 证明子集公理模式.
+</p>
+
+<p class="proof">
+  设 `varphi` 是一元谓词, `X` 是集合, 若存在 `x_0` 使得 `varphi(x_0)` 成立,
+  构造 "函数":
+  <span class="formula">
+    `F(x) = { x, if varphi(x); x_0, otherwise :}`
+  </span>
+  从而根据替换公理模式, `F(X) = { x in X: varphi(x) }` 是集合.
+  若不存在 `x_0` 使 `varphi(x_0)` 成立, 则 `{x in X: varphi(x)}` 是空类, 根据空集公理它是集合.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

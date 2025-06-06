@@ -92,7 +92,7 @@ var tocData = [
         "value": "set",
         "label": "集合论",
         "children": [
-          { "value": "2", "label": "集合及其运算", "date": "2024-09-10" },
+          { "value": "2", "label": "集合及其运算", "date": "2025-06-06" },
           { "value": "3", "label": "二元关系与映射", "date": "2024-10-29" },
           { "value": "4", "label": "自然数与序数", "date": "2024-12-26" },
           { "value": "5", "label": "基数", "date": "2024-09-28" },
@@ -270,7 +270,7 @@ var tocData = [
           { "value": "2", "label": "排列与组合", "date": "2022-01-15" },
           { "value": "3", "label": "求解递推式", "date": "2024-04-26" },
           { "value": "4", "label": "容斥原理" },
-          { "value": "5", "label": "离散微积分与特殊计数序列", "date": "2024-08-31" },
+          { "value": "5", "label": "离散微积分与常见计数序列", "date": "2025-06-05" },
           { "value": "6", "label": "生成函数", "date": "2024-12-12" }
         ]
       },
@@ -516,6 +516,8 @@ var tocData = [
           { "value": "1.alphatex", "label": "Глас Сумеречных Озёр", "date": "2025-03-22" },
           { "value": "春夏秋冬.alphatex", "label": "春夏秋冬", "date": "2025-03-22" },
           { "value": "radical-dreamer.alphatex", "label": "Radical Dreamer", "date": "2025-03-23" },
+          { "value": "rusty-nail.alphatex", "label": "Rusty Nail", "date": "2025-06-06" },
+          { "value": "杀死那个石家庄人.alphatex", "label": "杀死那个石家庄人", "date": "2025-06-06" },
         ],
       },
     ]
