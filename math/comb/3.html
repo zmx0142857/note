@@ -540,6 +540,48 @@ TREE(3): ...
 	= (-1)^n`, 则 `x_n = f_n`.
 </p>
 
+<ol class="example">
+  <li>对任意正整数 `m`, 存在正整数 `N`, 使得 `f_n mod m` 从第 `N` 项起是循环数列.</li>
+  <li>若 `a | b`, 则 `f_a | f_b`.</li>
+  <li>递归公式 `f_b = f_(a+1) f_(b-a) + f_a f_(b-a-1)`, 其中 `0 le a lt b`.</li>
+</ol>
+
+<ol class="proof">
+  <li>注意 Fibonacci 数列任意连续两项决定了后面的每一项. 对于模 `m` 来说,
+    连续两项的可能取值是有限的 `m^2` 种. 然而 Fibonacci 数列有无穷多项,
+    由鸽巢原理并存在 `i lt j` 使得
+    <span class="formula">
+      `f_i -= f_j (mod m)`,
+      `quad f_(i+1) -= f_(j+1) (mod m)`.
+    </span>
+    因此数列 `f_n mod m` 从第 `i` 项开始循环.
+  </li>
+  <li>考虑数列 `f_n mod f_a`, 其开头是 `0, 1, 1, 2, 3, 5, cdots`,
+    而从第 `a` 项起是 (同余意义上) `0, 1 * f_(a+1), 1 * f_(a+1), 2 * f_(a+1), 3 * f_(a+1), 5 * f_(a+1), cdots`,
+    即原数列乘以 `f_(a+1)`. 总之对任意 `b gt a` 成立
+    <span class="formula">
+      `f_b`
+      `-= f_(b-a) * f_(a+1)`
+      `(mod f_a)`.
+    </span>
+    特别当 `a | b` 时 `f_b -= 0 (mod f_a)`.
+  </li>
+  <li>
+    对 `a` 归纳证明. `a = 0` 时化为 `f_b = f_1 f_b + f_0 f_(b-1)` `= 1 f_b + 0 f_(b-1)`, 等式成立.
+    现在设 `a gt 0`, 且等式对 `a-1` 成立, 则
+    <span class="formula align">
+      `f_b = f_a f_(b-a+1) + f_(a-1) f_(b-a)`<br>
+      `= f_a (f_(b-a) + f_(b-a-1)) + f_(a-1) f_(b-a)`<br>
+      `= (f_a + f_(a-1)) f_(b-a) + f_a f_(b-a-1)`<br>
+      `= f_(a+1) f_(b-a) + f_a f_(b-a-1)`.
+    </span>
+    <hr>
+    [注] 将数列延拓到负下标 `f_(-n) = (-1)^(n-1) f_n` 后, 公式 3. 对任意整数都成立.
+    此时 2. 也可以作为 3. 的推论.
+  </li>
+</ol>
+
+
 <h3>常系数齐次线性递推式</h3>
 
 <p>	我们看到, 求解 Fibonacci 数列通项公式的所有方法中, 特征根法计算量最小,

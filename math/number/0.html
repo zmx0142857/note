@@ -709,20 +709,142 @@
 	然而对任意 `y in T`, `x to y` 时有 `tan x to oo`. 所以 `tan n` 无界.
 </p>
 
+<p class="lemma">
+  (Van der Waerden)
+  对任意正整数 `N, k`, 存在正整数 `M`, 使得把数 `1, 2, cdots, M` 染成 `N`
+  种颜色时, 不论染色方案如何, 都至少存在一个长度为 `k` 的等差数列被染为同一颜色.
+</p>
+
+<p class="lemma">
+  对任意正整数 `w, n, k` 有
+  <span class="formula">
+    `n^k = 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w+i n)^k`.
+  </span>
+</p>
+
+<p class="proof">
+  对多项式 `f(x) = x^k` 在 `k+1` 个点 `w_i = w + i n` (`0 le i le k`) 处应用 Lagrange 插值:
+  <span class="formula">
+    `x^k = sum_(i=0)^k prod_(j!=i) (x-w_j)/(w_i-w_j) w_i^k`,
+  </span>
+  比较上式 `x^k` 的系数
+  <span class="formula align">
+    `1 = sum_(i=0)^k prod_(j!=i) w_i^k/(w_i-w_j)`<br>
+    `= sum_(i=0)^k w_i^k/(prod_(j!=i) n(i-j))`<br>
+    `= sum_(i=0)^k (w_i/n)^k 1/(i! * (-1)^(k-i) (k-i)!)<br>
+    `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w_i/n)^k`.
+  </span>
+</p>
+
 <p class="theorem">
   [<a href="https://www.doc88.com/p-7136956183890.html" target="_blank">来自 吴昊《`{n^k alpha}` 稠密性的初等证明》</a>]
-  对任意无理数 `alpha` 和正整数 `n`, 数列 `x_k = {n^k alpha}` 在区间 `[0, 1]` 上稠密.
+  对任意无理数 `alpha` 和正整数 `k`, 数列 `x_n = n^k alpha mod 1` 在区间 `[0, 1]` 上稠密.
 </p>
 
 <ol class="proof">
+  <li>任取 `epsi in (0, 1)`, 下证存在一项 `x_n in (0, epsi)`.
+    取正整数 `N` 满足 `N gt (2^k//epsi+1)^k`, 对每个正整数 `i`,
+    存在唯一的 `1 le j le N`, 使得
+    <span class="formula">
+      `i^k alpha mod 1 in [(j-1)/N, j/N)`.
+    </span>
+    换言之, 我们可以用 `N` 种颜色对全体正整数染色.
+    由 Van der Waerden 定理, 存在长度为 `k+1` 的同色等差数列, 记为
+    <span class="formula">
+      `w_i = w + i n`,  quad `0 le i le k`, `w, n in ZZ^+`.
+    </span>
+  </li>
+  <li>
+    记 `y_i = w_i^k alpha mod 1`.
+    由引理,
+    <span class="formula">
+      `n^k alpha`
+      `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) w_i^k alpha`
+      `-= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) y_i` `(mod 1)`.
+    </span>
+    记上式右端为 `A`, 下面进行分部求和.
+    记
+    <span class="formula">
+      `(-1)^i (k;i) = (-1)^i (k-1;i) - (-1)^(i-1) (k-1;i-1)`
+      `:= u_(i+1) - u_i`,
+    </span>
+    从而
+    <span class="formula">
+      `A = 1/k! (-1)^k [u_i y_i]_0^(k+1) - 1/k! sum_(i=0)^k (-1)^k u_(i+1) (y_(i+1) - y_i)`
+      `= 1/k! sum_(i=0)^(k-1) (-1)^(k-i) (k-1;i) (y_i - y_(i+1))`.
+    </span>
+    由于每个 `w_i` 同色, 有 `|y_i - y_j| lt 1/N`.
+    从而 `|A| lt 2^(k-1)/(k! N) le 1/N`.
+  </li>
+  <li>我们已经证明 `n^k alpha -= A (mod 1)`, 由于 `alpha` 是无理数易得 `A != 0`.
+    若 `A gt 0`, 则 `x_n := n^k alpha mod 1` 就等于 `A`, 且 `x_n = A in (0, 1/N) sube (0, epsi)`.
+    若 `A lt 0`, 此时 `x_n = A + 1 in (1 - 1/N, 1)`.
+    取最大的使得 `M^k (1-x_n) lt 1` 成立的正整数 `M`, 下证 `x_(M n) in (0, epsi)`. 事实上,
+    <span class="formula">
+      `(M+1)^k (1-x_n) ge 1`
+      `rArr (M+1)^k ge 1/(1-x_n)`
+      `ge N gt (2^k/epsi+1)^k`.
+    </span>
+    于是 `M gt 2^k/epsi`.
+    另一方面, `x_(M n) = (M n)^k alpha mod 1` 与 `1 - M^k(1 - x_n)` 均属于 `(0, 1)` 且差为整数, 所以
+    <span class="formula">
+      `x_(M n) = 1 - M^k(1-x_n)`
+      `le (M+1)^k (1-x_n) - M^k(1-x_n)`
+      `overset(?)(le) 2^k M^(k-1) (1-x_n)`
+      `lt 2^k/M lt epsi`.
+    </span>
+    其中问号处的不等式, 做法是将 `(M+1)^k` 展开, 第一项 `M^k` 抵消后,
+    剩下的最高次项是 `M^(k-1)`, 且每项系数不超过 `2^k`.
+  </li>
+  <li>最后对任意区间 `(s, t) sube (0, 1)`, 证明存在一项 `x_n in (s, t)`.
+    取 `epsi gt 0` 使得
+    <span class="formula">
+      `t/epsi gt (2^k/(1-s//t) + 1)^k`.
+    </span>
+    先取正整数 `n` 使得 `x_n in (0, epsi) sube (0, t)`, 再取最大正整数 `M`, 使得
+    `M^k x_n lt t`, 于是
+    <span class="formula">
+      `(M+1)^k x_n ge t`
+      `rArr (M+1)^k ge t/epsi`
+    </span>
+    这推出 `M gt 2^k/(1-s//t)`, 即 `t(1 - 2^k/M) gt s`. 故
+    <span class="formula">
+      `x_(M n)`
+      `= M^k x_n`
+      `ge (M+1)^k x_n - 2^k M^(k-1) x_n`
+      `gt t - 2^k/M t`
+      `= t(1 - 2^k/M)`
+      `gt s`.
+    </span>
+    综上有 `x_(M n) in (s, t)`.
+  </li>
 </ol>
+
+<p class="corollary">
+  对任意无理数 `alpha`, 正整数 `k, m` 和整数 `0 le r lt m`,
+  存在无穷多个正整数 `n` 使得 `|__n^k alpha__| -= r (mod m)`.
+</p>
+
+<p class="proof">
+  记 `x_n := n^k alpha mod 1`, 由于
+  <span class="formula">
+    `n^k alpha`
+    `= m |__n^k alpha__| + m x_n`,
+  </span>
+  取整并模 `m` 得到
+  <span class="formula">
+    `|__n^k alpha__| -= |__ m x_n __|` `(mod m)`.
+  </span>
+  而 `|__ m x_n __| = r` 等价于 `x_n in [r/m, (r+1)/m)`;
+  利用 `x_n` 在 `[0, 1]` 的稠密性即得证.
+</p>
 
 <h2>连分数</h2>
 
 <p class="example">
   <b>将有理数展为有限简单连分数</b>
   辗转相除, 将 `x` 写为 `[x] + {x}`:
-  <span class="formula">
+  <span class="formula higher">
     `62/23 = 2 + 16/23`,<br/>
     `23/16 = 1 + 7/16`,<br/>
     `16/7 = 2 + 2/7`,<br/>

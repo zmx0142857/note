@@ -21,7 +21,7 @@ var tocData = [
         "label": "未分类",
         "children": [
           { "value": "0", "label": "问题", "date": "2022-02-16" },
-          { "value": "2", "label": "三角函数", "date": "2024-10-28" },
+          { "value": "2", "label": "三角函数", "date": "2025-06-10" },
           { "value": "3", "label": "不等式", "date": "2025-05-24" },
           { "value": "4", "label": "微积分不等式", "date": "2024-12-03" },
           { "value": "5", "label": "因式分解", "date": "2022-09-18" },
@@ -76,7 +76,7 @@ var tocData = [
         "value": "number",
         "label": "数论",
         "children": [
-          { "value": "0", "label": "整数, 有理数, 代数数, 连分数" },
+          { "value": "0", "label": "整数, 有理数, 代数数, 连分数", "date": "2025-06-11" },
           { "value": "1", "label": "整除, 最大公约数, 素数", "date": "2024-06-07" },
           { "value": "2", "label": "同余", "date": "2024-06-06" },
           { "value": "3", "label": "阶与原根", "date": "2025-01-08" },

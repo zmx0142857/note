@@ -891,16 +891,24 @@ g.is_abelian # True
   若 `N nn H = {e}`, 则称 `G` 是 `N` 和 `H` 的半直积, 记为 `G = N ><| H`.
 </p>
 
+<p class="remark">
+  记号 `N ><| H` 中哪个群是正规的? 是 “又”的两条腿指向的那个.
+</p>
+
 <ol class="example">
   <li>`C_6 ~= C_3 xx C_2`, `D_6 ~= C_3 ><| C_2`.  其中 `C_3` 是正规子群.</li>
   <li>`RR^n` 上的刚体变换群 `M_n` 是平移变换群 `T_n` 与正交变换群 `O_n` 的半直积:
     `M_n = T_n ><| O_n`.
+    具体来说, 设 `A` 是正交交换, `L_v` 是沿向量 `v` 的平移变换, 则对任意 `x in RR^n` 有
+    <span class="formula">
+      `A(L_v(x))`
+      `= A(x+v)`
+      `= A x + A v`
+      `= L_(A v)(A x)`,
+    </span>
+    即 `A L_v = L_(A v) A`.
   </li>
 </ol>
-
-<p class="remark">
-  记号 `N ><| H` 中哪个群是正规的? 是 “又”的两条腿指向的那个.
-</p>
 
 <p>半直积的另一定义不依赖于预先给定的群 `G`, 这个定义稍显复杂:</p>
 
@@ -913,6 +921,26 @@ g.is_abelian # True
     `(n_1, h_1) * (n_2, h_2) := (n_1 * f_(h_1)(n_2), h_1 * h_2)`,
   </span>
   则 `(N xx H, *)`, 为一群, 记为 `N ><|_f H`.<br>
+</p>
+
+<p class="remark">
+  我们知道, 若 `G` 是子群 `G_1, G_2` 的直积, 则 `G_1, G_2` 的元素乘积可交换.
+  若 `G` 仅仅是半直积, 则两个子群元素是部分可交换的:
+  <span class="formula">
+    `h n := f_h(n) h`,
+    `quad h in H, n in N`.
+    <span class="label">`(ast)`</span>
+  </span>
+  这个关系从刚体变换群的例子可以得到验证 (视 `n` 为平移, `h` 为旋转).
+  反过来, 我们也能用 `(ast)` 得到半直积的定义式:
+  记 `bm n := (n, e), bm h := (e, h)`, 则
+  <span class="formula">
+    `(n, h) = bm n bm h`,<br>
+    `(n_1, h_1) (n_2, h_2)`
+    `= bm n_1 bm h_1 bm n_2 bm h_2`
+    `= bm n_1 f_(bm h_1)(bm n_2) bm h_1 bm h_2`
+    `= (n_1 f_(h_1)(n_2), h_1 h_2)`.
+  </span>
 </p>
 
 <p class="remark">

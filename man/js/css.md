@@ -46,3 +46,28 @@
   </div>
 </div>
 ```
+
+## 卡片转场特效
+
+```css
+.container {
+  perspective: 1000px;
+  .card-transition {
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0;
+    transform: scale(0.9) translateY(20px) rotateX(-10deg);
+    filter: blur(10px) brightness(0.8);
+    transform-origin: center center;
+    backface-visibility: hidden;
+    will-change: transform, opacity, filter;
+    pointer-events: none;
+
+    &-visible {
+      opacity: 1;
+      transform: scale(1) translateY(0) rotateX(0);
+      filter: blur(0) brightness(1);
+      pointer-events: auto;
+    }
+  }
+}
+```

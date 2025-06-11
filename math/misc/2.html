@@ -805,7 +805,7 @@
   </li>
 </ol>
 
-<h3 id="equality-of-triangle">三角形中的恒等式与不等式</h3>
+<h3 id="equality-of-triangle">解三角形</h3>
 
 <p class="example">
   余弦定理的暴力证明
@@ -1055,6 +1055,38 @@
   换言之该三角形是直角三角形. 问题化为 `sin A + cos A ge 1`, 即
   `sqrt 2 sin(A+pi/4) ge 1`, 由于 `0 le A le pi/2`, 这是显然成立的.
 </p>
+
+<ol class="example">
+  <b>锐角、直角、钝角三角形的判定</b> 三角形 ABC 中,
+  <li>`c^2 ⪋ a^2 + b^2` `iff C ⪋ pi/2`.</li>
+  <li>`sin^2 C ⪋ sin^2 A + sin^2 B` `iff C ⪋ pi/2`.</li>
+  <li>设 `A, B` 为锐角, 则 `cos A ⪋ sin B` `iff cos B ⪋ sin A` `iff C ⪋ pi/2`.</li>
+  <li>设 `A, B` 为锐角, 则 `sin C ⪋ sin^2 A + sin^2 B` `iff C ⪋ pi/2`.</li>
+</ol>
+
+<ol class="proof">
+  <li>这是余弦定理 `cos C = (a^2+b^2-c^2)/(2 a b)` 的简单推论.</li>
+  <li>用正弦定理化为 1. 的情形.</li>
+  <li>利用正弦函数的单调性容易看出
+    <span class="formula">
+      `sin(pi/2-A) ⪋ sin B`
+      `iff pi/2 ⪋ A + B`
+      `iff sin(pi/2-B) ⪋ sin A`.
+    </span>
+  </li>
+  <li>注意与 2. 的区别, `sin C` 并没有被平方, 且多了 `A, B` 是锐角的条件.
+    首先由
+    <span class="formula">
+      `sin C = sin(A+B)`
+      `= sin A cos B + sin B cos A`,
+    </span>
+    结合 3. 的结论有
+    <span class="formula">
+      `C ⪋ pi/2`
+      `iff sin A cos B + sin B cos A ⪋ sin^2 A + sin^2 B`.
+    </span>
+  </li>
+</ol>
 
 <h2>反三角函数</h2>
 

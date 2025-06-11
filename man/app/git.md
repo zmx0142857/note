@@ -267,3 +267,7 @@ fixup 333333
 
 退出编辑, 执行 `git rebase --continue` 完成 rebase.
 
+如果想修改最近一次提交的信息, 可以用 `git commit --amend`.
+
+另外注意, 由于这些修改丢弃了一些 commit, 所以是无法成功推送至远程的. 除非使用 `git push -f` (不推荐).
+
