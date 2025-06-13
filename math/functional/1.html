@@ -7,11 +7,13 @@
 </head>
 <body>
 
+<p>[来自张恭庆《泛函分析讲义》等]</p>
+
 <h2>基本概念</h2>
 
 <div class="definition">
-	设集合 `X != O/`, 称映射 `d: X xx X to R` 为 `X`
-	上的<b>度量函数</b>或<b>距离函数</b>, 如果它满足:
+	设集合 `X != O/`, 称映射 `d: X xx X to RR` 为 `X`
+    上的<b>度量函数</b>或<b>距离函数</b>, 简称<b>度量</b>, 如果它满足:
 	<ol>
 		<li>非负性与唯一性: `(AA x, y in X)` `d(x, y) ge 0`,
 			等号成立当且仅当 `x = y`;
@@ -33,7 +35,7 @@
 </p>
 
 <p class="definition">
-	<b>度量函数意义下的极限</b>
+	<b>度量空间的点列极限</b>
 	设 `(X, d)` 是度量空间. 称 `X` 中的点列 `{x_n}` 收敛,
 	如果存在 `x in X`, 使
 	<span class="formula">
@@ -53,35 +55,31 @@
 	这表明度量函数是度量空间上的二元连续函数.
 </p>
 
-<p class="theorem">
-	设 `(X, d)` 为度量空间. 则 `d_1(x, y) = (d(x, y))/(1+d(x,y))` 也是 `X`
-	上的度量函数.
-</p>
+<ol class="example">
+  <li>设 `(X, d)` 为度量空间. 则 `d_1(x, y) = (d(x, y))/(1+d(x,y))` 也是 `X` 上的度量函数.</li>
+  <li>`n` 维 Euclid 空间 `RR^n` 上的度量为
+    <span class="formula">
+      `d(x, y) = sqrt( sum_(i=1)^n |x_i-y_i|^2 )`
+    </span>
+  </li>
+  <li>全体有界数列组成的<b>有界数列空间</b> `l^oo` 上的度量为
+    <span class="formula">
+      `d(x, y) = Sup_i |x_i - y_i|`
+    </span>
+  </li>
+  <li>全体数列组成的<b>序列空间</b> `cc S` 上的度量为
+    <span class="formula">
+      `d(x, y) = sum_(i=1)^oo 2^-i |x_i-y_i|/(1+|x_i-y_i|)`
+    </span>
+  </li>
+  <li><b>离散度量空间</b> `(X, d)` 的距离函数为
+    <span class="formula">
+      `d(x, y) = {1, if x != y; 0, if x = y:}`.
+    </span>
+  </li>
+</ol>
 
-<p class="example">
-	<span class="formula">
-		`d(x, y) = sqrt( sum_(i=1)^n |x_i-y_i|^2 )`
-	</span>
-	构成 `n` 维 Euclid 空间 `RR^n` 上的度量函数.
-</p>
-
-<p class="example">
-	记全体有界数列 `x = {x_i}` 为有界数列空间 `(m)`, 则
-	<span class="formula">
-		`d(x, y) = Sup_i |x_i - y_i|`
-	</span>
-	构成 `(m)` 上的度量函数.
-</p>
-
-<p class="example">
-	记全体数列 `x = {x_i}` 为序列空间 `(s)`, 则
-	<span class="formula">
-		`d(x, y) = sum_(i=1)^oo 2^-i |x_i-y_i|/(1+|x_i-y_i|)`
-	</span>
-	构成 `(s)` 上的度量函数.
-</p>
-
-<h2>开集, 闭集与连续映射</h2>
+<h2>开集、闭集与连续映射</h2>
 
 <h3>开集</h3>
 
@@ -178,7 +176,12 @@
 	`f^-1(V) = {x in X: f(x) in V}` 是 `X` 中的开集.
 </p>
 
-<h2>可分性, 完备性, 列紧性</h2>
+<p class="theorem">
+  设 `X, Y` 是度量空间, `f: X to Y` 连续当且仅当对任意点列 `x_n in X`,
+  `x_n to x` 蕴含 `f(x_n) to f(x)`.
+</p>
+
+<h2>可分性、完备性、列紧性</h2>
 
 <h3>可分性</h3>
 
@@ -188,43 +191,30 @@
 	中存在可数的稠密子集, 即存在 `X` 中的点列 `{x_n}` 在 `X` 中稠密.
 </p>
 
-<p class="theorem">
-	如果度量空间 `(X, d)` 中存在不可数子集 `B` 以及常数 `epsi_0 gt 0`,
-	使得
-	<span class="formula">
-		`d(x, y) ge epsi_0`, `x, y in B`, `x != y`,
-	</span>
-	则 `X` 不可分.
+<p class="corollary">
+  如果度量空间 `(X, d)` 中存在不可数子集 `B` 以及常数 `epsi_0 gt 0`,
+  使得
+  <span class="formula">
+    `d(x, y) ge epsi_0`, `quad AA x, y in B`, `x != y`,
+  </span>
+  则 `X` 不可分.
 </p>
 
-<p class="example">
-	`RR^n` 是可分的.
-</p>
-
-<p class="example">
-	`(s)` 空间是可分的.
-</p>
-
-<p class="example">
-	`(m)` 空间是不可分的.
-</p>
-
-<p class="example">
-	如果 `X` 不可数, 那么离散度量空间 `(X, d)` 不可分, 其中
-	<span class="formula">
-		`d(x, y) = {1, if x != y; 0, if x = y :}`.
-	</span>
-</p>
+<ol class="example">
+  `RR^n` 和序列空间 `cc S` 空间是可分的;
+  有界数列空间 `l^oo` 空间不可分;
+  若 `X` 不可数, 那么离散度量空间 `(X, d)` 不可分.
+</ol>
 
 <h3>完备性</h3>
 
 <p class="definition">
-	称度量空间 `(X, d)` 中的点列 `{x_n}` 为 <b>Cauchy 列</b>, 如果对任意
-	`epsi gt 0`, 存在 `N in ZZ^+`, 使对任意 `m, n gt N`, 有
-	<span class="formula">
-		`d(x_n, x_m) lt epsi`.
-	</span>
-	称 `(X, d)` 是<b>完备的</b>, 如果其中的任意 Cauchy 列都在 `X` 中收敛.
+  称度量空间 `(X, d)` 中的点列 `{x_n}` 为 <b>Cauchy 列</b>或<b>基本列</b>, 如果对任意
+  `epsi gt 0`, 存在 `N in ZZ^+`, 使得
+  <span class="formula">
+    `d(x_n, x_m) lt epsi`, `quad AA m, n gt N`.
+  </span>
+  称 `(X, d)` 是<b>完备的</b>, 如果其中的任意 Cauchy 列都在 `X` 中收敛.
 </p>
 
 <p class="corollary">
@@ -232,198 +222,74 @@
 </p>
 
 <p class="example">
-	`RR^n` 是完备的.
-</p>
-
-<p class="example">
-	`(s)` 空间是完备的.
-</p>
-
-<p class="example">
-	`(m)` 空间是完备的.
+  `RR^n`, `cc S`, `l^oo` 都是完备的.
 </p>
 
 <h3>列紧性</h3>
 
-<p class="definition">
-	设 `(X, d)` 是度量空间, 称 `A sube X` 为<b>列紧的</b>, 如果 `A`
-	是任意点列都含有在 `X` 中收敛的子列. 称 `A` 为<b>紧的</b>
-	(<b>自列紧的</b>), 如果 `A` 是列紧的, 且为 `X` 中的闭集.
+<ol class="definition">
+  设 `(X, d)` 是度量空间,
+  <li>称 `A sube X` 为<b>列紧的</b>, 如果 `A` 的任意点列都含有在 `X` 中收敛的子列.</li>
+  <li>称 `A` 为<b>自列紧的</b>, 如果 `A` 是列紧的, 且存在一个子列收敛到 `A` 中.</li>
+  <li>如果空间 `X` 本身是列紧的, 称它为<b>列紧空间</b>.</li>
+  <li>称 `A` 为<b>紧的</b>, 如果它的任意一族开覆盖都存在有限的子覆盖.</li>
+</ol>
+
+<p class="corollary">
+  若 `A` 中存在点列 `{x_n}` 与 `epsi_0 gt 0`, 使得当 `m != n` 时, 有
+  `d(x_m, x_n) ge epsi_0`, 则 `{x_n}` 没有收敛子列, 从而 `A` 不是列紧的.
 </p>
 
 <p class="corollary">
-	若 `A` 中存在点列 `{x_n}` 与 `epsi_0 gt 0`, 使得当 `m != n` 时, 有
-	`d(x_m, x_n) ge epsi_0`, 则 `{x_n}` 不是 Cauchy 列, 从而 `A`
-	不是列紧的.
+  列紧空间必完备.
 </p>
 
-<p class="example">
-	`RR^n` 中的有界集是列紧的.
+<ol class="example">
+  <li>有限维空间, 如 `RR^n` 中的有界集是列紧的, 有界闭集是自列紧的.</li>
+  <li>
+    我们后面将看到, 无穷维赋范线性空间的单位闭球面不是列紧的.
+    在泛函分析中我们经常看到无穷维空间与有限维空间的重大区别, 此为一例.
+  </li>
+</ol>
+
+<ol class="definition">
+  <li>称集合 `N` 是 `A` 的一个 <b>`epsi` 网</b>, 如果 `AA x in A`, `EE y in N`, 使得 `d(x, y) lt epsi`.
+    换言之
+    <span class="formula">
+      `A sube uuu_(y in N) B(y, epsi)`.
+    </span>
+  </li>
+  <li>若 `N` 还是一个有限集, 则称它是 `A` 的<b>有限 `epsi` 网</b>.</li>
+  <li>若对 `AA epsi gt 0`, 都存在 `A` 的有限 `epsi` 网, 则称 `A` 完全有界.</li>
+</ol>
+
+<p class="corollary">
+  完全有界的度量空间是可分的.
 </p>
 
-<p class="definition">
-	设 `(X, d)` 是度量空间, `A sube X`. 称 `A` <b>具有有限的
-	`epsi`-网</b>, 如果对任意 `epsi gt 0`, 都存在 `A` 中的有限个点
-	`{x_1, cdots, x_n}` (其中 `n` 依赖于 `epsi`), 使得
-	<span class="formula">
-		`A sube uuu_(i=1)^n B(x_i, epsi)`.
-	</span>
+<p class="proof">
+  取 `N_n` 为有限 `1//n` 网, 则 `uuu_(n=1)^oo N_n` 是一个可数稠密子集.
 </p>
 
 <ol class="theorem">
-	<b>(Hausdorff)</b>
-	<li>度量空间中的列紧性具有有限的 `epsi`-网;</li>
-	<li>完备的度量空间中的子集是列紧的当且仅当它具有有界的 `epsi`-网.</li>
+  <b>(Hausdorff)</b>
+  度量空间中的子集 `A` 列紧 `rArr` `A` 完全有界.
+  若度量空间完备, 则 `lArr` 也成立.
 </ol>
 
 <p class="theorem">
-	<b>有限开覆盖定理</b>
-	`A` 是度量空间 `(X, d)` 的紧子集 (即列紧的闭集) 当且仅当 `A`
-	的任意一族开覆盖都存在有限的子覆盖.
+  度量空间的子集 `A` 是紧的, 当且仅当它是自列紧的.
 </p>
 
-<h2>`C([a, b]";" RR^n)` 空间: `RR^n` 中的连续曲线</h2>
+<ol class="remark">
+  小结: 对于度量空间:
+  <li>列紧空间 `rArr` 完备空间.</li>
+  <li>列紧空间 `rArr` 完全有界空间 `rArr` 可分空间.</li>
+  <li>列紧子集 `rArr` 完全有界子集; 完备空间中 `lArr` 也成立.</li>
+  <li>紧子集 `iff` 自列紧子集; 特别紧空间 `iff` 列紧空间.</li>
+</ol>
 
-<p class="definition">
-	用 `C([a, b]";" RR^n)` 表示全体连续映射 `x: [a, b] to RR^n`,
-	定义其上的标准化度量函数
-	<span class="formula">
-		`d(x, y) = max_(t in [a, b]) ||x(t) - y(t)||`,
-	</span>
-	其中 `||*||` 是 `RR^n` 中的标准化度量 (Euclid 距离).
-	`RR^n` 空间的线性结构可以自然诱导出 `C([a, b]";" RR^n)` 上的线性结构,
-	即
-	<span class="formula">
-		`(x+y)(t) = x(t) + y(t)`,<br/>
-		`(alpha x)(t) = alpha x(t)`.
-	</span>
-	当 `n = 1` 时, `C([a, b]";" RR^n)` 简单记为 `C[a, b]`.
-</p>
-
-<p class="theorem">
-	`C([a, b]";" RR^n)` 是可分的, 也是完备的.
-</p>
-
-<p class="definition">
-	称 `[a, b]` 上的一族连续函数 `A sube C[a, b]` <b>等度连续</b>,
-	如果对任意 `epsi gt 0`, 存在 `delta gt 0`, 使对任意 `t_1, t_2 in [a,
-	b]`, `|t_1 - t_2| lt delta`, 有
-	<span class="formula">
-		`|x(t_1) - x(t_2)| lt epsi`, `AA x in A`.
-	</span>
-</p>
-
-<p class="remark">
-	等度连续的函数族中, 每个函数都一致连续, 且保证它们一致连续的 `delta`
-	是同一个. 形象地说, 它们是 "一致一致连续" 的.
-</p>
-
-<p class="theorem">
-	<b>(Arzela-Ascoli, 1889)</b>
-	`C[a, b]` 中的子集 `A` 是列紧的当且仅当 `A` 是有界集, 且等度连续.
-</p>
-
-<h3>Hölder 空间*</h3>
-
-<p class="definition">
-	设 `0 lt alpha le 1`, 称 `[a, b]` 上的实函数 `x(t)` 为 <b>`alpha` 次
-	Hölder 连续的</b>, 如果存在 `C gt 0` 使对任意 `t_1, t_2 in [a, b]`, 有
-	<span class="formula">
-		`|x(t_1) - x(t_2)| le C|t_1 - t_2|`.
-	</span>
-	特别当 `alpha = 1` 时, 称 `x` 为 <b>Lipschitz 连续的</b>.
-	显然 Lipschitz 连续 `rArr` Hölder 连续 `rArr` 一致连续 `rArr` 连续.
-	称 `[a, b]` 上全体 `alpha` 次 Hölder 连续的函数为 <b>`alpha` 次 Hölder
-	空间</b>, 记为 `C^alpha [a, b]`.
-	定义 `C^alpha[a, b]` 的度量为
-	<span class="formula">
-		`d(x, y) = max_(t in [a, b]) |x(t) - y(t)|`
-		`+ Sup_(t"," t' in [a, b]; t != t') |x(t) - y(t) - x(t') +
-		y(t')|/|t - t'|^alpha`.
-	</span>
-	可以证明, `C^alpha[a, b]` 在此度量下是完备的.
-	进一步, 显然 `C^alpha[a, b] sube C[a, b]`, 可以证明 `C^alpha[a, b]`
-	中任意有界集 `A` 在 `C[a, b]` 中是列紧的.
-</p>
-
-<h2>Banach 压缩映象原理</h2>
-
-<p class="definition">
-	设 `(X, d)` 是度量空间, `T: X to X`. 称 `x in X` 为映射 `T`
-	的<b>不动点</b>, 如果 `T x = x`.
-</p>
-
-<p class="definition">
-	设 `(X, d)` 是度量空间. 称映射 `T: X to X` 为<b>压缩映射</b>,
-	如果存在常数 `0 le alpha lt 1`, 使得
-	<span class="formula">
-		`d(T x, T y) le alpha d(x, y)`, `AA x, y in X`.
-	</span>
-	称 `alpha` 为 `T` 的<b>压缩系数</b>.
-</p>
-
-<p class="corollary">
-	压缩映射是 Lipschitz 连续的.
-</p>
-
-<p class="theorem">
-	<b>Banach 压缩映象原理</b>
-	设 `(X, d)` 是完备的度量空间, `T` 为 `X` 上压缩系数为 `alpha`
-	的压缩映射, 则 `T` 有唯一不动点 `x^** in X`. 进一步, 任取初始点
-	`x_0 in X`, 令 `x_(n+1) = T x_n`, `n = 0, 1, 2, cdots`, 则 `{x_n}`
-	收敛到 `x^**`, 且有估计
-	<span class="formula">
-		`d(x_n, x^**) le alpha/(1-alpha) d(x_n, x_(n-1)) le
-		alpha^n/(1-alpha) d(x_1, x_0)`.
-	</span>
-</p>
-
-<p class="theorem">
-	<b>(Picard, 1893)</b>
-	设常微分方程初值问题
-	<span class="formula">`{
-		("d" bm x)/dt = f(bm x(t), t);
-		bm x(t_0) = bm x_0;
-	:}`
-	</span>
-	满足 `f: RR^n xx [t_0 - delta, t_0 + delta] to RR^n` 连续, 且关于变元
-	`bm x` 适合 Lipschitz 条件, 即存在 `L gt 0`, 对任意 `t in (t_0-delta,
-	t_0+delta)` 有
-	<span class="formula">
-		`||f(bm x, t) - f(bm y, t)|| le L||bm x - bm y||`,
-		`AA bm x, bm y in RR^n`
-	</span>
-	则问题在 `[t_0 - beta, t_0 + beta]`
-	上存在唯一的连续解, 其中 `0 lt beta lt min{delta, 1//L}`.
-</p>
-
-<p class="theorem">
-	设 `f in C[a, b]`, `K in C([a, b] xx [a, b])`, 且存在 `C gt 0`, 使
-	<span class="formula">
-		`int_a^b |K(x, y)| dy le C`, `AA x in [a, b]`,
-	</span>
-	则当 `|lambda| lt 1//C` 时, 必存在唯一的 `u in C[a, b]`,
-	满足如下积分方程:
-	<span class="formula">
-		`u(x) = f(x) + lambda int_a^b K(x, y) u(y) dy`.
-	</span>
-</p>
-
-<p class="theorem">
-	设半线性二阶常微分方程两点边值问题
-	<span class="formula">`{
-		-("d"^2 u)/dx^2 = g(u(x), x)"," x in (0, 1);
-		u(0) = u(1) = 0;
-	:}`
-	</span>
-	满足 `g: RR xx [0, 1] to RR` 连续, 且关于变元 `x` 满足 Lipschitz 条件
-	<span class="formula">
-		`|g(x_1, y) - g(x_2, y)| le L |x_1 - x_2|`,
-	</span>
-	则 `L lt 8` 时, 问题存在解 `u in C^2[0, 1]`.
-</p>
-
-<h2>度量空间的完备化</h2>
+<h3>完备化</h3>
 
 <p class="definition">
 	设 `(X, d)`, `(Y, d_1)` 是两个度量空间. 称映射 `T: X to Y`
@@ -445,6 +311,164 @@
 	任意度量空间都可以进行完备化, 而且在等距同构的意义下,
 	完备化后的度量空间是唯一的.
 </p>
+
+<h2>连续函数空间与 Hölder 空间</h2>
+
+<h3>连续函数空间</h3>
+
+<p class="definition">
+	用 `C([a, b], RR^n)` 表示全体连续映射 `x: [a, b] to RR^n`,
+    每个映射可以看作 `RR^n` 中的一条连续曲线.
+	定义其上的标准化度量函数
+	<span class="formula">
+		`d(x, y) = max_(t in [a, b]) ||x(t) - y(t)||`,
+	</span>
+	其中 `||*||` 是 `RR^n` 中的标准化度量 (Euclid 距离).
+	`RR^n` 空间的线性结构可以自然诱导出 `C([a, b], RR^n)` 上的线性结构,
+	即
+	<span class="formula">
+		`(x+y)(t) = x(t) + y(t)`,<br/>
+		`(alpha x)(t) = alpha x(t)`.
+	</span>
+	当 `n = 1` 时, `C([a, b], RR^n)` 简单记为 `C[a, b]`.
+</p>
+
+<p class="theorem">
+	`C([a, b], RR^n)` 是可分的, 也是完备的.
+</p>
+
+<ol class="definition">
+  <b>一致有界与等度连续</b>
+  考虑连续函数空间 `C[a, b]`.
+  <li>称函数族 `F sube C[a, b]` <b>一致有界</b>, 如果 `EE M gt 0`, 使得
+    <span class="formula">
+      `|f(x)| le M`, `quad AA f in F`, `AA x in [a, b]`.
+    </span>
+    即 `M` 是这族函数的共同的界.
+  </li>
+  <li>
+	称 `F sube C[a, b]` <b>等度连续</b>,
+	如果对任意 `epsi gt 0`, 存在 `delta gt 0`, 使对任意 `x, y in [a, b]`, `|x - y| lt delta`, 有
+	<span class="formula">
+	  `|f(x) - f(y)| lt epsi`, `quad AA f in F`.
+	</span>
+    即 `F` 中每个函数都一致连续, 且保证它们一致连续的 `delta` 也是同一个.
+    这是一致连续的加强版, “一致一致连续”.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>(Arzela-Ascoli, 1889)</b>
+  `F sube C[a, b]` 是列紧的当且仅当 `F` 一致有界且等度连续.
+</p>
+
+<h3>Hölder 空间*</h3>
+
+<p class="definition">
+	设 `0 lt alpha le 1`, 称 `[a, b]` 上的实函数 `f(t)` 为 <b>`alpha` 次
+	Hölder 连续的</b>, 如果存在 `C gt 0` 使对任意 `x, y in [a, b]`, 有
+	<span class="formula">
+		`|f(x) - f(y)|^alpha le C|x - y|`.
+	</span>
+	特别当 `alpha = 1` 时, 称 `x` 为 <b>Lipschitz 连续的</b>.
+    我们有
+    <span class="formula">
+      Lipschitz 连续 `rArr` Hölder 连续 `rArr` 一致连续 `rArr` 连续.
+    </span>
+	称 `[a, b]` 上全体 `alpha` 次 Hölder 连续的函数为 <b>`alpha` 次 Hölder
+	空间</b>, 记为 `C^alpha [a, b]`.
+	定义 `C^alpha[a, b]` 的度量为
+	<span class="formula">
+		`d(x, y) = max_(t in [a, b]) |x(t) - y(t)|`
+		`+ underset(s"," t in [a, b]; s != t)Sup |x(s) - y(s) - x(t) + y(t)|/|s - t|^alpha`.
+	</span>
+	可以证明, `C^alpha[a, b]` 在此度量下是完备的.
+	进一步, 显然 `C^alpha[a, b] sube C[a, b]`, 可以证明 `C^alpha[a, b]`
+	中任意有界集 `A` 在 `C[a, b]` 中是列紧的.
+</p>
+
+<h2>压缩映象与不动点</h2>
+
+<p class="definition">
+	设 `(X, d)` 是度量空间, `T: X to X`. 称 `x in X` 为映射 `T`
+	的<b>不动点</b>, 如果 `T x = x`.
+</p>
+
+<p class="definition">
+	设 `(X, d)` 是度量空间. 称映射 `T: X to X` 为<b>压缩映射</b>,
+	如果存在常数 `0 le alpha lt 1`, 使得
+	<span class="formula">
+		`d(T x, T y) le alpha d(x, y)`, `quad AA x, y in X`.
+	</span>
+	称 `alpha` 为 `T` 的<b>压缩系数</b>.
+</p>
+
+<p class="corollary">
+	压缩映射是 Lipschitz 连续的.
+</p>
+
+<p class="theorem">
+	<b>Banach 压缩映象原理</b>
+	设 `(X, d)` 是完备的度量空间, `T` 为 `X` 上压缩系数为 `alpha`
+	的压缩映射, 则 `T` 有唯一不动点 `x^** in X`. 进一步, 任取初始点
+	`x_0 in X`, 令 `x_(n+1) = T x_n`, `n = 0, 1, 2, cdots`, 则 `{x_n}`
+	收敛到 `x^**`, 且有估计
+	<span class="formula">
+		`d(x_n, x^**) le alpha/(1-alpha) d(x_n, x_(n-1)) le
+		alpha^n/(1-alpha) d(x_1, x_0)`.
+	</span>
+</p>
+
+<p>压缩映象原理可用于解决一类微分、积分方程解的存在唯一性问题,
+  还能证明隐函数定理.
+</p>
+
+<p class="example">
+	<b>(Picard, 1893)</b>
+	设常微分方程初值问题
+	<span class="formula">`{
+		dx/dt = f(x(t), t);
+		x(t_0) = x_0;
+	:}`
+	</span>
+	满足 `f: RR^n xx [t_0 - delta, t_0 + delta] to RR^n` 连续, 且关于变元
+	`x` 适合 Lipschitz 条件, 即存在 `L gt 0`, 对任意 `t in (t_0-delta,
+	t_0+delta)` 有
+	<span class="formula">
+		`||f(x, t) - f(y, t)|| le L||x - y||`,
+		`quad AA x, y in RR^n`
+	</span>
+	则问题在 `[t_0 - beta, t_0 + beta]`
+	上存在唯一的连续解, 其中 `0 lt beta lt min{delta, 1//L}`.
+</p>
+
+<!--
+<p class="example">
+	设 `f in C[a, b]`, `K in C([a, b] xx [a, b])`, 且存在 `C gt 0`, 使
+	<span class="formula">
+		`int_a^b |K(x, y)| dy le C`, `quad AA x in [a, b]`,
+	</span>
+	则当 `|lambda| lt 1//C` 时, 必存在唯一的 `u in C[a, b]`,
+	满足如下积分方程:
+	<span class="formula">
+		`u(x) = f(x) + lambda int_a^b K(x, y) u(y) dy`.
+	</span>
+</p>
+
+<p class="example">
+	设半线性二阶常微分方程两点边值问题
+	<span class="formula">`{
+		-("d"^2 u)/dx^2 = g(u(x), x)"," x in (0, 1);
+		u(0) = u(1) = 0;
+	:}`
+	</span>
+	满足 `g: RR xx [0, 1] to RR` 连续, 且关于变元 `x` 满足 Lipschitz 条件
+	<span class="formula">
+		`|g(x_1, y) - g(x_2, y)| le L |x_1 - x_2|`,
+	</span>
+	则 `L lt 8` 时, 问题存在解 `u in C^2[0, 1]`.
+</p>
+-->
 
 <script src="../../js/note.js?type=math"></script>
 </body>

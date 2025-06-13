@@ -1088,6 +1088,28 @@
   </li>
 </ol>
 
+<p class="example">
+  [来自群友 姒姒]
+  斜三角形 `ABC` 中, `sin A = cos B`, 求 `cos A + cos B + cos C` 的取值范围.
+</p>
+
+<p class="solution">
+  [来自群友 stupidpig、fran]
+  由 `sin A = cos B = sin(pi/2-B)` 知道 `A = pi/2-B` 或 `A = pi-(pi/2-B) = B + pi/2`.
+  前一种情况是直角三角形, 不满足题目条件“斜三角形”. 因此
+  <span class="formula">
+    `cos A + cos B + cos C`
+    `= cos(B+pi/2) + cos B + cos(pi-A-B)`
+    `= -sin B + cos B + sin 2B`.
+  </span>
+  接下来求上式在 `B in (0, pi/4)` 时的取值范围. 配二次函数:
+  <span class="formula">
+    上式 `= -(cos B - sin B)^2 + (cos B - sin B) + 1`.
+  </span>
+  从而 `cos B - sin B = 1/2` 时上式取得最大值 `5//4`, `cos B - sin B to 0` 时取得下确界 `1`.
+  最终答案: `(1, 5//4]`.
+</p>
+
 <h2>反三角函数</h2>
 
 <table>

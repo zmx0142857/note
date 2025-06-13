@@ -155,10 +155,10 @@ var tocData = [
         "value": "functional",
         "label": "泛函分析",
         "children": [
-          { "value": "1", "label": "度量空间" },
-          { "value": "2", "label": "线性赋范空间" },
-          { "value": "3", "label": "有界线性算子" },
-          { "value": "4", "label": "Hilbert 空间及其上的有界线性算子" }
+          { "value": "1", "label": "度量空间", "date": "2025-06-12" },
+          { "value": "2", "label": "赋范线性空间", "date": "2025-06-13" },
+          // { "value": "3", "label": "有界线性算子" },
+          // { "value": "4", "label": "Hilbert 空间及其上的有界线性算子" }
         ]
       },
       {
