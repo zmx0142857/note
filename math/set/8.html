@@ -7,7 +7,14 @@
 </head>
 <body>
 
-<p>[来自 李文威《代数学方法》第二章、《代数学讲义》附录B]</p>
+<ul>
+  来自:
+  <li>李文威《代数学方法》第二章</li>
+  <li>李文威《代数学讲义》附录B</li>
+  <li><a href="https://www.bananaspace.org/wiki/%E8%AE%B2%E4%B9%89:%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%EF%BC%88infi%EF%BC%89/%E4%BB%BB%E6%84%8F%E7%8E%AF%E5%92%8C%E5%9F%9F%E4%B8%8A%E7%9A%84%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E8%8C%83%E7%95%B4%E8%AE%BA%E5%85%A5%E9%97%A8_(*)" target="_blank">香蕉空间 - 范畴论入门</a></li>
+  <li>John Baez《Category Theory Course》2019.09.03</li>
+  <li>Pierre Schapira《Categories and homological algebra》2009.01.10</li>
+</ul>
 
 <ol class="remark">
   概括来说:
@@ -66,10 +73,7 @@
 </ul>
 
 <p class="remark">
-  幺半群 (Monoid) 上也有二元合成, 且满足结合律, 并带有单位元.
-  范畴与幺半群的区别在于, 范畴中的恒等态射可以有许多——每个对象都带有一个恒等态射,
-  而幺半群只有一个单位元.
-  这种意义下范畴是幺半群的推广.
+  `X in "Ob"(cc C)` 简记为 `X: cc C`.
 </p>
 
 <ol class="definition">
@@ -77,13 +81,26 @@
     则称 `g` 是 `f` 的逆, `f` 是可逆态射或<b>同构</b>. `X` 到 `Y`
     的全体同构记为 `"Isom"_(cc C)(X, Y)`. 由恒等态射的性质知道,
     逆若存在则必唯一.
-    若一个范畴中的所有态射都可逆, 则称它为<b>广群</b>.
   </li>
   <li>简记 `"End"_(cc C)(X) := Hom_C(X, X)`, `"Aut"_(cc C)(X) := "Isom"_(cc C)(X, X)`,
     分别称为 `X` 的<b>自同态集</b>和<b>自同构集</b>.
     `"End"(X)` 是幺半群, `"Aut"(X)` 是群.
   </li>
   <li>对象集和态射集皆空的范畴称为<b>空范畴</b>, 记为 `bb 0`.</li>
+</ol>
+
+<ol class="remark">
+  <li>
+    <b>幺半群 (Monoid)</b> 上也有二元合成, 且满足结合律, 并带有单位元.
+    与范畴的区别在于, 幺半群只有一个单位元, 而范畴中的恒等态射可以有许多——每个对象都带有一个恒等态射.
+    这种意义下范畴是幺半群的推广, 而幺半群相当于只有一个对象的范畴,
+    因此我们也把只有一个对象的范畴叫做 monoid.
+  </li>
+  <li>
+    如果一个 monoid 的所有态射都可逆, 那么它其实是群,
+    此时群的元素是范畴的态射, 群的乘法是态射的合成.
+    推而广之, 把所有态射都可逆的范畴称为<b>群胚 (groupoid)</b> 或<b>广群</b>.
+  </li>
 </ol>
 
 <p>
@@ -127,7 +144,7 @@
   <li>(火) `f @^"op" g := g @ f` (反向合成);</li>
   <li>(土) 恒等态射定义同 `cc C`.</li>
   我们有 `(cc C^"op")^"op" = cc C`.
-  范畴与反范畴之间对称的关系也叫做对偶原理. 比如, `cc C^"op"` 中的单态射就是 `cc C` 中的满态射.
+  范畴与反范畴之间反转箭头的关系也叫做<b>对偶 (dual) 原理</b>. 比如, `cc C^"op"` 中的单态射就是 `cc C` 中的满态射.
 </ul>
 
 <ul class="definition">
@@ -153,24 +170,46 @@
   <li><b>集合范畴 `sf(Set)`</b>: 对象为 (某个宇宙中的) 所有集合, 态射为集合间的映射.</li>
   <li><b>群范畴 `sf(Grp)`</b>: 对象为所有群, 态射为群同态.</li>
   <li><b>交换群范畴 `sf(Ab)`</b>: 对象为所有交换群, 态射为群同态, 它是 `sf(Grp)` 的全子范畴.</li>
+  <li>域 `bbb k` 上的<b>向量空间范畴 `sf(V ect)(bbb k)`</b>: 对象为 `bbb k`
+    上所有向量空间, 态射为线性映射. 类似定义有限维向量空间范畴 `sf(V ect)_(f)(bbb k)`, 它是 `sf(V ect)(bbb k)` 的全子范畴.</li>
+  总之, 有一大类范畴, 其对象是一些带有代数运算的集合, 态射则是集合之间保持这些运算的映射, 即同态.
+  这样的范畴还有<b>环范畴 `sf(Ri ng)`</b>, <b>交换环范畴 `sf(CRi ng)`</b>, <b>环
+  `R` 上的左模范畴 `sf(Mod)_R`</b> 等等.
+  下面的例子表明, 范畴中的态射不必是映射:
+  <li><b>关系范畴 `sf(Rel)`</b>:
+    对象为全体集合, `"Hom"(X, Y)` 是集合 `X, Y` 之间的全体二元关系.
+    态射合成定义为
+    <span class="formula">
+      `tau @ sigma := { (x, z): (x, y) in sigma and (y, z) in tau} }`.
+    </span>
+  </li>
   <li><b>拓扑空间范畴 `sf(To p)`</b>: 对象为所有 Hausdorff 拓扑空间, 态射为连续映射.
     类似定义带基点的拓扑空间范畴 `sf(To p)^ast`.
   </li>
-  <li>域 `bbb k` 上的<b>向量空间范畴 `sf(V ect)(bbb k)`</b>: 对象为 `bbb k` 上所有向量空间, 态射为线性映射. 类似定义有限维向量空间范畴 `sf(V ect)_(f)(bbb k)`, 它是 `sf(V ect)(bbb k)` 的全子范畴.</li>
   <li>给定集合, 可以定义相应的<b>离散范畴 `sf(Disc)(S)`</b>: 对象集为 `S`, 态射仅有恒等态射 `{"id"_x: x in S}`.</li>
 </ol>
 
 <h3>单态射与满态射</h3>
 
 <ol class="definition">
-  设 `X, Y in "Ob"(cc C)`, `f: X to Y`.
-  <li>称 `f` 为<b>单态射</b>, 如果它满足左消去律: 对任意 `Z in "Ob"(cc C)` 和任意 `g, h: Z to X` 有 `f g = f h iff g = h`.</li>
-  <li>称 `f` 为<b>满态射</b>, 如果它满足右消去律: 对任意 `Z in "Ob"(cc C)` 和任意 `g, h: Y to Z` 有 `g f = h f iff g = h`.</li>
+  设 `X, Y: cc C`, `f: X to Y`.
+  <li>称 `f` 为<b>单态射</b>, 如果它满足左消去律: 对任意 `Z: cc C` 和任意 `g, h: Z to X` 有 `f g = f h iff g = h`.</li>
+  <li>称 `f` 为<b>满态射</b>, 如果它满足右消去律: 对任意 `Z: cc C` 和任意 `g, h: Y to Z` 有 `g f = h f iff g = h`.</li>
   <li>称 `f` 左可逆, 如果存在 `g` 使得 `g f = "id"_X`; 称 `f` 右可逆, 如果存在 `g` 使得 `f g = "id"_Y`. 一个态射可逆当且仅当它左右皆可逆.</li>
+  将所有箭头掉转, 单态射与满态射就可以互相转化, 因此单态射在反范畴里是满态射, 而满态射在反范畴里是单态射.
 </ol>
 
+<div class="flex">
+  <div class="img" title="单态射">
+    <img style="height:60px" src="../img/monomorphism.png" alt="">
+  </div>
+  <div class="img" title="满态射">
+    <img style="height:60px" src="../img/epimorphism.png" alt="">
+  </div>
+</div>
+
 <p class="corollary">
-  左可逆蕴涵单, 右可逆蕴涵满.
+  左可逆蕴涵单, 右可逆蕴涵满. 因此同构既是单态射又是满态射.
 </p>
 
 <p class="proof">
@@ -178,29 +217,51 @@
 </p>
 
 <p class="remark">
-  在集合论意义下, 单态射等价于左可逆, 满态射等价于右可逆.
+  在集合论意义下, 单态射等价于左可逆 (单射函数), 满态射等价于右可逆 (满射函数).
   范畴论中则未必: 在有些范畴中如 `sf(Set)`, `sf(Grp)`, `sf(V ect)(bbb k)` 中它们是等价的,
   但在 `sf(To p)` 中, 态射有稠密的像便是满态射.
+  又如 `sf(Ri ng)` 中, 单态射就是单的环同态, 然而满态射不等同于满的环同态,
+  例如从 `ZZ to QQ` 的包含同态是满态射, 但不是满射函数.
 </p>
 
 <ol class="proof">
   <li>
-    设 `f, g, h` 是集合间的映射,
-    `f g = f h rArr g = h`. 可以取 `g, h` 为常值映射
+    设 `f` 是集合间的单态射, 取 `g, h` 为常值映射
     `g: z mapsto x_1`, `h: z mapsto x_2`. 于是
     <span class="formula">
-      `f(x_1) = f(x_2) rArr x_1 = x_2`.
+      `f(x_1) = f(x_2)`
+      `rArr f g = f h`
+      `rArr g = h`
+      `rArr x_1 = x_2`.
     </span>
-    这证明了 `f` 是单射.
+    这证明了 `f` 是单射函数.
   </li>
   <li>
     又设 `g f = h f rArr g = h`,
-    反设 `f` 不是满射, 则 `EE y_0 in Y - f(X)`.
+    反设 `f` 不是满射函数, 则 `EE y_0 in Y - f(X)`.
     我们可以让 `g(y), h(y)` 在 `y in f(X)` 时相等, 但 `g(y_0) != h(y_0)`.
     此时 `g f = h f` 但 `g != h`, 矛盾.
-    <hr>
-    假如 `g, h` 是拓扑空间之间的连续映射, 且 `f` 有稠密的像, 我们并不能找到
-    `y_0` 使 `g(y_0) != h(y_0)`. 这就是 `sf(To p)` 中满态射不等于右可逆的原因.
+  </li>
+  <li>
+    假如 `g, h` 是拓扑空间之间的连续映射, `g f = h f`,
+    此时 `g, h` 在 `f` 的像集上相等.
+    但 `f` 有稠密的像, 所以 `g, h` 处处相等.
+    因此 `f` 是满态射.
+  </li>
+  <li>设 `R` 为一环, 同态 `f: ZZ to QQ`, `g, h: QQ to R`, 且 `g f = h f`.
+    同样 `g, h` 在 `f` 的像集上, 即在自变量为整数时相等.
+    我们要求同态保持幺元 1,
+    从而对任意正整数 `n in QQ`,
+    <span class="formula">
+      `g(1//n) g(n)`
+      `= g(n) g(1//n)`
+      `= g(n * 1//n)`
+      `= g(1)`
+      `= 1 in R`.
+    </span>
+    因此 `g(1//n)` 是 `g(n)` 在环 `R` 中的逆. 同理 `h(1//n)` 是 `h(n)` 的逆.
+    但 `g(n) = h(n)`, 由逆元唯一性知道 `g(1//n) = h(1//n)`.
+    从而对任意 `a in QQ` 成立 `g(a) = h(a)`. 因此 `f` 是满态射.
   </li>
 </ol>
 
@@ -293,6 +354,10 @@ map identity = identity
     比如 `sf(Ri ng)` 到 `sf(Ab)` 的忘却函子就把两个环 `R, R'` 之间的环同态映为两个加法群的群同态.
     忘却函子都是忠实的.
   </li>
+  <li><b>基本群 (一阶同伦群) 函子</b>
+    设 `X` 是拓扑空间, `x in X`, 则 `pi_1(X, x)` 代表 `X` 在 `x` 这一点的基本群.
+    可以验证 `pi_1: sf(To p)^ast to sf(Grp)` 是函子.
+  </li>
 </ol>
 
 <h3>自然变换</h3>
@@ -301,7 +366,7 @@ map identity = identity
   <b>自然变换</b> 设函子 `F, G: cc C' to cc C`. 从 `F` 到 `G` 的自然变换 `theta: F rarr G`
   定义为一族态射
   <span class="formula">
-    `theta = { theta_X in Hom_C(F X, G X): X in "Ob"(cc C') }`.
+    `theta = { theta_X in Hom_C(F X, G X) | X: cc C' }`.
   </span>
   换言之 `theta = {theta_X}_X`, 其中 `theta_X: F X to G X`.
   自然变换要求对所有态射 `f: X to Y` 有 `theta_X @ G f = F f @ theta_Y`.
@@ -340,13 +405,13 @@ map identity = identity
 <ol class="definition">
   <li>记函子 `F: cc C' to cc C` 到自身的<b>恒等变换</b>为
     <span class="formula">
-      `"id"_F := { "id"_(F X): X in "Ob"(cc C') }`.
+      `"id"_F := { "id"_(F X) | X: cc C' }`.
     </span>
   </li>
   <li>若 `theta: F to G` 中的态射皆为同构, 则称 `theta` 是<b>自然同构</b>,
     定义其逆 `theta^-1: G to F` 为
     <span class="formula">
-      `theta^-1 := { theta_X^-1: theta_X in theta }`.
+      `theta^-1 := { theta_X^-1 | theta_X in theta }`.
     </span>
     可以验证 `theta^-1 theta = "id"_F`, `theta theta^-1 = "id"_G`.
     若 `theta` 是自然同构, 则它乘以函子后 `theta G, H theta` 也是同构.
@@ -356,29 +421,36 @@ map identity = identity
 <h3>函子与自然变换的例子</h3>
 
 <p class="example">
-  <b>Hom 函子</b> 给定范畴 `cc C` 及其对象 `X`, 定义函子
+  <b>Hom 函子</b> 给定范畴 `cc C` 及其对象 `X`, 定义协变 Hom 函子
   <span class="formula">
-    `Hom_C(X, *): cc C to sf(Set)`,<br>
-    (对象层次) `Y mapsto Hom_C(X, Y)`,<br>
-    (态射层次) `f mapsto f_ast`,
+    `"Hom"(X, *): cc C to sf(Set)`,<br>
+    (对象层次) `Y mapsto "Hom"(X, Y)`,<br>
+    (态射层次) `f mapsto "Hom"(X, f)`,
   </span>
   其中 `f: Y to Z`,
   <span class="formula">
-    `f_ast: Hom_C(X, Y) to Hom_C(X, Z)` `:= h mapsto f h`.
+    `"Hom"(X, f): "Hom"(X, Y) to "Hom"(X, Z)` `:= g mapsto f g`.
   </span>
-  同理定义反变函子
+  同理定义反变 Hom 函子
   <span class="formula">
-    `Hom_C(*, X): cc C^"op" to sf(Set)`<br>
+    `"Hom"(*, X): cc C^"op" to sf(Set)`<br>
     (对象层次) `Y mapsto Hom_C(Y, X)`,<br>
-    (态射层次) `f mapsto f^ast`,
+    (态射层次) `f mapsto "Hom"(f, X)`,
   </span>
-  其中 `f: Y to Z`,
+  其中 `f: Z to Y`,
   <span class="formula">
-    `f^ast: Hom_C(Z, X) to Hom_C(Y, X)` `:= g mapsto g f`.
+    `"Hom"(f, X): Hom_C(Y, X) to Hom_C(Z, X)` `:= g mapsto g f`.
   </span>
+  两个函子互为对偶.
+  助记: `"Hom"(X, f) = f @`, `"Hom"(f, X) = @ f`.
+  <!--
   `f_ast` 和 `f^ast` 互为对偶, 称为<b>前推</b>和<b>拉回</b>.
-  助记: `f_ast = (f *)`, `f^ast = (* f)`
+  -->
 </p>
+
+<div class="img xs" title="协变 Hom 函子 (左)、反变 Hom 函子 (右)">
+  <img src="../img/hom-functor.png" alt="">
+</div>
 
 <ol class="example">
   <b>双重对偶空间</b>
@@ -428,6 +500,80 @@ map identity = identity
   一般而言, 两个有限维线性空间只要维数相同, 都是同构的, 但这个同构依赖于基的选取.
   但 `V` 到 `V^(ast ast)` 的同构 `v mapsto f mapsto f(v)` 不依赖于基的选择, 因此说它是<b>自然</b>的.
 </p>
+
+<h2>泛性质</h2>
+
+<p>范畴论中, 常常通过对象在交换图表中的性质 (泛性质) 来定义它们.
+  这些对象如果存在则必唯一 (精确到同构).
+</p>
+
+<h3>始对象与终对象</h3>
+
+<ol class="definition">
+  <li><b>始对象</b> 若 `X: cc C` 满足: 对任意 `Y: cc C` 都存在唯一态射 `f: X to Y`, 则称 `X` 是 `cc C` 的<b>始对象 (initial object)</b>.</li>
+  <li><b>终对象</b> 若 `X: cc C` 满足: 对任意 `Y: cc C` 都存在唯一态射 `f: Y to X`, 则称 `X` 是 `cc C` 的<b>终对象 (final object)</b>.</li>
+  始对象与终对象互为对偶.
+  如果始对象与终对象同构, 则称它为 `cc C` 的<b>零对象</b>, 记为 `0`.
+</ol>
+
+<ol class="example">
+  <li>`sf(Set)` 中, 始对象是空集, 终对象是单元素集合 (所有单元素集合同构);</li>
+  <li>`sf(Mod)_R` 中, 始对象和终对象都是零模, 因此零模是零对象;</li>
+  <li>`sf(Ri ng)` 中, 始对象是 `ZZ`, 终对象是零环.</li>
+  <li>域范畴既没有始对象也没有终对象.</li>
+</ol>
+
+<h3>积与余积</h3>
+
+<ol class="definition">
+  <li><b>积</b> 对 `X, Y: cc C`, 若存在对象 `W: cc C` 和态射 `pi_1: W to X`, `pi_2: W
+    to Y` 满足下列条件, 则称 `W` 是 `X` 和 `Y` 的<b>积 (product)</b>, 并记 `W = X xx Y`:
+    <br>
+    对任意 `Z: cc C` 和态射 `f: Z to X`, `g: Z to Y`, 都有唯一的态射 `u: Z to W` 使下图交换:
+    <div class="img xs">
+      <img src="../img/cd-product.png" alt="积">
+    </div>
+    `pi_1, pi_2` 称为投影映射, `u` 一般记为 `(f, g)`.
+  </li>
+  <li><b>余积</b> 对 `X, Y: cc C`, 若存在对象 `W: cc C` 和态射 `iota_1: X to W`, `iota_2: Y to W` 满足下列条件, 则称 `W` 是 `X` 和 `Y` 的<b>余积 (coproduct)</b>, 并记 `W = X ⊔ Y`:
+    <br>
+    对任意 `Z: cc C` 和态射 `f: X to Z, `g: Y to Z`, 都有唯一的态射 `u: W to Z` 使下图交换:
+    <div class="img xs">
+      <img src="../img/cd-coproduct.png" alt="余积">
+    </div>
+    `iota_1, iota_2` 称为包含映射, `u` 一般记为 `f o+ g` 或 `f ⊔ g`.
+  </li>
+</ol>
+
+<ol class="example">
+  <li>`sf(Set)` 中, 积就是集合的笛卡尔积, 余积是集合的无交并:
+    <span class="formula">
+      `A ⊔ B := {(a, x): x in A} uu {(b, y): y in B}`;
+    </span>
+  </li>
+  <li>`sf(Mod)_R` 中, 积是模的积, 余积是模的直和;</li>
+  <li>`sf(Ri ng)` 中, 积是环的积, 余积也存在, 但较为复杂;</li>
+</ol>
+
+<h3>等化子与余等化子</h3>
+
+<p>在数学中 "某某化子" 是指使某性质局部成立的对象的集合. 例如两个函数 `f, g: X to Y` 的等化子就是集合
+  <span class="formula">
+    `{x in X: f(x) = g(x)}`.
+  </span>
+</p>
+
+<!--
+<ol class="definition">
+  <li><b>等化子</b></li>
+  <li><b>余等化子</b></li>
+</ol>
+-->
+
+<ol class="example">
+  <li>`sf(Set)` 中, 两个态射 `f, g: X to Y` 的等化子是 `{x in X: f(x) = g(x)}`.</li>
+  <li>`sf(Mod)_R` 中, 态射 `f, g: M to N` 的等化子是 `"Ker"(f - g)`, 余等化子是 `N//"Im"(f - g)`.</li>
+</ol>
 
 <script>
 var asciimath = {
