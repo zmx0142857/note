@@ -47,11 +47,30 @@
   找到后返回匹配行的第 `relative_column` 列内容.
   - `fuzzy`: TRUE: 模糊匹配 (默认), FALSE: 精确匹配
 
-- `SUMIF(condition_column, condition, column)`
+### 聚合
 
-  在列 `condition_column` 中找出满足条件 `condition` 的行, 并对 `column` 的相应行求和.
+- `SUM`
 
-  例: `SUMIF(A:A, "> 0", B:B)` 在 A 列中找出满足条件 "> 0" 的行, 然后对 B 列的相应行求和.
+  求和.
+
+- `AVERAGE`
+
+  求平均.
+
+- `SUMIF`
+
+  忘了它吧, 用 `SUMIFS`.
+
+- `SUMIFS(column0, column1, condition1, column2, condition2, ...)`
+
+  在列 `column0` 中, 对满足条件的行求和.
+  其中 `columnN` 列满足条件 `conditionN`, `N` = 1, 2, ...
+
+  例: `SUMIFS(B:B, A:A, "> 0")` 在 A 列中找出满足条件 "> 0" 的行, 然后对 B 列的相应行求和.
+
+- `AVERAGEIFS`
+
+  类似 `SUMIFS`, 但是求平均.
 
 ### 日期
 
@@ -61,7 +80,12 @@
 
 - `IF(cond, value1, value2)`
 
-  cond 是非 0 值时, 返回 value1, 否则返回 value2.
+  `cond` 是非 0 值时, 返回 `value1`, 否则返回 `value2`.
+
+- `IFS(cond1, value1, cond2, value2, ..., valueN)`
+
+  相当于 `IF(cond1, value1, IF(cond2, value2, IF(..., valueN)))`.
+
 
 - `TRUE(), FALSE()`
 
