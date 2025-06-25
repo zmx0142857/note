@@ -160,15 +160,10 @@
 		如果对任意 `x in X`, 都<b>存在惟一</b>的 `y in Y`,
 		使 `(x, y) in f`, 换言之,
 		<span class="formula">
-			`X = "dom"f`,
-			`quad (x,y) in f and (x,z) in f rArr y = z`,
+			`X = "dom"f`, 且 `(x,y) in f and (x,z) in f rArr y = z`,
 		</span>
-		换言之
-		<span class="formula">
-			`AA x in X`, `|f(x)| = 1`,
-		</span>
-		则称 `f` 为 `X` 到 `Y` 的一个 (良定义的) <b>映射 (mapping)</b>,
-    记为 `f: X to Y`.<br>
+        则称 `f` 为 `X` 到 `Y` 的一个 (良定义的) <b>映射 (mapping)</b>
+        或<b>函数 (function)</b>, 记为 `f: X to Y`.
 	</li>
 	<li>因为满足 `(x,y) in f` 的 `y` 是惟一的, 我们可以记
 		<span class="formula">
@@ -185,6 +180,23 @@
   <li>`(AA x in X)` `(EE y in Y)` `y = f(x)`;</li>
   <li>`x_1 = x_2 rArr f(x_1) = f(x_2)`.</li>
 </ol>
+
+<ol class="remark">
+  若在映射的定义中允许 `X, Y` 为空集, 则:
+  <li>`X != O/`, `Y = O/` 时, 不存在 `X to Y` 的映射.</li>
+  <li>`X = O/` 时, 恰有一个 `X to Y` 的映射, 它就是 `O/`, 称为<b>空映射</b>.
+    根据定义, 空映射的定义域与值域均为空, 它是单射, 且它成为满射当且仅当 `Y = O/`.
+  </li>
+  不过今后不做特殊说明时, 我们仍假定映射的定义域和陪域非空.
+</ol>
+
+<p class="remark">
+  使用基数的概念, 映射的良定义等价于
+  <span class="formula">
+    `AA x in X`, `"card"(f(x)) = 1`.
+  </span>
+  但基数的定义依赖于映射, 因此这不能作为映射的定义, 以免引起循环定义.
+</p>
 
 <p class="corollary">
 	设 `f` 和 `g` 都是 `X` 到 `Y` 的映射, 由外延公理知
@@ -318,7 +330,7 @@
 			<li>`f` 为一满射;</li>
 			<li>`"Im" f = Y`;</li>
 			<li>`(AA y in Y)` `|f^-1(y)| ge 1`;</li>
-			<li>存在右逆元 `g: Y to  X`, 使 `f @ g = "id"_Y`.</li>
+			<li>存在右逆元 `g: Y to X`, 使 `f @ g = "id"_Y`.</li>
             <li>满足右消去律: 对任意集合 `Z` 和任意 `g, h: Y to Z` 有 `g f = h f iff g = h`.</li>
 		</ol>
 	</li>
@@ -341,6 +353,11 @@
 		</ol>
 	</li>
 </ol>
+
+<p class="remark">
+  允许 `X, Y` 为空集时, 单射和存在左逆不再等价. 反例是映射 `f: O/ to Y`, `Y != O/`.
+  这里 `f` 是单射, 但没有左逆, 因为不存在非空集到空集的映射.
+</p>
 
 <p class="definition">
 	`f` 为双射时, 对任意 `y in Y`, 存在唯一 `x in X` 使 `y = f(x)`

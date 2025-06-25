@@ -37,39 +37,28 @@ L.find(key):
 	return i
 </pre>
 
-<p class="algorithm">
+<ul class="algorithm">
   <b>折半查找 (二分查找, binary search)</b>
-  设函数 <code>f</code> 是 <code>[a, b]</code> 到
-  <code>{0, 1}</code> 的单调增函数,
-  下面的 <code>bsearch</code> 算法在区间中寻找满足
-  <code>f(n) = 1</code> 的最小整数 <code>hi</code>
-  和满足 <code>f(n) = 0</code> 的最大整数 <code>lo</code>.
-  我们不妨设 <code>f(a) = 0, f(b) = 1</code>, 这样所求的数就总是存在的.
-  思路是令初值 <code>lo = a, hi = b</code>, 每次将区间缩小一半,
-  直到 <code>hi-lo = 1</code>.
-</p>
+  设函数 <code>f: [a, b] → {0, 1}</code> 单调增, 求满足 <code>f(hi) = 1</code> 的最小整数 <code>hi</code>.  若不存在满足条件的整数, 则返回 <code>b+1</code>.
+  <li>观察: 若 <code>hi &gt; a</code>, 则 <code>lo := hi-1</code> 就是使 <code>f(lo) = 0</code> 的最大整数.
+  </li>
+  我们取初值 <code>lo = a-1, hi = b+1</code>, 于是 <code>hi - lo &gt; 1</code>.
+  根据中点 <code>mid = lo + &lfloor;(hi-lo)/2&rfloor;</code> 的函数值,
+  每次将区间缩小一半, 直到 <code>hi-lo &le; 1</code>.
+</ul>
 
-<p> 例如, 为了在升序数组 <code>L</code> 中找到第一个大于 (大于等于, 等于)
-    <code>val</code> 的元素,
-    我们取 <code>f(n) = L[n] &gt;(&ge;,=) val</code>,
-    初值可以设定为 <code>lo = -1, hi = L.length</code>;
-    若算法返回 <code>L.length</code>, 则表示该元素不存在.
-</p>
-
-<div class="playground" value="{ f: (i => [0, 1, 2, 2, 4, 6][i] >= 2), lo: -1, hi: 6 }">
-<p>寻找数组中第一个大于等于 2 的数 hi, 和最后一个小于 2 的数 lo.
-  若前者不存在, 返回数组的长度 6, 若后者不存在, 返回 -1.
-</p>
+<div class="playground" value="{ f: (i => [0, 1, 2, 2, 4, 6][i] > 2), lo: 0, hi: 5 }">
+<p>寻找数组中第一个大于等于 2 的数的下标, 若不存在, 则返回数组的长度 length.</p>
 <script type="text">
-// f 是值域为 {0, 1} 的增函数, f(lo) = 0, f(hi) = 1
 module.exports = function bsearch (str) {
   let { f, lo, hi } = Playground.parse(str)
+  --lo, ++hi
   while (hi - lo > 1) {
     const mid = lo + ((hi - lo) >> 1)
     if (f(mid)) hi = mid
     else lo = mid
   }
-  return [lo, hi]
+  return hi
 }
 </script>
 </div>
@@ -91,16 +80,15 @@ module.exports = function bsearch (str) {
 <p> 又例如, <code>f</code> 在正整数集上有定义,
     要求满足 <code>f(n) = 1</code> 的最小正整数.
     我们只知道这个数存在, 而 <code>n</code> 的上界尚不清楚.
-    这时可以用如下的函数得到一对初值:
+    这时可以用如下的函数得到一个上界:
 </p>
 
 <pre>
-# 规定 f(0) = 0
 init(f):
     n = 1
     while !f(n):
         n *= 2
-    return &lfloor;n/2&rfloor;, n # 检验: f(lo) = 0, f(hi) = 1;
+    return n
 </pre>
 
 <ol>折半查找的思路看似简单, 实现起来有许多陷阱.

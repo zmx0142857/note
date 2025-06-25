@@ -359,6 +359,16 @@ function animateLoop () {
 - InstancedMesh: 用于渲染大量相同材质与相同几何体, 但空间变换不同的物体
 - BatchedMash: 用于渲染大量相同材质, 但几何体与空间变换不同的物体
 
+### 向量与矩阵运算
+
+Matrix4
+```js
+// 三种等价的写法
+v.applyMatrix4(m).applyMatrix4(n)
+v.applyMatrix4(new mat4().copy(n).multiply(m))
+v.applyMatrix4(new mat4().copy(m).premultiply(n))
+```
+
 ## 插件
 
 这里的插件是指除了 `import * as THREE from 'three'` 之外, 需要单独引入的文件.
@@ -539,6 +549,12 @@ mesh.geometry.computeBoundsTree()
   const texture = new THREE.Texture(canvas)
   texture.needsUpdate = true
   ```
+- 将材质从不透明改为透明:
+  ```js
+  material.transparent = true
+  material.opacity = 0.5
+  material.needsUpdate = true // 重要
+  ```
 - THREE.DRACOLoader: Unexpected geometry type. 解决:
   - 检查 DRACOLoader 的版本与 threejs 是否匹配
   - 检查 DRACOLoader 的 decoderPath 是否有效
@@ -581,3 +597,7 @@ mesh.geometry.computeBoundsTree()
   obj.layers.set(1) // 将物体放在图层 1. 默认情况下, raycaster 只对图层 0 生效, 因此将忽略这个物体
   camera.layers.enable(1) // 启用相机的图层 1, 这样仍能看见此物体
   ```
+- gltf 模型本该不透明的贴图变得透明, 且 `depthWrite` 被 three.js 变成 `false`.
+  这时模型表面往往出现破碎的三角形, 且一些本该被遮挡的部分意外显示出来.
+  - 原因: gltf 材质中定义了 `alphaMode: "BLEND"`. 这可能是建模软件使用了 rgba 格式的 png 贴图导致的.
+  - 解决: 在 gltf 模型中设置 `alphaMode: "OPAQUE"`. 或者在建模时使用 jpg 贴图或 rgb 格式的 png 贴图.

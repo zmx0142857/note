@@ -74,6 +74,37 @@ document.addEventListener('touchmove', preventDefault, { passive: false })
 document.removeEventListener('touchmove', preventDefault)
 ```
 
+### dom 查询
+
+获取包围矩形
+```js
+// 可以有小数
+el.getBoundingClientRect() // { x, y, width, height, left, right, top, bottom }
+
+// 全是整数
+pick(el, ['offsetLeft', 'offsetTop', 'offsetWidth', 'offsetHeight', 'clientWidth', 'clientHeight'])
+```
+
+监听元素大小变化
+```js
+const observer = new ResizeObserver(() => {
+  console.log(el.getBoundingClientRect())
+})
+observer.observe(el) // 开始监听
+observer.unobserve(el) // 结束监听
+```
+
+监听元素进入视口
+```js
+const observer = new IntersectionObserver((arr) => {
+  console.log(arr.map(v => v.isIntersecting))
+}, {
+  threshold: 0,
+  rootMargin: '0px',
+  root: el,
+})
+```
+
 ## 逆向
 
 ### debugger: 防止页面被调试

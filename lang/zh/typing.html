@@ -731,16 +731,14 @@ const Typing = {
     }
   },
   onKeyUp (e) {
-    // 禁用粘贴
-    if (e.ctrlKey && e.code === 'KeyV') {
-      e.preventDefault()
-    } else if (e.code === 'Backspace') {
+    if (e.code === 'Backspace') {
       // 多删一个换行符
       if (e.target.value.endsWith(Constants.linebreak + '\n')) {
         e.target.value = e.target.value.slice(0, -1)
       }
       ++Typing.current.backspaceCount
     } else {
+      if (e.code === 'Space') Typing.onCompositionEnd(e)
       // keyup 可能会触发两次, 这里用节流处理
       if (this.keyUpThrottle === e.code) return
       this.keyUpThrottle = e.code
@@ -983,6 +981,7 @@ $inputArea.addEventListener('compositionupdate', Typing.onCompositionUpdate)
 $inputArea.addEventListener('compositionend', Typing.onCompositionEnd)
 $inputArea.onblur = Typing.pause
 $inputArea.oncontextmenu = (e) => e.preventDefault()
+$inputArea.onpaste = (e) => e.preventDefault()
 $inputArea.onkeyup = Typing.onKeyUp // 注意: 中文输入时 onKeyDown 可能不会触发, 而 onKeyUp 可能触发两次
 $inputArea.onscroll = Typing.onScroll
 document.onkeypress = Typing.onKeyPress
