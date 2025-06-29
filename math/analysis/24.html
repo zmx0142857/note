@@ -119,7 +119,7 @@
     <b>Hamel 基</b> `H sube RR`, 满足对任意 `x in RR` 都存在正整数 `n` 和
     `x_1, cdots, x_n in H` 和 `k_1, cdots, k_n in QQ` 使得
     <span class="formula">
-      `r = sum k_i x_i`.
+      `x = sum k_i x_i`.
     </span>
     任取 `h in H`, 将 `x in R` 按 Hamel 基展开后 `h` 的系数记为
     `f(x)`, 则 `f(x)` 是 Cauchy 方程的不连续解
@@ -277,6 +277,61 @@
     不论它是单增还是单减, 复合函数 `f @ f` 必是单调增的, 矛盾.
   </li>
 </ol>
+
+<p class="example">
+  [<a href="https://oeis.org/A003605" target="_blank">来自 OEIS</a>,
+  British Mathematical Olympiad 1992, Problem 5]
+  设 `f(1)`, `f(2)`, `f(3)...` 是一个严格单调递增的正整数列, 满足 `f(f(x)) = 3x`, 求 `f(1992)`.
+</p>
+
+<ol class="solution">
+  观察:
+  <li>
+    若 `f` 有不动点 `p`, 则 `f f(p) = p`, 与已知 `f f(p) = 3 p` 矛盾;
+    因此 `f` 没有不动点.
+    又由 `f` 严格单增知道对任意 `x` 有 `f(x) ge x`, 但 `f` 没有不动点, 故
+    <span class="box">`f(x) gt x`.</span>
+  </li>
+  <li><span class="box">`f(3x) = f f f(x) = 3 f(x)`.</span></li>
+  <li>现在考虑 `f(1)` 的值.  由 1. 知道 `f(1) gt 1`,
+    又 `3 = f(f(1)) gt f(1)`, 所以 `f(1) = 2`.
+  </li>
+  <li>由 2, `f(3) = 3 f(1) = 6`, 但 `f(f(2)) = 6`, 由于 `f` 是单射, 推出 `f(2) = 3`.
+    继续计算
+    <span class="formula">
+      `1 to 2 to 3 to 6 to 9 to 18 ...`
+    </span>
+    容易看出
+    <span class="formula">
+      `f^(2n)(1) = 3^n`,
+      `quad f^(2n+1)(1) = 2*3^n`.
+    </span>
+  </li>
+  <li>
+    下证公式
+    <span class="formula">
+      <span class="box">
+      `f(3^k + j) = 2*3^k + j`,
+      `quad k ge 0`,
+      `quad 0 le j le 3^k`.
+      </span>
+    </span>
+    其中 `j = 0` 和 `j = 3^k` 的情形已经成立, 即:
+    <span class="formula">
+      `f(3^k) = 2*3^k`,
+      `quad f(2*3^k) = 3^(k+1)`.
+    </span>
+    注意两个等式中, 自变量的差值是 `3^k`, 函数值的差也是 `3^k`.
+    然而 `f` 严格单调, 从而公式必须对任意 `0 le j le 3^k` 成立.
+  </li>
+  <li>
+    由 5. 立即得到 `f(2*3^k + j)`
+    `= f f(3^k+j)`
+    `= 3^(k+1) + 3j`,
+    于是 `f(1992) = f(2*3^6+534)`
+    `= 3^7+3 xx 534 = 3789`.
+  </li>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

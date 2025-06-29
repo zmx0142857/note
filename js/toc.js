@@ -69,7 +69,7 @@ var tocData = [
           { "value": "19", "label": "重积分" },
           { "value": "22", "label": "场论初步", "date": "2025-03-22" },
           { "value": "23", "label": "分数阶微积分" },
-          { "value": "24", "label": "函数方程" }
+          { "value": "24", "label": "函数方程", "date": "2025-06-28" },
         ]
       },
       {
@@ -92,7 +92,7 @@ var tocData = [
         "value": "set",
         "label": "集合论",
         "children": [
-          { "value": "2", "label": "集合及其运算", "date": "2025-06-06" },
+          { "value": "2", "label": "集合及其运算", "date": "2025-06-28" },
           { "value": "3", "label": "二元关系与映射", "date": "2024-10-29" },
           { "value": "4", "label": "自然数与序数", "date": "2024-12-26" },
           { "value": "5", "label": "基数", "date": "2024-09-28" },
@@ -756,6 +756,13 @@ var tocData = [
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },
           { "value": "chart.md", "label": "图表", "date": "2025-03-06" },
+        ],
+      },
+      {
+        "value": "math",
+        "label": "数学",
+        "children": [
+          { "value": "lean.md", "label": "Lean4", "date": "2025-06-28" },
         ],
       },
       {
