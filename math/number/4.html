@@ -126,39 +126,6 @@ module.exports = function (str) {
   故以上 `(p-1)//2` 个数两两不相等, 即为模 `p` 的所有二次剩余.
 </p>
 
-<p>利用 `ZZ_p^**` 中 `1` 的平方根只有 `+-1` 这个事实, 可以证明:</p>
-
-<p class="theorem">
-  <b>Wilson 定理</b> 整数 `p ge 2` 为素数的充要条件是
-  <span class="formula">
-    `(p-1)! -= -1 (mod p)`.
-  </span>
-</p>
-
-<ol class="proof">
-  <li>必要性.  `p = 2` 时显然成立. 下设 `p` 为奇素数, 在 `ZZ_p^**`
-    上考虑同余方程
-    <span class="formula">
-      `x y -= 1 (mod p)`.
-    </span>
-    对任意 `x`, 其逆元 `y` 是存在唯一的.
-    若 `x = y`, 则 `x` 是 `1` 在 `ZZ_p^**` 中的平方根, 即 `x = +-1`.
-    故 `ZZ_p^**` 的 `p-1` 个数中除 `+-1` 的逆元为自身外,
-    其它数字两两互逆, 因而它们的乘积抵消.  这 `p-1` 个数相乘得到
-    <span class="formula">
-      `(p-1)! -= 1 * (-1) -= -1 (mod p)`.
-    </span>
-  </li>
-  <li>充分性. 设 `n = a b` 为合数, `1 lt a, b lt n`.
-    若 `(n-1)! -= -1 (mod n)`, 有 `(n-1)! -= -1 (mod a)`,
-    这与 `a | (n-1)!` 矛盾.
-  </li>
-</ol>
-
-<p class="remark">
-  虽然 Wilson 定理也是素数的一种判别法, 但计算量巨大, 并不实用.
-</p>
-
 <h2>Legendre 符号</h2>
 
 <p class="definition">

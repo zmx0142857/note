@@ -13,7 +13,9 @@
 
 中国剩余定理 (CRT)
 
-<h2>Hensel 引理</h2>
+<h2>模素数幂</h2>
+
+<h3>Hensel 引理</h3>
 
 <p>
   设 `f(x)` 为整系数多项式, `p` 是素数, `m` 是正整数, 如何求同余方程 `f(x) -= 0 (mod p^m)` 的解? Hensel 引理给出一个解答:
@@ -54,6 +56,400 @@
     `f(c) + f'(c) (x-c) -= 0` `quad (mod p^m)`.
   </span>
 </p>
+
+<h3>Wilson 定理</h3>
+
+<p>利用 `ZZ_p^**` 中 `1` 的平方根只有 `+-1` 这个事实, 可以证明:</p>
+
+<p class="theorem">
+  <b>Wilson 定理</b> 整数 `p ge 2` 为素数的充要条件是
+  <span class="formula">
+    `(p-1)! -= -1 (mod p)`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>必要性.  `p = 2` 时显然成立. 下设 `p` 为奇素数, 在 `ZZ_p^**`
+    上考虑同余方程
+    <span class="formula">
+      `x y -= 1 (mod p)`.
+    </span>
+    对任意 `x`, 其逆元 `y` 是存在唯一的.
+    若 `x = y`, 则 `x` 是 `1` 在 `ZZ_p^**` 中的平方根, 即 `x = +-1`.
+    故 `ZZ_p^**` 的 `p-1` 个数中除 `+-1` 的逆元为自身外,
+    其它数字两两互逆, 因而它们的乘积抵消.  这 `p-1` 个数相乘得到
+    <span class="formula">
+      `(p-1)! -= 1 * (-1) -= -1 (mod p)`.
+    </span>
+  </li>
+  <li>充分性. 设 `n = a b` 为合数, `1 lt a, b lt n`.
+    若 `(n-1)! -= -1 (mod n)`, 有 `(n-1)! -= -1 (mod a)`,
+    这与 `a | (n-1)!` 矛盾.
+  </li>
+</ol>
+
+<p class="remark">
+  虽然 Wilson 定理是素数的一种判别法, 但计算量远大于普通的试除法, 并不实用.
+</p>
+
+<h3>有理数同余</h3>
+
+<p class="definition">
+  <b>有理数到商环的对应</b>
+  设 `m` 为正整数, `a//b` 为有理数, `b` 模 `m` 可逆. 将全体分母模 `m` 可逆的有理数记为 `QQ_m`,
+  定义映射
+  <span class="formula">
+    `f: QQ_m to ZZ//mZZ`,<br>
+    `a//b mapsto  a b^-1 (mod m)`.
+  </span>
+  则 `f` 是一个环同态.
+</p>
+
+<ol class="proof">
+  <li>`QQ_m` 的封闭性容易验证, 且 `1 in QQ_m`, 因此它是 `QQ` 的子环.</li>
+  <li>良定义: 若 `a//b = c//d`, `b, d` 模 `m` 可逆, 则在等式
+    `a d = b c` 两边对 `m` 取模
+    <span class="formula">
+      `a d -= b c (mod m)`.
+    </span>
+    又两边同乘 `b^-1 d^-1` 即得 `a b^-1 -= c d^-1 (mod m)`.
+  </li>
+  <li>验证环同态: `f(1//1) = 1`.
+    <span class="formula">
+      `f(a//b * c//d)`
+      `= a b^-1 c d^-1`
+      `= f(a//b) f(c//d)`,<br>
+      `f(a//b + c//d)`
+      `= f((a d + b c)//(b d))`
+      `= (a d + b c)b^-1 d^-1`
+      `= a b^-1 + c d^-1`
+      `= f(a//b) + f(c//d)`.
+    </span>
+  </li>
+</ol>
+
+<p class="definition">
+  <b>有理数同余</b>
+  现考虑两个有理数 `s = a//b`, `t = c//d in QQ_m`,
+  若 `a b^-1 -= c d^-1 (mod m)`, 我们就称 `s, t` 模 `m` 同余, 记为 `s -= t (mod m)`.
+  在这个定义下, `f` 自动保持同余关系.
+</p>
+
+<p class="corollary">
+  设 `b` 模 `m` 可逆, 则 `a // b -= 0 (mod m)` `iff m | a`.
+</p>
+
+<p class="remark">
+  有理数同余是一个强大的概念, 应用它时, 只需将模数 `m` 同时作用于分子和分母.
+  唯一需要注意的是分母必须模 `m` 可逆.
+</p>
+
+<p class="example">
+  在商环 `ZZ//11ZZ` 和 `ZZ//13ZZ` 中分别验算 `1 + 1/2 + 1/3 = 11/6`.
+</p>
+
+<ol class="solution">
+  <li>
+    在 `ZZ//11ZZ` 中, 所有互逆对是
+    <span class="formula">
+      `1 harr 1`, `10 harr 10`, `2 harr 6`, `3 harr 4`, `5 harr 9`, `7 harr 8`.
+    </span>
+    于是
+    <span class="formula">
+      `f(1 + 1/2 + 1/3)`
+      `= 1 + 6 + 4`
+      `= 11 = 0 in ZZ//11ZZ`.
+    </span>
+    另一方面
+    <span class="formula">
+      `f(11/6) = 11 * 6^-1 = 0 in ZZ//11ZZ`.
+    </span>
+    结果相符.
+  </li>
+  <li>
+    在 `ZZ//13ZZ` 中, 所有互逆对是
+    <span class="formula">
+      `1 harr 1`, `12 harr 12`, `2 harr 7`, `3 harr 9`,
+      `4 harr 10`, `5 harr 8`, `6 harr 11`.
+    </span>
+    于是
+    <span class="formula">
+      `f(1 + 1/2 + 1/3)`
+      `= 1 + 7 + 9`
+      `= 17 = 4 in ZZ//13ZZ`.
+    </span>
+    另一方面
+    <span class="formula">
+      `f(11/6) = 11 * 6^-1`
+      `= 11^2 = 4 in ZZ//13ZZ`.
+    </span>
+    结果相符.
+  </li>
+</ol>
+
+<p>有理数同余的概念向下兼容整数, 我们可以用它判定某些整数的同余:</p>
+
+<p class="example">
+  对任意正整数 `n` 和任意素数 `p`, `(n p - 1; p-1) -= 1 (mod p)`.
+</p>
+
+<p class="proof">
+  若 `p = 2`, 显然 `(2n-1;1) = 2n-1` 是奇数. 若 `p` 是奇素数, 需要证明
+  <span class="formula">
+    `((n p-1)(n p-2)cdots(n p-(p-1)))/(p-1)! -= 1 (mod p)`.
+  </span>
+  上式分母与 `p` 互素, 因此可以考虑有理数同余.
+  事实上
+  <span class="formula">
+    分子 `-= (-1)(-2) cdots (1 - p)`
+    `-= (-1)^(p-1) (p-1)!`
+    `-= (p-1)!` `(mod p)`.
+  </span>
+  而分母正好是 `(p-1)!`, 故结果为 `1 (mod p)`.
+</p>
+
+<p class="remark">
+  `p ge 5` 时上式对 `mod p^3` 也成立. 参见下文的 Wolstenholme 定理.
+</p>
+
+<p class="theorem">
+  <b>Babbage 定理</b>
+  整数 `p ge 2` 是素数当且仅当对任意 `1 le j le p-1` 成立
+  <span class="formula">
+    `(p+j;j) -= 1 (mod p)`.
+  </span>
+  和 Wilson 定理一样, Babbage 定理也是一种仅有理论价值的素数判别法.
+</p>
+
+<ol class="solution">
+  <li>`rArr`: 设 `p` 是素数, 由 Lucas 定理立即知道
+    <span class="formula">
+      `(p+j;j) -= (1;0) (j;j) -= 1 (mod p)`.
+    </span>
+  </li>
+  <li>
+    `lArr`: 现在设 `n` 不是素数, 则存在 `1 le j le n-1` 使得 `d := gcd(n, j) gt 1`.
+    不妨设 `j` 是这些数中最小的, 于是 `1` 到 `j-1` 均与 `n` 互素, 我们有
+    <span class="formula">
+      `(n+j;j)`
+      `= ((n+1)cdots(n+j-1))/(j-1)! (n+j)/j`
+      `-= (n//d + j//d) * (j//d)^-1`
+      `-= (n//d) * (j//d)^-1 + 1`
+      `(mod n)`.
+    </span>
+    要使上式右端余数为 1, 则必须 `(j//d)^-1` 是 `d` 的整数倍, 设它等于 `k d`,
+    则 `k d (j//d) -= 1 (mod n)`, 即 `j k -= 1 (mod n)`, 而这与 `gcd(n, j) gt 1` 矛盾.
+  </li>
+</ol>
+
+<h3>Wolstenholme 定理</h3>
+
+<p class="example">
+  [来自群友 近乎幂零群、澄]
+  记第 `n` 个调和数为 `H_n := sum_(k=1)^n 1/k`.
+  将它写为最简分数 `H_n = a_n/b_n`.
+  证明: 对任意正整数 `n gt 1`,
+  <span class="formula">
+    `n` 是奇素数 `rArr n | a_(n-1)`.
+  </span>
+  注: 逆命题不成立. 事实上设 `p` 是 Wolstenholme 素数 (见下), 则 `p^2 | a_(p^2-1)`.
+</p>
+
+<ol class="proof">
+  <li>
+    设 `p` 是奇素数, 由于 `p !| (p-1)!`, 利用有理数同余, 只需证
+    <span class="formula">
+      `H_(p-1) -= 0 (mod p)`.
+    </span>
+    即证
+    <span class="formula">
+      `sum_(k=1)^(p-1) k^-1 -= 0 (mod p)`.
+    </span>
+    由于 `k mapsto k^-1` 是群的自同构, 上式等同于对乘法群的所有元素求和:
+    <span class="formula">
+      `sum_(k=1)^(p-1) k`
+      `= p(p-1)//2`
+      `= 0 in ZZ//p ZZ`.
+    </span>
+  </li>
+  <li>
+    考察奇素数 `p`, 根据分母是否含 `p`, 将 `H_(p^2-1)` 的各项分成两类:
+    <span class="formula">
+      `H_(p^2-1) = sum_(i=0)^(p-1) sum_(j=1)^(p-1) 1/(i p + j) + sum_(i=1)^(p-1) 1/(i p)`
+      `:= A + 1/p H_(p-1)`.
+    </span>
+    其中
+    <span class="formula">
+      `2 A = sum_(i=0)^(p-1) sum_(j=1)^(p-1) (1/(i p + j) + 1/(p^2 - (i p + j)))`
+      `= p^2 sum_(i=0)^(p-1) sum_(j=1)^(p-1) 1/((i p + j) (p^2 - (i p + j)))`.
+    </span>
+    故 `A` 的分子含有因子 `p^2`.
+    若 `p` 是 Wolstenholme 素数, 则 `H_(p-1)` 的分子含有因子 `p^3`.
+    于是 `H_(p^2-1) = A + 1/p H_(p-1)` 的分子含有因子 `p^2`.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>Wolstenholme 定理</b>
+  [来自 <a href="https://en.wikipedia.org/wiki/Wolstenholme's_theorem" target="_blank">wikipedia</a>,
+  <a href="https://arxiv.org/pdf/1111.3057" target="_blank">arxiv</a>]
+  对任意素数 `p ge 5` 成立
+  <li>`(2p; p) -= 2 (mod p^3)`.</li>
+  <li>`(2p-1; p-1) -= 1 (mod p^3)`.</li>
+  <li>`sum_(k=1)^(p-1) 1/k -= 0 (mod p^2)` (有理数同余, 即 `p^2` 整除左式的分子).</li>
+  <li>`sum_(k=1)^(p-1) 1/k^2 -= 0 (mod p)` (有理数同余).</li>
+  对于极个别素数, 上述等式对 `p` 的更高阶数成立, 即
+  <span class="formula">
+    `(2p-1; p-1) -= 1 (mod p^4)` 等等.
+  </span>
+  这样的素数称为 <b>Wolstenholme 素数</b>, 目前已知的只有两个: 16843 和 2124679.
+</ol>
+
+<ol class="proof">
+  <li>`iff` 2. 只需注意到 `(2p; p) = 2 (2p-1; p-1)` 以及 `p` 是奇素数.</li>
+  <li>`iff` 3. 这是因为
+    <span class="formula">
+      `(2p-1; p-1)`
+      `= prod_(k=1)^(p-1) (2p-k)/k`
+      `= (-1)^(p-1) prod_(k=1)^(p-1) (1 - (2 p)/k)`
+      `-= 1 - 2 p sum_(k=1)^(p-1) 1/k`
+      `(mod p^2)`.
+    </span>
+  </li>
+  <li>`iff` 4. 倒序相加,
+    <span class="formula">
+      `2 sum_(k=1)^(p-1) 1/k`
+      `= sum_(k=1)^(p-1) (1/k + 1/(p-k))`
+      `= sum_(k=1)^(p-1) p/(k(p-k))`
+      `-= -p sum_(k=1)^(p-1) 1/k^2`
+      `(mod p^2)`.
+    </span>
+    这指出 3. 与 4. 等价.
+    与此同时
+    <span class="formula">
+      `sum_(k=1)^(p-1) 1/k^2`
+      `-= sum_(k=1)^(p-1) k^2`
+      `= (p(p-1)(2p-1))/6`
+      `-= 0 (mod p)`.
+    </span>
+    最后一个等号成立是因为 `p ge 5`, 所以不会被分母的 6 约去.
+    这证明了 4.
+  </li>
+</ol>
+
+<pre class="solution">
+# 验证 Wolstenholme 素数
+def is_wolstenholme(p):
+    ppp = p**3
+    s = 0
+    for k in range(1, p):
+        s = (s + pow(k, -1, ppp)) % ppp
+    return s == 0
+
+is_wolstenholme(17) # False
+is_wolstenholme(101) # False
+is_wolstenholme(16843) # True
+is_wolstenholme(2124679) # True
+</pre>
+
+<p class="remark">
+  使用完全类似的过程 (将 `2` 换成任意正整数 `n`) 可以证明
+  <span class="formula">
+    `(n p - 1; p - 1) -= 1 (mod p^3)`.
+  </span>
+  两边同乘 `n` 得到 `(n p; p) -= n (mod p^3)`.
+  但我们有更一般且优美的推广: Glaisher 定理👇
+</p>
+
+<p class="theorem">
+  <b>Babbage-Glaisher 定理</b> 对素数 `p` 和正整数 `a, b` 成立
+  <span class="formula">
+    `(a p; b p) -= (a; b)` `(mod p^2)`.
+  </span>
+  如果 `p ge 5`, 则同余式对模 `p^3` 成立.
+</p>
+
+<p class="proof">
+  [来自 deepseek] 从 Lucas 定理得到启发, 我们从生成多项式入手, 展开:
+  <span class="formula">
+    `(1+x)^p`
+    `= 1 + x^p + p * f(x)`,
+  </span>
+  其中 `f(x) = sum_(k=1)^(p-1) 1/p (p;k) x^k`.  于是
+  <span class="formula">
+    `(1+x)^(a p)`
+    `= (1+x^p + p f(x))^a`
+    `= sum_(j=0)^a (a;j) x^(j p) (1+p f(x))^(a-j)`
+    `-= sum_(j=0)^a (a;j) x^(j p) (1 + (a-j) p f(x))`
+    `(mod p^2)`.
+  </span>
+  提取 `x^(b p)` 次项系数.
+  注意到 `f` 不含 `x` 的 `k p` 次项, `k = 0, 1, cdots`,
+  因此它不影响 `x^(b p)` 的系数, 从而上式 `x^(b p)` 的系数就是 `(a;b)`.
+  这证明了
+  <span class="formula">
+    `(a p; b p) -= (a;b) (mod p^2)`.
+  </span>
+</p>
+
+<ol class="proof enum">
+  [来自 wikipedia 的组合学证明]
+  <li>
+    考虑一个大小为 `a p` 的集合 `A`, 将它分为 `a` 个大小为 `p` 的循环
+    <span class="formula">
+      `C_1, cdots, C_a`,
+    </span>
+    每个循环可以独立转动.
+    换言之, 我们让 `a` 个循环群 `ZZ_p` 的直积作用于集合 `A`.
+    考虑 `A` 的全体大小为 `b p` 的子集, 这样的子集共有 `(a p; b p)` 个.
+    当我们转动 `a` 个循环的时候, 也在将一个 `b p`-子集映为另一个 `b p`-子集.
+  </li>
+  <li>
+    给定一个子集 `B sube A`, 我们称一个循环 `C_i` 是<b>完整</b>的, 如果
+    <span class="formula">
+      `C_i nn B = O/` 或 `C_i`.
+    </span>
+    即它的元素要么全属于 `B`, 要么全不属于 `B`.
+    如果每个循环都是完整的, 则 `B` 在群作用下不变, 轨道长度为 1.
+    如果 `B` 有 `k` 个不完整循环, 则在这 `k` 个循环的转动下一共可以得到 `p^k` 个不同的子集,
+    轨道长度为 `p^k`.
+    下面我们考虑不同长度的轨道贡献的子集数.
+  </li>
+  <li>
+    长度为 1 的轨道.
+    此时每个循环都是完整的, 因此选择 `b`
+    个完整的循环包含在子集 `B` 中, 其余不包含, 共有 `(a;b)` 种选择.
+    因此长度为 1 的轨道贡献 `(a;b)` 个子集.
+  </li>
+  <li>长度为 `p` 的轨道.
+    此时恰有 1 个不完整循环, 但这是不可能的, 因为子集 `B` 的大小 `b p` 是 `p` 的倍数.
+  </li>
+  <li>长度为 `p^2` 的轨道.
+    此时恰有 2 个不完整循环, 按以下步骤确定它们:
+    <ol>
+      <li>先选出两个不完整循环: `(a;2)`.</li>
+      <li>2 个不完整循环由集合 `B` 的 `p` 个元素组成, 剩下的 `(b-1)p` 个元素组成
+        `b-1` 个完整循环: `(a-2;b-1)`.</li>
+      <li>具体确定不完整循环的元素, 即从 `2p` 个元素选出 `p` 个, 但减去 2 个临界情况 (所有 `p` 个元素来自第一个循环或第二个循环): `(2p;p) - 2`.
+      </li>
+    </ol>
+    于是长度为 `p^2` 的轨道贡献的子集数为 `(a;2)(a-2;b-1)((2p;p)-2)`.
+  </li>
+  <li>
+    综上
+    <span class="formula">
+      `(a p; b p)`
+      `-= (a;b) + (a;2) (a-2;b-1) ((2p;p)-2)`
+      `(mod p^3)`.
+    </span>
+    但由 Wolstenholme 定理, `p ge 5` 时 `(2p;p) -= 2 (mod p^3)`,
+    所以上式蕴含 `(a p; b p) -= (a;b) (mod p^3)`.
+    <br>
+    `p = 2, 3` 时, 容易验证 `(2p;p) -= 2 (mod p^2)`,
+    得到较弱的
+    `(a p; b p) -= (a;b) (mod p^2)`.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

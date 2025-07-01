@@ -64,7 +64,7 @@ app.use('/img', express.static('img')) // 需要在 js 的同级目录新建一�
 app.post('/upload', (req, res) => {
   console.log(req.body, req.files)
 
-  if (!req.files || !req.files.imgs || !req.files.imgs.length) {
+  if (!req.files || !req.files.imgs) {
     return res.status(400).json({ code: 400, msg: 'imgs are required' })
   }
   let { imgs } = req.files

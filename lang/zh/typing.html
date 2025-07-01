@@ -247,6 +247,9 @@ body {
   margin-right: 4px;
   border-radius: 2px;
 }
+.modal-setting input[type=number] {
+  width: 160px;
+}
 .modal-history {
   max-height: 600px;
   overflow: auto;
@@ -399,6 +402,7 @@ const Constants = {
   storage: {
     history: 'typing.history',
     setting: 'typing.setting',
+    maturity: 'typing.maturity',
   },
 }
 
@@ -422,6 +426,11 @@ const Utils = {
   // 补零
   pad (x, len, str = '0') {
     return (str.repeat(len) + x).slice(-len)
+  },
+  between (x, min, max) {
+    if (x < min) return min
+    if (x > max) return max
+    return Number.isFinite(x) ? x : min
   },
   // 格式化时间
   formatTime (millis) {
@@ -457,6 +466,37 @@ const Utils = {
       arr[i] = arr[j]
       arr[j] = tmp
     }
+  },
+  // 在闭区间 [lo, hi] 中寻找第一个使 fn(n) 成立的 n
+  bsearch (lo, hi, fn) {
+    --lo, ++hi
+    while (hi - lo > 1) {
+      const mid = lo + ((hi - lo) >> 1)
+      if (fn(mid)) hi = mid
+      else lo = mid
+    }
+    return hi
+  },
+  // 根据先验概率生成随机单字
+  // TODO: 如何生成不重复单字?
+  sample (arr, maturity, limit, prefer = 8) {
+    const cumsum = []
+    let sum = 0
+    arr.forEach(ch => {
+      // 对于没有出现过的字, 给予高的权重; 否则 keySpeed 越大权重越小 (n方反比)
+      sum += 1 / Math.pow(maturity[ch]?.keySpeed || 1, prefer)
+      cumsum.push(sum)
+    })
+    limit = limit || arr.length
+    const res = []
+    for (let i = 0; i < limit; ++i) {
+      const r = Math.random() * sum
+      let j = Utils.bsearch(0, cumsum.length - 1, j => cumsum[j] >= r)
+      j = Math.min(j, arr.length - 1)
+      res.push(arr[j])
+    }
+    console.log(res.map(ch => ch + ': ' + (maturity[ch]?.keySpeed || 1)).join('\n'))
+    return res
   },
   escapeHTML (text) {
     return text.replace(/&/g, '&amp;')
@@ -558,6 +598,7 @@ const Typing = {
   setting: {}, // 用户设置
   current: {}, // 当前打字信息
   history: [], // 历史记录
+  maturity: {}, // 单字成熟度
   compositionStr: '', // 未上屏的编码
   onLoad () {
     Typing.history = Utils.getStorage(Constants.storage.history, [])
@@ -565,6 +606,7 @@ const Typing = {
       ...Typing.defaultSetting(),
       ...Utils.getStorage(Constants.storage.setting, {})
     }
+    Typing.maturity = Utils.getStorage(Constants.storage.maturity, {})
   },
   defaultSetting () {
     return {
@@ -572,6 +614,7 @@ const Typing = {
       randomType: 'none',
       blankType: ['trim'],
       limit: 0,
+      preferNew: 8, // 练习生字的倾向, 1 到 10
     }
   },
   // 更新背景文字
@@ -645,6 +688,16 @@ const Typing = {
     clearInterval(Typing.current.timer)
     Typing.current.timer = undefined
     Typing.updateStatus()
+
+    // 计算成熟度
+    Typing.current.text.forEach(ch => {
+      const record = Typing.maturity[ch] || { count: 0, keySpeed: 0 }
+      const { keySpeed, acc } = Typing.current
+      record.keySpeed = (record.keySpeed * record.count + keySpeed * acc / 100) / (++record.count)
+      Typing.maturity[ch] = record
+    })
+    Utils.setStorage(Constants.storage.maturity, Typing.maturity)
+
     Typing.current.text = Typing.current.text.join('')
     Typing.history.push(Typing.current)
     Utils.setStorage(Constants.storage.history, Typing.history)
@@ -659,6 +712,13 @@ const Typing = {
       `,
     })
     $btnStart.focus()
+  },
+  logMaturity () {
+    console.log(
+      Object.entries(Typing.maturity)
+      .sort((a, b) => b[1].keySpeed - a[1].keySpeed)
+      .map(v => v[0] + ' ' + v[1].keySpeed.toFixed(2)).join('\n')
+    )
   },
   pause () {
     if (!Typing.current.timer) return
@@ -845,7 +905,9 @@ const Typing = {
     } else if (setting.randomType === 'char') {
       text = [...text]
       if (setting.slice > 0) text = text.slice(0, setting.slice)
-      Utils.shuffle(text)
+      // Utils.shuffle(text)
+      const prefer = Utils.between(Typing.setting.preferNew, 1, 10)
+      text = Utils.sample(text, Typing.maturity, setting.limit, prefer)
       text = text.join('')
     } else if (setting.randomType === 'line') {
       text = text.split('\n')
@@ -891,6 +953,8 @@ const Typing = {
           <label><input type="checkbox" name="blankType" value="noblank" ${setting.blankType.includes('noblank') ? 'checked' : ''} /> 去除所有空白</label>
           <h4>限定字数</h4>
           <label><input type="number" name="limit" min="0" placeholder="0 代表不限字数" value="${setting.limit}" /></label>
+          <h4>生字偏好</h4>
+          <label><input type="number" name="preferNew" min="1" max="10" placeholder="生字偏好程度 (1-10)" value="${setting.preferNew}" /></label>
         </div>
       `
     })

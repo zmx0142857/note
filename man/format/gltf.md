@@ -13,6 +13,7 @@
   $ gltf-pipeline -i model.gltf -o model.draco.gltf -d # draco 压缩
   ```
 - 在线压缩 https://modelcompress.cn/home
+- [gltf.report](https://gltf.report): gltf 优化器
 
 ## 模型结构
 

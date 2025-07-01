@@ -105,6 +105,10 @@ dist
     $ svn relocate <old> <new> # svn >= 1.7
     $ svn switch --relocate <old> <new> # svn < 1.7
 
+## 更换用户
+
+    $ svn switch --username <username>
+
 ### 回退文件到指定版本
 
 如果修改了文件没有提交, 想放弃这些修改, 直接执行 `svn revert`
