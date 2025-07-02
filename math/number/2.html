@@ -369,28 +369,56 @@ is_wolstenholme(2124679) # True
   如果 `p ge 5`, 则同余式对模 `p^3` 成立.
 </p>
 
-<p class="proof">
-  [来自 deepseek] 从 Lucas 定理得到启发, 我们从生成多项式入手, 展开:
-  <span class="formula">
-    `(1+x)^p`
-    `= 1 + x^p + p * f(x)`,
-  </span>
-  其中 `f(x) = sum_(k=1)^(p-1) 1/p (p;k) x^k`.  于是
-  <span class="formula">
-    `(1+x)^(a p)`
-    `= (1+x^p + p f(x))^a`
-    `= sum_(j=0)^a (a;j) x^(j p) (1+p f(x))^(a-j)`
-    `-= sum_(j=0)^a (a;j) x^(j p) (1 + (a-j) p f(x))`
-    `(mod p^2)`.
-  </span>
-  提取 `x^(b p)` 次项系数.
-  注意到 `f` 不含 `x` 的 `k p` 次项, `k = 0, 1, cdots`,
-  因此它不影响 `x^(b p)` 的系数, 从而上式 `x^(b p)` 的系数就是 `(a;b)`.
-  这证明了
-  <span class="formula">
-    `(a p; b p) -= (a;b) (mod p^2)`.
-  </span>
-</p>
+<ol class="proof">
+  [来自 deepseek]
+  <li>
+    从 Lucas 定理得到启发, 我们从生成多项式入手, 展开:
+    <span class="formula">
+      `(1+x)^p`
+      `= 1 + x^p + p * f(x)`,
+    </span>
+    其中 `f(x) = sum_(k=1)^(p-1) 1/p (p;k) x^k`.  于是
+    <span class="formula">
+      `(1+x)^(a p)`
+      `= (1+x^p + p f(x))^a`
+      `= sum_(j=0)^a (a;j) x^(j p) (1+p f(x))^(a-j)`
+      `-= sum_(j=0)^a (a;j) x^(j p) (1 + (a-j) p f(x))`
+      `(mod p^2)`.
+    </span>
+    提取 `x^(b p)` 次项系数.
+    注意到 `f` 不含 `x` 的 `k p` 次项, `k = 0, 1, cdots`,
+    因此它不影响 `x^(b p)` 的系数, 从而上式 `x^(b p)` 的系数就是 `(a;b)`.
+    这证明了
+    <span class="formula">
+      `(a p; b p) -= (a;b) (mod p^2)`.
+    </span>
+  </li>
+  <li>为证明更高阶的同余式, 需要把 `(1+p f(x))^(a-j)` 多展开一项, 得到
+    <span class="formula">
+      `(1+x)^(a p)`
+      `-= sum_(j=0)^a (a;j) x^(j p) (1 + (a-j) p f(x) + (a-j;2) p^2 f(x)^2)`
+      `(mod p^3)`.
+    </span>
+    提取 `x^(b p)` 次项系数, 和前面一样, 主项 `(a;b) x^(b p)` 贡献系数 `(a;b)`,
+    `f(x)` 项对系数没有贡献. 下面考虑 `f(x)^2` 项. 由于 `f` 只含有 `1` 到 `p-1` 次项,
+    所以 `f(x)^2` 有贡献的是 `p` 次项系数, 根据组合数的 Vandermonde 恒等式, 它等于
+    <span class="formula">
+      `[x^p] f(x)^2`
+      `= sum_(k=1)^(p-1) 1/p^2 (p;k)^2`
+      `= 1/p^2((2p;p) - 2)`.
+    </span>
+    综上
+    <span class="formula">
+      `(a p; b p)`
+      `-= (a;b) + (a;b-1)(a-b+1;2)((2p;p) - 2)`
+      `(mod p^3)`
+    </span>
+    根据 Wolstenholme 定理, `p ge 5` 时 `(2p;p) -= 2 (mod p^3)`, 因此得到结论
+    <span class="formula">
+      `(a p; b p) -= (a;b) (mod p^3)`.
+    </span>
+  </li>
+</ol>
 
 <ol class="proof enum">
   [来自 wikipedia 的组合学证明]
