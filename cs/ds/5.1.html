@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>字符串</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<p class="definition">
+	<b>字符串 (string)</b> 是字符组成的有限序列, 一般记为
+	<span class="formula">
+		`s = a_0 a_1 cdots a_(n-1)`, `quad n ge 0`.
+	</span>
+	字符数目 `n` 称为串的<b>长度</b>. 长度为 0 的串称为<b>空串 (null
+	string)</b>, 记为 `epsi`.
+    若 `s` 为非空串, 我们称 `i` 是字符 `a_i` 在串中的<b>下标</b>.  字符串的下标是从 0 开始的.
+	串中连续 `k ge 0` 个字符组成的子序列称为该串的<b>子串 (substring)</b>.
+    用 <code>a[i:j]</code> 表示 `a_i, cdots, a_(j-1)` 所组成的子串, 称为字符串的一个<b>切片</b>.
+	注意切片是左闭右开的. 特别 `i = j` 时上述切片是一个空串.
+</p>
+
+<h2>字符串的存储</h2>
+
+<h3>定长顺序存储 (数组)</h3>
+
+<p class="data-structure">
+	<b>字符串的定长顺序存储</b>
+	在字符串尾追加空字符 <code>'\0'</code> 作为串结束标识.
+	可以增加一变量 <code>len</code> 表示字符串长.
+	定长有中序存储的优点是方便;
+	缺点是连接, 插入, 置换等操作可能使字符串超出给定长度.
+</p>
+
+<pre>
+struct StaticString:
+	char str[N+1]
+	int len
+</pre>
+
+<p class="algorithm">
+	<b>定长顺序存储下字符串的连接</b>
+	将两字符串 <code>this</code> 与 <code>str</code> 连接的结果保存在
+	<code>this</code> 中. 超出部分被截断.
+</p>
+
+<pre>
+StaticString.strcat(str):
+	i = 0
+	while this[i] != '\0':
+		++i
+	j = 0
+	while str[j] != '\0' and i &lt; N:
+		this[i++] = str[j++]
+	this[i] = '\0'
+</pre>
+
+<h3>堆分配存储 (动态数组)</h3>
+
+<p class="data-structure">
+	也是字符串最常用的存储方式. 与定长存储相比,
+	当字符串长度超过当前容量时, 可以重新分配内存以适应新的长度.
+</p>
+
+<pre>
+struct HeapString
+	char *str
+	int len
+	int cap # capacity
+</pre>
+
+<p class="algorithm">
+	<b>堆分配串的赋值</b>
+	使用所谓 "copy and swap idiom".
+</p>
+
+<pre>
+# str 以传值形式传入, 在函数退出时被销毁
+HeapString.assign(str):
+	swap(this.str, str.str)
+	this.len = str.len
+	this.cap = str.cap
+</pre>
+
+<h3>块链存储 (链表)</h3>
+
+<p class="data-structure">
+	<b>串的块链存储</b>
+	使用一单链表存储字符串, 每个链表结点含有 <code>CHUNK_SIZE</code>
+	个字符. 最后一个块链通常未必装满, 可在串尾追加空字符.
+	串的链式存储在连接等操作上有一定方便之处,
+	但总的来说占用空间大且操作复杂.
+</p>
+
+<pre>
+CHUNK_SIZE 80
+struct Chunk:
+	char str[CHUNK_SIZE]
+	Chunk *next
+
+struct ChunkString:
+	Chunk *head, *tail
+	int len
+</pre>
+
+<h2>模式匹配算法*</h2>
+
+<p>	模式匹配即查找子串的算法. 假定模式串 <code>p</code> 非空,
+	在主串 <code>s</code> 中查找 <code>p</code> 出现的所有下标.
+	也可以是找出所有不重叠的子串 <code>p</code> 的下标.
+</p>
+
+<h3>朴素匹配</h3>
+
+<p class="algorithm">
+	<b>朴素匹配算法</b>
+	依次将 <code>p[0]</code> 和主串的下标 0, 1, 2, ...
+	对齐进行串的匹配, 直到匹配成功或尝试过所有偏移量而失败为止.
+	时间复杂度为 <code>O(s.len*p.len)</code>.
+</p>
+
+<pre>
+naive_match(s, p):
+	i = j = 0
+	while i &lt; s.len:
+		if s[i] != p[j]:	# 失败
+			i -= j-1		# i 回退, 注意 j == 0 时 i 实际上在变大
+			j = 0			# j 清零
+		elif j == p.len-1:	# 成功
+			print(i-j)
+			i -= j-1		# 要求子串不重叠时, 这里写 ++i
+			j = 0
+		else:
+			++i, ++j
+</pre>
+
+<h3>KMP 算法</h3>
+
+<p class="algorithm">
+	<b>KMP (Knuth-Morris-Pratt) 算法</b>
+	朴素匹配算法中, 遇到匹配失败 (失配) 时, 指针 <code>i</code> 需要回退.
+	这是可以避免的.  事实上根据模式串自己与自己匹配时的信息,
+	可以计算出失配时模式串应当向右滑动的距离.<br/>
+	设主串为 <code>s</code>, 模式串为 <code>p</code>,
+	当发生失配 <code>s[i] != p[j]</code> 时, 假设 <code>s[i]</code>
+	应继续与 <code>p[k]</code> 相比较, <code>k &lt; j</code>.
+	则必有
+	<span class="formula">
+		<code>p[0:k] == s[i-k:i]</code>
+	</span>
+	由失配前已经完成的匹配有
+	<span class="formula">
+		<code>p[j-k:j] == s[i-k:i]</code>
+	</span>
+	两式比较得
+	<span class="formula">
+		<code>p[0:k] == p[j-k:j]</code>
+	</span>
+	可以看出, 当 <code>p[j]</code> 与主串对应字符发生失配时,
+	下一个参与比较的字符 <code>p[k]</code> 仅由模式串自身决定,
+	而与主串无关.
+	反之, 若模式串中存在满足上式的 <code>k, j</code>, 则当
+	<code>p[j]</code> 与主串发生失配时, 只需将模式串向右滑动, 以
+	<code>p[k]</code> 取代 <code>p[j]</code> 的位置. 这时
+	<code>p[0:k]</code> 已经与主串的对应字符匹配, 只需从
+	<code>p[k]</code> 开始继续匹配即可. 显然为减少工作量,
+	<code>k</code> 值越大越好.<br/>
+	定义 <code>next[j]</code> 为当 <code>p[j]</code> 与主串发生失配时,
+	模式串中下一个参与比较的字符下标. 特别 <code>j == 0</code> 时,
+	表示模式串的首个字符即发生失配. 这时简单将模式串向右移动一个字符即可,
+	换言之, 应当将下标 <code>-1</code> 的假想字符与主串的原位置对齐.
+	但注意这种情形下, 应将 <code>i, j</code> 同时增 1, 从下标 0 开始匹配.
+	由上述讨论,
+	<span class="formula">
+		`"next"[j] = {
+			-1, if j = 0;
+			max{k | k lt j and p[0:k] = p[j-k:j]}, otherwise
+		:}`
+	</span>
+	在已知 <code>next[0:p.len]</code> 的情况下, 匹配算法的草稿如下.
+</p>
+
+<pre>
+kmp_match_draft(s, p):
+	get_next(p)
+	i = j = 0
+	while i &lt; s.len:
+		if j != -1 and s[i] != p[j]: # 失败
+			j = next[j]
+		elif j == p.len-1:			 # 成功
+			print(i-j)
+			j = next[j]
+		else:
+			++i, ++j
+</pre>
+
+<p>
+	我们看到, 失配时指针 i 已经不回退, 而 j 也不至于回退至 0 了.
+	注意到失败和成功时指针 i 均不变, 所以无需反复进行 <code>i &lt;
+	s.len</code> 的判断.  我们可以将算法的 <code>if</code> 改成
+	<code>while</code>, <code>elif</code> 改成 <code>if</code>,
+	得到最终版本:
+</p>
+
+<pre>
+kmp_match(s, p):
+	get_next(p)
+	i = j = 0
+	while i &lt; s.len:
+		while j != -1 and s[i] != p[j]:	# 失败
+			j = next[j]
+		if j == p.len-1:				# 成功
+			print(i-j)
+			j = next[j]
+		else:
+			++i, ++j
+</pre>
+
+<p>
+	我们来求向量 <code>next</code>.
+	由定义, <code>next[0] == -1</code>. 现在设 <code>next[j] == k</code>,
+	来求 <code>next[j+1]</code>.
+	当 <code>j &gt; 0</code>,
+	由 <code>next[j] == k</code>, 存在 <code>k &lt; j</code>, 使得
+	<span class="formula">
+		<code>p[0:k] == p[j-k:j]</code>,
+	</span>
+	且不存在 <code>k' &gt; k</code> 满足上式.
+	考虑 <code>p[j], p[k]</code> 的关系:<br/>
+	情况一, 若 <code>p[j] == p[k]</code>, 则
+	<span class="formula">
+		<code>p[0:k+1] == p[j-k:j+1]</code>,
+	</span>
+	且不存在 <code>k' &gt; k</code> 满足上式. 即 <code>next[j+1]
+		== k+1</code>.<br/>
+	情况二, 若 <code>p[j] != p[k]</code>,
+	可以看成模式串与自己匹配过程中出现失配, 为了化为情况一,
+	应当寻找下一合适的 <code>p[k<sub>1</sub>]</code> 与 <code>p[j]</code>
+	比较, 由 KMP 匹配过程的讨论知道, 这个
+	<code>k<sub>1</sub> = next[k]</code>.
+	若 <code>p[k<sub>1</sub>] == p[j]</code>, 即化为情况一,
+	否则继续令 <code>k<sub>2</sub> = next[k<sub>1</sub>]</code>.
+	由于 <code>next</code> 函数严格单调减的性质, 我们总能化为情况一,
+	或者最终得到一个 <code>k<sub>n</sub> == -1</code>.
+	这时无法找到一个 <code>0 &lt; k &lt; j</code> 使得
+	<span class="formula">
+		<code>p[0:k+1] == p[j-k:j+1]</code>,
+	</span>
+	因此 <code>next[j+1] = 0 (== k<sub>n</sub>+1)</code>.
+</p>
+
+<pre>
+get_next(p):
+	j, k = 0, -1
+	next[j] = k
+	while j &lt; p.len-1:
+		while k != -1 and p[j] != p[k]:
+			k = next[k]
+		next[++j] = ++k
+</pre>
+
+<p>	考虑一种特殊情况:
+	<code>next[j] == k</code>, 且 <code>p[j] == p[k]</code>.
+	若这时发生失配 <code>s[i] != p[j]</code>, 按 KMP 算法, 应当以
+	<code>p[k]</code> 与 <code>s[i]</code> 比较,
+	但是其结果必然不相等!  针对这种情况, 我们可以直接取 <code>next[j] =
+	next[k]</code>, 以减少不必要的比较. 算法最终如下:
+</p>
+
+<pre>
+get_next_improved(p):
+	j, k = 0, -1
+	next[j] = k
+	while j &lt; p.len-1:
+		while k != -1 and p[j] != p[k]:
+			k = next[k]
+		if p[++j] == p[++k]:
+			next[j] = next[k]
+		else:
+			next[j] = k
+</pre>
+
+<p class="remark">
+	当我们需要找出所有 (可重叠的) 子串 <code>p</code> 的位置时, 应采用
+	<code>get_next</code>; 当我们要找出所有不重叠的子串的位置时,
+	则用 <code>get_next_improved</code>.
+</p>
+
+<p>
+	由于指针 i 不回溯, 所以匹配的时间复杂度为
+	<code>O(s.len)</code>. 另外,
+	预处理的过程就是模式串与自己匹配的过程, 时间复杂度为
+	<code>O(p.len)</code>. 总时间复杂度为两项之和.
+</p>
+
+<h3>Boyer-Moore 算法</h3>
+
+<p class="algorithm">
+  <b>Boyer-Moore 算法</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/68739462" target="_blank">知乎@帅地</a>,
+  <a href="https://oi-wiki.org/string/bm/" target="_blank">OI Wiki</a>]
+  优于 KMP, 这是文本编辑器中查找功能最常用的算法.
+</p>
+
+<div class="playground" value="{ str: 'here-is-a-simple-example', pattern: 'example' }">
+<script type="text">
+function badCharRule (badChar, pattern, j) {
+  for (let k = j-1; k >= 0; --k) {
+    if (pattern[k] === badChar) return j - k
+  }
+  return j + 1
+}
+
+// TODO: 只实现了坏字符规则, 未实现好后缀规则
+// 将 pattern 串的最后一个字符与 str[i] 对齐, 从尾部开始匹配. 若匹配成功返回 0, 否则返回滑动的距离
+function matchAt(str, pattern, i) {
+  for (let j = pattern.length - 1; j >= 0; --i, --j) {
+    if (str[i] !== pattern[j]) {
+      const offset1 = badCharRule(str[i], pattern, j)
+      return offset1
+    }
+  }
+  return 0 // matched
+}
+
+module.exports = function BoyerMoore(input) {
+  const { str, pattern } = Playground.parse(input)
+  if (pattern.length > str.length) return -1
+  if (pattern.length === 0) return 0
+
+  let pos = pattern.length - 1
+  let offset
+  while (true) {
+    offset = matchAt(str, pattern, pos)
+    if (offset === 0) return pos - pattern.length + 1 // found
+    else if (pos + offset >= str.length) return -1 // not found
+    else pos += offset // continue
+  }
+  return pos
+}
+</script>
+</div>
+
+<h3>编辑距离算法</h3>
+
+<ol class="algorithm">
+  <b>编辑距离算法</b>
+  [来自 <a href="https://blog.csdn.net/xcxy2015/article/details/77164126">CSDN@xcxy2015</a>]
+编辑距离是指, 从一个串变为另一个串所需的增、删、改的最少次数.
+比如从 hurt 变为 heart 的编辑方案一共两步:
+<li>把 u 换成 e;</li>
+<li>在刚才的 e 后面插入 a.</li>
+算法列表如下:
+<pre>
+    h e a r t
+  0 1 2 3 4 5
+h 1
+u 2
+r 3
+t 4
+</pre>
+逐行填写, 每个格子的值 = 1 + min(左上格子的值 - s, 上方格子的值, 左方格子的值).
+若当前比较的两个字母相等, 则 s = 1, 否则 s = 0.
+<pre>
+    h e a r t
+  0 1 2 3 4 5
+h 1 0 1 2 3 4
+u 2 1 1 2 3 4
+r 3 2 2 2 2 3
+t 4 3 3 3 3 2
+</pre>
+</ol>
+<ol>
+个人理解: 这是一个动态规划算法,
+左方、上方和左上三个格子分别表示增、删、改三种选择.
+如表中的 3 行 4 列, 比较串 hur 和 hear.
+要将 hur 变为 hear, 方案有三:
+<li>「增」的方案. 先把 hur 变为 hea, 再增加一个字母 r 得到目标 hear. 编辑距离为 2 + 1.</li>
+<li>「删」的方案. 先把 hur 删去一个字母变为 hu, 再把 hu 变为 hear. 编辑距离为 1 + 3.</li>
+<li>「改」的方案. 先把 hur 的最后一个字母改成和 hear 的最后一个字母相同 (它们已经相同, 因此代价为 0),
+  再把 hur 的前面几个字母变成和 hear 的前面几个字母相同 (即把 hu 变为 hea). 编辑距离为 0 + 2.
+</li>
+从三个方案中取最小的即可.
+</ol>
+
+<div class="playground" value="hurt,heart">
+<script type="text">
+function edit_distance (s1, s2) {
+  const len1 = s1.length
+  const len2 = s2.length
+  const arr = Array.from({ length: len1+1 }).map((_, i) =>
+    Array.from({ length: len2+1 }).map((_, j) => !i ? j : !j ? i : 0))
+  for (let i = 0; i < len1; ++i) {
+    for (let j = 0; j < len2; ++j) {
+      const top_left = arr[i][j] - (s1[i] === s2[j])
+      const top = arr[i][j+1]
+      const left = arr[i+1][j]
+      arr[i+1][j+1] = 1 + Math.min(top_left, top, left)
+    }
+  }
+  return arr[len1][len2]
+}
+
+function similarity (s1, s2, d) {
+  return 1 - d / Math.max(s1.length, s2.length, 1) // 防止分母为零
+}
+
+module.exports = function (input) {
+  const [s1, s2] = input.split(',')
+  const d = edit_distance(s1, s2)
+  const s = similarity(s1, s2, d)
+  return 'distance: ' + d + '\nsimilarity: ' + s.toFixed(2)
+}
+</script>
+</div>
+
+<h3>LZ77 压缩算法</h3>
+
+<ol class="algorithm">
+  <b>LZ77 压缩算法</b> 是基于字典的压缩算法, 也是很多现代压缩算法 (包括 zip) 的基础.
+  <li>
+    将待编码数据看作字符串, 以一个固定宽度的窗口在其中滑动, 窗口右端 <code>win[k:]</code>
+    是待编码区, 左端 <code>win[0:k]</code> 是已编码区.
+  </li>
+  <li>
+    编码时, 从待编码区的第一个字符开始, 在已编码区查找最大匹配字符串: 即寻找最大的
+    <code>length</code>, 使得 <code>win[k-offset:k-offset+length] == win[k:k+length]</code>.
+  </li>
+  <li>
+    如果匹配成功, 输出三元组 <code>(offset, length, null)</code>, 并将窗口向后滑动 <code>length</code>个字符;
+    否则输出 <code>(0, 0, win[k])</code>, 并将窗口向后滑动 1 个字符.
+  </li>
+</ol>
+
+<div class="playground" value="{ str: 'AABCBBABC', size1: 5, size2: 3 }">
+<p>压缩</p>
+<script type="text">
+function lz77 (str, size1, size2) {
+  let k = 0
+  const res = []
+  while (k < str.length) {
+    const searchBuf = str.slice(Math.max(0, k - size1), k)
+    let length = 0, offset = 0
+    while (length <= size2) {
+      const substr = str.slice(k, k+length+1)
+      const index = searchBuf.indexOf(substr)
+      if (~index) {
+        ++length
+        offset = searchBuf.length - index
+      } else {
+        break
+      }
+    }
+    length = Math.min(length, size2)
+    res.push([offset, length, str[k]])
+    k += length || 1
+  }
+  return res
+}
+
+module.exports = function (input) {
+  const { str, size1, size2 } = Playground.parse(input)
+  const res = lz77(str, size1, size2)
+  return res.join('\n')
+}
+</script>
+</div>
+
+<div class="playground" type="textarea" value="0,0,A
+1,1,A
+0,0,B
+0,0,C
+2,1,B
+3,1,B
+5,3,A">
+<p>解压缩</p>
+<script type="text">
+function unzip (data) {
+  const res = []
+  data.forEach(record => {
+    const [offset, length, ch] = record
+    if (offset === 0) {
+      res.push(ch)
+    } else {
+      const start = res.length - offset
+      const end = start + length
+      res.push(...res.slice(start, end))
+    }
+  })
+  return res.join('')
+}
+
+module.exports = function (input) {
+  const data = input.split('\n').map(v => {
+    const [offset, length, ch] = v.split(',')
+    return [Number(offset), Number(length), ch]
+  })
+  return unzip(data)
+}
+</script>
+</div>
+
+<script src="../../js/note.js?type=cs&loadmath=true"></script>
+<script src="../../js/playground.js"></script>
+</body>
+</html>

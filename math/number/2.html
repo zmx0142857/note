@@ -9,9 +9,46 @@
 
 <h2>一次同余方程</h2>
 
-裴蜀定理
+<p class="theorem">
+  <b>模算术逆</b>
+  线性同余方程 `a x -= 1` (mod m)` 有解 `x` 当且仅当 `gcd(a, m) = 1`.
+  此时解在模 `m` 意义下还是唯一的, 记为 `a^-1`, 称为 `a` 模 `m` 的逆.
+</p>
 
-中国剩余定理 (CRT)
+<p class="proof">
+  原方程等价于不定方程 `a x + m y = 1`, 由 Bezout 定理知道它有解当且仅当 `gcd(a, m) = 1`.
+  此时通解形如 `x = x_0 + k m`, 因此模 `m` 意义下的解唯一.
+  从不定方程 `a x + m y = 1` 的形式看出, 模算术逆可以用辗转相除法来求.
+</p>
+
+<p class="theorem">
+  <b>中国剩余定理 (孙子定理, CRT, Chinese remainder theorem)</b>
+  给定两两互素的正整数 `n_1, cdots, n_k` 和任意 `k` 个整数 `a_1, cdots, a_k`, 则线性同余方程组
+  <span class="formula">
+  `{
+    x -= a_1 (mod n_1);
+    cdots;
+    x -= a_k (mod n_k);
+  :}`
+  </span>
+  在模 `N` 的意义下存在唯一解 `x`. 这里 `N = n_1 * cdots * n_k`.
+</p>
+
+<ol class="proof">
+  <li>
+    事实上, 记 `M_i = prod_(j != i) n_j`, 又记 `M_i^-1` 是 `M_i` 模 `n_i` 的逆, 则
+    <span class="formula">
+      `x -= sum_(i=1)^k a_i * M_i^-1 * M_i (mod N)`.
+    </span>
+    验证: 上式两边模 `n_i`, 由于除了 `M_i` 这一项外, 各项都是 `n_i` 的倍数, 我们得到
+    <span class="formula">
+      `x -= a_i * M_i^-1 * M_i -= a_i (mod n_i)`.
+    </span>
+  </li>
+  <li>假如 `y` 也是一个解, 那么 `x -= y (mod n_i)`, `i = 1, cdots, k`.
+    这推出 `x -= y (mod N)`. 所以模 `N` 意义下的解唯一.
+  </li>
+</ol>
 
 <h2>模素数幂</h2>
 
@@ -294,10 +331,10 @@
   [来自 <a href="https://en.wikipedia.org/wiki/Wolstenholme's_theorem" target="_blank">wikipedia</a>,
   <a href="https://arxiv.org/pdf/1111.3057" target="_blank">arxiv</a>]
   对任意素数 `p ge 5` 成立
-  <li>`(2p; p) -= 2 (mod p^3)`.</li>
+  <li>`sum_(k=1)^(p-1) 1/k^2 -= 0 (mod p)` (有理数同余, 即 `p` 整除左式的分子).</li>
+  <li>`sum_(k=1)^(p-1) 1/k -= 0 (mod p^2)` (有理数同余).</li>
   <li>`(2p-1; p-1) -= 1 (mod p^3)`.</li>
-  <li>`sum_(k=1)^(p-1) 1/k -= 0 (mod p^2)` (有理数同余, 即 `p^2` 整除左式的分子).</li>
-  <li>`sum_(k=1)^(p-1) 1/k^2 -= 0 (mod p)` (有理数同余).</li>
+  <li>`(2p; p) -= 2 (mod p^3)`.</li>
   对于极个别素数, 上述等式对 `p` 的更高阶数成立, 即
   <span class="formula">
     `(2p-1; p-1) -= 1 (mod p^4)` 等等.
@@ -306,26 +343,7 @@
 </ol>
 
 <ol class="proof">
-  <li>`iff` 2. 只需注意到 `(2p; p) = 2 (2p-1; p-1)` 以及 `p` 是奇素数.</li>
-  <li>`iff` 3. 这是因为
-    <span class="formula">
-      `(2p-1; p-1)`
-      `= prod_(k=1)^(p-1) (2p-k)/k`
-      `= (-1)^(p-1) prod_(k=1)^(p-1) (1 - (2 p)/k)`
-      `-= 1 - 2 p sum_(k=1)^(p-1) 1/k`
-      `(mod p^2)`.
-    </span>
-  </li>
-  <li>`iff` 4. 倒序相加,
-    <span class="formula">
-      `2 sum_(k=1)^(p-1) 1/k`
-      `= sum_(k=1)^(p-1) (1/k + 1/(p-k))`
-      `= sum_(k=1)^(p-1) p/(k(p-k))`
-      `-= -p sum_(k=1)^(p-1) 1/k^2`
-      `(mod p^2)`.
-    </span>
-    这指出 3. 与 4. 等价.
-    与此同时
+  <li>
     <span class="formula">
       `sum_(k=1)^(p-1) 1/k^2`
       `-= sum_(k=1)^(p-1) k^2`
@@ -333,8 +351,38 @@
       `-= 0 (mod p)`.
     </span>
     最后一个等号成立是因为 `p ge 5`, 所以不会被分母的 6 约去.
-    这证明了 4.
   </li>
+  <li>`iff` 1. 倒序相加,
+    <span class="formula">
+      `2 sum_(k=1)^(p-1) 1/k`
+      `= sum_(k=1)^(p-1) (1/k + 1/(p-k))`
+      `= sum_(k=1)^(p-1) p/(k(p-k))`,
+    </span>
+    这指出 `sum_(k=1)^(p-1) 1/k -= 0 (mod p)`. 进一步有
+    <span class="formula">
+      `2/p sum_(k=1)^(p-1) 1/k`
+      `= sum_(k=1)^(p-1) 1/(k(p-k))`
+      `-= - sum_(k=1)^(p-1) 1/k^2`
+      `(mod p)`.
+    </span>
+    这指出 1. 与 2. 等价.
+  </li>
+  <li>展开
+    <span class="formula">
+      `(2p-1; p-1)`
+      `= prod_(k=1)^(p-1) (1 + p/k)`
+      `-= 1 + p sum_(k=1)^(p-1) 1/k`
+      `+ p^2 sum_(1 le j lt k le p-1) 1/(j k)`
+      `(mod p^3)`.
+    </span>
+    由 2. 知道 `p sum_(k=1)^(p-1) 1/k -= 0 (mod p^3)`, 只需再证第三项也被 `p^3` 整除. 这是因为
+    <span class="formula">
+      `sum_(1 le j lt k le p-1) 1/(j k)`
+      `= (sum_(k=1)^(p-1) 1/k)^2 - sum_(k=1)^(p-1) 1/k^2`
+      `-= 0 (mod p)`.
+    </span>
+  </li>
+  <li>`iff` 3. 只需注意到 `(2p; p) = 2 (2p-1; p-1)` 以及 `p` 是奇素数.</li>
 </ol>
 
 <pre class="solution">

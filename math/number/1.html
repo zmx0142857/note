@@ -237,40 +237,54 @@
 
 <h3>最大公约数的进一步性质</h3>
 
-<p class="lemma" id="lem-d|ax+by">
-    `a, b` 的公约数整除 `a, b` 的任意线性组合:
-    <span class="formula">
-        `d | a and d | b` `iff (AA x, y in ZZ)` `d | a x + b y`.
-    </span>
+<p class="definition">
+  整数 `a` 的全体倍数记为 `(:a:)`.
+  整数 `a, b` 的<b>线性组合集</b> 定义为
+  <span class="formula">
+    `(:a, b:) := { a x + b y: x, y in ZZ }`.
+  </span>
+  我们也说 `a` <b>生成</b>了 `(:a:)`, `a` 和 `b` 生成了 `(:a, b:)`.
+</p>
+
+<p class="lemma">
+  `a, b` 的公约数整除 `a, b` 的任意线性组合:
+  <span class="formula">
+    `d | a and d | b` `iff (AA x, y in ZZ)` `d | a x + b y`.
+  </span>
 </p>
 
 <p class="proof">
-    `lArr` 分别取 `(x, y) = (1, 0)` 和 `(0, 1)` 即可;<br/>
-    `rArr` 设 `a = d a_1`, `b = d a_2`, 则
-        `a x + b y = d (a_1 x + b_1 y)`.
+  `lArr` 分别取 `(x, y) = (1, 0)` 和 `(0, 1)` 即可;<br>
+  `rArr` 设 `a = d a_1`, `b = d b_1`, 则
+  `a x + b y = d (a_1 x + b_1 y)`.
 </p>
 
-<p class="theorem">
+<ol class="theorem">
   <b>Bezout (裴蜀) 定理</b>
-  设整数 `a, b` 不全为零, 则 `(a, b)` 是 `a, b` 的全体线性组合
-  <span class="formula">
-    `S = {a x+b y: x, y in ZZ}`
-  </span>
-  中的最小正整数.
-</p>
+  设整数 `a, b` 不全为零, 记 `d = gcd(a, b)`, 则
+  <li>`d` 是线性组合集 `(:a, b:)` 中的最小正整数.</li>
+  <li>等价地说, 线性组合集 `(:a, b:)` 由 `d` 生成, 即 `(:a, b:) = (:d:)`.</li>
+  <li>又等价地说, 不定方程 `a x + b y = c` 有解 `(x, y)` 当且仅当 `d | c`.</li>
+</ol>
 
 <ol class="proof">
-    显然 `S` 中含有正整数. 设 `s = a x+b y` 是其中的最小正整数.
-    <li>由<a class="ref" href="#lem-d|ax+by"></a>知 `(a, b) | s`,
-        这推出 `(a, b) le s`.
-    </li>
-    <li>由带余除法,
-        <span class="formula">
-            `a = s q + r`, `quad 0 le r lt s`,
-        </span>
-        注意到 `r in S`, 由 `s` 的最小性知 `r = 0`, 于是 `s | a`;
-        同理 `s | b`. 因此 `s` 是 `a, b` 的公约数, `s le (a, b)`.
-    </li>
+  <li>显然 `(:a, b:)` 中含有正整数. 先设 `m` 是 `(:a, b:)` 的最小正整数.
+    由于 `d` 是 `a, b` 的公约数, 由引理知 `d | m`, 所以 `d le m`.
+    <br>
+    另一方面由带余除法,
+    <span class="formula">
+      `a = m q + r`, `quad 0 le r lt m`,
+    </span>
+    注意到 `a, m in (:a, b:)`, 所以 `r in (:a, b:)`.
+    由 `m` 的最小性知 `r = 0`, 于是 `m | a`;
+    同理 `m | b`. 因此 `m` 是 `a, b` 的公约数, `m le gcd(a, b) = d`.
+  </li>
+  <li>
+    由引理知道 `a, b` 的任意线性组合被 `d` 整除, 所以 `(:a, b:) sube (:d:)`.
+    另一方面由 1. 知道 `d in (:a, b:)`, 即存在 `x, y 使得 `a x + b y = d`.
+    那么对 `d` 的任意倍数 `k d`, 有 `a (k x) + b (k y) = k d`, 故 `(:d:) sube (:a, b:)`.
+  </li>
+  <li>只需注意到上述不定方程有解等价于 `c in (:a, b:) = (:d:)`.</li>
 </ol>
 
 <p class="remark">
@@ -389,6 +403,34 @@
 </pre>
 因此 `18 * 7 - 25 * 5 = 1`.
 </div>
+
+<p class="example">
+  解线性不定方程 `a x + b y = c`.
+</p>
+
+<p class="proof">
+  记 `d = gcd(a, b)`, 我们已经知道方程有解当且仅当 `d | c`.
+  下面设方程有解, 先用辗转相除法得到一个特解 `(x_0, y_0)`, 使得
+  <span class="formula">
+    `a x_0 + b y_0 = d`.
+  </span>
+  再求齐次方程 `a x + b y = 0` 的通解:
+  <span class="formula">
+    `x = k b//d`, `quad y = -k a//d`, `quad k in ZZ`.
+  </span>
+  于是原方程的通解为
+  <span class="formula">
+    `x = x_0 c//d + k b//d`,
+    `quad y = y_0 c//d - k a//d`,
+    `quad k in ZZ`.
+  </span>
+  特别当 `c = d = 1` 时, 通解为
+  <span class="formula">
+    `x = x_0 + k b`,
+    `quad y = y_0 - k a`,
+    `quad k in ZZ`.
+  </span>
+</p>
 
 <p class="theorem">
   <b>拉梅定理</b>

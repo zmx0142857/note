@@ -157,6 +157,7 @@ var tocData = [
         "children": [
           { "value": "1", "label": "度量空间", "date": "2025-06-12" },
           { "value": "2", "label": "赋范线性空间", "date": "2025-06-13" },
+          { "value": "2.1", "label": "赋范线性空间 (旧)" },
           // { "value": "3", "label": "有界线性算子" },
           // { "value": "4", "label": "Hilbert 空间及其上的有界线性算子" }
         ]
@@ -306,7 +307,8 @@ var tocData = [
           { "value": "2", "label": "线性表" },
           { "value": "3", "label": "栈与队列" },
           { "value": "4", "label": "递归与回溯", "date": "2024-05-07" },
-          { "value": "5", "label": "字符串", "date": "2023-05-24" },
+          { "value": "5", "label": "字符串", "date": "2025-07-04" },
+          { "value": "5.1", "label": "字符串 (旧)", "date": "2023-05-24" },
           { "value": "6", "label": "树与二叉树" },
           { "value": "7", "label": "矩阵与广义表" },
           { "value": "8", "label": "图" },
@@ -734,6 +736,7 @@ var tocData = [
           { "value": "asm.md", "label": "x86 汇编语言", "date": "2025-03-19" },
           { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
           { "value": "tex.md", "label": "LaTeX", "date": "2025-05-25" },
+          { "value": "leetcode.md", "label": "LeetCode", "date": "2025-07-04" },
         ]
       },
       {
