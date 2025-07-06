@@ -47,7 +47,7 @@ body {
     transition: linear 0.05s;
   }
   .white.active {
-    height: 210px;
+    height: 208px;
     border-bottom-width: 20px;
   }
   .white:hover {
@@ -156,10 +156,21 @@ const settings = {
   letRing: 300, // ms
   tone: 'sine', // [real, imag],
   scale: 100,
-  volume: 50,
+  volume: 10,
 }
 let ringTimer
 let playing = []
+const isKeyDown = {}
+
+const keymap = {
+  Digit2: '#C4', Digit3: '#D4', Digit5: '#F4', Digit6: '#G4', Digit7: '#A4',
+  Digit9: '#C5', Digit0: '#D5', Equal: '#F5', Backspace: '#G5',
+  Tab: 'B3', KeyQ: 'C4', KeyW: 'D4', KeyE: 'E4', KeyR: 'F4', KeyT: 'G4', KeyY: 'A4', KeyU: 'B4',
+  KeyI: 'C5', KeyO: 'D5', KeyP: 'E5', BracketLeft: 'F5', BracketRight: 'G5', Backslash: 'A5',
+  KeyS: '#F2', KeyD: '#G2', KeyF: '#A2', KeyH: '#C3', KeyJ: '#D3', KeyL: '#F3', Semicolon: '#G3', Quote: '#A3',
+  KeyZ: 'F2', KeyX: 'G2', KeyC: 'A2', KeyV: 'B2', KeyB: 'C3', KeyN: 'D3', KeyM: 'E3', Comma:
+  'F3', Period: 'G3', Slash: 'A3',
+}
 
 const debug = (str) => {
   // $debug.innerHTML += str + '\n'
@@ -293,6 +304,25 @@ const onMouseUp = (e) => {
   }
 }
 
+const queryTarget = (e) => {
+  const pitch = keymap[e.code]
+  if (!pitch) return
+  return $keyboard.querySelector('span[data-pitch="' + pitch + '"]')
+}
+
+const onKeyDown = (e) => {
+  if (isKeyDown[e.code]) return // 防止按住按键时重复收到 keydown 事件
+  isKeyDown[e.code] = true
+  const target = queryTarget(e)
+  if (target) playNote(target)
+}
+
+const onKeyUp = (e) => {
+  isKeyDown[e.code] = false
+  const target = queryTarget(e)
+  if (target) stopNote(target)
+}
+
 const createNode = (container, className, pitch) => {
   const $note = document.createElement('span')
   $note.classList.add(className)
@@ -323,9 +353,12 @@ const main = () => {
   })
   $keyboard.addEventListener('contextmenu', e => e.preventDefault())
 
+  document.addEventListener('keydown', onKeyDown)
+  document.addEventListener('keyup', onKeyUp)
+
   $settings.innerHTML = `
     <label><input name="scale" type="range" value="100" min="80" max="200" step="20"> 按键大小</label>
-    <label><input name="volume" type="range" value="50" min="0" max="100" step="10"> 音量</label>
+    <label><input name="volume" type="range" value="10" min="0" max="100" step="10"> 音量</label>
     <label><input name="letRing" type="range" value="300" min="0" max="500" step="20"> 延音</label>
     <div class="tips">*为了最佳体验，建议关闭设备的多指截图功能</div>
   `

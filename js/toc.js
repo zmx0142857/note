@@ -464,7 +464,8 @@ var tocData = [
           { "value": "sekima", "label": "聖飢魔II", "date": "2022-02-27" },
           { "value": "leslie-cheung", "label": "张国荣", "date": "2024-05-31" },
           { "value": "xjapan", "label": "X JAPAN", "date": "2024-09-27" },
-          { "value": "galneryus", "label": "Galneryus", "date": "2024-11-01" }
+          { "value": "galneryus", "label": "Galneryus", "date": "2024-11-01" },
+          { "value": "zhangjie", "label": "张杰", "date": "2025-07-06" },
         ]
       },
       {
