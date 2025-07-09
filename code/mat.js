@@ -23,13 +23,30 @@ var argmax = (a, b, fn) => {
   }
   return res
 }
+var swap = (a, i, j) => {
+  const tmp = a[i]
+  a[i] = a[j]
+  a[j] = tmp
+}
+
+class MatError extends Error {
+  /**
+   * @param {string} msg 错误描述
+   * @param {object} info 附加信息
+   */
+  constructor (msg, info) {
+    super(msg)
+    this.name = 'MatError'
+    this.info = info
+  }
+}
 
 class Mat {
 
   /**
    * @param {number[][]} mat 矩阵
    * @param {object} options
-   * @param {string[]} options.title 列标题
+   * @param {string[]} [options.title] 列标题
    */
   constructor (mat = [], { title = [] } = {}) {
     this.mat = mat
@@ -41,11 +58,7 @@ class Mat {
   }
 
   get cols () {
-    return this.mat[0].length
-  }
-
-  get size () {
-    return [this.rows, this.cols]
+    return this.mat[0]?.length || 0
   }
 
   // 拷贝
@@ -86,10 +99,7 @@ class Mat {
     const m1 = mat1.mat
     const m2 = mat2.mat
     const m = mat1.rows, n = mat2.cols, s = mat2.rows
-    if (mat1.cols !== s) {
-      console.error(m1, m2)
-      throw new Error('matrix size mismatch')
-    }
+    if (mat1.cols !== s) throw new MatError('matrices size mismatch', { m1, m2 })
     const res = range2(m, n, (i, j) => {
       let sum = 0
       for (let k = 0; k < s; ++k) {
@@ -114,16 +124,11 @@ class Mat {
     return this
   }
 
-  /**
-   * jacobi 迭代法求特征值与特征向量, 要求实对称矩阵
-   */
-  eigJacobi ({ eps = 1e-6 } = {}) {
+  // jacobi 迭代法求特征值与特征向量, 要求实对称矩阵
+  jacobi ({ eps = 1e-6 } = {}) {
     const { mat } = this
     const n = this.rows
-    if (!this.isSymm()) {
-      console.error(mat)
-      throw new Error('matrix must be symmetric')
-    }
+    if (!this.isSymm()) throw new MatError('matrix must be symmetric', mat)
 
     let maxIter = n*n
     const eigvecs = new Mat().identity(n)
@@ -161,40 +166,34 @@ class Mat {
   }
 
   // QR 分解 (Schmidt 正交化)
+  // 要求各列向量线性无关
   QR ({ eps = 1e-6 } = {}) {
-    const [m, n] = this.size
+    const { rows, cols } = this
     const Q = this.clone().trans()
-    const R = new Mat().identity(n)
+    const R = new Mat().identity(cols)
 
-    for (let i = 1; i < n; ++i) {
+    for (let i = 1; i < cols; ++i) {
       for (let j = 0; j < i; ++j) {
         let alpha = R.mat[j][i] = dot(Q.mat[i], Q.mat[j]) / dot(Q.mat[j], Q.mat[j])
-        if (!Number.isFinite(alpha)) {
-          console.error(this.mat)
-          throw new Error('cols are dependent')
-        }
-        for (let k = 0; k < m; ++k) {
+        if (!Number.isFinite(alpha)) throw new MatError('cols are dependent', this.mat)
+        for (let k = 0; k < rows; ++k) {
           Q.mat[i][k] -= alpha * Q.mat[j][k]
         }
       }
     }
-    for (let i = 0; i < n; ++i) {
+    for (let i = 0; i < cols; ++i) {
       const len = Math.hypot(...Q.mat[i])
-      if (Math.abs(len) <= eps) {
-        console.error(this.mat)
-        throw new Error('cols are dependent')
-      }
+      if (Math.abs(len) <= eps) throw new MatError('cols are dependent', this.mat)
       scale(Q.mat[i], 1/len)
       scale(R.mat[i], len)
     }
     return [Q.trans(), R]
   }
 
+  // 用 QR 迭代法求特征值与特征向量, 要求对称可逆实方阵.
+  // 注意: 当矩阵不对称时, 返回的特征向量是错的.
   eigQR ({ eps = 1e-6 } = {}) {
-    if (!this.isSquare()) {
-      console.error(this.mat)
-      throw new Error('matrix must be square')
-    }
+    if (!this.isSquare()) throw new MatError('matrix must be square', this.mat)
     const n = this.rows
     const isRightTriangle = ({ mat }) => {
       for (let i = 1; i < n; ++i) {
@@ -204,6 +203,7 @@ class Mat {
       }
       return true
     }
+    /** @type {Mat} */
     let A = this
     let T = new Mat().identity(n)
     let maxIter = 4*n*n
@@ -217,7 +217,7 @@ class Mat {
   }
 
   /**
-   * @param {number?} digits 保留的小数位数, 传入 undefined 则不作处理
+   * @param {number} [digits] 保留的小数位数, 传入 undefined 则不作处理
    */
   toString (digits) {
     const str = digits === undefined ? String : n => String(round(n, digits))
@@ -233,14 +233,15 @@ class Mat {
 
   /**
    * 求解以 this.mat 为增广矩阵的线性方程组, 将结果
-   * k1 T1 + ... + kn Tn + X0 保存到返回的矩阵中
-   * 若方程组无解, 返回空矩阵 [[]]
+   * X0 + k1 T1 + ... + kn Tn 保存到返回的矩阵中
+   * 其中 X0 是特解, T1 ... Tn 是齐次方程的基础解系
    * @param {object} options
-   * @param {boolean} options.verbose 是否显示过程
+   * @param {boolean} [options.verbose] 是否显示过程
+   * @param {number} [options.eps] 允许误差
    * @returns {Mat}
+   * @throws {MatError} 无解时报错
    */
-  solve ({ verbose = false } = {}) {
-    const epsi = 1e-6
+  solve ({ verbose = false, eps = 1e-6 } = {}) {
     const m = this.clone()
     const { mat, rows, cols } = m
     const base = Object.create(null) // 选为基向量的列
@@ -249,18 +250,18 @@ class Mat {
     for (let col = 0; col < cols-1; ++col) {
       // 选定列主元, 即 col 列绝对值最大元素; 跳过那些已选出主元的行 (in baseRows)
       const row = argmax(0, rows-1, r => (r in baseRows) ? -Infinity : Math.abs(mat[r][col]))
-      if (row === undefined || Math.abs(mat[row][col]) <= epsi) {
+      if (row === undefined || Math.abs(mat[row][col]) <= eps) {
         nonbase.push(col)
         continue
       }
       const pivot = mat[row][col]
       base[col] = row
       baseRows[row] = col
-      // 该行同乘一个倍数
+      // 该行同乘一个倍数, 使主元化为 1
       for (let c = 0; c < cols; ++c) {
         mat[row][c] /= pivot
       }
-      // 通过行变换消元, 把该列化为 0; 0; 1; 0
+      // 行变换消元, 把 col 列除主元所在行以外全部化为 0
       for (let r = 0; r < rows; ++r) {
         if (r === row) continue
         for (let c = 0; c < cols; ++c) {
@@ -272,17 +273,23 @@ class Mat {
       if (verbose) console.log(m.toString() + '\n')
     }
 
-    // 输出特解 X0
-    const title = ['X0']
+    // 无解情形
+    for (let r = 0; r < rows; ++r) {
+      if (r in baseRows) continue
+      if (Math.abs(mat[r][cols-1]) > eps) throw new MatError('no solution', this.mat)
+    }
+
+    // 输出特解
+    const title = ['']
     const ret = range(cols-1, () => [])
     ret.forEach((row, i) => {
       const index = base[i]
       row.push(index !== undefined ? mat[index][cols-1] : 0)
     })
 
-    // 非基向量取负移到右边
+    // 非基变量取负移到右边
     nonbase.forEach(col => {
-      title.push('T' + col)
+      title.push('x' + (col+1))
       ret.forEach((row, i) => {
         const index = base[i]
         row.push(index !== undefined ? -mat[index][col] : i === col ? 1 : 0)
@@ -290,6 +297,74 @@ class Mat {
     })
 
     return new Mat(ret, { title })
+  }
+
+  // 秩
+  rank ({ verbose = false, eps = 1e-6 } = {}) {
+    return this.clone().gauss({ verbose, eps })
+  }
+
+  // 在 this.mat 上执行 gauss 消元, 转化为上三角形, 并返回秩
+  // 此方法会改变 this.mat
+  // 时间复杂度为 O(n^3)
+  gauss ({ verbose = false, eps = 1e-6 } = {}) {
+    const { mat, rows, cols } = this
+    let baseCount = 0
+    for (let col = 0; col < cols; ++col) {
+      // 选出列主元 (当前列中绝对值最大的元素)
+      const row = argmax(baseCount, rows-1, r => Math.abs(mat[r][col]))
+      if (row === undefined || Math.abs(mat[row][col]) <= eps) continue
+      const pivot = mat[row][col]
+      swap(mat, row, baseCount)
+
+      for (let r = baseCount+1; r < rows; ++r) {
+        const v = mat[r][col] / pivot
+        for (let c = col; c < cols; ++c) {
+          mat[r][c] -= v * mat[baseCount][c]
+        }
+      }
+
+      ++baseCount
+      if (verbose && baseCount < Math.min(rows, cols)) console.log(this.toString() + '\n')
+    }
+    return baseCount
+  }
+
+  // 求解以 this.mat 为增广矩阵的线性方程组, 要求系数矩阵是可逆的上三角阵
+  // 时间复杂度为 O(n^2)
+  triangularSolve ({ eps = 1e-6 }) {
+    const { mat, rows, cols } = this
+    if (cols !== rows + 1) {
+      console.error(this.mat)
+      throw new Error('matrix must have shape (n, n+1)')
+    }
+    const x = []
+    for (let r = rows-1; r >= 0; --r) {
+      const pivot = mat[r][r]
+      if (Math.abs(pivot) <= eps) {
+        console.error(this.mat)
+        throw new Error('matrix not invertable')
+      }
+
+      let b = mat[r][cols-1]
+      for (let c = r+1; c < cols-1; ++c) {
+        b -= mat[r][c] * x[c]
+      }
+      x[r] = b / pivot
+    }
+    return x
+  }
+
+  // Gauss 消元法求解以 this.mat 为增广矩阵的线性方程组, 要求系数矩阵可逆
+  gaussSolve ({ verbose = false, eps = 1e-6 } = {}) {
+    const { rows, cols } = this
+    if (cols !== rows + 1) {
+      console.error(this.mat)
+      throw new Error('matrix must have shape (n, n+1)')
+    }
+    const m = this.clone()
+    m.gauss({ verbose, eps }) // 消元步骤
+    return m.triangularSolve({ eps }) // 代入步骤
   }
 }
 

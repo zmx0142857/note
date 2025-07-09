@@ -44,6 +44,16 @@
 
 - echarts, chart.js, v-charts (vue), recharts (react), ant-design-chart: 图表绘制
 
+### 数据
+
+- [protobufjs](https://www.npmjs.com/package/protobufjs): 处理 protocol buffers, 将数据编码为二进制在网上传输
+- long.js: 处理长整型数字
+
+### 通信
+
+- mqtt: 基于 websocket 的二进制通信协议
+- grpc: 是 RPC (远程过程调用) 的一个实现, 允许调用服务端提供的函数.
+
 ### 其它
 
 - medium-zoom: 图片缩放

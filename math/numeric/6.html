@@ -8,31 +8,13 @@
 <body>
 <script defer>
 /* 公共函数 */
-
 var round = (x, digits) => {
   const pow = Math.pow(10, digits)
   return Math.round(x * pow) / pow
 }
-
-var argmax = (a, b, fn) => {
-  let max = -Infinity
-  let res = undefined
-  for (let i = a; i <= b; ++i) {
-    const v = fn(i)
-    if (v > max) {
-      max = v
-      res = i
-    }
-  }
-  return res
-}
-
-var swap = (a, i, j) => {
-  const tmp = a[i]
-  a[i] = a[j]
-  a[j] = tmp
-}
 </script>
+
+<h2>矩阵范数</h2>
 
 <p class="theorem">
 	<b>Gerschgorin (盖尔) 圆盘定理</b>
@@ -98,53 +80,86 @@ var swap = (a, i, j) => {
   [1,2,3,4],
   [4,3,2,1],
   [1,-1,2,6]
+]" value2="[
+  [0.02, 0.01, 0, 0, 0.02],
+  [1, 2, 1, 0, 1],
+  [0, 1, 2, 1, 4],
+  [0, 0, 100, 200, 800]
 ]">
 <script type="text">
 module.exports = function GaussElimination (str) {
-  const a = Playground.parse(str)
-  const n = a.length
-  const eps = 1e-6
-  const verbose = true
+  const mat = Playground.parse(str)
+  return new Mat(mat).gaussSolve({ verbose: true }).map(v => round(v, 6))
+}
+</script>
+</div>
 
-  // 打印矩阵
-  const print = () => {
-    console.log(a.map(row => row.map(v => round(v, 6)).join('\t')).join('\n'))
-  }
+<p class="algorithm">
+  <b>求矩阵的秩</b>
+  模仿 Gauss 消元的流程, 但只需化为上三角矩阵即可, 不需要代入的步骤.
+</p>
 
-  // 消元步骤 O(n^3)
-  for (let j = 0; j < n-1; ++j) {
-    const k = argmax(j, n-1, i => Math.abs(a[i][j]))
-    swap(a, j, k)
-    const pivot = a[j][j]
-    if (Math.abs(pivot) < eps) {
-      console.error(a)
-      throw new Error('matrix not invertable')
-    }
-    for (let i = j+1; i < n; ++i) {
-      const m = a[i][j] / pivot
-      for (let k = j; k < n+1; ++k) {
-        a[i][k] -= m * a[j][k]
-      }
-    }
-    if (verbose) print()
-  }
+<div class="playground" type="textarea" value="[
+  [1, 1],
+  [1, 1],
+  [1, 1]
+]">
+<script type="text">
+module.exports = function (str) {
+  const mat = Playground.parse(str)
+  return new Mat(mat).rank()
+}
+</script>
+</div>
 
-  // 代入步骤 O(n^2)
-  const x = []
-  for (let i = n-1; i >= 0; --i) {
-    const pivot = a[i][i]
-    if (Math.abs(pivot) < eps) {
-      console.error(a)
-      throw new Error('matrix not invertable')
-    }
-    let c = a[i][n]
-    for (let j = i+1; j < n; ++j) {
-      c -= a[i][j] * x[j]
-    }
-    x[i] = c / pivot
-  }
+<ol class="algorithm">
+  <b>一般消元法</b>
+  对任意实矩阵 `bm A_(m xx n)` 和任意 `n` 维向量 `bm b` 求解线性方程组 `bm (A x) = bm b`.
+  <li>选主元. 和 Gauss 消元一样, 从增广矩阵 `[bm A, bm b]` 开始, 遍历 `bm A` 的各列,
+    选出当前列的绝对值最大者作为列主元 (跳过那些已被选为主元的行).
+  </li>
+  <li>消元步骤.
+    记第 `j` 列的主元是 `p = a_(i j)`. 首先将第 `i` 行同乘以 `1//p` 使主元化为 1, 再将这一行的
+    `-a_(k j)` 倍加到第 `k` 行, `k = 1, cdots, i-1, i+1, cdots, m`.
+    这样操作后, 第 `j` 列除主元所在行等于 1 以外, 其余元素均为 0.
+  </li>
+  <li>退化情形. 当然, 有可能某一列的元素全为 0, 或者矩阵的每一行都已经选出主元,
+    导致当前列不存在有效主元. 在这两种情况下, 不能进行 2. 的消元步骤.
+    如果某一列选不出有效主元, 就称这一列对应的未知数为非基变量, 否则称为基变量.
+  </li>
+  <li>解的存在.
+    理想情况下, 若 `bm A` 行满秩, 则每一行都能选出一个主元.
+    否则, 需要检查未能选出主元的那些行, 如果该行的常数项不为 0, 则方程无解.
+  </li>
+  <li>求解步骤.
+    若方程有解, 把基变量留在方程左边, 非基变量移动到方程右边.
+    每个基变量的系数恰好都是 1, 方程形如
+    <span class="formula">
+      `bm (I x_1) = bm c - bm (B x_2)`,
+    </span>
+    其中 `bm x_1, bm x_2` 分别为基变量和非基变量, `bm c` 是常数项, `bm B` 是非基变量的系数矩阵.
+    方程的解已经显化出来:
+    <span class="formula">
+      `[bm x_1; bm x_2] = [bm c - bm B bm x_2; bm x_2]`,
+      `quad` 其中 `bm x_2` 取遍 `RR^(n-r)`.
+    </span>
+  </li>
+</ol>
 
-  return x.map(v => round(v, 6))
+<div class="playground" type="textarea" value="[
+  [1, -1, 1, -1, 1],
+  [1, -1, -1, 1, 0],
+  [1, -1, -2, 2, -0.5]
+]" value2="[
+  [5, 6, -2, 7, 4, 23],
+  [2, 3, -1, 4, 2, 12],
+  [7, 9, -3, 5, 6, 23],
+  [5, 9, -3, 1, 6, 13]
+]">
+<script type="text">
+module.exports = function (str) {
+  const mat = Playground.parse(str)
+  return new Mat(mat).solve({ verbose: true }).toString(6)
 }
 </script>
 </div>
@@ -316,9 +331,9 @@ np.eig(A)
   [1,2,3]
 ]">
 <script type="text">
-module.exports = function eigJacobi (str) {
+module.exports = function jacobi (str) {
   const m = Playground.parse(str)
-  const [eigvals, eigvecs] = new Mat(m).eigJacobi()
+  const [eigvals, eigvecs] = new Mat(m).jacobi()
   return 'eigvals: ' + JSON.stringify(eigvals.map(v => round(v, 6))) +
     '\neigvecs:\n' + eigvecs.toString(6)
 }

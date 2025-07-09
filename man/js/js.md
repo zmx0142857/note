@@ -1,22 +1,28 @@
 # JavaScript
 
-## 语言基础
+## number
+
+### max safe integer
+
+js number 使用 64 位浮点数, 能精确表示的最大整数是 `2**53-1`.
+```js
+Number.MAX_SAFE_INTEGER === 2**53-1 // true
+```
+
+想要更大的整数类型, 考虑 js 自带的 `BigInt` 或 npm 包 `long`.
+
+### 位运算
+
+```js
+value | 0 // 转为 int32
+value >>> 0 // 转为 uint32
+```
 
 ### string to number
 
 推荐使用 `parseFloat`, 更仔细的写法参见 [builtin.js](https://www.npmjs.com/package/@zmx0142857/builtin) 的 `toNumber` 函数.
 
-### prototype & class
-
-判断函数是否用 `new` 调用
-```js
-function foo () {
-  console.log(this?.constructor === foo)
-}
-
-foo() // false
-new foo() // true
-```
+## string
 
 ### join
 
@@ -33,6 +39,19 @@ JSON.parse('{"id":1231231231231231231231}', (k, v, { source }) => {
   if (typeof v === 'number') return source;
   return v;
 })
+```
+
+## class
+
+### 判断函数是否用 `new` 调用
+
+```js
+function foo () {
+  console.log(this?.constructor === foo)
+}
+
+foo() // false
+new foo() // true
 ```
 
 ## 平台相关
@@ -105,6 +124,10 @@ const observer = new IntersectionObserver((arr) => {
 })
 ```
 
+### bytes 字节数组
+
+在浏览器, 使用 `Uint8Array`, 在 Node, 使用 `Buffer`
+
 ## 逆向
 
 ### debugger: 防止页面被调试
@@ -120,9 +143,9 @@ const observer = new IntersectionObserver((arr) => {
 
 一些非常规代码
 
-### [jsfuck](https://github.com/aemkei/jsfuck)
+### jsfuck
 
-一种只使用 `[]()+!` 六个字符的混乱代码
+[jsfuck](https://github.com/aemkei/jsfuck): 一种只使用 `[]()+!` 六个字符的混乱代码
 
 ```js
 false       =>  ![]
