@@ -145,7 +145,7 @@ var tocData = [
         "children": [
           { "value": "2", "label": "插值与样条", "date": "2024-12-30" },
           { "value": "5", "label": "线性方程组" },
-          { "value": "6", "label": "矩阵" },
+          { "value": "6", "label": "矩阵数值算法", "date": "2025-07-08" },
           { "value": "7", "label": "非线性方程数值解法" },
           { "value": "8", "label": "常微分方程数值解法" },
           { "value": "9", "label": "偏微分方程的 Ritz-Galerkin 方法" }

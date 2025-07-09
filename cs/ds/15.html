@@ -248,6 +248,35 @@ module.exports = (str) => {
 </ol>
 
 <p class="algorithm">
+  <b>生成有向包围盒 (主成分分析)</b>
+  给定空间中的 `n` 个点, 想要生成它们的有向包围盒,
+  首先计算这些点的协方差矩阵
+  <span class="formula">
+    `A = ["cov"(x, x), "cov"(x, y), "cov"(x, z);
+    "cov"(y, x), "cov"(y, y), "cov"(y, z);
+    "cov"(z, x), "cov"(z, y), "cov"(z, z)]`,
+  </span>
+  其中
+  <span class="formula">
+    `"cov"(x, y) = E[(x - E(x))(y - E(y))]`.
+  </span>
+  `A` 是一个半正定的实对称矩阵, 可用 Jacobi 迭代法求出 `A` 的特征向量组成的 3 阶方阵 `T`.
+  `T` 是正交矩阵, 且 `det(T) = 1`, 因此它是一个旋转变换.
+  现在只需将这些点按 `T^-1` 变换到主方向上, 生成轴向包围盒 AABB, 再将 AABB
+  加以变换 `T`, 就得到有向包围盒 OBB.
+</p>
+
+<pre>
+OBB.setfromPoints = (points) =&gt; {
+  const A = cov(points)
+  const T = eig(A).eigvecs
+  points = points.map(p =&gt; p.clone().applyMatrix3(T))
+  this.aabb.setFromPoints(points)
+  this.transform.setFromMatrix3(T)
+}
+</pre>
+
+<p class="algorithm">
   <b>凸包 (convex hull)</b> 是指包围所有给定点的最小凸多边形.
   在 Andrew 算法中, 每个点入栈两次, 出栈不超过两次, 复杂度为 `O(n)`.
   加上排序, 总复杂度 `O(n log(n))`.

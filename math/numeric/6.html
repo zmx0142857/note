@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>矩阵</title>
+    <title>矩阵数值算法</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
+<script defer>
+/* 公共函数 */
+
+var round = (x, digits) => {
+  const pow = Math.pow(10, digits)
+  return Math.round(x * pow) / pow
+}
+
+var argmax = (a, b, fn) => {
+  let max = -Infinity
+  let res = undefined
+  for (let i = a; i <= b; ++i) {
+    const v = fn(i)
+    if (v > max) {
+      max = v
+      res = i
+    }
+  }
+  return res
+}
+
+var swap = (a, i, j) => {
+  const tmp = a[i]
+  a[i] = a[j]
+  a[j] = tmp
+}
+</script>
 
 <p class="theorem">
 	<b>Gerschgorin (盖尔) 圆盘定理</b>
@@ -38,6 +65,298 @@
 	这说明 `lambda` 落在一个行盖尔圆盘中.
 </p>
 
+<h2>Gauss 消元</h2>
+
+<ol class="algorithm">
+  <b>Gauss 消元</b> 设 `bm A` 是 `n` 阶可逆实方阵, `bm b` 是 `n` 维列向量.
+  用如下步骤求解线性方程组 `bm (A x) = bm b`:
+  <li>将矩阵 `bm A` 与 `bm b` 合成一个增广矩阵 `[bm A, bm b]`.</li>
+  <li>从 `bm A` 的第一列找到绝对值最大的元素 `p = a_(i 1)`, 称为列主元.
+    由于 `bm A` 可逆, `|p| gt 0`.
+  </li>
+  <li>将增广矩阵的第一行与第 `i` 行交换, 使得列主元占据左上角的位置.</li>
+  <li>对第一列进行 Gauss 消元.
+    将增广矩阵第一行的 `-a_(i 1)//p` 倍加到第 `i` 行, `i = 2, cdots, n`, 使得矩阵第一列除第一行外全为零, 形如
+    <span class="formula">
+      `[p, ast, ast;
+      0, bm A_2, bm b_2]`.
+    </span>
+  </li>
+  <li>继续对右下角的矩阵 `[bm A_2, bm b_2]` 使用前面的步骤, 选主元并消元,
+    最终矩阵化为 `[bm R, bm c]`, 其中 `bm R` 是上三角矩阵, 对角元非零.
+  </li>
+  <li>使用代入法轻松求解上三角形的方程组 `bm (R x) = bm c`:
+    <span class="formula">
+      `x_n = c_n//r_(n n)`,<br>
+      `x_i = (c_i - sum_(j=i+1)^n r_(i j) x_j) // r_(i i)`,
+      `quad i = n-1, cdots, 1`.
+    </span>
+  </li>
+</ol>
+
+<div class="playground" type="textarea" value="[
+  [1,2,3,4],
+  [4,3,2,1],
+  [1,-1,2,6]
+]">
+<script type="text">
+module.exports = function GaussElimination (str) {
+  const a = Playground.parse(str)
+  const n = a.length
+  const eps = 1e-6
+  const verbose = true
+
+  // 打印矩阵
+  const print = () => {
+    console.log(a.map(row => row.map(v => round(v, 6)).join('\t')).join('\n'))
+  }
+
+  // 消元步骤 O(n^3)
+  for (let j = 0; j < n-1; ++j) {
+    const k = argmax(j, n-1, i => Math.abs(a[i][j]))
+    swap(a, j, k)
+    const pivot = a[j][j]
+    if (Math.abs(pivot) < eps) {
+      console.error(a)
+      throw new Error('matrix not invertable')
+    }
+    for (let i = j+1; i < n; ++i) {
+      const m = a[i][j] / pivot
+      for (let k = j; k < n+1; ++k) {
+        a[i][k] -= m * a[j][k]
+      }
+    }
+    if (verbose) print()
+  }
+
+  // 代入步骤 O(n^2)
+  const x = []
+  for (let i = n-1; i >= 0; --i) {
+    const pivot = a[i][i]
+    if (Math.abs(pivot) < eps) {
+      console.error(a)
+      throw new Error('matrix not invertable')
+    }
+    let c = a[i][n]
+    for (let j = i+1; j < n; ++j) {
+      c -= a[i][j] * x[j]
+    }
+    x[i] = c / pivot
+  }
+
+  return x.map(v => round(v, 6))
+}
+</script>
+</div>
+
+<h2>QR 分解</h2>
+
+<p class="algorithm">
+  <b>QR 分解</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/362248020" target="_blank">知乎@Iterator</a>]
+  设 `bm A` 是 `m xx n` 实矩阵, 且 `bm A` 的各列向量线性无关, 则存在唯一分解
+  <span class="formula">
+    `bm A_(m xx n) = bm Q_(m xx n) bm R_(n xx n)`.
+  </span>
+  其中 `bm Q` 满足各列向量单位正交, `bm R` 是主对角线全为正数的上三角矩阵.
+  QR 分解以矩阵的形式, 编码了 Schmidt 正交化的计算过程.
+</p>
+
+<ol class="proof">
+  <li>存在性.
+    对 `bm A` 的各列进行 Schmidt 正交化,
+    <span class="formula align">
+      `bm b_1 = bm a_1`,<br class="noindent">
+      `bm b_2 = bm a_2 - k_(2,1) bm b_1`,<br class="noindent">
+      `cdots`<br class="noindent">
+      `bm b_n = bm a_n - k_(n,1) bm b_1 - k_(n,2) bm b_2 - cdots - k_(n,n-1) bm b_(n-1)`.
+    </span>
+    再单位化,
+    <span class="formula">
+      `hat bm b_j = bm b_j/|bm b_j|`, `quad j = 1, cdots, n`.
+    </span>
+    写为矩阵形式就是
+    <span class="formula">
+      `bm A = (hat bm b_1, cdots, hat bm b_n)[
+        |bm b_1|, k_(2,1)|bm b_1|, cdots, k_(n,1)|bm b_1|;
+        , |bm b_2|, cdots, k_(n,2)|bm b_2|;
+        ,,ddots,vdots;
+        ,,,|bm b_n|
+      ]`.
+    </span>
+  </li>
+  <li>唯一性.
+    设 `bm A` 有 QR 分解 `bm A = bm Q_1 bm R_1 = bm Q_2 bm R_2`, 下证 `bm R_1 = bm R_2`.<br>
+    由于 `bm Q_1, bm Q_2` 的各列向量单位正交, 有 `bm Q_1^T bm Q_1 = bm Q_2^T bm Q_2 = bm I`, 于是
+    <span class="formula">
+      `bm R_1^T bm R_1`
+      `= bm R_1^T bm Q_1^T bm Q_1 bm R_1`
+      `= bm A^T bm A`
+      `= bm R_2^T bm Q_2^T bm Q_2 bm R_2`
+      `= bm R_2^T bm R_2`.
+    </span>
+    上式两边左乘 `(bm R_2^T)^-1`, 右乘 `bm R_1^-1` 得
+    <span class="formula">
+      `(bm R_2^T)^-1 bm R_1^T = bm R_2 bm R_1^-1`.
+    </span>
+    上式左边是下三角矩阵, 右边是上三角矩阵, 但两边相等, 从而只能是对角形矩阵, 记为 `bm D`. 则 `bm R_2 = bm D bm R_1`.  于是
+    <span class="formula">
+      `bm R_1^T bm R_1`
+      `= bm R_2^T bm R_2`
+      `= bm R_1^T bm D^T bm D bm R_1`,
+    </span>
+    即 `bm D^T bm D = bm I`.
+    显然 `bm D` 的主对角线全为正, 故 `bm D = bm I`, 即 `bm R_1 = bm R_2`.
+    从而 `bm Q_1 = bm A bm R_1^-1 = bm A bm R_2^-1 = bm Q_2`.
+  </li>
+</ol>
+
+<p class="remark">
+  QR 分解的 Q 源于 orthogonal 的 O, 为避免混淆而写作 Q;
+  而 R 源于 right triangular matrices.
+</p>
+
+<pre>
+# sympy 求 QR 分解
+A.QRdecomposition()
+</pre>
+
+<div class="playground" type="textarea" value="[
+  [1,1,2],
+  [3,4,5],
+  [6,7,8]
+]">
+<script type="text">
+module.exports = function QR (str) {
+  const mat = Playground.parse(str)
+  const [Q, R] = new Mat(mat).QR()
+  return Q.toString(6) + '\n\n' + R.toString(6)
+}
+</script>
+</div>
+
+<p class="example">
+  在最小二乘法中, 对于可能无解的实系数方程组 `bm (A x) = bm b`, 两边左乘 `bm A^T`, 转化为
+  `bm A^T bm A x = bm A^T bm  b`, 我们需要计算
+  <span class="formula">
+    `bm x = (bm A^T bm A)^-1 bm A^T bm b`.
+  </span>
+  如果先将 `bm A` 分解为 `bm A = bm (Q R)`,
+  则上式化为
+  <span class="formula">
+    `bm x`
+    `= (bm R^T bm Q^T bm Q bm R)^-1 bm R^T bm Q^T bm b`
+    `= (bm R^T bm R)^-1 bm R^T bm Q^T bm b`
+    `= bm R^-1 bm Q^T bm b`.
+  </span>
+  从而将复杂度较高的矩阵求逆运算, 化为较容易的上三角矩阵 `bm R` 的求逆运算.
+</p>
+
+<p class="algorithm">
+  <b>QR 分解 (基于 Householder 变换)</b>
+  Householder 变换是指镜面反射, 或称反向正交变换.
+  它可以写为 `bm H(bm u) = bm I - 2 bm u bm u^T` 的形式, 其中 `bm u` 为单位向量.
+  由<a href="1.html#exp-householder">这里</a>知道, 
+  已知向量 `bm x` 和单位向量 `bm y`, 要使 `bm (H x)` 平行于 `bm y`,
+  只需取 `bm H = bm H(hat bm u)`, 其中
+  <span class="formula">
+    `bm u = bm x - |bm x| bm y`,
+    `quad hat bm u = bm u //|bm u|`.
+  </span>
+  记实矩阵 `bm A` 的第 `j` 列为 `bm a_j`,
+  又记 `bm e_i` 是第 `i` 个分量为 1, 其余分量为 0 的单位向量.
+  先作 Householder 变换 `bm H_1` 使得 `bm (H_1 bm a_1)` 平行于 `bm e_1`,
+  得到
+  <span class="formula">
+    `bm (H_1 A)`
+    `= [|bm a_1|, ast;
+    0, bm A_2]`.
+  </span>
+  对于右下角的 `bm A_2`, 继续以 Householder 变换 `bm H_2` 将它的第一列除第一行外的所有元素化为零.
+  最终得到上三角矩阵 `bm R = bm H_n cdots bm H_1 bm A`,
+  其中 `bm Q = bm H_n cdots bm H_1` 是正交矩阵.
+</p>
+
+<h2>特征值问题</h2>
+
+<ol class="algorithm">
+  <b>Jacobi 迭代法</b> 适用于求<b>实对称</b>矩阵 `bm A` 的特征值与特征向量.
+  思想是作相似变换 `bm T^-1 bm A bm T`, 使得变换后的矩阵接近对角矩阵.
+  其中, `bm T = bm T(i, j, theta)` 是一个 Givens 旋转矩阵, 满足
+  <span class="formula">
+    `[T_(i i), T_(i j);
+    T_(j i), T_(j j)]`
+    `= [cos theta, -sin theta; sin theta, cos theta]`,
+    其它元素与单位矩阵 `bm I` 相同.
+  </span>
+  `i, j` 元的选择应当使得 `|A_(i j)|` 在非对角元上取得最大值, 称为主元 (pivot).
+  `theta` 的选择应当使得 `bm A^((1)) = bm T^-1 bm A bm T` 的 `i j` 元等于零, 即
+  <span class="formula">
+    `A^((1))_(i j) = A_(i j) cos 2 theta + (A_(i i) - A_(j j))/2 sin 2 theta = 0`.
+  </span>
+  于是
+  <span class="formula">
+    `theta = {1/2 arctan((2 A_(i j))/(A_(i i) - A_(j j))), if A_(i i) != A_(j j);
+    pi/4, otherwise:}`.
+  </span>
+  若干次迭代后, 得到一个近似对角阵 `bm Lambda = bm T^-1 bm A bm T`,
+  `bm Lambda` 的对角元即为 `bm A` 的特征值.
+  而 `bm T = bm T_1 bm T_2 cdots bm T_n` 的每一行都是 `bm A` 的一个特征向量.
+  由于 `bm T` 为正交矩阵, 这些特征向量恰好是单位向量.
+</ol>
+
+<pre>
+# numpy 求特征向量
+np.eig(A)
+</pre>
+
+<div class="playground" type="textarea" value="[
+  [3,2,1],
+  [2,3,2],
+  [1,2,3]
+]">
+<script type="text">
+module.exports = function eigJacobi (str) {
+  const m = Playground.parse(str)
+  const [eigvals, eigvecs] = new Mat(m).eigJacobi()
+  return 'eigvals: ' + JSON.stringify(eigvals.map(v => round(v, 6))) +
+    '\neigvecs:\n' + eigvecs.toString(6)
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>QR 迭代法</b> 适用于求解可逆实方阵 `bm A` 的特征值,
+  如果 `bm A` 还是对称的, 那么还能求出特征向量.
+  <br>
+  步骤如下: 先记 `bm A_1 = bm A`,
+  将它分解为正交矩阵乘以上三角阵: `bm A_1 = bm Q_1 bm R_1`.
+  然后记 `bm A_2 = bm R_1 bm Q_1 = bm Q_1^-1 bm A bm Q_1`,
+  于是 `bm A_2` 与 `bm A_1` 相似.
+  反复迭代使 `bm A_n` 收敛于上三角阵, 此时主对角元为 `bm A` 的特征值.
+  特别当 `bm A` 对称时, `bm A_n` 收敛于对角阵, 此时
+  `bm Q = bm Q_1 cdots bm Q_(n-1)` 的每一行是 `bm A` 的特征向量.
+  <br>
+  问题1: 若 `bm A` 不可逆怎么办? 问题2: `bm A` 不对称时如何求特征向量?
+</p>
+
+<div class="playground" type="textarea" value="[
+  [3,2,1],
+  [2,3,2],
+  [1,2,3]
+]">
+<script type="text">
+module.exports = function eigJacobi (str) {
+  const m = Playground.parse(str)
+  const [eigvals, eigvecs] = new Mat(m).eigQR()
+  return 'eigvals: ' + JSON.stringify(eigvals.map(v => round(v, 6))) +
+    '\neigvecs:\n' + eigvecs.toString(6)
+}
+</script>
+</div>
+
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/playground.js"></script>
+<script src="../../code/mat.js"></script>
 </body>
 </html>

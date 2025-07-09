@@ -1183,15 +1183,15 @@
 	</li>
 </ol>
 
-<div class="playground" type="textarea" value="{ mat: [
+<div class="playground" type="textarea" value="[
   [1, -1, 1, -1, 1],
   [1, -1, -1, 1, 0],
   [1, -1, -2, 2, -0.5]
-] }">
+]">
 <script type="text">
 module.exports = function (str) {
-  const { mat } = Playground.parse(str)
-  return (new Mat(mat)).solve().toString(4)
+  const mat = Playground.parse(str)
+  return new Mat(mat).solve().toString(4)
 }
 </script>
 </div>
@@ -1352,6 +1352,38 @@ module.exports = function (str) {
         `(13/32, 5/16, 4, 5/4, 1)`
         `overset(xx32) rarr (13, 10, 128, 40, 32)`.
     </span>
+</p>
+
+<p class="example">
+  <b>3x3 点灯问题</b> 想象一个 3 阶 0-1 矩阵, 每次可以同时翻转一个元素及其上下左右 4 个元素
+  (翻转意味着 0 变成 1, 1 变成 0).
+  假如矩阵初始状态是全 0 的, 应该翻转哪些元素使它变成全 1?
+</p>
+
+<p class="solution">
+  注意到点灯结果与先后顺序无关, 我们只需从 9 盏灯中选中若干, 作为每次翻转的中间那盏灯.
+  9 盏灯对应 9 个未知数 `x_1, cdots, x_9`, 取值 0 表示不翻转, 1 表示需要翻转.
+  根据题目要求, 最终 9 盏灯全亮, 这对应 9 条方程, 方程右边的常数项为 1.
+  至于左边的系数, 如果 `i = j` 或者 `x_i`, `x_j` 两灯相邻, 则 `a_(i j) = 1`, 否则 `a_(i j) = 0`.
+  我们列出线性方程组如下, 这个方程组是 `ZZ//2ZZ` 上的:
+  <span class="formula">
+    `[1,1,0,1,0,0,0,0,0,1;
+      1,1,1,0,1,0,0,0,0,1;
+      0,1,1,0,0,1,0,0,0,1;
+      1,0,0,1,1,0,1,0,0,1;
+      0,1,0,1,1,1,0,1,0,1;
+      0,0,1,0,1,1,0,0,1,1;
+      0,0,0,1,0,0,1,1,0,1;
+      0,0,0,0,1,0,1,1,1,1;
+      0,0,0,0,0,1,0,1,1,1
+    ]`
+  </span>
+  直接在 `QQ` 上求得唯一解 `(3/7,2/7,3/7,2/7,-1/7,2/7,3/7,2/7,3/7)`,
+  根据分子的奇偶性得到 `ZZ//2ZZ` 上的解 `(1,0,1,0,1,0,1,0,1)`.
+  因此, 按照下表点灯, 就能将所有灯点亮:
+  <span class="formula">
+    `[1,0,1;0,1,0;1,0,1]`.
+  </span>
 </p>
 
 <p class="example">

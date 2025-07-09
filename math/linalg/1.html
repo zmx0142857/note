@@ -468,9 +468,10 @@
 		满足 `bm(B^T B) = (a^2+b^2+c^2+d^2) bm I`, 因此
 		`(a^2+b^2+c^2+d^2)^(-1/2) bm B` 是正交矩阵.
 	</li>
-	<li>设 `bm alpha` 是单位列向量, 满足 `bm(alpha^T alpha) = 1`,
-		则 `bm I - 2 bm(alpha alpha^T)` 是对称的正交矩阵,
+	<li>设 `bm alpha` 是单位列向量, 有 `bm(alpha^T alpha) = 1`,
+		则 `bm H = bm I - 2 bm(alpha alpha^T)` 是对称的正交矩阵,
 		称为 <b>Householder 矩阵</b>.
+        它的更多性质会在下面讨论.
 	</li>
 </ol>
 
@@ -1207,6 +1208,37 @@
     </span>
     其中 `bm P^(sf T) bm (A P)` 实反对称, 因此上式右边的行列式为正, 约去 `|bm P|^2` 就得到
     `|bm A + bm B| gt 0`.
+  </li>
+</ol>
+
+<h3>Householder 矩阵</h3>
+
+<ol class="example" id="exp-householder">
+  <b>Householder 变换 (镜面反射)</b>
+  设 `bm u` 是单位向量, 将它视为一面镜子的法向量, 则镜面反射 `bm x mapsto bm (H x)`
+  称为关于 `bm u` 的 Householder 变换.
+  我们有:
+  <li>
+    `bm (H x)` 应该等于 `bm x` 减去两倍 `bm x` 在 `bm u` 上的投影, 即
+    `bm H = bm I - 2 bm u bm u^T`, 这是对称的正交矩阵.</li>
+  <li>`bm H` 是对合矩阵, 即 `bm H^2 = bm I`, 因而特征值只能取实数 `+-1`.
+    事实上, 在垂直镜面的方向上, 它的特征值为 `-1`, 在平行镜面的方向上, 特征值为 `1`.
+    换言之 `bm H bm u = -bm u`, 且 `bm u^T bm v = 0` `rArr bm H bm v = bm v`.
+  </li>
+  <li>由上一条立即得到 `det bm H = -1`,
+    全体正交变换按行列式等于 `+-1` 分为正向与反向正交变换,
+    Householder 变换本质上是反向正交变换.
+    奇数个 Householder 变换的复合仍是 Householder 变换, 而偶数个的复合是旋转变换.
+  </li>
+  <li>记 `bm H = bm I_n - 2 bm u bm u^T`,
+    则 `"diag"(bm I_r, bm H) = bm I_(n+r) - 2 [bb 0_r ;bm u] [bb 0_r, bm u]`
+    也是 Householder 矩阵.
+  </li>
+  <li>若要使 `bm (H x)` 与给定的单位向量 `bm y` 同向,
+    先乘以 `|bm x|` 使 `bm x` 与 `|bm x| bm y` 模长相等,
+    再取两者之差为镜面的法向,
+    换言之, 取 `bm u = bm x - |bm x| bm y`,
+    `hat bm u = bm u // |bm u|`, 则 `bm H = bm I - 2 hat bm u hat bm u^T` 即满足条件.
   </li>
 </ol>
 

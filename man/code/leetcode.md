@@ -1,11 +1,44 @@
 # LeetCode
 
+最大值最小值
+```js
+/**
+ * 在闭区间 [lo, hi] 中寻找 n 使 f(n) 最大
+ * 如果区间为空, 返回 undefined
+ */
+var argmax = (lo, hi, f) => {
+  let max = -Infinity
+  let res = undefined
+  for (let i = lo; i <= hi; ++i) {
+    const v = f(i)
+    if (v > max) {
+      max = v
+      res = i
+    }
+  }
+  return res
+}
+
+var argmin = (lo, hi, f) => {
+  let min = Infinity
+  let res = undefined
+  for (let i = lo; i <= hi; ++i) {
+    const v = f(i)
+    if (v < min) {
+      min = v
+      res = i
+    }
+  }
+  return res
+}
+```
+
 二分查找
 ```js
 /**
  * 设 f: [lo, hi] -> {0, 1} 单调增
  * 在闭区间 [lo, hi] 中寻找使 f(n) == 1 的最小 n, 若找不到则返回 hi+1
- * NOTE: hi-1 就是使 f(n) == 0 的最大 n, 如果 hi-1 == -1 说明不存在这样的 n
+ * NOTE: 返回值 res 减 1 就是使 f(n) == 0 的最大 n, 若 res == lo 则说明不存在这样的 n
  */
 var bsearch = (lo, hi, f) => {
   --lo, ++hi
