@@ -166,33 +166,36 @@ class Mat {
   }
 
   // QR 分解 (Schmidt 正交化)
-  // 要求各列向量线性无关
+  // Q 的形状与 this 相同且各列单位正交, R 是上三角阵
+  // 退化情形: 如果 this 的列向量线性相关, 那么 Q 含有零列, R 含有零行
   QR ({ eps = 1e-6 } = {}) {
-    const { rows, cols } = this
+    let { rows, cols } = this
     const Q = this.clone().trans()
     const R = new Mat().identity(cols)
 
-    for (let i = 1; i < cols; ++i) {
+    for (let i = 0; i < cols; ++i) {
       for (let j = 0; j < i; ++j) {
-        let alpha = R.mat[j][i] = dot(Q.mat[i], Q.mat[j]) / dot(Q.mat[j], Q.mat[j])
-        if (!Number.isFinite(alpha)) throw new MatError('cols are dependent', this.mat)
+        const alpha = R.mat[j][i] = dot(Q.mat[i], Q.mat[j])
         for (let k = 0; k < rows; ++k) {
           Q.mat[i][k] -= alpha * Q.mat[j][k]
         }
       }
-    }
-    for (let i = 0; i < cols; ++i) {
-      const len = Math.hypot(...Q.mat[i])
-      if (Math.abs(len) <= eps) throw new MatError('cols are dependent', this.mat)
-      scale(Q.mat[i], 1/len)
-      scale(R.mat[i], len)
+      const len = R.mat[i][i] = Math.hypot(...Q.mat[i])
+      if (Math.abs(len) <= eps) {
+        // 前 i 行线性相关, 把第 i 行 (全 0) 放在矩阵最后
+        Q.mat.push(...Q.mat.splice(i, 1))
+        R.mat.push(...R.mat.splice(i, 1))
+        --i
+        --cols
+      } else {
+        scale(Q.mat[i], 1/len)
+      }
     }
     return [Q.trans(), R]
   }
 
-  // 用 QR 迭代法求特征值与特征向量, 要求对称可逆实方阵.
-  // 注意: 当矩阵不对称时, 返回的特征向量是错的.
-  eigQR ({ eps = 1e-6 } = {}) {
+  // 用 QR 迭代法求特征值与特征向量
+  eig ({ eps = 1e-6 } = {}) {
     if (!this.isSquare()) throw new MatError('matrix must be square', this.mat)
     const n = this.rows
     const isRightTriangle = ({ mat }) => {
@@ -203,6 +206,7 @@ class Mat {
       }
       return true
     }
+
     /** @type {Mat} */
     let A = this
     let T = new Mat().identity(n)
@@ -212,8 +216,31 @@ class Mat {
       A = R.mul(Q)
       T.mul(Q)
     }
-    const eigvals = range(n, i => A.mat[i][i])
-    return [eigvals, T]
+    const eigvals = range(n, i => A.mat[i][i]) // 特征值
+
+    // 矩阵对称可逆时直接直接返回特征向量
+    if (eigvals.every(v => Math.abs(v) > eps && this.isSymm())) {
+      return [eigvals, T]
+    } else { // 否则通过特征方程求解特征向量
+      const eigvects = []
+      const m = this.clone()
+      m.mat.forEach(row => row.push(0)) // 构造齐次方程
+      // 求每个不同特征值对应的特征向量
+      eigvals.sort((a, b) => a - b).forEach((lambda, i) => {
+        const diff = lambda - (eigvals[i-1] || 0)
+        if (i > 0 && Math.abs(diff) <= eps) { // 重根
+          while (eigvects.length <= i) { // 特征向量不足时, 拷贝最后一个特征向量
+            const last = eigvects[eigvects.length - 1].slice()
+            eigvects.push(last)
+          }
+          return
+        }
+        m.mat.forEach((row, i) => row[i] -= diff)
+        const res = m.solve({ eps }).trans()
+        eigvects.push(...res.mat.slice(1))
+      })
+      return [eigvals, new Mat(eigvects).trans()]
+    }
   }
 
   /**

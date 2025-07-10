@@ -156,6 +156,7 @@ module.exports = function (str) {
   [7, 9, -3, 5, 6, 23],
   [5, 9, -3, 1, 6, 13]
 ]">
+<p>注: 输出的第一列是特解, 后面各列是基础解系.</p>
 <script type="text">
 module.exports = function (str) {
   const mat = Playground.parse(str)
@@ -179,7 +180,7 @@ module.exports = function (str) {
 
 <ol class="proof">
   <li>存在性.
-    对 `bm A` 的各列进行 Schmidt 正交化,
+    对 `bm A` 的各列进行 Schmidt 正交化, 其中 `k_(i,j) = ((bm a_i, bm b_j))/((bm b_j, bm b_j))`:
     <span class="formula align">
       `bm b_1 = bm a_1`,<br class="noindent">
       `bm b_2 = bm a_2 - k_(2,1) bm b_1`,<br class="noindent">
@@ -240,7 +241,12 @@ A.QRdecomposition()
   [1,1,2],
   [3,4,5],
   [6,7,8]
+]" value2="[
+  [0,1,2],
+  [3,4,5],
+  [6,7,8]
 ]">
+<p>注: 若 `bm A` 的列向量线性相关, 则 `bm Q` 含有零列, `bm R` 含有零行.</p>
 <script type="text">
 module.exports = function QR (str) {
   const mat = Playground.parse(str)
@@ -316,13 +322,13 @@ module.exports = function QR (str) {
   </span>
   若干次迭代后, 得到一个近似对角阵 `bm Lambda = bm T^-1 bm A bm T`,
   `bm Lambda` 的对角元即为 `bm A` 的特征值.
-  而 `bm T = bm T_1 bm T_2 cdots bm T_n` 的每一行都是 `bm A` 的一个特征向量.
+  而 `bm T = bm T_1 bm T_2 cdots bm T_n` 的每一列都是 `bm A` 的一个特征向量.
   由于 `bm T` 为正交矩阵, 这些特征向量恰好是单位向量.
 </ol>
 
 <pre>
 # numpy 求特征向量
-np.eig(A)
+np.linalg.eig(A)
 </pre>
 
 <div class="playground" type="textarea" value="[
@@ -330,6 +336,7 @@ np.eig(A)
   [2,3,2],
   [1,2,3]
 ]">
+  <p>输出 eigvecs 的每一列表示一个特征向量.</p>
 <script type="text">
 module.exports = function jacobi (str) {
   const m = Playground.parse(str)
@@ -340,32 +347,41 @@ module.exports = function jacobi (str) {
 </script>
 </div>
 
-<p class="algorithm">
-  <b>QR 迭代法</b> 适用于求解可逆实方阵 `bm A` 的特征值,
-  如果 `bm A` 还是对称的, 那么还能求出特征向量.
-  <br>
-  步骤如下: 先记 `bm A_1 = bm A`,
-  将它分解为正交矩阵乘以上三角阵: `bm A_1 = bm Q_1 bm R_1`.
-  然后记 `bm A_2 = bm R_1 bm Q_1 = bm Q_1^-1 bm A bm Q_1`,
-  于是 `bm A_2` 与 `bm A_1` 相似.
-  反复迭代使 `bm A_n` 收敛于上三角阵, 此时主对角元为 `bm A` 的特征值.
-  特别当 `bm A` 对称时, `bm A_n` 收敛于对角阵, 此时
-  `bm Q = bm Q_1 cdots bm Q_(n-1)` 的每一行是 `bm A` 的特征向量.
-  <br>
-  问题1: 若 `bm A` 不可逆怎么办? 问题2: `bm A` 不对称时如何求特征向量?
-</p>
+<ol class="algorithm">
+  <b>QR 迭代法</b> 适用于求解一般实方阵 `bm A` 的特征值;
+  如果 `bm A` 是对称的可逆矩阵, 那么还能求出特征向量.
+  步骤如下:
+  <li>先记 `bm A_1 = bm A`, 将它分解为正交矩阵乘以上三角阵: `bm A_1 = bm Q_1 bm R_1`.</li>
+  <li>然后记 `bm A_2 = bm R_1 bm Q_1 = bm Q_1^-1 bm A bm Q_1`, 于是 `bm A_2` 与 `bm A_1` 相似.</li>
+  <li>反复迭代使 `bm A_n` 收敛于上三角阵, 此时主对角元为 `bm A` 的特征值.</li>
+  <li>特别当 `bm A` 对称时, `bm A_n` 收敛于对角阵, 此时 `bm Q = bm Q_1 cdots bm Q_(n-1)`
+    的每一列是 `bm A` 的特征向量.
+  </li>
+  <li>`bm A` 不对称或不可逆时, 上述方法无法求出特征向量. 此时可以将特征值代入到特征方程
+    `(bm A - lambda bm I) bm x = bb 0` 来求解特征向量.
+  </li>
+</ol>
 
 <div class="playground" type="textarea" value="[
   [3,2,1],
   [2,3,2],
   [1,2,3]
+]" value2="[
+  [1,1],
+  [1,1]
+]" value3="[
+  [1,1,0],
+  [0,1,0],
+  [0,0,2]
 ]">
+<p>输出 eigvecs 的每一列表示一个特征向量, 重数大于 1 的特征值可能对应相同的特征向量 (见例3).
+</p>
 <script type="text">
-module.exports = function eigJacobi (str) {
+module.exports = function eig (str) {
   const m = Playground.parse(str)
-  const [eigvals, eigvecs] = new Mat(m).eigQR()
+  const [eigvals, eigvecs] = new Mat(m).eig()
   return 'eigvals: ' + JSON.stringify(eigvals.map(v => round(v, 6))) +
-    '\neigvecs:\n' + eigvecs.toString(6)
+    '\neigvecs:\n' + (eigvecs?.toString(6) || '')
 }
 </script>
 </div>
