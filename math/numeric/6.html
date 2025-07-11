@@ -16,37 +16,6 @@ var round = (x, digits) => {
 
 <h2>矩阵范数</h2>
 
-<p class="theorem">
-	<b>Gerschgorin (盖尔) 圆盘定理</b>
-	设 `bm A in CC^(n xx n)`, 分别定义
-	<span class="formula">
-		行盖尔圆盘: `S_i := {z in CC: |z-a_(i i)| le sum_(j!=i) |a_(i j)|}`,<br/>
-		列盖尔圆盘: `G_i := {z in CC: |z-a_(i i)| le sum_(j!=i) |a_(j i)|}`.
-	</span>
-	行 (列) 盖尔圆盘的半径分别叫做去心行 (列) 和.
-	`bm A` 的任一特征值 `lambda` 必然落在某个行盖尔圆盘中,
-	也必然落在某个列盖尔圆盘中:
-	<span class="formula">
-		`lambda in (uuu_(i=1)^n S_i) nn (uuu_(i=1)^n G_i)`.
-	</span>
-</p>
-
-<p class="proof">
-	以行盖尔圆盘为例, 任取 `bm A` 的特征值 `lambda` 和特征向量 `bm x !=
-	0`, 又设 `x_i` 是 `bm x` 的各分量中模最大的一个, 则由 `bm (A x)
-	= lambda bm x` 知,
-	<span class="formula">
-		`sum_(j=1)^n a_(i j) x_j = lambda x_i`,
-	</span>
-	于是
-	<span class="formula">
-		`|x_i(a_(i i) - lambda)|`
-		`= |sum_(j!=i) a_(i j) x_j|`
-		`le |x_i| sum_(j!=i) |a_(i j)|`.
-	</span>
-	这说明 `lambda` 落在一个行盖尔圆盘中.
-</p>
-
 <h2>Gauss 消元</h2>
 
 <ol class="algorithm">
@@ -299,6 +268,39 @@ module.exports = function QR (str) {
 </p>
 
 <h2>特征值问题</h2>
+
+<p>下面这个定理可以帮助我们估计特征值的范围:</p>
+
+<p class="theorem">
+	<b>Gerschgorin (盖尔) 圆盘定理</b>
+	设 `bm A in CC^(n xx n)`, 分别定义
+	<span class="formula">
+		行盖尔圆盘: `S_i := {z in CC: |z-a_(i i)| le sum_(j!=i) |a_(i j)|}`,<br/>
+		列盖尔圆盘: `G_i := {z in CC: |z-a_(i i)| le sum_(j!=i) |a_(j i)|}`.
+	</span>
+	行 (列) 盖尔圆盘的半径分别叫做去心行 (列) 和.
+	`bm A` 的任一特征值 `lambda` 必然落在某个行盖尔圆盘中,
+	也必然落在某个列盖尔圆盘中:
+	<span class="formula">
+		`lambda in (uuu_(i=1)^n S_i) nn (uuu_(i=1)^n G_i)`.
+	</span>
+</p>
+
+<p class="proof">
+	以行盖尔圆盘为例, 任取 `bm A` 的特征值 `lambda` 和特征向量 `bm x !=
+	0`, 又设 `x_i` 是 `bm x` 的各分量中模最大的一个, 则由 `bm (A x)
+	= lambda bm x` 知,
+	<span class="formula">
+		`sum_(j=1)^n a_(i j) x_j = lambda x_i`,
+	</span>
+	于是
+	<span class="formula">
+		`|x_i(a_(i i) - lambda)|`
+		`= |sum_(j!=i) a_(i j) x_j|`
+		`le |x_i| sum_(j!=i) |a_(i j)|`.
+	</span>
+	这说明 `lambda` 落在一个行盖尔圆盘中.
+</p>
 
 <ol class="algorithm">
   <b>Jacobi 迭代法</b> 适用于求<b>实对称</b>矩阵 `bm A` 的特征值与特征向量.

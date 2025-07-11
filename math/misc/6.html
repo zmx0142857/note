@@ -7,6 +7,8 @@
 </head>
 <body>
 
+<div id="container"></div>
+
 <script src="../../js/note.js"></script>
 <script src="../../js/table.js"></script>
 <script>
@@ -37,7 +39,7 @@ var mathematician = [
     enname:'Pareto', nationality:'意大利', birth:1848, decease:1923},
   {name:'Brook Taylor', cnname:'泰勒', enname:'Taylor', nationality:'英国', birth:1685, decease:1731},
   {name:'Richard Dedekind', cnname:'戴德金', enname:'Dedekind', nationality:'德国', birth:1831, decease:1916},
-  {name:'Peter Gustav Lejeune-Dirichlet', cnname:'狄利克雷', enname:'Dirichlet', nationality:'德国', birth:1805, decease:1859},
+  {name:'Peter Gustav Lejeune Dirichlet', cnname:'狄利克雷', enname:'Dirichlet', nationality:'德国', birth:1805, decease:1859},
   {name: 'Adrien-Marie Legendre', cnname:'勒让德', enname:'Legendre', nationality:'法国', birth:1752, decease:1833},
   {name:'Henri Lebesgue', cnname:'勒贝格', enname:'Lebesgue', nationality:'法国', birth:1875, decease:1941},
   {name:'Euclid of Alexandria', cnname:'欧几里得', enname:'Euclid', nationality:'古希腊', birth:-Infinity, decease:-Infinity},
@@ -79,6 +81,16 @@ var mathematician = [
   {name:'John Edensor Littlewood', enname:'Littlewood', cnname:'李特尔伍德', nationality:'英国', birth:1885, decease:1977},
   {name:'Roger Penrose', enname:'Penrose', cnname:'彭罗斯', nationality:'英国', birth:1931, decease:''},
   {name:'Van der Waerden', enname:'Van der Waerden', cnname:'范·德·瓦尔登', nationality:'荷兰', birth:1903, decease:1996},
+  {name:'Григорий Яковлевич Перельман', enname:'Grigory Perelman', cnname:'佩雷尔曼', nationality:'俄罗斯', birth:1966, decease:''},
+  {name:'もちづき しんいち', enname:'Mochizuki Shin\'ichi', cnname:'望月新一', nationality:'日本',birth:1969, decease:''},
+  {name:'丘成桐', enname:'Shing-Tung Yau', cnname:'丘成桐', nationality:'美国', birth:1949, decease:''},
+  {name:'Jules Henri Poincaré', enname:'Poincare', cnname:'庞加莱', nationality:'法国', birth:1854, decease:1912},
+  {name:'Georg Ferdinand Ludwig Philipp Cantor', enname:'Cantor', cnname:'康托尔', nationality:'德国', birth:1845, decease:1918},
+  {name:'Carl Gustav Jacob Jacobi', enname:'Jacobi', cnname:'雅可比', nationality:'德国', birth:1804, decease: 1851},
+  {name:'Stefan Banach', enname:'Banach', cnname:'巴拿赫', nationality:'波兰', birth:1892, decease:1945},
+  {name: 'Изра́иль Моисе́евич Гельфа́нд', enname:'Gelfand', cnname:'盖尔范德', nationality:'苏联', birth:1913, decease:2009},
+  {name:'John von Neumann', enname: 'von Neumann', cnname:'冯·诺依曼', nationality:'美国', birth:1903, decease:1957},
+  {name:'Андре́й Никола́евич Колмого́ров', enname:'Kolmogorov', cnname:'柯尔莫哥洛夫', nationality:'俄国', birth:1903, decease:1987},
 ];
 
 function getYear(y) {
@@ -89,7 +101,7 @@ function getYear(y) {
 }
 
 Table.create({
-  parent: document.body,
+  parent: document.querySelector('#container'),
   data: mathematician,
   columns: [
     'cnname', 'enname', 'nationality',
