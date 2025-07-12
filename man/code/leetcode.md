@@ -228,6 +228,86 @@ var div = (a, b) => {
 }
 ```
 
+### 快速傅里叶变换 (FFT)
+
+```js
+// 复数运算. 用 [x, y] 表示 x+iy
+var add = (a, b) => [a[0] + b[0], a[1] + b[1]]
+var sub = (a, b) => [a[0] - b[0], a[1] - b[1]]
+var mul = (a, b) => [a[0]*b[0] - a[1]*b[1], a[0]*b[1] + a[1]*b[0]]
+var scale = (a, n) => [a[0]*n, a[1]*n]
+
+// 计算 Fourier 变换. 当 inv = true 时计算逆变换.
+// 要求 a.length 是 2 的幂
+var fft = (a, { inv = false } = {}) => {
+  const { PI, log2, sin, cos } = Math
+  const pi = inv ? PI : -PI
+  const n = a.length
+  const logn = log2(n) | 0
+  const f = []
+
+  // 枚举反转二进制数, 例如 logn=3 时, 序列为 0 4 2 6 1 5 3 7
+  const next = (i) => {
+    let mask = 1 << (logn-1)
+    while (i & mask) {
+      i ^= mask
+      mask >>= 1
+    }
+    return i | mask
+  }
+
+  // 子问题细分
+  for (let i = 0, j = 0; i < n; ++i) {
+    f[i] = a[j]
+    j = next(j)
+  }
+
+  // 子问题规模以 2 的幂递增
+  for (let m = 1; m < n; m <<= 1) {
+    const w = [cos(pi / m), sin(pi / m)]
+    // j 以 2m 的倍数递增, 每一步合并位于 [j:j+2m] 的两个规模 m 的子问题
+    for (let j = 0; j < n; j += m << 1) {
+      let wk = [1, 0] // wk = w^k
+      for (let k = 0; k < m; ++k) {
+        const s = f[j + k]
+        const t = mul(wk, f[j + k + m])
+        f[j + k] = add(s, t)
+        f[j + k + m] = sub(s, t)
+        wk = mul(wk, w)
+      }
+    }
+  }
+
+  return inv ? f : f.map(v => scale(v, 1/n))
+}
+
+// 卷积
+var conv = (a, b) => {
+  const m = a.length, n = b.length
+  const total = 1 << Math.ceil(Math.log2(m+n))
+  a = fft([...a, ...new Array(total-m).fill([0, 0])], { inv: true })
+  b = fft([...b, ...new Array(total-n).fill([0, 0])], { inv: true })
+  return fft(a.map((_, i) => mul(a[i], b[i])))
+}
+```
+
+用卷积计算大整数乘法. 虽然时间复杂度是 O(n log n), 但常数巨大, 速度可能不如竖式运算.
+```js
+// multiply('114514', '1919810') => 219845122340
+var multiply = (a, b) => {
+  if (a === '0' || b === '0') return '0'
+  a = a.split('').map(n => [Number(n), 0])
+  b = b.split('').map(n => [Number(n), 0])
+  const len = a.length + b.length
+  const res = conv(a, b).map(v => Math.round(v[0])).slice(0, len-1)
+  for (let i = len-2; i > 0; --i) {
+    res[i-1] += res[i] / 10 | 0
+    res[i] %= 10
+  }
+  return res.join('')
+}
+```
+
 ## 字符串
 
 ### 前缀函数

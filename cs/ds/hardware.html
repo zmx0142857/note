@@ -84,18 +84,6 @@
   x^k` 在 `x = omega^-j` 处的值除以 `N`.
 </p>
 
-<p class="example">
-  已知 `hat f = (4, 3, 2, 1)`, 求 `f`.
-</p>
-
-<p class="solution">
-  由 Fourier 逆变换公式,
-  <span class="formula">
-    `f_k = 4 * 1^k + 3 * "i"^k + 2 * (-1)^k + 1 * (-"i")^k`,
-  </span>
-  代入 `k = 0, 1, 2, 3` 得 `f = (10, 2+2"i", 2, 2-2"i")`.
-</p>
-
 <p class="theorem">
   <b>递推公式</b>
   设 `N = 2^n`,
@@ -107,7 +95,7 @@
   </span>
   这里 `omega_N^j = "e"^(2pi"i"j//N)`.
   对于逆变换, 也有完全类似的公式, 只需把上式 `f, a` 的地位对调,
-  再用 `omega` 的共轭代替 `omega`.
+  再用 `omega` 的共轭代替 `omega`; 注意逆变换的公式不需要除以 2.
 </p>
 
 <p class="proof">
@@ -142,17 +130,79 @@
   </span>
 </p>
 
+<p class="example">
+  已知 `hat f = (4, 3, 2, 1)`, 求 `f`.
+</p>
+
+<p class="solution">
+  由 Fourier 逆变换公式,
+  <span class="formula">
+    `f_k = 4 * 1^k + 3 * "i"^k + 2 * (-1)^k + 1 * (-"i")^k`,
+  </span>
+  代入 `k = 0, 1, 2, 3` 得 `f = (10, 2+2"i", 2, 2-2"i")`.
+</p>
+
+<p class="solution">
+  使用递推公式,
+  <span class="formula">
+    `cc F_(4,3,2,1)^-1[0,2]`
+    `= cc F^-1_(4,2)[0] +- omega_4^0 cc F^-1_(3,1)[0]`,<br>
+    `cc F_(4,3,2,1)^-1[1,3]`
+    `= cc F^-1_(4,2)[1] +- omega_4^1 cc F^-1_(3,1)[1]`,<br>
+  </span>
+  其中
+  <span class="formula">
+    `cc F^-1_(4,2)[0,1]`
+    `= cc F^-1_4[0] +- omega_2^0 cc F^-1_2[0]`
+    `= 4 +- 2`,<br>
+    `cc F^-1_(3,1)[0,1]`
+    `= cc F^-1_3[0] +- omega_2^0 cc F^-1_1[0]`
+    `= 3 +- 1`.
+  </span>
+  于是
+  <span class="formula">
+    `cc F_(4,3,2,1)^-1[0,2]`
+    `= 6 +- 4`,<br>
+    `cc F_(4,3,2,1)^-1[1,3]`
+    `= 2 +- 2"i"`.
+  </span>
+  最终
+  `cc F^-1_(4,3,2,1) = (10, 2+2"i", 2, 2-2"i")`.
+</p>
+
+<div class="p solution">
+  列表格. 整个过程分为向下细分与向上求解两部分:
+<pre>
+4 3 2 1             // hat f
+(4 2) (3 1)         // 提取 hat f 的偶数项与奇数项, 形成两个子问题
+(4) (2) (3) (1)     // 继续细分子问题
+
+(4) (2) (3) (1)     // 对每个子问题, 求 Fourier 逆变换, 对于规模=1 的问题, 其变换结果就是自身
+(4±2) (3±1)         // 合并子问题
+(6 2) (4 2)         // 得到更大规模问题的解
+(6+4 2+2i 6-4 2-2i) // 继续合并
+(10 2+2i 2 2-2i)    // 得到结果
+</pre>
+  观察: 子问题细分的步骤相当于把下标 <code>0 1 2 3</code> 映射为 <code>0 2 1 3</code>.
+  一般地, 下标 `j` 会被映到哪个下标? 我们来决定这个映射 `varphi(j)`.
+  事实上, 我们根据 `j` 是偶数/奇数, 决定它进入到左边/右边的子问题.
+  而它在子问题中的新下标是 `|__j//2__|`.
+  从二进制的角度, 每次检查 `j` 的最右一个 bit 来决定向左 (0) 还是向右 (1) 走.
+  而后检查 `j` 的右数第二个 bit...
+  最终, 左或右的选择组成的 0-1 序列代表的二进制数就是 `j` 被映到的那个下标.
+  简言之, `varphi(j)` 的效果是反转 `j` 的二进制序列.
+</div>
+
 <p class="algorithm">
   <b>快速 Fourier 变换 (FFT)</b>
-  由递推公式知道, 欲求 `ZZ_(2N)` 上的函数 `f` 的 Fourier 变换,
-  可以将它拆成两个 `ZZ_N` 上的函数 `g, h`, 分别求得 Fourier 变换后, 再合并得到
-  `hat f`. 由于 `hat f` 共有 `2N` 个分量, 所以合并操作的时间复杂度为 `O(N)`.
-  设 FFT 的时间复杂度为 `T(N)`, 则 `T(2N) = 2 T(N) + O(N)`, 解得 `T(N) = O(N log N)`.
+  设 `N` 是 2 的幂, 我们仿照表格法来编写下面的程序.
+  每次合并子问题花费 `O(N)` 的时间, 而子问题细分的深度是 `O(log N)`,
+  因此 FFT 的总时间复杂度是 `O(N log N)`.
 </p>
 
 <div class="playground"
   value="rev(11, 16)"
-  value2="fft([4, 3, 2, 1], true)"
+  value2="fft([4, 3, 2, 1], { inv: true })"
   value3="convolution([4, 3, 2, 1], [4, 3, 2, 1])"
 >
 <script type="text">
@@ -175,27 +225,48 @@ const rev = (i, n) => {
   return ret
 }
 
+// n=3 时, 从 0 开始生成的序列为 0 4 2 6 1 5 3 7
+const revNext = (a, n) => {
+  let mask = 1 << (n-1)
+  while (a & mask) {
+    a ^= mask
+    mask >>= 1
+  }
+  return a | mask
+}
+
 /**
  * @param {Complex[]} a 系数向量, 长度是 2 的幂
- * @param {boolean} reverse 是否计算逆变换
- * @returns {Complex[]} a 的 Fourier 变换 (当 reverse 为 true 时, 返回逆变换)
- * @example fft([4, 3, 2, 1], true) => [10, 2+2i, 2, 2-2i]
+ * @param {object} options
+ * @param {boolean} [options.inv] 是否计算逆变换
+ * @returns {Complex[]} a 的 Fourier 变换 (当 inv 为 true 时, 返回逆变换)
+ * @example fft([4, 3, 2, 1], { inv: true }) => [10, 2+2i, 2, 2-2i]
  *
  * 设 n 是 2 的幂, 多项式 f(x) = sum_k a_k x^k 简记为 a = [a_0, ..., a_(n-1)].
- * reverse 为 true 时, fft 返回 f 在 n 次单位根 ω_n^j = e^(2πij/n) 处的值:
+ * inv 为 true 时, fft 返回 f 在 n 次单位根 ω_n^j = e^(2πij/n) 处的值:
  * f_j = sum_k a_k ω_n^(jk)
- * reverse 为 false 时, 则返回
+ * inv 为 false 时, 则返回
  * f_j = 1/n sum_k a_k ω_n^(-jk)
  */
-const fft = (a, reverse = false) => {
-  const pi = reverse ? Math.PI : -Math.PI
+const fft = (a, { inv = false } = {}) => {
+  const pi = inv ? Math.PI : -Math.PI
   const n = a.length
-  const f = a.map((_, i) => a[rev(i, n)]) // f[i] = a[rev(i)]
-  let m = 1
-  while (m < n) {
+  const logN = Math.log2(n) | 0
+
+  // 子问题细分, f[i] = a[rev(i)]
+  // const f = a.map((_, i) => a[rev(i, n)])
+  const f = []
+  for (let i = 0, j = 0; i < n; ++i) {
+    f[i] = a[j]
+    j = revNext(j, logN)
+  }
+
+  // m 取 2 的幂
+  for (let m = 1; m < n; m <<= 1) {
     const omega = Complex.i.mul(pi / m).exp() // omega = exp(pi*i/m)
+    // j 取 2m 的倍数. 在每一步迭代中, 合并位于 [j:j+2m] 的长度为 m 的两个子数组
     for (let j = 0; j < n; j += m << 1) {
-      let omega_k = new Complex(1)
+      let omega_k = new Complex(1) // omega_k = omega^k = exp(pi*i*k/m)
       for (let k = 0; k < m; ++k) {
         const s = f[j + k]
         const t = omega_k.mul(f[j + k + m])
@@ -204,9 +275,8 @@ const fft = (a, reverse = false) => {
         omega_k = omega_k.mul(omega)
       }
     }
-    m <<= 1
   }
-  return reverse ? f : f.map(v => v.div(n))
+  return inv ? f : f.map(v => v.div(n))
 }
 
 /**
@@ -219,28 +289,23 @@ const fft = (a, reverse = false) => {
  * (x^3 + 2x^2 + 3x + 4)^2 = x^6 + 4x^5 + 10x^4 + 20x^3 + 25x^2 + 24x + 16
  */
 const convolution = (a, b) => {
-  const n = a.length
-  a.push(...Array.from({ length: n }, () => new Complex(0)))
-  if (b !== a) {
-    b.push(...Array.from({ length: n }, () => new Complex(0)))
-  }
-  const tffA = fft(a, true)
-  const tffB = fft(b, true)
-  const tffAB = tffA.map((_, i) => tffA[i].mul(tffB[i]))
-  return fft(tffAB)
+  const zeros = a.map(() => new Complex(0))
+  a = fft([...a, ...zeros], { inv: true })
+  b = fft([...b, ...zeros], { inv: true })
+  return fft(a.map((_, i) => a[i].mul(b[i])))
 }
 
 module.exports = (str) => {
   return Playground.parse(str, {
     rev,
-    fft: (a, reverse) => {
-      return fft(a.map(Complex.of), reverse).map(v => v.toString()).join('\n')
+    fft: (a, options) => {
+      return fft(a.map(Complex.of), options).map(v => v.toString(6)).join('\n')
     },
     convolution: (a, b) => {
       return convolution(
         a.map(Complex.of),
         b.map(Complex.of),
-      ).map(v => v.toString()).join('\n')
+      ).map(v => v.toString(6)).join('\n')
     },
   })
 }

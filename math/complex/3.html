@@ -185,7 +185,9 @@
 const { sin, cos, PI } = Math
 const f = t => {
   const z = Complex.i.mul(t).exp().mul(3)
-  return Complex.mul(z.pow(2).add(1), z.sub(1).pow(5))
+  const left = z.pow(2).add(1)
+  const right = z.sub(1).pow(5)
+  return left.mul(right)
 }
 new Plot('arg-principle')
   .geometry({xmin: -10000, xmax: 10000, ymin: -10000, ymax: 10000}).clear().axis()

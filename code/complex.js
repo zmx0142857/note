@@ -1,79 +1,132 @@
+var Complex = (() => {
+const round = (x, digits) => {
+  const pow = Math.pow(10, digits)
+  return Math.round(x * pow) / pow
+}
+
 class Complex {
-    constructor(real, imag = 0) {
-        this.real = real;
-        this.imag = imag;
+  static i = Object.freeze(new Complex(0, 1))
+
+  /**
+   * @param {number} real 
+   * @param {number} imag 
+   */
+  constructor (real = 0, imag = 0) {
+    this.real = real
+    this.imag = imag
+  }
+
+  static of (a) {
+    if (a instanceof Complex) return a
+    return new Complex(a)
+  }
+
+  clone () {
+    return new Complex(this.real, this.imag)
+  }
+
+  conj () {
+    return new Complex(this.real, -this.imag)
+  }
+
+  abs2 () {
+    return this.real * this.real + this.imag * this.imag
+  }
+
+  abs () {
+    return Math.hypot(this.real, this.imag)
+  }
+
+  neg () {
+    return this.mul(-1)
+  }
+
+  exp () {
+    return Complex.i.mul(Math.sin(this.imag))
+      .addBy(Math.cos(this.imag))
+      .mulBy(Math.exp(this.real))
+  }
+
+  // n 为非负整数, 取值范围 uint32
+  pow (n) {
+    let ret = new Complex(1)
+    let base = this.clone()
+    while (n) {
+      if (n & 1) ret.mulBy(base)
+      base.mulBy(base)
+      n >>>= 1
     }
-    static of(a) {
-        return typeof a === 'number' ? new Complex(a) : a;
+    return ret
+  }
+
+  // 结果保存在原地
+  addBy (a) {
+    a = Complex.of(a)
+    this.real += a.real
+    this.imag += a.imag
+    return this
+  }
+
+  subBy (a) {
+    a = Complex.of(a)
+    this.real -= a.real
+    this.imag -= a.imag
+    return this
+  }
+
+  mulBy (a) {
+    if (typeof a === 'number') {
+      this.real *= a
+      this.imag *= a
+    } else {
+      const { real, imag } = this
+      const { real: aReal, imag: aImag } = a
+      this.real = real * aReal - imag * aImag
+      this.imag = real * aImag + imag * aReal
     }
-    copy() {
-        return new Complex(this.real, this.imag);
+    return this
+  }
+
+  divBy (a) {
+    if (typeof a === 'number') {
+      this.real /= a
+      this.imag /= a
+      return this
     }
-    conj() {
-        return new Complex(this.real, -this.imag);
-    }
-    abs() {
-        return Math.hypot(this.real, this.imag);
-    }
-    neg() {
-        return this.mul(-1);
-    }
-    exp() {
-        return Complex.i.mul(Math.sin(this.imag))
-            .add(Math.cos(this.imag))
-            .mul(Math.exp(this.real));
-    }
-    // n is non-negative integer
-    pow(n) {
-        let ret = new Complex(1);
-        let base = this.copy();
-        while (n) {
-            if (n & 1)
-                ret = ret.mul(base);
-            base = base.mul(base);
-            n >>= 1;
-        }
-        return ret;
-    }
-    add(a) {
-        return Complex.add(this, a);
-    }
-    sub(a) {
-        return Complex.sub(this, a);
-    }
-    mul(a) {
-        if (typeof a === 'number')
-            return new Complex(this.real * a, this.imag * a);
-        return Complex.mul(this, a);
-    }
-    div(a) {
-        if (typeof a === 'number')
-            return new Complex(this.real / a, this.imag / a);
-        return Complex.div(this, a);
-    }
-    static add(a, b) {
-        a = Complex.of(a);
-        b = Complex.of(b);
-        return new Complex(a.real + b.real, a.imag + b.imag);
-    }
-    static sub(a, b) {
-        a = Complex.of(a);
-        b = Complex.of(b);
-        return new Complex(a.real - b.real, a.imag - b.imag);
-    }
-    static mul(a, b) {
-        return new Complex(a.real * b.real - a.imag * b.imag, a.real * b.imag + a.imag * b.real);
-    }
-    static div(a, b) {
-        return a.mul(b.conj()).mul(1 / b.abs());
-    }
-    toString() {
-        const real = String(this.real);
-        const imag = String(this.imag);
-        return imag[0] === '-' ? real + imag + 'i' : real + '+' + imag + 'i';
-    }
+    return this.mulBy(a.conj()).divBy(a.abs2())
+  }
+
+  add (a) {
+    return this.clone().addBy(a)
+  }
+
+  sub (a) {
+    return this.clone().subBy(a)
+  }
+
+  mul (a) {
+    return this.clone().mulBy(a)
+  }
+
+  div (a) {
+    return this.clone().divBy(a)
+  }
+
+  /**
+   * @param {number} [digits] 保留的小数位数, 传入 undefined 则不作处理
+   */
+  toString (digits) {
+    const str = digits === undefined ? String : n => String(round(n, digits))
+    const real = str(this.real)
+    const imag = str(this.imag)
+    const sign = imag[0] === '-' ? '' : '+'
+    return `${real}${sign}${imag}i`
+  }
 }
-Complex.i = new Complex(0, 1);
+
 function testMath() {
-    console.log(new Complex(2).pow(6));
+  console.log(new Complex(2).pow(6))
 }
+
+return Complex
+})()
