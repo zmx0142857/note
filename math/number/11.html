@@ -8,12 +8,422 @@
 
 <body>
 
+<p>[来自 冯克勤《代数数论简明讲义》]</p>
+
 <p>本章起进入代数数论的世界.
   读者可以先回顾一下<a href="../abstract/7.html">域</a>和
   <a href="../abstract/8.html">Galois 理论</a>的知识.
   代数数论研究的主要对象是<b>代数数域</b>, 即有理数域 `QQ` 的有限次扩张.
   任意代数数域均是 `QQ^(a c)` (全体代数数组成的域) 的子域, 从而是 `CC`
   的子域. 今后, 我们将代数数域简称为数域.
+</p>
+
+<h2>引子: 二平方和问题及其推广</h2>
+
+<h3>问题的提出</h3>
+
+<p class="example">
+  [来自群友 我是啥也不知道的容相不利泡]
+  证明: 不定方程 `x^2 - 2y^2 = 65` 无解.
+</p>
+
+<p class="proof">
+  [来自 Fran]
+  两边模 5, 有 `x^2 -= 2y^2 (mod 5)`.
+  当 `x, y` 取任意整数时,
+  `x^2 (mod 5)` 的可能取值只有 `0, 1, 4`,
+  而 `2y^2 (mod 5)` 的可能取值只有 `0, 2, 3`.
+  因此 `x -= y -= 0 (mod 5)`, 从而 25 整除方程左边, 但不整除右边, 矛盾.
+</p>
+
+<p>在初等数论中, 我们曾经研究过如下问题: `n` 取什么样的正整数时, 不定方程
+   `x^2+y^2 = n` 有整数解? 换言之, 什么样的整数 `n` 可以表示为两个整数的平方和?
+   我们先是证明,
+   <span class="formula">
+     若 `a, b` 都是二平方和, 则乘积 `a b` 也是二平方和.
+   </span>
+   根据整数的<b>唯一因子分解</b>, 问题化为研究什么样的素数 `p` 是二平方和.
+   Euler 给出证明,
+   <span class="formula">
+     奇素数 `p` 是二平方和当且仅当 `-1` 是模 `p` 的二次剩余, 换言之 `p -= 1 (mod 4)`.
+   </span>
+   因此, 若 `n` 不含 `4k+3` 型素因子, 则 `n` 是二平方和.
+   进一步可以证明<b>二平方和定理</b>:
+   <span class="formula">
+     正整数 `n` 是二平方和, 当且仅当它所有 `4k+3` 型素因子的次数为偶数.
+   </span>
+   下面考虑推广 (广义 Pell 方程): 设 `d` 是整数且不含平方因子, 问:
+   <span class="formula">
+     `n` 取何值时, 不定方程 `x^2 - d y^2 = n` 有整数解?
+   </span>
+   特别 `d = -1` 时即为二平方和问题.
+</p>
+
+<h3>问题的转化</h3>
+
+<p>
+   我们将方程左边分解为 `(x+y sqrt d)(x-y sqrt d)`, 转而在整环
+   `ZZ[sqrt d]` 中考虑等价问题:
+   <span class="formula">
+     `n` 取何值时, 存在 `z in ZZ[sqrt d]`, 使得 `N(z) = n`?
+   </span>
+   这里 `N` 定义为 `N(x+y sqrt d) = x^2 - d y^2`.
+</p>
+
+<ol class="definition">
+  <b>`ZZ[sqrt d]` 及其范数</b>
+  <li>
+    设 `d` 是整数且不含平方因子. 容易验证下面是一个整环 (domain):
+    <span class="formula">
+      `ZZ[sqrt d]`
+      `:= {a + b sqrt d : a, b in ZZ}`
+      `= ZZ o+ ZZ sqrt d`.
+    </span>
+    特别 `d = -1` 时, 上式给出<b>高斯整环</b> `ZZ["i"]`.
+  </li>
+  <li>含幺环 `R` 的可逆元又称为<b>单位 (unit)</b>, 全体可逆元构成 `R` 的单位群:
+    <span class="formula">
+      `R^xx := {a: EE b in R, a b = b a = 1}`.
+    </span>
+    今后我们默认环是含 1 的.
+  </li>
+  <li>我们称 `z = a + b sqrt d in ZZ[sqrt d]` 的<b>共轭</b>是 `bar z = a - b sqrt d`.
+    注意 `z mapsto bar z` 给出 `ZZ[sqrt d]` 的一个自同构.
+  </li>
+  <li>
+    定义<b>范数 (norm)</b> `N: ZZ[sqrt d] to ZZ`.
+    `z` 的范数定义为它和共轭的乘积 `N(z) = z bar z`, 换言之
+    `N(a+b sqrt d) = a^2 - d b^2`.  和赋范线性空间的范数不同, 这里的范数不满足非负性.
+  </li>
+</ol>
+
+<ol class="corollary">
+  在 `ZZ[sqrt d]` 中:
+  <li>`N(z w) = N(z)N(w)`, 因此 `N` 是乘法同态.</li>
+  <li>`z = 0 iff N(z) = 0`.</li>
+  <li>`z` 是单位 `iff N(z)` 是 `ZZ` 的单位, 即 `N(z) = +-1`.</li>
+  <li>`N(z) = N(bar z)`, 所以 `z` 是单位 `iff bar z` 是单位.</li>
+  由 2, 3 知道, `z` 不是零或单位 `iff |N(z)| gt 1`.
+</ol>
+
+<p class="proof">
+  只证 3. `rArr`:
+  设 `z` 为单位, 则 `N(z)N(z^-1) = N(1) = 1`. 这说明 `N(z) | 1`, 故 `N(z) = +-1`.
+  <br>
+  `lArr`:
+  若 `N(z) = 1`, 则它的共轭 `bar z` 就是它的逆; 若 `N(z) = -1`, 则它的逆是 `-bar z`.
+</p>
+
+<ol class="example">
+  <li>
+    考察 `x^2+y^2 = 1` 的所有整数解, 得到高斯整环 `ZZ[i]` 的单位 `{+-1, +-"i"}`.
+  </li>
+  <li>
+    考察 `x^2 + 5y^2 = 1` 的整数解, 得到
+    `ZZ[sqrt(-5)]` 的单位 `{+-1}`.
+  </li>
+  <li>考察 `x^2 - 2y^2 = +-1` 的所有整数解, 得到 `ZZ[sqrt 2]` 的单位
+    `{+-(1+sqrt 2)^n: n in ZZ}`.
+  </li>
+</ol>
+
+<p class="remark">
+  由 `N(z w) = N(z)N(w)` 立即得到:
+  若 `x^2 - d y^2 = a`, `x^2 - d y^2 = b` 都有整数解, 则 `x^2 - d y^2 = a b` 也有整数解.
+  接下来, 我们重点考虑方程右边为素数的情形.
+</p>
+
+<h3>问题的分解</h3>
+
+<ol class="definition">
+  <b>整除与素元</b>
+  在整环 `D` 中,
+  <li>称 `a` <b>整除</b> `b`, 记作 `a | b`, 如果存在 `c in D` 使得 `b = a c`.
+    特别地, 若存在 `c in D^xx` 使得 `b = a c`, (`a, b` 相差一个单位), 则称 `a, b` <b>相伴</b>,
+    记作 `a ~ b`.  相伴是一个等价关系. 而整除商掉相伴关系后, 是一个偏序关系.
+  </li>
+  <li>
+    称 `a, b` <b>互素</b>, 如果它们的公因子只有单位.
+  </li>
+  <li>
+    定义 `p` 为 `D` 的<b>素元</b>或<b>不可约元</b>,
+    如果 `p` 不是零或单位, 且它只有平凡的分解. 即, 若存在 `a, b in D` 使得 `p = a b`
+    那么 `a` 或 `b` 是单位.
+  </li>
+</ol>
+
+<p class="corollary">
+  若 `p` 是整环 `D` 的素元, `a in D`, 则
+  `p !| a iff p` 与 `a` 互素.
+</p>
+
+<p class="proof">
+  我们来证明逆否命题: `p | a iff p` 与 `a` 有非平凡公因子.
+  <br>
+  `rArr`: 显然 `p` 就是这个公因子.
+  <br>
+  `lArr`: 设 `b` 是 `p` 与 `a` 的公因子, `b` 不是单位. 由于 `p` 只有平凡分解, 推出 `b ~ p`.
+  记 `a = b c`, `b = p u`, `u` 是单位, 则 `a = p u c`, 推出 `p | a`.
+  <br>
+</p>
+
+<ol class="corollary">
+  在 `ZZ[sqrt d]` 中:
+  <li>若 `|N(z)|` 是 `ZZ` 中的素数, 则 `z` 是 `ZZ[sqrt d]` 的素元.
+  </li>
+  <li>设 `p` 是 `ZZ` 中的素数, 则要么它也是 `ZZ[sqrt d]` 的素元, 要么它是两个素元的乘积.</li>
+</ol>
+
+<ol class="proof">
+  <li>设 `z = a b`, 取范数得到 `N(z) = N(a) N(b)`. 但 `|N(z)|` 是 `ZZ` 中素数,
+    所以 `N(a)`, `N(b)` 中有一个等于 `+-1`.
+    这就是说 `a, b` 有一个是单位.
+  </li>
+  <li>
+    设 `p` 不是 `ZZ[sqrt d]` 的素元, 则存在 `a, b in ZZ[sqrt d]`, `a, b` 不是单位, 使得
+    `p = a b`. 由 `p^2 = N(p) = N(a)N(b)` 知道,
+    `N(a) = N(b) = +-p`, 再由 1 知道 `a, b` 都是素元.
+  </li>
+</ol>
+
+<p>现在可以给出方程右边是素数 `p` 时, 有解的等价条件:</p>
+
+<ol class="theorem">
+  设 `p` 是素数, 考虑方程 `x^2 - d y^2 = p`:
+  <li>
+    若 `d lt 0`, 则 `x^2 - d y^2 = p` 有整数解当且仅当 `p` 在 `ZZ[sqrt d]` 中可约, 即 `p` 不是素元.
+  </li>
+  <li>
+    若 `d gt 0`, 且方程 `x^2 - d y^2 = -1` 有解,
+    则 `x^2 - d y^2 = p` 有整数解当且仅当 `p` 在 `ZZ[sqrt d]` 中可约.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    若 `x^2 - d y^2 = p` 有整数解, 则存在 `z in ZZ[sqrt d]` 使得 `N(z) = p`.
+    于是 `z bar z = p`. 因为 `N(z) = N(bar z) = p gt 1`, 所以 `z, bar z` 均不是单位.
+  </li>
+  <li>
+    反之设 `p` 在 `ZZ[sqrt d]` 中有非平凡分解 `p = a b`,
+    由上一个推论的 2. 知道 `a, b` 均为素元, 且 `N(a) = N(b) = +- p`.
+    如果 `N(a) = N(b) = p`, 那么已经找到不定方程的解. 如果 `d gt 0`, 可能出现
+    `N(a) = N(b) = -p`, 但由假设存在 `z` 满足 `N(z) = -1`,
+    因此 `z a` 满足 `N(z a) = p`.
+  </li>
+</ol>
+
+<ol class="remark">
+  定理给我们提出了更多问题:
+  <li>如何判断素数 `p` 在 `ZZ[sqrt d]` 中可约?</li>
+  <li>`d gt 0` 时, 何时 `x^2 - d y^2 = -1` 有解?</li>
+  <li>一般的方程 `x^2 - d y^2 = n` 何时有解?</li>
+  对于问题1, 我们还没有一般的方法来判断 `p` 的可约性. 但有几个必要条件可供参考, 见下文.
+  对于问题 2, 这正是经典 Pell 方程, 可以用连分数求解.
+  而问题 3 的关键在于 `n` 的因子分解, 这依赖于整环 `ZZ[sqrt d]` 中的唯一因子分解.
+  我们将看到, 对于有的 `d`, `ZZ[sqrt d]` 上具有唯一因子分解, 而有的 `d` 则不然.
+</ol>
+
+<ol class="theorem">
+  <b>`p` 可约的必要条件</b>
+  若 `p` 为素数, 方程 `x^2 - d y^2 = p` 有整数解, 则
+  <li>`p !| x`, `p !| y`.</li>
+  <li>`d` 是模 `p` 的二次剩余.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    反设 `p | x`, 两边模 `p` 得到 `p | y`,
+    从而 `p^2` 整除方程的左边, 但不整除右边, 矛盾.
+    同理 `p !| y`.
+  </li>
+  <li>计算 Legendre 符号:
+    <span class="formula">
+      `1 = (x^2/p) = ((d y^2)/p)`
+      `= (d/p) (y^2/p)`
+      `= (d/p)`.
+    </span>
+  </li>
+</ol>
+
+<h3>唯一因子分解</h3>
+
+<ol class="definition">
+  <b>唯一因子分解</b>
+  <li>在整环 `D` 中, `a` 不是零或单位, 若存在素元 `p_1, cdots p_s in D`
+    使得 `a = p_1 cdots p_s`, 且这些素元在不计次序的意义下唯一, 则称 `a` 在 `D` 中具有唯一因子分解.
+    若 `D` 中任意不是零或单位的元素都具有唯一因子分解, 则称它是<b>唯一因子分解整环 (UFD)</b>.
+  </li>
+</ol>
+
+<ol class="example">
+  <li>设 `D` 是 UFD, `p` 是其中的素元.  若 `p | a b`, 则 `p | a` 或 `p | b`.</li>
+  <li>
+    若 `ZZ[sqrt d]` 是 UFD, `z` 是素元, 则 `z` 必整除某个 `ZZ` 中的素数.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    写出 `a, b` 的素分解, 它们合起来就是 `a b` 的素分解.
+    由于 `p | a b`, 所以 `p` 与其中某个素因子相伴.
+    如果这个因子来自 `a`, 那么 `p | a`;
+    如果它来自 `b`, 则 `p | b`.
+  </li>
+  <li>
+    在 `ZZ` 中分解 `N(z)`, 则根据引理 `z` 必整除 `N(z)` 的某个素因子.
+  </li>
+</ol>
+
+<p class="example">
+  `ZZ[sqrt(-5)]`, `ZZ[sqrt(-6)]` 均不是 UFD, 这是因为
+  <span class="formula">
+    `9 = 3*3 = (2+sqrt(-5))(2-sqrt(-5))`,<br>
+    `55 = 5*11 = (7+sqrt(-6))(7-sqrt(-6))`.
+  </span>
+  可以验证上式等号右边各因子都是素元.
+</p>
+
+<p class="proof">
+  对于 `ZZ` 中的素数 `p`, 只需验证方程 `x^2 - d y^2 = p` 无整数解,
+  例如 `x^2 + 5 y^2 = 3` 无整数解.
+  对于不是 `ZZ` 中的数, 以 `2+sqrt(-5)` 为例, 假设 `2+sqrt(-5) = a b`,
+  `a, b` 不是单位, 则 `N(a), N(b)` 均是 `N(2+sqrt(-5)) = 9` 的真因子, 即 `N(a) = N(b) = 3`.
+  但这不可能, 因为 `x^2 + 5 y^2 = 3` 无整数解.
+</p>
+
+<p>下面的定理在 UFD 上解决了我们的问题:</p>
+
+<p class="theorem">
+  若 `d lt 0` 且 `ZZ[sqrt d]` 是 UFD, 那么方程 `x^2 - d y^2 = n` 有整数解当且仅当任意 `ZZ`
+  和 `ZZ[sqrt d]` 的 "公共素数" 在 `n` 中的次数为偶数.
+  换言之, 去掉 `n` 的平方因子后, 剩下部分在 `ZZ` 中的素因子都在 `ZZ[sqrt d]` 中可约.
+</p>
+
+<ol class="proof">
+  <li>`lArr`:
+    假设 `n = a^2 n_0`, 其中 `n_0 = p_1 cdots p_s`, 这 `s` 个 `ZZ`
+    中的素数两两不同, 且都在 `ZZ[sqrt d]` 中可约.
+    由上节的结论, `x^2 - d y^2 = p_i` 有整数解, `i = 1, cdots, s`, 于是
+    `x^2 - d y^2 = n_0` 有整数解, 从而 `x^2 - d y^2 = n` 有整数解 (前者的解乘以 `+-a`).
+  </li>
+  <li>`rArr`: 设 `x^2 - d y^2 = n` 有整数解, 则存在 `a in ZZ[sqrt d]` 使得 `N(a) = n`.
+    由 `ZZ[sqrt d]` 的唯一分解得到 `a = p_1 cdots p_s`.
+    取共轭得到 `bar a = bar p_1 cdots bar p_s`, 等号右边也是 `ZZ[sqrt d]` 中的素元.
+    于是
+    <span class="formula">
+      `n = a bar a`
+      `= p_1 bar p_1 cdots p_s bar p_s`.
+    </span>
+    假如其中 `p` 是 `ZZ` 与 `ZZ[sqrt d]` 的公共素数, 那么 `bar p = p`, 因此 `p^2 | n`.
+  </li>
+</ol>
+
+<h3>高斯整环是 UFD</h3>
+
+<ol class="definition">
+  <li>若整环 `D` 的每个理想 `J` 都能由单个元素生成, 形如 `(:a:) = { r a: r in D }`,
+    则称它为<b>主理想整环 (PID)</b>.
+  </li>
+  <li>若整环 `D` 上可以进行带余除法, 则称 `D` 是 <b>Euclid 整环</b>.
+    所谓带余除法是指: 对任意 `a in D`, `b in D - {0}`, 存在 (唯一??) 的 `q, r in D` (商和余数) 满足
+    <span class="formula">
+      `a = q b + r`, `quad 0 le |N(r)| lt |N(b)|`.
+    </span>
+  </li>
+</ol>
+
+<p class="remark">
+  我们将要说明 `ZZ["i"]` 是 Euclid 整环, 而 Euclid 整环 `rArr` PID `rArr` UFD.
+</p>
+
+<p class="lemma">
+  `ZZ["i"]` 是 Euclid 整环.
+</p>
+
+<p class="proof">
+  任取 `a, b in ZZ["i"]`, 记 `a//b = x+y"i"`, `x, y in QQ`.
+  取 `X, Y in ZZ`, 使得 `|X - x| le 1/2`, `|Y - y| le 1/2`,
+  并记 `q = X + Y"i" in ZZ["i"]`. 换言之, `q` 是 `a//b` 的取整近似.
+  现在记 `r = a - b c`, 有
+  <span class="formula">
+    `N(r) = N(a-b q)`
+    `= N(b)N(a//b - q)`
+    `= N(b)(|X-x|^2+|Y-y|^2)`
+    `le N(b) (1/2^2 + 1/2^2)`
+    `= N(b)//2`
+    `lt N(b)`.
+  </span>
+</p>
+
+<p class="lemma">
+  `ZZ["i"]` 是 PID.
+</p>
+
+<p class="proof">
+  任取非零理想 `J`. 取其中 `N(epsi)` 值最小的非零元素 `epsi`, 下证 `J = (:epsi:)`.
+  任取 `a in J`, 作带余除法 `a = q epsi + r`, 则 `0 le N(r) lt N(epsi)`, 且 `r = a - q epsi in J`.
+  由 `epsi` 的最小性知 `r = 0`, 于是 `epsi | a`.
+</p>
+
+<ol class="lemma">
+  若 `D` 是 PID,
+  <li>`a, b in D` 互素, 则存在 `x, y in D` 使得 `a x + b y = 1`;
+    换言之 `a, b` 生成的理想是 `D` 本身.</li>
+  <li>`p` 是素元, `p | a b`, 则 `p | a` 或 `p | b`.</li>
+</ol>
+
+<ol class="proof">
+  <li>显然 `a, b` 不全为零, 考虑它们生成的理想 `(:a,b:) = {a x+b y: x, y in ZZ["i"]}`.
+    记这个理想的生成元为 `epsi = a x_0 + b y_0`, 则
+    <span class="formula">
+      `1 = epsi epsi^-1`
+      `= a x_0 epsi^-1 + b y_0 epsi^-1`.
+    </span>
+    从而 `1 in (:a, b:)`.
+  </li>
+  <li>若 `p !| a`, 即 `p` 与 `a` 互素, 则存在 `x, y in D` 使得 `a x + p y = 1`,
+    于是
+    <span class="formula">
+      `b = 1*b = (a x + p y) b` `= (a b)x + p y b`
+    </span>
+    被 `p` 整除.
+  </li>
+</ol>
+
+<p class="lemma">
+  `ZZ["i"]` 是 UFD.
+</p>
+
+<ol class="proof">
+  <li>分解的存在性. 对 `z in ZZ["i"]`, 若它本身是素元, 则分解完毕. 否则 `z = a b`,
+    其中 `N(a) lt N(z)`, `N(b) lt N(z)`. 递归地对 `a, b` 分解下去,
+    这一过程中范数 `N` 严格递减, 因此不能无限进行下去, 必定在有限步中止.
+  </li>
+  <li>分解的唯一性.
+    设 `z = p_1 cdots p_m = q_1 cdots q_n` 是两个素分解.
+    则 `p_1 | q_1 cdots q_n`, 由引理 `p_1` 必定整除 `q_1, cdots, q_n` 中的一个,
+    设为 `q_1`. 但后者是素元, 因此实际上它们相伴: `p_1 ~ q_1`.
+    而剩下的乘积仍然是相伴的: `p_2 cdots p_m ~ q_2 cdots q_n`.
+    这样做下去可知 `m = n` 且适当交换下标后
+    <span class="formula">
+     `p_i = q_i`, `quad i = 1, cdots, n`.
+    </span>
+  </li>
+</ol>
+
+<p class="example">
+  将 `12+9"i"` 分解为高斯素数 (即 `ZZ[i]` 中的素元) 的乘积.
+</p>
+
+<p class="proof">
+  先提取因子, `12+9"i" = 3(4+3"i")`.
+  然后 `N(4+3"i") = 25 = 5^2 = (2+"i")^2 (2-"i")^2`.
+  由于 `ZZ["i"]` 是 UFD, `4+3"i"` 的素因子只能从 `2+"i"`, `2-"i"` 的相伴元中寻找.
+  试除得到 `4+3"i" = (2-"i")(1+2"i")`, 从而
+  <span class="formula">
+    `12+9"i" = 3(2-"i")(1+2"i")`.
+  </span>
 </p>
 
 <h2>代数数域</h2>
