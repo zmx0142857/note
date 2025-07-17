@@ -157,7 +157,7 @@ module.exports = function (str) {
   <span class="formula">
     `n = log_r a -= log_r x^2 -= 2 log_r x (mod varphi(p))`,
   </span>
-  因此 `n` 是偶数.
+  其中 `varphi(p)` 是偶数, 因此 `n` 是偶数.
 </p>
 
 <p class="proposition">
@@ -232,26 +232,6 @@ module.exports = function (str) {
   </li>
 </ol>
 
-<h3>-1 和 2 何时是二次剩余</h3>
-
-<p class="example">
-  `((-1)/p) -= p (mod 4)`.<br>
-  换言之, 设 `p` 为奇素数, 方程 `x^2 + 1 -=
-  0 (mod p)` 有解当且仅当 `p` 形如 `4n+1`. 比如, `5 = 2^2+1`,
-  `2*13 = 5^2 + 1`, `17 = 4^2 + 1` 等.
-</p>
-
-<ol class="proof">
-  `p = 4n+1` 时, `((-1)/p) = (-1)^(2n) = 1`;<br>
-  `p = 4n-1` 时, `((-1)/p) = (-1)^(2n-1) = -1`.
-</ol>
-
-<p class="example">
-  `(2/p)`
-  `= (-1)^((p^2-1)//8)`
-  `= { 1, p -= +-1 (mod 8); -1, p -= +-3 (mod 8) :}`.
-</p>
-
 <h3>二次互反律</h3>
 
 <p>这是初等数论中相当精彩的结论, Gauss 曾给出至少 6 个证明.</p>
@@ -309,16 +289,10 @@ module.exports = function (str) {
   <b>二次互反律</b>
   设 `p, q` 为不同的奇素数, 则
   <span class="formula">
-    `(p/q)(q/p) = (-1)^((p-1)/2 (q-1)/2)`.
+    `(p/q)(q/p) = (-1)^((p-1)/2 (q-1)/2)`
   </span>
-  注意 `p -= 1 (mod 4)` 当且仅当 `(p-1)/2` 是偶数, 上式写为
-  <span class="formula">
-    `(p/q)(q/p) = {
-      1, if p -= 1 (mod 4) or q -= 1(mod 4);
-      -1, if p -= q -= 3 (mod 4)
-    :}`
-  </span>
-  即 `(p/q)` 与 `(q/p)` 符号相反当且仅当 `p, q` 都是 `4n+3` 型素数.
+  注意到 `(p-1)//2` 是奇数当且仅当 `p -= 3 (mod 4)`,
+  上式说明: `(p/q)` 与 `(q/p)` 符号相反当且仅当 `p, q` 都是 `4n+3` 型素数.
 </p>
 
 <p class="proof">
@@ -340,13 +314,64 @@ module.exports = function (str) {
   </span>
 </p>
 
+<h3>-1, 2 和 3 何时是二次剩余</h3>
+
+<p class="example">
+  `((-1)/p) -= p (mod 4)`.<br>
+  换言之, 设 `p` 为奇素数, 方程 `x^2 + 1 -=
+  0 (mod p)` 有解当且仅当 `p` 形如 `4n+1`. 比如, `5 = 2^2+1`,
+  `2*13 = 5^2 + 1`, `17 = 4^2 + 1` 等.
+</p>
+
+<p class="proof">
+  `p = 4n+1` 时, `((-1)/p) = (-1)^(2n) = 1`;<br>
+  `p = 4n-1` 时, `((-1)/p) = (-1)^(2n-1) = -1`.
+</p>
+
+<p class="example">
+  `(2/p)`
+  `= (-1)^((p^2-1)//8)`
+  `= { 1, p -= +-1 (mod 8); -1, p -= +-3 (mod 8) :}`.
+</p>
+
+<p class="proof">
+  使用 Gauss 判别法, 考虑集合 `{2, 4, cdots, p-1}`
+  中绝对最小剩余为负的个数 `s`.
+  事实上, 集合大小 `(p-1)/2` 为偶数时, 恰有一半元素绝对最小剩余为负, `s = (p-1)/4`.
+  集合大小为奇数时, 则略大于一半, `s = (p-1)/4 + 1/2`.
+  按 `mod 8` 对 `p` 进行讨论即得结论.
+</p>
+
+<p class="example">
+  设 `p ge 5` 是素数, 则
+  <span class="formula">
+    `(3/p) -= { 1, if p -= +-1 (mod 12);
+    -1, if p -= +-5 (mod 12):}`
+  </span>
+</p>
+
+<p class="proof">
+  利用二次互反律,
+  <span class="formula">
+    `(3/p) = (-1)^((3-1)/2 (p-1)/2) (p/3) = ((-1)/p) (p/3)`.
+  </span>
+  其中
+  <span class="formula">
+    `((-1)/p) = {1, if p -= 1 (mod 4);
+    -1, if p -= -1 (mod 4):}`<br>
+    `(p/3) = {1, if p -= 1 (mod 3);
+    -1, if p -= -1 (mod 3):}`.
+  </span>
+  对 `mod 12` 进行讨论即得结论.
+</p>
+
 <h2>Jacobi 符号</h2>
 
 <p>现在我们考虑一般的模数 `m`.</p>
 
 <p class="definition">
   <b>Jacobi 符号</b> 是 Legendre 符号的自然推广.
-  设 `m` 是正奇数, `a in ZZ_n^**`, Jacobi 符号定义为
+  设 `m` 是正奇数, `a in ZZ_m^**`, 考虑 `m` 的素因子分解, Jacobi 符号定义为
   <span class="formula">
     `(a/m) = (a/(prod_(i=1)^r p_i^(s_i)))`
     `= prod_(i=1)^r (a/p_i)^(s_i)`.
@@ -382,6 +407,92 @@ module.exports = function (str) {
   </span>
   即 `1` 在 `ZZ_m^**` 有 `T` 个平方根.
 </p>
+
+<h2>杂例</h2>
+
+<p class="example">
+  设 `p` 是奇素数, 我们知道
+  <span class="formula">
+    `1^2, cdots ((p-1)/2)^2`
+  </span>
+  是模 `p` 的全体二次剩余.
+  若 `-1` 不是二次剩余, 那么
+  <span class="formula">
+    `1^4, cdots, ((p-1)/2)^4`
+  </span>
+  也是模 `p` 的全体二次剩余.
+</p>
+
+<p class="proof">
+  只需证明 `k^2 mapsto k^4` 是单射:
+  如果 `i^4 -= j^4 (mod p)`, 则 `i^2 -= +- j^2 (mod p)`.
+  但 `-1` 不是二次剩余, 故等号右边只能取正号, 即 `i^2 -= j^2 (mod p)`.
+</p>
+
+<ol class="example">
+  <b>二次剩余的几个乘积公式</b>
+  `p` 是奇素数,
+  <li>
+    [来自群友 幂零群、澄] 对任意 `a in ZZ_p^ast` 成立
+    <span class="formula">
+      `prod_(k=1)^((p-1)//2) (a-k^2)`
+      `-= (a/p) - 1`
+      `-= {0 (mod p), if a 是二次剩余;
+      -2 (mod p), otherwise:}`.
+    </span>
+  </li>
+  <li>[来自群友 Lucifer] 全体二次剩余的乘积:
+    <span class="formula">
+      `prod_((k/p) = 1) k`
+      `-= ((p-1)//2)!^2`
+      `-= -((-1)/p)`
+      `-= (-1)^((p+1)//2) (mod p)`.
+    </span>
+    根据 Wilson 定理 `(p-1)! -= -1 (mod p)`, 全体二次非剩余的乘积就是 `((-1)/p) = (-1)^((p-1)//2)`.
+  </li>
+  <li>
+    [来自 Fran] 下式的乘积中, `k` 取遍模 `p` 的二次非剩余:
+    <span class="formula">
+      `prod_((k/p) = -1) (k-1)`
+      `-= 2 ((-1)/p)`
+      `-= (-1)^((p-1)//2) * 2 (mod p)`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    多项式 `x^((p-1)//2) - 1` 在域 `ZZ_p` 中的全部根正好是 `1^2, cdots, ((p-1)/2)^2`, 即全体二次剩余.
+    因此得到恒等式
+    <span class="formula">
+      `prod_(k=1)^((p-1)//2) (x - k^2) = x^((p-1)//2) - 1`.
+    </span>
+    代入 `x = a` 就有
+    <span class="formula">
+      `prod_(k=1)^((p-1)//2) (a - k^2)`
+      `-= a^((p-1)//2) - 1`
+      `-= (a/p) - 1 (mod p)`.
+    </span>
+  </li>
+  <li>
+    由 Wilson 定理,
+    <span class="formula">
+      `-1 -= (p-1)!`
+      `-= prod_(k=1)^((p-1)//2) k * (-k)`
+      `-= (-1)^((p-1)//2) prod_((k/p) = 1) k (mod p)`.
+    </span>
+  </li>
+  <li>
+    设 `a` 是二次非剩余, 定义映射 `f_a(k^2) -= a * k^-2 (mod p)`
+    则 `f_a` 是全体二次剩余到二次非剩余的单射, 从而是双射. 利用 1, 2 的结果,
+    <span class="formula">
+      `-2 -= prod_(k=1)^((p-1)//2) (a-k^2)`
+      `-= prod_(k=1)^((p-1)//2) k^2 (a * k^-2 - 1)`
+      `-= prod_((k/p) = 1) k * prod_((k/p) = -1) (k-1)`
+      `-= (-1)^((p+1)//2) prod_((k/p) = -1) (k-1) (mod p)`.
+    </span>
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/playground.js"></script>

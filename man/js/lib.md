@@ -21,6 +21,11 @@
 - animate.css, velocity, jquery.animate: web 小动画
 - @tweenjs/tween.js: 补间动画
 
+### 3d 建模
+
+- blender
+- autocad (dxf: dwg 的平替)
+
 ### SVG
 
 - raphael: svg 绘图

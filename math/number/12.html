@@ -160,11 +160,7 @@
   极大理想都是素理想. 特别地, 由于<a href="../abstract/6.html#cor-finite-has-inv">有限整环是域</a>, 所以 `R` 有限时, 它的每个素理想都是极大理想.
 </p>
 
-<h3>ED, PID 与 UFD</h3>
-
-<p class="definition">
-  可以进行带余除法的整环称为 <b>Euclid 环 (Euclid Domain)</b>
-</p>
+<h3>主理想整环 PID</h3>
 
 <ol class="definition">
   <b>有限生成理想与主理想</b>
@@ -189,43 +185,13 @@
   <li>幂级数环 `bbb F[[x]]` 是 PID.</li>
 </ol>
 
-<ol class="definition">
-  <b>素元与唯一因子分解</b>
-  设 `R` 为整环, `U(R)` 为 `R` 的单位群 (全体乘法可逆元素构成的群).
-  <li>对于 `a, b in R`, 若存在 `epsi in U(R)` 使得 `a = epsi b`,
-    则称 `a` 与 `b` 相伴, 记为 `a ~ b`.
-  </li>
-  <li>设 `p in R`, `p != 0`, `p !in U(R)`. 若 `p` 在 `R`
-    中只有平凡分解, 即对任意 `a, b in R`,
-    <span class="formula">
-      `p = a b rArr a in U(R) or b in U(R)`,
-    </span>
-    亦即
-    <span class="formula">
-      `p = a b rArr a ~ p or b ~ p`.
-    </span>
-    则 `p` 称为 `R` 中的一个<b>素元</b>. 区别于素理想, 素元是一个元素.
-  </li>
-  <li>整环 `R` 是<b>唯一因子分解整环 (Uniquely Factorization Domain,
-    UFD)</b>, 是指对每个 `a in R`, `a != 0`, `a !in U(R)`,
-    `a` 可以表为有限个素元的乘积:
-    <span class="formula">
-      `a = p_1 cdots p_s`.
-    </span>
-    且不计各因子的次序, 上述分解是唯一的. 换言之, 若又有
-    `a = q_1 cdots q_t`,
-    则 `s = t`, 且适当调整 `q_1, cdots, q_t` 的次序, 可使
-    `p_i ~ q_i`, `i = 1, cdots, s`.
-  </li>
-</ol>
-
 <ol class="property">
   <b>主理想的性质</b>
   设 `a, b in R`, 有
   <li>`(a) sube (b) iff b | a`;</li>
   进一步设 `R` 为整环, 有
   <li>`(a) = (b) iff a ~ b`;</li>
-  <li>`(a) = R iff a in U(R)`;</li>
+  <li>`(a) = R iff a in R^xx`;</li>
 </ol>
 
 <ol class="proof">
@@ -236,11 +202,11 @@
     `b = epsi eta b`. 又 `R` 为整环, 约去 `b` 得
     `epsi eta = 1`, 即 `epsi`, `eta` 互逆, 因此 `a ~ b`.
   </li>
-  <li>`(a) = R` `iff 1 in (a)` `iff (a) = (1)` `iff a ~ 1` `iff a in U(R)`.</li>
+  <li>`(a) = R` `iff 1 in (a)` `iff (a) = (1)` `iff a ~ 1` `iff a in R^xx`.</li>
 </ol>
 
 <p class="definition">
-  <b>PID 上的最大公约数</b>: 任取 `a, b` in `R\\{0}`, 则存在 `d in RR\\{0}`
+  <b>PID 上的最大公约数</b>: 任取 `a, b in R-{0}`, 则存在 `d in RR-{0}`
   使 `(d) = (a) + (b)`.  至多相差一个单位, 这样的 `d` 称为 `a, b`
   的最大公约数, `d = gcd(a, b)`.  由理想的定义, `R` 上成立裴蜀等式:
   存在 `x, y in R` 使
@@ -263,7 +229,7 @@
     = (p)`, 即 `a ~ p or b ~ p`. 故 `p` 是素元.
   </li>
   <li>若存在理想 `(q)` 使得 `(p) sube (q) sube R`, 则 `q | p`;
-    但 `p` 为素元, 只能 `q ~ p` 或 `q in U(R)`;
+    但 `p` 为素元, 只能 `q ~ p` 或 `q in R^xx`;
     前者推出 `(q) = (p)`, 后者推出 `(q) = R`. 故 `(p)` 是极大理想.
   </li>
 </ol>
@@ -278,6 +244,23 @@
   一般地, 域上的多元多项式环是 UFD 而非 PID.
 </p>
 
+<ol class="example">
+  在虚二次域 `QQ(sqrt d)` 的整数环当中, 是 UFD 的只有
+  <span class="formula">
+    `d = -1, -2, -3, -7, -11,`
+    `-19, -43, -67, -163`.
+  </span>
+  上述数字模 4 的结果为 3, 2, 1, 1, 1, 1, 1, 1, 1.
+  <li>
+    `d -= 2, 3 (mod 4)` 时, `QQ(sqrt d)` 的整数环为 `ZZ[sqrt d]`, 它是 PID;
+  </li>
+  <li>
+    而 `d -= 1 (mod 4)` 时它的整数环并不是 `ZZ[sqrt d]`, 而是更大的环`ZZ[(1+sqrt d)/2]`,
+    这时 `ZZ[sqrt d]` 不是整闭整环, 因而不是 UFD.
+  </li>
+  这再次印证上一章的结论: `d lt 0` 时, `ZZ[sqrt d]` 当中只有 `ZZ[sqrt(-1)]`, `ZZ[sqrt(-2)]` 是 UFD.
+</ol>
+
 <ol class="proof">
   事实上由于 `ZZ`, `bbb F[x]` 是 PID 知道 `ZZ[x]`, `bbb F[x, y]` 是 UFD.
   <li>
@@ -287,34 +270,6 @@
     `bbb F[x, y]` 不是 PID: `(x, y)` 不是主理想.
   </li>
 </ol>
-
-<p class="example">
-  Gauss 整环 `ZZ[sqrt(-1)]` 是 PID. 但 `ZZ[sqrt(-5)]`, `ZZ[sqrt(-6)]`
-  等甚至不是 UFD.
-</p>
-
-<p class="example">
-  `n ge 3` 时, `ZZ[sqrt(-n)]` 不是 UFD.
-</p>
-
-<p class="proof">
-  [来自 <a href="https://www.zhihu.com/question/444706799/answer/1732594155" target="_blank">知乎@慎独</a>]
-  当 `n` 是大于 2 的偶数的时候，2 整除 `(sqrt(-n))^2` 但是不会整除
-  `sqrt(-n)`,
-  所以 2 是一个非素的不可约元. UFD 里不可约元都是素的, 所以不是 UFD.
-  当 `n` 是大于 2 的奇数的时候，2 整除 `1+n=(1+sqrt(-n))(1-sqrt(-n))`,
-  同样的 2 是非素的不可约元, 不是 UFD.
-</p>
-
-<p class="remark">
-  当且仅当 `d = -1, -2, -3, -7, -11, -19, -43, -67, -163` 时,
-  虚二次域 `QQ(sqrt d)` 的整数环为 UFD.
-  我们将要了解到, `d -= 2, 3 (mod 4)` 时, `QQ(sqrt d)` 的整数环为 `ZZ[sqrt
-  d]`, 它是 PID;
-  而 `d -= 1 (mod 4)` 时它的整数环为 `ZZ[(1+sqrt d)/2]`, 这时 `ZZ[d]`
-  不是整闭整环, 因而不是 UFD.
-  综上 `d lt 0` 时只有 `ZZ[sqrt(-1)]`, `ZZ[sqrt(-2)]` 是 UFD.
-</p>
 
 <h2>Dedekind 整环</h2>
 

@@ -80,7 +80,7 @@ var tocData = [
           { "value": "1", "label": "整除, 最大公约数, 素数", "date": "2024-06-07" },
           { "value": "2", "label": "同余", "date": "2025-07-01" },
           { "value": "3", "label": "阶与原根", "date": "2025-01-08" },
-          { "value": "4", "label": "二次剩余", "date": "2022-01-09" },
+          { "value": "4", "label": "二次剩余", "date": "2025-07-15" },
           { "value": "5", "label": "不定方程", "date": "2024-12-31" },
           { "value": "6", "label": "积性数论函数", "date": "2024-08-30" },
           { "value": "7", "label": "素数分布", "date": "2022-11-20" },
@@ -767,6 +767,7 @@ var tocData = [
         "label": "数学",
         "children": [
           { "value": "lean.md", "label": "Lean4", "date": "2025-06-28" },
+          { "value": "sympy.md", "label": "Sympy", "date": "2025-07-16" },
         ],
       },
       {

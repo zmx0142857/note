@@ -10,14 +10,6 @@
 
 <p>[来自 冯克勤《代数数论简明讲义》]</p>
 
-<p>本章起进入代数数论的世界.
-  读者可以先回顾一下<a href="../abstract/7.html">域</a>和
-  <a href="../abstract/8.html">Galois 理论</a>的知识.
-  代数数论研究的主要对象是<b>代数数域</b>, 即有理数域 `QQ` 的有限次扩张.
-  任意代数数域均是 `QQ^(a c)` (全体代数数组成的域) 的子域, 从而是 `CC`
-  的子域. 今后, 我们将代数数域简称为数域.
-</p>
-
 <h2>引子: 二平方和问题及其推广</h2>
 
 <h3>问题的提出</h3>
@@ -136,7 +128,7 @@
 <h3>问题的分解</h3>
 
 <ol class="definition">
-  <b>整除与素元</b>
+  <b>整除、素元、不可约元</b>
   在整环 `D` 中,
   <li>称 `a` <b>整除</b> `b`, 记作 `a | b`, 如果存在 `c in D` 使得 `b = a c`.
     特别地, 若存在 `c in D^xx` 使得 `b = a c`, (`a, b` 相差一个单位), 则称 `a, b` <b>相伴</b>,
@@ -146,14 +138,33 @@
     称 `a, b` <b>互素</b>, 如果它们的公因子只有单位.
   </li>
   <li>
-    定义 `p` 为 `D` 的<b>素元</b>或<b>不可约元</b>,
+    定义 `p` 为 `D` 的<b>不可约元</b>,
     如果 `p` 不是零或单位, 且它只有平凡的分解. 即, 若存在 `a, b in D` 使得 `p = a b`
     那么 `a` 或 `b` 是单位.
+  </li>
+  <li>
+    定义 `p` 为 `D` 的<b>素元</b>,
+    如果 `(a, b in D)` `p | a b rArr p | a or p | b`.
   </li>
 </ol>
 
 <p class="corollary">
-  若 `p` 是整环 `D` 的素元, `a in D`, 则
+  素元必不可约.
+</p>
+
+<p class="proof">
+  设 `p` 是素元. 若存在分解 `p = a b`,
+  那么由 `p | a b` 得到 `p | a` 或 `p | b`.
+  若 `p | a`, 则由 `a | p` 得到 `p ~ a`.
+  同理若 `p | b` 也能得到 `p ~ b`.
+</p>
+
+<p class="remark">
+  素元生成的主理想是素理想, 但不可约元和极大理想没有关系, 不可约元甚至不一定是素元.
+</p>
+
+<p class="corollary">
+  若 `p` 是整环 `D` 的不可约元, `a in D`, 则
   `p !| a iff p` 与 `a` 互素.
 </p>
 
@@ -169,9 +180,9 @@
 
 <ol class="corollary">
   在 `ZZ[sqrt d]` 中:
-  <li>若 `|N(z)|` 是 `ZZ` 中的素数, 则 `z` 是 `ZZ[sqrt d]` 的素元.
+  <li>若 `|N(z)|` 是 `ZZ` 中的素数, 则 `z` 是 `ZZ[sqrt d]` 的不可约元.
   </li>
-  <li>设 `p` 是 `ZZ` 中的素数, 则要么它也是 `ZZ[sqrt d]` 的素元, 要么它是两个素元的乘积.</li>
+  <li>设 `p` 是 `ZZ` 中的素数, 则要么它也是 `ZZ[sqrt d]` 的不可约元, 要么它是两个不可约元的乘积.</li>
 </ol>
 
 <ol class="proof">
@@ -180,9 +191,9 @@
     这就是说 `a, b` 有一个是单位.
   </li>
   <li>
-    设 `p` 不是 `ZZ[sqrt d]` 的素元, 则存在 `a, b in ZZ[sqrt d]`, `a, b` 不是单位, 使得
+    不妨设 `p` 在 `ZZ[sqrt d]` 可约, 则存在 `a, b in ZZ[sqrt d]`, `a, b` 不是单位, 使得
     `p = a b`. 由 `p^2 = N(p) = N(a)N(b)` 知道,
-    `N(a) = N(b) = +-p`, 再由 1 知道 `a, b` 都是素元.
+    `N(a) = N(b) = +-p`, 再由 1 知道 `a, b` 都不可约.
   </li>
 </ol>
 
@@ -191,7 +202,7 @@
 <ol class="theorem">
   设 `p` 是素数, 考虑方程 `x^2 - d y^2 = p`:
   <li>
-    若 `d lt 0`, 则 `x^2 - d y^2 = p` 有整数解当且仅当 `p` 在 `ZZ[sqrt d]` 中可约, 即 `p` 不是素元.
+    若 `d lt 0`, 则 `x^2 - d y^2 = p` 有整数解当且仅当 `p` 在 `ZZ[sqrt d]` 中可约.
   </li>
   <li>
     若 `d gt 0`, 且方程 `x^2 - d y^2 = -1` 有解,
@@ -206,7 +217,7 @@
   </li>
   <li>
     反之设 `p` 在 `ZZ[sqrt d]` 中有非平凡分解 `p = a b`,
-    由上一个推论的 2. 知道 `a, b` 均为素元, 且 `N(a) = N(b) = +- p`.
+    由上一个推论的 2. 知道 `a, b` 均不可约, 且 `N(a) = N(b) = +- p`.
     如果 `N(a) = N(b) = p`, 那么已经找到不定方程的解. 如果 `d gt 0`, 可能出现
     `N(a) = N(b) = -p`, 但由假设存在 `z` 满足 `N(z) = -1`,
     因此 `z a` 满足 `N(z a) = p`.
@@ -225,8 +236,8 @@
 </ol>
 
 <ol class="theorem">
-  <b>`p` 可约的必要条件</b>
-  若 `p` 为素数, 方程 `x^2 - d y^2 = p` 有整数解, 则
+  <b>`p` 在 `ZZ[sqrt d]` 可约的必要条件</b>
+  若 `p` 为素数, `p !| d`, 方程 `x^2 - d y^2 = p` 有整数解, 则
   <li>`p !| x`, `p !| y`.</li>
   <li>`d` 是模 `p` 的二次剩余.</li>
 </ol>
@@ -248,30 +259,27 @@
 
 <h3>唯一因子分解</h3>
 
-<ol class="definition">
+<p class="definition">
   <b>唯一因子分解</b>
-  <li>在整环 `D` 中, `a` 不是零或单位, 若存在素元 `p_1, cdots p_s in D`
-    使得 `a = p_1 cdots p_s`, 且这些素元在不计次序的意义下唯一, 则称 `a` 在 `D` 中具有唯一因子分解.
-    若 `D` 中任意不是零或单位的元素都具有唯一因子分解, 则称它是<b>唯一因子分解整环 (UFD)</b>.
-  </li>
-</ol>
+  在整环 `D` 中, `a` 不是零或单位, 若存在不可约元 `p_1, cdots, p_s in D`
+  使得 `a = p_1 cdots p_s`, 且这些不可约元在不计次序的意义下唯一, 则称 `a` 在 `D` 中具有唯一因子分解.
+  若 `D` 中任意不是零或单位的元素都具有唯一因子分解, 则称它是<b>唯一因子分解整环 (UFD)</b>.
+</p>
 
 <ol class="example">
-  <li>设 `D` 是 UFD, `p` 是其中的素元.  若 `p | a b`, 则 `p | a` 或 `p | b`.</li>
-  <li>
-    若 `ZZ[sqrt d]` 是 UFD, `z` 是素元, 则 `z` 必整除某个 `ZZ` 中的素数.
-  </li>
+  <li>UFD 的不可约元都是素元.</li>
+  <li>若 `ZZ[sqrt d]` 是 UFD, `z` 是不可约元, 则 `z` 必整除某个 `ZZ` 中的素数.</li>
 </ol>
 
 <ol class="proof">
   <li>
-    写出 `a, b` 的素分解, 它们合起来就是 `a b` 的素分解.
+    设 `p | a b`. 写出 `a, b` 的素分解, 它们合起来就是 `a b` 的素分解.
     由于 `p | a b`, 所以 `p` 与其中某个素因子相伴.
     如果这个因子来自 `a`, 那么 `p | a`;
     如果它来自 `b`, 则 `p | b`.
   </li>
   <li>
-    在 `ZZ` 中分解 `N(z)`, 则根据引理 `z` 必整除 `N(z)` 的某个素因子.
+    在 `ZZ` 中分解 `N(z)`, 则根据 1, `z` 必整除 `N(z)` 的某个素因子.
   </li>
 </ol>
 
@@ -281,7 +289,7 @@
     `9 = 3*3 = (2+sqrt(-5))(2-sqrt(-5))`,<br>
     `55 = 5*11 = (7+sqrt(-6))(7-sqrt(-6))`.
   </span>
-  可以验证上式等号右边各因子都是素元.
+  可以验证上式等号右边各因子都是不可约元.
 </p>
 
 <p class="proof">
@@ -290,6 +298,19 @@
   对于不是 `ZZ` 中的数, 以 `2+sqrt(-5)` 为例, 假设 `2+sqrt(-5) = a b`,
   `a, b` 不是单位, 则 `N(a), N(b)` 均是 `N(2+sqrt(-5)) = 9` 的真因子, 即 `N(a) = N(b) = 3`.
   但这不可能, 因为 `x^2 + 5 y^2 = 3` 无整数解.
+</p>
+
+<p class="example">
+  `n ge 3` 时, `ZZ[sqrt(-n)]` 不是 UFD.
+</p>
+
+<p class="proof">
+  [来自 <a href="https://www.zhihu.com/question/444706799/answer/1732594155" target="_blank">知乎@慎独</a>]
+  当 `n` 是大于 2 的偶数的时候，2 整除 `(sqrt(-n))^2` 但是不会整除
+  `sqrt(-n)`,
+  所以 2 是一个非素的不可约元. UFD 里不可约元都是素的, 所以不是 UFD.
+  当 `n` 是大于 2 的奇数的时候，2 整除 `1+n=(1+sqrt(-n))(1-sqrt(-n))`,
+  同样的 2 是非素的不可约元, 不是 UFD.
 </p>
 
 <p>下面的定理在 UFD 上解决了我们的问题:</p>
@@ -315,27 +336,31 @@
       `n = a bar a`
       `= p_1 bar p_1 cdots p_s bar p_s`.
     </span>
-    假如其中 `p` 是 `ZZ` 与 `ZZ[sqrt d]` 的公共素数, 那么 `bar p = p`, 因此 `p^2 | n`.
+    假如 `p` 是 `ZZ` 与 `ZZ[sqrt d]` 的公共素数, 那么 `p` 和 `bar p = p` 必然在上式同时出现或不出现,
+    因此 `p` 在 `n` 中的次数为偶数.
   </li>
 </ol>
 
-<h3>高斯整环是 UFD</h3>
+<h3>ED, PID 与 UFD</h3>
+
+<p class="remark">
+  我们已经知道对于一些 `d`, 整环 `ZZ[sqrt d]` 不是 UFD, 而本节将证明 Gauss 整环是 UFD.
+  判定 UFD 的通用套路是
+  Euclid 整环 `rArr` PID `rArr UFD.
+</p>
 
 <ol class="definition">
   <li>若整环 `D` 的每个理想 `J` 都能由单个元素生成, 形如 `(:a:) = { r a: r in D }`,
     则称它为<b>主理想整环 (PID)</b>.
   </li>
-  <li>若整环 `D` 上可以进行带余除法, 则称 `D` 是 <b>Euclid 整环</b>.
-    所谓带余除法是指: 对任意 `a in D`, `b in D - {0}`, 存在 (唯一??) 的 `q, r in D` (商和余数) 满足
+  <li>若整环 `D` 上可以进行带余除法, 则称 `D` 是 <b>Euclid 整环 (ED)</b>.
+    所谓带余除法是指: 对任意 `a in D`, `b in D - {0}`, 存在
+    `q, r in D` (称为商和余数, 不要求唯一) 满足
     <span class="formula">
       `a = q b + r`, `quad 0 le |N(r)| lt |N(b)|`.
     </span>
   </li>
 </ol>
-
-<p class="remark">
-  我们将要说明 `ZZ["i"]` 是 Euclid 整环, 而 Euclid 整环 `rArr` PID `rArr` UFD.
-</p>
 
 <p class="lemma">
   `ZZ["i"]` 是 Euclid 整环.
@@ -345,7 +370,7 @@
   任取 `a, b in ZZ["i"]`, 记 `a//b = x+y"i"`, `x, y in QQ`.
   取 `X, Y in ZZ`, 使得 `|X - x| le 1/2`, `|Y - y| le 1/2`,
   并记 `q = X + Y"i" in ZZ["i"]`. 换言之, `q` 是 `a//b` 的取整近似.
-  现在记 `r = a - b c`, 有
+  现在记 `r = a - b q`, 有
   <span class="formula">
     `N(r) = N(a-b q)`
     `= N(b)N(a//b - q)`
@@ -367,22 +392,22 @@
 </p>
 
 <ol class="lemma">
-  若 `D` 是 PID,
-  <li>`a, b in D` 互素, 则存在 `x, y in D` 使得 `a x + b y = 1`;
+  <li>若 `D` 是 PID, `a, b in D` 互素, 则存在 `x, y in D` 使得 `a x + b y = 1`;
     换言之 `a, b` 生成的理想是 `D` 本身.</li>
-  <li>`p` 是素元, `p | a b`, 则 `p | a` 或 `p | b`.</li>
+  <li>PID 的不可约元都是素元.</li>
 </ol>
 
 <ol class="proof">
   <li>显然 `a, b` 不全为零, 考虑它们生成的理想 `(:a,b:) = {a x+b y: x, y in ZZ["i"]}`.
-    记这个理想的生成元为 `epsi = a x_0 + b y_0`, 则
+    记这个理想的生成元为 `epsi = a x_0 + b y_0`.
+    由于 `a, b` 互素, `epsi` 作为它们的公因子只能是单位, 即 `epsi^-1` 存在. 于是
     <span class="formula">
       `1 = epsi epsi^-1`
       `= a x_0 epsi^-1 + b y_0 epsi^-1`.
     </span>
     从而 `1 in (:a, b:)`.
   </li>
-  <li>若 `p !| a`, 即 `p` 与 `a` 互素, 则存在 `x, y in D` 使得 `a x + p y = 1`,
+  <li>设 `p | a b`. 若 `p !| a`, 即 `p` 与 `a` 互素, 则存在 `x, y in D` 使得 `a x + p y = 1`,
     于是
     <span class="formula">
       `b = 1*b = (a x + p y) b` `= (a b)x + p y b`
@@ -396,14 +421,14 @@
 </p>
 
 <ol class="proof">
-  <li>分解的存在性. 对 `z in ZZ["i"]`, 若它本身是素元, 则分解完毕. 否则 `z = a b`,
+  <li>分解的存在性. 对 `z in ZZ["i"]`, 若它本身不可约, 则分解完毕. 否则 `z = a b`,
     其中 `N(a) lt N(z)`, `N(b) lt N(z)`. 递归地对 `a, b` 分解下去,
     这一过程中范数 `N` 严格递减, 因此不能无限进行下去, 必定在有限步中止.
   </li>
   <li>分解的唯一性.
     设 `z = p_1 cdots p_m = q_1 cdots q_n` 是两个素分解.
     则 `p_1 | q_1 cdots q_n`, 由引理 `p_1` 必定整除 `q_1, cdots, q_n` 中的一个,
-    设为 `q_1`. 但后者是素元, 因此实际上它们相伴: `p_1 ~ q_1`.
+    设为 `q_1`. 但后者不可约, 因此实际上它们相伴: `p_1 ~ q_1`.
     而剩下的乘积仍然是相伴的: `p_2 cdots p_m ~ q_2 cdots q_n`.
     这样做下去可知 `m = n` 且适当交换下标后
     <span class="formula">
@@ -413,7 +438,7 @@
 </ol>
 
 <p class="example">
-  将 `12+9"i"` 分解为高斯素数 (即 `ZZ[i]` 中的素元) 的乘积.
+  将 `12+9"i"` 分解为高斯素数 (即 `ZZ[i]` 中的不可约元) 的乘积.
 </p>
 
 <p class="proof">
@@ -428,12 +453,116 @@
 
 <h2>代数数域</h2>
 
+<p>本章起进入代数数论的世界.
+  读者可以先回顾一下<a href="../abstract/7.html">域</a>和
+  <a href="../abstract/8.html">Galois 理论</a>的知识.
+  代数数论研究的主要对象是<b>代数数域</b>, 即有理数域 `QQ` 的有限次扩张.
+  任意代数数域均是 `QQ^(a c)` (全体代数数组成的域) 的子域, 从而是 `CC`
+  的子域. 今后, 我们将代数数域简称为数域.
+</p>
+
+<h3>单扩张定理</h3>
+
+<ol class="remark">
+  <b>单扩张</b>
+  <li>单扩张的结构.
+    设 `L = K(gamma)` 是域的 `n` 次扩张, 这意味 `gamma` 在 `K`
+    上的最小多项式 `f` 是 `n` 次多项式.
+    `(1, gamma, cdots, gamma^(n-1))` 是 `L` 在 `K` 上的基. 换言之 `L`
+    的每个元素都可以看成 `K` 上一个多项式商掉 `f`.
+    由于我们讨论的数域都是特征为零的, 因此 `f` 可分, 即没有重根.
+    设 `f` 的 `n` 个根为 `gamma_1, gamma_2, cdots, gamma_n in CC`,
+    其中 `gamma_1 = gamma`.
+  </li>
+  <li>
+    根的置换.
+    定义 `n` 个单同态 `L to CC` 如下:
+    <span class="formula">
+      `sigma_i(k) = k`, `quad AA k in K`,<br>
+      `sigma_i(gamma) = gamma_i`.
+    </span>
+    这些单同态称为 `L` 到 `CC` 的 <b>`K`-嵌入</b>, 其特点是,
+    保持 `K` 中元素不动, 但置换 `f` 的 `n` 个根.
+    对任意 `a in L`, `sigma_i(a)` 叫做 `a` 的<b>共轭</b>.
+    于是 `gamma_i = sigma_i(gamma)` 是 `gamma` 的共轭.
+    进一步, `f` 的任意两根都互为共轭. (??)
+  </li>
+  <li>
+    共轭域.
+    每个同态像 `sigma_i(L) = K(gamma_i)` 称为 `L` 的 <b>`K`-共轭域</b>.
+    特别当 `L//K` 是 Galois 扩张时, `L` 包含 `gamma` 的所有共轭元,
+    因此这些 `K`-共轭域都相等 (都等于 `L`). 这时 `sigma_i` 实际给出 `L` 到自身的自同构.
+  </li>
+  <li>
+    独立性.  最小多项式 `f` 是域扩张 `L//K` 的固有属性, 与生成元 `gamma` 的选取无关.
+    `f` 的任一根作为生成元, 都生成同一个域 `L`.
+    由于 `f` 与生成元选取无关, 从而 `f` 的根 `gamma_i`、单同态 `sigma_i`、共轭域 `K(gamma_i)`
+    都与生成元的选取无关, 是域扩张 `L//K` 自身的特性.
+  </li>
+</ol>
+
+<p>好消息是, 数域的扩张均为单扩张.</p>
+
+<p class="theorem">
+  <b>单扩张定理</b>
+  数域的 (代数) 扩张 `L//K` 必是单扩张, 即存在 `gamma in L` 使得 `L = K(gamma)`.
+</p>
+
+<ol class="proof">
+  只需证 `L = K(a, b)` 的情形, 一般情形 `L = K(omega_1, cdots, omega_n)`
+  用归纳法可证.
+  <li>
+    令 `f, g` 分别是 `a, b` 在 `K` 上的最小多项式,
+    它们的根分别是
+    <span class="formula">
+      `a_1, cdots, a_n`,
+      `quad b_1, cdots, b_m`.
+    </span>
+    由于 `f, g` 在 `K[x]` 中不可约, 所以它们无重根.
+  </li>
+  <li>
+    取适当的 `c in K`, 使得 `m n` 个复数 `a_i + c b_j` 两两不同;
+    这是可以做到的, 因为方程
+    `a_i + x b_j = a_k + x b_l` 有唯一解,
+    所有这样的方程的解最多只有有限个, 然而 `K` 中有无穷多元素.
+  </li>
+  <li>
+    又令 `a = a_1`, `b = b_1`, `gamma = a + c b`, 下证 `L = K(gamma)`.<br>
+    令 `h(x) = f(gamma - c x) in K(gamma)[x]`, 有 `h(b) = f(a) = 0`,
+    且 `f(b_j) != 0`, `j = 2, cdots, m`, 因此在 `K(gamma)` 上有
+    `(h(x), g(x)) = x - b`, 这证明了 `b in K(gamma)`, `a = gamma - c b in K(gamma)`.
+    于是 `K(a, b) sube K(gamma)`.<br>
+    显然 `gamma = a + c b in K(a, b)`, 于是 `K(a, b) = K(gamma)`.
+  </li>
+</ol>
+
+<p class="definition">
+  <b>实嵌入与复嵌入</b>
+  令 `K = QQ(gamma)` 为数域的 `n` 次扩张, `f` 为最小多项式,
+  设 `f` 有 `r` 个实根 `gamma_1, gamma_2, cdots, gamma_r`
+  和 `s` 对复根 `beta_1, bar beta_1, cdots, beta_s, bar beta_s`,
+  其中 `r + 2 s = n`.
+  则由 `f` 的实根确定的 `K` 到 `RR` 的嵌入称为 `K` 的<b>实嵌入</b>:
+  <span class="formula">
+    `sigma_i: K to RR`, `quad sigma_i(gamma) = gamma_i`,
+  </span>
+  由复根确定的 `K` 到 `CC` 的嵌入称为 `K` 的<b>复嵌入</b>:
+  <span class="formula">
+    `tau_i: K to CC`, `quad tau_i(gamma) = beta_i`;<br>
+    `bar tau_i: K to CC`, `quad bar tau_i(gamma) = bar beta_i`.
+  </span>
+  如前述, 生成元 `gamma` 的取法可以不同, 但实嵌入与复嵌入的数目 `r`
+  和 `s` 不变, 它们是数域 `K` 本身的性质.
+  特别当 `s = 0` 时, `K` 的全体共轭域均为实域, 这时 `K` 称为<b>全实域</b>;
+  `r = 0` 时, `K` 全体共轭域均为虚域, `K` 称为<b>全虚域</b>.
+</p>
+
 <h3>二次域和分圆域</h3>
 
 <p>这是研究得最多的两类数域, 在我们的下文中也时时见到它们的影子.</p>
 
 <p class="example">
-  <b>二次域</b> 是指 `QQ(sqrt d)`, 其中 `d` 不是平方数.
+  <b>二次域</b> 是指 `QQ(sqrt d)`, 其中 `d` 不含平方因子.
   `d gt 0` 时, 称为实二次域, `d lt 0` 时, 称为虚二次域.
   `QQ(sqrt d)` 中的元素形如 `u = a + b sqrt d`, 显然 `bar u = a - b sqrt d
   in QQ(sqrt d)`, 因此 `QQ(sqrt d)` 是 `QQ` 的二次 Galois 扩张.
@@ -461,75 +590,6 @@
   `zeta_n` 的最小多项式是分圆多项式 `phi_n(x)`, 它的次数是 `varphi(n)`
   (Euler 函数).  又 `QQ(zeta_n)` 是 `x^n-1` 的分裂域, 因此它是 `QQ` 的
   `varphi(n)` 次 Galois 扩张.
-</p>
-
-<h3>单扩张定理</h3>
-
-<ol class="remark">
-  <b>单扩张</b>
-  <li>设 `L = K(gamma)` 是域的 `n` 次扩张, 则 `gamma` 在 `K`
-    上的最小多项式 `f` 是 `n` 次多项式. 由于我们讨论的数域都是特征为零的,
-    因此 `f` 可分, 即没有重根. 设 `f` 的 `n` 个根为 `gamma = gamma_1,
-    gamma_2, cdots, gamma_n in CC`, 它们称为 `gamma` 的 <b>`K`-共轭元</b>.
-  </li>
-  <li>每个共轭元 `gamma_i` 都决定一个单同态 `sigma_i: K to CC`, 其中
-    `sigma_i` 保持 `K` 中的元素不动, 即 `AA a in K`, `sigma_i(a) = a`.
-    这 `n` 个单同态称为 `L` 到 `CC` 的 <b>`K`-嵌入</b>, 每个同态像
-    `sigma_i(L) = K(gamma_i)` 称为 `L` 的 <b>`K`-共轭域</b>.
-    可以证明这些共轭域与生成元 `gamma` 的选取无关, 它们是域扩张 `L//K`
-    自身的特性.
-  </li>
-  <li>特别当 `L//K` 是 Galois 扩张时, 这些 `K`-共轭域都相等 (都等于 `L`).
-  </li>
-</ol>
-
-<p>好消息是, 数域的扩张均为单扩张.</p>
-
-<p class="theorem">
-  <b>单扩张定理</b>
-  数域的扩张 `L//K` 必是单扩张, 即存在 `gamma in L` 使得 `L = K(gamma)`.
-</p>
-
-<p class="proof">
-  只需证 `L = K(a, b)` 的情形, 一般情形 `L = K(omega_1, cdots, omega_n)`
-  用归纳法可证. 令 `f, g` 分别是 `a, b` 在 `K` 上的最小多项式,
-  它们的根分别是
-  <span class="formula">
-    `a = a_1, cdots, a_n`,
-    `quad b = b_1, cdots, b_m`
-  </span>
-  由于 `f, g` 在 `K[x]` 中不可约, 所以它们无重根.
-  考虑有限集合
-  <span class="formula">
-    `S = {(a_i-f_j)/(b_k-b_l)}`,
-  </span>
-  取 `c in Q\\S`, 则 `m n` 个复数 `a_i + c b_j` 两两不同. 我们取 `gamma = a
-  + c b = a_1 + c b_1`, 下证 `L = K(gamma)`.<br>
-  令 `h(x) = f(gamma - c x) in K(gamma)[x]`, 有 `h(b) = f(a) = 0`,
-  且 `f(b_j) != 0`, `j = 2, cdots, m`, 因此在 `K(gamma)` 上有
-  `(h(x), g(x)) = x - b`, 这证明了 `b in K(gamma)`, `a = gamma - c b in K(gamma)`. 于是 `K(a, b) sube K(gamma)`.<br>
-  显然 `gamma = a + c b in K(a, b)`, 于是 `K(a, b) = K(gamma)`.
-</p>
-
-<p class="definition">
-  <b>实嵌入与复嵌入</b>
-  令 `K = QQ(gamma)` 为数域的 `n` 次扩张, `f` 为最小多项式,
-  设 `f` 有 `r` 个实根 `gamma_1, gamma_2, cdots, gamma_r`
-  和 `s` 对复根 `beta_1, bar beta_1, cdots, beta_s, bar beta_s`,
-  其中 `r + 2 s = n`.
-  则由 `f` 的实根确定的 `K` 到 `RR` 的嵌入称为 `K` 的<b>实嵌入</b>:
-  <span class="formula">
-    `sigma_i: K to RR`, `quad sigma_i(gamma) = gamma_i`,
-  </span>
-  由复根确定的 `K` 到 `CC` 的嵌入称为 `K` 的<b>复嵌入</b>:
-  <span class="formula">
-    `tau_i: K to CC`, `quad tau_i(gamma) = beta_i`;<br>
-    `bar tau_i: K to CC`, `quad bar tau_i(gamma) = bar beta_i`.
-  </span>
-  如前述, 生成元 `gamma` 的取法可以不同, 但实嵌入与复嵌入的数目 `r`
-  和 `s` 不变, 它们是数域 `K` 本身的性质.
-  特别当 `s = 0` 时, `K` 的全体共轭域均为实域, 这时 `K` 称为<b>全实域</b>;
-  `r = 0` 时, `K` 全体共轭域均为虚域, `K` 称为<b>全虚域</b>.
 </p>
 
 <ol class="example">
@@ -611,8 +671,7 @@
 </p>
 
 <p class="proof">
-  (??)
-  这是因为, 要求 `a` 在 `L//K` 上的全体共轭元之积,
+  (??) 这是因为, 要求 `a` 在 `L//K` 上的全体共轭元之积,
   可以先求 `a` 在 `L//M` 上的全体共轭元之积——记为 `b`,
   再求 `b` 在 `M//K` 上的全体共轭元之积. 迹的情形类似.
 </p>
@@ -728,11 +787,41 @@
   </li>
 </ol>
 
+<p class="proof">
+  只证 2. 记 `f(x) = x^n + a x + b` 的全部根为 `x_1, cdots, x_n`. 
+  先设 `b != 0`, 于是这些根都不等于零, 得到 `g(x) = b x^n + a x^(n-1) + 1` 的全部根
+  <span class="formula">
+    `x_1^-1, cdots, x_n^-1`.
+  </span>
+  由 Vieta 定理
+  <span class="formula">
+    `sum_i x_i^-1 = -a/b`,
+    `quad prod_i x_i^-1 = (-1)^n/b`.
+  </span>
+  并且其它次数的对称多项式均为 0.  现在计算
+  <span class="formula">
+    `f'(x_i) = n x_i^(n-1) + a`
+    `= -n/x_i (a x_i + b) + a`
+    `= (1-n)a - n b // x_i`,
+  </span>
+  所以
+  <span class="formula align">
+    `prod_i f'(x_i)`<br>
+    `= prod_i ((1-n)a - n b//x_i)`<br>
+    `= (1-n)^n a^n - n b (1-n)^(n-1) a^(n-1) sum_i x_i^-1`
+    `+ (-n b)^n prod_i x_i^-1`<br>
+    `= (1-n)^n a^n + n(1-n)^(n-1)a^n + n^n b^(n-1)`<br>
+    `= (1-n)^(n-1) a^n + n^n b^(n-1)`.
+  </span>
+  再讨论 `b = 0` 的情形, 得出同样的答案.
+</p>
+
 <h2>代数整数</h2>
 
+<h3>代数整数的判别</h3>
+
 <p class="definition">
-  设 `a in CC`. 若存在 `ZZ` 上首一多项式 `f` 满足 `f(a) = 0`,
-  则称 `a` 为<b>代数整数</b>;
+  `ZZ` 上首一多项式 (在 `CC` 中) 的根称为<b>代数整数</b>;
   数域 `K` 中全体代数整数的集合记为 `O_K`.
   由定义知, 若 `L//K` 是域的扩张, 则 `O_L nn K = O_K`.
 </p>
@@ -742,7 +831,7 @@
   历史上正是为了证明此结论, 产生了近世代数中 "模" 的概念.
 </p>
 
-<p class="corollary">
+<p class="example">
   `ZZ` 上首一多项式的有理根必为整数, 因此 `QQ` 中的代数整数必为整数,
   即 `O_QQ = ZZ`.
 </p>
@@ -761,11 +850,10 @@
 </ol>
 
 <ol class="proof">
-  <li>`rArr 2`. 由 `a` 为代数整数知, 存在首一的 `f(x) in ZZ[x]` 使得 `f(a)
-    = 0`.
-    又设 `a` 的最小多项式为 `p(x)`, 则 `p(x) | f(x)`.
-    假设存在正整数 `c` 使 `c p(x) in ZZ[x]`, `c p(x) | f(x)`.
-    注意到 `p` 首一, `f` 在 `ZZ[x]` 上首一, 故 `c = 1`, 即 `p(x) in ZZ[x]`.
+  <li>`rArr 2`. 由 `a` 为代数整数知, 存在首一的 `f(x) in ZZ[x]` 使得 `f(a) = 0`.
+    又设 `a` 的最小多项式为 `p(x) in QQ[x]`, 则 `p(x) | f(x)`.
+    假设存在正整数 `c` 使 `c p(x) in ZZ[x]`, 且 `c p(x) | f(x)`.
+    注意到 `p` 首一, `f` 在 `ZZ[x]` 上首一, 故 `c = 1` (??), 即 `p(x) in ZZ[x]`.
   </li>
   <li>`rArr 3`. 设 `p(x) = x^n + c_(n-1) x^(n-1) + cdots + c_0`
     是 `a` 的最小多项式,
@@ -838,25 +926,30 @@
   特别取 `a in K` 可知: 环 `O_K` 在数域 `K` 中是整闭的.
 </p>
 
-<p class="proof">
-  若 `a` 在 `O_K` 上整, 设
-  <span class="formula">
-    `f(a) = a^m + c_(m-1) a^(m-1) + cdots c_1 a + c_0 = 0`,
-    `quad c_i in O_K`.
-  </span>
-  由于 `c_i` 均为代数整数, 由代数整数的判别法可知 `O_K` 的子环 `R = ZZ[c_1,
-  cdots, c_m]` 的加法群为有限生成:
-  <span class="formula">
-    `R = gamma_1 ZZ + cdots + gamma_s ZZ`.
-  </span>
-  另一方面由 `f(a) = 0` 知 `a^r (r ge 1)` 均可表为 `1, a, cdots, a^(m-1)`
-  的`R`-线性组合. 于是
-  <span class="formula">
-    `R_1 := ZZ[c_1, cdots, c_m, a] = R[a]`
-    `= R + a R + cdots + a^(m-1) R`.
-  </span>
-  即 `R_1` 的加法群也是有限生成的. 由代数整数的判别法知 `a` 是代数整数.
-</p>
+<ol class="proof">
+  <li>
+    若 `a` 在 `O_K` 上整, 设
+    <span class="formula">
+      `f(a) = a^m + c_(m-1) a^(m-1) + cdots c_1 a + c_0 = 0`,
+      `quad c_i in O_K`.
+    </span>
+    由于 `c_i` 均为代数整数, 由代数整数的判别法可知 `O_K` 的子环
+    `R = ZZ[c_1, cdots, c_(m-1)]` 的加法群为有限生成.
+    <br>
+    另一方面由 `f(a) = 0` 知 `a^r (r ge 1)` 均可表为 `1, a, cdots, a^(m-1)`
+    的`R`-线性组合. 于是
+    <span class="formula">
+      `R[a] = R + a R + cdots + a^(m-1) R`.
+    </span>
+    由于 `R` 的加法群是有限生成的, 上式推出 `R[a]` 的加法群也是有限生成的.
+    因此 `a` 是代数整数.
+  </li>
+  <li>
+    现在设 `a in K`, 且 `a` 在 `O_K` 上整.
+    由 1. 知 `a` 是代数整数, 所以 `a in O_K`.
+    这说明 `K - O_K` 中没有数在 `O_K` 上整.
+  </li>
+</ol>
 
 <p class="corollary">
   若 `a` 是代数整数, 则它的每个 `K`-共轭元素也是代数整数.
@@ -867,11 +960,11 @@
   K[x]` 是 `a` 在 `K` 上的最小多项式, 则`g(x) | f(x)`.
   由于 `f` 是 `O_K` 上首一多项式, `g` 是 `K` 上首一多项式且 `g | f`,
   可推出 `g in O_K[x]`.
-  由于 `a` 的 `K`-共轭元素均是 `g` 的根, 从而在 `O_K` 上整; 因此它们都是代数整数.
+  注意 `a` 的 `K`-共轭元素均是 `g` 的根, 从而在 `O_K` 上整; 因此它们都是代数整数.
 </p>
 
 <ol class="example">
-  <b>二次域中的代数整数</b> 考虑 `K = QQ(sqrt d)`, `d` 不是平方数.
+  <b>二次域中的代数整数</b> 考虑 `K = QQ(sqrt d)`, `d` 不含平方因子.
   <li>`d -= 2, 3 (mod 4)` 时, `O_K = ZZ[sqrt d] = ZZ o+ ZZ sqrt d`;</li>
   <li>`d -= 1 (mod 4)` 时, `O_K = ZZ[(1+sqrt d)/2] = ZZ o+ ZZ (1+sqrt d)/2`.</li>
 </ol>
@@ -915,9 +1008,9 @@
   则 `O_K = ZZ[zeta_n]`.
 </p>
 
-<h2>整基</h2>
+<h3>整基与判别式</h3>
 
-<p class="definition">
+<p class="theorem">
   设数域 `K` 是 `QQ` 的 `n` 次扩域, 则 `O_K` 是有限生成的:
   存在 `omega_1, cdots, omega_n in O_K` 使得
   `O_K = omega_1 ZZ o+ cdots o+ omega_n ZZ`.
