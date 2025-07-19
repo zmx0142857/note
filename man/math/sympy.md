@@ -91,11 +91,18 @@ exp(2*I*pi/3).is_algebraic # 是代数数
 
 ## 例题
 
-已知 `f = x**3 - 3*x - 1` 在有理数域上不可约, `a` 是 `f` 的一个根, `b = 3*a**2 + 7*a + 5`.
+1. 已知 `f = x**3 - 3*x - 1` 在有理数域上不可约, `a` 是 `f` 的一个根, `b = 3*a**2 + 7*a + 5`.
 试将 `b**-1` 表示成 `a0 + a1 * a + a2 * a**2` 的形式.
 ```
 a = rootof(x**3 - 3*x - 1, 0) # 多项式的第一个根
 K = QQ.algebraic_field(a) # 扩域
 res = K.from_sympy(1/(3*a**2 + 7*a + 5))
 print(K.to_sympy(res)) # 答案是 (7*a**2 - 26*a + 28)/111, 可以用待定系数手算验证
+```
+
+1. 在有限域 `F_2` 上, `f = x**1024+x+1`, `g = x**4+x+1`, 判断 `g | f` 是否成立
+```
+f = Poly(x**1024+x+1, modulus=2)
+g = Poly(x**4+x+1, modulus=2)
+f % g # Poly(0, x, modulus=2)
 ```

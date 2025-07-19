@@ -33,7 +33,7 @@ var tocData = [
         "value": "linalg",
         "label": "高等代数",
         "children": [
-          { "value": "0", "label": "初等代数", "date": "2024-09-21" },
+          { "value": "0", "label": "初等代数", "date": "2025-07-19" },
           { "value": "1", "label": "矩阵", "date": "2024-12-19" },
           { "value": "2", "label": "行列式", "date": "2024-10-24" },
           { "value": "3", "label": "向量的相关性与线性方程组", "date": "2021-12-14" },

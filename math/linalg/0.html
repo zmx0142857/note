@@ -400,27 +400,6 @@
   的三根. 至此问题化为求解三次方程.
 </p>
 
-<ol class="example">
-  <b>解高次方程的实用策略</b>
-	<li>消去重根. 从 `f(x)` 中约去 `(f(x), f'(x))`,
-		得到最多只含一重根的多项式. 最大公因式可用辗转相除法求.
-	</li>
-	<li>整系数多项式的有理根 (如果存在) 写为最简分数,
-        其分母是首项系数的因子, 分子是常数项的因子.
-		特别地, 首一的整系数多项式, 其有理根只能是整数.
-        证明参考<a href="../number/0.html#the-rational-root">这里</a>.
-	</li>
-  <li><b>Gauss 引理</b> 若 `ZZ` 上的多项式 `f` 在 `QQ` 上可约, 则它在 `ZZ` 上可约.</li>
-	<li>`QQ` 上既约多项式的 Eisenstein 判别法.  令
-    <span class="formula">
-      `f(x) = a x^n + p (c_(n-1)  x^(n-1) + cdots + c_1 x + b)`
-    </span>
-		是次数大于 1 的整系数多项式, `p` 为一素数, 且 `(a, p) = (b, p) = 1`.
-    则 `f` 在 `QQ` 上既约, 即 `f` 不存在有理根. 例如, `x^4 - p` 在 `QQ`
-    上既约.
-	</li>
-</ol>
-
 <p class="example">
   <b>策略1: 两根和等于另外两根和</b>
   解方程 `x^4+6x^3+11x^2+6x-1 = 0`.
@@ -487,6 +466,256 @@
   先解 `y^2 + 8 y - 3465 = 0` 得 `y = 55, -63`;
   再解 `x(x+6) = y` 得 `x = -3+-sqrt(9+y)`, 其中只有 `x=5` 符合题意.
 </p>
+
+<h3>Gauss 引理与 Eisenstein 判别法</h3>
+
+<ol class="remark">
+  <b>解高次方程的实用策略</b>
+  <li>消去重根. 从 `f(x)` 中约去 `(f(x), f'(x))`,
+      得到最多只含一重根的多项式. 最大公因式可用辗转相除法求.
+  </li>
+  <li>Gauss 引理 (见下文).</li>
+  <li>Eisenstein 判别法 (见下文).</li>
+</ol>
+
+<ol class="theorem">
+  <b>Gauss 引理</b>
+  称 `f in ZZ[x]` 是<b>本原多项式</b>, 如果它各系数的最大公约数是 1.
+  <li>两个本原多项式的乘积仍是本原多项式.</li>
+  <li>若 `f in ZZ[x]` 在 `QQ` 上可约, 那么它也在 `ZZ` 上可约.</li>
+  <li>若 `f, g` 都是首一多项式, `f in ZZ[x]`, `g in QQ[x]`, 且 `g | f`, 那么 `g in ZZ[x]`.</li>
+</ol>
+
+<ol class="proof">
+  <li>设 `f, g in ZZ[x]` 是本原多项式, `h = f g`.
+    反设 `h` 不是本原多项式, 则存在素数 `p` 整除它的所有系数.
+    由于 `f, g` 本原, 存在最小的整数 `i, j` 使得 `p !| f_i`, `p !| g_j`.
+    考虑 `h` 的 `i+j` 次系数
+    <span class="formula">
+      `h_(i+j) = sum_(k=0)^(i+j) f_k g_(i+j-k)`,
+    </span>
+    由于所有 `f_k` `(k lt i)` 和 `g_(i+j-k)` `(k gt i)` 都被 `p` 整除, 因此
+    <span class="formula">
+      `h_(i+j) -= f_i g_j (mod p)`.
+    </span>
+    然而 `p !| f_i`, `p !| g_j`, 故 `p !| h_(i+j)`, 与假设矛盾.
+  </li>
+  <li>
+    设 `h in ZZ[x]` 在 `QQ` 上可约, 则存在不为常数的 `f_1, g_1 in QQ[x]` 使得 `h = f_1 g_1`.
+    适当选取有理数 `a, b`, 可使 `f := a f_1 in ZZ[x]` 和 `g := b g_1 in ZZ[x]` 都是本原多项式.
+    由 1. 知, `f g` 也是本原多项式, 因此 `h` 只能是 `f g` 的整数倍, 从而 `h` 在 `ZZ` 上可约.
+  </li>
+  <li>由 2. 知存在 `k in QQ` 使得 `f = k g h`, 其中 `k g in ZZ[x]`, `h in ZZ[x]`.
+    但 `f, g` 首一, 为使 `h` 的首项系数为整数必须有 `k = +-1`. 所以 `g in ZZ[x]`.
+  </li>
+</ol>
+
+<ol class="theorem">
+  设 `f(x) = sum_(k=0)^n f_k x^k in ZZ[x]`.
+  <li><b>有理根由首尾系数决定</b>
+    如果 `c//d` 是 `f` 的有理根, 且为最简分数. 那么
+    `c | f_0`, `d | f_n`, 即分子整除常数项, 分母整除首项系数.
+    <br>
+    推论1: `f` 首一时, 它的有理根只能是整数.
+    <br>
+    推论2: 设 `a, n` 为正整数, 则 `root n a` 不是整数, 就是无理数.
+  </li>
+  <li>
+    <b>Eisenstein 判别法</b>
+    设 `f` 的次数 `n ge 2`, 且存在素数 `p` 整除 `f` 首项系数以外的每个系数, 且 `p^2` 不整除常数项,
+    换言之:
+    <span class="formula">
+      `p !| f_n`,
+      `quad p^2 !| f_0`,
+      `quad p | f_i`
+      `quad (AA i lt n)`,
+    </span>
+    则 `f` 在 `QQ` 上不可约, 更不存在有理根.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    将有理根 `c//d` 代入 `f`:
+    <span class="formula">
+      `sum_(k=0)^n f_k c^k d^(n-k) = 0`.
+    </span>
+    等式两边分别模 `c` 可得
+    <span class="formula">
+      `f_0 d^n -= 0 (mod c)`.
+    </span>
+    但 `(c, d) = 1`, 故 `c | f_0`.
+    同理两边模 `d` 可得 `d | f_n`.
+  </li>
+  <li>先证 `f` 不存在有理根. 假设 `c//d` 是一个有理根 (最简分数),
+    1. 中的等式两边模 `p` 得到 `f_n c^n -= 0 (mod p)`.
+    但已知 `p !| f_n`, 所以 `p | c`.
+    现在等式两边模 `p^2`. 由于 `n ge 2`, 除了常数项外各项均被 `p^2` 整除, 得到
+    <span class="formula">
+      `f_0 d^n -= 0 (mod p^2)`.
+    </span>
+    由于 `c, d` 互素, `p !| d`, 上式推出 `p^2 | f_0`, 矛盾.
+  </li>
+  <li>
+    现在证 `f` 实际上在 `QQ` 中不可约.
+    反设 `f` 可约, 则由 Gauss 引理它也在 `ZZ` 上可约: `f = g h`.
+    其中 `g` 是 `s` 次多项式, `h` 是 `n - s` 次多项式.
+    由 `f_0 = g_0 h_0` 和 `p | f_0`, `p^2 !| f_0` 得到 `p` 能且只能整除 `g_0, h_0` 中的一个.
+    不妨设 `p | g_0`, `p !| h_0`, 那么:
+    <span class="formula">
+      `f_1 = g_0 h_1 + g_1 h_0 -= g_1 h_0 (mod p)`.
+    </span>
+    但 `f_1 -= 0 (mod p)`, 所以 `p | g_1`.
+    一般地, 设 `k le s lt n`, 且对任意 `j lt k` 成立 `p | g_j`, 则
+    <span class="formula">
+      `g_k h_0 = f_k - sum_(j=0)^(k-1) g_j h_(k-j)`
+      `-= 0 (mod p)`.
+    </span>
+    从而 `p | g_k`.
+    由数学归纳法, `p` 整除 `g` 的各项系数, 从而整除 `f` 的各项系数, 这与 `p !| f_n` 矛盾.
+  </li>
+</ol>
+
+<ol class="example">
+  设 `p` 为素数,
+  <li>`n ge 2` 时, 由 Eisenstein 判别法, `x^n +- p` 在 `QQ` 上不可约.</li>
+  <li>`f(x) = (x^p-1)/(x-1)`
+    `= 1 + x + cdots + x^(p-1)` 在 `QQ` 上不可约.</li>
+</ol>
+
+<p class="proof">
+  只证 2. 令 `y = x-1`, 则 `f(x) = ((y+1)^p - 1) // y`,
+  这也是多项式, 且首项系数为 1, 常数项为 `p`, 且中间各项都被 `p` 整除.
+  由 Eisenstein 判别法知道它在 `QQ` 上不可约.
+</p>
+
+<p class="remark">
+  判断 `ZZ` 上多项式不可约的另一个方法是对素数 `p` 取模.
+  如果取模后的多项式不可约, 则原多项式也不可约.
+  这引出下一节的内容.
+</p>
+
+<h3>有限域上的不可约多项式</h3>
+
+<ol class="theorem">
+  <b>有限域上不可约多项式的结构</b>
+  考虑有限域 `bbb F_q`, `q` 为素数幂.
+  用 `Omega_n` 表示 `bbb F_q[x]` 中所有 `n` 次首一不可约多项式的集合.
+  <li>`x^(q^n) - x = prod_(f in Omega_d; d | n) f(x).</li>
+  <li>记 `N(n) = |Omega_n|`, 则 `q^n = sum_(d | n) d N(d)`.</li>
+  <li>`N(n) = 1/n sum_(d | n) q^d mu(n//d)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>首先任意 `f in Omega_d` 的根落在域 `bbb F_(q^d)` 中,
+    满足 `a^(q^d) = a`, 所以 `a` 也是 `F = x^(q^n) - x` 的根.
+    <br>
+    反之若 `a` 是 `F` 的根, 则存在最小正整数 `d` 使得 `a^(q^d) = a`,
+    即 `a in bbb F_(q^d)`, `a` 是某个 `f in Omega_d` 的根.
+    注意 `bbb F_(q^d)` 是 `bbb F_q` 到 `bbb F_(q^n)` 的中间域, 所以扩张次数 `d | n`.
+  </li>
+  <li>利用 1. 将 `x^(q^n) - x` 拆解为不可约多项式的乘积, 然后比较两边次数.</li>
+  <li>利用 Möbius 反演.</li>
+</ol>
+
+<p class="corollary" id="the-fp-irreducible">
+  <b>有限域上判定不可约多项式的 Rabin 判别法</b> [来自群友 stupidpig]
+  设 `p` 为素数, `n` 次多项式 `f(x) in bbb F_p[x]` 不可约当且仅当 `f | x^(p^n) - x`,
+  且对 `n` 的任意素因子 `q` 成立 `gcd(f, x^(p^(n//q)) - x) = 1`.
+  该判别法的时间复杂度是 `O((n log n log p)^2)`.
+</p>
+
+<ol class="proof enum">
+  <li>
+    由公式
+    <span class="formula">
+      `F_n(x) := x^(p^n) - x`
+      `= prod_(g in Omega_d; d | n) g(x)`
+      `= prod_(g in Omega_n) g(x) prod_(g in Omega_d; d | n; d lt n) g(x)`
+      `:= Pi_1 * Pi_2`.
+    </span>
+    知道, `n` 次多项式 `f` 不可约当且仅当它是 `F_n` 的因子, 且与 `Pi_2` 互素.
+    为了使 `gcd(f, Pi_2) = 1`, 只需对 `n` 的每个素因子 `q` 成立
+    <span class="formula">
+      `gcd(f, F_(n//q)) = 1`.
+    </span>
+    这是因为 `F_(n//q)` 由所有次数 `d | (n//q)` 的首一不可约多项式组成,
+    因此事实上 `prod_(q 是素数; q | n) F_(n//q)` 和 `Pi_2` 具有相同的不可约因式,
+    只不过前者的因式有重复而已.
+  </li>
+  <li>
+    <ol>
+      <li>
+        预处理步骤: 枚举 `n` 的素因子花费时间 `O(sqrt n)`, 和后面的计算量相比可以忽略不计.
+      </li>
+      <li>
+        使用快速幂验证同余 `x^(p^n) -= x (mod f)` 需要做 `O(log(p^n)) = O(n log p)` 次多项式乘法和模运算.
+        借助快速 Fourier 变换 (FFT), 多项式乘法和模运算均可以在 `O(n log n)` 次域运算中完成.
+        每次域运算的时间以 `O(log p)` 计算.
+        这一步的总时间是 `O(n^2 log n log^2 p)`.
+      </li>
+      <li>
+        gcd 部分. 先求 `x^(p^(n//q)) mod f` 将它的次数降到 `n` 以内.
+        和第一步一样, 花费时间 `O(n^2 log n log^2 p)`.
+        接下来求两个不超过 `n` 次多项式的 gcd, 需要做 `O(log n)` 次多项式模运算,
+        花费时间 `O(n log^2 n log p)`, 和前一项相比可以忽略不计.
+        由于 gcd 部分要对 `n` 的所有素因子进行, 而 `n` 的素因子个数少于 `log n`,
+        所以 gcd 部分花费时间 `O((n log n log p)^2)`.
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p class="example">
+  <b>区分“有根”与“可约”</b>
+  [来自群友 rei]
+  注意, 如果对 `a = 0, cdots, p-1` 均有 `f(a) != 0`, 只能说明 `f` 在 `bbb F_p` 上没有根,
+  不能说明它不可约. 比如: `x^5 + x + 1` 显然在 `bbb F_2` 上没有根,
+  因为它的常数项为 1, 且系数为 1 的项有奇数个, 即 `f(0) = f(1) = 1`.
+  但是它在 `ZZ` 上可约, 从而在 `bbb F_2` 上也是可约的:
+  <span class="formula">
+    `x^5 + x + 1`
+    `= (x^3 - x^2 + 1)(x^2 + x + 1)`.
+  </span>
+  当然, 若 `f` 的次数 `le 3`, 则此法奏效: `f` 不可约当且仅当它没有根.
+</p>
+
+<ol class="example">
+  [来自群友 幂零群]
+  考虑 `bbb F_2` 上的多项式 `p_N(x) = x^N + x + 1`, `N` 为正整数.
+  手工验证 `N = 1, 2, 3, 4` 时 `p_N` 均不可约.
+  问 `N = 2^n`, `n ge 3` 时, `p_N` 都可约吗?
+  下面给出 `n ge 3` 为奇数以及 `n -= 2 (mod 4)` 时的证明:
+  <li>当 `N = 3n+2` 时, `f = x^2+x+1` 整除 `p_N`.</li>
+  <li>当 `N = 2^n`, `n` 为奇数时, `f = x^2+x+1` 整除 `p_N`.</li>
+  <li>当 `N = 2^n`, `n = 4k+2` 时, `g = x^4+x+1` 整除 `p_N`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    事实上 `f | x^3 - 1`.
+    进一步对任意 `n` 有 `x^3 - 1| x^(3n)-1 = x^(3n)+1`.
+    因此
+    <span class="formula">
+      `p_N -= x^(3n+2) + x^2`
+      `-= x^2(x^(3n) + 1) -= 0 (mod f)`.
+    </span>
+  </li>
+  <li>
+    这是因为 `n` 为奇数时 `2^n -= (-1)^n -= -1 -= 2 (mod 3)`.
+  </li>
+  <li>
+    因为 `x^4 -= x+1 (mod g)`, 所以 `x^16 -= (x+1)^4 = x^4+1 = x (mod g)`.  于是
+    <span class="formula align">
+      `p_N(x)`
+      `= x^(2^(4k+2))+x+1`
+      `= x^(16 * 2^(4k-2)) + x + 1`
+      `-= x^(2^(4k-2)) + x + 1`
+      `(mod g)`.
+    </span>
+    发现每次 2 的指数减少 4, 归纳得到 `p_N(x) -= x^(2^2) + x + 1 -= 0 (mod g)`.
+  </li>
+</ol>
 
 <h2>对称多项式</h2>
 
