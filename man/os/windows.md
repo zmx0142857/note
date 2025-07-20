@@ -50,6 +50,23 @@ ps> Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 
     cmd admin> netsh winhttp import proxy source=ie
 
+## 个性化
+
+用命令行设置深色模式
+
+```sh
+$ reg.exe add HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize /v AppsUseLightTheme /t REG_DWORD /d 0 /f
+```
+
+win10 任务栏图标居中
+
+- 在桌面新建文件夹, 起名为 I could fran
+- 右键任务栏 > 解除锁定任务栏
+- 右键任务栏 > 工具栏 > 选择刚才新建的文件夹
+- 这个文件夹会出现在任务栏最右侧, 用鼠标把它拖动到最左侧
+- 至于任务栏的其它图标, 可以拖动到中间位置
+- 右键任务栏 > 锁定任务栏
+
 ## WSL
 
 [windows subsystem linux](https://learn.microsoft.com/zh-cn/windows/wsl/install-manual)
