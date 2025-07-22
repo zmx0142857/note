@@ -14,8 +14,15 @@ Number.MAX_SAFE_INTEGER === 2**53-1 // true
 ### 位运算
 
 ```js
-value | 0 // 转为 int32
+value | 0 // 向零取整, 转为 int32
+value >> 0 // 转为 int32
 value >>> 0 // 转为 uint32
+```
+
+该用 `Math.floor` 的地方不要偷懒
+```js
+4294967295 | 0 // 坏了, -1
+Math.floor(4294967295) // 正确, 4294967295
 ```
 
 ### string to number
