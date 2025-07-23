@@ -11,3 +11,5 @@
     supportCSSTransform: true,
   }
   ```
+
+- 图表数据显示异常: 数据类型必须是 `Number`, 不可以用 `String`.

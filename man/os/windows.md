@@ -6,14 +6,17 @@ windows 的包管理器, chocolatey 的后继者.
 
 安装: 打开一个普通 powershell 窗口 (不是管理员)
 ```
+ps> [environment]::setEnvironmentVariable('SCOOP','D:\app\scoop','User')
 ps> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ps> Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
+> 最后一个命令也: iwr get.scoop.sh -useb | iex
 
 使用
 
     $ scoop install <package> # 安装软件
     $ scoop list              # 列出已安装软件
+    $ scoop config SCOOP_REPO https://mirrors.ustc.edu.cn/scoop-repo.git # 设置镜像
 
 ## windows terminal + git bash
 
@@ -62,10 +65,16 @@ win10 任务栏图标居中
 
 - 在桌面新建文件夹, 起名为 I could fran
 - 右键任务栏 > 解除锁定任务栏
-- 右键任务栏 > 工具栏 > 选择刚才新建的文件夹
+- 右键任务栏 > 工具栏 > 新建工具栏 > 选择刚才新建的文件夹
 - 这个文件夹会出现在任务栏最右侧, 用鼠标把它拖动到最左侧
 - 至于任务栏的其它图标, 可以拖动到中间位置
 - 右键任务栏 > 锁定任务栏
+
+### 输入法自定义短语
+
+```text
+%APPDATA%\Microsoft\InputMethod\Chs\*.lex
+```
 
 ## WSL
 

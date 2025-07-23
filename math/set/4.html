@@ -806,9 +806,29 @@
   <li>唯一性. 这等价于序数加法的左消去律.</li>
 </ol>
 
+<ol class="definition">
+  <b>规范序列</b>
+  以极限序数 `alpha` 为极限的序列可以有多个, 我们规定其中一个是规范的, 记作 `[alpha]_n`. 它满足
+  <li>`[omega^alpha + beta]_n`
+    `= omega^alpha + [beta]_n`, `beta lt omega^(alpha+1)`.
+    于是 `omega^alpha * (k+1) = omega^alpha * k + [omega^alpha]_n`, `k` 是自然数;
+  </li>
+  <li>`[omega^(alpha+1)]_n = omega^alpha * n`;</li>
+  <li>`[omega^alpha]_n = omega^([alpha]_n)`, `alpha` 为极限序数.</li>
+</ol>
+
+<ol class="example">
+  <li>`[omega]_n = n`, `[omega * 2] = omega + n`, `[omega^2]_n = omega * n`, `[omega^omega] = omega^n`.</li>
+  <li>`[omega^(omega^2 * 2 + omega * 3) * 5]_n`
+    `= omega^(omega^2 * 2 + omega * 3) * 4 + omega^(omega^2 * 2 + omega * 2 + n)`.
+  </li>
+</ol>
+
 <h3>燃烧数与伪燃烧函数*</h3>
 
-<p>[来自 <a href="https://arxiv.org/abs/2003.14342" target="_blank">arxiv</a>]</p>
+<p>[来自 <a href="https://arxiv.org/abs/2003.14342" target="_blank">arxiv</a>,
+<a href="https://www.zhihu.com/question/36464952/answer/2912411355" target="_blank">知乎: 伪燃烧函数</a>,
+<a href="https://zhuanlan.zhihu.com/p/1897263349986726061" target="_blank">知乎: 燃烧数 (续)</a>]</p>
 
 <p class="example">
   <b>伪燃烧函数</b>
@@ -816,7 +836,7 @@
 </p>
 
 <ol class="solution">
-  解答的第一部分, 目标是求出 `f(2)`.
+  第一部分, 目标是求出 `f(2)`.
   <li>`a in [0, 1)` 时,
     <span class="formula">
       `f(a) = f(a-f(a-1))//2` `= f(2a-1)//2`.
@@ -870,8 +890,8 @@
   </li>
 </ol>
 
-<ol class="solution">
-  解答的第二部分, 引入序数.
+<ol class="solution enum">
+  第二部分, 引入序数.
   <li>
     函数 `f` 的突变点是问题的关键, 称为<b>燃烧数</b>. 按从小到大的顺序,
     每个燃烧数 `x` 可赋予一个序数 `alpha = "ord"(x)`, 称为第 `alpha` 个燃烧数.
@@ -898,22 +918,148 @@
     </span>
   </li>
   <li>
-    若 `x` 是燃烧数, 则 `f` 在 `x` 处突变, 根据递归关系, `f` 也在 `x+1` 处突变,
-    即 `x+1` 也是燃烧数.  下证
-    <span class="formula">
-      `"ord"(x+1) = omega^("ord"(x))`.
-    </span>
-    当 `x in [0, 1]` 时命题已经成立;
-    使用超穷递归, 假设命题对一切小于 `"ord"(x)` 的序数成立,
-    若 `"ord"(x) = "ord"(y)^+`, (??)
-    若 `"ord"(x)` 是极限序数, (??)
+    <ol>
+      观察发现:
+      <li>
+        若 `x` 是燃烧数, 则 `x+1` 也是燃烧数, 且
+        <span class="formula">
+          `"ord"(x+1) = omega^("ord"(x))`.
+        </span>
+      </li>
+      <li>设 `alpha` 为极限序数,
+        则对任意 `n`, 规范序列的 `n+1` 项 `[alpha]_(n+1)`
+        对应的燃烧数恰好是 `[alpha]_n` 与 `alpha` 对应燃烧数的中点.
+      </li>
+      <li>`f` 在每个燃烧数处的取值都是 2 的负整数次方, 如果记
+        <span class="formula">
+          `d(alpha) = -log_2 f(x)`, `quad if alpha = "ord"(x)`.
+        </span>
+        于是对每个序数 `alpha`, `d(alpha)` 都取非负整数值, 我们的目标是求
+        `d("ord"(3)) = d(omega^(omega^omega))`.
+      </li>
+      <li>对任意序数 `alpha`, `f` 在 `alpha+1` 处的取值是 `alpha` 处取值的一半,
+        换言之 `d(alpha+1) = d(alpha) + 1`.
+      </li>
+      <li>`n` 为自然数时, 显然 `d(n) = n`.
+        又由 `f(2) = 2^-10` 知道 `d(omega^omega) = 10`.
+      </li>
+      <li>`omega` 的系数每增加 1, `d` 值就增加 1, 换言之
+        `d(omega^alpha * (k+1) + beta) = d(omega^alpha + beta) + k`,
+        `beta lt omega^(alpha)`, `k` 是自然数.
+        例如:
+        <span class="formula">
+          `d(omega) = 3`, `quad d(omega * 2) = 4`, `quad d(omega * n) = n+2`.
+        </span>
+      </li>
+      <li>`omega` 的次数每增加 1, `d` 值就增加 2, 换言之
+        `d(omega^(alpha+k) + beta) = d(omega^alpha + beta) + 2 k`,
+        `beta lt omega^(alpha+1)`, `k` 是自然数.
+        例如:
+        <span class="formula">
+          `d(omega) = 3`, `quad d(omega^2) = 5`, `quad d(omega^n) = 2n+1`.
+        </span>
+      </li>
+    </ol>
   </li>
-  <li>由于 `f` 在每个燃烧数处的取值都是 2 的负整数次方, 我们引入
+  <li>最后, 若 `alpha` 是极限序数, 则由递推关系 `f(x) = f(x-f(x-1))//2` 得
     <span class="formula">
-      `d(alpha) = -log_2 f(x)`, `quad if alpha = "ord"(x)`.
+      `d(omega^alpha) = d(gamma) + 1`,
     </span>
-    于是对每个序数 `alpha`, `d(alpha)` 都取非负整数值, 我们的目标是求
-    `d("ord"(3)) = d(omega^(omega^omega))`.
+    `gamma` 是某个小于 `omega^alpha` 的序数, 且满足
+    <span class="formula">
+      `h(gamma) + 2^(-d(alpha)) = h(omega^alpha)`,
+    </span>
+    其中 `h(alpha)` 表示 `alpha` 对应的燃烧数.
+    根据观察 2, `gamma` 属于 `omega^alpha` 的规范序列.
+    但它具体是哪一项? 设 `h(omega^alpha) - h([omega^alpha]_1) = 2^-s`,
+    那么 `gamma` 是 `d(alpha) - s + 1` 项. 记作
+    <span class="formula">
+      `chi(alpha) = d(alpha) - s + 1`.
+    </span>
+    例如 `alpha = omega^n` 时,
+    <span class="formula">
+      `h(omega^alpha) = 3 - 2^(1-n)`,<br>
+      `[omega^alpha]_k = [omega^(omega^n)]_k`
+      `= omega^(omega^(n-1) * k)`,<br>
+      `h([omega^alpha]_1) = 3 - 2^(2-n)`,<br>
+      `s = n-1`,<br>
+      `chi(alpha) = chi(omega^n)`
+      `= d(omega^n) - (n-1) + 1`
+      `= n+3`.
+    </span>
+    又如 `alpha = omega^omega` 时,
+    <span class="formula">
+      `h(omega^alpha) = 3`,<br>
+      `[omega^alpha]_k = omega^(omega^k)`,<br>
+      `h([omega^alpha]_1) = 2`,<br>
+      `s = 0`,<br>
+      `chi(alpha) = chi(omega^omega)`
+      `= d(omega^omega) - s + 1`
+      `= 11`.
+    </span>
+    一般情况, 我们的公式是
+    <span class="formula">
+      `d(omega^alpha) = d(omega^([alpha]_(chi(alpha)))) + 1`.
+    </span>
+  </li>
+</ol>
+
+<ol class="solution">
+  第三部分, `f(3)` 的计算. 由上一部分知道, 只需求出 `d(omega^(omega^omega))`.
+  <li>`d(omega^(omega^omega))`
+    `= d(omega^(omega^(chi(omega^omega)))) + 1`
+    `= d(omega^(omega^11))+1`.
+  </li>
+  <li>令 `n` 为自然数,
+    `d(omega^(omega^n))`
+    `= d(omega^(omega^(n-1) * chi(omega^n))) + 1`
+    `= d(omega^(omega^(n-1) * (n+3))) + 1`.
+  </li>
+  <li>使用更简单的记号, 只将 `omega` 的指数写出, 上面两式可以写成:
+    <span class="formula">
+      `omega^omega overset(+1)to omega^11`,<br>
+      `omega^n overset(+1)to omega^(n-1) * (n+3)`.
+    </span>
+  </li>
+  <li>继续计算, `chi(omega^(n-1) * (n+3)) = omega^(n-2) * n`, 于是
+    <span class="formula">
+      `omega^(n-1) * (n+3) overset(+1)to omega^(n-1) * (n+2) + omega^(n-2) * n`.
+    </span>
+    如果设 `omega^n` 的系数每减小 1, `d` 值就增长 `c_n`, 那么
+    <span class="formula">
+      `omega^(n-1) * (n+3) overset(+1)to`
+      `omega^(n-1) * (n+2) + omega^(n-2) * n`
+      `overset(+n * c_(n-2))to omega^(n-1) * (n+2)`.
+    </span>
+    由此推出
+    <span class="formula">
+      `c_(n-1) = 1 + n * c_(n-2)`, `quad c_0 = 2`.
+    </span>
+  </li>
+  <li>于是
+    <span class="formula">
+      `omega^n overset(+1)to omega^(n-1) * (n+3)`
+      `overset(+ (n+2) c_(n-1))to omega^(n-1)`.
+    </span>
+    即, `omega` 的次数每减小 1, `d` 值就增长 `1 + (n+2) c_(n-1) = c_n + c_(n-1)`.
+    记 `a_n = d(omega^(omega^n))`, 则
+    <span class="formula">
+      `a_n = c_n + c_(n-1) + a_(n-1)`,
+      `quad a_0 = 3`.
+    </span>
+    这个数列的首项及递推关系已经完全确定, 编程
+<pre>
+c = [2], a = [3]
+for (let i = 1; i &lt;= 11; ++i) {
+  c[i] = 1 + (i+1)*c[i-1]
+  a[i] = c[i] + c[i-1] + a[i-1]
+}
+</pre>
+    得到 `a_11 = 1541023936`,
+    从而 `d(omega^(omega^omega)) = a_11 + 1` `= 1541023937`,
+    <span class="formula">
+      `f(3) = 2^-1541023937`.
+    </span>
   </li>
 </ol>
 

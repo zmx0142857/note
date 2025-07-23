@@ -94,7 +94,7 @@ var tocData = [
         "children": [
           { "value": "2", "label": "集合及其运算", "date": "2025-06-28" },
           { "value": "3", "label": "二元关系与映射", "date": "2024-10-29" },
-          { "value": "4", "label": "自然数与序数", "date": "2024-12-26" },
+          { "value": "4", "label": "自然数与序数", "date": "2025-07-23" },
           { "value": "5", "label": "基数", "date": "2024-09-28" },
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
@@ -755,6 +755,7 @@ var tocData = [
         "children": [
           { "value": "js.md", "label": "JavaScript", "date": "2025-03-18" },
           { "value": "css.md", "label": "CSS", "date": "2025-03-13" },
+          { "value": "npm.md", "label": "NPM", "date": "2025-07-22" },
           { "value": "lib.md", "label": "工具集", "date": "2025-05-25" },
           { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
