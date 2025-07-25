@@ -601,7 +601,7 @@
   <b>有限域上不可约多项式的结构</b>
   考虑有限域 `bbb F_q`, `q` 为素数幂.
   用 `Omega_n` 表示 `bbb F_q[x]` 中所有 `n` 次首一不可约多项式的集合.
-  <li>`x^(q^n) - x = prod_(f in Omega_d; d | n) f(x).</li>
+  <li>`x^(q^n) - x = prod_(f in Omega_d; d | n) f(x)`.</li>
   <li>记 `N(n) = |Omega_n|`, 则 `q^n = sum_(d | n) d N(d)`.</li>
   <li>`N(n) = 1/n sum_(d | n) q^d mu(n//d)`.</li>
 </ol>
@@ -851,33 +851,61 @@
   零多项式当然是初等对称多项式的多项式, 证毕.
 </p>
 
-<p class="algorithm">
+<ol class="algorithm">
   <b>`n` 元对称多项式的标准化</b>
   [来自 <a href="https://www.bilibili.com/video/BV19f4y137mJ" target="_blank">bilibili@凡人忆拾</a>]
-  设 `n` 元 `m` 次对称多项式的变元为 `x_1, cdots, x_n`.
-  用记号 `[k_s, cdots, k_1, k_0]` 表示一个对称求和, 其中有 `k_0`
-  个变元为 `0` 次, `k_1` 个变元为 `1` 次, `cdots`, `k_s` 个变元为 `s` 次,
-  满足
-  <span class="formula">
-    `k_0 + k_1 + cdots + k_s = n`,<br>
-    `0 * k_0 + 1 * k_1 + cdots + s * k_s = m`.
-  </span>
-  比如
-  <span class="formula">
-    `[1, 1, 0, 2] = sum_"sym" x_1^3 x_2^2 x_3^0 x_4^0`,
-  </span>
-  其中 3 次和 2 次的变元各有一个, 0 次的变元有两个.<br>
-  又比如, `n` 元初等对称多项式 `sigma_k = [k, n-k]`.
-</p>
+  <li>
+    <b>记号</b>
+    设 `n` 元 `m` 次对称多项式的变元为 `x_1, cdots, x_n`.
+    用记号 `[k_s, cdots, k_1, k_0]` 表示一个对称求和, 其中有 `k_0`
+    个变元为 `0` 次, `k_1` 个变元为 `1` 次, `cdots`, `k_s` 个变元为 `s` 次,
+    满足
+    <span class="formula">
+      `k_0 + k_1 + cdots + k_s = n`,<br>
+      `0 * k_0 + 1 * k_1 + cdots + s * k_s = m`.
+    </span>
+    比如
+    <span class="formula">
+      `[1, 1, 0, 2] = sum_"sym" x_1^3 x_2^2 x_3^0 x_4^0`,
+    </span>
+    其中 3 次和 2 次的变元各有一个, 0 次的变元有两个.<br>
+    又比如, `n` 元初等对称多项式 `sigma_k = [k, n-k]`,
+    因为它的每一项都是 `k` 个变量的一次方的乘积.
+  </li>
+  <li>
+    <b>乘法法则</b>
+    我们的目标是降低 `f = [color(red)(k_s), cdots, k_0]` 中的最高次方 `k_s`,
+    为此, 将它与另一个多项式比较:
+    <span class="formula">
+      `g = [color(red)(k_s + k_(s-1)), cdots, k_0]`.
+    </span>
+    考虑乘积 `sigma_k * g`, `k = k_s`.
+    一个对称多项式乘上 `sigma_k`, 效果是给它的 `k` 个变元 `x_(i_1), cdots x_(i_k)` 升阶.
+    其中 `i_1, cdots, i_k` 取遍 `1` 到 `n` 的所有组合.
+    假如我们只给 `g` 的 `k` 个最高次变元升阶, 得到的就是多项式 `f`, 因此 `f` 是 `sigma_k * g`
+    的结果的一部分:
+    <span class="formula">
+      `sigma_k * g = f + cdots`.
+    </span>
+    一般地, 假如我们给 `g` 的任意 `k` 个变元升阶, 得到多项式 `h = [a_s, cdots, a_0]`,
+    其中 `a_s le k`, 等号成立当且仅当 `h = f`.
+    则 `h` 在 `sigma_k * g` 中的系数等于 `(a_s;b_s)cdots(a_0;b_0)`.
+    其中 `(a_i; b_i)` 表示在 `h` 的 `a_i` 个次数为 `i` 的变元中, 有 `b_i`
+    个是升阶得到的, 其余的次数原本就等于 `i`, 保持不变.
+    总之
+    <span class="formula">
+      `sigma_k * g = sum (a_s;b_s) cdots (a_0;b_0) [a_s, cdots, a_0]`.
+    </span> 
+    上式对 `g` 的一切可能升阶方案求和.
+  </li>
+</ol>
 
 <p class="example">
   化简 4 元对称式 `-[1, 1, 0, 2] - 2[1, 3, 0] + [2, 1, 1]`.
 </p>
 
 <p class="solution">
-  关于乘法法则: 用 `sigma_k` 乘以一个对称式, 效果是给该对称式中的 `k` 个变元升阶.
-  升阶后所得的对称式前乘一个系数 `(a_s;b_s)cdots(a_0;b_0)`, 该系数和升阶的变元可能的选择数有关:
-  其中 `(a_i;b_i)` 表示结果第 `i` 阶的 `a_i` 个变元中, 有 `b_i` 个是升阶得到的.<br>
+  应用乘法法则:<br>
   `[1, 1, 0, 2]`
   `= sigma_1[2, 0, 2] - (color(red)2;0)(color(red)1;1)(color(red)1;0)[2, 1, 1]`
   `= sigma_1[2, 0, 2] - [2, 1, 1]`,<br>
@@ -892,9 +920,78 @@
   将上面材料代入化简得
   <span class="formula">
     `-[1, 1, 0, 2] - 2[1, 3, 0] + [2, 1, 1]`
-    `= -sigma_1 sigma_2^2 - 10 sigma_1 sigma_4 + 2 sigma_2^2 sigma_3`.
+    `= 2σ_1^2 σ_3 - σ_1 σ_2^2 - 10 σ_1 σ_4 + 2 σ_2 σ_3`.
   </span>
 </p>
+
+<div class="playground" type="textarea" value="-[1,1,0,2]-2*[1,3,0]+[2,1,1]">
+<p>注: 下面程序的结果需要做一些多项式运算将它化简.</p>
+<script type="text">
+// 枚举多重集 s 的 k-子集
+// 例: [2,2] 的 2-子集有 3 个: [2,0],[1,1],[0,2]
+// [1,2,3] 的 3-子集有 6 个: [0,0,3],[0,1,2],[0,2,1],[1,0,2],[1,1,1],[1,2,0]
+var submultisets = (s, k) => {
+  const n = s.length
+  const res = []
+  const buf = []
+  const dfs = (depth, k) => {
+    if (depth === n && k === 0) return res.push(buf.slice())
+    for (let i = 0; i <= k && i <= s[depth]; ++i) {
+      buf[depth] = i
+      dfs(depth+1, k-i)
+    }
+  }
+  dfs(0, k)
+  return res
+}
+
+// 组合数 n 选 k
+var comb = (n, k) => {
+  k = Math.min(k, n-k)
+  let res = 1
+  for (let i = 1; i <= k; ++i) {
+    res *= (n - i + 1) / i
+  }
+  return res
+}
+
+// 对称多项式的标准化
+// 注意先反转再传入
+var stdsym = (p, { paren = true, reverse = true, sym = 's' } = {}) => {
+  p = p.slice()
+  if (reverse) p = p.reverse()
+  const n = p.reduce((x, y) => x + y, 0) // 变元数
+  if (p.length <= 2) return p[1] ? sym + p[1] : '1'
+  const k = p[p.length-1]
+  p[p.length-2] += k
+  p.pop()
+  const res = [[sym, k, '*', stdsym(p, { paren: true, reverse: false, sym })].join('')]
+  submultisets(p, k).forEach(s => {
+    const a = p.slice()
+    let coef = 1
+    if (s[s.length-1] === k) return // 排除转化前的多项式
+    s.forEach((v, i) => {
+      if (v > 0) {
+        a[i] -= v
+        a[i+1] = (a[i+1] || 0) + v
+      }
+      if (i > 0) coef *= comb(a[i], s[i-1])
+    })
+    // console.log(coef, a, s)
+    res.push([coef, '*', stdsym(a, { paren: true, reverse: false, sym })].join(''))
+  })
+  if (paren) return '(' + res.join(' - ') + ')'
+  return res.join(' - ')
+}
+
+module.exports = function (str) {
+  return str.replace(/\[.*?\]/g, ($0) => {
+    const p = Playground.parse($0)
+    return stdsym(p)
+  })
+}
+</script>
+</div>
 
 <h3>Newton-Girard 公式</h3>
 
@@ -1702,5 +1799,6 @@ var asciimath = {
 }
 </script>
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>

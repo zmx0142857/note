@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>矩阵数值算法</title>
+    <title>矩阵与线性方程组</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
@@ -43,6 +43,7 @@ var round = (x, digits) => {
       `quad i = n-1, cdots, 1`.
     </span>
   </li>
+  时间复杂度: `O(n^3)`.
 </ol>
 
 <div class="playground" type="textarea" value="[
@@ -130,6 +131,47 @@ module.exports = function (str) {
 module.exports = function (str) {
   const mat = Playground.parse(str)
   return new Mat(mat).solve({ verbose: true }).toString(6)
+}
+</script>
+</div>
+
+<ol class="algorithm">
+  <b>追赶法解三对角方程组</b> `bm (A x) = bm b`, 其中
+  <span class="formula">
+    `bm A = [d_1, u_1;
+    l_1, d_2, u_2;
+    , ddots, ddots, ddots;
+    ,, l_(n-1), d_(n-1), u_(n-1);
+    ,,, l_(n-1), d_n]`.
+  </span>
+  而且 `bm A` 是行对角占优的, 即 `|d_i|` 大于同一行其它元素的绝对值之和.
+  追赶法步骤如下:
+  <li>追: 对于 `i = 2...n`, 第 `i` 行加上 `i-1` 行的合适倍数, 将矩阵化为上三角形.</li>
+  <li>赶: 对于 `i = n-1...1`, 将第 `i+1` 个变量的值代入第 `i` 行的方程, 解出第 `i` 个变量.</li>
+  时间复杂度 `O(n)`.
+</ol>
+
+<div class="playground" type="textarea" value="{
+  d: [0.6, ...new Array(10).fill(1)],
+  u: new Array(10).fill(-0.6),
+  l: new Array(10).fill(-0.4),
+  b: new Array(11).fill(1),
+}">
+<script type="text">
+module.exports = function chase (str) {
+  const { d, u, l, b } = Playground.parse(str)
+  const n = d.length
+  for (let i = 1; i < n; ++i) {
+    const k = l[i-1] / d[i-1]
+    d[i] -= k * u[i-1]
+    b[i] -= k * b[i-1]
+  }
+  b[n-1] /= d[n-1]
+  for (let i = n-2; i >= 0; --i) {
+    b[i] -= b[i+1] * u[i]
+    b[i] /= d[i]
+  }
+  return b.map(v => round(v, 6))
 }
 </script>
 </div>

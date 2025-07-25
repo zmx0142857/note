@@ -33,7 +33,7 @@ var tocData = [
         "value": "linalg",
         "label": "高等代数",
         "children": [
-          { "value": "0", "label": "初等代数", "date": "2025-07-19" },
+          { "value": "0", "label": "初等代数", "date": "2025-07-25" },
           { "value": "1", "label": "矩阵", "date": "2024-12-19" },
           { "value": "2", "label": "行列式", "date": "2024-10-24" },
           { "value": "3", "label": "向量的相关性与线性方程组", "date": "2021-12-14" },
@@ -126,7 +126,7 @@ var tocData = [
         "label": "概率论",
         "children": [
           { "value": "1", "label": "事件与概率" },
-          { "value": "2", "label": "随机变量", "date": "2024-09-04" },
+          { "value": "2", "label": "随机变量", "date": "2025-07-25" },
           { "value": "4", "label": "极限定理", "date": "2021-12-14" },
           { "value": "5", "label": "常用分布" }
         ]
@@ -145,7 +145,7 @@ var tocData = [
         "children": [
           { "value": "2", "label": "插值与样条", "date": "2024-12-30" },
           { "value": "5", "label": "线性方程组" },
-          { "value": "6", "label": "矩阵数值算法", "date": "2025-07-08" },
+          { "value": "6", "label": "矩阵与线性方程组", "date": "2025-07-25" },
           { "value": "7", "label": "非线性方程数值解法" },
           { "value": "8", "label": "常微分方程数值解法" },
           { "value": "9", "label": "偏微分方程的 Ritz-Galerkin 方法" }

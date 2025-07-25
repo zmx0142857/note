@@ -1,5 +1,12 @@
 # python 虚拟环境解决方案
 
+## pip
+
+```sh
+$ pip config set global.cache-dir /d/app/py/pip-cache # 缓存管理
+$ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple # 清华镜像
+```
+
 ## venv
 
 python 自带的虚拟环境解决方案. 只有 create, activate, deactivate 等简单功能, 无法更换 python 版本
