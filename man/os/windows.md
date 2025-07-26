@@ -16,7 +16,8 @@ ps> Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 
     $ scoop install <package> # 安装软件
     $ scoop list              # 列出已安装软件
-    $ scoop config SCOOP_REPO https://mirrors.ustc.edu.cn/scoop-repo.git # 设置镜像
+    $ scoop config SCOOP_REPO https://gitee.com/scoop-bucket/scoop # 设置镜像
+    $ scoop config SCOOP_REPO https://github.com/ScoopInstaller/Scoop # 恢复官方镜像
 
 ## windows terminal + git bash
 

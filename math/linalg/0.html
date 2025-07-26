@@ -589,13 +589,152 @@
   由 Eisenstein 判别法知道它在 `QQ` 上不可约.
 </p>
 
+<h3>数域上的不可约多项式</h3>
+
+<p>本节讨论数域 `K supe QQ` 上的多项式.</p>
+
+<ol class="example">
+  通常, `K` 上多项式可约, 不代表它一定有根. 但有两种情况, 可约一定有根:
+  <li>对于 2 次或 3 次多项式, 可约一定有根.</li>
+  <li>对于 `K` 上的多项式 `f(x) = x^p - a`, 可约一定有根, `p` 是素数.</li>
+</ol>
+
+<p class="proof">
+  只证 2.
+  任取 `f` 的一个根 `u in CC`, 则
+  <span class="formula">
+    `f(x) = prod_(k=0)^(p-1) (x - u zeta_p^k)`,
+    `quad zeta_p = "e"^(2 pi "i"//p)`,
+  </span>
+  现在设 `g` 是 `f` 的非平凡因式, 次数为 `n`, 则 `(n, p) = 1`.
+  考虑 `g` 的常数项 `g_0 = u^n zeta_p^m`, 其中 `m in ZZ`,
+  于是 `g_0^p = u^(p n) = a^n`.
+  但 `(n, p) = 1`, 所以存在 `x, y in ZZ` 使得 `n x + p y = 1`, 故
+  <span class="formula">
+    `(g_0^x * a^y)^p`
+    `= g_0^(p x) * a^(p y)`
+    `= a^(n x + p y)`
+    `= a`.
+  </span>
+  这说明 `g_0^x * a^y in K` 是 `f` 的根.
+</p>
+
+<p class="remark">
+  我们称 `x^n = a` 是纯方程. 上例说明, 数域上的 `p` 次纯方程无根则一定不可约.
+  例如 `x^5 - 4` 在 `QQ` 上不可约.
+</p>
+
+<p class="proposition">
+  数域 `K` 中 `n` 次非零多项式最多有 `n` 个根 (含重数).
+</p>
+
+<p class="proof">
+  对 `n` 归纳. `n = 0` 时命题成立.
+  设命题对 `n-1` 次非零多项式成立, 考虑 `n` 次多项式 `f`.
+  若 `f` 在 `K` 中无根, 命题成立; 否则任取一根 `alpha`, 由因式定理
+  `f(x) = (x-alpha) g(x)`, `g(x)` 是 `n-1` 次多项式, 由归纳假设最多有 `n-1` 个根,
+  于是 `f` 最多有 `n` 个根.
+</p>
+
+<ol class="proposition">
+  <li>设 `f, g in K[x]` 有公共根 `alpha`, 且 `g` 不可约, 则 `g | f`, 从而 `g` 的所有根都是 `f` 的根.</li>
+  <li>设 `f in K[x]` 有一个根 `alpha`, 则存在不可约多项式 `g`, 使得 `alpha` 也是 `g` 的根.</li>
+</ol>
+
+<ol class="proof">
+  <li>由因式定理知道 `(f, g) != 1`, 但 `g` 不可约, 因此 `(f, g) = g` (只相差一个常数), 即 `g | f`.</li>
+  <li>记 `K[x]` 中全体以 `alpha` 为根的多项式集合为 `T`, 则 `f in T`, `T != O/`.
+    `T` 中存在最小次数的多项式 `g`, `g` 必不可约, 否则
+    `g = u v`, `u, v` 当中必有一个以 `alpha` 为根, 且次数小于 `g`, 与 `g` 的取法矛盾.
+  </li>
+</ol>
+
+<p class="proposition">
+  数域上的不可约多项式无重根.
+</p>
+
+<p class="proof">
+  假设 `a` 是 `f` 的重根, 那么 `a` 也是 `f'` 的根, 由于 `f` 不可约, 立即得到 `f | f'`.
+  而 `"deg"(f') lt "deg"(f)`, 推出 `f' = 0`. `f` 不是常数, 而导数 `f' = 0`,
+  这在特征为零的域上是不可能的.
+</p>
+
+<ol class="lemma">
+  <b>仍不可约引理</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/29537121160" target="_blank">知乎@IURT</a>]
+  <li>设 `f, g` 是 `K` 上的不可约多项式, 则它们无重根.
+    记 `alpha_i`, `i = 1, cdots, n` 是 `g` 的所有根.
+    若 `f` 在扩域 `K(alpha_1)` 上可约, 记
+    <span class="formula">
+      `f(x) = u(x, alpha_1) v(x, alpha_1)`,
+      `quad u, v in K[x, y]`.
+    </span>
+    则 `f` 在每个扩域 `K(alpha_i)` 上都可约, 且有
+    <span class="formula">
+      `f(x) = u(x, alpha_i) v(x, alpha_i)`,
+      `quad i = 1, cdots, n`.
+    </span>
+  </li>
+  <li>假设同 1. 特别当 `f` 的次数 `p` 是素数时, `p` 必整除 `g` 的次数 `n`.</li>
+  <li><b>仍不可约引理</b>
+    设 `f` 是 `K` 上的素数次不可约多项式,
+    `g` 是 `K` 上次数小于 `f` 的多项式, 那么在添加 `g` 的任一根得到的扩域 `K(alpha)` 上, `f` 仍不可约.
+    例如, 设 `f` 是 `p` 次不可约多项式, 那么在添加 `p` 次单位根得到的扩域 `K(zeta_p)` 上 `f` 仍不可约.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>固定一个有理数 `q in QQ sube K`, 定义
+    <span class="formula">
+      `h(x) = f(q) - u(q, x) v(q, x) in K[x]`,
+    </span>
+    由已知, `h(alpha_1) = 0`.
+    但 `alpha_1` 也是不可约多项式 `g in K[x]` 的根, 这意味 `g | h`, 从而 `g` 的所有根都是 `h` 的根:
+    <span class="formula">
+      `h(alpha_i) = f(q) - u(q, alpha_i) v(q, alpha_i) = 0`.
+    </span>
+    上式对任意有理数 `q` 都成立, 这意味多项式
+    <span class="formula">
+      `f(x) - u(x, alpha_i) v(x, alpha_i) in K(alpha_i)[x]`
+    </span>
+    有无数个根, 从而只能是零多项式. 这就证明了 `f` 在 `K(alpha_i)` 上可约, 且
+    <span class="formula">
+      `f(x) = u(x, alpha_i) v(x, alpha_i)`.
+    </span>
+  </li>
+  <li>将 `n` 个等式
+    <span class="formula">
+      `f(x) = u(x, alpha_i) v(x, alpha_i)`, `quad i = 1, cdots, n`
+    </span>
+    相乘得到
+    <span class="formula">
+      `f(x)^n = prod_(i=1)^n u(x, alpha_i) prod_(i=1)^n v(x, alpha_i)`
+      `:= U(x) V(x)`.
+    </span>
+    `U, V` 均是扩域 `L = K(alpha_1, cdots, alpha_n)` 上的多项式,
+    且各次项系数是关于 `alpha_i` 的对称多项式.
+    这意味着 `U, V` 的系数能用 `g` 的系数表出, 但 `g in K[x]`, 所以 `U, V in K[x]`.
+    注意 `f` 在 `K` 上不可约, 所以, 至多相差一个常数, 有
+    <span class="formula">
+      `U(x) = f(x)^a`, `quad V(x) = f(x)^b`.
+    </span>
+    检查上式的次数, 设 `deg u(x, alpha_i) = l`, 则 `deg U(x) = n l`,
+    另一方面 `deg f(x)^a = p a`, 所以 `n l = p a`.
+    注意 `l lt p`, 所以 `p | n`.
+  </li>
+  <li>我们知道, 对于 `g` 和它的根 `alpha`, 存在一个 `g` 的不可约因式 `g_1`,
+    使得 `alpha` 也是 `g_1` 的根, 而 `g_1` 的次数仍小于 `f` 的次数.
+    假设 `f` 在 `K(alpha)` 上可约, 由 2. 知道 `p` 整除 `g_1` 的次数, 这是不可能的.
+  </li>
+</ol>
+
+<h3>有限域上的不可约多项式</h3>
+
 <p class="remark">
   判断 `ZZ` 上多项式不可约的另一个方法是对素数 `p` 取模.
   如果取模后的多项式不可约, 则原多项式也不可约.
-  这引出下一节的内容.
+  这引出有限域上的多项式理论.
 </p>
-
-<h3>有限域上的不可约多项式</h3>
 
 <ol class="theorem">
   <b>有限域上不可约多项式的结构</b>
@@ -1350,6 +1489,164 @@ module.exports = function (str) {
 
 <p>由于一般的五次多项式的 Galois 群不可解, 故一般五次方程无根式解.</p>
 
+<p>下面的定理给出根式可解的一个必要条件:</p>
+
+<p class="theorem">
+  <b>Kronecker 定理</b>
+  [来自 <a href="https://zhuanlan.zhihu.com/p/29537121160" target="_blank">知乎@IURT</a>]
+  设奇素数次不可约多项式 `f in QQ[x]` 根式可解, 则要么它仅有一个实根, 要么所有根都是实根.
+</p>
+
+<ol class="proof">
+  <li>
+    由于 `f` 根式可解, 存在域链
+    <span class="formula">
+      `QQ sube bbb F_1 cdots sube bbb F_n`,
+    </span>
+    使得 `bbb F_n` 包含 `f` 的所有根. 其中每个扩张 `bbb F_i // bbb F_(i-1)` 都是单根式扩张,
+    不妨设它们都是添加素数次方根得到的扩张, 即 `bbb F_i = bbb F_(i-1)(alpha_i)`,
+    `alpha_i` 是 `f_i(x) = x^(p_i) - c_i in bbb F_(i-1)` 的一个根.
+  </li>
+  <li>
+    接下来对域链提出一些要求.
+    首先, 由“仍不可约引理”, `f` 在添加 `p` 次单位根的域 `E_(-1) = QQ(zeta_p)` 上仍不可约,
+    `p` 是 `f` 的次数.
+    <br>
+    其次, 为了保证 `bbb F_i // bbb F_(i-1)` 是<b>正规扩张</b>, 即 `bbb F_i` 包含 `f_i` 的所有根,
+    我们事先把所有 `p_i` 次单位根添加进来, 记
+    <span class="formula">
+      `E_0 = E_(-1)(zeta_(p_1), cdots, zeta_(p_n))`
+    </span>
+    接下来, 对 `i ge 1`, 记 `E_i = E_(i-1)(alpha_i, bar alpha_i)`.
+    得到新的域链
+    <span class="formula">
+      `E_(-1) sube E_0 sube E_1 sube cdots sube E_n`.
+    </span>
+    显然 `E_n supe bbb F_n`, 所以它包含 `f` 的所有根.
+    必定在某一步扩张中, `f` 由不可约变为可约: 设它在 `E_(i-1)` 不可约, `E_i` 可约.
+  </li>
+  <li>
+    分两种情况: (1) 若 `f` 在 `E_(i-1)(alpha_i)` 可约, 则记 `K = E_(i-1)`, `L = E_(i-1)(alpha_i)`.
+    (2) 否则, 考虑中间域 `M = E_(i-1)(alpha_i bar alpha_i)`, 若 `f` 在 `M`
+    上可约, 则记 `K = E_(i-1)`, `L = M`; 否则 `K = M`, `L = E_i`.
+    总之在任何一种情况, 都有: `f` 在 `K` 上不可约, 在扩域 `L = K(lambda_1)` 上可约,
+    这里 `lambda_1` 是 `g(x) = x^q - c in K[x]` 的一个根, `q` 为素数.
+    (我们把形如 `x^n = a` 的方程称为纯方程, 相应的多项式称为纯方程多项式).
+  </li>
+  <li>
+    下证 `g` 在 `K` 上不可约, 这是因为它有一个根 `lambda_1 !in K`, 而 `q`
+    次单位根 `zeta_q in E_0 sube K`,
+    所以 `g` 的所有根都不属于 `K`. 我们知道, 纯方程多项式可约则必有根, 现在 `g`
+    在 `K` 上没有根, 于是它在 `K` 上不可约.
+  </li>
+  <li>注意 `f`, `g` 在 `K` 上不可约,
+    但 `f` 在添加一个 `g` 的根的扩域 `L = K(lambda_1)` 上可约,
+    由“仍不可约引理”, 我们得到两个结论:
+    (1) `p` 整除 `g` 的次数 `q`. 但它们均为素数, 所以 `p = q`.
+    (2) `f` 在每个扩域 `K(lambda_i)` 上都可约, `lambda_i` 是 `g` 的 `p` 个不同的根.
+    由于 `p` 次单位根 `zeta_p in E_(-1) sube K`, 所以这些 `K(lambda_i)` 都等于 `L`.
+  </li>
+  <li>
+    下证 `L` 含有 `f` 的全部 `p` 个根.
+    设 `varphi(x, lambda_1)` 是 `f` 在 `L` 上的一个不可约因式, `varphi in K[x, y]`.
+    用“仍不可约引理”的同样思路, 可以证明: `varphi(x, lambda_i)` 都在 `L` 上不可约, 且两两不等.
+    于是 `prod_(i=1)^p varphi(x, lambda_i)` 整除 `f`.
+    但 `f` 的次数是 `p`, 因此 `varphi(x, lambda_i)` 就是 `f` 的全部一次因式.
+  </li>
+  <li>需要指出, 数域 `K` 是<b>复共轭封闭</b>的, 即对任意 `k in K` 有 `bar k in K`.
+    事实上, `E_(-1) = QQ(zeta_p)` 是复共轭封闭的, 因为 `bar zeta_p = zeta_p^(p-1) in E_(-1)`.
+    同理 `E_0 = E_(-1)(zeta_(p_1), cdots, zeta_(p_n))` 也是复共轭封闭的.
+    一般地, 若域 `bbb F` 复共轭封闭, 而 `lambda !in bbb F` 是纯方程 `x^n = c` 的根, `c in bbb F`,
+    则扩域 `bbb F(lambda, bar lambda)` 也复共轭封闭.
+    从而由 `K` 的构造过程知道它是复共轭封闭的.
+  </li>
+  <li>
+    由于 `f` 是奇数次实系数多项式, 必有一实根, 记为 `omega`.
+    下面对 `g(x) = x^p - c` 的常数项 `c` 分类讨论:
+    当 `c in RR` 时, `g` 也是奇数次实系数多项式, 取 `g` 的一个实根 `lambda`, 于是 `L = K(lambda)`.
+    由于 `omega in L`, 有
+    <span class="formula">
+      `omega = sum_(i=0)^(p-1) k_i lambda^i`,
+      `quad k_i in K`.
+    </span>
+    于是
+    <span class="formula">
+      `0 = omega - bar omega = sum_(i=0)^(p-1) (k_i - bar k_i) lambda^i`.
+    </span>
+    根据 `K` 的共轭封闭性, 系数 `k_i - bar k_i in K`.
+    这说明 `lambda` 是 `K` 上一个次数小于 `p` 的多项式的根. 但 `g`
+    是不可约多项式, 是 `lambda` 在 `K` 上的最小多项式. 这说明上式右端是零多项式,
+    `k_i = bar k_i`, 即所有 `k_i` 都是实数.
+    现在考察 `f` 的其它根. 由于 `x - omega` 是 `f` 的一次因式, 且
+    <span class="formula">
+      `varphi(x, lambda)`
+      `= x - omega`
+      `= x - sum_(i=0)^(p-1) k_i lambda^i`.
+    </span>
+    所以 `f` 的其它一次因式为
+    <span class="formula">
+      `varphi(x, lambda_j)`
+      `= x - omega_j`
+      `= x - sum_(i=0)^(p-1) k_i lambda_j^i`.
+    </span>
+    因此
+    <span class="formula">
+      `omega_j = sum k_i lambda_j^i`
+      `= sum k_i lambda^i zeta_p^(j i)`,<br>
+      `bar omega_j = sum k_i lambda^i zeta_p^(-j i)`
+      `= omega_(p-j)`.
+    </span>
+    这就是说 `omega_j` 与 `omega_(p-j)` 互为共轭复数. 因为它们不相等, 所以它们不是实数.
+    综上在 `c in RR` 的情况下, `f` 有一个实根, `(p-1)//2` 对共轭复根.
+  </li>
+  <li>
+    最后, 设 `c !in RR`. 我们转而考虑多项式 `g_1(x) = x^p - c bar c in K[x]`
+    和扩域 `K sube M_1 sube L_1`, 其中
+    <span class="formula">
+      `M_1 = K(lambda bar lambda)`,<br>
+      `L_1 = M_1(lambda) = K(lambda bar lambda, lambda)`,<br>
+      `lambda` 是 `g(x) = x^p - c` 的任一根.
+    </span>
+    显然 `L_1 supe L = K(lambda)`, 所以 `f` 在 `L_1` 上可约.
+    如果 `f` 在 `M_1` 上可约, 那么 `K` 与 `M_1` 之间只相差 `g_1` 的一个实根 `lambda bar lambda`,
+    化为讨论过的情况 `c in RR`.
+    <br>
+    现在设 `f` 在 `M_1` 上不可约. 好消息是, `g` 也在 `M_1` 上不可约.
+    和前面一样, 只需验证它的根 `lambda !in M_1`:
+    假如 `lambda in M_1`, 则 `L_1 = M_1`, 但 `f` 在 `M_1` 上不可约, 在 `L_1` 上可约, 推出矛盾.
+  </li>
+  <li>回到 `f` 的根的表达式
+    <span class="formula">
+      `omega = sum k_i lambda^i`,<br>
+      `omega_j = sum k_i lambda_j^i`,<br>
+      `bar omega_j = sum bar k_i bar lambda_j^i`,
+      `quad k_i in M_1`;
+    </span>
+    我们要证明 `bar omega_j = omega_j`.
+    利用 `omega` 是实根, `bar omega = omega`, 于是
+    <span class="formula">
+      `sum (k_i lambda^i - bar k_i bar lambda^i) = 0`.
+    </span>
+    记 `Lambda = lambda bar lambda`, 上式两边同乘 `lambda^(p-1)` 得到
+    <span class="formula">
+      `sum (k_i lambda^(i+p-1) - bar k_i Lambda^i lambda^(p-1-i)) = 0`.
+    </span>
+    考查上式系数, 由于 `M_1` 复共轭封闭, `k_i, bar k_i in M_1`, 又 `Lambda in M_1`,
+    从而上式表明, `lambda` 是 `M_1` 上某个 `2(p-1)` 次多项式 `h` 的根.
+    由于 `lambda` 也是 `M_1` 上不可约多项式 `g` 的根, 所以 `g | h`, 从而 `g` 的所有根
+    `lambda_j = lambda zeta_p^j` 都是 `h` 的根, 得到
+    <span class="formula">
+      `sum (k_i lambda_j^(i+p-1) - bar k_i Lambda^i lambda_j^(p-1-i)) = 0`.
+    </span>
+    注意 `lambda_j bar lambda_j = Lambda`, 上式两边同除以 `lambda_j^(p-1)` 得到
+    <span class="formula">
+      `sum (k_i lambda_j^i - bar k_i bar lambda_j^i) = 0`.
+    </span>
+    于是 `omega_j = bar omega_j`.
+    这意味 `c !in RR` 时, `f` 的所有根都是实数, 从而我们证明了 Kronecker 定理.
+  </li>
+</ol>
+
 <p class="example">
   <b>五次方程的 Bring-Jerrard 标准形</b> `x^5 +- x + k = 0`.
   一般地, `n` 次方程可以化简消去 `n-1`, `n-2`, `n-3` 次项.
@@ -1498,33 +1795,33 @@ module.exports = function (str) {
 		不是零多项式, 因此可以设 `g(0) = b != 0`.
 	</li>
 	<li>
-		由多项式函数的连续性知, 存在 `delta gt 0`,
-    对任意 `|Delta z| lt delta` 有
-		<span class="formula">
-			`|g(Delta z) - b|`
-			`= |g(Delta z) - g(0)| lt |b|//2`.
-		</span>
-		令 `0 lt t lt min{1, delta^m |b//a|}`,
-    又取 `Delta z in CC` 满足 `t = -Delta z^m b//a`
-    (注意在复数域中总是可以开 `m` 次方), 则
-    <span class="formula">
-			`|Delta z^m b| = t |a| lt delta^m |b|`
-      `rArr |Delta z| lt delta`,<br/>
-			`a + Delta z^m b`
-			`= (1 + Delta z^m b // a) a`
-			`= (1-t) a`.
-		</span>
-		记 `z_1 = z_0 + Delta z`, 于是
-		<span class="formula align">
-      `quad |f(z_1)|`
-			`= |f(z_0) + Delta z^m g(Delta z)|`
-			`= |a + Delta z^m b + Delta z^m g(Delta z) - Delta z^m b|`
-			`le |a + Delta z^m b| + |Delta z|^m |g(Delta z) - b|`
-			`lt (1-t) |a| + |Delta z|^m |b|//2`
-			`= (1-t) |a| + t/2 |a|`
-			`= (1-t/2) |a| lt |a| = |f(z_0)|`.
-		</span>
-		定理证毕.
+      由多项式函数的连续性知, 存在 `delta gt 0`,
+      对任意 `|Delta z| lt delta` 有
+      <span class="formula">
+        `|g(Delta z) - b|`
+        `= |g(Delta z) - g(0)| lt |b|//2`.
+      </span>
+      令 `0 lt t lt min{1, delta^m |b//a|}`,
+      又取 `Delta z in CC` 满足 `t = -Delta z^m b//a`
+      (注意在复数域中总是可以开 `m` 次方), 则
+      <span class="formula">
+        `|Delta z^m b| = t |a| lt delta^m |b|`
+        `rArr |Delta z| lt delta`,<br/>
+        `a + Delta z^m b`
+        `= (1 + Delta z^m b // a) a`
+        `= (1-t) a`.
+      </span>
+      记 `z_1 = z_0 + Delta z`, 于是
+      <span class="formula align">
+        `|f(z_1)|`
+        `= |f(z_0) + Delta z^m g(Delta z)|`<br>
+        `= |a + Delta z^m b + Delta z^m g(Delta z) - Delta z^m b|`<br>
+        `le |a + Delta z^m b| + |Delta z|^m |g(Delta z) - b|`<br>
+        `lt (1-t) |a| + |Delta z|^m |b|//2`<br>
+        `= (1-t) |a| + t/2 |a|`<br>
+        `= (1-t/2) |a| lt |a| = |f(z_0)|`.
+      </span>
+      定理证毕.
 	</li>
 </ol>
 
