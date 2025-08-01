@@ -290,9 +290,8 @@ module.exports = function (str) {
   设 `p, q` 为不同的奇素数, 则
   <span class="formula">
     `(p/q)(q/p) = (-1)^((p-1)/2 (q-1)/2)`
+    `= {-1, if p -= q -= 3 (mod 4); 1, otherwise:}`
   </span>
-  注意到 `(p-1)//2` 是奇数当且仅当 `p -= 3 (mod 4)`,
-  上式说明: `(p/q)` 与 `(q/p)` 符号相反当且仅当 `p, q` 都是 `4n+3` 型素数.
 </p>
 
 <p class="proof">
@@ -303,6 +302,10 @@ module.exports = function (str) {
   其中 `S + T` 恰好为矩形 `(0, 0) - (p//2, q//2)` 内部的格点数
   (由于 `p, q` 互素, 该矩形的对角线上没有格点).
   于是 `S + T = (p-1)/2 (q-1)/2`.
+  <br>
+  注意到 `(p-1)//2` 是奇数当且仅当 `p -= 3 (mod 4)`,
+  所以 `(-1)^((p-1)/2 (q-1)/2) = -1` 当且仅当 `p, q`
+  都是 `4n+3` 型素数.
 </p>
 
 <p class="theorem">

@@ -18,8 +18,8 @@
 </ol>
 
 <p class="remark">
-  我们大胆地作一个「理想」的假定——
-  以下总假定 `R` 为交换幺环.
+  以下, 我们总假定 `R` 为<b>交换幺环</b>, 且我们提到的理想默认都是<b>非零</b>的.
+  很“理想”的假定!
 </p>
 
 <ol class="definition">
@@ -97,16 +97,16 @@
   <li>`m ZZ supe n ZZ iff m | n`.</li>
   <li>
     <span class="formula">
-      `(m ZZ) (n ZZ) = (m n) ZZ`;<br>
-      `m ZZ nn n ZZ = [m, n] ZZ` (最小公倍数);<br>
-      `m ZZ + n ZZ = (m, n) ZZ` (最大公因数).
+      `(m ZZ) (n ZZ) = (m n) ZZ` (理想的积 `darr` 数的乘积);<br>
+      `m ZZ + n ZZ = (m, n) ZZ` (理想的和 `darr` 最大公因数).
+      `m ZZ nn n ZZ = [m, n] ZZ` (理想的交 `darr` 最小公倍数);<br>
     </span>
     于是理想 `m ZZ`, `n ZZ` 互素当且仅当整数 `m, n` 互素.
   </li>
 </ol>
 
 <ol class="proof">
-  <li>显然 `{0}` 是 `ZZ` 的理想. 设 `A` 是 `ZZ` 的非零理想, 取非零元素
+  <li>设 `A` 是 `ZZ` 的理想, 取非零元素
   `a in A`, 则 `-a in A`. 这指出 `A` 中存在正整数.
   设 `n` 是 `A` 中最小正整数, 由吸收性质知道 `n ZZ sube A`.
   另一方面, 任取 `b = n q + r in A`, `q in ZZ`, `0 le r lt n`;
@@ -117,13 +117,9 @@
 <h3>素理想与极大理想</h3>
 
 <ol class="definition">
-  设 `A` 是环 `R` 的理想, `A != R`,
-  <li>若不存在理想 `B` 满足 `A sub B sub R`, 则称 `A` 为<b>极大理想</b>;
-  </li>
-  <li>若 `AA a, b in R`, `a b in A rArr a in A or b in A`,
-    则称 `A` 为<b>素理想</b>.
-  </li>
-  整环的零理想都是素理想.
+  设 `A` 是环 `R` 的理想, `A != R`, `A != {0}`.
+  <li>若不存在理想 `B` 满足 `A sub B sub R`, 则称 `A` 为<b>极大理想</b>;</li>
+  <li>若 `AA a, b in R`, `a b in A rArr a in A or b in A`, 则称 `A` 为<b>素理想</b>.</li>
 </ol>
 
 <ol class="example">
@@ -216,19 +212,20 @@
 </p>
 
 <p class="proposition">
-  <b>PID 中非零素理想都是极大理想</b>
-  设 `R` 为 PID, `(p)` 是它的非零素理想. 则 `p` 是素元, 进而
-  `(p)` 是极大理想.
+  PID 中素理想都是极大理想.
 </p>
 
 <ol class="proof">
+  设 `R` 为 PID, `(p)` 是它的素理想.
   <li>
+    先证 `p` 是素元.
     若 `p = a b`, `a, b in R`, 则 `a b in (p)`. 由 `(p)` 为素理想知道 `a in
     (p) or b in (p)`.
     另一方面由 `p = a b` 有 `p in (a), p in (b)`, 综上有 `(a) = (p) or (b)
     = (p)`, 即 `a ~ p or b ~ p`. 故 `p` 是素元.
   </li>
-  <li>若存在理想 `(q)` 使得 `(p) sube (q) sube R`, 则 `q | p`;
+  <li>再证 `(p)` 极大.
+    若存在理想 `(q)` 使得 `(p) sube (q) sube R`, 则 `q | p`;
     但 `p` 为素元, 只能 `q ~ p` 或 `q in R^xx`;
     前者推出 `(q) = (p)`, 后者推出 `(q) = R`. 故 `(p)` 是极大理想.
   </li>
@@ -243,6 +240,16 @@
   `ZZ[x]`, `bbb F[x, y]` 是 UFD, 但均不是 PID.
   一般地, 域上的多元多项式环是 UFD 而非 PID.
 </p>
+
+<ol class="proof">
+  事实上由于 `ZZ`, `bbb F[x]` 是 PID 知道 `ZZ[x]`, `bbb F[x, y]` 是 UFD.
+  <li>
+    `ZZ[x]` 不是 PID: `(2, x)` 不是主理想.
+  </li>
+  <li>
+    `bbb F[x, y]` 不是 PID: `(x, y)` 不是主理想.
+  </li>
+</ol>
 
 <ol class="example">
   在虚二次域 `QQ(sqrt d)` 的整数环当中, 是 UFD 的只有
@@ -261,16 +268,6 @@
   这再次印证上一章的结论: `d lt 0` 时, `ZZ[sqrt d]` 当中只有 `ZZ[sqrt(-1)]`, `ZZ[sqrt(-2)]` 是 UFD.
 </ol>
 
-<ol class="proof">
-  事实上由于 `ZZ`, `bbb F[x]` 是 PID 知道 `ZZ[x]`, `bbb F[x, y]` 是 UFD.
-  <li>
-    `ZZ[x]` 不是 PID: `(2, x)` 不是主理想.
-  </li>
-  <li>
-    `bbb F[x, y]` 不是 PID: `(x, y)` 不是主理想.
-  </li>
-</ol>
-
 <h2>Dedekind 整环</h2>
 
 <h3>理想的唯一因子分解定理</h3>
@@ -285,7 +282,7 @@
 
 <p class="box">
   <b>理想的唯一因子分解定理</b>
-  数域 `K` 的整数环 `O_K` 中每个非零理想都可以分解为有限个非零素理想的乘积,
+  数域 `K` 的整数环 `O_K` 中每个理想都可以分解为有限个素理想的乘积,
   且不计素因子的次序, 该分解是唯一的.
 </p>
 
@@ -294,9 +291,8 @@
 <ol class="definition">
   满足下列性质的整环 `D` 称为 <b>Dedekind 整环</b>:
   <li>`D` 为 Noether 整环, 即它的每个理想都是有限生成的: `A = a_1 D + cdots + a_n D`;</li>
-  <li>`D` 是整闭的, 即若 `a` 是 `D` 的分式域中元素, 且 `a` 在 `D` 上整, 则
-    `a in D`;</li>
-  <li>`D` 的非零素理想都是极大理想.</li>
+  <li>`D` 是整闭的, 即若 `a` 是 `D` 的分式域中元素, 且 `a` 在 `D` 上整, 则 `a in D`;</li>
+  <li>`D` 的素理想都是极大理想.</li>
 </ol>
 
 <ol class="property">
@@ -336,7 +332,7 @@
 
 <p class="theorem">
   整环 `D` 是 Dedekind
-  整环当且仅当它的每个非零理想都可以分解为有限个非零素理想的乘积,
+  整环当且仅当它的每个理想都可以分解为有限个素理想的乘积,
   且不计素因子的次序, 该分解是唯一的.
 </p>
 
@@ -355,7 +351,7 @@
     与 `M in S` 矛盾. 因此 `S = O/`.
   </li>
   <li>分解的唯一性.
-    设有两组非零素理想的乘积相等 `P_1 cdots P_r = Q_1 cdots Q_s`,
+    设有两组素理想的乘积相等 `P_1 cdots P_r = Q_1 cdots Q_s`,
     则由 Dedekind 整环的性质 3, `P_1 sube Q_1 cdots Q_s`,
     `P_1` 必包含 `Q_1, cdots, Q_s` 中的一个.
     不妨设 `P_1 supe Q_1`, 由 Dedekind 整环的定义, `P_1`, `Q_1`
@@ -374,11 +370,12 @@
 </p>
 
 <ol class="lemma">
-  设 `O_K` 为数域 `K` 的整数环, `A` 为 `O_K` 的非零素理想, `n = [K: QQ]`.
+  设 `O_K` 为数域 `K` 的整数环, `A` 为 `O_K` 的非零理想, `n = [K: QQ]`.
   <li>`A` 的加法群是有限生成的:
     <span class="formula">
       `A = a_1 ZZ o+ cdots o+ a_n ZZ`,
     </span>
+    这里的 `a_1, cdots, a_n` 称为 `A` 的 `ZZ`-基.
     从而 `A` 作为理想也是有限生成的:
     <span class="formula">
       `A = a_1 O_K + cdots + a_n O_K`.
@@ -425,8 +422,8 @@
   <li>`O_K` 是 Noether 环: 由引理的 1. 可知.
   </li>
   <li>`O_K` 是整闭的: 参见上一章.</li>
-  <li>`O_K` 的非零素理想 `P` 是极大理想:
-    由 `P` 为 `O_K` 的非零素理想可知 `O_K//P` 为整环, 又由引理知 `O_K//P`
+  <li>`O_K` 的素理想 `P` 是极大理想:
+    由 `P` 为 `O_K` 的素理想可知 `O_K//P` 为整环, 又由引理知 `O_K//P`
     有限.  但熟知有限整环是域, 所以 `O_K//P` 是域, `P` 为 `O_K` 的极大理想.
   </li>
 </ol>
@@ -458,9 +455,194 @@
   Dedekind 整环 `and` UFD `rArr` PID.
 </p>
 
-<h3>素理想分解的例子</h3>
+<h2>素理想分解</h2>
+
+<p class="definition">
+  <b>理想的范</b>
+  设 `K` 为数域, `A` 是 `O_K` 的非零理想, 由前面的引理知道, `O_K//A` 是有限环,
+  把元素个数 `|O_K//A|` 称为理想 `A` 的<b>范</b>, 记为 `N_K(A)`.
+  数域 `K` 明确时省略下标.
+</p>
+
+<ol class="property">
+  数域 `K` 中,
+  <li>对任意两个理想有 `N(A B) = N(A) N(B)`.</li>
+  <li>任取理想 `A` 的一组 `ZZ`-基 `a_1, cdots, a_n`, 则有
+    <span class="formula">
+      `d(a_1, cdots, a_n)`
+      `= N(A)^2 d(K)`.
+    </span>
+  </li>
+  <li>主理想的范等于生成元的范的绝对值, 即 `N((a)) = |N(a)|`.
+    例如, 对于 `ZZ` 的理想 `n ZZ` 有 `N_QQ(n ZZ) = |n|`.
+  </li>
+  <li>设 `w_1, cdots, w_n` 为 `O_K` 的整基, `a_1, cdots, a_n` 是理想 `A` 的 `ZZ`-基, 且
+    `(a_1, cdots, a_n)^(sf T) = M (w_1, cdots, w_n)^(sf T)`, 则 `N(A) = |det(M)|`.
+  </li>
+</ol>
+
+<ol class="definition">
+  <b>素理想分解</b>
+  设 `L//K` 是数域的 `n` 次扩张, `P` 是 `O_K` 的素理想.
+  我们的基本问题是: <b>扩充理想</b> `P O_L` 如何分解为素理想的乘积
+  <span class="formula">
+    `P O_L = prod_(i=1)^g P_i^(e_i)`,
+    `quad e_i ge 1`.
+  </span>
+  规定一些术语:
+  <li>`e_i = e(P_i//P)` 称为 `P_i` 的<b>分歧指数 (ramification index)</b>.</li>
+  <li>域的扩张次数 `f_i = f(P_i//P) = [O_L//P_i : O_K//P]` 称为 `P_i` 的<b>剩余类域次数 (residue field degree)</b>.</li>
+  <li>若存在 `e_i gt 1`, 则称 `P_i` 是 `O_L` 的分歧素理想, 并且称 `P` 在数域 `L` 中<b>分歧 (ramified)</b>.</li>
+  <li>若 `g = 1`, `e_1 = n`, 此时 `P O_L = P_1^n`, 称 `P` 在 `L` 中<b>完全分歧</b>.</li>
+  <li>若 `g = n`, 且所有 `e_i` 都等于 `1`, 此时 `P O_L` 是 `n` 个不同素理想的乘积, 称 `P` 在 `L` 中<b>完全分裂</b>.</li>
+  <li>若 `g = 1`, `e_1 = 1`, 此时 `P O_L` 已经是 `O_L` 的素理想, 称 `P` 在 `L` 中<b>惰性</b>.</li>
+</ol>
+
+<p class="definition">
+  设 `L//K` 是数域的 `n` 次扩张, `P` 是 `O_K` 的素理想, `Q` 是 `O_L` 的素理想.
+  如果 `Q | P O_L`, 我们也说 `Q` 是 `P` 的素因子, 简记为 `Q | P`.
+</p>
+
+<ol class="property">
+  设 `L//K` 是数域的 `n` 次扩张,
+  <li>若 `P` 是 `O_K` 的素理想, 则 `P O_L` 是 `O_L` 中包含集合 `P` 的最小理想.</li>
+  <li>若 `O_K` 的素理想 `P` 整除素数 `p`, 则 `O_K//P` 是特征为 `p` 的有限域.</li>
+  <li>
+    若 `Q` 是 `O_L` 的素理想,
+    则 `Q nn O_K` 是 `O_K` 的素理想.
+    同构意义下 `O_K // (Q nn O_K)` 是 `O_L // Q` 的子域, 它们均为有限域.</li>
+  <li>若 `P, Q` 分别是 `O_K`, `O_L` 的素理想, 则
+    `Q | P iff Q supe P iff P = Q nn O_K`.
+  </li>
+  <li>考虑 `P O_L` 在 `L` 中的素理想分解, `e_i, f_i` 定义同上, 则
+    `sum_(i=1)^g e_i f_i = n`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>显然它是理想: `P O_L O_L sube P O_L`.
+    又设 `P'` 是 `O_L` 中包含 `P` 的理想,
+    根据定义, 对任意 `p_i in P`, `l_i in O_L`, 有限和 `sum p_i l_i in P'`,
+    所以 `P O_L sube P'`.
+  </li>
+  <li></li>
+  <li>考虑环同态
+    <span class="formula">
+      `varphi: O_K to O_L//Q`,<br>
+      `x mapsto x + Q`.
+    </span>
+    于是 `P := "ker" varphi = Q nn O_K` 是 `O_K` 的理想,
+    根据环同态基本定理, `O_K // P` 同构于 `O_L // Q` 的子环.
+    但 `O_L // Q` 为有限域 (代数整数环商掉素理想是有限域),
+    从而 `O_K // P` 是有限整环, 必为域;
+    这也指出 `P` 是 `O_K` 的素理想.
+  </li>
+  <li>这是因为一方面
+    <span class="formula">
+      `Q | P`
+      `iff Q | P O_L`
+      `iff Q supe P O_L`
+      `iff Q supe P`.
+    </span>
+    另一方面, 若 `P = Q nn O_K` 显然 `Q supe P`; 反之若 `Q supe P`,
+    则 `Q nn O_K supe P nn O_K = P`.
+    但 `Q nn O_K` 和 `P` 均为 `O_K` 的极大理想, 所以它们相等.
+  </li>
+  <li>
+    只证 `K = QQ` 的情形. 这时 `P` 为素数 `p` 生成的主理想.
+    数域 `L` 是 `QQ` 的 `n` 次扩张.
+    考虑理想的范 `N(P O_L) = N(p) = p^n`.
+    另一方面 `N(P O_L)` `= N(prod P_i^(e_i))` `= prod N(P_i)^(e_i)`.
+    由于 `O_L // P_i` 是 `ZZ // p ZZ` 的 `f_i` 次扩域, 所以
+    <span class="formula">
+      `N(P_i) = |O_L//P_i|`
+      `= |ZZ//p ZZ|^(f_i)`
+      `= p^(f_i)`.
+    </span>
+    于是得到
+    <span class="formula">
+      `p^n = N(P O_L)`
+      `= prod p^(e_i f_i)`
+      `= p^(sum e_i f_i)`,
+    </span>
+    即得结论.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>素理想分解的一般方法</b>
+  设 `L//K` 是数域的 `n` 次扩张, `L = K(alpha)`, `f` 是 `alpha` 在 `K` 上的最小多项式.
+  <li>`O_K[alpha]` 是 `O_L` 的子环, 并且加法商群 `O_L//O_K[alpha]` 是有限群.
+    记这个群的阶为 `m`.
+  </li>
+  <li>
+    考虑 `O_K` 的素理想 `P`.
+    若 `P !| m`, 则 `P` 在 `O_L` 中的分解可以归结于 `f` 在有限域 `O_K//P` 上的因式分解:
+    <span class="formula">
+      `f(x) -= prod p_i(x)^(e_i) (mod P)`.
+    </span>
+    其中每个 `p_i(x)` 是 `O_K/P [x]` 中两两不同的首一不可约多项式.
+    那么 `P` 在 `O_L` 的素理想分解为:
+    <span class="formula">
+      `P O_L = prod P_i^(e_i)`,
+    </span>
+    其中 `P_i = (P, p_i(alpha))` 是由 `P` 和 `p_i(alpha)` 生成的 `O_L` 的素理想,
+    且 `f_i = "deg" p_i(x)`.
+  </li>
+  <li>`O_K` 中满足 `P | m` 的素理想只有有限个.
+    特别当 `O_L = O_K[alpha]` 时, `m = 1`, 必有 `P !| m`.
+  </li>
+</ol>
 
 <p class="example">
+  <b>二次域的理想分解</b>
+  设 `K = QQ(sqrt d)`, 其中 `d in ZZ` 无平方因子. 任取素数 `p in ZZ`, 则 `p O_K` 的分解情况如下:
+</p>
+
+<table>
+  <tr>
+    <th>情况</th>
+    <th>`p O_K` 的分解</th>
+    <th>理想的范</th>
+  </tr>
+  <tr>
+    <td>`p | d(K)`</td>
+    <td>完全分歧: `P^2`</td>
+    <td>`N(P) = p`</td>
+  </tr>
+  <tr>
+    <td>`p !| d(K)`, `(d/p) = 1`</td>
+    <td>完全分裂: `P_1 P_2`</td>
+    <td>`N(P_1) = N(P_2) = p`</td>
+  </tr>
+  <tr>
+    <td>`p !| d(K)`, `(d/p) = -1`</td>
+    <td>惰性: `P`</td>
+    <td>`N(P) = p^2`</td>
+  </tr>
+</table>
+
+<p class="example">
+  <b>分圆域的理想分解</b>
+  设 `K = QQ(zeta_n)`, 正整数 `n ge 3`, 且 `n !-= 2 (mod 4)`.
+  任取素数 `p in ZZ`, 记 `n = p^l m`, `p !| m`. 则 `p O_K` 的素理想分解中每个素因子的分歧指数都相等,
+  换言之
+  <span class="formula">
+    `p O_K = (prod_(i=1)^g P_i)^e`,<br>
+    `e = varphi(p^l)`, `quad f = "ord"_m p`, `quad g = varphi(m)//f`.
+  </span>
+  这里 `f` 是满足 `p^f -= 1 (mod m)` 的最小正整数.
+  验证: 扩张次数等于
+  <span class="formula">
+    `sum_(i=1)^g e_i f_i`
+    `= varphi(p^l) f g`
+    `= varphi(p^l) varphi(m)`
+    `= varphi(n)`.
+  </span>
+</p>
+
+<p class="theorem">
+  (Dedekind) 素数 `p` 在数域 `K` 中分歧当且仅当 `p | d(K)`.
 </p>
 
 <script src="../../js/note.js"></script>

@@ -84,8 +84,8 @@ var tocData = [
           { "value": "5", "label": "不定方程", "date": "2024-12-31" },
           { "value": "6", "label": "积性数论函数", "date": "2024-08-30" },
           { "value": "7", "label": "素数分布", "date": "2022-11-20" },
-          { "value": "11", "label": "代数数域和代数整数", "date": "2025-07-14" },
-          { "value": "12", "label": "理想的分解", "date": "2022-05-14" }
+          { "value": "11", "label": "代数数域和代数整数", "date": "2025-08-01" },
+          { "value": "12", "label": "理想的分解", "date": "2025-08-01" }
         ]
       },
       {
@@ -318,7 +318,7 @@ var tocData = [
           { "value": "12", "label": "文件" },
           { "value": "13", "label": "数论算法", "date": "2022-01-07" },
           { "value": "14", "label": "动态规划与贪心算法" },
-          { "value": "15", "label": "计算几何", "date": "2025-01-10" },
+          { "value": "15", "label": "计算几何", "date": "2025-07-28" },
           { "value": "16", "label": "算法题模板", "date": "2021-12-02" },
           { "value": "hardware", "label": "硬件算法", "date": "2024-05-20" }
         ]
@@ -754,7 +754,7 @@ var tocData = [
         "label": "JS",
         "children": [
           { "value": "js.md", "label": "JavaScript", "date": "2025-03-18" },
-          { "value": "css.md", "label": "CSS", "date": "2025-03-13" },
+          { "value": "css.md", "label": "CSS", "date": "2025-07-31" },
           { "value": "npm.md", "label": "NPM", "date": "2025-07-22" },
           { "value": "lib.md", "label": "工具集", "date": "2025-05-25" },
           { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },

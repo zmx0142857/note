@@ -905,9 +905,12 @@ const Typing = {
     } else if (setting.randomType === 'char') {
       text = [...text]
       if (setting.slice > 0) text = text.slice(0, setting.slice)
-      // Utils.shuffle(text)
-      const prefer = Utils.between(Typing.setting.preferNew, 1, 10)
-      text = Utils.sample(text, Typing.maturity, setting.limit, prefer)
+      const prefer = Utils.between(Typing.setting.preferNew, 0, 10)
+      if (prefer === 0) {
+        Utils.shuffle(text)
+      } else {
+        text = Utils.sample(text, Typing.maturity, setting.limit, prefer)
+      }
       text = text.join('')
     } else if (setting.randomType === 'line') {
       text = text.split('\n')

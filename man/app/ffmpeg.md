@@ -20,6 +20,14 @@
 - `-c:a`: coder audio
 - `-copy`: same as input file
 
+## compress
+
+    $ ffmpeg -i input.mp4 output.mp4 # 最简单: 使用默认编码
+    $ ffmpeg -i input.mp4 -c:v libx264 -preset medium -crf 23 output.mp4
+
+- `-crf`: 0 无损压缩, 18 高质量, 23 标准, 28 小体积
+- `-preset`: 预设值, 可选 `ultrafast`, `superfast`, `medium`, `slow`, `veryslow`
+
 ## video and audio
 
 extract audio

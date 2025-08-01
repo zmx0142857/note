@@ -23,17 +23,16 @@ var argmax = (lo, hi, f) => {
 }
 
 var argmin = (lo, hi, f) => {
-  let min = Infinity
-  let res = undefined
-  for (let i = lo; i <= hi; ++i) {
-    const v = f(i)
-    if (v < min) {
-      min = v
-      res = i
-    }
-  }
-  return res
+  return argmax(lo, hi, i => -f(i))
 }
+```
+
+TIPS: 如果在求 `argmax` 时想要排除某些情形, 可以返回 `-Infinity`, 例如, 求区间内函数值为正的最大值点, 可以这么写. 同理 `argmin` 可以返回 `Infinity` 来排除一些情形.
+```js
+argmax(lo, hi, n => {
+  const res = f(n)
+  return res > 0 ? res : -Infinity
+})
 ```
 
 ### 二分查找

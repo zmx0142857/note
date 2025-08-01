@@ -1376,6 +1376,8 @@ module.exports = function (str) {
 	</tr>
 </table>
 
+<h2>高次方程</h2>
+
 <h3>Lagrange 预解式</h3>
 
 <p>[来自 <a href=https://zhuanlan.zhihu.com/p/582315546" target="_blank">Hilbert@知乎</a>]</p>
@@ -1647,6 +1649,8 @@ module.exports = function (str) {
   </li>
 </ol>
 
+<h3>五次方程的级数解</h3>
+
 <p class="example">
   <b>五次方程的 Bring-Jerrard 标准形</b> `x^5 +- x + k = 0`.
   一般地, `n` 次方程可以化简消去 `n-1`, `n-2`, `n-3` 次项.
@@ -1654,7 +1658,7 @@ module.exports = function (str) {
 </p>
 
 <ol class="proof">
-  <li>对方程的根作 Tschirnhaus 变换, 消去 4 次和 3 次项.
+  <li>对方程的根作 Tschirnhaus (契尔恩豪森) 变换, 消去 4 次和 3 次项.
     设 `x_i`, `i = 1, cdots, 5` 是原方程的根,
     令 `y_i = x_i^2 + m x_i + n`, 只需将原方程与
     <span class="formula">
@@ -1720,6 +1724,36 @@ module.exports = function (str) {
     的五次方程.
   </li>
 </ol>
+
+<p class="example">
+  [来自 Frits Beukers《Hypergeometric Functions, How Special Are They?》]
+  利用 Lagrange 反演获得五次方程 `z x^5 = x - 1` 的一个解.
+</p>
+
+<p class="solution">
+  令 `x = y+1`, 于是 `z = y/(y+1)^5 := f(y)`.
+  它的反演是
+  <span class="formula align">
+    `y = f^-1(z)`<br>
+    `= sum_(n ge 1) z^n/n [z^(n-1)] (z/(f(z)))^n`<br>
+    `= sum_(n ge 1) z^n/n [z^(n-1)] (z+1)^(5n)`<br>
+    `= sum_(n ge 1) z^n/n (5n; n-1)`<br>
+    `= sum_(n ge 1) (5n;n) z^n/(4n+1)`.
+  </span>
+  于是
+  <span class="formula">
+    `x = y+1 = sum_(n ge 0) (5n;n) z^n/(4n+1)`.
+  </span>
+  遗憾的是, 上式的收敛半径不算很大:
+  <span class="formula">
+    `lim_(n to oo) ((5n;n)//(4n+1))/((5n+5;n+1)//(4n+5))`
+    `= lim_(n to oo) ((4n+4)...(4n+1)(n+1))/((5n+5)...(5n+1))`
+    `= (4/5)^4 * 1/5`
+    `= 0.08192`.
+  </span>
+  例如取 `z = 0.01` 时, 上式算出五次方程 `0.01 x^5 = x-1` 的一个解 `x ~~ 1.0105`.
+  一般情况, 将五次方程化为 Bring-Jerrard 标准形 `x^5 = a x + b`, 同样可以用 Lagrange 反演获得一个解.
+</p>
 
 <h2>代数学基本定理</h2>
 

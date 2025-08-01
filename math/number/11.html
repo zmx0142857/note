@@ -593,10 +593,12 @@
 
 <p class="example">
   <b><a href="3.html#3-4">分圆域</a></b> 是指 `QQ(zeta_n)`, 其中 `zeta_n`
-  是 `n` 次本原单位根. `n ge 3` 时, 分圆域中含有虚数.
+  是 `n` 次本原单位根. `n ge 3`.
   `zeta_n` 的最小多项式是分圆多项式 `phi_n(x)`, 它的次数是 `varphi(n)`
   (Euler 函数).  又 `QQ(zeta_n)` 是 `x^n-1` 的分裂域, 因此它是 `QQ` 的
   `varphi(n)` 次 Galois 扩张.
+  <br>
+  注意: `n` 为奇数时 `QQ(zeta_(2n)) = QQ(zeta_n)`, 因此后面我们总假定 `n !-= 2 (mod 4)`.
 </p>
 
 <ol class="example">
@@ -645,7 +647,9 @@
 <ol class="corollary">
   设 `L//K` 是数域的 `n` 次扩张, `a, b in L`, `k in K`, 有
   <li>`N(1) = 1`, `T(1) = n`;</li>
-  <li>`N(k a) = k^n N(a)`, `T(k a) = k T(a)`;</li>
+  <li>`N(k a) = k^n N(a)`, `T(k a) = k T(a)`;
+    特别 `N(k) = k^n`, `T(k) = n k`.
+  </li>
   <li>`N(a b) = N(a) N(b)`, `T(a + b) = T(a) + T(b)`,
     即 `N`, `T` 分别是关于乘法和加法的同态.
   </li>
@@ -683,149 +687,9 @@
   再求 `b` 在 `M//K` 上的全体共轭元之积. 迹的情形类似.
 </p>
 
-<h3>判别式</h3>
-
-<p class="definition">
-  <b>元素的判别式</b>
-  考虑数域的 `n` 次扩张 `L//K`, 有时需要判断元素
-  `a_1, cdots, a_n in L` 是否线性相关, 为此引入判别式
-  <span class="formula">
-    `d(a_1, cdots, a_n)`
-    `:= "det"(sigma_i(a_j))_(1 le i,j le n)^2`.
-  </span>
-  对于单个元素 `a in L`, 简记
-  <span class="formula">
-    `d(a) := d(1, a, cdots, a^(n-1))`.
-  </span>
-  当 `L` 为全实域时, 判别式总是非负的.
-</p>
-
-<p class="corollary">
-  `d(a_1, cdots, a_n) = "det"(T(a_i a_j))_(1 le i,j le n) in K`.
-</p>
-
-<p class="proof">
-  <span class="formula">
-    `d(a_1, cdots, a_n)`
-    `= |sigma_1(a_1), cdots, sigma_n(a_1); , cdots, ; sigma_1(a_n), cdots, sigma_n(a_n)|`
-    `|sigma_1(a_1), cdots, sigma_1(a_n); , cdots, ; sigma_n(a_1), cdots, sigma_n(a_n)|`
-    `= "det"(sum_k sigma_k(a_i) sigma_k(a_j))_(1 le i,j le n)`
-    `= "det"(T(a_i a_j))_(1 le i,j le n)`.
-  </span> 
-</p>
-
-<ol class="corollary">
-  <li>`a_1, cdots, a_n` 线性无关当且仅当 `d(a_1, cdots, a_n) != 0`.
-    此时它们构成一组 `K`-基.
-  </li>
-  <li>`L = K(a)` 当且仅当 `1, a, cdots, a^(n-1)` 线性无关, 即 `d(a) != 0`.
-    此时 `a` 为 `L` 的生成元.
-  </li>
-</ol>
-
-<p class="proof">
-  设 `a_1, cdots, a_n` 线性相关, 则存在不全为零的 `k_1, cdots, k_n in K` 使得 `sum_j k_j a_j = 0`, 于是
-  <span class="formula">
-    `sum_j k_j sigma_i(a_j) = 0`, `quad i = 1, cdots, n`.
-  </span>
-  这表明方阵 `(sigma_i(a_j))` 的列向量线性相关, 即 `d(a_1, cdots, a_n) = 0`.
-  <br>
-  反之若 `d(a_1, cdots, a_n) = 0`, 则方阵 `(T(a_i a_j))` 的行向量线性相关.
-  记 `R_i = (T(a_i a_1), cdots, T(a_i, a_n))`, 则存在不全为零的 `k_1,
-  cdots, k_n in K` 使得 `sum k_i R_i = 0`.
-  假设 `a_1, cdots, a_n` 线性无关, 则 `a = sum k_j a_j != 0`.
-  从 `sum k_i R_i = 0` 取第 `j` 个分量得 `sum_i k_i T(a_i a_j) = 0`,
-  即 `T(a a_j) = 0`. 又 `a_1, cdots, a_n` 是一组 `K`-基, 知对任意
-  `b in L` 有 `T(a b) = 0`. 这与 `a != 0` 矛盾. 因为只要取 `b = a^-1` 即有
-  `T(a a^-1) = T(1) = n`.
-</p>
-
-<ol class="corollary">
-  <b>判别式的又一公式</b>
-  <li>
-    设 `L//K` 是数域的 `n` 次扩张, `a in L` 的 `n` 个 `K`-共轭元为
-    `a_1, a_2, cdots, a_n`, 则
-    <span class="formula">
-      `d(a) = prod_(i lt j) (a_i - a_j)^2`.
-    </span>
-    从而 `d(a) != 0` 当且仅当 `a` 的共轭元两两不同.
-  </li>
-  <li>设 `f` 为 `a` 的最小多项式, 记 `s = n(n-1)//2`, 有
-    <span class="formula">
-      `d(a) = (-1)^s N(f'(a))`.
-    </span>
-  </li>
-</ol>
-
-<ol class="proof">
-  <li>`d(a) = d(1, cdots, a^(n-1))` `= "det"(a_i^j)^2`,
-    利用 Vandermonde 行列式的结论即可.
-  </li>
-  <li>满足 `1 le i lt j le n` 的 `(i, j)` 共有 `s = n(n-1)//2` 对,
-    由 1. 有
-    <span class="formula">
-      `d(a) = (-1)^s prod_(i != j) (a_i - a_j)`
-      `= (-1)^s prod_(i=1)^n prod_(j=1, j != i)^n (a_i - a_j)`
-      `= (-1)^s prod_(i=1)^n f'(a_i)`
-      `= (-1)^s N(f'(a))`.
-    </span>
-  </li>
-</ol>
-
-<p class="definition">
-  <b>多项式的判别式</b>
-  设 `f(x)` 是 `K` 上的首一 `n` 次多项式, 其在 `CC` 上的全部根为 `a_1,
-  cdots, a_n`. 记 `s = n(n-1)//2`, 定义
-  <span class="formula">
-    `d(f) = prod_(i lt j) (a_i - a_j)^2`
-    `= (-1)^s prod_i f'(a_i) in K`.
-  </span>
-  于是 `f` 有重根 `iff d(f) = 0`.
-</p>
-
-<ol class="example">
-  记 `s = n(n-1)//2`,
-  <li>`x^n + a` 的判别式为 `(-1)^s n^n a^(n-1)`;</li>
-  <li>`x^n + a x + b` 的判别式为 `(-1)^s[(1-n)^(n-1) a^n + n^n b^(n-1)]`. 特别
-    <span class="formula">
-      `x^2 + a x + b` 的判别式为 `a^2 - 4 b`;<br>
-      `x^3 + a x + b` 的判别式为 `-(4a^3 + 27b^2)`.
-    </span>
-  </li>
-</ol>
-
-<p class="proof">
-  只证 2. 记 `f(x) = x^n + a x + b` 的全部根为 `x_1, cdots, x_n`. 
-  先设 `b != 0`, 于是这些根都不等于零, 得到 `g(x) = b x^n + a x^(n-1) + 1` 的全部根
-  <span class="formula">
-    `x_1^-1, cdots, x_n^-1`.
-  </span>
-  由 Vieta 定理
-  <span class="formula">
-    `sum_i x_i^-1 = -a/b`,
-    `quad prod_i x_i^-1 = (-1)^n/b`.
-  </span>
-  并且其它次数的对称多项式均为 0.  现在计算
-  <span class="formula">
-    `f'(x_i) = n x_i^(n-1) + a`
-    `= -n/x_i (a x_i + b) + a`
-    `= (1-n)a - n b // x_i`,
-  </span>
-  所以
-  <span class="formula align">
-    `prod_i f'(x_i)`<br>
-    `= prod_i ((1-n)a - n b//x_i)`<br>
-    `= (1-n)^n a^n - n b (1-n)^(n-1) a^(n-1) sum_i x_i^-1`
-    `+ (-n b)^n prod_i x_i^-1`<br>
-    `= (1-n)^n a^n + n(1-n)^(n-1)a^n + n^n b^(n-1)`<br>
-    `= (1-n)^(n-1) a^n + n^n b^(n-1)`.
-  </span>
-  再讨论 `b = 0` 的情形, 得出同样的答案.
-</p>
-
 <h2>代数整数</h2>
 
-<h3>代数整数的判别</h3>
+<h3>代数整数环 `O_K`</h3>
 
 <p class="definition">
   `ZZ` 上首一多项式 (在 `CC` 中) 的根称为<b>代数整数</b>;
@@ -1015,7 +879,7 @@
   则 `O_K = ZZ[zeta_n]`.
 </p>
 
-<h3>整基与判别式</h3>
+<h3>整基</h3>
 
 <p class="theorem">
   设数域 `K` 是 `QQ` 的 `n` 次扩域, 则 `O_K` 是有限生成的:
@@ -1027,6 +891,263 @@
   </span>
   `omega_1, cdots, omega_n` 称为 `K` 或 `O_K` 的一组<b>整基</b>.
 </p>
+
+<h3>判别式</h3>
+
+<p class="remark">
+  常见的判别式有三种: 分别是元素的, 多项式的和数域的判别式.
+</p>
+
+<p class="definition">
+  <b>元素的判别式</b>
+  考虑数域的 `n` 次扩张 `L//K`, 有时需要判断元素
+  `a_1, cdots, a_n in L` 是否线性相关, 为此引入判别式
+  <span class="formula">
+    `d(a_1, cdots, a_n)`
+    `:= "det"(sigma_i(a_j))_(1 le i,j le n)^2`.
+  </span>
+  对于单个元素 `a in L`, 简记
+  <span class="formula">
+    `d(a) := d(1, a, cdots, a^(n-1))`.
+  </span>
+  当 `L` 为全实域时, 判别式总是非负的.
+</p>
+
+<p class="corollary">
+  `d(a_1, cdots, a_n) = "det"(T(a_i a_j))_(1 le i,j le n) in K`.
+</p>
+
+<p class="proof">
+  <span class="formula">
+    `d(a_1, cdots, a_n)`
+    `= |sigma_1(a_1), cdots, sigma_n(a_1); , cdots, ; sigma_1(a_n), cdots, sigma_n(a_n)|`
+    `|sigma_1(a_1), cdots, sigma_1(a_n); , cdots, ; sigma_n(a_1), cdots, sigma_n(a_n)|`
+    `= "det"(sum_k sigma_k(a_i) sigma_k(a_j))_(1 le i,j le n)`
+    `= "det"(T(a_i a_j))_(1 le i,j le n)`.
+  </span>
+</p>
+
+<ol class="corollary">
+  <li>`a_1, cdots, a_n` 线性无关当且仅当 `d(a_1, cdots, a_n) != 0`.
+    此时它们构成一组 `K`-基.
+  </li>
+  <li>`L = K(a)` 当且仅当 `1, a, cdots, a^(n-1)` 线性无关, 即 `d(a) != 0`.
+    此时 `a` 为 `L` 的生成元.
+  </li>
+</ol>
+
+<p class="proof">
+  设 `a_1, cdots, a_n` 线性相关, 则存在不全为零的 `k_1, cdots, k_n in K` 使得 `sum_j k_j a_j = 0`, 于是
+  <span class="formula">
+    `sum_j k_j sigma_i(a_j) = 0`, `quad i = 1, cdots, n`.
+  </span>
+  这表明方阵 `(sigma_i(a_j))` 的列向量线性相关, 即 `d(a_1, cdots, a_n) = 0`.
+  <br>
+  反之若 `d(a_1, cdots, a_n) = 0`, 则方阵 `(T(a_i a_j))` 的行向量线性相关.
+  记 `R_i = (T(a_i a_1), cdots, T(a_i, a_n))`, 则存在不全为零的 `k_1,
+  cdots, k_n in K` 使得 `sum k_i R_i = 0`.
+  假设 `a_1, cdots, a_n` 线性无关, 则 `a = sum k_j a_j != 0`.
+  从 `sum k_i R_i = 0` 取第 `j` 个分量得 `sum_i k_i T(a_i a_j) = 0`,
+  即 `T(a a_j) = 0`. 又 `a_1, cdots, a_n` 是一组 `K`-基, 知对任意
+  `b in L` 有 `T(a b) = 0`. 这与 `a != 0` 矛盾. 因为只要取 `b = a^-1` 即有
+  `T(a a^-1) = T(1) = n`.
+</p>
+
+<ol class="corollary">
+  <b>判别式的又一公式</b>
+  <li>
+    设 `L//K` 是数域的 `n` 次扩张, `a in L` 的 `n` 个 `K`-共轭元为
+    `a_1, a_2, cdots, a_n`, 则
+    <span class="formula">
+      `d(a) = prod_(i lt j) (a_i - a_j)^2`.
+    </span>
+    从而 `d(a) != 0` 当且仅当 `a` 的共轭元两两不同.
+  </li>
+  <li>设 `f` 为 `a` 的最小多项式, 记 `s = n(n-1)//2`, 有
+    <span class="formula">
+      `d(a) = (-1)^s N(f'(a))`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>`d(a) = d(1, cdots, a^(n-1))` `= "det"(a_i^j)^2`,
+    利用 Vandermonde 行列式的结论即可.
+  </li>
+  <li>满足 `1 le i lt j le n` 的 `(i, j)` 共有 `s = n(n-1)//2` 对,
+    由 1. 有
+    <span class="formula">
+      `d(a) = (-1)^s prod_(i != j) (a_i - a_j)`
+      `= (-1)^s prod_(i=1)^n prod_(j=1, j != i)^n (a_i - a_j)`
+      `= (-1)^s prod_(i=1)^n f'(a_i)`
+      `= (-1)^s N(f'(a))`.
+    </span>
+  </li>
+</ol>
+
+<p class="definition">
+  <b>多项式的判别式</b>
+  设 `f(x)` 是 `K` 上的首一 `n` 次多项式, 其在 `CC` 上的全部根为 `a_1,
+  cdots, a_n`. 记 `s = n(n-1)//2`, 定义
+  <span class="formula">
+    `d(f) = prod_(i lt j) (a_i - a_j)^2`
+    `= (-1)^s prod_i f'(a_i) in K`.
+  </span>
+  于是 `f` 有重根 `iff d(f) = 0`.
+  特别当 `f` 不可约时, 它的判别式等于它的所有根的判别式.
+</p>
+
+<ol class="example">
+  记 `s = n(n-1)//2`,
+  <li>`x^n + a` 的判别式为 `(-1)^s n^n a^(n-1)`;</li>
+  <li>`x^n + a x + b` 的判别式为 `(-1)^s[(1-n)^(n-1) a^n + n^n b^(n-1)]`. 特别
+    <span class="formula">
+      `x^2 + a x + b` 的判别式为 `a^2 - 4 b`;<br>
+      `x^3 + a x + b` 的判别式为 `-(4a^3 + 27b^2)`.
+    </span>
+  </li>
+</ol>
+
+<p class="proof">
+  只证 2. 记 `f(x) = x^n + a x + b` 的全部根为 `x_1, cdots, x_n`.
+  先设 `b != 0`, 于是这些根都不等于零, 得到 `g(x) = b x^n + a x^(n-1) + 1` 的全部根
+  <span class="formula">
+    `x_1^-1, cdots, x_n^-1`.
+  </span>
+  由 Vieta 定理
+  <span class="formula">
+    `sum_i x_i^-1 = -a/b`,
+    `quad prod_i x_i^-1 = (-1)^n/b`.
+  </span>
+  并且其它次数的对称多项式均为 0.  现在计算
+  <span class="formula">
+    `f'(x_i) = n x_i^(n-1) + a`
+    `= -n/x_i (a x_i + b) + a`
+    `= (1-n)a - n b // x_i`,
+  </span>
+  所以
+  <span class="formula align">
+    `prod_i f'(x_i)`<br>
+    `= prod_i ((1-n)a - n b//x_i)`<br>
+    `= (1-n)^n a^n - n b (1-n)^(n-1) a^(n-1) sum_i x_i^-1`
+    `+ (-n b)^n prod_i x_i^-1`<br>
+    `= (1-n)^n a^n + n(1-n)^(n-1)a^n + n^n b^(n-1)`<br>
+    `= (1-n)^(n-1) a^n + n^n b^(n-1)`.
+  </span>
+  再讨论 `b = 0` 的情形, 得出同样的答案.
+</p>
+
+<ol class="lemma">
+  <b>利用判别式寻找整基</b>
+  设 `K//QQ` 为数域的 `n` 次扩张, `w_1, cdots, w_n` 是整基,
+  设有 `n` 个元素 `a_1, cdots, a_n in O_K` 满足
+  <span class="formula">
+    `(a_1, cdots, a_n)^(sf T) = M (w_1, cdots, w_n)^(sf T)`,
+  </span>
+  则
+  <li>`d(a_1, cdots, a_n) = det(M)^2 d(w_1, cdots, w_n)`.</li>
+  <li>`a_1, cdots, a_n` 为整基当且仅当 `det(M) = +-1`.</li>
+  <li>特别当 `d(a_1, cdots, a_n)` 无平方因子时, 由 1. 知道 `det(M) = +-1`, 再由 2. 知道
+    `a_1, cdots, a_n` 是整基.
+  </li>
+</ol>
+
+<p class="definition">
+  <b>数域的判别式</b>
+  任取数域 `K` 的一组整基 `w_1, cdots, w_n`, 由引理知道,
+  判别式 `d(K) := d(w_1, cdots, w_n)` 的值与整基的选取无关,
+  称为数域 `K` 的判别式.
+</p>
+
+<ol class="example">
+  <b>二次域的判别式</b> 考虑 `K = QQ(sqrt d)`, `d` 无平方因子.
+  <li>`d -= 1 (mod 4)` 时, `d(K) = d`.</li>
+  <li>`d -= 2, 3 (mod 4)` 时, `d(K) = 4 d`.</li>
+</ol>
+
+<ol class="proof">
+  <li>`d -= 1 (mod 4)` 时, `O_K = ZZ[(1+sqrt d)/2]`,
+    <span class="formula">
+      `d(K) = |1, (1+sqrt d)//2; 1, (1-sqrt d)//2|^2`
+      `= d`.
+    </span>
+  </li>
+  <li>`d -= 2, 3 (mod 4)` 时, `O_K = ZZ[sqrt d]`,
+    <span class="formula">
+      `d(K) = |1, sqrt d; 1, -sqrt d|^2`
+      `= 4d`.
+    </span>
+  </li>
+</ol>
+
+<p class="example">
+  <b>分圆域的判别式</b>
+  考虑 `K = QQ(zeta_n)`, `n ge 3`, `n !-= 2 (mod 4)`. 又记 `varphi = varphi(n)`, 则
+  <span class="formula">
+    `d(K) = (-1)^(varphi//2) n^varphi // prod_(p | n) p^(varphi//(p-1))`.
+  </span>
+  表达式比较复杂, 不过容易看出 `d(K)` 与 `n` 含有相同的素因子.
+</p>
+
+<ol class="proof">
+  只证素数幂情形 `n = p^a`, `n ge 3`.
+  此时 `varphi = p^a - p^(a-1)` `= n - n//p` `= (p-1) n//p`.
+  <li>
+    由于 `{zeta_n^i}_(i=0)^(varphi-1)` 是 `K` 的一组整基,
+    我们有
+    <span class="formula">
+      `d(K) = d(zeta_n)`
+      `= (-1)^(varphi(varphi-1)//2) N(phi'(zeta_n))`
+      `==^(varphi-1 是奇数) (-1)^(varphi//2) N(phi'(zeta_n))`.
+    </span>
+    其中 `phi` 是 `zeta_n` 的最小多项式 `phi(x) = phi_n(x) = (x^n-1)/(x^(n//p) - 1)`, 于是
+    <span class="formula">
+      `(x^(n//p) - 1) phi(x) = x^n-1`,<br>
+      `(x^(n//p) - 1) phi'(x) + (n//p) x^(n//p-1) phi(x) = n x^(n-1)`,<br>
+      `phi'(zeta_n) = n // zeta_n (zeta_n^(n//p) - 1)`
+      `= n // zeta_n (zeta_p - 1)`.
+    </span>
+  </li>
+  <li>
+    接下来分别计算下式右边各因子:
+    <span class="formula">
+      `N(phi'(zeta_n))`
+      `= N(n) // N(zeta_n) N(zeta_p - 1)`,
+    </span>
+    其中 `N(n) = n^varphi`,
+    <span class="formula">
+      `N(zeta_n) = prod_(gcd(i, n) = 1) zeta_n^i`
+      `==^"两两配对" 1`.
+    </span>
+    上式成立是因为若 `gcd(i, n) = 1`, 则 `gcd(n-i, n) = 1`, 又因 `n ge 3` 所以 `i != n-i`.
+  </li>
+  <li>
+    最后, 取中间域 `M = QQ(zeta_p)`, 则 `[M:QQ] = p-1`, `[K:M] = n//p`, 有
+    <span class="formula">
+      `N_(K//QQ)(zeta_p - 1)`
+      `= N_(M//QQ)(N_(K//M)(zeta_p - 1))`
+      `==^(zeta_p-1 in M) N_(M//QQ)(zeta_p-1)^(n//p)`.
+    </span>
+    上式需要计算 `zeta_p-1` 在 `QQ` 上全体共轭元的乘积, 只需注意 `zeta_p` 的最小多项式是
+    <span class="formula">
+      `phi_p(x) = x^(p-1) + cdots + 1`,
+    </span>
+    从而 `zeta_p - 1` 的最小多项式是
+    <span class="formula">
+      `phi_p(x+1) = sum_(i=0)^(p-1) (x+1)^i`,
+    </span>
+    其常数项为 `p`. 因此 `N_(M//QQ)(zeta_p-1) = (-1)^(p-1) p`.
+  </li>
+  <li>
+    综上有
+    <span class="formula">
+      `d(K) = (-1)^(varphi//2) n^varphi // ((-1)^(p-1) p)^(n//p)`
+      `==^((p-1)n//p = varphi 是偶数) (-1)^(varphi//2) n^varphi // p^(varphi//(p-1))`.
+    </span>
+  </li>
+</ol>
+
+<h3>整数环 `O_K` 的单位群</h3>
 
 <script src="../../js/note.js"></script>
 </body>

@@ -8,6 +8,8 @@
 
 <body>
 
+<h2>三角函数</h2>
+
 <p class="algorithm">
   <b>计算正余弦函数</b>
   sin: 当 `|x|` 充分小时, 近似有 `sin x ~~ x`; 否则使用三倍角公式递推.
@@ -318,6 +320,78 @@ module.exports = (str) =>{
   return JSON.stringify(andrewConvexHull(points))
 }
 </script>
+</div>
+
+<h2>矩阵变换</h2>
+
+<p class="example">
+  <b>缩放平移边界</b>
+  设画框是边长为 1 的正方形, 有一幅正方形的图画初始大小位置与画框重合.
+  现在对图画 (相对于几何中心) 缩放 `k` 倍 (`k gt 1`), 再平移 `p = (p_x, p_y)`.
+  若要求画框被图画填满 (不能露出空白), 则平移向量 `p` 的范围是多少?
+</p>
+
+<p class="solution">
+  缩放后的图画边长与画框边长之差是 `k - 1`, 即图画的上下左右各有 `(k-1)//2` 的空间容许移动.
+  注意, 如果先平移再缩放, 则 `p` 的范围要除以 `k`.
+</p>
+
+<p class="example">
+  <b>缩放中心变换</b>
+  矩阵 `[s(k), p; 0, 1]` 表示先以原点为中心缩放 `k` 倍, 然后平移 `p = (p_x, p_y)^(sf T)` 的一个线性变换. 其中 `s(k) = [k; , k]`.
+  简记 `(s, p) = [s, p; 0, 1]`, 用矩阵运算可以得到
+  <span class="formula">
+    `(s_2, p_2) (s_1, p_1)`
+    `= (s_2 s_1, s_2 p_1 + p_2)`.
+  </span>
+  特别地
+  <span class="formula">
+    `(1, p) (s, 0) = (s, p)`,<br>
+    `(s, 0) (1, p) = (s, s p)`.
+  </span>
+  现在先做变换 `(s_1, p_1)`, 再以 `p_2` 为中心缩放 `k_2` 倍.
+  这第二个步骤相当于先平移 `-p_2`, 再以原点为中心缩放 `k_2` 倍, 然后平移 `p_2`.
+  最终结果为
+  <span class="formula">
+    `(1, p_2) (s_2, 0) (1, p_2)^-1 (s_1, p_1)`
+    `= (s_2, (1-s_2) p_2) (s_1 p_1)`
+    `= (s_2 s_1, s_2 p_1 + (1 - s_2) p_2)`.
+  </span>
+  最后这个平移系数可以看作线性插值 `"lerp"(p_1, p_2, 1 - s_2)`.
+</p>
+
+<p class="example">
+  <b>旋转中心变换</b>
+  矩阵 `[r(theta), p; 0, 1]` 表示先绕原点旋转角度 `theta`, 然后平移 `p = (p_x, p_y)^(sf T)` 的一个刚体变换,
+  其中 `r(theta) = [cos theta, -sin theta; sin theta, cos theta]`.
+  注意, 也可以理解成先从原点做位移 `p`, 再以 `p` 点为中心旋转 `theta` 角度.
+  <br>
+  下面简记 `(r, p) = [r, p; 0, 1]`,
+  先后进行两次变换 `(r_1, p_1)`, `(r_2, p_2)`, 用矩阵运算可以得到结果为
+  <span class="formula">
+    `(r_2, p_2) (r_1, p_1) = (r_2 r_1, r_2 p_1 + p_2)`,
+  </span>
+  特别地
+  <span class="formula">
+    `(1, p) (r, 0) = (r, p)`,<br>
+    `(r, 0) (1, p) = (r, r p)`.
+  </span>
+  现在要求第二次变换改为以第一次变换的结果为参考系, 换言之第二次旋转以 `p_1` 为中心.
+  这时第二次变换 `(r_2, p_2)` 应当调整为相似矩阵
+  <span class="formula">
+    `(r_1, p_1) (r_2, p_2) (r_1, p_1)^-1`
+    `= (r_2, (1-r_2) p_1 + r_1 p_2)`.
+  </span>
+  验算:
+  <span class="formula">
+    `(r_1, p_1) (r_2, p_2) (r_1, p_1)^-1 (r_1, p_1)`
+    `= (r_1, p_1) (r_2, p_2)`
+    `= (r_2 r_1, p_1 + r_1 p_2)`.
+  </span>
+</p>
+
+<div class="img sm">
+  <img src="../img/rotation-transform.svg" alt="旋转中心变换">
 </div>
 
 <h2>立体几何</h2>

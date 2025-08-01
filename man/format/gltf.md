@@ -5,15 +5,24 @@
 - gltfpack
   ```sh
   $ npm i -g gltfpack
-  $ gltfpack -i model.gltf -o model.min.gltf # 有损压缩
+  $ gltfpack -i model.gltf -o model.min.glb -vpf # 轻量有损压缩
   ```
 - gltf-pipeline
   ```sh
   $ npm i -g gltf-pipeline
-  $ gltf-pipeline -i model.gltf -o model.draco.gltf -d # draco 压缩
+  $ gltf-pipeline -i model.gltf -o model.draco.glb -d # draco 有损压缩
+  ```
+- [bytes](https://github.com/zmx0142857/bytes):
+  ```sh
+  $ bytes glb simp input.glb output.glb # 合并重复 bufferView, 无损压缩
   ```
 - 在线压缩 https://modelcompress.cn/home
 - [gltf.report](https://gltf.report): gltf 优化器
+
+**gltf 一般处理流程**
+- 用 three.js 载入模型, 使用 [3js](https://github.com/zmx0142857/5js) 的 `app.optimize.merge(model)` 合并几何体, 以提高帧率; 再用 `GLTFExporter` 导出模型
+- 使用 `bytes glb simp` 无损压缩
+- 使用 `gltfpack` 进行轻量压缩, 若效果不佳, 再尝试用 `gltf-pipeline` 进行 draco 压缩. 注意 draco 压缩一般会增加模型的载入时间
 
 ## 模型结构
 

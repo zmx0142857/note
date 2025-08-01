@@ -727,12 +727,14 @@ module.exports = function (str) {
 <p>尽管从定义看来不很显然, 但分圆多项式的系数都是整数!</p>
 
 <p class="proposition">
-  分圆多项式 `phi_n(x)` 是首 1 的整数系数多项式, 其常数项 `in {1, -1}`.
+  分圆多项式 `phi_n` 是次数为 `varphi(n)` 的整系数首一多项式.
+  除 `phi_1(x) = x-1` 的常数项为 `-1` 之外, 对一切 `n ge 2`, `phi_n` 的常数项为 `1`.
 </p>
 
 <p class="proof">
-  首 1 性由定义立即看出. 对 `n` 进行归纳, `n=1` 时 `phi_1(x) = x-1`,
-  结论成立. 假设结论对一切 `d lt n` 成立, 考虑 `n` 的情形, 有
+  首一性由定义立即看出. 下证 `phi_(n ge 2)` 是常数项为 1 的整系数多项式.
+  `n=2` 时本原单位根只有 `-1`, 故 `phi_2(x) = x+1`, 结论成立.
+  假设结论对一切 `2 le d lt n` 成立, 考虑 `n` 的情形, 有
   <span class="formula">
     `x^n - 1 = prod_(d | n) phi_d(x) = F(x) phi_n(x)`,
   </span>
@@ -741,12 +743,24 @@ module.exports = function (str) {
     `F(x) = sum_(j=0)^l a_j x^j`,
     `quad phi_n(x) = sum_(j=0)^(n-l) b_j x^j`,
   </span>
-  由归纳假设, `a_0 in {1, -1}`, 比较系数得 `b_0 in {1, -1}`.
+  `F(x)` 含有 `n` 的所有真因子 `d` 对应的分圆多项式 `phi_d`.
+  由归纳假设, 其中除 `phi_1` 的常数项为 -1 外, 其余多项式常数项为 1, 故 `a_0 = -1`.
+  比较系数得 `b_0 = 1`.
   又假定 `b_0, b_1, cdots b_(k-1)` 已被证实为整数, 比较两边 `x^k` 的系数知
   <span class="formula">
     `a_0 b_k + sum_(j=0)^(k-1) a_(k-j) b_j`
   </span>
   为整数, 因此 `a_0 b_k` 为整数, 从而 `b_k` 为整数.
+</p>
+
+<p class="proof">
+  关于常数项的另一证明: `n ge 3` 时 `varphi(n)` 为偶数, 将与 `n` 互素的数两两配对:
+  具体令 `d` 和 `n-d` 配对, `zeta_n^d` 为本原单位根时, `zeta_n^-d = zeta_n^(n-d)` 也是本原单位根.
+  因此 `n ge 3` 时, 全体 `n` 次本原单位根的乘积等于 1:
+  <span class="formula">
+    `prod_(gcd(d, n) = 1) zeta_n^d = 1`.
+  </span>
+  这就是说 `phi_n` 的所有根乘积为 1. 从而 Vieta 定理, `phi_n` 的常数项等于 `(-1)^(varphi(n)) = 1`.
 </p>
 
 <table class="col2">
