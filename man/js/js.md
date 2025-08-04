@@ -48,7 +48,57 @@ JSON.parse('{"id":1231231231231231231231}', (k, v, { source }) => {
 })
 ```
 
-## class
+## object
+
+### 相等比较
+
+> 永远不要使用两等号 `==` 进行比较!
+```js
+NaN === NaN // false
+Object.is(0, -0) // false
+```
+
+### prototype
+
+`obj.prototype` 和 `Object.getPrototypeOf(obj)` 一般是不同的.
+
+### 何为对象
+```js
+const isPlainObject = (obj) => {
+  if (!obj) return false
+  const proto = Object.getPrototypeOf(obj)
+  return proto === null || proto === Object.prototype
+}
+```
+
+||`{}`|`[]`|`fn`|`new fn`|
+|-|-|-|-|-|
+|`obj instance of Object`|✅|✅|✅|✅|
+|`typeof obj === 'object' && obj !== null`|✅|✅||✅|
+|`Object.prototype.toString.call(obj) === '[object Object]'`|✅|||✅|
+|`isPlainObject(obj)`|✅||||
+
+### 何为数组
+
+除了正统数组 `[]` 外, 还有许多伪数组 (arraylike) 对象, 具有以下特点:
+- 有 length 属性, 按 0, 1, 2, ... 索引元素
+- 可以被展开为数组 `arr = [...arraylike]`, 或用 `Array.from(arraylike)` 转化为数组
+- 无法通过数组检测: `Array.isArray(arraylike) === false`
+
+> fun fact: `Array.prototype` 可以通过数组检测: `Array.isArray(Array.prototype) === true`.
+
+常见的伪数组有:
+- `String`: 字符串
+- `Arguments`: 函数参数对象
+- `NodeList`: `el.querySelectorAll()` 返回的元素列表
+- `HTMLFormControlsCollection`: `form.elements` 列表
+- `Uint8Array`, `Float32Array` 之类的类型数组 (TypedArray)
+
+```js
+const isTypedArray = (arr) => {
+  return Object.getPrototypeOf(arr) === Object.getPrototypeOf(Uint8Array)
+}
+```
 
 ### 判断函数是否用 `new` 调用
 
@@ -90,9 +140,9 @@ var t = ["\n %c %c %c PixiJS 4.8.7 - ✰ WebGL ✰  %c  %c  http://www.pixijs.co
 console.log(...t)
 ```
 
-### 移动端事件
+### 浏览器事件
 
-禁用触摸滚动
+禁用触摸滚动 / 禁用滚动冒泡: 滚动事件无法通过 `e.stopPropagation` 阻止冒泡, 但可以通过下面的方法来阻止冒泡:
 ```js
 const preventDefault = e => e.preventDefault()
 document.addEventListener('touchmove', preventDefault, { passive: false })
