@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>微分流形</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<p>[来自 梅加强《流形与几何初步》, <a href="https://zhuanlan.zhihu.com/p/125050693" target="_blank">Silence@知乎</a>]</p>
+
+<p class="remark">
+  本章起我们离开古典微分几何, 进入现代微分几何的领域. 第一个重要概念就是<b>流形</b>:
+  它是加上了一些限定条件的拓扑空间, 从而方便我们应用微积分的工具.
+</p>
+
+<h2>流形的定义</h2>
+
+<ol class="definition">
+  <li>
+    <b>流形 (manifold)</b>
+    `M` 是指第二可数 (具有可数拓扑基) 的 Hausdorff 空间 (任意两点有不相交开邻域),
+    且与欧氏空间 `RR^n` 局部同胚.
+  </li>
+  <li>
+    所谓<b>局部同胚</b>是指, 存在流形 `M` 的开覆盖 `{U_alpha}_(alpha in Gamma)` 以及一族连续映射
+    `varphi_alpha: U_alpha to RR^n`, 满足每个像集 `varphi_alpha(U_alpha)` 都是 `RR^n` 中的开集,
+    且 `varphi_alpha` 是同胚.
+    <br>
+    我们称 `(U_alpha, varphi_alpha)` 为一个局部坐标系 (又称坐标卡, coordinate chart), `U_alpha`
+    为局部坐标邻域, `varphi_alpha` 为局部坐标映射, `{(U_alpha, varphi_alpha)}`
+    为 `M` 的局部坐标覆盖 (又称地图册, atlas).
+  </li>
+</ol>
+
+<p class="remark">
+  可以证明这里的 `n` 是一个确定的正整数, 即不会存在另一个正整数 `m != n`
+  使得 `M` 与 `RR^m` 局部同胚.
+  `n` 称为 `M` 的<b>维数</b>.
+</p>
+
+<p class="remark">
+  <b>地图册</b>
+  把流形类比成地球, 每个局部坐标系类比成各地区的地图.
+  映射 `varphi_alpha` 把地区 `U_alpha` 映射到平面的地图 (欧氏空间) 中.
+  `{(U_alpha, varphi_alpha)}` 就相当于一本世界地图册.
+  <br>
+  在这本地图册中, 相邻两幅地图可以有交集.
+  设 `U_alpha nn U_beta != O/`, 则从地图 `alpha` 的一点 `p_alpha = (x_alpha, y_alpha)`,
+  可以确定世界上的一点 `p = varphi_alpha^-1(p_alpha)`, 从而确定地图 `beta`
+  的一点 `p_beta = varphi_beta(p) = (varphi_beta @ varphi_alpha^-1)(p_alpha)`.
+  我们称映射 `varphi_beta @ varphi_alpha^-1` 为<b>转换映射</b>.
+  由于 `varphi_alpha`, `varphi_beta` 都是同胚, 转换映射一定连续.
+</p>
+
+<ol class="definition">
+  <li><b>`C^r` 流形</b> 如果进一步要求对任意 `U_alpha nn U_beta != O/`, 转换映射
+    <span class="formula">
+      `varphi_beta @ varphi_alpha^-1: varphi_alpha(U_alpha nn U_beta) to varphi_beta(U_alpha nn U_beta)`
+    </span>
+    为 `C^r` 映射, 则称 `M` 为 `C^r` 流形.
+    当 `r = 0` 时, 称为<b>拓扑流形</b>; `r ge 1` 时, 称为<b>微分流形</b>;
+    `r = oo` 时, 称为<b>光滑流形</b>.
+    当转换映射都是实解析 (可以展开成幂级数) 时, 称为<b>实解析 (`C^omega`) 流形</b>.
+  </li>
+  <li><b>相容性与微分结构</b>
+    通常, 流形 `M` 的地图册 `{(U_alpha, varphi_alpha)}` 不是<b>极大</b>的,
+    可以向它添加更多的地图.
+    设 `(U, varphi)` 是 `M` 的局部地图, 即:
+    <span class="formula">
+      `U` 和 `varphi(U)` 是 `M` 的开集,  且 `varphi: U to varphi(U) sube RR^n` 是同胚.
+    </span>
+    如果任意 `varphi_alpha` 与 `varphi` 的转换映射都是 `C^r` 的, 则 `(U, varphi)`
+    可以被添加到地图册当中, 我们称 `(U, varphi)` 与 `{(U_alpha, varphi_alpha)}`
+    是<b>`C^r` 相容</b>的.
+    对任意地图册 `cc A = {(U_alpha, varphi_alpha)}`,
+    可以证明, 与 `cc A` 相容的所有局部坐标系组成包含 `cc A` 的<b>极大地图册</b> `cc D`,
+    使得与 `cc D` 相容的局部坐标系 `(U, varphi)` 都含于 `cc D`.
+    换言之, 地图册 `cc D` 已经不能加入任何与之相容的新地图.
+    我们称这种极大地图册 `cc D` 为 `M` 上的一个<b>微分结构</b>.
+  </li>
+</ol>
+
+<ol class="remark">
+  <li>存在拓扑流形的例子, 它仅是 `C^0` 的, 其上不存在任何相容的 `C^r (r ge 1)` 微分结构.</li>
+  <li>可以证明, 给定一个 `C^r (r ge 1)` 的微分结构, 一定存在一个相容的 `C^oo` 微分结构.
+    故以下我们默认微分流形都是光滑 (`C^oo`) 的.
+  </li>
+</ol>
+
+<ol class="definition">
+  <li><b>`C^k` 映射</b>
+    设 `f: M to N` 是两个 `C^r` 微分流形间的连续映射,
+    如果对任意 `p in M`, `f(p) in N` 以及 `f(p)` 附近的局部坐标系 `(V, psi)`,
+    均存在 `p` 附近的局部坐标系 `(U, varphi)`, 使得 `f(U) sube V`,
+    且映射
+    <span class="formula">
+      `psi @ f @ varphi^-1: varphi(U) (sube RR^n) to psi(V) (sube RR^n)`
+    </span>
+    为 `C^k (k le r)` 映射, 则称 `f` 是 `M, N` 之间的 `C^k` 映射, 记作 `f in C^k(M, N)`.
+  </li>
+  <li><b>微分同胚</b>
+    若上述 `f` 是同胚, 且 `f, f^-1` 均为 `C^r` 映射, 则称 `f` 是 `M, N` 之间的 `C^r` 微分同胚.
+    我们把微分同胚的两个流形视作等同的.
+    又如果在同一个拓扑流形上定义两个微分结构, 所作出的两个微分流形是微分同胚的,
+    则称两个<b>微分结构等价</b>.
+  </li>
+</ol>
+
+<p class="remark">
+  <b>良定义</b>
+  由于流形定义中的局部坐标系只要求存在性, 不要求唯一性, 因此用局部坐标系定义新概念时,
+  需要验证这是个良定义, 即新概念与局部坐标系的选取无关.
+  以 `C^k` 映射为例, 它的定义中虽然用到局部坐标系, 但由于任意两个坐标映射
+  `varphi_alpha`, `varphi_beta` 之间的转换映射都是 `C^r` 的, 所以 `C^k`
+  映射不依赖于局部坐标系选取.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

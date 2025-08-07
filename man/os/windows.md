@@ -73,9 +73,14 @@ win10 任务栏图标居中
 
 ### 输入法自定义短语 / 自造词
 
-```text
-%APPDATA%\Microsoft\InputMethod\Chs\*.lex
+```sh
+$ cp /c/Users/Administrator/AppData/Roaming/Microsoft/InputMethod/Chs/*.lex $APPDATA/Microsoft/InputMethod/Chs
 ```
+
+### 蓝屏分析
+
+- 打开【系统属性/高级/启动和故障恢复/设置】，勾选【将事件写入系统日志】和【写入调试信息=小内存转储(256KB)】
+- 下次蓝屏重启后，打开【事件查看器】查看日志，或从商店下载【WinDBG】分析 `C:\Windows\Minidump\dmp` 文件
 
 ## WSL
 

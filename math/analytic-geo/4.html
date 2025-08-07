@@ -57,9 +57,12 @@
     或 `(x^2+y^2)^2 - 2c^2(x^2-y^2) = a^4-c^4`,<br>
     或 `r^4 - 2c^2 r^2 cos 2 theta = a^4 - c^4`.
   </span>
-  特别, 双纽线的极坐标方程为
+  特别令 `a = c`, `b = sqrt 2 a` 时, 双纽线方程为
   <span class="formula">
-    `r^2 = 2 a^2 cos 2 theta`.
+    `(x^2+y^2)^2 = b^2(x^2-y^2)`,<br>
+    或 `r^2 = b^2 cos 2 theta`,<br>
+    或 `|z|^4 = b^2 "Re"(z^2)`,<br>
+    或 `(b (t^3+t)/(t^4+1), (b (t^3-t)/(t^4+1))`.
   </span>
 </p>
 
@@ -72,13 +75,9 @@
   `n` 为奇数时有 `n` 片花瓣, 周期是 `pi`; 偶数时有 `2n` 片花瓣, 周期是 `2pi`.<br>
   玫瑰线的第一片花瓣总是朝向 `x` 轴正方向; 如果把极坐标方程的 `cos` 换成 `sin`, 则图像整体旋转 90 度,
   第一片花瓣朝向 `y` 轴正方向.<br>
-  利用 De Moivre 公式,
+  在 `r = cos n theta` 两边同乘以 `r^n`, 再平方, 得到玫瑰线的复方程
   <span class="formula">
-    `r^n cos n theta = "Re"(r cos theta + "i" r sin theta)^n`,
-  </span>
-  于是玫瑰线的直角坐标方程为
-  <span class="formula">
-    `(x^2+y^2)^(n+1) = ("Re"(x + "i"y)^n)^2`.
+    `|z|^(2n+2) = ("Re"(z^n))^2`.
   </span>
 </p>
 
@@ -171,6 +170,41 @@
 
 <div class="img lg" title="渐开线">
   <img src="../img/involute.svg" alt="">
+</div>
+
+<p class="example" id="exp-curve-res">
+  <b>参数方程与结式</b>
+  [来自《A guide to plane algebraic curves》]
+  设曲线的参数方程为 `{x = p(t); y = q(t):}`,
+  `p, q` 为多项式, 则我们总能得到隐方程 `F(x, y) = 0`, `F` 为二元多项式.
+</p>
+
+<div class="solution p">
+  视 `x, y` 为常数, 考虑多项式 `P(t) = p(t) - x` 和 `Q(t) = q(t) - y`.
+  若它们有公共根, 则结式 `"Res"_t(P, Q) = 0`.
+  例如, 当 `p(t) = 3t^2+t+1`, `q(t) = t^4-4t^3-5` 时, 用计算机得到对应的隐方程:
+<pre>
+resultant(3*t**2+t+1-x, t**4-4*t**3-5-y, t)
+# x**4 - 56*x**3 - 18*x**2*y + 72*x**2 - 84*x*y - 580*x + 81*y**2 + 899*y + 2523
+</pre>
+  现在考虑 Lissajous 曲线的参数方程 `{x = cos 3t; y = sin 2 t:}`.
+  令 `c = cos t`, 方程化为
+  <span class="formula">
+    `{x = 4 c^3 - 3 c; y = +-2 c sqrt(1-c^2) :}`
+  </span>
+  曲线关于 `x, y` 轴对称, 因此可以对第二式平方, 而不引入新的点:
+  <span class="formula">
+    `{x = 4 c^3 - 3 c; y^2 = 4c^2 (1-c^2) :}`
+  </span>
+  现在计算结式:
+<pre>
+resultant(4*t**3-3*t-x, 4*t**2*(1-t**2)-y**2, t)
+# -64*x**4 + 64*x**2 - 256*y**6 + 384*y**4 - 144*y**2
+</pre>
+  从而隐方程为
+  <span class="formula">
+    `4x^4 - 4x^2 + 16y^6 - 24y^4 + 9y^2 = 0`.
+  </span>
 </div>
 
 <script src="../../js/note.js?type=math"></script>

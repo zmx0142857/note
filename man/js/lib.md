@@ -20,6 +20,8 @@
 - bespoke: 超轻量级幻灯片 (示例: jyywiki.cn)
 - animate.css, velocity, jquery.animate: web 小动画
 - @tweenjs/tween.js: 补间动画
+- clipjs: 网页端视频剪辑
+- paint.js.org: 画图网页版
 
 ### 3d 建模
 

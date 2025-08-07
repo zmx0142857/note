@@ -1255,7 +1255,390 @@ G.order() # 4
   4 阶子群在 `Q_8` 中的指数是 2 因此必正规.
 </p>
 
-<h3>有限生成 Abel 群</h3>
+<h2>有限生成 Abel 群</h2>
+
+<p>
+  [来自 尤承业《基础拓扑学讲义》附录]
+  本节的主要目标是证明有限生成交换群结构定理.
+  在推导的过程中, 我们将重温线性代数.
+</p>
+
+<h3>引入</h3>
+
+<ol class="definition">
+  设 `F` 为交换群, 子集 `A sube F`.
+  <li>若 `AA x in F` 可以表示为 `A` 中有限个元素的 `ZZ`-线性组合:
+    <span class="formula">
+      `x = sum r_i a_i`,
+      `quad r_i in ZZ`, `a_i in A`.
+    </span>
+    则称 `A` 是 `F` 的<b>生成集</b>, 若集合 `A` 有限, 则称 `F` 是<b>有限生成</b>的.
+    特别, 有限交换群都是有限生成的.
+  </li>
+  <li>
+    若 `AA x in F`, 1. 中的线性表示是唯一的, 则称 `F` 是<b>自由交换群</b>, `A` 是 `F` 的一个<b>基</b>.
+    当 `A` 有限时, 称 `F` 具有<b>有限基</b>.
+  </li>
+  <li>若 `F` 是自由交换群, `A` 是它的基. 则任给一个 `A` 到交换群 `H` 的映射 `theta: A to H`,
+    都可以按下面的方式定义同态 `varphi: F to H`:
+    <span class="formula">
+      `varphi(sum n_i a_i) = sum n_i theta(a_i)`.
+    </span>
+    称 `varphi` 为 `theta` 的<b>线性扩张</b>.
+  </li>
+</ol>
+
+<p class="proposition">
+  交换群 `H` 是有限生成的 `iff H` 是一个有限基自由交换群的商群.
+</p>
+
+<ol class="proof">
+  命题右端等价于存在满同态 `F to H`, 其中 `F` 为有限基自由交换群.
+  <li>`lArr`: 设 `j: F to H` 是满同态, 取 `F` 的基 `f_1, cdots, f_r`,
+    则 `j(f_1), cdots, j(f_r)` 是 `H` 的生成集.
+  </li>
+  <li>`rArr`: 取 `H` 的生成集 `h_1, cdots, h_r`, 令
+    <span class="formula">
+      `F := overbrace(ZZ o+ cdots o+ ZZ)^r`,
+    </span>
+    则 `F` 在向量加法下是有限基自由交换群.
+    容易验证下面是一个满同态:
+    <span class="formula">
+      `j: F to H`<br>
+      `(n_1, cdots, n_r) mapsto sum n_i h_i`
+    </span>
+  </li>
+</ol>
+
+<p class="corollary">
+  有限生成交换群的商群也是有限生成的.
+</p>
+
+<p class="definition">
+  <b>直和</b>
+  交换群 `G, H` 是直和就是普通群的直积概念, 记为
+  <span class="formula">
+    `G o+ H`
+    `= {(g, h): g in G, h in H}`.
+  </span>
+  其中
+  <span class="formula">
+    `(g_1, h_1) + (g_2, h_2)`
+    `= (g_1+g_2, h_1+h_2)`.
+  </span>
+  这可以推广到有限个交换群的直和.
+</p>
+
+<p class="remark">
+  有限基自由交换群 `F` 的结构是简单的: 设 `f_1, cdots, f_n` 是它的基,
+  则每个 `f_i` 生成自由循环群 `(:f_i:) ~= ZZ`, 且
+  <span class="formula">
+    `F = o+ (:f_i:)`
+    `~= overbrace(ZZ o+ cdots o+ ZZ)^n`
+    `= ZZ^n`.
+  </span>
+  为研究有限有限生成交换群 `H` 的结构,
+  第一步是将 `H` 分解为自由群与挠子群 (有限阶元素组成的子群) 的直和.
+</p>
+
+<h3>第一步分解: 挠子群</h3>
+
+<p class="definition">
+  设 `H` 是有限生成交换群, `H` 中全体有限阶元素 (存在 `n in ZZ_(ge 0)` 使得 `n h = 0`)
+  构成子群 `T_H`, 称为 `H` 的<b>挠子群</b>.
+  一般地, 对 `H_0 le H` 规定
+  <span class="formula">
+    `C(H_0) := {h in H: EE n in ZZ_(ge 0), n h in H_0}`,
+  </span>
+  则 `H_0 le C(H_0) le H`,
+  且 `T_H = C(0) = C(T_H)`.
+</p>
+
+<ol class="proposition">
+  <li>商群 `C(H_0)//H_0` 的元素都是有限阶的;</li>
+  <li>商群 `H//C(H_0)` 的非零元素都是无限阶的; 特别 `H//T_H` 的非零元素都是无限阶的.</li>
+  有了 `C(H_0)` 的定义, 两个商群从阶数上迥然地区分开了.
+</ol>
+
+<p class="proof">
+  1. 由 `C(H_0)` 的定义直接得出, 下证 2.
+  任取 `(:h:) := h + C(H_0) in H//C(H_0)`,
+  假如它是有限阶, 则存在 `n_1 in ZZ_(ge 0)` 使得 `n_1 h in C(H_0)`,
+  又由 `C(H_0)` 定义存在 `n_2 in ZZ_(ge 0)` 使得 `n_1 n_2 h in H_0`,
+  因此 `h in C(H_0)`, 即 `(:h:) = 0`.
+</p>
+
+<h3>第一步分解: 自由群</h3>
+
+<p class="lemma">
+  <b>整系数矩阵引理1</b>
+  整系数方阵 `M` (在 `ZZ` 上) 可逆当且仅当行列式等于 `+-1`.
+</p>
+
+<ol class="proof">
+  <li>先设 `M` 在 `ZZ` 上可逆, 则 `det(M) det(M^-1) = 1`,
+    但 `M` 和 `M^-1` 均为整系数, 所以 `det(M) = det(M^-1) = +-1`.
+  </li>
+  <li>
+    现在设 `det(M) = +-1`,
+    伴随矩阵 `M^**` 也是整系数方阵, 于是 `M^-1 = M^** // det(M)`
+    也是整系数方阵, 即 `M` 在 `ZZ` 上可逆.
+  </li>
+</ol>
+
+<p class="lemma">
+  <b>整系数矩阵引理2</b>
+  设 `n` 个整数满足 `gcd(r_1, cdots, r_n) = 1`, 则存在 `ZZ` 上的 `n` 阶矩阵 `M`, 满足
+  <span class="formula">
+    `det(M) = +-1`,<br>
+    `M (r_1, cdots, r_n)^(sf T) = (1, 0, cdots, 0)^(sf T)`.
+  </span>
+</p>
+
+<p class="proof">
+  对 `n` 归纳证明.
+  `n = 1` 时由 `gcd(r_1) = 1` 知道 `r_1 = +-1`, 命题成立.
+  假设命题对 `n-1` 成立, 记 `r := gcd(r_(n-1), r_n)`,
+  则存在 `s, t in ZZ` 使得 `s r_(n-1) + t r_n = r`.
+  作矩阵 `A` 如下:
+  <span class="formula">
+    `A = "diag"(I_(n-2), [s, t; -r_n//r, r_(n-1)//r])`.
+  </span>
+  则 `A` 是 `n` 阶整系数矩阵, 满足
+  <span class="formula">
+    `det(A) = 1`,<br>
+    `A (r_1, cdots, r_n)^(sf T) = (r_1, cdots, r_(n-2), r, 0)^(sf T)`.
+  </span>
+  `A` 把最后一个整数消成零, 剩余的 `n-1` 个整数仍满足 `gcd = 1`.
+  由归纳假设, 存在 `n-1` 阶整系数矩阵 `B` 使得
+  <span class="formula">
+    `det(B) = +-1`,<br>
+    `B (r_1, cdots, r_(n-2), r)^(sf T) = (1, 0, cdots, 0)^(sf T)`.
+  </span>
+  于是令 `M = "diag"(B, 1) A` 即满足题意.
+</p>
+
+<p class="proof">
+  基于初等变换的证明.
+  对于 `n` 阶整系数矩阵 `M`, 仍然可以应用 2, 3 类初等变换 (将一行的整数倍加到另一行、交换两行),
+  且应用这两种变换后 `det(M)` 仍为 `+-1`.
+  根据辗转相除法, 对列向量 `(r_1, cdots, r_n)^(sf T)`
+  应用有限次 2, 3 类初等变换后将得到它们的最大公约数
+  `(1, 0, cdots, 0)^(sf T)`.
+  这等价于左乘一个行列式为 `+-1` 的矩阵.
+</p>
+
+<ol class="lemma">
+  <b>整系数矩阵引理3</b>
+  设 `H` 是交换群, `A = {a_1, cdots, a_n}`,
+  `B = {b_1, cdots, b_n}` 是 `H` 的两个有限子集, 且满足
+  <span class="formula">
+    `M (a_1, cdots, a_n)^(sf T) = (b_1, cdots, b_n)^(sf T)`,
+  </span>
+  其中 `M` 为 `n` 阶可逆整系数矩阵. 则
+  <li>若 `H` 有限生成, `A` 是 `H` 的生成集, 则 `B` 也是生成集.</li>
+  <li>若 `H` 是自由群, `A` 是 `H` 的基, 则 `B` 也是基.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    任取 `x = sum r_i a_i in H`, `r_i in ZZ`.
+    这可以写成
+    <span class="formula">
+      `x = (r_1, cdots, r_n) (a_1, cdots, a_n)^(sf T)`
+      `= (r_1, cdots, r_n) M^-1 (b_1, cdots, b_n)^(sf T)`.
+    </span>
+    从而 `x` 也是 `b_1, cdots, b_n` 的 `ZZ`-线性组合.
+  </li>
+  <li>
+    设存在整数 `r_i` 使得 `sum r_i b_i = 0`,
+    则 `(r_1, cdots, r_n) M (a_i, cdots, a_n)^(sf T) = 0`.
+    由于 `a_1, cdots, a_n` 是基, 得到
+    <span class="formula">
+      `(r_1, cdots, r_n) M = (0, cdots, 0)`.
+    </span>
+    上式同乘 `M^-1` 得到 `(r_1, cdots, r_n) = (0, cdots, 0)`.
+  </li>
+</ol>
+
+<p class="theorem">
+  若 `H` 是有限生成交换群, 且它的非零元都是无限阶, 则 `H` 是自由群.
+</p>
+
+<p class="proof">
+  根据最小正整数原理, `H` 中存在最小 (指元素个数最少) 的生成集 `A = {a_1, cdots, a_n}`.
+  下证 `A` 是 `H` 的基. 如若不然, 则存在不全为零的整数 `r_i` 使得
+  <span class="formula">
+    `sum r_i a_i = 0`.
+  </span>
+  因为 `H` 的非零元都是无限阶, 不妨设 `gcd(r_1, cdots, r_n) = 1`.
+  由引理存在整系数可逆矩阵 `M` 使得
+  <span class="formula">
+    `M (r_1, cdots, r_n)^(sf T) = (1, 0, cdots, 0)^(sf T)`.
+  </span>
+  令 `(b_1, cdots, b_n) = (a_1, cdots, a_n) M^-1`, 则 `{b_i}` 也是 `H` 的生成集.
+  但
+  <span class="formula">
+    `b_1 = (b_1, cdots, b_n) (1, 0, cdots, 0)^(sf T)`
+    `= (b_1, cdots, b_n) M (r_1, cdots, r_n)^(sf T)`
+    `= (a_1, cdots, a_n) (r_1, cdots, r_n)^(sf T)`
+    `= 0`.
+  </span>
+  于是 `b_2, cdots, b_n` 也是 `H` 的生成集, 它只有 `n-1` 个元素, 与假设矛盾.
+</p>
+
+<p class="remark">
+  综上, 有限生成交换群 `H` 是某个自由交换群的商群;
+  而 `H` 的商群 `H//C(H_0)` 是自由交换群, 特别 `H//T_H` 是自由交换群.
+</p>
+
+<h3>有限生成交换群 = 自由群 ⊕ 挠子群</h3>
+
+<p class="theorem">
+  设 `H` 是有限生成交换群, `F` 是自由交换群,
+  `j: H to F` 是满同态, 则
+  <span class="formula">
+    `H ~= "Im" j o+ "Ker" j`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    令 `A` 是 `F` 的一个基, 规定映射
+    <span class="formula">
+      `theta: A to H`<br>
+      `a mapsto j^-1(a)` (任取原像中的元素)
+    </span>
+    于是 `j(theta(a)) = a`.
+    由 `theta` 线性扩张得到映射 `varphi: F to H`, 满足 `j @ varphi = "id": F to F`.
+    因此 `varphi` 是单同态.
+  </li>
+  <li>
+    `AA h in H`, 记 `h_2 = varphi(j(h))`, `h_1 = h - h_2`, 则
+    <span class="formula">
+      `j(h_1) = j(h) - j(h_2) = 0` `rArr h_1 in "Ker" j`.
+    </span>
+    下证 `H = "Im"varphi o+ "Ker" j`. 这是因为任取 `varphi(f) in "Im"varphi nn "Ker"j`,
+    都有 `j(varphi(f)) = 0`, 但 `j @ varphi = "id"`, 所以 `f = 0`.
+    于是
+    <span class="formula">
+      `H = "Im"varphi o+ "Ker" j`
+      `~= F o+ "Ker" j`
+      `= "Im" j + "Ker" j`.
+    </span>
+  </li>
+</ol>
+
+<p class="corollary">
+  有限生成交换群 `H` 可分解为
+  <span class="formula">
+    `H ~= H//C(H_0) o+ C(H_0)`<br>
+    `~= H//T_H o+ T_H`,
+  </span>
+  其中 `H_0 le H`.
+</p>
+
+<h3>秩</h3>
+
+<p class="definition">
+  <b>对偶空间与秩</b>
+  设 `H` 是有限生成交换群, 全体加法群同态 `H to RR` 构成实线性空间 `H^ast`, 其中加法和数乘定义为
+  <span class="formula">
+    `(f+g)(h) = f(h) + g(h)`, `quad f, g in H^ast`, `h in H`,<br>
+    `(r f)(h) = r f(h)`, `quad f in H^ast`, `r in RR`.
+  </span>
+  线性空间 `H^ast` 的维数称为 `H` 的<b>秩</b>, 记作 `"rank"H`.
+</p>
+
+<ol class="example">
+  <li>对于整数加群和有理数加群有 `"rank" ZZ = "rank" QQ = 1`.
+    `ZZ^ast` 的元素形如 `f: n mapsto n a`, 其中 `a in RR`.
+    `QQ^ast` 也类似.
+  </li>
+  <li>若有限生成交换群 `H` 的所有元素均为有限阶, 则 `"rank" H = 0`.
+    这是因为有限阶元素的同态像只能是 `RR` 中的有限阶元素, 即 0, 因此 `H^ast` 中只有零同态.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>直和的维数公式</b>
+  设 `G, H` 是有限生成交换群, 则
+  <span class="formula">
+    `(G o+ H)^ast ~= G^ast o+ H^ast` (线性空间的直和),<br>
+    因此 `"rank"(G o+ H) = "rank"G + "rank"H`.
+  </span>
+</p>
+
+<p class="corollary">
+  若 `F` 是有限基自由交换群, 则 `"rank"F = n`, 其中 `n` 是一个基的元素个数.
+  由此可见 `F` 的任一基都有相同的元素数目.
+</p>
+
+<h3>有限生成交换群结构定理</h3>
+
+<p>我们继续给出自由交换群的一些性质.</p>
+
+<ol class="lemma">
+  设 `F` 是秩为 `n` 的自由交换群, `x in F`.
+  若不存在自然数 `r gt 1` 和 `y in F` 使得 `x = r y`, 则称 `x` 是<b>本原</b>的.
+  我们有
+  <li>`F` 的任意本原元可以扩充为一个基.</li>
+  <li>任意 `y in F`, 存在唯一自然数 `r` 和本原元 `x` 使得 `y = r x`.
+    称 `x` 是 `y` 的<b>底</b>, `r` 是 `y` 的<b>高</b>.
+  </li>
+</ol>
+
+<ol class="lemma">
+  <b>自由交换子群的基</b>
+  设 `F` 是秩为 `n` 的自由交换群, 则
+  <li>`F` 的子群是秩为 `s le n` 的交换群.</li>
+  <li>存在 `F` 的基 `x_1, cdots, x_n` 和自然数 `k_i`, 使得 `k_1 x_1, cdots, k_s x_s` 是子群的基,
+    且 `k_i | k_(i+1)`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>有限生成交换群结构定理</b>
+  有限生成交换群 `H` 可分解为
+  <span class="formula">
+    `H ~= F_1 o+ ZZ_(k_1) o+ cdots o+ ZZ_(k_s)`.
+  </span>
+  其中 `F_1` 是自由群, `"rank"F_1 = "rank"H`.
+  `k_1, cdots, k_s` 是自然数, 且 `k_i | k_(i+1)`, 称为 `H` 的挠系数.
+  这些系数由 `H` 唯一确定.
+  <br>
+  特别当 `H` 为有限群时, `F_1` 是平凡群, `H` 是循环群的直和.
+</p>
+
+<ol class="proof">
+  <li>`H` 是某个有限基自由交换群 `F` 的商群,
+    故存在满同态 `j: F to H`. 记 `F_0 = "Ker"j le F`,
+    由引理存在 `F` 的基 `x_1, cdots, x_n`, 使得 `k_1 x_1, cdots, k_s x_s` 是 `F_0` 的基,
+    且满足 `k_i | k_(i+1)`.
+    于是
+    <span class="formula">
+      `H ~= F // F_0`
+      `~= F_1 o+ (:x_1, cdots, x_s:)/(:k_1 x_1, cdots, k_s x_s:)`.
+      `~= F_1 o+ ZZ_(k_1) o+ cdots o+ ZZ_(k_s)`.
+    </span>
+    其中 `F_1` 是 `x_(s+1), cdots, x_n` 张成的自由群, 而有限循环群 `ZZ_(k_i)` 则由商得到.
+  </li>
+  <li>下证系数 `k_i` 的唯一性. 若 `H` 还有分解
+    <span class="formula">
+      `H ~= F_2 o+ ZZ_(l_1) o+ cdots o+ ZZ_(l_r)`, `quad l_i | l_(i+1)`,
+    </span>
+    则
+    <span class="formula">
+      `ZZ_(k_1) o+ cdots o+ ZZ_(k_s)`
+      `~= ZZ_(l_1) o+ cdots o+ ZZ_(l_t)`
+      `~= H_T`.
+    </span>
+    不妨设 `s = t`, 否则可以在一边添加若干 `ZZ_1 = 0`.
+    下面反设 `H` 的两个分解式不相等, 则存在最小的 `r` 使得 `k_r != l_r`,
+    且对所有 `i lt r`, `k_i = l_i`.
+    🚧
+  </li>
+</ol>
 
 <h2>1 到 15 阶群的分类</h2>
 
@@ -1290,7 +1673,7 @@ G.order() # 4
 </table>
 
 <ol class="remark enum">
-  <li>有限阶交换群可以分解为循环群的直积;
+  <li>根据有限生成交换群结构定理, 有限交换群可以分解为循环群的直积;
     若 `p, q` 互素, 则 `C_p xx C_q ~= C_(p q)`, 因此不妨令这些循环群的阶两两不互素.
   </li>
   <li>`n ge 3` 时, `S_n` 是非交换群;</li>

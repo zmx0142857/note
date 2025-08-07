@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>理想类群和类数</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+<body>
+
+<h2>分式理想</h2>
+
+<p class="definition">
+  设 `K` 为数域, `O_K` 中所有非零理想构成含幺交换半群 `M(K)`, 幺元为 `O_K`.
+  由 Dedekind 整环的性质知道, `M(K)` 满足乘法消去律 `A B = A C rArr B = C`.
+  根据半群的群化, `M(K)` 可以扩大为交换群 `I(K)`, 其中元素形如
+  `A/B`, 且 `A/B = C/D` 当且仅当 `A D = B C`.
+  我们称 `I(K)` 中的元素为 `K` 的<b>分式理想</b>, 而称 `M(K)` 中元素为<b>整理想</b>.
+</p>
+
+<ol class="proposition">
+  设 `S` 为 `K` 的分式理想, 则
+  <li>存在 `a in O_K` 和整理想 `D sube O_K`,
+    使得 `S = a^-1 D = {d//a : d in D}`.
+  </li>
+  <li>`S^-1 = {x in K: x S sube O_K}`.</li>
+</ol>
+
+<h2>理想类群</h2>
+
+<p class="definition">
+  数域 `K` 中全体主分式理想 `P(K)` 构成分式理想群 `I(K)` 的子群.
+  由于 `I(K)` 是 Abel 群, 可以做商群 `C(K) := I(K) // P(K)`,
+  称为 `K` 的<b>理想类群</b>.
+  下证 `C(K)` 是有限群, 它的阶 `|C(K)|` 称为 `K` 的<b>理想类数</b>.
+  理想类群和理想类数可以衡量整环 `O_K` 与主理想整环的偏离程度:
+  理想类群越大, 偏离也越大.
+</p>
+
+<p class="definition">
+  <b>(Dirichlet)</b>
+  数域 `K` 的 <b>Minkowski 常数</b> 定义为
+  <span class="formula">
+    `M(K) = (4/pi)^(r_2) n!/n^n sqrt(|d(K)|)`.
+  </span>
+  其中 `n = [K:QQ]`, `r_2` 为 `K` 到 `CC` 中复嵌入对的个数, `d(K)` 为判别式.
+</p>
+
+<ol class="theorem">
+  设 `K` 为数域,
+  <li>`K` 的每个分式理想类均包含一个整理想 `B`, 使得 `N(B) le M(K)`.</li>
+  <li>理想类群 `C(K)` 是有限 Abel 群.</li>
+</ol>
+
+<script src="../../js/note.js"></script>
+</body>
+</html>
