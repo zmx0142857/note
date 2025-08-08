@@ -199,6 +199,12 @@ body {
   top: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  z-index: 10;
+}
+.toast-simple {
+  background-color: var(--bg4);
+  height: unset;
+  width: unset;
 }
 .toast-header {
   font-size: 32px;
@@ -513,14 +519,24 @@ const Utils = {
     })
     return buf.join('')
   },
+  clipboard (str) {
+    const doc = document
+    const textarea = doc.createElement('textarea')
+    textarea.value = str
+    doc.body.appendChild(textarea)
+    textarea.select()
+    doc.execCommand('copy')
+    doc.body.removeChild(textarea)
+  },
 }
 
 
 const UI = {
-  toast ({ html, className = 'toast' }) {
+  toast ({ html, className = 'toast', classList = [] }) {
     const $toast = $('.toast')
     $toast.className = className
     $toast.innerHTML = html
+    $toast.classList.add(...classList)
     Object.assign($toast.style, {
       display: 'block',
       opacity: '1',
@@ -864,7 +880,7 @@ const Typing = {
         } else {
           const { setting } = Typing
           setting.slice = setting.slice || 500
-          setting.limit = setting.limit || 20
+          setting.limit = setting.limit || 10
           setting.randomType = setting.randomType === 'none' ? dataSrc.includes('char') ? 'char' : 'line' : setting.randomType
           return Typing.loadBuiltin(dataSrc)
         }
@@ -1007,9 +1023,9 @@ const Typing = {
               <th>回改</th>
               <th>日期</th>
             </tr>
-            ${[...Typing.history].reverse().map(record => (
+            ${[...Typing.history].reverse().map((record, i) => (
               Utils.html`<tr>
-                <td>${(record.text ?? '').slice(0, 10)}</td>
+                <td title="复制" data-index="${i}" data-type="copy">${(record.text ?? '').slice(0, 10)}</td>
                 <td>${record.badge}</td>
                 <td>${(record.speed ?? NaN).toFixed(2)}</td>
                 <td>${(record.keySpeed ?? NaN).toFixed(2)}</td>
@@ -1024,8 +1040,16 @@ const Typing = {
           </table>
           ${Typing.history.length === 0 ? '<div class="empty">暂无数据</div>' : ''}
         </div>
-      `
+      `,
     })
+    document.querySelector('.modal-history-table').onclick = (e) => {
+      const { dataset } = e.target
+      if (dataset.type === 'copy') {
+        const record = Typing.history[Typing.history.length - 1 - dataset.index]
+        Utils.clipboard(record.text)
+        UI.toast({ html: '复制成功', classList: ['toast-simple'] })
+      }
+    }
   },
   onKeyPress (e) {
     if (e.code === 'KeyV') {

@@ -168,7 +168,7 @@ var tocData = [
         "label": "抽象代数",
         "children": [
           { "value": "2", "label": "群 (上)", "date": "2024-07-06" },
-          { "value": "3", "label": "群 (中)", "date": "2025-08-07" },
+          { "value": "3", "label": "群 (中)", "date": "2025-08-08" },
           { "value": "4", "label": "群 (下)", "date": "2025-01-10" },
           { "value": "5", "label": "环" },
           { "value": "6", "label": "模与代数", "date": "2024-10-29" },
