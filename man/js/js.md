@@ -181,6 +181,17 @@ const observer = new IntersectionObserver((arr) => {
 })
 ```
 
+### 标签页
+
+```js
+window.open(url, '_blank') // 在新标签页中打开
+```
+或者
+```html
+<a href="https://www.example.com" target="_blank">在新标签页中打开</a>
+```
+
+
 ### bytes 字节数组
 
 在浏览器, 使用 `Uint8Array`, 在 Node, 使用 `Buffer`

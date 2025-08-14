@@ -156,6 +156,20 @@ body {
       </script>
       </div>
     </div>
+    <div id="tabs-cantor" class="tabs-body-item">
+      <table id="table-cantor" class="col2"></table>
+      <div class="playground" type="textarea" value="1324 1234 3142 4132 3214 3421" value2="cantor">
+        <p>说明: 输入英文, 转为 Cantor; 输入 Cantor, 转为英文.</p>
+        <script type="text">
+        module.exports = function cantor (str) {
+          if (/[a-zA-Z]/.test(str)) {
+            return str.split(/\s+/).map(line => [...line].filter(c => /[a-zA-Z]/.test(c)).map(c => puzzle.convert(c, { from: 'char', to: 'cantor' })).join(' ')).join('\n')
+          }
+          return str.split('\n').map(line => line.split(/[^1-4]+/).map(m => puzzle.convert(m, { from: 'cantor', to: 'char' })).join('')).join(' ')
+        }
+        </script>
+      </div>
+    </div>
     <div id="tabs-nato" class="tabs-body-item">
       <table id="table-nato" class="col2"></table>
     </div>
@@ -618,6 +632,7 @@ body {
   <div class="tabs-footer">
     <a class="tabs-footer-item active" href="#tabs-a1z26">字母序 a1z26</a>
     <a class="tabs-footer-item" href="#tabs-ascii">ascii</a>
+    <a class="tabs-footer-item" href="#tabs-cantor">康托 cantor</a>
     <a class="tabs-footer-item" href="#tabs-morse">摩斯 morse</a>
     <a class="tabs-footer-item" href="#tabs-nato">北约字母 nato</a>
     <a class="tabs-footer-item" href="#tabs-cellphone">手机键盘 cellphone</a>
@@ -656,6 +671,7 @@ const init = () => {
   puzzle.renderTable($('#table-morse'), puzzle.makeTable(i => puzzle.data.morseArr[i]), '摩斯')
   puzzle.renderTable($('#table-nato'), puzzle.makeTable(i => puzzle.data.natoArr[i]), '北约字母')
   puzzle.renderTable($('#table-flag'), puzzle.makeTable(i => puzzle.data.flagArr[i]), '旗语')
+  puzzle.renderTable($('#table-cantor'), puzzle.makeTable(i => puzzle.data.cantorArr[i] || ''), 'Cantor')
   //puzzle.renderTable($('#table-hogpen'), puzzle.makeTable(i => chr(97 + i)), '猪圈密码')
 }
 

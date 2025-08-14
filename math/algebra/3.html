@@ -1762,10 +1762,6 @@ G.order() # 4
   </li>
 </ol>
 
-<p class="example">
-  计算 Abel 群 `C_6 xx C_10 xx C_15` 的挠系数.
-</p>
-
 <h2>1 到 15 阶群的分类</h2>
 
 <p>[来自 <a href="https://zhuanlan.zhihu.com/p/260343968" target="_blank">知乎@格罗卜学数学</a>]</p>
@@ -1799,10 +1795,10 @@ G.order() # 4
 </table>
 
 <ol class="remark enum">
-  <li>根据有限生成交换群结构定理, 有限交换群可以分解为循环群的直积;
-    若 `p, q` 互素, 则 `C_p xx C_q ~= C_(p q)`
-    (注意到 (1, 1) 是 `p q` 阶元),
-    因此不妨令这些循环群的阶两两不互素.
+  <li>根据有限生成交换群结构定理, 有限交换群可以分解为循环群的直积
+    <span class="formula">
+      `G ~= C_(k_1) xx cdots xx C_(k_s)`, `k_i | k_(i+1)`.
+    </span>
   </li>
   <li>`n ge 3` 时, `S_n` 是非交换群;</li>
   <li>`n ge 6` 时, `D_n := (: x, y | x^n = e, y^2 = e, x y x y = e :)` 是非交换群;</li>
@@ -1813,6 +1809,43 @@ G.order() # 4
     特别 `Q_8 := "Dic"_8` 是四元数群.
   </li>
 </ol>
+
+<p class="lemma">
+  <b>中国剩余定理</b>
+  `a, b` 互素时, `C_a xx C_b ~= C_(a b)`.
+  只需注意到 `(1, 1)` 是 `a b` 阶元即可.
+</p>
+
+<p class="example">
+  计算 Abel 群 `G = C_30 xx C_40 xx C_50` 的挠系数.
+</p>
+
+<p class="solution">
+  [来自群友 澄、幂零群]
+  群的直积具有交换律和结合律:
+  <span class="formula">
+    `A xx B ~= B xx A`,<br>
+    `(A xx B) xx C ~= A xx (B xx C)`.
+  </span>
+  先用中国剩余定理将每个群的阶分解为素数幂:
+  <span class="formula">
+    `30 = 2 xx 3 xx 5`,<br>
+    `40 = 8 xx 5`,<br>
+    `50 = 2 xx 25`.
+  </span>
+  按 2 的幂、3 的幂、5 的幂, 由大到小重新排列这些群:
+<pre>
+8,  2, 2
+3
+25, 5, 5
+</pre>
+  每一竖列的群再相乘 (利用中国剩余定理):
+  <span class="formula">
+    `C_(8 xx 3 xx 25) xx C_(2 xx 5) xx C_(2 xx 5)`
+    `= C_600 xx C_10 xx C_10`.
+  </span>
+  因此 `G` 的挠系数是 10, 10, 600.
+</p>
 
 <h3>处理小阶群时有用的结论</h3>
 

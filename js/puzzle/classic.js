@@ -13,6 +13,28 @@ const cellphoneDict = Object.fromEntries(cellphoneArr.map((c, i) => [c, String.f
 
 const flagArr = ['↓↙', '←↓', '↓↖', '↑↓', '↓↗', '→↓', '↓↘', '←↙', '↖↙', '↑→', '↑↙', '↗↙', '→↙', '↘↙', '←↖', '←↑', '←↗', '←→', '←↘', '↑↖', '↖↗', '↑↘', '→↗', '↗↘', '→↖', '→↘']
 const flagDict = Object.fromEntries(flagArr.map((c, i) => [c, String.fromCharCode(97 + i)]))
+const cantorArr = perm([1,2,3,4]).map(v => v.join('')).sort()
+
+function perm (arr) {
+  const n = arr.length
+  const res = []
+  const buf = arr.slice()
+  const swap = (i, j) => {
+    const tmp = buf[i]
+    buf[i] = buf[j]
+    buf[j] = tmp
+  }
+  const dfs = (depth) => {
+    if (depth === n) return res.push(buf.slice())
+    for (let i = depth; i < n; ++i) {
+      swap(i, depth)
+      dfs(depth+1)
+      swap(i, depth)
+    }
+  }
+  dfs(0)
+  return res
+}
 
 function makeTable (fn) {
   return Array.from({ length: 7 }).map((_, i) => [
@@ -66,6 +88,15 @@ const converters = {
   char2flag (c) {
     if (/[a-zA-Z]/.test(c)) return flagArr[c.toUpperCase().charCodeAt(0) - 65]
     return c
+  },
+  char2cantor (c) {
+    if (/[a-zA-Z]/.test(c)) return cantorArr[c.toUpperCase().charCodeAt(0) - 65]
+    return ''
+  },
+  cantor2char (c) {
+    const index = cantorArr.indexOf(c)
+    if (index > -1) return String.fromCharCode(97+index)
+    return '?'
   },
 }
 
@@ -125,6 +156,7 @@ return {
     morseArr,
     natoArr,
     flagArr,
+    cantorArr,
   },
   utils: {
     chunk: strChunk,

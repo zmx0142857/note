@@ -592,6 +592,11 @@ mesh.geometry.computeBoundsTree()
   const opx = (camera.top - camera.bottom) / (canvas.clientHeight * camera.zoom)
   sprite.scale.fill(16 * opx)
   ```
+- 文字贴图模糊
+  - 解决: 增加 texture 采样数:
+  ```js
+  texture.anisotropy = renderer.capabilities.getMaxAnisotropy()
+  ```
 - raycaster 忽略物体
   ```js
   obj.layers.set(1) // 将物体放在图层 1. 默认情况下, raycaster 只对图层 0 生效, 因此将忽略这个物体
