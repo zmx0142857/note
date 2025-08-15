@@ -84,6 +84,7 @@ var toArray = (L) => {
 
 ## 递归与回溯
 
+模板
 ```js
 var dfs = (depth = 0) => {
   if (depth === n) {
@@ -94,6 +95,30 @@ var dfs = (depth = 0) => {
     dfs(depth+1)
     undo(choice)
   })
+}
+```
+
+示例: 全排列
+```js
+var perm = (arr) => {
+  const n = arr.length
+  const res = []
+  const buf = arr.slice()
+  const swap = (i, j) => {
+    const tmp = buf[i]
+    buf[i] = buf[j]
+    buf[j] = tmp
+  }
+  const dfs = (depth) => {
+    if (depth === n) return res.push(buf.slice())
+    for (let i = depth; i < n; ++i) {
+      swap(i, depth)
+      dfs(depth+1)
+      swap(i, depth)
+    }
+  }
+  dfs(0)
+  return res
 }
 ```
 

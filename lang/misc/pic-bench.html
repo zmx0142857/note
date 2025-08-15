@@ -36,13 +36,23 @@
 }
 
 .img-list {
-  position: relative;
+  position: absolute;
   z-index: 1;
   display: flex;
   gap: 8px;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 .img-list-item {
   position: relative;
+  opacity: 0.9;
+  transition: opacity 0.3s;
+  pointer-events: auto;
+}
+.img-list-item:hover, .img-list-item:active {
+  opacity: 1;
 }
 .img-list-img {
   height: 100px;
@@ -115,6 +125,10 @@
   cursor: grab; 
   transform-origin: center;
 }
+#workbench.hidepoints .workbench-resizer,
+#workbench.hidepoints .workbench-rotater {
+  display: none;
+}
 @media screen and ((min-resolution: 150dpi) or (-webkit-min-device-pixel-ratio:2)) {
   .workbench-resizer, .workbench-rotater {
     width: 20px;
@@ -131,13 +145,18 @@
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   color: #eee;
+  font-size: 14px;
 }
 .property-item {
-  padding: 4px 0;
+  padding: 1px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+}
+.property input {
+  height: 20px;
+  width: 100px;
 }
 .property input[type=number] {
   background: #333;
@@ -157,7 +176,8 @@
   <button id="btn-load" class="img-list-item img-list-btn-load">+</button>
 </div>
 
-<div class="property">
+<div id="property" class="property">
+  <div class="property-item">ctrl points <input id="prop-ctrl-points" type="range" min="0" max="1" step="1" value="1"> </div>
   <div class="property-item"> opacity: <input id="prop-opacity" type="range" min="0" max="1" step="0.01" value="1"> </div>
   <div class="property-item"> x: <input id="prop-x" type="number" step="1" value="0"> </div>
   <div class="property-item"> y: <input id="prop-y" type="number" step="1" value="0"> </div>
@@ -185,8 +205,24 @@ const $file = $('#file', {
 })
 
 const $imgList = $('#img-list')
-const $workbench = $('#workbench')
+const $workbench = $('#workbench', {
+  onpointerdown: (e) => {
+    if (e.target === $workbench) {
+      $property.style.display = 'none'
+    }
+  }
+})
+const $property = $('#property')
 const $properties = {
+  $ctrlPoints: $('#prop-ctrl-points', {
+    onchange: (e) => {
+      if (e.target.value === '1') {
+        $workbench.classList.remove('hidepoints')
+      } else {
+        $workbench.classList.add('hidepoints')
+      }
+    },
+  }),
   $opacity: $('#prop-opacity', {
     onchange: (e) => {
       if (!currentImg) return
@@ -260,6 +296,7 @@ const selectImg = (img) => {
       zIndex: ++maxIndex,
     })
   }
+  $property.style.display = 'block'
   $properties.$opacity.value = currentImg.opacity
   $properties.$x.value = currentImg.x
   $properties.$y.value = currentImg.y
@@ -343,6 +380,13 @@ const renderWorkImg = (img) => {
       updateTransform()
     },
   })
+
+  workImg.onwheel = (e) => {
+    const k = e.deltaY < 0 ? 1.1 : 1/1.1
+    if (!currentImg) return
+    updateScale(currentImg.scale * k)
+    updateTransform()
+  }
 
   const resizer = $('<div>', {
     className: 'workbench-resizer',

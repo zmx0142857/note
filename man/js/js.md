@@ -191,10 +191,17 @@ window.open(url, '_blank') // 在新标签页中打开
 <a href="https://www.example.com" target="_blank">在新标签页中打开</a>
 ```
 
-
 ### bytes 字节数组
 
 在浏览器, 使用 `Uint8Array`, 在 Node, 使用 `Buffer`
+
+## html
+
+用原生 input 模拟 switch 组件
+```html
+<input type="range" min="0" max="1" />
+```
+
 
 ## 逆向
 
