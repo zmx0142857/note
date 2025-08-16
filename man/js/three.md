@@ -606,3 +606,6 @@ mesh.geometry.computeBoundsTree()
   这时模型表面往往出现破碎的三角形, 且一些本该被遮挡的部分意外显示出来.
   - 原因: gltf 材质中定义了 `alphaMode: "BLEND"`. 这可能是建模软件使用了 rgba 格式的 png 贴图导致的.
   - 解决: 在 gltf 模型中设置 `alphaMode: "OPAQUE"`. 或者在建模时使用 jpg 贴图或 rgb 格式的 png 贴图.
+- Migration Guide (change log):
+  - 在这里检查各个版本的变化:
+  - https://github.com/mrdoob/three.js/wiki/Migration-Guide
