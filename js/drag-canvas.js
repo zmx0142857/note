@@ -47,6 +47,7 @@ function draggable ({ el, container, onMouseDown, onMouseMove }) {
     return {
       x: x - rect.left,
       y: y - rect.top,
+      rect,
     }
   }
 
@@ -55,13 +56,13 @@ function draggable ({ el, container, onMouseDown, onMouseMove }) {
     document.addEventListener('mouseup', mouseup)
     document.addEventListener('touchmove', mousemove, true)
     document.addEventListener('touchend', mouseup, true)
-    const { x, y } = getXY(e)
-    onMouseDown?.({ x, y })
+    const { x, y, rect } = getXY(e)
+    onMouseDown?.({ x, y, e, rect })
   }
 
   const mousemove = (e) => {
-    const { x, y } = getXY(e)
-    onMouseMove?.({ x, y })
+    const { x, y, rect } = getXY(e)
+    onMouseMove?.({ x, y, e, rect })
   }
   
   const mouseup = (e) => {
