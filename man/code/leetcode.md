@@ -2,6 +2,15 @@
 
 ## 查找
 
+```js
+const every = (lo, hi, fn) => {
+  for (let i = lo; i <= hi; ++i) {
+    if (!fn(i)) return false
+  }
+  return true
+}
+```
+
 ### 最大值最小值
 
 ```js

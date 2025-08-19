@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>纸笔</title>
+  <link rel="stylesheet" href="../../css/note.css">
+<style>
+/* tabs */
+.tabs {
+  background: #181818;
+}
+.tabs .tabs-body {
+  height: 600px;
+}
+.tabs .tabs-footer {
+  border-left-color: #181818;
+}
+.tabs .tabs-body-item pre {
+  background-color: rgba(0,0,0,0.2);
+}
+</style>
+</head>
+<body class="dark">
+
+<div class="tabs">
+  <div class="tabs-body">
+    <div id="tabs-sudoku" class="tabs-body-item">
+      <p>只返回第一个解</p>
+      <div class="playground" type="textarea" rows="9" value="0 0 0 1 9 0 0 0 0
+0 0 1 0 0 0 3 0 8
+0 0 9 6 8 0 2 0 0
+0 9 8 4 3 0 0 0 0
+0 0 0 0 1 0 0 0 0
+5 0 0 0 0 0 0 6 3
+0 7 0 0 0 0 0 0 0
+0 8 2 0 6 0 0 0 0
+0 0 0 0 5 0 6 0 4" value2="9 0 0 0 1 8 0 3 0
+0 0 0 0 7 0 2 0 0
+0 0 2 5 0 0 0 0 0
+1 0 0 0 0 0 0 4 3
+0 0 6 0 0 0 0 0 0
+0 0 0 0 8 0 0 9 1
+0 2 0 4 0 0 5 0 0
+0 0 0 0 0 0 0 7 0
+4 0 1 6 0 3 0 0 0">
+<script type="text">
+module.exports = function (str) {
+  const board = str.split('\n').map(row => row.trim()).filter(Boolean).map(row => row.split(' ').map(v => Number(v)))
+  return solver.sudoku(board).map(row => row.join(' ')).join('\n')
+}
+</script>
+      </div>
+    </div>
+    <div id="tabs-skyscraper" class="tabs-body-item">
+      <p>只返回第一个解</p>
+      <div class="playground" type="textarea" rows="10" value="  0 0 1 2
+0 0 0 0 0 0
+0 0 0 0 0 2
+1 0 0 0 0 0
+0 0 0 0 0 0
+  0 0 3 0" value2="  3 0 0 2 0 0
+4 0 0 0 0 0 0 0
+2 0 0 0 0 0 0 0
+0 0 0 3 0 0 0 0
+0 0 0 0 6 1 0 0
+4 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0
+  0 3 3 2 0 3">
+<script type="text">
+module.exports = function (str) {
+  const board = []
+  const clues = []
+  const left = []
+  const right = []
+  const input = str.split('\n').map(row => row.trim()).filter(Boolean)
+  input.forEach((row, i) => {
+    row = row.split(' ').map(v => Number(v))
+    if (i === 0 || i === input.length - 1) return clues.push(row)
+    left.push(row.shift())
+    right.push(row.pop())
+    board.push(row)
+  })
+  clues.push(left, right)
+  return solver.skyscraper(board, clues).map(row => row.join(' ')).join('\n')
+}
+</script>
+      </div>
+    </div>
+    <div id="tabs-maze" class="tabs-body-item">
+      <p>'#' 代表墙, 空格代表地面, 'A' 代表起点, 'Z' 代表终点. 只返回一个解.</p>
+      <div class="playground" type="textarea" rows="11" value="##############
+#A#          #
+# # ######## #
+#   #      # #
+# # # #### # #
+# # #    # # #
+# # #### # # #
+# #      # # #
+# #### ### # #
+#          #Z#
+##############">
+<script type="text">
+module.exports = function (str) {
+  const board = str.split('\n').map(row => row.split(''))
+  return solver.maze(board).map(row => row.join('')).join('\n')
+}
+</script>
+      </div>
+    </div>
+    <div id="tabs-picross" class="tabs-body-item">
+      <div class="playground" type="textarea" rows="10" value="">
+<script type="text">
+module.exports = function (str) {
+  return 'TODO'
+}
+</script>
+      </div>
+    </div>
+    <div id="tabs-lightsoff" class="tabs-body-item">
+      <p>只返回第一个解.
+      <a href="https://zhuanlan.zhihu.com/p/19820908" target="_blank">知乎: n*n 关灯问题的解</a>
+      </p>
+      <div class="playground" type="textarea" rows="10" value="1 1 1
+1 1 1
+1 1 1" value2="1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1">
+<script type="text">
+module.exports = function (str) {
+  const board = str.split('\n').map(row => row.trim()).filter(Boolean).map(row => row.split(' ').map(v => Number(v)))
+  return solver.lightsoff(board).map(row => row.join(' ')).join('\n')
+}
+</script>
+      </div>
+    </div>
+    <div id="tabs-starbattle" class="tabs-body-item">
+      <div class="playground" type="textarea" rows="11" value=" ___________________
+|     |_    |       |
+|       |   |_      |
+|_     _|     |_    |
+| |___| |    _| |___|
+|α  | | |___| |     |
+|   | |_______|_    |
+|   |   | |_    |_ _|
+|  _|   |   |_____| |
+| |⍶   _|   |       |
+|___|_|_____|_______|">
+<script type="text">
+module.exports = function (str) {
+  return 'TODO'
+}
+</script>
+      </div>
+    </div>
+  </div>
+  <div class="tabs-footer">
+    <a class="tabs-footer-item active" href="#tabs-sudoku">数独</a>
+    <a class="tabs-footer-item" href="#tabs-skyscraper">摩天楼</a>
+    <a class="tabs-footer-item" href="#tabs-maze">迷宫</a>
+    <a class="tabs-footer-item" href="#tabs-picross">数织</a>
+    <a class="tabs-footer-item" href="#tabs-lightsoff">关灯</a>
+    <a class="tabs-footer-item" href="#tabs-starbattle">星战</a>
+  </div>
+</div>
+
+<script src="../../js/note.js"></script>
+<script src="../../js/playground.js"></script>
+<script src="../../js/puzzle/solver.js"></script>
+</body>
+</html>

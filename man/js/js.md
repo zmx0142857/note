@@ -50,14 +50,11 @@ JSON.parse('{"id":1231231231231231231231}', (k, v, { source }) => {
 
 ## array
 
-用 0 填充数组
 ```js
-Array(n).fill(0)
-```
-
-生成 0 到 n-1 的数组
-```js
-[...Array(n).keys()]
+Array(n).fill(0) // 用 0 填充数组
+[...Array(n)] // 用 undefined 填充数组
+[...Array(n).keys()] // [0..n-1]
+[...Array(n)].map(() => Array(n).fill(0)) // 零矩阵
 ```
 
 取最后一个元素
