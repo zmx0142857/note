@@ -262,7 +262,7 @@ const maze = (board) => {
 }
 
 /**
- * 数织
+ * 数织 (来自群友 硫化氢)
  * @params {number[][]} rowClue 行线索
  * @params {number[][]} colClue 列线索
  */
@@ -270,76 +270,66 @@ const picross = (rowClue, colClue) => {
   const m = rowClue.length // 行数
   const n = colClue.length // 列数
   const board = [...Array(m)].map(() => Array(n).fill(0)) // m 行 n 列, 用 0 填充
-  // rowSpace[i] 表示第 i 行的空格情况. 总是有 rowClue[i].length + 1 === rowSpace[i].length
-  // 类似地, colSpace[j] 表示第 j 列的空格情况
-  const rowSpace = []
-  const colSpace = []
+  const rowSpace = [] // rowSpace[i] 表示第 i 行的空格情况, 不含行尾空格
   let found = false
 
   const dfs = (row) => {
-    rowSpace[row] = rowClue[row].map(() => 0)
-    rowSpace[row].unshift(-1)
-    if (found || row === m) {
-      found = true
-      return
-    }
-    while (next(row)) {
-      if (stop(row)) {
+    if (found || row === m) return found = true
+    rowSpace[row] = rowClue[row].map(() => 1)
+    rowSpace[row][0] = -1 // 行首可以有 0 个空格
+    while (!found && next(row)) {
+      putRow(row)
+      if (ok(row)) {
         dfs(row + 1)
       }
-      if (found) return
     }
   }
 
-  const next = (row) => {
+  // 输出一行
+  const putRow = (row) => {
+    board[row].fill(0)
     let col = 0
-    rowSpace[row][col] += 1 // 遍历下一情况
-    let sum = rowSpace[row].reduce((x, y) => x+y) // 计算已占用空格
-    let tot = n + 1 - rowClue[row].reduce((x, y) => x+y+1) // 计算可用空格数
-    while (col < rowClue[row].length - 1 && sum > tot) { // 若未进满位且仍不符条件，就进一位
-      rowSpace[row][col] = 0 // 低位归零
-      col += 1 // 进位
-      rowSpace[row][col] += 1 // 高位加一
-      sum = rowSpace[row].reduce((x, y) => x+y) // 重新计算占用的空格
-    }
-    if (sum <= tot) { // 若符条件，就在 board 里输出
-      board[row].fill(0)
-      col = 1
-      for (let j = 0; j < rowClue[row].length; j++) {
-        col += rowSpace[row][j] // 输出前置空格
-        for (let i = col; i < col + rowClue[row][j]; i++) { // 输出中间实心
-          board[row][i] = 1
-        }
-        col += rowClue[row][j] + 1 // 实心与实心之间至少存在一个空格
+    rowClue[row].forEach((c, j) => {
+      col += rowSpace[row][j] // 输出前置空格
+      for (let i = 0; i < c; i++) { // 输出黑格
+        board[row][col+i] = 1
       }
-    }
-    return sum <= tot // 返回是否还没到头
+      col += c
+    })
   }
 
-  const stop = (row) => { // 检查当前是否已经不符合要求
-    let col = 0
-    for (let i = 1; i <= n; i++) {
-      col = 0
-      colSpace[i] = [0]
-      for (let j = 1; j <= row; j++) {
-        if (board[j][i] == 0) {
-          if (j == 1) { // 首位零不管
-          } else if (board[j-1][i] == 0) { // 连续零不管
-          } else { // 新零要管，他分开了连续的两段
-            if (colSpace[i][col] < colClue[i][col]) { // 没有满足 colClue 就断了
-              return false
-            }
-            col++ // 新增一段
-            colSpace[i][col] = 0 // 新增的归零
-          }
-        } else { // 实心都管
-          colSpace[i][col] += 1 // 尾端加一
-          if (colSpace[i][col] > colClue[i][col]) { // 尾端长度已经超了要求
-            return false
-          }
-          if (col > colClue[i].length - 1) { // 段数已经超了要求
-            return false
-          }
+  // 枚举所有可能的行空格 (rowSpace)
+  const next = (row) => {
+    const space = rowSpace[row]
+    const clue = rowClue[row]
+    space[0] += 1 // 枚举下一情况
+    let sum = space.reduce((x, y) => x+y) // 计算已占用空格
+    let max = n - clue.reduce((x, y) => x+y) // 计算可用空格数
+    // 空格不够用时, 枚举下一情况
+    for (let k = 0; sum > max && k < clue.length - 1; ++k) {
+      const diff = k === 0 ? space[k] : space[k]-1
+      space[k] -= diff // 低位归零
+      space[k+1] += 1 // 高位加一
+      sum -= diff-1 // 重新计算占用空格
+    }
+    return sum <= max
+  }
+
+  // 检查前 maxRow 行是否符合 colClue 的条件
+  const ok = (maxRow) => {
+    for (let col = 0; col < n; col++) {
+      const clue = colClue[col]
+      let k = 0 // 黑格段数
+      let count = 0 // 当前段的黑格计数
+      for (let row = 0; row <= maxRow; row++) {
+        if (board[row][col]) { // 黑格
+          ++count
+          if (count > clue[k]) return false // 黑格数量超标
+          if (k > clue.length - 1) return false // 段数超标
+        } else if (row > 0 && board[row-1][col]) { // 黑格下的空格
+          if (count < clue[k]) return false // 黑格数量不足
+          k++
+          count = 0
         }
       }
     }
@@ -411,6 +401,7 @@ return {
   skyscraper,
   lightsoff,
   maze,
+  picross,
 }
 
 })()

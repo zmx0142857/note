@@ -79,17 +79,19 @@ for (let playground of list) {
   })
 
   const output = $('pre', {
-    className: 'hidden'
+    className: 'playground-output'
   })
+  output.classList.add('hidden')
 
   const src = $('pre', {
     textContent: script.textContent.trim(),
-    className: 'hidden',
+    className: 'playground-src',
     attr: {
       contenteditable: 'true',
       spellcheck: 'false',
     },
   })
+  src.classList.add('hidden')
 
   const showSrc = $('input', {
     type: 'button',
