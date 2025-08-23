@@ -251,7 +251,7 @@ module.exports = function (str) {
       </div>
     </div>
     <div id="tabs-starbattle" class="tabs-body-item">
-      只输出第一个解.
+      只输出第一个解. ⚠ 警告：三星星战非常慢！估计要算 10min
       <div class="playground" type="textarea" rows="11" value=" ___________
 |    _____  |
 |___|_   _|_|
@@ -269,7 +269,22 @@ value2=" ___________________
 |   |   | |_    |_ _|
 |  _|   |   |_____| |
 | |_   _|   |       |
-|___|_|_____|_______|">
+|___|_|_____|_______|"
+value3=" ___________________________
+|_________   _____   _______|
+| |_____  | |  _  | |_____  |
+|    _  | | | | | |_____| | |
+|_  | |_| |_|_| |___  |_  |_|
+| | |  _    | |  ___|  _|   |
+| | |_| |___| | |_   _|_____|
+| | |    _   _|_  | | |     |
+| | |  _| |_|  _| |_| |     |
+| |_|_|     | |_    | |     |
+|  _____    |   |   | |___  |
+|_|  ___|___|   |   |  ___| |
+|  _|___   _    |___| |   | |
+| |___  |_| |___|   |_|  _| |
+|_____|_________________|___|">
       星星数量: <input class="star-count" type="number" value="1">
 <script type="text">
 module.exports = function (str) {
@@ -290,7 +305,6 @@ module.exports = function (str) {
     })
   })
   const board = solver.starbattle(size, parseInt($count.value), walls, floors)
-  console.log('solution', board)
   return rows.map((row, i) => {
     if (!i) return row.join('')
     return row.map((c, j) => !(j % 2) || !board[i-1][(j-1)/2] ? c : c === '_' ? '⍶' : 'α').join('')

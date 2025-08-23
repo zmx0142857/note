@@ -303,16 +303,15 @@ const picross = (rowClue, colClue) => {
     const space = rowSpace[row]
     const clue = rowClue[row]
     space[0] += 1 // 枚举下一情况
-    let sum = space.reduce((x, y) => x+y) // 计算已占用空格
-    let max = n - clue.reduce((x, y) => x+y) // 计算可用空格数
-    // 空格不够用时, 枚举下一情况
-    for (let k = 0; sum > max && k < clue.length - 1; ++k) {
-      const diff = k === 0 ? space[k] : space[k]-1
-      space[k] -= diff // 低位归零
+    let available = n - clue.reduce((x, y) => x+y) - space.reduce((x, y) => x+y) // 计算可用空格数
+    // 空格不够用时, 向右进位
+    for (let k = 0; k < clue.length - 1 && available < 0; ++k) {
+      const ds = k ? space[k]-1 : space[k]
+      space[k] -= ds // 低位归零
       space[k+1] += 1 // 高位加一
-      sum -= diff-1 // 重新计算占用空格
+      available += ds-1 // 重新计算占用空格
     }
-    return sum <= max
+    return available >= 0
   }
 
   // 检查前 maxRow 行是否符合 colClue 的条件
@@ -439,8 +438,9 @@ const starbattle = (size, count, walls, floors) => {
     if (found || row === size) return found = true
     rowStar[row].length = 0
     while (!found && next(row)) {
+      if (!rowStar[row].every(col => ok(row, col))) continue
       putRow(row)
-      if (row === 1) {
+      if (count >= 3 && row === 1) {
         console.log(row)
         console.log(board.map(v => v.map(c => c ? '@' : '.').join('')).join('\n'))
       }
@@ -482,33 +482,28 @@ const starbattle = (size, count, walls, floors) => {
   }
 
   // 枚举第 row 行的下一种可能排布
+  // 和数织一样采用进位法
   const next = (row) => {
     const star = rowStar[row]
-    // 初始化
-    if (!star.length) {
-      for (let k = 0; k < count; ++k) {
-        star[k] = k ? star[k-1] + 2: 0
-        while (star[k] < size && !ok(row, star[k])) ++star[k]
-        if (star[k] >= size) return false
-      }
-      return true
+    if (!star.length) return star.push(...Array(count).keys().map(i => 2*i))
+    const diff = star.map((col, i) => col - (star[i-1] || 0))
+    diff[0] += 1
+    let available = size - 2 - star[count-1]
+    for (let k = 0; k < count-1 && available < 0; ++k) {
+      const ds = k ? diff[k]-2 : diff[k]
+      diff[k] -= ds
+      diff[k+1] += 1
+      available += ds-1
     }
-    // 迭代到下一种排布 FIXME
-    for (let k = count-1; k >= 0; --k) {
-      const nextCol = star[k+1] || Infinity // 同行下一颗星星的列号
-      // 尝试将当前星星向右移动
-      for (let col = star[k]+1; col < size && nextCol - col > 1; ++col) {
-        if (ok(row, col)) {
-          star[k] = col
-          return true
-        }
-      }
-    }
-    return false
+    if (available >= 0) diff.forEach((v, i) => star[i] = (star[i-1] || 0) + v)
+    return available >= 0
   }
 
   init()
+  console.log(parent)
+  console.log('start')
   dfs(0)
+  console.log('end')
   if (!found) throw new Error('no solution')
   return board
 }
