@@ -1013,6 +1013,134 @@ def solution():
 solution()
 </pre>
     </div>
+    <div class="tabs-body-item" id="tabs-7-6">
+      <h3>2018 刑侦科推理试题</h3>
+      <ol style="line-height:1.8em">
+        <li>这道题的答案是：
+          <div class="space-around">
+            <span>A. A</span>
+            <span>B. B</span>
+            <span>C. C</span>
+            <span>D. D</span>
+          </div>
+        </li>
+        <li>第5题的答案是：
+          <div class="space-around">
+            <span>A. C</span>
+            <span>B. D</span>
+            <span>C. A</span>
+            <span>D. B</span>
+          </div>
+        </li>
+        <li>以下选项中哪一题的答案与其他三项不同：
+          <div class="space-around">
+            <span>A. 第3题</span>
+            <span>B. 第6题</span>
+            <span>C. 第2题</span>
+            <span>D. 第4题</span>
+          </div>
+        </li>
+        <li>以下选项中哪两题的答案相同：
+          <div class="space-around">
+            <span>A. 第1,5题</span>
+            <span>B. 第2,7题</span>
+            <span>C. 第1,9题</span>
+            <span>D. 第6,10题</span>
+          </div>
+        </li>
+        <li>以下选项中哪一题的答案与本题相同：
+          <div class="space-around">
+            <span>A. 第8题</span>
+            <span>B. 第4题</span>
+            <span>C. 第9题</span>
+            <span>D. 第7题</span>
+          </div>
+        </li>
+        <li>以下选项中哪两题的答案与第8题相同：
+          <div class="space-around">
+            <span>A. 第2,4题</span>
+            <span>B. 第1,6题</span>
+            <span>C. 第3,10题</span>
+            <span>D. 第5,9题</span>
+          </div>
+        </li>
+        <li>在此十道题中，被选中次数最少的选项字母为：
+          <div class="space-around">
+            <span>A. C</span>
+            <span>B. B</span>
+            <span>C. A</span>
+            <span>D. D</span>
+          </div>
+        </li>
+        <li>以下选项中哪一题的答案与第1题的答案在字母中不相邻：
+          <div class="space-around">
+            <span>A. 第7题</span>
+            <span>B. 第5题</span>
+            <span>C. 第2题</span>
+            <span>D. 第10题</span>
+          </div>
+        </li>
+        <li>已知“第1题与第6题的答案相同”与“第X题与第5题的答案相同”的真假性相反，那么X为：
+          <div class="space-around">
+            <span>A. 第6题</span>
+            <span>B. 第10题</span>
+            <span>C. 第2题</span>
+            <span>D. 第9题</span>
+          </div>
+        </li>
+        <li>在此10道题中，ABCD四个字母出现次数最多与最少者的差为：
+          <div class="space-around">
+            <span>A. 3</span>
+            <span>B. 2</span>
+            <span>C. 4</span>
+            <span>D. 1</span>
+          </div>
+        </li>
+      </ol>
+      这是 2-sat 问题吗？
+<pre>
+from itertools import product
+
+for b in product(range(4), repeat=10):
+    # 2.
+    if b[4] != (2, 3, 0, 1)[b[1]]:
+        continue
+    # 3.
+    t = (b[2], b[5], b[1], b[3])
+    if t.count(t[b[2]]) &gt; 1:
+        continue
+    # 4.
+    x, y = ((0, 4), (1, 6), (0, 8), (5, 9))[b[3]]
+    if b[x] != b[y]:
+        continue
+    # 5.
+    if b[4] != b[(7, 3, 8, 6)[b[4]]]:
+        continue
+    # 6.
+    x, y = ((1, 3), (0, 5), (2, 9), (4, 8))[b[5]]
+    if b[7] != b[x] or b[7] != b[y]:
+        continue
+    # 7.
+    counts = tuple(b.count(x) for x in range(4))
+    minCounts = min(counts)
+    if counts[(2, 1, 0, 3)[b[6]]] != minCounts:
+        continue
+    # 8.
+    if abs(b[(6, 4, 1, 9)[b[7]]]-b[0]) &lt; 1:
+        continue
+    # 9.
+    flag1 = b[0] == b[5]
+    flag2 = b[(5, 9, 1, 8)[b[8]]] == b[4]
+    if flag1 == flag2:
+        continue
+    # 10.
+    maxCounts = max(counts)
+    diff = maxCounts - minCounts
+    if diff != (3, 2, 4, 1)[b[9]]:
+        continue
+    print(''.join(chr(65+x) for x in b)) # BCACACDABA
+</pre>
+    </div>
   </div>
   <div class="tabs-footer">
     <a class="tabs-footer-item active" href="#tabs-7-1">求长度为奇数的最短路</a>
@@ -1020,6 +1148,7 @@ solution()
     <a class="tabs-footer-item" href="#tabs-7-3">Cantor 展开</a>
     <a class="tabs-footer-item" href="#tabs-7-4">Hamming 距离</a>
     <a class="tabs-footer-item" href="#tabs-7-5">过河问题</a>
+    <a class="tabs-footer-item" href="#tabs-7-6">刑侦推理试题</a>
   </div>
 </div>
 

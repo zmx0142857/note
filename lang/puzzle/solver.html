@@ -225,7 +225,7 @@ module.exports = function (str) {
   const colClue = lines.slice(index+1).filter(Boolean).map(row => row.split(/\s+/).map(v => Number(v)))
   output.style.lineHeight = ''
   const board = solver.picross(rowClue, colClue)
-  output.style.lineHeight = '0.6em'
+  output.style.lineHeight = '8px'
   return board.map(row => row.map(v => v === 0 ? '□' : '■').join('')).join('\n')
 }
 </script>
@@ -251,20 +251,50 @@ module.exports = function (str) {
       </div>
     </div>
     <div id="tabs-starbattle" class="tabs-body-item">
-      <div class="playground" type="textarea" rows="11" value=" ___________________
+      只输出第一个解.
+      <div class="playground" type="textarea" rows="11" value=" ___________
+|    _____  |
+|___|_   _|_|
+| |___|_|  _|
+|___    | | |
+|   |_  |_| |
+|_____|_____|"
+value2=" ___________________
 |     |_    |       |
 |       |   |_      |
 |_     _|     |_    |
 | |___| |    _| |___|
-|α  | | |___| |     |
+|   | | |___| |     |
 |   | |_______|_    |
 |   |   | |_    |_ _|
 |  _|   |   |_____| |
-| |⍶   _|   |       |
+| |_   _|   |       |
 |___|_|_____|_______|">
+      星星数量: <input class="star-count" type="number" value="1">
 <script type="text">
 module.exports = function (str) {
-  return 'TODO'
+  const $count = container.querySelector('.star-count')
+  const rows = str.split('\n').filter(v => Boolean(v.trim())).map(v => [...v])
+  const size = rows.length-1
+  const walls = [...Array(size)].map(() => [])
+  const floors = [...Array(size)].map(() => [])
+  rows.forEach((row, i) => {
+    if (!i) return
+    row.forEach((c, j) => {
+      if (!j || j === size*2) return
+      if (j % 2) {
+        if (i < size && c === '_') floors[(j-1)/2].push(i)
+      } else {
+        if (c === '|') walls[i-1].push(j / 2)
+      }
+    })
+  })
+  const board = solver.starbattle(size, parseInt($count.value), walls, floors)
+  console.log('solution', board)
+  return rows.map((row, i) => {
+    if (!i) return row.join('')
+    return row.map((c, j) => !(j % 2) || !board[i-1][(j-1)/2] ? c : c === '_' ? '⍶' : 'α').join('')
+  }).join('\n')
 }
 </script>
       </div>
@@ -283,5 +313,18 @@ module.exports = function (str) {
 <script src="../../js/note.js"></script>
 <script src="../../js/playground.js"></script>
 <script src="../../js/puzzle/solver.js"></script>
+<script>
+const $ = (el, container = document) => container.querySelector(el)
+
+const starbattle = $('#tabs-starbattle')
+// const btn1 = $('input[data-num="1"]', starbattle)
+// const btn2 = $('input[data-num="2"]', starbattle)
+const ctrl = $('.ctrl', starbattle)
+const starCount = $('.star-count', starbattle)
+ctrl.addEventListener('click', (e) => {
+  const num = e.target.getAttribute('data-num')
+  if (num) starCount.value = num
+})
+</script>
 </body>
 </html>

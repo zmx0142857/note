@@ -197,8 +197,8 @@ const skyscraper = (board, clues) => {
 
 /**
  * 迷宫
- * @param {character[][]} board m*n 迷宫, '#' 代表墙, 空格代表地面, 'A' 代表起点, 'Z' 代表终点
- * @returns {character[][]} 原地修改 board 数组, 用 '.' 代表路线
+ * @param {char[][]} board m*n 迷宫, '#' 代表墙, 空格代表地面, 'A' 代表起点, 'Z' 代表终点
+ * @returns {char[][]} 原地修改 board 数组, 用 '.' 代表路线
  */
 const maze = (board) => {
   const m = board.length, n = board[0].length
@@ -391,8 +391,126 @@ const lightsoff = (board) => {
   return fromBits(bits)
 }
 
-const starbattle = () => {
+/**
+ * 星之战
+ * @param {number} size 方阵的阶数
+ * @param {number} count 每行/列/宫的星星数
+ * @param {number[size][]} walls 每行的竖直方向的墙 "|", 取值范围 1 到 size-1
+ * @param {number[size][]} floors 每列的水平方向的墙 "_", 取值范围 1 到 size-1
+ */
+const starbattle = (size, count, walls, floors) => {
+  console.log(size, count, walls, floors)
+  let found = false
+  const board = [...Array(size)].map(() => Array(size).fill(0))
+  const parent = Array(size * size).fill(-1) // 并查集, 用于判断星星属于哪一宫
+  const cells = Array(size * size).fill(0) // 每一宫的星星计数
+  const cols = Array(size).fill(0) // 每列的星星计数
+  const rowStar = [...Array(size)].map(() => []) // 每行的星星排布
 
+  // 并查集的【并】: 合并子树
+  const union = (i, j) => {
+    i = findParent(i)
+    j = findParent(j)
+    if (i === j) return
+    if (parent[i] > parent[j]) return union(j, i)
+    parent[i] += parent[j]
+    parent[j] = i
+  }
+
+  // 并查集的【查】: 判断星星属于哪一宫
+  const findParent = (i) => {
+    if (!Number.isFinite(i)) throw new Error('findParent ' + i)
+    if (parent[i] < 0) return i
+    return parent[i] = findParent(parent[i])
+  }
+
+  // 初始化并查集
+  const init = () => {
+    for (let i = 0; i < size; ++i) {
+      for (let j = 0; j < size; ++j) {
+        if (i > 0 && !floors[j].includes(i)) union((i-1)*size+j, i*size+j)
+        if (j > 0 && !walls[i].includes(j)) union(i*size+j-1, i*size+j)
+      }
+    }
+  }
+
+  // 递归回溯
+  const dfs = (row) => {
+    if (found || row === size) return found = true
+    rowStar[row].length = 0
+    while (!found && next(row)) {
+      putRow(row)
+      if (row === 1) {
+        console.log(row)
+        console.log(board.map(v => v.map(c => c ? '@' : '.').join('')).join('\n'))
+      }
+      if (cols.every(v => v <= count) && cells.every(v => v <= count)) {
+        dfs(row+1)
+      }
+    }
+    if (!found) clearRow(row)
+  }
+
+  // 清空第 row 行
+  const clearRow = (row) => {
+    board[row].forEach((flag, col) => {
+      if (flag) {
+        board[row][col] = 0
+        --cols[col]
+        --cells[findParent(row*size+col)]
+      }
+    })
+  }
+
+  // 更新第 row 行
+  const putRow = (row) => {
+    clearRow(row)
+    rowStar[row].forEach(col => {
+      board[row][col] = 1
+      ++cols[col]
+      ++cells[findParent(row*size+col)]
+    })
+  }
+
+  // 保证星星纵向不相邻, 也不对角相邻
+  const ok = (row, col) => {
+    if (row > 0) {
+      const last = board[row-1]
+      if (last[col-1] || last[col] || last[col+1]) return false
+    }
+    return true
+  }
+
+  // 枚举第 row 行的下一种可能排布
+  const next = (row) => {
+    const star = rowStar[row]
+    // 初始化
+    if (!star.length) {
+      for (let k = 0; k < count; ++k) {
+        star[k] = k ? star[k-1] + 2: 0
+        while (star[k] < size && !ok(row, star[k])) ++star[k]
+        if (star[k] >= size) return false
+      }
+      return true
+    }
+    // 迭代到下一种排布 FIXME
+    for (let k = count-1; k >= 0; --k) {
+      const nextCol = star[k+1] || Infinity // 同行下一颗星星的列号
+      // 尝试将当前星星向右移动
+      for (let col = star[k]+1; col < size && nextCol - col > 1; ++col) {
+        if (ok(row, col)) {
+          star[k] = col
+          return true
+        }
+      }
+    }
+    return false
+  }
+
+  init()
+  dfs(0)
+  if (!found) throw new Error('no solution')
+  return board
 }
 
 // TODO: 使用 worker 计算
@@ -402,6 +520,7 @@ return {
   lightsoff,
   maze,
   picross,
+  starbattle,
 }
 
 })()

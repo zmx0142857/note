@@ -54,7 +54,7 @@ JSON.parse('{"id":1231231231231231231231}', (k, v, { source }) => {
 Array(n).fill(0) // 用 0 填充数组
 [...Array(n)] // 用 undefined 填充数组
 [...Array(n).keys()] // [0..n-1]
-[...Array(n)].map(() => Array(n).fill(0)) // 零矩阵
+[...Array(m)].map(() => Array(n).fill(0)) // m 行 n 列的零矩阵
 ```
 
 取最后一个元素

@@ -39,6 +39,11 @@ body {
 .braille-dot.filled {
   background: #555;
 }
+.braille-switch {
+  width: 50px;
+  height: 20px;
+  vertical-align: middle;
+}
 
 /* 旗语 */
 .flag-input {
@@ -126,6 +131,7 @@ body {
       <p class="remark">二进制字母序编码又叫培根密码, 使用 5 个 bit 表示一个字母.</p>
     </div>
     <div id="tabs-ascii" class="tabs-body-item">
+      <table id="table-ascii" class="col2"></table>
       <div class="playground" type="textarea" value="sleep" value2="73 6c 65 65 70">
         <p>说明: 输入英文, 转为 ascii; 输入 ascii, 转为英文.</p>
         <script type="text">
@@ -281,10 +287,11 @@ body {
     </div>
     <div id="tabs-braille" class="tabs-body-item">
       <table id="table-braille" class="col2"></table>
+      <table id="table-braille-pinyin" class="col2"></table>
 
-      <div class="playground" type="textarea" value="⠃⠗⠁⠊⠇⠇⠑" value2="braille">
+      <div class="playground" type="textarea" value="⠃⠗⠁⠊⠇⠇⠑" value2="braille" value3="vme50" value4="⠌⠲ ⠛⠕" value5="⠓⠜ ⠓⠣ ⠞⠪ ⠛⠑">
 
-      <p>说明: 输入英文, 转为盲文; 输入盲文, 转为英文</p>
+      <p>说明: 输入英文或拼音, 转为盲文; 输入盲文, 转为英文或拼音</p>
       <div class="braille-input">
         <div class="braille-dot" data-index="0"></div>
         <div class="braille-dot" data-index="3"></div>
@@ -295,13 +302,21 @@ body {
       </div>
       <div class="inline-block">
         <p class="braille-display"></p>
-        <input class="braille-input-btn" type="button" value="插入" />
+        <div>
+          <input class="braille-input-btn" type="button" value="插入" />
+          <input class="braille-switch" type="button" value="En"/>
+          <input class="braille-flip" type="button" value="反转" title="旋转180度"/>
+        </div>
       </div>
       <script type="text">
-      const $input = container.querySelector('.braille-input')
-      const $btn = container.querySelector('.braille-input-btn')
-      const $display = container.querySelector('.braille-display')
-      const $textarea = container.querySelector('textarea')
+      const $ = el => container.querySelector(el)
+      const $input = $('.braille-input')
+      const $btn = $('.braille-input-btn')
+      const $display = $('.braille-display')
+      const $textarea = $('textarea')
+	  const $switch = $('.braille-switch')
+      const $flip = $('.braille-flip')
+      let mode = 'En'
       $input.value = 0
       $input.onclick = e => {
         const { chr } = puzzle.utils
@@ -318,11 +333,39 @@ body {
         const code = chr(0x2800 + $input.value)
         helper.insert(code)
       }
+      $switch.onclick = () => {
+        mode = mode === 'En' ? '拼音' : 'En'
+        $switch.value = mode
+      }
+      $flip.onclick = () => {
+        const { chr, ord } = puzzle.utils
+        $textarea.value = [...$textarea.value].reverse().map(v => {
+          const n = ord(v) - 0x2800
+          if (0 <= n && n < 64) {
+            return chr(0x2800 + parseInt(n.toString(2).padStart(6, 0).split('').reverse().join(''), 2))
+          } else {
+            return v
+          }
+        }).join('')
+      }
       function braille (str) {
-        if (/[\u2800-\u28ff]/.test(str)) {
-          return [...str].map(c => puzzle.convert(c, { from: 'braille', to: 'char' })).join('')
-        }
-        return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'braille' })).join('')
+	    if (mode === 'En') {
+		  if (/[\u2800-\u28ff]/.test(str)) {
+			const { chr, ord } = puzzle.utils
+			let res = [...str].map(c => puzzle.convert(c, { from: 'braille', to: 'char' })).join('')
+            res = puzzle.utils.numberStd(res)
+            return res
+		  }
+		  return [...str].map(c => puzzle.convert(c, { from: 'char', to: 'braille' })).join('')
+		} else { // 拼音
+		  if (/[\u2800-\u28ff]/.test(str)) {
+			let res = [...str].map(c => puzzle.convert(c, { from: 'braille', to: 'pinyin' })).join('')
+            res = puzzle.utils.numberStd(res)
+			return puzzle.utils.pinyinStd(res)
+		  } else {
+			return puzzle.utils.tokenize(str, puzzle.data.braillePinyinEncode).map(c => puzzle.convert(c, { from: 'pinyin', to: 'braille'})).join('')
+		  }
+		}
       }
       module.exports = braille
       </script>
@@ -330,31 +373,6 @@ body {
     </div>
     <div id="tabs-hogpen" class="tabs-body-item">
       <table id="table-hogpen" class="col2">
-        <caption>猪圈密码</caption>
-        <tr>
-          <td>A</td> <td>A</td> <td>B</td> <td>B</td> <td>C</td> <td>C</td>
-          <td>J</td> <td>J</td> <td>K</td> <td>K</td> <td>L</td> <td>L</td>
-        </tr>
-        <tr>
-          <td>D</td> <td>D</td> <td>E</td> <td>E</td> <td>F</td> <td>F</td>
-          <td>M</td> <td>M</td> <td>N</td> <td>N</td> <td>O</td> <td>O</td>
-        </tr>
-        <tr>
-          <td>G</td> <td>G</td> <td>H</td> <td>H</td> <td>I</td> <td>I</td>
-          <td>P</td> <td>P</td> <td>Q</td> <td>Q</td> <td>R</td> <td>R</td>
-        </tr>
-        <tr>
-          <td></td> <td></td> <td>S</td> <td>S</td> <td></td> <td></td>
-          <td></td> <td></td> <td>W</td> <td>W</td> <td></td> <td></td>
-        </tr>
-        <tr>
-          <td>T</td> <td>T</td> <td></td> <td></td> <td>U</td> <td>U</td>
-          <td>X</td> <td>X</td> <td></td> <td></td> <td>Y</td> <td>Y</td>
-        </tr>
-        <tr>
-          <td></td> <td></td> <td>V</td> <td>V</td> <td></td> <td></td>
-          <td></td> <td></td> <td>Z</td> <td>Z</td> <td></td> <td></td>
-        </tr>
       </table>
 
       [参考 <a href="https://blog.csdn.net/weixin_47869330/article/details/111396033" target="_blank">CSDN</a>]
@@ -589,7 +607,7 @@ body {
         </tr>
         <tr>
           <td>U</td>
-          <td>苯内氨酸 F<br>苯内氨酸 F<br>亮氨酸 L<br>亮氨酸 L</td>
+          <td>苯丙氨酸 F<br>苯丙氨酸 F<br>亮氨酸 L<br>亮氨酸 L</td>
           <td>丝氨酸 S<br>丝氨酸 S<br>丝氨酸 S<br>丝氨酸 S</td>
           <td>酪氨酸 Y<br>酪氨酸 Y<br>终止密码<br>终止密码</td>
           <td>半胱氨酸 C<br>半胱氨酸 C<br>终止密码<br>色氨酸 W</td>
@@ -620,8 +638,14 @@ body {
           <td>U<br>C<br>A<br>G</td>
         </tr>
       </table>
+      <table id="table-amino-abbr">
+      </table>
+
       <div class="playground" type="textarea" value="ACG CAU GAA AAA GAG UAU">
-        <p>输入密码子, 输出英文字母</p>
+        <p>输入密码子, 输出英文字母.
+          注意: 英文字母对应的密码子并不唯一.
+          6 个字母 B, J, O, U, X, Z 并没有对应的氨基酸.
+        </p>
         <script type="text">
         const dict = 'FFLLSSSSYY..CC.WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
         module.exports = function amino (str) {
@@ -656,13 +680,27 @@ body {
     <a class="tabs-footer-item" href="#tabs-reverse">倒序 reverse</a>
     <a class="tabs-footer-item" href="#tabs-vigenere">维吉尼亚 Vigenère</a>
     <a class="tabs-footer-item" href="#tabs-lens">透镜 lens</a>
-    <a class="tabs-footer-item" href="#tabs-amino">氨基酸密码子 amino acid</a>
+    <a class="tabs-footer-item" href="#tabs-amino">氨基酸密码子 amino</a>
 
     <!-- 实用工具 -->
 
     <a class="tabs-footer-item" href="http://nutrimatic.org/" target="_blank" title="解字母乱序 anagram">nutrimatic🔗</a>
     <a class="tabs-footer-item" href="http://quipqiup.com/" target="_blank" title="解单表密码">quipqiup🔗</a>
     <a class="tabs-footer-item" href="https://www.guballa.de/vigenere-solver" target="_blank" title="无密钥解维吉尼亚">vigenere-solver🔗</a>
+    <a class="tabs-footer-item" href="https://scieph.com/tools" target="_blank" title="深国交解谜会">scieph🔗</a>
+	<a class="tabs-footer-item" href="http://cs.newdu.com/search.html" target="_blank" title="谚语俗语歇后语">俗语大全🔗</a>
+	<a class="tabs-footer-item" href="https://uutool.cn/telegraph-code-decode/" target="_blank" title="中文电码查询">中文电码🔗</a>
+    <a class="tabs-footer-item" href="https://www.qianp.com/" target="_blank" title="千篇国学">千篇国学🔗</a>
+    <a class="tabs-footer-item" href="https://www.hanyuguoxue.com/" target="_blank" title="汉语国学">汉语国学🔗</a>
+	<a class="tabs-footer-item" href="https://www.moshangshici.com" target="_blank" title="陌上诗词">陌上诗词🔗</a>
+	<a class="tabs-footer-item" href="https://sou-yun.cn/PoemIndex.aspx" target="_blank" title="诗词搜韵">诗词搜韵🔗</a>
+	<a class="tabs-footer-item" href="https://symbol.cc" target="_blank" title="symbol.cc">unicode🔗</a>
+    <a class="tabs-footer-item" href="http://szdm.00cha.net/" target="_blank" title="机场代码查询">机场代码🔗</a>
+    <a class="tabs-footer-item" href="https://www.guojiadaima.com/" target="_blank" title="国家代码">国家代码🔗</a>
+    <a class="tabs-footer-item" href="https://www.astro-init.top/index.php?title=%E6%98%9F%E5%BA%A7%E5%8F%8A%E4%BA%AE%E6%98%9F%E5%90%8D%E5%AF%B9%E7%85%A7%E8%A1%A8" target="_blank" title="星座及亮星名对照表">88星座🔗</a>
+    <a class="tabs-footer-item" href="https://xing.fmi.uni-jena.de/mediawiki/index.php/IAU-Catalog_of_Star_Names" target="_blank" title="IAU-Star Names, IAU-Constellations">国际星名🔗</a>
+    <a class="tabs-footer-item" href="https://www.zgbk.com/ecph/words?SiteID=1&ID=225325&Type=bkzyb&SubID=140853" target="_blank" title="中国星名">中国星名🔗</a>
+    <a class="tabs-footer-item" href="https://docs.qq.com/sheet/DTnNQb2ZOa0RsdGpI?tab=c8c5xi" target="_blank" title="puzzle hunt 新人导航">新人导 hunt🔗</a>
   </div>
 </div>
 
@@ -676,14 +714,99 @@ function $ (...args) {
 }
 
 const init = () => {
-  const { chr } = puzzle.utils
-  puzzle.renderTable($('#table-a1z26'), puzzle.makeTable(i => i + 1), '字母序')
-  puzzle.renderTable($('#table-braille'), puzzle.makeTable(i => puzzle.data.brailleStr[i]), '盲文')
-  puzzle.renderTable($('#table-morse'), puzzle.makeTable(i => puzzle.data.morseArr[i]), '摩斯')
-  puzzle.renderTable($('#table-nato'), puzzle.makeTable(i => puzzle.data.natoArr[i]), '北约字母')
-  puzzle.renderTable($('#table-flag'), puzzle.makeTable(i => puzzle.data.flagArr[i]), '旗语')
-  puzzle.renderTable($('#table-cantor'), puzzle.makeTable(i => puzzle.data.cantorArr[i] || ''), 'Cantor')
-  //puzzle.renderTable($('#table-hogpen'), puzzle.makeTable(i => chr(97 + i)), '猪圈密码')
+  const { ord, chunk } = puzzle.utils
+  const config = [
+	{
+	  el: $('#table-a1z26'),
+	  filter: v => /[A-Z]/.test(v),
+	  map: v => puzzle.convert(v, { from: 'char', to: 'number' }),
+	  title: '字母序',
+	},
+    {
+      el: $('#table-ascii'),
+      map: ord,
+      title: 'ascii',
+    },
+	{
+	  el: $('#table-braille'),
+	  map: v => puzzle.convert(v, { from: 'char', to: 'braille' }),
+	  title: '盲文',
+	},
+    {
+      el: $('#table-braille-pinyin'),
+      title: '盲文拼音',
+      rows: chunk(puzzle.data.braillePinyinArr, 8).map(row => row.flat()),
+    },
+	{
+	  el: $('#table-morse'),
+	  map: v => puzzle.convert(v, { from: 'char', to: 'morse' }),
+	  title: '摩斯',
+	},
+	{
+	  el: $('#table-nato'),
+	  filter: v => /[A-Z]/.test(v),
+	  map: v => puzzle.data.natoArr[ord(v)-65],
+	  title: '北约字母',
+	},
+	{
+	  el: $('#table-flag'),
+	  filter: v => /[A-Z]/.test(v),
+	  map: v => puzzle.convert(v, { from: 'char', to: 'flag' }),
+	  title: '旗语',
+	},
+	{
+	  el: $('#table-cantor'),
+	  filter: v => /[A-X]/.test(v),
+	  map: v => puzzle.convert(v, { from: 'char', to: 'cantor' }),
+	  title: 'Cantor',
+	},
+    {
+      el: $('#table-amino-abbr'),
+      title: '氨基酸缩写对照',
+      header: [
+        '中文',
+        '英文',
+        '三字母缩写',
+        '单字母缩写',
+      ],
+      rows: chunk([
+        '甘氨酸', 'Glycine', 'Gly', 'G',
+        '丙氨酸', 'Alanine', 'Ala', 'A',
+        '缬氨酸', 'Valine', 'Val', 'V',
+        '亮氨酸', 'Leucine', 'Leu', 'L',
+        '异亮氨酸', 'Isoleucine', 'Ile', 'I',
+        '脯氨酸', 'Proline', 'Pro', 'P',
+        '苯丙氨酸', 'Phenylalanine', 'Phe', 'F',
+        '酪氨酸', 'Tyrosine', 'Tyr', 'Y',
+        '色氨酸', 'Tryptophan', 'Trp', 'W',
+        '丝氨酸', 'Serine', 'Ser', 'S',
+        '苏氨酸', 'Threonine', 'Thr', 'T',
+        '半胱氨酸', 'Cystine', 'Cys', 'C',
+        '蛋氨酸', 'Methionine', 'Met', 'M',
+        '天冬酰胺', 'Asparagine', 'Asn', 'N',
+        '谷氨酰胺', 'Glutarnine', 'Gln', 'Q',
+        '天冬氨酸', 'Asparticacid', 'Asp', 'D',
+        '谷氨酸', 'Glutamicacid', 'Glu', 'E',
+        '赖氨酸', 'Lysine', 'Lys', 'K',
+        '精氨酸', 'Arginine', 'Arg', 'R',
+        '组氨酸', 'Histidine', 'His', 'H',
+      ], 4),
+    },
+    {
+      el: $('#table-hogpen'),
+      title: '猪圈密码',
+      rows: chunk([
+        'A', 'B', 'C', 'J', 'K', 'L',
+        'D', 'E', 'F', 'M', 'N', 'O',
+        'G', 'H', 'I', 'P', 'Q', 'R',
+        ' ', 'S', ' ', ' ', 'W', ' ',
+        'T', ' ', 'U', 'X', ' ', 'Y',
+        ' ', 'V', ' ', ' ', 'Z', ' ',
+      ], 6),
+      map: v => v,
+    },
+  ]
+  config.forEach(v => puzzle.renderTable(v))
 }
 
 init()

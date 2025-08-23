@@ -474,6 +474,7 @@ mesh.geometry.computeBoundsTree()
   ```js
   texture.colorSpace = THREE.SRGBColorSpace
   ```
+  如果你想让贴图看起来更亮，选择 THREE.SRGBColorSpace。如果你需要在线性空间中进行计算（如光照），选择 THREE.LinearSRGBColorSpace。THREE.NoColorSpace (默认值) 则适用于特殊场景，如法线贴图、粗糙度贴图。
 - 半透明材质:
   ```js
   material.transparent = true // 开启透明支持
@@ -609,3 +610,9 @@ mesh.geometry.computeBoundsTree()
 - Migration Guide (change log):
   - 在这里检查各个版本的变化:
   - https://github.com/mrdoob/three.js/wiki/Migration-Guide
+- 彻底销毁
+  ```js
+  renderer.dispose()
+  renderer.forceContextLoss()
+  renderer.context = null
+  ```

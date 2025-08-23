@@ -115,7 +115,7 @@ for (let playground of list) {
   if (valueNames.length) {
     ctrls.push(...valueNames.map(name => {
       const num = name.slice(5) || '1'
-      return $('input', {
+      const $input = $('input', {
         type: 'button',
         value: '例' + num,
         input: num === 1 ? input.value : playground.getAttribute(name),
@@ -123,6 +123,8 @@ for (let playground of list) {
           input.value = this.input
         }
       })
+      $input.setAttribute('data-num', num)
+      return $input
     }))
   }
 
