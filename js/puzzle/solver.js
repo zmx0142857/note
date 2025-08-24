@@ -1,4 +1,4 @@
-window.solver = (() => {
+self.solver = (() => {
 
 /**
  * 数独
@@ -396,9 +396,9 @@ const lightsoff = (board) => {
  * @param {number} count 每行/列/宫的星星数
  * @param {number[size][]} walls 每行的竖直方向的墙 "|", 取值范围 1 到 size-1
  * @param {number[size][]} floors 每列的水平方向的墙 "_", 取值范围 1 到 size-1
+ * @param {number[size][size]} hints 提示, 1 代表星星, 0 代表不是星星, undefined 代表未知
  */
-const starbattle = (size, count, walls, floors) => {
-  console.log(size, count, walls, floors)
+const starbattle = (size, count, walls, floors, hints) => {
   let found = false
   const board = [...Array(size)].map(() => Array(size).fill(0))
   const parent = Array(size * size).fill(-1) // 并查集, 用于判断星星属于哪一宫
@@ -438,17 +438,23 @@ const starbattle = (size, count, walls, floors) => {
     if (found || row === size) return found = true
     rowStar[row].length = 0
     while (!found && next(row)) {
-      if (!rowStar[row].every(col => ok(row, col))) continue
+      if (!rowStar[row].every(col => ok(row, col))) continue // TODO: 这个步骤耗时!
+      if (hints && !matchHints(row)) continue
       putRow(row)
       if (count >= 3 && row === 1) {
-        console.log(row)
-        console.log(board.map(v => v.map(c => c ? '@' : '.').join('')).join('\n'))
+        console.log(board.slice(0, row+1).map(v => v.map(c => c ? '@' : '.').join('')).join('\n'))
       }
       if (cols.every(v => v <= count) && cells.every(v => v <= count)) {
         dfs(row+1)
       }
     }
     if (!found) clearRow(row)
+  }
+
+  // 判断答案是否符合提示
+  // TODO: hint 并不能提升性能, 为什么呢
+  const matchHints = (row) => {
+    return rowStar[row].every(col => hints[row][col] !== 0)
   }
 
   // 清空第 row 行
@@ -495,20 +501,16 @@ const starbattle = (size, count, walls, floors) => {
       diff[k+1] += 1
       available += ds-1
     }
-    if (available >= 0) diff.forEach((v, i) => star[i] = (star[i-1] || 0) + v)
+    if (available >= 0) diff.forEach((v, i) => star[i] = (star[i-1] || 0) + v) // TODO: 这个步骤耗时!
     return available >= 0
   }
 
   init()
-  console.log(parent)
-  console.log('start')
   dfs(0)
-  console.log('end')
   if (!found) throw new Error('no solution')
   return board
 }
 
-// TODO: 使用 worker 计算
 return {
   sudoku,
   skyscraper,
@@ -519,3 +521,20 @@ return {
 }
 
 })()
+
+
+self.addEventListener('message', e => {
+  console.log('[worker]', JSON.stringify(e.data))
+  const { type, args } = e.data
+  if (self.solver[type]) {
+    console.time(type)
+    try {
+      const res = self.solver[type](...args)
+      self.postMessage({ res })
+    } catch (err) {
+      self.postMessage({ err })
+    }
+    console.timeEnd(type)
+  }
+})
+

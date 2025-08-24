@@ -223,10 +223,16 @@ module.exports = function (str) {
   const index = lines.findIndex(row => !row)
   const rowClue = lines.slice(0, index).map(row => row.split(/\s+/).map(v => Number(v)))
   const colClue = lines.slice(index+1).filter(Boolean).map(row => row.split(/\s+/).map(v => Number(v)))
+  output.innerText = ''
   output.style.lineHeight = ''
-  const board = solver.picross(rowClue, colClue)
-  output.style.lineHeight = '8px'
-  return board.map(row => row.map(v => v === 0 ? '□' : '■').join('')).join('\n')
+  return solverWorker({
+    type: 'picross',
+    args: [rowClue, colClue],
+    onFinish (board) {
+      output.style.lineHeight = '8px'
+      return board.map(row => row.map(v => v === 0 ? '□' : '■').join('')).join('\n')
+    },
+  })
 }
 </script>
       </div>
@@ -251,7 +257,7 @@ module.exports = function (str) {
       </div>
     </div>
     <div id="tabs-starbattle" class="tabs-body-item">
-      只输出第一个解. ⚠ 警告：三星星战非常慢！估计要算 10min
+      只输出第一个解. ⚠ 警告：三星星战非常慢！大约要算 4min
       <div class="playground" type="textarea" rows="11" value=" ___________
 |    _____  |
 |___|_   _|_|
@@ -271,13 +277,13 @@ value2=" ___________________
 | |_   _|   |       |
 |___|_|_____|_______|"
 value3=" ___________________________
-|_________   _____   _______|
+|_________   _____   ⨱_⨱_⨱_⨱|
 | |_____  | |  _  | |_____  |
-|    _  | | | | | |_____| | |
-|_  | |_| |_|_| |___  |_  |_|
-| | |  _    | |  ___|  _|   |
-| | |_| |___| | |_   _|_____|
-| | |    _   _|_  | | |     |
+|    _  | | | | | |__⨱_⨱|×|×|
+|_  | |_| |_|_| |___ ×|⍶ ×|⍶|
+| | |  _    | |  ___|× ⨱|× ×|
+| | |_| |___| | |_   ⨱|⍶_⨱_⍶|
+| | |    _   _|_  | |×|× × ×|
 | | |  _| |_|  _| |_| |     |
 | |_|_|     | |_    | |     |
 |  _____    |   |   | |___  |
@@ -291,24 +297,38 @@ module.exports = function (str) {
   const $count = container.querySelector('.star-count')
   const rows = str.split('\n').filter(v => Boolean(v.trim())).map(v => [...v])
   const size = rows.length-1
+  const count = parseInt($count.value)
   const walls = [...Array(size)].map(() => [])
   const floors = [...Array(size)].map(() => [])
+  const hints = [...Array(size)].map(() => [])
   rows.forEach((row, i) => {
     if (!i) return
     row.forEach((c, j) => {
       if (!j || j === size*2) return
       if (j % 2) {
-        if (i < size && c === '_') floors[(j-1)/2].push(i)
+        if (i < size && '_⍶⨱'.includes(c)) floors[(j-1)/2].push(i)
+        const hint = '⍶α'.includes(c) ? 1 : 'x×⨱'.includes(c) ? 0 : undefined
+        hints[i-1].push(hint)
       } else {
         if (c === '|') walls[i-1].push(j / 2)
       }
     })
   })
-  const board = solver.starbattle(size, parseInt($count.value), walls, floors)
-  return rows.map((row, i) => {
-    if (!i) return row.join('')
-    return row.map((c, j) => !(j % 2) || !board[i-1][(j-1)/2] ? c : c === '_' ? '⍶' : 'α').join('')
-  }).join('\n')
+  hints.forEach(row => row.every(v => v === undefined) && (row.length = 0))
+
+  const onFinish = (board) => {
+    return rows.map((row, i) => {
+      if (!i) return row.join('')
+      return row.map((c, j) => !(j % 2) || !board[i-1][(j-1)/2] ? c : '_⍶'.includes(c) ? '⍶' : 'α').join('')
+    }).join('\n')
+  }
+
+  // const board = solver.starbattle(size, count, walls, floors, hints)
+  return solverWorker({
+    type: 'starbattle',
+    args: [size, count, walls, floors, hints],
+    onFinish,
+  })
 }
 </script>
       </div>
@@ -339,6 +359,20 @@ ctrl.addEventListener('click', (e) => {
   const num = e.target.getAttribute('data-num')
   if (num) starCount.value = num
 })
+
+window.solverWorker = ({ type, args, onFinish }) => {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker('../../js/puzzle/solver.js')
+    worker.onmessage = e => {
+      worker.terminate()
+      let { res, err } = e.data
+      if (err) return reject(err)
+      if (onFinish) res = onFinish(res)
+      resolve(res)
+    }
+    worker.postMessage({ type, args })
+  })
+}
 </script>
 </body>
 </html>

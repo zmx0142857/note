@@ -65,15 +65,20 @@ for (let playground of list) {
   const run = $('input', {
     type: 'button',
     value: '运行',
-    onclick () {
+    async onclick () {
       output.classList.remove('hidden')
+      run.value = '运行中...'
+      run.disabled = true
       try {
-        output.textContent = module.exports(input.value)
+        output.textContent = await module.exports(input.value)
         output.classList.remove('error')
       } catch (e) {
         console.error(e)
         output.textContent = e.stack
         output.classList.add('error')
+      } finally {
+        run.value = '运行'
+        run.disabled = false
       }
     },
   })
