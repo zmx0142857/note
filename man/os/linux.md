@@ -177,6 +177,10 @@ file transfer protocol
 
 > 注: 面对复杂现实, shell 显得力不从心时, 不妨使用脚本语言如 py 或 js.
 
+更有礼貌的 sudo
+
+    $ alias please='sudo'
+
 循环语句
 
     $ for f in *; do echo $f; done
@@ -184,22 +188,20 @@ file transfer protocol
 
 文件
 
-    $ find <path> -path '*.jpg'  # 查找路径下的指定文件 (详细用法见下)
-    $ grep -R 'keyword'          # 在当前路径下的所有文件中, 查找指定内容
-    $ xxd 1.jpg | head -n 20     # 查看二进制文件 (前 20 行)
-    $ trash                      # 命令行版本的回收站 (sudo pacman -S trash-cli)
-    $ du -h --max-depth=1 <path> # 查看目录大小
-
-`find`: 查找文件
-
+    $ find <path> -path '*.jpg'   # 查找路径下的指定文件
     $ find -type f -mtime -3      # 查找 3 天内修改过的文件, 改成 +3 则表示 3 天前的文件
     $ find -type f -size +500M    # 查找 >= 500M 的文件
     $ find -type d -empty -delete # 删除空目录
-    $ wc -l `find -type f ! -path "./node_modules/*" ! -path "./.git/*"` # 统计项目代码行数
 
-`rsync`: 文件同步
+    $ xxd 1.jpg | head -n 20      # 查看二进制文件 (前 20 行)
+    $ trash                       # 命令行版本的回收站 (sudo pacman -S trash-cli)
 
-    $ alias cpp=`rsync -r --progress`
+    $ alias syncfiles='rsync -r --progress' # 文件同步
+    $ alias grephere='grep --color=auto -R' # 在当前目录查找指定内容
+    $ alias sizeof='du -h --max-depth=1'    # 查看目录大小
+
+    $ # 统计代码行数
+    $ alias lines='wc -l `find -type f ! -path "./node_modules/*" ! -path "./.git/*"`'
 
 压缩与解压
 
@@ -271,6 +273,7 @@ file transfer protocol
     $ date                  # 显示当前时间
     $ date +%Y-%m-%d        # 2025-01-26
     $ cal                   # 日历
+    $ alias datetime='date +%Y%m%d-%H%M%S | clip' # 复制当前时间到剪贴板
 
 后台运行 - 使用 nohup
 
@@ -279,8 +282,8 @@ file transfer protocol
 后台运行 - 使用 screen
 
     $ screen -S <task-name>     # 新建 (Start) 任务: 效果是清空屏幕, 打开新的命令行
-
-使用快捷键 `ctrl-a` `d` 将当前任务切到后台; 输入 `exit` 则结束当前任务.
+                                # 使用快捷键 `ctrl-a` `d` 将当前任务切到后台
+                                # 输入 `exit` 则结束当前任务.
 
     $ screen -ls                # 列出所有任务, 包括前台 (attached) 与后台 (detached) 任务
     $ screen -r <task-name>     # 继续 (resume) 任务

@@ -271,3 +271,20 @@ fixup 333333
 
 另外注意, 由于这些修改丢弃了一些 commit, 所以是无法成功推送至远程的. 除非使用 `git push -f` (不推荐).
 
+### 代理 - proxy
+
+http(s) 代理
+```
+$ git config --global http.proxy http://127.0.0.1:8080 # 或者 socks5://
+$ git config --global https.proxy http://127.0.0.1:8080 # 或者 socks5://
+$ git config --list
+```
+
+ssh 代理
+
+`~/.ssh/config`
+```
+Host github.com
+    User git
+    ProxyCommand connect -S 127.0.0.1:1080 %h %p
+```

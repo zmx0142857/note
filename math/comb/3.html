@@ -581,6 +581,31 @@ TREE(3): ...
   </li>
 </ol>
 
+<p class="example">
+  Fibonacci 数列中的平方数只有 0, 1, 144.
+</p>
+
+<p class="proof">
+  [来自<a href="https://www.zhihu.com/question/64730617" target="_blank">如花似玉@知乎</a>]
+  利用通项公式
+  <span class="formula">
+    `f_n sqrt 5 = ((1+sqrt 5)/2)^n - ((1-sqrt 5)/2)^n`
+    `= (A+B sqrt5)/2 - (A-B sqrt 5)/2`
+    `= B sqrt 5`,
+  </span>
+  其中 `A, B` 是整数; 我们有 `B = f_n`, 以及
+  <span class="formula">
+    `(A^2-5 B^2)/4`
+    `= ((A+B sqrt 5)(A-B sqrt5))/4`
+    `= (((1+sqrt 5) (1-sqrt 5))/4)^n`
+    `= +- 1`.
+  </span>
+  现在令 `B` 是平方数, `x = 5 B`, `y = 5 A sqrt B`, 则有
+  <span class="formula">
+    `y^2 = x^3 +- 20 x`.
+  </span>
+  该椭圆曲线上只有有限个整点 (Siegel 定理), 最后得到 `x = 0, 5, 720`, 对应 `B = 0, 1, 144`.
+</p>
 
 <h3>常系数齐次线性递推式</h3>
 

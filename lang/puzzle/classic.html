@@ -94,10 +94,12 @@ body {
 }
 
 /* lens */
-#lens-canvas {
+#lens-canvas, #paint-by-numbers-canvas {
   width: 100%;
-  height: calc(100% - 40px);
   background: #333;
+}
+#lens-canvas {
+  height: calc(100% - 40px);
 }
 
 /* 氨基酸 */
@@ -591,6 +593,50 @@ body {
       })
       </script>
     </div>
+    <div id="tabs-paint-by-numbers" class="tabs-body-item">
+      <p>先输入 n 行, 每行第一个字符后跟一个空格, 再后面跟着16进制色号.
+        然后输入一个空行, 后面 m 行是画布内容.
+        如果画布中的某个字符找不到对应颜色, 则它默认是透明的.
+      </p>
+      <div class="playground" type="textarea" value="0 #ffffff
+1 #000000
+
+1001
+0110
+0110
+1001
+">
+<script type="text">
+module.exports = function (str) {
+  const cellSize = 8
+  const lines = str.split('\n')
+  const index = lines.findIndex(row => !row)
+  const palette = Object.fromEntries(lines.slice(0, index).map(row => row.split(' ')))
+  const board = lines.slice(index+1).filter(Boolean).map(row => [...row])
+  const canvas = $('#paint-by-numbers-canvas')
+  const ctx = canvas.getContext('2d')
+  const w = cellSize * board[0].length
+  const h = cellSize * board.length
+  canvas.width = w
+  canvas.height = h
+  canvas.style.width = w + 'px'
+  canvas.style.height = h + 'px'
+  ctx.clearRect(0, 0, w, h)
+  board.forEach((row, y) => {
+    row.forEach((c, x) => {
+      const color = palette[c]
+      if (color) {
+        ctx.fillStyle = color
+        ctx.fillRect(cellSize * x, cellSize * y, cellSize, cellSize)
+      }
+    })
+  })
+  return 'done'
+}
+</script>
+      </div>
+      <canvas id="paint-by-numbers-canvas"></canvas>
+    </div>
     <div id="tabs-amino" class="tabs-body-item">
       <table id="table-amino">
         <caption>20 种氨基酸密码子表</caption>
@@ -680,6 +726,7 @@ body {
     <a class="tabs-footer-item" href="#tabs-reverse">倒序 reverse</a>
     <a class="tabs-footer-item" href="#tabs-vigenere">维吉尼亚 Vigenère</a>
     <a class="tabs-footer-item" href="#tabs-lens">透镜 lens</a>
+    <a class="tabs-footer-item" href="#tabs-paint-by-numbers">数字油画</a>
     <a class="tabs-footer-item" href="#tabs-amino">氨基酸密码子 amino</a>
 
     <!-- 实用工具 -->

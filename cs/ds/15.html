@@ -8,7 +8,9 @@
 
 <body>
 
-<h2>三角函数</h2>
+<h2>平面几何</h2>
+
+<h3>三角函数</h3>
 
 <p class="algorithm">
   <b>计算正余弦函数</b>
@@ -95,7 +97,7 @@ module.exports = function atan2 (str) {
 </script>
 </div>
 
-<h2>平面几何</h2>
+<h3>多边形</h3>
 
 <p class="algorithm">
   <b>判断多边形方向是否为顺时针 (面积法)</b> [来自 github copilot]
@@ -160,6 +162,52 @@ module.exports = (str) => {
 </p>
 
 <p class="algorithm">
+  <b>凸包 (convex hull)</b> 是指包围所有给定点的最小凸多边形.
+  在 Andrew 算法中, 每个点入栈两次, 出栈不超过两次, 复杂度为 `O(n)`.
+  加上排序, 总复杂度 `O(n log(n))`.
+</p>
+
+<div class="playground" value="[[0,0],[1,0],[0.1,0.1],[0,1]]">
+<script type="text">
+// 叉积
+const cross = ([x1, y1], [x2, y2], [x3, y3]) => {
+  return (x2-x1)*(y3-y1)-(x3-x1)*(y2-y1)
+}
+
+const andrewConvexHull = (points) => {
+  // 按 x 排序; x 相同者按 y 排序
+  // 第一个点和最后一个点一定在凸包上
+  const p = points.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0])
+  const s = [] // 用栈维护凸包上的点
+
+  // 下凸包
+  for (let i = 0; i < points.length; ++i) {
+    // 每个点入栈前, 先将转向不正确的旧点弹出
+    while (s.length >= 2 && cross(...s.slice(-2), p[i]) <= 0) s.pop()
+    s.push(p[i])
+  }
+
+  // 上凸包
+  const count = s.length
+  for (let i = points.length - 1; i >= 0; --i) {
+    // 判断 count, 注意不要把下凸包中的点弹出
+    while (s.length > count && cross(...s.slice(-2), p[i]) <= 0) s.pop()
+    s.push(p[i])
+  }
+
+  return s // 第一个点和最后一个点重合
+}
+
+module.exports = (str) =>{
+  const points = Playground.parse(str)
+  return JSON.stringify(andrewConvexHull(points))
+}
+</script>
+</div>
+
+<h3>线段</h3>
+
+<p class="algorithm">
   <b>判断线段是否相交 (解方程法)</b>
   直接计算两直线的交点坐标, 把它表示为参数 <code>t</code> 的函数. 两线段相交当且仅当直线相交,
   且 <code>0 &le; t &le; 1</code>.
@@ -212,6 +260,8 @@ module.exports = (str) => {
     则线段也不相交.
   </li>
 </ol>
+
+<h3>包围盒</h3>
 
 <p class="algorithm">
   <b>包围盒相交判断 (AABB, Axis Aligned Bounding Box)</b>
@@ -279,50 +329,119 @@ OBB.setfromPoints = (points) =&gt; {
 </pre>
 
 <p class="algorithm">
-  <b>凸包 (convex hull)</b> 是指包围所有给定点的最小凸多边形.
-  在 Andrew 算法中, 每个点入栈两次, 出栈不超过两次, 复杂度为 `O(n)`.
-  加上排序, 总复杂度 `O(n log(n))`.
+  <b>包围球 (bounding sphere)</b>
+  [来自 <a href="https://blog.csdn.net/qq_30796379/article/details/80008945" target="_blank">WhereIsHeroFrom</a>, <a href="https://github.com/WhereIsHeroFrom/Code_Templates/blob/master/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%9C%86%20%E6%A8%A1%E6%9D%BF.cpp" target="_blank">github</a>]
+  给定平面上的 n 个点, 求它们的最小覆盖圆盘.
+  它常常是其中 3 个点的外接圆, 偶尔也会以其中 2 点连线为直径.
+  当 n &ge; 2 时, 至少有 2 点在圆上, 设为 <code>pi</code> 和 <code>pj</code>, 以它们为直径画圆:
+  如果其它点都在圆内, 我们已经找到最小覆盖圆.
+  否则枚举第三点 <code>pk</code>, 作 <code>pi</code>, <code>pj</code>, <code>pk</code> 的外接圆,
+  选取其中最小者即是.
+  在随机打乱的情况下, 新加入一点落在圆外的概率仅为 3/n, 因此算法的均摊复杂度为 O(n).
 </p>
 
-<div class="playground" value="[[0,0],[1,0],[0.1,0.1],[0,1]]">
+<div class="playground" value="[[0,0],[3,0],[0,4],[3,4]]">
 <script type="text">
-// 叉积
-const cross = ([x1, y1], [x2, y2], [x3, y3]) => {
-  return (x2-x1)*(y3-y1)-(x3-x1)*(y2-y1)
+// 洗牌
+const shuffle = (arr) => {
+  const n = arr.length
+  for (let i = 0; i < n; ++i) {
+    const j = i + (Math.random() * (n-i) | 0)
+    const tmp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = tmp
+  }
 }
 
-const andrewConvexHull = (points) => {
-  // 按 x 排序; x 相同者按 y 排序
-  // 第一个点和最后一个点一定在凸包上
-  const p = points.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0])
-  const s = [] // 用栈维护凸包上的点
-
-  // 下凸包
-  for (let i = 0; i < points.length; ++i) {
-    // 每个点入栈前, 先将转向不正确的旧点弹出
-    while (s.length >= 2 && cross(...s.slice(-2), p[i]) <= 0) s.pop()
-    s.push(p[i])
-  }
-
-  // 上凸包
-  const count = s.length
-  for (let i = points.length - 1; i >= 0; --i) {
-    // 判断 count, 注意不要把下凸包中的点弹出
-    while (s.length > count && cross(...s.slice(-2), p[i]) <= 0) s.pop()
-    s.push(p[i])
-  }
-
-  return s // 第一个点和最后一个点重合
+// 外心
+// 解方程组 [xi^2 + yi^2 - 2 D xi - 2 E yi + F = 0], [D, E, F]
+const circumcenter = ([x1, y1], [x2, y2], [x3, y3]) => {
+  const d = 2 * (
+    (x1*y2-x2*y1) + (x2*y3-x3*y2) + (x3*y1-x1*y3)
+  )
+  const l1 = x1*x1 + y1*y1
+  const l2 = x2*x2 + y2*y2
+  const l3 = x3*x3 + y3*y3
+  return [
+    (l1*(y2-y3) + l2*(y3-y1) + l3*(y1-y2)) / d,
+    (l1*(x3-x2) + l2*(x1-x3) + l3*(x2-x1)) / d
+  ]
 }
 
-module.exports = (str) =>{
-  const points = Playground.parse(str)
-  return JSON.stringify(andrewConvexHull(points))
+// 中点
+const midpoint = ([x1, y1], [x2, y2]) => {
+  return [
+    (x1 + x2) / 2,
+    (y1 + y2) / 2
+  ]
+}
+
+// 两点距离的平方
+const dist2 = ([x1, y1], [x2, y2]) => {
+  return (x2-x1)**2 + (y2-y1)**2
+}
+
+// 判断点是否在圆内
+const incircle = ({ center, radius2 }, point) => {
+  return dist2(center, point) <= radius2
+}
+
+// 以两点为直径的圆
+const from2 = (circle, p1, p2) => {
+  circle.center = midpoint(p1, p2)
+  circle.radius2 = dist2(circle.center, p1)
+  return circle
+}
+
+// 经过三点的外接圆
+const from3 = (circle, p1, p2, p3) => {
+  circle.center = circumcenter(p1, p2, p3)
+  circle.radius2 = dist2(circle.center, p1)
+  return circle
+}
+
+module.exports = function boundingCircle (str) {
+  const p = Playground.parse(str)
+  shuffle(p) // 洗牌
+  const c = { center: p[0], radius2: 0 }
+  let count = 0
+
+  // 求 p[0..i] 的最小覆盖圆, 已知 p[i], p[j] 在圆上
+  const boundingCircle2 = (i, j) => {
+    from2(c, p[i], p[j])
+    ++count
+    for (let k = 0; k < j; ++k) {
+      if (incircle(c, p[k])) continue
+      const c1 = from3({}, p[i], p[j], p[k])
+      ++count
+      if (c1.radius2 > c.radius2) {
+        Object.assign(c, c1)
+      }
+    }
+  }
+
+  // 求 p[0..i] 的最小覆盖圆, 已知 p[i] 在圆上
+  const boundingCircle1 = (i) => {
+    c.center = p[i]
+    c.radius2 = 0
+    for (let j = 0; j < i; ++j) {
+      if (incircle(c, p[j])) continue
+      boundingCircle2(i, j)
+    }
+  }
+
+  for (let i = 1; i < p.length; ++i) {
+    // 每次迭代求 p[0..i] 的最小覆盖圆
+    if (incircle(c, p[i])) continue // 若 p[i] 在圆内, 不必更新
+    boundingCircle1(i) // 否则 p[i] 必在圆上
+  }
+  console.log('iterations', count)
+  return JSON.stringify(c)
 }
 </script>
 </div>
 
-<h2>矩阵变换</h2>
+<h3>矩阵变换</h3>
 
 <p class="example">
   <b>缩放平移边界</b>
