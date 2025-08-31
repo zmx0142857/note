@@ -1121,34 +1121,166 @@ module.exports = function factor4SquaresNaive (str) {
 
 <ol class="definition">
   <b>椭圆曲线上的有理点群</b>
-  设直线 `y = k x + c` 与椭圆曲线 `y^2 = x^3 + a x + b`
-  交于 `P_i(x_i, y_i)` `(i = 1, 2, 3)` 三点 (当其中两点重合时,
-  直线与曲线相切). 联立方程, 由 Vieta 定理知
+  我们考察直线 `y = k x + c` 与椭圆曲线 `y^2 = x^3+a x + b` 的位置关系.
+  联立方程知道, 直线与椭圆曲线有 1 个或 3 个交点 (切点视作两个重合的交点).
+  特别关注 3 个交点的情况. 此时由 Vieta 定理有
   <span class="formula">
     `x_1 + x_2 + x_3 = k^2`.
   </span>
-  于是当已知 `P_1`, `P_2` 时, `P_3` 的坐标为
+  已知前两个交点 `P_1, P_2` 时, 第三个交点 `P_3` 的坐标为
   <span class="formula">
     `x_3 = k^2 - x_1 - x_2`,<br/>
     `y_3 = y_1 + k(x_3-x_1)`
     `= y_2 + k(x_3-x_2)`.
   </span>
-  我们规定椭圆曲线上的点之间的加法运算, 使得它构成 Abel 群:
-  <li>加法零元是竖直方向上的无穷远点, 记为 0;</li>
-  <li>加法逆元关于 `x` 轴对称;</li>
-  <li>若椭圆曲线上 `P_1, P_2, P_3` 三点共线, 则
-    <span class="formula">
-      `P_1 + P_2 + P_3 = 0`.
-    </span>
-    上式可以写为 `P_1 + P_2 = -P_3`, 即 `P_1 + P_2` 和 `P_3` 关于 x 轴对称.
-    上式对于其中一点是切点或无穷远点的情形仍成立:
-    若 `P` 是切点, 则切线与曲线的另一交点 `Q` 满足 `2P + Q = 0`;
-    若 `P, Q` 关于 x 轴对称, 则它们可以看作与竖直方向的无穷远点共线,
-    故 `P + Q = 0`.
+  `P_1, P_2` 都是椭圆曲线上的有理点时, `P_3` 也是有理点.
+  我们对椭圆曲线上的全体有理点规定加法运算, 使它构成 Abel 群:
+  <li>加法零元是竖直方向上的无穷远点, 记为 0; 注意它不是坐标原点.</li>
+  <li>加法逆元关于 `x` 轴对称.</li>
+  <li>若椭圆曲线上 `P_1, P_2, P_3` 三点共线, 则 `P_1 + P_2 + P_3 = 0`.
+    换言之, `P_1 + P_2 = -P_3`, 因此 `P_1 + P_2` 是 `P_3` 关于 `x` 轴的对称点.
   </li>
-  椭圆曲线上的全体点关于这一加法构成 Abel 群. 又 `P_3` 的坐标是 `P_1,
-  P_2` 的坐标的有理函数, 所以椭圆曲线上全体有理点是它的一个子群.
+  <li>
+    上述关系对于切点或无穷远点的情形仍成立:
+    若 `P` 是切点, `Q` 是第三个交点, 则有 `2P + Q = 0`;
+    若 `P, Q` 关于 `x` 轴对称, 则它们可以看作与竖直方向的无穷远点共线,
+    故 `P + Q = 0`.
+    特别当 `P` 是曲线与 `x` 轴的交点时, `2P = 0`.
+  </li>
 </ol>
+
+<p class="example">
+  考虑椭圆曲线 `y^2 = x^3 - x = x(x+1)(x-1)`,
+  它有 3 个明显的有理点 `P_0(0, 0)`, `P_1(1, 0)`, `P_2(-1, 0)`.
+  假设 `Q(x, y)` 也是曲线上的有理点, 求 `P_0 + Q`, `P_1 + Q` 和 `2Q`.
+</p>
+
+<ol class="solution">
+  <li>`P_0(0, 0) + Q(x, y)`:
+    <span class="formula">
+      `k = y/x`, `quad k^2 = y^2/x^2 = ((x+1)(x-1))/x`,<br>
+      `x' = k^2 - 0 - x = 1/x(x^2-1-x^2) = -1/x`,<br>
+      `-y' = 0 + k(x' - 0) = -y/x^2`.
+    </span>
+    因此 `P_0 + Q = (-1/x, y/x^2)`.
+  </li>
+  <li>
+    `P_1(1, 0) + Q(x, y)`:
+    <span class="formula">
+      `k = y/(x-1)`, `quad k^2 = y^2/(x-1)^2 = (x(x+1))/(x-1)`,<br>
+      `x' = k^2 - 1 - x = 1/(x-1)(x(x+1) - (x+1)(x-1)) = (x+1)/(x-1)`,<br>
+      `-y' = 0  + k(x' - 1) = (2y)/(x-1)^2`.
+    </span>
+    因此 `P_1 + Q = ((x+1)/(x-1), -(2y)/(x-1)^2)`.
+  </li>
+  <li>`2Q(x, y)`: 曲线两边对 `x` 求导得
+    <span class="formula">
+      `2y k = 3x^2-1`.
+    </span>
+    从而
+    <span class="formula">
+      `k = (3x^2-1)/(2y)`,
+      `quad k^2 = (3x^2-1)^2/(4x(x+1)(x-1))`,<br>
+      `x' = k^2 - 2x = (x^2+1)^2/(4y^2)`,<br>
+      `-y' = y + k(x'-x) = (((x-1)^2-2)(x^2+1)((x+1)^2-2))/(8y^3)`.
+    </span>
+  </li>
+  <hr>
+</ol>
+
+<pre class="remark">
+# 椭圆曲线群的加法
+def add(x0, y0, x1, y1, y, expr):
+    k = (y1-y0)/(x1-x0) if x1 != x0 else diff(expr**2)/(2*y)
+    x_res = expand(k**2-x0-x1).replace(y, expr).simplify()
+    y_res = expand(-y0-k*(x_res-x0)).replace(y, expr).simplify()
+    return x_res, y_res
+
+add(0, 0, x, y, y, sqrt(x**3-x)) # (-1/x, sqrt(x**3 - x)/x**2)
+add(1, 0, x, y, y, sqrt(x**3-x)) # ((x + 1)/(x - 1), -2*sqrt(x**3 - x)/(x**2 - 2*x + 1))
+add(x, y, x, y, y, sqrt(x**3-x)) # ((x**4 + 2*x**2 + 1)/(4*x*(x**2 - 1)), (x**6 - 5*x**4 - 5*x**2 + 1)/(8*x*sqrt(x*(x**2 - 1))*(x**2 - 1)))
+</pre>
+
+<ol class="example">
+  <b>勾股三角形与椭圆曲线</b>
+  设 `d` 为正有理数, 以下三个命题等价:
+  <li>存在面积为 `d`, 三边长为有理数的直角三角形.</li>
+  <li>存在三个有理数的平方, 构成公差为 `d` 的等差数列.</li>
+  <li>椭圆曲线 `y^2 = x^3 - d^2 x` `= x(x+d)(x-d)` 上存在非平凡的有理点 `(x, y)`, 其中 `y != 0`.</li>
+  这个命题可以推广到特征不为 2 的域.
+</ol>
+
+<ol class="proof">
+  <li>`iff` 2: 设 `a, b, c` 是正有理数, `a^2+b^2=c^2`, `a b//2 = d`,
+    令 `u = (a-b)//2`, `v = c//2`, `w = (a+b)//2`, 则
+    <span class="formula">
+      `u^2 = (a-b)^2//4`,
+      `quad v^2 = (a^2+b^2)//4`,
+      `quad w^2 = (a+b)^2//4`
+    </span>
+    构成公差为 `d` 的等差数列.
+    反之由 `(u, v, w)` 出发构造逆映射也能得到 `(a, b, c)`:
+    <span class="formula">
+      `a = w+u`,
+      `quad b = w-u`,
+      `quad c = 2v`.
+    </span>
+  </li>
+  <li>
+    `iff` 3:
+    设 `u^2, v^2, w^2` 构成公差为 `d` 的等差数列,
+    令 `x = v^2`, `y = u v w`, 则
+    <span class="formula">
+      `y^2 = (u v w)^2`
+      `= v^2(v^2+d)(v^2-d)`
+      `= x(x+d)(x-d)`.
+    </span>
+    然而这个映射的逆不是有理函数, 也不能保证 `y != 0`. 好在我们还有另一个较复杂的映射
+    <span class="formula">
+      `x = v^2+u v+v w+ w u`,
+      `quad y = (u+v)(v+w)(w+u)`,
+    </span>
+    其具有逆映射
+    <span class="formula">
+      `u = 1/(2y) ((x-d)^2 - 2d^2)`,
+      `quad v = 1/(2y) (x^2 + d^2)`,
+      `quad w = 1/(2y) ((x+d)^2 - 2d^2)`.
+    </span>
+    这里 `y != 0`, 否则它必有一个因子为零, 这使得 `u^2, v^2, w^2` 全相等, 与 `d gt 0` 矛盾.
+    用 sympy 验证 `(x, y)` 适合椭圆曲线 `y^2 = x(x+d)(x-d)`:
+<pre>
+z = u*v+v*w+w*u
+y = (u+v)*(v+w)*(w+u)
+expand((u**2+z)*(v**2+z)*(w**2+z)-y**2) # 0
+</pre>
+    验证逆映射:
+<pre>
+u = ((x-d)**2-2*d**2)/(2*y)
+v = (x**2+d**2)/(2*y)
+w = ((x+d)**2-2*d**2)/(2*y)
+simp = lambda e: expand(e).replace(d, sqrt((x**3-y**2)/x)).simplify()
+simp(v**2+u*v+v*w+w*u) # x
+simp((u+v)*(v+w)*(w+u)) # y
+</pre>
+    验证等差数列:
+<pre>
+simp(v**2-u**2-d) # 0
+simp(v**2-w**2+d) # 0
+</pre>
+  </li>
+</ol>
+
+<p class="remark">
+  证明过程中用到的映射
+  <span class="formula">
+    `g(x, y) = 1/(2y)((x-d)^2 - 2d^2, x^2+d^2, (x+d)^2 - 2d^2)`,<br>
+    `h(u, v, w) = (v^2, u v w)`,
+  </span>
+  它们的复合 `h@g` 恰好是椭圆曲线上的 2 倍映射, 即 `P mapsto 2P`:
+  <span class="formula">
+    `h@g(x, y) = ((x^2+d^2)^2/(4y^2), (u v w)/(8y^3))`.
+  </span>
+</p>
 
 <p class="example">
   [来自 <a href="https://zhuanlan.zhihu.com/p/33853851" target="_blank">知乎专栏</a>]
@@ -1236,75 +1368,6 @@ module.exports = function factor4SquaresNaive (str) {
   这指出 `h P` 的阶是 `q` 的因子, 但 `q` 为素数, 所以 `h P = 0` 或 `|h P| =
   q`.
 </p>
-
-<ol class="example">
-  <b>勾股三角形与椭圆曲线</b>
-  设 `d` 为正有理数, 以下三个命题等价:
-  <li>存在面积为 `d`, 三边长为有理数的直角三角形.</li>
-  <li>存在三个有理数的平方, 构成公差为 `d` 的等差数列.</li>
-  <li>椭圆曲线 `y^2 = x^3 - d^2 x` `= x(x+d)(x-d)` 上存在非平凡的有理点 `(x, y)`, 其中 `y != 0`.</li>
-  这个命题可以推广到特征不为 2 的域.
-</ol>
-
-<ol class="proof">
-  <li>`iff` 2: 设 `a, b, c` 是正有理数, `a^2+b^2=c^2`, `a b//2 = d`,
-    令 `u = (a-b)//2`, `v = c//2`, `w = (a+b)//2`, 则
-    <span class="formula">
-      `u^2 = (a-b)^2//4`,
-      `quad v^2 = (a^2+b^2)//4`,
-      `quad w^2 = (a+b)^2//4`
-    </span>
-    构成公差为 `d` 的等差数列.
-    反之由 `(u, v, w)` 出发构造逆映射也能得到 `(a, b, c)`:
-    <span class="formula">
-      `a = w+u`,
-      `quad b = w-u`,
-      `quad c = 2v`.
-    </span>
-  </li>
-  <li>
-    `iff` 3:
-    设 `u^2, v^2, w^2` 构成公差为 `d` 的等差数列,
-    令 `x = v^2`, `y = u v w`, 则
-    <span class="formula">
-      `y^2 = (u v w)^2`
-      `= v^2(v^2+d)(v^2-d)`
-      `= x(x+d)(x-d)`.
-    </span>
-    然而这个映射的逆不是有理函数, 也不能保证 `y != 0`. 好在我们还有另一个较复杂的映射
-    <span class="formula">
-      `x = v^2+u v+v w+ w u`,
-      `quad y = (u+v)(v+w)(w+u)`,
-    </span>
-    其具有逆映射
-    <span class="formula">
-      `u = 1/(2y) ((x-d)^2 - 2d^2)`,
-      `quad v = 1/(2y) (x^2 + d^2)`,
-      `quad w = 1/(2y) ((x+d)^2 - 2d^2)`.
-    </span>
-    这里 `y != 0`, 否则它必有一个因子为零, 这使得 `u^2, v^2, w^2` 全相等, 与 `d gt 0` 矛盾.
-    用 sympy 验证 `(x, y)` 适合椭圆曲线 `y^2 = x(x+d)(x-d)`:
-<pre>
-z = u*v+v*w+w*u
-y = (u+v)*(v+w)*(w+u)
-expand((u**2+z)*(v**2+z)*(w**2+z)-y**2) # 0
-</pre>
-    验证逆映射:
-<pre>
-u = ((x-d)**2-2*d**2)/(2*y)
-v = (x**2+d**2)/(2*y)
-w = ((x+d)**2-2*d**2)/(2*y)
-simp = lambda e: expand(e).replace(d, sqrt((x**3-y**2)/x)).simplify()
-simp(v**2+u*v+v*w+w*u) # x
-simp((u+v)*(v+w)*(w+u)) # y
-</pre>
-    验证等差数列:
-<pre>
-simp(v**2-u**2-d) # 0
-simp(v**2-w**2+d) # 0
-</pre>
-  </li>
-</ol>
 
 <h2>杂例</h2>
 
