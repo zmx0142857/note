@@ -2,6 +2,16 @@
 
 > 也有其它工具混入其中.
 
+## 编译工具链
+
+- babel
+- typescript
+- uglify-js, pretty-js
+  ```
+  $ uglifyjs input.js -c -m > out.js # compress and mangle
+  $ pretty-js input.js > out.js
+  ```
+
 ## 图形与动画
 
 ### WebGL

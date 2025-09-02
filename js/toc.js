@@ -742,6 +742,7 @@ var tocData = [
           { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
           { "value": "tex.md", "label": "LaTeX", "date": "2025-05-25" },
           { "value": "leetcode.md", "label": "LeetCode", "date": "2025-07-04" },
+          { "value": "glsl.md", "label": "GLSL", "date": "2025-09-02" },
         ]
       },
       {

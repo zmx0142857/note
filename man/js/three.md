@@ -27,6 +27,8 @@ web 端流行的 3d 库.
 **源码**
 
 - three.js 官方 shader: three/src/renderers/shaders/ShaderChunk
+  - `common.glsl.js`: 工具函数
+  - `packing.glsl.js`: 纹理存储
 
 ## 入门
 
