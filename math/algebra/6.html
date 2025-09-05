@@ -14,6 +14,7 @@ td.blue {
 
 <p>[来自 <a href="https://zhuanlan.zhihu.com/p/289695684" target="_blank">知乎@ZCC</a>,
 <a href="https://zhuanlan.zhihu.com/p/267010541" target="_blank">知乎@0003</a>
+<a href="https://www.zhihu.com/column/c_1297137430508613632" target="_blank">知乎专栏: 模与范畴</a>
 ]</p>
 
 <ol class="remark">
@@ -25,6 +26,8 @@ td.blue {
 </ol>
 
 <h2>模</h2>
+
+<h3>基本概念</h3>
 
 <p class="definition">
   <b>模 (module)</b>
@@ -48,6 +51,10 @@ td.blue {
 </p>
 
 <p class="remark">
+  类比群的作用, 模可以视为环 `R` 对 Abel 群 `M` 的作用.
+</p>
+
+<p class="remark">
   把以上定义的左乘全部改为右乘, 则可以定义<b>右 `R`-模</b>.
   左模与右模除了乘法的次序不同外, 性质没有任何区别.
   特别当 `R` 为交换幺环时, 左模与右模没有区别. 这是因为右模有
@@ -68,18 +75,11 @@ td.blue {
   <li>`ZZ`-模: 设 `M` 为 Abel 群, 定义映射 `ZZ xx M to M` 使得 `(n, x) mapsto n
     x`, 其中 `n x` 就是 `n` 个 `x` 之和, 则 `M` 是一个 `ZZ`-模.
     任意交换群都可以看作是一个 `ZZ`-模.
-  </li>
-  <li>自同态模: 设 `M` 为 Abel 群, `"End"(M)` 为它的<b>自同态环</b>, 其中乘法定义为
-    `(sigma * tau)(x) = sigma(tau(x))`, 加法为 `(sigma + tau)(x) = sigma(x) +
-    tau(x)`. 给定映射 `"End"(M) xx M to M` 使得 `(sigma, x) mapsto sigma(x)`,
-    则 `M` 是 `"End"(M)` 上的模.
+    事实上, 今后我们将通过模论来探索 Abel 群的性质, 特别是有限生成 Abel 群.
   </li>
   <li>环同态模: 设有环同态 `varphi: R to S`, 则
     `S` 是 `R`-模, 其中加法是环 `S` 的加法, 数乘是 `r s := varphi(r) s`.
     特别地, 环 `R` 本身是一个 `R`-模.
-  </li>
-  <li>
-    设 `M` 为 Abel 群, `R` 为环, 则 `R` 到 `"End"(M)` 的环同态构成模.
   </li>
   <li>Hom 模: 设 `M` 和 `N` 为 `R`-模, 将所有模同态 (见下) `M to N` 的集合记为 `"Hom"(M, N)`,
     它是一个加法群. 若进一步设 `R` 为交换环, 则 `"Hom"(M, N)` 升级为 `R`-模.
@@ -87,9 +87,50 @@ td.blue {
 </ol>
 
 <ol class="definition">
+  <b>模与自同态环</b>
+  <li>设 `M` 为 Abel 群, `"End"(M)` 为它的<b>自同态环</b>, 乘法与加法定义为
+    <span class="formula">
+      `(sigma * tau)(x) = sigma(tau(x))`,<br>
+      `(sigma + tau)(x) = sigma(x) + tau(x)`.
+    </span>
+    则 `M` 是 `"End"(M)` 上的模. 数乘定义为 `sigma x := sigma(x)`.
+  </li>
+  <li>
+    模与同态的等价性:
+    设 `M` 为 Abel 群, `R` 为环, 给定环同态 `eta: R to "End"(M)`,
+    则 `M` 是一个 `R`-模, 其数乘定义为 `a x := eta(a) x`.
+    反之, 若 `M` 是一个 `R`-模, 则它决定了环同态 `eta: R to "End"(M)`,
+    `a mapsto a_L`. 其中 `a_L: M to M` 是左平移变换 `x mapsto a x`.
+  </li>
+  <li>
+    类比 Cayley 定理, 我们有: 每个环 `R` 都同构于某个 Abel 群的自同态环 `"End"(M)` 的子环.
+    事实上记 `R` 的加法群为 `M`, 则全体左平移变换 `L := {a_L: a in M}` 是 `"End"(M)` 的子环,
+    且 `eta: R to L`, `a mapsto a_L` 是环同构.
+  </li>
+</ol>
+
+<ol class="example">
+  <b>自同态环的例子</b>
+  <li>`"End"(ZZ) ~= ZZ`;</li>
+  <li>`"End"(ZZ^2) ~= ZZ^(2xx2)`;</li>
+  <li>`"End"(ZZ//n ZZ) ~= Z//n ZZ`.</li>
+</ol>
+
+<h3>子模、商模与同态</h3>
+
+<ol class="definition">
   模的底层是 Abel 群加上数乘. 对 Abel 群的子群、商群、同态在数乘方面加以规定, 就得到子模、商模和模同态的定义:
-  <li><b>子模</b> 若 `M` 是 `R`-模, `N` 是 `M` 的子群, 且对数乘封闭: `AA a in R, y in N` 有 `a y in N`,
+  <li><b>子模</b> 若 `M` 是 `R`-模, `N` 是 `M` 的子群, 且对数乘封闭:
+    <span class="formula">
+      `a y in N`, `quad AA a in R, y in N`,
+    </span>
     则称 `N` 是 `M` 的子模.
+    上式其实已经包含子群的一些信息. 日常使用中, 和验证线性子空间一样, 只需确认 `N` 是 `M` 的子集,
+    以及下面两条即可:
+    <span class="formula">
+      `a y in N`, `quad AA a in R, y in N`,<br>
+      `x + y in N`, `quad AA x, y in N`.
+    </span>
   </li>
   <li><b>商模</b> 设 `M` 是 `R`-模, `N` 是 `M` 的子模, 定义 `R` 与商群 `M // N` 之间的数乘
     <span class="formula">
@@ -98,7 +139,11 @@ td.blue {
     </span>
     则 `M//N` 是 `R`-模, 称为 `M` 关于 `N` 的商模.
   </li>
-  <li><b>同态</b> 若 `M, N` 是 `R`-模, `f: M to N` 是 Abel 群的同态, 且满足 `AA a in R`, `x in M`, `f(a x) = a f(x)`, 则称 `f` 是 `M` 到 `N` 的 `R`-模同态, 简称模同态.
+  <li><b>同态</b> 若 `M, N` 是 `R`-模, `f: M to N` 是 Abel 群的同态, 且满足与数乘可交换:
+    <span class="formula">
+      `f(a x) = a f(x)`, `quad AA a in R`, `x in M`,
+    </span>
+    则称 `f` 是 `M` 到 `N` 的 `R`-模同态, 简称模同态.
     可逆的同态称为同构.
   </li>
 </ol>
@@ -132,14 +177,29 @@ td.blue {
 <p class="definition">
   同态 `f: M to N` 的<b>核</b>与<b>余核</b>定义为
   <span class="formula">
-    `"Ker" f := { x in M: f(x) = 0 }`,<br>
-    `"coKer" f := N//"Im" f`.
+    `"ker" f := { x in M: f(x) = 0 }`,<br>
+    `"coker" f := N//"Im" f`.
   </span>
   余核的概念是群当中没有的.
 </p>
 
 <p class="corollary">
-  模同态 `f: M to N` 为单同态当且仅当 `"Ker" f = {0}`, 为满同态当且仅当 `"coKer" f = {0}`.
+  模同态 `f: M to N` 为单同态当且仅当 `"ker" f = {0}`, 为满同态当且仅当 `"coker" f = {0}`.
+</p>
+
+<p class="example">
+  类比 Abel 群的自同态环, 在 `R`-模 `M` 上也有自同态环 `"End"_R(M)`,
+  其定义是完全类似的.
+  区别在于: 模的自同态与数乘是可交换的.
+</p>
+
+<h3>模的直和</h3>
+
+<h3>从自由模到 PID 上的有限生成模</h3>
+
+<p class="remark">
+  本节可以与自由交换群、有限生成交换群的相关内容结合起来看.
+  它们相当于自由 `ZZ`-模与有限生成 `ZZ`-模.
 </p>
 
 <h2>代数</h2>

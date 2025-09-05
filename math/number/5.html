@@ -1135,7 +1135,7 @@ module.exports = function factor4SquaresNaive (str) {
     `= y_2 + k(x_3-x_2)`.
   </span>
   `P_1, P_2` 都是椭圆曲线上的有理点时, `P_3` 也是有理点.
-  我们对椭圆曲线上的全体有理点 (补充一个无穷远点) 规定加法运算, 使它构成 Abel 群:
+  我们对椭圆曲线上的全体有理点 (补充一个无穷远点) 规定加法运算, 使它构成 Abel 群, 记为 `E(QQ)`:
   <li>加法零元是竖直方向上的无穷远点, 记为 0; 注意它不是坐标原点.</li>
   <li>加法逆元关于 `x` 轴对称.</li>
   <li>若椭圆曲线上 `P_1, P_2, P_3` 三点共线, 则 `P_1 + P_2 + P_3 = 0`.
@@ -1235,7 +1235,7 @@ add(x, y, x, y, y, sqrt(x**3-x)) # ((x**4 + 2*x**2 + 1)/(4*x*(x**2 - 1)), (x**6 
   <li>
     `iff` 3:
     设 `u^2, v^2, w^2` 构成公差为 `d` 的等差数列,
-    令 `x = v^2`, `y = u v w`, 则
+    令 `f: x = v^2`, `y = u v w`, 则
     <span class="formula">
       `y^2 = (u v w)^2`
       `= v^2(v^2+d)(v^2-d)`
@@ -1243,23 +1243,36 @@ add(x, y, x, y, y, sqrt(x**3-x)) # ((x**4 + 2*x**2 + 1)/(4*x*(x**2 - 1)), (x**6 
     </span>
     然而这个映射的逆不是有理函数, 也不能保证 `y != 0`. 好在我们还有另一个较复杂的映射
     <span class="formula">
-      `x = (u+v)(v+w)`,
-      `quad y = (u+v)(v+w)(w+u)`,
+      `g: x = (u+v)(v+w)`,
+      `quad y = (u+v)(v+w)(w+u)`.
     </span>
-    其具有逆映射
+    这里 `y != 0`, 否则它必有一个因子为零, 这使得 `u^2, v^2, w^2` 全相等, 与 `d gt 0` 矛盾.
+    可以验证 `(x, y)` 适合椭圆曲线: 注意到
     <span class="formula">
-      `u = 1/(2y) ((x-d)^2 - 2d^2)`,
+      `x = v^2 + u v + v w + w u`,<br>
+      `x-d = u^2 + u v + v w + w u`,<br>
+      `x+d = w^2 + u v + v w + w u`,<br>
+    </span>
+    于是
+    <span class="formula">
+      `x(x-d)(x+d)`
+      `= (u+v)(v+w)(u+v)(u+w)(u+w)(v+w)`
+      `= y^2`.
+    </span>
+    `g` 的逆映射为有理函数, 事实上, 通过求解线性方程组
+    <span class="formula">
+      `w + u = y/x`,
+      `quad v + w = y/(x-d)`,
+      `quad u + v = y/(x+d)`
+    </span>
+    可以得到
+    <span class="formula">
+      `g^-1: u = 1/(2y) ((x-d)^2 - 2d^2)`,
       `quad v = 1/(2y) (x^2 + d^2)`,
       `quad w = 1/(2y) ((x+d)^2 - 2d^2)`.
     </span>
-    这里 `y != 0`, 否则它必有一个因子为零, 这使得 `u^2, v^2, w^2` 全相等, 与 `d gt 0` 矛盾.
-    用 sympy 验证 `(x, y)` 适合椭圆曲线 `y^2 = x(x+d)(x-d)`:
-<pre>
-z = u*v+v*w+w*u
-y = (u+v)*(v+w)*(w+u)
-expand((u**2+z)*(v**2+z)*(w**2+z)-y**2) # 0
-</pre>
-    验证逆映射:
+    <hr>
+    用 sympy 验证逆映射:
 <pre>
 u = ((x-d)**2-2*d**2)/(2*y)
 v = (x**2+d**2)/(2*y)
@@ -1279,12 +1292,12 @@ simp(v**2-w**2+d) # 0
 <p class="remark">
   证明过程中用到的映射
   <span class="formula">
-    `g(x, y) = 1/(2y)((x-d)^2 - 2d^2, x^2+d^2, (x+d)^2 - 2d^2)`,<br>
-    `h(u, v, w) = (v^2, u v w)`,
+    `g^-1(x, y) = 1/(2y)((x-d)^2 - 2d^2, x^2+d^2, (x+d)^2 - 2d^2)`,<br>
+    `f(u, v, w) = (v^2, u v w)`,
   </span>
-  它们的复合 `h@g` 恰好是椭圆曲线上的 2 倍映射, 即 `P mapsto 2P`:
+  它们的复合 `f @ g^-1` 恰好是椭圆曲线上的 2 倍映射, 即 `P mapsto 2P`:
   <span class="formula">
-    `h@g(x, y) = ((x^2+d^2)^2/(4y^2), (((x-d)^2-2d^2)(x^2+d^2)((x+d)^2-2d^2))/(8y^3))`.
+    `f @ g^-1(x, y) = ((x^2+d^2)^2/(4y^2), (((x-d)^2-2d^2)(x^2+d^2)((x+d)^2-2d^2))/(8y^3))`.
   </span>
 </p>
 
@@ -1405,9 +1418,13 @@ c = 4373612677928697257861252602371390152816537558161613618621437993378423467772
   <span class="formula">
     `P = sum k_i P_i`.
   </span>
-  这个群的秩称为该椭圆曲线的秩.
-  又根据 Mazur[1977] 的结果, `E(QQ)` 的挠子群 (有限阶元素组成的子群)
-  在同构意义下只有以下几种:
+  根据有限生成 Abel 群基本定理, 有同构
+  <span class="formula">
+    `E(QQ) ~= ZZ^r o+ 有限群`.
+  </span>
+  其中 `r` 是群 `E(QQ)` 的秩, 也称为该椭圆曲线的秩.
+  上式中的有限群称为 `E(QQ)` 的挠子群, 它是由 `E(QQ)` 的有限阶元素组成的子群.
+  根据 Mazur[1977] 的结果, `E(QQ)` 的挠子群在同构意义下只有以下几种:
   <span class="formula">
     `ZZ//n ZZ`, `quad 1 le n le 10 or n = 12`.<br>
     `ZZ/n ZZ o+ Z//2 ZZ`, `quad n = 2, 4, 6, 8`.

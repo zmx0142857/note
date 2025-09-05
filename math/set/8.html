@@ -14,6 +14,7 @@
   <li><a href="https://www.bananaspace.org/wiki/%E8%AE%B2%E4%B9%89:%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%EF%BC%88infi%EF%BC%89/%E4%BB%BB%E6%84%8F%E7%8E%AF%E5%92%8C%E5%9F%9F%E4%B8%8A%E7%9A%84%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E8%8C%83%E7%95%B4%E8%AE%BA%E5%85%A5%E9%97%A8_(*)" target="_blank">香蕉空间 - 范畴论入门</a></li>
   <li>John Baez《Category Theory Course》2019.09.03</li>
   <li>Pierre Schapira《Categories and homological algebra》2009.01.10</li>
+  <li><a href="https://zhuanlan.zhihu.com/p/268196198" target="_blank">知乎专栏: 模与范畴</a></li>
 </ul>
 
 <ol class="remark">
@@ -187,6 +188,19 @@
     类似定义带基点的拓扑空间范畴 `sf(To p)^ast`.
   </li>
   <li>给定集合, 可以定义相应的<b>离散范畴 `sf(Disc)(S)`</b>: 对象集为 `S`, 态射仅有恒等态射 `{"id"_x: x in S}`.</li>
+  <li>域 `K` 上的<b>矩阵范畴 `M_K`</b>: 对象为全体正整数,
+    态射 `A: m to n` 是 `m xx n` 矩阵, 态射的合成为矩阵乘法: `A @ B := B A`.
+  </li>
+  <li><b>偏序范畴</b> 设 `{s}` 是一个单点集, `(A, le)` 是偏序集.
+    定义偏序范畴 `cc A` 如下: 对象 `"Ob"(cc A) = A`.
+    态射
+    <span class="formula">
+      `"Hom"(X, Y) := {{s}, if X le Y; O/, otherwise:}`.
+    </span>
+    换言之, 如果 `X le Y`, 就在它们之间连一个箭头, 否则它们之间没有箭头.
+    态射的合成是平凡的: `s @ s = s`.
+    偏序范畴的图表和 Hasse 图是一致的.
+  </li>
 </ol>
 
 <h3>单态射与满态射</h3>
@@ -208,6 +222,10 @@
   </div>
 </div>
 
+<p class="remark">
+  助记: 单态射的定义 `f g = f h iff g = h` 与集合论中单射函数的定义 `f(x) = f(y) iff x = y` 神似.
+</p>
+
 <p class="corollary">
   左可逆蕴涵单, 右可逆蕴涵满. 因此同构既是单态射又是满态射.
 </p>
@@ -218,7 +236,7 @@
 
 <p class="remark">
   在集合论意义下, 单态射等价于左可逆 (单射函数), 满态射等价于右可逆 (满射函数).
-  范畴论中则未必: 在有些范畴中如 `sf(Set)`, `sf(Grp)`, `sf(V ect)(bbb k)` 中它们是等价的,
+  范畴论中则未必: 在有些范畴中如 `sf(Set)`, `sf(Grp)`, `sf(Mod)_R`, `sf(V ect)(bbb k)` 中它们是等价的,
   但在 `sf(To p)` 中, 态射有稠密的像便是满态射.
   又如 `sf(Ri ng)` 中, 单态射就是单的环同态, 然而满态射不等同于满的环同态,
   例如从 `ZZ to QQ` 的包含同态是满态射, 但不是满射函数.
@@ -263,6 +281,62 @@
     但 `g(n) = h(n)`, 由逆元唯一性知道 `g(1//n) = h(1//n)`.
     从而对任意 `a in QQ` 成立 `g(a) = h(a)`. 因此 `f` 是满态射.
   </li>
+  <li>模范畴 `sf(Mod)_R` 中单、满态射分别等价于单同态、满同态的证明:
+    设 `f` 是单同态, 则它是集合间的单射函数, 从而是单态射.
+    现在设 `f` 是单态射, 考察正合列
+    <span class="formula">
+      `"Ker" f overset i to A overset f to B`,
+    </span>
+    其中 `"Im" i = "Ker" f`, 即 `f i = 0` (零同态). 由 `f` 是单态射知道,
+    <span class="formula">
+      `f i = 0 = f 0`
+      `rArr i = 0`,
+    </span>
+    从而 `"Ker" f = 0`, `f` 是单同态.
+    <br>
+    又设 `f` 是满同态, 则它是集合间的满射函数, 从而是满态射.
+    现在设 `f` 是满态射, 考察正合列
+    <span class="formula">
+      `A overset f to B overset pi to B//"Im"f`,
+    </span>
+    其中 `"Im" f = "Ker" pi`, 即 `pi f = 0`. 由 `f` 是满态射知道,
+    <span class="formula">
+      `pi f = 0 = 0 f`
+      `rArr pi = 0`,
+    </span>
+    从而 `"Im"f = B`, `f` 是满同态.
+  </li>
+  <li>群范畴 `sf(Grp)` 中单态射与单同态的等价性证明与模范畴完全类似. 但在证明满态射与满同态的等价性时,
+    会遇到困难: `"Im"f` 不一定是 `B` 的正规子群.
+    这部分完整证明参见 <a href="https://zhuanlan.zhihu.com/p/268409772" target="_blank">知乎专栏: 模与范畴</a>.
+  </li>
+</ol>
+
+<ol class="example">
+  <b>子对象与商对象</b>
+  设 `cc C` 为范畴, `A in "Ob"(cc C)`.
+  <li>考虑终点在 `A` 的所有单态射构成的类, 在这个类上定义二元关系 `le`:
+    <span class="formula">
+      `f le g iff (EE k) f = g k`.
+    </span>
+    由定义知 `k` 也是单态射.  规定等价关系 `f -= g iff f le g and g le f`, 我们将其导出的等价类称为 `A` 的<b>子对象</b>.
+  </li>
+  <li>对偶地, 考虑从 `A` 出发的所有满态射构成的类, 定义 `ge`:
+    <span class="formula">
+      `f ge g iff (EE k) f = k g`,
+    </span>
+    规定等价关系 `f -= g iff f ge g and g ge f`, 其导出的等价类称为 `A` 的<b>商对象</b>.
+  </li>
+</ol>
+
+<ol class="remark">
+  <li>注意, 子对象和商对象是态射的等价类, 不是对象的等价类.</li>
+  <li>容易看出, 当 `k` 为同构时, 上述的 `f` 和 `g` 就是等价的.</li>
+  <li>考虑群范畴 `sf(Grp)` 的商对象.
+    相差一个同构的意义下, 从 `A` 出发的一个满态射 `f` 决定了 `A` 的一个商群 `A // "Ker" f`.
+    再考虑其子对象. 若群 `B` 到 `A` 存在一个嵌入, 则 `B` 同构于 `A` 的一个子群.
+    因此群范畴的商对象与子对象恰好是商群与子群 (相差一个同构).
+  </li>
 </ol>
 
 <h2>函子与自然变换</h2>
@@ -292,20 +366,13 @@
   不过如前所述, 范畴中的恒等态射和对象一样多, 但幺半群的单位元只有一个.
 </p>
 
-<div class="remark p">
-  在函数式编程中, 函子常见于容器间的映射.
-  例如 <code>map</code> 将一个数组映为另一个数组:
-  <span class="formula">
-    <code>map (+1) [1,2,3]</code> 得到 <code>[2,3,4]</code>,<br>
-    <code>map square [1,2,3]</code> 得到 <code>[1,4,9]</code>.
-  </span>
-  这里 <code>map</code> 是 <code>Int</code> 范畴到 <code>Array Int</code>范畴的函子.
-  它同样满足函子对态射的性质:
-<pre>
-map identity = identity
-(map g) ∘ (map f) = map (g ∘ f)
-</pre>
-</div>
+<p class="example">
+  函子保持左、右可逆态射, 但不一定保持单态射和满态射.
+  例如, 设 `M, N` 为幺半群, 视它们为单个对象的范畴.
+  则函子 `F: M to N` 就是幺半群同态.
+  特别令 `M = (NN, +)`, `N = ({0, 1}, max)`, `F(m) = min(1, m)`,
+  则 `1` 在 `M` 中是单态射也是满态射, 在 `N` 中则都不是.
+</p>
 
 <ol class="definition">
   <li><b>函子的合成</b> 设 `F: cc C_1 to cc C_2`, `G: cc C_2 to cc C_3`,
@@ -331,8 +398,8 @@ map identity = identity
     这是把满射定义中的 "等于" 换成了 "同构于".
   </li>
   <li>在态射层次,
-    称 `F` 是<b>忠实</b>的, 若 `Hom_C(X, Y) to Hom_C(F X, F Y)` 都是单射.
-    称 `F` 是<b>全</b>的, 如果上述映射都是满射.
+    称 `F` 是<b>忠实 (faithful)</b>的, 若 `Hom_C(X, Y) to Hom_C(F X, F Y)` 都是单射.
+    称 `F` 是<b>全 (full)</b>的, 如果上述映射都是满射.
     既忠实又全的函子称为<b>全忠实</b>的.
   </li>
 </ol>
@@ -341,6 +408,12 @@ map identity = identity
   忠实是比单射弱的一个概念. 可能出现这样的情况: `X, Y, Z` 是 `cc C'` 的不同对象, 但 `F Y = F Z`,
   这时一个忠实的函子允许箭头 `X to Y` 和 `X to Z` 被映到同一个箭头.
   同理 "全" 是比满射弱的概念.
+</p>
+
+<p class="corollary">
+  设 `cc C` 是范畴, `f: A to B`.
+  若 `cc C to cc D` 是全忠实函子, 且 `F(f)` 是单同态/满同态/有左逆/有右逆/是同构,
+  则 `f` 也同样如此.
 </p>
 
 <ol class="example">
@@ -358,7 +431,38 @@ map identity = identity
     设 `X` 是拓扑空间, `x in X`, 则 `pi_1(X, x)` 代表 `X` 在 `x` 这一点的基本群.
     可以验证 `pi_1: sf(To p)^ast to sf(Grp)` 是函子.
   </li>
+  <li><b>幂集函子</b> `cc P: sf(Set) to sf(Set)` 将集合 `A` 映为幂集 `cc P(A)`, 态射 `f: A to B` 映为
+    `cc P(f): cc P(A) to cc P(B)`. 具体而言, `cc P(f)` 将子集 `A_1 sube A` 映为它的像 `f(A_1) sube B`.
+  </li>
+  <li>`n` 阶<b>矩阵函子</b>
+    `M_n: sf(Ri ng) to sf(Ri ng)` 和 `n` 阶可逆矩阵函子 `GL_n: sf(Ri ng) to sf(Grp)`.
+    它们分别将环 `R` 映为 `R` 上的全体 `n` 阶矩阵和 `n` 阶可逆矩阵.
+  </li>
+  <li><b>Abel 化函子</b> `Ab: sf(Grp) to sf(Ab)` 将群 `G` 映为一个 Abel 群
+    `G//G'`, 其中 `G'` 是 `G` 的导群 (又称换位子群).
+    代数学中还有众多的标准处理可以描述为函子: 半群的群化、环的局部化等等.
+  </li>
+  <li>积范畴到分量的<b>投影函子</b> `P: cc C xx cc D to cc C`.
+    它将对象 `(A, B)` 映为 `A`, 态射 `(f, g)` 映为 `f`.
+    范畴到积范畴的对角函子 `"Dia": cc C to cc C xx cc C`.
+    它将对象 `A` 映为 `(A, A)`, 态射 `f` 映为 `(f, f)`.
+  </li>
 </ol>
+
+<div class="example">
+  在函数式编程中, 函子常见于容器间的映射.
+  例如 <code>map</code> 将一个数组映为另一个数组:
+  <span class="formula">
+    <code>map (+1) [1,2,3]</code> 得到 <code>[2,3,4]</code>,<br>
+    <code>map square [1,2,3]</code> 得到 <code>[1,4,9]</code>.
+  </span>
+  这里 <code>map</code> 是 <code>Int</code> 范畴到 <code>Array Int</code>范畴的函子.
+  它同样满足函子对态射的性质:
+<pre>
+map identity = identity
+(map g) ∘ (map f) = map (g ∘ f)
+</pre>
+</div>
 
 <h3>自然变换</h3>
 
@@ -537,7 +641,7 @@ map identity = identity
   </li>
   <li><b>余积</b> 对 `X, Y: cc C`, 若存在对象 `W: cc C` 和态射 `iota_1: X to W`, `iota_2: Y to W` 满足下列条件, 则称 `W` 是 `X` 和 `Y` 的<b>余积 (coproduct)</b>, 并记 `W = X ⊔ Y`:
     <br>
-    对任意 `Z: cc C` 和态射 `f: X to Z, `g: Y to Z`, 都有唯一的态射 `u: W to Z` 使下图交换:
+    对任意 `Z: cc C` 和态射 `f: X to Z`, `g: Y to Z`, 都有唯一的态射 `u: W to Z` 使下图交换:
     <div class="img xs">
       <img src="../img/cd-coproduct.png" alt="余积">
     </div>
@@ -557,20 +661,56 @@ map identity = identity
 
 <h3>等化子与余等化子</h3>
 
-<p>在数学中 "某某化子" 是指使某性质局部成立的对象的集合. 例如两个函数 `f, g: X to Y` 的等化子就是集合
-  <span class="formula">
-    `{x in X: f(x) = g(x)}`.
-  </span>
+<p class="definition">
+  <b>生成子</b> 若存在对象 `U in cc C`, 使得对于任意两个对象 `X, Y in cc C`,
+  和两个不同态射 `f != g: X to Y`, 都存在 `u: U to X` 使得 `f @ u != g @ u`,
+  则称 `U` 是 `cc C` 的生成子.
 </p>
 
-<!--
+<p class="example">
+  群范畴 `sf(Grp)` 的生成子是 `ZZ`.
+</p>
+
+<p class="remark">
+  生成子的效果是, 使得原先不同的两个态射, 在复合一个态射之后仍是不同的.
+  等化子则相反, 它使两个态射在复合一个态射之后变得相同.
+</p>
+
 <ol class="definition">
-  <li><b>等化子</b></li>
-  <li><b>余等化子</b></li>
+  令 `X, Y in cc C`, `f, g: X to Y`.
+  <li><b>等化子 (equalizer)</b>
+    若存在对象 `E` 和态射 `e: E to X`, 使得 `f @ e = g @ e`,
+    且态射 `e` 在相差一个态射的意义下唯一, 则称 `E` 是 `X, Y` 的等化子.
+    这里的“相差一个态射”是指: 对任意对象 `E' in cc C`, 若存在 `e': E' to X` 使得 `f @ e' = g @ e'`,
+    则存在唯一态射 `u: E' to E` 使得 `e' = e @ u`.
+  </li>
+  <li><b>余等化子 (coequalizer)</b>
+    若存在对象 `Q` 和态射 `q: Y to Q`, 使得 `q @ f = q @ g`,
+    且态射 `q` 在相差一个态射的意义下唯一, 则称 `Q` 是 `X, Y` 的余等化子.
+  </li>
 </ol>
--->
+
+<div class="flex">
+  <div class="img xs" title="等化子">
+    <img src="../img/cd-equalizer.png" alt="">
+  </div>
+  <div class="img xs" title="余等化子">
+    <img src="../img/cd-coequalizer.png" alt="">
+  </div>
+</div>
+
+<p class="remark">
+  这里的字母 `E, Q` 取自 equalizer 的前两个字母.
+</p>
+
 
 <ol class="example">
+  <li>在数学中 "某某化子" 是指使某性质局部成立的对象的集合. 例如两个函数
+    `f, g: X to Y` 的等化子就是集合
+    <span class="formula">
+      `{x in X: f(x) = g(x)}`.
+    </span>
+  </li>
   <li>`sf(Set)` 中, 两个态射 `f, g: X to Y` 的等化子是 `{x in X: f(x) = g(x)}`.</li>
   <li>`sf(Mod)_R` 中, 态射 `f, g: M to N` 的等化子是 `"Ker"(f - g)`, 余等化子是 `N//"Im"(f - g)`.</li>
 </ol>

@@ -99,7 +99,7 @@ var tocData = [
           { "value": "5", "label": "基数", "date": "2024-09-28" },
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
-          { "value": "8", "label": "范畴论基础", "date": "2025-06-14" }
+          { "value": "8", "label": "范畴论基础", "date": "2025-09-05" }
         ]
       },
       {
@@ -171,7 +171,7 @@ var tocData = [
           { "value": "3", "label": "群 (中)", "date": "2025-08-08" },
           { "value": "4", "label": "群 (下)", "date": "2025-01-10" },
           { "value": "5", "label": "环" },
-          { "value": "6", "label": "模与代数", "date": "2024-10-29" },
+          { "value": "6", "label": "模与代数", "date": "2025-09-03" },
           { "value": "7", "label": "域", "date": "2024-06-30" },
           { "value": "8", "label": "Galois 理论", "date": "2022-01-02" },
           { "value": "10", "label": "有限群表示论", "date": "2024-12-14" },
