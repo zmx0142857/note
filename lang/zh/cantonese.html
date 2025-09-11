@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta name="viewport" content="width=device-width"/>
+<link rel="stylesheet" href="../../css/note.css">
+<style>
+body {
+  color: #ccc;
+  font-size: 16px;
+}
+ruby {
+  padding: 2px;
+}
+rt {
+  position: relative;
+  top: -2px;
+  font-size: 12px;
+  padding: 2px;
+  /* left: 50%;
+  transform: translateX(-50%);*/
+}
+.op-0 {
+  opacity: 0;
+}
+</style>
+<meta charset="utf-8" />
+<title class="nonu-all">粤语</title>
+</head>
+<body>
+
+<h2>拼音方案</h2>
+
+<p>[来自 <a href="https://zhuanlan.zhihu.com/p/22555971">史诗观点@知乎</a>]</p>
+
+<h3>声母 (19 个)</h3>
+
+<table id="consonants" class="col2"></table>
+
+<h3>韵母 (56 个)</h3>
+
+<table id="vowels" class="col2"></table>
+
+<h3>声调 (6+3=9 个)</h3>
+
+<table id="tones" class="col2"></table>
+
+<script src="../../js/note.js"></script>
+<script>
+const $ = el => document.querySelector(el)
+const chunk = (str, len) => {
+  const buf = []
+  for (let i = 0; i < str.length; i += len) {
+    buf.push(str.slice(i, i+len))
+  }
+  return buf
+}
+
+const createTable = ({ el, title = '', header = '', rows = [] }) => {
+  if (title) title = `<caption>${title}</caption>\n`
+  if (header) header = '<tr>\n' + header.map(th => `<th>${th}</th>`).join('\n') + '\n</tr>\n'
+  el.innerHTML = title + header + rows.map(tr => '<tr>\n' + tr.map(td => `<td>${td}</td>`).join('\n') + '\n</tr>').join('\n')
+}
+
+const addRuby = (v) => {
+  if (v.includes(',')) {
+    const arr = v.split(',')
+    return `<ruby>${arr[0]}<rt>${arr[1]}</rt></ruby>`
+  }
+  return v
+}
+
+createTable({
+  el: $('#consonants'),
+  rows: chunk([
+    'b', '巴,baa', 'd', '打,daa', 'g', '家,gaa', 'gw', '瓜,gwaa', 'z', '渣,zaa',
+    'p', '怕,paa', 't', '他,taa', 'k', '卡,kaa', 'kw', '夸,kwaa', 'c', '叉,caa',
+    'm', '妈,maa', 'n', '那,naa', 'ng', '牙,ngaa', 'w', '蛙,waa', 's', '沙,saa',
+    'f', '花,faa', 'l', '啦,laa', 'h', '虾,haa', '-', '', 'j', '也,jaa',
+  ].map(addRuby), 10),
+})
+
+createTable({
+  el: $('#vowels'),
+  rows: chunk([
+    'aa', '渣,zaa', 'aai', '斋,zaai', 'aau', '嘲', 'aam', '站', 'aan', '赞', 'aang', '挣', 'aap', '集', 'aat', '扎', 'aak', '责',
+    '-', '', 'ai', '挤', 'au', '周', 'am', '斟', 'an', '珍', 'ang', '增', 'ap', '汁', 'at', '侄', 'ak', '则',
+    'e', '些', 'ei', '四', 'eu', '掉', 'em', '舐', '-', '', 'eng', '郑', 'ep', '夹', '-', '', 'ek', '石',
+    'i', '思', '-', '', 'iu', '消', 'im', '闪', 'in', '先', 'ing', '升', 'ip', '摄', 'it', '泄', 'ik', '识',
+    'o', '可', 'oi', '开', 'ou', '好', '-', '', 'on', '看', 'ong', '康', '-', '', 'ot', '喝', 'ok', '学',
+    'oe', '靴', '-', '', '-', '', '-', '', '-', '', 'oeng', '双', '-', '', '-', '', 'oek', '脚',
+    '-', '', 'eoi', '需', '-', '', '-', '', 'eon', '询', '-', '', '-', '', 'eot', '摔', '-', '',
+    'u', '夫', 'ui', '灰', '-', '', '-', '', 'un', '欢', 'ung', '风', '-', '', 'ut', '阔', 'uk', '福',
+    'yu', '书', '-', '', '-', '', '-', '', 'yun', '孙', '-', '', '-', '', 'yut', '雪', '-', '',
+    '-', '', '-', '',  '-', '',  'm', '唔', '-', '',  'ng', '五', '-', '',  '-', '',  '-', '',
+  ].map(addRuby), 18),
+})
+
+createTable({
+  el: $('#tones'),
+  header: ['声调', '例字', '调号', '调值'],
+  rows: chunk([
+    '阴平', '分', 'fan1', '55/53',
+    '阴上', '粉', 'fan2', '35',
+    '阴去', '训', 'fan3', '33',
+    '阳平', '焚', 'fan4', '21/11',
+    '阳上', '奋', 'fan5', '23',
+    '阳去', '份', 'fan6', '22',
+    '高阴入', '忽', 'fat1', '5',
+    '低阴入', '发', 'faat3', '3',
+    '阳入', '佛', 'fat6', '2',
+  ], 4),
+})
+</script>
+</body>
+</html>

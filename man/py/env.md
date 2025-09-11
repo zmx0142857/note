@@ -7,6 +7,17 @@ $ pip config set global.cache-dir /d/app/py/pip-cache # 缓存管理
 $ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple # 清华镜像
 ```
 
+## ipython
+
+创建配置文件: `ipython profile create [name]`
+
+`~/.ipython/profile_default/ipython_config.py`
+```
+c.InteractiveShellApp.exec_lines = [
+    'from sympy import *' # 启动时自动执行
+]
+```
+
 ## venv
 
 python 自带的虚拟环境解决方案. 只有 create, activate, deactivate 等简单功能, 无法更换 python 版本

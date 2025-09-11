@@ -99,7 +99,7 @@ var tocData = [
           { "value": "5", "label": "基数", "date": "2024-09-28" },
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
-          { "value": "8", "label": "范畴论基础", "date": "2025-09-05" }
+          { "value": "8", "label": "范畴论基础", "date": "2025-09-08" },
         ]
       },
       {
@@ -145,7 +145,6 @@ var tocData = [
         "label": "数值分析",
         "children": [
           { "value": "2", "label": "插值与样条", "date": "2024-12-30" },
-          { "value": "5", "label": "线性方程组" },
           { "value": "6", "label": "矩阵与线性方程组", "date": "2025-07-25" },
           { "value": "7", "label": "非线性方程数值解法" },
           { "value": "8", "label": "常微分方程数值解法" },
@@ -444,7 +443,8 @@ var tocData = [
         "children": [
           { "value": "words", "label": "易读错字词整理" },
           { "value": "typing", "label": "打字练习", "date": "2024-04-09" },
-          { "value": "hinghwa", "label": "莆仙话", "date": "2024-07-23" }
+          { "value": "hinghwa", "label": "莆仙话", "date": "2024-07-23" },
+          { "value": "cantonese", "label": "粤语", "date": "2025-09-11" },
         ]
       },
       {
@@ -743,6 +743,7 @@ var tocData = [
           { "value": "tex.md", "label": "LaTeX", "date": "2025-05-25" },
           { "value": "leetcode.md", "label": "LeetCode", "date": "2025-07-04" },
           { "value": "glsl.md", "label": "GLSL", "date": "2025-09-02" },
+          { "value": "go.md", "label": "Go", "date": "2025-09-05" },
         ]
       },
       {

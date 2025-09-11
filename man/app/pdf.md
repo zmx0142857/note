@@ -16,8 +16,8 @@ function toc() {
     pdf-toc --show-toc toc "$2" > toc.txt && echo "output: toc.txt"
   elif [ "$1" == "write" ]; then
     filename="${2%.*}.new.pdf"
-    if [ -n $3 ]; then
-      filename=$3
+    if [ -n "$3" ]; then
+      filename="$3"
     fi
     pdf-toc -t toc.txt -d $filename "$2" && echo "output: $filename"
   else

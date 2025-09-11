@@ -20,7 +20,7 @@
 <ol class="remark">
   概括来说:
   <li><b>范畴 (category)</b>是由对象及其间的态射组成的: `X overset f to Y`. 这里 `X, Y` 是对象, `f` 是态射.
-  <li><b>函子 (functor)</b>则是范畴间保持箭头结构的“映射”: `cc C' overset F to cc C`. 这里 `cc C', cc C` 是范畴, `F` 是函子.</li>
+  <li><b>函子 (functor)</b>则是范畴间保持箭头结构的“映射”: `cc C overset F to cc D`. 这里 `cc C, cc D` 是范畴, `F` 是函子.</li>
   <li><b>自然变换</b>描述了函子之间的关系: `F overset theta to G`, 这里 `F, G` 是函子, `theta` 是自然变换.</li>
   箭头图表在范畴论中随处可见, 但箭头可以有以上几种不同的含义, 需根据上下文加以辨析.
 </ol>
@@ -127,12 +127,12 @@
 <h3>子范畴、反范畴、积范畴</h3>
 
 <ul class="definition">
-  称 `cc C'` 是 `cc C` 的<b>子范畴</b>, 如果
-  <li>(金) `"Ob"(cc C') sube "Ob"(cc C)`;</li>
-  <li>(木) `"Mor"(cc C') sube "Mor"(cc C)`;</li>
-  <li>(水) `Hom_C'(X, Y) sube Hom_C(X, Y)`, 等号成立时称 `cc C'` 是<b>全子范畴</b>;</li>
-  <li>(火) 态射的合成也是由 `cc C` 限制而来的;</li>
-  <li>(土) 恒等态射也是由 `cc C` 限制而来的.</li>
+  称 `cc C` 是 `cc D` 的<b>子范畴</b>, 如果
+  <li>(金) `"Ob"(cc C) sube "Ob"(cc D)`;</li>
+  <li>(木) `"Mor"(cc C) sube "Mor"(cc D)`;</li>
+  <li>(水) `Hom_C(X, Y) sube Hom_D(X, Y)`, 等号成立时称 `cc C` 是<b>全子范畴</b>;</li>
+  <li>(火) 态射的合成也是由 `cc D` 限制而来的;</li>
+  <li>(土) 恒等态射也是由 `cc D` 限制而来的.</li>
   从图表上看, 子范畴就是从原图表中去掉一些点和箭头得到的图表.
   如果仅仅移除点 (以及这些点关联的箭头), 而不去移除其它箭头的话, 得到的图表就是全子范畴.
 </ul>
@@ -174,8 +174,9 @@
   <li>域 `bbb k` 上的<b>向量空间范畴 `sf(V ect)(bbb k)`</b>: 对象为 `bbb k`
     上所有向量空间, 态射为线性映射. 类似定义有限维向量空间范畴 `sf(V ect)_(f)(bbb k)`, 它是 `sf(V ect)(bbb k)` 的全子范畴.</li>
   总之, 有一大类范畴, 其对象是一些带有代数运算的集合, 态射则是集合之间保持这些运算的映射, 即同态.
-  这样的范畴还有<b>环范畴 `sf(Ri ng)`</b>, <b>交换环范畴 `sf(CRi ng)`</b>, <b>环
-  `R` 上的左模范畴 `sf(Mod)_R`</b> 等等.
+  这样的范畴还有<b>环范畴 `sf(Ri ng)`</b>,
+  <b>无幺环范畴 `sf(Rng)`</b>, <b>交换环范畴 `sf(CRi ng)`</b>,
+  <b>环 `R` 上的左模范畴 `sf(Mod)_R`</b> 等等.
   下面的例子表明, 范畴中的态射不必是映射:
   <li><b>关系范畴 `sf(Rel)`</b>:
     对象为全体集合, `"Hom"(X, Y)` 是集合 `X, Y` 之间的全体二元关系.
@@ -314,7 +315,7 @@
 
 <ol class="example">
   <b>子对象与商对象</b>
-  设 `cc C` 为范畴, `A in "Ob"(cc C)`.
+  设 `cc C` 为范畴, `A: cc C`.
   <li>考虑终点在 `A` 的所有单态射构成的类, 在这个类上定义二元关系 `le`:
     <span class="formula">
       `f le g iff (EE k) f = g k`.
@@ -346,12 +347,12 @@
 <p>函子是范畴到范畴的 "态射", 它将一个交换图表映为另一个交换图表.</p>
 
 <ul class="definition">
-  设 `cc C', cc C` 为范畴. 一个<b>函子 (functor)</b> `F: cc C' to cc C` 由一对映射组成:
-  <li>(金) 对象间的映射 `F: "Ob"(cc C') to "Ob"(cc C)`;</li>
-  <li>(木) 态射间的映射, 仍用同一个字母: `F: "Mor"(cc C') to "Mor"(cc C)`;</li>
+  设 `cc C, cc D` 为范畴. 一个<b>函子 (functor)</b> `F: cc C to cc D` 由一对映射组成:
+  <li>(金) 对象间的映射 `F: "Ob"(cc C) to "Ob"(cc D)`;</li>
+  <li>(木) 态射间的映射, 仍用同一个字母: `F: "Mor"(cc C) to "Mor"(cc D)`;</li>
   <li>(水) 保持来源与目标映射 `s, t`: `s F = F s`, `t F = F t`.  用 Hom 集的语言就是
     <span class="formula">
-      `F: Hom_C'(X, Y) to Hom_C(F X, F Y)`,
+      `F: Hom_C(X, Y) to Hom_D(F X, F Y)`,
     </span>
     即 `F` 将箭头 `X to Y` 映为 `F X to F Y`;
   </li>
@@ -380,45 +381,45 @@
     函子的合成满足结合律.
   </li>
   <li><b>反变函子</b>
-    形如 `cc C' to cc C` 的函子称为共变函子, `cc {:C':}^"op" to cc C`
+    形如 `cc C to cc D` 的函子称为共变函子, `cc C^"op" to cc D`
     称为反变函子.  反变函子的定义在对象层次与前相同, 在态射层次则反转箭头方向, 即
     <span class="formula">
-      `Hom_C'(X, Y) to Hom_C(F Y, F X) quad` (反转箭头),<br>
+      `Hom_C(X, Y) to Hom_D(F Y, F X) quad` (反转箭头),<br>
       `F(f g) = F(g) F(f) quad` (反向合成).
     </span>
     由于反范畴与范畴只在箭头方向上不同,
-    函子 `cc C' to cc C` 和 `cc {:C':}^"op" to cc C^"op"` 是一回事,
-    `cc {:C':}^"op" to cc C` 和 `cc C' to cc C^"op"` 也是一回事.
+    函子 `cc C to cc D` 和 `cc C^"op" to cc D^"op"` 是一回事,
+    `cc C^"op" to cc D` 和 `cc C to cc D^"op"` 也是一回事.
   </li>
 </ol>
 
 <ol class="definition">
-  对于函子 `F: cc C' to cc C`,
-  <li>在对象层次, 称 `F` 是<b>本质满</b>的, 若 `cc C` 中任一对象都同构于某个 `F X`.
+  对于函子 `F: cc C to cc D`,
+  <li>在对象层次, 称 `F` 是<b>本质满</b>或<b>稠密</b>的, 若 `cc D` 中任一对象都同构于某个 `F X`.
     这是把满射定义中的 "等于" 换成了 "同构于".
   </li>
   <li>在态射层次,
-    称 `F` 是<b>忠实 (faithful)</b>的, 若 `Hom_C(X, Y) to Hom_C(F X, F Y)` 都是单射.
-    称 `F` 是<b>全 (full)</b>的, 如果上述映射都是满射.
+    称 `F` 是<b>忠实的 (faithful)</b>, 若 `Hom_C(X, Y) to Hom_D(F X, F Y)` 都是单射.
+    称 `F` 是<b>完全的 (或全的, full)</b>, 如果上述映射都是满射.
     既忠实又全的函子称为<b>全忠实</b>的.
   </li>
 </ol>
 
 <p class="remark">
-  忠实是比单射弱的一个概念. 可能出现这样的情况: `X, Y, Z` 是 `cc C'` 的不同对象, 但 `F Y = F Z`,
+  忠实是比单射弱的一个概念. 可能出现这样的情况: `X, Y, Z` 是 `cc C` 的不同对象, 但 `F Y = F Z`,
   这时一个忠实的函子允许箭头 `X to Y` 和 `X to Z` 被映到同一个箭头.
   同理 "全" 是比满射弱的概念.
 </p>
 
 <p class="corollary">
   设 `cc C` 是范畴, `f: A to B`.
-  若 `cc C to cc D` 是全忠实函子, 且 `F(f)` 是单同态/满同态/有左逆/有右逆/是同构,
+  若 `F: cc C to cc D` 是全忠实函子, 且 `F(f)` 是单同态/满同态/有左逆/有右逆/是同构,
   则 `f` 也同样如此.
 </p>
 
 <ol class="example">
-  <li>设 `cc C'` 为 `cc C` 的子范畴, 则<b>包含函子</b> `iota: cc C' to cc C` 是忠实的,
-    它在对象和态射层次都是包含映射; 它是全忠实的当且仅当 `cc C'` 是 `cc C` 的全子范畴.
+  <li>设 `cc C` 为 `cc D` 的子范畴, 则<b>包含函子</b> `iota: cc C to cc D` 是忠实的,
+    它在对象和态射层次都是包含映射; 它是全忠实的当且仅当 `cc C` 是 `cc D` 的全子范畴.
   </li>
   <li><b>忘却函子</b>
     忘却环的乘法, 可以将它视为加法群; 忘却所有结构便得到底层的集合.
@@ -464,66 +465,6 @@ map identity = identity
 </pre>
 </div>
 
-<h3>自然变换</h3>
-
-<div class="definition p">
-  <b>自然变换</b> 设函子 `F, G: cc C' to cc C`. 从 `F` 到 `G` 的自然变换 `theta: F rarr G`
-  定义为一族态射
-  <span class="formula">
-    `theta = { theta_X in Hom_C(F X, G X) | X: cc C' }`.
-  </span>
-  换言之 `theta = {theta_X}_X`, 其中 `theta_X: F X to G X`.
-  自然变换要求对所有态射 `f: X to Y` 有 `theta_X @ G f = F f @ theta_Y`.
-  下面是两种常见的图解, 验证自然变换, 关键是验证下面的图表交换:
-  <div class="space-around">
-    <div class="img xs">
-      <img src="../img/natural-trans-1.png" alt="自然变换1">
-    </div>
-    <div class="img xs">
-      <img src="../img/natural-trans-2.png" alt="自然变换2">
-    </div>
-  </div>
-</div>
-
-<ol class="definition">
-  <li>
-    <b>自然变换的合成</b>
-    `theta: F to G` 和 `psi: G to H` 的合成定义为
-    <span class="formula">
-      `psi theta: F to H`, 使得 `(psi theta)_X = psi_X theta_X`.
-    </span>
-    合成运算满足结合律.
-  </li>
-  <li>
-    <b>自然变换乘函子</b>
-    对 `theta: F_1 to F_2` 左乘或右乘一个函子, 可以得到两个新的自然变换:
-    <span class="formula">
-      `theta G := {theta_(G Y)}_Y: F_1 G to F_2 G`,<br>
-      `H theta := {H theta_X}_X: H F_1 to H F_2`.
-    </span>
-    当然, 前提是函子的合成 `F_1 G`, `F_2 G`, `H F_1`, `H F_2` 有意义.
-    我们有结合律 `(H theta) G = H (theta G)`.
-  </li>
-</ol>
-
-<ol class="definition">
-  <li>记函子 `F: cc C' to cc C` 到自身的<b>恒等变换</b>为
-    <span class="formula">
-      `"id"_F := { "id"_(F X) | X: cc C' }`.
-    </span>
-  </li>
-  <li>若 `theta: F to G` 中的态射皆为同构, 则称 `theta` 是<b>自然同构</b>,
-    定义其逆 `theta^-1: G to F` 为
-    <span class="formula">
-      `theta^-1 := { theta_X^-1 | theta_X in theta }`.
-    </span>
-    可以验证 `theta^-1 theta = "id"_F`, `theta theta^-1 = "id"_G`.
-    若 `theta` 是自然同构, 则它乘以函子后 `theta G, H theta` 也是同构.
-  </li>
-</ol>
-
-<h3>函子与自然变换的例子</h3>
-
 <p class="example">
   <b>Hom 函子</b> 给定范畴 `cc C` 及其对象 `X`, 定义协变 Hom 函子
   <span class="formula">
@@ -556,54 +497,285 @@ map identity = identity
   <img src="../img/hom-functor.png" alt="">
 </div>
 
+<h3>自然变换</h3>
+
+<div class="definition p">
+  <b>自然变换</b> 设函子 `F, G: cc C to cc D`. 从 `F` 到 `G` 的自然变换 `theta: F rarr G`
+  定义为一族态射
+  <span class="formula">
+    `theta = { theta_X: F X to G X | X: cc C }`,
+  </span>
+  且对所有态射 `f: X to Y` 满足
+  <span class="formula">
+    `theta_X @ G f = F f @ theta_Y`.
+  </span>
+  下面是两种常见的图解, 验证自然变换, 关键是验证下面的图表交换:
+  <div class="space-around">
+    <div class="img xs">
+      <img src="../img/natural-trans-1.png" alt="自然变换1">
+    </div>
+    <div class="img xs">
+      <img src="../img/natural-trans-2.png" alt="自然变换2">
+    </div>
+  </div>
+</div>
+
+<ol class="definition">
+  <li>
+    <b>自然变换的合成</b>
+    `theta: F to G` 和 `psi: G to H` 的合成定义为
+    <span class="formula">
+      `psi theta: F to H`, 使得 `(psi theta)_X = psi_X theta_X`.
+    </span>
+    合成运算满足结合律.
+    <span class="formula">
+      `F(X) to G(X) to H(X)`<br>
+      `darr qquad qquad darr qquad qquad darr`<br>
+      `F(Y) to G(Y) to H(Y)`
+    </span>
+  </li>
+  <li>
+    <b>自然变换乘函子</b>
+    对 `theta: F_1 to F_2` 左乘或右乘一个函子, 可以得到两个新的自然变换:
+    <span class="formula">
+      `theta G := {theta_(G Y)}_Y: F_1 G to F_2 G`,<br>
+      `H theta := {H theta_X}_X: H F_1 to H F_2`.
+    </span>
+    当然, 前提是函子的合成 `F_1 G`, `F_2 G`, `H F_1`, `H F_2` 有意义.
+    我们有结合律 `(H theta) G = H (theta G)`.
+    <span class="formula">
+      `F_1 G(X) to F_2 G(X)`<br>
+      `darr qquad qquad darr`<br>
+      `F_1 G(Y) to F_2 G(Y)`
+    </span>
+  </li>
+</ol>
+
+<ol class="definition">
+  <li>记函子 `F: cc C to cc D` 到自身的<b>恒等变换</b>为
+    <span class="formula">
+      `"id"_F := { "id"_(F X) | X: cc C }`.
+    </span>
+  </li>
+  <li>若 `theta: F to G` 中的态射皆为同构, 则称 `theta` 是<b>自然同构</b>,
+    定义其逆 `theta^-1: G to F` 为
+    <span class="formula">
+      `theta^-1 := { theta_X^-1 | theta_X in theta }`.
+    </span>
+    可以验证 `theta^-1 theta = "id"_F`, `theta theta^-1 = "id"_G`.
+    若 `theta` 是自然同构, 则它乘以函子后 `theta G, H theta` 也是同构.
+  </li>
+</ol>
+
 <ol class="example">
   <b>双重对偶空间</b>
   自然变换的一个典型例子是向量空间到其双重对偶空间的自然同态.
   考虑 `bbb F` 上的向量空间 `V`, 它的对偶空间 `V^ast` 由全体 `V` 到 `bbb F` 的线性函数组成.
   <li>
-    定义函子 `D` 如下
+    定义<b>对偶函子 (duality functor)</b> `D` 如下
     <span class="formula">
       `D: sf(V ect)(bbb F)^"op" to sf(V ect)(bbb F)`<br>
       (对象层次) `V mapsto V^ast`<br>
-      (态射层次) `cc A mapsto cc A^ast`.
+      (态射层次) `A mapsto A^ast`.
     </span>
-    其中 `cc A: V to W`,
+    其中 `A: V to W` 为线性映射, `A^ast` 为对偶线性映射:
     <span class="formula">
-      `cc A^ast: W^ast to V^ast`
+      `A^ast: W^ast to V^ast`
       `:=`
       <span class="box">
-        `f mapsto f cc A`.
+        `f mapsto f A`.
       </span>
     </span>
-    由于 `(cc(A B))^ast = cc B^ast cc A^ast`, `"id"_V^ast = "id"_(V^ast)`, 所以 `D` 是反变函子.
+    由于 `(A B)^ast = B^ast A^ast`, `"id"_V^ast = "id"_(V^ast)`, 所以 `D` 是反变函子.
     同理可构造另一个反变函子 `D^"op" = sf(V ect)(bbb F) to sf(V ect)(bbb F)^"op"`.
   </li>
   <li>
-    记 `"id"_(sf(V ect)(bbb F)` 是 `bbb F` 上向量空间范畴到自射的恒等函子. 定义自然变换
+    记 `"id"_(sf(V ect)(bbb F))` 是恒等函子, `D D^"op"` 是双重对偶函子. 定义自然变换
     <span class="formula">
-      `"ev": "id"_(sf(V ect)(bbb F)) to D D^"op"`,
+      `theta: "id"_(sf(V ect)(bbb F)) to D D^"op"`,
     </span>
     其中
     <span class="formula">
-      `"ev"_V: V to V^(ast ast)`
+      `theta_V: V to V^(ast ast)`
       `:=`
       <span class="box">
         `v mapsto f mapsto f(v)`.
       </span>
     </span>
-    可以验证它满足自然变换的变换图表: `AA cc A: V to W`,
+    可以验证它满足自然变换的交换图表:
     <span class="formula">
-      `"ev"_V @ D D^"op" cc A = "id"_(sf(V ect)(bbb F)) cc A @ "ev"_W`.
+      `V overset (theta_V) to V^(ast ast)`<br>
+      `A darr qquad darr A^(ast ast)`<br>
+      `W underset (theta_W) to W^(ast ast)`
+    </span>
+    其中
+    <span class="formula">
+      `theta_W @ A = A^(ast ast) @ theta_V`.
     </span>
     同理有另一个自然变换 `"id"_(sf(V ect)(bbb F)^"op") to D^"op" D`.
     当线性空间限制到有限维时, 这两个自然变换都是自然同构.
   </li>
 </ol>
 
+<p class="proof">
+  如图:
+  <span class="formula">
+    `U overset B to V overset A to W`,<br>
+    `U^ast overset (B^ast) larr V^ast overset (A^ast) larr W^ast`.
+  </span>
+  先熟悉星号运算:
+  <span class="formula align">
+    1. `v_1^(ast ast) v_2^ast = v_2^ast v_1`;<br>
+    2. `quad A^ast w^ast = w^ast A`;<br>
+    3. `quad (A B)^ast = B^ast A^ast`;<br>
+    4. `quad (A v)^(ast ast) = A^(ast ast) v^(ast ast)`.
+  </span>
+  前两式由定义即可获得. 3. 的证明:
+  <span class="formula">
+    `(A B)^ast w^ast`
+    `= w^ast (A B)`
+    `= (w^ast A) B`
+    `= (A^ast w^ast) B`
+    `= B^ast(A^ast w^ast)`
+    `= (B^ast A^ast) w^ast`.
+  </span>
+  4. 的证明:
+  <span class="formula">
+    `(A v)^(ast ast) w^ast`
+    `= w^ast (A v)`
+    `= (w^ast A) v`
+    `= v^(ast ast) (w^ast A)`
+    `= v^(ast ast) (A^ast w^ast)`
+    `= (v^(ast ast) A^ast) w^ast`
+    `= (A^(ast ast) v^(ast ast)) w^ast`.
+  </span>
+  事实上, 性质 4 说明 `theta` 正是一个自然同态.
+</p>
+
 <p class="remark">
   一般而言, 两个有限维线性空间只要维数相同, 都是同构的, 但这个同构依赖于基的选取.
   但 `V` 到 `V^(ast ast)` 的同构 `v mapsto f mapsto f(v)` 不依赖于基的选择, 因此说它是<b>自然</b>的.
 </p>
+
+<p class="remark">
+  双重对偶空间可以推广到模范畴上.
+  事实上, 设 `R` 为一环, 用 `sf(R)"-"sf(Mod), sf(Mod)"-"sf(R)` 分别表示左右 `R`-模范畴, 可以给出反变函子:
+  <span class="formula">
+    `D: sf(R)"-"sf(Mod) to sf(Mod)"-"sf(R)`<br>
+    (对象层次) `M mapsto M^ast`,<br>
+    (态射层次) `A mapsto A^ast`.
+  </span>
+  其中 `M^ast` 表示全体模同态 `M to R` 构成的右 `R`-模.
+  模同态 `A: M to N` 在函子 `D` 的作用下变成对偶同态 `A^ast: N^ast to M^ast`.
+  类似可以定义 `D^"op"` 和自然同态 `theta: "id" to D D^"op"`.
+  <br>
+  模论的一些术语:
+  若态射 `theta_M: M to M^(ast ast)` 是单的, 则称 `M` 是无挠的 (torsionfree)
+  或半自反的 (semi-reflexive); 若 `theta_M` 是同构, 则称 `M` 是自反的
+  (reflexive).
+</p>
+
+<h3>范畴同构与等价</h3>
+
+<ol class="definition">
+  设 `cc C, cc D` 为范畴,
+  <li>若存在函子 `F: cc C to cc D` 和 `G: cc D to cc C`, 使得
+    <span class="formula">
+      `G F = "id"_(cc C)`, `quad F G = "id"_(cc D)`,
+    </span>
+    则称 `cc C` 与 `cc D` <b>同构</b>.
+  </li>
+  <li>把上面条件中的等号 "`=`" 减弱为自然同构 "`~=`", 则称 `cc C` 与 `cc D` <b>等价</b>,
+    并简记 `(F, G)` 是一个等价.
+  </li>
+</ol>
+
+<ol class="example">
+  <li>Abel 群范畴与 `ZZ`-模范畴同构;</li>
+  <li>左 `R`-模范畴 `sf(R)"-"sf(Mod)` 与右 `R`-模范畴的反范畴 `sf(Mod)"-"sf(R)^"op"` 同构;</li>
+</ol>
+
+<p class="theorem">
+  <b>范畴等价的判定</b>
+  给定函子 `F: cc C to cc D`, 则存在函子 `G: cc D to cc C` 使得 `(F, G)` 是一个等价的充要条件是
+  `F` 是全忠实且本质满函子.
+</p>
+
+<ol class="proof enum">
+  <li>`rArr`:
+    设 `(F, G)` 是一个等价, 即 `F G ~= "id"_(cc D)`, `G F ~= "id"_(cc C)`.
+    <ol>
+      <li>`F` 本质满: `AA A: cc D`, 由于 `F G ~= "id"_(cc D)` 有 `F G(A) ~= A`,
+        这指出 `A` 与 `G(A)` 在 `F` 下的像只相差一个同构.
+      </li>
+      <li>`F` 忠实: 由于 `G F ~= "id"_(cc C)`, 有交换图
+        <span class="formula">
+          `A overset (eta_A) to G F(A)`<br>
+          `f darr qquad darr G F(f)`<br>
+          `B underset (eta_B) to G F(B)`
+        </span>
+        其中 `eta_A`, `eta_B` 皆为同构.
+        从而 `G F(f) = eta_B f eta_A^-1` 是双射.
+        于是 `AA f, g: A to B`,
+        <span class="formula">
+          `F(f) = F(g)`
+          `rArr G F(f) = G F(g)`
+          `rArr f = g`,
+        </span>
+        故 `F` 忠实, 同理 `G` 也是忠实的.
+      </li>
+      <li>
+        `F` 完全:
+        对 `AA g: F(A) to F(B)`, `G(g): G F(A) to G F(B)`.
+        由于 `G F` 是双射, 存在 `f: A to B` 使得
+        <span class="formula">
+          `G(g) = G F(f)`,
+        </span>
+        而 `G` 忠实故 `g = F(f)`.
+      </li>
+    </ol>
+  </li>
+  <li>`lArr`: 由 `F` 本质满, `AA A: cc D`, `EE A': cc C` 使得 `A ~= F(A')`,
+    记它们之间的同构为 `eta_A`. 定义函子
+    <span class="formula">
+      `G: cc D to cc C`,<br>
+      `G(A) := A'`.
+    </span>
+    如果对任意 `f: A to B` 成立 `F G(f) = eta_B f eta_A^-1`, 则成立交换图
+    <span class="formula">
+      `A overset (eta_A) to F G(A)`<br>
+      `f darr qquad darr F G(f)`<br>
+      `B underset (eta_B) to F G(B)`
+    </span>
+    这是可以做到的: 由于 `F` 完全忠实, 存在唯一 `f': A' to B'` 使得 `F(f') = eta_B f eta_A^-1`.
+    于是取 `G(f) := f'` 即可. 由交换图知道 `F G ~= "id"_(cc D)`.
+    <!--TODO: 验证 G 是函子, 即它与态射的复合可交换, 且将单位态射映为单位-->
+    <br>
+    再证 `G F ~= "id"_(cc C)`.
+    任取 `A, B: cc C`, `f: A to B`,
+    将上图的 `A, B, f` 分别换成 `F(A), F(B), F(f)`, 则成立交换图
+    <span class="formula">
+      `F(A) overset (eta_(F(A))) to F G F(A)`<br>
+      `F(f) darr qquad darr F G F(f)`<br>
+      `F(B) underset (eta_(F(B))) to F G F(B)`
+    </span>
+    因为 `eta_(F(A))` 是同构, `F` 是全忠实函子, 所以存在唯一同构 `xi_A: A to G F(A)` 使得
+    <span class="formula">
+      `F(xi_A) = eta_(F(A))`.
+    </span>
+    同理存在唯一同构 `xi_B: B to G F(B)` 使得
+    <span class="formula">
+      `F(xi_B) = eta_(F(B))`.
+    </span>
+    将上图的 `eta_(F(A))`, `eta_(F(B))` 改写为 `F(xi_A)`, `F(xi_B)`, 然后整张图左侧脱去函子 `F` (因为 `F` 忠实):
+    <span class="formula">
+      `A overset (xi_A) to G F(A)`<br>
+      `f darr qquad darr G F(f)`<br>
+      `B underset (xi_B) to G F(B)`
+    </span>
+    这证明了 `G F ~= "id"_(cc C)`.
+  </li>
+</ol>
 
 <h2>泛性质</h2>
 
@@ -622,9 +794,12 @@ map identity = identity
 
 <ol class="example">
   <li>`sf(Set)` 中, 始对象是空集, 终对象是单元素集合 (所有单元素集合同构);</li>
-  <li>`sf(Mod)_R` 中, 始对象和终对象都是零模, 因此零模是零对象;</li>
-  <li>`sf(Ri ng)` 中, 始对象是 `ZZ`, 终对象是零环.</li>
+  <li>`sf(Grp)` 中, 平凡群是零对象; `sf(Mod)_R` 中, 零模是零对象;</li>
+  <li>`sf(Rng)` 中, 零环是零对象.  `sf(Ri ng)` 中, 始对象是 `ZZ`, 终对象是零环.
+    如果要求环的 `0 != 1`, 则 `sf(Ri ng)` 没有终对象.
+  </li>
   <li>域范畴既没有始对象也没有终对象.</li>
+  <li>偏序范畴 `(ZZ^+, le)` 中, `1` 是始对象, 没有终对象.</li>
 </ol>
 
 <h3>积与余积</h3>
@@ -655,8 +830,16 @@ map identity = identity
       `A ⊔ B := {(a, x): x in A} uu {(b, y): y in B}`;
     </span>
   </li>
-  <li>`sf(Mod)_R` 中, 积是模的积, 余积是模的直和;</li>
+  <li>`sf(Mod)_R` 中, 积是模的积, 余积是模的直和:
+    <span class="formula">
+      直积: `prod M_i = { x = sum x_i: x_i in M_i }`<br>
+      直和: `o+ M_i := { x = 有限和 sum x_i: x_i in M_i }`.
+    </span>
+  </li>
   <li>`sf(Ri ng)` 中, 积是环的积, 余积也存在, 但较为复杂;</li>
+  <li>考虑偏序范畴 `(RR, le)`. 对一族实数 `S sube RR`, 它们的积和余积分别是 `inf S` 和 `Sup S`.
+    当然, 只有当 `S` 有界时, 积和余积才同时存在.
+  </li>
 </ol>
 
 <h3>等化子与余等化子</h3>
@@ -677,11 +860,11 @@ map identity = identity
 </p>
 
 <ol class="definition">
-  令 `X, Y in cc C`, `f, g: X to Y`.
+  令 `X, Y: cc C`, `f, g: X to Y`.
   <li><b>等化子 (equalizer)</b>
     若存在对象 `E` 和态射 `e: E to X`, 使得 `f @ e = g @ e`,
     且态射 `e` 在相差一个态射的意义下唯一, 则称 `E` 是 `X, Y` 的等化子.
-    这里的“相差一个态射”是指: 对任意对象 `E' in cc C`, 若存在 `e': E' to X` 使得 `f @ e' = g @ e'`,
+    这里的“相差一个态射”是指: 对任意对象 `E': cc C`, 若存在 `e': E' to X` 使得 `f @ e' = g @ e'`,
     则存在唯一态射 `u: E' to E` 使得 `e' = e @ u`.
   </li>
   <li><b>余等化子 (coequalizer)</b>
@@ -718,8 +901,8 @@ map identity = identity
 <script>
 var asciimath = {
   define: [
-    [/Hom_C\'/g, '"Hom"_(cc C\')'],
     [/Hom_C/g, '"Hom"_(cc C)'],
+    [/Hom_D/g, '"Hom"_(cc D)'],
   ]
 }
 </script>

@@ -472,9 +472,10 @@ mesh.geometry.computeBoundsTree()
   ```js
   scene.background = new THREE.Color(0x0a1030)
   ```
-- 贴图的颜色不够鲜艳. 解决:
+- 贴图的颜色不够鲜艳, 看起来发白. 解决:
   ```js
   texture.colorSpace = THREE.SRGBColorSpace
+  texture.encoding = THREE.sRGBEncoding // 旧版写法
   ```
   如果你想让贴图看起来更亮，选择 THREE.SRGBColorSpace。如果你需要在线性空间中进行计算（如光照），选择 THREE.LinearSRGBColorSpace。THREE.NoColorSpace (默认值) 则适用于特殊场景，如法线贴图、粗糙度贴图。
 - 半透明材质:

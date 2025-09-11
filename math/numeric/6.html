@@ -16,7 +16,7 @@ var round = (x, digits) => {
 
 <h2>矩阵范数</h2>
 
-<h2>Gauss 消元</h2>
+<h2>消元法</h2>
 
 <ol class="algorithm">
   <b>Gauss 消元</b> 设 `bm A` 是 `n` 阶可逆实方阵, `bm b` 是 `n` 维列向量.
@@ -176,7 +176,50 @@ module.exports = function chase (str) {
 </script>
 </div>
 
-<h2>QR 分解</h2>
+<h2>迭代法</h2>
+
+<p>本节介绍线性方程组的迭代求解. 它们通常比消元法更快.</p>
+
+<p>🚧 Jacobi、Gauss-Seidel、SOR</p>
+
+<p class="algorithm">
+  <b>共轭梯度法 (conjugate gradient method)</b>
+  最早由德国的 Hestenes 和 Stiefel 于 1952 年提出,
+  适用于系数矩阵对称正定的情形, 收敛速度较上一节的三种迭代法更快.
+  它的思想基于数学物理中的<b>变分原理</b>.
+  <br>
+  熟知二次函数 `1/2 ax^2 - bx` 在 `x = b/a` 处取得极小值.
+  将这一结果推广至 `n` 元函数, 有:
+</p>
+
+<p class="theorem">
+  设 `bm A` 为对称正定矩阵. 则方程组 `bm (Ax) = bm b` 的求解等价于求下面的二次泛函 (二次型)
+  在 `RR^n` 上的极小值:
+  <span class="formula">
+    `varphi(bm x) = 1/2 (bm (Ax), bm x) - (bm b, bm x)`.
+  </span>
+</p>
+
+<p class="proof">
+  设 `bm x_0` 是方程组 `bm (Ax) = bm b` 的解, 则有
+  <span class="formula">
+    ` varphi(bm x_0) = 1/2 (bm (Ax_0), bm x_0) - (bm b, bm x_0)
+    = -1/2 (bm (Ax_0), bm x_0)`.
+  </span>
+  对 `AA bm x in RR^n`,
+  <span class="formula">
+    ` varphi(bm x) - varphi(bm x_0)
+    = 1/2 (bm (Ax), bm x) - (bm b, bm x) + 1/2 (bm (Ax_0), bm x_0)`
+    `= 1/2 [(bm (Ax, bm x))-2(bm (Ax_0, bm x)) + (bm (Ax_0), bm x_0)]`
+    `= 1/2 (bm (A(x - x_0)), bm (x-x_0))
+    = 1/2 ||bm x - bm x_0||_(bm A)^2 ge 0`.
+  </span>
+  由 `bm A` 的正定性知, `bm x_0` 为 `varphi(bm x)` 的唯一极小值点.
+</p>
+
+<h2>矩阵分解</h2>
+
+<h3>QR 分解</h3>
 
 <p class="algorithm">
   <b>QR 分解</b>
