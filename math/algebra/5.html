@@ -9,35 +9,38 @@
 
 <h2>环</h2>
 
+<h3>环与坏</h3>
+
 <ol class="definition">
-	令 `R` 为一非空集, 称 `R := (R";" +, *)` 为一<b>环</b>, 如果
-	<li>`(R, +)` 为一 Abel 群;</li>
-	<li>`(R, *)` 为一半群;</li>
-	<li>满足乘法对加法的左, 右分配律, 即
-		<span class="formula">
-			`a(b+c) -= a b + a c`, `quad (b+c)a = b a + c a`.
-		</span>
-	</li>
-	加法群的单位元称为 `R` 的<b>零元</b>, 记为 `0`. 若乘法半群的左幺元
-	(右幺元, 幺元) 存在, 则称其为 `R` 的左幺元 (右幺元, 幺元); `R`
-	的幺元记为 `1`.
+  <b>ring</b>
+  令 `R` 为非空集, 称 `R := (R";" +, *)` 为一幺环, 简称<b>环 (ring)</b>, 如果
+  <li>`(R, +)` 为一 Abel 群, 加法单位元记为 `0`, 称为 `R` 的<b>零元</b>;</li>
+  <li>`(R^xx, *)` 为一幺半群, 其中 `R^xx := R - {0}`, 乘法单位元记为 `1`, 称为 `R` 的<b>幺元</b>;</li>
+  <li>满足乘法对加法的左, 右分配律, 即
+    <span class="formula">
+      `a(b+c) -= a b + a c`, `quad (b+c)a = b a + c a`.
+    </span>
+  </li>
+  环的两种运算 (加法和乘法) 通过分配律相互影响, 牵制.
 </ol>
 
 <p class="remark">
-	环的两种运算 (加法和乘法) 通过分配律相互影响, 牵制.
+  关于环 `R` 中是否允许 `1 = 0`, 不同地方有不同的约定.
+  如果允许 `1 = 0`, 则显然 `R = {0}` 只有一个元素, 称为<b>零环</b>.
 </p>
 
-<ul class="definition">
-	<li>称环 `R` 为一<b>交换环</b>, 如果 `(R, *)` 为一交换半群;</li>
-	<li>称环 `R` 为一<b>幺环</b>, 如果 `(R, *)` 为一幺半群;
-		由于幺半群非平凡 (即至少含两个元素), 所以幺环至少含两个元素.
-	</li>
-</ul>
-
-<p class="remark">
-	在些书本的定义中, 把幺环称为环 (ring), 把不含幺元的一般的环称为
-	(rng).
-</p>
+<ol class="definition">
+  <li><b>cring</b> 称环 `R` 为一交换幺环, 简称<b>交换环 (commutative ring)</b>, 如果它满足乘法交换律; 此时 `R^xx` 是 Abel 群;</li>
+  <li><b>rng</b> 如果 `R` 满足环的其它定义, 但不必含有幺元, 则称 `R` 是一<b>坏 (rng)</b>;
+    去掉的字母 i 代表乘法幺元 (identity).
+    它还有一个不太合适的名字叫<b>无幺环</b>, 但实际上, 在坏中可以有幺元, 也可以没有.
+  </li>
+  <li><b>rig</b> 如果 `R` 满足环的其它定义, 但 `(R, +)` 是交换幺半群, 换言之加法未必有逆, 则称 `R` 是一个 <b>rig</b>; 去掉的字母 n 代表逆元 (negative).
+    它还有一个含义不清的名字叫<b>半环 (semiring)</b>. 但要知道, 不同的地方对半环的定义不尽相同:
+    按有无零元和幺元来区分, 共有 4 种情况.
+    我们这里的 rig 是含有零元和幺元的.
+  </li>
+</ol>
 
 <ol class="corollary">
 	令 `R` 为一环, `a, b in R`, `n in ZZ`, 则
@@ -78,120 +81,102 @@
 </ol>
 
 <ol class="example">
-	<li>全体整数 `ZZ` 关于整数的加法和乘法成一交换幺环.</li>
-	<li>线性空间 `V` 上全体线性变换 `cc L(V)`
-		关于线性变换的加法与合成成一幺环;
-		平行地, 数域 `bbb F` 上 `n` 阶方阵的全体 `bbb F^(n xx n)`
-		关于矩阵的通常加法与乘法成一环;
-	</li>
-	<li><b>一元多项式环</b> 数域 `bbb F` 上一元多项式全体 `bbb F[x]`
-		关于多项式的加法与乘法成一交换幺环.
-	</li>
-	<li><b>模 `n` 的剩余类环</b> 令 `n in ZZ^+`, 定义 `ZZ` 上
-		模 `n` 同余的等价关系
-		<span class="formula">
-			`a ~ b iff n | a-b`,
-		</span>
-		在此关系下的每个等价类称为模 `n` 的剩余类, 全体模 `n` 的剩余类为
-		<span class="formula">
-			`ZZ_n := {bar 0, bar 1, cdots, bar(n-1)}`.
-		</span>
-		定义 `ZZ_n` 上的加法与乘法为:
-		<span class="formula">
-			`bar a + bar b = bar(a+b)`,<br/>
-			`bar a * bar b = bar(a b)`.
-		</span>
-		容易验证它们是良定义的, 且 `(ZZ_n";" +, *)` 为一环, 即<b>`ZZ` 模
-		`bm n` 的剩余类环</b>.
-	</li>
+  <li><b>整数环</b> 全体整数 `(ZZ";" +, *)` 是交换环.</li>
+  <li><b>一元多项式环</b> 数域 `bbb F` 上的全体一元多项式 `(bbb F[x]";" +, *)` 是交换环.</li>
+  <li>线性空间 `V` 上全体线性变换 `(cc L(V)";" +, *)` 是一环, `(+, *)` 分别为线性变换的加法与合成.</li>
+  <li>数域 `bbb F` 上全体 `n` 阶方阵 `(bbb F^(n xx n)";" +, *)` 是一环.</li>
+  <li><b>模 `n` 剩余类环</b>
+    设 `n` 为正整数, 定义 `ZZ` 上的等价关系
+    <span class="formula">
+      `a -= b (mod n) iff n | a - b`.
+    </span>
+    在此关系下的每个等价类称为模 `n` 的剩余类:
+    <span class="formula">
+      `ZZ//n ZZ := {bar 0, bar 1, cdots, bar(n-1)}`.
+    </span>
+    定义加法与乘法如下:
+    <span class="formula">
+      `bar a + bar b = bar(a+b)`,<br/>
+      `bar a * bar b = bar(a b)`.
+    </span>
+    容易验证它们是良定义的, 且 `(ZZ//n ZZ";" +, *)` 为交换环.
+  </li>
 </ol>
 
-<p class="definition">
-	令 `(R";" +, *)` 为一环, `S` 是 `R` 的非空子集. 称 `S` 为 `R`
-	的一个<b>子环</b>, 如果 `(S";" +, *)` 也成一环, 记为 `S le R`.
-</p>
+<h3>子环</h3>
+
+<ol class="definition">
+  令 `(R";" +, *)` 为一环, `S` 是 `R` 的非空子集.
+  称 `S` 为 `R` 的一个<b>子环</b>, 记为 `S le R`, 如果
+  <li>`S` 关于 `R` 的加法和乘法也成一环.</li>
+  <li>`S` 的幺元也是 `R` 的幺元.</li>
+  将上述定义的环换成坏, 并去掉对幺元的要求, 就得到子坏的定义.
+</ol>
+
+<ol class="corollary">
+  <b>子环的判定</b>
+  <li>
+    子环定义中的条件 1. 可以换成:
+    <span class="formula">
+      `(AA a, b in S)` `a-b, a b in S`.
+    </span>
+    前者保证 `S` 是 `R` 的加法子群, 后者保证 `S^xx` 是 `R^xx` 的子半群.
+  </li>
+  <li>子环定义中的条件 2. 可以换成:
+    `S` 包含 `R` 的幺元. 易知此时 `R` 的幺元必为 `S` 的幺元, 且幺元若存在必唯一.
+  </li>
+</ol>
 
 <p class="corollary">
-	<b>子环的判定</b>
-	令 `S` 为环 `R` 的一个非空子集, 则 `S le R` 当且仅当
-	<span class="formula">
-		`(AA a, b in S)` `a-b, a b in S`.
-	</span>
-	其中, `a-b in S` 保证了 `(S, +)` 是 `(R, +)` 子群,
-	`a b in S` 保证了 `(S, *)` 是 `(R, *)` 子半群.
+  子环的交仍是子环.
 </p>
 
-<p class="corollary">
-	令 `R` 为一环, 则 `R` 的若干子环的交仍为 `R` 的子环.
-</p>
+<ol class="example">
+  举例说明, 子环定义中条件 2. 的必要性:
+  设 `S` 是 `R` 的子坏. `S` 和 `R` 的零元一定相同, 但幺元未必.
+  <li>整数环 `ZZ` 有幺元, 而它的子坏 `2ZZ` 没有幺元.</li>
+  <li>设 `bbb F` 为数域,
+    <span class="formula">
+      `R := {(a,b;0,0) | a, b in bbb F}`,
+      `quad S := {(a,0;0,0) | a in bbb F}`.
+    </span>
+    则 `S` 是 `R` 的子坏, 但 `R` 无幺元, `S` 有幺元 `(1,0;0,0)`.
+  </li>
+  <li>设
+    <span class="formula">
+      `R := {(a,b;c,d) | a, b, c, d in ZZ}`,
+      `quad S := {(a,a;0,0) | a in ZZ}`.
+    </span>
+    则 `S` 是 `R` 的子坏, 但 `R` 的幺元是 `(1,0;0,1)`,
+	`S` 的幺元是 `(1,1;0,0)`.
+  </li>
+</ol>
 
-<p class="example">
-	子环一定含有原来的零元, 但幺元则未必.
-	整数环 `ZZ` 有幺元, 而它的子环 `2ZZ` 没有幺元.<br/>
-	数域 `bbb F` 上的矩阵环 `{(a,b;0,0)|a, b in bbb F}`
-	无幺元,<br/>
-	而它的子环 `{(a,0;0,0)| a in bbb F}` 有幺元
-	`(1,0;0,0)`.<br/>
-	整数环上的矩阵环 `{(a,b;c,d)| a, b, c, d in ZZ}` 有幺元
-	`(1,0;0,1)`,<br/>
-	它的子环 `{(a,a;0,0)| a in ZZ}`
-	有幺元 `(1,1;0,0)`, 二者的幺元不同.
-</p>
+<h3>环同态</h3>
 
 <p class="definition">
-	令 `R, S` 为两个环, 称映射
-	<span class="formula">
-		`f: R to S`
-	</span>
-	为 `R` 到 `S` 的一个<b>环同态映射</b>, 如果
-	<span class="formula">
-		`f(a+b) -= f(a) + f(b)`,<br/>
-		`f(a b) -= f(a) f(b)`.
-	</span>
-	若 `f` 为单射 (满射, 双射), 则称 `f` 为一单同态 (满同态, 同构) 映射.
-	若 `f` 为一同构映射, 则称 `R` 与 `S` 同构, 记为 `R ~= S`.<br/>
-	环同态映射 `f` 的核定义为
-	<span class="formula">
-		`"Ker"f := f^-1(bar 0) = {a in R| f(a) = bar 0}`,
-	</span>
-	其中 `bar 0` 是 `S` 的零元.
+  令 `R, S` 为两个环, 映射 `f: R to S` 称为 `R` 到 `S` 的一个<b>环同态</b>, 如果 `AA a, b in R`,
+  <span class="formula">
+    `f(a+b) = f(a) + f(b)`,<br>
+    `f(a b) = f(a) f(b)`,<br>
+    `f(1_R) = 1_S`.
+  </span>
+  将上述定义的环换成坏, 并去掉对幺元的要求, 就得到坏同态的定义.
 </p>
 
-<p class="theorem">
-	环的同态像 (原像) 仍为一环.
-	令 `R, S` 为两个环, `R_1 le R`, `S_1 le S`.
-	`f: R to S` 为一同态映射. 则
-	<span class="formula">
-		`f(R_1) le S`, `quad f^-1(S_1) le R`.
-	</span>
-	特别有 `"Im"f le S`, `"Im"f^-1 le R`, `"Ker"f le R`.
-</p>
-
-<p class="proof">
-	`AA f(a), f(b) in f(R_1)`, 其中 `a, b in R_1`, 有
-	<span class="formula">
-		`f(a) - f(b) = f(a-b) in f(R_1)`,<br/>
-		`f(a) f(b) = f(a b) in f(R_1)`.
-	</span>
-	因此 `f(R_1) le S`. 又 `AA c, d in f^-1(S_1)`, 则 `f(c), f(d) in S_1`,
-	有
-	<span class="formula">
-		`f(c-d) = f(c) - f(d) in S_1`,<br/>
-		`f(c d) = f(c) f(d) in S_1`.
-	</span>
-	因此 `c-d, c d in f^-1(S_1)`, 即 `f^-1(S_1) le R`.
-</p>
-
-<p class="theorem">
-	类比于任一半群可扩张为一幺半群, 我们有:
-	任一环可扩张为 (或嵌入到) 一幺环.
-	令 `R` 为一环, 则存在一个幺环 `R_1`, 使得 `R` 同构于 `R_1` 的某一子环.
-</p>
-
-<p class="remark">
-	Every rng is an ideal in some ring, and every ideal of a ring is a
-	rng.
-</p>
+<ol class="definition">
+  <li>
+    设 `f: R to S` 为环同态,
+    若 `f` 为单射/满射/双射, 则称 `f` 为单同态/满同态/同构映射.
+    `f` 为同构映射时, 称 `R` 与 `S` 同构, 记为 `R ~= S`.
+  </li>
+  <li>
+    `f` 的<b>核 (kernel)</b>定义为
+    <span class="formula">
+      `"Ker"f := f^-1(0_S) = {a in R| f(a) = 0_S}`,
+    </span>
+  </li>
+</ol>
 
 <p class="example">
   不存在从 `QQ` 到 `ZZ` 的环同态 (要求保持幺元, 即 `f(1) = 1`).
@@ -202,29 +187,90 @@
   这样一来 `1//2` 没有地方可以去: `f(1//2)` 必须是 `f(2) = 2` 的逆元, 但 `2 in ZZ` 没有逆.
 </p>
 
-<!--
-<p class="definition">
-	令 `(G, +)` 为一 Abel 群. 定义 `End(G)` (`G` 上全体自同态映射)
-	上的二元合成 `+`:
-	<span class="formula">
-		`(AA f, g in End(G))` `(AA a in G)` `(f+g)(a) = f(a) + g(a)`.
-	</span>
-	记 `@` 为变换的通常合成, 可以验证, `(End(G); +, @)` 为一幺环, 称为
-	Abel 群 `G` 上的<b>自同态环</b>.
+<p class="theorem">
+  <b>环的同态像/原像仍为一环</b>
+  令 `f: R to S` 为环同态, `R_1 le R`, `S_1 le S`, 则
+  <span class="formula">
+    `f(R_1) le S`
+    `quad f^-1(S_1) le R`.
+  </span>
+  特别地, 则 `"Ker" f le R`, `"Im"f le S`, `"Im"f^-1 le R`.
+</p>
+
+<ol class="proof">
+  <li>
+    同态像是子环:
+    `AA f(a), f(b) in f(R_1)`, 有
+    <span class="formula">
+      `f(a) - f(b) = f(a-b) in f(R_1)`,<br>
+      `f(a) f(b) = f(a b) in f(R_1)`,<br>
+    </span>
+    因此 `f(R_1)` 是 `S` 的子坏.
+    再说明它包含 `S` 的幺元:
+    由于 `f(1_R) = 1_S`, 故 `1_S in f(R_1)`, 因此 `f(R_1) le S`.
+  </li>
+  <li>同态原像是子环:
+    `AA c, d in f^-1(S_1)`, 有
+    <span class="formula">
+      `f(c - d) = f(c) - f(d) in S_1`,<br>
+      `f(c d) = f(c) f(d) in S_1`,<br>
+    </span>
+    因此 `c - d, c d in f^-1(S_1)`, 即 `f^-1(S_1)` 是 `R` 的子坏.
+    再说明它包含 `R` 的幺元:
+    由于 `f(1_R) = 1_S`, 故 `1_R in f^-1(S_1)`.
+    因此 `f^-1(S_1) le R`.
+  </li>
+</ol>
+
+<p class="corollary">
+  设 `f: R to S` 的环的单同态, 则 `R` 同构于 `S` 的一个子环 `"Im" f`.
+  因此, 单同态又叫做<b>嵌入</b>.
 </p>
 
 <p class="theorem">
-	<b>环的 Cayley 左正则表示</b>
-	令 `R` 为一幺环, 以 `a_l` 记元素 `a in R` 诱导的 (乘法) 左平移变换. 则
-	<span class="formula">
-		`eta: R to End(R, +)`<br/>
-		`a to a_l`
-	</span>
-	为一单同态, 因此 `R ~= "Im"eta`.
+  类比于任一半群可扩张为一幺半群, 我们有: 任一坏可扩张为 (即嵌入到) 一环.
 </p>
--->
+
+<p class="remark">
+  Every rng is an ideal in some ring, and every ideal of a ring is a rng.
+</p>
+
+<ol class="example">
+  <li>
+    <b>自同态环</b>
+    令 `(G, +)` 为 Abel 群, `"End"(G)` 表示全体同态映射 `G to G`.
+    对 `AA f, g in "End"(G)`, `a in G`, 定义
+    <span class="formula">
+      `(f+g)(a) = f(a) + g(a)`.
+    </span>
+    记 `@` 为变换的通常合成, 可以验证, `("End"(G)";" +, @)` 为一环, 称为 Abel 群 `G` 的<b>自同态环</b>.
+  </li>
+  <li><b>左平移变换</b>
+    环 `R` 视为 Abel 群, 以 `"End"(R, +)` 表示它的自同态环.
+    一个典型的自同态是元素 `a in R` 诱导的左平移变换 `a_l`:
+    <span class="formula">
+      `a_l: R to R`<br>
+      `r mapsto a r`.
+    </span>
+    利用乘法分配律, `a_l(r + s) = a_l(r) + a_l(s)`, 因此 `a_l in "End"(R, +)`.
+  </li>
+  <li>
+    <b>环的 Cayley 左正则表示</b> 将环 `R` 嵌入到它的自同态环中.
+    具体而言, `R` 同构于 `"End"(R, +)` 中全体左平移变换构成的子环.
+    事实上, 令
+    <span class="formula">
+      `eta: R to "End"(R, +)`<br>
+      `a mapsto a_l`
+    </span>
+    则 `eta` 为单同态, 因此 `R ~= "Im"eta`.
+  </li>
+</ol>
 
 <h2>整环, 除环与域</h2>
+
+<p>
+  🚧施工中：将下文的幺环改为环, 环改为坏.
+</p>
 
 <h3>无零因子环</h3>
 
@@ -320,7 +366,7 @@
 </p>
 
 <p class="remark">
-	关于域的更多知识, 我们在下一章介绍.
+  关于域的更多知识, 我们在<a href="7.html">第7章</a>介绍.
 </p>
 
 <p class="theorem">

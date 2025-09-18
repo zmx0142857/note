@@ -619,3 +619,15 @@ mesh.geometry.computeBoundsTree()
   renderer.forceContextLoss()
   renderer.context = null
   ```
+- draco 解压点云时遇到 unsupported geometry type
+  - 原因: draco decoder 有两个版本, 其中一个仅支持 gltf, 不支持点云
+- 3d-tiles-renderer 渲染 3dtiles 时模型加载不全, 视角旋转时模型还会闪烁
+  - 解决: 检查 tilesRenderer 的 resolution. 分辨率为 0 会引起渲染异常
+    ```js
+    const resolution = tileset.cameraMap.get(app.camera) || {}
+    if (resolution.width === 0 || resolution.height === 0) {
+      const { camera, canvas, dpr } = app
+      console.log('resolution', canvas.width, canvas.height, dpr)
+      tileset.setResolution(camera, canvas.width * dpr | 0, canvas.height * dpr | 0)
+    }
+    ```

@@ -18,6 +18,7 @@
   ```
 - 在线压缩 https://modelcompress.cn/home
 - [gltf.report](https://gltf.report): gltf 优化器
+- [NSDT](https://gltf.nsdt.cloud/): gltf 编辑、道路模型编辑
 
 **gltf 一般处理流程**
 - 用 three.js 载入模型, 使用 [3js](https://github.com/zmx0142857/5js) 的 `app.optimize.merge(model)` 合并几何体, 以提高帧率; 再用 `GLTFExporter` 导出模型
