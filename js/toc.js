@@ -99,7 +99,7 @@ var tocData = [
           { "value": "5", "label": "基数", "date": "2024-09-28" },
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
-          { "value": "8", "label": "范畴论基础", "date": "2025-09-08" },
+          { "value": "8", "label": "范畴论基础", "date": "2025-09-27" },
         ]
       },
       {
@@ -261,7 +261,8 @@ var tocData = [
         "label": "运筹学",
         "children": [
           { "value": "1", "label": "线性规划", "date": "2021-12-24" },
-          { "value": "2", "label": "运输问题", "date": "2023-04-23" }
+          { "value": "2", "label": "运输问题", "date": "2023-04-23" },
+          { "value": "3", "label": "整数规划", "date": "2025-09-25" },
         ]
       },
       {
@@ -448,11 +449,12 @@ var tocData = [
         ]
       },
       {
-        "value": "jp",
-        "label": "日语",
+        "value": "foreign",
+        "label": "外语",
         "children": [
           { "value": "kana", "label": "学五十音" },
-          { "value": "words", "label": "日语动词" }
+          { "value": "jp-words", "label": "日语动词" },
+          { "value": "ru", "label": "俄语", "date": "2025-09-18" },
         ]
       },
       {

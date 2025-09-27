@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>整数规划</title>
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<p>[来自<a href="https://www.zhihu.com/tardis/zm/art/406262088" target="_blank">知乎专栏《整数规划》</a>]</p>
+
+<h2>简介</h2>
+
+<p class="definition">
+  <b>整数线性规划问题</b> 与线性规则问题的唯一区别是, 所有变量是整数:
+  <span class="formula">
+    `min_x c^(sf T) x`<br>
+    `"s.t. " A x le b`<br>
+    `color(red)(x in ZZ^n_(ge 0))`.
+  </span>
+</p>
+
+<ol class="example">
+  <li>
+    <b>背包问题</b>
+    设有一个背包, 最大承重为 `b`, 考虑 `n` 件物品, 第 `j` 件重量为 `a_j`, 价值为 `c_j`.
+    欲使背包内物品总价值最大, 设
+    <span class="formula">
+      `x_j = [选中第 j 件物品]` `= {1, if 选中第 j 件物品; 0, otherwise:}`
+    </span>
+    则背包问题可以用整数线性规划表示为
+    <span class="formula">
+      `max_x c^(sf T) x`<br>
+      `"s.t. " a^(sf T) x le b`<br>
+      `x in {0,1}^n`.
+    </span>
+  </li>
+  <li>
+    <b>组合优化问题</b> 设 `N = {1, cdots, n}`, `c = (c_1, cdots, c_n)`, 给定子集 `M sube N`,
+    求一个最优的子集 `F sube M`, 使得 `sum_(j in F) c_j` 取得最小值. 事实上, 令
+    `x_j = [j in F]`, `m_j = [j in M]`,
+    则原问题对应的整数规划为
+    <span class="formula">
+      `min_x c^(sf T) x`<br>
+      `"s.t. " x le m`<br>
+      `x in {0,1}^n`.
+    </span>
+  </li>
+</ol>
+
+<ol class="remark">
+  求解整数规划的简单思路
+  <li><b>取整法</b>
+    先无视整数约束, 求解对应的连续优化问题 (松弛问题), 再对所得的解进行舍入得到一个整数解.
+    如果运气好, 松弛问题的解正好是整数解, 则我们就得到了整数规划的一个解.
+    取整法的问题: 一是取整后很难得到满足约束的可行解, 二是解的最优性不能保证.
+  </li>
+  <li><b>启发式算法</b>
+    例如在背包问题中, 采用贪心法, 优先放入价值最大的物品, 直到放不下为止.
+    启发式算法的计算量通常很小, 但解的最优性难以保证.
+  </li>
+</ol>
+
+<h2>全单模整数规划</h2>
+
+<p class="remark">
+  全单模整数规划是一类简单的整数线性规则, 我们直接求解对应的连续线性规划即可.
+</p>
+
+<p>
+  考虑整数线性规划 (IP)
+  <span class="formula">
+    `min {c^(sf T) x: A x le b, x in ZZ_(ge 0)^n}`,
+  </span>
+  其中 `A, b, c` 的各分量均为整数.
+  其对应的连续规划问题 (松弛问题, LP) 为
+  <span class="formula">
+    `min {c^(sf T) x: A x le b, x in RR_(ge 0)^n}`.
+  </span>
+  回顾线性规划基本定理: 连续线性规划问题的有界最优解 (若存在) 至少在一个顶点上取得.
+  由此我们得到:
+</p>
+
+<p class="lemma">
+  若连续线性规划 (LP) 的可行域的每个顶点都是整数点, 则它的最优解 (若存在) 也是整数线性规划 (IP) 的最优解.
+</p>
+
+<p class="definition">
+  称矩阵 `A_(m xx n)` 为<b>全单模矩阵</b>, 如果它满足任意子方阵的行列式取值为 `0, +-1`.
+  显然 `A` 的元素只能取值 `0, +-1`.  单位矩阵、零矩阵均是全单模矩阵.
+</p>
+
+<p class="theorem">
+  若 `b` 是整数向量, `A` 是全单模矩阵,
+  则可行域 `{x in RR_(ge 0)^n: A x le b}` 的顶点均为整数点.
+</p>
+
+<ol class="property">
+  对全单模矩阵进行以下运算, 结果仍为全单模矩阵:
+  <li>转置;</li>
+  <li>去掉一行或一列;</li>
+  <li>互换两行或两列;</li>
+  <li>将一行或一列乘以 `-1`;</li>
+  <li>并上单位阵, 得到 `(A, I)`;</li>
+  <li>对 `A` 进行转轴运算.</li>
+</ol>
+
+<ol class="corollary enum">
+  <b>全单模矩阵的判定</b>
+  设矩阵 `A` 的元素取值为 `0, +-1`, 且每列至多有两个非零元素,
+  <li>若 `A` 每列的元素之和等于 `0, +-1`, 则 `A` 是全单模矩阵.
+  </li>
+  <li>若存在 `A` 的行分割 `Q_1, Q_2`,
+    使得同一列的两个非零元素满足以下条件:
+    <ol>
+      <li>若符号相同, 则它们分别位于不同分割;</li>
+      <li>若符号相反, 则它们位于相同分割;</li>
+    </ol>
+    则 `A` 是全单模矩阵.
+  </li>
+  <li>随机构造整数向量 `c`, 求解连续线性规划 `min{c^(sf T) x: A x le b, x in RR_(ge 0)^n}`.
+    反复试验多次, 若基可行解总是整数点, 则 `A` 大概率是全单模矩阵.
+  </li>
+</ol>
+
+<p class="example">
+  <b>二部图</b>
+  设 `G = (V, E)` 是无向图, `A` 是 `V xx E` 的关联矩阵:
+  <span class="formula">
+    `a_(i j) = [顶点 i 与边 j 相连]`
+  </span>
+  则 `A` 是全单模矩阵当且仅当 `G` 是二部图.
+  (提示: 利用行分割来判定)
+</p>
+
+<p class="example">
+  <b>指派问题</b>
+  有 `n` 个任务和 `n` 个人, 第 `i` 人执行第 `j` 个任务的费用为 `c_(i j)`.
+  要求每人恰好指派一件任务, 使得费用最小:
+  <span class="formula">
+    `min_x sum_(i,j) c_(i j) x_(i j)`<br>
+    `"s.t. " sum_k x_(k j) = sum_k x_(i k) = 1`, `quad AA i, j in [1..n]`<br>
+    `x_(i j) = {0,1}`, `quad AA i, j in [1..n]`.
+  </span>
+  系数矩阵 `A` 的每行每列恰有一个 1, 因此是全单模矩阵.
+  这个问题也可以看作二部图: `n` 个任务和 `n` 个人组成图的 `2n` 个顶点,
+  图的边表示指派关系.
+</p>
+
+<p class="example">
+  <b>最小费用最大流问题</b>
+  设 `G = (V, E)` 是有向图, `A` 是 `V xx E` 的关联矩阵:
+  <span class="formula">
+    `a_(i j) = {
+      1, if 点 i 是边 j 的起点;
+      -1, if 点 i 是边 j 的终点;
+      0, otherwise
+    :}`
+  </span>
+  向量 `c` 表示每条边上单位流量的费用, 向量 `b` 表示每个顶点处的净流量 (流入 - 流出).
+  则最小费用最大流问题可以表示为
+  <span class="formula">
+    `min_x c^(sf T) x`<br>
+    `"s.t. " A x = b`<br>
+    `l le x le u`.
+  </span>
+  最短路问题和最大流问题都是此题的特殊情况, 我们将在单独的一章讨论这些网络流问题.
+</p>
+
+<h2>分支定界法</h2>
+
+<p class="algorithm">
+  考虑整数规划问题
+  <span class="formula">
+    `v^ast = max{c^(sf T) x: x in S sube ZZ^n}`.
+  </span>
+  <b>分支定界法</b>的思想是, 分别寻找最优解 `v^ast` 的上下界, 从而确定最优解的范围.
+  其中上界可以从原问题对应的连续规划问题 (松弛问题) 的最优解得到.
+  对于下界, 使用分治思想, 将原问题的可行域分解为若干集合的并 `S = S_1 uu cdots uu S_m`,
+  在每个小集合 `S_k` 上求解子问题
+  <span class="formula">
+    `v_k^ast = max{c^(sf T) x: x in S_k sube ZZ^n}`,
+  </span>
+  则每个子问题的最优解都是一个下界, 即
+  <span class="formula">
+    `v_k^ast le v^ast`, `quad k = 1, cdots, m`.
+  </span>
+  子问题也是整数规划, 可能难以求解. 但只要知道其上下界
+  `ul(v_k) le v_k^ast le bar(v_k)`, 就能得到原问题的上下界:
+  <span class="formula">
+    `max(ul(v_k)) le v^ast le max(bar(v_k))`.
+  </span>
+  分支定界法的运行过程就是不断递归求解子问题, 并用子问题的界更新原问题的界.
+</p>
+
+<ol>
+  下面介绍一些<b>剪枝技巧</b>用于减少对庞大的子问题树的访问.
+  <li>pruned by optimality.
+    对于已经得到最优解的子问题, 不必再向下搜索
+  </li>
+  <li>pruned by infeasibility.
+    子问题没有可行解, 排除这个子问题.
+  </li>
+  <li>pruned by bound.
+    例如已知原问题的上下界是 `[a, b]`, 子问题的上下界是 `[c, d]`, 且 `[a, b] nn [c, d] = O/`.
+    这说明原问题的最优解不能在子问题中取到, 因此可以排除这个子问题.
+  </li>
+  <li>no pruning possible.
+    没法通过以上方法减少子问题, 只能继续向下搜索.
+  </li>
+</ol>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

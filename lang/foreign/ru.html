@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width"/>
+  <link rel="stylesheet" href="../../css/note.css">
+  <title class="nonu-all">俄语</title>
+<style>
+body {
+  color: #ccc;
+}
+</style>
+</head>
+<body>
+
+<h2>字母表</h2>
+
+<table id="alphabet" class="col2"></table>
+
+<table id="pronounce" class="col2"></table>
+
+<script>
+const $ = el => document.querySelector(el)
+const chunk = (str, len) => {
+  const buf = []
+  for (let i = 0; i < str.length; i += len) {
+    buf.push(str.slice(i, i+len))
+  }
+  return buf
+}
+const createTable = ({ el, title = '', header = '', rows = [] }) => {
+  if (title) title = `<caption>${title}</caption>\n`
+  if (header) header = '<tr>\n' + header.map(th => `<th>${th}</th>`).join('\n') + '\n</tr>\n'
+  el.innerHTML = title + header + rows.map(tr => '<tr>\n' + tr.map(td => `<td>${td}</td>`).join('\n') + '\n</tr>').join('\n')
+}
+
+createTable({
+  title: '俄语字母 (33个)',
+  el: $('#alphabet'),
+  rows: chunk([
+    'Аа', 'Бб', 'Вв', 'Гг', 'Дд',
+    'Ее', 'Ёё', 'Жж', 'Зз', 'Ии', 'Йй',
+    'Кк', 'Лл', 'Мм', 'Нн', 'Оо', 'Пп',
+    'Рр', 'Сс', 'Тт', 'Уу', 'Фф', 'Хх',
+    'Цц', 'Чч', 'Шш', 'Щщ',
+    'Ъъ', 'Ыы', 'Ьь', 'Ээ', 'Юю', 'Яя',
+  ], 5),
+})
+
+createTable({
+  title: '字母发音',
+  el: $('#pronounce'),
+  rows: chunk([
+    'Аа', 'a', 'Ии', 'i', 'Уу', 'u', 'Ээ', 'e', 'Оо', 'o',
+    'Яя', 'ya', 'Ыы', 'uh', 'Юю', 'yu', 'Ее', 'ye', 'Ёё', 'yo',
+    'Бб', 'b', 'Пп', 'p', 'Мм', 'm', 'Фф', 'f', '', '',
+    'Дд', 'd', 'Тт', 't', 'Нн', 'n', 'Лл', 'l', '', '',
+    'Гг', 'g', 'Кк', 'k', 'Хх', 'h', '', '', '', '',
+    'Зз', 'z', 'Цц', 'c', 'Сс', 's', 'Рр', 'r', '', '',
+    'Жж', 'zh', 'Чч', 'ch', 'Шш', 'sh', 'Щщ', 'sch', '', '',
+    'Йй', 'y', 'Вв', 'v', 'Ъъ', '硬音', 'Ьь', '软音', '', '',
+  ], 10)
+})
+</script>
+</body>
+</html>

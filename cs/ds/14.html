@@ -160,11 +160,13 @@ for (let n = 1; n < arr.length; ++n) {
     <p>说明：装入重 20 和 30 的商品, 价值为 100 + 120 = 220.</p>
 <script type="text">
 module.exports = function pack01 (str) {
-  const { W, w, v} = Playground.parse(str)
+  const { W, w, v } = Playground.parse(str)
   const n = w.length
   let dp = Playground.zeros(n+1, W+1)
   for (let i = 1; i <= n; ++i) {
     for (let j = 1; j <= W; ++j) {
+      // 假定所有商品按价值从小到大排序
+      // 考虑子问题: 背包容量为 j, 且只能从价值最大的 i 件商品中选取
       let tmp = dp[i-1][j]
       if (j < w[n-i]) dp[i][j] = tmp
       else dp[i][j] = Math.max(tmp, v[n-i] + dp[i-1][j-w[n-i]])

@@ -210,7 +210,11 @@
   设 `X, Y: cc C`, `f: X to Y`.
   <li>称 `f` 为<b>单态射</b>, 如果它满足左消去律: 对任意 `Z: cc C` 和任意 `g, h: Z to X` 有 `f g = f h iff g = h`.</li>
   <li>称 `f` 为<b>满态射</b>, 如果它满足右消去律: 对任意 `Z: cc C` 和任意 `g, h: Y to Z` 有 `g f = h f iff g = h`.</li>
-  <li>称 `f` 左可逆, 如果存在 `g` 使得 `g f = "id"_X`; 称 `f` 右可逆, 如果存在 `g` 使得 `f g = "id"_Y`. 一个态射可逆当且仅当它左右皆可逆.</li>
+  <li>称 `f` 左可逆, 如果存在 `g_1` 使得 `g_1 f = "id"_X`; 称 `f` 右可逆, 如果存在 `g_2` 使得 `f g_2 = "id"_Y`. 若 `f` 左右皆可逆, 则由
+  <span class="formula">
+    `g_1 = g_1 "id"_Y = g_1 f g_2 = "id"_X g_2 = g_2`,
+  </span>
+  推出 `f` 可逆.</li>
   将所有箭头掉转, 单态射与满态射就可以互相转化, 因此单态射在反范畴里是满态射, 而满态射在反范畴里是单态射.
 </ol>
 
@@ -789,18 +793,137 @@ map identity = identity
   <li><b>始对象</b> 若 `X: cc C` 满足: 对任意 `Y: cc C` 都存在唯一态射 `f: X to Y`, 则称 `X` 是 `cc C` 的<b>始对象 (initial object)</b>.</li>
   <li><b>终对象</b> 若 `X: cc C` 满足: 对任意 `Y: cc C` 都存在唯一态射 `f: Y to X`, 则称 `X` 是 `cc C` 的<b>终对象 (final object)</b>.</li>
   始对象与终对象互为对偶.
-  如果始对象与终对象同构, 则称它为 `cc C` 的<b>零对象</b>, 记为 `0`.
+  如果始对象与终对象同构, 则称它为 `cc C` 的<b>零对象</b>.
 </ol>
 
 <ol class="example">
   <li>`sf(Set)` 中, 始对象是空集, 终对象是单元素集合 (所有单元素集合同构);</li>
-  <li>`sf(Grp)` 中, 平凡群是零对象; `sf(Mod)_R` 中, 零模是零对象;</li>
+  <li>`sf(Grp)` 和 `sf(Ab)` 中, 平凡群是零对象; `sf(Mod)_R` 中, 零模是零对象;</li>
   <li>`sf(Rng)` 中, 零环是零对象.  `sf(Ri ng)` 中, 始对象是 `ZZ`, 终对象是零环.
     如果要求环的 `0 != 1`, 则 `sf(Ri ng)` 没有终对象.
   </li>
   <li>域范畴既没有始对象也没有终对象.</li>
   <li>偏序范畴 `(ZZ^+, le)` 中, `1` 是始对象, 没有终对象.</li>
 </ol>
+
+<h3>零态射, 核与余核</h3>
+
+<p class="definition">
+  <b>零态射</b>
+  设范畴 `cc C` 有零对象 `Z`. 对任意 `A, B: cc C`, 存在唯一态射 `O_(A B): A to B`,
+  使得 `O_(A B) = O_(Z B) O_(A Z)`, 其中 `O_(Z B)`, `O_(A Z)` 分别是 `Z to B`, `A to Z` 的唯一态射.
+  可以证明 `O_(A B)` 与零对象 `Z` 的选取无关, 称它为 `A to B` 的零态射, 简记为 `0`.
+  简言之, 零态射就是箭头图经过某个零对象的态射.
+</p>
+
+<p class="remark">
+  我们用 `Z` 表示零对象, `0` 表示零态射, 以免混淆.
+</p>
+
+<p class="corollary">
+  零态射复合上一个态射, 仍为零态射: 这是因为复合态射的箭头图仍要经过零对象.
+  反之, 两个非零态射的复合可能是零态射: 例如 Abel 群范畴中, 设 `N` 是 `G` 的非平凡真子群, 考虑下图
+  <span class="formula">
+    `N overset f to G overset g to G//N`
+  </span>
+  其中 `f` 是嵌入, `g` 是自然满同态, 则 `g f = 0`, 但 `g, f` 都不是零态射.
+</p>
+
+<ol class="corollary">
+  设范畴 `cc C` 有零对象 `Z`, 则
+  <li>`f: Z to A` 是单态射, `g: A to Z` 是满态射;</li>
+  <li>`O_(A B)` 是单态射 `iff A` 是终对象, `O_(A B)` 是满态射 `iff B` 是始对象.</li>
+</ol>
+
+<ol class="proof">
+  <li>`AA h_1, h_2: B to Z`, 由于 `Z` 是零对象, 必有 `h_1 = h_2`, 所以自动成立
+    <span class="formula">
+      `f h_1 = f h_2 rArr h_1 = h_2`.
+    </span>
+    这说明 `f` 是单态射. 满态射证明类似.
+  </li>
+  <li>`O_(A B)` 是单态射, 当且仅当
+    <span class="formula">
+      `(AA C: cc C) (AA h_1, h_2: C to A)`
+      `O_(A B) h_1 = O_(A B) h_2`
+      `rArr h_1 = h_2`.
+    </span>
+    但零态射复合任意态射仍为零态射, 所以总有
+    <span class="formula">
+      `O_(A B) h_1 = O_(A B) h_2 = O_(C B)`.
+    </span>
+    因此 `O_(A B)` 是单态射当且仅当
+    <span class="formula">
+      `(AA C: cc C) (AA h_1, h_2: C to A)`
+      `h_1 = h_2`.
+    </span>
+    即 `A` 为终对象.
+    始对象的证明类似.
+  </li>
+</ol>
+
+<div class="p definition">
+  <b>态射的核</b>
+  设范畴 `cc C` 有零对象 (从而有零态射), 考虑态射 `f: A to B`.
+  若存在对象 `K` 和 `iota: K to A`, 使得 `f iota = 0`, 且态射 `iota` 在相差一个态射的意义下唯一,
+  则称 `K` 是 `f` 的核.
+  这里的 "相差一个态射" 是指: 对任意对象 `K': cc C`, 若存在 `iota': K' to A` 使得 `f iota' = 0`,
+  则存在唯一态射 `u: K' to K` 使得 `iota' = iota @ u`.
+  <div class="img xs">
+    <img src="../img/cd-kernel.png" alt="核">
+  </div>
+  可以证明上述定义中的 `iota` 必为单态射; 特别当 `f = 0` 时, `iota` 为同构.
+  将上述箭头全部反转, 可以得到余核的定义, 可以想象它是一个对象配上一个满态射.
+</div>
+
+<ol class="proof">
+  <li>
+    设 `iota' := iota u_1 = iota u_2`, 则 `f iota' = f iota u_1 = 0 u_1 = 0`.
+    由核的定义知 `u_1 = u_2`, 于是 `iota` 是单态射.
+  </li>
+  <li>
+    考虑零态射 `O_(A B): A to B`, 设它的核为 `(K, iota)`,
+    但可以验证 `(A, "id"_A)` 也是它的核, 因此存在 `u: A to K` 使得
+    <span class="formula">
+      `iota u = "id"_A`.
+    </span>
+    因此 `iota u iota = iota`. 但 `iota` 为单态射, 这推出 `u iota = "id"_K`, 故 `iota` 为同构.
+  </li>
+</ol>
+
+<p class="remark">
+  我们也常说二元组 `(K, iota)` 是 `f` 的核.
+</p>
+
+<ol class="example">
+  <li>在模范畴中, 态射的核与余核分别对应于模同态的核与余核.</li>
+  <li>在群范畴中, 态射 `f: A to B` 的核即为群同态的核 `"ker" f`, 余核则是
+    `"coker" f = B//N`, 其中 `N` 是 `B` 中包含 `f(A)` 的最小正规子群.
+  </li>
+</ol>
+
+<p class="corollary">
+  单态射的核、满态射的余核均为零对象.
+</p>
+
+<p class="proof">
+  只证单态射的结论.
+  令 `f: A to B` 为单态射, `K = "ker" f`, `iota: K to A` 为单态射, 则
+  <span class="formula">
+    `f iota = 0 = f O_(K A)`.
+  </span>
+  由 `f` 是单态射知道 `iota = O_(K A)`, 再由核的定义, 存在唯一态射 `u` 使得
+  <span class="formula">
+    `iota u = O_(K A)`.
+  </span>
+  `u = "id"_K` 和 `u = O_(K K)` 均能使上式成立, 因此 `"id"_K = O_(K K)`, 即 `K` 为零对象.
+</p>
+
+<p class="example">
+  若 `f: A to B` 不是满态射, `"coker" f` 仍有可能为零. 例如群范畴中, `B`
+  是单群, `A` 是 `B` 的非平凡子群, `f: A to B` 为嵌入映射, 则 `B` 是包含 `f(A) = A`
+  的最小正规子群, 故 `"coker" f = B//B` 是零对象.
+</p>
 
 <h3>积与余积</h3>
 
@@ -812,7 +935,7 @@ map identity = identity
     <div class="img xs">
       <img src="../img/cd-product.png" alt="积">
     </div>
-    `pi_1, pi_2` 称为投影映射, `u` 一般记为 `(f, g)`.
+    `pi_1, pi_2` 称为投影态射, `u` 一般记为 `(f, g)`.
   </li>
   <li><b>余积</b> 对 `X, Y: cc C`, 若存在对象 `W: cc C` 和态射 `iota_1: X to W`, `iota_2: Y to W` 满足下列条件, 则称 `W` 是 `X` 和 `Y` 的<b>余积 (coproduct)</b>, 并记 `W = X ⊔ Y`:
     <br>
@@ -820,9 +943,14 @@ map identity = identity
     <div class="img xs">
       <img src="../img/cd-coproduct.png" alt="余积">
     </div>
-    `iota_1, iota_2` 称为包含映射, `u` 一般记为 `f o+ g` 或 `f ⊔ g`.
+    `iota_1, iota_2` 称为包含态射, `u` 一般记为 `f o+ g` 或 `f ⊔ g`.
   </li>
 </ol>
+
+<p class="remark">
+  我们也常说 `(X xx Y, (pi_i)_(i=1)^2)` 是 `X, Y` 的积,
+  `(X ⊔ Y, (iota_i)_(i=1)^2)` 是余积.
+</p>
 
 <ol class="example">
   <li>`sf(Set)` 中, 积就是集合的笛卡尔积, 余积是集合的无交并:
@@ -896,6 +1024,139 @@ map identity = identity
   </li>
   <li>`sf(Set)` 中, 两个态射 `f, g: X to Y` 的等化子是 `{x in X: f(x) = g(x)}`.</li>
   <li>`sf(Mod)_R` 中, 态射 `f, g: M to N` 的等化子是 `"Ker"(f - g)`, 余等化子是 `N//"Im"(f - g)`.</li>
+</ol>
+
+<h2>加法范畴与 Abel 范畴</h2>
+
+<h3>加法范畴</h3>
+
+<ol class="definition">
+  设范畴 `cc C` 含有零对象. 称它为<b>加法范畴 (additive category)</b>, 如果
+  <li>对任意对象 `A, B`, `"Hom"(A, B)` 构成 Abel 群, 且零态射是零元素.</li>
+  <li>满足左、右分配律: `AA f, f': A to B`, `g, g': B to C`, 有
+    <span class="formula">
+      `f(g+g') = f g + f g'`,
+      `quad (f + f') g = f g + f' g`.
+    </span>
+  </li>
+  <li>任意有限个对象的余积存在.</li>
+  若 `cc C` 只满足前两个条件, 则称为<b>准加法范畴 (preadditive category)</b>.
+</ol>
+
+<p class="remark">
+  与环的区别: 环是建立在单个集合上的代数结构, 而加法范畴可以含有许多 Hom 集, 每个 Hom 集是一个 Abel 群.
+  当然, 环可以看作单个对象的加法范畴.
+  反之, 给定加法范畴中的对象 `A`, 则 `"End"(A) := "Hom"(A, A)` 是一环, 称为 `A` 的自同态环.
+</p>
+
+<p class="corollary">
+  利用分配律可以证明,
+  准加法范畴中, 若态射合成 `tau sigma` 有意义, 则下式成立:
+  <span class="formula">
+    `tau(-sigma) = (-tau) sigma = -tau sigma`,
+    `quad (-tau)(-sigma) = tau sigma`.
+  </span>
+</p>
+
+<ol class="example">
+  <li>`sf(Ab)`, `R`-`sf(Mod)`, `sf(Mod)`-`R` 都是加法范畴, 态射的加法定义为模同态的加法.</li>
+  <li>自由 Abel 群范畴 (即自由 `ZZ`-模范畴) 是加法范畴.</li>
+  <li>集合范畴 `sf(Set)` 连准加法范畴都不是, 因为 `"Hom"(A, B)` 可能为空集, 它不可能是 Abel 群.</li>
+  <li>准加法范畴的例子: 定义
+    `"Ob"(cc C) = {0, ast}`, `"Hom"(ast, ast) = ZZ`, `"Hom"(0, 0)`
+    `= "Hom"(ast, 0)` `= "Hom"(0, ast) = {0}`. 态射合成即普通整数乘法.
+    则 `cc C` 是准加法范畴, 但不是加法范畴. 令 `A_1 = 0`, `A_2 = ast`.
+    若余积 `A_1 ⊔ A_2` 存在, 则要么是 `0`, 要么是 `ast`. 考虑下图:
+    <div class="img xs">
+      <img src="../img/cd-preadditive.png" alt="准加法范畴">
+    </div>
+    若 `A_1 ⊔ A_2 = 0`, 此时 `iota_2 = 0`, 令 `g = 1`, 则不存在 `u` 使得图表右边交换.
+    若 `A_1 ⊔ A_2 = ast`, 此时使得图表左边交换的 `u` 不唯一.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>加法范畴的对偶性定理</b>
+  设 `cc C` 是准加法范畴. `A_1, cdots, A_n` 是 `n` 个对象.
+  考虑一个对象 `A`, 配上 `n` 个包含态射 `iota_i: A_i to A`. 我们有:
+  `(A, (iota_i)_(i=1)^n)` 是 `A_1, cdots, A_n` 的余积, 当且仅当存在投影态射 `pi_i: A to A_i`, 满足
+  `AA i, j in [1..n]`,
+  <li>`pi_i iota_j = delta_(i j) "id"_A`;</li>
+  <li>`sum_(i=1)^n iota_i pi_i = "id"_A`.</li>
+  事实上, `(A, (pi_i)_(i=1)^n)` 正是 `A_1, cdots, A_n` 的积.
+  因而得到推论: 加法范畴中任意有限个对象的积都存在.
+  注意到积和余积的对偶关系, 又有: 加法范畴的对偶 `cc C^"op"` 仍是加法范畴.
+</ol>
+
+<ol class="proof">
+  <li>`rArr`: 由余积定义知, 下图的 `pi_i` 是存在唯一的:
+    <span class="formula">
+      `A_i overset (pi_i) larr A`<br>
+      `delta_(i j) "id"_(A_j) ↖ uarr iota_i`<br>
+      `qquad A_j`
+    </span>
+    故条件 1. 成立.
+    为证明条件 2, 对和式 `u := sum iota_i pi_i` 右乘 `iota_j`, 利用条件 1. 有:
+    <span class="formula">
+      `u iota_j`
+      `= (sum iota_i pi_i) iota_j`
+      `= sum iota_i (pi_i iota_j)`
+      `= sum iota_i delta_(i j)`
+      `= iota_j`.
+    </span>
+    故 `u` 使得下图交换:
+    <span class="formula">
+      `A overset u larr A`<br>
+      `quad iota_j ↖ uarr iota_j`<br>
+      `qquad A_j`
+    </span>
+    但 `"id"_A` 显然也使得此图交换. 由余积的定义有 `u = "id"_A`.
+  </li>
+  <li>`lArr`: 我们需要找到唯一的 `f: A to B` 使下图交换:
+    <span class="formula">
+      `B overset f larr A`<br>
+      `quad f_i↖ uarr iota_i`<br>
+      `qquad A_i`
+    </span>
+    在等式 `f_i = f iota_i` 两边同时右乘 `pi_i` 并求和, 利用条件 2. 有:
+    <span class="formula">
+      `sum f_i pi_i`
+      `= sum f iota_i pi_i`
+      `= f "id"_A`
+      `= f`,
+    </span>
+    得到 `f = sum f_i pi_i`. 故 `f` 是存在唯一的.
+  </li>
+  <li>下证 `(A, (pi_i)_(i=1)^n)` 是 `A_1, cdots, A_n` 的积.
+    我们需要找到唯一的 `g: B to A` 使下图交换:
+    <span class="formula">
+      `B overset g to A`<br>
+      `quad g_i↘ darr pi_i`<br>
+      `qquad A_i`
+    </span>
+    在等式 `g_i = pi_i g` 两边同时左乘 `iota_i` 并求和,
+    <span class="formula">
+      `sum iota_i g_i`
+      `= sum iota_i pi_i g`
+      `= "id"_A g`
+      `= g`,
+    </span>
+    得到 `g = sum iota_i g_i`. 故 `g` 是存在唯一的.
+  </li>
+</ol>
+
+<h3>Abel 范畴</h3>
+
+<ol class="definition">
+  加法范畴 `cc C` 称为 Abel 范畴, 若其满足:
+  <li>每个态射都有核与余核;</li>
+  <li>每个单态射都是它的余核的核, 每个满态射都是核的余核;</li>
+  <li>每个态射都有标准分解 `sigma = iota pi`, 其中 `iota` 为单态射, `pi` 为满态射.</li>
+</ol>
+
+<ol class="example">
+  <li>Abel 群范畴与 `R`-`sf(Mod)` 范畴都是 Abel 范畴.</li>
+  <li>自由 Abel 群范畴是加法范畴, 但不是 Abel 范畴.</li>
 </ol>
 
 <script>

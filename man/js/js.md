@@ -209,6 +209,126 @@ window.open(url, '_blank') // 在新标签页中打开
 
 在浏览器, 使用 `Uint8Array`, 在 Node, 使用 `Buffer`
 
+### worker
+
+原生 worker
+```html
+<script id="worker" type="worker">
+self.addEventListener('message', e => {
+  console.log('[worker]', e.data)
+  self.postMessage({ msg: 'hello from worker' })
+})
+</script>
+
+<script>
+const url = window.URL.createObjectURL(
+  new Blob([document.querySelector('#worker').textContent])
+)
+const worker = new Worker(url)
+worker.addEventListener('message', e => {
+  console.log('[main]', e.data)
+})
+worker.postMessage({
+  msg: 'hello from main',
+})
+</script>
+```
+
+使用 comlink
+
+`worker.js`
+```js
+Comlink.export({
+  hello: () => 'hello from worker',
+})
+```
+
+`main.js`
+```js
+const worker = new Worker('worker.js')
+const wrapper = Comlink.wrap(worker)
+await wrapper.hello()
+```
+
+模拟 comlink (利用 Proxy)
+```html
+<script id="worker" type="worker">
+exports({
+  hello: () => 'hello from worker',
+})
+</script>
+
+<script type="module">
+import createWorker from './worker.js'
+const src = document.querySelector('#worker').textContent
+const worker = createWorker(src, { name: 'my-worker' })
+worker.proxy.hello().then(console.log)
+</script>
+```
+
+`worker.js`
+```
+const proxyWorker = (worker) => {
+  const callbacks = {}
+  let id = 0
+
+  worker.addEventListener('message', e => {
+    console.log('[main]', e.data)
+    const { key, res, id } = e.data
+    const fn = callbacks[id]
+    if (fn) fn(res)
+  })
+
+  worker.addEventListener('error', console.error)
+
+  return new Proxy({}, {
+    get (obj, key) {
+      return (...args) => new Promise(resolve => {
+        callbacks[id] = resolve
+        worker.postMessage({
+          key,
+          args,
+          id: id++,
+        })
+      })
+    },
+  })
+}
+
+const header = `const exports = (obj) => {
+  self.addEventListener('message', async e => {
+    console.log('[worker]', e.data)
+    const { key, args, id } = e.data
+    if (typeof obj[key] === 'function') {
+      const res = await obj[key](...args)
+      self.postMessage({ key, res, id })
+    }
+  })
+}
+`
+
+/**
+ * 创建 worker 线程
+ * @param {string} src 源码
+ * @param {object} options
+ * @param {'classic' | 'module'} options.type
+ * @param {'omit' | 'same-origin' | 'include'} options.credentials
+ * @param {string} options.name
+ */
+const createWorker = (src) => {
+  const worker = new Worker(
+    window.URL.createObjectURL(
+      new Blob([header + src])
+    )
+  )
+  worker.proxy = proxyWorker(worker)
+  return worker
+}
+
+export default createWorker
+```
+
+
 ## html
 
 用原生 input 模拟 switch 组件

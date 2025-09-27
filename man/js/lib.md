@@ -2,6 +2,17 @@
 
 > 也有其它工具混入其中.
 
+## http 工具
+
+- httpie: 命令行界面的接口测试工具, 同类软件还有 postman, 浏览器插件 data~more 等.
+  ```
+  $ http -v --json POST localhost:8000/login username=admin password=admin
+  ```
+- serve: web 静态服务
+  ```
+  $ serve -L -l 1234 &
+  ```
+
 ## 编译工具链
 
 - babel

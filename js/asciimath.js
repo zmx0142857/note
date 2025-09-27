@@ -743,8 +743,9 @@ const yieldsTex = {
       return '\\cancel' + b(res)
     if (sym.rewriteLR)
       return '\\left' + sym.rewriteLR[0] + res + '\\right' + sym.rewriteLR[1]
-    if (sym.atname) // font change command
-      return '{' + parse.texSymbol(sym) + b(res) + '}'
+    if (sym.atname) {// font change command
+      return '{' + parse.texSymbol(sym) + b(res.replace(/^\\text/, '')) + '}'
+	}
     return parse.texSymbol(sym) + b(res)
   },
   binary (sym, res, res2, rewind) {
