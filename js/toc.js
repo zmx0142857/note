@@ -724,6 +724,7 @@ var tocData = [
           { "value": "pdf.md", "label": "PDF 工具集", "date": "2025-05-20" },
           { "value": "ps.md", "label": "Photoshop", "date": "2025-05-27" },
           { "value": "vim.md", "label": "Vim", "date": "2025-08-29" },
+          { "value": "chat.md", "label": "聊天软件", "date": "2025-09-29" },
         ],
       },
       {

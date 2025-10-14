@@ -872,27 +872,18 @@ map identity = identity
   <div class="img xs">
     <img src="../img/cd-kernel.png" alt="核">
   </div>
-  可以证明上述定义中的 `iota` 必为单态射; 特别当 `f = 0` 时, `iota` 为同构.
+  可以证明上述定义中的 `iota` 必为单态射.
   将上述箭头全部反转, 可以得到余核的定义, 可以想象它是一个对象配上一个满态射.
 </div>
 
-<ol class="proof">
-  <li>
-    设 `iota' := iota u_1 = iota u_2`, 则 `f iota' = f iota u_1 = 0 u_1 = 0`.
-    由核的定义知 `u_1 = u_2`, 于是 `iota` 是单态射.
-  </li>
-  <li>
-    考虑零态射 `O_(A B): A to B`, 设它的核为 `(K, iota)`,
-    但可以验证 `(A, "id"_A)` 也是它的核, 因此存在 `u: A to K` 使得
-    <span class="formula">
-      `iota u = "id"_A`.
-    </span>
-    因此 `iota u iota = iota`. 但 `iota` 为单态射, 这推出 `u iota = "id"_K`, 故 `iota` 为同构.
-  </li>
-</ol>
+<p class="proof">
+  设 `iota' := iota u_1 = iota u_2`, 则 `f iota' = f iota u_1 = 0 u_1 = 0`.
+  由核的定义知 `u_1 = u_2`, 于是 `iota` 是单态射.
+</p>
 
 <p class="remark">
-  我们也常说二元组 `(K, iota)` 是 `f` 的核.
+  我们也常说二元组 `(K, iota)` 是 `f` 的核, 或者说 `iota` 是 `f` 的核.
+  具体情况可以从上下文判断.
 </p>
 
 <ol class="example">
@@ -902,22 +893,38 @@ map identity = identity
   </li>
 </ol>
 
-<p class="corollary">
-  单态射的核、满态射的余核均为零对象.
-</p>
+<ol class="corollary">
+  <li>
+    单态射的核、满态射的余核均为零对象.
+  </li>
+  <li>
+    零态射的核与余核均为同构.
+  </li>
+</ol>
 
-<p class="proof">
-  只证单态射的结论.
-  令 `f: A to B` 为单态射, `K = "ker" f`, `iota: K to A` 为单态射, 则
-  <span class="formula">
-    `f iota = 0 = f O_(K A)`.
-  </span>
-  由 `f` 是单态射知道 `iota = O_(K A)`, 再由核的定义, 存在唯一态射 `u` 使得
-  <span class="formula">
-    `iota u = O_(K A)`.
-  </span>
-  `u = "id"_K` 和 `u = O_(K K)` 均能使上式成立, 因此 `"id"_K = O_(K K)`, 即 `K` 为零对象.
-</p>
+<ol class="proof">
+  <li>
+    只证单态射的结论.
+    令 `f: A to B` 为单态射, `K = "ker" f`, `iota: K to A` 为单态射, 则
+    <span class="formula">
+      `f iota = 0 = f O_(K A)`.
+    </span>
+    由 `f` 是单态射知道 `iota = O_(K A)`, 再由核的定义, 存在唯一态射 `u` 使得
+    <span class="formula">
+      `iota u = O_(K A)`.
+    </span>
+    `u = "id"_K` 和 `u = O_(K K)` 均能使上式成立, 因此 `"id"_K = O_(K K)`, 即 `K` 为零对象.
+  </li>
+  <li>
+    只证核的结论.
+    考虑零态射 `O_(A B): A to B`, 设它的核为 `(K, iota)`,
+    但可以验证 `(A, "id"_A)` 也是它的核, 因此存在 `u: A to K` 使得
+    <span class="formula">
+      `iota u = "id"_A`.
+    </span>
+    因此 `iota u iota = iota`. 但 `iota` 为单态射, 这推出 `u iota = "id"_K`, 故 `iota` 为同构.
+  </li>
+</ol>
 
 <p class="example">
   若 `f: A to B` 不是满态射, `"coker" f` 仍有可能为零. 例如群范畴中, `B`
@@ -1075,6 +1082,19 @@ map identity = identity
   </li>
 </ol>
 
+<p class="theorem">
+  准加法范畴中, 态射 `sigma` 为单态射等价于 `"ker"sigma = 0`, 是满态射等价于 `"coker"sigma = 0`.
+</p>
+
+<p class="proof">
+  一方面, 单态射的核、满态射的余核均为零.
+  另一方面, 若 `"ker"sigma = 0`, 记 `sigma: A to B`, 它的核是零对象 `Z`.
+  对任意 `tau_1, tau_2: K to A`, 若 `sigma tau_1 = sigma tau_2`, 则 `sigma (tau_1 - tau_2) = 0`.
+  由核的定义, 存在唯一态射 `u: K to Z` 使得 `tau_1 - tau_2 = 0 u = 0`.
+  于是 `tau_1 = tau_2`, `sigma` 为单态射.
+  类似可证 `"coker"sigma = 0` 蕴含 `sigma` 满.
+</p>
+
 <ol class="theorem">
   <b>加法范畴的对偶性定理</b>
   设 `cc C` 是准加法范畴. `A_1, cdots, A_n` 是 `n` 个对象.
@@ -1148,15 +1168,30 @@ map identity = identity
 <h3>Abel 范畴</h3>
 
 <ol class="definition">
-  加法范畴 `cc C` 称为 Abel 范畴, 若其满足:
+  加法范畴 `cc C` 称为 <b>Abel 范畴</b>, 若其满足:
   <li>每个态射都有核与余核;</li>
   <li>每个单态射都是它的余核的核, 每个满态射都是核的余核;</li>
   <li>每个态射都有标准分解 `sigma = iota pi`, 其中 `iota` 为单态射, `pi` 为满态射.</li>
 </ol>
 
+<p class="corollary">
+  Abel 范畴中, 态射 `sigma` 为同构等价于 `sigma` 既单又满.
+</p>
+
+<p class="proof">
+  只需证充分性.
+  因为 `sigma` 单, 它的核为零.
+  又因为 `sigma` 满, 在 Abel 范畴中, 它是核的余核, 即零态射的余核.
+  最后, 零态射的余核是同构.
+</p>
+
 <ol class="example">
   <li>Abel 群范畴与 `R`-`sf(Mod)` 范畴都是 Abel 范畴.</li>
-  <li>自由 Abel 群范畴是加法范畴, 但不是 Abel 范畴.</li>
+  <li>`sf"Ring"` 中存在既单又满的非同构态射, 故它不是 Abel 范畴.</li>
+  <li>同理, 自由 Abel 群范畴是加法范畴, 但不是 Abel 范畴.
+    例如 `A = (:a:)`, `B = (:b:)`, `sigma: A to B`, `sigma(n a) = 2 n b`.
+    则 `sigma` 既单又满, 但不是同构.
+  </li>
 </ol>
 
 <script>

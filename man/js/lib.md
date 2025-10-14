@@ -2,7 +2,9 @@
 
 > 也有其它工具混入其中.
 
-## http 工具
+## 数据与通信
+
+### http
 
 - httpie: 命令行界面的接口测试工具, 同类软件还有 postman, 浏览器插件 data~more 等.
   ```
@@ -12,6 +14,16 @@
   ```
   $ serve -L -l 1234 &
   ```
+
+### 数据
+
+- [protobufjs](https://www.npmjs.com/package/protobufjs): 处理 protocol buffers, 将数据编码为二进制在网上传输
+- long.js: 处理长整型数字
+
+### 通信
+
+- mqtt: 基于 websocket 的二进制通信协议
+- grpc: 是 RPC (远程过程调用) 的一个实现, 允许调用服务端提供的函数.
 
 ## 编译工具链
 
@@ -31,6 +43,7 @@
 - [three.js](https://threejs.org): 基于 WebGL 的 3D 库
 - [babylon.js](https://www.babylonjs.com): 高性能 3D 引擎
 - [cesium.js](https://cesium.com/platform/cesiumjs/): web gis、智慧城市场景渲染
+- [shadertoy](https://shadertoy.com)
 
 ### 动画/幻灯片
 
@@ -41,13 +54,12 @@
 - bespoke: 超轻量级幻灯片 (示例: jyywiki.cn)
 - animate.css, velocity, jquery.animate: web 小动画
 - @tweenjs/tween.js: 补间动画
-- clipjs: 网页端视频剪辑
-- paint.js.org: 画图网页版
 
 ### 3d 建模
 
 - blender
 - autocad (dxf: dwg 的平替)
+- road-pro: 道路模型在线编辑器
 
 ### SVG
 
@@ -58,7 +70,7 @@
 - d3: svg 中的 jquery
 - @resvg/resvg-js, @resvg/resvg-wasm: 来自 rust 的 svg 渲染库
 
-### 插图/流程图
+### 画图
 
 - excalidraw.com
 - processing
@@ -67,20 +79,15 @@
 - [geogebra](https://www.geogebra.org/calculator)
 - mermaid, plant-uml: 流程图
 - wavedrom: 电路、波形
+- clipjs: 网页端视频剪辑
+- [画图网页版](https://paint.js.org)
+- [svg在线编辑器](https://www.jyshare.com/more/svgeditor/)
+- [svg-path-editor](https://yqnn.github.io/svg-path-editor/)
+- [gif在线编辑器](https://clideo.com/editor)
 
 ### 统计图表
 
 - echarts, chart.js, v-charts (vue), recharts (react), ant-design-chart: 图表绘制
-
-### 数据
-
-- [protobufjs](https://www.npmjs.com/package/protobufjs): 处理 protocol buffers, 将数据编码为二进制在网上传输
-- long.js: 处理长整型数字
-
-### 通信
-
-- mqtt: 基于 websocket 的二进制通信协议
-- grpc: 是 RPC (远程过程调用) 的一个实现, 允许调用服务端提供的函数.
 
 ### 其它
 

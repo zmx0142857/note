@@ -42,8 +42,8 @@ Math.floor(4294967295) // 正确, 4294967295
 ### json parse number as string
 
 ```js
-JSON.parse('{"id":1231231231231231231231}', (k, v, { source }) => {
-  if (typeof v === 'number') return source;
+JSON.parse('{"id":12345678901234567890}', (k, v, { source }) => {
+  if (k === 'id' && typeof v === 'number') return source;
   return v;
 })
 ```
