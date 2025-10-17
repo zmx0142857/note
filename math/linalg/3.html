@@ -692,9 +692,6 @@
 	</li>
 	<li>`r(bm A+-bm B) le r(bm A) + r(bm B)`;</li>
 	<li>`r(bm(A B)) le min{r(bm A), r(bm B)}`;</li>
-    <li>(Sylvester) 任意 `{:bm A:}_(m xx n)`, `{:bm B:}_(n xx s)` 满足
-		`r(bm A) + r(bm B) le n + r(bm(A B))`,
-	</li>
 </ol>
 
 <ol class="proof">
@@ -716,36 +713,100 @@
 		`bm (A B)` 的各行向量可由 `bm B` 的各行向量线性表出,
 		所以 `r(bm(A B)) le r(bm B)`.
 	</li>
-	<li>考察矩阵
-		<span class="formula">
-			`bm C = [bm I_n,bm B; bm A,bm O]`,
-			`quad bm P = [bm I_n,bm O; -bm A,bm I_m]`,
-			`quad bm Q = [bm I_n,-bm B; bm O,bm I_s]`,
-		</span>
-		计算知
-		<span class="formula">
-			`bm(P C Q) = [bm I_n,bm O; bm O,-bm(A B)]`.
-		</span>
-		由于 `|bm P| = |bm Q| = 1`, 故 `bm P, bm Q` 均可逆, 所以
-		<span class="formula">
-			`r(bm C) = r(bm(P C Q)) = r(bm I_n) + r(-bm(A B))`
-			`= n + r(bm(A B)`.
-		</span>
-		通过初等变换可以发现, 在矩阵 `bm C` 中,
-		`bm A`, `bm B` 各自的列极大线性无关组所在的列线性无关,
-		故 `r(bm A) + r(bm B) le r(bm C)`, 证毕.
-	</li>
-	<li>现在运用线性方程组理论 (本章最后一节),
-		对 Sylvester 秩不等式的特例: `bm(A B) = bm O` 时,
-		`r(bm A) + r(bm B) le n` 给出另一证明. 因为 `bm(A B) = bm O`,
-		`bm B` 的每一列均为方程组 `bm(A X) = bb 0` 的解. 当 `r(bm A) = n`
-		时, 该方程组只有零解, 所以 `bm B = bm O`, `r(bm B) = 0`,
-		不等式成立. <br/>
-		当 `r(bm A) lt n` 时, 该方程组具有 `n-r(bm A)`
-		个向量组成的基础解系, 即 `bm B`
-		的每一列均能由这一基础解系线性表出. 于是 `r(bm B) le n-r(bm A)`,
-		不等式成立.
-	</li>
+</ol>
+
+<ol class="theorem">
+  <b>Sylvester 秩不等式</b>
+  对 `{:bm A:}_(m xx n)`, `{:bm B:}_(n xx s)` 有:
+  <span class="formula">
+    `r(bm A) + r(bm B) le r(bm(A B)) + n`.
+  </span>
+  其中等号成立当且仅当下面任一充要条件成立:
+  <li>`"Ker"bm A sube "Im"bm B`;</li>
+  <li>`[bm A, ; bm I, bm B] ~ [bm A, ; , bm B]` (相差若干初等变换);</li>
+  <li>`EE bm X, bm Y` 使得 `bm (X A) + bm (B Y) = bm I`;</li>
+  <li>矩阵 `bm (P_2 Q_1)` 形如 `[ast, ast; ast, bm O]`, 其中 `bm O` 的尺寸是 `(n-r_1) xx (n-r_2)`.
+    `bm P_1, bm P_2, bm Q_1, bm Q_2` 是可逆矩阵, 它们来自 `bm A`, `bm B` 的等价标准形:
+    `bm (P_1 A Q_1) = "diag"(bm I_(r_1), bm O)`, `bm (P_2 B Q_2) = "diag"(bm I_(r_2), bm O)`.
+  </li>
+</ol>
+
+<p class="proof">
+  几何证明.
+  根据公式 `r(bm A) = dim("Im"bm A)` 和 `n - r(bm A) = dim("Ker"bm A)`,
+  我们只需证:
+  <span class="formula">
+    `dim("Im"bm B) - dim("Ker"bm A) le dim("Im"(bm (A B)))`.
+  </span>
+  将线性变换 `bm A` 限制于 `"Im" bm B`, 于是它的核为 `"Ker"bm A nn "Im"bm B`,
+  像为 `"Im"bm (A B)`.
+  <span class="formula">
+    `dim("Im"bm B) - dim("Ker"bm A)`
+    `le dim("Im"bm B) - dim("Ker"bm A nn "Im"bm B))`
+    `= dim("Im"(bm (A B)))`.
+  </span>
+  等号成立当且仅当 `dim("Ker"bm A nn "Im"bm B) = dim("Ker"bm A)`
+  `iff "Ker"bm A sube "Im"bm B`.
+</p>
+
+<p class="proof">
+  代数证明.
+  利用初等变换有
+  <span class="formula">
+    `[bm(A B), ; , bm I_n]`
+    `~ [bm(A B), ; bm B, bm I_n]`
+    `~ [, -bm A; bm B, bm I_n]`
+    `~ [bm A, ; bm I_n, bm B]`.
+  </span>
+  两边取 rank 有
+  <span class="formula">
+    `r(bm(A B)) + n = r[bm A, ; bm I_n, bm B]` `ge r(bm A) + r(bm B)`.
+  </span>
+  最后这个不等号是因为, 由于左下 `bm I_n` 的存在, 分块矩阵前 `n` 列的秩是 `n ge r(bm A)`,
+  从而整个分块矩阵的秩 `ge r(bm A) + r(bm B)`.
+  <br>
+  再考察等号成立的条件. 2 是显然的, 3 是 2 的推论.
+  我们只证 4:
+  <span class="formula">
+    `[bm A, ; bm I_n, bm B]`
+    `~ [bm (P_1 A bm Q_1), ; bm(P_2 Q_1), bm(P_2 B Q_2)]`
+    `~ [bm I_(r_1); , bm O; bm O, bm O, bm I_(r_2); bm O, bm C, , bm O]`.
+  </span>
+  可以看出右边矩阵的秩等于 `r_1 + r_2` 当且仅当 `bm C = 0`.
+</p>
+
+<ol class="proof">
+  旧版证明:
+  <li>考察矩阵
+    <span class="formula">
+      `bm C = [bm I_n,bm B; bm A,bm O]`,
+      `quad bm P = [bm I_n,bm O; -bm A,bm I_m]`,
+      `quad bm Q = [bm I_n,-bm B; bm O,bm I_s]`,
+    </span>
+    计算知
+    <span class="formula">
+      `bm(P C Q) = [bm I_n,bm O; bm O,-bm(A B)]`.
+    </span>
+    由于 `|bm P| = |bm Q| = 1`, 故 `bm P, bm Q` 均可逆, 所以
+    <span class="formula">
+      `r(bm C) = r(bm(P C Q)) = r(bm I_n) + r(-bm(A B))`
+      `= n + r(bm(A B))`.
+    </span>
+    通过初等变换可以发现, 在矩阵 `bm C` 中,
+    `bm A`, `bm B` 各自的列极大线性无关组所在的列线性无关,
+    故 `r(bm A) + r(bm B) le r(bm C)`, 证毕.
+  </li>
+  <li>现在运用线性方程组理论 (本章最后一节),
+    对 Sylvester 秩不等式的特例: `bm(A B) = bm O` 时,
+    `r(bm A) + r(bm B) le n` 给出另一证明. 因为 `bm(A B) = bm O`,
+    `bm B` 的每一列均为方程组 `bm(A X) = bb 0` 的解. 当 `r(bm A) = n`
+    时, 该方程组只有零解, 所以 `bm B = bm O`, `r(bm B) = 0`,
+    不等式成立. <br/>
+    当 `r(bm A) lt n` 时, 该方程组具有 `n-r(bm A)`
+    个向量组成的基础解系, 即 `bm B`
+    的每一列均能由这一基础解系线性表出. 于是 `r(bm B) le n-r(bm A)`,
+    不等式成立.
+  </li>
 </ol>
 
 <p class="example">

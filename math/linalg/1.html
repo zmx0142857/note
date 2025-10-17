@@ -725,7 +725,15 @@
 </p>
 
 <p class="proof">
-	设 `bm X = (bm I + bm(A B))^-1`, 则
+	从形式上计算:
+	<span class="formula">
+		`(bm I + bm(B A))^-1`
+		`= bm I + sum_(i=1)^oo bm((-B A))^i`
+		`= bm I - bm B(sum_(i=0)^oo bm((-A B))^i) bm A`
+		`= bm I - bm B(bm I + bm(A B))^-1 bm A`.
+	</span>
+    接下来通过代入计算, 证明上式确实成立.
+	设 `bm X = (bm I + bm(A B))^-1`,
 	<span class="formula">
 		`bm(B X A)(bm I + bm(B A))`
 		`= bm(B X)(bm I + bm(A B))bm A`
@@ -737,14 +745,19 @@
 	故 `bm I - bm(B X A) = (bm I + bm(B A))^-1`.
 </p>
 
-<p class="remark">
-	从形式上计算:
-	<span class="formula">
-		`(bm I + bm(B A))^-1`
-		`= bm I + sum_(i=1)^oo bm((-B A))^i`
-		`= bm I - bm B(sum_(i=0)^oo bm((-A B))^i) bm A`
-		`= bm I - bm B(bm I + bm(A B))^-1 bm A`.
-	</span>
+<p class="proof">
+  可以证明行列式相等: `|bm I_m+bm(A B)| = |bm I_n+bm(B A)|`, 参见<a href="2.html">下一章例题</a>.
+</p>
+
+<p class="proof">
+  [来自群友 厌氧变形虫]
+  考察方程 `(bm I + bm(A B)) bm x = bb 0` 的解 `bm x`,
+  它满足 `bm (A B x) = -bm x`, 故 `bm (B A B x) = -bm (B x)`,
+  即 `(bm I + bm (A B)) bm(B x) = bb 0`.
+  由于 `bm I + bm(A B)` 可逆, 推出 `bm(B x) = bb 0`, 从而
+  `bm x = -bm(A B x) = bb 0`.
+  这说明原方程只有零解, 故 `bm I + bm(A B)` 可逆.
+  注: 此做法可以用线性映射的 ker 的语言重述.
 </p>
 
 <p class="example">
