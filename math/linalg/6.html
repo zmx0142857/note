@@ -45,34 +45,78 @@
 	只有零解, 即 `bm A` 没有零特征值.
 </p>
 
-<ol class="theorem" id="the-eigenvalue-of-fA-A^-1-A*">
-	设 `bm A` 为方阵, `lambda` 是 `bm A` 的一个特征根,
-	`bm x` 为对应的一个特征向量:
-	<li>若 `f(x)` 为多项式, 则 `f(lambda)` 是 `f(bm A)` 的一个特征根, `bm
-		x` 为对应的一个特征向量;
-		特别地, `c lambda` 是 `c bm A` 的一个特征根,
-		`lambda^k` 是 `bm A^k` 的一个特征根;
-	</li>
-	<li>若 `bm A` 可逆, 则 `lambda != 0`, `lambda^-1` 是 `bm A^-1`
-		的一个特征根, `bm x` 为对应的一个特征向量;
-	</li>
-	<li>若 `bm A` 可逆, 则 `|bm A|lambda^-1` 是 `bm A^**` 的一个特征根,
-		`bm x` 为对应的一个特征向量.
-	</li>
-</ol>
+<div class="theorem p" id="the-eigen-composite">
+  方阵的特征值与特征向量在多项式、求逆、求伴随、相似变换下的变化情况如下:
+  <table>
+    <tr>
+      <th>矩阵</th>
+      <th>特征值</th>
+      <th>特征向量</th>
+      <th>备注</th>
+    </tr>
+    <tr>
+      <td>`bm A`</td>
+      <td>`lambda`</td>
+      <td>`bm x`</td>
+    </tr>
+    <tr>
+      <td>`f(bm A)`</td>
+      <td>`f(lambda)</td>
+      <td>`bm x`</td>
+      <td>`f` 为多项式</td>
+    </tr>
+    <tr>
+      <td>`c bm A`</td>
+      <td>`c lambda`</td>
+      <td>`bm x`</td>
+      <td>多项式情形的推论</td>
+    </tr>
+    <tr>
+      <td>`bm A^k`</td>
+      <td>`lambda^k`</td>
+      <td>`bm x`</td>
+      <td>多项式情形的推论</td>
+    </tr>
+    <tr>
+      <td>`bm A^-1`</td>
+      <td>`lambda^-1`</td>
+      <td>`bm x`</td>
+      <td>`bm A` 可逆, 因此 `lambda != 0`</td>
+    </tr>
+    <tr>
+      <td>`bm A^ast`</td>
+      <td>`|bm A|lambda^-1`</td>
+      <td>`bm x`</td>
+      <td>`bm A` 可逆</td>
+    </tr>
+    <tr>
+      <td>`bm (T A T)^-1`</td>
+      <td>`lambda`</td>
+      <td>`bm (T x)`</td>
+      <td>特征向量相差一个可逆线性变换</td>
+    </tr>
+  </table>
+</p>
 
 <ol class="proof">
-	设 `lambda` 为 `bm A` 的一个特征值, `bm x` 是对应的一个特征向量,
-	则 `bm(A x) = lambda bm x`.
-	<li>将 `f` 展开计算可以验证 `f(bm A) bm x = f(lambda) bm x`,
-		即 `f(lambda)` 为 `f(bm A)` 的特征值, `bm x`
-		为对应的一个特征向量.
-	</li>
-	<li>在等式 `bm(A x) = lambda bm(x)` 两边同时左乘
-		`bm A^-1` 得 `bm x = lambda bm(A^-1 x)`,
-		即 `bm(A^-1 x) = lambda^-1 bm x`.
-	</li>
-	<li>`bm A` 可逆时, `bm A^** = |bm A|bm A^-1`. 由 1, 2 即得结论.</li>
+  设 `lambda` 为 `bm A` 的一个特征值, `bm x` 是对应的一个特征向量,
+  则 `bm(A x) = lambda bm x`.
+  <li>将 `f` 展开计算可以验证 `f(bm A) bm x = f(lambda) bm x`,
+    即 `f(lambda)` 为 `f(bm A)` 的特征值, `bm x`
+    为对应的一个特征向量.
+  </li>
+  <li>在等式 `bm(A x) = lambda bm(x)` 两边同时左乘
+    `lambda^-1 bm A^-1` 得 `lambda^-1 bm x = bm(A^-1 x)`.
+  </li>
+  <li>`bm A` 可逆时, `bm A^** = |bm A|bm A^-1`. 由 1, 2 即得结论.</li>
+  <li>最后, `bm (T x)` 是  `bm (T A T)^-1` 的特征向量, 因为
+    `bm (T A T)^-1 bm (T x)`
+    `= bm (T A x)`
+    `= lambda bm (T x)`.
+  </li>
+  <hr>
+  后面将证明 `bm A` 可逆时, `bm A^-1` 和 `bm A^ast` 均为 `bm A` 的多项式,
+  因此 2, 3 均是 1 的特殊情形.
 </ol>
 
 <h2>特征多项式</h2>
@@ -247,6 +291,8 @@
 
 <h2>Cayley-Hamilton 定理</h2>
 
+<h3>定理的陈述</h3>
+
 <p class="definition">
 	令 `cc A in L(V)`, 称多项式 `f` 为 `cc A` 的一个<b>零化多项式</b>,
 	如果 `f(cc A) = bb 0`. 称 `f` 为方阵 `bm A` 的一个零化多项式,
@@ -266,99 +312,49 @@
 </p>
 
 <p class="proof">
-	借助下一章 `lambda` 矩阵的概念. 令 `bbb P` 为一数域, 我们可以等同
-	以多项式为元素的矩阵 `bbb P[lambda]^(n xx n)` 和以矩阵为系数的多项式
-	`bbb P^(n xx n)[lambda]`. 如
-	<span class="formula">
-		`[lambda^3 + lambda + 1, lambda^2 - lambda + 3;
-		lambda-1,lambda^3 + lambda^2 + 2]`
-		`= lambda^3[1,0;0,1] + lambda^2[0,1;0,1]`
-		`+ lambda[1,-1;1,0] + [1,3;-1,2]`.
-	</span>
-	令 `bm C(lambda)` 是 `lambda bm I - bm A` 的伴随矩阵, 则
-	<span class="formula">
-		`bm C(lambda)(lambda bm I-bm A) = |lambda bm I-bm A| bm I`.
-		<span class="label" id="for-adjoint-matrix"></span>
-	</span>
-	显然 `bm C(lambda)` 和 `lambda bm I-bm A` 都是 `lambda` 矩阵.
-	因为 `bm C(lambda)` 的元素是 `lambda bm I-bm A` 各元素的代数余子式,
-	所以 `bm C(lambda)` 的各元素是次数不超过 `n-1` 的多项式, 可以表示为
-	<span class="formula">
-		`bm C(lambda) = sum_(i=0)^(n-1) lambda^i bm C_i`,
-	</span>
-	从而
-	<span class="formula">
-		`bm C(lambda)(lambda bm I-bm A)`
-		`= (sum_(i=0)^(n-1) lambda^i bm C_i)(lambda bm I-bm A)`<br/>
-		`= lambda^n bm C_(n-1)`
-		`+ sum_(i=1)^(n-1) lambda^i(bm C_(i-1) - bm C_i bm A)`
-		`- bm (C_0 A)`.
-	</span>
-	又令 `Delta_(bm A)(lambda) = sum_(i=0)^n a_i lambda^i`, 从而
-	<span class="formula">
-		`|lambda bm I-bm A| bm I`
-		`= Delta_(bm A)(lambda) bm I`
-		`= sum_(i=0)^n lambda^i(a_i bm I)`.
-	</span>
-	比较式 <a class="ref" href="#for-adjoint-matrix"></a> 左右两边
-	`lambda^i` 次项系数, 有
-	<span class="formula">
-		`bm C_(n-1) = a_n bm I`, `quad -bm(C_0 A) = a_0 bm I`,<br/>
-		`bm C_(i-1)-bm C_i bm A = a_i bm I`, `quad i = 1, cdots, n-1`.
-	</span>
-	从而
-	<span class="formula">
-		`Delta_(bm A)(bm A)`
-		`= sum_(i=0)^n a_i bm A^i`
-		`= -bm(C_0 A) + sum_(i=1)^(n-1) (bm C_(i-1)-bm C_i bm A) bm A^i`
-		`+ bm C_(n-1) bm A^n`
-		`= bm O`.
-	</span>
+  证法一, 利用古典伴随矩阵.
+  引入 `lambda` 矩阵的概念: 令 `bbb P` 为一数域, 我们可以等同
+  以多项式为元素的矩阵 `bbb P[lambda]^(n xx n)` 和以矩阵为系数的多项式
+  `bbb P^(n xx n)[lambda]`. 如
+  <span class="formula">
+    `[lambda^3 + lambda + 1, lambda^2 - lambda + 3;
+    lambda-1,lambda^3 + lambda^2 + 2]`
+    `= lambda^3[1,0;0,1] + lambda^2[0,1;0,1]`
+    `+ lambda[1,-1;1,0] + [1,3;-1,2]`.
+  </span>
+  考虑 `lambda bm I - bm A` 的伴随矩阵 `(lambda bm I - bm A)^ast`,
+  由于它的元素是 `lambda bm I-bm A` 各元素的代数余子式,
+  所以它的元素是次数不超过 `n-1` 的多项式, 我们记
+  <span class="formula">
+    `(lambda bm I - bm A)^ast = sum_(i=0)^(n-1) lambda^i bm C_i`.
+  </span>
+  于是
+  <span class="formula align">
+    `|lambda bm I - bm A|bm I`<br>
+    `= (lambda bm I - bm A) (lambda bm I - bm A)^ast`<br>
+    `= (lambda bm I - bm A) sum_(i=0)^(n-1) lambda^i bm C_i`<br>
+    `= sum_(i=0)^(n-1) lambda^(i+1) bm C_i - sum_(i=0)^(n-1) lambda^i bm A bm C_i`.<br>
+  </span>
+  代入 `lambda = bm A` 立即得到上式 `= bm O`.
 </p>
 
-<ol class="proof">
-	刘国新, 王正攀. 2013. Cayley-Hamilton 定理的一个新证明.
-	西南师范大学学报 (自然科学版), 38(8), 1-2.
-	<li>先证 `bm A` 在复数域上相似于形如
-		<span class="formula">
-			`bm B = [b,**; bb 0, bm B_1]`
-		</span>
-		的矩阵.
-		令 `V` 为一 `n` 维复线性空间, `(bm alpha_1, bm alpha_2, cdots, bm
-		alpha_n)` 为 `V` 的基底, `cc A in L(V)` 在该基底下以 `bm A`
-		为表示矩阵.
-		由代数学基本定理, `Delta_(bm A)(x)` 在复数域上有根, 记为 `b`.
-		令 `bm beta_1` 为相应于 `b` 的特征向量, 将它扩充为 `V` 的基底
-		`(bm beta_1, bm beta_2, cdots, bm beta_n)`, 记
-		<span class="formula">
-			`(cc A bm beta_1, cc A bm beta_2, cdots, cc A bm beta_n)`
-			`= (bm beta_1, bm beta_2, cdots, bm beta_n) bm B`.
-		</span>
-		则由于 `cc A bm beta_1 = b bm beta_1`,
-		`bm B` 的第一列除了 `b` 之外都为零.
-	</li>
-	<li>对 `n` 进行归纳, 当 `n = 1` 时, `Delta_(bm A)(x) = x - bm A`
-		显然是 `bm A` 的零化多项式. 假设 `n ge 2`, 定理对于任意阶数为
-		`n-1` 的矩阵都成立, 我们记 1. 中的 `bm B = bm(T^-1 A T)`,
-		于是 `Delta_(bm B)(x) = (x-b) Delta_(bm B_1)(x)`. 由归纳假设,
-		`Delta_(bm B_1)(bm B_1) = bm O`, 于是
-		<span class="formula">
-			`Delta_(bm B)(bm B)`
-			`= (bm B - b bm I) Delta_(bm B_1)(bm B)`<br/>
-			`= [0, **; bb 0, bm B_1 - b bm I_(n-1)]`
-			`[Delta_(bm B_1)(b),**; bb 0, bm O]`
-			`= bm O`.
-		</span>
-		从而
-		<span class="formula">
-			`Delta_(bm A)(bm A)`
-			`= Delta_(bm B)(bm A)`
-			`= Delta_(bm B)(bm(T B T^-1))`
-			`= bm T Delta_(bm B)(bm B) bm T^-1`
-			`= bm O`.
-		</span>
-	</li>
-</ol>
+<p class="proof">
+  证法二, 利用复数域中的矩阵上三角化.
+  由<a class="ref" href="#exp-comp-triangular"></a>,
+  可记 `bm A = bm(T U T)^-1`, `bm U` 为上三角阵, 于是 `Delta_(bm A)(x) = Delta_(bm U)(x)`,
+  <span class="formula">
+    `Delta_(bm A)(bm A)`
+    `= Delta_(bm U)(bm(T U T)^-1)`
+    `= bm T Delta_(bm U)(bm U) bm T^-1`.
+  </span>
+  下证 `Delta_(bm U)(bm U) = bm O`.
+  阶数为 1 时结论显然; 设结论对 `n-1` 阶矩阵成立, 记 `bm U = "diag"(lambda_1, bm U_1)`, 则
+  `Delta_(bm U)(x) = (x - lambda_1) Delta_(bm U_1)(x)`,
+  <span class="formula">
+    `Delta_(bm U)(bm U) = (bm U - lambda_1 bm I) Delta_(bm U_1)(bm U)`<br>
+    `= [0, ast; 0, ast][ast, ast; 0, 0] = bm O`.
+  </span>
+</p>
 
 <p class="example">
 	求 `bm A^n`, 其中 `bm A = [0,1;1,1]`.
@@ -445,8 +441,7 @@
 	</span>
 </p>
 
-
-<h2>矩阵的合成与特征多项式</h2>
+<h3>定理的应用</h3>
 
 <p class="example">
   [来自 我是永远得不到的i]
@@ -502,59 +497,54 @@
 	</span>
 </p>
 
-<p> 我们利用特征多项式, 重新表述<a class="ref"
-	href="#the-eigenvalue-of-fA-A^-1-A*"></a>的结论 1:
-</p>
-
 <p class="theorem">
-	设 `bm A` 为 `n` 阶方阵, `f` 为多项式,
-	若 `Delta_(bm A)(x) = prod_(i=1)^n (x-x_i)`, 则
-	`Delta_(f(bm A))(x) = prod_(i=1)^n (x-f(x_i))`.
+  若 `n` 阶方阵 `bm A` 可逆, 则 `bm A^-1`, `bm A^**` 可以表示为 `bm A` 的多项式.
+  `bm A` 不可逆时, `bm A^**` 可以表示为 `bm A` 的多项式吗??
 </p>
 
 <p class="proof">
+  令 `Delta_(bm A)(x) = x f(x) + a`, 由 `bm A` 可逆知,
+  `a = (-1)^n |bm A| != 0`. 于是由 Cayley-Hamilton 定理,
+  <span class="formula">
+    `bm A f(bm A) + a bm I = Delta_(bm A)(bm A) = bm O`,
+  </span>
+  即 `bm A^-1 = -a^-1 f(bm A)`.
+  从而 `bm A^** = |bm A| bm A^-1` 也能表示为 `bm A` 的多项式.
+</p>
+
+<p>
+  现在我们利用特征多项式, 重新表述<a class="ref" href="#the-eigen-composite"></a>的结论:
+</p>
+
+<ol class="theorem">
+  设 `bm A` 为 `n` 阶方阵, 在数域 `bbb P` 中, `Delta_(bm A)(x) = prod_(i=1)^n (x-x_i)`,
+  <li>若 `f` 为多项式, 则 `Delta_(f(bm A))(x) = prod_(i=1)^n (x-f(x_i))`.</li>
+  <li>若 `bm A` 可逆, 则 `Delta_(bm A^-1)(x) = prod_(i=1)^n (x-x_i^-1)`,
+      `Delta_(bm A^**)(x) = prod_(i=1)^n (x-|bm A|x_i^-1)`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
 	令 `g(y) = x - f(y) = c prod_(j=1)^m (y-y_j)`,
 	其中 `y_1, y_1, cdots, y_m` 是 `g(y)` 在复数域上的 `m` 个根,
 	计算可知
 	<span class="formula">
-		`|x bm I - f(bm A)|`
-		`= |c prod_(j=1)^m (bm A - y_j bm I)|`
-		`= (-1)^(m n) c^n prod_(j=1)^m |y_j bm I - bm A|`
-		`= (-1)^(m n) c^n prod_(j=1)^m Delta_(bm A)(y_j)`
-		`= (-1)^(m n) c^n prod_(j=1)^m prod_(i=1)^n (y_j-x_i)`
-		`= c^n prod_(i=1)^n prod_(j=1)^m (x_i-y_j)`
-		`= prod_(i=1)^n g(x_i)`
-		`= prod_(i=1)^n (x - f(x_i))`.
+      `|x bm I - f(bm A)|`
+      `= |c prod_(j=1)^m (bm A - y_j bm I)|`
+      `= (-1)^(m n) c^n prod_(j=1)^m |y_j bm I - bm A|`
+      `= (-1)^(m n) c^n prod_(j=1)^m Delta_(bm A)(y_j)`
+      `= (-1)^(m n) c^n prod_(j=1)^m prod_(i=1)^n (y_j-x_i)`
+      `= c^n prod_(i=1)^n prod_(j=1)^m (x_i-y_j)`
+      `= prod_(i=1)^n g(x_i)`
+      `= prod_(i=1)^n (x - f(x_i))`.
 	</span>
-</p>
-
-<p class="theorem">
-	若 `n` 阶方阵 `bm A` 可逆, 则 `bm A^-1`, `bm A^**`
-	可以表示为 `bm A` 的多项式.
-	`bm A` 不可逆时, `bm A^**` 可以表示为 `bm A` 的多项式吗???
-</p>
-
-<p class="proof">
-	令 `Delta_(bm A)(x) = x f(x) + a`, 由 `bm A` 可逆知,
-	`a = (-1)^n |bm A| != 0`. 于是由 Cayley-Hamilton 定理,
-	<span class="formula">
-		`bm A f(bm A) + a bm I = Delta_(bm A)(bm A) = bm O`,
-	</span>
-	即 `bm A^-1 = -a^-1 f(bm A)`.
-	从而 `bm A^** = |bm A| bm A^-1` 也能表示为 `bm A` 的多项式.
-</p>
-
-<p class="corollary">
-	令 `bm A` 可逆, 若 `Delta_(bm A)(x) = prod_(i=1)^n (x-x_i)`, 则
-	`Delta_(bm A^-1)(x) = prod_(i=1)^n (x-x_i^-1)`,
-	`Delta_(bm A^**)(x) = prod_(i=1)^n (x-|bm A|x_i^-1)`.
-</p>
-
-<p class="proof">
-	计算知 `-a^-1 f(x_i) = -(Delta_(bm A)(x_i)-a)//(a x_i)`
-	`= x_i^-1`.
-	伴随矩阵的特征根类似.
-</p>
+  </li>
+  <li>
+    计算知 `-a^-1 f(x_i) = -(Delta_(bm A)(x_i)-a)//(a x_i)` `= x_i^-1`.
+    伴随矩阵的特征根类似.
+  </li>
+</ol>
 
 <p class="example">
 	设 `f(x) = x^3 - x^2 - 2x + 1` 的三个根分别为 `a, b, c`, 求
@@ -714,6 +704,12 @@
   从而线性变换在该基底下的矩阵为 `"diag"(lambda_i)`.
   反之, 若线性变换在某基底下的矩阵为 `"diag"(lambda_i)`,
   则该基底恰由 `cc A` 的 `n` 个线性无关的特征向量构成.
+</p>
+
+<p class="corollary">
+  若 `bm A` 可对角化,
+  则它的相似矩阵、逆矩阵、伴随矩阵 (当 `bm A` 可逆)、多项式 `f(bm A)` 仍是可对角化的.
+  这是因为逆矩阵、伴随矩阵、矩阵多项式的特征向量不变, 而相似矩阵的特征向量相差一个可逆线性变换.
 </p>
 
 <p class="theorem">
@@ -977,7 +973,7 @@
   这里求得的 `bm Q` 是前一种方法求得的过渡矩阵 `bm P` 的逆.
 </p>
 
-<p class="example">
+<p class="example" id="exp-comp-triangular">
   任意复方阵 `bm A` 相似于一个上三角矩阵, 它的主对角线元素是 `bm A` 的各个特征值.
 </p>
 

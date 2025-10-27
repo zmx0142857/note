@@ -164,6 +164,15 @@ document.addEventListener('touchmove', preventDefault, { passive: false })
 document.removeEventListener('touchmove', preventDefault)
 ```
 
+获取当前触摸元素
+```js
+container.addEventListenter('pointermove', e => {
+  const { clientX, clientY } = e
+  // const target = e.target // 不行, 它永远是触摸开始时的元素
+  const target = document.elementFromPoint(clientX, clientY) // ok
+})
+```
+
 ### dom 查询
 
 获取包围矩形

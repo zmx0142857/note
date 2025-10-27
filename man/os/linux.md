@@ -134,6 +134,12 @@ file transfer protocol
 - `ffmpeg`: 视频处理工具
 - `vlc`, `mpv`, `totem`: 视频播放器
 - `timidity`, `timidity-interfaces-extra`: midi 播放器
+- `jhead`: 照片元信息管理
+  ```sh
+  $ jhead -ft photo.jpg           # 将文件修改日期设为 exif 日期
+  $ jhead -mkexif photo.jpg       # 创建 exif 头 (覆盖原有的 exif!)
+  $ jhead -ds2025:05:03 photo.jpg # 修改 exif 日期
+  ```
 
 ## 公式图表
 

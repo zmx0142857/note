@@ -636,6 +636,8 @@
 
 <h2>任意项级数</h2>
 
+<h3>Leibniz 判别法</h3>
+
 <p class="theorem">
 	<b>级数的两边夹法则</b>
 	若级数 `sum w_n` 与 `sum v_n` 均收敛,
@@ -675,6 +677,8 @@
     `S_(2n) = S_(2n+1) + u_(2n+1)`, 而 `u_(2n+1) to 0`.
   </li>
 </ol>
+
+<h3>Dirichlet 与 Abel 判别法</h3>
 
 <p class="lemma">
   <b>Abel 变换</b>
@@ -742,6 +746,59 @@
   `sum (-1)^n` 换成了部分和有界的 `sum v_n`.<br/>
   熟知收敛级数乘以常数因子仍收敛; Abel 判别法告诉我们,
   收敛级数乘以单调有界数列也仍收敛.
+</p>
+
+<h3>Kronecker 引理</h3>
+
+<p>[来自群友 Mouse]</p>
+
+<ol class="lemma">
+  <b>Abel 引理</b>
+  设 `u_n` 非负单减,
+  <li>若 `|sum_(k=1)^n v_k| le M`, 则 `|sum_(k=1)^n u_k v_k| le u_1 M`.</li>
+  <li>若 `|sum_(k=1)^n u_k v_k| le M`, 则 `u_n |sum_(k=1)^n v_k| le M`.</li>
+</ol>
+
+<p class="proof">
+  只证 1.
+  记 `S_n = sum_(k=1)^n v_k`, 作 Abel 变换:
+  <span class="formula align">
+    `|sum_(k=1)^n u_k v_k|`<br>
+    `= |u_n S_n - sum_(k=1)^(n-1) S_k Delta u_(k+1)|`<br>
+    `le u_n |S_n| + sum_(k=1)^(n-1) |S_k| (-Delta u_(k+1))`<br>
+    `le (u_n - sum_(k=1)^(n-1) Delta u_(k+1)) M`<br>
+    `= u_1 M`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Kronecker 引理</b>
+  设数列 `{u_n}` 单减趋于零, 级数 `sum_(n ge 1) u_n v_n` 收敛, 那么
+  `u_n` 与 `sum v_n` 的部分和的乘积趋于零:
+  <span class="formula">
+    `lim_(n to oo) u_n sum_(k=1)^n v_k = 0`.
+  </span>
+  注意条件中的 `u_n ge 0`, 但 `v_n` 的符号未做限制.
+  视觉上, Kronecker 引理将收敛级数中单调趋于零的部分提到求和号的外面, 其结果的极限变为零.
+  <br>
+  推论: 若 `u_n gt 0` 且 `{u_n}` 单增趋于无穷, 级数 `sum_(n ge 1) v_n` 收敛, 那么
+  <span class="formula">
+    `lim_(n to oo) 1/u_n sum_(k=1)^n u_k v_k = 0`.
+  </span>
+</p>
+
+<p class="proof">
+ `AA epsi gt 0`, 由于 `sum u_n v_n` 收敛, 存在 `N`, 对任意 `n ge N` 有
+ `|sum_(k=N)^n u_k v_k| le epsi`,
+ 应用 Abel 引理得到
+ <span class="formula">
+   `u_n |sum_(k=N)^n v_k| le epsi`.
+ </span>
+ 但 `u_n to 0`, 所以存在 `M`, 对任意 `n ge M` 有
+ <span class="formula">
+   `u_n |sum_(k=1)^(N-1) v_k| le epsi`.
+ </span>
+ 综合以上两式即得结论.
 </p>
 
 <h2>级数中的反例</h2>

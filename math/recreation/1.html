@@ -419,6 +419,63 @@ j(100) // [73, 9]
 	能放入 10 枚硬币的正方形的最小边长?
 </p>
 
+<p class="example">
+  <b>货架问题</b> [来自 P&amp;KU群群友 Lazy_Labs]
+  某商店只售卖一种货物. 第一天开始时刻, 店里有若干货架, 每个货架上恰有一件货物.
+  货物由店主分配给顾客, 顾客不能自主选择.
+  当某个货架上的货物卖完时, 就撤掉这个货架.
+  补货员会保证在第 `k` 天开始时刻, 每个未被撤掉的货架上有 `k` 件货物.
+  如果商店无货可卖就要关门.
+  现在假设你是店主, 为了保证商店不关门且每天都恰好卖出 `n` 件货物,
+  问第一天开始时店里至少要有多少货架?
+</p>
+
+<div class="solution p">
+  设第 `k` 天开始时刻, 商店里至少需要 `x_k` 个货架.
+  当天卖出 `n` 件货物后, 撤掉空货架, 剩下的货架应大于等于下一天需要的数量, 于是
+  <span class="formula">
+    `k x_k - n ge x_(k+1)`.
+  </span>
+  `x_k` 取满足上式的最小整数即可, 即:
+  <span class="formula">
+    `x_k = ceil((x_(k+1)+n)/k)`,<br>
+    `x_(n+1) = 1`.
+  </span>
+  接下来求解递推式, 先考虑连续情形:
+  <span class="formula">
+    `y_k = (y_(k+1)+n)/k`,<br>
+    `y_(n+1) = 1`.
+  </span>
+  两边同除以 `(k-1)!` 得到
+  <span class="formula">
+    `y_k/(k-1)! = y_(k+1)/k! + n/k!`,
+  </span>
+  于是
+  <span class="formula">
+    `y_k/(k-1)! = y_(n+1)/n! + n sum_(i=k)^n 1/i!`.
+  </span>
+  回到离散的情况,
+  我们猜想 `x_k = ceil(y_k)`, 并归纳证明:
+  从递推式容易看出 `x_k ge y_k`, 因此只需证 `x_k lt y_k+1`, 即证
+  <span class="formula">
+    `ceil((x_(k+1)+n)/k) lt (y_(k+1)+n)/k + 1`.
+  </span>
+  注意上式左边里面是 `1//k` 的整数倍,
+  再利用归纳假设 `x_(k+1) lt y_(k+1)+1` 就有
+  <span class="formula">
+    `"LHS" le (x_(k+1)+n)/k+(k-1)/k`
+    `lt (y_(k+1)+n)/k + 1`
+    `= "RHS"`.
+  </span>
+  于是 `x_k = ceil(y_k)`, 最终答案为
+  <span class="formula">
+    `x_1 = ceil(y_1)`
+    `= ceil(1/n! + n sum_(i=1)^n 1/i!)`.
+  </span>
+  <hr>
+  注: 运用两边夹取极限可知 `lim_(n to oo) x_1//n = "e"-1`.
+</div>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

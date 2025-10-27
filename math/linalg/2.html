@@ -955,6 +955,27 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
 </p>
 
 <p class="example">
+  [来自群友 mouse]
+  设 `bm A` 为方阵, `bm alpha` 是列向量, 求证
+  <span class="formula">
+    `|bm A, bm alpha; bm alpha^T, 0| = -bm alpha^T bm A^ast bm alpha`.
+  </span>
+</p>
+
+<p class="proof">
+  [来自群友 数学zz]
+  利用分块初等变换, 当 `bm A` 可逆时,
+  <span class="formula">
+    `|bm A, bm alpha; bm alpha^T, 0|`
+    `= |bm A, bm alpha; 0, -bm alpha^T bm A^-1, bm alpha|`
+    `= |bm A| * (- bm alpha^T bm A^-1 bm alpha)`
+    `= -bm alpha^T bm A^ast bm alpha`.
+  </span>
+  `bm A` 不可逆时应用摄动法, 取 `epsi` 使得 `epsi bm I - bm A` 可逆, 再令 `epsi to 0`.
+  由于行列式是其各个分量的连续函数, 所以在极限过程中等式仍成立.
+</p>
+
+<p class="example">
   [来自群友 柔, cmc2020 A 类初赛]
   有 `2n` 个实数, `n ge 2`. 任意去掉一个数, 剩下的数总能分成和相等的两部分, 证明这些数都是 `0`.
 </p>
