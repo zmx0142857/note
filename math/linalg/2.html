@@ -140,16 +140,24 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
     在 `D` 上任意选定 `k` 行
     `k` 列, 位于这些行和列的交点上的 `k^2` 个元素按原来的 "上下左右"
     的次序组成一个 `k` 阶行列式 `M`, 称为 `D` 的一个 <b>`k` 阶子式</b>.
+    设选取的行号与列号分别是 `i_1, cdots, i_k` 与 `j_1, cdots, j_k`, 这个 `k` 阶子式可以记为
+    <span class="formula">
+      `D(i_1, cdots, i_k; j_1, cdots, j_k)`.
+    </span>
   </li>
   <li>
     若 `k lt n`, 在 `D` 中划去这 `k` 行 `k` 列后,
     余下的元素按原来的次序组成一个 `n-k` 阶行列式 `N`,
     称为 `M` 在 `D` 中的<b>余子式</b>. 由定义, `M` 也是 `N` 的余子式,
     因此又称 `M, N` 为一对互余的子式.
+    设划去的行号与列号分别是 `i_1, cdots, i_k` 与 `j_1, cdots, j_k`, 这个 `n-k` 阶余子式可以记为
+    <span class="formula">
+      `hat D(i_1, cdots, i_k; j_1, cdots, j_k)`.
+    </span>
   </li>
   <li>
-    如果 `M` 的各行, 列在原行列式 `D` 中的指标为 `i_1, i_2, cdots, i_k`
-    和 `j_1, j_2, cdots, j_k`, 则称
+    如果 `M` 的各行, 列在原行列式 `D` 中的指标为 `i_1, cdots, i_k`
+    和 `j_1, cdots, j_k`, 则称
     <span class="formula">
       `(-1)^(sum_(t=1)^k (i_t + j_t)) N`
     </span>
@@ -508,7 +516,10 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
   推广: 设 `i_1 cdots i_s` 是不同的 `s` 列, `j_1 cdots j_s` 也是不同的 `s` 列,
   将 `bm A` 的第 `i_1 cdots i_s` 列分别换成 `bm C` 的第 `j_1 cdots j_s` 列,
   所得的行列式等于 `|bm B_s| * |bm A|`,
-  其中 `|bm B_s|` 是这样一个行列式: 它的第 `k` 行第 `l` 列元素等于 `bm B` 的第 `i_k` 行第 `j_l` 列元素.
+  其中 `|bm B_s|` 是 `|bm B|` 的 `s` 阶子式:
+  <span class="formula">
+    `|bm B_s| = |bm B|(i_1, cdots, i_s; j_1, cdots, j_s)`.
+  </span>
 </p>
 
 <ol class="proof">
@@ -546,8 +557,8 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
       `|b_(i_1 j_1), cdots, b_(i_1 j_s);
       vdots, ,vdots;
       b_(i_s j_1), cdots, b_(i_s j_s)|`
+      `= |bm B_s|`.
     </span>
-    但 `M_s` 的第 `k` 行第 `l` 列元素正好是 `b_(i_k j_l)`, 于是 `M_s = |bm B_s|`.
   </li>
 </ol>
 
@@ -896,43 +907,69 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
 	</span>
 </p>
 
-<p class="example">
-	设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 证明:
-	<span class="formula">
-		` |bm I_m - bm (AB)|
-		= |bm I_n, bm B; bm A, bm I_m|
-		= |bm I_m, bm A; bm B, bm I_n|
-		= |bm I_n - bm (BA)|`.
-	</span>
-	当 `m != n`, 此公式可以用于降阶.
-	如第一章的 Householder 矩阵的行列式为
-	<span class="formula">
-		`|bm I - 2 bm(alpha alpha^T)|`
-		`= |bm I - 2 bm(alpha^T alpha)|`
-		`= -1`.
-	</span>
-</p>
+<ol class="example">
+  <b>分块初等变换</b>
+  <li>
+    设 `bm C, bm D` 为方阵, 当 `bm C` 可逆时,
+    将第一行的 `-bm(A C)^-1` 倍加到第二行可得
+    <span class="formula">
+      `|bm C, bm B; bm A, bm D|`
+      `= |bm C, bm B; bm O, bm D - bm(A C)^-1 bm B|`
+      `= |bm C| |bm D - bm(A C)^-1 bm B|`
+    </span>
+  </li>
+  <li>
+    设 `bm alpha, bm beta` 为列向量, 证明:
+    <span class="formula">
+      `|bm C, bm beta; bm alpha^T, d|`
+      `= |bm C| d - bm alpha^T bm C^** bm beta`.
+    </span>
+  </li>
+  <li>
+    设 `bm A in bbb P^(m xx n)`, `bm B in bbb P^(n xx m)`, 证明:
+    <span class="formula">
+      ` |bm I_m - bm (AB)|
+      = |bm I_n, bm B; bm A, bm I_m|
+      = |bm I_m, bm A; bm B, bm I_n|
+      = |bm I_n - bm (BA)|`.
+    </span>
+    当 `m != n`, 此公式可以用于降阶.
+    如第一章的 Householder 矩阵的行列式为
+    <span class="formula">
+      `|bm I - 2 bm(alpha alpha^T)|`
+      `= |bm I - 2 bm(alpha^T alpha)|`
+      `= -1`.
+    </span>
+  </li>
+</ol>
 
 <ol class="proof">
-	<li>先证第一个等号. 由行列式的相关性质和矩阵的分块乘法,
-		<span class="formula">
-			` |bm I_m - bm (AB)|
-			= |bm I_n, bm O; bm O, bm I_m - bm (AB)|`
-			`= |bm I_n, bm O; -bm A, bm I_m|
-			  |bm I_n, bm B; bm A, bm I_m|
-			  |bm I_n, -bm B; bm O, bm I_m|
-			= |bm I_n, bm B; bm A, bm I_m|`.
-		</span>
-		类似可以证明第三个等号.
-	</li>
-	<li>再证第二个等号.
-		先交换左边行列式的前 `n` 列与后 `m` 列, 得到
-		`|bm B, bm I_n; bm I_m, bm A|`.
-		这可以通过把后 `m` 列逐列前移 `n` 个位置得到, 因此需要交换 `mn`
-		次. 再交换它的前 `n` 行与后 `m` 行来得到右边的行列式; 同样需要
-		`mn` 次交换. 由于交换行/列的次数是偶数, 行列式的值不变.
-	</li>
+  <li>显然.</li>
+  <li>
+    当 `bm C` 可逆时, 由 1 得
+    <span class="formula">
+      `|bm C, bm beta; bm alpha^T, d|`
+      `= |bm C| (d - bm alpha^T bm C^-1 bm beta)`
+      `= |bm C| d - bm alpha^T (epsi bm I + bm C)^** bm beta`.
+    </span>
+    `bm C` 不可逆时应用摄动法, 取 `epsi` 使得 `epsi bm I + bm C` 可逆, 得到等式
+    <span class="formula">
+      `|epsi bm I + bm C, bm beta; bm alpha^T, d|`
+      `= |epsi bm I + bm C| d - bm alpha^T bm C^** bm beta`.
+    </span>
+    再令 `epsi to 0`. 注意上式左右两边均是 `epsi` 的多项式, 因此关于 `epsi` 连续,
+    故在极限过程中等式仍成立.
+  </li>
+  <li>
+    第一、三个等号由分块初等变换可得; 再证第二个等号.
+    先交换左边行列式的前 `n` 列与后 `m` 列, 得到
+    `|bm B, bm I_n; bm I_m, bm A|`.
+    这可以通过把后 `m` 列逐列前移 `n` 个位置得到, 因此需要交换 `mn`
+    次. 再交换它的前 `n` 行与后 `m` 行来得到右边的行列式; 同样需要
+    `mn` 次交换. 由于交换行/列的次数是偶数, 行列式的值不变.
+  </li>
 </ol>
+
 
 <ol class="example">
 	正交矩阵 `bm A` 满足 `bm(A^T A) = bm I`, 取行列式知 `|bm A|^2 = 1`.
@@ -952,27 +989,6 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
 	</span>
 	从而 `|bm A| gt 0`, 即 `|bm A| = 1`. 于是 `bm(A^T A) = bm I`,
 	`bm A` 为第一类正交矩阵.
-</p>
-
-<p class="example">
-  [来自群友 mouse]
-  设 `bm A` 为方阵, `bm alpha` 是列向量, 求证
-  <span class="formula">
-    `|bm A, bm alpha; bm alpha^T, 0| = -bm alpha^T bm A^ast bm alpha`.
-  </span>
-</p>
-
-<p class="proof">
-  [来自群友 数学zz]
-  利用分块初等变换, 当 `bm A` 可逆时,
-  <span class="formula">
-    `|bm A, bm alpha; bm alpha^T, 0|`
-    `= |bm A, bm alpha; 0, -bm alpha^T bm A^-1, bm alpha|`
-    `= |bm A| * (- bm alpha^T bm A^-1 bm alpha)`
-    `= -bm alpha^T bm A^ast bm alpha`.
-  </span>
-  `bm A` 不可逆时应用摄动法, 取 `epsi` 使得 `epsi bm I - bm A` 可逆, 再令 `epsi to 0`.
-  由于行列式是其各个分量的连续函数, 所以在极限过程中等式仍成立.
 </p>
 
 <p class="example">

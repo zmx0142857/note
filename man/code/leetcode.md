@@ -358,3 +358,28 @@ var prefix_function = (s) => {
   return pi
 }
 ```
+
+## 树
+
+### 并查集
+
+```js
+// set[i] >= 0 时, 指示 i 的父节点
+// set[i] < 0 时, 意味 i 是根节点, 其绝对值表示集合大小
+const set = Array(n).fill(-1)
+
+// 查找 i 的根节点
+const find = (i) => {
+  return set[i] < 0 ? i : (set[i] = find(set[i]))
+}
+
+// 把集合 j 并入集合 i
+const union = (i, j) => {
+  i = find(i)
+  j = find(j)
+  if (i === j) return
+  if (set[i] > set[j]) return union(j, i)
+  set[i] += set[j]
+  set[j] = i
+}
+```

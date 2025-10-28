@@ -35,7 +35,7 @@ var tocData = [
         "children": [
           { "value": "0", "label": "初等代数", "date": "2025-07-26" },
           { "value": "1", "label": "矩阵", "date": "2024-12-19" },
-          { "value": "2", "label": "行列式", "date": "2024-10-24" },
+          { "value": "2", "label": "行列式", "date": "2025-10-28" },
           { "value": "3", "label": "向量的相关性与线性方程组", "date": "2025-10-17" },
           { "value": "4", "label": "线性空间" },
           { "value": "5", "label": "线性映射与线性变换", "date": "2024-12-26" },

@@ -85,9 +85,9 @@
     </tr>
     <tr>
       <td>`bm A^ast`</td>
-      <td>`|bm A|lambda^-1`</td>
+      <td>`(-1)^(n-1)g(lambda)` [注]</td>
       <td>`bm x`</td>
-      <td>`bm A` 可逆</td>
+      <td>`bm A` 可逆时公式简化为 `|bm A|lambda^-1`</td>
     </tr>
     <tr>
       <td>`bm (T A T)^-1`</td>
@@ -96,7 +96,8 @@
       <td>特征向量相差一个可逆线性变换</td>
     </tr>
   </table>
-</p>
+  注: 特征多项式 `Delta_(bm A)(x) = x g(x) + (-1)^n |bm A|`.
+</div>
 
 <ol class="proof">
   设 `lambda` 为 `bm A` 的一个特征值, `bm x` 是对应的一个特征向量,
@@ -108,15 +109,17 @@
   <li>在等式 `bm(A x) = lambda bm(x)` 两边同时左乘
     `lambda^-1 bm A^-1` 得 `lambda^-1 bm x = bm(A^-1 x)`.
   </li>
-  <li>`bm A` 可逆时, `bm A^** = |bm A|bm A^-1`. 由 1, 2 即得结论.</li>
+  <li>`bm A` 可逆时, `bm A^** = |bm A|bm A^-1`. 由 1, 2 即得结论.
+    不可逆时, 需要将 `bm A^**` 写为 `bm A` 的多项式, 这将在<a class="ref" href="#the-a-poly"></a>
+    证明.
+  </li>
   <li>最后, `bm (T x)` 是  `bm (T A T)^-1` 的特征向量, 因为
     `bm (T A T)^-1 bm (T x)`
     `= bm (T A x)`
     `= lambda bm (T x)`.
   </li>
   <hr>
-  后面将证明 `bm A` 可逆时, `bm A^-1` 和 `bm A^ast` 均为 `bm A` 的多项式,
-  因此 2, 3 均是 1 的特殊情形.
+  后面将证明 `bm A^-1` 和 `bm A^ast` 均为 `bm A` 的多项式, 因此 2, 3 均是 1 的特殊情形.
 </ol>
 
 <h2>特征多项式</h2>
@@ -497,20 +500,29 @@
 	</span>
 </p>
 
-<p class="theorem">
-  若 `n` 阶方阵 `bm A` 可逆, 则 `bm A^-1`, `bm A^**` 可以表示为 `bm A` 的多项式.
-  `bm A` 不可逆时, `bm A^**` 可以表示为 `bm A` 的多项式吗??
+<p class="theorem" id="the-a-poly">
+  设 `bm A` 是 `n` 阶方阵. 则 `bm A^-1` (当 `bm A` 可逆) 和 `bm A^**` 可以表示为 `bm A` 的多项式.
 </p>
 
-<p class="proof">
-  令 `Delta_(bm A)(x) = x f(x) + a`, 由 `bm A` 可逆知,
-  `a = (-1)^n |bm A| != 0`. 于是由 Cayley-Hamilton 定理,
-  <span class="formula">
-    `bm A f(bm A) + a bm I = Delta_(bm A)(bm A) = bm O`,
-  </span>
-  即 `bm A^-1 = -a^-1 f(bm A)`.
-  从而 `bm A^** = |bm A| bm A^-1` 也能表示为 `bm A` 的多项式.
-</p>
+<ol class="proof">
+  <li>
+    当 `bm A` 可逆时, 令 `Delta_(bm A)(x) = x f(x) + a`,
+    `a = (-1)^n |bm A| != 0`. 于是由 Cayley-Hamilton 定理,
+    <span class="formula">
+      `bm A f(bm A) + a bm I = Delta_(bm A)(bm A) = bm O`,
+    </span>
+    即 `bm A^-1 = -a^-1 f(bm A)`.
+    从而 `bm A^** = |bm A| bm A^-1 = (-1)^(n-1) f(bm A)`.
+  </li>
+  <li>
+    当 `bm A` 不可逆时应用摄动法, 取 `epsi` 使得 `epsi bm I + bm A` 可逆, 有
+    <span class="formula">
+      `(epsi bm I + bm A)^** = (-1)^(n-1) f(epsi bm I + bm A)`.
+    </span>
+    上式两边的矩阵中的元素都是 `epsi` 的多项式, 从而关于 `epsi` 连续.
+    令 `epsi to 0` 即得结论.
+  </li>
+</ol>
 
 <p>
   现在我们利用特征多项式, 重新表述<a class="ref" href="#the-eigen-composite"></a>的结论:
