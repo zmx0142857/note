@@ -1,42 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>数学家</title>
+    <title>数学家与书</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<div id="container"></div>
+<script type="module">
+import { Table } from '../../js/vanilla-ui.js'
 
-<script src="../../js/note.js"></script>
-<script src="../../js/table.js"></script>
-<script>
-var mathematician = [
-  {name:'François Viète', cnname:'韦达', enname:'Vieta',
-    nationality:'法国', birth:1540, decease:1603},
-  {name:'Augustin-Louis Cauchy', cnname:'柯西', enname:'Cauchy',
-    nationality:'法国', birth:1789, decease:1857},
-  {name:'Georg Friedrich Bernhard Riemann', cnname:'黎曼',
-    enname:'Riemann', nationality:'德国', birth:1826, decease:1866},
-  {name:'Johann Carl Friedrich Gauss', cnname:'高斯',
-    enname:'Gauss', nationality:'德国', birth:1777, decease:1855},
-  {name:'Leonhard Euler', cnname:'欧拉', enname:'Euler',
-    nationality:'瑞士', birth:1707, decease:1783},
-  {name:'Gottfried Wilhelm Leibniz', cnname:'莱布尼茨', enname:'Leibniz',
-    nationality:'德国', birth:1646, decease:1716},
-  {name:'Issac Newton', cnname:'牛顿', enname:'Newton',
-    nationality:'英国', birth:1642, decease:1726},
-  {name:'René Descartes', cnname:'笛卡儿', enname:'Descartes',
-    nationality:'法国', birth:1596, decease:1650},
+const mathematician = [
+  {name:'François Viète', cnname:'韦达', enname:'Vieta', nationality:'法国', birth:1540, decease:1603},
+  {name:'Augustin-Louis Cauchy', cnname:'柯西', enname:'Cauchy', nationality:'法国', birth:1789, decease:1857},
+  {name:'Georg Friedrich Bernhard Riemann', cnname:'黎曼', enname:'Riemann', nationality:'德国', birth:1826, decease:1866},
+  {name:'Johann Carl Friedrich Gauss', cnname:'高斯', enname:'Gauss', nationality:'德国', birth:1777, decease:1855},
+  {name:'Leonhard Euler', cnname:'欧拉', enname:'Euler', nationality:'瑞士', birth:1707, decease:1783},
+  {name:'Gottfried Wilhelm Leibniz', cnname:'莱布尼茨', enname:'Leibniz', nationality:'德国', birth:1646, decease:1716},
+  {name:'Issac Newton', cnname:'牛顿', enname:'Newton', nationality:'英国', birth:1642, decease:1726},
+  {name:'René Descartes', cnname:'笛卡儿', enname:'Descartes', nationality:'法国', birth:1596, decease:1650},
   {name:'Girard Desargues', cnname:'笛沙格', enname:'Desargues', nationality:'法国', birth:1591, decease:1661},
   {name:'Blaise Pascal', cnname:'帕斯卡', enname:'Pascal', nationality:'法国', birth:1623, decease:1662},
-  {name:'Thomas Bayes', cnname:'贝叶斯', enname:'Bayes',
-    nationality:'英国', birth:1702, decease:1761},
-  {name:'Joseph-Louis Lagrange', cnname:'拉格朗日', enname:'Lagrange',
-    nationality:'法国', birth:1736, decease:1813},
-  {name:'Vilfredo Federico Damaso Pareto', cnname:'帕累托',
-    enname:'Pareto', nationality:'意大利', birth:1848, decease:1923},
+  {name:'Thomas Bayes', cnname:'贝叶斯', enname:'Bayes', nationality:'英国', birth:1702, decease:1761},
+  {name:'Joseph-Louis Lagrange', cnname:'拉格朗日', enname:'Lagrange', nationality:'法国', birth:1736, decease:1813},
+  {name:'Vilfredo Federico Damaso Pareto', cnname:'帕累托', enname:'Pareto', nationality:'意大利', birth:1848, decease:1923},
   {name:'Brook Taylor', cnname:'泰勒', enname:'Taylor', nationality:'英国', birth:1685, decease:1731},
   {name:'Richard Dedekind', cnname:'戴德金', enname:'Dedekind', nationality:'德国', birth:1831, decease:1916},
   {name:'Peter Gustav Lejeune Dirichlet', cnname:'狄利克雷', enname:'Dirichlet', nationality:'德国', birth:1805, decease:1859},
@@ -96,32 +83,83 @@ var mathematician = [
   {name:'P. L. Sylow', enname:'Sylow', cnname:'西罗', nationality:'挪威', birth:1832, decease:1918},
   {name:'Felix Christian Klein', enname:'Klein', cnname:'克莱因', nationality:'德国', birth:1849, decease:1925},
   {name:'Leopold Kronecker', enname:'Kronecker', cnname:'克罗内克', nationality:'德国', birth:1823, decease:1891},
-  {name:'Serge Lang', enname:'Serge Lang', cnname:'塞尔日·兰', nationality:'法国→美国', birth:1927, decease:2005, remark:'绰号：色之狼、萨日朗，曾将黎曼猜想留作习题，也曾与人打赌几周写一本教材'},
+  {name:'Serge Lang', enname:'Serge Lang', cnname:'塞尔日·兰', nationality:'法国→美国', birth:1927, decease:2005},
   {name:'いわさわ けんきち', enname:'Kenkichi Iwasawa', cnname:'岩泽健吉', nationality:'日本', birth: 1917, decease:1998},
-];
+  {name:'Hermann Günther Graßmann', enname:'Grassmann', cnname:'格拉斯曼', nationality:'德国', birth:1809, decease:1877},
+]
 
-function getYear(y) {
+const books = [
+  { "course": "数学分析", "title": "微积分学教程", "author": "菲赫金哥尔茨", "remark": "又称菲砖，丰厚详实，适合入门", "difficulty": "⭐⭐" },
+  { "course": "数学分析", "title": "数学分析", "author": "B. A. Zorich (卓里奇)", "remark": "观点较高", "difficulty": "⭐⭐⭐" },
+  { "course": "数学分析", "title": "数学分析原理", "author": "Walter Rudin (卢丁)", "remark": "又称 Baby Rudin，简洁严谨", "difficulty": "⭐⭐⭐⭐" },
+  { "course": "实分析、复分析", "title": "实分析与复分析", "author": "Walter Rudin (卢丁)", "remark": "又称 Big Rudin", "difficulty": "⭐⭐⭐⭐" },
+  { "course": "泛函分析", "title": "泛函分析", "author": "Walter Rudin (卢丁)", "remark": "Rudin 分析三部曲的终曲", "difficulty": "⭐⭐⭐⭐" },
+  { "course": "泛函分析", "title": "泛函分析讲义", "author": "张恭庆", "remark": "经典中文教材", "difficulty": "⭐⭐⭐" },
+  { "course": "分析学", "title": "Analysis", "author": "Herbert Amann", "remark": "体系完整，适合深入学习", "difficulty": "⭐⭐⭐⭐⭐" },
+  { "course": "复分析", "title": "[GTM103] Complex Analysis", "author": "Serge Lang (塞尔日·兰)", "remark": "将黎曼猜想留作习题", "difficulty": "⭐⭐⭐" },
+  { "course": "复分析", "title": "Complex Analysis", "author": "Elias M. Stein", "difficulty": "⭐⭐", "remark": "名校教材，大师力作，起点低" },
+  { "course": "实分析", "title": "Real Analysis", "author": "Elias M. Stein, Rami Shakarchi", "difficulty": "⭐⭐", "remark": "名校教材，大师力作，起点低" },
+  { "course": "调和分析", "title": "Harmonic Analysis: A Comprehensive Course, Part 3", "author": "Barry Simon", "remark": "美国数学会经典影印系列", "difficulty": "⭐⭐⭐⭐" },
+  { "course": "线性代数", "title": "Linear Algebra Done Right", "author": "Sheldon Axler", "remark": "经典美式教材", "difficulty": "⭐⭐" },
+  { "course": "线性代数", "title": "高等代数", "author": "丘维声", "remark": "又称丘砖，经典国内教材", "difficulty": "⭐⭐" },
+  { "course": "代数学", "title": "代数学引论", "author": "А.И.柯斯特利金", "remark": "经典教材，内容全面", "difficulty": "⭐⭐⭐" },
+  { "course": "抽象代数", "title": "代数学引论", "author": "聂灵沼, 丁石孙", "difficulty": "⭐⭐", "remark": "经典中文代数教材" },
+  { "course": "抽象代数", "title": "Basic Algebra", "author": "Nathan Jacobson", "difficulty": "⭐⭐⭐", "remark": "经典教材" },
+  { "course": "群表示论", "title": "群表示论", "author": "丘维声", "difficulty": "⭐⭐⭐", "remark": "细致解剖麻雀，自然引出概念，适合入门" },
+  { "course": "交换代数", "title": "Introduction to Commutative Algebra", "author": "M.F. Atiyah, I.G. Macdonald", "difficulty": "⭐⭐⭐", "remark": "交换代数经典入门教材" },
+  { "course": "交换代数", "title": "交换代数基础", "author": "冯克勤", "difficulty": "⭐⭐⭐", "remark": "讲述交换代数的基本理论和方法，为代数数论和代数几何提供工具" },
+  { "course": "代数数论", "title": "代数数论讲义", "author": "冯克勤", "difficulty": "⭐⭐⭐", "remark": "经典中文教材" },
+  { "course": "拓扑学", "title": "拓扑学", "author": "James R. Munkres", "difficulty": "⭐⭐", "remark": "系统讲解拓扑学理论知识，被美国大学作为教材近20年" },
+  { "course": "拓扑学", "title": "基础拓扑学讲义", "author": "尤承业", "difficulty": "⭐⭐⭐", "remark": "内容精炼，覆盖点集拓扑与代数拓扑基础" },
+  { "course": "代数拓扑", "title": "Algebraic Topology", "author": "Allen Hatcher", "difficulty": "⭐⭐⭐⭐", "remark": "经典教材，例子丰富，叙述详细" },
+  { "course": "微分几何", "title": "微分几何入门与广义相对论", "author": "梁灿彬, 周彬", "difficulty": "⭐⭐", "remark": "物理背景，低起点，深入浅出" },
+  { "course": "微分几何", "title": "An Introduction to Manifolds", "author": "Loring W. Tu", "difficulty": "⭐⭐", "remark": "入门教材，例子生动，讲解清晰" },
+  { "course": "微分几何", "title": "[GTM218] Introduction to Smooth Manifolds", "author": "John Lee", "difficulty": "⭐⭐⭐", "remark": "GTM 系列，经典权威" },
+  { "course": "微分几何", "title": "流形与几何初步", "author": "梅加强", "difficulty": "⭐⭐⭐⭐", "remark": "中文教材，从流形基础讲到现代几何重要成果，如Gauss-Bonnet-Chern公式等" },
+  { "course": "概率论", "title": "概率论基础", "author": "李贤平", "difficulty": "⭐", "remark": "经典国内教材" },
+  { "course": "概率论", "title": "概率论基础教程", "author": "Sheldon M. Ross", "difficulty": "⭐", "remark": "世界各国高校广泛采用，通过大量例子讲述概率论基础知识" },
+  { "course": "概率论", "title": "应用随机过程：概率模型导论", "author": "Sheldon M. Ross", "difficulty": "⭐⭐", "remark": "实例丰富，涉及多学科各种概率模型，叙述深入浅出" },
+  { "course": "课外读物", "title": "数学女孩", "author": "结城浩", "difficulty": "⭐", "remark": "以小说对话生动讲解数论、组合数学等概念，适合中学生" },
+  { "course": "课外读物", "title": "数论I：Fermat的梦想和类域论", "author": "加藤和也、黑川信重、斋藤毅", "difficulty": "⭐⭐⭐⭐", "remark": "日本现代数学丛书经典，从费马大定理出发深入类域论核心内容，需要扎实的代数和数论基础" },
+  { "course": "课外读物", "title": "Visual Group Theory", "author": "Nathan Carter", "difficulty": "⭐", "remark": "通过彩色图表和对称性可视化展示群论概念，极大降低抽象代数入门门槛，适合群论初学者建立几何直观" },
+  { "course": "课外读物", "title": "Visual Complex Analysis", "author": "Tristan Needham", "difficulty": "⭐⭐", "remark": "复分析可视化经典，用几何视角重新诠释复分析定理，避免过度形式化证明，强调物理直观和几何意义" },
+  { "course": "课外读物", "title": "Visual Differential Geometry and Forms", "author": "Tristan Needham", "difficulty": "⭐⭐", "remark": "Needham可视化系列续作，延续几何直观风格，通过物理视角和丰富图解阐述微分几何与形式理论，将抽象概念具象化，适合在传统教材之外提供深刻理解" },
+  { "course": "课外读物", "title": "具体数学", "author": "葛立恒、高德纳", "difficulty": "⭐", "remark": "主要是组合数学与算法" },
+  { "course": "课外视频", "title": "3Blue1Brown 系列视频", "author": "3Blue1Brown", "difficulty": "⭐", "remark": "自创 manim 渲染引擎，用生动的视频将数学可视化，适合中学生" },
+  { "course": "课外galgame", "title": "恋与数学之心", "author": "群友 近乎幂零群", "difficulty": "⭐⭐", "remark": "看似平凡的小镇中学其实卧虎藏龙，作为男主角的你将与她们展开怎么惊心动魄的恋情呢？" },
+]
+
+
+const getYear = (y) => {
   if (typeof y === 'string') return y
   if (!Number.isFinite(y)) return '??'
   if (y < 0) return '前' + (-y)
   return y
 }
 
-Table.create({
-  parent: document.querySelector('#container'),
-  data: mathematician,
+Table({
+  title: '数学家',
   columns: [
-    'cnname', 'enname', 'nationality',
-    function() {
-      return getYear(this.birth) + '-' + getYear(this.decease)
-    },
-    'name'
+    { label: '中文名', key: 'cnname' },
+    { label: '英文名', key: 'enname' },
+    { label: '国籍', key: 'nationality' },
+    { label: '生卒', key: 'birth-decease', render: (_, item) => getYear(item.birth) + '-' + getYear(item.decease) },
+    { label: '全名', key: 'name' },
   ],
-  heads: ['中文名', '英文名', '国籍', '生卒', '全名'],
-  sortBy: 'birth',
-});
+  data: mathematician.sort((x, y) => x.birth - y.birth)
+})
+
+Table({
+  title: '数学书',
+  columns: [
+    { label: '课程', key: 'course' },
+    { label: '书名', key: 'title' },
+    { label: '作者', key: 'author' },
+    { label: '难度 (仅供参考)', key: 'difficulty' },
+    { label: '备注', key: 'remark' },
+  ],
+  data: books,
+})
 </script>
-
 </body>
-
 </html>

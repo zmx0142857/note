@@ -380,16 +380,15 @@
   记 `x(t) ~ X(s)`, `f(t) ~ F(s)`,
   Laplace 变换将方程变为
   <span class="formula align">
-    `X(s) sum_(k=0)^n a_k s^k`<br>
-    `= F(s) + sum_(k=0)^n a_k sum_(j=0)^(k-1) x^((j))(0) s^(k-1-j)`<br>
-    `= F(s) + sum_(j=0)^(n-1) x^((j))(0) sum_(k=j+1)^n a_k s^(k-1-j)`<br>
-    `= F(s) + sum_(j=1)^n x^((j-1))(0) sum_(k=j)^n a_k s^(k-j)`.
+    `X(s) sum_(k=0)^n a_k s^k`
+    `= F(s) + sum_(k=0)^(n-1) a_(k+1) sum_(j=0)^k x^((k-j))(0) s^j`<br>
+    `= F(s) + sum_(j=0)^(n-1) s^j sum_(k=j)^(n-1) a_(k+1) x^((k-j))(0)`.
   </span>
-  记 `p_j(x) = sum_(k=j)^n a_k s^(k-j)`, 上式可以写成
+  即
   <span class="formula">
-    `X(s) p_0(s) = F(s) + sum_(j=1)^n x^((j-1))(0) p_j(s)`.
+    `X(s) P(s) = F(s) + Q(s)`, `quad P, Q` 为多项式.
   </span>
-  解出 `X(s)` 后, 适当分解分式, 再作 Laplace 逆变换解出 `x(t)`
+  解出 `X(s)` 后, 适当分解分式, 再作 Laplace 逆变换解出 `x(t)`.
 </p>
 
 <p class="example">

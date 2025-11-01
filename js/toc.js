@@ -25,7 +25,7 @@ var tocData = [
           { "value": "3", "label": "不等式", "date": "2025-05-24" },
           { "value": "4", "label": "微积分不等式", "date": "2024-12-03" },
           { "value": "5", "label": "因式分解", "date": "2022-09-18" },
-          { "value": "6", "label": "数学家", "date": "2022-08-29" },
+          { "value": "6", "label": "数学家与书", "date": "2025-10-30" },
           { "value": "7", "label": "算术与进制", "date": "2022-02-06" }
         ]
       },
@@ -724,7 +724,7 @@ var tocData = [
           { "value": "pdf.md", "label": "PDF 工具集", "date": "2025-05-20" },
           { "value": "ps.md", "label": "Photoshop", "date": "2025-05-27" },
           { "value": "vim.md", "label": "Vim", "date": "2025-08-29" },
-          { "value": "chat.md", "label": "聊天软件", "date": "2025-09-29" },
+          { "value": "chat.md", "label": "聊天与协作", "date": "2025-09-29" },
         ],
       },
       {
@@ -747,6 +747,7 @@ var tocData = [
           { "value": "leetcode.md", "label": "LeetCode", "date": "2025-07-04" },
           { "value": "glsl.md", "label": "GLSL", "date": "2025-09-02" },
           { "value": "go.md", "label": "Go", "date": "2025-09-05" },
+          { "value": "gui.md", "label": "GUI", "date": "2025-11-01" },
         ]
       },
       {
