@@ -337,6 +337,27 @@ const createWorker = (src) => {
 export default createWorker
 ```
 
+### es module 命名冲突
+
+在 es module 中, 如果两个模块具有相同名字的组件, 会怎样呢?
+```js
+// a.js
+export const hello = () => 'AAA'
+
+// b.js
+export const hello = () => 'BBB'
+
+// main.js
+export * from './a.js'
+export * from './b.js'
+
+// index.js
+import { hello } from './main.js'
+
+console.log(hello())
+```
+- 截至 2025 年底, 新版浏览器原生、webpack、vite 均报错.
+- 旧版 webpack (5.25.1) 运行结果是 `AAA`, 但有一个警告.
 
 ## html
 

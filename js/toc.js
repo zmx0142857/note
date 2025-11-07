@@ -33,7 +33,7 @@ var tocData = [
         "value": "linalg",
         "label": "高等代数",
         "children": [
-          { "value": "0", "label": "初等代数", "date": "2025-07-26" },
+          { "value": "0", "label": "初等代数", "date": "2025-11-07" },
           { "value": "1", "label": "矩阵", "date": "2024-12-19" },
           { "value": "2", "label": "行列式", "date": "2025-10-28" },
           { "value": "3", "label": "向量的相关性与线性方程组", "date": "2025-10-17" },
@@ -289,7 +289,7 @@ var tocData = [
         "label": "数学游戏",
         "children": [
           { "value": "1", "label": "数学游戏", "date": "2025-08-16" },
-          { "value": "2", "label": "家庭理财", "date": "2025-05-15" }
+          { "value": "2", "label": "家庭理财", "date": "2025-11-07" }
         ]
       }
     ]
@@ -771,6 +771,7 @@ var tocData = [
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },
           { "value": "chart.md", "label": "图表", "date": "2025-03-06" },
+          { "value": "webpack.md", "label": "Webpack", "date": "2025-11-06" },
         ],
       },
       {

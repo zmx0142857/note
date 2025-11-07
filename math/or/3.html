@@ -50,6 +50,9 @@
 
 <ol class="remark">
   求解整数规划的简单思路
+  <li><b>暴力穷举</b>
+    当可行域只有很少的整数点时, 直接穷举是最有效的方法.
+  </li>
   <li><b>取整法</b>
     先无视整数约束, 求解对应的连续优化问题 (松弛问题), 再对所得的解进行舍入得到一个整数解.
     如果运气好, 松弛问题的解正好是整数解, 则我们就得到了整数规划的一个解.
@@ -60,6 +63,27 @@
     启发式算法的计算量通常很小, 但解的最优性难以保证.
   </li>
 </ol>
+
+<p class="example">
+  [来自群友 Rei] 求解整数规划
+  <span class="formula">
+    `min 25x + 20y + 25z`<br>
+    `"s.t. "350x + 260y + 370z ≥ 1800`<br>
+    `x + y + z ≤ 7`<br>
+    `x, y, z in ZZ_(ge 0)`.
+  </span>
+</p>
+
+<pre class="solution">
+# python 穷举
+min((25*x+20*y+25*z, x, y, z)
+  for x in range(8)
+  for y in range(8-x)
+  for z in range(8-x-y)
+  if 350*x+260*y+370*z &gt;= 1800
+)
+# (125, 0, 0, 5)
+</pre>
 
 <h2>全单模整数规划</h2>
 

@@ -67,10 +67,53 @@
   至于更复杂的情形, 可以用 Excel 的 IRR 函数完成计算.
 </p>
 
-<p class="example">
+<div class="p example">
   <b>个税计算</b>
-</p>
+  简单来说, 每年应纳税额 `y` 是这一年的应纳税所得额 `x` 的分段函数 (基于 2025 年税率):
+  <span class="formula">
+    `y = {
+      3% xx x, if x le 3.6 "万";
+      10% xx x - 2520, if 3.6 "万" lt x le 14.4 "万";
+      20% xx x - 16920, if 14.4 "万" lt x le 30 "万";
+      25% xx x - 31920, if 30 "万" lt x le 42 "万";
+      30% xx x - 52920, if 42 "万" lt x le 66 "万";
+      35% xx x - 85920, if 66 "万" lt x le 96 "万";
+      45% xx x - 181920, if x gt 96 "万"
+    :}`
+  </span>
+  <canvas id="img-tax-rate" width="400" height="300"></canvas>
+  其中应纳税所得额是由年收入进行各种扣除后得到的:
+  <span class="formula">
+    `x = max(0, "税前年收入" - "五险一金个人缴纳部分" - "专项附加扣除" - "当年在职月数" xx 5000)`.
+  </span>
+  注意上式的系数 5000, 这意味着月收入在 5000 元以下是免税的, 这称为<b>个税起征点</b>.
+</div>
+
+<ol class="example">
+  <b>医保知识</b>
+  <li>医保卡等于社保卡，全称社会保障卡。</li>
+  <li>医保卡中的资金，由医保基金统一管理，不能直接充值。</li>
+  <li>医保分为两种：企业职工医保和城乡居民医保。
+  </li>
+  <li>门诊预交金：看病前在医院预先缴纳的一笔钱。随着医保体系完善，2025 年起不再收取预交金。
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/plot.js"></script>
+<script>
+new Plot('img-tax-rate', { step: 0.1  })
+  .geometry({xmin: -1, xmax: 155, ymin: -1, ymax: 44}).axis({
+    xlabel: 'x (万元)', ylabel: 'y (万元)', xtick: 20, ytick: 5
+  })
+  .plot(x => x <= 3.6 ? x * 0.03
+    : x <= 14.4 ? x * 0.10 - 0.2520
+    : x <= 30 ? x * 0.20 - 1.6920
+    : x <= 42 ? x * 0.25 - 3.1920
+    : x <= 66 ? x * 0.30 - 5.2920
+    : x <= 96 ? x * 0.35 - 8.5920
+    : x * 0.45 - 18.1920
+  )
+</script>
 </body>
 </html>
