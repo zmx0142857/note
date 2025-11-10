@@ -121,7 +121,7 @@ class HomePageState extends State<HomePage> {
 - Flutter App stuck at "Running Gradle task 'assembleDebug'..."
   ```
   $ cd your_flutter_project/android
-  $ ./gradlew clean build
+  $ ./gradlew clean assembleDebug
   ```
   修改 `AndroidManifest.xml` 后, 也要重新运行 `./gradlew clean build`
 - 下载 gradle 失败
@@ -152,6 +152,30 @@ class HomePageState extends State<HomePage> {
   - 重启 app, 不要使用 hot reload
 - 修改 flutter.minSdkVersion
   - `flutter-sdk/packages/flutter_tools/gradle/src/main/groovy/flutter.groovy`
+- 第三方库缺少命名空间
+  ```
+  A problem occurred configuring project ':image_gallery_saver'.
+  > Could not create an instance of type com.android.build.api.variant.impl.LibraryVariantBuilderImpl.
+     > Namespace not specified. Specify a namespace in the module's build file: D:\app\pub-cache\hosted\pub.dev\image_gallery_saver-2.0.3\android\build.gradle. See https://d.android.com/r/tools/upgrade-assistant/set-namespace for information about setting the namespace.
+  ```
+  解决:
+  `android/build.gradle`
+  ```
+  subprojects {
+    // 修复一些第三方库未添加 namespace 的问题
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                if (namespace == null) {
+                    namespace project.group // 使用项目组名作为默认值
+                    println("✅ [自动修复] 设置命名空间: ${project.group}")
+                }
+            }
+        }
+    }
+  }
+  ```
+  [参考链接](https://juejin.cn/post/7472975606948511781)
 
 ### UI 布局
 
