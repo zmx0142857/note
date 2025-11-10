@@ -11,6 +11,9 @@
     $ go env -w GO111MODULE=on # 启用 go modules 功能
     $ go env -w GOPROXY=https://goproxy.cn,direct # 镜像
 
+
 ## 第三方库
 
 - [gin-jwt](https://github.com/appleboy/gin-jwt)
+- [fresh](https://github.com/pilu/fresh): `go install github.com/pilu/fresh@latest`
+- [swag](https://github.com/swaggo/swag): `go install github.com/swaggo/swag/cmd/swag@latest`

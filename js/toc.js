@@ -748,6 +748,7 @@ var tocData = [
           { "value": "glsl.md", "label": "GLSL", "date": "2025-09-02" },
           { "value": "go.md", "label": "Go", "date": "2025-09-05" },
           { "value": "gui.md", "label": "GUI", "date": "2025-11-01" },
+          { "value": "flutter.md", "label": "Flutter", "date": "2025-11-10" },
         ]
       },
       {
