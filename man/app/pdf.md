@@ -1,5 +1,12 @@
 # pdf 工具集
 
+https://sspai.com/prime/story/cli-utils-for-pdf-manipulations
+
+## 页面截取
+
+    $ pdfseparate -f 10 -l 20 input.pdf out/%03d.pdf
+    $ cd out && pdfunite *.pdf out.pdf
+
 ## 目录编辑
 
 [HareInWeed/pdf-toc](https://github.com/HareInWeed/pdf-toc)

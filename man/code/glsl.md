@@ -68,6 +68,13 @@ mix(random(i), random(i+1.), f); // 用折线连接
 mix(random(i), random(i+1.), smoothstep(0.0, 1.0, f)); // 用平滑曲线连接
 ```
 
+偏导数
+```
+dFdx(f) // 右边像素与该像素的差值
+dFdy(f) // 下面像素与该像素的差值
+fwidth(f) // 相当于 abs(dFdx(f)) + abs(dFdy(f))
+```
+
 rgb 与 hsl 转换
 ```
 // by Iñigo Quiles https://www.shadertoy.com/view/MsS3Wc

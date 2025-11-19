@@ -833,28 +833,27 @@
 </p>
 
 <p class="example">
-	<b>矩阵的秩因子分解 (rank factorization)</b>
-	令 `bm A in bbb F^(m xx n)`,
-	`r(bm A) = r`, 则存在 `bm B in bbb F^(m xx r)`, `bm C in bbb
-	F^(r xx n)` 使得 `r(bm B) = r(bm C) = r`,
-	`bm A = bm(B C)`.
+  <b>矩阵的秩因子分解 (rank factorization) 或 CR 分解</b>
+  令 `bm A_(m xx n)`, 的秩为 `r`,
+  则存在列满秩矩阵 `bm C_(m xx r)` 与行满秩矩阵 `bm R_(r xx n)`
+  使得 `bm A = bm(C R)`.
 </p>
 
 <p class="proof">
-	`r = 0` 时, `bm A = bm O`, 取 `bm B, bm C` 为零矩阵即可. 下设 `r gt
-	0`. 记 `bm A = (bm alpha_1, cdots, bm alpha_n)`.
-	不妨设 `bm A` 的前 `r` 列线性无关, 则后 `n-r` 列可以被前 `r`
-	列线性表出:
-	<span class="formula">
-		`bm alpha_(r+j) = sum_(i=1)^r c_(i j) bm alpha_i`,
-		`quad j = 1,2,cdots,n-r`.
-	</span>
-	将 `bm A` 的前 `r` 列组成的矩阵记为 `bm B`, 又记
-	<span class="formula">
-		`bm C_1 = (c_(i j))_(r xx (n-r))`,
-		`quad bm C = (bm I_r, bm C_1)`,
-	</span>
-	可以验证 `r(bm B) = r(bm C) = r`, 且 `bm A = bm(B C)`.
+  `r = 0` 时, `bm A = bm O`, 取 `bm C, bm R` 为零矩阵即可. 下设 `r gt 0`.
+  记 `bm A = (bm alpha_1, cdots, bm alpha_n)`.
+  不妨设 `bm A` 的前 `r` 列线性无关, 则后 `n-r` 列可以被前 `r`
+  列线性表出:
+  <span class="formula">
+    `bm alpha_(r+j) = sum_(i=1)^r r_(i j) bm alpha_i`,
+    `quad j = 1,2,cdots,n-r`.
+  </span>
+  将 `bm A` 的前 `r` 列组成的矩阵记为 `bm C`, 又记
+  <span class="formula">
+    `bm R_1 = (r_(i j))_(r xx (n-r))`,
+    `quad bm C = (bm I_r, bm r_1)`,
+  </span>
+  可以验证 `r(bm C) = r(bm R) = r`, 且 `bm A = bm(C R)`.
 </p>
 
 <ol class="example">

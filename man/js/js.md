@@ -1,6 +1,6 @@
 # JavaScript
 
-## number
+## Number
 
 ### max safe integer
 
@@ -19,6 +19,14 @@ value >> 0 // 转为 int32
 value >>> 0 // 转为 uint32
 ```
 
+用于查找
+```js
+const index = arr.indexOf(item)
+if (~index) {
+  // index !== -1
+}
+```
+
 该用 `Math.floor` 的地方不要偷懒
 ```js
 4294967295 | 0 // 坏了, -1
@@ -29,7 +37,7 @@ Math.floor(4294967295) // 正确, 4294967295
 
 推荐使用 `parseFloat`, 更仔细的写法参见 [builtin.js](https://www.npmjs.com/package/@zmx0142857/builtin) 的 `toNumber` 函数.
 
-## string
+## String
 
 ### join
 
@@ -48,11 +56,11 @@ JSON.parse('{"id":12345678901234567890}', (k, v, { source }) => {
 })
 ```
 
-## array
+## Array
 
 ```js
-Array(n).fill(0) // 用 0 填充数组
-[...Array(n)] // 用 undefined 填充数组
+Array(n).fill() // 用 undefined 填充数组
+[...Array(n)] // 同上
 [...Array(n).keys()] // [0..n-1]
 [...Array(m)].map(() => Array(n).fill(0)) // m 行 n 列的零矩阵
 ```
@@ -62,7 +70,26 @@ Array(n).fill(0) // 用 0 填充数组
 arr.at(-1)
 ```
 
-## object
+## Date
+
+```js
+new Date('2025-11-17') // UTC, ✅推荐使用
+new Date('2025/11/17') // 本地时间
+new Date('2025-11-17 00:00:00') // 本地时间
+new Date('2025/11/17 00:00:00') // 本地时间
+```
+
+> 建议总是使用 yyyy-mm-dd 的 UTC 格式，以避免时区相关的坑
+
+孩子们，历法是座屎山。如果你发现你的[时间偏差了 343 秒](https://www.cnblogs.com/thisiswhy/p/15623731.html)，那是因为 Asia/Shanghai 在 1900 和 1901 交界处发生过一次历史时区偏移，从 UTC+08:05:43 改成了 UTC+08:00:00
+```js
+new Date('1901-01-01').valueOf() - new Date('1900-12-31').valueOf() // 86400000, ok
+new Date('1901/01/01').valueOf() - new Date('1900/12/31').valueOf() // 86743000, wtf
+```
+[关于时区的更深入探讨](https://keng42.com/blog/article/timezone/)
+
+
+## Object
 
 ### 相等比较
 
@@ -218,6 +245,15 @@ window.open(url, '_blank') // 在新标签页中打开
 
 在浏览器, 使用 `Uint8Array`, 在 Node, 使用 `Buffer`
 
+使用 DataView 读取字节内容:
+```js
+const arr = new Uint8Array([1, 1, 4, 5, 1, 4])
+const view = new DataView(arr.buffer)
+const offset = 0
+const littleEndian = true
+const num = view.getUint32(offset, littleEndian)
+```
+
 ### worker
 
 原生 worker
@@ -259,7 +295,7 @@ const wrapper = Comlink.wrap(worker)
 await wrapper.hello()
 ```
 
-模拟 comlink (利用 Proxy)
+[builtin.js](https://www.npmjs.com/package/@zmx0142857/builtin) 中的 worker 封装 (利用 Proxy):
 ```html
 <script id="worker" type="worker">
 exports({
@@ -271,70 +307,9 @@ exports({
 import createWorker from './worker.js'
 const src = document.querySelector('#worker').textContent
 const worker = createWorker(src, { name: 'my-worker' })
-worker.proxy.hello().then(console.log)
+const { proxy } = worker
+proxy.hello().then(console.log)
 </script>
-```
-
-`worker.js`
-```
-const proxyWorker = (worker) => {
-  const callbacks = {}
-  let id = 0
-
-  worker.addEventListener('message', e => {
-    console.log('[main]', e.data)
-    const { key, res, id } = e.data
-    const fn = callbacks[id]
-    if (fn) fn(res)
-  })
-
-  worker.addEventListener('error', console.error)
-
-  return new Proxy({}, {
-    get (obj, key) {
-      return (...args) => new Promise(resolve => {
-        callbacks[id] = resolve
-        worker.postMessage({
-          key,
-          args,
-          id: id++,
-        })
-      })
-    },
-  })
-}
-
-const header = `const exports = (obj) => {
-  self.addEventListener('message', async e => {
-    console.log('[worker]', e.data)
-    const { key, args, id } = e.data
-    if (typeof obj[key] === 'function') {
-      const res = await obj[key](...args)
-      self.postMessage({ key, res, id })
-    }
-  })
-}
-`
-
-/**
- * 创建 worker 线程
- * @param {string} src 源码
- * @param {object} options
- * @param {'classic' | 'module'} options.type
- * @param {'omit' | 'same-origin' | 'include'} options.credentials
- * @param {string} options.name
- */
-const createWorker = (src) => {
-  const worker = new Worker(
-    window.URL.createObjectURL(
-      new Blob([header + src])
-    )
-  )
-  worker.proxy = proxyWorker(worker)
-  return worker
-}
-
-export default createWorker
 ```
 
 ### es module 命名冲突
@@ -358,6 +333,13 @@ console.log(hello())
 ```
 - 截至 2025 年底, 新版浏览器原生、webpack、vite 均报错.
 - 旧版 webpack (5.25.1) 运行结果是 `AAA`, 但有一个警告.
+
+### 内存占用情况
+
+除了使用开发者工具外, Chrome 和 Edge 还提供了 performance api:
+```js
+console.log(performance.memory)
+```
 
 ## html
 

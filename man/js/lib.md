@@ -14,6 +14,8 @@
   ```
   $ serve -L -l 1234 &
   ```
+- ky: 浏览器端的 http 请求库
+- got: node js 端的 http 请求库
 
 ### 数据
 

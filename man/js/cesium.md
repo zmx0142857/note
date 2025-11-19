@@ -127,6 +127,16 @@ const setView = (camera, { position, modelMatrix, distance = 100, heading = 0, p
     }
   })
 }
+
+// 让相机对准模型, 官方版本
+viewer.zoomTo(
+  tileset,
+  new Cesium.HeadingPitchRange(
+    Cesium.Math.toRadians(0.0),
+    Cesium.Math.toRadians(-15.0),
+    200.0,
+  ),
+);
 ```
 
 ### Entity
@@ -1296,6 +1306,7 @@ tileset.style = new Cesium.Cesium3DTileStyle({
 ### 第三方库
 
 - [gcoord](https://www.npmjs.com/package/gcoord): 地图坐标系转换, 支持 geojson
+- turf: 地理信息运算
 
 ### 案例
 

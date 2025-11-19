@@ -112,6 +112,8 @@ class HomePageState extends State<HomePage> {
 }
 ```
 
+    $ flutter build apk --release # 发布 apk
+
 ## Trouble Shooting
 
 ### 运行调试

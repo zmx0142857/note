@@ -13,6 +13,7 @@ web 端流行的 3d 库.
 - [the book of shaders](https://thebookofshaders.com/): shader 入门教程
 - [shadertoy](https://www.shadertoy.com/)
 - [iq 大佬的图形学 blog](https://www.iquilezles.org/)
+- [threehub](https://threehub.cn/#/example): three.js 案例库
 
 **工具**
 
@@ -153,11 +154,11 @@ const cube = app.mesh({
   },
 })
 app.add(cube)
+// app.needsUpdate.push(cube) // app.add(cube) 会自动添加 cube 到 needsUpdate 数组中, 无需手动添加
 
 app.ambient() // 环境光
 app.sun() // 平行光
 app.orbitControl() // 控制器
-app.needsUpdate.push(cube) // 需要更新的对象
 
 // 动画循环
 app.animate(() => {
@@ -631,3 +632,21 @@ mesh.geometry.computeBoundsTree()
       tileset.setResolution(camera, canvas.width * dpr | 0, canvas.height * dpr | 0)
     }
     ```
+- 监听 canvas 键盘事件: 需要设置 [tabindex](https://threejs.org/manual/#en/tips#tabindex)
+  ```html
+  <style>
+  canvas:focus {
+    outline: none;
+  }
+  </style>
+  <canvas tabindex="0"></canvas>
+  ```
+- [premultiplied alpha](https://zhuanlan.zhihu.com/p/344751308)
+  - 假定渲染目标 renderTarget 上有一个目标像素, 其颜色为 `(rgb_dst, a_dst)`
+  - 我们要将一个半透明颜色 `(rgb_src, a_src)` 与目标像素混合, 得到最终颜色 `(rgb_res, a_res)`
+  - 如果简记 `rgb' = rgb * a`, 最终颜色的公式为
+    ```
+    rgb_res' = rgb_src' + rgb_dst' * (1 - a_src)
+    a_res = a_src + a_dst * (1 - a_src) = lerp(a_dst, 1, a_src)
+    ```
+  - 在公式中, 我们将 rgb 与 a **预先相乘**, 这就是 premultiplied alpha 这个名字的由来
