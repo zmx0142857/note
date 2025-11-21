@@ -94,6 +94,13 @@ vec3 rgb2hsl(in vec3 c) {
 }
 ```
 
+灰度
+```
+float grayscale(in vec3 c) {
+  return dot(c, vec3(0.299, 0.587, 0.114));
+}
+```
+
 函数绘制
 ```
 float plot(float f, float line_width) {

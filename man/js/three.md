@@ -431,6 +431,10 @@ THREE.Mesh.prototype.raycast = acceleratedRaycast
 mesh.geometry.computeBoundsTree()
 ```
 
+### ammo.js
+
+### cannon.js
+
 ## 常见问题
 
 - 页面一片漆黑, 看不见模型:

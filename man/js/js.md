@@ -56,6 +56,26 @@ JSON.parse('{"id":12345678901234567890}', (k, v, { source }) => {
 })
 ```
 
+## json stringify circular reference
+
+循环引用结构在序列化时会报错. 应对方法:
+```js
+const toJson = (obj, defaultValue) => {
+  const cache = new Set()
+  return JSON.stringify(obj, (k, v) => {
+    if (v instanceof Object) { // 参见 "何为对象"
+      if (cache.has(v)) return defaultValue
+      cache.add(v)
+    }
+    return v
+  })
+}
+
+const o = { get foo () { return o } }
+JSON.stringify(o) // Error
+toJson(o, null) // '{"foo":null}'
+```
+
 ## Array
 
 ```js
@@ -118,6 +138,13 @@ const isPlainObject = (obj) => {
 |`typeof obj === 'object' && obj !== null`|✅|✅||✅|
 |`Object.prototype.toString.call(obj) === '[object Object]'`|✅|||✅|
 |`isPlainObject(obj)`|✅||||
+
+- 什么不是对象: `"str"`, `1`, `true`, `null`, `undefined`
+- toStringTag 的用法:
+  ```js
+  obj = { [Symbol.toStringTag]: 'Foo' }
+  Object.prototype.toString.call(obj) // '[object Foo]'
+  ```
 
 ### 何为数组
 

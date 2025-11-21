@@ -476,6 +476,145 @@ j(100) // [73, 9]
   注: 运用两边夹取极限可知 `lim_(n to oo) x_1//n = "e"-1`.
 </div>
 
+<div class="p example">
+  <b>公平组合游戏与 SG 函数</b>
+  [来自 CCBC1314《奇怪的游戏》, <a href="https://oi-wiki.org/math/game-theory/impartial-game/" target="_blank">OI Wiki</a>]
+  以下都是公平组合游戏的例子:
+  <ol>
+    <li><b>Nim 游戏</b> 有 n 堆石子, 两名玩家轮流取走任意一堆中的任意多 (&ge; 1)
+      枚石子, 取走最后一枚石子的玩家获胜.
+    </li>
+    <li><b>雨露均沾</b>
+      有 n 堆石子, 两名玩家轮流操作, 每一回合可以取走一整堆石子,
+      或从每一堆石子中各取一枚, 取走最后一枚石子的玩家获胜.
+    </li>
+    <li><b>整除游戏 (或一般的偏序游戏)</b>
+      两名玩家轮流在 2 到 n 中选取整数, 每选一个数字,
+      就把这个数字及其所有倍数删除, 选走最后一个数字的玩家获胜.
+    </li>
+    <li><b>儿时的游戏</b>
+      初始时两名玩家各有 2 个数字 "1". 玩家轮流操作, 每一回合可以将对方的某个数字加到自己的某个数字上.
+      一旦自己的某个数字 &ge; 10, 就消掉这个数字. 先消掉手中所有数字的玩家获胜.
+    </li>
+  </ol>
+  公平组合游戏具有以下特点:
+  <ol>
+    <li>局面变化可以用<b>博弈图</b>来描述.
+      其中每个节点代表游戏的一个状态, 如果状态 B 是 A 的后继状态, 就在 AB 之间连一条边.
+      这张图是有向无环图, 即状态不会出现循环. 例如 Nim 游戏中石子数量是严格减少的.
+    </li>
+    <li>在每个状态下, 要么先手有<b>必胜策略</b>, 要么后手有必胜策略, 分别称为必胜状态和必败状态.
+      在公平组合游戏中, 没有后继的状态是必败状态. 一般地,
+      <span class="formula">
+        <span class="box">
+          一个状态是必胜状态, 当且仅当存在一个后继是必败状态.
+        </span>
+      </span>
+      利用这一准则, 我们可以通过遍历状态图来判定游戏的胜负.
+    </li>
+    <li>有些游戏 (如 Nim 游戏) 可以分解为多个独立<b>子游戏</b>.
+      玩家每回合只能在一个子游戏中移动一步, 如果在所有子游戏中都无法移动, 则游戏结束.
+      这些子游戏是相互独立的, 意味在一个子游戏中的移动不会改变其它子游戏的状态.
+    </li>
+  </ol>
+  <b>定义</b>
+  <ol>
+    <li><b>正常规则的有限公平组合游戏, 简称游戏</b> 定义为一张有向无环图, 附加一个初始状态: `G := (V, E, v_0)`.</li>
+    <li>两个<b>游戏的和</b>定义为 `G + H = (V, E, v_0)`, 其中顶点集是两个顶点集的笛卡尔积 `V := V_G xx V_H`.
+      边集定义为
+      <span class="formula">
+        `E := {((g_1, h_1), (g_2, h_2)): g_1 = g_2 and (h_1, h_2) in E_H or h_1 = h_2 and (g_1, g_2) in E_G}`.
+      </span>
+      即两个状态之间有边, 当且仅当其中一个状态分量相同, 而另一个分量之间有边.
+      初始状态定义为 `v_0 = (v_(0 G), v_(0 H))`.
+      可以看出 `G, H` 正是 `G + H` 的子游戏.
+    </li>
+    <li><b>游戏的等价</b> 给定两个游戏 `G_1, G_2`, 如果对任意游戏 `H`, 游戏 `G_1 + H` 和 `G_2 + H` 都同处于必胜状态或必败状态, 则称 `G_1, G_2` 等价, 记作 `G_1 ~~ G_2`. 可以验证这是一个等价关系.
+    </li>
+  </ol>
+  <b>推论</b>
+  <ol>
+    <li>对任意游戏 `G` 和任意必败游戏 `Z`, 都有 `G ~~ G + Z`.</li>
+    <li>两个游戏 `G ~~ H` 当且仅当 `G + H` 是必败游戏.</li>
+    <li>所有必败游戏都等价.</li>
+    <li>任意游戏 `G` 都等价于某个单堆 Nim 游戏.</li>
+  </ol>
+  <b>SG 函数</b>
+  <br>
+  设游戏 `G` 等价于石子数为 `n` 的单堆 Nim 游戏, 我们记 `SG(G) = n`,
+  称为游戏 `G` 的 <b>SG 函数 (Sprague-Grundy 函数)</b>.
+  注意游戏的定义中带有初始状态 `v_0`, 随着游戏进行, 状态在发生变化, 游戏也转化为另一个游戏了;
+  此时 SG 函数值也随之变化.
+  由于单堆 Nim 游戏必败, 当且仅当 `n = 0`.
+  我们得到判定游戏胜负的另一准则:
+  <span class="formula">
+    <span class="box">
+      一个游戏 `G` 是必败的, 当且仅当 `SG(G) = 0`.
+    </span>
+  </span>
+  具体计算时, 如果一个游戏可以分解为子游戏 (像多堆 Nim 游戏那样), 则该游戏的 SG 函数值等于子游戏的 SG 函数值的异或:
+  <span class="formula">
+    <span class="box">
+      `SG(G + H) = SG(G) o+ SG(H)`.
+    </span>
+  </span>
+  对于单个游戏, 它的 SG 函数值是所有后继状态的 SG 函数值的 mex 值:
+  <span class="formula">
+    <span class="box">
+      `SG(G) = "mex"{SG(H): H 是 G 的后继}`.
+    </span>
+  </span>
+  其中 `"mex"(A) := min{n in NN_(ge 0): n !in A}`, 即 `A` 中未出现的最小自然数.
+  然而该公式的复杂度仍是指数级的.
+</div>
+
+<div class="playground" value="2 3 4 5 6 7 8 9 10">
+<p>说明: 计算整除游戏的必胜策略.
+  输入当前状态 (场上所有数字),
+  输出 "必胜" 或 "必败".
+  如果当前状态是必胜, 则再输出一个必败的后继状态供参考.
+</p>
+<script type="text">
+function mex(arr) {
+  const s = new Set(arr)
+  for (let i = 0; i <= s.size; ++i) {
+    if (!s.has(i)) return i
+  }
+}
+
+const cache = {}
+function sg(state) {
+  const str = JSON.stringify(state)
+  if (cache[str]) return cache[str]
+  const p = next(state)
+  return cache[str] = mex(p.map(sg))
+}
+
+// 必胜策略就是使得对手必败的策略
+function best(state) {
+  return next(state).filter(v => !sg(v))
+}
+
+// 规则: 整除游戏
+function next(state) {
+  const res = []
+  state.forEach(v => {
+    res.push(state.filter(u => u % v))
+  })
+  return res
+}
+
+module.exports = (str) => {
+  const state = str.split(/\s+/).map(Number)
+  console.log(state)
+  const next = best(state)[0]
+  if (next) return '必胜, 下一步: ' + next.join(' ')
+  return '必败'
+}
+</script>
+</div>
+
 <script src="../../js/note.js?type=math"></script>
+<script src="../../js/playground.js"></script>
 </body>
 </html>
