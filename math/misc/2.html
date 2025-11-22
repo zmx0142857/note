@@ -306,30 +306,49 @@
 </span>
 
 <p class="proof">
-	余弦的和角公式:
-	考虑两个单位向量 `bm a = (cos x, sin x)`, `bm b = (cos y, sin y)`,
-	有
-	<span class="formula">
-		`cos (x-y)`
-		`= cos (:bm a, bm b:)`
-		`= (bm a * bm b)/(|bm a| |bm b|)`
-		`= bm a * bm b`
-		`= cos x cos y + sin x sin y`.
-	</span>
-	即 `cos(x-y) = cos x cos y + sin x sin y`.<br/>
-	正弦的和角公式:
-	<span class="formula">
-		`sin(x+y)`
-		`= cos(pi/2-x-y)`
-		`= cos(pi/2-x)cos y + sin(pi/2-x)sin y`
-		`= sin x cos y + cos x sin y`.
-	</span>
+  余弦的和角公式:
+  考虑两个单位向量 `bm a = (cos x, sin x)`, `bm b = (cos y, sin y)`, 有
+  <span class="formula">
+    `cos (x-y)`
+    `= cos (:bm a, bm b:)`
+    `= (bm a * bm b)/(|bm a| |bm b|)`
+    `= bm a * bm b`
+    `= cos x cos y + sin x sin y`.
+  </span>
+  正弦的和角公式:
+  <span class="formula">
+    `sin(x+y)`
+    `= cos(pi/2-x-y)`
+    `= cos(pi/2-x)cos y + sin(pi/2-x)sin y`
+    `= sin x cos y + cos x sin y`.
+  </span>
 </p>
 
-<p class="collapse">
+<div class="p proof">
+  <div class="img xs">
+    <img src="../img/sin-x-y.svg" alt="正弦和角公式">
+  </div>
+  运用正弦定理,
+  <span class="formula">
+    `sin(x+y)/c = cos x / b = cos y / a`.
+  </span>
+  代入 `c = a sin x + b sin y` 得到
+  <span class="formula">
+    `sin(x+y)`
+    `= c/b cos x`
+    `= (a/b sin x + sin y) cos x`.
+  </span>
+  再代入 `a/b = cos y/cos x` 就有
+  <span class="formula">
+    `sin(x+y) = sin x cos y + sin y cos x`.
+  </span>
+</div>
+
+<p class="remark">
   复数记忆. 分别考虑下式的实部和虚部:
   <span class="formula">
-    `cos(x+y) + "i" sin(x+y) = (cos x + "i" sin x)(cos y + "i" sin y)`.
+    `cos(x+y) + "i" sin(x+y)`
+    `= (cos x + "i" sin x)(cos y + "i" sin y)`.
   </span>
 </p>
 
@@ -527,7 +546,7 @@
 <h3>求和公式与乘积公式</h3>
 
 <p class="example">
-  [来自群友 幂零群]
+  [群友@幂零群]
   设 `omega = "e"^(2 pi "i"//n)`,
   将 `y = omega^j` 代入公式 `x^n - y^n = (x-y) sum_(k=0)^(n-1) y^k x^(n-1-k)` 得到:
   <span class="formula">
@@ -577,7 +596,7 @@
     `2 sum_(k=1)^n (-1)^(k-1) sin k x`
     `= tan (x//2) + (-1)^(n-1) sin(n x+x//2) // cos(x//2)`;
   </span>
-  [来自群友 菜鸟 Math] 乘因子 `2 sin{:pi/(2n+1):}` 得到
+  [群友@菜鸟 Math] 乘因子 `2 sin{:pi/(2n+1):}` 得到
   <span class="formula">
     `2 sum_(k=1)^n cos{:(2k-1)/(2n+1) pi:} = 1`,<br>
     `2 sum_(k=1)^n sin{:(2k-1)/(2n+1) pi:} = cot{:pi/(4n+2)`.
@@ -586,7 +605,7 @@
 
 <ol class="example">
   <b>正切、余切求和公式</b>
-  [来自 <a href="https://math.stackexchange.com/questions/346368/sum-of-tangent-functions-where-arguments-are-in-specific-arithmetic-series" target="_blank">stack exchange</a>]
+  [<a href="https://math.stackexchange.com/questions/346368/sum-of-tangent-functions-where-arguments-are-in-specific-arithmetic-series" target="_blank">stack exchange</a>]
   记 `theta_k = theta + (k pi)/n`, 则
   <li>`sum_(0 le k lt n) tan theta_k` `= n tan(n theta + (n-1)pi//2)`;<br>
     `n` 为奇数时, 等号右边等于 `n tan n theta`;
@@ -668,7 +687,7 @@
 </ol>
 
 <ol class="example">
-  [来自群友 我是薛定谔的猫]
+  [群友@我是薛定谔的猫]
   记 `theta_k = theta + (k pi)/n`, 则
   <li> `prod_(0 le k lt n) sin theta_k = 2^(1-n) sin n theta`;
   </li>
@@ -732,7 +751,7 @@
 </p>
 
 <p class="proof">
-  [来自 折棒]
+  [群友@折棒]
   记 `N = 2n+1`, 从三角形中的恒等式 `sum_"cyc" cot A cot B = 1` 出发,
   对全体满足 `a + b + c = N` 的正整数 `a, b, c` 求和, 用插空法得到
   <span class="formula">
@@ -763,7 +782,7 @@
 </p>
 
 <p class="example">
-  [来自 我是从物理群来潜伏的内鬼]
+  [群友@我是从物理群来潜伏的内鬼]
   `a, b in RR`, `n ge 2` 为正整数, 证明恒等式
   <span class="formula">
     `n sin(a + (n-2)b)/sin(n b)`
@@ -772,7 +791,7 @@
 </p>
 
 <ol class="proof">
-  [来自 COL]
+  [Nazo群友@COL]
   <li>记 `a-2b = c`, `n b = Y`, 左边等于
     <span class="formula">
       `n sin(c + Y)/sin Y`
@@ -984,7 +1003,7 @@
 </p>
 
 <ol class="theorem">
-  <b>带系数的几何不等式</b> [来自 <a href="http://blog.sina.cn/dpool/blog/s/blog_560882210100li8w.html" target="_blank">新浪博客</a>]
+  <b>带系数的几何不等式</b> [<a href="http://blog.sina.cn/dpool/blog/s/blog_560882210100li8w.html" target="_blank">新浪博客</a>]
   对任意正数 `x, y, z` 和三角形内角 `A, B, C` 有
   <li>
     <span class="formula">
@@ -1041,12 +1060,12 @@
 </p>
 
 <p class="example">
-  [来自群友 华夏独尊]
+  [群友@华夏独尊]
   在锐角三角形中, 证明 `sin A + sin B + sin C gt 2`.
 </p>
 
 <p class="proof">
-  [来自 Fran]
+  [@Fran]
   即求二元函数 `sin(A+B)+sin A+sin B` 在三角形区域 `0 le A le pi/2`, `0 le B le pi/2`, `A+B ge pi/2`
   的最小值.
   <br>
@@ -1089,12 +1108,12 @@
 </ol>
 
 <p class="example">
-  [来自群友 姒姒]
+  [群友@姒姒]
   斜三角形 `ABC` 中, `sin A = cos B`, 求 `cos A + cos B + cos C` 的取值范围.
 </p>
 
 <p class="solution">
-  [来自群友 stupidpig、fran]
+  [群友@stupidpig, @Fran]
   由 `sin A = cos B = sin(pi/2-B)` 知道 `A = pi/2-B` 或 `A = pi-(pi/2-B) = B + pi/2`.
   前一种情况是直角三角形, 不满足题目条件“斜三角形”. 因此
   <span class="formula">
@@ -1111,7 +1130,7 @@
 </p>
 
 <p class="example">
-  [来自群友 姒姒]
+  [群友@姒姒]
   三角形 `ABC` 中 `a^2+b^2=2019c^2`, 求 `(tanC)/(tanA)+(tanC)/(tanB)`.
 </p>
 
@@ -1910,7 +1929,7 @@
 </p>
 
 <p class="example">
-  [来自 我是费马的最后一页空白] 求
+  [群友@我是费马的最后一页空白] 求
   <span class="formula">
     `1/(sin 45^@ sin 46^@) + 1/(sin 47^@ + sin 48^@) + cdots`
     `+ 1/(sin 133^@ + sin 134^@)`.
@@ -1932,7 +1951,7 @@
 </p>
 
 <p class="example">
-  [来自 我是笨蛋的Always] 求 `f = cos x cos y + 2 cos x sin y + 2 sin x`
+  [群友@我是笨蛋的Always] 求 `f = cos x cos y + 2 cos x sin y + 2 sin x`
   的最值.
 </p>
 

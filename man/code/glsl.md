@@ -97,7 +97,7 @@ vec3 rgb2hsl(in vec3 c) {
 灰度
 ```
 float grayscale(in vec3 c) {
-  return dot(c, vec3(0.299, 0.587, 0.114));
+  return dot(c, vec3(0.299, 0.587, 0.114)); // 0.299 + 0.587 + 0.114 = 1.0
 }
 ```
 

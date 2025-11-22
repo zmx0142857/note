@@ -541,6 +541,11 @@ mesh.geometry.computeBoundsTree()
   })
   const line = new Line2(geometry, material)
   ```
+- Line2 在半透明时, 线段连接处有许多小圆片显示出来. 缓解但不能根治:
+  ```js
+  material.blending = THREE.CustomBlending
+  material.blendDst = THREE.DstAlphaFactor
+  ```
 - r145: `line.geometry.setFromPoints` 更新线条几何体后, 在某些视角下线条不可见.
 
   方法1:
@@ -601,6 +606,10 @@ mesh.geometry.computeBoundsTree()
   const opx = (camera.top - camera.bottom) / (canvas.clientHeight * camera.zoom)
   sprite.scale.fill(16 * opx)
   ```
+- 点云在正交相机下如何启用近大远小效果 (sizeAttenuation)?
+  ```js
+  points.material.size = initSize * camera.zoom
+  ```
 - 文字贴图模糊
   - 解决: 增加 texture 采样数:
   ```js
@@ -653,4 +662,43 @@ mesh.geometry.computeBoundsTree()
     rgb_res' = rgb_src' + rgb_dst' * (1 - a_src)
     a_res = a_src + a_dst * (1 - a_src) = lerp(a_dst, 1, a_src)
     ```
-  - 在公式中, 我们将 rgb 与 a **预先相乘**, 这就是 premultiplied alpha 这个名字的由来
+    在公式中, 我们将 rgb 与 a **预先相乘**, 这就是 premultiplied alpha 这个名字的由来.
+    如果目标像素不透明 (`a_dst = 1`), 则 `a_res = 1`, 公式简化为
+    ```
+    rgb_res = rgb_src * a_src + rgb_dst * (1 - a_src)
+    ```
+- CustomBlending
+  - ⚠ 要使自定义混色生效, 首先设置 `material.blending = CustomBlending`. 可选项有:
+    ```
+    NoBlending // 不透明 (当 material.transparent = false 时)
+    NormalBlending // 默认 (当 material.transparent = true 时)
+    AdditiveBlending
+    SubtractiveBlending
+    MultiplyBlending
+    CustomBlending
+    ```
+  - 默认情况的混色公式是
+    ```
+    rgb_res = rgb_src * a_src + rgb_dst * (1 - a_src)
+    a_res = a_src * 1 + a_dst * (1 - a_src)
+    ```
+  - 在 blending 的时候, 我们可以改变源因子 `a_src` 和目标因子 `1 - a_src`
+    (分别对应 three.js 的属性 `material.blendSrc` 和 `material.blendDst`).
+    下面是可选项:
+    ```
+    ZeroFactor, OneFactor,
+    SrcColorFactor, OneMinusSrcColorFactor,
+    DstColorFactor, OneMinusDstColorFactor,
+    SrcAlphaFactor, OneMinusSrcAlphaFactor, // 默认值
+    DstAlphaFactor, OneMinusDstAlphaFactor,
+    ConstantColorFactor, OneMinusConstantColorFactor, // 配合 material.blendColor 使用
+    ConstantAlphaFactor, OneMinusConstantAlphaFactor, // 配合 material.blendAlpha 使用
+    ```
+    甚至可以改变公式中的加号 (对应 `material.blendEquation`). 下面是可选项:
+    ```
+    AddEquation // 默认
+    SubtractEquation // 左减右
+    ReverseSubtractEquation // 右减左
+    MinEquation
+    MaxEquation
+    ```

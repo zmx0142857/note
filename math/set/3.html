@@ -231,21 +231,30 @@
 </ol>
 
 <p class="property">
-	设 `f: X to Y` 是映射, `A, A_1, A_2 sube X`, `B, B_1, B_2 sube Y`,
-	`cc A sube 2^X`, `cc B sube 2^Y`. 又假定求交集时 `cc A, cc B != O/`,
-	则
-	<span class="formula">
-		`A_1 sube A_2 rArr f(A_1) sube f(A_2)`,
-		`quad B_1 sube B_2 rArr f^-1(B_1) sube f^-1(B_2)`,<br/>
-		`f(uuu cc A) = uuu_(A in cc A) f(A)`,
-		`quad f^-1(uuu cc B) = uuu_(B in cc B) f^-1(B)`,<br/>
-		`f(nnn cc A) sube nnn_(A in cc A) f(A)`,
-		`quad f^-1(nnn cc B) = nnn_(B in cc B) f^-1(B)`,<br/>
-		`f(A_1\\A_2) supe f(A_1)\\f(A_2)`,
-		`quad f^-1(B_1\\B_2) = f^-1(B_1)\\f^-1(B_2)`,<br/>
-		`f(X\\A) supe f(X)\\f(A)`,
-		`quad f^-1(Y\\B) = X\\f^-1(B)`.
-	</span>
+  设 `f: X to Y` 是映射, `A_1, A_2 sube X`, `B_1, B_2 sube Y`,
+  `cc A sube cc P(X)`, `cc B sube cc P(Y)`. 又假定求交集时 `cc A, cc B != O/`,
+  则
+  <span class="formula">
+    `A_1 sube A_2 rArr f(A_1) sube f(A_2)`,
+    `quad B_1 sube B_2 rArr f^-1(B_1) sube f^-1(B_2)`,<br/>
+    `f(uuu cc A) = uuu_(A in cc A) f(A)`,
+    `quad f^-1(uuu cc B) = uuu_(B in cc B) f^-1(B)`,<br/>
+    `f(nnn cc A) sube nnn_(A in cc A) f(A)`,
+    `quad f^-1(nnn cc B) = nnn_(B in cc B) f^-1(B)`,<br/>
+    `f(A_1\\A_2) supe f(A_1)\\f(A_2)`,
+    `quad f^-1(B_1\\B_2) = f^-1(B_1)\\f^-1(B_2)`.
+  </span>
+</p>
+
+<p class="remark">
+  对 `f(nnn cc A) sube nnn_(A in cc A) f(A)` 的解释:
+  考虑两个集合 `A, B` 分别表示平面上的 `x, y` 轴,
+  函数 `f` 的作用是 `(x, 0) mapsto x`, `(0, y) mapsto y`.
+  此时 `f(A nn B) = {0}`, `f(A) nn f(B) = RR`.
+</p>
+
+<p class="remark">
+  关于 `f^-1 f(A)` 与 `f f^-1(B)` 的结论, 参见<a href="#the-f-finv" class="ref"></a>.
 </p>
 
 <p class="definition">
@@ -365,13 +374,13 @@
 	则 `f^-1` 是一个映射, 称为 `f` 的<b>逆</b>.
 </p>
 
-<p class="theorem">
-	关于像集, 原像集和单射, 满射的关系, 我们有 (设 `A, B` 分别为 `X, Y`
-	的真子集):
-	<span class="formula">
-		`f(f^-1(B)) sube B`, 等号成立当且仅当 `f` 为满射;<br/>
-		`f^-1(f(A)) supe A`, 等号成立当且仅当 `f` 为单射.
-	</span>
+<p class="theorem" id="the-f-finv">
+  关于像集, 原像集和单射, 满射的关系, 我们有 (设 `A, B` 分别为 `X, Y`
+  的真子集):
+  <span class="formula">
+    `f(f^-1(B)) sube B`, 等号成立当且仅当 `f` 为满射;<br/>
+    `f^-1(f(A)) supe A`, 等号成立当且仅当 `f` 为单射.
+  </span>
 </p>
 
 <p class="theorem">
@@ -489,7 +498,7 @@
 
 <h2>序结构</h2>
 
-[来自 李文威《代数学方法》]
+[李文威《代数学方法》]
 
 <h3>预序, 偏序, 全序</h3>
 
@@ -528,8 +537,8 @@
 <ol class="example">
   <li>实数集是全序集.</li>
   <li>正整数的整除、集合的包含, 都是偏序的例子.</li>
-  <li>[来自群友 墨花雪月] 整数集 `ZZ` 配上整除关系构成预序. 因为 2 与 -2 互相整除但不相等, 所以不满足反称性.</li>
-  <li>[来自群友 壹零叁] 平面 `RR^2`, 规定 `(x,y) le (z,w) iff x le z`, 则这构成一个预序.</li>
+  <li>[群友@墨花雪月] 整数集 `ZZ` 配上整除关系构成预序. 因为 2 与 -2 互相整除但不相等, 所以不满足反称性.</li>
+  <li>[群友@壹零叁] 平面 `RR^2`, 规定 `(x,y) le (z,w) iff x le z`, 则这构成一个预序.</li>
 </ol>
 
 <h3>最大, 极大; 上界, 上确界</h3>
@@ -660,7 +669,7 @@
 
 <ol class="p remark">
   <li>
-    [来自群友 103] 存在不满足分配律的格. 比如五元集 `{0, a, b, c, 1}` 的序定义如下:
+    [群友@壹零叁] 存在不满足分配律的格. 比如五元集 `{0, a, b, c, 1}` 的序定义如下:
     `0` 最小, `1` 最大, `a, b, c` 之间不可比较. 计算知
     <span class="formula">
       `(a ^^ b) vv c`
@@ -682,7 +691,7 @@
     </span>
   </li>
   <li>
-    [来自群友 无懈可击99]
+    [群友@无懈可击99]
     一个希尔伯特空间的所有闭子空间 (特别地, 一个有限维线性空间的所有线性子空间) 组成一个格,
     它没有分配律.
   </li>
