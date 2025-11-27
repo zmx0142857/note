@@ -27,7 +27,7 @@
 - mqtt: 基于 websocket 的二进制通信协议
 - grpc: 是 RPC (远程过程调用) 的一个实现, 允许调用服务端提供的函数.
 
-## 编译工具链
+### 编译工具链
 
 - babel
 - typescript
@@ -36,6 +36,15 @@
   $ uglifyjs input.js -c -m > out.js # compress and mangle
   $ pretty-js input.js > out.js
   ```
+
+### 静态网站与博客
+
+- mkdocs: 基于 python, 相对其它框架更轻量
+- hexo: 基于 js, 用户量比较大的 blog 框架
+- docusaurus: 基于 react.js, 支持 mdx 格式
+- astro: 适合资深用户或熟悉前端者
+- jekyll: 基于 ruby, 据说数学公式下划线会被 markdown 解析成斜体
+- wordpress: 老版建站框架
 
 ## 图形与动画
 

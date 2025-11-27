@@ -804,6 +804,7 @@ const Typing = {
     $inputBg.innerHTML = Typing.updateBg(textArr)
     $inputArea.scrollTo({ top: $inputArea.scrollHeight, left: 0 })
     if (isFinish && isCorrect && !Typing.compositionStr) {
+      ++Typing.current.keyCount
       Typing.finish()
     }
   },

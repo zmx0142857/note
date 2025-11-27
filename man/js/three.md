@@ -702,3 +702,8 @@ mesh.geometry.computeBoundsTree()
     MinEquation
     MaxEquation
     ```
+- ShapeGeometry 做出的几何体是 xy 平面上的, 要将它平放在 zx 平面上, rotation 应该是多少?
+  ```js
+  // tips: 如果你不能确定这个答案, 可以在 console 给 obj.rotation 赋值试验
+  rotation: new Euler(-Math.PI/2, 0, -Math.PI/2)
+  ```

@@ -334,19 +334,86 @@
 	</span>
 </p>
 
-<h2>洛必达 (L'Hôpital) 法则</h2>
+<h2>洛必达法则</h2>
+
+<ol class="theorem">
+  <b>洛必达 (L'Hôpital) 法则</b>
+  假设 `x_0` 的某去心邻域 `overset @ U` 内, 函数 `f, g` 可导且 `g' != 0`, 考虑两种情形:
+  <li>`0//0` 型极限: `x to x_0` 时, `f, g` 都趋于零;</li>
+  <li>`ast//oo` 型极限: `x to x_0` 时, `g to oo`;</li>
+  若条件 1, 2 其中之一成立, 且下式右端极限存在, 则左端极限也存在且等号成立:
+  <span class="formula">
+    `lim_(x to x_0) (f(x))/(g(x))`
+    `= lim_(x to x_0) (f'(x))/(g'(x)) = L`.
+  </span>
+</ol>
+
+<ol class="proof">
+  证明的核心是使用 Cauchy 中值定理.
+  <li>
+    对分母不为零的讨论:
+    首先注意到, 无论是情形 1 还是 2, 在充分小的去心邻域内都有 `g != 0` (情形 1. 可用 Rolle 定理反证).
+    下面不妨设在 `overset @ U` 中 `g != 0` 恒成立, 因此等式两边的分式均有意义.
+  </li>
+  <li>
+    先设 `f, g to 0`. 补充定义 `f(x_0) = g(x_0) = 0`, 则 `f, g` 都在 `U` 上连续, `overset @ U` 上可导.
+    任取 `x in overset @ U`, 由 Cauchy 中值定理, 存在介于 `x` 和 `x_0` 之间的 `tau` 使得
+    <span class="formula">
+      `(f'(tau))/(g'(tau))`
+      `= (f(x) - f(x_0))/(g(x) - g(x_0))`
+      `= (f(x))/(g(x))`.
+    </span>
+    令 `x to x_0`, 则 `tau to x_0`, 因此结论成立.
+  </li>
+  <li>
+    再设 `g to oo`. 对任意 `epsi gt 0`,
+    由 `(f'(x))/(g'(x)) to L` 知道, 存在去心邻域 `overset @ V sube overset @ U`, 满足
+    <span class="formula">
+      `|(f'(x))/(g'(x)) - L| lt epsi`,
+      `quad AA x in overset @ V`.
+    </span>
+    任取闭区间 `[x, x_1] in overset @ V`, 由 Cauchy 中值定理, 存在 `tau in (x, x_1)` 使得
+    <span class="formula">
+      `(f'(tau))/(g'(tau))`
+      `= (f(x) - f(x_1))/(g(x) - g(x_1))`,<br>
+      即 `f(x) = (g(x) - g(x_1)) (f'(tau))/(g'(tau)) + f(x_1)`.
+    </span>
+    两边除以 `g(x)`,
+    <span class="formula">
+      `(f(x))/(g(x))`
+      `= (f'(tau))/(g'(tau)) - (g(x_1))/(g(x)) (f'(tau))/(g'(tau)) + (f(x_1))/(g(x))`.
+    </span>
+    于是
+    <span class="formula align">
+      `|(f(x))/(g(x)) - L|`
+      `le |(f'(tau))/(g'(tau)) - L|`
+      `+ |(g(x_1))/(g(x)) (f'(tau))/(g'(tau))|`
+      `+ |(f(x_1))/(g(x))|`<br>
+      `le epsi + |(g(x_1))/(g(x))| (|L| + epsi) + |(f(x_1))/(g(x))|`.
+    </span>
+    固定 `x_1`, 令 `x to x_0`, 此时 `g(x) to oo`, 上式右边后两项趋于零.
+    这证明了 `lim_(x to x_0) (f(x))/(g(x)) = L`.
+  </li>
+</ol>
+
+<p class="remark">
+  洛必达法则可推广到单侧极限、`x to oo` 的情形和 `L = oo` 的情形.
+</p>
 
 <p class="example">
-  设 `f` 在 `[0, oo)` 上可导, 且 `lim_(x to +oo) f(x) + f'(x) = a`,
-  证明 `lim_(x to +oo) f(x) = a`.
+  设 `f` 在 `[c, oo)` 上可导, `a != 0`, 且
+  <span class="formula">
+    `lim_(x to +oo) a f(x) + f'(x) = b`.
+  </span>
+  证明 `lim_(x to +oo) f(x) = b//a`.
 </p>
 
 <p class="proof">
-  对 `f(x) = ("e"^x f(x))/"e"^x` 应用洛必达法则,
+  对 `f(x) = ("e"^(a x) f(x))/"e"^(a x)` 应用洛必达法则,
   <span class="formula">
     `lim_(x to +oo) f(x)`
-    `= lim_(x to +oo) ("e"^x (f(x) + f'(x)))/"e"^x`
-    `= a`.
+    `= lim_(x to +oo) ("e"^(a x) (a f(x) + f'(x)))/(a "e"^(a x))`
+    `= b/a`.
   </span>
 </p>
 

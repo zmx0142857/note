@@ -1755,6 +1755,30 @@
 </p>
 
 <p class="example">
+  [群友 @ぶANdyЮ] 在三角形 `ABC` 中 `/_ C` 为钝角, `AD` 为角平分线, `BE` 为中线,
+  `/_ ADC = /_ BEC = 60^@`, 求 `(BD)/(AD)`.
+</p>
+
+<p class="solution">
+  [@Fran] 暴力做法. 角平分线定理: `(BD)/(CD) = (AB)/(AC)`, 三角形相似: `(AD)/(CD) = (BE)/(CE)`,
+  两式相除得到
+  <span class="formula">
+    `(BD)/(AD) = (AB)/(2BE)`.
+  </span>
+  记 `/_ BAC` 的一半为 `alpha`, 上式两边分别应用正弦定理,
+  <span class="formula">
+    `sin alpha/sin(60^@-alpha) = (sin 120^@)/(2 sin 2 alpha)`.
+  </span>
+  上式化简后令 `t = tan alpha`, 解三次方程取正根 `t = sqrt 3(sqrt 5 - 2)`.
+  于是
+  <span class="formula">
+    `sin 2 alpha = (2t)/(1+t^2) = sqrt(3)/8(1 + sqrt(5))`,<br>
+    `(BD)/(AD) = (sin 120^@)/(2 sin 2 alpha)`
+    `= (sqrt 5 - 1)/2`.
+  </span>
+</p>
+
+<p class="example">
 	求函数 `y = (sin x - 1)/(cos x - 2)` 的值域.
 </p>
 

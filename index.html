@@ -322,8 +322,15 @@ li.isnew::after {
   transform: rotateY(calc(var(--flag) * 180deg));
   --flag: 0;
 }
+#about > div,
+#about > .back > div {
+  width: max-content;
+  margin: auto;
+}
 #about > .back {
   display: none;
+  box-sizing: border-box;
+  width: 100%;
   position: absolute;
   background: #fff;
   top: 0;
@@ -411,10 +418,10 @@ li.isnew::after {
     <div class="img flex-center">
       <img src="img/pikachu.png" alt="头像">
     </div>
-    <center>zmx0142857</center>
-    <p class="links">
+    <div>zmx0142857</div>
+    <div class="links">
       <a href="mailto:892298182@qq.com" target="_blank">邮箱</a>・<a href="https://github.com/zmx0142857" target="_blank">github</a>
-    </p>
+    </div>
     <hr>
     <div class="links">
       友情链接:
@@ -424,6 +431,8 @@ li.isnew::after {
         <li>widcardw <a href="https://widcard.win/" target="_blank">blog</a></li>
         <li>LDDMiao <a href="https://lifecheckpoint.github.io/" target="_blank">blog</a></li>
         <li>时度度 <a href="https://note.timedegree.cc/" target="_blank">note</a>・<a href="https://blog.timedegree.cc/" target="_blank">blog</a></li>
+        <li>证毕QED <a href="https://quiteeasilydoneqed.github.io/qedhomepage/" target="_blank">blog</a></li>
+        </li>
       </ul>
     </div>
     <div class="back"></div>
@@ -477,47 +486,52 @@ const settings = {
     aboutDlg.toggle()
   }
 
-  const about = $('#about').addEventListener('click', function () {
-    var degY = parseInt(this.style.getPropertyValue('--flag'))
+  const about = $('#about').addEventListener('click', function (e) {
+    if (e.target.id !== 'about' && !e.target.classList.contains('back')) return
+    let degY = parseInt(this.style.getPropertyValue('--flag'))
     degY = !degY ? 1 : 0
     degY ? this.classList.add('back') : this.classList.remove('back')
-      this.style.setProperty('--flag', degY)
-  }, true) // 向上冒泡
+    this.style.setProperty('--flag', degY)
+  }) // 向上冒泡
+
+  const settingData = settings.load()
 
   appendChildren($('#about').querySelector('.back'), [
     $('<h3>', {
       style: { marginBottom: '10px' },
     }, ['设置']),
-    $('<p>', {}, [
-      $('<label>', {}, [
-        $('<input>', {
-          attrs: {
-            type: 'checkbox',
-            ...(settings.load().column2 ? { checked: '' } : {}),
-          },
-          onchange (e) {
-            e.stopPropagation()
-            const { checked } = e.currentTarget
-            settings.save({ column2: checked })
-          },
-        }),
-        ' 双栏',
+    $('<div>', {}, [
+      $('<p>', {}, [
+        $('<label>', {}, [
+          $('<input>', {
+            attrs: {
+              type: 'checkbox',
+              ...(settingData.column2 ? { checked: '' } : {}),
+            },
+            onchange (e) {
+              e.stopPropagation()
+              const { checked } = e.currentTarget
+              settings.save({ column2: checked })
+            },
+          }),
+          ' 双栏',
+        ]),
       ]),
-    ]),
-    $('<p>', {}, [
-      $('<label>', {}, [
-        $('<input>', {
-          attrs: {
-            type: 'checkbox',
-            ...(settings.load().dark ? { checked: '' } : {}),
-          },
-          onchange (e) {
-            e.stopPropagation()
-            const { checked } = e.currentTarget
-            settings.save({ dark: checked })
-          },
-        }),
-        ' 夜间模式',
+      $('<p>', {}, [
+        $('<label>', {}, [
+          $('<input>', {
+            attrs: {
+              type: 'checkbox',
+              ...(settingData.dark ? { checked: '' } : {}),
+            },
+            onchange (e) {
+              e.stopPropagation()
+              const { checked } = e.currentTarget
+              settings.save({ dark: checked })
+            },
+          }),
+          ' 夜间模式',
+        ]),
       ]),
     ]),
   ])

@@ -258,6 +258,32 @@
 	</li>
 </ol>
 
+<h3>商拓扑</h3>
+
+<p class="definition">
+  <b>商拓扑</b>
+  设 `X` 是拓扑空间, `~` 是集合 `X` 上的等价关系.
+  将空间中等价的点视为一点, 考虑商集 `X//~`.
+  我们有自然的投影映射
+  <span class="formula">
+    `pi: X to X//~`<br>
+    `x mapsto [x]`,
+    `[x]` 表示 `x` 的等价类.
+  </span>
+  下面规定 `U` 是 `X//~` 中的开集当且仅当 `pi^-1(U)` 是 `X` 的开集.
+  借助集合论中的等式
+  <span class="formula">
+    `pi^-1(uuu_alpha U_alpha) = uuu_alpha pi^-1 U_alpha`,<br>
+    `pi^-1(nnn_alpha U_alpha) = nnn_alpha pi^-1 U_alpha`,
+  </span>
+  可以证明 `X//~` 是一个拓扑空间.
+  根据定义, 映射 `pi` 是连续的.
+</p>
+
+<p class="definition">
+  <b>商映射</b>
+</p>
+
 <h2>一些拓扑概念</h2>
 
 <h3>邻域与内点</h3>
@@ -688,9 +714,20 @@
 
 <p class="proposition">
   当 `f` 是双射时, `f` 是开映射 `iff f` 是闭映射 `iff f^-1` 连续.
+  注意此时若 `f` 是连续的, 则它就是同胚.
 </p>
 
-<p class="remark">此时若 `f` 是连续的, 则它就是同胚.</p>
+<ol class="proof">
+  已知 `f: X to Y` 是双射.
+  <li>设 `f` 是开映射, 任取闭集 `A sube X`, 则 `A^c` 为开集,
+    `f(A^c)` 仍是开集. 借助 `f` 是双射推出 `f(A) = f(A^c)^c` 是闭集.
+    同理, 如果设 `f` 是闭映射, 也能推出它是开映射.
+  </li>
+  <li>
+    `f^-1` 连续 `iff AA` 开集 `U sube X`, `f(U)` 是开集
+    `iff f` 为开映射.
+  </li>
+</ol>
 
 <h2>乘积空间与拓扑基</h2>
 
