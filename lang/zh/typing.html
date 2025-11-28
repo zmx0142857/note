@@ -91,6 +91,10 @@ body {
   color: var(--fg2);
   opacity: 0.8;
 }
+.color-optim {
+  color: gold;
+  opacity: 0.8;
+}
 .color-error {
   color: var(--color-error);
 }
@@ -360,6 +364,7 @@ body {
   <button class="btn btn-load">载文 <a class="btn-suffix btn-suffix-arrow"></a></button>
   <button class="btn btn-history">历史</button>
   <button class="btn btn-setting">设置</button>
+  <label class="btn"><input type="checkbox" class="btn-optim">词提</label>
 </div>
 
 <div class="status-bar">
@@ -402,6 +407,7 @@ const $btnLoad = $('.btn-load')
 const $btnLoadSuffix = $('.btn-load .btn-suffix')
 const $btnReload = $('.btn-reload')
 const $btnHistory = $('.btn-history')
+const $btnOptim = $('.btn-optim')
 
 const Constants = {
   space: '␣',
@@ -531,6 +537,127 @@ const Utils = {
   },
 }
 
+class OptimalTyping {
+  constructor(data) {
+    console.time('loading dict')
+    this.dict = new Map()
+    this.loadDict(data)
+    this.trie = this.buildTrie()
+    console.timeEnd('loading dict')
+  }
+
+  // 载入字典
+  loadDict(data) {
+    const conflicts = new Set()
+    data.split('\n').forEach(line => {
+      const [code, word] = line.trim().split(/\s+/)
+      if (code && word) {
+        let cost = code.length
+        if (cost < 4) ++cost
+        else if (conflicts.has(code)) ++cost
+        else conflicts.add(code)
+        const lastCost = this.dict.get(word)
+        if (!(cost >= lastCost)) this.dict.set(word, cost)
+      }
+    })
+    ;[...'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM`1234567890-=~!@#$%^&*()_+[]\\{}|;\':",./<>?·！@#￥%…&*（）—【】、；：‘’“”《》，。？'].forEach(ch => {
+      this.dict.set(ch, 1)
+    })
+  }
+
+  // 构建 Trie 树的辅助函数
+  buildTrie() {
+    const root = { children: new Map(), isWord: false }
+    for (const [word, cost] of this.dict) {
+      let node = root
+      // 从词的最后一个字符开始构建（因为我们要从后往前匹配）
+      for (let i = word.length - 1; i >= 0; i--) {
+        const char = word[i];
+        if (!node.children) {
+          node.children = new Map();
+        }
+        if (!node.children.has(char)) {
+          node.children.set(char, {
+            children: new Map(),
+            isWord: false
+          })
+        }
+        node = node.children.get(char)
+      }
+
+      // 标记单词结束，并存储成本
+      node.isWord = true
+      node.cost = cost
+      // node.word = word // debug
+    }
+    return root
+  }
+
+  // 基于动态规划, 查找码长最短的分词方案
+  optimize(text, defaultCost = 5) {
+    const n = text.length
+    const dp = new Array(n + 1).fill(Infinity)
+    const path = new Array(n + 1)
+
+    dp[0] = 0
+
+    for (let i = 1; i <= n; i++) {
+      // 从当前位置向前匹配，在 Trie 中查找所有可能的词
+      let node = this.trie
+      let currentPos = i - 1
+
+      // 向前匹配直到 Trie 中没有匹配或到达文本开头
+      while (currentPos >= 0 && node) {
+        const char = text[currentPos]
+        if (!node.children || !node.children.has(char)) {
+          break
+        }
+
+        node = node.children.get(char)
+        currentPos--
+
+        // 如果当前节点是一个完整的词
+        if (node.isWord) {
+          const wordLength = i - currentPos - 1
+          const cost = node.cost
+
+          if (dp[currentPos + 1] + cost < dp[i]) {
+            dp[i] = dp[currentPos + 1] + cost
+            path[i] = {
+              word: text.substring(currentPos + 1, i),
+              prev: currentPos + 1
+            }
+          }
+        }
+      }
+
+      // 处理单字情况（如果没有找到匹配的词）
+      if (dp[i] === Infinity) {
+        const singleChar = text[i - 1]
+        const cost = this.dict.get(singleChar) || defaultCost
+        dp[i] = dp[i - 1] + cost
+        path[i] = {
+          word: singleChar,
+          prev: i - 1
+        }
+      }
+    }
+
+    // 回溯获取最优路径
+    const solution = []
+    let current = n
+    while (current > 0) {
+      solution.unshift(path[current].word)
+      current = path[current].prev
+    }
+
+    return {
+      solution,
+      count: dp[n],
+      avg: dp[n] / n,
+    }
+  }
+}
 
 const UI = {
   toast ({ html, className = 'toast', classList = [] }) {
@@ -587,13 +714,18 @@ const UI = {
       $menu.style.display = 'none'
     }
   },
-  file ({ accept, oninput }) {
+  file ({ accept, onload, oncancel }) {
     // 创建 <input type="file" /> 后马上移除, 以免 onchange 不触发
     const $btnFile = document.createElement('input')
     $btnFile.hidden = true
     $btnFile.type = 'file'
     $btnFile.accept = accept
-    $btnFile.oninput = oninput
+    $btnFile.onchange = (e) => {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.onload = onload
+      reader.readAsText(file)
+    }
     document.body.append($btnFile)
     $btnFile.click()
     document.body.removeChild($btnFile)
@@ -617,6 +749,7 @@ const Typing = {
   history: [], // 历史记录
   maturity: {}, // 单字成熟度
   compositionStr: '', // 未上屏的编码
+  optim: undefined, // 词组提示
   onLoad () {
     Typing.history = Utils.getStorage(Constants.storage.history, [])
     Typing.setting = {
@@ -639,8 +772,8 @@ const Typing = {
     const res = []
     const buf = []
     let className = ''
-    const flush = ({ alignLast } = {}) => {
-      const text = Utils.restoreLinebreak(buf.join(''))
+    const flush = ({ alignLast, optim } = {}) => {
+      let text = Utils.restoreLinebreak(buf.join(''))
       // 最后一字如果打错, 做对齐处理, 以减少打字时的闪烁体验
       if (alignLast && buf.length === 1 && className === 'color-error') {
         const c2 = Typing.current.text[textArr.length - 1]
@@ -649,6 +782,12 @@ const Typing = {
         return
       }
       if (buf.length) {
+        if (optim && Typing.optim) {
+          const { solution } = Typing.optim.optimize(text)
+          const word = solution[0]
+          res.push(Utils.html`<span class="color-optim">${word}</span>`)
+          text = text.slice(word.length)
+        }
         res.push(Utils.html`<span class="${className}">${text}</span>`)
         buf.length = 0
       }
@@ -677,7 +816,7 @@ const Typing = {
     }
     className = 'color-dim'
     buf.push(...Typing.current.text.slice(textArr.length))
-    flush()
+    flush({ optim: true })
     return res.join('')
   },
   start () {
@@ -699,6 +838,7 @@ const Typing = {
       backspaceCount: 0, // 回改数
       keyCount: 0, // 击键数
     }
+    if (Typing.optim) $inputBg.innerHTML = Typing.updateBg([])
   },
   finish () {
     $inputArea.disabled = true
@@ -830,19 +970,13 @@ const Typing = {
   onScroll (e) {
     $inputBg.scrollTo({ top: e.target.scrollTop, left: 0 })
   },
-  onFileInput (e) {
-    const file = e.target.files[0]
-    const reader = new FileReader()
-    reader.onload = function () {
-      Typing.loadedFile = this.result
-      Typing.reload()
-    }
-    reader.readAsText(file)
-  },
   load () {
     UI.file({
       accept: '.txt',
-      oninput: Typing.onFileInput
+      onload (e) {
+        Typing.loadedFile = e.target.result
+        Typing.reload()
+      }
     })
   },
   reload () {
@@ -1053,6 +1187,20 @@ const Typing = {
       }
     }
   },
+  initOptim () {
+    if ($btnOptim.checked) {
+      UI.file({
+        accept: '.txt',
+        onload (e) {
+          Typing.optim = new OptimalTyping(e.target.result)
+          $btnOptim.checked = true
+        },
+      })
+      $btnOptim.checked = false
+    } else {
+      Typing.optim = undefined
+    }
+  },
   onKeyPress (e) {
     if (e.code === 'KeyV') {
       if (e.ctrlKey && e.shiftKey && $inputArea.disabled) {
@@ -1068,6 +1216,7 @@ $btnLoad.onclick = Typing.load
 $btnLoadSuffix.onclick = Typing.openBuiltin
 $btnReload.onclick = Typing.reload
 $btnStart.onclick = Typing.start
+$btnOptim.onclick = Typing.initOptim
 $inputArea.oninput = Typing.onInput
 // $inputArea.addEventListener('compositionstart', Typing.onCompositionStart)
 $inputArea.addEventListener('compositionupdate', Typing.onCompositionUpdate)
