@@ -7,7 +7,38 @@
 </head>
 <body>
 
+<h2>导数的定义</h2>
+
+<p class="definition">
+  <b>导数</b>
+  设 `f` 在 `x_0` 的某邻域内有定义.
+  我们称 `g(x) = (f(x) - f(x_0))/(x-x_0)` 为 `f` 在 `x_0` 的<b>差商</b>.
+  令 `x to x_0`, 若差商的极限存在, 则称 `f` 在 `x_0` 处<b>可导</b>, 且导数等于这个极限值:
+  <span class="formula">
+    `f'(x_0) := lim_(x to x_0) (f(x) - f(x_0))/(x-x_0)`.
+  </span>
+  把上式的极限换为单侧极限, 则可定义对应的单侧导数 `f_+'`, `f_(-)'`.
+  当 `f_+'`, `f_(-)'` 存在时, 分别称 `f` 右可导和左可导.
+  若 `f` 在开区间 `(a, b)` 内处处可导, 则称 `f` 在 `(a, b)` 可导;
+  若进一步 `f` 还在 `a` 处右可导, `b` 处左可导, 则称 `f` 在闭区间 `[a, b]` 可导.
+</p>
+
+<ol class="corollary">
+  <b>可导必连续</b>
+  <li>若 `f` 在 `x_0` 处可导, 则它的差商在 `x_0` 附近局部有界;</li>
+  <li>若 `f` 的差商在 `x_0` 附近局部有界, 则 `f` 在 `x_0` 连续.</li>
+</ol>
+
+<ol class="proof">
+  <li>这是因为差商的极限存在, 推出它在 `x_0` 附近局部有界;</li>
+  <li>设 `|x-x_0| lt delta` 时, `|(f(x) - f(x_0))/(x-x_0)| le M`.
+    则有 `|f(x) - f(x_0)| le M |x-x_0|`, 令 `x to x_0` 就得到连续性.
+  </li>
+</ol>
+
 <h2>微分中值定理</h2>
+
+<h3>Fermat 引理, Rolle 定理</h3>
 
 <p class="definition">
   <b>极值</b> 设函数 `f` 在 `x_0` 的某邻域内有定义, 若存在 `delta gt 0`, 使
@@ -64,6 +95,13 @@
 	则它的图像在该点的切线平行于 `x` 轴.
 </p>
 
+<p class="example">
+	在原点连续的偶函数, 原点常常是其极值点. 如 `sin x sin 2x`,
+	当 `x` 接近零但不等于零时, `sin x sin 2x gt 0`, 而函数在原点等于零,
+	因此原点是它的极值点.
+	但也有反例, 这时函数在原点上下振荡. 如 `x sin{:1/x:}`.
+</p>
+
 <p class="theorem">
   <b>Rolle 定理</b> 设函数 `f` 在闭区间 `[a, b]` 上连续, 开区间 `(a, b)`
   上可微, 且 `f(a) = f(b)`; 则 `f'` 在 `(a, b)` 上存在零点, 换言之,
@@ -96,6 +134,8 @@
 	</li>
 </ol>
 
+<h3>Lagrange 中值定理, Cauchy 中值定理</h3>
+
 <p class="theorem">
 	<b>Lagrange 中值定理</b>
 	设函数 `f` 在闭区间 `[a, b]` 上连续, 开区间 `(a, b)` 上可微;
@@ -124,6 +164,37 @@
 	`xi` 的存在性, 而无法求出具体的值, 也不保证 `xi` 是唯一的. 尽管如此,
 	在许多应用场合, 这个存在性的结论已经足够.
 </p>
+
+<p class="corollary">
+  若 `f'` 在开区间 `(a, b)` 内处处为 0, 则 `f` 在 `(a, b)` 上为常数.
+</p>
+
+<p class="proof">
+  反设存在 `x, y in (a, b)`, `x lt y`, `f(x) != f(y)`.
+  则由 Lagrange 中值定理, 存在 `xi in (x, y)` 满足
+  <span class="formula">
+    `f(x) - f(y) = f'(xi) (x-y)`
+    `= 0 * (x-y) = 0`,
+  </span>
+  矛盾.
+</p>
+
+<p class="corollary">
+  <b>导数与单调性</b>
+  设 `f` 在开区间 `(a, b)` 上可导.
+  则 `f' ge 0 iff f` 在 `(a, b)` 上单调增.
+</p>
+
+<ol class="proof">
+  <li>`rArr`: 任取 `[x, y] sube (a, b)` 并使用 Lagrange 中值定理.</li>
+  <li>`lArr`: 反设存在一点 `x`, 使得 `f'(x) lt 0`.  由保号性,
+    存在 `x` 的去心邻域 `overset @ U`, 使得 `y in overset @ U` 时, 差商
+    <span class="formula">
+      `(f(y) - f(x))/(y-x) lt 0`,
+    </span>
+    与 `f` 的单调性矛盾.
+  </li>
+</ol>
 
 <p class="theorem">
 	<b>Cauchy 中值定理</b>
@@ -238,13 +309,9 @@
 <ol class="example">
   <b>导函数不连续的例子</b>
   <li>`f(x) = root 3 x` 的导数在 0 处无穷间断.</li>
-  <li>
-    <span class="formula">
-      `f(x) := { x^2 sin(1/x), if x != 0; 0, otherwise :}`,<br>
-      `f'(x) = { -cos(1/x) + 2x sin(1/x), if x != 0; 0, otherwise :}`.
-    </span>
-    `f'(x)` 在 0 处振荡间断.
-  </li>
+  <li>`f(x) = x^2 sin(1//x)` 补充定义 `f(0) = 0` 后, 导数 `f'` 在 0 处为 0, 但是振荡间断.</li>
+  <li>`f(x) = x^4 sin(1//x)` 补充 `f(0) = 0` 后, 二阶导数在 0 处为 0, 但是振荡间断.</li>
+  <li>`f(x) = x^2 D(x)`, 其中 `D(x)` 是 Dirichlet 函数. `f` 在 0 处的导数为 0, 其它地方 `f` 处处不连续, 更不可导.</li>
 </ol>
 
 <p class="example">
@@ -334,7 +401,7 @@
 	</span>
 </p>
 
-<h2>洛必达法则</h2>
+<h3>洛必达法则</h3>
 
 <ol class="theorem">
   <b>洛必达 (L'Hôpital) 法则</b>
@@ -417,16 +484,9 @@
   </span>
 </p>
 
-<h2>函数的极值</h2>
-
-<p class="example">
-	在原点连续的偶函数, 原点常常是其极值点. 如 `sin x sin 2x`,
-	当 `x` 接近零但不等于零时, `sin x sin 2x gt 0`, 而函数在原点等于零,
-	因此原点是它的极值点.
-	但也有反例, 这时函数在原点上下振荡. 如 `x sin{:1/x:}`.
-</p>
-
 <h2>函数的凹凸性</h2>
+
+<h3>下凸函数</h3>
 
 <p class="definition">
 	设 `f` 在区间 `I` 上有定义, 如果对 `AA t in [0,1]` 和 `AA a, b in I`
@@ -654,6 +714,8 @@
 
 <h2>Taylor 公式</h2>
 
+<h3>Lagrange 余项, Peano 余项</h3>
+
 <p class="theorem">
   <b>Lagrange 余项的 Taylor 公式</b>
   设 `f^((n))` 在 `a` 到 `x` 之间的闭区间连续, 开区间可微,
@@ -809,155 +871,7 @@
   由于 `AA x gt 1` 有 `x-1 gt ln x`, 上述比较的结果为 "`gt`".
 </p>
 
-<h2>Padé 近似*</h2>
-
-<p class="definition">
-  <b>Padé 近似</b>
-  Taylor 公式用多项式对函数在一点作近似, 而 Padé 近似是用有理函数.
-  例如, 在 `x=0` 附近考虑函数 `ln(1+x)`, 由于
-  <span class="formula">
-    `(2+x) ln (1+x)`
-    `= (2+x)(x - x^2/2 + O(x^3))`
-    `= 2x + O(x^3)`,
-  </span>
-  所以
-  <span class="formula">
-    `ln(1+x) = (2x)/(2+x) + O(x^3)`,
-    或者 `ln x = 2(x-1)/(x+1) + O((x-1)^3)`.
-  </span>
-  一般地, 希望 `x to 0` 时有
-  <span class="formula">
-    `F(x) = p(x) // q(x) + O(x^(n+1))`,
-    `quad p, q` 为多项式,
-    `q(0) = 1`, 且<br>
-    `"deg" p = r`,
-    `"deg" q = s`,
-    `r + s = n`.
-  </span>
-  由于 `q(0) != 0`, 上式可以写为 `q(x) F(x) = p(x) + O(x^(n+1))`,
-  将 `F` Maclaurin 展开: `F(x) = f(x) + O(x^(r+1))`, 有
-  <span class="formula">
-    `q(x) f(x) = p(x) + O(x^(n+1))`.
-  </span>
-  `f, p, q` 的 `k` 次项系数分别记为 `f_k`, `p_k`, `q_k`, 比较系数得
-  `q_0 = 1` 和 `p_0 = q_0 f_0 = f_0`.
-  此外尚有 `p_1, cdots, p_r`, `q_1, cdots, q_s`, 共 `r + s = n` 个待定系数,
-  可以通过下面的方程组确定:
-  <span class="formula">
-    `q_0 f_1 + q_1 f_0 = p_1`,<br>
-    `cdots`<br>
-    `q_0 f_n + q_1 f_(n-1) + cdots + q_n f_0 = p_n`.
-  </span>
-  `p(x)//q(x)` 称为 `f` 在原点的 `r//s` 阶 Padé 近似.
-</p>
-
-<h3>常见函数在原点的 Padé 近似</h3>
-
-[<a href="https://zhuanlan.zhihu.com/p/92873681" target="_blank">知乎@玺之</a>]
-
-`"deg" q = 0` 时, Padé 近似就是 Taylor 公式.
-
-<div class="flex">
-<div>
-<table>
-  <caption>`ln(x+1)`</caption>
-  <tr>
-    <td>`"deg" q\\"deg" p`</td>
-    <td>1</td>
-    <td>2</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>`x`</td>
-    <td>`x - x^2/2`</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>`(2x)/(2+x)`</td>
-    <td>`(6x+x^2)/(6+4x)`</td>
-  </tr>
-</table>
-</div>
-
-<div>
-<table>
-  <caption>`"e"^x`</caption>
-  <tr>
-    <td>`"deg" q\\"deg" p`</td>
-    <td>0</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>`1`</td>
-    <td>`1+x`</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>`1/(1-x)`</td>
-    <td>`(2+x)/(2-x)`</td>
-  </tr>
-</table>
-</div>
-
-<div>
-<table>
-  <caption>`cos x`</caption>
-  <tr>
-    <td>`"deg" q\\"deg" p`</td>
-    <td>0</td>
-    <td>2</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>`1`</td>
-    <td>`1 - x^2/2`</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>`2/(2+x^2)`</td>
-    <td>`(12-5x^2)/(12+x^2)`</td>
-  </tr>
-</table>
-</div>
-
-<div>
-<table>
-  <caption>`(1+x)^a`</caption>
-  <tr>
-    <td>`"deg" q\\"deg" p`</td>
-    <td>0</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>`1`</td>
-    <td>`1+a x`</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>`1/(1-a x)`</td>
-    <td>`(2+(1+a)x)/(2+(1-a)x)`</td>
-  </tr>
-</table>
-</div>
-</div>
-
-<p class="solution">
-  以 `ln(1+x)` 在原点的 `2//1` 阶近似为例, 先将 `ln(1+x)` 展开到 `2+1 = 3` 阶:
-  <span class="formula">
-    `ln(1+x) ~~ x - x^2/2 + x^3/3`.
-  </span>
-  又设 `q(x) = 1 + q_1 x`, `p(x) = p_0 + p_1 x + p_2 x^2`, 得 `p_0 = 0`, 且
-  <span class="formula">
-    `p_1 = 1 * 1`,
-    `quad p_2 = q_1 - 1/2`,
-    `quad p_3 = 0 = -1/2 q_1 + 1/3`.
-  </span>
-  解得 `p_1 = 1`, `q_1 = 2/3`, `p_2 = 1/6`. 故 `(p(x))/(q(x)) = (6x+x^2)/(6+4x)`.
-</p>
-
-<h2>积分余项的 Taylor 公式*</h2>
+<h3>积分余项*</h3>
 
 <p class="theorem">
   <b>积分余项的 Taylor 公式</b>
@@ -1185,6 +1099,156 @@
   </span>
 </p>
 
+<h3>Padé 近似*</h3>
+
+<p class="definition">
+  <b>Padé 近似</b>
+  Taylor 公式用多项式对函数在一点作近似, 而 Padé 近似是用有理函数.
+  例如, 在 `x=0` 附近考虑函数 `ln(1+x)`, 由于
+  <span class="formula">
+    `(2+x) ln (1+x)`
+    `= (2+x)(x - x^2/2 + O(x^3))`
+    `= 2x + O(x^3)`,
+  </span>
+  所以
+  <span class="formula">
+    `ln(1+x) = (2x)/(2+x) + O(x^3)`,
+    或者 `ln x = 2(x-1)/(x+1) + O((x-1)^3)`.
+  </span>
+  一般地, 希望 `x to 0` 时有
+  <span class="formula">
+    `F(x) = p(x) // q(x) + O(x^(n+1))`,
+    `quad p, q` 为多项式,
+    `q(0) = 1`, 且<br>
+    `"deg" p = r`,
+    `"deg" q = s`,
+    `r + s = n`.
+  </span>
+  由于 `q(0) != 0`, 上式可以写为 `q(x) F(x) = p(x) + O(x^(n+1))`,
+  将 `F` Maclaurin 展开: `F(x) = f(x) + O(x^(r+1))`, 有
+  <span class="formula">
+    `q(x) f(x) = p(x) + O(x^(n+1))`.
+  </span>
+  `f, p, q` 的 `k` 次项系数分别记为 `f_k`, `p_k`, `q_k`, 比较系数得
+  `q_0 = 1` 和 `p_0 = q_0 f_0 = f_0`.
+  此外尚有 `p_1, cdots, p_r`, `q_1, cdots, q_s`, 共 `r + s = n` 个待定系数,
+  可以通过下面的方程组确定:
+  <span class="formula">
+    `q_0 f_1 + q_1 f_0 = p_1`,<br>
+    `cdots`<br>
+    `q_0 f_n + q_1 f_(n-1) + cdots + q_n f_0 = p_n`.
+  </span>
+  `p(x)//q(x)` 称为 `f` 在原点的 `r//s` 阶 Padé 近似.
+  `"deg" q = 0` 时, Padé 近似就是 Taylor 公式.
+</p>
+
+<p class="example">
+  [<a href="https://zhuanlan.zhihu.com/p/92873681" target="_blank">知乎@玺之</a>]
+  常见函数在原点的 Padé 近似
+</p>
+
+<div class="flex">
+<div>
+<table>
+  <caption>`ln(x+1)`</caption>
+  <tr>
+    <td>`"deg" q\\"deg" p`</td>
+    <td>1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`x`</td>
+    <td>`x - x^2/2`</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>`(2x)/(2+x)`</td>
+    <td>`(6x+x^2)/(6+4x)`</td>
+  </tr>
+</table>
+</div>
+
+<div>
+<table>
+  <caption>`"e"^x`</caption>
+  <tr>
+    <td>`"deg" q\\"deg" p`</td>
+    <td>0</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`1`</td>
+    <td>`1+x`</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>`1/(1-x)`</td>
+    <td>`(2+x)/(2-x)`</td>
+  </tr>
+</table>
+</div>
+
+<div>
+<table>
+  <caption>`cos x`</caption>
+  <tr>
+    <td>`"deg" q\\"deg" p`</td>
+    <td>0</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`1`</td>
+    <td>`1 - x^2/2`</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>`2/(2+x^2)`</td>
+    <td>`(12-5x^2)/(12+x^2)`</td>
+  </tr>
+</table>
+</div>
+
+<div>
+<table>
+  <caption>`(1+x)^a`</caption>
+  <tr>
+    <td>`"deg" q\\"deg" p`</td>
+    <td>0</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>`1`</td>
+    <td>`1+a x`</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>`1/(1-a x)`</td>
+    <td>`(2+(1+a)x)/(2+(1-a)x)`</td>
+  </tr>
+</table>
+</div>
+</div>
+
+<p class="solution">
+  以 `ln(1+x)` 在原点的 `2//1` 阶近似为例, 先将 `ln(1+x)` 展开到 `2+1 = 3` 阶:
+  <span class="formula">
+    `ln(1+x) ~~ x - x^2/2 + x^3/3`.
+  </span>
+  又设 `q(x) = 1 + q_1 x`, `p(x) = p_0 + p_1 x + p_2 x^2`, 得 `p_0 = 0`, 且
+  <span class="formula">
+    `p_1 = 1 * 1`,
+    `quad p_2 = q_1 - 1/2`,
+    `quad p_3 = 0 = -1/2 q_1 + 1/3`.
+  </span>
+  解得 `p_1 = 1`, `q_1 = 2/3`, `p_2 = 1/6`. 故 `(p(x))/(q(x)) = (6x+x^2)/(6+4x)`.
+</p>
+
+<h2>杂例</h2>
+
 <p class="example">
   [群友@SmartPig] 设 `f(x)` 在 `[a, b]` 上二阶可导, `f(a) = f(b) = 0`, 且存在非负函数 `g`, 使得
   <span class="formula">
@@ -1209,7 +1273,7 @@
   [群友@我是复平面的一点]
   设 `f` 在 `c` 处取得 `[a, b]` 上的最大值 `f(c) gt 0`.
   于是 `f'(c) = 0`, 且存在 `c` 的邻域 `U` 使得 `f` 在 `U` 上恒正.
-  由 `f'' = f g` 知在 `U` 上有 `f'' ge 0`, 从而 `f'` 单增. 这与 `c` 是最大值点矛盾. (??)
+  由 `f'' = f g` 知在 `U` 上有 `f'' ge 0`, 从而 `f'` 单增. 这与 `c` 是最大值点矛盾.
   同理 `f` 的最小值也不能小于零, 所以 `f -= 0`.
 </p>
 

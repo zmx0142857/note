@@ -449,9 +449,28 @@ mesh.geometry.computeBoundsTree()
   - 一个原因是色彩空间发生了变化, 解决方案是:
     ```js
     renderer.outputColorSpace = THREE.SRGBColorSpace
+    texture.colorSpace = THREE.SRGBColorSpace
+
+    function compatColor (color, srgb = true) {
+      const res = new THREE.Color(color)
+      const isLowVersion = Number(THREE.REVISION) < 155
+      if (srgb && isLowVersion) {
+        res.convertSRGBToLinear()
+      } else if (!srgb && !isLowVersion) {
+        res.convertLinearToSRGB()
+      }
+      return res
+    }
 
     // MeshBasicMaterial
-    material.color = Number(THREE.REVISION) < 155 ? new THREE.Color(0x102040).convertSRGBToLinear() : 0x102040
+    material.color = compatColor(0x102040)
+    ```
+  - 同一段代码, 在不同版本 three.js 下的差异:
+    ```js
+    const color = 0xffaa55
+    new THREE.Color(color).toArray().map(v => v * 255 | 0)
+    // 旧版: [255, 170, 85]
+    // 新版: [255, 102, 23] // srgb 空间中的数值偏小
     ```
   - 另一个原因: 从 r155 开始, three.js 的光照模型依循国际单位, 而 legacyLights 被弃用.
     对于环境光和平行光, 可以简单地将光照强度乘以 `Math.PI`, 以达到旧版的视觉效果,

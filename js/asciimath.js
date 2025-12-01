@@ -207,6 +207,7 @@ const symbols = [
 {input:'o+',tag:'mo',output:'\u2295',tex:'oplus',ttype:CONST},
 {input:'O+',tag:'mo',output:'\u2a01',tex:'bigoplus',ttype:CONST},
 {input:'ox',tag:'mo',output:'\u2297',tex:'otimes',ttype:CONST},
+{input:'Ox',tag:'mo',output:'\u2a02',tex:'bigotimes',ttype:CONST},
 {input:'o.',tag:'mo',output:'\u2299',tex:'odot',ttype:CONST},
 {input:'sum',tag:'mo',output:'\u2211',ttype:UNDEROVER},
 {input:'prod',tag:'mo',output:'\u220F',ttype:UNDEROVER},
@@ -218,6 +219,8 @@ const symbols = [
 {input:'nnn',tag:'mo',output:'\u22C2',tex:'bigcap',ttype:UNDEROVER},
 {input:'uu',tag:'mo',output:'\u222A',tex:'cup',ttype:CONST},
 {input:'uuu',tag:'mo',output:'\u22C3',tex:'bigcup',ttype:UNDEROVER},
+{input:'squu',tag:'mo',output:'\u2294',tex:'sqcup',ttype:CONST},
+{input:'squuu',tag:'mo',output:'\u2a06',tex:'bigsqcup',ttype:UNDEROVER},
 
 // relation symbols
 {input:'!=',tag:'mo',output:'\u2260',tex:'ne',ttype:CONST},

@@ -783,7 +783,11 @@ const Typing = {
       }
       if (buf.length) {
         if (optim && Typing.optim) {
-          const { solution } = Typing.optim.optimize(text)
+          const { solution, avg } = Typing.optim.optimize(text)
+          if (!Typing.current.theoretical) {
+            Typing.current.theoretical = avg
+            console.log('理论码长:', avg)
+          }
           const word = solution[0]
           res.push(Utils.html`<span class="color-optim">${word}</span>`)
           text = text.slice(word.length)
@@ -844,6 +848,7 @@ const Typing = {
     $inputArea.disabled = true
     clearInterval(Typing.current.timer)
     Typing.current.timer = undefined
+    Typing.current.theoretical = undefined
     Typing.updateStatus()
 
     // 计算成熟度
