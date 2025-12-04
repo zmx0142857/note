@@ -276,8 +276,6 @@ const symbols = [
 //{input:'||',tag:'mo',output:'||',ttype:LEFTRIGHT},
 {input:'(:',tag:'mo',output:'\u2329',tex:'langle',ttype:LEFTBRACKET},
 {input:':)',tag:'mo',output:'\u232A',tex:'rangle',ttype:RIGHTBRACKET},
-{input:'<<',tag:'mo',output:'\u2329',ttype:LEFTBRACKET},
-{input:'>>',tag:'mo',output:'\u232A',ttype:RIGHTBRACKET},
 {input:'{:',tag:'mo',output:'{:',ttype:LEFTBRACKET,invisible:true},
 {input:':}',tag:'mo',output:':}',ttype:RIGHTBRACKET,invisible:true},
 
@@ -362,6 +360,7 @@ const symbols = [
 {input:'darr',tag:'mo',output:'\u2193',tex:'downarrow',ttype:CONST},
 {input:'rarr',tag:'mo',output:'\u2192',tex:'rightarrow',ttype:CONST},
 {input:'->',tag:'mo',output:'\u2192',tex:'to',ttype:CONST},
+{input:'-->',tag:'mo',output:'\u2192',tex:'longrightarrow',ttype:CONST},
 {input:'>->',tag:'mo',output:'\u21A3',tex:'rightarrowtail',ttype:CONST},
 {input:'->>',tag:'mo',output:'\u21A0',tex:'twoheadrightarrow',ttype:CONST},
 {input:'>->>',tag:'mo',output:'\u2916',tex:'twoheadrightarrowtail',ttype:CONST},
@@ -438,8 +437,11 @@ const symbols = [
 {input:'lhd',tag:'mo',output:'\u22B2',tex:'lhd',ttype:CONST},
 {input:'rhd',tag:'mo',output:'\u22B3',tex:'rhd',ttype:CONST},
 {input:'normal',tag:'mo',output:'\u22B4',tex:'unlhd',ttype:CONST},
+{input:'!normal',tag:'mo',output:'\u22EC',ttype:CONST,nobackslash:true},
 {input:'rnormal',tag:'mo',output:'\u22B5',tex:'unrhd',ttype:CONST},
 {input:'intercal',tag:'mo',output:'\u22BA',tex:'intercal',ttype:CONST},
+{input:'<<',tag:'mo',output:'\u226A',tex:'ll',ttype:CONST},
+{input:'>>',tag:'mo',output:'\u226B',tex:'gg',ttype:CONST},
 ...(asciimath.symbols || [])
 ] // symbols
 

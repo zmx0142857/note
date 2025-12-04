@@ -1037,7 +1037,7 @@
   </span>
 </p>
 
-<p class="proof">
+<div class="p proof">
   旋转轴 `bm e` 是 `bm u`, `bm v` 的法向量:
   <span class="formula">
     `bm e = (bm u xx bm v)/(|bm u xx bm v|)`
@@ -1054,11 +1054,18 @@
     `= |bm u| |bm v|(1 + cos theta) + bm u xx bm v`<br>
     `= |bm u| |bm v| + bm u * bm v + bm u xx bm v`.
   </span>
-  <hr>
-  [群友@小豆8593]
-  注: 其实满足条件的四元数有无穷多个 (想象转到目标方向后, 以目标方向为轴做翻滚运动),
-  这里我们求的是旋转轴与 `bm u`, `bm v` 垂直的特殊情形.
-</p>
+</div>
+
+<ol class="remark">
+  <li>
+    three.js 中使用现成的函数: <code>new THREE.Quaternion().setFromUnitVectors(u, v)</code>.
+  </li>
+  <li>
+    [群友@小豆8593]
+    注: 其实满足条件的四元数有无穷多个 (想象转到目标方向后, 以目标方向为轴做翻滚运动),
+    这里我们求的是旋转轴与 `bm u`, `bm v` 垂直的特殊情形.
+  </li>
+</ol>
 
 <ol class="example">
   <b>Euler 角的旋转合成</b> [《Unity Shader 入门精要》]

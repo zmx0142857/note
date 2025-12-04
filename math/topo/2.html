@@ -9,6 +9,8 @@
 
 <p>本章主题围绕常见的拓扑性质: 分离性、可数性、紧致性、度量化和连通性.</p>
 
+<p>拓扑性质在线速查: <a href="https://topology.pi-base.org/" target="_blank">pi-base</a>.</p>
+
 <h2>分离公理</h2>
 
 <p>分离公理都是关于两个点 (或闭集) 能否用邻域来分隔的性质,
@@ -92,17 +94,20 @@
 <p class="axiom">
   <b>`T_3` 公理</b>
   闭集外的一点与该闭集有不相交的 (开) 邻域.
+  (如果 `A sube U^@`, 就说 `U` 是集合 `A` 的邻域).
 </p>
 
 <p class="axiom">
   <b>`T_4` 公理</b>
   任意两个不相交闭集有不相交的 (开) 邻域.
-  (如果 `A sube U^@`, 就说 `U` 是集合 `A` 的邻域).
 </p>
 
 <p class="remark">
-  有些地方称 `T_3` 空间为正则空间 (regular), `T_4` 空间为正规空间 (normal).
-  这两个术语容易混淆, 我们避免使用.
+  <b>拓扑学需要秦始皇</b>
+  有些地方称 `T_3` 空间为正则空间 (regular), `T_4` 空间为正规空间 (normal);
+  还有的地方进一步要求正则、正规空间满足 `T_1` 公理;
+  还有的地方, 正则与 `T_3` 的概念正好相反, 正规与 `T_4` 的概念正好相反;
+  正则与正规这两个术语容易混淆, 我们避免使用.
 </p>
 
 <p class="axiom">
@@ -352,6 +357,14 @@
 </p>
 
 <p class="corollary">
+  任意拓扑空间中, 有限点集是紧的.
+</p>
+
+<p class="remark">
+  注意, 有限点集不一定是闭的, 需要满足 `T_1` 公理才行.
+</p>
+
+<p class="corollary">
   紧集的闭子集是紧的.
 </p>
 
@@ -365,7 +378,7 @@
 </p>
 
 <p class="theorem">
-  <b>闭集套定理</b>
+  <b>紧集套定理</b>
   设 `{K_n}` 为 `X` 中的一列非空闭集, 且 `K_1` 紧致, 且满足 `K_1 supe K_2 supe cdots`.
   则 `nnn_(n ge 1) K_n != O/`.
 </p>
@@ -600,18 +613,14 @@
   <li>`lArr`: ??</li>
 </ol>
 
-<h3>Lindelöf 空间*</h3>
+<h3>紧致性的弱化版本*</h3>
 
 <p>紧致性虽然是很好的拓扑性质, 但它太强了, 欧氏空间 `bbb E^n` 都不是紧致的.
   下面的定义是紧致性的一些弱化版本.
 </p>
 
-<p class="remark">
-  俗称“拎豆腐”.
-</p>
-
 <ol class="definition">
-  <li>若 `X` 的任意开覆盖都有可数子覆盖, 则称它为 <b>Lindelöf 空间</b>.
+  <li>若 `X` 的任意开覆盖都有可数子覆盖, 则称它为 <b>Lindelöf 空间 (林德洛夫空间)</b>.
     这个定义就是把紧致性的“有限”换成“可数”.</li>
   <li>若 `X` 的任意可数开覆盖都存在有限子覆盖, 则称它是<b>可数紧致</b>的.</li>
   <li>若 `X` 的任意子空间都是 <b>Lindelöf</b> 的, 则称它是<b>强 Lindelöf</b> 空间.</li>
@@ -621,6 +630,76 @@
 
 <ol class="example">
   <li>`RR_l` 是强 Lindelöf 的, 但不是紧致的.</li>
+</ol>
+
+<p class="theorem">
+  <b>Hausdorff 空间的不相交紧集能被开集分离</b>
+  推论: 紧 Hausdorff `rArr T_4`.
+</p>
+
+<p class="proof">
+  [<a href="https://zhuanlan.zhihu.com/p/552221844" target="_blank">知乎@sumeragi693</a>]
+  设 `X` 为 Hausdorff 空间, `A, B` 是不相交紧集.
+  要证明存在不相交开集 `U supe A`, `V supe B`.
+  <br>
+  对任意 `x in A` 和 `y in B`, 存在不相交的开邻域 `x in U_(x, y)`, `y in V_(x, y)`.
+  对每个固定的 `x`, `{ V_(x, y): y in B }`
+  构成 `B` 的开覆盖, 因此它们中的有限个 `{ V_(x, y_i) }_(j=1)^n`
+  已经覆盖了 `B`. 记
+  <span class="formula">
+    `V_x := uuu_(j=1)^n V_(x, y_j)`,
+    `quad U_x := nnn_(j=1)^n U_(x, y_j)`,
+  </span>
+  则 `V_x` 是 `B` 的开邻域, `U_x` 是 `x` 的开邻域 (因为每个 `U_(x, y_j)` 是 `x` 的开邻域).
+  <br>
+  再让 `x` 取遍 `A` 的每一点, `{ U_x: x in A }` 构成 `A` 的开覆盖, 设它们中的有限个
+  `{ U_(x_i) }_(i=1)^m` 已经覆盖了 `A`.  记
+  <span class="formula">
+    `U := uuu_(i=1)^m U_(x_i)`,
+    `quad V := nnn_(i=1)^m V_(x_i)`,
+  </span>
+  则 `U` 是 `A` 的开邻域, `V` 是 `B` 的开邻域 (因为每个 `V_x` 是 `B` 的开邻域).
+  下证 `U nn V = O/`. 先对固定的 `x`,
+  <span class="formula">
+    `U_x nn V_x`
+    `sube uuu_(i=1)^n U_(x, y_i) nn V_(x, y_i)`
+    `= O/`.
+  </span>
+  于是
+  <span class="formula">
+    `U nn V`
+    `sube uuu_(i=1)^m U_(x_i) nn V_(x_i)`
+    `= O/`.
+  </span>
+</p>
+
+<p class="theorem">
+  局部紧 Hausdorff `rArr T_3`.
+</p>
+
+<ol class="proof">
+  [<a href="https://zhuanlan.zhihu.com/p/555842689" target="_blank">知乎@sumeragi693</a>]
+  设 `X` 是局部紧 Hausdorff 空间,
+  取一点 `x in X` 和它的开邻域 `U`, 下证存在 `x` 的开邻域 `V` 使得 `bar V sube U`.
+  <li>
+    由局部紧性, 存在 `x` 的开邻域 `W` 和紧集 `K`, 使得 `x in W sube K`.
+    考虑集合 `O = W nn U`, 它是 `x` 在子空间 `K` 中的开邻域.
+    由 Hausdorff 的遗传性知道, 子空间 `K` 是紧 Hausdorff 空间,
+    因此是 `T_4` 空间, 从而是 `T_3` 空间.
+    这意味着存在 `x` 在子空间 `K` 中的开邻域 `V`, 使得 `"cl"_K(V) sube O`.
+    这里 `"cl"_K` 表示在子空间 `K` 中的闭包, 我们有 `"cl"_K(V) = bar V nn K`.
+  </li>
+  <li>
+    易知 `V sube W sube K`, 因此 `V` 也是子空间 `W` 的开集; 而 `W` 是 `X`
+    的开集, 因此 `V` 也是 `X` 的开集.
+  </li>
+  <li>
+    下证 `"cl"_K(V) = bar V`.
+    `"cl"_K(V)` 是紧空间 `K` 的闭集, 因此是 `K` 的紧集, 从而是 `X` 的紧集.
+    由于 `X` 是 Hausdorff 空间, 它的紧子集都是闭的, 故 `"cl"_K(V)` 是 `X` 的闭集.
+    但 `"cl"_K(V) = bar V nn K sube bar V`, 所以 `"cl"_K(V)` 是 `X` 中包含 `V` 的最小闭集,
+    即 `"cl"_K(V) = bar V`.
+  </li>
 </ol>
 
 <p class="theorem">
@@ -665,6 +744,184 @@
 <p class="remark">注: Lindelöf 定理表明 `C_2 and T_3 rArr T_4`,
   又 `T_4 and T_1 rArr T_2`, `C_2 rArr C_1`, 因此事实上题设条件满足 `T_1 ~ T_4`, `C_1, C_2` 六个公理.
 </p>
+
+<h2>Baire 纲*</h2>
+
+<p>[张恭庆《泛函分析讲义》, <a href="https://zhuanlan.zhihu.com/p/612181451" target="_blank">知乎@Gigil</a>]</p>
+
+<ol class="definition">
+  <b>纲 (category, 与范畴没有关系)</b>
+  设 `X` 是拓扑空间, `E sube X`.
+  <li>称 `E` 是<b>稀疏集 (或无处稠密集)</b>, 如果它取闭包仍无内点, 即 `(bar E)^@ = O/`.</li>
+  <li>称 `E` 是<b>第一纲集 (或贫集)</b>, 如果它能写成可数个稀疏集之并; 否则称为<b>第二纲集</b>.</li>
+</ol>
+
+<p class="remark">
+  粗略地说, 第一纲集是 "小的", 第二纲集是 "大的".
+  纲与基数、Lebesgue 测度等概念从不同角度刻画集合的 "大小".
+</p>
+
+<p class="corollary">
+  从稠密集的定义知道, `E` 在 `X` 中稠密 `iff E^c` 没有内点. 因此,
+  <span class="formula">
+    `E` 是稀疏闭集 `iff E^c` 是稠密开集.
+  </span>
+</p>
+
+<ol class="corollary">
+  <li>稀疏集的子集、闭包、有限并仍稀疏;</li>
+  <li>第一纲集的子集、可数并仍是第一纲集.</li>
+</ol>
+
+<p class="proof">
+  只证两个稀疏集的并仍稀疏: 设 `A, B` 是稀疏集,
+  我们考查集合 `bar(A uu B) = bar A uu bar B` 是否存在内点.
+  <br>
+  若存在非空开集 `U sube bar A uu bar B`, 由于 `A` 稀疏, 有 `U !sube bar A`,
+  即 `V := U nn (bar A)^c != O/`.
+  <br>
+  任取 `x in V`, 易知 `x in U sube bar A uu bar B` 及 `x !in bar A`, 这推出 `x in bar B`,
+  于是 `V sube bar B`.
+  <br>
+  但 `V` 是非空开集, 这与 `B` 是稀疏集矛盾.
+  因此 `bar(A uu B)` 是稀疏集.
+</p>
+
+<ol class="example">
+  <li>`RR^n` 中的有限点集是稀疏集, 可数点集是第一纲集;</li>
+  <li>在离散拓扑空间中, 每个子集都既闭又开, 因此空集是唯一的稀疏集;</li>
+  <li>Cantor 集是稀疏集, 它的闭包是自身;</li>
+  <li>第一纲集的闭包未必是第一纲集. 例如 `bar QQ = RR`: 其中 `QQ` 是第一纲集,
+    然而根据下文的 Baire 纲定理, `RR` 是第二纲集.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>Baire 空间</b>
+  设 `X` 是拓扑空间, 则以下几条等价:
+  <li>`X` 中每个非空开集是第二纲集;</li>
+  <li>`X` 中每个第一纲集无内点;</li>
+  <li>`X` 中任意可数个稀疏闭集的并无内点;</li>
+  <li>`X` 中任意可数个稠密开集的交仍稠密;</li>
+  满足以上任一条件的拓扑空间称为 Baire 空间.
+</ol>
+
+<ol class="proof">
+  <li>`rArr` 2: 假设 `E` 是第一纲集, 且有内点, 则存在非空开集 `U sube E`.
+    `U` 是第一纲集的子集, 所以它也是第一纲集, 与 1. 矛盾.<br>
+    2. `rArr` 1: 假设存在一个非空开集 `U`, 其为第一纲集, 则显然 `U` 有内点, 与 2. 矛盾;
+  </li>
+  <li>`rArr` 3: 显然.<br>
+    3. `rArr` 2: 假设 `E` 是第一纲集, 将它写为稀疏集之并:
+    <span class="formula">
+      `E = uuu_(i=1)^oo E_i`.
+    </span>
+    右边每个集合取闭包, 得到更大的集合:
+    <span class="formula">
+      `E sube uuu_(i=1)^oo bar E_i`.
+    </span>
+    由 3. 知道右边集合无内点, 故 `E` 也无内点.
+  </li>
+  <li>`iff` 4: 取补集, 稀疏闭集的补是稠密开集, 无内点集的补是稠密集.</li>
+</ol>
+
+<p class="lemma">
+  度量空间中, `E` 是稀疏集的充要条件是:
+  对任意开球 `B_0`, 存在开球 `B_1 sube B_0` 使得
+  <span class="formula">
+    `bar E nn bar B_1 = O/`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>`rArr`: 设 `E` 是稀疏集, 则 `bar E` 不能包含任一开球, 故存在 `x_1 in B_0 - bar E`.
+    由于 `bar E` 是闭集, 而度量空间中, 闭集外一点到闭集有正的距离,
+    故存在以 `x_1` 为心的开球 `B_1 sube B_0`, 满足 `bar E nn bar B_1 = O/`.
+  </li>
+  <li>`lArr`: 设 `E` 不是稀疏集, 则存在开球 `B_0 sube bar E`,
+    任取开球 `B_1 sube B_0 sube bar E`, 则 `bar B_1 sube bar E`, 于是
+    `bar E nn bar B_1 = bar B_1 != O/`, 矛盾.
+  </li>
+</ol>
+
+<p class="lemma">
+  局部紧 Hausdorff 空间中, 设 `U` 为非空开集, 则存在非空开集 `V`, 使得 `bar V sube U` 且 `bar V` 紧.
+</p>
+
+<ol class="proof">
+  [Gemini 3]
+  <li>
+    取 `x in U`, 由局部紧性, 存在 `x` 的紧邻域 `K`. 在 Hausdorff 空间中, `K` 是闭的.
+    令 `O := K^@ nn U`, 则 `O` 是 `x` 的开邻域.
+    由于局部紧 Hausdorff 空间满足 `T_3` 公理, 我们可以分离点 `x` 和闭集 `K - O`,
+    即存在 `x` 的开邻域 `V`, 使得 `bar V sube O`.
+  </li>
+  <li>
+    下面验证 `V` 的性质.
+    显然 `V` 是非空开集且 `bar V sube O sube U`, 下证 `bar V` 紧:
+    这是因为
+    <span class="formula">
+      `bar V sube O sube K^@ sube K`,
+    </span>
+    紧集的闭子集也是紧集, 故 `bar V` 紧.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>Baire 纲定理</b>
+  <li>完备度量空间是 Baire 空间.</li>
+  <li>局部紧 Hausdorff 空间是 Baire 空间.</li>
+</ol>
+
+<ol class="proof">
+  <li>[张恭庆《泛函分析讲义》]
+    设 `X` 是完备度量空间. 若存在一个非空开集 `E sube X`, 其是第一纲集, 我们把它写为稀疏集之并:
+    <span class="formula">
+      `E = uuu_(n=1)^oo E_n`.
+    </span>
+    任取开球 `B_0`, 使 `bar B_0 sube E`.
+    由引理, 存在开球 `B_1 sube B_0` 使得 `bar E_1 nn bar B_1 = O/`.
+    我们不妨设 `B_1` 的半径 `lt 1`: 如若不然, 可以取一个半径 `lt 1` 的开球 `B_1' sube B_1`,
+    由引理存在开球 `B_1'' sube B_1'` 使得 `bar E_1 nn bar(B_1'') = O/`. 然后以
+    `B_1''` 代替 `B_1` 进行讨论即可.
+    <br>
+    如此继续下去, 得到一列开球 `B_0 supe B_1 supe cdots`, 满足 `n ge 1` 时:
+    <span class="formula">
+      `B_n` 的半径 `lt 1//n`,<br>
+      `bar E_n nn bar B_n = O/`.
+    </span>
+    提取这些开球的球心, 得到点列 `{x_n}`. 我们有
+    <span class="formula">
+      `d(x_i, x_j) lt 1//n`, `quad AA i, j gt n`.
+    </span>
+    因此它是基本列, 存在极限
+    <span class="formula">
+      `x in bar B_n`, `AA n in NN`.
+    </span>
+    由于 `bar E_n nn bar B_n = O/`, 我们得到
+    <span class="formula">
+      `x !in E_n`, `AA n in NN`,
+    </span>
+    即 `x !in E`.  这与 `x in bar B_n sube bar B_0 sube E` 矛盾.
+  </li>
+  <li>[Rudin《泛函分析》]
+    设 `X` 是局部紧 Hausdorff 空间, 任给一族稠密开集 `{V_n}_(n=1)^oo`, 下证它们的交集稠密,
+    即对任意非空开集 `U sube X`, `U nn (nnn V_n) != O/`.
+    <br>
+    由引理, 可取非空开集 `B_1`, 满足 `bar B_1 sube U`, 且 `bar B_1` 是紧的.
+    假设已有非空开集 `B_n`, 使得 `bar(B_n)` 紧, 由于 `V_n` 稠密, `B_n nn V_n` 是非空开集.
+    利用引理, 可取非空开集 `B_(n+1)`, 使得
+    <span class="formula">
+      `bar B_(n+1) sube B_n nn V_n`,
+    </span>
+    且 `bar(B_(n+1)) sube bar(B_n)` 紧.  根据紧集套定理,
+    <span class="formula">
+      `K := nnn_(n=1)^oo bar B_n != O/`.
+    </span>
+    由 `K` 的定义知 `K sube U nn (nnn V_n)`, 因此后者也是非空的.
+  </li>
+</ol>
+
 
 <h2>连通性</h2>
 
@@ -912,9 +1169,9 @@
 
 <ol class="example">
   <b>可数公理</b>
-  <li>`C_2 rArr C_1 and "Lindelöf" and 可分`.</li>
+  <li>`C_2 rArr C_1 and "Lindelöf" and` 可分.</li>
   <li>度量空间 `rArr C_1`</li>
-  <li>度量空间中, `"Lindelöf" iff 可分 iff C_2`.</li>
+  <li>度量空间中, `"Lindelöf" iff` 可分 `iff C_2`.</li>
 </ol>
 
 <ol class="example">

@@ -7,14 +7,20 @@
 </head>
 <body>
 
-<p>[梅加强《流形与几何初步》, <a href="https://zhuanlan.zhihu.com/p/125050693" target="_blank">知乎@Silence</a>]</p>
+<ul>来自:
+  <li>梅加强《流形与几何初步》, 难度较高</li>
+  <li>Loring Tu《An Introduction to Manifolds》, 适合初学</li>
+  <li><a href="https://zhuanlan.zhihu.com/p/125050693" target="_blank">知乎@Silence</a></li>
+</ul>
 
 <p class="remark">
   本章起我们离开古典微分几何, 进入现代微分几何的领域. 第一个重要概念就是<b>流形</b>:
   它是加上了一些限定条件的拓扑空间, 从而方便我们应用微积分的工具.
 </p>
 
-<h2>流形的定义</h2>
+<h2>流形</h2>
+
+<h3>流形的定义</h3>
 
 <ol class="definition">
   <li>
@@ -117,6 +123,109 @@
   `varphi_alpha`, `varphi_beta` 之间的转换映射都是 `C^r` 的, 所以 `C^k`
   映射不依赖于局部坐标系选取.
 </p>
+
+<h3>光滑流形</h3>
+
+<p>不加说明的情况下, 我们接下来涉及的流形都指光滑流形, 即 `C^oo` 流形.</p>
+
+<h2>切空间</h2>
+
+<ol class="definition">
+  设 `M` 是 `n` 维光滑流形, `p in M`.
+  <li>
+    <b>光滑函数族</b>
+    考虑全体在 `p` 的某邻域上有定义的 `C^oo` 函数
+    <span class="formula">
+      `f: U_f to RR`,
+      `quad U_f` 是 `p` 的邻域.
+    </span>
+    它们之间可以建立等价关系 `~`: 其中
+    <span class="formula">
+      `f ~ g iff EE p 的邻域 V`, `AA x in V`, `f(x) = g(x)`.
+    </span>
+    所有的这些等价类记作 `C_p^oo(M)`, 称为 `p` 处的光滑函数族.
+    在函数的加法与乘法下, `C_p^oo(M)` 成为一个环; 再加以实数的数乘, 它成为一个 `RR` 上的代数.
+  </li>
+  <li><b>导子 (或方向导数, 切向量)</b>
+    线性映射 `D: C_p^oo(M) to RR` 称为 `M` 在 `p` 处的一个导子, 如果它满足 Leibniz 法则:
+    `AA f, g in C_p^oo(M)`,
+    <span class="formula">
+      `D(f g) = {:D(f) g + f D(g)|_p`.
+    </span>
+    可以验证, 在 `M = RR^n` 时, `p` 处的全体导子恰为 `p` 处的全体方向导数,
+    因此又把导子称为方向导数.
+    <br>
+    可以验证, 导子经过加法、数乘运算仍满足 Leibniz 法则, 故 `p`
+    处的全体导子构成线性空间, 记作 `T_p(M)`, 称为 `M` 在 `p` 处的<b>切空间</b>.
+    因此又把导子称为切向量.
+  </li>
+  <li><b>偏导数 (或对坐标微分)</b>
+    取 `p` 的坐标卡 `(U, phi) = (U, x^1, cdots, x^n)`, 其中 `phi: U to RR^n`,
+    `x^1, cdots, x^n` 是 `phi` 的坐标分量.
+    记 `r^1, cdots, r^n` 是 `RR^n` 是标准坐标函数, 即, `r^i: RR^n to RR`
+    的作用是取出向量的第 `i` 个分量.
+    那么 `x^i` 可以写成
+    <span class="formula">
+      `x^i = r^i @ phi`: `U to RR`.
+    </span>
+    对任意 `f in C_p^oo(M)`, 定义 `f` 对 `x^i` 在 `p` 点的偏导数为
+    <span class="formula">
+      `{: pp f x^i |_p`
+      `:= {: pp (f@phi^-1) r^i |_(phi(p))`.
+    </span>
+    该定义将流形上的偏导数与实函数 `f @ phi^-1: RR^n to RR` 的偏导数联系在一起.
+    <br>
+    由坐标函数 `phi` 的光滑性知道 `x^i in C_p^oo(M)`, 因此可以计算
+    <span class="formula">
+      `{: pp x^i x^j |_p`
+      `= {: pp (r^i@phi@phi^-1) r^j |_(phi(p))`
+      `= delta_j^i`.
+    </span>
+    可以验证 `{:del//del x^i|_p: C_p^oo(M) to RR` 满足 Leibniz 律, 因此是导子.
+  </li>
+  <li>
+    <b>微分</b>
+    设 `F: N to M` 是流形间的 `C^oo` 映射.
+    `F` 在 `p in N` 处的微分 `F_ast` 定义为切空间之间的线性映射, 它将 `p` 处的导子映为 `F(p)` 处的导子.
+    <span class="formula">
+      `F_ast: T_p N to T_(F(p)) M`,<br>
+      `(F_ast D) f = D(f @ F)`, `quad AA D in T_p N`, `f in C_(F(p))^oo(M)`.
+    </span>
+    可以验证 `F_ast D` 满足 Leibniz 律, 且 `F_ast` 是线性的.
+    特别当 `F` 是微分同胚时, `F_ast` 是线性空间的同构.
+  </li>
+  <li>
+    <b>微分的链式法则</b>
+    设 `F: N to M`, `G: M to P` 是流形间的 `C^oo` 映射.
+    取 `p in N`, 考虑 `F` 和 `G` 的微分的复合运算:
+    <span class="formula">
+      `T_p N overset(F_(ast, p)) --> T_(F(p)) M overset(G_(ast, F(p))) --> T_(G(F(p))) P`,
+    </span>
+    其中 `(G @ F)_ast = G_ast @ F_ast`.
+  </li>
+  <li><b>切空间的基</b>
+    取 `p` 的坐标卡 `(U, phi) = (U, x^1, cdots, x^n)`,
+    求 `phi` 的微分可得: `AA f in C_(phi(p))^oo(RR^n)`,
+    <span class="formula">
+      `phi_ast ({:del/(del x^i)|_p) f`
+      `==^"微分定义" {:del/(del x^i)|_p (f @ phi)`
+      `==^"偏导数定义" {:pp (f@phi@phi^-1) r^i |_(phi(p))`
+      `= {: pp f r^i |_(phi(p))`.
+    </span>
+    因此
+    <span class="formula">
+      `phi_ast ({:del/(del x^i)|_p)`
+      `= {: del/(del r^i) |_(phi(p))`.
+    </span>
+    由于 `phi` 是微分同胚, `phi_ast` 是线性同构. 但 `(del//del r^i)_(i=1)^n` 是 `T_(phi(p))(RR^n)` 的基,
+    所以 `(del//del x^i)_(i=1)^n` 是 `T_p M` 的基 (线性同构将基底映为基底).
+    从而 `dim T_p M = dim M`.
+  </li>
+  <li><b>维数不变量</b>
+    由于切空间维数等于流形维数, 且切空间在微分同胚下保持线性同构,
+    我们推出: 光滑流形的维数在微分同胚下不变.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

@@ -448,9 +448,7 @@ mesh.geometry.computeBoundsTree()
 - 升级到新版 three.js 后, 模型颜色很暗淡.
   - 一个原因是色彩空间发生了变化, 解决方案是:
     ```js
-    renderer.outputColorSpace = THREE.SRGBColorSpace
-    texture.colorSpace = THREE.SRGBColorSpace
-
+    const compatColorSpace = Number(THREE.REVISION) < 155 ? THREE.LinearSRGBColorSpace : THREE.SRGBColorSpace
     function compatColor (color, srgb = true) {
       const res = new THREE.Color(color)
       const isLowVersion = Number(THREE.REVISION) < 155
@@ -462,8 +460,9 @@ mesh.geometry.computeBoundsTree()
       return res
     }
 
-    // MeshBasicMaterial
-    material.color = compatColor(0x102040)
+    renderer.outputColorSpace = THREE.SRGBColorSpace
+    mesh.material.color = compatColor(0x102040)
+    texture.colorSpace = compatColorSpace
     ```
   - 同一段代码, 在不同版本 three.js 下的差异:
     ```js

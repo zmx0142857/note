@@ -189,7 +189,7 @@ var tocData = [
         "label": "拓扑学",
         "children": [
           { "value": "1", "label": "拓扑空间与连续映射", "date": "2023-05-11" },
-          { "value": "2", "label": "常见拓扑性质", "date": "2024-10-19" },
+          { "value": "2", "label": "常见拓扑性质", "date": "2025-12-04" },
           { "value": "3", "label": "滤子和网", "date": "2024-10-31" },
           { "value": "10", "label": "纽结理论", "date": "2025-01-14" },
         ]
@@ -719,6 +719,7 @@ var tocData = [
           { "value": "git.md", "label": "Git", "date": "2025-02-13" },
           { "value": "svn.md", "label": "SVN", "date": "2025-02-14" },
           { "value": "blender.md", "label": "Blender", "date": "2025-02-22" },
+          { "value": "revit.md", "label": "Revit", "date": "2025-12-04" },
           { "value": "magick.md", "label": "Magick", "date": "2025-04-23" },
           { "value": "ffmpeg.md", "label": "FFmpeg", "date": "2025-05-15" },
           { "value": "pdf.md", "label": "PDF 工具集", "date": "2025-05-20" },
@@ -736,6 +737,7 @@ var tocData = [
           { "value": "windows.md", "label": "Windows", "date": "2025-01-26" },
           { "value": "cmd.md", "label": "cmd", "date": "2025-03-04" },
           { "value": "net.md", "label": "网络", "date": "2025-03-05" },
+          { "value": "vbox.md", "label": "Virtual Box", "date": "2025-12-04" },
         ],
       },
       {

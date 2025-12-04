@@ -339,6 +339,43 @@ proxy.hello().then(console.log)
 </script>
 ```
 
+### Audio API
+
+[来自 测测你是不是猪](https://nanancc.github.io/pig-text/)
+```js
+function playSound(type) {
+  try {
+    // 创建音频上下文
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+
+    // 创建振荡器
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    // 设置音效参数
+    if (type === 'complete') {
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+      oscillator.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+      oscillator.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+
+      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+      oscillator.start(audioCtx.currentTime);
+      oscillator.stop(audioCtx.currentTime + 0.3);
+    }
+  } catch (error) {
+    console.error('播放音效失败:', error);
+    // 音效播放失败不影响主要功能
+  }
+}
+```
+
 ### es module 命名冲突
 
 在 es module 中, 如果两个模块具有相同名字的组件, 会怎样呢?
