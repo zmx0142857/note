@@ -1,3 +1,34 @@
+/* 样式重置 */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-size: 16px; /* 1rem = 16px */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  background-clip: padding-box;
+  border-radius: 4px;
+  min-height: 28px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+/* 工具类 */
 .g-full {
   width: 100%;
   height: 100%;
@@ -24,6 +55,9 @@
 }
 .g-flex {
   display: flex;
+}
+.g-flex-auto {
+  flex: auto;
 }
 .g-column {
   display: flex;
@@ -57,4 +91,60 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+}
+
+/* 主题 */
+:root {
+  --theme: #1976d2;
+
+  /* background color */
+  --bg: #fff;
+  --bg1: var(--theme); /* primary: bright vivid surface color */
+  --bg2: #f8f8f8; /* secondary: surface color like modal, card */
+  --bg3: #c3dfff; /* complement surface color */
+
+  /* foreground color */
+  --fg: #333;
+  --fg1: var(--theme); /* bright vivid color */
+  --fg2: #aaa; /* secondary: usually gray and unimportant */
+  --fg3: #fff; /* complement: e.g. text color on primary background */
+
+  /* border color */
+  --bd: #ccc;
+  --bd1: var(--theme);
+  --bd2: #eee;
+
+  /* measure */
+  --xl: 32px;
+  --lg: 16px;
+  --md: 8px;
+  --sm: 4px;
+  --xs: 2px;
+
+  /**
+   * fixed color. 通常取 0.2 透明度用于背景色, 0.4 用于边框色
+   * 例: rgb(from var(--c-red, #e91e63) r g b / 20%)
+   */
+  --c-shadow: #bbb; /* 用于阴影 */
+  --c-grey: #808080; /* 用于半透明遮罩 */
+  --c-blue: #3981e6;
+  --c-green: #259f1e;
+  --c-red: #e91e63;
+  --c-purple: #673ab7;
+  --c-orange: #e98124;
+}
+
+/* 深色主题 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme: #4399ff;
+    --bg: #222;
+    --bg2: #333;
+    --bg3: #4f4f5a;
+    --fg: #eee;
+    --fg2: #aaa;
+    --bd: #888;
+    --bd2: #303030;
+    --c-shadow: #555;
+  }
 }

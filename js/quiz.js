@@ -55,7 +55,7 @@ class Quiz {
 
   // 产生下一题
   next () {
-    const questionId = quiz.poll()
+    const questionId = this.poll()
     return this.mapper(questionId)
   }
 

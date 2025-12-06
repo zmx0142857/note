@@ -39,9 +39,12 @@ pre {
 // 外链在新标签页打开
 const outLink = (md) => {
   md.renderer.rules.link_open = (tokens, idx) => {
-    const href = tokens[idx].attrs[0][1]
+    let href = tokens[idx].attrs[0][1]
     if (href.startsWith('http')) {
       return `<a target="_blank" rel="noopener noreferrer" href="${href}">`
+    } else if (href.endsWith('.md')) {
+      href = href.replace(/^\.\//, 'markdown.html' + location.hash.replace(/\/[^\/]*$/, '/'))
+      return `<a href="${href}">`
     } else {
       return `<a href="${href}">`
     }

@@ -455,6 +455,7 @@ var tocData = [
           { "value": "kana", "label": "学五十音" },
           { "value": "jp-words", "label": "日语动词" },
           { "value": "ru", "label": "俄语", "date": "2025-09-18" },
+          { "value": "anki", "label": "ANKI 记忆卡片", "date": "2025-12-05" },
         ]
       },
       {

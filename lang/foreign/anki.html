@@ -1,0 +1,360 @@
+<link rel="stylesheet" href="../../css/vanilla-ui.css">
+<style>
+.container {
+  position: absolute;
+  height: 400px;
+  gap: 20px;
+}
+.deck {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  perspective: 1000px;
+}
+.card {
+  --is-back: 0;
+  position: absolute;
+  width: 300px;
+  height: 400px;
+  border-radius: var(--md);
+  overflow: hidden;
+  background-color: var(--bg2);
+  transition: transform .3s, opacity .3s;
+  transform: rotateY(calc(var(--is-back) * 180deg));
+  text-align: center;
+  font-size: 28px;
+}
+.card.is-back {
+  --is-back: 1;
+}
+.card-front, .card-back {
+  display: flex;
+  flex-direction: column;
+  padding: var(--lg);
+  gap: 40px;
+}
+.card-back {
+  display: none;
+  background-color: #448866;
+  transform: scaleX(-1);
+}
+.card.is-back .card-back {
+  display: flex;
+}
+.card.is-back .card-front {
+  display: none;
+}
+.card.is-left {
+  opacity: 0;
+  transform: translate3d(-200px, 0, -20px) rotateY(calc(-20deg + var(--is-back) * 180deg));
+  pointer-events: none;
+}
+.card.is-right {
+  opacity: 0;
+  transform: translate3d(200px, 0, -20px) rotateY(calc(20deg + var(--is-back) * 180deg));
+  pointer-events: none;
+}
+.card-input {
+  height: var(--xl);
+  border-radius: var(--md);
+  background-color: var(--bg3);
+  border: none;
+  padding: var(--md);
+  color: var(--fg);
+  font-size: 20px;
+  width: 80%;
+}
+.link {
+  font-size: 48px;
+  cursor: pointer;
+  user-select: none;
+  transition: text-shadow .3s, transform .3s;
+  z-index: 1;
+}
+.link[disabled] {
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.3;
+}
+.link:not([disabled]):hover {
+  text-shadow: 0 0 6px var(--fg);
+  transform: scale(1.1);
+}
+.deck-tips {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ff78a6;
+}
+.deck-progress {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+</style>
+
+<body class="g-full g-center">
+  <div class="container g-center">
+    <a class="link link-prev">❮</a>
+    <div class="deck"></div>
+    <a class="link link-next">❯</a>
+    <div class="deck-tips"></div>
+    <div class="deck-progress">0 / 0</div>
+  </div>
+</body>
+
+<script type="module">
+import { div } from '../../js/vanilla-ui.js'
+
+const $ = el => document.querySelector(el)
+const $container = $('.container')
+const $deck = $('.deck')
+const $linkPrev = $('.link-prev')
+const $linkNext = $('.link-next')
+const $deckProgress = $('.deck-progress')
+const $deckTips = $('.deck-tips')
+
+const Utils = {
+  uid (length = 16) {
+    return Math.random().toFixed(length).slice(2)
+  },
+  between (x, min, max) {
+    if (x < min) return min
+    if (x > max) return max
+    return x
+  },
+}
+
+const CardTypeEnum = {
+  choice: 0, // 选择
+  fill: 1, // 填空
+}
+
+const ScoreEnum = {
+  bad: 0,
+  good: 1,
+  great: 2,
+  perfect: 3,
+}
+
+const Globals = {
+  now: 0, // 当前时间
+  maxHistory: 20, // 最大历史记录数
+}
+
+class Card {
+  /**
+   * 记忆卡片
+   * @param {object} props
+   * @param {number} props.type 题型
+   * @param {boolean} props.enable 是否启用
+   * @param {string} props.front 正面内容
+   * @param {string} props.back 背面内容
+   * @param {string} props.hint 提示
+   * @param {string[]} props.tags 标签
+   * @param {string[]} props.options 选择题选项
+   * @param {number[]} props.history 得分历史记录
+   * @param {number} props.due 下次复习时间
+   * @param {number} props.interval 间隔时间
+   * @param {number} props.ease 简易度系数, 数值越大越简单
+   * @param {number} props.mastery 掌握程度
+   * @param {number} props.weight 权重
+   */
+  constructor (props) {
+    Object.assign(this, {
+      type: CardTypeEnum.choice,
+      enable: true,
+      front: '',
+      back: '',
+      hint: '',
+      tags: [],
+      options: [],
+      history: [],
+      // 学习参数
+      due: 0,
+      interval: 0,
+      ease: 2.5,
+      mastery: 0,
+      weight: 0,
+      ...props,
+    })
+  }
+  get isNew () {
+    return !this.history.length
+  }
+  // 更新学习参数 (SM-2 算法)
+  learn (quality) {
+    this.history.push(quality)
+    if (this.history.length > Globals.maxHistory) this.history.shift()
+    const x = ScoreEnum.perfect - quality
+    const offset = 0.1 * (1 - x * (0.8 + 0.2 * x))
+    this.ease = Utils.between(this.ease + offset, 1.3, 2.5)
+    this.interval = Math.round(this.interval * this.ease)
+    this.due = Globals.now + this.interval
+  }
+  // 更新权重
+  updateWeight () {
+    if (!this.enable) return this.weight = 0 // 被禁用的卡片权重为 0
+    if (this.isNew) return this.weight = 999 // 新卡片的权重最大
+    const since = Globals.now - (this.due - this.interval) // 距离上次复习的时间
+    const timeFactor = Math.exp(-since / (this.interval + 1))
+    const accuracyFactor = this.history.reduce((a, b) => a + Boolean(b), 0) / this.history.length
+    const easeFactor = Math.min(this.ease / 2.5, 1.5)
+    this.mastery = 0.5 * timeFactor + 0.3 * accuracyFactor + 0.2 * easeFactor // 熟练度 [0, 1]
+    const urgency = Math.max(this.due - Globals.now, 0) // 紧急程度
+    return this.weight = Math.max(100 + this.urgency - 10 * this.mastery, 0)
+  }
+}
+
+class Deck {
+  constructor (cards = []) {
+    this.cards = cards
+  }
+  // 抽取 count 张卡片, count = undefined 时抽取所有卡片
+  draw (count, match) {
+    return this.cards.filter(card => {
+      const ok = !match || match(card)
+      if (ok) card.updateWeight()
+      return ok && card.weight > 0
+      // 按权重从大到小排序
+    }).sort((a, b) => b.weight - a.weight).slice(0, count)
+  }
+}
+
+const UI = {
+  state: {
+    index: 0,
+    deck: new Deck([
+      {
+        front: '14 × 5',
+        back: '70',
+        type: 1,
+      },
+      {
+        front: '14 × 6',
+        back: '84',
+        type: 1,
+      },
+      {
+        front: '14 × 7',
+        back: '98',
+        type: 1,
+      },
+      {
+        front: '14 × 8',
+        back: '112',
+        type: 1,
+      },
+      {
+        front: '14 × 9',
+        back: '126',
+        type: 1,
+      }
+    ].map(v => new Card(v))),
+    cards: undefined,
+  },
+  init () {
+    this.state.cards = this.state.deck.draw()
+    this.render()
+
+    // 事件注册
+    $container.onclick = (e) => {
+      if (['card-front', 'card-back'].some(v => e.target.classList.contains(v))) {
+        const $card = e.target.parentNode
+        UI.flipCard($card)
+      }
+    }
+    $linkPrev.onclick = () => this.prevCard()
+    $linkNext.onclick = () => this.nextCard()
+    div.on(document, 'keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        this.prevCard()
+      } else if (e.key === 'ArrowRight') {
+        this.nextCard()
+      } else if (e.key === 'ArrowUp') {
+        this.flipCard()
+      } else if (e.key === 'Enter') {
+        const $input = $deck.querySelector('.is-active:not(.is-back) .card-input')
+        if ($input) {
+          if ($input.value === this.state.cards[this.state.index].back) {
+            this.nextCard()
+          } else {
+            $deckTips.textContent = '答案不符'
+          }
+        }
+      }
+    })
+  },
+  getCardClass (index, isBack) {
+    const { state } = this
+    return div.clsx('card', {
+      'is-left': index < state.index,
+      'is-active': index === state.index,
+      'is-right': index > state.index,
+      'is-back': isBack,
+    })
+  },
+  render () {
+    const { state } = this
+
+    // 提示语
+    $deckTips.textContent = ''
+    // 进度
+    $deckProgress.textContent = `${state.index + 1} / ${state.cards.length}`
+
+    // 左右按钮
+    div.attr($linkPrev, 'disabled', state.index === 0)
+    div.attr($linkNext, 'disabled', state.index === state.cards.length - 1)
+
+    // 过渡动画
+    if ($deck.children.length > 0) {
+      [...$deck.children].forEach(($card, index) => {
+        // const isBack = $card.classList.contains('is-back')
+        $card.className = this.getCardClass(index, false)
+      })
+    } else {
+      // 首次渲染
+      $deck.innerHTML = state.cards.map((card, index) => `
+        <div class="${this.getCardClass(index)}">
+          <div class="card-front g-full g-center">
+            ${card.front}
+            ${card.type === 0 ? this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
+          </div>
+          <div class="card-back g-full g-center">
+            ${card.back}
+          </div>
+        </div>
+      `).join('\n')
+    }
+
+    // 焦点
+    setTimeout(() => {
+      $deck.querySelector('.is-active .card-input')?.focus()
+    }, 50)
+  },
+  // 选择题
+  renderChoiceQuestion (card) {
+    return ''
+  },
+  // 填空题
+  renderFillQuestion (card) {
+    return '<input class="card-input" />'
+  },
+  prevCard () {
+    UI.state.index = Math.max(0, UI.state.index - 1)
+    UI.render()
+  },
+  nextCard () {
+    UI.state.index = Math.min(this.state.cards.length - 1, UI.state.index + 1)
+    UI.render()
+  },
+  flipCard () {
+    const $card = $deck.querySelector('.is-active')
+    if ($card) $card.classList.toggle('is-back')
+  },
+}
+
+UI.init()
+</script>

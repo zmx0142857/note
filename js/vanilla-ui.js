@@ -32,10 +32,10 @@ export const div = ({
   if (className && !el.className) el.className = className
   if (css) div.css(css, className)
   if (style) Object.assign(el.style, style)
-  if (attr) Object.entries(attr).forEach(([k, v]) => el.setAttribute(k, v))
-  if (on) Object.entries(on).forEach(([k, v]) => el.addEventListener(k, v))
-  if (off) Object.entries(off).forEach(([k, v]) => el.removeEventListener(k, v))
-  if (children) el.append(...children)
+  if (attr) Object.entries(attr).forEach(([k, v]) => div.attr(el, k, v))
+  if (on) Object.entries(on).forEach(([k, v]) => div.on(el, k, v))
+  if (off) Object.entries(off).forEach(([k, v]) => div.off(el, k, v))
+  if (children) div.append(el, children)
   return Object.assign(el, options)
 }
 div.styles = {}
@@ -89,6 +89,17 @@ div.clsx = (...args) => {
   if (typeof arg === 'string') return arg.trim()
   // suppose arg is object
   return Object.keys(arg).filter(k => arg[k]).join(' ').trim()
+}
+div.append = (el, children) => {
+  if (!children) return
+  if (typeof children === 'string') children = div.text(children)
+  if (Array.isArray(children)) children.forEach(v => div.append(el, v))
+  else el.appendChild(children)
+}
+div.text = (str) => document.createTextNode(str)
+div.attr = (el, key, value) => {
+  if (!value && value !== 0) el.removeAttribute(key)
+  else el.setAttribute(key, value)
 }
 
 div.themes.light = {
