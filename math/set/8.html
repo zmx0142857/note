@@ -108,21 +108,66 @@
   以字母表示对象, 箭头表示态射, 范畴可以用<b>箭头图表</b>很好地可视化.
   如果图表中的箭头合成殊途同归, 我们就说它是<b>交换</b>的, 故箭头图表又称为<b>交换图表</b>.
   比如下图就有 `g f = h` 和 `v u = y x`.
-  这些图表可以用 <a href="https://q.uiver.app" target="_blank">quiver</a> 在线绘制.
 </p>
 
 <div class="flex" style="justify-content:space-around">
   <div class="img xs">
-    <img src="../img/cd-1.png">
+    <!--<img src="../img/cd-1.png">-->
+    <svg src="../img/cd-1.svg"></svg>
   </div>
   <div class="img xs">
-    <img src="../img/cd-2.png">
+    <!--<img src="../img/cd-2.png">-->
+    <svg src="../img/cd-2.svg"></svg>
   </div>
 </div>
 
 <p class="remark">
   条条大路通罗马，所以交换图表是不是也可以叫做罗马表（
 </p>
+
+
+<ol class="remark enum">
+  <b>图表绘制的方法</b>
+  <li>使用 <a href="https://q.uiver.app" target="_blank">quiver</a> 在线绘制.</li>
+  <li>如果你摆烂一点, 到这里就可以截图得到 png 图片了.
+    如果你坚持要 svg 图片的话, 先从 quiver 导出 tikz 代码:
+<pre>
+\usetikzlibrary{cd}
+\usepackage{amsmath,amsfonts}
+
+\begin{document}
+
+\tikzstyle{every node}=[scale=1.5]
+\begin{tikzcd}
+	X &amp;&amp; Y \\
+	&amp; Z
+	\arrow["f", from=1-1, to=1-3]
+	\arrow["h"', from=1-1, to=2-2]
+	\arrow["g", from=1-3, to=2-2]
+\end{tikzcd}
+
+\end{document}
+</pre>
+  </li>
+  <li>
+    将 tikz 代码粘贴到 <a href="https://tikzjax.duanyll.com/" target="_blank">TikZJax</a>,
+    将它转换为 svg 图片.
+  </li>
+  <li>
+    svg 处理:
+    <ol>
+      <li>将 font-family 替换为你支持的数学字体, 如 KaTeX_Math.</li>
+      <li>将 fill 和 stroke 换成 currentColor 以适配夜间模式.</li>
+      <li>
+        嵌入网页: 可以直接复制粘贴所有 svg 代码, 也可以在网页中留下占位 tag:
+        <code>
+          &lt;svg src="../img/cd-1.svg"&gt;&lt;/svg&gt;
+        </code>
+        再用 js 载入文件, 替换 outerHTML.
+      </li>
+    </ol>
+  </li>
+</ol>
 
 <h3>子范畴、反范畴、积范畴</h3>
 

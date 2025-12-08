@@ -433,7 +433,7 @@ li.isnew::after {
         <li>LDDMiao <a href="https://lifecheckpoint.github.io/" target="_blank">blog</a></li>
         <li>时度度 <a href="https://note.timedegree.cc/" target="_blank">note</a>・<a href="https://blog.timedegree.cc/" target="_blank">blog</a></li>
         <li>证毕QED <a href="https://quiteeasilydoneqed.github.io/qedhomepage/" target="_blank">blog</a></li>
-        </li>
+        <li>Round <a href="https://roundsann.github.io/" target="_blank">blog</a></li>
       </ul>
     </div>
     <div class="back"></div>
@@ -462,10 +462,15 @@ const settings = {
       if (k === 'column2' || k === 'dark') {
         if (!iframe) return
         const { classList } = iframe.contentWindow.document.body
+        const theme = tocData.find(v => v.value === router.currentBook)?.color
         if (v) {
           classList.add(k)
+          if (theme !== 'dark') document.body.id = 'body-dark'
         } else {
-          if (document.body.id !== 'body-dark') classList.remove(k)
+          if (theme !== 'dark') {
+            classList.remove(k)
+            document.body.id = 'body-' + theme
+          }
         }
       }
     })

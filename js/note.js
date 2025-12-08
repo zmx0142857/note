@@ -488,15 +488,25 @@ function makeSvg() {
   }
 }
 
+function loadSvg() {
+  ;[...document.querySelectorAll('svg[src]')].forEach(async svg => {
+    const src = svg.getAttribute('src')
+    const content = await fetch(src).then(res => res.text())
+    svg.outerHTML = content
+  })
+}
+
 function previewImg() {
   [...$('.img')].forEach(v => {
     if (v.querySelector('canvas')) return // 节点含有 canvas 时禁用预览功能
     v.onclick = () => {
       const img = v.cloneNode(true)
-      ;[...img.querySelectorAll('img')].forEach(v => {
+      ;[...img.querySelectorAll('img, svg')].forEach(v => {
         v.draggable = false
         v.style.background = '#fff'
       })
+      const label = img.querySelector('b')
+      if (label) label.style.color = '#fff'
       img.transform = {
         scale: 1,
         x: 0,
@@ -511,7 +521,6 @@ function previewImg() {
         right: '-100%',
         bottom: '-100%',
         margin: '0',
-        color: '#fff',
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
@@ -642,6 +651,7 @@ makeH1();   // call makeH1() before decorate()
 
 decorateHeading(3);
 makeSvg();
+loadSvg();
 previewImg();
 makeTabs();
 
