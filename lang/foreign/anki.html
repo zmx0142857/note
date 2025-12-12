@@ -64,6 +64,22 @@
   font-size: 20px;
   width: 80%;
 }
+.card-choice-item {
+  background: var(--bg3);
+  color: var(--fg);
+  font-size: 20px;
+  border: none;
+  border-radius: 999px;
+  padding: var(--md);
+  width: 100%;
+  cursor: pointer;
+}
+.card-choice-item:hover {
+  opacity: 0.8;
+}
+.card-choice-item + .card-choice-item {
+  margin-top: 8px;
+}
 .link {
   font-size: 48px;
   cursor: pointer;
@@ -80,6 +96,13 @@
   text-shadow: 0 0 6px var(--fg);
   transform: scale(1.1);
 }
+.deck-name {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--fg2);
+}
 .deck-tips {
   position: absolute;
   bottom: 36px;
@@ -93,20 +116,39 @@
   left: 50%;
   transform: translateX(-50%);
 }
+.deck-list {
+  width: 300px;
+  margin-bottom: var(--md);
+}
+.deck-item {
+  padding: var(--md);
+  cursor: pointer;
+}
+.deck-item:hover {
+  background: var(--bg3);
+  border-radius: var(--md);
+}
+.deck-item.is-active::before {
+  content: '✔';
+  color: var(--c-green);
+  margin-right: var(--md);
+}
 </style>
 
-<body class="g-full g-center">
-  <div class="container g-center">
-    <a class="link link-prev">❮</a>
-    <div class="deck"></div>
-    <a class="link link-next">❯</a>
-    <div class="deck-tips"></div>
-    <div class="deck-progress">0 / 0</div>
-  </div>
-</body>
+<body class="g-full g-center g-overflow-hidden">
+
+<div class="container g-center">
+  <a class="link link-prev">❮</a>
+  <div class="deck"></div>
+  <a class="link link-next">❯</a>
+
+  <div class="deck-name"></div>
+  <div class="deck-tips"></div>
+  <div class="deck-progress">0 / 0</div>
+</div>
 
 <script type="module">
-import { div } from '../../js/vanilla-ui.js'
+import { div, Modal, Button, Table } from '../../js/vanilla-ui.js'
 
 const $ = el => document.querySelector(el)
 const $container = $('.container')
@@ -115,6 +157,7 @@ const $linkPrev = $('.link-prev')
 const $linkNext = $('.link-next')
 const $deckProgress = $('.deck-progress')
 const $deckTips = $('.deck-tips')
+const $deckName = $('.deck-name')
 
 const Utils = {
   uid (length = 16) {
@@ -124,6 +167,63 @@ const Utils = {
     if (x < min) return min
     if (x > max) return max
     return x
+  },
+  parseJson (str, defaultValue = {}, options) {
+    if (!str) return defaultValue
+    try {
+      return JSON.parse(str, options) ?? defaultValue
+    } catch (e) {
+      return defaultValue
+    }
+  },
+  // 在左闭右开区间 [lo, hi) 中查找第一个使 fn(i) 成立的 i
+  bsearch (lo, hi, fn) {
+    --lo
+    while (hi - lo > 1) {
+      const mid = lo + ((hi - lo) >> 1)
+      if (fn(mid)) hi = mid
+      else lo = mid
+    }
+    return hi
+  },
+  shuffle(arr) {
+    const n = arr.length
+    for (let i = 0; i < n; ++i) {
+      const j = (i + (n - i) * Math.random()) | 0 // random of [i, n)
+      const tmp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = tmp
+    }
+    return arr
+  },
+  /**
+   * 从 0 ~ n-1 中随机抽取 k 个不重复的数字,
+   * 要求含有 include 中的数字, 但不含 exclude 中的数字
+   * @param {Number} n
+   * @param {Number} k
+   * @param {Array} include
+   * @param {Array} exclude
+   */
+  choices (n, k = 1, include = [], exclude = []) {
+    const ret = include.slice()
+    const len = n
+    n -= include.length + exclude.length
+    k -= include.length
+    for (let i = 0; i < len; ++i) {
+      if (exclude.indexOf(i) > -1 || include.indexOf(i) > -1) continue
+      if (Math.random() < k/n) {
+        ret.push(i)
+        if (--k === 0) break
+      }
+      --n
+    }
+    return Utils.shuffle(ret)
+  },
+  saveGlobals () {
+    localStorage.setItem(`${Globals.key}.globals`, JSON.stringify(Globals))
+  },
+  loadGlobals () {
+    Object.assign(Globals, Utils.parseJson(localStorage.getItem(`${Globals.key}.globals`), {}))
   },
 }
 
@@ -141,7 +241,9 @@ const ScoreEnum = {
 
 const Globals = {
   now: 0, // 当前时间
-  maxHistory: 20, // 最大历史记录数
+  maxHistory: 15, // 最大历史记录数
+  key: 'anki', // 本地存储的键名
+  deck: 'shuangpin', // 默认牌组
 }
 
 class Card {
@@ -154,8 +256,7 @@ class Card {
    * @param {string} props.back 背面内容
    * @param {string} props.hint 提示
    * @param {string[]} props.tags 标签
-   * @param {string[]} props.options 选择题选项
-   * @param {number[]} props.history 得分历史记录
+   * @param {object[]} props.history 得分历史记录
    * @param {number} props.due 下次复习时间
    * @param {number} props.interval 间隔时间
    * @param {number} props.ease 简易度系数, 数值越大越简单
@@ -170,11 +271,10 @@ class Card {
       back: '',
       hint: '',
       tags: [],
-      options: [],
       history: [],
       // 学习参数
       due: 0,
-      interval: 0,
+      interval: 50,
       ease: 2.5,
       mastery: 0,
       weight: 0,
@@ -185,106 +285,324 @@ class Card {
     return !this.history.length
   }
   // 更新学习参数 (SM-2 算法)
-  learn (quality) {
-    this.history.push(quality)
+  learn (score, time) {
+    this.history.push({ score, time })
     if (this.history.length > Globals.maxHistory) this.history.shift()
-    const x = ScoreEnum.perfect - quality
+    const x = ScoreEnum.perfect - score
     const offset = 0.1 * (1 - x * (0.8 + 0.2 * x))
     this.ease = Utils.between(this.ease + offset, 1.3, 2.5)
-    this.interval = Math.round(this.interval * this.ease)
+    this.interval = Utils.between(Math.round(this.interval * this.ease), 0, 500)
     this.due = Globals.now + this.interval
   }
-  // 更新权重
+  // 更新权重 [0, 1]
   updateWeight () {
     if (!this.enable) return this.weight = 0 // 被禁用的卡片权重为 0
-    if (this.isNew) return this.weight = 999 // 新卡片的权重最大
+    if (this.isNew) return this.weight = 1 // 新卡片的权重最大
     const since = Globals.now - (this.due - this.interval) // 距离上次复习的时间
     const timeFactor = Math.exp(-since / (this.interval + 1))
-    const accuracyFactor = this.history.reduce((a, b) => a + Boolean(b), 0) / this.history.length
+    const accuracyFactor = this.history.reduce((a, b) => a + Boolean(b.score), 0) / this.history.length || 0
     const easeFactor = Math.min(this.ease / 2.5, 1.5)
     this.mastery = 0.5 * timeFactor + 0.3 * accuracyFactor + 0.2 * easeFactor // 熟练度 [0, 1]
-    const urgency = Math.max(this.due - Globals.now, 0) // 紧急程度
-    return this.weight = Math.max(100 + this.urgency - 10 * this.mastery, 0)
+    const urgency = Math.exp(-Math.max(this.due - Globals.now, 0)) // 紧急程度
+    this.weight = Utils.between(0.5 * (1 + urgency - this.mastery), 0.02, 1)
+    if (Number.isNaN(this.weight)) console.warn('weight is NaN', this)
+    return this.weight
+  }
+  getFront (prob) {
+    return (prob ?? this.prob) > 0.5 ? this.back : this.front
+  }
+  getBack (prob) {
+    return (prob ?? this.prob) > 0.5 ? this.front : this.back
   }
 }
 
 class Deck {
-  constructor (cards = []) {
-    this.cards = cards
+  constructor ({ key = 'default', name = '默认牌组', desc = '' } = {}) {
+    this.key = key
+    this.name = name
+    this.desc = desc
+    this.cards = []
+    this.load()
   }
-  // 抽取 count 张卡片, count = undefined 时抽取所有卡片
-  draw (count, match) {
+  filter (match) {
     return this.cards.filter(card => {
       const ok = !match || match(card)
       if (ok) card.updateWeight()
       return ok && card.weight > 0
-      // 按权重从大到小排序
-    }).sort((a, b) => b.weight - a.weight).slice(0, count)
+    })
+  }
+  // 取出 count 张卡片, 按权重从大到小排序. 默认取出所有卡片
+  deal (count, match) {
+    return this.filter(match).sort((a, b) => b.weight - a.weight).slice(0, count)
+  }
+  // 随机抽 count 张卡片, 默认抽 1 张
+  draw (count = 1, match) {
+    const arr = this.filter(match)
+    // 计算概率分布
+    const cumsum = []
+    let sum = 0
+    arr.forEach(card => {
+      sum += card.weight
+      cumsum.push(sum)
+    })
+    const res = []
+    for (let i = 0; i < count; ++i) {
+      const r = Math.random() * sum
+      let j = Utils.bsearch(0, cumsum.length, j => cumsum[j] >= r)
+      j = Math.min(j, arr.length-1)
+      res.push(arr[j])
+    }
+    return res
+  }
+  save () {
+    Utils.saveGlobals()
+    if (Array.isArray(this.key)) {
+      this.key.forEach(key => {
+        const storeKey = `${Globals.key}.deck.${key}`
+        const data = this.loadOne(key, false)
+        data.cards = this.cards.filter(v => v.deck === key)
+        localStorage.setItem(storeKey, JSON.stringify(data))
+      })
+    } else {
+      localStorage.setItem(`${Globals.key}.deck.${this.key}`, JSON.stringify(this))
+    }
+  }
+  load () {
+    Utils.loadGlobals()
+    if (Array.isArray(this.key)) {
+      const dataList = this.key.map(key => this.loadOne(key))
+      this.name = '复合卡组'
+      this.desc = dataList.map(v => v.name).join(', ')
+      this.cards = dataList.flatMap(v => v.cards)
+    } else {
+      Object.assign(this, this.loadOne(this.key))
+    }
+    return this
+  }
+  loadOne (key, needsCards = true) {
+    const data = Utils.parseJson(localStorage.getItem(`${Globals.key}.deck.${key}`))
+    if (!data.cards?.length) {
+      const { name, desc, cards } = Deck.dataset[key] || {}
+      data.name = name || ''
+      data.desc = desc || ''
+      if (cards) data.cards = Utils.shuffle(cards())
+    }
+    if (data.cards?.length) {
+      data.cards = data.cards.map(v => {
+        const card = new Card(v)
+        Object.defineProperty(card, 'deck', {
+          enumerable: false, // 跳过 JSON 序列化
+          value: key,
+        })
+        return card
+      })
+    }
+    return data
+  }
+  stat () {
+    return this.cards.map(card => {
+      card.updateWeight()
+      const avgTime = card.history.reduce((a, b) => a + b.time, 0) / (card.history.length * 1000) || 0
+      return {
+        front: card.front,
+        mastery: card.mastery,
+        weight: card.weight,
+        avgTime,
+        isNew: card.isNew,
+      }
+    })
   }
 }
 
-const UI = {
-  state: {
-    index: 0,
-    deck: new Deck([
-      {
-        front: '14 × 5',
-        back: '70',
-        type: 1,
-      },
-      {
-        front: '14 × 6',
-        back: '84',
-        type: 1,
-      },
-      {
-        front: '14 × 7',
-        back: '98',
-        type: 1,
-      },
-      {
-        front: '14 × 8',
-        back: '112',
-        type: 1,
-      },
-      {
-        front: '14 × 9',
-        back: '126',
-        type: 1,
+const KanaData = [
+  ['a', 'あ', 'ア'], ['i', 'い', 'イ'], ['u', 'う', 'ウ'], ['e', 'え', 'エ'], ['o', 'お', 'オ'],
+  ['ka', 'か', 'カ'], ['ki', 'き', 'キ'], ['ku', 'く', 'ク'], ['ke', 'け', 'ケ'], ['ko', 'こ', 'コ'],
+  ['sa', 'さ', 'サ'], ['shi', 'し', 'シ'], ['su', 'す', 'ス'], ['se', 'せ', 'セ'], ['so', 'そ', 'ソ'],
+  ['ta', 'た', 'タ'], ['chi', 'ち', 'チ'], ['tsu', 'つ', 'ツ'], ['te', 'て', 'テ'], ['to', 'と', 'ト'],
+  ['na', 'な', 'ナ'], ['ni', 'に', 'ニ'], ['nu', 'ぬ', 'ヌ'], ['ne', 'ね', 'ネ'], ['no', 'の', 'ノ'],
+  ['ha', 'は', 'ハ'], ['hi', 'ひ', 'ヒ'], ['fu', 'ふ', 'フ'], ['he', 'へ', 'ヘ'], ['ho', 'ほ', 'ホ'],
+  ['ma', 'ま', 'マ'], ['mi', 'み', 'ミ'], ['mu', 'む', 'ム'], ['me', 'め', 'メ'], ['mo', 'も', 'モ'],
+  ['ya', 'や', 'ヤ'], ['yu', 'ゆ', 'ユ'], ['yo', 'よ', 'ヨ'],
+  ['ra', 'ら', 'ラ'], ['ri', 'り', 'リ'], ['ru', 'る', 'ル'], ['re', 'れ', 'レ'], ['ro', 'ろ', 'ロ'],
+  ['wa', 'わ', 'ワ'], ['wo', 'を', 'ヲ'], ['n', 'ん', 'ン'],
+  ['ga', 'が', 'ガ'], ['gi', 'ぎ', 'ギ'], ['gu', 'ぐ', 'グ'], ['ge', 'げ', 'ゲ'], ['go', 'ご', 'ゴ'],
+  ['za', 'ざ', 'ザ'], ['ji', 'じ', 'ジ'], ['zu', 'ず', 'ズ'], ['ze', 'ぜ', 'ゼ'], ['zo', 'ぞ', 'ゾ'],
+  ['da', 'だ', 'ダ'], //['di','ぢ','ヂ'], //['du','づ','ヅ'],
+  ['de', 'で', 'デ'], ['do', 'ど', 'ド'],
+  ['ba', 'ば', 'バ'], ['bi', 'び', 'ビ'], ['bu', 'ぶ', 'ブ'], ['be', 'べ', 'ベ'], ['bo', 'ぼ', 'ボ'],
+  ['pa', 'ぱ', 'パ'], ['pi', 'ぴ', 'ピ'], ['pu', 'ぷ', 'プ'], ['pe', 'ぺ', 'ペ'], ['po', 'ぽ', 'ポ'],
+  ['kya', 'きゃ', 'キャ'], ['kyu', 'きゅ', 'キュ'], ['kyo', 'きょ', 'キョ'],
+  ['sha', 'しゃ', 'シャ'], ['shu', 'しゅ', 'シュ'], ['sho', 'しょ', 'ショ'],
+  ['cha', 'ちゃ', 'チャ'], ['chu', 'ちゅ', 'チュ'], ['cho', 'ちょ', 'チョ'],
+  ['nya', 'にゃ', 'ニャ'], ['nyu', 'にゅ', 'ニュ'], ['nyo', 'にょ', 'ニョ'],
+  ['hya', 'ひゃ', 'ヒャ'], ['hyu', 'ひゅ', 'ヒュ'], ['hyo', 'ひょ', 'ヒョ'],
+  ['mya', 'みゃ', 'ミャ'], ['myu', 'みゅ', 'ミュ'], ['myo', 'みょ', 'ミョ'],
+  ['rya', 'りゃ', 'リャ'], ['ryu', 'りゅ', 'リュ'], ['ryo', 'りょ', 'リョ'],
+  ['gya', 'ぎゃ', 'ギャ'], ['gyu', 'ぎゅ', 'ギュ'], ['gyo', 'ぎょ', 'ギョ'],
+  ['ja', 'じゃ', 'ジャ'], ['ju', 'じゅ', 'ジュ'], ['jo', 'じょ', 'ジョ'],
+  ['bya', 'びゃ', 'ビャ'], ['byu', 'びゅ', 'ビュ'], ['byo', 'びょ', 'ビョ'],
+  ['pya', 'ぴゃ', 'ピャ'], ['pyu', 'ぴゅ', 'ピュ'], ['pyo', 'ぴょ', 'ピョ'],
+]
+
+Deck.dataset = {
+  arithmetic: {
+    name: '两位数乘一位数',
+    cards () {
+      const res = []
+      for (let a = 12; a <= 19; ++a) {
+        for (let b = 2; b <= 9; ++b) {
+          res.push({ front: `${a} × ${b}`, back: `${a * b}`, type: 1 })
+        }
       }
-    ].map(v => new Card(v))),
-    cards: undefined,
+      return res
+    },
   },
-  init () {
-    this.state.cards = this.state.deck.draw()
+  shuangpin: {
+    name: '双拼',
+    cards () {
+      const res = [
+        ['iu', 'q'], ['ia', 'w'], ['ua', 'w'], ['e', 'e'], ['uan', 'r'], ['er', 'r'], ['üe', 't'], ['uai', 'y'], ['ü', 'y'], ['sh', 'u'], ['ch', 'i'], ['o', 'o'], ['uo', 'o'], ['un', 'p'], ['a', 'a'], ['ong', 's'], ['iong', 's'], ['iang', 'd'], ['uang', 'd'], ['en', 'f'], ['eng', 'g'], ['ang', 'h'], ['an', 'j'], ['ao', 'k'], ['ai', 'l'], ['ing', ';'], ['ei', 'z'], ['ie', 'x'], ['iao', 'c'], ['ui', 'v'], ['zh', 'v'], ['ou', 'b'], ['in', 'n'], ['ian', 'm'],
+      ].map(v => ({ front: v[0], back: v[1], type: 1 }))
+      return res
+    },
+  },
+  hirakana: {
+    name: '平假名',
+    cards: () => KanaData.slice(0, 69).map(v => ({ front: v[1], back: v[0], type: 0 })),
+  },
+  katakana: {
+    name: '片假名',
+    cards: () => KanaData.slice(0, 69).map(v => ({ front: v[2], back: v[0], type: 0 })),
+  },
+  'hirakana-youon': {
+    name: '平假名拗音',
+    cards: () => KanaData.slice(69).map(v => ({ front: v[1], back: v[0], type: 0 })),
+  },
+  'katakana-youon': {
+    name: '片假名拗音',
+    cards: () => KanaData.slice(69).map(v => ({ front: v[2], back: v[0], type: 0 })),
+  },
+}
+
+const UI = {
+  state: {},
+  reload (key) {
+    Globals.deck = key
+    const deck = new Deck({ key })
+    Object.assign(this.state, {
+      index: 0,
+      progress: 0,
+      deck,
+      cards: deck.deal(20),
+      startTime: 0,
+      pauseTime: 0,
+      totalTime: 0,
+      stat: {},
+      errCount: 0,
+      mode: 'forward',
+    })
+    $deck.innerHTML = ''
     this.render()
 
-    // 事件注册
+    const modal = Modal({
+      closable: false,
+      style: {
+        width: '280px',
+      },
+      innerHTML: `<h3>${deck.name}</h3>
+      <p>${deck.desc}</p>
+      <p>进度: ${deck.cards.filter(v => !v.isNew).length}/${deck.cards.length}</p>
+      <p>考察方式:
+        <form class="welcome-form">
+          <label><input type="radio" name="mode" value="forward" checked>正向</label>
+          <label><input type="radio" name="mode" value="reverse">反向</label>
+          <label><input type="radio" name="mode" value="random">随机</label>
+        </form>
+      </p>
+      <div class="g-space-around btn-group"></div>
+      `
+    })
+    const modalBody = modal.querySelector('.va-modal-body')
+    const container = modal.querySelector('.va-modal-body .btn-group')
+
+    Button({
+      container,
+      innerHTML: '卡组...',
+      onClick: () => {
+        this.showDeckList({ modalBody })
+      },
+    })
+
+    Button({
+      container,
+      innerHTML: '开始→',
+      type: 'primary',
+      onClick: () => {
+        modal.setShow(false)
+        this.state.startTime = new Date().valueOf()
+        this.state.mode = modalBody.querySelector('.welcome-form input[name="mode"]:checked').value
+        this.state.stat = undefined // 重置统计
+        this.assignProb(this.state.deck.cards)
+        $deck.innerHTML = ''
+        this.render()
+        this.focus()
+      }
+    })
+  },
+  assignProb (cards) {
+    const { mode } = this.state
+    cards.forEach(card => {
+      Object.defineProperty(card, 'prob', {
+        enumerable: false,
+        value: mode === 'reverse' ? 1 : mode === 'random' ? Math.random() : 0,
+        configurable: true, // 允许重新覆盖定义
+      })
+    })
+    return cards
+  },
+  // 事件注册
+  init () {
     $container.onclick = (e) => {
       if (['card-front', 'card-back'].some(v => e.target.classList.contains(v))) {
         const $card = e.target.parentNode
-        UI.flipCard($card)
+        this.flipCard($card)
       }
     }
     $linkPrev.onclick = () => this.prevCard()
-    $linkNext.onclick = () => this.nextCard()
+    $linkNext.onclick = () => $linkNext.getAttribute('disabled') === null && this.nextCard()
     div.on(document, 'keydown', (e) => {
       if (e.key === 'ArrowLeft') {
         this.prevCard()
       } else if (e.key === 'ArrowRight') {
-        this.nextCard()
+        $linkNext.getAttribute('disabled') === null && this.nextCard()
       } else if (e.key === 'ArrowUp') {
         this.flipCard()
       } else if (e.key === 'Enter') {
+        if (this.state.stat) return this.showStat()
+        if (this.state.index < this.state.progress) return
         const $input = $deck.querySelector('.is-active:not(.is-back) .card-input')
-        if ($input) {
-          if ($input.value === this.state.cards[this.state.index].back) {
-            this.nextCard()
-          } else {
-            $deckTips.textContent = '答案不符'
+        if (!$input) return
+        if (!$input.value) return $deckTips.textContent = '请输入答案'
+        this.checkAnswer($input.value)
+      } else if ('1234'.includes(e.key)) {
+        const $choices = $deck.querySelector('.is-active:not(.is-back) .card-choice')
+        if ($choices) {
+          const $choice = $choices.children[Number(e.key) - 1]
+          if ($choice) {
+            $choice.style.outline = '2px solid #fff'
+            this.checkAnswer($choice.getAttribute('data-value'))
           }
         }
       }
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          this.resume()
+        } else if (document.visibilityState === 'hidden') {
+          this.pause()
+        }
+      })
+      window.onblur = () => this.pause()
+      window.onfocus = () => this.resume()
     })
   },
   getCardClass (index, isBack) {
@@ -299,62 +617,225 @@ const UI = {
   render () {
     const { state } = this
 
-    // 提示语
+    // 牌面信息
+    $deckName.textContent = Deck.dataset[state.cards[state.index].deck].name
     $deckTips.textContent = ''
-    // 进度
     $deckProgress.textContent = `${state.index + 1} / ${state.cards.length}`
 
     // 左右按钮
     div.attr($linkPrev, 'disabled', state.index === 0)
-    div.attr($linkNext, 'disabled', state.index === state.cards.length - 1)
+    div.attr($linkNext, 'disabled', state.index >= state.progress)
 
-    // 过渡动画
-    if ($deck.children.length > 0) {
-      [...$deck.children].forEach(($card, index) => {
-        // const isBack = $card.classList.contains('is-back')
-        $card.className = this.getCardClass(index, false)
-      })
-    } else {
-      // 首次渲染
-      $deck.innerHTML = state.cards.map((card, index) => `
-        <div class="${this.getCardClass(index)}">
+    const len = $deck.children.length
+    if (len <= state.progress) {
+      const frag = div()
+      frag.innerHTML = state.cards.slice(len).map((card, index) => {
+        return `
+        <div class="${this.getCardClass(len === 0 ? index : len + index + 1)}">
           <div class="card-front g-full g-center">
-            ${card.front}
+            ${card.getFront()}
             ${card.type === 0 ? this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
           </div>
           <div class="card-back g-full g-center">
-            ${card.back}
+            ${card.getBack()}
           </div>
         </div>
-      `).join('\n')
+        `
+      }).join('\n')
+      ;[...frag.querySelectorAll('.card-choice-item')].forEach(v => {
+        v.onclick = () => {
+          v.style.outline = '2px solid #fff'
+          this.checkAnswer(v.getAttribute('data-value'))
+        }
+      })
+      div.append($deck, [...frag.children])
     }
+    // 过渡动画
+    ;[...$deck.children].forEach(($card, index) => {
+      // const isBack = $card.classList.contains('is-back')
+      $card.className = this.getCardClass(index, false)
+    })
 
     // 焦点
+    if (!state.stat) this.focus()
+  },
+  focus (delay = 50) {
     setTimeout(() => {
-      $deck.querySelector('.is-active .card-input')?.focus()
-    }, 50)
+      const $card = $deck.children[this.state.progress]
+      if ($card?.classList?.contains('is-active')) {
+        $card.querySelector('.card-input')?.focus()
+      }
+    }, delay)
   },
   // 选择题
   renderChoiceQuestion (card) {
-    return ''
+    const cards = this.state.deck.cards.filter(v => v.deck === card.deck)
+    const choices = Utils.choices(cards.length, 4, [cards.indexOf(card)])
+    return `
+    <div class="card-choice">
+      ${choices.map(v => `
+        <button class="card-choice-item" data-value="${cards[v].getBack(card.prob)}">${cards[v].getBack(card.prob)}</button>
+      `).join('\n')}
+    </div>
+    `
   },
   // 填空题
   renderFillQuestion (card) {
     return '<input class="card-input" />'
   },
   prevCard () {
-    UI.state.index = Math.max(0, UI.state.index - 1)
-    UI.render()
+    this.state.index = Math.max(0, this.state.index - 1)
+    this.render()
   },
   nextCard () {
-    UI.state.index = Math.min(this.state.cards.length - 1, UI.state.index + 1)
-    UI.render()
+    const { state } = this
+    state.index = Math.min(state.cards.length - 1, state.index + 1)
+    // 新题目
+    if (state.index > state.progress) {
+      state.progress = state.index
+      state.startTime = new Date().valueOf()
+      Globals.now += 1
+    }
+    this.render()
   },
   flipCard () {
     const $card = $deck.querySelector('.is-active')
     if ($card) $card.classList.toggle('is-back')
   },
+  checkAnswer (value) {
+    const { cards, deck, index, startTime } = this.state
+    const card = cards[index]
+    const time = new Date().valueOf() - startTime
+    this.state.totalTime += time
+    if (value === card.getBack()) {
+      const avgTime = this.state.totalTime / (index + 1)
+      const rate = time / avgTime
+      const score = rate <= 1 ? ScoreEnum.perfect
+        : rate <= 1.5 ? ScoreEnum.great
+        : rate <= 2 ? ScoreEnum.good
+        : ScoreEnum.bad
+      card.learn(score, time)
+      if (score === ScoreEnum.bad) {
+        console.log('超时罚一题')
+        cards.push(...deck.draw(1))
+        this.render()
+      }
+      if (index === cards.length - 1) {
+        this.finish()
+      } else {
+        this.nextCard()
+      }
+    } else {
+      card.learn(ScoreEnum.bad, time)
+      this.state.errCount += 1
+      console.log('答错罚两题')
+      cards.push(...deck.draw(2))
+      this.render()
+      $deckTips.textContent = '请重试'
+    }
+  },
+  pause () {
+    if (this.state.stat || this.state.pauseTime) return
+    console.log('pause...')
+    this.state.pauseTime = new Date().valueOf()
+  },
+  resume () {
+    if (this.state.stat || !this.state.pauseTime) return
+    console.log('resume...')
+    this.state.startTime += new Date().valueOf() - this.state.pauseTime
+    this.state.pauseTime = 0
+  },
+  finish () {
+    const { deck, cards } = this.state
+    deck.save()
+    const ranking = deck.stat().filter(v => !v.isNew)
+      // 注意: 这里的用时是 card.history 中的平均用时, 而不是本次练习的平均用时
+      .sort((a, b) => Math.round((b.mastery - a.mastery) * 100) || Math.round((a.avgTime - b.avgTime) * 100))
+    this.state.stat = {
+      best: ranking.slice(0, 3),
+      worst: ranking.slice(-3),
+      totalTime: this.state.totalTime / 1000, // second
+      avgSpeed: cards.length / this.state.totalTime * 1000 * 60, // per minute
+      totalCount: cards.length,
+      errCount: this.state.errCount,
+    }
+    this.showStat()
+  },
+  showStat () {
+    const { stat } = this.state
+    console.log(stat)
+    if (!stat.totalCount) return
+    const modal = Modal({
+      innerHTML: `<h3>练习完成</h3>
+      <p>正确: ${stat.totalCount - stat.errCount}/${stat.totalCount}</p>
+      <p>用时: ${stat.totalTime.toFixed(1)} 秒</p>
+      <p>速度: ${stat.avgSpeed.toFixed(2)} 题/分</p>`
+    })
+    const container = modal.querySelector('.va-modal-body')
+    Table({
+      container,
+      columns: [
+        { label: '题目', key: 'front', render: v => v.slice(0, 10) },
+        { label: '熟练度', key: 'mastery', render: v => typeof v === 'string' ? v : Math.round(v * 100) },
+        { label: '历史平均用时 (秒)', key: 'avgTime', render: v => typeof v === 'string' ? v : v.toFixed(2) },
+      ],
+      data: [...stat.best, { front: '…', mastery: '…', avgTime: '…' }, ...stat.worst],
+      style: {
+        margin: '0 auto 8px auto',
+      },
+    })
+    Button({
+      container,
+      innerHTML: '确定',
+      onClick: () => modal.setShow(false),
+    })
+  },
+  // 显示卡组列表
+  showDeckList ({ modalBody }) {
+    const decks = Object.keys(Deck.dataset).map(key => new Deck({ key }))
+    modalBody.innerHTML = `<h3>选择卡组</h3>
+      <div class="deck-list">
+      ${decks.map((deck, index) => {
+        const progress = `${deck.cards.filter(v => !v.isNew).length}/${deck.cards.length}`
+        return `<div class="deck-item" data-index="${index}">${deck.name} ${progress}</div>`
+      }).join('\n')}
+      </div>
+    `
+    div({
+      selector: '.deck-list',
+      on: {
+        click (e) {
+          const item = e.target
+          if (item.classList.contains('deck-item')) {
+            item.classList.toggle('is-active')
+          }
+        },
+      }
+    })
+    Button({
+      container: modalBody,
+      innerHTML: '确定',
+      onClick () {
+        const selected = [...modalBody.querySelectorAll('.deck-item.is-active')]
+        if (selected.length) {
+          const keys = selected.map(v => decks[v.dataset.index].key)
+          UI.reload(keys.length === 1 ? keys[0] : keys)
+        }
+      }
+    })
+
+    Object.assign(modalBody.style, {
+      width: 'unset',
+      height: 'unset',
+    })
+  }
 }
 
 UI.init()
+Utils.loadGlobals()
+UI.reload(Globals.deck)
+
+window.UI = UI
+window.div = div
 </script>
+</body>

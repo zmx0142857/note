@@ -297,7 +297,7 @@ export const Toast = ({ container = document.body, className = 'toast', innerHTM
 /**
  * 弹窗
  */
-export const Modal = ({ container = document.body, className = 'modal', innerHTML = '', show = true } = {}) => {
+export const Modal = ({ container = document.body, className = 'modal', innerHTML = '', show = true, closable = true, style } = {}) => {
   className = div.key + '-' + className
   const modal = div({
     container,
@@ -339,11 +339,12 @@ export const Modal = ({ container = document.body, className = 'modal', innerHTM
   const body = div({
     container: modal,
     selector: `.${className}-body`,
+    style,
   })
   const mask = div({
     container: modal,
     selector: `.${className}-mask`,
-    onclick: () => modal.setShow(false),
+    onclick: closable ? (() => modal.setShow(false)) : null,
   })
   modal.setShow(show)
   return modal
@@ -851,7 +852,7 @@ export const Draggable = ({
 /**
  * 表格
  */
-export const Table = ({ container, el, className = 'table', title = '', header = [], rows = [], columns = [], data = [] }) => {
+export const Table = ({ container, el, className = 'table', title = '', header = [], rows = [], columns = [], data = [], style }) => {
   className = div.key + '-' + className
   const render = (content, value, ...args) => {
     return typeof content === 'function' ? content(value, ...args) : value
@@ -872,6 +873,7 @@ export const Table = ({ container, el, className = 'table', title = '', header =
     container,
     el,
     className,
+    style,
     css: `& {
       margin: 0 auto;
       border-top: 2px solid;

@@ -375,7 +375,9 @@ body {
   <span class="status-divider"></span>
   <span class="status-key-speed" title="键/秒">0.00 击</span>
   <span class="status-divider"></span>
-  <span class="status-acc">100.00%</span>
+  <span class="status-acc" title="键准">100.00%</span>
+  <span class="status-divider"></span>
+  <span class="status-theoretical" title="理论码长"></span>
 </div>
 
 <div class="modal">
@@ -401,6 +403,7 @@ const $statusTime = $('.status-time')
 const $statusSpeed = $('.status-speed')
 const $statusKeySpeed = $('.status-key-speed')
 const $statusAcc = $('.status-acc')
+const $statusTheoretical = $('.status-theoretical')
 const $btnSetting = $('.btn-setting')
 const $btnStart = $('.btn-start')
 const $btnLoad = $('.btn-load')
@@ -787,6 +790,7 @@ const Typing = {
           if (!Typing.current.theoretical) {
             Typing.current.theoretical = avg
             console.log('理论码长:', avg)
+            $statusTheoretical.textContent = avg.toFixed(2) + ' 理论'
           }
           const word = solution[0]
           res.push(Utils.html`<span class="color-optim">${word}</span>`)
@@ -906,7 +910,7 @@ const Typing = {
   },
   // 更新状态栏
   updateStatus () {
-    const { correctCount, errorCount, backspaceCount, keyCount, isEnglish } = Typing.current
+    const { correctCount, errorCount, backspaceCount, keyCount, isEnglish, theoretical } = Typing.current
     const millis = new Date().valueOf() - Typing.current.startTime
     const speed = correctCount * 1000 * 60 / millis
     const keySpeed = keyCount * 1000 / millis
@@ -915,6 +919,9 @@ const Typing = {
     Object.assign(Typing.current, {
       millis, speed, keySpeed, acc, badge,
     })
+    if (theoretical !== undefined) {
+      $statusTheoretical.textContent = theoretical.toFixed(2) + ' 理论'
+    }
     $statusTime.textContent = Utils.formatTime(millis)
     $statusSpeed.textContent = speed.toFixed(2) + ' 速'
     $statusKeySpeed.textContent = keySpeed.toFixed(2) + ' 击'
