@@ -1,167 +1,9 @@
+import { $, div } from './div.js'
+export { $, div } from './div.js'
+
 export const uid = (len = 16) => {
   return Math.random().toFixed(len).slice(2)
 }
-
-/**
- * dom 操作.
- * 优先级: el > selector > 创建
- * @returns {HTMLElement}
- */
-export const div = ({
-  el,
-  tag = 'div',
-  container = document.body,
-  selector,
-  selectorAll,
-  className,
-  css,
-  style,
-  attr,
-  on,
-  off,
-  namespace,
-  children,
-  ...options
-} = {}) => {
-  if (selector === true) selector = '.' + className
-  el ||= (selectorAll && container.querySelectorAll(selectorAll)) || (selector && container.querySelector(selector)) || container.appendChild(
-    !tag ? document.createDocumentFragment()
-    : namespace ? document.createElementNS(namespace, tag)
-    : document.createElement(tag)
-  )
-  if (className && !el.className) el.className = className
-  if (css) div.css(css, className)
-  if (style) Object.assign(el.style, style)
-  if (attr) Object.entries(attr).forEach(([k, v]) => div.attr(el, k, v))
-  if (on) Object.entries(on).forEach(([k, v]) => div.on(el, k, v))
-  if (off) Object.entries(off).forEach(([k, v]) => div.off(el, k, v))
-  if (children) div.append(el, children)
-  return Object.assign(el, options)
-}
-div.styles = {}
-div.key = 'va' // short for vanilla-ui
-div.css = (css, className, key) => {
-  if (className && div.styles[className]) return
-  div.styles[className] = true
-  key ||= div.key
-  const res = div({
-    tag: 'style',
-    container: document.head,
-    selector: `style[data-${key}]`,
-    attr: { [`data-${key}`]: '' }
-  })
-  res.innerHTML += css
-    .replace(/\n\s+/g, '\n')
-    .replace(/&/g, '.' + className)
-    .replace(/\$[-a-z0-9]+/g, m => div.cssvar(m.slice(1))) + '\n'
-  return res
-}
-// div: advanced features
-div.themes = {}
-div.theme = 'light'
-div.cssvar = (name, defaultValue) => {
-  defaultValue ||= div.themes[div.theme][name]
-  name = `--${div.key}-${name}`
-  return defaultValue ? `var(${name}, ${defaultValue})` : `var(${name})`
-}
-div.on = (el, ...args) => {
-  el.addEventListener(...args)
-}
-div.off = (el, ...args) => {
-  el.removeEventListener(...args)
-}
-// string template
-div.html = (arr, ...args) => {
-  const esc = (v) => String(v ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-  const buf = []
-  arr.forEach((str, i) => buf.push(str, esc(args[i])))
-  return buf.join('')
-}
-// build className
-div.clsx = (...args) => {
-  if (args.length !== 1) return args.map(v => div.clsx(v)).join(' ').trim()
-  const arg = args[0]
-  if (Array.isArray(arg)) return div.clsx(...arg)
-  if (typeof arg === 'string') return arg.trim()
-  // suppose arg is object
-  return Object.keys(arg).filter(k => arg[k]).join(' ').trim()
-}
-div.append = (el, children) => {
-  if (!children) return
-  if (typeof children === 'string') children = div.text(children)
-  if (Array.isArray(children)) children.forEach(v => div.append(el, v))
-  else el.appendChild(children)
-}
-div.text = (str) => document.createTextNode(str)
-div.attr = (el, key, value) => {
-  if (!value && value !== 0) el.removeAttribute(key)
-  else el.setAttribute(key, value)
-}
-
-div.themes.light = {
-  // background color
-  'bg': '#fff',
-  'bg1': '#1976d2', // primary: bright vivid surface color
-  'bg2': '#f8f8f8',  // secondary: surface color like modal, card
-  'bg3': '#333', // complement surface color
-
-  // foreground color
-  'fg': '#333',
-  'fg1': '#1976d2', // bright vivid color
-  'fg2': '#aaa', // secondary: usually gray and unimportant
-  'fg3': '#fff', // complement: e.g. text color on primary background
-
-  // border color
-  'bd': '#ccc',
-  'bd1': '#1976d2',
-  'bd2': '#eee',
-
-  // measure
-  'xl': '32px',
-  'lg': '16px',
-  'md': '8px',
-  'sm': '4px',
-  'xs': '2px',
-
-  // fixed color. 通常取 0.2 透明度用于背景色, 0.4 用于边框色
-  // 例: rgb(from var(--c-red, #e91e63) r g b / 20%)
-  'c-shadow': '#bbb', // 用于阴影
-  'c-grey': '#808080', // 用于半透明遮罩
-  'c-blue': '#3981e6',
-  'c-green': '#259f1e',
-  'c-red': '#e91e63',
-  'c-purple': '#673ab7',
-  'c-orange': '#e98124',
-}
-
-div.themes.dark = {
-  'bg': '#222',
-  'bg2': '#333',
-  'fg': '#eee',
-  'fg1': '#4399ff',
-  'fg2': '#aaa',
-  'bd': '#888',
-  'bd2': '#303030',
-  'c-shadow': '#555',
-}
-
-const renderTheme = (theme) => {
-  return Object.entries(theme).map(([key, value]) => `--${div.key}-${key}: ${value}`).join(';\n')
-}
-
-div.css(`:root {
-  ${renderTheme(div.themes.light)};
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    ${renderTheme(div.themes.dark)};
-  }
-}
-`, 'root')
 
 /**
  * 日志
@@ -175,42 +17,66 @@ export const Console = ({ container = document.body, className = 'console', trun
   const $console = div({
     container,
     className,
-    innerHTML: `<button class="${className}-toggle">console</button><div class="${className}-content"></div>`,
-    css: `
-      & {
-        position: absolute;
-        z-index: 9999;
-        top: -201px;
-        left: 0;
-        right: 0;
-        background-color: $bg;
-        border-bottom: 1px solid $bd;
-      }
-      &-content {
-        height: 200px;
-        overflow: auto;
-        padding: 4px 10px;
-        white-space: pre-wrap;
-        line-break: anywhere;
-        font-family: Consolas, monospace;
-      }
-      &-toggle {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        transform: translateY(100%);
-        height: 30px;
-        background: $bg;
-        color: $fg;
-        border: 1px solid $bd;
-        border-radius: $sm;
-        cursor: pointer;
-        user-select: none;
-      }
-      &-record + div { border-top: 1px solid $bd2; }
-      &-log { color: $fg; }
-      &-error { color: $c-red; }
-      &-warn { color: $c-orange; }
+    innerHTML: `<button class="${className}-toggle">console</button>
+    <div class="${className}-content"></div>
+    <div class="${className}-input">
+      <textarea rows="1" placeholder="type command..."></textarea>
+    </div>
+    `,
+    css: `& {
+      position: absolute;
+      z-index: 99999;
+      height: 220px;
+      top: -220px;
+      left: 0;
+      right: 0;
+      background-color: $bg;
+      border-bottom: 1px solid $bd;
+    }
+    &-content {
+      height: 195px;
+      overflow: auto;
+      padding: 10px;
+      white-space: pre-wrap;
+      line-break: anywhere;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+    }
+    &-content > div {
+      padding: 4px 0;
+    }
+    &-content > div + div {
+      border-top: 1px solid $bd2;
+    }
+    &-toggle {
+      position: absolute;
+      bottom: -31px;
+      right: 0;
+      height: 30px;
+      background: $bg;
+      color: $fg;
+      border: 1px solid $bd;
+      border-radius: $sm;
+      cursor: pointer;
+      user-select: none;
+    }
+    &-log { color: $fg; }
+    &-error { color: $c-red; }
+    &-warn { color: $c-orange; }
+    &-debug { color: $c-grey; }
+    &-input textarea {
+      box-sizing: border-box;
+      display: block;
+      border: none;
+      border-top: 1px solid $bd;
+      width: 100%;
+      max-width: 100%;
+      min-width: 100%;
+      height: 24px;
+      min-height: 24px;
+      background-color: $bg;
+      color: $fg;
+    }
     `,
   })
 
@@ -220,25 +86,61 @@ export const Console = ({ container = document.body, className = 'console', trun
     selector: `.${className}-toggle`,
     onclick () {
       show = !show
-      $console.style.top = show ? '0' : '-201px'
+      $console.style.top = show ? '0' : '-220px'
     },
   })
   const $content = div({
     container: $console,
     selector: `.${className}-content`,
   })
-  const toString = (arg, key) => {
-    if (arg instanceof Error) return arg.stack
-    if (key === 'error') return new Error(toString(arg)).stack
-    if (typeof arg === 'object') return JSON.stringify(arg, (k, v) => typeof v === 'function' ? '𝑓' : v)
-    return String(arg)
+  const $input = $console.querySelector(`.${className}-input textarea`)
+  $input.onkeydown = (e) => {
+    if (e.key !== 'Enter') return
+    const cmd = $input.value.trim()
+    if (!cmd) return
+    console.log('›', cmd)
+    try {
+      const res = new Function(`return ${cmd}`)()
+      console.log('‹', res)
+    } catch (e) {
+      console.error(e)
+    }
+    setTimeout(() => {
+      $input.value = ''
+      scrollToBottom()
+    })
+  }
+  const scrollToBottom = () => {
+    $content.scrollTop = $content.scrollHeight + 100
+  }
+  const toJson = (obj) => {
+    const cache = new Set()
+    return JSON.stringify(obj, (k, v) => {
+      if (typeof v === 'function') return '𝑓' // 函数
+      if (v instanceof Object) {
+        if (cache.has(v)) return '𝑟𝑒𝑓' // 循环引用
+        cache.add(v)
+      }
+      return v
+    })
+  }
+  const trunc = (arg) => {
+    let res = arg instanceof Object ? toJson(arg) : String(arg)
+    if (res.length > 3000) res = res.slice(0, 3000) + '...'
+    return res
   }
   const override = (key) => (...args) => {
     oldConsole[key](...args)
-    let str = args.map(v => toString(v, key)).join(' ')
-    if (str.length > truncLength) str = str.slice(0, truncLength) + '...'
-    $content.innerHTML += div.html`<div class="${className}-record ${className}-${key}">${str}</div>`
-    // $content.scrollTop = $content.scrollHeight + 100
+    if (key === 'error') args = args.map(arg => {
+      if (arg instanceof Error) return arg.message + '\n' + arg.stack
+      return new Error(trunc(arg)).stack
+    })
+    div({
+      container: $content,
+      className: `${className}-${key}`,
+      innerText: args.map(trunc).join(' '),
+    })
+    // scrollToBottom()
   }
   const newConsole = window.console = {
     ...oldConsole,
@@ -304,6 +206,9 @@ export const Modal = ({ container = document.body, className = 'modal', innerHTM
     className,
     selector: true,
     innerHTML: `<div class="${className}-mask g-fixed g-full-window"></div><div class="${className}-body g-fixed g-transform-center"></div>`,
+    attr: {
+      tabindex: 0,
+    },
     css: `
     & {
       display: none;
@@ -347,6 +252,8 @@ export const Modal = ({ container = document.body, className = 'modal', innerHTM
     onclick: closable ? (() => modal.setShow(false)) : null,
   })
   modal.setShow(show)
+  modal.focus()
+  modal.body = body
   return modal
 }
 
@@ -495,11 +402,10 @@ export const Menu = ({ container = document.body, className = 'menu', innerHTML 
     &-body-item:hover {
       background-color: $bg2;
     }`,
-    setShow (value, { bodyStyle } = {}) {
+    setShow (value) {
       if (value) {
         menu.style.display = 'block'
         body.innerHTML = innerHTML || items.map(renderItem).join('')
-        Object.assign(body.style, bodyStyle)
       } else {
         menu.style.display = 'none'
       }
@@ -517,9 +423,13 @@ export const Menu = ({ container = document.body, className = 'menu', innerHTML 
   const mask = div({
     container: menu,
     selector: `.${className}-mask`,
-    onclick: () => menu.setShow(false),
+    on: {
+      click: () => menu.setShow(false),
+      contextmenu: (e) => e.preventDefault(),
+    },
   })
   menu.setShow(show)
+  menu.body = body
   return menu
 }
 

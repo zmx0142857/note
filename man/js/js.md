@@ -81,8 +81,15 @@ toJson(o, null) // '{"foo":null}'
 ```js
 Array(n).fill() // 用 undefined 填充数组
 [...Array(n)] // 同上
-[...Array(n).keys()] // [0..n-1]
 [...Array(m)].map(() => Array(n).fill(0)) // m 行 n 列的零矩阵
+```
+
+```js
+[...Array(n).keys()] // 使用迭代器生成 [0..n-1]
+Array(y).keys().toArray() // 同上
+Array(9).keys().flatMap(i =>
+  Array(9-i).keys().map(j => `${i+1} * ${j+i+1} = ${(i+1)*(j+i+1)}`)
+).toArray() // 九九乘法表
 ```
 
 取最后一个元素

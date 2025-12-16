@@ -8,7 +8,7 @@
 
 <body>
 
-<p>延伸阅读: <a class="http://zhuyidao.net/" target="_blank">注意力计算器</a></p>
+<p>延伸阅读: <a href="http://zhuyidao.net/" target="_blank">注意力计算器</a></p>
 
 <h2>曲边梯形不等式</h2>
 
@@ -268,6 +268,16 @@
   如 `"e"^x le 1//(1-x)` 直接求导只会越求越繁.
 </p>
 
+<p class="corollary">
+  <b>`x "e"^x` 的估计</b>
+  在不等式 `"e"^t ge t+1` 中令 `t = a x + ln x` (`a != 0`) 得
+  <span class="formula">
+    `x "e"^(a x) ge a x + ln x + 1`,
+  </span>
+  等号成立当且仅当 `t = 0`, 即 `a x + ln x = 0`.
+  具体地求解这个方程需要用到<a class="ref" href="#exp-lambert-w"></a> 的 Lambert W 函数.
+</p>
+
 <ol class="corollary">
   <b>`x^x` 的两个估计</b> `x gt 0` 时有
   <li>`x^x ge "e"^(x-1)`, 等号成立当且仅当 `x = 1`;</li>
@@ -293,12 +303,10 @@
 <ol class="proof">
   利用不等式 `1 + x le "e"^x`,
   <li>
-    <span class="formula">
-      `prod_(n ge 1) (1 + 1/3^n)`
-      `le prod_(n ge 1) "e"^(3^-n)`
-      `= exp(sum_(n ge 1) 3^-n)`
-      `= sqrt "e"`.
-    </span>
+    `prod_(n ge 1) (1 + 1/3^n)`
+    `le prod_(n ge 1) "e"^(3^-n)`
+    `= exp(sum_(n ge 1) 3^-n)`
+    `= sqrt "e"`.
   </li>
   <li>
     原式等于 `(1-1/2)(1-1/4)(1-1/6)`
@@ -320,7 +328,7 @@
       `sqrt(x^2) lt (x^2 - 1)/(ln x^2)`,
     </span>
     整理即得结果.
-  <li>
+  </li>
   <li>只需说明 `x = 0` 时两边都等于 `0`, 而 `x gt 0` 时
     `ln(1+x) - (2x)/(x+2)` 的导数大于零即可.
     也可以对 `a = 1+x`, `b = 1` 使用对数均值不等式.
@@ -347,48 +355,80 @@
   </li>
 </ol>
 
-<p class="example">
-  `"e"^x gt ln x + 2x + 1/sqrt 2`.
-</p>
+<ol class="example">
+  `x gt 0` 时, 证明
+  <li>`"e"^x gt ln x + 2x`.</li>
+  <li>`"e"^x gt ln x + 2x + 1/sqrt 2`.</li>
+</ol>
 
-<p class="proof">
-  ??
-</p>
+<ol class="proof">
+  <li>使用切线过渡, 只需证
+    <span class="formula">
+      `"e"^x ge "e"*x gt ln x + 2 x`.
+    </span>
+    令
+    <span class="formula">
+      `f(x) = ln x + (2-"e") x`,<br>
+      `f'(x) = 1/x + 2 - "e"`.
+    </span>
+    导函数单调减, 因此 `f(x)` 有唯一极大值点 `x_0 = 1/("e"-2)`,
+    此时 `f(x_0) = -1-ln("e"-2) lt 0`.
+  </li>
+  <li>[群友 喵呜]
+    不等式右边可能大于 `"e"*x`, 因此无法使用 1. 中的切线过渡.  我们令
+    <span class="formula">
+      `f(x) = "e"^x - ln x - 2 x - 1/sqrt 2`,<br>
+      `f'(x) = "e"^x - 1/x - 2`.
+    </span>
+    导函数单调增, 因此 `f(x)` 有唯一极小值点 `x_0`, 其满足
+    <span class="formula">
+      `"e"^(x_0) = 1/x_0 + 2`.
+    </span>
+    下证 `f(x_0) gt 0`.
+    对于这令人无可奈何的超越方程, 我们唯有使用丑陋的数值计算:
+    <span class="formula">
+      `f(x_0) = "e"^(x_0) - ln x_0 - 2 x_0 - 1/sqrt 2`<br>
+      `= 1/x_0 + 2 - ln x_0 - 2 x_0 - 1/sqrt 2`.
+    </span>
+    代入近似值 `x_0 ~~ 1.07506` 可得 `f(x_0) ~~ 0.00057 gt 0`.
+    证毕!
+  </li>
+</ol>
 
 <h3>Lambert W 函数</h3>
 
-<ol class="example">
-  <b>Lambert W 函数</b>: `x "e"^x` 的反函数.
-  <li>
-    在不等式 `"e"^t ge t+1` 中令 `t = a x + ln x` (`a != 0`) 得
+<ol class="example" id="exp-lambert-w">
+  <b>Lambert W 函数</b>:
+  定义 `W(x)` 是 `x "e"^x` 的反函数, 即 `W(x) "e"^(W(x)) = x`.
+  利用它求解如下方程:
+  <li>`a x + ln x = 0`, `a != 0`;</li>
+  <li>`a/x + ln x = 0`, `a != 0`;</li>
+  <li>`x^x = a`, `a gt 0`.</li>
+</ol>
+
+<ol class="solution">
+  <li>方程化为
     <span class="formula">
-      `x "e"^(a x) ge a x + ln x + 1`, 等号成立当且仅当 `t = 0`.
+      `x "e"^(a x) = 1`,<br>
+      `a x"e"^(a x) = a`,<br>
+      `x = W(a)//a`.
     </span>
-    从而得到:
-    不等式 `x"e"^(a x) ge b x + ln x + 1` 对所有 `x gt 0`
-    成立当且仅当 `a ge b`.
   </li>
-  <li>现在考虑等号成立的条件
+  <li>方程化为
     <span class="formula">
-      `a x + ln x = 0`, 或 `x "e"^(a x) = 1`.
+      `x "e"^(a//x) = 1`,<br>
+      两边取倒数再同乘 `-a` 得 `-a/x "e"^(-a//x) = -a`,<br>
+      于是 `-a/x = W(-a)`,<br>
+      `x = -a // W(-a)`.
     </span>
-    记 `x "e"^x` 的反函数为 Lambert W 函数 `W(x)`,
-    即 `W(x) "e"^(W(x)) = x`.
-    于是原方程化为 `a x"e"^(a x) = a`, 得到 `x = W(a)//a`.
   </li>
-  <li>用 Lambert W 函数求解
+  <li>方程化为
     <span class="formula">
-      `a/x + ln x = 0`, 或 `x "e"^(a/x) = 1`.
+      `x ln x = ln a`,<br>
+      `"e"^(ln x) ln x = ln a`,<br>
+      `ln x = W(ln a)`,<br>
+      `x = "e"^(W(ln a))`.
     </span>
-    两边取倒数再同乘 `-a` 得 `-a/x "e"^(-a/x) = -a`,
-    于是 `-a/x = W(-a)`, `x = -a // W(-a)`.
-  </li>
-  <li>用 Lambert W 函数求解
-    <span class="formula">
-      `x^x = a`, 或 `x ln x = ln a`.
-    </span>
-    方程化为 `"e"^(ln x) ln x = ln a`,
-    于是 `ln x = W(ln a)`, `x = "e"^(W(ln a))`.
   </li>
 </ol>
 

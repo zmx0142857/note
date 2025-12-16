@@ -16,9 +16,9 @@
   position: absolute;
   width: 300px;
   height: 400px;
-  border-radius: var(--md);
+  border-radius: var(--va-md);
   overflow: hidden;
-  background-color: var(--bg2);
+  background-color: var(--va-bg2);
   transition: transform .3s, opacity .3s;
   transform: rotateY(calc(var(--is-back) * 180deg));
   text-align: center;
@@ -30,7 +30,7 @@
 .card-front, .card-back {
   display: flex;
   flex-direction: column;
-  padding: var(--lg);
+  padding: var(--va-lg);
   gap: 40px;
 }
 .card-back {
@@ -55,22 +55,22 @@
   pointer-events: none;
 }
 .card-input {
-  height: var(--xl);
-  border-radius: var(--md);
-  background-color: var(--bg3);
+  height: var(--va-xl);
+  border-radius: var(--va-md);
+  background-color: var(--va-bg3);
   border: none;
-  padding: var(--md);
-  color: var(--fg);
+  padding: var(--va-md);
+  color: var(--va-fg);
   font-size: 20px;
   width: 80%;
 }
 .card-choice-item {
-  background: var(--bg3);
-  color: var(--fg);
+  background: var(--va-bg3);
+  color: var(--va-fg);
   font-size: 20px;
   border: none;
   border-radius: 999px;
-  padding: var(--md);
+  padding: var(--va-md);
   width: 100%;
   cursor: pointer;
 }
@@ -93,7 +93,7 @@
   opacity: 0.3;
 }
 .link:not([disabled]):hover {
-  text-shadow: 0 0 6px var(--fg);
+  text-shadow: 0 0 6px var(--va-fg);
   transform: scale(1.1);
 }
 .deck-name {
@@ -101,7 +101,7 @@
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  color: var(--fg2);
+  color: var(--va-fg2);
 }
 .deck-tips {
   position: absolute;
@@ -109,6 +109,10 @@
   left: 50%;
   transform: translateX(-50%);
   color: #ff78a6;
+}
+.form-tips {
+  color: #ff78a6;
+  font-size: 14px;
 }
 .deck-progress {
   position: absolute;
@@ -118,20 +122,40 @@
 }
 .deck-list {
   width: 300px;
-  margin-bottom: var(--md);
+  margin-bottom: var(--va-md);
 }
 .deck-item {
-  padding: var(--md);
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  text-align: left;
+  color: var(--va-fg);
+  border: none;
+  background-color: transparent;
+  padding: var(--va-md);
   cursor: pointer;
+  line-height: 20px;
 }
 .deck-item:hover {
-  background: var(--bg3);
-  border-radius: var(--md);
+  background: var(--va-bg3);
+  border-radius: var(--va-md);
 }
 .deck-item.is-active::before {
   content: '✔';
-  color: var(--c-green);
-  margin-right: var(--md);
+  color: var(--va-c-green);
+  margin-right: var(--va-md);
+}
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--va-md);
+  margin: 8px 0;
+}
+.add-deck-input {
+  color: var(--va-fg);
+  background-color: var(--va-bg);
+  border-radius: var(--va-xs);
+  width: 300px;
 }
 </style>
 
@@ -148,16 +172,15 @@
 </div>
 
 <script type="module">
-import { div, Modal, Button, Table } from '../../js/vanilla-ui.js'
+import { $, div, Modal, Button, Table, Menu } from '../../js/vanilla-ui.js'
 
-const $ = el => document.querySelector(el)
 const $container = $('.container')
-const $deck = $('.deck')
-const $linkPrev = $('.link-prev')
-const $linkNext = $('.link-next')
-const $deckProgress = $('.deck-progress')
-const $deckTips = $('.deck-tips')
-const $deckName = $('.deck-name')
+const $deck = $($container, '.deck')
+const $linkPrev = $($container, '.link-prev')
+const $linkNext = $($container, '.link-next')
+const $deckProgress = $($container, '.deck-progress')
+const $deckTips = $($container, '.deck-tips')
+const $deckName = $($container, '.deck-name')
 
 const Utils = {
   uid (length = 16) {
@@ -167,6 +190,10 @@ const Utils = {
     if (x < min) return min
     if (x > max) return max
     return x
+  },
+  round (x, digits) {
+    const pow = Math.pow(10, digits)
+    return Math.round(x * pow) / pow
   },
   parseJson (str, defaultValue = {}, options) {
     if (!str) return defaultValue
@@ -223,13 +250,32 @@ const Utils = {
     localStorage.setItem(`${Globals.key}.globals`, JSON.stringify(Globals))
   },
   loadGlobals () {
-    Object.assign(Globals, Utils.parseJson(localStorage.getItem(`${Globals.key}.globals`), {}))
+    Object.assign(Globals, Utils.parseJson(localStorage.getItem(`${Globals.key}.globals`)))
+    // load dataset from localStorage
+    Globals.decks.forEach(key => {
+      if (!Deck.dataset[key]) {
+        const str = localStorage.getItem(`${Globals.key}.deck.${key}`)
+        if (str) {
+          const data = Utils.parseJson(str)
+          Deck.dataset[key] = {
+            name: data.name,
+            cards: () => data.cards,
+          }
+        }
+      }
+    })
   },
-}
-
-const CardTypeEnum = {
-  choice: 0, // 选择
-  fill: 1, // 填空
+  download ({ url, blob, filename = 'untitled' }) {
+    if (typeof blob === 'string') blob = new Blob([blob])
+    const a = document.createElement('a')
+    a.href = url || URL.createObjectURL(blob)
+    a.download = filename
+    a.style.display = 'none'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    if (!url) URL.revokeObjectURL(a.href)
+  },
 }
 
 const ScoreEnum = {
@@ -244,13 +290,13 @@ const Globals = {
   maxHistory: 15, // 最大历史记录数
   key: 'anki', // 本地存储的键名
   deck: 'shuangpin', // 默认牌组
+  decks: [],
 }
 
 class Card {
   /**
    * 记忆卡片
    * @param {object} props
-   * @param {number} props.type 题型
    * @param {boolean} props.enable 是否启用
    * @param {string} props.front 正面内容
    * @param {string} props.back 背面内容
@@ -265,7 +311,6 @@ class Card {
    */
   constructor (props) {
     Object.assign(this, {
-      type: CardTypeEnum.choice,
       enable: true,
       front: '',
       back: '',
@@ -444,45 +489,48 @@ const KanaData = [
   ['pya', 'ぴゃ', 'ピャ'], ['pyu', 'ぴゅ', 'ピュ'], ['pyo', 'ぴょ', 'ピョ'],
 ]
 
+const ShuangpinData = [
+  ['iu', 'q'], ['ia', 'w'], ['ua', 'w'], ['e', 'e'], ['uan', 'r'], ['er', 'r'], ['üe', 't'],
+  ['uai', 'y'], ['ü', 'y'], ['sh', 'u'], ['ch', 'i'], ['o', 'o'], ['uo', 'o'], ['un', 'p'],
+  ['a', 'a'], ['ong', 's'], ['iong', 's'], ['iang', 'd'], ['uang', 'd'], ['en', 'f'], ['eng', 'g'],
+  ['ang', 'h'], ['an', 'j'], ['ao', 'k'], ['ai', 'l'], ['ing', ';'],
+  ['ei', 'z'], ['ie', 'x'], ['iao', 'c'], ['ui', 'v'], ['zh', 'v'], ['ou', 'b'], ['in', 'n'], ['ian', 'm'],
+]
+
 Deck.dataset = {
   arithmetic: {
     name: '两位数乘一位数',
-    cards () {
-      const res = []
-      for (let a = 12; a <= 19; ++a) {
-        for (let b = 2; b <= 9; ++b) {
-          res.push({ front: `${a} × ${b}`, back: `${a * b}`, type: 1 })
-        }
-      }
-      return res
-    },
+    cards: () => Array(8).keys().flatMap(i =>
+      Array(8).keys().map(j => ({
+        front: `${i + 12} × ${j + 2}`,
+        back: `${(i + 12) * (j + 2)}`,
+      }))
+    ).toArray(),
   },
   shuangpin: {
     name: '双拼',
-    cards () {
-      const res = [
-        ['iu', 'q'], ['ia', 'w'], ['ua', 'w'], ['e', 'e'], ['uan', 'r'], ['er', 'r'], ['üe', 't'], ['uai', 'y'], ['ü', 'y'], ['sh', 'u'], ['ch', 'i'], ['o', 'o'], ['uo', 'o'], ['un', 'p'], ['a', 'a'], ['ong', 's'], ['iong', 's'], ['iang', 'd'], ['uang', 'd'], ['en', 'f'], ['eng', 'g'], ['ang', 'h'], ['an', 'j'], ['ao', 'k'], ['ai', 'l'], ['ing', ';'], ['ei', 'z'], ['ie', 'x'], ['iao', 'c'], ['ui', 'v'], ['zh', 'v'], ['ou', 'b'], ['in', 'n'], ['ian', 'm'],
-      ].map(v => ({ front: v[0], back: v[1], type: 1 }))
-      return res
-    },
+    cards: () => ShuangpinData.map(v => ({ front: v[0], back: v[1] })),
   },
   hirakana: {
     name: '平假名',
-    cards: () => KanaData.slice(0, 69).map(v => ({ front: v[1], back: v[0], type: 0 })),
+    cards: () => KanaData.slice(0, 69).map(v => ({ front: v[1], back: v[0] })),
   },
   katakana: {
     name: '片假名',
-    cards: () => KanaData.slice(0, 69).map(v => ({ front: v[2], back: v[0], type: 0 })),
+    cards: () => KanaData.slice(0, 69).map(v => ({ front: v[2], back: v[0] })),
   },
   'hirakana-youon': {
     name: '平假名拗音',
-    cards: () => KanaData.slice(69).map(v => ({ front: v[1], back: v[0], type: 0 })),
+    cards: () => KanaData.slice(69).map(v => ({ front: v[1], back: v[0] })),
   },
   'katakana-youon': {
     name: '片假名拗音',
-    cards: () => KanaData.slice(69).map(v => ({ front: v[2], back: v[0], type: 0 })),
+    cards: () => KanaData.slice(69).map(v => ({ front: v[2], back: v[0] })),
   },
 }
+Deck.builtinLength = Object.keys(Deck.dataset).length
+Globals.decks = Object.keys(Deck.dataset)
+Globals.deck = Globals.decks[0]
 
 const UI = {
   state: {},
@@ -499,12 +547,13 @@ const UI = {
       totalTime: 0,
       stat: {},
       errCount: 0,
-      mode: 'forward',
+      questionType: 'choice',
+      questionDirection: 'forward',
     })
     $deck.innerHTML = ''
     this.render()
 
-    const modal = Modal({
+    const modal = this.state.modal = Modal({
       closable: false,
       style: {
         width: '280px',
@@ -512,49 +561,58 @@ const UI = {
       innerHTML: `<h3>${deck.name}</h3>
       <p>${deck.desc}</p>
       <p>进度: ${deck.cards.filter(v => !v.isNew).length}/${deck.cards.length}</p>
-      <p>考察方式:
-        <form class="welcome-form">
-          <label><input type="radio" name="mode" value="forward" checked>正向</label>
-          <label><input type="radio" name="mode" value="reverse">反向</label>
-          <label><input type="radio" name="mode" value="random">随机</label>
-        </form>
-      </p>
-      <div class="g-space-around btn-group"></div>
+      <form class="welcome-form">
+        <p>题型:
+          <label><input type="radio" name="questionType" value="choice" checked>选择</label>
+          <label><input type="radio" name="questionType" value="fill">填空</label>
+        </p>
+        <p>方向:
+          <label><input type="radio" name="questionDirection" value="forward" checked>正向</label>
+          <label><input type="radio" name="questionDirection" value="reverse">反向</label>
+          <label><input type="radio" name="questionDirection" value="random">随机</label>
+        </p>
+      </form>
+      <div class="btn-group"></div>
       `
     })
-    const modalBody = modal.querySelector('.va-modal-body')
-    const container = modal.querySelector('.va-modal-body .btn-group')
+    const modalBody = modal.body
+    const btnGroup = $(modalBody, '.btn-group')
 
     Button({
-      container,
+      container: btnGroup,
       innerHTML: '卡组...',
       onClick: () => {
-        this.showDeckList({ modalBody })
+        this.showDeckList({ container: modalBody })
       },
     })
 
     Button({
-      container,
+      container: btnGroup,
       innerHTML: '开始→',
       type: 'primary',
       onClick: () => {
         modal.setShow(false)
         this.state.startTime = new Date().valueOf()
-        this.state.mode = modalBody.querySelector('.welcome-form input[name="mode"]:checked').value
+        const form = $(modalBody, '.welcome-form')
+        this.state.questionType = form.questionType.value
+        this.state.questionDirection = form.questionDirection.value
         this.state.stat = undefined // 重置统计
+        console.log(this.state)
         this.assignProb(this.state.deck.cards)
         $deck.innerHTML = ''
+        Globals.deck = key
+        Utils.saveGlobals()
         this.render()
         this.focus()
       }
     })
   },
   assignProb (cards) {
-    const { mode } = this.state
+    const { questionDirection } = this.state
     cards.forEach(card => {
       Object.defineProperty(card, 'prob', {
         enumerable: false,
-        value: mode === 'reverse' ? 1 : mode === 'random' ? Math.random() : 0,
+        value: questionDirection === 'reverse' ? 1 : questionDirection === 'random' ? Math.random() : 0,
         configurable: true, // 允许重新覆盖定义
       })
     })
@@ -571,6 +629,10 @@ const UI = {
     $linkPrev.onclick = () => this.prevCard()
     $linkNext.onclick = () => $linkNext.getAttribute('disabled') === null && this.nextCard()
     div.on(document, 'keydown', (e) => {
+      console.log('keydown', e.key)
+      // 弹窗时, 禁用主界面的键盘交互
+      if (this.state.modal && this.state.modal.style.display !== 'none') return
+
       if (e.key === 'ArrowLeft') {
         this.prevCard()
       } else if (e.key === 'ArrowRight') {
@@ -580,12 +642,12 @@ const UI = {
       } else if (e.key === 'Enter') {
         if (this.state.stat) return this.showStat()
         if (this.state.index < this.state.progress) return
-        const $input = $deck.querySelector('.is-active:not(.is-back) .card-input')
+        const $input = $($deck, '.is-active:not(.is-back) .card-input')
         if (!$input) return
         if (!$input.value) return $deckTips.textContent = '请输入答案'
         this.checkAnswer($input.value)
       } else if ('1234'.includes(e.key)) {
-        const $choices = $deck.querySelector('.is-active:not(.is-back) .card-choice')
+        const $choices = $($deck, '.is-active:not(.is-back) .card-choice')
         if ($choices) {
           const $choice = $choices.children[Number(e.key) - 1]
           if ($choice) {
@@ -634,7 +696,7 @@ const UI = {
         <div class="${this.getCardClass(len === 0 ? index : len + index + 1)}">
           <div class="card-front g-full g-center">
             ${card.getFront()}
-            ${card.type === 0 ? this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
+            ${state.questionType === 'choice' ? this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
           </div>
           <div class="card-back g-full g-center">
             ${card.getBack()}
@@ -642,7 +704,7 @@ const UI = {
         </div>
         `
       }).join('\n')
-      ;[...frag.querySelectorAll('.card-choice-item')].forEach(v => {
+      $.all(frag, '.card-choice-item').forEach(v => {
         v.onclick = () => {
           v.style.outline = '2px solid #fff'
           this.checkAnswer(v.getAttribute('data-value'))
@@ -663,7 +725,7 @@ const UI = {
     setTimeout(() => {
       const $card = $deck.children[this.state.progress]
       if ($card?.classList?.contains('is-active')) {
-        $card.querySelector('.card-input')?.focus()
+        $($card, '.card-input')?.focus()
       }
     }, delay)
   },
@@ -699,7 +761,7 @@ const UI = {
     this.render()
   },
   flipCard () {
-    const $card = $deck.querySelector('.is-active')
+    const $card = $($deck, '.is-active')
     if ($card) $card.classList.toggle('is-back')
   },
   checkAnswer (value) {
@@ -750,7 +812,7 @@ const UI = {
     deck.save()
     const ranking = deck.stat().filter(v => !v.isNew)
       // 注意: 这里的用时是 card.history 中的平均用时, 而不是本次练习的平均用时
-      .sort((a, b) => Math.round((b.mastery - a.mastery) * 100) || Math.round((a.avgTime - b.avgTime) * 100))
+      .sort((a, b) => Utils.round(b.mastery, 2) - Utils.round(a.mastery, 2) || Utils.round(a.avgTime, 2) - Utils.round(b.avgTime, 2))
     this.state.stat = {
       best: ranking.slice(0, 3),
       worst: ranking.slice(-3),
@@ -761,17 +823,18 @@ const UI = {
     }
     this.showStat()
   },
+  // 练习结算弹窗
   showStat () {
     const { stat } = this.state
     console.log(stat)
     if (!stat.totalCount) return
-    const modal = Modal({
+    const modal = this.state.modal = Modal({
       innerHTML: `<h3>练习完成</h3>
       <p>正确: ${stat.totalCount - stat.errCount}/${stat.totalCount}</p>
       <p>用时: ${stat.totalTime.toFixed(1)} 秒</p>
       <p>速度: ${stat.avgSpeed.toFixed(2)} 题/分</p>`
     })
-    const container = modal.querySelector('.va-modal-body')
+    const container = $(modal, '.va-modal-body')
     Table({
       container,
       columns: [
@@ -786,37 +849,87 @@ const UI = {
     })
     Button({
       container,
+      type: 'primary',
       innerHTML: '确定',
       onClick: () => modal.setShow(false),
     })
   },
   // 显示卡组列表
-  showDeckList ({ modalBody }) {
+  showDeckList ({ container }) {
     const decks = Object.keys(Deck.dataset).map(key => new Deck({ key }))
-    modalBody.innerHTML = `<h3>选择卡组</h3>
+    container.innerHTML = `<h3>选择卡组</h3>
       <div class="deck-list">
       ${decks.map((deck, index) => {
         const progress = `${deck.cards.filter(v => !v.isNew).length}/${deck.cards.length}`
-        return `<div class="deck-item" data-index="${index}">${deck.name} ${progress}</div>`
+        return `<button class="deck-item" data-index="${index}">
+          ${deck.name} ${progress}
+        </button>`
       }).join('\n')}
       </div>
+      <div class="btn-group"></div>
     `
-    div({
+    const deckList = div({
       selector: '.deck-list',
       on: {
-        click (e) {
+        click: (e) => {
           const item = e.target
           if (item.classList.contains('deck-item')) {
             item.classList.toggle('is-active')
           }
         },
+        contextmenu: (e) => {
+          const item = e.target
+          if (item.classList.contains('deck-item')) {
+            e.preventDefault()
+            const { index } = item.dataset
+            const menu = Menu({
+              items: [
+                { label: '导出', value: 'export' },
+                Number(index) >= Deck.builtinLength && { label: '删除', value: 'delete' },
+              ].filter(Boolean),
+              show: false,
+              onSelect: (value) => {
+                menu.setShow(false)
+                if (value === 'export') {
+                  this.exportDeck(decks[index])
+                } else if (value === 'delete') {
+                  if (window.confirm(`删除卡组 "${decks[index].name}" 吗?`)) {
+                    this.deleteDeck(decks[index])
+                    this.showDeckList({ container })
+                  }
+                }
+              },
+            })
+            Object.assign(menu.body.style, {
+              left: e.clientX,
+              top: e.clientY,
+            })
+            menu.setShow(true)
+          }
+        }
+      }
+    })
+    const btnGroup = $(container, '.btn-group')
+    Button({
+      container: btnGroup,
+      innerHTML: '新增...',
+      onClick: () => {
+        this.addDeckForm({ container })
       }
     })
     Button({
-      container: modalBody,
+      container: btnGroup,
+      innerHTML: '取消',
+      onClick: () => {
+        this.reload(Globals.deck)
+      }
+    })
+    Button({
+      container: btnGroup,
+      type: 'primary',
       innerHTML: '确定',
       onClick () {
-        const selected = [...modalBody.querySelectorAll('.deck-item.is-active')]
+        const selected = [...$.all(container, '.deck-item.is-active')]
         if (selected.length) {
           const keys = selected.map(v => decks[v.dataset.index].key)
           UI.reload(keys.length === 1 ? keys[0] : keys)
@@ -824,11 +937,69 @@ const UI = {
       }
     })
 
-    Object.assign(modalBody.style, {
+    Object.assign(container.style, {
       width: 'unset',
       height: 'unset',
     })
-  }
+  },
+  // 新增卡组表单
+  addDeckForm ({ container }) {
+    container.innerHTML = `<h3>新增卡组</h3>
+      <textarea class="add-deck-input" rows="10" placeholder='示例: {
+  "key": "alphabet",
+  "name": "英语字母",
+  "desc": "",
+  "cards": [
+    { "front": "A", "back": "a" },
+    { "front": "B", "back": "b" },
+    { "front": "C", "back": "c" }
+  ]
+}'></textarea>
+      <div class="form-tips"></div>
+      <div class="btn-group"></div>
+    `
+    const btnGroup = $(container, '.btn-group')
+    Button({
+      container: btnGroup,
+      innerHTML: '取消',
+      onClick: () => this.showDeckList({ container })
+    })
+    Button({
+      container: btnGroup,
+      type: 'primary',
+      innerHTML: '确定',
+      onClick: () => {
+        const $input = $(container, '.add-deck-input')
+        const $tips = $(container, '.form-tips')
+        const data = Utils.parseJson($input.value.trim())
+        if (data.key && !Globals.decks.includes(data.key)) {
+          $tips.innerHTML = ''
+          this.importDeck(data)
+          this.showDeckList({ container })
+        } else {
+          $tips.innerHTML = '请检查数据格式'
+        }
+      }
+    })
+  },
+  exportDeck (deck) {
+    const str = JSON.stringify(deck, null, 2)
+    const blob = new Blob([str], { type: 'text/plain;charset=utf-8' })
+    Utils.download({ blob, filename: `${Globals.key}.deck.${deck.key}.json` })
+  },
+  importDeck (data) {
+    localStorage.setItem(`${Globals.key}.deck.${data.key}`, JSON.stringify(data))
+    Globals.decks.push(data.key)
+    Utils.saveGlobals()
+    Utils.loadGlobals()
+  },
+  deleteDeck (deck) {
+    delete Deck.dataset[deck.key]
+    Globals.decks = Globals.decks.filter(v => v !== deck.key)
+    Globals.deck = Globals.decks[0]
+    localStorage.removeItem(`${Globals.key}.deck.${deck.key}`)
+    Utils.saveGlobals()
+  },
 }
 
 UI.init()

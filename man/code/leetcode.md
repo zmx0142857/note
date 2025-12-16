@@ -15,13 +15,13 @@ const every = (lo, hi, fn) => {
 
 ```js
 /**
- * 在闭区间 [lo, hi] 中寻找 n 使 f(n) 最大
+ * 在左闭右开区间 [lo, hi) 中寻找 n 使 f(n) 最大
  * 如果区间为空, 返回 undefined
  */
 var argmax = (lo, hi, f) => {
   let max = -Infinity
   let res = undefined
-  for (let i = lo; i <= hi; ++i) {
+  for (let i = lo; i < hi; ++i) {
     const v = f(i)
     if (v > max) {
       max = v
@@ -48,12 +48,12 @@ argmax(lo, hi, n => {
 
 ```js
 /**
- * 设 f: [lo, hi] -> {0, 1} 单调增
- * 在闭区间 [lo, hi] 中寻找使 f(n) == 1 的最小 n, 若找不到则返回 hi+1
+ * 设 f: [lo, hi) -> {0, 1} 单调增
+ * 在左闭右开区间 [lo, hi) 中寻找使 f(n) == 1 的最小 n, 若找不到则返回 hi+1
  * NOTE: 返回值 res 减 1 就是使 f(n) == 0 的最大 n, 若 res == lo 则说明不存在这样的 n
  */
 var bsearch = (lo, hi, f) => {
-  --lo, ++hi
+  --lo
   while (hi - lo > 1) {
     const mid = lo + ((hi-lo)>>1)
     if (f(mid)) hi = mid

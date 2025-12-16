@@ -590,6 +590,10 @@ mesh.geometry.computeBoundsTree()
 - THREE.DRACOLoader: Unexpected geometry type. 解决:
   - 检查 DRACOLoader 的版本与 threejs 是否匹配
   - 检查 DRACOLoader 的 decoderPath 是否有效
+- draco 解压点云时遇到 unsupported geometry type
+  - 原因: draco decoder 有两个版本, 其中 gltf/ 子目录中的版本仅支持 gltf, 不支持点云
+- 如何导出 draco 压缩点云?
+  - 解决: 使用 DRACOExporter + DracoEncoderModule
 - [来自 threejs 论坛](https://discourse.threejs.org/t/close-the-object-and-the-frame-rate-decreases/28691) 相机拉近物体时为什么帧率会下降?
   - 原因: 使用 PBR 材质 (MeshStandardMaterial) 时, 屏幕上的片元 (像素) 越多, 渲染越慢
   - 解决: 可以改为 MeshPhongMaterial (光滑材质) 或 MeshLambertMaterial (粗糙材质)
@@ -651,8 +655,6 @@ mesh.geometry.computeBoundsTree()
   renderer.forceContextLoss()
   renderer.context = null
   ```
-- draco 解压点云时遇到 unsupported geometry type
-  - 原因: draco decoder 有两个版本, 其中一个仅支持 gltf, 不支持点云
 - 3d-tiles-renderer 渲染 3dtiles 时模型加载不全, 视角旋转时模型还会闪烁
   - 解决: 检查 tilesRenderer 的 resolution. 分辨率为 0 会引起渲染异常
     ```js
