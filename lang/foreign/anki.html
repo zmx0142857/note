@@ -89,8 +89,8 @@
   color: var(--va-fg);
   font-size: 20px;
   border: none;
-  border-radius: 999px;
-  padding: var(--va-md);
+  border-radius: 40px;
+  padding: 8px 26px;
   width: 100%;
   cursor: pointer;
 }
@@ -366,7 +366,7 @@ const Utils = {
   b64encode (str) {
     return btoa(String.fromCharCode(...new TextEncoder().encode(str)))
   },
-  trim (str) {
+  linebreak (str) {
     return str.trim().replace(/\n/g, '<br/>')
   },
 }
@@ -811,12 +811,12 @@ const UI = {
         return `
         <div class="${this.getCardClass(len === 0 ? index : len + index + 1)}">
           <div class="card-front g-full g-center">
-            <div class="card-front-content g-column">${Utils.trim(card.getFront())}
+            <div class="card-front-content g-column">${Utils.linebreak(card.getFront())}
             ${state.questionType === 'choice' ?  this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
             </div>
           </div>
           <div class="card-back g-full g-center">
-            <div class="card-back-content g-column">${Utils.trim(card.getBack())}</div>
+            <div class="card-back-content g-column">${Utils.linebreak(card.getBack())}</div>
           </div>
         </div>
         `
@@ -855,7 +855,7 @@ const UI = {
     <div class="card-choice">
       ${choices.map(v => `
         <button class="card-choice-item" data-value="${cards[v].getBack(card.prob).replace(/"/g, '&quot;')}">
-          ${Utils.trim(cards[v].getBack(card.prob))}
+          ${Utils.linebreak(cards[v].getBack(card.prob))}
         </button>
       `).join('\n')}
     </div>
@@ -958,7 +958,7 @@ const UI = {
     console.log(stat)
     if (!stat.totalCount) return
     const modal = this.state.modal = Modal({
-      innerHTML: `<h3>练习完成</h3>
+      innerHTML: div.html`<h3>练习完成</h3>
       <p>正确: ${stat.totalCount - stat.errCount}/${stat.totalCount}</p>
       <p>用时: ${stat.totalTime.toFixed(1)} 秒</p>
       <p>速度: ${stat.avgSpeed.toFixed(2)} 题/分</p>`
@@ -967,7 +967,7 @@ const UI = {
     Table({
       container,
       columns: [
-        { label: '题目', key: 'front', render: v => v.slice(0, 10) },
+        { label: '题目', key: 'front', render: v => () => div.html`<td class="g-ellipsis" style="max-width:200px" title="${v}">${v}</td>` },
         { label: '熟练度', key: 'mastery', render: v => typeof v === 'string' ? v : Math.round(v * 100) },
         { label: '历史平均用时 (秒)', key: 'avgTime', render: v => typeof v === 'string' ? v : v.toFixed(2) },
       ],
@@ -1023,6 +1023,7 @@ const UI = {
             const menu = Menu({
               items: [
                 { label: '导出', value: 'export' },
+                { label: '编辑', value: 'edit' },
                 Number(index) >= Deck.builtinLength && { label: '删除', value: 'delete' },
               ].filter(Boolean),
               show: false,
@@ -1030,6 +1031,8 @@ const UI = {
                 menu.setShow(false)
                 if (value === 'export') {
                   this.exportDeck(decks[index])
+                } else if (value === 'edit') {
+                  this.addDeckForm({ container, json: JSON.stringify(decks[index], null, 2) })
                 } else if (value === 'delete') {
                   if (window.confirm(`删除卡组 "${decks[index].name}" 吗?`)) {
                     this.deleteDeck(decks[index])
@@ -1081,8 +1084,8 @@ const UI = {
     })
   },
   // 新增卡组表单
-  addDeckForm ({ container }) {
-    container.innerHTML = `<h3>新增卡组</h3>
+  addDeckForm ({ container, json = '' }) {
+    container.innerHTML = `<h3>${json ? '编辑卡组' : '新增卡组'}</h3>
       <textarea class="add-deck-input" rows="20" placeholder='示例: {
   "key": "alphabet",
   "name": "英语字母",
@@ -1096,6 +1099,8 @@ const UI = {
       <div class="form-tips"></div>
       <div class="btn-group"></div>
     `
+    const $input = $(container, '.add-deck-input')
+    if (json) $input.value = json
     const btnGroup = $(container, '.btn-group')
     Button({
       container: btnGroup,
@@ -1106,7 +1111,6 @@ const UI = {
         const csvData = Utils.parseCsv(text)
         console.log(text)
         console.log(csvData)
-        const $input = $(container, '.add-deck-input')
         const jsonData = Utils.parseJson($input.value.trim())
         const name = file.name.replace(/\.csv$/, '')
         Object.assign(jsonData, {
@@ -1149,7 +1153,7 @@ const UI = {
   },
   importDeck (data) {
     localStorage.setItem(`${Globals.key}.deck.${data.key}`, JSON.stringify(data))
-    Globals.decks.push(data.key)
+    if (!Globals.decks.includes(data.key)) Globals.decks.push(data.key)
     Utils.saveGlobals()
     Utils.loadGlobals()
   },

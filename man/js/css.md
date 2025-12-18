@@ -127,6 +127,8 @@ const isDark = media.matches
 
 ## Trouble Shooting
 
+### absolute 造成滚动条意外出现
+
 问题: `overflow: auto` 与 `position: relative` 设置在同一元素时, absolute 元素会造成滚动条出现.
 解决: 去掉 `.scroll` 元素的 `position: relative`.
 注: `transform` 也会形成一个上下文包含块, 相当于 `position: relative`.
@@ -170,4 +172,65 @@ const isDark = media.matches
     </div>
   </div>
 </div>
+```
+
+### 居中元素溢出
+
+问题: 用 g-center 居中内容时, 无法滚动查看开头内容.
+```html
+<style>
+* {
+  box-sizing: border-box;
+}
+.g-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  width: 200px;
+  height: 300px;
+  background: #aaa;
+  overflow: auto;
+}
+</style>
+
+<body class="g-center">
+<div class="container g-center">
+开头
+Elit aliquam deleniti repellat libero repellendus. Harum optio numquam quae ut nobis sed Fugiat incidunt rem magni voluptatem magnam Rem officia atque eligendi reiciendis neque aut veritatis? Praesentium quo eaque.
+Elit aliquam deleniti repellat libero repellendus. Harum optio numquam quae ut nobis sed Fugiat incidunt rem magni voluptatem magnam Rem officia atque eligendi reiciendis neque aut veritatis? Praesentium quo eaque.
+结尾
+</div>
+</body>
+```
+解决: 在 `div.container` 中再套一层 `div.inner`, 并设置样式 `max-height: 100%` 即可.
+
+> 如果内容需要 padding:
+> - 可以添加 `::after` 伪元素撑高底部空白.
+> - 或者, 在 `div.inner` 内部再套一层 `div.padding` 并设置 padding
+
+修改后的代码如下:
+```html
+<style>
+/* 新增样式 */
+.inner {
+  max-height: 100%;
+  padding: 20px;
+}
+.inner::after {
+  content: '';
+  display: block;
+  height: 20px;
+  width: 100%;
+}
+</style>
+
+<body class="g-center">
+<div class="container g-center">
+  <div class="inner">
+    ...
+  </div>
+</div>
+</body>
 ```
