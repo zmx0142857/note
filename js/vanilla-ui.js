@@ -61,9 +61,9 @@ export const Console = ({ container = document.body, className = 'console', trun
       user-select: none;
     }
     &-log { color: $fg; }
-    &-error { color: $c-red; }
-    &-warn { color: $c-orange; }
-    &-debug { color: $c-grey; }
+    &-error { color: rgb($c-red); }
+    &-warn { color: rgb($c-orange); }
+    &-debug { color: rgb($c-grey); }
     &-input textarea {
       box-sizing: border-box;
       display: block;
@@ -132,8 +132,8 @@ export const Console = ({ container = document.body, className = 'console', trun
   const override = (key) => (...args) => {
     oldConsole[key](...args)
     if (key === 'error') args = args.map(arg => {
-      if (arg instanceof Error) return arg.message + '\n' + arg.stack
-      return new Error(trunc(arg)).stack
+      if (!(arg instanceof Error)) arg = new Error(trunc(arg))
+      return arg.message + '\n' + arg.stack.replace(/^/gm, '  ')
     })
     div({
       container: $content,
@@ -186,7 +186,7 @@ export const Toast = ({ container = document.body, className = 'toast', innerHTM
       top: 40px;
       transform: translateX(-50%);
       text-align: center;
-      /*box-shadow: 0 0 8px $c-shadow;*/
+      /*box-shadow: 0 0 8px rgb($c-shadow);*/
     }`
   })
   clearTimeout(toast.timer1)
@@ -217,7 +217,7 @@ export const Modal = ({ container = document.body, className = 'modal', innerHTM
       transition: opacity .2s;
     }
     &-mask {
-      background: rgb(from $c-grey r g b / 50%);
+      background: rgb($c-grey / 50%);
     }
     &-body {
       background-color: $bg2;
@@ -287,7 +287,7 @@ export const Float = ({ container = document.body, className = 'float', innerHTM
       user-select: none;
       font-size: 24px;
       font-weight: bold;
-      box-shadow: $c-shadow 0px 5px 7px -2px;
+      box-shadow: rgb($c-shadow) 0px 5px 7px -2px;
       cursor: move;
     }`
   })
@@ -483,7 +483,7 @@ export const Loading = ({ container, className = 'loading' } = {}) => {
     &-circle {
       width: 100%;
       height: 100%;
-      stroke: rgb(from $c-grey r g b / 50%);
+      stroke: rgb($c-grey / 50%);
       stroke-dasharray: 120;
       stroke-dashoffset: 0;
       stroke-linecap: round;
@@ -800,7 +800,7 @@ export const Table = ({ container, el, className = 'table', title = '', header =
     }
 
     &.col2 td:nth-child(odd), &.col2 th:nth-child(odd) {
-      background: rgb(from $c-grey r g b / 15%);
+      background: rgb($c-grey / 15%);
     }`,
     innerHTML: renderTable(),
   })
@@ -833,7 +833,7 @@ export const Tabs = ({ container, className = 'tabs', items = [], active, onChan
     css: `& {
       border-radius: 10px;
       background-color: $bg;
-      box-shadow: 0 0 10px 0 $c-shadow;
+      box-shadow: 0 0 10px 0 rgb($c-shadow);
       overflow: hidden;
     }
     &-body {

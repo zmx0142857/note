@@ -439,6 +439,16 @@ var tocData = [
     "color": "dark",
     "children": [
       {
+        "value": "foreign",
+        "label": "外语",
+        "children": [
+          { "value": "anki", "label": "ANKI 记忆卡片", "date": "2025-12-18" },
+          { "value": "kana", "label": "学五十音" },
+          { "value": "jp-words", "label": "日语动词" },
+          { "value": "ru", "label": "俄语", "date": "2025-09-18" },
+        ]
+      },
+      {
         "value": "zh",
         "label": "汉语",
         "children": [
@@ -446,16 +456,6 @@ var tocData = [
           { "value": "typing", "label": "打字练习", "date": "2024-04-09" },
           { "value": "hinghwa", "label": "莆仙话", "date": "2024-07-23" },
           { "value": "cantonese", "label": "粤语", "date": "2025-09-11" },
-        ]
-      },
-      {
-        "value": "foreign",
-        "label": "外语",
-        "children": [
-          { "value": "kana", "label": "学五十音" },
-          { "value": "jp-words", "label": "日语动词" },
-          { "value": "ru", "label": "俄语", "date": "2025-09-18" },
-          { "value": "anki", "label": "ANKI 记忆卡片", "date": "2025-12-05" },
         ]
       },
       {
@@ -753,6 +753,7 @@ var tocData = [
           { "value": "go.md", "label": "Go", "date": "2025-09-05" },
           { "value": "gui.md", "label": "GUI", "date": "2025-11-01" },
           { "value": "flutter.md", "label": "Flutter", "date": "2025-11-10" },
+          { "value": "sqlite3.md", "label": "Sqlite3", "date": "2025-12-17" },
         ]
       },
       {

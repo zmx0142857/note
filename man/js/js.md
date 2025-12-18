@@ -86,7 +86,9 @@ Array(n).fill() // 用 undefined 填充数组
 
 ```js
 [...Array(n).keys()] // 使用迭代器生成 [0..n-1]
-Array(y).keys().toArray() // 同上
+
+// 在最新的浏览器中, 迭代器接口 Iterator 支持 toArray, map, flatMap 等方法:
+Array(y).keys().toArray() // 同样生成 [0..n-1]
 Array(9).keys().flatMap(i =>
   Array(9-i).keys().map(j => `${i+1} * ${j+i+1} = ${(i+1)*(j+i+1)}`)
 ).toArray() // 九九乘法表

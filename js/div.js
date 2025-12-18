@@ -89,7 +89,7 @@ div.clsx = (...args) => {
 div.append = (el, children) => {
   if (!children) return
   if (typeof children === 'string') children = div.text(children)
-  if (Array.isArray(children)) children.forEach(v => div.append(el, v))
+  if (children.forEach) children.forEach(v => div.append(el, v))
   else el.appendChild(children)
 }
 div.text = (str) => document.createTextNode(str)

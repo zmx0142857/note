@@ -1,6 +1,14 @@
 <link rel="stylesheet" href="../../css/vanilla-ui.css">
 <style>
-.container {
+:root {
+  --anki-green: #97e2bd;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --anki-green: #448866;
+  }
+}
+.main {
   position: absolute;
   height: 400px;
   gap: 20px;
@@ -30,12 +38,24 @@
 .card-front, .card-back {
   display: flex;
   flex-direction: column;
-  padding: var(--va-lg);
+  padding: 60px 16px 40px 16px;
+  overflow-y: auto;
+}
+.card-front-content, .card-back-content {
+  max-height: 100%; /* 防止 g-center 居中内容溢出不可见 */
   gap: 40px;
+  align-items: center;
+}
+.card-front-content::after, .card-back-content::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px; /* 产生 40px 的底部 gap */
+  flex-shrink: 0;
 }
 .card-back {
   display: none;
-  background-color: #448866;
+  background-color: var(--anki-green);
   transform: scaleX(-1);
 }
 .card.is-back .card-back {
@@ -80,6 +100,9 @@
 .card-choice-item + .card-choice-item {
   margin-top: 8px;
 }
+.card-choice-item.is-active {
+  outline: 2px solid var(--va-fg);
+}
 .link {
   font-size: 48px;
   cursor: pointer;
@@ -108,10 +131,10 @@
   bottom: 36px;
   left: 50%;
   transform: translateX(-50%);
-  color: #ff78a6;
+  color: rgb(var(--va-c-red));
 }
 .form-tips {
-  color: #ff78a6;
+  color: rgb(var(--va-c-red));
   font-size: 14px;
 }
 .deck-progress {
@@ -142,7 +165,7 @@
 }
 .deck-item.is-active::before {
   content: '✔';
-  color: var(--va-c-green);
+  color: rgb(var(--va-c-green));
   margin-right: var(--va-md);
 }
 .btn-group {
@@ -161,7 +184,7 @@
 
 <body class="g-full g-center g-overflow-hidden">
 
-<div class="container g-center">
+<main class="main g-center">
   <a class="link link-prev">❮</a>
   <div class="deck"></div>
   <a class="link link-next">❯</a>
@@ -169,18 +192,20 @@
   <div class="deck-name"></div>
   <div class="deck-tips"></div>
   <div class="deck-progress">0 / 0</div>
-</div>
+</main>
 
 <script type="module">
-import { $, div, Modal, Button, Table, Menu } from '../../js/vanilla-ui.js'
+import { $, div, Modal, Button, Table, Menu, Console } from '../../js/vanilla-ui.js'
 
-const $container = $('.container')
-const $deck = $($container, '.deck')
-const $linkPrev = $($container, '.link-prev')
-const $linkNext = $($container, '.link-next')
-const $deckProgress = $($container, '.deck-progress')
-const $deckTips = $($container, '.deck-tips')
-const $deckName = $($container, '.deck-name')
+// Console()
+
+const $main = $('.main')
+const $deck = $($main, '.deck')
+const $linkPrev = $($main, '.link-prev')
+const $linkNext = $($main, '.link-next')
+const $deckProgress = $($main, '.deck-progress')
+const $deckTips = $($main, '.deck-tips')
+const $deckName = $($main, '.deck-name')
 
 const Utils = {
   uid (length = 16) {
@@ -275,6 +300,74 @@ const Utils = {
     a.click()
     document.body.removeChild(a)
     if (!url) URL.revokeObjectURL(a.href)
+  },
+  upload ({ id = 'file-input', multiple = false, accept } = {}) {
+    return new Promise(resolve => {
+      const input = document.getElementById(id) || document.createElement('input')
+      input.type = 'file'
+      input.id = id
+      input.style.display = 'none'
+      input.multiple = multiple
+      input.accept = accept
+      input.onclick = () => input.value = null // 清空选中的文件
+      input.onchange = () => resolve(input.files)
+      document.body.appendChild(input)
+      input.click()
+    })
+  },
+  async readFile (blob, { type = 'string' } = {}) {
+    if (!blob) return
+    return new Promise((resolve, reject) => {
+      const reader = new window.FileReader()
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = reject
+      if (type === 'string') return reader.readAsText(blob)
+      if (type === 'base64') return reader.readAsDataURL(blob)
+      if (type === 'bytes') return reader.readAsArrayBuffer(blob)
+      reject('unknown type: ' + type)
+    })
+  },
+  // 含有逗号或换行的字段需要用双引号包裹
+  // 双引号需要转义为两个双引号
+  parseCsv (text = '') {
+    text = [...text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n')]
+    const rows = [], row = [], buf = []
+    let inQuote = false
+    const flush = (flag) => {
+      row.push(buf.join(''))
+      buf.length = 0
+      if (flag) {
+        rows.push(row.slice())
+        row.length = 0
+      }
+    }
+    for (let i = 0; i < text.length; ++i) {
+      const ch = text[i]
+      if (ch === '"') {
+        if (text[i+1] !== ch) {
+          inQuote = !inQuote
+        } else if (inQuote) {
+          buf.push(ch)
+          ++i
+        } else {
+          inQuote = true
+        }
+      } else if (ch === ',') {
+        inQuote ? buf.push(ch) : flush()
+      } else if (ch === '\n') {
+        inQuote ? buf.push(ch) : flush(true)
+      } else {
+        buf.push(ch)
+      }
+    }
+    flush(true)
+    return rows
+  },
+  b64encode (str) {
+    return btoa(String.fromCharCode(...new TextEncoder().encode(str)))
+  },
+  trim (str) {
+    return str.trim().replace(/\n/g, '<br/>')
   },
 }
 
@@ -500,12 +593,12 @@ const ShuangpinData = [
 Deck.dataset = {
   arithmetic: {
     name: '两位数乘一位数',
-    cards: () => Array(8).keys().flatMap(i =>
-      Array(8).keys().map(j => ({
+    cards: () => [...Array(8).keys()].flatMap(i =>
+      [...Array(8).keys()].map(j => ({
         front: `${i + 12} × ${j + 2}`,
         back: `${(i + 12) * (j + 2)}`,
       }))
-    ).toArray(),
+    ),
   },
   shuangpin: {
     name: '双拼',
@@ -620,39 +713,62 @@ const UI = {
   },
   // 事件注册
   init () {
-    $container.onclick = (e) => {
-      if (['card-front', 'card-back'].some(v => e.target.classList.contains(v))) {
+    const mouse = { x: 0, y: 0, time: 0 }
+    div.on($deck, 'pointerdown', e => {
+      mouse.x = e.clientX
+      mouse.y = e.clientY
+      mouse.time = new Date().valueOf()
+    })
+    div.on($deck, 'touchmove', e => {
+      if (e.touches.length === 1) {
+        const dx = e.touches[0].clientX - mouse.x
+        const dy = e.touches[0].clientY - mouse.y
+        if (Math.abs(dx) < Math.abs(dy)) return // 允许纵向滚动
+      }
+      e.preventDefault() // 禁用横向滚动
+    }, { passive: false })
+    div.on($deck, 'pointerup', e => {
+      const dx = e.clientX - mouse.x
+      const dy = e.clientY - mouse.y
+      const dt = new Date().valueOf() - mouse.time
+      const absdx = Math.abs(dx)
+      const absdy = Math.abs(dy)
+      if (absdx < 10 && absdy < 10 && ['card-front', 'card-back', 'card-front-content', 'card-back-content'].some(v => e.target.classList.contains(v))) { // click
         const $card = e.target.parentNode
         this.flipCard($card)
+      } else if (dt < 500 && dx > 50 && absdx > absdy) { // swipe right
+        this.prevCard()
+      } else if (dt < 500 && dx < -50 && absdx > absdy) { // swipe left
+        this.nextCard()
       }
-    }
+    })
     $linkPrev.onclick = () => this.prevCard()
-    $linkNext.onclick = () => $linkNext.getAttribute('disabled') === null && this.nextCard()
+    $linkNext.onclick = () => this.nextCard()
     div.on(document, 'keydown', (e) => {
-      console.log('keydown', e.key)
       // 弹窗时, 禁用主界面的键盘交互
       if (this.state.modal && this.state.modal.style.display !== 'none') return
 
       if (e.key === 'ArrowLeft') {
         this.prevCard()
       } else if (e.key === 'ArrowRight') {
-        $linkNext.getAttribute('disabled') === null && this.nextCard()
+        this.nextCard()
       } else if (e.key === 'ArrowUp') {
         this.flipCard()
       } else if (e.key === 'Enter') {
-        if (this.state.stat) return this.showStat()
-        if (this.state.index < this.state.progress) return
+        if (this.state.stat) return this.showStat() // 已经进入结算环节不允许提交
+        if (this.state.index < this.state.progress) return // 做过的题不允许重复提交
         const $input = $($deck, '.is-active:not(.is-back) .card-input')
         if (!$input) return
         if (!$input.value) return $deckTips.textContent = '请输入答案'
         this.checkAnswer($input.value)
       } else if ('1234'.includes(e.key)) {
+        if (this.state.stat) return this.showStat() // 已经进入结算环节不允许提交
+        if (this.state.index < this.state.progress) return // 做过的题不允许重复提交
         const $choices = $($deck, '.is-active:not(.is-back) .card-choice')
         if ($choices) {
           const $choice = $choices.children[Number(e.key) - 1]
           if ($choice) {
-            $choice.style.outline = '2px solid #fff'
-            this.checkAnswer($choice.getAttribute('data-value'))
+            this.selectChoice($choices, $choice)
           }
         }
       }
@@ -695,25 +811,27 @@ const UI = {
         return `
         <div class="${this.getCardClass(len === 0 ? index : len + index + 1)}">
           <div class="card-front g-full g-center">
-            ${card.getFront()}
-            ${state.questionType === 'choice' ? this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
+            <div class="card-front-content g-column">${Utils.trim(card.getFront())}
+            ${state.questionType === 'choice' ?  this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
+            </div>
           </div>
           <div class="card-back g-full g-center">
-            ${card.getBack()}
+            <div class="card-back-content g-column">${Utils.trim(card.getBack())}</div>
           </div>
         </div>
         `
       }).join('\n')
-      $.all(frag, '.card-choice-item').forEach(v => {
-        v.onclick = () => {
-          v.style.outline = '2px solid #fff'
-          this.checkAnswer(v.getAttribute('data-value'))
-        }
+      $.all(frag, '.card-choice').forEach($choices => {
+        $choices.childNodes.forEach(v => {
+          v.onclick = () => {
+            this.selectChoice($choices, v)
+          }
+        })
       })
       div.append($deck, [...frag.children])
     }
     // 过渡动画
-    ;[...$deck.children].forEach(($card, index) => {
+    $deck.childNodes.forEach(($card, index) => {
       // const isBack = $card.classList.contains('is-back')
       $card.className = this.getCardClass(index, false)
     })
@@ -736,7 +854,9 @@ const UI = {
     return `
     <div class="card-choice">
       ${choices.map(v => `
-        <button class="card-choice-item" data-value="${cards[v].getBack(card.prob)}">${cards[v].getBack(card.prob)}</button>
+        <button class="card-choice-item" data-value="${cards[v].getBack(card.prob).replace(/"/g, '&quot;')}">
+          ${Utils.trim(cards[v].getBack(card.prob))}
+        </button>
       `).join('\n')}
     </div>
     `
@@ -745,12 +865,21 @@ const UI = {
   renderFillQuestion (card) {
     return '<input class="card-input" />'
   },
+  selectChoice ($choices, $choice) {
+    if (this.state.stat) return this.showStat() // 已经进入结算环节不允许提交
+    if (this.state.index < this.state.progress) return // 做过的题不允许重复提交
+    $choices.childNodes.forEach(v => v.className = div.clsx('card-choice-item', {
+      'is-active': $choice === v,
+    }))
+    this.checkAnswer($choice.getAttribute('data-value').replace(/&quot;/g, '"'))
+  },
   prevCard () {
     this.state.index = Math.max(0, this.state.index - 1)
     this.render()
   },
-  nextCard () {
+  nextCard (skip) {
     const { state } = this
+    if (!skip && state.index >= state.progress) return
     state.index = Math.min(state.cards.length - 1, state.index + 1)
     // 新题目
     if (state.index > state.progress) {
@@ -761,7 +890,7 @@ const UI = {
     this.render()
   },
   flipCard () {
-    const $card = $($deck, '.is-active')
+    const $card = $($deck, '.card.is-active')
     if ($card) $card.classList.toggle('is-back')
   },
   checkAnswer (value) {
@@ -785,7 +914,7 @@ const UI = {
       if (index === cards.length - 1) {
         this.finish()
       } else {
-        this.nextCard()
+        this.nextCard(true)
       }
     } else {
       card.learn(ScoreEnum.bad, time)
@@ -847,11 +976,20 @@ const UI = {
         margin: '0 auto 8px auto',
       },
     })
-    Button({
+    const btnGroup = div({
       container,
-      type: 'primary',
-      innerHTML: '确定',
+      className: 'btn-group',
+    })
+    Button({
+      container: btnGroup,
+      innerHTML: '返回',
       onClick: () => modal.setShow(false),
+    })
+    Button({
+      container: btnGroup,
+      type: 'primary',
+      innerHTML: '再来一组',
+      onClick: () => this.reload(this.state.deck.key)
     })
   },
   // 显示卡组列表
@@ -945,7 +1083,7 @@ const UI = {
   // 新增卡组表单
   addDeckForm ({ container }) {
     container.innerHTML = `<h3>新增卡组</h3>
-      <textarea class="add-deck-input" rows="10" placeholder='示例: {
+      <textarea class="add-deck-input" rows="20" placeholder='示例: {
   "key": "alphabet",
   "name": "英语字母",
   "desc": "",
@@ -959,6 +1097,28 @@ const UI = {
       <div class="btn-group"></div>
     `
     const btnGroup = $(container, '.btn-group')
+    Button({
+      container: btnGroup,
+      innerHTML: '上传...',
+      onClick: async () => {
+        const file = (await Utils.upload({ accept: 'text/csv' }))[0]
+        const text = await Utils.readFile(file)
+        const csvData = Utils.parseCsv(text)
+        console.log(text)
+        console.log(csvData)
+        const $input = $(container, '.add-deck-input')
+        const jsonData = Utils.parseJson($input.value.trim())
+        const name = file.name.replace(/\.csv$/, '')
+        Object.assign(jsonData, {
+          key: Utils.b64encode(name),
+          name,
+          desc: '',
+          ...jsonData,
+          cards: csvData.map(([front, back]) => ({ front, back }))
+        })
+        $input.value = JSON.stringify(jsonData, null, 2)
+      },
+    })
     Button({
       container: btnGroup,
       innerHTML: '取消',
