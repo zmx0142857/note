@@ -74,6 +74,18 @@
   transform: translate3d(200px, 0, -20px) rotateY(calc(20deg + var(--is-back) * 180deg));
   pointer-events: none;
 }
+.card.is-new .card-front::after {
+  content: 'NEW';
+  position: absolute;
+  top: 12px;
+  left: -18px;
+  transform: rotate(-45deg);
+  background-color: rgb(var(--va-c-red));
+  color: #fff;
+  width: 80px;
+  text-align: center;
+  font-size: 16px;
+}
 .card-input {
   height: var(--va-xl);
   border-radius: var(--va-md);
@@ -238,10 +250,11 @@ const Utils = {
     }
     return hi
   },
-  shuffle(arr) {
-    const n = arr.length
-    for (let i = 0; i < n; ++i) {
-      const j = (i + (n - i) * Math.random()) | 0 // random of [i, n)
+  // 打乱数组, 区间 [lo, hi)
+  shuffle(arr, lo = 0, hi) {
+    hi ??= arr.length
+    for (let i = lo; i < hi; ++i) {
+      const j = (i + (hi - i) * Math.random()) | 0 // random of [i, hi)
       const tmp = arr[i]
       arr[i] = arr[j]
       arr[j] = tmp
@@ -412,7 +425,7 @@ class Card {
       history: [],
       // 学习参数
       due: 0,
-      interval: 50,
+      interval: 2.5,
       ease: 2.5,
       mastery: 0,
       weight: 0,
@@ -429,7 +442,7 @@ class Card {
     const x = ScoreEnum.perfect - score
     const offset = 0.1 * (1 - x * (0.8 + 0.2 * x))
     this.ease = Utils.between(this.ease + offset, 1.3, 2.5)
-    this.interval = Utils.between(Math.round(this.interval * this.ease), 0, 500)
+    this.interval = Utils.between(Math.round(this.interval * this.ease), 0, 25)
     this.due = Globals.now + this.interval
   }
   // 更新权重 [0, 1]
@@ -469,13 +482,15 @@ class Deck {
       return ok && card.weight > 0
     })
   }
-  // 取出 count 张卡片, 按权重从大到小排序. 默认取出所有卡片
+  // 取出至多 count 张卡片, 按权重从大到小排序. 默认取出所有卡片
   deal (count, match) {
     return this.filter(match).sort((a, b) => b.weight - a.weight).slice(0, count)
   }
-  // 随机抽 count 张卡片, 默认抽 1 张
+  // 随机抽至多 count 张卡片, 默认抽 1 张
   draw (count = 1, match) {
+    const res = []
     const arr = this.filter(match)
+    if (!arr.length) return res
     // 计算概率分布
     const cumsum = []
     let sum = 0
@@ -483,7 +498,6 @@ class Deck {
       sum += card.weight
       cumsum.push(sum)
     })
-    const res = []
     for (let i = 0; i < count; ++i) {
       const r = Math.random() * sum
       let j = Utils.bsearch(0, cumsum.length, j => cumsum[j] >= r)
@@ -630,11 +644,14 @@ const UI = {
   reload (key) {
     Globals.deck = key
     const deck = new Deck({ key })
+    // 抽取至多 30 张卡片, 其中新卡片至多 20 张
+    const newCards = deck.deal(20, v => v.isNew)
+    const oldCards = deck.draw(30 - newCards.length, v => !v.isNew)
     Object.assign(this.state, {
       index: 0,
       progress: 0,
       deck,
-      cards: deck.deal(20),
+      cards: [...new Set(oldCards), ...newCards],
       startTime: 0,
       pauseTime: 0,
       totalTime: 0,
@@ -783,29 +800,20 @@ const UI = {
       window.onfocus = () => this.resume()
     })
   },
-  getCardClass (index, isBack) {
+  getCardClass (index, el) {
     const { state } = this
     return div.clsx('card', {
       'is-left': index < state.index,
       'is-active': index === state.index,
       'is-right': index > state.index,
-      'is-back': isBack,
+      'is-new': el ? el.classList.contains('is-new') : state.cards[index]?.isNew,
     })
   },
   render () {
     const { state } = this
-
-    // 牌面信息
-    $deckName.textContent = Deck.dataset[state.cards[state.index].deck].name
-    $deckTips.textContent = ''
-    $deckProgress.textContent = `${state.index + 1} / ${state.cards.length}`
-
-    // 左右按钮
-    div.attr($linkPrev, 'disabled', state.index === 0)
-    div.attr($linkNext, 'disabled', state.index >= state.progress)
-
     const len = $deck.children.length
     if (len <= state.progress) {
+      Utils.shuffle(state.cards, len) // 打乱未出现的卡片
       const frag = div()
       frag.innerHTML = state.cards.slice(len).map((card, index) => {
         return `
@@ -830,10 +838,19 @@ const UI = {
       })
       div.append($deck, [...frag.children])
     }
+
+    // 牌面信息
+    $deckName.textContent = Deck.dataset[state.cards[state.index].deck].name
+    $deckTips.textContent = ''
+    $deckProgress.textContent = `${state.index + 1} / ${state.cards.length}`
+
+    // 左右按钮
+    div.attr($linkPrev, 'disabled', state.index === 0)
+    div.attr($linkNext, 'disabled', state.index >= state.progress)
+
     // 过渡动画
     $deck.childNodes.forEach(($card, index) => {
-      // const isBack = $card.classList.contains('is-back')
-      $card.className = this.getCardClass(index, false)
+      $card.className = this.getCardClass(index, $card)
     })
 
     // 焦点
@@ -885,7 +902,6 @@ const UI = {
     if (state.index > state.progress) {
       state.progress = state.index
       state.startTime = new Date().valueOf()
-      Globals.now += 1
     }
     this.render()
   },
@@ -908,7 +924,7 @@ const UI = {
       card.learn(score, time)
       if (score === ScoreEnum.bad) {
         console.log('超时罚一题')
-        cards.push(...deck.draw(1))
+        cards.push(card)
         this.render()
       }
       if (index === cards.length - 1) {
@@ -919,8 +935,8 @@ const UI = {
     } else {
       card.learn(ScoreEnum.bad, time)
       this.state.errCount += 1
-      console.log('答错罚两题')
-      cards.push(...deck.draw(2))
+      console.log('答错罚一题')
+      cards.push(card)
       this.render()
       $deckTips.textContent = '请重试'
     }
@@ -939,6 +955,7 @@ const UI = {
   finish () {
     const { deck, cards } = this.state
     deck.save()
+    Globals.now += 1
     const ranking = deck.stat().filter(v => !v.isNew)
       // 注意: 这里的用时是 card.history 中的平均用时, 而不是本次练习的平均用时
       .sort((a, b) => Utils.round(b.mastery, 2) - Utils.round(a.mastery, 2) || Utils.round(a.avgTime, 2) - Utils.round(b.avgTime, 2))
@@ -1023,7 +1040,7 @@ const UI = {
             const menu = Menu({
               items: [
                 { label: '导出', value: 'export' },
-                { label: '编辑', value: 'edit' },
+                Number(index) >= Deck.builtinLength && { label: '编辑', value: 'edit' },
                 Number(index) >= Deck.builtinLength && { label: '删除', value: 'delete' },
               ].filter(Boolean),
               show: false,
