@@ -2,12 +2,44 @@
 
 ## 查找
 
+### 线性查找
+
 ```js
-const every = (lo, hi, fn) => {
-  for (let i = lo; i <= hi; ++i) {
-    if (!fn(i)) return false
+// 返回第一个使 f 成立的下标 i ∈ [lo, hi), 若找不到返回 hi
+var find = (lo, hi, f) => {
+  for (let i = lo; i < hi; ++i) {
+    if (f(i)) return i
   }
-  return true
+  return hi
+}
+
+// 若存在 i ∈ [lo, hi) 使得 f 成立, 则返回 true
+var some = (lo, hi, f) => {
+  return find(lo, hi, f) < hi
+}
+
+// 若任意 i ∈ [lo, hi) 都使得 f 成立, 则返回 true
+var every = (lo, hi, f) => {
+  return find(lo, hi, i => !f(i)) === hi
+}
+```
+
+### 二分查找
+
+```js
+/**
+ * 设 f: [lo, hi) -> {0, 1} 单调增
+ * 在左闭右开区间 [lo, hi) 中寻找使 f(n) == 1 的最小 n, 若找不到则返回 hi
+ * NOTE: 返回值 res 减 1 就是使 f(n) == 0 的最大 n, 若 res == lo 则说明不存在这样的 n
+ */
+var bsearch = (lo, hi, f) => {
+  --lo
+  while (hi - lo > 1) {
+    const mid = lo + ((hi-lo)>>1)
+    if (f(mid)) hi = mid
+    else lo = mid
+  }
+  return hi
 }
 ```
 
@@ -44,22 +76,143 @@ argmax(lo, hi, n => {
 })
 ```
 
-### 二分查找
+## 随机算法
+
+### 随机数
+
+```js
+// 随机生成 [lo, hi) 之间的浮点数, 包含 lo, 不包含 hi
+var rand = (lo, hi) => {
+  // lerp(lo, hi, Math.random())
+  return lo + (hi-lo) * Math.random()
+}
+
+// 随机生成 [lo, hi) 之间的整数, 包含 lo, 不包含 hi
+var randint = (lo, hi) => {
+  return Math.floor(rand(lo, hi))
+}
+```
+
+> ⚠  python 库函数 random.randint(a, b) 生成的是闭区间 [a, b] 的整数, 包含右端点
+
+### 离散随机抽样
+
+```js
+// 样本空间 [0, n), 从已知离散概率分布 distrib 中抽取 k 个数字. 允许数字重复
+var sample = (distrib, k) => {
+  const res = []
+  const cumsum = [] // 累积和
+  let sum = 0
+  distrib.forEach(weight => { // 权重可以是未经归一化的
+    sum += weight
+    cumsum.push(sum)
+  })
+  for (let i = 0; i < k; ++i) {
+    const r = Math.random() * sum
+    // 一定能找到这样的 j, 因为 r < sum = cumsum.at(-1)
+    let j = bsearch(0, cumsum.length, j => cumsum[j] >= r)
+    res.push(j)
+  }
+  return res
+}
+```
+
+### 连续随机抽样
+
+为了从分布函数 `F` 中抽取随机样本, 先取 `u ~ U[0, 1]`, 再令 `x = F⁻¹(u)` 即可. 其中 `F⁻¹` 是 `F` 的反函数, 可以用二分法近似求解:
+
+```js
+// 从分布函数 f 中抽取随机样本
+var sample_f = (f, eps = 1e-6) => {
+  const u = Math.random()
+  let lo = -1, hi = 1, count = 100
+  while (f(lo) > u && count--) lo *= 2
+  while (f(hi) < u && count--) hi *= 2
+  while (hi - lo > eps) {
+    const mid = (lo + hi) / 2
+    const fmid = f(mid)
+    if (fmid < u) lo = mid
+    else if (fmid > u) hi = mid
+    else return mid
+  }
+  return (lo + hi) / 2
+}
+```
+
+### Box-Muller 算法: 生成正态随机数
+
+```js
+// 生成标准正态随机数
+// TIPS: 用 norm() * sigma + mu 得到任意正态随机数
+var norm = () => {
+  const { cache } = norm
+  if (cache !== undefined) {
+    delete norm.cache
+    return cache
+  }
+
+  const { random, sqrt, log, cos, sin, PI } = Math
+  let u1, u2 = random()
+
+  // 避免计算 log(0) 得到 -Infinity
+  do u1 = random(); while (u1 <= Number.EPSILON)
+
+  const r = sqrt(-2 * log(u1))
+  const theta = 2.0 * PI * u2
+
+  // 生成一对正态随机数, 缓存其中一个, 用于下次返回
+  norm.cache = r * sin(theta)
+  return r * cos(theta)
+}
+```
+
+### Fisher-Yates 洗牌: 生成均匀随机排列
 
 ```js
 /**
- * 设 f: [lo, hi) -> {0, 1} 单调增
- * 在左闭右开区间 [lo, hi) 中寻找使 f(n) == 1 的最小 n, 若找不到则返回 hi+1
- * NOTE: 返回值 res 减 1 就是使 f(n) == 0 的最大 n, 若 res == lo 则说明不存在这样的 n
+ * fisher-yates 洗牌算法: 每个排列出现的概率都相等.
+ * @param {any[]} arr
+ * @param {number} k 生成 k 排列. 默认生成全排列
+ * @param {number} lo 下标范围起始, 默认 0
+ * @param {number} hi 下标范围结束 (不含), 默认 arr.length
  */
-var bsearch = (lo, hi, f) => {
-  --lo
-  while (hi - lo > 1) {
-    const mid = lo + ((hi-lo)>>1)
-    if (f(mid)) hi = mid
-    else lo = mid
+var shuffle = (arr, k, lo, hi) => {
+  lo ??= 0
+  hi ??= arr.length
+  k ??= hi - lo
+  for (let i = lo; i < lo + k; ++i) {
+    // j = randint(i, hi)
+    const j = i + Math.floor((hi-i) * Math.random())
+    // swap(arr, i, j)
+    const tmp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = tmp
   }
-  return hi
+  return arr
+}
+```
+
+### Knuth 抽样: 生成均匀随机组合
+
+```js
+/**
+ * knuth 抽样算法: 每个 k-子集出现的概率都相等.
+ * @param {any[]} arr
+ * @param {number} k 抽样数量, 默认 1
+ * @param {number} lo 下标范围起始, 默认 0
+ * @param {number} hi 下标范围结束 (不含), 默认 arr.length
+ */
+var choose = (arr, k, lo, hi) => {
+  lo ??= 0
+  hi ??= arr.length
+  k = Math.min(k ?? 1, hi - lo)
+  const res = []
+  for (let i = lo; i < hi; ++i) {
+    // 选择当前元素的概率 = 剩余需选数/剩余候选数
+    const p = (k-res.length)/(hi-i)
+    if (Math.random() < p) res.push(arr[i])
+  }
+  return res
 }
 ```
 

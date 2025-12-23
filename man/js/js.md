@@ -27,10 +27,15 @@ if (~index) {
 }
 ```
 
-该用 `Math.floor` 的地方不要偷懒
+`Math.floor` 与 `n | 0` 的区别
+- `n | 0` 只适用于 `int32` 范围内的整数, 且向零取整
+- `Math.floor` 适用于任意 `number`, 且向下取整
 ```js
 4294967295 | 0 // 坏了, -1
 Math.floor(4294967295) // 正确, 4294967295
+
+(-1.5) | 0 // -1
+Math.floor(-1.5) // -2
 ```
 
 ### string to number

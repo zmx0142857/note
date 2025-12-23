@@ -372,6 +372,9 @@ v.applyMatrix4(new mat4().copy(n).multiply(m))
 v.applyMatrix4(new mat4().copy(m).premultiply(n))
 ```
 
+- Matrix4 的构造函数和 `.set` 方法是行优先, 而内部存储 `.elements` 和 `.toArray` 方法是列优先的.
+- `.make???` 系列方法和 `.set` 一样, 都会覆写当前矩阵. 例如 `.makeBasis(xAxis, yAxis, zAxis)` 得到一个矩阵, 它将 `(1, 0, 0)`, `(0, 1, 0)`, `(0, 0, 1)` 分别映射为 `xAxis, yAxis, zAxis`.
+
 ## 插件
 
 这里的插件是指除了 `import * as THREE from 'three'` 之外, 需要单独引入的文件.
