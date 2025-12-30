@@ -677,6 +677,75 @@
   <li>由极值点偏移的结论知 `y_1 + y_2 lt 2 y_0 = 2//sqrt"e"`.</li>
 </ol>
 
+<p class="example">
+  [群友@我是喜欢被数学玩弄的风]
+  设 `f(x) = a/x + ln x`,
+  若存在 `x_1 lt x_2` 使得 `f(x_1) = f(x_2) = 2`, 证明: `a^2 lt x_1 x_2 lt a "e"`.
+</p>
+
+<ol class="proof">
+  <li>`f'(x) = -a/x^2 + 1/x = 0`. `a le 0` 时 `f` 单调, 不合题意, 故知 `a gt 0`,
+    此时 `a` 是 `f` 的唯一极小值点, `x_1 lt a lt x_2`, 且 `2 gt f(a) = 1 + ln a` `rArr a lt "e"`.
+    由 `f(x_1) = f(x_2) = 2` 知,
+    <span class="formula">
+      `a/x_1 + ln x_1 = a/x_2 + ln x_2 = 2`.
+      <span class="label" id="for-f-zeros"></span>
+    </span>
+    由 `x_1 lt a lt x_2` 知 `a/x_2 lt 1 lt a/x_1`,
+    于是 `ln x_1 lt 1 lt ln x_2`, 即 `x_1 lt "e" lt x_2`.
+    综上我们有
+    <span class="formula">
+      `x_1 lt a lt "e" lt x_2`.
+    </span>
+  </li>
+  <li>
+    由 <a class="ref" href="#for-f-zeros"></a> 知
+    <span class="formula">
+      `ln x_2 - ln x_1 = a(x_2 - x_1)/(x_1 x_2)`,
+    </span>
+    即
+    <span class="formula">
+      `x_1 x_2//a = (x_2 - x_1)/(ln x_2 - ln x_1)`.
+      <span class="label" id="for-f-alg-eq"></span>
+    </span>
+    利用对数均值不等式有
+    <span class="formula">
+      `sqrt(x_1 x_2)`
+      `lt (x_2 - x_1)/(ln x_2 - ln x_1)`
+      `= x_1 x_2//a`
+    </span>
+    即证得 `a^2 lt x_1 x_2`.
+  </li>
+  <li>
+    [群友@火雨]
+    下证 `x_1 x_2 lt a "e"`,
+    由 <a class="ref" href="#for-f-alg-eq"></a>, 只需证
+    <span class="formula">
+      `(x_2 - x_1)/(ln x_2 - ln x_1) lt "e"`.
+    </span>
+    一方面, <a class="ref" href="#for-f-zeros"></a> 变形为
+    <span class="formula">
+      `x_1 (2-ln x_1) = x_2 (2 - ln x_2) = a`.
+    </span>
+    求导, 由 Newton-Leibniz 公式得
+    <span class="formula">
+      `int_(x_1)^(x_2) (1 - ln x) dx = 0`.
+    </span>
+    另一方面, 在不等式 `"e"/x + ln x - 2 ge 0` 的两边积分:
+    <span class="formula">
+      `int_(x_1)^(x_2) ("e"/x + ln x - 2) dx gt 0`.
+    </span>
+    两式相加,
+    <span class="formula">
+      `int_(x_1)^(x_2) ("e"/x - 1) dx gt 0`,
+    </span>
+    即
+    <span class="formula">
+      `"e"(ln x_2 - ln x_1) gt x_2 - x_1`.
+    </span>
+  </li>
+</ol>
+
 <h2>Gronwall 不等式</h2>
 
 <p>这是一类在数理方程中常用的积分不等式

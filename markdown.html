@@ -14,19 +14,24 @@ pre {
   position: relative;
 }
 .btn-copy {
+  display: none;
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
   outline: none;
   border: none;
-  background: rgba(170, 170, 170, 0.2);
+  background: rgba(80, 80, 80, 0.5);
   color: #ccc;
   width: 50px;
   border-radius: 4px;
   text-align: center;
   padding: 2px;
   user-select: none;
+}
+pre:hover .btn-copy,
+pre:focus .btn-copy {
+  display: inline-block;
 }
 </style>
 </head>
@@ -79,7 +84,9 @@ const main = async () => {
   .use(markdownitToc)
   .use(outLink)
   const text = await fetch(src).then(res => res.text()).then(text => {
-    return text.replace(/^(#.*\n)?/, ($1) => $1 + '@[toc](目录)\n')
+    return text.replace(/^(#.*\n)?/, ($0) => $0 + '@[toc](目录)\n') // toc
+      .replace(/^\[\^(\w+?)\]:/gm, ($0, $1) => `<span id="footnote-${$1}">[${$1}]:</span>`) // footnote
+      .replace(/\[\^(\w+?)\]/g, ($0, $1) => `<sup><a href="#footnote-${$1}">[${$1}]</a></sup>`)
   })
   document.querySelector('#main').innerHTML = md.render(text)
   document.querySelectorAll('pre').forEach(pre => copyable(pre))

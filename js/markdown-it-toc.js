@@ -125,9 +125,8 @@ window.markdownitToc = function(md) {
             }
             res = res.concat(['<li><a href="#', heading.anchor, '">', heading.content, '</a></li>']);
             return res.join('');
-        });
-
-        return '<details><summary>' + tokens[index].content + '</summary></details><div>' + list.join('') + new Array(indent + 1).join('</ul></div>');
+        }).filter(Boolean);
+        return list.length ? '<details><summary>' + tokens[index].content + '</summary></details><div>' + list.join('') + new Array(indent + 1).join('</ul></div>') : '';
     };
 
     md.core.ruler.push('grab_state', function(state) {

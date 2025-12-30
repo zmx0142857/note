@@ -357,3 +357,149 @@ constructor
   exact ⟨hu.right,hv.right⟩
 }
 ```
+
+## ts 实现简易证明助手
+
+```ts
+// ts 证明助手
+type Fn<P, Q> = (arg: P) => Q
+type _Fns<A extends any[], result extends any> =
+  A extends [infer first, ...infer rest] ? Fn<first, _Fns<rest, result>> : result
+type Fns<A extends any> = A extends [...infer rest, infer last] ? _Fns<rest, last> : never
+type Not<P> = Fn<P, never>
+type And<P, Q> = [P, Q]
+type Or<P, Q> = P | Q
+
+// P → Q → (P → Q)
+type Prop0<P, Q> = Fns<[P, Q, Fn<P, Q>]>
+const proof0: Prop0<"P", "Q"> = f => x => (f => x)
+
+// (P → Q) → (Q → R) → (P → R)
+type Prop1<P, Q, R> = Fns<[Fn<P, Q>, Fn<Q, R>, Fn<P, R>]>
+const proof1: Prop1<"P", "Q", "R"> = f => g => x => g(f(x))
+
+// P → ¬¬P
+type Prop2<P> = Fn<P, Not<Not<P>>>
+const proof2: Prop2<"P"> = p => np => np(p)
+
+// P → Q → P∧Q
+type Prop3<P, Q> = Fns<[P, Q, And<P, Q>]>
+const proof3: Prop3<"P", "Q"> = p => q => [p, q]
+
+// 自然数
+type Nat = "Nat"
+const noop: any = () => noop
+const zero: Nat = noop
+const succ: Fn<Nat, Nat> = noop
+const one = succ(zero)
+// pattern match?
+```
+
+```js
+// js 证明助手
+const symbols = {
+  sym: Symbol('sym'),
+  type: Symbol('type'),
+  and: Symbol('and'),
+  or: Symbol('or'),
+  fn: Symbol('fn'),
+  left: Symbol('left'),
+  right: Symbol('right'),
+}
+
+const Type = name => Symbol(name)
+Type.equals = (A, B) => {
+  if (A === B) return true
+  if (A[symbols.sym] !== B[symbols.sym]) return false
+  switch (A[symbols.sym]) {
+    case symbols.and:
+    case symbols.or:
+      return (Type.equals(A[symbols.left], B[symbols.left]) && Type.equals(A[symbols.right], B[symbols.right])) || (Type.equals(A[symbols.left], B[symbols.right]) && Type.equals(A[symbols.right], B[symbols.left]))
+    case symbols.fn:
+      return Type.equals(A[symbols.left], B[symbols.left]) && Type.equals(A[symbols.right], B[symbols.right])
+  }
+  return false
+}
+
+const Item = (A) => ({
+  [symbols.type]: A,
+})
+
+const And = (A, B) => ({
+  [symbols.sym]: symbols.and,
+  [symbols.left]: A,
+  [symbols.right]: B,
+})
+And.cons = (a, b) => ({
+  [symbols.type]: And(a[symbols.type], b[symbols.type]),
+  [symbols.left]: a,
+  [symbols.right]: b,
+})
+And.left = a => {
+  console.assert(a[symbols.type][symbols.sym] === symbols.and)
+  return Item(a[symbols.type][symbols.left])
+}
+And.right = a => {
+  console.assert(a[symbols.type][symbols.sym] === symbols.and)
+  return Item(a[symbols.type][symbols.right])
+}
+
+const Or = (A, B) => ({
+  [symbols.sym]: symbols.or,
+  [symbols.left]: A,
+  [symbols.right]: B,
+})
+Or.inl = (a, B) => Item(Or(a[symbols.type], B))
+Or.inr = (A, b) => Item(Or(A, b[symbols.type]))
+
+const Fn = (A, B) => ({
+  [symbols.sym]: symbols.fn,
+  [symbols.left]: A,
+  [symbols.right]: B,
+})
+Fn.cons = (A, f) => {
+  const a = Item(A)
+  const b = f(a)
+  return Item(Fn(A, b[symbols.type]))
+}
+Fn.apply = (f, a) => {
+  console.assert(f[symbols.type][symbols.sym] === symbols.fn)
+  if (!Type.equals(f[symbols.type][symbols.left], a[symbols.type])) {
+    throw new Error('Fn.apply: invalid type', f[symbols.type], a[symbols.type])
+  }
+  return Item(f[symbols.type][symbols.right])
+}
+
+const False = Symbol('false')
+const Not = A => Fn(A, False)
+
+const proof = (A, a) => {
+  console.log('proof', a[symbols.type])
+  return Type.equals(A, a[symbols.type])
+}
+
+// -------------------------
+
+const test1 = () => {
+  const A = Type('A')
+  const B = Type('B')
+  const a = Item(A)
+  const f = Item(Fn(A, B))
+  const res = proof(B,
+    Fn.apply(f, a)
+  )
+  console.log('test1', res)
+}
+
+// A -> Not Not A
+// A -> ((A -> False) -> False)
+const test2 = () => {
+  const A = Type('A')
+  const res = proof(Fn(A, Not(Not(A))),
+    Fn.cons(A, a => Fn.cons(Not(A), na => Fn.apply(na, a)))
+  )
+  console.log('test2', res)
+}
+
+test2()
+```

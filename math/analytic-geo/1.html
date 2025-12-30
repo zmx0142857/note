@@ -1058,7 +1058,7 @@
 
 <ol class="remark">
   <li>
-    three.js 中使用现成的函数: <code>new THREE.Quaternion().setFromUnitVectors(u, v)</code>.
+    three.js 中使用现成的函数: <code>q.setFromUnitVectors(u, v)</code>.
   </li>
   <li>
     [群友@小豆8593]
@@ -1069,25 +1069,60 @@
 
 <ol class="example">
   <b>Euler 角的旋转合成</b> [《Unity Shader 入门精要》]
-  给定一个旋转顺序 (例如zxy), 以及它们对应的旋转角度 `(θ_x, θ_y, θ_z)`, 有两种方式可以选择:
-  <li>
-    绕坐标系 `E` 下的 `z` 轴旋转 `θ_z`, 绕坐标系 `E` 下的 `y` 轴旋转 `θ_y`, 绕坐标系 `E` 下的 `x` 轴旋转 `θ_x`, 即旋转时坐标系不动.
+  给定物体的一个旋转顺序 (例如 XYZ), 以及它们对应的旋转角度 `(θ_x, θ_y, θ_z)`, 有两种方式可以选择:
+  <li><b>固定轴 extrinstic</b>: 旋转轴不动.
+    物体先绕 `x` 轴旋转 `θ_x`, 再绕 `y` 轴旋转 `θ_y`, 最后绕 `z` 轴旋转 `θ_z`.
   </li>
-  <li>
-    绕坐标系 `E` 下的 `z` 轴旋转 `θ_z`, 绕新坐标系 `E'` 下的 `y` 轴旋转 `θ_y`, 绕最新坐标系 `E''` 下的 `x` 轴旋转 `θ_x`, 即在旋转时, 把坐标系一起转动.
+  <li><b>体轴 intrinstic</b>: 旋转轴随物体转动.
+    物体先绕原 `x` 轴旋转 `θ_x`, 再绕旋转后的 `y'` 轴旋转 `θ_y`, 最后绕两次旋转后的 `z''` 轴旋转 `θ_z`.
   </li>
-  有趣的是, 按第一种方式进行旋转, 和按相反次序进行第二种旋转效果是相同的.
-  即 `旋转_1(z x y) = 旋转_2(y x z)`.
-  例如, 绕 x 轴、y 轴旋转 90 度的变换分别为
+  有趣的是, 按第一种方式进行旋转, 等价于按相反次序进行第二种旋转,
+  即
   <span class="formula">
-    `R_x = [1, 0, 0; 0, cos 90^@, -sin 90^@; 0, sin 90^@, cos 90^@]`,
-    `quad R_y = [cos 90^@, 0, sin 90^@; 0, 1, 0; -sin 90^@, 0, cos 90^@]`.
-  </span>
-  空间中一点 `r = [0, 0, 1]^(sf T)` 经过变换 `R_x R_y r` 的结果是 `[1, 0, 0]^(sf T)`.
-  可以验证, 这相当于先绕 x 轴旋转 90 度, 然后绕新 y 轴旋转 90 度;
-  同时, 也相当于先绕 y 转旋转 90 度, 然后绕原 x 轴旋转 90 度.
+    extrinstic XYZ = intrinstic ZYX.
   </span>
 </ol>
+
+<ol class="proof">
+  我们来证明这一结论.
+  分别记绕 `x, y, z` 轴旋转的矩阵为 `R_x(theta_x)`, `R_y(theta_y)`, `R_z(theta_z)`.
+  于是一般的固定轴旋转可以记为
+  <span class="formula">
+    `R_"ext"(theta_x, theta_y, theta_z)`
+    `= R_z(theta_z) R_y(theta_y) R_x(theta_x)`.
+  </span>
+  现在考虑体轴旋转 `R_"int"(theta_z, theta_y, theta_x)`, 假定物体初始姿态与世界坐标重合.
+  <li>第一步绕 `z` 轴旋转 `theta_z`, 矩阵为 `R_1 = R_z(theta_z)`.</li>
+  <li>第二步绕 `y'` 轴旋转 `theta_y`, 这相当于在世界坐标系中先左乘第一步的逆矩阵, 将物体姿态还原, 再绕 `y` 轴旋转, 最后再左乘第一步的矩阵, 把物体转回去. 这一步的矩阵为
+    <span class="formula">
+      `R_2 = R_1 R_y(theta_y) R_1^-1`.
+    </span>
+  </li>
+  <li>第三步与前类似, 先作前两步旋转的逆变换将物体姿态还原, 再绕 `x` 轴旋转, 最后重做前两步旋转, 这一步的矩阵为
+    <span class="formula">
+      `R_3 = R_2 R_1 R_x(theta_x) R_1^-1 R_2^-1`.
+    </span>
+    因此, 总的旋转矩阵为
+    <span class="formula">
+      `R_3 R_2 R_1`
+      `= R_2 R_1 R_x(theta_x)`
+      `= R_1 R_y(theta_y) R_x(theta_x)`
+      `= R_z(theta_z) R_y(theta_y) R_x(theta_x)`.
+    </span>
+    这证明了 `R_"ext"(theta_x, theta_y, theta_z) = R_"int"(theta_z, theta_y, theta_x)`.
+  </li>
+</ol>
+
+<p class="example">
+  空间中一点 `[0, 0, 1]^(sf T)` 左乘变换 `R_x(90^@) R_y(90^@)` 的结果是 `[1, 0, 0]^(sf T)`.
+  可以验证, 这相当于先绕 x 轴旋转 90 度, 然后绕新 y 轴旋转 90 度;
+  同时, 也相当于先绕 y 转旋转 90 度, 然后绕原 x 轴旋转 90 度.
+</p>
+
+<p class="remark">
+  在 three.js 中, 默认的 Euler 角类型是 extrinstic XYZ, 相当于 intrinstic ZYX.
+  用小车的语言, 这是先上下坡 (点头 pitch), 再在坡上转向 (摇头 heading), 最后翻滚 (歪头 roll).
+</p>
 
 <h2>仿射空间的公理化定义*</h2>
 

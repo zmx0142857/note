@@ -23,7 +23,7 @@ var tocData = [
           { "value": "0", "label": "问题", "date": "2022-02-16" },
           { "value": "2", "label": "三角函数", "date": "2025-06-10" },
           { "value": "3", "label": "不等式", "date": "2025-05-24" },
-          { "value": "4", "label": "微积分不等式", "date": "2024-12-03" },
+          { "value": "4", "label": "微积分不等式", "date": "2025-12-27" },
           { "value": "5", "label": "因式分解", "date": "2022-09-18" },
           { "value": "6", "label": "数学家与书", "date": "2025-10-30" },
           { "value": "7", "label": "算术与进制", "date": "2022-02-06" }
@@ -475,7 +475,7 @@ var tocData = [
       },
       {
         "value": "sleepy",
-        "label": "旧作",
+        "label": "旧屋",
         "children": [
           { "value": "niaoren.md", "label": "鸟人", "date": "2022-02-26" },
           // { "value": "lidaodianbo.md", "label": "离岛电波", "date": "2022-02-26" },
@@ -747,13 +747,13 @@ var tocData = [
         "children": [
           { "value": "asm.md", "label": "x86 汇编语言", "date": "2025-03-19" },
           { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
-          { "value": "tex.md", "label": "LaTeX", "date": "2025-05-25" },
           { "value": "leetcode.md", "label": "LeetCode", "date": "2025-12-20" },
           { "value": "glsl.md", "label": "GLSL", "date": "2025-09-02" },
           { "value": "go.md", "label": "Go", "date": "2025-09-05" },
           { "value": "gui.md", "label": "GUI", "date": "2025-11-01" },
           { "value": "flutter.md", "label": "Flutter", "date": "2025-11-10" },
           { "value": "sqlite3.md", "label": "Sqlite3", "date": "2025-12-17" },
+          { "value": "regex.md", "label": "RegEx", "date": "2025-12-25" },
         ]
       },
       {
@@ -784,18 +784,20 @@ var tocData = [
         "value": "math",
         "label": "数学",
         "children": [
-          { "value": "lean.md", "label": "Lean4", "date": "2025-06-28" },
+          { "value": "lean.md", "label": "Lean4", "date": "2025-12-28" },
           { "value": "sympy.md", "label": "Sympy", "date": "2025-07-16" },
+          { "value": "tex.md", "label": "LaTeX", "date": "2025-05-25" },
+          { "value": "typst.md", "label": "Typst", "date": "2025-12-25" },
         ],
       },
       {
         "value": "format",
-        "label": "格式",
+        "label": "格式与编码",
         "children": [
           { "value": "jpeg.md", "label": "JPEG", "date": "2025-01-26" },
           { "value": "gltf.md", "label": "gltf", "date": "2025-02-24" },
           { "value": "3dtiles.md", "label": "3dtiles", "date": "2025-02-18" },
-          { "value": "unicode.md", "label": "Unicode", "date": "2025-12-20" },
+          { "value": "unicode.md", "label": "Unicode", "date": "2025-12-30" },
         ],
       },
     ],

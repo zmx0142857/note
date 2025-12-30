@@ -168,6 +168,8 @@ var norm = () => {
 
 ### Fisher-Yates 洗牌: 生成均匀随机排列
 
+遍历数组, 每步要么保持第 k 个元素不动, 要么将它与后面的随机一个元素交换.
+数组的前 k 个位置是一个随机 k 排列.
 ```js
 /**
  * fisher-yates 洗牌算法: 每个排列出现的概率都相等.
@@ -194,6 +196,10 @@ var shuffle = (arr, k, lo, hi) => {
 
 ### Knuth 抽样: 生成均匀随机组合
 
+遍历数组, 每步以概率 p 选中当前元素:
+p = 剩余需选数/剩余候选数.
+这等价于 k 个红球和 n-k 个黑球的不放回摸球实验,
+如果第 i 次摸到红球, 就选中第 i 个元素.
 ```js
 /**
  * knuth 抽样算法: 每个 k-子集出现的概率都相等.
@@ -208,11 +214,61 @@ var choose = (arr, k, lo, hi) => {
   k = Math.min(k ?? 1, hi - lo)
   const res = []
   for (let i = lo; i < hi; ++i) {
-    // 选择当前元素的概率 = 剩余需选数/剩余候选数
     const p = (k-res.length)/(hi-i)
     if (Math.random() < p) res.push(arr[i])
   }
   return res
+}
+```
+
+### 哈希函数与伪随机数
+
+> - `imul` 是 js 提供的 32 位整数乘法.
+> - `>>>` 是无符号右移位, 这意味着高位永远补零, 结果永远非负.
+> - ⚠ 这些算法适用于前端和游戏等, 但它们不安全, 不要用于**密码学**.
+```js
+// 字符串哈希
+function cyrb128(str) {
+  let h1 = 1779033703, h2 = 3144134277,
+      h3 = 1013904242, h4 = 2773480762;
+  for (let i = 0, k; i < str.length; i++) {
+    k = str.charCodeAt(i);
+    h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+    h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+    h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+    h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+  }
+  h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+  h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+  h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+  h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+  return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
+}
+
+// 32 位伪随机数, 接收 4 个 seed
+function sfc32(a, b, c, d) {
+  return function() {
+    a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
+    let t = (a + b) | 0;
+    a = b ^ b >>> 9;
+    b = c + (c << 3) | 0;
+    c = (c << 21 | c >>> 11);
+    d = d + 1 | 0;
+    t = t + d | 0;
+    c = c + t | 0;
+    return (t >>> 0) / 4294967296;
+  }
+}
+
+// 32 位伪随机数, 接收 1 个 seed
+function mulberry32(a) {
+  return function() {
+    a >>>= 0;
+    let t = a += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
 }
 ```
 
@@ -496,7 +552,17 @@ var multiply = (a, b) => {
 
 ## 字符串
 
+### 子串的记号
+
+我们用 `s[i:j]` 表示左闭右开区间 `s[i], ..., s[j-1]`, 特别 `i == j` 时这是空串.
+
 ### 前缀函数
+
+字符串 `s` 的前缀函数是一个数组 `pi`, 其中 `pi[i-1]` 表示子串 `pi[0:i]` 的最长相等前后缀的长度:
+
+<center>
+  <code>pi[i-1] := max{0 ≤ k < i: s[0:k] == s[i-k:i]}</code>.
+</center>
 
 ```js
 var prefix_function = (s) => {
