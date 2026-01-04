@@ -1,7 +1,10 @@
 # RegEx <small>(Regular Expression)</small>
 
-- regex playground: https://regexr.com/
-- regex game: https://regexcrossword.com/
+- [regex tutorial game](https://www.regexone.com/)
+- [regex playground](https://regexr.com/)
+- [regex crossword](https://regexcrossword.com/)
+- [regex puzzle](https://gregable.com/p/regexp-puzzle.html)
+- [正则表达式30分钟入门教程](https://deerchao.cn/tutorials/regex/regex.htm)
 
 ## modern regex
 

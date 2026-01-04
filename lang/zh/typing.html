@@ -95,6 +95,10 @@ body {
   color: gold;
   opacity: 0.8;
 }
+.color-simp {
+  color: lime;
+  opacity: 0.8;
+}
 .color-error {
   color: var(--color-error);
 }
@@ -628,7 +632,8 @@ class OptimalTyping {
             dp[i] = dp[currentPos + 1] + cost
             path[i] = {
               word: text.substring(currentPos + 1, i),
-              prev: currentPos + 1
+              prev: currentPos + 1,
+              cost,
             }
           }
         }
@@ -641,7 +646,8 @@ class OptimalTyping {
         dp[i] = dp[i - 1] + cost
         path[i] = {
           word: singleChar,
-          prev: i - 1
+          prev: i - 1,
+          cost,
         }
       }
     }
@@ -649,8 +655,10 @@ class OptimalTyping {
     // 回溯获取最优路径
     const solution = []
     let current = n
+    let nextCost
     while (current > 0) {
       solution.unshift(path[current].word)
+      nextCost = path[current].cost
       current = path[current].prev
     }
 
@@ -658,6 +666,7 @@ class OptimalTyping {
       solution,
       count: dp[n],
       avg: dp[n] / n,
+      nextCost,
     }
   }
 }
@@ -786,14 +795,15 @@ const Typing = {
       }
       if (buf.length) {
         if (optim && Typing.optim) {
-          const { solution, avg } = Typing.optim.optimize(text)
+          const { solution, avg, nextCost } = Typing.optim.optimize(text)
           if (!Typing.current.theoretical) {
             Typing.current.theoretical = avg
             console.log('理论码长:', avg)
             $statusTheoretical.textContent = avg.toFixed(2) + ' 理论'
           }
           const word = solution[0]
-          res.push(Utils.html`<span class="color-optim">${word}</span>`)
+          const className = word.length > 1 && nextCost < 4 && nextCost / word.length < 2 ? 'color-simp' : 'color-optim'
+          res.push(Utils.html`<span class="${className}">${word}</span>`)
           text = text.slice(word.length)
         }
         res.push(Utils.html`<span class="${className}">${text}</span>`)

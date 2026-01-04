@@ -1,10 +1,14 @@
 # 聊天与协作
 
-## TIM
+## QQ/TIM
 
 ### 保存表情图片
 
 在手机端，转发图片给【我的电脑】即可
+
+### 备份聊天记录
+
+第三方工具: https://github.com/shuakami/qq-chat-exporter
 
 ## 微信
 
@@ -15,9 +19,12 @@
 
 ### 备份聊天记录
 
+官方工具:
 - 确保手机与电脑在同一局域网
 - 从 PC 端的菜单中选择备份
 - 聊天记录将以加密数据库文件的形式保存
+
+第三方工具: https://github.com/BlueMatthew/WechatExporter
 
 ## 腾讯文档
 
