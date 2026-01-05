@@ -241,6 +241,12 @@ container.addEventListenter('pointermove', e => {
 })
 ```
 
+### 媒体查询
+
+```js
+const isDark = window.matchMedia('(prefers-color-scheme: dark)')
+```
+
 ### dom 查询
 
 获取包围矩形

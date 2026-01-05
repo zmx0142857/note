@@ -14,7 +14,7 @@ main {
   margin: 0 auto;
   max-width: 800px;
   height: 100%;
-  padding: 40px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
 }
@@ -64,6 +64,35 @@ main {
   text-align: center;
   transform: translate(-50%, calc(-100% - 10px));
 }
+.chart-toggle {
+  margin: 10px auto;
+  background: rgba(0,0,0,0.25);
+  border-radius: 999px;
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  padding: 6px 8px;
+  --left: 7px;
+  position: relative;
+}
+.chart-toggle-item {
+  padding: 2px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.chart-toggle-item:first-child::before {
+  content: '';
+  position: absolute;
+  left: var(--left);
+  top: 7px;
+  box-shadow: inset 0 0 0 11px #5879bf;
+  transition: left .3s;
+  display: block;
+  width: 58px;
+  height: 20px;
+  z-index: -1;
+  border-radius: 999px;
+}
 .state {
   padding: 16px;
   border-radius: 16px;
@@ -71,15 +100,18 @@ main {
 }
 .btn-group {
   padding: 10px 0;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }
-button {
+.btn-group > button {
   cursor: pointer;
   border: none;
   border-radius: 4px;
   background-color: #5879bf;
   color: #fff;
   font-size: 16px;
-  padding: 4px 8px;
+  padding: 6px 12px;
 }
 </style>
 
@@ -90,6 +122,15 @@ button {
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" class="chart"></svg>
   <div class="chart-tooltip"></div>
 </div>
+
+<div class="chart-toggle">
+  <div class="chart-toggle-item" data-index="0" data-value="0">成立来</div>
+  <div class="chart-toggle-item" data-index="1" data-value="-366">近一年</div>
+  <div class="chart-toggle-item" data-index="2" data-value="-181">近半年</div>
+  <div class="chart-toggle-item" data-index="3" data-value="-91">近三月</div>
+  <div class="chart-toggle-item" data-index="4" data-value="-31">近一月</div>
+</div>
+
 <div class="state">
   <div>天数: <span class="span-day"></span></div>
   <div>现金: <span class="span-cash"></span></div>
@@ -100,10 +141,10 @@ button {
 </div>
 
 <div class="btn-group">
-  <button class="btn-next">下一天</button>
   <button class="btn-buy">买入</button>
   <button class="btn-sell">卖出</button>
   <button class="btn-finish">结算</button>
+  <button class="btn-next">下一天</button>
 </div>
 </main>
 
@@ -118,6 +159,8 @@ const svg = ({ tag = 'svg', attr = {}, className = '' } = {}) => {
   Object.entries(attr).map(([k, v]) => el.setAttribute(k, v))
   return el
 }
+const $tooltip = $('.chart-tooltip')
+const $chart = $('.chart')
 
 const Utils = {
   round (x, digits) {
@@ -148,13 +191,13 @@ const Market = {
       cash: this.config.initCash, // 现金
       sum: 0, // 买入本金
       history: [this.config.initPrice], // 历史涨跌幅
-      operations: [], // 历史操作
+      operations: [0], // 历史操作
+      chartLimit: 0, // 图表最大记录数
     }
   },
   // value 单位: 分
   buy (value) {
     value = Math.round(Math.min(this.state.cash, value))
-    this.state.operations[this.state.day] ||= 0
     this.state.operations[this.state.day] += value
     this.state.cash -= value
     this.state.sum += value
@@ -163,7 +206,6 @@ const Market = {
   // value 单位: 分
   sell (value) {
     value = Math.round(Math.min(this.state.stock, value))
-    this.state.operations[this.state.day] ||= 0
     this.state.operations[this.state.day] -= value
     this.state.cash += Math.round(value * (1 - this.config.fee))
     this.state.sum -= value
@@ -175,6 +217,7 @@ const Market = {
     this.state.price = Math.round(this.state.price * (1 + rate))
     this.state.stock = Math.round(this.state.stock * (1 + rate))
     this.state.history.push(this.state.price)
+    this.state.operations[this.state.day] = 0
     return this.state.stock
   },
   show () {
@@ -197,14 +240,14 @@ const Market = {
     )
   },
   plot ({ width = 200, height = 100, padding = 10, color = '#5879bf', anim = true } = {}) {
-    const chart = $('.chart')
     const g = svg({
       tag: 'g',
       attr: {
         transform: `translate(0, ${height}) scale(1, -1)`,
       },
     })
-    const { history } = this.state
+    const history = this.state.history.slice(this.state.chartLimit)
+    const operations = this.state.operations.slice(this.state.chartLimit)
     const len = history.length
     const max = Math.max(...history)
     const min = Math.min(...history)
@@ -229,7 +272,7 @@ const Market = {
 
     // 动画
     const totalLength = Math.ceil(path.getTotalLength())
-    chart.style.setProperty('--stroke-length', totalLength)
+    $chart.style.setProperty('--stroke-length', totalLength)
     if (anim) {
       setTimeout(() => {
         path.style.strokeDashoffset = 0
@@ -241,23 +284,25 @@ const Market = {
     g.appendChild(path)
 
     polyline.forEach(([x, y], i) => {
-      const value = this.state.operations[i] || 0
-      const price = this.state.history[i] / 100
+      const value = operations[i]
+      const price = history[i] / 100
       const operate = value > 0 ? `买入${value / 100}` : value < 0 ? `卖出${-value / 100}` : ''
-      const touch = svg({
-        tag: 'circle',
-        className: 'chart-touch',
-        attr: {
-          cx: x,
-          cy: y,
-          r: 10,
-          fill: 'transparent',
-          stroke: 'none',
-          'data-price': price,
-          'data-operate': operate,
-        },
-      })
-      g.appendChild(touch)
+      if (value) {
+        const touch = svg({
+          tag: 'circle',
+          className: 'chart-touch',
+          attr: {
+            cx: x,
+            cy: y,
+            r: 10,
+            fill: 'transparent',
+            stroke: 'none',
+            'data-price': price,
+            'data-operate': operate,
+          },
+        })
+        g.appendChild(touch)
+      }
 
       const circle = svg({
         tag: 'circle',
@@ -274,8 +319,9 @@ const Market = {
       g.appendChild(circle)
     })
 
-    chart.innerHTML = ''
-    chart.appendChild(g)
+    $chart.innerHTML = ''
+    $chart.appendChild(g)
+    $tooltip.style.display = 'none'
   },
 }
 
@@ -292,23 +338,29 @@ $('.btn-buy').onclick = () => { Market.buy(5e4); Market.show(); Market.plot({ an
 $('.btn-sell').onclick = () => { Market.sell(5e4); Market.show(); Market.plot({ anim: false }) }
 $('.btn-finish').onclick = () => Market.finish()
 
-const tooltip = $('.chart-tooltip')
-const chart = $('.chart')
-chart.onpointermove = chart.onpointerdown = (e) => {
+$chart.onpointermove = $chart.onpointerdown = (e) => {
   if (['chart-circle', 'chart-touch'].some(v => e.target.classList.contains(v))) {
     const { clientX, clientY } = e
-    const price = e.target.getAttribute('data-price')
-    const operate = e.target.getAttribute('data-operate')
-    const rect = chart.getBoundingClientRect()
-    Object.assign(tooltip.style, {
+    const { price, operate } = e.target.dataset
+    const rect = $chart.getBoundingClientRect()
+    Object.assign($tooltip.style, {
       left: `${clientX - rect.left}px`,
       top: `${clientY - rect.top}px`,
       display: 'block',
     })
-    tooltip.textContent = [price, operate].join('\n')
+    $tooltip.textContent = [price, operate].join('\n')
   } else {
-    tooltip.style.display = 'none'
+    $tooltip.style.display = 'none'
   }
 }
+$('.chart-toggle').onclick = (e) => {
+  if (e.target.classList.contains('chart-toggle-item')) {
+    const { index, value } = e.target.dataset
+    $('.chart-toggle').style.setProperty('--left', `${66*index+7}px`)
+    Market.state.chartLimit = Number(value)
+    Market.plot()
+  }
+}
+window.Market = Market
 </script>
 </body>
