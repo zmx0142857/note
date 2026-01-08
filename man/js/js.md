@@ -104,6 +104,16 @@ Array(9).keys().flatMap(i =>
 arr.at(-1)
 ```
 
+从数组中查找一项, 找不到则插入:
+```js
+const item = arr.find(v => v.key === key) ?? (arr.push(defaultValue) && arr.at(-1))
+```
+
+从对象中查找一项, 找不到则插入:
+```js
+const item = obj[key] ??= defaultValue
+```
+
 ## Date
 
 ```js
@@ -131,6 +141,15 @@ new Date('1901/01/01').valueOf() - new Date('1900/12/31').valueOf() // 86743000,
 ```js
 NaN === NaN // false
 Object.is(0, -0) // false
+```
+
+### optional operator
+
+```js
+a == null // 等价于 a === null || a === undefined
+a ?? b // 等价于 a == null ? b : a
+a ??= b // 等价于 a = a == null ? b : a
+a?.b // 等价于 a == null ? undefined : a.b
 ```
 
 ### prototype

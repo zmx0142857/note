@@ -21,7 +21,13 @@ JS 库
 - pdfmake: 基于声明式语法生成 pdf
 - PDF.js: pdf 网页渲染器
 
-## 图片转 pdf - image magick
+## 图片转 pdf
+
+### 小米手机相册
+
+【长按选择照片/Creativity/Create PDF】
+
+### image magick
 
 - windows 用户需要安装 ghostscript (gswin64c.exe)
 - 安装 imagemagick, 并启用 pdf 功能:
@@ -124,5 +130,5 @@ function toc() {
 
 ## Trouble Shooting
 
-- 问题: edge 浏览器下, pdf 中文标注不显示
-  - 解决: 将 `edge://flags/#edge-new-pdf-viewer` 设为 enabled
+- edge 浏览器下, pdf 中文标注不显示
+  - 将 `edge://flags/#edge-new-pdf-viewer` 设为 enabled

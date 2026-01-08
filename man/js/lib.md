@@ -95,6 +95,7 @@
 - [svg在线编辑器](https://www.jyshare.com/more/svgeditor/)
 - [svg-path-editor](https://yqnn.github.io/svg-path-editor/)
 - [gif在线编辑器](https://clideo.com/editor)
+- image-magick: 一个 cli 程序, 支持多种图片格式
 
 ### 统计图表
 
@@ -103,5 +104,5 @@
 ### 其它
 
 - medium-zoom: 图片缩放
-- image-magick: 一个 cli 程序, 支持多种图片格式
-
+- [xform](https://springue.github.io/blog/#/solution/xform): vue 表单组件
+- [EditForm](https://github.com/zmx0142857/react-components): react 表单组件

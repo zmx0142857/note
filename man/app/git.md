@@ -42,6 +42,7 @@
     $ vim README.md # 修改文件
     $ gits          # 查看仓库状态, 已修改的文件显示为红色
     $ git diff      # 比较修改前后的文件, 显示增加和减少的行
+    $ git difftool --tool=vimdiff # 使用 vimdiff 比较文件, 也可以使用 --tool=vscode
     $ git add README.md
     $ git diff --staged README.md # 比较已添加的文件, 需要加 --staged
     $ git commit -m 'edit README.md'

@@ -736,6 +736,40 @@
 
 <p>[<a href="http://www.aquatutoring.org/KummerTheoremLucasTheorem.pdf" target="_blank">KummerTheoremLucasTheorem</a>]</p>
 
+<p class="example">
+	设 `a in NN\\{1}`, `n in NN`. 则 `n` 可以唯一地表为
+	<span class="formula">
+		`n = sum_(i=0)^m r_i a^i`, `quad`
+		`m ge 0`, `0 le r_i lt a`, `i = 0, 1, cdots, m`.
+	</span>
+	称为正整数 `n` 的 <b>`a` 进位 (base-`a` 或 radix-`a`) 表示</b>.
+</p>
+
+<p class="proof">
+	由最大自然数原理, 对正整数 `n` 存在唯一的 `m ge 0`, 使
+	`a^m le n lt a^(m+1)`.
+	由带余除法, 存在唯一的 `q, r` 满足
+	<span class="formula">
+		`n = a q + r`, `quad 0 le r lt a`.
+	</span>
+	对 `m` 使用数学归纳法.
+	若 `m = 0`, 则必有 `q = 0`, `1 le r lt a`, 所以结论成立.
+	设结论对整数 `m ge 0` 成立, 考虑 `m+1` 的情形.
+	因为 `a^(m+1) le n lt a^(m+2)`,
+	所以上式中的 `q` 满足 `a^m le q lt a^(m+1)`.
+	由归纳假设, 存在唯一的 `0 le s_i lt a`, `i=0,1,cdots,m`, 使
+	<span class="formula">
+		`q = sum_(i=0)^m s_i a^i`.
+	</span>
+	所以
+	<span class="formula">
+		`n = a sum_(i=0)^m s_i a^i + r
+		= r + sum_(i=1)^(m+1) s_(i-1) a^i`,
+	</span>
+	即结论对 `m+1` 成立.
+</p>
+
+
 <p class="definition">
   若素数 `p` 和正整数 `n` 满足 `p^k | n`, `p^(k+1) !| n`, 则称 `p` 在 `n`
   中的次数是 `k`, 或者称 `n` 的 <b>`bm p` 进赋值 (`bm p`-adic valuation)</b>
@@ -833,6 +867,11 @@
   这正是进位的次数.
 </p>
 
+<p class="remark">
+  例如, 用二进制计算 5+3 时发生 3 次进位, 故 `v_2(8;3) = 3`.
+  计算杨辉三角中每个组合数的 `v_p` 值, 所形成的数表将呈现谢尔宾斯基三角的分形结构, 这是后话.
+</p>
+
 <p class="theorem">
   <b>Lucas 定理</b>
   `p` 为素数, 计算 `(m; n) mod p`. 先将 `m, n` 写为 `p` 进制数:
@@ -855,10 +894,10 @@
     `= (1+x)^(sum_(i=0)^k a_i p^i)`
     `= prod_(i=0)^k (1+x)^(a_i p^i)`
     `-= prod_(i=0)^k (1+x^(p^i))^(a_i)`
-    `= prod_(i=0)^k sum_(j_i=0)^(a_i) (a_i; j_i) x^(j_i p^i) (mod p)`.
+    `= prod_(i=0)^k sum_(j_i=0)^(a_i) (a_i; j_i) x^(p^i j_i) (mod p)`.
   </span>
   考虑上式右端的 `n` 次项系数, 这只需从乘积的因子中各取一项
-  `(a_i; j_i) x^(j_i p^i)` 相乘即可. 它们的次数之和满足
+  `(a_i; j_i) x^(p^i j_i)` 相乘即可. 它们的次数之和满足
   <span class="formula">
     `sum_(i=0)^k p^i j_i = n`.
   </span>
@@ -963,7 +1002,7 @@
   我们让 `y = 1 + x + x^2 + cdots`, 虽然和式有无穷多项, 但每一位只有有限项不为 0, 这保证了计算 `y` 的可行性.
   于是 `n * y = (1-x) * (1 + x + x^2 + cdots) = 1`, 即 `y = n^-1`.
   </li>
-  <li>再设 `n` 的末位是 `d`, `d != 0, 1`. 这时取 `d` 模 `p` 的逆 `d^-1`, 即 `d d^-1 -= 1 (mod p)`,
+  <li>再设 `n` 的末位是 `d !in {0, 1}`. 这时取 `d` 模 `p` 的逆 `d^-1`, 即 `d d^-1 -= 1 (mod p)`,
     则 `z = n d^-1` 的末位就是 1. 于是 `n^-1 = z^-1 d^-1`.
   </li>
 </ol>
@@ -1064,39 +1103,6 @@
 	<li>如果 `n^2` 的个位是奇数, 则它是十位是偶数;</li>
 	<li>`n^2` 的个位等于 6 当且仅当它的十位是奇数.</li>
 </ol>
-
-<p class="example">
-	设 `a in NN\\{1}`, `n in NN`. 则 `n` 可以唯一地表为
-	<span class="formula">
-		`n = sum_(i=0)^m r_i a^i`, `quad`
-		`m ge 0`, `0 le r_i lt a`, `i = 0, 1, cdots, m`.
-	</span>
-	称为正整数 `n` 的 <b>`a` 进位 (base-`a` 或 radix-`a`) 表示</b>.
-</p>
-
-<p class="proof">
-	由最大自然数原理, 对正整数 `n` 存在唯一的 `m ge 0`, 使
-	`a^m le n lt a^(m+1)`.
-	由带余除法, 存在唯一的 `q, r` 满足
-	<span class="formula">
-		`n = a q + r`, `quad 0 le r lt a`.
-	</span>
-	对 `m` 使用数学归纳法.
-	若 `m = 0`, 则必有 `q = 0`, `1 le r lt a`, 所以结论成立.
-	设结论对整数 `m ge 0` 成立, 考虑 `m+1` 的情形.
-	因为 `a^(m+1) le n lt a^(m+2)`,
-	所以上式中的 `q` 满足 `a^m le q lt a^(m+1)`.
-	由归纳假设, 存在唯一的 `0 le s_i lt a`, `i=0,1,cdots,m`, 使
-	<span class="formula">
-		`q = sum_(i=0)^m s_i a^i`.
-	</span>
-	所以
-	<span class="formula">
-		`n = a sum_(i=0)^m s_i a^i + r
-		= r + sum_(i=1)^(m+1) s_(i-1) a^i`,
-	</span>
-	即结论对 `m+1` 成立.
-</p>
 
 <ol class="example">
     研究幂函数 `f(n) = n^k`, `k` 为正整数.
