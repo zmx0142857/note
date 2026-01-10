@@ -210,6 +210,7 @@ export const Toast = ({ container = document.body, className = 'toast', innerHTM
       min-width: 24px;
       max-width: 80%;
       position: fixed;
+      z-index: 999;
       left: 50%;
       top: 40px;
       transform: translateX(-50%);

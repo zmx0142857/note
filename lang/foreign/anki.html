@@ -117,13 +117,14 @@
 }
 .card-tts {
   position: absolute;
-  left: -33px;
-  top: 9px;
+  left: -35px;
+  top: 4px;
   background: transparent;
   border: none;
   cursor: pointer;
   user-select: none;
-  font-size: 16px;
+  font-size: 18px;
+  height: 30px;
 }
 .link {
   font-size: 48px;
@@ -717,8 +718,8 @@ const UI = {
           <label><input type="radio" name="questionDirection" value="random">随机</label>
         </p>
         <p>语言:
-          <select name="lang" value="${deck.lang}">
-            <option value="${deck.lang}">${langNames[deck.lang] || deck.lang}</option>
+          <select name="lang" value="${deck.lang || ''}">
+          ${deck.lang ? `<option value="${deck.lang}">${langNames[deck.lang] || deck.lang}</option>` : ''}
           </select>
         </p>
       </form>
@@ -727,9 +728,7 @@ const UI = {
     })
     const modalBody = modal.body
     const btnGroup = $(modalBody, '.btn-group')
-    $(modal, 'select').onclick = (e) => {
-      this.initLangs(e.target)
-    }
+    $(modal, 'select').onclick = (e) => this.initLangs(e.target)
 
     Button({
       container: btnGroup,
@@ -754,14 +753,17 @@ const UI = {
         this.assignProb(this.state.deck.cards)
 
         // 语音合成
-        const tts = this.state.tts = new SpeechSynthesisUtterance()
-        tts.lang = deck.lang = (deck.lang || form.lang.value)
-        tts.rate = 1
-        tts.pitch = 1
-        tts.volume = 1
-        tts.onstart = () => console.log('tts start:', tts.text)
-        // tts.onend = () => console.log('tts end:', tts.text)
-        tts.onerror = () => console.error('tts error:', tts.text)
+        deck.lang = (deck.lang || form.lang.value || '')
+        if (deck.lang) {
+          const tts = this.state.tts = new SpeechSynthesisUtterance()
+          tts.lang = deck.lang
+          tts.rate = 1
+          tts.pitch = 1
+          tts.volume = 1
+          tts.onstart = () => console.log('tts start:', tts.text)
+          // tts.onend = () => console.log('tts end:', tts.text)
+          tts.onerror = () => console.error('tts error:', tts.text)
+        }
 
         $deck.innerHTML = ''
         Globals.deck = key
@@ -773,6 +775,7 @@ const UI = {
   },
   initLangs (container) {
     if (langOptions.length) return
+    if (!window.SpeechSynthesis) return Toast({ innerHTML: '您的浏览器不支持语音合成' })
     langOptions.push(...Utils.uniq(window.speechSynthesis.getVoices().map(v => v.lang)))
     // 先按字母序排序, 再把常用语言排到前面
     langOptions.sort().sort((a, b) => (!!langNames[b] - !!langNames[a]))
@@ -891,7 +894,9 @@ const UI = {
           <div class="card-front g-full g-center">
             <div class="card-front-content g-column">
             <span class="g-relative">
-              <button class="card-tts">🔊</button> ${Utils.linebreak(card.getFront())}
+              <button class="${div.clsx('card-tts', {
+                'g-none': !state.tts
+              })}">🔊</button> ${Utils.linebreak(card.getFront())}
             </span>
             ${state.questionType === 'choice' ?  this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
             </div>
