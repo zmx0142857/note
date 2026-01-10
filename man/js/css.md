@@ -37,6 +37,45 @@
 }
 ```
 
+### checkbox 美化
+
+这类原生组件的美化技巧都是, 先设置 `appearance: none;` 隐藏默认样式, 再手动编写 css:
+```css
+input[type=checkbox] {
+  position: relative;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background-color .3s;
+}
+input[type=checkbox]:checked {
+  background-color: #2196f3;
+}
+/* 打勾 */
+input[type=checkbox]::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 4px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  opacity: 0;
+  transition: transform .3s;
+  transform: rotate(-15deg);
+}
+input[type=checkbox]:checked::after {
+  opacity: 1;
+  transform: rotate(-45deg);
+}
+```
+
 ### 滚动条美化
 
 ```css
@@ -96,7 +135,7 @@ body {
 
 方案三, js 动态切换. 参见 [scratch](https://github.com/zmx0142857/scratch)
 ```js
-const media = matchMedia('(prefers-color-scheme: dark)')
+const media = window.matchMedia('(prefers-color-scheme: dark)')
 media.onchange = console.log
 const isDark = media.matches
 ```

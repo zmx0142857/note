@@ -1,37 +1,41 @@
 import { $, div } from './div.js'
 export { $, div } from './div.js'
-
-export const uid = (len = 16) => {
-  return Math.random().toFixed(len).slice(2)
-}
+export const uid = (len = 16) => Math.random().toFixed(len).slice(2)
 
 /**
  * 日志
  * 劫持原生的 console 对象, 将日志追加到 dom 元素中, 主要用于移动端调试
  */
-export const Console = ({ container = document.body, className = 'console', truncLength = 3000 } = {}) => {
-  if (Console.oldConsole) return console.warn('Console has been initialized')
-  const oldConsole = Console.oldConsole = window.console
+export const Console = ({ container = document.body, className = 'console', truncLength = 3000, position = ['top', 'right'] } = {}) => {
   className = div.key + '-' + className
-
-  const $console = div({
+  let { $console } = Console
+  if ($console) {
+    $console.className = `${className} ${position.join(' ')}`
+    return $console
+  }
+  const oldConsole = window.console
+  $console = Console.$console = div({
     container,
     className,
+    selector: true,
     innerHTML: `<button class="${className}-toggle">console</button>
     <div class="${className}-content"></div>
     <div class="${className}-input">
       <textarea rows="1" placeholder="type command..."></textarea>
+      <span class="${className}-input-clear" title="clear">🚫</span>
     </div>
     `,
     css: `& {
       position: absolute;
       z-index: 99999;
       height: 220px;
-      top: -220px;
       left: 0;
       right: 0;
       background-color: $bg;
       border-bottom: 1px solid $bd;
+    }
+    &, & * {
+      box-sizing: border-box;
     }
     &-content {
       height: 195px;
@@ -41,6 +45,8 @@ export const Console = ({ container = document.body, className = 'console', trun
       line-break: anywhere;
       font-family: Consolas, monospace;
       font-size: 14px;
+      border-top: 1px solid $bd2;
+      border-bottom: 1px solid $bd2;
     }
     &-content > div {
       padding: 4px 0;
@@ -50,8 +56,6 @@ export const Console = ({ container = document.body, className = 'console', trun
     }
     &-toggle {
       position: absolute;
-      bottom: -31px;
-      right: 0;
       height: 30px;
       background: $bg;
       color: $fg;
@@ -60,22 +64,39 @@ export const Console = ({ container = document.body, className = 'console', trun
       cursor: pointer;
       user-select: none;
     }
+    &.top { top: -220px; }
+    &.bottom { bottom: -220px; }
+    &.top.is-show { top: 0; }
+    &.bottom.is-show { bottom: 0; }
+    &.top &-toggle { bottom: -30px; }
+    &.bottom &-toggle { top: -30px; }
+    &.left &-toggle { left: 0; }
+    &.right &-toggle { right: 0; }
     &-log { color: $fg; }
     &-error { color: rgb($c-red); }
     &-warn { color: rgb($c-orange); }
     &-debug { color: rgb($c-grey); }
+    &-input {
+      position: relative;
+    }
     &-input textarea {
-      box-sizing: border-box;
       display: block;
       border: none;
-      border-top: 1px solid $bd;
-      width: 100%;
-      max-width: 100%;
-      min-width: 100%;
+      border-right: 1px solid $bd2;
+      width: calc(100% - 30px);
+      max-width: calc(100% - 30px);
+      min-width: calc(100% - 30px);
       height: 24px;
       min-height: 24px;
       background-color: $bg;
       color: $fg;
+    }
+    &-input-clear {
+      position: absolute;
+      top: 0;
+      right: 4px;
+      cursor: pointer;
+      filter: grayscale(1);
     }
     `,
   })
@@ -86,14 +107,11 @@ export const Console = ({ container = document.body, className = 'console', trun
     selector: `.${className}-toggle`,
     onclick () {
       show = !show
-      $console.style.top = show ? '0' : '-220px'
+      $console.classList.toggle('is-show')
     },
   })
-  const $content = div({
-    container: $console,
-    selector: `.${className}-content`,
-  })
-  const $input = $console.querySelector(`.${className}-input textarea`)
+  const $content = $($console, `.${className}-content`)
+  const $input = $($console, `.${className}-input textarea`)
   $input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
     const cmd = $input.value.trim()
@@ -109,6 +127,10 @@ export const Console = ({ container = document.body, className = 'console', trun
       $input.value = ''
       scrollToBottom()
     })
+  }
+  const $clear = $($console, `.${className}-input-clear`)
+  $clear.onclick = () => {
+    $content.innerHTML = ''
   }
   const scrollToBottom = () => {
     $content.scrollTop = $content.scrollHeight + 100
@@ -126,7 +148,7 @@ export const Console = ({ container = document.body, className = 'console', trun
   }
   const trunc = (arg) => {
     let res = arg instanceof Object ? toJson(arg) : String(arg)
-    if (res.length > 3000) res = res.slice(0, 3000) + '...'
+    if (res.length > truncLength) res = res.slice(0, truncLength) + '...'
     return res
   }
   const override = (key) => (...args) => {
@@ -144,7 +166,7 @@ export const Console = ({ container = document.body, className = 'console', trun
   }
   const newConsole = window.console = {
     ...oldConsole,
-    ...Object.fromEntries(['log', 'error', 'warn'].map(key => [key, override(key)]))
+    ...Object.fromEntries(['log', 'error', 'warn'].map(key => [key, override(key)])),
   }
   window.onerror = (err) => {
     newConsole.error(err)
@@ -154,6 +176,12 @@ export const Console = ({ container = document.body, className = 'console', trun
     newConsole.error('Uncaught (in promise)', err.reason)
     return true
   }
+  $console.dispose = () => {
+    $console.remove()
+    window.console = oldConsole
+    Console.$console = undefined
+  }
+  $console.className = `${className} ${position.join(' ')}`
   return $console
 }
 

@@ -52,6 +52,8 @@ Math.floor(-1.5) // -2
 ['a', 'b', undefined, null, [], {}].join('') // "ab[object Object]"
 ```
 
+## JSON
+
 ### json parse number as string
 
 ```js
@@ -61,7 +63,7 @@ JSON.parse('{"id":12345678901234567890}', (k, v, { source }) => {
 })
 ```
 
-## json stringify circular reference
+### json stringify circular reference
 
 循环引用结构在序列化时会报错. 应对方法:
 ```js
@@ -212,6 +214,60 @@ foo() // false
 new foo() // true
 ```
 
+## Set, Map
+
+基础操作
+```js
+// 构造函数
+const s = new Set([1, 2, 3])
+const m = new Map([[1, 2], [3, 4], [5, 6]])
+
+// Set, Map 共有操作
+s.size // 大小
+s.forEach(console.log) // 遍历
+s.keys(), s.values(), s.entries() // 三大迭代器
+s.has(key) // 成员判断
+s.delete(key) // 删除
+s.clear() // 清空
+
+// Set 特有操作
+s.add(key) // 添加
+
+// Map 特有操作
+m.get(key) // 获取
+m.set(key, value) // 设置
+```
+
+集合运算 (有兼容性问题)
+```js
+const a = new Set([1, 2, 3, 4, 5])
+const b = new Set([2, 4, 6, 8, 10])
+
+new Set([2, 4]).isSubsetOf(a) // 子集判断: true
+
+// 以下操作均返回新的集合
+a.intersection(b) // 交集: 2, 4
+a.union(b)        // 并集: 1, 2, 3, 4, 5, 6, 8, 10
+a.difference(b)   // 差集: 1, 3, 5
+a.symmetricDifference(b) // 对称差, 相当于并集减去交集: 1, 3, 5, 6, 8, 10
+
+// polyfill
+Set.prototype.filter = function (fn) {
+  const res = []
+  this.forEach(v => fn(v) && res.push(v))
+  return new Set(res)
+}
+Set.prototype.intersection = function (s) {
+  return this.filter(v => s.has(v))
+}
+Set.prototype.difference = function (s) {
+  return this.filter(v => !s.has(v))
+}
+Set.prototype.union = function (s) {
+  return new Set([...this.values(), ...s.values()])
+}
+```
+
 ## 平台相关
 
 ### console
@@ -260,12 +316,6 @@ container.addEventListenter('pointermove', e => {
 })
 ```
 
-### 媒体查询
-
-```js
-const isDark = window.matchMedia('(prefers-color-scheme: dark)')
-```
-
 ### dom 查询
 
 获取包围矩形
@@ -295,6 +345,21 @@ const observer = new IntersectionObserver((arr) => {
   rootMargin: '0px',
   root: el,
 })
+```
+
+### 语音合成 (TTS)
+
+```js
+const tts = new SpeechSynthesisUtterance()
+tts.lang = 'zh-CN' // 语言
+tts.rate = 1.0 // 语速（0.1-10）
+tts.pitch = 1.0 // 音调（0-2）
+tts.volume = 1.0 // 音量（0-1）
+tts.onerror = console.error
+tts.text = '你好，世界！'
+window.speechSynthesis.speak(tts)
+
+speechSynthesis.getVoices() // 支持的声音列表
 ```
 
 ### 标签页
@@ -451,10 +516,56 @@ console.log(performance.memory)
 <input type="range" min="0" max="1" />
 ```
 
-
 ## 逆向
 
 ### debugger: 防止页面被调试
+
+简单实现
+```js
+const timer = setInterval(() => {
+  const last = new Date()
+  eval('debugger') // eval 的目的是让开发者工具定位到这一行代码的时候，只能看到一行 debugger, 而不是展示全部代码
+  // 如果 debugger 的执行时间大于 100ms，可以认为页面正在被调试
+  if (new Date() - last > 100) {
+    clearInterval(timer)
+    location.reload()
+  }
+}, 1000)
+```
+
+更进一步, 把 interval 放在 worker 中, 这时主线程可以清空页面、弹出警告等, 不会被阻塞
+```html
+精彩的网页内容... 不要按 F12...
+<script id="worker" type="app/worker">
+setInterval(() => {
+  self.postMessage({ action: 'start' })
+  eval('debugger')
+  self.postMessage({ action: 'stop' })
+}, 1000)
+</script>
+
+<script>
+const workerBlob = new Blob([document.querySelector('#worker').textContent])
+const workerUrl = window.URL.createObjectURL(workerBlob)
+const worker = new Worker(workerUrl)
+let timer
+worker.onmessage = (e) => {
+  const { action } = e.data
+  if (action === 'start') {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      // 一些惩罚代码
+      document.body.innerHTML = '干嘛...'
+      setTimeout(() => {
+        window.location.href = 'about:blank'
+      }, 1000)
+    }, 100)
+  } else if (action === 'stop') {
+    clearTimeout(timer)
+  }
+}
+</script>
+```
 
 ### 混淆与反混淆
 

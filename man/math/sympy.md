@@ -60,8 +60,8 @@ linsolve([a+b-5, 2*a-3*b], [a, b]) # 线性方程组
 ```py
 summation(1/n**2, (n, 1, oo)) # 求和. 等价: Sum(...).doit()
 integrate(exp(-x**2), (x, 0, oo)) # 求积分. 等价: Integral(...).doit()
-limit(sin(x)/x, x, 0) # 求极限
-diff(x**2, x) # 求导
+limit(sin(x)/x, x, 0) # 求极限. 等价: Limit(...).doit()
+diff(x**2, x) # 求导. 等价: Derivative(...).doit()
 ```
 
 数论

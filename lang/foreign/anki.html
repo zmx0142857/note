@@ -115,6 +115,16 @@
 .card-choice-item.is-active {
   outline: 2px solid var(--va-fg);
 }
+.card-tts {
+  position: absolute;
+  left: -33px;
+  top: 9px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+}
 .link {
   font-size: 48px;
   cursor: pointer;
@@ -192,6 +202,15 @@
   border-radius: var(--va-xs);
   width: 300px;
 }
+select {
+  width: 120px;
+  height: 24px;
+  border-radius: 4px;
+  color: #333;
+}
+option {
+  color: #333;
+}
 </style>
 
 <body class="g-full g-center g-overflow-hidden">
@@ -207,7 +226,7 @@
 </main>
 
 <script type="module">
-import { $, div, Modal, Button, Table, Menu, Console } from '../../js/vanilla-ui.js'
+import { $, div, Modal, Button, Table, Menu, Console, Toast } from '../../js/vanilla-ui.js'
 
 // Console()
 
@@ -222,6 +241,9 @@ const $deckName = $($main, '.deck-name')
 const Utils = {
   uid (length = 16) {
     return Math.random().toFixed(length).slice(2)
+  },
+  uniq (arr) {
+    return [...new Set(arr)]
   },
   between (x, min, max) {
     if (x < min) return min
@@ -339,6 +361,10 @@ const Utils = {
       if (type === 'bytes') return reader.readAsArrayBuffer(blob)
       reject('unknown type: ' + type)
     })
+  },
+  parseTsv (text = '') {
+    text = text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+    return text.split('\n').map(row => row.split('\t'))
   },
   // 含有逗号或换行的字段需要用双引号包裹
   // 双引号需要转义为两个双引号
@@ -639,6 +665,14 @@ Deck.builtinLength = Object.keys(Deck.dataset).length
 Globals.decks = Object.keys(Deck.dataset)
 Globals.deck = Globals.decks[0]
 
+const langNames = {
+  'zh-CN': '中文',
+  'en-US': 'English',
+  'ru-RU': 'Русский',
+  'ja-JP': '日本語',
+}
+const langOptions = []
+
 const UI = {
   state: {},
   reload (key) {
@@ -662,6 +696,7 @@ const UI = {
     })
     $deck.innerHTML = ''
     this.render()
+    console.log('deck.lang', deck.lang)
 
     const modal = this.state.modal = Modal({
       closable: false,
@@ -681,12 +716,20 @@ const UI = {
           <label><input type="radio" name="questionDirection" value="reverse">反向</label>
           <label><input type="radio" name="questionDirection" value="random">随机</label>
         </p>
+        <p>语言:
+          <select name="lang" value="${deck.lang}">
+            <option value="${deck.lang}">${langNames[deck.lang] || deck.lang}</option>
+          </select>
+        </p>
       </form>
       <div class="btn-group"></div>
       `
     })
     const modalBody = modal.body
     const btnGroup = $(modalBody, '.btn-group')
+    $(modal, 'select').onclick = (e) => {
+      this.initLangs(e.target)
+    }
 
     Button({
       container: btnGroup,
@@ -709,6 +752,17 @@ const UI = {
         this.state.stat = undefined // 重置统计
         console.log(this.state)
         this.assignProb(this.state.deck.cards)
+
+        // 语音合成
+        const tts = this.state.tts = new SpeechSynthesisUtterance()
+        tts.lang = deck.lang = (deck.lang || form.lang.value)
+        tts.rate = 1
+        tts.pitch = 1
+        tts.volume = 1
+        tts.onstart = () => console.log('tts start:', tts.text)
+        // tts.onend = () => console.log('tts end:', tts.text)
+        tts.onerror = () => console.error('tts error:', tts.text)
+
         $deck.innerHTML = ''
         Globals.deck = key
         Utils.saveGlobals()
@@ -716,6 +770,22 @@ const UI = {
         this.focus()
       }
     })
+  },
+  initLangs (container) {
+    if (langOptions.length) return
+    langOptions.push(...Utils.uniq(window.speechSynthesis.getVoices().map(v => v.lang)))
+    // 先按字母序排序, 再把常用语言排到前面
+    langOptions.sort().sort((a, b) => (!!langNames[b] - !!langNames[a]))
+    console.log('langOptions', langOptions)
+    // 重试
+    if (!langOptions.length) {
+      this.initLangs.count ||= 0
+      if (++this.initLangs.count < 3) {
+        setTimeout(() => this.initLangs(container), 500)
+      }
+      return
+    }
+    container.innerHTML = langOptions.map(lang => `<option value="${lang}">${langNames[lang] || lang}</option>`).join('\n')
   },
   assignProb (cards) {
     const { questionDirection } = this.state
@@ -819,7 +889,10 @@ const UI = {
         return `
         <div class="${this.getCardClass(len === 0 ? index : len + index + 1)}">
           <div class="card-front g-full g-center">
-            <div class="card-front-content g-column">${Utils.linebreak(card.getFront())}
+            <div class="card-front-content g-column">
+            <span class="g-relative">
+              <button class="card-tts">🔊</button> ${Utils.linebreak(card.getFront())}
+            </span>
             ${state.questionType === 'choice' ?  this.renderChoiceQuestion(card) : this.renderFillQuestion(card)}
             </div>
           </div>
@@ -835,6 +908,16 @@ const UI = {
             this.selectChoice($choices, v)
           }
         })
+      })
+      let busy = false
+      $.all(frag, '.card-tts').forEach((v, i) => {
+        v.onclick = () => {
+          if (busy) return
+          busy = setTimeout(() => busy = false, 1000)
+          const { tts, cards } = state
+          tts.text = cards.slice(len)[i].getFront()
+          window.speechSynthesis.speak(tts)
+        }
       })
       div.append($deck, [...frag.children])
     }
@@ -1119,17 +1202,20 @@ const UI = {
     const $input = $(container, '.add-deck-input')
     if (json) $input.value = json
     const btnGroup = $(container, '.btn-group')
-    Button({
+    const btnUpload = Button({
       container: btnGroup,
       innerHTML: '上传...',
       onClick: async () => {
-        const file = (await Utils.upload({ accept: 'text/csv' }))[0]
+        const file = (await Utils.upload())[0]
         const text = await Utils.readFile(file)
-        const csvData = Utils.parseCsv(text)
         console.log(text)
+        const csvData = /\.csv$/.test(file.name) ? Utils.parseCsv(text)
+          : /\.tsv$/.test(file.name) ? Utils.parseTsv(text)
+          : undefined
         console.log(csvData)
+        if (!csvData) return Toast({ innerHTML: '仅支持 .csv 与 .tsv 格式' })
         const jsonData = Utils.parseJson($input.value.trim())
-        const name = file.name.replace(/\.csv$/, '')
+        const name = file.name.replace(/\.(c|t)sv$/, '')
         Object.assign(jsonData, {
           key: Utils.b64encode(name),
           name,
@@ -1140,6 +1226,7 @@ const UI = {
         $input.value = JSON.stringify(jsonData, null, 2)
       },
     })
+    btnUpload.title = '仅支持 .csv 与 .tsv 格式'
     Button({
       container: btnGroup,
       innerHTML: '取消',

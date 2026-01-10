@@ -602,6 +602,9 @@ mesh.geometry.computeBoundsTree()
 - [来自 threejs 论坛](https://discourse.threejs.org/t/close-the-object-and-the-frame-rate-decreases/28691) 相机拉近物体时为什么帧率会下降?
   - 原因: 使用 PBR 材质 (MeshStandardMaterial) 时, 屏幕上的片元 (像素) 越多, 渲染越慢
   - 解决: 可以改为 MeshPhongMaterial (光滑材质) 或 MeshLambertMaterial (粗糙材质)
+- GLTFExporter 导入 Draco 压缩的模型时可能报错: THREE.GLTFExporter: Unsupported bufferAttribute component type.
+  - 原因: 通过断点调试发现, `attribute.array` 的类型是 Int8Array, 而 GLTFExporter 中没有支持这种类型.
+  - 解决: 更新至 three.js >= r150
 - 修改个别 gltf 模型材质 `mesh.material = new THREE.MeshStandMaterial(...)` 后, 模型不受平行光照的影响或出现异常黑色闪烁.
   - 原因: 该 gltf 模型不带法线. 猜测是 three.js 在载入不带法线的模型时会计算一次法线, 但修改材质导致法线信息丢失.
   - 方法1: 用 blender 给模型加上法线

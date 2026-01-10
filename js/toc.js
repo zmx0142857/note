@@ -289,7 +289,7 @@ var tocData = [
         "label": "数学游戏",
         "children": [
           { "value": "1", "label": "数学游戏", "date": "2025-11-20" },
-          { "value": "2", "label": "家庭理财", "date": "2026-01-04" },
+          { "value": "2", "label": "家庭理财", "date": "2026-01-09" },
           { "value": "stock", "label": "股票模拟器", "date": "2026-01-04" },
         ]
       }
@@ -443,7 +443,7 @@ var tocData = [
         "value": "foreign",
         "label": "外语",
         "children": [
-          { "value": "anki", "label": "ANKI 记忆卡片", "date": "2025-12-18" },
+          { "value": "anki", "label": "ANKI 记忆卡片", "date": "2026-01-10" },
           { "value": "kana", "label": "学五十音" },
           { "value": "jp-words", "label": "日语动词" },
           { "value": "ru", "label": "俄语", "date": "2025-09-18" },
@@ -770,8 +770,8 @@ var tocData = [
         "value": "js",
         "label": "JS",
         "children": [
-          { "value": "js.md", "label": "JavaScript", "date": "2025-03-18" },
-          { "value": "css.md", "label": "CSS", "date": "2025-07-31" },
+          { "value": "js.md", "label": "JavaScript", "date": "2026-01-09" },
+          { "value": "css.md", "label": "CSS", "date": "2026-01-09" },
           { "value": "npm.md", "label": "NPM", "date": "2025-07-22" },
           { "value": "lib.md", "label": "工具集", "date": "2025-05-25" },
           { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },
