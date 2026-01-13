@@ -1243,7 +1243,7 @@
   若 `i lt j` 且 `z_i gt z_j`, 则交换两个数的位置.
   交换前后求和的变化为
   <span class="formula">
-    `(x_i z_j - x_j z_i) - (x_i z_i + x_j z_j)`
+    `(x_i z_j + x_j z_i) - (x_i z_i + x_j z_j)`
     `= (x_j-x_i)(z_i-z_j) ge 0`.
   </span>
   反复进行上述的交换, 和式的值单调增加, 直到数组变得完全有序, 即得到最大值.<br>
@@ -1260,17 +1260,19 @@
   即和式严格减小. 因此等号不成立.
 </p>
 
-<p class="corollary">
+<p class="theorem" id="the-ieq-chebyshev">
   <b>Chebyshev 不等式</b>
-  设 `x_1 le x_2 le cdots le x_n`, `y_1 le y_2 le cdots le y_n`, 则
+  设 `{x_i}_(i=1)^n`, `{y_i}_(i=1)^n` 是单调数列.
+  若它们同时单增或单减, 则
   <span class="formula">
     `n sum x_k y_k ge (sum x_k)(sum y_k)`,
   </span>
+  若它们一个单增, 一个单减, 则不等号方向相反.
   等号成立当且仅当所有 `x_k` 都相等, 或所有 `y_k` 都相等.
 </p>
 
 <p class="proof">
-  不等式左边是 `n` 倍的顺序和. 右边是下面的所有元素之和:
+  若两个数列单调性相同, 则不等式左边是 `n` 倍的顺序和, 右边是下面的所有元素之和:
   <span class="formula">
   `{:
     x_1 y_1, x_1 y_2, cdots, x_1 y_n;
@@ -1288,6 +1290,7 @@
     , , , x_n y_n, x_n y_1, cdots, x_n y_(n-1);
   :}`
   </span>
+  同理, 若它们一个单增一个单减, 则左边是 `n` 倍的反序和, 右边是一个反序和加 `n-1` 个乱序和.
 </p>
 
 <p class="proof">
@@ -1299,6 +1302,68 @@
     - sum_(i,j) x_j y_i)`
     `= n sum_i x_i y_i - sum_(i,j) x_i y_j`.
   </span>
+</p>
+
+<p class="corollary">
+  [群友@近乎幂零群]
+  设 `f, g` 为单调函数, 若它们同为单增或单减, 则
+  <span class="formula">
+    `int f(x) g(x) dx ge (int f(x) dx)(int g(x) dx)`;
+  </span>
+  若它们一个单增或一个单减, 则不等号方向相反.
+</p>
+
+<p class="proof">
+  单调函数的可积性自不必说.
+  将积分写为 Riemann 和, 利用 Chebyshev 不等式有
+  <span class="formula">
+    `1/n sum f(x_i) g(x_i) ge (1/n sum f(x_i))(1/n sum g(x_i))`.
+  </span>
+  取极限即得结论.
+</p>
+
+<p class="example">
+  设 `a_i` 是单调增的非负数列, `b_i` 是单调减的正数列, 则
+  <span class="formula">
+    `1/n sum a_i/b_i ge (sum a_i)/(sum b_i)`.
+  </span>
+  把 `a_i//b_i` 看作溶液浓度, 上述不等式表明, 当 `a_i, b_i` 的单调性满足条件时,
+  所有溶液浓度的平均值大于等于混合溶液的浓度.
+</p>
+
+<p class="example">
+  设有两个形状大小完全相同的圆台形容器: 第一个上大下小, 顶面敞开, 形如常见的水桶.
+  第二个是第一个的倒置: 上小下大, 顶面敞开.
+  将两个容器注满水后, 同时在容器底部各钻一小洞（形状大小相同), 让水漏出.
+  问: 哪个容器的水先漏完?
+</p>
+
+<p class="solution">
+  [群友@近乎幂零群]
+  任取其中一个容器, 设 `dt` 时间内漏水的质量为 `"d"m`, 水面下降 `"d"h`, 出水口的流速为 `v`.
+  这相当于高度 `h` 处的质量为 `"d"m` 的水的重力势能转化为高度为 0 处的质量为 `"d"m` 的水的动能:
+  <span class="formula">
+    `g h "d"m = 1/2 v^2 "d"m`,
+  </span>
+  解得 `v = sqrt(2 g h)`.
+  另一方面, 设高度 `h` 处的水面面积为 `S`, 底部小洞面积为 `sigma`, 则 `dt` 时间内漏水的体积等于
+  <span class="formula">
+    `S "d"h = sigma v dt`.
+  </span>
+  于是水漏完所需时间为
+  <span class="formula">
+    `T = int_0^T dt`
+    `= int_0^H (S "d" h)/(sigma v)`.
+  </span>
+  上式右边的 `sigma` 为常数, `1//v` 随 `h` 增加而减小.
+  对于第一个容器, `S` 随 `h` 增加而增加,
+  由积分形式的 Chebyshev 不等式,
+  <span class="formula">
+    `T le 1/sigma (int_0^H S "d"h)(int_0^H ("d"h)/v)`.
+  </span>
+  对于第二个容器, `S` 随 `h` 增加而减小,
+  同样由 Chebyshev 不等式, 上式的不等号方向相反.
+  总之, <b>第一个容器的水先漏完</b>.
 </p>
 
 <ol class="example">

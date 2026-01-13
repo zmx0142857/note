@@ -53,6 +53,11 @@
   height: 1px; /* 产生 40px 的底部 gap */
   flex-shrink: 0;
 }
+.card-front-title {
+  position: relative;
+  line-break: anywhere;
+  max-width: 80%;
+}
 .card-back {
   display: none;
   background-color: var(--anki-green);
@@ -697,7 +702,6 @@ const UI = {
     })
     $deck.innerHTML = ''
     this.render()
-    console.log('deck.lang', deck.lang)
 
     const modal = this.state.modal = Modal({
       closable: false,
@@ -726,15 +730,24 @@ const UI = {
       <div class="btn-group"></div>
       `
     })
-    const modalBody = modal.body
-    const btnGroup = $(modalBody, '.btn-group')
+    const btnGroup = $(modal.body, '.btn-group')
     $(modal, 'select').onclick = (e) => this.initLangs(e.target)
 
     Button({
       container: btnGroup,
-      innerHTML: '卡组...',
+      innerHTML: '卡组',
       onClick: () => {
-        this.showDeckList({ container: modalBody })
+        this.showDeckList({ container: modal.body })
+      },
+    })
+
+    Button({
+      container: btnGroup,
+      innerHTML: '复习',
+      onClick: () => {
+        const oldCards = this.state.deck.draw(30, v => !v.isNew)
+        this.state.cards = [...new Set(oldCards)]
+        this.onStart({ modal })
       },
     })
 
@@ -743,35 +756,40 @@ const UI = {
       innerHTML: '开始→',
       type: 'primary',
       onClick: () => {
-        modal.setShow(false)
-        this.state.startTime = new Date().valueOf()
-        const form = $(modalBody, '.welcome-form')
-        this.state.questionType = form.questionType.value
-        this.state.questionDirection = form.questionDirection.value
-        this.state.stat = undefined // 重置统计
-        console.log(this.state)
-        this.assignProb(this.state.deck.cards)
-
-        // 语音合成
-        deck.lang = (deck.lang || form.lang.value || '')
-        if (deck.lang) {
-          const tts = this.state.tts = new SpeechSynthesisUtterance()
-          tts.lang = deck.lang
-          tts.rate = 1
-          tts.pitch = 1
-          tts.volume = 1
-          tts.onstart = () => console.log('tts start:', tts.text)
-          // tts.onend = () => console.log('tts end:', tts.text)
-          tts.onerror = () => console.error('tts error:', tts.text)
-        }
-
-        $deck.innerHTML = ''
-        Globals.deck = key
-        Utils.saveGlobals()
-        this.render()
-        this.focus()
+        this.onStart({ modal })
       }
     })
+  },
+  onStart ({ modal }) {
+    modal.setShow(false)
+    this.state.startTime = new Date().valueOf()
+    const form = $(modal.body, '.welcome-form')
+    this.state.questionType = form.questionType.value
+    this.state.questionDirection = form.questionDirection.value
+    this.state.stat = undefined // 重置统计
+    console.log(this.state)
+
+    const { deck } = this.state
+    this.assignProb(deck.cards)
+
+    // 语音合成
+    deck.lang = (deck.lang || form.lang.value || '')
+    if (deck.lang) {
+      const tts = this.state.tts = new SpeechSynthesisUtterance()
+      tts.lang = deck.lang
+      tts.rate = 1
+      tts.pitch = 1
+      tts.volume = 1
+      tts.onstart = () => console.log('tts start:', tts.text)
+      // tts.onend = () => console.log('tts end:', tts.text)
+      tts.onerror = () => console.error('tts error:', tts.text)
+    }
+
+    $deck.innerHTML = ''
+    Globals.deck = deck.key
+    Utils.saveGlobals()
+    this.render()
+    this.focus()
   },
   initLangs (container) {
     if (langOptions.length) return
@@ -893,7 +911,7 @@ const UI = {
         <div class="${this.getCardClass(len === 0 ? index : len + index + 1)}">
           <div class="card-front g-full g-center">
             <div class="card-front-content g-column">
-            <span class="g-relative">
+            <span class="card-front-title">
               <button class="${div.clsx('card-tts', {
                 'g-none': !state.tts
               })}">🔊</button> ${Utils.linebreak(card.getFront())}
@@ -996,6 +1014,9 @@ const UI = {
   flipCard () {
     const $card = $($deck, '.card.is-active')
     if ($card) $card.classList.toggle('is-back')
+    if (state.index === state.progress) {
+      state.peeked = true
+    }
   },
   checkAnswer (value) {
     const { cards, deck, index, startTime } = this.state
@@ -1010,7 +1031,12 @@ const UI = {
         : rate <= 2 ? ScoreEnum.good
         : ScoreEnum.bad
       card.learn(score, time)
-      if (score === ScoreEnum.bad) {
+      if (state.peeked) {
+        state.peeked = false
+        console.log('偷看罚一题')
+        cards.push(card)
+        this.render()
+      } else if (score === ScoreEnum.bad) {
         console.log('超时罚一题')
         cards.push(card)
         this.render()
@@ -1093,7 +1119,7 @@ const UI = {
     Button({
       container: btnGroup,
       type: 'primary',
-      innerHTML: '再来一组',
+      innerHTML: '完成',
       onClick: () => this.reload(this.state.deck.key)
     })
   },
