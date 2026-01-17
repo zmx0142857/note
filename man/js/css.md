@@ -102,6 +102,51 @@ html {
 }
 ```
 
+滚动条隐藏
+```css
+scrollbar-width: none;
+```
+
+### 九图背景
+
+基于 border-image: 只需一张图片和少量代码.
+
+> ⚠ 警告: 当 container 带有 transform: scale 时, 图片边界可能会有缝隙.
+> 未找到好的解决方法. 提高图片分辨率可能有效.
+
+```html
+<style>
+* {
+  box-sizing: border-box;
+}
+.container {
+  width: max-content;
+  height: max-content;
+  position: relative;
+}
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  border-style: solid;
+  border-image-source: url('bg.png');
+  border-image-slice: 68 134 68 134 fill; /* 分别指定四个方向的宽度 */
+  border-image-width: 68px 134px 68px 134px;
+}
+.fg {
+  width: 300px;
+  height: 150px;
+  padding: 20px;
+}
+</style>
+<div class="container">
+  <div class="bg"></div>
+  <div class="fg">这是内容</div>
+</div>
+```
+
 ### 夜间模式
 
 方案一, 简单粗暴的 filter
@@ -162,6 +207,13 @@ const isDark = media.matches
     -1px  1px 0 #000,
     -1px    0 0 #000;
 }
+```
+
+### 调色板
+
+```css
+--link-blue: #4399ff;
+--dark-blue: #102040;
 ```
 
 ## Trouble Shooting
