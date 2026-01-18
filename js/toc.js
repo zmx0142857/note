@@ -521,16 +521,16 @@ var tocData = [
         ]
       },
       {
-        "value": "guitar",
-        "label": "吉他",
+        "value": "tab",
+        "label": "乐谱",
         "children": [
-          { "value": "1.alphatex", "label": "Глас Сумеречных Озёр", "date": "2025-03-22" },
-          { "value": "春夏秋冬.alphatex", "label": "春夏秋冬", "date": "2025-03-22" },
-          { "value": "radical-dreamer.alphatex", "label": "Radical Dreamer", "date": "2025-03-23" },
-          { "value": "rusty-nail.alphatex", "label": "Rusty Nail", "date": "2025-06-06" },
-          { "value": "杀死那个石家庄人.alphatex", "label": "杀死那个石家庄人", "date": "2025-06-06" },
-          { "value": "happy-birthday.alphatex", "label": "Happy Birthday", "date": "2026-01-18" },
-          { "value": "blue-and-yellow.alphatex", "label": "Blue And Yellow", "date": "2026-01-18" },
+          { "value": "1.atex", "label": "Глас Сумеречных Озёр", "date": "2025-03-22" },
+          { "value": "春夏秋冬.atex", "label": "春夏秋冬", "date": "2025-03-22" },
+          { "value": "radical-dreamer.atex", "label": "Radical Dreamer", "date": "2025-03-23" },
+          { "value": "rusty-nail.atex", "label": "Rusty Nail", "date": "2025-06-06" },
+          { "value": "杀死那个石家庄人.atex", "label": "杀死那个石家庄人", "date": "2025-06-06" },
+          { "value": "happy-birthday.atex", "label": "Happy Birthday", "date": "2026-01-18" },
+          { "value": "blue-and-yellow.atex", "label": "Blue And Yellow", "date": "2026-01-18" },
         ],
       },
     ]
