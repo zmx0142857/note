@@ -773,6 +773,7 @@ const Typing = {
   defaultSetting () {
     return {
       slice: 0,
+      sliceEnd: 0,
       randomType: 'none',
       blankType: ['trim'],
       limit: 0,
@@ -1033,12 +1034,13 @@ const Typing = {
           return Typing[dataClick]()
         }
         const dataSrc = e.target.getAttribute('data-src')
-        if (dataSrc === '../data/zh-word.txt' && Typing.setting.slice <= 1000) {
+        if (dataSrc === '../data/zh-word.txt' && Typing.setting.sliceEnd <= 1000) {
           return Typing.loadBuiltin(dataSrc.replace('.txt', '-1000.txt'))
         } else {
           const { setting } = Typing
-          setting.slice = setting.slice || 500
-          setting.limit = setting.limit || 10
+          setting.slice ||= 0
+          setting.sliceEnd ||= 500
+          setting.limit ||= 10
           setting.randomType = setting.randomType === 'none' ? dataSrc.includes('char') ? 'char' : 'line' : setting.randomType
           return Typing.loadBuiltin(dataSrc)
         }
@@ -1051,6 +1053,7 @@ const Typing = {
     if (res) {
       Typing.loadedFile = res
       Typing.setting.slice = 0
+      Typing.setting.sliceEnd = 0
       Typing.setting.randomType = 'none'
       Typing.setting.limit = 0
       Utils.setStorage(Constants.storage.setting, Typing.setting)
@@ -1074,11 +1077,11 @@ const Typing = {
     // 随机化
     if (setting.randomType === 'repeat') {
       text = [...text]
-      if (setting.slice > 0) text = text.slice(0, setting.slice)
+      if (setting.sliceEnd > 0) text = text.slice(setting.slice, setting.sliceEnd)
       text = text[Math.random() * text.length | 0].repeat(setting.limit)
     } else if (setting.randomType === 'char') {
       text = [...text]
-      if (setting.slice > 0) text = text.slice(0, setting.slice)
+      if (setting.sliceEnd > 0) text = text.slice(setting.slice, setting.sliceEnd)
       const prefer = Utils.between(Typing.setting.preferNew, 0, 10)
       if (prefer === 0) {
         Utils.shuffle(text)
@@ -1088,11 +1091,11 @@ const Typing = {
       text = text.join('')
     } else if (setting.randomType === 'line') {
       text = text.split('\n')
-      if (setting.slice > 0) text = text.slice(0, setting.slice)
+      if (setting.sliceEnd > 0) text = text.slice(setting.slice, setting.sliceEnd)
       Utils.shuffle(text)
       text = text.join('\n')
     } else {
-      if (setting.slice > 0) text = [...text].slice(0, setting.slice).join('')
+      if (setting.sliceEnd > 0) text = [...text].slice(setting.slice, setting.sliceEnd).join('')
     }
     // 空白处理
     if (setting.blankType.includes('trim')) text = text.trim()
@@ -1115,7 +1118,10 @@ const Typing = {
         <div class="modal-setting">
           <h3 style="margin-top: 0">设置</h3>
           <h4>截取</h4>
-          <label>前 <input type="number" name="slice" min="0" placeholder="0 代表不截取" value="${setting.slice}" />
+          <label>前
+            <input type="number" name="slice" min="0" value="${setting.slice}" />
+            到
+            <input type="number" name="sliceEnd" min="0" placeholder="0 代表不截取" value="${setting.sliceEnd}" />
             <span class="modal-setting-slice-unit">${setting.randomType === 'line' ? '行' : '字'}</span>
           </label>
           <h4>随机化</h4>
