@@ -528,6 +528,8 @@ var tocData = [
           { "value": "radical-dreamer.alphatex", "label": "Radical Dreamer", "date": "2025-03-23" },
           { "value": "rusty-nail.alphatex", "label": "Rusty Nail", "date": "2025-06-06" },
           { "value": "杀死那个石家庄人.alphatex", "label": "杀死那个石家庄人", "date": "2025-06-06" },
+          { "value": "happy-birthday.alphatex", "label": "Happy Birthday", "date": "2026-01-18" },
+          { "value": "blue-and-yellow.alphatex", "label": "Blue And Yellow", "date": "2026-01-18" },
         ],
       },
     ]
