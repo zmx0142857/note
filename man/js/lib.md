@@ -48,6 +48,14 @@
 
 ## 图形与动画
 
+### web 交互
+
+- [framer-motion](https://motion.dev/)
+- react-transition-group
+- react-dnd: 拖拽交互
+- [react-sortable-hoc](https://4x.ant.design/components/table/#components-table-demo-drag-sorting-handler): 拖拽排序
+- flipping.js
+
 ### WebGL
 
 - [twgl, tiny webgl](https://twgljs.org/): webgl 的简易封装

@@ -81,6 +81,11 @@ ctrl-k  # 组合字, 用于输入一些特殊符号文字, 如 á 可以用 ctrl
 
 其中 pattern 是指 vim 正则表达式. 区别于一般的正则表达式, 括号、加号等特殊字符需要用反斜杠转义. 参见 `:help magic`
 
+```
+:grep! [-R] pattern filepath # vim 内置的 grep 查找.
+:copen                       # 执行 grep! 后, 打开 quickfix 窗口
+```
+
 ## 变量
 
 查看当前所有变量

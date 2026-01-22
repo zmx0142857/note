@@ -362,6 +362,24 @@ window.speechSynthesis.speak(tts)
 speechSynthesis.getVoices() // 支持的声音列表
 ```
 
+### 全屏切换
+
+用户可以通过点击按钮或按 Esc 来退出全屏, 因此要监听 fullscreenchange 事件来同步当前状态.
+```js
+let isFull = false
+const container = $('.container')
+$('.btn').addEventListener('click', () => {
+  if (isFull) {
+    document.exitFullscreen()
+  } else {
+    container.requestFullscreen()
+  }
+})
+document.addEventListener('fullscreenchange', () => {
+  isFull = document.fullscreenElement === container
+})
+```
+
 ### 标签页
 
 ```js

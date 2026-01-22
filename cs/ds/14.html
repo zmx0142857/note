@@ -215,6 +215,24 @@ module.exports = function pack01 (str) {
   <b>最长公共子串</b>
 </p>
 
+<ol class="example">
+  <b>中文输入算法举例</b>
+  <li>
+    <b>码长最短打法</b>
+    [<a href="../../lang/zh/typing.html" target="_blank">typing.html</a>: class OptimalTyping]
+    思路: 从左往右扫描, 每读取一个字, 就向前匹配词语.
+    例如从 “一个人” 的 “人” 字向前匹配, 分别得到三个词: “人”、“个人” 和 “一个人”.
+    将所得词语的码长与前文的最短码长相加, 得到三种可选打法的码长, 取其中最短者即可.
+  </li>
+  <li>
+    <b>中文分词</b>
+    <a href="https://www.zhihu.com/question/29219647" target="_blank">[知乎@灵剑]</a>
+    与前例类似, 使用 Markov 链 + 动态规划:
+    只不过, 前例是将码长相加, 而这里要将词频相乘, 取其中词频最高者.
+    出于数值稳定性考虑, 可以改为将词频的对数值相加.
+  </li>
+</ol>
+
 <h2>贪心算法</h2>
 
 <p>Huffman 编码、最小生成树、最短路径问题都是贪心算法的典型应用。</p>
