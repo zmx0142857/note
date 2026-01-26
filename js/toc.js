@@ -531,6 +531,8 @@ var tocData = [
           { "value": "杀死那个石家庄人.atex", "label": "杀死那个石家庄人", "date": "2025-06-06" },
           { "value": "happy-birthday.atex", "label": "Happy Birthday", "date": "2026-01-18" },
           { "value": "blue-and-yellow.atex", "label": "Blue And Yellow", "date": "2026-01-18" },
+          { "value": "kurenai.atex", "label": "紅", "date": "2026-01-26" },
+          { "value": "kimi-wo-omou-melodi.atex", "label": "Kimi wo omou melodi", "date": "2026-01-26" },
         ],
       },
     ]
