@@ -715,33 +715,27 @@ module.exports = function eulerSieve (str) {
   先把月份数减 2, 其中 1、2 月分别映射为前一年的 11、12 月.
   处理后的世纪、年、月、日分别记为 `c, y, m, d`, 则计算星期几的公式为
   <span class="formula">
-    `w -= |__-7c//4__| + |__5y//4__| + |__(13m-1)//5__| + d`
-    `quad (mod 7)`<br>
-    `-= -2c + y + 2m + d + |__c//4__| + |__y//4__| + |__(3m-1)//5__|`
-    `quad (mod 7)`.
+    `w -= |__5.25c__| + |__1.25y__| + |__2.6m-0.2__| + d quad (mod 7)`.
   </span>
-  其中 0-6 分别表示星期日到星期六.
-  对于 21 世纪 (2000 年 3 月至 2100 年 2 月) 而言, 和 `c` 有关的项正好为零.
+  结果 0-6 分别表示星期日到星期六.
+  对于 21 世纪 (2000 年 3 月至 2100 年 2 月) 而言, 和 `c` 有关的第一项正好为零.
+  实际计算时, 把公式中的小数化为分数, 比如
+  <span class="formula">
+    `|__1.25y__| = y + |__y/4__|`,
+    `quad |__2.6m - 0.2__| = 2m + |__(3m-1)/5__|`.
+  </span>
 </div>
 
 <div class="playground" value="20250318">
 <p>说明: 2025 年 3 月 18 日是星期二.</p>
 <script type="text">
 module.exports = function weekday (str) {
-  const ymd = parseInt(str)
-  let c = ymd / 1e6 | 0
-  let y = (ymd / 1e4 | 0) % 100
-  let m = (ymd / 1e2 | 0) % 100 - 2
-  let d = ymd % 100
-  if (m < 1) {
-    m += 12
-    y -= 1
-    if (y < 0) {
-      y += 100
-      c -= 1
-    }
-  }
-  let w = (c/4|0) - 2*c + (1.25*y|0) + ((2.6*m-0.2)|0) + d
+  const ymd = parseInt(str) - 300,
+    c = ymd / 1e6 | 0,
+    y = ymd / 1e4 % 100 | 0,
+    m = ymd / 1e2 % 100 % 88 + 1 | 0,
+    d = ymd % 100,
+    w = (5.25*c|0) + (1.25*y|0) + (2.6*m-0.2|0) + d
   return w % 7
 }
 </script>
