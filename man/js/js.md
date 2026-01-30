@@ -316,6 +316,17 @@ container.addEventListenter('pointermove', e => {
 })
 ```
 
+### 判断是否为移动端
+
+常见错误写法是按 `window.innerWidth`, `window.devicePixelRatio` 等判断.
+目前来看最简单实用的办法还是 `userAgent`:
+```js
+const isMobile = () => {
+  const ua = navigator.userAgent
+  return ["Android", "Phone", "Symbian", "iPad", "iPod"].some(v => ua.includes(v))
+}
+```
+
 ### dom 查询
 
 获取包围矩形

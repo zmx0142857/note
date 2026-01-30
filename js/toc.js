@@ -480,6 +480,7 @@ var tocData = [
         "label": "旧屋",
         "children": [
           { "value": "niaoren.md", "label": "鸟人", "date": "2022-02-26" },
+          { "value": "album", "label": "3d 相册", "date": "2026-01-30" },
           // { "value": "lidaodianbo.md", "label": "离岛电波", "date": "2022-02-26" },
         ]
       },
@@ -734,6 +735,7 @@ var tocData = [
           { "value": "vim.md", "label": "Vim", "date": "2025-08-29" },
           { "value": "chat.md", "label": "聊天与协作", "date": "2025-12-31" },
           { "value": "vscode.md", "label": "VSCode", "date": "2025-11-12" },
+          { "value": "browser.md", "label": "浏览器", "date": "2026-01-30" },
         ],
       },
       {

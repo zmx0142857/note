@@ -60,11 +60,20 @@ div.cssvar = (name, defaultValue) => {
   name = `--${div.key}-${name}`
   return defaultValue ? `var(${name}, ${defaultValue})` : `var(${name})`
 }
-div.on = (el, ...args) => {
-  el.addEventListener(...args)
+div.on = (el, name, fn, ...args) => {
+  const proxy = div.events?.[name]
+  if (!proxy) return el.addEventListener(name, fn, ...args)
+  const wrapper = proxy.on(el, fn, ...args)
+  proxy.map ||= new Map
+  proxy.map.set(fn, wrapper)
 }
-div.off = (el, ...args) => {
-  el.removeEventListener(...args)
+div.off = (el, name, fn, ...args) => {
+  const proxy = div.events?.[name]
+  if (!proxy) return el.removeEventListener(name, fn, ...args)
+  proxy.map ||= new Map
+  const wrapper = proxy.map.get(fn)
+  proxy.map.delete(fn)
+  if (wrapper) proxy.off(el, wrapper, ...args)
 }
 // string template
 div.html = (arr, ...args) => {
@@ -96,6 +105,70 @@ div.text = (str) => document.createTextNode(str)
 div.attr = (el, key, value) => {
   if (!value && value !== 0) el.removeAttribute(key)
   else el.setAttribute(key, value)
+}
+// extend events
+div.events = {
+  // 点击事件, 排除拖动的情形
+  tap: {
+    on (el, fn, ...args) {
+      function wrapper (e) {
+        const { clientX, clientY } = e
+        const onPointerUp = (e) => {
+          const dx = e.clientX - clientX
+          const dy = e.clientY - clientY
+          if (Math.abs(dx) < 5 && Math.abs(dy) < 5) fn.call(this, e)
+          div.off(el, 'pointerup', onPointerUp)
+        }
+        div.on(el, 'pointerup', onPointerUp)
+      }
+      div.on(el, 'pointerdown', wrapper, ...args)
+      return wrapper
+    },
+    off (el, wrapper, ...args) {
+      div.off(el, 'pointerdown', wrapper, ...args)
+    },
+  },
+  // 鼠标或触摸
+  touch: {
+    on (el, fn, ...args) {
+      function touch (e, name) {
+        e.name = name
+        e.clientX ??= e.touches?.[0]?.clientX
+        e.clientY ??= e.touches?.[0]?.clientY
+        e.touches ??= [{ clientX: e.clientX, clientY: e.clientY }]
+      }
+      function wrapper (e) {
+
+        function onMove (e) {
+          touch(e, 'move')
+          fn.call(this, e)
+        }
+
+        function onEnd (e) {
+          div.off(el, 'mousemove', onMove, ...args)
+          div.off(el, 'touchmove', onMove, ...args)
+          div.off(el, 'mouseup', onEnd, ...args)
+          div.off(el, 'touchend', onEnd, ...args)
+          touch(e, 'end')
+          fn.call(this, e)
+        }
+
+        touch(e, 'start')
+        fn.call(this, e)
+        div.on(el, 'mousemove', onMove, ...args)
+        div.on(el, 'touchmove', onMove, ...args)
+        div.on(el, 'mouseup', onEnd, ...args)
+        div.on(el, 'touchend', onEnd, ...args)
+      }
+      div.on(el, 'mousedown', wrapper, ...args)
+      div.on(el, 'touchstart', wrapper, ...args)
+      return wrapper
+    },
+    off (el, wrapper, ...args) {
+      div.off(el, 'mousedown', wrapper, ...args)
+      div.off(el, 'touchstart', wrapper, ...args)
+    },
+  },
 }
 
 /**

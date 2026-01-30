@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang='en' onselectstart='return false'>
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>3D 相册</title>
+<style>
+li, ul, div, html, body{
+  margin: 0;
+  padding: 0;
+}
+html, body{ height: 100% }
+li{ list-style-type: none }
+#wrap{
+  height: 100%;
+  overflow: hidden;
+  perspective: 800px;
+}
+#box{
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  position: relative;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  transform: translateZ(-1600px);
+  z-index: 1;
+}
+#box li{
+  --width: 300px;
+  --height: 400px;
+  position: absolute;
+  width: var(--width);
+  height: var(--height);
+  left: calc(-0.5 * var(--width));
+  top: calc(-0.5 * var(--height));
+  text-align: center;
+  line-height: 160px;
+  background-color: rgba(5,100,80,0.2);
+  border: 1px solid rgba(125,255,255,0.25);
+  box-shadow: 0 0 15px rgba(0,255,255,0.5);
+  cursor: pointer;
+  transition: 1s ease-in-out transform;
+  background-size: cover;
+  background-position: center;
+}
+#box li:hover {
+  border: 1px solid rgba(125,255,255,0.75);
+  box-shadow: 0 0 35px rgba(0,255,255,0.75);
+}
+#box li span{
+  display: none;
+  font-size: 64px;
+  text-shadow: 2px 2px 20px black;
+  color: #ebefeb;
+}
+#mask{
+  width: 100%;
+  height: 100%;
+  background: url('../img/album-bg.jpg') no-repeat center;
+  background-size: cover;
+  filter: blur(5px);
+}
+#bg-mask{
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.25;
+}
+#upload{
+  position: absolute;
+  color: #fff !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <ul id="box"></ul>
+  <div id="mask">
+    <div id="bg-mask"></div>
+  </div>
+  <a id="upload" href="#">选择图片...</a>
+</div>
+<script src="./pics.js"></script>
+<script type="module">
+import { div, $ } from '../../js/div.js'
+
+const box = $('#box')
+const depthZ = -1000
+
+const Utils = {
+  between (x, min, max) {
+    if (x < min) return min
+    if (x > max) return max
+    return x
+  },
+  // 生成指定长度的数组
+  range (length, fn) {
+    return Array.from({ length }, (_, i) => fn(i))
+  },
+  // [lo, hi) 间的随机整数
+  randint (lo, hi) {
+    return lo + (hi - lo) * Math.random() | 0
+  },
+  randColor () {
+    const rgb = [1,2,3].map(() => Utils.randint(100, 255))
+    return `rgb(${rgb})`
+  },
+  // 随机选择数组元素
+  choice (arr) {
+    const i = Utils.randint(0, arr.length)
+    return arr[i]
+  },
+  // 打乱数组 (Fisher-Yates 洗牌)
+  shuffle (arr) {
+    const n = arr.length
+    for (let i = 0; i < n; ++i) {
+      const j = Utils.randint(i, n)
+      const tmp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = tmp
+    }
+    return arr
+  },
+  // 上传文件
+  upload ({ id = 'file-input', multiple = false, accept } = {}) {
+    return new Promise(resolve => {
+      const input = document.getElementById(id) || document.createElement('input')
+      input.type = 'file'
+      input.id = id
+      input.style.display = 'none'
+      input.multiple = multiple
+      input.accept = accept
+      input.onclick = () => input.value = null // 清空选中的文件
+      input.onchange = () => resolve(input.files)
+      document.body.appendChild(input)
+      input.click()
+    })
+  },
+}
+
+const Cards = {
+  count: 125,
+  currentPic: {
+    transform: undefined,
+    index: undefined,
+  },
+  layouts: {
+    // 方阵
+    Grid (count) {
+      // li 元素在三个方向上的间隔
+      const dx = 600, dy = 600, dz = 600
+      // li 元素在三个方向上的数目
+      const sx = 5, sy = 5, sz = Math.ceil(count / (sx * sy))
+      // 居中对齐
+      const x0 = -dx * (sx-1) / 2
+      const y0 = -dy * (sy-1) / 2
+      const z0 = -dz * (sz-1) / 2
+      // 计算各 li 元素的坐标
+      return Utils.range(count, idx => {
+        let i = idx
+        const x = x0 + dx * (i % sx)
+        i = (i / sx | 0)
+        const y = y0 + dy * (i % sy)
+        i = (i / sy | 0)
+        const z = z0 + dz * i
+        return `translate3d(${x}px,${y}px,${z}px)`
+      })
+    },
+    // 混乱
+    Chaotic (count) {
+      return Utils.range(count, i => {
+        const [x, y, z] = [1, 2, 3].map(() => (Math.random() - 0.5) * 3000)
+        return `translate3d(${x}px,${y}px,${z}px)`
+      })
+    },
+    // 螺旋
+    Helix (count) {
+      return Utils.range(count, i => {
+        const r = 20 * i, t = 30 * i - 30 * (count >> 1), z = 2*Math.abs(depthZ)
+        return `rotateY(${r % 360}deg) translateY(${t}px) translateZ(${z}px)`
+      })
+    },
+    // 球形
+    Sphere (count) {
+      return Utils.range(count, i => {
+        let r = i / count
+        // 避免 90 度和 270 度过于密集
+        r = r < 0.25 ? 0.9 * r
+          : r > 0.75 ? 1 + (r-1)*0.9
+          : 0.5 + (r-0.5) * 0.9
+        const x = 3600 * r | 0, y = 360 * r | 0, z = Math.sqrt(count) / 4 * Math.abs(depthZ) | 0
+        return `rotateX(${x % 360}deg) rotateY(${y % 360}deg) translateZ(${z}px)`
+      })
+    },
+    // 三体
+    Three (count) {
+      return Utils.range(count, i => {
+        const x = 60*i, y = 3*i, z = 2*Math.abs(depthZ)
+        return `rotateY(${y % 360}deg) rotateX(${x % 360}deg) translateZ(${z}px)`
+      })
+    },
+    // 几何
+    Geome (count) {
+      return Utils.range(count, i => {
+        const x = 2*2.9*i, y = 2*8.9*i, z = 2*Math.abs(depthZ)
+        return `rotateY(${y % 360}deg) rotateX(${x % 360}deg) translateZ(${z}px)`
+      })
+    },
+    // 曲线
+    Curve (count) {
+      return Utils.range(count, i => {
+        const x = 4*2.1*i, y = 4*3.1*i, z = 2*depthZ
+        return `rotateX(${x % 360}deg) rotateY(${y % 360}deg) translateZ(${z}px)`
+      })
+    },
+  },
+  perform (name) {
+    console.log('performing', name)
+    this.unfocus()
+    this.currentLayout = name
+    const layout = this.layouts[name]
+    const arr = layout(this.count)
+    Utils.shuffle(arr)
+    $.all(box, 'li').forEach((li, i) => {
+      li.style.transform = arr[i]
+    })
+  },
+  unfocus () {
+    const { currentPic } = this
+    this.focusTimer = clearTimeout(this.focusTimer)
+    if (currentPic.index !== undefined) {
+      const last = $(box, `li[data-index="${currentPic.index}"]`)
+      if (last) last.style.transform = currentPic.transform
+      currentPic.transform = currentPic.index = undefined
+    }
+  },
+  unfocusThrottled () {
+    this.focusTimer = clearTimeout(this.focusTimer)
+    if (this.busy) return
+    this.busy = true
+    setTimeout(() => this.busy = false, 300)
+    this.unfocus()
+  },
+  focus (index) {
+    const { currentPic } = this
+    const li = $(box, `li[data-index="${index}"]`)
+    currentPic.transform = li.style.transform
+    currentPic.index = index
+    clearTimeout(this.focusTimer)
+    this.focusTimer = setTimeout(() => {
+      this.focusTimer = undefined
+    }, 1000)
+    const loop = () => {
+      if (!this.focusTimer) return
+      requestAnimationFrame(loop)
+      const trans = box.style.transform
+      const x = -parseFloat(trans.match(/rotateX\(([^d]*)/)?.[1])
+      const y = -parseFloat(trans.match(/rotateY\(([^d]*)/)?.[1])
+      const z = -parseFloat(trans.match(/translateZ\(([^p]*)/)?.[1])
+      li.style.transform = `rotateY(${y}deg) rotateX(${x}deg) translateZ(${z+100}px)`
+    }
+    requestAnimationFrame(loop)
+  },
+  init (pics = []) {
+    $('#upload').style.display = 'none'
+    const maxCount = isMobile() ? 25 : 100
+    pics = Utils.shuffle(pics).slice(0, maxCount)
+    this.count = pics.length || 125
+    const layouts = Object.keys(this.layouts)
+    for (let i = 0; i < this.count; ++i) {
+      const name = Utils.choice(layouts)
+      const span = div({
+        tag: 'span',
+        innerText: name,
+        style: {
+          // color: Utils.randColor(),
+        },
+      })
+      const li = div({
+        container: box,
+        tag: 'li',
+        children: [span],
+        style: {
+          backgroundImage: `url(${pics[i]})`,
+        },
+        on: {
+          click: e => {
+            const { currentPic } = this
+            const index = li.getAttribute('data-index')
+            const flag = currentPic.index !== index
+            this.unfocus()
+            if (flag) this.focus(index)
+          },
+        },
+        attr: {
+          'data-index': i,
+        },
+      })
+    }
+    // double tap to change layout
+    const mask = $('#bg-mask')
+    div.on(mask, 'dblclick', () => {
+      const index = layouts.findIndex(v => v === this.currentLayout)
+      this.perform(layouts[(index + 1) % layouts.length])
+    })
+    div.on(mask, 'tap', () => this.unfocusThrottled())
+    setTimeout(() => this.perform(layouts[0]), 0)
+  },
+}
+
+const Camera = {
+  param: {
+    x: 0,
+    y: 0,
+    z: depthZ - 600,
+  },
+  update () {
+    const { x, y, z } = this.param
+    box.style.transform = `translateZ(${z}px) rotateX(${x % 360}deg) rotateY(${y % 360}deg)`
+  },
+  dampingZ (dz, factor = 0.9, epsi = 5e-4) {
+    const loop = () => {
+      if (Math.abs(dz) < epsi) return
+      requestAnimationFrame(loop)
+      dz *= factor
+      this.param.z = Utils.between(this.param.z + dz, 40*depthZ, 0)
+      this.update()
+    }
+    requestAnimationFrame(loop)
+  },
+  dampingXY (dx, dy, factor = 0.95, epsi = 0.05) {
+    dx *= 0.1
+    dy *= 0.1
+    const loop = () => {
+      if (Math.abs(dx) < epsi && Math.abs(dy) < epsi) return
+      requestAnimationFrame(loop)
+      dx *= factor
+      dy *= factor
+      this.param.x += dx
+      this.param.y += dy
+      this.update()
+    }
+    requestAnimationFrame(loop)
+  },
+  init () {
+    const dpr = window.devicePixelRatio
+    const touchInfo = (e) => {
+      const { touches = [] } = e
+      if (touches.length < 2) return {}
+      const { max, abs } = Math
+      const x0 = touches[0].clientX
+      const y0 = touches[0].clientY
+      const x1 = touches[1].clientX
+      const y1 = touches[1].clientY
+      return {
+        dist: max(abs(x1 - x0), abs(y1 - y0)),
+      }
+    }
+
+    let dx = 0, dy = 0, x, y, info
+    div.on(document, 'touch', (e) => {
+      if (e.name === 'start') {
+        x = e.clientX
+        y = e.clientY
+        dx = 0
+        dy = 0
+        info = touchInfo(e)
+      } else if (e.name === 'move') {
+        if (e.touches.length > 1) {
+          const { dist } = touchInfo(e)
+          const k = dist / info.dist
+          if (!(k > 0)) return
+          this.update()
+          this.dampingZ(k > 1 ? 5 : -5)
+          Cards.unfocusThrottled()
+        } else {
+          // 注意 x, y 对换
+          dx = (y - e.clientY) * dpr
+          dy = (e.clientX - x) * dpr
+
+          // 更新鼠标位置
+          x = e.clientX
+          y = e.clientY
+
+          // 计算视角变化
+          this.param.x += dx * 0.1
+          this.param.y += dy * 0.1
+
+          this.update()
+          Cards.unfocusThrottled()
+        }
+      } else if (e.name === 'end') {
+        if (e.touches.length > 1) return
+        this.dampingXY(dx, dy)
+      }
+    })
+
+    div.on(document, 'wheel', e => {
+      this.update()
+      this.dampingZ(e.deltaY < 0 ? 50 : -50)
+      Cards.unfocusThrottled()
+    })
+
+    // 避免移动端页面滚动行为
+    div.on(document, 'touchmove', e => e.preventDefault(), { passive: false })
+    this.update()
+  },
+}
+
+const isMobile = () => {
+  const ua = navigator.userAgent
+  return ["Android", "Phone", "Symbian", "iPad", "iPod"].some(v => ua.includes(v))
+}
+
+Camera.init()
+setTimeout(() => {
+  if (window.pics) {
+    Cards.init(window.pics)
+  } else {
+    div.on($('#upload'), 'click', async () => {
+      const files = await Utils.upload({ accept: 'images/*', multiple: true })
+      const pics = [...files].map(file => URL.createObjectURL(file))
+      Cards.init(pics)
+    })
+  }
+}, 500)
+</script>
+</body>
+</html>
+
