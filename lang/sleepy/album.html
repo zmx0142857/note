@@ -41,7 +41,11 @@ li{ list-style-type: none }
   border: 1px solid rgba(125,255,255,0.25);
   box-shadow: 0 0 15px rgba(0,255,255,0.5);
   cursor: pointer;
-  transition: 1s ease-in-out transform;
+  transition: 1s ease-in-out transform,
+    1s ease-in-out width,
+    1s ease-in-out height,
+    1s ease-in-out left,
+    1s ease-in-out top;
   background-size: cover;
   background-position: center;
 }
@@ -141,6 +145,23 @@ const Utils = {
       input.click()
     })
   },
+  async loadImage (src, { crossOrigin = 'Anonymous' } = {}) {
+    if (!src) return
+    return new Promise((resolve, reject) => {
+      const img = new window.Image()
+      img.src = src
+      if (crossOrigin) img.crossOrigin = crossOrigin
+      img.onload = () => resolve(img)
+      img.onerror = (err) => {
+        console.error('load image error: ' + src)
+        resolve()
+      }
+    })
+  },
+  fit (imgSize, containerSize, mode = Math.min) {
+    const r = mode(containerSize[0] / imgSize[0], containerSize[1] / imgSize[1])
+    return imgSize.map(v => Math.ceil(v * r))
+  },
 }
 
 const Cards = {
@@ -150,6 +171,13 @@ const Cards = {
     index: undefined,
   },
   layouts: {
+    // 螺旋
+    Helix (count) {
+      return Utils.range(count, i => {
+        const r = 20 * i, t = 30 * i - 30 * (count >> 1), z = 2*Math.abs(depthZ)
+        return `rotateY(${r % 360}deg) translateY(${t}px) translateZ(${z}px)`
+      })
+    },
     // 方阵
     Grid (count) {
       // li 元素在三个方向上的间隔
@@ -176,13 +204,6 @@ const Cards = {
       return Utils.range(count, i => {
         const [x, y, z] = [1, 2, 3].map(() => (Math.random() - 0.5) * 3000)
         return `translate3d(${x}px,${y}px,${z}px)`
-      })
-    },
-    // 螺旋
-    Helix (count) {
-      return Utils.range(count, i => {
-        const r = 20 * i, t = 30 * i - 30 * (count >> 1), z = 2*Math.abs(depthZ)
-        return `rotateY(${r % 360}deg) translateY(${t}px) translateZ(${z}px)`
       })
     },
     // 球形
@@ -235,7 +256,11 @@ const Cards = {
     this.focusTimer = clearTimeout(this.focusTimer)
     if (currentPic.index !== undefined) {
       const last = $(box, `li[data-index="${currentPic.index}"]`)
-      if (last) last.style.transform = currentPic.transform
+      if (last) {
+        last.style.transform = currentPic.transform
+        last.style.removeProperty('--width')
+        last.style.removeProperty('--height')
+      }
       currentPic.transform = currentPic.index = undefined
     }
   },
@@ -265,6 +290,10 @@ const Cards = {
       li.style.transform = `rotateY(${y}deg) rotateX(${x}deg) translateZ(${z+100}px)`
     }
     requestAnimationFrame(loop)
+    const imgSize = [li.getAttribute('data-w'), li.getAttribute('data-h')].map(v => parseInt(v))
+    const size = Utils.fit(imgSize, [window.innerWidth * 0.8, window.innerHeight * 0.8])
+    li.style.setProperty('--width', size[0] + 'px')
+    li.style.setProperty('--height', size[1] + 'px')
   },
   init (pics = []) {
     $('#upload').style.display = 'none'
@@ -300,6 +329,10 @@ const Cards = {
         attr: {
           'data-index': i,
         },
+      })
+      Utils.loadImage(pics[i]).then(img => {
+        li.setAttribute('data-w', img.width)
+        li.setAttribute('data-h', img.height)
       })
     }
     // double tap to change layout
