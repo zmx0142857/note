@@ -344,7 +344,7 @@ const symbols = [
 {input:'lcm',tag:'mo',output:'lcm',tex:'operatorname{lcm}',ttype:UNARY,func:true,notexcopy:true},
 {input:'min',tag:'mo',output:'min',ttype:UNDEROVER},
 {input:'max',tag:'mo',output:'max',ttype:UNDEROVER},
-{input:'Sup',tag:'mo',output:'sup',tex:'operatorname{sup}',ttype:UNDEROVER},
+{input:'Sup',tag:'mo',output:'sup',tex:'sup',ttype:UNDEROVER},
 {input:'inf',tag:'mo',output:'inf',ttype:UNDEROVER},
 {input:'mod',tag:'mo',output:'mod',tex:'operatorname{mod}',ttype:CONST,notexcopy:true},
 {input:'sgn',tag:'mo',output:'sgn',tex:'operatorname{sgn}',ttype:UNARY,func:true,notexcopy:true},

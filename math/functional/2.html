@@ -10,6 +10,8 @@
 <p><b>赋范线性空间 (NVS, normed vector space)</b>
   是一类特殊的度量空间, 其具有线性空间的结构, 且每个元素 `x in X`
   被赋予一个范数 `||x||`, 表示到原点的距离.
+  我们常常研究无穷维的赋范线性空间, 它在许多性质上区别于有限维线性空间.
+  这部分知识也被戏称为 "无穷维线性代数".
 </p>
 
 <p class="remark">
@@ -27,8 +29,8 @@
   <li>齐次性: `(AA x in X, AA a in K)` `p(a x) = |a| p(x)`;</li>
   <li>对称性: `(AA x in X)` `p(-x) = p(x)`;</li>
   <li>数乘连续性: `(AA x in X, AA a in K)`
-      `lim_(a_n to 0) p(a_n x) = 0`,
-      `quad lim_(p(x_n) = 0) p(a x_n) = 0`.
+      `lim_(a_n to 0) p(a_n x)`
+      `= lim_(p(x_n) to 0) p(a x_n) = 0`.
   </li>
 </ol>
 
@@ -39,10 +41,11 @@
 <ol class="definition">
   `p(x)` 的假定同上,
   <li>称 `p` 是一个<b>次线性泛函</b>, 若它满足次可加性与正齐次性.</li>
-  <li>称 `p` 是一个<b>半范数 (半模)</b>, 若它满足次可加性、齐次性与非负性.</li>
+  <li>称 `p` 是一个<b>半范数 (半模)</b>, 若它满足次可加性、齐次性 (与非负性).</li>
   <li>称 `p` 是一个<b>范数 (模)</b>, 若它满足次可加性、齐次性与正定性.</li>
-  <li>称 `p` 是一个<b>准范数</b>, 若它满足次可加性、对称性、数乘连续性与正定性.</li>
+  <li>* 称 `p` 是一个<b>准范数</b>, 若它满足次可加性、对称性、数乘连续性与正定性.</li>
   半范数与范数的区别在于, 后者只在原点处取零.
+  可以类比于半正定矩阵与正定矩阵的关系.
 </ol>
 
 <p class="corollary">
@@ -74,6 +77,8 @@
 
 <h2>赋范线性空间</h2>
 
+<h3>定义</h3>
+
 <ol class="definition">
   <li>
     设实函数 `||*||: X to RR` 是线性空间 `X` 上的范数.
@@ -87,11 +92,11 @@
     称为<b>由范数诱导的度量</b>; 因此它是度量空间.
   </li>
   <li>
-    设 `{x_n}` 是 `X` 上的点列, 若存在 `x in X` 使得
+    设 `x_n to x` 是 `X` 中的收敛点列, 则
     <span class="formula">
-        `lim_(n to oo) ||x_n - x|| = 0`,
+        `lim_(n to oo) d(x_n, x) = lim_(n to oo) ||x_n - x|| = 0`,
     </span>
-    则称 `{x_n}` 依范数收敛于 `x`.
+    我们也称 `{x_n}` 依范数收敛于 `x`.
   </li>
   <li>完备的赋范线性空间称为 <b>Banach 空间</b>.</li>
   <li>如果 `||*||` 是准范数, 则 `(X, ||*||)` 称为<b>赋准范数的线性空间</b>.
@@ -137,6 +142,45 @@
     </span>
     构成 Frechet 空间.
   </li>
+</ol>
+
+<h3>`l^p` 与 `L^p(Omega)` 空间</h3>
+
+<ol class="lemma">
+  设 `1 lt p, q lt oo`, `1//p + 1//q = 1`.
+  <li>
+    <b>Hölder 不等式</b>
+    设 `{x_i} in l^p`, `{y_i} in l^q`, 则
+	<span class="formula">
+      `sum_(i=1)^oo |x_i y_i|`
+      `le (sum_(i=1)^oo x_i^p)^(1//p) (sum_(i=1)^oo y_i^q)^(1//q)`.
+	</span>
+	设 `f in L^p(Omega)`, `g in L^q(Omega)`, 则
+	<span class="formula">
+      `int_Omega |f(x) g(x)| dx`
+      `le (int_Omega |f(x)|^p dx)^(1//p) (int_Omega |g(x)|^q dx)^(1//q)`.
+	</span>
+	在 Hölder 不等式中取 `p = q = 2` 就得到 Cauchy 不等式.
+  </li>
+  <li>
+    <b>Minkowski 不等式</b>
+	设 `f, g in L^p(Omega)`, 则
+	<span class="formula">
+      `(int_Omega |f(x) + g(x)|^p dx)^(1//p)`
+      `le (int_Omega |f(x)|^p dx)^(1//p) + (int_Omega |g(x)|^p dx)^(1//p)`.
+	</span>
+  </li>
+</ol>
+
+<p class="remark">
+  使用下面定义的 `l^p` 与 `L^p(Omega)` 空间范数, 上述不等式简记为
+  <span class="formula">
+    (Hölder) `||f g||_1 le ||f||_p ||g||_q`,<br>
+    (Minkowski) `||f+g||_p le ||f||_p + ||g||_p`.
+  </span>
+</p>
+
+<ol class="example">
   <li>`l^p` 空间 `(1 le p lt oo)`. 全体满足 `sum_(n ge 1) |u_n|^p lt oo` 的序列构成线性空间,
     并且按范数
     <span class="formula">
@@ -148,7 +192,10 @@
     <span class="formula">
       `||u|| = Sup_(n ge 1) |u_n|`
     </span>
-    构成 Banach 空间.
+    构成 Banach 空间.  注: `l^oo` 的名字来自于下面的极限
+    <span class="formula">
+      `lim_(p to oo) (sum_(k=1)^n |u_n|^p)^(1//p) = max_(1 le k le n) |u_k|`.
+    </span>
   </li>
   <li>`L^p(Omega)` 空间 `(1 le p lt oo)`. 设 `Omega sube RR` 是 Lebesgue 可测集, 若可测函数 `f` 满足
     `|f|^p` 在 `Omega` 上 Lebesgue 可积, 则称 `f` 是 `p` 方可积的.
@@ -162,7 +209,8 @@
     如果 `Omega` 上的函数 `f` 与一个有界函数几乎处处相等, 则称 `f` 是<b>本性有界</b>的.
     `Omega` 上全体本性有界的可测函数构成线性空间 (把几乎处处相等的函数视作同一个向量), 并且按范数
     <span class="formula">
-      `||f||_oo = underset(零测集 Z sube Omega)inf underset(x in Omega - Z)Sup |f(x)|`
+      `||f||_oo = inf_(Z sube Omega) Sup_(x in Omega - Z) |f(x)|`,
+      `quad Z` 为零测集.
     </span> 
     构成 Banach 空间.
     上式右端也可以写为 `underset(x in Omega)"ess sup"|f(x)|`, 称为 `|f|` 的本性上确界.
@@ -173,12 +221,376 @@
 </ol>
 
 <p class="remark">
-  `p lt oo` 时, `l^p` 与 `L^p` 空间是可分的; 但 `l^oo` 与 `L^oo` 不可分.
+  `p lt oo` 时, `l^p` 与 `L^p(Omega)` 空间是可分的;
+  但 `l^oo` 与 `L^oo(Omega)` 不可分 (假设 `Omega` 具有正测度).
 </p>
 
-<h2>范数等价与有限维赋范线性空间</h2>
+<h2>有限维赋范线性空间</h2>
+
+<p class="definition">
+  <b>范数等价</b>
+  称线性空间 `X` 上的两个范数 `||*||_1`, `||*||_2` <b>等价</b>,
+  如果存在常数 `C_1, C_2 gt 0`, 使
+  <span class="formula">
+    `C_1 ||x||_1 le ||x||_2 le C_2 ||x||_1`,
+    `quad AA x in X`.
+  </span>
+  可以验证这是一个等价关系 (自反性、对称性、传递性).
+</p>
+
+<p class="theorem">
+  <b>有限维赋范线性空间上的任意两个范数都等价</b>
+  设 `(X, ||*||)` 是 `n` 维赋范线性空间, `e_1, e_2, cdots, e_n` 是一组基,
+  则存在 `C_1, C_2 gt 0`, 使对任意 `x = sum_(i=1)^n x_i e_i in X`, 有
+  <span class="formula">
+    `C_1 ||x||_2 le ||x|| le C_2 ||x||_2`,
+  </span>
+  其中 `||x||_2 = sqrt( sum_(i=1)^n |x_i|^2 )`.
+</p>
+
+<ol class="corollary">
+  <b>有限维赋范线性空间的拓扑</b>
+  `n` 维实 (复) 赋范线性空间与 `RR^n` (`CC^n`) 同构且同胚.
+  从而由 `RR^n` 与 `CC^n` 的相关性质可得:
+  <li>有限维赋范线性空间是完备可分的;</li>
+  <li>赋范线性空间的有限维子空间是闭子空间;</li>
+  <li>有限维赋范线性空间的任意有界子集都是列紧的.</li>
+</ol>
+
+<p class="lemma">
+  <b>(Riesz 引理, 1918) 单位球面到闭子空间的最大距离</b>
+  在赋范线性空间 `X` 中, `S` 为单位球面 `{x in X: ||x||=1}`, 则对任意的闭子空间 `M subne X`,
+  都成立
+  <span class="formula">
+    `Sup_(x in S) d(x, M) = 1`.
+  </span>
+  换言之, 对任意 `epsi gt 0`, 都存在 `x in S`, 使得 `d(x, M)`
+  `= inf_(y in M) ||x-y||` `ge 1-epsi`.
+</p>
+
+<p class="proof">
+  取 `x_0 in X \\ M`. 由 `M` 为闭集知 `d := d(x_0, M) gt 0`, 且存在
+  `y_0 in M` 使得
+  <span class="formula">
+    `d le ||x_0 - y_0|| lt d/(1-epsi)`.
+  </span>
+  令 `x_epsi = (x_0 - y_0)/(||x_0 - y_0||)`, 则 `x_epsi in S`, 对任意 `x
+  in M`, 有
+  <span class="formula">
+    ` ||x_epsi - x||
+    = 1/(||x_0 - y_0||) || x_0 - (y_0 + ||x_0 - y_0||x) ||`.
+  </span>
+  注意到 `x, y_0 in M`, 故 `y_0 + ||x_0 - y_0|| x in M`. 从而
+  <span class="formula">
+    `||x_epsi - x|| ge d/(||x_0 - y_0||) gt 1-epsi`.
+  </span>
+</p>
+
+<p class="remark">
+  想象单位球面 `S` 和闭子空间 (过原点的超平面) `M` 上各有一动点 `x, y`.
+  点 `y` 想要靠近 `x`, 而 `x` 则尽可能远离 `y`.
+  Riesz 引理告诉我们, 最终 `x, y` 的距离可以任意地接近 1.
+</p>
+
+<p class="corollary">
+  无穷维赋范线性空间的单位球面不是列紧的.
+</p>
+
+<p class="proof">
+  我们构造单位球面 `S` 上的点列, 使得它没有收敛子列:
+  只需保证任意两项之间的距离足够大即可.
+  事实上, 任取 `x_1 in S`.
+  假设已经选取 `x_1, cdots, x_n in S`,
+  则 `M_n := "span"{x_1, cdots, x_n}` 是有限维子空间, 其是闭的;
+  根据 Riesz 引理, 存在 `x_(n+1) in S`, 使得 `d(x_(n+1), M_n) ge 1//2`,
+  换言之 `x_(n+1)` 与前面每一项的距离都不小于 `1//2`.
+  如此即得到所需的点列.
+</p>
+
+<p class="corollary">
+  赋范线性空间 `X` 是有限维
+  `iff` `X` 的单位球面列紧
+  `iff` `X` 的任意有界集列紧.
+</p>
+
+<p class="proof">
+  只证后半部分. 设 `X` 的单位球面列紧, `M` 是有界集, 下证 `M` 列紧.
+  对 `M` 中的任意点列 `{x_n}`, 若它只有有限项不为 0, 则它已然收敛.
+  否则, 去掉那些等于 0 的项, 将剩下的点列投影到单位球面, 得到点列 `{y_n}`.
+  由列紧性, `{y_n}` 有收敛子列 `{z_n}`.  我们找到 `{z_n}` 在 `{x_n}`
+  中对应项的模长 `{c_n}`. 由于 `M` 有界, `{c_n}` 是有界实数列, 有收敛子列
+  `{d_n}`.  将 `{d_n}` 与 `{z_n}` 中对应项相乘, 就得到 `{x_n}` 的收敛子列.
+</p>
 
 <h2>凸集与 Minkowski 泛函</h2>
+
+<ol class="example">
+  设 `p(x)` 是线性空间 `X` 上的半范数. `M` 是 `X` 上的单位闭球
+  <span class="formula">
+    `M := {x in X: p(x) le 1}`
+  </span>
+  观察到:
+  <li>`0 in M`;</li>
+  <li>`M` 是 `X` 中的凸子集: `(AA x, y in M)` `(AA alpha in [0, 1])`
+    `alpha x + (1-alpha) y in M`;
+  </li>
+  <li>`M` 是平衡的: `(AA x in M)` `(AA |alpha| le 1)` `alpha x in M`;
+  </li>
+  <li>`M` 是吸收的: `(AA x in M)` `(EE delta gt 0)` `(AA alpha in [0,
+    delta])`, `alpha x in M`;
+  </li>
+  <li>用 `M` 来定义 `p`: `p(x) = inf{k^-1: k gt 0, k x in M}`.</li>
+</ol>
+
+<p class="definition">
+  设 `M` 是线性空间 `X` 中吸收的凸子集, 令
+  <span class="formula">
+    `p_M(x) := inf{k^-1: k gt 0, k x in M}`.
+  </span>
+  称为由 `M` 诱导出的 <b>Minkowski 泛函</b>.
+</p>
+
+<div class="remark">
+  直观上, Minkowski 泛函描述了凸集中的一点 `x`, 经过放大正数 `k` 倍, 仍然落在集合中的故事.
+  `p_M(x)` 定义为 `k^-1` 的下确界, 换言之, 我们需要找到 `k` 的上确界:
+  <table>
+    <tr>
+      <th>`x` 的位置</th>
+      <th>`Sup k`</th>
+      <th>`p_M(x) = inf k^-1`</th>
+    </tr>
+    <tr>
+      <td>`0`</td>
+      <td>`oo`</td>
+      <td>`0`</td>
+    </tr>
+    <tr>
+      <td>凸集内</td>
+      <td>`[1, oo]`</td>
+      <td>`[0, 1]`</td>
+    </tr>
+    <tr>
+      <td>凸集外</td>
+      <td>`(0, 1)`</td>
+      <td>`(1, oo)`</td>
+    </tr>
+  </table>
+  边界上的点, 其 Minkowski 泛函取值一般等于 1, 但也可能等于 0, 见下文.
+</div>
+
+<p class="remark">
+  <b>Minkowski 泛函取值为 0 的含义</b>
+  `p_M(x) = 0` 意味着点 `x` 放大任意正数倍都落在集合内.
+  反之, `p_M(x) gt 0` 意味着 `x` 放大某个正数倍后可以落在集合外.
+  除原点以外, 也可以有其它点处的 Minkowski 泛函取值为 0.
+  比如上半平面是一个凸集, 此时 `x` 轴上所有点的 Minkowski 泛函值都为 0.
+</p>
+
+<ol class="theorem">
+  上面定义的 Minkowski 泛函 `p_M(x)`:
+  <li>满足次可加性与正齐次性, 因此是一个次线性泛函.</li>
+  <li>进一步若 `M` 还是平衡的, 则 `p_M` 满足齐次性, 是一个半范数.</li>
+  <li>在 2. 的基础上, 若 `M` <b>沿射线有界</b>, 则 `p_M` 是一个范数.
+    这里沿射线有界是指: `AA x != 0`, `p_M(x) gt 0`,
+    换言之, `x` 放大某个正数倍后可以落在集合外.
+    特别当 `M` 是有界集时, `p_M` 一定是范数.
+  </li>
+</ol>
+
+<p class="remark">
+  <b>单位闭球和 Minkowski 泛函的关系</b>
+  线性空间上的凸子集与次线性泛函、(半) 范数的一一对应关系如下:
+  <span class="formula">
+    次线性泛函 `harr` 吸收的凸子集<br>
+    半范数 `harr` 平衡、吸收的凸子集<br>
+    范数 `harr` 平衡、吸收、沿射线有界的凸子集.
+  </span>
+</p>
+
+<h2>线性泛函与线性算子</h2>
+
+<ol class="definition">
+  设 `X, Y` 为数域 `K` 上的赋范线性空间, `K = RR` 或 `CC`.
+  <li>映射 `f: X to K` 称为<b>泛函</b>.
+    如果它是线性的, 即 `AA x, y in X`, `AA alpha, beta in K`,
+	<span class="formula">
+      `f(alpha x + beta y) = alpha f(x) + beta f(y)`,
+	</span>
+    则称为<b>线性泛函</b>.
+    设 `f` 为线性泛函, 我们常把 `f(x)` 写作 `(:f, x:)`.
+  </li>
+  <li>映射 `T: X to Y` 称为<b>算子</b>.
+    如果它是线性的, 即 `AA x, y in X`, `AA alpha, beta in K`,
+    <span class="formula">
+      `T(alpha x + beta y) = alpha T(x) + beta T(y)`,
+    </span>
+    则称为<b>线性算子</b>.
+    设 `T` 为线性算子, 我们常把 `T(x)` 写作 `T x`.
+  </li>
+  `RR` 或 `CC` 本身也是赋范线性空间, 因此线性泛函是特殊的线性算子.
+</ol>
+
+<p class="remark">
+  线性泛函与线性算子就是线性代数中的线性函数与线性映射,
+  但我们将它放在赋范线性空间中考虑. 这些空间常常是无穷维的.
+</p>
+
+<p class="definition">
+  <b>有界线性算子</b>
+  设 `X, Y` 是 `K` 上的赋范线性空间,
+  `T: X to Y` 是线性算子. 若存在 `M gt 0` 使得
+  <span class="formula">
+    `||T x||_Y le M ||x||_X`, `quad AA x in X`,
+  </span>
+  则称 `T` 为<b>有界线性算子</b>.
+  全体 `X to Y` 的有界线性算子记作 `cc L(X, Y)`, 特别地,
+  `cc L(X) := cc L(X, X)` 为 `X` 上全体<b>有界线性变换</b>,
+  `X^ast := cc L(X, K)` 为 `X` 上全体<b>有界线性泛函</b>.
+  `X^ast` 又称为 `X` 的<b>对偶空间</b>或<b>共轭空间</b>.
+</p>
+
+<p class="corollary">
+  <b>有界线性算子就是连续线性算子</b>
+  设 `T` 是线性算子, 则 `T` 有界 `iff` 对 `X` 中任意收敛点列 `x_n to x` 有 `T x_n to T x`.
+</p>
+
+<p class="proof">
+  先设 `T` 有界. 由 `x_n to x` 和
+  <span class="formula">
+    `||T x_n - T x||`
+    `= ||T(x_n - x)||`
+    `le M ||x_n - x||`
+  </span>
+  即得 `T x_n to T x`.
+  <br>
+  反之若 `T` 无界, 则存在点列 `{x_n}` 满足
+  <span class="formula">
+    `||T x_n|| gt n ||x_n||`.
+  </span>
+  令 `y_n = 1/n * x_n/(||x_n||)`, 则 `y_n to 0`, 但
+  <span class="formula">
+    `||T y_n||`
+    `= 1/n (||T x_n||)/(||x_n||)`
+    `gt 1`,
+  </span>
+  从而 `T y_n` 不能趋于 0, `T` 不连续.
+</p>
+
+<p class="definition">
+  <b>算子范数</b>
+  设 `T in cc L(X, Y)`, 规定 `T` 的范数为
+  <span class="formula">
+    `||T|| := Sup_(x != 0) ||T x|| // ||x||`
+    `= Sup_(||x||=1) ||T x||`.
+  </span>
+  换言之 `||T||` 等于单位球面上的点被映到的离原点的最远距离.
+</p>
+
+<p class="remark">
+  另一个等价定义是 `||T||_1 = Sup_(||x|| le 1) ||T x||`,
+  即单位闭球内的点被映到的最远距离.
+  显然 `||T||_1 ge ||T||`, 又任取 `||x|| le 1`, `x != 0`, 有
+  <span class="formula">
+    `||T x||`
+    `= ||T x/(||x||)|| * ||x||`
+    `le ||T|| * ||x||`
+    `le ||T||`,
+  </span>
+  所以 `||T||_1 le ||T||`, 两定义实际上相等.
+</p>
+
+<p class="corollary">
+  `AA x in X`, `||T x|| le ||T|| ||x||`.
+</p>
+
+<p class="corollary">
+  设 `delta ge 0`, 则
+  <span class="formula">
+    `||T|| le delta` `iff AA x in X`, `||T x|| le delta ||x||`.
+  </span>
+  特别当 `delta = 0` 时, 这意味着
+  <span class="formula">
+    `||T|| = 0` `iff AA x in X`, `T x = 0`
+    `iff T = 0`.
+  </span>
+  此外, 有界线性算子的定义式也可以简记为 `||T|| le M`.
+</p>
+
+<p class="theorem">
+  `cc L(X, Y)` 在上述算子范数下构成赋范线性空间.
+  当 `Y` 是 Banach 空间时, `cc L(X, Y)` 也是 Banach 空间.
+  特别地, `X^ast` 是 Banach 空间.
+</p>
+
+<ol class="proof">
+  <li>连续线性算子的线性组合仍然连续, 故 `cc L(X, Y)` 是线性空间.</li>
+  <li>下证 `||T||` 是范数:
+    正定性: 见上一个推论.
+    <br>
+    次可加性:
+    <span class="formula">
+      `||T_1 + T_2||`
+      `= Sup_(||x||=1) ||T_1 x + T_2 x||`
+      `le Sup ||T_1 x|| + Sup ||T_2 x||`
+      `= ||T_1|| + ||T_2||`.
+    </span>
+    齐次性:
+    <span class="formula">
+      `||a T||`
+      `= Sup_(||x||=1) ||a T x||`
+      `= |a| Sup ||T x||`
+      `= |a| ||T||`.
+    </span>
+  </li>
+  <li>最后, 设 `Y` 完备, 证明 `cc L(X, Y)` 也完备.
+    取基本列 `{T_n}`, 则 `AA epsi gt 0`, `EE N in NN`,
+    使得 `AA m, n gt N` 有
+    <span class="formula">
+      `||T_m - T_n|| lt epsi`.
+    </span>
+    这等价于
+    <span class="formula">
+      `||T_m x - T_n x|| le epsi ||x||`,
+      `quad AA x in X`.
+    </span>
+    固定 `x in X`, 可以看到 `{T_n x}` 是 `Y` 中的基本列, 记极限为 `y := lim_(n to oo) T_n x`.
+    映射 `T: x mapsto y` 正是我们所找的有界线性算子.
+    首先它线性:
+    <span class="formula align">
+      `T(k_1 x_1 + k_2 x_2)`<br>
+      `= lim T_n(k_1 x_1 + k_2 x_2)`<br>
+      `= lim (k_1 T_n x_1 + k_2 T_n x_2)`<br>
+      `= k_1 T x_1 + k_2 T x_2`.
+    </span>
+    其次它有界:
+    `AA ||x|| = 1`, 取 `epsi = 1`, 则存在 `N`, 对 `AA n gt N` 有
+    <span class="formula">
+      `||T x||`
+      `le ||T_n x|| + 1`
+      `le (||T_n|| + 1)||x||`,
+    </span>
+    即 `||T|| le ||T_n|| + 1`.
+  </li>
+</ol>
+
+<h2>Hahn-Banach 定理</h2>
+
+<p>
+  设 `X` 是赋范线性空间, 常常我们要寻找一个合适的线性泛函 `f in X^ast`.
+  Hahn-Banach 定理就是这样一个存在性定理.
+  它体现了数学中延拓的思想: 先在 `X` 的子空间中寻找线性泛函 `f_0`, 由于子空间较小, 这是相对容易的.
+  然后, 将 `f_0` 延拓至整个空间 `X`, 并保持它的性质:
+  确切说它保持 `f_0` 的范数不变, 称为<b>保范线性延拓</b>.
+  根据数域取 `RR` 或 `CC`, 这个定理有两个不同版本:
+</p>
+
+<ol class="theorem">
+  <b>实延拓定理 (Banach, 1929)</b>
+</ol>
+
+<ol class="theorem">
+  <b>复延拓定理 (Bohnenblust-Sobczyk, 1938)</b>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

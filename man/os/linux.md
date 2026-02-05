@@ -81,7 +81,7 @@ pacman 会把老的包放在 `/var/cache/pacman`, 例如:
     $ chmod 700 ~/.ssh                  # 文件权限设置
     $ chmod 600 ~/.ssh/authorized_keys
 
-**设置别名**
+**设置别名、代理**
 
 `~/.ssh/config`
 ```
@@ -90,6 +90,11 @@ Host potato
     Hostname 192.168.?.?
     User fran
     Port 22
+
+# 设置代理
+Host github.com
+    User git
+    ProxyCommand connect -S 127.0.0.1:7897 %h %p
 ```
 
 **登录**
