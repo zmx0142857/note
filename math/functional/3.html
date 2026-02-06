@@ -1,41 +1,174 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>有界线性算子</title>
+    <title>Banach 空间</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>基本概念</h2>
-<h2>Banach 逆算子定理, 算子的一致有界性原理</h2>
+<h2>逆算子定理</h2>
 
 <p class="theorem">
-	<b>Banach 逆算子定理</b>
-	设 `X, Y` 是 Banach 空间, 若 `T in L(X, Y)` 是双射, 则 `T^-1 in L(Y,
-	X)`.
+  <b>Banach 逆算子定理</b>
+  设 `X, Y` 是 Banach 空间, 若 `T in L(X, Y)` 是双射, 则逆算子连续, 即 `T^-1 in cc L(Y, X)`.
 </p>
 
 <p class="theorem">
-	<b>闭图像定理</b>
-	设 `X, Y` 是 Banach 空间, 若 `T: D(T) sube X to Y` 是闭线性算子, 且
-	`D(T)` 是闭集, 则 `T` 连续.
+  <b>闭图像定理</b>
+  设 `X, Y` 是 Banach 空间, 若 `T: D(T) sube X to Y` 是闭线性算子, 且
+  `D(T)` 是闭集, 则 `T` 连续.
 </p>
 
 <p class="theorem">
-	<b>一致有界定理</b>
-	设 `X` 是 Banach 空间, `Y` 是线性赋范空间, 如果存在
-	`W sube L(X, Y)`, 使得
-	<span class="formula">
-		`Sup_(A in W) ||A x|| lt oo`, `AA x in X`,
-	</span>
-	则 `W` 一致有界, 即存在常数 `M` 使得 `||A|| le M`, `AA A in W`.
+  <b>一致有界定理 (共鸣定理)</b>
+  设 `X` 是 Banach 空间, `Y` 是赋范线性空间, 如果存在一族算子
+  `W sube cc L(X, Y)`, 使得
+  <span class="formula">
+    `Sup_(A in W) ||A x|| lt oo`, `quad AA x in X`,
+  </span>
+  则 `W` 一致有界, 即存在常数 `M` 使得 `||A|| le M`, `AA A in W`.
 </p>
 
-<h2>有界线性算子的共轭算子</h2>
+<h2>对偶空间</h2>
+
+<p class="theorem">
+  设 `X` 是线性赋范空间. 若 `X^**` 可分, 则 `X` 也可分.
+</p>
+
+<p class="example">
+  设 `1 le p lt oo`, `1//p + 1//q = 1`, 则
+  <span class="formula">
+    `L^p(Omega)^ast ~= L^q(Omega)`.
+  </span>
+  但 `L^oo(Omega)` 的共轭空间不是 `L^1(Omega)`,
+  这从 `L^1(Omega)` 可分而 `L^oo(Omega)` 不可分就能看出.
+</p>
+
+<h3>二次对偶与典型映射</h3>
+
+<p class="definition">
+  设 `X` 是赋范线性空间, `X^ast` 是它的对偶空间,
+  称 `X^ast` 的对偶空间 `X^(ast ast)` 为 `X` 的<b>二次对偶空间</b>.
+  下面的映射称为<b>典型映射</b>或<b>自然嵌入</b>:
+  <span class="formula">
+    `tau: X to X^(ast ast)`<br>
+    `tau(x) mapsto x^(ast ast)`,<br>
+  </span>
+  其中
+  <span class="formula">
+    `x^(ast ast)(f) := f(x)`, `quad AA f in X^ast`.
+  </span>
+  上式也可以写为
+  <span class="formula">
+    `(:x^(ast ast), f:) = (:f, x:)`, `quad AA f in X^ast`.
+  </span>
+</p>
+
+<p class="theorem">
+  典型映射是保范的连续单嵌入,
+  如果它还是满的, 则它构成 `X` 到 `X^(ast ast)` 的一个保范同构.
+  如果典型映射是满的, 则称 `X` 是<b>自反的</b>.
+</p>
+
+<p class="remark">
+  存在这样的 Banach 空间 `X`, 它与 `X^(** **)` 保范同构, 但 `tau(x)` 不为满射, 即 `X` 不是自反的.
+</p>
+
+<p class="corollary">
+  自反的 Banach 空间的闭子空间也是自反的.
+</p>
+
+<ol class="example">
+  <b>自反空间的例子</b>
+  <li>有限维赋范线性空间是自反的.</li>
+  <li>`L^p(Omega)`, `(1 lt p lt oo)` 是自反的.</li>
+</ol>
+
+<h3>共轭算子</h3>
+
+<h2>弱收敛</h2>
+
+<h3>收敛性的定义</h3>
+
+<ol class="definition">
+  <b>点列的收敛性</b>
+  设 `X` 是 Banach 空间,
+  <li>
+    考虑点列 `{x_n} sube X`. 如果存在 `x in X`, 使
+    <span class="formula">
+      `lim_(n to oo) f(x_n) = f(x)`, `quad AA f in X^**`,
+    </span>
+    则称 `{x_n}` <b>弱收敛</b>于 `x`, 记为 `x_n &#8640; x` 或 `x_n overset w to x`.
+  </li>
+  <li>
+    考虑泛函列 `{f_n} sube X^**`. 如果存在 `f in X^**`, 使
+    <span class="formula">
+      `lim_(n to oo) f_n(x) = f(x)`, `quad AA x in X`,
+    </span>
+    则称 `{f_n}` <b>弱*收敛</b>于 `f`, 记为 `f_n overset ** &#8640; f`.
+  </li>
+  相对应地, 一般的点列收敛 `x_n to x` 也称为<b>强收敛</b>
+</ol>
+
+<p class="corollary">
+  强收敛 `rArr` 弱收敛 `rArr` 弱*收敛.
+  <br>
+  当 `X` 是自反空间时, `X^ast` 中序列的弱收敛与弱*收敛等价.
+</p>
+
+<ol class="definition">
+  <b>算子的收敛性</b>
+  设 `X, Y` 为赋范线性空间, `{T_n}` 和 `T` 均属于 `cc L(X, Y)`.
+  <li>一致收敛 `T_n &#8649; T` 是指: `||T_n - T|| to 0`.</li>
+  <li>强收敛 `T_n to T` 是指: `(AA x in X)` `||T_n x - T x|| to 0`.</li>
+  <li>弱收敛 `T_n &#8640; T` 是指:
+    `(AA x in X)` `(AA f in Y^ast)`,
+    <span class="formula">
+      `lim_(n to oo) (:f, T_n x:) = (:f, T x:)`.
+    </span>
+  </li>
+</ol>
+
+<p class="corollary">
+  一致收敛 `rArr` 强收敛 `rArr` 弱收敛.
+</p>
+
+<p class="definition">
+  设 `{x_n}` 为线性空间中的点列, 称下述有限和
+  <span class="formula">
+    `sum lambda_n x_n`, 其中 `sum lambda_n = 1`
+  </span>
+  为 `{x_n}` 的一个<b>凸组合</b>. `{x_n}` 的全体凸组合记为 `"Co"{x_n}`.
+</p>
+
+<p class="theorem">
+  Banach 空间中, 若 `x_n &#8640; x`, `x in bar("Co"{x_n})`.
+  换言之弱极限可以被点列的凸组合逼近.
+</p>
+
+<h3>弱列紧</h3>
+
+<p class="definition">
+  称 Banach 空间 `X` 的子集 `A` 为<b>弱列紧</b>的, 如果 `A`
+  中任意点列都有弱收敛的子列.
+  同理可以定义<b>弱*列紧</b>的概念.
+</p>
+
+<p class="theorem">
+  设 `X` 是可分的 Banach 空间, 则 `X^**` 的有界集是弱*列紧的.
+</p>
+
+<p class="theorem">
+  <b>(Pettis, 1938)</b>
+  自反的 Banach 空间中的有界集是弱列紧的.
+</p>
+
 <h2>有界线性算子的谱</h2>
+
+<!--
 <h2>全连续线性算子</h2>
-<h2>Riesz-Schauder 理论</h2>
+-->
 
 <script src="../../js/note.js?type=math"></script>
 </body>
