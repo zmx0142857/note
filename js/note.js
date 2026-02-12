@@ -26,8 +26,9 @@ if (window.parent === window) {
   var replaced = location.pathname
     .replace(/(\/note\/|\/)/, '$1#')
     .replace(/\.html$/, '')
+  if (location.hash) replaced += location.hash.replace('#', '/')
   location.href = replaced
-  console.log('redirect to index')
+  console.log('redirect:', replaced)
 }
 
 if (typeof asciimath == 'undefined')

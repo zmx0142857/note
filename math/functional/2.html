@@ -194,7 +194,7 @@
 <p>证明 `l^p` 与 `L^p` 空间的性质, 需要用到下面的不等式:</p>
 
 <ol class="lemma">
-  设 `1 lt p, q lt oo`, `1//p + 1//q = 1`.
+  设 `1 le p, q le oo`, `1//p + 1//q = 1`.
   <li>
     <b>Hölder 不等式</b>
 	设 `f in L^p(Omega)`, `g in L^q(Omega)`, 则
@@ -210,20 +210,57 @@
       `||f+g||_p le ||f||_p + ||g||_p`.
 	</span>
   </li>
+  <li>
+    <b>Young 不等式</b>
+    设 `f in L^p(RR)`, `K in L^1(RR)`, 则
+    <span class="formula">
+      `||K ast f||_p le ||K||_1 ||f||_p`,
+    </span>
+    `K ast f` 表示卷积.
+  </li>
 </ol>
+
+<p class="proof">
+  只证 3. 由 Hölder 不等式,
+  <span class="formula align">
+    `|int_RR K(x-y)f(y) dy|`<br>
+    `le int_RR |K(x-y)|^(1//q) |K(x-y)|^(1//p) |f(y)| dy`<br>
+    `le (int_RR |K(x-y)| dy)^(1//q) (int_RR |K(x-y)| |f(y)|^p dy)^(1//p)`.
+  </span>
+  两边取 `p` 次方再积分,
+  <span class="formula align">
+    `int_RR |int_RR K(x-y)f(y) dy|^p dx`<br>
+    `le ||K||_1^(p//q) int_RR int_RR |K(x-y)| |f(y)|^p dy dx`<br>
+    `= ||K||_1^(p//q) ||f||_p^p ||K||_1`<br>
+    `= ||K||_1^((p+q)//q) ||f||_p^p`.
+  </span>
+  两边取 `1//p` 次方, 注意 `(p+q)/(p q) = 1/p + 1/q = 1` 即得结论.
+</p>
 
 <h2>有限维赋范线性空间</h2>
 
-<p class="definition">
+<ol class="definition">
   <b>范数等价</b>
-  称线性空间 `X` 上的两个范数 `||*||_1`, `||*||_2` <b>等价</b>,
-  如果存在常数 `C_1, C_2 gt 0`, 使
-  <span class="formula">
-    `C_1 ||x||_1 le ||x||_2 le C_2 ||x||_1`,
-    `quad AA x in X`.
-  </span>
-  可以验证这是一个等价关系 (自反性、对称性、传递性).
-</p>
+  线性空间 `X` 上有两个范数 `||*||_1`, `||*||_2`,
+  <li>
+    我们称 `||*||_1` 比 `||*||_2` 强, 记作 `||*||_2 le ||*||_1`,
+    如果存在常数 `C gt 0` 使得
+    <span class="formula">
+      `||x||_2 le C ||x||_1`, `quad AA x in X`.
+    </span>
+    显然若点列 `{x_n}` 依范数 `||*||_1` 收敛, 则它也依范数 `||*||_2` 收敛.
+    `X` 上的范数按强弱构成偏序关系.
+  </li>
+  <li>
+    称两个范数<b>等价</b>, 如果 `||*||_2 le ||*||_1` 且 `||*||_1 le ||*||_2`.
+    即存在常数 `C_1, C_2 gt 0`, 使
+    <span class="formula">
+      `C_1 ||x||_1 le ||x||_2 le C_2 ||x||_1`,
+      `quad AA x in X`.
+    </span>
+    这是一个等价关系.
+  </li>
+</ol>
 
 <p class="theorem">
   <b>有限维赋范线性空间上的任意两个范数都等价</b>
@@ -465,7 +502,11 @@
 
 <p class="definition">
   <b>算子范数</b>
-  设 `T in cc L(X, Y)`, 规定 `T` 的范数为
+  设 `T in cc L(X, Y)`, 我们知道存在 `M gt 0` 使得
+  <span class="formula">
+    `||T x|| le M ||x||`, `quad AA x in X`.
+  </span>
+  规定 `T` 的范数为 `M` 可取到的最小值:
   <span class="formula">
     `||T|| := Sup_(x != 0) ||T x|| // ||x||`
     `= Sup_(||x||=1) ||T x||`.
@@ -500,7 +541,31 @@
     `||T|| = 0` `iff AA x in X`, `T x = 0`
     `iff T = 0`.
   </span>
-  此外, 有界线性算子的定义式也可以简记为 `||T|| le M`.
+  此外, 有界线性算子的定义式
+  <span class="formula">
+    `||T x|| le M ||x||`, `quad AA x in X`
+  </span>
+  也可以简记为 `||T|| le M`.
+</p>
+
+<ol class="corollary">
+  设 `T, T_n` 是有界线性算子
+  <li>`{x_n}` 是基本列 `rArr {T x_n}` 是基本列.</li>
+  <li>`{T_n}` 是基本列 `rArr AA x in X`, `{T_n x}` 是基本列.</li>
+</ol>
+
+<p class="proof">
+  只证 2.
+  取基本列 `{T_n}`, 则 `AA epsi gt 0`, `EE N in NN`,
+  使得 `AA m, n gt N` 有
+  <span class="formula">
+    `||T_m - T_n|| lt epsi`.
+  </span>
+  这等价于
+  <span class="formula">
+    `||T_m x - T_n x|| le epsi ||x||`,
+    `quad AA x in X`.
+  </span>
 </p>
 
 <p class="theorem">
@@ -530,17 +595,8 @@
     </span>
   </li>
   <li>最后, 设 `Y` 完备, 证明 `cc L(X, Y)` 也完备.
-    取基本列 `{T_n}`, 则 `AA epsi gt 0`, `EE N in NN`,
-    使得 `AA m, n gt N` 有
-    <span class="formula">
-      `||T_m - T_n|| lt epsi`.
-    </span>
-    这等价于
-    <span class="formula">
-      `||T_m x - T_n x|| le epsi ||x||`,
-      `quad AA x in X`.
-    </span>
-    固定 `x in X`, 可以看到 `{T_n x}` 是 `Y` 中的基本列, 记极限为 `y := lim_(n to oo) T_n x`.
+    取基本列 `{T_n}`, 固定 `x in X`, 由前面的推论知道 `{T_n x}` 是 `Y` 中的基本列,
+    记极限为 `y := lim_(n to oo) T_n x`.
     映射 `T: x mapsto y` 正是我们所找的有界线性算子.
     首先它线性:
     <span class="formula align">
@@ -773,7 +829,7 @@
   <b>点的分离</b>
   在赋范线性空间 `X` 中,
   <li>
-    若 `x_0 != 0`, 则存在 `f in X^ast` 使得 `f(x_0) = ||x_0||`, 且 `||f|| = 1`.
+    `AA x_0 in X`, `EE f in X^ast` 使得 `||f|| = 1`, 且 `f(x_0) = ||x_0||`.
   </li>
   <li>
     `x = y` `iff AA f in X^ast`, `f(x) = f(y)`.
