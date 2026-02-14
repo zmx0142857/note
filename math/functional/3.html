@@ -25,8 +25,7 @@
   </li>
   <li>
     <b>Banach 逆算子定理</b>
-    逆算子存在必连续.
-    换言之, 若 `T` 是双射, 则 `T^-1 in cc L(Y, X)`.  此时 `T` 是一个同胚映射.
+    若 `T` 是双射, 则 `T^-1` 连续, 即 `T^-1 in cc L(Y, X)`.  此时 `T` 是一个同胚映射.
   </li>
 </ol>
 
@@ -166,17 +165,19 @@
 <p class="definition">
   <b>闭线性算子</b>
   设 `T: D(T) sube X to Y` 是线性算子.
-  称 `T` 是闭的, 如果对任意 `X` 中收敛点列 `x_n to x`,
-  只要 `x_n in D(T)` 及 `T x_n = y`, 就有
+  称 `T` 是闭的, 如果对任意点列 `x_n in D(T)`,
+  只要下式中极限 `lim_(n to oo) x_n` 与 `lim_(n to oo) T x_n` 均存在,
+  就有 `lim_(n to oo) x_n in D(T)`, 且下式的等号成立:
   <span class="formula">
-    `x in D(T)` 且 `y = T x`.
+    `lim_(n to oo) T x_n = T lim_(n to oo) x_n`.
   </span>
-  换言之, `lim T x_n = T lim x_n`.
+  如果 `T` 连续且定义域 `D(T)` 闭, 显然 `T` 是闭线性算子.
+  如果 `D(T)` 不是闭的呢? 需要下面引理:
 </p>
 
 <p class="lemma">
   <b>连续线性算子延拓定理</b>
-  设 `T in cc L(D(T) sube X, Y^"完备")`, 则存在唯一的 `T_1 in cc L(bar(D(T)), Y)`, 使得
+  设 `T in cc L(D(T), Y^"完备")`, 则存在唯一的 `T_1 in cc L(bar(D(T)), Y)`, 使得
   <span class="formula">
     `T_1|_(D(T)) = T`,
     `quad ||T_1|| = ||T||`.
@@ -321,17 +322,17 @@
 </p>
 
 <p class="corollary">
-  <b>强收敛蕴含一致有界</b>
+  <b>逐点收敛蕴含一致有界</b>
   设 `T_n, T in cc L(X^"完备", Y)`.
-  如果 `T_n` <b>强收敛</b>到 `T`, 即 `AA x in X`, `lim T_n x = T x`,
+  如果 `T_n` <b>逐点收敛</b>到 `T`, 即 `AA x in X`, `lim T_n x = T x`,
   则 `T_n` 显然逐点有界, 于是它一致有界.
 </p>
 
 <p class="corollary">
   <b>Banach-Steinhaus 定理</b>
-  设 `T_n, T in cc L(X^"完备", Y)`, 则 `T_n` 强收敛到 `T` 的充要条件是
+  设 `T_n, T in cc L(X^"完备", Y)`, 则 `T_n` 逐点收敛到 `T` 的充要条件是
   <span class="formula">
-    `||T_n||` 有界, 且 `T_n` 在 `X` 的某个稠密子集上强收敛到 `T`.
+    `||T_n||` 有界, 且 `T_n` 在 `X` 的某个稠密子集上逐点收敛到 `T`.
   </span>
 </p>
 
@@ -352,8 +353,8 @@
   <b>Lax 等价定理</b>
   在数值分析中, 为求方程 `T x = y` 的解, 我们求解一系列近似方程 `T_n x_n = y`,
   这里 `x_n, x in X^"完备"`, `y in Y^"完备"`, `T_n, T in cc L(X, Y)`.
-  我们假设原方程与近似方程的解都是存在唯一的, 则由逆算子定理, `T_n, T in cc L(Y, X)`.
-  <li>如果 `T_n` 强收敛到 `T`, 则称近似格式 `T_n` 具有<b>相容性</b>.</li>
+  我们假设原方程与近似方程的解都是存在唯一的, 则由逆算子定理, `T_n^-1, T^-1 in cc L(Y, X)`.
+  <li>如果 `T_n` 逐点收敛到 `T`, 则称近似格式 `T_n` 具有<b>相容性</b>.</li>
   <li>如果 `||T_n^-1||` 有界, 则称近似格式 `T_n` 具有<b>稳定性</b>.</li>
   <li>给定 `y in Y`, 令 `x = T^-1 y`, `x_n = T_n^-1 y`,
     如果 `x_n to x`, 则称方程的解<b>收敛</b>.
@@ -376,7 +377,7 @@
     <span class="formula">
       `T_n^-1 y to T^-1 y`,
     </span>
-    即 `T_n^-1` 强收敛到 `T^-1`.
+    即 `T_n^-1` 逐点收敛到 `T^-1`.
     于是 `||T_n^-1||` 有界.
   </li>
 </ol>
@@ -598,14 +599,14 @@
     <span class="formula">
       `f_n(x) to f(x)`, `quad AA x in X`,
     </span>
-    则称 `{f_n}` <b>弱*收敛</b>于 `f`, 记为 `f_n overset ast &#8640; f`.
+    则称 `{f_n}` <b>弱*收敛</b>或<b>逐点收敛</b>于 `f`, 记为 `f_n overset ast &#8640; f`.
   </li>
   相对应地, 一般的点列收敛 `x_n to x` 也称为<b>强收敛</b>
 </ol>
 
 <ol class="corollary">
   <li>强极限若存在必是弱极限.</li>
-  <li>弱极限若存在必唯一.</li>
+  <li>弱极限与弱*极限若存在必唯一.</li>
 </ol>
 
 <ol class="proof">
@@ -615,7 +616,8 @@
       `quad AA f in X^ast`.
     </span>
   </li>
-  <li>设 `x_n` 有两个弱极限 `x` 和 `y`,
+  <li>弱*极限是逐点极限, 唯一性显然.
+    又设 `x_n` 有两个弱极限 `x` 和 `y`,
     则对 `AA f in X^ast`,
     <span class="formula">
       `f(x) = lim_(n to oo) f(x_n) = f(y)`.
@@ -634,7 +636,7 @@
 
 <ol class="proof">
   <li>
-    根据定义, `X^ast` 中点列 `f_n` 的弱收敛是指
+    根据定义, `X^ast` 中序列 `f_n` 的弱收敛是指
     <span class="formula">
       `x** f_n to x** f`, `quad AA x** in X**`.
     </span>
@@ -707,7 +709,7 @@
   <b>算子的收敛性</b>
   设 `X, Y` 为赋范线性空间, `{T_n}` 和 `T` 均属于 `cc L(X, Y)`.
   <li>一致收敛 `T_n &#8649; T` 是指: `||T_n - T|| to 0`.</li>
-  <li>强收敛 `T_n to T` 是指: `(AA x in X)` `||T_n x - T x|| to 0`.</li>
+  <li>逐点收敛 `T_n to T` 是指: `(AA x in X)` `||T_n x - T x|| to 0`.</li>
   <li>弱收敛 `T_n &#8640; T` 是指:
     `(AA x in X)` `(AA f in Y^ast)`,
     <span class="formula">
@@ -717,7 +719,7 @@
 </ol>
 
 <p class="corollary">
-  一致收敛 `rArr` 强收敛 `rArr` 弱收敛.
+  一致收敛 `rArr` 逐点收敛 `rArr` 弱收敛.
 </p>
 
 <h3>弱列紧</h3>
@@ -781,18 +783,304 @@
 <p class="theorem">
   <b>(Eberlein-Шмулян, 1938)</b>
   自反空间中的有界集是弱列紧的.
-  特别, 自反空间中单位闭球是弱自列紧的.
 </p>
 
 <ol class="proof">
   <li>任取自反空间 `X` 中的有界点列 `{x_n}`.
     构造闭子空间 `X_0 = bar("span"{x_n})`, 则 `X_0` 也自反.
     又 `X_0` 是可分的 (考虑 `{x_n}` 的有理系数线性组合), 可知 `X_0** ~= X_0` 也可分.
+    进而 `X_0^ast` 也可分.
   </li>
-  🚧
+  <li>令 `{g_n} := {x_n**}`, 则 `||g_n||` 有界. 由于 `X_0^ast` 可分, 根据前一定理,
+    `{g_n}` 有弱*收敛的子列 `{g_(n_k)}`, 即 `EE g in X_0**` 使得
+    <span class="formula">
+      `(:g_(n_k), f_0:) to (:g, f_0:)`, `quad AA f_0 in X_0^ast`.
+    </span>
+    由 `X_0` 自反, 存在 `x_0 in X_0` 使得 `g = x_0**`. 上式写为
+    <span class="formula">
+      `(:f_0, x_(n_k):) to (:f_0, x_0:)`, `quad AA f_0 in X_0^ast`.
+    </span>
+  </li>
+  <li>
+    现在对 `AA f in X^ast`, 记 `f_0 := f|_(X_0)`, 则有
+    <span class="formula align">
+      `lim (:f, x_(n_k):)`<br>
+      `= lim (:f_0, x_(n_k):)`, 因为 `x_(n_k) in X_0`<br>
+      `= (:f_0, x_0:)`,<br>
+      `= (:f, x_0:)`, 因为 `x_0 in X_0`.
+    </span>
+    即 `{x_(n_k)}` 弱收敛到 `x_0`.
+    这证明了自反空间中有界集是弱列紧的.
+  </li>
 </ol>
 
+<p class="corollary">
+  自反空间中单位闭球是弱自列紧的.
+</p>
+
+<p class="proof">
+  设 `x_(n_k) &#8640; x_0`, `||x_(n_k)|| le 1`,
+  只需证明极限 `x_0` 落在单位闭球中.
+  由 Hahn-Banach 定理, `EE f in X^ast` 满足
+  <span class="formula">
+    `||f|| = 1`, `quad f(x_0) = ||x_0||`.
+  </span>
+  从而
+  <span class="formula">
+    `||x_0|| = f(x_0)`
+    `= lim f(x_(n_k))`
+    `le ||f|| sup_k ||x_(n_k)||`
+    `le 1`.
+  </span>
+</p>
+
+<p class="remark">
+  Alaoglu 还证明了, 任意赋范线性空间中单位闭球是<b>*弱紧</b>的.
+</p>
+
 <h2>有界线性算子的谱</h2>
+
+<p class="remark">
+  本节总假定 `X` 是维数 `ge 1` 的复 Banach 空间.
+</p>
+
+<h3>定义</h3>
+
+<ol class="definition">
+  设 `A: D(A) sube X to X` 是闭线性算子.
+  对任意 `lambda in CC`, 考虑线性算子 `(lambda I - A): D(A) to X`,
+  有以下四种情形:
+  <li><b>正则值 `lambda in rho(A)`</b>:
+    `lambda I - A` 是 `D(A) to X` 的双射.
+    由逆算子定理, `(lambda I - A)^-1 in cc L(X)`.
+    此时称 `lambda` 是 `A` 的<b>正则值 (regular value)</b>,
+    全体正则值 `rho(A)` 称为 `A` 的<b>预解集</b>.
+  </li>
+  <li>
+    <b>本征值 `lambda in sigma_p(A)`</b>:
+    `lambda I - A` 不是单射.
+    这等价于 `"Ker"(lambda I - A) != {0}`,
+    也等价于存在 `x in D(A) \\ {0}`, 使得 `A x = lambda x`.
+    此时称 `lambda` 是 `A` 的<b>本征值</b>或<b>特征值</b>或<b>点谱 (point spectrum)</b>.
+  </li>
+  <li><b>连续谱 `lambda in sigma_c(A)`</b>
+    `lambda I - A` 是单射, 不是满射, 但像的闭包在 `X` 中稠密:
+    `bar("Im"(lambda I - A)) = X`.
+    此时称 `lambda` 是 `A` 的<b>连续谱 (continuous spectrum)</b>.
+    在物理学中, 连续谱是一种连续分布的频率或能量, 如光谱、声谱等.
+  </li>
+  <li><b>剩余谱 `lambda in sigma_r(A)`</b>
+    `lambda I - A` 是单射, 但 `bar("Im"(lambda I - A)) != X`.
+    此时称 `lambda` 是 `A` 的<b>剩余谱 (residual spectrum)</b>.
+  </li>
+  点谱、连续谱、剩余谱统称为线性算子 `A` 的<b>谱 (spectrum)</b>:
+  <span class="formula">
+    `sigma(A) := sigma_p(A) uu sigma_c(A) uu sigma_r(A)`.
+  </span>
+</ol>
+
+<p class="remark">
+  对于有限维线性变换, 单射等价于双射. 所以 `lambda I - A` 要么是双射, 要么不是单射,
+  即 `lambda` 要么是正则值, 要么是本征值.
+  而无穷维空间中则会出现更复杂的连续谱与剩余谱.
+</p>
+
+<ol class="example">
+  <b>无穷维空间中的谱</b>
+  <li><b>剩余谱</b>
+    设 `X = C[0, 1]`, `A: u(t) mapsto t * u(t)`. 则 `A` 是有界线性算子, 且
+    <span class="formula">
+      `sigma(A) = sigma_r(A) = [0, 1]`.
+    </span>
+  </li>
+  <li><b>连续谱</b>
+    将上例的 `X` 换成 `L^2[0, 1]`, 则
+    <span class="formula">
+      `sigma(A) = sigma_c(A) = [0, 1]`.
+    </span>
+  </li>
+  <li><b>点谱</b> 设 `X = L^2[0,1]`,
+    `A = -"d"^2/dt^2`, 其中
+    <span class="formula">
+      `D(A) = {u in C^2[0, 1] | u(0) = u(1), u'(0) = u'(1)}`.
+    </span>
+    则 `A` 是闭线性算子, 且
+    <span class="formula">
+      `sigma(A) = sigma_p(A) = {(2n pi)^2 | n = 0, 1, 2, cdots}`.
+    </span>
+  </li>
+</ol>
+
+<h3>谱的存在性</h3>
+
+<p class="lemma">
+  <b>von Neumann 引理</b>
+  设 `X` 是 Banach 空间, `T in cc L(X)`, `||T|| lt 1`, 则 `(I-T)^-1 in cc L(X)`, 且
+  <span class="formula">
+    `||(I-T)^-1|| le 1/(1-||T||)`.
+  </span>
+</p>
+
+<p class="proof">
+  `AA y in X`, 令 `S(x) = y + T x` (`x in X`), 则 `S` 是压缩映像:
+  <span class="formula">
+    `||S x - S x'||`
+    `= ||T x - T x'||`
+    `le ||T|| ||x - x'||`,
+    `quad AA x, x' in X`.
+    <span class="label">(`ast`)</span>
+  </span>
+  由于 `X` 完备, 应用压缩映像定理, 存在唯一 `x in X`, 使得 `S(x) = x`,
+  即 `y + T x = x`, 换言之
+  <span class="formula">
+    `(I - T) x = y`.
+  </span>
+  这指出 `(I-T)` 是 `X to X` 的双射, 由逆算子定理, `(I-T)^-1 in cc L(X)`.
+  又利用 (`ast`) 式,
+  <span class="formula">
+    `||x|| - ||y||`
+    `le ||x - y||`
+    `= ||S x - S 0||`
+    `le ||T|| ||x||`.
+  </span>
+  于是 `(1-||T||)||x|| le ||y||`, 即
+  <span class="formula">
+    `||(I-T)^-1 y|| le (||y||)/(1-||T||)`,
+    `quad AA y in X`.
+  </span>
+</p>
+
+<p class="proof">
+  证法二.  首先证明 Neumann 级数:
+  <span class="formula">
+    `(I-T)^-1 = sum_(k=0)^oo T^k`.
+  </span>
+  事实上, 由于 `X` 完备, `cc L(X)` 也完备.
+  令 `S_n = sum_(k=0)^n T^k`, 它是 `cc L(X)` 中的 Cauchy 列, 记极限为 `S`.
+  于是
+  <span class="formula">
+    `(I-T) S`
+    `= (I-T) lim S_n`
+    `= lim (I-T)S_n`
+    `= lim (I-T^(n+1))`
+    `= I`,
+  </span>
+  即 `S = (I-T)^-1`.
+  另一方面, 对 `AA epsi gt 0`, 取 `n` 充分大就有
+  <span class="formula">
+    `||(I-T)^-1||`
+    `le ||S_n|| + epsi`
+    `le sum_(k=0)^n ||T||^k + epsi`
+    `le 1/(1-||T||) + epsi`.
+  </span>
+</p>
+
+<p class="definition">
+  对 `lambda in rho(A)`, 我们记 `R_lambda(A) := (lambda I - A)^-1 in cc L(X)`,
+  称为<b>预解式</b>.
+</p>
+
+<p class="lemma">
+  <b>第一预解公式</b>
+  设 `lambda, mu in rho(A)`, 则
+  <span class="formula">
+    `R_lambda(A) - R_mu(A) = -(lambda - mu) R_lambda(A) R_mu(A)`.
+  </span>
+</p>
+
+<p class="proof">
+  直接计算:
+  <span class="formula align">
+    `(lambda I - A)^-1`<br>
+    `= (lambda I - A)^-1 (mu I - A) (mu I - A)^-1`<br>
+    `= (lambda I - A)^-1 ((mu - lambda) I + lambda I - A) (mu I - A)^-1`<br>
+    `= (mu - lambda) (lambda I - A)^-1 (mu I - A)^-1 + (mu I - A)^-1`.
+  </span>
+</p>
+
+<ol class="theorem">
+  设 `A` 是 Banach 空间上的闭线性算子, 则
+  <li>`rho(A)` 是开集.</li>
+  <li>`R_lambda(A)` 在 `rho(A)` 上可微.</li>
+</ol>
+
+<ol class="proof">
+  <li>任取 `mu in rho(A)`, 则对 `AA lambda in CC`, 有
+    <span class="formula align">
+      `lambda I - A`<br>
+      `= (lambda - mu) I + mu I - A`<br>
+      `= (mu I - A) (I + (lambda - mu) (mu I - A)^-1)`<br>
+      `:= (mu I - A) B`.
+    </span>
+    由 von Neumann 引理, 当
+    <span class="formula">
+      `|lambda - mu| lt ||(mu I - A)^-1||^-1`,<br>
+      即 `||(lambda - mu)(mu I - A)^-1|| lt 1`
+    </span>
+    时, `B` 可逆, 且 `B^-1 in cc L(X)`.
+    从而 `lambda I - A` 也可逆, 且 `(lambda I - A)^-1 = B^-1 (mu I - A)^-1 in cc L(X)`.
+    这意味着 `lambda in rho(A)`.
+  </li>
+  <li>先证 `R_lambda(A)` 连续.
+    任取 `lambda, mu in rho(A)`,
+    利用 1. 中的公式以及 von Neumann 引理,
+    <span class="formula align">
+      `||R_lambda(A)||`<br>
+      `le ||B^-1|| ||R_mu(A)||`<br>
+      `le (||R_mu(A)||)/(1 - |lambda - mu| ||R_mu(A)||)`<br>
+      `le 2||R_mu(A)||`, 当 `|lambda - mu| ||R_mu(A)|| lt 1//2`.
+    </span>
+    由第一预解公式,
+    <span class="formula">
+      `||R_lambda(A) - R_mu(A)||`
+      `le |lambda - mu| ||R_lambda(A)|| ||R_mu(A)||`
+      `le 2|lambda - mu| ||R_mu(A)||^2`.
+    </span>
+  </li>
+  <li>最后用第一预解公式计算导数:
+    <span class="formula">
+      `lim_(lambda to mu) (R_lambda(A) - R_mu(A))/(lambda - mu)`
+      `= - lim_(lambda to mu) R_lambda(A) R_mu(A)`
+      `= -R_mu(A)^2`.
+    </span>
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>谱的存在性定理</b>
+  设 `A` 是 Banach 空间上的有界线性算子, 则 `sigma(A) != O/`.
+</p>
+
+<ol class="proof">
+  <li>
+  反设 `rho(A) = CC`, 则 `R_lambda(A)` 在 `CC` 上解析.
+  任取线性泛函 `f in cc L(X)^ast`, 定义
+  <span class="formula">
+    `u_f(lambda) := f(R_lambda(A))`,
+  </span>
+  则 `u_f` 在 `CC` 上解析. 下证它有界: 事实上当 `|lambda| gt 2 ||A||` 时由 von Neumann 引理
+  <span class="formula">
+    `||R_lambda(A)||`
+    `= ||(lambda I - A)^-1||`
+    `= |lambda^-1| ||(I - lambda^-1 A)^-1||`
+    `le |lambda^-1|/(1 - |lambda|^-1 ||A||)`
+    `= 1/(|lambda| - ||A||)`
+    `le ||A||^-1`.
+  </span>
+  从而 `|u_f(lambda)| le ||f|| ||A||^-1`.
+  </li>
+  <li>根据复分析的 Liouville 定理, 每个 `u_f(lambda)` 是仅依赖于 `f` 的常函数, 与 `lambda` 无关.
+    换言之, 对 `AA lambda, mu in CC` 和 `AA f in cc L(X)^ast` 都有
+    <span class="formula">
+      `f(R_lambda(A)) = f(R_mu(A))`.
+    </span>
+    根据 Hahn-Banach 定理, `R_lambda(A) = R_mu(A)`.
+    而这是不可能的: 只需观察第一预解公式, 当 `lambda != mu` 时, 公式右边的两个算子均可逆,
+    乘积不可能为 0.
+  </li>
+</ol>
+
+<h3>谱半径</h3>
 
 <script>
 var asciimath = {

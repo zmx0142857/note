@@ -157,7 +157,7 @@ var tocData = [
         "children": [
           { "value": "1", "label": "度量空间", "date": "2025-06-12" },
           { "value": "2", "label": "赋范线性空间", "date": "2026-02-06" },
-          { "value": "3", "label": "Banach 空间", "date": "2026-02-12" },
+          { "value": "3", "label": "Banach 空间", "date": "2026-02-14" },
           // { "value": "4", "label": "Hilbert 空间" }
         ]
       },
