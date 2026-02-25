@@ -64,6 +64,18 @@ limit(sin(x)/x, x, 0) # 求极限. 等价: Limit(...).doit()
 diff(x**2, x) # 求导. 等价: Derivative(...).doit()
 ```
 
+微分方程
+```py
+t = S('t')
+x, y = Function('x'), Function('y')
+
+# 求解 x'' + 4x = 0, x(0) = 0, x'(0) = 2
+dsolve(x(t).diff(t, 2) + 4*x(t), ics={x(0): 0, x(t).diff(t).subs(t, 0): 2})
+
+# 求解 x' - x - y = 0, y' - x + y = 0
+dsolve([x(t).diff(t) - x(t) - y(t), y(t).diff(t) - x(t) + y(t)])
+```
+
 数论
 ```py
 primerange(1, 100) # 素数范围

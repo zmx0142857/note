@@ -280,12 +280,17 @@
   g(n//d)`, 记为 `f ** g`.
 </p>
 
-<ol class="proposition">
-  全体算术函数在卷积运算下构成交换幺半群, 即:
-  <li>`f ** g = g ** f`;</li>
-  <li>`(f ** g) ** h = f ** (g ** h)`;</li>
-  <li>`iota(n) := {1, if n = 1; 0, if n gt 1:}` 是卷积运算的单位元:
-    `iota ** f = f ** iota = f`.
+<ol class="proposition enum">
+  <li>
+    <ol>
+      全体算术函数在卷积运算下构成交换幺半群, 即:
+      <li>`f ** g = g ** f`;</li>
+      <li>`(f ** g) ** h = f ** (g ** h)`;</li>
+      <li>`iota(n) := {1, if n = 1; 0, if n gt 1:}` 是卷积运算的单位元:
+        `iota ** f = f ** iota = f`.
+      </li>
+      若考虑函数自然的加法, 则它们构成交换环.
+    </ol>
   </li>
   <li>若 `f(1) != 0`, 则存在逆元 `f^-1`, 使得 `f ** f^-1 = f^-1 **
     f = iota`.
@@ -296,11 +301,11 @@
 </ol>
 
 <ol class="proof">
-  <li>这是因为 `sum_(d | n) f(d) g(n//d) = sum_(d | n) f(n // d) g(d)`,
+  <li>
+    交换律是因为 `sum_(d | n) f(d) g(n//d) = sum_(d | n) f(n // d) g(d)`,
     这类似于定积分的区间再现方法.
+    结合律与单位元直接计算验证.
   </li>
-  <li>直接计算验证.</li>
-  <li>直接计算验证.</li>
   <li>用归纳法. 首先由 `1 = iota(1) = f(1) f^-1(1)` 得到 `f^-1(1)
     = 1//f(1)`. 假设 `n gt 1`, 且 `f^-1` 对一切小于 `n` 的正整数有定义, 则
     <span class="formula">

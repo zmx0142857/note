@@ -7,105 +7,92 @@
 </head>
 <body>
 
+<h2>容斥原理</h2>
+
+<p class="lemma">
+  <b>容斥原理 (n=2)</b>
+  设 `A, B` 为有限集, 则 `|A uu B| = |A| + |B| - |A nn B|`.
+</p>
+
 <p class="theorem">
-	<b>容斥原理</b>
-	设 `A, B` 为有限集, 则
-	<span class="formula">
-		`|A uu B| = |A| + |B| - |A nn B|`.
-	</span>
-</p>
-
-<p class="corollary">
-	设 `A_1, A_2, cdots, A_n` 为 `n` 个有限集, `n in ZZ^+`.
-	`N = {1, 2, cdots, n}`, 则
-	<span class="formula">
-		`|uuu_(i=1)^n A_i| = sum_(C sube N) (-1)^(|C|-1)
-		|nnn_(j in C) A_j|`
-		`= sum_(k=1)^n (-1)^(k-1) sum_(1 le i_1 lt cdots lt i_k le n)
-		|nnn_(j=1)^k A_(i_j)|`.
-	</span>
-	即 `n` 个集合的并集的基数, 等于它们每个集合的基数之和,
-	减去每两个集合的交的基数之和, 加上每三个集合的交的基数之和,
-	..., 最后加上 `(-1)^(n-1)` 乘以所有集合的交集的基数.
-</p>
-
-<p class="proof">
-	`n = 1` 的情形是平凡的; `n = 2` 时, 即为容斥原理.
-	设 `n-1` 时命题成立, 则 `n` 的情形, 由容斥原理,
-	<span class="formula">
-		左边
-		`= |(uuu_(i=1)^(n-1) A_i) uu A_n|`
-		`= |uuu_(i=1)^(n-1) A_i| + |A_n| - |uuu_(i=1)^(n-1) (A_i nn A_n)|`
-		`= sum_(C sube N\\{n}) (-1)^(|C|-1) |nnn_(j in C) A_j| + |A_n|`
-		`+ sum_(C sube N\\{n}) (-1)^|C| |nnn_(j in C) (A_j nn A_n)|`
-		`=` 右边
-	</span>
-</p>
-
-<p class="corollary">
-	设 `A_1, A_2, cdots, A_n` 为 `n` 个基数相等的有限集, `n in ZZ^+`.
-	`S_0 supe uuu_(i=1)^n A_i`, `S_k = nnn_(i=1)^k A_i`,
-	`bar S_k = S_0 \\ S_k`, `k = 1, 2, cdots, n`. 则
-	<span class="formula">
-		`|nnn_(k=1)^n bar S_k| = sum_(k=0)^n (-1)^k (n;k) |S_k|`.
-	</span>
+  <b>容斥原理</b>
+  设 `S` 为有限集, `A_1, A_2, cdots, A_n` 为 `S` 的子集, 则
+  <span class="formula">
+      `|uuu_(i=1)^n A_i|`
+      `= sum_(k=1)^n (-1)^(k-1) sum_(1 le i_1 lt cdots lt i_k le n)
+      |nnn_(j=1)^k A_(i_j)|`.
+  </span>
+  即 `n` 个集合的并集的基数, 等于它们每个集合的基数之和,
+  减去每两个集合的交的基数之和, 加上每三个集合的交的基数之和...
+  最后加上 `(-1)^(n-1)` 乘以所有集合的交集的基数.
+  <br>
+  记 `N = {1, 2, cdots, n}`, `bar A_i = S - A_i`, `nnn_(j in O/) = S`,
+  上述等式取补集后, 可用更加紧凑的记号写成
+  <span class="formula">
+    `|nnn_(i=1)^n bar A_i|`
+    `= sum_(C sube N) (-1)^|C| |nnn_(j in C) A_j|`.
+  </span>
 </p>
 
 <p class="proof">
-	易知 `A_1, A_2, cdots, A_n` 中任意 `k` 个集合的交的基数都等于
-	`|S_k|`, 而从 `n` 个集合中选出 `k` 个有 `(n;k)` 种选法, 所以
-	<span class="formula">
-		`|nnn_(k=1)^n bar S_k| = |S_0| - |uuu_(k=1)^n S_k|`
-		`= |S_0| + sum_(k=1)^n (-1)^k (n;k) |S_k|`.
-	</span>
+  归纳证明.
+  `n = 1, 2` 的情形已经成立.
+  设 `n-1` 时命题成立, 下证
+  <span class="formula">
+    `|uuu_(i=1)^n A_i|`
+    `= sum_(O/ != C sube N) (-1)^(|C|-1) |nnn_(j in C) A_j|`.
+  </span>
+  由引理,
+  <span class="formula align">
+    左边 `= |(uuu_(i=1)^(n-1) A_i) uu A_n|`<br>
+    `= |uuu_(i=1)^(n-1) A_i| + |A_n| - |uuu_(i=1)^(n-1) (A_i nn A_n)|`<br>
+    `= sum_(O/ != C sube N-1) (-1)^(|C|-1) |nnn_(j in C) A_j| + |A_n|`<br>
+    `+ sum_(O/ != C sube N-1) (-1)^|C| |nnn_(j in C) (A_j nn A_n)|`<br>
+    `=` 右边.
+  </span>
 </p>
 
-<ol class="example">
+<p class="proof">
+  记 `a_k` 为每 `k` 个集合的交集的基数之和, `b_k` 为那些恰好属于 `k` 个集合的元素的个数,
+  `k = 1, cdots, n`. 于是
+  <span class="formula">
+    `a_k := sum_(C sube N, |C| = k) |nnn_(j in C) A_j|`,<br>
+    `b_k := |uuu_(C sube N, |C| = k) nnn_(j in C) A_j| - |uuu_(C sube N, |C| = k+1) nnn_(j in C) A_j|`.
+  </span>
+  `a_k` 中的一些元素被重复计算了, 事实上
+  <span class="formula">
+    `a_1 = (1;1) b_1 + (2;1) b_2 + cdots + (n;1) b_n`,<br>
+    `a_2 = (2;2) b_2 + (3;2) b_3 + cdots + (n;2) b_n`,<br>
+    `cdots`<br>
+    `a_n = (n;n) b_n`.
+  </span>
+  利用组合恒等式 `sum_(k=0)^n (-1)^k (n;k) = 0`, 两边交错求和即得
+  <span class="formula">
+    `sum_(k=1)^n (-1)^(k-1) a_k = sum_(k=1)^n b_k`.
+  </span>
+</p>
+
+<p class="proof">
+  容斥原理还可用 Möbius 反演导出, 参见下节.
+</p>
+
+<p class="corollary">
+  <b>容斥原理 (对称情形)</b>
+  在容斥原理中, 如果假设 `A_1, cdots, A_n` 中任意 `k` 个的交的基数都只和 `k` 有关,
+  `k = 1, cdots, n`, 记
+  `S_0 := S`, `S_k := nnn_(i=1)^k A_i`, 则
+  <span class="formula">
+    `|nnn_(k=1)^n bar A_k| = sum_(k=0)^n (-1)^k (n;k) |S_k|`.
+  </span>
+</p>
+
+<ol class="p example">
   <b>错排问题</b>
   有 `n` 封信和 `n` 只对应的信封, 有黑暗中随意将每封信装进一个信封,
   设恰好每封信都装错信封的装法有 `D_n` 种.
-  <li>求 `D_n`;</li>
-  <li>求 `n to oo` 时, 每封信都装错信封的概率.</li>
-</ol>
-
-<p class="solution">
-	以集合 `S_k` 记所有使得前 `k` 封信被装进对的信封的安排, 则
-	`|S_k| = (n-k)!`, `k = 1, 2, cdots, n`.
-	所求的数为
-	<span class="formula">
-		`|nnn_(k=1)^n bar S_k|`
-		`= sum_(k=0)^n (-1)^k (n;k) (n-k)!`
-		`= sum_(k=0)^n (-1)^k (n!)/(k!)`.
-	</span>
-	`n to oo` 时, 所求概率为
-	<span class="formula">
-		`lim_(n to oo) 1/(n!) sum_(k=0)^n (-1)^k (n!)/(k!)`
-		`= sum_(k=0)^oo (-1)^k/(k!) = "e"^-1`.
-	</span>
-</p>
-
-<ol class="solution">
-  我们导出递推公式
-  <span class="formula">
-    `D_n = {
-      1, if n = 0;
-      0, if n = 1;
-      (n-1)*(D_(n-2) + D_(n-1)), otherwise;
-    :}`
-  </span>
-  `n = 0` 时, 没有信封也没有信, 1 种装法是平凡的.
-  `n = 1` 时, 只能把唯一的信装入唯一的信封, 必不会装错, 故有 0 种装法.
-  现用 `i mapsto j` 表示第 `i` 封信被装入了第 `j` 个信封.
-  考虑任意一个 `n`-错排, `n gt 1`, 假设 `j mapsto n`, `n mapsto i`.
-  <li>若 `i = j`, 该错排实际交换了第 `i` 和第 `n` 封信.
-    将这两封信去掉就得到剩下 `n-2` 封信的一个错排;
-  </li>
-  <li>若 `i != j`, 将第 `j` 封信改为装入第 `i` 个信封, 即 `j mapsto i`,
-    然后去掉第 `n` 封信, 就得到剩下 `n-1` 封信的一个错排.
-  </li>
-  以上两种情况, `i` 都有 `n-1` 种取法, 因此将它们相加, 乘以 `n-1` 就得到最终答案.
-</ol>
-
+  <li>求 `D_n` 和 `lim_(n to oo) D_n//n!` (每封信都装错的概率的极限).</li>
+  <li>证明递推公式 `D_n = (n-1)(D_(n-1) + D_(n-2))`.</li>
+  <li>证明指数型生成函数 `sum_(n ge 0) D_n/n! x^n = -"e"^-x/(x-1)`.</li>
 <table class="col2">
   <tr>
     <td>`n`</td>
@@ -134,26 +121,94 @@
     <td>133496</td>
   </tr>
 </table>
+</ol>
+
+<p class="solution">
+  以集合 `A_k` 记所有使第 `k` 封信装进对的信封的安排,
+  `S_k := nnn_(i=1)^k A_i`, 则
+  <span class="formula">
+    `|S_k| = (n-k)!`.
+  </span>
+  于是
+  <span class="formula">
+    `D_n = |nnn_(k=1)^n bar A_k|`
+    `= sum_(k=0)^n (-1)^k (n;k) (n-k)!`
+    `= sum_(k=0)^n (-1)^k (n!)/(k!)`.
+  </span>
+  所求极限为
+  <span class="formula">
+    `lim_(n to oo) sum_(k=0)^n (-1)^k 1/(k!) = "e"^-1`.
+  </span>
+</p>
+
+<ol class="proof">
+  我们导出递推公式
+  <span class="formula">
+    `D_n = {
+      1, if n = 0;
+      0, if n = 1;
+      (n-1)*(D_(n-2) + D_(n-1)), otherwise;
+    :}`
+  </span>
+  `n = 0` 时, 没有信封也没有信, 1 种装法是平凡的.
+  `n = 1` 时, 只能把唯一的信装入唯一的信封, 必不会装错, 故有 0 种装法.
+  现用 `i to j` 表示第 `i` 封信被装入了第 `j` 个信封.
+  考虑任意一个 `n`-错排, `n gt 1`, 假设 `i to n to j`.
+  <li>若 `i != j`, 将映射改为 `i to j`,
+    然后去掉第 `n` 封信, 就得到剩下 `n-1` 封信的一个错排;
+    反过来考虑 `n-1` 封信的一个错排, 任选 `1 le i le n-1`, 设 `i to j`,
+    加入第 `n` 封信, 将映射修改为 `i to n to j`, 就得到一个 `n`-错排, 满足 `i != j`.
+  </li>
+  <li>若 `i = j`, 该错排实际交换了第 `i` 和第 `n` 封信.
+    将这两封信去掉就得到剩下 `n-2` 封信的一个错排;
+    反过来考虑 `n-2` 封信的一个错排, 加入两封信,
+    任选 `1 le i le n-1`, 让第 `n` 封信与第 `i` 封信对换.
+    如果 `i lt n-1`, 设原先 `k to i to j`,
+    将映射改为 `k to n-1 to j`, 就得到一个 `n`-错排, 满足 `i to n to i`.
+  </li>
+  以上两种情况, `i` 都有 `n-1` 种取法, 因此将它们相加, 乘以 `n-1` 就得到递推公式.
+  <br>
+</ol>
+
+<p class="proof">
+  证明生成函数. 记
+  <span class="formula">
+    `f(x) = sum_(n ge 0) D_n/n! x^n`,<br>
+    `f'(x) = sum_(n ge 0) D_(n+1)/n! x^n`,<br>
+    `f''(x) = sum_(n ge 0) D_(n+2)/n! x^n`,
+  </span>
+  由递推公式 `D_(n+2) = (n+1)(D_n + D_(n+1))` 得到
+  <span class="formula">
+    `f'' = (x f)' + (x f')'`,<br>
+    `f(0) = D_0 = 1`, `f'(0) = D_1 = 0`.
+  </span>
+  用 Wolfram 求解上述方程即可 (sympy.dsolve 只得到级数解).
+</p>
+
+<p class="remark">
+  错排可以用有向图表示, 其中每个连通分量都是一个圈.
+</p>
 
 <p class="example">
-	<b>n 对夫妇问题</b>
-	`n` 对夫妇坐成一横排, 问有几种坐法, 使得每一对夫妇的位置都不相邻.
+  <b>n 对夫妇问题</b>
+  `n` 对夫妇坐成一横排, 问有几种坐法, 使得每一对夫妇的位置都不相邻.
 </p>
 
 <p class="solution">
-	以集合 `S_k` 记所有使得前 `k` 对夫妇坐在一起的排列, 则这 `k`
-	对夫妇两两 "合并", 后, 可以看作 `2n-k` 个人的全排列, 于是
-	<span class="formula">
-		`|S_k| = 2^k (2n - k)!`, `quad k = 1, 2, cdots, n`.
-	</span>
-	所求的数为
-	<span class="formula">
-		`|nnn_(k=1)^n bar S_k|`
-		`= sum_(k=0)^n (n;k) (-2)^k (2n-k)!`.
-	</span>
+  以集合 `A_k` 记所有使得第 `k` 对夫妇坐在一起的排列, `S_k := nnn_(i=1)^k A_k`.
+  设前 `k` 对夫妇两两坐在一起, 他们合并后, 可以看作 `2n-k` 个人的全排列, 于是
+  <span class="formula">
+    `|S_k| = 2^k (2n - k)!`, `quad k = 1, 2, cdots, n`.
+  </span>
+  所求的数为
+  <span class="formula">
+    `|nnn_(k=1)^n bar A_k|`
+    `= sum_(k=0)^n (n;k) (-2)^k (2n-k)!`.
+  </span>
 </p>
 
 <p class="example">
+  <b>长度为 `k` 的子集链数目</b>
   [群友@我是蒟蒻的泰博定理]
   设集合 `A` 有 `n` 个元素, 取 `A` 的子集满足真包含关系:
   <span class="formula">
@@ -203,6 +258,292 @@
   </li>
   更详细的内容参见 <a href="http://oeis.org/A038719" target="_blank">oeis A038719</a>.
 </ol>
+
+<h2>*有限偏序集上的 Möbius 反演</h2>
+
+<p>[来自<a href="https://www.luogu.com.cn/article/ju7qa0q2" target="_blank">洛谷@Gorenstein</a>]</p>
+
+<p>本节讨论的是数论中<a href="../number/6.html#6-4">经典 Möbius 反演</a>在有限偏序集上的推广.</p>
+
+<h3>二元卷积与 Möbius 反演</h3>
+
+<p class="definition">
+  <b>有限偏序集上的二元函数及其卷积</b>
+  设 `(X, le)` 为有限偏序集, `R_(le) = {(x, y): x le y}`.
+  记 `cc F(X)` 是全体二元函数 `f: R_(le) to RR` 的集合.
+  若 `(x, y) !in R_(le)`, 补充定义 `f(x, y) = 0`, 于是
+  <span class="formula">
+    `cc F(X) := { f: X xx X to RR: x le y "不成立" rArr f(x, y) = 0 }`.
+  </span>
+  例如, 下面两个函数都是 `cc F(X)` 的成员:
+  <span class="formula">
+    `zeta(x, y) = {1, if x le y; 0, otherwise:}`,<br>
+    `delta(x, y) = {1, if x = y; 0, otherwise:}`.
+  </span>
+  对任意 `f, g in cc F(X)`, 定义卷积如下:
+  <span class="formula">
+    `(f ast g)(x, y) := sum_(z in X) f(x, z) g(z, y)`
+    `= sum_(x le z le y) f(x, z) g(z, y)`.
+  </span>
+  当 `x le y` 不成立时, 上式右端为空和, 其等于零, 因此 `f ast g in cc F(X)`.
+</p>
+
+<p class="corollary">
+  <b>`cc F(X)` 的代数结构</b>
+  `cc F(X)` 关于卷积运算构成含幺半群, 单位元是 `delta(x, y)`.
+  如果考虑函数自然的加法, 则 `cc F(X)` 成一环.
+</p>
+
+<p>
+  现考虑 `cc F(X)` 的单位群, 即全体乘法可逆元构成的群.
+</p>
+
+<p class="theorem">
+  `f in cc F(X)` 可逆当且仅当 `AA x in X`, `f(x, x) != 0`.
+  `f` 可逆时, 它的逆可以用下面的递归式计算:
+  <span class="formula">
+    `g(x, y) := {f(y, y)^-1, if x = y;
+    -f(y, y)^-1 sum_(x le z lt y) g(x, z) f(z, y), otherwise:}`
+  </span>
+</p>
+
+<ol class="proof">
+  <li>反设 `f` 可逆, 但 `EE x in X`, `f(x, x) = 0`, 则
+    <span class="formula">
+      `delta(x, x) = (f ast f^-1)(x, x)`
+      `= f(x, x) f^-1(x, x)`
+      `= 0`,
+    </span>
+    矛盾.
+  </li>
+  <li>现在设 `AA x in X`, `f(x, x) != 0`.
+    定义 `g(x, y)` 如上, 则 `g in cc F(X)`, 且 `x = y` 时 `(g ast f)(x, y) = 1`; `x lt y` 时
+    <span class="formula align">
+      `(g ast f)(x, y)`<br>
+      `= sum_(x le z lt y) g(x, z) f(z, y) + g(x, y) f(y, y)`<br>
+      `= sum_(x le z lt y) g(x, z) f(z, y) - sum_(x le z lt y) g(x, z) f(z, y)`<br>
+      `= 0`.
+    </span>
+    于是 `g ast f = delta`.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>Möbius 反演</b>
+  <li>
+    设 `a, b in cc F(X)`.  若 `a ast b = delta`, 则对任意 `f, g: X to RR` 以下两式等价:
+    <span class="formula">
+      `g(x) = sum_y a(x, y) f(y)`, `quad AA x in X`;<br>
+      `f(x) = sum_y b(x, y) g(y)`, `quad AA x in X`.
+    </span>
+    记 `X = {x_1, cdots, x_n}`, `a_(i j) := a(x_i, x_j)`, `b_(i j) := b(x_i, x_j)`, 则上式用矩阵写为
+    <span class="formula">
+      `(a_(i j)) = (b_(i j))^-1`.
+    </span>
+  </li>
+  <li>由前一定理知道 `zeta(x, y)` 可逆, 记 `mu := zeta^-1`, 称为 <b>Möbius 函数</b>.
+    根据递归式,
+    <span class="formula">
+      `mu(x, y) = {
+        1, if x = y;
+        -sum_(x le z lt y) mu(x, z), otherwise
+      :}`.
+    </span>
+    由 1. 知对任意 `f, g: X to RR` 以下两式等价:
+    <span class="formula">
+      `g(x) = sum_(y le x) f(y)`, `quad AA x in X`;<br>
+      `f(x) = sum_(y le x) mu(y, x) g(y)`, `quad AA x in X`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    若 `g(y) = sum_z a(y, z) f(z)`, 则
+    <span class="formula align">
+      `sum_y b(x, y) g(y)`<br>
+      `= sum_y b(x, y) sum_z a(y, z) f(z)`<br>
+      `= sum_z f(z) sum_y b(x, y) a(y, z)`<br>
+      `= sum_z f(z) delta(x, z)`<br>
+      `= f(x)`.
+    </span>
+    反之的证明类似.
+  </li>
+  <li>
+    由 1. 知以下两式等价:
+    <span class="formula">
+      `g(x) = sum_y zeta(y, x) f(y)`, `quad AA x in X`;<br>
+      `f(x) = sum_y mu(y, x) g(y)`, `quad AA x in X`.
+    </span>
+    再由 `zeta, mu in cc F(X)` 即得结论.
+  </li>
+</ol>
+
+<h3>经典 Möbius 反演</h3>
+
+<p class="lemma">
+  <b>全序集的 Möbius 函数</b>
+  设 `(X, le)` 是全序集, 其中 `X = {x_1, cdots, x_n}`, 且 `x_1 lt cdots lt x_n`. 由递归式
+  <span class="formula">
+    `mu(x_i, x_j) = {
+      1, if i = j;
+      -sum_(k=i)^(j-1) mu(x_i, x_k), otherwise
+    :}`
+  </span>
+  于是
+  <span class="formula">
+    `mu(x_i, x_j) = {
+      1, if j = i;
+      -1, if j = i+1;
+      0, otherwise
+    :}`
+  </span>
+</p>
+
+<p class="lemma">
+  <b>直积的 Möbius 函数</b>
+  两个偏序集 `(X, le_X)`, `(Y, le_Y)` 的直积是偏序集 `(X xx Y, le)`, 其中
+  <span class="formula">
+    `(x_1, y_1) le (x_2, y_2)`
+    `iff x_1 le_X x_2 and y_1 le_Y y_2`.
+  </span>
+  我们有: `mu((x_1, y_1), (x_2, y_2)) = mu_1(x_1, x_2) mu_2(y_1, y_2)`.
+</p>
+
+<p class="example">
+  <b>经典 Möbius 反演</b>
+  正整数 `n` 的全体正因子按整除关系构成有限偏序集,
+  经典 Möbius 反演公式为
+  <span class="formula">
+    `g(n) = sum_(d | n) f(d)`
+    `iff f(n) = sum_(d | n) mu(d, n) g(d)`.
+  </span>
+  下面具体计算 `mu(d, n)`.
+</p>
+
+<ol class="solution">
+  <li>
+    先证 `d | n` 时, `mu(d, n) = mu(1, n//d)`, 即
+    <span class="formula">
+      `mu(d, k d) = mu(1, k)`, `quad AA k, d in ZZ^+`.
+    </span>
+    `k = 1` 时显然成立. `k gt 1` 时假设等式对一切 `j lt k` 成立, 根据递归式有
+    <span class="formula">
+      `mu(d, k d)`
+      `= -sum_(j | k, j != k) mu(d, j d)`
+      `= -sum_(j | k, j != k) mu(1, j)`
+      `= mu(1, k)`.
+    </span>
+  </li>
+  <li>
+    考虑素数幂 `p^a`, 根据全序集的 Möbius 函数,
+    <span class="formula">
+      `mu(1, p^a) = {
+        1, if a = 0;
+        -1, if a = 1;
+        0, otherwise
+      :}`
+    </span>
+  </li>
+  <li>根据唯一因子分解 `n = prod_(i=1)^r p_i^(a_i)` 和直积的 Möbius 函数,
+    <span class="formula">
+      `mu(1, n) = prod_(i=1)^r mu(1, p_i^(a_i))`
+      `= {
+        1, if n = 1;
+        (-1)^r, if n = p_1 cdots p_r "是不同的素数之积";
+        0, otherwise
+      :}`
+    </span>
+  </li>
+  如果简记 `mu(n) = mu(1, n)`, 就得到经典的 Möbius 函数和经典 Möbius 反演
+  <span class="formula">
+    `g(n) = sum_(d | n) f(d)`
+    `iff f(n) = sum_(d | n) mu(n//d) g(d)`.
+  </span>
+</ol>
+
+<h3>子集反演</h3>
+
+<ol class="example">
+  <b>子集反演与容斥原理</b>
+  <li>
+    设 `S` 为有限集, 幂集 `P(S)` 按集合的包含关系构成有限偏序集, 相应的
+    Möbius 反演公式为
+    <span class="formula">
+      `g(X) = sum_(Y sube X) f(Y)`
+      `iff f(X) = sum_(Y sube X) mu(Y, X) g(Y)`.
+    </span>
+    证明 `mu(Y, X) = (-1)^(|X|-|Y|)`.
+  </li>
+  <li>运用子集反演公式证明容斥原理.</li>
+</ol>
+
+<ol class="proof">
+  <li>对 `n := |X|-|Y|` 作数学归纳.
+    显然 `mu(X, X) = 1`. `Y subne X` 时, 运用递归式,
+    <span class="formula align">
+      `mu(Y, X)`
+      `= -sum_(Y sube Z subne X) mu(Y, Z)`
+      `= -sum_(Y sube Z subne X) (-1)^(|Z|-|Y|)`<br>
+      `= -sum_(K subne X - Y) (-1)^|K|`
+      `= -sum_(k=0)^(n-1) (n;k) (-1)^k`
+      `= (-1)^n`.
+    </span>
+  </li>
+  <li>
+    设 `A_1, cdots, A_n` 是 `S` 的子集, `bar A_i := S - A_i`, `i = 1, cdots, n`.  令
+    `N = {1, cdots, n}`, 对 `AA X sube N` 定义
+    <span class="formula">
+      `f(X) := |nnn_(i in X) bar A_i nn nnn_(i !in X) A_i|`,<br>
+      `g(X) := sum_(Y sube X) f(X)`
+      `= |nnn_(i !in X) A_i|`.
+    </span>
+    在子集反演公式中取 `X = N` 得到
+    <span class="formula">
+      `f(N) = sum_(Y sube N) (-1)^(n-|Y|) g(Y)`.
+    </span>
+    令 `C = N - Y` 有
+    <span class="formula">
+      `|nnn_(i in N) bar A_i|`
+      `= sum_(C sube N) (-1)^|C| |nnn_(i in C) A_i|`.
+    </span>
+  </li>
+</ol>
+
+<p class="example" id="exp-binom-inv">
+  <b>二项式反演</b>
+  在子集反演公式中, 若 `f, g` 的值只与集合大小有关, 而与具体集合的选择无关, 则得到:
+  <span class="formula">
+    `g(n) = sum_(k=0)^n (n;k) f(k)`
+    `iff f(n) = sum_(k=0)^n (-1)^(n-k) (n;k) g(k)`.
+  </span>
+</p>
+
+<p class="example">
+  <b>Möbius 变换</b>
+  在子集反演公式中, 称 `g(X) = sum_(Y sube X) f(Y)` 为 `f` 的 Möbius 变换,
+  `f` 为 `g` 的 Möbius 逆变换. 记作 `g = hat f`.
+  又定义<b>集合卷积</b>
+  <span class="formula">
+    `(f ast_uu g)(X) := sum_(A uu B = X) f(A) g(B)`.
+  </span>
+  则有公式
+  <span class="formula">
+    `widehat(f ast_uu g) = hat f hat g`.
+  </span>
+  此公式可类比于 `RR^n` 上函数的 Fourier 变换.
+</p>
+
+<p class="proof">
+  记 `h = f ast_uu g`, 直接计算
+  <span class="formula align">
+    `hat h(X)`
+    `= sum_(Y sube X) h(Y)`<br>
+    `= sum_(Y sube X) sum_(A uu B = Y) f(A) g(B)`<br>
+    `= sum_(A sube X) sum_(B sube X) f(A) g(B)`<br>
+    `= {:hat f:}(X) {:hat g:}(X)`.
+  </span>
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
