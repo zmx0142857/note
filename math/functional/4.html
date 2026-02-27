@@ -1,102 +1,418 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>Hilbert 空间及其上的有界线性算子</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+  <title>Hilbert 空间</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
 
-<h2>基本概念</h2>
+<h2>内积空间</h2>
+
+<h3>基本概念</h3>
+
+<p>内积是欧氏空间中“角度”概念的推广.</p>
 
 <ol class="definition">
-	设 `H` 是数域 `bbb P` 上的线性空间, 如果存在 `H xx H` 到 `bbb P`
-	的映射 `(*,*)`, 满足:
-	<li>正定性: `(AA x in H)`, `(x, x) ge 0`, 且 `(x, x) = 0 iff x = 0`;
-	</li>
-	<li>共轭对称性: `(AA x, y in H)`, `(x, y) = bar ((y, x))`;</li>
-	<li>关于第一变元的线性性: `(AA x, y, z in H)` `(AA alpha, beta in bbb
-		P)` `(alpha x + beta y, z) = alpha(x, z) + beta(y, z)`.
-	</li>
-	则称 `(*,*)` 为 `H` 中的<b>内积</b>, 称 `H` 为<b>内积空间</b>.
-	容易推出内积关于第二个变元是共轭线性的, 即
-	<span class="formula">
-		`(z, alpha x + beta y) = bar alpha (z, x) + bar beta (z, y)`.
-	</span>
-	通过内积可以引入范数
-	<span class="formula">
-		`||x||` `= sqrt((x"," x))`,
-	</span>
-	故内积空间是线性赋范空间.
+  <b>内积空间</b>
+  设 `X` 是 `K = RR` 或 `CC` 上的线性空间,
+  称二元函数 `f(*,*): X xx X to K` 为<b>共轭双线性函数</b>, 如果它满足
+  `AA alpha, beta in K`, `AA x, y, z in X`:
+  <li>左槽线性: `f(alpha x + beta y, z) = alpha f(x, z) + beta f(y, z)`;</li>
+  <li>右槽共轭线性: `f(z, alpha x + beta y) = bar alpha f(z, x) + bar beta f(z, y)`.</li>
+  如果它还满足
+  <li>正定性: `(AA x in X)`, `(x, x) ge 0`, 且 `(x, x) = 0 iff x = 0`;</li>
+  <li>共轭对称性: `(AA x, y in X)`, `(x, y) = bar ((y, x))`;</li>
+  则称 `X` 为<b>内积空间</b>, `f(*,*)` 为 `X` 上的<b>内积</b>.
+  我们一般省略字母 `f`, 将内积简单记为 `(*,*)`.
 </ol>
 
-<p class="definition">
-	完备的内积空间称为 <b>Hilbert 空间</b>. Hilbert 空间是 Banach 空间.
+<p class="remark">
+  事实上, 由左槽线性和共轭对称性两条性质可以推出右槽的共轭线性:
+  <span class="formula">
+    `f(z, alpha x + beta y)`
+    `= bar (f(alpha x + beta y, z))`
+    `= bar (alpha f(x, z) + beta f(y, z))`
+    `= bar alpha f(z, x) + bar beta f(z, y)`.
+  </span>
 </p>
+
+<p class="remark">
+  量子力学中, 用 bra-ket 记号表示向量的内积. 考虑一个<b>波函数</b> `Psi: RR^3 to CC`,
+  函数值的模 `|Psi(x)|` 表示粒子位于点 `x` 的概率密度.
+  为了强调波函数是线性空间中的向量, 将它写为一个 <b>ket 向量</b> `Psi = |Psi:)`, 又称<b>状态向量</b>.
+  两个波函数 `Phi, Psi` 可以计算内积. 事实上, 先取状态向量 `|Phi:)` 的共轭转置, 称作 <b>bra 向量</b>
+  `(:Phi| = |Phi:)^†`, 于是 `Phi` 与 `Psi` 的内积等于
+  <span class="formula align">
+    `(:Phi | Psi:)`
+    `:= (:Phi| * |Psi:)`<br>
+    `= [bar(Phi(x_1)), bar(Phi(x_2)), cdots] * [Psi(x_1); Psi(x_2); vdots]`<br>
+    `= int_(RR^3) bar(Phi(x)) Psi(x) dx`.
+  </span>
+  <b>特别注意</b>, bra-ket 记号中, 左槽共轭线性, 右槽线性, 与上面的定义正好相反.
+</p>
+
+<p class="proposition">
+  <b>共轭对称性的等价条件</b>
+  设 `f` 是 `X` 上的共轭双线性函数, 则 `f` 满足共轭对称性的等价条件是
+  <span class="formula">
+    `f(x, x) in RR`, `quad AA x in X`.
+  </span>
+  称 `q(x) := f(x, x)` 是 `X` 上由 `f` 诱导的<b>二次型</b>.
+</p>
+
+<p class="proof">
+  只证充分性. `AA x, y in X`,
+  <span class="formula">
+    `f(x, y) + f(y, x)`
+    `= f(x+y, x+y) - f(x, x) - f(y, y)`
+    `in RR`.
+  </span>
+  用 `"i"y` 代替上式的 `y` 得到
+  <span class="formula">
+    `f(x, "i"y) + f("i"y, x)`
+    `= -"i"f(x, y) + "i"f(y, x)`
+    `in RR`.
+  </span>
+  以上两式等价于
+  <span class="formula">
+    `f(x, y) + f(y, x) = bar(f(x, y)) + bar(f(y, x))`,<br>
+    `-"i"f(x, y) + "i"f(y, x) = "i"bar(f(x, y)) -"i"bar(f(y, x))`.
+  </span>
+  第二式乘以 `"i"`, 再加上第一式得到
+  <span class="formula">
+    `2 f(x, y) = 2 bar(f(y, x))`.
+  </span>
+</p>
+
+<h3>内积诱导的范数</h3>
+
+<p class="theorem">
+  <b>Cauchy-Schwarz 不等式</b>
+  在内积空间 `X` 中引入 `||x||` `= (x, x)^(1//2)`, 则有
+  <span class="formula">
+    `|(x, y)| le ||x|| ||y||`, `quad AA x, y in X`.
+  </span>
+  其中等号成立当且仅当 `x, y` 线性相关.
+  可以证明 `||*||` 是范数, 故内积空间是赋范线性空间.
+</p>
+
+<ol class="proof">
+  <li>
+    `AA t in K`, 考虑二次型
+    <span class="formula">
+      `0 le (x + t y, x + t y)`
+      `= (x, x) + bar t(x, y) + t(y, x) + |t|^2 (y, y)`.
+    </span>
+    特别取 `t = -(x, y)//(y, y)`, 则 `bar t = -(y, x)//(y, y)`, 有
+    <span class="formula">
+      `0 le (x, x) - bar t t (y, y) - t bar t (y, y) + |t|^2(y, y)`
+      `= (x, x) - |(x, y)|^2 // (y, y)`.
+    </span>
+    其中等号成立当且仅当 `x + t y = 0`, 即 `x, y` 线性相关.
+  </li>
+  <li>
+    只证三角不等式.
+    <span class="formula align">
+      `||x+y||^2` `= (x+y, x+y)`<br>
+      `= (x, x) + (y, y) + (x, y) + (y, x)`<br>
+      `le (x, x) + (y, y) + 2"Re"(x, y)`<br>
+      `le ||x||^2 + ||y||^2 + 2 ||x|| ||y||`<br>
+      `= (||x||+||y||)^2`.
+    </span>
+  </li>
+</ol>
+
+<p class="proposition">
+  内积 `(*,*): X xx X to K` 关于范数连续.
+</p>
+
+<p class="proof">
+  设 `x_n to x`, `y_n to y`, 设 `||y_n|| le M`, 应用 Cauchy 不等式有
+  <span class="formula align">
+    `|(x_n, y_n) - (x, y)|`<br>
+    `le |(x_n, y_n) - (x, y_n)| + |(x, y_n) - (x, y)|`<br>
+    `le ||x_n - x|| M + ||x|| ||y_n - y||`
+    `to 0` `(n to oo)`.
+  </span>
+</p>
+
+<p class="proposition">
+  内积空间中的范数是严格凸的.
+</p>
+
+<p class="proof">
+  只需证单位闭球是严格凸的. 事实上任取 `||x|| = ||y|| = 1` 和 `0 lt lambda lt 1`,
+  由三角不等式
+  <span class="formula">
+    `||(1-lambda)x + lambda y||^2`
+    `le (||(1-lambda)x|| + ||lambda y||)^2 = 1`.
+  </span>
+  根据三角不等式的证明过程,
+  上式等号成立当且仅当 `"Re"(x, y) = ||x|| ||y||`
+  这意味着 `(x, y) = |(x, y)|`, 且 `|(x, y)| = ||x|| ||y||`,
+  即 `(x, y) ge 0`, 且 `x, y` 线性相关. 设 `x = k y`, 由于 `(x, y) ge 0`, 只能 `k = 1`.
+  综上, 等号成立当且仅当 `x = y`, 因此单位闭球是严格凸的.
+</p>
+
+<ol class="proposition">
+  <b>极化恒等式 (平行四边形等式)</b>
+  <li>
+    设 `f` 是共轭双线性函数, 则
+    <span class="formula">
+      `f(x+y, x+y) + f(x-y, x-y)`
+      `= 2 f(x, x) + 2 f(y, y)`,
+      `quad AA x, y in X`.
+    </span>
+  </li>
+  <li>
+    赋范线性空间 `X` 上存在内积的充要条件是, 范数满足极化恒等式
+    <span class="formula">
+      `||x+y||^2 + ||x-y||^2`
+      `= 2(||x||^2+||y||^2)`,
+      `quad AA x, y in X`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>直接计算.</li>
+  <li>
+    只证充分性. 事实上, 令
+    <span class="formula">
+      `(x, y) = 1/4 (||x+y||^2 - ||x-y||^2)`, `quad if X = RR`,<br>
+      `(x, y) = 1/4 (||x+y||^2 - ||x-y||^2 + "i"||x+"i"y||^2 - "i"||x-"i"y||^2)`,
+      `quad if X = CC`.
+    </span>
+    可以验证它是一个内积, 且满足 `(x, x) = ||x||^(1//2)`.
+  </li>
+</ol>
+
+<h2>Hilbert 空间</h2>
+
+<p class="definition">
+  完备的内积空间称为 <b>Hilbert 空间</b>. Hilbert 空间是 Banach 空间.
+</p>
+
+<ol class="example">
+  <li>`RR^n`, `CC^n` 均为 Hilbert 空间, 其中 `(x, y) := sum_(i=1)^n x_i bar(y_i)`.</li>
+  <li>`l^2` 是 Hilbert 空间, 其中 `(x, y) := sum_(i ge 1) x_i bar(y_i)`.</li>
+  <li>`L^2(Omega)` 是 Hilbert 空间, 其中 `(f, g) := int_Omega f(x) bar(g(x)) dx`.</li>
+  <li>`C^k(bar Omega)` 是内积空间, 其中 `(f, g) := sum_(|alpha| le k) int_Omega del^alpha f(x) bar(del^alpha g(x)) dx`.</li>
+</ol>
+
+<h3>正交补与正交基</h3>
+
+<ol class="definition">
+  <li>
+    若内积空间 `X` 中的两个向量 `x` 与 `y` 满足 `(x, y) = 0`, 则称 `x` 与 `y` <b>正交</b>,
+    记为 `x _|_ y`.
+  </li>
+  <li>
+    若 `M` 是 `X` 的非空子集, 且对 `AA y in M`, `x _|_ y`, 则称 `x` 与 `M` 正交, 记为 `x _|_ M`.
+  </li>
+  <li>`M` 的<b>正交补</b>定义为 `M^_|_ := {x in X | x _|_ M}`.</li>
+</ol>
+
+<p class="corollary">
+  <b>勾股定理</b>
+  `x _|_ y rArr "Re"(x, y) = 0 iff ||x||^2 + ||y||^2 = ||x-y||^2`.
+</p>
+
+<p class="proof">
+  这是因为
+  `||x||^2 + ||y||^2 - ||x-y||^2`
+  `= (x, y) + (y, x)`
+  `= 2"Re"(x, y)`.
+</p>
+
+<ol class="corollary">
+  <li>若 `x _|_ M`, 则 `x _|_ "span"(M)`.</li>
+  <li>若 `y_n to y`, `x _|_ y_n` `(n in NN)`, 则 `x _|_ y`.</li>
+  <li>`M^_|_` 是 `X` 的闭线性子空间.</li>
+</ol>
+
+<ol class="proof">
+  <li>`AA y in "span"(M)`, 设 `y = sum_(i=1)^n k_i y_i`, `y_i in M`, `i = 1, cdots, n`.
+    则有
+    <span class="formula">
+      `(x, y) = sum_(i=1)^n bar k_i (x, y_i) = 0`.
+    </span>
+  </li>
+  <li>利用内积的连续性,
+    <span class="formula">
+      `|(x, y)|`
+      `= |(x, y) - (x, y_n)|`
+      `to 0`, `(n to oo)`.
+    </span>
+  </li>
+  <li>这是 1. 2. 的推论.</li>
+</ol>
+
+<ol class="definition">
+  <b>正交集与正交基</b>
+  设 `X` 是内积空间, `S sube X`,
+  <li>
+    如果对 `AA e_alpha, e_beta in S`, `e_alpha != e_beta` 有 `(e_alpha, e_beta) = 0`,
+    则称 `S` 是 `X` 的一个正交集.
+  </li>
+  <li>在 1. 的基础上, 如果还有 `AA e_alpha in S`, `||e_alpha|| = 1`, 则称 `S` 是<b>规范</b>的或<b>标准</b>的.
+    任给一个正交集 `S = {e_alpha}`, 不妨设 `0 !in S`,
+    显然 `{e_alpha // ||e_alpha||}` 是标准正交集, 这个操作称为<b>标准化</b>.
+  </li>
+  <li>在 1. 的基础上, 如果 `S^_|_ = {0}`, 则称 `S` 是<b>完备</b>的.</li>
+  <li>在 1. 的基础上, 如果 `AA x in X` 都能被 `S` 中元素线性表示, 则称 `S` 是<b>封闭</b>的,
+    或者说 `S` 是一个<b>正交基</b>.  此时
+    <span class="formula">
+      `x = sum_"有限和" k_alpha e_alpha`, `quad e_alpha in S`.
+    </span>
+    其中 `k_alpha` 称为 `x` 的 <b>Fourier 系数</b>. 由于
+    <span class="formula">
+      `(x, e_alpha)`
+      `= sum_beta k_beta (e_beta, e_alpha)`
+      `= k_alpha (e_alpha, e_alpha)`.
+    </span>
+    故 `k_alpha = (x, e_alpha)//(e_alpha, e_alpha)`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>Schmidt 正交化</b>
+  设 `{x_n}` 是内积空间 `X` 中一列线性无关的元素,
+  则 `{y_n}` 是 `X` 中的正交集, 其中
+  <span class="formula">
+    `y_1 = x_1`,<br>
+    `y_n = x_n - sum_(i=1)^(n-1) ((x_n, y_i))/((y_i, y_i)) y_i`.
+  </span>
+</p>
+
+<p>为寻找完备正交集, 让我们回顾线性空间必有基的证明:</p>
+
+<ol class="theorem">
+  <b>线性空间必有基</b>
+  [<a href="https://www.bananaspace.org/wiki/%E8%AE%B2%E4%B9%89:%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%EF%BC%88infi%EF%BC%89/%E4%BB%BB%E6%84%8F%E7%8E%AF%E5%92%8C%E5%9F%9F%E4%B8%8A%E7%9A%84%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%E3%80%81%E8%87%AA%E7%94%B1%E6%A8%A1%E3%80%81%E6%9C%89%E9%99%90%E7%94%9F%E6%88%90%E6%A8%A1%E4%B8%8E%E7%BB%B4%E5%BA%A6/%E9%99%84%E5%BD%95:_%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4%E9%83%BD%E6%9C%89%E5%9F%BA%E7%9A%84%E8%AF%81%E6%98%8E" target="_blank">香蕉空间</a>]
+  设 `X` 是 `K` 上的线性空间, 则存在非空子集 `S sube X`, 满足
+  <li>线性无关: 对 `AA n in NN`, `AA x_1, cdots, x_n in S` 和 `AA k_1, cdots, k_n in K` 有
+    <span class="formula">
+      `sum_(i=1)^n k_i x_i = 0`
+      `rArr k_1 = cdots = k_n = 0`.
+    </span>
+  </li>
+  <li>线性表示: `AA x in X`, 存在 `n in NN`, `x_1, cdots, x_n in S` 和 `k_1, cdots, k_n in K` 使得
+    <span class="formula">
+      `sum_(i=1)^n k_i x_i = x`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    使用 Zorn 引理. `X` 中的全体线性无关子集按包含关系构成偏序集 `(M, sube)`.
+    考虑一条链 `S_1 sube S_2 sube cdots`, 我们寻找它的上界. 事实上令 `S = uuu_(i ge 1) S_i`,
+    下证 `S` 线性无关. 若成立
+    <span class="formula">
+      `sum_(i=1)^n k_i x_i = 0`,
+    </span>
+    其中 `x_i in S`, `i = 1, cdots, n`,
+    则存在 `N in NN`, 使得 `x_i in S_N`, `i = 1, cdots, n`.
+    由于 `S_N` 是线性无关集, 所以 `k_1 = cdots = k_n = 0`. 故 `S` 线性无关.
+    使用 Zorn 引理, 因为 `M` 的每条链都有上界, 所以存在极大元 `S_"max" in M`.
+  </li>
+  <li>下证每个 `x in X` 都能被 `S_"max"` 线性表示.
+    如若不然, 设 `x` 不能被 `S_"max"` 线性表示, 令 `S' = S_"max" uu {x}`,
+    则 `S'` 线性无关. 事实上, 假设
+    <span class="formula">
+      `k_0 x + sum_(i=1)^n k_i x_i = 0`,
+    </span>
+    其中 `x_i in S_"max"`, `i = 1, cdots, n`.
+    由于 `x` 不能被 `S_"max"` 线性表示, 推出 `k_0 = 0`;
+    再由 `S_"max"` 线性无关推出 `k_1 = cdots = k_n = 0`.
+    故 `S'` 线性无关, 这与 `S_"max"` 是极大元矛盾.
+  </li>
+</ol>
+
+<p>类似可以证明, 内积空间必有完备正交集:</p>
+
+<p class="theorem">
+  <b>内积空间必有完备正交集</b>
+</p>
+
+<p class="proof">
+  不妨设 `X != {0}`, 则 `X` 中全体正交集按包含关系构成偏序集, 其中每条链有上界, 即链中的集合之并集.
+  由 Zorn 引理, 该偏序集有极大元, 记为 `S`.
+  下证 `S` 完备, 如若不然, 则存在非零元 `s in S^_|_`.
+  令 `S' := S uu {s}`, 则 `S'` 也是正交集, 与 `S` 是极大元矛盾.
+</p>
+
+<p class="proposition">
+  Hilbert 空间中, 正交集是完备的当且仅当它是封闭的.
+</p>
+
+<!--
 
 <h2>内积空间中的标准直交系</h2>
 <h2>投影定理与直交系</h2>
 <h2>投影定理</h2>
 
 <p class="theorem">
-	<b>投影定理</b>
-	设 `M` 是 Hilbert 空间的闭子空间, 则任意 `x in H` 可以唯一表示成
-	<span class="formula">
-		`x = y + z`, `y in M`, `z in M^_|_`.
-	</span>
-	称 `y` 为 `x` 在 `M` 上的直交投影, 记为 `P(x)`.
+    <b>投影定理</b>
+    设 `M` 是 Hilbert 空间的闭子空间, 则任意 `x in H` 可以唯一表示成
+    <span class="formula">
+        `x = y + z`, `y in M`, `z in M^_|_`.
+    </span>
+    称 `y` 为 `x` 在 `M` 上的直交投影, 记为 `P(x)`.
 </p>
 
 <p class="proof">
-	因为 `M` 是 `H` 的闭子空间, 所以 `M` 也是 Hilbert 空间. 存在 `M`
-	的正规直交基 `{bm e_alpha}_(alpha in I)`, 且对任意 `x in H`, 对应的
-	Fourier 系数 `(x, bm e_alpha)` 至多只有可数多个不为零, 并且
-	<span class="formula">
-		`sum_(alpha in I) (x, bm e_alpha) bm e_alpha`
-	</span>
-	在 `M` 中收敛, 记它收敛到 `y in M`, 则对任意 `alpha in I`,
-	<span class="formula">
-		` (x - y, bm e_alpha)
-		= (x, bm e_alpha) - (y, bm e_alpha)
-		= (x, bm e_alpha) - (x, bm e_alpha) = 0`.
-	</span>
-	令 `z = x - y`, 由上式知 `z _|_ M`.
-	由极限的唯一性知 `y, z` 是唯一的.
-	当然, 唯一性也可由 `M nn M^_|_ = {0}` 推得.
+    因为 `M` 是 `H` 的闭子空间, 所以 `M` 也是 Hilbert 空间. 存在 `M`
+    的正规直交基 `{bm e_alpha}_(alpha in I)`, 且对任意 `x in H`, 对应的
+    Fourier 系数 `(x, bm e_alpha)` 至多只有可数多个不为零, 并且
+    <span class="formula">
+        `sum_(alpha in I) (x, bm e_alpha) bm e_alpha`
+    </span>
+    在 `M` 中收敛, 记它收敛到 `y in M`, 则对任意 `alpha in I`,
+    <span class="formula">
+        ` (x - y, bm e_alpha)
+        = (x, bm e_alpha) - (y, bm e_alpha)
+        = (x, bm e_alpha) - (x, bm e_alpha) = 0`.
+    </span>
+    令 `z = x - y`, 由上式知 `z _|_ M`.
+    由极限的唯一性知 `y, z` 是唯一的.
+    当然, 唯一性也可由 `M nn M^_|_ = {0}` 推得.
 </p>
 
 <h2>Riesz 表示定理, Lax-Milgram 定理</h2>
 
 <p class="theorem">
-	<b>Riesz 表示定理</b>
-	设 `H` 是 Hilbert 空间, 则对任意 `f in H^**`, 存在唯一 `y in H`, 使得
-	<span class="formula">
-		`f(x) = (x, y)`, `AA x in H`,<br/>
-		`||f|| = ||y||`.
-	</span>
+    <b>Riesz 表示定理</b>
+    设 `H` 是 Hilbert 空间, 则对任意 `f in H^**`, 存在唯一 `y in H`, 使得
+    <span class="formula">
+        `f(x) = (x, y)`, `AA x in H`,<br/>
+        `||f|| = ||y||`.
+    </span>
 </p>
 
 <ol class="proof">
-	<li>如果 `f = 0`, 取 `y = 0` 即可. 下设 `f != 0`,
-		则 `"Ker" f` 是 `H` 的闭子空间, 且 `"Ker" f != H`. 取 `x_0
-		in "Ker" f^_|_`, 且 `f(x_0) = 1`, 对 `AA x in H`, 有
-		<span class="formula">
-			`f(x - f(x) x_0) = f(x) - f(x) f(x_0) = 0`,
-		</span>
-		于是 `x - f(x) x_0 in "Ker" f`.
-		取 `y = x_0/||x_0||^2`, 则
-		<span class="formula">
-			` (x, y)
-			= ((x"," x_0))/((x_0"," x_0))
-			= ((x - f(x) x_0, x_0) + f(x) (x_0, x_0)) / ((x_0","x_0))
-			= f(x)`,
-			`AA x in H`.
-		</span>
-	</li>
+    <li>如果 `f = 0`, 取 `y = 0` 即可. 下设 `f != 0`,
+        则 `"Ker" f` 是 `H` 的闭子空间, 且 `"Ker" f != H`. 取 `x_0
+        in "Ker" f^_|_`, 且 `f(x_0) = 1`, 对 `AA x in H`, 有
+        <span class="formula">
+            `f(x - f(x) x_0) = f(x) - f(x) f(x_0) = 0`,
+        </span>
+        于是 `x - f(x) x_0 in "Ker" f`.
+        取 `y = x_0/||x_0||^2`, 则
+        <span class="formula">
+            ` (x, y)
+            = ((x"," x_0))/((x_0"," x_0))
+            = ((x - f(x) x_0, x_0) + f(x) (x_0, x_0)) / ((x_0","x_0))
+            = f(x)`,
+            `AA x in H`.
+        </span>
+    </li>
 </ol>
 
 <h2>`H_0^1` 空间</h2>
-<h2>共轭算子</h2>
+-->
 
 <script src="../../js/note.js?type=math"></script>
 </body>

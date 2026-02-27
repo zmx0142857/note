@@ -875,7 +875,8 @@
   </li>
   点谱、连续谱、剩余谱统称为线性算子 `A` 的<b>谱 (spectrum)</b>:
   <span class="formula">
-    `sigma(A) := sigma_p(A) uu sigma_c(A) uu sigma_r(A)`.
+    `sigma(A) := sigma_p(A) uu sigma_c(A) uu sigma_r(A)`
+    `= {lambda in CC | (lambda I - A)^-1 "不存在或" !in cc L(X) }`.
   </span>
 </ol>
 
@@ -975,9 +976,29 @@
   </span>
 </p>
 
-<p class="definition">
-  对 `lambda in rho(A)`, 我们记 `R_lambda(A) := (lambda I - A)^-1 in cc L(X)`,
-  称为<b>预解式</b>.
+<ol class="definition">
+  <li>
+    对 `lambda in rho(A)`, 定义<b>预解式</b>
+    <span class="formula">
+      `R_lambda(A) := (lambda I - A)^-1 in cc L(X)`.
+    </span>
+  </li>
+  <li>定义 `A` 的<b>谱半径</b>为 `sigma(A)` 的最大模
+    <span class="formula">
+      `r_sigma(A) := Sup_(lambda in sigma(A)) |lambda|` `= inf_(lambda in rho(A)) |lambda|`
+    </span>
+  </li>
+</ol>
+
+<p class="corollary">
+  <b>谱半径的简单上界</b>
+  `|lambda| gt ||A||` 时, 由 von Neumann 引理
+  <span class="formula">
+    `R_lambda(A) = sum_(k=0)^oo 1/lambda^(n+1) A^n`,<br>
+    `||R_lambda(A)|| le 1/(|lambda|-||A||)`.
+  </span>
+  故 `R_lambda(A) in cc L(X)`, `lambda in rho(A)`.
+  这推出 `r_sigma(A) le ||A||`.
 </p>
 
 <p class="lemma">
@@ -1000,8 +1021,10 @@
 
 <ol class="theorem">
   设 `A` 是 Banach 空间上的闭线性算子, 则
-  <li>`rho(A)` 是开集.</li>
-  <li>`R_lambda(A)` 在 `rho(A)` 上可微.</li>
+  <li>`rho(A)` 是开集, 故 `sigma(A)` 是闭集, 又 `r_sigma(A) le ||A||`,
+    推出 `sigma(A)` 是紧集.
+  </li>
+  <li>`R_lambda(A)` 在 `rho(A)` 上解析.</li>
 </ol>
 
 <ol class="proof">
@@ -1053,23 +1076,22 @@
 
 <ol class="proof">
   <li>
-  反设 `rho(A) = CC`, 则 `R_lambda(A)` 在 `CC` 上解析.
-  任取线性泛函 `f in cc L(X)^ast`, 定义
-  <span class="formula">
-    `u_f(lambda) := f(R_lambda(A))`,
-  </span>
-  则 `u_f` 在 `CC` 上解析. 下证它有界: 事实上当 `|lambda| gt 2 ||A||` 时由 von Neumann 引理
-  <span class="formula">
-    `||R_lambda(A)||`
-    `= ||(lambda I - A)^-1||`
-    `= |lambda^-1| ||(I - lambda^-1 A)^-1||`
-    `le |lambda^-1|/(1 - |lambda|^-1 ||A||)`
-    `= 1/(|lambda| - ||A||)`
-    `le ||A||^-1`.
-  </span>
-  从而 `|u_f(lambda)| le ||f|| ||A||^-1`.
+    反设 `rho(A) = CC`, 则 `R_lambda(A)` 在 `CC` 上解析.
+    任取线性泛函 `f in cc L(X)^ast`, 定义
+    <span class="formula">
+      `u_(f)(lambda) := f(R_lambda(A))`,
+    </span>
+    则 `u_f` 在 `CC` 上解析. 下证它有界:
+    事实上它作为解析函数, 在 `|lambda| le 2||A||` 时有界;
+    又 `|lambda| gt 2 ||A||` 时, 由不等式
+    <span class="formula">
+      `||R_lambda(A)||`
+      `le 1/(|lambda| - ||A||)`
+      `le ||A||^-1`
+    </span>
+    有 `|u_(f)(lambda)| le ||f|| ||A||^-1`.
   </li>
-  <li>根据复分析的 Liouville 定理, 每个 `u_f(lambda)` 是仅依赖于 `f` 的常函数, 与 `lambda` 无关.
+  <li>根据复分析的 Liouville 定理, 每个 `u_(f)(lambda)` 是仅依赖于 `f` 的常函数, 与 `lambda` 无关.
     换言之, 对 `AA lambda, mu in CC` 和 `AA f in cc L(X)^ast` 都有
     <span class="formula">
       `f(R_lambda(A)) = f(R_mu(A))`.
@@ -1080,7 +1102,64 @@
   </li>
 </ol>
 
-<h3>谱半径</h3>
+<p class="theorem">
+  <b>Gelfand 定理</b>
+  设 `A` 是 Banach 空间 `X` 上的有界线性算子, 则
+  <span class="formula">
+    `r_sigma(A) = lim_(n to oo) ||A^n||^(1//n)`.
+  </span>
+</p>
+
+<ol class="proof">
+  记 `r := r_sigma(A)`.
+  <li>先证 `underset (n to oo) (bar lim) ||A^n||^(1//n) le r`.
+    任取 `f in cc L(X)^ast`, 令
+    <span class="formula">
+      `u_(f)(lambda) := f(R_lambda(A))`.
+    </span>
+    则 `u_f` 在 `|lambda| gt r` 解析.
+    将它写为 Laurent 级数
+    <span class="formula">
+      `u_(f)(lambda) = sum_(n=0)^oo 1/lambda^(n+1) f(A^n)`,
+    </span>
+    可知 `AA epsi gt 0`, 有
+    <span class="formula">
+      `sum_(n=0)^oo u_n`
+      `:= sum_(n=0)^oo 1/(r+epsi)^(n+1) |f(A^n)| lt oo`.
+    </span>
+    从而通项 `u_n` 有界.  考虑算子列 `T_n := A^n/(r+epsi)^(n+1)`,
+    对任意固定的 `f in cc L(X)^ast`, `||(:T_n^(ast ast), f:)|| = |f(T_n)| = |u_n|` 有界,
+    由共鸣定理, 存在 `M gt 0` 使得 `||T_n|| le M`, 即
+    <span class="formula">
+      `||A^n||^(1//n) le (r+epsi)^((n+1)/n) M^(1//n)`.
+    </span>
+    两边取上极限得
+    <span class="formula">
+      `underset (n to oo) (bar lim) ||A^n||^(1//n) le r + epsi`,
+    </span>
+    再由 `epsi` 的任意性得到结论.
+  </li>
+  <li>再证 `r le underset (n to oo) (ul lim) ||A^n||^(1//n)`.
+    对 `AA lambda in CC` 和 `AA n in ZZ^+`, 由 `n` 次方差公式
+    <span class="formula">
+      `lambda^n I - A^n`
+      `= (lambda I - A) P_lambda(A) = P_lambda(A)(lambda I - A)`
+    </span>
+    其中 `P_lambda(A) in cc L(X)`.
+    这表明
+    <span class="formula">
+      `lambda^n I - A^n in cc L(X) rArr lambda I - A in cc L(X)`,
+    </span>
+    于是
+    <span class="formula">
+      `lambda in sigma(A) rArr lambda^n in sigma(A^n)`
+      `rArr |lambda^n| le ||A^n||`
+      `rArr |lambda| le ||A^n||^(1//n)`.
+    </span>
+    关于 `lambda in sigma(A)` 取上确界得 `r le ||A^n||^(1//n)`,
+    然后两边同取下极限即得结论.
+  </li>
+</ol>
 
 <script>
 var asciimath = {
