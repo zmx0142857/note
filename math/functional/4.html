@@ -28,16 +28,6 @@
 </ol>
 
 <p class="remark">
-  事实上, 由左槽线性和共轭对称性两条性质可以推出右槽的共轭线性:
-  <span class="formula">
-    `f(z, alpha x + beta y)`
-    `= bar (f(alpha x + beta y, z))`
-    `= bar (alpha f(x, z) + beta f(y, z))`
-    `= bar alpha f(z, x) + bar beta f(z, y)`.
-  </span>
-</p>
-
-<p class="remark">
   量子力学中, 用 bra-ket 记号表示向量的内积. 考虑一个<b>波函数</b> `Psi: RR^3 to CC`,
   函数值的模 `|Psi(x)|` 表示粒子位于点 `x` 的概率密度.
   为了强调波函数是线性空间中的向量, 将它写为一个 <b>ket 向量</b> `Psi = |Psi:)`, 又称<b>状态向量</b>.
@@ -50,6 +40,17 @@
     `= int_(RR^3) bar(Phi(x)) Psi(x) dx`.
   </span>
   <b>特别注意</b>, bra-ket 记号中, 左槽共轭线性, 右槽线性, 与上面的定义正好相反.
+</p>
+
+<p class="remark">
+  由左槽线性和共轭对称性两条性质可以推出右槽的共轭线性:
+  <span class="formula">
+    `f(z, alpha x + beta y)`
+    `= bar (f(alpha x + beta y, z))`
+    `= bar (alpha f(x, z) + beta f(y, z))`
+    `= bar alpha f(z, x) + bar beta f(z, y)`.
+  </span>
+  事实上, 共轭对称性也可以作为前三条性质的推论, 参见下面命题:
 </p>
 
 <p class="proposition">
@@ -99,6 +100,7 @@
 
 <ol class="proof">
   <li>
+    不妨设 `y != 0`.
     `AA t in K`, 考虑二次型
     <span class="formula">
       `0 le (x + t y, x + t y)`
@@ -116,12 +118,25 @@
     <span class="formula align">
       `||x+y||^2` `= (x+y, x+y)`<br>
       `= (x, x) + (y, y) + (x, y) + (y, x)`<br>
-      `le (x, x) + (y, y) + 2"Re"(x, y)`<br>
+      `= (x, x) + (y, y) + 2"Re"(x, y)`<br>
+      `le (x, x) + (y, y) + 2|(x, y)|`<br>
       `le ||x||^2 + ||y||^2 + 2 ||x|| ||y||`<br>
       `= (||x||+||y||)^2`.
     </span>
   </li>
 </ol>
+
+<p class="corollary">
+  从证明过程可以看出, 三角不等式取等的充要条件是
+  <span class="formula">
+    `"Re"(x, y) = |(x, y)| = ||x|| ||y||`.
+  </span>
+  即
+  <span class="formula">
+    `(x, y) ge 0`, 且 `x, y` 线性相关.
+  </span>
+  即 `x, y` 同向: 换言之, 要么 `y = 0`, 要么 `x = k y`, `k ge 0`.
+</p>
 
 <p class="proposition">
   内积 `(*,*): X xx X to K` 关于范数连续.
@@ -142,16 +157,13 @@
 </p>
 
 <p class="proof">
-  只需证单位闭球是严格凸的. 事实上任取 `||x|| = ||y|| = 1` 和 `0 lt lambda lt 1`,
+  即证单位闭球是严格凸的. 事实上任取 `||x|| = ||y|| = 1` 和 `0 lt lambda lt 1`,
   由三角不等式
   <span class="formula">
-    `||(1-lambda)x + lambda y||^2`
-    `le (||(1-lambda)x|| + ||lambda y||)^2 = 1`.
+    `||(1-lambda)x + lambda y||`
+    `le ||(1-lambda)x|| + ||lambda y|| = 1`.
   </span>
-  根据三角不等式的证明过程,
-  上式等号成立当且仅当 `"Re"(x, y) = ||x|| ||y||`
-  这意味着 `(x, y) = |(x, y)|`, 且 `|(x, y)| = ||x|| ||y||`,
-  即 `(x, y) ge 0`, 且 `x, y` 线性相关. 设 `x = k y`, 由于 `(x, y) ge 0`, 只能 `k = 1`.
+  上式等号成立当且仅当 `x, y` 同向, 但 `x, y` 都是单位向量, 故只能 `x = y`.
   综上, 等号成立当且仅当 `x = y`, 因此单位闭球是严格凸的.
 </p>
 
@@ -181,7 +193,8 @@
     只证充分性. 事实上, 令
     <span class="formula">
       `(x, y) = 1/4 (||x+y||^2 - ||x-y||^2)`, `quad if X = RR`,<br>
-      `(x, y) = 1/4 (||x+y||^2 - ||x-y||^2 + "i"||x+"i"y||^2 - "i"||x-"i"y||^2)`,
+      `(x, y) = 1/4 (||x+y||^2 - ||x-y||^2`
+      `+ "i"||x+"i"y||^2 - "i"||x-"i"y||^2)`,
       `quad if X = CC`.
     </span>
     可以验证它是一个内积, 且满足 `(x, x) = ||x||^(1//2)`.
@@ -246,25 +259,28 @@
       `to 0`, `(n to oo)`.
     </span>
   </li>
-  <li>这是 1. 2. 的推论.</li>
+  <li>这是前两条的推论. 一方面 `M^_|_` 中向量与任意 `x in M` 垂直, `M^_|_` 中向量的线性组合也必如此,
+    从而 `in M^_|_`.
+    另一方面, `M^_|_` 中的点列极限必与任意 `x in M` 垂直, 从而 `in M^_|_`.
+  </li>
 </ol>
 
 <ol class="definition">
   <b>正交集与正交基</b>
-  设 `X` 是内积空间, `S sube X`,
+  设 `X` 是内积空间, `S` 是不含 `0` 的非空子集.
   <li>
     如果对 `AA e_alpha, e_beta in S`, `e_alpha != e_beta` 有 `(e_alpha, e_beta) = 0`,
-    则称 `S` 是 `X` 的一个正交集.
+    则称 `S` 是 `X` 的一个<b>正交集</b>.
   </li>
-  <li>在 1. 的基础上, 如果还有 `AA e_alpha in S`, `||e_alpha|| = 1`, 则称 `S` 是<b>规范</b>的或<b>标准</b>的.
-    任给一个正交集 `S = {e_alpha}`, 不妨设 `0 !in S`,
-    显然 `{e_alpha // ||e_alpha||}` 是标准正交集, 这个操作称为<b>标准化</b>.
+  <li>称正交集 `S` 是<b>规范</b>的或<b>标准</b>的, 如果 `S` 中元素的模长都等于 `1`.
+    任给一个正交集 `{e_alpha}`, 显然 `{e_alpha // ||e_alpha||}` 是正交规范集,
+    这个操作称为<b>标准化</b>.
   </li>
-  <li>在 1. 的基础上, 如果 `S^_|_ = {0}`, 则称 `S` 是<b>完备</b>的.</li>
-  <li>在 1. 的基础上, 如果 `AA x in X` 都能被 `S` 中元素线性表示, 则称 `S` 是<b>封闭</b>的,
-    或者说 `S` 是一个<b>正交基</b>.  此时
+  <li>称正交集 `S` 是<b>完备</b>的, 如果 `S^_|_ = {0}`, 即不存在非零元素与 `S` 正交.</li>
+  <li>称正交集 `S` 是<b>封闭</b>的, 如果 `"span"(S) = X`, 此时也称 `S` 是一个<b>正交基</b>.
+    `AA x in X` 都能被 `S` 中元素线性表示:
     <span class="formula">
-      `x = sum_"有限和" k_alpha e_alpha`, `quad e_alpha in S`.
+      `x = "有限和" sum_alpha k_alpha e_alpha`, `quad e_alpha in S`.
     </span>
     其中 `k_alpha` 称为 `x` 的 <b>Fourier 系数</b>. 由于
     <span class="formula">
@@ -274,6 +290,7 @@
     </span>
     故 `k_alpha = (x, e_alpha)//(e_alpha, e_alpha)`.
   </li>
+  在 Hilbert 空间中, 正交集的完备性与封闭性是等价的, 参见下节.
 </ol>
 
 <p class="theorem">
@@ -331,28 +348,117 @@
   </li>
 </ol>
 
-<p>类似可以证明, 内积空间必有完备正交集:</p>
+<p>类似可以证明:</p>
 
 <p class="theorem">
-  <b>内积空间必有完备正交集</b>
+  非零内积空间必有完备正交集.
 </p>
 
 <p class="proof">
-  不妨设 `X != {0}`, 则 `X` 中全体正交集按包含关系构成偏序集, 其中每条链有上界, 即链中的集合之并集.
+  `X` 中全体正交集按包含关系构成偏序集, 其中每条链有上界, 即链中的集合之并集.
   由 Zorn 引理, 该偏序集有极大元, 记为 `S`.
   下证 `S` 完备, 如若不然, 则存在非零元 `s in S^_|_`.
   令 `S' := S uu {s}`, 则 `S'` 也是正交集, 与 `S` 是极大元矛盾.
 </p>
 
-<p class="proposition">
-  Hilbert 空间中, 正交集是完备的当且仅当它是封闭的.
-</p>
+<h3>Bessel 不等式与 Parseval 等式</h3>
+
+<ol class="theorem">
+  <b>Bessel 不等式</b>
+  <li>
+    设 `S = {e_alpha}` 是内积空间 `X` 中的正交规范集, 则 `AA x in X`,
+    <span class="formula">
+      `||x||^2 ge sum_alpha |(x, e_alpha)|^2`.
+    </span>
+    上式右端是 `x` 的 Fourier 系数的模平方和,
+    其中只有至多可数项不等于 `0`.
+  </li>
+  <li>若 `X` 还是 Hilbert 空间, 我们还能得到等式
+    <span class="formula">
+      `||x||^2 - sum_alpha |(x, e_alpha)|^2`
+      `= ||x - sum_alpha (x, e_alpha) e_alpha||^2`.
+    </span>
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>先对 `S` 的任意有限子集证明:
+    <span class="formula">
+      `||x||^2 ge sum_(i=1)^n |(x, e_i)|^2`,
+      `quad AA n in NN`.
+      <span class="label">(`ast`)</span>
+    </span>
+    这是因为
+    <span class="formula align">
+      `0 le ||x - sum_(i=1)^n (x, e_i) e_i||^2`<br>
+      `= (x - sum_i (x, e_i) e_i, x - sum_j (x, e_j) e_j)`<br>
+      `= ||x||^2 - sum_j |(x, e_j)|^2 - sum_i |(x, e_i)|^2`<br>
+      `quad + sum_i sum_j (x, e_i) bar((x, e_j)) (e_i, e_j)`<br>
+      `= ||x||^2 - sum_i |(x, e_i)|^2`.
+    </span>
+    `(ast)` 式表明,
+    对于每个固定的 `n in NN`, 至多只有 `n-1` 个 `e_alpha in S` 使得 `|(x, e_alpha)|^2 gt ||x||^2//n`.
+    从而 (??) 只有至多可数项使得 `(x, e_alpha) != 0`.
+    再由 `(ast)` 式即得结论.
+  </li>
+  <li>由 1. 知道 `(x, e_alpha) != 0` 的项只有至多可数个, 因此只需证
+    <span class="formula">
+      `||x||^2 - sum_(n ge 1) |(x, e_n)|^2`
+      `= ||x - sum_(n ge 1) (x, e_n) e_n||^2`.
+    </span>
+    对任意正整数 `m lt n` 有
+    <span class="formula align">
+      `||sum_(i=m)^n (x, e_i) e_i||^2`
+      `= (sum_i (x, e_i) e_i, sum_j (x, e_j) e_j)`
+      `= sum_i sum_j (x, e_i) bar((x, e_j)) (e_i, e_j)`
+      `= sum_(i=m)^n |(x, e_i)|^2`.
+    </span>
+    但由 1. 知道级数 `sum_(n ge 1) |(x, e_n)|^2` 收敛, 因此
+    `m to oo` 时上式 `to 0`, 即 `x_n = sum_(i=1)^n (x, e_i) e_i` 是基本列.
+    记 `lim_n x_n = y`.
+    另一方面, 上式取 `m = 1`, 再令 `n to oo` 得到 `||y||^2 = sum_(n ge 1) |(x, e_n)|^2`.
+    最后, 由于 `x - y _|_ y` (??), 由勾股定理得
+    <span class="formula">
+      `||x||^2 - ||y||^2 = ||x - y||^2`.
+    </span>
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>Parseval 等式</b>
+  设 `S = {e_alpha}` 是 Hilbert 空间 `X` 中的正交规范集, 则以下三条等价:
+  <li>`S` 封闭, 即 `S` 是正交基;</li>
+  <li>`S` 完备, 即 `S^_|_ = {0}`;</li>
+  <li>Bessel 不等式取得等号, 即 `AA x in X`, `||x||^2 = sum_alpha |(x, e_alpha)|^2`.</li>
+  在欧氏空间中, Parseval 等式其实就是勾股定理 `|x|^2 = sum_i |x_i|^2`.
+</ol>
+
+<ol class="proof">
+  <li>`rArr` 2. 若 `S` 不完备, 则存在非零向量 `x` 使得 `x _|_ S`.
+    于是 `AA e_alpha in S`, `(x, e_alpha) = 0`.
+    由封闭性得到 `x = sum_alpha (x, e_alpha) e_alpha = 0`, 矛盾.
+  </li>
+  <li>`rArr` 3. 若 `EE x in X` 使 Parseval 等式不成立, 则由 Hilbert 空间中的等式
+    <span class="formula">
+      `||x - sum_alpha (x, e_alpha) e_alpha||^2`
+      `= ||x||^2 - sum_alpha |(x, e_alpha)|^2`
+      `gt 0`.
+    </span>
+    记 `y = sum_alpha (x, e_alpha) e_alpha`, 则 `x - y != 0` 且 `x - y in S^_|_`, 矛盾.
+  </li>
+  <li>`rArr` 1. `AA x in X`, 同样由 Hilbert 空间中的等式
+    <span class="formula">
+      `||x - sum_alpha (x, e_alpha) e_alpha||^2`
+      `= ||x||^2 - sum_alpha |(x, e_alpha)|^2`
+      `= 0`,
+    </span>
+    因此 `x = sum_alpha (x, e_alpha) e_alpha`.
+  </li>
+</ol>
 
 <!--
 
-<h2>内积空间中的标准直交系</h2>
 <h2>投影定理与直交系</h2>
-<h2>投影定理</h2>
 
 <p class="theorem">
     <b>投影定理</b>
