@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>Sobolev 空间</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<h2>函数空间举例</h2>
+
+<p class="remark">
+  本章使用<a href="../analysis/15.html#15-3">微分指标记号</a> `alpha = (alpha_1, cdots, alpha_n)`.
+</p>
+
+<ol class="example">
+  设 `Omega sube RR^n` 是有界连通开区域, 考虑
+  <li>
+    `k` 阶连续可微函数空间 `C^k(bar Omega)`.
+    集合 `bar Omega` 上全体 `k` 阶连续可微函数按范数
+    <span class="formula">
+      `||u|| = max_(|alpha| le k) max_(x in bar Omega) |del^alpha u(x)|`
+    </span>
+    构成 Banach 空间.
+  </li>
+  <li>
+    Sobolev 空间 `H^(m, p)(Omega)` (`1 le p lt oo`).
+    空间 `C^m(bar Omega)` 按另一个范数
+    <span class="formula">
+      `||u||_(m,p)`
+      `= (sum_(|alpha| le m) ||del^alpha u||_p^p)^(1//p)`
+      `= (sum_(|alpha| le m) int_Omega |del^alpha u(x)|^p dx)^(1//p)`
+    </span>
+    并不完备.
+    为得到 Banach 空间, 将集合
+    <span class="formula">
+      `S := { u in C^m(Omega): ||u||_(m, p) lt oo }`
+    </span>
+    按范数 `||*||_(m, p)` 完备化, 得到的空间称为 Sobolev 空间 `H^(m,p)(Omega)`
+    (注意 `Omega` 未取闭包).
+    Sobolev 空间在偏微分方程论中占有重要地位.
+  </li>
+</ol>
+
+<ol class="example">
+  <b>边值为零的函数空间</b>
+  有时我们希望函数值在定义域的边界处等于零. 这将大大简化分部积分 (一元) 或 Green 公式 (多元) 的计算.
+  例如 `f, g in C^1[0, 1]`, `f(0) = f(1) = 0`, 则
+  <span class="formula">
+    `int_0^1 f(x) g'(x) dx`
+    `= f(x) g'(x)|_0^1 - int_0^1 f'(x) g(x) dx`
+    `= -int_0^1 f'(x) g(x) dx`.
+  </span>
+  对于这类函数, 分部积分的效果正好将求导运算从 `g` 转移到 `f` 上面, 并改变积分的正负号.
+  一般地, 设 `Omega sube RR^n` 是有界连通开区域, 定义
+  <li>`C_0^m(Omega)` 是 `Omega` 上一切 `m` 次连续可微, 并在边界 `del Omega`
+    的某邻域内为 `0` 的函数的集合:
+    <span class="formula">
+      `C_0^m(Omega) = {u in C^m(bar Omega) : u(x) = 0, "当" x in del Omega "的某邻域}`.
+    </span>
+    其中下标 `0` 表示该空间中的函数在边界附近取零.
+    定义范数
+    <span class="formula">
+      `||u|| = (sum_(|alpha| le m) int_Omega |del^alpha u(x)|^2 dx)^(1//2)`,<br>
+      `||u||_m = (sum_(|alpha| = m) int_Omega |del^alpha u(x)|^2 dx)^(1//2)`,
+    </span>
+    根据下文的 Poincaré 不等式, 低阶导数的模平方积分可以被高阶导数的模平方积分 (称为能量积分)
+    所控制, 因此它们是一对等价模.
+  </li>
+  <li>`H_0^m(Omega)` 是将 `C_0^m(Omega)` 按 `||*||_m` 完备化得到的空间.
+    它是一个 Hilbert 空间, 也是 Sobolev 空间 `H^m(Omega) := H^(m,2)(Omega)` 的闭子空间.
+    `H_0^m(Omega)` 的内积定义为
+    <span class="formula">
+      `(u, v)_m = sum_(alpha=m) int_Omega del^alpha u(x) bar(del^alpha v(x)) dx`.
+    </span>
+  </li>
+</ol>
+
+<p class="lemma">
+  <b>Poincaré 不等式</b>
+  存在常数 `C gt 0`, 使得 `AA u in C_0^m(Omega)`,
+  <span class="formula">
+    `||u|| le C ||u||_m`.
+  </span>
+</p>
+
+<p class="proof">
+  只需证明一阶导数的情形
+  <span class="formula">
+    `int_Omega |u(x)|^2 dx`
+    `le C int_Omega |grad u(x)|^2 dx`,
+  </span>
+  更高阶的通过归纳证明.
+  由于定义域 `Omega` 有界, 可以取充分大的 `a gt 0`, 通过平移使得 `Omega sube [0, a]^n`.
+  在 `[0, a]^n \\ Omega` 上补充定义 `u = 0`, 则 `u` 在立方体 `[0, a]^n` 上 `m` 次连续可微,
+  且在边界上等于 `0`. `AA x = (x_1, cdots, x_n) in [0, a]^n`, 由 Newton-Leibniz 公式
+  <span class="formula">
+    `u(x) = int_0^(x_1) del_1 u(x) "d"x_1`.
+  </span>
+  利用 Cauchy 不等式,
+  <span class="formula">
+    `|u(x)|^2`
+    `le (int_0^a 1^2 "d"x_1)(int_0^a |del_1 u(x)|^2 "d"x_1)`
+    `= a int_0^a |del_1 u(x)|^2 "d"x_1`.
+  </span>
+  上式两边在 `[0, a]^n` 上积分, 得到
+  <span class="formula align">
+    `int_Omega |u(x)|^2 dx`<br>
+    `le a int_0^a (int_Omega |del_1 u(x)|^2 dx) "d"x_1`<br>
+    `= a^2 int_Omega |del_1 u(x)|^2 dx`<br>
+    `le a^2 int_Omega |grad u(x)|^2 dx`.
+  </span>
+</p>
+
+<h2>广义函数</h2>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

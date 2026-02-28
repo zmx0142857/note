@@ -152,21 +152,6 @@
   </span>
 </p>
 
-<p class="proposition">
-  内积空间中的范数是严格凸的.
-</p>
-
-<p class="proof">
-  即证单位闭球是严格凸的. 事实上任取 `||x|| = ||y|| = 1` 和 `0 lt lambda lt 1`,
-  由三角不等式
-  <span class="formula">
-    `||(1-lambda)x + lambda y||`
-    `le ||(1-lambda)x|| + ||lambda y|| = 1`.
-  </span>
-  上式等号成立当且仅当 `x, y` 同向, 但 `x, y` 都是单位向量, 故只能 `x = y`.
-  综上, 等号成立当且仅当 `x = y`, 因此单位闭球是严格凸的.
-</p>
-
 <ol class="proposition">
   <b>极化恒等式 (平行四边形等式)</b>
   <li>
@@ -201,7 +186,7 @@
   </li>
 </ol>
 
-<h2>Hilbert 空间</h2>
+<h3>Hilbert 空间</h3>
 
 <p class="definition">
   完备的内积空间称为 <b>Hilbert 空间</b>. Hilbert 空间是 Banach 空间.
@@ -213,6 +198,8 @@
   <li>`L^2(Omega)` 是 Hilbert 空间, 其中 `(f, g) := int_Omega f(x) bar(g(x)) dx`.</li>
   <li>`C^k(bar Omega)` 是内积空间, 其中 `(f, g) := sum_(|alpha| le k) int_Omega del^alpha f(x) bar(del^alpha g(x)) dx`.</li>
 </ol>
+
+<h2>正交性</h2>
 
 <h3>正交补与正交基</h3>
 
@@ -363,6 +350,50 @@
 
 <h3>Bessel 不等式与 Parseval 等式</h3>
 
+<ol class="lemma">
+  设 `S = {e_n}` 是内积空间 `X` 中可数的正交规范集.
+  `AA x in X`, 令 `x_n` 是 `x` 的前 `n` 项近似:
+  <span class="formula">
+    `x_n = sum_(i=1)^n (x, e_i) e_i`.
+  </span>
+  则有
+  <span class="formula">
+    `||x_n||^2 = sum_(i=1)^n |(x, e_i)|^2`,
+    `quad x - x_n _|_ x_n`.
+  </span>
+  进一步如果 `lim_(n to oo) x_n to y`, 则有
+  <span class="formula">
+    `||y||^2 = sum_(n ge 1) |(x, e_n)|^2`,
+    `quad x - y _|_ y`.
+  </span>
+</ol>
+
+<ol class="proof">
+  <li>计算
+    <span class="formula">
+      `||x_n||^2`
+      `= (sum_i (x, e_i) e_i, sum_j (x, e_j) e_j)`
+      `= sum_i sum_j (x, e_i) bar((x, e_j)) (e_i, e_j)`
+      `= sum_i |(x, e_i)|^2`.
+    </span>
+  </li>
+  <li>计算
+    <span class="formula">
+      `(x - x_n, x_n)`
+      `= (x, x_n) - (x_n, x_n)`
+      `= sum_i |(x, e_i)|^2 - sum_i |(x, e_i)|^2`
+      `= 0`.
+    </span>
+  </li>
+  <li>由 2. 应用勾股定理 (`x` 为斜边, `x_n` 和 `x - x_n` 为直角边),
+    <span class="formula">
+      `0 le ||x - x_n||^2 = ||x||^2 - ||x_n||^2`,
+    </span>
+    然后在 1. 的两边令 `n to oo` 即得结论. 级数的收敛性由不等式 `||x_n||^2 le ||x||^2` 保证.
+  </li>
+  <li>由内积的连续性, `(x - y, y) = lim_(n to oo) (x - x_n, x_n) = 0`.</li>
+</ol>
+
 <ol class="theorem">
   <b>Bessel 不等式</b>
   <li>
@@ -373,7 +404,7 @@
     上式右端是 `x` 的 Fourier 系数的模平方和,
     其中只有至多可数项不等于 `0`.
   </li>
-  <li>若 `X` 还是 Hilbert 空间, 我们还能得到等式
+  <li>若 `X` 是 Hilbert 空间, 我们还能得到等式
     <span class="formula">
       `||x||^2 - sum_alpha |(x, e_alpha)|^2`
       `= ||x - sum_alpha (x, e_alpha) e_alpha||^2`.
@@ -382,42 +413,40 @@
 </ol>
 
 <ol class="proof">
-  <li>先对 `S` 的任意有限子集证明:
+  <li>由引理, 对 `S` 的任意有限子集成立
     <span class="formula">
       `||x||^2 ge sum_(i=1)^n |(x, e_i)|^2`,
       `quad AA n in NN`.
       <span class="label">(`ast`)</span>
     </span>
-    这是因为
-    <span class="formula align">
-      `0 le ||x - sum_(i=1)^n (x, e_i) e_i||^2`<br>
-      `= (x - sum_i (x, e_i) e_i, x - sum_j (x, e_j) e_j)`<br>
-      `= ||x||^2 - sum_j |(x, e_j)|^2 - sum_i |(x, e_i)|^2`<br>
-      `quad + sum_i sum_j (x, e_i) bar((x, e_j)) (e_i, e_j)`<br>
-      `= ||x||^2 - sum_i |(x, e_i)|^2`.
+    固定 `n in NN`, 至多只有 `n-1` 个 `e_alpha in S` 使得
+    `|(x, e_alpha)|^2 gt ||x||^2//n`.  取交集
+    <span class="formula">
+      `T := nnn_(n ge 1) { e_alpha: |(x, e_alpha)|^2 le ||x||^2//n }`
+      `= {e_alpha: (x, e_alpha) = 0}`,
     </span>
-    `(ast)` 式表明,
-    对于每个固定的 `n in NN`, 至多只有 `n-1` 个 `e_alpha in S` 使得 `|(x, e_alpha)|^2 gt ||x||^2//n`.
-    从而 (??) 只有至多可数项使得 `(x, e_alpha) != 0`.
-    再由 `(ast)` 式即得结论.
+    则 `S - T` 是至多可数集, 从而级数中只有至多可数项使得 `(x, e_alpha) != 0`.
+    再由 (`ast`) 式即得结论.
   </li>
-  <li>由 1. 知道 `(x, e_alpha) != 0` 的项只有至多可数个, 因此只需证
+  <li>`(x, e_alpha) != 0` 的项只有至多可数个, 因此只需证
     <span class="formula">
       `||x||^2 - sum_(n ge 1) |(x, e_n)|^2`
       `= ||x - sum_(n ge 1) (x, e_n) e_n||^2`.
     </span>
-    对任意正整数 `m lt n` 有
+    由 1. 级数 `sum_(n ge 1) |(x, e_n)|^2` 收敛,
+    从而对任意正整数 `m lt n`, 由引理
     <span class="formula align">
       `||sum_(i=m)^n (x, e_i) e_i||^2`
-      `= (sum_i (x, e_i) e_i, sum_j (x, e_j) e_j)`
-      `= sum_i sum_j (x, e_i) bar((x, e_j)) (e_i, e_j)`
-      `= sum_(i=m)^n |(x, e_i)|^2`.
+      `= sum_(i=m)^n |(x, e_i)|^2`
+      `to 0`, `(m to oo)`.
     </span>
-    但由 1. 知道级数 `sum_(n ge 1) |(x, e_n)|^2` 收敛, 因此
-    `m to oo` 时上式 `to 0`, 即 `x_n = sum_(i=1)^n (x, e_i) e_i` 是基本列.
-    记 `lim_n x_n = y`.
-    另一方面, 上式取 `m = 1`, 再令 `n to oo` 得到 `||y||^2 = sum_(n ge 1) |(x, e_n)|^2`.
-    最后, 由于 `x - y _|_ y` (??), 由勾股定理得
+    于是 `x_n = sum_(i=1)^n (x, e_i) e_i` 是基本列.
+    记 `x_n to y`, 由引理有
+    <span class="formula">
+      `||y||^2 = sum_(n ge 1) |(x, e_n)|^2`,
+      `quad x - y _|_ y`.
+    </span>
+    于是由勾股定理得
     <span class="formula">
       `||x||^2 - ||y||^2 = ||x - y||^2`.
     </span>
@@ -430,7 +459,6 @@
   <li>`S` 封闭, 即 `S` 是正交基;</li>
   <li>`S` 完备, 即 `S^_|_ = {0}`;</li>
   <li>Bessel 不等式取得等号, 即 `AA x in X`, `||x||^2 = sum_alpha |(x, e_alpha)|^2`.</li>
-  在欧氏空间中, Parseval 等式其实就是勾股定理 `|x|^2 = sum_i |x_i|^2`.
 </ol>
 
 <ol class="proof">
@@ -444,7 +472,16 @@
       `= ||x||^2 - sum_alpha |(x, e_alpha)|^2`
       `gt 0`.
     </span>
-    记 `y = sum_alpha (x, e_alpha) e_alpha`, 则 `x - y != 0` 且 `x - y in S^_|_`, 矛盾.
+    记 `y = sum_alpha (x, e_alpha) e_alpha`, 则 `x - y != 0`,
+    然而对 `AA e_alpha in S` 有
+    <span class="formula">
+      `(x - y, e_alpha)`
+      `= (x, e_alpha) - (y, e_alpha)`
+      `= (x, e_alpha) - sum_beta (x, e_beta) (e_beta, e_alpha)`
+      `= (x, e_alpha) - (x, e_alpha)`
+      `= 0`.
+    </span>
+    这指出 `x - y in S^_|_`, 与 `S` 的完备性矛盾.
   </li>
   <li>`rArr` 1. `AA x in X`, 同样由 Hilbert 空间中的等式
     <span class="formula">
@@ -456,69 +493,442 @@
   </li>
 </ol>
 
-<!--
-
-<h2>投影定理与直交系</h2>
-
-<p class="theorem">
-    <b>投影定理</b>
-    设 `M` 是 Hilbert 空间的闭子空间, 则任意 `x in H` 可以唯一表示成
-    <span class="formula">
-        `x = y + z`, `y in M`, `z in M^_|_`.
-    </span>
-    称 `y` 为 `x` 在 `M` 上的直交投影, 记为 `P(x)`.
+<p class="corollary">
+  非零 Hilbert 空间必有<b>正交规范基</b>.
 </p>
 
-<p class="proof">
-    因为 `M` 是 `H` 的闭子空间, 所以 `M` 也是 Hilbert 空间. 存在 `M`
-    的正规直交基 `{bm e_alpha}_(alpha in I)`, 且对任意 `x in H`, 对应的
-    Fourier 系数 `(x, bm e_alpha)` 至多只有可数多个不为零, 并且
-    <span class="formula">
-        `sum_(alpha in I) (x, bm e_alpha) bm e_alpha`
-    </span>
-    在 `M` 中收敛, 记它收敛到 `y in M`, 则对任意 `alpha in I`,
-    <span class="formula">
-        ` (x - y, bm e_alpha)
-        = (x, bm e_alpha) - (y, bm e_alpha)
-        = (x, bm e_alpha) - (x, bm e_alpha) = 0`.
-    </span>
-    令 `z = x - y`, 由上式知 `z _|_ M`.
-    由极限的唯一性知 `y, z` 是唯一的.
-    当然, 唯一性也可由 `M nn M^_|_ = {0}` 推得.
+<p class="definition">
+  称两个内积空间 `X_1, X_2` 同构, 如果存在线性同构 `T: X_1 to X_2` 使得
+  <span class="formula">
+    `(T x, T y)_2 = (x, y)_1`, `quad AA x, y in X_1`.
+  </span>
 </p>
 
-<h2>Riesz 表示定理, Lax-Milgram 定理</h2>
-
 <p class="theorem">
-    <b>Riesz 表示定理</b>
-    设 `H` 是 Hilbert 空间, 则对任意 `f in H^**`, 存在唯一 `y in H`, 使得
-    <span class="formula">
-        `f(x) = (x, y)`, `AA x in H`,<br/>
-        `||f|| = ||y||`.
-    </span>
+  <b>可分 Hilbert 空间的结构</b>
+  设 `X` 是 Hilbert 空间, 则
+  <span class="formula">
+    `X` 可分 `iff` 存在至多可数的正交规范基 `S`.
+  </span>
+  在可分的情形下,
+  <span class="formula">
+    `X ~= {
+      K^n, if |S| = n;
+      l^2, if |S| = oo
+    :}`.
+  </span>
 </p>
 
 <ol class="proof">
-    <li>如果 `f = 0`, 取 `y = 0` 即可. 下设 `f != 0`,
-        则 `"Ker" f` 是 `H` 的闭子空间, 且 `"Ker" f != H`. 取 `x_0
-        in "Ker" f^_|_`, 且 `f(x_0) = 1`, 对 `AA x in H`, 有
-        <span class="formula">
-            `f(x - f(x) x_0) = f(x) - f(x) f(x_0) = 0`,
-        </span>
-        于是 `x - f(x) x_0 in "Ker" f`.
-        取 `y = x_0/||x_0||^2`, 则
-        <span class="formula">
-            ` (x, y)
-            = ((x"," x_0))/((x_0"," x_0))
-            = ((x - f(x) x_0, x_0) + f(x) (x_0, x_0)) / ((x_0","x_0))
-            = f(x)`,
-            `AA x in H`.
-        </span>
-    </li>
+  <li>`lArr`: 设 `{x_n}` 是 `X` 的可数稠密子集, 则存在线性无关子集 `{y_n} sube {x_n}` 使得
+    `"span"{y_n} = "span"{x_n}`.
+    对 `{y_n}` 应用 Schmidt 正交化, 得到正交规范集 `{e_n}`, 且
+    <span class="formula">
+      `bar("span"{e_n})`
+      `= bar("span"{y_n})`
+      `= X`,
+    </span>
+    所以 `{e_n}` 是正交规范基.
+  </li>
+  <li>`rArr`:
+    设 `{e_n}` 是至多可数的正交规范基, 则 `e_n` 的全体有理系数的线性组合在 `X` 中稠密.
+  </li>
+  <li>记正交规范基为 `{e_n}_(n=1)^N`, 其中 `N` 有限或 `N = oo`.
+    作映射 `T: x mapsto {(x, e_n)}_(n=1)^N`.
+    显然 `T` 线性,
+    又根据 Hilbert 空间中的 Parseval 等式
+    <span class="formula">
+      `||x||^2 = sum_(n=1)^N |(x, e_n)|^2`,
+    </span>
+    `T` 是双射.
+    最后, `T` 还保持内积:
+    <span class="formula">
+      `(x, y)`
+      `= (sum_i (x, e_i) e_i, sum_j (y, e_j) e_j)`
+      `= sum_i (x, e_i) bar((y, e_i))`.
+    </span>
+    因此 `T` 是内积空间 `X` 到 `K^N` (当 `N lt oo`) 或 `l^2` (当 `N = oo`) 的同构.
+  </li>
 </ol>
 
-<h2>`H_0^1` 空间</h2>
--->
+<h2>应用</h2>
+
+<h3>最佳逼近问题与投影定理</h3>
+
+<p class="theorem">
+  <b>赋范线性空间中的最佳逼近</b>
+  设 `X` 是赋范线性空间, `M` 是有限维子空间, 则 `AA x in X`,
+  存在 `x_0 in M` 使得
+  <span class="formula">
+    `d(x, x_0) = d(x, M)`.
+  </span>
+  称 `x_0` 是 `x` 在 `M` 上的最佳逼近元.
+  若 `X` 的范数严格凸 (即单位闭球严格凸), 则最佳逼近元还是唯一的.
+</p>
+
+<ol class="proof">
+  <li>存在性.
+    取 `M` 的基 `e_1, cdots, e_n`, 定义函数
+    <span class="formula">
+      `F(a) = ||x - sum_(i=1)^n a_i e_i||`,
+      `quad a in K^n`.
+    </span>
+    显然 `F(a)` 在 `K^n` 上连续, 我们需要证明 `F(a)` 的最小值存在,
+    为此只需证 `|a| to oo` 时 `F(a) to oo`.
+    事实上, 在 `K^n` 上定义范数 `p(a) = ||sum_(i=1)^n a_i e_i||`.
+    由于 `K^n` 是有限维空间, 其上的任意范数都和标准范数等价, 故存在 `c gt 0` 使得
+    <span class="formula">
+      `p(a) ge c |a|`,
+      `quad |a| := (sum_(i=1)^n |a_i|^2)^(1//2)`.
+    </span>
+    应用三角不等式,
+    <span class="formula">
+      `F(a) ge p(a) - ||x||`
+      `ge c|a| - ||x||`
+      `to oo`, `(|a| to oo)`.
+    </span>
+    所以 `F(a)` 的最小值存在.
+  </li>
+  <li>唯一性.
+    假设 `y, z` 是 `x` 在 `M` 上的两个不同最佳逼近元, 记 `||x - y|| = ||x - z|| = d gt 0`,
+    则对 `AA 0 lt lambda lt 1`,
+    <span class="formula align">
+      `1/d ||x - (1-lambda) y - lambda z||`<br>
+      `= ||(1-lambda)(x-y)/d + lambda (x-z)/d||`<br>
+      `lt 1`.
+    </span>
+    换言之 `||x - ((1-lambda)y + lambda z)|| lt d`, 这与 `y, z` 是最佳逼近元矛盾.
+    因此只能 `y = z`.
+  </li>
+</ol>
+
+<ol class="example">
+  <li>`L^p(Omega)` `(1 lt p lt oo)` 是严格凸的.</li>
+  <li>`C[0, 1]` 和 `L^1(Omega)` 不是严格凸的.</li>
+  <li>内积空间是严格凸的.</li>
+</ol>
+
+<p class="proof">
+  只证 3. 事实上任取 `||x|| = ||y|| = 1` 和 `0 lt lambda lt 1`,
+  由三角不等式
+  <span class="formula">
+    `||(1-lambda)x + lambda y||`
+    `le ||(1-lambda)x|| + ||lambda y|| = 1`.
+  </span>
+  在内积空间中, 上式等号成立当且仅当 `x, y` 同向, 但 `x, y` 都是单位向量, 故只能 `x = y`.
+  综上, 等号成立当且仅当 `x = y`, 因此单位闭球是严格凸的.
+</p>
+
+<p class="theorem">
+  <b>Hilbert 空间中的最佳逼近</b>
+  设 `C` 是 Hilbert 空间 `X` 中的闭凸子集, 则对 `AA x in X`, 存在唯一 `x_0 in C` 使得
+  <span class="formula">
+    `d(x, x_0) = d(x, C)`.
+  </span>
+  特别地, 闭线性子空间都是闭凸子集, 有限维子空间都是闭子空间.
+</p>
+
+<ol class="proof">
+  先对 `x = 0` 证明最佳逼近元的存在唯一性:
+  <li>存在性. 不妨设 `0 !in C`, 则由 `C` 是闭集知道 `d := d(0, C) gt 0`.
+    取点列 `{x_n} sube C` 使得
+    <span class="formula">
+      `d le ||x_n|| le d + 1/n`, `quad AA n in NN`.
+      <span class="label">(`ast`)</span>
+    </span>
+    下证 `{x_n}` 是基本列. 任取 `m, n in NN`,
+    由 `C` 是凸集, `(x_m+x_n)//2 in C` 从而 `||x_m+x_n|| ge 2d`.
+    由平行四边形等式
+    <span class="formula">
+      `||x_m - x_n||^2`
+      `= 2||x_m||^2 + 2||x_n||^2 - ||x_m+x_n||^2`
+      `le 2(d + 1/m)^2 + 2(d + 1/n)^2 - 4d^2`
+      `to 0`, `(m, n to oo)`.
+    </span>
+    因此 `{x_n}` 是基本列, 它的极限为 `x_0 in C`.
+    由 (`ast`) 式知道 `||x_0|| = d`, 即为所求的点.
+  </li>
+  <li>唯一性. 设 `y, z` 是 `x` 在 `C` 中的两个最佳逼近元,
+    `||y|| = ||z|| = d`, 则由平行四边形等式
+    <span class="formula">
+      `||y - z||^2`
+      `= 2(||y||^2 + ||z||^2) - 4||(y+z)/2||^2`
+      `le 4d^2 - 4d^2 = 0`.
+    </span>
+  </li>
+  <li>现在对一般的 `x in X`, 考察平移后的集合 `C - {x} := {y-x: y in C}`.
+    它也是 `X` 中的闭凸子集, 故存在唯一的 `z_0 = x_0 - x in C - {x}` 使得
+    `||z_0|| = ||x_0 - x||` 取得最小值.
+    `x_0 in C` 即为所求的点.
+  </li>
+</ol>
+
+<div class="theorem p">
+  <b>内积空间中最佳逼近元的性质</b>
+  设 `C` 是内积空间 `X` 中的闭凸子集, `x in X`, `x_0 in C`, 则
+  <span class="formula">
+    `x_0` 是 `x` 在 `C` 中的最佳逼近元
+    `iff (AA y in C)` `"Re"(x - x_0, y - x_0) le 0`.
+  </span>
+  特别当 `C` 是 `X` 的闭线性子空间时,
+  <span class="formula">
+    `x_0` 是 `x` 在 `C` 中的最佳逼近元
+    `iff x - x_0 _|_ C`.
+  </span>
+  <div class="img sm">
+    <img src="../img/optimal-approx.png" alt="最佳逼近">
+  </div>
+</div>
+
+<ol class="proof">
+  <li>
+    `AA y in C`, 定义
+    <span class="formula">
+      `varphi(t) := ||x - t y - (1-t) x_0||^2`,
+      `quad t in [0, 1]`.
+    </span>
+    则
+    <span class="formula">
+      `x_0` 是 `x` 在 `C` 中的最佳逼近元 `iff AA y in C`, `varphi(t)` 在 `0` 处取得最小值.
+    </span>
+    由于
+    <span class="formula">
+      `varphi(t) = ||(x-x_0) - t(y-x_0)||^2`
+      `= ||x - x_0||^2 + t^2 ||y-x_0||^2 - 2t"Re"(x-x_0, y-x_0)`,
+    </span>
+    这是 `t` 的二次实函数, 对称轴为 `t = "Re"(x-x_0, y-x_0) // ||y-x_0||^2`.
+    因此
+    <span class="formula">
+      `AA y in C`, `varphi(t)` 在 `0` 处取得最小值 `iff "Re"(x-x_0, y-x_0) le 0`.
+    </span>
+  </li>
+  <li>现在设 `C` 是闭线性子空间. 则
+    <span class="formula align">
+      `(AA y in C)` `"Re"(x - x_0, y - x_0) le 0`<br>
+      `iff (AA y in C)` `"Re"(x - x_0, y) le 0`.
+    </span> 
+    用 `-y` 代替上式的 `y` 得到
+    <span class="formula">
+      `(AA y in C)` `"Re"(x - x_0, y) = 0`.
+    </span>
+    再用 `"i"y` 代替上式的 `y` 得到
+    <span class="formula">
+      `(AA y in C)` `(x - x_0, y) = 0`.
+    </span>
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>投影定理 (正交分解)</b>
+  设 `M` 是 Hilbert 空间 `X` 的闭子空间, 则 `X = M o+ M^_|_`.
+  换言之 `AA x in X` 可以唯一表示成
+  <span class="formula">
+    `x = y + z`,
+    `quad y in M`, `z in M^_|_`.
+  </span>
+</p>
+
+<p class="proof">
+  存在性:
+  取 `y` 为 `x` 在 `M` 上的最佳逼近元, 令 `z = x - y`, 则 `z _|_ M`.
+  <br>
+  唯一性: 若 `x` 有正交分解 `x = y + z`, 则由 `x - y = z _|_ M` 知道 `y` 为 `x` 在 `M` 上的最佳逼近元,
+  从而是唯一的.
+</p>
+
+<p class="proof">
+  直接证明. 不妨设 `M != {0}`, 因为 `M` 是 `X` 的闭子空间, 所以 `M` 也是 Hilbert 空间.
+  存在 `M` 的正交规范基 `{bm e_alpha}`, 且对 `AA x in X`, 其 Fourier 系数 `(x, bm e_alpha)`
+  只有至多可数个不为零, 并且级数 `sum_alpha (x, bm e_alpha) bm e_alpha` 在 `M` 中收敛,
+  记它收敛到 `y in M`, 则对任意 `alpha`,
+  <span class="formula">
+    `(x - y, bm e_alpha)`
+    `= (x, bm e_alpha) - (y, bm e_alpha)`
+    `= (x, bm e_alpha) - (x, bm e_alpha) = 0`.
+  </span>
+  令 `z = x - y`, 由上式知 `z _|_ M`.
+  由极限的唯一性知 `y, z` 是唯一的.
+  当然, 唯一性也可由 `M nn M^_|_ = {0}` 推得.
+</p>
+
+<h3>Riesz 表示定理</h3>
+
+<ol class="theorem">
+  <b>Riesz 表示定理</b>
+  Hilbert 空间上每个连续线性泛函都可以用内积表示. 具体来说,
+  <li>
+    对 `AA y in X`, 定义 `f_y := (*,y)`, 称为<b>内积表示的连续线性泛函</b>. 换言之
+    <span class="formula">
+      `f_y(x) = (x, y)`, `quad AA x in X`.
+    </span>
+    可以验证 `f_y in X^ast`, 且 `||f_y|| = ||y||`.
+  </li>
+  <li>反过来, 对 `AA f in X^ast`, 存在唯一 `y in X` 使得
+    <span class="formula">
+      `f(x) = (x, y)`, `quad AA x in X`,
+    </span>
+    且 `||f|| = ||y||`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    由 Cauchy 不等式, `|f_y(x)| le ||x|| ||y||`, 因此 `f_y in X^ast` 且 `||f_y|| le ||y||`.
+    另一方面 `f_y(y) = (y, y) = ||y||^2`, 所以 `||f_y|| = ||y||`.
+  </li>
+  <li>存在性.
+    若 `f = 0`, 取 `y = 0` 即可. 下面设 `f != 0`, 则 `"Ker"f subne X` 是一个闭子空间.
+    由投影定理, `EE x_0 in "Ker" f^_|_`, 且 `f(x_0) = 1`. 于是对 `AA x in X`, 有
+    <span class="formula">
+      `f(x - f(x) x_0)`
+      `= f(x) - f(x) f(x_0) = 0`,
+    </span>
+    于是 `x - f(x) x_0 in "Ker" f`.
+    取 `y = x_0//||x_0||^2`, 则 `AA x in X`,
+    <span class="formula">
+      `(x, y)` `= ((x, x_0))/((x_0, x_0))`
+      `= ((x - f(x) x_0, x_0) + f(x) (x_0, x_0)) / ((x_0,x_0))`
+      `= (0 + f(x)(x_0, x_0))/((x_0, x_0))`
+      `= f(x)`.
+    </span>
+    再由 1. 知道 `||f|| = ||y||`.<br>
+    唯一性. 若存在 `y, z in X` 满足
+    <span class="formula">
+      `f(x) = (x, y) = (x, z)`, `quad AA x in X`.
+    </span>
+    取 `x = y-z` 得到 `(y-z, y) = (y-z, z)`, 即 `(y-z, y-z) = 0`.
+    因此必有 `y = z`.
+  </li>
+</ol>
+
+<p class="remark">
+  `RR^3` 上的线性函数可以写为 `f = a x + b y + c z`
+  `= (a, b, c) * (x, y, z)`, 这就是线性函数的内积表示.
+</p>
+
+<p class="theorem">
+  <b>有界共轭双线性函数的内积表示</b>
+  设 `a(x, y)` 是 Hilbert 空间 `X` 上的共轭双线性函数.
+  称 `a` 是有界的, 如果存在常数 `M gt 0` 使得
+  <span class="formula">
+    `|a(x, y)| le M ||x|| ||y||`,
+    `quad AA x, y in X`.
+  </span> 
+  又定义
+  <span class="formula">
+    `||a|| = Sup_(x, y != 0) |a(x, y)| // ||x|| ||y||`.
+  </span>
+  我们的结论是, 对 Hilbert 空间 `X` 上的每个有界共轭双线性函数 `a`,
+  存在唯一的算子 `A in cc L(X)` 使得
+  <span class="formula">
+    `a(x, y) = (x, A y)`,
+    `quad AA x, y in X`,
+  </span>
+  且 `||a|| = ||A||`.
+</p>
+
+<p class="proof">
+  固定 `y in X`, 则 `f := a(*, y)` 是一个连续线性泛函. 由 Riesz 表示定理, `EE z = A y in X` 使得
+  <span class="formula">
+    `a(x, y) = (x, z)`
+    `= (x, A y)`,
+    `quad AA x in X`.
+  </span>
+  且 `||z|| = ||A y|| = ||f||`.
+  映射 `A` 是线性的, 又
+  <span class="formula">
+    `||A y||`
+    `= ||f||`
+    `= Sup_(x != 0) |a(x, y)| // ||x||`
+    `le M ||y||`,
+  </span>
+  故 `A in cc L(X)`.
+  最后,
+  <span class="formula">
+    `||A||`
+    `= Sup_(y != 0) ||A y|| // ||y||`
+    `= Sup_(y != 0) Sup_(x != 0) |a(x, y)| // ||x|| ||y||`
+    `= ||a||`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Lax-Milgram 定理</b>
+  设 `a(x, y)` 是 Hilbert 空间 `X` 上的有界共轭双线性函数.
+  由前一定理知道, 存在唯一的 `A in cc L(X)` 使得
+  <span class="formula">
+    `a(x, y) = (x, A y)`, `quad AA x, y in X`.
+  </span>
+  进一步, 若存在 `delta gt 0`, 满足
+  <span class="formula">
+    `|a(x, x)| ge delta ||x||^2`, `quad AA x in X`,
+  </span>
+  则 `A` 是双射, 且 `||A^-1|| le delta^-1`.
+</p>
+
+<ol class="proof">
+  <li>`A` 是单射. 这是因为
+    <span class="formula">
+      `A y_1 = A y_2`
+      `rArr (AA x in X)` `a(x, y_1) = a(x, y_2)`
+      `rArr (AA x in X)` `a(x, y_1 - y_2) = 0`.
+    </span>
+    取 `x = y_1 - y_2`, 由已知
+    <span class="formula">
+      `0 = |a(y_1 - y_2, y_1 - y_2)|`
+      `ge delta ||y_1 - y_2||^2`.
+    </span>
+    从而 `||y_1 - y_2|| = 0`, 即 `y_1 = y_2`.
+  </li>
+  <li>`A` 是满射. 先证 `"Im" A` 闭. 事实上, `AA w in bar("Im"A)`, 存在点列 `{v_n}` 使得
+    `A v_n to w`. 由已知 `AA m, n in NN`,
+    <span class="formula">
+      `delta ||v_m - v_n||^2`
+      `le |a(v_m - v_n, v_m - v_n)|`
+      `= |(v_m - v_n, A v_m - A v_n)|`
+      `le ||v_m - v_n|| ||A v_m - A v_n||`
+    </span>
+    于是
+    <span class="formula">
+      `||v_m - v_n||`
+      `le 1/delta ||A v_m - A v_n||`
+      `to 0`, `(m, n to oo)`.
+    </span>
+    因此 `{v_n}` 是基本列, 设 `v_n to v in X`.
+    由 `A` 连续知 `A v = A lim v_n = lim A v_n = w`.
+    因此 `w in "Im"A`, 从而 `"Im"A` 是闭集.
+    <br>
+    再证 `"Im"A^_|_ = {0}`. 任取 `w in "Im"A^_|_`, 则
+    <span class="formula">
+      `a(w, v) = (w, A v) = 0`, `quad AA v in X`.
+    </span>
+    取 `v = w`, 由已知
+    <span class="formula">
+      `delta ||w||^2`
+      `le |a(w, w)|`
+      `= 0`,
+    </span>
+    故 `w = 0`.
+    于是 `"Im"A^_|_ = {0}`.
+    由投影定理, `X = "Im"A o+ {0} = "Im"A`, 故 `A` 是满射.
+  </li>
+  <li>应用 Banach 逆算子定理, `A^-1 in cc L(X)`.
+    由已知
+    <span class="formula">
+      `delta||x||^2`
+      `le |a(x, x)|`
+      `= |(x, A x)|`
+      `le ||x|| ||A x||`,
+      `quad AA x in X`.
+    </span>
+    记 `A x = y`, 则上式表明
+    <span class="formula">
+      `delta ||A^-1 y|| le ||y||`,
+      `quad AA y in X`.
+    </span>
+    即 `||A^-1|| le delta^-1`.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
