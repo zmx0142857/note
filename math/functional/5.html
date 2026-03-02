@@ -7,13 +7,16 @@
 </head>
 <body>
 
-<h2>函数空间举例</h2>
+<h2>函数空间</h2>
+
+<h3>函数空间举例</h3>
 
 <p class="remark">
   本章使用<a href="../analysis/15.html#15-3">微分指标记号</a> `alpha = (alpha_1, cdots, alpha_n)`.
 </p>
 
 <ol class="example">
+  <b>连续可微函数空间</b>
   设 `Omega sube RR^n` 是有界连通开区域, 考虑
   <li>
     `k` 阶连续可微函数空间 `C^k(bar Omega)`.
@@ -45,13 +48,13 @@
 <ol class="example">
   <b>边值为零的函数空间</b>
   有时我们希望函数值在定义域的边界处等于零. 这将大大简化分部积分 (一元) 或 Green 公式 (多元) 的计算.
-  例如 `f, g in C^1[0, 1]`, `f(0) = f(1) = 0`, 则
+  例如 `f, g in C^1[0, 1]`, `g(0) = g(1) = 0`, 则
   <span class="formula">
-    `int_0^1 f(x) g'(x) dx`
-    `= f(x) g'(x)|_0^1 - int_0^1 f'(x) g(x) dx`
-    `= -int_0^1 f'(x) g(x) dx`.
+    `int_0^1 f'(x) g(x) dx`
+    `= f(x) g(x)|_0^1 - int_0^1 f(x) g'(x) dx`
+    `= -int_0^1 f(x) g'(x) dx`.
   </span>
-  对于这类函数, 分部积分的效果正好将求导运算从 `g` 转移到 `f` 上面, 并改变积分的正负号.
+  对于这类函数, 分部积分的效果正好将求导运算从 `f` 转移到 `g` 上面, 并改变积分的正负号.
   一般地, 设 `Omega sube RR^n` 是有界连通开区域, 定义
   <li>`C_0^m(Omega)` 是 `Omega` 上一切 `m` 次连续可微, 并在边界 `del Omega`
     的某邻域内为 `0` 的函数的集合:
@@ -61,8 +64,8 @@
     其中下标 `0` 表示该空间中的函数在边界附近取零.
     定义范数
     <span class="formula">
-      `||u|| = (sum_(|alpha| le m) int_Omega |del^alpha u(x)|^2 dx)^(1//2)`,<br>
-      `||u||_m = (sum_(|alpha| = m) int_Omega |del^alpha u(x)|^2 dx)^(1//2)`,
+      `||u||_(m,2) = (sum_(|alpha| color(red)(le) m) int_Omega |del^alpha u(x)|^2 dx)^(1//2)`,<br>
+      `||u||_m = (sum_(|alpha| color(red)(=) m) int_Omega |del^alpha u(x)|^2 dx)^(1//2)`,
     </span>
     根据下文的 Poincaré 不等式, 低阶导数的模平方积分可以被高阶导数的模平方积分 (称为能量积分)
     所控制, 因此它们是一对等价模.
@@ -78,9 +81,9 @@
 
 <p class="lemma">
   <b>Poincaré 不等式</b>
-  存在常数 `C gt 0`, 使得 `AA u in C_0^m(Omega)`,
+  设 `Omega` 有界, `m` 为给定的正整数, 则存在常数 `C gt 0`, 使得 `AA u in C_0^m(Omega)`,
   <span class="formula">
-    `||u|| le C ||u||_m`.
+    `||u||_(m,2) le C ||u||_m`.
   </span>
 </p>
 
@@ -112,7 +115,345 @@
   </span>
 </p>
 
+<ol class="example">
+  <b>光滑函数空间</b>
+  设 `Omega sube RR^n` 是开集 (未必有界), `u` 是 `Omega` 上的函数, 它的<b>支集</b>定义为
+  <span class="formula">
+    `"supp" u := bar({x in Omega: u(x) != 0})`.
+  </span>
+  换言之函数 `u` 在支集外恒等于 `0`, 且 `"supp" u` 是满足这一性质的最小闭集.
+  <li>`C^oo(Omega)` 表示在 `Omega` 上具有任意阶导数的函数全体.</li>
+  <li>`C_0^oo(Omega)` 是 `C^oo(Omega)` 中满足支集相对于 `Omega` 紧的函数的集合.
+    这些函数在 `Omega` 的边界附近等于 `0`.
+  </li>
+  <li>`C_K^oo(Omega)` 是 `C^oo(Omega)` 中满足支集含于 `K` 的函数的集合, 其中 `K` 相对于 `Omega` 紧.</li>
+  <li>速降函数空间 `cc S(RR^n)` 是 `C^oo(Omega)` 中满足任意阶导数在无穷远处快速下降的函数的集合.
+    这里的快速是指, 对任意正整数 `m` 和任意指标 `alpha`,
+    <span class="formula">
+      `del^alpha varphi(x) = o(|x|^-m)`,
+      `quad |x| to oo`.
+    </span>
+    为了避免原点处的奇点, 用 `(1+|x|^2)^(-m//2)` 代替 `|x|^-m` 得到
+    <span class="formula">
+      `cc S(RR^n) = { varphi in C^oo(RR^n): AA m in NN, AA alpha, Sup_(x in RR^n) (1+|x|^2)^(m//2) |del^alpha varphi(x)| lt oo }`.
+    </span>
+  </li>
+</ol>
+
+<h3>可数模空间</h3>
+
+<p>我们希望在 `C_0^oo(Omega)`, `C_K^oo(Omega)`, `cc S(RR^n)` 等光滑函数空间中引入范数.
+  当然, 此范数应当导出我们想要的收敛性. 例如在 `C_K^oo(Omega)` 中,
+  `varphi_j to varphi` 是指 `varphi_j` 的各阶导数一致收敛到 `varphi` 的相应导数:
+  `AA alpha`,
+  <span class="formula">
+    `max_(x in K) |del^alpha (varphi_j - varphi)(x)| to 0`, `quad j to oo`.
+  </span>
+  然而 `varphi` 的导数有可数多个, 上述收敛性不能用一个范数描述, 考虑引入可数个范数
+  <span class="formula">
+    `||varphi||_m = sum_(|alpha|le m) max_(x in K) |del^alpha varphi(x)|`,
+    `quad m = 1, 2, cdots`.
+  </span>
+  于是
+  <span class="formula">
+    `varphi_j to varphi`
+    `iff AA m, ||varphi_j - varphi||_m to 0`.
+  </span>
+  引出可数模的概念:
+</p>
+
+<p class="definition">
+  <b>可数模空间</b>
+  设 `X` 是线性空间, 如果存在可数个半范数 `||*||_m` `(m = 1, 2, cdots)` 满足 `AA x in X`,
+  <span class="formula">
+    `x = 0` `iff AA m, ||x||_m = 0`,
+  </span>
+  则称这些半范数是 `X` 上的一组可数模, 称 `X` 为可数模空间.
+  如果令
+  <span class="formula">
+    `||x||_m' = max(||x||_1, cdots, ||x||_m)`, `quad AA x in X`.
+  </span>
+  则 `||*||_m'` `(m = 1, 2, cdots)` 也是 `X` 上的一组可数模, 且满足
+  <span class="formula">
+    `||x||_1' le ||x||_2' le cdots`,
+    `quad AA x in X`.
+  </span>
+</p>
+
+<p class="corollary">
+  <b>可数模等价</b>
+  如果 `X` 上的两组可数模 `||*||_m` 与 `||*||_m'` 导出相同的收敛性, 则称它们等价.
+  事实上, 这两组可数模等价当且仅当 `AA m in NN`, `EE n_1, n_2 in NN` 和 `C_1, C_2 gt 0` 使得
+  <span class="formula">
+    `C_1 ||x||_(n_1)' le ||x||_m le C_2 ||x||_(n_2)'`.
+  </span>
+</p>
+
+<ol class="example">
+  现在我们给出常见光滑函数空间上的可数模.
+  <li>`cc D_K(Omega)`: 如前讨论, 即 `C_K^oo(Omega)` 空间, 附带可数模
+    <span class="formula">
+      `||varphi||_m = sum_(|alpha|le m) max_(x in K) |del^alpha varphi(x)|`,
+      `quad m = 1, 2, cdots`.
+    </span>
+    于是
+    <span class="formula">
+      `varphi_j to varphi`
+      `iff AA alpha`, `del^alpha varphi_j ⇉ del^alpha varphi`.
+    </span>
+  </li>
+  <li>`cc E(Omega)`: 即 `C^oo(Omega)` 空间, 取紧集套
+    <span class="formula">
+      `K_1 sube K_2 sube cdots sube Omega`,
+      `quad uuu_(m ge 1) K_m = Omega`.
+    </span>
+    定义可数模
+    <span class="formula">
+      `||varphi||_m = sum_(|alpha|le m) max_(x in K_m) |del^alpha varphi(x)|`,
+      `quad m = 1, 2, cdots`.
+    </span>
+    于是
+    <span class="formula">
+      `varphi_j to varphi`
+      `iff AA m`, `AA |alpha| le m`,
+      在 `K_m` 上有
+      `del^alpha varphi_j ⇉ del^alpha varphi`.
+    </span>
+    可以证明 `cc E(Omega)` 的收敛性与 `{K_m}` 的选取无关, 换言之任意两个紧集套导出的可数模等价.
+  </li>
+  <li><b>速降函数空间</b> `cc S(RR^n)`: 定义可数模
+    <span class="formula">
+      `||varphi||_m = Sup_(|alpha| le m) Sup_(x in RR^n) (1+|x|^2)^(m//2) |del^alpha varphi(x)|`,
+      `quad m = 1, 2, cdots`.
+    </span>
+    于是
+    <span class="formula">
+      `varphi_j to varphi`
+      `iff AA m`, `AA |alpha| le m`,
+      `del^alpha(varphi_j - varphi) = o(|x|^m)`,
+      `|x| to oo`.
+    </span>
+    `cc S(RR^n)` 是完备空间.
+  </li>
+  <li><b>基本空间</b> `cc D(Omega)`: 即 `C_0^oo(Omega)` 空间, 我们不定义可数模, 只定义它的收敛性:
+    `varphi_j to varphi` 当且仅当<br>
+    (1) 函数列 `{varphi_j}` 有公共的紧支集, 即存在紧集 `K` 满足 `AA j`, `"supp"varphi_j sube K sube Omega`.<br>
+    (2) 在 `K` 上 `varphi_j` 的各阶导数一致收敛到 `varphi` 的相应导数: `AA alpha`,
+    <span class="formula">
+      `max_(x in K) |del^alpha (varphi_j - varphi)(x)| to 0`,
+      `quad j to oo`.
+    </span>
+    `cc D(Omega)` 也是完备空间, 尽管我们并未定义它的拓扑.
+  </li>
+</ol>
+
+<p class="remark">
+  在 `cc D(Omega)` 中,
+  由于紧集 `K` 的取法随函数列 `{varphi_j}` 的不同而不同, 收敛性无法用一组可数模描述.
+  但固定 `K` 以后, 可以用 `cc D_K(Omega)` 上的收敛性描述: 事实上,
+  `varphi_j to varphi (cc D(Omega))` 当且仅当存在紧集 `K` 使得 `varphi_j, varphi in cc D(K)`, 且
+  <span class="formula">
+    `varphi_j to varphi (cc D_K(Omega))`.
+  </span>
+</p>
+
+<p class="remark">
+  `Omega = RR^n` 时, `cc D_K(RR^n)`, `cc E(RR^n)`, `cc S(RR^n)` 分别简记为 `cc D_K`, `cc E` 和 `cc S`.
+  `cc D_K` 中的函数都有紧支集, 在无穷远处等于 `0`, 显然是速降函数. 另一方面速降函数都是 `C^oo` 的, 故
+  <span class="formula">
+    `cc D_K sube cc S sube cc E`.
+  </span>
+</p>
+
 <h2>广义函数</h2>
+
+<h3>定义及性质</h3>
+
+<p>在物理学中, 遇到不可导的函数, 如何“无视”条件继续导下去?
+  在偏微分方程中, 遇到不甚良好的初边值条件, 如何“姑且”先求出一个解, 再说明这个解的合理性?
+  这需要我们将求导的概念加以推广, 从而引出广义导数:<br>
+  考虑连续函数 `f in C(RR)`, 它可以视为 `C_0^oo(RR)` 上的线性泛函:
+  <span class="formula">
+    `(:f, varphi:) = int_RR f(x) varphi(x) dx`, `quad AA varphi in C_0^oo(RR)`.
+  </span>
+  若 `f in C^1(RR)`, 由于 `varphi` 在边界处为 `0`, 根据分部积分有
+  <span class="formula">
+    `(:f', varphi:) = -(:f, varphi':)`.
+  </span>
+  上式实际可以推广到任意 `f in C(RR)`, 这表明 `f'` 也是 `C_0^oo(RR)`
+  上的线性泛函, 且上式给出 `f'` 的定义.
+  由于 `varphi` 无穷可导, 我们可以将 `f` 的任意阶导数转移到 `varphi` 上面, 得到
+  <span class="formula">
+    `(:f^((n)), varphi:) = (-1)^n (:f, varphi^((n)):)`.
+  </span>
+  正式定义如下:
+</p>
+
+<ol class="definition">
+  <b>广义函数</b> 是指基本空间 `cc D(Omega)` 上的一个连续线性泛函 `f: cc D(Omega) to RR`, 它满足:
+  <li>线性. `AA alpha, beta in RR`, `AA varphi, psi in cc D(Omega)`,
+    <span class="formula">
+      `(:f, alpha varphi + beta psi:)`
+      `= alpha (:f, varphi:) + beta (:f, psi:)`.
+    </span>
+  </li>
+  <li>连续. 只要 `varphi_j to varphi (cc D(Omega))`, 就有
+    <span class="formula">
+      `(:f, varphi_j:) to (:f, varphi:)`,
+      `quad j to oo`.
+    </span>
+  </li>
+  全体广义函数记作 `cc D(Omega)^ast`, 即 `cc D(Omega)` 的共轭空间.
+</ol>
+
+<p class="example">
+  <b>自然对应</b>.
+  设 `Omega sube RR^n` 为开集.
+  `Omega` 上的<b>局部可积函数</b> `f` 是指, 对任意紧集 `K sube Omega` 都有
+  <span class="formula">
+    `int_K |f(x)| dx lt oo`,
+  </span>
+  记作 `f in L_"loc"^1(Omega)`.
+  不区分几乎处处相等的局部可积函数时, `L_"loc"^1(Omega)` 可以嵌入到 `cc D(Omega)^ast` 中.
+  具体地说, 每个局部可积函数 `f` 都对应一个广义函数
+  <span class="formula">
+    `(:f, varphi:)`
+    `= int_Omega f(x) varphi(x) dx`,
+    `quad varphi in cc D(Omega)`.
+  </span>
+</p>
+
+<ol class="definition">
+  <b>广义函数的运算</b>
+  <li>广义导数. `AA f in cc D(Omega)^ast`,
+    <span class="formula">
+      `(: tilde del^alpha, varphi :)`
+      `:= (-1)^|alpha| (:f, del^alpha varphi:)`,
+      `quad AA varphi in cc D(Omega)`.
+    </span>
+    广义函数可以求任意次导数, 结果还是广义函数.
+  </li>
+  <li>广义函数乘以普通函数. `AA f in cc D(Omega)^ast`, `AA psi in C^oo(Omega)`,
+    <span class="formula">
+      `(:psi f, varphi:)`
+      `:= (:f, psi varphi:)`,
+      `quad AA varphi in cc D(Omega)`.
+    </span>
+    一般不能定义两个广义函数的乘积.
+  </li>
+  <li>收敛性. 规定广义函数列的收敛为逐点收敛 (或弱*收敛):
+    `f_j to f (cc D(Omega)^ast)` 当且仅当 `AA varphi in cc D(Omega)`,
+    <span class="formula">
+      `(:f_j, varphi:) to (:f, varphi:)`,
+      `quad j to oo`.
+    </span>
+  </li>
+</ol>
+
+<p class="remark">
+  根据广义函数的收敛性, 广义导数与极限运算总是可以交换:
+  <span class="formula">
+    `lim tilde del^alpha f_j = tilde del^alpha lim f_j`.
+  </span>
+  这意味着 `tilde del^alpha` 是连续算子.
+</p>
+
+<ol class="definition">
+  <b>广义函数的几何变换</b>
+  <li>平移算子. 对 `AA a in RR^n`, 定义
+    <span class="formula">
+      `(tau_a varphi)(x) := varphi(x - a)`,
+      `quad AA varphi in cc D(Omega)`.
+    </span>
+    相应定义广义函数的平移算子为 `tilde tau_a := (tau_(-a))^ast`, 即 `AA f in cc D(Omega)^ast`,
+    <span class="formula">
+      `(:tilde tau_a f, varphi:)`
+      `= (:f, tau_(-a) varphi:)`
+      `= (:f, varphi(x+a):)`,
+      `quad AA varphi in cc D(Omega)`.
+    </span>
+  </li>
+  <li>伸缩算子. 对 `AA k in RR\\{0}`, 定义
+    <span class="formula">
+      `(sigma_k varphi)(x) := varphi(k x)`,
+      `quad AA varphi in cc D(Omega)`.
+    </span>
+    相应定义广义函数的伸缩算子为 `tilde sigma_k := |k|^-1 (sigma_(k^-1))^ast`, 即 `AA f in cc D(Omega)^ast`,
+    <span class="formula">
+      `(:tilde sigma_k f, varphi:)`
+      `= |k|^-1 (:f, sigma_(k^-1) varphi:)`
+      `= |k|^-1 (:f, varphi(x//k):)`,
+      `quad AA varphi in cc D(Omega)`.
+    </span>
+  </li>
+  <li>反射算子. 在伸缩算子中取 `k = -1` 就得到反射算子 `sigma := sigma_(-1)`,
+    恰好有 `tilde sigma = sigma^ast`.
+  </li>
+</ol>
+
+<p class="remark">
+  广义函数的平移、伸缩变换可以兼容普通函数: 设 `f in L_"loc"^1(Omega)`, `tilde f` 是相应的广义函数, 则
+  <span class="formula">
+    `tau_a f = tilde tau_a tilde f`,
+    `quad sigma_k f = tilde sigma_k tilde f`.
+  </span>
+</p>
+
+<ol class="example">
+  <b>单位脉冲函数</b> `delta` 是一个广义函数, 其效果是取出 `varphi(0)` 的值:
+  <span class="formula">
+    `(:delta, varphi:) := varphi(0)`,
+    `quad AA varphi in cc D(Omega)`.
+  </span>
+  <li>`delta` 的 `alpha` 阶广义导数为
+    <span class="formula">
+      `(:delta^((alpha)), varphi:)`
+      `= (-1)^|alpha| del^alpha varphi(0)`,
+      `quad AA varphi in cc D(Omega)`.
+    </span>
+  </li>
+  <li>`delta in cc D(RR)^ast` 的 `-1` 阶广义导数为
+    <span class="formula">
+      `Y(x) = [x gt 0]`
+      `= {0, if x le 0; 1, if x gt 0:}`.
+    </span>
+    换言之 `tilde del Y = delta`.
+    直觉上,
+    <span class="formula">
+      `int_(-oo)^oo delta(x) dx = Y(oo) - Y(-oo) = 1`,
+    </span>
+    且对任意不含原点的区间 `[a, b]` 有
+    <span class="formula">
+      `int_a^b delta(x) dx = Y(a) - Y(b) = 0`.
+    </span>
+    假如 `delta` 对应一个普通函数, 则它必须在原点以外处处为 `0`,
+    且在 `RR` 上积分值为 `1`, 从而整个积分值都集中在原点处,
+    这显然不可能.
+  </li>
+  <li>
+    `x^n delta^((m))(x)`
+    `= {(-1)^n m!/(m-n)! delta^((m-n))(x), if m ge n; 0, otherwise:}`
+  </li>
+  <li>`RR^n` 上的广义 Laplace 算子 `tilde Delta := tilde del_(x_1)^2 + cdots + tilde del_(x_n)^2`.
+    我们知道, `RR^n` 中的径向调和函数 (满足 `Delta f = 0`) 是
+    <span class="formula">
+      `f(x) = {
+        ln|x|, if n = 2;
+        |x|^(2-n), if n ge 3
+      :}`
+    </span>
+    通常意义下, 这些函数在原点不可导, 但使用广义导数我们有:
+    <span class="formula">
+      `tilde Delta f(x) = {
+        Omega_n delta(x), if n = 2;
+        (2-n) Omega_n delta(x), if n ge 3
+      :}`
+    </span>
+    其中 `Omega_n` 是 `n` 维单位球面 `S^n` 的面积.
+  </li>
+</ol>
+
+<h3>`cc S` 上的 Fourier 变换</h3>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

@@ -361,7 +361,7 @@
     `||x_n||^2 = sum_(i=1)^n |(x, e_i)|^2`,
     `quad x - x_n _|_ x_n`.
   </span>
-  进一步如果 `lim_(n to oo) x_n to y`, 则有
+  进一步如果 `x_n to y`, 则有
   <span class="formula">
     `||y||^2 = sum_(n ge 1) |(x, e_n)|^2`,
     `quad x - y _|_ y`.
@@ -520,7 +520,7 @@
 </p>
 
 <ol class="proof">
-  <li>`lArr`: 设 `{x_n}` 是 `X` 的可数稠密子集, 则存在线性无关子集 `{y_n} sube {x_n}` 使得
+  <li>`rArr`: 设 `{x_n}` 是 `X` 的可数稠密子集, 则存在线性无关子集 `{y_n} sube {x_n}` 使得
     `"span"{y_n} = "span"{x_n}`.
     对 `{y_n}` 应用 Schmidt 正交化, 得到正交规范集 `{e_n}`, 且
     <span class="formula">
@@ -530,17 +530,17 @@
     </span>
     所以 `{e_n}` 是正交规范基.
   </li>
-  <li>`rArr`:
+  <li>`lArr`:
     设 `{e_n}` 是至多可数的正交规范基, 则 `e_n` 的全体有理系数的线性组合在 `X` 中稠密.
   </li>
   <li>记正交规范基为 `{e_n}_(n=1)^N`, 其中 `N` 有限或 `N = oo`.
     作映射 `T: x mapsto {(x, e_n)}_(n=1)^N`.
-    显然 `T` 线性,
+    显然 `T` 线性, 且为满射.
     又根据 Hilbert 空间中的 Parseval 等式
     <span class="formula">
       `||x||^2 = sum_(n=1)^N |(x, e_n)|^2`,
     </span>
-    `T` 是双射.
+    `T` 是单射.
     最后, `T` 还保持内积:
     <span class="formula">
       `(x, y)`
@@ -563,7 +563,11 @@
     `d(x, x_0) = d(x, M)`.
   </span>
   称 `x_0` 是 `x` 在 `M` 上的最佳逼近元.
-  若 `X` 的范数严格凸 (即单位闭球严格凸), 则最佳逼近元还是唯一的.
+  若 `X` 的范数<b>严格凸</b>, 则最佳逼近元还是唯一的.
+  所谓范数严格凸是指单位闭球是严格凸集, 即 `AA x != y`, `||x|| = ||y|| = 1` 和 `AA 0 lt lambda lt 1`, 有
+  <span class="formula">
+    `||(1-lambda)x + lambda y|| lt 1`.
+  </span>
 </p>
 
 <ol class="proof">
@@ -616,7 +620,7 @@
     `le ||(1-lambda)x|| + ||lambda y|| = 1`.
   </span>
   在内积空间中, 上式等号成立当且仅当 `x, y` 同向, 但 `x, y` 都是单位向量, 故只能 `x = y`.
-  综上, 等号成立当且仅当 `x = y`, 因此单位闭球是严格凸的.
+  因此单位闭球是严格凸的.
 </p>
 
 <p class="theorem">
@@ -639,10 +643,10 @@
     下证 `{x_n}` 是基本列. 任取 `m, n in NN`,
     由 `C` 是凸集, `(x_m+x_n)//2 in C` 从而 `||x_m+x_n|| ge 2d`.
     由平行四边形等式
-    <span class="formula">
-      `||x_m - x_n||^2`
-      `= 2||x_m||^2 + 2||x_n||^2 - ||x_m+x_n||^2`
-      `le 2(d + 1/m)^2 + 2(d + 1/n)^2 - 4d^2`
+    <span class="formula align">
+      `||x_m - x_n||^2`<br>
+      `= 2||x_m||^2 + 2||x_n||^2 - ||x_m+x_n||^2`<br>
+      `le 2(d + 1/m)^2 + 2(d + 1/n)^2 - 4d^2`<br>
       `to 0`, `(m, n to oo)`.
     </span>
     因此 `{x_n}` 是基本列, 它的极限为 `x_0 in C`.
