@@ -159,7 +159,8 @@ var tocData = [
           { "value": "2", "label": "赋范线性空间", "date": "2026-02-06" },
           { "value": "3", "label": "Banach 空间", "date": "2026-02-14" },
           { "value": "4", "label": "Hilbert 空间", "date": "2026-02-28" },
-          { "value": "5", "label": "Sobolev 空间", "date": "2026-03-02" },
+          { "value": "5", "label": "Sobolev 空间", "date": "2026-03-03" },
+          { "value": "6", "label": "紧算子", "date": "2026-03-03" },
         ]
       },
       {

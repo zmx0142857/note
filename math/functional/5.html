@@ -19,28 +19,30 @@
   <b>连续可微函数空间</b>
   设 `Omega sube RR^n` 是有界连通开区域, 考虑
   <li>
-    `k` 阶连续可微函数空间 `C^k(bar Omega)`.
-    集合 `bar Omega` 上全体 `k` 阶连续可微函数按范数
+    `m` 阶连续可微函数空间 `C^m(bar Omega)`.
+    紧集 `bar Omega` 上全体 `m` 阶连续可微函数按范数
     <span class="formula">
-      `||u|| = max_(|alpha| le k) max_(x in bar Omega) |del^alpha u(x)|`
+      `||u|| = max_(|alpha| le m) max_(x in bar Omega) |del^alpha u(x)|`
     </span>
     构成 Banach 空间.
+    在这空间中, `u_n to u` 当且仅当 `u_n` 的各阶导数一致收敛到 `u` 的对应导数.
   </li>
   <li>
     Sobolev 空间 `H^(m, p)(Omega)` (`1 le p lt oo`).
-    空间 `C^m(bar Omega)` 按另一个范数
-    <span class="formula">
+    日常使用中, 一致收敛的要求还是太高了. 如果降低门槛, 只要求 `u_n`
+    的各阶导数以 `L^p` 收敛到 `u` 的对应导数, 可以引入范数
+    <span class="formula align">
       `||u||_(m,p)`
+      `= u` 的不超过 `m` 阶导数的 `L^p` 模的 `p` 方平均<br>
       `= (sum_(|alpha| le m) ||del^alpha u||_p^p)^(1//p)`
-      `= (sum_(|alpha| le m) int_Omega |del^alpha u(x)|^p dx)^(1//p)`
+      `= (sum_(|alpha| le m) int_Omega |del^alpha u(x)|^p dx)^(1//p)`.
     </span>
-    并不完备.
-    为得到 Banach 空间, 将集合
+    然而空间 `C^m(bar Omega)` 按此范数并不完备. 为得到 Banach 空间, 将集合
+    (注意 `Omega` 未取闭包)
     <span class="formula">
       `S := { u in C^m(Omega): ||u||_(m, p) lt oo }`
     </span>
-    按范数 `||*||_(m, p)` 完备化, 得到的空间称为 Sobolev 空间 `H^(m,p)(Omega)`
-    (注意 `Omega` 未取闭包).
+    按范数 `||*||_(m, p)` 完备化, 得到的空间称为 Sobolev 空间 `H^(m,p)(Omega)`.
     Sobolev 空间在偏微分方程论中占有重要地位.
   </li>
 </ol>
@@ -127,22 +129,11 @@
     这些函数在 `Omega` 的边界附近等于 `0`.
   </li>
   <li>`C_K^oo(Omega)` 是 `C^oo(Omega)` 中满足支集含于 `K` 的函数的集合, 其中 `K` 相对于 `Omega` 紧.</li>
-  <li>速降函数空间 `cc S(RR^n)` 是 `C^oo(Omega)` 中满足任意阶导数在无穷远处快速下降的函数的集合.
-    这里的快速是指, 对任意正整数 `m` 和任意指标 `alpha`,
-    <span class="formula">
-      `del^alpha varphi(x) = o(|x|^-m)`,
-      `quad |x| to oo`.
-    </span>
-    为了避免原点处的奇点, 用 `(1+|x|^2)^(-m//2)` 代替 `|x|^-m` 得到
-    <span class="formula">
-      `cc S(RR^n) = { varphi in C^oo(RR^n): AA m in NN, AA alpha, Sup_(x in RR^n) (1+|x|^2)^(m//2) |del^alpha varphi(x)| lt oo }`.
-    </span>
-  </li>
 </ol>
 
 <h3>可数模空间</h3>
 
-<p>我们希望在 `C_0^oo(Omega)`, `C_K^oo(Omega)`, `cc S(RR^n)` 等光滑函数空间中引入范数.
+<p>我们希望在 `C_0^oo(Omega)`, `C_K^oo(Omega)` 等光滑函数空间中引入范数.
   当然, 此范数应当导出我们想要的收敛性. 例如在 `C_K^oo(Omega)` 中,
   `varphi_j to varphi` 是指 `varphi_j` 的各阶导数一致收敛到 `varphi` 的相应导数:
   `AA alpha`,
@@ -221,20 +212,6 @@
     </span>
     可以证明 `cc E(Omega)` 的收敛性与 `{K_m}` 的选取无关, 换言之任意两个紧集套导出的可数模等价.
   </li>
-  <li><b>速降函数空间</b> `cc S(RR^n)`: 定义可数模
-    <span class="formula">
-      `||varphi||_m = Sup_(|alpha| le m) Sup_(x in RR^n) (1+|x|^2)^(m//2) |del^alpha varphi(x)|`,
-      `quad m = 1, 2, cdots`.
-    </span>
-    于是
-    <span class="formula">
-      `varphi_j to varphi`
-      `iff AA m`, `AA |alpha| le m`,
-      `del^alpha(varphi_j - varphi) = o(|x|^m)`,
-      `|x| to oo`.
-    </span>
-    `cc S(RR^n)` 是完备空间.
-  </li>
   <li><b>基本空间</b> `cc D(Omega)`: 即 `C_0^oo(Omega)` 空间, 我们不定义可数模, 只定义它的收敛性:
     `varphi_j to varphi` 当且仅当<br>
     (1) 函数列 `{varphi_j}` 有公共的紧支集, 即存在紧集 `K` 满足 `AA j`, `"supp"varphi_j sube K sube Omega`.<br>
@@ -251,17 +228,9 @@
   在 `cc D(Omega)` 中,
   由于紧集 `K` 的取法随函数列 `{varphi_j}` 的不同而不同, 收敛性无法用一组可数模描述.
   但固定 `K` 以后, 可以用 `cc D_K(Omega)` 上的收敛性描述: 事实上,
-  `varphi_j to varphi (cc D(Omega))` 当且仅当存在紧集 `K` 使得 `varphi_j, varphi in cc D(K)`, 且
+  `varphi_j to varphi (cc D(Omega))` 当且仅当存在紧集 `K` 使得 `varphi_j, varphi in cc D_K(Omega)`, 且
   <span class="formula">
     `varphi_j to varphi (cc D_K(Omega))`.
-  </span>
-</p>
-
-<p class="remark">
-  `Omega = RR^n` 时, `cc D_K(RR^n)`, `cc E(RR^n)`, `cc S(RR^n)` 分别简记为 `cc D_K`, `cc E` 和 `cc S`.
-  `cc D_K` 中的函数都有紧支集, 在无穷远处等于 `0`, 显然是速降函数. 另一方面速降函数都是 `C^oo` 的, 故
-  <span class="formula">
-    `cc D_K sube cc S sube cc E`.
   </span>
 </p>
 
@@ -351,7 +320,7 @@
 </ol>
 
 <p class="remark">
-  根据广义函数的收敛性, 广义导数与极限运算总是可以交换:
+  广义导数与极限运算总是可以交换:
   <span class="formula">
     `lim tilde del^alpha f_j = tilde del^alpha lim f_j`.
   </span>
@@ -431,10 +400,11 @@
     这显然不可能.
   </li>
   <li>
-    `x^n delta^((m))(x)`
-    `= {(-1)^n m!/(m-n)! delta^((m-n))(x), if m ge n; 0, otherwise:}`
+    `x^n/n! delta^((m))(x)`
+    `= (-1)^n (m;n) delta^((m-n))(x)`.
+    `m lt n` 时, 根据组合数定义, 等式右边为 `0`.
   </li>
-  <li>`RR^n` 上的广义 Laplace 算子 `tilde Delta := tilde del_(x_1)^2 + cdots + tilde del_(x_n)^2`.
+  <li>`RR^n` 上的广义 Laplace 算子 `tilde Delta := tilde del_1^2 + cdots + tilde del_n^2`.
     我们知道, `RR^n` 中的径向调和函数 (满足 `Delta f = 0`) 是
     <span class="formula">
       `f(x) = {
@@ -449,11 +419,192 @@
         (2-n) Omega_n delta(x), if n ge 3
       :}`
     </span>
-    其中 `Omega_n` 是 `n` 维单位球面 `S^n` 的面积.
+    其中 `Omega_n` 是 `n` 维单位球面 `S^n` 的面积
+    <span class="formula">
+      `Omega_n = (n pi^(n//2))/(Gamma(n//2+1))`.
+    </span>
   </li>
 </ol>
 
-<h3>`cc S` 上的 Fourier 变换</h3>
+<h3>`cc S^ast` 上的 Fourier 变换</h3>
+
+<p class="definition">
+  <b>速降函数空间</b> `cc S(RR^n)` 是 `C^oo(Omega)` 中满足任意阶导数在无穷远处快速下降的函数的集合.
+  这里的快速是指, 对任意正整数 `m` 和任意指标 `alpha`,
+  <span class="formula">
+    `del^alpha varphi(x) = o(|x|^-m)`,
+    `quad |x| to oo`.
+  </span>
+  为了避免原点处的奇点, 用 `(1+|x|^2)^(-m//2)` 代替 `|x|^-m` 得到
+  <span class="formula">
+    `cc S(RR^n) = { varphi in C^oo(RR^n): AA m in NN, AA alpha,:}`
+    `{:Sup_(x in RR^n) (1+|x|^2)^(m//2) |del^alpha varphi(x)| lt oo }`.
+  </span>
+  定义可数模
+  <span class="formula">
+    `||varphi||_m = Sup_(|alpha| le m) Sup_(x in RR^n) (1+|x|^2)^(m//2) |del^alpha varphi(x)|`,
+    `quad m = 1, 2, cdots`.
+  </span>
+  于是
+  <span class="formula">
+    `varphi_j to varphi`
+    `iff AA m`, `AA |alpha| le m`,
+    `del^alpha(varphi_j - varphi) = o(|x|^-m)`,
+    `|x| to oo`.
+  </span>
+  `cc S(RR^n)` 是完备空间.
+</p>
+
+<p class="remark">
+  `Omega = RR^n` 时, `cc D(RR^n)`, `cc D_K(RR^n)`, `cc E(RR^n)`, `cc S(RR^n)`
+  分别简记为 `cc D`, `cc D_K`, `cc E` 和 `cc S`.
+  其中 `cc D` 的函数都有紧支集, 在无穷远处等于 `0`, 显然是速降函数.
+  另一方面速降函数都是 `C^oo` 的, 故从集合的包含关系上有
+  <span class="formula">
+    `cc D_K sube cc D sube cc S sube cc E`.
+  </span>
+  它们的对偶空间满足
+  <span class="formula">
+    `cc E^ast sube cc S^ast sube cc D^ast sube cc D_K^ast`.
+  </span>
+</p>
+
+<p class="definition">
+  <b>Fourier 变换</b>
+  引入速降函数的目的在于, `cc S` 对 Fourier 变换封闭.
+  事实上, `varphi in cc S` 的 Fourier 变换定义为
+  <span class="formula">
+    `(cc F varphi)(xi)`
+    `= int_(RR^n) varphi(x) exp(-2pi"i" x * xi) dx`,
+  </span>
+  其中 `x * xi` 为向量点乘 `x_1 xi_1 + cdots + x_n xi_n`.
+  (问题: 实函数的 Fourier 变换仍是实函数吗??)
+  Fourier 逆变换定义类似, 仅差一个负号:
+  <span class="formula">
+    `(cc F^-1 varphi)(xi)`
+    `= int_(RR^n) varphi(x) exp(2pi"i" x * xi) dx`,
+  </span>
+  Fourier 变换的一大特色是将求导运算转化为乘积运算, 即
+  <span class="formula">
+    `cc F @ del^alpha = (2pi"i"xi)^alpha @ cc F`,<br>
+    `del^alpha @ cc F = cc F @ (-2pi"i"x)^alpha`.
+  </span>
+  此外, Fourier 变换的平移、伸缩公式为
+  <span class="formula">
+    `cc F @ tau_a = exp(-2pi"i"a * xi) @ cc F`,<br>
+    `tau_a @ cc F = cc F @ exp(2pi"i"a * x)`,<br>
+    `cc F @ sigma_k = |k|^-1 sigma_(k^-1) @ cc F`,<br>
+    特别 `cc F @ sigma = sigma @ cc F = cc F^-1`.
+  </span>
+  最后, 卷积的 Fourier 变换等于 Fourier 变换的乘积:
+  <span class="formula">
+    `cc F(f ast g) = cc F(f) cc F(g)`.
+  </span>
+</p>
+
+<p class="proposition">
+  `cc F in cc L(cc S)`,
+  `cc F^-1 = sigma cc F in cc L(cc S)`.
+</p>
+
+<ol class="proposition">
+  <b>广义 Fourier 变换</b>
+  <li>
+    若 `varphi, psi in cc S`, 则有 `(:cc F varphi, psi:) = (:varphi, cc F psi:)`,
+    `(:cc F^-1 varphi, psi:) = (:varphi, cc F^-1 psi:)`.
+  </li>
+  <li>
+    基于此, 在 `cc S^ast` 上我们定义 `tilde cc F = cc F^ast`,
+    `tilde cc F^-1 = (cc F^-1)^ast`,
+    称为广义 Fourier 变换.
+    我们有 `tilde cc F, tilde cc F^-1 in cc L(cc S^ast)`.
+  </li>
+  <li>
+    `cc S^ast` 上的广义 Fourier 变换可以兼容 `cc S` 上的 Fourier 变换.
+    不引起混淆时, `~` 号可以省略.
+  </li>
+</ol>
+
+<ol class="example">
+  <li>`f(x) = exp(-pi|x|^2)` 在 Fourier 变换下不变. 换言之 `cc F(f) = f`.</li>
+  <li>`cc F delta = cc F^-1 delta = 1`.</li>
+</ol>
+
+<p class="theorem">
+  <b>Plancherel 定理</b>
+  Fourier 变换保持 `L^2` 函数的范数不变,
+  从而根据极化恒等式, 也保持 `L^2` 内积不变.
+</p>
+
+<h2>Sobolev 空间</h2>
+
+<p class="remark">
+  我们曾把 Sobolev 空间定义为 `C^m(Omega)` 的子集
+  <span class="formula">
+    `S := { u in C^m(Omega): ||u||_(m, p) lt oo }`
+    `= { u in C^m(Omega): AA |alpha| le m, del^alpha u in L^p(Omega) }`
+  </span>
+  完备化得到的空间.
+  但这个空间中的元素究竟是什么? 本节指出, Sobolev 空间是 `L^p(Omega)` 的子空间,
+  其元素的广义导数也是 `L^p` 函数.
+</p>
+
+<p class="definition">
+  `W^(m,p)(Omega)` 空间. 设 `Omega` 是 `RR^n` 中的开集, `m` 是非负整数, `1 le p lt oo`.
+  定义
+  <span class="formula">
+    `W^(m,p)(Omega) := { u in L^p(Omega) : AA |alpha| le m, tilde del^alpha u in L^p(Omega) }`.
+  </span>
+  该空间的范数定义与 `||*||_(m,p)` 相同, 但是把普通导数改为广义导数.
+  由定义 `S sube W^(m,p)(Omega)`.
+</p>
+
+<p class="corollary">
+  `W^(m,p)(Omega)` 是完备的.
+</p>
+
+<p class="theorem">
+  特别取 `Omega = RR^n` 有:
+  `W^(m,p)(RR^n)` 是 `C_0^oo(RR^n)` 按 `||*||_(m,p)` 模的完备化.
+  此定理对一般开集 `Omega` 未必成立.
+</p>
+
+<p class="proof">
+  只需证 `C_0^oo(RR^n)` 在 `W^(m,p)(RR^n)` 中稠密.
+  🚧
+</p>
+
+<p class="theorem">
+  <b>(Meyers-Serrin)</b>
+  `W^(m,p)(Omega)` 也是 `S` 的完备化.
+  根据完备化空间的唯一性, `H^(m,p)(Omega) ~= W^(m,p)(Omega)`.
+</p>
+
+<p class="proof">
+  只需证 `S` 在 `W^(m,p)(Omega)` 中稠密.
+  🚧
+</p>
+
+<p class="definition">
+  称开区域 `Omega sube RR^n` 是<b>可扩张</b>的, 如果对任意 Sobolev 空间 `W^(m,p)(Omega)`,
+  存在 `T in cc L(W^(m,p)(Omega), W^(m,p)(RR^n))`, 且
+  <span class="formula">
+    `T u|_Omega = u`,
+  </span>
+  换言之, 可以将每个函数 `u` 的定义域延拓到 `RR^n` 上, 且对应 `u mapsto T u` 是连续线性的.
+</p>
+
+<p class="theorem">
+  <b>Sobolev 嵌入</b>
+  若开区域 `Omega sube RR^n` 可扩张, 则
+  <span class="formula">
+    `W^(m,p)(Omega) ↪ {
+      L^q(Omega) (1//q = 1//p - m//n), if m//n le 1//p;
+      C(bar Omega), if m//n gt 1//p
+    :}`
+  </span>
+  记号 `↪ ` 表示一个连续的单射.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
