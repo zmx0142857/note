@@ -332,7 +332,9 @@ by_cases h: s ∈ G
   push_neg at h7
   exact h7 t ht.left ht.right
 }
+```
 
+```
 example (F G : Set (Set U)) : (⋃₀ F) ∩ (⋂₀ G)ᶜ ⊆ ⋃₀ {s | ∃ u ∈ F, ∃ v ∈ G, s = u ∩ vᶜ} := by
 
 intro x ⟨h1,h2⟩
@@ -356,6 +358,83 @@ constructor
 {
   exact ⟨hu.right,hv.right⟩
 }
+```
+
+```
+example (A : Set U) (h1 : ∀ F, (⋃₀ F = A → A ∈ F)) : ∃ x, A = {x} := by
+by_contra h2
+push_neg at h2
+have h3 := h1 { s | s ⊆ A ∧ s ≠ A }
+rw [mem_setOf] at h3
+have h4: ⋃₀ {s | s ⊆ A ∧ s ≠ A} = A
+ext x
+constructor
+{
+  intro h5
+  cases' h5 with s hs
+  rw [mem_setOf] at hs
+  exact hs.left.left hs.right
+}
+{
+  intro h
+  have g1: ∃ y ∈ A, y ≠ x
+  {
+    by_contra g2
+    push_neg at g2
+    have g3: A = {x}
+    ext z
+    rw [mem_singleton_iff]
+    constructor
+    {
+      intro hz
+      exact g2 z hz
+    }
+    {
+      intro hy
+      rw [hy]
+      exact h
+    }
+    exact h2 x g3
+  }
+
+  cases' g1 with y hy
+  use {z | z ∈ A ∧ z ≠ y}
+  constructor
+  {
+    rw [mem_setOf]
+    constructor
+    {
+      intro y hy
+      rw [mem_setOf] at hy
+      exact hy.left
+    }
+    {
+      by_contra a
+      have h4 : A ⊆ {z | z ∈ A ∧ z ≠ y}
+      rw [a]
+      have h5 := h4 hy.left
+      rw [mem_setOf] at h5
+      have h6 : y = y := rfl
+      exact h5.right h6
+    }
+  }
+  {
+    rw [mem_setOf]
+    constructor
+    {
+      exact h
+    }
+    {
+      by_contra
+      have h7 := hy.right
+      rw [a] at h7
+      have h8: y = y := rfl
+      exact h7 h8
+    }
+  }
+}
+have h5 : A = A := rfl
+exact (h3 h4).right h5
 ```
 
 ## ts 实现简易证明助手
