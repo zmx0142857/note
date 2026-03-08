@@ -319,50 +319,111 @@
 <h3>连续函数空间</h3>
 
 <p class="definition">
-	用 `C([a, b], RR^n)` 表示全体连续映射 `x: [a, b] to RR^n`,
-    每个映射可以看作 `RR^n` 中的一条连续曲线.
-	定义其上的标准化度量函数
-	<span class="formula">
-		`d(x, y) = max_(t in [a, b]) ||x(t) - y(t)||`,
-	</span>
-	其中 `||*||` 是 `RR^n` 中的标准化度量 (Euclid 距离).
-	`RR^n` 空间的线性结构可以自然诱导出 `C([a, b], RR^n)` 上的线性结构,
-	即
-	<span class="formula">
-		`(x+y)(t) = x(t) + y(t)`,<br/>
-		`(alpha x)(t) = alpha x(t)`.
-	</span>
-	当 `n = 1` 时, `C([a, b], RR^n)` 简单记为 `C[a, b]`.
+  用 `C([a, b], RR^n)` 表示全体连续映射 `x: [a, b] to RR^n`,
+  每个映射可以看作 `RR^n` 中的一条连续曲线.
+  定义其上的标准化度量函数
+  <span class="formula">
+    `d(x, y) = max_(t in [a, b]) ||x(t) - y(t)||`,
+  </span>
+  其中 `||*||` 是 `RR^n` 中的标准化度量 (Euclid 距离).
+  `RR^n` 空间的线性结构可以自然诱导出 `C([a, b], RR^n)` 上的线性结构,
+  即
+  <span class="formula">
+    `(x+y)(t) = x(t) + y(t)`,<br/>
+    `(alpha x)(t) = alpha x(t)`.
+  </span>
+  当 `n = 1` 时, `C([a, b], RR^n)` 简单记为 `C[a, b]`.
+  一般地, 设 `M` 是紧度量空间, 则全体连续映射 `M to RR` 构成度量空间, 记作 `C(M)`.
 </p>
 
 <p class="theorem">
-	`C([a, b], RR^n)` 是可分的, 也是完备的.
+  `C(M)` 是完备的.
+  `C([a, b], RR^n)` 是可分的, 也是完备的.
 </p>
 
 <ol class="definition">
   <b>一致有界与等度连续</b>
-  考虑连续函数空间 `C[a, b]`.
-  <li>称函数族 `F sube C[a, b]` <b>一致有界</b>, 如果 `EE M gt 0`, 使得
+  考虑连续函数空间 `C(M)`, 其中 `F sube C(M)` 是一族连续函数.
+  <li>称 `F` <b>一致有界</b>, 如果 `EE c gt 0`, 使得
     <span class="formula">
-      `|f(x)| le M`, `quad AA f in F`, `AA x in [a, b]`.
+      `|f(x)| le c`, `quad AA f in F`, `AA x in M`.
     </span>
-    即 `M` 是这族函数的共同的界.
+    即 `c` 是这族函数的共同的界.
   </li>
   <li>
-	称 `F sube C[a, b]` <b>等度连续</b>,
-	如果对任意 `epsi gt 0`, 存在 `delta gt 0`, 使对任意 `x, y in [a, b]`, `|x - y| lt delta`, 有
+	称 `F` <b>等度连续</b>,
+	如果对任意 `epsi gt 0`, 存在 `delta gt 0`, 使对任意 `x, y in M`, `d(x, y) lt delta`, 有
 	<span class="formula">
 	  `|f(x) - f(y)| lt epsi`, `quad AA f in F`.
 	</span>
-    即 `F` 中每个函数都一致连续, 且保证它们一致连续的 `delta` 也是同一个.
-    这是一致连续的加强版, “一致一致连续”.
+    即 `F` 中每个函数都一致连续, 且保证它们一致连续的 `delta` 也是同一个,
+    即 `delta` 与 `f in F` 的选取无关.
+    等度连续是一致连续的加强版.
   </li>
 </ol>
 
 <p class="theorem">
   <b>(Arzela-Ascoli, 1889)</b>
-  `F sube C[a, b]` 是列紧的当且仅当 `F` 一致有界且等度连续.
+  `F sube C(M)` 是列紧的当且仅当 `F` 一致有界且等度连续.
 </p>
+
+<ol class="proof">
+  注意 `C(M)` 完备, 因此 `F` 列紧 `iff F` 完全有界.
+  <li>`rArr`: 设 `F` 完全有界, 则 `F` 是有界集, 即 `F` 是一致有界函数族.
+   下证它等度连续. `AA epsi gt 0`, 取 `F` 的有限 `epsi//3` 网 `{f_1, cdots, f_n}`,
+   这是 `n` 个连续函数. 于是存在 `delta gt 0`, 当 `d(x, y) lt delta` 时有
+   <span class="formula">
+     `|f_i(x) - f_i(y)| lt epsi//3`, `quad i = 1, cdots, n`.
+   </span>
+   `AA f in F`, 由 `epsi//3` 网的定义, `EE f_i` 使得
+   <span class="formula">
+     `max_x |f(x) - f_i(x)| lt epsi//3`.
+   </span>
+   于是当 `d(x, y) lt delta` 时有
+   <span class="formula">
+     `|f(x) - f(y)|`
+     `le |f(x) - f_i(x)|`
+     `+ |f_i(x) - f_i(y)|`
+     `+ |f_i(y) - f(y)|`
+     `lt epsi`.
+   </span>
+   `delta` 与 `f in F` 的选取无关, 故 `F` 等度连续.
+  </li>
+  <li>`lArr`: 设 `F` 一致有界且等度连续, `AA epsi gt 0`, 我们要找有限 `epsi` 网.
+    由于 `F` 等度连续, `EE delta gt 0`, 当 `d(x, y) lt delta` 时有
+    <span class="formula">
+      `|f(x) - f(y)| lt epsi//3`, `quad AA f in F`.
+    </span>
+    由于 `M` 是紧集, 存在其上的有限 `delta` 网 `N(delta) = {x_1, cdots, x_n}`.
+    于是每个 `f in F` 对应 `RR^n` 中的一点, 即
+    <span class="formula">
+      `T: F to RR^n`,<br>
+      `f mapsto (f(x_1), cdots, f(x_n))`.
+    </span>
+    事实上像集 `T(F)` 在 `RR^n` 中有界, 这是因为, 设 `AA f in F`, `|f(x)| le c`, 则
+    <span class="formula">
+      `sum_(i=1)^n |f(x_i)|^2 le n c^2`.
+    </span>
+    于是 `T(F)` 在 `RR^n` 中紧, 其存在有限 `epsi//3` 网 `{T f_1, cdots, T f_m}`.
+    下证 `{f_1, cdots, f_m}` 就是 `F` 的有限 `epsi` 网: `AA f in F`, `EE f_i` 使得
+    `||T f - T f_i|| lt epsi // 3`.
+    对 `AA x in M`, `EE x_j in N(delta)` 使得 `d(x, x_j) lt delta`, 从而
+    <span class="formula">
+      `|f(x) - f_i(x)|`
+      `le |f(x) - f(x_j)|`
+      `+ |f(x_j) - f_i(x_j)|`
+      `+ |f_i(x_j) - f_i(x)|`
+    </span>
+    上式右端第一、三项都小于 `epsi // 3`, 第二项
+    <span class="formula">
+      `|f(x_j) - f_i(x_j)|`
+      `le (sum_(j=1)^n |f(x_j) - f_i(x_j)|^2)^(1//2)`
+      `= ||T f - T f_i||`
+      `lt epsi // 3`.
+    </span>
+    综上有 `|f(x) - f_i(x)| lt epsi`.
+  </li>
+</ol>
 
 <h3>Hölder 空间*</h3>
 

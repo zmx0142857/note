@@ -26,7 +26,7 @@
   <div class="tabs-body">
     <div id="tabs-sudoku" class="tabs-body-item">
       <p>只返回第一个解</p>
-      <div class="playground" type="textarea" rows="9" value="0 0 0 1 9 0 0 0 0
+      <div class="playground" type="textarea" rows="11" value="0 0 0 1 9 0 0 0 0
 0 0 1 0 0 0 3 0 8
 0 0 9 6 8 0 2 0 0
 0 9 8 4 3 0 0 0 0
@@ -42,11 +42,27 @@
 0 0 0 0 8 0 0 9 1
 0 2 0 4 0 0 5 0 0
 0 0 0 0 0 0 0 7 0
-4 0 1 6 0 3 0 0 0">
+4 0 1 6 0 3 0 0 0" value3="0 0 0 0 6 0 5 0 9
+0 5 0 0 0 0 4 3 0
+8 4 6 0 0 0 2 7 1
+0 6 8 3 5 1 7 0 0
+0 0 7 8 0 6 0 1 4
+3 9 0 2 0 7 6 5 0
+6 0 0 0 0 0 8 0 0
+9 0 5 4 8 0 0 6 0
+0 8 0 0 0 3 0 2 5
+---
+!(a24 + a34 - 12) // killer sudoku, a24 + a34 === 12 or isNaN">
 <script type="text">
 module.exports = function (str) {
-  const board = str.split('\n').map(row => row.trim()).filter(Boolean).map(row => row.split(' ').map(v => Number(v)))
-  return solver.sudoku(board).map(row => row.join(' ')).join('\n')
+  let [data, code = ''] = str.split(/--+/)
+  const board = data.split('\n').map(row => row.trim()).filter(Boolean).map(row => row.split(' ').map(v => Number(v)))
+  code = code.trim().replace(/a(\d)(\d)/g, (match, i, j) => {
+    return '(a[' + (i-1) + '][' + (j-1) + '] || NaN)'
+  })
+  const check = code.trim() && Function(['a'], 'return ' + code)
+  console.log(check)
+  return solver.sudoku(board, { check }).map(row => row.join(' ')).join('\n')
 }
 </script>
       </div>

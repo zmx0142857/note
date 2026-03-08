@@ -3,9 +3,11 @@ self.solver = (() => {
 /**
  * 数独
  * @param {number[9][9]} board 9*9 方阵, 空格用零填充
+ * @param {object} options
+ * @param {function} options.check 检查自定义规则
  * @return {number[9][9]} 原地修改 board 数组
  */
-const sudoku = (board) => {
+const sudoku = (board, { check } = {}) => {
   let found = false
   let count = 0
   const stack = []
@@ -35,7 +37,14 @@ const sudoku = (board) => {
     ++count
     const mask = 1 << n
     const conflict = (rows[i] & mask) || (cols[j] & mask) || (grids[(i/3|0)*3 + (j/3|0)] & mask)
-    return !conflict
+    if (conflict) return false
+    // 检查自定义规则
+    if (check) {
+      board[i][j] = n
+      if (!check(board)) return false
+      board[i][j] = 0
+    }
+    return true
   }
 
   const dfs = (depth) => {
@@ -60,6 +69,7 @@ const sudoku = (board) => {
 
   init()
   dfs(0)
+  if (!found) throw new Error('no solution')
   return board
 }
 
@@ -192,6 +202,7 @@ const skyscraper = (board, clues) => {
 
   init()
   dfs(0)
+  if (!found) throw new Error('no solution')
   return board
 }
 
