@@ -377,6 +377,11 @@ v.applyMatrix4(new mat4().copy(m).premultiply(n))
 
 Spherical(radius, phi, theta): 球面坐标, `phi ∈ [0, π]`, 0 表示北极. `theta ∈ [0, 2π]`, 0 表示 z 轴正方向.
 
+```js
+obj.updateMatrixWorld(force = false) // 更新物体和子物体的世界矩阵
+obj.updateWorldMatrix(updateParents = false, updateChildren = false) // 更灵活的方法, 可以选择性更新父物体或子物体链.
+```
+
 ## 插件
 
 这里的插件是指除了 `import * as THREE from 'three'` 之外, 需要单独引入的文件.

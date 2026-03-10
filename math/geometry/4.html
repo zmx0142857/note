@@ -99,7 +99,7 @@
   <b>反演变换</b>
   设圆 `O` 的半径为 `r`.
   观察上图, `A, B` 两点位于 `O` 出发的同一条射线上, 且 `OA * OB = r^2`,
-  我们称 `A, B` 关于圆 `O` 互为反演, `O` 为反演中心, `r` 为反演半径,
+  我们称 `A, B` 关于圆 `O` 互为反演 (或对称), `O` 为反演中心, `r` 为反演半径,
   圆 `O` 称为反演的参考圆.  显然, 一个点作两次反演后的像是其自身.
   反演变换的全体不动点就是参考圆上的点.
 </p>
@@ -119,18 +119,27 @@
   这题就没有漂亮的答案, 也无法使用阿氏圆来做了.
 </div>
 
-<p class="construction">
+<ol class="construction">
   <b>反演点的作法</b>
-  设点 `P` 不在圆 `O` 上. 作 `NS _|_ OP` 于 `O`, 想像 `N` 是北极, `S` 是南极, `OP` 是赤道.
-  现在连接 `NP` 交圆 `O` 于 `A`, 连接 `SA` 交赤道 `OP` 于 `Q`, 则 `P, Q` 关于圆 `O` 互为反演.
-  <span class="img md" id="img-circle-inverse">
-    <img src="../img/circle-inverse.svg">
-  </span>
-</p>
-
-<p class="proof">
-  由三角形 `QOS` 和 `NOP` 相似立即得到结论.
-</p>
+  设点 `P` 不在圆 `O` 上. 作 `P` 关于 `O` 的反演点 `Q`:
+  <li>
+    作 `NS _|_ OP` 于 `O`, 想像 `N` 是北极, `S` 是南极, `OP` 是赤道.
+    现在连接 `NP` 交圆 `O` 于 `A`, 连接 `SA` 交赤道 `OP` 于 `Q`, 则 `Q` 是所求的点
+    (提示: `QOS ~ NOP`).
+  </li>
+  <li>若 `P` 在圆外, 还可以作切线 `PR`, 连接 `OR`, `OP`, 再作垂线 `RQ` 交 `OP` 于 `Q`
+    (提示: `QOR ~ ROP`).
+    从这一作法可以看出, `Q` 在 `P` 的极线上.
+  </li>
+  <div class="flex">
+    <span class="img md" id="img-circle-inverse">
+      <img src="../img/circle-inverse.svg">
+    </span>
+    <span class="img md" id="img-circle-inverse-2">
+      <img src="../img/circle-inverse-2.svg">
+    </span>
+  </div>
+</ol>
 
 <p class="remark">
   在 Geogebra 中可以用命令 Reflect about circle 来作反演.

@@ -107,7 +107,9 @@
   并想象它在无穷远处有一条直线.
 </p>
 
-<h2>Desargues 定理, 四调和点</h2>
+<h2>四调和点</h2>
+
+<h3>定性分析: Desargues 定理与四调和点</h3>
 
 <p class="theorem">
   <b>Desargues (笛沙格) 定理</b>
@@ -220,50 +222,121 @@
   如图, 线束
 </p>
 
-<!--
+<h3>定量分析: 交比与四调和点</h3>
 
-<h2>四调和点</h2>
-
-<ol class="definition">
-  <li>
-    设 `a, b, c, d in CC uu {oo}`, 规定 `oo//oo = 1`, 这四点的<b>交比</b>定义为
-    <span class="formula">
-      `(a, b, c, d) := ((c-a)//(c-b)) / ((d-a)//(d-b))`.
-    </span>
-    交比也可以写成
-    <span class="formula">
-      `(AB, CD) = (AC//BC)/(AD//BD)`,
-    </span>
-    右边各线段是有向的, 要放在复平面上考虑.
-  </li>
-  <li>
-    当四点的交比等于 -1 时, 称它们构成<b>四调和点</b>.
-    我们也说 `AB` 调和分割 `CD`, `CD` 调和分割 `AB`, 或 `AB, CD` 调和共轭,
-    因为两条线段地位是对称的.
-  </li>
-</ol>
-
-<ol class="corollary">
-  平面上有 `A, B, C, D` 四点, 以下各款等价
-  <li>`(AB, CD) = -1`;</li>
-  <li>`(AC)/(BC) + (AD)/(BD) = 0`;</li>
-  <li>`AC * BD = AD * CB`;</li>
-  第 3 个式子是最常用的.
-</ol>
+<p class="definition">
+  考虑紧化复平面 `CC uu {oo}` 上的四点
+  `A, B, C, D`, 规定 `oo//oo = 1`,
+  又用 `AB := B-A` 表示有向线段.
+  分别将点 `C, D` 视为线段 `AB` 的定比分点, 相应的比例为 `AC//BC`, `AD//BD`.
+  线段 `AB` 与 `CD` 的<b>交比 (cross ratio)</b> 定义为这两个比例的比:
+  <span class="formula">
+    `(AB, CD) = (AC//BC)/(AD//BD)`.
+  </span>
+  易知 `(AB, CD) = (CD, AB)`, 因此 `AB` 与 `CD` 的地位对称.
+</p>
 
 <p class="remark">
-	若 `A, B, C, D` 是四调和点, `AC = x`, `AD = y`, `AB = z`. 计算得到
-	<span class="formula">
-		`z = (2x y)/(x+y), quad` 即 `1/z = 1/2 (1/x + 1/y)`.
-	</span>
-	这就是 "调和" 一词的由来.<br/>
+  交比记忆: 左 `A` 右 `B`, 上 `C` 下 `D`.
+</p>
+
+<p class="corollary">
+  交比为实数当且仅当四点共圆或共线.
+</p>
+
+<p class="proof">
+  由已知
+  <span class="formula">
+    `(AB, CD) in RR`
+    `iff "arg"(AC//BC)/(AD//BD) = k pi`
+    `iff /_BCA - /_BDA = k pi`.
+  </span>
+  若 `/_BCA`, `/_BDA` 都是 `pi` 的整数倍, 显然四点共线.
+  否则设 `/_BDA = theta`.
+  若 `k = 0`, 有 `/_BCA = /_BDA = theta`, 由圆周角定理知四点共圆.
+  若 `k = 1`, 有 `/_BCA = theta + pi`,
+  `/_ACB = 2pi - /_BCA = pi - theta`, 于是 `/_ACB` 与 `/_BDA` 互补, 从而四点共圆.
+</p>
+
+<p class="corollary">
+  `(AB, CD) = -1` `iff AC * BD = AD * CB`.
+</p>
+
+<p class="proof">
+  计算
+  <span class="formula">
+    `(AB, CD) = -1`
+    `iff AC//BC + AD//BD = 0`
+    `overset"通分"iff AC * BD + AD * BC = 0`.
+  </span>
+  然后注意 `BC = -CB` 即可.
+</p>
+
+<p class="example">
+  取单位圆上的四点 `A = 1`, `B = -1`, `C = "i"`, `D = -"i"`, 则
+  <span class="formula">
+    `(AB, CD)`
+    `= (("i"-1)//("i"+1))/((-"i"-1)//(-"i"+1))`
+    `= "i"//(-"i")`
+    `= -1`.
+  </span>
+</p>
+
+<p class="definition">
+  <b>四调和点</b>
+  若 `A, B, C, D` 四点共线且交比为 `-1`, 则称它们为四调和点.
+  由于 `AB`, `CD` 两线段的地位对称,
+  我们也说 `AB` 调和分割 `CD`, `CD` 调和分割 `AB`, 或 `AB, CD` 调和共轭.
+  在位置关系上, `C, D` 恰有一点位于 `A, B` 之间, 于是只有四种可能:
+  <span class="formula">
+    `A —— C —— B —— D`,<br>
+    `A —— D —— B —— C`,<br>
+    `D —— A —— C —— B`,<br>
+    `C —— A —— D —— B`.
+  </span>
 </p>
 
 <ol class="corollary">
-	`A, B, C, D` 构成四调和点, `M` 是 `AB` 中点, 直接计算知
-	<li>`AC * BD = AD * CB = AB * CD //2`;</li>
-	<li>`CA * CB = CM * CD`;</li>
+  设 `A, B, C, D` 为四调和点, 则
+  <li>`AB` 是 `AC`, `AD` 的调和平均: `1/(AB) = 1/2(1/(AC) + 1/(AD))`.
+  </li>
+  <li>
+    设 `M` 为 `AB` 中点, 有 `CA * CB = CM * CD`.
+    特别当 `C` 是 `AB` 中点时, 有 `D = oo`.
+  </li>
+  <li>
+    `AC * BD = AD * CB = AB * CD //2`.
+  </li>
 </ol>
+
+<ol class="proof">
+  <li>由 `AC * BD = AD * CB` 得到
+    <span class="formula">
+      `AC * (BA+AD) = AD * (CA+AB)`
+    </span>
+    整理得
+    <span class="formula">
+      `2 AC * AD = (AC+AD)*AB`.
+    </span>
+  </li>
+  <li>
+    由 1. 知 `CD` 是 `CA`, `CB` 的调和平均:
+    <span class="formula">
+      `CD = (2 CA * CB)/(CA + CB)`
+    </span>
+    再由 `CM = (CA+CB)//2` 即得结论.
+  </li>
+  <li>
+    由于交比为实数, Ptolemy 不等式 `AC * BD + AD * CB ge AB * CD` 取得等号,
+    且左边两项是相等的.
+  </li>
+</ol>
+
+<p class="remark">
+  注意区分调和平均与几何平均:
+  比如线段 `AB` 的阿氏圆 `O` 交 `AB` 于 `P`, 则 `A, B` 关于圆 `O` 互为反演,
+  `OP^2 = OA * OB`. 这意味着 `OP` 是 `OA, OB` 的几何平均.
+</p>
 
 <p class="theorem">
   <b>完全四边形</b>
@@ -355,7 +428,6 @@
     `(x_0 x)/a^2 + (y_0 y)/b^2 = 1`.
   </span>
 </p>
--->
 
 <script src="../../js/note.js?type=math"></script>
 </body>
