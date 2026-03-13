@@ -626,6 +626,7 @@
     乘法同理: `2 * omega = omega`, 但 `omega * 2 = omega + omega`.
     因此, 比 `omega` 小的序数, 无论加法、乘法, 一般都要写在 `omega` 的右边.
   </li>
+  <li>序的乘法对加法只满足左分配律, 右分配律一般不成立.</li>
 </ol>
 
 <ol class="corollary">
@@ -1228,20 +1229,22 @@ for (let i = 1; i &lt;= 11; ++i) {
 
 <h2>超现实数</h2>
 
-<p>[<a href="https://www.bananaspace.org/wiki/%E8%B6%85%E7%8E%B0%E5%AE%9E%E6%95%B0" target="_blank">香蕉空间</a>]
+<p>[<a href="https://www.bananaspace.org/wiki/%E8%B6%85%E7%8E%B0%E5%AE%9E%E6%95%B0" target="_blank">香蕉空间</a>,
+Knuth《Surreal Numbers》]
 </p>
 
 <p>
-  超现实数源于博弈论, 它包含实数, 也包含无穷大、无穷小的数.
-  不严谨地说, 全体超现实数构成有序域; 但由于超现实数过多, 因此不构成集合.
+  <b>Conway 超现实数 (surreal numbers)</b> 源于博弈论, 是不同于自然数的又一数系.
+  它包含实数, 也包含无穷大、无穷小的数.
 </p>
 
 <ol class="definition">
-  <b>超现实数 (surreal number)</b> 由左集和右集组成, 记为 `{L | R}`. 它的递归定义如下:
+  每个超现实数由左集和右集组成, 记为 `{L | R}`, 其中 `L, R` 都是已构造出的超现实数的集合.
+  递归定义如下:
   <li><b>超现实数的判定</b>
-    `{L | R}` 是超现实数当且仅当 `L, R` 是超现实数的两个集合, 且
+    `{L | R}` 是超现实数当且仅当 `L lt R`, 即
     <span class="formula">
-      `l lt r`, `quad AA l in L, r in R`.
+      `(AA l in L)` `(AA r in R)` `l lt r`.
     </span>
     因此, 当 `L`, `R` 其一为空时, `{L | R}` 就是超现实数.
     特别 `{O/ | O/}` 是超现实数, 简记为 `{|}` 或者 `0`.
@@ -1249,7 +1252,7 @@ for (let i = 1; i &lt;= 11; ++i) {
   </li>
   <li>
     <b>超现实数的序</b>
-    对于 `x = {X_L|X_R}` 和 `y = {Y_L|Y_R}`, 定义 `x le y` 当且仅当下面两个条件同时成立:
+    对于 `x = {X_L|X_R}` 和 `y = {Y_L|Y_R}`, 定义 `x le y` 当且仅当 `X_L lt y` 且 `x lt Y_R`, 即
     <span class="formula">
       `(AA x_L in X_L)` `x_L lt y`,<br>
       `(AA y_R in Y_R)` `x lt y_R`.
@@ -1258,66 +1261,87 @@ for (let i = 1; i &lt;= 11; ++i) {
     可以验证 `le` 满足自反性和传递性. 如果两个超现实数同时满足 `x le y` 和 `y le x`, 则视它们相等.
     因此全体超现实数关于 `le` 是全序.
   </li>
-  <li>
-    <b>超现实数的加法</b> 定义
-    <span class="formula">
-      `x + y = { {x_L+y}uu{x+y_L} | {x_R+y}uu{x+y_R} }`,
-    </span>
-    其中 `x_L, x_R, y_L, y_R` 分别取遍 `x, y` 的左右集.<br>
-    加法零元为 `0`; 逆元为
-    <span class="formula">
-      `-x = { {-x_R} | {-x_L} }`,
-    </span>
-    `x_L, x_R` 分别取遍 `x` 的左右集.
-  </li>
-  <li>
-    <b>超现实数的乘法</b>
-    定义 `x * y = {L|R}`, 其中
-    <span class="formula">
-      `L = {x_L * y + x * y_(color(red)(L)) - x_L * y_(color(red)(L))}`
-      `uu {x_R * y + x * y_(color(red)(R)) - x_R * y_(color(red)(R))}`,<br>
-      `R = {x_L * y + x * y_(color(red)(R)) - x_L * y_(color(red)(R))}`
-      `uu {x_R * y + x * y_(color(red)(L)) - x_R * y_(color(red)(L))}`,
-    </span>
-    `x_L, x_R, y_L, y_R` 分别取遍 `x, y` 的左右集.<br>
-    乘法单位元是 `1 := {0|}`; 乘法逆元比较复杂, 稍后讨论.
-  </li>
 </ol>
 
-<p class="remark">
-  序数的加法与乘法没有交换律, 但超现实数有.
+<p class="example">
+  记 `1 = {0|}`, `-1 = {|0}`, 则 `-1 lt 0 lt 1`, 且 `{|1} = {-1|} = 0`.
 </p>
-
-<ol class="example">
-  <b>超现实数的运算规律</b>
-  <li>对任意自然数 `n` 有 `n+1 = {n|}`, `-n-1 = {|-n}`.</li>
-  <li>哪些超现实数是等价的?</li>
-  <li>交换左右集的效果是什么?</li>
-  <li>有理数如何嵌入超现实数?</li>
-</ol>
 
 <ul class="example">
   对每个序数 `alpha`, 把“第 `alpha` 天造出的超现实数”记为
   <span class="formula">
     `S_alpha := { {L|R}: L, R sube uuu_(beta lt alpha) S_beta }`.
   </span>
-  换言之 `AA x in L uu R`, `EE beta lt alpha`, `x in S_beta`;
-  即左右集的元素都是在前面某一天造出来的.
+  换言之左右集的元素都是在前面某一天造出来的.
   <li>第 `0` 天的超现实数只能是 `0`.</li>
   <li>第 `1` 天的超现实数除了 `0` 还有 `1 = {0|}` 与 `-1 = {|0}`.
     但 `{0|0}` 不是超现实数, 它违背了超现实数的判定.
   </li>
-  <li>第 `2` 天新造出的超现实数有 `2 = {1|}`, `-2 = {|-1}`, `1/2 = {0|1}` 和 `-1/2 = {-1|0}`.</li>
-  <li>第 `3` 天新造出的超现实数有 `1/4 = {0|1/2}`, `3/4 = {1/2|1}`, `3/2`, `3` 和它们的相反数.</li>
+  <li>第 `2` 天新造出的超现实数有 `2 = {1|}`, `-2 = {|-1}`, `1//2 = {0|1}` 和 `-1//2 = {-1|0}`.</li>
+  <li>第 `3` 天新造出的超现实数有 `1//4 = {0|1//2}`, `3//4 = {1//2|1}`, `3//2`, `3` 和它们的相反数.</li>
   <li>任意分母为 2 的幂的有理数都可以在有限天内造出.</li>
   <li>第 `omega` 天可以造出的数包括但不限于所有实数 (通过 Dedekind 分割), 以及
     <span class="formula">
       无穷大 `omega = {0, 1, 2, ... |}`,<br>
-      无穷小 `epsi = {0|1,1/2,1/4,...}`.
+      无穷小 `epsi = {0|1,1//2,1//4,...}`.
     </span>
     事实上 `epsi = 1//omega`.
   </li>
 </ul>
+
+<p>上例的 `1, 2, 3`, 以及有理数等, 还只是形式上的记号. 现在我们定义超现实数的加法与乘法,
+  使有理数能真正嵌入到超现实数中:
+</p>
+
+<ol class="definition">
+  <li>
+    <b>超现实数的加法</b>
+    定义 `x + y = {L|R}`, 其中
+    <span class="formula">
+      `L = (X_L+y) uu (x+Y_L)`,<br>
+      `R = (X_R+y) uu (x+Y_R)`.
+    </span>
+    记号 `X_L + y` 表示将集合 `X_L` 中的每个数与 `y` 相加得到的集合.
+    可以证明 `L lt R`, 从而 `{L|R}` 是超现实数.
+    加法零元为 `0`; 负元为 `-x = { -X_R | -X_L }`.
+  </li>
+  <li>
+    <b>超现实数的乘法</b>
+    定义 `x * y = {L|R}`, 其中
+    <span class="formula">
+      `L = (X_L * y + x * Y_L - X_L * Y_L)`
+      `uu (X_R * y + x * Y_R - X_R * Y_R)`,<br>
+      `R = (X_L * y + x * Y_R - X_L * Y_R)`
+      `uu (X_R * y + x * Y_L - X_R * Y_L)`.
+    </span>
+    这个定义可以简记为
+    <span class="formula">
+      `L = A_(L L) uu A_(R R)`, `quad R = A_(L R) uu A_(R L)`,<br>
+      `A_(i j) = X_i * y + x * Y_j - X_i * Y_j`
+      `==^"形式上" x * y - (x-X_i) * (y-Y_j)`.
+    </span>
+    和加法一样, 可以证明 `L lt R`, 从而 `{L|R}` 是超现实数.
+    乘法单位元是 `1 := {0|}`; 乘法逆元则比较复杂.
+  </li>
+</ol>
+
+<ol class="example">
+  <b>超现实数的运算规律</b>
+  <li>对任意整数 `n` 有 `{n|} = n+1`, `{|n} = n-1`.</li>
+  <li>超现实数乘以或除以 2 的运算规律?</li>
+  <li>哪些超现实数是等价的?</li>
+</ol>
+
+<p class="remark">
+  超现实数满足加法和乘法的结合律、交换律、分配律, 存在加法负元、乘法逆元.
+  且它的加法、乘法与序结构相容:
+  <span class="formula">
+    `a le b rArr a + c le b + c`,<br>
+    `(AA c ge 0)` `a le b rArr a c le b c`.
+  </span>
+  它几乎可以说是一个<b>有序域</b>了.
+  但超现实数的全体过多, 不构成集合.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
