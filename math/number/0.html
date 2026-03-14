@@ -945,17 +945,30 @@
     现在设 `p` 是大于 `m` 与 `|c_0|` 的素数. 这样的素数有无穷多个, 且可以取到比任意给定正数都大.
     令
     <span class="formula">
-      `f(x) = x^(p-1)/(p-1)! prod_(j=1)^m (x-j)^p`.
+      `f(x) = x^(p-1)/(p-1)! prod_(j=1)^m (x-j)^p`
+      `:= x^(p-1)/(p-1)! g(x)^p`.
     </span>
-    下证 `k ge p` 且 `x` 为整数时, `f^((k))(x)` 为整数, 且为 `p` 的倍数.
-    这是因为任意连续 `p` 个整数的乘积是 `p!` 的倍数 (注意组合数 `C_n^p` 是整数).
-    然后 ??
+    使用 Leibniz 公式对 `f` 求导,
+    <span class="formula">
+      `f^((k))(x)`
+      `= 1/(p-1)! sum_(j=0)^k C_k^j`
+      `(del^(k-j) x^(p-1))`
+      `(del^j g(x)^p)`.
+    </span>
+    当阶数 `k ge p` 时, 分母的 `(p-1)!` 被消去, `f^((k))(x)` 成为整系数多项式, 且系数为 `p` 的倍数.
+    这是因为 `del^(k-j) x^(p-1)` 提供了因子 `(p-1)(p-2) cdots (p-k+j)`,
+    而 `del^j g(x)^p` 提供因子 `p(p-1) cdots (p-j+1) = j! C_p^j`,
+    它们合起来提供了因子 `(p-1)!`, 足以消掉分母, 并且附带一个因子 `p`.
+    既然 `f^((k))(x)` 的系数都是 `p` 的倍数, 那么它在整数点的函数值也是 `p` 的倍数.
   </li>
   <li>
-    另一方面, 当 `k lt p` 且 `x = 1, 2, cdots, m` 时, `f^((k))(x) = 0`, 因此 `F(x)` 是 `p` 的倍数.
-    当 `x = 0` 时, `f(x)` 只有不超过 `p-2` 阶的导数变为 `0`, 于是
+    另一方面, 当 `k lt p` 且 `x = 1, 2, cdots, m` 时,
+    由于 `x` 是 `f` 的 `p` 阶零点,
+    `f^((k))(x) = 0`, 因此 `F(x) = f(x) + f'(x) + cdots + f^((n))(x)` 是 `p` 的倍数.
+    然而当 `x = 0` 仅仅是 `f` 的 `p-1` 阶零点, 于是
     <span class="formula">
       `F(0) -= f^((p-1))(0)`
+      `= (p-1)! xx f` 的 `p-1` 次项系数
       `= ((-1)^m m!)^p !-= 0` `quad (mod p)`.
     </span>
     我们对 `(ast)` 式右边模 `p`, 得到 `-c_0 F(0) !-= 0 (mod p)`.
@@ -963,13 +976,7 @@
     <span class="formula">
       `|int_0^i "e"^-x f(x) dx|`
       `lt m^(m p + p-1)/(p-1)! int_0^i "e"^-x dx`
-      `lt m^(m p + p-1)/(p-1)!`.
-    </span>
-    于是
-    <span class="formula">
-      `|sum_(i=0)^m c_i "e"^i int_0^i "e"^-x f(x) dx|`
-      `lt m^(m p + p-1)/(p-1)! "e"^m sum_(i=0)^m |c_i|`
-      `to 0`, `quad (p to oo)`.
+      `to 0`. `quad (p to oo)`
     </span>
     于是 `(ast)` 式右边的绝对值恒 `ge |c_0|`, 左边却趋于零, 从而矛盾.
   </li>
