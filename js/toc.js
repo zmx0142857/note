@@ -95,7 +95,7 @@ var tocData = [
         "children": [
           { "value": "2", "label": "集合及其运算", "date": "2025-06-28" },
           { "value": "3", "label": "二元关系与映射", "date": "2024-10-29" },
-          { "value": "4", "label": "自然数与序数", "date": "2025-07-23" },
+          { "value": "4", "label": "自然数与序数", "date": "2026-03-14" },
           { "value": "5", "label": "基数", "date": "2024-09-28" },
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },

@@ -1241,46 +1241,123 @@ Knuth《Surreal Numbers》]
 <ol class="definition">
   每个超现实数由左集和右集组成, 记为 `{L | R}`, 其中 `L, R` 都是已构造出的超现实数的集合.
   递归定义如下:
-  <li><b>超现实数的判定</b>
-    `{L | R}` 是超现实数当且仅当 `L lt R`, 即
+  <li><b>规则一: 超现实数的判定</b>
+    `{L | R}` 是超现实数当且仅当 `L nge R`, 即
     <span class="formula">
-      `(AA l in L)` `(AA r in R)` `l lt r`.
+      `(AA l in L)` `(AA r in R)` `l nge r`.
     </span>
     因此, 当 `L`, `R` 其一为空时, `{L | R}` 就是超现实数.
     特别 `{O/ | O/}` 是超现实数, 简记为 `{|}` 或者 `0`.
     我们常常省略左右集的花括号, 比如将 `{{0}|{1}}` 简记为 `{0|1}`.
   </li>
   <li>
-    <b>超现实数的序</b>
-    对于 `x = {X_L|X_R}` 和 `y = {Y_L|Y_R}`, 定义 `x le y` 当且仅当 `X_L lt y` 且 `x lt Y_R`, 即
+    <b>规则二: 超现实数的序</b>
+    对于 `x = {X_L|X_R}` 和 `y = {Y_L|Y_R}`, 定义 `x le y` 当且仅当 `X_L nge y` 且 `x nge Y_R`, 即
     <span class="formula">
-      `(AA x_L in X_L)` `x_L lt y`,<br>
-      `(AA y_R in Y_R)` `x lt y_R`.
+      `(AA x_L in X_L)` `x_L nge y`,<br>
+      `(AA y_R in Y_R)` `x nge y_R`.
     </span>
-    这里 `lt` 意为 `ge` 的否定.
-    可以验证 `le` 满足自反性和传递性. 如果两个超现实数同时满足 `x le y` 和 `y le x`, 则视它们相等.
-    因此全体超现实数关于 `le` 是全序.
   </li>
+  <div class="img sm">
+    <img src="../img/surreal-number.svg" alt="超现实数">
+  </div>
+  我们规定 `x = y iff x le y and y le x`, 可以证明全体超现实数关于 `le` 是全序,
+  因此递归定义可以重写为:
+  <span class="formula">
+    (规则一) `{L | R}` 是超现实数 `iff L lt R`;<br>
+    (规则二) `x le y` `iff X_L lt y and x lt Y_R`.
+  </span>
 </ol>
 
-<p class="example">
-  记 `1 = {0|}`, `-1 = {|0}`, 则 `-1 lt 0 lt 1`, 且 `{|1} = {-1|} = 0`.
-</p>
-
-<ul class="example">
+<p class="definition">
   对每个序数 `alpha`, 把“第 `alpha` 天造出的超现实数”记为
   <span class="formula">
     `S_alpha := { {L|R}: L, R sube uuu_(beta lt alpha) S_beta }`.
   </span>
   换言之左右集的元素都是在前面某一天造出来的.
+</p>
+
+<p class="theorem">
+  超现实数关于 `le` 是全序.
+</p>
+
+<ol class="proof">
+  <li>自反性.
+    要证 `x le x`, 对 `x` 的天数 `d(x)` 进行超限归纳. `x = 0` 时显然成立.
+    现在设结论对一切天数小于 `d(x)` 的超现实数成立, 考虑 `x` 的情形.
+    若 `x nle x`, 则 `EE x_L ge x`, 或 `EE x_R le x`.
+    如果是 `x_L ge x`, 由定义有 `X_L nge x_L`, 特别 `x_L nge x_L`, 与归纳假设矛盾.
+    如果是 `x_R le x`, 类似也可推出矛盾.
+  </li>
+  <li>传递性.
+    要证 `x le y and y le z rArr x le z`, 对 `d(x)+d(y)+d(z)` 进行超限归纳.
+    当 `x, y, z` 天数之和为 `0` 时, 它们只能全为 `0`, 结论显然成立.
+    同样用反证法, 设 `x, y, z` 是三个“坏数”, 满足 `x le y`, `y le z`, 但 `x nle z`, 则
+    `EE x_L ge z`, 或 `EE z_R le x`.
+    如果是 `x_L ge z`, 由已知
+    <span class="formula">
+      `y le z`, `z le x_L`, 但由 `x le y` 有 `y nle x_L`.
+    </span>
+    于是 `y, z, x_L` 是三个“坏数”, 且它们的天数之和更小, 与归纳假设矛盾.
+    另一方面, 如果是 `z_R le x`, 同样有
+    <span class="formula">
+      `z_R le x`, `x le y`, 但 `z_R nle y`,
+    </span>
+    引出矛盾.
+  </li>
+  <li>
+    全序. 要证 `x le y or y le x`. 对 `d(x)+d(y)` 进行超限归纳.
+    `0` 的情形显然成立. 现在反设 `x nle y and y nle x`, 这意味下面两条同时成立:
+    <span class="formula">
+      `EE x_L ge y or EE y_R le x`,<br>
+      `EE y_L ge x or EE x_R le y`.
+    </span>
+    如果 `x_L ge y`, 那么 `x_R le y` 不能成立, 否则由传递性 `x_R le y le x_L`, 与规则一矛盾.
+    于是 `y_L ge x` 成立. 由 `x_L ge y` 和 `y_L ge x` 推出
+    <span class="formula">
+      `y_L nge x_L`, `x_L nge y_L`,
+    </span>
+    与归纳假设矛盾.
+    类似地, 若 `y_R le x`, 则
+    <span class="formula">
+      `y_R nge x_R`, `x_R nge y_R`,
+    </span>
+    也推出矛盾.
+  </li>
+</ol>
+
+<ol class="corollary">
+  <li>空集性质. 对任意超现实数的集合 `X, Y` 有 `{|X} le {Y|}`.</li>
+  <li>介值性质. 由 `le` 的自反性得到, 每个超现实数都介于它的左集和右集之间: `X_L lt x lt X_R`.</li>
+  <li>并集性质. 若集合 `Y_L, Y_R` 满足 `Y_L lt x lt Y_R`, 那么
+    `x = {X_L uu Y_L | X_R uu Y_R}`.
+  </li>
+</ol>
+
+<p class="proof">
+  只证 3. 根据 `x` 的介值性质, `X_L uu Y_L lt x lt X_R uu Y_R`, 所以
+  `z := {X_L uu Y_L | X_R uu Y_R}` 是超现实数, 且 `X_L uu Y_L lt z lt X_R uu Y_R`.
+  其次要证 `x le z`, 即证 `X_L lt z and x lt Z_R`,
+  但我们已经有 `X_L uu Y_L lt z` 和 `x lt X_R uu Y_R = Z_R`, 所以 `x le z` 成立.
+  类似可证 `z le x`.
+</p>
+
+<ol class="example">
+  <li>记 `1 = {0|}`, `-1 = {|0}`, 则 `-1 lt 0 lt 1`, 且 `{|1} = {-1|} = 0`.</li>
+  <li>`AA x`, `x lt {x|}`.</li>
+  <li>`{X|} ge 0`, 等号成立当且仅当 `X lt 0`, 即 `X` 中全为负数.</li>
+  <li>对任意正整数 `n` 有 `{n|} = n+1`, `{|-n} = -n-1`.</li>
+</ol>
+
+<ul class="example">
   <li>第 `0` 天的超现实数只能是 `0`.</li>
   <li>第 `1` 天的超现实数除了 `0` 还有 `1 = {0|}` 与 `-1 = {|0}`.
-    但 `{0|0}` 不是超现实数, 它违背了超现实数的判定.
   </li>
   <li>第 `2` 天新造出的超现实数有 `2 = {1|}`, `-2 = {|-1}`, `1//2 = {0|1}` 和 `-1//2 = {-1|0}`.</li>
-  <li>第 `3` 天新造出的超现实数有 `1//4 = {0|1//2}`, `3//4 = {1//2|1}`, `3//2`, `3` 和它们的相反数.</li>
+  <li>第 `3` 天新造出的超现实数有 `1//4 = {0|1//2}`, `3//4 = {1//2|1}`, `3//2 = {1|2}`, `3 = {2|}` 和它们的相反数.</li>
   <li>任意分母为 2 的幂的有理数都可以在有限天内造出.</li>
-  <li>第 `omega` 天可以造出的数包括但不限于所有实数 (通过 Dedekind 分割), 以及
+  <li>第 `omega` 天可以造出的数包括但不限于所有实数 (通过 Dedekind 分割, 利用超现实数的介值性质),
+    以及
     <span class="formula">
       无穷大 `omega = {0, 1, 2, ... |}`,<br>
       无穷小 `epsi = {0|1,1//2,1//4,...}`.
@@ -1325,12 +1402,9 @@ Knuth《Surreal Numbers》]
   </li>
 </ol>
 
-<ol class="example">
-  <b>超现实数的运算规律</b>
-  <li>对任意整数 `n` 有 `{n|} = n+1`, `{|n} = n-1`.</li>
-  <li>超现实数乘以或除以 2 的运算规律?</li>
-  <li>哪些超现实数是等价的?</li>
-</ol>
+<p class="remark">
+  `{x|y} = (x+y)//2` 成立吗?
+</p>
 
 <p class="remark">
   超现实数满足加法和乘法的结合律、交换律、分配律, 存在加法负元、乘法逆元.
@@ -1343,6 +1417,14 @@ Knuth《Surreal Numbers》]
   但超现实数的全体过多, 不构成集合.
 </p>
 
+<script>
+var asciimath = {
+  define: [
+    [/nle/g, '≰'],
+    [/nge/g, '≱'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

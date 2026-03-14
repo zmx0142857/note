@@ -503,143 +503,130 @@
   第一小题的更具体的例子: `sqrt 2` 的 `log_2 9` 次方等于 `3`.
 </p>
 
-<h3>无理数 `e`</h3>
+<h3>无理数 `e` 与 `pi`</h3>
 
 <p class="theorem" id="the-e-irrational">
   [<a href="https://zhuanlan.zhihu.com/p/68095343" target="_blank">知乎</a>]
-	`"e"` 是无理数.
+  利用 `"e" = sum_(n ge 0) 1/n!` 直接证明 `"e"` 是无理数.
 </p>
 
 <p class="proof">
-	反设 `"e" = a//b`, `a, b` 为正整数. 取正整数 `n gt b`, 则
-	<span class="formula">
-		`n! b "e" = n! a`.
-	</span>
-	显然上式右端为整数. 利用级数 `"e" = sum_(k=0)^oo 1/(k!)`, 上式左端等于
-	<span class="formula">
-		`n! b sum_(k=0)^n 1/(k!) + n! b sum_(k=n+1)^oo 1/(k!)`
-		`:= A + B`.
-	</span>
-	显然第一项 `A` 为整数, 然而
-	<span class="formula">
-		`0 lt B = b sum_(k=n+1)^oo (n!)/(k!)`
-		`lt b sum_(k=1)^oo 1/(n+1)^k`
-		`= b/n lt 1`.
-	</span>
-	因此 `B` 不可能是整数, 矛盾.
+  反设 `"e" = a//b`, `a, b` 为正整数. 取正整数 `n gt b`, 则
+  <span class="formula">
+    `n! a`
+    `= n! b "e"`
+    `= b sum_(k=0)^n n!/k!`
+    `+ b sum_(k ge n+1) n!/k!`
+    `:= A + B`.
+  </span>
+  显然等式左端的 `n! a` 和右端第一项的 `A` 为整数, 所以第二项 `B` 也应该是整数.
+  然而
+  <span class="formula">
+    `0 lt B`
+    `lt b sum_(k ge 1) 1/(n+1)^k`
+    `= b/n lt 1`.
+  </span>
+  因此 `B` 不可能是整数, 矛盾.
 </p>
 
 <ol class="lemma">
-	设 `n` 为正整数. 函数 `f(x) = (x^n(1-x)^n)/(n!)` 满足:
-	<li>`f(x)` 是一个形如 `sum_(i=n)^(2n) c_i/(n!) x^i` 的多项式, 且 `c_i`
-		是整数, `i = n, n+1, cdots, 2n`;
-	</li>
-	<li>`0 lt f(x) lt 1/(n!)`, `AA x in (0, 1)`;</li>
-	<li>`f^((m))(0)`, `f^((m))(1)` 都是整数, `m = 0, 1, 2, cdots`.</li>
+  设 `n` 为正整数. 考虑多项式函数 `f(x) = x^n (1-x)^n // n!`:
+  <li>`f(x) = sum_(i=n)^(2n) c_i x^i//n!`, 其中 `c_i` 是整数.</li>
+  <li>`0 lt f(x) lt 1//n!`, `AA x in (0, 1)`;</li>
+  <li>`f^((m))(0)`, `f^((m))(1)` 都是整数, `m = 0, 1, 2, cdots`.</li>
 </ol>
 
 <p class="proof">
-	性质 1, 2 显然. 下证性质 3.
-	`m lt n` 或 `m gt 2n` 时, 注意 `f(x)` 低于 `n` 次和高于 `2n`
-	次的项的系数全为零, 因此 `f^((m))(0) = 0` 是整数.
-	`n le m le 2n` 时, 求导得
-	<span class="formula">
-		`f^((m))(0) = c_m (m!)/(n!)`,
-	</span>
-	也为一整数. 利用对称性 `f(x) = f(1-x)`,
-	<span class="formula">
-		`f^((m))(x) = (-1)^m f^((m))(1-x)`
-	</span>
-	取 `x = 1` 知道, `f^((m))(0)` 是整数时, `f^((m))(1)` 也是整数. 证毕.
+  只证性质 3.
+  利用对称性 `f(x) = f(1-x)` 有 `f^((m))(1) = (-1)^m f^((m))(0)`,
+  因此只需证 `f^((m))(0)` 是整数.
+  事实上, `f^((m))(0) // m!` 等于 `f(x)` 的 `m` 次项系数 `c_m // n!`,
+  于是
+  <span class="formula">
+    `f^((m))(0) = c_m m! // n!`.
+  </span>
+  注意 `m lt n` 时 `c_m = 0`, 而 `m ge n` 时 `m! // n!` 为整数, 所以 `f^((m))(0)` 总是整数.
 </p>
 
 <p class="theorem">
-	`AA k in ZZ^+`, `"e"^k` 是无理数.
+  `AA k in ZZ^+`, `"e"^k` 是无理数.
 </p>
 
 <p class="proof">
-	假设存在正整数 `k`, 使 `"e"^k = a//b`, `a, b` 为正整数.
-	利用引理的函数 `f`, 作
-	<span class="formula">
-		`F(x) = sum_(i=0)^(2n) (-k)^(2n-i) f^((i))(x)`
-		`= sum_(i=0)^oo (-k)^(2n-i) f^((i))(x)`.
-	</span>
-	求导,
-	<span class="formula">
-		`F'(x) = sum_(i=0)^oo (-k)^(2n-i) f^((i+1))(x)`
-		`= -k sum_(i=1)^oo (-k)^(2n-i) f^((i))(x)`
-		`= -k F(x) + k^(2n+1) f(x)`.
-	</span>
-	从而
-	<span class="formula">
-		`"d"/dx ["e"^(k x) F(x)] = "e"^(k x) (k F(x) + F'(x))`
-		`= "e"^(k x) k^(2n+1) f(x)`.
-	</span>
-	两边同乘以 `b`, 在 `[0, 1]` 上积分,
-	<span class="formula">
-		`I = b int_0^1 "e"^(k x) k^(2n+1) f(x) dx`
-		`= b "e"^(k x) F(x) dx|_0^1`
-		`= b "e"^k F(1) - b F(0) = a F(1) - b F(0)`.
-	</span>
-	根据引理的 3, `F(0), F(1)` 都为整数, 所以 `I` 是整数. 但是根据引理的
-	2, 又有
-	<span class="formula">
-		`0 lt I lt b "e"^k k^(2n+1)/(n!) = a k^(2n+1)/(n!)`.
-	</span>
-	只要取 `n` 充分大, 就可使 `a k^(2n+1)/(n!) lt 1`,
-	从而 `0 lt I lt 1`, 不可能是整数, 矛盾.
+  假设存在正整数 `k`, 使 `"e"^k = a//b`, `a, b` 为正整数.
+  取正整数 `n` 使得 `n! gt a k^(2n+1)`, 构造微分方程
+  <span class="formula">
+    `F'(x) + k F(x) = k^(2n+1) f(x)`,
+  </span>
+  其中 `f` 是引理中定义的 `2n` 次多项式函数. 容易验证方程的一个解是
+  <span class="formula">
+    `F(x) = sum_(i ge 0) (-k)^(2n-i) f^((i))(x)`.
+  </span>
+  由于 `f` 是多项式, `F(x)` 实际只有有限项.
+  代入原方程得到
+  <span class="formula">
+    `"d"/dx["e"^(k x) F(x)]`
+    `= "e"^(k x) (F'(x) + k F(x))`
+    `= "e"^(k x) k^(2n+1) f(x)`.
+  </span>
+  两边乘以 `b` 再积分,
+  <span class="formula">
+    `I = b int_0^1 "e"^(k x) k^(2n+1) f(x) dx`
+    `= b "e"^k F(1) - b F(0)`
+    `= a F(1) - b F(0)`.
+  </span>
+  根据引理的 3, `F(0)`, `F(1)` 均为整数, 因此 `I` 为整数.
+  又根据引理的 2,
+  <span class="formula">
+    `0 lt I lt b "e"^k k^(2n+1) // n!`
+    `= a k^(2n+1) // n!`
+    `lt 1`,
+  </span>
+  所以 `I` 不可能为整数, 矛盾.
 </p>
 
 <p class="corollary">
-	`AA q in QQ\\{0}`, `"e"^q` 是无理数.
+  `AA q in QQ\\{0}`, `"e"^q` 是无理数.
 </p>
 
 <p class="proof">
-	显然对任意 `k in ZZ^+`, `"e"^-k` 是无理数, 否则 `"e"^k = 1/("e"^-k)`
-	是有理数.
-	设 `q = a//b`, `a, b` 为非零整数,
-	于是 `"e"^a = "e"^(q b) = ("e"^q)^a`.
-	若 `"e"^q` 为有理数, 则 `"e"^a` 为有理数, 矛盾.
+  先设 `q` 是正有理数, `q = a//b`, `a, b` 为正整数.
+  假如 `"e"^q` 为有理数, 则 `"e"^a = ("e"^q)^b` 也是有理数, 矛盾.
+  所以 `"e"^q` 为无理数, `"e"^-q = ("e"^q)^-1` 也是无理数.
 </p>
-
-<h3>无理数 `pi`</h3>
 
 <p class="theorem">
-	`pi^2` 是无理数; 从而 `pi` 是无理数.
+  `pi^2` 是无理数; 从而 `pi` 是无理数.
 </p>
 
 <p class="proof">
-	(Ivan M. Niven)
-	假设 `pi^2 = a//b`, `a, b` 是正整数.
-	利用引理的函数 `f`, 构造
-	<span class="formula">
-		`P(x) = b^n sum_(i=0)^n (-1)^i pi^(2n-2i) f^((2i))(x)`
-		`= b^n sum_(i=0)^oo (-1)^i pi^(2n-2i) f^((2i))(x)`,
-	</span>
-	由于 `b pi^2 = a` 是整数, 再由引理的 3, `P(0), P(1)` 是整数. 求二阶导,
-	容易验证
-	<span class="formula">
-		`P''(x) = -pi^2 P(x) + b^n pi^(2n+2) f(x)`.
-	</span>
-	从而
-	<span class="formula">
-		`"d"/dx[P'(x) sin pi x - pi P(x) cos pi x]`
-		`= P''(x) sin pi x + pi^2 P(x) sin pi x`
-		`= b^n pi^(2n+2) f(x) sin pi x`.
-	</span>
-	于是, 一方面
-	<span class="formula">
-		`I = 1/pi int_0^1 b^n pi^(2n+2) sin pi x f(x) dx`
-		`= 1/pi [P'(x) sin pi x - pi P(x) cos pi x]_0^1`
-		`= P(1) + P(0)`,
-	</span>
-	故 `I` 为整数. 另一方面, 由引理的 2,
-	<span class="formula">
-		`0 lt I = pi int_0^1 a^n sin pi x f(x) dx`
-		`lt pi a^n/(n!)`.
-	</span>
-	取 `n` 充分大, 使 `pi a^n/(n!) lt 1`, 从而 `0 lt I lt 1` 不是整数,
-	矛盾.
+  (Ivan M. Niven) 假设 `pi^2 = a//b`, `a, b` 是正整数.
+  取正整数 `n` 使得 `n! gt pi a^n`, 同样利用引理的函数 `f` 构造微分方程
+  <span class="formula">
+    `P''(x) + pi^2 P(x) = pi^(2n+2) f(x)`.
+  </span>
+  容易验证方程的一个解是
+  <span class="formula">
+    `P(x) = sum_(i ge 0) (-1)^i pi^(2n-2i) f^((2i))(x)`.
+  </span>
+  同样 `P(x)` 只有有限项. 于是
+  <span class="formula">
+    `"d"/dx[P'(x) sin pi x - pi P(x) cos pi x]`
+    `= (P''(x) + pi^2 P(x)) sin pi x`
+    `= pi^(2n+2) f(x) sin pi x`.
+  </span>
+  两边乘以 `b^n//pi` 再积分, 一方面
+  <span class="formula">
+    `I = int_0^1 b^n pi^(2n+1) f(x) sin pi x dx`
+    `= b^n (P(1) + P(0))`.
+  </span>
+  由于 `b^n pi^(2n) = a^n` 是整数, 根据引理的 3. 得到 `I` 是整数.
+  另一方面
+  <span class="formula">
+    `0 lt I lt b^n pi^(2n+1) // n!`
+    `= pi a^n // n! lt 1`,
+  </span>
+  所以 `I` 不可能是整数, 矛盾.
 </p>
 
 <h3>无理数的稠密性</h3>
@@ -731,8 +718,8 @@
   <span class="formula align">
     `1 = sum_(i=0)^k prod_(j!=i) w_i^k/(w_i-w_j)`<br>
     `= sum_(i=0)^k w_i^k/(prod_(j!=i) n(i-j))`<br>
-    `= sum_(i=0)^k (w_i/n)^k 1/(i! * (-1)^(k-i) (k-i)!)<br>
     `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w_i/n)^k`.
+    `= sum_(i=0)^k (w_i/n)^k 1/(i! * (-1)^(k-i) (k-i)!)`<br>
   </span>
 </p>
 
@@ -901,41 +888,100 @@
 <h2>代数数与超越数</h2>
 
 <p class="definition">
-	设 `x in CC`, 称 `x` 是一个<b>代数数</b>, 如果 `x`
-	是有理数域上某个一元 `n` 次多项式 `f(x)` 的根, `n ge 1`.
-	显然有理数是代数数, 称有理数为<b>一次代数数</b>.
-	进一步, 如果 `x` 不是任何次数大于等于 `1` 且小于 `n`
-	的有理系数的多项式的根, 但它是某个有理系数的 `n` 次多项式的根, 则称
-	`x` 是<b>`n` 次代数数</b>.  全体代数数的集合记作 `cc A_QQ`. 称 `x in
-	CC` 是<b>超越数</b>, 如果 `x in CC\\cc A_QQ`.
+  设 `x in CC`, 如果存在不为常数的多项式 `f in QQ[x]` 使得 `f(x) = 0`,
+  则称 `x` 是<b>代数数</b>, 记作 `x in A_QQ`; 否则称为<b>超越数</b>, 记作 `x in CC\\A_QQ`.
+  如果 `x` 是代数数, 上述使得 `f(x) = 0` 的 `f in QQ[x] \\ QQ` 当中,
+  总存在一个次数最小, 且首项系数为 1 的多项式, 称为 `x` 的<b>最小多项式</b>.
+  最小多项式的次数就称为 `x` 的次数. 例如有理数是 1 次代数数, `sqrt 2` 是 2 次代数数等.
 </p>
 
 <p class="remark">
-	由于可以将有理系数的 `n` 次多项式的各系数通分,
-	所以定义中的有理系数换成整系数也对.
+  由于可以将有理系数的 `n` 次多项式的各系数通分,
+  所以定义中的有理系数换成整系数也对.
 </p>
 
 <p class="theorem">
-	全体代数数 `cc A_QQ` 是可数的; 从而由 `CC` 不可数知道, 超越数是存在的,
-	而且有不可数多个超越数.
+  全体代数数 `cc A_QQ` 是可数的; 从而由 `CC` 不可数知道, 超越数是存在的,
+  而且有不可数多个超越数.
 </p>
 
 <p class="proof">
-	由于一个 `n` 次多项式至多有 `n` 个不同的根,
-	我们只需指出全体整系数多项式的集合 `P` 是可数集.
-	以 `P_n` 记全体次数不超过 `n` 的整系数多项式,
-	容易用归纳法证明, 对任意非负整数 `n`, `P_n` 是可数的, 于是
-		`P = uuu_(n=0)^oo P_n`
-	也可数.
+  由于一个 `n` 次多项式至多有 `n` 个不同的根,
+  我们只需指出全体整系数多项式的集合 `P` 是可数集.
+  以 `P_n` 记全体次数不超过 `n` 的整系数多项式,
+  则 `P_n` 可数, 于是 `P = uuu_(n=0)^oo P_n` 也可数.
 </p>
 
 <p class="theorem">
-	(Gelfand) 设 `a in cc A_QQ\\{0, 1}`, `b in cc A_QQ\\QQ`, 则 `a^b`
-	是超越数.
+  [菲赫金哥尔茨《微积分学教程》中册第319目]
+  `"e"` 是超越数.
+</p>
+
+<ol class="proof">
+  反设 `"e"` 是多项式 `sum_(i=0)^m c_i x^i` 的根.
+  <li>
+    任取 `n` 次多项式 `f(x)`, 分部积分
+    <span class="formula">
+      `int_0^i "e"^-x f(x) dx`
+      `= -["e"^-x f(x)]_0^i + int_0^i "e"^-x f'(x) dx`
+      `= cdots`
+      `= -["e"^-x (f(x) + f'(x) + cdots + f^((n))(x))]_0^i`.
+    </span>
+    简记 `F(x) := f(x) + f'(x) + cdots + f^((n))(x)`, 有
+    <span class="formula">
+      `int_0^i "e"^-x f(x) dx`
+      `= -["e"^-x F(x)]_0^i`
+      `= F(0) - "e"^-i F(i)`.
+    </span>
+    等式两边乘以 `c_i "e"^i` 并求和,
+    <span class="formula">
+      `sum_(i=0)^m c_i "e"^i int_0^i "e"^-x f(x) dx`
+      `= F(0) sum_(i=0)^m c_i "e"^i - sum_(i=0)^m c_i F(i)`
+      `= - sum_(i=0)^m c_i F(i)`.
+      <span class="label">`(ast)`</span>
+    </span>
+  </li>
+  <li>
+    现在设 `p` 是大于 `m` 与 `|c_0|` 的素数. 这样的素数有无穷多个, 且可以取到比任意给定正数都大.
+    令
+    <span class="formula">
+      `f(x) = x^(p-1)/(p-1)! prod_(j=1)^m (x-j)^p`.
+    </span>
+    下证 `k ge p` 且 `x` 为整数时, `f^((k))(x)` 为整数, 且为 `p` 的倍数.
+    这是因为任意连续 `p` 个整数的乘积是 `p!` 的倍数 (注意组合数 `C_n^p` 是整数).
+    然后 ??
+  </li>
+  <li>
+    另一方面, 当 `k lt p` 且 `x = 1, 2, cdots, m` 时, `f^((k))(x) = 0`, 因此 `F(x)` 是 `p` 的倍数.
+    当 `x = 0` 时, `f(x)` 只有不超过 `p-2` 阶的导数变为 `0`, 于是
+    <span class="formula">
+      `F(0) -= f^((p-1))(0)`
+      `= ((-1)^m m!)^p !-= 0` `quad (mod p)`.
+    </span>
+    我们对 `(ast)` 式右边模 `p`, 得到 `-c_0 F(0) !-= 0 (mod p)`.
+    再来估计左边, 注意 `x in [0, m]`, 有
+    <span class="formula">
+      `|int_0^i "e"^-x f(x) dx|`
+      `lt m^(m p + p-1)/(p-1)! int_0^i "e"^-x dx`
+      `lt m^(m p + p-1)/(p-1)!`.
+    </span>
+    于是
+    <span class="formula">
+      `|sum_(i=0)^m c_i "e"^i int_0^i "e"^-x f(x) dx|`
+      `lt m^(m p + p-1)/(p-1)! "e"^m sum_(i=0)^m |c_i|`
+      `to 0`, `quad (p to oo)`.
+    </span>
+    于是 `(ast)` 式右边的绝对值恒 `ge |c_0|`, 左边却趋于零, 从而矛盾.
+  </li>
+</ol>
+
+<p class="theorem">
+  (Gelfand) 设 `a in cc A_QQ\\{0, 1}`, `b in cc A_QQ\\QQ`, 则 `a^b`
+  是超越数.
 </p>
 
 <p class="corollary">
-	`"e"^pi = ("e"^(pi"i"))^(-"i")` 是超越数.
+  `"e"^pi = ("e"^(pi"i"))^(-"i")` 是超越数.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
