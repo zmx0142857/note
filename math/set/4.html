@@ -1328,25 +1328,39 @@ Knuth《Surreal Numbers》]
 
 <ol class="corollary">
   <li>空集性质. 对任意超现实数的集合 `X, Y` 有 `{|X} le {Y|}`.</li>
-  <li>介值性质. 由 `le` 的自反性得到, 每个超现实数都介于它的左集和右集之间: `X_L lt x lt X_R`.</li>
+  <li>空集性质2. `X le Y rArr {X|} le {Y|}`.</li>
+  <li>介值性质. 每个超现实数都介于它的左集和右集之间: `X_L lt x lt X_R`.</li>
   <li>并集性质. 若集合 `Y_L, Y_R` 满足 `Y_L lt x lt Y_R`, 那么
     `x = {X_L uu Y_L | X_R uu Y_R}`.
   </li>
+  <li>最小天数性质. 设 `y = {Y_L|Y_R}`, `x` 是满足 `Y_L lt x lt Y_R` 的数当中天数最小者, 则 `x = y`.</li>
 </ol>
 
-<p class="proof">
-  只证 3. 根据 `x` 的介值性质, `X_L uu Y_L lt x lt X_R uu Y_R`, 所以
-  `z := {X_L uu Y_L | X_R uu Y_R}` 是超现实数, 且 `X_L uu Y_L lt z lt X_R uu Y_R`.
-  其次要证 `x le z`, 即证 `X_L lt z and x lt Z_R`,
-  但我们已经有 `X_L uu Y_L lt z` 和 `x lt X_R uu Y_R = Z_R`, 所以 `x le z` 成立.
-  类似可证 `z le x`.
-</p>
+<ol class="proof">
+  <li>介值性质. 由 `le` 的自反性立即得到.</li>
+  <li>并集性质. 根据 `x` 的介值性质, `X_L uu Y_L lt x lt X_R uu Y_R`, 所以
+    `z := {X_L uu Y_L | X_R uu Y_R}` 是超现实数, 且 `X_L uu Y_L lt z lt X_R uu Y_R`.
+    其次要证 `x le z`, 即证 `X_L lt z and x lt Z_R`,
+    但我们已经有 `X_L uu Y_L lt z` 和 `x lt X_R uu Y_R = Z_R`, 所以 `x le z` 成立.
+    类似可证 `z le x`.
+  </li>
+  <li>最小天数性质.
+    先由并集性质得到 `x = {X_L uu Y_L|X_R uu Y_R}`.
+    对任意 `x_L in X_L`, 由于它在 `x` 之前造出, 不满足性质 `Y_L lt x_L lt Y_R`,
+    因此必存在一个 `y_L ge x_L`,
+    于是 `x_L le y_L lt y`. 类似可证另一半不等式, 得到
+    <span class="formula">
+      `X_L lt y lt X_R`.
+    </span>
+    再由并集性质有 `y = {Y_L uu X_L|Y_R uu X_R}`, 因此 `x = y`.
+  </li>
+</ol>
 
 <ol class="example">
+  练习:
   <li>记 `1 = {0|}`, `-1 = {|0}`, 则 `-1 lt 0 lt 1`, 且 `{|1} = {-1|} = 0`.</li>
-  <li>`AA x`, `x lt {x|}`.</li>
   <li>`{X|} ge 0`, 等号成立当且仅当 `X lt 0`, 即 `X` 中全为负数.</li>
-  <li>对任意正整数 `n` 有 `{n|} = n+1`, `{|-n} = -n-1`.</li>
+  <li>`x = 0 iff X_L lt 0 lt X_R`.</li>
 </ol>
 
 <ul class="example">
@@ -1355,7 +1369,9 @@ Knuth《Surreal Numbers》]
   </li>
   <li>第 `2` 天新造出的超现实数有 `2 = {1|}`, `-2 = {|-1}`, `1//2 = {0|1}` 和 `-1//2 = {-1|0}`.</li>
   <li>第 `3` 天新造出的超现实数有 `1//4 = {0|1//2}`, `3//4 = {1//2|1}`, `3//2 = {1|2}`, `3 = {2|}` 和它们的相反数.</li>
-  <li>任意分母为 2 的幂的有理数都可以在有限天内造出.</li>
+  <li>第 `n` 天新造出的超现实数有 `2^n` 个, 其中最大为 `n`, 最小为 `-n`.
+    任意分母为 2 的幂的有理数都可以在有限天内造出.
+  </li>
   <li>第 `omega` 天可以造出的数包括但不限于所有实数 (通过 Dedekind 分割, 利用超现实数的介值性质),
     以及
     <span class="formula">
@@ -1375,12 +1391,11 @@ Knuth《Surreal Numbers》]
     <b>超现实数的加法</b>
     定义 `x + y = {L|R}`, 其中
     <span class="formula">
-      `L = (X_L+y) uu (x+Y_L)`,<br>
-      `R = (X_R+y) uu (x+Y_R)`.
+      `L = (X_L+y) uu (Y_L+x)`,<br>
+      `R = (X_R+y) uu (Y_R+x)`.
     </span>
     记号 `X_L + y` 表示将集合 `X_L` 中的每个数与 `y` 相加得到的集合.
-    可以证明 `L lt R`, 从而 `{L|R}` 是超现实数.
-    加法零元为 `0`; 负元为 `-x = { -X_R | -X_L }`.
+    加法零元为 `0`; 负元为 `-x = { -X_R | -X_L }`. 负元的集合表示不唯一.
   </li>
   <li>
     <b>超现实数的乘法</b>
@@ -1397,14 +1412,80 @@ Knuth《Surreal Numbers》]
       `A_(i j) = X_i * y + x * Y_j - X_i * Y_j`
       `==^"形式上" x * y - (x-X_i) * (y-Y_j)`.
     </span>
-    和加法一样, 可以证明 `L lt R`, 从而 `{L|R}` 是超现实数.
     乘法单位元是 `1 := {0|}`; 乘法逆元则比较复杂.
   </li>
 </ol>
 
-<p class="remark">
-  `{x|y} = (x+y)//2` 成立吗?
+<ol class="example">
+  练习
+  <li>`x + x = {X_L + x|X_R + x}`.</li>
+  <li>对任意正整数 `n` 有 `{n|} = n+1`, `{|-n} = -n-1`.</li>
+</ol>
+
+<p class="theorem">
+  超现实数关于加法构成 Abel 群, 且加法与序相容.
 </p>
+
+<ol class="proof">
+  <li>交换律. 将 `x+y = y+x` 按定义展开即可.</li>
+  <li>序相容性.
+    即证 `x lt y iff x + z lt y + z`,
+    由于 `le` 是全序, 我们来证它的等价命题 `x le y iff x + z le y + z`.
+    由定义, 要证明
+    <span class="formula">
+      `X_L lt y and x lt Y_R`<br>
+      `iff (X_L+z) uu (Z_L+x) lt y+z`
+      `and x+z lt (Y_R+z) uu (Z_R+y)`.
+    </span>
+    对 `d(x)+d(y)+d(z)` 归纳:<br>
+    "`rArr`": 由归纳假设 `x_L lt y rArr x_L+z lt y+z`, 这证明了 `X_L+z lt y+z`.
+    又由归纳假设 `x le y rArr z_L+x le y + z_L lt y + z`, 这证明了 `Z_L+x lt y + z`.
+    类似可证 `x+z lt (Y_R+z) uu (Z_R+y)`.
+    <br>
+    "`lArr`":
+    同样由归纳假设 `x_L+z lt y+z rArr x_L lt y`, 证得 `X_L lt y`.
+    类似可证 `x lt Y_R`.
+  </li>
+  <li>封闭性. 需要证明 `x+y` 的确是一个超现实数. 利用加法的序相容性容易得到
+    <span class="formula">
+     `(X_L+y) uu (Y_L+x)`
+     `lt x+y`
+     `lt (X_R+y) uu (Y_R+x)`.
+    </span>
+  </li>
+  <li>零元. 由定义 `x+0 = (X_L+0, X_R+0)`, 对 `d(x)` 作归纳即可.</li>
+  <li>结合律. 将 `(x+y)+z` 和 `x+(y+z)` 按定义展开, 得到下面一大堆
+    <span class="formula align">
+      `(x+y)+z`<br>
+      `= {((X_L+y)+z) uu ((Y_L+x)+z) uu (Z_L+(x+y)) |`<br>
+      `quad ((X_R+y)+z) uu ((Y_R+x)+z) uu (Z_R+(x+y))};`<br>
+      `quad x+(y+z)`<br>
+      `= {(X_L+(y+z)) uu ((Y_Z+z)+x) uu ((Z_L+y)+x) |`<br>
+      `quad (X_R+(y+z)) uu ((Y_R+z)+x) uu ((Z_R+y)+x)}.`
+    </span>
+    别慌. 对 `d(x)+d(y)+d(z)` 作归纳, 则由归纳假设
+    <span class="formula">
+      `(X_L+y)+z = X_L+(y+z)`.
+    </span>
+    其它 5 项也类似, 有些需要用到交换律.
+  </li>
+  <li>负元. 直接计算
+    <span class="formula">
+      `x - x`
+      `= {X_L|X_R} + {-X_R|-X_L}`
+      `= {(X_L-x) uu (-X_R+x) | (X_R-x) uu (-X_L+x)}`.
+    </span>
+    根据并集性质, 要证 `x - x = 0`, 只需证明它的左集小于零而右集大于零, 即
+    <span class="formula">
+      `(X_L-x) uu (-X_R+x) lt 0`,<br>
+      `(X_R-x) uu (-X_L+x) gt 0`.
+    </span>
+    对 `d(x)` 进行归纳,
+    反设 `EE x_L in X_L` 满足 `x_L-x ge 0`, 则作为它右集的一部分,
+    `(-X)_R+x_L gt 0`, 即 `-X_L+x_L gt 0`, 特别 `-x_L+x_L = 0`, 与归纳假设矛盾.
+    这证明了 `X_L-x lt 0`. 其它几个不等式类似可证.
+  </li>
+</ol>
 
 <p class="remark">
   超现实数满足加法和乘法的结合律、交换律、分配律, 存在加法负元、乘法逆元.

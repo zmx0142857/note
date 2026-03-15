@@ -718,8 +718,8 @@
   <span class="formula align">
     `1 = sum_(i=0)^k prod_(j!=i) w_i^k/(w_i-w_j)`<br>
     `= sum_(i=0)^k w_i^k/(prod_(j!=i) n(i-j))`<br>
-    `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w_i/n)^k`.
     `= sum_(i=0)^k (w_i/n)^k 1/(i! * (-1)^(k-i) (k-i)!)`<br>
+    `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w_i/n)^k`.
   </span>
 </p>
 
@@ -889,7 +889,7 @@
 
 <p class="definition">
   设 `x in CC`, 如果存在不为常数的多项式 `f in QQ[x]` 使得 `f(x) = 0`,
-  则称 `x` 是<b>代数数</b>, 记作 `x in A_QQ`; 否则称为<b>超越数</b>, 记作 `x in CC\\A_QQ`.
+  则称 `x` 是<b>代数数</b>, 记作 `x in cc A_QQ`; 否则称为<b>超越数</b>, 记作 `x in CC\\cc A_QQ`.
   如果 `x` 是代数数, 上述使得 `f(x) = 0` 的 `f in QQ[x] \\ QQ` 当中,
   总存在一个次数最小, 且首项系数为 1 的多项式, 称为 `x` 的<b>最小多项式</b>.
   最小多项式的次数就称为 `x` 的次数. 例如有理数是 1 次代数数, `sqrt 2` 是 2 次代数数等.
@@ -918,7 +918,7 @@
 </p>
 
 <ol class="proof">
-  反设 `"e"` 是多项式 `sum_(i=0)^m c_i x^i` 的根.
+  反设 `"e"` 是整系数多项式 `sum_(i=0)^m c_i x^i` 的根, 其中 `c_0 != 0`.
   <li>
     任取 `n` 次多项式 `f(x)`, 分部积分
     <span class="formula">
