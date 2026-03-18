@@ -740,11 +740,11 @@
         由定义 `alpha + gamma = "sup"{alpha + beta: beta lt gamma}`.
         下证它等于 `"sup"(alpha + S)`.
       </li>
-      <li>记 `左 := {alpha + beta: beta lt gamma}`, `右 := alpha + S`.
-        对任意 `beta in S` 有 `beta lt gamma`, 所以右 `sube` 左, `"sup" 右 le "sup" 左`.
+      <li>记 `"左" := {alpha + beta: beta lt gamma}`, `"右" := alpha + S`.
+        对任意 `beta in S` 有 `beta lt gamma`, 所以右 `sube` 左, `"sup" "右" le "sup" "左"`.
       </li>
       <li>对任意 `beta lt gamma`, 由上确界性质, 存在 `xi in S` 使得 `beta lt xi`,
-        于是 `alpha + beta lt alpha + xi`, `"sup" 左 le "sup" 右`.
+        于是 `alpha + beta lt alpha + xi`, `"sup" "左" le "sup" "右"`.
       </li>
     </ol>
   </li>
@@ -1077,7 +1077,7 @@ for (let i = 1; i &lt;= 11; ++i) {
     </span>
     如果对映射 `alpha mapsto omega^alpha` 进行迭代:
     <span class="formula">
-      `omega^omega = "sup"{omega^n: n lt omega}.<br>
+      `omega^omega = "sup"{omega^n: n lt omega}`.<br>
       `omega^(omega^omega) = "sup"{omega^(omega^n): n lt omega}`.
     </span>
     最终 `epsi_0 := "sup"{1, omega, omega^omega, omega^(omega^omega), cdots}`.
@@ -1092,8 +1092,8 @@ for (let i = 1; i &lt;= 11; ++i) {
     <span class="formula">
       `epsi_alpha := {
         "sup"{epsi_beta+1, omega^(epsi_beta+1), omega^(omega^(epsi_beta+1)), cdots}, if alpha = beta+1;
-        "sup"{epsi_beta: beta lt alpha}, if alpha 是极限序数;
-      :}
+        "sup"{epsi_beta: beta lt alpha}, if alpha "是极限序数";
+      :}`
     </span>
     一些例子:
     <span class="formula">
@@ -1376,10 +1376,16 @@ Knuth《Surreal Numbers》]
     以及
     <span class="formula">
       无穷大 `omega = {0, 1, 2, ... |}`,<br>
-      无穷小 `epsi = {0|1,1//2,1//4,...}`.
+      无穷小 `epsi = {0|1,1//2,1//4,...}`,<br>
+      `1+epsi = {1|1+1//2, 1+1//4, ...}`.
     </span>
     事实上 `epsi = 1//omega`.
   </li>
+  <li>第 `omega+1` 天, 对每个实数 `r`, 都可以创造出 `r + epsi`.
+    甚至可以创造出 `0` 和 `epsi` 之间的数, 即 `{0|epsi}`,
+    以及大于所有自然数, 但小于 `omega` 的数, 即 `omega-1={0,1,2...|omega}`.
+  </li>
+  而这只是序数的无穷多个无穷层次的开始...
 </ul>
 
 <p>上例的 `1, 2, 3`, 以及有理数等, 还只是形式上的记号. 现在我们定义超现实数的加法与乘法,
@@ -1395,7 +1401,13 @@ Knuth《Surreal Numbers》]
       `R = (X_R+y) uu (Y_R+x)`.
     </span>
     记号 `X_L + y` 表示将集合 `X_L` 中的每个数与 `y` 相加得到的集合.
-    加法零元为 `0`; 负元为 `-x = { -X_R | -X_L }`. 负元的集合表示不唯一.
+    可以证明 `L lt R`, 即 `x+y` 是一个超现实数.
+    这符合我们的直观:
+    <span class="formula">
+      `x_L+y lt x+y lt x_R+y`,<br>
+      `y_L+x lt x+y lt y_R+x`.
+    </span>
+    加法零元为 `0`; 负元为 `-x = { -X_R | -X_L }`. 负元是唯一的, 但可以有不同的集合表示.
   </li>
   <li>
     <b>超现实数的乘法</b>
@@ -1412,47 +1424,48 @@ Knuth《Surreal Numbers》]
       `A_(i j) = X_i * y + x * Y_j - X_i * Y_j`
       `==^"形式上" x * y - (x-X_i) * (y-Y_j)`.
     </span>
+    同样可以证明 `L lt R`, 即 `x*y` 是一个超现实数.
+    这也符合直观, 例如
+    <span class="formula">
+      `x * y - a_(L L) = (x-x_L) * (y - y_L) gt 0`.
+    </span>
     乘法单位元是 `1 := {0|}`; 乘法逆元则比较复杂.
   </li>
 </ol>
 
-<ol class="example">
-  练习
-  <li>`x + x = {X_L + x|X_R + x}`.</li>
-  <li>对任意正整数 `n` 有 `{n|} = n+1`, `{|-n} = -n-1`.</li>
-</ol>
+<p class="remark">
+  我们将要证明,
+  超现实数满足加法和乘法的结合律、交换律、分配律, 存在加法负元、乘法逆元.
+  且它的加法、乘法与序结构相容:
+  <span class="formula">
+    `a le b rArr a + c le b + c`,<br>
+    `(AA c ge 0)` `a le b rArr a c le b c`.
+  </span>
+  它几乎可以说是一个<b>有序域</b>了.
+  但超现实数的全体过多, 不构成集合.
+</p>
 
 <p class="theorem">
-  超现实数关于加法构成 Abel 群, 且加法与序相容.
+  超现实数全体不构成集合.
+</p>
+
+<p class="proof">
+  这是因为我们可以在第 `alpha` 天把当前已构造出的数都放在左集, 而右集为空,
+  从而得到新的超现实数:
+  <span class="formula">
+    `{ uuu_(beta lt alpha) S_beta | }`.
+  </span>
+  因此超现实数至少和序数类一样大.
+</p>
+
+<p class="theorem">
+  除了不构成集合外, 超现实数全体构成 Abel 群, 且加法与序相容.
 </p>
 
 <ol class="proof">
+  先假定加法的封闭性, 即两个超现实数之和仍为超现实数, 其满足规则一.
+  封闭性的证明留到最后.
   <li>交换律. 将 `x+y = y+x` 按定义展开即可.</li>
-  <li>序相容性.
-    即证 `x lt y iff x + z lt y + z`,
-    由于 `le` 是全序, 我们来证它的等价命题 `x le y iff x + z le y + z`.
-    由定义, 要证明
-    <span class="formula">
-      `X_L lt y and x lt Y_R`<br>
-      `iff (X_L+z) uu (Z_L+x) lt y+z`
-      `and x+z lt (Y_R+z) uu (Z_R+y)`.
-    </span>
-    对 `d(x)+d(y)+d(z)` 归纳:<br>
-    "`rArr`": 由归纳假设 `x_L lt y rArr x_L+z lt y+z`, 这证明了 `X_L+z lt y+z`.
-    又由归纳假设 `x le y rArr z_L+x le y + z_L lt y + z`, 这证明了 `Z_L+x lt y + z`.
-    类似可证 `x+z lt (Y_R+z) uu (Z_R+y)`.
-    <br>
-    "`lArr`":
-    同样由归纳假设 `x_L+z lt y+z rArr x_L lt y`, 证得 `X_L lt y`.
-    类似可证 `x lt Y_R`.
-  </li>
-  <li>封闭性. 需要证明 `x+y` 的确是一个超现实数. 利用加法的序相容性容易得到
-    <span class="formula">
-     `(X_L+y) uu (Y_L+x)`
-     `lt x+y`
-     `lt (X_R+y) uu (Y_R+x)`.
-    </span>
-  </li>
   <li>零元. 由定义 `x+0 = (X_L+0, X_R+0)`, 对 `d(x)` 作归纳即可.</li>
   <li>结合律. 将 `(x+y)+z` 和 `x+(y+z)` 按定义展开, 得到下面一大堆
     <span class="formula align">
@@ -1475,27 +1488,124 @@ Knuth《Surreal Numbers》]
       `= {X_L|X_R} + {-X_R|-X_L}`
       `= {(X_L-x) uu (-X_R+x) | (X_R-x) uu (-X_L+x)}`.
     </span>
-    根据并集性质, 要证 `x - x = 0`, 只需证明它的左集小于零而右集大于零, 即
+    要证 `x - x = 0`, 只需证它 `ge 0` 且 `le 0`.
+    根据定义, 只需证明它的左集小于零而右集大于零, 即
     <span class="formula">
       `(X_L-x) uu (-X_R+x) lt 0`,<br>
       `(X_R-x) uu (-X_L+x) gt 0`.
     </span>
     对 `d(x)` 进行归纳,
     反设 `EE x_L in X_L` 满足 `x_L-x ge 0`, 则作为它右集的一部分,
-    `(-X)_R+x_L gt 0`, 即 `-X_L+x_L gt 0`, 特别 `-x_L+x_L = 0`, 与归纳假设矛盾.
+    `(-X)_R+x_L gt 0`, 即 `-X_L+x_L gt 0`, 特别 `-x_L+x_L gt 0`, 与归纳假设矛盾.
     这证明了 `X_L-x lt 0`. 其它几个不等式类似可证.
+  </li>
+  <li>序相容性.
+    即证 `x le y rArr x + z le y + z`,
+    <!--
+    由于 `le` 是全序, 我们来证它的等价命题 `x le y iff x + z le y + z`.
+    由定义, 要证明
+    <span class="formula">
+      `X_L lt y and x lt Y_R`<br>
+      `iff (X_L+z) uu (Z_L+x) lt y+z`
+      `and x+z lt (Y_R+z) uu (Z_R+y)`.
+    </span>
+    对 `d(x)+d(y)+d(z)` 归纳:<br>
+    "`rArr`": 由归纳假设 `x_L lt y rArr x_L+z lt y+z`, 这证明了 `X_L+z lt y+z`.
+    又由归纳假设 `x le y rArr z_L+x le y + z_L lt y + z`, 这证明了 `Z_L+x lt y + z`.
+    类似可证 `x+z lt (Y_R+z) uu (Z_R+y)`.
+    <br>
+    "`lArr`":
+    同样由归纳假设 `x_L+z lt y+z rArr x_L lt y`, 证得 `X_L lt y`.
+    类似可证 `x lt Y_R`.
+    <hr>
+    注: 序相容性的证明存在一处错误, 使用了 `y + z_L lt y + z`,
+    但 `y, z, z_L` 的天数之和可能大于 `x, y, z` 的天数之和!
+    -->
+    我们同时证明两个稍微强的命题
+    <span class="formula">
+      `"I": x le x' and y le y' rArr x + y le x' + y'`;<br>
+      `"II": x + y ge x' + y' and y le y' rArr x ge x'`.
+    </span>
+    对 `x, y, x', y'` 的天数之和作归纳.
+    由定义, 要证 `"I"`, 即证
+    <span class="formula">
+      `x le x' and y le y'`<br>
+      `rArr (X_L+y) uu (Y_L+x) lt x' + y'`
+      `and x+y lt (X_R'+y') uu (Y_R'+x')`.
+    </span>
+    先证 `X_L+y lt x' + y'`.
+    反设存在 `x_L` 使得 `x_L+y ge x' + y'`, 因为 `y le y'`,
+    由命题 `"II"` 的归纳假设, 有 `x_L ge x'`, 与已知条件
+    `x le x' rArr x_L lt x'` 矛盾.
+    同样可证其它 3 个不等式, 故 `"I"` 成立.
+    再利用 `"I"` 的归纳假设可以证明 `"II"` 成立.
+    <hr>
+    注: 在交换律、结合律和零元的证明中, 我们实际证得了严格的集合等式.
+    而在负元的证明中, 只证得 `x-x ge 0` 且 `le 0`, 因此负元的集合表示可以不唯一.
   </li>
 </ol>
 
-<p class="remark">
-  超现实数满足加法和乘法的结合律、交换律、分配律, 存在加法负元、乘法逆元.
-  且它的加法、乘法与序结构相容:
+<ol class="proof">
+  封闭性的证明.
+  <li>
+    我们要证明 `x+y` 是一个超现实数, 即证
+    <span class="formula">
+     `(X_L+y) uu (Y_L+x) lt (X_R+y) uu (Y_R+x)`,
+    </span>
+    换言之要证明下面四条:
+    <span class="formula">
+      `X_L+y lt X_R+y`,<br>
+      `X_L+y lt Y_R+x`,<br>
+      `Y_L+x lt X_R+y`,<br>
+      `Y_L+x lt Y_R+x`.
+    </span>
+    例如第二条, 利用序相容性有
+    <span class="formula">
+      `X_L lt x and y lt y_R`
+      `rArr X_L+y lt y_R+x`.
+    </span>
+    但上式成立的前提是, `x_L+y`, `y_L+x`, `x_R+y`, `y_R+x` 都是合法的超现实数, 即它们满足规则一.
+    如果不满足规则一, 还能使用序相容性吗?
+  </li>
+  <li>
+    我们不得不考虑, 如果去掉规则一, <b>伪数</b> `{L|R}` 还会满足什么性质.
+    仔细检查各定理的证明: 去掉规则一之后, 自反性与传递性仍成立, 而全序性未必成立.
+    所幸, 交换律、结合律、零元、负元,
+    乃至序相容性的证明 (把 `lt` 换成 `nge`) 并不依赖 `x+y` 的封闭性假设,
+    即它们对伪数也是成立的.
+    因此 1. 中的证明对伪数成立. `x+y` 的确是超现实数!
+  </li>
+</ol>
+
+<p class="theorem">
+  除了不构成集合外, 超现实数全体构成域, 且乘法与序相容.
+</p>
+
+<ol class="proof">
+  <li>乘法交换律、乘法单位元: 简单的归纳证明.</li>
+  <li>分配律、乘法结合律: 对任意伪数成立.</li>
+  <li>封闭性与乘法的序相容性: 需要先证 `x gt x' and y gt y'` `rArr (x-x')(y-y') gt 0`.</li>
+</ol>
+
+<ol class="example">
+  练习
+  <li>`x + x = {X_L + x|X_R + x}`.</li>
+  <li>对任意正整数 `n` 有 `{n|} = n+1`, `{|-n} = -n-1`.</li>
+  <li>`x y = y x`.</li>
+  <li>`0 y = 0`, `1 y = y`, `-(x y) = (-x) y`.</li>
+  <li>`epsi omega = 1`.</li>
+  <li>`sqrt omega = {1, 2, 3...| omega, omega//2, omega//3...}`.</li>
+  <li>`sqrt epsi = {epsi, 2epsi, 3epsi...|1, 1//2, 1//3...}`.</li>
+</ol>
+
+<p class="proof">
+  只证 `epsi omega = 1`,
+  其中 `epsi = {0|1, 1//2, 1//3...}`, `omega =  {1, 2, 3...|}`.
+  应用定义有
   <span class="formula">
-    `a le b rArr a + c le b + c`,<br>
-    `(AA c ge 0)` `a le b rArr a c le b c`.
+    `epsi omega = {epsi n, n in NN^+ | (1//m) omega + epsi n - (1//m) n, m, n in NN^+}`.
   </span>
-  它几乎可以说是一个<b>有序域</b>了.
-  但超现实数的全体过多, 不构成集合.
+  左集是无穷小, 右集是无穷大, 因此 `epsi omega` 等于两者之间最早被造出的数, 即 `1`.
 </p>
 
 <script>

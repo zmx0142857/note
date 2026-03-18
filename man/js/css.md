@@ -325,3 +325,7 @@ Elit aliquam deleniti repellat libero repellendus. Harum optio numquam quae ut n
 </div>
 </body>
 ```
+
+### user-select 不可继承和复写
+
+这意味着父元素指定 `user-select: none` 后, 无论子元素如何指定样式, 都是无法选中的.

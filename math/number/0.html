@@ -946,20 +946,14 @@
     令
     <span class="formula">
       `f(x) = x^(p-1)/(p-1)! prod_(j=1)^m (x-j)^p`
-      `:= x^(p-1)/(p-1)! g(x)^p`.
+      `= 1/(p-1)! sum_(j ge p-1) a_j x^j`.
     </span>
-    使用 Leibniz 公式对 `f` 求导,
+    求导得
     <span class="formula">
-      `f^((k))(x)`
-      `= 1/(p-1)! sum_(j=0)^k C_k^j`
-      `(del^(k-j) x^(p-1))`
-      `(del^j g(x)^p)`.
+      `f^((k))(x) = 1/(p-1)! sum_(j ge k) j (j-1) cdots (j-k+1) a_j x^(j-k)`
+      `= k!/(p-1)! sum_(j ge k) (j;k) a_j x^(j-k)`.
     </span>
     当阶数 `k ge p` 时, 分母的 `(p-1)!` 被消去, `f^((k))(x)` 成为整系数多项式, 且系数为 `p` 的倍数.
-    这是因为 `del^(k-j) x^(p-1)` 提供了因子 `(p-1)(p-2) cdots (p-k+j)`,
-    而 `del^j g(x)^p` 提供因子 `p(p-1) cdots (p-j+1) = j! C_p^j`,
-    它们合起来提供了因子 `(p-1)!`, 足以消掉分母, 并且附带一个因子 `p`.
-    既然 `f^((k))(x)` 的系数都是 `p` 的倍数, 那么它在整数点的函数值也是 `p` 的倍数.
   </li>
   <li>
     另一方面, 当 `k lt p` 且 `x = 1, 2, cdots, m` 时,
@@ -978,7 +972,7 @@
       `lt m^(m p + p-1)/(p-1)! int_0^i "e"^-x dx`
       `to 0`. `quad (p to oo)`
     </span>
-    于是 `(ast)` 式右边的绝对值恒 `ge |c_0|`, 左边却趋于零, 从而矛盾.
+    于是 `(ast)` 式右边的绝对值恒 `ge |c_0| ge 1`, 左边却趋于零, 从而矛盾.
   </li>
 </ol>
 

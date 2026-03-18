@@ -106,3 +106,28 @@
 | 设置数据类型 | 开始 > 数据类型 | 格式 > 单元格... (Ctrl+1) | |
 | 格式刷 | Alt-Ctrl-C, Alt-Ctrl-V | | |
 | 视图/导航窗格 | Ctrl-F | | |
+
+## OfficeScript
+
+https://learn.microsoft.com/en-us/office/dev/scripts/
+
+点击菜单【自动执行/新脚本/在代码编辑器中创建】
+```js
+function main(workbook: ExcelScript.Workbook) {
+    // 获取活动单元格和工作表
+    const cell = workbook.getActiveCell();
+    const sheet = workbook.getActiveWorksheet();
+
+    // 填写文字
+    sheet.getRange("A2").setValue("Hello");
+
+    // 设置填充色
+    cell.getFormat().getFill().setColor("yellow");
+
+    // 复制最后一张工作表并添加到最后, 然后设置名称
+    const newsheet = workbook.getLastWorksheet().copy(ExcelScript.WorksheetPositionType.end);
+    newsheet.setName("new sheet1");
+
+    OfficeScript.saveAs("filename.xlsx"); // 保存文件到云端. OfficeScript 没有权限操作本地文件
+}
+```
