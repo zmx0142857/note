@@ -1131,85 +1131,6 @@ document.getElementById('angle-grid-point').innerText = buf.join('\n')
 	</span>
 </p>
 
-<p class="theorem" id="the-ptolemy">
-	<b>Ptolemy 定理 (Hipparchus)</b>
-	平面四边形的两条对角线乘积 &le; 两组对边乘积之和,
-	等号成立当且仅当该四边形内接于圆.
-</p>
-
-<p class="proof">
-	在四边形 `ABCD` 中, 作相似三角形 `triangle ABE S~ triangle ACD`, 有
-	<span class="formula">
-		`AB * CD = BE * AC`.
-	</span>
-	又由两组边成比例, 易证 `triangle ABC S~ triangle AED`, 有
-	<span class="formula">
-		`BC * AD = ED * AC`.
-	</span>
-	两式相加,
-	<span class="formula">
-		`AB * CD + BC * AD`
-		`= (BE+ED)*AC`
-		`ge BD * AC`.
-	</span>
-	等号成立当且仅当 `E` 落在 `BD` 上, 即 `/_ ABE = /_ ACD`,
-	即四边形 `ABCD` 内接于圆.
-</p>
-
-<p class="proof">
-	复数证明.
-	用 `a, b, c, d in CC` 表示四边形的四个顶点, 有
-	<span class="formula">
-		`|(a-c)(b-d)|`
-		`= |(a-b)(c-d) + (a-d)(b-c)|`
-		`le |(a-b)(c-d)| + |(a-d)(b-c)|`.
-	</span>
-	其中等号成立当且仅当
-	<span class="formula">
-		`"arg"(a-b)(c-d) = "arg"(a-d)(b-c)`.
-	</span>
-	即
-	<span class="formula">
-		`"arg"((a-b)(c-d))/((a-d)(b-c)) = 0`.
-	</span>
-	即
-	<span class="formula">
-		`"arg"(a-b)/(a-d) + "arg"(c-d)/(c-b) = pi`.
-	</span>
-	这指出四边形的对角互补, 因此内接于圆.
-</p>
-
-<p class="corollary">
-  <b>Ptolemy 定理的三角形式</b>
-  若四个角 `alpha + beta + gamma + delta = pi`, 则
-  <span class="formula">
-    `sin alpha sin gamma + sin beta sin delta`
-    `= sin(alpha+beta) sin(beta+gamma)`.
-  </span>
-</p>
-
-<p class="proof">
-  在圆内接四边形 `ABCD` 中, 记
-  <span class="formula">
-    `alpha = /_ CAD = /_ CBD`,
-    `quad beta = /_ BAC = /_ BDC`,<br>
-    `gamma = /_ ADB = /_ ACB`,
-    `quad delta = /_ ABD = /_ ACD`,
-  </span>
-  注意到圆周角 `alpha` 所对的弦长 `CD = 2 r sin alpha`,
-  应用 Ptolemy 定理即得结论.
-</p>
-
-<p class="corollary">
-	<b>Euler 定理</b>
-	在直线上顺次有 `A, C, B, D` 四点, 则
-	<span class="formula">
-		`AD * CB + AC * BD ge AB * CD`,
-	</span>
-    这是 Ptolemy 定理的退化情形. 特别当等号成立时,
-    四点构成调和点列, 这时左边两项相等.
-</p>
-
 <ol class="theorem">
 	<b>等差幂线定理</b>
 	<li>四面体的一组对边垂直当且仅当另外两组对边的平方和相等;</li>
@@ -1230,36 +1151,6 @@ document.getElementById('angle-grid-point').innerText = buf.join('\n')
 	<!-- 四边形余弦定理?? -->
 	于是 `AC _|_ BD iff AB^2 + CD^2 = AD^2 + BC^2`.
 </p>
-
-<ol class="example">
-  <b>四点共圆判定</b>
-  <li>到一点距离相等的四点共圆;</li>
-  <li>四边形对角互补, 四点共圆;</li>
-  <li>线段 `A B` 同侧有两个点 `C, D`, 若 `/_ ACB = /_ ADB`, 则四点共圆;
-  </li>
-  <li>圆幂逆定理;</li>
-  <li>Ptolemy 逆定理;</li>
-</ol>
-
-<p class="proof">
-  3. 在 `AB` 另一侧作这两个角的补角, 设为 `E`, 由 2 知 `ABEC` 和 `ABED`
-  分别四点共圆, 从而 `ABCD` 四点共圆.
-</p>
-
-<div class="p proof">
-  <div class="img md">
-    <img src="../img/4-cocircle.svg">
-  </div>
-  不借助圆, 也可以由两组相似三角形证明 2 和 3 的等价性:
-  先设四边形 `ABCD` 中 `/_BAD` 和 `/_BCD` 互补. 延长 `BC` 到 `E`, 使得 `/_CDE = /_ADB`.
-  于是由 `/_DCE = /_ DAB` 知道, `triangle DCE ~ triangle DAB`.
-  这推出 `(DE)/(CD) = (DB)/(DA)`.
-  于是 `triangle EDB ~ triangle CDA`,
-  从而 `/_CAD = /_CBD`.
-  从三角形内角和 180 度中扣除掉一组相等对顶角后, 即 `/_ACB = /_ADB`.
-  反向的证明只需把上述证明倒过来写即可.
-</div>
-
 
 <h2>杂例</h2>
 
@@ -1304,7 +1195,7 @@ document.getElementById('angle-grid-point').innerText = buf.join('\n')
 <h2>几何中的物理方法</h2>
 
 <p class="example">
-  <b>杠杆原理</b>
+  <b>杠杆原理 (力矩法)</b>
   和 Ceva 定理等价, 其核心思想是, 要使点 `G` 为三角形物理重心
   (区别于几何重心), 应该怎样在顶点处分配质量.<br>
   设有 `triangle ABC`, `P, Q, R` 分别在直线 `AB, BC, CA` 上,
@@ -1317,8 +1208,14 @@ document.getElementById('angle-grid-point').innerText = buf.join('\n')
   因此
   <span class="formula">
     `(AR * BP * CQ)/(BR * CP * AQ)`
-    `= (m_B * m_C * m_A )/(m_A * m_B * m_C)`
+    `= (m_B * m_C * m_A)/(m_A * m_B * m_C)`
     `= 1`.
+  </span>
+  我们还可以算出 `CG // GR`, 这是因为 `A, B` 两质点可以等效为其重心 `R`
+  处的一个质量为 `m_A+m_B` 的质点.
+  然后 `G` 是 `C, R` 两质点的重心, 所以
+  <span class="formula">
+    `m_C CG = (m_A+m_B) GR`.
   </span>
 </p>
 

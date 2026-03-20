@@ -282,6 +282,24 @@ module.exports = (str) => {
 </div>
 
 <ol class="algorithm">
+  <b>包围盒与线段相交判断 (Slab 方法, 又称 Liang-Barsky 算法)</b>
+  设包围盒各边与坐标轴平行, 用一对向量 `(b^(-), b^+)` 表示这个包围盒.
+  线段则用参数表示为 `P(t) = A + D t`, `t in [0, 1]`.
+  <li>初始令 `t_min = 0`, `t_max = 1`, 表示线段进入和离开包围盒的时刻.</li>
+  <li>对每个维度 `i = x, y, z`:
+    若 `D_i = 0`, 检查 `A_i in [b_i^(-), b_i^+]` 是否成立, 若否, 则线段与包围盒不相交.
+    若 `D_i != 0`, 解方程 `P_i(t_i^(+-)) = b_i^(+-)` 得到
+    <span class="formula">
+      `t_i^(+-) = (b_i^(+-) - A_i) // D_i`,<br>
+      `t_1 = min(t_i^+-)`, `quad t_2 = max(t_i^+-)`.
+    </span>
+    更新 `t_min = max(t_min, t_1)`, `t_max = min(t_max, t_2)`.
+  </li>
+  <li>若最终 `t_min le t_max`, 则线段与包围盒相交.</li>
+  <li>把初始值换成 `t_min = -oo`, `t_max = +oo`, 则可以进行包围盒与直线的相交判断.</li>
+</ol>
+
+<ol class="algorithm">
   <b>有向包围盒相交判断 (OBB, Oriented Bounding Box)</b>
   设 `A, B` 是平面上任意位置的两个矩形,
   规定矩形每一条边的法向量指向矩形内部, 于是直线的正侧代表内部, 负侧代表外部.
@@ -541,7 +559,18 @@ module.exports = function boundingCircle (str) {
     </ol>
     因为胶囊体就是有厚度的线段, 此方法也可以判断点到胶囊体的距离.
   </li>
-  <li><b>点-长方体</b> 将长方体的棱无限延长, 空间被分为 27 个区域, 其中 8
+  <li><b>点-长方体</b>
+    对点和长方体施加同一个旋转, 使长方体各边与坐标轴平行.
+    然后在 `x, y, z` 三个维度上分别求点到线段的距离 `d_x, d_y, d_z`,
+    例如, 设点的坐标为 `(x, y, z)`, 长方体在 `x` 轴上的最小、最大值分别为 `b_x^(-), b_x^+` 时,
+    <span class="formula">
+      `d_x = { x - b_x^+, if x gt b_x^+;
+      b_x^(-) - x, if x lt b_x^(-);
+      0, otherwise :}`
+    </span>
+    最终点到长方体的距离为 `sqrt(d_x^2+d_y^2+d_z^2)`.
+    <!--
+    将长方体的棱无限延长, 空间被分为 27 个区域, 其中 8
     个区域靠近顶点, 12 个区域靠近棱, 6 个区域靠近面, 还有 1 个区域在内部.
     为判断 p 点落在哪个区域中, 取相互正交的 3 条棱, 用点到线段的算法分别判断 p 与三条棱的位置关系即可.
     <ol>
@@ -549,6 +578,54 @@ module.exports = function boundingCircle (str) {
       <li>如果 p 靠近棱, 问题化为求点到直线的距离;</li>
       <li>如果 p 靠近面, 问题化为求点到平面的距离;</li>
       <li>如果 p 在长方体内部, 需要计算点到每个面的距离, 再取最小.</li>
+    </ol>
+    -->
+  </li>
+  <li>
+    <b>线段-长方体</b>
+    假定长方体的边与坐标轴平行, 以一对向量 `(b^(-), b^+)` 表示长方体的范围.
+    <ol>
+      <li>如果线段长度为 0, 问题化为点到长方体的距离.</li>
+      <li>否则, 先执行线段与长方体的相交测试, 若相交则距离为 0.</li>
+      <li>将线段参数化: `P(t) = A + (B-A) t = A + D t`, `t in [0, 1]`.
+        然后在 `x, y, z` 三个维度上分别解方程, 例如 `x` 维度的方程为
+        <span class="formula">
+          `P_x(t_x^(-)) = b_x^(-)`, `quad P_x(t_x^+) = b_x^+`.
+        </span>
+        收集所有落在 `[0, 1]` 内的 `t` 值并去重, 得到:
+        <span class="formula">
+          `t_0 = 0 lt t_1 lt cdots lt t_n = 1`.
+        </span>
+        这些点将线段分为 `n` 段.
+      </li>
+      <li>
+        线段上任一点 `P(t)` 到长方体的距离平方等于 `d^2(t) = d_x^2 + d_y^2 + d_z^2`,
+        其中
+        <span class="formula">
+          `d_x = { P_x(t) - b_x^+, if P_x(t) gt b_x^+;
+          b_x^(-) - P_x(t), if P_x(t) lt b_x^(-);
+          0, otherwise :}`
+        </span>
+        `d_x` 虽是分段函数, 但在每个小段 `[t_k, t_(k+1)]` 上总是取固定的分支,
+        于是函数 `d^2` 分段可微.
+        <span class="formula align">
+          `"d"/dt d^2(t)`
+          `= "d"/dt sum_i (P_i(t) - b_i^(+-))^2`<br>
+          `= 2 sum_i (P_i(t) - b_i^(+-)) P_i'(t)`<br>
+          `= 2 sum_i (A_i + D_i t - b_i^(+-)) D_i`.
+        </span>
+        上式求和只对 `d_i != 0` 的分量进行.
+        至于 `b_i^(+-)` 的取值, 可以任取区间上一点 (例如中点) 进行判断.
+      </li>
+      <li>
+        令 `"d"/dt d^2(t) = 0`, 解得极小值点
+        <span class="formula">
+          `t^ast = (sum_i (b_i^(+-) - A_i) D_i)/(sum_i D_i^2)`.
+        </span>
+        若 `t^ast in [t_k, t_(k+1)]`, 则它对应着这一小段到长方体的距离.
+        否则舍弃这个点, 使用区间端点到长方体的距离.
+        算出每个小段到长方体的距离后, 取最小值即可.
+      </li>
     </ol>
   </li>
   <li><b>点-三角形</b>
