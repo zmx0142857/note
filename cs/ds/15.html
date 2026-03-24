@@ -8,9 +8,7 @@
 
 <body>
 
-<h2>平面几何</h2>
-
-<h3>三角函数</h3>
+<h2>三角函数</h2>
 
 <p class="algorithm">
   <b>计算正余弦函数</b>
@@ -97,7 +95,63 @@ module.exports = function atan2 (str) {
 </script>
 </div>
 
-<h3>多边形</h3>
+<h2>线段</h2>
+
+<p class="algorithm">
+  <b>判断线段是否相交 (解方程法)</b>
+  直接计算两直线的交点坐标, 把它表示为参数 <code>t</code> 的函数. 两线段相交当且仅当直线相交,
+  且 <code>0 &le; t &le; 1</code>.
+</p>
+
+<div class="playground" value="{ edge1: [[0,-1],[0,1]], edge2: [[-1,0],[1,0]] }">
+<script type="text">
+module.exports = (str) => {
+  const { edge1, edge2 } = Playground.parse(str)
+  const [[x1, y1], [x2, y2]] = edge1
+  const [[x3, y3], [x4, y4]] = edge2
+  const det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+  if (det === 0) return false
+  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / det
+  // 交点为 [x1 + t * (x2 - x1), y1 + t * (y2 - y1)]
+  return 0 <= t && t <= 1
+}
+</script>
+</div>
+
+<p class="algorithm">
+  <b>判断线段是否相交 (四边形法, 又称跨立实验)</b>
+  以两条线段为对角线, 张成一个四边形.
+  则两线段相交当且仅当该四边形是凸四边形.
+  具体说, 就是 p3, p4 位于直线 p1-p2 的两侧,
+  且 p1, p2 位于直线 p3-p4 的两侧.
+</p>
+
+<div class="playground" value="{ edge1: [[0,-1],[0,1]], edge2: [[-1,0],[1,0]] }">
+<script type="text">
+module.exports = (str) => {
+  const { edge1, edge2 } = Playground.parse(str)
+  const [p1, p2] = edge1
+  const [p3, p4] = edge2
+  const sign = ([x1, y1], [x2, y2], [x3, y3]) => {
+    return (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) > 0 // 叉乘的方向
+  }
+  return sign(p1, p2, p3) !== sign(p1, p2, p4) // p3, p4 位于直线 p1-p2 两侧
+    && sign(p3, p4, p1) !== sign(p3, p4, p2) // p1, p2 位于直线 p3-p4 两侧
+}
+</script>
+</div>
+
+<ol class="remark">
+  <li>相比于解方程法, 四边形法的优势是避免了除法运算:
+    众所周知浮点数的除法运算容易引起数值误差.</li>
+  <li>以上两种算法均没有考虑线段重合 (或部分重合) 的情形.
+    可以这样改进: 将四边形法判断叉乘的条件从 <code>&gt; 0</code> 改为 <code>&gt;= 0</code>,
+    但这样一来会将两条共线但不重合的线段判断为相交, 因此还要结合包围盒来判断: 若两线段的包围盒不相交,
+    则线段也不相交.
+  </li>
+</ol>
+
+<h2>多边形</h2>
 
 <p class="algorithm">
   <b>判断多边形方向是否为顺时针 (面积法)</b> [来自 github copilot]
@@ -205,63 +259,7 @@ module.exports = (str) =>{
 </script>
 </div>
 
-<h3>线段</h3>
-
-<p class="algorithm">
-  <b>判断线段是否相交 (解方程法)</b>
-  直接计算两直线的交点坐标, 把它表示为参数 <code>t</code> 的函数. 两线段相交当且仅当直线相交,
-  且 <code>0 &le; t &le; 1</code>.
-</p>
-
-<div class="playground" value="{ edge1: [[0,-1],[0,1]], edge2: [[-1,0],[1,0]] }">
-<script type="text">
-module.exports = (str) => {
-  const { edge1, edge2 } = Playground.parse(str)
-  const [[x1, y1], [x2, y2]] = edge1
-  const [[x3, y3], [x4, y4]] = edge2
-  const det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-  if (det === 0) return false
-  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / det
-  // 交点为 [x1 + t * (x2 - x1), y1 + t * (y2 - y1)]
-  return 0 <= t && t <= 1
-}
-</script>
-</div>
-
-<p class="algorithm">
-  <b>判断线段是否相交 (四边形法, 又称跨立实验)</b>
-  以两条线段为对角线, 张成一个四边形.
-  则两线段相交当且仅当该四边形是凸四边形.
-  具体说, 就是 p3, p4 位于直线 p1-p2 的两侧,
-  且 p1, p2 位于直线 p3-p4 的两侧.
-</p>
-
-<div class="playground" value="{ edge1: [[0,-1],[0,1]], edge2: [[-1,0],[1,0]] }">
-<script type="text">
-module.exports = (str) => {
-  const { edge1, edge2 } = Playground.parse(str)
-  const [p1, p2] = edge1
-  const [p3, p4] = edge2
-  const sign = ([x1, y1], [x2, y2], [x3, y3]) => {
-    return (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) > 0 // 叉乘的方向
-  }
-  return sign(p1, p2, p3) !== sign(p1, p2, p4) // p3, p4 位于直线 p1-p2 两侧
-    && sign(p3, p4, p1) !== sign(p3, p4, p2) // p1, p2 位于直线 p3-p4 两侧
-}
-</script>
-</div>
-
-<ol class="remark">
-  <li>相比于解方程法, 四边形法的优势是避免了除法运算:
-    众所周知浮点数的除法运算容易引起数值误差.</li>
-  <li>以上两种算法均没有考虑线段重合 (或部分重合) 的情形.
-    可以这样改进: 将四边形法判断叉乘的条件从 <code>&gt; 0</code> 改为 <code>&gt;= 0</code>,
-    但这样一来会将两条共线但不重合的线段判断为相交, 因此还要结合包围盒来判断: 若两线段的包围盒不相交,
-    则线段也不相交.
-  </li>
-</ol>
-
-<h3>包围盒</h3>
+<h2>包围盒</h2>
 
 <p class="algorithm">
   <b>包围盒相交判断 (AABB, Axis Aligned Bounding Box)</b>
@@ -285,18 +283,14 @@ module.exports = (str) => {
   <b>包围盒与线段相交判断 (Slab 方法, 又称 Liang-Barsky 算法)</b>
   设包围盒各边与坐标轴平行, 用一对向量 `(b^(-), b^+)` 表示这个包围盒.
   线段则用参数表示为 `P(t) = A + D t`, `t in [0, 1]`.
-  <li>初始令 `t_min = 0`, `t_max = 1`, 表示线段进入和离开包围盒的时刻.</li>
-  <li>对每个维度 `i = x, y, z`:
-    若 `D_i = 0`, 检查 `A_i in [b_i^(-), b_i^+]` 是否成立, 若否, 则线段与包围盒不相交.
-    若 `D_i != 0`, 解方程 `P_i(t_i^(+-)) = b_i^(+-)` 得到
-    <span class="formula">
-      `t_i^(+-) = (b_i^(+-) - A_i) // D_i`,<br>
-      `t_1 = min(t_i^+-)`, `quad t_2 = max(t_i^+-)`.
-    </span>
-    更新 `t_min = max(t_min, t_1)`, `t_max = min(t_max, t_2)`.
-  </li>
-  <li>若最终 `t_min le t_max`, 则线段与包围盒相交.</li>
-  <li>把初始值换成 `t_min = -oo`, `t_max = +oo`, 则可以进行包围盒与直线的相交判断.</li>
+  线段穿过包围盒, 意味它至少有一点在包围盒的 3 对平面之间.
+  在 `i = x, y, z` 三个维度上解不等式
+  <span class="formula">
+    `b_i^(-) le P_i(t) le b_i^+`, `quad t in [0, 1]`.
+  </span>
+  得到三个区间 `[t_i^(-), t_i^+]`.
+  则线段与包围盒相交 `iff` 三个区间有交集.
+  如果去掉 `t in [0, 1]` 的限制, 则可以作直线与包围盒的相交判断.
 </ol>
 
 <ol class="algorithm">
@@ -459,7 +453,7 @@ module.exports = function boundingCircle (str) {
 </script>
 </div>
 
-<h3>矩阵变换</h3>
+<h2>矩阵变换</h2>
 
 <p class="example">
   <b>缩放平移边界</b>
@@ -531,9 +525,7 @@ module.exports = function boundingCircle (str) {
   <img src="../img/rotation-transform.svg" alt="旋转中心变换">
 </div>
 
-<h2>立体几何</h2>
-
-<h3>碰撞检测</h3>
+<h2>距离与碰撞检测</h2>
 
 <ol class="algorithm enum">
   <b>简单几何体间的距离</b>

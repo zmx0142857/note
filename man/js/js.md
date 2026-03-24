@@ -297,6 +297,21 @@ var t = ["\n %c %c %c PixiJS 4.8.7 - ✰ WebGL ✰  %c  %c  http://www.pixijs.co
 console.log(...t)
 ```
 
+### URLSearchParams
+
+用法与 Map 如出一辙
+```js
+const params = new URLSearchParams('a=1&b=2')
+params.get('a') // '1'
+params.set('a', 11)
+params.set('b', 22)
+params.toString() // 'a=11&b=22'
+
+// 支持数组
+params.append('a', 22)
+params.getAll('a') // ['11', '22']
+```
+
 ### 浏览器事件
 
 禁用触摸滚动 / 禁用滚动冒泡: 滚动事件无法通过 `e.stopPropagation` 阻止冒泡, 但可以通过下面的方法来阻止冒泡:
