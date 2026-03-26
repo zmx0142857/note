@@ -861,10 +861,23 @@ map identity = identity
 
 <p class="definition">
   <b>零态射</b>
-  设范畴 `cc C` 有零对象 `Z`. 对任意 `A, B: cc C`, 存在唯一态射 `O_(A B): A to B`,
-  使得 `O_(A B) = O_(Z B) O_(A Z)`, 其中 `O_(Z B)`, `O_(A Z)` 分别是 `Z to B`, `A to Z` 的唯一态射.
+  设范畴 `cc C` 有零对象 `Z`. 对任意 `A, B: cc C`, 定义态射 `O_(A B): A to B` 为
+  `O_(A B) := O_(Z B) O_(A Z)`, 其中 `O_(A Z)`, `O_(Z B)` 分别是 `A to Z`, `Z to B` 的唯一态射.
   可以证明 `O_(A B)` 与零对象 `Z` 的选取无关, 称它为 `A to B` 的零态射, 简记为 `0`.
   简言之, 零态射就是箭头图经过某个零对象的态射.
+</p>
+
+<p class="proof">
+  设 `Z, Z'` 是两个零对象, 考虑它们之间的唯一态射 `O_(Z Z')` 与 `O_(Z' Z)`.
+  它们的合成 `O_(Z' Z) O_(Z Z')` 是 `Z` 到自身的唯一态射, 因此必为 `"id"_Z`.
+  同理 `O_(Z B) O_(Z' Z)` `= O_(Z' B)`, `O_(Z Z') O_(A Z)` `= O_(A Z')`.
+  综上有
+  <span class="formula">
+    `O_(Z' B) O_(A Z')`
+    `= O_(Z B) O_(Z' Z) O_(Z Z') O_(A Z)`
+    `= O_(Z B) "id"_Z O_(A Z)`
+    `= O_(Z B) O_(A Z)`.
+  </span>
 </p>
 
 <p class="remark">
@@ -872,7 +885,7 @@ map identity = identity
 </p>
 
 <p class="corollary">
-  零态射复合上一个态射, 仍为零态射: 这是因为复合态射的箭头图仍要经过零对象.
+  零态射与任意态射复合, 仍为零态射: 这是因为复合态射的箭头图仍要经过零对象.
   反之, 两个非零态射的复合可能是零态射: 例如 Abel 群范畴中, 设 `N` 是 `G` 的非平凡真子群, 考虑下图
   <span class="formula">
     `N overset f to G overset g to G//N`
@@ -881,13 +894,14 @@ map identity = identity
 </p>
 
 <ol class="corollary">
-  设范畴 `cc C` 有零对象 `Z`, 则
-  <li>`f: Z to A` 是单态射, `g: A to Z` 是满态射;</li>
+  <li>设 `S` 是始对象, `T` 是终对象, 则 `f: T to A` 是单态射, `g: A to S` 是满态射;</li>
   <li>`O_(A B)` 是单态射 `iff A` 是终对象, `O_(A B)` 是满态射 `iff B` 是始对象.</li>
+  从群论印证: 任意群到平凡群只有满同态, 平凡群到任意群只有单同态.
 </ol>
 
 <ol class="proof">
-  <li>`AA h_1, h_2: B to Z`, 由于 `Z` 是零对象, 必有 `h_1 = h_2`, 所以自动成立
+  <li>
+    `AA h_1, h_2: B to T`, 由于 `T` 是终对象, 必有 `h_1 = h_2`, 所以自动成立
     <span class="formula">
       `f h_1 = f h_2 rArr h_1 = h_2`.
     </span>
