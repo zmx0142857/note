@@ -7,6 +7,12 @@
 </head>
 <body>
 
+<p class="remark">本章总假定 `X, Y` 等是 Banach 空间.</p>
+
+<h2>紧算子</h2>
+
+<h3>基本性质</h3>
+
 <ol class="definition">
   <b>紧算子</b>
   设 `A` 是两个 Banach 空间 `X, Y` 间的线性算子, 则以下几条等价:
@@ -16,6 +22,10 @@
   若 `A` 满足任意一条则称 `A` 是<b>紧线性算子</b>, 简称<b>紧算子</b>,
   记作 `A in fr C(X, Y)`. 简记 `fr C(X, X) = fr C(X)`.
 </ol>
+
+<p class="proof">
+  在定义中取闭包, 是因为单位球的像可能不是闭集.
+</p>
 
 <ol class="property">
   <b>紧算子的性质</b>
@@ -34,6 +44,325 @@
 <p class="theorem">
   紧算子是全连续的; 自反空间 `X` 上的全连续线性算子是紧的.
 </p>
+
+<p class="theorem">
+  紧算子的共轭算子是紧的.
+</p>
+
+<h3>用有穷秩算子逼近紧算子</h3>
+
+<ol class="definition">
+  <li>设 `T in cc L(X,Y)`, 如果 `"rank" T` `:= dim "Im" T lt oo`, 则称它是<b>有穷秩算子</b>, 记为 `T in F(X, Y)`.</li>
+  <li>设 `y in Y`, `f in X^ast`, 定义它们的张量积 `y ox f` 如下:
+    <span class="formula">
+      `y ox f: X to Y`<br>
+      `(y ox f)(x) = (:f, x:) y`.
+    </span>
+    想像 `x, y` 是列向量, `f` 是行向量, 则 `(y f) x = y (f x)`, 其中 `y f` 是一个秩 `le 1` 的矩阵.
+    因此我们也称 `y ox f` 为<b>秩 1 算子</b>.
+  </li>
+</ol>
+
+<p class="theorem">
+  设 `"rank" T = n`, 则它可以写为 `n` 个秩 1 算子之和
+  <span class="formula">
+    `T = sum_(i=1)^n y_i ox f_i`.
+  </span>
+</p>
+
+<p class="remark">
+  有限维空间中的有界闭集是紧集, 故 `F(X, Y) sube fr C(X, Y)`.
+  但 `F(X, Y)` 是否在 `fr C(X, Y)` 中稠密?
+  我们将要证明: 在 Hilbert 空间这是对的;
+  若 Banach 空间上存在 Schauder 基, 这也是对的.
+</p>
+
+<p class="theorem">
+  Hilbert 空间上 `bar(F(X)) = fr C(X)`.
+</p>
+
+<p class="definition">
+  <b>Schauder 基</b>
+  是指 Banach 空间 `X` 的一列元素 `{e_n}`, 且存在一列泛函 `C_n: X to K` 使得
+  <span class="formula">
+    `x = sum_(n ge 1) C_n(x) e_n`, `quad AA x in X`.
+  </span>
+  换言之 `x` 可以在基 `{e_n}` 上展开为级数.
+</p>
+
+<p class="corollary">
+  若 `X` 有 Schauder 基, 则 `X` 可分.
+  事实上 `{e_n}` 的有理系数的线性组合在 `X` 中稠密.
+</p>
+
+<p class="corollary">
+  在 Schauder 基定义中, 每一个 `C_n` 都是连续线性泛函.
+</p>
+
+<p class="theorem">
+  若 Banach 空间上存在 Schauder 基, 则 `bar(F(X)) = fr C(X)`.
+</p>
+
+<h2>算子方程的可解性条件 (Riesz-Fredholm 理论)</h2>
+
+<p>
+  本节的主题是算子方程 `T x = y` 的可解性条件, 其中 `x, y in X`, `A = I - T in fr C(X)`.
+</p>
+
+<h3>Fredholm 结论</h3>
+
+<ol class="example">
+  <b>线性代数方程的 Fredholm 结论</b>
+  令 `X = RR^n`, `T^ast` 代表 `T` 的转置. 在线性代数中, 我们已有如下结论:
+  <li>齐次方程 `T x = 0` 和共轭齐次方程 `T^ast x = 0` 的解空间维度相等:
+    `dim "Ker" T = dim "Ker" T^ast`.
+  </li>
+  <li>特别当 `T x = 0` 只有零解时, `T^ast x = 0` 也只有零解.
+    此时对任意 `y in X`, 原方程 `T x = y` 都有唯一解.
+  </li>
+  <li>如果 `T x = 0` 有非零解, 则 `T^ast x = 0` 也有非零解.
+    此时原方程 `T x = y` 有解当且仅当对 `AA z in "Ker" T^ast` 成立 `z _|_ y`,
+    换言之 `(:z, y:) = 0`.
+  </li>
+</ol>
+
+<p class="proof">
+  对 3. 进行说明:
+  `T x = y` 有解当且仅当 `y` 可以写为 `T` 的列向量 `T_j` 的线性组合, 即
+  `y in "span"(T_1, cdots, T_n)`.
+  对任意 `z in "Ker"T^ast`, 有 `z _|_ T_j`, `j = 1, cdots, n`.
+  于是
+  <span class="formula">
+    `y in "span"(T_1, cdots, T_n)`
+    `iff (AA z in "Ker" T^ast)` `z _|_ y`.
+  </span>
+</p>
+
+<p class="definition">
+  我们将上述结论推广到一般的算子方程. 记
+  <span class="formula">
+    `"Im" T := T(X)`, `quad "Ker"T := {x in X: T x = 0}`.
+  </span>
+  规定 `f _|_ x iff (:f, x:) = 0`.
+  又对 `M sube X`, `F sube X^ast` 定义
+  <span class="formula">
+    (谁垂直 `M`) `quad {::}^_|_M := {f in X^ast: (AA x in M) f _|_ x}`,<br>
+    (`N` 垂直谁) `quad N^_|_ := {x in X: (AA f in N) f _|_ x}`.
+  </span>
+  易知 `M sube ({::}^_|_M)^_|_`, `N sube {::}^_|_(N^_|_)`.
+  最后, 对闭线性子空间 `M sube X`, 定义它的<b>余维数</b> `op(codim) M := dim(X//M)`.
+  <br>
+  运用这些记号叙述结论如下:
+</p>
+
+<ol class="theorem">
+  <b>Fredholm 结论</b>
+  设 `A in fr C(X)`, `T = I - A`, 则
+  <li>`"Ker"T`, `"Im"T`, `"Ker"T^ast`, `"Im"T^ast` 均为闭线性子空间.</li>
+  <li>`"Im"T = ("Ker"T^ast)^_|_`, `"Im"T^ast = {::}^_|_("Ker"T)`.</li>
+  <li>`"Ker"T = 0` `rArr "Im"T = X`,
+    换言之 `T` 是单射 `rArr T` 是满射.
+  </li>
+  <li>
+    `dim "Ker"T` `= dim "Ker"T^ast`
+    `= op(codim)"Im"T`
+    `= op(codim)"Im"T^ast`
+    `lt oo`.
+  </li>
+</ol>
+
+<p class="remark">
+  结论 3. 可以看作 4. 的特殊情形, 这是因为 `"Ker"T = 0` 意味着
+  `"Ker"T^ast = 0`, 从而由 2. 知道 `"Im"T = ("Ker"T^ast)^_|_ = X`.
+</p>
+
+<h3>结论的证明</h3>
+
+<p class="theorem">
+  <b>Fredholm 结论一</b>
+  若 `A in fr C(X)`, 则 `T = I - A` 是闭值域算子,
+  即 `"Im"T = bar("Im"T)`.
+  <br>
+  此时由于 `A^ast` 是紧算子, `T^ast = I - A^ast` 也是闭值域的.
+</p>
+
+<ol class="proof">
+  <li>
+    `"Ker"T` 是闭的: `AA x in bar("Ker" T)`,
+    `AA epsi gt 0`, `EE x_epsi in "Ker"T` 使得 `||x - x_epsi|| lt epsi`.
+    于是 `||T x|| = ||T x - T x_epsi|| lt ||T|| epsi`.
+    由 `epsi` 的任意性知 `T x = 0`, 于是 `x in "Ker"T`.
+  </li>
+  <li>我们可以对闭子空间 `"Ker"T` 作商, 得到商空间 `X//"Ker"T`.
+    商空间中的一般元素是 `tilde x`, 它表示 `x` 所在的等价类 `"Ker"T + x`.
+    商空间的范数是将 `"Ker"T` 中的元素视为 0, 其它方面与 `X` 的范数相同,
+    因此 `||tilde x|| le ||x||`.
+  </li>
+  <li>
+    考察 `T` 在商空间诱导的有界线性算子
+    <span class="formula">
+      `tilde T: X//"Ker"T to X`,<br>
+      `tilde T tilde x := T x`.
+    </span>
+    显然 `"Im"tilde T = "Im"T`, `"Ker"tilde T = tilde 0`, 从而 `tilde T` 是单射.
+  </li>
+  <li>
+    为证明 `"Im"T = "Im"tilde T` 闭, 只需证 `tilde T^-1` 连续.
+    如若不然 `tilde T^-1` 无界, 存在 `{tilde y_n}` 和正数列 `M_n to oo` 使得
+    <span class="formula">
+      `||tilde T^-1 tilde y_n|| ge M_n ||tilde y_n||`,
+    </span>
+    令 `tilde x_n = tilde T^-1 tilde y_n` 得到
+    <span class="formula">
+      `||tilde x_n|| ge M_n ||tilde T tilde x_n||`.
+    </span>
+    不妨设 `||tilde x_n|| = 1`, 于是
+    <span class="formula">
+      `tilde T tilde x_n to 0`,
+    </span>
+    从每个等价类 `tilde x_n` 中选取代表元 `x_n`,
+    于是存在有界点列 `{x_n}` 使得 `T x_n to 0`.
+  </li>
+  <li>
+    另一方面由 `A` 紧, 有子列 `{x_(n_k)}` 使得 `A x_(n_k) to z`, 从而
+    <span class="formula">
+      `x_(n_k) = A x_(n_k) + T x_(n_k) to z`.
+    </span>
+    于是 `T z = lim T x_(n_k) = 0`, 即 `tilde z = tilde 0`.
+    因此
+    <span class="formula">
+      `||tilde x_(n_k)||`
+      `= ||tilde x_(n_k) - tilde z||`
+      `le ||x_(n_k) - z||`
+      `to 0`,
+    </span>
+    与 `||tilde x_(n_k)|| = 1` 矛盾.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>Fredholm 结论二</b>
+  若 `T in cc L(X)`, 则 `bar("Im"T) = ("Ker"T^ast)^_|_`, `bar("Im"T^ast) = {::}^_|_"Ker"T`.
+  <br>
+  当 `A = I-T` 为紧算子时, 利用结论一, 等式中的闭包运算可以去掉.
+</p>
+
+<p class="proof">
+  只证第一个等式. 首先易证
+  <span class="formula">
+    `{::}^_|_"Im"T sube "Ker" T^ast`,
+    `quad bar("Im"T) sube ("Ker"T^ast)^_|_`.
+  </span>
+  又
+  <span class="formula">
+    `N_1 sube N_2`
+    `rArr N_2^_|_ sube N_1^_|_`,
+  </span>
+  因此
+  <span class="formula">
+    `bar("Im"T)`
+    `sube ("Ker"T^ast)^_|_`
+    `sube ({::}^_|_"Im"T)^_|_`.
+  </span>
+  接下来证明上式右边 `sube` 左边.
+  `AA x_0 in ({::}^_|_"Im"T)^_|_` 有
+  <span class="formula">
+    `(AA f in {::}^_|_"Im"T)` `quad f(x_0) = 0`.
+  </span>
+  即
+  <span class="formula">
+    `(AA f in X^ast)` `quad f("Im"T) = 0 rArr f(x_0) = 0`.
+  </span>
+  根据 Hahn-Banach 定理的推论 (点与线性子空间的分离) 知道 `x_0 in bar("Im"T)`.
+</p>
+
+<p class="theorem">
+  <b>Fredholm 结论三</b>
+  若 `A = fr C(X)`, `T = I - A`, 则 `"Ker"T = 0 rArr "Im"T = X`.
+</p>
+
+<p class="proof">
+  反设 `"Im"T != X`, 构造一系列子空间 `X_0 = X`, `X_(n+1) = T(X_n)`, 于是利用 `X_0 != X_1`
+  和 `T` 是单射得到
+  <span class="formula">
+    `X_0 supne X_1 supne X_2 cdots`.
+  </span>
+  又由结论一, `T` 是闭值域算子, 所以上式的子空间都是闭的.
+  根据 Riesz 引理, 赋范线性空间单位球面上的点到真闭子空间的距离可以取到无限接近 1,
+  因此 `AA n in NN`, `EE x_n in X_n`, `||x_n|| = 1`, 且
+  <span class="formula">
+    `d(x_n, X_(n+1)) ge 1//2`.
+  </span>
+  从而对 `AA m, n in NN`, `m lt n` 有
+  <span class="formula">
+    `||A x_m - A x_n||`
+    `= ||x_m - T x_m + T x_n - x_n||`
+    `ge 1//2`, `quad` 因为 `T x_m, T x_n, x_n in X_(m+1)`.
+  </span>
+  这与 `A` 的紧性矛盾.
+</p>
+
+<p>结论四是关于维数的等式, 我们需要下面的同构引理:</p>
+
+<p class="lemma">
+  设 `M sube X` 是闭线性子空间, 则 `(X//M)^ast cong {::}^_|_M` (等距线性同构).
+</p>
+
+<p class="theorem">
+  <b>Fredholm 结论四</b>
+  若 `A = fr C(X)`, `T = I - A`, 则
+  <span class="formula">
+    `dim "Ker"T` `= dim "Ker"T^ast`
+    `= op(codim)"Im"T`
+    `= op(codim)"Im"T^ast`
+    `lt oo`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>`dim "Ker"T lt oo`: 注意到 `I|_("Ker"T)` `= A|_("Ker"T)` 是紧算子,
+    🚧
+  </li>
+  <li>下证 `op(codim) "Im"T le dim "Ker"T`.
+    如若不然, `dim"Ker"T lt dim(X//"Im"T)`, 则存在 `X//"Im"T` 的真子空间 `K` 使得
+    `dim K = dim "Ker"T lt oo`, 故存在等距线性同构 `V: "Ker"T to K`.
+    记 `tilde T` 是 `T` 在商空间 `X//"Ker"T` 诱导的算子, 然后令
+    <span class="formula">
+      `T_1 := tilde T o+ V: X to "Im"T o+ K`.
+    </span>
+    于是 `"Ker" T_1 = 0`.
+    又 `I - T_1` 是紧算子 (因为 `I - tilde T` 是紧算子, `I - V` 为有限维算子, 也是紧算子),
+    由结论三得到 `X = "Im" T_1` `= "Im"T o+ K`, 这与 `K` 是 `X//"Im"T` 的真子空间矛盾.
+  </li>
+  <li>综上有
+    <span class="formula">
+      `op(codim) "Im"T`
+      `= dim(X//"Im"T)`
+      `==^(??) dim (X//"Im"T)^ast`
+      `= dim {::}^_|_"Im"T`
+      `= dim {::}^_|_(("Ker"T^ast)^_|_)`
+      `ge dim"Ker"T^ast`.
+    </span>
+    同理
+    <span class="formula">
+      `op(codim) "Im"T^ast`
+      `ge dim"Ker"T^(ast ast)`
+      `ge dim"Ker"T`,
+      `quad` 因为 `T^(ast ast)` 是 `T` 的延拓.
+    </span>
+    结合以上两式, 利用 2. 的结论得到
+    <span class="formula">
+      `dim "Ker"T^ast`
+      `le op(codim) "Im"T`
+      `le dim"Ker"T`
+      `le op(codim) "Im"T^ast`,
+    </span>
+    但 `I - T^ast` 也是紧算子, 由 2. 有 `op(codim)"Im"T^ast le dim"Ker"T^ast`,
+    所以上式只能全部取等.
+  </li>
+</ol>
+
+<h2>紧算子的谱 (Riesz-Schauder 理论)</h2>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

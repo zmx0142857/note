@@ -36,6 +36,37 @@
 
 ## 案例
 
+### 隐藏高于某个层级的影像图层
+
+用于避免巨大模糊文字遮挡下方图层
+```js
+// 设置最高显示层级
+const setMaxShowLevel = (layer, maxShowLevel) => {
+  maxShowLevel ??= layer.maxShowLevel ?? layer.maximumLevel
+  if (layer.maxShowLevel) return layer.maxShowLevel = maxShowLevel
+  layer.maxShowLevel = maxShowLevel
+  // 逐帧判断, 可以添加节流节约计算量
+  viewer.scene.postRender.addEventListener(() => {
+    const cameraHeight = viewer.camera.positionCartographic.height
+    const globeRadius = viewer.scene.globe.ellipsoid.maximumRadius
+    const resolution = 384
+    // level = log2(地球周长 / (当前高度 * 像素分辨率))
+    const currentLevel = Math.log2(globeRadius * 2 * Math.PI / (cameraHeight * 384))
+    // 高于指定层级则隐藏
+    roadMapLayer.show = !(currentLevel > layer.maxShowLevel)
+  })
+}
+
+// 以高德为例
+const roadMapProvider = new Cesium.UrlTemplateImageryProvider({
+  url: 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+  maximumLevel: 12,
+  minimumLevel: 3,
+})
+const roadMapLayer = viewer.imageryLayers.addImageryProvider(roadMapProvider)
+setMaxShowLevel(roadMapLayer)
+```
+
 ### 坐标变换
 
 乘变换矩阵

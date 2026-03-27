@@ -125,6 +125,16 @@
   事实上, 这个条件可以减弱为 `T` 是<b>闭线性算子</b>, 见下节.
 </p>
 
+<p class="remark" id="rem-close-range">
+  若逆算子 `T^-1` 连续, 则由拓扑学对连续的定义,
+  `T` 是开映射, 也是闭映射.
+  特别 `T` 把闭集 `X` 映为闭集, 即
+  `"Im"T` 是 `Y` 的闭线性子空间. 我们得到:
+  <span class="formula">
+    逆算子连续 `rArr` 闭值域.
+  </span>
+</p>
+
 <p class="corollary">
   <b>等价范数定理</b>
   设 `X` 关于两个范数 `||*||_1`, `||*||_2` 都完备, 而且其中一个范数比另一个强,
@@ -873,7 +883,8 @@
     `lambda I - A` 是单射, 但 `bar("Im"(lambda I - A)) != X`.
     此时称 `lambda` 是 `A` 的<b>剩余谱 (residual spectrum)</b>.
   </li>
-  点谱、连续谱、剩余谱统称为线性算子 `A` 的<b>谱 (spectrum)</b>:
+  点谱、连续谱、剩余谱统称为线性算子 `A` 的<b>谱 (spectrum)</b>,
+  记为 `sigma(A)` 或 `"spec"(A)`:
   <span class="formula">
     `sigma(A) := sigma_p(A) uu sigma_c(A) uu sigma_r(A)`
     `= {lambda in CC | (lambda I - A)^-1 "不存在或" !in cc L(X) }`.
@@ -1160,6 +1171,40 @@
     然后两边同取下极限即得结论.
   </li>
 </ol>
+
+<p class="theorem">
+  <b>共轭算子的谱</b>
+  设 `T in cc L(X)`, 则
+  <span class="formula">
+    `T^-1 in cc L(X)`
+    `iff (T^ast)^-1 in cc L(X^ast)`.
+  </span>
+  特别取 `T = lambda I - A` 得到
+  <span class="formula">
+    `sigma(A) = sigma(A^ast)`.
+  </span>
+</p>
+
+<p class="proof">
+  `rArr`: 这是因为 `(T^ast)^-1 = (T^-1)^ast`.
+  <br>
+  `lArr`: 由前半结论知道 `(T**)^-1 in cc L(X**)`.
+  但 `T**` 是 `T` 的延拓: `T**|_X = T`, 所以 `T` 是单射,
+  且 `T^-1` 连续.
+  根据逆算子定理后面的
+  <a href="#rem-close-range" class="ref"></a>
+  知道, `"Im"T` 在 `X` 中闭.
+  下证 `T` 是满射, 如若不然,
+  根据 Hahn-Banach 定理的推论 (点与线性子空间的分离),
+  `EE f in X^ast`, `f != 0`, 且 `f("Im"T) = 0`.
+  从而 `AA x in X`,
+  <span class="formula">
+    `(:T^ast f,x:)`
+    `= (:f, T x:)`
+    `= 0`.
+  </span>
+  这推出 `T^ast f = 0`. 这与 `T^ast` 是单射矛盾.
+</p>
 
 <script>
 var asciimath = {

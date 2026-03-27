@@ -283,19 +283,18 @@
 </ol>
 
 <p class="lemma">
-  <b>(Riesz 引理, 1918) 单位球面到闭子空间的最大距离</b>
-  在赋范线性空间 `X` 中, `S` 为单位球面 `{x in X: ||x||=1}`, 则对任意的闭子空间 `M subne X`,
-  都成立
+  <b>(Riesz 引理, 1918)</b>
+  赋范线性空间单位球面上的点到真闭子空间的距离可以取到无限接近 1.
+  具体来说, 令 `S = {x in X: ||x||=1}`, 则对任意真闭子空间 `M subne X` 成立
   <span class="formula">
     `Sup_(x in S) d(x, M) = 1`.
   </span>
-  换言之, 对任意 `epsi gt 0`, 都存在 `x in S`, 使得 `d(x, M)`
-  `= inf_(y in M) ||x-y||` `ge 1-epsi`.
+  `M` 可以想像成过原点的超平面.
 </p>
 
 <p class="proof">
-  取 `x_0 in X \\ M`. 由 `M` 为闭集知 `d := d(x_0, M) gt 0`, 且存在
-  `y_0 in M` 使得
+  取 `x_0 in X \\ M`. 由 `M` 为闭集知 `d := d(x_0, M) gt 0`, 且
+  `AA epsi gt 0`, `EE y_0 in M` 使得
   <span class="formula">
     `d le ||x_0 - y_0|| lt d/(1-epsi)`.
   </span>
@@ -309,12 +308,6 @@
   <span class="formula">
     `||x_epsi - x|| ge d/(||x_0 - y_0||) gt 1-epsi`.
   </span>
-</p>
-
-<p class="remark">
-  想象单位球面 `S` 和闭子空间 (过原点的超平面) `M` 上各有一动点 `x, y`.
-  点 `y` 想要靠近 `x`, 而 `x` 则尽可能远离 `y`.
-  Riesz 引理告诉我们, 最终 `x, y` 的距离可以任意地接近 1.
 </p>
 
 <p class="corollary">
@@ -857,17 +850,18 @@
 
 <ol class="theorem">
   <b>点与线性子空间的分离</b>
-  在赋范线性空间 `X` 中,
+  在赋范线性空间 `X` 中, `x_0 in X`,
   <li>
-    若点 `x_0 in X` 到线性子空间 `M` 的距离为 `d gt 0`, 则存在 `f in X^ast` 满足
+    若点 `x_0` 到线性子空间 `M` 的距离为 `d gt 0`, 则存在 `f in X^ast` 满足
     <span class="formula">
       `f|_M = 0`,
       `quad f(x_0) = d`,
       且 `||f|| = 1`.
     </span>
+    特别当 `M` 是闭线性子空间时, 它外面的每个点到 `M` 都有正的距离.
   </li>
   <li>
-    若 `x_0 != 0`, `A sube X`, 则 `x_0 in bar("span" A)` 的充要条件是
+    设 `A sube X`, 则 `x_0 in bar("span" A)` 的充要条件是
     <span class="formula">
       `AA f in X^ast`,
       `f|_A = 0 rArr f(x_0) = 0`.
