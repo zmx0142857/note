@@ -375,12 +375,58 @@ v.applyMatrix4(new mat4().copy(m).premultiply(n))
 - Matrix4 的构造函数和 `.set` 方法是行优先, 而内部存储 `.elements` 和 `.toArray` 方法是列优先的.
 - `.make???` 系列方法和 `.set` 一样, 都会覆写当前矩阵. 例如 `.makeBasis(xAxis, yAxis, zAxis)` 得到一个矩阵, 它将 `(1, 0, 0)`, `(0, 1, 0)`, `(0, 0, 1)` 分别映射为 `xAxis, yAxis, zAxis`.
 
-Spherical(radius, phi, theta): 球面坐标, `phi ∈ [0, π]`, 0 表示北极. `theta ∈ [0, 2π]`, 0 表示 z 轴正方向.
-
+Spherical(radius, phi, theta): 球面坐标
+- `phi ∈ [0, π]`, 0 表示北极
+- `theta ∈ [0, 2π]`, 0 表示 z 轴正方向
 ```js
 obj.updateMatrixWorld(force = false) // 更新物体和子物体的世界矩阵
 obj.updateWorldMatrix(updateParents = false, updateChildren = false) // 更灵活的方法, 可以选择性更新父物体或子物体链.
 ```
+
+Plane(normal: Vector3, constant: Number): 平面
+- 平面方程为 `dot(normal, point) + constant = 0`
+- `normal` 是单位法向量, 它给出了平面的正向
+- `constant` 的符号代表原点在平面的正面 (与法向相同) 或反面 (与法向相反)
+- `plane.distanceToPoint(point)` 给出平面到 `point` 的有向距离, 符号代表该点在平面的正面或反面
+```js
+// 求两平面交线 point + t dir
+// 两平面平行时返回 undefined
+const intersectPlaneWithPlane = (p1, p2, eps = 1e-6, point = vec3(), dir = vec3()) => {
+    // 求交线方向 dir
+    dir.crossVectors(p1.normal, p2.normal);
+    if (dir.lengthSq() < eps) return; // 两平面平行
+    dir.normalize();
+    // 求交线上的一点 point
+    // p1: n1 . r + c1 = 0
+    // p2: n2 . r + c2 = 0
+    // n = n1 . n2
+    // r = a n1 + b n2
+    // 解得 a = (c1 - c2*n)/(n**2 - 1),
+    // b = (-c1*n + c2)/(n**2 - 1)
+    const dot = p1.normal.dot(p2.normal);
+    point
+        .addVectors(
+            p1.normal.clone().scale(p1.constant - p2.constant * dot),
+            p2.normal.clone().scale(p2.constant - p1.constant * dot)
+        )
+        .scale(1 / (dot * dot - 1));
+    return [point, dir];
+};
+
+// 求平面与直线的交点 intersection
+// 平面与直线平行时返回 undefined
+const intersectPlaneWithLine = (plane, point, dir, eps = 1e-6, intersection = vec3()) => {
+    // n . r + c = 0
+    // r = point + t dir
+    // 解得 t = -(c + n . point) / (n . dir)
+    const d = plane.normal.dot(dir);
+    if (Math.abs(d) < eps) return; // 平面与直线平行
+    const t = -(plane.constant + plane.normal.dot(point)) / d;
+    return intersection.copy(dir).scale(t).add(point);
+};
+```
+
+Line3(start: Vector3, end: Vector3): 空间线段
 
 ## 插件
 
