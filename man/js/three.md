@@ -426,7 +426,12 @@ const intersectPlaneWithLine = (plane, point, dir, eps = 1e-6, intersection = ve
 };
 ```
 
+> three.js 中没有直线类, 但有线段与射线
+
 Line3(start: Vector3, end: Vector3): 空间线段
+
+Ray(origin: Vector3, direction: Vector3): 空间射线
+
 
 ## 插件
 
