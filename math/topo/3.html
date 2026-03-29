@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<p>[<a href="https://zhuanlan.zhihu.com/p/558332980">知乎@sumeragi693</a>]</p>
+<p>[本文整理自<a href="https://zhuanlan.zhihu.com/p/558332980" target="_blank">知乎@sumeragi693</a>, 他的证明和超滤子一样细]</p>
 
 <p class="remark">
   滤子和网是点列的抽象化概念, 常用于描述抽象拓扑空间中的收敛性.
@@ -37,6 +37,40 @@
   <li><b>邻域系滤子</b> 设 `X` 为拓扑空间, `x in X`. 则 `x` 的全体邻域 `cc N_x` 是滤子.</li>
 </ol>
 
+<ol class="definition">
+  设 `F` 是 `X` 上的滤子, `A sube X`.
+  <li>若 `A in cc F`, 可以将 `cc F` <b>限制</b>到子集 `A` 上, 这是指 `cc F|_A := {F nn A: F in cc F}`;</li>
+  <li>反之将子集 `A` 上的滤子 `cc G` <b>扩张</b>到 `X` 上, 是指 `cc G|^X := {H: EE G in cc G, G sube H sube X}`.</li>
+  可以证明滤子的限制与扩张仍是滤子, 且限制与扩张是互逆运算:
+  <span class="formula">
+    `cc F|_A |^X = cc F`,
+    `quad cc G|^X |_A = cc G`.
+  </span>
+</ol>
+
+<ol class="proof">
+  只证第一个等式.
+  <li>左 `sube` 右:
+    任取 `H in cc F|_A|^X`,
+    则 `EE F nn A in cc F|_A` 使得
+    <span class="formula">
+      `F nn A sube H sube X`,
+    </span>
+    其中 `F, A in cc F`.
+    由滤子的有限交性质知 `F nn A in cc F`,
+    再由滤子的传递性知道 `H in cc F`.
+  </li>
+  <li>
+    右 `sube` 左:
+    任取 `H in cc F`, 要证 `H in cc F|_A|^X`,
+    即证 `EE F in cc F` 使得
+    <span class="formula">
+      `F nn A sube H sube X`.
+    </span>
+    取 `F = H`, 上式显然成立.
+  </li>
+</ol>
+
 <h3>滤子的生成</h3>
 
 <p class="definition">
@@ -44,13 +78,15 @@
   设 `X` 是非空集合, `cc F` 是 `X` 的非空子集族, 且满足有限交性质. 记
   <span class="formula">
     `cc F_nn := { F: F 是 cc F 中集合的有限交 }`,<br>
-    `(:cc F:) := { G sube X: EE F in cc F_nn, F sube G }`.
+    `(:cc F:) := { G: EE F in cc F_nn, F sube G sube X}`.
   </span>
   则 `(:cc F:)` 是滤子, 称为子集族 `cc F` <b>生成的滤子</b>. 可以验证 `cc F sube (:cc F:)`.
   <br>
-  特别当 `x` 是 `X` 中的一点, 则 `cc F = {{x}}` 具有有限交性质, 它的有限交集合 `cc F_nn = {{x}}`.
-  生成的滤子 `(:cc F:) = { G sube X: x in G }` 即为包含点 `x` 的所有集合.
-  称它为 `x` 生成的<b>主滤子</b>.
+  特别取非空子集 `F sube X`, 则 `cc F = {F}` 具有有限交性质,
+  生成的滤子 `(:cc F:) = { G: F sube G sube X}` 即为 `X` 中包含 `F` 的所有集合.
+  <br>
+  特别的特别, 令 `F = {x}`, 则 `(:cc F:) = {G sube X: x in G}` 是 `X` 中包含 `x` 的所有集合,
+  称为 `x` 生成的<b>主滤子</b>.
 </p>
 
 <ol class="definition">
@@ -116,9 +152,63 @@
   后者是最小滤子, 而前者未必.
 </p>
 
-<h3>滤子的限制与扩张</h3>
-
 <h3>超滤子</h3>
+
+<p class="definition">
+  称 `X` 上的极大滤子 `cc F` 是<b>超滤子</b>.
+  不存在超滤子的严格加细, 换言之, 若存在滤子 `cc G supe cc F`, 则 `cc G = cc F`.
+</p>
+
+<p class="lemma">
+  设 `cc F` 是 `X` 上的超滤子, `G sube X` 且 `G !in cc F`, 则 `cc F` 与 `cc G = (:{G}:)`
+  不能并存.
+  换言之存在 `F in cc F` 使得 `F nn G = O/`.
+</p>
+
+<p class="proof">
+  假如 `cc F` 和 `cc G` 并存, 它们的共同加细 `(:cc F uu cc G:)`
+  将会是 `cc F` 的严格加细 (因为 `G !in cc F`), 从而与 `cc F` 是超滤子矛盾.
+  因此它们不能并存.
+  <br>
+  但 `cc G` 就是 `X` 中包含 `G` 的所有集合, `cc F` 与 `cc G` 不能并存意味着存在
+  `F in cc F` 和 `H supe G in cc G` 使得 `F nn H = O/`,
+  也即 `F nn G = O/`.
+</p>
+
+<ol class="theorem">
+  <b>超滤子的等价条件</b>
+  设 `cc F` 是 `X` 上的滤子, 以下各款等价:
+  <li>`cc F` 是超滤子;</li>
+  <li>`(AA G, H sube X)` `G uu H in cc F` `rArr G in cc F or H in cc F`;</li>
+  <li>`(AA A sube X)` `A in cc F or A^c in cc F`.</li>
+</ol>
+
+<ol class="proof">
+  <li>`rArr` 2.
+    反设 `G, H` 都不属于 `cc F`,
+    则由引理知, 即存在 `U, V in cc F` 使得
+    <span class="formula">
+      `U nn G = V nn H = O/`.
+    </span>
+    于是
+    <span class="formula">
+      `F nn U nn V`
+      `= (G uu H) nn U nn V`
+      `= (G nn U nn V) uu (H nn U nn V)`
+      `= O/`,
+    </span>
+    这与 `F, U, V in cc F` 矛盾.
+  </li>
+  <li>`rArr` 3.
+    对 `G = A`, `H = A^c` 应用 2. 的结论即可.
+  </li>
+  <li>`rArr` 1.
+    设 `cc G` 是 `cc F` 的加细, `AA G in cc G`,
+    `G` 和 `G^c` 不能同时属于 `cc G`, 否则它们的交集 `O/ in cc G`.
+    于是 `G^c !in cc G`, 又 `cc F sube cc G`, 有 `G^c !in cc F`.
+    于是必有 `G in cc F`, 这证明了 `cc G = cc F`.
+  </li>
+</ol>
 
 <h3>滤子的像</h3>
 
