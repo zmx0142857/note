@@ -13,6 +13,7 @@
   滤子和网是点列的抽象化概念, 常用于描述抽象拓扑空间中的收敛性.
   本章属于<b>点集拓扑</b>的进阶内容, 初次接触拓扑学的读者了解定义即可.
   笔者计划在下一章开始<b>代数拓扑</b>的笔记.
+  代数拓扑里一些概念是微分流形中相应概念的抽象, 建议先学习微分流形的相关知识.
 </p>
 
 <h2>滤子</h2>
@@ -31,6 +32,7 @@
 </ol>
 
 <ol class="example">
+  <li><b>平凡滤子</b> `{X}` 本身是一个滤子.</li>
   <li><b>Frechet 滤子 (或余有限滤子)</b> 设 `X` 为无限集, 则 `cc F = { F sube X: F^c 为有限集 }`
     是 `X` 的滤子.
   </li>
@@ -38,6 +40,7 @@
 </ol>
 
 <ol class="definition">
+  <b>限制与扩张</b>
   设 `F` 是 `X` 上的滤子, `A sube X`.
   <li>若 `A in cc F`, 可以将 `cc F` <b>限制</b>到子集 `A` 上, 这是指 `cc F|_A := {F nn A: F in cc F}`;</li>
   <li>反之将子集 `A` 上的滤子 `cc G` <b>扩张</b>到 `X` 上, 是指 `cc G|^X := {H: EE G in cc G, G sube H sube X}`.</li>
@@ -71,7 +74,18 @@
   </li>
 </ol>
 
-<h3>滤子的生成</h3>
+<p class="definition">
+  <b>滤子的像</b>
+  我们研究两个非空集合 `X, Y` 上的滤子之间的关系.
+  设 `cc F` 为 `X` 上的滤子, 任给映射 `f: X to Y`,
+  可以验证
+  <span class="formula">
+    `f(cc F) := {G sube Y: f^-1(G) in cc F}`
+  </span>
+  是 `Y` 上的滤子, 称为滤子 `cc F` 的<b>像</b>.
+</p>
+
+<h3>生成与加细</h3>
 
 <p class="definition">
   <b>滤子的生成</b>
@@ -86,7 +100,7 @@
   生成的滤子 `(:cc F:) = { G: F sube G sube X}` 即为 `X` 中包含 `F` 的所有集合.
   <br>
   特别的特别, 令 `F = {x}`, 则 `(:cc F:) = {G sube X: x in G}` 是 `X` 中包含 `x` 的所有集合,
-  称为 `x` 生成的<b>主滤子</b>.
+  称为 `x` 生成的<b>主滤子</b>, 简记为 `(:x:)`.
 </p>
 
 <ol class="definition">
@@ -210,9 +224,233 @@
   </li>
 </ol>
 
-<h3>滤子的像</h3>
+<p class="example">
+  主滤子 `(:x:)` 是超滤子, 因为对 `AA A sube X`, 要么 `x in A`, 要么 `x in A^c`.
+  不是主滤子的超滤子称为<b>非主超滤子</b>或<b>自由超滤子</b>.
+</p>
 
-<h2>滤子的应用</h2>
+<p class="example">
+  超滤子的像也是超滤子.
+</p>
+
+<p class="proof">
+  提示: 利用超滤子等价条件 3, 以及集合等式 `f^-1(G) uu f^-1(H) = f^-1(G uu H)`.
+</p>
+
+<p class="theorem">
+  <b>超滤子的存在性定理</b>
+  `X` 上的任意滤子 `cc F` 都不能无限加细, 换言之存在一个超滤子 `cc U supe cc F`.
+</p>
+
+<ol class="proof">
+  `cc F` 的全体加细滤子按包含关系构成偏序 `(Phi, sube)`.
+  如果该偏序存在极大元, 就是我们要找的超滤子.
+  根据 Zorn 引理, 只需证它的每一链 `{cc F_lambda}` 有上界.
+  事实上取 `Psi = uuu_lambda cc F_lambda`,
+  作为集合, `Psi` 已然包含了每个 `cc F_lambda`,
+  下面只需验证 `Psi in Phi`, 即它是 `cc F` 的加细滤子:
+  <li>`X in Psi`, `O/ !in Psi`: 显然.</li>
+  <li>有限交: 任取 `A, B in Psi`, 其中 `A in cc F_1`, `B in cc F_2`.
+    由于 `{cc F_lambda}` 是链, `cc F_1` 与 `cc F_2` 有包含关系, 设 `cc F_1 sube cc F_2`.
+    于是 `A, B in cc F_2`, 因此 `A nn B in cc F_2 sube Psi`.
+  </li>
+  <li>传递性: 设 `F in Psi`, 其中 `F in cc F_1`.
+    若 `G supe F`, 则 `G in cc F_1 sube Psi`.
+  </li>
+  <li>最后, 因为每个 `cc F_lambda` 都是 `cc F` 的加细, 所以 `Psi` 也是 `cc F` 的加细.</li>
+</ol>
+
+<p class="remark">
+  超滤子的存在性定理依赖 Zorn 引理, 并未给出具体的构造方法.
+  对于具体的 `cc F` (例如 Frechet 滤子), 找到一个包含它的超滤子往往是困难的.
+</p>
+
+<h3>拓扑空间上的滤子</h3>
+
+<p>我们应用滤子研究拓扑空间. 先用滤子的语言描述常见的拓扑概念, 让我们从闭包开始.</p>
+
+<ol class="definition">
+  <b>滤子的极限点与聚点</b>
+  设 `cc F` 是拓扑空间 `X` 上的滤子, `cc N_x` 是点 `x in X` 的邻域系滤子.
+  <li>若 `cc N_x sube cc F` (即 `cc F` 是邻域系 `cc N_x` 的加细), 则称 `x` 是 `cc F` 的极限点, 记为 `cc F to x`.</li>
+  <li>若 `cc N_x` 与 `cc F` 并存 (即它们有公共加细), 则称 `x` 是 `cc F` 的聚点.</li>
+</ol>
+
+<p class="corollary">
+  极限点必为聚点. 反之如果将滤子加细, 可以使聚点变为极限点.
+  具体而言, 设 `cc F` 是拓扑空间 `X` 上的滤子, `x in X`, 则
+  <span class="formula">
+    `x` 是 `cc F` 的聚点
+    `iff cc N_x` 与 `cc F` 有公共加细 `cc G`
+    `iff EE cc G supe cc F`, 使 `x` 是 `cc G` 的极限点.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>闭包与极限点</b>
+  设 `A` 是拓扑空间 `X` 的非空子集, 则
+  <span class="formula">
+    `x in bar A`
+    `iff x` 是 `X` 上某个滤子 `cc F` 的极限点, 且 `A in cc F`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>`rArr`:
+    因为 `x in bar A`,
+    `A` 与 `x` 的任意邻域 `U in cc N_x` 都有交点.
+    考虑 `X` 上的滤子
+    <span class="formula">
+      `cc F = cc N_x ^^ (:{A}:)`
+      `= {U nn B: U in cc N_x, A sube B sube X}`.
+    </span>
+    取 `U = X`, `B = A` 可知 `A in cc F`.
+    又取 `B = X` 可知 `cc N_x sube cc F`, 故 `x` 是 `cc F` 的极限点.
+    <br>
+    注: 这个滤子在 `A` 上的限制为
+    <span class="formula">
+      `cc F|_A = {U nn A: U in cc N_x}`.
+    </span>
+  </li>
+  <li>`lArr`: 由 `A in cc F` 知道,
+    `A` 与 `cc F` 中的任意集合都有交点, 但 `cc F to x`,
+    所以 `cc N_x sube cc F`, 推出 `A` 与 `x` 的每个邻域都有交点, 即 `x in bar A`.
+  </li>
+</ol>
+
+<p class="remark">
+  对于一般的拓扑空间, `bar A` 中的点未必是 `A` 中点列的极限点, 但一定是某个滤子极限.
+  滤子的引入克服了点列的这个缺陷: 将点列对应到滤子, 子列对应到滤子的加细.
+  某种程度上, 我们拥有了滤子版本的“聚点原理”.
+</p>
+
+<p class="theorem">
+  <b>闭包与聚点</b>
+  `X` 上滤子 `cc F` 的全体聚点是 `nnn_(F in cc F) bar F`.
+</p>
+
+<p class="proof">
+  `AA x in X`,
+  <span class="formula align">
+    `x` 是 `cc F` 的聚点<br>
+    `iff cc N_x` 与 `cc F` 并存<br>
+    `iff AA F in cc F`, `F` 和 `x` 的每个邻域都有交点<br>
+    `iff AA F in cc F`, `x in bar F`<br>
+    `iff x in nnn_(F in cc F) bar F`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>用滤子刻画连续性</b>
+  设 `X, Y` 是拓扑空间, 则 `f: X to Y` 在 `x in X` 连续, 当且仅当对任意 `X` 上的滤子 `cc F`,
+  <span class="formula">
+    `cc F to x rArr f(cc F) to f(x)`.
+  </span>
+</p>
+
+<div class="p proof">
+  回忆 `f(cc F)` 的定义
+  <span class="formula">
+    `f(cc F) := {V sube Y: f^-1(V) in cc F}`.
+  </span>
+  记 `y = f(x) in Y`, 则
+  <span class="formula">
+    `f` 在 `x in X` 连续
+    `iff AA V in cc N_y`, `f^-1(V) in cc N_x`
+    `iff cc N_y sube f(cc N_x)`.
+  </span>
+  我们只需证下面两条等价:
+  <ol>
+    <li>`cc N_y sube f(cc N_x)`;</li>
+    <li>对任意滤子 `cc F supe cc N_x` 都有 `cc N_y sube f(cc F)`.</li>
+  </ol>
+  事实上,
+  <ol>
+    <li>`rArr` 2: `cc N_y sube f(cc N_x) sube f(cc F)`;</li>
+    <li>`rArr` 1: 取 `cc F = cc N_x` 显然成立.</li>
+  </ol>
+</div>
+
+<p class="remark">
+  如果 `X` 是第一可数的 (具有可数邻域基), 也可以用点列刻画映射的连续性.
+  我们再次看到滤子是点列的推广.
+</p>
+
+<p class="theorem">
+  <b>滤子极限的唯一性</b>
+  `X` 为 Hausdorff 空间当且仅当任意收敛的滤子极限唯一.
+</p>
+
+<ol class="proof">
+  <li>设 `X` 是 Hausdorff 空间, 且 `cc F to x`, `cc F to y`, 下证 `x = y`.
+    如若不然, `x, y` 有不相交的邻域 `U, V in cc F`, 这与滤子的有限交性质矛盾.
+  </li>
+  <li>
+    现在设 `X` 上任意收敛的滤子极限唯一. 任取 `x != y` 两点,
+    如果它们的任意邻域都相交, 则 `cc N_x, cc N_y` 并存, 从而有公共加细 `cc F`,
+    且 `cc F to x`, `cc F to y`. 这是不可能的.
+  </li>
+</ol>
+
+<p class="remark">
+  Hausdorff 空间中收敛点列的极限唯一, 但反之由收敛点列的极限唯一,
+  不足以推出空间是 Hausdorff 的 (需要附加第一可数的条件).
+  在滤子极限中, 结论可以改进为充要条件.
+</p>
+
+<p class="lemma">
+  拓扑空间 `X` 是紧的, 当且仅当对每个具备有限交性质的闭集族 `{A_lambda}`, 都成立
+  <span class="formula">
+    `nnn_lambda A_lambda != O/`.
+  </span>
+  所谓有限交性质是指任意有限个 `A_lambda` 的交都不空.
+  此引理是紧集套定理的推广版本.
+</p>
+
+<ol class="proof">
+  注意到
+  <span class="formula">
+    `nnn_lambda A_lambda = O/` `iff X = uuu_lambda A_lambda^c`.
+  </span>
+  现在证明原命题.
+  <li>`rArr`: 设 `X` 紧, 如果 `nnn_lambda A_lambda = O/`, 则 `{A_lambda^c}` 构成 `X` 的开覆盖.
+    由紧性, 存在有限子覆盖 `{A_i^c}_(i=1)^n`. 这等价于 `nnn_(i=1)^n A_i = O/`,
+    与 `{A_lambda}` 的有限交性质矛盾.
+  </li>
+  <li>`lArr`: 设 `{U_lambda}` 是 `X` 的开覆盖, 则 `{U_lambda^c}` 是一族闭子集, 满足
+    `nnn_lambda U_lambda^c = O/`.
+    根据已知条件, 闭集族 `{U_lambda^c}` 不具备有限交性质, 存在有限个集合的交为空:
+    `nnn_(i=1)^n U_i^c = O/`, 即 `X` 被有限个开集 `{U_i}_(i=1)^n` 覆盖.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>用滤子刻画紧性</b>
+  在拓扑空间 `X` 中, 以下命题等价:
+  <li>`X` 为紧空间;</li>
+  <li>`X` 上任意滤子存在聚点, 换言之存在收敛的加细滤子;</li>
+  <li>`X` 上任意超滤子收敛.</li>
+</ol>
+
+<ol class="proof">
+  <li>`iff` 2.
+    任取滤子 `cc F`, 由滤子的有限交性质知道, 闭集族 `bar(cc F) := {bar F: F in cc F}`
+    也具备有限交性质. 根据引理, 存在 `x in nnn bar(cc F)`,
+    即 `x` 是 `cc F` 的聚点.
+    <br>
+    反之要证 `X` 紧, 任取一个具备有限交性质的闭集族 `cc F`, 它生成的滤子 `cc G` 有聚点 `x`,
+    即 `x in nnn bar(cc G)`, 即 `x` 是所有 `bar G` 的公共点.
+    但 `cc F sube cc G`, `x` 也是所有 `bar F = F in cc F` 的公共点.
+    由引理知 `X` 紧.
+  </li>
+  <li>`iff` 3. 由 2. 知超滤子 `cc U` 也存在收敛的加细, 但 `cc U` 的加细只能是自身,
+    故 `cc U` 收敛.
+    <br>
+    反之若任意超滤子收敛, 则每个滤子 `cc F` 可被加细为超滤子, 即 `cc F` 存在收敛的加细.
+  </li>
+</ol>
+
+<h3>初拓扑</h3>
 
 <h2>网</h2>
 
