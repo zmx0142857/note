@@ -21,24 +21,12 @@
 
 <h3>`T_0` 到 `T_2`</h3>
 
-<p class="axiom">
-  <b>`T_0` 公理 (Kolmogorov)</b>
-  任意两个不同点, 存在其中一点的邻域不含另一点.
-</p>
-
-<p class="remark">
+<ol class="axiom">
+  <li><b>`T_0` 公理 (Kolmogorov)</b> 任意两个不同点, 存在其中一点的邻域不含另一点. 我们也说这两点是拓扑可区分的.</li>
+  <li><b>`T_1` 公理 (Fréchet)</b> 任意两个不同点 `x, y`: `x` 有邻域不含 `y`, `y` 有邻域不含 `x`.</li>
+  <li><b>`T_2` 公理 (Hausdorff, 豪斯多夫)</b> 任意两个不同点有不相交的邻域.</li>
   满足 `T_0` 公理的拓扑空间称为 `T_0` 空间, 依此类推.
-</p>
-
-<p class="axiom">
-  <b>`T_1` 公理 (Fréchet)</b>
-  任意两个不同点 `x, y`: `x` 有邻域不含 `y`, `y` 有邻域不含 `x`.
-</p>
-
-<p class="axiom">
-  <b>`T_2` 公理 (Hausdorff, 豪斯多夫)</b>
-  任意两个不同点有不相交的邻域.
-</p>
+</ol>
 
 <p class="remark">
   以上三条公理中的邻域换成开邻域也是等价的.
@@ -53,13 +41,13 @@
 </p>
 
 <p class="proposition">
-  `X` 是 `T_1` 空间 `iff X` 的有限子集是闭集.
+  `T_1` 公理 `iff` 任意有限子集是闭集.
 </p>
 
 <ol class="proof">
   <li>`rArr`.
     只须证单点集是闭集. 取 `x, y in X`, `x != y`, 则 `y` 有邻域不含 `x`,
-    因此 `y !in bar X`. 由 `y` 的任意性知 `bar({x}) = {x}`, 即 `{x}`
+    因此 `y !in bar({x})`. 由 `y` 的任意性知 `bar({x}) = {x}`, 即 `{x}`
     为闭集.
   </li>
   <li>`lArr`.
@@ -93,61 +81,63 @@
 
 <h3>`T_3` 到 `T_6`</h3>
 
-<p class="axiom">
-  <b>`T_3` 公理</b>
-  闭集外的一点与该闭集有不相交的 (开) 邻域.
-  (如果 `A sube U^@`, 就说 `U` 是集合 `A` 的邻域).
-</p>
-
-<p class="axiom">
-  <b>`T_4` 公理</b>
-  任意两个不相交闭集有不相交的 (开) 邻域.
-</p>
-
-<p class="remark">
-  <b>拓扑学需要秦始皇</b>
-  有些地方称 `T_3` 空间为正则空间 (regular), `T_4` 空间为正规空间 (normal);
-  还有的地方进一步要求正则、正规空间满足 `T_1` 公理;
-  还有的地方, 正则与 `T_3` 的概念正好相反, 正规与 `T_4` 的概念正好相反;
-  正则与正规这两个术语容易混淆, 我们避免使用.
-</p>
-
-<p class="axiom">
-  <b>`T_5` 公理</b> 每个子空间都是 `T_4` 空间.<br>
-  可以证明, 对 `i = 1, 2, 3`, `T_i` 公理具有遗传性, 即 `T_i` 空间的子空间也是 `T_i` 空间.
-  然而 `T_4` 不具有遗传性. 这就是定义 `T_5` 公理的动机.
-</p>
-
-<p class="axiom">
-  <b>`T_6` 公理</b>
-  任意两个不相交闭集 `A, B`, 存在连续函数 `X to RR` 使得 `f^-1(0) = A`, `f^-1(1) = B`.
-</p>
-
-<p class="proposition">
-  `T_1` 公理成立时, 单点集是闭集, 因此
-  <span class="formula">
-    `T_4 rArr T_3 rArr T_2`.
+<ol class="axiom">
+  `T_3` 到 `T_6` 公理分别定义为 `T_1` 公理与下面 4 条性质的组合:
+  <span class="formula align">
+    `T_3 iff T_1 and "正则"`,<br class="noindent">
+    `T_4 iff T_1 and "正规"`,<br class="noindent">
+    `T_5 iff T_1 and "完全正规"`,<br class="noindent">
+    `T_6 iff T_1 and "完美正规"`.
   </span>
-  但 `T_1` 不成立时, 上式存在反例, 如拓扑空间 `(RR, tau)`, 其中
-  <span class="formula">
-    `tau = {(-oo, a)| -oo le a le +oo}`.
-  </span>
-  该空间是 `T_4` 的, 但不满足 `T_1`, `T_2` 公理 (`T_3` 仍成立).
-</p>
-
-<ol class="proof">
-  <li>`T_4` 成立: 注意到 `(RR, tau)` 的任何两个非空闭集都相交. 这就是说,
-    若 `A, B` 是两个不相交闭集, 则必有其一是空集, 设 `B = O/`, 于是 `RR`
-    和 `O/` 分别是 `A, B` 的不相交邻域.
+  <li><b>正则 (regular)</b> 闭集外的一点与该闭集有不相交的 (开) 邻域.
+    (如果 `A sube U^@`, 就说 `U` 是集合 `A` 的邻域).
+  </li>
+  <li><b>正规 (normal)</b> 任意两个不相交闭集有不相交的 (开) 邻域.</li>
+  <li><b>完全正规 (completely normal)</b> 每个子空间都是正规空间.<br>
+    可以证明, 对 `i = 1, 2, 3`, `T_i` 公理具有遗传性, 即 `T_i` 空间的子空间也是 `T_i` 空间.
+    然而 `T_4` 不具有遗传性. 这就是定义 `T_5` 公理的动机.
+  </li>
+  <li>
+    <b>完美正规 (perfectly normal)</b>
+    任意两个不相交闭集 `A, B`, 存在连续函数 `f: X to RR` 使得 `f^-1(0) = A`, `f^-1(1) = B`.
+    (注意与下文的 Urysohn 引理比较)
   </li>
 </ol>
 
+<p class="remark">
+  <b>拓扑学需要秦始皇</b>
+  关于 `T_3` 到 `T_6` 的定义, 诸多材料并不统一. 我们以 pi-base 这个网站的定义为准.
+</p>
+
+<p class="remark">
+  <b>为什么需要 `T_1` 公理</b>
+  在 `T_3` 到 `T_6` 的定义中, 我们要求 `T_1` 公理成立. 此时单点集是闭集, 有
+  <span class="formula">
+    `T_4 rArr T_3 rArr T_2`.
+  </span>
+  但 `T_1` 不成立时, 正规 `⇏` 正则, 例如拓扑空间 `(RR, tau)`, 其中
+  <span class="formula">
+    `tau = {(-oo, a)| -oo le a le +oo}`.
+  </span>
+  该空间正规, 但不正则, 亦不满足 `T_1`, `T_2` 公理.
+</p>
+
+<ol class="proof">
+  <li>正规: 注意到 `(RR, tau)` 的任何两个非空闭集 `[a, +oo)` 都相交. 这就是说,
+    若 `A, B` 是两个不相交闭集, 则必有其一是空集, 设 `B = O/`, 于是 `RR`
+    和 `O/` 分别是 `A, B` 的不相交邻域.
+  </li>
+  <li>不正则: 考虑闭集 `[a, +oo)` 和一点 `x lt a`, 它们不能被开邻域分离.</li>
+  <li>`T_1, T_2` 不成立: 考虑两点 `a lt b`, 则 `b` 没有邻域不含 `a`.</li>
+</ol>
+
 <ol class="proposition">
-  <li>`T_3` 公理 `iff` 任取点 `x` 和它的开邻域 `W`, 存在 `x` 的开邻域 `U`
+  <li>正则 `iff` 任取点 `x` 和它的开邻域 `W`, 存在 `x` 的开邻域 `U`
     使得 `bar U sube W`.
   </li>
-  <li>`T_4` 公理 `iff` 任取闭集 `A` 和它的开邻域 `W`, 存在 `A` 的开邻域
-    `U` 使得 `bar U sube W`.</li>
+  <li>正规 `iff` 任取闭集 `A` 和它的开邻域 `W`, 存在 `A` 的开邻域
+    `U` 使得 `bar U sube W`.
+  </li>
 </ol>
 
 <ol class="proof">
@@ -159,41 +149,46 @@
     V = O/`.
   </li>
   <li>
-    `rArr`: 记 `B = W^c`, 则 `A, B` 是不相交的闭集. 由 `T_4` 公理,
-    `A, B` 存在不相交开邻域 `U, V`.
-    即 `U sube V^c`.
+    `rArr`: 记 `B = W^c`, 则 `A, B` 是不相交的闭集. 由正规性,
+    `A, B` 存在不相交开邻域 `U, V`.  即 `U sube V^c`.
     则 `U` 满足 `bar U sube bar(V^c) = V^c sube B^c = W`.
   </li>
 </ol>
 
-<p>喜报:</p>
 <p class="proposition">
-  <b>度量空间具有最好的分离性</b>
-  度量空间 `X` 满足 `T_1` ~ `T_4` 公理.
+  完美正规 `rArr` 完全正规 `rArr` 正规.
+</p>
+
+<p class="proof">
+  先证完美正规 `rArr` 正规:
+  设 `A, B` 是 `X` 的不相交闭集,
+  在 `RR` 中取 `0` 和 `1` 的不相交邻域 `U_0, U_1`, 则 `f^-1(U_0)`, `f^-1(U_1)`
+  是 `A, B` 的不相交邻域.
+  🚧
+</p>
+
+<p class="remark">
+  综上有: `T_6 rArr T_5 rArr T_4 rArr T_3 rArr T_2 rArr T_1 rArr T_0`.
+</p>
+
+<p class="proposition">
+  <b>喜报: 度量空间具有最好的分离性</b>
+  度量空间满足 `T_6` 公理.
 </p>
 
 <ol class="proof">
-  只需证 `T_1` 和 `T_4` 成立.
   <li>`T_1`: 任取 `x in X`, 下证 `bar({x}) = {x}`. `AA y in X`, 若 `y`
     的任意邻域交 `{x}` 非空, 则 `x in y` 的任意邻域, 这推出 `d(x, y) = 0`,
     即 `x = y`.
   </li>
-  <li>`T_4`:
+  <li>`T_6`:
     设 `A, B` 是不相交闭集, 不妨设它们非空.
-    下面我们构造 `X` 上的连续函数使得 `f(A) = 0`, `f(B) = 1` (参见下文的 Urysohn 引理).
+    下面我们构造连续函数 `X to RR` 使得 `f(A) = 0`, `f(B) = 1`.
     任取 `x in X`, 因为度量空间的闭集外一点到该闭集有正的距离,
-    有 `d(x, A) + d(x, B) gt 0` . 规定 `X` 上连续函数
+    有 `d(x, A) + d(x, B) gt 0`. 因此下面就是一个适合的连续函数:
     <span class="formula">
-      `f(x) = (d(x, A))/(d(x, A) + d(x, B))`,
+      `f(x) := (d(x, A))/(d(x, A) + d(x, B))`.
     </span>
-    则
-    <span class="formula">
-      `f(x) { = 0, if x in A;
-      = 1, if x in B;
-      in (0, 1), otherwise :}`
-    </span>
-    任取实数 `t in (0, 1)`, 则 `f^-1((-oo, t))` 和 `f^-1((t, +oo))` 是 `A,
-    B` 的不相交邻域.
   </li>
 </ol>
 
@@ -201,33 +196,31 @@
 
 <h3>定义</h3>
 
-<p class="definition">
-  <b>邻域基</b>
-  设 `x in X`, 把 `x` 的所有邻域的集合称为 `x` 的<b>邻域系</b> `cc N(x)`.
-  `cc N(x)` 的子集 (即 `x` 的一族邻域) `cc U` 称为 `x` 的一个邻域基, 如果
-  `x` 的每个邻域至少包含 `cc U` 的一个成员.
-</p>
+<ol class="definition">
+  考虑拓扑空间的一点 `x in X`,
+  <li>`x` 的<b>邻域系</b>是指它的全体邻域的集合 `cc N_x`.</li>
+  <li>`x` 的<b>邻域基</b>是指一族邻域 `cc U sube cc N_x`, 满足
+    `x` 的每个邻域至少包含 `cc U` 的一个成员.
+  </li>
+</ol>
 
 <ol class="example" id="exp-neiborhood-base">
-  <li>`cc N(x)` 本身是 `x` 的邻域基.</li>
+  <li>`cc N_x` 本身是 `x` 的邻域基.</li>
   <li>`x` 的所有开邻域构成 `x` 的一个邻域基.</li>
   <li>对于度量空间, `B(x, 1//n)`, `n = 1, 2, cdots` 和 `B(x, q)`, `q in QQ` 都是 `x` 的邻域基.</li>
   <li>若 `cc B` 是拓扑空间 `X` 的拓扑基, 则 `cc U = {B in cc B | x in B}`
     是 `x` 的邻域基.
   </li>
   <li>若 `cc U` 是 `x` 的邻域基, `cc V` 是 `x` 的一族邻域,
-    且任意 `U in cc U`, 存在 `V in cc V` 使得 `x in V sube U`.
+    且 `cc U` 中的任意开集至少包含一个 `cc V` 的成员,
     那么 `cc V` 也是 `x` 的邻域基.
   </li>
 </ol>
 
-<p class="axiom">
-  <b>`C_1` 公理</b> 任意 `x in X` 具有可数的邻域基.
-</p>
-
-<p class="axiom">
-  <b>`C_2` 公理</b> 具有可数的拓扑基.
-</p>
+<ol class="axiom">
+  <li><b>`C_1` 公理</b> 任一点 `x in X` 具有可数的邻域基.</li>
+  <li><b>`C_2` 公理</b> 整个空间具有可数的拓扑基.</li>
+</ol>
 
 <ol class="remark">
   <li>满足 `C_1`, `C_2` 公理的拓扑空间分别称为<b>第一可数</b>和<b>第二可数</b>的.</li>
@@ -236,13 +229,14 @@
     由 4. 知道 `C_2` 空间必然是 `C_1` 的 (请考驾照的读者注意).
   </li>
   <li>`C_2` 公理是一个很强的条件, 以至某些度量空间也不是 `C_2` 的. 如 `RR` 上的离散度量空间,
-    它的任一拓扑基必包含每个单点集 `{x}`, 从而不可数.
+    其每个单点集 `{x}` 都是开集, 于是任一拓扑基必包含每个单点集, 从而不可数.
   </li>
 </ol>
 
 <h3>第一可数</h3>
 
 <p class="lemma">
+  <b>递减邻域基</b>
   如果 `x` 点存在可数邻域基, 则该点处存在一列递减的邻域基 `V_1 supe V_2 cdots`.
 </p>
 
@@ -251,12 +245,18 @@
   则任意 `U_n` 中都包含 `V_n`, 所以 `{V_n}` 即为所求的递减邻域基.
 </p>
 
+<p>`C_1` 空间对点列十分友好, 从以下定理可以看出:</p>
+
 <p class="theorem">
-  <b>`C_1` 空间中聚点原理成立</b>
-  设 `X` 第一可数, `A sube X`, `x in bar A`, 则存在 `A` 中点列趋于 `x`.
+  <b>`C_1` 空间中的聚点原理</b>
+  设 `X` 第一可数, `A sube X`, 则
+  <span class="formula">
+    `x in bar A iff x` 是 `A` 的极限点.
+  </span>
 </p>
 
 <p class="proof">
+  "`lArr`" 在一般的拓扑空间中成立, 已在第一章中证明. 下证 "`rArr`":<br>
   由引理知存在 `x` 处的递减邻域基 `{U_n}`.
   因为 `x in bar A`, 所以对任意 `U_n`, 都存在 `x_n in A nn U_n`.
   由选择公理选出点列 `{x_n}`, 下证 `x_n to x`.
@@ -267,14 +267,19 @@
 </p>
 
 <p class="theorem">
-  <b>`C_1` 空间上的 Heine 定理</b>
-  设 `X` 第一可数, `x in X`.
-  则 `f: X to Y` 在 `x` 处连续, 当且仅当对任意 `x_n to x` 都有 `f(x_n) to f(x)`,
+  <b>`C_1` 空间中的 Heine 定理</b>
+  设 `X` 第一可数, 则
+  <span class="formula">
+    `f: X to Y` 在 `x` 处连续 `iff` 对任意 `x_n to x` 都有 `f(x_n) to f(x)`.
+  </span>
 </p>
 
 <p class="proof">
-  `rArr` 在一般的拓扑空间中成立, 留作习题; 下证 `lArr`.<br>
-  任取 `f(x)` 的邻域 `V`, 下证原像 `f^-1(V)` 是 `x` 的邻域.
+  "`rArr`" 在一般的拓扑空间中成立.
+  事实上任取 `f(x)` 的邻域 `V`, 则 `U = f^-1(V)` 是 `x` 的邻域, 它包含了 `{x_n}` 的尾部.
+  于是 `V` 包含了 `{f(x_n)}` 的尾部.
+  <br>
+  下证 "`lArr`": 任取 `f(x)` 的邻域 `V`, 下证原像 `f^-1(V)` 是 `x` 的邻域.
   如若不然, 则 `x` 不是 `f^-1(V)` 的内点, `x in (f^-1(V)^@)^c = bar(f^-1(V)^c)`.
   由聚点原理, 存在 `f^-1(V)^c` 中点列 `x_n to x`, 因此 `f(x_n) to f(x)`.
   但 `x_n in f^-1(V)^c`, 所以 `f(x_n) !in V`, 这与 `f(x_n) to f(x)` 矛盾.
@@ -285,10 +290,9 @@
 </p>
 
 <p class="proof">
-  设 `x, y in X`, `x != y`.  取 `x, y` 处的递减邻域基 `{U_n}` 和 `{V_n}`
-  如果 `X` 不是 Hausdorff 空间, 则任意 `n`, `U_n nn V_n != O/`.
-  由选择公理可以确定点列 `{x_n}`, 使得 `x_n in U_n nn V_n`.
-  可以证明这个点列同时趋于 `x` 和 `y`, 从而矛盾.
+  如果 `X` 不是 Hausdorff 空间, 则存在两点 `x != y`, 它们的所有邻域都相交.
+  取 `x, y` 处的递减邻域基 `{U_n}` 和 `{V_n}`, 则任意 `n`, `U_n nn V_n != O/`.
+  由选择公理可以确定点列 `x_n in U_n nn V_n`, 它同时趋于 `x` 和 `y`, 从而矛盾.
 </p>
 
 <h3>第二可数</h3>
@@ -450,48 +454,58 @@
   注意, 紧性和 Hausdorff 这两个性质不能互推.
 </ol>
 
-<h3>度量空间中的紧集</h3>
+<h3>列紧性</h3>
 
 [<a href="https://zhuanlan.zhihu.com/p/151313668" target="_blank">知乎@TOVARISHI伊里奇</a>]
 
 <p class="remark">
-  本节的主要目标是证明度量空间中, 紧性的几个等价命题, 即 紧 `iff` 列紧 `iff` 极限点紧.
+  本节的主要目标是证明度量空间中, 紧性的几个等价命题, 即: 紧 `iff` 自列紧 `iff` 极限点紧.
 </p>
 
 <ol class="definition">
   设 `A` 是拓扑空间 `X` 的子集,
-  <li>如果 `A` 中的任意点列 `{x_n}` 都存在子列收敛于
-    `A` 中一点, 则称 `A` 是<b>列紧</b>的.
+  <li>如果 `A` 中的任意点列都含有在 `X` 中收敛的子列, 则称 `A` 是<b>列紧</b>的;
+    进一步, 若每个收敛子列的极限都在 `A` 中, 则称 `A` 是<b>自列紧</b>的.</li>
+  <li>如果 `A` 中任意子集在 `A` 中有极限点, 则称 `A` 是<b>极限点紧</b>的.</li>
+  若 `A` 是有限集, 显然它同时满足紧、自列紧和极限点紧, 以下我们主要讨论无限集.
+</ol>
+
+<h4>紧 `rArr` 自列紧</h4>
+
+<p class="lemma">
+  <b>`C_1` 空间的子列极限</b> 设 `X` 第一可数, 则
+  <span class="formula">
+    `x` 是点列 `{x_n}` 的某个子列的极限
+    `iff x` 的任意邻域含有 `{x_n}` 的无穷多项.
+  </span>
+  如果 `X` 还满足 `T_1` 公理, 则上式等价于 `x` 是 `{x_n}` 的聚点.
+</p>
+
+<ol class="proof">
+  <li>
+    [群友@王凤梨]
+    只证 `lArr`.
+    取递减邻域基 `{U_n}`.
+    应用选择公理, 先取 `x_(n_1) in U_1`, 然后因为 `{x_n}` 有无穷多项含于 `U_2`,
+    可以取 `x_(n_2) in U_2` 使得 `n_2 gt n_1`. 如此进行下去即得到子列 `{x_(n_k)}` 收敛于 `x`.
   </li>
-  <li>如果 `A` 中任意无限子集在 `A` 中有极限点 (即聚点), 则称 `A` 是<b>极限点紧</b>的.
+  <li>
+    若 `x` 是聚点, 则它的任意邻域 `U` 含有一项 `x_0 != x`.
+    根据 `T_1` 公理, 单点集是闭集, 所以 `U\\{x_0}` 仍是 `x` 的邻域,
+    从中又能取出点列的一项...
+    故 `U` 中含有 `{x_n}` 的无穷多项.
   </li>
 </ol>
 
-<h4>紧 `rArr` 列紧</h4>
-
-<p class="lemma">
-  在度量空间中,
-  `{x_n}` 有子列收敛于 `x`, 当且仅当对 `x` 的任意 (开) 邻域 `U`, `{x_n}` 有无穷多项含于 `U`.
-</p>
-
-<div class="proof p">
-  `rArr` 显然, 下证 `lArr`.<br>
-  以 `x` 为心, 取一列开球 `B_n := B(x, 1//n)`.
-  应用选择公理,
-  先取 `x_(n_1) in B_1`, 然后因为 `{x_n}` 有无穷多项含于 `B_2`, 可以取 `x_(n_2)
-  in B_2` 使得 `n_2 gt n_1`. 如此进行下去即得到子列收敛于 `x`.
-  <hr>
-  [群友@王凤梨] 度量空间的条件可以减弱为第一可数, 只需把开球换成邻域基即可.
-</div>
-
 <p class="theorem">
-  度量空间中, 紧 `rArr` 列紧.
+  `C_1` 空间中, 紧 `rArr` 自列紧.
 </p>
 
 <p class="proof">
   设 `A` 是紧集, `{x_n}` 是 `A` 中的任意点列.
   反设结论不成立, 则对任意 `x in A`, `{x_n}` 都没有子列收敛于 `x`,
-  由引理知存在 `x` 的开邻域 `U_x`, 使得 `{x_n}` 只有有限项在 `U` 中.
+  由引理知存在 `x` 的开邻域 `U_x`
+  只含 `{x_n}` 的有限项.
   于是 `{U_x: x in A}` 构成 `A` 的开覆盖, 由于 `A` 的紧性, 存在有限子覆盖
   <span class="formula">
     `A sube uuu_(k=1)^n U_k`.
@@ -500,34 +514,31 @@
 </p>
 
 <p class="theorem">
-  对度量空间中的无限集, 列紧 `iff` 极限点紧.
+  `C_1 + T_1` 空间中, 自列紧 `iff` 极限点紧.
 </p>
 
 <ol class="proof">
-  <li>`rArr`: 设 `A` 是列紧的无限集. 取两两不同的点列 `{x_n} sube A`, 则它有子列收敛到 `x in A`.
-    容易验证 `x` 是 `A` 的极限点.
+  <li>`rArr`: 设 `A` 是自列紧的无限集, `B sube A` 是它的无限子集.
+    取两两不同的点列 `{x_n} sube B`, 则它有子列收敛到 `x in A`.
+    因此 `B` 在 `A` 中有极限点.
   </li>
   <li>`lArr`: 设 `A` 极限点紧.
     对 `A` 中任意点列 `{x_n}`, 若它有无穷多项相同, 则它已然有子列收敛到 `A` 中.
     否则, 把点列中相同的点都去掉, 得到两两不同的子列 `{y_n} sube A`.
     由假设知集合 `{y_n}` 有极限点 `x in A`.
-    对 `x` 的任意邻域 `U` 我们可以证明 `{y_n}` 有无穷多项含于 `U`, 从而由引理知
-    `{y_n}` 有子列收敛于 `x in A`.
-    <br>
-    事实上, 若 `{y_n}` 只有有限项含于 `U`, 设这些项到 `x` 最近的距离为 `delta`,
-    从而 `B(x, delta) nn {y_n} = O/`, 与极限点的定义矛盾.
+    极限点一定是聚点, 因而由引理知, `x` 是 `{y_n}` 某个子列的极限.
   </li>
 </ol>
 
-<h4>列紧 `rArr` 紧</h4>
+<h4>自列紧 `rArr` 紧</h4>
 
 <p>
-  列紧到紧的证明不太容易, 需要用到两个经典引理.
+  自列紧到紧的证明不太容易, 需要用到两个经典引理.
 </p>
 
 <p class="lemma">
   <b>Lebesgue 数</b>
-  设 `A` 是度量空间中的列紧集, 则对 `A` 的任意开覆盖 `cc O`,
+  设 `A` 是度量空间中的自列紧集, 则对 `A` 的任意开覆盖 `cc O`,
   存在实数 `delta gt 0`, 使得 `A` 中每个点的 `delta` 邻域都被 `cc O` 中的某个开集盖住.
   换言之,
   <span class="formula">
@@ -542,7 +553,7 @@
   <span class="formula">
     `AA O_lambda in cc O`, `B(x_n, delta_n) ⊈ O_lambda`.
   </span>
-  因为 `A` 列紧, 设 `{x_n}` 有子列 `{x_(n_k)}` 收敛于点 `x in A`.
+  因为 `A` 自列紧, 设 `{x_n}` 有子列 `{x_(n_k)}` 收敛于点 `x in A`.
   设 `x` 被 `cc O` 中的一个开集 `O_x` 覆盖. 于是存在开球 `B(x, epsi) sube O_x`.
   由子列收敛性, 存在 `K in NN`, 对任意 `k gt K` 有 `x_(n_k) in B(x, epsi//2)`.
   我们不妨把 `K` 取得更大一点, 使 `delta_(n_k) = 1//n_k lt epsi//2`, 从而
@@ -562,21 +573,21 @@
   </span>
 </p>
 
-<p class="lemma">
-  <b>有限 `epsi`-网</b>
+<p class="lemma" id="lem-finite-epsi-net">
+  <b>有限 `epsi` 网</b>
   设 `A` 是度量空间的列紧集, 则对任意实数 `epsi gt 0`, 存在有限个开球 `{B(x_k, epsi)}_(k=1)^n`
-  将 `A` 覆盖, 称为 `A` 的一个有限 `epsi`-网.
+  将 `A` 覆盖, 称为 `A` 的一个有限 `epsi` 网.
 </p>
 
 <p class="proof">
-  反设对于某个 `epsi gt 0`, 不存在 `A` 的有限 `epsi`-网.
-  显然 `A` 非空, 取 `x_1 in A`. 由于不存在 `A` 的有限 `epsi`-网, 又可取 `x_2 in A - B(x_1, epsi)`...
+  反设对于某个 `epsi gt 0`, 不存在 `A` 的有限 `epsi` 网.
+  显然 `A` 非空, 取 `x_1 in A`. 由于不存在 `A` 的有限 `epsi` 网, 又可取 `x_2 in A - B(x_1, epsi)`...
   如此得到点列 `{x_n}`.
   由于 `{x_n}` 的项两两距离大于 `epsi`, 不可能存在收敛子列, 与 `A` 的列紧性矛盾.
 </p>
 
 <p class="theorem">
-  度量空间中, 列紧 `rArr` 紧.
+  度量空间中, 自列紧 `rArr` 紧.
 </p>
 
 <p class="proof">
@@ -639,7 +650,9 @@
 </ol>
 
 <ol class="example">
-  <li>`RR_l` 是强 Lindelöf 的, 但不是紧致的.</li>
+  <li>下限拓扑 `RR_l` (见第一章, 定义为左闭右开区间生成的拓扑, 比 `RR` 严格细)
+    是强 Lindelöf 的, 但不是紧致的.
+  </li>
 </ol>
 
 <p class="theorem">
@@ -713,7 +726,7 @@
 </ol>
 
 <p class="theorem">
-  `C_2 rArr "Lindelöf"`.
+  Lindelöf 空间中, 自列紧 `rArr` 紧.
 </p>
 
 <p class="theorem">
@@ -721,9 +734,16 @@
   `"Lindelöf" and T_3 rArr T_4`.
 </p>
 
-<p class="corollary">
-  <b>Lindelöf 定理</b> `C_2 and T_3 rArr T_4`.
+<p class="theorem">
+  `C_2 rArr "Lindelöf"`.
 </p>
+
+<p class="corollary">
+  `C_2` 空间中, 自列紧 `iff` 紧.
+  这是因为 `C_2 rArr C_1 and "Lindelöf"`.
+  其中 `C_1` 给出命题的 `lArr` 部分, Lindelöf 给出 `rArr` 部分.
+</p>
+
 
 <h2>度量化</h2>
 
@@ -731,28 +751,25 @@
   我们将遇到一些深刻的定理.
 </p>
 
-<p class="lemma">
-  <b>Urysohn 引理 (`T_4` 公理的等价条件)</b>
-  `X` 满足 `T_4` 公理, 当且仅当任意两个不相交闭集 `A, B` 被连续函数隔离,
-  即存在连续函数 `f: X to RR` 使得 `f(A) = 0`, `f(B) = 1`.
-</p>
-
-<p class="theorem">
-  <b>Tietze 扩张定理 (`T_4` 公理的又一等价条件)</b>
-  `X` 满足 `T_4` 公理, 当且仅当任一闭子集 `F` 上的连续函数可以连续地扩张到 `X` 上.
-</p>
-
-<p class="remark">
-  又名铁子扩张定理.
-</p>
+<ol class="theorem">
+  对拓扑空间 `X`, 以下 3 条等价:
+  <li>`X` 是正规空间;</li>
+  <li><b>Urysohn 引理</b>
+    `X` 中任意两个不相交闭集 `A, B` 被连续函数隔离,
+    即存在连续函数 `f: X to RR` 使得 `f(A) = 0`, `f(B) = 1`.
+  </li>
+  <li><b>Tietze 扩张定理</b>
+    `X` 的任一闭子集上的连续函数可以连续地扩张到 `X` 上.
+  </li>
+</ol>
 
 <p class="theorem">
   <b>Urysohn 度量化定理</b>
-  `C_2 and T_3 and T_1 rArr` 可度量化.
+  `C_2 and T_3 rArr` 可度量化.
 </p>
 
-<p class="remark">注: Lindelöf 定理表明 `C_2 and T_3 rArr T_4`,
-  又 `T_4 and T_1 rArr T_2`, `C_2 rArr C_1`, 因此事实上题设条件满足 `T_1 ~ T_4`, `C_1, C_2` 六个公理.
+<p class="remark">
+  度量空间具有最好的分离性, 因此定理表明 `C_2 + T_3` 足以推出 `T_0` 至 `T_6` 的全部分离公理.
 </p>
 
 <h2>Baire 纲*</h2>
@@ -1168,28 +1185,16 @@
   </li>
 </ol>
 
-<h3>拓扑公理的关系</h3>
+<h3>可数性的图景</h3>
 
 <ol class="example">
-  <b>分离公理</b>
-  <li>`T_2 rArr T_1 rArr T_0`.</li>
-  <li>`T_1` 成立时, `T_4 rArr T_3 rArr T_2`.</li>
-  <li>度量空间满足全部 `T_0` 到 `T_6` 公理.</li>
-</ol>
-
-<ol class="example">
-  <b>可数公理</b>
+  小结如下:
   <li>`C_2 rArr C_1 and "Lindelöf" and` 可分.</li>
   <li>度量空间 `rArr C_1`</li>
   <li>度量空间中, `"Lindelöf" iff` 可分 `iff C_2`.</li>
-</ol>
-
-<ol class="example">
-  <b>`C_2` 与 `T_3` 是好朋友</b>
-  <li>紧致 `and T_2 rArr T_3 and T_4`.</li>
+  <li>紧 Hausdorff `rArr T_4`, 局部紧 Hausdorff `rArr T_3`.</li>
   <li>Tychonoff 定理: `"Lindelöf" and T_3 rArr T_4`.</li>
-  <li>Lindelöf 定理: `C_2 and T_3 rArr T_4`.</li>
-  <li>Urysohn 度量化定理: `C_2 and T_3 and T_1 rArr` 可度量化.</li>
+  <li>Urysohn 度量化定理: `C_2 and T_3 rArr` 可度量化.</li>
 </ol>
 
 <!--

@@ -185,12 +185,12 @@
 <h3>子空间拓扑</h3>
 
 <p class="definition">
-	设 `A` 是拓扑空间 `(X, tau)` 的非空子集. 容易验证
-	<span class="formula">
-		`tau_A := { U nn A: U in tau }`
-	</span>
-	是 `A` 上的一个拓扑, 称为 `tau` 导出的 `A` 上的<b>子空间拓扑</b>,
-	`(A, tau_A)` 称为 `(X, tau)` 的<b>子空间</b>.
+  设 `A` 是拓扑空间 `(X, tau)` 的非空子集. 容易验证
+  <span class="formula">
+    `tau_A := { U nn A: U in tau }`
+  </span>
+  是 `A` 上的一个拓扑, 称为 `tau` 导出的 `A` 上的<b>子空间拓扑</b>, 又称<b>相对拓扑</b>,
+  `(A, tau_A)` 称为 `(X, tau)` 的<b>子空间</b>.
 </p>
 
 <ol class="remark">
@@ -439,6 +439,10 @@
 <ol class="definition">
   <li>
     考虑拓扑空间 `X` 中的一点 `x` 和点列 `{x_n}`.
+    点列与可数集的区别在于: 1: 点列中可以有重复的点. 2: 点列中的点是有顺序的.
+  </li>
+  <li>
+    <b>点列的收敛</b>
     若 `x` 的任意 (开) 邻域 `U` 都包含 `{x_n}` 的尾部, 即 `EE N in NN` 使得
     <span class="formula">
       `x_n in U`, `quad AA n gt N`,
@@ -449,12 +453,19 @@
   </li>
   <li>
     设 `A sube X`, 若 `A` 中有点列收敛到 `x`, 则称 `x` 是 `A` 的<b>极限点</b>.
-    排除掉 `{x_n}` 的尾部等于 `x` 的情形, 极限点必是聚点:
-    这是因为 `x` 的任意邻域 `U` 都包含 `{x_n}` 的尾部, 这个尾部中至少含有 `A` 中异于 `x` 的一点,
-    故 `U nn A\\{x} != O/`.
-    反之聚点不一定是极限点, 参见下面的反例.
   </li>
 </ol>
+
+<p class="corollary">
+  `x` 是 `A` 的极限点 `rArr x in bar A`.
+  逆命题不成立, 参见下面的反例.
+</p>
+
+<p class="proof">
+  排除掉 `{x_n}` 的尾部等于 `x` 的情形, 极限点必是聚点:
+  这是因为 `x` 的任意邻域 `U` 都包含 `{x_n}` 的尾部, 这个尾部中至少含有 `A` 中异于 `x` 的一点,
+  故 `U nn A\\{x} != O/`.
+</p>
 
 <ol class="remark">
   拓扑空间中的收敛序列失去了一些重要的分析性质.
@@ -471,9 +482,9 @@
     假设 `x_n to x`, 则 `{x_n}` 的尾部必须等于 `x`, 否则
     `(X\\{x_n}) uu {x}` 是 `x` 的开邻域, 但它不能容纳 `{x_n}` 的尾部.
     <br>
-    要使聚点原理成立, 满足 `C_1` 公理是一个充分条件, 见第二章第一节.
+    要使聚点原理成立, 满足 `C_1` 公理是一个充分条件, 见第二章.
   </li>
-  正因如此, 通常只在度量空间 (见第二章) 中讨论点列收敛性,
+  正因如此, 通常只在 `C_1` 空间 (见第二章), 尤其是度量空间中讨论点列收敛性,
   而在一般拓扑空间中, 更常用的工具是滤子和网, 参见第三章.
 </ol>
 
@@ -730,59 +741,64 @@
   </li>
 </ol>
 
-<h2>乘积空间与拓扑基</h2>
-
-<p class="definition">
-	设 `cc B sube 2^X` 是 `X` 的子集族, 规定新子集族
-	<span class="formula">
-		`(: cc B :) := {U sube X: U` 是 `cc B` 中若干成员的并`}`
-		`= {U sube X: AA x in U, EE B in cc B, x in B sube U}`.
-	</span>
-	称为 `cc B` <b>生成</b>的子集族. 显然 `cc B sube (: cc B :)`, `O/ in (: cc B :)`.
-</p>
-
-<p class="definition">
-	设 `X_1, X_2` 是两个集合, 规定 `X_1 xx X_2` 到 `X_i` 的<b>投射</b>
-	(`i = 1, 2`):
-	<span class="formula">
-		`j_i: X_1 xx X_2 to X_i`,<br/>
-		`j_i(x_1, x_2) = x_i`.
-	</span>
-</p>
-
-<p class="remark">
-  投射是指一个“自然而然”的满射, 可以类比群论中 `G to G//N` 的自然同态.
-</p>
-
-<ol class="remark">
-	由笛卡尔积的定义容易验证如下性质. 这些性质在 Euclid 空间
-	`bm E^2 = bm E^1 xx bm E^1` 中是直观的:
-	<li>`A_i sube X_i` (`i = 1, 2`) `rArr A_1 xx A_2 sube X_1 xx X_2`;
-	</li>
-	<li>`A_i, B_i sube X_i` (`i = 1, 2`) `rArr`
-		<span class="formula">
-			`(A_1 xx A_2) nn (B_1 xx B_2) = (A_1 nn B_1) xx (A_2 nn B_2)`.
-		</span>
-		而对于并运算, 类似等式不成立.
-	</li>
-</ol>
+<h2>拓扑空间的积与商</h2>
 
 <h3>乘积空间</h3>
 
-<ol class="definition">
-	设 `(X_1, tau_1)`, `(X_2, tau_2)` 是两个拓扑空间, 定义 `X_1 xx X_2`
-	上的拓扑 `tau`, 满足
-	<li>`tau` 使得投射 `j_1, j_2` 都连续;</li>
-	<li>`tau` 是使 1. 成立的最小拓扑.</li>
-	称为 `X_1 xx X_2` 上的<b>乘积拓扑</b>. 称 `(X_1 xx X_2, tau)`
-	为 `(X_1, tau_1)` 和 `(X_2, tau_2)` 的<b>乘积空间</b>,
-	简记为 `X_1 xx X_2`.
+<p class="definition">
+  <b>笛卡尔积与投影映射</b>
+  直观上, 两个集合 `X_1, X_2` 的笛卡尔积 `X_1 xx X_2`
+  是所有形如 `x = (x_1, x_2)` 的有序二元组的集合, 其中 `x_i in X_i`, `i = 1, 2`.
+  反过来, 给定一个 `x in X_1 xx X_2`, 它的分量 `x_1, x_2` 也就完全确定,
+  换言之存在<b>投影映射 (简称投射)</b>:
+  <span class="formula">
+    `j_i: X_1 xx X_2 to X_i`<br>
+    `(x_1, x_2) mapsto x_i`, `quad i = 1, 2`.
+  </span>
+  投射是“自然而然”的满射, 可以类比群论中 `G to G//N` 的自然同态.
+</p>
+
+<ol class="example">
+  验证笛卡尔积的如下性质, 这些性质在 Euclid 空间中是直观的.
+  对任意 `A_i, B_i sube X_i` (`i = 1, 2`) 有:
+  <li>`A_1 xx A_2 sube X_1 xx X_2`;</li>
+  <li>`(A_1 xx A_2) nn (B_1 xx B_2) = (A_1 nn B_1) xx (A_2 nn B_2)`.</li>
+  而对于并运算, 类似等式不成立.
 </ol>
 
+<p class="definition">
+  <b>乘积空间</b>
+  设 `(X_1, tau_1)`, `(X_2, tau_2)` 是两个拓扑空间,
+  集合 `X_1 xx X_2` 上的<b>乘积拓扑</b> `tau` 定义为
+  <span class="formula">
+    使得投射 `j_1, j_2` 都连续的最小拓扑.
+  </span>
+  称 `(X_1 xx X_2, tau)` 为 `(X_1, tau_1)` 和 `(X_2, tau_2)` 的<b>乘积空间</b>,
+  简记为 `X_1 xx X_2`.
+</p>
+
+<p class="remark">
+  这个定义比较抽象. 什么是使得投射 `j_1, j_2` 都连续的最小拓扑? 它有什么性质?
+  让我们先考察它的生成元.
+</p>
+
+<p class="definition">
+  <b>子集族的生成</b>
+  定义子集族 `cc B sube 2^X` <b>生成的子集族</b>为
+  <span class="formula">
+    `(: cc B :) := {U sube X: U` 是 `cc B` 中若干成员的并`}`
+    `= {U sube X: AA x in U, EE B in cc B, x in B sube U}`.
+  </span>
+  显然 `cc B sube (: cc B :)`, `O/ in (: cc B :)`.
+</p>
+
 <p class="theorem">
-	令 `cc B = {U_1 xx U_2: U_i in tau_i, i = 1, 2}`, 则它生成的子集族
-	`(: cc B :)` 就是 `X_1 xx X_2` 上的乘积拓扑.
-	例如, `bm E^2` 中的开集可以表示为若干开矩体的并.
+  <b>乘积拓扑的生成元</b>
+  `X_1 xx X_2` 的乘积拓扑由下面的子集族生成:
+  <span class="formula">
+	`cc B = {U_1 xx U_2: U_i in tau_i, i = 1, 2}`.
+  </span>
+  例如, Euclid 空间中的开集可以表示为若干开矩体的并.
 </p>
 
 <ol class="proof">
@@ -824,59 +840,19 @@
 	`X_i` 中的开集.
 </p>
 
-<p>	类似地, `n` 个拓扑空间 `(X_i, tau_i)`, `i = 1, 2, cdots, n`
-	的乘积拓扑定义可以由
-	<span class="formula">
-		`cc B = {prod_(i=1)^n U_i: U_i in tau_i, i = 1, cdots, n}`
-	</span>
-	生成.
-</p>
-
-<p>	拓扑空间的乘积运算具有结合律, 即
-	<span class="formula">
-		`X_1 xx X_2 xx X_3 = (X_1 xx X_2) xx X_3 = X_1 xx (X_2 xx X_3)`.
-	</span>
-</p>
-
-<h3>任意多个拓扑空间的乘积*</h3>
-
-<p>两个集合 `X, Y` 的无交并定义为
-  <span class="formula">
-    `X ⊔ Y := {(x, 1): x in X} uu {(y, 2): y in Y}`.
-  </span>
-  即, 给两个集合的元素贴上不同标签, 处理后的集合 `X'` 与 `Y'` 是无交的.
-  这一定义可以推广到集合族的无交并.
-</p>
-
-<p>任意多个集合 `{X_lambda}_(lambda in Lambda)` 的乘积定义为指标集到集族无交并的一族映射
-`f: Lambda to ⨆_(lambda in Lambda) X_lambda`:
-  <span class="formula">
-    `prod_(lambda in Lambda) X_lambda :=`
-    `{f: Lambda to ⨆_(lambda in Lambda) X_lambda: AA lambda in Lambda, f(lambda) in X_lambda}`.
-  </span>
-</p>
-
-<p>
-  [<a href="https://zhuanlan.zhihu.com/p/594487272" target="_blank">知乎@渐行渐远</a>]
-  无穷乘积空间上的拓扑, 常见有两种: 箱拓扑与积拓扑 (Tychonoff 拓扑).
-  它们的拓扑基分别是
-  <span class="formula">
-    `cc B_1 := {prod_(lambda in Lambda) U_lambda: U_lambda in tau_lambda}`,<br>
-    `cc B_2 := {prod_(lambda in Lambda) U_lambda: U_lambda in tau_lambda, 且只有有限个 lambda 使得 U_lambda != X_lambda}`.
-  </span>
-  其中后者性质更好, 应用更广.
-</p>
-
-<h3>乘积空间的性质</h3>
-
 <p class="definition">
-	设 `Y` 是任一拓扑空间, `f: Y to X_1 xx X_2` 是一映射. 称 `f_i = j_i @
-	f: Y to X_i`, `i = 1, 2` 为 `f` 的两个<b>分量</b> (映射). `f`
-	与它的两个分量相互决定.
+  <b>分量映射</b>
+  考虑拓扑空间 `Y` 到乘积空间 `X_1 xx X_2` 的映射 `f: Y to X_1 xx X_2`.
+  `f` 的两个<b>分量</b> `f_i: Y to X_i` 定义为
+  <span class="formula">
+    `f_i = j_i @ f`, `quad i = 1, 2`.
+  </span>
+  反过来, 如果已知两个分量 `f_i(y) = x_i`, `i = 1, 2`, 则 `f(y) = (x_1, x_2)` 也就完全确定.
+  因此 `f` 与它的两个分量相互决定.
 </p>
 
 <p class="theorem">
-	假设如上. 则 `f` 连续 `iff f` 的分量都连续.
+  `f` 连续 `iff f` 的每个分量都连续.
 </p>
 
 <ol class="proof">
@@ -903,22 +879,123 @@
 </ol>
 
 <p class="remark">
-	此定理可推广到任意多个拓扑空间的乘积 (无穷情形用乘积拓扑).
+	此定理可推广到任意多个拓扑空间的乘积 (无穷情形用积拓扑).
 	还可证明, `X_1 xx X_2` 上使定理成立的拓扑只有乘积拓扑.
 </p>
 
 <p class="corollary">
-	`AA b in X_2`, 映射
-		`j_b: X_1 to X_1 xx X_2`,
-		`x |-> (x, b)`
-	是嵌入映射.
+  固定 `x_2 in X_2`, 则下面的映射是嵌入映射:
+  <span class="formula">
+    `i: X_1 to X_1 xx X_2`<br>
+    `x_1 |-> (x_1, x_2)`.
+  </span>
 </p>
 
-<p class="proof">
-	验证 `i_b: X_1 to j_b(X_1) = X_1 xx {b}` 是同胚. 显然它是双射.
-	`i_b^-1` 是 `j_1` 在 `X_1 xx {b}` 上的限制, 因此是连续的. `i_b`
-	的两个分量分别是恒同映射 `"id": X_1 to X_1` 和 `X_1` 到 `X_2`
-	的常值映射, 都是连续的. 因此 `i_b` 连续.
+<ol class="proof">
+  只需验证映射 `i` 是从 `X_1` 到像集 `i(X_1) = X_1 xx {x_2}` 的同胚.  显然它是双射.
+  <li>
+    `i^-1` 是投射 `j_1` 在 `X_1 xx {x_2}` 上的限制, 因此是连续的.
+  </li>
+  <li>
+    `i` 的两个分量分别是恒同映射 `"id"_(X_1)` 和常值映射 `x_1 mapsto x_2`,
+    也都是连续的. 因此 `i` 连续.
+  </li>
+</ol>
+
+<p class="remark">
+  `n` 个拓扑空间 `(X_i, tau_i)_(i=1)^n` 的乘积拓扑可以由下面的子集族生成:
+  <span class="formula">
+    `cc B = {prod_(i=1)^n U_i: U_i in tau_i, i = 1, cdots, n}`
+  </span>
+  拓扑空间的乘积运算具有结合律, 即
+  <span class="formula">
+    `X_1 xx X_2 xx X_3 = (X_1 xx X_2) xx X_3 = X_1 xx (X_2 xx X_3)`.
+  </span>
+</p>
+
+<h3>拓扑空间的无穷乘积*</h3>
+
+<ol class="definition">
+  <b>集合的无穷乘积</b>
+  <li>
+    我们知道, 集合的笛卡尔积 `X_1 xx X_2` 给出了一对投射 `j_1, j_2`.
+    反之, 给定集合 `X` 到两个集合 `X_1, X_2` 的映射 `j_1, j_2`,
+    如果满足: 对 `AA x_i in X_i`, `i = 1, 2`, 存在唯一的 `x in X` 使得
+    <span class="formula">
+      `j_i(x) = x_i`, `quad i = 1, 2`,
+    </span>
+    则记 `x = (x_1, x_2)`, `X = X_1 xx X_2`.
+    我们把这作为笛卡尔积的正式定义.
+  </li>
+  <li>观察分量指标记号 `x_i`, 可以将 `x` 看作一个映射, 它将指标 `i` 映到元素 `x_i in X_i`.
+    于是, 假如 `X_1, X_2` 不相交, 则笛卡尔积的一个具体构造是:
+    令 `X` 是全体映射 `x: {1,2} to X_1 uu X_2`,
+    且满足 `x(i) in X_i`, `i = 1, 2`:
+    <span class="formula">
+      `X := {x: {1,2} to X_1 uu X_2: x(i) in X_i, i = 1, 2}`.
+    </span>
+    规定投射 `j_i(x) = x(i)`, `i = 1, 2`.
+    集合 `X` 是足够大的. 事实上对 `AA x_i in X_i`, `i = 1, 2`, 存在映射 `x in X` 使得
+    `x(i) = x_i`, `i = 1, 2`. 该映射 `x` 是唯一的, 因为它在定义域 `{1, 2}` 上的取值都已经确定.
+  </li>
+  <li>如果 `X_1 nn X_2 != O/`, 我们可以做如下处理: 定义 `X_1, X_2` 的<b>无交并</b>为
+    <span class="formula">
+      `X_1 ⊔ X_2`
+      `:= X_1^((1)) uu X_2^((2))`
+      `:= {(x_1, 1): x_1 in X_1} uu {(x_2, 2): x_2 in X_2}`.
+    </span>
+    即, 给两个集合的元素贴上不同标签 1 和 2, 处理后的集合 `X_1^((1))` 与 `X_2^((2))` 是无交的.
+  </li>
+  <li>上述构造容易推广到有限个集合的情形, 现在我们将它推广至无穷.
+    一族集合 `{X_lambda}_(lambda in Lambda)` 的无交并定义为
+    <span class="formula">
+      `⨆_(lambda in Lambda) X_lambda`
+      `:= uuu_(lambda in Lambda) X_lambda^((lambda))`.
+    </span>
+    笛卡尔积定义为指标集到集族无交并的一族映射
+    <span class="formula">
+      `prod_(lambda in Lambda) X_lambda :=`
+      `{x: Lambda to ⨆_(lambda in Lambda) X_lambda: x(lambda) in X_lambda, AA lambda in Lambda}`.
+    </span>
+    相应的投射为 `j_lambda(x) = x(lambda)`.
+    我们也常把笛卡尔积中的元素 `x` 写成分量形式 `(x_lambda)_(lambda in Lambda)`, 或省略指标说明,
+    写成 `(x_lambda)`.
+  </li>
+</ol>
+
+<p class="definition">
+  <b>箱拓扑与积拓扑</b>
+  [<a href="https://zhuanlan.zhihu.com/p/594487272" target="_blank">知乎@渐行渐远</a>]
+  无穷乘积空间上的拓扑, 常见有两种: 箱拓扑与积拓扑 (Tychonoff 拓扑).
+  它们的拓扑基分别是
+  <span class="formula">
+    `cc B_1 := {prod_(lambda in Lambda) U_lambda: U_lambda in tau_lambda}`,<br>
+    `cc B_2 := {prod_(lambda in Lambda) U_lambda: U_lambda in tau_lambda, "只有有限个" U_lambda != X_lambda}`.
+  </span>
+  在积拓扑空间中, 每一点都有一个形如 `prod_(i=1)^n U_i` 的邻域, 它是有限个开集的笛卡尔积.
+  当我们提到无穷乘积空间的拓扑时, 默认都指积拓扑,
+  它的性质更好, 应用更广.
+</p>
+
+<p>将积拓扑定义中的投影映射换为一般的映射, 就得到初拓扑的概念:</p>
+
+<p class="definition">
+  <b>初拓扑</b>
+  给定非空集合 `X` 到一族拓扑空间 `(X_lambda)_(lambda in Lambda)` 的一族映射 `f_lambda: X to X_lambda`,
+  该映射族诱导出 `X` 上的初拓扑, 拓扑基为
+  <span class="formula">
+    `cc B := {f_lambda^-1(U_lambda): U_lambda in tau_lambda, lambda in Lambda}`.
+  </span>
+  注意到开集的有限交仍是开集, 上述拓扑基等价于
+  <span class="formula">
+    `cc B_S := { "有限交" nnn_(lambda in Lambda) f_(lambda)^-1(U_lambda): U_lambda in tau_lambda }`.
+  </span>
+  初拓扑是使得所有 `f_lambda` 连续的最小拓扑.
+</p>
+
+<p class="example">
+  在初拓扑的定义中, 映射族取为投影映射, 则得到积拓扑;
+  取为包含映射 `i: A to X`, 则得到 `A` 上的子空间拓扑.
 </p>
 
 <h3>拓扑基</h3>
@@ -930,89 +1007,87 @@
 </p>
 
 <ol class="definition">
-	<li><b>集合的拓扑基</b> 称集合 `X` 的子集族 `cc B` 为集合 `X`
-		的拓扑基, 如果 `(:cc B:)` 是 `X` 的一个拓扑;
-	</li>
-	<li><b>拓扑空间的拓扑基</b> 称拓扑空间 `(X, tau)` 的子集族 `cc B`
-		为这个拓扑空间的拓扑基, 如果 `(:cc B:) = tau`.
-	</li>
-	总之, 拓扑基中若干集合的并构成了 `X` 上的拓扑.
-	若两个拓扑基生成相同的拓扑, 则称它们<b>等价</b>.
+  子集族 `cc B` 称为拓扑空间 `(X, tau)` 的<b>拓扑基</b>, 如果 `tau = (:cc B:)`.
+  我们也称 `cc B` 生成了 `X` 的拓扑.
+  `cc B` 中的集合是 `X` 上的特殊开集, `X` 上的任意开集都可以写成 `cc B` 的若干成员之并.
+  若两个拓扑基生成相同的拓扑, 则称它们<b>等价</b>.
 </ol>
 
 <ol class="theorem">
-	`cc B` 是集合 `X` 的拓扑基的充要条件是:
-	<li>`uuu_(B in cc B) B = X`;</li>
-	<li>`B_1, B_2 in cc B rArr B_1 nn B_2 in (:cc B:)`.</li>
+  `cc B` 是拓扑空间 `(X, tau)` 的拓扑基的充要条件是:
+  <li>`cc B sube tau`, 即 `cc B` 的每个成员都是开集;</li>
+  <li>`tau sube (:cc B:)`, 即每个开集都能表为 `cc B` 中若干成员的并.</li>
 </ol>
 
 <p class="proof">
-	条件 2 显然是为了使拓扑公理 3 得到满足. 我们联系度量拓扑的证明.
-	必要性显然, 下证充分性, 即验证 `cc B` 满足拓扑公理.
-	由 `(:cc B:)` 的定义知它满足拓扑公理 2, 且 `O/ in (:cc B:)`.
-	条件 1 说明 `X in (:cc B:)`, 因此 `(:cc B:)` 也满足拓扑公理 1.
-	设 `U, V in (:cc B:)`, 记 `U = uuu_alpha B_alpha`, `V = uuu_beta
-	C_beta`, 其中 `B_alpha, C_beta in cc B`, `AA alpha, beta`.
-	由条件 2 得
-	`B_alpha nn C_beta in (:cc B:)`, `AA alpha, beta`.
-	于是
-	`U nn V = uuu_(alpha, beta) (B_alpha nn C_beta) in (:cc B:)`.
-	从而拓扑公理 3 成立.
+  必要性显然. 由拓扑公理 2 和条件 1 推出 `(:cc B:) sube tau`, 再结合 2
+  有 `tau = (:cc B:)`, 充分性得证.
+</p>
+
+<p class="example">
+  <b>子空间的拓扑基</b>
+  若 `cc B` 是 `(X, tau)` 的拓扑基, 容易验证子空间 `A sube X` 的一个拓扑基是
+  <span class="formula">
+    `cc B_A := {A nn B: B in cc B}`.
+  </span>
+</p>
+
+<p class="proof">
+  事实上, `cc B_A` 的每个成员都是 `A` 的开集;
+  设 `V` 是 `A` 的开集, 则存在 `U in tau`, 使 `V = A nn U`.
+  设 `U = uuu_alpha B_alpha`, `B_alpha in cc B`, 则
+  `V = uuu_alpha (A nn B_alpha) in (:cc B_A:)`.
 </p>
 
 <ol class="theorem">
-	`cc B` 是拓扑空间 `(X, tau)` 的拓扑基的充要条件是:
-	<li>`cc B sube tau`, 即 `cc B` 的每个成员都是开集;</li>
-	<li>`tau sube (:cc B:)`, 即每个开集都能表为 `cc B` 中若干成员的并.
-	</li>
+  `(:cc B:)` 是集合 `X` 的一个拓扑的充要条件是:
+  <li>覆盖全空间: `uuu_(B in cc B) B = X`;</li>
+  <li>有限交性质: `B_1, B_2 in cc B rArr B_1 nn B_2 in (:cc B:)`.</li>
 </ol>
 
 <p class="proof">
-	必要性显然. 由拓扑公理 2 和条件 1 推出 `(:cc B:) sube tau`, 再结合 2
-	有 `tau = (:cc B:)`, 充分性得证.
-</p>
-
-<p class="definition">
-	<b>子空间的拓扑基</b>
-	若 `cc B` 是 `(X, tau)` 的拓扑基, `A sube X`, 容易验证 `A` 的子集族
-	<span class="formula">
-		`cc B_A := {A nn B: B in cc B}`
-	</span>
-	是 `(A, tau_A)` 的拓扑基.
-</p>
-
-<p class="proof">
-    事实上, `cc B_A` 的每个成员都是 `A` 的开集;
-	设 `V` 是 `A` 的开集, 则存在 `U in tau`, 使 `V = A nn U`.
-	设 `U = uuu_alpha B_alpha`, `B_alpha in cc B`, 则
-	`V = uuu_alpha (A nn B_alpha) in (:cc B_A:)`.
+  条件 2 显然是为了使拓扑公理 3 得到满足. 我们联系度量拓扑的证明.
+  必要性显然, 下证充分性, 即验证 `cc B` 满足拓扑公理.
+  由 `(:cc B:)` 的定义知它满足拓扑公理 2, 且 `O/ in (:cc B:)`.
+  条件 1 说明 `X in (:cc B:)`, 因此 `(:cc B:)` 也满足拓扑公理 1.
+  设 `U, V in (:cc B:)`, 记 `U = uuu_alpha B_alpha`, `V = uuu_beta
+  C_beta`, 其中 `B_alpha, C_beta in cc B`, `AA alpha, beta`.
+  由条件 2 得
+  `B_alpha nn C_beta in (:cc B:)`, `AA alpha, beta`.
+  于是
+  `U nn V = uuu_(alpha, beta) (B_alpha nn C_beta) in (:cc B:)`.
+  从而拓扑公理 3 成立.
 </p>
 
 <p class="theorem">
-	设 `X` 是拓扑空间, `cc B` 是其拓扑基, `A sube X`, 则
-	<span class="formula">
-		`x in A^@` `iff EE B in cc B`, `x in B sube A`.
-	</span>
+  <b>用拓扑基刻画邻域</b>
+  设 `(X, tau)` 是拓扑空间, `x in X`, `A sube X`. 由定义
+  <span class="formula">
+    `A` 是 `x` 的邻域 `iff EE U in tau`, `x in U sube A`.
+  </span>
+  现在设 `cc B` 是 `(X, tau)` 的拓扑基, 则有
+  <span class="formula">
+    `A` 是 `x` 的邻域 `iff EE B in cc B`, `x in B sube A`.
+  </span>
 </p>
 
 <p class="remark">
-	回顾邻域与内点的定义可知,
-	此定理把前述定义中的开集换成了拓扑基中的特定开集.
-	于是, 许多由邻域定义的概念可由拓扑基刻画, 如
-	<span class="formula">
-		`x` 是 `A` 的聚点 `iff cc B` 中每个包含 `x` 的成员与 `A\\{x}`
-		有交点;<br/>
-		`x in bar A` `iff cc B` 中每个包含 `x` 的成员与 `A` 有交点;<br/>
-		`f: Y to X` 连续 `iff AA B in cc B`, `f^-1(B)` 是 `Y` 的开集.
-	</span>
-	当 `cc B` 中成员的形式比较 "规范" 时
-	(如度量空间的球形邻域或乘积空间中的开矩体), 以上的等价条件尤为方便.
+  此定理把邻域定义中的开集换成了拓扑基中的特定开集.
+  于是, 许多由邻域定义的概念可由拓扑基刻画, 如
+  <span class="formula">
+    `x` 是 `A` 的聚点 `iff cc B` 中每个包含 `x` 的成员与 `A\\{x}`
+    有交点;<br/>
+    `x in bar A` `iff cc B` 中每个包含 `x` 的成员与 `A` 有交点;<br/>
+    `f: Y to X` 连续 `iff AA B in cc B`, `f^-1(B)` 是 `Y` 的开集.
+  </span>
+  当 `cc B` 中成员的形式比较 "规范" 时
+  (如度量空间的球形邻域或乘积空间中的开矩体), 以上的等价条件尤为方便.
 </p>
 
-<h2>商拓扑</h2>
+<h3>商空间</h3>
 
 <p class="definition">
-  <b>商拓扑</b>
+  <b>商空间</b>
   设 `X` 是拓扑空间, `~` 是集合 `X` 上的等价关系.
   将空间中等价的点视为一点, 考虑商集 `X//~`.
   我们有自然的投影映射

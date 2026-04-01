@@ -11,6 +11,7 @@
 
 <p class="remark">
   滤子和网是点列的抽象化概念, 常用于描述抽象拓扑空间中的收敛性.
+  滤子与网是等价的概念, 其中网更多地用于泛函分析, 处理复杂函数空间的拓扑.
   本章属于<b>点集拓扑</b>的进阶内容, 初次接触拓扑学的读者了解定义即可.
   笔者计划在下一章开始<b>代数拓扑</b>的笔记.
   代数拓扑里一些概念是微分流形中相应概念的抽象, 建议先学习微分流形的相关知识.
@@ -272,11 +273,12 @@
 <ol class="definition">
   <b>滤子的极限点与聚点</b>
   设 `cc F` 是拓扑空间 `X` 上的滤子, `cc N_x` 是点 `x in X` 的邻域系滤子.
-  <li>若 `cc N_x sube cc F` (即 `cc F` 是邻域系 `cc N_x` 的加细), 则称 `x` 是 `cc F` 的极限点, 记为 `cc F to x`.</li>
+  <li>若 `cc N_x sube cc F` (即 `cc F` 是邻域系 `cc N_x` 的加细), 则称 `cc F` 收敛于 `x`, `x` 是 `cc F` 的极限点, 记为 `cc F to x`.</li>
   <li>若 `cc N_x` 与 `cc F` 并存 (即它们有公共加细), 则称 `x` 是 `cc F` 的聚点.</li>
 </ol>
 
 <p class="corollary">
+  <b>极限点与聚点的关系</b>
   极限点必为聚点. 反之如果将滤子加细, 可以使聚点变为极限点.
   具体而言, 设 `cc F` 是拓扑空间 `X` 上的滤子, `x in X`, 则
   <span class="formula">
@@ -287,15 +289,24 @@
 </p>
 
 <p class="theorem">
-  <b>闭包与极限点</b>
+  <b>闭包的刻画</b>
   设 `A` 是拓扑空间 `X` 的非空子集, 则
   <span class="formula">
     `x in bar A`
-    `iff x` 是 `X` 上某个滤子 `cc F` 的极限点, 且 `A in cc F`.
+    `iff x` 是 `A` 上某个滤子的极限点.
   </span>
 </p>
 
 <ol class="proof">
+  只需证
+  <span class="formula">
+    `x in bar A`
+    `iff x` 是 `X` 上某个滤子 `cc F` 的极限点, 且 `A in cc F`.
+  </span>
+  此时 `cc F` 在 `A` 上的限制就是我们要找的滤子:
+  <span class="formula">
+    `cc F|_A = {U nn A: U in cc N_x}`.
+  </span>
   <li>`rArr`:
     因为 `x in bar A`,
     `A` 与 `x` 的任意邻域 `U in cc N_x` 都有交点.
@@ -306,11 +317,6 @@
     </span>
     取 `U = X`, `B = A` 可知 `A in cc F`.
     又取 `B = X` 可知 `cc N_x sube cc F`, 故 `x` 是 `cc F` 的极限点.
-    <br>
-    注: 这个滤子在 `A` 上的限制为
-    <span class="formula">
-      `cc F|_A = {U nn A: U in cc N_x}`.
-    </span>
   </li>
   <li>`lArr`: 由 `A in cc F` 知道,
     `A` 与 `cc F` 中的任意集合都有交点, 但 `cc F to x`,
@@ -341,7 +347,7 @@
 </p>
 
 <p class="theorem">
-  <b>用滤子刻画连续性</b>
+  <b>连续性的刻画</b>
   设 `X, Y` 是拓扑空间, 则 `f: X to Y` 在 `x in X` 连续, 当且仅当对任意 `X` 上的滤子 `cc F`,
   <span class="formula">
     `cc F to x rArr f(cc F) to f(x)`.
@@ -425,7 +431,7 @@
 </ol>
 
 <ol class="theorem">
-  <b>用滤子刻画紧性</b>
+  <b>紧性的刻画</b>
   在拓扑空间 `X` 中, 以下命题等价:
   <li>`X` 为紧空间;</li>
   <li>`X` 上任意滤子存在聚点, 换言之存在收敛的加细滤子;</li>
@@ -450,9 +456,284 @@
   </li>
 </ol>
 
-<h3>初拓扑</h3>
+<p class="theorem">
+  <b><a href="1.html#1-4-2">初拓扑</a> (特别是积拓扑) 中的滤子</b>
+  设 `X` 为非空集合, 上面装备了由映射族 `f_lambda: X to X_lambda`, `lambda in Lambda` 诱导的初拓扑.
+  在 `X` 上, 滤子收敛当且仅当它的每个分量对应收敛, 即
+  <span class="formula">
+    `F to x`
+    `iff (AA lambda in Lambda)` `f_lambda(cc F) to f_lambda(x)`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>`rArr`: 由 `f_lambda` 连续可知.</li>
+  <li>`lArr`: 任取 `x` 的邻域 `V sube X`, 由初拓扑的基知道, `x` 属于有限个
+    `f^-1_i(U_i)` 的交集, 其中 `U_i in X_1` 是 `x_i := f_i(x)` 的开邻域:
+    <span class="formula">
+      `x in nnn_(i=1)^n f^-1_i(U_i) sube V`.
+    </span>
+    由已知 `f_i(cc F) to f_i(x)`,
+    故 `U_i in f_i(cc F)`, 即 `f_i^-1(U_i) in cc F`.
+    于是 `nnn_(i=1)^n f_i^-1(U_i) in cc F` `rArr V in cc F`.
+    由 `V` 的任意性知 `cc F to x`.
+  </li>
+</ol>
+
+<p>用一个例子展示滤子的威力:</p>
+
+<p class="example">
+  用滤子证明 Tychonoff 定理:
+  任意多个紧空间的乘积仍是紧空间.
+</p>
+
+<p class="proof">
+  要证 `X = prod_lambda X_lambda` 紧, 只需证它上面的任意超滤子 `cc F` 收敛.
+  根据前一定理, 这当且仅当每个分量 `j_lambda(cc F)` 收敛, 其中 `j_lambda: X to X_lambda` 是投影映射.
+  但超滤子的像 `j_lambda(cc F)` 是超滤子, 由于 `X_lambda` 紧, `j_lambda(cc F)` 就是收敛的.
+</p>
 
 <h2>网</h2>
+
+<h3>定义</h3>
+
+<!--
+<p>我们在第二章已接触过网.
+  在那里, 称 `N` 是度量空间的一个 `epsi` 网, 如果空间中每个点到 `N` 的距离小于 `epsi`:
+  <span class="formula">
+    `d(x, N) := inf_(y in N) d(x, y) lt epsi`,
+    `quad AA x in X`.
+  </span>
+  本节的目的是将网推广到一般的拓扑空间.
+</p>
+-->
+
+<p>网也是点列概念的推广, 某种程度上, 网的术语与点列的术语更加近似,
+  而且子列其实是子网的一个特例.
+</p>
+
+<p class="definition">
+  <b>有向集</b>
+  设 `(Lambda, le)` 是非空预序集 (即偏序集去掉反对称性),
+  若对 `AA a, b in Lambda`, `EE c in Lambda` 使得
+  <span class="formula">
+    `a le c and b le c`,
+  </span>
+  则称 `(Lambda, le)` 为有向集.
+  这里的 `c` 可以看作 `a, b` 的共同“后继”.
+</p>
+
+<ol class="example">
+  <li>
+    非空全序集是有向集.
+    对于常见的全序集, 如 `NN`, 我们规定它的方向 `le` 就是通常的大小关系.
+  </li>
+  <li>
+    拓扑空间中, 考虑点 `x` 的邻域系 `cc N_x`,
+    规定它的方向为 `A le B iff A supe B`, 称为集合的<b>反包含关系</b>.
+    一般地, 称子集族 `cc B` 是<b>有向集族</b>, 如果它按反包含关系是有向的,
+    即对任意两个集合 `A, B`, 都有第三个集合含于 `A nn B`.
+  </li>
+</ol>
+
+<ol class="definition">
+  <b>网和子网</b>
+  <li>
+    集合 `X` 上的<b>网</b>定义为一个映射 `f: Lambda to X`, 其中 `Lambda` 为有向集.
+    我们常把 `f(lambda)` 记作 `x_lambda in X`, 而把 `f` 记作 `(x_lambda)_(lambda in Lambda)`.
+    特别取 `Lambda = NN` 时, `(x_lambda)` 是一个点列.
+  </li>
+  <li>
+    考虑两个有向集间的映射 `varphi: M to Lambda`,
+    我们称 `varphi` <b>趋于无穷</b>, 若它满足: 对 `AA lambda in Lambda`, `EE m_0 in M` 使得
+    <span class="formula">
+      `varphi(m) ge lambda`, `quad AA m ge m_0`.
+    </span>
+    现在设 `f: Lambda to X` 是网. 若 `varphi` 趋于无穷,
+    则称复合映射 `f @ varphi: M to X` 是 `f` 的子网.
+    依定义 `f` 是自己的子网.
+    如果记 `f = (x_lambda)`, 则子网可以记为 `(x_(varphi(lambda)))`.
+  </li>
+</ol>
+
+<p class="remark">
+  点列的子网不一定是子列: 一方面, 子列的下标要求严格递增, 而子网没有此要求.
+  考虑 `{x_n} = n`, 则 `(1, 1, 2, 2, 3, 3, ...)` 是子网, 但不是子列.
+  另一方面, 子网的指标集 (定义域) 允许是不可数集, 例如取 `varphi: RR^+ to ZZ^+`,
+  `varphi(x) = ceil(x)`. 则 `f @ varphi` 是子网, 它不可能是子列.
+</p>
+
+<p class="definition">
+  <b>最终于, 频繁于</b>
+  设 `(x_lambda)_(lambda in Lambda)` 是 `X` 上的网, `A sube X`.
+  <br>
+  称 `(x_lambda)` 最终于 `A` (或几乎包含于 `A`), 如果
+  <span class="formula">
+     `EE lambda_0 in Lambda`, `AA lambda ge lambda_0`, `x_lambda in A`.
+  </span>
+  称 `(x_lambda)` 频繁于 `A` (或无限包含于 `A`), 如果
+  <span class="formula">
+    `AA lambda_0 in Lambda`, `EE lambda ge lambda_0`, `x_lambda in A`.
+  </span>
+  显然“最终于”蕴含“频繁于”.
+</p>
+
+<p class="corollary">
+  若 `(x_lambda)` 最终于 `A`, 则它的子网也最终于 `A`;
+  若 `(x_lambda)` 的子网最终于 `A`, 则 `(x_lambda)` 频繁于 `A`.
+</p>
+
+<p class="theorem">
+  设 `(x_lambda)` 是 `X` 上的网, `cc B` 是 `X` 中的有向集族 (按反包含关系).
+  则存在一个子网 `(x_(varphi(lambda)))` 满足 `AA B in cc B`,
+  <span class="formula">
+    `(x_lambda)` 频繁于 `B rArr (x_(varphi(lambda)))` 最终于 `B`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    令 `f = (x_lambda)`,
+    <span class="formula">
+      `M := {(lambda, B) in Lambda xx cc B: f(lambda) in B}`,
+    </span>
+    又令 `varphi: M to Lambda`,
+    `varphi(lambda, B) = lambda` 是投影映射, 下证 `(x_(varphi(lambda)))` 是所求的子网.
+    首先只要存在 `B in cc B` 使得 `(x_lambda)` 频繁于 `B`,
+    就有许多 `lambda` 满足 `f(lambda) in B`, 故 `M` 非空.
+    定义 `M` 上的二元关系为
+    <span class="formula">
+      `(lambda_1, B_1) le (lambda_2, B_2)`
+      `iff lambda_1 le lambda_2 and B_1 supe B_2`,
+    </span>
+    则 `M` 是有向集.
+  </li>
+  <li>证明 `f @ varphi` 是子网:
+    设 `(x_lambda)` 频繁于 `B_1`, 则 `AA lambda_0 in Lambda`,
+    `EE lambda_1 ge lambda_0` 使得 `f(lambda_1) in B_1`, 即 `m_1 := (lambda_1, B_1) in M`.
+    又 `AA m ge m_1`,
+    <span class="formula">
+      `varphi(m) = lambda ge lambda_1 ge lambda_0`.
+    </span>
+    这证明了 `varphi` 趋于无穷, 故 `f @ varphi` 是子网.
+  </li>
+  <li>
+    同时, `m_1` 满足 `AA m = (lambda, B) ge m_1`,
+    <span class="formula">
+      `f @ varphi(m) = f(lambda) in B sube B_1`
+    </span>
+    这证明了子网 `f @ varphi` 最终于 `B_1`.
+  </li>
+</ol>
+
+<h3>超网</h3>
+
+<p class="definition">
+  <b>超网</b>
+  设 `(x_lambda)` 是 `X` 上的网, 若对 `AA A sube X`, `(x_lambda)` 要么最终于 `A`, 要么最终于 `A^c`,
+  则称它是一个超网.
+  若网的某个子网是超网, 则称它是一个超子网.
+</p>
+
+<p class="theorem">
+  超网的子网是超网.
+</p>
+
+<p class="theorem">
+  超网在任意映射下的像是超网.
+</p>
+
+<p class="definition">
+  <b>网对应的滤子</b>
+  称网 `(x_lambda)` 和滤子 `cc F` 对应, 如果 `(x_lambda)` 频繁于 `cc F` 的每个成员.
+</p>
+
+<p class="theorem">
+  <b>超子网的存在性</b>
+  任意网都存在一个超子网.
+</p>
+
+<h3>拓扑空间中的网</h3>
+
+<ol class="definition">
+  <b>网的极限点与聚点</b>
+  设 `(x_lambda)` 是拓扑空间 `X` 中的网, `x in X`.
+  <li>如果 `(x_lambda)` 最终于 `x` 的每个邻域, 则称 `(x_lambda)` 收敛于 `x`, `x` 是 `(x_lambda)` 的极限点, 记为 `x_lambda to x`.</li>
+  <li>如果 `(x_lambda)` 频繁于 `x` 的每个邻域, 则称 `x` 是 `(x_lambda)` 的聚点.</li>
+  特别当 `lambda = NN` 时, 上述定义与点列的极限点、聚点概念一致.
+</ol>
+
+<p class="corollary">
+  <b>极限点与聚点的关系</b>
+  显然极限点一定是聚点. 事实上,
+  <span class="formula align">
+    `x` 是网 `(x_lambda)` 的聚点<br>
+    `iff (x_lambda)` 频繁于 `x` 的每个邻域<br>
+    `iff (x_lambda)` 的某个子网最终于 `x` 的每个邻域<br>
+    `iff x` 是 `(x_lambda)` 的某个子网的极限点.
+  </span>
+  特别, 超网的聚点与极限点等价.
+  这是因为
+  <span class="formula">
+    `x` 是超网 `(x_lambda)` 的聚点
+    `iff (x_lambda)` 频繁于 `x` 的每个邻域 `U`,
+  </span>
+  而 `(x_lambda)` 不可能最终于 `U^c`, 从而只能最终于 `U`.
+</p>
+
+<p class="theorem">
+  <b>闭包的刻画</b>
+  `X` 是拓扑空间, `A sube X`, 则
+  <span class="formula">
+    `x in bar A`
+    `iff x` 是 `A` 上的某个网的极限点.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>连续性的刻画</b>
+  设 `X, Y` 是拓扑空间, 则 `f: X to Y` 在 `x in X` 连续, 当且仅当对任意 `X` 上的网 `(x_lambda)`,
+  <span class="formula">
+    `x_lambda to x rArr f(x_lambda) to f(x)`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>网极限的唯一性</b>
+  `X` 为 Hausdorff 空间当且仅当任意收敛的网极限唯一.
+</p>
+
+<ol class="theorem">
+  <b>紧性的刻画</b>
+  在拓扑空间 `X` 中, 以下命题等价:
+  <li>`X` 为紧空间;</li>
+  <li>`X` 上任意网存在聚点, 即任意网存在收敛的子网;</li>
+  <li>`X` 上任意超网收敛.</li>
+</ol>
+
+<p class="theorem">
+  <b>初拓扑中的网</b>
+  设 `X` 为非空集合, 上面装备了由映射族 `f_lambda: X to X_lambda`, `lambda in Lambda` 诱导的初拓扑.
+  在 `X` 上, 网收敛当且仅当它的每个分量对应收敛, 即
+  <span class="formula">
+    `x_gamma to x`
+    `iff (AA lambda in Lambda)`
+    `f_lambda(x_gamma) to f_lambda(x)`.
+  </span>
+</p>
+
+<p>再放送:</p>
+
+<p class="example">
+  用网证明 Tychonoff 定理:
+  任意多个紧空间的乘积仍是紧空间.
+</p>
+
+<p class="proof">
+  要证 `X = prod_lambda X_lambda` 紧, 只需证它上面的任意超网 `(x_gamma)` 收敛, 这当且仅当每个分量
+  `j_lambda(x_gamma)` 收敛, 其中 `j_lambda: X to X_lambda` 是投影映射.
+  但超网的像 `j_lambda(x_gamma)` 仍是超网, 由于 `X_lambda` 紧, `j_lambda(x_gamma)` 就是收敛的.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

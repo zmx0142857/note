@@ -218,7 +218,11 @@
 </p>
 
 <p class="corollary">
-	收敛点列是 Cauchy 列, Cauchy 列是有界列.
+  收敛点列是 Cauchy 列, Cauchy 列是有界列.
+</p>
+
+<p class="corollary">
+  若 Cauchy 列 `{x_n}` 的子列收敛到 `x`, 则 `{x_n}` 也必收敛到 `x`.
 </p>
 
 <p class="example">
@@ -230,18 +234,19 @@
 <ol class="definition">
   设 `(X, d)` 是度量空间,
   <li>称 `A sube X` 为<b>列紧的</b>, 如果 `A` 的任意点列都含有在 `X` 中收敛的子列.</li>
-  <li>称 `A` 为<b>自列紧的</b>, 如果 `A` 是列紧的, 且存在一个子列收敛到 `A` 中.</li>
-  <li>如果空间 `X` 本身是列紧的, 称它为<b>列紧空间</b>.</li>
+  <li>称 `A` 为<b>自列紧的</b>, 如果 `A` 是列紧的, 且每个收敛子列的极限都在 `A` 中.</li>
   <li>称 `A` 为<b>紧的</b>, 如果它的任意一族开覆盖都存在有限的子覆盖.</li>
 </ol>
 
-<p class="corollary">
-  若 `A` 中存在点列 `{x_n}` 与 `epsi_0 gt 0`, 使得当 `m != n` 时, 有
-  `d(x_m, x_n) ge epsi_0`, 则 `{x_n}` 没有收敛子列, 从而 `A` 不是列紧的.
+<p class="definition">
+  如果空间 `X` 本身是列紧的, 称它为<b>列紧空间</b>.
+  列紧空间是自列紧的, 且它的每个子集都列紧, 每个闭子集都自列紧.
 </p>
 
 <p class="corollary">
-  列紧空间必完备.
+  <b>不列紧判定法</b>
+  若 `A` 中存在点列 `{x_n}` 与 `epsi_0 gt 0`, 使得当 `m != n` 时, 有
+  `d(x_m, x_n) ge epsi_0`, 则 `{x_n}` 没有收敛子列, 从而 `A` 不是列紧的.
 </p>
 
 <ol class="example">
@@ -254,8 +259,8 @@
 
 <ol class="definition">
   <b>`epsi` 网与完全有界</b>
-  <li>称集合 `N` 是 `A` 的一个 <b>`epsi` 网</b>, 如果 `AA x in A`, `EE y in N`, 使得 `d(x, y) lt epsi`.
-    换言之
+  <li>称集合 `N` 是 `A` 的一个 <b>`epsi` 网</b>, 如果 `A` 中任一点到 `N` 的距离都小于 `epsi`,
+    即 `AA x in A`, `EE y in N`, 使得 `d(x, y) lt epsi`.  换言之
     <span class="formula">
       `A sube uuu_(y in N) B(y, epsi)`.
     </span>
@@ -274,20 +279,56 @@
 
 <ol class="theorem">
   <b>(Hausdorff)</b>
-  度量空间中的子集 `A` 列紧 `rArr` `A` 完全有界.
-  若度量空间完备, 则 `lArr` 也成立.
+  对于度量空间的子集 `A` 有:
+  <span class="formula">
+    `A` 列紧 `rArr A` 完全有界,<br>
+    `A` 自列紧 `iff A 完备 and 完全有界`.
+  </span>
+</ol>
+
+<ol class="proof">
+  <li>
+    列紧 `rArr` 完全有界:
+    参考引理<a href="../topo/2.html#lem-finite-epsi-net">列紧集存在有限 `epsi` 网</a>,
+    该证明使用了“不列紧判定法”.
+  </li>
+  <li>
+    自列紧 `rArr` 完备:
+    由自列紧性, 任意 Cauchy 列 `{x_n} sube A` 存在子列收敛到 `A` 中一点,
+    从而 `{x_n}` 本身也必收敛到同一点.
+  </li>
+  <li>
+    完备 and 完全有界 `rArr` 自列紧: 使用对角线论证.
+    设 `{x_n}` 是 `A` 中任意点列. 对任意正整数 `k`, 取 `A` 的有限 `1//k` 网 `N_k`.
+    `k = 1` 时, 在 `N_1` 给出的有限个开球中, 至少有一个含有 `{x_n}` 的无穷多项, 因此
+    <span class="formula">
+      `EE y_1 in N_1` 和 `{x_n}` 的子列 `{x_n^((1))} sube B(y_1, 1)`.
+    </span>
+    `k = 2` 时类似有
+    <span class="formula">
+      `EE y_2 in N_2` 和 `{x_n^((1))}` 的子列 `{x_n^((2))} sube B(y_2, 1//2)`.
+    </span>
+    如此进行, 最后抽出对角线子列
+    <span class="formula">
+      `{x_k^((k))} sube nnn_(k ge 1) B(y_k, 1//k)`.
+    </span>
+    下证它是 Cauchy 列: 对任意两个正整数 `m gt n`,
+    <span class="formula">
+      `x_m^((m)), x_n^((n)) in B(y_n, 1//n)`,
+    </span>
+    因此两项的距离小于 `2//n`.
+  </li>
 </ol>
 
 <p class="theorem">
   度量空间的子集 `A` 是紧的, 当且仅当它是自列紧的.
+  证明见<a href="../topo/2.html#2-3-3">拓扑学笔记2</a>.
 </p>
 
 <ol class="remark">
-  小结: 对于度量空间:
-  <li>列紧空间 `rArr` 完备空间.</li>
-  <li>列紧空间 `rArr` 完全有界空间 `rArr` 可分空间.</li>
-  <li>列紧子集 `rArr` 完全有界子集; 完备空间中 `lArr` 也成立.</li>
-  <li>紧子集 `iff` 自列紧子集; 特别紧空间 `iff` 列紧空间.</li>
+  小结: 对于度量空间的子集 `A`:
+  <li>列紧 `rArr` 完全有界 `rArr` 可分.</li>
+  <li>紧 `iff` 自列紧 `iff` 完备 and 完全有界.</li>
 </ol>
 
 <h3>完备化</h3>
