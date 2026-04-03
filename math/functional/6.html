@@ -16,16 +16,13 @@
 <ol class="definition">
   <b>紧算子</b>
   设 `A` 是两个 Banach 空间 `X, Y` 间的线性算子, 则以下几条等价:
-  <li>`X` 中单位球的像的闭包 `bar(A(B_1))` 在 `Y` 中紧.</li>
+  <li>`X` 中单位球的像的闭包 `bar(A(B_1))` 在 `Y` 中紧 (取闭包是因为单位球的像可能不是闭集).
+  </li>
   <li>`X` 中任意有界集的像的闭包在 `Y` 中紧.</li>
   <li>`X` 中任意有界点列 `{x_n}` 的像 `{A x_n}` 有收敛子列.</li>
   若 `A` 满足任意一条则称 `A` 是<b>紧线性算子</b>, 简称<b>紧算子</b>,
   记作 `A in fr C(X, Y)`. 简记 `fr C(X, X) = fr C(X)`.
 </ol>
-
-<p class="proof">
-  在定义中取闭包, 是因为单位球的像可能不是闭集.
-</p>
 
 <ol class="property">
   <b>紧算子的性质</b>
@@ -363,6 +360,99 @@
 </ol>
 
 <h2>紧算子的谱 (Riesz-Schauder 理论)</h2>
+
+<p>有穷维空间的紧算子就是线性代数中的有限维线性变换. 本节主要研究无穷维情形:</p>
+
+<p class="lemma">
+  设 `A` 为有界线性算子, 则 `A` 的不同本征值对应的非零特征向量线性无关.
+</p>
+
+<p class="proof">
+  对特征向量的个数 `n` 做归纳. `n = 1` 时显然成立.
+  现在假设 `lambda_1, cdots, lambda_(n+1)` 是 `n+1` 个不同的本征值,
+  对应的特征向量是 `x_1, cdots x_(n+1)`.
+  若 `x_(n+1) = sum_(i=1)^n a_i x_i`, 则
+  <span class="formula">
+    `lambda_(n+1) x_(n+1) = A x_(n+1)` `= sum_(i=1)^n a_i lambda_i x_i`,<br>
+    `lambda_(n+1) x_(n+1) = sum_(i=1)^n a_i lambda_(n+1) x_i`.
+  </span>
+  两式相减得
+  <span class="formula">
+    `sum_(i=1)^n a_i (lambda_i - lambda_(n+1)) x_i = 0`.
+  </span>
+  由归纳假设 `x_1, cdots, x_n` 线性无关, 故
+  `a_1 = cdots = a_n = 0`, 与 `x_(n+1) != 0` 矛盾.
+  因此 `x_1, cdots, x_(n+1)` 线性无关.
+</p>
+
+<p class="lemma">
+  [<a href="https://www.zhihu.com/question/574137800" target="_blank">知乎@PinkRabbit</a>]
+  设 `S sube RR^n`, 若 `bar S` 不可数, 则 `S` 有不可数个聚点.
+  <br>
+  一个反直觉例子: 存在全由孤立点构成的可数集有不可数个聚点.
+  考虑构造 Cantor 集时每次删去的开区间, 在每个开区间中任选一点构成集合.
+  集合中的点全是孤立点, 但 Cantor 集 (不可数) 中的点都是它的聚点.
+</p>
+
+<p class="proof">
+  `bar S` 是 `S` 的聚点集合与孤立点集合的无交并.
+  但 `S` 的孤立点只有至多可数个, 这是因为每个孤立点都存在一个开邻域只含自己, 不含 `S` 的其它点.
+  但是 `RR^n` 上的不相交开集只有至多可数个 (每个开集中含有一个不同的有理点).
+</p>
+
+<ol class="theorem">
+  <b>无穷维紧算子的谱</b>
+  设 `dim X = oo`, `A in fr C(X)`, 则
+  <li>`0 in sigma(A)`;</li>
+  <li>非零谱点一定是本征值: 若 `0 != lambda in sigma(A)`, 则 `lambda in sigma_p(A)`;</li>
+  <li>`sigma(A)` 要么没有聚点, 要么以 `0` 为唯一聚点;</li>
+  <li>`sigma(A)` 是至多可数集.</li>
+</ol>
+
+<ol class="proof">
+  <li>我们证明: 无穷维紧算子 `A` 没有连续逆.
+    参考无穷维空间单位球面不列紧的证明, 存在单位球面上的一个点列 `{x_n}`, 其任意两项的距离大于 `1//2`.
+    该点列在紧算子 `A` 下的像 `{A x_n}` 有收敛子列 `{A x_(n_k)}`.
+    假如 `A` 有连续的逆, 相应的子列 `{x_(n_k)}` 也应当收敛, 这是不可能的.
+  </li>
+  <li>因为 `lambda != 0`, 由 Fredholm 结论三, `lambda I - A` 是单射等价于它是双射.
+    因此 `lambda` 不属于连续谱, 也不属于剩余谱.
+  </li>
+  <li>
+    反设 `sigma(A)` 有聚点 `lambda != 0`, 则存在 `sigma(A)` 中的数列 `lambda_n to lambda`,
+    其中 `lambda_n` 的项两两不同且不等于 `0`.
+    由 2. 知 `lambda_n` 的每一项都是本征值, 于是可以选出非零特征向量 `x_n in "Ker"(lambda_n I - A)`.
+    由引理知 `{x_n}` 的任意有限项线性无关.
+    令 `E_n := "span"{x_1, cdots, x_n}`, 则 `E_n subne E_(n+1)`, 由 Riesz 引理,
+    <span class="formula">
+      `EE y_(n+1) in E_(n+1)`, `quad ||y_(n+1)|| = 1`, `quad d(y_(n+1), E_n) ge 1//2`.
+    </span>
+    注意 `lambda_n to lambda != 0`, 所以 `{lambda_n^-1 y_n}` 是有界点列.
+    另一方面, 对任意正整数 `m` 有
+    <span class="formula">
+      `lambda_m^-1 A y_m - y_m`
+      `= lambda_m^-1 (A - lambda_m I) y_m in E_(m-1)`.
+    </span>
+    故 `m gt n` 时
+    <span class="formula">
+      `||lambda_m^-1 A y_m - lambda_n^-1 A y_n||`
+      `= ||y_m - y_m + lambda_m^-1 A y_m - lambda_n^-1 A y_n||`
+      `ge 1//2`.
+    </span>
+    因此 `{lambda_n^-1 A y_n}` 没有收敛子列, 这与 `A` 的紧性矛盾.
+  </li>
+  <li>
+    根据引理, 和 `RR^n` 一样, `CC` 上的不可数集有无穷多个聚点.
+    但 `sigma(A)` 只有至多一个聚点, 因此 `sigma(A)` 不能是不可数集.
+  </li>
+</ol>
+
+<ol class="remark">
+  定理表明无穷维紧算子 `A` 的谱只有三种可能情形:
+  <li>`{0}`;</li>
+  <li>`{0, lambda_1, cdots, lambda_n}`;</li>
+  <li>`{0, lambda_1, lambda_2, cdots}`, 其中 `lambda_n to 0`.</li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

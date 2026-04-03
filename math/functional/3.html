@@ -858,7 +858,7 @@
 
 <ol class="definition">
   设 `A: D(A) sube X to X` 是闭线性算子.
-  对任意 `lambda in CC`, 考虑线性算子 `(lambda I - A): D(A) to X`,
+  对任意 `lambda in CC`, 考虑线性算子 `lambda I - A: D(A) to X`,
   有以下四种情形:
   <li><b>正则值 `lambda in rho(A)`</b>:
     `lambda I - A` 是 `D(A) to X` 的双射.
@@ -874,7 +874,7 @@
     此时称 `lambda` 是 `A` 的<b>本征值</b>或<b>特征值</b>或<b>点谱 (point spectrum)</b>.
   </li>
   <li><b>连续谱 `lambda in sigma_c(A)`</b>
-    `lambda I - A` 是单射, 不是满射, 但像的闭包在 `X` 中稠密:
+    `lambda I - A` 是单射, 不是满射, 但像在 `X` 中稠密:
     `bar("Im"(lambda I - A)) = X`.
     此时称 `lambda` 是 `A` 的<b>连续谱 (continuous spectrum)</b>.
     在物理学中, 连续谱是一种连续分布的频率或能量, 如光谱、声谱等.
@@ -891,9 +891,43 @@
   </span>
 </ol>
 
+<table>
+  <caption>线性算子的谱</caption>
+  <tr>
+    <th></th>
+    <th>`lambda` 的集合</th>
+    <th>`lambda I - A`</th>
+  </tr>
+  <tr>
+    <td>正则值</td>
+    <td>`rho(A)`</td>
+    <td>双射, 逆算子 `in cc L(X)`</td>
+  </tr>
+  <tr>
+    <td>本征值 (点谱)</td>
+    <td>`sigma_p(A)`</td>
+    <td>不是单射, 逆算子不存在</td>
+  </tr>
+  <tr>
+    <td>连续谱</td>
+    <td>`sigma_c(A)`</td>
+    <td>单而不满, 有稠密像</td>
+  </tr>
+  <tr>
+    <td>剩余谱</td>
+    <td>`sigma_r(A)`</td>
+    <td>单而不满, 无稠密像</td>
+  </tr>
+  <tr>
+    <td>谱</td>
+    <td>`sigma(A) = CC - rho(A)`</td>
+    <td>逆算子不存在或 `!in cc L(X)`</td>
+  </tr>
+</table>
+
 <p class="remark">
-  对于有限维线性变换, 单射等价于双射. 所以 `lambda I - A` 要么是双射, 要么不是单射,
-  即 `lambda` 要么是正则值, 要么是本征值.
+  对于有限维线性变换, 单射等价于双射, 所以不存在单而不满的中间情况:
+  `lambda` 要么是正则值, 要么是本征值.
   而无穷维空间中则会出现更复杂的连续谱与剩余谱.
 </p>
 

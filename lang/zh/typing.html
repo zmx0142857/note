@@ -854,7 +854,7 @@ const Typing = {
       timer: undefined, // interval 定时器
       correctCount: 0, // 正确字数
       errorCount: 0, // 错误字数
-      backspaceCount: 0, // 回改数
+      backspaceCount: 0, // 退格数
       keyCount: 0, // 击键数
     }
     if (Typing.optim) $inputBg.innerHTML = Typing.updateBg([])
@@ -1183,21 +1183,21 @@ const Typing = {
               <th>键准</th>
               <th>码长</th>
               <th>字数</th>
+              <th>退格</th>
               <th>错字</th>
-              <th>回改</th>
               <th>日期</th>
             </tr>
             ${[...Typing.history].reverse().map((record, i) => (
               Utils.html`<tr>
-                <td title="复制" data-index="${i}" data-type="copy">${(record.text ?? '').slice(0, 10)}</td>
+                <td title="单击复制，双击分享" data-index="${i}" data-type="copy">${(record.text ?? '').slice(0, 10)}</td>
                 <td>${record.badge}</td>
                 <td>${(record.speed ?? NaN).toFixed(2)}</td>
                 <td>${(record.keySpeed ?? NaN).toFixed(2)}</td>
                 <td>${(record.acc ?? NaN).toFixed(2)}%</td>
                 <td>${(record.keyCount / record.text.length).toFixed(2)}</td>
                 <td>${(record.text ?? '').length}</td>
-                <td>${record.errorCount}</td>
                 <td>${record.backspaceCount}</td>
+                <td>${record.errorCount}</td>
                 <td>${Utils.formatDate(record.startTime)}</td>
               </tr>`
             )).join('\n')}
@@ -1206,10 +1206,22 @@ const Typing = {
         </div>
       `,
     })
-    document.querySelector('.modal-history-table').onclick = (e) => {
+    const $table = document.querySelector('.modal-history-table')
+    $table.ondblclick = (e) => {
       const { dataset } = e.target
       if (dataset.type === 'copy') {
-        const record = Typing.history[Typing.history.length - 1 - dataset.index]
+        const index = Typing.history.length - 1 - dataset.index
+        const record = Typing.history[index]
+        const content = `第${index}段 速度${(record.speed ?? NaN).toFixed(2)} 击键${(record.keySpeed ?? NaN).toFixed(2)} 键准${(record.acc ?? NaN).toFixed(2)} 码长${(record.keyCount / record.text.length).toFixed(2)} 字数${(record.text ?? '').length} 退格${record.backspaceCount} 错字${record.errorCount}\n----\n${record.text}`
+        Utils.clipboard(content)
+        UI.toast({ html: '复制成功', classList: ['toast-simple'] })
+      }
+    }
+    $table.onclick = (e) => {
+      const { dataset } = e.target
+      if (dataset.type === 'copy') {
+        const index = Typing.history.length - 1 - dataset.index
+        const record = Typing.history[index]
         Utils.clipboard(record.text)
         UI.toast({ html: '复制成功', classList: ['toast-simple'] })
       }

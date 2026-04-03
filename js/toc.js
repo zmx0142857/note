@@ -160,7 +160,7 @@ var tocData = [
           { "value": "3", "label": "Banach 空间", "date": "2026-02-14" },
           { "value": "4", "label": "Hilbert 空间", "date": "2026-02-28" },
           { "value": "5", "label": "Sobolev 空间", "date": "2026-03-03" },
-          { "value": "6", "label": "紧算子与 Fredholm 算子", "date": "2026-03-27" },
+          { "value": "6", "label": "紧算子与 Fredholm 算子", "date": "2026-04-02" },
         ]
       },
       {
@@ -190,7 +190,7 @@ var tocData = [
         "label": "拓扑学",
         "children": [
           { "value": "1", "label": "拓扑空间与连续映射", "date": "2023-05-11" },
-          { "value": "2", "label": "常见拓扑性质", "date": "2026-04-01" },
+          { "value": "2", "label": "常见拓扑性质", "date": "2026-04-03" },
           { "value": "3", "label": "滤子和网", "date": "2026-03-30" },
           { "value": "10", "label": "纽结理论", "date": "2025-01-14" },
         ]

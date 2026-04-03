@@ -297,37 +297,40 @@
 
 <h3>第二可数</h3>
 
-<p class="proposition">
-  `C_2` 空间是可分空间.
-</p>
+<ol class="theorem">
+  <li>`C_2 rArr` 可分;</li>
+  <li>可分度量空间 `rArr C_2`.</li>
+</ol>
 
-<p class="proof">
-  取 `X` 的可数拓扑基 `cc B`, 对每个非空的 `B in cc B`, 取出一点 `a in B`.
-  由选择公理得到 `A := {a in B: B in cc B}`, 此即 `X` 的可数稠密子集.
-  其稠密性是因为任意开集 `U` 都含有某个 `B in cc B` 从而含有 `A` 中的点.
-</p>
+<ol class="proof">
+  <li>
+    取 `X` 的可数拓扑基 `cc B`, 对每个非空的 `B in cc B`, 取出一点 `a in B`.
+    由选择公理得到 `A := {a in B: B in cc B}`, 此即 `X` 的可数稠密子集.
+    其稠密性是因为任意开集 `U` 都含有某个 `B in cc B` 从而含有 `A` 中的点.
+  </li>
+  <li>
+    取 `X` 的可数稠密子集 `A`, 对任意 `a in A` 作一族开球 `B(a, 1//n)`, `n = 1, 2, cdots`.
+    下证 `cc B := {B(a, 1//n): a in A, n in NN}` 是拓扑基.
+    对任意开集 `U`, 要证 `U` 可以由 `cc B` 中的开球取并得到, 只需证任意
+    `x in U`, 存在 `B in cc B` 使得 `x in B sube U`.
+    <br>
+    事实上, 由度量空间的性质, 存在开球 `B(x, epsi) sube U`,
+    下证存在 `B = B(a, 1//n) in cc B` 使得 `x in B sube B(x, epsi)`.
+    取 `n` 充分大使得 `1//n lt epsi//2`,
+    由于 `A` 稠密, 存在 `a in A` 使得 `d(x, a) lt 1//n`, 即 `x in B`.
+    又对 `AA y in B`,
+    <span class="formula">
+      `d(x, y) le d(x, a) + d(a, y) lt 2//n lt epsi`,
+    </span>
+    即 `B sube B(x, epsi)`.
+  </li>
+</ol>
 
-<p class="proposition">
-  可分度量空间是 `C_2` 空间.
-</p>
-
-<p class="proof">
-  取 `X` 的可数稠密子集 `A`, 对任意 `a in A` 作一族开球 `B(a, 1//n)`, `n = 1, 2, cdots`.
-  下证 `cc B := {B(a, 1//n): a in A, n in NN}` 是拓扑基.
-  对任意开集 `U`, 要证 `U` 可以由 `cc B` 中的开球取并得到, 只需证任意
-  `x in U`, 存在 `B in cc B` 使得 `x in B sube U`.
-  <br>
-  事实上, 由度量空间的性质, 存在开球 `B(x, epsi) sube U`.
-  取 `n` 充分大使得 `1//n le epsi//2`,
-  由于 `A` 稠密, 存在 `a in A nn B(x, 1//n)`.
-  则对任意 `y in B(a, 1//n)`,
+<p class="example">
+  欧氏空间 `RR^n` 是可分度量空间, 因此它第二可数, 拓扑基为
   <span class="formula">
-    `d(x, y)`
-    `le d(x, a) + d(a, y)`
-    `lt 1//n + 1//n`
-    `le epsi`.
+    `{B(x, 1//n): x in QQ^n, n in ZZ^+}`.
   </span>
-  这推出 `y in B(x, epsi) sube U`. 于是 `x in B(a, 1//n) sube U`.
 </p>
 
 <p class="proposition">
@@ -363,7 +366,7 @@
 </p>
 
 <p class="corollary">
-  任意拓扑空间中, 有限点集是紧的.
+  有限个紧集的并是紧的. 特别, 任意有限点集是紧的.
 </p>
 
 <p class="remark">
@@ -408,6 +411,7 @@
 
 <p class="theorem">
   Hausdorff 空间中紧集必为闭集.
+  因此, 紧 Hausdorff 空间中的闭集等价于紧集.
 </p>
 
 <p class="proof">
@@ -454,6 +458,11 @@
   注意, 紧性和 Hausdorff 这两个性质不能互推.
 </ol>
 
+<p class="remark">
+  任意无穷多个紧致空间的乘积也是紧致的, 这个结论也叫做 Tychonoff 定理.
+  事实上无穷多个拓扑空间的积拓扑称为 Tychonoff 拓扑.
+</p>
+
 <h3>列紧性</h3>
 
 [<a href="https://zhuanlan.zhihu.com/p/151313668" target="_blank">知乎@TOVARISHI伊里奇</a>]
@@ -484,7 +493,7 @@
 <ol class="proof">
   <li>
     [群友@王凤梨]
-    只证 `lArr`.
+    `rArr` 对任意拓扑空间成立, 只证 `lArr`.
     取递减邻域基 `{U_n}`.
     应用选择公理, 先取 `x_(n_1) in U_1`, 然后因为 `{x_n}` 有无穷多项含于 `U_2`,
     可以取 `x_(n_2) in U_2` 使得 `n_2 gt n_1`. 如此进行下去即得到子列 `{x_(n_k)}` 收敛于 `x`.
@@ -646,14 +655,18 @@
   <li>若 `X` 的任意可数开覆盖都存在有限子覆盖, 则称它是<b>可数紧致</b>的.</li>
   <li>若 `X` 的任意子空间都是 <b>Lindelöf</b> 的, 则称它是<b>强 Lindelöf</b> 空间.</li>
   <li><b>局部紧</b> 任意一点存在紧致的邻域.</li>
-  <li><b>仿紧</b> 每个开覆盖都有局部有限的开加细.</li>
+  <li><b>仿紧 (paracompact)</b> 每个开覆盖都有局部有限的开加细.</li>
 </ol>
 
 <ol class="example">
+  <li>欧氏空间 `RR^n` 虽然不是紧的, 但它是局部紧的.
+    `RR^n` 也是 Lindelöf 的, 因为它是可数个紧集的并.</li>
   <li>下限拓扑 `RR_l` (见第一章, 定义为左闭右开区间生成的拓扑, 比 `RR` 严格细)
     是强 Lindelöf 的, 但不是紧致的.
   </li>
 </ol>
+
+<h4>局部紧</h4>
 
 <p class="theorem">
   <b>Hausdorff 空间的不相交紧集能被开集分离</b>
@@ -725,8 +738,75 @@
   </li>
 </ol>
 
+<h4>Lindelöf</h4>
+
+<p class="proposition">
+  类似于紧空间的性质: Lindelöf 空间的闭子集也是 Lindelöf 的.
+</p>
+
+<ol class="theorem">
+  <li>`C_2 rArr "Lindelöf"`;</li>
+  <li>Lindelöf 度量空间 `rArr C_2`;</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    任取 `X` 的开覆盖 `cc O`. 设 `cc B` 是可数拓扑基, 则对
+    `AA x in X`, `EE U_x in cc O` 及 `B_x in cc B` 使得 `x in B_x sube U_x`.
+    用选择公理固定集合 `S = {U_x: x in X}` 和 `T = {B_x: x in X}`.
+    则 `T` 是可数集, 且 `f: S to T`, `U_x mapsto B_x` 是一个满射.
+    对每个 `B_x in T` 任选一个代表元 `U_x in S`, 使得 `f(U_x) = B_x`.
+    如此选出的 `U_x` 的集合就是 `cc O` 的可数子覆盖.
+  </li>
+  <li>
+    [<a href="https://zhuanlan.zhihu.com/p/555006761" target="_blank">知乎@sumeragi693</a>]
+    对每个正整数 `n`, 取度量空间 `X` 的开覆盖 `cc U_n = {B(x, 2^-n): x in X}`.
+    由于 `X` 是 Lindelöf 空间, 存在 `cc U_n` 的可数子覆盖 `cc V_n`.
+    下证 `cc B = uuu_(n ge 1) cc V_n` 是拓扑基:
+    只需证对任意开球 `B(x, epsi)`, 都存在 `B in cc B` 使得 `x in B sube B(x, epsi)`.
+    先取 `n` 充分大, 使 `2^-n lt epsi`, 由于 `cc V_(n+1)` 是 `X` 的覆盖, 存在
+    `B = B(y, 2^-(n+1)) in cc V_(n+1) sube cc B`, 使得 `x in B`.
+    另一方面, `AA z in B`,
+    <span class="formula">
+      `d(x, z) le d(x, y) + d(y, z)`
+      `lt 2^-n lt epsi`,
+    </span>
+    因此 `B sube B(x, epsi)`.
+  </li>
+</ol>
+
+<p class="corollary">
+  我们证明了, 对于度量空间
+  <span class="formula">
+    `C_2 iff "可分" iff "Lindelöf"`.
+  </span>
+  事实上在度量空间中, 可分性和 Lindelöf 性可以遗传至子空间.
+  这是因为度量空间的子空间仍是度量空间, 且 `C_2` 具有遗传性.
+  一般拓扑空间中, 可分性是开遗传的, Lindelöf 性是闭遗传的.
+</p>
+
 <p class="theorem">
-  Lindelöf 空间中, 自列紧 `rArr` 紧.
+  列紧 Lindelöf 空间是紧的.
+</p>
+
+<p class="proof">
+  [<a href="https://zhuanlan.zhihu.com/p/557948746" target="_blank">知乎@sumeragi693</a>]
+  设 `X` 是自列紧 Lindelöf 空间, 若 `X` 不紧, 则存在一个可数开覆盖 `{U_n}`, 其没有有限的子覆盖.
+  对任意正整数 `n`, `uuu_(i=1)^n U_i` 不能把 `X` 盖住, 故存在 `x_n in X - uuu_(i=1)^n U_i`.
+  由列紧性, 点列 `{x_n}` 有一个收敛子列 `x_(n_k) to x`.
+  但 `{U_n}` 是可数开覆盖, 故 `EE m` 使得 `x in U_m`.
+  由收敛性的定义, `x` 的开邻域 `U_m` 含有 `{x_n}` 中的无穷多项, 特别地, 存在 `n gt m` 使得 `x_n in U_m`,
+  与 `x_n` 的取法矛盾.
+</p>
+
+<p class="remark">
+  注意, 我们没有证明 Lindelöf 空间中的自列紧集是紧的, 因为 Lindelöf 缺乏遗传性.
+</p>
+
+<p class="corollary">
+  `C_2` 空间是列紧的, 当且仅当它是紧的.
+  这是因为 `C_2 rArr C_1`, 给出命题的 `lArr` 部分,
+  `C_2 rArr` Lindelöf, 给出 `rArr` 部分.
 </p>
 
 <p class="theorem">
@@ -734,16 +814,35 @@
   `"Lindelöf" and T_3 rArr T_4`.
 </p>
 
-<p class="theorem">
-  `C_2 rArr "Lindelöf"`.
+<p class="proof">
+  [<a href="https://zhuanlan.zhihu.com/p/555006761" target="_blank">知乎@sumeragi693</a>]
+  任取 `X` 中两个不相交闭集 `A, B`,
+  对 `AA x in A`, `B^c` 是它的开邻域.
+  由 `X` 的正则性知道 `EE` `x` 的开邻域 `U_x`, 满足 `bar U_x sube B^c`.
+  因此 `{U_x: x in A}` 是 `A` 的一个开覆盖.
+  根据 Lindelöf 性质闭遗传, `A` 也是 Lindelöf 的, 故存在上述开覆盖的可数子覆盖, 记作
+  <span class="formula">
+    `A sube uuu_(n ge 1) U_n`.
+  </span>
+  类似地, 存在 `B` 的可数开覆盖
+  <span class="formula">
+    `B sube uuu_(n ge 1) V_n`,
+  </span>
+  其中 `bar V_n sube A^c`.
+  构造开集列 `A_n, B_n` 如下
+  <span class="formula">
+    `A_n := U_n - uuu_(i=1)^n bar V_i`,
+    `quad B_n := V_n - uuu_(i=1)^n bar U_i`.
+  </span>
+  对任意 `x in A`, `EE n` 使得 `x in A_n`, 故 `A sube uuu_(n ge 1) A_n`, 类似 `B sube uuu_(n ge 1) B_n`.
+  我们得到了 `A, B` 的两个开邻域, 下证 `uuu_(n ge 1) A_n` 与 `uuu_(n ge 1) B_n` 不相交.
+  事实上若它们的交不空, 则存在正整数 `m, n` 使得 `A_m nn B_n != O/`.
+  若 `m ge n`, 这意味着存在一点 `x`,
+  <span class="formula">
+    `x in A_m = U_m - bar V_1 - bar V_2 cdots - bar V_m`, 从而 `x !in bar V_n`.
+  </span>
+  这与 `x in B_n sube bar V_n` 矛盾. 同理 `m le n` 时也推出矛盾.
 </p>
-
-<p class="corollary">
-  `C_2` 空间中, 自列紧 `iff` 紧.
-  这是因为 `C_2 rArr C_1 and "Lindelöf"`.
-  其中 `C_1` 给出命题的 `lArr` 部分, Lindelöf 给出 `rArr` 部分.
-</p>
-
 
 <h2>度量化</h2>
 
@@ -961,109 +1060,18 @@
 <h3>拓扑空间的例子</h3>
 
 <table>
-  <tr>
-    <th></th>
-    <th>`T_1`</th>
-    <th>`T_2`</th>
-    <th>`T_3`</th>
-    <th>`T_4`</th>
-    <th>`C_1`</th>
-    <th>`C_2`</th>
-    <th>可分</th>
-    <th>紧致</th>
-    <th>Lindelöf</th>
-    <th>连通</th>
-    <th>道路连通</th>
-  </tr>
-  <tr>
-    <td>`(RR, tau_f)`</td>
-    <td>√</td>
-    <td>×</td>
-    <td>×</td>
-    <td>×</td>
-    <td>×</td>
-    <td>×</td>
-    <td></td>
-    <td>√</td>
-  </tr>
-  <tr>
-    <td>`(RR, tau_c)`</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>×</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>`RR_l`</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>×</td>
-    <td>√</td>
-    <td>×</td>
-    <td>√</td>
-    <td>×</td>
-    <td>×</td>
-  </tr>
-  <tr>
-    <td>`RR_l^2`</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>×</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>×</td>
-    <td>×</td>
-  </tr>
-  <tr>
-    <td>度量空间</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>×</td>
-    <td>×</td>
-    <td>×</td>
-    <td>×</td>
-  </tr>
-  <tr>
-    <td>欧氏空间 `bbb E^n`</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>×</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-  </tr>
-  <tr>
-    <td>球面 `S^n`</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-  </tr>
+  <tr> <th></th> <th>`(RR, tau_f)`</th> <th>`(RR, tau_c)`</th> <th>`RR_l`</th> <th>`RR_l^2`</th> <th>度量空间</th> <th>欧氏空间 `RR^n`</th> <th>球面 `S^n`</th> </tr>
+  <tr> <th>`T_1`</th> <td>✓</td> <td></td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>`T_2`</th> <td>×</td> <td></td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>`T_3`</th> <td>×</td> <td></td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>`T_4`</th> <td>×</td> <td></td> <td>✓</td> <td>×</td> <td>✓</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>`C_1`</th> <td>×</td> <td></td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>`C_2`</th> <td>×</td> <td></td> <td>×</td> <td>✓</td> <td>×</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>可分</th> <td></td> <td></td> <td>✓</td> <td>✓</td> <td>×</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>紧致</th> <td>✓</td> <td>×</td> <td>×</td> <td>×</td> <td>×</td> <td>×</td> <td>✓</td> </tr>
+  <tr> <th>Lindelöf</th> <td></td> <td></td> <td>✓</td> <td>×</td> <td>×</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>连通</th> <td></td> <td></td> <td>×</td> <td></td> <td>×</td> <td>✓</td> <td>✓</td> </tr>
+  <tr> <th>道路连通</th> <td></td> <td></td> <td>×</td> <td></td> <td>×</td> <td>✓</td> <td>✓</td> </tr>
 </table>
 
 <h3>遗传性与可乘性</h3>
@@ -1089,99 +1097,78 @@
   <caption>拓扑性质的遗传性与可乘性</caption>
   <tr>
     <th></th>
-    <th>`T_0`</th>
-    <th>`T_1`</th>
-    <th>`T_2`</th>
-    <th>`T_3`</th>
-    <th>`T_4`</th>
-    <th>`C_1`</th>
-    <th>`C_2`</th>
+    <th>遗传性</th>
+    <th>可乘性</th>
+    <th>映射</th>
+    <th>加细</th>
   </tr>
   <tr>
-    <td>遗传性</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-    <td>×</td>
-    <td>√</td>
-    <td>√</td>
-  </tr>
-  <tr>
-    <td>可乘性</td>
-    <td>有限</td>
-    <td>有限</td>
-    <td>有限</td>
-    <td>有限</td>
-    <td>× [注1]</td>
-    <td>可数</td>
-    <td>可数</td>
-  </tr>
-  <tr>
-    <td>映射</td>
-    <td>双射开</td>
-    <td>双射开</td>
-    <td>双射开</td>
-    <td>同胚</td>
-    <td>同胚</td>
-    <td>连续开</td>
-    <td>连续开</td>
-  </tr>
-  <tr>
-    <td>加细</td>
-    <td>√</td>
-    <td>√</td>
-    <td>√</td>
-  </tr>
-</table>
-
-<table>
-  <caption>续表</caption>
-  <tr>
-    <th></th>
-    <th>可分</th>
-    <th>紧致</th>
-    <th>Lindelöf</th>
-    <th>连通</th>
-    <th>道路连通</th>
-  </tr>
-  <tr>
-    <td>遗传性</td>
-    <td>开遗传</td>
-    <td>闭遗传</td>
-    <td>闭遗传</td>
-    <td>×</td>
-    <td>×</td>
-  </tr>
-  <tr>
-    <td>可乘性</td>
-    <td>可数</td>
+    <td>`T_0`, `T_1`, `T_2`</td>
+    <td>✓</td>
     <td>任意</td>
-    <td>× [注2]</td>
-    <td>有限</td>
-    <td>有限</td>
+    <td>双射开</td>
+    <td>✓</td>
   </tr>
   <tr>
-    <td>映射</td>
-    <td>连续</td>
-    <td>连续</td>
-    <td>连续</td>
-    <td>连续</td>
+    <td>正则</td>
+    <td>✓</td>
+    <td>有限</td>
+    <td>同胚</td>
+  </tr>
+  <tr>
+    <td>正规</td>
+    <td>闭遗传</td>
+    <td>×</td>
+    <td>同胚</td>
+  </tr>
+  <tr>
+    <td>`T_3`, `T_4`</td>
+    <td>✓</td>
+    <td>有限</td>
+    <td>同胚</td>
+  </tr>
+  <tr>
+    <td>`C_1`, `C_2`</td>
+    <td>✓</td>
+    <td>可数</td>
+    <td>连续开</td>
+  </tr>
+  <tr>
+    <td>可分</td>
+    <td>开遗传</td>
+    <td>可数</td>
     <td>连续</td>
   </tr>
   <tr>
-    <td>加细</td>
+    <td>紧致</td>
+    <td>闭遗传</td>
+    <td>任意</td>
+    <td>连续</td>
+  </tr>
+  <tr>
+    <td>Lindelöf</td>
+    <td>闭遗传</td>
+    <td>× [注1]</td>
+    <td>连续</td>
+  </tr>
+  <tr>
+    <td>连通</td>
+    <td>×</td>
+    <td>有限</td>
+    <td>连续</td>
+  </tr>
+  <tr>
+    <td>道路连通</td>
+    <td>×</td>
+    <td>有限</td>
+    <td>连续</td>
   </tr>
 </table>
 
 <ol class="remark">
-  <li>`X xx Y` 是 `(T_1 and T_4)` 的当且仅当 `X` 和 `Y` 都是 `(T_1 and T_4)` 的.</li>
   <li>反例: `RR_l` 是 Lindelöf 空间, 但 `RR_l^2` 不是.
     不过我们有:
     Lindelöf 空间 `xx` 紧致空间 `=` Lindelöf 空间.
-  </li>
-  <li>任意个紧致空间的乘积也是紧致的, 这个结论也叫做 Tychonoff 定理.
-    事实上任意多个拓扑空间的乘积拓扑称为 Tychonoff 拓扑.
   </li>
 </ol>
 
@@ -1189,9 +1176,10 @@
 
 <ol class="example">
   小结如下:
-  <li>`C_2 rArr C_1 and "Lindelöf" and` 可分.</li>
-  <li>度量空间 `rArr C_1`</li>
-  <li>度量空间中, `"Lindelöf" iff` 可分 `iff C_2`.</li>
+  <li>`C_2` 蕴含可分与 Lindelöf; 在度量空间中三者等价.</li>
+  <li>`C_2 rArr C_1`, 可度量化 `rArr C_1`;
+    但 `C_2` 与可度量化不能互相推出.
+  </li>
   <li>紧 Hausdorff `rArr T_4`, 局部紧 Hausdorff `rArr T_3`.</li>
   <li>Tychonoff 定理: `"Lindelöf" and T_3 rArr T_4`.</li>
   <li>Urysohn 度量化定理: `C_2 and T_3 rArr` 可度量化.</li>
@@ -1199,24 +1187,20 @@
 
 <!--
 flowchart TB
-  subgraph Topo space
-    C2 --&gt; C1
-    C2 --&gt; Lindelöf
-    C2 --&gt; Seperable
-  end
-
-  subgraph Metric space
-    c1[C1]
-    c2[C2]
-    l[Lindelöf]
-    s[Seperable]
-
-    c2 <--&gt; l
-    c2 <--&gt; s
-    c1 <--&gt; True
+  subgraph " "
+  L[Lindelöf]
+  M[Metrizable]
+  C2 --&gt; Separable
+  C2 --&gt; L
+  C2 --&gt; C1
+  M --&gt; C1
+  C2 --T3--&gt; M
+  Separable --Metrizable--&gt; C2
+  L --Metrizable--&gt; C2
+  M --Separable or Lindelöf--&gt;C2
   end
 -->
-<div class="img md" title="可数性的图景">
+<div class="img sm" title="可数性的图景">
   <img src="../img/topo-countable-axiom.svg" alt="">
 </div>
 
