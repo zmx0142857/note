@@ -163,6 +163,43 @@
   称为 `bm A` 的 Jordan 标准形.
 </p>
 
+<ol class="proof">
+  证明草稿.  用线性变换的语言:
+  <li>
+    设 `T in L(V)` 是幂零线性变换, 即存在最小正整数 `q` 使得 `T^q = 0`.
+    可以证明, 存在 `r` 个向量 `{x_i}_(i=1)^r` 和 `r` 个不超过 `q` 的正整数 `{q_i}_(i=1)^r`,
+    使得 `T^(q_i) x_i = 0`, `sum q_i = n = dim V`, 且下式给出 `V` 的一组基:
+    <span class="formula">
+      `{T^j x_i}`, `quad i = 1, cdots, r`, `quad j = 0, cdots, q_i-1`.
+    </span>
+    由于 `T(T^j x_i) = T^(j+1) x_i`, 所以 `T` 在这组基下的表示矩阵为 `r` 个 Jordan 块 `J_(q_i)(0)`.
+  </li>
+  <li>
+    现在设 `A in L(V)` 是一般的线性变换, `lambda` 是一个特征值,
+    则对任意正整数 `j`, `"Ker"(lambda I - A)^j` 都是 `A` 的不变子空间
+    (注意多项式 `(lambda I - A)^j` 与 `A` 可交换). 由于
+    <span class="formula">
+      `"Ker"(lambda I - A)^j sube "Ker"(lambda I - A)^(j+1)`,
+    </span>
+    而 `V` 是有限维空间, 故存在最小正整数 `p`, 使得 `AA j gt p` 都有
+    <span class="formula">
+      `"Ker"(lambda I - A)^j = "Ker"(lambda I - A)^p`.
+    </span>
+    称 `p` 为 `lambda I - A` 的零链长.
+    总之可以证明有直和分解
+    <span class="formula">
+      `V = O+_(i=1)^k "Ker"(lambda_i I - A)^(p_i)`.
+    </span>
+  </li>
+  <li>
+    限定到子空间 `"Ker"(lambda_i I - A)^(p_i)` 时, `lambda_i I - A` 是幂零线性变换,
+    可以找到子空间的一组基使得它的表示矩阵为若干 Jordan 块, 对角线为零.
+    相应的 `A` 的表示矩阵也是若干 Jordan 块, 对角线为 `lambda_i`.
+    对直和分解中的每个子空间都如此操作, 就得到全空间 `V` 的一组基, 且 `A`
+    在这组基下的矩阵是 Jordan 标准形.
+  </li>
+</ol>
+
 <ol class="algorithm">
   <b>将方阵 `bm A` 化为 Jordan 标准形 `bm J`</b>.
   <li>求出 `bm A` 的特征多项式

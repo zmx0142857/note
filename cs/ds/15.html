@@ -153,6 +153,17 @@ module.exports = (str) => {
 
 <h2>多边形</h2>
 
+<pre class="remark">
+
+// 折线顶点遍历
+for (let i = 1; i &lt; len; i++)
+  edge = [points[i-1], points[i]]
+
+// 多边形顶点遍历
+for (let i = 0, j = len-1; i &lt; len; j = i++)
+  edge = [points[j], points[i]]
+</pre>
+
 <p class="algorithm">
   <b>判断多边形方向是否为顺时针 (面积法)</b> [来自 github copilot]
   用 Green 公式求边界的曲线积分 `int_(del S) -2y dx = 2 iint_S dx dy`,

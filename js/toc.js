@@ -100,6 +100,7 @@ var tocData = [
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
           { "value": "8", "label": "范畴论基础", "date": "2025-09-27" },
+          { "value": "9", "label": "非标准分析", "date": "2026-04-03" },
         ]
       },
       {
@@ -160,7 +161,7 @@ var tocData = [
           { "value": "3", "label": "Banach 空间", "date": "2026-02-14" },
           { "value": "4", "label": "Hilbert 空间", "date": "2026-02-28" },
           { "value": "5", "label": "Sobolev 空间", "date": "2026-03-03" },
-          { "value": "6", "label": "紧算子与 Fredholm 算子", "date": "2026-04-02" },
+          { "value": "6", "label": "紧算子与 Fredholm 算子", "date": "2026-04-10" },
         ]
       },
       {

@@ -26,6 +26,8 @@
 
 <h2>二次剩余的定义</h2>
 
+<h3>模平方根</h3>
+
 <p class="definition">
   设 `m` 为正整数, `(a, m) = 1`, 若同余方程
   <span class="formula">
@@ -124,6 +126,57 @@ module.exports = function (str) {
   </span>
   由上一个命题知道, 若 `x^2 -= y^2 (mod p)`, 则 `x -= +- y (mod p)`.
   故以上 `(p-1)//2` 个数两两不相等, 即为模 `p` 的所有二次剩余.
+</p>
+
+<h3>Wilson 定理</h3>
+
+<p>利用 `ZZ_p^**` 中 `1` 的平方根只有 `+-1` 这个事实, 可以证明:</p>
+
+<p class="theorem">
+  <b>Wilson 定理</b> 整数 `p ge 2` 为素数的充要条件是
+  <span class="formula">
+    `(p-1)! -= -1 (mod p)`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>必要性.  `p = 2` 时显然成立. 下设 `p` 为奇素数, 在 `ZZ_p^**`
+    上考虑同余方程
+    <span class="formula">
+      `x y -= 1 (mod p)`.
+    </span>
+    对任意 `x`, 其逆元 `y` 是存在唯一的.
+    若 `x = y`, 则 `x` 是 `1` 在 `ZZ_p^**` 中的平方根, 即 `x = +-1`.
+    故 `ZZ_p^**` 的 `p-1` 个数中除 `+-1` 的逆元为自身外,
+    其它数字两两互逆, 因而它们的乘积抵消.  这 `p-1` 个数相乘得到
+    <span class="formula">
+      `(p-1)! -= 1 * (-1) -= -1 (mod p)`.
+    </span>
+  </li>
+  <li>充分性. 设 `n = a b` 为合数, `1 lt a, b lt n`.
+    若 `(n-1)! -= -1 (mod n)`, 有 `(n-1)! -= -1 (mod a)`,
+    这与 `a | (n-1)!` 矛盾.
+  </li>
+</ol>
+
+<p class="remark">
+  <b>不实用的素数通项公式</b>
+  虽然 Wilson 定理是素数的一种判别法, 但计算量远大于普通的试除法, 并不实用.
+  根据 Wilson 定理知道, 下面是一个素数判别公式:
+  <span class="formula">
+    `[k "是素数或"1] = floor(cos^2(((k-1)!+1)/k pi))`.
+  </span>
+  不超过 `m` 的素数个数可以表示为
+  <span class="formula">
+    `pi(m) = -1 + sum_(i=1)^m [k "是素数或"1]`.
+  </span>
+  最后, 注意到 `[m le n] = |__(n//m)^(1//n)__|`, 所以第 `n` 个素数可以表示为
+  <span class="formula align">
+    `p_n = 1 + sum_(m ge 1) [pi(m) lt n]`
+    `= 1 + sum_(m ge 1) [pi(m) + 1 le n]`<br>
+    `= 1 + sum_(m ge 1) floor((n/(sum_(i=1)^m floor(cos^2(((k-1)!+1)/k pi))))^(1//n))`.
+  </span>
+  前面已经说明, 这个公式没有实用价值, 仅有一点理论上的趣味罢了.
 </p>
 
 <h2>Legendre 符号</h2>

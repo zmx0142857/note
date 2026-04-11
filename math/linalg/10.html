@@ -31,7 +31,7 @@
   其中第 `k` 个下标 `i_k` 的取值范围是 `1, cdots, N_k`.
   设有多维数组 `a[N_1]cdots[N_n]` 和 `b[M_1]cdots[M_m]`, 规定它们之间的乘法 (张量积) 如下:
   <span class="formula">
-    `a : b = c[N_1]cdots[N_n][M_1]cdots[M_m]`,
+    `a ox b = c[N_1]cdots[N_n][M_1]cdots[M_m]`,
   </span>
   其中 `c(i_1, cdots, i_n, j_1, cdots, j_m) = a(i_1, cdots, i_n) b(j_1, cdots, j_m)`.
   这就是说, `n` 维数组和 `m` 维数组的乘积是一个 `n+m` 维数组,
@@ -421,7 +421,7 @@
   <li><b>多重线性函数的张量积</b> 设 `f`, `g` 分别是 `s, t` 重线性函数,
     它们的张量积定义为
     <span class="formula">
-      `(f : g)(x_1, cdots, x_s, y_1, cdots, y_t)`
+      `(f ox g)(x_1, cdots, x_s, y_1, cdots, y_t)`
       `:= f(x_1, cdots, x_s) g(y_1, cdots, y_t)`.
     </span>
     于是 `f : g` 是 `s + t` 重线性函数. 又, 张量积满足结合律.
@@ -429,18 +429,18 @@
   <li><b>线性空间的张量积</b> 设 `U, V` 分别是 `m, n` 维线性空间,
     任取 `u in U`, `v in V`, 视它们为张量
     (将 `u, v` 分别看作 `U^ast, V^ast` 上的线性函数),
-    于是 `u : v` 有意义, 线性空间 `U, V` 的张量积定义为
+    于是 `u ox v` 有意义, 线性空间 `U, V` 的张量积定义为
     <span class="formula">
-      `U : V := {u : v | u in U, v in V}`.
+      `U ox V := {u ox v | u in U, v in V}`.
     </span>
-    从而 `U : V` 是一个 `m n` 维线性空间.
+    从而 `U ox V` 是一个 `m n` 维线性空间.
   </li>
 </ol>
 
 <p class="example">
   `V` 上全体 `{::}_p^q` 型张量 `V_p^q` 可以分解为线性空间的张量积:
   <span class="formula">
-    `V_p^q = underbrace(V : cdots : V)_p : underbrace(V^ast : cdots : V^ast)_q`.
+    `V_p^q = underbrace(V ox cdots ox V)_p ox underbrace(V^ast ox cdots ox V^ast)_q`.
   </span>
 </p>
 

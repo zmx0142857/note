@@ -24,6 +24,11 @@
   记作 `A in fr C(X, Y)`. 简记 `fr C(X, X) = fr C(X)`.
 </ol>
 
+<ol class="example">
+  <li>有限维线性变换都是紧的.</li>
+  <li>无穷维空间中 `I` 不是紧算子, 因为单位球不紧.</li>
+</ol>
+
 <ol class="property">
   <b>紧算子的性质</b>
   <li>`fr C(X, Y)` 是 `cc L(X, Y)` 的闭子空间.</li>
@@ -452,6 +457,84 @@
   <li>`{0}`;</li>
   <li>`{0, lambda_1, cdots, lambda_n}`;</li>
   <li>`{0, lambda_1, lambda_2, cdots}`, 其中 `lambda_n to 0`.</li>
+</ol>
+
+<ol class="lemma">
+  <b>不变子空间</b>
+  设 `A in cc L(X)`, 称 `M sube X` 是 `A` 的不变子空间, 如果 `A(M) sube M`.
+  <li>`{0}, X` 是平凡的不变子空间;</li>
+  <li>若 `M` 是不变子空间, 则 `bar M` 也是;</li>
+  <li>若 `lambda` 是 `A` 的本征值, 则特征子空间 `"Ker"(lambda I - A)` 是 `A` 的不变子空间.
+    特别当 `lambda != 0` 时, 由 Fredholm 结论一, 它是闭不变子空间;</li>
+  <li>`AA y in X`, `P_y := {P(A) y | P "为多项式"}` 是 `A` 的不变子空间.</li>
+</ol>
+
+<p class="theorem">
+  无穷维紧算子存在非平凡的闭不变子空间.
+</p>
+
+<ol class="proof">
+  设 `A in fr C(X)`.
+  <li>
+    若 `A = 0`, 则每个有限维子空间都是闭不变子空间.
+    若 `A != 0`, 且存在本征值 `lambda != 0`, 由引理知 `"Ker"(lambda I - A)` 是闭不变子空间.
+    它不等于 `X`, 否则推出 `A = lambda I`, 这不是紧算子.
+  </li>
+  <li>
+    现在设 `A != 0`, 且只有零本征值. 于是 `sigma(A) = {0}`.
+    从引理知道 `AA y in Y - {0}`, `P_y` 是 `A` 的不变子空间.
+    使用反证法, 设 `A` 只有平凡的闭不变子空间, 则 `bar(P_y) = X`.
+  </li>
+  <li>
+    不妨设 `||A|| = 1`, 取 `x_0 in X` 使 `||A x_0|| gt 1`, 于是 `||x_0|| = ||A|| ||x_0|| gt 1`.
+    令
+    <span class="formula">
+      `C := bar(A(B(x_0, 1)))`,
+    </span>
+    则 `C` 是紧集, 且 `0 !in C`. `AA y in C`, 则 `y != 0`.
+    由 `bar(P_y) = X` 知道, `EE A` 的多项式 `T_y = P(A)` 使得
+    <span class="formula">
+      `||T_y y - x_0|| lt 1`.
+    </span>
+    由范数的连续性, `EE delta_y gt 0`, 使得
+    <span class="formula">
+      `||T_y z - x_0|| lt 1`, `quad AA z in B(y, delta_y)`.
+    </span>
+    由 `C` 的紧性, 存在有限子覆盖
+    <span class="formula">
+      `C sube uuu_(i=1)^n B(y_i, delta_i)`.
+    </span>
+    故 `AA y in C`, `EE i` 使得 `||T_(y_i) y - x_0|| lt 1`,
+    即 `T_(y_i) y in B(x_0, 1)`.
+  </li>
+  <li>简记 `T_i := T_(y_i)`, 则由 `T_i y in B(x_0, 1)` 知道
+    `T_i A y = A T_i y in C`.
+    于是又 `EE j` 使得
+    `T_j T_i A y in B(x_0, 1)`.
+    于是对任意正整数 `k`, 都存在 `i_1, cdots, i_(k+1)` 使得
+    <span class="formula">
+      `||T_(i_1) cdots T_(i_(k+1)) A^k y - x_0|| lt 1`.
+    </span>
+    这推出
+    <span class="formula">
+      `||x_0|| - 1 lt ||T_(i_1) cdots T_(i_(k+1)) A^k y||`.
+    </span>
+    令 `mu := max_(1 le i le n) ||T_i|| gt 0`, 则
+    <span class="formula">
+      `||x_0||-1 le mu^(k+1) ||A^k|| ||y||`,
+      `quad AA y in C`, `AA k in NN`.
+    </span>
+  </li>
+  <li>
+    `A` 的谱半径为 0, 根据 Gelfand 定理, `lim_(k to oo) ||A^k||^(1//k) = 0`.
+    另一方面由 `y != 0` 我们有
+    <span class="formula">
+      `||A^k||^(1//k)`
+      `ge 1/mu ((||x_0||-1)/(mu||y||))^(1//k)`
+      `to 1/mu` `(k to oo)`,
+    </span>
+    从而矛盾.
+  </li>
 </ol>
 
 <script src="../../js/note.js?type=math"></script>

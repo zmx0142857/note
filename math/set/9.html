@@ -6,6 +6,196 @@
   <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
+
+<ul>
+  来自:
+  <li>Martin Davis《应用非标准分析》</li>
+  <li>群友@无懈可击99</li>
+  <li><a href="https://zhuanlan.zhihu.com/p/48761965" target="_blank">知乎@Yuz.Scarlet</a></li>
+</ul>
+
+<h2>基本构造</h2>
+
+<h3>标准全域与非标准全域</h3>
+
+<ol class="definition">
+  <b>超幂构造 `**X := X^NN // cc F`</b>
+  <li>
+    记集合 `I` 到 `X` 的全体映射为 `X^I`, 特别取 `I = NN`, 则 `X^NN` 代表集合 `X` 上的全体点列.
+    又固定指标集 `I = NN` 上的一个<b><a href="../topo/3.html">非主超滤子</a></b> `cc F sube cc P(X)`.
+  </li>
+  <li>
+    初学者不必追究超滤子的细节, 只需了解定义即可.
+    由 Zorn 引理, 非主超滤子总是存在, 并且可以证明一个超滤子是非主的, 当且仅当它包含了余有限滤子.
+    因此对于像 `NN` 这样的无穷集, 可知任意有限集 `{i_1, cdots, i_n} !in cc F`.
+  </li>
+  <li>
+    如果 `X` 上的两个点列 `(x_i), (y_i)` 满足
+    <span class="formula">
+      `{i in NN | x_i = y_i} in cc F`,
+    </span>
+    则称它们<b>几乎处处相等</b>, 这给出 `X^NN` 上的一个等价关系.
+    例如, 两个收敛到同一极限的点列是几乎处处相等的.
+    该关系下的全体等价类记作 `** X := X^NN//cc F`, 称为 `X` 上的超幂构造.
+    例如, 当 `X = NN, QQ, RR` 时, `** X` 的元素分别称为超自然数、超有理数、超实数,
+    或者非标准自然数、非标准有理数、非标准实数, 而 `X` 的元素称为是标准的.
+  </li>
+</ol>
+
+<ol class="definition">
+  <b>标准全域</b>
+  想象存在一个充分大的集合 `U` (称为<b>标准全域</b>), 包含 `X` 和 `X`
+  的子集乃至一切有用的结构. 具体而言 `U` 满足:
+  <li>包含: `X sube U`;</li>
+  <li>空集: `O/ in U`;</li>
+  <li>配对: `x, y in U` `rArr {x, y} in U`;</li>
+  <li>幂集: `(AA n in NN)` `overbrace (cc P cdots cc P)^n(X) sube U`;</li>
+  <li>传递: `x in y in U-X` `rArr x in U`;</li>
+  <li>并集: `A` 与 `A` 的元素都 `in U-X` `rArr uuu A in U`;</li>
+  由此推出 `U` 具有以下性质:
+  <span class="formula">
+    `x_1, cdots, x_n in U rArr {x_1, cdots, x_n} in U`,<br>
+    `x_1, cdots, x_n in U rArr (x_1, cdots, x_n) in U`,<br>
+    `f: A to B and A, B in U-X`
+    `rArr f in U` `and (AA a in A) f(a) in U`,<br>
+    `J, A in U-X` `and (AA j in J) A_j in A`
+    `rArr uuu_(j in J) A_j in U` `and prod_(j in J) A_j in U`.
+  </span>
+</ol>
+
+<ol class="definition enum">
+  <b>非标准全域</b>
+  超幂构造给出 `U to **U` 的 `ast` 算符, 它把标准全域 `U`
+  的元素对应到<b>非标准全域</b> `**U := U^NN // cc F` 上.
+  <li>
+    首先, 元素 `x in X` 对应于常值映射 `i mapsto x` 所在的等价类:
+    <span class="formula">
+      `** x = bar((x, x, cdots))`.
+    </span>
+    这给出 `X to **X` 的自然嵌入, 因此我们也说 `X sube **X`.
+    当 `X` 为无穷集时, 这个嵌入是不满的, 例如 `(1, 2, 3, cdots) in NN^NN` 与任意常数列都几乎处处不等.
+  </li>
+  <li>现在设 `A in U - X`, 则 `**A := A^NN // cc F`, 例如
+    <ol>
+      <li>`** cc P(X)` 的元素是 `X` 的子集列 (几乎处处相等的意义下).</li>
+      <li>设 `A, B sube X`, 映射 `f: A to B`, 则 `**f: **A to **B`, 且 `**f|_A = f`, 因此我们用同一个记号 `f` 来表示 `**f`.
+      </li>
+      <li>设 `A, B sube X`, 二元关系 `r sube A xx B`, 则 `**r sube **A xx **B`, 且 `r sube **r`,
+        因此我们用同一个记号 `r` 来表示 `**r`.
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3>三大定理</h3>
+
+<p class="theorem">
+  <b>传达原理 (转换原理)</b>
+  `U` 上的命题 `alpha` 为真, 当且仅当 `**U` 上的命题 `**alpha` 为真.
+  其中 `**alpha` 是把 `alpha` 中的所有常量 `b in U` 换成相应常量 `**b in **U` 所得的命题.
+</p>
+
+<div class="remark p" id="rem-formula">
+  简单来说, 命题就是具有 0 个自由变元的公式. 公式由运算符号、变元和常量组成. 合法的运算符号有:
+  <table>
+    <tr>
+      <th>名称</th>
+      <td>等于</td>
+      <td>属于</td>
+      <td>非</td>
+      <td>与</td>
+      <td>或</td>
+      <td>任意</td>
+      <td>存在</td>
+      <td>有序对</td>
+      <td>映射</td>
+    </tr>
+    <tr>
+      <th>记号</th>
+      <td>`=`</td>
+      <td>`in`</td>
+      <td>`not`</td>
+      <td>`^^`</td>
+      <td>`vv`</td>
+      <td>`AA`</td>
+      <td>`EE`</td>
+      <td>`(,)`</td>
+      <td>`f(x)`</td>
+    </tr>
+  </table>
+  约束变元是指被 `AA` 或 `EE` 量词限定的变元, 例如 `EE x`.
+  自由变元则是指未被约束的变元, 一般写在公式的括弧中: `alpha(x_1, cdots, x_n)`.
+  最后, 常量与 `U` 中的元素一一对应. 我们称一个公式是 `U` 上的, 是指它涉及的常量的对应元素都在 `U` 中.
+</div>
+
+<p class="remark">
+  <b>Jerzy Łoś 定理</b>是传达原理的一般情形.
+</p>
+
+<p class="definition">
+  称子集 `A sube U` 是<b>可定义的</b>, 如果存在一个 `U` 上的公式
+  `alpha(x)` 使得
+  <span class="formula">
+    `A = {x in U| alpha(x)}`.
+  </span>
+  现在定义
+  <span class="formula">
+    `**A = {x in **U| **alpha(x)}`,
+  </span>
+  其中 `**alpha(x)` 是常量替换后的公式.
+  可以证明, `**A` 仅依赖于 `A` 而不依赖于 `alpha(x)` 的选取.
+  而且当 `A in U-X` 时, 上述定义的 `**A` 与按 `A^NN//cc F` 定义的 `**A` 相等.
+</p>
+
+<p class="theorem">
+  <b>内集定理</b>
+  称子集 `A sube **U` 是<b>内集</b>, 如果 `A in **U`.
+  我们有: `**U` 的内集与 `**U` 的可定义子集的交仍是内集.
+</p>
+
+<p class="theorem">
+  <b>共点定理</b>
+  设 `r in U` 是二元关系, 且对任意有限个 `a_1, cdots, a_n in "dom"(r)`,
+  存在一个 `b in U` 使得 `(a_i, b) in r`, `i = 1, cdots, n`, 则称 `r` 是 `U` 上的共点关系.
+  我们有: 对 `U` 上的任意共点关系 `r`, 存在 `b in **U` 使得
+  <span class="formula">
+    `(**a, b) in **r`, `quad AA a in "dom"(r)`.
+  </span>
+</p>
+
+<h3>非标准自然数</h3>
+
+<ol>我们具体研究 `**NN`.
+  <li>
+    前面已指出 `NN subne **NN`,
+    事实上 `NN_oo := **NN - NN` 中的数都是无穷大的:
+    任取 `n in NN`, 则由传达原理, `NN` 上的命题
+    <span class="formula">
+      `(AA x in NN)(x le n to x = 0 vv x = 1 vv cdots vv x = n)`
+    </span>
+    传达为
+    <span class="formula">
+      `(AA x in **NN)(x le **n to x = **0 vv x = **1 cdots vv x = **n)`.
+    </span>
+    因此若 `x le n`, 则必有 `x in NN`.
+  </li>
+  <li>`NN` 上有全序 `le`, 由传达原理, `**NN` 也是全序集. 任取 `nu in NN_oo`,
+    则下面的数均为无穷大:
+    <span class="formula">
+      `cdots, nu - 2, nu - 1, nu, nu + 1, nu + 2, cdots`
+    </span>
+  </li>
+</ol>
+
+<h3>超实数</h3>
+
+<script>
+var asciimath = {
+  define: [
+    [/\*\*/g, '{::}^ast'],
+  ]
+}
+</script>
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>
