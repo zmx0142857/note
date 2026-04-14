@@ -2,6 +2,8 @@
 
 ## scoop
 
+> 最新: 也可以使用 winget: windows 的官方包管理器
+
 windows 的包管理器, chocolatey 的后继者.
 
 安装: 打开一个普通 powershell 窗口 (不是管理员)

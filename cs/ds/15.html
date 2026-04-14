@@ -287,6 +287,14 @@ module.exports = (str) => {
   }
   return true
 }
+
+// 两个 AABB 之间距离的平方
+const aabbDistance2 = (a, b, v = []) => {
+  for (let i = 0; i < 2; i++) {
+    v[i] = Math.max(b.min[i] - a.max[i], a.min[i] - b.max[i], 0);
+  }
+  return v[0] * v[0] + v[1] * v[1]
+};
 </script>
 </div>
 

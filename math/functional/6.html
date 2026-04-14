@@ -283,7 +283,7 @@
   若 `A = fr C(X)`, `T = I - A`, 则 `"Ker"T = 0 rArr "Im"T = X`.
 </p>
 
-<p class="proof">
+<div class="p proof">
   反设 `"Im"T != X`, 构造一系列子空间 `X_0 = X`, `X_(n+1) = T(X_n)`, 于是利用 `X_0 != X_1`
   和 `T` 是单射得到
   <span class="formula">
@@ -302,7 +302,13 @@
     `ge 1//2`, `quad` 因为 `T x_m, T x_n, x_n in X_(m+1)`.
   </span>
   这与 `A` 的紧性矛盾.
-</p>
+  <hr>
+  从下式也可以看出每个子空间 `X_n` 都是闭的:
+  <span class="formula">
+    `T^n = I + sum_(k=1)^n (n;k) (-A)^k`
+    `= I + `紧算子.
+  </span>
+</div>
 
 <p>结论四是关于维数的等式, 我们需要下面的同构引理:</p>
 
@@ -465,7 +471,7 @@
   <li>`{0}, X` 是平凡的不变子空间;</li>
   <li>若 `M` 是不变子空间, 则 `bar M` 也是;</li>
   <li>若 `lambda` 是 `A` 的本征值, 则特征子空间 `"Ker"(lambda I - A)` 是 `A` 的不变子空间.
-    特别当 `lambda != 0` 时, 由 Fredholm 结论一, 它是闭不变子空间;</li>
+    特别当 `lambda != 0` 时, 由 Fredholm 结论, 它是有限维不变子空间 (从而闭);</li>
   <li>`AA y in X`, `P_y := {P(A) y | P "为多项式"}` 是 `A` 的不变子空间.</li>
 </ol>
 
@@ -535,6 +541,342 @@
     </span>
     从而矛盾.
   </li>
+</ol>
+
+<p class="lemma">
+  <b>零链长与像链长</b>
+  设 `T in cc L(X)`, 则有
+  <span class="formula">
+    `{0} sube "Ker"T sube "Ker"T^2 sube cdots`,
+  </span>
+  若存在最小非负整数 `p` 使 `"Ker"T^p = "Ker"T^(p+1)`, 则对任意 `n ge p` 都有 `"Ker"T^p = "Ker"T^n`.
+  称 `p` 为 `T` 的零链长, 记为 `p = p(T)`.
+  同理
+  <span class="formula">
+    `X supe "Im"T supe "Im"T^2 supe cdots`,
+  </span>
+  若存在最小非负整数 `q` 使 `"Im"T^q = "Im"T^(q+1)`, 则对任意 `n ge q` 都有 `"Im"T^q = "Im"T^n`.
+  称 `q` 为 `T` 的像链长, 记为 `q = q(T)`.
+  <br>
+  特别,
+  <span class="formula">
+    `p = 0` `iff "Ker"T = {0}` `iff T` 是单射,<br>
+    `q = 0` `iff "Im"T = X` `iff T` 是满射.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    设 `"Ker"T^p = "Ker"T^(p+1)`, 任取 `x in "Ker"T^(p+2)`, 则 `T x in "Ker"T^(p+1) = "Ker"T^p`,
+    于是 `x in "Ker"T^(p+1)`.
+  </li>
+  <li>
+    设 `"Im"T^q = "Im"T^(q+1)`, 任取 `y = T^(q+1) x in "Im"T^(q+1)`, 则
+    `T^q x in "Im"T^q = "Im"T^(q+1)`, 于是 `y = T(T^q x) in "Im"T^(q+2)`.
+  </li>
+</ol>
+
+<p class="theorem">
+  设 `T = I - A`, `A in fr C(X)`, 则 `T` 的零链长与像链长都有限且相等: `p(T) = q(T) lt oo`.
+</p>
+
+<ol class="proof">
+  <li>`q lt oo`: 如若不然, 则有
+    <span class="formula">
+      `"Im"T supne "Im"T^2 supne cdots`,
+    </span>
+    从 Fredholm 结论三的证明知道这是不可能的.
+  </li>
+  <li>`p le q`: 由定义 `"Im"T^q = "Im"T^(q+1)`.
+    由于 `T = I +`紧算子, 所以 `T^q = I +`紧算子.
+    应用 Fredholm 结论四,
+    <span class="formula">
+      `dim "Ker"T^q`
+      `= "codim" "Im"T^q`
+      `= "codim" "Im"T^(q+1)`
+      `= dim"Ker"T^(q+1) lt oo`.
+    </span>
+    这推出 `"Ker"T^q = "Ker"T^(q+1)`, 于是 `p le q`.
+  </li>
+  <li>`q le p`: 类似由定义 `"Ker"T^p = "Ker"T^(p+1)` 和 Fredholm 结论四, 有等式
+    <span class="formula">
+      `"codim" "Im"T^(p+1)`
+      `= dim "Ker"T^(p+1)`
+      `= dim "Ker"T^p`
+      `= "codim""Im"T^p lt oo`.
+    </span>
+  </li>
+</ol>
+
+<p class="theorem">
+  设 `T = I - A`, `A in fr C(X)`, 则有直和分解
+  <span class="formula">
+    `X = "Ker"T^p o+ "Im"T^p`, `quad p = p(T)`,
+  </span>
+  且 `T_1 := T|_("Im"T^p)` 存在连续逆算子.
+</p>
+
+<ol class="proof">
+  <li>`X = "Ker"T^p + "Im"T^p`:
+    任取 `x in X`, 由于零链长等于像链长, 有 `T^p x in "Im"T^p = "Im"T^(2p)`,
+    即存在 `y in X` 使得 `T^p x = T^(2p) y`.  从而有分解
+    <span class="formula">
+      `x = x - T^p y + T^p y`,
+    </span>
+    其中 `T^p y in "Im"T^p`, 而 `x - T^p y in "Ker"T^p`.
+  </li>
+  <li>`"Ker"T^p nn "Im"T^p = {0}`:
+    任取 `T^p x in "Im"T^p`, 若 `T^p x in "Ker"T^p`,
+    则 `x in "Ker"T^(2p) = "Ker"T^p`.
+    于是 `T^p x = 0`.
+  </li>
+  <li>`T_1` 存在连续逆.
+    由逆算子定理, 只需证 `T_1` 是双射.
+    显然 `T("Im"T^p) = "Im"T^(p+1) = "Im"T^p`, 所以 `T_1` 是满射.
+    下证 `T_1` 是单射, 这是因为
+    <span class="formula">
+      `"Ker"T_1 = "Ker"T nn "Im"T^p`
+      `sube "Ker"T^p nn "Im"T^p`
+      `= {0}.
+    </span>
+  </li>
+</ol>
+
+<p class="remark">
+  设紧算子 `A` 的非零本征值为 `{lambda_i}_(i=1)^oo`,
+  令 `T_i = lambda_i I - A`, `p_i = p(T_i)`,
+  则 `A` 在子空间 `O+_(i=1)^oo "Ker" T_i^(p_i)`
+  上有 Jordan 标准形.
+  其关键在于, 每个 `V_i := "Ker"T_i^(p_i)` 是 `A` 的有限维不变子空间,
+  且 `T_i` 限制在 `V_i` 上是幂零算子.
+  根据线性代数, 存在 `V_i` 的一组基, 使得 `T_i|_(V_i)` 的表示矩阵是若干 Jordan 块, 其对角线为零.
+  于是 `A|_(V_i)` 的表示矩阵也是若干 Jordan 块, 其对角线为 `lambda_i`.
+</p>
+
+<h2>Hilbert-Schmidt 定理</h2>
+
+<p class="remark">
+  本节的目标是将线性代数中的谱定理 (实对称阵与 Hermite 阵的对角化) 推广到 Hilbert 空间.
+  如无说明, 本节的 `H` 均表示 Hilbert 空间.
+</p>
+
+<p class="theorem">
+  称 `A in cc L(H)` 为<b>对称算子</b>, 如果
+  <span class="formula">
+    `(A x, y) = (x, A y)`, `quad AA x, y in H`.
+  </span>
+  可以看出 `A` 是一个自伴算子, 即 `A = A^ast`.
+</p>
+
+<p class="example">
+  `RR^n` 中的实对称矩阵是对称算子;
+  `CC^n` 中的 Hermite 阵 (`A = bar(A^(sf T))`) 是对称算子.
+</p>
+
+<p class="remark">
+  自伴算子 (自共轭算子) `A = A^ast`,
+  反伴随算子 `A = -A^ast`,
+  正规算子 `A A^ast = A^ast A`,
+  酉算子 `T^-1 = T^ast`.
+</p>
+
+<ol class="proposition">
+  <b>`H` 上对称算子的性质</b>
+  <li>`A` 对称当且仅当 `AA x in H`, `(A x, x) in RR`.</li>
+  <li>对称算子之和是对称的; 对称算子乘以实数是对称的; 对称算子在子空间上也是对称的.</li>
+  <li>设 `A` 对称, 则 `sigma(A) sube RR`, 并且
+    <span class="formula">
+      `||(lambda I - A)^-1|| le 1/|"Im" lambda|`, `quad AA lambda in CC - RR`.
+    </span>
+  </li>
+  <li>设 `A` 对称, 则不同本征值对应的特征向量相互正交.</li>
+  <li>设 `A` 对称, 则 `Sup_(||x||=1) |(A x, x)| = ||A||`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    记 `a(x, y) = (A x, y)`, 则 `a` 是共轭双线性函数. 于是
+    <span class="formula align">
+      `A` 对称<br>
+      `iff (AA x, y in H)` `(A x, y) = (x, A y)`<br>
+      `iff (AA x, y in H)` `a(x, y) = bar(a(y, x))`<br>
+      `iff a` 共轭对称
+    </span>
+    根据第四章<a class="href" href="4.html#prop-conj-symm-iff">共轭对称性的等价条件</a>知道,
+    这等价于 `AA x in H`, `a(x, x) = (A x, x) in RR`.
+  </li>
+  <li>由 1. 立即得到.</li>
+  <li>
+    我们来证 `CC - RR` 中都是正则点. 首先
+    `AA lambda = u + "i"v in CC`, `u, v in RR`, 由 2. 知 `B := u I - A` 对称, 所以 `AA x in H`,
+    <span class="formula">
+      `((u I - A) x, "i"v x) + ("i"v x, (u I - A) x)`
+      `= -"i"v(B x, x) + "i"v (x, B, x)`
+      `= 0`.
+    </span>
+    这推出 `AA lambda in C`, `AA x in H`,
+    <span class="formula">
+      `||(lambda I - A) x||^2 = ||(u I - A)x||^2 + |v|^2 ||x||^2`
+      `ge |v| ||x||`.
+      <span class="label">(`ast`)</span>
+    </span>
+    故 `v != 0` 时逆算子存在且 `||(lambda I - A)^-1|| le |v|^-1`.
+    下设 `lambda in CC - RR`, 要证 `"Im"(lambda I - A) = H`.
+    事实上, `AA x, y in H`,
+    <span class="formula">
+      `((lambda I - A) x, y)`
+      `= (x, (lambda I - A)^ast y)`
+      `= (x, (bar lambda I - A^ast) y)`
+      `= (x, (bar lambda I - A) y)`.
+    </span>
+    因此
+    <span class="formula">
+      `"Im"(lambda I - A)^_|_`
+      `= "Ker"(bar lambda I - A)`
+      `==^"由 (*)" {0}`.
+    </span>
+  </li>
+  <li>设 `lambda, mu in RR` 是两个本征值, `x in "Ker"(lambda I - A)`, `y in "Ker"(mu I - A)`, 则
+    <span class="formula">
+      `lambda (x, y)`
+      `= (A x, y)`
+      `= (x, A y)`
+      `= mu (x, y)`.
+    </span>
+    若 `lambda != mu`, 则 `(x, y) = 0`.
+  </li>
+  <li>记 `c := Sup_(||x||=1) |(A x, x)|`.
+    由第四章<a href="4.html#thm-conj-bilinear-inner-prod">有界共轭双线性函数的内积表示</a>,
+    <span class="formula">
+      `||A|| = Sup_(||x|| = ||y|| = 1) |(A x, y)|`.
+    </span>
+    显然有 `c le ||A||`.  另一方面, 由对称性
+    <span class="formula">
+      `(A(x+y), x+y) - (A(x-y), x-y)`
+      `= 2(A x,y) + 2(A y,x)`
+      `= 4 "Re"(A x, y)`.
+    </span>
+    且
+    <span class="formula">
+      上式左边
+      `le c(||x+y||^2 + ||x-y||^2)`
+      `==^"极化恒等式" 2c(||x||^2 + ||y||^2)`.
+    </span>
+    这推出
+    <span class="formula">
+      `"Re"(A x, y) le c`,
+      `quad AA ||x|| = ||y|| = 1`.
+    </span>
+    对任意给定的 `||x|| = ||y|| = 1`, 可以选取单位复数 `|a| = 1` 使得
+    <span class="formula">
+      `|(A x, y)|`
+      `= a(A x, y)`
+      `= (A x, bar a y)`
+      `= "Re"(A x, bar a y)`
+      `le c`.
+    </span>
+    因此 `||A|| le c`.
+  </li>
+</ol>
+
+<p>
+  设 `A in cc L(H)` 对称, 考虑单位球面上的二次型 `(A x, x)`, `||x|| = 1`.
+  我们知道 `(A x, x)` 是实数, 且它的绝对值以 `||A||` 为上确界.
+  现在设 `A` 是紧算子, 则该上确界可以取到, 这就是:
+</p>
+
+<p class="theorem">
+  <b>对称紧算子的极值性质</b>
+  设 `A in fr C(H)` 对称, 则 `EE ||x_0|| = 1`, 使得
+  <span class="formula">
+    `|(A x_0, x_0)| = max_(||x|| = 1) |(A x, x)| = ||A||`.
+  </span>
+  如果记 `lambda = (A x_0, x_0)`, 我们还有 `A x_0 = lambda x_0`.
+  即 `lambda` 是本征值, `x_0` 是相应的特征向量.
+</p>
+
+<ol class="proof">
+  <li>
+    不妨设
+    <span class="formula">
+      `Sup_(||x||=1) |(A x, x)| = Sup_(||x||=1) (A x, x) := lambda`,
+    </span>
+    否则可以用 `-A` 代替 `A`.
+    在单位球面上取点列 `{x_n}` 使 `(A x_n, x_n) to lambda`.
+    注意 Hilbert 空间是自反空间, 而自反空间的单位闭球弱自列紧, 可知 `{x_n}`
+    有弱收敛的子列, 仍记作 `{x_n}`.  并记 `x_n &#8640; x_0`, 于是 `||x_0|| le 1`.
+    利用 `A` 的紧性, `A x_n to A x_0`, 从而 `(A x_n, x_n) to (A x_0, x_0)`.
+    于是由极限的唯一性知 `lambda = (A x_0, x_0)`.
+  </li>
+  <li>
+    下证 `||x_0|| = 1`.  事实上若 `||x_0|| lt 1`, 则
+    <span class="formula">
+      `(A x_0, x_0)`
+      `le ||A|| ||x_0||^2`
+      `lt ||A|| = lambda`,
+    </span>
+    矛盾.
+  </li>
+  <li>下证 `A x_0 = lambda x_0`.  `AA y in H`, 考虑定义在复平面原点邻域内的函数
+    <span class="formula">
+      `varphi_y(t) := ((A(x_0 + t y), x_0 + t y))/((x_0 + t y, x_0 + t y))`.
+    </span>
+    由 `x_0` 的定义, 函数 `varphi_y` 在 `t = 0` 处达到极大, 于是 `varphi_y'(0) = 0`, 即
+    <span class="formula">
+      `"Re"(y, A x_0 - lambda x_0) = 0`.
+    </span>
+    由 `y` 的任意性推出 `A x_0 = lambda x_0`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>谱定理 (Hilbert-Schmidt)</b>
+  设 `A in fr C(H)` 对称, 设 `A` 的本征值为 `{lambda_i}`,
+  则存在一组正交规范基 `{e_i}`, 满足 `AA x in H`,
+  <span class="formula">
+    `x = sum (x, e_i) e_i`,<br>
+    `A x = sum lambda_i (x, e_i) e_i`
+    `= sum lambda_i (e_i ox e_i) x`.
+    <span class="label">(`ast`)</span>
+  </span>
+  换言之, 对称紧算子 `A` 可以对角化.
+</p>
+
+<ol class="proof">
+  <li>
+    任取非零本征值 `lambda`, 取 `"Ker"(lambda I - A)` 的正交规范基
+    <span class="formula">
+      `{e_i^((lambda))}_(i=1)^(m(lambda))`,
+      `quad m(lambda) = dim "Ker"(lambda I - A) lt oo`.
+    </span>
+    若 `0` 是本征值, 则取 `"Ker"A` 的正交规范基 `{e_i^((0))}`, 它不一定可数 (`H` 未必是可分空间).
+    现在令
+    <span class="formula">
+      `{e_i'} := {e_i^((lambda)): lambda "是非零本征值", i = 1, cdots, m(lambda)}`,<br>
+      `{e_i} := {
+        {e_i'}, if 0 "不是本征值";
+        {e_i'} uu {e_i^((0))}, otherwise
+      :}`
+    </span>
+    由于每个 `e_i` 都是 `A` 的特征向量, 故在 `M := "span"{e_i}` 上等式 (`ast`) 成立.
+  </li>
+  <li>
+    下证 `M^_|_ = {0}`. 如若不然, 对 `AA x in M^_|_, AA e_i`, 由对称性有
+    <span class="formula">
+      `(A x, e_i)`
+      `= (x, A e_i)`
+      `= (x, lambda_i e_i)`
+      `= 0`.
+    </span>
+    即 `A x in M^_|_`, `M^_|_` 是 `A` 的不变子空间.  记 `tilde A := A|_(M^_|_)`,
+    则由前一定理, 存在 `tilde A` 的单位特征向量 `x_0 in M^_|_`, `||x_0|| = 1`.
+    另一方面, 显然 `x_0` 也是 `A` 的特征向量, 所以 `x_0 in M`, 矛盾.
+  </li>
+  <hr>
+  关于求和的可数性:
+  从证明过程看出, 虽然基底 `{e_i}` 可能是不可数的,
+  但只有至多可数个 `e_i` 对应的本征值 `lambda_i != 0`.
+  此外由 Bessel 不等式知道 Fourier 系数 `(x, e_i)` 也只有至多可数个不为零.
 </ol>
 
 <script src="../../js/note.js?type=math"></script>

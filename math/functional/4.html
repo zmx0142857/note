@@ -53,7 +53,7 @@
   事实上, 共轭对称性也可以作为前三条性质的推论, 参见下面命题:
 </p>
 
-<p class="proposition">
+<p class="proposition" id="prop-conj-symm-iff">
   <b>共轭对称性的等价条件</b>
   设 `f` 是 `X` 上的共轭双线性函数, 则 `f` 满足共轭对称性的等价条件是
   <span class="formula">
@@ -493,8 +493,9 @@
   </li>
 </ol>
 
-<p class="corollary">
-  非零 Hilbert 空间必有<b>正交规范基</b>.
+<p class="remark">
+  由完备正交集的存在性立即知道, 非零 Hilbert 空间必有<b>正交规范基</b>.
+  而且 Parseval 等式正是无穷维版本的勾股定理.
 </p>
 
 <p class="definition">
@@ -810,7 +811,21 @@
   `= (a, b, c) * (x, y, z)`, 这就是线性函数的内积表示.
 </p>
 
-<p class="theorem">
+<p class="corollary">
+  Hilbert 空间是自反空间.
+</p>
+
+<p class="proof">
+  设 `X` 是 Hilbert 空间, 则 Riesz 表示定理给出 `X^ast to X` 的保范共轭线性同构 `f mapsto y`.
+  所谓共轭线性是指
+  <span class="formula">
+    `alpha_1 f_1 + alpha_2 f_2 mapsto bar alpha_1 y_1 + bar alpha_2 y_2`.
+  </span>
+  同理 `X^(ast ast)` 与 `X^ast` 也存在保范共轭线性同构.
+  这两个同构的复合就给出 `X` 到 `X^(ast ast)` 的共轭线性同构.
+</p>
+
+<p class="theorem" id="thm-conj-bilinear-inner-prod">
   <b>有界共轭双线性函数的内积表示</b>
   设 `a(x, y)` 是 Hilbert 空间 `X` 上的共轭双线性函数.
   称 `a` 是有界的, 如果存在常数 `M gt 0` 使得
@@ -832,7 +847,7 @@
 </p>
 
 <p class="proof">
-  固定 `y in X`, 则 `f := a(*, y)` 是一个连续线性泛函. 由 Riesz 表示定理, `EE z = A y in X` 使得
+  固定 `y in X`, 则 `f := a(*, y)` 是一个连续线性泛函. 由 Riesz 表示定理, `EE z := A y in X` 使得
   <span class="formula">
     `a(x, y) = (x, z)`
     `= (x, A y)`,
