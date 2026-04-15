@@ -15,12 +15,11 @@
 
 <p class="remark">
   本章起我们离开古典微分几何, 进入现代微分几何的领域. 第一个重要概念就是<b>流形</b>:
-  它是加上了一些限定条件的拓扑空间, 从而方便我们应用微积分的工具.
+  它是曲线、曲面等概念的高维推广.
+  定义上, 流形是加上了一些限定条件的拓扑空间, 从而方便我们应用微积分的工具.
 </p>
 
 <h2>流形</h2>
-
-<h3>流形的定义</h3>
 
 <ol class="definition">
   <li>
@@ -31,7 +30,7 @@
   <li>
     所谓<b>局部同胚</b>是指, 存在流形 `M` 的开覆盖 `{U_alpha}_(alpha in Gamma)` 以及一族连续映射
     `varphi_alpha: U_alpha to RR^n`, 满足每个像集 `varphi_alpha(U_alpha)` 都是 `RR^n` 中的开集,
-    且 `varphi_alpha` 是同胚.
+    且 `varphi_alpha` 到它的像上是同胚.
     <br>
     我们称 `(U_alpha, varphi_alpha)` 为一个局部坐标系 (又称坐标卡, coordinate chart), `U_alpha`
     为局部坐标邻域, `varphi_alpha` 为局部坐标映射, `{(U_alpha, varphi_alpha)}`
@@ -47,6 +46,7 @@
 
 <p class="remark">
   Hausdorff 和第二可数都是可继承的拓扑性质, 在子拓扑空间中自动成立.
+  此外, 可数个第二可数空间的乘积第二可数, 任意多个 Hausdorff 空间的乘积 Hausdorff.
 </p>
 
 <p class="remark">
@@ -124,11 +124,18 @@
   映射不依赖于局部坐标系选取.
 </p>
 
-<h3>光滑流形</h3>
+<p class="example">
+  每个坐标映射 `varphi: U to varphi(U)` 都是 `C^oo` 同胚.
+</p>
 
-<p>不加说明的情况下, 我们接下来涉及的流形都指光滑流形, 即 `C^oo` 流形.</p>
+<p class="proof">
+  把 `varphi(U) sube RR^n` 看作流形, 坐标映射为恒等映射 `"id"`,
+  则转换映射 `"id" @ varphi @ varphi^-1 = "id"` 是光滑映射.
+</p>
 
 <h2>切空间</h2>
+
+<p>切空间是对流形的局部线性近似. 尽管流形一般不是线性空间, 但切空间是.  ——从而线性代数有了用武之地.</p>
 
 <ol class="definition">
   设 `M` 是 `n` 维光滑流形, `p in M`.
@@ -141,23 +148,29 @@
     </span>
     它们之间可以建立等价关系 `~`: 其中
     <span class="formula">
-      `f ~ g iff EE p 的邻域 V`, `AA x in V`, `f(x) = g(x)`.
+      `f ~ g iff EE p` 的邻域 `V`, `AA x in V`, `f(x) = g(x)`.
     </span>
     所有的这些等价类记作 `C_p^oo(M)`, 称为 `p` 处的光滑函数族.
     在函数的加法与乘法下, `C_p^oo(M)` 成为一个环; 再加以实数的数乘, 它成为一个 `RR` 上的代数.
   </li>
-  <li><b>导子 (或方向导数, 切向量)</b>
+  <li><b>导子 (切向量, 或方向导数)</b>
     线性映射 `D: C_p^oo(M) to RR` 称为 `M` 在 `p` 处的一个导子, 如果它满足 Leibniz 法则:
     `AA f, g in C_p^oo(M)`,
     <span class="formula">
       `D(f g) = {:D(f) g + f D(g)|_p`.
     </span>
+    `p` 处的全体导子构成线性空间, 记作 `T_p(M)`, 称为 `M` 在 `p` 处的<b>切空间 (tangent space)</b>.
+    因此又把导子称为切向量.
+    <br>
     可以验证, 在 `M = RR^n` 时, `p` 处的全体导子恰为 `p` 处的全体方向导数,
     因此又把导子称为方向导数.
-    <br>
-    可以验证, 导子经过加法、数乘运算仍满足 Leibniz 法则, 故 `p`
-    处的全体导子构成线性空间, 记作 `T_p(M)`, 称为 `M` 在 `p` 处的<b>切空间</b>.
-    因此又把导子称为切向量.
+    <p class="remark">
+      在 `RR^n` 中, `p` 处沿 `v = (v^1, cdots, v^n)` 方向的导数定义为
+      <span class="formula">
+        `(del f)/(del v) := lim_(t to 0) (f(p + t v) - f(p)) / t`
+        `= sum v_i (del f)/(del x^i)|_p`.
+      </span>
+    </p>
   </li>
   <li><b>偏导数 (或对坐标微分)</b>
     取 `p` 的坐标卡 `(U, phi) = (U, x^1, cdots, x^n)`, 其中 `phi: U to RR^n`,
@@ -174,6 +187,7 @@
       `:= {: pp (f@phi^-1) r^i |_(phi(p))`.
     </span>
     该定义将流形上的偏导数与实函数 `f @ phi^-1: RR^n to RR` 的偏导数联系在一起.
+    可以验证偏导数与坐标卡的选取无关.
     <br>
     由坐标函数 `phi` 的光滑性知道 `x^i in C_p^oo(M)`, 因此可以计算
     <span class="formula">
@@ -193,24 +207,26 @@
     </span>
     可以验证 `F_ast D` 满足 Leibniz 律, 且 `F_ast` 是线性的.
     特别当 `F` 是微分同胚时, `F_ast` 是线性空间的同构.
+    <p class="remark">
+      微分的定义可以类比于泛函分析中的伴随算子, 也可以写成 `(:F_ast D, f:) = (:D, f @ F:)`.
+    </p>
   </li>
   <li>
     <b>微分的链式法则</b>
     设 `F: N to M`, `G: M to P` 是流形间的 `C^oo` 映射.
     取 `p in N`, 考虑 `F` 和 `G` 的微分的复合运算:
     <span class="formula">
-      `T_p N overset(F_(ast, p)) --> T_(F(p)) M overset(G_(ast, F(p))) --> T_(G(F(p))) P`,
+      `T_p N overset(F_ast) --> T_(F(p)) M overset(G_ast) --> T_(G(F(p))) P`,
     </span>
-    其中 `(G @ F)_ast = G_ast @ F_ast`.
+    我们有链式法则: `(G @ F)_ast = G_ast @ F_ast`.
   </li>
   <li><b>切空间的基</b>
     取 `p` 的坐标卡 `(U, phi) = (U, x^1, cdots, x^n)`,
-    求 `phi` 的微分可得: `AA f in C_(phi(p))^oo(RR^n)`,
+    视 `phi` 为流形 `M` 到 `RR^n` 的 `C^oo` 映射, 求微分可得: `AA f in C_(phi(p))^oo(RR^n)`,
     <span class="formula">
       `phi_ast ({:del/(del x^i)|_p) f`
       `==^"微分定义" {:del/(del x^i)|_p (f @ phi)`
-      `==^"偏导数定义" {:pp (f@phi@phi^-1) r^i |_(phi(p))`
-      `= {: pp f r^i |_(phi(p))`.
+      `==^"偏导数定义" {: pp f r^i |_(phi(p))`.
     </span>
     因此
     <span class="formula">
@@ -226,6 +242,237 @@
     我们推出: 光滑流形的维数在微分同胚下不变.
   </li>
 </ol>
+
+<h2>外代数</h2>
+
+<h3>张量积与楔积</h3>
+
+<ol class="definition">
+  <li>
+    <b>多重线性函数</b>
+    设 `V` 是 `RR` 上的线性空间, `f: V^n to RR` 称为 `n` 线性函数, 如果它对每个输入参数都线性,
+    记作 `f in L_n(V)`.
+    如果任意交换两个参数不改变函数的值, 则称 `f` 是<b>对称的</b>, 记作 `f in S_n(V)`;
+    如果任意交换两个参数恰好改变函数的正负号, 则称 `f` 是<b>交错的</b>, 记作 `f in A_n(V)`.
+    例如, 把矩阵的行列式视为 `n` 个列向量到 `RR` 的映射 `det: (RR^n)^n to RR`
+    时, 它是一个交错的多重线性函数.
+  </li>
+  <li>
+    <b>置换作用</b>
+    设 `f` 是 `n` 线性函数, `sigma` 是一个 `n` 置换, 用 `sigma f` 表示 `f` 参数的置换, 即
+    <span class="formula">
+      `sigma f(x_1, cdots, x_n) := f(x_(sigma(1)), cdots, x_(sigma(n)))`.
+    </span>
+    又用 `sgn sigma` 表示置换的奇偶性, 即
+    <span class="formula">
+      `sgn sigma := {+1, if sigma "是偶置换"; -1, if sigma "是奇置换":}`.
+    </span>
+    于是
+    <span class="formula">
+      `f` 对称 `iff AA sigma in S_n`, `sigma f = f`;<br>
+      `f` 交错 `iff AA sigma in S_n`, `sigma f = sgn(sigma) f`.
+    </span>
+    <ul class="example box">
+      <li>`sgn(sigma tau) = sgn(sigma) sgn(tau)`.</li>
+      <li>`sigma(tau f) = (sigma tau) f`; 事实上 `sigma` 对 `f` 是群作用.</li>
+    </ul>
+  </li>
+  <li><b>置换求和</b>
+    设 `f` 是 `n` 线性函数, 定义
+    <span class="formula">
+      `S f = sum_(sigma in S_n) sigma f`,<br>
+      `A f = sum_(sigma in S_n) (sgn sigma) sigma f`.
+    </span>
+    可以验证 `S f` 是对称的, `A f` 是交错的.
+    若 `f` 本身对称, 则 `S f = n! f`; 同理若 `f` 本身交错, 则 `A f = n! f`.
+  </li>
+  <li>
+    <b>张量积</b>
+    多重线性函数的另一个名字叫<b>张量</b>.
+    设 `f, g` 分别是 `k, l` 线性函数, 它们的张量积定义为一个 `k+l` 线性函数:
+    <span class="formula">
+      `(f ox g)(v_1, cdots, v_k, w_1, cdots, w_l)`
+      `:= f(v_1, cdots, v_k) g(w_1, cdots, w_l)`.
+    </span>
+    换言之, `k` 阶张量与 `l` 阶张量的张量积是一个 `k+l` 阶张量.
+    张量积满足结合律: `(f ox g) ox h = f ox (g ox h)`.
+  </li>
+  <li><b><ruby>楔<rt style="font-size:0.8em;font-weight:normal">xiē</rt></ruby>积 (wedge product)</b>
+    设 `f, g` 分别是 `k, l` 阶<b>交错</b>线性函数, 定义它们的楔积为
+    <span class="formula">
+      `f ^^ g = 1/(k! l!) A(f ox g)`,<br>
+    </span> 
+    立即知道 `f ^^ g` 是 `k+l` 阶交错线性函数.
+    展开定义有
+    <span class="formula align">
+      `f(v_1, cdots, v_(k+l))`
+      `= 1/(k! l!) sum_(sigma in S_(k+l)) sgn(sigma) sigma(f ox g)`<br>
+      `= 1/(k! l!) sum_(sigma in S_(k+l)) sgn(sigma)`
+      `f(v_(sigma(1)), cdots, v_(sigma(k)))`
+      `g(v_(sigma(k+1)), cdots, v_(sigma(k+l)))`.
+    </span> 
+    <p class="remark">
+      不同资料中楔积的系数 `1//k!l!` 有所不同.
+      这里的系数是为了消除求和中重复的项: 比如 `S_(k+l)` 的子群 `S_k` 只涉及 `f` 的参数的置换,
+      而保持 `g` 的参数不变. 考察一般项 `sgn(sigma) sigma(f ox g)`, 利用 `f` 的交错性有
+      <span class="formula">
+        `sgn(sigma) sigma(f ox g)`
+        `= sgn(sigma)(sigma f) ox g`
+        `= f ox g`,
+        `quad AA sigma in S_k`.
+      </span>
+      这说明在子群 `S_k` 上, 求和的一般项与 `sigma` 的选取无关.
+      事实上在 `S_k` 的每个陪集上都是如此, 对任意 `tau in S_(k+l)` 有
+      <span class="formula">
+        `sgn(tau sigma) tau sigma(f ox g)`
+        `= sgn(tau) tau sgn(sigma)(sigma f) ox g`
+        `= sgn(tau) tau(f ox g)`,
+        `quad AA sigma in S_k`.
+      </span>
+      因此我们除以 `k!`, 来商掉子群 `S_k` 带来的重复项.
+      同理对于那些只涉及 `g` 的参数而保持 `f` 参数不变的置换, 我们除以 `l!` 来消除重复项.
+    </p>
+  </li>
+  <li><b>楔积的等价定义</b>
+    楔积求和的重复项实际来自于 `f, g` 的交错性.
+    如果我们规定一般项 `sigma(f ox g)` 中的下标满足
+    <span class="formula">
+      `sigma(1) lt cdots lt sigma(k)`,<br>
+      `sigma(k+1) lt cdots lt sigma(k+l)`,
+    </span>
+    则称这样的 `sigma` 是一个 `k,l` 重排, 记作 `sigma in S_(k,l). 于是
+    <span class="formula">
+      `f ^^ g = sum_(sigma in S_(k,l)) sgn(sigma) sigma(f ox g)`.
+    </span>
+    显然, 要确定一个 `k, l` 重排, 只需把集合 `{1, ..., k+l}` 划分成大小为 `k, l` 的两部分,
+    因此上式求和共有 `(k+l;k)` 项.
+  </li>
+</ol>
+
+<ol class="property">
+  <b>楔积的性质</b>
+  设 `f, g, h` 分别是 `k, l, m` 阶交错多重线性函数, 则有
+  <li>反交换律: `f ^^ g = (-1)^(k l) g ^^ f`.</li>
+  <li>`k` 是奇数时, `f ^^ f = 0`.</li>
+  <li>结合律: `(f ^^ g) ^^ h = f ^^ (g ^^ h)` `= 1/(k!l!m!) A(f ox g ox h)`.</li>
+</ol>
+
+<ol class="example">
+  <li>设 `c in RR`, `f in A_n(V)`, 则楔积等同于实数与函数的数乘: `c ^^ f = c f`.</li>
+  <li>设 `f, g in A_1(V)`, 则 `(f ^^ g)(v_1, v_2) = f(v_1) g(v_2) - f(v_2) g(v_1)`.</li>
+  <li>设 `(alpha^i)_(i=1)^n in A_1(V)`, 则 `(alpha^1 ^^ cdots ^^ alpha^n)(v_1, cdots, v_n)`
+      `= det(alpha^i(v_j))`.
+  </li>
+</ol>
+
+<h3>对偶空间</h3>
+
+<p class="remark">
+  `A_1(V) = L_1(V)` 是重要的空间, 称为对偶空间. 其中的元素 (一阶张量) 称为对偶向量 (covector),
+  定义如下:
+</p>
+
+<p class="definition">
+  <b>对偶空间</b>
+  设 `V` 是 `RR` 上的线性空间, 它的对偶空间 `V^ast` 定义为全体 `V to RR` 的线性映射.
+  若 `(e_i)_(i=1)^n` 是 `V` 的基, 按照
+  <span class="formula">
+    `alpha^i(e_j) := delta_j^i`
+  </span>
+  可以定义 `V^ast` 的基 `(alpha^i)_(i=1)^n`, 称为 `(e_i)_(i=1)^n` 的<b>对偶基</b>.
+  对偶基 `alpha^i` 的作用是取出向量 `v in V` 的第 `i` 分量, 事实上设 `v = sum v^j e_j`, 则
+  <span class="formula">
+    `alpha^i(v)`
+    `= sum v^j alpha^i(e_j)`
+    `= sum v^j delta_j^i`
+    `= v^i`.
+  </span>
+</p>
+
+<p class="theorem">
+  对偶向量的楔积构成了 `A_k(V)` 的基底. 具体来说, 引入多重指标记号
+  <span class="formula">
+    `alpha^I = alpha^(i_1) ^^ cdots ^^ alpha^(i_k)`,
+    `quad I = (i_1, cdots, i_k)`.
+  </span>
+  则 `{alpha^I: I = (i_1 lt cdots lt i_k)}` 是 `A_k(V)` 的基,
+  它有 `(n;k)` 个成员, `n = dim V`.
+</p>
+
+<p class="corollary">
+  `k gt dim V` 时, `A_k(V) = 0`.
+  这是因为基向量 `alpha^I` 至少有两项相等: `alpha^i = alpha^j`,
+  从而 `alpha^i ^^ alpha^j = 0`.
+</p>
+
+<h3>`RR^n` 上的微分形式</h3>
+
+<ol class="definition">
+  <li>
+    <b>微分形式</b>
+    回忆切空间定义, `T_p(RR^n)` 由 `p` 处的全体方向导数 `sum v^i(del//del x^i)|_p` 组成.
+    现在考虑对偶空间 `T_p^ast(RR^n)`, 其由对偶切向量组成.
+    开集 `U sube RR^n` 上的<b>微分 1 形式</b> (或简称 1 形式) 定义为映射
+    <span class="formula">
+      `omega: U to uuu_(p in U) T_p^ast(RR^n)`<br>
+      `p mapsto omega_p in T_p^ast(RR^n)`.
+    </span>
+    简言之, 微分 1 形式把点 `p` 映为它的一个对偶切向量 `omega_p`.
+  </li>
+  <li><b>外微分</b>
+    我们称光滑函数 `f: U to RR`, `f in C^oo(U)` 为 <b>0 形式</b>.
+    事实上, 给定 `f`, 可以构造 1 形式 `d f` 如下:
+    <span class="formula">
+      `(:d f|_p, X_p:) = (:X_p, f:)`, `quad AA X_p in T_p(RR^n)`.
+    </span>
+    由定义, 方向导数 `X_p` 已经属于 `V = C_p^oo(U)` 的对偶空间, 而 `d f|_p`
+    则属于 `V` 的二重对偶空间 `V^(ast ast)`.
+    我们称 `d f` 为 `f` 的外微分.
+  </li>
+  <li><b>对偶切空间的基</b> 我们已知 `(del//del x^i|_p)_(i=1)^n` 是切空间 `T_p(RR^n)` 的基.
+    其中坐标函数 `x^i: RR^n to RR` 是光滑函数, 因此外微分 `d x^i` 有意义.
+    事实上 `(d x^i|_p)_(i=1)^n` 是对偶切空间 `T_p^ast(RR^n)` 的基, 正是
+    `(del//del x^i|_p)_(i=1)^n` 的对偶基:
+    <span class="formula">
+      `(: d x^i|_p, del/(del x^j)|_p:)`
+      `==^"外微分定义" (:del/(del x^j)|_p, x^i:)`
+      `= delta_j^i`.
+    </span>
+    现在设 `omega` 是微分 1 形式, 在基底 `(d x^i|_p)` 下逐点地有
+    <span class="formula">
+      `omega_p = sum a_i(p) d x^i|_p`, `quad a_i(p) in RR`,
+    </span>
+    因此
+    <span class="formula">
+      `omega = sum a_i d x^i`, `quad a_i: U to RR`.
+    </span>
+    称 `omega` 是光滑的, 如果每个分量函数 `a_i` 都光滑.
+  </li>
+  <li>
+    在基底 `(d x^i)` 下有 `d f = sum (del f)/(del x^i) d x^i`.
+    事实上设 `d f = sum a_j d x^j`, 则
+    <span class="formula">
+      `(del f)/(del x^i)`
+      `= (:del/(del x^i), f:)`
+      `==^"外微分定义" (: d f, del/(del x^i) :)`
+      `= sum a_j (: d x^j, del/(del x^i) :)`
+      `= sum a_j delta_i^j`
+      `= a_i`.
+    </span>
+    因此, 当 `f` 光滑时, `d f` 也光滑.
+    <br>
+    对偶地, 设 `X_p in T_p(RR^n)`, 记 `X_p = sum b^j(X_p) del/(del x^j)|_p`, 则
+    <span class="formula">
+      `(:d x^i|_p, X_p :)`
+      `==^"外微分定义" (: X_p, x^i :)`
+      `= sum b^j(X_p) (: del/(del x^j)|_p, x^i :)`
+      `= sum b^j(X_p) delta_j^i`
+      `= b^i(X_p)`.
+    </span>
+    因此 `b^i = d x^i`.
+  </li>
+</ol>
+
 
 <script src="../../js/note.js?type=math"></script>
 </body>

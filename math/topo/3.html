@@ -93,12 +93,13 @@
 
 <p class="definition">
   <b>滤子的生成</b>
-  设 `X` 是非空集合, `cc F` 是 `X` 的非空子集族, 且满足有限交性质. 记
+  设 `X` 是非空集合, `cc F` 是 `X` 的子集族, 满足 `cc F != O/`, 且 `cc F` 中任意有限个集合的交非空.
+  我们想要构造一个最小滤子 `(:cc F:) supe cc F`. 事实上, 记
   <span class="formula">
     `cc F_nn := { F: F 是 cc F 中集合的有限交 }`,<br>
     `(:cc F:) := { G: EE F in cc F_nn, F sube G sube X}`.
   </span>
-  则 `(:cc F:)` 是滤子, 称为子集族 `cc F` <b>生成的滤子</b>. 可以验证 `cc F sube (:cc F:)`.
+  则 `(:cc F:)` 就是包含 `cc F` 的最小滤子, 称为子集族 `cc F` <b>生成的滤子</b>.
   <br>
   特别取非空子集 `F sube X`, 则 `cc F = {F}` 具有有限交性质,
   生成的滤子 `(:cc F:) = { G: F sube G sube X}` 即为 `X` 中包含 `F` 的所有集合.
@@ -115,6 +116,7 @@
 
 <p class="corollary">
   滤子 `cc F, cc G` 并存当且仅当它们具有共同的加细.
+  事实上 `(:cc F uu cc G:)` 就是它们的最小共同加细.
 </p>
 
 <ol class="proof">
@@ -132,12 +134,13 @@
 </ol>
 
 <p class="corollary">
+  [群友@西伯利亚的猫猫]
   我们已经知道滤子 `cc F, cc G` 并存时, `(:cc F uu cc G:)` 是它们的共同加细.
   事实上,
   <span class="formula">
     `cc F ^^ cc G := { F nn G: F in cc F, G in cc G }`
   </span>
-  也是一个共同加细, 而且是<b>最小共同加细</b>.
+  也是最小共同加细, 因此 `cc F ^^ cc G = (:cc F uu cc G:)`.
 </p>
 
 <ol class="proof enum">
@@ -163,12 +166,6 @@
     这证明了 `cc F ^^ cc G sube cc H`.
   </li>
 </ol>
-
-<p class="remark">
-  和子群的生成, 或者 `sigma` 代数的生成不同, `(:cc F:)` 未必是包含 `cc F` 的最小滤子.
-  例如 `(:cc F uu cc G:)` 和 `cc F ^^ cc G` 就是包含 `cc F uu cc G` 的两个滤子,
-  后者是最小滤子, 而前者未必.
-</p>
 
 <h3>超滤子</h3>
 
