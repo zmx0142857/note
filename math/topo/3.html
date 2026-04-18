@@ -29,7 +29,7 @@
   <li>传递性: `F sube G sube X and F in cc F rArr G in cc F`.</li>
   可以将滤子与拓扑的定义进行比较.
   由 1. 立即得知, `cc F != O/`, 且是 `2^X` 的真子集, 故得名真滤子.
-  由 2. 知道 `cc F` 中任意有限个集合的交都非空, 这称为滤子的<b>有限交性质</b>.
+  由 2. 知道 `cc F` 中任意有限个集合的交都非空.
 </ol>
 
 <ol class="example">
@@ -91,22 +91,45 @@
 
 <h3>生成与加细</h3>
 
-<p class="definition">
+<ol class="definition">
   <b>滤子的生成</b>
-  设 `X` 是非空集合, `cc F` 是 `X` 的子集族, 满足 `cc F != O/`, 且 `cc F` 中任意有限个集合的交非空.
-  我们想要构造一个最小滤子 `(:cc F:) supe cc F`. 事实上, 记
-  <span class="formula">
-    `cc F_nn := { F: F 是 cc F 中集合的有限交 }`,<br>
-    `(:cc F:) := { G: EE F in cc F_nn, F sube G sube X}`.
-  </span>
-  则 `(:cc F:)` 就是包含 `cc F` 的最小滤子, 称为子集族 `cc F` <b>生成的滤子</b>.
-  <br>
-  特别取非空子集 `F sube X`, 则 `cc F = {F}` 具有有限交性质,
-  生成的滤子 `(:cc F:) = { G: F sube G sube X}` 即为 `X` 中包含 `F` 的所有集合.
-  <br>
-  特别的特别, 令 `F = {x}`, 则 `(:cc F:) = {G sube X: x in G}` 是 `X` 中包含 `x` 的所有集合,
-  称为 `x` 生成的<b>主滤子</b>, 简记为 `(:x:)`.
-</p>
+  <li>
+    设 `X` 是非空集合, `cc F != O/` 是 `X` 的子集族, 且 `cc F` 中任意有限个集合的交非空.
+    我们想要构造一个最小滤子 `(:cc F:) supe cc F`. 事实上, 记
+    <span class="formula">
+      `cc F_nn := { F: F 是 cc F 中集合的有限交 }`,<br>
+      `(:cc F:) := { G: EE F in cc F_nn, F sube G sube X}`.
+    </span>
+    则 `(:cc F:)` 就是包含 `cc F` 的最小滤子, 称为子集族 `cc F` <b>生成的滤子</b>.
+  </li>
+  <li>
+    特别取非空子集 `F sube X`, 则 `cc F = {F}`
+    生成的滤子 `(:cc F:) = { G: F sube G sube X}` 是 `X` 的所有包含 `F` 的子集.
+  </li>
+  <li>
+    特别的特别, 令 `cc F = {{x}}`, 则 `(:cc F:) = {G sube X: x in G}` 是 `X` 的所有包含 `x` 的子集,
+    称为 `x` 生成的<b>主滤子</b>, 简记为 `(:x:)`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    `(:cc F:)` 的最小性:
+    显然 `cc F sube cc F_nn sube (:cc F:)`.
+    若 `cc H supe cc F` 是一个滤子, 则由 `cc H` 的有限交性质推出 `cc F_nn sube cc H`,
+    再由 `cc H` 的传递性推出 `(:cc F:) sube cc H`.
+  </li>
+  <li>`(:cc F:)` 是滤子: 显然 `O/ !in (:cc F:)`, `X in (:cc F:)`.
+    <br>
+    有限交:
+    `AA G_1, G_2 in (:cc F:)`, `EE F_1, F_2 in cc F_nn` 使得 `F_1 sube G_1`, `F_2 sube G_2`.
+    于是 `F_1 nn F_2 sube G_1 nn G_2`, 且 `F_1 nn F_2 in cc F_nn`, 这推出 `G_1 nn G_2 in (:cc F:)`.
+    <br>
+    传递性:
+    `AA G_1 in (:cc F:)`, `EE F_1 in cc F_nn` 使得 `F_1 sube G_1`. 若 `G_1 sube G_2 sube X`,
+    则 `F_1 sube G_2`, 这推出 `G_2 in (:cc F:)`.
+  </li>
+</ol>
 
 <ol class="definition">
   设 `cc F, cc G` 为 `X` 上的滤子.
@@ -120,51 +143,45 @@
 </p>
 
 <ol class="proof">
-  <li>`rArr`. 令 `cc H = cc F uu cc G`, 由 `cc F, cc G` 并存知道 `cc H` 仍满足有限交性质.
-    又由
-    <span class="formula">
-      `cc F sube cc H sube (:cc H:)`,<br>
-      `cc G sube cc H sube (:cc H:)`
-    </span>
-    知道, `(:cc H:)` 是 `cc F, cc G` 的共同加细.
-  </li>
-  <li>设 `cc H` 是它们的共同加细, 则它满足有限交性质,
+  <li>`lArr`: 设滤子 `cc H` 是它们的共同加细,
     从而 `AA F in cc F sube cc H`, `AA G in cc G sube cc H`, `F nn G != O/`.
+  </li>
+  <li>`rArr`:
+    由 `cc F, cc G` 并存可知, `cc F uu cc G` 中的任意有限个集合的交非空, 于是
+    <span class="formula">
+      `cc F sube cc F uu cc G sube (:cc F uu cc G:)`,<br>
+      `cc G sube cc F uu cc G sube (:cc F uu cc G:)`.
+    </span>
+    可知 `(:cc F uu cc G:)` 是它们的共同加细.
+    这个加细是最小的, 因为 `cc F, cc G` 的共同加细至少要包含 `cc F uu cc G`.
   </li>
 </ol>
 
 <p class="corollary">
-  [群友@西伯利亚的猫猫]
-  我们已经知道滤子 `cc F, cc G` 并存时, `(:cc F uu cc G:)` 是它们的共同加细.
-  事实上,
+  [群友@西伯利亚的猫猫] 令
   <span class="formula">
     `cc F ^^ cc G := { F nn G: F in cc F, G in cc G }`
   </span>
-  也是最小共同加细, 因此 `cc F ^^ cc G = (:cc F uu cc G:)`.
+  则有 `cc F ^^ cc G = (:cc F uu cc G:)`.
 </p>
 
-<ol class="proof enum">
-  <li>显然对任意 `F in cc F` 有 `F = F nn X in cc F ^^ cc G`; 对 `G in cc G` 同理.
-    所以 `cc F uu cc G sube cc F ^^ cc G`.
+<ol class="proof">
+  <li>左 `sube` 右: 因为 `(:cc F uu cc G:)` 是滤子, 显然包含所有形如 `F nn G` 的集合.</li>
+  <li>右 `sube` 左: 首先 `cc F uu cc G` 中集合的每个有限交 `H_0`, 都等于 `cc F`
+    中集合的有限交, 交上 `cc G` 中集合的有限交. 但 `cc F, cc G` 是滤子,
+    因此必存在 `F_0 in cc F`, `G_0 in cc G` 使得 `H_0 = F_0 nn G_0`. 这推出
+    `(cc F uu cc G)_nn sube cc F ^^ cc G`.
+    <br>
+    若 `H supe F nn G`, 其中 `F in cc F`, `G in cc G`.
+    则由 `cc F, cc G` 的传递性知 `H uu F in cc F`, `H uu G in cc G`. 但
+    <span class="formula">
+      `(H uu F) nn (H uu G) = H`,
+    </span>
+    因此 `H in cc F ^^ cc G`.
+    这推出 `(:cc F uu cc G:) sube cc F ^^ cc G`.
   </li>
-  <li>下证 `cc F ^^ cc G` 是滤子.
-    <ol>
-      <li>`X in cc F, X in cc G rArr X in cc F ^^ cc G`.</li>
-      <li>由 `cc F, cc G` 并存知道 `O/ !in cc F ^^ cc G`.</li>
-      <li>任取 `F_1 nn G_1, F_2 nn G_2 in cc F ^^ cc G`, 由 `F_1 nn F_2 in cc F` 和 `G_1 nn G_2 in cc G` 知道四个集合的交 `in cc F ^^ cc G`.</li>
-      <li>若 `H` 满足 `F nn G sube H sube X`, 其中 `F in cc F`, `G in cc G`,
-        则由 `F sube H uu F` 和 `G sube H uu G` 知道 `H uu F in cc F`, `H uu G in cc G`, 因此
-        <span class="formula">
-          `H = (H uu F) nn (H uu G)`
-          `in cc F ^^ cc G`.
-        </span>
-      </li>
-    </ol>
-  </li>
-  <li>假设 `cc H` 也是 `cc F, cc G` 的共同加细,
-    由于滤子定义的第 2 条, `cc H` 包含了所有形如 `F nn G` 的集合, `F in cc F`, `G in cc G`.
-    这证明了 `cc F ^^ cc G sube cc H`.
-  </li>
+  <hr>
+  另一个思路是用定义验证 `cc F ^^ cc G` 是 `cc F, cc G` 的最小加细滤子.
 </ol>
 
 <h3>超滤子</h3>
@@ -405,11 +422,12 @@
 </p>
 
 <p class="lemma">
-  拓扑空间 `X` 是紧的, 当且仅当对每个具备有限交性质的闭集族 `{A_lambda}`, 都成立
+  拓扑空间 `X` 是紧的, 当且仅当对每个具备非空有限交性质的闭集族 `{A_lambda}`, 都成立
   <span class="formula">
     `nnn_lambda A_lambda != O/`.
   </span>
-  所谓有限交性质是指任意有限个 `A_lambda` 的交都不空.
+  这里的非空有限交性质是指任意有限个 `A_lambda` 的交都不空, 但和滤子不同,
+  我们不要求 `{A_lambda}` 对集合的交运算封闭.
   此引理是紧集套定理的推广版本.
 </p>
 
@@ -421,11 +439,11 @@
   现在证明原命题.
   <li>`rArr`: 设 `X` 紧, 如果 `nnn_lambda A_lambda = O/`, 则 `{A_lambda^c}` 构成 `X` 的开覆盖.
     由紧性, 存在有限子覆盖 `{A_i^c}_(i=1)^n`. 这等价于 `nnn_(i=1)^n A_i = O/`,
-    与 `{A_lambda}` 的有限交性质矛盾.
+    与 `{A_lambda}` 的非空有限交性质矛盾.
   </li>
   <li>`lArr`: 设 `{U_lambda}` 是 `X` 的开覆盖, 则 `{U_lambda^c}` 是一族闭子集, 满足
     `nnn_lambda U_lambda^c = O/`.
-    根据已知条件, 闭集族 `{U_lambda^c}` 不具备有限交性质, 存在有限个集合的交为空:
+    根据已知条件, 闭集族 `{U_lambda^c}` 不具备非空有限交性质, 存在有限个集合的交为空:
     `nnn_(i=1)^n U_i^c = O/`, 即 `X` 被有限个开集 `{U_i}_(i=1)^n` 覆盖.
   </li>
 </ol>
@@ -441,10 +459,10 @@
 <ol class="proof">
   <li>`iff` 2.
     任取滤子 `cc F`, 由滤子的有限交性质知道, 闭集族 `bar(cc F) := {bar F: F in cc F}`
-    也具备有限交性质. 根据引理, 存在 `x in nnn bar(cc F)`,
+    具备非空有限交性质. 根据引理, 存在 `x in nnn bar(cc F)`,
     即 `x` 是 `cc F` 的聚点.
     <br>
-    反之要证 `X` 紧, 任取一个具备有限交性质的闭集族 `cc F`, 它生成的滤子 `cc G` 有聚点 `x`,
+    反之要证 `X` 紧, 任取一个具备非空有限交性质的闭集族 `cc F`, 它生成的滤子 `cc G` 有聚点 `x`,
     即 `x in nnn bar(cc G)`, 即 `x` 是所有 `bar G` 的公共点.
     但 `cc F sube cc G`, `x` 也是所有 `bar F = F in cc F` 的公共点.
     由引理知 `X` 紧.

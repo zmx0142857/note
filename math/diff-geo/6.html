@@ -301,7 +301,7 @@
     设 `f, g` 分别是 `k, l` 阶<b>交错</b>线性函数, 定义它们的楔积为
     <span class="formula">
       `f ^^ g = 1/(k! l!) A(f ox g)`,<br>
-    </span> 
+    </span>
     立即知道 `f ^^ g` 是 `k+l` 阶交错线性函数.
     展开定义有
     <span class="formula align">
@@ -310,7 +310,7 @@
       `= 1/(k! l!) sum_(sigma in S_(k+l)) sgn(sigma)`
       `f(v_(sigma(1)), cdots, v_(sigma(k)))`
       `g(v_(sigma(k+1)), cdots, v_(sigma(k+l)))`.
-    </span> 
+    </span>
     <p class="remark">
       不同资料中楔积的系数 `1//k!l!` 有所不同.
       这里的系数是为了消除求和中重复的项: 比如 `S_(k+l)` 的子群 `S_k` 只涉及 `f` 的参数的置换,
@@ -390,7 +390,7 @@
 </p>
 
 <p class="theorem">
-  对偶向量的楔积构成了 `A_k(V)` 的基底. 具体来说, 引入多重指标记号
+  对偶基 `alpha^i` 的楔积构成了 `A_k(V)` 的基底. 具体来说, 引入多重指标记号
   <span class="formula">
     `alpha^I = alpha^(i_1) ^^ cdots ^^ alpha^(i_k)`,
     `quad I = (i_1, cdots, i_k)`.
@@ -405,39 +405,61 @@
   从而 `alpha^i ^^ alpha^j = 0`.
 </p>
 
-<h3>`RR^n` 上的微分形式</h3>
+<h3>微分形式</h3>
 
 <ol class="definition">
   <li>
-    <b>微分形式</b>
-    回忆切空间定义, `T_p(RR^n)` 由 `p` 处的全体方向导数 `sum v^i(del//del x^i)|_p` 组成.
-    现在考虑对偶空间 `T_p^ast(RR^n)`, 其由对偶切向量组成.
-    开集 `U sube RR^n` 上的<b>微分 1 形式</b> (或简称 1 形式) 定义为映射
+    <b>切向量场</b>
+    取定流形 `M` 的坐标卡 `(U, phi) = (U, x^1, cdots, x^n)`.
+    回忆切空间定义, `T_p(M)` 由 `p` 处的全体方向导数 `X_p = sum a^i(p)(del//del x^i)|_p` 组成.
+    `U` 上的切向量场定义为映射
     <span class="formula">
-      `omega: U to uuu_(p in U) T_p^ast(RR^n)`<br>
-      `p mapsto omega_p in T_p^ast(RR^n)`.
+      `X: U to uuu_(p in U) T_p(M)`,<br>
+      `p mapsto X_p in T_p(M)`.
     </span>
-    简言之, 微分 1 形式把点 `p` 映为它的一个对偶切向量 `omega_p`.
+    换言之切向量场 `X` 给 `U` 上的每一点 `p` 都指定了一个切向量 `X_p`.
+    写成分量就是
+    <span class="formula">
+      `X = sum a^i del/(del x^i)`.
+    </span> 
+    如果每个函数 `a^i: U to RR` 都光滑, 则称 `X` 是 `U` 上的光滑切向量场,
+    记为 `X in fr X(U)`.
+  </li>
+  <li>
+    <b>微分 1 形式</b>
+    (简称 1 形式) 正好是切向量场的对偶概念. 它定义为
+    <span class="formula">
+      `omega: U to uuu_(p in U) T_p^ast(M)`<br>
+      `p mapsto omega_p in T_p^ast(M)`.
+    </span>
+    简言之, 1 形式把点 `p` 映为它的一个对偶切向量 `omega_p`.
+    如何把 1 形式写成分量呢? 首先要寻找 `(del//del x^i)` 的对偶基.
   </li>
   <li><b>外微分</b>
-    我们称光滑函数 `f: U to RR`, `f in C^oo(U)` 为 <b>0 形式</b>.
+    我们称光滑函数 `f: U to RR`, `f in C^oo(U)` 为光滑 <b>0 形式</b>.
     事实上, 给定 `f`, 可以构造 1 形式 `d f` 如下:
     <span class="formula">
-      `(:d f|_p, X_p:) = (:X_p, f:)`, `quad AA X_p in T_p(RR^n)`.
+      `(:d f|_p, X_p:) = (:X_p, f:)`, `quad AA X_p in T_p(M)`.
     </span>
     由定义, 方向导数 `X_p` 已经属于 `V = C_p^oo(U)` 的对偶空间, 而 `d f|_p`
     则属于 `V` 的二重对偶空间 `V^(ast ast)`.
     我们称 `d f` 为 `f` 的外微分.
+    由定义, 对任意光滑函数 `f` 与光滑切向量场 `X` 有
+    <span class="formula">
+      `(d f)(X) = X f`.
+    </span>
   </li>
-  <li><b>对偶切空间的基</b> 我们已知 `(del//del x^i|_p)_(i=1)^n` 是切空间 `T_p(RR^n)` 的基.
-    其中坐标函数 `x^i: RR^n to RR` 是光滑函数, 因此外微分 `d x^i` 有意义.
-    事实上 `(d x^i|_p)_(i=1)^n` 是对偶切空间 `T_p^ast(RR^n)` 的基, 正是
+  <li><b>对偶切空间的基</b> 我们已知 `(del//del x^i|_p)_(i=1)^n` 是切空间 `T_p(M)` 的基.
+    其中坐标函数 `x^i: U to RR` 是光滑函数, 因此外微分 `d x^i` 有意义.
+    事实上 `(d x^i|_p)_(i=1)^n` 是对偶切空间 `T_p^ast(M)` 的基, 正是
     `(del//del x^i|_p)_(i=1)^n` 的对偶基:
     <span class="formula">
       `(: d x^i|_p, del/(del x^j)|_p:)`
       `==^"外微分定义" (:del/(del x^j)|_p, x^i:)`
       `= delta_j^i`.
     </span>
+  </li>
+  <li><b>微分 1 形式的分量表示</b>
     现在设 `omega` 是微分 1 形式, 在基底 `(d x^i|_p)` 下逐点地有
     <span class="formula">
       `omega_p = sum a_i(p) d x^i|_p`, `quad a_i(p) in RR`,
@@ -449,6 +471,7 @@
     称 `omega` 是光滑的, 如果每个分量函数 `a_i` 都光滑.
   </li>
   <li>
+    <b>外微分的分量表示</b>
     在基底 `(d x^i)` 下有 `d f = sum (del f)/(del x^i) d x^i`.
     事实上设 `d f = sum a_j d x^j`, 则
     <span class="formula">
@@ -461,7 +484,7 @@
     </span>
     因此, 当 `f` 光滑时, `d f` 也光滑.
     <br>
-    对偶地, 设 `X_p in T_p(RR^n)`, 记 `X_p = sum b^j(X_p) del/(del x^j)|_p`, 则
+    对偶地, 设 `X_p in T_p(M)`, 记 `X_p = sum b^j(X_p) del/(del x^j)|_p`, 则
     <span class="formula">
       `(:d x^i|_p, X_p :)`
       `==^"外微分定义" (: X_p, x^i :)`
@@ -471,8 +494,113 @@
     </span>
     因此 `b^i = d x^i`.
   </li>
+  <li><b>微分 `k` 形式 (differential k-forms)</b>
+    我们知道
+    0 形式将点 `p` 映为实数, 1 形式将点 `p` 映为对偶切向量 `omega_p in T_p^ast(M) = A_1(T_p M)`.
+    推而广之, 微分 `k` 形式将点 `p` 映为 `k` 阶交错线性函数, 即
+    <span class="formula">
+      `omega: U to A_k(T_p M)`.
+    </span>
+    取基底 `{d x^I: I = (i_1 lt cdots lt i_k)}`, 则
+    <span class="formula">
+      `omega = sum a_I d x^I`.
+    </span>
+    当每个 `a_I: U to RR` 都光滑时, 则称 `omega` 是光滑的.
+    `U` 上的全体光滑 `k` 形式记为 `Omega^k(U)`.
+    当 `k gt n = dim M` 时, `Omega^k(U) = 0`.
+  </li>
+  <li>
+    <b>微分形式之间的楔积</b> 是逐点定义的: `(omega ^^ tau)_p = omega_p ^^ tau_p`.
+    设 `omega = sum_I a_I d x^I`, `tau = sum_J b_J d x^J`, 则
+    <span class="formula">
+      `omega ^^ tau`
+      `= sum_(I, J) a_I b_J d x^I ^^ d x^J`.
+    </span>
+    因此两个光滑微分形式的楔积仍是光滑的: `^^: Omega^k(U) xx Omega^l(U) to Omega^(k+l)(U)`.
+    <br>
+    特别当 `f` 是 0 形式, `omega` 是 `k` 形式时, `f ^^ omega = f omega`.
+  </li>
+  <li>
+    <b>`k` 形式作用于切向量场</b>
+    在 `U` 上, 设 `omega` 是 `k` 形式, `(X^i)_(i=1)^k` 是 `k` 个切向量场, 逐点定义
+    <span class="formula">
+      `omega(X^1, cdots, X^k)_p`
+      `:= omega_p(X_p^1, cdots, X_p^k)`.
+    </span>
+    于是 `k` 形式把 `k` 个切向量场映为 1 个函数.
+    逐点地看, 微分形式就是在 `U` 的每一点定义一个交错线性函数, 接收 `k` 个向量, 返回实数.
+    <br>
+    先设 `k = 1`, `omega = sum a_i d x^i`, `X = sum b^j del/(del x^j)`, 则
+    <span class="formula">
+      `omega(X) = sum a_i b^j delta_j^i = sum a_i b^i`.
+    </span>
+    因此当 `omega`, `X` 都光滑时, `omega(X) in C^oo(U)`.
+    并且映射 `X mapsto omega(X)` 在环 `C^oo(U)` 上线性, 这是因为逐点有
+    <span class="formula">
+      `omega_p(f(p) X_p + g(p) Y_p)`
+      `= f(p) omega_p(X_p) + g(p) omega_p(Y_p)`.
+    </span>
+    所以
+    <span class="formula">
+      `omega(f X + g Y) = f omega(X) + g omega(Y)`.
+    </span>
+  </li>
 </ol>
 
+<p class="example">
+  在 `RR^3` 上的 0 形式是全体函数 `f: RR^3 to RR`,
+  1 形式形如 `f dx + g dy + h dz`,
+  2 形式形如 `f dx ^^ dy + g dy ^^ dz + h dz ^^ dx`,
+  3 形式形如 `f dx ^^ dy ^^ dz`.
+  而 `k gt 3` 的 `k` 形式都等于 0.
+</p>
+
+<h3>外微分</h3>
+
+<p class="definition">
+  <b>`k` 形式的外微分</b>
+  由上节知道 0 形式的外微分有分量表示
+  <span class="formula">
+    `d f = sum (del f)/(del x^i) d x^i`.
+  </span>
+  现在对 `k` 形式 `omega = sum a_I d x^I` 定义
+  <span class="formula">
+    `d omega = sum d a_I ^^ d x^I`.
+  </span>
+  于是 `d omega` 是 `k+1` 形式.
+</p>
+
+<ol class="property">
+  <b>外微分的性质</b>
+  <li>反导数性质: `d(omega ^^ tau) = (d omega) ^^ tau + (-1)^("deg" omega) omega ^^ d tau`.</li>
+  <li>封闭性: `d^2 = 0`.</li>
+  <li>`AA f in C^oo(U)`, `AA X in fr X(U)`, `(d f)(X) = X f`.</li>
+</ol>
+
+<p class="theorem">
+  <b>外微分的刻画</b>
+  上述三条性质唯一确定了 `U` 上的外微分.
+  换言之, 记 `Omega(U) := uuu_(k=0)^n Omega^k(U)`,
+  若映射 `D: Omega(U) to Omega(U)` 满足上述三性质, 则 `D = d`.
+</p>
+
+<ol class="definition">
+  <li>称微分形式 `omega` 是<b>封闭的 (closed)</b>, 如果 `d omega = 0`.</li>
+  <li>称 `omega` 是<b>恰当的 (exact)</b>, 如果存在微分形式 `tau` 使得 `omega = d tau`.</li>
+  由于 `d^2 = 0`, 恰当形式一定是闭形式.
+</ol>
+
+<p class="remark">
+  线性空间 `Omega^k(U)` 在外微分 `d` 的作用下形成 <b>De Rham 复形</b>:
+  <span class="formula">
+    `0 to Omega^0(U)`
+    `overset d to Omega^1(U)`
+    `overset d to Omega^2(U)`
+    `to cdots`.
+  </span>
+  恰当形式构成 `d` 的像, 而闭形式构成 `d` 的核.
+  复形的概念参见拓扑同调论及同调代数.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

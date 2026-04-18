@@ -156,6 +156,12 @@ file transfer protocol
 
 - `echo`: 输出文字
 - `cat`: 无情的复读机
+- `cut`:
+  ```
+  $ cut -f1 # 取第一列文字, 以 tab 为分隔符
+  $ cut -f1 -d ' ' # 以空格为分隔符
+  $ cut -c1-5 # 取前 5 个字符
+  ```
 - `awk`: column editing language
 - `sed`: line streaming editing language
 - `sort`: sort lines based on column
@@ -179,6 +185,9 @@ file transfer protocol
   ```
 - `expand`, `unexpand`: tab -> space, space -> tab
 - `sha256sum`, `md5sum`, `base64`: 编码与 hash
+  ```
+  $ echo -n '123' | md5sum # echo -n 不换行
+  ```
 - `qrencode`: 二维码
   ```
   $ qrencode -t UTF8 -k "文字内容"
