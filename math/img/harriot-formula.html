@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>球面三角形 ABC 与对径点</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #f0f0f0; }
+    #info {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.85);
+      padding: 10px;
+      font-family: sans-serif;
+      font-size: 13px;
+      border-radius: 6px;
+      z-index: 10;
+    }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.155.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+<div id="info">
+  <b>球面三角形</b><br>
+  灰色: △ABC　红色: △ABC'<br>
+  绿色: △BCA'　蓝色: △ACB'<br>
+  <i>鼠标拖动旋转，滚轮缩放</i>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf0f0f0);
+
+// const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+const hw = window.innerWidth / 2
+const hh = window.innerHeight / 2
+const camera = new THREE.OrthographicCamera(-hw, hw, hh, -hh, 0.1, 1000);
+camera.position.set(3, 2, 4);
+camera.zoom = 200
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+const dl = new THREE.DirectionalLight(0xffffff, 0.6);
+dl.position.set(5, 5, 5);
+scene.add(dl);
+window.app = {
+  renderer,
+  scene,
+  camera,
+}
+window.THREE = THREE
+
+const R = 1;
+
+const A = new THREE.Vector3(1, 0.2, 0.3).normalize()
+const B = new THREE.Vector3(0.3, 1, 0.2).normalize()
+const C = new THREE.Vector3(0.3, 0.2, 1).normalize()
+const Ap = A.clone().negate();
+const Bp = B.clone().negate();
+const Cp = C.clone().negate();
+
+// 背景球
+const sphereGeo = new THREE.SphereGeometry(R * 0.998, 64, 64);
+const sphereMat = new THREE.MeshPhongMaterial({
+  color: 0xffffff,
+  transparent: true,
+  opacity: 0.15,
+  side: THREE.DoubleSide
+});
+const bgSphere = new THREE.Mesh(sphereGeo, sphereMat);
+bgSphere.renderOrder = 0;
+scene.add(bgSphere);
+
+// 线框球
+// const wire = new THREE.Mesh(
+//   sphereGeo,
+//   new THREE.MeshBasicMaterial({
+//     color: 0xcccccc,
+//     wireframe: true,
+//     transparent: true,
+//     opacity: 0.2
+//   })
+// );
+// scene.add(wire);
+
+function sphericalTriangle(p1, p2, p3, color, opacity) {
+  const geo = new THREE.BufferGeometry();
+  const subdiv = 30;
+  const verts = [];
+  const indices = [];
+  const grid = [];
+
+  for (let i = 0; i <= subdiv; i++) {
+    grid[i] = [];
+    for (let j = 0; j <= subdiv - i; j++) {
+      const k = subdiv - i - j;
+      const a = i / subdiv, b = j / subdiv, c = k / subdiv;
+
+      const p = new THREE.Vector3()
+        .addScaledVector(p1, a)
+        .addScaledVector(p2, b)
+        .addScaledVector(p3, c)
+        .normalize()
+        .multiplyScalar(R * 1.001);
+
+      grid[i][j] = verts.length / 3;
+      verts.push(p.x, p.y, p.z);
+    }
+  }
+
+  for (let i = 0; i < subdiv; i++) {
+    for (let j = 0; j < subdiv - i; j++) {
+      indices.push(grid[i][j], grid[i + 1][j], grid[i][j + 1]);
+      if (j < subdiv - i - 1) {
+        indices.push(grid[i + 1][j], grid[i + 1][j + 1], grid[i][j + 1]);
+      }
+    }
+  }
+
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshPhongMaterial({
+    color,
+    transparent: true,
+    opacity,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  // mesh.renderOrder = 1;
+  scene.add(mesh);
+}
+
+sphericalTriangle(A, B, C,   0x888888, 0.55);
+sphericalTriangle(A, B, Cp,  0xff3333, 0.45);
+sphericalTriangle(B, C, Ap,  0x33cc44, 0.45);
+sphericalTriangle(A, C, Bp,  0x3366ff, 0.45);
+
+function fullGreatCircle(p1, p2, color = 0x404040) {
+  const axis = new THREE.Vector3().crossVectors(p1, p2);
+
+  if (axis.lengthSq() < 1e-12) return;
+  axis.normalize();
+
+  const pts = [];
+  const seg = 200;
+
+  for (let i = 0; i <= seg; i++) {
+    const a = (i / seg) * Math.PI * 2;
+    const q = new THREE.Quaternion().setFromAxisAngle(axis, a);
+    pts.push(p1.clone().applyQuaternion(q).multiplyScalar(1.003));
+  }
+
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  scene.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color })));
+}
+
+fullGreatCircle(A, B);
+fullGreatCircle(B, C);
+fullGreatCircle(A, C);
+
+function addPoint(p, name, color) {
+//   const s = new THREE.Mesh(
+//     new THREE.SphereGeometry(0.025, 16, 16),
+//     new THREE.MeshBasicMaterial({ color })
+//   );
+//   s.position.copy(p);
+//   scene.add(s);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 128;
+
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 128, 128);
+  ctx.font = 'Bold 64px Arial';
+  ctx.fillStyle = '#000';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  ctx.fillText(name, 64, 64);
+  ctx.strokeText(name, 64, 64);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  const sprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({
+      map: tex,
+      transparent: true,
+      alphaTest: 0.1,
+    })
+  );
+  sprite.position.copy(p.clone().multiplyScalar(1.15));
+  sprite.scale.set(0.25, 0.25, 1);
+  scene.add(sprite);
+}
+
+addPoint(A,  'A',  0x000000);
+addPoint(B,  'B',  0x000000);
+addPoint(C,  'C',  0x000000);
+addPoint(Ap, "A'", 0x555555);
+addPoint(Bp, "B'", 0x555555);
+addPoint(Cp, "C'", 0x555555);
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

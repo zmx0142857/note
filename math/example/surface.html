@@ -1,1 +1,232 @@
-<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta charset="utf-8"><title>Three.js Demo</title><style>body{background:#000;color:#fff;margin:0}canvas{height:100vh!important;width:100vw!important}#info{background:rgba(0,0,0,.2);bottom:10px;left:10px;position:fixed}</style></head><body>  <script src="index.67c830bd.js"></script> <script type="module" src="index.aa1ef173.js"></script> <div id="info"></div> </body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="utf-8">
+<title>曲面在线绘制</title>
+<style>
+body{background:#071b3f;color:#fff;margin:0;height:100vh}
+canvas{display:block;width:100%!important;height:100%!important}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.155.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<script type="module">
+/*
+    绘制参数曲面
+	Three.js "tutorials by example"
+	Author: Lee Stemkoski
+	Date: July 2013 (three.js v59dev)
+*/
+import * as THREE from 'three'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { ParametricGeometry } from 'three/addons/geometries/ParametricGeometry.js'
+import DatGui from 'three/addons/libs/lil-gui.module.min.js'
+
+const presets = [
+  // Torus
+  {
+    xFunc: 'cos(u)*(a + b*cos(v))',
+    yFunc: 'sin(u)*(a + b*cos(v))',
+    zFunc: 'b*sin(v)',
+    uMin: 0,
+    uMax: Math.PI*2,
+    vMin: 0,
+    vMax: Math.PI*2,
+    segments: 40,
+    a: 3,
+    b: 1,
+    c: 1,
+    d: 1,
+  },
+  // Catenoid
+  {
+    xFunc: 'u*cos(v)',
+    yFunc: 'u*sin(v)',
+    zFunc: 'log(u+sqrt(u*u-1))',
+    uMin: 1,
+    uMax: 5,
+    vMin: 0,
+    vMax: Math.PI*2,
+    segments: 40,
+  },
+  // helicoid
+  {
+    xFunc: 'u*v',
+    yFunc: 'v',
+    zFunc: 'atan(u)',
+    uMin: -1,
+    uMax: 1,
+    vMin: -10,
+    vMax: 10,
+    segments: 40,
+  },
+  // Scherk's surface
+  {
+    xFunc: 'u',
+    yFunc: 'v',
+    zFunc: 'log(cos(u)/cos(v))',
+    uMin: -1.55,
+    uMax: 1.55,
+    vMin: -1.55,
+    vMax: 1.55,
+    segments: 40,
+  }
+]
+const preset = { ...presets[0] }
+
+function createFunc (str) {
+  return new Function(['u', 'v', 'preset'], 'with(preset){with(Math){return ' + str + '}}')
+}
+
+function lerp (start, end, k) {
+  return start + k * (end - start)
+}
+
+function createGraph (app) {
+  const { a, b, c, d } = preset
+  const xFunc = createFunc(preset.xFunc)
+  const yFunc = createFunc(preset.yFunc)
+  const zFunc = createFunc(preset.zFunc)
+
+  function fn (u, v, target) {
+    u = lerp(preset.uMin, preset.uMax, u)
+    v = lerp(preset.vMin, preset.vMax, v)
+    const x = xFunc(u, v, preset) || 0
+    const y = yFunc(u, v, preset) || 0
+    const z = zFunc(u, v, preset) || 0
+    target.set(y, z, x)
+  }
+
+  if (app.state.mesh) {
+    app.state.mesh.geometry.dispose()
+    app.scene.remove(app.state.mesh)
+  }
+  const geometry = new ParametricGeometry(
+    fn,
+    preset.segments,
+    preset.segments,
+    true // sensible image tile repeat...
+  )
+  const material = app.state.material ||= new THREE.MeshNormalMaterial({
+    side: THREE.DoubleSide,
+    transparent: true,
+    opacity: 0.8,
+  })
+  const mesh = app.state.mesh = new THREE.Mesh(geometry, material)
+  app.add(mesh)
+
+  geometry.computeBoundingBox()
+  const { x, y, z } = geometry.boundingBox.max
+}
+
+function initGui (app) {
+  const gui = app.gui = new DatGui()
+  const gui_parameters = gui.addFolder('Parameters')
+  const addParameter = name =>
+    gui_parameters.add(preset, name).min(-5).max(5).step(0.01).onChange(() => createGraph(app))
+
+  const config = {
+    xFunc: gui.add(preset, 'xFunc').name('x(u,v)'),
+    yFunc: gui.add(preset, 'yFunc').name('y(u,v)'),
+    zFunc: gui.add(preset, 'zFunc').name('z(u,v)'),
+    uMin: gui.add(preset, 'uMin').step(0.01),
+    uMax: gui.add(preset, 'uMax').step(0.01),
+    vMin: gui.add(preset, 'vMin').step(0.01),
+    vMax: gui.add(preset, 'vMax').step(0.01),
+    segments: gui.add(preset, 'segments'),
+    a: addParameter('a'),
+    b: addParameter('b'),
+    c: addParameter('c'),
+    d: addParameter('d'),
+  }
+
+  const loadPreset = p => {
+    Object.keys(preset).forEach(key => {
+      if (p[key] !== undefined) config[key].setValue(p[key])
+    })
+    createGraph(app)
+  }
+
+  const methods = {
+    createGraph: () => createGraph(app),
+    preset00: () => loadPreset(presets[0]),
+    preset01: () => loadPreset(presets[1]),
+    preset02: () => loadPreset(presets[2]),
+    preset03: () => loadPreset(presets[3]),
+  }
+  gui.add(methods, 'createGraph')
+  const gui_preset = gui.addFolder('Preset equations')
+  gui_preset.add(methods, 'preset00').name('Torus')
+  gui_preset.add(methods, 'preset01').name('Catenoid')
+  gui_preset.add(methods, 'preset02').name('Helicoid')
+  gui_preset.add(methods, 'preset03').name('Scherk\'s surface')
+  loadPreset(preset)
+}
+
+function initFloor (app) {
+  const size = 100
+  const gridCount = 10
+  const lineColor = 0x93b1fb
+  const floor = new THREE.GridHelper(size, gridCount, lineColor, lineColor)
+  floor.material.transparent = true
+  floor.material.opacity = 0.5
+  floor.position.z = -0.01
+  app.add(floor)
+}
+
+function main (app) {
+  app.add(new THREE.AxesHelper(50))
+  initFloor(app)
+  initGui(app)
+  app.animate()
+}
+
+const app = window.app = {
+  scene: new THREE.Scene(),
+  renderer: new THREE.WebGLRenderer({ antialias: true, alpha: true }),
+  get canvas () { return this.renderer.domElement },
+  state: {},
+  init (container = document.body) {
+    window.THREE = THREE
+
+    const camera = this.camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000)
+    camera.position.set(15, 15, 20)
+    this.initControls()
+
+    this.renderer.setSize(container.clientWidth, container.clientHeight)
+    container.appendChild(this.canvas)
+
+    window.addEventListener('resize', () => {
+      this.camera.aspect = container.clientWidth / container.clientHeight
+      this.camera.updateProjectionMatrix()
+      this.renderer.setSize(container.clientWidth, container.clientHeight)
+    })
+  },
+  initControls () {
+    const controls = this.controls = new OrbitControls(this.camera, this.canvas)
+    controls.update()
+    return controls
+  },
+  animate () {
+    requestAnimationFrame(app.animate)
+    app.controls?.update()
+    app.renderer.render(app.scene, app.camera)
+  },
+  add (...objs) {
+    objs.forEach(obj => obj && this.scene.add(obj))
+  },
+}
+
+app.init()
+main(app)
+</script>
+</body>
+</html>
