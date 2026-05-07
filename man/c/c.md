@@ -3,10 +3,32 @@
 - [linux c 编程一站式学习](https://micfan.github.io/linux-c-one-stop/)
 - [c 语言标准库 | cpp reference](https://en.cppreference.com/w/c)
 
+## 宏定义 macro
+
+```c
+#define max(a, b)   ((a) > (b) ? (a) : (b))
+#define join(x, y)  x##y
+#define text(x)     #x
+#define cerr(format, ...) fprintf(stderr, format, __VA_ARGS__)
+#define greet(name) do {\
+    puts("hello");\
+    puts(name);\
+} while (0)
+```
+
 ## 标准库
 
-**getchar**: 读取一个字符. 其实它的返回类型是 `int` 而不是 `char`, 因此可以用来判断 EOF (end of file, 文件结束符).
-> 在 windows 上输入 EOF 的方法是 `ctrl-z` `enter`, linux 则是 `ctrl-d`.
+### stdio.h
+
+**getchar**: 从标准输入读取一个字符
+```c
+int getchar()
+```
+- 返回类型是 int, 不要用 char 接收, 否则无法判断 EOF (end of file, 文件结束符)
+- getchar 返回 EOF 时可能是文件结束 `feof(stdin)`, 也可能是出错 `ferror(stdin)`.
+- windows 上输入 EOF 的方法是 `ctrl-z` `enter`, linux 则是 `ctrl-d`.
+
+例: cat 复读机
 ```c
 int ch;
 while ((ch = getchar()) != EOF) {
@@ -14,7 +36,11 @@ while ((ch = getchar()) != EOF) {
 }
 ```
 
-**scanf**: 返回成功读取的变量数目. 下面的代码连续读取输入, 读到 EOF 时退出循环.
+**scanf**: 读取标准输入, 按 format 指定的格式存入相应变量中. 返回成功读取的变量数目.
+```c
+int scanf(const char *format, ...)
+```
+例: 下面的代码连续读取输入, 读到 EOF 时退出循环.
 ```c
 int a, b;
 while (scanf("%d %d", &a, &b) == 2) {
@@ -22,16 +48,40 @@ while (scanf("%d %d", &a, &b) == 2) {
 }
 ```
 
-**fgets**: 读取一行最多 n-1 个字符, 并附加 `\0`. 如果没有遇到 EOF, buf 将会包含换行符 `\n`.
-这个函数限制了字符数, 因此它相比 `scanf("%s", buf)` 更安全.
+**fgets**: 读取一行最多 n-1 个字符, 并附加 `\0`.
+```c
+char *fgets(char *str, int n, FILE *stream)
+```
+如果没有遇到 EOF, 结果将会包含换行符 `\n`.
+这个函数限制了字符数, 因此它相比 `gets` 更安全.
+
+例:
 ```c
 char buf[N];
 fgets(buf, sizeof buf, stdin);
 ```
 
-**strncpy**: 将 `src` 开始的最多 n 个字符拷贝到 `dest`. 注意 `src` 和 `dest` 的内存空间不能重叠.
-警告: 如果 `src` 的前 n 个字符不包含 `\0`, 则 `dest` 将不会以 `\0` 结束.
-这个函数还有一个危险的版本 `strcpy`, 后者完全不考虑数组溢出问题.
+**sprintf_s** 或 **snprintf**: 安全的字符串格式化函数.
+```c
+int sprintf_s(char *s, size_t n, const char *format, ...)
+```
+
+**sscanf_s**: 安全的输入函数.
+```c
+int sscanf_s(const char *s, size_t n, const char *format, ...)
+```
+
+### string.h
+
+**strncpy**: 将 `src` 开始的最多 n 个字符拷贝到 `dest`.
+```c
+char *strncpy(char *dest, const char *src, size_t n)
+```
+- `src` 和 `dest` 的内存空间不能重叠.
+- 如果 `src` 的前 n 个字符不包含 `\0`, 则 `dest` 将不会以 `\0` 结束.
+- 这个函数还有一个危险的版本 `strcpy`, 后者完全不考虑数组溢出问题.
+
+例:
 ```c
 char dest[N];
 const char *str = "hello";
@@ -39,6 +89,8 @@ size_t len = sizeof dest;
 strncpy(dest, str, len);
 dest[len-1] = '\0';
 ```
+
+### stdlib.h
 
 **malloc**: 申请 n 字节的内存空间, 出错返回 NULL.
 

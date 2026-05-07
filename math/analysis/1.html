@@ -107,6 +107,55 @@
    <li>若 `f(x) = 1/(1-x)`, 则 `f^3(x) = x`;</li>
 </ol>
 
+<p class="example">
+  <b>单个函数实现所有初等函数与四则运算</b>
+  [<a href="https://www.bilibili.com/video/BV1Z5oPBmEq3" target="_blank">bilibili@爱因是蛋</a>]
+  借助常数 1 和二元函数 eml (exp minus ln):
+  <span class="formula">
+    `"eml"(x,y) := exp(x) - ln(y)`,
+    `quad x, y in CC`, `y != 0`,
+  </span>
+  可以将所有一元初等函数表示成一棵二叉树.
+  其中叶子节点是 `x` 或 `1`, 非叶子节点是 `"eml"` 运算.
+</p>
+
+<p class="proof">
+  首先构造指数、对数函数:
+  <span class="formula">
+    `exp x = "eml"(x,1)`;<br>
+    `ln x = "e" - ("e" - ln x)`
+    `= "eml"(1,exp("eml"(1,x)))`, `quad x != 0.
+  </span>
+  接下来构造四则运算, 首先是减法:
+  <span class="formula">
+    `x - y = "eml"(ln(x),exp(y))`, `quad x != 0`;<br>
+  </span>
+  `x = 0` 时上述定义失效, 单独定义 `-y` 如下:
+  <span class="formula">
+    `-y = { (1-y)-1, if y != 1;
+    ("e"-y)-"e", if y = 1 :}`
+  </span>
+  继续完成四则运算的构造:
+  <span class="formula">
+    `x + y = x - (-y)`;<br>
+    `x * y = exp(ln(x) + ln(y))`, `quad x, y != 0`;<br>
+    `x // y = exp(ln(x) - ln(y))`, `quad x, y != 0`.
+  </span>
+  有了四则运算, 所有理数都能表示出来. 于是
+  <span class="formula">
+    `x^q = exp(q*ln(x))`, `quad q in QQ`, `x != 0`;<br>
+    `i = (-1)^(1//2)`;<br>
+    `cos(x) = (exp(i x)+exp(-i x))//2`;<br>
+    `sin(x) = (exp(i x)-exp(-i x))//2i`.
+  </span>
+  类似构造出各种三角函数、反三角函数.
+  某些无理数也能表示出来, 如
+  <span class="formula">
+    `pi = ln(-1) // i`,
+    `quad "e" = exp(1)`.
+  </span>
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

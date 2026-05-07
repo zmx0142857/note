@@ -11,6 +11,16 @@ Number.MAX_SAFE_INTEGER === 2**53-1 // true
 
 想要更大的整数类型, 考虑 js 自带的 `BigInt` 或 npm 包 `long`.
 
+### “趋于零”运算符
+
+其实是 `--` 运算与大于号 `>` 的合体.
+```js
+let c = 3
+while (c --> 0) {
+  console.log(c) // 2 1 0
+}
+```
+
 ### 位运算
 
 ```js

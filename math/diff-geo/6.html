@@ -39,9 +39,9 @@
 </ol>
 
 <p class="remark">
-  可以证明这里的 `n` 是一个确定的正整数, 即不会存在另一个正整数 `m != n`
+  可以证明, 在 `M` 的每个连通分量上, `n` 是一个确定的正整数, 即不会存在另一个正整数 `m != n`
   使得 `M` 与 `RR^m` 局部同胚.
-  `n` 称为 `M` 的<b>维数</b>.
+  如果在每个连通分量上的 `n` 值都相等, 则称 `n` 为 `M` 的<b>维数</b>, `M` 是 `n` 维流形.
 </p>
 
 <p class="remark">
@@ -94,6 +94,13 @@
   <li>可以证明, 给定一个 `C^r (r ge 1)` 的微分结构, 一定存在一个相容的 `C^oo` 微分结构.
     故以下我们默认微分流形都是光滑 (`C^oo`) 的.
   </li>
+  <li>
+    已知每个小于 4 维的拓扑流形上都有唯一的微分结构,
+    并且每个大于 4 维的紧拓扑流形都存在有限个不同的微分结构.
+    而 4 维是个谜, 我们有如下猜想:
+    <br>
+    <b>光滑 Poincaré 猜想</b> `S^4` 具有唯一的微分结构.
+  </li>
 </ol>
 
 <ol class="definition">
@@ -132,6 +139,28 @@
   把 `varphi(U) sube RR^n` 看作流形, 坐标映射为恒等映射 `"id"`,
   则转换映射 `"id" @ varphi @ varphi^-1 = "id"` 是光滑映射.
 </p>
+
+<p class="proposition">
+  若两个坐标卡 `(V, psi)`, `(W, sigma)` 都与地图册 `{(U_alpha, phi_alpha)}` `C^oo` 相容,
+  则这两个坐标卡也 `C^oo` 相容.
+</p>
+
+<p class="proposition">
+  <b>极大地图册的存在唯一性</b>
+  对任意地图册 `cc U = {(U_alpha, phi_alpha)}`, 都存在唯一的 (`C^oo` 的)
+  极大地图册 `cc D` 使 `cc U sube cc D`.  事实上 `cc D` 由一切与 `cc U` `C^oo`
+  相容的坐标卡组成.
+</p>
+
+<p class="proposition">
+  <b>乘积流形</b>
+  设 `M`, `N` 是光滑流形, 则 `M xx N` 也是光滑流形, 它的一个地图册为
+  <span class="formula">
+    `{(U_alpha xx V_beta, phi_alpha xx psi_beta)}`.
+  </span>
+  因此 `M xx N` 的维数是 `M, N` 之和.
+</p>
+
 
 <h2>切空间</h2>
 
@@ -555,6 +584,18 @@
   而 `k gt 3` 的 `k` 形式都等于 0.
 </p>
 
+<p class="remark">
+  我们用上标编号微分形式, 如 `d x^i`. 用下标编号切向量场,
+  如 `del//del x^i` (这里的 `i` 出现在分母, 我们视为下标).
+  换言之, 下标表示切向量, 上标表示对偶向量.
+  <br>
+  `C^oo` 函数的上下标则取决于它是谁的系数, 例如切向量场
+  `X = sum a^i e_i` 的系数函数 `a^i` 取上标, 而微分形式
+  `omega = sum b_j d x^j` 的系数函数 `b_j` 则取下标.
+  <br>
+  在求和过程中, 对偶向量与切向量相乘输出实数, 其结果就是一对上下标互相抵消, 这称为指标缩并.
+</p>
+
 <h3>外微分</h3>
 
 <p class="definition">
@@ -590,8 +631,12 @@
   由于 `d^2 = 0`, 恰当形式一定是闭形式.
 </ol>
 
+<p class="lemma">
+  <b>Poincaré 引理</b> 在 `RR^n` 中每个封闭 `k` 形式都是恰当形式 (`k ge 1`).
+</p>
+
 <p class="remark">
-  线性空间 `Omega^k(U)` 在外微分 `d` 的作用下形成 <b>De Rham 复形</b>:
+  线性空间 `Omega^k(U)` 在外微分 `d` 的作用下形成 <b>de Rham 复形</b>:
   <span class="formula">
     `0 to Omega^0(U)`
     `overset d to Omega^1(U)`
@@ -599,7 +644,33 @@
     `to cdots`.
   </span>
   恰当形式构成 `d` 的像, 而闭形式构成 `d` 的核.
-  复形的概念参见拓扑同调论及同调代数.
+  `U` 上 `k` 阶的闭形式与恰当形式的商线性空间记为 `H^k(U)`,
+  称为 `U` 上的 `k` 阶 de Rham 上同调;
+  研究表明 `H^k(U)` 只和 `U` 的拓扑有关.
+  更多复形的概念参见拓扑同调论及同调代数.
+</p>
+
+<p class="example">
+  在 `RR^3` 上的 0 到 3 阶光滑形式分别同构于 `C^oo(U)`, `fr X(U)`, `fr X(U)`, `C^oo(U)`.
+  相应的 de Rham 复形为
+  <span class="formula">
+    `C^oo(U) overset"grad" to fr X(U) overset"curl" to fr X(U) overset"div" to C^oo(U)`.
+  </span>
+  事实上, 取 `f in C^oo(U)` 则
+  <span class="formula">
+    `d f = pp f x dx + pp f y dy + pp f z dz`<br>
+    `harr "grad" f = (pp f x , pp f y , pp f z)`.
+  </span>
+  取 `omega = P dx + Q dy + R dz in Omega^1(U)` 则
+  <span class="formula">
+    `d omega = (R_y - Q_z) dy ^^ dz + (P_z - R_x) dz ^^ dx + (Q_x - P_y) dx ^^ dy`<br>
+    `harr "curl"(P,Q,R) = (R_y - Q_z, P_z - R_x, Q_x - P_y)`.
+  </span>
+  取 `tau = P dy ^^ dz + Q dz ^^ dx + R dx ^^ dy in Omega^2(U)` 则
+  <span class="formula">
+    `d tau = (P_x + Q_y + R_z) dx ^^ dy ^^ dz`<br>
+    `harr "div"(P,Q,R) = P_x + Q_y + R_z`.
+  </span>
 </p>
 
 <script src="../../js/note.js?type=math"></script>

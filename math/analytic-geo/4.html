@@ -16,8 +16,8 @@
 </p>
 
 <p class="example">
-  <b>叶形线</b>
-  平面上原点关于抛物线 `y = -ax^2` 在 `x=t` 处的切线
+  <b>叶形线</b> 是抛物线的顶点关于动切线的对称点轨迹.
+  平面上原点 `(0, 0)` 关于抛物线 `y = -ax^2` 在 `x=t` 处的切线
   `y + a t^2 = -2a t(x-t)`
   的对称点为
   <span class="formula">
@@ -101,7 +101,7 @@
     `(x^2+y^2)^2 = b^2(x^2-y^2)`,<br>
     或 `r^2 = b^2 cos 2 theta`,<br>
     或 `|z|^4 = b^2 "Re"(z^2)`,<br>
-    或 `(b (t^3+t)/(t^4+1), (b (t^3-t)/(t^4+1))`.
+    或 `(b (t^3+t)/(t^4+1), b (t^3-t)/(t^4+1))`.
   </span>
 </p>
 
@@ -132,7 +132,7 @@
     `(1/r("d"r)/("d"theta))(theta_0, r_0)`
     `= (r cos(theta-theta_0)-r_0)/(r sin(theta-theta_0))`.
   </span>
-  如果记切线与 `Ox` 轴夹角为 `varphi`, 又有
+  如果记切线与 `O x` 轴夹角为 `varphi`, 又有
   <span class="formula">
     `1/r("d"r)/("d"theta) = cot(varphi - theta)`.
   </span>
@@ -198,18 +198,40 @@
 
 <p class="example">
   <b>渐开线</b>
-  直线 `l` 在半径为 `R` 的圆 `O` 上滚动, 初始时刻直线上一点 `P` 位于 `A(R, 0)`,
-  正好是直线与圆的切点. 当直线转过一定角度后, 设新的切点为 `Q`, 记 `alpha = /_ POQ`.
+  是直线在圆上滚动时, 直线上一个定点的轨迹.
+  设初始时直线 `l` 与半径为 `R` 的圆 `O` 在 `A(R, 0)` 处相切, 直线上的定点 `P` 与切点 `A` 重合.
+  现在让直线在圆上滚动并始终保持相切, 点 `P` 随直线的运动离开切点位置.
+  当直线转过一定角度后, 设新的切点为 `Q`, 记 `alpha = /_ POQ`.
   则 `arc(AQ) = PQ = R tan alpha`, 点 `P` 的极坐标为
   <span class="formula">
-    `{r = R // cos alpha; theta = tan alpha - alpha:}`
+    `{r = R sec alpha; theta = tan alpha - alpha:}`
   </span>
-  渐开线常见于齿轮的设计中.
+  把线缠绕在圆周上, 拉紧线头使它慢慢离开圆周, 线头的轨迹就是渐开线的一支.
+  渐开线常见于<a href="https://www.zhihu.com/question/494833925" target="_blank">齿轮设计</a>中,
+  它使得两个齿轮间作用力的方向保持不变.
 </p>
 
 <div class="img lg" title="渐开线">
   <img src="../img/involute.svg" alt="">
 </div>
+
+<p class="example">
+  <b>摆线</b> 是圆在直线上滚动时, 圆上一个定点的轨迹.
+  设初始时半径为 `R` 的圆 `A` 与直线 `l` (即 `x` 轴) 在原点相切, 圆上的定点 `P` 与切点 `O` 重合.
+  现在让圆在直线上滚动时始终保持相切, 点 `P` 随圆的运动离开切点位置.
+  当圆滚过一段距离后, 设新的切点为 `Q`, 记 `alpha = /_ PAQ`.
+  则 `OQ = arc(PQ) = R alpha`, 点 `P` 的坐标为
+  <span class="formula">
+    `{x = R(alpha - sin alpha); y = R(1 - cos alpha):}`
+  </span>
+  当圆滚动一周后, 摆线重新与直线相交, 称 `[0, 2pi R]` 之间的部分是摆线的一拱.
+  这一拱下的面积恰好等于 3 个圆:
+  <span class="formula">
+    `int_0^(2pi) y(alpha) "d"(x(alpha))`
+    `= R^2 int_0^(2pi) (1 - cos alpha)^2 "d"alpha`
+    `= 3 pi R^2`.
+  </span>
+</p>
 
 <p class="example" id="exp-curve-res">
   <b>参数方程与结式</b>

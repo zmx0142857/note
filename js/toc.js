@@ -756,8 +756,6 @@ var tocData = [
         "value": "code",
         "label": "编程",
         "children": [
-          { "value": "asm.md", "label": "x86 汇编语言", "date": "2025-03-19" },
-          { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
           { "value": "leetcode.md", "label": "LeetCode", "date": "2025-12-20" },
           { "value": "glsl.md", "label": "GLSL", "date": "2025-09-02" },
           { "value": "go.md", "label": "Go", "date": "2025-09-05" },
@@ -766,6 +764,15 @@ var tocData = [
           { "value": "sqlite3.md", "label": "Sqlite3", "date": "2025-12-17" },
           { "value": "regex.md", "label": "RegEx", "date": "2025-12-25" },
           { "value": "quine.md", "label": "Quine", "date": "2026-04-13" },
+        ]
+      },
+      {
+        "value": "c",
+        "label": "C",
+        "children": [
+          { "value": "asm.md", "label": "x86 汇编语言", "date": "2025-03-19" },
+          { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
+          { "value": "win32.md", "label": "Win32", "date": "2026-05-07" },
         ]
       },
       {
