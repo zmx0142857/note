@@ -179,7 +179,7 @@ const isPlainObject = (obj) => {
 
 ||`{}`|`[]`|`fn`|`new fn`|
 |-|-|-|-|-|
-|`obj instance of Object`|✅|✅|✅|✅|
+|`obj instanceof Object`|✅|✅|✅|✅|
 |`typeof obj === 'object' && obj !== null`|✅|✅||✅|
 |`Object.prototype.toString.call(obj) === '[object Object]'`|✅|||✅|
 |`isPlainObject(obj)`|✅||||

@@ -25,11 +25,18 @@ class Frac {
   den
 
   /**
-   * @param {int | string | bigint} [num] 分子
-   * @param {int | string | bigint} [den] 分母
+   * @param {number | string | bigint} [num] 分子
+   * @param {number | string | bigint} [den] 分母
    */
   constructor (num = 0, den = 1) {
     if (typeof num === 'string' && num.indexOf('/') > -1) [num, den] = num.split('/')
+    if (typeof num === 'number' && typeof den === 'number') {
+      while (Number.isFinite(num) && Number.isFinite(den)
+        && (!Number.isInteger(num) || !Number.isInteger(den))) {
+        num *= 10
+        den *= 10
+      }
+    }
     if (typeof num === 'number' || typeof num === 'string') num = BigInt(num)
     if (typeof den === 'number' || typeof den === 'string') den = BigInt(den)
     if (den === 0n) throw new RangeError('frac division by zero')
@@ -43,6 +50,7 @@ class Frac {
     return new Frac(a)
   }
 
+  // 与 copy 的区别在于, clone 没有调用 simp 化简
   clone () {
     const res = new Frac()
     res.num = this.num
@@ -65,6 +73,11 @@ class Frac {
 
   toString () {
     return this.num + '/' + this.den
+  }
+
+  // TODO: 可能出现 Infinity / Infinity
+  toNumber() {
+    return Number(this.num) / Number(this.den)
   }
 
   floor () {
@@ -93,22 +106,6 @@ class Frac {
 
   neg () {
     return new Frac(-this.num, this.den)
-  }
-
-  /**
-   * 连分数
-   * @returns {bigint[]}
-   */
-  frac () {
-    let a = this.copy()
-    let m = this.mod(1)
-    let ret = [a.floor()]
-    while (m.num) {
-      a = m.inv()
-      m = a.mod(1)
-      ret.push(a.floor())
-    }
-    return ret
   }
 
   // 结果保存在原地

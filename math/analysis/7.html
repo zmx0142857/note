@@ -800,6 +800,70 @@
 
 <p class="theorem">
   <b>控制收敛定理 (DCT)</b>
+  [<a href="https://zhuanlan.zhihu.com/p/64626170" target="_blank">知乎@J哥</a>]
+  设 `{f_n}` 是 Lebesgue 可测函数列, 几乎处处收敛于函数 `f`.
+  如果存在一个非负可积函数 `g` (称为控制函数), 满足 `int_E g d mu lt oo` 和 `|f_n| le g`.
+  则 `f` 可积, 即 `int_E |f| d mu lt oo`, 并且积分与极限可以交换次序:
+  <span class="formula">
+    `lim_(n to oo) int_E f_n d mu = int_E f d mu`.
+  </span>
+</p>
+
+<p class="remark">
+  这个定理将在实变函数中证明. 目前只需知道, 一个 Riemann 可积的非负函数总是 Lebesgue 可积的,
+  并且 Lebesgue 可积函数都是可测的.
+  因此有以下推论:
+</p>
+
+<p class="corollary">
+  设 `{f_n}` 是非负 Riemann 可积函数列, 逐点收敛于函数 `f`.
+  如果存在一个非负 Riemann 可积的控制函数 `g`, 满足 `f_n le g`, 则 `f` 可积, 且
+  <span class="formula">
+    `lim_(n to oo) int_E f_n(x) dx = int_E f(x) dx`.
+  </span>
+</p>
+
+<p class="example">
+  [陶哲轩] 证明调和级数 `sum_(n ge 1) 1//n` 发散.  记
+  <span class="formula">
+    `chi_([a,b]) (x) = {1, if x in [a, b]; 0, otherwise:}`.
+  </span>
+  如果调和级数收敛, 考虑
+  <span class="formula higher">
+    `f_n(x) = 1/n chi_([0,n])(x)`,
+    `quad g(x) = sum_(n ge 1) 1/n chi_([n-1, n])(x)`.
+  </span>
+  显然 `f_n le g` 且 `int g dx = sum_(n ge 1) 1//n lt oo`, 满足控制收敛的条件,
+  与下式矛盾:
+  <span class="formula">
+    `lim_(n to oo) int f_n dx = 1`,
+    `quad int lim_(n to oo) f_n dx = 0`.
+  </span>
+</p>
+
+<p class="example">
+  <b>Sophomore's Dream (二年级学生之梦, Johann Bernoulli, 1697)</b>
+  <span class="formula">
+    `int_0^1 x^-x dx` `= sum_(n ge 1) n^-n`,<br>
+    `int_0^1 x^x dx` `= sum_(n ge 1) (-1)^(n+1) n^-n`.
+  </span>
+</p>
+
+<p class="proof">
+  这是将积分与求和神奇地联系在一起的两条公式. 只证第一条, 通过交换积分与求和顺序, 逐项积分得到
+  <span class="formula">
+    `int_0^1 x^-x dx`
+    `= int_0^1 exp(-x ln x) dx`
+    `= 1/n! int_0^1 sum_(n ge 0) (-x ln x)^n dx`
+    `= 1/n! sum_(n ge 0) int_0^1 (-x ln x)^n dx`
+    `= 1/n! sum_(n ge 0) int_0^oo ("e"^-t t)^n "e"^-t dt`
+    `= 1/n! sum_(n ge 0) int_0^oo "e"^-u u^n/(n+1)^(n+1) "d"u`
+    `= sum_(n ge 1) n^-n`.
+  </span>
+  现在关键是验证换序操作合法. 注意到求和的每项 `(-x ln x)^n // n!` 在 `[0, 1]` 区间上非负,
+  因此 `g(x) = x^-x` 就是天然的控制函数, 保证部分和不超过 `g(x)`. 而控制函数
+  `g(x)` 自身在 `[0, 1]` 上非负可积, 性质良好.
+  因此根据控制收敛定理, 换序操作合法!
 </p>
 
 <h2>积分的计算</h2>

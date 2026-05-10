@@ -1,7 +1,7 @@
 # Win32 编程
 
 - [api docs](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/)
-- [bilibili](https://www.bilibili.com/video/BV1Qb4y1o7u9)
+- [bilibili 达内教育](https://www.bilibili.com/video/BV1Qb4y1o7u9)
 
 ## 快速开始
 
@@ -101,7 +101,7 @@ void Register(HINSTANCE hIns, LPCSTR wndClassName, WNDPROC WndProc) {
     WNDCLASS wc = { 0 };
     wc.cbClsExtra = 0; // 窗口类缓冲区大小
     wc.cbWndExtra = 0; // 窗口实例缓冲区大小
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1); // 白色
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1); // 白色. +3 为黑色
     wc.hCursor = NULL; // 默认光标
     wc.hIcon = NULL; // 默认图标
     wc.hInstance = hIns; // 程序实例句柄
@@ -177,6 +177,8 @@ int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdSho
 最后链接在一起:
 
     cmd> link window.res window.obj user32.lib
+
+> 可以使用 `7z x a.exe` 解包程序来获得图标文件
 
 ### 调试日志
 
@@ -303,13 +305,100 @@ BOOL KillTimer(HWND hWnd, UINT_PTR uIDEvent)
 
 ### 菜单资源
 
-### 图标、光标资源
+在解决方案管理器右键添加资源, 选择菜单. VS 会为我们新增一个 `.rc` 文件和一个 `resource.h` 文件, 并打开可视化编辑器.
+
+在可视化编辑器中, 根据提示输入各级菜单名称, 还可以右键修改菜单项的属性. 你可以修改菜单项的 ID, 起一个容易记忆的名字, 如 `ID_NEW`. VS 会自动在 `resource.h` 中生成相应的宏定义, 如 `#define ID_NEW 40005`.
+
+完成编辑后保存, 在资源视图中可以看到 VS 为菜单分配了一个资源 ID, 叫做 `IDR_MENU1`.
+
+使用菜单的 3 种方式: 首先 `#include "resource.h"`
+1. 注册窗口类时指定 `wc.lpszMenuName = (char*)IDR_MENU1`
+2. 创建窗口时, CreateWindow 的倒数第 3 个参数可以指定菜单句柄, 该句柄可以通过 LoadMenu 获得:
+   ```c
+   HMENU LoadMenu(HINSTANCE hIns, LPCTSTR lpMenuName)
+   ```
+3. 处理主窗口 `WM_CREATE` 消息时, 利用 SetMenu 设置菜单:
+   ```c
+   BOOL SetMenu(HWND hWnd, HMENU hMenu)
+   ```
+
+点击菜单项时, 产生 `WM_COMMAND` 消息, 其中 `LOWORD(wParam)` 表示菜单项ID, `HIWORD(wParam)` 为 0.
+
+### 图标资源
+
+在资源视图中右键添加图标资源, 保存后再通过 LoadIcon 加载:
+```c
+HICON LoadIcon(HINSTANCE hIns, LPCTSTR lpIconName)
+```
+然后注册到窗口类中: `wc.hIcon = hIcon`
+
+### 光标资源
+
+在资源视图中右键添加光标资源, 选中【设置热点】工具, 在图片上双击确定热点位置.
+保存后再通过 LoadCursor 加载:
+```c
+HCURSOR LoadCursor(HINSTANCE hIns, LPCTSTR lpCursorName)
+```
+使用光标的方式有 2 种:
+1. 直接注册到窗口类中
+2. 在 `WM_SETCURSOR` 消息处理时用 `SetCursor(hCursor)` 设置光标. 该消息在移动鼠标时不断地触发.
+   消息参数有:
+   - `wParam`: 当前光标句柄;
+   - `LOWORD(lParam)`: 光标当前活动区域, 如 HTCLIENT, HTCAPTION 等;
+   - `HIWORD(lParam)`: 当前鼠标消息ID
+
+> 用 `SetCursor` 修改光标后记得 `return 0` 退出函数, 否则 `DefWindowProc` 函数将把光标改回默认样式.
 
 ### 字符串资源
 
+字符串资源常用于国际化处理. 在资源视图中添加字符串表, 在表中增加字符串, 保存后通过 LoadString 加载:
+```c
+int LoadString(
+    HINSTANCE hIns,
+    UINT uID, // 资源ID
+    LPTSTR lpBuffer, // 存放字符串的缓冲区
+    int nBufferMax, // 缓冲区大小
+) // 成功时返回字符串长度, 失败返回 0
+```
+
+### 快捷键资源
+
+快捷键常与菜单绑定使用. 在资源视图中添加 Accelerator 表, 然后添加快捷键.
+快捷键的 ID 可以和菜单项 ID 相同, 比如都是 `ID_NEW`. 修饰符选择 Ctrl, 键选择 N.
+```c
+// 加载快捷键表
+HACCEL LoadAccelerators(HINSTANCE hIns, LPCTSTR lpTableName)
+// 翻译快捷键
+int TranslateAccelator(HWND hWnd, HACCEL hAccTable, LPMSG lpMsg) // 如果是快捷键, 返回非零
+```
+TranslateAccelator 会产生 `WM_COMMAND` 消息, 其中 `LOWORD(wParam)` 是快捷键ID, `HIWORD(wParam)` 是 1,
+与菜单项区分.
+建议在 TranslateMessage 前面调用:
+```c
+while (GetMessasge(&nMsg, NULL, 0, 0)) {
+    if (!TranslateAccelator(hWnd, hAccel, &nMsg)) {
+        TranslateMessage(&nMsg);
+        DispatchMessage(&nMsg);
+    }
+}
+```
+
 ## 绘图
 
-> 注意: 绘图代码只能在处理 WM\_PAINT 消息时调用
+### 绘图基础
+
+- win32 提供的绘图 api 叫做 GDI (graphics device interface)
+- 注意: 绘图代码只能在处理 WM\_PAINT 消息时调用, 以 BeginPaint 调用开始, 以 EndPaint 结束:
+  ```c
+  void OnPaint(HWND hWnd) {
+      PAINTSTRUCT ps = { 0 };
+      HDC hdc = BeginPaint(hWnd, &ps);
+
+      // 绘图代码
+
+      EndPaint(hWnd, &ps);
+  }
+  ```
 
 **InvalidateRect**: 将窗口区域标记为需要重绘
 ```c
@@ -325,7 +414,7 @@ BOOL InvalidateRect(
 HDC BeginPaint(
     HWND hWnd,
     LPPAINTSTRUCT lpPaint // 绘图参数
-) // 返回绘图设备句柄
+) // 返回绘图设备 (Device Context) 句柄
 ```
 我们不关心绘图参数的具体细节, 它由 win32 内部负责
 
@@ -337,4 +426,53 @@ BOOL EndPaint(HWND hWnd, CONST PAINTSTRUCT *lpPaint)
 **TextOut**: 绘制文字
 ```c
 BOOL TextOut(HDC hdc, int x, int y, LPCSTR lpString, int len)
+```
+
+win32 颜色以 32 位存储 (`typedef DWORD COLORREF`), 从低到高位分别为 RGBA.
+这意味着 0xff0000 是蓝色. 为了避免引起反直觉的问题, 建议使用 RGB 宏为颜色赋值:
+```c
+COLORREF nColor = RGB(0, 0, 255);
+BYTE nRed = GetRValue(nColor); // 获取红色分量
+```
+
+**SetPixel** 绘制一个像素
+```c
+COLORREF SetPixel(HDC hdc, int x, int y, COLORREF color) // 返回原来的颜色
+```
+
+- 绘制线段: `MoveToEx(hdc, 100, 100, NULL); LineTo(hdc, 300, 300)`
+- 绘制矩形: `Rectangle(hdc, left, top, right, bottom)`
+- 绘制椭圆: `Ellipse(hdc, left, top, right, bottom)`
+
+### 绘图对象: 画笔与画刷
+
+画笔可以指定线的颜色、粗细、虚实等, 通过画笔句柄 `HPEN` 使用.
+```c
+HPEN CreatePen(
+    int style, // 样式, 如 PS_SOLID, PS_DASH
+    int width, // 粗细. 如果样式不是 PS_SOLID, 粗细必须写 1 才能使样式生效
+    COLORREF color // 颜色
+)
+```
+
+用 SelectObject 切换画笔. 画完以后注意释放:
+```c
+HPEN hPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+HGDIOBJ hOldPen = SelectObject(hdc, hPen); // 返回原来的绘图对象句柄
+
+// 绘图代码
+
+SelectObject(hdc, hOldPen); // 传入原来的绘图对象句柄, 换回我们的画笔
+DeleteObject(hPen); // 释放画笔. 注意只能释放不被使用的画笔
+```
+
+画刷用于给封闭图形填充颜色或图案, 通过句柄 `HBRUSH` 使用. 和画笔一样, 使用时需要注意画刷的切换与释放.
+```c
+CreateSolidBrush(color) // 实心画刷
+CreateHatchBrush(style, color) // 纹理画刷, 常见的 style 有 HS_CROSS 等
+```
+
+系统画笔、画刷无需自己创建, 使用 GetStockObject 获取即可, 而且无需释放.
+```c
+GetStockObject(NULL_BRUSH); // 透明画刷
 ```
