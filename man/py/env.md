@@ -1,5 +1,46 @@
 # python 虚拟环境解决方案
 
+## uv
+
+- [官网](https://docs.astral.sh/uv/)
+- [菜鸟教程](https://www.runoob.com/python3/uv-tutorial.html)
+
+目前最好用的一站式方案. 安装:
+
+    $ winget install astral-sh.uv
+
+日常使用
+
+    $ uv python list # 管理 python 解释器版本
+    $ alias pip='uv pip' # 完全替代 pip 命令
+
+运行脚本
+
+    $ uv run main.py                # 直接运行 python 脚本
+    $ uv run pytest                 # 运行项目中的命令
+    $ uv run python -c "import requests; print(requests.__version__)" # 调用当前解释器
+
+    $ uvx pycowsay "hello world"    # 安装依赖并执行, 类似 npx
+    $ uv tool install ruff          # 全局安装依赖, 类似 npm install -g
+
+项目管理
+
+    $ uv init my-demo               # 新建项目, 包含 pyproject.toml 等文件
+    $ cd my-demo
+
+`pyproject.toml`: 指定国内镜像
+```toml
+[tool.uv]
+index-url = "https://mirrors.aliyun.com/pypi/simple"
+```
+
+    $ uv add requests               # 添加依赖
+    $ uv add "requests>=2.31.0"     # 指定依赖版本
+    $ uv add --dev pytest ruff      # 添加开发环境依赖
+    $ uv remove requests            # 移除依赖
+    $ uv sync                       # 安装或更新依赖
+    $ uv lock                       # 生成 uv.lock 文件, 建议提交到代码库
+
 ## pip
 
 ```sh
@@ -70,7 +111,6 @@ mirrors
 
 ## 更多方案
 
-- pdm: 为 python 的依赖管理提供类似 nodejs npm 的体验
+- pdm
 - mamba
 - poetry
-
