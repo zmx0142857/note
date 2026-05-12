@@ -244,8 +244,6 @@ _start:
 
 `add.c`
 ```c
-#include <stdio.h>
-
 __declspec(dllexport)
 int add(int a, int b) {
     return a + b;
@@ -264,6 +262,7 @@ int main() {
     if (module != NULL) {
         AddFn add = (AddFn)GetProcAddress(module, "add");
         printf("%d\n", add(1, 2));
+        FreeLibrary(module);
     }
     return 0;
 }

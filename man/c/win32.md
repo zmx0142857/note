@@ -33,7 +33,7 @@ int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdSho
 
 使用 Visual Studio 提供的编译器 cl.exe 与链接器 link.exe 编译:
 
-    cmd> path to visual studio\Common7\Tools\VsDevCmd.bat :: 设置环境变量
+    cmd> path-to-visual-studio\Common7\Tools\VsDevCmd.bat :: 设置环境变量
     cmd> where cl                               :: 查看编译器所在目录
     cmd> echo %INCLUDE%                         :: 查看 INCLUDE 路径
     cmd> cl hello.c -c                          :: 编译
@@ -303,7 +303,7 @@ BOOL KillTimer(HWND hWnd, UINT_PTR uIDEvent)
 
 ## 资源
 
-### 菜单资源
+### 菜单 Menu
 
 在解决方案管理器右键添加资源, 选择菜单. VS 会为我们新增一个 `.rc` 文件和一个 `resource.h` 文件, 并打开可视化编辑器.
 
@@ -324,7 +324,7 @@ BOOL KillTimer(HWND hWnd, UINT_PTR uIDEvent)
 
 点击菜单项时, 产生 `WM_COMMAND` 消息, 其中 `LOWORD(wParam)` 表示菜单项ID, `HIWORD(wParam)` 为 0.
 
-### 图标资源
+### 图标 Icon
 
 在资源视图中右键添加图标资源, 保存后再通过 LoadIcon 加载:
 ```c
@@ -332,7 +332,7 @@ HICON LoadIcon(HINSTANCE hIns, LPCTSTR lpIconName)
 ```
 然后注册到窗口类中: `wc.hIcon = hIcon`
 
-### 光标资源
+### 光标 Cursor
 
 在资源视图中右键添加光标资源, 选中【设置热点】工具, 在图片上双击确定热点位置.
 保存后再通过 LoadCursor 加载:
@@ -349,7 +349,7 @@ HCURSOR LoadCursor(HINSTANCE hIns, LPCTSTR lpCursorName)
 
 > 用 `SetCursor` 修改光标后记得 `return 0` 退出函数, 否则 `DefWindowProc` 函数将把光标改回默认样式.
 
-### 字符串资源
+### 字符串 String
 
 字符串资源常用于国际化处理. 在资源视图中添加字符串表, 在表中增加字符串, 保存后通过 LoadString 加载:
 ```c
@@ -361,7 +361,7 @@ int LoadString(
 ) // 成功时返回字符串长度, 失败返回 0
 ```
 
-### 快捷键资源
+### 快捷键 Accelerator
 
 快捷键常与菜单绑定使用. 在资源视图中添加 Accelerator 表, 然后添加快捷键.
 快捷键的 ID 可以和菜单项 ID 相同, 比如都是 `ID_NEW`. 修饰符选择 Ctrl, 键选择 N.
@@ -382,6 +382,88 @@ while (GetMessasge(&nMsg, NULL, 0, 0)) {
     }
 }
 ```
+
+### 对话框 Dialog
+
+对话框分为模态对话框、非模态对话框. 当打开模态对话框时函数阻塞, 直到关闭对话框才解除阻塞.
+在这期间用户无法和当前进程的其他窗口交互.
+
+对话框的窗口类由系统注册, 消息处理函数由系统定义. 为了使程序员参与到对话框的消息处理中, 可以定义如下回调函数.
+```c
+INT WINAPI DialogProc(
+    HWND hDlg, // 对话框窗口句柄
+    UINT uMsg, // 消息ID
+    WPARAM wParam,
+    LPARAM lParam
+); // 返回 FALSE 表示接下来执行系统默认处理逻辑
+```
+
+对话框也是一种资源. 首先在资源视图中添加对话框, 然后:
+
+模态对话框
+```c
+// 打开模态对话框, 阻塞函数
+INT_PTR DialogBox(
+    HINSTANCE hIns,
+    LPCTSTR lpResourceName, // 对话框资源ID
+    HWND hWndParent, // 父窗口句柄
+    DLGPROC lpDialogProc, // 回调函数
+)
+
+// 关闭对话框, 解除 DialogBox 的阻塞, 并指定 DialogBox 的返回值
+// 不能用 DestroyWindow 关闭模态对话框, 否则不能解除阻塞
+EndDialog(HWND hDlg, INT_PTR nResult);
+```
+
+非模态对话框
+```c
+// 创建非模态对话框但不显示, 也不阻塞. 需要使用 ShowWindow 来显示
+// 参数与 DialogBox 完全相同
+HWND CreateDialog(
+    HINSTANCE hIns,
+    LPCTSTR lpResourceName, // 对话框资源ID
+    HWND hWndParent, // 父窗口句柄
+    DLGPROC lpDialogProc, // 回调函数
+) // 返回对话框窗口句柄
+
+DestroyWindow(hDlg); // 不能使用 EndDialog 关闭非模态对话框 (为什么?)
+```
+
+模态对话框示例：
+```c
+INT WINAPI DialogProc(HWND hDlg, UINT msgID, WPARAM wParam, LPARAM lParam) {
+    switch (msgID) {
+    case WM_CLOSE:
+        EndDialog(hDlg, 42);
+        break;
+    }
+    return FALSE;
+}
+
+void OnCommand(HWND hWnd, WPARAM wParam) {
+    if (LOWORD(wParam) == ID_MODAL) {
+        INT_PTR res = DialogBox(hInstance, (char*)IDD_DIALOG1, hWnd, DialogProc);
+        char buf[256];
+        sprintf_s(buf, 256, "res: %d", res);
+        MessageBox(hWnd, buf, "Info", MB_OK);
+    }
+}
+
+// 消息处理函数
+LRESULT WINAPI WndProc(HWND hWnd, UINT msgID, WPARAM wParam, LPARAM lParam) {
+    switch (msgID) {
+    case WM_DESTROY: // 窗口销毁时
+        if (hWnd == hMain) PostQuitMessage(0); // 让 GetMessage 返回 0 从而退出程序
+        break;
+    case WM_COMMAND:
+        OnCommand(hWnd, wParam);
+        break;
+    }
+    return DefWindowProc(hWnd, msgID, wParam, lParam);
+}
+```
+
+- 对话框特有的消息 `WM_INITDIALOG` 触发时间在对话框创建后, 显示前. 用于取代 `WM_CREATE` 消息
 
 ## 绘图
 
@@ -421,11 +503,6 @@ HDC BeginPaint(
 **EndPaint**: 结束绘图
 ```c
 BOOL EndPaint(HWND hWnd, CONST PAINTSTRUCT *lpPaint)
-```
-
-**TextOut**: 绘制文字
-```c
-BOOL TextOut(HDC hdc, int x, int y, LPCSTR lpString, int len)
 ```
 
 win32 颜色以 32 位存储 (`typedef DWORD COLORREF`), 从低到高位分别为 RGBA.
@@ -475,4 +552,495 @@ CreateHatchBrush(style, color) // 纹理画刷, 常见的 style 有 HS_CROSS 等
 系统画笔、画刷无需自己创建, 使用 GetStockObject 获取即可, 而且无需释放.
 ```c
 GetStockObject(NULL_BRUSH); // 透明画刷
+```
+
+### 绘图对象: 位图与文本
+
+绘制位图的步骤: 添加位图资源, 然后
+```c
+HBITMAP hBmp = LoadBitmap(hIns, (char*)IDB_BITMAP1);
+HDC src = CreateCompatibleDC(hdc); // 创建一个内存 DC
+HGDIOBJ hOldBmp = SelectObject(src, hBmp); // 在内存中画图
+
+BitBlt(hdc, x, y, w, h, src, src_x, src_y, SRCCOPY); // 将内存图像显示到屏幕上
+// StretchBlt(hdc, x, y, w, h, src, src_x, src_y, src_w, src_h, SRCCOPY); // 允许缩放图像
+
+SelectObject(src, hOldBmp); // 取回位图资源
+DeleteObject(hBmp);
+DeleteDC(src);
+```
+
+绘制文本
+```c
+TextOut(hdc, x, y, str, len); // 简单文字
+DrawText(hdc, str, len, &rect, format); // 矩形对齐文字
+```
+
+其中 rect 定义如下:
+```c
+RECT rect;
+rect.left = 100;
+rect.top = 150;
+rect.right = 200;
+rect.bottom = 200;
+```
+
+可选的 format 有 DT\_LEFT, DT\_RIGHT, DT\_CENTER, DT\_TOP, DT\_BOTTOM,
+DT\_VCENTER, DT\_WORDBREAK, DT\_SINGLELINE, DT\_NOCLIP 等.
+注意: 指定多行文字 DT\_WORDBREAK 时, 垂直对齐不会生效
+
+- SetTextColor: 文本颜色
+- SetBkColor: 文本背景色
+- SetBkMode: 背景模式 (OPAQUE/TRANSPARENT)
+
+使用字体
+
+查看字体名称: 双击打开 `C:/Windows/Fonts` 下的字体文件, 在第一行可以看到字体名称.
+```
+HFONT hFont = CreateFont(
+    int height,
+    int width,              // 指定为 0 即可, 系统会根据 height 计算字体宽度
+    int escapement，        // baseline 倾斜角
+    int orientation,        // 字符倾斜角
+    int weight,             // 例如 900
+    DWORD italic,           // 指定为 1 则为斜体
+    DWORD underline,        // 下划线
+    DWORD strikeout,        // 删除线
+    DWORD charset,          // 字符集, 例如 GB2312_CHARSET
+    DWORD outputPrecision,  // 指定为 0 即可
+    DWORD clipPrecision,    // 指定为 0 即可
+    DWORD quality,          // 指定为 0 即可
+    DWORD pitchAndFamily,   // 指定为 0 即可
+    LPCTSTR fontFace        // 字体名称
+)
+HDGIOBJ hOldFont = SelectObject(hdc, hFont);
+DrawText 或 TextOut
+SelectObject(hdc, hOldFont);
+DeleteObject(hFont); // 字体占用内存较大, 切记释放
+```
+
+## 库程序
+
+### 静态库 (lib)
+
+特点: 不能运行, 用于链接到其它程序中.
+
+在 VS 创建静态库项目 `lib`, 添加一个 c 文件:
+
+`lib.c`
+```c
+int my_add(int a, int b) {
+    return a + b;
+}
+
+int my_sub(int a, int b) {
+    return a - b;
+}
+```
+> 如果遇到 `pch.h` 不存在的问题, 可以到项目属性中, 选择 C/C++ → 预编译头 → 不使用预编译头.
+
+右键项目选择生成 (Build).  生成的 `lib.lib` 文件可以在解决方案目录的 `x64/Debug` 目录下找到 (不是项目的 Debug 目录)
+
+为了使用静态库, 在同一解决方案下新建一个 `uselib` 项目, 添加一个 c 文件, 用 pragma 指令给出静态库的路径.
+
+`uselib.c`
+```c
+#include <stdio.h>
+#pragma comment(lib, "../x64/Debug/lib.lib")
+
+int main() {
+    int sum = my_add(5, 3);
+    int sub = my_sub(5, 3);
+    printf("sum: %d, sub: %d\n", sum, sub);
+    return 0;
+}
+```
+
+- 在 C 语言中, 我们可以省略函数声明, 因为这两个函数返回 int.
+  如果返回值类型不是 int, 或者是使用 C++, 则声明不可省略.
+- 在 C++ 中直接调用 C 语言库会链接失败.  这是因为 C++ 编译器为了支持函数重载会修改函数名,
+  例如将 `my_add` 改为 `?my_add@@YAHHH@Z`. 链接器拿着改过的名字, 自然找不到库中的 `my_add` 函数.
+  解决方案是在函数声明前加上 `extern "C"` 手动禁用改名:
+  ```cpp
+  extern "C" int my_add(int, int);
+  ```
+
+### 动态库 (dll)
+
+特点: 运行时使用单独进程, 源码不会链接到执行程序, 需要在运行时加载.
+
+优点: 动态库可以减少可执行文件的大小.
+
+#### 动态库的导出
+
+创建动态库项目 `dll`, 添加一个 c 文件.
+```c
+__declspec(dllexport) // 导出函数
+int dll_add(int a, int b) {
+	return a + b;
+}
+
+__declspec(dllexport)
+int dll_sub(int a, int b) {
+	return a - b;
+}
+```
+右键项目生成. 可以在解决方案的 `x64/Debug` 目录下看到 `dll.dll` 和 `dll.lib` 文件.
+
+`dll` 文件结构
+```text
+导出表
+序号 名称    相对地址 (相对于动态库首地址的偏移量)
+0    dll_add 50
+1    dll_sub 100
+------------------
+正文内容
+dll_add, dll_sub 函数的机器码
+```
+
+`lib` 文件结构. 与静态库不同, lib 文件不再保存函数的机器码, 仅保存 dll 文件名与每个函数在 dll 文件中的序号
+```text
+动态库文件名: dll.dll
+dll_add 0
+dll_sub 1
+```
+
+查看 dll 导出表:
+
+    $ cd path-to-visual-studio/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64
+    $ dumpbin -exports dll.dll
+
+#### 动态库的使用
+
+隐式链接, 由操作系统负责 dll 的载入与执行
+```c
+#include <stdio.h>
+#pragma comment(lib, "../x64/Debug/dll.lib")
+
+// 函数声明
+__declspec(dllimport)
+int dll_add(int, int);
+
+__declspec(dllimport)
+int dll_sub(int, int);
+
+int main() {
+    int sum = dll_add(5, 3);
+    int sub = dll_sub(5, 3);
+    printf("sum: %d, sub: %d\n", sum, sub);
+    return 0;
+}
+```
+
+隐式链接时, dll 文件可以存放在以下默认路径:
+- 可执行文件 (exe) 所在目录 (推荐)
+- 当前工作目录、
+- Windows 目录、Windows/System32 目录和 Windows/System 目录
+- 环境变量 PATH 指定目录
+
+显式链接, 由程序员负责 dll 的载入与执行
+```c
+#include <stdio.h>
+#include <windows.h>
+
+typedef int Func(int, int);
+
+int main() {
+    // HMODULE 就是 HINSTANCE
+    HMODULE module = LoadLibrary("dll.dll"); // dll 不在默认路径下时, 须指定绝对路径
+    if (module != NULL) {
+        Func *dll_add = (Func*)GetProcAddress(module, "dll_add"); // 获取函数地址, 转为函数指针
+        printf("%d\n", dll_add(1, 2));
+        FreeLibrary(module);
+    }
+    return 0;
+}
+```
+
+- 如果 dll 是用 C++ 编写的, 用 `GetProcAddress(module, "dll_add")`
+  将无法找到函数地址. 原因和静态库的一样, 函数名已被换成 `?dll_add@@YAHHH@Z`.
+  可以用 `dumpbin -exports` 验证这一点.
+- 解决: 编写动态库时, 不使用声明导出 `__declspec(dllexport)`, 而使用模块定义文件 `.def`
+  ```text
+  LIBRARY dll
+  EXPORTS
+    dll_add @1
+    dll_sub @2
+  ```
+  这种方式导出的函数不会换名.
+
+#### 动态库中封装类
+
+```cpp
+// 导出
+class __declspec(dllexport) MyClass {};
+
+// 导入
+class __declspec(dllimport) MyClass {};
+
+// 合而为一
+#ifdef DLLCLASS_EXPORTS
+#define EXT_CLASS __declspec(dllexport)
+#else
+#define EXT_CLASS __declspec(dllimport)
+#endif
+class EXT_CLASS MyClass {};
+```
+
+## 线程开发
+
+### 线程基础
+
+进程开启意味着分配内存, 而线程开启才是真正运行. 系统以线程为单位调度程序.
+
+同一进程中的线程共享地址空间、堆空间, 但不共享栈空间. 每个线程有自己的栈.
+
+```c
+// 创建线程
+HANDLE CreateThread(
+    LPSECURITY_ATTRIBUTES lpThreadAttributes,   // 安全属性, 已弃用, 传 NULL
+    SIZE_T dwStackSize,                         // 栈大小, 系统会将它向上取整为 1M 的倍数
+    LPTHREAD_START_ROUTINE lpStartAddress,      // 线程处理函数地址
+    LPVOID lpParameter,                         // 线程处理函数的参数
+    DWORD dwCreationFlags,                      // 线程创建方式: 0: 立即执行, CREATE_SUSPENDED 挂起
+    LPDWORD lpThreadId                          // 返回线程ID
+) // 返回线程句柄
+
+DWORD WINAPI ThreadProc(LPVOID lpParameter) // 线程处理函数
+
+DWORD SuspendThread(HANDLE hThread) // 挂起线程 (线程休眠)
+DWORD ResumeThread(HANDLE hThread) // 唤醒线程
+VOID ExitThread(DWORD dwExitCode) // 退出当前线程. dwExitCode 已弃用, 传 0 即可
+BOOL TerminateThread(HANDLE hThread, DWORD dwExitCode) // 结束指定的线程
+HANDLE GetCurrentThread() // 获取当前线程句柄
+DWORD GetCurrentThreadId() // 获取当前线程ID
+```
+
+第一个线程
+```c
+#include <stdio.h>
+#include <Windows.h>
+
+DWORD WINAPI ThreadProc(void* lpParam) {
+    puts((char*)lpParam);
+    return 0;
+}
+
+int main() {
+    DWORD dwThreadId;
+    HANDLE hThread = CreateThread(NULL, 0, ThreadProc, "ThreadName", 0, &dwThreadId);
+    getchar(); // 按回车退出. 防止主线程直接退出
+    return 0;
+}
+```
+
+线程句柄是一种可等候的句柄, 这种句柄具备【有信号】和【无信号】两种状态. 使用下面的函数来等候信号:
+```c
+// 阻塞并等候句柄出现信号
+VOID WaitForSingleObject(
+    HANDLE handle, // 句柄
+    DWORD dwMilliseconds // 等候时间, 可填 INFINITE = 0xffffffff, 约 49.7 天
+)
+
+// 同时等候多个句柄信号
+DWORD WaitForMultipleObjects(
+    DWORD nCount, // 句柄数量
+    CONST HANDLE *lpHandles, // 句柄列表
+    BOOL bWaitAll, // 等候方式. TRUE: 等到所有句柄都有信号才返回, FALSE: 只要一个句柄有信号就返回
+    DWORD dwMilliseconds // 等候时间
+)
+```
+事实上, 线程有三种状态: 运行、休眠（阻塞）、结束。当它运行或休眠时无信号，当它结束时有信号。
+
+### 线程同步: 原子锁 (interlock)
+
+多个线程对同一变量进行原子操作 (如 `++` 操作), 会造成数据丢失的现象.
+下面的代码中, 每个线程都对同一变量进行 10 万次自增操作, 但 `g_value` 的最终值却小于 20 万.
+```c
+#include <stdio.h>
+#include <Windows.h>
+
+int g_value = 0;
+
+DWORD WINAPI ThreadProc(void* lpParam) {
+    int n = (int)lpParam;
+    for (int i = 0; i < n; i++) {
+        g_value++;
+    }
+    return 0;
+}
+
+int main() {
+    DWORD dwThreadId;
+    HANDLE hThread[2];
+    hThread[0] = CreateThread(NULL, 0, ThreadProc, 100000, 0, &dwThreadId);
+    hThread[1] = CreateThread(NULL, 0, ThreadProc, 100000, 0, &dwThreadId);
+    WaitForMultipleObjects(2, hThread, TRUE, INFINITE);
+    printf("g_value: %d\n", g_value);
+    return 0;
+}
+```
+
+> 计算错误的原因是: 例如 `g_value = 10`. 当线程 A 执行 `g_value++`, 还未把结果 `11` 保存到 `g_value` 变量的时候, 线程发生切换, 由线程 B 执行 `g_value++`, 并把 `g_value` 更新为 `11`.
+当切回到线程 A 时, 线程 A 继续执行, 将它的计算结果 `11` 保存到 `g_value` 中,
+从而线程 B 的计算结果被覆盖.
+
+> 在 `g_value++` 这一行添加断点并启动 debug 运行, 程序停在断点后右键选择查看反汇编, 可以看到这一语句对应三条汇编指令:
+> ```asm
+> mov eax, dword ptr [g_value] ; 将 g_value 的值移到 eax
+> add eax, 1                   ; eax 自增 1
+> mov dword ptr [g_value], eax ; 将 eax 的值移到 g_value
+> ```
+
+解决: 把 `g_value++` 换成 `InterlockedIncrement(&g_value)`.
+事实上许多运算符都有对应的原子锁函数:
+- InterlockedIncrement
+- InterlockedDecrement
+- InterlockedExchange
+- InterlockedCompareExchange
+- ...
+
+原子锁的原理是将整个操作视为整体, 开始操作前锁住 `g_value` 的内存, 结束操作后解锁.
+其他线程遇到加锁的内存时则会阻塞.
+
+### 线程同步: 互斥锁 (mutex)
+
+互斥的适用范围比原子锁更广, 它可以用来锁定一段代码, 但运行效率不如原子锁.
+
+同一时刻只能有至多一个线程拥有互斥锁.
+```c
+// 创建互斥锁
+HANDLE CreateMutex(
+    LPSECURITY_ATTRIBUTES lpMutexAttributes, // 安全属性, 已弃用, 传 0
+    BOOL bInitialOwner, // 是否初始拥有. TRUE 表示初始时, 当前线程拥有该互斥锁
+    LPCTSTR lpName, // 命名
+) // 返回互斥句柄
+```
+
+互斥句柄是可等候的, 它有信号当且仅当没有线程拥有该互斥锁.
+谁先等候, 谁就先获取到互斥锁.
+```c
+WaitForSingleObject / WaitForMultipleObjects // 等候互斥
+BOOL ReleaseMutex(hMutex) // 释放互斥锁, 交出互斥的所有权
+CloseHandle(hMutex) // 关闭互斥句柄
+```
+
+互斥锁案例. 在加锁前, 星号与横线字符穿插打印. 加锁后必须打完一行星号再打印一行横线.
+```c
+#include <stdio.h>
+#include <Windows.h>
+
+HANDLE g_hMutex;
+
+DWORD WINAPI ThreadProc(void* lpParam) {
+    char* str = (char*)lpParam;
+    while (1) {
+        WaitForSingleObject(g_hMutex, INFINITE); // 等候
+
+        for (int i = 0; i < strlen(str); i++) {
+            putchar(str[i]);
+            Sleep(125);
+        }
+        putchar('\n');
+
+        ReleaseMutex(g_hMutex); // 释放
+    }
+    return 0;
+}
+
+int main() {
+    g_hMutex = CreateMutex(NULL, FALSE, "mutex"); // 创建互斥
+    DWORD dwThreadId;
+    HANDLE hThread[2];
+    hThread[0] = CreateThread(NULL, 0, ThreadProc, "********", 0, &dwThreadId);
+    hThread[1] = CreateThread(NULL, 0, ThreadProc, "--------", 0, &dwThreadId);
+    getchar();
+    CloseHandle(g_hMutex); // 销毁互斥
+    return 0;
+}
+```
+
+### 线程同步: 事件 (event)
+
+事件可以解决线程间的通信问题
+```c
+// 创建事件
+HANDLE CreateEvent(
+    LPSECURITY_ATTRIBUTES lpEventAttributes, // 安全属性, 弃用, 传 NULL
+    BOOL bManualReset, // 复位方式, TRUE: 手动, FALSE: 自动
+    BOOL bInitialState, // 初始状态, TRUE: 有信号
+    LPCTSTR lpName // 命名
+) // 返回事件句柄
+```
+事件句柄是可等候的, 并且程序员可以决定一个事件句柄何时有信号.
+信号从无到有, 叫做事件触发; 从有到无, 叫做事件复位. 如果指定自动复位, 则事件会在一个线程等候到信号以后自动复位.
+```c
+WaitForSingleObject / WaitForMultipleObjects: 等候事件
+BOOL SetEvent(HANDLE hEvent) // 触发事件
+BOOL ResetEvent(HANDLE hEvent) // 复位事件
+CloseHandle(hEvent) // 关闭事件
+```
+
+> ⚠ 当心事件死锁
+
+事件案例: 两个线程合作, 一秒打印一行字符串
+```c
+#include <stdio.h>
+#include <Windows.h>
+
+HANDLE g_hEvent;
+
+// 负责打印
+DWORD WINAPI ThreadPrint(void* lpParam) {
+    char* str = (char*)lpParam;
+    while (1) {
+        WaitForSingleObject(g_hEvent, INFINITE);
+        // ResetEvent(g_hEvent); // 系统自动帮我们复位事件, 这一行可以不加
+        puts(str);
+    }
+    return 0;
+}
+
+// 负责控制
+DWORD WINAPI ThreadCtrl(void* lpParam) {
+    while (1) {
+        Sleep(1000);
+        SetEvent(g_hEvent);
+    }
+    return 0;
+}
+
+int main() {
+    g_hEvent = CreateEvent(NULL, FALSE, FALSE, NULL); // 自动复位, 初始无信号
+    DWORD dwThreadId;
+    HANDLE hThread[2];
+    hThread[0] = CreateThread(NULL, 0, ThreadPrint, "********", 0, &dwThreadId);
+    hThread[1] = CreateThread(NULL, 0, ThreadCtrl, NULL, 0, &dwThreadId);
+    WaitForMultipleObjects(2, hThread, TRUE, INFINITE);
+    CloseHandle(g_hEvent);
+    return 0;
+}
+```
+
+### 线程同步: 信号量
+
+信号的功能类似于事件, 用于线程间通信, 但它提供计数器, 可以设置次数
+```c
+HANDLE CreateSemaphore(
+    LPSECURITY_ATTRIBUTES lpSemaphoreAttributes, // 安全属性, 已弃用, 传 NULL
+    LONG lInitialCount, // 初始计数
+    LONG lMaximumCount, // 计数最大值
+    LPCTSTR lpName // 命名
+) // 返回信号量句柄
+```
+信号量也是可等候的. 当信号量为 0 时线程阻塞, 大于 0 时线程通过, 但信号量减 1.
+```c
+WaitForSingleObject / WaitForMultipleObjects // 等候信号量
+// 释放信号量 (修改信号量的计数值)
+BOOL ReleaseSemaphore(
+    HANDLE hSemaphore,
+    LONG lReleaseCount, // 释放数量, 不能超过计数最大值, 否则执行失败
+    LPLONG lpPreviousCount // 返回释放前的数量
+)
+CloseHandle(hSemaphore) // 关闭信号量
 ```

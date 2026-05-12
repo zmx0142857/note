@@ -772,13 +772,14 @@ var tocData = [
         "children": [
           { "value": "asm.md", "label": "x86 汇编语言", "date": "2025-03-19" },
           { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
-          { "value": "win32.md", "label": "Win32", "date": "2026-05-07" },
+          { "value": "win32.md", "label": "Win32", "date": "2026-05-12" },
         ]
       },
       {
         "value": "py",
         "label": "Python",
         "children": [
+          { "value": "py.md", "label": "Python", "date": "2026-05-12" },
           { "value": "env.md", "label": "虚拟环境", "date": "2026-05-10" },
           { "value": "data.md", "label": "数据分析", "date": "2025-02-13" },
           { "value": "torch.md", "label": "Torch", "date": "2025-02-13" },
