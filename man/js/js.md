@@ -52,6 +52,10 @@ Math.floor(-1.5) // -2
 
 推荐使用 `parseFloat`, 更仔细的写法参见 [builtin.js](https://www.npmjs.com/package/@zmx0142857/builtin) 的 `toNumber` 函数.
 
+### 高精度小数
+
+> 参考 antd Input.Number 的 stringMode
+
 ## String
 
 ### join

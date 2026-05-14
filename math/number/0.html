@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>整数, 有理数, 代数数, 连分数</title>
+    <title>从整数到超越数</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="../../css/note.css" />
 </head>
 <body>
+
+<p>[潘承洞、潘承彪《初等数论》]</p>
 
 <h2>整数</h2>
 
@@ -207,68 +209,7 @@
 	由2, 这蕴含 `P(t_0)` 成立, 矛盾.
 </p>
 
-<p>	本节的最后介绍初等数论中另一个常用的工具. 这可以由反证法得到.</p>
-
-<p class="theorem">
-    <b>抽屉原理 (鸽巢原理)</b>
-	设 `n in NN`. 集合 `X` 有 `n+1` 个元素, 集合 `Y` 有 `n` 个元素,
-	则 `X` 到 `Y` 的映射一定不是单射. 换言之, 将 `n+1` 个物体放入 `n`
-	个盒子, 一定有一个盒子放入了两个或两个以上的物体.
-</p>
-
-<p class="theorem">
-    <b>Dirichlet 逼近定理</b>
-    设 `x in RR`, `n in ZZ^+`, 则在 `x, 2x, cdots, n x` 这 `n` 个数中,
-    存在一个数, 到最近整数的距离小于 `1//n`.
-</p>
-
-<p class="proof">
-    记 `{x} = x - [x]` 为实数 `x` 的小数部分.
-    考虑 `n+1` 个数
-    <span class="formula">
-        `0, {x}, {2x}, cdots, {n x}`,
-    </span>
-    它们落在区间 `[0, 1)` 中. 若将区间平均分为 `n` 份
-    <span class="formula">
-        `[0, 1//n)`, `cdots`, `[(n-1)//n, 1)`,
-    </span>
-    则必有两个数落在同一区间. 设它们是 `{i x}`, `{j x}`, 其中
-    `0 le j lt i le n`, 则
-    <span class="formula">
-        `1//n gt |{i x} - {j x}|`
-        `= |i x - [i x] - j x + [j x]|`
-        `= |(i-j) x - ([i x] - [j x])|`.
-    </span>
-    令 `k = i-j`, `m = [i x] - [j x]`, 则 `1 le k le n`, 且
-    `k x` 到 `m` 的距离小于 `1//n`.
-</p>
-
-<p class="example">
-    设整数 `n gt 1`. 证明: `H_n = sum_(j=1)^n 1/j` 不是整数.
-</p>
-
-<ol class="proof">
-    利用如下事实:
-    每个正整数 `j` 都可以唯一地写为 `j = 2^(m_j) a_j`,
-    其中 `m_j ge 0`, `a_j` 为奇数.
-    <li>下证 `m_j` 在 `1 le j le n` 中有唯一的最大值 `m`.
-        设 `m_j = m_k = m`, `j le k`, 则
-        <span class="formula">
-            `k - j = 2^(m_k) a_k - 2^(m_j) a_j`
-            `= 2^m (a_k - a_j)`,
-        </span>
-        其中 `a_k, a_j` 为奇数, 因此 `k - j` 为偶数. 若 `k - j gt 0`,
-        则它所含的 2 的次数大于 `m`, 矛盾; 因此 `k = j`.
-    </li>
-    <li>设 `m = m_k = max_(1 le j le n) m_j`,
-        `M = 2^(m-1) prod a_j`. 由 1. 知,
-        `j = 2^(m_j) a_j | M` 当且仅当 `j != k`. 于是
-        <span class="formula">
-            `M H_n = sum M/j -= M/k (mod 1)`
-        </span>
-        上式右边不是整数, 因此左边也不能是整数, 证毕.
-    </li>
-</ol>
+<h2>有理数与无理数</h2>
 
 <h3>取整函数</h3>
 
@@ -298,88 +239,128 @@
   使得 `-m gt -x`. 综上 `m lt x lt n`.
 </p>
 
-<p class="definition">
+<ol class="definition">
+  <b>取整函数</b>
   对任意实数 `x`, 集合 `{n in ZZ| n ge x}` 和 `{m in ZZ| m le x}` 都非空,
-  且前者在 `ZZ` 中有下界, 后者在 `ZZ` 中有上界.
-  故定义 `x` 的<b>向上取整</b> `|~ x ~|` 为不小于 `x`
-  的最小正整数, <b>向下取整</b> `|__x__|` 为不大于 `x` 的最大正整数.
-</p>
+  且前者在 `ZZ` 中有下界, 后者在 `ZZ` 中有上界.  由此定义
+  <li>`x` 的<b>向上取整</b> `|~ x ~|` 为不小于 `x` 的最小整数;</li>
+  <li>`x` 的<b>向下取整</b> `|__x__|` 为不大于 `x` 的最大整数, 又叫 `x` 的<b>整数部分</b>;</li>
+  <li>`x` 的<b>小数部分</b> `x mod 1 := x - |__x__|`.</li>
+  <li>有时我们也采用 <b>Gauss 记号</b>, 将 `x` 的整数部分与小数部分记作 `[x]` 和 `{x}`.
+    总之 `x = [x] + {x}`.
+  </li>
+</ol>
 
 <p class="example">
-    已知正整数 `c`, 求正整数 `n` 满足
-    <span class="formula">
-        `(n(n-1))/2 le c lt (n(n+1))/2`.
-    </span>
+  已知正整数 `c`, 求正整数 `n` 满足
+  <span class="formula">
+    `(n(n-1))/2 le c lt (n(n+1))/2`.
+  </span>
 </p>
 
 <p class="solution">
-    解二次不等式得
-    <span class="formula">
-        `(-1+sqrt(1+8c))/2 lt n le (1+sqrt(1+8c))/2`,
-    </span>
-    即 `n = |__(1+sqrt(1+8c))/2__|`.
-    注意分母为 2, 因此分子每变化 2,
-    才引起 `n` 的一次跳跃, 我们可以用取整平方根代替平方根,
-    即 `n = |__(1+|__sqrt(1+8c)__|)/2__|`.
+  解二次不等式得
+  <span class="formula">
+    `(-1+sqrt(1+8c))/2 lt n le (1+sqrt(1+8c))/2`,
+  </span>
+  即 `n = |__(1+sqrt(1+8c))/2__|`.
+  注意分母为 2, 因此分子每变化 2,
+  才引起 `n` 的一次跳跃, 我们可以用取整平方根代替平方根,
+  即 `n = |__(1+|__sqrt(1+8c)__|)/2__|`.
 </p>
 
-<h2>有理数与无理数</h2>
+<h3>抽屉原理</h3>
 
-<h3>有理数与循环小数</h3>
+<p>抽屉原理是初等数论常用的工具. 这可以由反证法得到.</p>
 
 <p class="theorem">
-	无限循环小数是有理数; 反之, 有理数 `m//n` 可以写成无限循环小数,
-	且循环节的长度小于分母 `n`. 因此,
-	一个数是无理数当且仅当它是无限不循环小数.
+  <b>抽屉原理 (鸽巢原理)</b>
+  设 `n in NN`. 集合 `X` 有 `n+1` 个元素, 集合 `Y` 有 `n` 个元素,
+  则 `X` 到 `Y` 的映射一定不是单射. 换言之, 将 `n+1` 个物体放入 `n`
+  个盒子, 一定有一个盒子放入了两个或两个以上的物体.
+</p>
+
+<p class="theorem">
+  <b>有理数与循环小数</b>
+  无限循环小数是有理数; 反之, 有理数 `m//n` 可以写成无限循环小数,
+  且循环节的长度小于分母 `n`. 因此,
+  一个数是无理数当且仅当它是无限不循环小数.
 </p>
 
 <ol class="proof">
-	<li>不妨设这个 `B` 进制小数 (`B gt 1`) 在区间 `[0, 1]` 中.
-		则它可以写成 `0.a_1 a_2 cdots a_k {:dot a:}_(k+1) cdots
-		{:dot a:}_(k+p)`. 记
-		<span class="formula">
-			`m_1 = a_(k+1) cdots a_(k+p)`
-			`= sum_(i=1)^p a_(k+i) B^(p-i)`.
-		</span>
-		原来的小数等于
-		<span class="formula">
-			`sum_(i=1)^k a_i B^-i + B^-k sum_(j=1)^oo B^(-p j) m_1`
-			`= sum_(i=1)^k a_i B^-i + B^-k/(B^p-1) m_1`,
-		</span>
-		故是一个有理数.
-	</li>
-	<li>(证明参考初等数论的例题)
-		不妨设 `n gt 1`.
-		如果存在正整数 `k` 使得 `n | B^k`, 设 `B^k = n_1 n`, 则
-		`m//n = m n_1 // B^k` 是一个有限小数. 否则有
-		`n !| B^k`, `k = 0, 1, cdots, n-1`. 设 `B^k` 除以 `n` 的余数是
-		`r_k`, 则 `n` 个数
-		<span class="formula">
-			`r_0, r_1, cdots, r_(n-1)`
-		</span>
-		只能取 `1, 2, cdots, n-1` 这 `n-1` 个值. 由鸽巢原理,
-		必有两个余数相等, 设为 `r_i = r_j`, `0 le j lt i lt n`. 则
-		<span class="formula">
-			`n | B^i - B^j = B^j(B^(i-j)-1)`.
-		</span>
-		设 `d = i-j`, `B^j(B^d-1) = n n_2`, 则
-		<span class="formula">
-			`m/n = (m n_2)/(B^j(B^d-1))`.
-		</span>
-		记 `m_2 = m n_2`. 下面只需证 `m_2/(B^d-1)` 是循环小数.
-		我们只看小数部分, 不妨设 `0 le m_2/(B^d-1) le 1`,
-		于是 `0 le m_2 le B^d-1`.
-		将 `m_2` 表为 `B` 进制数 (在前面添加 0 直到有 `d` 位数)
-		<span class="formula">
-			`m_2 = sum_(j=1)^d a_j B^(d-j) = a_1 a_2 cdots a_d`,
-		</span>
-		得到
-		<span class="formula">
-			`m_2/(B^d-1) = sum_(i=1)^oo B^(-d i) m_2`
-			`= 0.a_1 a_2 cdots a_d a_1 a_2 cdots a_d cdots`.
-		</span>
-		这是循环节长度为 `d` 的循环小数, 其中 `d = i-j lt n`.
-	</li>
+  <li>不妨设这个 `B` 进制小数 (`B gt 1`) 在区间 `[0, 1]` 中.
+    则它可以写成 `0.a_1 a_2 cdots a_k {:dot a:}_(k+1) cdots
+    {:dot a:}_(k+p)`. 记
+    <span class="formula">
+      `m_1 = a_(k+1) cdots a_(k+p)`
+      `= sum_(i=1)^p a_(k+i) B^(p-i)`.
+    </span>
+    原来的小数等于
+    <span class="formula">
+      `sum_(i=1)^k a_i B^-i + B^-k sum_(j=1)^oo B^(-p j) m_1`
+      `= sum_(i=1)^k a_i B^-i + B^-k/(B^p-1) m_1`,
+    </span>
+    故是一个有理数.
+  </li>
+  <li>(证明参考初等数论的例题)
+    不妨设 `n gt 1`.
+    如果存在正整数 `k` 使得 `n | B^k`, 设 `B^k = n_1 n`, 则
+    `m//n = m n_1 // B^k` 是一个有限小数. 否则有
+    `n !| B^k`, `k = 0, 1, cdots, n-1`. 设 `B^k` 除以 `n` 的余数是
+    `r_k`, 则 `n` 个数
+    <span class="formula">
+      `r_0, r_1, cdots, r_(n-1)`
+    </span>
+    只能取 `1, 2, cdots, n-1` 这 `n-1` 个值. 由鸽巢原理,
+    必有两个余数相等, 设为 `r_i = r_j`, `0 le j lt i lt n`. 则
+    <span class="formula">
+      `n | B^i - B^j = B^j(B^(i-j)-1)`.
+    </span>
+    设 `d = i-j`, `B^j(B^d-1) = n n_2`, 则
+    <span class="formula">
+      `m/n = (m n_2)/(B^j(B^d-1))`.
+    </span>
+    记 `m_2 = m n_2`. 下面只需证 `m_2/(B^d-1)` 是循环小数.
+    我们只看小数部分, 不妨设 `0 le m_2/(B^d-1) le 1`,
+    于是 `0 le m_2 le B^d-1`.
+    将 `m_2` 表为 `B` 进制数 (在前面添加 0 直到有 `d` 位数)
+    <span class="formula">
+      `m_2 = sum_(j=1)^d a_j B^(d-j) = a_1 a_2 cdots a_d`,
+    </span>
+    得到
+    <span class="formula">
+      `m_2/(B^d-1) = sum_(i=1)^oo B^(-d i) m_2`
+      `= 0.a_1 a_2 cdots a_d a_1 a_2 cdots a_d cdots`.
+    </span>
+    这是循环节长度为 `d` 的循环小数, 其中 `d = i-j lt n`.
+  </li>
+</ol>
+
+<p class="example">
+  设整数 `n gt 1`. 证明: `H_n = sum_(j=1)^n 1/j` 不是整数.
+</p>
+
+<ol class="proof">
+  利用如下事实:
+  每个正整数 `j` 都可以唯一地写为 `j = 2^(m_j) a_j`,
+  其中 `m_j ge 0`, `a_j` 为奇数.
+  <li>下证 `m_j` 在 `1 le j le n` 中有唯一的最大值 `m`.
+      设 `m_j = m_k = m`, `j le k`, 则
+      <span class="formula">
+          `k - j = 2^(m_k) a_k - 2^(m_j) a_j`
+          `= 2^m (a_k - a_j)`,
+      </span>
+      其中 `a_k, a_j` 为奇数, 因此 `k - j` 为偶数. 若 `k - j gt 0`,
+      则它所含的 2 的次数大于 `m`, 矛盾; 因此 `k = j`.
+  </li>
+  <li>设 `m = m_k = max_(1 le j le n) m_j`,
+      `M = 2^(m-1) prod a_j`. 由 1. 知,
+      `j = 2^(m_j) a_j | M` 当且仅当 `j != k`. 于是
+      <span class="formula">
+          `M H_n = sum M/j -= M/k (mod 1)`
+      </span>
+      上式右边不是整数, 因此左边也不能是整数, 证毕.
+  </li>
 </ol>
 
 <h3>根式无理数</h3>
@@ -629,213 +610,26 @@
   所以 `I` 不可能是整数, 矛盾.
 </p>
 
-<h3>无理数的稠密性</h3>
+<h2>连分数、丢番图逼近与等分布定理</h2>
 
-<p class="theorem">
-  [<a href="https://www.zhihu.com/question/315450309/answer/620576514" target="_blank">知乎</a>]
-  设 `a` 是无理数, 则集合 `{n a mod 1 | n in NN}` 在 `[0, 1]` 上稠密.
-  其中 `x mod 1 = x - |__ x__|`, 对正数 `x` 来说, 即为 `x` 的小数部分.
-</p>
-
-<p class="proof">
-	只需证对任意正整数 `m` 和 `x in [0, 1]`, 存在 `n in ZZ`, 使得
-	<span class="formula">
-		`|n a mod 1 - x| lt 1/m`.
-	</span>
-	考虑 `m` 个区间
-	<span class="formula">
-		`[0, 1/m], [1/m, 2/m], cdots, [(m-1)/m, 1]`
-	</span>
-	和 `m+1` 个数
-	<span class="formula">
-		`a mod 1, 2a mod 1, cdots, m a mod 1, (m+1) a mod 1`.
-	</span>
-	这些数是两两不同的, 否则设 `i a mod 1 = j a mod 1`, 则 `i a - j a in
-	ZZ`. 从而 `a = (i a - j a)/(i - j)` 是有理数, 矛盾.
-	现在由鸽巢原理, 必有两个不同的数 `i a mod 1, j a mod 1` 属于上面 `m`
-	个区间中的同一个区间, `i, j in {1, cdots, m+1}`. 不妨设 `i a mod 1 gt
-	j a mod 1`, 有
-	<span class="formula">
-		`(i-j)a mod 1 = i a mod 1 - j a mod 1 le 1/m`.
-	</span>
-	记 `y = (i-j)a mod 1`,
-	由实数的 Archimedes 性质, 存在正整数 `k` 使得 `k y le x lt (k+1)y`,
-	于是
-	<span class="formula">
-		`|k(i-j)a mod 1 - x| = |k y - x| lt y lt 1/m`.
-	</span>
-</p>
-
-<p class="example">
-	数列 `{tan n}` 无界.
-</p>
-
-<p class="proof">
-	由于 `1/pi` 是无理数知, `{n/pi mod 1 | n in NN}` 在 `[0, 1]` 上稠密.
-	从而对任意 `epsi gt 0`, 存在 `n in NN`, 使得
-	<span class="formula">
-		`|n/pi mod 1 - 1/2| lt epsi`.
-	</span>
-	同乘 `pi`,
-	<span class="formula">
-		`|pi(n/pi mod 1) - pi/2| lt pi epsi`.
-	</span>
-	又
-	<span class="formula">
-		`pi(n/pi mod 1) = pi(n/pi - |__n/pi__|) = n - pi|__n/pi__|`,
-	</span>
-	所以
-	<span class="formula">
-		`|n - pi(|__n/pi__| + 1/2)| lt pi epsi`.
-	</span>
-	因为 `|__n/pi__| in NN`, 我们实际证明了:
-	集合 `NN` 与集合 `T = {pi/2 + k pi | k in ZZ}` 的距离
-	<span class="formula">
-		`inf{|x-y|: x in NN, y in T} = 0`.
-	</span>
-	然而对任意 `y in T`, `x to y` 时有 `tan x to oo`. 所以 `tan n` 无界.
-</p>
-
-<p class="lemma">
-  (Van der Waerden)
-  对任意正整数 `N, k`, 存在正整数 `M`, 使得把数 `1, 2, cdots, M` 染成 `N`
-  种颜色时, 不论染色方案如何, 都至少存在一个长度为 `k` 的等差数列被染为同一颜色.
-</p>
-
-<p class="lemma">
-  对任意正整数 `w, n, k` 有
-  <span class="formula">
-    `n^k = 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w+i n)^k`.
-  </span>
-</p>
-
-<p class="proof">
-  对多项式 `f(x) = x^k` 在 `k+1` 个点 `w_i = w + i n` (`0 le i le k`) 处应用 Lagrange 插值:
-  <span class="formula">
-    `x^k = sum_(i=0)^k prod_(j!=i) (x-w_j)/(w_i-w_j) w_i^k`,
-  </span>
-  比较上式 `x^k` 的系数
-  <span class="formula align">
-    `1 = sum_(i=0)^k prod_(j!=i) w_i^k/(w_i-w_j)`<br>
-    `= sum_(i=0)^k w_i^k/(prod_(j!=i) n(i-j))`<br>
-    `= sum_(i=0)^k (w_i/n)^k 1/(i! * (-1)^(k-i) (k-i)!)`<br>
-    `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w_i/n)^k`.
-  </span>
-</p>
-
-<p class="theorem">
-  [<a href="https://www.doc88.com/p-7136956183890.html" target="_blank">吴昊《`{n^k alpha}` 稠密性的初等证明》</a>]
-  对任意无理数 `alpha` 和正整数 `k`, 数列 `x_n = n^k alpha mod 1` 在区间 `[0, 1]` 上稠密.
-</p>
-
-<ol class="proof">
-  <li>任取 `epsi in (0, 1)`, 下证存在一项 `x_n in (0, epsi)`.
-    取正整数 `N` 满足 `N gt (2^k//epsi+1)^k`, 对每个正整数 `i`,
-    存在唯一的 `1 le j le N`, 使得
-    <span class="formula">
-      `i^k alpha mod 1 in [(j-1)/N, j/N)`.
-    </span>
-    换言之, 我们可以用 `N` 种颜色对全体正整数染色.
-    由 Van der Waerden 定理, 存在长度为 `k+1` 的同色等差数列, 记为
-    <span class="formula">
-      `w_i = w + i n`,  quad `0 le i le k`, `w, n in ZZ^+`.
-    </span>
-  </li>
-  <li>
-    记 `y_i = w_i^k alpha mod 1`.
-    由引理,
-    <span class="formula">
-      `n^k alpha`
-      `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) w_i^k alpha`
-      `-= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) y_i` `(mod 1)`.
-    </span>
-    记上式右端为 `A`, 下面进行分部求和.
-    记
-    <span class="formula">
-      `(-1)^i (k;i) = (-1)^i (k-1;i) - (-1)^(i-1) (k-1;i-1)`
-      `:= u_(i+1) - u_i`,
-    </span>
-    从而
-    <span class="formula">
-      `A = 1/k! (-1)^k [u_i y_i]_0^(k+1) - 1/k! sum_(i=0)^k (-1)^k u_(i+1) (y_(i+1) - y_i)`
-      `= 1/k! sum_(i=0)^(k-1) (-1)^(k-i) (k-1;i) (y_i - y_(i+1))`.
-    </span>
-    由于每个 `w_i` 同色, 有 `|y_i - y_j| lt 1/N`.
-    从而 `|A| lt 2^(k-1)/(k! N) le 1/N`.
-  </li>
-  <li>我们已经证明 `n^k alpha -= A (mod 1)`, 由于 `alpha` 是无理数易得 `A != 0`.
-    若 `A gt 0`, 则 `x_n := n^k alpha mod 1` 就等于 `A`, 且 `x_n = A in (0, 1/N) sube (0, epsi)`.
-    若 `A lt 0`, 此时 `x_n = A + 1 in (1 - 1/N, 1)`.
-    取最大的使得 `M^k (1-x_n) lt 1` 成立的正整数 `M`, 下证 `x_(M n) in (0, epsi)`. 事实上,
-    <span class="formula">
-      `(M+1)^k (1-x_n) ge 1`
-      `rArr (M+1)^k ge 1/(1-x_n)`
-      `ge N gt (2^k/epsi+1)^k`.
-    </span>
-    于是 `M gt 2^k/epsi`.
-    另一方面, `x_(M n) = (M n)^k alpha mod 1` 与 `1 - M^k(1 - x_n)` 均属于 `(0, 1)` 且差为整数, 所以
-    <span class="formula">
-      `x_(M n) = 1 - M^k(1-x_n)`
-      `le (M+1)^k (1-x_n) - M^k(1-x_n)`
-      `overset(?)(le) 2^k M^(k-1) (1-x_n)`
-      `lt 2^k/M lt epsi`.
-    </span>
-    其中问号处的不等式, 做法是将 `(M+1)^k` 展开, 第一项 `M^k` 抵消后,
-    剩下的最高次项是 `M^(k-1)`, 且每项系数不超过 `2^k`.
-  </li>
-  <li>最后对任意区间 `(s, t) sube (0, 1)`, 证明存在一项 `x_n in (s, t)`.
-    取 `epsi gt 0` 使得
-    <span class="formula">
-      `t/epsi gt (2^k/(1-s//t) + 1)^k`.
-    </span>
-    先取正整数 `n` 使得 `x_n in (0, epsi) sube (0, t)`, 再取最大正整数 `M`, 使得
-    `M^k x_n lt t`, 于是
-    <span class="formula">
-      `(M+1)^k x_n ge t`
-      `rArr (M+1)^k ge t/epsi`
-    </span>
-    这推出 `M gt 2^k/(1-s//t)`, 即 `t(1 - 2^k/M) gt s`. 故
-    <span class="formula">
-      `x_(M n)`
-      `= M^k x_n`
-      `ge (M+1)^k x_n - 2^k M^(k-1) x_n`
-      `gt t - 2^k/M t`
-      `= t(1 - 2^k/M)`
-      `gt s`.
-    </span>
-    综上有 `x_(M n) in (s, t)`.
-  </li>
-</ol>
-
-<p class="corollary">
-  对任意无理数 `alpha`, 正整数 `k, m` 和整数 `0 le r lt m`,
-  存在无穷多个正整数 `n` 使得 `|__n^k alpha__| -= r (mod m)`.
-</p>
-
-<p class="proof">
-  记 `x_n := n^k alpha mod 1`, 由于
-  <span class="formula">
-    `n^k alpha`
-    `= m |__n^k alpha__| + m x_n`,
-  </span>
-  取整并模 `m` 得到
-  <span class="formula">
-    `|__n^k alpha__| -= |__ m x_n __|` `(mod m)`.
-  </span>
-  而 `|__ m x_n __| = r` 等价于 `x_n in [r/m, (r+1)/m)`;
-  利用 `x_n` 在 `[0, 1]` 的稠密性即得证.
-</p>
-
-<h2>连分数</h2>
+<h3>连分数</h3>
 
 <p class="definition">
   <b>连分数 (continued fraction)</b>
-  每个正实数 `x` 都能唯一展开为简单连分数 `[a_0";" a_1, a_2, cdots]`.
-  如果记 `[x], {x}` 分别是 `x` 的整数部分和小数部分, 则
+  设 `a_0, a_1, cdots` 为一列实数, 从 `a_1` 开始每项都为正.
+  我们称下式为<b>有限连分数</b>:
   <span class="formula">
-    `a_0 := [x]`, `quad r_0 := {x}`,<br>
-    `a_(n+1) := [1//r_n]`, `quad r_(n+1) := {1//r_n}`.
+    `a^((n)) := [a_0";" a_1, cdots, a_n]`
+    `:= a_0 + 1/(a_1+) 1/(a_2+) cdots 1/a_n`
+    `:= a_0 + 1/(a_1+ 1/({: a_2+; , ddots 1/a_n :}))`.
   </span>
+  称 `a^((k)) := [a_0";" a_1, cdots, a_k]` 为上式的第 `k` 个<b>截断</b>.
+  `n to oo` 时, 上式称为<b>无限连分数</b>, 若极限存在则称该连分数收敛:
+  <span class="formula">
+    `[a_0";" a_1, cdots] := lim_(n to oo) a^((n))`.
+  </span>
+  如果每项 `a_i` 都是整数, 则称该连分数是<b>简单</b>的.
+  简单连分数的值是有理数.
 </p>
 
 <ol class="example">
@@ -974,6 +768,640 @@ module.exports = (str) => {
 </script>
 </div>
 
+<ol class="proposition">
+  <b>单调性</b>
+  考虑连分数 `a^((n)) = [a_0";" a_1, cdots, a_n]`.
+  <li>`a^((n))` 关于每个 `a_k` 是单调的, 且 `k` 为奇数时单调减, `k` 为偶数时单调增.</li>
+  <li>`a^((0)) lt a^((2)) lt cdots lt a^((2k))`
+      `lt a^((2l+1)) lt cdots lt a^((3)) lt a^((1))`.
+  </li>
+  <li>`a_n to oo` 时, `a^((n)) to a^((n-1))`; `a_n to 0` 时 `a^((n)) to a^((n-2))`.</li>
+</ol>
+
+<ol class="proposition">
+  <b>递推公式</b>
+  考虑连分数 `a^((n)) = [a_0";" a_1, cdots, a_n]`.
+  记 `p_(-2) = q_(-1) = 0`, `p_(-1) = q_(-2) = 1`, 且 `p_n, q_n` 遵循同一递推公式:
+  <span class="formula">
+    `{ p_n = a_n p_(n-1) + p_(n-2); q_n = a_n q_(n-1) + q_(n-2) :}`
+  </span>
+  则成立
+  <li>递推: `a^((n)) = p_n // q_n` `(n ge 0)`.</li>
+  <li>互素: `p_(n-1) q_n - p_n q_(n-1) = (-1)^n` `(n ge -1)`,
+    因此当 `a^((n))` 为简单连分数时, `p_n, q_n` 互素.
+  </li>
+  <li>误差: `a^((n-1)) - a^((n)) = (-1)^n (q_n q_(n-1))^-1` `(n ge 1)`.</li>
+  <li>当 `a^((n))` 为简单连分数时, 分母 `q_n` 从 `n ge 2` 起严格递增趋于无穷.</li>
+</ol>
+
+<ol class="proof">
+  <li>`n = 0` 时, `a^((0)) = a_0`; 另一方面 `p_0 = a_0`, `q_0 = 1`, 结论成立.
+    设结论对 `n` 成立, 则 `n+1` 时
+    <span class="formula align higher">
+      `a^((n+1)) = [a_0";" a_1, a_2, cdots, a_n + 1//a_(n+1)]`<br>
+      `= ((a_n + 1//a_(n+1)) p_(n-1) + p_(n-2))/
+         ((a_n + 1//a_(n+1)) q_(n-1) + q_(n-2))`<br>
+      `= (a_(n+1)(a_n p_(n-1) + p_(n-2)) + p_(n-1))/
+         (a_(n+1)(a_n q_(n-1) + q_(n-2)) + q_(n-1))`<br>
+      `= (a_(n+1) p_n + p_(n-1))/(a_(n+1) q_n + q_(n-1))`
+      `= p_(n+1)/q_(n+1)`.
+    </span>
+  </li>
+  <li>`n = -1` 时结论成立. 设结论对 `n` 成立, 则 `n+1` 时
+    <span class="formula">
+      `p_n q_(n+1) - p_(n+1) q_n`
+      `= p_n (a_(n+1) q_n + q_(n-1)) - q_n (a_(n+1) p_n + p_(n-1))`
+      `= p_n q_(n-1) - q_n p_(n-1)`
+      `= (-1)^(n+1)`.
+    </span>
+  </li>
+  <li>
+    由 1. 2. 直接推出.
+  </li>
+  <li>这是因为 `q_0 = 1`, `q_1 = a_1 ge 1`,
+    从 `n ge 2` 起, 递推式系数均为正, 因此 `q_n` 严格递增趋于无穷.
+  </li>
+</ol>
+
+<p class="proposition">
+  <b>无限简单连分数的收敛性</b>
+  `[a_0";" a_1, cdots]` 必定收敛, 且极限 `a` 为无理数, 满足
+  <span class="formula">
+    `a^((0)) lt a^((2)) lt cdots lt a lt cdots lt a^((3)) lt a^((1))`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>我们已经知道, `a^((2n))` 严格递增有上界, `a^((2n-1))` 严格递减有下界,
+    设两个数列的极限分别为 `a, a'`, 显然 `a le a'`.
+    另一方面, 记 `a^((n)) = p_n//q_n`, 则由误差公式和 `q_n to oo` 知道
+    <span class="formula">
+      `a' - a lt a^((2n-1)) - a^((2n))`
+      `= (q_(2n) q_(2n-1))^-1 to 0`.
+    </span>
+    因此 `a' = a`.
+  </li>
+  <li>反设 `a = u//v` 是有理数, 则对任意正整数 `n` 有
+    <span class="formula">
+      `0 lt |a - a^((n))| lt |a^((n+1)) - a^((n))| = (q_n q_(n+1))^-1`,
+    </span>
+    即
+    <span class="formula">
+      `0 lt |u/v - p_n/q_n| lt 1/(q_n q_(n+1))`.
+    </span>
+    由左半不等式知道 `|u q_n - p_n v| ge 1`, 再由右半不等式知道
+    <span class="formula">
+      `1/(|v| q_n) lt 1/(q_n q_(n+1))`,
+    </span>
+    即 `q_(n+1) lt |v|`, 这与 `q_n to oo` 矛盾.
+  </li>
+</ol>
+
+<ol class="theorem">
+  <b>简单连分数展开的唯一性定理</b>
+  <li>设 `[a_0";" a_1, cdots, a_n] = [b_0";" b_1, cdots, b_s]` 是两个相等的有限简单连分数,
+    且 `a_n, b_s gt 1`, 则有 `n = s` 且 `a_i = b_i`, `i = 0, cdots, n`.
+  </li>
+  <li>设 `[a_0";" a_1, cdots] = [b_0";" b_1, cdots]` 是两个相等的无限简单连分数,
+    则 `a_i = b_i`, `i = 0, 1, cdots`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    不妨设 `s ge n`, 对 `n` 归纳. `n = 0` 时, 若 `s ge 1`, 则
+    <span class="formula">
+      `a_0 = b_0 + 1//[b_1";" cdots, b_s]`.
+    </span>
+    已知 `b_s gt 1`, 则上式分母 `[b_1";" cdots, b_s] gt 1`, 从而上式的 `a_0, b_0` 不能同时为整数, 矛盾.
+    <br>
+    现在设结论对 `n-1 ge 0` 成立, 考虑 `n` 的情形, `s ge n ge 1`, 于是以下两式相等:
+    <span class="formula">
+      `[a_0";"a_1, cdots, a_n] = a_0 + 1//[a_1";" cdots a_n]`<br>
+      `[b_0";"b_1, cdots, b_s] = b_0 + 1//[b_1";" cdots b_s]`<br>
+    </span>
+    已知 `a_n, b_s gt 1`, 则以上两式的分母 `gt 1`. 从而它们的整数部分相等:
+    `a_0 = b_0`, 这又推出两式的分母相等. 由归纳假设 `n = s`, 并且 `a_i = b_i`, `i = 0, cdots, n`.
+  </li>
+  <li>
+    用 `r^((n))` 表示连分数的尾部 `r^((n)) = [a_n";" a_(n+1), cdots]`, 它一定收敛.
+    事实上
+    <span class="formula">
+      `r^((0)) = lim_(n to oo) [a_0";"a_1, cdots, a_n]`
+      `= lim_(n to oo) a_0 + 1//[a_1";" cdots, a_n]`
+      `= a_0 + 1//r^((1))`.
+    </span>
+    其中 `r^((1)) gt a_1 ge 1`, 因此 `a_0 = |__r^((0))__|`.  同理有
+    <span class="formula">
+      `a_n = |__r^((n))__|`, `quad AA n ge 0`.
+    </span>
+    `a_n` 由 `r^((n))` 的值完全决定, 因此 `a_i = b_i`, `i = 0, 1, cdots`.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>简单连分数展开的存在性定理</b>
+  每个正实数 `a` 都能展开为简单连分数 `[a_0";" a_1, cdots]`,
+  并且 `a` 是有理数当且仅当该连分数有限. 事实上
+  <span class="formula">
+    `a_0 := [a]`, `quad r_0 := {a}`,<br>
+    `a_(n+1) := [1//r_n]`, `quad r_(n+1) := {1//r_n}`.
+  </span>
+  如果规定有限简单连分数的最后一项大于 1, 则该连分数还是唯一的.
+</p>
+
+<ol class="proof">
+  <li>若 `a` 是有理数, 根据辗转相除法, 上述过程必定在有限步终止, 于是得到一个有限简单连分数.
+    并且, 在规定最后一项大于 1 时, 该结果是唯一的.
+  </li>
+  <li>若 `a` 是无理数, 则每个 `r_i` 都是 `(0, 1)` 中的无理数.
+    由构造
+    <span class="formula">
+      `a = a_0 + r_0`
+      `= a_0 + 1//(a_1 + r_1)`
+      `= [a_0";"a_1, cdots, a_n + r_n]`,
+      `quad AA a ge 0`,
+    </span>
+    可以看出 `a` 满足不等式
+    <span class="formula">
+      `a^((2n)) lt a lt a^((2n+1))`,
+    </span>
+    其中 `a^((n))` 表示第 `n` 个截断. 再由两边夹法则得到
+    <span class="formula">
+      `a = lim_(n to oo) a^((n)) = [a_0";"a_1, cdots]`.
+    </span>
+  </li>
+</ol>
+
+<h3>丢番图逼近 (有理逼近)</h3>
+
+<p class="theorem">
+  <b>(Dirichlet, 1842)</b>
+  `alpha in RR` 是无理数当且仅当存在无穷多对互素整数 `(p, q)` 使得 `|alpha - p/q| lt 1/q^2`.
+</p>
+
+<ol class="proof">
+  <li>
+    定理的 "`lArr`" 部分是容易的.
+    设 `alpha = c/d` 是有理数. 考查
+    <span class="formula">
+      `|c/d - p/q|`
+      `= |(c q - d p)/(d q)| lt 1/q^2`,
+    </span>
+    上式等价于
+    <span class="formula">
+      `|c q - d p| lt |d/q|`,
+    </span>
+    当 `|d| lt |q|` 时, 要使上式成立, 必须 `c q - d p = 0`, 即 `c/d = p/q`;
+    显然满足条件的互素 `(p, q)` 数量有限.
+    另一方面, 若 `|d| ge |q|`, 分母 `q` 有界, 于是位于 `alpha = c/d` 附近的分数 `p/q` 只有有限个.
+  </li>
+  <li>
+    现在设 `alpha` 是无理数, `p_n//q_n` 是 `alpha` 的连分数展开的第 `n` 个截断,
+    则 `p_n//q_n` 是既约分数, 并且根据连分数的截断误差,
+    <span class="formula">
+      `0 lt |alpha - p_n/q_n| lt 1/(q_n q_(n+1)) lt 1/q_n^2`.
+    </span>
+    由于 `q_n` 从 `n ge 2` 起严格递增, 满足上式的 `p, q` 有无穷多对.
+  </li>
+</ol>
+
+<ol class="proof">
+  Dirichlet 的原始证明.
+  <li>
+    设 `alpha` 是无理数. `AA n in ZZ^+`, 考虑 `[0, 1]` 区间的 `n+2` 个数
+    <span class="formula">
+      `1, {j alpha}`, `quad j = 0, cdots, n`.
+    </span>
+    由抽屉原理, 必有两个数距离 `le 1/(n+1)`.
+    <br>
+    (i) 当这两个数为 `{i alpha}`, `{j alpha}` `(i gt j)` 时, 令
+    <span class="formula">
+      `c = [i alpha] - [j alpha]`, `quad d = i - j`;
+    </span>
+    (ii) 当这两个数为 `1, {i alpha}` `(i gt 0)` 时, 令
+    <span class="formula">
+      `c = [i alpha]+1`, `quad d = i`.
+    </span>
+    两种情况下, 我们都令 `p = c//gcd(c, d)`, `q = d//gcd(c, d)`.
+    从而 `p, q` 互素, `1 le q le d le n`, 且
+    <span class="formula higher">
+      (i) `|alpha - p/q|`
+      `= |alpha - ([i alpha] - [j alpha])/(i - j)|`
+      `= |({i alpha} - {j alpha})/(i-j)|`
+      `le 1/(d(n+1))`
+      `lt 1/q^2`;
+      <br>
+      (ii) `|alpha - p/q|`
+      `= |alpha - ([i alpha] + 1)/i|`
+      `= |({i alpha} - 1)/i|`
+      `le 1/(d(n+1))`
+      `lt 1/q^2`.
+    </span>
+    因此我们得到满足不等式要求的一对互素整数 `(p, q)`, 且 `1 le q le n`.
+  </li>
+  <li>下证这样的 `(p, q)` 有无穷多对.
+    取 `n_0 = 1`, 由 2. 知存在 `p_0, q_0` 满足 `1 le q_0 le n_0` (因此 `q_0 = 1`), 且
+    <span class="formula">
+      `0 lt r_0 := |alpha - p_0/q_0| le 1/(q_0 (n_0+1)) lt 1/q_0^2 = 1`.
+    </span>
+    这里 `r_0 gt 0` 是因为 `alpha` 为无理数.
+    归纳假设已得到 `p_k, q_k, n_k` 满足 `1 le q_k le n_k`, 且
+    <span class="formula">
+      `0 lt r_k := |alpha - p_k/q_k| le 1/(q_k (n_k+1)) lt 1/q_k^2`,
+    </span>
+    那么取 `n_(k+1) = [r_k^-1]`, 由 2. 知存在 `p_(k+1), q_(k+1)` 满足 `1 le q_(k+1) le n_(k+1)`, 且
+    <span class="formula">
+      `0 lt r_(k+1) := |alpha - p_(k+1)/q_(k+1)| le 1/(q_(k+1) (n_(k+1)+1)) lt 1/q_(k+1)^2`,
+    </span>
+    这样便得到无穷多个满足条件的分数 `p_k//q_k`, 它们是两两不同的, 因为
+    <span class="formula">
+      `r_(k+1) le 1/(q_(k+1) (n_(k+1)+1))`
+      `lt r_k/q_(k+1)`,
+    </span>
+    这说明每个分数都比上一个更加逼近 `alpha`.
+    <hr>
+    [Deepseek] 我们可以证明分母 `q_k to oo`.
+    事实上, 假设 `q_k` 不趋于无穷, 则存在正数 `M` 使得有无穷多项 `q_k le M`.
+    `q_k` 是正整数, 这意味它只有有限种取值, 必存在正整数 `q`, 使得有无穷多项 `q_k = q`.
+    由构造
+    <span class="formula">
+      `|alpha - p_k/q| lt 1/q^2`,
+    </span>
+    满足上式的 `p_k` 只有有限个, 与结论 “`p_k//q_k` 两两不同”矛盾.
+  </li>
+</ol>
+
+<p class="theorem">
+  `alpha` 为无理数时, 上述结果可以改进为 `|alpha - p/q| lt 1/(2 q^2)`.
+  反之, 若 `p/q` 满足此不等式, 则它一定来自 `alpha` 的连分数的截断.
+</p>
+
+<ol class="proof">
+  <li>将 `alpha` 展开为连分数 `[a_0";"a_1, cdots]`,
+    取连续两个截断分数 `p_i//q_i`, `i = n, n+1`.
+    下面证明, 两个不等式
+    <span class="formula">
+      `|alpha - p_i/q_i| lt 1/(2 q_i^2)`, `quad i = n, n+1`
+    </span>
+    至少有一个成立.
+    假设两个不等式都不成立, 则
+    <span class="formula align higher">
+      `1/(q_n q_(n+1)`
+      `= |p_n/q_n - p_(n+1)/q_(n+1)|` (误差公式)<br>
+      `= |p_n/q_n - alpha| + |alpha - p_(n+1)/q_(n+1)|` (`alpha` 位于两个截断分数之间)<br>
+      `ge 1/2 (1/q_n^2 + 1/q_(n+1)^2)`.
+    </span>
+    化简得
+    <span class="formula">
+      `2 q_n q_(n+1) ge q_n^2 + q_(n+1)^2`,
+    </span>
+    这推出 `q_n = q_(n+1)`, 于是有 `n = 0` 及
+    <span class="formula">
+      `q_0 = q_1 = a_1 = 1`,<br>
+      `p_0 = a_0`, `p_1 = a_1 a_0 + 1 = a_0 + 1`,<br>
+      `a_0 + 1//2 lt alpha lt a_0 + 1`.
+    </span>
+    从而 `i = n+1 = 1` 时有
+    <span class="formula">
+      `|alpha - p_1//q_1|`
+      `= |alpha - (a_0 + 1)|`
+      `lt 1//2`,
+    </span>
+    与假设矛盾.
+  </li>
+  <li>
+    不妨设 `q gt 0`, 由 `q_0 = 1` 和 `q_n` 严格递增趋于无穷知道, 存在唯一的 `n` 使得
+    <span class="formula">
+      `q_n le q lt q_(n+1)`.
+    </span>
+    利用引理 🚧 得到
+    <span class="formula">
+      `|alpha q_n - p_n| le |alpha q - p|`,
+    </span>
+    故
+    <span class="formula">
+      `|alpha - p_n/q_n|`
+      `le |alpha - p/q| q / q_n`
+      `lt 1/(2 q q_n)`.
+    </span>
+    进而
+    <span class="formula">
+      `|p_n/q_n - p/q|`
+      `le |p_n/q_n - alpha| + |alpha - p/q|`
+      `lt 1/(2 q q_n) + 1/(2 q^2)`.
+      <span class="label">`(ast)`</span>
+    </span>
+    下证 `q_n = q`. 假设不成立, 则 `q_n lt q lt q_(n+1)`, `p//q` 不可能来自连分数截断.
+    特别 `p//q != p_n//q_n`, 因此
+    <span class="formula">
+      `1/(q q_n)`
+      `le |p_n/q_n - p/q|`
+      `lt 1/(2 q q_n) + 1/(2 q^2)`.
+    </span>
+    这推出 `q lt q_n`, 矛盾.
+    所以必有 `q_n = q`. 代入 `(ast)` 式得到
+    <span class="formula">
+      `|p_n - p| lt 1//q`,
+    </span>
+    故 `p_n = p`.
+  </li>
+</ol>
+
+<p class="remark">
+  定理表明, `alpha` 的一个“好的”逼近必然来自连分数.
+</p>
+
+<p class="theorem">
+  <b>(Hurwitz, 1891)</b>
+  `alpha` 为无理数时, 上述结果可以改进为 `|alpha - p/q| lt 1/(sqrt 5 q^2)`.
+  且常数 `sqrt 5` 对于某些无理数是最佳估计, 不可再增加.
+</p>
+
+<ol class="proof">
+  <li>
+    将 `alpha` 展开为连分数 `[a_0";"a_1, cdots]`, 取连续三个截断分数 `p_i//q_i`, `i = n-1, n, n+1`.
+    下面证明, 三个不等式
+    <span class="formula">
+      `|alpha - p_i/q_i| lt 1/(sqrt 5 q_i^2)`, `quad i = n-1, n, n+1`
+    </span>
+    至少有一个成立.
+    假设三个不等式都不成立, 则对 `i = n, n+1` 有
+    <span class="formula align higher">
+      `1/(q_i q_(i-1))`
+      `= |p_i/q_i - p_(i-1)/q_(i-1)|` (误差公式)<br>
+      `= |p_i/q_i - alpha| + |alpha - p_(i-1)/q_(i-1)|` (`alpha` 位于两个截断分数之间)<br>
+      `ge 1/sqrt 5 (1/q_i^2 + 1/q_(i-1)^2)`.
+    </span>
+    化简得
+    <span class="formula">
+      `q_i/q_(i-1) + q_(i-1)/q_i le sqrt 5`, `quad i = n, n+1`.
+    </span>
+    由 `sqrt 5` 是无理数知道不等号严格成立,
+    解一元二次不等式 `x + x^-1 lt sqrt 5` 得 `x in (phi^-1, phi)`, 其中 `phi = (sqrt5+1)//2`, 于是
+    <span class="formula">
+      `phi^-1 lt q_i//q_(i-1) lt phi`, `quad i = n, n+1`.
+    </span>
+    另一方面由递推公式,
+    <span class="formula">
+      `q_(n+1)//q_n = (a_(n+1) q_n + q_(n-1))//q_n`
+      `= a_(n+1) + q_(n-1)//q_n`
+      `gt 1 + phi^-1`
+      `= phi`,
+    </span>
+    矛盾.
+  </li>
+  <li>
+    我们估计误差 `alpha - p_n//q_n`.
+    将连分数的尾部记作 `r^((n)) = [a_n";"a_(n+1), cdots]`, 则
+    `alpha = [a_0";"cdots, a_n, r^((n+1))]`. 于是
+    <span class="formula align higher">
+      `alpha - p_n//q_n`<br>
+      `= (p_n r^((n+1)) + p_(n-1))/(q_n r^((n+1)) + q_(n-1)) - p_n/q_n`<br>
+      `= (q_n p_(n-1) - p_n q_(n-1))/(q_n(q_n r^((n+1)) + q_(n-1)))`<br>
+      `= (-1)^n/(q_n^2(r^((n+1)) + q_(n-1)//q_n))`.
+      <span>`(ast)`</span>
+    </span>
+    现在说明常数 `sqrt 5` 对于 `alpha = phi` 是最佳估计.
+    事实上 `phi = [1";"1, 1, cdots]`, 代入递推式得
+    <span class="formula">
+      `p_n = F_(n+1)`, `quad q_n = F_n`, `quad n ge 0`,
+    </span>
+    `F_n` 为 Fibonacci 数列.
+    代入公式 `(ast)` 得
+    <span class="formula">
+      `|phi - p_n//q_n| q_n^2`
+      `= 1/(phi + q_(n-1)//q_n)`
+      `to 1/(phi + phi^-1)`
+      `= 1/sqrt 5`, `quad n to oo`.
+    </span>
+    如果存在常数 `lambda gt sqrt 5` 和有理数 `p//q` 满足
+    <span class="formula">
+      `|phi - p//q| q^2 lt 1//lambda`,
+      <span class="label">`(ast ast)`</span>
+    </span>
+    由上个定理知 `p//q` 一定来自 `phi` 的连分数截断, 即存在 `n` 使得 `p//q = p_n//q_n`.
+    然而我们已经证明 `n to oo` 时极限是 `1//sqrt 5`,
+    因此满足 `(ast ast)` 式的互素 `(p, q)` 只有至多有限对.
+  </li>
+</ol>
+
+<h3>等分布定理</h3>
+
+<p class="theorem">
+  <b>Dirichlet 逼近定理</b>
+  设 `x in RR`, `n in ZZ^+`, 则在 `x, 2x, cdots, n x` 这 `n` 个数中,
+  存在一个数到最近整数的距离小于 `1//n`.
+</p>
+
+<p class="proof">
+  记 `{x} = x - [x]` 为实数 `x` 的小数部分.
+  考虑 `n+1` 个数
+  <span class="formula">
+    `0, {x}, {2x}, cdots, {n x}`,
+  </span>
+  它们落在区间 `[0, 1)` 中. 若将区间平均分为 `n` 份 (左闭右开),
+  则必有两个数落在同一区间. 设它们是 `{i x}, {j x}`, 其中 `i gt j`.
+  于是
+  <span class="formula">
+    `|(i-j) x - ([i x] - [j x])|`
+    `= |{i x} - {j x}|`
+    `lt 1//n`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Kronecker 逼近定理</b>
+  设 `a` 是无理数, 则数列 `a_n = {n a}` (`n a` 的小数部分) 在 `[0, 1]` 上稠密.
+</p>
+
+<ol class="proof">
+  [Deepseek]
+  只需证对任意 `x in [0, 1]` 和任意正整数 `m` 都存在一项 `a_n` 使得
+  <span class="formula">
+    `|a_n - x| lt 1/m`.
+  </span>
+  根据 Dirichlet 逼近定理, 存在 `1 le k le m` 使得
+  <span class="formula">
+    `a_k in [0, 1//m) uu (1 - 1//m, 1)`.
+  </span>
+  又由 `a` 是无理数知道 `a_k != 0`.
+  <li>
+    若 `a_k = delta in (0, 1//m)`, 则对任意正整数 `j` 有
+    <span class="formula">
+      `a_(j k) = {j a_k} = {j delta}`.
+    </span>
+    令 `N = |__ 1//delta __|`, 则集合 `(a_(j k))_(j=1)^N` `= (j delta)_(j=1)^N`
+    将 `[0, 1]` 区间分为 `N+1` 个小区间, 前 `N` 个长度为 `delta`,
+    最后一个长度为 `1 - N delta lt delta`.
+    点 `x` 总会落在一个小区间内, 故存在一个 `j_0` 使得 `|a_(j_0 k) - x| le delta lt 1//m`.
+  </li>
+  <li>
+    若 `a_k = 1 - delta in (1-1//m, 1)`, 则
+    <span class="formula">
+      `a_(j k) = {j a_k}`
+      `= 1 - {j delta}`,
+    </span>
+    即 `1 - a_(j k) = {j delta}`.
+    令 `y = 1 - x`, 由 1. 的证明知存在一个 `j_0` 使得
+    <span class="formula">
+      `|(1 - a_(j_0 k)) - y| le delta lt 1//m`,
+    </span>
+    即 `|x - a_(j_0 k)| lt 1//m`.
+  </li>
+</ol>
+
+<p class="example">
+  [<a href="https://www.zhihu.com/question/315450309/answer/620576514" target="_blank">知乎@Fulcrum</a>]
+  数列 `{tan n}` 无界.
+</p>
+
+<p class="proof">
+  由 `tan` 的周期性, 只需证 `n/pi mod 1` 与 `1/2` 可以任意地逼近.
+  根据 Kronecker 逼近定理和 `1/pi` 是无理数知, 数列 `{n/pi mod 1}` 在 `[0, 1]` 上稠密.
+  从而 `n/pi mod 1` 与 `[0, 1]` 中的任意实数都能任意地逼近, 包括 `1/2`.
+</p>
+
+<p class="theorem">
+  <b>Weyl 等分布定理</b>
+  设 `a` 是无理数, 则数列 `a_n = n a mod 1` 在 `[0, 1]` 上<b>等分布</b>.
+  这就是说, 对任意子区间 `[a, b] sube [0, 1]`, `a_n` 落在 `[a, b]` 中的概率与区间长度成正比:
+  <span class="formula">
+    `lim_(n to oo) {: \#{1 le k le n: a_k in [a, b]} :}/n = b-a`.
+  </span>
+</p>
+
+[<a href="https://www.doc88.com/p-7136956183890.html" target="_blank">吴昊《`{n^k alpha}` 稠密性的初等证明》</a>]
+
+<p class="lemma">
+  (Van der Waerden)
+  对任意正整数 `N, k`, 存在正整数 `M`, 使得把数 `1, 2, cdots, M` 染成 `N`
+  种颜色时, 不论染色方案如何, 都至少存在一个长度为 `k` 的等差数列被染为同一颜色.
+</p>
+
+<p class="lemma">
+  对任意正整数 `w, n, k` 有
+  <span class="formula">
+    `n^k = 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w+i n)^k`.
+  </span>
+</p>
+
+<p class="proof">
+  对多项式 `f(x) = x^k` 在 `k+1` 个点 `w_i = w + i n` (`0 le i le k`) 处应用 Lagrange 插值:
+  <span class="formula">
+    `x^k = sum_(i=0)^k prod_(j!=i) (x-w_j)/(w_i-w_j) w_i^k`,
+  </span>
+  比较上式 `x^k` 的系数
+  <span class="formula align">
+    `1 = sum_(i=0)^k prod_(j!=i) w_i^k/(w_i-w_j)`<br>
+    `= sum_(i=0)^k w_i^k/(prod_(j!=i) n(i-j))`<br>
+    `= sum_(i=0)^k (w_i/n)^k 1/(i! * (-1)^(k-i) (k-i)!)`<br>
+    `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) (w_i/n)^k`.
+  </span>
+</p>
+
+<p class="theorem">
+  对任意无理数 `alpha` 和正整数 `k`, 数列 `x_n = n^k alpha mod 1` 在区间 `[0, 1]` 上稠密.
+</p>
+
+<ol class="proof">
+  <li>任取 `epsi in (0, 1)`, 下证存在一项 `x_n in (0, epsi)`.
+    取正整数 `N` 满足 `N gt (2^k//epsi+1)^k`, 对每个正整数 `i`,
+    存在唯一的 `1 le j le N`, 使得
+    <span class="formula">
+      `i^k alpha mod 1 in [(j-1)/N, j/N)`.
+    </span>
+    换言之, 我们可以用 `N` 种颜色对全体正整数染色.
+    由 Van der Waerden 定理, 存在长度为 `k+1` 的同色等差数列, 记为
+    <span class="formula">
+      `w_i = w + i n`,  quad `0 le i le k`, `w, n in ZZ^+`.
+    </span>
+  </li>
+  <li>
+    记 `y_i = w_i^k alpha mod 1`.
+    由引理,
+    <span class="formula">
+      `n^k alpha`
+      `= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) w_i^k alpha`
+      `-= 1/k! sum_(i=0)^k (-1)^(k-i) (k;i) y_i` `(mod 1)`.
+    </span>
+    记上式右端为 `A`, 下面进行分部求和.
+    记
+    <span class="formula">
+      `(-1)^i (k;i) = (-1)^i (k-1;i) - (-1)^(i-1) (k-1;i-1)`
+      `:= u_(i+1) - u_i`,
+    </span>
+    从而
+    <span class="formula">
+      `A = 1/k! (-1)^k [u_i y_i]_0^(k+1) - 1/k! sum_(i=0)^k (-1)^k u_(i+1) (y_(i+1) - y_i)`
+      `= 1/k! sum_(i=0)^(k-1) (-1)^(k-i) (k-1;i) (y_i - y_(i+1))`.
+    </span>
+    由于每个 `w_i` 同色, 有 `|y_i - y_j| lt 1/N`.
+    从而 `|A| lt 2^(k-1)/(k! N) le 1/N`.
+  </li>
+  <li>我们已经证明 `n^k alpha -= A (mod 1)`, 由于 `alpha` 是无理数易得 `A != 0`.
+    若 `A gt 0`, 则 `x_n := n^k alpha mod 1` 就等于 `A`, 且 `x_n = A in (0, 1/N) sube (0, epsi)`.
+    若 `A lt 0`, 此时 `x_n = A + 1 in (1 - 1/N, 1)`.
+    取最大的使得 `M^k (1-x_n) lt 1` 成立的正整数 `M`, 下证 `x_(M n) in (0, epsi)`. 事实上,
+    <span class="formula">
+      `(M+1)^k (1-x_n) ge 1`
+      `rArr (M+1)^k ge 1/(1-x_n)`
+      `ge N gt (2^k/epsi+1)^k`.
+    </span>
+    于是 `M gt 2^k/epsi`.
+    另一方面, `x_(M n) = (M n)^k alpha mod 1` 与 `1 - M^k(1 - x_n)` 均属于 `(0, 1)` 且差为整数, 所以
+    <span class="formula">
+      `x_(M n) = 1 - M^k(1-x_n)`
+      `le (M+1)^k (1-x_n) - M^k(1-x_n)`
+      `overset(?)(le) 2^k M^(k-1) (1-x_n)`
+      `lt 2^k/M lt epsi`.
+    </span>
+    其中问号处的不等式, 做法是将 `(M+1)^k` 展开, 第一项 `M^k` 抵消后,
+    剩下的最高次项是 `M^(k-1)`, 且每项系数不超过 `2^k`.
+  </li>
+  <li>最后对任意区间 `(s, t) sube (0, 1)`, 证明存在一项 `x_n in (s, t)`.
+    取 `epsi gt 0` 使得
+    <span class="formula">
+      `t/epsi gt (2^k/(1-s//t) + 1)^k`.
+    </span>
+    先取正整数 `n` 使得 `x_n in (0, epsi) sube (0, t)`, 再取最大正整数 `M`, 使得
+    `M^k x_n lt t`, 于是
+    <span class="formula">
+      `(M+1)^k x_n ge t`
+      `rArr (M+1)^k ge t/epsi`
+    </span>
+    这推出 `M gt 2^k/(1-s//t)`, 即 `t(1 - 2^k/M) gt s`. 故
+    <span class="formula">
+      `x_(M n)`
+      `= M^k x_n`
+      `ge (M+1)^k x_n - 2^k M^(k-1) x_n`
+      `gt t - 2^k/M t`
+      `= t(1 - 2^k/M)`
+      `gt s`.
+    </span>
+    综上有 `x_(M n) in (s, t)`.
+  </li>
+</ol>
+
+<p class="corollary">
+  对任意无理数 `alpha`, 正整数 `k, m` 和整数 `0 le r lt m`,
+  存在无穷多个正整数 `n` 使得 `|__n^k alpha__| -= r (mod m)`.
+</p>
+
+<p class="proof">
+  记 `x_n := n^k alpha mod 1`, 由于
+  <span class="formula">
+    `n^k alpha`
+    `= m |__n^k alpha__| + m x_n`,
+  </span>
+  取整并模 `m` 得到
+  <span class="formula">
+    `|__n^k alpha__| -= |__ m x_n __|` `(mod m)`.
+  </span>
+  而 `|__ m x_n __| = r` 等价于 `x_n in [r/m, (r+1)/m)`;
+  利用 `x_n` 在 `[0, 1]` 的稠密性即得证.
+</p>
+
 <h2>代数数与超越数</h2>
 
 <p class="definition">
@@ -1071,7 +1499,7 @@ module.exports = (str) => {
 </p>
 
 <p class="corollary">
-  `"e"^pi = ("e"^(pi"i"))^(-"i")` 是超越数.
+  Gelfand 常数 `"e"^pi = ("e"^(pi"i"))^(-"i")` 是超越数.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

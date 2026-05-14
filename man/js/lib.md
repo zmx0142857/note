@@ -36,6 +36,7 @@
   $ uglifyjs input.js -c -m > out.js # compress and mangle
   $ pretty-js input.js > out.js
   ```
+- pkg, nexe: 将 js 打包为 exe 程序
 
 ### 静态网站与博客
 

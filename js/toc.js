@@ -76,7 +76,7 @@ var tocData = [
         "value": "number",
         "label": "数论",
         "children": [
-          { "value": "0", "label": "整数, 有理数, 代数数, 连分数", "date": "2025-06-11" },
+          { "value": "0", "label": "从整数到超越数", "date": "2026-05-14" },
           { "value": "1", "label": "整除, 最大公约数, 素数", "date": "2024-06-07" },
           { "value": "2", "label": "同余", "date": "2025-07-01" },
           { "value": "3", "label": "阶与原根", "date": "2025-01-08" },
@@ -749,7 +749,7 @@ var tocData = [
           { "value": "windows.md", "label": "Windows", "date": "2025-01-26" },
           { "value": "cmd.md", "label": "cmd", "date": "2025-03-04" },
           { "value": "net.md", "label": "网络", "date": "2025-03-05" },
-          { "value": "vbox.md", "label": "Virtual Box", "date": "2025-12-04" },
+          { "value": "vm.md", "label": "虚拟机", "date": "2026-05-13" },
         ],
       },
       {

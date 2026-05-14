@@ -178,7 +178,7 @@ int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdSho
 
     cmd> link window.res window.obj user32.lib
 
-> 可以使用 `7z x a.exe` 解包程序来获得图标文件
+> 可以使用 `7z x a.exe` 解包程序来获得图标文件, 注意先把 exe 文件复制到单独文件夹再解包, 否则文件会掉一地.
 
 ### 调试日志
 
