@@ -25,7 +25,8 @@
 |Go|Go Team at Google|蓝色的 GO|Go 开发必备|
 |Lean 4|leanprover|白色背景，抽象的细黑文字 L∃∀N|机器证明助手|
 |SQLite3 Editor|yy0931|转动的蓝色羽毛笔|Sqlite 图形界面|
-|DBCode - Database Management|DBCode|紫色圆柱体|支持各种主流数据库的强大图形界面|
+|Database Client|database-client.com|橙色与蓝色圆柱|支持mysql/sqlite/postgresql|
+<!-- |DBCode - Database Management|DBCode|紫色圆柱体|支持各种主流数据库的强大图形界面，但收费| -->
 |Extension Pack for Java (7)|Microsoft|线条状咖啡杯|为什么写个 java 要这么多插件...|
 |Shader Toy|Adam Stevenson|蓝得发白的背景，红色看不清的小字|写 shader 用|
 |CodeSnap|adpyke|像微信朋友圈一样的彩色光圈|生成好看的代码截图, 除了好看也没啥了|

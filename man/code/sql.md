@@ -1,13 +1,18 @@
-# Sqlite3
+# SQL
 
-## 安装
+## Sqlite3
 
+### 安装
+
+任选一种:
+
+    $ winget install SQLite.SQLite
     $ scoop install sqlite3
 
 - android platform\_tools 目录中也带有 sqlite3 命令行工具
 - vscode 的 Sqlite3 Editor 插件提供了 sqlite3 的图形化工具
 
-## 命令行
+### 命令行
 
 ```bash
 $ sqlite3 data.db # 打开数据库文件
@@ -31,7 +36,7 @@ sqlite> .mode column -- 输出表格时, 显示更多空白
 
 > sqlite 命令 (以句点开头) 不需要带分号, 但 sql 语句需要.
 
-## 数据类型
+### 数据类型
 
 存储上, sqlite 只有 5 种类型: `null`, `integer`, `real`, `text` 和 `blob`.
 
@@ -134,3 +139,25 @@ select * from user;
 select name from sqlite_master where type='trigger' and tbl_name='user';
 ```
 触发器可能导致性能下降, 请根据实际情况权衡.
+
+## mysql
+
+### 命令行
+
+    $ mysql -u <username> -p # 登录
+
+### 字符编码
+
+方法一
+
+    $ mysql --default-character-set=utf8 # 本次登录有效
+
+方法二
+
+    mysql> set names utf8; -- 设置编码
+
+方法三
+
+    mysql> show variables like 'character%'; -- 查看编码变量
+    mysql> set character_set_client=utf8; -- 设置变量
+

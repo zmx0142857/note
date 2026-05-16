@@ -151,6 +151,13 @@ new Date('1901/01/01').valueOf() - new Date('1900/12/31').valueOf() // 86743000,
 
 ## Object
 
+### 假值 falsy value
+
+```js
+false, 0, -0, 0n, "", null, undefined, NaN
+```
+> document.all 也是假值, 但不计入标准
+
 ### 相等比较
 
 > 永远不要使用两等号 `==` 进行比较!
@@ -385,6 +392,16 @@ const observer = new IntersectionObserver((arr) => {
   rootMargin: '0px',
   root: el,
 })
+```
+
+### form
+
+```html
+<form method="POST" action="/login">
+  <input name="username" />
+  <input name="password" type="password" />
+  <input type="submit" />
+</form>
 ```
 
 ### 语音合成 (TTS)

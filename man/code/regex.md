@@ -138,7 +138,7 @@ metas where escapes are needed
 ## examples
 
 - 汉字: `\u4e00-\u9fa5`
-- phone number: `1\d{10}`
+- phone number: `1[3-9]\d{9}`
 - email: `[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+`
 - float number: `[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?`
 - HTML tag: `<[^>]+>`

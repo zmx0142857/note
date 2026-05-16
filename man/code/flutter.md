@@ -128,7 +128,8 @@ class HomePageState extends State<HomePage> {
   修改 `AndroidManifest.xml` 后, 也要重新运行 `./gradlew clean build`
 - 下载 gradle 失败
   - 解决: 打开 `android/gradle/wrapper/gradle-wrapper.properties`, 查看 `distributionUrl`,
-    自行下载文件 `gradle-?.?-all.zip` 到 `$GRADLE_USER_HOME` (默认 `~/.gradle`) 对应目录中.
+    自行下载文件 `gradle-?.?-all.zip` 到 `$GRADLE_USER_HOME` (默认 `~/.gradle`) 对应目录
+    `wrapper/dists/gradle-?.?-all/??????/` 中.
 - 运行 `./gradlew clean build` 时报错
   ```
   > Could not open settings generic class cache for settings file '...\settings.gradle'.
