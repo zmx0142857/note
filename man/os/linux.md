@@ -63,7 +63,6 @@ pacman 会把老的包放在 `/var/cache/pacman`, 例如:
 - `wget`, `curl`: 命令行下载器
 - `area2c -s 10 http://...`: 多线程下载
 - `qbittorrent`: 图形界面的种子下载器
-- `scoop`: windows 的包管理器
 
 ## 远程
 

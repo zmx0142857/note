@@ -21,15 +21,17 @@
 
 <h2>流形</h2>
 
+<h3>定义</h3>
+
 <ol class="definition">
   <li>
     <b>流形 (manifold)</b>
     `M` 是指第二可数 (具有可数拓扑基) 的 Hausdorff 空间 (任意两点有不相交开邻域),
-    且与欧氏空间 `RR^n` 局部同胚.
+    且与欧氏空间 `RR^m` 局部同胚.
   </li>
   <li>
     所谓<b>局部同胚</b>是指, 存在流形 `M` 的开覆盖 `{U_alpha}_(alpha in Gamma)` 以及一族连续映射
-    `varphi_alpha: U_alpha to RR^n`, 满足每个像集 `varphi_alpha(U_alpha)` 都是 `RR^n` 中的开集,
+    `varphi_alpha: U_alpha to RR^m`, 满足每个像集 `varphi_alpha(U_alpha)` 都是 `RR^m` 中的开集,
     且 `varphi_alpha` 到它的像上是同胚.
     <br>
     我们称 `(U_alpha, varphi_alpha)` 为一个局部坐标系 (又称坐标卡, coordinate chart), `U_alpha`
@@ -39,9 +41,9 @@
 </ol>
 
 <p class="remark">
-  可以证明, 在 `M` 的每个连通分量上, `n` 是一个确定的正整数, 即不会存在另一个正整数 `m != n`
-  使得 `M` 与 `RR^m` 局部同胚.
-  如果在每个连通分量上的 `n` 值都相等, 则称 `n` 为 `M` 的<b>维数</b>, `M` 是 `n` 维流形.
+  可以证明, 在 `M` 的每个连通分量上, `m` 是一个确定的正整数, 即不会存在另一个正整数 `n != m`
+  使得 `M` 与 `RR^n` 局部同胚.
+  如果在每个连通分量上的 `m` 值都相等, 则称 `m` 为 `M` 的<b>维数</b>, `M` 是 `m` 维流形.
 </p>
 
 <p class="remark">
@@ -78,7 +80,7 @@
     可以向它添加更多的地图.
     设 `(U, varphi)` 是 `M` 的局部地图, 即:
     <span class="formula">
-      `U` 是 `M` 的开集,  且 `varphi: U to varphi(U) sube RR^n` 是同胚.
+      `U` 是 `M` 的开集,  且 `varphi: U to varphi(U) sube RR^m` 是同胚.
     </span>
     如果任意 `varphi_alpha` 与 `varphi` 的转换映射都是 `C^r` 的, 则 `(U, varphi)`
     可以被添加到地图册当中, 我们称 `(U, varphi)` 与 `cc A` 是 <b>`C^r` 相容</b>的.
@@ -106,16 +108,17 @@
 <ol class="definition">
   <li><b>`C^k` 映射</b>
     设 `f: M to N` 是两个 `C^r` 微分流形间的连续映射,
-    如果对任意 `p in M`, `f(p) in N` 以及 `f(p)` 附近的局部坐标系 `(V, psi)`,
-    均存在 `p` 附近的局部坐标系 `(U, varphi)`, 使得 `f(U) sube V`,
-    且转换映射
+    称 `f` 在 `p in M` 处是 `C^k (k le r)` 的, 如果存在 `p` 的坐标卡 `(U, phi)` 和 `f(p)` 的坐标卡
+    `(V, psi)`, 使得下面的转换映射在 `phi(p)` 处为 `C^k`:
     <span class="formula">
-      `psi @ f @ varphi^-1: varphi(U) (sube RR^n) to psi(V) (sube RR^n)`
+      `psi @ f @ phi^-1: phi(f^-1(V) nn U) sube RR^m to psi(V) sube RR^n`.
     </span>
-    为 `C^k (k le r)` 映射, 则称 `f` 是 `M, N` 之间的 `C^k` 映射, 记作 `f in C^k(M, N)`.
+    如果 `f` 在 `M` 上处处 `C^k`, 则称它是 `M` 到 `N` 的 `C^k` 映射, 记作 `f in C^k(M, N)`.
+    特别当 `k = r = oo` 时, 称 `f` 是光滑的.
   </li>
-  <li><b>微分同胚</b>
+  <li><b>微分同胚 (diffeomorphism)</b>
     若上述 `f` 是同胚, 且 `f, f^-1` 均为 `C^r` 映射, 则称 `f` 是 `M, N` 之间的 `C^r` 微分同胚.
+    特别 `r = oo` 时称为光滑同胚.
     我们把微分同胚的两个流形视作等同的.
     又如果在同一个拓扑流形上定义两个微分结构, 所作出的两个微分流形是微分同胚的,
     则称两个<b>微分结构等价</b>.
@@ -127,32 +130,28 @@
   由于流形定义中的局部坐标系只要求存在性, 不要求唯一性, 因此用局部坐标系定义新概念时,
   需要验证这是个良定义, 即新概念与局部坐标系的选取无关.
   以 `C^k` 映射为例, 它的定义中虽然用到局部坐标系, 但由于任意两个坐标映射
-  `varphi_alpha`, `varphi_beta` 之间的转换映射都是 `C^r` 的, 所以 `C^k`
+  `phi_alpha`, `phi_beta` 之间的转换映射都是 `C^r` 的, 所以 `C^k`
   映射不依赖于局部坐标系选取.
 </p>
 
-<p class="example">
-  每个坐标映射 `varphi: U to varphi(U)` 都是 `C^oo` 同胚.
-</p>
+<h3>光滑流形</h3>
 
-<p class="proof">
-  把 `varphi(U) sube RR^n` 看作流形, 坐标映射为恒等映射 `"id"`,
-  则转换映射 `"id" @ varphi @ varphi^-1 = "id"` 是光滑映射.
+<p class="remark">
+  以下默认流形是光滑的 (`C^oo`).
 </p>
 
 <p class="proposition">
-  若两个坐标卡 `(V, psi)`, `(W, sigma)` 都与地图册 `{(U_alpha, phi_alpha)}` `C^oo` 相容,
-  则这两个坐标卡也 `C^oo` 相容.
+  若两个坐标卡 `(V, psi)`, `(W, sigma)` 都与地图册 `{(U_alpha, phi_alpha)}` 光滑相容,
+  则这两个坐标卡也光滑相容.
 </p>
 
 <p class="proposition">
   <b>极大地图册的存在唯一性</b>
-  对任意地图册 `cc U = {(U_alpha, phi_alpha)}`, 都存在唯一的 (`C^oo` 的)
-  极大地图册 `cc D` 使 `cc U sube cc D`.  事实上 `cc D` 由一切与 `cc U` `C^oo`
-  相容的坐标卡组成.
+  对光滑流形 `M` 的任意地图册 `cc U = {(U_alpha, phi_alpha)}`, 都存在唯一的极大地图册 `cc D`
+  使 `cc U sube cc D`.  事实上 `cc D` 由一切与 `cc U` 相容的坐标卡组成.
 </p>
 
-<p class="proposition">
+<p class="example">
   <b>乘积流形</b>
   设 `M`, `N` 是光滑流形, 则 `M xx N` 也是光滑流形, 它的一个地图册为
   <span class="formula">
@@ -161,6 +160,90 @@
   因此 `M xx N` 的维数是 `M, N` 之和.
 </p>
 
+<ol class="proposition">
+  <b>光滑映射的等价条件</b>
+  设 `M, N` 是光滑流形, 对于连续映射 `f: M to N`, 以下各条等价:
+  <li>`f` 光滑, 即对 `AA p in M`, 存在 `p` 的坐标卡 `(U, phi)` 和 `f(p)` 的坐标卡 `(V, psi)`,
+    使得下列映射光滑:
+    <span class="formula">
+      `psi @ f @ phi^-1: phi(f^-1(V) nn U) sube RR^m to psi(V) sube RR^n`.
+    </span>
+  </li>
+  <li>对任意 `M` 的坐标卡 `(U, phi)` 和 `N` 的坐标卡 `(V, psi)`, 1. 中的映射光滑.</li>
+  <li>存在 `M` 的地图册 `cc U` 和 `N` 的地图册 `cc V`, 使对任意 `(U, phi) in cc
+    U` 和 `(V, psi) in cc V`, 1. 中的映射光滑.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>`rArr` 2. 任取 `M, N` 的坐标卡 `(U, phi)` 和 `(V, psi)`, 不妨设
+    `f^-1(V) nn U` 非空, 从中取一点 `p`.
+    于是 `(U, phi)` 是 `p` 的坐标卡, `(V, psi)` 是 `f(p)` 的坐标卡.
+    因为 `f` 在 `p` 点光滑, 由定义存在 `p` 的坐标卡 `(U_alpha, phi_alpha)` 和 `f(p)`
+    的坐标卡 `(V_beta, psi_beta)`, 使得 `psi_beta @ f @ phi_alpha^-1` 在 `phi_alpha(p)` 处光滑.
+    两边复合上光滑流形的转换映射, 就得到
+    <span class="formula">
+      `psi @ f @ phi^-1`
+      `= (psi @ psi_beta^-1) @ (psi_beta @ f @ phi_alpha^-1) @ (phi_alpha @ phi^-1)`
+    </span>
+    在 `phi(p)` 点光滑.
+    由 `phi(p)` 的任意性知结论成立.
+  </li>
+  <li>`rArr` 3. 显然.</li>
+  <li>`rArr` 1.
+    任取 `p in M`.
+    设 `(U, phi) in cc U` 和 `(V, psi) in cc V` 分别是 `p` 和 `f(p)` 的坐标卡.
+    由已知 `psi @ f @ phi^-1` 在 `phi(p)` 光滑.
+    根据光滑映射的定义, `f` 在 `p` 点光滑.
+    由 `p` 的任意性知结论成立.
+  </li>
+</ol>
+
+<p class="corollary">
+  光滑映射的复合是光滑的.
+</p>
+
+<p class="proof">
+  设 `f: M to N`, `g: N to P` 是流形间的光滑映射. 则对 `M, N, P` 的任意坐标卡
+  `(U, phi)`, `(V, psi)`, `(W, sigma)`, 有
+  <span class="formula">
+    `sigma @ (g @ f) @ phi^-1`
+    `= (sigma @ g @ psi^-1) @ (psi @ f @ phi^-1)`.
+  </span>
+  根据上一命题, 等号右边括号中的两映射光滑.
+  它们本质是欧氏空间之间的映射, 因此复合仍光滑.
+  再对等号左边应用上一定理, 可知 `g @ f` 光滑.
+</p>
+
+<p class="remark">
+  设 `f` 是定义域在流形 `M` 上的映射, `phi: U to RR^m` 是流形的坐标映射.
+  于是 `f @ phi^-1` 就是 `RR^m` 上的映射.
+  这种处理技术称为映射的<b>拉回 (pullback)</b>.
+</p>
+
+<p class="proposition">
+  对于光滑流形 `M`, 每个坐标映射 `phi: U to phi(U)` 都是光滑同胚.
+  反之, 任何一个光滑同胚 `phi: U sube M to phi(U) sube RR^m` 都是一个相容的坐标映射.
+</p>
+
+<ol class="proof">
+  <li>
+    由定义 `phi` 是同胚, 下证 `phi, phi^-1` 光滑.
+    把 `phi(U) sube RR^m` 看作流形, 坐标映射为恒等映射 `"id"`,
+    则以下两个转换映射光滑:
+    <span class="formula">
+      `"id" @ phi @ phi^-1 = "id"`,
+      <br>
+      `phi @ phi^-1 @ "id" = "id"`.
+    </span>
+    因此, `phi, phi^-1` 都是光滑映射.
+  </li>
+  <li>
+    任取坐标卡 `(U_alpha, phi_alpha)`, 由 1. 知 `phi_alpha, phi_alpha^-1` 都光滑.
+    于是复合映射 `phi @ phi_alpha^-1` 和 `phi_alpha @ phi^-1` 都光滑,
+    即 `(U, phi)` 和 `(U_alpha, phi_alpha)` 相容.
+  </li>
+</ol>
 
 <h2>切空间</h2>
 

@@ -124,7 +124,7 @@
   <span class="formula">
     `exp x = "eml"(x,1)`;<br>
     `ln x = "e" - ("e" - ln x)`
-    `= "eml"(1,exp("eml"(1,x)))`, `quad x != 0.
+    `= "eml"(1,exp("eml"(1,x)))`, `quad x != 0`.
   </span>
   接下来构造四则运算, 首先是减法:
   <span class="formula">
@@ -156,6 +156,46 @@
   </span>
 </p>
 
+<div class="p example">
+  <b>Tupper 自指公式</b>
+  [来自 <a href="https://www.zhihu.com/question/35867114" target="_blank">知乎@陆zz</a>]
+  考虑 `x y` 平面上的方程
+  <span class="formula">
+    `1/2 lt floor(mod(floor(y/17) 2^(-17 floor(x)-mod(floor(y),17)), 2))`
+  </span>
+  如果按 `x in [0, 107]`, `y in [k, k + 17]` 作图,
+  其中 `k` 等于
+  <pre id="tupper-k"></pre>
+  就得到下图
+  <canvas id="tupper-canvas" width="107" height="17" style="transform:scale(-4,4); image-rendering:pixelated"></canvas>
+</div>
+
 <script src="../../js/note.js?type=math"></script>
+<script>
+const $ = el => document.querySelector(el)
+const tupper = () => {
+  let k = '960939379918958884971672962127852754715004339660129306651505519271702802395266424689642842174350718121267153782770623355993237280874144307891325963941337723487857735749823926629715517173716995165232890538221612403238855866184013235585136048828693337902491454229288667081096184496091705183454067827731551705405381627380967602565625016981482083418783163849115590225610003652351370343874461848378737238198224849863465033159410054974700593138339226497249461751545728366702369745461014655997933798537483143786841806593422227898388722980000748404719'
+  $('#tupper-k').innerText = k
+  k = BigInt(k)
+  const canvas = $('#tupper-canvas')
+  const ctx = canvas.getContext('2d')
+  const w = parseInt(canvas.getAttribute('width'))
+  const h = parseInt(canvas.getAttribute('height'))
+  const imageData = ctx.getImageData(0, 0, w, h)
+  const { data } = imageData
+  const { floor } = Math
+  for (let i = 0; i < data.length; i += 4) {
+    const pixel = i / 4
+    const x = BigInt(pixel % w)
+    const y = BigInt(pixel / w | 0) + k
+    const value = (y / 17n >> (17n * x + y % 17n)) % 2n ? 0 : 255
+    data[i] = data[i+1] = data[i+2] = value
+    data[i+3] = 255
+  }
+  ctx.putImageData(imageData, 0, 0)
+}
+
+tupper()
+</script>
 </body>
 </html>

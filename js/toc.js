@@ -764,7 +764,7 @@ var tocData = [
           { "value": "sql.md", "label": "SQL", "date": "2025-12-17" },
           { "value": "regex.md", "label": "RegEx", "date": "2025-12-25" },
           { "value": "quine.md", "label": "Quine", "date": "2026-04-13" },
-          { "value": "php.md", "label": "PHP", "date": "2026-05-15" },
+          { "value": "php.md", "label": "PHP", "date": "2026-05-26" },
           { "value": "rev.md", "label": "逆向", "date": "2026-05-15" },
         ]
       },

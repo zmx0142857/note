@@ -144,20 +144,45 @@ select name from sqlite_master where type='trigger' and tbl_name='user';
 
 ### 命令行
 
-    $ mysql -u <username> -p # 登录
+    $ mysql -u <username> -p :: 登录
+
+    mysql> show warnings; -- 查看警告
+    mysql> exit; -- 或 ctrl-c 退出
 
 ### 字符编码
 
-方法一
+`my.ini`
+```ini
+[client]
+default-character-set=utf8mb4
 
-    $ mysql --default-character-set=utf8 # 本次登录有效
+[mysql]
+default-character-set=utf8mb4
 
-方法二
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+```
 
-    mysql> set names utf8; -- 设置编码
+检查配置是否生效:
+```sql
+SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';
+```
 
-方法三
+重启 mariadb 服务, 然后修改已存在的数据库和表:
+```sql
+ALTER DATABASE <db_name> CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+ALTER TABLE <tb_name> CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
-    mysql> show variables like 'character%'; -- 查看编码变量
-    mysql> set character_set_client=utf8; -- 设置变量
+今后建表时, 养成指定编码的习惯:
+```sql
+CREATE DATABASE my_new_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE TABLE my_new_table (...) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
+如果用 cmd 登录, 记得指定客户端编码:
+
+    mysql> set names gbk
+
+这条命令等同于同时设置了 `character_set_client`、`character_set_connection`、`character_set_results` 这三个与客户端通信相关的系统变量为gbk。

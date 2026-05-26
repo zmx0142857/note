@@ -1,5 +1,21 @@
 # NodeJS
 
+### 运行路径
+
+```js
+__dirname // js 文件所在目录
+__filename // js 文件绝对路径
+process.cwd() // 当前工作目录
+```
+
+esm 模式下, `__dirname` 与 `__filename` 不可用, 可以使用如下替代:
+```js
+import url from 'url'
+import path from 'path'
+const __filename = url.fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+```
+
 ## http 服务
 
 ### http + fs
@@ -70,20 +86,21 @@ ${html}
 
 const app = express()
 app.use(cors())
-app.use(fileUpload({ createParentPath: true }))
+app.use(fileUpload({ createParentPath: true, useTempFiles: true }))
 app.use(express.json())
-app.use('/img', express.static('img')) // 需要在 js 的同级目录新建一个 img 文件夹
+app.use('/files', express.static('files'))
 app.post('/upload', (req, res) => {
-  console.log(req.body, req.files)
-  if (!req.files || !req.files.imgs) {
-    // return res.status(400).json({ code: 400, msg: 'imgs are required' })
+  if (!req.files || !req.files.files) {
+    // return res.status(400).json({ code: 400, msg: 'files are required' })
     return res.send(page(`<p>请选择一个或多个文件</p><a href="/">返回</a>`))
   }
-  let { imgs } = req.files
-  if (!Array.isArray(imgs)) imgs = [imgs]
+  let { files } = req.files
+  if (!Array.isArray(files)) files = [files]
   const data = []
-  imgs.forEach(file => {
-    file.mv('./img/' + file.name)
+  files.forEach(file => {
+    file.name = new TextDecoder().decode(Uint8Array.from(file.name, c => c.charCodeAt(0)))
+    console.log(file)
+    file.mv('./files/' + file.name)
     data.push({
       name: file.name,
       mimetype: file.mimetype,
@@ -96,12 +113,29 @@ app.post('/upload', (req, res) => {
 
 app.get('/', (req, res) => res.send(page(`
 <form action="/upload" method="post" enctype="multipart/form-data">
-  <input type="file" name="imgs" id="file" multiple required title="选择一个或多个文件"/>
+  <input type="file" name="files" id="file" multiple required title="选择一个或多个文件"/>
   <input type="submit" value="提交" />
 </form>
 `)))
 
 app.listen(3001, () => console.log('server is running at port 3001'))
+```
+
+http proxy
+```js
+const { createProxyMiddleware } = require('http-proxy-middleware')
+
+// 将 http://localhost:3000/apis 的请求转发到 http://www.example.com/apis
+// baseUrl 不是 localhost 将不会进行转发
+app.use(createProxyMiddleware(['/apis'], {
+  target: 'http://www.example.com',
+  secure: false,
+  changeOrigin: true,
+  onProxyRes(proxyRes, req, res) {
+    proxyRes.headers['access-control-allow-origin'] = req.headers.origin
+    proxyRes.headers['access-control-allow-credentials'] = 'true'
+  },
+}))
 ```
 
 ## 爬虫

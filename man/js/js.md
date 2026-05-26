@@ -333,6 +333,30 @@ params.append('a', 22)
 params.getAll('a') // ['11', '22']
 ```
 
+### Document / XMLDocument
+
+操作文档对象
+```js
+const dom = new Document()
+dom.appendChild(dom.createElement('div'))
+```
+
+操作 xml
+```js
+// 方法一
+const dom = new DOMParser().parseFromString('<a>content</a>', 'text/xml')
+const str = dom.documentElement.outerHTML
+
+// 方法二
+const xhr = new window.XMLHttpRequest()
+xhr.open('GET', '/example.xml')
+xhr.onload = () => {
+  const dom = xhr.responseXML
+  const str = xhr.responseText
+}
+xhr.send()
+```
+
 ### 浏览器事件
 
 禁用触摸滚动 / 禁用滚动冒泡: 滚动事件无法通过 `e.stopPropagation` 阻止冒泡, 但可以通过下面的方法来阻止冒泡:

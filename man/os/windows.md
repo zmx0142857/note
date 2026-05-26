@@ -90,10 +90,12 @@ $ cp /c/Users/Administrator/AppData/Roaming/Microsoft/InputMethod/Chs/*.lex $APP
 
 ### 安装
 
+- 更新 wsl: `wsl --update`
 - 打开商店下载想要的 linux 发行版, 如 ubuntu.
 - 在管理员 powershell 中启用 WSL 功能
   ```
   ps admin> dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+  ps admin> dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
   ```
 - win10 专业版默认已开启虚拟化功能, 家庭版则需要手动开启:
   - 按【田】键 > 启用或关闭 windows 功能 > Hyper V
@@ -101,6 +103,48 @@ $ cp /c/Users/Administrator/AppData/Roaming/Microsoft/InputMethod/Chs/*.lex $APP
 - win11 用户需要安装 [适用于 x64 计算机的最新 wsl2 linux 内核更新包](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)。
   - 如果你没有安装就直接运行 Ubuntu, 多半会看到这个错误: `WslRegisterDistribution failed with error: 0x800701bc`
 - 重启电脑, 打开刚才下载的 ubuntu, wsl 就会开始安装
+
+### 解决 WSL2 网络无法连接
+
+查看 wsl 版本: `wsl --list --verbose`
+
+测试网络:
+
+    $ ping -c 4 8.8.8.8
+    $ ping -c 4 baidu.com
+
+方案一, win11 可以使用镜像网络模式:
+
+`%USERPROFILE%\.wslconfig`
+```ini
+[wsl2]
+networkingMode=mirrored
+dnsTunneling=true
+```
+
+编辑完配置文件, 重新并重启 wsl:
+
+    $ wsl --update
+    $ wsl --shutdown
+    $ wsl
+
+方案二, win10 可能要重置宿主机网络栈 (powershell 管理员):
+```ps
+# 1. 彻底关闭所有正在运行的WSL实例
+wsl --shutdown
+
+# 2. 重置Winsock目录，这是Windows网络设置的核心
+netsh winsock reset
+
+# 3. 重置TCP/IP堆栈，清除所有自定义的IP配置
+netsh int ip reset all
+
+# 4. 重置Windows的HTTP代理设置，清除可能干扰的代理配置
+netsh winhttp reset proxy
+
+# 5. 刷新DNS解析器缓存，确保DNS解析不受旧记录影响
+ipconfig /flushdns
+```
 
 ### wsl 迁移到 D 盘
 
