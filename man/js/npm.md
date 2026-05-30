@@ -26,6 +26,7 @@ $ npm config set registry https://registry.npmjs.org/ -g # 官网
 
 publish
 ```sh
+$ npm login --registry=https://registry.npmjs.org
 $ npm publish --registry=https://registry.npmjs.org --access public # 发布自己的包到公共域
 ```
 

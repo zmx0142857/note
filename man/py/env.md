@@ -14,6 +14,18 @@
     $ uv python list # 管理 python 解释器版本
     $ alias pip='uv pip' # 完全替代 pip 命令
 
+`~/.config/uv/uv.toml`
+```toml
+# CPython 解释器下载加速（必须放在 [[index]] 上方）
+python-install-mirror = "https://cnb.cool/astral-sh/python-build-standalone/-/releases/download/"
+# PyPI 国内镜像源
+[[index]]
+url = "https://mirrors.aliyun.com/pypi/simple"
+default = true
+[[index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+```
+
 运行脚本
 
     $ uv run main.py                # 直接运行 python 脚本
@@ -30,8 +42,9 @@
 
 `pyproject.toml`: 指定国内镜像
 ```toml
-[tool.uv]
-index-url = "https://mirrors.aliyun.com/pypi/simple"
+[[tool.uv.index]]
+name = "ali"
+url = "https://mirrors.aliyun.com/pypi/simple"
 ```
 
     $ uv add requests               # 添加依赖

@@ -142,6 +142,13 @@ select name from sqlite_master where type='trigger' and tbl_name='user';
 
 ## mysql
 
+### 安装
+
+- windows: 安装 xampp 建站工具包, 它包含 apache, mysql, tomcat, perl 等工具. linux 可以安装 lampp
+- xampp 自带的 mysql 其实是 MariaDB, 它是 mysql 的一个开源分支
+  - 与 sqlite 通过文件访问不同, mysql 通过 tcp 网络通信来访问, 默认端口为 3306.
+  - mysql 的默认用户名是 root, 密码为空. 点击 shell, 输入 `mysql -u root -p` 登录到 mysql 命令行.
+
 ### 命令行
 
     $ mysql -u <username> -p :: 登录

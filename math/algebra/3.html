@@ -908,7 +908,7 @@ g.is_abelian # True
 </p>
 
 <ol class="example">
-  <li>`C_6 ~= C_3 xx C_2`, `D_6 ~= C_3 ><| C_2`.  其中 `C_3` 是正规子群.</li>
+  <li>二面体群 `D_(2n) ~= C_n ><| C_2`.</li>
   <li>`RR^n` 上的刚体变换群 `M_n` 是平移变换群 `T_n` 与正交变换群 `O_n` 的半直积:
     `M_n = T_n ><| O_n`.
     具体来说, 设 `A` 是正交交换, `L_v` 是沿向量 `v` 的平移变换, 则对任意 `x in RR^n` 有
@@ -977,7 +977,7 @@ g.is_abelian # True
 </p>
 
 <p class="corollary">
-  当同态 `f = "id"` (恒等映射) 时, 半直积退化为直积.
+  当同态 `f(h) -= "id"` (恒等映射) 时, 半直积退化为直积.
   反之, 若 `f` 非平凡, 则 `N ><|_f H` 是非交换群.
 </p>
 
@@ -1013,6 +1013,29 @@ g.is_abelian # True
     最后, 显然 `N nn H = {(e, e)}`, 所以 `N xx H` 是一个半直积.
   </li>
 </ol>
+
+<p class="example">
+  <b>半直积与群作用</b>
+  半直积定义中的同态 `f: H to "Aut"N` 其实是群 `H` 在群 `N` 上的作用 (见下一章):
+  <span class="formula">
+    `f(h_1 h_2) n = f(h_1) f(h_2) n`,<br>
+    `f(e) n = "id" n = n`.
+  </span>
+  因此我们也说群 `H` 在群 `N` 上的作用<b>诱导</b>了半直积 `N ><|_f H`.
+</p>
+
+<p class="example">
+  <b>半直积与群展示</b>
+  半直积群 `N ><|_f H` 可以看作自由乘积 `N ast H` 的商群 (见下一节).
+  在半直积的定义式中去掉括号得到:
+  <span class="formula">
+    `n_1 h_1 n_2 h_2 = n_1 f_(h_1)(n_2) h_1 h_2`,
+  </span>
+  于是
+  <span class="formula">
+    `N ><|_f H = (: n in N, h in H | h n h^-1 = f_h(n) :)`.
+  </span>
+</p>
 
 <p class="remark">
   半直积仍然不能确定群的同构类, 这意味两个不同构的群可以有完全相同的 (半) 直积分解.
@@ -1899,6 +1922,7 @@ G.order() # 4
   <li>偶数阶群必有奇数个 2 阶元;</li>
   <li>群 `G` 不能只有两个 2 阶元;</li>
   <li>[Algebra Chapter 0] `2n` 阶 Abel 群 (`n` 为奇数) 恰有一个二阶元.</li>
+  <li>`2n` 阶群 (`n` 为奇数) 必存在 `n` 阶正规子群.</li>
 </ol>
 
 <blockquote>
@@ -1939,6 +1963,13 @@ G.order() # 4
     有两个不同的 2 阶元 `x, y`, 由 3. 知道 `x y` 也是一个不同于 `x, y` 的 2 阶元.
     但 `G` 是 Abel 群, 从而 `K_4 ~= {e, x, y, x y}` 是 `G` 的子群, 由 Lagrange 定理 `4` 整除 `|G|`,
     矛盾.
+  </li>
+  <li>[群友@幂零群]
+    视 `G` 为置换群, 考虑同态 `sgn: G to ZZ_2`, 其中 `sgn("奇置换") = 1`, `sgn("偶置换") = 0`.
+    从而 `"Ker"(sgn)` 是 `G` 的正规子群. 下证 `sgn` 是满射. 显然 `sgn(e) = 0`, 又由 2. 知道,
+    存在 2 阶元 `g in G`, 它必然由 `n` 个不相交的对换复合而成, 因此它的奇偶性与
+    `n` 相同, 即 `sgn(g) = 1`.
+    由同态基本定理, `G // "Ker"(sgn) ~= Z_2`, 从而 `"Ker"(sgn)` 的阶数是 `n`.
   </li>
 </ol>
 

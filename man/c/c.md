@@ -1,7 +1,7 @@
 # C 语言
 
 - [linux c 编程一站式学习](https://micfan.github.io/linux-c-one-stop/)
-- [c 语言标准库 | cpp reference](https://en.cppreference.com/w/c)
+- [c 语言标准库 | cpp reference](https://en.cppreference.com/c/header)
 
 ## 宏定义 macro
 
