@@ -167,7 +167,9 @@
   其中 `k` 等于
   <pre id="tupper-k"></pre>
   就得到下图
-  <canvas id="tupper-canvas" width="107" height="17" style="transform:scale(-4,4); image-rendering:pixelated"></canvas>
+  <div style="height:68px; margin:10px">
+  <canvas id="tupper-canvas" width="107" height="17" style="transform:translateX(400%) scale(-4,4); image-rendering:pixelated; margin:0; transform-origin: top left"></canvas>
+  </div>
 </div>
 
 <script src="../../js/note.js?type=math"></script>
@@ -179,8 +181,8 @@ const tupper = () => {
   k = BigInt(k)
   const canvas = $('#tupper-canvas')
   const ctx = canvas.getContext('2d')
-  const w = parseInt(canvas.getAttribute('width'))
-  const h = parseInt(canvas.getAttribute('height'))
+  const w = canvas.width
+  const h = canvas.height
   const imageData = ctx.getImageData(0, 0, w, h)
   const { data } = imageData
   const { floor } = Math

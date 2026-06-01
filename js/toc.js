@@ -76,7 +76,7 @@ var tocData = [
         "value": "number",
         "label": "数论",
         "children": [
-          { "value": "0", "label": "从整数到超越数", "date": "2026-05-14" },
+          { "value": "0", "label": "从整数到超越数", "date": "2026-06-01" },
           { "value": "1", "label": "整除, 最大公约数, 素数", "date": "2024-06-07" },
           { "value": "2", "label": "同余", "date": "2025-07-01" },
           { "value": "3", "label": "阶与原根", "date": "2025-01-08" },

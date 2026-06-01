@@ -1189,13 +1189,14 @@ module.exports = (str) => {
 <h3>Farey 分数</h3>
 
 <p class="definition">
-  <b>Farey 分数</b>
-  分 `n` 步构造一个数表:
-  第 1 步, 在纸张左侧写下分数 `0/1`, 右侧写下分数 `1/1`.
-  第 `k` 步, 若 `a/b lt c/d` 是当前相邻的两个分数, 且分母之和 `b+d = k`,
+  <b>Farey 数列</b>
+  第 1 步, 记 `F_1 = {0//1, 1//1}`.
+  第 `n` 步, 向 `F_(n-1)` 插入一些新的数, 得到新数列 `F_n`.
+  规则如下: 当 `a//b lt c//d` 是 `F_(n-1)` 中相邻的两个分数, 且分母之和 `b+d = n` 时,
   就在这两个分数之间写上它们的 <b>Farey 和</b> `(a+c)/(b+d)`.
-  第 `n` 步得到的数表称为 <b>Farey 数列</b>, 它恰好将 `[0, 1]`
-  中分母不超过 `n` 的最简分数从小到大列出:
+  由糖水不等式知道, Farey 和的大小介于两个分数之间.
+  我们将要证明, `F_n` 恰好将 `[0, 1]`
+  中所有分母不超过 `n` 的最简分数从小到大列出:
   <span class="formula higher">
     `F_1 = {0/1, 1/1}`,<br>
     `F_2 = {0/1, 1/2, 1/1}`,<br>
@@ -1203,59 +1204,174 @@ module.exports = (str) => {
     `F_4 = {0/1, 1/4, 1/3, 1/2, 2/3, 3/4, 1/1}`,<br>
     `F_5 = {0/1, 1/5, 1/4, 1/3, 2/5, 1/2, 3/5, 2/3, 3/4, 4/5, 1/1}`.<br>
   </span>
-  相邻性质: 设 `a/b lt c/d` 是 `[0, 1]` 中的最简分数,
-  则它们是某个 `F_n` 中的相邻两项当且仅当 `b c - a d = 1`,
-  也当且仅当它们的 <b>Ford 圆</b>相切. 其中 `a/b` 的 Ford 圆半径为 `1/(2b^2)`,
-  圆心在 `(a/b, 1/(2b^2))`.
-  <br>
-  Farey 和性质: 设 `a/b lt x/y lt c/d` 是某个 `F_n` 中的连续相邻三项,
-  则 `x/y = (a+c)/(b+d)`.
 </p>
 
+<div class="img md" title="Ford 圆">
+  <canvas id="img-ford-circle" width="500" height="250"></canvas>
+</div>
+
+<ol class="proposition">
+  <b>相邻性质</b>
+  设 `a//b lt c//d` 是 `[0, 1]` 中的最简分数, 则以下各款等价:
+  <li>`a//b, c//d` 在某个 `F_n` 中相邻;</li>
+  <li>`b c - a d = 1`;
+    这立即推出 `gcd(a, b) = gcd(c, d) = 1`, 因此 Farey 数表中的每个数都是最简分数.
+  </li>
+  <li>`a//b, c//d` 的 <b>Ford 圆</b>相切.
+    所谓 `a//b` 的 Ford 圆是指, 半径为 `1//2b^2`, 圆心在 `(a//b, 1//2b^2)` 的圆.
+  </li>
+</ol>
+
 <ol class="proof">
-  <li>相邻性质的证明: 对 `n` 归纳, `n=1` 时等式成立.
-    设 `a/b lt c/d` 在 `F_n` 中相邻, 若分母 `b, d` 均小于 `n`, 则显然两个分数在 `F_(n-1)` 中也相邻,
-    由归纳假设等式成立.
-    否则, 根据 Farey 数的构造过程, `a/b, c/d` 中恰有一个数是第 `n` 步新增的, 不妨设为 `a/b`.
-    设 `x/y lt c/d` 是 `F_(n-1)` 中相邻的两数, 且 `a/b = (x+c)/(y+d)`.
+  <li>`rArr` 2. 对 `n` 归纳, `n=1` 时等式成立.
+    设 `a//b lt c//d` 在 `F_n` 中相邻, 若两个分数都是从 `F_(n-1)` 继承下来的,
+    则它们在 `F_(n-1)` 中已经相邻, 由归纳假设等式成立.
+    否则, 根据 Farey 数的构造过程, `a//b, c//d` 中恰有一个数是第 `n` 步新增的, 不妨设为 `a/b`.
+    设 `x/y lt c/d` 是 `F_(n-1)` 中相邻的两数, 且 `a = x+c`, `b = y+d`.
     由归纳假设 `y c - x d = 1`,
     于是 `b c - a d = (y+d) c - (x+c) d = 1`.
-    <br>
-    反之🚧
-    <br>
-    从 `b c - a d = 1` 立即知道 `gcd(a, b) = gcd(c, d) = 1`, 因此 Farey 数表中的每个数都是最简分数.
+  </li>
+  <li>`rArr` 1.
+    根据<a href="#thm-farey" class="ref"></a>,
+    `a//b, c//d` 两个分数同时出现在 `F_n` 中, 其中 `n = max(b, d)`.
+    但根据分母下界性质, 若存在分数 `x//y` 介于 `a//b, c//d` 之间, 则必有 `y ge b + d ge n + 1`.
+    因此 `x//y !in F_n`. 这意味着 `a//b, c//d` 在 `F_n` 中相邻.
+    这一部分的推理不影响下文的证明, 因此不构成循环论证.
   </li>
   <li>
-    Ford 圆的证明: 两圆相切时, 由勾股定理
+    `hArr` 2.
+    两 Ford 圆相切时, 连接圆心, 由勾股定理
     <span class="formula">
       `(1/(2b^2) - 1/(2d^2))^2 + (c/d - a/b)^2 = (1/(2b^2) + 1/(2d^2))^2`,
     </span>
     化简就得到 `b c - a d = 1`.
   </li>
-  <li>
-    现在设 `a/b lt c/d` 在 `F_n` 中相邻, 而 `x/y` 是 `[0, 1]` 中的任意分数,
-    若 `a/b lt x/y lt c/d`, 可以证明 `y ge b + d gt n`. 从而由 `x/y`
-    的任意性知道 `F_n` 已经包含 `[0, 1]` 中所有分母不超过 `n` 的最简分数.
-    事实上, 不等式对 `n = 1` 成立.
-    假设不等式对小于 `n` 的正整数都成立, 考查 `n` 的情形.
-    和 1. 的证明一样, 只需考虑 `a/b, c/d` 中有一个数是第 `n` 步新增的情形, 不妨设它是 `a/b`.
-    🚧
+</ol>
+
+<p class="proposition">
+  <b>分母下界</b>
+  设 `a//b lt x//y lt c//d` 是 `[0, 1]` 中的三个分数, 分母 `b, y, d` 均大于 0.
+  如果 `b c - a d = 1`, 则有
+  <span class="formula">
+    `y ge b + d`, 且等号成立时有 `x = a + c` 成立.
+  </span>
+</p>
+
+<p class="proof">
+  由已知 `c/d - a/b = (b c - a d)/(b d) = 1/(b d)`, 因此
+  <span class="formula">
+    `1/(b d) = c/d - x/y + x/y - a/b`
+    `= (c y - d x)/(d y) + (b x - a y)/(b y)`
+    `ge 1/(d y) + 1/(b y)`,
+  </span>
+  于是 `y ge b + d`.
+  如果等号成立, 则
+  <span class="formula">
+    `1 = c y - d x`
+    `= c(b+d) - d x`
+    `= a d + 1 + c d - d x`,
+  </span>
+  这推出 `d x = (a + c) d`, 于是 `x = a + c`.
+</p>
+
+<p class="theorem" id="thm-farey">
+  Farey 数列 `F_n` 恰好将 `[0,1]` 中所有分母不超过 `n` 的最简分数从小到大列出.
+</p>
+
+<p class="proof">
+  “最简分数”与“从小到大”的性质已在前面证明.
+  下证 `F_n` 恰好包含 `[0, 1]` 中所有分母不超过 `n` 的最简分数.
+  对 `n` 归纳, `n = 1` 时命题成立.  假设命题对 `n-1` 成立,
+  那么 `F_n` 必须恰好新增这些元素:
+  <span class="formula">
+    `S_n = {k//n | 0 lt k lt n, gcd(k, n) = 1}`.
+  </span>
+  根据相邻性质, `F_n` 新增的元素都是分母为 `n` 的最简分数, 因此包含在集合 `S_n` 中.
+  反之要证集合 `S_n` 的每个元素 `k//n` 都会出现在 `F_n` 中.
+  事实上, 先找到相邻两项 `a//b lt c//d in F_(n-1)` 满足 `a//b lt k//n lt c//d`,
+  由分母下界性质, `n ge b + d`.
+  这里等号必成立, 如若不然, 设 `n gt b + d`,
+  根据 Farey 数列构造规则与归纳假设, 分数 `(a+c)/(b+d)` 已经出现在 `F_(n-1)` 中,
+  从而 `a//b, c//d` 不可能是 `F_(n-1)` 的相邻两项.
+  于是 `n = b + d`, 这推出 `k = a + c`, 于是 `k//n in F_n`.
+</p>
+
+<p class="proposition">
+  <b>Farey 和性质</b> 设 `a//b lt x//y lt c//d` 是某个 `F_n` 中的连续相邻三项,
+  则 `x/y = (a+c)/(b+d)`.
+</p>
+
+<ol class="proof">
+  对 `n` 归纳:
+  <li>若 `a//b, c//d` 正好是 `F_(n-1)` 中的相邻两项, 则 `x//y` 是 `F_n` 中新增的项,
+    根据 Farey 数列的构造规则, 结论成立.
+  </li>
+  <li>若 `a//b, c//d in F_(n-1)` 但不相邻, 则 `a//b, x//y, c//d` 正好是 `F_(n-1)` 中连续相邻三项,
+    根据归纳假设, 结论成立.
+  </li>
+  <li>接下来 `a//b, c//d` 至少有一个是 `F_n` 中的新增项, 这意味着 `x//y in F_(n-1)`.
+    例如, 当 `a//b` 是 `F_n` 的新增项时, 设 `x//y` 在 `F_(n-1)` 中的左邻居是 `p//q`,
+    于是 `a = p+x`, `b = q+y`,
+    <span class="formula">
+      `x(b+d) - y(a+c)`
+      `= x(q+y+d)-y(p+x+c)`
+      `= x(q+d) - y(p+c)`.
+    </span>
+    这推出
+    <span class="formula">
+      `x/y = (a+c)/(b+d)`
+      `iff x/y = (p+c)/(q+d)`.
+    </span>
+    若 `c//d in F_(n-1)`, 则问题归结到 `F_(n-1)` 中的连续三项 `p//q, x//y, c//d`, 从而结论成立.
+    否则设 `x//y` 在 `F_(n-1)` 中的右邻居是 `u//v`,
+    于是 `c = x+u`, `d = y+v`,
+    <span class="formula">
+      `x(q+d) - y(p+c)`
+      `= x(q+y+v) - y(p+x+u)`
+      `= x(q+v) - y(p+u)`,
+    </span>
+    这推出
+    <span class="formula">
+      `x/y = (p+c)/(q+d)`
+      `iff x/y = (p+u)/(q+v)`.
+    </span>
+    从而问题归结到 `F_(n-1)` 中的连续三项 `p//q, x//y, u//v`.
   </li>
 </ol>
 
 <ol class="example">
   <b>用 Farey 分数证明丢番图逼近结论</b>
-  若 `a/b lt xi lt c/d`, 其中 `xi` 是无理数, `a/b, c/d` 是 `F_n` 中的相邻两项, 则
+  设 `a//b lt c//d` 是 `F_n` 中的相邻两项, 且无理数 `xi` 满足 `a//b lt xi lt c//d`, 则
   <li>`|xi - a/b| lt 1/(2b^2)` 或 `|xi - c/d| lt 1/(2d^2)` 至少有一个成立;</li>
   <li>`|xi - a/b| lt 1/(sqrt 5 b^2)`,
-    `|xi - c/d| lt 1/(sqrt 5 d^2)`,
+    `|xi - c/d| lt 1/(sqrt 5 d^2)`
     或 `|xi - (a+c)/(b+d)| lt 1/(sqrt 5(b+d)^2)` 至少有一个成立.
   </li>
 </ol>
 
 <p class="proof">
-  1. 是显然的, 因为 Farey 数列相邻项的 Ford 圆相切.
-  🚧
+  1. 是显然的, 因为 Farey 数列相邻两项的 Ford 圆相切.
+  下证 2. 记 `a/b = p_1/q_1`, `(a+c)/(b+d) = p_2/q_2`, `c/d = p_3/q_3`,
+  显然它们是 `F_(b+d)` 的连续相邻三项.
+  假设三个不等式都不成立, 则
+  <span class="formula">
+    `1/(q_i q_(i+1))`
+    `= p_(i+1)/q_(i+1) - p_i/q_i`
+    `= |xi - p_(i+1)/q_(i+1)| + |xi - p_i/q_i|`
+    `ge 1/sqrt 5(1/q_i^2 + 1/q_(i+1)^2)`,
+    `quad i = 1, 2`.
+  </span>
+  整理得
+  <span class="formula">
+    `q_i/q_(i+1)+q_(i+1)/q_i le sqrt 5`,
+    `quad i = 1, 2`.
+  </span>
+  和 Hurwitz 定理的证明相同, 得到 `q_i//q_(i+1) in (phi^-1, phi)`, `i = 1, 2`, 即
+  <span class="formula">
+    `b/(b+d), (b+d)/d in (phi^-1, phi)`.
+  </span>
+  记 `x = b/(b+d)`, 则 `(b+d)/d = 1/(1-x)`,
+  但 `x in (phi^-1, phi)` 时不可能有 `1/(1-x) in (phi^-1, phi)`, 矛盾.
 </p>
 
 <h3>等分布定理</h3>
@@ -1577,5 +1693,53 @@ module.exports = (str) => {
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/playground.js"></script>
 <script src="../../code/frac.js"></script>
+<script>
+const $ = el => document.querySelector(el)
+const drawCircle = (ctx, x, y, r, color = 'white') => {
+  ctx.beginPath()
+  ctx.arc(x, y, r, 0, 2 * Math.PI)
+  ctx.fillStyle = 'black'
+  ctx.strokeStyle = color
+  ctx.stroke()
+}
+const fareyNumbers = (n) => {
+  let res = [[0, 1], [1, 1]]
+  for (let i = 2; i <= n; i++) {
+    let tmp = []
+    for (let j = 1; j < res.length; j++) {
+      const [a, b] = res[j-1]
+      const [c, d] = res[j]
+      tmp.push([a, b])
+      if (b + d === i) tmp.push([a + c, b + d])
+    }
+    tmp.push(res.at(-1))
+    res = tmp
+  }
+  return res
+}
+const fordCircle = (n) => {
+  const canvas = $('#img-ford-circle')
+  const ctx = canvas.getContext('2d')
+  const { width, height } = canvas
+  const f = fareyNumbers(n)
+  ctx.fontStyle = '10px sans-serif'
+  ctx.fillRect(0, 0, width, height)
+  const ratio = height / width
+  const scale = width
+  const c = 2
+  for (let i = 0; i < f.length; i++) {
+    const [num, den] = f[i]
+    const x = num / den
+    const r = 1/(c*den*den)
+    const y = ratio - r
+    drawCircle(ctx, x * scale, y * scale, r * scale)
+    if (1 < den && den < 6) {
+      ctx.fillStyle = 'yellow'
+      ctx.fillText(num + '/' + den, x * scale - 8, y * scale + 5)
+    }
+  }
+}
+fordCircle(7)
+</script>
 </body>
 </html>
