@@ -207,7 +207,7 @@ file transfer protocol
 
 文件
 
-    $ find <path> -path '*.jpg'   # 查找路径下的指定文件
+    $ find <path> -name '*.jpg'   # 查找路径下的指定文件
     $ find -type f -mtime -3      # 查找 3 天内修改过的文件, 改成 +3 则表示 3 天前的文件
     $ find -type f -size +500M    # 查找 >= 500M 的文件
     $ find -type d -empty -delete # 删除空目录

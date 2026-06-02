@@ -45,6 +45,8 @@ int WINAPI WinMain(HINSTANCE hIns, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdSho
     $ # 未加 -mwindows 导致链接错误: undefined reference to `GetStockObject@4'
     $ # 未加 -fexec-charset=gbk 导致中文乱码
 
+> windows sdk 位置: `C:\Program Files (x86)\Windows Kits\`
+
 ### 宽字节
 
 在 windows 中常用 utf16 编码, 即不论中英文字符都使用 2 个字节.

@@ -765,7 +765,6 @@ var tocData = [
           { "value": "regex.md", "label": "RegEx", "date": "2025-12-25" },
           { "value": "quine.md", "label": "Quine", "date": "2026-04-13" },
           { "value": "php.md", "label": "PHP", "date": "2026-05-26" },
-          { "value": "rev.md", "label": "逆向", "date": "2026-05-15" },
         ]
       },
       {
@@ -775,6 +774,7 @@ var tocData = [
           { "value": "asm.md", "label": "x86 汇编语言", "date": "2025-03-19" },
           { "value": "c.md", "label": "C 语言", "date": "2025-03-18" },
           { "value": "win32.md", "label": "Win32", "date": "2026-05-12" },
+          { "value": "rev.md", "label": "逆向", "date": "2026-06-02" },
         ]
       },
       {

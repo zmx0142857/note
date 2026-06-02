@@ -1,8 +1,21 @@
 # Windows
 
-## scoop
+## winget
 
-> 最新: 也可以使用 winget: windows 的官方包管理器
+windows 官方包管理器
+
+软件默认安装位置:
+```txt
+%LOCALAPPDATA%\Programs
+%APPDATA%\..\Local\Microsoft\WinGet\Packages
+```
+
+    $ winget search <package>
+    $ winget install <package>
+    $ winget uninstall <package>
+    $ winget settings # 打开配置文件
+
+## scoop
 
 windows 的包管理器, chocolatey 的后继者.
 
@@ -36,53 +49,6 @@ ps> Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
   ```
 - 你可以为 windows terminal 配置喜爱的颜色主题
 - 愉悦地在 windows 下使用 bash: ls, git, vim...
-
-## 环境变量
-
-- 按【田】键 > 搜索 "env" > 编辑系统环境变量
-- 环境变量分为【用户变量】和【系统变量】, 一般只改用户变量即可
-- 刷新当前 cmd 的环境变量, 而不必关闭窗口: [RefreshEnv.cmd](https://github.com/chocolatey-archive/chocolatey/blob/master/src/redirects/RefreshEnv.cmd)
-- 问题: win10 PATH 环境变量编辑器不能打开, 只显示一个长长的输入框.
-  - 解决: 不要把 `%` 开头的变量放在最前面
-
-## 代理
-
-当前命令行有效:
-
-    cmd> set http_proxy=http://127.0.0.1:10809
-    cmd> set https_proxy=http://127.0.0.1:10809
-
-永久有效
-
-    cmd admin> netsh winhttp import proxy source=ie
-
-## 个性化
-
-用命令行设置深色模式
-
-```sh
-$ reg.exe add HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize /v AppsUseLightTheme /t REG_DWORD /d 0 /f
-```
-
-win10 任务栏图标居中
-
-- 在桌面新建文件夹, 起名为 I could fran
-- 右键任务栏 > 解除锁定任务栏
-- 右键任务栏 > 工具栏 > 新建工具栏 > 选择刚才新建的文件夹
-- 这个文件夹会出现在任务栏最右侧, 用鼠标把它拖动到最左侧
-- 至于任务栏的其它图标, 可以拖动到中间位置
-- 右键任务栏 > 锁定任务栏
-
-### 输入法自定义短语 / 自造词
-
-```sh
-$ cp /c/Users/Administrator/AppData/Roaming/Microsoft/InputMethod/Chs/*.lex $APPDATA/Microsoft/InputMethod/Chs
-```
-
-### 蓝屏分析
-
-- 打开【系统属性/高级/启动和故障恢复/设置】，勾选【将事件写入系统日志】和【写入调试信息=小内存转储(256KB)】
-- 下次蓝屏重启后，打开【事件查看器】查看日志，或从商店下载【WinDBG】分析 `C:\Windows\Minidump\dmp` 文件
 
 ## WSL
 
@@ -130,20 +96,33 @@ dnsTunneling=true
 
 方案二, win10 可能要重置宿主机网络栈 (powershell 管理员):
 ```ps
-# 1. 彻底关闭所有正在运行的WSL实例
+# 关闭所有正在运行的WSL实例
 wsl --shutdown
 
-# 2. 重置Winsock目录，这是Windows网络设置的核心
+# 删除 WSL 虚拟交换机（如有）
+Get-VMSwitch -Name "WSL" | Remove-VMSwitch -Force -ErrorAction SilentlyContinue
+
+# 删除可能残留的 NAT 规则
+Get-NetNat | Where-Object { $_.Name -like "*WSL*" } | Remove-NetNat
+
+# 重置Winsock目录，这是Windows网络设置的核心
 netsh winsock reset
 
-# 3. 重置TCP/IP堆栈，清除所有自定义的IP配置
+# 重置TCP/IP堆栈，执行过程如出现一两条“拒绝访问”也无妨
 netsh int ip reset all
 
-# 4. 重置Windows的HTTP代理设置，清除可能干扰的代理配置
+# 重置Windows的HTTP代理设置，清除可能干扰的代理配置
 netsh winhttp reset proxy
 
-# 5. 刷新DNS解析器缓存，确保DNS解析不受旧记录影响
+# 刷新DNS解析器缓存，确保DNS解析不受旧记录影响
 ipconfig /flushdns
+```
+完成后重启宿主机.
+
+> 写给 fran: 打开“网络”，重新填写 ip 地址. 注意只填写 226 网段的地址即可, 188 网段先不填写
+```ps
+# 确保 WSL2 虚拟网卡 (vEthernet (WSL)) 的 IP 转发已启用
+Set-NetIPInterface -InterfaceAlias "vEthernet (WSL)" -Forwarding Enabled
 ```
 
 ### wsl 迁移到 D 盘
@@ -164,3 +143,58 @@ default = <username>
 ```
 
 `wsl --shutdown`, 再重新进入 wsl 即可.
+
+## 常用设置
+
+### 环境变量
+
+- 按【田】键 > 搜索 "env" > 编辑系统环境变量
+- 环境变量分为【用户变量】和【系统变量】, 一般只改用户变量即可
+- 刷新当前 cmd 的环境变量, 而不必关闭窗口: [RefreshEnv.cmd](https://github.com/chocolatey-archive/chocolatey/blob/master/src/redirects/RefreshEnv.cmd)
+- 问题: win10 PATH 环境变量编辑器不能打开, 只显示一个长长的输入框.
+  - 解决: 不要把 `%` 开头的变量放在最前面
+
+### 代理
+
+当前命令行有效:
+
+    cmd> set http_proxy=http://127.0.0.1:10809
+    cmd> set https_proxy=http://127.0.0.1:10809
+
+永久有效
+
+    cmd admin> netsh winhttp import proxy source=ie
+
+### 个性化
+
+用命令行设置深色模式
+
+```sh
+$ reg.exe add HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize /v AppsUseLightTheme /t REG_DWORD /d 0 /f
+```
+
+win10 任务栏图标居中
+
+- 在桌面新建文件夹, 起名为 I could fran
+- 右键任务栏 > 解除锁定任务栏
+- 右键任务栏 > 工具栏 > 新建工具栏 > 选择刚才新建的文件夹
+- 这个文件夹会出现在任务栏最右侧, 用鼠标把它拖动到最左侧
+- 至于任务栏的其它图标, 可以拖动到中间位置
+- 右键任务栏 > 锁定任务栏
+
+### 输入法自定义短语 / 自造词
+
+```sh
+$ cp /c/Users/Administrator/AppData/Roaming/Microsoft/InputMethod/Chs/*.lex $APPDATA/Microsoft/InputMethod/Chs
+```
+
+### 蓝屏分析
+
+- 打开【系统属性/高级/启动和故障恢复/设置】，勾选【将事件写入系统日志】和【写入调试信息=小内存转储(256KB)】
+- 下次蓝屏重启后，打开【事件查看器】查看日志，或从商店下载【WinDBG】分析 `C:\Windows\Minidump\dmp` 文件
+
+## 应用推荐
+
+- wiztree: 可视化存储空间管理
+- Ryuapp.Rb: 回收站命令行版
+- inspect.exe: 审查元素桌面版, 随 windows sdk 附带: `C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\inspect.exe`

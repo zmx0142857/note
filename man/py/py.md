@@ -246,5 +246,41 @@ print(res)
 
 conn.close()
 ```
-uiautomation: 桌面程序自动化测试
 
+自动化测试
+- selenium: 网页端. python 模拟客户端发送 Http 请求给 webdriver, 后者再驱动浏览器执行
+- uiautomation: windows 桌面端. 通过底层的 win32 库操作 UI
+- appium: Android 移动端
+```py
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+
+# 首次打开较慢, selenium 会下载 chromedriver 到 ~/.cache/selenium/chromedriver
+# 也可以手动指定 executable_path
+service = Service(
+    log_output='./console.log',
+    # executable_path='C:/path/to/chromedriver.exe'
+)
+driver = webdriver.Chrome(service=service)
+driver.get('http://localhost:1234')
+
+driver.find_element(by=By.ID, value='yinyang').click()
+
+input('按回车键退出...')
+driver.quit()
+```
+
+```py
+import uiautomation, time, os
+
+os.system('calc')
+time.sleep(1)
+
+calc = uiautomation.WindowControl(Name='计算器')
+# 通过 visual studio 附带的 inspect.exe, spyxx.exe 或 uispy.exe 审查元素可以获知 id
+# C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\inspect.exe
+ids = ['num1Button', 'plusButton', 'num5Button', 'equalButton']
+for id in ids:
+    calc.ButtonControl(AutomationId=id).Click()
+```
