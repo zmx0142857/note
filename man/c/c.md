@@ -2,6 +2,7 @@
 
 - [linux c 编程一站式学习](https://micfan.github.io/linux-c-one-stop/)
 - [c 语言标准库 | cpp reference](https://en.cppreference.com/c/header)
+- [getting-silly-with-c](https://lcamtuf.substack.com/p/weekend-projects-getting-silly-with)
 
 ## 宏定义 macro
 

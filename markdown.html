@@ -62,7 +62,8 @@ const copyable = (pre) => {
   button.className = 'btn-copy'
   button.innerText = '复制'
   button.onclick = () => {
-    const text = pre.firstChild.innerText
+    let text = pre.firstChild.innerText
+    if (/^\$ .*\n?$/.test(text)) text = text.slice(1).trim() // 总共一行, 以 $ + 空格开头时
     const textarea = document.createElement('textarea')
     textarea.value = text
     document.body.appendChild(textarea)

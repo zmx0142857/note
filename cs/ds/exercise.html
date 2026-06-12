@@ -1141,6 +1141,56 @@ for b in product(range(4), repeat=10):
     print(''.join(chr(65+x) for x in b)) # BCACACDABA
 </pre>
     </div>
+    <div class="tabs-body-item" id="tabs-7-7">
+      在宾果游戏的 2**25 种情形中找到满足宾果条件的那些,
+      并统计每个格子累计被打勾的次数.
+<pre>
+#include &lt;stdio.h&gt;
+
+void update_cnt(int *cnt, int bitset) {
+    for (int i = 0; bitset; ++i, bitset &gt;&gt;= 1) {
+        if (bitset &amp; 1) ++cnt[i];
+    }
+}
+
+int main() {
+    int bingo_row = 0b11111;
+    int bingo_col = 0b0000100001000010000100001;
+    int bingos[12] = {
+        bingo_row, bingo_row &lt;&lt; 5, bingo_row &lt;&lt; 10, bingo_row &lt;&lt; 15, bingo_row &lt;&lt; 20,
+        bingo_col, bingo_col &lt;&lt; 1, bingo_col &lt;&lt; 2, bingo_col &lt;&lt; 3, bingo_col &lt;&lt; 4,
+        0b1000001000001000001000001,
+        0b0000100010001000100010000
+    };
+    int bingo_count = 0;
+    int cnt[25] = {0};
+
+    // 遍历 2**25 种情形
+    for (int bitset = 0; bitset &lt; (1 &lt;&lt; 25); ++bitset) {
+        int is_bingo = 0;
+        for (int i = 0; i &lt; 12; ++i) {
+            if ((bitset &amp; bingos[i]) == bingos[i]) {
+                is_bingo = 1;
+                update_cnt(cnt, bitset);
+                break;
+            }
+        }
+        bingo_count += is_bingo;
+    }
+
+    // 打印结果
+    printf("bingo count: %d\n", bingo_count);
+    for (int i = 0; i &lt; 5; ++i) {
+        for (int j = 0; j &lt; 5; ++j) {
+            printf("%d ", cnt[i*5+j]);
+        }
+        putchar('\n');
+    }
+
+    return 0;
+}
+</pre>
+    </div>
   </div>
   <div class="tabs-footer">
     <a class="tabs-footer-item active" href="#tabs-7-1">求长度为奇数的最短路</a>
@@ -1149,6 +1199,7 @@ for b in product(range(4), repeat=10):
     <a class="tabs-footer-item" href="#tabs-7-4">Hamming 距离</a>
     <a class="tabs-footer-item" href="#tabs-7-5">过河问题</a>
     <a class="tabs-footer-item" href="#tabs-7-6">刑侦推理试题</a>
+    <a class="tabs-footer-item" href="#tabs-7-7">宾果游戏</a>
   </div>
 </div>
 

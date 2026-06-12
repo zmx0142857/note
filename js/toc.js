@@ -14,6 +14,7 @@ var tocData = [
           { "value": "surface", "label": "曲面在线绘制", "date": "2026-04-20" },
           { "value": "knot", "label": "纽结编辑器", "date": "2025-01-07" },
           { "value": "geometry", "label": "几何编辑器", "date": "2025-02-07" },
+          { "value": "complex", "label": "复分析可视化", "date": "2026-06-09" },
         ]
       },
       {
@@ -82,8 +83,8 @@ var tocData = [
           { "value": "3", "label": "阶与原根", "date": "2025-01-08" },
           { "value": "4", "label": "二次剩余", "date": "2025-07-15" },
           { "value": "5", "label": "不定方程", "date": "2025-08-31" },
-          { "value": "6", "label": "积性数论函数", "date": "2024-08-30" },
-          { "value": "7", "label": "素数分布", "date": "2022-11-20" },
+          { "value": "6", "label": "积性数论函数", "date": "2026-06-11" },
+          { "value": "7", "label": "素数分布", "date": "2026-06-12" },
           { "value": "11", "label": "代数数域和代数整数", "date": "2025-08-01" },
           { "value": "12", "label": "理想的分解", "date": "2025-08-01" },
           { "value": "13", "label": "理想类群和类数", "date": "2025-08-07" },

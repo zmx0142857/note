@@ -32,7 +32,7 @@
 
 <p class="theorem">
   <b>梅森素数与偶完全数的一一对应</b>
-  若 `M_p` 为梅森素数, 则 `M_p(M_p+1)//2` 是完全数.
+  若 `M_p` 为梅森素数, 则相应的三角形数 `M_p(M_p+1)//2` 是完全数.
   反之, 偶完全数必然具有这种形式.
 </p>
 
@@ -110,7 +110,8 @@
     `"li"(x) = int_0^x dt/(ln t)`
     `= lim_(epsi to 0^+) int_0^(1-epsi) + int_(1+epsi)^x`.
   </span>
-  它的证明比较复杂, 我们只证较弱的结论 `pi(x) = Theta(x/(ln x))`.
+  这意味着在 `x` 附近的素数密度约为 `1//ln x`.
+  素数定理的证明比较复杂, 我们只证较弱的结论 `pi(x) = Theta(x/(ln x))`.
   换言之, `x` 充分大时, 存在正的常数 `c_1, c_2` 使
   <span class="formula">
     `c_1 x/(ln x) le pi(x) le c_2 x/(ln x)`.
@@ -125,7 +126,7 @@
 <p class="proof">
   [群友@zz] 由 `pi(x) ~ x/(ln x)`
   <a href="../analysis/3.html#exp-eq-inf" target="_blank">取对数</a>得
-  `ln pi(x) ~ ln x - ln ln x`. 于是
+  `ln pi(x) ~ ln x - ln ln x`. 于是利用 `n = pi(p_n)` 有
   <span class="formula">
     `p_n/(n ln n)`
     `= p_n/(pi(p_n)) * 1/ln(pi(p_n))`
@@ -173,54 +174,41 @@
 </p>
 
 <p class="solution">
-  `sqrt 100 = 10`, 而 10 以内的素数为 2, 3, 5, 7.
+  考虑 `sqrt 100 = 10` 以内的全体素数 2, 3, 5, 7.
   对于 `10 lt n le 100`, 只要 `n` 与 2, 3, 5, 7 互素, 就能保证为素数.
-  而对于 `n le 10`, 只有 1 与 2, 3, 5, 7 互素. 换言之, 100 以内与 2, 3, 5,
-  7, 互素的整数个数为
+  记 `A = {1, cdots, 100}`, `P = 2 * 3 * 5 * 7`, 考查集合 `A` 中与 `P` 互素的整数个数,
+  称为筛函数:
   <span class="formula">
-    `pi(100) - pi(10) + 1`.
+    `S(A, P) = \#{a in A: (a, P) = 1}`
+    `= sum_(a in A, (a,P) = 1) 1`.
   </span>
-  记 `P = 2 * 3 * 5 * 7`, 称为一个筛子. `A = {1, cdots, 100}` 是待筛的整数.
-  定义筛函数为
-  <span class="formula">
-    `S(A, P) = sum_(a in A, (a,P) = 1) 1`,
-  </span>
-  表示通过了筛选的整数个数. 于是
+  在我们的例子中, 100 以内与 2, 3, 5, 7 互素的整数包括 10 到 100 的所有素数, 以及整数 1.  于是
   <span class="formula">
     `S(A, P) = pi(100) - pi(10) + 1`.
   </span>
-  又记 `A_d` 为 `A` 中所有 `d` 的倍数, 则 `|A_d| = |__100/d__|`.
-  由容斥原理,
-  <span class="formula">
+  接下来利用容斥原理计算筛函数.
+  记 `A_d` 为 `A` 中所有 `d` 的倍数, 则 `|A_d| = |__100//d__|`.
+  <span class="formula align">
     `S(A, P)`
-    `= |A| - |A_2| - |A_3| - |A_5| - |A_7|`
+    `= |A| - |A_2| - |A_3| - |A_5| - |A_7|`<br>
     `+ |A_(2*3)| + |A_(2*5)| + |A_(2*7)|
-    + |A_(3*5)| + |A_(3*7)| + |A_(5*7)|`
+    + |A_(3*5)| + |A_(3*7)| + |A_(5*7)|`<br>
     `- |A_(2*3*5)| - |A_(2*3*7)| - |A_(2*5*7)| - |A_(3*5*7)|`
-    `+ |A_(2*3*5*7)|`
-    `= 100 - 50 - 33 - 20 - 14 + 16 + 10 + 7 + 6 + 4 + 2`
-    `- 3 - 2 - 1 - 0 + 0`
+    `+ |A_(2*3*5*7)|`<br>
     `= 22`.
   </span>
   因此 `pi(100) = S(A, P) + pi(10) - 1 = 22 + 4 - 1 = 25`.
 </p>
 
 <p class="theorem">
+  <b>使用容斥原理求筛函数</b>
   设 `A` 为有限个整数的集合, `A_d` 为 `A` 中所有 `d` 的倍数.
-  筛子 `P` 为一个正整数, 且 `P` 的所有素因子为 `p_1, cdots, p_s`.
-  那么
+  又正整数 `P` 的所有素因子为 `p_1, cdots, p_s`, 那么根据容斥原理,
   <span class="formula">
     `S(A, P) := sum_(a in A, (a,P) = 1) 1`
     `= sum_(r=0)^s (-1)^r sum_(i_1 lt cdots lt i_r) |A_(p_(i_1) cdots p_(i_r))|`.
   </span>
-  使用 Möbius 函数
-  <span class="formula">
-    `mu(n) = { 1, if n = 1;
-      (-1)^r, if n = p_1 cdots p_r 为不同素数的乘积;
-      0, if n 含有平方因子
-    :}`
-  </span>
-  结论简记为
+  使用上一章的 Möbius 函数, 结论简化为
   <span class="formula">
     `S(A, P) = sum_(d | P) mu(d) |A_d|`.
   </span>
@@ -245,6 +233,41 @@
     `= sum_(d | P) mu(d) |A_d|`.
   </span>
 </p>
+
+<ol class="example" id="exp-prime-pi">
+  <b>筛法求 `pi(n)`</b>
+  [<a href="../../code/prime_pi.py" target="_blank">源码</a>]
+  用前 `a` 个素数去筛 `x` 以内的整数,
+  考虑筛函数 `varphi(x, a) := \#{ n le x: gcd(n, p_1 cdots p_a) = 1}`.
+  <li><b>递推公式</b> `varphi(x, a) = varphi(x, a-1) - varphi(x//p_a, a-1)`.</li>
+  <li><b>Legendre 等式</b> `pi(x) = varphi(x, a) + a - 1`, 其中 `a = pi(sqrt x)`.</li>
+  <li><b>Lehmer 公式</b> `pi(x) = varphi(x, a) + a - 1 - P_2`, 其中 `a =
+    pi(root 3 x)`. `P_2` 是区间 `(a, x]` 中通过筛选的合数的数量,
+    这些合数必定拥有两个素因子, 且最小素因子大于 `a`.
+    事实上
+    <span class="formula">
+      `P_2 = sum_(root 3 x lt p le sqrt x) (pi(x//p) - pi(p) + 1)`,
+      `quad p` 为素数.
+    </span>
+  </li>
+  Legendre 公式在 `10^8` 量级就会超过 python 的递归深度，但 Lehmer 不会
+</ol>
+
+<ol class="proof">
+  <li>`x` 以内的整数要与前 `a` 个素数都互素, 首先要与前 `a-1` 个素数互素.
+    然后扣除掉漏网之鱼, 即那些与前 `a-1` 个素数互素, 但满足 `p_a | n` 的整数 `n`.
+    这当且仅当 `n//p_a` 与前 `a-1` 个素数互素.
+  </li>
+  <li>这是因为 `x` 以内的合数最小素因子不超过 `sqrt x`. 换言之只要一个大于
+    `sqrt x` 的数通过了筛选, 它必为素数.
+  </li>
+  <li>`x` 以内的合数, 若它的素因子个数 `ge 3` (按重数计算), 则它的最小素因子不超过 `root 3 x`.
+    换言之一个大于 `root 3 x` 的数如果通过筛选, 它要么是素数,
+    要么是一个拥有两个因子的合数, 且最小素因子大于 `root 3 x`, 小于等于 `sqrt x`.
+    记这个合数为 `p q`, 两个素因子满足 `p le q le x//p`.
+    于是因子 `q` 的可能取法有 `pi(x//p) - pi(p) + 1` 种, 求和就得到 `P_2` 表达式.
+  </li>
+</ol>
 
 <h2>Chebyshev 不等式</h2>
 

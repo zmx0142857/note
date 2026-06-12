@@ -174,7 +174,7 @@ float fill_rect(in vec2 uv, in vec2 size) {
 // 空心矩形
 float stroke_rect(in vec2 uv, in vec2 size, in float line_width) {
   vec2 s = vec2(line_width) * 0.5;
-  return rect(uv, size + s) - rect(uv, size - s);
+  return fill_rect(uv, size + s) - fill_rect(uv, size - s);
 }
 
 // 实心圆
@@ -190,7 +190,7 @@ float fill_circle(in vec2 uv, in float radius) {
 // 空心圆
 float stroke_circle(in vec2 uv, in float radius, in float line_width) {
   float s = line_width * 0.5;
-  return circle(uv, radius + s) - circle(uv, radius - s);
+  return fill_circle(uv, radius + s) - fill_circle(uv, radius - s);
 }
 ```
 

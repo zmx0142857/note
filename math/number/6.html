@@ -370,7 +370,7 @@
     `mu(n) = {
       1, if n = 1;
       (-1)^r, if n = p_1 p_2 cdots p_r " 是不同的素数之积";
-      0, otherwise;
+      0, if n " 含有平方因子";
     :}`
   </span>
 </p>
@@ -478,9 +478,9 @@
       `= chi(n^(varphi(q)))`
       `= chi(1) = 1`,
     </span>
-    这表明 `chi(n)` 是 `varphi(q)` 次单位根, 取值只有有限个.
-    由于 `chi` 由它在 `ZZ_q^**` 上的取值完全确定, 所以模 `q`
-    的特征只有有限个.
+    这表明 `chi(n)` 是 `varphi(q)` 次单位根.
+    总之, 模 `q` 的特征是从 `ZZ_q^**` 到 `varphi(q)` 次单位根群 `C_(varphi(q))` 的群同态.
+    `chi_q` 由它在 `ZZ_q^**` 上的取值完全确定, 所以模 `q` 的特征只有有限个.
   </li>
   <li>若特征 `chi` 只取实值 `+-1`, 则称它为<b>实特征</b>; 否则 `chi`
     至少在某处取虚数, 称为<b>复特征</b>.
@@ -494,18 +494,24 @@
 </p>
 
 <ol class="corollary">
-  <li>设 `a | b`, `a, b` 由相同的素因子构成 (仅次数不同), 则模 `a`
-    的特征一定是模 `b` 的特征;</li>
-  <li>`l ge k` 时, 模 `a^k` 的特征一定是模 `a^l` 的特征;</li>
+  用定义可以验证:
+  <li>设 `a, b` 由相同的素因子构成 (仅次数不同), 且 `a | b`, 则模 `a`
+    的特征一定是模 `b` 的特征. 从群同态的观点看, `ZZ_a^**` 是 `ZZ_b^**` 的商群,
+    `C_(varphi(a))` 是 `C_(varphi(b))` 的子群, 从而有同态
+    <span class="formula">
+      `ZZ_b^**`
+      `overset"自然同态" -->  ZZ_a^**`
+      `overset chi --> C_(varphi(a))`
+      `overset"嵌入同态" --> C_(varphi(b))`.
+    </span>
+    特别 `l ge k` 时, 模 `a^k` 的特征一定是模 `a^l` 的特征.
+  </li>
   <li>`chi_a chi_b` 是模 (最小公倍数) `[a, b]` 的特征.</li>
 </ol>
 
 <ol class="theorem">
   <b>特征的唯一分解定理</b>
   设 `(q_1, q_2) = 1`, `q = q_1 q_2`, `chi_q` 是模 `q` 的特征, 则
-  <li>存在唯一的模 `q_1` 的特征 `chi_1` 使得
-     `n -= 1 (mod q_2)` 时, `chi_q(n) = chi_1(n)`;
-  </li>
   <li>存在唯一的一对分别模 `q_1, q_2` 的特征 `chi_1, chi_2` 使得
     <span class="formula">
       `chi_q = chi_1 chi_2`.
@@ -519,6 +525,65 @@
       `chi_q = chi_1 cdots chi_s`,
       `quad chi_i` 是模 `p_i^(a_i)` 的特征.
     </span>
+  </li>
+  可以将此定理与中国剩余定理作类比.
+</ol>
+
+<ol class="proof">
+  <li>
+    唯一性. 观察等式 `chi_q = chi_1 chi_2`,
+    当 `k -= 1 (mod q_2)` 时, `chi_q(k) = chi_1(k)`.
+    换言之 `chi_1` 应该满足等式
+    <span class="formula">
+      `chi_1(m q_1 + n q_2 + 1) = chi_q(n q_2 + 1)`.
+      <span class="label">`(**)`</span>
+    </span>
+    由于 `(q_1, q_2) = 1`, 当 `m, n` 跑遍 `ZZ` 时, `m q_1 + n q_2 + 1` 也跑遍 `ZZ`,
+    所以 `chi_1` 的值被完全确定.
+    上式是良定义的, 因为若 `m q_1 + n q_2 = (m+a) q_1 + (n-b) q_2`,
+    则 `a q_1 = b q_2` 从而 `q_1 | b`.
+    根据 `chi_q` 的周期性,
+    <span class="formula">
+      `chi_q((n-b) q_2+1) = chi_q(n q_2+1)`.
+    </span>
+    `chi_2` 的论证类似.
+  </li>
+  <li>
+    存在性. 按 `(**)` 式定义 `chi_1`, 下证它是模 `q_1` 的特征.
+    由定义 `chi_1` 具有周期 `q_1`. 又, `chi_1` 完全可乘:
+    <span class="formula">
+      `chi_1(a q_1 + b q_2 + 1) chi_1(c q_1 + d q_2 + 1)`
+      `= chi_q(b q_2+1) chi_q(d q_2+1)`
+      `= chi_q(b d q_2^2 + (b+d)q_2 + 1)`
+      `= chi_1((a q_1 + b q_2 + 1)(c q_1 + d q_2 + q))`.
+    </span>
+    最后, 记 `k = m q_1 + n q_2 + 1`, 则 `(k, q_1) gt 1` 时
+    <span class="formula">
+      `chi_1(k) = chi_q(k - m q_1) = 0`.
+    </span>
+    类似可证 `chi_2` 是模 `q_2` 的特征. 下证 `chi_q = chi_1 chi_2`,
+    事实上
+    <span class="formula">
+      `chi_1(m q_1 + n q_2 + 1) chi_2(m q_1 + n q_2 + 1)`
+      `= chi_q(n q_2+1) chi_q(m q_1 + 1)`
+      `= chi_q(m n q_1 q_2 + m q_1 + n q_2 + 1)`
+      `= chi_q(m q_1 + n q_2 + 1)`.
+    </span>
+  </li>
+  <li>主特征与实特征.
+    设整数 `k` 与 `q_1` 互素,
+    我们可以找到 `n` 使得 `k + n q_1 -= 1 (mod q_2)`, 于是
+    <span class="formula">
+      `chi_1(k)`
+      `= chi_1(k + n q_1)`
+      `= chi_q(k + n q_1)`.
+    </span>
+    `k + n q_1` 同时与 `q_1, q_2` 互素, 从而与 `q` 互素.
+    若 `chi_q` 是主特征, 上式右边等于 1, 故 `chi_1` 也是主特征;
+    若 `chi_q` 是实特征, 上式右边为 `+-1`, 故 `chi_1` 也是实特征.
+    <br>
+    反之显然 `(k, q) = 1` 时, 同时成立 `(k, q_1) = (k, q_2) = 1`.
+    故 `chi_1, chi_2` 同时为主特征 (实特征) 时, `chi_q` 也是一样.
   </li>
 </ol>
 

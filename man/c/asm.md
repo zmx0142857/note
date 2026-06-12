@@ -81,3 +81,140 @@ function asm32 () {
 }
 ```
 现在用 `asm main && ./main` 即可编译运行.
+
+### 寄存器
+
+- instrution 指令寄存器: rip (64 位), eip (32 位)
+- stack 栈顶寄存器: rsp (64 位), esp (32 位)
+- base 栈底寄存器: rbp (64 位), ebp (32 位)
+- 其它: 通用寄存器. r 开头的为 8 字节, 适合 x64 程序; e 开头的为 4 字节, 适合 x86 (32 位) 程序.
+
+### 指令
+
+- 方括号: 表示解引用, 例如 `DWORD PTR [eax]` 相当于把 eax 当作地址解引用, 得到一个 4 字节整数 (dword)
+- lea: 用于运算赋值, 例如 `lea ecx,[esp+0x4]` 的作用相当于 `ecx = esp + 0x4`. 这里的方括号与指针没什么关系
+- call: 用于调用函数, 会将 rip (下一条指令的地址) 压栈. 换言之, 函数开始执行时, esp 指向返回地址
+- ret: 用于函数返回, 会将返回地址弹栈, 赋值给 rip, 从而恢复执行
+
+### 函数调用
+
+典型函数调用, 是用若干个 push 指令将参数压栈, 然后执行 call 指令:
+```asm
+push 参数3
+push 参数2
+push 参数1
+call 函数地址
+```
+由于栈是向下增长的, 栈顶 esp 的地址小于栈底 ebp 地址, 所以参数在内存中像这样:
+```txt
+    ┌─┬─┬─┐
+esp │1│2│3│ ebp
+    └─┴─┴─┘
+```
+> 64 位 linux 系统的重要变化是, 函数的前 6 个参数分别通过寄存器 rdi, rsi, rdx, rcx, r8, r9 传递, 超过 6 个参数才需要压栈.
+
+典型函数序言, 保存旧栈帧, 分配新栈帧
+```asm
+push ebp
+mov ebp,esp
+sub esp,... ; 分配栈空间, 用于局部变量
+```
+效果如下:
+```txt
+ ebp
+  ↓
+ ┌─┬─┐...┌─┬─┐
+ └─┴─┘   └─┴─┘
+  ↑ ↑       ↑
+esp esp    ebp
+   (old)  (old)
+```
+leave 指令常见于函数结尾, 它相当于以下两条指令, 是函数序言的逆操作:
+```asm
+mov esp,ebp
+pop ebp
+```
+
+### 典型 main 函数
+
+`main.c`
+```c
+#include <stdio.h>
+int main() {
+  puts("hello");
+  return 0;
+}
+```
+
+在 64 位 linux 系统中, 编译然后反编译该程序
+
+    $ gcc main.c -o main
+    $ objdump -D -M intel > main.asm
+
+或者用这个 shell 函数简化反编译:
+```sh
+function rev () {
+  objdump -D -M intel "$1" > "$1.asm"
+}
+```
+
+64 位程序
+```asm
+<main>:
+    ; 函数序言
+    push   rbp
+    mov    rbp,rsp
+
+    ; 将参数 "hello" 的地址放进 rdi, 然后调用 puts
+    lea    rax,[rip+0xec0]        # 0x2004 <_IO_stdin_used+0x4>
+    mov    rdi,rax
+    call   0x1030 <puts@plt>
+
+    mov    eax,0x0 ; 将返回值放进 eax (32 位整数)
+    pop    rbp     ; 恢复 rbp
+    ret
+
+<_IO_stdin_used>:
+    2000:	01 00                	add    DWORD PTR [rax],eax
+    2002:	02 00                	add    al,BYTE PTR [rax]
+    2004:	68 65 6c 6c 6f          "hello"
+```
+
+为了生成 32 位程序, 首先安装相关 32 位库:
+
+    $ sudo apt install gcc-multilib g++-multilib
+    $ sudo dpkg --add-architecture i386
+    $ gcc main.c -o main -m32 # 现在可以生成 32 位程序
+
+生成的 32 位程序会更冗长:
+```asm
+lea ecx,[esp+0x4]           ; ecx = esp + 4
+and esp,0xfffffff0          ; 将 esp 对齐到 16 字节 (栈对齐)
+push DWORD PTR [ecx-0x4]    ; 保存旧 esp 指向的值, 即返回地址
+
+; 函数序言
+push ebp
+mov ebp,esp
+
+push ecx                    ; 保存 ecx 到 ebp-4 的地址
+
+; 分配栈空间
+sub esp,0x4
+sub esp,0xc
+
+; 参数压栈并调用函数
+push 0x80484b0              ; "hello"
+call 0x80482d0 <puts@plt>
+
+; 减小栈空间
+add esp,0x10
+mov eax,0x0
+
+mov ecx,DWORD PTR [ebp-0x4] ; 恢复 ecx 的值
+
+; 序言的逆操作: mov esp,ebp; pop ebp
+leave
+
+lea esp,[ecx-0x4]           ; 恢复旧的 esp, 它等于 ecx-4
+ret
+```

@@ -797,7 +797,7 @@
 
 <p class="proof">
   在微分不等式两边同乘积分因子
-  `Phi(t) = 1/(P(t)) = exp(-int_a^t p(u) "d"u)` 得
+  `Phi(t) = 1//P(t) = exp(-int_a^t p(u) "d"u)` 得
   <span class="formula">
     `"d"/dt (y(t) Phi(t)) le g(t) Phi(t)`.
   </span>
@@ -818,12 +818,15 @@
   <li>`f(t) le g(t) + int_a^t p(s) g(s) P(t) // P(s) "d"s`, `P(t)` 的含义同上.</li>
   <li>
     若 `g` 连续可微, 上式分部积分可得 `f(t) le g(a) P(t) + int_a^t g'(s) P(t) // P(s) "d"s`.
+    注意 `p(s)//P(s)` 的原函数是 `-1//P(s)`.
   </li>
-  <li>若 `g` 单调增, 结论简化为 `f(t) le g(t) P(t)`.</li>
+  <li>若 `g` 单调增, 把 1. 中的 `g(s)` 放大为 `g(t)`,
+    结论简化为 `f(t) le g(t) P(t)`.
+  </li>
 </ol>
 
 <p class="proof">
-  1.  记 `y(t) = int_a^t p(s) f(s) "d"s`, 由已知 `f(t) le g(t) + y(t)`, 于是由
+  只证 1. 记 `y(t) = int_a^t p(s) f(s) "d"s`, 由已知 `f(t) le g(t) + y(t)`, 于是由
   `p` 非负有
   <span class="formula">
     `y'(t) = p(t) f(t) le p(t) g(t) + p(t) y(t)`.
@@ -833,8 +836,36 @@
     `y(t) le int_a^t p(s) g(s) P(t)//P(s) "d"s`.
   </span>
   再由 `f(t) le g(t) + y(t)` 即得结论.
+</p>
+
+<p class="example">
+  [群友@Rei]
+  设 `f` 在 `[0, +oo)` 上非负连续, `a ge 1`, `c gt 0`, 且满足
+  <span class="formula">
+    `f(x) le c int_0^x f(t)^a dt`, `quad AA x in [0, +oo)`.
+  </span>
+  证明: `f(x) -= 0`.
+</p>
+
+<p class="proof">
+  这是 Gronwall 不等式的直接推论, 取 `g(t) -= 0` 和 `p(t) = c f(t)^(a-1)` 即可.
+</p>
+
+<p class="proof">
+  [群友@xiF616] 显然 `f(0) = 0`.
+  由连续性, 可取 `delta in (0, c^-1)`, 使得 `M := max_(0 le x le delta) f(x) lt 1`.
+  设 `m` 是 `f` 在 `[0, delta]` 的最大值点, 则
+  <span class="formula">
+    `M = f(m) le c int_0^m f(t)^a dt le c delta M^a le M^a`.
+  </span> 
+  于是只能 `M = 0`, 意味着 `f` 在 `[0, delta]` 上恒为零.
   <br>
-  3. 把 1. 中的 `g(s)` 放大为 `g(t)` 再化简即可. 注意 `int_a^t p(s)//P(s) "d"s = 1 - 1//P(t)`.
+  然后考虑不等式
+  <span class="formula">
+    `f(x) le int_delta^x f(t)^a dt`, `quad x ge delta`,
+  </span>
+  重复上述推理, 又可得到 `f` 在 `[delta, delta_1]` 上恒为零.
+  根据<a href="../analysis/2.html#thm-continuous-induction">连续归纳原理</a>知道 `f -= 0`.
 </p>
 
 <h2>Jensen 不等式 (积分形式)</h2>
