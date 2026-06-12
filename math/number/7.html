@@ -271,31 +271,86 @@
 
 <h2>Chebyshev 不等式</h2>
 
-<p class="theorem">
+<ol class="theorem">
   <b>Bertrand-Chebyshev 定理</b>
-  对任意正整数 `n`, 存在一个素数 `p` 满足 `n le p le 2n`.
-  其中 `n ge 2` 时不等号严格成立.
-</p>
+  [<a href="https://zhuanlan.zhihu.com/p/113333538" target="_blank">知乎@Zephyr</a>]
+  <li>对任意正整数 `n` 有 `pi(n) lt pi(2n)`, 换言之存在素数 `p` 满足 `n lt p le 2n`.
+    当 `n ge 2` 时, `2n` 不可能是素数, 不等式严格成立.
+  </li>
+  <li>由 1. 立即得到较松的估计: `pi(2^n) ge n`, `p_n le 2^n`.</li>
+</ol>
 
-<p class="corollary">
-  `pi(2^n) ge n`, 即 `p_n le 2^n`.
-</p>
+<ol class="proof">
+  <li>先证 `n` 以内的素数乘积上界:
+    <span class="formula">
+      `prod_(p le n) p le 4^(n-1)`.
+    </span>
+    `n le 2` 时直接验证成立.
+    `n ge 3` 时, 只需考虑奇素数的情形.
+    设 `n = 2m+1`, 若结论对一切整数 `2 le n le 2m` 都成立, 则
+    <span class="formula">
+      `prod_(p le 2m+1) p`
+      `= prod_(p le m+1) p prod_(m+1 lt p le 2m+1) p`
+      `le 4^m (2m+1;m)`
+      `= 4^m ((2m;m) + (2m;m-1))`
+      `le 4^m (1+1)^(2m)`
+      `= 4^(2m)`.
+    </span>
+    故结论成立.
+  </li>
+  <li>估算每个奇素数 `p` 在 `N = (2n;n)` 中的次数.
+    事实上, 取 `r ge 0` 使得 `2n lt p^(r+1)`, 则
+    <span class="formula">
+      `v_p(N)`
+      `= v_p((2n)!) - 2 v_p(n!)`
+      `= sum_(k=1)^r (floor((2n)/p^k) - 2floor(n/p^k))`
+      `le r`.
+    </span>
+    特别当 `r = 1` 时得到: `p gt sqrt(2n)` 时, `v_p(N) le 1`.
+    又当 `2n//3 lt p le n` 时, 直接观察 `N = (2n)!/(n! n!)` 的分子分母可知 `v_p(N) = 0`.
+  </li>
+  <li>现在考虑 `N` 的素因子分解, 当 `n gt 9//2` 时有 `sqrt(2n) lt 2n//3`, 从而
+    <span class="formula">
+      `N = prod_(p le 2n) p^(v_p(N))`
+      `le (2n)^(sqrt(2n)) prod_(sqrt(2n) lt p le 2n//3) p prod_(n lt p le 2n) p`.
+    </span>
+    但 `2n (2n;n) ge (1+1)^(2n)`, 故 `N` 有下界:
+    <span class="formula">
+      `N ge 4^n//2n`.
+    </span>
+    假设不存在素数 `p` 满足 `n lt p le 2n`, 由以上两式, 结合 1. 的结论推出
+    <span class="formula">
+      `4^n//2n le N`
+      `le (2n)^(sqrt(2n)) prod_(sqrt(2n) lt p le 2n//3) p`
+      `le (2n)^(sqrt(2n)) 4^(2n//3)`.
+    </span>
+    于是 `4^(n//3) le (2n)^(sqrt(2n)+1)`, 这推出 `n lt 500`.
+    但我们可以直接验证 Bertrand 结论对 `n lt 500` 成立,
+    例如, 下面相邻两项素数的比值小于 2:
+    <span class="formula">
+      2, 3, 5, 7, 13, 23, 43, 83, 163, 317, 631.
+    </span>
+    因此假设不正确, 证毕.
+  </li>
+</ol>
 
 <p class="theorem">
   <b>Chebyshev 不等式</b>
   记 `pi(x)` 是不超过 `x` 的素数个数, `p_n` 为第 `n` 个素数. 我们有
   <span class="formula">
-    `color(#663)(1/3 ln 2)x/(ln x)`
+    `pi(2m) ge m // log_2(2m)`, `quad AA m ge 1`,<br>
+    `pi(2m) - pi(m) lt 2m // log_2 m`, `quad AA m ge 1`,<br>
+    `1/3 * x/(log_2 x)`
     `lt pi(x)`
-    `lt color(#663)(6 ln 2)x/(ln x)`, `quad AA x ge 2`<br>
-    `color(#663)(1/(6 ln 2)) n ln n`
+    `lt 6 * x/(log_2 x)`, `quad AA x ge 2`,<br>
+    `1/6 * n log_2 n`
     `lt p_n`
-    `lt color(#663)(8/(ln 2)) n ln n`, `quad AA n ge 2`.
+    `lt 8 * n log_2 n`, `quad AA n ge 2`.
   </span>
 </p>
 
 <ol class="proof">
-  为证明 `pi(x)` 的上下界,
+  先证前两个不等式.
   我们从 `M = (2 m; m)` 的估计入手, `m` 为正整数.
   <li>联系第一章 Kummer 定理的相关内容, 记 `v_p(n)` 为素数 `p` 在 `n`
     中的次数, 有
@@ -303,13 +358,13 @@
       `v_p(n!) = sum_(i ge 1) |__n/p^i__|`.
     </span>
     取对数有
-    <span class="formula">
+    <span class="formula align">
       `ln M`
-      `= ln((2m)!) - 2 ln(m!)`
+      `= ln((2m)!) - 2 ln(m!)`<br>
       `= sum_(p lt 2m) v_p((2m)!) ln p`
-      `- 2 sum_(p le m) v_p(m!) ln p`
+      `- 2 sum_(p le m) v_p(m!) ln p`<br>
       `= sum_(p le m) [v_p((2m)!) - 2 v_p(m!)] ln p`
-      `+ sum_(m lt p lt 2m) v_p((2m)!) ln p`
+      `+ sum_(m lt p lt 2m) v_p((2m)!) ln p`<br>
       `= A + B`.
     </span>
   </li>
@@ -350,12 +405,16 @@
       `(pi(2m)-pi(m))ln m lt 2m ln 2`.
     </span>
   </li>
+</ol>
+
+<ol class="proof">
+  应用前两个不等式证 `pi(x)` 的上下界.
   <li>当 `x ge 6` 时, 取 `m = |__x//2__| gt 2`, 此时成立 `2m lt x lt 3m`,
     因此
     <span class="formula">
-      `pi(x) ln x ge pi(2m) ln(2m)`
-      `ge m ln 2`
-      `gt x/3 ln 2`.
+      `pi(x) log_2 x ge pi(2m) log_2(2m)`
+      `ge m`
+      `gt x/3`.
     </span>
     直接验算知上式对 `2 le x lt 6` 也成立; 这证明了不等式的左半部分.
   </li>
@@ -372,48 +431,45 @@
     <span class="formula">
       `pi(x) le pi(2^h)`
       `lt 3 * 2^h//h`
-      `lt 3 * (2 x)/(ln x//ln 2)`
-      `= 6 ln 2 x/(ln x)`.
-      这证明了不等式的右半部分.
+      `lt 3 * (2 x)/(log_2 x)`.
     </span>
+    这证明了不等式的右半部分.
   </li>
 </ol>
 
 <ol class="proof">
+  再来证 `p_n` 的上下界.
   <li>
-    从 `pi(x)` 的估计出发, 取 `p_n = x`, 得到
+    在 `pi(x)` 的估计中代入 `x = p_n`. 注意 `pi(p_n) = n` 和 `p_n gt n`, 有
     <span class="formula">
-      `n lt 6 ln 2 p_n/(ln p_n)`.
+      `n lt 6 p_n/(log_2 p_n)`
+      `lt 6 p_n/(log_2 n)`,
     </span>
-    再由 `p_n gt n` 得 `p_n gt (n ln n)/(6 ln 2)`;
     这证明了左半不等式.
   </li>
   <li>
     `n = 2` 时直接验证右半不等式成立.
-    下设 `n ge 3`, 因此 `p_n` 为奇素数.
-    在不等式 `pi(2m) ln(2m) ge m ln 2` 中取 `2m = p_n + 1`, 得
+    `n ge 3` 时 `p_n` 为奇素数.
+    在不等式 `pi(2m) ge m // log_2 (2m)` 中取 `2m = p_n + 1`, 得
     <span class="formula">
-      `n ln(p_n+1) ge (p_n+1)/2 * ln 2`,
+      `n ln(p_n+1) ge (p_n+1)/2 * ln 2`.
       <span class="label" id="ref1"></span>
     </span>
+    整理得
     <span class="formula">
       `ln(p_n+1) le ln(2n//ln 2) + ln ln(p_n+1)`.
-      <span class="label" id="ref2"></span>
     </span>
-    利用不等式 `ln(1+s) le s`, 取 `s = y//2 - 1` 有
+    注意 `n ge 3 gt 2//ln 2`, 并利用不等式 `ln x lt x//2` (`x gt 0`), 有
     <span class="formula">
-      `ln y le y//2 - 1 + ln 2 lt y//2`, `quad y gt 0`.
+      `ln(p_n+1) le 2 ln n + 1/2 ln(p_n+1)`.
     </span>
-    再令 `y = ln(p_n+1)`, 有
+    上式结合 <a class="ref" href="#ref1"></a> 有
     <span class="formula">
-      `ln ln(p_n+1) lt 1/2 ln(p_n+1)`.
+      `(p_n+1)/(2n // ln 2)`
+      `le ln(p_n+1)`
+      `lt 4 ln n`.
     </span>
-    由 <a class="ref" href="#ref1"></a> 得
-    <span class="formula">
-      `ln(p_n+1) le 2 ln(2n//ln 2) lt 4 ln n`,
-      `quad n ge 3`.
-    </span>
-    再由 <a class="ref" href="#ref2"></a> 即完成右半不等式的证明.
+    这证明了右半不等式.
   </li>
 </ol>
 
@@ -459,7 +515,7 @@
 </p>
 
 <ol class="theorem">
-  Chebyshev 函数是 `pi(x)` 的良好替代, 事实上存在常数 `c_gamma gt 0` 使得
+  Chebyshev 函数是 `ln x pi(x)` 的良好替代, 事实上存在常数 `c_gamma gt 0` 使得
   <li>`(ln x - c_gamma) pi(x) lt vartheta(x) lt ln x pi(x)`;</li>
   <li>`vartheta(x) le psi(x) le vartheta(x) + sqrt x ln x`.</li>
 </ol>
