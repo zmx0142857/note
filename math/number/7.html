@@ -273,7 +273,7 @@
 
 <ol class="theorem">
   <b>Bertrand-Chebyshev 定理</b>
-  [<a href="https://zhuanlan.zhihu.com/p/113333538" target="_blank">知乎@Zephyr</a>]
+  [<a href="https://zhuanlan.zhihu.com/p/113333538" target="_blank">知乎@Zephyr</a>, 数学天书中的证明]
   <li>对任意正整数 `n` 有 `pi(n) lt pi(2n)`, 换言之存在素数 `p` 满足 `n lt p le 2n`.
     当 `n ge 2` 时, `2n` 不可能是素数, 不等式严格成立.
   </li>
@@ -297,34 +297,39 @@
       `= 4^(2m)`.
     </span>
     故结论成立.
+    注意把 `n` 换成 `ge 1` 的实数, 不等式仍成立.
   </li>
-  <li>估算每个奇素数 `p` 在 `N = (2n;n)` 中的次数.
-    事实上, 取 `r ge 0` 使得 `2n lt p^(r+1)`, 则
+  <li>估算每个素因子 `p` 在 `N = (2n;n)` 中的次数.
+    事实上, 取 `r ge 0` 使得 `p^r le 2n lt p^(r+1)`, 则
     <span class="formula">
       `v_p(N)`
       `= v_p((2n)!) - 2 v_p(n!)`
       `= sum_(k=1)^r (floor((2n)/p^k) - 2floor(n/p^k))`
       `le r`.
     </span>
-    特别当 `r = 1` 时得到: `p gt sqrt(2n)` 时, `v_p(N) le 1`.
-    又当 `2n//3 lt p le n` 时, 直接观察 `N = (2n)!/(n! n!)` 的分子分母可知 `v_p(N) = 0`.
+    这推出 `p^(v_p(N)) le p^r le 2n`.<br>
+    取 `r = 1` 得到: `p gt sqrt(2n)` 时, `v_p(N) le 1`.<br>
+    又设 `n ge 5`, 此时有 `2 lt sqrt(2n) lt 2n//3`,
+    对于 `2n//3 lt p le n`, 直接观察 `N = (2n)!/(n! n!)` 的分子分母可知 `v_p(N) = 0`.
   </li>
-  <li>现在考虑 `N` 的素因子分解, 当 `n gt 9//2` 时有 `sqrt(2n) lt 2n//3`, 从而
+  <li>现在考虑 `N` 的素因子分解. 当 `n ge 5` 时, `N` 有上界
     <span class="formula">
       `N = prod_(p le 2n) p^(v_p(N))`
-      `le (2n)^(sqrt(2n)) prod_(sqrt(2n) lt p le 2n//3) p prod_(n lt p le 2n) p`.
+      `le prod_(2 le p le sqrt(2n)) 2n prod_(sqrt(2n) lt p le 2n//3) p prod_(n lt p le 2n) p`.
     </span>
-    但 `2n (2n;n) ge (1+1)^(2n)`, 故 `N` 有下界:
+    另一方面, 不等式 `2n (2n;n) ge (1+1)^(2n)` 给出 `N` 的下界:
     <span class="formula">
       `N ge 4^n//2n`.
     </span>
     假设不存在素数 `p` 满足 `n lt p le 2n`, 由以上两式, 结合 1. 的结论推出
     <span class="formula">
-      `4^n//2n le N`
+      `4^n le 2n * N`
       `le (2n)^(sqrt(2n)) prod_(sqrt(2n) lt p le 2n//3) p`
       `le (2n)^(sqrt(2n)) 4^(2n//3)`.
     </span>
-    于是 `4^(n//3) le (2n)^(sqrt(2n)+1)`, 这推出 `n lt 500`.
+    于是 `4^(n//3) le (2n)^(sqrt(2n))`,
+    即 `sqrt(2n) le 3 op(log_2)(2n)`,
+    这推出 `n le 426`.
     但我们可以直接验证 Bertrand 结论对 `n lt 500` 成立,
     例如, 下面相邻两项素数的比值小于 2:
     <span class="formula">

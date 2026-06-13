@@ -184,14 +184,13 @@
 <ol class="theorem">
   <b>积性函数的求和公式</b>
   设 `f` 为积性函数,
-  <li>若 `n` 有 <a class="ref" href="#for-prime-factor"></a>
-    所示的素因子分解, 则
+  <li>考虑 `n` 的素因子分解, 有
     <span class="formula">
-      `sum_(d | n) f(d) = prod_(i=1)^r sum_(k=0)^(alpha_i)
-      f(p_i^k)`,
+      `sum_(d | n) f(d)`
+      `= prod_(p | n) sum_(p^k | n) f(p^k)`,
     </span>
   </li>
-  <li>若级数 `sum_(n ge 0) f(n)` 绝对收敛, 则
+  <li><b>Euler 乘积</b> 若级数 `sum_(n ge 0) f(n)` 绝对收敛, 则
     <span class="formula">
       `sum_(n ge 0) f(n) = prod_p sum_(k ge 0) f(p^k)`.
     </span>
@@ -200,7 +199,7 @@
 </ol>
 
 <ol class="proof">
-  <li>`n` 的全体正因子可以表示为
+  <li>`n = prod_(i=1)^r p_i^(alpha_i)` 的全体正因子可以表示为
     <span class="formula">
       `{d: d | n}`
       `= {prod_(i=1)^r p_i^(k_i):
@@ -236,7 +235,7 @@
   </li>
   <li>`f(n) = n^-s` 是积性函数, 因此 Riemann zeta 函数
     <span class="formula">
-      `zeta(s) = sum_(n ge 0) n^-s`
+      `zeta(s) = sum_(n ge 1) n^-s`
       `= prod_p (1-p^-s)^-1`.
     </span>
     这一公式将 `zeta(s)` 与素数联系在一起.
@@ -272,6 +271,57 @@
     </span>
   </li>
 </ol>
+
+<p class="example">
+  <b>素数无穷的又一证明</b>
+  [Stein《Fourier Analysis》] 全体素数的倒数和发散:
+  <span class="formula">
+    `sum_p 1/p = oo`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>先证引理: 若 `sum a_n` 绝对收敛,
+    那么 (1) 乘积 `prod (1+a_n)` 收敛. (2) 每项 `a_n + 1 != 0` 时, `prod (1+a_n)^-1` 也收敛.
+    <br>
+    由已知 `a_n to 0`, 设 `n ge N` 时有 `|a_n| lt 1//2`, 则
+    <span class="formula">
+      `prod_(k=N)^n (1+a_k)`
+      `= exp(sum_(k=N)^n ln(1+a_k))`.
+    </span>
+    当 `|x| lt 1/2` 时, 成立不等式 `|ln(1+x)| le |2x|`, 因此
+    <span class="formula">
+      `sum_(k=N)^n |ln(1+a_k)|`
+      `le sum_(k=N)^n |2 a_k| lt oo`.
+    </span>
+    因此 `prod_(k=N)^n (1+a_k)` 收敛.
+    特别每项 `a_n+1 != 0` 时, 它的倒数也收敛.
+  </li>
+  <li>
+    使用反证法. 若 `sum_p 1//p lt oo`, 则乘积 `prod_p (1-1//p)^-1` 收敛,
+    但另一方面对任意正整数 `n`, 将每个 `1 le k le n` 做素因子分解得到
+    <span class="formula">
+      `sum_(k=1)^n 1/k`
+      `le prod_(p le n) sum_(k ge 0) 1/p^k`
+      `= prod_(p le n) (1-1//p)^-1`.
+    </span>
+    令 `n to oo`, 上式左边发散而右边收敛, 矛盾.
+  </li>
+</ol>
+
+<p class="proof">
+  `s gt 1` 时, 对 `zeta(s)` 取对数得
+  <span class="formula">
+    `ln zeta(s) = - sum_p ln(1-p^-s)`
+    `= sum_p (p^-s + O(p^(-2s)))`
+    `le sum_p p^-s + O(sum_n n^-2)`
+    `= sum_p p^-s + O(1)`.
+  </span>
+  令 `s to 1^+`, 上式左边趋于 `oo`, 这意味着
+  <span class="formula">
+    `sum_p p^-1 ge sum_p p^-s to oo`.
+  </span>
+</p>
 
 <h2>卷积</h2>
 
@@ -445,8 +495,10 @@
 <h2>Dirichlet 特征*</h2>
 
 <p>
-  Dirichlet 在 1837 年证明了 <b>Dirichlet 定理</b>: 任给 `(a, q) = 1`,
-  在算术数列 `n -= a (mod q)` 中一定有无穷多个素数.
+  Euclid 曾通过构造 `p_1 cdots p_n + 1` 证明素数有无穷多.
+  类似地, 构造 `4 p_1 cdots p_n + 3`, 还能证明 `4n+3` 型素数有无穷多.
+  1837 年, Dirichlet 证明了如下定理: 任给互素正整数 `a, b`,
+  存在无穷多形如 `a + n b` 的素数.
   在他的证明中, 第一次引入了数论中的重要概念: 特征.
 </p>
 
@@ -479,18 +531,33 @@
       `= chi(1) = 1`,
     </span>
     这表明 `chi(n)` 是 `varphi(q)` 次单位根.
-    总之, 模 `q` 的特征是从 `ZZ_q^**` 到 `varphi(q)` 次单位根群 `C_(varphi(q))` 的群同态.
-    `chi_q` 由它在 `ZZ_q^**` 上的取值完全确定, 所以模 `q` 的特征只有有限个.
   </li>
-  <li>若特征 `chi` 只取实值 `+-1`, 则称它为<b>实特征</b>; 否则 `chi`
+  <li>若特征 `chi` 只取实值 `0` 和 `+-1`, 则称它为<b>实特征</b>; 否则 `chi`
     至少在某处取虚数, 称为<b>复特征</b>.
   </li>
 </ol>
 
 <p class="corollary">
-  模 `q` 的全体特征关于通常的函数乘法构成一个群, 主特征是其单位元.
-  `chi` 的逆元 `bar chi` 称为它的<b>共轭特征</b>,
-  其中 `bar chi(n) = bar(chi(n))` (复数的共轭).
+  将模 `q` 的特征 `chi` 限制在 `G = ZZ_q^**` 上, 就成为 `G` 到单位根群 `C_|G| = C_(varphi(q))`
+  的群同态.
+  所有这些同态构成一个有限 Abel 群 `hat G`, 称为 `G` 的<b>特征群</b>.
+  `hat G` 的乘法是通常的函数乘法, 单位元是主特征,
+  `chi` 的复共轭 `bar chi` 正好是它的逆元, 称为它的<b>共轭特征</b>.
+</p>
+
+<p class="remark">
+  特征群 `hat G` 有多大? 若 `G` 是循环群, 设它的生成元 (原根) 为 `a`,
+  则 `chi(a)` 的取值完全决定了特征函数 `chi`, 于是 `|hat G| = |C_(|G|)| = |G|`.
+  根据有限 Abel 群的结构定理, `G` 可以分解为循环群的直积:
+  <span class="formula">
+    `G ~= C_(n_1) xx cdots xx C_(n_k)`,
+  </span>
+  根据下文的特征唯一分解定理,
+  <span class="formula">
+    `hat G ~= hat C_(n_1) xx cdots xx hat C_(n_k)`,
+  </span>
+  故 `|hat G| = |G|`.
+  代入 `G = ZZ_q^**` 可知, 模 `q` 的特征函数共有 `|hat G| = varphi(q)` 个.
 </p>
 
 <ol class="corollary">
@@ -587,12 +654,110 @@
   </li>
 </ol>
 
+<h3>Dirichlet 定理</h3>
+
+<p class="definition">
+  <b>`L` 函数</b>
+  设 `chi(n)` 是模 `q` 的特征. 类似于 Riemann zeta 函数, 定义 `L` 函数如下:
+  <span class="formula">
+    `L(s, chi) := sum_(n ge 1) (chi(n))/n^s`
+    `= prod_p (1 - chi(p)//p^s)^-1`.
+  </span>
+  取对数得到
+  <span class="formula">
+    `ln L(s, chi)`
+    `= - sum_p ln(1-(chi(p))/p^s)`
+    `= sum_p ((chi(p))/p^s + O(1/p^(2s)))`
+    `= sum_p (chi(p))/p^s + O(1)`.
+  </span>
+</p>
+
+<p class="example">
+  存在无穷多 `4n+1` 型素数.
+</p>
+
+<p class="proof">
+  考虑模 4 的特征 `chi(n)`, 其中 `chi(1) = 1`, `chi(3) = -1`.
+  它的 `L` 函数是
+  <span class="formula">
+    `L(s, chi) = sum_(n ge 1) (chi(n))/n^s`
+    `= 1 - 1/3^s + 1/5^s - 1/7^s + cdots`.
+  </span>
+  因此 `L(1, chi) = pi/4 != 0`, `ln L(1, chi)` 有界. 再结合等式
+  <span class="formula">
+    `ln L(s, chi) = sum_p (chi(p))/p^s + O(1)`
+  </span>
+  推出 `sum_p chi(p)//p` 有界.
+  另一方面已知 `sum_p 1//p = oo`, 两式相加推出
+  <span class="formula">
+    `sum_(p -= 1(mod 4)) 2/p = oo`.
+  </span>
+  因此有无穷多 `4n+1` 型素数.
+</p>
+
+<p class="lemma">
+  对所有模 `q` 的特征 `chi` 求和, 有
+  <span class="formula">
+    `sum_chi bar(chi(a)) chi(n)`
+    `= { varphi(q), if n -= a (mod q); 0, otherwise :}`
+  </span>
+</p>
+
+<p class="proof">
+  若 `n -= a (mod q)`, 求和的每项均为 `1`, 结果等于特征群阶数 `varphi(q)`.
+  <br>
+  若 `n -= a (mod q)`
+  🚧
+</p>
+
+<p class="theorem">
+  <b>Dirichlet 定理</b>
+  [Stein《Fourier Analysis》]
+  对任意互素正整数 `a, q`, 存在无穷多形如 `a + q n` 的素数. 事实上,
+  <span class="formula">
+    `sum_(p -= a (mod q)) 1/p = oo`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    记 `chi_0` 为模 `q` 的主特征. 由引理
+    <span class="formula align higher">
+      `sum_(p -= a (mod q)) (varphi(q))/p^s`
+      `= sum_chi bar(chi(a)) sum_p (chi(p))/p^s`<br>
+      `= sum_p (chi_0(p))/p^s + sum_(chi != chi_0) bar(chi(a)) sum_p (chi(p))/p^s`<br>
+      `= A + B`.
+    </span>
+    上式第一项中 `chi_0(p) = 1` 当且仅当 `(p, q) = 1`, 于是
+    <span class="formula">
+      `A = sum_((p, q) = 1) 1/p^s to oo`, `quad s to 1^+`.
+    </span>
+    这是因为 `q` 的素因子只有有限个, 而全体素数的倒数和发散.
+  </li>
+  <li>
+    接下来只需证 `s to 1^+` 时 `B` 有界, 即证 `chi != chi_0` 时 `sum_p chi(p)//p^s` 有界.
+    利用 `L` 函数的连续性以及估计
+    <span class="formula">
+      `ln L(s, chi) = sum_p chi(p)//p^s + O(1)`,
+    </span>
+    只需证 `0 lt |L(1, chi)| lt oo`.
+  </li>
+  <li>先证 `chi != chi_0` 时 `|L(1, chi)| lt oo`.
+    事实上对任意 `s gt 0`, `L(s, chi) = sum_(n ge 1) (chi(n))/n^s` 收敛.
+    🚧
+  </li>
+  <li>再证 `chi != chi_0` 时 `L(1, chi) != 0`.
+    这是最深刻和困难的部分.
+    🚧
+  </li>
+</ol>
+
 <h3>离散 Fourier 变换</h3>
 
 <ol class="lemma">
   记 `e(x) = "e"^(2pi"i"x)`, 则
   <li>`int_0^1 e(n x) dx = {1, if n = 0; 0, if n != 0:}`</li>
-  <li>`sum_(k=1)^N e(n/N k) = {N, if n = 0; 0, if (n, N) = 1 and N gt 1:}`</li>
+  <li>`sum_(k=1)^N e(n k//N) = {N, if n = 0; 0, if (n, N) = 1 and N gt 1:}`</li>
 </ol>
 
 <script src="../../js/note.js?type=math"></script>
