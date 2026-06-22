@@ -1215,6 +1215,73 @@ module.exports = (str) => {
   </li>
 </ol>
 
+<p class="example">
+  <b>Betti 定理</b>
+  [<a href="https://baike.baidu.com/item/%E8%B4%9D%E8%92%82%E5%AE%9A%E7%90%86/2677437" target="_blank">百度百科</a>]
+  设 `a, b` 是正无理数, `1/a + 1/b = 1`. 则集合
+  `A = {floor(n a)}_(n ge 1)`, `B = {floor(n b)}_(n ge 1)`
+  构成正整数集的划分, 即 `A ⊔ B = ZZ^+`.
+</p>
+
+<ol class="proof">
+  <li>`A, B` 中的数各不相同.
+    由已知 `a, b gt 1`, 因此对任意 `i != j` 有 `floor(i a) != floor(j a)`, `floor(i b) != floor(j b)`.
+    另一方面对任意 `i, j` 有 `floor(i a) != floor(j b)`.
+    如若不然, 存在正整数 `k` 满足
+    <span class="formula">
+      `k lt i a lt k+1`, `quad k lt j b lt k+1`.
+    </span>
+    即
+    <span class="formula">
+      `i/(k+1) lt 1/a lt i/k`, `quad j/(k+1) lt 1/b lt j/k`.
+    </span>
+    相加得
+    <span class="formula">
+      `(i+j)/(k+1) lt 1 lt (i+j)/k`,
+    </span>
+    即 `k lt i+j lt k+1`, 这与 `i+j` 为正整数矛盾.
+  </li>
+  <li>
+    `ZZ^+ sube A uu B`.
+    反设存在 `k in ZZ^+ - (A uu B)`, 则存在正整数 `i, j` 满足
+    <span class="formula">
+      `floor(i a) lt k lt floor((i+1)a)`,<br>
+      `quad floor(j b) lt k lt floor((j+1)b)`.
+    </span>
+    从而
+    <span class="formula">
+      `i a lt k le floor((i+1)a)-1 lt (i+1)a - 1`,<br>
+      `j b lt k le floor((j+1)b)-1 lt (j+1)b - 1`.
+    </span>
+    整理得
+    <span class="formula">
+      `i/k lt 1/a lt (i+1)/(k+1)`,
+      `quad j/k lt 1/b lt (j+1)/(k+1)`.
+    </span>
+    相加得
+    <span class="formula">
+      `(i+j)/k lt 1 lt (i+j+2)/(k+1)`,
+    </span>
+    即 `i + j lt k lt i + j + 1`, 这与 `k` 为正整数矛盾.
+  </li>
+</ol>
+
+<p class="proof">
+  2. 的另一种证法, 使用计数论证. 任取正整数 `N`, 考虑集合 `A` 中 `le N` 的元素数.
+  事实上, `floor(n a) le N` `iff n a lt N+1` `iff n lt (N+1)//a`,
+  因此 `A` 中 `le N` 的元素有 `floor((N+1)//a)` 个.
+  同理 `B` 中 `le N` 的元素有 `floor((N+1)//b)` 个.
+  二者相加得到
+  <span class="formula">
+    `N-1`
+    `= (N+1)/a + (N+1)/b - 2`
+    `lt floor((N+1)/a) + floor((N+1)/b)`
+    `lt (N+1)/a + (N+1)/b`
+    `= N+1`.
+  </span>
+  因此 `floor((N+1)//a) + floor((N+1)//b) = N`.
+</p>
+
 <h3>Farey 分数</h3>
 
 <p class="definition">

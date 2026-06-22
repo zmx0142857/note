@@ -3,6 +3,7 @@
 - [Lean Game Server](https://adam.math.hhu.de/#/): 寓教于乐
 - [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/): 教程电子书
 - [Theorem Proving in Lean4](https://leanprover.github.io/theorem_proving_in_lean4/): 一个更严肃的教程
+- [deductrium](https://wxyhly.github.io/deductrium/): 超硬核推理游戏
 
 ## Install
 

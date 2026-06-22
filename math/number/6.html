@@ -656,6 +656,33 @@
 
 <h3>Dirichlet 定理</h3>
 
+<ol class="lemma">
+  设 `chi` 是模 `q` 的非主特征, 则
+  <li>`sum_(k=1)^q chi(k) = 0`;</li>
+  <li>对任意正整数 `n` 有 `|sum_(k=1)^n chi(k)| le q`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    任取 `a in ZZ_q^ast`, 则
+    <span class="formula">
+      `chi(a) sum_(k=1)^q chi(k)`
+      `= sum_(k=1)^q chi(a k)`
+      `= sum_(k=1)^q chi(k)`.
+    </span>
+    由于 `chi` 为非主特征, 存在一个 `a` 使得 `chi(a) != 1`, 于是 `sum_(k=1)^q chi(k) = 0`.
+  </li>
+  <li>
+    记 `n = a q + b`, 其中 `0 le b lt q`,
+    于是
+    <span class="formula">
+      `|sum_(k=1)^n chi(k)|`
+      `= sum_(k=1)^b |chi(k)|`
+      `le q`.
+    </span>
+  </li>
+</ol>
+
 <p class="definition">
   <b>`L` 函数</b>
   设 `chi(n)` 是模 `q` 的特征. 类似于 Riemann zeta 函数, 定义 `L` 函数如下:
@@ -670,6 +697,42 @@
     `= sum_p ((chi(p))/p^s + O(1/p^(2s)))`
     `= sum_p (chi(p))/p^s + O(1)`.
   </span>
+  当 `chi` 是主特征时,
+  <span class="formula">
+    `L(s, chi) = zeta(s) prod_(p | q) (1-p^-s)`.
+  </span>
+  特别 `s to 1^+` 时, 和 `zeta(s)` 一样有 `L(s, chi) to oo`.
+  当 `chi` 是非主特征时, `L(s, chi)` 在 `s gt 0` 上连续可微.
+</p>
+
+<p class="proof">
+  只证 `chi` 为非主特征的情形.
+  易知对任意 `delta gt 1`, 级数 `L(s, chi) = sum_(n ge 1) (chi(n))/n^s` 在
+  `s in [delta, oo)` 上绝对收敛且一致收敛,
+  这推出 `L(s, chi)` 在 `s gt 1` 时连续可微.
+  <br>
+  然而, 运用分部求和的技巧, 可以将定义域扩张到 `s gt 0`:
+  记 `s_k = sum_(j=1)^k chi(j)`, 于是
+  <span class="formula">
+    `sum_(k=1)^n (chi(k))/k^s`
+    `= sum_(k=1)^n (s_k - s_(k-1))/k^s`
+    `= s_n/n^s + sum_(k=1)^(n-1) s_k(k^-s - (k+1)^-s)`.
+  </span>
+  记 `f_k(s) = s_k (k^-s - (k+1)^-s)`, 运用中值定理和 `|s_k| le q` 有
+  <span class="formula">
+    `|f_k(s)| le q s k^(-s-1)`.
+  </span>
+  于是对任意 `delta gt 0`, `sum f_k(s)` 在 `s in [delta, oo)` 上绝对收敛且一致收敛.
+  同理, 对级数 `L(s, chi) = sum_(n ge 1) (chi(n))/n^s` 逐项微分, 得到级数
+  <span class="formula">
+    `- sum (chi(n))/n^s ln n`,
+  </span>
+  同样可以分部求和, 得到级数
+  <span class="formula">
+    `sum s_k ((k+1)^-s ln(k+1) - k^-s ln k)`,
+  </span>
+  然后用中值定理说明, 对任意 `delta gt 0`, 该级数在 `[delta, oo)` 上一致收敛.
+  综上有 `L(s, chi)` 在 `s gt 0` 上连续可微.
 </p>
 
 <p class="example">
@@ -678,7 +741,7 @@
 
 <p class="proof">
   考虑模 4 的特征 `chi(n)`, 其中 `chi(1) = 1`, `chi(3) = -1`.
-  它的 `L` 函数是
+  定义它的 <b>`L` 函数</b>为
   <span class="formula">
     `L(s, chi) = sum_(n ge 1) (chi(n))/n^s`
     `= 1 - 1/3^s + 1/5^s - 1/7^s + cdots`.
@@ -695,7 +758,7 @@
   因此有无穷多 `4n+1` 型素数.
 </p>
 
-<p class="lemma">
+<p class="lemma" id="lem-dirichlet-2">
   对所有模 `q` 的特征 `chi` 求和, 有
   <span class="formula">
     `sum_chi bar(chi(a)) chi(n)`
@@ -704,16 +767,49 @@
 </p>
 
 <p class="proof">
-  若 `n -= a (mod q)`, 求和的每项均为 `1`, 结果等于特征群阶数 `varphi(q)`.
+  若 `n -= a (mod q)`, 求和的每项均为 `1`, 结果等于特征群阶数, 即模 `q` 的特征总数 `varphi(q)`.
   <br>
-  若 `n -= a (mod q)`
+  否则,
   🚧
 </p>
+
+<p class="lemma" id="lem-dirichlet-3">
+  对所有模 `q` 的特征 `chi` 求乘积, 有
+  <span class="formula">
+    `prod_chi L(s, chi) ge 1`.
+  </span>
+  注意, 这表明上式左边是实数.
+</p>
+
+<p class="proof">
+  取对数,
+  <span class="formula">
+    `sum_chi ln L(s, chi)`
+    `= sum_chi sum_p -ln(1-(chi(p))/p^s)`
+    `= sum_chi sum_p sum_(k ge 1) (chi(p)^k)/(k p^(k s))`
+    `= sum_p sum_(k ge 1) sum_chi (chi(p^k))/(k p^(k s))`.
+  </span>
+  由前一引理 (取 `a = 1`) 有 `sum_chi chi(p^k) = varphi(q) [p^k -= 1]`,
+  于是上式等于
+  <span class="formula">
+    `varphi(q) sum_p sum_(k ge 1) ([p^k -= 1])/(k p^(k s)) ge 0`.
+  </span>
+  这证明原式左边 `ge 1`.
+</p>
+
+<ol class="lemma" id="lem-dirichlet-4">
+  设 `chi` 为非主特征,
+  运用 Euler-Maclaurin 公式与分部求和技巧可得:
+  <li>`sum_(1 le n le N) 1/n = log N + gamma + O(1/N)`;</li>
+  <li>`sum_(1 le n le N) 1/sqrt n = 2 sqrt N + c + O(1/sqrt N)`;</li>
+  <li>`sum_(a le n le b) (chi(n))/n = O(1/a)`;</li>
+  <li>`sum_(a le n le b) (chi(n))/sqrt n = O(1/sqrt a)`.</li>
+</ol>
 
 <p class="theorem">
   <b>Dirichlet 定理</b>
   [Stein《Fourier Analysis》]
-  对任意互素正整数 `a, q`, 存在无穷多形如 `a + q n` 的素数. 事实上,
+  对任意互素正整数 `a, q`, 存在无穷多形如 `a + q n` 的素数. 事实上它们的倒数和发散:
   <span class="formula">
     `sum_(p -= a (mod q)) 1/p = oo`.
   </span>
@@ -721,7 +817,7 @@
 
 <ol class="proof">
   <li>
-    记 `chi_0` 为模 `q` 的主特征. 由引理
+    记 `chi_0` 为模 `q` 的主特征. 由<a class="ref" href="#lem-dirichlet-2"></a>
     <span class="formula align higher">
       `sum_(p -= a (mod q)) (varphi(q))/p^s`
       `= sum_chi bar(chi(a)) sum_p (chi(p))/p^s`<br>
@@ -735,20 +831,89 @@
     这是因为 `q` 的素因子只有有限个, 而全体素数的倒数和发散.
   </li>
   <li>
-    接下来只需证 `s to 1^+` 时 `B` 有界, 即证 `chi != chi_0` 时 `sum_p chi(p)//p^s` 有界.
+    以下考虑非主特征 `chi != chi_0`.
+    只需证 `s to 1^+` 时 `B` 有界, 即 `sum_p chi(p)//p^s` 有界.
     利用 `L` 函数的连续性以及估计
     <span class="formula">
       `ln L(s, chi) = sum_p chi(p)//p^s + O(1)`,
     </span>
     只需证 `0 lt |L(1, chi)| lt oo`.
+    其中 `lt oo` 的部分是显然的, 因为 `chi` 为非主特征时, `L(s, chi)` 在 `s gt 0` 上连续可微.
   </li>
-  <li>先证 `chi != chi_0` 时 `|L(1, chi)| lt oo`.
-    事实上对任意 `s gt 0`, `L(s, chi) = sum_(n ge 1) (chi(n))/n^s` 收敛.
-    🚧
+  <li>下证 `L(1, chi) != 0`, 这是最深刻和困难的部分. 先设 `chi` 是复特征,
+    若 `L(1, chi) = 0`, 则由中值定理有
+    <span class="formula">
+      `|L(s, chi)| le |L'(s, chi)| |s-1|`
+      `= O(|s-1|)`,
+      `quad s to 1^+`.
+    </span>
+    另一方面, 根据 <a href="../analysis/10.html" target="_blank">Euler-Maclaurin 公式</a>,
+    `zeta(s)` 满足
+    <span class="formula">
+      `zeta(s) = O(|s-1|^-1)`, `quad s to 1^+`,
+    </span>
+    从而主特征的 `L` 函数 `L(s, chi_0)` 也满足相同估计.
+    由<a class="ref" href="#lem-dirichlet-3"></a>, 乘积
+    <span class="formula">
+      `prod_chi L(s, chi) ge 1`.
+    </span>
+    如果存在复特征 `chi` 使得 `L(1, chi) = 0`, 则 `L(1, bar chi) = bar(L(1, chi)) = 0`,
+    并且 `chi != bar chi`. 这表明上述乘积中, 至少两项以 `O(|s-1|)` 的速度趋于零,
+    但只有一项 `L(s, chi_0)` 以 `O(|s-1|^-1)` 的速度趋于无穷.
+    乘积的其它项都有界, 而整个乘积大于 1, 这是不可能的.
   </li>
-  <li>再证 `chi != chi_0` 时 `L(1, chi) != 0`.
-    这是最深刻和困难的部分.
-    🚧
+</ol>
+
+<ol class="proof">
+  <li>
+    再设 `chi != chi_0` 为实特征, 考虑求和
+    <span class="formula">
+      `S_N = sum_(m n le N) (chi(n))/sqrt(m n)`.
+    </span>
+    其中 `m, n` 为正整数. 使用所谓“双曲线下求和”的技巧, 有
+    <span class="formula">
+      `S_N = sum_(1 le k le N) sum_(m n = k) (chi(n))/sqrt(m n)`
+      `= sum_(1 le k le N) 1/sqrt k sum_(n | k) chi(n)`.
+    </span>
+    我们估计 `T_k = sum_(n | k) chi(n)`.
+    事实上, 当 `k = p^a` 时,
+    <span class="formula">
+      `T_k = sum_(n | k) chi(n) = sum_(j=0)^a chi(p^j)`
+      `= {a+1, if chi(p) = 1; (1-chi(p)^(a+1))/(1-chi(p)), otherwise:}`
+    </span>
+    由于 `chi` 是实特征, 上式总是 `ge 0`, 并且当 `a` 是偶数时上式 `ge 1`.
+    一般地, 将 `k` 分解为素数幂, 则 `T_k ge 0`, 且当 `k` 为平方数时 `T_k ge 1`.
+    总之, `N to oo` 时
+    <span class="formula">
+      `S_N = sum_(1 le k le N) T_k/sqrt k`
+      `ge sum_(1 le j le sqrt N) 1/j`
+      `to oo`.
+    </span>
+    另一方面, `S_N` 可以分为三个求和 `S_"I" + S_"II" + S_"III"`, 其中
+    <span class="formula">
+      `S_"I" = sum_(m lt sqrt N) sum_(sqrt N lt n le N//m)`,<br>
+      `S_"II" = sum_(m le sqrt N) sum_(n le sqrt N)`,<br>
+      `S_"III" = sum_(n lt sqrt N) sum_(sqrt N lt m le N//n)`.
+    </span>
+    事实上由<a class="ref" href="#lem-dirichlet-4"></a>,
+    <span class="formula">
+      `S_"I" = sum_(m lt sqrt N) 1/sqrt m sum_(sqrt N lt n le N//m) (chi(n))/sqrt n`
+      `= sum_(m lt sqrt N) 1/sqrt m O(1/sqrt N)`
+      `= O(1)`,
+    </span>
+    <span class="formula align">
+      `S_"II" + S_"III"`<br>
+      `= sum_(n le sqrt N) (chi(n))/sqrt n sum_(m le N//n) 1/sqrt m`<br>
+      `= sum_(n le sqrt N) (chi(n))/sqrt n (2 sqrt(N//n) + c + O(1//sqrt(N//n)))`<br>
+      `= 2 sqrt N sum_(n le sqrt N) (chi(n))/n`
+      `+ c sum_(n le sqrt N) (chi(n))/sqrt n`
+      `+ O(1)`<br>
+      `= 2 sqrt N (L(1, chi) - sum_(n gt sqrt N) (chi(n))/n)`
+      `+ O(1) + O(1)`<br>
+      `= 2 sqrt N (L(1, chi) - O(1//sqrt N))`<br>
+      `= 2 sqrt N L(1, chi) + O(1)`.
+    </span>
+    两式相加得到 `S_N = 2 sqrt N L(1, chi) + O(1)`, 于是从 `S_N to oo` 立即得到 `L(1, chi) != 0`.
   </li>
 </ol>
 
