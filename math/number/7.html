@@ -92,12 +92,26 @@
 <p class="theorem">
   <b>Lucas-Lehmer 算法</b>
   用于验证 `M_p` 是否为梅森素数.
-  设 `p` 是素数, `M_p = 2^p - 1`. 令 `r_1 = 4`,
+  设 `p` 是奇素数, `M_p = 2^p - 1`. 令 `r_1 = 4`,
   <span class="formula">
     `r_n = (r_(n-1)^2 - 2) mod M_p`, (取最小非负剩余)
   </span>
   则 `M_p` 是素数当且仅当 `r_(p-1) = 0`.
 </p>
+
+<pre class="collapse">
+# 该程序在个人电脑上验证第 27 个梅森素数 2**44497-1 用时两分钟
+# 截至 2026 年, 人类已发现 52 个梅森素数
+def test_mersenne(p):
+    if p == 2:
+        return True
+    mp = 2**p-1
+    r = 4
+    for i in range(p-2):
+        r = pow(r, 2, mp)
+        r = (r-2) % mp
+    return r == 0
+</pre>
 
 <h2>素数定理</h2>
 
@@ -234,9 +248,16 @@
   </span>
 </p>
 
+<p class="remark">
+  粗略估算, 以 `le a` 的素数去筛 `n` 以内的正整数时, 每个素数 `p` 大约筛掉 `1//p` 的选项,
+  因此通过筛选的数大约有这么多:
+  <span class="formula">
+    `n prod_(p le a) (1-1//p)`.
+  </span>
+</p>
+
 <ol class="example" id="exp-prime-pi">
   <b>筛法求 `pi(n)`</b>
-  [<a href="../../code/prime_pi.py" target="_blank">源码</a>]
   用前 `a` 个素数去筛 `x` 以内的整数,
   考虑筛函数 `varphi(x, a) := \#{ n le x: gcd(n, p_1 cdots p_a) = 1}`.
   <li><b>递推公式</b> `varphi(x, a) = varphi(x, a-1) - varphi(x//p_a, a-1)`.</li>
@@ -250,7 +271,8 @@
       `quad p` 为素数.
     </span>
   </li>
-  Legendre 公式在 `10^8` 量级就会超过 python 的递归深度，但 Lehmer 不会
+  <a href="../../code/prime_pi.py" target="_blank">实测</a>
+  Legendre 公式在 `10^8` 量级就会超过 python 的递归深度，但 Lehmer 不会.
 </ol>
 
 <ol class="proof">

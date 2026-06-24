@@ -21,6 +21,16 @@
 
 - [protobufjs](https://www.npmjs.com/package/protobufjs): 处理 protocol buffers, 将数据编码为二进制在网上传输
 - long.js: 处理长整型数字
+- jq: 处理 json
+  ```
+  $ jq '.'    # 格式化
+  $ jq '.key' # 读取属性
+  $ jq '[]'   # 遍历数组
+  $ jq 'has("name")'
+  $ jq '[] | select(.name=="XiaoMing")' # 查找数组
+  $ jq 'keys' # 键
+  $ jq 'to_entries' # [{ key, value }]
+  ```
 
 ### 通信
 

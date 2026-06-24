@@ -1,6 +1,5 @@
 function draggableCanvas (options) {
-  let { canvas, ctx, onInit, onMouseDown, onMouseMove } = options
-  const dpr = window.devicePixelRatio
+  let { canvas, ctx, onInit, onMouseDown, onMouseMove, dpr = window.devicePixelRatio } = options
   canvas.style.zoom = 1/dpr
   canvas.setAttribute('width', canvas.offsetWidth * dpr)
   canvas.setAttribute('height', canvas.offsetHeight * dpr)

@@ -99,7 +99,7 @@ body {
   background: #333;
 }
 #lens-canvas {
-  height: calc(100% - 40px);
+  height: calc(100% - 80px);
 }
 
 /* 氨基酸 */
@@ -505,6 +505,11 @@ body {
       <label>
         <input type="radio" name="lens-radio" value="2"> B
       </label>
+      <label>
+        <input type="radio" name="lens-radio" value="3"> 裸眼3D
+        <a href="https://www.toolapi.cc/glassesfree/" target="_blank">生成器</a>
+        <a href="https://piellardj.github.io/stereogram-solver/" target="_blank">原理参考</a>
+      </label>
       <input id="lens-file" type="file" accept="image/*" />
       <script type="module" defer>
       const canvas = $('#lens-canvas')
@@ -512,14 +517,12 @@ body {
       const image = {}
       const lens = { x: 0, y: 0, w: 550, h: 400 }
       const mouse = { x: 0, y: 0 }
-      let channel = 0
-
-      const updateLens = (x, y) => {
-      }
+      let channel = 0 // 0: r, 1: g, 2: b, 3: self
 
       const init = (img) => {
-        const dpr = window.devicePixelRatio
+        const dpr = 1 // window.devicePixelRatio
         const draggable = draggableCanvas({
+          dpr,
           canvas,
           ctx,
           onMouseDown ({ x, y }) {
@@ -560,15 +563,23 @@ body {
       }
 
       const update = () => {
+        if (!image.img) return
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.globalCompositeOperation = 'source-over'
         ctx.drawImage(image.img, image.x, image.y, image.w, image.h)
-        const imageData = ctx.getImageData(lens.x, lens.y, lens.w, lens.h)
-        const { data } = imageData
-        for (let i = 0; i < data.length; i += 4) {
-          if (channel !== 0) data[i] = 0
-          if (channel !== 1) data[i+1] = 0
-          if (channel !== 2) data[i+2] = 0
+        if (channel < 3) {
+          const imageData = ctx.getImageData(lens.x, lens.y, lens.w, lens.h)
+          const { data } = imageData
+          for (let i = 0; i < data.length; i += 4) {
+            if (channel !== 0) data[i] = 0
+            if (channel !== 1) data[i+1] = 0
+            if (channel !== 2) data[i+2] = 0
+          }
+          ctx.putImageData(imageData, lens.x, lens.y)
+        } else if (channel === 3) { // 裸眼3D
+          ctx.globalCompositeOperation = 'difference'
+          ctx.drawImage(image.img, image.x + lens.x, image.y, image.w, image.h)
         }
-        ctx.putImageData(imageData, lens.x, lens.y)
       }
 
       document.querySelector('#lens-file').onchange = (e) => {
