@@ -799,7 +799,6 @@ var tocData = [
           { "value": "node.md", "label": "NodeJS", "date": "2025-03-12" },
           { "value": "three.md", "label": "ThreeJS", "date": "2025-02-27" },
           { "value": "cesium.md", "label": "Cesium", "date": "2025-02-24" },
-          { "value": "chart.md", "label": "图表", "date": "2025-03-06" },
           { "value": "webpack.md", "label": "Webpack", "date": "2025-11-06" },
           { "value": "react.md", "label": "React", "date": "2026-01-20" },
         ],

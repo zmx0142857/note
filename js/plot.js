@@ -17,7 +17,7 @@ function Plot(el, config={}) {
   canvas.setAttribute('height', this.height * dpr)
   canvas.style.width = this.width + 'px'
   canvas.style.height = this.height + 'px'
-  canvas.style.zoom = 1/dpr
+  // canvas.style.zoom = 1/dpr
 
   this.ctx = this.canvas.getContext('2d')
   this.ctx.scale(dpr, dpr)

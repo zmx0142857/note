@@ -249,18 +249,20 @@ levelorder(root, visit()):
 </ol>
 
 <p>	<b>形象记忆</b>
-	想象二叉树的每个结点是三叶草的形状, 就像倒置的 &#x2663; 一样.
-	沿着整个图形的边缘画一圈虚线, 我们从根出发, 按逆时针方向沿虚线运动.
-	让每个结点左边, 下边和右边的叶子分别对应于二叉树的前序,
-	中序和后序遍历, 按照遇到叶子的先后次序写下结点对应的值,
-	就分别得到前序, 中序和后序遍历的结果.
+  想象二叉树的每个结点是三叶草的形状, 就像倒置的 &#x2663; 一样.
+  我们从根出发, 沿整个图形逆时针描边.
+  让每个结点左边, 下边和右边的叶子分别对应于二叉树的前序,
+  中序和后序遍历, 按照遇到叶子的先后次序,
+  就分别得到前序, 中序和后序遍历的结果.
 </p>
 
 <p class="remark">
 	叶结点在三种深度优先遍历中出现的次序是一样的.
 </p>
 
-<img src="../img/parse-binary-tree.png" />
+<div class="img lg">
+  <img src="../img/parse-binary-tree.webp" />
+</div>
 
 <p class="algorithm">
 	<b>二叉树的递归深度优先遍历</b>
@@ -796,9 +798,9 @@ find_and_compress_rec(i):
 
 <p>	Ackermann 函数定义为两个非负整数 `m, n` 的函数:
 	<span class="formula">`A(m, n) = {
-		(n+1, if m = 0),
-		(A(m-1, 1), if m gt 0 and n = 0),
-		(A(m-1, A(m, n-1)), if "else")
+		n+1, if m = 0;
+		A(m-1, 1), if m gt 0 and n = 0;
+		A(m-1, A(m, n-1)), otherwise;
 	:}`</span>
 	已经证明, 利用压缩算法的并查集解决等价类问题的时间复杂度为
 	`O(n alpha(n))`, 其中 `alpha(n)` 为一元 Ackermann 函数 `A(x, x)`

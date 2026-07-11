@@ -316,7 +316,7 @@ var dfs = (depth = 0) => {
 }
 ```
 
-示例: 全排列
+示例: 全排列. 更多参见[递归与回溯](/#cs/ds/4).
 ```js
 var perm = (arr) => {
   const n = arr.length
