@@ -542,6 +542,65 @@ proxy.hello().then(console.log)
 </script>
 ```
 
+当 worker 程序依赖 import 时, 建议使用下面的方案:
+
+`worker.js`
+```js
+export const importWorker = (worker: Worker): any => {
+  const callbacks = {}
+  let id = 0
+  worker.addEventListener('message', e => {
+    // console.log('[main]', e.data)
+    const { res, err, id } = e.data
+    const fn = callbacks[id]
+    if (fn) {
+      if (err) fn.reject(err)
+      else fn.resolve(res)
+    }
+  })
+  worker.addEventListener('error', console.error)
+  return new Proxy({}, {
+    get(obj, key) {
+      return (...args) => new Promise((resolve, reject) => {
+        callbacks[id] = { resolve, reject }
+        worker.postMessage({ key, args, id: id++ })
+      })
+    },
+  })
+}
+
+export const exportWorker = (obj: object) => {
+  self.addEventListener('message', async e => {
+    // console.log('[worker]', e.data)
+    const { key, args, id } = e.data
+    if (obj[key]) {
+      // console.time('[worker] ' + key)
+      try {
+        const res = await obj[key](...args)
+        self.postMessage({ key, res, id })
+      } catch (err) {
+        self.postMessage({ key, err, id })
+      }
+      // console.timeEnd('[worker] ' + key)
+    }
+  })
+}
+```
+
+`my.worker.js`
+```js
+import { MyClass } from './my-class.js'
+import { exportWorker } from './worker.js'
+
+exportWorker(new MyClass)
+```
+
+`main.js`
+```js
+const myClass = importWorker(new Worker(new URL('./my.worker.js', import.meta.url), { type: 'module }))
+await myClass.method() // 同步方法一律改为异步
+```
+
 ### Audio API
 
 [来自 测测你是不是猪](https://nanancc.github.io/pig-text/)

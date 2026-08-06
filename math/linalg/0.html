@@ -1877,6 +1877,129 @@ module.exports = function (str) {
   </li>
 </ol>
 
+<p class="theorem">
+  <b>Gauss-Lucas</b>
+  设 `f` 是复数域上至少一次的多项式, 则 `f'` 的全部根都落在 `f` 的根形成的凸包中.
+  推论: 若 `f` 的全部根都是实根, 则 `f'` 的根也都是实根, 且落在 `f` 的最大根与最小根之间.
+</p>
+
+<p class="proof">
+  设 `f(x) = a prod_(k=1)^n (x - x_k)`, 则
+  <span class="formula">
+    `ln f(x) = ln a + sum_(k=1)^n ln(x-x_k)`,<br>
+    `f'(x) = f(x) sum_(k=1)^n 1/(x - x_k)`.
+  </span>
+  取 `f'` 的一个根 `r in CC`, 不妨设 `r` 不是 `f` 的根, 代入上式得到
+  <span class="formula">
+    `0 = sum_(k=1)^n 1/(r - x_k)`
+    `:= sum_(k=1)^n bar(r - x_k)//|r - x_k|^2`.
+  </span>
+  上式两边取共轭并移项得到
+  <span class="formula">
+    `sum_(k=1)^n r/|r - x_k|^2 = sum_(k=1)^n x_k/|r - x_k|^2`.
+  </span>
+  如果记 `omega_k = |r - x_k|^-2`, 那么
+  <span class="formula">
+    `r sum_(k=1)^n omega_k = sum_(k=1)^n omega_k x_k`.
+  </span>
+  这就把 `f'` 的根 `r` 写为了 `f` 的根 `{x_k}_(k=1)^n` 的凸组合.
+</p>
+
+<p class="example">
+  多项式的根与它的导数的根拥有相同的重心.
+</p>
+
+<p class="proof">
+  设 `f(x) = sum_(k=0)^n a_k x^k`,
+  `f'(x) = sum_(k=1)^n k a_k x^(k-1)`.
+  由韦达定理, `f` 的 `n` 个根之和等于 `s = -a_(n-1)//a_n`, `f'` 的 `n-1` 个根之和等于
+  `t = -(n-1) a_(n-1) // n a_n`,
+  于是 `t//(n-1) = s//n`.
+</p>
+
+<ol class="example">
+  [D. Minda and S. Phelps《Triangles, Ellipses, and Cubic Polynomials》]
+  <li><b>Steiner 内切椭圆</b>
+    对任意三角形, 都存在唯一椭圆与它在三边中点处相切.
+  </li>
+  <li>
+    <b>Marden 定理</b>
+    设复平面上有三角形 `a b c`. `f` 是以 `a, b, c` 三个顶点为根的三次多项式, 则
+    `f'` 的两根恰好是三角形 `a b c` 的 Steiner 内切椭圆的两焦点.
+  </li>
+</ol>
+
+<ol class="proof enum">
+  <li>
+    方法一. Steiner 内切椭圆的存在性可由等边三角形内切圆仿射得到, 因为仿射变换不改变中点和相切关系.
+    唯一性: 若还有一个椭圆与三角形相切于三边中点, 则两椭圆至少有 6 个公共点 (切点处按两重计算),
+    但两条不同的二次曲线至多有 4 个公共点, 所以两椭圆重合.
+    <br>
+    方法二. 从射影几何的角度, 三条切线与两个切点完全决定一条圆锥曲线.
+    再由 <a href="../geometry/10.html#10-3-3">Brianchon 定理</a>, 第三个切点必须满足
+    “三个切点与对顶点的连线三线共点”的条件, 但三角形三条中线交于重心, 条件显然满足.
+    (该如何说明这圆锥曲线是椭圆呢??)
+  </li>
+  <li>
+    <ol>
+      [Deepseek]
+      不妨设三角形重心位于原点, 即 `a+b+c=0`.  记
+      <span class="formula">
+        `f(z) = (z-a)(z-b)(z-c) = z^3 + (a b + b c + c a) z - a b c`,<br>
+        `f'(z) = 3 z^2 + (a b + b c + c a)`.
+      </span>
+      令
+      <span class="formula">
+        `S := a b + b c + c a = b c + a(b+c) = b c - (b+c)^2`,
+      </span>
+      于是 `f'(z)` 的两根是 `z_(1,2) = +-zeta`, 其中 `zeta^2 = -S/3`.
+      <br>
+      又三角形三边中点为 `(m_a, m_b, m_c) = ((b+c)/2, (c+a)/2, (a+b)/2) = (-a/2, -b/2, -c/2)`.
+      <li>
+        我们验证 `z_(1,2)` 满足焦点的光学性质, 以切点 `m_a` 为例, 边 `b-c` 与 `m_a-zeta` 的夹角,
+        应该等于边 `c-b` 与 `m_a+zeta` 的夹角, 用复数描述就是
+        <span class="formula">
+          `(b-c)^2/((m_a-zeta)(m_a+zeta)) lt 0`,
+          <span class="label">(`ast`)</span>
+        </span>
+        即上式的值为负实数.  事实上
+        <span class="formula">
+          `(m_a-zeta)(m_a+zeta)`
+          `= m_a^2 - zeta^2`
+          `= (b+c)^2/4 + S/3`
+          `= 1/12 (3(b+c)^2 + 4 b c - 4 (b+c)^2)`
+          `= -(b-c)^2/12`,
+        </span>
+        从而断言 (`ast`) 成立.
+      </li>
+      <li>
+        接下来计算三边中点到 `z_1, z_2` 的距离之和. 仍以 `m_a` 为例, 由平行四边形公式
+        <span class="formula">
+          `|m_a-zeta|^2 + |m_a+zeta|^2`
+          `= 2(|m_a|^2+|zeta|^2)`
+          `= |b+c|^2/2+2|zeta|^2`.
+        </span>
+        另一方面由 (1) 知
+        <span class="formula">
+          `|m_a-zeta| |m_a+zeta| = |b-c|^2/12`,
+        </span>
+        于是
+        <span class="formula align">
+          `L^2`
+          `:= (|m_a-zeta|+|m_a+zeta|)^2`<br>
+          `= |m_a-zeta|^2 + |m_a+zeta|^2 + 2|m_a-zeta| |m_a+zeta|`<br>
+          `= |b+c|^2/2 + 2|zeta|^2 + |b-c|^2/6`<br>
+          `= 2|zeta|^2 + |b+c|^2/3 + 1/6(|b+c|^2 + |b-c|^2)`<br>
+          `= 2|zeta|^2 + (|a|^2+|b|^2+|c|^2)/3`.
+        </span>
+        对 `m_b`, `m_c` 计算也得到完全相同的结果, 因此我们得到一个以 `z_1, z_2`
+        为焦点, 半长轴为 `L//2` 的椭圆, 它经过 `m_a, m_b, m_c` 三点.
+        由 (1) 知道该椭圆与三角形的三边都相切于中点, 因此它就是 Steiner 内切椭圆.
+      </li>
+    </ol>
+  </li>
+</ol>
+
 <h2>结式</h2>
 
 <p>[<a href="https://zhuanlan.zhihu.com/p/165459547" target="_blank">知乎@三维欧氏心</a>]</p>
@@ -2018,6 +2141,23 @@ module.exports = function (str) {
   <span class="formula">
     `"Res"(f, g) = b_n^m prod_j f(y_j)`
     `= a_m^n prod_i g(x_i)`.
+  </span>
+</p>
+
+<p class="example">
+  [群友@Rei]
+  设 `A` 是 `n` 阶复阵. `g` 为多项式, `f` 为 `A` 的特征多项式 `det(x I - A)`,
+  则 `det(g(A))` 是 `f, g` 的结式.
+</p>
+
+<p class="proof">
+  设 `f(x) = prod_(k=1)^n (x-lambda_k)`, 则
+  <span class="formula">
+    `"Res"(f, g) = prod_(k=1)^n g(lambda_k)`.
+  </span>
+  另一方面 `det(g(A))` 等于方阵 `g(A)` 的特征值乘积, 即
+  <span class="formula">
+    `det(g(A)) = prod_(k=1)^n g(lambda_k)`.
   </span>
 </p>
 

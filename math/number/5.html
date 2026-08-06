@@ -1601,6 +1601,51 @@ c = 4373612677928697257861252602371390152816537558161613618621437993378423467772
 </p>
 
 <p class="example">
+  求 `x^y = y^x` 的满足 `x lt y` 的正有理数解.
+</p>
+
+<div class="p solution">
+  设 `y = k x`, `k` 为 `gt 1` 的有理数, 代入得
+  <span class="formula">
+    `x^(k x) = (k x)^x`,
+  </span>
+  两边取 `1//x` 次方得 `x^k = k x`, 即 `x^(k-1) = k`, 即 `x = k^(1//(k-1))`.
+  要使 `x` 为有理数, 必须 `n := 1/(k-1)` 是正整数<sup>[注]</sup>.
+  于是 `k = 1+1/n`,
+  <span class="formula">
+    `x = (1+1/n)^n`, `quad y = (1+1/n)^(n+1)`.
+  </span>
+  这些解以 `"e"` 为极限点.
+  <hr>
+  [注] [deepseek] 我们仔细说明为什么 `1/(k-1)` 必须是正整数. 设 `k = 1 + p/q`, 其中 `p, q`
+  为互素的正整数, 要证 `p = 1`.
+  记 `x = a/b`, `a, b` 是互素的正整数, 则 `x = k^(1//(k-1)) = (1+p/q)^(q//p)`, 换言之
+  <span class="formula">
+    `(a/b)^p = ((p+q)/q)^q`.
+  </span>
+  等号两边均为既约分数, 于是
+  <span class="formula">
+    `① a^p = (p+q)^q`, `quad②  b^p = q^q`.
+  </span>
+  由第①式及 `gcd(p, q) = 1`, 利用<a href="./0.html#exp-ambn">素因子分解</a>知道存在正整数 `u` 使得
+  <span class="formula">
+    `a = u^q`, `quad p+q = u^p`,
+  </span>
+  同理由第②式知存在正整数 `v` 使得
+  <span class="formula">
+    `b = v^q`, `quad q = v^p`.
+  </span>
+  显然 `p+q gt q`, 因此 `u gt v`.  若 `p gt 1`, 则
+  <span class="formula">
+    `p = u^p - v^p`
+    `ge (v+1)^p - v^p`
+    `ge 1 + p v`
+    `gt p`,
+  </span>
+  矛盾, 因此只能 `p = 1`.
+</div>
+
+<p class="example">
   [<a href="https://zhuanlan.zhihu.com/p/539810211" target="_blank">IMO1988 | Stephan Beck</a>]
   设非负整数 `a, b` 使得 `(a^2+b^2)/(1+a b)` 为整数. 求证: 这个整数必是某一整数的平方.
 </p>

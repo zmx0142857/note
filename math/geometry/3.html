@@ -822,6 +822,76 @@ document.getElementById('angle-grid-point').innerText = buf.join('\n')
 	得到面积的最大值.
 </p>
 
+<p class="example">
+  <b>Simson 线 (西姆松线)</b>
+  [<a href="https://www.bilibili.com/video/BV1BzKK6aEJG" target="_blank">bilibili@累吗2024</a>]
+  从平面上一点 `D` 向三角形 `ABC` 的三边引垂线, 则 `A, B, C, D` 四点共圆 `iff` 三垂足共线.
+</p>
+
+<div class="p proof">
+  <div class="img md">
+    <img src="../img/simson-line.svg" alt="">
+  </div>
+  如图, 设 `AB, BC, CA` 边上的垂足分别为 `E, F, G`.
+  记 `/_BFE = alpha`, `/_CFG = beta`.
+  由 `/_BED = /_BFD = 90^@` 知道 `B, E, F, D` 四点共圆, 从而 `/_BDE = alpha`.
+  同理 `C, F, D, G` 四点共圆, 从而 `/_CDG = beta`.
+  <br>
+  另一方面, 由 `A, B, C, D` 四点共圆知道 `/_BDC` 与 `/_A` 互补,
+  在四边形 `AEDG` 中又可得到 `/_EDG` 与 `/_A` 互补.
+  于是 `/_BDC = /_EDG`, 扣除掉公共部分得到 `/_BDE = /_CDG`, 即 `alpha = beta`.
+  综上, 由于 `B, F, C` 三点共线, `E, G` 位于直线 `BC` 两侧且 `alpha = beta`,
+  这推出 `E, F, G` 三点共线.
+  <br>
+  上述推理反过来也是成立的, 故逆定理成立.
+</div>
+
+<p class="remark">
+  西姆松定理告诉我们当且仅当 `D` 位于 `ABC` 外接圆上时,
+  它的<b>垂足三角形</b>退化为直线, 称为 Simson 线.
+</p>
+
+<p class="example">
+  <b>Carnot 定理</b>
+  [<a href="https://www.bilibili.com/video/BV1PdGN6WEN7" target="_blank">bilibili@擢兰风而霞起</a>]
+  设三角形 `ABC` 的外心 `O` 到三边 `a, b, c` 的有向距离为 `x, y, z`.
+  当外心位于三角形内部时, 三个距离均为正, 否则可以取负数或零.
+  我们有:
+  <span class="formula">
+    `x + y + z = R + r`,
+  </span>
+  其中 `R, r` 分别是外接圆和内切圆半径.
+</p>
+
+<ol class="proof">
+  <div class="img md">
+    <img src="../img/thm-carnot.svg" alt="">
+  </div>
+  <li>首先由三角形 `ABC` 的面积得到
+    <span class="formula">
+      `a x + b y + c z = (a+b+c) r`.
+    </span>
+  </li>
+  <li>
+    其次作三条高 `AD, BE, CF`. 注意到 `/_A = /_BOX`, 于是 `BAE ~ BOX`, `OX//OB
+    = AE//AB`, 即 `c x = R * AE`; 同理 `b x = R*AF`. 两式轮换得到
+    <span class="formula">
+      `a y = R*BF`, `quad b z = R*CD`,<br>
+      `c y = R*BD`, `quad a z = R*CE`.
+    </span>
+    六式相加得到
+    <span class="formula">
+      `sum_"cyc" (b+c) x = R (a+b+c)`.
+    </span>
+  </li>
+  <li>
+    将 1. 2. 的结果相加即得
+    <span class="formula">
+      `(a+b+c)(x+y+z) = (R+r)(a+b+c)`.
+    </span>
+  </li>
+</ol>
+
 <h3>Euler 线与九点圆</h3>
 
 <p class="theorem">

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width"/>
+  <link rel="stylesheet" href="../../css/note.css">
+  <title class="nonu-all">韩语</title>
+<style>
+body {
+  color: #ccc;
+}
+</style>
+</head>
+<body>
+
+<h2>字母表</h2>
+
+<table id="consonant" class="col3"></table>
+<table id="vowel" class="col2"></table>
+
+<script>
+const $ = el => document.querySelector(el)
+const chunk = (str, len) => {
+  const buf = []
+  for (let i = 0; i < str.length; i += len) {
+    buf.push(str.slice(i, i+len))
+  }
+  return buf
+}
+const createTable = ({ el, title = '', header = '', rows = [] }) => {
+  if (title) title = `<caption>${title}</caption>\n`
+  if (header) header = '<tr>\n' + header.map(th => `<th>${th}</th>`).join('\n') + '\n</tr>\n'
+  el.innerHTML = title + header + rows.map(tr => '<tr>\n' + tr.map(td => `<td>${td}</td>`).join('\n') + '\n</tr>').join('\n')
+}
+
+createTable({
+  title: '辅音',
+  el: $('#consonant'),
+  header: ['字母', '发音', '记忆', '字母', '发音', '记忆', '字母', '发音', '记忆'],
+  rows: chunk([
+    'ㅋ', 'k', '', 'ㄱ', 'g', '', 'ㄲ', 'kk', '',
+    'ㅌ', 't', '', 'ㄷ', 'd', '', 'ㄸ', 'tt', '',
+    'ㅍ', 'p', '', 'ㅂ', 'b', '', 'ㅃ', 'pp', '',
+    'ㅊ', 'ch', '', 'ㅈ', 'j', '', 'ㅉ', 'jj', '',
+    '', '', '', 'ㅅ', 's/ss', 'summit', 'ㅆ', 'ss', '',
+    'ㄴ', 'n', 'nose', 'ㅁ', 'm', 'map', 'ㄹ', 'r/l', 'river',
+    'ㅎ', 'h', 'hat', 'ㅇ', 'ng', 'none',
+  ], 9),
+})
+
+createTable({
+  title: '元音',
+  el: $('#vowel'),
+  rows: chunk([
+    'ㅏ', 'a', 'ㅓ', 'eo', 'ㅗ', 'o', 'ㅜ', 'u', 'ㅡ', 'eu', 'ㅣ', 'i', 'ㅔ', 'e', 'ㅐ', 'ae',
+    'ㅑ', 'ya', 'ㅕ', 'yeo', 'ㅛ', 'yo', 'ㅠ', 'yu', '', '', 'ㅢ', 'yi', 'ㅖ', 'ye', 'ㅒ', 'yae',
+    'ㅘ', 'wa', '', '', '', '', '', '', 'ㅚ', 'oe', '', '', '', '', 'ㅙ', 'wae',
+    '', '', 'ㅝ', 'weo', '', '', '', '', '', '', 'ㅟ', 'wi', 'ㅞ', 'we',
+  ], 16),
+})
+</script>
+</body>
+</html>
+

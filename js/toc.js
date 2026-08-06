@@ -100,7 +100,7 @@ var tocData = [
           { "value": "5", "label": "基数", "date": "2024-09-28" },
           { "value": "6", "label": "类型论", "date": "2024-10-08" },
           { "value": "7", "label": "Lambda 表达式", "date": "2023-01-07" },
-          { "value": "8", "label": "范畴论基础", "date": "2025-09-27" },
+          { "value": "8", "label": "范畴论基础", "date": "2026-08-06" },
           { "value": "9", "label": "非标准分析", "date": "2026-04-03" },
         ]
       },
@@ -221,7 +221,7 @@ var tocData = [
         "label": "平面几何",
         "children": [
           { "value": "1", "label": "五组公理" },
-          { "value": "3", "label": "三角形, 四边形", "date": "2022-02-14" },
+          { "value": "3", "label": "三角形, 四边形", "date": "2026-08-06" },
           { "value": "4", "label": "圆", "date": "2026-05-08" },
           { "value": "5", "label": "抛物线" },
           { "value": "6", "label": "椭圆与双曲线", "date": "2024-11-04" },
@@ -274,7 +274,7 @@ var tocData = [
         "label": "组合数学",
         "children": [
           { "value": "1", "label": "引言, 计数原理, 鸽巢原理" },
-          { "value": "2", "label": "排列与组合", "date": "2022-01-15" },
+          { "value": "2", "label": "排列与组合", "date": "2026-07-13" },
           { "value": "3", "label": "求解递推式", "date": "2024-04-26" },
           { "value": "4", "label": "容斥原理", "date": "2026-02-24" },
           { "value": "5", "label": "离散微积分与常见计数序列", "date": "2025-06-05" },
@@ -452,6 +452,7 @@ var tocData = [
           { "value": "jp-words", "label": "日语动词" },
           { "value": "ru", "label": "俄语", "date": "2025-09-18" },
           { "value": "en-short.md", "label": "英语速记符", "date": "2026-01-17" },
+          { "value": "korean", "label": "韩语", "date": "2026-07-28" },
         ]
       },
       {

@@ -143,11 +143,11 @@
 
 \tikzstyle{every node}=[scale=1.5]
 \begin{tikzcd}
-	X &amp;&amp; Y \\
-	&amp; Z
-	\arrow["f", from=1-1, to=1-3]
-	\arrow["h"', from=1-1, to=2-2]
-	\arrow["g", from=1-3, to=2-2]
+    X &amp;&amp; Y \\
+    &amp; Z
+    \arrow["f", from=1-1, to=1-3]
+    \arrow["h"', from=1-1, to=2-2]
+    \arrow["g", from=1-3, to=2-2]
 \end{tikzcd}
 
 \end{document}
@@ -845,6 +845,7 @@ map identity = identity
   <li><b>终对象</b> 若 `X: cc C` 满足: 对任意 `Y: cc C` 都存在唯一态射 `f: Y to X`, 则称 `X` 是 `cc C` 的<b>终对象 (final object)</b>.</li>
   始对象与终对象互为对偶.
   如果始对象与终对象同构, 则称它为 `cc C` 的<b>零对象</b>.
+  若 `cc C` 中存在零对象, 则它的所有始对象与终对象都是零对象.
 </ol>
 
 <ol class="example">
@@ -895,7 +896,8 @@ map identity = identity
 
 <ol class="corollary">
   <li>设 `S` 是始对象, `T` 是终对象, 则 `f: T to A` 是单态射, `g: A to S` 是满态射;</li>
-  <li>`O_(A B)` 是单态射 `iff A` 是终对象, `O_(A B)` 是满态射 `iff B` 是始对象.</li>
+  <li>`O_(A B)` 是单态射 `iff A` 是零对象, `O_(A B)` 是满态射 `iff B` 是零对象.</li>
+  <li>`A` 是零对象 `iff O_(A A) = id_A`.</li>
   从群论印证: 任意群到平凡群只有满同态, 平凡群到任意群只有单同态.
 </ol>
 
@@ -922,8 +924,12 @@ map identity = identity
       `(AA C: cc C) (AA h_1, h_2: C to A)`
       `h_1 = h_2`.
     </span>
-    即 `A` 为终对象.
-    始对象的证明类似.
+    即 `A` 为终对象, 即零对象.
+    后半证明类似.
+  </li>
+  <li>
+    `rArr`: `A` 是零对象时, `id_A: A to A` 正好满足零态射条件, 由零态射的唯一性知道 `O_(A A) = id_A`.
+    `lArr`: 若 `O_(A A) = id_A`, 则 `O_(A A)` 既单又满, 由 2. 知道 `A` 是零对象.
   </li>
 </ol>
 
@@ -946,9 +952,23 @@ map identity = identity
   由核的定义知 `u_1 = u_2`, 于是 `iota` 是单态射.
 </p>
 
-<p class="remark">
-  我们也常说二元组 `(K, iota)` 是 `f` 的核, 或者说 `iota` 是 `f` 的核.
-  具体情况可以从上下文判断.
+<ol class="remark">
+  <li>
+    我们也常说二元组 `(K, iota)` 是 `f` 的核, 或者说 `iota` 是 `f` 的核.
+    具体情况可以从上下文判断.
+  </li>
+  <li>精确到同构, 核与余核是唯一的. 当我们说 `varphi = "ker" sigma` 时,
+    其实是指 `varphi` 是 `sigma` 的<b>其中</b>一个核.
+    可见这里的等号含义不是精确相等, 而是精确到同构.
+  </li>
+</ol>
+
+<p class="corollary">
+  设 `(K, iota)` 是 `f` 的核, 则 `K` 是零对象当且仅当 `iota` 是零态射.
+</p>
+
+<p class="proof">
+  `rArr`: 显然, `lArr`: 由 `iota` 是单态射和零态射推出 `K` 是零对象.
 </p>
 
 <ol class="example">
@@ -1166,7 +1186,7 @@ map identity = identity
   考虑一个对象 `A`, 配上 `n` 个包含态射 `iota_i: A_i to A`. 我们有:
   `(A, (iota_i)_(i=1)^n)` 是 `A_1, cdots, A_n` 的余积, 当且仅当存在投影态射 `pi_i: A to A_i`, 满足
   `AA i, j in [1..n]`,
-  <li>`pi_i iota_j = delta_(i j) "id"_A`;</li>
+  <li>`pi_i iota_j = delta_(i j) "id"_(A_j)`;</li>
   <li>`sum_(i=1)^n iota_i pi_i = "id"_A`.</li>
   事实上, `(A, (pi_i)_(i=1)^n)` 正是 `A_1, cdots, A_n` 的积.
   因而得到推论: 加法范畴中任意有限个对象的积都存在.
@@ -1177,7 +1197,7 @@ map identity = identity
   <li>`rArr`: 由余积定义知, 下图的 `pi_i` 是存在唯一的:
     <span class="formula">
       `A_i overset (pi_i) larr A`<br>
-      `delta_(i j) "id"_(A_j) ↖ uarr iota_i`<br>
+      `delta_(i j) "id"_(A_j) ↖ uarr iota_j`<br>
       `qquad A_j`
     </span>
     故条件 1. 成立.
@@ -1240,6 +1260,57 @@ map identity = identity
 </ol>
 
 <p class="corollary">
+  Abel 范畴中, 态射标准分解 `sigma = iota pi` 是唯一的 (精确到同构).
+  我们记 `iota = "im" sigma`, `pi = "coim" sigma` 分别为 `sigma` 的像和余像.
+</p>
+
+<p class="proof">
+  由核与余核的唯一性知道, 精确到同构,
+  <span class="formula">
+    `iota = "ker coker" iota`,<br>
+    `pi = "coker ker" pi`
+  </span>
+  是唯一的.
+</p>
+
+<div class="p theorem">
+  加法范畴 `cc C` 是 Abel 范畴当且仅当对任意态射 `sigma`, 存在同构意义下唯一的态射
+  `varphi, psi, pi, iota` 使下图交换
+  <div class="img xs">
+    <img src="../img/abel-cat.png" alt="">
+  </div>
+  其中
+  <span class="formula">
+    `varphi = "ker" sigma = "ker" pi`,<br>
+    `pi = "coker" varphi`,<br>
+    `psi = "coker" sigma = "coker" iota`,<br>
+    `iota = "ker"psi`.
+  </span>
+</div>
+
+<ol class="proof">
+  <li>`rArr`: 设 `cc C` 是 Abel 范畴,
+    令 `varphi := "ker" sigma`, `psi := "coker" sigma`,
+    再令 `sigma = iota pi` 是标准分解.
+    我们验证 `varphi = "ker" pi`:
+    事实上, 由于 `varphi = "ker"sigma`, 有
+    `sigma varphi = iota pi varphi = 0`, 再由 `iota` 单, 推出 `pi varphi = 0`.
+    另一方面, 若存在 `varphi'` 使得 `pi varphi' = 0`, 则
+    `sigma varphi' = iota pi varphi' = 0`, 则由 `varphi = "ker"sigma`
+    知道存在唯一 `u` 使得 `varphi' = varphi u`.
+    有了 `varphi = "ker"pi` 后, 由 `pi` 满即得 `pi = "coker ker" pi = "coker" varphi`.
+    另外三条等式也可类似证明.
+  </li>
+  <li>
+    假设存在满足题设的 `varphi, psi, pi, iota`, Abel 范畴定义中的 1 和 3 显然成立, 下证 2.
+    若 `sigma` 满, 则 `psi = "coker" sigma = 0`.
+    但零态射的核是同构, 故 `iota = "ker" psi` 为同构.
+    从而由 `pi = "coker" varphi` 知道 `sigma = "coker" varphi`,
+    即满态射是其核的余核. 类似可证单态射是其余核的核.
+  </li>
+</ol>
+
+<p class="corollary">
   Abel 范畴中, 态射 `sigma` 为同构等价于 `sigma` 既单又满.
 </p>
 
@@ -1250,6 +1321,27 @@ map identity = identity
   最后, 零态射的余核是同构.
 </p>
 
+<p class="corollary">
+  Abel 范畴中, 考虑图表
+  <span class="formula">
+    `cdot overset(sigma)(to) cdot overset(tau)(to) cdot`
+  </span>
+  我们有
+  <span class="formula">
+    `"im"sigma = "ker"tau` `iff "coim" tau = "coker" sigma`.
+  </span>
+</p>
+
+<p class="proof">
+  在 Abel 范畴中 `"ker"tau = "ker coim" tau`, `"coker" sigma = "coker im" sigma`,
+  待证命题化为
+  <span class="formula">
+    `"im"sigma = "ker coim"tau`
+    `iff "coim"tau="coker im" sigma`.
+  </span>
+  上式由 Abel 范畴的性质 2 保证.
+</p>
+
 <ol class="example">
   <li>Abel 群范畴与 `R`-`sf(Mod)` 范畴都是 Abel 范畴.</li>
   <li>`sf"Ring"` 中存在既单又满的非同构态射, 故它不是 Abel 范畴.</li>
@@ -1257,6 +1349,11 @@ map identity = identity
     例如 `A = (:a:)`, `B = (:b:)`, `sigma: A to B`, `sigma(n a) = 2 n b`.
     则 `sigma` 既单又满, 但不是同构.
   </li>
+</ol>
+
+<ol class="definition">
+  <li><b>正合列</b></li>
+  <li><b>短正合列</b></li>
 </ol>
 
 <script>
