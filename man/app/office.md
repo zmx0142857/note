@@ -107,6 +107,10 @@
 | 格式刷 | Alt-Ctrl-C, Alt-Ctrl-V | | |
 | 视图/导航窗格 | Ctrl-F | | |
 
+## 腾讯文档
+
+- 如何删除文档：在菜单中选择删除记录，勾选同时删除文档即可。
+
 ## OfficeScript
 
 https://learn.microsoft.com/en-us/office/dev/scripts/

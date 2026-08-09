@@ -30,6 +30,61 @@
   </span>
 </p>
 
+<ol class="proof">
+  [幂零群《恋爱方程式》]
+  <li>
+    根据相似原理, `V_n(R) = V_n(1) R^n`, 于是在体积递推式 (薄片的堆叠)
+    <span class="formula">
+      `V_(n+1)(R) = int_(-R)^R V_n(sqrt(R^2-x^2)) dx`
+    </span>
+    两边同除以 `V_n(R)` 得到
+    <span class="formula">
+      `(V_(n+1)(R))/(V_n(R))`
+      `= int_(-R)^R (sqrt(R^2-x^2)/R)^n dx`
+      `= R int_(-1)^1 (1-t^2)^(n//2) dt`
+      `:= R I_n`.
+    </span>
+    上式积分可以直接按所谓点火公式计算:
+    <span class="formula">
+      `I_n = int_(-pi//2)^(pi//2) cos^(n+1) theta "d"theta`
+      `= (n!!)/((n+1)!!) * { pi, if n "奇"; 2, if n "偶" :}`.
+    </span>
+    但这里介绍一种不需要实际计算积分的做法, 事实上我们转而考虑表面积.
+  </li>
+  <li>
+    表面积亦有相似关系 `S_n(R) = S_n(1)R^(n-1)`,
+    且有递推式 (洋葱圈的堆叠):
+    <span class="formula">
+      `S_(n+1)(R) = int_(-R)^R S_n(sqrt(R^2-x^2)) R/sqrt(R^2-x^2) dx`,
+    </span>
+    其中系数 `R//sqrt(R^2-x^2)` 是通过微元法和三角形相似得到的.
+    两边同除以 `S_n(R)`, 有
+    <span class="formula">
+      `(S_(n+1)(R))/(S_n(R))`
+      `= int_(-R)^R (sqrt(R^2-x^2)/R)^(n-2) dx`
+      `= R I_(n-2)`.
+    </span>
+  </li>
+  <li>
+    沿径向积分有
+    <span class="formula">
+      `V_n(R) = int_0^R S_n(r) "d"r`,
+    </span>
+    换言之表面积是体积的导数:
+    <span class="formula">
+      `S_n(R) = V_n'(R)`
+      `= n R^(n-1) V_n(1)`
+      `= n/R V_n(R)`.
+    </span>
+  </li>
+  <li>
+    由 1. 有 `I_n = V_(n+1)(1)//V_n(1)`,
+    再由 2, 3 有 `I_(n-2) = (n+1)//n I_n`.
+    但我们已知 `V_1(1) = 2`, `V_2(1) = pi`, `V_3(1) = 4pi//3`, 于是 `I_1 = pi//2`,
+    `I_2 = 4//3`, 递推即得 `I_n` 表达式.
+  </li>
+</ol>
+
 <p class="proof">
   用归纳法. `n = 2` 时 `V_2(R) = pi R^2`, `S_2(R) = 2 pi R`, 结论成立.
   假设结论对正整数 `n ge 2` 成立, 考察 `n+1` 的情形:

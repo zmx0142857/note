@@ -79,6 +79,8 @@ ps> Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
     $ ping -c 4 8.8.8.8
     $ ping -c 4 baidu.com
 
+可视化网络管理软件: ExHyperV
+
 方案一, win11 可以使用镜像网络模式:
 
 `%USERPROFILE%\.wslconfig`
@@ -198,3 +200,4 @@ $ cp /c/Users/Administrator/AppData/Roaming/Microsoft/InputMethod/Chs/*.lex $APP
 - wiztree: 可视化存储空间管理
 - Ryuapp.Rb: 回收站命令行版
 - inspect.exe: 审查元素桌面版, 随 windows sdk 附带: `C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\inspect.exe`
+- Autoruns: 开机启动项查找器

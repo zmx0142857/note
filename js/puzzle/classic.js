@@ -48,6 +48,7 @@ const braillePinyinArr = [
   ['i', '⠊'], ['ia', '⠫'], ['ie', '⠑'], ['iao', '⠜'], ['iu', '⠳'], ['ian', '⠩'], ['in', '⠣'], ['iang', '⠭'], ['ing', '⠡'],
   ['u', '⠥'], ['ua', '⠿'], ['uo', '⠕'], ['uai', '⠽'], ['ui', '⠺'], ['uan', '⠻'], ['un', '⠒'], ['uang', '⠶'], ['ong', '⠲'],
   ['ü', '⠬'], ['üe', '⠾'], ['üan', '⠯'], ['ün', '⠸'], ['iong', '⠹'],
+  ['¹', '⠁'], ['²', '⠂'], ['³', '⠄'], ['⁴', '⠆'],
 ]
 const braillePinyinEncode = Object.fromEntries(braillePinyinArr)
 const braillePinyinDecode = Object.fromEntries(Object.entries(braillePinyinEncode).map(([k, v]) => [v, k]))
@@ -55,7 +56,7 @@ const pinyinStd = str => [
   [/[jqx]([^iü])/g, (match, $1) => 'gkh'['jqx'.indexOf(match[0])] + $1],
   [/[bpmf]e/g, (match) => match[0] + 'o'],
 ].reduce((s, v) => s.replace(...v), str)
-const numberStd = str => str.replace(/⠼([a-j])/g, (_, $1) => chr((ord($1)-96) % 10 + 48))
+const numberStd = str => str.replace(/⠼([a-j]+)/g, (_, $1) => [...$1].map(v => chr((ord(v)-96) % 10 + 48)).join(''))
 
 const morseArr = ['.-', '-...', '-.-.', '-..', '.', '..-.', '--.', '....', '..', '.---', '-.-', '.-..', '--', '-.', '---', '.--.', '--.-', '.-.', '...', '-', '..-', '...-', '.--', '-..-', '-.--', '--..']
 const morseNums = ['-----', '.----', '..---', '...--', '....-', '.....', '-....', '--...', '---..', '----.']
@@ -112,6 +113,7 @@ const converters = {
     return n
   },
   braille2char (c) {
+    if (c === '⠨') return ''
 	if (c === '⠼') return c
     if (/[\u2800-\u28ff]/.test(c)) return brailleDict[c] || '?'
     return c
