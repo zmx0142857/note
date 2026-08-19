@@ -654,6 +654,44 @@
   </li>
 </ol>
 
+<h3>离散 Fourier 变换</h3>
+
+<ol class="definition">
+  <li>
+    设 `G` 是有限 Abel 群, `|G| = n`. `G` 上的全体复函数构成 `n` 维复线性空间.
+    其中两个函数的内积定义为
+    <span class="formula">
+      `(f, g) = sum_(r in G) f(r) bar(g(r))`.
+    </span>
+    接下来我们寻找该空间的一组正交基. 这引出特征的概念.
+  </li>
+  <li>我们称同态 `e: G to CC^xx` 为 `G` 上的<b>特征 (函数)</b>, 其中 `CC^xx = CC - {0}`
+    是复数乘法群.
+    称 `e(a) -= 1` 是<b>主特征</b>或<b>单位特征</b>.
+    容易看出对任意 `r in G`, `e(r)` 都是 `n` 次单位根.
+    因此也可以说 `e: G to C_n`, `C_n` 是 `n` 次单位根群.
+    `G` 上的全体特征按复数乘法构成有限 Abel 群, 称为<b>特征群</b>或<b>对偶群</b> `hat G`.
+    <br>
+    例如, 当 `G = ZZ//nZZ` 时, 它的全体特征为
+    <span class="formula">
+      `e_j(k) = exp(2pi"i"j k//n)`, `quad j = 0, cdots, n-1`.
+    </span>
+    其中 `e_0` 是主特征.
+    <br>
+    对于无限 Abel 群, 我们要求它的特征是连续函数. 例如 `(RR, +)` 的特征是
+    <span class="formula">
+      `e_xi(x) = exp(2pi"i"xi x)`, `quad xi in RR`.
+    </span>
+    如果不要求连续性, 可能会出现病态的函数, 参见 Cauchy 函数方程.
+  </li>
+</ol>
+
+<ol class="lemma">
+  记 `e(x) = "e"^(2pi"i"x)`, 则
+  <li>`int_0^1 e(n x) dx = {1, if n = 0; 0, if n != 0:}`</li>
+  <li>`sum_(k=1)^N e(n k//N) = {N, if n = 0; 0, if (n, N) = 1 and N gt 1:}`</li>
+</ol>
+
 <h3>Dirichlet 定理</h3>
 
 <ol class="lemma">
@@ -915,14 +953,6 @@
     </span>
     两式相加得到 `S_N = 2 sqrt N L(1, chi) + O(1)`, 于是从 `S_N to oo` 立即得到 `L(1, chi) != 0`.
   </li>
-</ol>
-
-<h3>离散 Fourier 变换</h3>
-
-<ol class="lemma">
-  记 `e(x) = "e"^(2pi"i"x)`, 则
-  <li>`int_0^1 e(n x) dx = {1, if n = 0; 0, if n != 0:}`</li>
-  <li>`sum_(k=1)^N e(n k//N) = {N, if n = 0; 0, if (n, N) = 1 and N gt 1:}`</li>
 </ol>
 
 <script src="../../js/note.js?type=math"></script>

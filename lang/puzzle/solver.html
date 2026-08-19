@@ -349,6 +349,100 @@ module.exports = function (str) {
 </script>
       </div>
     </div>
+    <div id="tabs-heyawake" class="tabs-body-item">
+      <ol>
+        数间 (heyawake) 是一种纸笔谜题，在 width*height 的长方形网格中为每个格子涂黑色或白色。其中
+        <li>忽视墙的情况下，任意两黑格不能水平或垂直相邻；</li>
+        <li>忽视墙的情况下，所有白格必须水平或垂直连通；</li>
+        <li>任一行白格不能水平连续穿过两面墙，且任一列白格不能垂直连续穿过两面墙；</li>
+        <li>一些房间中的黑格数量已经指定。</li>
+      </ol>
+      <p>输入格式：用 <code>|</code>、<code>-</code> 画房间墙，房间左上角写数字表示黑格数；<code>.</code> 表示未知，<code>#</code> 表示已知的黑格（可选）</p>
+      <div class="playground" type="textarea" rows="11" value="+-+-+-+-+-+
+|1 .|1 . .|
++   |     +
+|. .|. . .|
++---+-----+
+|1 .|2 . .|
++   |     +
+|. .|. . .|
++   |     +
+|. .|. . .|
++-+-+-+-+-+" value2="+-+-+-+-+-+-+-+-+
+|2 . . .|3 . . .|
++       |       +
+|. . . .|. . . .|
++       |       +
+|. . . .|. . . .|
++       |       +
+|. . . .|. . . .|
++---------------+
+|1 .|2 . .|1 . .|
++   |     |     +
+|. .|. . .|. . .|
++   |     |     +
+|. .|. . .|. . .|
++   |     |     +
+|. .|. . .|. . .|
++-+-+-+-+-+-+-+-+" value3="+-+-+-+-+-+-+-+-+-+-+
+|. . . .|1|.|0 .|1 .|
++       +-+-+---+   +
+|. . . .|0 .|. .|. .|
++---+---+---+---+   +
+|1 .|7 . . . . .|. .|
++   |           +---+
+|. .|. . . . . .|. .|
++   |           +---+
+|. .|. . . . . .|. .|
++---+-----------+   +
+|1 . . . .|. . .|. .|
++---------+-----+---+
+|. . .|2|.|3 . .|.|.|
++-----+ | |     | | +
+|.|1 .|.|.|. . .|.|.|
++ |   | +-+-----+-+ +
+|.|. .|.|2 . . . .|.|
++-+---+ +---------+-+
+|. . .|.|. . .|0 . .|
++-+-+-+-+-+-+-+-+-+-+">
+        <script type="text">
+module.exports = function (str) {
+  const rows = str.split('\n').map(r => r.replace(/\s+$/, '')).filter(r => r.trim())
+  const width = (Math.max(...rows.map(r => r.length)) - 1) / 2
+  const height = (rows.length - 1) / 2
+  const walls = [...Array(height)].map(() => [])
+  const floors = [...Array(width)].map(() => [])
+  const count = []
+  const hints = [...Array(width)].map(() => Array(height).fill(undefined))
+  const at = (r, c) => (rows[r] && rows[r][c]) || ' '
+  for (let y = 0; y < height; ++y) {
+    for (let x = 0; x < width; ++x) {
+      const ch = at(2 * y + 1, 2 * x + 1)
+      if (/[0-9]/.test(ch)) count.push({ x, y, n: Number(ch) })
+      else if (ch === '#') hints[x][y] = 0
+      else if (ch === '○' || ch === '·') hints[x][y] = 1
+      if (x + 1 < width && at(2 * y + 1, 2 * x + 2) === '|') walls[y].push(x + 1)
+      if (y + 1 < height && at(2 * y + 2, 2 * x + 1) === '-') floors[x].push(y + 1)
+    }
+  }
+  const hasHint = hints.some(col => col.some(v => v !== undefined))
+  return solverWorker({
+    type: 'heyawake',
+    args: [width, height, walls, floors, count, hasHint ? hints : undefined],
+    onFinish (board) {
+      const g = rows.map(r => [...r])
+      for (let y = 0; y < height; ++y) {
+        for (let x = 0; x < width; ++x) {
+          g[2 * y + 1][2 * x + 1] = board[x][y] ? '.' : '#'
+        }
+      }
+      return g.map(r => r.join('')).join('\n')
+    },
+  })
+}
+        </script>
+      </div>
+    </div>
   </div>
   <div class="tabs-footer">
     <a class="tabs-footer-item active" href="#tabs-sudoku">数独</a>
@@ -357,6 +451,7 @@ module.exports = function (str) {
     <a class="tabs-footer-item" href="#tabs-picross">数织</a>
     <a class="tabs-footer-item" href="#tabs-lightsoff">关灯</a>
     <a class="tabs-footer-item" href="#tabs-starbattle">星战</a>
+    <a class="tabs-footer-item" href="#tabs-heyawake">数间</a>
   </div>
 </div>
 

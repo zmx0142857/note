@@ -522,6 +522,227 @@ const starbattle = (size, count, walls, floors, hints) => {
   return board
 }
 
+/**
+ * 数间, 输出第一个解
+ * @param {number} width 宽
+ * @param {number} height 高
+ * @param {number[height][]} walls 每行的竖直方向的墙 "|", 取值范围 1 到 width-1
+ * @param {number[width][]} floors 每列的水平方向的墙 "_", 取值范围 1 到 height-1
+ * @param {{ x, y, n }[]} count 房间中的黑格数量
+ * @param {number[width][height]} [hints] 提示. 0: 黑, 1: 白, undefined: 未知
+ * @returns {number[width][height]} 0: 黑, 1: 白
+ * @throws {'no solution'} 无解时报错
+ */
+const heyawake = (width, height, walls, floors, count, hints) => {
+  const BLACK = 0
+  const WHITE = 1
+  const UNKNOWN = -1
+  const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+  let found = false
+
+  // board[x][y], x 为列, y 为行; 0 黑 / 1 白 / -1 未定
+  const board = [...Array(width)].map((_, x) =>
+    [...Array(height)].map((_, y) => {
+      const h = hints?.[x]?.[y]
+      return h === 0 ? BLACK : h === 1 ? WHITE : UNKNOWN
+    })
+  )
+
+  const id = (x, y) => x * height + y
+  const wallSet = walls.map(row => new Set(row || []))   // 每行的竖直墙 (列边界)
+  const floorSet = floors.map(col => new Set(col || [])) // 每列的水平墙 (行边界)
+
+  // 并查集: 将没有墙分隔的格子合并成房间
+  const parent = Array(width * height).fill(-1)
+  const find = (i) => {
+    let r = i
+    while (parent[r] >= 0) r = parent[r]
+    while (parent[i] >= 0) {
+      const p = parent[i]
+      parent[i] = r
+      i = p
+    }
+    return r
+  }
+  const union = (i, j) => {
+    i = find(i)
+    j = find(j)
+    if (i === j) return
+    if (parent[i] > parent[j]) [i, j] = [j, i]
+    parent[i] += parent[j]
+    parent[j] = i
+  }
+  for (let y = 0; y < height; ++y) {
+    for (let x = 0; x < width; ++x) {
+      if (x + 1 < width && !wallSet[y].has(x + 1)) union(id(x, y), id(x + 1, y))
+      if (y + 1 < height && !floorSet[x].has(y + 1)) union(id(x, y), id(x, y + 1))
+    }
+  }
+
+  // 每个房间的左上角坐标、目标黑格数、格数
+  const roomOf = Array(width * height)
+  const topLeft = new Map()
+  for (let x = 0; x < width; ++x) {
+    for (let y = 0; y < height; ++y) {
+      const r = find(id(x, y))
+      roomOf[id(x, y)] = r
+      const cur = topLeft.get(r)
+      if (!cur || x < cur[0] || (x === cur[0] && y < cur[1])) topLeft.set(r, [x, y])
+    }
+  }
+  const rooms = [...topLeft.keys()]
+  const countMap = new Map((count || []).map(c => [c.x + ',' + c.y, c.n]))
+  const target = new Map()
+  for (const r of rooms) {
+    const [x, y] = topLeft.get(r)
+    const n = countMap.get(x + ',' + y)
+    target.set(r, n === undefined ? -1 : n)
+  }
+
+  const roomBlack = new Map(rooms.map(r => [r, 0]))
+  const roomWhite = new Map(rooms.map(r => [r, 0]))
+  const roomTotal = new Map(rooms.map(r => [r, -parent[r]]))
+
+  // 未定格按房间分组 (同房间连续, 尽早触发房间计数剪枝)
+  const order = []
+  for (const r of rooms) {
+    for (let y = 0; y < height; ++y) {
+      for (let x = 0; x < width; ++x) {
+        if (roomOf[id(x, y)] !== r) continue
+        if (board[x][y] === UNKNOWN) order.push([x, y])
+        else if (board[x][y] === BLACK) roomBlack.set(r, roomBlack.get(r) + 1)
+        else roomWhite.set(r, roomWhite.get(r) + 1)
+      }
+    }
+  }
+
+  // 规则: 白格连续直线不能穿过两面墙
+  const noTwoWalls = (x, y) => {
+    let l = x
+    while (l > 0 && board[l - 1][y] === WHITE) --l
+    let r = x
+    while (r < width - 1 && board[r + 1][y] === WHITE) ++r
+    let cnt = 0
+    for (let b = l + 1; b <= r; ++b) if (wallSet[y].has(b) && ++cnt >= 2) return false
+    let t = y
+    while (t > 0 && board[x][t - 1] === WHITE) --t
+    let d = y
+    while (d < height - 1 && board[x][d + 1] === WHITE) ++d
+    cnt = 0
+    for (let b = t + 1; b <= d; ++b) if (floorSet[x].has(b) && ++cnt >= 2) return false
+    return true
+  }
+
+  // 增量剪枝
+  const ok = (x, y, color) => {
+    const r = roomOf[id(x, y)]
+    if (color === BLACK) {
+      for (const [dx, dy] of dirs) {
+        const nx = x + dx
+        const ny = y + dy
+        if (nx >= 0 && nx < width && ny >= 0 && ny < height && board[nx][ny] === BLACK) return false
+      }
+      const t = target.get(r)
+      if (t >= 0 && roomBlack.get(r) + 1 > t) return false
+      return true
+    }
+    return noTwoWalls(x, y)
+  }
+
+  // 房间是否还能达到目标黑格数
+  const roomOk = (r) => {
+    const t = target.get(r)
+    if (t < 0) return true
+    if (roomBlack.get(r) > t) return false
+    if (roomTotal.get(r) - roomWhite.get(r) < t) return false
+    return true
+  }
+
+  // 所有白格是否连通
+  const connected = () => {
+    const seen = Array(width * height).fill(false)
+    let start = null
+    let total = 0
+    for (let x = 0; x < width; ++x) {
+      for (let y = 0; y < height; ++y) {
+        if (board[x][y] === WHITE) {
+          ++total
+          if (!start) start = [x, y]
+        }
+      }
+    }
+    if (total === 0) return true
+    let cnt = 0
+    const stack = [start]
+    seen[id(start[0], start[1])] = true
+    while (stack.length) {
+      const [x, y] = stack.pop()
+      ++cnt
+      for (const [dx, dy] of dirs) {
+        const nx = x + dx
+        const ny = y + dy
+        if (nx >= 0 && nx < width && ny >= 0 && ny < height && board[nx][ny] === WHITE && !seen[id(nx, ny)]) {
+          seen[id(nx, ny)] = true
+          stack.push([nx, ny])
+        }
+      }
+    }
+    return cnt === total
+  }
+
+  // 叶子节点完整校验 (保证正确性, 含提示格)
+  const finalCheck = () => {
+    for (const r of rooms) {
+      const t = target.get(r)
+      if (t >= 0 && roomBlack.get(r) !== t) return false
+    }
+    for (let x = 0; x < width; ++x) {
+      for (let y = 0; y < height; ++y) {
+        if (board[x][y] !== BLACK) continue
+        for (const [dx, dy] of dirs) {
+          const nx = x + dx
+          const ny = y + dy
+          if (nx >= 0 && nx < width && ny >= 0 && ny < height && board[nx][ny] === BLACK) return false
+        }
+      }
+    }
+    for (let y = 0; y < height; ++y) {
+      for (let x = 0; x < width; ++x) {
+        if (board[x][y] === WHITE && !noTwoWalls(x, y)) return false
+      }
+    }
+    return connected()
+  }
+
+  const dfs = (index) => {
+    if (found) return
+    if (index === order.length) {
+      if (finalCheck()) found = true
+      return
+    }
+    const [x, y] = order[index]
+    const r = roomOf[id(x, y)]
+    for (const color of [WHITE, BLACK]) {
+      board[x][y] = color
+      if (ok(x, y, color)) {
+        if (color === BLACK) roomBlack.set(r, roomBlack.get(r) + 1)
+        else roomWhite.set(r, roomWhite.get(r) + 1)
+        if (roomOk(r)) {
+          dfs(index + 1)
+          if (found) return
+        }
+        if (color === BLACK) roomBlack.set(r, roomBlack.get(r) - 1)
+        else roomWhite.set(r, roomWhite.get(r) - 1)
+      }
+      board[x][y] = UNKNOWN
+    }
+  }
+
+  dfs(0)
+  if (!found) throw new Error('no solution')
+  return board
+}
+
 return {
   sudoku,
   skyscraper,
@@ -529,6 +750,7 @@ return {
   maze,
   picross,
   starbattle,
+  heyawake
 }
 
 })()

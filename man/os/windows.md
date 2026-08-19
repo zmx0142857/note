@@ -167,6 +167,17 @@ default = <username>
 
     cmd admin> netsh winhttp import proxy source=ie
 
+### hosts 文件
+
+`C:\WINDOWS\System32\drivers\etc\hosts`
+```
+# microsoft store
+117.28.245.88   licensing.mp.microsoft.com
+```
+
+修改了 hosts 文件后，用命令 `ipconfig /flushdns` 刷新它
+
+
 ### 个性化
 
 用命令行设置深色模式
