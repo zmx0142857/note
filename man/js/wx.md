@@ -1,5 +1,20 @@
 # 微信小程序
 
+## 应用
+
+- 小程序视频截帧方案
+  ```js
+  const decoder = wx.createVideoDecoder()
+  await promise(decoder.start({ source, mode: 1 }))
+  await decoder.seek({ time })
+  await sleep(50)
+  const { data, width, height } = decoder.getFrameData()
+
+  const imageData = ctx.createImageData(width, height)
+  imageData.data.set(data)
+  ctx.putImageData(imageData)
+  ```
+
 ## Troubleshoot
 
 - `scroll-view` 内部的 `position: fixed` 失效, 被降级为 `position: absolute`.

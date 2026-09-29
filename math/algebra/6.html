@@ -239,7 +239,7 @@ td.blue {
   <li>`R` 自身是一个 `R`-代数.</li>
   <li>若 `A` 是 `R` 上的含幺结合代数, 则 `A` 为一幺环.</li>
   <li>自同态代数: `R`-模 `M` 的全体自同态 `"End"(M)` 关于映射的复合构成一个 `R`-代数.</li>
-  <li>矩阵代数: 环 `R` 上的 `n` 阶矩阵环 `M_n(R)` 关于矩阵乘法构成一个 `R`-代数.</li>
+  <li>矩阵代数: 环 `R` 上的全体 `n` 阶矩阵 `M_n(R)` 关于矩阵乘法构成一个 `R`-代数.</li>
   <li>李代数: `bbb F`-线性空间 `fr g` 关于其上的 Lie 括积运算构成一个 `bbb F`-代数.
     所谓 Lie 括积是指一个双线性映射 `[*,*]`, 满足 `AA x, y, z in fr g`,
     <span class="formula">
@@ -247,6 +247,20 @@ td.blue {
       `[x, [y, z]] + [y, [z, x]] + [z, [x, y]] = 0`.
     </span>
   </li>
+</ol>
+
+<ol class="definition">
+  <b>分级代数 (graded algebra)</b>
+  设 `A` 是 `R`-代数, `A_n` 是它的一系列子模, 满足
+  <li>`1 in A_0`;</li>
+  <li>`A = O+_(n ge 0) A_n`;</li>
+  <li>`A_n A_m sube A_(n+m)`;</li>
+  则称 `A` 为分级代数.
+  例如全体 `n` 元多项式按它的次数构成分级代数, 其中 `A_d` 是全体 `d` 次齐次多项式以及 `0` 组成的子模.
+  又如线性空间 `V` 上的各阶张量构成张量代数 `TV := O+_(n ge 0) T^n V`, 其中
+  <span class="formula">
+    `T^n V := underbrace (V ox cdots ox V)_n`.
+  </span>
 </ol>
 
 <ol class="example enum">
@@ -296,7 +310,7 @@ td.blue {
     </span>
     因此 `{:^^:}^2 V := { sum x ^^ y: x, y in V }` 构成线性空间.
   </li>
-  <li>反对称性: `x ^^ y = 0 iff x = y`.<br>
+  <li>反对称性: `AA x in V`, `x ^^ x = 0`.<br>
     因为 `^^` 是双线性的, 我们有
     <span class="formula">
       `0 = (x+y) ^^ (x+y)`

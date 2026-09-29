@@ -759,7 +759,7 @@ eval        =>  []["filter"]["constructor"]("return eval")()( CODE )
 window      =>  []["filter"]["constructor"]("return this")()
 ```
 
-### thank you for inventing js
+### chaos, thank you for inventing js
 
 to number
 ```js
@@ -788,8 +788,18 @@ bit flip
 ```js
 // ~n === -n-1, 比如
 ~0 // -1
--~100 // 101
-~-100 // 99
+~arr.indexOf('a') // 相当于 arr.includes('a')
+-~100 // right worm operator, 101
+~-100 // left worm operator, 99
+```
+
+tends to 0 operator
+```js
+let i = 5
+while (i --> 0) {
+  console.log(i)
+}
+// 4 3 2 1 0
 ```
 
 primes

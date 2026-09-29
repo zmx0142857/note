@@ -101,17 +101,20 @@
 <ol class="proof">
   <li>
     不妨设 `y != 0`.
-    `AA t in K`, 考虑二次型
+    考虑二次型
     <span class="formula">
-      `0 le (x + t y, x + t y)`
-      `= (x, x) + bar t(x, y) + t(y, x) + |t|^2 (y, y)`.
+      `0 le (x - t y, x - t y)`
+      `= (x, x) - bar t(x, y) - t(y, x) + |t|^2 (y, y)`,  `quad t in K`.
     </span>
-    特别取 `t = -(x, y)//(y, y)`, 则 `bar t = -(y, x)//(y, y)`, 有
+    接下来我们最小化 `||x-t y||^2 = (x-t y, x-t y)`,
+    也就是在 `y` 方向上寻找一个 `t y` 到 `x` 最近.
+    自然的想法是选取投影, 令 `t = (x, y)//(y, y)`, 则 `bar t = (y, x)//(y, y)`, 有
     <span class="formula">
       `0 le (x, x) - bar t t (y, y) - t bar t (y, y) + |t|^2(y, y)`
+      `= (x, x) - |t|^2 (y, y)`
       `= (x, x) - |(x, y)|^2 // (y, y)`.
     </span>
-    其中等号成立当且仅当 `x + t y = 0`, 即 `x, y` 线性相关.
+    其中等号成立当且仅当 `x - t y = 0`, 即 `x, y` 线性相关.
   </li>
   <li>
     只证三角不等式.

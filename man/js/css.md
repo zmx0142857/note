@@ -185,7 +185,7 @@ media.onchange = console.log
 const isDark = media.matches
 ```
 
-### 空心字
+### 空心字、文字描边
 
 ```css
 /* 方案1 webkit 专用 */

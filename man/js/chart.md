@@ -2,6 +2,10 @@
 
 ## @ant-design/charts
 
+Web 端图表库, 适配 react 框架
+
+[1.x文档](https://ant-design-charts-v1.antgroup.com/examples)
+
 - 图表在缩放状态下, 导致鼠标位置偏移. 解决:
   ```js
   const config = {
@@ -31,7 +35,21 @@
   }
   ```
 
-## f2-wx
+- 渐变色
+  ```js
+  color: ({ type }) => {
+    if (type === '10-30分' || type === '30+分') {
+      return 'l(270) 0:#ffffff 0.5:#7ec2f3 1:#1890ff';
+    }
+    return brandColor;
+  },
+  ```
+
+## @antv/f2
+
+移动端图表库
+
+[官方文档](https://f2.antv.antgroup.com/examples/)
 
 - 文字标签旋转
   ```js
