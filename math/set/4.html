@@ -808,7 +808,7 @@
 </ol>
 
 <ol class="definition">
-  <b>规范序列</b>
+  <b>规范序列 (fundamental sequence)</b>
   以极限序数 `alpha` 为极限的序列可以有多个, 我们规定其中一个是规范的, 记作 `[alpha]_n`. 它满足
   <li>`[omega^alpha + beta]_n`
     `= omega^alpha + [beta]_n`, `beta lt omega^(alpha+1)`.
@@ -818,8 +818,13 @@
   <li>`[omega^alpha]_n = omega^([alpha]_n)`, `alpha` 为极限序数.</li>
 </ol>
 
+<p class="remark">
+  注意, 这里并未给出全体序数的规范序列, 而仅给出 `epsi_0` 以内的规范序列.
+  对于更大的序数, 一般没有唯一的规范序列选取, 需要人为约定. 参见下文“大序数初探”.
+</p>
+
 <ol class="example">
-  <li>`[omega]_n = n`, `[omega * 2] = omega + n`, `[omega^2]_n = omega * n`, `[omega^omega] = omega^n`.</li>
+  <li>`[omega]_n = n`, `[omega * 2]_n = omega + n`, `[omega^2]_n = omega * n`, `[omega^omega]_n = omega^n`.</li>
   <li>`[omega^(omega^2 * 2 + omega * 3) * 5]_n`
     `= omega^(omega^2 * 2 + omega * 3) * 4 + omega^(omega^2 * 2 + omega * 2 + n)`.
   </li>
@@ -871,16 +876,16 @@
     <span class="formula">
       `f(a) = f(a-f(a-1))//2` `= f(2a-1)//2`.
     </span>
-    于是 `a in [0, 1//2)` 时, `f(a) = 1//2-a`. 这是从点 `(0, 1//2)` 到点 `(1//2, 0)` 的一条 -45 度直线.
+    于是 `a in [0, 1//2)` 时, `f(a) = 1//2-a`, 这是一条 -45 度线段.
     `a in [1//2, 3//4)` 时, 只需一步变换 `a mapsto 2a-1` 就可将自变量映到之前的 `[0, 1//2)` 区间内,
     但函数值减半. 这说明函数在 `[1//2, 3//4)` 的图象与 `[0, 1//2)` 的图象相似, 但大小减半.
     同理 `a in [3//4, 7//8)` 时函数图象与 `[1//2, 3//4)` 的图象相似, 但大小再减半...
     同样的相似图形就这样填满了 `[0, 1)` 区间.
     特别地, 函数值的突变点是
     <span class="formula">
-      `f(1 - 2^(1-n)) = 2^-n`, `quad n ge 1`.
+      `f(1 - 2^(1-n)) = 2^-n`, `quad n ge 1`,
     </span>
-    因此 `f(0) = 2^-1`, `f(1//2) = 2^-2`, `f(3//4) = 2^-3`...
+    即 `f(0) = 2^-1`, `f(1//2) = 2^-2`, `f(3//4) = 2^-3`...
   </li>
   <li>`a in [1, 3//2)` 时
     <span class="formula">
@@ -903,7 +908,7 @@
     </span>
     `a in [3//2, 13//8)` 时, 只需一步变换 `a mapsto 2a-7//4` 就可将自变量映到
     `[5//4, 3//2)`, 但函数值减半. 或者说它与 `[1, 3//2)` 相似, 但大小为 `1//4`.
-    继续推理下去,
+    综上
     <span class="formula">
       `f(1) = f(0)//4 = 2^-3`,
       `quad f(3//2) = f(1)//4 = 2^-5`,<br>
@@ -1093,6 +1098,107 @@ for (let i = 1; i &lt;= 11; ++i) {
   </li>
 </ol>
 
+<ol class="definition">
+  <b>燃烧数</b>
+  <li>
+    假设有无数条绳子, 每条绳子从一头点燃后, 燃尽所需的时间恰好是一小时.
+    我们打算利用这些绳子来测量时间.  由于绳子质地并不均匀,
+    无法利用“燃烧了长度的一半”来断定时间过去了一半; 但可以同时点燃绳子的两头,
+    这样燃尽所用的时间就是半小时.  精心设计实验, 可以测量 3/4 小时:
+    先同时点燃绳 A 的两头和绳 B 的一头, 在 A 燃尽的同时点燃 B 的另一头,
+    总时间是 1/2 + 1/4 = 3/4 小时.
+  </li>
+  <li>一般地, 假设在 `x, y` 时刻 (`|x-y| le 1`) 分别点燃一根绳子的两头,
+    设绳子燃尽的时刻为 `t`, 则 `(t-x)+(t-y) = 1`, 整理得
+    <span class="formula">
+      `t(x, y) = (x+y+1)//2`.
+    </span>
+    `t(x, y)` 称为<b>融合</b>运算.
+    我们定义<b>燃烧数</b>的集合 `cc F` 为包含 `0` 的, 对融合运算封闭的最小集合:
+    <span class="formula">
+      `0 in cc F`,<br>
+      `x, y in cc F and |x-y| le 1 rArr t(x, y) in cc F`.
+    </span>
+    可以看出燃烧数是一些非负有理数, 且分母为 `2` 的幂,
+    例如 `1//2 = t(0, 0)`, `1 = t(1//2, 1//2)` 都是燃烧数.
+    除了 `0` 以外, 每个燃烧数都能写成 `t(x, y)` 的形式,
+    因此可以用一棵二叉树<b>表示</b>它, 其叶子节点为 `0`, 内部节点为融合运算 `t(x, y)`.
+    一个燃烧数的表示可以不唯一.
+    <br>
+    我们希望用 `cc F` 刻画所有可以用绳子测量的时间, 但有一个问题:
+    如果我们能测量长度为 `x` 和 `y` 的时间, 显然也能测量长度为 `x+y` 的时间.
+    那么集合 `cc F` 是否具有这种可加性呢?
+    如果 `x, y in cc F`, 是否有 `x + y in cc F`?
+    答案是肯定的.
+  </li>
+</ol>
+
+<p class="theorem">
+  加法封闭性: `x, y in cc F rArr x + y in cc F`.
+</p>
+
+<ol class="proof">
+  先固定 `y`. 对于燃烧数 `x`, 它必定能按规则在有限步内构造出来, 我们对这一有限生成步骤进行归纳:
+  <li>`x = 0` 时结论显然.</li>
+  <li>若 `x = (u+v+1)//2`, `u, v in cc F`, `|u - v| le 1`.
+    `u, v` 的构造步骤均严格少于 `x` 的步骤,
+    换言之, `u, v` 的二叉树表示的高度比 `x` 的低;
+    因此由归纳假设有 `u+y`, `v+y in cc F`.
+    又 `|(u+y) - (v+y)| = |u-v| le 1`, 于是
+    <span class="formula">
+      `x + y = (u+v+1)/2 + y`
+      `= ((u + y) + (v + y) + 1)/2`
+      `in cc F`.
+    </span>
+  </li>
+</ol>
+
+<p class="theorem">
+  燃烧数集 `cc F` 在通常的实数序 `le` 下是良序集.
+</p>
+
+<ol class="proof">
+  <li>
+    由于 `le` 是全序, 只需证 `cc F` 中不存在 (无限) 严格递减列.
+    反设 `{z_n} = z_1 gt z_2 gt z_3 cdots` 是 `cc F` 中的严格递减列.
+    根据单调有界原理, 它有极限 `l`. 设 `L` 是所有 `cc F` 中严格递减列的极限的集合, `L != O/`.
+    记 `l_0 = "inf" L`, 若 `l_0 !in L`, 可以选出严格递减列 `{l_n} ⊆ L`, 使得 `l_n to l_0`.
+    考虑下表
+    <span class="formula">
+      `z_11, z_12, cdots to l_1`,<br>
+      `z_21, z_22, cdots to l_2`,<br>
+      `cdots`,<br>
+      `z_(n 1), z_(n 2), cdots to l_n`,<br>
+      `cdots`
+    </span>
+    用对角线法可以抽出一个严格递减列 `z_(n k_n) to l_0`, 故由 `L` 定义知 `l_0 in L`, 矛盾.
+    因此必有 `l_0 in L`.
+  </li>
+  <li>
+    现在设 `{z_n} sube cc F` 是严格递减列, 且 `z_n to l_0`.
+    显然 `0 !in {z_n}`, 于是不妨设 `z_n = t(x_n, y_n) = (x_n+y_n+1)//2`, 且 `x_n le y_n`.
+    数列 `{x_n}` 必有单调子列, 简单起见设 `{x_n}` 自身单调. 若它单调减,
+    则 `z_n ge (x_n + x_n + 1)//2 = x_n + 1//2`, 于是 `l_0 = lim z_n ge lim x_n + 1//2`,
+    与 `l_0` 的最小性矛盾.
+    <br>
+    另一方面若 `{x_n}` 单调增, 则由 `{z_n}` 严格单调减知道 `{y_n}` 必严格单调减.
+    注意燃烧数的定义要求 `|x_n - y_n| le 1`, 而严格单调性表明 `x_n` 到 `y_n` 的距离在缩小,
+    于是存在 `delta gt 0` 使对充分大的 `n` 有
+    <span class="formula">
+      `|x_n - y_n| lt 1 - delta`.
+    </span>
+    此时 `z_n = (x_n-y_n+1)//2 + y_n gt delta//2 + y_n`.
+    从而 `l_0 = lim z_n ge delta//2 + lim y_n`, 矛盾.
+  </li>
+</ol>
+
+<p class="remark">
+  [群友@厌氧变形虫]
+  <a href="https://chatgpt.com/share/6ad1b155-4aec-83ec-97c6-5c3d6e97893b" target="_blank">推广</a>:
+  把燃烧数的定义换成 `t(x, y) = a x + b y + c`,
+  再加上适当的不等式约束, 得到的集合仍是良序集.
+</p>
+
 <h3>大序数初探*</h3>
 
 <p>[<a href="https://zhuanlan.zhihu.com/p/295674553" target="_blank">知乎@core.exe</a>]</p>
@@ -1143,7 +1249,8 @@ for (let i = 1; i &lt;= 11; ++i) {
     这促使我们寻找一个统一的定义.
     注意到 `epsi_alpha` 是迭代 `alpha mapsto omega^alpha` 的第 `alpha` 个不动点,
     `zeta_alpha` 是迭代 `alpha mapsto epsi_alpha` 的第 `alpha` 个不动点.
-    因此我们寻求一列函数 `f_n(alpha)`, 其中 `f_(n+1)(alpha)` 是 `f_n` 的第 `alpha` 个不动点:
+    因此我们寻求一列函数 `f_n(alpha)`, 其中 `f_(n+1)(alpha)` 是 `f_n` 的第 `alpha` 个不动点,
+	这引出下文的 Veblen 函数.
   </li>
 </ol>
 
@@ -1156,23 +1263,100 @@ for (let i = 1; i &lt;= 11; ++i) {
     `varphi(alpha+1, beta+1)` 定义为 `varphi(alpha+1, beta)` 之后, `varphi_alpha` 的下一个不动点.
     写为公式就是
     <span class="formula align">
-      `varphi(alpha+1, 0) := "sup"{varphi(alpha, 0)+1, varphi(alpha, varphi(alpha, 0)+1), cdots}`,<br class="noindent">
-      `varphi(alpha+1, beta+1) := "sup"{varphi(alpha+1, beta)+1, varphi(alpha, varphi(alpha+1, beta)+1), cdots}`,<br class="noindent">
+      `varphi(alpha+1, 0) := "sup"{varphi_alpha(0), color(red)(varphi_alpha"(")varphi_alpha(0)color(red)")", cdots}`,<br class="noindent">
+      `varphi(alpha+1, beta+1) := "sup"{varphi(alpha+1, beta)+1, color(red)(varphi_alpha"(")varphi(alpha+1, beta)+1 color(red)")", cdots}`,<br class="noindent">
       `varphi(alpha, beta) := "sup"{varphi(alpha, gamma): gamma lt beta}`, 如果 `beta` 为极限序数.
     </span>
   </li>
   <li>对于第一个变元 `alpha` 是极限序数的情形, 定义
     <span class="formula align">
       `varphi(alpha, 0) := "sup"{varphi(gamma, 0): gamma lt alpha}`,<br class="noindent">
-      `varphi(alpha, beta+1) := "sup"{varphi(gamma, varphi(alpha, beta)+1), gamma lt alpha}`.
+      `varphi(alpha, beta+1) := "sup"{varphi(gamma, varphi(alpha, beta)+1): gamma lt alpha}`.
     </span>
   </li>
   <li>最后, 还可以考虑第一个变元的迭代 `alpha mapsto varphi(alpha, 0)`, 它的第 0 个不动点是
     <span class="formula">
       `Gamma_0 := "sup"{0, varphi(0, 0), varphi(varphi(0, 0), 0), cdots}`.
     </span>
-    这也是 Veblen 函数的极限.
+    这也是 Veblen 函数的极限. 每个 `0 lt alpha lt Gamma_0` 都能唯一写为 Veblen 函数的有限和:
+	<span class="formula">
+	  `alpha = sum_(k=1)^n varphi(x_k, y_k)`,
+	</span>
+	其中 `varphi(x_k, y_k) ge varphi(x_(k+1), y_(k+1))`, 且 `y_k lt varphi(x_k, y_k)`.
   </li>
+</ol>
+
+<table>
+  <caption>Veblen 函数</caption>
+  <tr>
+    <th>`x \\ y`</th>
+	<th>0</th>
+	<th>1</th>
+	<th>2</th>
+	<th>不动点</th>
+  </tr>
+  <tr>
+    <td>0</td>
+	<td>`1`</td>
+	<td>`omega`</td>
+	<td>`omega^2`</td>
+  </tr>
+  <tr>
+    <td>1</td>
+	<td>`epsi_0`</td>
+	<td>`epsi_1`</td>
+	<td>`epsi_2`</td>
+	<td>`omega^(epsi_0) = epsi_0`</td>
+  </tr>
+  <tr>
+    <td>2</td>
+	<td>`zeta_0`</td>
+	<td>`zeta_1`</td>
+	<td>`zeta_2`</td>
+	<td>`epsi_(zeta_0) = zeta_0`</td>
+  </tr>
+  <tr>
+    <td>3</td>
+	<td>`eta_0`</td>
+	<td>`eta_1`</td>
+	<td>`eta_2`</td>
+	<td>`zeta_(eta_0) = eta_0`</td>
+  </tr>
+  <tr>
+    <td>`omega`</td>
+	<td>`varphi(omega, 0)`</td>
+	<td>`varphi(omega, 1)`</td>
+	<td>`varphi(omega, 2)`</td>
+  </tr>
+</table>
+
+<p class="remark">
+  [<a href="https://googology.fandom.com/wiki/Veblen_function" target="_blank">googology fandom</a>]
+  Veblen 函数将 `Gamma_0` 以内的序数写为规范序列, 但这并不是序数的尽头.
+  还可以定义多变量的<b>有限元 Veblen 函数 (finitary Veblen function)</b>, 它给出<b>小 Veblen 序数 (SVO)</b> 以内每个序数的规范序列.
+  而支持序数个变量的<b>超限 Veblen 函数 (transfinitary Veblen function)</b> 给出<b>大 Veblen 序数 (LVO)</b> 以内每个序数的规范序列.
+</p>
+
+<ol class="example">
+  <b>快速增长层级 (fast-growing hierarchy, FGH)</b>
+  定义一系列 `NN to NN` 的函数
+  <span class="formula">
+	`f_0(n) = n + 1`,<br>
+	`f_1(n) = f_0^n(n) = 2n`,<br>
+	`f_2(n) = f_1^n(n) = 2^n * n`,<br>
+	`f_3(n) = f_2^n(n)`.
+  </span>
+  这些函数一个比一个增长快. `f_2` 是指数级增长, `f_3` 是幂塔级增长, `f_n` 则是 `uarr^(n-1)` 级增长.
+  若取对角线, 就得到一个增长更快的函数:
+  <span class="formula">
+	`f_omega(n) = f_n(n)`.
+  </span>
+  事实上, 可以对每个序数定义 `f_alpha`, 这依赖于规范序列的选取:
+  <span class="formula">
+	`f_0(n) = n+1`,<br>
+	`f_(alpha+1)(n) = f_alpha^n(n)`,<br>
+	`f_alpha(n) = f_([alpha]_n)(n)`, `quad alpha` 是极限序数.
+  </span>
 </ol>
 
 <h2>选择公理</h2>

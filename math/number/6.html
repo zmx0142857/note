@@ -494,6 +494,8 @@
 
 <h2>Dirichlet 特征*</h2>
 
+<p>[Stein《Fourier Analysis》]</p>
+
 <p>
   Euclid 曾通过构造 `p_1 cdots p_n + 1` 证明素数有无穷多.
   类似地, 构造 `4 p_1 cdots p_n + 3`, 还能证明 `4n+3` 型素数有无穷多.
@@ -656,41 +658,194 @@
 
 <h3>离散 Fourier 变换</h3>
 
-<ol class="definition">
-  <li>
-    设 `G` 是有限 Abel 群, `|G| = n`. `G` 上的全体复函数构成 `n` 维复线性空间.
-    其中两个函数的内积定义为
+<p>[参见<a href="../../cs/ds/hardware.html">快速 Fourier 变换 (FFT)</a>]</p>
+
+<p class="definition">
+  设 `G` 是有限 Abel 群, `|G| = n`.
+  称同态 `e: G to CC^xx` 为 `G` 上的<b>特征 (函数)</b>, 其中 `CC^xx = CC - {0}`
+  是复数乘法群.
+  称 `e(a) -= 1` 是<b>主特征 (trivial character)</b>或<b>单位特征</b>.
+  容易看出对任意 `a in G`, `e(a)` 都是 `n` 次单位根.
+  因此也可以说 `e: G to C_n`, `C_n` 是 `n` 次单位根群.
+  `G` 上的全体特征按复数乘法构成有限 Abel 群, 称为<b>特征群</b>或<b>对偶群</b> `hat G`.
+  <br>
+  例如, 当 `G = ZZ//nZZ` 时, 它的全体特征为
+  <span class="formula">
+    `e_j(k) = exp(2pi"i"j k//n)`, `quad j = 0, cdots, n-1`.
+  </span>
+  其中 `e_0` 是主特征.
+</p>
+
+<p class="remark">
+  对于无限 Abel 群, 我们要求它的特征是连续函数. 例如 `(RR, +)` 的特征是
+  <span class="formula">
+    `e_xi(x) = exp(2pi"i"xi x)`, `quad xi in RR`.
+  </span>
+  如果不要求连续性, 可能会出现病态的函数, 参见 Cauchy 函数方程.
+  不过以下我们只讨论有限 Abel 群.  总假定 `G` 是有限 Abel 群, `|G| = n`.
+</p>
+
+<p class="lemma" id="lem-character-sum">
+  <b>特征求和公式</b>
+  对任意 `e in hat G`,
+  <span class="formula">
+    `sum_(a in G) e(a)`
+    `= { n, if e " 是主特征"; 0, otherwise :}`
+  </span>
+</p>
+
+<p class="proof">
+  主特征的情形显然. 下设 `e` 是非主特征, 则存在 `b in G` 使得 `e(b) != 1`. 于是
+  <span class="formula">
+    `e(b) sum_(a in G) e(a)`
+    `= sum_(a in G) e(a) e(b)`
+    `= sum_(a in G) e(a b)`.
+  </span>
+  当 `a` 取遍 `G` 中元素时, `a b` 也取遍 `G` 中元素, 故上式右边等于 `sum_(a in G) e(a)`.
+  再由 `e(b) != 1` 推出 `sum_(a in G) e(a) = 0`.
+</p>
+
+<ol class="example">
+  <li>`int_0^1 exp(2pi"i" j x) dx = {1, if j = 0; 0, otherwise:}`</li>
+  <li>`sum_(k=1)^n exp(2pi"i" j k//n) = {n, if j -= 0 (mod n); 0, otherwise:}`</li>
+</ol>
+
+<p class="lemma">
+  设 `T_1, cdots, T_k` 是复线性空间 `V` 上的酉变换, 即满足 `AA v, w in V`, `(T v, T w) = (v, w)`.
+  若这些酉变换两两可交换, 则它们可以同时对角化, 即存在 `V` 的一个基底,
+  使得这些酉变换的表示矩阵同时为对角形.
+</p>
+
+<ol class="proof">
+  <li>首先注意, 由于 `T_i T_j = T_j T_i`, 可以推出 `T_i` 的特征子空间都是 `T_j` 的不变子空间.
+    例如任取 `v in "Ker"(lambda I - T_i)`, 有 `T_i v = lambda v`, 于是
     <span class="formula">
-      `(f, g) = sum_(r in G) f(r) bar(g(r))`.
+      `T_i (T_j v) = T_j (T_i v) = lambda (T_j v)`,
     </span>
-    接下来我们寻找该空间的一组正交基. 这引出特征的概念.
+    从而 `T_j v in "Ker"(lambda I - T_i)`.
   </li>
-  <li>我们称同态 `e: G to CC^xx` 为 `G` 上的<b>特征 (函数)</b>, 其中 `CC^xx = CC - {0}`
-    是复数乘法群.
-    称 `e(a) -= 1` 是<b>主特征</b>或<b>单位特征</b>.
-    容易看出对任意 `r in G`, `e(r)` 都是 `n` 次单位根.
-    因此也可以说 `e: G to C_n`, `C_n` 是 `n` 次单位根群.
-    `G` 上的全体特征按复数乘法构成有限 Abel 群, 称为<b>特征群</b>或<b>对偶群</b> `hat G`.
-    <br>
-    例如, 当 `G = ZZ//nZZ` 时, 它的全体特征为
+  <li>对 `k` 作归纳. `k = 1` 时应用谱定理知 `T_1` 可以对角化.
+    若 `k gt 1`, 对 `T_k` 应用谱定理可知 `V` 有直和分解
     <span class="formula">
-      `e_j(k) = exp(2pi"i"j k//n)`, `quad j = 0, cdots, n-1`.
+      `V = O+_(i=1)^s V_(lambda_i)`,
     </span>
-    其中 `e_0` 是主特征.
-    <br>
-    对于无限 Abel 群, 我们要求它的特征是连续函数. 例如 `(RR, +)` 的特征是
-    <span class="formula">
-      `e_xi(x) = exp(2pi"i"xi x)`, `quad xi in RR`.
-    </span>
-    如果不要求连续性, 可能会出现病态的函数, 参见 Cauchy 函数方程.
+    其中 `V_(lambda_i) = "Ker"(lambda_i I - T_k)`.
+    由 1. 知每个 `V_(lambda_i)` 都是 `T_j` 的不变子空间, `j = 1, cdots, k-1`.
+  </li>
+  <li>
+    由归纳假设, `T_1, cdots, T_(k-1)` 可同时对角化, 限制到子空间 `V_(lambda_i)` 上仍是如此,
+    这给出 `V_(lambda_i)` 的一组基底, 使 `T_1, cdots, T_(k-1)` 的表示矩阵同时为对角形.
+    但在 `V_(lambda_i)` 上 `T_k` 的表示矩阵也是对角形, 这就在子空间上完成了所有酉变换的对角化.
+    对每个不变子空间 `V_(lambda_i)` 应用结论, 就得到 `V` 的一组基底,
+    使得所有酉变换的表示矩阵都为对角形.
   </li>
 </ol>
 
-<ol class="lemma">
-  记 `e(x) = "e"^(2pi"i"x)`, 则
-  <li>`int_0^1 e(n x) dx = {1, if n = 0; 0, if n != 0:}`</li>
-  <li>`sum_(k=1)^N e(n k//N) = {N, if n = 0; 0, if (n, N) = 1 and N gt 1:}`</li>
+<p class="theorem">
+  <b>特征构成正交基</b>
+  考虑 `G` 上全体复函数构成的 `n` 维复线性空间 `V`. 对于 `f in V` 也可以写成 `(f_1, cdots, f_n)`.
+  `V` 上的内积定义为
+  <span class="formula">
+    `(f, g) = 1/n sum_(a in G) f(a) bar(g(a))`.
+  </span>
+  特征的重要性质是, 它们构成空间 `V` 的正交基.
+</p>
+
+<ol class="proof">
+  <li>任取特征 `e in hat G`, 由 `|e(a)| = 1` 有
+    <span class="formula">
+      `(e, e) = 1/n sum_(a in G) e(a) bar(e(a))`
+      `= 1/n sum_(a in G) |e(a)|^2`
+      `= 1`.
+    </span>
+  </li>
+  <li>任取特征 `e != f`, 于是 `e f^-1` 不是主特征, 代入特征求和公式
+    <span class="formula">
+      `0 = sum_(a in G) e(a) (f(a))^-1`
+      `= sum_(a in G) e(a) bar(f(a))`.
+    </span>
+  </li>
+  <li>我们已经证明特征函数相互正交, 因此线性无关. 下证 `|hat G| = |G| = n`.
+    一种方法是像前面那样应用有限 Abel 群结构定理, 这里采用另一方法.
+    对 `AA a in G`, 定义平移变换 `T_a: V to V` 如下:
+    <span class="formula">
+      `(T_a f)(x) = f(a x)`, `quad AA x in G`.
+    </span>
+    显然每个特征函数 `e in hat G` 都是 `T_a` 的特征向量, 特征值为 `e(a)`.
+    反过来, 能否从 `T_a` 的特征向量得到特征函数? 这就是下面要做的.
+  </li>
+  <li>`T_a` 是酉线性变换, 因为
+    <span class="formula">
+      `(T_a f, T_a g)`
+      `= 1/n sum_(x in G) (T_a f)(x) bar((T_a g)(x))`
+      `= 1/n sum_(x in G) f(a x) bar(g(a x))`
+      `= 1/n sum_(x in G) f(x) bar(g(x))`
+      `= (f, g)`.
+    </span>
+    又由 `G` 是 Abel 群, 显然 `T_a T_b = T_b T_a`.
+    由引理知 `{T_a}_(a in G)` 可以同时对角化,
+    即存在 `V` 的基底 `B := {f_b}_(b in G)` 使得每个 `f_b` 都是每个 `T_a` 的特征向量.
+  </li>
+  <li>
+    下证每个特征向量 `f in B` 都诱导出一个特征函数. 设 `f` 关于 `T_a` 的特征值为 `lambda_a`, 则
+    <span class="formula">
+      `f(a) = f(a * 1) = (T_a f)(1) = lambda_a f(1)`.
+    </span>
+    由于 `T_a` 是酉变换, `lambda_a != 0`; 又 `f != 0`, 故上式推出 `f(1) != 0`.
+    对 `AA x in G`, 定义 `w(x) := lambda_x = f(x)//f(1)`, 则
+    <span class="formula">
+      `w(x y) = f(x y)//f(1)`
+      `= (T_x f)(y)//f(1)`
+      `= lambda_x f(y)//f(1)`
+      `= lambda_x lambda_y f(1)//f(1)`
+      `= w(x) w(y)`.
+    </span>
+    因此 `w` 是一个特征函数.
+  </li>
+  <li>
+    显然不同 `f in B` 诱导的 `w` 线性无关, 所以我们一共得到 `n` 个特征函数.
+    这证明了 `|hat G| ge n`. 另一方面由于正交性, 特征函数必定线性无关, 这证明了 `|hat G| le n`.
+  </li>
 </ol>
+
+<p class="corollary">
+  <b>离散 Fourier 变换</b>
+  设 `f` 是 `G` 上的复函数, 定义 `f` 关于特征 `e` 的 <b>Fourier 系数</b>为
+  <span class="formula">
+    `{:hat f:}(e) := (f, e) = 1/n sum_(a in G) f(a) bar(e(a))`.
+    <span class="label">(离散 Fourier 变换)</span>
+  </span>
+  则 `f` 能展开为 <b>Fourier 级数</b>:
+  <span class="formula">
+    `f = sum_(e in hat G) {:hat f:}(e) e`.
+    <span class="label">(离散 Fourier 逆变换)</span>
+  </span>
+  观察两个等式, 前者将 `n` 维向量 `hat f` 写成 `f` 的线性组合, 而后者反之.
+</p>
+
+<p class="proof">
+  只需注意全体特征构成 `V` 的基底, 因此 `f = sum k_e e`, `k_e in CC`.
+  等式两边与特征 `e'` 作内积, 利用正交性
+  <span class="formula">
+    `(f, e') = sum k_e (e, e') = k_(e')`,
+  </span>
+  因此 `f = sum (f, e) e`.
+</p>
+
+<p class="corollary">
+  <b>Parseval 恒等式</b>
+  设 `f` 是 `G` 上的复函数, 则 `||f||^2 = sum_(e in hat G) |{:hat f:}(e)|^2`.
+</p>
+
+<p class="proof">
+  利用内积右槽的共轭线性,
+  <span class="formula">
+    `||f||^2 = (f, f)`
+    `= (f, sum {:hat f:}(e) e)`
+    `= sum (f, e) bar({:hat f:}(e))`
+    `= sum |{:hat f:}(e)|^2`.
+  </span>
+</p>
 
 <h3>Dirichlet 定理</h3>
 
@@ -701,21 +856,12 @@
 </ol>
 
 <ol class="proof">
+  <li>这是<a href="#lem-character-sum" class="ref">特征求和公式</a>的推论.</li>
   <li>
-    任取 `a in ZZ_q^ast`, 则
-    <span class="formula">
-      `chi(a) sum_(k=1)^q chi(k)`
-      `= sum_(k=1)^q chi(a k)`
-      `= sum_(k=1)^q chi(k)`.
-    </span>
-    由于 `chi` 为非主特征, 存在一个 `a` 使得 `chi(a) != 1`, 于是 `sum_(k=1)^q chi(k) = 0`.
-  </li>
-  <li>
-    记 `n = a q + b`, 其中 `0 le b lt q`,
-    于是
+    记 `n = a q + b`, 其中 `0 le b lt q`, 于是
     <span class="formula">
       `|sum_(k=1)^n chi(k)|`
-      `= sum_(k=1)^b |chi(k)|`
+      `= |sum_(k=1)^b chi(k)|`
       `le q`.
     </span>
   </li>
@@ -799,16 +945,26 @@
 <p class="lemma" id="lem-dirichlet-2">
   对所有模 `q` 的特征 `chi` 求和, 有
   <span class="formula">
-    `sum_chi bar(chi(a)) chi(n)`
-    `= { varphi(q), if n -= a (mod q); 0, otherwise :}`
+    `sum_chi chi(a) bar(chi(b))`
+    `= { varphi(q), if a -= b (mod q); 0, otherwise :}`
   </span>
 </p>
 
 <p class="proof">
-  若 `n -= a (mod q)`, 求和的每项均为 `1`, 结果等于特征群阶数, 即模 `q` 的特征总数 `varphi(q)`.
-  <br>
-  否则,
-  🚧
+  考虑有限 Abel 群 `ZZ_q^ast` 上的函数
+  <span class="formula">
+    `delta_b(a) := { 1, if a -= b (mod q); 0 otherwise :}`
+  </span>
+  Fourier 展开得
+  <span class="formula">
+    `delta_b(a) = 1/(varphi(q)) sum_chi (delta_b, chi) chi(a)`.
+  </span>
+  其中
+  <span class="formula">
+    `(delta_b, chi)`
+    `= sum_(a in ZZ_q^ast) delta_b(a) bar(chi(a))`
+    `= bar(chi(b))`.
+  </span>
 </p>
 
 <p class="lemma" id="lem-dirichlet-3">
