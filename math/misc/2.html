@@ -669,6 +669,32 @@
   <li>在 1. 中令 `x = -1`, 再分奇偶讨论.</li>
 </ol>
 
+<p class="example">
+  [群友@Rei] 求解 `(1+cos π//7)(1+cos 3π//7)(1+cos 5π//7)`.
+</p>
+
+<p class="solution">
+  [fran] 没有 insight, 只是一味地用复数爆算: 记 `x = exp(πi//7)`, 则 `x^7 = -1`,
+  `x^6-x^5+x^4...+1 = 0`.  原式等于
+  <span class="formula align higher">
+    `(1+(x-x^6)/2)(1+(x^3-x^4)/2)(1+(x^5-x^2)/2)`<br>
+    `= x^15/8 - x^14/8 - x^12/8 - x^11/8 + x^10/8 - 3*x^9/8 + x^8/2 + x^7/8 - x^6/8 - x^4/4 + x^3/4 - x^2/2 + x/2 + 1`<br>
+    `= 1/8 * (-x^6 + x^5 - x^4 + x^3 - x^2 + x - 1) + 7/8`<br>
+    `= 7/8`.
+  </span>
+</p>
+
+<p class="solution">
+  [群友@小y] 原式等于
+  <span class="formula align higher">
+    `8 cos^2 {:pi/14:} cos^2 {:(3pi)/14:} cos^2 {:(5pi)/14:}`<br>
+    `= 8 (sin {:(3pi)/7:} sin {:(2pi)/7:} sin {:pi/7:})^2`<br>
+    `= 8 prod_(k=1)^6 sin{:(k pi)/7:}`<br>
+    `= 8 * 7/2^6`
+    `= 7/8`.
+  </span>
+</p>
+
 <ol class="example">
   [群友@我是薛定谔的猫]
   记 `theta_k = theta + (k pi)/n`, 则

@@ -7,6 +7,15 @@
 - http 协议族包含 http, https, websocket, hls (音视频 m3u8), soap (web service) 等
 - 标准的 http web 服务器: apache, nginx, tomcat, iis 等
 
+### 网络安全领域神秘缩写
+
+- 网安: 网络安全
+- CVE (Common Vulnerabilities and Exposures): 漏洞的标准编号系统，例如著名的 Log4Shell 漏洞编号为 CVE-2021-44228。
+- RCE (Remote Code Execution): 远程代码执行，最危险的一类漏洞
+- POC (Proof of Concept): 概念验证，用于证明某个安全漏洞确实存在的示例程序，通常不造成破坏
+- EXP (Exploit): 漏洞利用，利用漏洞达成攻击目标
+- WAF (Web Application Firewall): 防火墙，审查网络流量，拦截并记录有风险的流量
+
 ## 小工具
 
 抓包

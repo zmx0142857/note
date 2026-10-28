@@ -190,9 +190,9 @@
       `= prod_(p | n) sum_(p^k | n) f(p^k)`,
     </span>
   </li>
-  <li><b>Euler 乘积</b> 若级数 `sum_(n ge 0) f(n)` 绝对收敛, 则
+  <li><b>Euler 乘积</b> 若级数 `sum_(n ge 1) f(n)` 绝对收敛, 则
     <span class="formula">
-      `sum_(n ge 0) f(n) = prod_p sum_(k ge 0) f(p^k)`.
+      `sum_(n ge 1) f(n) = prod_p sum_(k ge 0) f(p^k)`.
     </span>
     其中 `prod_p` 表示对全体素数求积.
   </li>
@@ -217,7 +217,7 @@
     </span>
   </li>
   <li>设 `p_1=2, p_2=3, cdots` 是全体素数,
-    由算术基本定理, 整数 `n` 与下面的多重集合一一对应:
+    由算术基本定理, 正整数 `n` 与下面的多重集合一一对应:
     <span class="formula">
       `{p_1: alpha_1, p_2: alpha_2, cdots}`
     </span>
@@ -356,15 +356,15 @@
     这类似于定积分的区间再现方法.
     结合律与单位元直接计算验证.
   </li>
-  <li>用归纳法. 首先由 `1 = iota(1) = f(1) f^-1(1)` 得到 `f^-1(1)
+  <li>归纳定义 `f^-1` 如下: 首先由 `1 = iota(1) = f(1) f^-1(1)` 得到 `f^-1(1)
     = 1//f(1)`. 假设 `n gt 1`, 且 `f^-1` 对一切小于 `n` 的正整数有定义, 则
     <span class="formula">
       `0 = iota(n) = sum_(d | n) f(n // d) f^-1(d)`
-      `= F(n) + f(1) f^-1(n)`,
+      `:= F(n) + f(1) f^-1(n)`,
     </span>
     故 `f^-1(n) = - F(n)//f(1)`.
   </li>
-  <li>设 `f, g` 是积性函数, `a, b` 互素. 与前类似, 将 `d` 写成 `a`
+  <li>设 `f, g` 是积性函数, `a, b` 互素. 与前面证明“积性函数的和函数也是积性函数”类似, 将 `d` 写成 `a`
     的因子和 `b` 的因子之积:
     <span class="formula">
       `(f ** g)(a b)`
@@ -375,13 +375,6 @@
     </span>
   </li>
 </ol>
-
-<p class="theorem">
-  <b>积性函数的卷积公式</b> 设 `f, g` 为积性函数, 则
-  <span class="formula">
-    `(f ** g)(n) = ??`
-  </span>
-</p>
 
 <h2>Möbius 反演</h2>
 
@@ -476,19 +469,63 @@
   若 `f` 的和函数 `S` 是积性函数, 则 `f = mu ** S` 也是积性函数.
 </p>
 
-<p class="example">
-  设 `f(n) = n^s`, 则 `mu ** f = n^s prod_(p | n) (1-p^-s)`.
-  特别 `mu ** n = varphi`, 即 `varphi ** 1 = n`.
+<ol class="example">
+  <li><b>Euler 函数的和函数</b>
+    设 `f(n) = n^s`, 则 `mu ** f = n^s prod_(p | n) (1-p^-s)`.
+    特别取 `s = 1` 有 `mu ** n = varphi`, 即 `varphi ** 1 = n`.
+  </li>
+  <li>
+    <b>zeta 函数的倒数</b>
+    `zeta(s)^-1 = sum_(n ge 1) (mu(n))/n^s`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    等号两边都是积性函数, 只需证明 `n` 是素数幂 `p^a` 的情形即可.
+    此时
+    <span class="formula">
+      `(mu ** f)(p^a)`
+      `= mu(1) f(p^a) + mu(p) f(p^(a-1))`
+      `= p^(a s) - p^((a-1)s)`
+      `= n^s (1-p^-s)`.
+    </span>
+  </li>
+  <li>
+    代入 Euler 乘积公式
+    <span class="formula">
+      `zeta(s)^-1 = prod_p (1 - p^-s)`
+      `= 1 - sum_p p^-s + sum_(p_1 != p_2) (p_1 p_2)^-s - cdots`
+    </span>
+    上式每一项都含有有限个不同素数的乘积, 且符号与素数个数的奇偶相关, 这正是 Möbius 函数.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>广义反演定理</b> [<a href="https://zhuanlan.zhihu.com/p/151302308" target="_blank">知乎@TravorLZH</a>]
+  设 `alpha, beta` 是互逆的算术函数 (即 `alpha ast beta = iota`),
+  `z` 是非平凡的完全积性函数, `f, g` 是定义在 `[1, +oo)` 的两个实函数, 则
+  <span class="formula">
+    `g(x) = sum_(n le x) z(n) alpha(n) f(x//n)`
+  </span>
+  当且仅当
+  <span class="formula">
+    `f(x) = sum_(n le x) z(n) beta(n) g(x//n)`.
+  </span>
 </p>
 
 <p class="proof">
-  等号两边都是积性函数, 只需证明 `n` 是素数幂 `p^a` 的情形即可.
-  此时
+  `z` 非平凡意味着 `z !-= 0`, 于是 `z(1) = 1`.
+  我们只证一个方向. 假设第一式成立, 则第二式的右边等于
+  <span class="formula align">
+    `sum_(n le x) z(n) beta(n) sum_(k le x//n) z(k) alpha(k) f(x//(n k))`
+  </span>
+  记 `m = n k`, 上式等于
   <span class="formula">
-    `(mu ** f)(p^a)`
-    `= mu(1) f(p^a) + mu(p) f(p^(a-1))`
-    `= p^(a s) - p^((a-1)s)`
-    `= n^s (1-p^-s)`.
+    `sum_(m le x) z(m) f(x//m) sum_(k | m) alpha(k) beta(m//k)`
+    `= sum_(m le x) z(m) f(x//m) iota(m)`
+    `= z(1) f(x)`
+    `= f(x)`.
   </span>
 </p>
 
@@ -519,7 +556,7 @@
 
 <ol class="example">
   <li>`chi_q^0(n) = { 1, if (n,q) = 1; 0, otherwise :}` 是模 `q` 的特征,
-    称为<b>主特征</b>;
+    称为<b>主特征 (principal character)</b>或<b>平凡特征 (trivial character)</b> 或<b>单位特征 (unit character)</b>;
   </li>
   <li>Legendre 符号 / Jacobi 符号 `(n/q)` 是模 `q` 的特征.</li>
 </ol>
@@ -656,6 +693,26 @@
   </li>
 </ol>
 
+<p class="definition">
+  <b>导子与本原特征</b>
+  设 `chi_q` 是模 `q` 的特征, 则存在一个最小正整数 `d | q` 和一个模 `d` 的特征 `chi_d`,
+  使得
+  <span class="formula">
+    `chi_q(a) = chi_d(a)`, `quad (a, q) = 1`.
+  </span>
+  我们称 `d` 是 `chi_q` 的<b>导子 (conductor)</b>, 它可以理解为 `chi_q`
+  的最小正周期 (排除掉与 `q` 不互素的点).
+  如果 `chi_q` 的导子恰好等于 `q`, 则称它是一个<b>本原特征 (primitive character)</b>.
+</p>
+
+<p class="example">
+  [deepseek]
+  考虑模 6 的特征 `chi_6(n) = (n/6)`, 其满足 `chi_6(1) = 1`, `chi_6(5) = -1`.
+  再考虑模 3 的特征 `chi_3(n) = (n/3)`, 其满足 `chi_3(1) = 1`, `chi_3(2) = -1`.
+  容易验证对一切与 6 互素的 `a` 都有 `chi_6(a) = chi_3(a)`.
+  由于模 1 和模 2 的特征都只有平凡特征, 可见 `chi_6` 的导子为 3, 它由本原特征 `chi_3` 诱导得到.
+</p>
+
 <h3>离散 Fourier 变换</h3>
 
 <p>[参见<a href="../../cs/ds/hardware.html">快速 Fourier 变换 (FFT)</a>]</p>
@@ -664,7 +721,7 @@
   设 `G` 是有限 Abel 群, `|G| = n`.
   称同态 `e: G to CC^xx` 为 `G` 上的<b>特征 (函数)</b>, 其中 `CC^xx = CC - {0}`
   是复数乘法群.
-  称 `e(a) -= 1` 是<b>主特征 (trivial character)</b>或<b>单位特征</b>.
+  称 `e(a) -= 1` 是<b>主特征</b>.
   容易看出对任意 `a in G`, `e(a)` 都是 `n` 次单位根.
   因此也可以说 `e: G to C_n`, `C_n` 是 `n` 次单位根群.
   `G` 上的全体特征按复数乘法构成有限 Abel 群, 称为<b>特征群</b>或<b>对偶群</b> `hat G`.
@@ -923,8 +980,8 @@
   存在无穷多 `4n+1` 型素数.
 </p>
 
-<p class="proof">
-  考虑模 4 的特征 `chi(n)`, 其中 `chi(1) = 1`, `chi(3) = -1`.
+<div class="p proof">
+  考虑模 4 的实特征 `chi(n)`, 其中 `chi(1) = 1`, `chi(3) = -1` [注].
   定义它的 <b>`L` 函数</b>为
   <span class="formula">
     `L(s, chi) = sum_(n ge 1) (chi(n))/n^s`
@@ -940,20 +997,31 @@
     `sum_(p -= 1(mod 4)) 2/p = oo`.
   </span>
   因此有无穷多 `4n+1` 型素数.
-</p>
+  <hr>
+  用 Jacobi 符号可以记 `chi(n) = ((-1)/n)`.
+</div>
 
 <p class="lemma" id="lem-dirichlet-2">
   对所有模 `q` 的特征 `chi` 求和, 有
   <span class="formula">
     `sum_chi chi(a) bar(chi(b))`
-    `= { varphi(q), if a -= b (mod q); 0, otherwise :}`
+    `= { varphi(q), if a -= b (mod q) and (a, q) = (b, q) = 1;
+      0, otherwise :}`
   </span>
+  特别取 `b = 1` 得到
+  <span class="formula">
+    `sum_chi chi(a)`
+    `= { varphi(q), if a -= 1 (mod q); 0, otherwise :}`
+  </span>
+  此公式与前面的特征求和公式是对偶的.
 </p>
 
 <p class="proof">
+  若 `(a, q) gt 1` 或 `(b, q) gt 1`, 结果显然等于 0.
+  下设 `(a, q) = (b, q) = 1`,
   考虑有限 Abel 群 `ZZ_q^ast` 上的函数
   <span class="formula">
-    `delta_b(a) := { 1, if a -= b (mod q); 0 otherwise :}`
+    `delta_b(a) := { 1, if a -= b (mod q); 0, otherwise :}`
   </span>
   Fourier 展开得
   <span class="formula">
@@ -983,12 +1051,8 @@
     `= sum_chi sum_p sum_(k ge 1) (chi(p)^k)/(k p^(k s))`
     `= sum_p sum_(k ge 1) sum_chi (chi(p^k))/(k p^(k s))`.
   </span>
-  由前一引理 (取 `a = 1`) 有 `sum_chi chi(p^k) = varphi(q) [p^k -= 1]`,
-  于是上式等于
-  <span class="formula">
-    `varphi(q) sum_p sum_(k ge 1) ([p^k -= 1])/(k p^(k s)) ge 0`.
-  </span>
-  这证明原式左边 `ge 1`.
+  由前一引理有 `sum_chi chi(p^k) = varphi(q) [p^k -= 1] ge 0`,
+  于是上式 `ge 0`, 这证明原式左边 `ge 1`.
 </p>
 
 <ol class="lemma" id="lem-dirichlet-4">
@@ -1034,6 +1098,9 @@
     只需证 `0 lt |L(1, chi)| lt oo`.
     其中 `lt oo` 的部分是显然的, 因为 `chi` 为非主特征时, `L(s, chi)` 在 `s gt 0` 上连续可微.
   </li>
+</ol>
+
+<ol class="proof">
   <li>下证 `L(1, chi) != 0`, 这是最深刻和困难的部分. 先设 `chi` 是复特征,
     若 `L(1, chi) = 0`, 则由中值定理有
     <span class="formula">
@@ -1056,9 +1123,6 @@
     但只有一项 `L(s, chi_0)` 以 `O(|s-1|^-1)` 的速度趋于无穷.
     乘积的其它项都有界, 而整个乘积大于 1, 这是不可能的.
   </li>
-</ol>
-
-<ol class="proof">
   <li>
     再设 `chi != chi_0` 为实特征, 考虑求和
     <span class="formula">

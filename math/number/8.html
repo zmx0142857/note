@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>Riemann zeta 函数</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+<body>
+
+<h2>`zeta` 函数的解析延拓</h2>
+
+<p>[<a href="https://zhuanlan.zhihu.com/p/159602913" target="_blank">知乎@TravorLZH</a>]</p>
+
+<p class="remark">
+  我们已经知道 zeta 函数的定义是 `zeta(s) = sum_(n ge 1) 1/n^s` `("Re"(s) gt 1)`.
+  在<a href="./6.html">积性数论函数</a>那一章, 通过自然数的唯一因子分解, 得到乘积公式,
+  它是连接 zeta 函数与素数的桥梁:
+  <span class="formula">
+    `zeta(s) = prod_p 1/(1 - p^-s)`.
+  </span>
+  上式还可以这样直观理解: 设 `p` 为素数, 则
+  <span class="formula">
+    `(1 - p^-s) zeta(s) = sum n^-s - sum (p n)^-s`.
+    <span class="label">(`ast`)</span>
+  </span>
+  换言之乘以 `(1-p^-s)` 的效果是从级数中扣除所有 `p` 的倍数.
+  再设 `q` 为另一素数, 则
+  <span class="formula">
+    `(1-q^-s) (1-p^-s) zeta(s) = sum n^-s - sum (p n)^-s - sum (q n)^-s + sum (p q n)^-s`.
+  </span>
+  上式的效果是从级数中扣除所有 `p` 或 `q` 的倍数. `p q` 的倍数在第 2, 3
+  项中被重复扣除了, 因此在第 4 项补回来.
+  这一思路推广至无穷, 则级数除第一项外的全部项都被消去, 即得到乘积公式.
+  <br>
+  为了扩大 `zeta(s)` 的定义域, 考虑交错级数 (Dirichlet eta 函数):
+  <span class="formula">
+    `eta(s) := sum_(n ge 1) (-1)^(n-1)/n^s`, `quad "Re"(s) gt 0 and s != 1`.
+  </span>
+  利用 `(ast)` 式显然有 `eta(s) = (1-2^-s) zeta(s) - 2^-s zeta(s)`,
+  于是 `zeta(s) = eta(s)//(1 - 2^(1-s))`. 这稍微扩大了定义域, 但仍不能令人满意.
+  为了将 zeta 函数的定义域扩大到除了 `s=1` 外的整个复平面, 我们需要惊人的注意力,
+  注意到下面的函数方程:
+</p>
+
+<p class="theorem">
+  <b>`zeta` 函数的函数方程</b>
+  <span class="formula">
+    `zeta(1-s) = 2^(1-s) pi^-s cos{:(pi s)/2:} Gamma(s) zeta(s)`,
+  </span>
+  换元 `s ↦ 1-s` 得到
+  <span class="formula">
+    `zeta(s) = 2^s pi^(s-1) sin{:(pi s)/2:} Gamma(1-s) zeta(1-s)`.
+  </span>
+  如果令
+  <span class="formula">
+    `xi(s) = (s (s-1))/2 pi^(-s//2) Gamma(s/2) zeta(s)`,
+  </span>
+  则 `xi` 是整函数, 上述函数方程可写为对称形式: `xi(s) = xi(1-s)`.
+</p>
+
+<p class="proof">
+  方程的等价性:
+  利用 Legendre 倍元公式和余元公式,
+  <span class="formula">
+    `Gamma(s) = 2^(s-1) pi^(-1/2) Gamma(s/2) Gamma((1+s)/2)`
+    `= (2^(s-1) pi^(1/2) Gamma(s/2))/(cos{:(s pi)/2:} Gamma((1-s)/2)`.
+  </span>
+  代入第一个函数方程的右边得
+  <span class="formula">
+    `zeta(1-s)`
+    `= pi^(1/2 - s) (Gamma(s/2))/(Gamma((1-s)/2)) zeta(s)`,
+  </span>
+  即
+  <span class="formula">
+    `(zeta(1-s) pi^(-(1-s)//2) Gamma((1-s)/2))/(zeta(s) pi^(-s//2) Gamma(s/2)) = 1`.
+  </span>
+</p>
+
+<ol class="proof">
+  为证 `xi(s) = xi(1-s)`, 引入级数
+  <span class="formula">
+    `theta(x) = sum_(n in ZZ) exp(-pi n^2 x)`, `quad x gt 0`.
+  </span>
+  <li>
+    先证 `theta(1//x) = sqrt x theta(x)`.
+    函数 `exp(-pi u^2)` 的 <a href="../complex/6.html" target="_blank">Fourier 变换</a>是其自身, 由伸缩变换,
+    `f(u) = exp(-pi u^2//x)` 的 Fourier 变换是 `hat(f)(v) = sqrt x exp(-pi v^2 x)`.
+    代入 Poisson 求和公式 `sum f(n) = sum hat(f)(n)` 即得结论.
+  </li>
+  <li>由 Gamma 函数的定义,
+    <span class="formula">
+      `n^-s pi^(-s//2) Gamma(s/2)`
+      `= n^-s pi^(-s//2) int_0^oo t^(s//2-1) "e"^-t dt`
+      `= 2 int_0^oo x^(s-1) "e"^(-pi n^2 x^2) dx`.
+    </span>
+    对 `n` 求和, 积分与求和换序, 并利用 `theta(x)` 的函数方程, 得
+    <span class="formula align">
+      `2/(s(s-1)) xi(s)`<br>
+      `= int_0^oo x^(s-1) (theta(x^2)-1) dx`<br>
+      `= int_1^oo y^(-s-1) (theta(y^-2)-1) dy + int_1^oo x^(s-1) (theta(x^2)-1) dx`<br>
+      `= int_1^oo (x^(-s) + x^(s-1)) (theta(x^2)-1) dx`
+      `+ int_1^oo x^-s - x^(-s-1) dx`<br>
+      `= int_1^oo (x^(-s) + x^(s-1)) (theta(x^2)-1) dx`
+      `- 1/s - 1/(1-s)`.
+    </span>
+    最终的结果关于 `s, 1-s` 是对称的, 故 `xi(s) = xi(1-s)`.
+    上式第一项的积分视为 `s` 的函数在复平面上解析 (??), 因此 `xi(s)` 在复平面上解析.
+  </li>
+</ol>
+
+<ol class="corollary">
+  <li>`lim_(s to 1) (s-1) zeta(s) = 1`.</li>
+  <li>`lim_(s to 0) zeta(s) = -1/2`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    在函数方程的证明最后, 两个一阶极点 `s = 0, 1` 分别来自 `Gamma` 函数与 `zeta` 函数.
+    代入 `xi(s)` 的定义即得, `zeta` 函数在 `s = 1` 的 Laurent 展式的主项为 `1//(s-1)`,
+    换言之 `lim_(s to 1) (s-1)zeta(s) = 1`.
+  </li>
+  <li>
+    代入函数方程,
+    <span class="formula">
+      `lim_(s to 0) zeta(s)`
+      `= lim_(s to 0) 1/pi sin{:(pi s)/2:} zeta(1-s)`
+      `= lim_(s to 0) s/2 zeta(1-s)`
+      `= lim_(s to 1) (1-s)/2 zeta(s)`
+      `= -1/2`.
+    </span>
+  </li>
+</ol>
+
+<p class="definition">
+  Riemann zeta 函数在 `s in CC - {1}` 的定义如下:
+  <span class="formula">
+    `zeta(s) := {
+      eta(s)//(1-2^(1-s)), if "Re"(s) gt 0 and s != 1;
+      2^s pi^(s-1) sin(pi s//2) Gamma(1-s) zeta(1-s), if "Re"(s) le 0 and s != 0;
+      -1//2, if s = 0
+    :}`
+  </span>
+  zeta 函数解析延拓的方法不止一种, 还可以<a href="../analysis/10.html#exp-zeta-ext" target="_blank">用 Euler-Maclaurin 公式进行延拓</a>.
+</p>
+
+<ol class="example">
+  <b>zeta 函数在整数的取值</b>
+  [<a href="../analysis/10.html" target="_blank">参考这里</a>]
+  <li>对非负整数 `n` 有 `zeta(2n) = -1/2 (B_(2n))/((2n)!) (2pi"i")^(2n)`, 其中 `B_(2n)` 是 Bernoulli 数. 特别 `zeta(2) = pi^2/6`.</li>
+  <li>对非负整数 `n` 有 `zeta(-n) = -(B_(n+1)^+)/(n+1)`, 特别 `zeta(-1) = -1/12`, 并且当 `m` 是 `ge 2` 的偶数时 `zeta(-m) = 0`. 这是 zeta 函数的平凡零点, 平平无奇, 且都是一阶零点.</li>
+  <li>`s = 1` 是 zeta 函数的一阶极点 (这个事实也可以从 zeta 函数的 Euler-Maclaurin 公式看出).</li>
+  <li>当 `m` 是 `ge 3` 的奇数时, `zeta(m)` 很有可能都是无理数, 其中 `zeta(3)`
+    的无理性已被证明, 称为 Apéry 常数, `zeta(5)` 的无理性也在 AI 时代被证明.
+    这些常数的无理性涉及到丢番图逼近, 已不在本文的讨论范围内.
+  </li>
+</ol>
+
+<p class="definition">
+  <b>zeta 函数的非平凡零点</b>
+  是指它除了负偶数以外的零点.
+  根据 `Gamma` 函数的性质 (没有零点, 全体极点为 `{-n}_(n ge 0)`, 且都是一阶极点) 可知,
+  `Gamma(s//2)` 除了 `s = 0` 的极点外, 其余极点与 `zeta(s)` 的平凡零点正好抵消.
+  因此 `zeta(s)` 的非平凡零点恰好就是 `xi(s)` 的全体零点.
+  根据函数方程 `xi(s) = xi(1-s)`, zeta 函数的全体非平凡零点必定关于直线 `"Re"(s) = 1//2` 对称.
+  又, 我们可以证明 `xi(bar s) = bar(xi(s))`, 所以这些非平凡零点也关于直线 `"Im"(s) = 0` 对称.
+  这引出著名的 <b>Riemann 猜想</b>:
+  <span class="formula">
+    `zeta(s)` 的所有非平凡零点都落在直线 `"Re"(s) = 1//2` 上?
+  </span>
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

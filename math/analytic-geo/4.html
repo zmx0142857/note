@@ -268,6 +268,42 @@ resultant(4*t**3-3*t-x, 4*t**2*(1-t**2)-y**2, t)
   </span>
 </div>
 
+<p class="example">
+  <b>Holditch 定理</b> [来自bilibili@擢兰风而霞起]
+  在闭合凸曲线 `c_0` 上取一条弦 `AB`, 在弦上取分点 `P` 使得 `AP = a`, `BP = b`.
+  保持弦的端点在曲线上, 让弦沿着曲线滑动, 分点 `P` 形成一条内轨迹 `c_1`.
+  Holditch 定理表明, 当弦取得足够短, 且内轨迹不自交时, 内外曲线 `c_0, c_1` 之间围成的面积恒为
+  `pi a b`.
+</p>
+
+<ol class="proof">
+  <li>先考虑弦运动时扫过的区域面积. 该面积介于外曲线 `c_0` 和一条内部包络线 `c_2` 之间.
+    设弦与包络线 `c_2` 的切点为一动点 `Q`, 记 `AQ = x`. 当弦运动一周时, `AQ` 和
+    `BQ` 扫过的面积都相等. 应用极坐标积分有
+    <span class="formula">
+      `int x^2 "d"theta = int (a+b-x)^2 "d"theta`.
+    </span>
+    化简得到
+    <span class="formula">
+      `int 2x(a+b) "d"theta = (a+b)^2 int "d"theta`,
+    </span>
+    即 `int x "d"theta = pi (a+b)`.
+  </li>
+  <li>分别用 `S_(AQ), S_(PQ)` 表示线段 `AQ`, `PQ` 扫过的面积.
+    因此所求 `c_0, c_1` 之间的面积为
+    <span class="formula">
+      `S_(AQ)-S_(PQ)`
+      `= 1/2 int (x^2 - (x-a)^2) "d"theta`
+      `= int (a x - a^2//2) "d"theta`
+      `= a pi(a+b) - pi a^2`
+      `= pi a b`.
+    </span>
+  </li>
+  <hr>
+  为什么 `c_0` 一定在最外面, `c_2` 一定在最里面?
+  为什么 `P` 一定落在线段 `AQ` 上?
+</ol>
+
 <script src="../../js/note.js?type=math"></script>
 <script src="../../js/plot.js"></script>
 <script src="../../js/ui.js"></script>

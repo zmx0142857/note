@@ -519,6 +519,52 @@
 
 <h2>有界闭区间上的连续函数</h2>
 
+<p class="example">
+  <b>滑动窗口差值问题</b>
+  [来自群友@Rei, @小白] [deepseek, gpt]
+  设 `f in C[a, b]`, `n` 为正整数, `h = (b-a)//n`.
+  证明: 存在 `x, y ∈ [a, b]`, 使 `y - x = h`, 且
+  <span class="formula">
+    `f(y) - f(x) = (f(b) - f(a))/n`.
+  </span>
+</p>
+
+<div class="p proof">
+  令 `g(x) = f(x+h) - f(x) - (f(b) - f(a))//n`, `x_k = a + k*h`.
+  下证存在一个 `x ∈ [a, b-h]` 使得 `g(x) = 0`.
+  事实上我们有
+  <span class="formula">
+    `g(x_0) + g(x_1) + cdots + g(x_(n-1))`
+    `= f(x_n) - f(x_0) - (f(b) - f(a)) = 0`.
+  </span>
+  若存在一个 `g(x_k) = 0`, 则所求的 `x` 已经找到;
+  否则这些 `g(x_k)` 有正有负, 应用介值定理知道存在 `x` 使得 `g(x) = 0`.
+  <hr>
+  注: 当 `n` 不是正整数时, 上述命题存在反例. 例如 `1 lt n lt 2` 时,
+  子区间 `[x, x+h]` 占 `[a, b]` 的一半以上.  令
+  <span class="formula">
+    `varphi(x) = { 1, if x in [b-h, a+h]; 0, otherwise :}`
+  </span>
+  然后令 `f(x) = int_a^x varphi(t) dt`.
+  无论如何选取 `x in [a, b-h]`, 都有 `"supp"(varphi) = [b-h, a+h] sube [x, x+h]`,
+  因此 `f(x+h) - f(x) = f(b) - f(a)` `gt (f(b) - f(a))//n`.
+  <br>
+  更一般地, 设 `n gt 1` 且不是整数, 则 `floor(n) lt n lt ceil(n)`.
+  令 `d = (b-a)//ceil(n) lt h`, 考虑分点
+  <span class="formula">
+    `a + d, a + 2d, cdots, a + floor(n) d`.
+  </span>
+  我们构造函数 `varphi`, 使得它只在这些分点附近等于 1, 而在其它位置等于 0;
+  然后令 `f(x) = int_a^x varphi(t) dt`.
+  只要 `varphi` 的每个峰足够窄, 就能保证无论如何选取 `x in [a, b-h]`,
+  区间 `[x, x+h]` 都至少包含一个完整的峰, 这意味着
+  <span class="formula">
+    `f(x+h) - f(x)`
+    `ge (f(b) - f(a))//floor(n)`
+    `gt (f(b) - f(a))//n`.
+  </span>
+</div>
+
 <h2>杂例</h2>
 
 <p class="example">
