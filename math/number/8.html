@@ -7,13 +7,13 @@
 </head>
 <body>
 
-<h2>`zeta` 函数的解析延拓</h2>
-
 <p>[<a href="https://zhuanlan.zhihu.com/p/159602913" target="_blank">知乎@TravorLZH</a>]</p>
+
+<h2>`zeta` 函数的解析延拓</h2>
 
 <p class="remark">
   我们已经知道 zeta 函数的定义是 `zeta(s) = sum_(n ge 1) 1/n^s` `("Re"(s) gt 1)`.
-  在<a href="./6.html">积性数论函数</a>那一章, 通过自然数的唯一因子分解, 得到乘积公式,
+  在<a href="./6.html">积性数论函数</a>那一章, 通过自然数的唯一因子分解, 得到 Euler 乘积公式,
   它是连接 zeta 函数与素数的桥梁:
   <span class="formula">
     `zeta(s) = prod_p 1/(1 - p^-s)`.
@@ -165,8 +165,205 @@
   又, 我们可以证明 `xi(bar s) = bar(xi(s))`, 所以这些非平凡零点也关于直线 `"Im"(s) = 0` 对称.
   这引出著名的 <b>Riemann 猜想</b>:
   <span class="formula">
-    `zeta(s)` 的所有非平凡零点都落在直线 `"Re"(s) = 1//2` 上?
+    `zeta(s)` 的非平凡零点都落在直线 `"Re"(s) = 1//2` 上?
   </span>
+</p>
+
+<p class="theorem">
+  `zeta(s)` 的非平凡零点都落在<b>关键带 (或临界带, critical strip)</b> 内:
+  <span class="formula">
+    `0 lt "Re"(s) lt 1`.
+  </span>
+</p>
+
+<ol class="proof">
+  由对称性, 只需证 `"Re"(s) ge 1` 时 `zeta` 函数无零点.
+  <li>先证 `sigma = "Re"(s) gt 1` 时 `zeta(s) != 0`, 这只需证 `|ln zeta(s)| lt oo`.
+    因为
+    <span class="formula">
+      `ln zeta(s) = -sum_p ln(1-p^-s)` `= sum_p sum_(n ge 1) p^(-s k)/k`,
+    </span>
+    所以
+    <span class="formula">
+      `|ln zeta(s)|`
+      `le sum_p sum_(k ge 1) |p^(-s k)/k|`
+      `le sum_p sum_(k ge 1) p^(-sigma k)`
+      `= sum_p p^-sigma/(1 - p^-sigma)`
+      `le 1/(1 - 2^-sigma) sum_p p^-sigma`
+      `lt oo`.
+    </span>
+  </li>
+  <li>再证直线 `"Re"(s) = 1` 上面没有 `zeta` 函数的零点.
+    如若不然, 设 `zeta(1+"i"tau) = 0`, 则有
+    <span class="formula">
+      `lim_(sigma to 1^+) |zeta^3(sigma) zeta^4(sigma+"i"tau) zeta(sigma+2"i"tau)| = 0`.
+    </span>
+    这意味着存在实数 `sigma gt 1` 使得 `L := ln |zeta^3(sigma) zeta^4(sigma+"i"tau) zeta(sigma+2"i"tau)| lt 0`.
+    另一方面, `"Re"(s) gt 1` 时
+    <span class="formula">
+      `ln zeta(s) = sum_p sum_(k ge 1) p^(-s k)/k`
+      `==^(n = p^k) sum_(n ge 2) (k Lambda(n))/(ln n) n^-s/k`
+      `= sum_(n ge 2) (Lambda(n))/(ln n) n^-s`.
+    </span>
+    其中 `Lambda(n) := ln p [n = p^k]`. 于是
+    <span class="formula align">
+      `L = ln |zeta^3(sigma) zeta^4(sigma+"i"tau) zeta(sigma+2"i"tau)|`<br>
+      `= "Re"(3 ln zeta(sigma) + 4 ln zeta(sigma+"i"tau) + zeta(sigma+2"i"tau))`<br>
+      `= sum_(n ge 2) (Lambda(n))/(ln n) n^-sigma "Re"(3 + 4 n^(-"i"tau) + n^(-2"i"tau))`.
+    </span>
+    其中
+    <span class="formula align">
+      `"Re"(3 + 4 n^(-"i"tau) + n^(-2"i"tau))`<br>
+      `= 3 + 4 cos(tau ln n) + cos(2 tau ln n)`<br>
+      `= 2 + 4 cos(tau ln n) + 2 cos^2(tau ln n)`<br>
+      `= 2(1 + cos(tau ln n))^2 ge 0`.
+    </span>
+    因此 `L ge 0`, 矛盾.
+  </li>
+</ol>
+
+<h2>zeta 函数与素数计数</h2>
+
+<p class="example">
+  <b>带权素数计数函数</b>定义为 `Pi(x) = sum_(p^n le x) 1/n`, 它与 `pi(x)` 的联系是
+  <span class="formula">
+    `Pi(x) = sum_(n ge 1) sum_(p le root n x) 1/n`
+    `= sum_(n ge 1) (pi(root n x))/n`.
+  </span>
+  可以证明反演公式
+  <span class="formula">
+    `pi(x) = sum_(n ge 1) (mu(n) Pi(root n x))/n`.
+  </span>
+</p>
+
+<p class="proof">
+  将 `Pi(x)` 与 `pi(x)` 的关系式代入反演公式右边得
+  <span class="formula">
+    `sum_(n ge 1) (mu(n))/n sum_(m ge 1) (pi(root (m n) x))/m`
+    `==^(r = m n) sum_(r ge 1) (pi(root r x))/r sum_(n | r) mu(n)`
+    `= sum_(r ge 1) (pi(root r x))/r [r = 1]`
+    `= pi(x)`.
+  </span>
+</p>
+
+<p class="example">
+  <b>带权素数计数函数与 Riemann zeta 函数</b>
+  像 `pi(x)` 与 `Pi(x)` 这样不连续的函数,
+  常见处理手段是将它们在间断点的函数值重新定义为左右极限的平均值, 即
+  <span class="formula higher">
+    `pi_0(x) := (pi(x+0) + pi(x-0))/2`,<br>
+    `Pi_0(x) := (Pi(x+0) + Pi(x-0))/2`.
+  </span>
+  如果引入单位阶跃函数 (Heaviside step function)
+  <span class="formula">
+    `H(x) = {0, x lt 0; 1//2, x = 0; 1, x gt 0:}`
+  </span>
+  则有
+  <span class="formula higher">
+    `pi_0(x) = sum_p H(x-p)`,<br>
+    `Pi_0(x) = sum_(n ge 1) 1/n sum_p H(x - p^n)`.
+  </span>
+  可以证明
+  <span class="formula">
+    `1/s ln zeta(s) = (cc M Pi_0)(-s)`,<br>
+    `Pi_0(x) = 1/(2pi"i") int_(a-"i"oo)^(a+"i"oo) ln zeta(s) x^s ("d"s)/s`.
+  </span>
+  其中 `cc M` 为 Mellin 变换.
+</p>
+
+<p class="proof">
+  考虑 zeta 函数的对数
+  <span class="formula align">
+    `ln zeta(s) = -sum_p ln(1-p^-s)`<br>
+    `= sum_p sum_(n ge 1) p^(-s n)/n`<br>
+    `= sum_(n ge 1) s/n sum_p int_(p^n)^oo x^(-s-1) dx`<br>
+    `= sum_(n ge 1) s/n sum_p int_0^oo H(x - p^n) x^(-s-1) dx`<br>
+    `= s int_0^oo Pi_0(x) x^(-s-1) dx`.
+  </span>
+  由 Mellin 变换的定义 `(cc M f)(s) = int_0^oo f(x) x^(s-1) dx` 有
+  <span class="formula">
+    `1/s ln zeta(s) = (cc M Pi_0)(-s)`.
+  </span>
+  而 Mellin 逆变换公式是
+  <span class="formula align">
+    `(cc M^-1 F)(x) = 1/(2pi"i") int_(c-"i"oo)^(c+"i"oo) F(s) x^-s "d"s`<br>
+    `==^(a=-c) 1/(2pi"i") int_(-a-"i"oo)^(-a+"i"oo) F(s) x^-s "d"s`<br>
+    `==^(u=-s) -1/(2pi"i") int_(a+"i"oo)^(a-"i"oo) F(-u) x^u "d"u`<br>
+    `= 1/(2pi"i") int_(a-"i"oo)^(a+"i"oo) F(-s) x^s "d"s`.
+  </span>
+  因此
+  <span class="formula align">
+    `Pi_0(x) = 1/(2pi"i") int_(a-"i"oo)^(a+"i"oo) 1/s ln zeta(s) x^s "d"s`.
+  </span>
+</p>
+
+<p>我们还能将更多的素数计数函数与 zeta 函数相联系, 比如上一章的 Chebyshev 函数. 为此先把前一个例子提取为引理:</p>
+
+<p class="lemma">
+  <b>Perron 公式</b>
+  考虑 Dirichlet 级数 `A(s) = sum_(n ge 1) a_n/n^s`, 若它在 `"Re"(s) gt sigma`
+  上一致收敛, 则对任意 `a gt sigma` 成立
+  <span class="formula">
+    `sum_(n le x){::}' a_n = 1/(2pi"i") int_(a-"i"oo)^(a+"i"oo) A(s) x^s ("d"s)/s`.
+  </span>
+  记号 `'` 表示当 `x` 为整数时, 最后一项 `a_x` 要除以 2.
+</p>
+
+<p class="proof">
+  和前面一样, 利用积分
+  <span class="formula">
+    `int_n^oo s x^(-s-1) dx = n^-s`,
+  </span>
+  对和式 `f(x) := sum_(n le x){::}' a_n = sum_(n ge 1) a_n H(x-n)` 乘以 `s x^(-s-1)` 再逐项积分有
+  <span class="formula">
+    `s int_0^oo f(x) x^(-s-1) dx`
+    `= sum_(n ge 1) int_0^oo a_n H(x-n) s x^(-s-1) dx`
+    `= sum_(n ge 1) a_n int_n^oo s x^(-s-1) dx`
+    `= sum_(n ge 1) a_n/n^s`.
+  </span>
+  这意味着 `A(s)//s = (cc M f)(-s)`.
+  再应用 Mellin 逆变换公式即得结论.
+</p>
+
+<p class="theorem">
+  Chebyshev `psi` 函数的显式表达式
+  <span class="formula align">
+    `psi(x) = x - (zeta'(0))/(zeta(0)) - sum_(n ge 1) x^(-2n)/(-2n) - sum_rho x^rho/rho`<br>
+    `= x - ln(2pi) - 1/2 ln(1-x^-2) - sum_rho x^rho/rho`.
+  </span>
+  其中 `rho` 遍历 `zeta` 函数的非平凡零点, `-2n` 遍历平凡零点.
+</p>
+
+<ol class="proof">
+  <li>将 `psi(x) = sum_(n le x) Lambda(n)` 代入 Perron 公式:
+    <span class="formula">
+      `psi(x) = 1/(2pi"i") int_(a-"i"oo)^(a+"i"oo) sum_(n ge 1) (Lambda(n))/n^s x^s ("d"s)/s`.
+    </span>
+    (`x` 是整数怎么办??)
+    其中
+    <span class="formula">
+      `sum_(n ge 1) (Lambda(n))/n^s`
+      `= sum_p sum_(m ge 1) (ln p)/p^(m s)`
+      `= sum_p ln p p^-s/(1-p^-s)`
+      `= sum_p "d"/("d"s) ln(1-p^-s)`
+      `= -"d"/("d"s) ln zeta(s)`
+      `= - (zeta'(s))/(zeta(s))`.
+    </span>
+    🚧
+  </li>
+</ol>
+
+<p class="theorem">
+  证明素数定理 `pi(x) ~ x//ln x` 的等价形式: `psi(x) ~ x`.
+</p>
+
+<p class="proof">
+  由 `psi` 的显式表达式有
+  <span class="formula">
+    `(psi(x))/x = 1 - (ln(2pi))/x - 1/(2 x) ln(1-x^-2) - sum_rho x^(rho-1)/rho`.
+  </span>
+  因此只需证 `sum_rho x^(rho-1)/rho to 0`.
+  🚧
 </p>
 
 <script src="../../js/note.js?type=math"></script>

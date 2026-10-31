@@ -1131,10 +1131,11 @@
 <h3>多重对数积分</h3>
 
 <p class="definition">
-  `n` 阶多重对数积分在单位圆盘上定义为
+  多重对数函数 (Polylogarithm function) 在单位圆盘上定义为
   <span class="formula">
-    `"Li"_n(z) = sum_(k ge 1) z^k/k^n`, `quad n in ZZ, |z| lt 1`,
+    `"Li"_s(z) = sum_(k ge 1) z^k/k^s`, `quad "Re"s gt 1, |z| lt 1`,
   </span>
+  `s` 称为它的阶.
   通过解析延拓可以将定义域扩展到整个复平面.
 </p>
 
@@ -1142,19 +1143,23 @@
   <li>`"Li"_(-1)(x) = x/(1-x)^2`,
     `"Li"_0(x) = x/(1-x)`,
     `"Li"_1(x) = -ln(1-x)`;</li>
-  <li>`"Li"_n(1) = zeta(n)`, `"Li"_n(-1) = -eta(n)`;</li>
+  <li>`"Li"_s(1) = zeta(s)`, `-"Li"_s(-1) = eta(s)`;</li>
   <li>`"Li"_n(x) = int_0^x ("Li"_(n-1)(t))/t dt`;
     换言之 `"Li"_n'(x) = "Li"_(n-1)(x) // x`.
   </li>
+  <li>Gamma(s) "Li"_s(z) = int_0^oo (z t^(s-1))/("e"^t - z) dt`.</li>
 </ol>
 
 <p class="proof">
-  只证最后一个结论:
+  3. 的证明:
   <span class="formula">
     `"Li"_n(x) = sum_(k ge 1) int_0^x t^(k-1)/k^(n-1) dt`
     `= int_0^x sum_(k ge 1) t^k/k^(n-1) dt/t`
     `= int_0^x ("Li"_(n-1)(t))/t dt`.
   </span>
+  <br>
+  4. 的证明:
+  这是因为 `z/("e"^t - z)` 的 <a href="../complex/6.html">Mellin 变换</a>是 `Gamma(s) "Li"_s(z)`.
 </p>
 
 <ol class="example">

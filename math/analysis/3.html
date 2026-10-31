@@ -348,7 +348,7 @@
     `"e"^2/x^4 ln((sin x + "e"^(tan x))/(tan x + "e"^(sin x)))`<br>
     `~ "e"^2/x^4 ((sin x + "e"^(tan x))/(tan x + "e"^(sin x)) - 1)`<br>
     `~ "e"^2/x^4 [(sin x - "e"^(sin x)) - (tan x - "e"^(tan x))]`<br>
-    `~ "e"^2/x^4 (sin x - tan x) (xi - "e"^xi)'`, `quad sin x lt xi lt tan x<br>
+    `~ "e"^2/x^4 (sin x - tan x) (xi - "e"^xi)'`, `quad sin x lt xi lt tan x`<br>
     `~ -"e"^2/2 (1-"e"^xi)/x`
     `~ "e"^2/2`.
   </span>
@@ -698,8 +698,40 @@
   </li>
 </ol>
 
+<p class="proof">
+  只证区间可加性.
+  任取 `[a, c]` 和 `[c, b]` 的分割, 形成的变差相加就得到 `[a, b]` 的一个变差, 故左 `ge` 右.
+  反之任取 `[a, b]` 的一个分割, 添加一个分点 `c` 使得变差增大或不变, 从而得到
+  `[a, c]` 与 `[b, c]` 的变差, 故左 `le` 右.
+</p>
+
 <p class="theorem">
+  <b>Jordan 分解定理</b>
   `f in B V[a, b]` 当且仅当它能写成两个有界单增函数之差.
+</p>
+
+<p class="proof">
+  `lArr`: 有界单增函数是有界变差的, 两个这样的函数之差仍是有界变差.<br>
+  `rArr`: 正如每个函数可以写成奇函数与偶函数之和:
+  <span class="formula">
+    `f(x) = (f(x)-f(-x))/2 + (f(x)+f(-x))/2`,
+  </span>
+  或者可以写成非负函数与非正函数之和:
+  <span class="formula">
+    `f(x) = max(f(x), 0) + min(f(x), 0)`,
+  </span>
+  同样的思路可以用于构造两个有界单增函数:
+  <span class="formula">
+    `f(x) = f_1(x) - f_2(x)`
+    `:= (vvv_a^x f + f(x))/2 - (vvv_a^x f - f(x))/2`.
+  </span>
+  事实上, 任取 `a le x le y le b`, 则由区间可加性
+  <span class="formula">
+    `(vvv_a^y f + f(y))/2 - (vvv_a^x f + f(x))/2`
+    `= (vvv_x^y f + f(y) - f(x))/2`.
+  </span>
+  根据全变差的定义易知 `vvv_x^y f ge |f(y) - f(x)|`, 因此上式 `ge 0`, 即 `f_1` 单增.
+  同理可证第二项也是单增的.
 </p>
 
 <h3>绝对连续函数</h3>
@@ -726,25 +758,80 @@
 
 <h3>连续性的图景</h3>
 
-<ol class="example">
-  <li>Riemann 可积 `iff` 几乎处处连续. (见第 7 章)</li>
-  <li>单调函数只有至多可数个不连续点. (见第 5 章)</li>
-  <li>凸函数只有至多可数个不可导点. (见第 5 章)</li>
-  <li>绝对连续函数几乎处处可导.</li>
-  <li>Lipschitz 连续函数几乎处处可导且导函数有界.</li>
-  <li>可导必连续, 但也存在处处不可导的连续函数 (Weierstrass 函数).</li>
+<ol class="remark">
+  <li>Riemann 可积 `iff` 几乎处处连续 (<a href="./7.html">第 7 章</a>).</li>
+  <li>单调函数的不连续点至多可数; 凸函数的不可导点至多可数 (见下文).</li>
+  <li>单调函数 (或有界变差函数) 几乎处处可导, 且导函数 Lebesgue 可积
+    (<a href="https://zhuanlan.zhihu.com/p/677774463" target="_blank">Lebesgue 定理</a>).</li>
+  <li>可导必连续, 但也存在处处不可导的连续函数 (<a href="./12.html#exp-weierstrass-function">Weierstrass 函数</a>).</li>
 </ol>
 
-<ol class="example">
+<ol class="remark">
   <b>导函数的连续性</b>
-  <li>导函数满足介值性 (见第 5 章 Darboux 定理).</li>
+  <li>导函数满足介值性 (<a href="./5.html">第 5 章</a> Darboux 定理).</li>
   <li>导函数的连续点集必然稠密 (利用 Baire 纲定理).</li>
   <li>存在导函数 Riemann 不可积的例子 (Volterra 函数).</li>
 </ol>
 
+<script type="https://play.d2lang.com/" theme="terminal">
+"导函数有界" -> "Lipschitz 连续"
+"Lipschitz 连续" -> "绝对连续"
+"Lipschitz 连续" -> "Hölder 连续"
+"绝对连续" -> "有界变差"
+"绝对连续" -> "一致连续"
+"Hölder 连续" -> "一致连续"
+"一致连续" -> "逐点连续"
+"逐点连续" -> "Riemann 可积"
+</script>
 <div class="img lg" title="连续性的图景">
   <img src="../img/continuity.svg" alt="连续性的图景">
 </div>
+
+<ol class="theorem">
+  <li>`RR` 中互不相交的开区间族是可数集.</li>
+  <li>区间上的单调函数的不连续点集为可数集.</li>
+  <li>区间上的上凸 (下凸) 函数的不可微点为可数集.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    由有理数的稠密性, 从每个开区间中可以选出一有理数,
+    从而这族开区间等势于 `QQ` 的子集.
+  </li>
+  <li>
+    以递增函数 `f` 为例.  由函数极限的单调有界原理知, `f`
+    在每一点的单侧极限必存在.  因此每个 `f` 的不连续点 `x` 都对应开区间
+    `(f(x-0), f(x+0))`.  下证这些开区间互不相交.  不妨设 `x lt y`
+    是两个不连续点, 若 `f(x+0) gt f(y-0)`, 则由极限定义, 可以找到两点 `x_1,
+    y_1` 使得 `x lt x_1 lt y_1 lt y` 且 `f(x_1) gt f(y_1)`, 这与单调性矛盾.
+  </li>
+  <li>
+    函数 `f` 在 `x_0` 处可微当且仅当函数
+    `g(x) = (f(x) - f(x_0))/(x-x_0)` 在 `x_0` 处极限存在.
+    由凹凸性 (见第 5 章), `g` 是单调函数. 所以由 2. 即得结论.
+  </li>
+</ol>
+
+<p class="example">
+  <b>在无理点处连续, 有理点处间断的递增函数</b>
+  [周民强《实变函数》] 任取收敛级数
+  <span class="formula">
+    `sum_(n=1)^oo c_n lt +oo`, `quad c_n gt 0`, `quad n = 1, 2, cdots`,
+  </span>
+  记区间 `I` 上全体有理数为 `{r_n}`, 定义 `f(x)` 为所有使得 `r_n lt
+  x` 的项 `c_n` 的和:
+  <span class="formula">
+    `f(x) = sum_(r_n lt x) c_n`,
+  </span>
+  易知 `f` 递增, 且 `f(r_n + 0) - f(r_n - 0) = c_n`, `n = 1, 2, cdots`.
+  这个例子印证了单调函数的间断点至多可数.
+</p>
+
+<p class="example">
+  Cantor 函数连续单调, 在 Cantor 集上不可导;
+  而 Cantor 集是不可数的零测集.
+  这个例子印证了 Lebesgue 定理: 单调函数几乎处处可导.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

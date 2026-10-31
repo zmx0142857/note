@@ -574,21 +574,48 @@ E - E*x/2 + 11*E*x**2/24 - 7*E*x**3/16 + 2447*E*x**4/5760 - 959*E*x**5/2304 + O(
 
 <h2>积分变换</h2>
 
-<p>详细的讨论参见 <a href="../complex/6.html">积分变换</a>.</p>
+<p>详细的讨论参见<a href="../complex/6.html">积分变换</a>.</p>
 
-<h3>Laplace 变换</h3>
+<h3>Fourier 变换</h3>
 
-<p>用 Gamma 函数的定义验证表中的第一条公式; 后面几条都是它的推论.</p>
+<p>
+  <span class="formula">
+    `F(s) = (cc F f)(s) = int_(-oo)^oo f(t) "e"^(-2pi"i"s t) dt`,<br>
+    `f(t) = (cc F^-1 F)(t) = int_(-oo)^oo F(s) "e"^(2pi"i"s t) "d"s`.
+  </span>
+  上述积分取 Cauchy 主值, 即 `int_(-oo)^oo = lim_(A to oo) int_(-A)^A`.
+</p>
 
 <table>
   <tr>
-    <th>原函数 `f(t)`</th>
-    <th>像函数 `F(s) = int_0^oo "e"^(-s t) f(t) dt`</th>
+    <td>`f(t)`</td>
+    <td>`F(s)`</td>
+  </tr>
+  <tr>
+    <td>`"e"^(-pi t^2)`</td>
+    <td>`"e"^(-pi s^2)`</td>
+  </tr>
+</table>
+
+<h3>Laplace 变换</h3>
+
+<p>
+  <span class="formula">
+    `F(s) = (cc L f)(s) = int_0^oo "e"^(-s t) f(t) dt`,<br>
+    `f(t) = (cc L^-1 F)(t) = 1/(2pi"i") int_(c-"i"oo)^(c+"i"oo) "e"^(s t) F(s) "d"s`.
+  </span>
+  积分取 Cauchy 主值, `c` 是合适的实数, 以避免积分路径中出现极点.
+</p>
+
+<table>
+  <tr>
+    <th>`f(t)`</th>
+    <th>`F(s)`</th>
     <th>收敛域</th>
   </tr>
   <tr>
-    <td>`t^(p-1) "e"^(z t)`</td>
-    <td>`(Gamma(p))/(s-z)^p, p gt 0`</td>
+    <td>`t^(p-1) "e"^(z t)`, `p gt 0`</td>
+    <td>`(Gamma(p))/(s-z)^p`</td>
     <td>`"Re"s gt "Re"z`</td>
   </tr>
   <tr>
@@ -597,17 +624,17 @@ E - E*x/2 + 11*E*x**2/24 - 7*E*x**3/16 + 2447*E*x**4/5760 - 959*E*x**5/2304 + O(
     <td>`"Re"s gt "Re"z`</td>
   </tr>
   <tr>
-    <td>`t^n` (`n` 是非负整数)</td>
+    <td>`t^n`, `n in ZZ_(ge 0)`</td>
     <td>`n!/s^(n+1)`</td>
     <td>`"Re"s gt 0`</td>
   </tr>
   <tr>
-    <td>`cos a t`</td>
+    <td>`cos a t`, `a in RR`</td>
     <td>`s/(s^2+a^2)`</td>
     <td>`"Re"s gt 0`</td>
   </tr>
   <tr>
-    <td>`sin a t`</td>
+    <td>`sin a t`, `a in RR`</td>
     <td>`a/(s^2+a^2)`</td>
     <td>`"Re"s gt 0`</td>
   </tr>
@@ -615,18 +642,11 @@ E - E*x/2 + 11*E*x**2/24 - 7*E*x**3/16 + 2447*E*x**4/5760 - 959*E*x**5/2304 + O(
     <td>`(sin a t)/t`, `a gt 0`</td>
     <td>`arctan(a/s)`</td>
     <td></td>
-    <td><a href="../complex/6.html#exp-dirichlet-integral">证明</a></td>
-  </tr>
-  <tr>
-    <td>`delta(t)` (单位脉冲函数)</td>
-    <td>`1`</td>
-    <td></td>
-    <td>证明见下</td>
   </tr>
   <tr>
     <td>`t^(a-1) ln^n t`, `a gt 0`, `n in ZZ^+`</td>
     <td>
-      `1/s^a sum_(k=0)^n (n;k) Gamma^((n-k))(a)(-ln s)^k`.
+      `1/s^a sum_(k=0)^n (n;k) Gamma^((n-k))(a)(-ln s)^k`
     </td>
     <td>`"Re"s gt 0`</td>
   </tr>
@@ -635,12 +655,25 @@ E - E*x/2 + 11*E*x**2/24 - 7*E*x**3/16 + 2447*E*x**4/5760 - 959*E*x**5/2304 + O(
     <td>`-(gamma + ln s)/s`</td>
     <td>`"Re"s gt 0`</td>
   </tr>
+  <tr>
+    <td>`delta(t)`</td>
+    <td>`1`</td>
+    <td></td>
+  </tr>
 </table>
 
 <ol class="proof">
+  <li>`cc L[t^(p-1) "e"^(z t)]`. 利用 Gamma 函数定义.</li>
+  <li>`cc L[cos a t]` 与 `cc L[sin a t]`.
+    利用 `cc L["e"^("i"a t)] = 1/(s - "i"a) = (s + "i"a)/(s^2 + a^2)`,
+    然后取实部和虚部.
+  </li>
+  <li>
+    `cc L[(sin a t)/t]`. <a href="../complex/6.html#exp-dirichlet-integral">参见这里</a>.
+  </li>
   <li>
     `cc L[delta(t)]`.
-    严格说, `delta(t)` 是<a href="../functional/5.html">广义函数</a>, 我们暂不追究详情;
+    `delta(t)` (dirac delta function, 又称单位脉冲函数) 是<a href="../functional/5.html">广义函数</a>,
     直观上它是下面函数族当 `epsi to 0` 的极限:
     <span class="formula">
       `f_epsi(t) = { 1//epsi, if |t| lt epsi; 0, otherwise :}`
@@ -651,8 +684,17 @@ E - E*x/2 + 11*E*x**2/24 - 7*E*x**3/16 + 2447*E*x**4/5760 - 959*E*x**5/2304 + O(
       `= lim_(epsi to 0) int_0^epsi 1/epsi "e"^(-s t) dt`
       `= lim_(epsi to 0) 1/(epsi s) (1-"e"^(-epsi s)) = 1`.
     </span>
-    `delta(t)` 的导数也是广义函数. 广义函数在积分号下是有意义的, 可以计算诸如
+    广义函数在积分号下是有意义的, 可以计算诸如
     `int delta(t) f(t) dt` 之类的积分.
+    `delta` 函数的重要性质是
+    <span class="formula">
+      `int_(-oo)^oo delta(t-x) f(t) dt = f(x)`,
+    </span>
+    简记为 `delta ast f = f`.
+    `delta(t)` 的导数也是广义函数. 而 `delta(t)` 又可以看作是下面单位阶跃函数 (Heaviside step function) `H(t)` 的广义导数:
+    <span class="formula">
+      `H(t) = { 0, x lt 0; 1//2, x = 0; 1, x gt 0 :}`
+    </span>
   </li>
   <li>
     `cc L[t^(a-1) ln^n t]`.
@@ -663,44 +705,47 @@ E - E*x/2 + 11*E*x**2/24 - 7*E*x**3/16 + 2447*E*x**4/5760 - 959*E*x**5/2304 + O(
 
 <h3>Mellin 变换</h3>
 
+<p>
+  <span class="formula">
+    `F(s) = (cc M f)(s) = int_0^oo t^(s-1) f(t) dt`,<br>
+    `f(t) = (cc M^-1 F)(t) = 1/(2pi"i") int_(c - "i"oo)^(c + "i"oo) t^-s F(s) "d"s`.
+  </span>
+  积分取 Cauchy 主值, `c` 是合适的实数, 以避免积分路径中出现极点.
+</p>
+
 <table>
   <tr>
-    <td>`f(x)`</td>
-    <td>`F(s) = int_0^oo x^(s-1) f(x) dx`</td>
+    <td>`f(t)`</td>
+    <td>`F(s)`</td>
     <td>收敛域</td>
   </tr>
   <tr>
-    <td>`"e"^-x`</td>
+    <td>`"e"^-t`</td>
     <td>`Gamma(s)`</td>
     <td>`"Re"s gt 0`</td>
   </tr>
   <tr>
-    <td>`1/("e"^x-1)`</td>
+    <td>`sum_(n ge 1) a_n "e"^(-n t)`</td>
+    <td>`Gamma(s) sum_(n ge 1) a_n/n^s`</td>
+  </tr>
+  <tr>
+    <td>`z/("e"^t-z)`</td>
+    <td>`Gamma(s) "Li"_s(z)`</td>
+  </tr>
+  <tr>
+    <td>`1/("e"^t-1)`</td>
     <td>`Gamma(s) zeta(s)`</td>
     <td>`"Re"s gt 1`</td>
   </tr>
   <tr>
-    <td>`1/("e"^x+1)`</td>
+    <td>`1/("e"^t+1)`</td>
     <td>`Gamma(s) eta(s)`</td>
     <td>`"Re"s gt 1`</td>
   </tr>
   <tr>
-    <td>`1/(x+a)`</td>
+    <td>`1/(t+a)`</td>
     <td>`pi/(sin pi s) a^(s-1)`</td>
     <td>`0 lt "Re"s lt 1`</td>
-  </tr>
-</table>
-
-<h3>Fourier 变换</h3>
-
-<table>
-  <tr>
-    <td>`f(x)`</td>
-    <td>`F(xi) = int_(-oo)^oo f(x) "e"^(-2pi"i"xi x) dx`</td>
-  </tr>
-  <tr>
-    <td>`"e"^(-pi x^2)`</td>
-    <td>`"e"^(-pi xi^2)`</td>
   </tr>
 </table>
 

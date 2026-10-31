@@ -166,6 +166,12 @@ NaN === NaN // false
 Object.is(0, -0) // false
 ```
 
+NaN 的判断
+> 不要使用全局的 isNaN, 它会先把参数转换为 Number 类型再判断. 正确做法是 `Number.isNaN`
+```
+Number.isNaN(NaN) // true
+```
+
 ### optional operator
 
 ```js

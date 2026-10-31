@@ -235,49 +235,6 @@
   `sum_(n in ZZ) f(n) = sum_(n in ZZ) hat(f)(n)`.
 </p>
 
-<h2>Mellin 变换</h2>
-
-<p class="definition">
-  函数 `f(x)`, `x gt 0` 的 Mellin 变换为
-  <span class="formula">
-    `F(s) = int_0^oo x^(s-1) f(x) dx`,
-    `quad "Re"s gt sigma_0`.
-  </span>
-</p>
-
-<p class="theorem">
-  当 `f` 在任一有限区间上有界变差, 且 `F(s)` 绝对收敛时, Mellin
-  变换的反转公式是
-  <span class="formula">
-    `bar(f)(x) = 1/(2pi"i") lim_(A to oo) int_(sigma-"i"A)^(sigma+"i"A) x^-s F(s) "d" s`,
-  </span>
-  其中 `sigma = "Re" s gt sigma_0`,
-  <span class="formula">
-    `bar(f)(x) = (f(x+0) + f(x-0))/2`.
-  </span>
-  由于 `f` 在任一有限区间有界变差, 因而处处有左右极限, 故 `bar f` 存在.
-  <!--
-  特别当 `int_(-oo)^oo |F(sigma+"i"tau)| "d"tau` 存在时, 反转公式为
-  <span class="formula">
-    `bar(f)(x) = 1/(2pi"i") int_sigma^(x^-s) F(s) "d"s`.
-  </span>
-  -->
-</p>
-
-<p class="proof">
-  换元 `x = "e"^(2 pi u)` 得
-  <span class="formula">
-    `F(s) = int_(-oo)^oo "e"^(2 pi u (s-1)) f("e"^(2pi u)) 2pi"e"^(2 pi u) "d"u`
-    `= int_(-oo)^oo 2pi"e"^(2 pi u s) f("e"^(2pi u)) "d"u`.
-  </span>
-  记 `s = sigma + "i"tau`, 应用 Fourier 变换的反转公式得
-  <span class="formula">
-    `2 pi "e"^(2 pi u sigma) bar(f)("e"^(2pi u))`
-    `= lim_(A to oo) int_(-A)^A F(sigma + "i"tau) "e"^(-2pi"i"u tau) "d"tau`.
-  </span> 
-  再换回 `x = "e"^(2 pi u)` 即得第一式.
-</p>
-
 <h2>Laplace 变换</h2>
 
 <p class="definition">
@@ -326,7 +283,7 @@
   <span class="formula">
     `bar(f)(t) = 1/(2 pi "i") int_(sigma-"i" oo)^(sigma+"i"oo) "e"^(s t) F(s) "d"s`,
   </span>
-  其中 `sigma = "Re" s gt sigma_0`,
+  其中 `sigma = "Re" s gt sigma_0` 是一个合适的实数, 使得积分路径的竖线上没有奇点. 且
   <span class="formula">
     `bar(f)(t) = {
       (f(x+0) + f(x-0))//2, x gt 0;
@@ -569,6 +526,76 @@
     <a href="../analysis/8.html#exp-lem-beta">证明参见这里</a>.
   </li>
 </ol>
+
+<h2>Mellin 变换</h2>
+
+<p class="definition">
+  函数 `f(x)`, `x gt 0` 的 Mellin 变换为
+  <span class="formula">
+    `F(s) = int_0^oo x^(s-1) f(x) dx`,
+    `quad "Re"s gt sigma_0`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Mellin 逆变换</b>
+  当 `f` 在任一有限区间上有界变差, 且 `F(s)` 绝对收敛时, Mellin
+  变换的反转公式是
+  <span class="formula">
+    `bar(f)(x) = 1/(2pi"i") lim_(A to oo) int_(sigma-"i"A)^(sigma+"i"A) x^-s F(s) "d"s`,
+  </span>
+  其中 `sigma = "Re"s gt sigma_0` 是一个合适的实数, 使得积分路径的竖线上没有奇点. 且
+  <span class="formula">
+    `bar(f)(x) = (f(x+0) + f(x-0))/2`.
+  </span>
+  由于 `f` 在任一有限区间有界变差, 因而处处有左右极限, 故 `bar f` 存在.
+  <!--
+  特别当 `int_(-oo)^oo |F(sigma+"i"tau)| "d"tau` 存在时, 反转公式为
+  <span class="formula">
+    `bar(f)(x) = 1/(2pi"i") int_sigma^(x^-s) F(s) "d"s`.
+  </span>
+  -->
+</p>
+
+<p class="proof">
+  换元 `x = "e"^(2 pi u)` 得
+  <span class="formula">
+    `F(s) = int_0^oo x^s f(x) dx/x`
+    `= int_(-oo)^oo 2pi"e"^(2 pi u s) f("e"^(2pi u)) "d"u`.
+  </span>
+  记 `s = sigma + "i"tau`, 应用 Fourier 变换的反转公式得
+  <span class="formula">
+    `2 pi "e"^(2 pi u sigma) bar(f)("e"^(2pi u))`
+    `= lim_(A to oo) int_(-A)^A F(sigma + "i"tau) "e"^(-2pi"i"u tau) "d"tau`.
+  </span> 
+  再换回 `x = "e"^(2 pi u)` 即得结论.
+</p>
+
+<p class="example">
+  <b>Dirichlet 级数与多重对数函数</b>
+  <span class="formula">
+    `sum_(n ge 1) a_n "e"^(-n t)`
+    `\, overset (cc M) ~ \,`
+    `Gamma(s) sum_(n ge 1) a_n/n^s`.
+  </span>
+  称 `sum_(n ge 1) a_n/n^s` 为 Dirichlet 级数.
+  特别取 `a_n = z^n` 有
+  <span class="formula">
+    `z/("e"^t - z)`
+    `\, overset (cc M) ~ \,`
+    `Gamma(s) "Li"_s(z)`.
+  </span>
+  其中 `"Li"_s(z) := sum_(n ge 1) z^n/n^s` 称为多重对数函数.
+</p>
+
+<p class="proof">
+  逐项积分
+  <span class="formula">
+    `sum_(n ge 1) a_n int_0^oo t^(s-1) "e"^(-n t) dt`
+    `= sum_(n ge 1) a_n Gamma(s)/n^s`.
+  </span>
+</p>
+
 <script src="../../js/note.js?type=math"></script>
 </body>
 </html>

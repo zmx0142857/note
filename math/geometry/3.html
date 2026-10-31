@@ -7,30 +7,50 @@
 </head>
 <body>
 
-<h2>勾股定理</h2>
+<h2>勾股定理和正余弦定理</h2>
 
-<p class="example">
-	直角三角形的两直角边长为 `a, b`, 则斜边 `c` 满足
-		`c^2 = a^2 + b^2` (勾股定理).
-	斜边上的高 `h` 满足
-		`1/h^2 = 1/a^2 + 1/b^2` (倒数勾股定理).
+<ol class="theorem">
+  <li><b>勾股定理</b> 直角三角形的两直角边长为 `a, b`, 则斜边 `c` 满足 `c^2 = a^2 + b^2`.</li>
+  <li><b>倒数勾股定理</b> 直角三角形斜边上的高 `h` 满足 `1/h^2 = 1/a^2 + 1/b^2`.</li>
+</ol>
+
+<ol class="proof">
+  <li>记直角三角形面积为 `S`, 斜边上的高将面积分为 `S_a`, `S_b` 两块.
+    由相似有 `S : S_a : S_b = c^2 : a^2 : b^2`.
+    但 `S = S_a + S_b`, 所以 `c^2 = a^2 + b^2`.
+  </li>
+  <li>
+	应用面积法知道 `c h = a b`, 于是
+	<span class="formula">
+      `1/h^2 = (c/(a b))^2 = (a^2 + b^2)/(a^2 b^2) = 1/a^2 + 1/b^2`.
+	</span>
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>正弦定理</b>
+  `a/(sin A) = b/(sin B) = c/(sin C) = 2R`,
+  其中 `R` 是外接圆半径.
 </p>
 
 <p class="proof">
-	应用面积法知道 `c h = a b`, 于是
-	<span class="formula">
-		`1/h^2 = (c/(a b))^2 = (a^2 + b^2)/(a^2 b^2) = 1/a^2 + 1/b^2`.
-	</span>
+  由面积关系
+  `2S = b c sin A = a c sin B` 得到 `a/(sin A) = b/(sin B)`.
+  画出外接圆后, 保持弦 `a` 不动, 将圆周角 `A` 的一边转移到直径上, 得到 `a = 2R sin A`.
 </p>
 
-<h2>正弦/余弦定理</h2>
+<p class="theorem">
+  <b>余弦定理</b>
+  `a^2 = b^2+c^2-2b c cos A`.
+</p>
 
-<h3>正弦定理</h3>
-
-<p>	由面积关系
-	`2S = b c sin A = a c sin B`, 得到:
-	`(sin A)/a = (sin B)/b`.
-	此外有圆周角和其所对弦长的关系 `a = 2 R sin A`.
+<p class="proof">
+  作边 `b` 上的高 `h = c sin A`, 边 `c` 在 `b` 上的有向投影长为 `c cos A`.
+  由勾股定理
+  <span class="formula">
+    `a^2 = (c sin A)^2 + (b - c cos A)^2`
+    `c^2 + b^2 - 2 b c cos A`.
+  </span>
 </p>
 
 <h2>三角形的面积</h2>
