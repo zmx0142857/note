@@ -1,6 +1,8 @@
-# 微信小程序
+# 小程序
 
-## 应用
+## 微信小程序
+
+### 应用
 
 - 小程序视频截帧方案
   ```js
@@ -14,8 +16,15 @@
   imageData.data.set(data)
   ctx.putImageData(imageData)
   ```
+- 打开体验版
+  ```js
+  appid = 'wx000000000000'
+  path = 'pages/home/index.html?scene=login'
+  url = `https://open.weixin.qq.com/sns/getexpappinfo?appid=${appid}&path=${encodeURIComponent(path)}#wechat-redirect`
+  // 得到 url 后可以用二维码工具生成相应的二维码
+  ```
 
-## Troubleshoot
+### Troubleshoot
 
 - `scroll-view` 内部的 `position: fixed` 失效, 被降级为 `position: absolute`.
   - 解决: 使用 `root-portal` 将内部组件传送到外部

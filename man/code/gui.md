@@ -2,7 +2,7 @@
 
 ## 桌面端
 
-- c#: wpf, winforms, uwp (xaml), maui (xaml), gtk#, avalonia
+- c#: wpf (搭配 fluent 食用), winforms, uwp (xaml), maui (xaml), gtk#, avalonia
 - cpp: qt (qml), gtk (多语言、跨平台), fltk (轻量但不好看), mfc (已过时), sfml (过于底层), win32api (过于底层)
 - java: javafx (fxml), swing (已过时), awk (已过时)
 - python: pyqt (对 qt 的封装), PySide (还是对 qt 的封装), tkinter (对 tk 的封装)

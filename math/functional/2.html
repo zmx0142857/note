@@ -352,48 +352,33 @@
   <li>`M` 是 `X` 中的凸子集: `(AA x, y in M)` `(AA alpha in [0, 1])`
     `alpha x + (1-alpha) y in M`;
   </li>
-  <li>`M` 是平衡的: `(AA x in M)` `(AA |alpha| le 1)` `alpha x in M`;
+  <li>`M` 是<b>平衡</b>的: `(AA x in M)` `(AA |alpha| le 1)` `alpha x in M`;
+    换言之对任意 `|alpha| le 1` 有 `alpha M ⊆ M`;
   </li>
-  <li>`M` 是吸收的: `(AA x in M)` `(EE delta gt 0)` `(AA alpha in [0,
-    delta])`, `alpha x in M`;
+  <li>`M` 是<b>吸收</b>的: `(AA x in X)` `(EE delta gt 0)` `(AA |alpha| lt delta)`, `alpha x in M`;
+    换言之对任意 `|alpha| lt delta` 有 `alpha X ⊆ M`.
   </li>
-  <li>用 `M` 来定义 `p`: `p(x) = inf{k^-1: k gt 0, k x in M}`.</li>
+  实平面上过原点的线段是平衡的, 原点的邻域是吸收的;
+  平衡集与吸收集的共同点是它们都包含原点.
+  <li>可以用 `M` 来定义 `p`: `p(x) = inf{λ gt 0: x // λ in M}` `= inf{λ gt 0: x in λ M}.</li>
 </ol>
 
 <p class="definition">
-  设 `M` 是线性空间 `X` 中吸收的凸子集, 令
+  线性空间中吸收的凸子集 `M` 诱导出如下的 <b>Minkowski 泛函</b>:
   <span class="formula">
-    `p_M(x) := inf{k^-1: k gt 0, k x in M}`.
+    `p_M(x) := inf{λ gt 0: x // λ in M}`
+    `= inf{λ gt 0: x in λ M}`.
   </span>
-  称为由 `M` 诱导出的 <b>Minkowski 泛函</b>.
+  其中吸收性保证 `λ` 的存在, 因此 `p_M(x)` 有定义且有限;
+  而凸性保证 `p_M` 是次可加的, 详见下面的定理.
 </p>
 
-<div class="remark">
-  直观上, Minkowski 泛函描述了凸集中的一点 `x`, 经过放大正数 `k` 倍, 仍然落在集合中的故事.
-  `p_M(x)` 定义为 `k^-1` 的下确界, 换言之, 我们需要找到 `k` 的上确界:
-  <table>
-    <tr>
-      <th>`x` 的位置</th>
-      <th>`Sup k`</th>
-      <th>`p_M(x) = inf k^-1`</th>
-    </tr>
-    <tr>
-      <td>`0`</td>
-      <td>`oo`</td>
-      <td>`0`</td>
-    </tr>
-    <tr>
-      <td>凸集内</td>
-      <td>`[1, oo]`</td>
-      <td>`[0, 1]`</td>
-    </tr>
-    <tr>
-      <td>凸集外</td>
-      <td>`(0, 1)`</td>
-      <td>`(1, oo)`</td>
-    </tr>
-  </table>
-  边界上的点, 其 Minkowski 泛函取值一般等于 1, 但也可能等于 0, 见下文.
+<div class="p corollary">
+  `p_M(x) in {
+    {0}, if x = 0;
+    [0, 1], if x in M;
+    (1, oo), if x !in M
+  :}`.
 </div>
 
 <p class="remark">
@@ -405,7 +390,7 @@
 </p>
 
 <ol class="theorem">
-  上面定义的 Minkowski 泛函 `p_M(x)`:
+  Minkowski 泛函 `p_M(x)`:
   <li>满足次可加性与正齐次性, 因此是一个次线性泛函.</li>
   <li>进一步若 `M` 还是平衡的, 则 `p_M` 满足齐次性, 是一个半范数.</li>
   <li>在 2. 的基础上, 若 `M` <b>沿射线有界</b>, 则 `p_M` 是一个范数.
@@ -413,6 +398,31 @@
     换言之, `x` 放大某个正数倍后可以落在集合外.
     特别当 `M` 是有界集时, `p_M` 一定是范数.
   </li>
+</ol>
+
+<ol class="proof">
+  <li>正齐次性由 `p_M` 定义直接得到. 次可加性的证明需要用到 `M` 的凸性:
+    设 `x, y in X`, 任取 `a gt p(x)`, `b gt p(y)`, 则 `x//a, y//b in M`.
+    由凸性,
+    <span class="formula">
+      `(x+y)/(a+b)`
+      `= a/(a+b) x/a + b/(a+b) y/b`
+      `in M`.
+    </span>
+    这推出 `p(x+y) le a+b`.
+    但 `a - p(x)`, `b - p(y)` 可以任意小, 故 `p(x+y) le p(x)+p(y)`.
+  </li>
+  <li>
+    `AA t != 0`,
+    <span class="formula">
+      `p(t x) = inf {λ gt 0: t x // λ in M}`,<br>
+      `|t| p(x) = |t| inf {λ gt 0: x // λ in M}`
+      `==^(|t|λ=μ) inf {μ gt 0: |t| x // μ in M}`.
+    </span>
+    由平衡性知道 `t x // λ in M iff |t| x // λ in M`,
+    因此两式相等.
+  </li>
+  <li>由 `AA x != 0`, `p_M(x) gt 0` 知道 `p_M` 满足正定性, 根据定义它是范数.</li>
 </ol>
 
 <p class="remark">

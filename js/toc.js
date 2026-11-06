@@ -805,7 +805,7 @@ var tocData = [
           { "value": "webpack.md", "label": "Webpack", "date": "2025-11-06" },
           { "value": "react.md", "label": "React", "date": "2026-01-20" },
           { "value": "chart.md", "label": "图表", "date": "2026-09-12" },
-          { "value": "wx.md", "label": "微信小程序", "date": "2026-08-13" },
+          { "value": "mp.md", "label": "小程序", "date": "2026-11-05" },
         ],
       },
       {

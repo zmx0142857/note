@@ -422,7 +422,7 @@ module.exports = function (str) {
   对 `mod 12` 进行讨论即得结论.
 </p>
 
-<h2>Jacobi 符号</h2>
+<h2>Jacobi 符号与 Kronecker 符号</h2>
 
 <p>现在我们考虑一般的模数 `m`.</p>
 
@@ -433,22 +433,21 @@ module.exports = function (str) {
     `(a/m) = (a/(prod_(i=1)^r p_i^(s_i)))`
     `= prod_(i=1)^r (a/p_i)^(s_i)`.
   </span>
-  Jacobi 符号也是积性的.
+  Jacobi 符号关于上下两数都是积性的.
 </p>
 
 <p class="corollary">
-  若同余方程 `x^2 -= a (mod m)` 有解, 则 Jacobi 符号 `(a/m) = 1`. 反之不一定.
+  若 `a` 是模 `m` 的二次剩余, 则 Jacobi 符号 `(a/m) = 1`. 反之不一定.
 </p>
 
 <p class="proof">
   若 `x^2 -= a (mod m)`, 则对 `m` 的任意素因子 `p` 成立
   `x^2 -= a (mod p)`, 因此 `(a/p) = 1`. `(a/m)` 是一系列 1 的乘积,
   结果为 1.<br>
-  考虑反例 `a = 2`, `m = 15`. 其 Jacobi 符号
+  反之只要 `(a/m)` 的分解中有一个因子为 `-1`, 则 `a` 不是模 `m` 的二次剩余, 考虑反例
   <span class="formula">
     `(2/15) = (2/3)(2/5) -= (-1) * (-1) = 1`.
   </span>
-  但 `x^2 -= 2 (mod 3)` 无解, 因而 `x^2 -= 2 (mod 15)` 也无解.
 </p>
 
 <p class="proposition">
@@ -457,12 +456,28 @@ module.exports = function (str) {
   则同余方程 `x^2 -= 1 (mod m)` 在 `ZZ_m^**` 中的解数为
   <span class="formula">
     `T = {
-      2^t, if a_0 = 0 or 1;
+      2^t, if a_0 lt 2;
       2^(t+1), if a_0 = 2;
-      2^(t+2), if a_0 ge 3;
+      2^(t+2), if a_0 gt 2;
     :}`
   </span>
   即 `1` 在 `ZZ_m^**` 有 `T` 个平方根.
+</p>
+
+<p class="definition">
+  <b>Kronecker 符号</b>
+  将 Jacobi 符号上下两数的取值进一步推广到全体整数. 当模数为正时, Kronecker 符号对上下两数保持积性.
+  与前者不同, Kronecker 符号本身除了取值为 `+-1` 外, 还有可能为零.
+  具体定义为:
+  <span class="formula higher">
+    `(a/m) = 0`, `if (a, m) != 1`,<br>
+    `(a/2) = (2/a) = {
+      1, if a -= +-1 (mod 8);
+      -1, if a -= +-3 (mod 8)
+    :}`,<br>
+    `(a/0) = (0/a) = [a=+-1] = { 1, if a = +-1; 0, otherwise :}`,<br>
+    `(a/(-1)) = { 1, if a ge 0; -1, otherwise :}`.
+  </span>
 </p>
 
 <h2>杂例</h2>
