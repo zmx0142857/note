@@ -12,16 +12,14 @@
 <h3>外测度的定义</h3>
 
 <p class="definition">
-	设 `E sube RR^n`, 若 `RR^n` 中的可数个开矩体 `{I_k}` 构成
-	`E` 的开覆盖, 则称 `{I_k}` 为 `E` 的一个 <b>L-覆盖</b>.
-	`E` 的全体 L-覆盖组成集合 `L`.
-	`E` 的每一个 L-覆盖确定了一个非负广义实值 `sum_(k ge 1) |I_k|`
-	(可以是非负实数或 `+oo`). 这个值关于 `E` 的全体 L-覆盖取下确界,
-	称为 `E` 的 <b>Lebesgue 外测度</b>:
-	<span class="formula">
-		`m^**(E) := inf_({I_k} in L) sum_(k ge 1) |I_k|`.
-	</span>
-	如果 `m^**(E) = 0`, 则称 `E` 为<b>零测集</b>.
+  设 `E sube RR^n`, 若 `RR^n` 中的可数个开矩体 `{I_k}` 构成
+  `E` 的开覆盖, 则称 `{I_k}` 为 `E` 的一个 <b>L-覆盖</b>.
+  每个 L-覆盖都对应着非负广义实值 `sum_(k ge 1) |I_k|` (可以取非负实数或 `+oo`).
+  该值关于 `E` 的全体 L-覆盖 `{I_k} in L` 取下确界, 就称为 `E` 的 <b>Lebesgue 外测度</b>:
+  <span class="formula">
+    `m^**(E) := inf_({I_k} in L) sum_(k ge 1) |I_k|`.
+  </span>
+  特别若 `m^**(E) = 0`, 则称 `E` 为<b>零测集</b>.
 </p>
 
 <p class="remark">
@@ -41,7 +39,7 @@
 <ol class="proof">
 	<li>由定义显然.</li>
 	<li>这是因为 `F` 的任一 L-覆盖都是 `E` 的 L-覆盖.</li>
-	<li>不妨设不等号右边 `lt +oo`. 对任意 `epsi gt 0` 和每个自然数 `k`,
+	<li>不妨设不等号右边 `lt +oo`. 对任意 `epsi gt 0` 和每个正整数 `k`,
 		存在 `E_k` 的 L-覆盖 `{I_(k,l)}_(l=1)^oo`, 满足
 		<span class="formula">
 			`sum_(l=1)^oo |I_(k,l)| lt m^**(E_k) + epsi 2^-k`.
@@ -70,8 +68,8 @@
 		是零测集, 从而任意维数小于 `n` 的点集 (特别地, 单点集) 都是零测集.
 	</li>
 	<li>设 `I` 为一开矩体, 则 `m^**(I) = m^**(bar I) = |I|`.</li>
-	<li>根据次可加性, 可数点集是零测集.</li>
-	<li>Cantor 集是零测集. 事实上, `C = nnn_(n=1)^oo F_n`, `F_n` 是 `2^n`
+	<li>根据次可加性, 可数个零测集之并是零测集, 特别地, 可数点集是零测集.</li>
+	<li>不可数集可以是零测集. 事实上考虑 Cantor 集 `C = nnn_(n=1)^oo F_n`, `F_n` 是 `2^n`
 		个长度为 `3^-n` 的不相交闭区间的并, 由单调性,
 		<span class="formula">
 			`m^**(C) le m^**(F_n) = (2/3)^n`,
@@ -92,7 +90,7 @@
 </p>
 
 <p class="theorem">
-  <b>外测度的数乘性质</b>
+  <b>外测度的齐次性</b>
 	设 `E sube RR^n`, `lambda in RR`, 则
 	<span class="formula">
 		`m^**(lambda E) = |lambda| m^**(E)`,
@@ -112,13 +110,17 @@
 </p>
 
 <p class="theorem">
-	<b>距离外测度性质</b>
-	设 `E, F sube RR^n`, 若 `d(E, F) gt 0`, 则
-	<span class="formula">
-		`m^**(E uu F) = m^**(E) + m^**(F)`.
-	</span>
-	一般地, 在度量空间 `(X, d)` 上满足此处性质的外测度, 称为 `X`
-	上的一个<b>距离外测度</b>.
+  <b>距离外测度性质</b>
+  设 `E, F sube RR^n`, 若 `d(E, F) gt 0`, 则
+  <span class="formula">
+      `m^**(E uu F) = m^**(E) + m^**(F)`.
+  </span>
+  一般地, 在度量空间 `(X, d)` 上满足此处性质的外测度, 称为 `X`
+  上的一个<b>距离外测度</b>.
+</p>
+
+<p class="proof">
+  🚧
 </p>
 
 <h2>可测集与测度空间</h2>
@@ -138,10 +140,9 @@
 </p>
 
 <p class="remark">
-	由外测度的次可加性, Carathéodory 条件中的 "`le`" 部分总是成立的,
-	实际应用中只需证明 "`ge`" 即可. 从而又只需对具有有限外测度的试验集验证
-	Carathéodory 条件即可. 下面的推论表明, 还可以进一步假设 `T` 是开矩体,
-	或假设 `T` 是可测集.
+  由外测度的次可加性, Carathéodory 条件中的 "`le`" 部分总是成立的,
+  实际应用中只需证明 "`ge`" 即可, 故我们不妨假设 `m^**(T) lt +oo`.
+  下面的推论表明, 还可以进一步假设 `T` 是开矩体, 或假设 `T` 是可测集.
 </p>
 
 <p class="corollary">
@@ -150,19 +151,19 @@
 </p>
 
 <p class="proof">
-	任取 `T sube RR^n`, `AA epsi gt 0`, 存在 `T` 的 L-覆盖 `{I_k}`, 使得
-	<span class="formula">
-		`sum_(k=1)^oo |I_k| le m^**(T) + epsi`,
-	</span>
-	从而
-	<span class="formula">
-		`m^**(T nn E) + m^**(T \\ E)`
-		`le m^**((uuu_(k=1)^oo I_k) nn E) + m^**((uuu_(k=1)^oo I_k) \\ E)`
-		`le sum_(k=1)^oo [m^**(I_k nn E) + m^**(I_k \\ E)]`
-		`= sum_(k=1)^oo m^**(I_k)`
-		`le m^**(T) + epsi`.
-	</span>
-	令 `epsi to 0` 即得结论.
+  任取 `T sube RR^n`, `AA epsi gt 0`, 存在 `T` 的 L-覆盖 `{I_k}`, 使得
+  <span class="formula">
+      `sum_(k=1)^oo |I_k| le m^**(T) + epsi`,
+  </span>
+  记 `I = uuu_(k=1)^oo I_k supe T`, 从而
+  <span class="formula align">
+    `m^**(T nn E) + m^**(T \\ E)`<br>
+    `le m^**(I nn E) + m^**(I \\ E)`<br>
+    `le sum_(k=1)^oo [m^**(I_k nn E) + m^**(I_k \\ E)]`<br>
+    `= sum_(k=1)^oo m^**(I_k)`<br>
+    `le m^**(T) + epsi`.
+  </span>
+  令 `epsi to 0` 即得结论.
 </p>
 
 <p class="corollary">
@@ -184,13 +185,13 @@
 </p>
 
 <p class="corollary">
-	`cc M` 的基数是 `2^(aleph_1)`.
+	`cc M` 的基数是 `2^(2^(aleph_0))`.
 </p>
 
 <p class="proof">
-	因为 `cc M sube 2^(RR^n)`, 所以 `|cc M| le 2^(aleph_1)`;
-	另一方面 Cantor 集 `C` 是零测集, 从而其任一子集也是零测集,
-	即 `2^C sube cc M`, 所以 `|cc M| ge 2^|C| = 2^(aleph_1)`.
+  因为 `cc M sube 2^(RR^n)`, 所以 `|cc M| le 2^(2^(aleph_0))`;
+  另一方面 Cantor 集 `C` 是零测集, 从而其任一子集也是零测集,
+  即 `2^C sube cc M`, 所以 `|cc M| ge 2^|C| = 2^(2^(aleph_0))`.
 </p>
 
 <h3>测度空间</h3>
@@ -202,9 +203,9 @@
 	<li>规范性: `mu(O/) = 0`;</li>
 	<li>非负性: `(AA E in cc A)`, `0 le mu(E) le +oo`;</li>
 	<li>可数可加性 (或称 `sigma`-可加性):
-		对任意两两不相交的 `E_1, E_2, cdots in cc M`,
+		对任意两两不相交的 `E_1, E_2, cdots in cc A`,
 		<span class="formula">
-			`sum_(i=1)^oo m(E_i) = m(uuu_(i=1)^oo E_i)`.
+			`sum_(i=1)^oo mu(E_i) = mu(uuu_(i=1)^oo E_i)`.
 		</span>
 	</li>
 	则称 `mu` 是 `cc A` 上的 (非负) 测度, `cc A` 中的元素称为 `mu`-可测集,
@@ -213,89 +214,91 @@
 </ol>
 
 <p class="theorem">
-	`(RR^n, cc M, m)` 是一测度空间.
+  `(RR^n, cc M, m)` 是一测度空间.
 </p>
 
 <ol class="proof">
-	<li>空集是零测集, 显然 `O/ in cc M`.</li>
-	<li>若 `E in cc M`, 则 `AA T sube RR^n`,
-		<span class="formula">
-			`m^**(T) = m^**(T nn E) + m^**(T \\ E)`,
-		</span>
-		即
-		<span class="formula">
-			`m^**(T) = m^**(T \\ E^c) + m^**(T nn E^c)`.
-		</span>
-		因此 `E^c in cc M`.
-	</li>
-	<li>下证 `E, F in cc M rArr E uu F in cc M`.
-		对任意 `T sube RR^n`,
-		<span class="formula">
-			`T nn (E uu F) = T nn [(E \\ F) uu (F \\ E) uu (E nn F)]`
-			`= (T nn E \\ F) uu (T nn F \\ E) uu (T nn E nn F)`.
-		</span>
-		所以
-		<span class="formula">
-			`m^**(T nn (E uu F)) + m^**(T \\ (E uu F))`
-			`le m^**(T nn E \\ F) + m^**(T nn E nn F)`
-			`+ m^**((T \\ E) nn F) + m^**((T \\ E) \\ F)`
-			`= m^**(T nn E) + m^**(T \\ E)`
-			`= m^**(T)`.
-		</span>
-		因此 `E uu F in cc M`.
-		这推出 `cc M` 对集合的有限次并, 交, 补运算封闭,
-		即运算的结果还是可测集.
-	</li>
-	<li>`AA E, F in cc M`, `E nn F = O/`, 取 `T = E uu F`,
-		由 `E` 的可测性知
-		<span class="formula">
-			`m(T) = m(T nn E) + m(T \\ E)`,
-		</span>
-		即
-		<span class="formula">
-			`m(E uu F) = m(E) + m(F)`.
-		</span>
-		因此 `m` 满足有限可加性.
-	</li>
-	<li>设 `{A_i}` 为可测集列, 取
-		<span class="formula">
-			`E_1 = A_1`, `quad E_i = A_i \\ uuu_(k=1)^(i-1) A_k`,
-			`quad i = 2, 3, cdots`,
-		</span>
-		则 `{E_i}` 为两两不相交的可测集列, 且
-		<span class="formula">
-			`uuu_(i=1)^oo E_i = uuu_(i=1)^oo A_i := S`,<br/>
-			`uuu_(i=1)^k E_i = uuu_(i=1)^k A_i := S_k`,
-			`quad k = 1, 2, cdots`.
-		</span>
-		`AA T sube cc M`, 注意 `T nn E_i`, `i = 1, 2,
-		cdots, k` 是互不相交的可测集, 利用有限可加性和 `S_k` 的可测性,
-		<span class="formula">
-			`sum_(i=1)^k m^**(T nn E_i) + m^**(T \\ S)`
-			`= m^**(uuu_(i=1)^k (T nn E_i)) + m^**(T \\ S)`
-			`le m^**(T nn S_k) + m^**(T \\ S_k)`
-			`= m^**(T)`.
-		</span>
-		令 `k to oo` 就有
-		<span class="formula">
-			`sum_(i=1)^oo m^**(T nn E_i) + m^**(T \\ S) le m^**(T)`,
-			<span class="label" id="for-T"></span>
-		</span>
-		因此
-		<span class="formula">
-			`m^**(T nn S) + m^**(T \\ S)`
-			`= m^**(uuu_(i=1)^oo (T nn E_i)) + m^**(T \\ S)`
-			`le sum_(i=1)^oo m^**(T nn E_i) + m^**(T \\ S)`
-			`le m^**(T)`.
-		</span>
-		这证明了 `S` 可测. 综上得到 `cc M` 是 `RR^n` 上的 `sigma`-代数.
-	</li>
-	<li>在 <a class="ref" href="#for-T"></a> 中取 `T = S` 得
-		<span class="formula">
-			`sum_(i=1)^oo m^**(E_i) le m^**(S)`,
-		</span>
-		而反向的不等式由外测度的次可加性保证. 这又证明了可数可加性.
-	</li>
+  先考虑有限情形.
+  <li>空集是零测集, 显然 `O/ in cc M`.</li>
+  <li>若 `E in cc M`, 则 `AA T sube RR^n`,
+    <span class="formula">
+      `m^**(T) = m^**(T nn E) + m^**(T \\ E)`
+      `= m^**(T \\ E^c) + m^**(T nn E^c)`,
+    </span>
+    因此 `E^c in cc M`.
+  </li>
+  <li>下证 `E, F in cc M rArr E uu F in cc M`.
+    对任意 `T sube RR^n`,
+    <span class="formula align">
+      `T nn (E uu F)`<br>
+      `= T nn [(E \\ F) uu (F \\ E) uu (E nn F)]`<br>
+      `= (T nn E \\ F) uu (T nn F \\ E) uu (T nn E nn F)`.
+    </span>
+    所以
+    <span class="formula align">
+      `m^**(T nn (E uu F)) + m^**(T \\ (E uu F))`<br>
+      `le m^**(T nn E \\ F) + m^**(T nn E nn F)`
+      `+ m^**((T \\ E) nn F) + m^**((T \\ E) \\ F)`<br>
+      `= m^**(T nn E) + m^**(T \\ E)`<br>
+      `= m^**(T)`.
+    </span>
+    因此 `E uu F in cc M`.
+    这推出 `cc M` 对集合的有限次并, 交, 补运算封闭,
+    即运算的结果还是可测集.
+  </li>
+  <li>设 `E, F in cc M`, `E nn F = O/`. 取 `T = E uu F`,
+    由 `E` 可测知
+    <span class="formula">
+      `m(E uu F)`
+      `= m(T)`
+      `= m(T nn E) + m(T \\ E)`
+      `= m(E) + m(F)`,
+    </span>
+    即 `m` 满足有限可加性.
+  </li>
+</ol>
+
+<ol class="proof">
+  考虑可数情形.
+  <li>设 `{A_i}` 为可测集列, 取
+    <span class="formula">
+      `E_1 = A_1`, `quad E_i = A_i \\ uuu_(k=1)^(i-1) A_k`,
+      `quad i = 2, 3, cdots`,
+    </span>
+    则 `{E_i}` 为两两不相交的可测集列, 且
+    <span class="formula">
+      `uuu_(i=1)^oo E_i = uuu_(i=1)^oo A_i := S`,<br/>
+      `uuu_(i=1)^k E_i = uuu_(i=1)^k A_i := S_k`,
+      `quad k = 1, 2, cdots`.
+    </span>
+    `AA T sube cc M`, 注意 `T nn E_i`, `i = 1, 2,
+    cdots, k` 是互不相交的可测集, 利用有限可加性和 `S_k` 的可测性,
+    <span class="formula">
+      `sum_(i=1)^k m^**(T nn E_i) + m^**(T \\ S)`
+      `= m^**(uuu_(i=1)^k (T nn E_i)) + m^**(T \\ S)`
+      `le m^**(T nn S_k) + m^**(T \\ S_k)`
+      `= m^**(T)`.
+    </span>
+    令 `k to oo` 就有
+    <span class="formula">
+      `sum_(i=1)^oo m^**(T nn E_i) + m^**(T \\ S) le m^**(T)`,
+      <span class="label" id="for-T"></span>
+    </span>
+    因此
+    <span class="formula">
+      `m^**(T nn S) + m^**(T \\ S)`
+      `= m^**(uuu_(i=1)^oo (T nn E_i)) + m^**(T \\ S)`
+      `le sum_(i=1)^oo m^**(T nn E_i) + m^**(T \\ S)`
+      `le m^**(T)`.
+    </span>
+    这证明了 `S` 可测. 综上得到 `cc M` 是 `RR^n` 上的 `sigma`-代数.
+  </li>
+  <li>在 <a class="ref" href="#for-T"></a> 中取 `T = S` 得
+    <span class="formula">
+      `sum_(i=1)^oo m^**(E_i) le m^**(S)`,
+    </span>
+    而反向的不等式由外测度的次可加性保证. 这又证明了可数可加性.
+  </li>
 </ol>
 
 <ol class="theorem">
@@ -341,26 +344,25 @@
 			`= lim_(k to oo) m(E_1\\E_k)`
 			`= m(E_1) - lim_(k to oo) m(E_k)`.
 		</span>
-		消去 `m(E_1)` 即得结论.
 	</li>
 </ol>
 
 <p class="theorem">
-	<b>测度论中的 Fatou 引理</b>
-	设 `{E_k}` 是可测集列, 则
-	<span class="formula">
-		`m(underset(k to oo)(ul lim) E_k)
-		le underset(k to oo)(ul lim) m(E_k)`,
-		`quad m(underset(k to oo)(bar lim) E_k)
-		ge underset(k to oo)(bar lim) m(E_k)`.
-	</span>
+  <b>测度论中的 Fatou 引理</b>
+  设 `{E_k}` 是可测集列, 则
+  <span class="formula">
+    `m(underset(k to oo)(ul lim) E_k)`
+    `le underset(k to oo)(ul lim) m(E_k)`
+    `le underset(k to oo)(bar lim) m(E_k)`
+    `le m(underset(k to oo)(bar lim) E_k)`.
+  </span>
 </p>
 
 <p class="proof">
 	只证第一式.
 	`AA k in ZZ^+`, 有 `nnn_(j ge k) E_j sube E_k`, 因此
 	<span class="formula">
-		`m(nnn_(j ge k) E_j) le m(E_k)`, `AA k in ZZ^+`.
+		`m(nnn_(j ge k) E_j) le m(E_k)`, `quad AA k in ZZ^+`.
 	</span>
 	令 `k to oo`, 因为 `nnn_(j ge k) E_j` 是递增可测集合列,
 	<span class="formula">
@@ -378,7 +380,7 @@
  
 <h2>可测集与 Borel 集</h2>
 
-<h3>可测集是对 Borel 集的扩充</h3>
+<h3>Borel 集可测</h3>
 
 <p class="lemma">
 	<b>Carathéodory 引理</b>
@@ -396,11 +398,12 @@
 		任取 `x in E`, 则由 `F` 是闭集知 `d(x, F) gt 0`, 从而 `k`
 		充分大时有 `x in E_k`. 这指出 `E sube uuu_(k=1)^oo E_k`.
 	</li>
-	<li>由 `m^**(E_k) le m(E)` 两边取极限得到 `lim_(k to oo) m^**(E_k) le
+	<li>由 `m^**(E_k) le m^**(E)` 两边取极限得到 `lim_(k to oo) m^**(E_k) le
 		m^**(E)`. 下证反向的不等式, 不妨设 `lim_(k to oo) m^**(E_k) lt
-		+oo`. 取
+		+oo`. 对 `AA k in ZZ^+`, 令
 		<span class="formula">
-			`A_k = E_(k+1)\\E_k`, `quad k in ZZ^+`.
+			`A_k = E_(k+1)\\E_k`
+            `= {x in E: 1/(k+1) le d(x, F) lt 1/k}`,
 		</span>
 		于是
 		<span class="formula">
@@ -423,6 +426,8 @@
 		<span class="formula">
 			`sum_(j=1)^oo m^**(A_(2j+1)) lt +oo`.
 		</span>
+    </li>
+    <li>
 		因为
 		<span class="formula">
 			`E = E_(2k) uu (uuu_(j=k)^oo A_(2j)) uu (uuu_(j=k)^oo
@@ -457,14 +462,11 @@
 		`= m^**((T nn F) uu E_k)`
 		`le m^**(T)`.
 	</span>
-	令 `k to oo`,
-	<span class="formula">
-		`m^**(T nn F) + m^**(T \\ F) le m^**(T)`.
-	</span>
+	令 `k to oo` 就有 `m^**(T nn F) + m^**(T \\ F) le m^**(T)`.
 </p>
 
 <p class="remark">
-  开集/闭集 `sube F_sigma // G_delta` 集 `sube` Borel 集 `sube` 可测集.
+  闭集/开集 `sube F_sigma // G_delta` 集 `sube` Borel 集 `sube` 可测集.
 </p>
 
 <h3>Borel 集对可测集的逼近</h3>
@@ -472,36 +474,33 @@
 <ol class="theorem">
   <b>用开集/闭集逼近可测集</b>
   设 `E` 为可测集. 对 `AA epsi gt 0`,
-  <li>存在包含 `E` 的开集 `G`, 使 `m(G\\E) lt epsi`;</li>
-  <li>存在含于 `E` 的闭集 `F`, 使 `m(E\\F) lt epsi`.</li>
+  <li>存在开集 `G supe E`, 使 `m(G\\E) lt epsi`;</li>
+  <li>存在闭集 `F sube E`, 使 `m(E\\F) lt epsi`.</li>
+</ol>
+
+<ol class="proof">
+  🚧
 </ol>
 
 <ol class="theorem">
   <b>用 `F_sigma`/`G_delta` 集逼近可测集</b>
   设 `E` 为可测集, 则
-  <li>存在 `G_delta` 集 `H` 使 `m(H\\E) = 0`;</li>
-  <li>存在 `F_sigma` 集 `K` 使 `m(E\\K) = 0`.</li>
+  <li>存在 `G_delta` 集 `G supe E` 使 `m(G\\E) = 0`, 称 `G` 为 `E` 的<b>等测包</b>;</li>
+  <li>存在 `F_sigma` 集 `F sube E` 使 `m(E\\F) = 0`, 称 `F` 为 `E` 的<b>等测核</b>.</li>
 </ol>
-
-<p class="remark">
-  换言之, 存在包含 `E` 的, 与 `E` 测度相等的 `G_delta` 集, 称为 `E` 的<b>等测包</b>;
-  存在含于 `E` 的, 与 `E` 测度相等的 `F_sigma` 集, 称为 `E` 的<b>等测核</b>.
-</p>
-
-<h3>外测度的等测包</h3>
-
-<p>等测包对于一般点集的外测度也是成立的:</p>
 
 <p class="theorem">
   <b>外测度的正则性</b>
-  对任意 `E sube RR^n`, 存在包含 `E` 的, 与 `E` 外测度相等的 `G_delta` 集, 也称为 `E` 的等测包.
+  等测包对于一般点集的外测度也存在:<br>
+  `AA E sube RR^n`, 存在 `G_delta` 集 `G supe E` 使 `m^**(G) = m^**(E)`,
+  也称 `G` 为 `E` 的等测包.
 </p>
 
 <ol class="corollary">
   <b>外测度的 Fatou 引理</b>
   对 `RR^n` 中的集合列 `{E_k}` 有
   <li>`m^**(underset(k to oo)(ul lim) E_k) le underset(k to oo)(ul lim) m^**(E_k)`.</li>
-  <li>`{E_k}` 递增时上式取等, 即 `m^**(lim_(k to oo) E_k) = lim_(k to oo) m^**(E_k)`.</li>
+  <li>`{E_k}` 递增时上式取等, 且下极限可以换成极限.</li>
 </ol>
 
 <h3>测度的平移不变性</h3>
@@ -524,6 +523,29 @@
 </p>
 
 <h2>不可测集</h2>
+
+<p class="example">
+  <b>Vitali 集</b>
+  应用选择公理, 从 `RR//QQ` 的每个等价类中选取一个代表元, 构成集合 `V`.
+  该集合平移任意有理数距离都得到自身.
+  假设 `V` 可测, `q` 是有理数, 则
+  <span class="formula">
+    `m(V) = m(q + V)`.
+  </span>
+  🚧
+</p>
+
+<p class="example">
+  `RR^2` 中存在零测集 `E` 使得 `E+E` 为不可测集. 事实上取
+  <span class="formula">
+    `E = (V xx {0}) uu ({0} xx V)`,
+  </span>
+  其中 `V` 为 Vitali 集. 显然 `E` 零测, 且
+  <span class="formula">
+    `E+E = {(x, y): x, y in V uu{0}}`
+  </span>
+  不可测.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

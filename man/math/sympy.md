@@ -9,15 +9,16 @@ from sympy.abc import a, b, c, d
 x = S('x')
 ```
 
-数值运算
+输出展示
 ```py
 (...).evalf() # 等价: float(...) 或 complex(...)
+latex(expr) # 输出 latex 代码
 ```
 
-有理数运算
+精确运算
 ```py
-from fractions import Fraction as F
-F(3,7)+F(1,13)
+Rational(2, 3) # 有理数 2/3, 也可以使用标准库: from fractions import Fraction
+root(x, n) # 开 n 次方根. 注意 2**(1/3) 有精度丢失, 用 root(2, 3) 或 cbrt(2) 则无
 ```
 
 符号运算

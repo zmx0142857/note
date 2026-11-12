@@ -213,16 +213,16 @@
 
 <ol class="solution">
   <li>列方程.
-    假设绳索的线密度为 `rho`, 最低点为 `P`, 让 `y` 轴经过 `P` 点.  考虑绳索在点 `A` 处的张力,
+    假设绳索的线密度为 `rho`, 最低点为 `P`, 让 `y` 轴经过 `P` 点.  考虑绳索在任一点 `A` 处的张力,
     其水平分量与 `P` 处的张力相等, 竖直分量与 `P` 到 `A` 之间绳索的重力相等:
     <span class="formula">
-      `T_"水平" = "常数"`,<br>
-      `T_"竖直" = rho int_0^(x_A) sqrt(1+(dy/dx)^2) dx`,
+      `T_x = "常数"`,<br>
+      `T_y = rho g int_0^(x_A) sqrt(1+(dy/dx)^2) dx`,
     </span>
-    但张力沿着绳索方向, 所以 `T_"竖直" / T_"水平" = dy/dx`, 得到方程:
+    但张力沿着绳索方向, 所以 `T_y / T_x = dy/dx`, 得到方程:
     <span class="formula">
       `dy/dx = a int_0^(x_A) sqrt(1 + (dy/dx)^2) dx`,
-      `quad` 其中 `a = rho // T_"水平"`.
+      `quad` 其中 `a = rho g // T_x`.
     </span>
     两边对 `x` 微分得到:
     <span class="formula">
@@ -248,6 +248,19 @@
     </span>
     由于建立坐标系时没有指定 `P` 点的纵坐标, 所以结果带有任意常数 `c_2`.
   </li>
+  <hr>
+  若忽略绳重, 改为在绳下方均匀悬挂桥面, 问题变为求悬索桥的曲线方程.
+  此时对 `P A` 之间的绳索作受力分析, 其受到桥面的拉力与水平跨度成正比,
+  设桥面线密度为 `rho'`, 则 `T_y = rho' g x_A`,
+  得到微分方程
+  <span class="formula">
+    `dy/dx = T_y/T_x = (rho' g x)/T_x = a' x`,
+    `quad` 其中 `a' = rho' g//T_x`.
+  </span>
+  故悬索桥的曲线是一抛物线:
+  <span class="formula">
+    `y = (a')/2 x^2 + c'`.
+  </span>
 </ol>
 
 <p class="example">

@@ -307,3 +307,9 @@ file transfer protocol
     $ screen -ls                # 列出所有任务, 包括前台 (attached) 与后台 (detached) 任务
     $ screen -r <task-name>     # 继续 (resume) 任务
 
+## Termux
+
+运行于 android 的终端模拟器, 推荐从 [github](https://github.com/termux/termux-app/releases) 下载 (google play 的版本已过时)
+
+- 切换镜像: 运行 `termux-change-repo`, 然后选择一组国内镜像
+- 解决 CANNOT LINK EXECUABLE: 尝试运行 `pkg update && pkg upgrade`

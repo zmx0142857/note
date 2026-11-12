@@ -44,6 +44,7 @@
   可以证明, 在 `M` 的每个连通分量上, `m` 是一个确定的正整数, 即不会存在另一个正整数 `n != m`
   使得 `M` 与 `RR^n` 局部同胚.
   如果在每个连通分量上的 `m` 值都相等, 则称 `m` 为 `M` 的<b>维数</b>, `M` 是 `m` 维流形.
+  今后我们默认用相应的小写字母来表示流形的维数, 例如 `M` 的维数是 `m`, `N` 的维数是 `n`.
 </p>
 
 <p class="remark">
@@ -249,6 +250,10 @@
 
 <p>切空间是对流形的局部线性近似. 尽管流形一般不是线性空间, 但切空间是.  ——从而线性代数有了用武之地.</p>
 
+<h3>导子与微分</h3>
+
+<p>导子是切空间中的向量, 微分是切空间之间的特定线性变换.</p>
+
 <ol class="definition">
   设 `M` 是 `n` 维光滑流形, `p in M`.
   <li>
@@ -263,7 +268,7 @@
       `f ~ g iff EE p` 的邻域 `V`, `AA x in V`, `f(x) = g(x)`.
     </span>
     所有的这些等价类记作 `C_p^oo(M)`, 称为 `p` 处的光滑函数族.
-    在函数的加法与乘法下, `C_p^oo(M)` 成为一个环; 再加以实数的数乘, 它成为一个 `RR` 上的代数.
+    在函数的加法与乘法下, `C_p^oo(M)` 成为一个环; 再配合实数的数乘, 它成为一个 `RR` 上的代数.
   </li>
   <li><b>导子 (切向量, 或方向导数)</b>
     线性映射 `D: C_p^oo(M) to RR` 称为 `M` 在 `p` 处的一个导子, 如果它满足 Leibniz 法则:
@@ -352,6 +357,94 @@
   <li><b>维数不变量</b>
     由于切空间维数等于流形维数, 且切空间在微分同胚下保持线性同构,
     我们推出: 光滑流形的维数在微分同胚下不变.
+  </li>
+</ol>
+
+<h3>Jacobi 矩阵与反函数定理</h3>
+
+<p class="definition">
+  <b>Jacobi 矩阵</b>
+  设 `M` 在同一点 `p` 有两个坐标卡 `(U, x^1, cdots, x^n)` 和 `(V, y^1, cdots, y^n)`.
+  则 `(del//del x^i)` 和 `(del//del y^j)` 都是切空间 `T_p M` 的基.
+  设它们的过渡矩阵为 `a_i^j`, 于是
+  <span class="formula">
+    `del/(del x^i) = sum_k a_i^k del/(del y^k)`
+  </span>
+  两边作用于 `y^j` 就有
+  <span class="formula">
+    `(del y^j)/(del x^i) = sum_k a_i^k (del y^j)/(del y^k)`
+    `= sum_k a_i^k delta_k^j`
+    `= a_i^j`.
+  </span>
+  更一般地, 设 `F in C^oo(N, M)`, `(U, x^1, cdots, x^n)` 是 `p in N` 的坐标卡,
+  `(V, y^1, cdots, y^m)` 是 `F(p) in M` 的坐标卡, 则 `F` 的微分 `F_ast`
+  在基底 `(del//del x^i)` 和 `(del//del y^j)` 下的表示矩阵为 Jacobi 矩阵
+  `{:(del F^j//del x^i)|_p`:
+  <span class="formula">
+    `F_ast({:del/(del x^i)|_p) = sum_j {:(del F^j)/(del x^i)|_p {:del/(del y^j)|_(F(p))`,
+  </span>
+  其中 `F^j = y^j @ F` 是 `F` 的第 `j` 个分量函数.
+</p>
+
+<ol class="theorem">
+  <b>反函数定理</b>
+  在数学分析中我们曾经学过下面的反函数定理:
+  <li>设开子集 `U ⊆ RR^n`, 则光滑映射 `F in C^oo(U, RR^n)` 在点 `p in U`
+    局部可逆当且仅当这一点的 Jacobi 行列式 `det(del F^j//del x^i) != 0`.
+  </li>
+  将它推广到光滑流形上就是:
+  <li>设 `N, M` 都是 `n` 维光滑流形, `F in C^oo(N, M)`.
+    取 `p in N` 的坐标卡 `(U, phi) = (U, x^1, cdots, x^n)`
+    和 `F(p) in M` 的坐标卡 `(V, psi) = (V, y^1, cdots, y^n)`,
+    且满足 `F(U) sube V`.
+    则 `F` 在点 `p` 局部可逆当且仅当这一点的 Jacobi 行列式
+    `det(del F^j//del x^i) != 0`,
+    换言之, 微分 `F_ast: T_p N to T_(F(p)) M` 是线性同构.
+  </li>
+</ol>
+
+<p class="proof">
+  考虑 `RR^n` 上的映射 `G := psi @ F @ phi^-1: phi(U) to psi(V)`,
+  由于 `psi, phi` 是微分同胚, `F` 在 `p` 点局部可逆等价于 `G` 在 `phi(p)` 局部可逆.
+  下证 `F` 在 `p` 点的 Jacobi 矩阵恰好等于 `G` 在 `phi(p)` 点的 Jacobi 矩阵.
+  注意到 `F^j = y^j @ F = r^j @ psi @ F`, 有
+  <span class="formula">
+    `{:(del F^j)/(del x^i)|_p`
+    `= {:del/(del x^i)(r^j @ psi @ F)|_p`
+    `= {:del/(del r^i)(r^j @ psi @ F @ phi^-1)|_(phi(p))`
+    `= {:(del G^j)/(del r^i)|_(phi(p))`.
+  </span>
+</p>
+
+<p class="corollary">
+  设 `M` 是 `n` 维光滑流形, 取 `p in M` 的坐标卡 `(U, x^1, cdots, x^n)`.
+  又设 `y^1, cdots, y^n` 是定义在 `U` 上的光滑函数, 则 `(U, y^1, cdots, y^n)` 是一个相容的坐标卡,
+  当且仅当 Jacobi 行列式 `det(del y^j//del x^i) != 0`.
+</p>
+
+<p class="proof">
+  Jacobi 行列式 `!= 0`<br>
+  `iff psi := (y^1, cdots, y^n)` 局部可逆, 从而在局部是一个微分同胚<br>
+  `iff (U, psi)` 是一个相容的坐标卡.
+</p>
+
+<h3>浸入与淹没</h3>
+
+<ol class="definition">
+  <b>浸入与淹没</b>
+  <li>
+    如果流形间的光滑映射 `F: N to M` 在点 `p` 的微分 `F_(ast,p)` 是单射, 则称 `F`
+    在点 `p` 是<b>浸入 (immersion)</b>;
+    如果 `F_(ast,p)` 是满射, 称 `F` 在点 `p` 是<b>淹没 (submersion)</b>.
+    称 `F` 是浸入 (或淹没), 如果它在每一点都是浸入 (或淹没).
+  </li>
+  <li>
+    显然若 `F` 是浸入, 则 `n le m`; 若 `F` 是淹没, 则 `m le n`.
+    一个映射可以既是浸入又是淹没, 比如从 `M` 的开子集到 `M` 的包含映射.
+  </li>
+  <li>
+    浸入与淹没都是局部概念. 我们将要证明, 若 `F` 在一点是浸入, 则它在局部是包含映射;
+    若它在一点是淹没, 则它在局部是投影映射.
   </li>
 </ol>
 

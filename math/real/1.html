@@ -7,7 +7,7 @@
 </head>
 <body>
 
-[周民强《实变函数论》]
+<p>[周民强《实变函数论》]</p>
 
 <h2>集合的可列运算</h2>
 
@@ -46,6 +46,10 @@
 	</span>
 </p>
 
+<p class="remark">
+  病娇 (`uu` `nn`) 是有下限的.
+</p>
+
 <p>	由 De. Morgan 法则,
 	<span class="formula">
 		`E \\ underset(k to oo)(bar lim) A_k
@@ -69,81 +73,63 @@
 <h3>切割值域</h3>
 
 <ol class="theorem">
-	设实函数列 `{f_n(x)}` 在可测集 `E sube RR` 上有定义, `t in RR`.
-	注意 `f_n(x)` 有两种解读: 一是视为函数的序列,
-	二是取定一个 `x` 的值后, 视为普通数列; 这里采用第二种解读.
-	简记 `{x in E: ...}` 为 `{x: ...}`, 有
-	<li>`{x: Sup_(n ge 1) f_n(x) gt t}
-		= uuu_(n=1)^oo {x: f_n(x) gt t}`;
-	</li>
-	<li>`{x: inf_(n ge 1) f_n(x) lt t}
-		= uuu_(n=1)^oo {x: f_n(x) lt t}`;
-	</li>
-	<li>`{x: Sup_(n ge 1) f_n(x) lt t}
-		= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) le t-1/k}`;
-	</li>
-	<li>`{x: inf_(n ge 1) f_n(x) gt t}
-		= uuu_(k=1)^oo nnn_(n=1)^oo {x: f_n(x) ge t+1/k}`;
-	</li>
-	<li>`{x: underset(n to oo)(bar lim) f_n(x) gt t}
-		= uuu_(k=1)^oo underset(n to oo)(bar lim)
-		{x: f_n(x) ge t + 1/k}`;
-	</li>
-	<li>`{x: underset(n to oo)(ul lim) f_n(x) lt t}
-		= uuu_(k=1)^oo underset(n to oo)(bar lim)
-		{x: f_n(x) le t - 1/k}`;
-	</li>
-	<li>`{x: underset(n to oo)(bar lim) f_n(x) lt t}
-		= uuu_(k=1)^oo underset(n to oo)(ul lim)
-		{x: f_n(x) le t - 1/k}`;
-	</li>
-	<li>`{x: underset(n to oo)(ul lim) f_n(x) gt t}
-		= uuu_(k=1)^oo underset(n to oo)(ul lim)
-		{x: f_n(x) ge t + 1/k}`.
-	</li>
+  设实函数列 `{f_n(x)}` 在可测集 `E sube RR` 上有定义, `t in RR`.
+  注意 `f_n(x)` 有两种解读: 一是视为函数的序列,
+  二是取定一个 `x` 的值后, 视为普通数列; 这里采用第二种解读.
+  简记 `{x in E: ...}` 为 `{x: ...}`, 有
+  <li>`{x: Sup_(n ge 1) f_n(x) gt t}
+      = uuu_(n ge 1) {x: f_n(x) gt t}`;
+  </li>
+  <li>`{x: Sup_(n ge 1) f_n(x) lt t}
+      = uuu_(k ge 1) nnn_(n ge 1) {x: f_n(x) le t-1/k}`;
+  </li>
+  <li>`{x: underset(n to oo)(bar lim) f_n(x) lt t}
+      = uuu_(k ge 1) underset(n to oo)(ul lim)
+      {x: f_n(x) le t - 1/k}`;
+  </li>
+  <li>`{x: underset(n to oo)(bar lim) f_n(x) gt t}
+      = uuu_(k ge 1) underset(n to oo)(bar lim)
+      {x: f_n(x) ge t + 1/k}`;
+  </li>
+  其中 2, 3, 4 右边集合中也可以换成严格的不等号.
+  如果将上面的 `Sup` 换成 `inf`, 上下极限互换, 不等号方向改变, `1//k` 的符号改变, 则又得到四个集合等式.
 </ol>
 
 <ol class="proof">
-	<li>记 `g(x) = Sup_(n ge 1) f_n(x)`,
-		则对 `AA x in` 右, `EE n in NN`, `g(x) ge f_n(x) gt t`.
-		故左 &supe; 右;<br/>
-		另一方面, `AA x in` 左, `AA epsi gt 0`, `EE n_epsi in NN`,
-		`f_(n_epsi)(x) gt g(x) - epsi`.
-		取 `epsi = g(x) - t`, 就有 `x in` 右, 故左 &sube; 右.
-	</li>
-	<li>可以参考 1 的证明, 但也可以由 `inf_(n ge 1) f_n(x)
-		= -Sup_(n ge 1) (-f_n(x))`, 有
-		<span class="formula">`{:
-		"左"	,= {x: -Sup_(n ge 1) (-f_n(x)) lt t};
-			,= {x: Sup_(n ge 1) (-f_n(x)) gt -t};
-			,= uuu_(n=1)^oo {x: -f_n(x) gt -t} = "右".
-		:}`</span>
-	</li>
-	<li>如下
-		<span class="formula">`{:
-		"左"	,= E \\ {x: Sup_(n ge 1) f_n(x) ge t};
-			,= E \\ nnn_(k=1)^oo
-					{x: Sup_(n ge 1) f_n(x) gt t - 1/k};
-			,= E \\ nnn_(k=1)^oo uuu_(n=1)^oo {x: f_n(x) gt t-1/k}
-			= "右".
-		:}`</span>
-	</li>
-	<li>类似 2 的证明.</li>
-	<li>如下
-		<span class="formula">`{:
-		"左"	,= {x: inf_(m ge 1) Sup_(n ge m) f_n(x) gt t};
-			,= uuu_(k=1)^oo nnn_(m=1)^oo
-				{x: Sup_(n ge m) f_n(x) ge t + 1/k};
-			,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo
-				{x: Sup_(n ge m) f_n(x) lt t + 1/k};
-			,= E \\ nnn_(k=1)^oo uuu_(m=1)^oo uuu_(j=1)^oo
-				nnn_(n=m)^oo {x: f_n(x) le t + 1/k - 1/j};
-			,= uuu_(k=1)^oo nnn_(j=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
-				{x: f_n(x) gt t + 1/k - 1/j};
-			,?= uuu_(k=1)^oo nnn_(m=1)^oo uuu_(n=m)^oo
-				{x: f_n(x) ge t + 1/k} = "右".
-		:}`</span>
-	</li>
+  <li>这是因为 `Sup_(n ge 1) f_n(x) gt t` 等价于 `EE n in NN`, `f_n(x) gt t`.</li>
+  <li>这是因为
+    `Sup_(n ge 1) f_n(x) lt t` 等价于 `EE k in NN`, `Sup_(n ge 1) f_n(x) le t-1/k`.
+    将 1. 的 `t` 换成 `t-1/k`, 然后取补集得到
+    <span class="formula">
+      `{x: Sup_(n ge 1) f_n(x) le t-1/k} = nnn_(n ge 1) {x: f_n(x) le t-1/k}`.
+    </span>
+  </li>
+  <li>
+    令 `g_m(x) = Sup_(n ge m) f_n(x)`, 则
+    <span class="formula">
+      `underset(n to oo)(bar lim)f_n(x)`
+      `= inf_(m in NN) Sup_(n ge m) f_n(x)`
+      `= inf_(m in NN) g_m(x)`,
+    </span>
+    于是
+    <span class="formula align">
+      `{x: underset(n to oo)(bar lim)f_n(x) lt t}`<br>
+      `= uuu_(m ge 1) {x: g_m(x) lt t}`<br>
+      `= uuu_(m ge 1) uuu_(k ge 1) nnn_(n ge m) {x: f_n(x) le t - 1/k}`<br>
+      `= uuu_(k ge 1) underset(n to oo)(ul lim) {x: f_n(x) le t - 1/k}`.
+    </span>
+  </li>
+  <li>
+    类似 3. 的做法,
+    <span class="formula align">
+      `{x: underset(n to oo)(bar lim)f_n(x) gt t}`<br>
+      `= uuu_(k ge 1) nnn_(m ge 1) {x: g_m(x) ge t + 1/k}`<br>
+      `= uuu_(k ge 1) nnn_(m ge 1) {x: g_m(x) \ color(red)(gt) \ t + 1/k}` ……把 `k` 取大一点<br>
+      `= uuu_(k ge 1) nnn_(m ge 1) uuu_(n ge m) {x: f_n(x) gt t + 1/k}`<br>
+      `= uuu_(k ge 1) nnn_(m ge 1) uuu_(n ge m) {x: f_n(x) \ color(red)(ge) \ t + 1/k}`<br>
+      `= uuu_(k ge 1) underset(n to oo)(bar lim) {x: f_n(x) ge t + 1/k}`.
+    </span>
+  </li>
 </ol>
 
 <p class="corollary">
@@ -263,7 +249,7 @@
 </p>
 
 <p class="definition">
-	设 `Gamma` 是 `RR^n` 中的开集族, `E sube RR^n`. 若 `E sube uu Gamma`,
+	设 `Gamma` 是 `RR^n` 中的开集族, `E sube RR^n`. 若 `E sube uuu Gamma`,
 	则称 `Gamma` 是 `E` 的一个<b>开覆盖</b>. 若 `Gamma' sube Gamma` 也是
 	`E` 的开覆盖, 则称它为 `Gamma` 的一个<b>子覆盖</b>.
 </p>
@@ -303,6 +289,7 @@
 <p class="definition">
 	由 `RR^n` 中全体开集生成的 `sigma`-代数称为 <b>Borel `sigma`-代数</b>,
 	记为 `cc B`.  `cc B` 中的集合称为 <b>Borel 集</b>.
+    开集、闭集、`F_sigma` 集、`G_delta` 集都是 Borel 集.
 </p>
 
 <script src="../../js/note.js?type=math"></script>
