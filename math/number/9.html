@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <title>模形式</title>
+  <link rel="stylesheet" href="../../css/note.css"/>
+</head>
+<body>
+
+<ul>
+  <li>[GTM228 A first course in modular forms]</li>
+</ul>
+
+<p class="remark">
+  粗略地说, <b>模形式 (modular forms)</b> 是定义在上半复平面 `"Im"(tau) gt 0` 的复变函数,
+  且满足特定的变换公式和全纯条件.
+</p>
+
+<h2>基本概念</h2>
+
+<p class="definition">
+  <b>模群 (modular group)</b>
+  定义为全体行列式为 1 的 2 阶整系数矩阵群:
+  <span class="formula">
+    `SL_2(ZZ) := { [a, b; c, d]: a, b, c, d in ZZ, a d - b c = 1 }`.
+  </span>
+  它在复球面 `CC uu {oo}` 上有一个群作用 (<a href="../complex/1.html#1-4">Möbius 变换</a>):
+  <span class="formula">
+    `gamma(tau) = (a tau + b)/(c tau + d)`, `quad gamma in SL_2(ZZ)`.
+  </span>
+  对任意 `gamma in SL_2(ZZ)`, `+-gamma` 给出同一个 Möbius 变换, 事实上 `+-I` 是 `SL_2(ZZ)` 的中心.
+</p>
+
+<p class="proof">
+  容易验证 `I(tau) = tau` 及 `(gamma_1 gamma_2)(tau) = gamma_1 (gamma_2(tau))`, 因此它确实是群作用.
+</p>
+
+<p class="example">
+  可以验证 `A = [1, 1; 0, 1]` 和 `B = [0, -1; 1, 0]` 是模群 `SL_2(ZZ)`
+  的生成元, 相应的 Möbius 变换为 `tau ↦ tau+1` (平移变换) 和 `tau ↦ -1//tau`
+  (反演 `tau ↦ 1//bar tau`, 然后关于 `y` 轴对称).
+</p>
+
+<div class="p proof">
+  令 `C := B A^-1 B^-1 = [1, 0; 1, 1]`,
+  对 `AA n in ZZ`, 计算知
+  <span class="formula">
+    `A^n = [1, n; 0, 1]`,
+    `quad C^n = [1, 0; n, 1]`.
+  </span>
+  对 `AA M = [a, b; c, d] in SL_2(ZZ)`, `A^n M` 相当于将 `M` 的第 2 行的 `n` 倍加到第 1 行,
+  `C^n M` 相当于将 `M` 的第 1 行的 `n` 倍到加第 2 行.
+  对矩阵 `M` 反复执行两种初等变换, 由 `a d - b c = 1` 知道 `a, c` 互素,
+  通过辗转相除法, 最终可以将矩阵的第 1 列变为一个是 0, 另一个是 `+-1`.
+  通过左乘矩阵 `B` 或者 `B^-1`, 可以确保 `c = 0`, `a = 1`.
+  由于 `a d - b c = 1`, 此时必有 `d = 1`, 从而矩阵已经化为
+  `[1, b; 0, 1] = A^b`.
+  <hr>
+  [群友@QED] 两个生成元给出了 `gamma(tau)` 的连分数展开.
+</div>
+
+<p class="example">
+  定义上半复平面为 `cc H = { tau in CC: "Im"(tau) gt 0 }`, 证明: 模群的每个元素 `gamma` 都给出可逆映射 `cc H to cc H`.
+</p>
+
+<p class="proof">
+  记 `gamma = [a, b; c, d] in SL_2(ZZ)`.
+  显然 `tau ↦ (a tau + b)/(c tau + d)` 可逆, 逆映射由逆矩阵 `gamma^-1` 给出: `sigma ↦ (d sigma - b)/(-c sigma + a)`.
+  下证 `tau in cc H` 时, 有 `gamma(tau) in cc H`.
+  事实上
+  <span class="formula higher">
+    `gamma(tau)`
+    `= ((a tau + b)(bar (c tau + d)))/|c tau + d|^2`
+    `= (a d tau + b c bar tau + a c |tau|^2 + b d)/|c tau + d|^2`,<br>
+    `"Im"gamma(tau)`
+    `= (gamma(tau) - bar(gamma(tau)))/(2"i")`
+    `= (tau - bar tau)/(2"i") (a d - b c)/|c tau + d|^2`
+    `= ("Im" tau)/|c tau + d|^2`,
+  </span>
+  因此 `"Im"gamma(tau) gt 0 iff "Im"tau gt 0`.
+</p>
+
+<p class="definition">
+  <b>弱模 (weakly modularity)</b>
+  设 `k in ZZ`, `f: cc H to CC` 是亚纯函数 (又叫半纯函数, 除极点外处处解析), 且对 `AA tau in cc H`
+成立等式
+  <span class="formula">
+    `f(tau+1) = f(tau)`,
+    `quad f(-1//tau) = tau^k f(tau)`.
+  </span>
+  可以证明, 对一切 `gamma = [a, b; c, d] in SL_2(ZZ)` 和 `tau in cc H` 成立
+  <span class="formula">
+    `f(gamma(tau)) = (c tau + d)^k f(tau)`.
+  </span>
+  称这样的 `f` 为弱模, 权重为 `k`.
+</p>
+
+<p class="proof">
+  🚧
+</p>
+
+<ol class="example">
+  一些观察:
+  <li>
+    对于权重 `k = 0` 的弱模恒有 `f @ gamma = f`, 即 `f` 在 `SL_2(ZZ)` 的作用下不变.
+    每个常函数都是 `k=0` 的弱模.
+    零函数可以看作任意权重的弱模.
+  </li>
+  <li>
+    `k = 2` 时, 由于 `"d"(gamma(tau)) = (c tau + d)^-2 "d" tau`, 这推出
+    <span class="formula">
+      `f(gamma(tau)) "d"(gamma(tau))`
+      `= (c tau+d)^2 f(tau) (c tau + d)^-2 "d"tau`
+      `= f(tau) "d"tau`.
+    </span>
+  </li>
+  <li>若 `f` 为弱模, 令 `gamma = -I` 有 `f = (-1)^k f`, 这指出奇数权重的弱模恒为零.</li>
+  <li>两个 `k` 权重的弱模的线性组合仍是 `k` 权重的弱模;
+    这说明弱模实际上构成 `CC` 上的线性空间.
+    权重为 `k, l` 的两个弱模相乘得到一个权重为 `k+l` 的弱模.
+  </li>
+  <li>`c tau + d` 在上半平面没有零点与极点, 因此 `f @ gamma` 与 `f` 有相同的零点与极点.</li>
+</ol>
+
+<ol class="definition">
+  <li><b>模形式</b>是指在 `cc H uu {oo}` 全纯的弱模 [见注解].</li>
+  <li>权重为 `k` 的模形式的集合记作 `cc M_k(SL_2(ZZ))`, 这是 `CC` 上的线性空间.
+    权重为 `k, l` 的两个模形式相乘得到一个权重为 `k+l` 的模形式. 我们记
+    <span class="formula">
+      `cc M(SL_2(ZZ)) = O+_(k in ZZ) cc M_k(SL_2(ZZ))`,
+    </span>
+    这是一个分次环 (graded ring), 其中的一般元素 `f in cc M(SL_2(ZZ))`
+    可以写为有限个不同权重的模形式之和.
+    分次环的概念可以类比于多项式环 `CC[x]`.
+  </li>
+</ol>
+
+<p class="remark">
+  考虑映射 `tau ↦ q := "e"^(2 pi"i"tau)`,
+  它将 `cc H uu {oo}` 映为单位圆盘 `D`, 其中 `oo` 映到原点.
+  由于 `"e"^(2 pi "i"tau)` 以 1 为周期, 而弱模 `f` 也以 1 为周期, 因此存在函数 `g: D to CC`
+  使得
+  <span class="formula">
+    `f(tau) = g(q) = g("e"^(2 pi"i"tau))`.
+  </span>
+  要验证 `f(tau)` 在 `oo` 处全纯, 只需验证 `g(q)` 在原点全纯, 换言之 `g(q)`
+  在原点的 Laurent 级数只有 `n ge 0` 部分: `g(q) = sum_(n ge 0) a_n q^n`.
+  又, `q to 0 iff "Im"tau to oo`, 要验证 `f(tau)` 在 `oo` 处全纯, 只需验证
+  `lim_("Im"tau to oo) |f(tau)| lt oo` 即可.
+  <br>
+  注意到 `g(q)` 正好是 `f(tau)` 的 Fourier 展开, 我们也称它为 `f` 的 `q` 级数.
+  模形式的 Fourier 展开是很常用的操作, 后面还会见到许多.
+</p>
+
+<p class="example">
+  考虑 <b>Eisenstein 级数</b>, 其中 `c, d` 是不全为零的整数:
+  <span class="formula">
+    `G_k(tau) = sum_((c,d)){::}' 1/(c tau + d)^k`, `quad tau in cc H`.
+  </span>
+  当 `k` 是 `ge 4` 的偶数时, 级数绝对收敛, 且在 `cc H` 上内闭一致收敛.
+  计算验证 `G_k(tau)` 是权重为 `k` 的模形式, 并求它的 `q` 级数.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

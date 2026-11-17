@@ -2,6 +2,7 @@
 
 - [Lean Game Server](https://adam.math.hhu.de/#/): 寓教于乐
 - [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/): 教程电子书
+- [math-in-lean-zh](https://github.com/Lean-zh/math-in-lean-zh): 教程中文版
 - [Theorem Proving in Lean4](https://leanprover.github.io/theorem_proving_in_lean4/): 一个更严肃的教程
 - [deductrium](https://wxyhly.github.io/deductrium/): 超硬核推理游戏
 
@@ -62,6 +63,7 @@
    ::  SET "NPM_PREFIX_NPM_CLI_JS=%%F\node_modules\npm\bin\npm-cli.js"
    ::)
    ```
+4. 运行 mathematics in lean 项目时报错 `unknown module prefix 'MIL'`: 关闭工作区的其它项目然后重启 vscode, 确保工作区中只有 mathematics_in_lean 根目录.
 
 ## Learn
 

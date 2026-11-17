@@ -178,8 +178,15 @@
 
 <ol class="example">
   <b>常见的典型群</b>
-  <li>一般线性群: 由全体可逆的 `n` 阶矩阵构成: `GL_n(RR) = { A in RR^(n xx n) | det A != 0 }`;</li>
-  <li>特殊线性群: 由全体行列式为 1 的 `n` 阶矩阵构成: `SL_n(RR) = { A in RR^(n xx n) | det A = 1 }`;</li>
+  <li>一般线性群: 由全体可逆的 `n` 阶矩阵构成: `GL_n(CC) = { A in CC^(n xx n) | det A != 0 }`;</li>
+  <li>特殊线性群: 由全体行列式为 1 的 `n` 阶矩阵构成: `SL_n(CC) = { A in CC^(n xx n) | det A = 1 }`;</li>
+  <li>射影一般线性群: 定义为 `GL_n(CC)` 商掉它的中心:
+    `PGL_n(CC) := GL_n(CC) // Z(GL_n(CC)) = GL_n(CC) // {k bb 1: k in CC^xx}`.
+  </li>
+  <li>射影特殊线性群: 定义为 `SL_n(CC)` 商掉它的中心:
+    `PSL_n(CC) := SL_n(CC) // Z(SL_n(CC)) = SL_n(CC) // {omega bb 1: omega^n = 1}`.
+    在复数域上 `PGL_n` 与 `PSL_n` 同构, 其它域上则未必.
+  </li>
   <li>正交群 (orthogonal group): 由全体 `n` 阶正交矩阵构成: `O(n) = { A in RR^(n xx n) | A A^T = I }`;
     正交群中的变换保持内积 `x * y = sum x_i y_i` 不变.
   </li>
@@ -339,7 +346,7 @@
     <td>`GL_n(CC)`</td>
     <td>一般线性群</td>
     <td>`T^n`</td>
-    <td>`{k bb 1: k in CC}`</td>
+    <td>`{k bb 1: k in CC^xx}`</td>
     <td>否</td>
   </tr>
   <tr>
@@ -387,6 +394,7 @@
 </table>
 
 <ol class="remark">
+  <li>典型群的维数与它的李代数维数相等, 参见下文表格.</li>
   <li>
     `SL_n(CC) normal GL_n(CC)`, `SO(n) normal O(n)`, `SU(n) normal U(n)`.
   </li>

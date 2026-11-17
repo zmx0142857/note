@@ -86,6 +86,7 @@ var tocData = [
           { "value": "6", "label": "积性数论函数", "date": "2026-10-17" },
           { "value": "7", "label": "素数分布", "date": "2026-06-12" },
           { "value": "8", "label": "Riemann zeta 函数", "date": "2026-10-28" },
+          { "value": "9", "label": "模形式", "date": "2026-11-17" },
           { "value": "11", "label": "代数数域和代数整数", "date": "2025-08-01" },
           { "value": "12", "label": "理想的分解", "date": "2025-08-01" },
           { "value": "13", "label": "理想类群和类数", "date": "2025-08-07" },

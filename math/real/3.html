@@ -23,51 +23,41 @@
   <li>`-oo = -(+oo)`; `|+-oo| = +oo`;</li>
   <li>`+-oo` 加上/减去任意实数, 结果仍为 `+-oo`;</li>
   <li>`+-oo` 乘以/除以任意非零实数, 结果仍为 `+-oo`;</li>
-  <li>`(+oo) + (+oo) = +oo`; `(-oo) + (-oo) = -oo`; `(+oo) * (+oo) = +oo`; `(-oo) * (-oo) = +oo`;</li>
-  <li>这些运算无意义: `(+oo) - (+oo)`, `(-oo) - (-oo)`, `(+oo) * 0` 等等.</li>
+  <li>`(+-oo) + (+-oo) = +-oo`; `(+-oo) * (+-oo) = +oo`;</li>
+  <li>这些运算无意义: `(+-oo) - (+-oo)`, `(+oo) * 0` 等等.</li>
   广义实值函数是指 `E sube RR to RR uu {+-oo}` 的函数.
 </ol>
 
 <p class="definition">
   <b>可测函数</b>
-  如果 `f` 是定义在可测集 `E sube RR` 上的广义实值函数, 且对于任意 `t in RR`, 集合
+  如果 `f` 是定义在可测集 `E sube RR` 上的广义实值函数, 且
   <span class="formula">
-    `{ x in E: f(x) gt t }` (简记为 `{ x: f(x) gt r }`)
+    `AA t in RR`, `{ x in E: f(x) gt t }` 都是可测集,
   </span>
-  都是可测集, 则称 `f` 是 `E` 上的可测函数, 或 `f` 在 `E` 上可测.
+  则称 `f` 是 `E` 上的可测函数, 或 `f` 在 `E` 上可测.
+  在不引起混淆的前提下, 上式的集合可以简写为 `{x: f(x) gt t}`.
 </p>
 
 <p class="remark">
-  可测函数定义中的 `AA t in RR` 可以换成 `AA t in D`, 其中 `D` 是 `RR` 的一个稠密集.
-</p>
-
-<p class="proof">
-  设对任意 `r in D`, `{ x: f(x) gt r }` 都可测, 现在任取 `t in RR`, 下证 `{ x: f(x) gt r }` 可测.
-  选取 `D` 中的点列 `{r_k}`, 满足
+  设 `D` 是 `RR` 的一个稠密集, 任取 `t in RR`, 选取 `D` 中单调递减点列 `t_k to t`, 则有
   <span class="formula">
-    `r_k ge t (k = 1, 2, cdots)`;
-    `quad lim_(k to oo) r_k = t`.
+    `{x: f(x) gt t} = uuu_(k ge 1) {x: f(x) gt t_k}`.
   </span>
-  于是 `{ x: f(x) gt t } = uuu_(k ge 1) { x: f(x) gt r_k }` 可测.
+  由此可见, 可测函数定义中的 `AA t in RR` 可以换成 `AA t in D`.
 </p>
 
-<p class="example">
-  区间 `[a, b]` 上的单调函数可测.
-</p>
+<ol class="example">
+  <li>区间 `[a, b]` 上的单调函数可测.</li>
+  <li>可测集 `E` 上的连续函数可测.</li>
+  <li>可测集 `E` 的示性函数 `chi_E(x) = {1, if x in E; 0, otherwise:}` 是可测函数.</li>
+</ol>
 
-<p class="proof">
-  事实上, 对 `AA t in RR`, 点集 `{ x in [a, b]: f(x) gt t }`
-  必属于下述三种情况之一: 区间、单点集或空集, 从而它是可测集.
-</p>
-
-<p class="example">
-  可测集 `E` 上的连续函数可测.
-</p>
-
-<p class="example">
-  可测集 `E` 的示性函数 `chi_E(x) = {1, if x in E; 0, otherwise:}`
-  是可测函数.
-</p>
+<ol class="proof">
+  <li>
+    事实上, 对 `AA t in RR`, 点集 `{ x in [a, b]: f(x) gt t }`
+    必属于下述三种情况之一: 区间、单点集或空集, 从而它是可测集.
+  </li>
+</ol>
 
 <p class="example">
   <b>正部与负部</b>
@@ -109,13 +99,14 @@
 </ol>
 
 <p class="corollary">
-  <b>可测函数类形成一个环</b>
+  <b>可测函数类形成一个代数</b>
   若 `f, g` 是 `E` 上的可测函数, `c in RR`, 则 `c * f`, `f + g`, `f * g` 可测.
 </p>
 
 <p class="corollary">
   <b>可测函数列的极限</b>
-  若 `{f_k(x)}` 是 `E` 上的可测函数列, 则下列函数可测:
+  若 `{f_k(x)}` 是 `E` 上的可测函数列, 由第一章的<a href="1.html#the-cut-range">切割值域</a>知道,
+  下列函数可测:
   <span class="formula">
     `underset(k ge 1)Sup f_k(x)`,
     `quad inf_(k ge 1) f_k(x)`,
@@ -129,7 +120,7 @@
   <b>几乎处处</b>
   如果 `E` 是可测集, 命题 `P(x)` 在 `E` 上除了一个零测集外处处成立, 就说 `P(x)` 在 `E` 上几乎处处 (almost everywhere, a. e.) 成立. 如:
   <li>`E` 上的可测函数 `f`, `g` 几乎处处相等, 是指 `m({ x in E: f(x) != g(x) }) = 0`, 记为 `f(x) = g(x)`, `"a.e." x in E`.</li>
-  <li>`E` 上的可测函数 `f` 几乎处处有限, 是指 `m({ x in E: |f(x)| = +oo }) = 0`, 记为 `f(x) lt oo`, `"a.e." x in E`.</li>
+  <li>`E` 上的可测函数 `f` 几乎处处有限, 是指 `m({ x in E: |f(x)| = +oo }) = 0`, 记为 `|f(x)| lt oo`, `"a.e." x in E`.</li>
 </ol>
 
 <p class="corollary">
@@ -151,7 +142,7 @@
     `f(x) = sum_(i=1)^p c_i chi_(E_i)(x)`, `quad x in E`.
     <span class="label" id="for-simple-fn"></span>
   </span>
-  显然 `E` 上的简单函数形成一个环: 若 `f, g` 是简单函数, 则 `f +- g`, `f * g` 也是.
+  显然 `E` 上的简单函数形成一个代数: 若 `f, g` 是简单函数, 则 `c * f`, `f +- g`, `f * g` 也是.
 </p>
 
 <p class="definition">

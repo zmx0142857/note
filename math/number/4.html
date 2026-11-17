@@ -238,13 +238,14 @@ module.exports = function (str) {
   Euler 判别法是最常用的判别法, 使用快速幂, 时间复杂度为 `O(log p)`.
 </p>
 
-<p class="corollary">
-  Legendre 符号 `(a/p)` 是关于 `a` 的积性函数:
-  <span class="formula">
-    `(a/p)(b/p) = ((a b)/p)`,
-  </span>
-  特别地 `(a^2/p) = 1`.
-</p>
+<ol class="corollary">
+  <b>Legendre 符号的简单运算性质</b>
+  <li>`a -= b (mod p)` `rArr (a/p) = (b/p)`.</li>
+  <li>
+    `(a/p)` 是关于 `a` 的完全积性函数, 即 `(a/p)(b/p) = ((a b)/p)`;
+    特别地 `(a^2/p) = 1`.
+  </li>
+</ol>
 
 <p class="corollary">
   对于素数 `p -= 3 (mod 4)`, 若 `a` 为 `p` 的二次剩余,
@@ -252,10 +253,15 @@ module.exports = function (str) {
 </p>
 
 <p class="proof">
+  条件 `p -= 3 (mod 4)` 保证 `(p+1)//4` 是整数.
   平方得 `x = a^((p+1)//2)` `= a^((p-1)//2) * a` `= a`.
 </p>
 
-<p class="proposition">
+<h3>二次互反律</h3>
+
+<p>这是初等数论中相当精彩的结论, Gauss 曾给出至少 6 个证明.</p>
+
+<p class="lemma">
   <b>Gauss 判别法</b>
   `(a/p) = (-1)^s`, `s` 是
   <span class="formula">
@@ -285,10 +291,6 @@ module.exports = function (str) {
     即 `a^n -= (-1)^s (mod p)`. 再由 Euler 判别法即得结论.
   </li>
 </ol>
-
-<h3>二次互反律</h3>
-
-<p>这是初等数论中相当精彩的结论, Gauss 曾给出至少 6 个证明.</p>
 
 <p class="lemma">
   <b>格点计数公式</b>
@@ -346,6 +348,7 @@ module.exports = function (str) {
     `(p/q)(q/p) = (-1)^((p-1)/2 (q-1)/2)`
     `= {-1, if p -= q -= 3 (mod 4); 1, otherwise:}`
   </span>
+  注意指数上是乘号, 不要和 `(-1)^((p-1)/2 + (q-1)/2)` 混淆.
 </p>
 
 <p class="proof">
@@ -371,10 +374,34 @@ module.exports = function (str) {
   </span>
 </p>
 
+<ol class="proof">
+  <li>
+    由于 `(a//p)` 的积性, 只需证 `a` 是素数的情形.
+    若 `a = 2`, 则由下文的公式 `(2//p) = {1, p=+-1 (mod 8); -1, p=+-3 (mod 8):}` 可知结论成立;
+  </li>
+  <li>下设 `a` 为奇素数, 当 `p = 4a k + q` 时, 由二次互反律
+    <span class="formula align">
+      `(a/p) = (-1)^((a-1)/2 (p-1)/2) (p/a)`<br>
+      `= (-1)^((a-1)/2 (4a k+q-1)/2) (q/a)`<br>
+      `= (-1)^((a-1)/2 (q-1)/2) (-1)^((a-1)a k) (q/a)`<br>
+      `= (-1)^((a-1)/2 (q-1)/2) (q/a)`, 因为 `a-1` 是偶数<br>
+      `= (a/q)`.
+    </span>
+  </li>
+  <li>若 `a` 为奇素数且 `p = 4 a k - q`, 则
+    <span class="formula align">
+      `(a/p) = (-1)^((a-1)/2 (4a k-q-1)/2) ((-1)/a)(q/a)`<br>
+      `= (-1)^((a-1)/2 (-q-1)/2) (-1)^((a-1)/2) (q/a)`<br>
+      `= (-1)^((a-1)/2 (-q+1)/2) (q/a)`<br>
+      `= (a/q)`.
+    </span>
+  </li>
+</ol>
+
 <h3>-1, 2 和 3 何时是二次剩余</h3>
 
 <p class="example">
-  `((-1)/p) -= p (mod 4)`.<br>
+  `((-1)/p) = (-1)^((p-1)//2) -= p (mod 4)`.<br>
   换言之, 设 `p` 为奇素数, 方程 `x^2 + 1 -=
   0 (mod p)` 有解当且仅当 `p` 形如 `4n+1`. 比如, `5 = 2^2+1`,
   `2*13 = 5^2 + 1`, `17 = 4^2 + 1` 等.
@@ -400,11 +427,8 @@ module.exports = function (str) {
 </p>
 
 <p class="example">
-  设 `p ge 5` 是素数, 则
-  <span class="formula">
-    `(3/p) -= { 1, if p -= +-1 (mod 12);
-    -1, if p -= +-5 (mod 12):}`
-  </span>
+  `(3/p) -= { 1, if p -= +-1 (mod 12);
+  -1, if p -= +-5 (mod 12):}`, `p` 是 `ge 5` 的素数.
 </p>
 
 <p class="proof">
@@ -433,7 +457,7 @@ module.exports = function (str) {
     `(a/m) = (a/(prod_(i=1)^r p_i^(s_i)))`
     `= prod_(i=1)^r (a/p_i)^(s_i)`.
   </span>
-  Jacobi 符号关于上下两数都是积性的.
+  Jacobi 符号关于上下两数都是完全积性的.
 </p>
 
 <p class="corollary">

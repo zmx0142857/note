@@ -391,6 +391,16 @@ li.isnew::after {
 </head>
 
 <body>
+<script>
+// 尽早应用夜间模式
+(function () {
+  try {
+    if (JSON.parse(localStorage.getItem('index.setting') || '{}').dark) {
+      document.body.id = 'body-dark'
+    }
+  } catch (e) {}
+})()
+</script>
 <nav id="nav" hidden>
   <header>
     <a id="prev-article">&#x276e;</a>
@@ -446,6 +456,7 @@ li.isnew::after {
 'use strict';
 (function(){
 
+let bookColor = 'yellow'
 // elements
 let notify, iframe
 const article = $('#article'),
@@ -457,30 +468,31 @@ const article = $('#article'),
 
 const settings = {
   data: {},
+  apply () {
+    const dark = !!this.data.dark
+    // 夜间模式优先; 书籍本身是深色主题时直接使用其主题
+    const theme = dark ? 'dark' : bookColor
+    if (document.body.id !== 'body-' + theme) {
+      document.body.id = 'body-' + theme
+    }
+    if (!iframe) return
+    const { classList } = iframe.contentWindow.document.body
+    classList.toggle('column2', !!this.data.column2)
+    // 内容页本身已是深色主题时, 无需再叠加夜间模式的样式
+    if (bookColor !== 'dark') classList.toggle('dark', dark)
+  },
   save (data) {
-    Object.entries(data).forEach(([k, v]) => {
-      if (k === 'column2' || k === 'dark') {
-        if (!iframe) return
-        const { classList } = iframe.contentWindow.document.body
-        const theme = tocData.find(v => v.value === router.currentBook)?.color
-        if (v) {
-          classList.add(k)
-          if (theme !== 'dark') document.body.id = 'body-dark'
-        } else {
-          if (theme !== 'dark') {
-            classList.remove(k)
-            document.body.id = 'body-' + theme
-          }
-        }
-      }
-    })
     Object.assign(this.data, data)
+    this.apply()
     localStorage.setItem('index.setting', JSON.stringify(this.data))
   },
   load () {
-    const str = localStorage.getItem('index.setting') || '{}'
-    const data = JSON.parse(str)
-    this.save(data)
+    let data = {}
+    try {
+      data = JSON.parse(localStorage.getItem('index.setting') || '{}')
+    } catch (e) {}
+    Object.assign(this.data, data)
+    this.apply()
     return data
   },
 }
@@ -756,7 +768,8 @@ const router = {
     this.$book.value = value
 
     const { color = 'yellow', favicon = 'pikachu.png' } = book
-    document.body.id = 'body-' + color
+    bookColor = color
+    settings.apply()
     $('#favicon').href = 'img/' + favicon
 
     this.renderToc(book)

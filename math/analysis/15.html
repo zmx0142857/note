@@ -210,6 +210,55 @@
 
 <h3>隐函数</h3>
 
+<p class="theorem">
+  <b>隐函数偏导公式</b>
+  设 `F` 是 `n ge 2` 元连续可微函数. 若方程 `F(x_1, cdots, x_n) = 0` 在某个邻域上确定了变元 `x_i`
+  关于其它 `n-1` 个独立变元的隐函数, 则这个隐函数的偏导数可以按下式计算:
+  <span class="formula">
+    `pp x_i x_j = - (F_j')/(F_i')`.
+  </span>
+</p>
+
+<p class="proof">
+  将 `x_i` 视作其它变元的函数, 在方程 `F = 0` 两边对 `x_j` 求偏导:
+  <span class="formula">
+    `sum_k F_k' pp x_k x_j = 0`.
+  </span>
+  除了 `x_i, x_j` 以外, 其它独立变元对 `x_j` 的偏导数都为 0, 因此上式简化为
+  <span class="formula">
+    `F_i' pp x_i x_j + F_j' = 0`.
+  </span>
+</p>
+
+<p class="remark">
+  当我们使用记号 `pp x_i x_j` 时, 默认的前提是“`x_i` 是其它 `n-1` 个独立变元的函数”,
+  如果违背这一约定则会产生矛盾, 例如考虑三元隐方程 `F(x, y, z) = 0`,
+  将 `y, z` 视为 `x` 的函数, 两边对 `x` 求导得
+  <span class="formula">
+    `F_x + F_y pp y x + F_z pp z x = 0`,
+    <span class="label">(`ast`)</span>
+  </span>
+  然后代入公式 `pp y x = -F_x/F_y`, `pp z x = -F_x/F_z`, 就得到荒谬的结论 `F_x = 0`.
+  究其原因, 在 (`ast`) 式中我们假定 `y, z` 均随 `x` 变化,
+  相当于将讨论的范围限定在一条以 `x` 为参数的曲线上.
+  但在公式 `pp y x = -F_x/F_y` 中又假定 `z` 是与 `x` 无关的常数, 从而导致矛盾.
+</p>
+
+<p class="corollary">
+  设方程 `F(x, y, z) = 0` 确定了每个变元关于另外两个变元的隐函数, 且下面的偏导数都存在, 则有
+  <span class="formula">
+    `pp x y pp y z pp z x = -1`.
+  </span>
+  一般地, `n` 元方程对应的偏导数循环乘积结果为 `(-1)^n`.
+</p>
+
+<p class="proof">
+  使用隐函数偏导公式, 左边等于
+  <span class="formula">
+    `(-F_y/F_x) * (-F_z/F_y) * (-F_x/F_z) = -1`.
+  </span>
+</p>
+
 <p class="example">
   [同济高数第七版]
   已知两个连续可微函数 `f, F`, 满足 `y = f(x, t)`,
@@ -217,16 +266,16 @@
 </p>
 
 <p class="solution">
-  由隐函数定理知 `(del t)/(del x) = -F_1' // F_3'`,
-  `(del t)/(del y) = -F_2' // F_3'`.
+  由隐函数偏导公式知 `pp t x = -(F_1')/(F_3')`,
+  `pp t y = -(F_2')/(F_3')`.
   使用全微分的链式法则,
   <span class="formula">
     `dy/dx = f_1' + f_2' dt/dx`
-    `= f_1' + f_2'((del t)/(del x) + (del t)/(del y) dy/dx)`.
+    `= f_1' + f_2'(pp t x + pp t y dy/dx)`.
   </span>
   解得
   <span class="formula">
-    `dy/dx = (f_1' + f_2' (del t)/(del x))/(1 - f_1'(del t)/(del y))`
+    `dy/dx = (f_1' + f_2' (del t//del x))/(1 - f_2'(del t//del y))`
     `= (f_1' F_3' - f_2' F_1')/(F_3' + f_2' F_2')`.
   </span>
 </p>

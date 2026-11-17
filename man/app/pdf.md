@@ -101,6 +101,20 @@ function toc() {
 }
 ```
 
+用下面的 js 平移页码
+```js
+var toc = (str, offset) => {
+  return str.split('\n').map(line => {
+    const index = line.lastIndexOf(' ')
+    if (index === -1) return line
+    let page = line.slice(index+1)
+    page = Number(page) || parseFloat(page)
+    if (Number.isFinite(page)) return line.slice(0, index+1) + (page + offset)
+    return line
+  }).join('\n')
+}
+```
+
 ## 其它操作
 
 ### 页面截取与合并

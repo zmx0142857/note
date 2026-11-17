@@ -117,27 +117,31 @@
 <h3>素理想与极大理想</h3>
 
 <ol class="definition">
-  设 `A` 是环 `R` 的理想, `A != R`, `A != {0}`.
-  <li>若不存在理想 `B` 满足 `A sub B sub R`, 则称 `A` 为<b>极大理想</b>;</li>
+  设 `A` 是交换幺环 `R` 的真理想: `A subne R`.
+  <li>若不存在理想 `B` 满足 `A subne B subne R`, 则称 `A` 为<b>极大理想</b>;</li>
   <li>若 `AA a, b in R`, `a b in A rArr a in A or b in A`, 则称 `A` 为<b>素理想</b>.</li>
 </ol>
 
+<p class="remark">
+  非交换环中更为复杂, 要区分双边理想、左右理想. 这里我们仅讨论交换幺环.
+</p>
+
 <ol class="example">
   考虑 `ZZ` 的理想 `n ZZ`.
-  <li>若它为极大理想, 即不存在 `ZZ sup m ZZ sup n ZZ`, 亦即不存在
-    `1 lt m lt n` 使得 `m | n`, 亦即 `n` 为素数.</li>
-  <li>若它为素理想, 即 `AA a, b in ZZ`, `n | a b rArr n | a or n | b`,
-    亦即 `n` 为素数.
+  <li>`n ZZ` 是极大理想 `iff` 不存在 `n ZZ subne m ZZ subne ZZ`, `iff` 不存在
+    `1 lt m lt n` 使得 `m | n` `iff n` 为素数.</li>
+  <li>`n ZZ` 是素理想 `iff AA a, b in ZZ`, `n | a b rArr n | a or n | b`
+    `iff n` 为素数或零.
   </li>
-  综上 `ZZ` 的素理想和极大理想都形如 `p ZZ`, `p` 为素数.
 </ol>
 
 <p class="proposition">
   <b>素理想的等价条件</b>
-  环 `R` 的理想 `P` 为素理想当且仅当对 `R` 的任意理想 `A`, `B` 都有
+  `P subne R` 为素理想当且仅当对 `R` 的任意理想 `A`, `B` 都有
   <span class="formula">
     `A B sube P rArr A sube P or B sube P`.
   </span>
+  特别, 零理想是素理想当且仅当 `R` 是非零整环.
 </p>
 
 <p class="proposition">
@@ -148,7 +152,7 @@
 <ol class="proposition">
   <b>用商环判定素理想/极大理想</b>
   设 `A` 是环 `R` 的理想,
-  <li>`A` 是素理想 `iff R//A` 是整环 (Domain);</li>
+  <li>`A` 是素理想 `iff R//A` 是整环;</li>
   <li>`A` 是极大理想 `iff R//A` 是域.</li>
 </ol>
 
