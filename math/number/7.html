@@ -126,6 +126,63 @@ def test_mersenne(p):
     return r == 0
 </pre>
 
+<p class="example">
+  <b>Sierpiński 数与 Riesel 数</b>
+  [<a href="https://www.bilibili.com/video/BV1yesU6rEFc" target="_blank">bilibili@无限理论</a>]
+  <br>
+  我们已经知道, 数列 `2^n +- 1` 中或多或少存在着一些素数.
+  现在考虑数列 `k 2^n +- 1`, `k` 为正奇数.
+  如果 `AA n ge 1`, `k 2^n + 1` 都不是素数, 则称 `k` 为 Sierpiński 数.
+  将加号换成减号类似可定义 Riesel 数. 若一个数同时是 Sierpiński 数和 Riesel 数, 则称它为 Brier 数.
+  三种数都是存在的, 下面是已知的最小实例 (尚未证明最小性):
+  <span class="formula">
+    Sierpiński 数: 78557,
+    `quad` Riesel 数: 509203,<br>
+    Brier 数: 3316923598096294713661.
+  </span>
+</p>
+
+<div class="p proof">
+  下证 `k = 509203` 是 Riesel 数, 即数列 `a_n = 509203 * 2^n - 1` 不含素数.
+  计算数列前几项的最小素因子,
+<pre>
+In:  [primefactors(k*2**n-1)[0] for n in range(1, 25)]
+Out: [5, 3, 241, 3, 5, 3, 13, 3, 5, 3, 7, 3, 5, 3, 17, 3, 5, 3, 11, 3, 5, 3, 7, 3]
+</pre>
+  这些因子远小于 `a_n` 本身, 故 `a_n` 不是素数. 现在对每个 `p in S := {3, 5, 7, 13, 17, 241}`
+  计算 2 在 `bbb F_p^xx` 中的阶 `"ord"_p 2`:
+<pre>
+In:  [n_order(2, p) for p in [3, 5, 7, 13, 17, 241]]
+Out: [2, 4, 3, 12, 8, 24]
+</pre>
+  它们的阶都是 24 的因子, 这意味着对每个 `p in S` 都有 `2^24 -= 1 (mod p)`.
+  于是
+  <span class="formula">
+    `a_n = k * 2^n - 1 -= k * 2^(n+24) - 1 = a_(n+24) (mod p)`.
+  </span>
+  但数列的前 24 项都至少含有 `S` 中的一个素因子, 这就证明了数列的每一项都含有 `S` 中的一个素因子.
+  类似可证 78557 是 Sierpiński 数, 但需要计算前 36 项, 并使用覆盖集 `S = {3, 5, 7, 13, 19, 37, 73}`.
+  <hr>
+  509203 是怎么被发现的? 方法是精心选择覆盖集. 例如 `"ord"_3 2 = 2`,
+  要想让 `3 | a_n` 对每个 `n -= 0 (mod 2)` 成立,
+  记 `n = 2m`, 于是 `k * 2^(2m) -= 1 (mod 3)`, 只需令 `k -= 1 (mod 3)` 即可.
+  再比如 `"ord"_5 2 = 4`, 要使 `5 | a_n` 对每个 `n -= 1 (mod 4)` 成立, 只需令 `k -= 3 (mod 5)` 即可.
+  最终得到同余方程组
+  <span class="formula align">
+    `k -= 1 (mod 2)`, `quad` 因为 `k` 是奇数,<br class="noindent">
+    `k -= 3 (mod 5)`,<br class="noindent">
+    `k -= 2 (mod 7)`,<br class="noindent">
+    `k -= 6 (mod 13)`,<br class="noindent">
+    `k -= 2 (mod 17)`,<br class="noindent">
+    `k -= 211 (mod 241)`.
+  </span>
+  由中国剩余定理 (CRT) 知道, 这样的 `k` 不仅存在, 还有无穷多个, 周期为 11184810:
+<pre>
+In:  ntheory.modular.crt([2, 3, 5, 7, 13, 17, 241], [1, 1, 3, 2, 6, 2, 211])
+Out: (509203, 11184810)
+</pre>
+</div>
+
 <h2>筛法</h2>
 
 <p class="example">

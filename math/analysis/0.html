@@ -673,27 +673,17 @@ E - E*x/2 + 11*E*x**2/24 - 7*E*x**3/16 + 2447*E*x**4/5760 - 959*E*x**5/2304 + O(
   </li>
   <li>
     `cc L[delta(t)]`.
-    `delta(t)` (dirac delta function, 又称单位脉冲函数) 是<a href="../functional/5.html">广义函数</a>,
-    直观上它是下面函数族当 `epsi to 0` 的极限:
+    <a href="../functional/5.html#exp-delta-fn">单位脉冲函数</a> `delta`
+    是一个广义函数, 它在积分号下有意义, 可以计算诸如 `int delta(t) f(t) dt` 之类的积分.
+    直观上 `delta` 是下面函数族当 `epsi to 0^+` 的极限:
     <span class="formula">
-      `f_epsi(t) = { 1//epsi, if |t| lt epsi; 0, otherwise :}`
+      `f_epsi(t) = { 1//epsi, 0 le t lt epsi; 0, otherwise :}`
     </span>
     于是
     <span class="formula">
       `cc L[delta(t)]`
-      `= lim_(epsi to 0) int_0^epsi 1/epsi "e"^(-s t) dt`
-      `= lim_(epsi to 0) 1/(epsi s) (1-"e"^(-epsi s)) = 1`.
-    </span>
-    广义函数在积分号下是有意义的, 可以计算诸如
-    `int delta(t) f(t) dt` 之类的积分.
-    `delta` 函数的重要性质是
-    <span class="formula">
-      `int_(-oo)^oo delta(t-x) f(t) dt = f(x)`,
-    </span>
-    简记为 `delta ast f = f`.
-    `delta(t)` 的导数也是广义函数. 而 `delta(t)` 又可以看作是下面单位阶跃函数 (Heaviside step function) `H(t)` 的广义导数:
-    <span class="formula">
-      `H(t) = { 0, x lt 0; 1//2, x = 0; 1, x gt 0 :}`
+      `= lim_(epsi to 0^+) int_0^epsi "e"^(-s t)/epsi dt`
+      `= lim_(epsi to 0^+) (1-"e"^(-epsi s))/(epsi s) = 1`.
     </span>
   </li>
   <li>

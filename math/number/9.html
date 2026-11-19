@@ -8,15 +8,18 @@
 <body>
 
 <ul>
-  <li>[GTM228 A first course in modular forms]</li>
+  <li>[GTM228 A first course in modular forms]: 入门级, 思维链多在习题中</li>
+  <li>[Cohen《Modular forms a classical approach》]: 较厚, 部分材料的顺序比较非常规</li>
 </ul>
 
 <p class="remark">
-  粗略地说, <b>模形式 (modular forms)</b> 是定义在上半复平面 `"Im"(tau) gt 0` 的复变函数,
+  粗略地说, <b>模形式 (modular form)</b> 是定义在上半复平面 `"Im"(tau) gt 0` 的复变函数,
   且满足特定的变换公式和全纯条件.
 </p>
 
 <h2>基本概念</h2>
+
+<h3>模群与模形式</h3>
 
 <p class="definition">
   <b>模群 (modular group)</b>
@@ -122,18 +125,17 @@
   <li>`c tau + d` 在上半平面没有零点与极点, 因此 `f @ gamma` 与 `f` 有相同的零点与极点.</li>
 </ol>
 
-<ol class="definition">
-  <li><b>模形式</b>是指在 `cc H uu {oo}` 全纯的弱模 [见注解].</li>
-  <li>权重为 `k` 的模形式的集合记作 `cc M_k(SL_2(ZZ))`, 这是 `CC` 上的线性空间.
-    权重为 `k, l` 的两个模形式相乘得到一个权重为 `k+l` 的模形式. 我们记
-    <span class="formula">
-      `cc M(SL_2(ZZ)) = O+_(k in ZZ) cc M_k(SL_2(ZZ))`,
-    </span>
-    这是一个分次环 (graded ring), 其中的一般元素 `f in cc M(SL_2(ZZ))`
-    可以写为有限个不同权重的模形式之和.
-    分次环的概念可以类比于多项式环 `CC[x]`.
-  </li>
-</ol>
+<p class="definition">
+  <b>模形式 (modular form)</b> 是指在 `cc H uu {oo}` 全纯<sup>[注]</sup>的弱模.
+  权重为 `k` 的模形式的集合记作 `cc M_k(SL_2(ZZ))`, 这是 `CC` 上的线性空间.
+  权重为 `k, l` 的两个模形式相乘得到一个权重为 `k+l` 的模形式. 我们记
+  <span class="formula">
+    `cc M(SL_2(ZZ)) = O+_(k in ZZ) cc M_k(SL_2(ZZ))`,
+  </span>
+  这是一个分次环 (graded ring), 其中的一般元素 `f in cc M(SL_2(ZZ))`
+  可以写为有限个不同权重的模形式之和.
+  分次环的概念可以类比于多项式环 `CC[x]`.
+</p>
 
 <p class="remark">
   考虑映射 `tau ↦ q := "e"^(2 pi"i"tau)`,
@@ -152,14 +154,193 @@
   模形式的 Fourier 展开是很常用的操作, 后面还会见到许多.
 </p>
 
-<p class="example">
-  考虑 <b>Eisenstein 级数</b>, 其中 `c, d` 是不全为零的整数:
+<p class="definition">
+  <b>尖点形式 (cusp form)</b> 是指 `q` 级数的常数项为零的模形式.
+  换言之, 一个模形式是尖点形式当且仅当 `lim_("Im"tau to oo) f(tau) = 0`.
+  (我们把无穷远点 `oo` 叫做尖点).
+  尖点形式在模形式理论中具有特殊地位.
+  <br>
+  权重为 `k` 的尖点形式的集合记作 `cc S_k(SL_2(ZZ))`, 它是 `cc M_k(SL_2(ZZ))` 的线性子空间.
+  分次环
   <span class="formula">
-    `G_k(tau) = sum_((c,d)){::}' 1/(c tau + d)^k`, `quad tau in cc H`.
+    `cc S(SL_2(ZZ)) = O+_(k in ZZ) cc S_k(SL_2(ZZ))`
   </span>
-  当 `k` 是 `ge 4` 的偶数时, 级数绝对收敛, 且在 `cc H` 上内闭一致收敛.
+  是 `cc M(SL_2(ZZ))` 的理想.
+</p>
+
+<h3>例子</h3>
+
+<p class="example">
+  考虑 <b>Eisenstein 级数</b>, 其中 `m, n` 是不全为零的整数:
+  <span class="formula">
+    `G_k(tau) = sum_(m,n){::}' 1/(m tau + n)^k`, `quad tau in cc H`.
+  </span>
+  当 `k` 是 `ge 4` 的偶数时, 级数绝对收敛, 且在 `cc H` 上内闭一致收敛,
+  因此在 `cc H` 上是全纯的.
   计算验证 `G_k(tau)` 是权重为 `k` 的模形式, 并求它的 `q` 级数.
 </p>
+
+<ol class="solution">
+  <li>任取 `gamma = [a, b; c, d] in SL_2(ZZ)` 有
+    <span class="formula">
+      `G_k(gamma(tau))`
+      `= sum_(m,n){::}' (c tau + d)^k/(m (a tau+b)+n (c tau+d))^k`
+      `= sum_(m,n){::}' (c tau + d)^k/((a m + c n) tau + (b m + d n))^k`.
+      <span class="label">(`ast`)</span>
+    </span>
+    当有序对 `(m, n)` 取遍 `L' := ZZ^2 - {(0, 0)}` 时,
+    <span class="formula">
+      `(a m + c n, b m + d n) = (m, n) [a, b; c, d]`
+    </span>
+    也取遍同一集合. 这是因为 `gamma, gamma^-1` 都是整数矩阵,
+    因此给出 `ZZ^2` 到自身的双射. 又因矩阵可逆, 所以 `(a m + c n, b m + d n) =
+    (0, 0)` 当且仅当 `(m, n) = (0, 0)`, 因此该矩阵给出 `L'` 到自身的双射.
+    总之由 (`ast`) 式得到
+    <span class="formula">
+      `G_k(gamma(tau)) = (c tau + d)^k G_k(gamma)`.
+    </span>
+  </li>
+  <li>
+    为验证 `G_k` 是模形式, 还需证 `lim_("Im"tau to oo) |G_k(tau)| lt oo`.
+    由于 `G_k` 以 1 为周期, 只需取定常数 `B gt 0`, 然后证明 `G_k` 在如下区域有界即可:
+    <span class="formula">
+      `Omega = {tau in cc H: 0 le "Re"(tau) le 1, "Im"(tau) ge B}`.
+    </span>
+    这是一个关于 `y` 轴对称, 向北无限延伸的窄条区域. 令 `C = min{B, 1}`, 下证
+    <span class="formula">
+      `|m tau + n| ge C max{m, n}`, `quad AA tau in Omega`, `AA (m, n) in L'`.
+    </span>
+    事实上若 `m le n`, 显然 `|m tau + n| ge n ge C n`;
+    若 `n le m`, 则 `|m tau + n| ge |m "Im"(tau)| ge B m ge C m`.
+    因此在 `Omega` 上,
+    <span class="formula">
+      `|G_k(tau)| le sum_(m,n){::}' 1/|m tau + n|^k`
+      `le sum_(m,n){::}' 1/(C max{m,n})^k`
+      `lt oo`.
+    </span>
+  </li>
+  <li>最后求 `G_k` 的 `q` 级数, 即 Fourier 展开.
+    我们从<a href="../analysis/0.html">余切函数的展式</a>出发:
+    <span class="formula">
+      `pi cot pi tau = 1/tau + sum_(n ge 1) (1/(tau + n) + 1/(tau - n))`
+      `= sum_(n in ZZ) 1/(tau + n)`.
+    </span>
+    另一方面
+    <span class="formula">
+      `pi cot pi tau`
+      `= pi "i" ("e"^(pi"i" tau) + "e"^(-pi"i" tau))/("e"^(pi"i" tau) - "e"^(-pi"i" tau))`
+      `==^(q = exp(2pi"i"tau)) pi "i" (q + 1)/(q - 1)`
+      `= pi "i" (1 - 2/(1-q))`
+      `= pi "i" (1 - 2 sum_(n ge 0) q^n)`.
+    </span>
+    以上两式右侧对 `tau` 求 `k-1` 阶导数,
+    其中 `"d" q^n = n q^(n-1) * q * (2 pi "i") "d"tau = 2pi"i" n q^n "d"tau`, 得到
+    <span class="formula">
+      `(-1)^(k-1) (k-1)! sum_(n in ZZ) 1/(tau + n)^k`
+      `= -(2 pi "i")^k sum_(n ge 1) n^(k-1) q^n`,
+    </span>
+    即
+    <span class="formula">
+      `sum_(n in ZZ) 1/(m tau + n)^k`
+      `= (-2pi"i")^k/(k-1)! sum_(n ge 1) n^(k-1) q^(m n)`.
+    </span>
+    利用 `k` 是 `ge 4` 的偶数, 有
+    <span class="formula align">
+      `G_k(tau) = 2 sum_(n ge 1) 1/n^k + 2 sum_(m ge 1) sum_(n in ZZ) 1/(m tau + n)^k`<br>
+      `= 2 zeta(k) + 2 (2pi"i")^k/(k-1)! sum_(m ge 1) sum_(n ge 1) n^(k-1) q^(m n)`<br>
+      `= 2 zeta(k) + 2 (2pi"i")^k/(k-1)! sum_(n ge 1) sigma_(k-1)(n) q^n`.
+    </span>
+    其中系数是因子求和函数: `sigma_(k-1)(n) = sum_(m | n) m^(k-1)`.
+    模形式就这样和数论函数联系在一起.
+  </li>
+</ol>
+
+<p class="remark">
+  `E_k(tau) := G_k(tau) // 2 zeta(k)` 称为标准化的 Eisenstein 级数 (常数项为 1).
+  因为 `k` 是偶数, 利用 `zeta` 函数的公式 `zeta(k) = -1/2 B_k/k! (2pi"i")^k` 可知, `E_k` 的系数全为有理数:
+  <span class="formula">
+    `E_k(tau) = 1 - (2 k)/B_k sum_(n ge 1) sigma_(k-1)(n) q^n`, `quad B_k` 是 Bernoulli 数.
+  </span>
+  假设已知 `E_8 = E_4^2`, 代入上式有
+  <span class="formula align">
+    `1 - 16/B_8 sum_(n ge 1) sigma_7(n) q^n`
+    `= (1 - 8/B_4 sum_(n ge 1) sigma_3(n) q^n)^2`<br>
+    `= 1 - 16/B_4 sum_(n ge 1) sigma_3(n) q^n + 64/B_4^2 sum_(n ge 2) sum_(m=1)^(n-1) sigma_3(m) sigma_3(n-m) q^n`.
+  </span>
+  再代入 `B_8 = B_4 = -1//30` 化简, 比较等号两边的 `q^n` 系数得
+  <span class="formula">
+    `sigma_7(n) = sigma_3(n) + 120 sum_(m=1)^(n-1) sigma_3(m) sigma_3(n-m)`.
+  </span>
+</p>
+
+<ol class="example">
+  <li>
+    关于尖点形式的例子, 先考虑两个模形式
+    <span class="formula">
+      `g_2(tau) = 60 G_4(tau)`,
+      `quad g_3(tau) = 140 G_6(tau)`.
+    </span>
+    则<b>判别式函数</b> `Delta: cc H to CC` 是权重为 12 的尖点形式, 定义为
+    <span class="formula">
+      `Delta = g_2^3 - 27 g_3^2 = 0 + (2pi)^12 q + cdots`.
+    </span>
+  </li>
+  <li>
+    后面会证明 `Delta` 在 `cc H` 上没有零点, 于是<b>模函数</b> (又称模不变量)
+    <span class="formula">
+      `j = (12 g_2)^3 // Delta`
+      `= ((2pi)^12 + cdots)/((2pi)^12 q + cdots)`
+      `= 1/q + cdots`
+    </span>
+    在 `cc H` 上全纯, 是一个权重为 0 的弱模, 换言之它在 `SL_2(ZZ)` 的作用下不变.
+    无穷远点是 `j` 的一阶极点, 留数为 1.
+  </li>
+  <li>一些特殊值 (其中 `omega = "e"^(2pi"i"//3)`).
+    <span class="formula">
+      `g_2(omega) = 0`, `quad g_3(omega) != 0`, `quad j(omega) = 0`;<br>
+      `g_3("i") = 0`, `quad g_2("i") != 0`, `quad j("i") = 12^3`.
+    </span>
+  </li>
+</ol>
+
+<ol class="p solution">
+  <li>我们计算 `Delta` 的 `q` 级数的前两项.  因为
+    <span class="formula align">
+      `Delta = (60 G_4)^3 - 27 (140 G_6)^2`<br>
+      `= 60^3 (a_0 + a_1 q + sum_(n ge 2) a_n q^n)^3 - 27 * 140^2 (b_0 + b_1 q + sum_(n ge 2) b_n q^n)^2`,
+    </span>
+    故常数项为
+    <span class="formula">
+      `60^3 * (2 zeta(4))^3 - 27 * 140^2 * (2 zeta(6))^2`
+      `= 0`,
+    </span>
+    一次项系数为
+    <span class="formula align">
+      `60^3 * 3 a_0^2 a_1 - 27 * 140^2 * 2 b_0 b_1`<br>
+      `= 60^3 * 3 * (2 zeta(4))^2 * 2 (2pi"i")^4//3! - 27 * 140^2 * 2 * 2 zeta(6) * 2(2pi"i")^6//5!`<br>
+      `= (2pi)^12`.
+    </span>
+    <hr>
+<pre>
+# sympy
+60**3 * (2*zeta(4))**3 - 27 * 140**2 * (2*zeta(6))**2 # 0
+60**3 * 3 * (2*zeta(4))**2 * 2*(2*pi)**4/6 + 27 * 140**2 * 2 * 2*zeta(6) * 2*(2*pi)**6/120 # 4096*pi**12
+</pre>
+  </li>
+  <li>🚧证明 `Delta` 在 `cc H` 上没有零点...</li>
+  <li>
+    我们利用模形式的周期性计算一些特殊值.
+    记 `B = [0, -1; 1, 0] in SL_2(ZZ)`, 在它的作用下,
+    `B(omega) = -1//omega = omega+1`, 故
+    <span class="formula">
+      `g_2(B(omega)) = g_2(omega+1) = g_2(omega)`,<br>
+      `g_2(B(omega)) = g_2(-1//omega) = omega^4 g_2(omega)`.
+    </span>
+    因此 `g_2(omega) = 0`,
+    但由 `Delta` 在 `cc H` 上没有零点知道 `g_3(omega) != 0`.
+    类似可得其它结论.
+  </li>
+</div>
 
 <script src="../../js/note.js?type=math"></script>
 </body>

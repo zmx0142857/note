@@ -296,7 +296,7 @@
   <b>广义函数的运算</b>
   <li>广义导数. `AA f in cc D(Omega)^ast`,
     <span class="formula">
-      `(: tilde del^alpha, varphi :)`
+      `(: tilde del^alpha f, varphi :)`
       `:= (-1)^|alpha| (:f, del^alpha varphi:)`,
       `quad AA varphi in cc D(Omega)`.
     </span>
@@ -322,7 +322,7 @@
 <p class="remark">
   广义导数与极限运算总是可以交换:
   <span class="formula">
-    `lim tilde del^alpha f_j = tilde del^alpha lim f_j`.
+    `lim_j tilde del^alpha f_j = tilde del^alpha lim_j f_j`.
   </span>
   这意味着 `tilde del^alpha` 是连续算子.
 </p>
@@ -368,63 +368,105 @@
   </span>
 </p>
 
-<ol class="example">
-  <b>单位脉冲函数</b> `delta` 是一个广义函数, 其效果是取出 `varphi(0)` 的值:
-  <span class="formula">
-    `(:delta, varphi:) := varphi(0)`,
-    `quad AA varphi in cc D(Omega)`.
-  </span>
-  <li>`delta` 的 `alpha` 阶广义导数为
+<h3>例子</h3>
+
+<ol id="exp-delta-fn" class="example enum">
+  <b>单位脉冲函数 (Dirac delta 函数)</b>
+  <li>
+    `delta in cc D(RR)^ast` 是 `RR` 上的广义函数, 其效果是取出 `varphi(0)` 的值:
     <span class="formula">
-      `(:delta^((alpha)), varphi:)`
-      `= (-1)^|alpha| del^alpha varphi(0)`,
-      `quad AA varphi in cc D(Omega)`.
+      `(:delta, varphi:) := varphi(0)`,
+      `quad AA varphi in cc D(RR)`.
+    </span>
+    根据定义, `delta` 函数是卷积运算的单位元, 即 `delta ast f = f`:
+    <span class="formula">
+      `int_(-oo)^oo delta(t) f(x-t) dt`
+      `= f(x-t)|_(t=0) = f(x)`.
     </span>
   </li>
-  <li>`delta in cc D(RR)^ast` 的 `-1` 阶广义导数为
+  <li>`delta` 的 `n` 阶广义导数记为 `tilde del^n delta = delta^((n))`, 对 `AA varphi in cc D(RR)` 有
     <span class="formula">
-      `Y(x) = [x gt 0]`
-      `= {0, if x le 0; 1, if x gt 0:}`.
+      `(:delta^((n)), varphi:)`
+      `= (-1)^n (:delta, varphi^((n)):)`
+      `= (-1)^n varphi^((n))(0)`.
     </span>
-    换言之 `tilde del Y = delta`.
+  </li>
+  <li><b>单位阶跃函数</b>
+    <span class="formula">
+      `H(x) = {0, if x lt 0; 1//2, if x = 0; 1, if x gt 0:}`
+    </span>
+    是 `delta` 的一个广义原函数, 事实上 `AA varphi in cc D(RR)`,
+    <span class="formula">
+      `(:tilde del H, varphi:)`
+      `= -(:H, varphi':)`
+      `= -int_0^oo varphi'(x) dx`
+      `= varphi(0)`
+      `= (:delta, varphi:)`.
+    </span>
+    于是 `tilde del H = delta`.
     直觉上,
     <span class="formula">
-      `int_(-oo)^oo delta(x) dx = Y(oo) - Y(-oo) = 1`,
-    </span>
-    且对任意不含原点的区间 `[a, b]` 有
-    <span class="formula">
-      `int_a^b delta(x) dx = Y(a) - Y(b) = 0`.
+      `int_(-oo)^oo delta(x) dx = H(oo) - H(-oo) = 1`,<br>
+      `int_a^b delta(x) dx = H(a) - H(b) = 0`, `quad 0 !in [a, b]`.
     </span>
     假如 `delta` 对应一个普通函数, 则它必须在原点以外处处为 `0`,
     且在 `RR` 上积分值为 `1`, 从而整个积分值都集中在原点处,
     这显然不可能.
   </li>
-  <li>
-    `x^n/n! delta^((m))(x)`
-    `= (-1)^n (m;n) delta^((m-n))(x)`.
+  <li>`delta` 函数可以视为广义函数族的极限:
+    <ol>
+      <li>双边矩形脉冲: `lim_(epsi to 0^+) ([|x| lt epsi])/epsi = 2 delta(x)`, 其中 `[|x| lt epsi] = {1, if |x| lt epsi; 0, otherwise:};</li>
+      <li>单边矩形脉冲: `lim_(epsi to 0^+) ([0 le x lt epsi])/epsi = delta(x)`;</li>
+      <li>`lim_(epsi to 0^+) epsi/(x^2+epsi^2) = pi delta(x)`;</li>
+      <li>`lim_(lambda to +oo) sin(lambda x)/x = pi delta(x)`.</li>
+    </ol>
+    以第一个为例, 交换积分与极限, 然后按 `x gt 0`, `=0`, `lt 0` 分类讨论可得
+    <span class="formula">
+      `int_(-oo)^x lim_(epsi to 0^+) ([|t| lt epsi])/epsi dt`
+      `= lim_(epsi to 0^+) int_(-oo)^x ([|t| lt epsi])/epsi dt`
+      `= 2 H(x)`,
+    </span>
+    两边求导即得结论.
+  </li>
+  <li>`delta` 函数的 Laplace 变换等于常函数 `1`, 做法是用单边矩形脉冲逼近它:
+    <span class="formula">
+      `cc L[delta(t)](s)`
+      `= int_0^oo delta(t) "e"^(-s t) dt`
+      `= lim_(epsi to 0^+) int_0^epsi "e"^(-s t)/epsi dt`
+      `= lim_(epsi to 0^+) (1 - "e"^(-epsi s)) /(epsi s)`
+      `= 1`.
+    </span>
+  </li>
+  <li>`delta` 函数高阶导数的一个恒等式:
+    <span class="formula">
+      `x^n/n! delta^((m))(x)`
+      `= (-1)^n (m;n) delta^((m-n))(x)`.
+    </span>
     `m lt n` 时, 根据组合数定义, 等式右边为 `0`.
   </li>
-  <li>`RR^n` 上的广义 Laplace 算子 `tilde Delta := tilde del_1^2 + cdots + tilde del_n^2`.
-    我们知道, `RR^n` 中的径向调和函数 (满足 `Delta f = 0`) 是
-    <span class="formula">
-      `f(x) = {
-        ln|x|, if n = 2;
-        |x|^(2-n), if n ge 3
-      :}`
-    </span>
-    通常意义下, 这些函数在原点不可导, 但使用广义导数我们有:
-    <span class="formula">
-      `tilde Delta f(x) = {
-        Omega_n delta(x), if n = 2;
-        (2-n) Omega_n delta(x), if n ge 3
-      :}`
-    </span>
-    其中 `Omega_n` 是 `n` 维单位球面 `S^n` 的面积
-    <span class="formula">
-      `Omega_n = (n pi^(n//2))/(Gamma(n//2+1))`.
-    </span>
-  </li>
 </ol>
+
+<p class="example">
+  `RR^n` 上的广义 Laplace 算子 `tilde Delta := tilde del_1^2 + cdots + tilde del_n^2`.
+  我们知道, `RR^n` 中的径向调和函数 (满足 `Delta f = 0`) 是
+  <span class="formula">
+    `f(x) = {
+      ln|x|, if n = 2;
+      |x|^(2-n), if n ge 3
+    :}`
+  </span>
+  通常意义下, 这些函数在原点不可导, 但使用广义导数我们有:
+  <span class="formula">
+    `tilde Delta f(x) = {
+      Omega_n delta(x), if n = 2;
+      (2-n) Omega_n delta(x), if n ge 3
+    :}`
+  </span>
+  其中 `Omega_n` 是 `n` 维单位球面 `S^n` 的面积
+  <span class="formula">
+    `Omega_n = (n pi^(n//2))/(Gamma(n//2+1))`.
+  </span>
+</p>
 
 <h3>`cc S^ast` 上的 Fourier 变换</h3>
 

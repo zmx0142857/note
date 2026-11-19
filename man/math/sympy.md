@@ -80,12 +80,15 @@ dsolve([x(t).diff(t) - x(t) - y(t), y(t).diff(t) - x(t) + y(t)])
 
 数论
 ```py
+gcd(10, 25)
+gcd(x**2+2*x+1, x+1)
 primerange(1, 100) # 素数范围
 isprime(2017) # 素数判断
 nextprime(2017) # 下一个素数
 factorint(2077) # 整数分解
-gcd(10, 25)
-gcd(x**2+2*x+1, x+1)
+multiplicity(p, n) # 计算 p 在 n 中的次数 v_p(n)
+ntheory.factor_.smoothness(n)[0] # 求 n 的最大素因子
+primefactors(n) # 列出所有素因子 (不计重数)
 ```
 
 数域
