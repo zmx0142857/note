@@ -189,7 +189,7 @@
   若 `A sube B sube C` 且 `|A| = |C|`, 则 `|A| = |B| = |C|`.
 </p>
 
-<h2>可数集</h2>
+<h2>可数与不可数</h2>
 
 <h3>基数的定义</h3>
 
@@ -271,7 +271,7 @@
   <li>`NN^n` 是可列集 (对 `n` 归纳).</li>
 </ol>
 
-<h2>连续基数</h2>
+<h3>连续基数</h3>
 
 <ol class="example">
 	<li>构造双射 `f: (-1, 1) to RR`, 其中 `f(x) = x/(1-x^2)`
@@ -369,24 +369,107 @@
   参看下节 "基数的性质".
 </div>
 
-<ol class="example">
-  <b>Cantor 集</b>
-  记 `F_0 = [0, 1]`. 将其三等分, 移去中间部分的开区间 `(1//3, 2//3)`,
-  剩下的部分记为 `F_1 = [0, 1//3] uu [2//3, 1]`.
-  一般地, 将 `F_n` 中每个互不相交的闭区间三等分, 并移去中间部分的开区间,
-  剩下的部分记为 `F_(n+1)`.
-  定义 Cantor 集为
+<h3>Cantor 集</h3>
+
+<ol class="example" id="exp-cantor-set">
+  <b>Cantor 集</b> [<a href="https://zhuanlan.zhihu.com/p/685945666" target="_blank">知乎@passer</a>]
+  记
   <span class="formula">
-      `C = nnn_(n=1)^oo F_n`.
+    `F_0 = [0, 1]`.
   </span>
+  将其三等分, 移去中心开区间 `(1//3, 2//3)`, 剩下的部分记为
+  <span class="formula">
+    `F_1 = [0, 1//3] uu [2//3, 1]`.
+  </span>
+  然后将 `F_1` 的每个闭区间三等分, 移去中心开区间, 得到
+  <span class="formula">
+    `F_2 = [0, 1//9] uu [2//9, 3//9] uu [6//9, 7//9] uu [8//9, 1]`.
+  </span>
+  一般地, 将 `F_n` 中每个互不相交的闭区间三等分, 并移去中心开区间,
+  剩下的部分记为 `F_(n+1)`.
+  定义 Cantor 集为它们的交:
+  <span class="formula">
+    `C = nnn_(n=1)^oo F_n`.
+  </span>
+  <div class="img md" title="Cantor 集">
+    <canvas id="img-cantor-set" width="704" height="104"></canvas>
+  </div>
   Cantor 集的若干性质:
-  <li>拓扑性质: `C` 是非空有界闭集, `C` 没有内点, `C` 是完全集 (即 `C' = C`);</li>
-  <li>`C` 中每个数可以用三进制小数唯一表示:
+  <li>测度: `C` 是零测集, 因为 `F_n` 中闭区间的长度之和趋于零.</li>
+  <li>拓扑: `C` 是非空有界闭集, 是疏集 (指它的闭包没有内点), 是完全集 (即 `C' = C`);</li>
+  <li>基数: `C` 中每个数可以用三进制小数唯一表示:
     <span class="formula">
-      `x = sum_(n ge 1) a_n 3^-n`, `quad a_n = 0 or 2`.
+      `x = sum_(n ge 1) b_n//3^n`, `quad b_n = 0 or 2`.
     </span>
     因此 `C` 的基数是 `2^(aleph_0)`.
+    作为一个零测集却能和 `RR` 等势, 这是 Cantor 集的特别之处.
   </li>
+</ol>
+
+<p class="proof">
+  关于三进制小数, 注意 `(0, 1)` 中的有理数如果分母是 3 的幂, 则三进制小数表示不唯一. 例如
+  <span class="formula">
+    `1//3 = 0.1_3 = 0.0222 cdots_3`.
+  </span>
+  然而只要禁用掉 `b_n = 1`, 它的三进制表示就是唯一的.
+  禁用掉小数位中的 1 相当于 Cantor 集构造过程中的移去中心开区间的操作;
+  也可以把 Cantor 集看作一棵无限的二叉树, 而小数位的 0 和 2 分别表示向左走和向右走.
+  显然 Cantor 集到 `[0, 1]` 区间有满射, 将三进制小数映为二进制小数:
+  <span class="formula">
+    `varphi: C to [0, 1]`<br>
+    `sum_(n ge 1) b_n//3^n ↦ sum_(n ge 1) a_n//2^n`, `quad a_n = b_n//2`.
+  </span>
+  所以 Cantor 集与 `[0, 1]` 区间等势.
+  <br>
+  要证 Cantor 集是完全集, 只需说明 `AA x in C` 都存在 `C` 中互异点列趋于 `x`.
+  若 `x` 的三进制小数只有前 `k` 位非零, 则
+  <span class="formula">
+    `x_n = x + 2 // 3^(k+n)`, `quad n ge 1`
+  </span>
+  就是 `C` 中趋于 `x` 的互异点列.
+  否则 `x` 有无穷多位非零, 那么在每一个非零位处取 `x` 的截断也得到 `C` 中趋于 `x` 的互异点列.
+</p>
+
+<p class="remark">
+  构造 Cantor 集时, 如果把移去中心的 `1//3` 换成 `1//p`,
+  得到的集合称为 <b>Harnack 集</b>或<b>类 Cantor 集</b>.
+  换言之, 第一次移去中心长度为 `1//p` 的开区间.
+  对于剩下的两个闭区间, 每个都移去中心长度为 `1//p^2` 的开区间...
+  事实上被移除的开区间总长度为
+  <span class="formula">
+    `sum_(n ge 1) 2^(n-1)/p^n`
+    `= 1/p sum_(n ge 0) (2/p)^n`
+    `= 1/(p-2) le 1`,
+  </span>
+  这就要求 `p ge 3`. 其中 `p gt 3` 时, Harnack 集的测度为正数.
+</p>
+
+<ol class="example">
+  <b>Cantor 函数</b>
+  在证明 Cantor 集与 `[0, 1]` 等势的时候, 我们引入了满射 `varphi: C to [0, 1]`,
+  将三进制小数映为二进制小数. 由于 `varphi` 单调增, 我们
+  <span class="formula">
+    `Phi(x) = sup {varphi(y): y in C, y le x}`,
+  </span>
+  则 `Phi(x)` 是 `[0, 1]` 上的单调递增函数, 称为 Cantor 函数.  其具有性质:
+  <li>
+    `Phi(0) = 0`,
+    `Phi(x) + Phi(1-x) = 1`,
+    `Phi(x//3) = Phi(x)//2`.
+  </li>
+  <li>一致连续, 但不绝对连续;</li>
+  <li>在 Cantor 集上不可导, 在 Cantor 集外导数恒等于零;</li>
+  尽管 Cantor 函数的导数几乎处处为零, 它却能从 `f(0) = 0` 连续增长到 `f(1) = 1`.
+  我们戏称它为“一二三木头人”函数.
+</ol>
+
+<ol class="proof">
+  <li>利用 `varphi` 定义可知等式对 `varphi` 成立, 再由 `Phi` 在 Cantor 集之外的每个开区间上都是常数知道等式也对 `Phi` 成立.</li>
+  <li>显然只要 `|x - y| le 2 * 3^-n`, 就有 `|Phi(x) - Phi(y)| le 2^-n`, 所以 `Phi` 一致连续.
+    但它不是绝对连续的: 因为 `C` 零测, 对任意 `delta gt 0`, 可以构造一组长度之和小于 `delta` 的区间,
+    使得每个区间端点的函数值之差总和等于 1.
+  </li>
+  <li>这是因为导函数有界蕴含绝对连续.</li>
 </ol>
 
 <h2>基数的性质</h2>
@@ -410,11 +493,11 @@
 </p>
 
 <p class="theorem">
-  若 `S` 是一个由基数构成的集合, 则 `"sup"S := uuu S` 也是基数.
+  若 `S` 是一个由基数构成的集合, 则 `sup S := uuu S` 也是基数.
 </p>
 
 <p class="proof">
-  记 `alpha = "sup"S`.
+  记 `alpha = sup S`.
   假定存在序数 `beta lt alpha` 使得 `|beta| = |alpha|`, 由上确界性质, 必存在 `kappa in S` 满足
   `beta lt kappa lt alpha`, 于是 `|beta| le |kappa| le |alpha|`.
   但 `|beta| = |alpha|`, 于是 `|beta| = |kappa|`, 这与 `kappa` 是基数矛盾.
@@ -422,9 +505,9 @@
 
 <p class="remark">
   在序数中, 我们得到更大序数的方法有两种:
-  (1) 对序数 `alpha` 取后继 `alpha^+`; (2) 对序数的集合 `S` 取上确界 `"sup"S`.
+  (1) 对序数 `alpha` 取后继 `alpha^+`; (2) 对序数的集合 `S` 取上确界 `sup S`.
   在基数中, 同样有两种方法来得到更大的基数:
-  (1) 对基数 `kappa` 取幂 `2^kappa`; (2) 对基数的集合 `S` 取上确界 `"sup"S`.
+  (1) 对基数 `kappa` 取幂 `2^kappa`; (2) 对基数的集合 `S` 取上确界 `sup S`.
 </p>
 
 <ol class="definition">
@@ -432,7 +515,7 @@
   使用超穷递归, 定义全体无穷基数如下:
   <li>`aleph_0 := omega`, 这是最小的无穷基数;</li>
   <li>`aleph_(alpha+1) :=` 大于 `aleph_alpha` 的最小基数;</li>
-  <li>若 `alpha` 是极限序数, `aleph_alpha := underset (beta lt alpha) "sup" aleph_beta`.</li>
+  <li>若 `alpha` 是极限序数, `aleph_alpha := sup_(beta lt alpha) aleph_beta`.</li>
   基数全体构成一个真类.
 </ol>
 
@@ -555,7 +638,7 @@
 <p class="remark">
   我们已经提到, 得到更大基数的方法无非两种:
   (1) 对基数 `kappa` 取幂 `2^kappa`;
-  (2) 对基数 (或序数) 的集合 `S` 取上确界 `"sup"S`.
+  (2) 对基数 (或序数) 的集合 `S` 取上确界 `sup S`.
   那么是否存在这样的基数, 不能通过上述两种方法构造得到呢? 这引出强不可达基数的问题.
 </p>
 
@@ -564,7 +647,7 @@
   <li>`alpha` 是无穷基数, 即 `alpha ge aleph_0`;</li>
   <li>
     不存在极限序数 `beta lt alpha`
-    和严格增的序数列 `S := {a_xi: xi lt beta}` 使得 `alpha = "sup"S`.
+    和严格增的序数列 `S := {a_xi: xi lt beta}` 使得 `alpha = sup S`.
   </li>
   直观来看, 正则基数不能由比它小的基数通过取上确界得到.
 </ol>
@@ -575,7 +658,7 @@
 
 <p class="proof">
   事实上取 `S := {aleph_xi: xi lt gamma + omega}`,
-  则 `"sup"S = "sup"{aleph_(gamma+n): n lt omega} = aleph_(gamma+omega)`.
+  则 `sup S = sup {aleph_(gamma+n): n lt omega} = aleph_(gamma+omega)`.
   又显然 `gamma + omega lt aleph_(gamma+omega)`, 且为一极限序数.
 </p>
 
@@ -682,5 +765,40 @@
 </p>
 
 <script src="../../js/note.js?type=math"></script>
+<script>
+const canvas = document.querySelector('#img-cantor-set')
+const ctx = canvas.getContext('2d')
+const width = 704, height = 104
+canvas.width = width
+canvas.height = height
+const imageData = ctx.getImageData(0, 0, width, height)
+const { data } = imageData
+const getColor = (x, y) => {
+  x /= width
+  y = y / 8 | 0
+  if (y % 2) return 255
+  y /= 2
+  for (let i = 0; i < y; ++i) {
+    x *= 3
+    if (x >= 2) x -= 2
+    else if (x > 1) return 255
+  }
+  return 0
+}
+const drawPixel = (x, y) => {
+  const color = getColor(x, y)
+  const index = (y * width + x) * 4
+  imageData.data[index] = color
+  imageData.data[index + 1] = color
+  imageData.data[index + 2] = color
+  imageData.data[index + 3] = 0xff
+}
+for (let y = 0; y < height; ++y) {
+  for (let x = 0; x < width; ++x) {
+    drawPixel(x, y)
+  }
+}
+ctx.putImageData(imageData, 0, 0)
+</script>
 </body>
 </html>

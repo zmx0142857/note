@@ -35,9 +35,9 @@
 	类比数列的上极限和下极限
 	<span class="formula">
 		`underset(k to oo)(bar lim) x_k
-		= inf_(i in NN) Sup_(k ge i) x_k`,
+		= inf_(i in NN) sup_(k ge i) x_k`,
 		`quad underset(k to oo)(ul lim) x_k
-		= Sup_(i in NN) inf_(k ge i) x_k`.
+		= sup_(i in NN) inf_(k ge i) x_k`.
 	</span>
 	下面的符号存在着 "翻译" 的关系:
 	<span class="formula">
@@ -77,10 +77,10 @@
   注意 `f_n(x)` 有两种解读: 一是视为函数的序列,
   二是取定一个 `x` 的值后, 视为普通数列; 这里采用第二种解读.
   简记 `{x in E: ...}` 为 `{x: ...}`, 有
-  <li>`{x: Sup_(n ge 1) f_n(x) gt t}
+  <li>`{x: sup_(n ge 1) f_n(x) gt t}
       = uuu_(n ge 1) {x: f_n(x) gt t}`;
   </li>
-  <li>`{x: Sup_(n ge 1) f_n(x) lt t}
+  <li>`{x: sup_(n ge 1) f_n(x) lt t}
       = uuu_(k ge 1) nnn_(n ge 1) {x: f_n(x) le t-1/k}`;
   </li>
   <li>`{x: underset(n to oo)(bar lim) f_n(x) lt t}
@@ -92,23 +92,23 @@
       {x: f_n(x) ge t + 1/k}`;
   </li>
   其中 2, 3, 4 右边集合中也可以换成严格的不等号.
-  如果将上面的 `Sup` 换成 `inf`, 上下极限互换, 不等号方向改变, `1//k` 的符号改变, 则又得到四个集合等式.
+  如果将上面的 `sup` 换成 `inf`, 上下极限互换, 不等号方向改变, `1//k` 的符号改变, 则又得到四个集合等式.
 </ol>
 
 <ol class="proof">
-  <li>这是因为 `Sup_(n ge 1) f_n(x) gt t` 等价于 `EE n in NN`, `f_n(x) gt t`.</li>
+  <li>这是因为 `sup_(n ge 1) f_n(x) gt t` 等价于 `EE n in NN`, `f_n(x) gt t`.</li>
   <li>这是因为
-    `Sup_(n ge 1) f_n(x) lt t` 等价于 `EE k in NN`, `Sup_(n ge 1) f_n(x) le t-1/k`.
+    `sup_(n ge 1) f_n(x) lt t` 等价于 `EE k in NN`, `sup_(n ge 1) f_n(x) le t-1/k`.
     将 1. 的 `t` 换成 `t-1/k`, 然后取补集得到
     <span class="formula">
-      `{x: Sup_(n ge 1) f_n(x) le t-1/k} = nnn_(n ge 1) {x: f_n(x) le t-1/k}`.
+      `{x: sup_(n ge 1) f_n(x) le t-1/k} = nnn_(n ge 1) {x: f_n(x) le t-1/k}`.
     </span>
   </li>
   <li>
-    令 `g_m(x) = Sup_(n ge m) f_n(x)`, 则
+    令 `g_m(x) = sup_(n ge m) f_n(x)`, 则
     <span class="formula">
       `underset(n to oo)(bar lim)f_n(x)`
-      `= inf_(m in NN) Sup_(n ge m) f_n(x)`
+      `= inf_(m in NN) sup_(n ge m) f_n(x)`
       `= inf_(m in NN) g_m(x)`,
     </span>
     于是
@@ -139,7 +139,7 @@
 	<span class="formula">
 		`lim_(n to oo) {x: f_n(x) gt t}`
 		`= uuu_(n=1)^oo {x: f_x(x) gt t}`
-		`= {x: Sup_(n in NN) f_n(x) gt t}`
+		`= {x: sup_(n in NN) f_n(x) gt t}`
 		`= {x: f(x) gt t}`.
 	</span>
 	即对于渐升函数列 `f_n(x)` 有
@@ -160,7 +160,7 @@
 
 <ol class="definition">
 	设 `x in RR^n`, `E, F sube RR^n`, 定义
-	<li><b>直径</b> `"diam"(E) = Sup_(x, y in E) |x-y|`;</li>
+	<li><b>直径</b> `"diam"(E) = sup_(x, y in E) |x-y|`;</li>
 	<li><b>点到点集的距离</b> `d(x, E) = inf_(y in E) |x-y|`;</li>
 	<li><b>点集间的距离</b> `d(E, F) = inf_(x in E, y in F) |x-y|`.</li>
 </ol>
@@ -206,9 +206,9 @@
 
 <p>注意到不等式
 	<span class="formula">
-		`underset(1 le i le n)max|x_m^((i))-x_n^((i))|
-		le |x_m-x_n|
-		le sqrt n underset(1 le i le n)max|x_m^((i))-x_n^((i))|`
+		`max_(1 le i le n) |x_m^((i))-x_n^((i))|`
+		`le |x_m-x_n|`
+		`le sqrt n max_(1 le i le n) |x_m^((i))-x_n^((i))|`
 	</span>
 	从而 `x_k` 是 `RR^n` 中的 Cauchy 列当且仅当它的每一分量是 `RR` 中的
 	Cauchy 列. 由 `RR` 的完备性知 `x_k` 是 `RR^n`
