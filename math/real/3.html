@@ -140,15 +140,13 @@
   用示性函数可以写为
   <span class="formula">
     `f(x) = sum_(i=1)^p c_i chi_(E_i)(x)`, `quad x in E`.
-    <span class="label" id="for-simple-fn"></span>
   </span>
-  显然 `E` 上的简单函数形成一个代数: 若 `f, g` 是简单函数, 则 `c * f`, `f +- g`, `f * g` 也是.
+  显然简单函数 `f` 可测当且仅当上式的每个 `E_i` 都是可测集.
+  `E` 上的简单函数形成一个代数: 若 `f, g` 是简单函数, 则 `c * f`, `f +- g`, `f * g` 也是.
 </p>
 
-<p class="definition">
-  <b>可测简单函数</b>
-  就是可测的简单函数.
-  显然简单函数 `f` 可测当且仅当 <a class="ref" href="#for-simple-fn"></a> 中的每个 `E_i` 都是可测集.
+<p class="remark">
+  直观上, 简单函数是直方图的推广: 将每个取常数值的区间换成了可测集.
 </p>
 
 <p class="definition">
@@ -160,43 +158,88 @@
   若 `"supp"(f)` 是紧的 (在 `RR` 上即为有界闭集, 只需证有界), 则称 `f` 具有<b>紧支集</b>.
 </p>
 
-<ol class="definition">
+<ol class="theorem">
   <b>简单函数逼近定理</b> (用可测简单函数逼近可测函数)
   设 `f` 是 `E` 上的可测函数.
-  <li>先设 `f` 非负. 则存在 `E` 上的非负可测简单函数渐升列 `{varphi_k(x)}` 逐点收敛于 `f(x)`.</li>
-  <li>对于一般情形, 存在可测简单函数列 `{varphi_k(x)}` 逐点收敛于 `f(x)`, 且
+  <li>先设 `f` 非负. 则存在 `E` 上的非负可测简单函数渐升列 `varphi_k to f`.
+    渐升是指, 对于固定的 `x`, `varphi_k(x)` 是关于 `k` 的单调增数列.
+  </li>
+  <li>对于一般情形, 存在可测简单函数列满足 `|varphi_k(x)| le |f(x)|` 且 `varphi_k to f`.
+    若 `f` 有界, 则上述收敛还是一致的.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>我们来切割 `f` 的值域. 对任意正整数 `k` 和 `1 le j le k * 2^k`, 记
     <span class="formula">
-      `|varphi_k(x)| le |f(x)|`,
-      `quad k = 1, 2, cdots`.
+      `E_k = {x in E: f(x) ge k}`,<br>
+      `E_(k, j) = {x in E: (j-1)//2^k le f(x) lt j//2^k}`.
     </span>
-    若 `f` 有界, 则上述收敛是一致的.
+    上述集合两两不交, 构成 `E` 的划分. 然后定义
+    <span class="formula">
+      `varphi_k(x) = {
+        (j-1)//2^k, x in E_(k,j);
+        k, x in E_k
+      :}`
+    </span>
+    则每个 `varphi_k` 都是非负可测简单函数, 且 `varphi_k le f`, `varphi_k le k`.
+    <br>
+    注意到 `k` 换成 `k+1` 时, `E` 的新划分是旧划分的加细,
+    类似于黎曼积分的达布下和随着划分加细而单调增加, 我们有 `varphi_k le varphi_(k+1)`.
+    <br>
+    下证 `varphi_k to f`. 任取 `x in E`, 若 `f(x) = +oo`, 则 `varphi_k(x) = k`;
+    否则存在 `M gt 0` 使 `f(x) le M`, 则 `k gt M` 时, `x` 落入某个 `E_(k,j)` 中, 于是
+    <span class="formula">
+      `0 le f(x) - varphi_k(x) le 2^-k`,
+      `quad AA k gt M`.
+      <span class="label">(`ast`)</span>
+    </span>
+    两种情况都有 `varphi_k to f`.
+  </li>
+  <li>将 `f` 写为两个非负函数 (正部与负部) 之差: `f = f^(+) - f^(-)`, 其中
+    <span class="formula">
+      `f^(+) = max(f, 0)`, `quad f^(-)= max(-f, 0)`.
+    </span>
+    由 1. 分别存在非负可测简单函数列 `varphi_k to f^(+)`, `psi_k to f^(-)`,
+    于是 `varphi_k - psi_k to f`, 且
+    <span class="formula">
+      `|varphi_k - psi_k|`
+      `le varphi_k + psi_k`
+      `le f^(+) + f^(-)`
+      `= |f|`.
+    </span>
+    最后若 `f` 有界, 则由 (`ast`) 式知道
+    `varphi_k &#x21c9; f^(+)`, `psi_k &#x21c9; f^(-)`,
+    从而 `varphi_k - psi_k &#x21c9; f`.
   </li>
 </ol>
 
 <p class="remark">
-  上述简单函数逼近定理中的每个简单函数可以取成具有紧支集的函数.
+  上述简单函数逼近定理中的每个简单函数可以取成具有紧支集的函数,
+  只需令 `g_k(x) = varphi_k(x) chi_([-k, k])(x)`.
 </p>
 
-<h2>几乎处处收敛与依测度收敛</h2>
+<h2>可测函数列的收敛性</h2>
 
 <p class="remark">
-  没有特别说明时, 本节总假定 `f(x), f_k(x)` 等是 `E` 上几乎处处有限的可测函数.
+  没有特别说明时, 本节总假定 `f, f_k` 等是 `E sube RR^n` 上几乎处处有限的可测函数.
+  这主要是为了避免 `f_k - f` 出现 `oo - oo` 等无意义情形.
+  因此在讨论几乎处处收敛、依测度收敛、叶戈罗夫定理与卢津定理时, 我们都暗含了函数几乎处处有限的假设.
 </p>
 
 <h3>几乎处处收敛</h3>
 
 <p class="definition">
-  设 `f(x), f_k(x) (k in NN)` 是 `E` 上的广义实值函数,
-  若在一个零测集外有 `{f_k(x)}` 逐点收敛于 `f(x)`, 则称 `f_k(x)` <b>几乎处处收敛</b>于 `f(x)`, 记作
-  `f_k(x) overset "a.e." to f(x)`.
-</p>
-
-<p class="remark">
-  若上述 `{f_k(x)}` 是可测函数列, 则 `f(x)` 也可测.
+  设 `f, f_k (k in NN)` 是 `E` 上的广义实值函数,
+  若在一个零测集外有 `f_k` 逐点收敛于 `f`, 则称 `f_k` <b>几乎处处收敛</b>于 `f`, 记作
+  `f_k overset "a.e." to f`.
+  <br>
+  若 `f_k` 是可测函数列, 则由于可测函数在极限运算下封闭, 并且零测集不影响函数的可测性,
+  立即推出 `f` 也是可测函数.
 </p>
 
 <p class="lemma">
-  设 `m(E) lt oo`, `f_k(x)` 在 `E` 上几乎处处收敛于 `f(x)`.
+  假设在测度有限的集合 `E` 上 `f_k overset "a.e." to f`.
   对 `AA epsi gt 0`, 我们取出使 `f_k(x)` 与 `f(x)` 之差大于等于 `epsi` 的那些 `x`:
   <span class="formula">
     `E_k(epsi) = { x in E: |f_k(x) - f(x)| ge epsi }`,
@@ -207,77 +250,216 @@
   </span>
 </p>
 
+<ol class="proof">
+  `uuu_(k ge j) E_k(epsi)` 是关于 `j` 递减的, 且测度有限的集合列.
+  根据测度论的 Fatou 定理 (交换极限与测度次序) 有
+  <span class="formula">
+    `lim_(j to oo) m(uuu_(k ge j) E_k(epsi))`
+    `= m(nnn_(j ge 1) uuu_(k ge j) E_k(epsi))`
+    `:= m(E_epsi)`.
+  </span>
+  考虑括号中的上极限, 我们有:
+  <span class="formula">
+    `AA x in E_epsi`, `AA j ge 1`, `EE k ge j`, `x in E and |f_k(x) - f(x)| ge epsi`.
+  </span>
+  因此 `x` 不是函数列的收敛点. 由 `f_k overset "a.e." to f` 知道 `m(E_epsi) = 0`.
+</ol>
+
 <p class="theorem">
   <b>Егоров (叶戈罗夫) 定理</b>
-  假设 `m(E) lt oo`, `f_k(x)` 在 `E` 上几乎处处收敛于 `f(x)`, 则对 `AA delta gt
-  0`, 存在 `E` 中可测子集 `E_delta`, `m(E_delta) le delta`,
-  使 `{f_k(x)}` 在 `E\\E_delta` 中一致收敛到 `f(x)`.<br>
-  换言之, 挖去定义域中测度任意小的一个子集后, `{f_k(x)}` 在其余部分可一致收敛到 `f(x)`.
-  这个性质可以称为<b>近一致收敛</b>, 记为 `f_k(x) overset(E\\E_delta) &#x21c9; f(x)`.
+  假设在测度有限的集合 `E` 上 `f_k overset "a.e." to f`,
+  则对 `AA delta gt 0`, 存在 `E` 中可测子集 `E_delta`, `m(E_delta) le delta`,
+  使 `f_k` 在 `E\\E_delta` 中一致收敛到 `f`.<br>
+  舍弃一个小测度集后, 函数列的收敛变为一致收敛,
+  这个性质称为<b>近一致收敛 (almost uniform convergence)</b>, 记为 `f_k overset(E\\E_delta) &#x21c9; f`.<br>
+  另一方面, 用反证法容易说明, 无论 `E` 的测度有限还是无穷, 近一致收敛都蕴含几乎处处收敛.
+  因此叶戈罗夫定理可以总结如下:
+  <span class="formula">
+    在测度有限的集合上, 几乎处处收敛 `iff` 近一致收敛.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    由引理 `lim_(j to oo) m(uuu_(k ge j) E_k(epsi)) = 0`.
+    取数列 `(1//i)_(i ge 1)`, 则对 `AA delta gt 0` 和 `AA i ge 1`, 存在 `j_i` 使得
+    <span class="formula">
+      `m(uuu_(k ge j_i) E_k(1//i)) lt delta // 2^i`.
+    </span>
+    记 `E_delta = uuu_(i ge 1) uuu_(k ge j_i) E_k(1//i)`, 则
+    <span class="formula">
+      `m(E_delta)`
+      `le sum_(i ge 1) delta // 2^i`
+      `= delta`.
+    </span>
+    下证在 `E\\E_delta` 上有 `f_k &#x21c9; f`. 事实上对每个 `x in E\\E_delta` 有
+    <span class="formula">
+      `AA i ge 1, AA k ge j_i, x !in E_k(1//i)`, 换言之 `|f_k(x) - f(x)| lt 1//i`.
+    </span>
+    于是对 `AA epsi gt 0`, 取 `i` 使得 `1//i lt epsi` 就有
+    <span class="formula">
+      `|f_k(x) - f(x)| lt 1//i lt epsi`,
+      `quad AA x in E\\E_delta`, `AA k ge j_i`.
+    </span>
+    `i` 和 `j_i` 的选取与 `x` 无关, 故 `f_k` 在 `E\\E_delta` 上一致收敛于 `f`.
+  </li>
+  <li>如果 `f_k` 不是几乎处处收敛, 则存在测度为 `delta gt 0` 的子集 `A`, 在其上不成立 `f_k to f`.
+    对任意测度严格小于 `delta` 的子集 `E_delta`, `A` 不包含于 `E\\E_delta`, 即 `(E\\E_delta) nn A != O/`.
+    因此 `E\\E_delta` 至少有一点不成立 `f_k to f`, 更不用说在 `E\\E_delta` 上一致收敛.
+  </li>
+</ol>
+
+<p class="remark">
+  若 `m(E) = oo`, 定理的陈述可以改为: `AA M gt 0`, 存在测度大于 `M` 的子集 `E_M` 使得
+  `f_k overset(E_M) &#x21c9; f`.
+  但此时不能由几乎处处收敛推出近一致收敛. 反例: `f_k(x) = chi_([k, k+1])(x)`, 参见下个小节的注释.
 </p>
 
 <h3>依测度收敛</h3>
 
 <p class="definition">
-  设 `m(E) lt oo`, `f(x), f_k(x) (k in NN)` 是 `E` 上几乎处处有限的可测函数,
   考虑 Егоров 定理的引理中出现过的集合
   <span class="formula">
     `E_k(epsi) = { x in E: |f_k(x) - f(x)| ge epsi }`,
   </span>
-  如果对任意 `epsi gt 0`, `k to oo` 时上述集合列的测度趋于 0, 则称 `{f_k(x)}`
-  在 `E` 上<b>依测度收敛</b>于 `f(x)`, 记为 `f_k(x) overset m to f(x)`.
-</p>
-
-<p class="remark">
+  如果 `AA epsi gt 0`, `lim_(k to oo) m(E_k(epsi)) = 0`, 则称 `f_k`
+  在 `E` 上<b>依测度收敛</b>于 `f`, 记为 `f_k overset m to f`.
+  <br>
   区别于逐点收敛或几乎处处收敛, 依测度收敛的关键是点集 `E_k(epsi)` 的测度逐于零, 而不论此点集的位置状态如何.
 </p>
 
-<p class="theorem">
-  <b>依测度收敛极限的唯一性</b>
-  若 `{f_k(x)}` 在 `E` 上同时依测度收敛于 `f(x)` 和 `g(x)`, 则 `f, g` 几乎处处相等.
+<p class="remark">
+  由叶戈罗夫定理的引理立即知道, 在有限测度的集合上, <b>几乎处处收敛 `rArr` 依测度收敛</b>.
+  无限测度时考虑反例 `f_k(x) = chi_([k, k+1])(x)`, 它处处收敛于 0, 但不依测度收敛于 0.
+  但我们可以用更强的条件: 近一致收敛来推出依测度收敛.
 </p>
 
-<p class="theorem">
-  `m(E) lt oo` 时, 在 `E` 上有: 几乎处处收敛 `rArr` 依测度收敛.
-</p>
-
-<p class="theorem">
+<p class="corollary">
   近一致收敛 `rArr` 依测度收敛.
 </p>
 
+<p class="proof">
+  设 `f_k` 在 `E` 上近一致收敛于 `f` (`E` 的测度不必有限).
+  由定义, 对 `AA epsi, delta gt 0`, 存在测度小于 `delta` 的子集 `E_delta`, 以及自然数 `k_0`, 使得
+  <span class="formula">
+    `|f_k(x) - f(x)| lt epsi`,
+    `quad AA x in E\\E_delta`, `AA k ge k_0`.
+  </span>
+  因此 `k ge k_0` 时 `E_k(epsi) sube E_delta`, 这推出 `m(E_k(epsi)) lt delta`.
+  由 `delta` 的任意性即得结论.
+</p>
+
+<p class="corollary">
+  <b>依测度收敛极限的唯一性</b>
+  若 `f_k` 同时依测度收敛于 `f` 和 `g`, 则 `f, g` 几乎处处相等.
+</p>
+
+<p class="proof">
+  各函数值有限时, 成立三角不等式
+  <span class="formula">
+    `|f(x) - g(x)| le |f(x) - f_k(x)| + |g(x) - f_k(x)|`.
+  </span>
+  排除掉函数值无限的零测集 `Z`, 对 `AA epsi gt 0` 有
+  <span class="formula align">
+    `{x in E\\Z: |f(x) - g(x)| gt epsi}`<br>
+    `sube {x in E\\Z: |f(x) - f_k(x)| gt epsi//2} uu {x in E\\Z: |g(x) - f_k(x)| gt epsi//2}`
+  </span>
+  由假设, `k to oo` 时上式右端两个点集的测度都趋于零, 从而
+  <span class="formula">
+    `m({x in E\\Z: |f(x) - g(x)| gt epsi}) = 0`.
+  </span>
+  再由 `epsi` 的任意性可知 `f, g` 几乎处处相等.
+</p>
+
+<p>接下来要证明任何依测度收敛函数列存在几乎处处收敛的子列, 先引入依测度 Cauchy 列的概念:</p>
+
 <p class="definition">
-  <b>依测度 Cauchy (基本) 列</b> 是指, 对任意 `epsi gt 0`, 有
+  <b>依测度 Cauchy (基本) 列</b> 是指, 对任意 `epsi gt 0`,
   <span class="formula">
     `lim_(j, k to oo) m({ x in E: |f_k(x) - f_j(x)| ge epsi }) = 0`.
   </span>
+  显然依测度收敛的函数列一定是依测度 Cauchy 列.
 </p>
 
-<p class="theorem">
-  依测度 Cauchy 列有 (依测度) 极限.
-</p>
-
-<p class="theorem">
+<ol class="theorem">
   <b>Riesz 定理</b>
-  依测度收敛函数列必存在几乎处处收敛的子列.
+  <li>`f_k` 依测度收敛 `iff f_k` 是依测度 Cauchy 列.</li>
+  <li>`f_k` 依测度收敛到 `f` `rArr f_k` 存在子列几乎处处收敛到 `f`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    只需证 `lArr`.
+    设 `f_k` 是 `E` 上的依测度 Cauchy 列, 对每个自然数 `i`, 存在 `k_i`, 使得 `AA m, n ge k_i` 时有
+    <span class="formula">
+      `m({ x in E: |f_m(x) - f_n(x)| ge 2^-i }) le 2^-i`.
+    </span>
+    适当选取可使数列 `{k_i}` 严格递增. 现在记
+    <span class="formula">
+      `E_i = { x in E: |f_(k_i)(x) - f_(k_(i+1))(x)| ge 2^-i }`,
+    </span>
+    于是 `m(E_i) lt 2^-i`.
+    如同叶戈罗夫定理的引理一般, 我们研究 `E_i` 的上限集 `S = nnn_(j ge 1) uuu_(i ge j) E_i`, 有
+    <span class="formula">
+      `m(S) = lim_(j to oo) m(uuu_(i ge j) E_i)`
+      `le lim_(j to oo) sum_(i ge j) 2^-i`
+      `= le lim_(j to oo) 2^(1-j)`
+      `= 0`.
+    </span>
+    对 `AA x in E\\S`,
+    <span class="formula">
+      `EE j ge 1, AA i ge j, |f_(k_i)(x) - f_(k_(i+1))(x)| lt 2^-i`.
+    </span>
+    求和得
+    <span class="formula">
+      `sum_(i ge j) |f_(k_i)(x) - f_(k_(i+1))(x)| le 2^(1-j)`.
+      <span class="label">(`ast`)</span>
+    </span>
+    换言之, 在 `E\\S` 上级数 `f_(k_1)(x) + sum_(i ge 1) (f_(k_(i+1))(x) - f_(k_i)(x))` 绝对收敛,
+    从而子列 `f_(k_i)` 几乎处处收敛, 记它的极限函数为 `g`.
+    <br>
+    下证子列 `f_(k_i)` 依测度收敛到 `g`. 当 `m(E) lt oo` 时显然几乎处处收敛蕴含依测度收敛,
+    但这样我们不能排除 `m(E) = oo` 情况. 正确做法如下:
+    `AA j ge 1`, 注意到
+    `m(uuu_(i ge j) E_i) le 2^(1-j)`, 并且可以证明 (`ast`) 式在 `E\\uuu_(i ge j) E_i` 上同样成立,
+    故 `f_(k_i)` 在 `E\\uuu_(i ge j) E_i` 上一致收敛于 `g`,
+    即在 `E` 上近一致收敛于 `g`, 从而依测度收敛于 `g`.
+  </li>
+  <li>
+    设 `f_k overset m to f`. 由 1. 知 `f_k` 有子列 `f_(k_i)` 几乎处处收敛到某个函数 `g`,
+    且依测度收敛到 `g`.  另一方面作为子列 `f_(k_i)` 也依测度收敛到 `f`.
+    根据依测度极限的唯一性, `f = g`.
+  </li>
+</ol>
+
+<p class="remark">
+  `f_k` 有几乎处处收敛的子列, 不能推出 `f_k` 依测度收敛. 反例: `f_k(x) = (-1)^k`.
 </p>
 
 <h3>可测函数与连续函数</h3>
 
 <p class="theorem">
   <b>Лузин (卢津) 定理</b>
-  设 `f` 是 `E sube RR^n` 上几乎处处有限的可测函数, 则对 `AA delta gt 0`, 存在 `E` 中闭集 `F`,
-  `m(E\\F) lt delta`, 使得 `f` 在 `F` 上连续.<br>
-  与 Егоров 定理不同, 这里允许 `m(E) = oo`.
+  设 `f` 是 `E` 上几乎处处有限的可测函数, 则对 `AA delta gt 0`, 存在 `E` 中闭集 `F`,
+  `m(E\\F) lt delta`, 使得 `f` 在 `F` 上连续.
+  特别当 `E` 有界时, `f` 在 `F` 上一致连续.
+  <br>
+  舍弃小测度集后, 函数变为连续, 这个性质称作<b>卢津性质</b>或<b>近乎连续 (almost continuity)</b>.
+</p>
+
+<p class="proof">
+  🚧
 </p>
 
 <p class="corollary">
-  设 `f` 是 `E sube RR^n` 上几乎处处有限的可测函数,
+  设 `f` 是 `E` 上几乎处处有限的可测函数,
   则存在几乎处处收敛到 `f` 的连续函数列.
 </p>
 
 <p class="corollary">
-  设 `f` 是 `E sube RR^n` 上几乎处处有限的可测函数,
-  则对 `AA delta gt 0`, 存在 `RR^n` 上的一个连续函数 `g`, 使得 `f, g` 在除一个测度小于 `delta` 的集合外处处相等:
+  设 `f` 是 `E` 上几乎处处有限的可测函数,
+  则对 `AA delta gt 0`, 存在 `RR^n` 上的一个连续函数 `g`, 使得 `f, g` 在 `E`
+  上除一个测度小于 `delta` 的集合外处处相等:
   <span class="formula">
     `m({ x in E: f(x) != g(x) }) lt delta`.
   </span>
@@ -286,7 +468,28 @@
 
 <h3>复合函数的可测性</h3>
 
-<p class="remark">
+<ol class="example">
+  <b>两个反例</b>
+  有句玩笑说, 实分析的世界里几乎处处是反例.
+  而 <a href="../set/5.html#exp-cantor-set">Cantor 集与 Cantor 函数</a>就是构造反例的有力工具. 我们看两个例子:
+  <li><b>连续函数未必将可测集映为可测集</b>
+    事实上存在连续函数将零测集映为不可测集.
+    考虑 Cantor 函数 `Phi`, 它在 `[0, 1]` 上连续,
+    且将 Cantor 集 `C` 满射为 `[0, 1]`. 任取 `[0, 1]` 的一个不可测子集 `V`, 则 `Phi^-1(V) nn C`
+    零测, 但它的像不可测.
+  </li>
+  <li><b>两个可测函数的复合未必可测</b> 事实上即使内层函数连续, 外层函数可测, 结果仍可能不可测.
+    考虑修改的 Cantor 函数 `g: [0, 1] to [0, 2]`, `g(x) = x + Phi(x)`, 其中 `Phi` 为 Cantor 函数.
+    直观上, 加上一项 `x` 使得 `Phi` 中原本保持水平的部分变为严格递增.
+    可以证明 `g` 是严格递增的连续函数, 其逆 `g^-1` 也连续,
+    并且 `g` 把 Cantor 集 `C` 映为正测度集.
+    由于 `g(C)` 具有正测度, 必然存在一个不可测子集 `A sube G(C)`.
+    令 `B = g^-1(A) sube C`, 从而 `B` 是零测集.
+    最后考虑复合 `chi_B @ g^-1 = chi_A`, 内层函数连续而外层函数可测, 结果却不可测.
+  </li>
+</ol>
+
+<p class="lemma">
   我们知道 `f` 在 `RR^n` 上连续的等价条件是:
   <span class="formula">
     `AA` 开集 `G in RR, f^-1(G)` 为开集.
@@ -299,11 +502,11 @@
 
 <ol class="proof">
   <li>
-    `rArr`: 由于任意开集 `G` 可以写为可数个开区间之并:
+    `rArr`: 以 `RR` 为例. `RR` 中任意开集 `G` 可以写为可数个开区间之并:
     <span class="formula">
       `G = uuu_i (a_i, b_i)`,
     </span>
-    因此若 `f` 是可测函数, 则对 `AA t in RR`,
+    若 `f` 可测, 则对 `AA t in RR`,
     `{x: f(x) gt t} = f^-1((t, oo))` 是可测集, 从而
     <span class="formula">
       `f^-1((a_i, b_i)) = f^-1((a_i, oo)) \\ f^-1([b_i, oo))`,<br>
@@ -322,15 +525,13 @@
 
 <p class="proof">
   `AA` 开集 `G in RR`, 由 `f` 连续知道 `f^-1(G)` 是开集, 再由 `g` 可测知道 `g^-1(f^-1(G))` 是可测集.
-  这说明 `h(x) = f(g(x)` 是 `RR` 上的可测函数.
+  故 `f @ g` 是 `RR` 上的可测函数.
 </p>
 
 <p class="theorem">
-  设 `T: RR^n to RR^n` 是连续变换, 满足
-  <span class="formula">
-    `Z sube RR^n, m(Z) = 0 rArr m(T^-1(Z)) = 0`.
-  </span>
-  若 `f(x)` 在 `RR^n` 上可测, 则 `f(T(x))` 也在 `RR^n` 上可测.
+  设 `f` 是可测函数, `T: RR^n to RR^n` 是连续变换, 满足任意零测集的原像零测.
+  则 `f @ T` 也在 `RR^n` 上可测.
+  特别地, 定理对非奇异线性变换 `T` 成立.
 </p>
 
 <p class="proof">
@@ -346,8 +547,8 @@
   因此 `T^-1(f^-1(G))` 是可测集, 这说明 `f(T(x))` 是 `RR^n` 上的可测函数.
 </p>
 
-<p class="corollary">
-  若 `T: RR^n to RR^n` 是非奇异线性变换, `f: RR^n to RR` 可测, 则 `f(T(x))` 可测.
+<p class="theorem">
+  连续函数将 Borel 集映为 Lebesgue 可测集.
 </p>
 
 <script src="../../js/note.js?type=math"></script>

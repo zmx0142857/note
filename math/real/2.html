@@ -356,6 +356,7 @@
     `le underset(k to oo)(bar lim) m(E_k)`
     `le m(underset(k to oo)(bar lim) E_k)`.
   </span>
+  `E_k` 递增或递减时上式取等.
 </p>
 
 <p class="proof">
@@ -526,9 +527,39 @@
 
 <p class="example">
   <b>Vitali 集</b>
-  应用选择公理, 从 `RR//QQ` 的每个等价类中选取一个代表元, 构成集合 `V`.
-  🚧
+  应用选择公理, 从 `RR//QQ` 的每个等价类中选取一个代表元, 构成集合 `V_0`.
+  通过适当的调整代表元 (平移有理数个单位), 可以使得 `V_0 sube [0, 1)`.
+  则 `V_0` 是不可测集.
 </p>
+
+<ol class="proof">
+  <li>
+    对 `[0, 1)` 中的每个有理数 `q`, 记 `V_q = (V_0 + q) mod 1`,
+    换言之先将 `V_0` 的所有元素平移 `q` 个单位, 然后取其小数部分.
+    于是 `[0, 1)` 是各 `V_q` 的无交并.
+    <br>
+    无交的原因是, 若 `V_p nn V_q` 非空, 则存在 `a, b in V_0` 使得
+    <span class="formula">
+      `(a + p) mod 1 = (b + q) mod 1`,
+    </span>
+    于是 `a, b` 相差一个有理数, 只能 `a = b`.
+    再由上式推出 `p = q`.
+    <br>
+    另一方面 `AA x in [0, 1)` 都落入 `RR//QQ` 的一个等价类, 从而与 `V_0` 中的代表元只差一个有理数 `q`,
+    即 `x in V_q`. 综上有
+    <span class="formula">
+      `[0, 1) = ⨆_q V_q`.
+    </span>
+  </li>
+  <li>
+    假设 `V_0` 可测, 则由测度的可加性和平移不变性, 每个 `V_q` 都可测, `m(V_q) = m(V_0)` 且
+    <span class="formula">
+      `sum_q m(V_0) = sum_q m(V_q) = 1`.
+    </span>
+    但不论 `m(V_0)` 是否等于零, 上式都不可能成立.
+    因此, 每个 `V_q` 都是不可测集.
+  </li>
+</ol>
 
 <p class="example">
   `RR^2` 中存在零测集 `E` 使得 `E+E` 为不可测集. 事实上取

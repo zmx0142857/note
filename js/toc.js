@@ -122,7 +122,7 @@ var tocData = [
         "children": [
           { "value": "1", "label": "预备知识" },
           { "value": "2", "label": "Lebesgue 测度", "date": "2023-06-27" },
-          { "value": "3", "label": "可测函数", "date": "2023-07-23" },
+          { "value": "3", "label": "可测函数", "date": "2026-11-21" },
           { "value": "4", "label": "Lebesgue 积分", "date": "2023-07-29" }
         ]
       },

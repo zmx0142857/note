@@ -49,14 +49,21 @@
       `int_E f(x) dx`
       `:= int_E f^(+)(x) dx - int_E f^(-)(x) dx`.
     </span>
-    上式右端两个积分都有限 (`lt oo`) 时, 就称 `f` 在 `E` 上<b>(Lebesgue)
-    可积</b>, 或 `f` 是 `E` 上的可积函数.  `E` 上可积函数的全体记为 `L(E)`.
+    上式右端两个积分都有限 (`lt oo`) 时, 就称 `f` 在 `E` 上 <b>Lebesgue 可积</b>,
+    或 `f` 是 `E` 上的可积函数, 记作 `f in L(E)`.
   </li>
 </ol>
 
 <p class="remark">
   由于 `|f| = f^(+) + f^(-)`, 所以 `f` 可积 `iff |f|` 可积.
+  Lebesgue 可积是一种绝对可积, 这导致一些条件收敛的广义 Riemann 积分不是 Lebesgue 可积的.
+  尽管如此, 不必担心! Lebesgue 积分的理论十分有用.
 </p>
+
+<ol class="property">
+  <li>设 `f` 在 `E` 上几乎处处为零, 则 `int_E f(x) dx = 0`;</li>
+  <li>设 `m(E) = 0`, 则 `int_E f(x) dx = 0`.</li>
+</ol>
 
 <p class="property">
   <b>子集上的积分</b> 若 `A sube E`, 则
@@ -83,15 +90,10 @@
       `int_A f(x) dx`
       `= sup_(h le f) int_A h(x) dx`
       `= sup_(h chi_A le f chi_A) int_A h(x) dx`
-      `= sup_(h chi_A le f chi_A) int_E h(x) dx`
+      `= sup_(h le f chi_A) int_E h(x) dx`
       `= int_E f(x) chi_A(x) dx`.
     </span>
   </li>
-</ol>
-
-<ol class="property">
-  <li>设 `f` 在 `E` 上几乎处处为零, 则 `int_E f(x) dx = 0`;</li>
-  <li>设 `m(E) = 0`, 则 `int_E f(x) dx = 0`.</li>
 </ol>
 
 <p class="property">
@@ -118,11 +120,11 @@
 
 <ol class="corollary">
   <li><b>控制函数</b> 若存在可积函数 `F` 满足 `|f| le F`, 则 `f` 也可积;</li>
-  <li><b>有限测度定义域上的有界函数可积</b> 只需把控制函数取为 `|f|` 的上界即可;</li>
+  <li><b>测度有限的集合上的有界函数可积</b> 只需把控制函数取为 `|f|` 的上界即可;</li>
 </ol>
 
 <ol class="property">
-  <b>积分的线性性</b>
+  <b>积分的线性性</b> 设 `f, g` 可积, 则
   <li>`int_E c f(x) dx = c int_E f(x) dx`;</li>
   </li>
   <li>`int_E (f(x) + g(x)) dx = int_E f(x) dx + int_E g(x) dx`.</li>
@@ -131,20 +133,33 @@
 <ol class="proof">
   <li>先设 `f, g` 是非负可测简单函数. 此时 1. 式直接由定义成立; 为证明 2. 式,
     注意到 `f(x) + g(x)` 也是一个非负可测简单函数, 它在 `A_i nn B_j` 上的取值为
-    `a_i + b_i`.  于是
-    <span class="formula">
-      `int_E (f(x) + g(x)) dx`
-      `= sum_i sum_j (a_i + b_j) m(E nn A_i nn B_j)`
-      `= sum_i a_i sum_j m(E nn A_i nn B_j) + sum_j b_j sum_i m(E nn A_i nn B_j)`
-      `= sum_i a_i m(E nn A_i) + sum_j b_j m(E nn B_j)`
+    `a_i + b_j`.  于是
+    <span class="formula align">
+      `int_E (f(x) + g(x)) dx`<br>
+      `= sum_i sum_j (a_i + b_j) m(E nn A_i nn B_j)`<br>
+      `= sum_i a_i sum_j m(E nn A_i nn B_j) + sum_j b_j sum_i m(E nn A_i nn B_j)`<br>
+      `= sum_i a_i m(E nn A_i) + sum_j b_j m(E nn B_j)`<br>
       `= int_E f(x) dx + int_E g(x) dx`.
     </span>
   </li>
-  <li></li>
+  <li>再设 `f, g` 是非负可测函数, 不妨设 `c ge 0`, 则由 1. 有
+    <span class="formula">
+      `int_E c f(x) dx`
+      `= sup_(h le c f) int_E h(x) dx`
+      `= c sup_(h le f) int_E h(x) dx`
+      `= c int_E f(x) dx`,<br>
+      `int_E (f(x) + g(x)) dx`
+      `= sup_(h le f + g) int_E h(x) dx`
+      `= sup_(h_1 le f) int_E h_1(x) dx + sup_(h_2 le g) int_E h_2(x) dx`
+      `= int_E f(x) dx + int_E g(x) dx`.
+    </span>
+  </li>
 </ol>
 
+<h2>控制收敛定理</h2>
+
 <p class="lemma">
-  <b>递增集列上的积分</b>
+  <b>递增集列上简单函数的积分</b>
   若 `{E_k}` 是 `RR^n` 中的递增可测集合列, `f` 是 `RR^n` 上的非负可测简单函数, 则
   <span class="formula">
     `int_(lim_(k to oo) E_k) f(x) dx = lim_(k to oo) int_(E_k) f(x) dx`.
@@ -152,12 +167,12 @@
 </p>
 
 <p class="proof">
-  记 `E = lim_(k to oo) E_k`.
-  设 `f(x)` 在 `A_i` 上取值为 `c_i`, `i = 1, 2, cdots, p`, 则
+  设 `E = lim_(k to oo) E_k`, `f` 在 `A_i` 上取值 `a_i`.
+  应用测度论的 Fatou 引理 (集合极限与测度换序) 有
   <span class="formula">
     `lim_(k to oo) int_(E_k) f(x) dx`
-    `= lim_(k to oo) sum_(i=1)^p c_i m(A_i nn E_k)`
-    `= sum_(i=1)^p c_i m(A_i nn E)`
+    `= lim_(k to oo) sum_i a_i m(A_i nn E_k)`
+    `= sum_i a_i m(A_i nn E)`
     `= int_E f(x) dx`.
   </span>
 </p>
