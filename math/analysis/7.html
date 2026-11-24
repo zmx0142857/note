@@ -849,14 +849,17 @@
 </p>
 
 <p class="proof">
-  这是将积分与求和神奇地联系在一起的两条公式. 只证第一条, 通过交换积分与求和顺序, 逐项积分得到
+  这是将积分与求和神奇地联系在一起的两条公式. 只证第一条, 先将 `x^-x` 展开为级数
   <span class="formula">
-    `int_0^1 x^-x dx`
-    `= int_0^1 exp(-x ln x) dx`
-    `= 1/n! int_0^1 sum_(n ge 0) (-x ln x)^n dx`
-    `= 1/n! sum_(n ge 0) int_0^1 (-x ln x)^n dx`
-    `= 1/n! sum_(n ge 0) int_0^oo ("e"^-t t)^n "e"^-t dt`
-    `= 1/n! sum_(n ge 0) int_0^oo "e"^-u u^n/(n+1)^(n+1) "d"u`
+    `x^-x = exp(-x ln x)`
+    `= sum_(n ge 0) 1/n! (-x ln x)^n`.
+  </span>
+  逐项积分得到
+  <span class="formula align">
+    `int_0^1 x^-x dx`<br>
+    `= sum_(n ge 0) 1/n! int_0^1 (-x ln x)^n dx`<br>
+    `= sum_(n ge 0) 1/n! int_0^oo ("e"^-t t)^n "e"^-t dt`<br>
+    `= sum_(n ge 0) 1/n! int_0^oo "e"^-u u^n/(n+1)^(n+1) "d"u`<br>
     `= sum_(n ge 1) n^-n`.
   </span>
   现在关键是验证换序操作合法. 注意到求和的每项 `(-x ln x)^n // n!` 在 `[0, 1]` 区间上非负,

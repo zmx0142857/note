@@ -447,13 +447,54 @@
   舍弃小测度集后, 函数变为连续, 这个性质称作<b>卢津性质</b>或<b>近乎连续 (almost continuity)</b>.
 </p>
 
-<p class="proof">
-  🚧
+<ol class="proof">
+  <li>先设 `f` 是可测简单函数, 在 `E_i` 上取值为 `c_i`, `i = 1, cdots, p`.
+    对 `AA delta gt 0`, 可作闭集 `F_i sube E_i`, 使得 `m(E_i\\F_i) lt delta//p`
+    (见第二章, 用闭集逼近可测集).
+    在每个 `F_i` 上 `f` 取值为常数, 而 `F_i` 是有限个不相交的闭集, 可知 `f` 在
+    `uuu_i F_i := F` 上连续.
+    于是 `F` 为闭集, 且
+    <span class="formula">
+      `m(E\\F) = sum_i m(E_i\\F_i)`
+      `lt sum_i delta//p = delta`.
+    </span>
+  </li>
+  <li>
+    再设 `f` 是几乎处处有限的可测函数.
+    零测集不影响结论成立, 故不妨设 `f` 处处有限.
+    又, 不妨设 `f` 还是有界的, 否则可以作变换 `g = f//(1 + |f|)` 化为有界函数.
+    此时根据简单函数逼近定理, 存在 `E` 上的可测简单函数列 `varphi_k &#x21c9; f`.
+  </li>
+  <li>
+    对 `AA delta gt 0`, 由 1. 可作闭集 `F_k sube E` 使得 `varphi_k` 在 `F_k` 上连续,
+    且 `m(E\\F_k) lt delta//2^k`.
+    于是 `F := nnn_k F_k` 为闭集, 且
+    <span class="formula">
+      `m(E\\F) le sum_(k ge 1) m(E\\F_k) lt delta`.
+    </span>
+    每个 `varphi_k` 都在 `F` 上连续, 根据一致连续性, 极限函数 `f` 也在 `F` 上连续.
+  </li>
+</ol>
+
+<p class="remark">
+  卢津定理告诉我们几乎处处有限的可测函数是近乎连续的,
+  这个结论不能改进为几乎处处连续. 考虑反例 `f = chi_(C_delta)`,
+  其中 `C_delta` 为 `[0, 1]` 中的 fat Cantor 集, `m(C_delta) = delta gt 0`.
+  `f` 是处处有限的可测函数, 但不是几乎处处连续的.
+  事实上, 任取零测集 `Z sube [0, 1]`, 则 `A := ([0, 1]\\Z) nn C_delta` 不空.
+  对 `AA x in A`, 因为 `C_delta` 没有内点, 所以 `x` 的邻域至少包含 `C_delta`
+  以外的一点 `y in ([0, 1]\\Z) \\ C_delta`.
+  但 `f(x) = 1`, `f(y) = 0`. 所以 `f` 在 `x` 处不连续.
 </p>
 
-<p class="corollary">
-  设 `f` 是 `E` 上几乎处处有限的可测函数,
-  则存在几乎处处收敛到 `f` 的连续函数列.
+<p class="theorem">
+  <b>连续函数延拓定理</b>
+  设 `f` 是闭集 `F sube RR^n` 上的连续函数, 则 `f` 可以延拓为 `RR^n` 上的连续函数.
+  换言之存在 `RR^n` 上的连续函数 `g` 使得 `g|_F = f`.
+</p>
+
+<p class="proof">
+  🚧
 </p>
 
 <p class="corollary">
@@ -464,6 +505,32 @@
     `m({ x in E: f(x) != g(x) }) lt delta`.
   </span>
   若 `E` 还是有界集, 则可使上述 `g` 具有紧支集.
+</p>
+
+<p class="proof">
+  由卢津定理知, 存在 `E` 中闭集 `F`, `m(E\\F) lt delta`, 且 `f` 在 `F` 上连续.
+  再应用连续函数延拓定理将 `f|_F` 的定义域延拓至 `RR^n` 即可得到 `g`.
+  若 `E` 是有界集, 不妨设 `E sube B(0, k)`, 根据连续函数延拓定理, 可作 `RR^n` 上连续函数使得
+  <span class="formula">
+    `varphi(x) { = 1, if x in F;
+    = 0, if x !in B(0, k);
+    in [0, 1], otherwise :}`
+  </span>
+  然后将 `g(x)` 换成 `g(x) varphi(x)` 即得所求.
+</p>
+
+<p class="corollary">
+  设 `f` 是 `E` 上几乎处处有限的可测函数,
+  则存在几乎处处收敛或依测度收敛到 `f` 的连续函数列.
+</p>
+
+<p class="proof">
+  任取趋于零的正数列 `{epsi_k}` 与 `{delta_k}`,
+  由上一条推论, 存在 `RR^n` 上的连续函数列 `{g_k}` 使得
+  <span class="formula">
+    `m({ x in E: |f(x) - g_k(x)| ge epsi_k }) lt delta_k`, `quad AA k ge 1`.
+  </span>
+  因此 `g_k` 依测度收敛于 `f`. 根据 Riesz 定理, `g_k` 存在几乎处处收敛于 `f` 的子列.
 </p>
 
 <h3>复合函数的可测性</h3>
@@ -483,7 +550,7 @@
     直观上, 加上一项 `x` 使得 `Phi` 中原本保持水平的部分变为严格递增.
     可以证明 `g` 是严格递增的连续函数, 其逆 `g^-1` 也连续,
     并且 `g` 把 Cantor 集 `C` 映为正测度集.
-    由于 `g(C)` 具有正测度, 必然存在一个不可测子集 `A sube G(C)`.
+    由于 `g(C)` 具有正测度, 必然存在一个不可测子集 `A sube g(C)`.
     令 `B = g^-1(A) sube C`, 从而 `B` 是零测集.
     最后考虑复合 `chi_B @ g^-1 = chi_A`, 内层函数连续而外层函数可测, 结果却不可测.
   </li>

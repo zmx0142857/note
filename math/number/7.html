@@ -376,6 +376,67 @@ Out: (509203, 11184810)
 
 <h2>Chebyshev 不等式</h2>
 
+<p class="lemma">
+  <b>年龄不等式</b> [群友@Rei]
+  对任意实数 `x, y` 有
+  <span class="formula">
+    `floor(x + y) - floor(x) - floor(y) in {0, 1}`,<br>
+    特别 `floor(2x) - 2 floor(x) in {0, 1}`.
+  </span>
+  如果把 `x` 看作出生时刻, `x + y` 看作当前时刻, 该不等式可以解释为:
+  今年 - (出生年份 + 年龄) = 0 或 1.
+</p>
+
+<p class="proof">
+  利用不等式 `floor(z) le z lt floor(z)+1`,
+  <span class="formula">
+    `floor(x+y) - floor(x) - floor(y)`
+    `lt (x+y) + (1-x) + (1-y)`
+    `= 2`,<br>
+    `floor(x+y) - floor(x) - floor(y)`
+    `gt (x+y-1)-x-y`
+    `= -1`.
+  </span>
+</p>
+
+<ol class="lemma">
+  <b>组合中项的素因子估计</b>
+  设 `n` 为正整数, `N = (2n;n)`, `v_p(N)` 是素因子 `p` 在 `N` 中的次数. 则
+  <li>`2^n le 4^n//2n le N lt 4^n`;</li>
+  <li>`v_p(N) le floor(ln(2n)//ln p)`, 换言之 `p^(v_p(N)) le 2n`;</li>
+  <li>若 `p gt sqrt(2n)`, 则 `v_p(N) le 1`;</li>
+  <li>若 `n lt p lt 2n`, 则 `v_p(N) = 1`; 于是 `prod_(n lt p lt 2n) p le N lt 4^n`;</li>
+  <li>若 `2n//3 lt p le n`, 则 `v_p(N) = 0`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    先证 `2^n le 4^n//2n`, 即 `2n le 2^n`.
+    `n = 1` 时显然成立, `n gt 1` 时利用归纳假设,
+    <span class="formula">
+      `2^n = 2^(n-1) + 2^(n-1) ge 2(n-1) + 2(n-1) ge 2n`.
+    </span>
+    剩下的部分, 只需注意
+    <span class="formula">
+      `4^n = (1+1)^(2n) = 2 + sum_(0 lt k lt 2n) (2n;k)`,
+    </span>
+    就有 `4^n//2n le N lt 4^n`.
+  </li>
+  <li>记 `r = floor(ln(2n)//ln p)`, 则 `p^r le 2n lt p^(r+1)`.
+    利用第一章 `v_p(n!)` 的<a href="1.html#cor-vpn">公式</a>和年龄不等式有
+    <span class="formula">
+      `v_p(N) = v_p((2n)!) - 2 v_p(n!)`
+      `= sum_(k=1)^r (floor((2n)/p^k) - 2 floor(n/p^k))`
+      `le r`.
+    </span>
+  </li>
+  <li>这是 2. 的推论.</li>
+  <li>这是因为每个 `n lt p lt 2n` 都整除 `N = ((2n)!)/(n!^2)`.</li>
+  <li>观察 `N = ((2n)!)/(n!^2)`, 如果 `2n//3 lt p le n`, 这样的 `p` 在分母恰好出现 `2` 次,
+    在分子出现 `lt 3` 次, 从而只能出现 `2` 次.
+  </li>
+</ol>
+
 <ol class="theorem">
   <b>Bertrand-Chebyshev 定理</b>
   [<a href="https://zhuanlan.zhihu.com/p/113333538" target="_blank">知乎@Zephyr</a>, 数学天书中的证明]
@@ -391,8 +452,8 @@ Out: (509203, 11184810)
       `prod_(p le n) p le 4^(n-1)`.
     </span>
     `n le 2` 时直接验证成立.
-    `n ge 3` 时, 只需考虑奇素数的情形.
-    设 `n = 2m+1`, 若结论对一切整数 `2 le n le 2m` 都成立, 则
+    `n ge 3` 时, 只需考虑 `n` 是奇素数的情形.
+    设 `n = 2m+1`, 若结论对一切 `le 2m` 的正整数成立, 则
     <span class="formula">
       `prod_(p le 2m+1) p`
       `= prod_(p le m+1) p prod_(m+1 lt p le 2m+1) p`
@@ -404,35 +465,21 @@ Out: (509203, 11184810)
     故结论成立.
     注意把 `n` 换成 `ge 1` 的实数, 不等式仍成立.
   </li>
-  <li>估算每个素因子 `p` 在 `N = (2n;n)` 中的次数.
-    事实上, 取 `r ge 0` 使得 `p^r le 2n lt p^(r+1)`, 则
+  <li>`n ge 5` 时有 `2 lt sqrt(2n) lt 2n//3`, 我们估算
+    `N = (2n;n) = prod_(p le 2n) p^(v_p(N))` 的上界.
+    由引理, 对于 `p in [2, sqrt(2n)]`, 有 `p^(v_p(N)) le 2n`;
+    对于 `p in (2n//3, n]`, 有 `v_p(N) = 0`;
+    对于其它的 `p le 2n`, 有 `v_p(N) le 1`. 于是
     <span class="formula">
-      `v_p(N)`
-      `= v_p((2n)!) - 2 v_p(n!)`
-      `= sum_(k=1)^r (floor((2n)/p^k) - 2floor(n/p^k))`
-      `le r`.
+      `N le (2n)^(sqrt(2n)-1) prod_(p in (sqrt(2n),2n//3] uu (n, 2n]) p`.
     </span>
-    这推出 `p^(v_p(N)) le p^r le 2n`.<br>
-    取 `r = 1` 得到: `p gt sqrt(2n)` 时, `v_p(N) le 1`.<br>
-    又设 `n ge 5`, 此时有 `2 lt sqrt(2n) lt 2n//3`,
-    对于 `2n//3 lt p le n`, 直接观察 `N = (2n)!/(n! n!)` 的分子分母可知 `v_p(N) = 0`.
-  </li>
-  <li>现在考虑 `N` 的素因子分解. 当 `n ge 5` 时, `N` 有上界
-    <span class="formula">
-      `N = prod_(p le 2n) p^(v_p(N))`
-      `le prod_(2 le p le sqrt(2n)) 2n prod_(sqrt(2n) lt p le 2n//3) p prod_(n lt p le 2n) p`.
-    </span>
-    另一方面, 不等式 `2n (2n;n) ge (1+1)^(2n)` 给出 `N` 的下界:
-    <span class="formula">
-      `N ge 4^n//2n`.
-    </span>
-    假设不存在素数 `p` 满足 `n lt p le 2n`, 由以上两式, 结合 1. 的结论推出
-    <span class="formula">
-      `4^n le 2n * N`
-      `le (2n)^(sqrt(2n)) prod_(sqrt(2n) lt p le 2n//3) p`
+    假设不存在素数 `p in (n, 2n]`, 由 1. 有
+    <span class="formula align">
+      `2n * N le (2n)^(sqrt(2n)) prod_(p in (sqrt(2n), 2n//3]) p`
       `le (2n)^(sqrt(2n)) 4^(2n//3)`.
     </span>
-    于是 `4^(n//3) le (2n)^(sqrt(2n))`,
+    但引理告诉我们 `2n * N ge 4^n`, 结合上式得到
+    `4^(n//3) le (2n)^(sqrt(2n))`,
     即 `sqrt(2n) le 3 op(log_2)(2n)`,
     这推出 `n le 426`.
     但我们可以直接验证 Bertrand 结论对 `n lt 500` 成立,
@@ -444,12 +491,29 @@ Out: (509203, 11184810)
   </li>
 </ol>
 
+<p class="lemma">
+  <b>Chebyshev 估计</b>
+  对任意正整数 `n` 有
+  <span class="formula">
+    `pi(2n) ge n // log_2(2n)`,<br>
+    `pi(2n) - pi(n) lt 2n // log_2 n`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `N = (2n;n)`. 利用组合中项估计,
+  <span class="formula">
+    `2^n le N = prod_(p le 2n) p^(v_p(N))`
+    `le (2n)^(pi(2n))`,<br>
+    `n^(pi(2n) - pi(n)) le prod_(n lt p lt 2n) p le N lt 4^n`,
+  </span>
+  分别取对数即得结论.
+</p>
+
 <p class="theorem">
   <b>Chebyshev 不等式</b>
   记 `pi(x)` 是不超过 `x` 的素数个数, `p_n` 为第 `n` 个素数. 我们有
   <span class="formula">
-    `pi(2m) ge m // log_2(2m)`, `quad AA m ge 1`,<br>
-    `pi(2m) - pi(m) lt 2m // log_2 m`, `quad AA m ge 1`,<br>
     `1/3 * x/(log_2 x)`
     `lt pi(x)`
     `lt 6 * x/(log_2 x)`, `quad AA x ge 2`,<br>
@@ -460,75 +524,16 @@ Out: (509203, 11184810)
 </p>
 
 <ol class="proof">
-  先证前两个不等式.
-  我们从 `M = (2 m; m)` 的估计入手, `m` 为正整数.
-  <li>联系第一章 Kummer 定理的相关内容, 记 `v_p(n)` 为素数 `p` 在 `n`
-    中的次数, 有
+  应用 Chebyshev 估计证 `pi(x)` 的上下界.
+  <li>`2 le x lt 6` 时直接验证左半不等式成立.
+    `x ge 6` 时, 取 `n = floor(x//2)`, 此时成立 `2n le x lt 3n`, 因此
     <span class="formula">
-      `v_p(n!) = sum_(i ge 1) |__n/p^i__|`.
+      `pi(x) log_2 x ge pi(2n) log_2(2n)`
+      `ge n gt x//3`.
     </span>
-    取对数有
-    <span class="formula align">
-      `ln M`
-      `= ln((2m)!) - 2 ln(m!)`<br>
-      `= sum_(p lt 2m) v_p((2m)!) ln p`
-      `- 2 sum_(p le m) v_p(m!) ln p`<br>
-      `= sum_(p le m) [v_p((2m)!) - 2 v_p(m!)] ln p`
-      `+ sum_(m lt p lt 2m) v_p((2m)!) ln p`<br>
-      `= A + B`.
-    </span>
+    这证明了左半不等式.
   </li>
-  <li>
-    对 `y gt 0` 有 `0 le |__2y__| - 2|__y__| le 1`, 于是
-    <span class="formula">
-      `0 le (|__(2m)/p^i__| - 2|__m/p^i__|) le 1`,
-      `quad i ge 1`.
-    </span>
-    上式求和得到 `A` 的系数的估计
-    <span class="formula">
-      `0 le v_p((2m)!) - 2 v_p(m!)`
-      `le sum_(p^i | 2m) 1`
-      `= |__ln(2m)/ln p__|`.
-    </span>
-    另一方面, `m lt p lt 2m` 时, 显然 `p` 在 `(2m)!` 中的次数为 `1`, 即 `B`
-    的系数 `v_p((2m)!) = 1`. 于是
-    <span class="formula">
-      `sum_(m lt p lt 2m) ln p`
-      `le ln M`
-      `le sum_(p lt 2m) |__ln(2m)/ln p__| ln p`.
-    </span>
-    因而
-    <span class="formula">
-      `(pi(2m)-pi(m)) ln m`
-      `le ln M`
-      `le pi(2m) ln(2m)`.
-    </span>
-  </li>
-  <li>通过直接估计 `M` 的上下界得到
-    <span class="formula">
-      `M = (2m)/m * (2m-1)/(m-1) cdots (m+1)/1 ge 2^m`;<br>
-      `M = (2m; m) lt (1+1)^(2m) = 2^(2m)`.
-    </span>
-    于是
-    <span class="formula">
-      `pi(2m) ln(2m) ge m ln 2`,<br>
-      `(pi(2m)-pi(m))ln m lt 2m ln 2`.
-    </span>
-  </li>
-</ol>
-
-<ol class="proof">
-  应用前两个不等式证 `pi(x)` 的上下界.
-  <li>当 `x ge 6` 时, 取 `m = |__x//2__| gt 2`, 此时成立 `2m lt x lt 3m`,
-    因此
-    <span class="formula">
-      `pi(x) log_2 x ge pi(2m) log_2(2m)`
-      `ge m`
-      `gt x/3`.
-    </span>
-    直接验算知上式对 `2 le x lt 6` 也成立; 这证明了不等式的左半部分.
-  </li>
-  <li>当 `m = 2^k` 时,
+  <li>当 `n = 2^k` 时,
     <span class="formula">
       `(pi(2^(k+1)) - pi(2^k)) k lt 2^(k+1)`,
     </span>
@@ -536,14 +541,14 @@ Out: (509203, 11184810)
     <span class="formula">
       `(k+1)pi(2^(k+1)) - k pi(2^k) lt 3 * 2^k`.
     </span>
-    令 `k` 从 0 到 `h-1` 求和有 `h pi(2^h) lt 3 * 2^h`.
-    设 `2^(h-1) lt x le 2^h`, 则
+    记 `h = ceil(log_2 x)`,
+    令 `k` 从 0 到 `h-1` 求和有 `h pi(2^h) lt 3 * 2^h`, 于是
     <span class="formula">
       `pi(x) le pi(2^h)`
       `lt 3 * 2^h//h`
       `lt 3 * (2 x)/(log_2 x)`.
     </span>
-    这证明了不等式的右半部分.
+    这证明了右半不等式.
   </li>
 </ol>
 
@@ -563,7 +568,7 @@ Out: (509203, 11184810)
     在不等式 `pi(2m) ge m // log_2 (2m)` 中取 `2m = p_n + 1`, 得
     <span class="formula">
       `n ln(p_n+1) ge (p_n+1)/2 * ln 2`.
-      <span class="label" id="ref1"></span>
+      <span class="label">(`ast`)</span>
     </span>
     整理得
     <span class="formula">
@@ -571,9 +576,9 @@ Out: (509203, 11184810)
     </span>
     注意 `n ge 3 gt 2//ln 2`, 并利用不等式 `ln x lt x//2` (`x gt 0`), 有
     <span class="formula">
-      `ln(p_n+1) le 2 ln n + 1/2 ln(p_n+1)`.
+      `ln(p_n+1) lt 2 ln n + 1/2 ln(p_n+1)`.
     </span>
-    上式结合 <a class="ref" href="#ref1"></a> 有
+    上式结合 (`ast`) 式有
     <span class="formula">
       `(p_n+1)/(2n // ln 2)`
       `le ln(p_n+1)`

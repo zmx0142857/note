@@ -11,25 +11,19 @@
 
 <ol class="definition">
   <b>Lebesgue 积分</b>
-  设 `E sube RR^n` 是可测集, `f` 是 `E` 上的可测函数, 从特殊到一般, 逐步定义 `f` 的积分如下:
-  <li>设 `f` 是 `E` 上的<b>非负可测简单函数</b>:
+  设 `f` 是可测集 `E sube RR^n` 上的可测函数, 从特殊到一般, 逐步定义 `f` 的积分如下:
+  <li>设 `f` 是<b>非负可测简单函数</b>, 在 `E_i` 上取值为 `c_i`.
+    定义它在 `E = ⨆_i E_i` 上的积分为
     <span class="formula">
-      `f(x) = sum_(i=1)^p a_i chi_(A_i)(x)`,
-      `quad uuu_(i=1)^p A_i = RR^n`,
-      `quad A_i nn A_j = O/ (i != j)`.
-    </span>
-    定义 `f` 在 `E` 上的积分为
-    <span class="formula">
-      `int_E f(x) dx := sum_(i=1)^p a_i * m(A_i nn E)`.
+      `int_E f(x) dx := sum_i c_i * m(E_i)`.
     </span>
     这里, 我们约定 `0 * oo = oo * 0 = 0`.
-    由定义立即得知, `f` 在 `E` 上的积分只与 `f` 在 `E` 上的值有关.
   </li>
   <li>
     设 `f` 是 `E` 上的<b>非负可测函数</b>, 定义
     <span class="formula">
       `int_E f(x) dx`
-      `:= sup_(h le f) int_E h(x) dx`
+      `:= sup_(h le f) int_E h(x) dx`.
     </span>
     这里 `h(x)` 是 `E` 上的非负可测简单函数, `h le f` 是指 `AA x in E, h(x) le f(x)`.
   </li>
@@ -50,8 +44,45 @@
       `:= int_E f^(+)(x) dx - int_E f^(-)(x) dx`.
     </span>
     上式右端两个积分都有限 (`lt oo`) 时, 就称 `f` 在 `E` 上 <b>Lebesgue 可积</b>,
-    或 `f` 是 `E` 上的可积函数, 记作 `f in L(E)`.
+    或 `f` 是 `E` 上的可积函数, 记作 `f in L(E)` 或 `f in L^1(E)`.
   </li>
+</ol>
+
+<p class="property">
+  <b>积分的保序性</b>
+  `f le g rArr int_E f(x) dx le int_E g(x) dx`.
+</p>
+
+<ol class="proof">
+  <li>先设 `f, g` 是非负可测简单函数, 且 `f` 在 `A_i` 上取值 `a_i`, `g` 在 `B_j` 上取值 `b_j`.
+    将定义域细分为 `E = uuu_(i,j) A_i nn B_j`.
+    在每一小块 `A_i nn B_j` 上, `f, g` 的值都为常数且 `f le g`,
+    因此 `int_E f le int_E g`.
+  </li>
+  <li>再设 `f, g` 是非负可测函数.
+    任取非负可测简单函数 `h` 满足 `h le f le g`,
+    由于 `g` 的积分是所有 `le g` 的非负可测简单函数积分的上界, 所以
+    <span class="formula">
+      `int_E h le int_E g`.
+    </span>
+    上式两边取上确界得 `int_E f le int_E g`.
+  </li>
+  <li>最后对一般的可测函数 `f, g`, 由 `f le g` 知道
+    `f^(+) le g^(+)`, `f^(-) ge g^(-)`, 于是
+    <span class="formula">
+      `int_E f`
+      `= int_E f^(+) - int_E f^(-)`
+      `le int_E g^(+) - int_E g^(-)`
+      `= int_E g`.
+    </span>
+  </li>
+</ol>
+
+<ol class="example">
+  <b>控制函数与可积性</b>
+  <li>若存在可积函数 `F` 满足 `|f| le F`, 则由保序性, `f` 也可积; `F` 称为 `f` 的控制函数.</li>
+  <li>特别地, 测度有限集合上的有界可测函数可积; 这只需把控制函数取为 `|f|` 的上界即可.</li>
+  <li>若 `|f|` 可积, 则 `f` 也可积, 事实上 `|int_E f| le int_E |f|`.</li>
 </ol>
 
 <p class="remark">
@@ -60,28 +91,32 @@
   尽管如此, 不必担心! Lebesgue 积分的理论十分有用.
 </p>
 
-<ol class="property">
-  <li>设 `f` 在 `E` 上几乎处处为零, 则 `int_E f(x) dx = 0`;</li>
-  <li>设 `m(E) = 0`, 则 `int_E f(x) dx = 0`.</li>
+<ol class="example">
+  <b>积分为零的条件</b>
+  <li>`f` 在 `E` 上几乎处处为零 `rArr int_E f(x) dx = 0`;</li>
+  <li>`m(E) = 0` `rArr int_E f(x) dx = 0`.</li>
+  对非负可测函数, 上面两个结论是易证的; 对一般可测函数使用不等式 `|int_E f| le int_E |f|` 即可.
 </ol>
 
 <p class="property">
-  <b>子集上的积分</b> 若 `A sube E`, 则
+  <b>子集上的积分</b>
+  若 `f in L(E)`, `A` 是 `E` 的可测子集, 则 `f in L(A)`, 且
   <span class="formula">
     `int_A f(x) dx = int_E f(x) chi_A(x) dx`.
   </span>
+  若 `f` 是非负的, 结合保序性有 `int_A f(x) dx le int_E f(x) dx`.
 </p>
 
 <ol class="proof">
-  <li>先设 `f` 是非负可测简单函数, 在 `A_i` 上取值为 `a_i`.
+  <li>先设 `f` 是非负可测简单函数, 在 `E_i` 上取值为 `c_i`.
     则 `g(x) := f(x) chi_A(x)` 也是非负可测简单函数, 且
     <span class="formula">
-      `g(x) = { a_i, if x in A_i nn A; 0, if x in E \\ A :}`
+      `g(x) = { c_i, if x in E_i nn A; 0, if x in E \\ A :}`
     </span>
     <span class="formula">
       `int_A f(x) dx`
-      `= sum a_i m(A_i nn A)`
-      `= sum a_i m(A_i nn A) + sum 0 * m(E \\ A)`
+      `= sum c_i m(E_i nn A)`
+      `= sum c_i m(E_i nn A) + sum 0 * m(E \\ A)`
       `= int_E g(x) dx`.
     </span>
   </li>
@@ -94,37 +129,19 @@
       `= int_E f(x) chi_A(x) dx`.
     </span>
   </li>
-</ol>
-
-<p class="property">
-  <b>积分的保序性</b>
-  `f le g rArr int_E f(x) dx le int_E g(x) dx`.
-</p>
-
-<ol class="proof">
-  <li>先设 `f, g` 是非负可测简单函数, 且 `f` 在 `A_i` 上取值 `a_i`, `g` 在 `B_j` 上取值 `b_j`.
-    为比较两个积分 `int_E f(x) dx` 和 `int_E g(x) dx`,
-    将定义域 `E` 细分为 `E = uuu_(i,j) E nn A_i nn B_j`.
-    在每一小块 `E nn A_i nn B_j` 上, `f, g` 的值都为常数且 `f(x) le g(x)`,
-    因此 `int_E f(x) dx le int_E g(x) dx`.
-  </li>
-  <li>再设 `f, g` 是非负可测函数.
-    任取非负可测简单函数 `h` 满足 `h le f le g`,
-    由于 `g` 的积分是所有 `le g` 的非负可测简单函数积分的上界, 所以
+  <li>最后对一般的可测函数 `f`, 因为 `(f chi_A)^(+-) = f^(+-) chi_A`, 所以
     <span class="formula">
-      `int_E h(x) dx le int_E g(x) dx`.
+      `int_A f`
+      `= int_A f^(+) - int_A f^(-)`
+      `= int_E f^(+) chi_A - int_E f^(-) chi_A`
+      `= int_E (f chi_A)^(+) - int_E (f chi_A)^(-)`
+      `= int_E f chi_A`.
     </span>
-    上式两边取上确界得 `int_E f(x) dx le int_E g(x) dx`.
   </li>
-</ol>
-
-<ol class="corollary">
-  <li><b>控制函数</b> 若存在可积函数 `F` 满足 `|f| le F`, 则 `f` 也可积;</li>
-  <li><b>测度有限的集合上的有界函数可积</b> 只需把控制函数取为 `|f|` 的上界即可;</li>
 </ol>
 
 <ol class="property">
-  <b>积分的线性性</b> 设 `f, g` 可积, 则
+  <b>积分的线性性</b> 设 `f, g` 可积, 则 `c f`, `f + g` 也可积, 且有
   <li>`int_E c f(x) dx = c int_E f(x) dx`;</li>
   </li>
   <li>`int_E (f(x) + g(x)) dx = int_E f(x) dx + int_E g(x) dx`.</li>
@@ -132,34 +149,162 @@
 
 <ol class="proof">
   <li>先设 `f, g` 是非负可测简单函数. 此时 1. 式直接由定义成立; 为证明 2. 式,
-    注意到 `f(x) + g(x)` 也是一个非负可测简单函数, 它在 `A_i nn B_j` 上的取值为
+    注意到 `f + g` 也是一个非负可测简单函数, 它在 `A_i nn B_j` 上的取值为
     `a_i + b_j`.  于是
     <span class="formula align">
       `int_E (f(x) + g(x)) dx`<br>
-      `= sum_i sum_j (a_i + b_j) m(E nn A_i nn B_j)`<br>
-      `= sum_i a_i sum_j m(E nn A_i nn B_j) + sum_j b_j sum_i m(E nn A_i nn B_j)`<br>
-      `= sum_i a_i m(E nn A_i) + sum_j b_j m(E nn B_j)`<br>
+      `= sum_(i,j) (a_i + b_j) m(A_i nn B_j)`<br>
+      `= sum_i a_i sum_j m(A_i nn B_j) + sum_j b_j sum_i m(A_i nn B_j)`<br>
+      `= sum_i a_i m(A_i) + sum_j b_j m(B_j)`<br>
       `= int_E f(x) dx + int_E g(x) dx`.
     </span>
   </li>
-  <li>再设 `f, g` 是非负可测函数, 不妨设 `c ge 0`, 则由 1. 有
+  <li>再设 `f, g` 是非负可测函数, 且 `c ge 0`. 则由 1. 有
     <span class="formula">
       `int_E c f(x) dx`
       `= sup_(h le c f) int_E h(x) dx`
       `= c sup_(h le f) int_E h(x) dx`
-      `= c int_E f(x) dx`,<br>
-      `int_E (f(x) + g(x)) dx`
-      `= sup_(h le f + g) int_E h(x) dx`
-      `= sup_(h_1 le f) int_E h_1(x) dx + sup_(h_2 le g) int_E h_2(x) dx`
-      `= int_E f(x) dx + int_E g(x) dx`.
+      `= c int_E f(x) dx`.
+    </span>
+    由简单函数逼近定理, 存在 `E` 上的非负可测简单函数渐升列 `varphi_k uarr f`, `psi_k uarr g`,
+    于是 `(varphi_k + psi_k) uarr (f + g)`.
+    根据下一节的 Beppo Levi 定理<sup>[注]</sup>, 非负渐升列的积分与极限可交换, 于是
+    <span class="formula">
+      `int_E (f + g)`
+      `= lim_k int_E (varphi_k + psi_k)`
+      `= lim_k (int_E varphi_k + int_E psi_k)`
+      `= int_E f + int_E g`.
+    </span>
+  </li>
+  <hr>
+  [deepseek]
+  如果不使用 Beppo Levi 定理, 也可以这样证明:
+  显然任意 `h_1 le f` 和 `h_2 le g` 都满足 `h_1 + h_2 le f + g`,
+  所以 `int_E (f + g) ge int_E f + int_E g`.
+  另一方面, 对任意 `h le f + g` 和 `epsi gt 0`,
+  都可以构造出 `h_1 le f` 和 `h_2 le g` 满足
+  `int_E h le int_E h_1 + int_E h_2 + epsi`, 于是 `int_E h le int_E f + int_E g + epsi`,
+  取上确界, 由 `epsi` 的任意性得到 `int_E (f + g) le int_E f + int_E g`.
+  然而具体的构造比较繁琐复杂.
+</ol>
+
+<p class="proof">
+  最后设 `f, g` 是一般的可测函数, 注意到左侧函数的可积性由控制函数
+  `|c f| = |c| |f|` 和 `|f + g| le |f| + |g|` 保证, 下面证明两个等式.
+  因为
+  <span class="formula">
+    `(-f)^(+) = max(-f, 0) = f^(-)`,<br>
+    `(c f)^(+-) = {
+      c (f^(+-)), c ge 0;
+      -c (f^(&mp;)), c lt 0
+    :}`,
+  </span>
+  所以
+  <span class="formula">
+    `int_E c f`
+    `= int_E (c f)^(+) - int_E (c f)^(-)`
+    `= c (int_E f^(+) - int_E f^(-))`
+    `= c int_E f`.
+  </span>
+  另一方面, 因为
+  <span class="formula">
+    `(f+g)^(+) - (f+g)^(-)`
+    `= f + g`
+    `= f^(+) - f^(-) + g^(+) - g^(-)`,
+  </span>
+  移项得
+  <span class="formula">
+    `(f+g)^(+) + f^(-) + g^(-) = (f+g)^(-) + f^(+) + g^(+)`.
+  </span>
+  上式左右每一项都是可积的非负可测函数, 由 2. 有
+  <span class="formula">
+    `int_E (f+g)^(+) + int_E f^(-) + int_E g^(-) = int_E (f+g)^(-) + int_E f^(+) + int_E g^(+)`.
+  </span>
+  整理即得 `int_E (f + g) = int_E f + int_E g`.
+</p>
+
+<ol class="example">
+  <li><b>可积函数几乎处处有限</b>
+    若 `int_E |f(x)| dx lt oo`, 则 `|f|` 几乎处处 `lt oo`.
+  </li>
+  <li>
+    <b>积分为零的非负函数几乎处处为零</b>
+    若 `int_E |f(x)| dx = 0`, 则 `|f|` 几乎处处 `= 0`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>
+    对每个正整数 `k`, 令 `E_k = {x in E: |f(x)| gt k}`, 由保序性,
+    <span class="formula">
+      `k m(E_k) = int_(E_k) k dx`
+      `le int_(E_k) |f(x)| dx`
+      `= int_E |f(x)| chi_(E_k)(x) dx`
+      `le int_E |f(x)| dx`
+      `lt oo`.
+    </span>
+    因此 `lim_(k to oo) m(E_k) = 0`. 进而
+    <span class="formula">
+      `m({ x in E: |f(x)| = +oo })`
+      `= m(nnn_(k ge 1) E_k)`
+      `= lim_(k to oo) m(E_k)`
+      `= 0`.
+    </span>
+  </li>
+  <li>
+    对每个正整数 `k`, 记 `E_k = {x in E: |f(x)| gt 1//k}`,
+    由保序性,
+    <span class="formula">
+      `1/k m(E_k)`
+      `= int_(E_k) 1/k dx`
+      `le int_(E_k) |f(x)| dx`
+      `le int_E |f(x)| dx`
+      `= 0`,
+    </span>
+    因此 `m(E_k) = 0`. 进而
+    <span class="formula">
+      `m({x in E: |f(x)| gt 0})`
+      `= m(uuu_(k ge 1) E_k)`
+      `le sum_(k ge 1) m(E_k)`
+      `= 0`.
+    </span>
+  </li>
+</ol>
+
+<ol class="example">
+  <li><b>积分区域的有限可加性</b> 若 `E` 是可测子集 `A, B` 的不交并, 则 `int_E f(x) dx = int_A f(x) dx + int_B f(x) dx`. 后面我们还会证明积分区域的可数可加性.</li>
+  <li><b>零测集上的函数值不影响积分</b> 若 `f, g` 在 `E` 上几乎处处相等, 则 `int_E f(x) dx = int_E g(x) dx`.</li>
+</ol>
+
+<ol class="proof">
+  <li>
+    利用 `f = f chi_A + f chi_B`,
+    <span class="formula align higher">
+      `int_E f(x) dx`<br>
+      `= int_E f(x) chi_A(x) dx + int_E f(x) chi_B(x) dx`, 由积分的线性性<br>
+      `= int_A f(x) dx + int_B f(x) dx`, 由子集上的积分.
+    </span>
+  </li>
+  <li>
+    记 `A = {x in E: f(x) = g(x)}`, `B = {x in E: f(x) != g(x)}`.
+    则 `E` 是 `A, B` 的不交并, 且 `m(B) = 0`.
+    由 1. 有
+    <span class="formula">
+      `int_E f(x) dx = int_A f(x) dx + int_B f(x) dx`
+      `= int_A g(x) dx + int_B g(x) dx`
+      `= int_E g(x) dx`.
     </span>
   </li>
 </ol>
 
 <h2>控制收敛定理</h2>
 
+<p>本节考虑积分的极限与极限的积分的关系, 这包括递增集列上的积分与函数列的积分.</p>
+
+<h3>非负函数情形</h3>
+
 <p class="lemma">
-  <b>递增集列上简单函数的积分</b>
+  <b>递增集列与积分换序</b>
   若 `{E_k}` 是 `RR^n` 中的递增可测集合列, `f` 是 `RR^n` 上的非负可测简单函数, 则
   <span class="formula">
     `int_(lim_(k to oo) E_k) f(x) dx = lim_(k to oo) int_(E_k) f(x) dx`.
@@ -168,7 +313,7 @@
 
 <p class="proof">
   设 `E = lim_(k to oo) E_k`, `f` 在 `A_i` 上取值 `a_i`.
-  应用测度论的 Fatou 引理 (集合极限与测度换序) 有
+  集合极限与测度换序, 得到
   <span class="formula">
     `lim_(k to oo) int_(E_k) f(x) dx`
     `= lim_(k to oo) sum_i a_i m(A_i nn E_k)`
@@ -176,6 +321,391 @@
     `= int_E f(x) dx`.
   </span>
 </p>
+
+<p class="theorem">
+  <b>Beppo Levi 定理</b>
+  若非负可测函数渐升列 `f_k` 有极限, 则
+  <span class="formula">
+    `int_E lim_(k to oo) f_k(x) dx = lim_(k to oo) int_E f_k(x) dx`.
+  </span>
+  等号两边可以是 `oo`.
+</p>
+
+<ol class="proof">
+  <li>记 `f_k to f`, 于是 `f` 也是非负可测函数, `int_E f` 有定义 (可以为有限或 `oo`).
+    由渐升性知 `AA k, f_k le f_(k+1) le f`, 于是由保序性
+    <span class="formula">
+      `int_E f_k le int_E f_(k+1) le int_E f`.
+    </span>
+    这说明 `lim_(k to oo) int_E f_k` 有定义 (可以为有限或 `oo`), 且
+    <span class="formula">
+      `lim_(k to oo) int_E f_k le int_E f`.
+    </span>
+  </li>
+  <li>下证另一方向的不等式.
+    任取非负可测简单函数 `h le f` 和 `c in (0, 1)`, 则 `c h lt f`.
+    由于 `f_k to f`, 对固定的 `x in E` 总存在 `k` 使得 `f_k(x) ge c h(x)`. 记
+    <span class="formula">
+      `E_k = {x in E: f_k(x) ge c h(x)}`,
+    </span>
+    则 `E_k` 是递增集列, 且 `lim_(k to oo) E_k = E`.  于是
+    <span class="formula">
+      `int_E f_k`
+      `ge int_(E_k) f_k`
+      `ge int_(E_k) c h`
+      `= c int_(E_k) h`.
+    </span>
+    令 `k to oo`, 由引理有
+    <span class="formula">
+      `lim_(k to oo) int_E f_k ge c int_E h`.
+    </span>
+    再令 `c to 1^(-)`, 由 `h` 的任意性可知
+    <span class="formula">
+      `lim_(k to oo) int_E f_k ge int_E f`.
+    </span>
+    <hr>
+    取 `c in (0, 1)` 是非常高明的, 因为如果取 `epsi gt 0` 使得 `f_k + epsi ge h`,
+    则当 `m(E) = oo` 时无法合理地消掉 `epsi`.
+  </li>
+</ol>
+
+<ol class="remark">
+  <li>Beppo Levi 定理的条件可减弱为 `f_k overset "a.e." to f`.</li>
+  <li>对于非负可测函数渐降列 `f_k overset "a.e." to f`, 如果 `f_1` 可积,
+    则每个 `f_k` 包括 `f` 也是可积的, 且积分与极限可换序.
+  </li>
+  <li>对于非负可测函数而言, 递增集列与积分换序引理仍成立, 只需注意 `int_(E_k) f = int_E f chi_(E_k)`,
+    然后对非负渐升列 `f chi_(E_k)` 使用 Beppo Levi 定理即可.
+  </li>
+</ol>
+
+<p class="lemma">
+  <b>Fatou 引理</b> 对任意非负可测函数列 `f_k` 有
+  <span class="formula">
+    `int_E underset(k to oo)(ul lim) f_k(x) dx le underset(k to oo)(ul lim) int_E f_k(x) dx`.
+  </span>
+</p>
+
+<p class="proof">
+  记 `g_k(x) = inf_(j ge k) f_j(x)`, 从而 `g_k` 是非负可测函数渐升列, 且
+  <span class="formula">
+    `underset(k to oo)(ul lim) f_k(x) = sup_(k ge 1) g_k(x) = lim_(k to oo) g_k(x)`.
+  </span>
+  由 Beppo Levi 定理
+  <span class="formula">
+    `int_E underset(k to oo)(ul lim) f_k(x)`
+    `= int_E lim_(k to oo) g_k(x)`
+    `= lim_(k to oo) int_E g_k(x)`
+    `= underset(k to oo)(ul lim) int_E g_k(x)`
+    `le underset(k to oo)(ul lim) int_E f_k(x)`.
+  </span>
+</p>
+
+<p class="remark">
+  结论记忆: SL ≤ LS. 上楼 ≤ 楼上. 正在上楼的人, 位置低于已在楼上的人.
+</p>
+
+<p class="remark">
+  和 Beppo Levi 定理比较, Fatou 引理去掉了渐升的条件, 结论的极限也减弱为下极限, 且等号减弱为不等号.
+  有时这个不等号严格成立, 例如 `f_n = n * chi_((0, 1//n))` 满足 `f_n to 0`,
+  但 `int_0^1 lim f_n = 0 lt 1 = lim int_0^1 f_n`.
+</p>
+
+<h3>控制收敛定理</h3>
+
+<p class="theorem">
+  <b>控制收敛定理 (DCT)</b>
+  设可测函数列 `f_k overset "a.e." to f`.
+  若 `F in L(E)`, 且几乎处处 `|f_k| le F` (称 `F` 为控制函数),
+  则 `f` 可积, 并且
+  <span class="formula">
+    `int_E f(x) dx = lim_(k to oo) int_E f_k(x) dx`.
+  </span>
+  事实上可以证明更强的结论 `f_k overset (L^1) to f`, 即
+  <span class="formula">
+    `lim_(k to oo) int_E |f_k(x) - f(x)| dx = 0`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>
+    由已知 `f` 是可测函数, 且几乎处处 `|f| le F`, 因此 `f in L(E)`.
+    同理每个 `f_k in L(E)`.
+  </li>
+  <li>令 `g_k = |f_k - f|`, 则 `g_k overset "a.e." to 0`, 且几乎处处
+    <span class="formula">
+      `g_k le |f_k| + |f| le 2 F`,
+    </span>
+    于是 `g_k in L(E)`.
+  </li>
+  <li>对非负函数列 `2 F - g_k` 应用 Fatou 引理, 注意负号移出时下极限变为上极限:
+    <span class="formula">
+      `int_E 2F`
+      `= int_E lim_(k to oo) (2 F - g_k)`
+      `le underset(k to oo)(ul lim) int_E (2 F - g_k)`
+      `= int_E 2F - underset(k to oo)(bar lim) int_E g_k`,
+    </span>
+    即 `underset(k to oo)(bar lim) int_E g_k le 0`, 从而只能 `lim_(k to oo) int_E g_k = 0`.
+    这证明了第二个等式.
+  </li>
+  <li>最后, 由下式立即推出第一个等式:
+    <span class="formula">
+      `|int_E f_k - int_E f| le int_E |f_k - f| to 0`.
+    </span>
+  </li>
+</ol>
+
+<p class="remark">
+  控制收敛定理是 Lebesgue 积分最重要的结果之一, 建议熟练掌握运用.
+  和 Beppo Levi 定理相比, 这里的 `f_k` 既不要求非负也不要求渐升, 只需存在一个控制函数即可.
+  Beppo Levi 定理中非负渐升列 `f_k` 的极限 `f` 相当于是一个控制函数 (如果它可积).
+</p>
+
+<p class="corollary">
+  若 `f_k overset (L^1) to f`, 则 `f_k overset m to f`.
+  根据 Riesz 定理, 存在子列 `f_(k_i) overset "a.e." to f`.
+</p>
+
+<p class="proof">
+  设 `f_k` 依 `L^1` 收敛到 `f`, 即 `lim_(k to oo) int_E |f_k - f| = 0`.
+  对 `AA epsi gt 0`, 记 `E_k(epsi) = { x in E: |f_k(x) - f(x)| ge epsi }`, 有
+  <span class="formula">
+    `epsi m(E_k(epsi))`
+    `= int_(E_k(epsi)) epsi dx`
+    `le int_(E_k(epsi)) |f_k(x) - f(x)| dx`
+    `le int_E |f_k(x) - f(x)| dx`.
+  </span>
+  令 `k to oo` 有 `m(E_k(epsi)) to 0`, 故 `f_k` 依测度收敛到 `f`.
+</p>
+
+<p>控制收敛定理要求 `f_k overset"a.e." to f`, 这一条件可以适当放宽.
+  下面的定理给出依测度收敛的情形, 但要求 `E = RR^n`, 且每个 `f_k` 可积.
+</p>
+
+<p class="theorem">
+  <b>依测度控制收敛定理*</b>
+  设 `E = RR^n`, `f_k in L(E)`, 且 `f_k overset m to f`.
+  若存在控制函数 `F in L(E)` 使得几乎处处 `|f_k| le F`, 则 `f in L(E)` 且
+  <span class="formula">
+    `int_E f(x) dx = lim_(k to oo) int_E f_k(x) dx`.
+  </span>
+</p>
+
+<p class="corollary">
+  <b>逐项积分定理</b>
+  对任意非负可测函数列 `f_k` 成立
+  <span class="formula">
+    `int_E sum_(k ge 1) f_k(x) dx = sum_(k ge 1) int_E f_k(x) dx`.
+  </span>
+  若不要求非负, 只要求 `f_k in L(E)`, 那么只需 `sum_(k ge 1) int_E |f_k(x)| dx lt oo`,
+  上式仍成立.
+</p>
+
+<ol class="proof">
+  <li>
+    先设 `f_k` 是非负可测函数,
+    注意 `S_n = sum_(k=1)^n f_k` 是非负可测函数渐升列.
+    利用 Beppo Levi 定理和积分线性性,
+    <span class="formula">
+      `"LHS" = int_E lim_(n to oo) S_n`
+      `= lim_(n to oo) int_E S_n`
+      `= lim_(n to oo) sum_(k=1)^n int_E f_k`
+      `= "RHS"`.
+      <span class="label">(`ast`)</span>
+    </span>
+  </li>
+  <li>
+    若不要求非负,
+    我们需要保证在新的条件下, 等式仍有意义: 即积分号下的函数可积, 求和号下的级数收敛.
+    等号右边没有问题, 下证等号左边的级数收敛且和函数可积.
+    由 1. 有
+    <span class="formula">
+      `int_E sum_(k ge 1) |f_k| = sum_(k ge 1) int_E |f_k| lt oo`.
+    </span>
+    记 `F = sum_(k ge 1) |f_k| in L(E)`, 因为 `F` 可积, 所以 `F` 几乎处处有限,
+    因此级数 `sum_(k ge 1) f_k` 几乎处处 (绝对) 收敛, 记它的和函数为 `f`.
+    显然 `F` 是 `f` 的控制函数, 故 `f in L(E)`.
+  </li>
+  <li>最后证明等式成立, 记部分和 `S_n = sum_(k=1)^n f_k`, 则 `|S_n| le F`,
+    由下文的控制收敛定理知
+    <span class="formula">
+      `"LHS" = int_E lim_(n to oo) S_n`
+      `= lim_(n to oo) int_E S_n`
+      `= lim_(n to oo) sum_(k=1)^n int_E f_k`
+      `= "RHS"`.
+    </span>
+    读者不难注意到这就是把 (`ast`) 抄了一遍 😄
+  </li>
+</ol>
+
+<p class="corollary">
+  <b>积分区域的可数可加性</b>
+  设 `f in L(E)`, `E` 是可数个集合 `E_k` 的不交并, 则
+  <span class="formula">
+    `int_E f(x) dx = sum_(k ge 1) int_(E_k) f(x) dx`.
+  </span>
+  这个性质是 Riemann 积分所不具备的.
+  特别令 `f -= 1` 可以看到, 积分区域的可数可加性本质是测度的可数可加性.
+</p>
+
+<ol class="proof">
+  <li>先设 `f` 非负可测, `f * chi_(E_k)` 也是非负可测函数, 逐项积分有
+    <span class="formula">
+      `"LHS" = int_E sum_(k ge 1) f * chi_(E_k)`
+      `= sum_(k ge 1) int_E f * chi_(E_k)`
+      `= "RHS"`.
+    </span>
+  </li>
+  <li>
+    再考虑一般的 `f in L(E)`, 由 1. 知两级数收敛:
+    <span class="formula">
+      `sum_(k ge 1) int_(E_k) f^(+-) = int_E f^(+-) lt oo`,
+    </span>
+    于是可以逐项相减:
+    <span class="formula">
+      `"LHS"`
+      `= int_E f^(+) - int_E f^(-)`
+      `= sum_(k ge 1) (int_(E_k) f^(+) - int_(E_k) f^(-))`
+      `= "RHS"`.
+    </span>
+  </li>
+</ol>
+
+<p class="corollary">
+  <b>积分号下求导</b>
+  设 `f(x, y)` 是定义在 `E xx (a, b)` 上的函数, 它作为 `x` 的函数在 `E` 上可积,
+  作为 `y` 的函数在 `(a, b)` 上可微.
+  如果存在导数 `del_y f` 的控制函数 `F in L(E)`:
+  <span class="formula">
+    `|del_y f(x, y)| le F(x)`, `quad (x, y) in E xx (a, b)`,
+  </span>
+  那么可以进行积分号下求导:
+  <span class="formula">
+    `int_E del_y f(x, y) dx = del_y int_E f(x, y) dx`.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>任取 `y in (a, b)` 与实数列 `h_k to 0`, 记 `g_k(x, y) = (f(x, y + h_k) - f(x, y))/h_k`, 则
+    <span class="formula">
+      `del_y f(x, y) = lim_(k to oo) g_k(x, y)`,<br>
+      `del_y int_E f(x, y) dx = lim_(k to oo) int_E g_k(x, y) dx`.
+    </span>
+    由微分中值定理, 存在 `eta_k in (0, h_k)` 使得
+    <span class="formula">
+      `|g_k(x, y)|`
+      `= |del_y(x, y+eta_k)|`
+      `le F(x)`,
+    </span>
+    于是由控制收敛定理即得结论.
+  </li>
+</ol>
+
+<p class="remark">
+  与 Riemann 积分相比, 不论是逐项积分还是积分号下求导的条件都大为简化, 这就是控制收敛的威力.
+</p>
+
+<h2>可积函数的连续性</h2>
+
+<p>我们记 `C_0(E)` 为 `E` 上具有紧支集的连续函数的集合.</p>
+
+<p class="theorem">
+  任意 `f in L(E)`, 存在 `f_k in C_0(RR^n)` 使得 `f_k overset (L^1) to f`.
+</p>
+
+<p class="remark">
+  上述定理的 `f_k` 可以换成具有紧支集的阶梯函数列.
+  阶梯函数是一类特殊的简单函数, 每块定义域 `E_i` 都是 `RR^n` 中的超立方体.
+</p>
+
+<p class="lemma">
+  <b>变分引理</b>
+  设 `f in L(RR^n)`, 若对 `AA varphi in C_0(RR^n)` 有
+  <span class="formula">
+    `int_(RR^n) f(x) varphi(x) dx = 0`,
+  </span>
+  则 `f` 几乎处处为零.
+</p>
+
+<!--
+<p class="remark">
+  事实上 `C_0` 还可以换成 `C_0^oo`, 即具有紧支集的光滑函数 (任意阶可导).
+</p>
+-->
+
+<p class="theorem">
+  <b>绝对连续性</b>
+  设 `f in L(E)`, 则对 `AA epsi gt 0`, `EE delta gt 0`,
+  使对任意满足 `m(e) lt delta` 的子集 `e` 成立
+  <span class="formula">
+    `int_e |f(x)| dx lt epsi`.
+  </span>
+  [注] 我们称一元函数 `f` 绝对连续, 如果对 `AA epsi gt 0`, `EE delta gt 0`,
+  使得任意长度总和小于 `delta` 的有限个区间 `[a_i, b_i]_(i=1)^n` 满足
+  <span class="formula">
+    `sum_(i=1)^n |f(a_i) - f(b_i)| lt epsi`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>平均连续性</b>
+  设 `f in L(RR^n)`, 则 `f(x+h) overset (L^1) to f(x)`.
+  这里的平均是指“积分平均”.
+</p>
+
+<h2>与 Riemann 积分的比较</h2>
+
+<p>
+  我们知道, Riemann 积分的几何直观是切分定义域, 将许多竖条的面积相加.
+  相比之下, Lebesgue 积分的几何直观则是切分值域, 将许多 (未必连续) 的横条面积相加.
+  按 Lebesgue 本人的话来说: 假定我欠人家许多钱, 现在要归还. 此时, 应先按照钞票面值分类,
+  计算每一类的总值, 最后相加, 这就是我的积分思想. 如果不管面值大小如何,
+  而是按顺手递出的次序来计算总数, 那就是 Riemann 积分的思想.
+</p>
+
+<ol class="theorem">
+  <b>Lebesgue 积分的几何直观</b>
+  设 `m(E) lt oo`, `f` 是 `E` 上几乎处处有限的非负可测函数.
+  <li>
+    取严格递增数列 `{y_k}`, 满足 `y_0 = 0`, `y_(k+1) - y_k lt delta`,
+    又记 `E_k = { x in E: y_k le f(x) lt y_(k+1) }`. 则 `f in L(E)` 当且仅当下面的级数收敛:
+    <span class="formula">
+      `sum_(k ge 0) y_k m(E_k) lt oo`.
+    </span>
+    并且 `delta to 0` 时, 级数的值趋于 `int_E f(x) dx`.
+  </li>
+  <li>`f in L(E)` 当且仅当 `sum_(n ge 0) m({ x in E: f(x) ge n }) lt oo`.
+  </li>
+</ol>
+
+<ol class="proof">
+  <li>在 `E_k` 上, `y_k le f(x) lt y_(k+1)`, 由积分保序性
+    <span class="formula">
+      `y_k m(E_k) le int_(E_k) f le y_(k+1) m(E_k)`.
+    </span>
+    求和, 利用积分区域的可数可加性
+    <span class="formula align">
+      `sum_(k ge 0) y_k m(E_k)`
+      `le int_E f`
+      `le sum_(k ge 0) y_(k+1) m(E_k)`<br>
+      `= sum_(k ge 0) (y_(k+1) - y_k) m(E_k) + sum_(k ge 0) y_k m(E_k)`<br>
+      `le delta m(E) + sum_(k ge 0) y_k m(E_k)`.
+    </span>
+    由于 `m(E) lt oo`, 上式 `delta m(E)` 有限, 故 `int_E f lt oo iff sum_(k ge 0) y_k m(E_k) lt oo`.
+    又显然 `delta to 0` 时二者相等.
+  </li>
+  <li>
+    利用 Abel 变换
+    <span class="formula align">
+      `sum_(n ge 0) m({ x in E: f(x) ge n })`<br>
+      `= sum_(n ge 0) sum_(k ge n) m({ x in E: k le f(x) lt k+1 })`<br>
+      `= sum_(k ge 0) sum_(n=0)^k m({ x in E: k le f(x) lt k+1 })`<br>
+      `= sum_(k ge 0) (k+1) m({ x in E: k le f(x) lt k+1 })`<br>
+      `= sum_(k ge 0) k m({ x in E: k le f(x) lt k+1 }) + m(E)`.
+    </span>
+    取数列 `y_k = k`, 由 1. 知 `f in L(E)` 当且仅当上式的级数收敛.
+  </li>
+</ol>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
