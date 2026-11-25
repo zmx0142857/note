@@ -76,6 +76,42 @@ sum(L[j] &gt; L[k] for k in range(len(L)) for j in range(k))
   `m` 次对换变得有序, 那么 `m` 必为奇数.
 </p>
 
+<p class="example">
+  [群友@Rei]
+  证明: 不能通过小于 `n-1` 次对换将一个排列 `n, 1, 2, cdots, (n-1)` 变为 `1, 2, cdots, n`.
+</p>
+
+<p class="proof">
+  [群友@火雨] 记这个排列为 `sigma`, 画一张有向图, 其有 `n` 个点, 每个点 `i` 向 `sigma(i)` 连一条边.
+  整张图会分成若干圈, 初始序列只有 `1` 个圈, 目标序列有 `n` 个圈, 每个圈都是自环.
+  交换同一个圈内的两数会把该圈拆成两个,
+  而交换不同圈内的两数会把两个圈合并为一个, 因此每次对换圈数的变化恰好为 `1`.
+  因此, 至少需要 `n-1` 次对换才能完成这个转化.
+</p>
+
+<p class="example">
+  [群友@Rei] 记 `a_k = \#{sigma in S_n: sigma "的逆序数是"k}`, 则
+  <span class="formula">
+    `sum_(k ge 0) a_k x^k = prod_(r=1)^n sum_(s=0)^(r-1) x^s`.
+  </span>
+</p>
+
+<p class="proof">
+  [群友@QYJ]
+  对任意 `sigma in S_n`,
+  我们可以这样计算逆序数 `tau(sigma)`: 先看最大的数字 `n` 贡献的逆序对数量 `s(n)`,
+  它等于排在 `n` 后面的数字个数.  然后去掉排列中的 `n`, 再看第二大的数字 `n-1`
+  贡献的逆序对数量 `s(n-1)`...  总之
+  <span class="formula">
+    `tau(sigma) = sum_(r=1)^n s(r)`, `quad 0 le s(r) le r-1`.
+  </span>
+  上述观察实际建立了 `S_n` 到集合 `{(s(1), cdots, s(n)): 1 le r le n, 0 le s(r) le r-1}` 的双射
+  <span class="formula">
+    `sigma mapsto (s(1), cdots, s(n))`.
+  </span>
+  这样一来, 待证等式右边的 `k` 次项系数正好就是 `S_n` 中满足 `tau(sigma) = k` 的 `sigma` 的数量.
+</p>
+
 <h3>行列式</h3>
 
 <p class="definition">

@@ -10,6 +10,8 @@
 - c: x64dbg, ida pro, hexray
 - dotnet: ILspy, Detect It Easy, dnSpy, x64dbgde4dot
 - flash: FFDec
+- android: dex2jar, jd-gui (java 反编译器), apktool (提取 apk 资源文件, 如 xml, 图片等)
+- Reverse Engineer's Toolkit (retoolkit): winget install mentebinaria.retoolkit
 
 命令行工具:
 - xxd (小兄弟)

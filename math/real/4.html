@@ -301,10 +301,10 @@
 
 <p>本节考虑积分的极限与极限的积分的关系, 这包括递增集列上的积分与函数列的积分.</p>
 
-<h3>非负函数情形</h3>
+<h3>非负可测情形</h3>
 
 <p class="lemma">
-  <b>递增集列与积分换序</b>
+  <b>递增集列与积分换序 (非负可测情形)</b>
   若 `{E_k}` 是 `RR^n` 中的递增可测集合列, `f` 是 `RR^n` 上的非负可测简单函数, 则
   <span class="formula">
     `int_(lim_(k to oo) E_k) f(x) dx = lim_(k to oo) int_(E_k) f(x) dx`.
@@ -411,7 +411,7 @@
   但 `int_0^1 lim f_n = 0 lt 1 = lim int_0^1 f_n`.
 </p>
 
-<h3>控制收敛定理</h3>
+<h3>可积函数情形</h3>
 
 <p class="theorem">
   <b>控制收敛定理 (DCT)</b>
@@ -605,52 +605,27 @@
   与 Riemann 积分相比, 不论是逐项积分还是积分号下求导的条件都大为简化, 这就是控制收敛的威力.
 </p>
 
-<h2>可积函数的连续性</h2>
-
-<p>我们记 `C_0(E)` 为 `E` 上具有紧支集的连续函数的集合.</p>
+<p>最后, 让我们回到本节开头的命题, 它可以推广到一般的可积函数.</p>
 
 <p class="theorem">
-  任意 `f in L(E)`, 存在 `f_k in C_0(RR^n)` 使得 `f_k overset (L^1) to f`.
-</p>
-
-<p class="remark">
-  上述定理的 `f_k` 可以换成具有紧支集的阶梯函数列.
-  阶梯函数是一类特殊的简单函数, 每块定义域 `E_i` 都是 `RR^n` 中的超立方体.
-</p>
-
-<p class="lemma">
-  <b>变分引理</b>
-  设 `f in L(RR^n)`, 若对 `AA varphi in C_0(RR^n)` 有
+  <b>递增集列与积分换序 (可积函数情形)</b>
+  若 `{E_k}` 是 `RR^n` 中的递增可测集合列, `E = lim_(k to oo) E_k`.
+  如果 `AA k, f in L(E_k)`, 且 `lim_(k to oo) int_(E_k) |f(x)| dx` 存在, 那么 `f in L(E)`, 且
   <span class="formula">
-    `int_(RR^n) f(x) varphi(x) dx = 0`,
+    `int_E f(x) dx = lim_(k to oo) int_(E_k) f(x) dx`.
   </span>
-  则 `f` 几乎处处为零.
+  此定理可以用来计算无穷区间上的 Lebesgue 积分或有限区间上的瑕积分等. 与广义 Riemann 积分不同,
+  这里的方法只适用于积分绝对收敛的情形.
 </p>
 
-<!--
-<p class="remark">
-  事实上 `C_0` 还可以换成 `C_0^oo`, 即具有紧支集的光滑函数 (任意阶可导).
-</p>
--->
-
-<p class="theorem">
-  <b>绝对连续性</b>
-  设 `f in L(E)`, 则对 `AA epsi gt 0`, `EE delta gt 0`,
-  使对任意满足 `m(e) lt delta` 的子集 `e` 成立
+<p class="proof">
+  先对非负函数 `|f|` 使用递增集列与积分换序,
   <span class="formula">
-    `int_e |f(x)| dx lt epsi`.
+    `int_E |f| = lim_(k to oo) int_(E_k) |f| lt oo`,
   </span>
-  [注] 我们称一元函数 `f` 绝对连续, 如果对 `AA epsi gt 0`, `EE delta gt 0`,
-  使得任意长度总和小于 `delta` 的有限个区间 `[a_i, b_i]_(i=1)^n` 满足
-  <span class="formula">
-    `sum_(i=1)^n |f(a_i) - f(b_i)| lt epsi`.
-  </span>
-</p>
-
-<p class="theorem">
-  <b>平均连续性</b>
-  设 `f in L(RR^n)`, 则 `f(x+h) overset (L^1) to f(x)`.
-  这里的平均是指“积分平均”.
+  因此 `f in L(E)`.
+  现在考虑 `f * chi_(E_k) to f`, 控制函数为 `|f * chi_(E_k)| le |f|`,
+  应用控制收敛定理即得结论.
 </p>
 
 <h2>与 Riemann 积分的比较</h2>
@@ -706,6 +681,277 @@
     取数列 `y_k = k`, 由 1. 知 `f in L(E)` 当且仅当上式的级数收敛.
   </li>
 </ol>
+
+<p>
+  回忆 Riemann 积分的相关概念: 设 `f` 是 `[a, b]` 上的有界函数,
+  定义它在 `x` 处的<b>振幅</b>为
+  <span class="formula">
+    `omega(x) := lim_(delta to 0^(+)) omega_delta(x)`
+    `= lim_(delta to 0^(+)) sup_(y, z in B(x, delta) nn [a, b]) |f(y) - f(z)|`.
+  </span>
+  由于 `f` 有界, `omega` 是非负有界的; 且 `omega(x) = 0` 当且仅当 `f` 在 `x` 处连续.
+  作定义域的分割
+  <span class="formula">
+    `Delta: a = x_0 lt x_1 lt cdots lt x_m = b`,<br>
+    `I_k = [x_(k-1), x_k]`,
+    `quad ||Delta|| = max |I_k|`.
+  </span>
+  定义 Darboux 上、下积分:
+  <span class="formula higher">
+    `M_k = sup_(x in I_k) f(x)`,
+    `quad m_k = inf_(x in I_k) f(x)`,<br>
+    `bar int_a^b f(x) dx = inf_Delta sum M_k |I_k|`,<br>
+    `ul int_a^b f(x) dx = sup_Delta sum m_k |I_k|`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>关于 Riemann 可积的 Lebesgue 定理</b>
+  设 `f` 是 `[a, b]` 上的有界函数, `omega(x)` 是它在 `x` 处的振幅, 则
+  <span class="formula">
+    `int_a^b omega(x) dx = bar int_a^b f(x) dx - ul int_a^b f(x) dx`,
+  </span>
+  其中左端是 Lebesgue 积分.
+  特别令上式两端等于零, 得到: 对于 `[a, b]` 上的有界函数,
+  <span class="formula">
+    Riemann 可积 `iff` 几乎处处连续.
+  </span>
+</p>
+
+<ol class="proof">
+  <li>先证 `omega in L([a, b])`, 由于它非负有界, 只需证 `omega` 是可测函数.
+    对 `AA t in RR`, 要证明下面的集合可测:
+    <span class="formula">
+      `H = {x in [a, b]: omega(x) lt t}`.
+    </span>
+    不妨设 `H != O/`. 任取 `x in H`, 则存在 `delta gt 0` 使得
+    `omega_delta(x) lt t`.
+    对任意 `x_1 in B(x, delta)`, 存在 `0 lt delta_1 lt delta` 使得
+    `B(x_1, delta_1) sube B(x, delta)`, 故
+    `omega_(delta_1)(x_1) le omega_delta(x) lt t`.
+    因此 `x_1 in H`.
+    这证明了 `B(x, delta) sube H`, 因此 `H` 是开集, 从而是可测集.
+  </li>
+  <li>
+    取一列分割 `Delta^((n))`, 满足 `lim_(n to oo) ||Delta^((n))|| to 0`.
+    根据 Darboux 定理,
+    <span class="formula">
+      `bar int_a^b f(x) dx = lim_(n to oo) sum M_k^((n)) |I_k^((n))|`,<br>
+      `ul int_a^b f(x) dx = lim_(n to oo) sum m_k^((n)) |I_k^((n))|`.
+    </span>
+    现在考虑函数列
+    <span class="formula">
+      `omega_n(x) = {
+        M_k^((n)) - m_k^((n)), x in I_k^((n));
+        0, x "是" Delta^((n)) "的分点"
+      :}`
+    </span>
+    则排除掉所有 `Delta^((n))` 的分点后, 成立 `omega_n overset"a.e." to omega`.
+    记 `|f| le M`, 则对每个 `n` 有 `|omega_n| le 2M`, 由控制收敛定理知
+    <span class="formula">
+      `lim_(n to oo) int_a^b omega_n(x) dx = int_a^b omega(x) dx`.
+    </span>
+    另一方面,
+    <span class="formula">
+      `lim_(n to oo) int_a^b omega_n(x)`
+      `= lim_(n to oo) sum (M_k^((n)) - m_k^((n))) |I_k^((n))|`
+      `= bar int_a^b f(x) dx - ul int_a^b f(x) dx`.
+    </span>
+  </li>
+</ol>
+
+<p class="corollary">
+  `f` 在 `[a, b]` 上 Riemann 可积 `rArr` Lebesgue 可积, 且积分值相同.
+</p>
+
+<ol class="proof">
+  <li>
+    在 `[a, b]` 上, 因为 `f` Riemann 可积, 所以它有界;
+    又由 Lebesgue 定理, `f` 几乎处处连续.
+    连续函数是可测函数, 而零测集不改变可测性, 故 `f` 是有界可测函数, `f in L([a, b])`.
+  </li>
+  <li>任取 `[a, b]` 的分割 `Delta`, 在每个子区间 `I_k` 上有
+    <span class="formula">
+      `m_i |I_k| le int_(I_k) f(x) dx le M_i |I_k|`.
+    </span>
+    根据 Lebesgue 积分的区域可加性, 求和得到
+    <span class="formula">
+      `sum m_i |I_k| le int_a^b f(x) dx le sum M_i |I_k|`.
+    </span>
+    上式对一切分割取上、下确界, 可知 Lebesgue 积分 `int_a^b f(x) dx` 介于 Darboux 上下积分之间.
+    但 `f` Riemann 可积, 上下积分相等, 因此 `f` 的 Lebesgue 积分值与 Riemann 积分值相等.
+  </li>
+</ol>
+
+<h2>积分换序的 Fubini 定理*</h2>
+
+<p>在 Riemann 积分理论中, 如果 `f(x, y)` 在 `I = [a, b] xx [c, d]` 上连续, 则重积分等于累次积分,
+  且累次积分可以换序:
+  <span class="formula">
+    `int_I f(x, y) dx dy`
+    `= int_a^b dx int_c^d f(x, y) dy`
+    `= int_c^d dy int_a^b f(x, y) dx`.
+  </span>
+  本节建立 Lebesgue 积分换序的相关定理.
+  我们将看到, 在 `RR^n` 上进行积分换序几乎不需要任何特殊条件, 只需 `f in L(RR^n)` 即可.
+  这是 Lebesgue 积分的又一大优点.
+</p>
+
+<ol class="lemma">
+  设 `f(x, y)` 在 `RR^n = RR^p xx RR^q` 上非负可测, 且满足
+  <p>(A) 作为 `y` 的函数, `f` 在 `RR^q` 上非负可测 (`"a.e. " x in RR^p);</p>
+  <p>(B) 作为 `x` 的函数, `int_(RR^q) f(x, y) dy` 在 `RR^p` 上非负可测;</p>
+  <p>(C) `f` 在 `RR^n` 上的重积分等于累次积分:
+    `int_(RR^n) f(x, y) dx dy` `= int_(RR^p) dx int_(RR^q) f(x, y) dy`.
+  </p>
+  以上各积分均指 Lebesgue 积分.
+  我们记满足 A, B, C 三个性质的非负可测函数 `f` 的全体为 `cc F`.
+  显然 `cc F` 非空, 且由积分的线性性有:
+  <li>`f in cc F, c ge 0` `rArr c f in cc F`;</li>
+  <li>`f, g in cc F` `rArr f + g in cc F`;</li>
+  进一步可以证明
+  <li>`f, g in cc F`, `f - g ge 0`, `g in L(RR^n)` `rArr f - g in cc F`;</li>
+  <li>`f_k in cc F`, `f_k uarr f` `rArr f in cc F`;</li>
+  <li>`f_k in cc F`, `f_k darr f`, `f_1 in L(RR^n)` `rArr f in cc F`.</li>
+</ol>
+
+<ol class="proof">
+  <p>3. 的证明: 由积分的线性性, 只需证 `g` 在 `RR^n` 上几乎处处有限.
+    因为 `g in cc F` 且 `int_(RR^n) g lt oo`,
+    由性质 C 知道 `x ↦ int_(RR^q) g(x, y) dy` 在 `RR^p` 上几乎处处有限.
+    再由 B, `y ↦ g(x, y)` 在 `RR^q` 上几乎处处有限, `"a.e. " x in RR^p`.
+  </p>
+  <p>4. 的证明: (A) 非负可测函数列的极限仍然非负可测.</p>
+  <p>(B) 由 Beppo Levi 定理 `int_(RR^q) f(x, y) dy = lim_(k to oo) int_(RR^q) f_k(x, y) dy`.
+  </p>
+  <p>(C) 注意 `f_k uarr f`, `(int_(RR^q) f_k(x, y) dy) uarr (int_(RR^q) f(x, y) dy)`,
+    用两次 Beppo Levi 定理
+    <span class="formula">
+      `int_(RR^n) f(x, y) dx dy`
+      `= lim_(k to oo) int_(RR^n) f_k(x, y) dx dy`
+      `= lim_(k to oo) int_(RR^p) dx int_(RR^q) f_k(x, y) dy`
+      `= int_(RR^p) dx lim_(k to oo) int_(RR^q) f_k(x, y) dy`
+      `= int_(RR^p) dx int_(RR^q) f(x, y) dy`.
+    </span>
+  </p>
+  <p>5. 的证明: 与 4. 类似, 但使用控制收敛定理.</p>
+</ol>
+
+<ol class="theorem">
+  <b>积分换序定理</b>
+  仍记 `RR^n = RR^p xx RR^q`, `cc F` 的定义同上, 我们有
+  <li>(非负可测情形, Tonelli 定理) `RR^n` 上所有非负可测函数均属于 `cc F`.</li>
+  将性质 A, B 中的“非负可测”换成“可积”, 记为 A', B',
+  然后记 `RR^n` 上满足 A', B', C 的可积函数全体为 `cc F'`.
+  则有:
+  <li>(可积函数情形, Fubini 定理) `RR^n` 上所有可积函数均属于 `cc F'`.</li>
+  不论是 1. 还是 2. 的情形, 由 `p, q` 的任意性和 `x, y` 的对称性, 可知两个累次积分可以换序:
+  <span class="formula">
+    `int_(RR^n) f(x, y) dx dy`
+    `= int_(RR^p) dx int_(RR^q) f(x, y) dy`
+    `= int_(RR^q) dy int_(RR^p) f(x, y) dx`.
+  </span>
+  需注意 Fubini 定理的逆不成立: 即使两个累次积分存在且相等, `f` 在 `RR^n` 上也可能是不可积的.
+</ol>
+
+<ol class="proof">
+  <li>要证 Tonelli 定理, 根据引理的 4. 只需证 `RR^n` 上所有非负可测简单函数属于 `cc F`.
+    又由引理的 2. 只需证任意可测集 `E` 的特征函数 `chi_E in cc F`.
+  </li>
+  <li>
+    从特殊到一般, 先设 `E = I_1 xx I_2`, 其中 `I_1, I_2` 分别是 `RR^p`, `RR^q` 中的矩体.
+    此时显然 `chi_E in cc F`, 三个积分都等于 `|I_1| xx |I_2|`.
+  </li>
+  <li>若 `E` 是 `RR^n` 的开集, 则 `E` 能写成可数个互不相交的半开闭矩体之并 (??):
+    `E = uuu_(k ge 1) I_k`. 事实上记 `E_k = uuu_(i=1)^k I_i`, 则 `{E_k}` 为递增集列.
+    由引理的 2. 知道 `chi_(E_k) in cc F`, 又由引理的 4. 知道 `chi_E in cc F`.
+  </li>
+  <li>若 `E` 是有界闭集, 将它写为两个有界开集的差集, 从而由引理的 3. 知道 `chi_E in cc F`.
+  </li>
+  <li>若 `{E_k}` 为递减可测集合列, `m(E_1) lt oo`, 且 `AA k, chi_(E_k) in cc F`.
+    记 `E = nnn_(k ge 1) E_k`, 则由引理的 5. 知道 `chi_E in cc F`.
+  </li>
+  <li>若 `E` 是零测集, 此时存在递减开集列 `G_k supe E` 满足 `lim_(k to oo) m(G_k) = 0`.
+    记 `H = nnn_(k ge 1) G_k`, 则 `chi_H in cc F`.
+    注意到 `E sube H`, `m(H) = 0`, 有
+    <span class="formula">
+      `int_(RR^p) dx int_(RR^q) chi_E(x, y) dy`
+      `le int_(RR^p) dx int_(RR^q) chi_H(x, y) dy`
+      `= int_(RR^n) chi_H(x, y) dx dy`
+      `= 0`
+      `= int_(RR^n) chi_E(x, y) dx dy`.
+    </span>
+    故 `chi_E` 满足条件 C.
+    上式还推出, `x ↦ int_(RR^q) chi_E(x, y) dy` 在 `RR^p` 上几乎处处为零,
+    于是对几乎处处的 `x in RR^p`, `y ↦ chi_E(x, y)` 在 `RR^q` 上几乎处处为零.
+    于是 `chi_E` 满足条件 A 和 B, `chi_E in cc F`.
+  </li>
+  <li>最后, 对任意可测集 `E`, 将它写为零测集与 `F_sigma` 集的不交并:
+    <span class="formula">
+      `E = Z uu K = Z uu uuu_(k ge 1) F_k`,
+    </span>
+    其中每个 `F_k` 都是有界闭集, `chi_(F_k) in cc F`.
+    要证 `chi_E in cc F`, 只需证 `chi_K in cc F`.
+    取 `A_k = uuu_(i=1)^k F_i`, 则 `{A_k}` 为递增集列,
+    利用引理的 2. 和 4. 就知道 `chi_K in cc F`.
+  </li>
+  <li>
+    再证 Fubini 定理. `f` 的正部与负部均为非负可测函数, 由 Tonelli 定理, `f^(+),
+    f^(-)` 满足性质 A, B, C. 在 `f` 可积的假定下, 所有积分值都是有限的, 从而可以做减法运算,
+    立即得到定理的结论.
+  </li>
+</ol>
+
+<h2>可积函数的连续性*</h2>
+
+<p>我们记 `C_0(E)` 为 `E` 上具有紧支集的连续函数的集合.</p>
+
+<p class="theorem">
+  任意 `f in L(E)`, 存在 `f_k in C_0(RR^n)` 使得 `f_k overset (L^1) to f`.
+</p>
+
+<p class="remark">
+  上述定理的 `f_k` 可以换成具有紧支集的阶梯函数列.
+  阶梯函数是一类特殊的简单函数, 每块定义域 `E_i` 都是 `RR^n` 中的超立方体.
+</p>
+
+<p class="lemma">
+  <b>变分引理</b>
+  设 `f in L(RR^n)`, 若对 `AA varphi in C_0(RR^n)` 有
+  <span class="formula">
+    `int_(RR^n) f(x) varphi(x) dx = 0`,
+  </span>
+  则 `f` 几乎处处为零.
+</p>
+
+<!--
+<p class="remark">
+  事实上 `C_0` 还可以换成 `C_0^oo`, 即具有紧支集的光滑函数 (任意阶可导).
+</p>
+-->
+
+<p class="theorem">
+  <b>绝对连续性</b>
+  设 `f in L(E)`, 则对 `AA epsi gt 0`, `EE delta gt 0`,
+  使对任意满足 `m(e) lt delta` 的子集 `e` 成立
+  <span class="formula">
+    `int_e |f(x)| dx lt epsi`.
+  </span>
+</p>
+
+<p class="remark">
+  我们称一元函数 `f` 绝对连续, 如果对 `AA epsi gt 0`, `EE delta gt 0`,
+  使得任意长度总和小于 `delta` 的有限个区间 `[a_i, b_i]_(i=1)^n` 满足
+  <span class="formula">
+    `sum_(i=1)^n |f(a_i) - f(b_i)| lt epsi`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>平均连续性</b>
+  设 `f in L(RR^n)`, 则 `f(x+h) overset (L^1) to f(x)`.
+  这里的平均是指“积分平均”.
+</p>
 
 <script src="../../js/note.js?type=math"></script>
 </body>
