@@ -875,6 +875,80 @@ module.exports = function factor4SquaresNaive (str) {
 </script>
 </div>
 
+<h4>推广: 华林问题 (k 次方和问题)</h4>
+
+<p class="question">
+  <b>华林问题 (Waring's Problem, 1770)</b>
+  [bilibili@gldnfld, <a href="https://www.zhihu.com/question/387110069/answer/1149816850" target="_blank">知乎@量化调酒师</a>]
+  对任意整数 `k ge 2`, 是否存在正整数 `s`, 使得任意非负整数 `n` 都能写成 `s` 个非负整数的 `k` 次方和?
+  <span class="formula">
+    `n = sum_(i=1)^s x_i^k`, `quad x_i ge 0`.
+  </span>
+  该结论已被 Hilbert 证明 (1909).
+</p>
+
+<p class="remark">
+  用 `g(k)` 表示上述的最小正整数 `s`,
+  经过许多代数学家的努力, 人们证明了 `g(2) = 4`, `g(3) = 9`, `g(4) = 19` 等等.
+  Euler 的长子 J. A. Euler 曾经给出 `g(k)` 的下界: 考虑一个糟糕的整数 `n = 2^k floor((3//2)^k) - 1`,
+  它小于 `3^k`, 这导致可用的积木只有 `1^k` 和 `2^k`. 此外它恰好比 `2^k` 的倍数小 `1`, 这导致它需要 `2^k-1` 个 `1^k`, 以及 `floor((3//2)^k) - 1` 个 `2^k`:
+  <span class="formula">
+    `g(k) ge 2^k + floor((3//2)^k) - 2`.
+  </span>
+  人们猜测上式就是 `g(k)` 的精确等式, 但尚未证明.
+  对于华林问题, 下面仅考虑 `k = 4` 情况的 Liouville 定理:
+</p>
+
+<p class="remark">
+  当 `k` 为奇数时, 如果允许 `x_i` 为负数, 那又是另一个问题了: 2019 年, 数学家证明了 100 以内的正整数,
+  除了 `n -= +-4 (mod 9)` 的以外, 都能写成三个<b>整数</b>的立方和. 由于允许正负抵消, 这三个整数可能大得惊人,
+  例如
+  <span class="formula">
+    `42 = (-80538738812075974)^3 + 80435758145817515^3 + 12602123297335631^3`.
+  </span>
+</p>
+
+<p class="lemma">
+  <b>Liouville 恒等式</b>
+  任意四整数平方和的平方的 6 倍, 可以写成 12 个整数的 4 次方和:
+  <span class="formula">
+    `6 (x_1^2 + x_2^2 + x_3^2 + x_4^2)^2`
+    `= sum_(1 le i lt j le 4) ((x_i + x_j)^4 + (x_i - x_j)^4)`.
+  </span>
+</p>
+
+<p class="proof">
+  先计算
+  <span class="formula">
+    `(u + v)^4 + (u - v)^4`
+    `= 2(u^4 + 6 u^2 v^2 + v^4)`.
+  </span>
+  然后让 `i, j` 取遍 `(4;2)` 种组合并求和,
+  <span class="formula">
+    `"RHS" = 2 sum_(i lt j) (x_i^4 + x_j^4) + 12 sum_(i lt j) x_i^2 x_j^2`
+    `= 6 (sum_i x_i^4 + 2 sum_(i lt j) x_i^2 x_j^2)`
+    `= 6 (sum_i x_i^2)^2`.
+  </span>
+</p>
+
+<p class="theorem">
+  <b>Liouville 四次方和定理</b>
+  任意非负整数都能写成 53 个非负整数的四次方和.
+</p>
+
+<p class="proof">
+  先设 `n` 是 6 的倍数, 根据 4 平方和定理
+  <span class="formula">
+    `n = 6(w^2 + x^2 + y^2 + z^2)`.
+  </span>
+  然后将 `w, x, y, z` 都写成 4 平方和:
+  <span class="formula align">
+    `n = 6((sum_i w_i^2)^2 + (sum_i x_i^2)^2 + (sum_i y_i^2)^2 + (sum_i z_i^2)^2)`,
+  </span>
+   应用 Liouville 恒等式知道, `n` 可以写成 48 个整数的 4 次方和.
+   若 `n` 不是 6 的倍数, 通过补充至多 5 项 `1^4` 可以将它写为 53 个非负整数的 4 次方和.
+</p>
+
 <h4>推广: n 角数</h4>
 
 <ul class="example p">
@@ -1276,6 +1350,7 @@ add(x, y, x, y, y, sqrt(x**3-x)) # ((x**4 + 2*x**2 + 1)/(4*x*(x**2 - 1)), (x**6 
       `quad v = 1/(2y) (x^2 + d^2)`,
       `quad w = 1/(2y) ((x+d)^2 - 2d^2)`.
     </span>
+    如果一个函数本身及其逆都是有理函数, 则称它为<b>双有理函数</b>.
     <hr>
     用 sympy 验证逆映射:
 <pre>

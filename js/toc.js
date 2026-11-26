@@ -329,7 +329,8 @@ var tocData = [
           { "value": "14", "label": "动态规划与贪心算法" },
           { "value": "15", "label": "计算几何", "date": "2025-07-28" },
           { "value": "16", "label": "算法题模板", "date": "2021-12-02" },
-          { "value": "hardware", "label": "硬件算法", "date": "2024-05-20" }
+          { "value": "hardware", "label": "硬件算法", "date": "2024-05-20" },
+          { "value": "17", "label": "计算复杂度与图灵机", "date": "2026-11-26" },
         ]
       },
       {

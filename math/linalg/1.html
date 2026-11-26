@@ -1255,6 +1255,125 @@
   </li>
 </ol>
 
+<h3>矩阵的其它乘积</h3>
+
+<p class="example">
+  <b>Kronecker 积 (或直积)</b>
+  [<a href="https://www.zhihu.com/tardis/bd/art/139335389" target="_blank">知乎@Xinyu Chen</a>]
+  `A^(m xx n)` 与 `B^(p xx q)` 的 Kronecker 积 `C^(m p xx n q) = A ox B` 定义为
+  <span class="formula">
+    `C = [a_11 B, cdots, a_(1 n) B;
+      vdots, , vdots;
+      a_(n 1) B, cdots, a_(n n) B]`,<br>
+    `c_((i-1) p + k, (j-1) q + l) = a_(i j) b_(k l)`.
+  </span>
+  Kronecker 积一般不可交换, 但它成立结合律和对加法的左右分配律, 此外还有
+  <span class="formula">
+    `(A ox B)^T = A^T ox B^T`,<br>
+    `(A ox B)^-1 = A^-1 ox B^-1`,<br>
+    `(A ox B)(X ox Y) = (A X) ox (B Y)`,<br>
+    `"tr"(A ox B) = "tr"(A) "tr"(B)`,<br>
+    `"rank"(A ox B) = "rank"(A) "rank"(B)`,<br>
+    `det(A^(m xx m) ox B^(n xx n)) = det(A)^n det(B)^m`,<br>
+    `||A ox B||_F = ||A||_F ||B||_F`.
+  </span>
+  其中 F 范数是矩阵每个元素的平方和开根号.
+  虽然使用了张量积的符号 `ox`, 但 Kronecker 积不像张量积那样相乘会得到更高维的数组.
+</p>
+
+<p class="example">
+  <b>Hadamard 积 (或 Schur 积)</b>
+  定义为两个尺寸相同的矩阵 `A^(m xx n)`, `B^(m xx n)` 的逐元素乘积 `C = A @ B`, 其中
+  <span class="formula">
+    `c_(i j) = a_(i j) b_(i j)`.
+  </span>
+  在 numpy 库中用 <code>*</code> 表示 Hadamard 积, 用 <code>@</code> 表示普通的矩阵乘法.
+  Hadamard 积成立交换律、结合律、对加法的分配律.
+  此外, Hadamard 积可以视为 Kronecker 积的一个子阵: `A @ B = P(A ox B) Q`, 其中
+  <span class="formula">
+    `P^(m xx m^2) = sum_(i=1)^m E_(i,(i-1)m+i)`,<br>
+    `Q^(n^2 xx n) = sum_(j=1)^n E_((j-1)n+j,j)`,<br>
+    `E_(i j)` 是 `i, j` 元为 1, 其它元为 0 的矩阵.
+  </span>
+  Hadamard 积的更多性质:
+  <span class="formula">
+    `"rank"(A @ B) le "rank"(A) "rank"(B)`,<br>
+    `A, B ge 0 rArr lambda_min (A @ B) ge lambda_min(A) lambda_min(B)`.
+  </span>
+</p>
+
+<ol class="example">
+  <b>Hadamard 阵</b>是指一个 `n` 阶矩阵 `H`, 元素仅由 `+-1` 组成, 且满足正交性质 `H H^T = n I`.
+  Hadamard 阵的性质:
+  <li>`|det H| = n^(n//2)`.</li>
+  <li>除了 `n = 1, 2` 外, Hadamard 阵的阶数必满足 `4 | n`; Hadamard 猜想: 对任意 `n` 都存在 `4n` 阶 Hadamard 阵.</li>
+  <li>Sylvester 构造: 可以通过 Kronecker 积构造更高阶的 Hadamard 阵, 例如记 `H_1 = [1, 1; 1, -1]`,
+    `H_n = H_1 ox H_(n-1)`, 则 `H_n` 是 `2^n` 阶 Hadamard 阵.
+  </li>
+</ol>
+
+<p class="theorem">
+  <b>Hadamard 不等式</b>
+  [<a href="https://zhuanlan.zhihu.com/p/377664850" target="_blank">知乎@知乎用户IMX5tO</a>]
+  设 `alpha_1, cdots, alpha_s in RR^n`, 记内积为 `(alpha, beta) = sum_j alpha_j beta_j`, Gram 矩阵为
+  `G(alpha_1, cdots, alpha_s) = ((alpha_i, alpha_j))_(s xx s)`, 则成立
+  <span class="formula">
+    `det G(alpha_1, cdots, alpha_s) le prod_i (alpha_i, alpha_i)`.
+  </span>
+  其中等号成立当且仅当 `{alpha_i}` 为正交向量组, 或某个 `alpha_i` 为零向量.
+  <br>
+  将 `alpha_i` 视为矩阵 `A^(s xx n)` 的第 `i` 行, 上式可以写成
+  <span class="formula">
+    `det(A A^T) le prod_i sum_j a_(i j)^2`.
+  </span>
+  特别 `s = n` 时左边可以写成 `(det A)^2`.
+</p>
+
+<div class="proof">
+  只证 `s = n` 的情形.  记
+  <span class="formula">
+    `H_i = sum_j a_(i j)^2`.
+    <span class="label">(`ast`)</span>
+  </span>
+  若某个 `alpha_i` 为零向量, 显然不等式两边均为零.
+  下设每个 `alpha_i != 0`, 于是 `H_i gt 0`. 接下来以等式 (`ast`) 为约束条件, 构造 Lagrange 函数
+  <span class="formula">
+    `L = det A - sum_i lambda_i (sum_j a_(i j)^2 - H_i)`.
+  </span>
+  令 `(del L)/(del a_(i j)) = 0`, 得到
+  <span class="formula">
+    `del/(del a_(i j)) det A = 2 lambda_i a_(i j)`.
+  </span>
+  将 `det A` 沿第 `i` 行展开, 其中 `A_(i j)` 为代数余子式:
+  <span class="formula">
+    `det A = sum_j a_(i j) A_(i j)`.
+  </span>
+  因此
+  <span class="formula">
+    `2 lambda_i a_(i j) = del/(del a_(i j)) det A`
+    `= A_(i j)`,
+  </span>
+  即 `A` 的第 `i` 行与代数余子式的第 `i` 行对应成比例.
+  又对任意 `k != i` 我们有
+  <span class="formula">
+    `sum_j a_(k j) A_(i j) = 0`,
+  </span>
+  这说明 `{alpha_i}` 为正交向量组. 利用正交性有 `A A^T = "diag"_i H_i`.
+  不论 `det A` 取极小值还是极大值, `(det A)^2` 都取得极大值
+  <span class="formula">
+    `(det A)^2 = det(A A^T) = prod_i H_i`.
+  </span>
+  <hr>
+  另一种做法是由 Cauchy 不等式
+  <span class="formula">
+    `(det A)^2`
+    `= (sum_j a_(i j) A_(i j))^2`
+    `le (sum_j a_(i j)^2)(sum_j A_(i j)^2)`
+    `= H_i sum_j A_(i j)^2`,
+  </span>
+  等号成立当且仅当 `A` 的第 `i` 行与代数余子式的第 `i` 行对应成比例.
+</div>
+
 <script>
 var asciimath = {
   define: [
