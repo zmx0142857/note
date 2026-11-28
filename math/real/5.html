@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>微积分基本定理</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/note.css" />
+</head>
+<body>
+
+<ol class="remark">
+  关于 Riemann 积分, 我们熟知下面的微积分基本定理:
+  <li><b>积分的微分</b> 若 `f in R[a, b]` 且在 `x` 点连续, 则变上限积分
+    <span class="formula">
+      `F(x) = int_a^x f(t) dt`, `quad x in [a, b]`
+    </span>
+    在 `x` 点可微, 且 `F'(x) = f(x)`.
+  </li>
+  <li><b>微分的积分</b> 若 `f` 在 `[a, b]` 上可导, `f'` 在 `[a, b]` 上可积, 则成立 Newton-Leibniz 公式:
+    <span class="formula">
+      `int_a^x f'(t) dt = f(x) - f(a)`, `quad x in [a, b]`.
+    </span>
+    注意公式的前提 `f' in R[a, b]` 不能去掉, 因为存在这样的函数: 在 `[a, b]`
+    上可导且导函数有界, 但不在 `[a, b]` 上 Riemann 可积.
+  </li>
+  本章我们在 Lebesgue 积分的框架下探讨微积分基本定理, 看看 Lebesgue 积分解决了什么问题.
+  由于变上限积分可以写成两个单调增函数之差:
+  <span class="formula">
+    `int_a^x f = int_a^x f^(+) - int_a^x f^(-)`,
+  </span>
+  所以我们先从单调函数的可微性入手.
+</ol>
+
+<h2>单调函数几乎处处可导</h2>
+
+<p>这是 Lebesgue 证明的经典结论, 为此需要引入 Vitali 覆盖和 Dini 数等概念.</p>
+
+<p class="definition">
+  <b>Vitali 覆盖</b>
+  设 `E sube RR`, 称区间族 (不必可数) `{I_alpha}` 是 `E` 的一个 Vitali 覆盖, 如果对 `AA x in E`,
+  `AA epsi gt 0` 都存在 `|I_alpha| lt epsi` 使得 `x in I_alpha`.
+  直观来看, `E` 的每一点都被 `{I_alpha}` 细细地盖住.
+</p>
+
+<p class="lemma">
+  <b>Vitali 覆盖定理</b>
+  设 `E sube RR`, `m^**(E) lt oo`. 若 `Gamma` 是 `E` 的 Vitali 覆盖, 则对 `AA epsi gt 0`,
+  存在有限个互不相交的 `I_k in Gamma` 使得
+  <span class="formula">
+    `m^**(E \\ uuu_(k=1)^n I_k) lt epsi`.
+  </span>
+  直观来看, 从 `E` 中挖去有限个 `I_k` 后, 剩下的集合外测度可以任意小.
+  另一方面上式推出
+  <span class="formula">
+    `m^**(E) lt m^**(E nn uuu_(k=1)^n I_k) + epsi`.
+  </span>
+  这指出 `E` 几乎被有限个 `I_k` 盖住.
+</p>
+
+<ol class="proof">
+  <li>
+    只证 `Gamma` 是闭区间族的情形.
+    作开集 `G supe E` 且 `m(G) lt oo`.
+    根据 Vitali 覆盖的定义, 只保留 `Gamma` 中那些长度足够小的区间, 结果仍是一个 Vitali 覆盖.
+    因此不妨设 `Gamma` 中的每个区间都含于 `G`.
+  </li>
+  <li>
+    归纳地构造一列区间 `{I_k} sube Gamma` 如下:
+    任选一个 `I_1 in Gamma`,
+    假设已选出互不相交的 `{I_k}_(k=1)^n`,
+    若 `E sube uuu_(k=1)^n I_k`, 则定理结论已经成立.
+    否则考虑 `Gamma` 中剩余可选区间长度的上确界:
+    <span class="formula">
+      `delta_n = sup {|I|: I in Gamma: I nn I_k = O/, k = 1, cdots, n}`.
+    </span>
+    由于每个 `I in Gamma` 都含于 `G`, 有 `delta_n le m(G) lt oo`.
+    从剩余可选区间中选一个长度较长的, 记作 `I_(n+1)`, 满足
+    <span class="formula">
+      `|I_(n+1)| gt delta_n//2`,
+      `quad I_(n+1) nn I_k = O/`,
+      `quad k = 1, cdots, n`.
+    </span>
+    重复以上过程就得到一列两两不交的闭区间 `{I_k}` 满足
+    <span class="formula">
+      `sum_(k ge 1) |I_k| le m(G) lt oo`.
+    </span>
+  </li>
+  <li>
+    对任意 `epsi gt 0`, 存在 `N` 使得 `sum_(k gt N) |I_k| lt epsi//5`.
+    记 `S = E \\ uuu_(k=1)^N I_k`, 下证 `m^**(S) lt epsi`.
+    任取 `x in S`, 则 `x` 与闭集 `uuu_(k=1)^N I_k` 保持正的距离.
+    根据 Vitali 覆盖的定义, 存在 `I in Gamma` 使得 `x in I` 且 `I nn I_k = O/`, `k = 1, cdots, N`.
+    事实上, 对任意正整数 `n`, 如果 `I` 满足 `I nn I_k = O/`, `k = 1, cdots, n`, 那么就有
+    <span class="formula">
+      `|I| le delta_n lt 2|I_(n+1)|`.
+    </span>
+    令 `n to oo`, 上式右端趋于零, 故 `I` 必与某个 `I_(n_0)` 相交, 我们假设
+    `I_(n_0)` 是与 `I` 相交的区间中下标最小的.
+    于是 `n_0 gt N`, 且 `|I| le delta_(n_0-1) lt 2|I_(n_0)|`.
+  </li>
+  <li>
+    如果保持区间 `I_(n_0)` 的中心位置不变, 而将它的长度变为 5 倍, 记为
+    `I_(n_0)'`, 就可使 `x in I sube I_(n_0)'`.
+    进一步, 如果将一切 `k gt N` 的区间 `I_k` 都像这样长度变为 5 倍, 那么
+    <span class="formula">
+      `m^**(S) le sum_(k gt N) |I_k'| lt epsi`.
+    </span>
+  </li>
+</ol>
+
+<p class="definition">
+  <b>Dini 数</b>
+  设实值函数 `f` 在一点 `x in RR` 的邻域有定义, 以下四个数
+  <span class="formula">
+    `D^(+-) f(x) = underset(h to 0^(+-))(bar lim) (f(x+h) - f(x))/h`,<br>
+    `D_(+-) f(x) = underset(h to 0^(+-))(ul lim) (f(x+h) - f(x))/h`
+  </span>
+  分别称为 `f` 在 `x` 的右上导数、左上导数、右下导数、左下导数, 统称为 Dini 数.
+</p>
+
+<ol class="theorem">
+  <b>Lebesgue 定理</b> 设 `f` 是 `[a, b]` 上的单调增函数, 则
+  <li>`f` 几乎处处可导;</li>
+  <li>`int_a^b f'(x) dx le f(b) - f(a)`.</li>
+</ol>
+
+<ol class="proof">
+  <li>只需证对几乎处处的 `x in [a, b]`, `f` 在 `x` 的四个 Dini 数都相等.
+    由于
+    <span class="formula">
+      `D_(-) f(x) le D^(-) f(x)`,
+      `quad D_(+) f(x) le D^(+) f(x)`,
+    </span>
+    在 `x` 处只要证明 `D^(-) f(x) le D_(+)f(x)` 和 `D^(+)f(x) le D_(-)f(x)`, 就说明它们都相等.
+    换言之我们的目标是证明下面两个集合均为零测集:
+    <span class="formula">
+      `E_1 = {x in [a, b]: D^(+) f(x) gt D_(-) f(x)}`,<br>
+      `E_2 = {x in [a, b]: D^(-) f(x) gt D_(+) f(x)}`.
+    </span>
+    以 `E_1` 为例, `E_2` 的证明类似.
+    注意 `f` 单增, Dini 数均非负, 于是记 `QQ_(+)` 为正有理数集, 对 `E_1` 分解如下
+    <span class="formula">
+      `E_1 = uuu_(r, s in QQ_(+)){x in [a, b]: D^(+) f(x) gt r gt s gt D_(-) f(x)}`.
+    </span>
+    于是只需证 `AA r, s in QQ_(+)`,
+    <span class="formula">
+      `A = {x in [a, b]: D^(+)f(x) gt r gt s gt D_(-)f(x)}`
+    </span>
+    为零测集.
+  </li>
+  <li>
+    任取 `epsi gt 0`, 作开集 `G supe A` 使得 `m(G) lt (1+epsi) m^**A`.
+    对 `AA x in A`, 由 `D_(-) f(x) lt s` 知对任意 `delta gt 0`, 存在 `0 lt h lt delta` 使得
+    <span class="formula">
+      `(f(x-h) - f(x))/(-h) lt s`,
+      <span class="label">(`ast`)</span>
+    </span>
+    `h` 可以取得充分小使得 `[x - h, x] sube G`.
+    于是当 `x` 取遍集合 `A`, `delta` 取遍充分小的实数时, 区间族 `{[x - h, x]}`
+    构成 `A` 的 Vitali 覆盖.
+    根据 Vitali 覆盖定理, 存在互不相交的有限个区间
+    `[x_i - h_i, x_i]_(i=1)^p` 使得
+    <span class="formula">
+      `m^**(A \\ uuu_(i=1)^p [x_i-h_i, x_i]) lt epsi`.
+    </span>
+    因此
+    <span class="formula">
+      `m^**(A nn uuu_(i=1)^p [x_i-h_i, x_i]) gt m^**(A) - epsi`.
+    </span>
+    联系 (`ast`) 式,
+    <span class="formula">
+      `sum_(i=1)^p (f(x_i) - f(x_i - h_i))`
+      `lt sum_(i=1)^p s h_i`
+      `lt s (1+epsi) m^**(A)`.
+    </span>
+  </li>
+  <li>另一方面, 记 `B = A nn uuu_(i=1)^p (x_i-h_i, x_i)`. 对 `AA y in B` 有
+    `D^(+)f(y) gt r`, 所以对任意 `delta gt 0`, 存在 `0 lt k lt delta` 使得
+    <span class="formula">
+      `(f(y+k) - f(y))/k gt r`,
+      <span class="label">(`ast ast`)</span>
+    </span>
+    `k` 可以取得充分小使得 `[y, y+k]` 含于某个 `(x_i - h_i, x_i)`.
+    于是区间族 `{[y, y+k]}` 构成 `B` 的 Vitali 覆盖.
+    根据 Vitali 覆盖定理, 存在互不相交的有限个区间 `[y_j, y_j+k_j]_(j=1)^q` 使得
+    <span class="formula">
+      `sum_(j=1)^q k_j gt m^**(B) - epsi`.
+    </span>
+    联系 (`ast ast`) 式就有
+    <span class="formula">
+      `sum_(j=1)^q (f(y_j+k_j) - f(y_j))`
+      `gt sum_(j=1)^q r k_j`
+      `gt r (m^**(B) - epsi)`
+      `gt r (m^**(A) - 2epsi)`.
+    </span>
+    然而每个 `[y_j, y_j+k_j]` 都含于某个 `(x_i - h_i, x_i)` 内, 所以
+    <span class="formula">
+      `sum_(j=1)^q (f(y_j+k_j) - f(y_j))`
+      `le sum_(i=1)^p (f(x_i) - f(x_i - h_i))`.
+    </span>
+    综上有 `r (m^**(A) - 2epsi) lt s (1+epsi)m^**(A)`.
+    令 `epsi to 0` 得到 `r m^**(A) le s m^**(A)`, 但我们已知 `r gt s`, 于是必有 `m^**(A) = 0`.
+  </li>
+</ol>
+
+<p class="proof">
+  由前一部分的证明可知, `f'` 在 `[a, b]` 上几乎处处有定义, 且 `f' ge 0`, `"a.e." x in [a, b]`.
+  规定 `x gt b` 时 `f(x) = f(b)`, 构造函数列
+  <span class="formula">
+    `f_n(x) = (f(x+1//n) - f(x))/(1//n)`, `quad x in [a, b]`.
+  </span>
+  易知 `f_n ge 0`, `f_n overset "a.e." to f'`.
+  由 Fatou 引理
+  <span class="formula">
+    `int_a^b f'(x) dx`
+    `= int_a^b lim_(n to oo) f_n(x) dx`
+    `le underset(n to oo)(ul lim) int_a^b f_n(x) dx`
+    `= underset(n to oo)(ul lim) n int_a^b (f(x+1//n) - f(x)) dx`
+    `= underset(n to oo)(ul lim) n (int_b^(b+1//n) f(x) dx - int_a^(a+1//n) f(x) dx)`
+    `le f(b) - f(a)`.
+  </span>
+  因此 `f' in L[a, b]`, 从而是几乎处处有限的. 由此推出 `f` 几乎处处可导.
+</p>
+
+<p class="remark">
+  关于 Lebesgue 定理的结论 2, 最极端的例子是 Cantor 函数 `Phi`, 它处处连续,
+  在 `[0, 1]` 的导数几乎处处为零, 然而 `f(0) = 0`, `f(1) = 1`.
+</p>
+
+<script src="../../js/note.js?type=math"></script>
+</body>
+</html>

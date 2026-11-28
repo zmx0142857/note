@@ -131,7 +131,7 @@
 	<b>Carathéodory 条件</b>
 	设 `E sube RR^n`, 若对任意 `T sube RR^n` (称 `T` 为试验集)
 	<span class="formula">
-		`m^**(T) = m^**(T nn E) + m^**(T \\ E)`,
+		`m^**(T nn E) + m^**(T \\ E) = m^**(T)`,
 		<span class="label" id="for-caratheodory"></span>
 	</span>
 	则称 `E` 为 <b>Lebesgue 可测集</b>, 简称<b>可测集</b>;
@@ -139,9 +139,13 @@
 	`RR^n` 中可测集的全体称为可测集类, 记为 `cc M`.
 </p>
 
+<div class="img md" title="Carathéodory 条件">
+  <img src="../img/caratheodory-cond.svg" alt="">
+</div>
+
 <p class="remark">
-  由外测度的次可加性, Carathéodory 条件中的 "`le`" 部分总是成立的,
-  实际应用中只需证明 "`ge`" 即可, 故我们不妨假设 `m^**(T) lt +oo`.
+  由外测度的次可加性, Carathéodory 条件中的 "`ge`" 部分总是成立的,
+  实际应用中只需证明 "`le`" 即可, 故我们不妨假设 `m^**(T) lt +oo`.
   下面的推论表明, 还可以进一步假设 `T` 是开矩体, 或假设 `T` 是可测集.
 </p>
 
@@ -348,15 +352,18 @@
 </ol>
 
 <p class="theorem">
-  <b>测度论中的 Fatou 引理</b>
+  <b>可测集列的 Fatou 引理</b>
   设 `{E_k}` 是可测集列, 则
   <span class="formula">
     `m(underset(k to oo)(ul lim) E_k)`
-    `le underset(k to oo)(ul lim) m(E_k)`
-    `le underset(k to oo)(bar lim) m(E_k)`
+    `le underset(k to oo)(ul lim) m(E_k)`.
+  </span>
+  若进一步 `m(uuu_(k ge 1) E_k) lt oo`, 还有
+  <span class="formula">
+    `underset(k to oo)(bar lim) m(E_k)`
     `le m(underset(k to oo)(bar lim) E_k)`.
   </span>
-  `E_k` 递增或递减时上式取等.
+  `E_k` 递增或递减时以上两式取等, 上下极限可以换成极限.
 </p>
 
 <p class="proof">
@@ -470,6 +477,10 @@
   闭集/开集 `sube F_sigma // G_delta` 集 `sube` Borel 集 `sube` 可测集.
 </p>
 
+<p class="remark">
+  存在不是 Borel 集的可测集, 见下一章.
+</p>
+
 <h3>Borel 集对可测集的逼近</h3>
 
 <ol class="theorem">
@@ -482,29 +493,83 @@
 </ol>
 
 <ol class="proof">
-  🚧
+  <li>
+    先设 `m(E) lt oo`. 由外测度定义, `AA epsi gt 0`, 存在一个 `L` 覆盖满足
+    <span class="formula">
+      `m(uuu_(k ge 1) I_k) = sum_k |I_k| lt m(E) + epsi`.
+    </span>
+    令 `G = uuu_(k ge 1) I_k`, 则 `m(G\\E) = m(G) - m(E) lt epsi`.
+    <br>
+    再考虑 `m(E) = oo`. 作集列 `E_k = E nn B(0, k)`, 则 `E = uuu_(k ge 1) E_k` 且每个 `m(E_k) lt oo`.
+    于是存在开集 `G_k supe E_k` 使得 `m(G_k) - m(E_k) lt epsi//2^k`.
+    令 `G = uuu_(k ge 1) G_k`, 则 `G` 是开集, 且
+    <span class="formula">
+      `m(G\\E)`
+      `le m(uuu_(k ge 1) G_k\\E_k)`
+      `le sum_(k ge 1) (m(G_k) - m(E_k)) lt epsi`.
+    </span>
+  </li>
+  <li>对 `E^c` 运用 1. 的结论得到开集 `G`, 然后令 `F = G^c`.</li>
 </ol>
 
-<ol class="theorem">
+<ol class="corollary">
   <b>用 `F_sigma`/`G_delta` 集逼近可测集</b>
   设 `E` 为可测集, 则
-  <li>存在 `G_delta` 集 `G supe E` 使 `m(G\\E) = 0`, 称 `G` 为 `E` 的<b>等测包</b>;</li>
-  <li>存在 `F_sigma` 集 `F sube E` 使 `m(E\\F) = 0`, 称 `F` 为 `E` 的<b>等测核</b>.</li>
+  <li>存在 `G_delta` 集 `G supe E` 使 `m(G\\E) = 0`;</li>
+  <li>存在 `F_sigma` 集 `F sube E` 使 `m(E\\F) = 0`.</li>
+  由 1, 2 立即推出 `m(G) = m(E) = m(F)`. 我们称 `F, G` 分别为 `E` 的<b>等测核</b>与<b>等测包</b>.
 </ol>
 
-<p class="theorem">
+<ol class="proof">
+  <li>由前一定理, 对任意正整数 `k` 存在开集 `G_k supe E` 满足 `m(G_k\\E) lt 1//k`.
+    令 `G = nnn_(k ge 1) G_k`, 则 `G` 为 `G_delta` 集, `G supe E`, 且
+    <span class="formula">
+      `m(G\\E) le m(G_k\\E) lt 1//k`, `quad AA k in NN`.
+    </span>
+    故 `m(G\\E) = 0`.
+  </li>
+  <li>对 `E^c` 运用 1. 的结论得到 `G_delta` 集 `G`, 然后令 `F = G^c`.</li>
+</ol>
+
+<p class="corollary">
   <b>外测度的正则性</b>
   等测包对于一般点集的外测度也存在:<br>
   `AA E sube RR^n`, 存在 `G_delta` 集 `G supe E` 使 `m^**(G) = m^**(E)`,
   也称 `G` 为 `E` 的等测包.
 </p>
 
-<ol class="corollary">
+<p class="proof">
+  由外测度定义, 对任意正整数 `k` 存在开集 `G_k` 满足 `m(G_k) lt m^**(E) + 1//k`.
+  令 `G = nnn_(k ge 1) G_k`, 则 `G` 是包含 `E` 的 `G_delta` 集, 且
+  <span class="formula">
+    `m^**(E) le m(G) le m(G_k) le m^**(E) + 1//k`, `quad AA k in NN`.
+  </span>
+  故 `m(G) = m^**(E)`.
+</p>
+
+<p class="remark">
+  如果 `E` 不可测, 即使 `G` 是 `E` 的等测包, 且 `m(G) = m^**(E) lt oo`,
+  也未必能推出 `m^**(G\\E) = 0`. 不过可以证明 `G\\E` 的任一可测子集均为零测集.
+</p>
+
+<p class="corollary">
   <b>外测度的 Fatou 引理</b>
   对 `RR^n` 中的集合列 `{E_k}` 有
-  <li>`m^**(underset(k to oo)(ul lim) E_k) le underset(k to oo)(ul lim) m^**(E_k)`.</li>
-  <li>`{E_k}` 递增时上式取等, 且下极限可以换成极限.</li>
-</ol>
+  <span class="formula">
+    `m^**(underset(k to oo)(ul lim) E_k) le underset(k to oo)(ul lim) m^**(E_k)`.
+  </span>
+  `{E_k}` 递增时上式取等, 且下极限可以换成极限.
+</p>
+
+<p class="proof">
+  作每个 `E_k` 的等测包 `G_k`,
+  <span class="formula align">
+    `m^**(underset(k to oo)(ul lim) E_k)`<br>
+    `le m(underset(k to oo)(ul lim) G_k)`, 因为 `E_k sube G_k`,<br>
+    `le underset(k to oo)(ul lim) m(G_k)`, by 可测集列的 Fatou 引理,<br>
+    `= underset(k to oo)(ul lim) m^**(E_k)`, 因为 `m^**(E_k) = m(G_k)`.
+  </span>
+</p>
 
 <h3>测度的平移不变性</h3>
 
